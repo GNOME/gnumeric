@@ -57,9 +57,9 @@ main_page_set_scroll_region_and_prevent_center (DruidPageData_t *data)
 	textwidth += TEXT_OFFSET;
 
 	stf_dialog_set_scroll_region_and_prevent_center (info->main_canvas,
-							 info->main_run_rect,
-							 textwidth,
-							 textheight);
+		GNOME_CANVAS_RECT (info->main_run_rect),
+		textwidth,
+		textheight);
 }
 
 /**
@@ -145,7 +145,7 @@ main_page_stoprow_changed (GtkSpinButton* button, DruidPageData_t *data)
  *
  **/
 static void
-main_page_trim_menu_deactivate (GtkMenuShell *shell, DruidPageData_t *data)
+main_page_trim_menu_deactivate (GtkMenu *menu, DruidPageData_t *data)
 {
 	MainInfo_t *info = data->main_info;
 
@@ -222,7 +222,7 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 		display_data[length-3] = '.';
 		display_data[length-2] = '.';
 		display_data[length-1] = '.';
-	} else 
+	} else
 		display_data = (char *)pagedata->data;
 	info->main_run_text = GNOME_CANVAS_TEXT (gnome_canvas_item_new (gnome_canvas_root (info->main_canvas),
 									GNOME_TYPE_CANVAS_TEXT,
@@ -235,15 +235,15 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 									NULL));
 	if (end_point)
 		g_free (display_data);
-	
+
 	/* Warning : The rectangle is vital to prevent auto-centering, DON'T REMOVE IT! */
-    	info->main_run_rect = GNOME_CANVAS_RECT (gnome_canvas_item_new (gnome_canvas_root (info->main_canvas),
-									gnome_canvas_rect_get_type (),
-									"x1", 0.0,	"y1", 0.0,
-									"x2", 10.0,	"y2", 10.0,
-									"width_pixels", (int) 0,
-									"fill_color", NULL,
-									NULL));
+    	info->main_run_rect = gnome_canvas_item_new (gnome_canvas_root (info->main_canvas),
+		GNOME_TYPE_CANVAS_RECT,
+		"x1", 0.0,	"y1", 0.0,
+		"x2", 10.0,	"y2", 10.0,
+		"width_pixels", (int) 0,
+		"fill_color", NULL,
+		NULL);
 
 	/* Set properties */
 	main_page_set_spin_button_adjustment (info->main_startrow, 1, pagedata->lines);
@@ -257,26 +257,17 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_free (label);
 
 	/* Connect signals */
-
-	gtk_signal_connect (GTK_OBJECT (info->main_startrow), "changed",
-			    GTK_SIGNAL_FUNC (main_page_startrow_changed),
-			    pagedata);
-
-	gtk_signal_connect (GTK_OBJECT (info->main_stoprow), "changed",
-			    GTK_SIGNAL_FUNC (main_page_stoprow_changed),
-			    pagedata);
-
+	g_signal_connect (G_OBJECT (info->main_startrow),
+		"changed",
+		G_CALLBACK (main_page_startrow_changed), pagedata);
+	g_signal_connect (G_OBJECT (info->main_stoprow),
+		"changed",
+		G_CALLBACK (main_page_stoprow_changed), pagedata);
 	menu = (GtkMenu *) gtk_option_menu_get_menu (info->main_trim);
-	gtk_signal_connect (GTK_OBJECT (menu),
-			    "deactivate",
-			    GTK_SIGNAL_FUNC (main_page_trim_menu_deactivate),
-			    pagedata);
+	g_signal_connect (G_OBJECT (menu),
+		"deactivate",
+		G_CALLBACK (main_page_trim_menu_deactivate), pagedata);
 
-	/* Emit signals */
-
-	gtk_signal_emit_by_name (GTK_OBJECT (info->main_startrow), "changed",
-				 info->main_startrow);
-
-	gtk_signal_emit_by_name (GTK_OBJECT (menu), "deactivate",
-				 menu);
+	main_page_startrow_changed (info->main_startrow, pagedata);
+	main_page_trim_menu_deactivate (menu, pagedata);
 }

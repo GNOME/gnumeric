@@ -174,9 +174,9 @@ gnumeric_background_set_pc (MStyle const *mstyle, GnomePrintContext *context)
 		/* Support printing grey scale patterns.
 		 * This effectively applies a brightness threshold to get
 		 * the desired results.
-		 * The array used provides good real-life results. 
+		 * The array used provides good real-life results.
 		 * The true_grey array is theoretically correct but doesn't
-		 * distinguish the shades clearly. 
+		 * distinguish the shades clearly.
 		 *
 		 * Note: The first element of the grey array isn't used.
 		 *
@@ -198,7 +198,7 @@ gnumeric_background_set_pc (MStyle const *mstyle, GnomePrintContext *context)
 				back_col->blue * grey[pattern]   / (double) 0xffff);
 		}
 
-		/* This is a special case where the user has selected 
+		/* This is a special case where the user has selected
 		 * 'foreground solid', so we need to paint it the pattern
 		 * color.
 		 */

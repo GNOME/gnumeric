@@ -9,8 +9,8 @@
 #include <preview-grid.h>
 
 #define FONT_SELECTOR_TYPE        (font_selector_get_type ())
-#define FONT_SELECTOR(obj)        (GTK_CHECK_CAST((obj), FONT_SELECTOR_TYPE, FontSelector))
-#define IS_FONT_SELECTOR(obj)     (GTK_CHECK_TYPE((obj), FONT_SELECTOR_TYPE))
+#define FONT_SELECTOR(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), FONT_SELECTOR_TYPE, FontSelector))
+#define IS_FONT_SELECTOR(obj)     (G_TYPE_CHECK_INSTANCE_TYPE((obj), FONT_SELECTOR_TYPE))
 
 typedef struct {
 	GtkHBox box;
@@ -22,11 +22,11 @@ typedef struct {
 	GtkWidget *font_name_list;
 	GtkWidget *font_style_list;
 	GtkWidget *font_size_list;
-	
+
 	GnomeCanvas *font_preview_canvas;
 	PreviewGrid *font_preview_grid;
 	int          width, height;
-	
+
 	MStyle     *mstyle;
 	Value      *value;
 } FontSelector;
@@ -37,7 +37,7 @@ typedef struct {
 	gboolean (* font_changed) (FontSelector *fs, MStyle *mstyle);
 } FontSelectorClass;
 
-GtkType    font_selector_get_type (void);
+GType    font_selector_get_type (void);
 GtkWidget *font_selector_new      (void);
 
 void       font_selector_set_value     (FontSelector *fs,

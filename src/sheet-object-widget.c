@@ -40,6 +40,7 @@
 #include "dialogs.h"
 #include "widgets/gnumeric-combo-text.h"
 
+#include <libxml/globals.h>
 #include <libgnome/gnome-i18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <math.h>
@@ -90,7 +91,7 @@ static GObjectClass *sheet_object_widget_class = NULL;
 
 static GType sheet_object_widget_get_type	(void);
 
-static GtkObject *
+static GObject *
 sheet_object_widget_new_view (SheetObject *so, SheetControlGUI *scg)
 {
 	/* FIXME : this is bogus */
@@ -106,7 +107,7 @@ sheet_object_widget_new_view (SheetObject *so, SheetControlGUI *scg)
 	scg_object_widget_register (so, view_widget, view_item);
 	gtk_widget_show_all (view_widget);
 
-	return GTK_OBJECT (view_item);
+	return G_OBJECT (view_item);
 }
 
 /*
@@ -114,7 +115,7 @@ sheet_object_widget_new_view (SheetObject *so, SheetControlGUI *scg)
  * destroying/updating/creating the views
  */
 static void
-sheet_object_widget_update_bounds (SheetObject *so, GtkObject *view,
+sheet_object_widget_update_bounds (SheetObject *so, GObject *view,
 				   SheetControlGUI *scg)
 {
 	double coords [4];
@@ -171,8 +172,7 @@ gnumeric_table_attach_with_label (GtkWidget *dialog, GtkWidget *table,
  	gtk_table_attach_defaults (GTK_TABLE(table),
 		entry,
 		1, 2, line, line+1);
- 	gnumeric_editable_enters (GTK_WINDOW (dialog),
-		GTK_EDITABLE (entry));
+ 	gnumeric_editable_enters (GTK_WINDOW (dialog), entry);
 }
 
 /****************************************************************************/
@@ -557,9 +557,9 @@ sheet_widget_scrollbar_init_full (SheetWidgetScrollbar *swb, CellRef const *ref)
 	swb->dep.sheet = NULL;
 	swb->dep.flags = scrollbar_get_dep_type ();
 	swb->dep.expression = (ref != NULL) ? expr_tree_new_var (ref) : NULL;
-	gtk_signal_connect (GTK_OBJECT (swb->adjustment),
+	g_signal_connect (G_OBJECT (swb->adjustment),
 		"value_changed",
-		GTK_SIGNAL_FUNC (cb_scrollbar_value_changed), swb);
+		G_CALLBACK (cb_scrollbar_value_changed), swb);
 }
 
 static void
@@ -644,7 +644,7 @@ typedef struct {
 
 static void
 cb_scrollbar_set_focus (GtkWidget *window, GtkWidget *focus_widget,
-		       ScrollbarConfigState *state)
+			ScrollbarConfigState *state)
 {
 	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
 		GnumericExprEntry *ee = GNUMERIC_EXPR_ENTRY (focus_widget);
@@ -657,11 +657,10 @@ cb_scrollbar_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 	 */
 	if (IS_GNUMERIC_EXPR_ENTRY (state->old_focus)) {
 		ParsePos  pp;
-		ExprTree *expr = gnumeric_expr_entry_parse (
+		ExprTree *expr = gnm_expr_entry_parse (
 			GNUMERIC_EXPR_ENTRY (state->old_focus),
 			parse_pos_init (&pp, NULL, state->sheet, 0, 0),
-			FALSE);
-
+			NULL, FALSE);
 		if (expr != NULL)
 			expr_tree_unref (expr);
 	}
@@ -693,12 +692,10 @@ cb_scrollbar_config_clicked (GnomeDialog *dialog, gint button_number,
 {
 	if (button_number == 0) {
 		SheetObject *so = SHEET_OBJECT (state->swb);
-		ExprTree    *expr;
-		ParsePos     pp;
-
-		expr = gnumeric_expr_entry_parse (state->expression,
-				parse_pos_init (&pp, NULL, so->sheet, 0, 0),
-				FALSE);
+		ParsePos  pp;
+		ExprTree *expr = gnm_expr_entry_parse (state->expression,
+			parse_pos_init (&pp, NULL, so->sheet, 0, 0),
+			NULL, FALSE);
 		if (expr != NULL)
 			dependent_set_expr (&state->swb->dep, expr);
 	}
@@ -733,41 +730,44 @@ sheet_widget_scrollbar_user_config (SheetObject *so, SheetControlGUI *scg)
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (state->dialog)->vbox),
 		table, TRUE, TRUE, 5);
 
-	state->expression = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (wbcg));
-	gnumeric_expr_entry_set_flags (state->expression,
+	state->expression = gnumeric_expr_entry_new (wbcg, TRUE);
+	gnm_expr_entry_set_flags (state->expression,
 		GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL | GNUM_EE_SHEET_OPTIONAL | GNUM_EE_SINGLE_RANGE,
 		GNUM_EE_MASK);
-	gnumeric_expr_entry_set_scg (state->expression, scg);
-	gnumeric_expr_entry_set_rangesel_from_dep (state->expression, &swb->dep);
+	gnm_expr_entry_set_scg (state->expression, scg);
+	gnm_expr_entry_load_from_dep (state->expression, &swb->dep);
 	gnumeric_table_attach_with_label (state->dialog, table,
-		N_("Link to :"), GTK_WIDGET (state->expression), 0);
+		N_("Link to:"), GTK_WIDGET (state->expression), 0);
 
 	/* TODO : This is silly, no need to be similar to XL here. */
  	state->min = gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (
 		swb->adjustment->lower, 0., 30001., 1., 10., 1.)), 1., 0);
 	gnumeric_table_attach_with_label (state->dialog, table,
-		N_("Min :"), GTK_WIDGET (state->min), 1);
+		N_("Min:"), GTK_WIDGET (state->min), 1);
  	state->max = gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (
 		swb->adjustment->upper, 0., 30001., 1., 10., 1.)), 1., 0);
 	gnumeric_table_attach_with_label (state->dialog, table,
-		N_("Max :"), GTK_WIDGET (state->max), 2);
+		N_("Max:"), GTK_WIDGET (state->max), 2);
  	state->inc = gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (
 		swb->adjustment->step_increment, 0., 30001., 1., 10., 1.)), 1., 0);
 	gnumeric_table_attach_with_label (state->dialog, table,
-		N_("Increment :"), GTK_WIDGET (state->inc), 3);
+		N_("Increment:"), GTK_WIDGET (state->inc), 3);
  	state->page = gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (
 		swb->adjustment->page_increment, 0., 30001., 1., 10., 1.)), 1., 0);
 	gnumeric_table_attach_with_label (state->dialog, table,
-		N_("Page :"), GTK_WIDGET (state->page), 4);
+		N_("Page:"), GTK_WIDGET (state->page), 4);
 
 	gnome_dialog_set_default (GNOME_DIALOG (state->dialog), 0);
 
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",
-			    GTK_SIGNAL_FUNC (cb_scrollbar_set_focus), state);
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
-			    GTK_SIGNAL_FUNC (cb_scrollbar_config_destroy), state);
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "clicked",
-			    GTK_SIGNAL_FUNC (cb_scrollbar_config_clicked), state);
+	g_signal_connect (G_OBJECT (state->dialog),
+		"set-focus",
+		G_CALLBACK (cb_scrollbar_set_focus), state);
+	g_signal_connect (G_OBJECT (state->dialog),
+		"destroy",
+		G_CALLBACK (cb_scrollbar_config_destroy), state);
+	g_signal_connect (G_OBJECT (state->dialog),
+		"clicked",
+		G_CALLBACK (cb_scrollbar_config_clicked), state);
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
@@ -1051,9 +1051,9 @@ sheet_widget_checkbox_create_widget (SheetObjectWidget *sow, SheetControlGUI *sv
 	button = gtk_check_button_new_with_label (swc->label);
 	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), swc->value);
-	gtk_signal_connect (GTK_OBJECT (button), "toggled",
-		GTK_SIGNAL_FUNC (cb_checkbox_toggled),
-		swc);
+	g_signal_connect (G_OBJECT (button),
+		"toggled",
+		G_CALLBACK (cb_checkbox_toggled), swc);
 
 	return button;
 }
@@ -1100,11 +1100,10 @@ cb_checkbox_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 	 */
 	if (IS_GNUMERIC_EXPR_ENTRY (state->old_focus)) {
 		ParsePos  pp;
-		ExprTree *expr = gnumeric_expr_entry_parse (
+		ExprTree *expr = gnm_expr_entry_parse (
 			GNUMERIC_EXPR_ENTRY (state->old_focus),
 			parse_pos_init (&pp, NULL, state->sheet, 0, 0),
-			FALSE);
-
+			NULL, FALSE);
 		if (expr != NULL)
 			expr_tree_unref (expr);
 	}
@@ -1136,12 +1135,10 @@ cb_checkbox_config_clicked (GnomeDialog *dialog, gint button_number,
 {
 	if (button_number == 0) {
 		SheetObject *so = SHEET_OBJECT (state->swc);
-		ExprTree    *expr;
-		ParsePos     pp;
-
-		expr = gnumeric_expr_entry_parse (state->expression,
-				parse_pos_init (&pp, NULL, so->sheet, 0, 0),
-				FALSE);
+		ParsePos  pp;
+		ExprTree *expr = gnm_expr_entry_parse (state->expression,
+			parse_pos_init (&pp, NULL, so->sheet, 0, 0),
+			NULL, FALSE);
 		if (expr != NULL)
 			dependent_set_expr (&state->swc->dep, expr);
 	}
@@ -1199,35 +1196,38 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (state->dialog)->vbox),
 		table, TRUE, TRUE, 5);
 
-	state->expression = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (wbcg));
-	gnumeric_expr_entry_set_flags (state->expression,
+	state->expression = gnumeric_expr_entry_new (wbcg, TRUE);
+	gnm_expr_entry_set_flags (state->expression,
 		GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL | GNUM_EE_SHEET_OPTIONAL | GNUM_EE_SINGLE_RANGE,
 		GNUM_EE_MASK);
-	gnumeric_expr_entry_set_scg (state->expression, scg);
-	gnumeric_expr_entry_set_rangesel_from_dep (state->expression, &swc->dep);
+	gnm_expr_entry_set_scg (state->expression, scg);
+	gnm_expr_entry_load_from_dep (state->expression, &swc->dep);
 	gnumeric_table_attach_with_label (state->dialog, table,
-		N_("Link to :"), GTK_WIDGET (state->expression), 0);
+		N_("Link to:"), GTK_WIDGET (state->expression), 0);
 
  	state->label = gtk_entry_new ();
 	gnumeric_table_attach_with_label (state->dialog, table,
-		N_("Label :"), GTK_WIDGET (state->label), 1);
+		N_("Label:"), GTK_WIDGET (state->label), 1);
 
  	gtk_entry_set_text (GTK_ENTRY (state->label), swc->label);
 
 	gnome_dialog_set_default (GNOME_DIALOG (state->dialog), 0);
 
- 	gtk_signal_connect (GTK_OBJECT (state->label), "changed",
- 			    GTK_SIGNAL_FUNC (cb_checkbox_label_changed), state);
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",
-			    GTK_SIGNAL_FUNC (cb_checkbox_set_focus), state);
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
-			    GTK_SIGNAL_FUNC (cb_checkbox_config_destroy), state);
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "clicked",
-			    GTK_SIGNAL_FUNC (cb_checkbox_config_clicked), state);
+ 	g_signal_connect (G_OBJECT (state->label),
+		"changed",
+		G_CALLBACK (cb_checkbox_label_changed), state);
+	g_signal_connect (G_OBJECT (state->dialog),
+		"set-focus",
+		G_CALLBACK (cb_checkbox_set_focus), state);
+	g_signal_connect (G_OBJECT (state->dialog),
+		"clicked",
+		G_CALLBACK (cb_checkbox_config_clicked), state);
 
+	g_signal_connect (G_OBJECT (state->dialog),
+		"destroy",
+		G_CALLBACK (cb_checkbox_config_destroy), state);
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
-
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_window_set_position (GTK_WINDOW (state->dialog), GTK_WIN_POS_MOUSE);
 	gtk_window_set_focus (GTK_WINDOW (state->dialog),
@@ -1427,9 +1427,9 @@ static GtkWidget *
 sheet_widget_radio_button_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
 {
 	GtkWidget *w = gtk_radio_button_new_with_label (NULL, "RadioButton");
-	gtk_signal_connect (GTK_OBJECT (w),
+	g_signal_connect (G_OBJECT (w),
 		"toggled",
-		GTK_SIGNAL_FUNC (sheet_widget_radio_button_toggled), sow);
+		G_CALLBACK (sheet_widget_radio_button_toggled), sow);
 	return w;
 }
 

@@ -175,7 +175,7 @@ read_summary_items (SummaryInfo *sin, MsOleSummary *si, MsOlePropertySetID psid)
 					ans[retlength] = 0;
 					g_free (inbuf);
 					g_free (val);
-					
+
 					sit = summary_item_new_string (name, ans, FALSE);
 				}
 				break;
@@ -274,14 +274,14 @@ set_summary_item (SummaryItem *s_item, MsOleSummary *ms_sum)
 #define BLK_LEN 16
 				guint8 data[BLK_LEN];
 				guint32 lp, len = strlen (s_item->v.txt);
-		
+
 				size_t inbufleft = len, outbufleft = len*8;
 				char* mbbuf = g_new(char, outbufleft);
 				char *outbufptr = mbbuf, *ret;
 				char const * inbufptr = s_item->v.txt;
 				guint32 retlen;
 
-				excel_iconv (current_summary_iconv, &inbufptr, &inbufleft, 
+				excel_iconv (current_summary_iconv, &inbufptr, &inbufleft,
 				     &outbufptr, &outbufleft);
 				retlen = outbufptr - mbbuf;
 				ret = g_new(char, retlen + 1);

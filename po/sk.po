@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0\n"
-"POT-Creation-Date: 2002-02-08 13:37+0100\n"
+"POT-Creation-Date: 2002-02-14 02:29-0500\n"
 "PO-Revision-Date: 08.02.2002 14:04\n"
 "Last-Translator: Stanislav Višňovský <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -25,7 +25,7 @@ msgstr "Zošit Gnumeric"
 msgid "The GNOME Spreadsheet"
 msgstr "GNOME tabuľka"
 
-#: plugins/applix/applix-read.c:79
+#: plugins/applix/applix-read.c:85
 msgid "Parse error while reading Applix file."
 msgstr "Chyba pri preklade súboru Applix."
 
@@ -73,10 +73,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=opt_bs_call\n"
 "@SYNTAX=opt_bs_call(zaciatok,cena,životnosť,dní_do_splatnosti,úrok)\n"
-"@DESCRIPTION=Používa Black-Scholesov model pre výpočet "
-"ceny európskej call opcie @zaciatok na majetok s cenou @cena.  "
-"@životnosť je ročná v percentách z cena za dané obdobie. @dní_do_splatnosti "
-"je počet dní do splatnosti  @úrok je úrok do dňa splatnosti v percentách.\n"
+"@DESCRIPTION=Používa Black-Scholesov model pre výpočet ceny európskej call "
+"opcie @zaciatok na majetok s cenou @cena.  @životnosť je ročná v percentách "
+"z cena za dané obdobie. @dní_do_splatnosti je počet dní do splatnosti  @úrok "
+"je úrok do dňa splatnosti v percentách.\n"
 "Vrátená hodnota bude v rovnakých jednotkách ako @zaciatok a @cena.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -104,10 +104,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=opt_bs_put\n"
 "@SYNTAX=opt_bs_put(zaciatok,cena,životnosť,dní_do_splatnosti,úrok)\n"
-"@DESCRIPTION=Používa Black-Scholesov model pre výpočet "
-"ceny európskej put opcie @zaciatok na majetok s cenou @cena.  "
-"@životnosť je ročná v percentách z cena za dané obdobie. @dní_do_splatnosti "
-"je počet dní do splatnosti  @úrok je úrok do dňa splatnosti v percentách.\n"
+"@DESCRIPTION=Používa Black-Scholesov model pre výpočet ceny európskej put "
+"opcie @zaciatok na majetok s cenou @cena.  @životnosť je ročná v percentách "
+"z cena za dané obdobie. @dní_do_splatnosti je počet dní do splatnosti  @úrok "
+"je úrok do dňa splatnosti v percentách.\n"
 "Vrátená hodnota bude v rovnakých jednotkách ako @zaciatok a @cena.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -137,9 +137,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=opt_bs_call_delta\n"
 "@SYNTAX=opt_bs_call_delta(zaciatok,cena,životnosť,dní_do_splatnosti,úrok)\n"
-"@DESCRIPTION=Používa Black-Scholesov model pre výpočet "
-"ceny európskej call opcie @zaciatok na majetok s cenou @cena. "
-"(Delta opcie je rýchlosť zmeny ceny s ohľadom na cenu majetku.)\n"
+"@DESCRIPTION=Používa Black-Scholesov model pre výpočet ceny európskej call "
+"opcie @zaciatok na majetok s cenou @cena. (Delta opcie je rýchlosť zmeny "
+"ceny s ohľadom na cenu majetku.)\n"
 "@životnosť je ročná v percentách z cena za dané obdobie. @dní_do_splatnosti "
 "je počet dní do splatnosti  @úrok je úrok do dňa splatnosti v percentách.\n"
 "Vrátená hodnota bude v rýchlosť zmeny hodnoty za zmenu jednotky v @cena.\n"
@@ -171,9 +171,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=opt_bs_put_delta\n"
 "@SYNTAX=opt_bs_put_delta(zaciatok,cena,životnosť,dní_do_splatnosti,úrok)\n"
-"@DESCRIPTION=Používa Black-Scholesov model pre výpočet "
-"ceny európskej put opcie @zaciatok na majetok s cenou @cena. "
-"(Delta opcie je rýchlosť zmeny ceny s ohľadom na cenu majetku.)\n"
+"@DESCRIPTION=Používa Black-Scholesov model pre výpočet ceny európskej put "
+"opcie @zaciatok na majetok s cenou @cena. (Delta opcie je rýchlosť zmeny "
+"ceny s ohľadom na cenu majetku.)\n"
 "@životnosť je ročná v percentách z cena za dané obdobie. @dní_do_splatnosti "
 "je počet dní do splatnosti  @úrok je úrok do dňa splatnosti v percentách.\n"
 "Vrátená hodnota bude v rýchlosť zmeny hodnoty za zmenu jednotky v @cena.\n"
@@ -206,9 +206,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=opt_bs_call_rho\n"
 "@SYNTAX=opt_bs_call_rho(zaciatok,cena,životnosť,dní_do_splatnosti,úrok)\n"
-"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"rho\" "
-"európskej call opcie @zaciatok na majetok s cenou @cena. "
-"(Rho opcie je rýchlosť zmeny ceny s ohľadom na úrokovú mieru.)\n"
+"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"rho\" európskej "
+"call opcie @zaciatok na majetok s cenou @cena. (Rho opcie je rýchlosť zmeny "
+"ceny s ohľadom na úrokovú mieru.)\n"
 "@životnosť je ročná v percentách z cena za dané obdobie. @dní_do_splatnosti "
 "je počet dní do splatnosti  @úrok je úrok do dňa splatnosti v percentách.\n"
 "Vrátená hodnota bude zmena hodnoty opcie na 100% zmeny v @úrok.\n"
@@ -241,9 +241,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=opt_bs_put_rho\n"
 "@SYNTAX=opt_bs_put_rho(zaciatok,cena,životnosť,dní_do_splatnosti,úrok)\n"
-"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"rho\" "
-"európskej put opcie @zaciatok na majetok s cenou @cena. "
-"(Rho opcie je rýchlosť zmeny ceny s ohľadom na úrokovú mieru.)\n"
+"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"rho\" európskej put "
+"opcie @zaciatok na majetok s cenou @cena. (Rho opcie je rýchlosť zmeny ceny "
+"s ohľadom na úrokovú mieru.)\n"
 "@životnosť je ročná v percentách z cena za dané obdobie. @dní_do_splatnosti "
 "je počet dní do splatnosti  @úrok je úrok do dňa splatnosti v percentách.\n"
 "Vrátená hodnota bude zmena hodnoty opcie na 100% zmeny v @úrok.\n"
@@ -274,18 +274,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=opt_bs_call_theta\n"
 "@SYNTAX=opt_bs_call_theta(zaciatok,cena,životnosť,dní_do_splatnosti,úrok)\n"
-"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"theta\" "
-"európskej call opcie @zaciatok na majetok s cenou @cena. "
-"(Theta opcie je rýchlosť zmeny ceny s ohľadom na dátum splatnosti.)\n"
+"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"theta\" európskej "
+"call opcie @zaciatok na majetok s cenou @cena. (Theta opcie je rýchlosť "
+"zmeny ceny s ohľadom na dátum splatnosti.)\n"
 "@životnosť je ročná v percentách z cena za dané obdobie. @dní_do_splatnosti "
 "je počet dní do splatnosti  @úrok je úrok do dňa splatnosti v percentách.\n"
-"Vrátená hodnota bude ako mínusová percentuálna zmena hodnoty "
-"za jeden rok (365.25 dní).\n"
+"Vrátená hodnota bude ako mínusová percentuálna zmena hodnoty za jeden rok "
+"(365.25 dní).\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta, opt_bs_put_delta, "
-"opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_vega, "
-"opt_bs_gamma"
+"opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_vega, opt_bs_gamma"
 
 #: plugins/derivatives/options.c:446
 msgid ""
@@ -308,18 +307,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=opt_bs_put_theta\n"
 "@SYNTAX=opt_bs_call_put(zaciatok,cena,životnosť,dní_do_splatnosti,úrok)\n"
-"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"theta\" "
-"európskej put opcie @zaciatok na majetok s cenou @cena. "
-"(Theta opcie je rýchlosť zmeny ceny s ohľadom na dátum splatnosti.)\n"
+"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"theta\" európskej "
+"put opcie @zaciatok na majetok s cenou @cena. (Theta opcie je rýchlosť zmeny "
+"ceny s ohľadom na dátum splatnosti.)\n"
 "@životnosť je ročná v percentách z cena za dané obdobie. @dní_do_splatnosti "
 "je počet dní do splatnosti  @úrok je úrok do dňa splatnosti v percentách.\n"
-"Vrátená hodnota bude ako mínusová percentuálna zmena hodnoty "
-"za jeden rok (365.25 dní).\n"
+"Vrátená hodnota bude ako mínusová percentuálna zmena hodnoty za jeden rok "
+"(365.25 dní).\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta, opt_bs_put_delta, "
-"opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_vega, "
-"opt_bs_gamma"
+"opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_vega, opt_bs_gamma"
 
 #: plugins/derivatives/options.c:469
 msgid ""
@@ -343,17 +341,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=opt_bs_gamma\n"
 "@SYNTAX=opt_bs_gamma(zaciatok,cena,životnosť,dní_do_splatnosti,úrok)\n"
-"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"gamma\" "
-"európskej opcie @zaciatok na majetok s cenou @cena. "
-"(Gamma opcie je druhá derivácia jej ceny s ohľadom cenu majetku a "
-"je rovnaká pre call aj put.)\n"
+"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"gamma\" európskej "
+"opcie @zaciatok na majetok s cenou @cena. (Gamma opcie je druhá derivácia "
+"jej ceny s ohľadom cenu majetku a je rovnaká pre call aj put.)\n"
 "@životnosť je ročná v percentách z cena za dané obdobie. @dní_do_splatnosti "
 "je počet dní do splatnosti  @úrok je úrok do dňa splatnosti v percentách.\n"
 "Vrátená hodnota bude v rýchlosť zmeny hodnoty za zmenu delta v @cena.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta, opt_bs_put_delta, "
-"opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_call_theta, opt_bs_vega"
+"opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_call_theta, "
+"opt_bs_vega"
 
 #: plugins/derivatives/options.c:493
 #, no-c-format
@@ -378,17 +376,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=opt_bs_vega\n"
 "@SYNTAX=opt_bs_vega(zaciatok,cena,životnosť,dní_do_splatnosti,úrok)\n"
-"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"vega\" "
-"európskej opcie @zaciatok na majetok s cenou @cena. "
-"(Vega opcie je rýchlosť zmeny ceny s ohľadom na živostnosť a "
-"je rovnaká pre call aj put.)\n"
+"@DESCRIPTION=Používa Black-Scholesov model pre výpočet \"vega\" európskej "
+"opcie @zaciatok na majetok s cenou @cena. (Vega opcie je rýchlosť zmeny ceny "
+"s ohľadom na živostnosť a je rovnaká pre call aj put.)\n"
 "@životnosť je ročná v percentách z cena za dané obdobie. @dní_do_splatnosti "
 "je počet dní do splatnosti  @úrok je úrok do dňa splatnosti v percentách.\n"
 "Vrátená hodnota bude v rýchlosť zmeny hodnoty za 100% živostnosti.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta, opt_bs_put_delta, "
-"opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_call_theta, opt_bs_gamma"
+"opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_call_theta, "
+"opt_bs_gamma"
 
 #: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4485
 #: plugins/mps/mps.c:578 src/xml-io.c:3230
@@ -459,7 +457,8 @@ msgid "Data Interchange Format (DIF) module"
 msgstr "Modul pre Data Interchange Format (DIF)"
 
 #: plugins/dif/plugin.xml.in.h:3
-msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgid ""
+"Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr "Zapisuje a číta informácie uložené v Data Interchange Format (*.dif)"
 
 #: plugins/excel/boot.c:104
@@ -641,7 +640,7 @@ msgstr "Formát súborov Gnome Glossary PO"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Poskytuje podporu pre ukladanie Gnome Glossary do súborov .po."
 
-#: plugins/guile/plugin.c:67 src/func.c:803 src/functions/fn-information.c:695
+#: plugins/guile/plugin.c:67 src/func.c:804 src/functions/fn-information.c:695
 #: src/functions/fn-information.c:766 src/functions/fn-information.c:794
 #: src/functions/fn-information.c:821 src/functions/fn-information.c:872
 #: src/functions/fn-information.c:902 src/functions/fn-information.c:969
@@ -761,14 +760,14 @@ msgid "Constraints:"
 msgstr "Obmedzenia:"
 
 #. Print constraint titles.
-#: plugins/mps/mps.c:334 src/dialogs/dialog-plugin-manager.c:549
-#: src/format-template.c:423 src/solver-lp.c:898 src/solver-lp.c:922
+#: plugins/mps/mps.c:334 src/dialogs/dialog-plugin-manager.c:550
+#: src/format-template.c:405 src/solver-lp.c:898 src/solver-lp.c:922
 #: src/solver-lp.c:955 src/solver-lp.c:1049 src/solver-lp.c:1096
 #: src/workbook-control.c:234
 msgid "Name"
 msgstr "Meno"
 
-#: plugins/mps/mps.c:338 src/dialogs/dialog-plugin-manager.c:554
+#: plugins/mps/mps.c:338 src/dialogs/dialog-plugin-manager.c:555
 #: src/solver-lp.c:1050 src/solver-lp.c:1097
 msgid "Value"
 msgstr "Hodnoty"
@@ -1359,11 +1358,11 @@ msgstr "Pridá skupinu prehľadu"
 msgid "Advanced _Filter..."
 msgstr "Pokročilý _filter..."
 
-#: src/GNOME_Gnumeric.xml.h:4 src/workbook-format-toolbar.c:478
+#: src/GNOME_Gnumeric.xml.h:4 src/workbook-format-toolbar.c:476
 msgid "Aligns the contents to the left and decreases the indent"
 msgstr "Zarovná obsah doľava a zmenší odsadenie"
 
-#: src/GNOME_Gnumeric.xml.h:5 src/workbook-format-toolbar.c:481
+#: src/GNOME_Gnumeric.xml.h:5 src/workbook-format-toolbar.c:479
 msgid "Aligns the contents to the left and increases the indent"
 msgstr "Zarovná obsah doľava a zväčší odsadenie"
 
@@ -1391,18 +1390,18 @@ msgstr "Automaticky vykonáva jednoduchú kontrolu gramatiky"
 msgid "Automatically save the current document at regular intervals"
 msgstr "Automaticky ukladá aktuálny dokument v pravidelných intervaloch"
 
-#: src/GNOME_Gnumeric.xml.h:12 src/dialogs/dialog-cell-format.c:2587
-#: src/workbook-format-toolbar.c:808 src/workbook-format-toolbar.c:864
+#: src/GNOME_Gnumeric.xml.h:12 src/dialogs/dialog-cell-format.c:2577
+#: src/workbook-format-toolbar.c:797 src/workbook-format-toolbar.c:854
 msgid "Background"
 msgstr "Pozadie"
 
-#: src/GNOME_Gnumeric.xml.h:13 src/widgets/widget-font-selector.c:114
-#: src/workbook-format-toolbar.c:412
+#: src/GNOME_Gnumeric.xml.h:13 src/widgets/widget-font-selector.c:115
+#: src/workbook-format-toolbar.c:410
 msgid "Bold"
 msgstr "Tučné"
 
-#: src/GNOME_Gnumeric.xml.h:14 src/workbook-format-toolbar.c:796
-#: src/workbook-format-toolbar.c:861
+#: src/GNOME_Gnumeric.xml.h:14 src/workbook-format-toolbar.c:783
+#: src/workbook-format-toolbar.c:851
 msgid "Borders"
 msgstr "Okraje"
 
@@ -1423,7 +1422,7 @@ msgstr "_Vymazať"
 msgid "C_olumn"
 msgstr "_Stĺpec"
 
-#: src/GNOME_Gnumeric.xml.h:19 src/workbook-format-toolbar.c:439
+#: src/GNOME_Gnumeric.xml.h:19 src/workbook-format-toolbar.c:437
 msgid "Center"
 msgstr "Na stred"
 
@@ -1613,7 +1612,7 @@ msgstr "Vytvorí posuvník"
 msgid "Create an arrow"
 msgstr "Vytvorí objekt šípka"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1397
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1378
 msgid "Cu_t"
 msgstr "Vystri_hnúť"
 
@@ -1636,8 +1635,8 @@ msgstr "Vystrihnúť"
 msgid "Cut the selection"
 msgstr "Vystrihne výber"
 
-#: src/GNOME_Gnumeric.xml.h:68 src/workbook-format-toolbar.c:398
-#: src/workbook-format-toolbar.c:478
+#: src/GNOME_Gnumeric.xml.h:68 src/workbook-format-toolbar.c:396
+#: src/workbook-format-toolbar.c:476
 msgid "Decrease Indent"
 msgstr "Zmenšiť odsadenie"
 
@@ -1645,7 +1644,7 @@ msgstr "Zmenšiť odsadenie"
 msgid "Decrease Precision"
 msgstr "Znížiť presnosť"
 
-#: src/GNOME_Gnumeric.xml.h:70 src/workbook-format-toolbar.c:472
+#: src/GNOME_Gnumeric.xml.h:70 src/workbook-format-toolbar.c:470
 msgid "Decreases the number of decimals displayed"
 msgstr "Zníži počet zobrazovaných desatinných miest"
 
@@ -1721,21 +1720,21 @@ msgstr "F_ormát"
 msgid "Filter data with given criteria"
 msgstr "Filtruje dáta podľa daného kritéria"
 
-#: src/GNOME_Gnumeric.xml.h:89 src/workbook-format-toolbar.c:755
+#: src/GNOME_Gnumeric.xml.h:89 src/workbook-format-toolbar.c:741
 msgid "Font"
 msgstr "Písmo"
 
-#: src/GNOME_Gnumeric.xml.h:90 src/workbook-format-toolbar.c:858
+#: src/GNOME_Gnumeric.xml.h:90 src/workbook-format-toolbar.c:848
 msgid "Font Size"
 msgstr "Veľkosť písma"
 
-#: src/GNOME_Gnumeric.xml.h:91 src/workbook-format-toolbar.c:409
-#: src/workbook-format-toolbar.c:856
+#: src/GNOME_Gnumeric.xml.h:91 src/workbook-format-toolbar.c:407
+#: src/workbook-format-toolbar.c:846
 msgid "Font selector"
 msgstr "Výber písma"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2582
-#: src/workbook-format-toolbar.c:833 src/workbook-format-toolbar.c:867
+#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2572
+#: src/workbook-format-toolbar.c:823 src/workbook-format-toolbar.c:857
 msgid "Foreground"
 msgstr "Popredie"
 
@@ -1797,8 +1796,8 @@ msgstr "Skryje vybrané riadky"
 msgid "Imports a file"
 msgstr "Importuje súbor"
 
-#: src/GNOME_Gnumeric.xml.h:107 src/workbook-format-toolbar.c:376
-#: src/workbook-format-toolbar.c:481
+#: src/GNOME_Gnumeric.xml.h:107 src/workbook-format-toolbar.c:374
+#: src/workbook-format-toolbar.c:479
 msgid "Increase Indent"
 msgstr "Zväčšiť odsadenie"
 
@@ -1806,7 +1805,7 @@ msgstr "Zväčšiť odsadenie"
 msgid "Increase Precision"
 msgstr "Zvýšiť presnosť"
 
-#: src/GNOME_Gnumeric.xml.h:109 src/workbook-format-toolbar.c:469
+#: src/GNOME_Gnumeric.xml.h:109 src/workbook-format-toolbar.c:467
 msgid "Increases the number of decimals displayed"
 msgstr "Zvýši počet zobrazovaných desatinných miest"
 
@@ -1818,7 +1817,7 @@ msgstr "Vložiť komponent"
 msgid "Insert Shaped Component"
 msgstr "Vložiť tvarovaný komponent"
 
-#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:472
+#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:473
 #: src/workbook-control-gui.c:2682
 msgid "Insert a new sheet"
 msgstr "Vloží nový list"
@@ -1881,7 +1880,8 @@ msgstr "Opakovane prepočítava pre nájdenie cieľovej hodnoty"
 
 #: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3047
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr "Opakovane prepočítava s obmedzeniami, až kým nedosiahne cieľovú hodnotu"
+msgstr ""
+"Opakovane prepočítava s obmedzeniami, až kým nedosiahne cieľovú hodnotu"
 
 #: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:2743
 msgid "Jump to a specified cell"
@@ -1892,7 +1892,7 @@ msgstr "Skočí na zadanú bunku"
 msgid "Label"
 msgstr "Návestie"
 
-#: src/GNOME_Gnumeric.xml.h:130 src/workbook-format-toolbar.c:629
+#: src/GNOME_Gnumeric.xml.h:130 src/workbook-format-toolbar.c:615
 msgid "Left"
 msgstr "Vľavo"
 
@@ -1945,11 +1945,11 @@ msgid "Mark the current selection for movement"
 msgstr "Označí aktuálny výber pre presun"
 
 #: src/GNOME_Gnumeric.xml.h:143 src/sheet-merge.c:75
-#: src/workbook-format-toolbar.c:451
+#: src/workbook-format-toolbar.c:449
 msgid "Merge"
 msgstr "Zliať"
 
-#: src/GNOME_Gnumeric.xml.h:144 src/workbook-format-toolbar.c:451
+#: src/GNOME_Gnumeric.xml.h:144 src/workbook-format-toolbar.c:449
 msgid "Merge a range of cells"
 msgstr "Spojí niekoľko buniek"
 
@@ -2035,7 +2035,7 @@ msgid "Pearson Correlation"
 msgstr "Pearsonova korelácia"
 
 #: src/GNOME_Gnumeric.xml.h:165 src/analysis-tools.c:2741
-#: src/workbook-format-toolbar.c:463
+#: src/workbook-format-toolbar.c:461
 msgid "Percent"
 msgstr "Percento"
 
@@ -2127,7 +2127,7 @@ msgstr "Odstráni vybrané bunky, ostatné posunie na ich miesto"
 msgid "Rename the current sheet"
 msgstr "Premenuje aktuálny list"
 
-#: src/GNOME_Gnumeric.xml.h:187 src/workbook-format-toolbar.c:631
+#: src/GNOME_Gnumeric.xml.h:187 src/workbook-format-toolbar.c:617
 msgid "Right"
 msgstr "Vpravo"
 
@@ -2223,15 +2223,15 @@ msgstr "Vyberie celý stĺpec"
 msgid "Select an entire row"
 msgstr "Vyberie celý riadok"
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-format-toolbar.c:466
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-format-toolbar.c:464
 msgid "Sets the format of the selected cells to include a thousands separator"
 msgstr "Nastaví formát vybraných buniek, aby obsahovali oddeľovač tisícov"
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-format-toolbar.c:460
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-format-toolbar.c:458
 msgid "Sets the format of the selected cells to monetary"
 msgstr "Formátuje vybrané bunky ako peňažné"
 
-#: src/GNOME_Gnumeric.xml.h:213 src/workbook-format-toolbar.c:463
+#: src/GNOME_Gnumeric.xml.h:213 src/workbook-format-toolbar.c:461
 msgid "Sets the format of the selected cells to percentage"
 msgstr "Formátuje vybrané bunky ako percentá"
 
@@ -2263,11 +2263,11 @@ msgid ""
 "selected"
 msgstr "Utriedi vybranú oblasť zostupne podľa prvého vybraného stĺpca"
 
-#: src/GNOME_Gnumeric.xml.h:220 src/workbook-format-toolbar.c:454
+#: src/GNOME_Gnumeric.xml.h:220 src/workbook-format-toolbar.c:452
 msgid "Split"
 msgstr "Rozdeliť"
 
-#: src/GNOME_Gnumeric.xml.h:221 src/workbook-format-toolbar.c:454
+#: src/GNOME_Gnumeric.xml.h:221 src/workbook-format-toolbar.c:452
 msgid "Split merged ranges of cells"
 msgstr "Rozdelí spojené bunky"
 
@@ -2276,7 +2276,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Štatistická ana_lýza"
 
 #: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:3190
-#: src/workbook-control-gui.c:3801 src/workbook-view.c:453
+#: src/workbook-control-gui.c:3805 src/workbook-view.c:453
 msgid "Sum"
 msgstr "Súčet"
 
@@ -2284,7 +2284,7 @@ msgstr "Súčet"
 msgid "Sum into the current cell"
 msgstr "Súčet do aktuálnej bunky"
 
-#: src/GNOME_Gnumeric.xml.h:225 src/workbook-format-toolbar.c:466
+#: src/GNOME_Gnumeric.xml.h:225 src/workbook-format-toolbar.c:464
 msgid "Thousand separator"
 msgstr "Oddeľovač tisícov"
 
@@ -2328,7 +2328,7 @@ msgstr "Dva _priemery"
 msgid "Uncollapse an outline group"
 msgstr "Rozbalí skupinu prehľadu"
 
-#: src/GNOME_Gnumeric.xml.h:236 src/workbook-format-toolbar.c:426
+#: src/GNOME_Gnumeric.xml.h:236 src/workbook-format-toolbar.c:424
 msgid "Underline"
 msgstr "Podčiarknuté"
 
@@ -2415,7 +2415,7 @@ msgid "_Content"
 msgstr "_Obsah"
 
 #: src/GNOME_Gnumeric.xml.h:257 src/item-cursor.c:1029
-#: src/sheet-control-gui.c:1399
+#: src/sheet-control-gui.c:1380
 msgid "_Copy"
 msgstr "_Kopírovať"
 
@@ -2431,7 +2431,7 @@ msgstr "_Dáta"
 msgid "_Define..."
 msgstr "_Definovať..."
 
-#: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1417
+#: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1398
 #: src/workbook-control-gui.c:2719
 msgid "_Delete..."
 msgstr "_Zmazať..."
@@ -2501,8 +2501,8 @@ msgstr "_Skupiny a prehľady"
 msgid "_Help"
 msgstr "_Pomocník"
 
-#: src/GNOME_Gnumeric.xml.h:278 src/sheet-control-gui.c:1440
-#: src/sheet-control-gui.c:1448 src/workbook-control-gui.c:2840
+#: src/GNOME_Gnumeric.xml.h:278 src/sheet-control-gui.c:1421
+#: src/sheet-control-gui.c:1429 src/workbook-control-gui.c:2840
 #: src/workbook-control-gui.c:2859
 msgid "_Hide"
 msgstr "_Skryť"
@@ -2560,7 +2560,7 @@ msgstr "_Otvoriť..."
 msgid "_Paired Samples: T-Test"
 msgstr "_Párové výbery: T-Test"
 
-#: src/GNOME_Gnumeric.xml.h:292 src/sheet-control-gui.c:1401
+#: src/GNOME_Gnumeric.xml.h:292 src/sheet-control-gui.c:1382
 msgid "_Paste"
 msgstr "V_ložiť"
 
@@ -2665,8 +2665,8 @@ msgstr "_Vrátiť"
 msgid "_Ungroup"
 msgstr "Z_rušiť zoskupenie"
 
-#: src/GNOME_Gnumeric.xml.h:318 src/sheet-control-gui.c:1442
-#: src/sheet-control-gui.c:1450 src/workbook-control-gui.c:2843
+#: src/GNOME_Gnumeric.xml.h:318 src/sheet-control-gui.c:1423
+#: src/sheet-control-gui.c:1431 src/workbook-control-gui.c:2843
 #: src/workbook-control-gui.c:2862
 msgid "_Unhide"
 msgstr "_Zobraziť skryté"
@@ -2948,8 +2948,8 @@ msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Dvojité triedenie s opakovaním"
 
 #: src/analysis-tools.c:3293 src/analysis-tools.c:3303
-#: src/analysis-tools.c:3311 src/dialogs/dialog-autoformat.c:66
-#: src/dialogs/dialog-autoformat.c:70
+#: src/analysis-tools.c:3311 src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:71
 msgid "Total"
 msgstr "Celkom"
 
@@ -3018,7 +3018,7 @@ msgstr "Imaginárna"
 msgid "Error '%s' opening workbook stream"
 msgstr "Chyba '%s' pri otváraní kanálu zošitu"
 
-#: src/bonobo-io.c:474 src/format-template.c:645 src/xml-io.c:3253
+#: src/bonobo-io.c:474 src/format-template.c:627 src/xml-io.c:3253
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Neplatný XML súbor. Strom je prázdny?"
 
@@ -3100,240 +3100,240 @@ msgstr "Posunúť stĺpce %s"
 msgid "Shift column %s"
 msgstr "Posunúť stĺpec %s"
 
-#: src/commands.c:640 src/commands.c:748
+#: src/commands.c:641 src/commands.c:749
 msgid "Set Text"
 msgstr "Nastavenie textu"
 
-#: src/commands.c:677
+#: src/commands.c:678
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Napísanie \"%s%s\" v %s"
 
-#: src/commands.c:850
+#: src/commands.c:851
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Napísanie \"%s%s\""
 
-#: src/commands.c:1103
+#: src/commands.c:1104
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Vloženie %d stĺpcov pred %s"
 
-#: src/commands.c:1104
+#: src/commands.c:1105
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Vloženie %d stĺpec pred %s"
 
-#: src/commands.c:1119
+#: src/commands.c:1120
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Vloženie %d riadkov pred %s"
 
-#: src/commands.c:1120
+#: src/commands.c:1121
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Vloženie %d riadok pred %s"
 
-#: src/commands.c:1131
+#: src/commands.c:1132
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Odstránenie stĺpcov %s"
 
-#: src/commands.c:1132
+#: src/commands.c:1133
 #, c-format
 msgid "Deleting column %s"
 msgstr "Odstránenie stĺpec %s"
 
-#: src/commands.c:1142
+#: src/commands.c:1143
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Odstránenie riadkov %s"
 
-#: src/commands.c:1143
+#: src/commands.c:1144
 #, c-format
 msgid "Deleting row %s"
 msgstr "Odstránenie riadku %s"
 
-#: src/commands.c:1218
+#: src/commands.c:1219
 msgid "Undo Clear"
 msgstr "Vrátiť mazanie"
 
-#: src/commands.c:1297
+#: src/commands.c:1298
 msgid "contents"
 msgstr "obsah"
 
-#: src/commands.c:1299
+#: src/commands.c:1300
 msgid "formats"
 msgstr "formáty"
 
-#: src/commands.c:1301
+#: src/commands.c:1302
 msgid "comments"
 msgstr "komentáre"
 
-#: src/commands.c:1317
+#: src/commands.c:1318
 msgid "all"
 msgstr "všetko"
 
-#: src/commands.c:1324
+#: src/commands.c:1325
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Vyčistenie %s v %s"
 
-#: src/commands.c:1519
+#: src/commands.c:1520
 #, c-format
 msgid "Changing format of %s"
 msgstr "Zmena formátu %s"
 
-#: src/commands.c:1595
+#: src/commands.c:1596
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Premenovanie listu '%s' '%s'"
 
-#: src/commands.c:1701
+#: src/commands.c:1702
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Automatická uprava veľkosti stĺpca %s"
 
-#: src/commands.c:1702
+#: src/commands.c:1703
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Automatická úprava veľkosti riadku %s"
 
-#: src/commands.c:1705
+#: src/commands.c:1706
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Nastavenie šírky stĺpcov %s na %d bodov"
 
-#: src/commands.c:1707
+#: src/commands.c:1708
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Nastavenie výšky riadkov %s na %d bodov"
 
-#: src/commands.c:1712 src/commands.c:1713
+#: src/commands.c:1713 src/commands.c:1714
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Automatická uprava veľkosti stĺpcov %s"
 
-#: src/commands.c:1716
+#: src/commands.c:1717
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Nastavenie šírky stĺpcov %s na %d bodov"
 
-#: src/commands.c:1718
+#: src/commands.c:1719
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Nastavenie výšky riadkov %s na %d bodov"
 
-#: src/commands.c:1802
+#: src/commands.c:1803
 #, c-format
 msgid "Sorting %s"
 msgstr "Triedenie %s"
 
-#: src/commands.c:1930
+#: src/commands.c:1931
 msgid "Unhide columns"
 msgstr "Zobrazenie skrytých stĺpcov"
 
-#: src/commands.c:1930
+#: src/commands.c:1931
 msgid "Hide columns"
 msgstr "Skrytie stĺpcov"
 
-#: src/commands.c:1931
+#: src/commands.c:1932
 msgid "Unhide rows"
 msgstr "Zobrazenie skrytých riadkov"
 
-#: src/commands.c:1931
+#: src/commands.c:1932
 msgid "Hide rows"
 msgstr "Skrytie riadkov"
 
-#: src/commands.c:2012
+#: src/commands.c:2013
 msgid "Expand columns"
 msgstr "Rozbalenie stĺpcov"
 
-#: src/commands.c:2012
+#: src/commands.c:2013
 msgid "Collapse columns"
 msgstr "Zabalenie stĺpcov"
 
-#: src/commands.c:2013
+#: src/commands.c:2014
 msgid "Expand rows"
 msgstr "Rozbalenie riadkov"
 
-#: src/commands.c:2013
+#: src/commands.c:2014
 msgid "Collapse rows"
 msgstr "Zabalenie riadkov"
 
-#: src/commands.c:2082
+#: src/commands.c:2083
 msgid "Those columns are already grouped"
 msgstr "Tieto stĺpce už sú v skupine"
 
-#: src/commands.c:2083
+#: src/commands.c:2084
 msgid "Those rows are already grouped"
 msgstr "Tieto riadky už sú v skupine"
 
-#: src/commands.c:2086
+#: src/commands.c:2087
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Tieto stĺpce nie sú v skupine, takže ich nemôžete rozoskupiť"
 
-#: src/commands.c:2087
+#: src/commands.c:2088
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Tieto riadky nie sú v skupine, takže ich nemôžete rozoskupiť"
 
-#: src/commands.c:2098
+#: src/commands.c:2099
 #, c-format
 msgid "Group columns %s"
 msgstr "Zoskupiť stĺpce %s"
 
-#: src/commands.c:2098
+#: src/commands.c:2099
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Rozoskupiť stĺpce %s"
 
-#: src/commands.c:2100
+#: src/commands.c:2101
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Zoskupiť riadky %d:%d"
 
-#: src/commands.c:2100
+#: src/commands.c:2101
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Rozoskupiť riadky %d:%d"
 
-#: src/commands.c:2305
+#: src/commands.c:2306
 #, c-format
 msgid "Moving %s"
 msgstr "Presun %s"
 
-#: src/commands.c:2314 src/commands.c:2522
+#: src/commands.c:2315 src/commands.c:2523
 msgid "is beyond sheet boundaries"
 msgstr "je mimo okraje listu"
 
 #. FIXME?
-#: src/commands.c:2466
+#: src/commands.c:2467
 #, c-format
 msgid "Pasting into %s"
 msgstr "Vloženie do %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2695 src/commands.c:2696 src/workbook-control-gui.c:1828
+#: src/commands.c:2696 src/commands.c:2697 src/workbook-control-gui.c:1828
 msgid "Autofill"
 msgstr "Automatické vyplňovanie"
 
 #. Changed in initial redo.
-#: src/commands.c:2719
+#: src/commands.c:2720
 #, c-format
 msgid "Autofilling %s"
 msgstr "Automatické vyplňovanie %s"
 
-#: src/commands.c:2872
+#: src/commands.c:2873
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Automatický formát %s"
 
-#: src/commands.c:2982
+#: src/commands.c:2983
 #, c-format
 msgid "Unmerging %s"
 msgstr "Zrušenie spojenia buniek %s"
 
-#: src/commands.c:3120
+#: src/commands.c:3121
 #, c-format
 msgid "Merging %s"
 msgstr "Spojenie %s"
@@ -3702,74 +3702,74 @@ msgid "No matching records were found."
 msgstr "Nenájdené žiadne odpovedajúce záznamy."
 
 #: src/dialogs/dialog-advanced-filter.c:248
-#: src/dialogs/dialog-analysis-tools.c:762
-#: src/dialogs/dialog-analysis-tools.c:878
-#: src/dialogs/dialog-analysis-tools.c:1006
-#: src/dialogs/dialog-analysis-tools.c:1211
-#: src/dialogs/dialog-analysis-tools.c:1382
-#: src/dialogs/dialog-analysis-tools.c:1735
-#: src/dialogs/dialog-analysis-tools.c:1963
-#: src/dialogs/dialog-analysis-tools.c:2491
-#: src/dialogs/dialog-analysis-tools.c:2994
-#: src/dialogs/dialog-analysis-tools.c:3168
-#: src/dialogs/dialog-analysis-tools.c:3336
-#: src/dialogs/dialog-analysis-tools.c:3524
-#: src/dialogs/dialog-analysis-tools.c:3799
-#: src/dialogs/dialog-analysis-tools.c:3999
+#: src/dialogs/dialog-analysis-tools.c:720
+#: src/dialogs/dialog-analysis-tools.c:836
+#: src/dialogs/dialog-analysis-tools.c:964
+#: src/dialogs/dialog-analysis-tools.c:1176
+#: src/dialogs/dialog-analysis-tools.c:1347
+#: src/dialogs/dialog-analysis-tools.c:1707
+#: src/dialogs/dialog-analysis-tools.c:1936
+#: src/dialogs/dialog-analysis-tools.c:2470
+#: src/dialogs/dialog-analysis-tools.c:2983
+#: src/dialogs/dialog-analysis-tools.c:3156
+#: src/dialogs/dialog-analysis-tools.c:3324
+#: src/dialogs/dialog-analysis-tools.c:3512
+#: src/dialogs/dialog-analysis-tools.c:3795
+#: src/dialogs/dialog-analysis-tools.c:3995
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Nastala neočakávaná chyba: %d."
 
-#: src/dialogs/dialog-advanced-filter.c:373
+#: src/dialogs/dialog-advanced-filter.c:374
 msgid "_List Range:"
 msgstr "_Rozsah zoznamu:"
 
-#: src/dialogs/dialog-advanced-filter.c:374
+#: src/dialogs/dialog-advanced-filter.c:375
 msgid "Criteria _Range:"
 msgstr "_Rozsah kritéria:"
 
-#: src/dialogs/dialog-advanced-filter.c:378
+#: src/dialogs/dialog-advanced-filter.c:379
 msgid "Could not create the Advanced Filter dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg pre pokročilé filtrovanie."
 
-#: src/dialogs/dialog-analysis-tools.c:561
-#: src/dialogs/dialog-analysis-tools.c:3623
-#: src/dialogs/dialog-analysis-tools.c:3732
+#: src/dialogs/dialog-analysis-tools.c:522
+#: src/dialogs/dialog-analysis-tools.c:3611
+#: src/dialogs/dialog-analysis-tools.c:3728
 msgid "_Input Range:"
 msgstr "Vs_tupný rozsah:"
 
-#: src/dialogs/dialog-analysis-tools.c:751
-#: src/dialogs/dialog-analysis-tools.c:867
+#: src/dialogs/dialog-analysis-tools.c:709
+#: src/dialogs/dialog-analysis-tools.c:825
 msgid "The selected input rows must have equal size!"
 msgstr "Vybrané vstupné riadky musia mať rovnakú veľkosť!"
 
-#: src/dialogs/dialog-analysis-tools.c:755
-#: src/dialogs/dialog-analysis-tools.c:871
+#: src/dialogs/dialog-analysis-tools.c:713
+#: src/dialogs/dialog-analysis-tools.c:829
 msgid "The selected input columns must have equal size!"
 msgstr "Vybrané vstupné stĺpce musia mať rovnakú veľkosť!"
 
-#: src/dialogs/dialog-analysis-tools.c:759
-#: src/dialogs/dialog-analysis-tools.c:875
+#: src/dialogs/dialog-analysis-tools.c:717
+#: src/dialogs/dialog-analysis-tools.c:833
 msgid "The selected input areas must have equal size!"
 msgstr "Vybrané vstupné oblasti musia mať rovnakú veľkosť!"
 
-#: src/dialogs/dialog-analysis-tools.c:809
+#: src/dialogs/dialog-analysis-tools.c:767
 msgid "Could not create the Correlation Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre koreláciu."
 
-#: src/dialogs/dialog-analysis-tools.c:925
+#: src/dialogs/dialog-analysis-tools.c:883
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre kovarianciu."
 
-#: src/dialogs/dialog-analysis-tools.c:1154
+#: src/dialogs/dialog-analysis-tools.c:1119
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre popisnú štatistiku."
 
-#: src/dialogs/dialog-analysis-tools.c:1258
+#: src/dialogs/dialog-analysis-tools.c:1223
 msgid "Could not create the Rank and  Percentile Tools dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre rozloženie a percentily."
 
-#: src/dialogs/dialog-analysis-tools.c:1351
+#: src/dialogs/dialog-analysis-tools.c:1316
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -3777,7 +3777,7 @@ msgstr ""
 "Prosím, zadajte platný\n"
 "rozptyl populácie pre premennú 1."
 
-#: src/dialogs/dialog-analysis-tools.c:1358
+#: src/dialogs/dialog-analysis-tools.c:1323
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -3785,119 +3785,119 @@ msgstr ""
 "Prosím, zadajte platný\n"
 "rozptyl populácie pre premennú 2."
 
-#: src/dialogs/dialog-analysis-tools.c:1378
+#: src/dialogs/dialog-analysis-tools.c:1343
 msgid "The two input ranges must have the same size."
 msgstr "Dva vstupné intervaly musia mať rovnakú veľkosť."
 
-#: src/dialogs/dialog-analysis-tools.c:1663
+#: src/dialogs/dialog-analysis-tools.c:1635
 msgid "Var_iable 1 Range:"
 msgstr "Rozsah premennej _1:"
 
-#: src/dialogs/dialog-analysis-tools.c:1664
+#: src/dialogs/dialog-analysis-tools.c:1636
 msgid "_Variable 2 Range:"
 msgstr "Rozsah premennej _2:"
 
-#: src/dialogs/dialog-analysis-tools.c:1668
+#: src/dialogs/dialog-analysis-tools.c:1640
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja testy priemeru."
 
-#: src/dialogs/dialog-analysis-tools.c:1728
-#: src/dialogs/dialog-analysis-tools.c:1732
+#: src/dialogs/dialog-analysis-tools.c:1700
+#: src/dialogs/dialog-analysis-tools.c:1704
 msgid "Each variable should have at least 2 observations!"
 msgstr "Každá premenná by mala mať aspoň 2 pozorovania!"
 
-#: src/dialogs/dialog-analysis-tools.c:1850
+#: src/dialogs/dialog-analysis-tools.c:1823
 msgid "Var_iable 1 Range"
 msgstr "Rozsah premennej _1"
 
-#: src/dialogs/dialog-analysis-tools.c:1851
+#: src/dialogs/dialog-analysis-tools.c:1824
 msgid "_Variable 2 Range"
 msgstr "Rozsah premennej _2"
 
-#: src/dialogs/dialog-analysis-tools.c:1855
+#: src/dialogs/dialog-analysis-tools.c:1828
 msgid "Could not create the FTest Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja F-test."
 
-#: src/dialogs/dialog-analysis-tools.c:2113
+#: src/dialogs/dialog-analysis-tools.c:2092
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre výbery."
 
-#: src/dialogs/dialog-analysis-tools.c:2150
+#: src/dialogs/dialog-analysis-tools.c:2129
 msgid "Discrete"
 msgstr "Diskrétne"
 
-#: src/dialogs/dialog-analysis-tools.c:2150
+#: src/dialogs/dialog-analysis-tools.c:2129
 msgid "_Value And Probability Input Range:"
 msgstr "Vstupný rozsah _hodnôt a pravdepodobností:"
 
-#: src/dialogs/dialog-analysis-tools.c:2152
-#: src/widgets/widget-font-selector.c:113
+#: src/dialogs/dialog-analysis-tools.c:2131
+#: src/widgets/widget-font-selector.c:114
 msgid "Normal"
 msgstr "Normálne"
 
-#: src/dialogs/dialog-analysis-tools.c:2152
+#: src/dialogs/dialog-analysis-tools.c:2131
 msgid "_Mean:"
 msgstr "_Priemer:"
 
-#: src/dialogs/dialog-analysis-tools.c:2152
+#: src/dialogs/dialog-analysis-tools.c:2131
 msgid "_Standard Deviation:"
 msgstr "_Smerodajná odchýlka:"
 
-#: src/dialogs/dialog-analysis-tools.c:2154
+#: src/dialogs/dialog-analysis-tools.c:2133
 msgid "Poisson"
 msgstr "Poissonove"
 
-#: src/dialogs/dialog-analysis-tools.c:2154
+#: src/dialogs/dialog-analysis-tools.c:2133
 msgid "_Lambda:"
 msgstr "_Lambda:"
 
-#: src/dialogs/dialog-analysis-tools.c:2156
+#: src/dialogs/dialog-analysis-tools.c:2135
 msgid "Exponential"
 msgstr "Exponenciálne"
 
-#: src/dialogs/dialog-analysis-tools.c:2156
+#: src/dialogs/dialog-analysis-tools.c:2135
 msgid "_b Value:"
 msgstr "_b hodnota:"
 
-#: src/dialogs/dialog-analysis-tools.c:2158
+#: src/dialogs/dialog-analysis-tools.c:2137
 msgid "Binomial"
 msgstr "Binomické"
 
-#: src/dialogs/dialog-analysis-tools.c:2158
-#: src/dialogs/dialog-analysis-tools.c:2160
-#: src/dialogs/dialog-analysis-tools.c:2163
+#: src/dialogs/dialog-analysis-tools.c:2137
+#: src/dialogs/dialog-analysis-tools.c:2139
+#: src/dialogs/dialog-analysis-tools.c:2142
 msgid "_p Value:"
 msgstr "_p hodnota:"
 
-#: src/dialogs/dialog-analysis-tools.c:2158
+#: src/dialogs/dialog-analysis-tools.c:2137
 msgid "N_umber of Trials:"
 msgstr "P_očet pokusov:"
 
-#: src/dialogs/dialog-analysis-tools.c:2160
+#: src/dialogs/dialog-analysis-tools.c:2139
 msgid "Negative Binomial"
 msgstr "Záporné binomické"
 
-#: src/dialogs/dialog-analysis-tools.c:2161
+#: src/dialogs/dialog-analysis-tools.c:2140
 msgid "N_umber of Failures"
 msgstr "_Počet neúspechov"
 
-#: src/dialogs/dialog-analysis-tools.c:2163
+#: src/dialogs/dialog-analysis-tools.c:2142
 msgid "Bernoulli"
 msgstr "Bernoulliho"
 
-#: src/dialogs/dialog-analysis-tools.c:2165
+#: src/dialogs/dialog-analysis-tools.c:2144
 msgid "Uniform"
 msgstr "Rovnomerné"
 
-#: src/dialogs/dialog-analysis-tools.c:2165
+#: src/dialogs/dialog-analysis-tools.c:2144
 msgid "_Lower Bound:"
 msgstr "_Spodná hranica:"
 
-#: src/dialogs/dialog-analysis-tools.c:2165
+#: src/dialogs/dialog-analysis-tools.c:2144
 msgid "_Upper Bound:"
 msgstr "_Horná hranica:"
 
-#: src/dialogs/dialog-analysis-tools.c:2474
+#: src/dialogs/dialog-analysis-tools.c:2453
 msgid ""
 "The probability input range contains a non-numeric value.\n"
 "All probabilities must be non-negative numbers."
@@ -3905,11 +3905,11 @@ msgstr ""
 "Vstupný rozsah pravdepodobností obsahuje nečíselnú hodnotu.\n"
 "Všetky hodnoty pravdepodobností musia byť nezáporné čísla."
 
-#: src/dialogs/dialog-analysis-tools.c:2479
+#: src/dialogs/dialog-analysis-tools.c:2458
 msgid "The probabilities may not all be 0!"
 msgstr "Pravdepodobnosti nemôžu byť všetky 0."
 
-#: src/dialogs/dialog-analysis-tools.c:2483
+#: src/dialogs/dialog-analysis-tools.c:2462
 msgid ""
 "The probability input range contains a negative number.\n"
 "All probabilities must be non-negative!"
@@ -3917,15 +3917,15 @@ msgstr ""
 "Vstupný rozsah pravdepodobností obsahuje zápornú hodnotu.\n"
 "Všetky hodnoty pravdepodobností musia byť kladné čísla."
 
-#: src/dialogs/dialog-analysis-tools.c:2488
+#: src/dialogs/dialog-analysis-tools.c:2467
 msgid "None of the values in the value range may be empty!"
 msgstr "Žiadna hodnota v rozsahu nesmie byť prázdna."
 
-#: src/dialogs/dialog-analysis-tools.c:2668
+#: src/dialogs/dialog-analysis-tools.c:2655
 msgid "Could not create the Random Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre popisnú štatistiku."
 
-#: src/dialogs/dialog-analysis-tools.c:2731
+#: src/dialogs/dialog-analysis-tools.c:2718
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
@@ -3933,7 +3933,7 @@ msgstr ""
 "Pre výpočet regresie je príliš málo vstupných hodnôt.\n"
 "Musí ich byť aspoň toľko ako voľných premenných."
 
-#: src/dialogs/dialog-analysis-tools.c:2737
+#: src/dialogs/dialog-analysis-tools.c:2724
 msgid ""
 "Two or more of the independent variables are linearly dependent,\n"
 "and the regression cannot be calculated. Remove one of these\n"
@@ -3943,35 +3943,36 @@ msgstr ""
 "a preto nie je možné spočítať regresiu. Odstráňte jednu z týchto\n"
 "premenných a skúste to znovu."
 
-#: src/dialogs/dialog-analysis-tools.c:2744
-msgid "There must be an equal number of entries for each variable in the regression."
+#: src/dialogs/dialog-analysis-tools.c:2731
+msgid ""
+"There must be an equal number of entries for each variable in the regression."
 msgstr "Pre každú premennú regresie musí byť rovnaký počet položiek."
 
-#: src/dialogs/dialog-analysis-tools.c:2844
+#: src/dialogs/dialog-analysis-tools.c:2831
 msgid "_X Variables:"
 msgstr "Premenné _X:"
 
-#: src/dialogs/dialog-analysis-tools.c:2868
+#: src/dialogs/dialog-analysis-tools.c:2854
 msgid "_Y Variable:"
 msgstr "Premenné _Y:"
 
-#: src/dialogs/dialog-analysis-tools.c:2936
+#: src/dialogs/dialog-analysis-tools.c:2925
 msgid "Could not create the Regression Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre regresiu."
 
-#: src/dialogs/dialog-analysis-tools.c:3108
+#: src/dialogs/dialog-analysis-tools.c:3096
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre exponenciálne vyhladenie."
 
-#: src/dialogs/dialog-analysis-tools.c:3280
+#: src/dialogs/dialog-analysis-tools.c:3268
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre kĺzavý priemer."
 
-#: src/dialogs/dialog-analysis-tools.c:3384
+#: src/dialogs/dialog-analysis-tools.c:3372
 msgid "Could not create the Fourier Analyis Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre Fourierovu analýzu."
 
-#: src/dialogs/dialog-analysis-tools.c:3520
+#: src/dialogs/dialog-analysis-tools.c:3508
 msgid ""
 "Each row of the bin range should contain one numeric value\n"
 "(ignoring the label if applicable)."
@@ -3979,39 +3980,40 @@ msgstr ""
 "Každý riadok v rozsahu triedy by mal obsahovať jednu číselnú hodnotu\n"
 "(ignorovať popisky, ak je to má zmysel)."
 
-#: src/dialogs/dialog-analysis-tools.c:3733
+#: src/dialogs/dialog-analysis-tools.c:3729
 msgid "Bin _Range:"
 msgstr "Rozsah _tried:"
 
-#: src/dialogs/dialog-analysis-tools.c:3737
+#: src/dialogs/dialog-analysis-tools.c:3733
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre histogram."
 
-#: src/dialogs/dialog-analysis-tools.c:3916
+#: src/dialogs/dialog-analysis-tools.c:3912
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (jednoduché triedenie)."
+msgstr ""
+"Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (jednoduché triedenie)."
 
-#: src/dialogs/dialog-analysis-tools.c:3979
+#: src/dialogs/dialog-analysis-tools.c:3975
 msgid "Each sample must contain the same number of rows."
 msgstr "Každý výber musí obsahovať rovnaký počet riadkov."
 
-#: src/dialogs/dialog-analysis-tools.c:3984
+#: src/dialogs/dialog-analysis-tools.c:3980
 msgid "Given input range contains non-numeric data."
 msgstr "Zadaný vstupný rozsah obsahuje nečíselné dáta."
 
-#: src/dialogs/dialog-analysis-tools.c:3989
+#: src/dialogs/dialog-analysis-tools.c:3985
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr "Zadaný vstupný rozsah by mal obsahovať aspoň dva stĺpce dát a popisov."
 
-#: src/dialogs/dialog-analysis-tools.c:3995
+#: src/dialogs/dialog-analysis-tools.c:3991
 msgid ""
 "One of the factor combinations does not contain\n"
 "any observations!"
 msgstr "Jedna z kombinácií faktorov neobsahuje žiadne pozorovania."
 
-#: src/dialogs/dialog-analysis-tools.c:4120
+#: src/dialogs/dialog-analysis-tools.c:4116
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (dvojité triedenie)."
 
@@ -4019,114 +4021,105 @@ msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (dvojité triedenie)
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg pre automatické opravy."
 
-#: src/dialogs/dialog-autoformat.c:66
+#: src/dialogs/dialog-autoformat.c:67
 msgid " "
 msgstr " "
 
-#: src/dialogs/dialog-autoformat.c:66
+#: src/dialogs/dialog-autoformat.c:67
 msgid "Jan"
 msgstr "Jan"
 
-#: src/dialogs/dialog-autoformat.c:66
+#: src/dialogs/dialog-autoformat.c:67
 msgid "Feb"
 msgstr "Feb"
 
-#: src/dialogs/dialog-autoformat.c:66
+#: src/dialogs/dialog-autoformat.c:67
 msgid "Mrt"
 msgstr "Mrt"
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:68
 msgid "North"
 msgstr "Sever"
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:68
 msgid "6"
 msgstr "6"
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:68
 msgid "13"
 msgstr "13"
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:68
 msgid "20"
 msgstr "20"
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:68
 msgid "39"
 msgstr "39"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:69
 msgid "South"
 msgstr "Juh"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:69
 msgid "12"
 msgstr "12"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:69
 msgid "4"
 msgstr "4"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:69
 msgid "17"
 msgstr "17"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:69
 msgid "33"
 msgstr "33"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:70
 msgid "West"
 msgstr "Západ"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:70
 msgid "8"
 msgstr "8"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:70
 msgid "2"
 msgstr "2"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:70
 msgid "0"
 msgstr "0"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:70
 msgid "10"
 msgstr "10"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:71
 msgid "26"
 msgstr "26"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:71
 msgid "19"
 msgstr "19"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:71
 msgid "37"
 msgstr "37"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:71
 msgid "81"
 msgstr "81"
 
-#: src/dialogs/dialog-autoformat.c:406
-#, c-format
-msgid "Are you sure you want to remove the template '%s' ?"
-msgstr "Naozaj chcete odstrániť šablónu '%s'?"
-
-#: src/dialogs/dialog-autoformat.c:418
-msgid "Could not remove template"
-msgstr "Nie je možné odstrániť šablónu"
-
-#: src/dialogs/dialog-autoformat.c:668
+#: src/dialogs/dialog-autoformat.c:641
 msgid "An error occurred while reading the category list"
 msgstr "Nastala chyba pri načítavaní zoznamu kategórií"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:678 src/format.c:1649 src/format.c:1741
+#: src/dialogs/dialog-autoformat.c:651 src/format.c:1649 src/format.c:1741
 #: src/format.c:1750 src/format.c:1819
 msgid "General"
 msgstr "Všeobecné"
@@ -4144,121 +4137,119 @@ msgstr "Nepodarilo sa vytvoriť dialóg pre automatické ukladanie."
 msgid "Cell comment"
 msgstr "Komentár bunky"
 
-#: src/dialogs/dialog-cell-format.c:423
+#: src/dialogs/dialog-cell-format.c:424
 msgid ";[Red]"
 msgstr ";[Red]"
 
-#: src/dialogs/dialog-cell-format.c:425
+#: src/dialogs/dialog-cell-format.c:426
 msgid "_);("
 msgstr "_);("
 
-#: src/dialogs/dialog-cell-format.c:427
+#: src/dialogs/dialog-cell-format.c:428
 msgid "_);[Red]("
 msgstr "_);[Red]("
 
 #. There must be a better way than this
-#: src/dialogs/dialog-cell-format.c:1302 src/dialogs/dialog-cell-format.c:1366
+#: src/dialogs/dialog-cell-format.c:1294 src/dialogs/dialog-cell-format.c:1358
 msgid "Single"
 msgstr "Jednoduché"
 
-#: src/dialogs/dialog-cell-format.c:1304 src/dialogs/dialog-cell-format.c:1367
+#: src/dialogs/dialog-cell-format.c:1296 src/dialogs/dialog-cell-format.c:1359
 msgid "Double"
 msgstr "Dvojité"
 
-#: src/dialogs/dialog-cell-format.c:1306 src/dialogs/dialog-cell-format.c:1365
+#: src/dialogs/dialog-cell-format.c:1298 src/dialogs/dialog-cell-format.c:1357
 #: src/dialogs/dialog-paste-special.c:33
 msgid "None"
 msgstr "Žiadne"
 
-#: src/dialogs/dialog-cell-format.c:2108
+#: src/dialogs/dialog-cell-format.c:2100
 msgid "Source"
 msgstr "Zdroj"
 
-#: src/dialogs/dialog-cell-format.c:2109
+#: src/dialogs/dialog-cell-format.c:2101
 msgid "Criteria"
 msgstr "Kritéria"
 
-#: src/dialogs/dialog-cell-format.c:2121 src/dialogs/dialog-cell-format.c:2128
-#: src/sheet-object-widget.c:749
+#: src/dialogs/dialog-cell-format.c:2113 src/dialogs/dialog-cell-format.c:2120
 msgid "Min :"
 msgstr "Min :"
 
-#: src/dialogs/dialog-cell-format.c:2122 src/dialogs/dialog-cell-format.c:2131
-#: src/sheet-object-widget.c:753
+#: src/dialogs/dialog-cell-format.c:2114 src/dialogs/dialog-cell-format.c:2123
 msgid "Max :"
 msgstr "Max :"
 
-#: src/dialogs/dialog-cell-format.c:2125
+#: src/dialogs/dialog-cell-format.c:2117
 msgid "Value :"
 msgstr "Hodnota:"
 
-#: src/dialogs/dialog-cell-format.c:2511
+#: src/dialogs/dialog-cell-format.c:2503
 msgid "Format Cells"
 msgstr "Formát buniek"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2577 src/dialogs/dialog-cell-format.c:2582
-#: src/dialogs/dialog-cell-format.c:2592 src/functions/fn-information.c:427
-#: src/workbook-format-toolbar.c:826
+#: src/dialogs/dialog-cell-format.c:2567 src/dialogs/dialog-cell-format.c:2572
+#: src/dialogs/dialog-cell-format.c:2582 src/functions/fn-information.c:427
+#: src/workbook-format-toolbar.c:816
 msgid "Automatic"
 msgstr "Automatické"
 
-#: src/dialogs/dialog-cell-format.c:2577
+#: src/dialogs/dialog-cell-format.c:2567
 msgid "Border"
 msgstr "Okraje"
 
-#: src/dialogs/dialog-cell-format.c:2587 src/workbook-format-toolbar.c:801
+#: src/dialogs/dialog-cell-format.c:2577 src/workbook-format-toolbar.c:789
 msgid "Clear Background"
 msgstr "Vymazať pozadie"
 
-#: src/dialogs/dialog-cell-format.c:2592
+#: src/dialogs/dialog-cell-format.c:2582
 msgid "Pattern"
 msgstr "Vzorka"
 
-#: src/dialogs/dialog-cell-sort.c:124 src/dialogs/dialog-cell-sort.c:129
+#: src/dialogs/dialog-cell-sort.c:106 src/dialogs/dialog-cell-sort.c:111
 #, c-format
 msgid "Column %s"
 msgstr "Stĺpec %s"
 
-#: src/dialogs/dialog-cell-sort.c:126 src/dialogs/dialog-cell-sort.c:131
+#: src/dialogs/dialog-cell-sort.c:108 src/dialogs/dialog-cell-sort.c:113
 #, c-format
 msgid "Row %s"
 msgstr "Riadok %s"
 
-#: src/dialogs/dialog-cell-sort.c:615 src/workbook-control-gui.c:2465
+#: src/dialogs/dialog-cell-sort.c:598 src/workbook-control-gui.c:2465
 msgid "Sort"
 msgstr "Triedenie"
 
-#: src/dialogs/dialog-cell-sort.c:620
+#: src/dialogs/dialog-cell-sort.c:603
 msgid "Row/Column"
 msgstr "Riadok/Stĺpec"
 
-#: src/dialogs/dialog-cell-sort.c:628
+#: src/dialogs/dialog-cell-sort.c:612
 msgid "Descend"
 msgstr "Zostupne"
 
-#: src/dialogs/dialog-cell-sort.c:636
+#: src/dialogs/dialog-cell-sort.c:621
 msgid "Case Sensitive"
 msgstr "Rozlišovať veľkosť písmen"
 
-#: src/dialogs/dialog-cell-sort.c:644
+#: src/dialogs/dialog-cell-sort.c:630
 msgid "By Value"
 msgstr "Podľa hodnoty"
 
-#: src/dialogs/dialog-cell-sort.c:741
+#: src/dialogs/dialog-cell-sort.c:738
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg pre triedenie buniek."
 
-#: src/dialogs/dialog-consolidate.c:158
+#: src/dialogs/dialog-consolidate.c:136
 #, c-format
 msgid "Source region %s overlaps with the destination region"
 msgstr "Zdrojová oblasť %s sa prekrýva s cieľovou oblasťou"
 
-#: src/dialogs/dialog-define-names.c:378
+#: src/dialogs/dialog-define-names.c:367
 msgid "You cannot redefine a builtin name."
 msgstr "Nemôžete predefinovať zabudované meno."
 
-#: src/dialogs/dialog-define-names.c:591
+#: src/dialogs/dialog-define-names.c:590
 msgid "Could not create the Name Guru."
 msgstr "Nie je možné vytvoriť Guru mien."
 
@@ -4304,66 +4295,66 @@ msgstr "Skalár"
 msgid "Any"
 msgstr "Čokoľvek"
 
-#: src/dialogs/dialog-goal-seek.c:357
+#: src/dialogs/dialog-goal-seek.c:348
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
 msgstr "Mali by ste zadať platné meno bunky v 'Vyplniť bunku:'!"
 
-#: src/dialogs/dialog-goal-seek.c:369
+#: src/dialogs/dialog-goal-seek.c:360
 msgid "The cell named in 'Set Cell:' must contain a formula!"
 msgstr "Bunka 'Vyplniť bunku' musí obsahovať vzorec!"
 
-#: src/dialogs/dialog-goal-seek.c:382
+#: src/dialogs/dialog-goal-seek.c:373
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
 msgstr "Mali by ste zadať platné meno bunky v 'Zmenou bunky'!"
 
-#: src/dialogs/dialog-goal-seek.c:395
+#: src/dialogs/dialog-goal-seek.c:386
 msgid "The cell named in 'By changing cell' must not contain a formula."
 msgstr "Bunka v 'Zmenou bunky' nesmie obsahovať vzorec."
 
-#: src/dialogs/dialog-goal-seek.c:408
+#: src/dialogs/dialog-goal-seek.c:399
 msgid "The value given in 'To Value:' is not valid."
 msgstr "Hodnota zadaná do 'Hodnotou:' nie je platná."
 
-#: src/dialogs/dialog-goal-seek.c:475
+#: src/dialogs/dialog-goal-seek.c:466
 #, c-format
 msgid "Goal seeking with cell %s found a solution."
 msgstr "Hľadanie cieľa s bunkou %s našlo riešenie."
 
-#: src/dialogs/dialog-goal-seek.c:491
+#: src/dialogs/dialog-goal-seek.c:482
 #, c-format
 msgid "Goal seeking with cell %s did not find a solution."
 msgstr "Hľadanie cieľa s bunkou %s našlo riešenie."
 
-#: src/dialogs/dialog-goal-seek.c:660
+#: src/dialogs/dialog-goal-seek.c:656
 msgid "Could not create the Goal-Seek dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre hľadanie cieľa."
 
-#: src/dialogs/dialog-goto-cell.c:48 src/solver-lp.c:897 src/solver-lp.c:921
+#: src/dialogs/dialog-goto-cell.c:47 src/solver-lp.c:897 src/solver-lp.c:921
 #: src/solver-lp.c:954 src/solver-lp.c:1048 src/solver-lp.c:1095
 msgid "Cell"
 msgstr "Bunka"
 
-#: src/dialogs/dialog-goto-cell.c:51
+#: src/dialogs/dialog-goto-cell.c:50
 msgid "Go to..."
 msgstr "Prejsť na..."
 
-#: src/dialogs/dialog-graph-guru.c:782
+#: src/dialogs/dialog-graph-guru.c:780
 msgid "Step 1 of 3: Select graph type"
 msgstr "Krok 1 z 3: Výber typu grafu"
 
-#: src/dialogs/dialog-graph-guru.c:788
+#: src/dialogs/dialog-graph-guru.c:786
 msgid "Step 2 of 3: Select data ranges"
 msgstr "Krok 2 z 3: Výber intervalov hodnôt"
 
-#: src/dialogs/dialog-graph-guru.c:790
+#: src/dialogs/dialog-graph-guru.c:788
 msgid "Graph Data"
 msgstr "Dáta pre graf"
 
-#: src/dialogs/dialog-graph-guru.c:795
+#: src/dialogs/dialog-graph-guru.c:793
 msgid "Step 3 of 3: Customize graph"
 msgstr "Krok 3 z 3: Úprava grafu"
 
-#: src/dialogs/dialog-graph-guru.c:797
+#: src/dialogs/dialog-graph-guru.c:795
 msgid "Format Graph"
 msgstr "Formátovať graf"
 
@@ -4419,19 +4410,19 @@ msgstr "Vložiť inak"
 msgid "Paste Link"
 msgstr "Vložiť odkaz"
 
-#: src/dialogs/dialog-paste-special.c:116
+#: src/dialogs/dialog-paste-special.c:117
 msgid "Paste type"
 msgstr "Typ vloženia"
 
-#: src/dialogs/dialog-paste-special.c:120
+#: src/dialogs/dialog-paste-special.c:121
 msgid "Operation"
 msgstr "Operácia"
 
-#: src/dialogs/dialog-paste-special.c:160
+#: src/dialogs/dialog-paste-special.c:162
 msgid "Transpose"
 msgstr "Transponovať"
 
-#: src/dialogs/dialog-paste-special.c:169
+#: src/dialogs/dialog-paste-special.c:171
 msgid "Skip Blanks"
 msgstr "Preskočiť prázdne"
 
@@ -4505,28 +4496,28 @@ msgstr "Chyby počas aktivácie modulov"
 msgid "Errors while deactivating plugins"
 msgstr "Chyby počas deaktivácie modulov"
 
-#: src/dialogs/dialog-plugin-manager.c:531
+#: src/dialogs/dialog-plugin-manager.c:532
 msgid "State"
 msgstr "Stav"
 
-#: src/dialogs/dialog-plugin-manager.c:536
+#: src/dialogs/dialog-plugin-manager.c:537
 msgid "Plugins"
 msgstr "Moduly"
 
-#: src/dialogs/dialog-plugin-manager.c:564
+#: src/dialogs/dialog-plugin-manager.c:565
 msgid "Plugin list"
 msgstr "Zoznam modulov"
 
-#: src/dialogs/dialog-plugin-manager.c:567
+#: src/dialogs/dialog-plugin-manager.c:568
 msgid "Plugin details"
 msgstr "Detaily modulu"
 
-#: src/dialogs/dialog-printer-setup.c:986
+#: src/dialogs/dialog-printer-setup.c:985
 #: src/dialogs/dialog-printer-setup.c:1116
 msgid "Customize header"
 msgstr "Upraviť hlavičku"
 
-#: src/dialogs/dialog-printer-setup.c:988
+#: src/dialogs/dialog-printer-setup.c:987
 #: src/dialogs/dialog-printer-setup.c:1122
 msgid "Customize footer"
 msgstr "Upraviť pätičku"
@@ -4563,24 +4554,24 @@ msgstr "Komentár"
 msgid "Could not create the Sheet Name Change dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg pre zmenu mena listu."
 
-#: src/dialogs/dialog-solver.c:66
+#: src/dialogs/dialog-solver.c:64
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:67
+#: src/dialogs/dialog-solver.c:65
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:68
+#: src/dialogs/dialog-solver.c:66
 msgid "="
 msgstr "="
 
 #. xgettext: Int == Integer constraint for the linear program
-#: src/dialogs/dialog-solver.c:70
+#: src/dialogs/dialog-solver.c:68
 msgid "Int"
 msgstr "Celé číslo"
 
-#: src/dialogs/dialog-solver.c:818
+#: src/dialogs/dialog-solver.c:810
 msgid ""
 "Solver found an optimal solution. All constraints and optimality conditions "
 "are satisfied.\n"
@@ -4588,25 +4579,25 @@ msgstr ""
 "Riešiteľ našiel optimálne riešenie. Všetky obmedzenia a podmienky "
 "optimálnosti sú uspokojené.\n"
 
-#: src/dialogs/dialog-solver.c:825
+#: src/dialogs/dialog-solver.c:817
 msgid "The Target Cell value does not converge!"
 msgstr "Hodnota cieľovej bunky nekonverguje!"
 
-#: src/dialogs/dialog-solver.c:829
+#: src/dialogs/dialog-solver.c:821
 #, c-format
 msgid "Solver was not successful: %i"
 msgstr "Riešiteľ nebol úspešný: %i"
 
-#: src/dialogs/dialog-solver.c:853
+#: src/dialogs/dialog-solver.c:845
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Obmedzenie '%s' je pre bunku, ktorá nie je vstupná."
 
-#: src/dialogs/dialog-solver.c:1106
+#: src/dialogs/dialog-solver.c:1095
 msgid "Could not create the Solver dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre riešiteľa."
 
-#: src/dialogs/dialog-stf-export-sheet-page.c:358
+#: src/dialogs/dialog-stf-export-sheet-page.c:349
 msgid "You need to select at least one sheet to export"
 msgstr "Musíte vybrať aspoň jeden exportovaný list"
 
@@ -4614,7 +4605,7 @@ msgstr "Musíte vybrať aspoň jeden exportovaný list"
 msgid "Are you sure you want to cancel?"
 msgstr "Naozaj chcete zrušiť?"
 
-#: src/dialogs/dialog-stf-export.c:384 src/dialogs/dialog-stf.c:523
+#: src/dialogs/dialog-stf-export.c:377 src/dialogs/dialog-stf.c:505
 #, c-format
 msgid "Missing %s file"
 msgstr "Chýbajúci súbor %s"
@@ -4701,7 +4692,7 @@ msgstr "Mali by ste zadať platné číslo ako cieľovú bunku"
 msgid "The target cell should contain an expression"
 msgstr "Cieľová bunky by mala obsahovať výraz"
 
-#: src/dialogs/dialog-workbook-attr.c:165
+#: src/dialogs/dialog-workbook-attr.c:164
 msgid "Workbook Attributes"
 msgstr "Vlastnosti zošita"
 
@@ -4722,11 +4713,11 @@ msgstr "už globálne definované"
 msgid "'%s' has a circular reference"
 msgstr "'%s' obsahuje kruhový odkaz"
 
-#: src/expr-name.c:415
+#: src/expr-name.c:418
 msgid "Builtin"
 msgstr "Zabudovaný"
 
-#: src/expr-name.c:515 src/expr-name.c:527
+#: src/expr-name.c:518 src/expr-name.c:530
 msgid "Error: no sheet"
 msgstr "Chyba: žiadny list"
 
@@ -4747,63 +4738,66 @@ msgstr "Neznáma chyba pri vyhodnocovaní"
 msgid "Invalid template file: %s"
 msgstr "Neplatný súbor šablóny: %s"
 
-#: src/file.c:272
+#: src/file.c:265
 msgid "Cannot create temporary file."
 msgstr "Nemôžem vytvoriť dočasný súbor."
 
-#: src/file.c:284
+#: src/file.c:277
 msgid "Error saving to temporary file."
 msgstr "Chyba pri pokuse o uloženie dočasného súboru."
 
-#: src/file.c:287
+#: src/file.c:280
 msgid "Cannot get temporary file size."
 msgstr "Nemôžem získať veľkosť dočasného súboru."
 
-#: src/file.c:293
+#: src/file.c:286
 msgid "Saving file to stream."
 msgstr "Ukladám súbor do streamu."
 
-#: src/file.c:306
+#: src/file.c:299
 msgid "Error reading temporary file."
 msgstr "Chyba pri čítaní dočasného súboru."
 
-#: src/file.c:319
+#: src/file.c:312
 msgid "Exception occurred while saving to stream."
 msgstr "Nastala výminka pri ukladaní do streamu."
 
-#: src/file.c:498
+#: src/file.c:491
 msgid "Saving over old files of this type is disabled for safety."
 msgstr "Uloženie do starých súborov tohto typu je kvôli bezpečenosti vypnuté."
 
-#: src/file.c:500
-msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
+#: src/file.c:493
+msgid ""
+"You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Túto funkciu môžete bezpečne vypnúť úpravou zodpovedajúceho súboru plugin."
 "xml."
 
-#: src/format-template.c:619
+#: src/format-template.c:601
 msgid "Error while trying to load autoformat template"
 msgstr "Chyba pri načítavaní šablóny autoformátu"
 
-#: src/format-template.c:636
+#: src/format-template.c:618
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Chyba pri vytváraní stromu z šablóny autoformátu"
 
-#: src/format-template.c:642
+#: src/format-template.c:624
 msgid "Is not an autoformat template file"
 msgstr "Nie je šablóna autoformátu"
 
-#: src/format-template.c:978
+#: src/format-template.c:960
 #, c-format
-msgid "The target region is too small.  It should be at least %d rows by %d columns"
-msgstr "Cieľová oblasť je príliš malá, mala by byť aspoň %d riadkov a %d stĺpcov"
+msgid ""
+"The target region is too small.  It should be at least %d rows by %d columns"
+msgstr ""
+"Cieľová oblasť je príliš malá, mala by byť aspoň %d riadkov a %d stĺpcov"
 
-#: src/format-template.c:982
+#: src/format-template.c:964
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
 msgstr "Cieľová oblasť je príliš malá, mala by byť široká aspoň %d stĺpcov"
 
-#: src/format-template.c:986
+#: src/format-template.c:968
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "Cieľová oblasť je príliš malá, mala by byť vysoká aspoň %d riadkov"
@@ -4865,1344 +4859,1344 @@ msgstr "POLE"
 #. * for each currency.  They MUST start with '[$'
 #. * The second column has the long names of the currencies.
 #.
-#: src/formats.c:256
+#: src/formats.c:257
 msgid "[$ADP]"
 msgstr "[$ADP]"
 
-#: src/formats.c:256
+#: src/formats.c:257
 msgid "Andorran peseta"
 msgstr "Andorská peseta"
 
-#: src/formats.c:257
+#: src/formats.c:258
 msgid "[$AED]"
 msgstr "[$AED]"
 
-#: src/formats.c:257
+#: src/formats.c:258
 msgid "UAE dirham"
 msgstr "SAE dirham"
 
-#: src/formats.c:258
+#: src/formats.c:259
 msgid "[$AFA]"
 msgstr "[$AFA]"
 
-#: src/formats.c:258
+#: src/formats.c:259
 msgid "Afghanistan afghani"
 msgstr "Afgánsky afghani"
 
-#: src/formats.c:259
+#: src/formats.c:260
 msgid "[$ALL]"
 msgstr "[$ALL]"
 
-#: src/formats.c:259
+#: src/formats.c:260
 msgid "Albanian lek"
 msgstr "Albánsky lek"
 
-#: src/formats.c:260
+#: src/formats.c:261
 msgid "[$ANG]"
 msgstr "[$ANG]"
 
-#: src/formats.c:260
+#: src/formats.c:261
 msgid "Netherlands Antillian guilder"
 msgstr "Guilden Holandských antíl"
 
-#: src/formats.c:261
+#: src/formats.c:262
 msgid "[$AON]"
 msgstr "[$AON]"
 
-#: src/formats.c:261
+#: src/formats.c:262
 msgid "Angolan new kwanza"
 msgstr "Angolská nová kwanza"
 
-#: src/formats.c:262
+#: src/formats.c:263
 msgid "[$ARA]"
 msgstr "[$ARA]"
 
-#: src/formats.c:262
+#: src/formats.c:263
 msgid "Argentine peso"
 msgstr "Argentínske peso"
 
-#: src/formats.c:263
+#: src/formats.c:264
 msgid "[$ATS]"
 msgstr "[$ATS]"
 
-#: src/formats.c:263
+#: src/formats.c:264
 msgid "Austrian schilling"
 msgstr "Rakúsky šiling"
 
-#: src/formats.c:264
+#: src/formats.c:265
 msgid "[$AUD]"
 msgstr "[$AUD]"
 
-#: src/formats.c:264
+#: src/formats.c:265
 msgid "Australian dollar"
 msgstr "Austrálsky dolár"
 
-#: src/formats.c:265
+#: src/formats.c:266
 msgid "[$AWG]"
 msgstr "[$AWG]"
 
-#: src/formats.c:265
+#: src/formats.c:266
 msgid "Aruban guilder"
 msgstr "Arubský guilden"
 
-#: src/formats.c:266
+#: src/formats.c:267
 msgid "[$BBD]"
 msgstr "[$BBD]"
 
-#: src/formats.c:266
+#: src/formats.c:267
 msgid "Barbados dollar"
 msgstr "Barbadosský dolár"
 
-#: src/formats.c:267
+#: src/formats.c:268
 msgid "[$BDT]"
 msgstr "[$BDT]"
 
-#: src/formats.c:267
+#: src/formats.c:268
 msgid "Bangladeshi taka"
 msgstr "Bangladéžska taka"
 
-#: src/formats.c:268
+#: src/formats.c:269
 msgid "[$BEF]"
 msgstr "[$BEF]"
 
-#: src/formats.c:268
+#: src/formats.c:269
 msgid "Belgian franc"
 msgstr "Belgický frank"
 
-#: src/formats.c:269
+#: src/formats.c:270
 msgid "[$BGL]"
 msgstr "[$BGL]"
 
-#: src/formats.c:269
+#: src/formats.c:270
 msgid "Bulgarian lev"
 msgstr "Bulharský lev"
 
-#: src/formats.c:270
+#: src/formats.c:271
 msgid "[$BHD]"
 msgstr "[$BHD]"
 
-#: src/formats.c:270
+#: src/formats.c:271
 msgid "Bahraini dinar"
 msgstr "Bahrainský dinár"
 
-#: src/formats.c:271
+#: src/formats.c:272
 msgid "[$BIF]"
 msgstr "[$BIF]"
 
-#: src/formats.c:271
+#: src/formats.c:272
 msgid "Burundi franc"
 msgstr "Burundský frank"
 
-#: src/formats.c:272
+#: src/formats.c:273
 msgid "[$BMD]"
 msgstr "[$BMD]"
 
-#: src/formats.c:272
+#: src/formats.c:273
 msgid "Bermudian dollar"
 msgstr "Bermudský dolár"
 
-#: src/formats.c:273
+#: src/formats.c:274
 msgid "[$BND]"
 msgstr "[$BND]"
 
-#: src/formats.c:273
+#: src/formats.c:274
 msgid "Brunei dollar"
 msgstr "Bruneiský dolár"
 
-#: src/formats.c:274
+#: src/formats.c:275
 msgid "[$BOB]"
 msgstr "[$BOB]"
 
-#: src/formats.c:274
+#: src/formats.c:275
 msgid "Bolivian boliviano"
 msgstr "Bolívske boliviano"
 
-#: src/formats.c:275
+#: src/formats.c:276
 msgid "[$BRE]"
 msgstr "[$BRE]"
 
-#: src/formats.c:275
+#: src/formats.c:276
 msgid "Brazilian real"
 msgstr "Brazílsky real"
 
-#: src/formats.c:276
+#: src/formats.c:277
 msgid "[$BSD]"
 msgstr "[$BSD]"
 
-#: src/formats.c:276
+#: src/formats.c:277
 msgid "Bahamian dollar"
 msgstr "Bahamský dolár"
 
-#: src/formats.c:277
+#: src/formats.c:278
 msgid "[$BTN]"
 msgstr "[$BTN]"
 
-#: src/formats.c:277
+#: src/formats.c:278
 msgid "Bhutan ngultrum"
 msgstr "Bhutánsky ngultrum"
 
-#: src/formats.c:278
+#: src/formats.c:279
 msgid "[$BWP]"
 msgstr "[$BWP]"
 
-#: src/formats.c:278
+#: src/formats.c:279
 msgid "Botswanian pula"
 msgstr "Botswanská pula"
 
-#: src/formats.c:279
+#: src/formats.c:280
 msgid "[$BYB]"
 msgstr "[$BYB]"
 
-#: src/formats.c:279
+#: src/formats.c:280
 msgid "Belarussian ruble"
 msgstr "Beloruský rubeľ"
 
-#: src/formats.c:280
+#: src/formats.c:281
 msgid "[$BZD]"
 msgstr "[$BZD]"
 
-#: src/formats.c:280
+#: src/formats.c:281
 msgid "Belize dollar"
 msgstr "Belizský dolár"
 
-#: src/formats.c:281
+#: src/formats.c:282
 msgid "[$CAD]"
 msgstr "[$CAD]"
 
-#: src/formats.c:281
+#: src/formats.c:282
 msgid "Canadian dollar"
 msgstr "Kanadský dolár"
 
-#: src/formats.c:282
+#: src/formats.c:283
 msgid "[$CHF]"
 msgstr "[$CHF]"
 
-#: src/formats.c:282
+#: src/formats.c:283
 msgid "Swiss franc"
 msgstr "Švajčiarsky frank"
 
-#: src/formats.c:283
+#: src/formats.c:284
 msgid "[$CLP]"
 msgstr "[$CLP]"
 
-#: src/formats.c:283
+#: src/formats.c:284
 msgid "Chilean peso"
 msgstr "Chilské peso"
 
-#: src/formats.c:284
+#: src/formats.c:285
 msgid "[$CNY]"
 msgstr "[$CNY]"
 
-#: src/formats.c:284
+#: src/formats.c:285
 msgid "Chinese yuan renminbi"
 msgstr "Čínsky yuan renminbi"
 
-#: src/formats.c:285
+#: src/formats.c:286
 msgid "[$COP]"
 msgstr "[$COP]"
 
-#: src/formats.c:285
+#: src/formats.c:286
 msgid "Colombian peso"
 msgstr "Kolumbíjske peso"
 
-#: src/formats.c:286
+#: src/formats.c:287
 msgid "[$CRC]"
 msgstr "[$CRC]"
 
-#: src/formats.c:286
+#: src/formats.c:287
 msgid "Costa Rican colon"
 msgstr "Kostarický colon"
 
-#: src/formats.c:287
+#: src/formats.c:288
 msgid "[$CSK]"
 msgstr "[$CSK]"
 
-#: src/formats.c:287
+#: src/formats.c:288
 msgid "Czech Koruna"
 msgstr "Česká koruna"
 
-#: src/formats.c:288
+#: src/formats.c:289
 msgid "[$CUP]"
 msgstr "[$CUP]"
 
-#: src/formats.c:288
+#: src/formats.c:289
 msgid "Cuban peso"
 msgstr "Kubánske peso"
 
-#: src/formats.c:289
+#: src/formats.c:290
 msgid "[$CVE]"
 msgstr "[$CVE]"
 
-#: src/formats.c:289
+#: src/formats.c:290
 msgid "Cape Verde escudo"
 msgstr "Escudo Cape Verde"
 
-#: src/formats.c:290
+#: src/formats.c:291
 msgid "[$CYP]"
 msgstr "[$CYP]"
 
-#: src/formats.c:290
+#: src/formats.c:291
 msgid "Cyprus pound"
 msgstr "Cyperská libra"
 
-#: src/formats.c:291
+#: src/formats.c:292
 msgid "[$DEM]"
 msgstr "[$DEM]"
 
-#: src/formats.c:291
+#: src/formats.c:292
 msgid "Deutsche mark"
 msgstr "Nemecká marka"
 
-#: src/formats.c:292
+#: src/formats.c:293
 msgid "[$DJF]"
 msgstr "[$DJF]"
 
-#: src/formats.c:292
+#: src/formats.c:293
 msgid "Djibouti franc"
 msgstr "Džibutský frank"
 
-#: src/formats.c:293
+#: src/formats.c:294
 msgid "[$DKK]"
 msgstr "[$DKK]"
 
-#: src/formats.c:293
+#: src/formats.c:294
 msgid "Danish krone"
 msgstr "Dánska koruna"
 
-#: src/formats.c:294
+#: src/formats.c:295
 msgid "[$DOP]"
 msgstr "[$DOP]"
 
-#: src/formats.c:294
+#: src/formats.c:295
 msgid "Dominican peso"
 msgstr "Dominikánske peso"
 
-#: src/formats.c:295
+#: src/formats.c:296
 msgid "[$DZD]"
 msgstr "[$DZD]"
 
-#: src/formats.c:295
+#: src/formats.c:296
 msgid "Algerian dinar"
 msgstr "Alžírsky dinár"
 
-#: src/formats.c:296
+#: src/formats.c:297
 msgid "[$ECS]"
 msgstr "[$ECS]"
 
-#: src/formats.c:296
+#: src/formats.c:297
 msgid "Ecuador sucre"
 msgstr "Ekvádorský sucre"
 
-#: src/formats.c:297
+#: src/formats.c:298
 msgid "[$EGP]"
 msgstr "[$EGP]"
 
-#: src/formats.c:297
+#: src/formats.c:298
 msgid "Egyptian pound"
 msgstr "Egyptská libra"
 
-#: src/formats.c:298
+#: src/formats.c:299
 msgid "[$ESP]"
 msgstr "[$ESP]"
 
-#: src/formats.c:298
+#: src/formats.c:299
 msgid "Spanish peseta"
 msgstr "Španielska peseta"
 
-#: src/formats.c:299
+#: src/formats.c:300
 msgid "[$ETB]"
 msgstr "[$ETB]"
 
-#: src/formats.c:299
+#: src/formats.c:300
 msgid "Ethiopian birr"
 msgstr "Etiópsky birr"
 
-#: src/formats.c:300
+#: src/formats.c:301
 msgid "[$EUR]"
 msgstr "[$EUR]"
 
-#: src/formats.c:300
+#: src/formats.c:301
 msgid "Euro"
 msgstr "Euro"
 
-#: src/formats.c:301
+#: src/formats.c:302
 msgid "[$FIM]"
 msgstr "[$FIM]"
 
-#: src/formats.c:301
+#: src/formats.c:302
 msgid "Finnish markka"
 msgstr "Fínska marka"
 
-#: src/formats.c:302
+#: src/formats.c:303
 msgid "[$FJD]"
 msgstr "[$FJD]"
 
-#: src/formats.c:302
+#: src/formats.c:303
 msgid "Fiji dollar"
 msgstr "Dolár Fidži"
 
-#: src/formats.c:303
+#: src/formats.c:304
 msgid "[$FKP]"
 msgstr "[$FKP]"
 
-#: src/formats.c:303
+#: src/formats.c:304
 msgid "Falkland Islands pound"
 msgstr "Libra Falklandských ostrovov"
 
-#: src/formats.c:304
+#: src/formats.c:305
 msgid "[$FRF]"
 msgstr "[$FRF]"
 
-#: src/formats.c:304
+#: src/formats.c:305
 msgid "French franc"
 msgstr "Francúzsky frank"
 
-#: src/formats.c:305
+#: src/formats.c:306
 msgid "[$GBP]"
 msgstr "[$GBP]"
 
-#: src/formats.c:305
+#: src/formats.c:306
 msgid "UK pound sterling"
 msgstr "Anglická libra"
 
-#: src/formats.c:306
+#: src/formats.c:307
 msgid "[$GHC]"
 msgstr "[$GHC]"
 
-#: src/formats.c:306
+#: src/formats.c:307
 msgid "Ghanaian cedi"
 msgstr "Ghanský cedi"
 
-#: src/formats.c:307
+#: src/formats.c:308
 msgid "[$GIP]"
 msgstr "[$GIP]"
 
-#: src/formats.c:307
+#: src/formats.c:308
 msgid "Gibraltar pound"
 msgstr "Gibraltarská libra"
 
-#: src/formats.c:308
+#: src/formats.c:309
 msgid "[$GMD]"
 msgstr "[$GMD]"
 
-#: src/formats.c:308
+#: src/formats.c:309
 msgid "Gambian dalasi"
 msgstr "Gambský dalasi"
 
-#: src/formats.c:309
+#: src/formats.c:310
 msgid "[$GNF]"
 msgstr "[$GNF]"
 
-#: src/formats.c:309
+#: src/formats.c:310
 msgid "Guinea franc"
 msgstr "Guinejský frank"
 
-#: src/formats.c:310
+#: src/formats.c:311
 msgid "[$GRD]"
 msgstr "[$GRD]"
 
-#: src/formats.c:310
+#: src/formats.c:311
 msgid "Greek drachma"
 msgstr "Grécka drachma"
 
-#: src/formats.c:311
+#: src/formats.c:312
 msgid "[$GTQ]"
 msgstr "[$GTQ]"
 
-#: src/formats.c:311
+#: src/formats.c:312
 msgid "Guatemalan quetzal"
 msgstr "Guatemalský quetzal"
 
-#: src/formats.c:312
+#: src/formats.c:313
 msgid "[$GWP]"
 msgstr "[$GWP]"
 
-#: src/formats.c:312
+#: src/formats.c:313
 msgid "Guinea-Bissau peso"
 msgstr "Guinea-Bissau peso"
 
-#: src/formats.c:313
+#: src/formats.c:314
 msgid "[$GYD]"
 msgstr "[$GYD]"
 
-#: src/formats.c:313
+#: src/formats.c:314
 msgid "Guyanan dollar"
 msgstr "Guajanský dolár"
 
-#: src/formats.c:314
+#: src/formats.c:315
 msgid "[$HKD]"
 msgstr "[$HKD]"
 
-#: src/formats.c:314
+#: src/formats.c:315
 msgid "Hong Kong dollar"
 msgstr "Hongkongský dolár"
 
-#: src/formats.c:315
+#: src/formats.c:316
 msgid "[$HNL]"
 msgstr "[$HNL]"
 
-#: src/formats.c:315
+#: src/formats.c:316
 msgid "Honduran lempira"
 msgstr "Hondurasská lempira"
 
-#: src/formats.c:316
+#: src/formats.c:317
 msgid "[$HRK]"
 msgstr "[$HRK]"
 
-#: src/formats.c:316
+#: src/formats.c:317
 msgid "Croatian kuna"
 msgstr "Chorvátska kuna"
 
-#: src/formats.c:317
+#: src/formats.c:318
 msgid "[$HTG]"
 msgstr "[$HTG]"
 
-#: src/formats.c:317
+#: src/formats.c:318
 msgid "Haitian gourde"
 msgstr "Haitský gourde"
 
-#: src/formats.c:318
+#: src/formats.c:319
 msgid "[$HUF]"
 msgstr "[$HUF]"
 
-#: src/formats.c:318
+#: src/formats.c:319
 msgid "Hungarian forint"
 msgstr "Maďarský forint"
 
-#: src/formats.c:319
+#: src/formats.c:320
 msgid "[$IDR]"
 msgstr "[$IDR]"
 
-#: src/formats.c:319
+#: src/formats.c:320
 msgid "Indonesian rupiah"
 msgstr "Indonézska rupia"
 
-#: src/formats.c:320
+#: src/formats.c:321
 msgid "[$IEP]"
 msgstr "[$IEP]"
 
-#: src/formats.c:320
+#: src/formats.c:321
 msgid "Irish punt"
 msgstr "Írska libra"
 
-#: src/formats.c:321
+#: src/formats.c:322
 msgid "[$IEX]"
 msgstr "[$IEX]"
 
-#: src/formats.c:321
+#: src/formats.c:322
 msgid "Irish pence ***"
 msgstr "Irish pence ***"
 
-#: src/formats.c:322
+#: src/formats.c:323
 msgid "[$ILS]"
 msgstr "[$ILS]"
 
-#: src/formats.c:322
+#: src/formats.c:323
 msgid "Israeli shekel"
 msgstr "Izraelský šekel"
 
-#: src/formats.c:323
+#: src/formats.c:324
 msgid "[$INR]"
 msgstr "[$INR]"
 
-#: src/formats.c:323
+#: src/formats.c:324
 msgid "Indian rupee"
 msgstr "Indická rupia"
 
-#: src/formats.c:324
+#: src/formats.c:325
 msgid "[$IQD]"
 msgstr "[$IQD]"
 
-#: src/formats.c:324
+#: src/formats.c:325
 msgid "Iraqi dinar"
 msgstr "Irácky dinár"
 
-#: src/formats.c:325
+#: src/formats.c:326
 msgid "[$IRR]"
 msgstr "[$IRR]"
 
-#: src/formats.c:325
+#: src/formats.c:326
 msgid "Iranian rial"
 msgstr "Iránsky rial"
 
-#: src/formats.c:326
+#: src/formats.c:327
 msgid "[$ISK]"
 msgstr "[$ISK]"
 
-#: src/formats.c:326
+#: src/formats.c:327
 msgid "Iceland krona"
 msgstr "Islandská koruna"
 
-#: src/formats.c:327
+#: src/formats.c:328
 msgid "[$ITL]"
 msgstr "[$ITL]"
 
-#: src/formats.c:327
+#: src/formats.c:328
 msgid "Italian lira"
 msgstr "Talianska líra"
 
-#: src/formats.c:328
+#: src/formats.c:329
 msgid "[$JMD]"
 msgstr "[$JMD]"
 
-#: src/formats.c:328
+#: src/formats.c:329
 msgid "Jamaican dollar"
 msgstr "Jamajský dolár"
 
-#: src/formats.c:329
+#: src/formats.c:330
 msgid "[$JOD]"
 msgstr "[$JOD]"
 
-#: src/formats.c:329
+#: src/formats.c:330
 msgid "Jordanian dinar"
 msgstr "Jordánsky dinár"
 
-#: src/formats.c:330
+#: src/formats.c:331
 msgid "[$JPY]"
 msgstr "[$JPY]"
 
-#: src/formats.c:330
+#: src/formats.c:331
 msgid "Japanese yen"
 msgstr "Japonský jen"
 
-#: src/formats.c:331
+#: src/formats.c:332
 msgid "[$KES]"
 msgstr "[$KES]"
 
-#: src/formats.c:331
+#: src/formats.c:332
 msgid "Kenyan shilling"
 msgstr "Keňský šiling"
 
-#: src/formats.c:332
+#: src/formats.c:333
 msgid "[$KHR]"
 msgstr "[$KHR]"
 
-#: src/formats.c:332
+#: src/formats.c:333
 msgid "Kampuchean riel"
 msgstr "Kambodžský riel"
 
-#: src/formats.c:333
+#: src/formats.c:334
 msgid "[$KMF]"
 msgstr "[$KMF]"
 
-#: src/formats.c:333
+#: src/formats.c:334
 msgid "Comoros franc"
 msgstr "Komorský frank"
 
-#: src/formats.c:334
+#: src/formats.c:335
 msgid "[$KPW]"
 msgstr "[$KPW]"
 
-#: src/formats.c:334
+#: src/formats.c:335
 msgid "North Korean won"
 msgstr "Severokórejský won"
 
-#: src/formats.c:335
+#: src/formats.c:336
 msgid "[$KRW]"
 msgstr "[$KRW]"
 
-#: src/formats.c:335
+#: src/formats.c:336
 msgid "Republic of Korea won"
 msgstr "Juhokórejský won"
 
-#: src/formats.c:336
+#: src/formats.c:337
 msgid "[$KWD]"
 msgstr "[$KWD]"
 
-#: src/formats.c:336
+#: src/formats.c:337
 msgid "Kuwaiti dinar"
 msgstr "Kuvajtský dinár"
 
-#: src/formats.c:337
+#: src/formats.c:338
 msgid "[$KYD]"
 msgstr "[$KYD]"
 
-#: src/formats.c:337
+#: src/formats.c:338
 msgid "Cayman Islands dollar"
 msgstr "Dolár Kajmanských ostrovov"
 
-#: src/formats.c:338
+#: src/formats.c:339
 msgid "[$LAK]"
 msgstr "[$LAK]"
 
-#: src/formats.c:338
+#: src/formats.c:339
 msgid "Lao kip"
 msgstr "Laoský kip"
 
-#: src/formats.c:339
+#: src/formats.c:340
 msgid "[$LBP]"
 msgstr "[$LBP]"
 
-#: src/formats.c:339
+#: src/formats.c:340
 msgid "Lebanese pound"
 msgstr "Libanonská libra"
 
-#: src/formats.c:340
+#: src/formats.c:341
 msgid "[$LKR]"
 msgstr "[$LKR]"
 
-#: src/formats.c:340
+#: src/formats.c:341
 msgid "Sri Lanka rupee"
 msgstr "Srílanská rupia"
 
-#: src/formats.c:341
+#: src/formats.c:342
 msgid "[$LRD]"
 msgstr "[$LRD]"
 
-#: src/formats.c:341
+#: src/formats.c:342
 msgid "Liberian dollar"
 msgstr "Libériský dolár"
 
-#: src/formats.c:342
+#: src/formats.c:343
 msgid "[$LSL]"
 msgstr "[$LSL]"
 
-#: src/formats.c:342
+#: src/formats.c:343
 msgid "Lesotho loti"
 msgstr "Lesotský loti"
 
-#: src/formats.c:343
+#: src/formats.c:344
 msgid "[$LUF]"
 msgstr "[$LUF]"
 
-#: src/formats.c:343
+#: src/formats.c:344
 msgid "Luxembourg franc"
 msgstr "Luxemburský frank"
 
-#: src/formats.c:344
+#: src/formats.c:345
 msgid "[$LYD]"
 msgstr "[$LYD]"
 
-#: src/formats.c:344
+#: src/formats.c:345
 msgid "Libyan dinar"
 msgstr "Libyjský dinár"
 
-#: src/formats.c:345
+#: src/formats.c:346
 msgid "[$MAD]"
 msgstr "[$MAD]"
 
-#: src/formats.c:345
+#: src/formats.c:346
 msgid "Moroccan dirham"
 msgstr "Marocký dirham"
 
-#: src/formats.c:346
+#: src/formats.c:347
 msgid "[$MDL]"
 msgstr "[$MDL]"
 
-#: src/formats.c:346
+#: src/formats.c:347
 msgid "Moldovan leu"
 msgstr "Moldávsky leu"
 
-#: src/formats.c:347
+#: src/formats.c:348
 msgid "[$MGF]"
 msgstr "[$MGF]"
 
-#: src/formats.c:347
+#: src/formats.c:348
 msgid "Malagasy franc"
 msgstr "Malagský frank"
 
-#: src/formats.c:348
+#: src/formats.c:349
 msgid "[$MLF]"
 msgstr "[$MLF]"
 
-#: src/formats.c:348
+#: src/formats.c:349
 msgid "Mali franc"
 msgstr "Mali frank"
 
-#: src/formats.c:349
+#: src/formats.c:350
 msgid "[$MMK]"
 msgstr "[$MMK]"
 
-#: src/formats.c:349
+#: src/formats.c:350
 msgid "Myanmar kyat"
 msgstr "Myanmarský kyat"
 
-#: src/formats.c:350
+#: src/formats.c:351
 msgid "[$MNT]"
 msgstr "[$MNT]"
 
-#: src/formats.c:350
+#: src/formats.c:351
 msgid "Mongolian tugrik"
 msgstr "Mongolský tugrik"
 
-#: src/formats.c:351
+#: src/formats.c:352
 msgid "[$MOP]"
 msgstr "[$MOP]"
 
-#: src/formats.c:351
+#: src/formats.c:352
 msgid "Macau pataca"
 msgstr "Makauská pataca"
 
-#: src/formats.c:352
+#: src/formats.c:353
 msgid "[$MRO]"
 msgstr "[$MRO]"
 
-#: src/formats.c:352
+#: src/formats.c:353
 msgid "Mauritanian ouguiya"
 msgstr "Mauretánksa ouguiya"
 
-#: src/formats.c:353
+#: src/formats.c:354
 msgid "[$MTL]"
 msgstr "[$MTL]"
 
-#: src/formats.c:353
+#: src/formats.c:354
 msgid "Maltese lira"
 msgstr "Maltezska líra"
 
-#: src/formats.c:354
+#: src/formats.c:355
 msgid "[$MUR]"
 msgstr "[$MUR]"
 
-#: src/formats.c:354
+#: src/formats.c:355
 msgid "Mauritius rupee"
 msgstr "Maurícijská rupia"
 
-#: src/formats.c:355
+#: src/formats.c:356
 msgid "[$MVR]"
 msgstr "[$MVR]"
 
-#: src/formats.c:355
+#: src/formats.c:356
 msgid "Maldive rupee"
 msgstr "Maledivská rupia"
 
-#: src/formats.c:356
+#: src/formats.c:357
 msgid "[$MWK]"
 msgstr "[$MWK]"
 
-#: src/formats.c:356
+#: src/formats.c:357
 msgid "Malawi kwacha"
 msgstr "Malawská kwacha"
 
-#: src/formats.c:357
+#: src/formats.c:358
 msgid "[$MXP]"
 msgstr "[$MXP]"
 
-#: src/formats.c:357
+#: src/formats.c:358
 msgid "Mexican peso"
 msgstr "Mexický peso"
 
-#: src/formats.c:358
+#: src/formats.c:359
 msgid "[$MYR]"
 msgstr "[$MYR]"
 
-#: src/formats.c:358
+#: src/formats.c:359
 msgid "Malaysian ringgit"
 msgstr "Majaský ringgit"
 
-#: src/formats.c:359
+#: src/formats.c:360
 msgid "[$MZM]"
 msgstr "[$MZM]"
 
-#: src/formats.c:359
+#: src/formats.c:360
 msgid "Mozambique metical"
 msgstr "Mozambický metical"
 
-#: src/formats.c:360
+#: src/formats.c:361
 msgid "[$NGN]"
 msgstr "[$NGN]"
 
-#: src/formats.c:360
+#: src/formats.c:361
 msgid "Nigerian naira"
 msgstr "Nigérijská naira"
 
-#: src/formats.c:361
+#: src/formats.c:362
 msgid "[$NIO]"
 msgstr "[$NIO]"
 
-#: src/formats.c:361
+#: src/formats.c:362
 msgid "Nicaraguan cordoba oro"
 msgstr "Nikaragujská cordoba oro"
 
-#: src/formats.c:362
+#: src/formats.c:363
 msgid "[$NLG]"
 msgstr "[$NLG]"
 
-#: src/formats.c:362
+#: src/formats.c:363
 msgid "Netherlands guilder"
 msgstr "Holandský guilden"
 
-#: src/formats.c:363
+#: src/formats.c:364
 msgid "[$NOK]"
 msgstr "[$NOK]"
 
-#: src/formats.c:363
+#: src/formats.c:364
 msgid "Norwegian krone"
 msgstr "Nórska koruna"
 
-#: src/formats.c:364
+#: src/formats.c:365
 msgid "[$NPR]"
 msgstr "[$NPR]"
 
-#: src/formats.c:364
+#: src/formats.c:365
 msgid "Nepalese rupee"
 msgstr "Nepálska rupia"
 
-#: src/formats.c:365
+#: src/formats.c:366
 msgid "[$NZD]"
 msgstr "[$NZD]"
 
-#: src/formats.c:365
+#: src/formats.c:366
 msgid "New Zealand dollar"
 msgstr "Novozélandský dolár"
 
-#: src/formats.c:366
+#: src/formats.c:367
 msgid "[$OMR]"
 msgstr "[$OMR]"
 
-#: src/formats.c:366
+#: src/formats.c:367
 msgid "Rial Omani"
 msgstr "Ománsky rial"
 
-#: src/formats.c:367
+#: src/formats.c:368
 msgid "[$PAB]"
 msgstr "[$PAB]"
 
-#: src/formats.c:367
+#: src/formats.c:368
 msgid "Panamanian balboa"
 msgstr "Panamská balboa"
 
-#: src/formats.c:368
+#: src/formats.c:369
 msgid "[$PEI]"
 msgstr "[$PEI]"
 
-#: src/formats.c:368
+#: src/formats.c:369
 msgid "Peruvian inti"
 msgstr "Peruánsky inti"
 
-#: src/formats.c:369
+#: src/formats.c:370
 msgid "[$PGK]"
 msgstr "[$PGK]"
 
-#: src/formats.c:369
+#: src/formats.c:370
 msgid "Papua New Guinea kina"
 msgstr "Kina Papui Novej Guinei"
 
-#: src/formats.c:370
+#: src/formats.c:371
 msgid "[$PHP]"
 msgstr "[$PHP]"
 
-#: src/formats.c:370
+#: src/formats.c:371
 msgid "Philippino peso"
 msgstr "Filipínsky peso"
 
-#: src/formats.c:371
+#: src/formats.c:372
 msgid "[$PKR]"
 msgstr "[$PKR]"
 
-#: src/formats.c:371
+#: src/formats.c:372
 msgid "Pakistan rupee"
 msgstr "Pakistánska rupia"
 
-#: src/formats.c:372
+#: src/formats.c:373
 msgid "[$PLZ]"
 msgstr "[$PLZ]"
 
-#: src/formats.c:372
+#: src/formats.c:373
 msgid "Polish zloty"
 msgstr "Poľský zlotý"
 
-#: src/formats.c:373
+#: src/formats.c:374
 msgid "[$PTE]"
 msgstr "[$PTE]"
 
-#: src/formats.c:373
+#: src/formats.c:374
 msgid "Portuguese escudo"
 msgstr "Portugalský escudo"
 
-#: src/formats.c:374
+#: src/formats.c:375
 msgid "[$PYG]"
 msgstr "[$PYG]"
 
-#: src/formats.c:374
+#: src/formats.c:375
 msgid "Paraguay guarani"
 msgstr "Paraguajský guarani"
 
-#: src/formats.c:375
+#: src/formats.c:376
 msgid "[$QAR]"
 msgstr "[$QAR]"
 
-#: src/formats.c:375
+#: src/formats.c:376
 msgid "Qatari rial"
 msgstr "Katarský rial"
 
-#: src/formats.c:376
+#: src/formats.c:377
 msgid "[$ROL]"
 msgstr "[$ROL]"
 
-#: src/formats.c:376
+#: src/formats.c:377
 msgid "Romanian leu"
 msgstr "Rumunský lev"
 
-#: src/formats.c:377
+#: src/formats.c:378
 msgid "[$RUR]"
 msgstr "[$RUR]"
 
-#: src/formats.c:377
+#: src/formats.c:378
 msgid "Russian ruble"
 msgstr "Ruský rubeľ"
 
-#: src/formats.c:378
+#: src/formats.c:379
 msgid "[$RWF]"
 msgstr "[$RWF]"
 
-#: src/formats.c:378
+#: src/formats.c:379
 msgid "Rwanda franc"
 msgstr "Rwandský frank"
 
-#: src/formats.c:379
+#: src/formats.c:380
 msgid "[$SAR]"
 msgstr "[$SAR]"
 
-#: src/formats.c:379
+#: src/formats.c:380
 msgid "Saudi Arabian riyal"
 msgstr "Saudskoarabský rial"
 
-#: src/formats.c:380
+#: src/formats.c:381
 msgid "[$SBD]"
 msgstr "[$SBD]"
 
-#: src/formats.c:380
+#: src/formats.c:381
 msgid "Solomon Islands dollar"
 msgstr "Dolár Solomonových ostrovov"
 
-#: src/formats.c:381
+#: src/formats.c:382
 msgid "[$SCR]"
 msgstr "[$SCR]"
 
-#: src/formats.c:381
+#: src/formats.c:382
 msgid "Seychelles rupee"
 msgstr "Sekelská rupia"
 
-#: src/formats.c:382
+#: src/formats.c:383
 msgid "[$SDP]"
 msgstr "[$SDP]"
 
-#: src/formats.c:382
+#: src/formats.c:383
 msgid "Sudanese pound"
 msgstr "Sudánska libra"
 
-#: src/formats.c:383
+#: src/formats.c:384
 msgid "[$SEK]"
 msgstr "[$SEK]"
 
-#: src/formats.c:383
+#: src/formats.c:384
 msgid "Swedish krona"
 msgstr "Švédska koruna"
 
-#: src/formats.c:384
+#: src/formats.c:385
 msgid "[$SGD]"
 msgstr "[$SGD]"
 
-#: src/formats.c:384
+#: src/formats.c:385
 msgid "Singapore dollar"
 msgstr "Singapurský dolár"
 
-#: src/formats.c:385
+#: src/formats.c:386
 msgid "[$SHP]"
 msgstr "[$SHP]"
 
-#: src/formats.c:385
+#: src/formats.c:386
 msgid "St.Helena pound"
 msgstr "Libra Ostrova Sv. Heleny"
 
-#: src/formats.c:386
+#: src/formats.c:387
 msgid "[$SIT]"
 msgstr "[$SIT]"
 
-#: src/formats.c:386
+#: src/formats.c:387
 msgid "Slovenia tolar"
 msgstr "Slovinský tolar"
 
-#: src/formats.c:387
+#: src/formats.c:388
 msgid "[$SLL]"
 msgstr "[$SLL]"
 
-#: src/formats.c:387
+#: src/formats.c:388
 msgid "Sierra Leone leone"
 msgstr "Leone Siery Leone"
 
-#: src/formats.c:388
+#: src/formats.c:389
 msgid "[$SOS]"
 msgstr "[$SOS]"
 
-#: src/formats.c:388
+#: src/formats.c:389
 msgid "Somali shilling"
 msgstr "Somálsky šiling"
 
-#: src/formats.c:389
+#: src/formats.c:390
 msgid "[$SRG]"
 msgstr "[$SRG]"
 
-#: src/formats.c:389
+#: src/formats.c:390
 msgid "Suriname guilder"
 msgstr "Surinamský guilden"
 
-#: src/formats.c:390
+#: src/formats.c:391
 msgid "[$STD]"
 msgstr "[$STD]"
 
-#: src/formats.c:390
+#: src/formats.c:391
 msgid "Sao Tome and Principe dobra"
 msgstr "Dobra Sao Tome a Principe"
 
-#: src/formats.c:391
+#: src/formats.c:392
 msgid "[$SUR]"
 msgstr "[$SUR]"
 
-#: src/formats.c:391
+#: src/formats.c:392
 msgid "USSR rouble"
 msgstr "Ruský rubeľ"
 
-#: src/formats.c:392
+#: src/formats.c:393
 msgid "[$SVC]"
 msgstr "[$SVC]"
 
-#: src/formats.c:392
+#: src/formats.c:393
 msgid "El Salvador colon"
 msgstr "Salvádorský colon"
 
-#: src/formats.c:393
+#: src/formats.c:394
 msgid "[$SYP]"
 msgstr "[$SYP]"
 
-#: src/formats.c:393
+#: src/formats.c:394
 msgid "Syrian pound"
 msgstr "Sýrska libra"
 
-#: src/formats.c:394
+#: src/formats.c:395
 msgid "[$SZL]"
 msgstr "[$SZL]"
 
-#: src/formats.c:394
+#: src/formats.c:395
 msgid "Swaziland lilangeni"
 msgstr "Swazilský lilangeni"
 
-#: src/formats.c:395
+#: src/formats.c:396
 msgid "[$THB]"
 msgstr "[$THB]"
 
-#: src/formats.c:395
+#: src/formats.c:396
 msgid "Thai baht"
 msgstr "Thajský baht"
 
-#: src/formats.c:396
+#: src/formats.c:397
 msgid "[$TND]"
 msgstr "[$TND]"
 
-#: src/formats.c:396
+#: src/formats.c:397
 msgid "Tunisian dinar"
 msgstr "Tuniský dinár"
 
-#: src/formats.c:397
+#: src/formats.c:398
 msgid "[$TOP]"
 msgstr "[$TOP]"
 
-#: src/formats.c:397
+#: src/formats.c:398
 msgid "Tongan pa'anga"
 msgstr "Tongan pa'anga"
 
-#: src/formats.c:398
+#: src/formats.c:399
 msgid "[$TPE]"
 msgstr "[$TPE]"
 
-#: src/formats.c:398
+#: src/formats.c:399
 msgid "East Timor escudo"
 msgstr "Východotimorský escudo"
 
-#: src/formats.c:399
+#: src/formats.c:400
 msgid "[$TRL]"
 msgstr "[$TRL]"
 
-#: src/formats.c:399
+#: src/formats.c:400
 msgid "Turkish lira"
 msgstr "Turecká líra"
 
-#: src/formats.c:400
+#: src/formats.c:401
 msgid "[$TTD]"
 msgstr "[$TTD]"
 
-#: src/formats.c:400
+#: src/formats.c:401
 msgid "Trinidad and Tobago dollar"
 msgstr "Dolár Trinidad a Tobago"
 
-#: src/formats.c:401
+#: src/formats.c:402
 msgid "[$TWD]"
 msgstr "[$TWD]"
 
-#: src/formats.c:401
+#: src/formats.c:402
 msgid "New Taiwan dollar"
 msgstr "Nový taiwanský dolár"
 
-#: src/formats.c:402
+#: src/formats.c:403
 msgid "[$TZS]"
 msgstr "[$TZS]"
 
-#: src/formats.c:402
+#: src/formats.c:403
 msgid "Tanzanian shilling"
 msgstr "Tanzánsky šiling"
 
-#: src/formats.c:403
+#: src/formats.c:404
 msgid "[$UAH]"
 msgstr "[$UAH]"
 
-#: src/formats.c:403
+#: src/formats.c:404
 msgid "Ukrainian hryvnia"
 msgstr "Ukrajinská hrivna"
 
-#: src/formats.c:404
+#: src/formats.c:405
 msgid "[$UGX]"
 msgstr "[$UGX]"
 
-#: src/formats.c:404
+#: src/formats.c:405
 msgid "Ugandan shilling"
 msgstr "Ugandský šiling"
 
-#: src/formats.c:405
+#: src/formats.c:406
 msgid "[$USD]"
 msgstr "[$USD]"
 
-#: src/formats.c:405
+#: src/formats.c:406
 msgid "US dollar"
 msgstr "Americký dolár"
 
-#: src/formats.c:406
+#: src/formats.c:407
 msgid "[$UYP]"
 msgstr "[$UYP]"
 
-#: src/formats.c:406
+#: src/formats.c:407
 msgid "Uruguayan peso"
 msgstr "Uruguajský peso"
 
-#: src/formats.c:407
+#: src/formats.c:408
 msgid "[$VEB]"
 msgstr "[$VEB]"
 
-#: src/formats.c:407
+#: src/formats.c:408
 msgid "Venezuelan bolivar"
 msgstr "Venezuelský bolivar"
 
-#: src/formats.c:408
+#: src/formats.c:409
 msgid "[$VND]"
 msgstr "[$VND]"
 
-#: src/formats.c:408
+#: src/formats.c:409
 msgid "Vietnamese dong"
 msgstr "Vietnamský dong"
 
-#: src/formats.c:409
+#: src/formats.c:410
 msgid "[$VUV]"
 msgstr "[$VUV]"
 
-#: src/formats.c:409
+#: src/formats.c:410
 msgid "Vanuatu vatu"
 msgstr "Vanuatský vatu"
 
-#: src/formats.c:410
+#: src/formats.c:411
 msgid "[$WST]"
 msgstr "[$WST]"
 
-#: src/formats.c:410
+#: src/formats.c:411
 msgid "Samoan tala"
 msgstr "Samojská tala"
 
-#: src/formats.c:411
+#: src/formats.c:412
 msgid "[$XCD]"
 msgstr "[$XCD]"
 
-#: src/formats.c:411
+#: src/formats.c:412
 msgid "East Caribbean dollar"
 msgstr "Východokaribský dolár"
 
-#: src/formats.c:412
+#: src/formats.c:413
 msgid "[$XEU]"
 msgstr "[$XEU]"
 
-#: src/formats.c:412
+#: src/formats.c:413
 msgid "European currency unit"
 msgstr "ECU"
 
-#: src/formats.c:413
+#: src/formats.c:414
 msgid "[$YDD]"
 msgstr "[$YDD]"
 
-#: src/formats.c:413
+#: src/formats.c:414
 msgid "Democratic Yemeni dinar"
 msgstr "Dinár Demokratického jemenu"
 
-#: src/formats.c:414
+#: src/formats.c:415
 msgid "[$YER]"
 msgstr "[$YER]"
 
-#: src/formats.c:414
+#: src/formats.c:415
 msgid "Yemeni rial"
 msgstr "Jemenský rial"
 
-#: src/formats.c:415
+#: src/formats.c:416
 msgid "[$YUN]"
 msgstr "[$YUN]"
 
-#: src/formats.c:415
+#: src/formats.c:416
 msgid "New Yugoslavia dinar"
 msgstr "Nový juhoslovanský dinár"
 
-#: src/formats.c:416
+#: src/formats.c:417
 msgid "[$ZAL]"
 msgstr "[$ZAL]"
 
-#: src/formats.c:416
+#: src/formats.c:417
 msgid "South African rand funds code"
 msgstr "Kód juhoafrickeho randu"
 
-#: src/formats.c:417
+#: src/formats.c:418
 msgid "[$ZAR]"
 msgstr "[$ZAR]"
 
-#: src/formats.c:417
+#: src/formats.c:418
 msgid "South African rand"
 msgstr "Juhoafrický rand"
 
-#: src/formats.c:418
+#: src/formats.c:419
 msgid "[$ZMK]"
 msgstr "[$ZMK]"
 
-#: src/formats.c:418
+#: src/formats.c:419
 msgid "Zambian kwacha"
 msgstr "Zambská kwacha"
 
-#: src/formats.c:419
+#: src/formats.c:420
 msgid "[$ZRZ]"
 msgstr "[$ZRZ]"
 
-#: src/formats.c:419
+#: src/formats.c:420
 msgid "Zaire Zaire"
 msgstr "Zairský Zaire"
 
-#: src/formats.c:420
+#: src/formats.c:421
 msgid "[$ZWD]"
 msgstr "[$ZWD]"
 
-#: src/formats.c:420
+#: src/formats.c:421
 msgid "Zimbabwe dollar"
 msgstr "Zimbabwský dolár"
 
-#: src/formats.c:552
+#: src/formats.c:553
 msgid "[Red]"
 msgstr "[Red]"
 
-#: src/func.c:126
+#: src/func.c:127
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Nemôžem vytvoriť súbor %s\n"
 
-#: src/func.c:283
+#: src/func.c:284
 msgid "Function implementation not available."
 msgstr "Implementácia funkcie nie je k dispozícii."
 
-#: src/func.c:499
+#: src/func.c:500
 msgid "Unknown Function"
 msgstr "Neznáma funkcia"
 
-#: src/func.c:850
+#: src/func.c:851
 msgid "Function does not exist"
 msgstr "Funkcia neexistuje"
 
@@ -13329,7 +13323,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-sheet.c:141 src/workbook.c:1034 src/xml-io.c:2943
+#: src/functions/fn-sheet.c:141 src/workbook.c:1032 src/xml-io.c:2943
 msgid "Sheet"
 msgstr "List"
 
@@ -16215,7 +16209,7 @@ msgstr "Formát ako Číslo"
 msgid "Format as Currency"
 msgstr "Formát ako Peniaze"
 
-#: src/gnumeric-canvas.c:102 src/workbook-format-toolbar.c:311
+#: src/gnumeric-canvas.c:102 src/workbook-format-toolbar.c:309
 msgid "Format as Percentage"
 msgstr "Formát ako percentá"
 
@@ -16244,11 +16238,11 @@ msgstr "Súbor \"%s\" má neznámy formát."
 msgid "Data..."
 msgstr "Dáta..."
 
-#: src/gui-clipboard.c:53
+#: src/gui-clipboard.c:54
 msgid "Error while trying to pre-convert clipboard data"
 msgstr "Chyba pri pokuse o prevod dát zo schránky"
 
-#: src/gui-clipboard.c:60
+#: src/gui-clipboard.c:61
 #, c-format
 msgid ""
 "The data on the clipboard does not seem to be valid text.\n"
@@ -16259,7 +16253,7 @@ msgstr ""
 "Bol nájdený znak '%c' (ASCII hodnota %d).\n"
 "Vaše nastavenie národného prostredia asi nie je v poriadku."
 
-#: src/gui-clipboard.c:101
+#: src/gui-clipboard.c:102
 msgid "Parse error while trying to parse data into cellregion"
 msgstr "Chyba pri preklade dát do oblasti listu"
 
@@ -16334,19 +16328,19 @@ msgstr "Načítať súbor"
 msgid "Which file format would you like?"
 msgstr "Ktorý formát súboru chcete?"
 
-#: src/gui-util.c:274
+#: src/gui-util.c:279
 msgid "Multiple errors"
 msgstr "Viacnásobné chyby"
 
-#: src/gui-util.c:305
+#: src/gui-util.c:310
 msgid "Detailed error message"
 msgstr "Detailná chybová správa"
 
-#: src/gui-util.c:366
+#: src/gui-util.c:371
 msgid "Show details"
 msgstr "Zobraziť detaily"
 
-#: src/gui-util.c:847
+#: src/gui-util.c:874
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Súbor '%s' sa nedá otvoriť"
@@ -16357,11 +16351,11 @@ msgstr "Súbor '%s' sa nedá otvoriť"
 #. * 'Print Preview...' item in the
 #. * 'File' menu
 #.
-#: src/history.c:127
+#: src/history.c:129
 msgid "_File/Print Pre_view..."
 msgstr "_Súbor/Ná_hľad pred tlačou..."
 
-#: src/history.c:225
+#: src/history.c:227
 msgid "File/"
 msgstr "Súbor/"
 
@@ -16416,55 +16410,55 @@ msgstr "Posunúť bunky dopra_va a presunúť"
 msgid "C_ancel"
 msgstr "_Zrušiť"
 
-#: src/main.c:80
+#: src/main.c:81
 msgid "Display Gnumeric's version"
 msgstr "Vypísať verziu Gnumericu"
 
-#: src/main.c:82
+#: src/main.c:83
 msgid "Set the root library directory"
 msgstr "Nastaviť koreňový priečinok knižníc"
 
-#: src/main.c:84
+#: src/main.c:85
 msgid "Adjust the root data directory"
 msgstr "Prispôsobiť koreňový priečinok dát"
 
-#: src/main.c:87
+#: src/main.c:88
 msgid "Dumps the function definitions"
 msgstr "Vypísať definície funkcií"
 
-#: src/main.c:87
+#: src/main.c:88
 msgid "FILE"
 msgstr "SÚBOR"
 
-#: src/main.c:90
+#: src/main.c:91
 msgid "Enables some debugging functions"
 msgstr "Povoliť niektoré odlaďovacie funkcie"
 
-#: src/main.c:90 src/main.c:93 src/main.c:95
+#: src/main.c:91 src/main.c:94 src/main.c:96
 msgid "LEVEL"
 msgstr "ÚROVEŇ"
 
-#: src/main.c:93
+#: src/main.c:94
 msgid "Enables some dependency related debugging functions"
 msgstr "Povoliť niektoré odlaďovacie funkcie týkajúce sa závislostí"
 
-#: src/main.c:95
+#: src/main.c:96
 msgid "Enables some print debugging behavior"
 msgstr "Povoliť niektoré odlaďovacie funkcie tlače"
 
-#: src/main.c:98
+#: src/main.c:99
 msgid "Specify the size and location of the initial window"
 msgstr "Určenie veľkosti a umiestnenia počiatočného okna"
 
-#: src/main.c:98
+#: src/main.c:99
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "ŠÍRKAxVÝŠKA+XPOS+YPOS"
 
-#: src/main.c:102
+#: src/main.c:103
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr "Skončiť hneď po načítaní vybraných zošitov (výhodné pri testovaní)."
 
-#: src/main.c:131
+#: src/main.c:132
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -16489,7 +16483,7 @@ msgstr ""
 "\n"
 "-- Tím Gnumericu."
 
-#: src/main.c:187
+#: src/main.c:188
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -16500,11 +16494,11 @@ msgstr ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 
-#: src/main.c:247
+#: src/main.c:248
 msgid "Could not initialize Workbook factory"
 msgstr "Nemôžem inicializovať factory pre zošit"
 
-#: src/main.c:251
+#: src/main.c:252
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Nemôžem inicializovať factory EmbeddableGrid"
 
@@ -16678,8 +16672,8 @@ msgstr "Chyba počas načítavania modulu."
 msgid "Initializing function inside plugin returned error."
 msgstr "Inicializačná funkcia v module vrátila chybu."
 
-#: src/plugin-service.c:129 src/plugin-service.c:1075
-#: src/plugin-service.c:1303
+#: src/plugin-service.c:129 src/plugin-service.c:1072
+#: src/plugin-service.c:1300
 msgid "Error while loading plugin service."
 msgstr "Chyba počas načítavania modulu služby."
 
@@ -16725,7 +16719,7 @@ msgstr "Chýbajúce meno kategórie funkcie."
 msgid "Missing loader id."
 msgstr "Chýbajúce id otvárača."
 
-#: src/plugin-service.c:1198
+#: src/plugin-service.c:1195
 #, c-format
 msgid "Error while reading service of type \"%s\"."
 msgstr "Chyby pri čítaní služieb typu \"%s\"."
@@ -16786,111 +16780,111 @@ msgstr "Chyba pri príprave loadera \"%s\"."
 msgid "Unsupported loader type \"%s\"."
 msgstr "Nepodporovaný typ loadera \"%s\"."
 
-#: src/plugin.c:628
+#: src/plugin.c:624
 #, c-format
 msgid "Error while reading service #%d info."
 msgstr "Chyba pri čítaní informácií o službe #%d."
 
-#: src/plugin.c:680
+#: src/plugin.c:676
 msgid "Unspecified loader type."
 msgstr "Nezadaný typ loadera."
 
-#: src/plugin.c:729
+#: src/plugin.c:725
 #, c-format
 msgid "Can't read plugin info file (\"%s\")."
 msgstr "Nie je možné prečítať súbor s informáciu o module (\"%s\")."
 
-#: src/plugin.c:733
+#: src/plugin.c:729
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
 msgstr "Súbor \"%s\" nie je platný súbor s informáciou o module."
 
-#: src/plugin.c:816
+#: src/plugin.c:812
 msgid "Plugin has no id."
 msgstr "Modul nemá id."
 
-#: src/plugin.c:825
+#: src/plugin.c:821
 msgid "Unknown plugin name."
 msgstr "Neznáme meno modulu."
 
-#: src/plugin.c:830
+#: src/plugin.c:826
 #, c-format
 msgid "Errors while reading loader info for plugin with id=\"%s\"."
 msgstr "Chyba pri čítaní informácie o loaderi modulu s id=\"%s\"."
 
-#: src/plugin.c:835
+#: src/plugin.c:831
 #, c-format
 msgid "No loader defined for plugin with id=\"%s\"."
 msgstr "Pre modul s id=\"%s\" nie je definovaný loader."
 
-#: src/plugin.c:843
+#: src/plugin.c:839
 #, c-format
 msgid "Errors while reading services for plugin with id=\"%s\"."
 msgstr "Chyby pri čítaní služieb pre modul s id=\"%s\"."
 
-#: src/plugin.c:848
+#: src/plugin.c:844
 #, c-format
 msgid "No services defined for plugin with id=\"%s\"."
 msgstr "Pre modul s id=\"%s\" nie sú definované služby."
 
-#: src/plugin.c:998
+#: src/plugin.c:994
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
 msgstr "Chyba počas inicializácie loadera modulu (\"%s\")."
 
-#: src/plugin.c:1039
+#: src/plugin.c:1035
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which couldn't be activated."
 msgstr "Závisíme na module s id=\"%s\", ktorý nie je možné aktivovať."
 
-#: src/plugin.c:1046 src/plugin.c:1234
+#: src/plugin.c:1042 src/plugin.c:1230
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which is not available."
 msgstr "Závisíme na module s id=\"%s\", ktorý nie je k dispozícii."
 
-#: src/plugin.c:1059
+#: src/plugin.c:1055
 #, c-format
 msgid "Error while activating plugin service #%d."
 msgstr "Chyba pri aktivácii služby modulu #%d."
 
-#: src/plugin.c:1099
+#: src/plugin.c:1095
 #, c-format
 msgid "Error while deactivating plugin service #%d."
 msgstr "Chyba počas deaktivácie služby modulu #%d."
 
-#: src/plugin.c:1170 src/plugin.c:1220
+#: src/plugin.c:1166 src/plugin.c:1216
 msgid "Cannot load plugin loader."
 msgstr "Nie je možné načítať loader modulu."
 
-#: src/plugin.c:1227
+#: src/plugin.c:1223
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which couldn't be loaded."
 msgstr "Závisíme na module s id=\"%s\", ktorý nie je možné načítať."
 
-#: src/plugin.c:1310
+#: src/plugin.c:1306
 #, c-format
 msgid "Errors occurred while reading plugin informations from file \"%s\"."
 msgstr "Nastali chyby pri načítavaní informácií o module zo súboru \"%s\"."
 
-#: src/plugin.c:1472
+#: src/plugin.c:1468
 #, c-format
 msgid "Couldn't activate plugin \"%s\" (ID: %s)."
 msgstr "Nie je možné aktivovať modul \"%s\" (ID: %s)."
 
-#: src/plugin.c:1511
+#: src/plugin.c:1507
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
 msgstr "Nie je možné deaktivovať modul \"%s\" (ID: %s)."
 
-#: src/plugin.c:1722
+#: src/plugin.c:1718
 msgid "Errors while reading info about available plugins."
 msgstr "Chyby pri čítaní informácií o dostupných moduloch."
 
-#: src/plugin.c:1728
+#: src/plugin.c:1724
 msgid "Errors while activating plugins."
 msgstr "Chyba pri aktivácii modulov."
 
-#: src/plugin.c:1734
+#: src/plugin.c:1730
 msgid "Errors while initializing plugin system."
 msgstr "Chyby poča inicializácie systému modulov."
 
@@ -17026,17 +17020,7 @@ msgstr "Neplatné spätné lomítko na konci v náhrade."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "nedá sa vykonať s viacnásobným výberom"
 
-#: src/sheet-control-gui.c:560
-#, c-format
-msgid "Row: %s"
-msgstr "Riadok: %s"
-
-#: src/sheet-control-gui.c:578
-#, c-format
-msgid "Column: %s"
-msgstr "Stĺpec: %s"
-
-#: src/sheet-control-gui.c:1403
+#: src/sheet-control-gui.c:1384
 msgid "Paste _Special"
 msgstr "Vložiť _inak"
 
@@ -17047,41 +17031,41 @@ msgstr "Vložiť _inak"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1415
+#: src/sheet-control-gui.c:1396
 msgid "_Insert..."
 msgstr "_Pridať..."
 
-#: src/sheet-control-gui.c:1419
+#: src/sheet-control-gui.c:1400
 msgid "_Insert Column(s)"
 msgstr "_Vložiť stĺpce"
 
-#: src/sheet-control-gui.c:1421
+#: src/sheet-control-gui.c:1402
 msgid "_Delete Column(s)"
 msgstr "_Odstrániť stĺpce"
 
-#: src/sheet-control-gui.c:1423
+#: src/sheet-control-gui.c:1404
 msgid "_Insert Row(s)"
 msgstr "_Vložiť riadky"
 
-#: src/sheet-control-gui.c:1425
+#: src/sheet-control-gui.c:1406
 msgid "_Delete Row(s)"
 msgstr "_Odstrániť riadky"
 
-#: src/sheet-control-gui.c:1428
+#: src/sheet-control-gui.c:1409
 msgid "Clear Co_ntents"
 msgstr "Vymazať _obsah"
 
-#: src/sheet-control-gui.c:1434
+#: src/sheet-control-gui.c:1415
 msgid "_Format Cells..."
 msgstr "_Formát buniek..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1438
+#: src/sheet-control-gui.c:1419
 msgid "Column _Width..."
 msgstr "Ší_rka stĺpca..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1446
+#: src/sheet-control-gui.c:1427
 msgid "_Row Height..."
 msgstr "_Výška riadku..."
 
@@ -17089,7 +17073,7 @@ msgstr "_Výška riadku..."
 msgid "There is already a merged region that intersects"
 msgstr "Už existuje spojená oblasť, ktorá sa pretína"
 
-#: src/sheet-object-bonobo.c:242
+#: src/sheet-object-bonobo.c:241
 msgid "Open..."
 msgstr "Otvoriť..."
 
@@ -17139,40 +17123,53 @@ msgstr "Vzdialenosť od konca šipky do koncového bodu, pozdĺž držadla"
 msgid "Distance of trailing point from outside edge of shaft"
 msgstr "Vzdialenosť koncového bodu od vonkajšieho okraja držadla"
 
-#: src/sheet-object-graphic.c:841
+#: src/sheet-object-graphic.c:842
 msgid "Configure filled object"
 msgstr "Nastaví vyplnený objekt"
 
-#: src/sheet-object-graphic.c:853
+#: src/sheet-object-graphic.c:854
 msgid "Outline color"
 msgstr "Farba okrajov"
 
-#: src/sheet-object-graphic.c:855
+#: src/sheet-object-graphic.c:856
 msgid "Fill color"
 msgstr "Farba výplne"
 
-#: src/sheet-object-graphic.c:857
+#: src/sheet-object-graphic.c:858
 msgid "Border width"
 msgstr "Šírka okrajov"
 
-#: src/sheet-object-graphic.c:863 src/sheet-object-graphic.c:869
+#: src/sheet-object-graphic.c:864 src/sheet-object-graphic.c:870
 msgid "Transparent"
 msgstr "Priesvitný"
 
-#: src/sheet-object-widget.c:727
+#: src/sheet-object-widget.c:724
 msgid "Scrollbar Configure"
 msgstr "Nastavenie posuvníka"
 
-#: src/sheet-object-widget.c:743 src/sheet-object-widget.c:1209
-msgid "Link to :"
+#: src/sheet-object-widget.c:740 src/sheet-object-widget.c:1206
+#, fuzzy
+msgid "Link to:"
 msgstr "Odkaz na:"
 
-#: src/sheet-object-widget.c:757
-msgid "Increment :"
+#: src/sheet-object-widget.c:746
+#, fuzzy
+msgid "Min:"
+msgstr "Min :"
+
+#: src/sheet-object-widget.c:750
+#, fuzzy
+msgid "Max:"
+msgstr "Max :"
+
+#: src/sheet-object-widget.c:754
+#, fuzzy
+msgid "Increment:"
 msgstr "Zvýšenie:"
 
-#: src/sheet-object-widget.c:761
-msgid "Page :"
+#: src/sheet-object-widget.c:758
+#, fuzzy
+msgid "Page:"
 msgstr "Stránka:"
 
 #: src/sheet-object-widget.c:968
@@ -17180,12 +17177,13 @@ msgstr "Stránka:"
 msgid "CheckBox %d"
 msgstr "Zaškrtávacie tlačidlo %d"
 
-#: src/sheet-object-widget.c:1194
+#: src/sheet-object-widget.c:1191
 msgid "Checkbox Configure"
 msgstr "Nastavenie zaškrtávacieho tlačidla"
 
-#: src/sheet-object-widget.c:1213
-msgid "Label :"
+#: src/sheet-object-widget.c:1210
+#, fuzzy
+msgid "Label:"
 msgstr "Návestie:"
 
 #: src/sheet.c:2122
@@ -17358,21 +17356,24 @@ msgstr ""
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Chyba pri načítavaní dát do listu"
 
-#: src/stf.c:416
+#: src/stf.c:394
 msgid "Error while trying to write csv file"
 msgstr "Chyba pri zápise csv súboru"
 
-#: src/stf.c:438
-msgid "Text File import (customizable)"
-msgstr "Import textového súboru (upraviteľné)"
-
-#: src/stf.c:441
-msgid "Text File import (default csv)"
+#: src/stf.c:410
+#, fuzzy
+msgid "Text import (defaults to csv)"
 msgstr "Import textového súboru (štandardne csv)"
 
-#: src/stf.c:446
-msgid "Text File Export (*.csv)"
-msgstr "Export textového súboru (*.csv)"
+#: src/stf.c:414
+#, fuzzy
+msgid "Text import (configurable)"
+msgstr "Import textového súboru (upraviteľné)"
+
+#: src/stf.c:418
+#, fuzzy
+msgid "Text export (configurable)"
+msgstr "Import textového súboru (upraviteľné)"
 
 #: src/style.c:284 src/style.c:286
 msgid "<Has not been set>"
@@ -17433,32 +17434,42 @@ msgstr "Vaša mapa písiem fontmap2 neobsahuje platné informácie o Helvetica."
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "Vaša mapa písiem fontmap2 nebola nájdená na očakávanom mieste."
 
-#: src/validation.c:139
+#: src/validation.c:138
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Bunka %s nesmie byť prázdna"
 
-#: src/validation.c:159
+#: src/validation.c:152
 #, c-format
 msgid "'%f' is not an integer"
 msgstr "'%f' nie je celé číslo"
 
-#: src/validation.c:169
-#, c-format
-msgid "'%f' is not a number"
-msgstr "'%f' nie je číslo"
+#: src/validation.c:162
+#, fuzzy, c-format
+msgid "'%s' is an error"
+msgstr "'%s' nie je číslo"
 
-#: src/validation.c:176
+#: src/validation.c:170
+#, fuzzy, c-format
+msgid "'%s' is not a valid date"
+msgstr "'%f' nie je celé číslo"
+
+#: src/validation.c:172
+#, fuzzy, c-format
+msgid "'%s' is not a valid time"
+msgstr "'%s' nie je číslo"
+
+#: src/validation.c:174
 #, c-format
 msgid "'%s' is not a number"
 msgstr "'%s' nie je číslo"
 
-#: src/validation.c:260
+#: src/validation.c:266
 #, c-format
 msgid "%s is not true."
 msgstr "%s neplatí."
 
-#: src/validation.c:273
+#: src/validation.c:279
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
@@ -17466,7 +17477,7 @@ msgstr ""
 "Hodnota nie je platná.\n"
 "Na obsah tejto bunky sú kladené obmedzenia."
 
-#: src/validation.c:280
+#: src/validation.c:286
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric: Overenie"
 
@@ -17474,11 +17485,11 @@ msgstr "Gnumeric: Overenie"
 msgid "Terminate"
 msgstr "Ukončiť"
 
-#: src/widgets/widget-font-selector.c:115
+#: src/widgets/widget-font-selector.c:116
 msgid "Bold italic"
 msgstr "Tučné šikmé"
 
-#: src/widgets/widget-font-selector.c:116 src/workbook-format-toolbar.c:419
+#: src/widgets/widget-font-selector.c:117 src/workbook-format-toolbar.c:417
 msgid "Italic"
 msgstr "Šikmé"
 
@@ -17510,28 +17521,28 @@ msgstr "Štandardná šírka stĺpca musí byť väčšia ako %d."
 msgid "The default row height must be > %d."
 msgstr "Štandardná výška riadku musí byť väčšia ako %d."
 
-#: src/workbook-control-gui.c:295
+#: src/workbook-control-gui.c:296
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: src/workbook-control-gui.c:417
+#: src/workbook-control-gui.c:418
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Ste si istý, že chcete odstrániť list nazvaný `%s'?"
 
-#: src/workbook-control-gui.c:471
+#: src/workbook-control-gui.c:472
 msgid "Duplicate this sheet"
 msgstr "Vytvoriť kópiu tohto listu"
 
-#: src/workbook-control-gui.c:473
+#: src/workbook-control-gui.c:474
 msgid "Rename this sheet"
 msgstr "Premenovať tento list"
 
-#: src/workbook-control-gui.c:474
+#: src/workbook-control-gui.c:475
 msgid "Re-order sheets"
 msgstr "Utriediť listy"
 
-#: src/workbook-control-gui.c:475
+#: src/workbook-control-gui.c:476
 msgid "Remove this sheet"
 msgstr "Odstráň tento list"
 
@@ -17544,12 +17555,12 @@ msgid "Un_freeze Panes"
 msgstr "Od_mraziť rozdelenie okna"
 
 #: src/workbook-control-gui.c:1020 src/workbook-control-gui.c:3177
-#: src/workbook-control-gui.c:3372 src/workbook-control-gui.c:3393
+#: src/workbook-control-gui.c:3372 src/workbook-control-gui.c:3394
 msgid "Undo"
 msgstr "Vrátiť späť"
 
 #: src/workbook-control-gui.c:1021 src/workbook-control-gui.c:3180
-#: src/workbook-control-gui.c:3379 src/workbook-control-gui.c:3396
+#: src/workbook-control-gui.c:3379 src/workbook-control-gui.c:3397
 msgid "Redo"
 msgstr "Opakovať vrátené"
 
@@ -17756,43 +17767,43 @@ msgid ""
 "selected."
 msgstr "Utriedi vybranú oblasť zostupne podľa prvého vybraného stĺpca"
 
-#: src/workbook-control-gui.c:3359 src/workbook-control-gui.c:3399
+#: src/workbook-control-gui.c:3360 src/workbook-control-gui.c:3400
 msgid "Zoom"
 msgstr "Mierka"
 
-#: src/workbook-control-gui.c:3802
+#: src/workbook-control-gui.c:3806
 msgid "Min"
 msgstr "Min"
 
-#: src/workbook-control-gui.c:3803
+#: src/workbook-control-gui.c:3807
 msgid "Max"
 msgstr "Max"
 
-#: src/workbook-control-gui.c:3804
+#: src/workbook-control-gui.c:3808
 msgid "Average"
 msgstr "Priemer"
 
-#: src/workbook-control-gui.c:3805
+#: src/workbook-control-gui.c:3809
 msgid "Count"
 msgstr "Počet"
 
-#: src/workbook-control-gui.c:4133
+#: src/workbook-control-gui.c:4139
 msgid "Send"
 msgstr "Poslať"
 
-#: src/workbook-control-gui.c:4133
+#: src/workbook-control-gui.c:4139
 msgid "Send the current file in email"
 msgstr "Pošle aktuálny súbor e-mailom"
 
-#: src/workbook-control-gui.c:4335
+#: src/workbook-control-gui.c:4341
 msgid "Re-Edit"
 msgstr "Znovu upraviť"
 
-#: src/workbook-control-gui.c:4336 src/workbook-control-gui.c:4341
+#: src/workbook-control-gui.c:4342 src/workbook-control-gui.c:4347
 msgid "Discard"
 msgstr "Zahodiť"
 
-#: src/workbook-control-gui.c:4340
+#: src/workbook-control-gui.c:4346
 msgid "Accept"
 msgstr "Akceptovať"
 
@@ -17804,151 +17815,143 @@ msgstr "Definovať meno"
 msgid "Address"
 msgstr "Adresa"
 
-#: src/workbook-edit.c:116
-msgid "Edit Expression"
-msgstr "Upraviť výraz"
-
-#: src/workbook-edit.c:116
-msgid "Discard Expression"
-msgstr "Zahodiť výraz"
-
-#: src/workbook-format-toolbar.c:86
+#: src/workbook-format-toolbar.c:84
 msgid "Set Horizontal Alignment"
 msgstr "Nastaviť horizontálne zarovnanie"
 
-#: src/workbook-format-toolbar.c:183
+#: src/workbook-format-toolbar.c:181
 msgid "Set Font Style"
 msgstr "Nastaviť štýl písma"
 
-#: src/workbook-format-toolbar.c:250
+#: src/workbook-format-toolbar.c:248
 msgid "Set Font"
 msgstr "Nastaviť písmo"
 
-#: src/workbook-format-toolbar.c:283
+#: src/workbook-format-toolbar.c:281
 msgid "Set Font Size"
 msgstr "Nastaviť veľkosť písma"
 
-#: src/workbook-format-toolbar.c:305
+#: src/workbook-format-toolbar.c:303
 msgid "Format as Money"
 msgstr "Formát ako Peniaze"
 
-#: src/workbook-format-toolbar.c:318
+#: src/workbook-format-toolbar.c:316
 msgid "Format with thousands separator"
 msgstr "Formát s oddeľovačom tisícov"
 
-#: src/workbook-format-toolbar.c:347
+#: src/workbook-format-toolbar.c:345
 msgid "Increase precision"
 msgstr "Zvýšiť presnosť"
 
-#: src/workbook-format-toolbar.c:353
+#: src/workbook-format-toolbar.c:351
 msgid "Decrease precision"
 msgstr "Znížiť presnosť"
 
-#: src/workbook-format-toolbar.c:409
+#: src/workbook-format-toolbar.c:407
 msgid "Select font"
 msgstr "Vyberte písmo"
 
-#: src/workbook-format-toolbar.c:412
+#: src/workbook-format-toolbar.c:410
 msgid "Sets the bold font"
 msgstr "Zmení písmo na tučné"
 
-#: src/workbook-format-toolbar.c:419
+#: src/workbook-format-toolbar.c:417
 msgid "Makes the font italic"
 msgstr "Zmení písmo na šikmé"
 
-#: src/workbook-format-toolbar.c:426
+#: src/workbook-format-toolbar.c:424
 msgid "Underlines the font"
 msgstr "Podčiarknuté písmo"
 
-#: src/workbook-format-toolbar.c:435
+#: src/workbook-format-toolbar.c:433
 msgid "Left align"
 msgstr "Zarovnať doľava"
 
-#: src/workbook-format-toolbar.c:435
+#: src/workbook-format-toolbar.c:433
 msgid "Left justifies the cell contents"
 msgstr "Zarovná obsah buniek doľava"
 
-#: src/workbook-format-toolbar.c:439
+#: src/workbook-format-toolbar.c:437
 msgid "Centers the cell contents"
 msgstr "Zarovná obsah buniek na stred"
 
-#: src/workbook-format-toolbar.c:443
+#: src/workbook-format-toolbar.c:441
 msgid "Right align"
 msgstr "Zarovnať doprava"
 
-#: src/workbook-format-toolbar.c:443
+#: src/workbook-format-toolbar.c:441
 msgid "Right justifies the cell contents"
 msgstr "Zarovná obsah buniek doprava"
 
-#: src/workbook-format-toolbar.c:447
+#: src/workbook-format-toolbar.c:445
 msgid "Center across selection"
 msgstr "Na stred výberu"
 
-#: src/workbook-format-toolbar.c:460
+#: src/workbook-format-toolbar.c:458
 msgid "Money format"
 msgstr "Peňažné"
 
-#: src/workbook-format-toolbar.c:469
+#: src/workbook-format-toolbar.c:467
 msgid "Add decimals"
 msgstr "Pridať desatinné miesta"
 
-#: src/workbook-format-toolbar.c:472
+#: src/workbook-format-toolbar.c:470
 msgid "Remove decimals"
 msgstr "Odstrániť desatinné miesta"
 
-#: src/workbook-format-toolbar.c:535
+#: src/workbook-format-toolbar.c:533
 msgid "Set Foreground Color"
 msgstr "Nastaviť farbu popredia"
 
-#: src/workbook-format-toolbar.c:569
+#: src/workbook-format-toolbar.c:567
 msgid "Set Background Color"
 msgstr "Nastaviť farbu pozadia"
 
-#: src/workbook-format-toolbar.c:630
+#: src/workbook-format-toolbar.c:616
 msgid "Clear Borders"
 msgstr "Vymazať okraje"
 
-#: src/workbook-format-toolbar.c:633
+#: src/workbook-format-toolbar.c:619
 msgid "All Borders"
 msgstr "Všetky okraje"
 
-#: src/workbook-format-toolbar.c:634
+#: src/workbook-format-toolbar.c:620
 msgid "Outside Borders"
 msgstr "Vonkajšie okraje"
 
-#: src/workbook-format-toolbar.c:635
+#: src/workbook-format-toolbar.c:621
 msgid "Thick Outside Borders"
 msgstr "Tučné vonkajšie okraje"
 
-#: src/workbook-format-toolbar.c:637
+#: src/workbook-format-toolbar.c:623
 msgid "Bottom"
 msgstr "Dole"
 
-#: src/workbook-format-toolbar.c:638
+#: src/workbook-format-toolbar.c:624
 msgid "Double Bottom"
 msgstr "Dvojitý dole"
 
-#: src/workbook-format-toolbar.c:639
+#: src/workbook-format-toolbar.c:625
 msgid "Thick Bottom"
 msgstr "Tučný dole"
 
-#: src/workbook-format-toolbar.c:641
+#: src/workbook-format-toolbar.c:627
 msgid "Top and Bottom"
 msgstr "Hore a dole"
 
-#: src/workbook-format-toolbar.c:642
+#: src/workbook-format-toolbar.c:628
 msgid "Top and Double Bottom"
 msgstr "Hore a dvojitý dole"
 
-#: src/workbook-format-toolbar.c:643
+#: src/workbook-format-toolbar.c:629
 msgid "Top and Thick Bottom"
 msgstr "Hore a tučný dole"
 
-#: src/workbook-format-toolbar.c:728
+#: src/workbook-format-toolbar.c:714
 msgid "Set Borders"
 msgstr "Nastaviť okraje"
 
-#: src/workbook-format-toolbar.c:777
+#: src/workbook-format-toolbar.c:763
 msgid "Size"
 msgstr "Veľkosť"
 
@@ -18029,20 +18032,20 @@ msgstr "V zošite nie sú listy."
 msgid "Unsupported file format."
 msgstr "Nepodporovaný formát súborov."
 
-#: src/workbook.c:417
+#: src/workbook.c:419
 #, c-format
 msgid "Book%d.%s"
 msgstr "Zošit%d.%s"
 
-#: src/workbook.c:1191
+#: src/workbook.c:1189
 msgid "Sheet name"
 msgstr "Meno listu"
 
-#: src/workbook.c:1192
+#: src/workbook.c:1190
 msgid "must have at least 1 letter"
 msgstr "musí mať aspoň jedno písmeno"
 
-#: src/workbook.c:1205
+#: src/workbook.c:1203
 msgid "There is already a sheet named"
 msgstr "Už existuje list s menom"
 
@@ -18073,3 +18076,26 @@ msgstr "Nie je súbor so zošitom Gnumeric"
 msgid "Gnumeric XML file format"
 msgstr "Súborový formát Gnumeric XML"
 
+#~ msgid "Are you sure you want to remove the template '%s' ?"
+#~ msgstr "Naozaj chcete odstrániť šablónu '%s'?"
+
+#~ msgid "Could not remove template"
+#~ msgstr "Nie je možné odstrániť šablónu"
+
+#~ msgid "Row: %s"
+#~ msgstr "Riadok: %s"
+
+#~ msgid "Column: %s"
+#~ msgstr "Stĺpec: %s"
+
+#~ msgid "Text File Export (*.csv)"
+#~ msgstr "Export textového súboru (*.csv)"
+
+#~ msgid "'%f' is not a number"
+#~ msgstr "'%f' nie je číslo"
+
+#~ msgid "Edit Expression"
+#~ msgstr "Upraviť výraz"
+
+#~ msgid "Discard Expression"
+#~ msgstr "Zahodiť výraz"

@@ -321,7 +321,7 @@ reset :
 	/* the entire string */
 	while (*text) {
 		int pos_size;
-		
+
 		if (*text == '\n') {
 			text_offsets = g_slist_prepend (text_offsets,
 				GINT_TO_POINTER (text - start));
@@ -538,19 +538,19 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	item_edit->scg = GTK_VALUE_POINTER (*arg);
 	sheet = ((SheetControl *) item_edit->scg)->sheet;
-	item_edit->entry = GTK_ENTRY (wbcg_get_entry (item_edit->scg->wbcg));
+	item_edit->entry = wbcg_get_entry (item_edit->scg->wbcg);
 	item_edit->pos = sheet->edit_pos;
 
 	entry = item_edit->entry;
-	item_edit->signal_changed = gtk_signal_connect (
-		GTK_OBJECT (entry), "changed",
-		GTK_SIGNAL_FUNC (entry_changed), item_edit);
-	item_edit->signal_key_press = gtk_signal_connect_after (
-		GTK_OBJECT (entry), "key-press-event",
-		GTK_SIGNAL_FUNC (entry_event), item_edit);
-	item_edit->signal_button_press = gtk_signal_connect_after (
-		GTK_OBJECT (entry), "button-press-event",
-		GTK_SIGNAL_FUNC (entry_event), item_edit);
+	item_edit->signal_changed = g_signal_connect (G_OBJECT (entry),
+		"changed",
+		G_CALLBACK (entry_changed), item_edit);
+	item_edit->signal_key_press = g_signal_connect_after (G_OBJECT (entry),
+		"key-press-event",
+		G_CALLBACK (entry_event), item_edit);
+	item_edit->signal_button_press = g_signal_connect_after (G_OBJECT (entry),
+		"button-press-event",
+		G_CALLBACK (entry_event), item_edit);
 
 	scan_for_range (item_edit, "");
 
@@ -612,28 +612,9 @@ item_edit_class_init (ItemEditClass *item_edit_class)
 	item_class->event       = item_edit_event;
 }
 
-GtkType
-item_edit_get_type (void)
-{
-	static GtkType item_edit_type = 0;
-
-	if (!item_edit_type) {
-		GtkTypeInfo item_edit_info = {
-			"ItemEdit",
-			sizeof (ItemEdit),
-			sizeof (ItemEditClass),
-			(GtkClassInitFunc) item_edit_class_init,
-			(GtkObjectInitFunc) item_edit_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		item_edit_type = gtk_type_unique (gnome_canvas_item_get_type (), &item_edit_info);
-	}
-
-	return item_edit_type;
-}
+E_MAKE_TYPE (item_edit, "ItemEdit", ItemEdit,
+	     item_edit_class_init, item_edit_init,
+	     GNOME_TYPE_CANVAS_ITEM);
 
 void
 item_edit_disable_highlight (ItemEdit *item_edit)

@@ -68,7 +68,7 @@ get_value_from_smob (SCM value_smob)
 
 int
 scm_i_scm2bool (SCM obj)
-{ 
+{
   return (SCM_FALSEP (obj)) ? 0 : 1;
 }
 
@@ -98,7 +98,7 @@ make_value (SCM scm)
 
 	if (SCM_BOOLP (scm))
 		v = value_new_bool ((gboolean) scm_i_scm2bool (scm));
-	
+
 	value = (SCM_Value *) scm_must_malloc (sizeof (SCM_Value), "value");
 	value->v = v;
 	value->update_func = SCM_BOOL_F;
@@ -238,7 +238,7 @@ scm_value_get_as_float (SCM value_smob)
 		return gh_double2scm (value_get_as_float (v->v));
 		*/
 		return scm_i_dbl2big (value_get_as_float (v->v));
-	
+
 	return SCM_EOL;
 }
 

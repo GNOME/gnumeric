@@ -2,8 +2,9 @@
 #define GNUMERIC_DIALOG_STF_H
 
 #include "dialog-stf-preview.h"
+#include "gui-util.h"
 #include <stf-parse.h>
-#include <glade/glade.h>
+#include <libgnomeui/libgnomeui.h>
 
 #define LINE_DISPLAY_LIMIT 128
 #define RAW_LINE_DISPLAY_LIMIT 4096
@@ -26,7 +27,7 @@ typedef struct {
 
 	/* Page members that are created at run-time */
 	GnomeCanvasText *main_run_text;
-	GnomeCanvasRect *main_run_rect;
+	GnomeCanvasItem *main_run_rect;
 } MainInfo_t;
 
 /* for the csv_page */

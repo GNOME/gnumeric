@@ -247,33 +247,31 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 		g_object_set_property (G_OBJECT (gentry), "history_id", &val);
 	}
 
-	dd->rangetext = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (wbcg));
-	gnumeric_expr_entry_set_flags (dd->rangetext, 0, GNUM_EE_MASK);
+	dd->rangetext = gnumeric_expr_entry_new (wbcg, TRUE);
+	gnm_expr_entry_set_flags (dd->rangetext, 0, GNUM_EE_MASK);
 	hbox = GTK_BOX (glade_xml_get_widget (gui, "range_hbox"));
 	gtk_box_pack_start (hbox, GTK_WIDGET (dd->rangetext),
 			    TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET (dd->rangetext));
 
-	gtk_signal_connect (GTK_OBJECT (glade_xml_get_widget (gui, "ok_button")),
-			    "clicked",
-			    GTK_SIGNAL_FUNC (ok_clicked),
-			    dd);
-	gtk_signal_connect (GTK_OBJECT (glade_xml_get_widget (gui, "cancel_button")),
-			    "clicked",
-			    GTK_SIGNAL_FUNC (cancel_clicked),
-			    dd);
-	gtk_signal_connect (GTK_OBJECT (dialog),
-			    "destroy",
-			    GTK_SIGNAL_FUNC (dialog_destroy),
-			    dd);
-	gtk_signal_connect (GTK_OBJECT (dialog), "set-focus",
-			    GTK_SIGNAL_FUNC (set_focus), dd);
-	gtk_signal_connect (GTK_OBJECT (dd->rangetext), "focus-in-event",
-			    GTK_SIGNAL_FUNC (range_focused), dd);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "ok_button")),
+		"clicked",
+		G_CALLBACK (ok_clicked), dd);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "cancel_button")),
+		"clicked",
+		G_CALLBACK (cancel_clicked), dd);
+	g_signal_connect (G_OBJECT (dialog),
+		"destroy",
+		G_CALLBACK (dialog_destroy), dd);
+	g_signal_connect (GTK_OBJECT (dialog),
+		"set-focus",
+		G_CALLBACK (set_focus), dd);
+	g_signal_connect (GTK_OBJECT (dd->rangetext),
+		"focus-in-event",
+		G_CALLBACK (range_focused), dd);
 
 	gtk_widget_show_all (dialog->vbox);
-	gnumeric_expr_entry_set_scg (dd->rangetext,
-				     wbcg_cur_scg (wbcg));
+	gnm_expr_entry_set_scg (dd->rangetext, wbcg_cur_scg (wbcg));
 	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (dialog));
 
 	non_model_dialog (wbcg, dialog, SEARCH_REPLACE_KEY);

@@ -36,10 +36,10 @@ dialog_choose_cols_vs_rows (WorkbookControlGUI *wbcg, const char *title,
 		gtk_object_destroy (GTK_OBJECT (gui));
 		return FALSE;
 	}
-	
+
 	rows = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "rows"));
 	gtk_window_set_title (GTK_WINDOW (dialog), title);
-		
+
 	switch (gnumeric_dialog_run (wbcg, dialog)){
 	case 1:		/* cancel */
 		res = FALSE;
@@ -51,10 +51,10 @@ dialog_choose_cols_vs_rows (WorkbookControlGUI *wbcg, const char *title,
 		res = TRUE;
 		*is_cols = !gtk_toggle_button_get_active (rows);
 	}
-	
+
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 	gtk_object_destroy (GTK_OBJECT (gui));
-	
+
 	return res;
 }
 
@@ -86,7 +86,7 @@ dialog_get_number (WorkbookControlGUI *wbcg,
 
 		gtk_entry_set_text (GTK_ENTRY (entry), buffer);
 	}
-	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_EDITABLE (entry));
+	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (entry));
 
 	switch (gnumeric_dialog_run (wbcg, dialog)){
 	case 1:			/* cancel */

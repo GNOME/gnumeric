@@ -39,6 +39,7 @@
 #include <command-context.h>
 #include <workbook-control.h>
 #include <workbook.h>
+#include <workbook-edit.h>
 #include <commands.h>
 #include <selection.h>
 #include <ranges.h>
@@ -75,8 +76,8 @@ typedef struct {
 	WorkbookControlGUI *wbcg;
 	GladeXML	   *gui;
 	PreviewGrid        *grid[NUM_PREVIEWS];              /* Previewgrid's */
-	GnomeCanvasRect    *rect[NUM_PREVIEWS];              /* Centering rectangles */
-	GnomeCanvasRect    *selrect;                         /* Selection rectangle */
+	GnomeCanvasItem    *rect[NUM_PREVIEWS];              /* Centering rectangles */
+	GnomeCanvasItem    *selrect;                         /* Selection rectangle */
 	GSList             *templates;                       /* List of FormatTemplate's */
 	FormatTemplate     *selected_template;               /* The currently selected template */
 	GList              *category_groups;                 /* List of groups of categories */
@@ -296,14 +297,13 @@ previews_load (AutoFormatState *state, int topindex)
 			 * the absolute bottom of the canvas's region. Look at src/dialogs/autoformat.glade for
 			 * the original canvas dimensions (look at the scrolledwindow that houses each canvas)
 			 */
-			state->rect[i] = GNOME_CANVAS_RECT (
-				gnome_canvas_item_new (gnome_canvas_root (state->canvas[i]),
-						       gnome_canvas_rect_get_type (),
-						       "x1", -4.5, "y1", -4.5,
-						       "x2", 215.5, "y2", 85.5,
-						       "width_pixels", (int) 0,
-						       "fill_color", NULL,
-						       NULL));
+			state->rect[i] = gnome_canvas_item_new (gnome_canvas_root (state->canvas[i]),
+				GNOME_TYPE_CANVAS_RECT,
+				"x1", -4.5, "y1", -4.5,
+				"x2", 215.5, "y2", 85.5,
+				"width_pixels", (int) 0,
+				"fill_color", NULL,
+				NULL);
 
 			/* Setup grid */
 			gtk_layout_freeze (GTK_LAYOUT (state->canvas[i]));
@@ -326,15 +326,14 @@ previews_load (AutoFormatState *state, int topindex)
 			if (topindex + i == state->preview_index) {
 				g_return_if_fail (state->selrect == NULL);
 
-				state->selrect = GNOME_CANVAS_RECT (
-					gnome_canvas_item_new (gnome_canvas_root (state->canvas[i]),
-							       gnome_canvas_rect_get_type (),
-							       "x1", -7.0, "y1", -2.5,
-							       "x2", 219.0, "y2", 84.5,
-							       "width_pixels", (int) 2,
-							       "outline_color", "red",
-							       "fill_color", NULL,
-							       NULL));
+				state->selrect = gnome_canvas_item_new (gnome_canvas_root (state->canvas[i]),
+					GNOME_TYPE_CANVAS_RECT,
+					"x1", -7.0, "y1", -2.5,
+					"x2", 219.0, "y2", 84.5,
+					"width_pixels", (int) 2,
+					"outline_color", "red",
+					"fill_color", NULL,
+					NULL);
 				gtk_frame_set_shadow_type (state->frame[i], GTK_SHADOW_IN);
 			} else
 				gtk_frame_set_shadow_type (state->frame[i], GTK_SHADOW_OUT);
@@ -393,34 +392,6 @@ cb_autoformat_destroy (GtkWidget *ignored, AutoFormatState *state)
 	g_object_unref (G_OBJECT (state->gui));
 	state->gui = NULL;
 	g_free (state);
-}
-
-static void
-cb_remove_current_activated (GtkMenuItem *item, AutoFormatState *state)
-{
-	GtkWidget *dialog;
-	GtkWidget *no_button;
-	gint ret;
-	gchar *msg;
-
-	msg = g_strdup_printf (_("Are you sure you want to remove the template '%s' ?"),
-		state->selected_template->name);
-	dialog = gnome_question_dialog_parented (msg, NULL,NULL, GTK_WINDOW (state->dialog));
-	g_free (msg);
-
-	no_button = g_list_last (GNOME_DIALOG (dialog)->buttons)->data;
-	gtk_widget_grab_focus (no_button);
-	ret = gnome_dialog_run (GNOME_DIALOG (dialog));
-
-	if (ret == 0) {
-		if (unlink (state->selected_template->filename) != 0) {
-			GtkWidget *edialog = gnome_error_dialog_parented (
-				_("Could not remove template"),
-				GTK_WINDOW (state->dialog));
-			gnome_dialog_run (GNOME_DIALOG (edialog));
-		} else
-			gtk_signal_emit_by_name (GTK_OBJECT (state->category->popwin), "hide", state);
-	}
 }
 
 static void

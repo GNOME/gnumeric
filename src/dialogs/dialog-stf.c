@@ -378,88 +378,70 @@ stf_dialog_attach_page_signals (GladeXML *gui, DruidPageData_t *pagedata)
 
 	/* Signals for individual pages */
 
-	gtk_signal_connect (GTK_OBJECT (pagedata->main_page),
-			    "next",
-			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_next),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (pagedata->csv_page),
-			    "next",
-			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_next),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (pagedata->fixed_page),
-			    "next",
-			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_next),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (pagedata->format_page),
-			    "next",
-			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_next),
-			    pagedata);
+	g_signal_connect (G_OBJECT (pagedata->main_page),
+		"next",
+		G_CALLBACK (stf_dialog_druid_page_next), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->csv_page),
+		"next",
+		G_CALLBACK (stf_dialog_druid_page_next), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->fixed_page),
+		"next",
+		G_CALLBACK (stf_dialog_druid_page_next), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->format_page),
+		"next",
+		G_CALLBACK (stf_dialog_druid_page_next), pagedata);
 
-	gtk_signal_connect (GTK_OBJECT (pagedata->main_page),
-			    "back",
-			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_previous),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (pagedata->csv_page),
-			    "back",
-			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_previous),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (pagedata->fixed_page),
-			    "back",
-			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_previous),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (pagedata->format_page),
-			    "back",
-			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_previous),
-			    pagedata);
+	g_signal_connect (G_OBJECT (pagedata->main_page),
+		"back",
+		G_CALLBACK (stf_dialog_druid_page_previous), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->csv_page),
+		"back",
+		G_CALLBACK (stf_dialog_druid_page_previous), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->fixed_page),
+		"back",
+		G_CALLBACK (stf_dialog_druid_page_previous), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->format_page),
+		"back",
+		G_CALLBACK (stf_dialog_druid_page_previous), pagedata);
 
-	gtk_signal_connect (GTK_OBJECT (pagedata->main_page),
-			    "cancel",
-			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_cancel),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (pagedata->csv_page),
-			    "cancel",
-			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_cancel),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (pagedata->fixed_page),
-			    "cancel",
-			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_cancel),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (pagedata->format_page),
-			    "cancel",
-			    GTK_SIGNAL_FUNC (stf_dialog_druid_page_cancel),
-			    pagedata);
+	g_signal_connect (G_OBJECT (pagedata->main_page),
+		"cancel",
+		G_CALLBACK (stf_dialog_druid_page_cancel), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->csv_page),
+		"cancel",
+		G_CALLBACK (stf_dialog_druid_page_cancel), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->fixed_page),
+		"cancel",
+		G_CALLBACK (stf_dialog_druid_page_cancel), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->format_page),
+		"cancel",
+		G_CALLBACK (stf_dialog_druid_page_cancel), pagedata);
 
-	gtk_signal_connect (GTK_OBJECT (pagedata->format_page),
-			    "finish",
-			    GTK_SIGNAL_FUNC (stf_dialog_druid_format_page_finish),
-			    pagedata);
+	g_signal_connect (G_OBJECT (pagedata->format_page),
+		"finish",
+		G_CALLBACK (stf_dialog_druid_format_page_finish), pagedata);
 
-	gtk_signal_connect (GTK_OBJECT (pagedata->csv_page),
-			    "prepare",
-			    GTK_SIGNAL_FUNC (stf_dialog_csv_page_prepare),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (pagedata->fixed_page),
-			    "prepare",
-			    GTK_SIGNAL_FUNC (stf_dialog_fixed_page_prepare),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (pagedata->format_page),
-			    "prepare",
-			    GTK_SIGNAL_FUNC (stf_dialog_format_page_prepare),
-			    pagedata);
+	g_signal_connect (G_OBJECT (pagedata->csv_page),
+		"prepare",
+		G_CALLBACK (stf_dialog_csv_page_prepare), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->fixed_page),
+		"prepare",
+		G_CALLBACK (stf_dialog_fixed_page_prepare), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->format_page),
+		"prepare",
+		G_CALLBACK (stf_dialog_format_page_prepare), pagedata);
 
 	/* Signals for the druid itself */
 
-	gtk_signal_connect (GTK_OBJECT (pagedata->druid),
-			    "cancel",
-			    GTK_SIGNAL_FUNC (stf_dialog_druid_cancel),
-			    pagedata);
+	g_signal_connect (G_OBJECT (pagedata->druid),
+		"cancel",
+		G_CALLBACK (stf_dialog_druid_cancel), pagedata);
 
 	/* And for the surrounding window */
 
-	gtk_signal_connect (GTK_OBJECT (pagedata->window),
-			    "key_press_event",
-			    GTK_SIGNAL_FUNC (stf_dialog_check_escape),
-			    pagedata);
+	g_signal_connect (G_OBJECT (pagedata->window),
+		"key_press_event",
+		G_CALLBACK (stf_dialog_check_escape), pagedata);
 }
 
 /**
@@ -475,22 +457,22 @@ stf_dialog_editables_enter (DruidPageData_t *pagedata)
 {
 	gnumeric_editable_enters
 		(pagedata->window,
-		 GTK_EDITABLE (&pagedata->main_info->main_startrow->entry));
+		 GTK_WIDGET (&pagedata->main_info->main_startrow->entry));
 	gnumeric_editable_enters
 		(pagedata->window,
-		 GTK_EDITABLE (&pagedata->main_info->main_stoprow->entry));
+		 GTK_WIDGET (&pagedata->main_info->main_stoprow->entry));
 	gnumeric_editable_enters
 		(pagedata->window,
-		 GTK_EDITABLE (pagedata->csv_info->csv_customseparator));
+		 GTK_WIDGET (pagedata->csv_info->csv_customseparator));
 	gnumeric_combo_enters
 		(pagedata->window,
 		pagedata->csv_info->csv_textindicator);
 	gnumeric_editable_enters
 		(pagedata->window,
-		 GTK_EDITABLE (&pagedata->fixed_info->fixed_colend->entry));
+		 GTK_WIDGET (&pagedata->fixed_info->fixed_colend->entry));
 	gnumeric_editable_enters
 		(pagedata->window,
-		 GTK_EDITABLE (pagedata->format_info->format_format));
+		 GTK_WIDGET (pagedata->format_info->format_format));
 }
 
 /**

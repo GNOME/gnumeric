@@ -32,6 +32,7 @@
 #include <libxml/globals.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-cursors.h>
+#include <libgnomecanvas/gnome-canvas-polygon.h>
 
 struct _CellComment {
 	SheetObject	s_object;
@@ -105,7 +106,7 @@ comment_get_points (SheetControlGUI *scg, SheetObject *so)
 }
 
 static void
-cell_comment_update_bounds (SheetObject *so, GtkObject *view,
+cell_comment_update_bounds (SheetObject *so, GObject *view,
 			    SheetControlGUI *scg)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (view);
@@ -124,7 +125,7 @@ cell_comment_event (GnomeCanvasItem *view, GdkEvent *event, SheetControlGUI *scg
 {
 	CellComment *cc;
 	SheetObject *so;
-	
+
 	switch (event->type) {
 	default:
 		return FALSE;
@@ -137,7 +138,7 @@ cell_comment_event (GnomeCanvasItem *view, GdkEvent *event, SheetControlGUI *scg
 		break;
 	}
 
-	so = sheet_object_view_obj (GTK_OBJECT (view));
+	so = sheet_object_view_obj (G_OBJECT (view));
 	cc = CELL_COMMENT (so);
 
 	g_return_val_if_fail (cc != NULL, FALSE);
@@ -162,7 +163,7 @@ cell_comment_event (GnomeCanvasItem *view, GdkEvent *event, SheetControlGUI *scg
 	return TRUE;
 }
 
-static GtkObject *
+static GObject *
 cell_comment_new_view (SheetObject *so, SheetControlGUI *scg)
 {
 	GnomeCanvasPoints *points;
@@ -177,17 +178,18 @@ cell_comment_new_view (SheetObject *so, SheetControlGUI *scg)
 	group = GNOME_CANVAS_GROUP (GNOME_CANVAS (scg_pane (scg, 0))->root);
 	points = comment_get_points (scg, so);
 	item = gnome_canvas_item_new (
-		group, gnome_canvas_polygon_get_type (),
-		"points",     points,
-		"fill_color", "red",
+		group,		GNOME_TYPE_CANVAS_POLYGON,
+		"points",	points,
+		"fill_color",	"red",
 		NULL);
 	gnome_canvas_points_free (points);
 
 	/* Do not use the standard handler, comments are not movable */
-	gtk_signal_connect (GTK_OBJECT (item), "event",
-			    GTK_SIGNAL_FUNC (cell_comment_event), scg);
+	g_signal_connect (G_OBJECT (item),
+		"event",
+		G_CALLBACK (cell_comment_event), scg);
 
-	return GTK_OBJECT (item);
+	return G_OBJECT (item);
 }
 
 static gboolean
@@ -240,7 +242,7 @@ cell_comment_clone (SheetObject const *so, Sheet *sheet)
 
 	new_comment->author = comment->author ? g_strdup (comment->author) : NULL;
 	new_comment->text   = comment->text   ? g_strdup (comment->text) : NULL;
-	
+
 	return SHEET_OBJECT (new_comment);
 }
 

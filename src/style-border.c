@@ -175,7 +175,7 @@ style_border_none_set_color (StyleColor *color)
 
 	if (color == none->color)
 		return;
-	
+
 	nc = none->color;
 	none->color = color;
 	gdk_gc_set_foreground (none->gc, &none->color->color);
@@ -417,7 +417,7 @@ style_border_unref (StyleBorder *border)
 
 static gboolean
 style_border_hmargins (StyleBorder const * const * prev_vert,
-		       StyleRow const *sr, int col, 
+		       StyleRow const *sr, int col,
 		       int offsets [2][2])
 {
 	StyleBorder const *border = sr->top [col];
@@ -519,7 +519,7 @@ style_border_hmargins (StyleBorder const * const * prev_vert,
 
 static gboolean
 style_border_vmargins (StyleBorder const * const * prev_vert,
-		       StyleRow const *sr, int col, 
+		       StyleRow const *sr, int col,
 		       int offsets [2][2])
 {
 	StyleBorder const *border = sr->vertical [col];
@@ -558,7 +558,7 @@ style_border_vmargins (StyleBorder const * const * prev_vert,
 		else
 			offsets [0][1] = 0;
 		return TRUE;
-	} 
+	}
 
 	offsets [0][0] = offsets [0][1] = 0;
 	if (border->line_type == STYLE_BORDER_NONE) {

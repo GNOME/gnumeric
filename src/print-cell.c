@@ -35,7 +35,7 @@
   mbstowcs to be available. Most probably printing work fine for ANY locale
   (though gnome-print doesn't support CJK yet - but when it will be ready, no
   changes will be needed in the code used when _PROPER_I18N is defined.
-  
+
   If this macro is undefined, printing will work only for iso-8859-1, so please
   try hard to avoid undefining it.
       - Vlad Harchev <hvv@hippo.ru>
@@ -108,14 +108,14 @@ print_show (GnomePrintContext *pc, char const *text)
 #ifdef _PROPER_I18N
 	wchar_t* wcs,wcbuf[4096];
 	char* utf8,utf8buf[4096];
-	
+
 	size_t conv_status;
 	int n = strlen (text);
 	int retval;
 	const int wcbuf_len = sizeof (wcbuf) / sizeof (wcbuf[0]);
 
-	g_return_val_if_fail (pc && text, -1);	
-	
+	g_return_val_if_fail (pc && text, -1);
+
 	if ( n > wcbuf_len)
 		wcs = g_new (wchar_t,n);
 	else
@@ -139,13 +139,13 @@ print_show (GnomePrintContext *pc, char const *text)
 		for(i = 0; i < conv_status; ++i)
 			p += g_unichar_to_utf8 ( (gint) wcs[i], p);
 		if (wcs != wcbuf)
-			g_free (wcs);			
-		retval = gnome_print_show_sized (pc, utf8, p - utf8);			
-	}	
+			g_free (wcs);
+		retval = gnome_print_show_sized (pc, utf8, p - utf8);
+	}
 
 	if (utf8 != utf8buf)
 		g_free (utf8);
-	return retval;		
+	return retval;
 #else
 	return print_show_iso8859_1 (pc, text);
 #endif
@@ -157,8 +157,8 @@ get_width_string_n (GnomeFont *font, char const* text, guint n)
 #ifdef _PROPER_I18N
 	wchar_t* wcs, wcbuf[4000];
 	size_t conv_status, i;
-	double total = 0;	
-	
+	double total = 0;
+
 	if ( n > (sizeof(wcbuf)/sizeof(wcbuf[0])))
 		wcs = g_new (wchar_t,n);
 	else
@@ -172,7 +172,7 @@ get_width_string_n (GnomeFont *font, char const* text, guint n)
 		return 0;
 	};
 	for (i = 0; i < conv_status; ++i)
-		total += gnome_font_get_glyph_width (font, 
+		total += gnome_font_get_glyph_width (font,
 				gnome_font_lookup_default (font, wcs[i]));
 
 	if (wcs != wcbuf)
@@ -743,7 +743,7 @@ print_cell_range (GnomePrintContext *context,
 	}
 
 	sheet_style_update_grid_color (sheet);
-	
+
 	/* Get ordered list of merged regions */
 	merged_active = merged_active_seen = merged_used = NULL;
 	merged_unused = sheet_merge_get_overlap (sheet,

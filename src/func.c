@@ -19,6 +19,7 @@
 #include "workbook.h"
 #include "sheet.h"
 #include "number-match.h"
+#include "format.h"
 
 #include <string.h>
 #include <glib.h>
@@ -42,7 +43,7 @@ typedef enum {
 } FunctionFlags;
 
 struct _FunctionDefinition {
-	FunctionGetFullInfoCallback get_full_info_callback; 
+	FunctionGetFullInfoCallback get_full_info_callback;
 	FunctionFlags flags;
 	gchar   const *name;
 	gchar   const *named_arguments;
@@ -346,7 +347,7 @@ FunctionDefinition *
 func_lookup_by_name (gchar const *fn_name, Workbook const *optional_scope)
 {
 	Symbol *sym;
-	
+
 	sym = symbol_lookup (global_symbol_table, fn_name);
 	if (sym != NULL) {
 		return sym->data;

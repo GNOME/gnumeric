@@ -51,11 +51,12 @@ typedef enum {
 } ParseErrorID;
 
 /* In parser.y  */
-typedef struct {
+struct _ParseError {
 	ParseErrorID  id;
 	char         *message;
 	int           begin_char, end_char;
-} ParseError;
+};
+
 ParseError *parse_error_init (ParseError *pe);
 void        parse_error_free (ParseError *pe);
 

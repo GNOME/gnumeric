@@ -31,19 +31,19 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-GtkType python_get_loader_type (ErrorInfo **ret_error);
+GType python_get_loader_type (ErrorInfo **ret_error);
 
 
 #define TYPE_GNUMERIC_PLUGIN_LOADER_PYTHON            (gnumeric_plugin_loader_python_get_type ())
-#define GNUMERIC_PLUGIN_LOADER_PYTHON(obj)            (GTK_CHECK_CAST ((obj), TYPE_GNUMERIC_PLUGIN_LOADER_PYTHON, GnumericPluginLoaderPython))
-#define GNUMERIC_PLUGIN_LOADER_PYTHON_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), TYPE_GNUMERIC_PLUGIN_LOADER_PYTHON, GnumericPluginLoaderPythonClass))
-#define IS_GNUMERIC_PLUGIN_LOADER_PYTHON(obj)         (GTK_CHECK_TYPE ((obj), TYPE_GNUMERIC_PLUGIN_LOADER_PYTHON))
-#define IS_GNUMERIC_PLUGIN_LOADER_PYTHON_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), TYPE_GNUMERIC_PLUGIN_LOADER_PYTHON))
+#define GNUMERIC_PLUGIN_LOADER_PYTHON(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GNUMERIC_PLUGIN_LOADER_PYTHON, GnumericPluginLoaderPython))
+#define GNUMERIC_PLUGIN_LOADER_PYTHON_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GNUMERIC_PLUGIN_LOADER_PYTHON, GnumericPluginLoaderPythonClass))
+#define IS_GNUMERIC_PLUGIN_LOADER_PYTHON(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GNUMERIC_PLUGIN_LOADER_PYTHON))
+#define IS_GNUMERIC_PLUGIN_LOADER_PYTHON_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_GNUMERIC_PLUGIN_LOADER_PYTHON))
 
 typedef struct _GnumericPluginLoaderPython GnumericPluginLoaderPython;
 typedef struct _GnumericPluginLoaderPythonClass GnumericPluginLoaderPythonClass;
 
-GtkType gnumeric_plugin_loader_python_get_type (void);
+GType gnumeric_plugin_loader_python_get_type (void);
 
 #define PARENT_TYPE (gnumeric_plugin_loader_get_type ())
 
@@ -151,7 +151,7 @@ gnumeric_plugin_loader_python_load (GnumericPluginLoader *loader, ErrorInfo **re
 		clear_python_error_if_needed ();
 		*ret_error = error_info_new_str ("Cannot create new Python interpreter.");
 		return;
-	}	
+	}
 
 	for (file_ext = python_file_extensions; *file_ext != NULL; file_ext++) {
 		gchar *file_name = g_strconcat (
@@ -710,7 +710,7 @@ gnumeric_plugin_loader_python_unload_service_function_group (GnumericPluginLoade
 
 /* ---------------------------------------- */
 
-GtkType
+GType
 python_get_loader_type (ErrorInfo **ret_error)
 {
 	*ret_error = NULL;

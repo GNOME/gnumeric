@@ -12,7 +12,6 @@
 
 #include <sheet.h>
 #include <style-color.h>
-#include <utils-dialog.h>
 #include <widgets/widget-font-selector.h>
 #include <widgets/gnumeric-dashed-canvas-line.h>
 #include <gui-util.h>
@@ -126,9 +125,9 @@ attr_dialog_init_toggle (AttrState *state, char const *name, gboolean val)
 {
 	GtkWidget *w = glade_xml_get_widget (state->gui, name);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), val);
-	gtk_signal_connect (GTK_OBJECT (w),
+	g_signal_connect (G_OBJECT (w),
 		"toggled",
-		GTK_SIGNAL_FUNC (cb_toggled), state);
+		G_CALLBACK (cb_toggled), state);
 
 	return GTK_TOGGLE_BUTTON (w);
 }
@@ -175,20 +174,20 @@ attr_dialog_impl (AttrState *state)
 	gtk_notebook_set_page (
 		GTK_NOTEBOOK (GNOME_PROPERTY_BOX (dialog)->notebook),
 		attr_dialog_page);
-	state->page_signal = gtk_signal_connect (
-		GTK_OBJECT (GNOME_PROPERTY_BOX (dialog)->notebook),
-		"switch_page", GTK_SIGNAL_FUNC (cb_page_select),
-		NULL);
+	state->page_signal = g_signal_connect (
+		G_OBJECT (GNOME_PROPERTY_BOX (dialog)->notebook),
+		"switch_page",
+		G_CALLBACK (cb_page_select), NULL);
 
 	/* FIXME : do we have real docs for this ? */
 	gnumeric_pbox_init_help	(dialog, "format-menu.html");
 
-	gtk_signal_connect (GTK_OBJECT (dialog), "apply",
-			    GTK_SIGNAL_FUNC (cb_attr_dialog_dialog_apply),
-			    state);
-	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
-			    GTK_SIGNAL_FUNC (cb_attr_dialog_dialog_destroy),
-			    state);
+	g_signal_connect (G_OBJECT (dialog),
+		"apply",
+		G_CALLBACK (cb_attr_dialog_dialog_apply), state);
+	g_signal_connect (G_OBJECT (dialog),
+		"destroy",
+		G_CALLBACK (cb_attr_dialog_dialog_destroy), state);
 
 	/* Ok, edit events from now on are real */
 	state->enable_edit = TRUE;

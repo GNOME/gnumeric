@@ -93,7 +93,7 @@ x_selection_to_cell_region (WorkbookControlGUI *wbcg, const guchar *src, int len
 		if (dialogresult != NULL) {
 			GSList *iterator;
 			int col, rowcount;
-			
+
 			stf_parse_options_set_lines_to_parse (dialogresult->parseoptions, dialogresult->lines);
 			cr = stf_parse_region (dialogresult->parseoptions, dialogresult->newstart);
 
@@ -368,17 +368,15 @@ x_clipboard_bind_workbook (WorkbookControlGUI *wbcg)
 
 	wbcg->clipboard_paste_callback_data = NULL;
 
-	gtk_signal_connect (
-		GTK_OBJECT (toplevel), "selection_clear_event",
-		GTK_SIGNAL_FUNC (x_selection_clear), wbcg);
-
-	gtk_signal_connect (
-		GTK_OBJECT (toplevel), "selection_received",
-		GTK_SIGNAL_FUNC (x_selection_received), wbcg);
-
-	gtk_signal_connect (
-		GTK_OBJECT (toplevel), "selection_get",
-		GTK_SIGNAL_FUNC (x_selection_handler), wbcg);
+	g_signal_connect (G_OBJECT (toplevel),
+		"selection_clear_event",
+		G_CALLBACK (x_selection_clear), wbcg);
+	g_signal_connect (G_OBJECT (toplevel),
+		"selection_received",
+		G_CALLBACK (x_selection_received), wbcg);
+	g_signal_connect (G_OBJECT (toplevel),
+		"selection_get",
+		G_CALLBACK (x_selection_handler), wbcg);
 
 	gtk_selection_add_target (toplevel,
 		GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 0);

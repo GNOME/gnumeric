@@ -2,6 +2,7 @@
 #define GNUMERIC_PANE_H
 
 #include "gui-gnumeric.h"
+#include <libgnomecanvas/gnome-canvas-util.h>
 
 struct _GnumericPane {
 	GList		*anted_cursors;

@@ -160,7 +160,7 @@ void
 sheet_detach_control (SheetControl *sc)
 {
 	Sheet *sheet;
-	
+
 	g_return_if_fail (IS_SHEET_CONTROL (sc));
 
 	sheet = sc_sheet (sc);
@@ -754,7 +754,7 @@ sheet_colrow_fit_gutter (Sheet const *sheet, gboolean is_cols)
 		(ColRowHandler)cb_outline_level, &outline_level);
 	return outline_level;
 }
-			  
+
 /**
  * sheet_update_only_grid :
  *
@@ -857,7 +857,7 @@ static void
 auto_expr_timer_clear (SheetPrivate *p)
 {
 	if (p->auto_expr_timer != 0) {
-		gtk_timeout_remove (p->auto_expr_timer);
+		g_source_remove (p->auto_expr_timer);
 		p->auto_expr_timer = 0;
 	}
 }
@@ -933,8 +933,8 @@ sheet_update (Sheet const *sheet)
 		p->selection_content_changed = FALSE;
 		if (p->auto_expr_timer == 0 || lag < 0) {
 			auto_expr_timer_clear (p);
-			p->auto_expr_timer = gtk_timeout_add (abs (lag), /* seems ok */
-				cb_sheet_update_auto_expr, (gpointer) sheet);
+			p->auto_expr_timer = g_timeout_add_full (0, abs (lag), /* seems ok */
+				cb_sheet_update_auto_expr, (gpointer) sheet, NULL);
 		}
 	}
 }
@@ -988,7 +988,7 @@ sheet_cell_fetch (Sheet *sheet, int col, int row)
 
 /**
  * sheet_colrow_can_group:
- * 
+ *
  * Returns TRUE if @from to @to can be grouped, return
  * FALSE otherwise. You can invert the result if you need
  * to find out if a group can be ungrouped.
@@ -998,7 +998,7 @@ sheet_colrow_can_group (Sheet *sheet, Range const *r, gboolean is_cols)
 {
 	ColRowInfo const *start_cri, *end_cri;
 	int start, end;
-	
+
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
 	if (is_cols) {
@@ -1026,10 +1026,10 @@ sheet_colrow_group_ungroup (Sheet *sheet, Range const *r,
 {
 	int i, new_size, start, end;
 	int const step = group ? 1 : -1;
-	
+
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
-	/* Can we group/ungroup ? */	
+	/* Can we group/ungroup ? */
 	if (group != sheet_colrow_can_group (sheet, r, is_cols))
 		return FALSE;
 
@@ -1474,7 +1474,7 @@ sheet_cell_get_value (Sheet *sheet, int const col, int const row)
 	Cell *cell;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	
+
 	cell = sheet_cell_get (sheet, col, row);
 
 	return cell ? cell->value : NULL;
@@ -2641,7 +2641,7 @@ static void
 sheet_cell_destroy (Sheet *sheet, Cell *cell, gboolean queue_recalc)
 {
 	if (cell_has_expr (cell)) {
-		/* if it needs recalc then its depends are already queued 
+		/* if it needs recalc then its depends are already queued
 		 * check recalc status before we unlink
 		 */
 		queue_recalc &= !cell_needs_recalc (cell);
@@ -2854,7 +2854,7 @@ sheet_destroy (Sheet *sheet)
 
 	/* Clear the controls first, before we potentialy update */
 	SHEET_FOREACH_CONTROL (sheet, control,
-		gtk_object_unref (GTK_OBJECT (control)););
+		g_object_unref (G_OBJECT (control)););
 	g_list_free (sheet->s_controls);
 	sheet->s_controls = NULL;
 
@@ -3513,7 +3513,7 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 	/* 1. Delete the columns (and their cells) */
 	for (i = col + count ; --i >= col; )
 		sheet_col_destroy (sheet, i, TRUE);
-	sheet_objects_clear (sheet, &reloc_info.origin, GTK_TYPE_NONE);
+	sheet_objects_clear (sheet, &reloc_info.origin, G_TYPE_NONE);
 
 	/* 2. Invalidate references to the cells in the delete columns */
 	*reloc_storage = workbook_expr_relocate (sheet->workbook, &reloc_info);
@@ -3624,7 +3624,7 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 	/* 1. Delete the rows (and their content) */
 	for (i = row + count ; --i >= row; )
 		sheet_row_destroy (sheet, i, TRUE);
-	sheet_objects_clear (sheet, &reloc_info.origin, GTK_TYPE_NONE);
+	sheet_objects_clear (sheet, &reloc_info.origin, G_TYPE_NONE);
 
 	/* 2. Invalidate references to the cells in the delete columns */
 	*reloc_storage = workbook_expr_relocate (sheet->workbook, &reloc_info);
@@ -4390,7 +4390,7 @@ sheet_duplicate	(Sheet const *src)
 
 	sheet_style_set_auto_pattern_color (
 		dst, sheet_style_get_auto_pattern_color (src));
-	
+
 	sheet_clone_styles         (src, dst);
 	sheet_clone_merged_regions (src, dst);
 	sheet_clone_colrow_info    (src, dst);
@@ -4413,7 +4413,7 @@ sheet_duplicate	(Sheet const *src)
 }
 
 /**
- * sheet_set_initial_top_left 
+ * sheet_set_initial_top_left
  * @sheet : the sheet.
  * @col   :
  * @row   :
@@ -4467,7 +4467,7 @@ sheet_freeze_panes (Sheet *sheet,
 			sheet->unfrozen_top_left = *unfrozen;
 		} else
 			frozen = unfrozen = NULL;
-	} 
+	}
 
 	if (frozen == NULL) {
 		g_return_if_fail (unfrozen == NULL);
@@ -4507,7 +4507,7 @@ sheet_is_frozen	(Sheet const *sheet)
 /**
  * sheet_set_tab_color :
  * @sheet :
- * @color : 
+ * @color :
  *
  * absorb the reference to the style color
  */

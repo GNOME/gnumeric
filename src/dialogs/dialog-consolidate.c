@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * dialog-consolidate.c : implementation of the consolidation dialog.
  *
@@ -34,16 +35,13 @@
 
 #define GLADE_FILE "consolidate.glade"
 
-/* FIXME: that's not the proper help location */
-#define CONSOLIDATE_HELP "data-menu.html"
-
 typedef struct {
 	WorkbookControlGUI *wbcg;
 	Sheet              *sheet;
 	GladeXML           *glade_gui;
 	GtkWidget          *warning_dialog;
 
-	struct {	
+	struct {
 		GtkDialog       *dialog;
 
 		GtkOptionMenu     *function;
@@ -62,31 +60,11 @@ typedef struct {
 
 		GtkButton         *btn_ok;
 		GtkButton         *btn_cancel;
-		GtkButton         *btn_help;
 	} gui;
 
 	int                        areas_index;     /* Select index in sources clist */
 	char                      *construct_error; /* If set an error occurred in construct_consolidate */
 } ConsolidateState;
-
-/**
- * gnumeric_expr_entry_parse_to_value:
- *
- * @ee: GnumericExprEntry
- * @sheet: the sheet where the cell range is evaluated. This really only needed if
- *         the range given does not include a sheet specification.
- *
- * Returns a (Value *) of type VALUE_CELLRANGE if the @range was
- * succesfully parsed or NULL on failure.
- *
- * A duplicate of this function exists in dialog-analysis-tools.c
- */
-static Value *
-gnumeric_expr_entry_parse_to_value (GnumericExprEntry *ee, Sheet *sheet)
-{
-	char const *str = gtk_entry_get_text (GTK_ENTRY (ee));;
-	return global_range_parse (sheet, str);
-}
 
 /**
  * construct_consolidate:
@@ -115,26 +93,26 @@ construct_consolidate (ConsolidateState *state)
 	case 7 : func = "STDEVP"; break;
 	case 8 : func = "VAR"; break;
 	case 9 : func = "VARP"; break;
-	default : 
+	default :
 		func = NULL;
 		g_warning ("Unknown function index!");
 	}
-	
+
 	consolidate_set_function (cs, func_lookup_by_name (func, NULL));
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->gui.labels_row)))
 		mode |= CONSOLIDATE_COL_LABELS;
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->gui.labels_col)))
 		mode |= CONSOLIDATE_ROW_LABELS;
-		
+
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->gui.labels_copy)))
 		mode |= CONSOLIDATE_COPY_LABELS;
 	if (gnumeric_option_menu_get_selected_index (state->gui.put) == 0)
 		mode |= CONSOLIDATE_PUT_VALUES;
-		
+
 	consolidate_set_mode (cs, mode);
 
-	range_value = gnumeric_expr_entry_parse_to_value 
+	range_value = gnm_expr_entry_parse_as_value
 		(GNUMERIC_EXPR_ENTRY (state->gui.destination), state->sheet);
 	g_return_val_if_fail (range_value != NULL, NULL);
 
@@ -152,10 +130,10 @@ construct_consolidate (ConsolidateState *state)
 		gtk_clist_get_text (state->gui.areas, i, 0, tmp);
 		range_value = global_range_parse (state->sheet, tmp[0]);
 		g_return_val_if_fail (range_value != NULL, NULL);
-	
+
 		if (!consolidate_add_source (cs, range_value)) {
 			state->construct_error = g_strdup_printf (
-				_("Source region %s overlaps with the destination region"), 
+				_("Source region %s overlaps with the destination region"),
 				tmp[0]);
 			consolidate_free (cs);
 			return NULL;
@@ -175,23 +153,15 @@ construct_consolidate (ConsolidateState *state)
 static gboolean
 is_cell_ref (GnumericExprEntry *entry, Sheet *sheet, gboolean allow_multiple_cell)
 {
-	char const *text;
-        Value *input_range;
-	gboolean res;
-	
-	text = gtk_entry_get_text (GTK_ENTRY (entry));
-	input_range = global_range_parse (sheet,text);
- 
+	gboolean res = FALSE;
+        Value *input_range = gnm_expr_entry_parse_as_value (entry, sheet);
+
         if (input_range != NULL) {
-		res = ((input_range->type == VALUE_CELLRANGE)  
-		       && ( allow_multiple_cell || 
-			    ((input_range->v_range.cell.a.col == 
-			     input_range->v_range.cell.b.col)
-			    && (input_range->v_range.cell.a.row == 
-				input_range->v_range.cell.b.row))));
+		res = ((input_range->type == VALUE_CELLRANGE) &&
+		       (allow_multiple_cell ||
+			((input_range->v_range.cell.a.col == input_range->v_range.cell.b.col) &&
+			 (input_range->v_range.cell.a.row == input_range->v_range.cell.b.row))));
 		value_release (input_range);
-	} else {
-		res = FALSE;
 	}
 	return res;
 }
@@ -235,13 +205,13 @@ cb_dialog_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 {
 	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
 		GnumericExprEntryFlags flags;
-		
+
 		wbcg_set_entry (state->wbcg,
 				GNUMERIC_EXPR_ENTRY (focus_widget));
-				    
+
 		flags = GNUM_EE_SINGLE_RANGE;
-		gnumeric_expr_entry_set_flags (state->gui.destination, flags, flags);
-		gnumeric_expr_entry_set_flags (state->gui.source, flags, flags);
+		gnm_expr_entry_set_flags (state->gui.destination, flags, flags);
+		gnm_expr_entry_set_flags (state->gui.source, flags, flags);
 	} else
 		wbcg_set_entry (state->wbcg, NULL);
 }
@@ -263,9 +233,9 @@ cb_dialog_clicked (GtkWidget *widget, ConsolidateState *state)
 		 * a suitable error message
 		 */
 		if (cs == NULL) {
-			gnumeric_notice_nonmodal (GTK_WINDOW (state->gui.dialog), 
+			gnumeric_notice_nonmodal (GTK_WINDOW (state->gui.dialog),
 						  &state->warning_dialog,
-						  GTK_MESSAGE_ERROR, 
+						  GTK_MESSAGE_ERROR,
 						  state->construct_error);
 			g_free (state->construct_error);
 			state->construct_error = NULL;
@@ -275,7 +245,7 @@ cb_dialog_clicked (GtkWidget *widget, ConsolidateState *state)
 
 		cmd_consolidate (WORKBOOK_CONTROL (state->wbcg), cs);
 	}
-	
+
 	gtk_widget_destroy (GTK_WIDGET (state->gui.dialog));
 }
 
@@ -284,17 +254,17 @@ cb_areas_select_row (GtkCList *clist, int row, int column, GdkEventButton *event
 		     ConsolidateState *state)
 {
 	g_return_if_fail (state != NULL);
-	
+
 	state->areas_index = row;
 	gtk_widget_set_sensitive (GTK_WIDGET (state->gui.delete), TRUE);
 }
 
 static void
-cb_source_changed (GtkEntry *entry, ConsolidateState *state)
+cb_source_changed (GtkEntry *ignored, ConsolidateState *state)
 {
 	g_return_if_fail (state != NULL);
-	
-	gtk_widget_set_sensitive (GTK_WIDGET (state->gui.add), 
+
+	gtk_widget_set_sensitive (GTK_WIDGET (state->gui.add),
 				  is_cell_ref (state->gui.source, state->sheet, TRUE));
 }
 
@@ -303,7 +273,7 @@ cb_add_clicked (GtkButton *button, ConsolidateState *state)
 {
 	char *text[1];
 	int i, exists = -1;
-	
+
 	g_return_if_fail (state != NULL);
 
 	/*
@@ -314,7 +284,7 @@ cb_add_clicked (GtkButton *button, ConsolidateState *state)
 	text[0] = gtk_editable_get_chars (GTK_EDITABLE (state->gui.source), 0, -1);
 	for (i = 0; i < state->gui.areas->rows; i++) {
 		char *t[1];
-		
+
 		gtk_clist_get_text (state->gui.areas, i, 0, t);
 		if (strcmp (t[0], text[0]) == 0)
 			exists = i;
@@ -327,7 +297,7 @@ cb_add_clicked (GtkButton *button, ConsolidateState *state)
 
 	gtk_clist_select_row (state->gui.areas, exists, 0);
 	gtk_clist_moveto (state->gui.areas, exists, 0, 0.5, 0.5);
-	
+
 	g_free (text[0]);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (state->gui.clear), TRUE);
@@ -340,7 +310,7 @@ static void
 cb_clear_clicked (GtkButton *button, ConsolidateState *state)
 {
 	g_return_if_fail (state != NULL);
-	
+
 	gtk_clist_clear (state->gui.areas);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (state->gui.clear), FALSE);
@@ -356,9 +326,9 @@ cb_delete_clicked (GtkButton *button, ConsolidateState *state)
 
 	if (state->areas_index == -1)
 		return;
-		
+
 	gtk_clist_remove (state->gui.areas, state->areas_index);
-	
+
 	if (state->gui.areas->rows < 1) {
 		gtk_widget_set_sensitive (GTK_WIDGET (state->gui.clear), FALSE);
 		gtk_widget_set_sensitive (GTK_WIDGET (state->gui.delete), FALSE);
@@ -370,18 +340,12 @@ cb_delete_clicked (GtkButton *button, ConsolidateState *state)
 }
 
 static void
-cb_help_clicked (GtkButton *button, ConsolidateState *state)
-{
-		gnumeric_help_display (CONSOLIDATE_HELP);
-}
-
-static void
 cb_labels_toggled (GtkCheckButton *button, ConsolidateState *state)
 {
 	gboolean copy_labels =
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->gui.labels_row)) ||
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->gui.labels_col));
-	    
+
 	gtk_widget_set_sensitive (GTK_WIDGET (state->gui.labels_copy), copy_labels);
 	if (!copy_labels)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->gui.labels_copy), FALSE);
@@ -392,15 +356,17 @@ cb_labels_toggled (GtkCheckButton *button, ConsolidateState *state)
 static void
 connect_signal_labels_toggled (ConsolidateState *state, GtkCheckButton *button)
 {
-	gtk_signal_connect (GTK_OBJECT (button), "toggled",
-			    GTK_SIGNAL_FUNC (cb_labels_toggled), state);
+	g_signal_connect (G_OBJECT (button),
+		"toggled",
+		G_CALLBACK (cb_labels_toggled), state);
 }
 
 static void
 connect_signal_btn_clicked (ConsolidateState *state, GtkButton *button)
 {
-	gtk_signal_connect (GTK_OBJECT (button), "clicked",
-			    GTK_SIGNAL_FUNC (cb_dialog_clicked), state);
+	g_signal_connect (G_OBJECT (button),
+		"clicked",
+		G_CALLBACK (cb_dialog_clicked), state);
 }
 
 static void
@@ -411,8 +377,8 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 	state->gui.function    = GTK_OPTION_MENU     (glade_xml_get_widget (glade_gui, "function"));
 	state->gui.put         = GTK_OPTION_MENU     (glade_xml_get_widget (glade_gui, "put"));
 
-	state->gui.destination = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
-	state->gui.source      = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
+	state->gui.destination = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	state->gui.source      = gnumeric_expr_entry_new (state->wbcg, TRUE);
 
 	state->gui.add         = GTK_BUTTON          (glade_xml_get_widget (glade_gui, "add"));
 	state->gui.areas       = GTK_CLIST           (glade_xml_get_widget (glade_gui, "areas"));
@@ -425,7 +391,6 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 
 	state->gui.btn_ok     = GTK_BUTTON  (glade_xml_get_widget (glade_gui, "btn_ok"));
 	state->gui.btn_cancel = GTK_BUTTON  (glade_xml_get_widget (glade_gui, "btn_cancel"));
-	state->gui.btn_help   = GTK_BUTTON  (glade_xml_get_widget (glade_gui, "btn_help"));
 
 	gtk_table_attach (GTK_TABLE (glade_xml_get_widget (glade_gui, "table1")),
 			  GTK_WIDGET (state->gui.destination),
@@ -437,34 +402,39 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 			    TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET (state->gui.destination));
 	gtk_widget_show (GTK_WIDGET (state->gui.source));
-	
-	gnumeric_expr_entry_set_scg (state->gui.destination, wbcg_cur_scg (state->wbcg));
-	gnumeric_expr_entry_set_scg (state->gui.source, wbcg_cur_scg (state->wbcg));
+
+	gnm_expr_entry_set_scg (state->gui.destination, wbcg_cur_scg (state->wbcg));
+	gnm_expr_entry_set_scg (state->gui.source, wbcg_cur_scg (state->wbcg));
 
 	gnumeric_editable_enters (GTK_WINDOW (state->gui.dialog),
-				  GTK_EDITABLE (state->gui.destination));
+				  GTK_WIDGET (state->gui.destination));
  	gnumeric_editable_enters (GTK_WINDOW (state->gui.dialog),
-				  GTK_EDITABLE (state->gui.source));
+				  GTK_WIDGET (state->gui.source));
 
-	gtk_signal_connect (GTK_OBJECT (state->gui.dialog), "set-focus",
-			    GTK_SIGNAL_FUNC (cb_dialog_set_focus), state);
-	gtk_signal_connect (GTK_OBJECT (state->gui.dialog), "destroy",
-			    GTK_SIGNAL_FUNC (cb_dialog_destroy), state);
-
-	gtk_signal_connect (GTK_OBJECT (state->gui.destination), "changed",
-			    GTK_SIGNAL_FUNC (dialog_set_button_sensitivity), state);
-	gtk_signal_connect (GTK_OBJECT (state->gui.areas), "select_row",
-			    GTK_SIGNAL_FUNC (cb_areas_select_row), state);
-			    
-	gtk_signal_connect (GTK_OBJECT (state->gui.source), "changed",
-			    GTK_SIGNAL_FUNC (cb_source_changed), state);
-
-	gtk_signal_connect (GTK_OBJECT (state->gui.add), "clicked",
-			    GTK_SIGNAL_FUNC (cb_add_clicked), state);
-	gtk_signal_connect (GTK_OBJECT (state->gui.clear), "clicked",
-			    GTK_SIGNAL_FUNC (cb_clear_clicked), state);
-	gtk_signal_connect (GTK_OBJECT (state->gui.delete), "clicked",
-			    GTK_SIGNAL_FUNC (cb_delete_clicked), state);
+	g_signal_connect (G_OBJECT (state->gui.dialog),
+		"set-focus",
+		G_CALLBACK (cb_dialog_set_focus), state);
+	g_signal_connect (G_OBJECT (state->gui.dialog),
+		"destroy",
+		G_CALLBACK (cb_dialog_destroy), state);
+	g_signal_connect (G_OBJECT (state->gui.destination),
+		"changed",
+		G_CALLBACK (dialog_set_button_sensitivity), state);
+	g_signal_connect (G_OBJECT (state->gui.areas),
+		"select_row",
+		G_CALLBACK (cb_areas_select_row), state);
+	g_signal_connect (G_OBJECT (state->gui.source),
+		"changed",
+		G_CALLBACK (cb_source_changed), state);
+	g_signal_connect (G_OBJECT (state->gui.add),
+		"clicked",
+		G_CALLBACK (cb_add_clicked), state);
+	g_signal_connect (G_OBJECT (state->gui.clear),
+		"clicked",
+		G_CALLBACK (cb_clear_clicked), state);
+	g_signal_connect (G_OBJECT (state->gui.delete),
+		"clicked",
+		G_CALLBACK (cb_delete_clicked), state);
 
 	connect_signal_labels_toggled (state, state->gui.labels_row);
 	connect_signal_labels_toggled (state, state->gui.labels_col);
@@ -472,8 +442,11 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 
 	connect_signal_btn_clicked (state, state->gui.btn_ok);
 	connect_signal_btn_clicked (state, state->gui.btn_cancel);
-	gtk_signal_connect (GTK_OBJECT (state->gui.btn_help), "clicked",
-			    GTK_SIGNAL_FUNC (cb_help_clicked), state);
+
+	/* FIXME: that's not the proper help location */
+	gnumeric_init_help_button (
+		glade_xml_get_widget (glade_gui, "btn_help"),
+		"data-menu.html");
 }
 
 static gboolean
@@ -485,7 +458,7 @@ cb_add_source_area (Sheet *sheet, Range const *range, gpointer user_data)
 
 	t[0] = name;
 	t[1] = NULL;
-	
+
 	gtk_clist_append (state->gui.areas, (char **) t);
 	return TRUE;
 }
@@ -496,7 +469,7 @@ dialog_consolidate (WorkbookControlGUI *wbcg, Sheet *sheet)
 	GladeXML *glade_gui;
 	ConsolidateState *state;
 	Range const *r = NULL;
-	
+
 	g_return_if_fail (wbcg != NULL);
 
 	glade_gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
@@ -516,7 +489,7 @@ dialog_consolidate (WorkbookControlGUI *wbcg, Sheet *sheet)
 	setup_widgets (state, glade_gui);
 
 	/* Dynamic initialization */
-	cb_source_changed (GTK_ENTRY (state->gui.source), state);
+	cb_source_changed (NULL, state);
 	cb_clear_clicked  (state->gui.clear, state);
 	cb_labels_toggled (state->gui.labels_row, state);
 
@@ -533,10 +506,10 @@ dialog_consolidate (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	gtk_widget_grab_focus   (GTK_WIDGET (state->gui.function));
 	gtk_widget_grab_default (GTK_WIDGET (state->gui.btn_ok));
-	
+
 	/* Show the dialog */
 	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->gui.dialog));
 	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->gui.dialog));
-	
+
 	gtk_widget_show (GTK_WIDGET (state->gui.dialog));
 }

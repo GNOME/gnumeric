@@ -43,7 +43,7 @@ typedef struct {
 	gint   line_no;
 	gchar *line;
 	gint   line_len, alloc_line_len;
-	
+
 	Sheet *sheet;
 } DifInputContext;
 

@@ -102,7 +102,7 @@ gnumeric_execSQL (FunctionEvalInfo *ei, Value **args)
 	GdaRecordset*  recset;
 	GList*         recset_list;
 	GdaCommand*    cmd;
-	
+
 	dsn_name = value_get_as_string (args[0]);
 	user_name = value_get_as_string (args[1]);
 	password = value_get_as_string (args[2]);
@@ -121,7 +121,7 @@ gnumeric_execSQL (FunctionEvalInfo *ei, Value **args)
 	if (!GDA_IS_CONNECTION (cnc)) {
 		return value_new_error(ei->pos, _("Error: could not open connection to %s"));
 	}
-	
+
 	/* execute command */
 	cmd = gda_command_new (sql, GDA_COMMAND_TYPE_SQL, 0);
 	recset_list = gda_connection_execute_command (cnc, cmd, NULL);

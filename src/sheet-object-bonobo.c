@@ -70,13 +70,12 @@ get_file_name (void)
 
 	fs = GTK_FILE_SELECTION (gtk_file_selection_new ("Select filename"));
 
-        gtk_signal_connect (GTK_OBJECT (fs->ok_button),
-                            "clicked",
-                            GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
-
-        gtk_signal_connect (GTK_OBJECT (fs->cancel_button),
-                            "clicked",
-                            GTK_SIGNAL_FUNC (gtk_main_quit), NULL);
+        g_signal_connect (G_OBJECT (fs->ok_button),
+		"clicked",
+		G_CALLBACK (gtk_main_quit), NULL);
+        g_signal_connect (G_OBJECT (fs->cancel_button),
+		"clicked",
+		G_CALLBACK (gtk_main_quit), NULL);
 
 	gtk_widget_show (GTK_WIDGET (fs));
 	gtk_main ();
@@ -96,7 +95,7 @@ get_file_name (void)
 
 void
 sheet_object_bonobo_load_persist_file (SheetObjectBonobo *sob,
-				       const char *fname, 
+				       const char *fname,
 				       CORBA_Environment *ev)
 {
 	Bonobo_PersistFile pf;
@@ -185,7 +184,7 @@ sheet_object_bonobo_print (SheetObject const *so, GnomePrintContext *ctx,
 }
 
 void
-sheet_object_bonobo_load_file (SheetObjectBonobo *sob, const gchar *fname, 
+sheet_object_bonobo_load_file (SheetObjectBonobo *sob, const gchar *fname,
 		               CORBA_Environment *ev)
 {
 	BonoboStream *stream;
@@ -240,8 +239,9 @@ sheet_object_bonobo_populate_menu (SheetObject *so,
 
 	if (sob->has_persist_file || sob->has_persist_stream) {
 		item = gtk_menu_item_new_with_label (_("Open..."));
-		gtk_signal_connect (GTK_OBJECT (item), "activate",
-				    GTK_SIGNAL_FUNC (open_cb), so);
+		g_signal_connect (G_OBJECT (item),
+			"activate",
+			G_CALLBACK (open_cb), so);
 		gtk_menu_append (menu, item);
 	}
 

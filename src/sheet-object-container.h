@@ -21,7 +21,7 @@ typedef struct {
 	SheetObjectBonoboClass parent_class;
 } SheetObjectContainerClass;
 
-GtkType sheet_object_container_get_type (void);
+GType sheet_object_container_get_type (void);
 
 SheetObject *sheet_object_container_new		(Workbook *wb);
 SheetObject *sheet_object_container_new_file	(Workbook *wb,

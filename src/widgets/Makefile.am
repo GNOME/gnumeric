@@ -18,9 +18,3 @@ libwidgets_a_SOURCES =				\
 	gnumeric-expr-entry.h			\
 	gnumeric-combo-text.c			\
 	gnumeric-combo-text.h
-
-# Disable until I can figure out how to do this with gnome2
-#	gnumeric-vscrollbar.c
-#	gnumeric-vscrollbar.h
-#	gnumeric-hscrollbar.c
-#	gnumeric-hscrollbar.h

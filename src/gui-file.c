@@ -176,7 +176,7 @@ can_try_save_to (WorkbookControlGUI *wbcg, const char *name)
 
 static gboolean
 check_multiple_sheet_support_if_needed (GnumFileSaver *fs,
-					WorkbookControlGUI *wbcg, 
+					WorkbookControlGUI *wbcg,
 					WorkbookView *wb_view)
 {
 	gboolean ret_val = TRUE;
@@ -188,8 +188,8 @@ check_multiple_sheet_support_if_needed (GnumFileSaver *fs,
 			       "saving multiple sheets in one file.\n"
 			       "If you want to save all sheets, save them "
 			       "in separate files or select different file format.\n"
-			       "Do you want to save only current sheet?"); 
-		
+			       "Do you want to save only current sheet?");
+
 		sheets = workbook_sheets (wb_view_workbook (wb_view));
 		if (g_list_length (sheets) > 1) {
 			ret_val = gnumeric_dialog_question_yes_no (wbcg, msg, TRUE);
@@ -308,7 +308,7 @@ gui_file_open (WorkbookControlGUI *wbcg)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Workbook *wb;
 	const gchar *wb_file_name;
-	
+
 	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Load file")));
 	gtk_file_selection_hide_fileop_buttons (fsel);
 
@@ -336,7 +336,7 @@ gboolean
 gui_file_save (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 {
 	Workbook *wb;
-	
+
 	wb_view_preferred_size (wb_view,
 	                        GTK_WIDGET (wbcg->notebook)->allocation.width,
 	                        GTK_WIDGET (wbcg->notebook)->allocation.height);
@@ -358,12 +358,12 @@ ask_for_file_saver (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	GList *savers;
 	GnumFileSaver *fs;
 	const gchar *buttons[] = {GNOME_STOCK_BUTTON_OK,
-		                  GNOME_STOCK_BUTTON_CANCEL, NULL}; 
+		                  GNOME_STOCK_BUTTON_CANCEL, NULL};
 
 	dialog = gnome_message_box_newv (_("Which file format would you like?"),
-					 GNOME_MESSAGE_BOX_QUESTION, buttons); 
+					 GNOME_MESSAGE_BOX_QUESTION, buttons);
 	gnome_dialog_set_close (GNOME_DIALOG (dialog), FALSE);
-	
+
 	/* Add the format chooser */
 	savers = g_list_copy (get_file_savers ());
 	savers = g_list_sort (savers, file_saver_description_cmp);
@@ -371,7 +371,7 @@ ask_for_file_saver (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	format_chooser = make_format_chooser (savers, omenu);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox),
 			    format_chooser, FALSE, FALSE, 0);
-	
+
 	/* Set default file saver */
 
 	fs = wbcg->current_saver;
@@ -384,11 +384,11 @@ ask_for_file_saver (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	}
 	gtk_option_menu_set_history (omenu, g_list_index (savers, fs));
 	gtk_widget_show_all (dialog);
-	
+
 	switch (gnome_dialog_run (GNOME_DIALOG (dialog))) {
 	case 0: /* Ok */
 		fs = g_list_nth_data (savers,
-			gnumeric_option_menu_get_selected_index (omenu)); 
+			gnumeric_option_menu_get_selected_index (omenu));
 		break;
 	default: /* Cancel */
 		fs = NULL;
@@ -396,7 +396,7 @@ ask_for_file_saver (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	}
 	gnome_dialog_close (GNOME_DIALOG (dialog));
 	g_list_free (savers);
-	
+
 	return (fs);
 }
 

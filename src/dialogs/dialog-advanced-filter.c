@@ -51,7 +51,7 @@ free_rows (GSList *row_list)
 
 
 static void
-filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows, 
+filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
 	gint input_col_b, gint input_col_e, gint input_row_b, gint input_row_e)
 {
         Cell *cell;
@@ -67,8 +67,8 @@ filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
 			rows = rows->next;
 		}
 		sheet_redraw_all (sheet, TRUE);
-/* FIXME: what happens if we just have hidden the selection? */	
-	
+/* FIXME: what happens if we just have hidden the selection? */
+
 	} else {
 		for (i=input_col_b; i<=input_col_e; i++) {
 			cell = sheet_cell_get (sheet, i, input_row_b);
@@ -80,7 +80,7 @@ filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
 			}
 		}
 		++r;
-		
+
 		while (rows != NULL) {
 			gint *row = (gint *) rows->data;
 			for (i=input_col_b; i<=input_col_e; i++) {
@@ -95,7 +95,7 @@ filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
 			++r;
 			rows = rows->next;
 		}
-	} 
+	}
 }
 
 /* Filter tool.
@@ -114,7 +114,7 @@ advanced_filter (WorkbookControl *wbc,
 	if (crit == NULL)
 		return ERR_INVALID_FIELD;
 
-	rows = find_rows_that_match (database->v_range.cell.a.sheet, 
+	rows = find_rows_that_match (database->v_range.cell.a.sheet,
 				     database->v_range.cell.a.col,
 				     database->v_range.cell.a.row + 1,
 				     database->v_range.cell.b.col,
@@ -125,12 +125,12 @@ advanced_filter (WorkbookControl *wbc,
 
 	if (rows == NULL)
 		return NO_RECORDS_FOUND;
-		
+
 
 	prepare_output (wbc, dao, "Filtered");
 
-	filter (dao, database->v_range.cell.a.sheet, rows, database->v_range.cell.a.col, 
-		database->v_range.cell.b.col, database->v_range.cell.a.row, 
+	filter (dao, database->v_range.cell.a.sheet, rows, database->v_range.cell.a.col,
+		database->v_range.cell.b.col, database->v_range.cell.a.row,
 		database->v_range.cell.b.row);
 
 	free_rows (rows);
@@ -145,7 +145,7 @@ advanced_filter (WorkbookControl *wbc,
  * @dummy:
  * @state:
  *
- * Update the dialog widgets sensitivity 
+ * Update the dialog widgets sensitivity
  **/
 static void
 advanced_filter_update_sensitivity_cb (GtkWidget *dummy, AdvancedFilterState *state)
@@ -156,7 +156,7 @@ advanced_filter_update_sensitivity_cb (GtkWidget *dummy, AdvancedFilterState *st
 
 	int i;
 
-        input_range = gnumeric_expr_entry_parse_to_value (
+        input_range = gnm_expr_entry_parse_as_value (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 	if (input_range == NULL) {
 		gtk_label_set_text (GTK_LABEL (state->warning), _("The list range is invalid."));
@@ -165,27 +165,27 @@ advanced_filter_update_sensitivity_cb (GtkWidget *dummy, AdvancedFilterState *st
 	} else
 		value_release (input_range);
 
-	criteria_range =  gnumeric_expr_entry_parse_to_value
-		(GNUMERIC_EXPR_ENTRY (state->input_entry_2), state->sheet);
+	criteria_range =  gnm_expr_entry_parse_as_value
+		(state->input_entry_2, state->sheet);
 	if (criteria_range == NULL) {
-		gtk_label_set_text (GTK_LABEL (state->warning), 
+		gtk_label_set_text (GTK_LABEL (state->warning),
 				    _("The criteria range is invalid."));
 		gtk_widget_set_sensitive (state->ok_button, FALSE);
 		return;
-	} else 
+	} else
 		value_release (criteria_range);
 
 	i = gnumeric_glade_group_value (state->gui, output_group);
 	if (i == 2) {
-		output_range = gnumeric_expr_entry_parse_to_value
+		output_range = gnm_expr_entry_parse_as_value
 			(GNUMERIC_EXPR_ENTRY (state->output_entry), state->sheet);
 		if (output_range == NULL) {
-			gtk_label_set_text (GTK_LABEL (state->warning), 
+			gtk_label_set_text (GTK_LABEL (state->warning),
 					    _("The output range is invalid."));
 			gtk_widget_set_sensitive (state->ok_button, FALSE);
 			return;
 		} else
-			value_release (output_range);	
+			value_release (output_range);
 	}
 
 	gtk_label_set_text (GTK_LABEL (state->warning), "");
@@ -213,11 +213,11 @@ advanced_filter_ok_clicked_cb (GtkWidget *button, AdvancedFilterState *state)
 	int err = 0;
 	gboolean unique;
 
-	input = gnumeric_expr_entry_parse_to_value (
+	input = gnm_expr_entry_parse_as_value (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 
-	criteria = gnumeric_expr_entry_parse_to_value
-		(GNUMERIC_EXPR_ENTRY (state->input_entry_2), state->sheet);
+	criteria = gnm_expr_entry_parse_as_value
+		(state->input_entry_2, state->sheet);
 
         parse_output ((GenericToolState *) state, &dao);
 
@@ -235,7 +235,7 @@ advanced_filter_ok_clicked_cb (GtkWidget *button, AdvancedFilterState *state)
 		gtk_widget_destroy (state->dialog);
 		break;
 	case ERR_INVALID_FIELD:
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry_2), 
+		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry_2),
 				_("The given criteria are invalid."));
 		break;
 	case NO_RECORDS_FOUND:
@@ -277,22 +277,22 @@ dialog_advanced_filter_init (AdvancedFilterState *state)
 
 	state->accel = gtk_accel_group_new ();
 
-	dialog_tool_init_buttons ((GenericToolState *) state, 
+	dialog_tool_init_buttons ((GenericToolState *) state,
 				  GTK_SIGNAL_FUNC (advanced_filter_ok_clicked_cb));
 
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "input-table"));
-	state->input_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
-	gnumeric_expr_entry_set_flags (state->input_entry, 0, GNUM_EE_MASK);
-        gnumeric_expr_entry_set_scg (state->input_entry, wbcg_cur_scg (state->wbcg));
+	state->input_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	gnm_expr_entry_set_flags (state->input_entry, 0, GNUM_EE_MASK);
+        gnm_expr_entry_set_scg (state->input_entry, wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->input_entry),
 			  1, 2, 0, 1,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
-	gtk_signal_connect_after (GTK_OBJECT (state->input_entry), "changed",
-				  GTK_SIGNAL_FUNC (advanced_filter_update_sensitivity_cb), 
+	g_signal_connect_after (GTK_OBJECT (state->input_entry), "changed",
+				  GTK_SIGNAL_FUNC (advanced_filter_update_sensitivity_cb),
 				  state);
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_EDITABLE (state->input_entry));
+				  GTK_WIDGET (state->input_entry));
 	widget = glade_xml_get_widget (state->gui, "var1-label");
 	key = gtk_label_parse_uline (GTK_LABEL (widget), state->input_var1_str);
 	if (key != GDK_VoidSymbol)
@@ -302,18 +302,17 @@ dialog_advanced_filter_init (AdvancedFilterState *state)
 					    GDK_MOD1_MASK, 0);
 	gtk_widget_show (GTK_WIDGET (state->input_entry));
 
-	state->input_entry_2 = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
-	gnumeric_expr_entry_set_flags (state->input_entry_2, GNUM_EE_SINGLE_RANGE, GNUM_EE_MASK);
-	gnumeric_expr_entry_set_scg (state->input_entry_2,
-				     wbcg_cur_scg (state->wbcg));
+	state->input_entry_2 = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	gnm_expr_entry_set_flags (state->input_entry_2, GNUM_EE_SINGLE_RANGE, GNUM_EE_MASK);
+	gnm_expr_entry_set_scg (state->input_entry_2, wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->input_entry_2),
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_EDITABLE (state->input_entry_2));
-	gtk_signal_connect_after (GTK_OBJECT (state->input_entry_2), "changed",
-				  GTK_SIGNAL_FUNC (advanced_filter_update_sensitivity_cb), 
+				  GTK_WIDGET (state->input_entry_2));
+	g_signal_connect_after (GTK_OBJECT (state->input_entry_2), "changed",
+				  GTK_SIGNAL_FUNC (advanced_filter_update_sensitivity_cb),
 				  state);
 	widget = glade_xml_get_widget (state->gui, "var2-label");
 	key = gtk_label_parse_uline (GTK_LABEL (widget), state->input_var2_str);
@@ -327,12 +326,14 @@ dialog_advanced_filter_init (AdvancedFilterState *state)
 	state->warning = glade_xml_get_widget (state->gui, "warnings");
 
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",
-			    GTK_SIGNAL_FUNC (tool_set_focus), state);
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
-			    GTK_SIGNAL_FUNC (tool_destroy), state);
+	g_signal_connect (G_OBJECT (state->dialog),
+		"set-focus",
+		G_CALLBACK (tool_set_focus), state);
+	g_signal_connect (G_OBJECT (state->dialog),
+		"destroy",
+		G_CALLBACK (tool_destroy), state);
 
-	dialog_tool_init_outputs ((GenericToolState *) state, GTK_SIGNAL_FUNC 
+	dialog_tool_init_outputs ((GenericToolState *) state, GTK_SIGNAL_FUNC
 				  (advanced_filter_update_sensitivity_cb));
 
 	gtk_window_add_accel_group (GTK_WINDOW (state->dialog),

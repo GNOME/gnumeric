@@ -95,10 +95,11 @@ gnumeric_notice_nonmodal (GtkWindow *parent, GtkWidget **ref, GtkMessageType typ
 					 GTK_BUTTONS_OK, str);
 
 	gtk_signal_connect_object (GTK_OBJECT (dialog), "response",
-				   GTK_SIGNAL_FUNC (gtk_widget_destroy), 
+				   GTK_SIGNAL_FUNC (gtk_widget_destroy),
 				   GTK_OBJECT (dialog));
-	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
-			    GTK_SIGNAL_FUNC (gnumeric_destroy_dialog), ref);
+	g_signal_connect (G_OBJECT (dialog),
+		"destroy",
+		G_CALLBACK (gnumeric_destroy_dialog), ref);
 
 	gtk_widget_show (dialog);
 	*ref = dialog;
@@ -178,14 +179,18 @@ gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, GtkFileSelection *fsel
 
 	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
 	gnumeric_set_transient (wbcg, GTK_WINDOW (fsel));
-	gtk_signal_connect (GTK_OBJECT (fsel->ok_button), "clicked",
-	                    GTK_SIGNAL_FUNC (fsel_handle_ok), &result);
-	gtk_signal_connect (GTK_OBJECT (fsel->cancel_button), "clicked",
-	                    GTK_SIGNAL_FUNC (fsel_handle_cancel), NULL);
-	gtk_signal_connect (GTK_OBJECT (fsel), "key_press_event",
-	                    GTK_SIGNAL_FUNC (fsel_key_event), NULL);
-	gtk_signal_connect (GTK_OBJECT (fsel), "delete_event",
-	                    GTK_SIGNAL_FUNC (fsel_delete_event), NULL);
+	g_signal_connect (G_OBJECT (fsel->ok_button),
+		"clicked",
+		G_CALLBACK (fsel_handle_ok), &result);
+	g_signal_connect (G_OBJECT (fsel->cancel_button),
+		"clicked",
+		G_CALLBACK (fsel_handle_cancel), NULL);
+	g_signal_connect (G_OBJECT (fsel),
+		"key_press_event",
+		G_CALLBACK (fsel_key_event), NULL);
+	g_signal_connect (G_OBJECT (fsel),
+		"delete_event",
+		G_CALLBACK (fsel_delete_event), NULL);
 	gtk_widget_show_all (GTK_WIDGET (fsel));
 	gtk_grab_add (GTK_WIDGET (fsel));
 	gtk_main ();
@@ -215,7 +220,7 @@ gnumeric_dialog_run (WorkbookControlGUI *wbcg, GtkDialog *dialog)
 	}
 
 	result = gtk_dialog_run (dialog);
-	gtk_widget_destroy (GTK_WIDGET (dialog));	
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 	return result;
 }
 
@@ -470,9 +475,9 @@ gnumeric_keyed_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog, const char *
 	ctxt->key  = key;
 	g_object_set_data (G_OBJECT (wbcg), key, dialog);
 
-	gtk_signal_connect (
-		GTK_OBJECT (dialog), "destroy",
-		GTK_SIGNAL_FUNC (cb_remove_object_data), ctxt);
+	g_signal_connect (G_OBJECT (dialog),
+		"destroy",
+		G_CALLBACK (cb_remove_object_data), ctxt);
 }
 
 /**
@@ -518,15 +523,16 @@ gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg, char *key)
  *
  **/
 void
-gnumeric_editable_enters (GtkWindow *window, GtkEditable *editable)
+gnumeric_editable_enters (GtkWindow *window, GtkWidget *w)
 {
-	g_return_if_fail(window != NULL);
-	g_return_if_fail(editable != NULL);
-	g_return_if_fail(GTK_IS_WINDOW(window));
-	g_return_if_fail(GTK_IS_EDITABLE(editable));
+	g_return_if_fail (GTK_IS_WINDOW(window));
+
+	/* because I really do not feel like changing all the calls to this routine */
+	if (IS_GNUMERIC_EXPR_ENTRY (w))
+		w = GTK_WIDGET (gnm_expr_entry_get_entry (GNUMERIC_EXPR_ENTRY (w)));
 
 	gtk_signal_connect_object
-		(GTK_OBJECT(editable), "activate",
+		(GTK_OBJECT (w), "activate",
 		 GTK_SIGNAL_FUNC(gtk_window_activate_default),
 		 GTK_OBJECT(window));
 }
@@ -543,12 +549,11 @@ gnumeric_editable_enters (GtkWindow *window, GtkEditable *editable)
 void
 gnumeric_combo_enters (GtkWindow *window, GtkCombo *combo)
 {
-	g_return_if_fail (window != NULL);
-	g_return_if_fail (combo != NULL);
+	g_return_if_fail (GTK_IS_WINDOW(window));
+	g_return_if_fail (GTK_IS_COMBO (combo));
 
 	gtk_combo_disable_activate (combo);
-	gnumeric_editable_enters (window,
-				  GTK_EDITABLE (combo->entry));
+	gnumeric_editable_enters (window, GTK_WIDGET (combo->entry));
 }
 
 /**
@@ -616,6 +621,27 @@ gnumeric_toolbar_append_with_eventbox (GtkToolbar *toolbar, GtkWidget  *widget,
 				   tooltip_text, tooltip_private_text);
 }
 
+/**
+ * gtk_button_stock_alignment_set :
+ * @button :
+ * ...
+ *
+ * gtk-1.3 hard codes the alignment of stock content to be .5,.5,0,0
+ * this makes it hard to align stock icons within buttons.
+ */
+void
+gtk_button_stock_alignment_set (GtkButton *button,
+				gfloat     xalign,
+				gfloat     yalign,
+				gfloat     xscale,
+				gfloat     yscale)
+{
+	g_return_if_fail (GTK_IS_BUTTON (button));
+
+	gtk_alignment_set (GTK_ALIGNMENT (gtk_bin_get_child (GTK_BIN (button))),
+		xalign, yalign, xscale, yscale);
+}
+
 int
 gtk_radio_group_get_selected (GSList *radio_group)
 {
@@ -667,8 +693,9 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 	gtk_object_ref (GTK_OBJECT (menu));
 	gtk_object_sink (GTK_OBJECT (menu));
 
-	gtk_signal_connect (GTK_OBJECT (menu), "hide",
-		GTK_SIGNAL_FUNC (kill_popup_menu), menu);
+	g_signal_connect (G_OBJECT (menu),
+		"hide",
+		G_CALLBACK (kill_popup_menu), menu);
 
 	/* Do NOT pass the button used to create the menu.
 	 * instead pass 0.  Otherwise bringing up a menu with
@@ -717,9 +744,9 @@ gnumeric_clist_moveto (GtkCList *clist, gint row)
 	if (GTK_WIDGET_DRAWABLE (clist))
 		clist_moveto (clist, row);
 	else
-		gtk_signal_connect (GTK_OBJECT (clist), "map",
-				    GTK_SIGNAL_FUNC (cb_clist_moveto),
-				    GINT_TO_POINTER (row));
+		g_signal_connect (G_OBJECT (clist),
+			"map",
+			G_CALLBACK (cb_clist_moveto), GINT_TO_POINTER (row));
 }
 
 /*
@@ -870,8 +897,9 @@ gnumeric_non_modal_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog)
 {
 	gnumeric_set_transient (wbcg, dialog);
 
-	gtk_signal_connect (GTK_OBJECT (dialog), "key-press-event",
-			    (GtkSignalFunc) cb_non_modal_dialog_keypress, NULL);
+	g_signal_connect (G_OBJECT (dialog),
+		"key-press-event",
+		G_CALLBACK (cb_non_modal_dialog_keypress), NULL);
 }
 
 #ifdef ENABLE_BONOBO
@@ -952,10 +980,9 @@ gnumeric_create_popup_menu_list (GSList *elements,
 		}
 
 		if (element->index != 0) {
-			gtk_signal_connect (
-				GTK_OBJECT (item), "activate",
-				GTK_SIGNAL_FUNC (&popup_item_activate),
-				user_data);
+			g_signal_connect (G_OBJECT (item),
+				"activate",
+				G_CALLBACK (&popup_item_activate), user_data);
 			gtk_object_set_data (
 				GTK_OBJECT (item), "descriptor", (gpointer)(element));
 			gtk_object_set_data (
@@ -1065,6 +1092,26 @@ gnumeric_help_display (char const *link)
 	gnome_help_display ("gnumeric", link, NULL);
 }
 
+
+static void
+cb_help (GtkWidget *button, char const *link)
+{
+	gnumeric_help_display (link);
+}
+
+void
+gnumeric_init_help_button (GtkWidget *w, char const *link)
+{
+	GtkWidget *parent = gtk_widget_get_parent (w);
+	if (GTK_IS_BUTTON_BOX (parent))
+		gtk_button_box_set_child_secondary (GTK_BUTTON_BOX (parent),
+						    w, TRUE);
+
+	g_signal_connect (G_OBJECT (w),
+		"clicked",
+		G_CALLBACK (cb_help), (gpointer) link);
+}
+
 static void
 gnumeric_help_pbox_goto (void *ignore, int ignore2, char const *link)
 {
@@ -1074,8 +1121,9 @@ gnumeric_help_pbox_goto (void *ignore, int ignore2, char const *link)
 void
 gnumeric_pbox_init_help (GtkWidget *dialog, char const *link)
 {
-	gtk_signal_connect (GTK_OBJECT (dialog), "help",
-		GTK_SIGNAL_FUNC (gnumeric_help_pbox_goto), (gpointer)link);
+	g_signal_connect (G_OBJECT (dialog),
+		"help",
+		G_CALLBACK (gnumeric_help_pbox_goto), (gpointer)link);
 }
 
 char *
@@ -1106,14 +1154,14 @@ gnumeric_textview_set_text (GtkTextView *text_view, char const *txt)
  * update:
  *
  * retrieve a float from an entry field parsing all reasonable formats
- * 
+ *
  **/
 int
 entry_to_float (GtkEntry *entry, gnum_float *the_float, gboolean update)
 {
 	Value *value = format_match_number (gtk_entry_get_text (entry), NULL);
 
-	if ((value == NULL) || !VALUE_IS_NUMBER (value)) { 
+	if ((value == NULL) || !VALUE_IS_NUMBER (value)) {
 		*the_float = 0.0;
 		return 1;
 	}
@@ -1121,9 +1169,9 @@ entry_to_float (GtkEntry *entry, gnum_float *the_float, gboolean update)
 	if (update) {
 		char *tmp = format_value (NULL, value, NULL, 16);
 		gtk_entry_set_text (entry, tmp);
-		g_free (tmp);	
+		g_free (tmp);
 	}
-	
+
 	value_release (value);
 	return 0;
 }
@@ -1135,14 +1183,14 @@ entry_to_float (GtkEntry *entry, gnum_float *the_float, gboolean update)
  * update:
  *
  * retrieve an int from an entry field parsing all reasonable formats
- * 
+ *
   **/
 int
 entry_to_int (GtkEntry *entry, gint *the_int, gboolean update)
 {
 	Value *value = format_match_number (gtk_entry_get_text (entry), NULL);
 
-	if ((value == NULL) || !(value->type == VALUE_INTEGER)) { 
+	if ((value == NULL) || !(value->type == VALUE_INTEGER)) {
 		*the_int = 0;
 		return 1;
 	}
@@ -1150,9 +1198,9 @@ entry_to_int (GtkEntry *entry, gint *the_int, gboolean update)
 	if (update) {
 		char *tmp = format_value (NULL, value, NULL, 16);
 		gtk_entry_set_text (entry, tmp);
-		g_free (tmp);	
+		g_free (tmp);
 	}
-	
+
 	value_release (value);
 	return 0;
 }
@@ -1162,19 +1210,19 @@ entry_to_int (GtkEntry *entry, gint *the_int, gboolean update)
  * @entry:
  * @the_float:
  *
- * 
+ *
   **/
 void
-float_to_entry (GtkEntry *entry, gnum_float the_float) 
+float_to_entry (GtkEntry *entry, gnum_float the_float)
 {
 	char        *text      = NULL;
 	Value       *val = NULL;
-       
+
 	val = value_new_float(the_float);
 	text = format_value (NULL, val, NULL, 16);
 	if (text) {
 		gtk_entry_set_text (entry, text);
-		g_free (text);	
+		g_free (text);
 	}
 	if (val)
 		value_release(val);
@@ -1186,22 +1234,37 @@ float_to_entry (GtkEntry *entry, gnum_float the_float)
  * @entry:
  * @the_float:
  *
- * 
+ *
   **/
 void
-int_to_entry (GtkEntry *entry, gint the_int) 
+int_to_entry (GtkEntry *entry, gint the_int)
 {
 	char        *text      = NULL;
 	Value       *val = NULL;
-       
+
 	val = value_new_int(the_int);
 	text = format_value (NULL, val, NULL, 16);
 	if (text) {
 		gtk_entry_set_text (entry, text);
-		g_free (text);	
+		g_free (text);
 	}
 	if (val)
 		value_release(val);
 	return;
 }
 
+GtkWidget *
+gnumeric_load_image (char const * const name)
+{
+	GtkWidget *image;
+	char *path;
+
+	path = g_strconcat (GNUMERIC_ICONDIR "/", name, NULL);
+	image = gnome_pixmap_new_from_file (path);
+	g_free (path);
+
+	if (image)
+		gtk_widget_show (image);
+
+	return image;
+}

@@ -2,10 +2,11 @@
 #define GNUMERIC_ITEM_EDIT_H
 
 #include "gui-gnumeric.h"
+#include <gtk/gtkentry.h>
 
-#define ITEM_EDIT(obj)          (GTK_CHECK_CAST((obj), item_edit_get_type (), ItemEdit))
-#define ITEM_EDIT_CLASS(k)      (GTK_CHECK_CLASS_CAST ((k), item_edit_get_type (), ItemEditClass))
-#define IS_ITEM_EDIT(o)         (GTK_CHECK_TYPE((o), item_edit_get_type ()))
+#define ITEM_EDIT(obj)          (G_TYPE_CHECK_INSTANCE_CAST((obj), item_edit_get_type (), ItemEdit))
+#define ITEM_EDIT_CLASS(k)      (G_TYPE_CHECK_CLASS_CAST ((k), item_edit_get_type (), ItemEditClass))
+#define IS_ITEM_EDIT(o)         (G_TYPE_CHECK_INSTANCE_TYPE((o), item_edit_get_type ()))
 
 struct _ItemEdit {
 	GnomeCanvasItem canvas_item;
@@ -38,7 +39,7 @@ struct _ItemEdit {
 	gboolean         feedback_disabled;
 };
 
-GtkType item_edit_get_type (void);
+GType item_edit_get_type (void);
 
 void    item_edit_disable_highlight (ItemEdit *item_edit);
 void    item_edit_enable_highlight  (ItemEdit *item_edit);

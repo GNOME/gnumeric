@@ -109,8 +109,9 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 		GTK_STOCK_CANCEL,	GTK_RESPONSE_CANCEL,
 		NULL);
 	state->dialog = GTK_DIALOG (tmp);
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
-			    GTK_SIGNAL_FUNC (dialog_destroy), state);
+	g_signal_connect (G_OBJECT (state->dialog),
+		"destroy",
+		G_CALLBACK (dialog_destroy), state);
 	gtk_dialog_set_default_response (state->dialog, GTK_RESPONSE_CANCEL);
 
 	f1  = gtk_frame_new (_("Paste type"));
@@ -123,21 +124,21 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 
 	state->group_type = NULL;
 	for (i = 0; paste_types[i].name; i++){
-		GtkSignalFunc func;
+		GCallback func;
 		GtkWidget *r;
 
 		if (paste_types[i].disables_second_group)
-			func = GTK_SIGNAL_FUNC (disable_op_group);
+			func = G_CALLBACK (disable_op_group);
 		else
-			func = GTK_SIGNAL_FUNC (enable_op_group);
+			func = G_CALLBACK (enable_op_group);
 
 		r = gtk_radio_button_new_with_label (state->group_type, _(paste_types[i].name));
 		state->group_type = GTK_RADIO_BUTTON (r)->group;
 
-		gtk_signal_connect (GTK_OBJECT (r), "toggled", func, f2);
-		gtk_signal_connect (GTK_OBJECT (r), "toggled",
-				    GTK_SIGNAL_FUNC (paste_link_set_sensitive),
-				    state);
+		g_signal_connect (G_OBJECT (r), "toggled", func, f2);
+		g_signal_connect (G_OBJECT (r),
+			"toggled",
+			G_CALLBACK (paste_link_set_sensitive), state);
 
 		gtk_box_pack_start_defaults (GTK_BOX (f1v), r);
 		if (i == 0) first_button = r;
@@ -148,8 +149,9 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 		GtkWidget *r;
 
 		r = gtk_radio_button_new_with_label (state->group_ops, _(paste_ops[i]));
-		gtk_signal_connect (GTK_OBJECT (r), "toggled",
-				    GTK_SIGNAL_FUNC (paste_link_set_sensitive),
+		g_signal_connect (G_OBJECT (r),
+			"toggled",
+			G_CALLBACK (paste_link_set_sensitive),
 				    state);
 		state->group_ops = GTK_RADIO_BUTTON (r)->group;
 		gtk_box_pack_start_defaults (GTK_BOX (f2v), r);
@@ -158,21 +160,21 @@ dialog_paste_special (WorkbookControlGUI *wbcg)
 	vbox = gtk_vbox_new (TRUE, 0);
 
 	state->transpose = GTK_TOGGLE_BUTTON (gtk_check_button_new_with_label (_("Transpose")));
-	gtk_signal_connect (GTK_OBJECT (state->transpose), "toggled",
-			    GTK_SIGNAL_FUNC (checkbutton_toggled),
-			    &do_transpose);
-	gtk_signal_connect (GTK_OBJECT (state->transpose), "toggled",
-			    GTK_SIGNAL_FUNC (paste_link_set_sensitive),
-			    state);
+	g_signal_connect (G_OBJECT (state->transpose),
+		"toggled",
+		G_CALLBACK (checkbutton_toggled), &do_transpose);
+	g_signal_connect (G_OBJECT (state->transpose),
+		"toggled",
+		G_CALLBACK (paste_link_set_sensitive), state);
 	gtk_box_pack_start_defaults (GTK_BOX (vbox), GTK_WIDGET (state->transpose));
 
 	state->skip_blanks = GTK_TOGGLE_BUTTON (gtk_check_button_new_with_label (_("Skip Blanks")));
-	gtk_signal_connect (GTK_OBJECT (state->skip_blanks), "toggled",
-			    GTK_SIGNAL_FUNC (checkbutton_toggled),
-			    &do_skip_blanks);
-	gtk_signal_connect (GTK_OBJECT (state->skip_blanks), "toggled",
-			    GTK_SIGNAL_FUNC (paste_link_set_sensitive),
-			    state);
+	g_signal_connect (G_OBJECT (state->skip_blanks),
+		"toggled",
+		G_CALLBACK (checkbutton_toggled), &do_skip_blanks);
+	g_signal_connect (G_OBJECT (state->skip_blanks),
+		"toggled",
+		G_CALLBACK (paste_link_set_sensitive), state);
 	gtk_box_pack_start_defaults (GTK_BOX (vbox), GTK_WIDGET (state->skip_blanks));
 
 	hbox = gtk_hbox_new (TRUE, 0);

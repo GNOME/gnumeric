@@ -32,7 +32,7 @@
 #include <gal/widgets/e-cursors.h>
 #include <gal/util/e-util.h>
 
-#define ITEM_CURSOR_CLASS(k)      (GTK_CHECK_CLASS_CAST ((k), item_cursor_get_type (), ItemCursorClass))
+#define ITEM_CURSOR_CLASS(k)      (G_TYPE_CHECK_CLASS_CAST ((k), item_cursor_get_type (), ItemCursorClass))
 
 #define AUTO_HANDLE_WIDTH	2
 #define AUTO_HANDLE_SPACE	(AUTO_HANDLE_WIDTH * 2)
@@ -1121,10 +1121,6 @@ item_cursor_set_visibility (ItemCursor *ic, gboolean visible)
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ic));
 }
 
-#if 0
-/*
- * This cannot be used yet.  It exercises a bug in GtkLayout
- */
 static void
 item_cursor_tip_setlabel (ItemCursor *ic)
 {
@@ -1155,30 +1151,6 @@ item_cursor_tip_setlabel (ItemCursor *ic)
 
 	gtk_label_set_text (GTK_LABEL (ic->tip), buffer);
 }
-#endif
-
-static void
-item_cursor_tip_setstatus (ItemCursor *ic)
-{
-	char buffer [32]; /* What if SHEET_MAX_ROWS or SHEET_MAX_COLS changes? */
-	int tmp;
-	Range const * src = &ic->pos;
-
-	/*
-	 * keep these as 2 print statements, because
-	 * col_name uses a static buffer
-	 */
-	tmp = snprintf (buffer, sizeof (buffer), "%s%s",
-			col_name (src->start.col),
-			row_name (src->start.row));
-
-	if (src->start.col != src->end.col || src->start.row != src->end.row)
-		snprintf (buffer+tmp, sizeof (buffer)-tmp, ":%s%s",
-			  col_name (src->end.col),
-			  row_name (src->end.row));
-
-	wb_control_gui_set_status_text (ic->scg->wbcg, buffer);
-}
 
 static gboolean
 cb_move_cursor (GnumericCanvas *gcanvas, int col, int row, gpointer user_data)
@@ -1200,13 +1172,7 @@ cb_move_cursor (GnumericCanvas *gcanvas, int col, int row, gpointer user_data)
 	else if (corner.row >= (SHEET_MAX_ROWS - h))
 		corner.row = SHEET_MAX_ROWS - h - 1;
 
-#if 0
-	/* Leave this disabled until GtkLayout correctly handles
-	 * Windows with SaveUnder set. (Speak to federico for details).
-	 */
 	item_cursor_tip_setlabel (ic);
-#endif
-	item_cursor_tip_setstatus (ic);
 
 	/* Make target cell visible, and adjust the cursor size */
 	item_cursor_set_bounds_visibly (ic, col, row, &corner,

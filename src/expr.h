@@ -72,7 +72,7 @@ struct _ExprBinary {
 	ExprTree *value_b;
 };
 
-/* We could brek this out into multiple types to be more space efficient */
+/* We could break this out into multiple types to be more space efficient */
 struct _ExprName {
 	Operation const oper;
 	int       ref_count;

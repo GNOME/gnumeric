@@ -3,7 +3,8 @@
 #define GNUMERIC_SHEET_OBJECT_PRIV_H
 
 #include "sheet-object.h"
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
+#include <gtk/gtkmenu.h>
 #include <libgnomeprint/gnome-print.h>
 
 typedef enum {
@@ -28,18 +29,18 @@ typedef struct {
 	gboolean   (*assign_to_sheet) (SheetObject	*sheet_object,
 				       Sheet		*sheet);
 
-	GtkObject *      (*new_view) (SheetObject	*sheet_object,
+	GObject *      (*new_view)   (SheetObject	*sheet_object,
 				      SheetControlGUI	*s_control);
 	void        (*populate_menu) (SheetObject	*sheet_object,
-				      GtkObject		*obj_view,
+				      GObject		*obj_view,
 				      GtkMenu		*menu);
 	void	      (*user_config) (SheetObject	*sheet_object,
 				      SheetControlGUI	*s_control);
 	void        (*update_bounds) (SheetObject	*so,
-				      GtkObject		*obj_view,
+				      GObject		*obj_view,
 				      SheetControlGUI	*s_control);
 	void           (*set_active) (SheetObject	*so,
-				      GtkObject         *obj_view,
+				      GObject           *obj_view,
 				      gboolean		val);
 	gboolean	 (*read_xml) (SheetObject	*so,
 				      XmlParseContext const *ctxt,
@@ -49,11 +50,11 @@ typedef struct {
 				      xmlNodePtr	tree);
 	void                (*print) (SheetObject const *so,
 				      GnomePrintContext *ctx,
-				      double base_x, 
+				      double base_x,
 				      double base_y);
 	SheetObject *       (*clone) (SheetObject const *so,
 				      Sheet *sheet);
-						
+
 	double	 default_width_pts, default_height_pts;
 	gboolean stipple_border;
 	gboolean rubber_band_directly; /* If false, we draw a rectangle where
@@ -63,6 +64,6 @@ typedef struct {
 					*/
 } SheetObjectClass;
 
-#define SHEET_OBJECT_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_OBJECT_TYPE, SheetObjectClass))
+#define SHEET_OBJECT_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_OBJECT_TYPE, SheetObjectClass))
 
 #endif /* GNUMERIC_SHEET_OBJECT_PRIV_H */

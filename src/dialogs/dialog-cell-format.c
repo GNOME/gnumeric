@@ -15,7 +15,6 @@
 #include <sheet-merge.h>
 #include <sheet-style.h>
 #include <style-color.h>
-#include <utils-dialog.h>
 #include <widgets/widget-font-selector.h>
 #include <widgets/gnumeric-dashed-canvas-line.h>
 #include <gui-util.h>
@@ -38,7 +37,6 @@
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-help.h>
 #include <libgnome/gnome-util.h>
 #include <glade/glade.h>
 #include <gal/widgets/widget-color-combo.h>
@@ -81,7 +79,7 @@ typedef struct
        	struct _FormatState *state;
 
 	GtkWidget        *combo;
-       	GtkSignalFunc	  preview_update;
+       	GCallback	  preview_update;
 } ColorPicker;
 
 typedef struct
@@ -103,7 +101,9 @@ typedef struct _FormatState
 {
 	GladeXML	*gui;
 	WorkbookControlGUI	*wbcg;
-	GnomePropertyBox*dialog;
+	GtkDialog	*dialog;
+	GtkNotebook	*notebook;
+	GtkWidget	*apply_button;
 
 	Sheet		*sheet;
 	Value		*value;
@@ -203,13 +203,13 @@ typedef struct _FormatState
 static void
 fmt_dialog_changed (FormatState *state)
 {
-	/* Catch all the pseudo-events that take place while initializing */
-	if (state->enable_edit) {
-		if (state->dialog_changed)
-			state->dialog_changed (state->dialog_changed_user_data);
-		else
-			gnome_property_box_changed (state->dialog);
-	}
+	if (!state->enable_edit)
+		return;
+
+	if (state->dialog_changed)
+		state->dialog_changed (state->dialog_changed_user_data);
+	else
+		gtk_widget_set_sensitive (state->apply_button, TRUE);
 }
 
 /* Default to the 'Format' page but remember which page we were on between
@@ -245,8 +245,7 @@ cb_toggle_changed (GtkToggleButton *button, PatternPicker *picker)
 	    picker->current_pattern != button) {
 		gtk_toggle_button_set_active (picker->current_pattern, FALSE);
 		picker->current_pattern = button;
-		picker->cur_index =
-				GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (button), "index"));
+		picker->cur_index = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (button), "index"));
 		if (picker->draw_preview)
 			picker->draw_preview (picker->state);
 	}
@@ -264,7 +263,7 @@ setup_pattern_button (GladeXML  *gui,
 		      int const index,
 		      int const select_index)
 {
-	GtkWidget * tmp = glade_xml_get_widget (gui, name);
+	GtkWidget *tmp = glade_xml_get_widget (gui, name);
 	if (tmp != NULL) {
 		GtkButton *button = GTK_BUTTON (tmp);
 		if (flag) {
@@ -280,9 +279,9 @@ setup_pattern_button (GladeXML  *gui,
 		}
 
 		gtk_button_set_relief (button, GTK_RELIEF_NONE);
-		gtk_signal_connect (GTK_OBJECT (button), "toggled",
-				    GTK_SIGNAL_FUNC (cb_toggle_changed),
-				    picker);
+		g_signal_connect (G_OBJECT (button),
+			"toggled",
+			G_CALLBACK (cb_toggle_changed), picker);
 		gtk_object_set_data (GTK_OBJECT (button), "index",
 				     GINT_TO_POINTER (index));
 
@@ -304,7 +303,7 @@ setup_color_pickers (ColorPicker *picker,
 		     char const * const caption,
 		     GdkColor *default_color,
 		     FormatState *state,
-		     GtkSignalFunc preview_update,
+		     GCallback preview_update,
 		     MStyleElementType const e,
 		     MStyle	 *mstyle,
 		     StyleColor *mcolor)
@@ -314,16 +313,18 @@ setup_color_pickers (ColorPicker *picker,
 
 	cg = color_group_fetch (color_group, wb_control_view (WORKBOOK_CONTROL (state->wbcg)));
 	combo = color_combo_new (NULL, default_caption, default_color, cg);
-	gtk_signal_connect (GTK_OBJECT (combo), "changed",
-			    GTK_SIGNAL_FUNC (preview_update), state);
+	g_signal_connect (G_OBJECT (combo),
+		"changed",
+		G_CALLBACK (preview_update), state);
 	/* We don't need the functionality the button provides */
 	gtk_widget_set_sensitive (COLOR_COMBO (combo)->preview_button, FALSE);
-	/* FIXME: Should we disable the focus? Line 547 workbook-format-toolbar.c */
+	/* FIXME: Should we disable the focus? Line 793 workbook-format-toolbar.c */
 	gtk_combo_box_set_title (GTK_COMBO_BOX (combo), caption);
 
 	/* Connect to the sample canvas and redraw it */
-	gtk_signal_connect (GTK_OBJECT (combo), "changed",
-			    preview_update, state);
+	g_signal_connect (G_OBJECT (combo),
+		"changed",
+		preview_update, state);
 
 	picker->combo          = combo;
 	picker->preview_update = preview_update;
@@ -957,10 +958,9 @@ fmt_dialog_init_format_page (FormatState *state)
 		gtk_style_unref (style);
 
 		gtk_clist_select_row (cl, state->format.negative_format, 0);
-		gtk_signal_connect (GTK_OBJECT (cl),
-				    "select-row",
-				    GTK_SIGNAL_FUNC (cb_format_negative_form_selected),
-				    state);
+		g_signal_connect (G_OBJECT (cl),
+			"select-row",
+			G_CALLBACK (cb_format_negative_form_selected), state);
 		gtk_clist_column_titles_passive (cl);
 	}
 
@@ -974,34 +974,28 @@ fmt_dialog_init_format_page (FormatState *state)
 				   state->format.num_decimals);
 
 	/* Catch changes to the spin box */
-	(void) gtk_signal_connect (
-		GTK_OBJECT (state->format.widget[F_DECIMAL_SPIN]),
-		"changed", GTK_SIGNAL_FUNC (cb_decimals_changed),
-		state);
+	g_signal_connect (G_OBJECT (state->format.widget[F_DECIMAL_SPIN]),
+		"changed",
+		G_CALLBACK (cb_decimals_changed), state);
 
 	/* Catch <return> in the spin box */
 	gnumeric_editable_enters (
 		GTK_WINDOW (state->dialog),
-		GTK_EDITABLE (state->format.widget[F_DECIMAL_SPIN]));
+		GTK_WIDGET (state->format.widget[F_DECIMAL_SPIN]));
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->format.widget[F_SEPARATOR]),
 				      state->format.use_separator);
 
 	/* Setup special handlers for : Numbers */
-	gtk_signal_connect (GTK_OBJECT (state->format.widget[F_SEPARATOR]),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (cb_separator_toggle),
-			    state);
-
-	gtk_signal_connect (GTK_OBJECT (state->format.widget[F_LIST]),
-			    "select-row",
-			    GTK_SIGNAL_FUNC (cb_format_list_select),
-			    state);
-
-	gtk_signal_connect (GTK_OBJECT (state->format.widget[F_LIST]),
-			    "size-allocate",
-			    GTK_SIGNAL_FUNC (cb_format_list_size_allocate),
-			    state);
+	g_signal_connect (G_OBJECT (state->format.widget[F_SEPARATOR]),
+		"toggled",
+		G_CALLBACK (cb_separator_toggle), state);
+	g_signal_connect (G_OBJECT (state->format.widget[F_LIST]),
+		"select-row",
+		G_CALLBACK (cb_format_list_select), state);
+	g_signal_connect (G_OBJECT (state->format.widget[F_LIST]),
+		"size-allocate",
+		G_CALLBACK (cb_format_list_size_allocate), state);
 
 	/* Setup handler Currency & Accounting currency symbols */
 	combo = GTK_COMBO (state->format.widget[F_SYMBOL]);
@@ -1011,10 +1005,8 @@ fmt_dialog_init_format_page (FormatState *state)
 		gtk_combo_set_case_sensitive (combo, FALSE);
 		gtk_entry_set_editable (GTK_ENTRY (combo->entry), FALSE);
 
-		for (i = 0; currency_symbols[i].symbol != NULL ; ++i) {
-			gchar *descr = _(currency_symbols[i].description);
-			l = g_list_append (l, descr);
-		}
+		for (i = 0; currency_symbols[i].symbol != NULL ; ++i)
+			l = g_list_append (l, _(currency_symbols[i].description));
 		l = g_list_sort (l, funny_currency_order);
 
 		gtk_combo_set_popdown_strings (combo, l);
@@ -1022,18 +1014,18 @@ fmt_dialog_init_format_page (FormatState *state)
 		gtk_entry_set_text (GTK_ENTRY (combo->entry),
 				    _(currency_symbols[state->format.currency_index].description));
 
-		gtk_signal_connect (GTK_OBJECT (combo->entry),
-				    "changed", GTK_SIGNAL_FUNC (cb_format_currency_select),
-				    state);
+		g_signal_connect (G_OBJECT (combo->entry),
+			"changed",
+			G_CALLBACK (cb_format_currency_select), state);
 	}
 
 	/* Setup special handler for Custom */
-	gtk_signal_connect (GTK_OBJECT (state->format.widget[F_ENTRY]),
-			    "changed", GTK_SIGNAL_FUNC (cb_format_entry),
-			    state);
+	g_signal_connect (G_OBJECT (state->format.widget[F_ENTRY]),
+		"changed",
+		G_CALLBACK (cb_format_entry), state);
 	gnumeric_editable_enters (
 		GTK_WINDOW (state->dialog),
-		GTK_EDITABLE (state->format.widget[F_ENTRY]));
+		GTK_WIDGET (state->format.widget[F_ENTRY]));
 
 	/* Setup format buttons to toggle between the format pages */
 	for (i = 0; (name = format_buttons[i]) != NULL; ++i) {
@@ -1043,9 +1035,9 @@ fmt_dialog_init_format_page (FormatState *state)
 
 		gtk_object_set_data (GTK_OBJECT (tmp), "index",
 				     GINT_TO_POINTER (i));
-		gtk_signal_connect (GTK_OBJECT (tmp), "toggled",
-				    GTK_SIGNAL_FUNC (cb_format_changed),
-				    state);
+		g_signal_connect (G_OBJECT (tmp),
+			"toggled",
+			G_CALLBACK (cb_format_changed), state);
 
 		if (i == page) {
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp), TRUE);
@@ -1126,7 +1118,7 @@ static void
 fmt_dialog_init_align_radio (char const * const name,
 			     int const val, int const target,
 			     FormatState *state,
-			     GtkSignalFunc handler)
+			     GCallback handler)
 {
 	GtkWidget *tmp = glade_xml_get_widget (state->gui, name);
 	if (tmp != NULL) {
@@ -1134,9 +1126,9 @@ fmt_dialog_init_align_radio (char const * const name,
 					      val == target);
 		gtk_object_set_data (GTK_OBJECT (tmp), "align",
 				     GINT_TO_POINTER (val));
-		gtk_signal_connect (GTK_OBJECT (tmp),
-				    "toggled", handler,
-				    state);
+		g_signal_connect (G_OBJECT (tmp),
+			"toggled",
+			handler, state);
 	}
 }
 
@@ -1183,13 +1175,13 @@ fmt_dialog_init_align_page (FormatState *state)
 	for (i = 0; (name = h_buttons[i].name) != NULL; ++i)
 		fmt_dialog_init_align_radio (name, h_buttons[i].align,
 					     h, state,
-					     GTK_SIGNAL_FUNC (cb_align_h_toggle));
+					     G_CALLBACK (cb_align_h_toggle));
 
 	/* Setup the vertical buttons */
 	for (i = 0; (name = v_buttons[i].name) != NULL; ++i)
 		fmt_dialog_init_align_radio (name, v_buttons[i].align,
 					     v, state,
-					     GTK_SIGNAL_FUNC (cb_align_v_toggle));
+					     G_CALLBACK (cb_align_v_toggle));
 
 	/* Setup the wrap button, and assign the current value */
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_WRAP_TEXT))
@@ -1198,8 +1190,8 @@ fmt_dialog_init_align_page (FormatState *state)
 	w = glade_xml_get_widget (state->gui, "align_wrap");
 	state->align.wrap = GTK_CHECK_BUTTON (w);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), wrap);
-	gtk_signal_connect (GTK_OBJECT (w), "toggled",
-			    GTK_SIGNAL_FUNC (cb_align_wrap_toggle),
+	g_signal_connect (GTK_OBJECT (w), "toggled",
+			    G_CALLBACK (cb_align_wrap_toggle),
 			    state);
 
 	if (mstyle_is_element_conflict (state->style, MSTYLE_ALIGN_V) &&
@@ -1219,14 +1211,14 @@ fmt_dialog_init_align_page (FormatState *state)
 				  (h == HALIGN_LEFT || h == HALIGN_RIGHT));
 
 	/* Catch changes to the spin box */
-	gtk_signal_connect (GTK_OBJECT (w), "changed",
-			    GTK_SIGNAL_FUNC (cb_indent_changed),
+	g_signal_connect (GTK_OBJECT (w), "changed",
+			    G_CALLBACK (cb_indent_changed),
 			    state);
 
 	/* Catch <return> in the spin box */
 	gnumeric_editable_enters (
 		GTK_WINDOW (state->dialog),
-		GTK_EDITABLE (w));
+		GTK_WIDGET (w));
 }
 
 /*****************************************************************************/
@@ -1331,13 +1323,13 @@ fmt_dialog_init_font_page (FormatState *state)
 
 	gnumeric_editable_enters (
 		GTK_WINDOW (state->dialog),
-		GTK_EDITABLE (font_widget->font_name_entry));
+		GTK_WIDGET (font_widget->font_name_entry));
 	gnumeric_editable_enters (
 		GTK_WINDOW (state->dialog),
-		GTK_EDITABLE (font_widget->font_style_entry));
+		GTK_WIDGET (font_widget->font_style_entry));
 	gnumeric_editable_enters (
 		GTK_WINDOW (state->dialog),
-		GTK_EDITABLE (font_widget->font_size_entry));
+		GTK_WIDGET (font_widget->font_size_entry));
 
 	state->font.selector = FONT_SELECTOR (font_widget);
 
@@ -1369,8 +1361,8 @@ fmt_dialog_init_font_page (FormatState *state)
 		gtk_entry_set_text (GTK_ENTRY (combo->entry), val);
 		font_selector_set_underline (state->font.selector, mstyle_get_font_uline (state->style));
 
-		gtk_signal_connect (GTK_OBJECT (combo->entry),
-				    "changed", GTK_SIGNAL_FUNC (cb_font_underline_changed),
+		g_signal_connect (GTK_OBJECT (combo->entry),
+				    "changed", G_CALLBACK (cb_font_underline_changed),
 				    state);
 	}
 
@@ -1381,8 +1373,8 @@ fmt_dialog_init_font_page (FormatState *state)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (strike), strikethrough);
 	font_selector_set_strike (state->font.selector, strikethrough);
 
-	gtk_signal_connect (GTK_OBJECT (strike), "toggled",
-			    GTK_SIGNAL_FUNC (cb_font_strike_toggle),
+	g_signal_connect (GTK_OBJECT (strike), "toggled",
+			    G_CALLBACK (cb_font_strike_toggle),
 			    state);
 
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_COLOR_FORE))
@@ -1390,8 +1382,8 @@ fmt_dialog_init_font_page (FormatState *state)
 			state->font.selector,
 			style_color_ref (mstyle_get_color (state->style, MSTYLE_COLOR_FORE)));
 
-	gtk_signal_connect (GTK_OBJECT (font_widget), "font_changed",
-			    GTK_SIGNAL_FUNC (cb_font_changed),
+	g_signal_connect (GTK_OBJECT (font_widget), "font_changed",
+			    G_CALLBACK (cb_font_changed),
 			    state);
 }
 
@@ -1494,9 +1486,9 @@ fmt_dialog_init_background_page (FormatState *state)
 		"DefaultColWidth", w,
 		"DefaultRowHeight", h,
 		NULL));
-	gtk_signal_connect (
+	g_signal_connect (
 		GTK_OBJECT (state->back.grid), "get_cell_style",
-		GTK_SIGNAL_FUNC (cb_pattern_preview_get_cell_style), state->back.style);
+		G_CALLBACK (cb_pattern_preview_get_cell_style), state->back.style);
 }
 
 /*****************************************************************************/
@@ -1758,18 +1750,17 @@ draw_border_preview (FormatState *state)
 			GNOME_CANVAS (glade_xml_get_widget (state->gui, "border_sample"));
 		group = GNOME_CANVAS_GROUP (gnome_canvas_root (state->border.canvas));
 
-		gtk_signal_connect (GTK_OBJECT (state->border.canvas),
-				    "button-press-event", GTK_SIGNAL_FUNC (border_event),
+		g_signal_connect (GTK_OBJECT (state->border.canvas),
+				    "button-press-event", G_CALLBACK (border_event),
 				    state);
 
-		state->border.back = GNOME_CANVAS_ITEM (
-			gnome_canvas_item_new ( group,
-						gnome_canvas_rect_get_type (),
-						"x1", L-10.,	"y1", T-10.,
-						"x2", R+10.,	"y2", B+10.,
-						"width_pixels", (int) 0,
-						"fill_color",	"white",
-						NULL));
+		state->border.back = gnome_canvas_item_new (group,
+			GNOME_TYPE_CANVAS_RECT,
+			"x1", L-10.,	"y1", T-10.,
+			"x2", R+10.,	"y2", B+10.,
+			"width_pixels", (int) 0,
+			"fill_color",	"white",
+			NULL);
 
 		/* Draw the corners */
 		points = gnome_canvas_points_new (3);
@@ -1948,8 +1939,8 @@ init_border_button (FormatState *state, StyleBorderLocation const i,
 	gtk_toggle_button_set_active (state->border.edge[i].button,
 				      state->border.edge[i].is_selected);
 
-	gtk_signal_connect (GTK_OBJECT (button), "toggled",
-			    GTK_SIGNAL_FUNC (cb_border_toggle),
+	g_signal_connect (GTK_OBJECT (button), "toggled",
+			    G_CALLBACK (cb_border_toggle),
 			    &state->border.edge[i]);
 
 	if ((i == STYLE_BORDER_HORIZ && !(state->selection_mask & 0xa)) ||
@@ -1990,8 +1981,8 @@ fmt_dialog_init_protection_page (FormatState *state)
 	w = glade_xml_get_widget (state->gui, "protection_locked");
 	state->protection.locked = GTK_CHECK_BUTTON (w);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), flag);
-	gtk_signal_connect (GTK_OBJECT (w),
-		"toggled", GTK_SIGNAL_FUNC (cb_protection_locked_toggle),
+	g_signal_connect (GTK_OBJECT (w),
+		"toggled", G_CALLBACK (cb_protection_locked_toggle),
 		state);
 
 	flag = mstyle_is_element_conflict (state->style, MSTYLE_CONTENT_HIDDEN)
@@ -1999,8 +1990,8 @@ fmt_dialog_init_protection_page (FormatState *state)
 	w = glade_xml_get_widget (state->gui, "protection_hidden");
 	state->protection.hidden = GTK_CHECK_BUTTON (w);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), flag);
-	gtk_signal_connect (GTK_OBJECT (w),
-		"toggled", GTK_SIGNAL_FUNC (cb_protection_hidden_toggle),
+	g_signal_connect (GTK_OBJECT (w),
+		"toggled", G_CALLBACK (cb_protection_hidden_toggle),
 		state);
 }
 
@@ -2022,8 +2013,8 @@ static ExprTree *
 validation_entry_to_expr (Sheet *sheet, GnumericExprEntry *gee)
 {
 	ParsePos pp;
-	return gnumeric_expr_entry_parse (gee,
-		parse_pos_init (&pp, sheet->workbook, sheet, 0, 0), FALSE);
+	parse_pos_init (&pp, sheet->workbook, sheet, 0, 0);
+	return gnm_expr_entry_parse (gee, &pp, NULL, FALSE);
 }
 
 static void
@@ -2174,18 +2165,18 @@ static void
 fmt_dialog_init_validation_expr_entry (FormatState *state, ExprEntry *entry,
 				       char const *name, int i)
 {
-	entry->name  = GTK_LABEL           (glade_xml_get_widget (state->gui, name));
-	entry->entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
+	entry->name  = GTK_LABEL (glade_xml_get_widget (state->gui, name));
+	entry->entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gtk_table_attach (state->validation.criteria_table,
 		GTK_WIDGET (entry->entry),
 		1, 3, 2+i, 3+i, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_widget_show (GTK_WIDGET (entry->entry));
 	gnumeric_editable_enters (
 		GTK_WINDOW (state->dialog),
-		GTK_EDITABLE (entry->entry));
-	gnumeric_expr_entry_set_scg (entry->entry, wbcg_cur_scg (state->wbcg));
-	gtk_signal_connect (GTK_OBJECT (entry->entry), "changed",
-		GTK_SIGNAL_FUNC (cb_validation_changed), state);
+		GTK_WIDGET (entry->entry));
+	gnm_expr_entry_set_scg (entry->entry, wbcg_cur_scg (state->wbcg));
+	g_signal_connect (GTK_OBJECT (entry->entry), "changed",
+		G_CALLBACK (cb_validation_changed), state);
 }
 
 static void
@@ -2217,25 +2208,24 @@ fmt_dialog_init_validation_page (FormatState *state)
 
 	gnumeric_editable_enters (
 		GTK_WINDOW (state->dialog),
-		GTK_EDITABLE (state->validation.error.title));
+		GTK_WIDGET (state->validation.error.title));
 
-
-	gtk_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.constraint_type)), "deactivate",
-			    GTK_SIGNAL_FUNC (cb_validation_sensitivity), state);
-	gtk_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.op)), "deactivate",
-			    GTK_SIGNAL_FUNC (cb_validation_sensitivity), state);
-	gtk_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.error.action)), "deactivate",
-			    GTK_SIGNAL_FUNC (cb_validation_error_action_deactivate), state);
+	g_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.constraint_type)), "deactivate",
+			    G_CALLBACK (cb_validation_sensitivity), state);
+	g_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.op)), "deactivate",
+			    G_CALLBACK (cb_validation_sensitivity), state);
+	g_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.error.action)), "deactivate",
+			    G_CALLBACK (cb_validation_error_action_deactivate), state);
 
 	fmt_dialog_init_validation_expr_entry (state, &state->validation.expr0, "validation_expr0_name", 0);
 	fmt_dialog_init_validation_expr_entry (state, &state->validation.expr1, "validation_expr1_name", 1);
 
-	gtk_signal_connect (GTK_OBJECT (state->validation.allow_blank), "toggled",
-			    GTK_SIGNAL_FUNC (cb_validation_rebuild), state);
-	gtk_signal_connect (GTK_OBJECT (state->validation.use_dropdown), "toggled",
-			    GTK_SIGNAL_FUNC (cb_validation_rebuild), state);
-	gtk_signal_connect (GTK_OBJECT (state->validation.error.title), "changed",
-			    GTK_SIGNAL_FUNC (cb_validation_rebuild), state);
+	g_signal_connect (GTK_OBJECT (state->validation.allow_blank), "toggled",
+			    G_CALLBACK (cb_validation_rebuild), state);
+	g_signal_connect (GTK_OBJECT (state->validation.use_dropdown), "toggled",
+			    G_CALLBACK (cb_validation_rebuild), state);
+	g_signal_connect (GTK_OBJECT (state->validation.error.title), "changed",
+			    G_CALLBACK (cb_validation_rebuild), state);
 	g_signal_connect (G_OBJECT (gtk_text_view_get_buffer (state->validation.error.msg)), "changed",
 			  G_CALLBACK (cb_validation_rebuild), state);
 
@@ -2291,7 +2281,7 @@ fmt_dialog_init_input_msg_page (FormatState *state)
 	 * is implemented.
 	 */
 #if 1
-	gtk_notebook_remove_page (GTK_NOTEBOOK (GNOME_PROPERTY_BOX (state->dialog)->notebook), 7);
+	gtk_notebook_remove_page (state->notebook, 7);
 	return;
 #endif
 
@@ -2304,13 +2294,13 @@ fmt_dialog_init_input_msg_page (FormatState *state)
 
 	gnumeric_editable_enters (
 		GTK_WINDOW (state->dialog),
-		GTK_EDITABLE (state->input_msg.title));
+		GTK_WIDGET (state->input_msg.title));
 	gnumeric_editable_enters (
 		GTK_WINDOW (state->dialog),
-		GTK_EDITABLE (state->input_msg.msg));
+		GTK_WIDGET (state->input_msg.msg));
 
-	gtk_signal_connect (GTK_OBJECT (state->input_msg.flag), "toggled",
-			    GTK_SIGNAL_FUNC (cb_input_msg_flag_toggled), state);
+	g_signal_connect (GTK_OBJECT (state->input_msg.flag), "toggled",
+			    G_CALLBACK (cb_input_msg_flag_toggled), state);
 
 	/* Initialize */
 	cb_input_msg_flag_toggled (state->input_msg.flag, state);
@@ -2344,6 +2334,8 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 
 	/* Get a fresh style to accumulate results in */
 	state->result = mstyle_new ();
+
+	gtk_widget_set_sensitive (state->apply_button, FALSE);
 }
 
 /* Handler for destroy */
@@ -2379,9 +2371,9 @@ cb_fmt_dialog_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 				GNUMERIC_EXPR_ENTRY (focus_widget));
 
 		flags = GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL | GNUM_EE_SHEET_OPTIONAL;
-		gnumeric_expr_entry_set_flags (state->validation.expr0.entry,
+		gnm_expr_entry_set_flags (state->validation.expr0.entry,
 			flags, flags | GNUM_EE_SINGLE_RANGE);
-		gnumeric_expr_entry_set_flags (state->validation.expr1.entry,
+		gnm_expr_entry_set_flags (state->validation.expr1.entry,
 			flags, flags | GNUM_EE_SINGLE_RANGE);
 	} else
 		wbcg_set_entry (state->wbcg, NULL);
@@ -2394,8 +2386,7 @@ set_initial_focus (FormatState *state)
 	GtkWidget *focus_widget = NULL, *pagew;
 	gchar const *name;
 
-	pagew = gtk_notebook_get_nth_page
-		(GTK_NOTEBOOK (state->dialog->notebook), fmt_dialog_page);
+	pagew = gtk_notebook_get_nth_page (state->notebook, fmt_dialog_page);
 	name = gtk_widget_get_name (pagew);
 
 	if (strcmp (name, "number_box") == 0) {
@@ -2432,70 +2423,70 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 		char const * const name;
 		StyleBorderType const pattern;
 	} const line_pattern_buttons[] = {
-	    { "line_pattern_none", STYLE_BORDER_NONE },
-	    { "line_pattern_medium_dash_dot_dot", STYLE_BORDER_MEDIUM_DASH_DOT_DOT },
+		{ "line_pattern_none", STYLE_BORDER_NONE },
+		{ "line_pattern_medium_dash_dot_dot", STYLE_BORDER_MEDIUM_DASH_DOT_DOT },
 
-	    { "line_pattern_hair", STYLE_BORDER_HAIR },
-	    { "line_pattern_slant", STYLE_BORDER_SLANTED_DASH_DOT },
+		{ "line_pattern_hair", STYLE_BORDER_HAIR },
+		{ "line_pattern_slant", STYLE_BORDER_SLANTED_DASH_DOT },
 
-	    { "line_pattern_dotted", STYLE_BORDER_DOTTED },
-	    { "line_pattern_medium_dash_dot", STYLE_BORDER_MEDIUM_DASH_DOT },
+		{ "line_pattern_dotted", STYLE_BORDER_DOTTED },
+		{ "line_pattern_medium_dash_dot", STYLE_BORDER_MEDIUM_DASH_DOT },
 
-	    { "line_pattern_dash_dot_dot", STYLE_BORDER_DASH_DOT_DOT },
-	    { "line_pattern_medium_dash", STYLE_BORDER_MEDIUM_DASH },
+		{ "line_pattern_dash_dot_dot", STYLE_BORDER_DASH_DOT_DOT },
+		{ "line_pattern_medium_dash", STYLE_BORDER_MEDIUM_DASH },
 
-	    { "line_pattern_dash_dot", STYLE_BORDER_DASH_DOT },
-	    { "line_pattern_medium", STYLE_BORDER_MEDIUM },
+		{ "line_pattern_dash_dot", STYLE_BORDER_DASH_DOT },
+		{ "line_pattern_medium", STYLE_BORDER_MEDIUM },
 
-	    { "line_pattern_dashed", STYLE_BORDER_DASHED },
-	    { "line_pattern_thick", STYLE_BORDER_THICK },
+		{ "line_pattern_dashed", STYLE_BORDER_DASHED },
+		{ "line_pattern_thick", STYLE_BORDER_THICK },
 
-	    { "line_pattern_thin", STYLE_BORDER_THIN },
-	    { "line_pattern_double", STYLE_BORDER_DOUBLE },
+		{ "line_pattern_thin", STYLE_BORDER_THIN },
+		{ "line_pattern_double", STYLE_BORDER_DOUBLE },
 
-	    { NULL }
+		{ NULL }
 	};
 	static char const * const pattern_buttons[] = {
-	    "gp_solid", "gp_75grey", "gp_50grey",
-	    "gp_25grey", "gp_125grey", "gp_625grey",
+		"gp_solid", "gp_75grey", "gp_50grey",
+		"gp_25grey", "gp_125grey", "gp_625grey",
 
-	    "gp_horiz",
-	    "gp_vert",
-	    "gp_diag",
-	    "gp_rev_diag",
-	    "gp_diag_cross",
-	    "gp_thick_diag_cross",
+		"gp_horiz",
+		"gp_vert",
+		"gp_diag",
+		"gp_rev_diag",
+		"gp_diag_cross",
+		"gp_thick_diag_cross",
 
-	    "gp_thin_horiz",
-	    "gp_thin_vert",
-	    "gp_thin_rev_diag",
-	    "gp_thin_diag",
-	    "gp_thin_horiz_cross",
-	    "gp_thin_diag_cross",
+		"gp_thin_horiz",
+		"gp_thin_vert",
+		"gp_thin_rev_diag",
+		"gp_thin_diag",
+		"gp_thin_horiz_cross",
+		"gp_thin_diag_cross",
 
-	    "gp_small_circle",
-	    "gp_semi_circle",
-	    "gp_thatch",
-	    "gp_large_circles",
-	    "gp_bricks",
-	    "gp_foreground_solid",
+		"gp_small_circle",
+		"gp_semi_circle",
+		"gp_thatch",
+		"gp_large_circles",
+		"gp_bricks",
+		"gp_foreground_solid",
 
-	    NULL
+		NULL
 	};
 
 	/* The order corresponds to the BorderLocation enum */
 	static char const * const border_buttons[] = {
-	    "top_border",	"bottom_border",
-	    "left_border",	"right_border",
-	    "rev_diag_border",	"diag_border",
-	    "inside_horiz_border", "inside_vert_border",
-	    NULL
+		"top_border",	"bottom_border",
+		"left_border",	"right_border",
+		"rev_diag_border",	"diag_border",
+		"inside_horiz_border", "inside_vert_border",
+		NULL
 	};
 
 	/* The order corresponds to BorderPresets */
 	static char const * const border_preset_buttons[] = {
-	    "no_border", "outline_border", "inside_border",
-	    NULL
+		"no_border", "outline_border", "inside_border",
+		NULL
 	};
 
 	int page_signal;
@@ -2505,15 +2496,15 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	GdkColor *default_border_color = &gs_black;
 	int default_border_style = STYLE_BORDER_THIN;
 
-	GtkWidget *dialog = glade_xml_get_widget (state->gui, "CellFormat");
+	GtkWidget *tmp, *dialog = glade_xml_get_widget (state->gui, "CellFormat");
 	g_return_if_fail (dialog != NULL);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Format Cells"));
 
 	/* Initialize */
-	state->dialog			= GNOME_PROPERTY_BOX (dialog);
-
-	state->enable_edit		= FALSE;  /* Enable below */
+	state->dialog	   = GTK_DIALOG (dialog);
+	state->notebook	   = GTK_NOTEBOOK (glade_xml_get_widget (state->gui, "notebook"));
+	state->enable_edit = FALSE;  /* Enable below */
 
 	state->border.canvas	= NULL;
 	state->border.pattern.cur_index	= 0;
@@ -2529,17 +2520,15 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 		fmt_dialog_page = pageno;
 
 	/* Select the wanted page the last invocation used */
-	gtk_notebook_set_page (
-		GTK_NOTEBOOK (GNOME_PROPERTY_BOX (dialog)->notebook),
-		fmt_dialog_page);
-	page_signal = gtk_signal_connect (
-		GTK_OBJECT (GNOME_PROPERTY_BOX (dialog)->notebook),
-		"switch_page", GTK_SIGNAL_FUNC (cb_page_select),
+	page_signal = g_signal_connect (
+		GTK_OBJECT (state->notebook),
+		"switch_page", G_CALLBACK (cb_page_select),
 		NULL);
-	gtk_signal_connect (
-		GTK_OBJECT (GNOME_PROPERTY_BOX (dialog)->notebook),
-		"destroy", GTK_SIGNAL_FUNC (cb_notebook_destroy),
+	g_signal_connect (
+		GTK_OBJECT (state->notebook),
+		"destroy", G_CALLBACK (cb_notebook_destroy),
 		GINT_TO_POINTER (page_signal));
+	gtk_notebook_set_page (state->notebook, fmt_dialog_page);
 
 	fmt_dialog_init_format_page (state);
 	fmt_dialog_init_align_page (state);
@@ -2575,27 +2564,27 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	setup_color_pickers (&state->border.color, "border_color_group",
 			     "border_color_hbox",
 			     _("Automatic"), _("Border"), &gs_black, state,
-			     GTK_SIGNAL_FUNC (cb_border_color),
+			     G_CALLBACK (cb_border_color),
 			     MSTYLE_ELEMENT_UNSET, state->style, NULL);
 	setup_color_pickers (&state->font.color, "fore_color_group",
 			     "font_color_hbox",
 			     _("Automatic"), _("Foreground"), &gs_black, state,
-			     GTK_SIGNAL_FUNC (cb_font_preview_color),
+			     G_CALLBACK (cb_font_preview_color),
 			     MSTYLE_COLOR_FORE, state->style, NULL);
 	setup_color_pickers (&state->back.back_color, "back_color_group",
 			     "back_color_hbox",
 			     _("Clear Background"), _("Background"), NULL, state,
-			     GTK_SIGNAL_FUNC (cb_back_preview_color),
+			     G_CALLBACK (cb_back_preview_color),
 			     MSTYLE_COLOR_BACK, state->style, NULL);
 	setup_color_pickers (&state->back.pattern_color, "pattern_color_group",
 			     "pattern_color_hbox",
 			     _("Automatic"), _("Pattern"), &gs_black, state,
-			     GTK_SIGNAL_FUNC (cb_pattern_preview_color),
+			     G_CALLBACK (cb_pattern_preview_color),
 			     MSTYLE_COLOR_PATTERN, state->style, NULL);
 
 	/* Setup the border images */
 	for (i = 0; (name = border_buttons[i]) != NULL; ++i) {
-		GtkWidget * tmp = init_button_image (state->gui, name);
+		tmp = init_button_image (state->gui, name);
 		if (tmp != NULL) {
 			init_border_button (state, i, tmp,
 					    state->borders[i]);
@@ -2637,11 +2626,11 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 
 	/* Setup the images in the border presets */
 	for (i = 0; (name = border_preset_buttons[i]) != NULL; ++i) {
-		GtkWidget * tmp = init_button_image (state->gui, name);
+		tmp = init_button_image (state->gui, name);
 		if (tmp != NULL) {
 			state->border.preset[i] = GTK_BUTTON (tmp);
-			gtk_signal_connect (GTK_OBJECT (tmp), "clicked",
-					    GTK_SIGNAL_FUNC (cb_border_preset_clicked),
+			g_signal_connect (GTK_OBJECT (tmp), "clicked",
+					    G_CALLBACK (cb_border_preset_clicked),
 					    state);
 			if (i == BORDER_PRESET_INSIDE && state->selection_mask != 0x8)
 				gtk_widget_hide (tmp);
@@ -2650,18 +2639,29 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 
 	draw_border_preview (state);
 
-	gnumeric_pbox_init_help	(dialog, "formatting.html");
-	gtk_signal_connect (GTK_OBJECT (dialog), "apply",
-			    GTK_SIGNAL_FUNC (cb_fmt_dialog_dialog_apply), state);
-	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
-			    GTK_SIGNAL_FUNC (cb_fmt_dialog_dialog_destroy),
-			    state);
-	gtk_signal_connect (GTK_OBJECT (dialog), "set-focus",
-			    GTK_SIGNAL_FUNC (cb_fmt_dialog_set_focus),
-			    state);
+	gnumeric_init_help_button (
+		glade_xml_get_widget (state->gui, "helpbutton"),
+		"formatting.html");
 
+	tmp = glade_xml_get_widget (state->gui, "okbutton");
+	g_signal_connect (G_OBJECT (tmp),
+		"clicked",
+		G_CALLBACK (cb_fmt_dialog_dialog_apply), state);
+	state->apply_button = glade_xml_get_widget (state->gui, "applybutton");
+	gtk_widget_set_sensitive (state->apply_button, FALSE);
+	g_signal_connect (G_OBJECT (state->apply_button),
+		"clicked",
+		G_CALLBACK (cb_fmt_dialog_dialog_apply), state);
+	tmp = glade_xml_get_widget (state->gui, "closebutton");
+	g_signal_connect (G_OBJECT (tmp),
+		"clicked",
+		G_CALLBACK (cb_fmt_dialog_dialog_apply), state);
+
+	g_signal_connect (G_OBJECT (dialog),
+		"set-focus",
+		G_CALLBACK (cb_fmt_dialog_set_focus), state);
 	set_initial_focus (state);
-	gtk_notebook_set_scrollable (GTK_NOTEBOOK (GNOME_PROPERTY_BOX (dialog)->notebook), TRUE);
+	gtk_notebook_set_scrollable (state->notebook, TRUE);
 
 	/* Ok, edit events from now on are real */
 	state->enable_edit = TRUE;
@@ -2677,9 +2677,12 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	 *   cell is selected? May be, but then we can't first make a style,
 	 *   then move around and apply it to different cells.
 	 */
+	g_signal_connect (G_OBJECT (dialog),
+		"destroy",
+		G_CALLBACK (cb_fmt_dialog_dialog_destroy), state);
 	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
-
-	gnumeric_dialog_show (state->wbcg, GTK_DIALOG (dialog), FALSE, TRUE);
+	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
+	gtk_widget_show (GTK_WIDGET (state->dialog));
 }
 
 static gboolean
@@ -2773,9 +2776,9 @@ dialog_cell_number_fmt (WorkbookControlGUI *wbcg, Value *sample_val)
 	fmt_dialog_init_format_page (state);
 
 	res = glade_xml_get_widget (state->gui, "number_box");
-	gtk_signal_connect (GTK_OBJECT (res), "destroy",
-			    GTK_SIGNAL_FUNC (cb_fmt_dialog_dialog_destroy),
-			    state);
+	g_signal_connect (G_OBJECT (res),
+		"destroy",
+		G_CALLBACK (cb_fmt_dialog_dialog_destroy), state);
 
 	return res;
 }

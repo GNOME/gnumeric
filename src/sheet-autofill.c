@@ -249,16 +249,6 @@ fill_item_destroy (FillItem *fi)
 	g_free (fi);
 }
 
-static gboolean
-str_contains (char const *str, char c)
-{
-	char const *tmp;
-	for (tmp = str ; (tmp = strchr (tmp, 'd')) != NULL ; )
-		if (tmp == str || tmp[-1] != '\\')
-			return TRUE;
-	return FALSE;
-}
-
 static FillItem *
 fill_item_new (Sheet *sheet, int col, int row)
 {
@@ -393,7 +383,7 @@ autofill_compute_delta (GList *list_last, gboolean singleton_increment)
 					? FILL_NUMBER
 					: ((g_date_month (prev) != g_date_month (cur))
 					?  FILL_MONTHS : FILL_YEARS);
-			
+
 			if (fi->type == FILL_MONTHS) {
 				a = 12*a + g_date_month (prev);
 				b = 12*b + g_date_month (cur);
@@ -612,7 +602,7 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 			v = g_strconcat (n, buffer, NULL);
 			g_free (n);
 		}
-	
+
 		sheet_cell_set_value (cell, value_new_string (v));
 		g_free (v);
 		return;
@@ -761,7 +751,7 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton_increment,
 	col = base_col + region_size * col_inc;
 	row = base_row + region_size * row_inc;
 	count_max = (start_pos < end_pos)
-		? end_pos - start_pos - region_size 
+		? end_pos - start_pos - region_size
 		: start_pos - end_pos - region_size;
 	for (count = 0; count < count_max; ) {
 		FillItem *fi;
@@ -881,7 +871,7 @@ sheet_autofill (Sheet *sheet, gboolean singleton_increment,
 		} else {
 			for (series = 0; series < w; series++)
 				sheet_autofill_dir (sheet, singleton_increment,
-					base_col-series, base_row, h, 
+					base_col-series, base_row, h,
 					base_row, end_row-1, 0, -1);
 		}
 	} else {
@@ -893,7 +883,7 @@ sheet_autofill (Sheet *sheet, gboolean singleton_increment,
 		} else {
 			for (series = 0; series < w; series++)
 				sheet_autofill_dir (sheet, singleton_increment,
-					base_col+series, base_row, h, 
+					base_col+series, base_row, h,
 					base_row, end_row+1, 0, 1);
 		}
 	}

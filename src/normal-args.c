@@ -27,7 +27,7 @@ gnumeric_arg_parse (int argc, char *argv [])
 		GNOME_PARAM_POPT_TABLE,		gnumeric_popt_options,
 		NULL);
 
-	g_object_get (G_OBJECT (program), 
+	g_object_get (G_OBJECT (program),
 		GNOME_PARAM_POPT_CONTEXT,	&ctx,
 		NULL);
 	return ctx;

@@ -38,6 +38,7 @@ IMAGES = @STRIP_BEGIN@ 						\
 	function_selector.xpm	\
 	bucket.xpm		\
 	font.xpm		\
+	expr_entry.png		\
 	\
 	object_arrow_24.png 	\
 	object_ellipse_24.png 	\
@@ -52,6 +53,19 @@ IMAGES = @STRIP_BEGIN@ 						\
 	list.xpm		\
 	radiobutton.xpm		\
 	object_scrollbar_24.png \
+	\
+	border_all.xpm			\
+	border_bottom.xpm		\
+	border_double_bottom.xpm	\
+	border_left.xpm			\
+	border_none.xpm			\
+	border_outside.xpm		\
+	border_right.xpm		\
+	border_thick_bottom.xpm		\
+	border_thick_outside.xpm	\
+	border_top_n_bottom.xpm		\
+	border_top_n_double_bottom.xpm	\
+	border_top_n_thick_bottom.xpm	\
 	\
 	@STRIP_END@
 
@@ -115,6 +129,7 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	gnm_function_selector			$(srcdir)/function_selector.xpm			\
 	gnm_bucket				$(srcdir)/bucket.xpm				\
 	gnm_font				$(srcdir)/font.xpm				\
+	gnm_expr_entry				$(srcdir)/expr_entry.png			\
 	\
 	gnm_object_arrow_24			$(srcdir)/object_arrow_24.png			\
 	gnm_object_ellipse_24			$(srcdir)/object_ellipse_24.png			\
@@ -129,9 +144,22 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	gnm_object_list_24			$(srcdir)/list.xpm				\
 	gnm_object_radiobutton_24		$(srcdir)/radiobutton.xpm			\
 	gnm_object_scrollbar_24			$(srcdir)/object_scrollbar_24.png		\
+	\
+	gnm_border_left				$(srcdir)/border_left.xpm			\
+	gnm_border_none				$(srcdir)/border_none.xpm			\
+	gnm_border_right			$(srcdir)/border_right.xpm			\
+	gnm_border_all				$(srcdir)/border_all.xpm			\
+	gnm_border_outside			$(srcdir)/border_outside.xpm			\
+	gnm_border_thick_outside		$(srcdir)/border_thick_outside.xpm		\
+	gnm_border_bottom			$(srcdir)/border_bottom.xpm			\
+	gnm_border_double_bottom		$(srcdir)/border_double_bottom.xpm		\
+	gnm_border_thick_bottom			$(srcdir)/border_thick_bottom.xpm		\
+	gnm_border_top_n_bottom			$(srcdir)/border_top_n_bottom.xpm		\
+	gnm_border_top_n_double_bottom		$(srcdir)/border_top_n_double_bottom.xpm	\
+	gnm_border_top_n_thick_bottom		$(srcdir)/border_top_n_thick_bottom.xpm		\
 	@STRIP_END@
 
-pixbuf_file = $(srcdir)/gnumeric-stock-pixbufs.h
+pixbuf_file = $(top_builddir)/src/pixmaps/gnumeric-stock-pixbufs.h
 noinst_DATA = $(pixbuf_file)
 CLEANFILES = $(noinst_DATA)
 

@@ -165,11 +165,11 @@ print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 		sheet_object_position_pts_get (so, coords);
 		switch (pj->pi->scaling.type) {
 		case PERCENTAGE:
-			obj_base_x = base_x + coords [0] 
+			obj_base_x = base_x + coords [0]
 				- sheet_col_get_distance_pts (sheet, 0,
 							      range->start.col);
 			obj_base_y = base_y - coords [3]
-				+ sheet_row_get_distance_pts (sheet, 0, 
+				+ sheet_row_get_distance_pts (sheet, 0,
 							      range->start.row);
 			break;
 		case SIZE_FIT:
@@ -186,13 +186,13 @@ print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 }
 
 static void
-print_page_cells (PrintJobInfo const *pj, Sheet const *sheet, Range *range, 
+print_page_cells (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 		  double base_x, double base_y)
 {
 	/* Invert PostScript Y coordinates to make X&Y cases the same */
 	base_y = (pj->height / (pj->pi->scaling.percentage / 100.)) - base_y;
 
-	print_cell_range (pj->print_context, sheet, range, 
+	print_cell_range (pj->print_context, sheet, range,
 			  base_x, base_y, !pj->pi->print_grid_lines);
 	print_sheet_objects (pj, sheet, range, base_x, base_y);
 }

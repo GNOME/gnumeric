@@ -12,9 +12,9 @@
 
 #define EXCEL_TYPE_GB_RANGE            (excel_gb_range_get_type ())
 #define EXCEL_GB_RANGE(obj)            (GTK_CHECK_CAST ((obj), EXCEL_TYPE_GB_RANGE, ExcelGBRange))
-#define EXCEL_GB_RANGE_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), EXCEL_TYPE_GB_RANGE, ExcelGBRangeClass))
-#define EXCEL_IS_GB_RANGE(obj)         (GTK_CHECK_TYPE ((obj), EXCEL_TYPE_GB_RANGE))
-#define EXCEL_IS_GB_RANGE_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), EXCEL_TYPE_GB_RANGE))
+#define EXCEL_GB_RANGE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), EXCEL_TYPE_GB_RANGE, ExcelGBRangeClass))
+#define EXCEL_IS_GB_RANGE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EXCEL_TYPE_GB_RANGE))
+#define EXCEL_IS_GB_RANGE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EXCEL_TYPE_GB_RANGE))
 
 typedef struct {
 	GBRunObject object;

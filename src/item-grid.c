@@ -36,6 +36,8 @@
 #include "pattern.h"
 #include "commands.h"
 
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <gtk/gtkdnd.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-cursors.h>
 #include <math.h>
@@ -296,7 +298,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	int *colwidths = NULL;
 
-	gboolean const draw_selection = 
+	gboolean const draw_selection =
 		ig->scg->current_object == NULL &&
 		ig->scg->new_object == NULL;
 
@@ -329,7 +331,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		return;
 
 	sheet_style_update_grid_color (sheet);
-	
+
 	/* Fill entire region with default background (even past far edge) */
 	gdk_draw_rectangle (drawable, ig->gc.fill, TRUE,
 			    draw_x, draw_y, width, height);
@@ -767,7 +769,7 @@ ig_obj_create_begin (ItemGrid *ig, GdkEventButton *event)
 	if (!sheet_object_rubber_band_directly (so)) {
 		ig->obj_create.item = gnome_canvas_item_new (
 			gcanvas->object_group,
-			gnome_canvas_rect_get_type (),
+			GNOME_TYPE_CANVAS_RECT,
 			"outline_color", "black",
 			"width_units",   2.0,
 			NULL);
@@ -985,7 +987,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		gnm_simple_canvas_ungrab (item, event->button.time);
 
 		if (send_finished_signal)
-			gnumeric_expr_entry_end_of_drag (wbcg_get_entry_logical (scg->wbcg));
+			gnm_expr_entry_end_of_drag (wbcg_get_entry_logical (scg->wbcg));
 		return TRUE;
 	}
 

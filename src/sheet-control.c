@@ -48,7 +48,7 @@ static void
 sc_finalize (GObject *obj)
 {
 	/* Commented out until needed */
-	/* SheetControl *sc = SHEET_CONTROL (obj); */ 
+	/* SheetControl *sc = SHEET_CONTROL (obj); */
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 

@@ -1211,7 +1211,7 @@ ms_excel_get_style_from_xf (ExcelSheet *esheet, guint16 xfidx)
 	else
 		font_color = ms_excel_palette_get (esheet->wb->palette,
 						   font_index);
-	
+
 	switch (back_index) {
 	case 0:
 		back_color = style_color_white ();
@@ -3486,7 +3486,7 @@ ms_excel_read_cf (BiffQuery *q, ExcelSheet *esheet)
 	 *	uint8 : 0x04 = font | 0x10 = border | 0x20 = colour
 	 *	0x02 : ?
 	 *	0x00 : ?
-	 * 
+	 *
 	 * font   == 118
 	 * border == 8
 	 * colour == 4
@@ -3554,7 +3554,7 @@ ms_excel_read_condfmt (BiffQuery *q, ExcelSheet *esheet)
 	Range  region;
 	unsigned i;
 	guint8 const *data;
-	
+
 	g_return_if_fail (q->length >= 14);
 
 	num_fmts = MS_OLE_GET_GUINT16 (q->data + 0);
@@ -3700,12 +3700,12 @@ ms_excel_read_dv (BiffQuery *q, ExcelSheet *esheet)
 		expr2 = ms_sheet_parse_expr_internal (esheet,
 			expr2_dat, expr2_len);
 
-	d (1, printf ("style = %d, type = %d, op = %d\n", 
+	d (1, printf ("style = %d, type = %d, op = %d\n",
 		       style, type, op););
 
 	mstyle = mstyle_new ();
 	mstyle_set_validation (mstyle,
-		validation_new (style, type, op, error_title, error_msg, 
+		validation_new (style, type, op, error_title, error_msg,
 			expr1, expr2, options & 0x0100, options & 0x0200));
 
 	for (ptr = ranges; ptr != NULL ; ptr = ptr->next) {
@@ -4282,11 +4282,11 @@ ms_excel_read_window1 (BiffQuery *q, WorkbookView *wb_view)
 				/* In 1/20ths of a point */
 		guint16 const xPos    = MS_OLE_GET_GUINT16 (q->data + 0);
 		guint16 const yPos    = MS_OLE_GET_GUINT16 (q->data + 2);
-#endif                        
+#endif
 		guint16 const width   = MS_OLE_GET_GUINT16 (q->data + 4);
 		guint16 const height  = MS_OLE_GET_GUINT16 (q->data + 6);
 		guint16 const options = MS_OLE_GET_GUINT16 (q->data + 8);
-#if 0                         
+#if 0
 		guint16 const selTab  = MS_OLE_GET_GUINT16 (q->data + 10);
 		guint16 const firstTab= MS_OLE_GET_GUINT16 (q->data + 12);
 		guint16 const tabsSel = MS_OLE_GET_GUINT16 (q->data + 14);

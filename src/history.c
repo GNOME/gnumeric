@@ -14,7 +14,9 @@
 #include "workbook-view.h"
 #include "workbook.h"
 
+#include <gtk/gtkmenuitem.h>
 #include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-app-helper.h>
 #ifdef ENABLE_BONOBO
 #include <bonobo.h>
 #endif

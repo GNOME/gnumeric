@@ -1,10 +1,13 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * workbook-format-toolbar.c: Format toolbar implementation
  *
  * Author:
  *   Miguel de Icaza (miguel@kernel.org)
+ *   Jody Goldberg (jody@gnome.org)
  *
- * (C) 1998, 1999 Miguel de Icaza.
+ * (C) 1998-1999 Miguel de Icaza.
+ * (C) 2000-2002 Jody Goldberg
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
@@ -28,17 +31,12 @@
 #include "style-border.h"
 #include "ranges.h"
 #include "mstyle.h"
+#include "pixmaps/gnumeric-stock-pixbufs.h"
 
 #include <gal/widgets/gtk-combo-text.h>
 #include <gal/widgets/widget-color-combo.h>
 #include <gal/widgets/widget-pixmap-combo.h>
 #include <libgnome/gnome-i18n.h>
-
-/*
- * Pixmaps
- */
-#include "pixmaps/font.xpm"
-#include "pixmaps/bucket.xpm"
 
 #define TOOLBAR_FONT_BUTTON_INDEX		2
 #define TOOLBAR_BOLD_BUTTON_INDEX		3
@@ -530,7 +528,7 @@ cb_fore_color_changed (ColorCombo *combo, GdkColor *c,
 	WORKBOOK_FOREACH_CONTROL (wb_control_workbook (wbc), view, control,
 				  if (control != wbc) color_combo_set_color (
 					  COLOR_COMBO (WORKBOOK_CONTROL_GUI (control)->fore_color), c););
-	
+
 	cmd_format (wbc, sheet, mstyle, NULL,
 		    _("Set Foreground Color"));
 }
@@ -611,36 +609,24 @@ workbook_format_toolbar_orient (GtkToolbar *toolbar,
 
 /****************************************************************************/
 /* Border combo box */
-#include "pixmaps/border_all.xpm"
-#include "pixmaps/border_bottom.xpm"
-#include "pixmaps/border_double_bottom.xpm"
-#include "pixmaps/border_left.xpm"
-#include "pixmaps/border_none.xpm"
-#include "pixmaps/border_outside.xpm"
-#include "pixmaps/border_right.xpm"
-#include "pixmaps/border_thick_bottom.xpm"
-#include "pixmaps/border_thick_outside.xpm"
-#include "pixmaps/border_top_n_bottom.xpm"
-#include "pixmaps/border_top_n_double_bottom.xpm"
-#include "pixmaps/border_top_n_thick_bottom.xpm"
 
 static PixmapComboElement border_combo_info[] =
 {
-    { N_("Left"), border_left,		11 },
-    { N_("Clear Borders"), border_none,	12 },
-    { N_("Right"), border_right,	13 },
+    { N_("Left"),			gnm_border_left,		11 },
+    { N_("Clear Borders"),		gnm_border_none,		12 },
+    { N_("Right"),			gnm_border_right,		13 },
 
-    { N_("All Borders"), border_all,			21 },
-    { N_("Outside Borders"), border_outside,		22 },
-    { N_("Thick Outside Borders"), border_thick_outside,23 },
+    { N_("All Borders"),		gnm_border_all,			21 },
+    { N_("Outside Borders"),		gnm_border_outside,		22 },
+    { N_("Thick Outside Borders"),	gnm_border_thick_outside,	23 },
 
-    { N_("Bottom"), border_bottom,			31 },
-    { N_("Double Bottom"), border_double_bottom,	32 },
-    { N_("Thick Bottom"), border_thick_bottom,		33 },
+    { N_("Bottom"),			gnm_border_bottom,		31 },
+    { N_("Double Bottom"),		gnm_border_double_bottom,	32 },
+    { N_("Thick Bottom"),		gnm_border_thick_bottom,	33 },
 
-    { N_("Top and Bottom"), border_top_n_bottom,		41 },
-    { N_("Top and Double Bottom"), border_top_n_double_bottom,	42 },
-    { N_("Top and Thick Bottom"), border_top_n_thick_bottom,	43 },
+    { N_("Top and Bottom"),		gnm_border_top_n_bottom,	41 },
+    { N_("Top and Double Bottom"),	gnm_border_top_n_double_bottom,	42 },
+    { N_("Top and Thick Bottom"),	gnm_border_top_n_thick_bottom,	43 },
 
     { NULL, NULL}
 };
@@ -748,10 +734,10 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 
 	/* font name selector */
 	fontsel = wbcg->font_name_selector = gtk_combo_text_new (TRUE);
-	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (fontsel), GTK_RELIEF_NONE);
 	entry = GTK_COMBO_TEXT (fontsel)->entry;
-	gtk_signal_connect (GTK_OBJECT (entry), "activate",
-			    GTK_SIGNAL_FUNC (change_font_in_selection_cmd), wbcg);
+	g_signal_connect (G_OBJECT (entry),
+		"activate",
+		G_CALLBACK (change_font_in_selection_cmd), wbcg);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (fontsel), _("Font"));
 	gtk_container_set_border_width (GTK_CONTAINER (fontsel), 0);
 
@@ -770,10 +756,10 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 
 	/* font size selector */
 	fontsize = wbcg->font_size_selector = gtk_combo_text_new (TRUE);
-	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (fontsize), GTK_RELIEF_NONE);
 	entry = GTK_COMBO_TEXT (fontsize)->entry;
-	gtk_signal_connect (GTK_OBJECT (entry), "activate",
-			    GTK_SIGNAL_FUNC (change_font_size_in_selection_cmd), wbcg);
+	g_signal_connect (G_OBJECT (entry),
+		"activate",
+		G_CALLBACK (change_font_size_in_selection_cmd), wbcg);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (fontsize), _("Size"));
 	for (i = 0; gnumeric_point_sizes [i] != 0; i++) {
 		char buffer [12];
@@ -789,20 +775,23 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 
 	/* default to none */
 	pixmap_combo_select_pixmap (PIXMAP_COMBO (border_combo), 1);
-	gtk_signal_connect (GTK_OBJECT (border_combo), "changed",
-			    GTK_SIGNAL_FUNC (cb_border_changed), wbcg);
+	g_signal_connect (G_OBJECT (border_combo),
+		"changed",
+		G_CALLBACK (cb_border_changed), wbcg);
 	disable_focus (border_combo, NULL);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (border_combo),
 				 _("Borders"));
 
 	/* Create the background colour combo box */
 	cg = color_group_fetch ("back_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));
-	wbcg->back_color = back_combo =
-		color_combo_new (bucket_xpm, _("Clear Background"),
-				 /* Draw an outline for the default */
-				 NULL, cg);
-	gtk_signal_connect (GTK_OBJECT (back_combo), "changed",
-			    GTK_SIGNAL_FUNC (cb_back_color_changed), wbcg);
+	wbcg->back_color = back_combo = color_combo_new (
+		gdk_pixbuf_new_from_inline (-1, gnm_bucket, FALSE, NULL),
+		_("Clear Background"),
+		/* Draw an outline for the default */
+		NULL, cg);
+	g_signal_connect (G_OBJECT (back_combo),
+		"changed",
+		G_CALLBACK (cb_back_color_changed), wbcg);
 	disable_focus (back_combo, NULL);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (back_combo),
 				 _("Background"));
@@ -822,16 +811,17 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 
 	/* Create the font colour combo box.  */
 	cg = color_group_fetch ("fore_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));
-	wbcg->fore_color = fore_combo =
-		color_combo_new (font_xpm, _("Automatic"),
-				 /* Draw black for the default */
-				 &gs_black, cg);
-	gtk_signal_connect (GTK_OBJECT (fore_combo), "changed",
-			    GTK_SIGNAL_FUNC (cb_fore_color_changed), wbcg);
+	wbcg->fore_color = fore_combo = color_combo_new (
+		gdk_pixbuf_new_from_inline (-1, gnm_font, FALSE, NULL),
+		_("Automatic"), /* Draw black for the default */
+		&gs_black, cg);
+	g_signal_connect (G_OBJECT (fore_combo),
+		"changed",
+		G_CALLBACK (cb_fore_color_changed), wbcg);
 	disable_focus (fore_combo, NULL);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (fore_combo),
 				 _("Foreground"));
-				 
+
 	/* Sync the color of the font color combo with the other views */
 	WORKBOOK_FOREACH_CONTROL (wb_control_workbook (WORKBOOK_CONTROL (wbcg)), view, control,
 				  if (control != WORKBOOK_CONTROL (wbcg)) {
@@ -872,9 +862,9 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	gtk_widget_hide (font_button);
 
 	/* Handle orientation changes so that we can hide wide widgets */
-	gtk_signal_connect (
-		GTK_OBJECT(toolbar), "orientation-changed",
-		GTK_SIGNAL_FUNC (&workbook_format_toolbar_orient), wbcg);
+	g_signal_connect (G_OBJECT(toolbar),
+		"orientation-changed",
+		G_CALLBACK (&workbook_format_toolbar_orient), wbcg);
 
 	gtk_widget_show (toolbar);
 	wbcg->format_toolbar = toolbar;

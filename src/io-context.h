@@ -11,8 +11,8 @@
 typedef struct _IOContextClass IOContextClass;
 
 #define TYPE_IO_CONTEXT    (io_context_get_type ())
-#define IO_CONTEXT(obj)    (GTK_CHECK_CAST ((obj), TYPE_IO_CONTEXT, IOContext))
-#define IS_IO_CONTEXT(obj) (GTK_CHECK_TYPE ((obj), TYPE_IO_CONTEXT))
+#define IO_CONTEXT(obj)    (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_IO_CONTEXT, IOContext))
+#define IS_IO_CONTEXT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_IO_CONTEXT))
 
 typedef enum {
 	WB_PROGRESS_CELLS  = 1,

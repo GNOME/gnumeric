@@ -277,7 +277,7 @@ iterate :
  * Auxiliary items canvas items attached to the cell are moved.
  */
 void
-cell_relocate (Cell *cell, ExprRewriteInfo *rwinfo)
+cell_relocate (Cell *cell, ExprRewriteInfo const *rwinfo)
 {
 	g_return_if_fail (cell != NULL);
 

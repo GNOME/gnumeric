@@ -43,9 +43,9 @@ autosave_set_sensitivity (GtkWidget *widget, autosave_t *state)
 	gtk_widget_set_sensitive (state->minutes_entry, active);
 	gtk_widget_set_sensitive (state->prompt_cb, active);
 
-	gtk_widget_set_sensitive (state->ok_button, !active || 
+	gtk_widget_set_sensitive (state->ok_button, !active ||
 				  ((minutes_valid == 0) && (minutes > 0)));
-	
+
 }
 
 gboolean
@@ -58,8 +58,8 @@ dialog_autosave_prompt (WorkbookControlGUI *wbcg)
 					 GTK_DIALOG_DESTROY_WITH_PARENT,
 					 GTK_MESSAGE_QUESTION,
 					 GTK_BUTTONS_YES_NO,
-					 _("Do you want to save the workbook %s ?"), 
-					 workbook_get_filename (wb_control_workbook 
+					 _("Do you want to save the workbook %s ?"),
+					 workbook_get_filename (wb_control_workbook
 								(WORKBOOK_CONTROL (wbcg))));
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
@@ -131,12 +131,12 @@ cb_autosave_ok (GtkWidget *button, autosave_t *state)
 {
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->autosave_on_off))) {
 			int minutes;
-			int minutes_valid = entry_to_int (GTK_ENTRY (state->minutes_entry), 
+			int minutes_valid = entry_to_int (GTK_ENTRY (state->minutes_entry),
 							  &minutes, TRUE);
 
 			g_return_if_fail (minutes_valid == 0); /* Why is ok active? */
-			
-		        wbcg_autosave_set (state->wbcg, minutes, 
+
+		        wbcg_autosave_set (state->wbcg, minutes,
 					   gtk_toggle_button_get_active (
 						   GTK_TOGGLE_BUTTON (state->prompt_cb)));
 		} else
@@ -172,33 +172,37 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 	state->cancel_button = glade_xml_get_widget (state->gui, "button2");
 	state->help_button = glade_xml_get_widget (state->gui, "button3");
 
-	if (!state->dialog || !state->minutes_entry || !state->prompt_cb || 
+	if (!state->dialog || !state->minutes_entry || !state->prompt_cb ||
 	    !state->autosave_on_off) {
 		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
 				 _("Could not create the autosave dialog."));
 		g_free (state);
 		return;
 	}
-	
+
 	float_to_entry (GTK_ENTRY (state->minutes_entry), wbcg->autosave_minutes);
 
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				      GTK_EDITABLE (state->minutes_entry));
+				  state->minutes_entry);
 
-	gtk_signal_connect (GTK_OBJECT (state->autosave_on_off), "toggled",
-			    GTK_SIGNAL_FUNC (autosave_set_sensitivity),
-			    state);
-	gtk_signal_connect (GTK_OBJECT (state->minutes_entry), "changed",
-			    GTK_SIGNAL_FUNC (autosave_set_sensitivity),
-			    state);
-	gtk_signal_connect (GTK_OBJECT (state->ok_button), "clicked",
-			    GTK_SIGNAL_FUNC (cb_autosave_ok), state);
-	gtk_signal_connect (GTK_OBJECT (state->cancel_button), "clicked",
-			    GTK_SIGNAL_FUNC (cb_autosave_cancel), state);
-	gtk_signal_connect (GTK_OBJECT (state->help_button), "clicked",
-			    GTK_SIGNAL_FUNC (cb_autosave_help), state);
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
-			    GTK_SIGNAL_FUNC (dialog_autosave_destroy), state);
+	g_signal_connect (G_OBJECT (state->autosave_on_off),
+		"toggled",
+		G_CALLBACK (autosave_set_sensitivity), state);
+	g_signal_connect (G_OBJECT (state->minutes_entry),
+		"changed",
+		G_CALLBACK (autosave_set_sensitivity), state);
+	g_signal_connect (G_OBJECT (state->ok_button),
+		"clicked",
+		G_CALLBACK (cb_autosave_ok), state);
+	g_signal_connect (G_OBJECT (state->cancel_button),
+		"clicked",
+		G_CALLBACK (cb_autosave_cancel), state);
+	g_signal_connect (G_OBJECT (state->help_button),
+		"clicked",
+		G_CALLBACK (cb_autosave_help), state);
+	g_signal_connect (G_OBJECT (state->dialog),
+		"destroy",
+		G_CALLBACK (dialog_autosave_destroy), state);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->autosave_on_off),
 				      wbcg->autosave);

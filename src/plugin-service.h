@@ -82,7 +82,7 @@ struct _PluginServiceFunctionGroup {
 struct _PluginServicePluginLoader {
 	gchar *loader_id;
 	/* fields available after loading */
-	GtkType (*plugin_func_get_loader_type) (PluginService *service,
+	GType (*plugin_func_get_loader_type) (PluginService *service,
 	                                        ErrorInfo **ret_error);
 };
 

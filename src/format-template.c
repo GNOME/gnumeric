@@ -350,24 +350,6 @@ format_template_member_get_rect (TemplateMember *member, Range const *r)
  */
 
 static void
-format_template_member_set_row_info (TemplateMember *member, FormatColRowInfo row_info)
-{
-	g_return_if_fail (row_info.offset >= 0);
-	g_return_if_fail (row_info.offset_gravity == -1 || row_info.offset_gravity == +1);
-
-	member->row = row_info;
-}
-
-static void
-format_template_member_set_col_info (TemplateMember *member, FormatColRowInfo col_info)
-{
-	g_return_if_fail (col_info.offset >= 0);
-	g_return_if_fail (col_info.offset_gravity == -1 || col_info.offset_gravity == +1);
-
-	member->col = col_info;
-}
-
-static void
 format_template_member_set_direction (TemplateMember *member, FreqDirection direction)
 {
 	g_return_if_fail (direction == FREQ_DIRECTION_NONE || direction == FREQ_DIRECTION_HORIZONTAL ||

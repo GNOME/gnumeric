@@ -107,9 +107,10 @@ autocorrect_init_exception_list (AutoCorrectState *state,
 	exception->entry = glade_xml_get_widget (state->glade, entry_name);
 	exception->list = glade_xml_get_widget (state->glade, list_name);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-		GTK_EDITABLE (exception->entry));
-	gtk_signal_connect (GTK_OBJECT (exception->list), "select_row",
-		GTK_SIGNAL_FUNC (cb_select_row), exception);
+		GTK_WIDGET (exception->entry));
+	g_signal_connect (G_OBJECT (exception->list),
+		"select_row",
+		G_CALLBACK (cb_select_row), exception);
 	for (ptr = exceptions; ptr != NULL; ptr = ptr->next) {
 	        gchar *s[2], *txt = (gchar *) ptr->data;
 		gint  row;
@@ -121,11 +122,13 @@ autocorrect_init_exception_list (AutoCorrectState *state,
 	}
 
 	w = glade_xml_get_widget (state->glade, add_name);
-	gtk_signal_connect (GTK_OBJECT (w), "clicked",
-		GTK_SIGNAL_FUNC (cb_add_clicked), exception);
+	g_signal_connect (G_OBJECT (w),
+		"clicked",
+		G_CALLBACK (cb_add_clicked), exception);
 	w = glade_xml_get_widget (state->glade, remove_name);
-	gtk_signal_connect (GTK_OBJECT (w), "clicked",
-		GTK_SIGNAL_FUNC (cb_remove_clicked), exception);
+	g_signal_connect (GTK_OBJECT (w),
+		"clicked",
+		G_CALLBACK (cb_remove_clicked), exception);
 }
 
 static void
@@ -145,9 +148,9 @@ ac_dialog_toggle_init (AutoCorrectState *state, char const *name,
 	state->features [f] = autocorrect_get_feature (f);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
 		state->features [f]);
-	gtk_signal_connect (GTK_OBJECT (w),
+	g_signal_connect (GTK_OBJECT (w),
 		"toggled",
-		GTK_SIGNAL_FUNC (ac_button_toggled), state->features + f);
+		G_CALLBACK (ac_button_toggled), state->features + f);
 }
 
 static gboolean
@@ -173,12 +176,6 @@ cb_autocorrect_key_press (GtkWidget *widget, GdkEventKey *event,
 		return TRUE;
 	} else
 		return FALSE;
-}
-
-static void
-cb_dialog_help (GtkWidget *button, gchar *link)
-{
-	gnumeric_help_display (link);
 }
 
 static void
@@ -232,26 +229,29 @@ dialog_init (AutoCorrectState *state)
 	ac_dialog_toggle_init (state, "replace_text",  AC_REPLACE);
 
         button = glade_xml_get_widget (state->glade, "help_button");
-        gtk_signal_connect (GTK_OBJECT (button), "clicked",
-		GTK_SIGNAL_FUNC (cb_dialog_help), "autocorrect-tool.html");
+	gnumeric_init_help_button (button, "autocorrect-tool.html");
+
         button = glade_xml_get_widget (state->glade, "ok_button");
-        gtk_signal_connect (GTK_OBJECT (button), "clicked",
-		GTK_SIGNAL_FUNC (cb_ok_button_clicked), state);
+        g_signal_connect (GTK_OBJECT (button),
+		"clicked",
+		G_CALLBACK (cb_ok_button_clicked), state);
         button = glade_xml_get_widget (state->glade, "apply_button");
-        gtk_signal_connect (GTK_OBJECT (button), "clicked",
-		GTK_SIGNAL_FUNC (cb_apply_button_clicked), state);
+        g_signal_connect (GTK_OBJECT (button),
+		"clicked",
+		G_CALLBACK (cb_apply_button_clicked), state);
         button = glade_xml_get_widget (state->glade, "cancel_button");
-        gtk_signal_connect (GTK_OBJECT (button), "clicked",
-		GTK_SIGNAL_FUNC (cb_cancel_button_clicked), state);
+        g_signal_connect (GTK_OBJECT (button),
+		"clicked",
+		G_CALLBACK (cb_cancel_button_clicked), state);
 
 	/* Make <Ret> in entry fields invoke default */
 	entry = glade_xml_get_widget (state->glade, "entry1");
 	gtk_widget_set_sensitive (entry, FALSE);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-		GTK_EDITABLE (entry));
+		GTK_WIDGET (entry));
 	entry = glade_xml_get_widget (state->glade, "entry2");
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-		GTK_EDITABLE (entry));
+		GTK_WIDGET (entry));
 	gtk_widget_set_sensitive (entry, FALSE);
 
 	autocorrect_init_exception_list (state, &state->init_caps,
@@ -263,12 +263,12 @@ dialog_init (AutoCorrectState *state)
 		"first_letter_entry", "first_letter_list",
 		"first_letter_add", "first_letter_remove");
 
-	gtk_signal_connect (GTK_OBJECT (state->dialog),
+	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",
-		GTK_SIGNAL_FUNC (cb_autocorrect_destroy), state);
-	gtk_signal_connect (GTK_OBJECT (state->dialog),
+		G_CALLBACK (cb_autocorrect_destroy), state);
+	g_signal_connect (G_OBJECT (state->dialog),
 		"key_press_event",
-		GTK_SIGNAL_FUNC (cb_autocorrect_key_press), state);
+		G_CALLBACK (cb_autocorrect_key_press), state);
 
 	return FALSE;
 }

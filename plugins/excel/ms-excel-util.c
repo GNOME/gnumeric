@@ -533,11 +533,11 @@ excel_wcstombs (char *outbuf, wchar_t *wcs, size_t length)
 		(excel_iconv_t)(-1);
 #else
 		iconv_open (get_locale_charset_name (), "utf8");
-#endif	
+#endif
 
 	for(i = 0; i < length; i++) {
 		wchar_t wc = wcs[i];
-#ifdef HAVE_ICONV	
+#ifdef HAVE_ICONV
 		if (cd != (excel_iconv_t)(-1)) {
 			char utf8buf[9];
 			size_t out_len = 10;
@@ -548,18 +548,18 @@ excel_wcstombs (char *outbuf, wchar_t *wcs, size_t length)
 			 * and names for UCS2. Utf8 is known to every one.
 			 */
 			size_t inbuf_len = g_unichar_to_utf8((gint)wc, (gchar*)utf8buf);
-			
+
 			iconv((iconv_t)cd,&inbuf_ptr,&inbuf_len,&outbuf,&out_len);
 			if (!inbuf_len)
 				continue;
 		}
-		/* find a replacement for wc*/		
+		/* find a replacement for wc*/
 		if (wc < 128) /* very strange - why can't convert? */
 			*(outbuf++) = (char)wc;
 #else
-		if (wc < 256) /* assume it's ISO-8869-1*/		
+		if (wc < 256) /* assume it's ISO-8869-1*/
 			*(outbuf++) = (unsigned char)wc;
-#endif		
+#endif
 		else {
 			const char* str;
 			switch (wc) {

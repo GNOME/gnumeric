@@ -50,7 +50,7 @@ gboolean    sheet_object_bonobo_set_server	(SheetObjectBonobo	 *sob,
 						 Bonobo_Unknown           object_server);
 
 void sheet_object_bonobo_load_file           (SheetObjectBonobo *sob,
-					      char const        *fname, 
+					      char const        *fname,
 					      CORBA_Environment *ev);
 void sheet_object_bonobo_load_persist_file   (SheetObjectBonobo *sob,
 					      char const        *fname,

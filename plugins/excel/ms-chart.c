@@ -300,7 +300,7 @@ BC_R(ai)(ExcelChartHandler const *handle,
 
 	/* Rest are 0 */
 	if (flags&0x01) {
-		StyleFormat *fmt = ms_container_get_fmt (&s->container, 
+		StyleFormat *fmt = ms_container_get_fmt (&s->container,
 			MS_OLE_GET_GUINT16 (q->data + 4));
 		d (2, puts ("Has Custom number format"););
 		if (fmt != NULL) {
@@ -986,7 +986,7 @@ BC_R(defaulttext)(ExcelChartHandler const *handle,
 		  ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16	const tmp = MS_OLE_GET_GUINT16 (q->data);
-	
+
 	d (2, printf ("applicability = %hd\n", tmp););
 
 	/*
@@ -1123,7 +1123,7 @@ static gboolean
 BC_R(ifmt)(ExcelChartHandler const *handle,
 	   ExcelChartReadState *s, BiffQuery *q)
 {
-	StyleFormat *fmt = ms_container_get_fmt (&s->container, 
+	StyleFormat *fmt = ms_container_get_fmt (&s->container,
 		MS_OLE_GET_GUINT16 (q->data));
 
 	if (fmt != NULL) {
@@ -1468,7 +1468,7 @@ BC_R(pie)(ExcelChartHandler const *handle,
 	radians = MS_OLE_GET_GUINT16 (q->data);
 	radians = (radians * 2. * M_PI / 360.);
 	tmp = xmlNewChild (fmt, fmt->ns, (xmlChar *)"radians_of_first_pie", NULL);
-	xml_node_set_double (fmt, NULL, radians, -1); 
+	xml_node_set_double (fmt, NULL, radians, -1);
 
 	if (s->container.ver >= MS_BIFF_V8) {
 		guint16 const flags = MS_OLE_GET_GUINT16 (q->data+4);

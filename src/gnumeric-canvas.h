@@ -4,12 +4,16 @@
 #include "gnumeric-simple-canvas.h"
 
 #define GNUMERIC_CANVAS_TYPE     (gnumeric_canvas_get_type ())
-#define GNUMERIC_CANVAS(obj)     (GTK_CHECK_CAST((obj), GNUMERIC_CANVAS_TYPE, GnumericCanvas))
-#define GNUMERIC_CANVAS_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), GNUMERIC_CANVAS_TYPE))
-#define IS_GNUMERIC_CANVAS(o)    (GTK_CHECK_TYPE((o), GNUMERIC_CANVAS_TYPE))
+#define GNUMERIC_CANVAS(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), GNUMERIC_CANVAS_TYPE, GnumericCanvas))
+#define GNUMERIC_CANVAS_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), GNUMERIC_CANVAS_TYPE))
+#define IS_GNUMERIC_CANVAS(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), GNUMERIC_CANVAS_TYPE))
 
 #define GNUMERIC_CANVAS_FACTOR_X 1000000
 #define GNUMERIC_CANVAS_FACTOR_Y 4000000
+
+typedef gboolean (*GnumericCanvasSlideHandler) (GnumericCanvas *gcanvas,
+						int col, int row,
+						gpointer user_data);
 
 struct _GnumericCanvas {
 	GnmSimpleCanvas simple;
@@ -36,7 +40,7 @@ struct _GnumericCanvas {
 	gboolean   sliding_adjacent_h, sliding_adjacent_v;
 };
 
-GtkType        gnumeric_canvas_get_type (void);
+GType        gnumeric_canvas_get_type (void);
 GnumericCanvas *gnumeric_canvas_new      (SheetControlGUI *scg, GnumericPane *pane);
 
 int gnm_canvas_find_col (GnumericCanvas *gsheet, int x, int *col_origin);

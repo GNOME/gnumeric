@@ -119,22 +119,23 @@ dialog_sheet_name (WorkbookControlGUI *wbcg)
 	}
 
 	state->ok_button = glade_xml_get_widget (state->gui, "okbutton");
-	gtk_signal_connect (GTK_OBJECT (state->ok_button), "clicked",
-			    GTK_SIGNAL_FUNC (cb_sheet_name_ok_clicked),
-			    state);
+	g_signal_connect (G_OBJECT (state->ok_button),
+		"clicked",
+		G_CALLBACK (cb_sheet_name_ok_clicked), state);
 
 	state->cancel_button = glade_xml_get_widget (state->gui, "cancelbutton");
-	gtk_signal_connect (GTK_OBJECT (state->cancel_button), "clicked",
-			    GTK_SIGNAL_FUNC (cb_sheet_name_cancel_clicked),
-			    state);
+	g_signal_connect (G_OBJECT (state->cancel_button),
+		"clicked",
+		G_CALLBACK (cb_sheet_name_cancel_clicked), state);
 
 	state->entry = glade_xml_get_widget (state->gui, "entry");
 	gtk_entry_set_text (GTK_ENTRY (state->entry), sheet->name_unquoted);
 	gtk_editable_select_region (GTK_EDITABLE (state->entry), 0, -1);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog), GTK_EDITABLE (state->entry));
+	gnumeric_editable_enters (GTK_WINDOW (state->dialog), GTK_WIDGET (state->entry));
 
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
-			    GTK_SIGNAL_FUNC (sheet_name_destroy), state);	
+	g_signal_connect (G_OBJECT (state->dialog),
+		"destroy",
+		G_CALLBACK (sheet_name_destroy), state);
 
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),

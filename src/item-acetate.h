@@ -3,9 +3,9 @@
 
 #include "gui-gnumeric.h"
 
-#define ITEM_ACETATE(obj)          (GTK_CHECK_CAST((obj), item_acetate_get_type (), ItemAcetate))
-#define IS_ITEM_ACETATE(o)         (GTK_CHECK_TYPE((o), item_acetate_get_type ()))
+#define ITEM_ACETATE(obj)          (G_TYPE_CHECK_INSTANCE_CAST((obj), item_acetate_get_type (), ItemAcetate))
+#define IS_ITEM_ACETATE(o)         (G_TYPE_CHECK_INSTANCE_TYPE((o), item_acetate_get_type ()))
 
-GtkType item_acetate_get_type (void);
+GType item_acetate_get_type (void);
 
 #endif /* GNUMERIC_ITEM_ACETATE_H */

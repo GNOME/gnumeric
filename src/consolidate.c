@@ -18,7 +18,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
- 
+
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "consolidate.h"
@@ -57,7 +57,7 @@ get_bounding_box (GSList const *granges, Range *box)
 
 	g_return_if_fail (granges != NULL);
 	g_return_if_fail (box != NULL);
-	
+
 	max_x = max_y = 0;
 	for (l = granges; l != NULL; l = l->next) {
 		GlobalRange *gr = l->data;
@@ -120,10 +120,10 @@ redraw_respan_and_select (Sheet *sheet, int start_col, int start_row, int end_co
 	range_init (&r, start_col, start_row, end_col, end_row);
 	sheet_range_calc_spans (sheet, &r, SPANCALC_RESIZE | SPANCALC_RENDER);
 	sheet_region_queue_recalc (sheet, &r);
-	
+
 	if (values) {
 		int row, col;
-		
+
 		workbook_recalc (sheet->workbook);
 		for (row = start_row; row <= end_row; row++) {
 			for (col = start_col; col <= end_col; col++) {
@@ -134,11 +134,11 @@ redraw_respan_and_select (Sheet *sheet, int start_col, int start_row, int end_co
 			}
 		}
 	}
-	
-	sheet_redraw_range (sheet, &r);	
+
+	sheet_redraw_range (sheet, &r);
 	sheet_selection_set (sheet, end_col, end_row,
 			     start_col, start_row,
-			     end_col, end_row);	
+			     end_col, end_row);
 }
 
 static int
@@ -164,13 +164,13 @@ Consolidate *
 consolidate_new (void)
 {
 	Consolidate *cs;
-	
+
 	cs = g_new0 (Consolidate, 1);
 	cs->fd = NULL;
 	cs->dst = NULL;
 	cs->src = NULL;
 	cs->mode = CONSOLIDATE_PUT_VALUES;
-	
+
 	return cs;
 }
 
@@ -180,7 +180,7 @@ consolidate_free (Consolidate *cs)
 	GSList *l;
 
 	g_return_if_fail (cs != NULL);
-		
+
 	if (cs->fd) {
 		func_unref (cs->fd);
 		cs->fd = NULL;
@@ -203,7 +203,7 @@ consolidate_set_function (Consolidate *cs, FunctionDefinition *fd)
 {
 	g_return_if_fail (cs != NULL);
 	g_return_if_fail (fd != NULL);
-	
+
 	if (cs->fd)
 		func_unref (cs->fd);
 
@@ -224,7 +224,7 @@ consolidate_set_destination (Consolidate *cs, Value *range)
 {
 	GlobalRange *new;
 	GSList const *l;
-	
+
 	g_return_val_if_fail (cs != NULL, FALSE);
 	g_return_val_if_fail (range != NULL, FALSE);
 
@@ -250,12 +250,12 @@ consolidate_set_destination (Consolidate *cs, Value *range)
 			return FALSE;
 		}
 	}
-	
+
 	if (cs->dst)
 		global_range_free (cs->dst);
 
 	cs->dst = new;
-	
+
 	return TRUE;
 }
 
@@ -288,9 +288,9 @@ consolidate_add_source (Consolidate *cs, Value *range)
 	 * larger) we do a strict sanity check here.
 	 */
 	tmp = global_range_dup (cs->dst);
-	tmp->range.end.col = tmp->range.start.col + 
+	tmp->range.end.col = tmp->range.start.col +
 		(new->range.end.col - new->range.start.col);
-	tmp->range.end.row = tmp->range.start.row + 
+	tmp->range.end.row = tmp->range.start.row +
 		(new->range.end.row - new->range.start.row);
 
 	if (global_range_overlap (tmp, new)) {
@@ -299,7 +299,7 @@ consolidate_add_source (Consolidate *cs, Value *range)
 		return FALSE;
 	}
 	global_range_free (tmp);
-	
+
 	cs->src = g_slist_append (cs->src, new);
 
 	return TRUE;
@@ -325,7 +325,7 @@ cb_tree_free (Value const *key, TreeItem *ti, gpointer user_data)
 
 	if (ti->val) {
 		GSList *l;
-		
+
 		for (l = ti->val; l != NULL; l = l->next)
 			global_range_free ((GlobalRange *) l->data);
 
@@ -346,7 +346,7 @@ tree_free (GTree *tree)
 
 /**
  * retrieve_row_tree:
- * 
+ *
  * This routine traverses the whole source list
  * of regions and puts all rows in regions which
  * have a similar key (the key is the first column
@@ -372,7 +372,7 @@ retrieve_row_tree (Consolidate *cs)
 {
 	GTree *tree;
 	GSList *l;
-	
+
 	g_return_val_if_fail (cs != NULL, NULL);
 
 	tree = g_tree_new ((GCompareFunc) cb_value_compare);
@@ -389,21 +389,21 @@ retrieve_row_tree (Consolidate *cs)
 				GSList *granges;
 				TreeItem *ti;
 				Range s;
-			
+
 				ti = g_tree_lookup (tree, (Value *) v);
-				
+
 				if (ti)
 					granges = ti->val;
 				else
 					granges = NULL;
-					
+
 				s.start.row = s.end.row = row;
 				s.start.col = sgr->range.start.col + 1;
 				s.end.col   = sgr->range.end.col;
 
 				gr = global_range_new (sgr->sheet, &s);
 				granges = g_slist_append (granges, gr);
-				
+
 				/*
 				 * NOTE: There is no need to duplicate the value
 				 * as it will not change during the consolidation
@@ -414,7 +414,7 @@ retrieve_row_tree (Consolidate *cs)
 				        ti->key = v;
 				}
 				ti->val = granges;
-				
+
 				g_tree_insert (tree, (Value *) ti->key, ti);
 			}
 		}
@@ -431,18 +431,18 @@ retrieve_col_tree (Consolidate *cs)
 {
 	GTree *tree;
 	GSList *l;
-	
+
 	g_return_val_if_fail (cs != NULL, NULL);
 
 	tree = g_tree_new ((GCompareFunc) cb_value_compare);
-	
+
 	for (l = cs->src; l != NULL; l = l->next) {
 		GlobalRange const *sgr = l->data;
 		int col;
 
 		for (col = sgr->range.start.col; col <= sgr->range.end.col; col++) {
 			Value const *v = sheet_cell_get_value (sgr->sheet, col, sgr->range.start.row);
-			
+
 			if (v && v->type != VALUE_EMPTY) {
 				GlobalRange *gr;
 				GSList *granges;
@@ -450,12 +450,12 @@ retrieve_col_tree (Consolidate *cs)
 				Range s;
 
 				ti = g_tree_lookup (tree, (Value *) v);
-				
+
 				if (ti)
 					granges = ti->val;
 				else
 					granges = NULL;
-					
+
 				s.start.col = s.end.col = col;
 				s.start.row = sgr->range.start.row + 1;
 				s.end.row   = sgr->range.end.row;
@@ -470,15 +470,15 @@ retrieve_col_tree (Consolidate *cs)
 				 */
 				if (!ti) {
 					ti = g_new0 (TreeItem, 1);
-				        ti->key = v; 
+				        ti->key = v;
 				}
 				ti->val = granges;
-				
+
 				g_tree_insert (tree, (Value *) ti->key, ti);
 			}
 		}
 	}
-	
+
 	return tree;
 }
 
@@ -493,7 +493,7 @@ key_list_get (Consolidate *cs, gboolean is_cols)
 {
 	GSList *keys = NULL;
 	GSList *l;
-	
+
 	for (l = cs->src; l != NULL; l = l->next) {
 		GlobalRange *sgr = l->data;
 		int i = is_cols
@@ -525,7 +525,7 @@ key_list_get (Consolidate *cs, gboolean is_cols)
 				keys = g_slist_insert_sorted (keys, (Value *) v, (GCompareFunc) cb_value_compare);
 		}
 	}
-	
+
 	return keys;
 }
 
@@ -550,7 +550,7 @@ key_list_get (Consolidate *cs, gboolean is_cols)
  * destination FullRange. Currently no clipping is done on the destination
  * range so the dst->range->end.* are ignored. (clipping isn't terribly
  * useful either)
- **/ 
+ **/
 static void
 simple_consolidate (FunctionDefinition *fd, GlobalRange const *dst, GSList const *src,
 		    gboolean is_col_or_row, int *end_col, int *end_row)
@@ -560,7 +560,7 @@ simple_consolidate (FunctionDefinition *fd, GlobalRange const *dst, GSList const
 	Sheet *prev_sheet = NULL;
 	RangeRef *prev_r = NULL;
 	int x, y;
-	
+
 	g_return_if_fail (fd != NULL);
 	g_return_if_fail (dst != NULL);
 	g_return_if_fail (src != NULL);
@@ -574,16 +574,16 @@ simple_consolidate (FunctionDefinition *fd, GlobalRange const *dst, GSList const
 		box.end.row = SHEET_MAX_ROWS - 1;
 	if (dst->range.start.col + box.end.col >= SHEET_MAX_COLS)
 		box.end.col = SHEET_MAX_COLS - 1;
-		
+
 	for (y = box.start.row; y <= box.end.row; y++) {
 		for (x = box.start.col; x <= box.end.col; x++) {
 			ExprList *args = NULL;
-			
+
 			for (l = src; l != NULL; l = l->next) {
 				GlobalRange const *gr = l->data;
 				Value *val;
 				Range r;
-				
+
 				/*
 				 * We don't want to include this range
 				 * this time if the current traversal
@@ -621,10 +621,10 @@ simple_consolidate (FunctionDefinition *fd, GlobalRange const *dst, GSList const
 				val = value_new_cellrange_r (gr->sheet, &r);
 				prev_r = &val->v_range.cell;
 				prev_sheet = gr->sheet;
-				
+
 				args = expr_list_append (args, expr_tree_new_constant (val));
 			}
-			
+
 			/* There is no need to free 'args', it will be absorbed
 			 * into the ExprTree
 			 */
@@ -661,16 +661,16 @@ cb_row_tree (Value const *key, TreeItem *ti, ConsolidateContext *cc)
 {
 	Consolidate *cs;
 	int end_col = 0;
-	
+
 	cs = cc->cs;
 	if (cs->mode & CONSOLIDATE_COPY_LABELS)
 		set_cell_value (cs->dst->sheet, cc->colrow->range.start.col - 1,
 				cc->colrow->range.start.row, key);
 	simple_consolidate (cs->fd, cc->colrow, ti->val, FALSE, &end_col, NULL);
-	
+
 	if (end_col > cc->colrow->range.end.col)
 		cc->colrow->range.end.col = end_col;
-		
+
 	cc->colrow->range.start.row++;
 	cc->colrow->range.end.row++;
 
@@ -689,13 +689,13 @@ row_consolidate (Consolidate *cs)
 {
 	ConsolidateContext cc;
 	GTree *tree;
-	
+
 	g_return_if_fail (cs != NULL);
 
 	tree = retrieve_row_tree (cs);
 	cc.cs = cs;
 	cc.colrow = global_range_dup (cs->dst);
-	
+
 	if (cs->mode & CONSOLIDATE_COPY_LABELS) {
 		cc.colrow->range.start.col++;
 		cc.colrow->range.end.col++;
@@ -703,14 +703,14 @@ row_consolidate (Consolidate *cs)
 
 	g_tree_traverse (tree, (GTraverseFunc) cb_row_tree,
 			 G_IN_ORDER, &cc);
-	
+
 	redraw_respan_and_select (cs->dst->sheet,
 				  cs->dst->range.start.col,
 				  cs->dst->range.start.row,
 				  cc.colrow->range.end.col,
 				  cc.colrow->range.end.row - 1,
 				  cs->mode & CONSOLIDATE_PUT_VALUES);
-				 
+
 	global_range_free (cc.colrow);
 	cc.colrow = NULL;
 
@@ -728,15 +728,15 @@ cb_col_tree (Value const *key, TreeItem *ti, ConsolidateContext *cc)
 {
 	Consolidate *cs;
 	int end_row = 0;
-	
+
 	cs = cc->cs;
-	
+
 	if (cs->mode & CONSOLIDATE_COPY_LABELS)
 		set_cell_value (cs->dst->sheet,
 				cc->colrow->range.start.col,
 				cc->colrow->range.start.row - 1,
 				key);
-			       
+
 	simple_consolidate (cs->fd, cc->colrow, ti->val, FALSE, NULL, &end_row);
 
 	if (end_row > cc->colrow->range.end.row)
@@ -760,7 +760,7 @@ col_consolidate (Consolidate *cs)
 {
 	ConsolidateContext cc;
 	GTree *tree;
-	
+
 	g_return_if_fail (cs != NULL);
 	tree = retrieve_col_tree (cs);
 
@@ -774,7 +774,7 @@ col_consolidate (Consolidate *cs)
 
 	g_tree_traverse (tree, (GTraverseFunc) cb_col_tree,
 			 G_IN_ORDER, &cc);
-	
+
 	redraw_respan_and_select (cs->dst->sheet,
 				  cs->dst->range.start.col,
 				  cs->dst->range.start.row,
@@ -793,7 +793,7 @@ colrow_formula_args_build (Value const *row_name, Value const *col_name, GSList 
 {
 	GSList const *l;
 	ExprList *args = NULL;
-	
+
 	for (l = granges; l != NULL; l = l->next) {
 		GlobalRange *gr = l->data;
 		int rx, ry;
@@ -813,7 +813,7 @@ colrow_formula_args_build (Value const *row_name, Value const *col_name, GSList 
 			for (rx = gr->range.start.col + 1; rx <= gr->range.end.col; rx++) {
 				Value const *coltxt = sheet_cell_get_value (gr->sheet, rx, gr->range.start.row);
 				CellRef ref;
-				
+
 				if (coltxt == NULL || value_compare (coltxt, col_name, TRUE) != IS_EQUAL)
 					continue;
 
@@ -842,7 +842,7 @@ colrow_consolidate (Consolidate *cs)
 	int y = 0;
 
 	g_return_if_fail (cs != NULL);
-	
+
 	rows = key_list_get (cs, FALSE);
 	cols = key_list_get (cs, TRUE);
 
@@ -853,7 +853,7 @@ colrow_consolidate (Consolidate *cs)
 
 	for (l = rows; l != NULL && cs->dst->range.start.row + y < SHEET_MAX_ROWS; l = l->next, y++) {
 		Value const *row_name = l->data;
-		
+
 		if (cs->mode & CONSOLIDATE_COPY_LABELS) {
 			set_cell_value (cs->dst->sheet,
 					cs->dst->range.start.col,
@@ -878,7 +878,7 @@ colrow_consolidate (Consolidate *cs)
 
 			if (args) {
 				ExprTree *expr = expr_tree_new_funcall (cs->fd, args);
-				
+
 				set_cell_expr (cs->dst->sheet, cs->dst->range.start.col + x,
 					       cs->dst->range.start.row + y, expr);
 				expr_tree_unref (expr);
@@ -911,11 +911,11 @@ Range
 consolidate_get_dest_bounding_box (Consolidate *cs)
 {
 	Range r;
-	
+
 	range_init (&r, 0, 0, 0, 0);
-	
+
 	g_return_val_if_fail (cs != NULL, r);
-	
+
 	if (cs->src)
 		get_bounding_box (cs->src, &r);
 
@@ -946,7 +946,7 @@ consolidate_apply (Consolidate *cs)
 		col_consolidate (cs);
 	else {
 		int end_row, end_col;
-		
+
 		simple_consolidate (cs->fd, cs->dst, cs->src, FALSE, &end_col, &end_row);
 		redraw_respan_and_select (cs->dst->sheet,
 					  cs->dst->range.start.col,

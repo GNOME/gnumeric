@@ -1,7 +1,6 @@
 #
 # Keep this in sync with ../../icons/Makefile.am
 #
-iconsdir = $(datadir)/pixmaps/gnumeric
 
 if WITH_BONOBO
 gnumeric_version="$(VERSION)-bonobo"
@@ -15,7 +14,6 @@ gnumeric_libdir = $(datadir)/gnumeric/$(gnumeric_version)
 INCLUDES = 								\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 			\
 	-DGNUMERIC_DATADIR=\""$(gnumeric_datadir)"\"			\
-	-DGNUMERIC_ICONDIR=\""$(iconsdir)"\"				\
 	-I$(top_srcdir)							\
 	-I$(top_srcdir)/src						\
 	$(GNUMERIC_CFLAGS)
@@ -66,11 +64,8 @@ base_files =					\
 	dialog-summary.c			\
 	dialog-workbook-attr.c			\
 	dialog-zoom.c				\
-	utils-dialog.c                          \
 	dialogs.h				\
-	tools.h                                 \
-	utils-dialog.h				\
-	utils-dialog.c
+	tools.h
 
 gladedir   = $(gnumeric_libdir)/glade
 glade_DATA = 				\

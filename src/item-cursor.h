@@ -3,8 +3,8 @@
 
 #include "gui-gnumeric.h"
 
-#define ITEM_CURSOR(obj)          (GTK_CHECK_CAST((obj), item_cursor_get_type (), ItemCursor))
-#define IS_ITEM_CURSOR(o)         (GTK_CHECK_TYPE((o), item_cursor_get_type ()))
+#define ITEM_CURSOR(obj)          (G_TYPE_CHECK_INSTANCE_CAST((obj), item_cursor_get_type (), ItemCursor))
+#define IS_ITEM_CURSOR(o)         (G_TYPE_CHECK_INSTANCE_TYPE((o), item_cursor_get_type ()))
 
 typedef enum {
 	ITEM_CURSOR_SELECTION,
@@ -14,7 +14,7 @@ typedef enum {
 	ITEM_CURSOR_BLOCK
 } ItemCursorStyle;
 
-GtkType item_cursor_get_type (void);
+GType item_cursor_get_type (void);
 
 gboolean item_cursor_bound_set	    (ItemCursor *ic, Range const *bound);
 void     item_cursor_set_visibility (ItemCursor *ic, gboolean visible);

@@ -26,7 +26,7 @@ typedef enum {
 	/* will be enums when we support multiple arrow shapes */
 	MS_OBJ_ATTR_ARROW_START,
 	MS_OBJ_ATTR_ARROW_END,
-	
+
     /* Integers & Enums */
 	MS_OBJ_ATTR_IS_INT_MASK = 0x1000,
 	MS_OBJ_ATTR_BLIP_ID,

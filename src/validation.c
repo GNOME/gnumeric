@@ -54,7 +54,7 @@ validation_new (ValidationStyle style,
 
 	v = g_new0 (Validation, 1);
 	v->ref_count = 1;
-	
+
 	v->title = title ? string_get (title) : NULL;
 	v->msg   = msg ? string_get (msg) : NULL;
 	v->expr[0] = expr0;
@@ -83,7 +83,7 @@ validation_unref (Validation *v)
 	g_return_if_fail (v != NULL);
 
 	v->ref_count--;
-	
+
 	if (v->ref_count < 1) {
 		if (v->title != NULL) {
 			string_unref (v->title);
@@ -116,7 +116,6 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 	Validation *v;
 	Cell	   *cell;
 	char	   *msg = NULL;
-	EvalPos     ep;
 	gboolean    allocated_msg = FALSE;
 	ValidationStatus result;
 
@@ -139,14 +138,8 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 		msg = g_strdup_printf (_("Cell %s is not permitted to be blank"),
 				       cell_name (cell));
 	} else {
-		Value *val;
-		ExprTree *val_expr, *expr;
-
-		g_return_val_if_fail (cell != NULL, VALIDATION_STATUS_VALID);
-		g_return_val_if_fail (cell->value != NULL, VALIDATION_STATUS_VALID);
-
-		val = cell->value;
-		eval_pos_init_cell (&ep, cell);
+		ExprTree *val_expr = NULL, *expr = NULL;
+		Value *val = cell->value;
 
 		switch (v->type) {
 		case VALIDATION_TYPE_ANY :
@@ -166,15 +159,22 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 		case VALIDATION_TYPE_AS_TIME :	/* What the hell does this do */
 		case VALIDATION_TYPE_AS_NUMBER :
 			if (val->type == VALUE_ERROR)
-				msg = g_strdup_printf (_("'%f' is not a number"),
-						       val->v_float.val);
+				msg = g_strdup_printf (_("'%s' is an error"),
+						       val->v_err.mesg->str);
 			else if (cell->value->type == VALUE_STRING) {
-				val = format_match_number (val->v_str.val->str, NULL);
-				if (val != NULL)
-					val_expr = expr_tree_new_constant (val);
-				else
-					msg = g_strdup_printf (_("'%s' is not a number"),
-							       val->v_str.val->str);
+				Value *res = format_match_number (val->v_str.val->str, NULL);
+				if (res == NULL) {
+					char const *fmt;
+					/* FIXME what else is needed */
+					if (v->type == VALIDATION_TYPE_AS_DATE) {
+						fmt = N_("'%s' is not a valid date");
+					} else if (v->type == VALIDATION_TYPE_AS_TIME) {
+						fmt = N_("'%s' is not a valid time");
+					} else
+						fmt = N_("'%s' is not a number");
+					msg = g_strdup_printf (_(fmt), val->v_str.val->str);
+				} else
+					val_expr = expr_tree_new_constant (res);
 			} else
 				val_expr = expr_tree_new_constant (
 					value_duplicate (cell->value));
@@ -229,10 +229,16 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 
 		if (expr != NULL) {
 			ParsePos  pp;
+			EvalPos   ep;
 			char	 *expr_str;
-			Value    *val = expr_eval (expr, &ep, EVAL_STRICT);
-			gboolean  dummy, valid = value_get_as_bool (val, &dummy);
+			Value    *val;
+			gboolean  dummy, valid;
+
+			val = expr_eval (expr, eval_pos_init_cell (&ep, cell),
+					 EVAL_STRICT);
+			valid = value_get_as_bool (val, &dummy);
 			value_release (val);
+
 			if (valid && v->op != VALIDATION_OP_BETWEEN) {
 				if (v->type != VALIDATION_TYPE_CUSTOM)
 					expr_tree_unref (expr);
@@ -243,7 +249,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 				g_return_val_if_fail (v->expr[1] != NULL, VALIDATION_STATUS_VALID);
 
 				expr_tree_ref (v->expr[1]);
-				expr = expr_tree_new_binary (val_expr, 
+				expr = expr_tree_new_binary (val_expr,
 					(v->op == VALIDATION_OP_BETWEEN) ? OPER_LTE : OPER_GT,
 					v->expr[1]);
 				val = expr_eval (expr, &ep, EVAL_STRICT);
@@ -274,7 +280,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 				"Restrictions have been placed on this cell's content.");
 	}
 
-	result = wb_control_validation_msg (wbc, v,
+	result = wb_control_validation_msg (wbc, v->type,
 		(v->title != NULL && v->title->str[0] != '\0')
 			? v->title->str
 			: _("Gnumeric : Validation"),

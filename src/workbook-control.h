@@ -2,13 +2,14 @@
 #define GNUMERIC_WORKBOOK_CONTROL_H
 
 #include "gnumeric.h"
-#include <gtk/gtkobject.h>
+#include "validation.h"
+#include <glib-object.h>
 
 #define WORKBOOK_CONTROL_TYPE     (workbook_control_get_type ())
-#define WORKBOOK_CONTROL(obj)     (GTK_CHECK_CAST ((obj), WORKBOOK_CONTROL_TYPE, WorkbookControl))
-#define IS_WORKBOOK_CONTROL(o)	  (GTK_CHECK_TYPE ((o), WORKBOOK_CONTROL_TYPE))
+#define WORKBOOK_CONTROL(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), WORKBOOK_CONTROL_TYPE, WorkbookControl))
+#define IS_WORKBOOK_CONTROL(o)	  (G_TYPE_CHECK_INSTANCE_TYPE ((o), WORKBOOK_CONTROL_TYPE))
 
-GtkType workbook_control_get_type    (void);
+GType workbook_control_get_type    (void);
 void 	workbook_control_set_view    (WorkbookControl *wbc,
 				      WorkbookView *optional_view,
 				      Workbook *optional_wb);
@@ -41,7 +42,7 @@ void wb_control_undo_redo_push	     (WorkbookControl *wbc,
 				      char const *text, gboolean is_undo);
 void wb_control_undo_redo_labels     (WorkbookControl *wbc,
 				      char const *undo, char const *redo);
-int  wb_control_validation_msg	     (WorkbookControl *wbc, Validation const *v,
+int  wb_control_validation_msg	     (WorkbookControl *wbc, ValidationStyle v,
 				      char const *title, char const *msg);
 
 /* Menu state update flags, use them to specify which menu items to update */

@@ -1,12 +1,12 @@
 /* vim: set sw=8: */
 
 /*
- * applix.c : Routines to read applix version 4 spreadsheets.
+ * applix-read.c : Routines to read applix version 4 spreadsheets.
  *
  * I have no docs or specs for this format that are useful.
  * This is a guess based on some sample sheets.
  *
- * Copyright (C) 2000-2001 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2002 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -25,7 +25,6 @@
  */
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include <libgnome/libgnome.h>
 #include "applix.h"
 #include "application.h"
 #include "expr.h"
@@ -49,8 +48,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
-
-static int debug_applix_read = 1;
+#include <libgnome/gnome-i18n.h>
 
 typedef struct {
 	FILE          *file;
@@ -68,11 +66,19 @@ typedef struct {
 	int zoom;
 } ApplixReadState;
 
+/* #define NO_DEBUG_APPLIX */
+#ifndef NO_DEBUG_APPLIX
+#define d(level, code)	do { if (debug_applix_read > level) { code } } while (0)
+static int debug_applix_read = 0;
+#else
+#define d(level, code)
+#endif
+
 /* The maximum numer of character potentially involved in a new line */
 #define MAX_END_OF_LINE_SLOP	16
 
-static int applix_parse_error (ApplixReadState *,
-			       char const *format, ...) G_GNUC_PRINTF (2, 3);
+static int applix_parse_error (ApplixReadState *, char const *format, ...)
+	G_GNUC_PRINTF (2, 3);
 
 static int
 applix_parse_error (ApplixReadState *state, char const *format, ...)
@@ -82,7 +88,7 @@ applix_parse_error (ApplixReadState *state, char const *format, ...)
 
 	if (state->parse_error == NULL)
 		state->parse_error = error_info_new_str (
-		                     _("Parse error while reading Applix file."));
+			_("Parse error while reading Applix file."));
 
 	va_start (args, format);
 	err = g_strdup_vprintf (format, args);
@@ -1131,11 +1137,9 @@ applix_read_impl (ApplixReadState *state)
 		ungetc ((unsigned char)'C', state->file); /* restore the leading 'C' */
 	}
 
-#ifndef NO_APPLIX_DEBUG
-	if (debug_applix_read > 0)
-		printf ("Applix load '%s' : Saved with revision %d.%d\n",
-			real_name, major_rev, minor_rev);
-#endif
+	d (0, printf ("Applix load '%s' : Saved with revision %d.%d\n",
+		      real_name, major_rev, minor_rev););
+
 	if (applix_read_colormap (state))
 		return applix_parse_error (state, "invalid colormap");
 	if (applix_read_typefaces (state))

@@ -1311,8 +1311,8 @@ cellrange_relocate (Value const *v, ExprRelocateInfo const *rinfo)
 	 * If both ends need to relocate -> relocate
 	 * If either end is relcated from inside the range -> relocate
 	 * 	otherwise we can end up with invalid references
-	 * If only 1 end needs relocation, relocate only if movement is 
-	 *	in only 1 dimension, and the 
+	 * If only 1 end needs relocation, relocate only if movement is
+	 *	in only 1 dimension, and the
 	 * otherwise remain static
 	 */
 	CellRef ref_a = v->v_range.cell.a;
@@ -1793,11 +1793,11 @@ expr_tree_boundingbox (ExprTree const *expr, Range *bound)
 /**
  * expr_tree_get_range:
  * @expr :
- * 
+ *
  * If this expression contains a single range return it.
  */
 Value *
-expr_tree_get_range (ExprTree const *expr) 
+expr_tree_get_range (ExprTree const *expr)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
 

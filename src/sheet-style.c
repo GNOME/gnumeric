@@ -463,7 +463,7 @@ sheet_style_shutdown (Sheet *sheet)
 	g_hash_table_foreach_remove (table, cb_unlink, NULL);
 	g_hash_table_destroy (table);
 	style_color_unref (sheet->style_data->auto_pattern_color);
-	
+
 	g_free (sheet->style_data);
 	sheet->style_data = NULL;
 }
@@ -481,7 +481,7 @@ sheet_style_set_auto_pattern_color (Sheet  *sheet, StyleColor *pattern_color)
 {
 	StyleColor *apc;
 	int ref_count;
-	
+
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->style_data != NULL);
 
@@ -497,7 +497,7 @@ sheet_style_set_auto_pattern_color (Sheet  *sheet, StyleColor *pattern_color)
  * sheet_style_get_auto_pattern_color:
  *
  * @sheet: the sheet
- * 
+ *
  * Returns the color for rendering auto colored patterns in this sheet.
  */
 StyleColor *
@@ -636,7 +636,7 @@ cell_tile_apply (CellTile **tile, int level,
 	g_return_if_fail (TILE_SIMPLE <= type && type <= TILE_PTR_MATRIX);
 
 	/* applying the same style to part of a simple-tile is a nop */
-	if (type == TILE_SIMPLE && 
+	if (type == TILE_SIMPLE &&
 	    (*tile)->style_simple.style [0] == rs->new_style)
 		return;
 
@@ -1117,7 +1117,7 @@ get_style_row (CellTile const *tile, int level,
 
 /**
  * sheet_style_get_row :
- * 
+ *
  * @sheet :
  * @sr    :
  *
@@ -1556,7 +1556,7 @@ sheet_style_relocate (ExprRelocateInfo const *rinfo)
 }
 
 /**
- * sheet_style_insert_colrow 
+ * sheet_style_insert_colrow
  *
  * @rinfo :
  *
@@ -1648,7 +1648,7 @@ cb_visible_content (MStyle *style,
  */
 gboolean
 sheet_style_has_visible_content (Sheet const *sheet, Range *src)
-{ 
+{
 	gboolean res = FALSE;
 	foreach_tile (sheet->style_data->styles,
 		      TILE_TOP_LEVEL, 0, 0, src,
@@ -1667,7 +1667,7 @@ sheet_style_has_visible_content (Sheet const *sheet, Range *src)
  */
 void
 sheet_style_get_extent (Sheet const *sheet, Range *res)
-{ 
+{
 	Range r;
 
 	/* This could easily be optimized */
@@ -1834,7 +1834,7 @@ sheet_style_get_list (Sheet const *sheet, Range const *r)
 }
 
 /**
- * sheet_style_set_list 
+ * sheet_style_set_list
  *
  * @sheet     :
  * @corner    :

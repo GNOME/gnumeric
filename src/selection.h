@@ -50,7 +50,7 @@ char       *selection_to_string    (Sheet *sheet,
 				    gboolean include_sheet_name_prefix);
 
 /* Information about the selection */
-Range const *selection_first_range (Sheet const *sheet, 
+Range const *selection_first_range (Sheet const *sheet,
 				    WorkbookControl *wbc, char const *cmd_name);
 gboolean    selection_foreach_range (Sheet *sheet, gboolean from_start,
 				     gboolean (*range_cb) (Sheet *sheet,

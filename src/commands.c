@@ -31,6 +31,7 @@
 #include "sheet-style.h"
 #include "format.h"
 #include "formats.h"
+#include "format-template.h"
 #include "command-context.h"
 #include "workbook-control.h"
 #include "workbook-view.h"
@@ -679,7 +680,7 @@ cmd_set_text (WorkbookControl *wbc,
 
 	if (text != corrected_text)
 		g_free (text);
-	else if (c != '\0')
+	if (c != '\0')
 		*tmp = c;
 
 	/* Register the command object */
@@ -2494,22 +2495,22 @@ cmd_paste_copy (WorkbookControl *wbc,
 			/* destination is a single merge */
 			/* enlarge it such that the source fits */
 			if (pt->paste_flags & PASTE_TRANSPOSE) {
-				if ((me->dst.range.end.col - me->dst.range.start.col + 1) < 
+				if ((me->dst.range.end.col - me->dst.range.start.col + 1) <
 				    content->rows)
-					me->dst.range.end.col = 
+					me->dst.range.end.col =
 						me->dst.range.start.col + content->rows -1;
-				if ((me->dst.range.end.row - me->dst.range.start.row + 1) < 
+				if ((me->dst.range.end.row - me->dst.range.start.row + 1) <
 				    content->cols)
-					me->dst.range.end.row = 
+					me->dst.range.end.row =
 						me->dst.range.start.row + content->cols -1;
 			} else {
-				if ((me->dst.range.end.col - me->dst.range.start.col + 1) < 
+				if ((me->dst.range.end.col - me->dst.range.start.col + 1) <
 				    content->cols)
-					me->dst.range.end.col = 
+					me->dst.range.end.col =
 						me->dst.range.start.col + content->cols -1;
-				if ((me->dst.range.end.row - me->dst.range.start.row + 1) < 
+				if ((me->dst.range.end.row - me->dst.range.start.row + 1) <
 				    content->rows)
-					me->dst.range.end.row = 
+					me->dst.range.end.row =
 						me->dst.range.start.row + content->rows -1;
 			}
 		}
@@ -2741,7 +2742,7 @@ typedef struct {
 	GSList         *selection;   /* Selections on the sheet */
 	GSList         *old_styles;  /* Older styles, one style_list per selection range*/
 
-	FormatTemplate const *ft;    /* Template that has been applied */
+	FormatTemplate *ft;    /* Template that has been applied */
 } CmdAutoFormat;
 
 GNUMERIC_MAKE_COMMAND (CmdAutoFormat, cmd_autoformat);
@@ -2824,7 +2825,7 @@ cmd_autoformat_finalize (GObject *cmd)
  * Return value: TRUE if there was a problem
  **/
 gboolean
-cmd_autoformat (WorkbookControl *wbc, Sheet *sheet, FormatTemplate const *ft)
+cmd_autoformat (WorkbookControl *wbc, Sheet *sheet, FormatTemplate *ft)
 {
 	GObject *obj;
 	CmdAutoFormat *me;
@@ -3278,7 +3279,6 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 		Value *val;
 		gboolean err;
 		ParsePos pp;
-		StyleFormat *fmt;
 
 		parse_pos_init_evalpos (&pp, ep);
 		parse_text_value_or_expr (&pp, cell_res.new_text, &val, &expr,

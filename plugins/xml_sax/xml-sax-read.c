@@ -686,7 +686,7 @@ xml_sax_sheet_name (XMLSaxParseState *state)
 		state->sheet = sheet_new (state->wb, content);
 		workbook_sheet_attach (state->wb, state->sheet, NULL);
 	}
-	
+
 	if (state->display_formulas >= 0)
 		state->sheet->display_formulas = state->display_formulas;
 	if (state->hide_zero >= 0)
@@ -1118,7 +1118,7 @@ xml_sax_validation (XMLSaxParseState *state, xmlChar const **attrs)
 		} else if (!strcmp (attrs[0], "Title")) {
 			state->validation.title = g_strdup ((gchar *)attrs[1]);
 		} else if (!strcmp (attrs[0], "Message")) {
-			state->validation.msg = g_strdup ((gchar *)attrs[1]);			
+			state->validation.msg = g_strdup ((gchar *)attrs[1]);
 		} else if (xml_sax_attr_bool (attrs, "AllowBlank", &b_dummy)) {
 			state->validation.allow_blank = b_dummy;
 		} else if (xml_sax_attr_bool (attrs, "UseDropdown", &b_dummy)) {
@@ -1419,7 +1419,7 @@ xml_sax_merge (XMLSaxParseState *state)
 static void
 xml_sax_object (XMLSaxParseState *state, xmlChar const **attrs)
 {
-	
+
 }
 
 static void
@@ -1427,11 +1427,11 @@ xml_sax_finish_parse_wb_names_name (XMLSaxParseState *state)
 {
 	g_return_if_fail (state->name.name != NULL);
 	g_return_if_fail (state->name.value != NULL);
-	
+
 	if (state->version >= GNUM_XML_V7) {
 		ParseError  perr;
 		ParsePos    pos;
-		
+
 		parse_pos_init (&pos, NULL, state->sheet, 0, 0);
 		if (state->name.position) {
 			CellRef tmp;
@@ -1474,7 +1474,7 @@ xml_sax_finish_parse_sheet_names_name (XMLSaxParseState *state)
 {
 	ParseError  perr;
 	ParsePos    pos;
-	
+
 	g_return_if_fail (state->name.name != NULL);
 	g_return_if_fail (state->name.value != NULL);
 
@@ -1620,7 +1620,7 @@ xml_sax_start_element (XMLSaxParseState *state, xmlChar const *name, xmlChar con
 		} else
 			xml_sax_unknown_state (state, name);
 		break;
-		
+
 	case STATE_WB_SHEETS :
 		if (xml_sax_switch_state (state, name, STATE_SHEET)) {
 			xml_sax_sheet_start (state, attrs);
@@ -1651,7 +1651,7 @@ xml_sax_start_element (XMLSaxParseState *state, xmlChar const *name, xmlChar con
 		} else
 			xml_sax_unknown_state (state, name);
 		break;
-		
+
 	case STATE_SHEET_NAMES:
 		if (xml_sax_switch_state (state, name, STATE_SHEET_NAMES_NAME)) {
 		} else
@@ -1664,7 +1664,7 @@ xml_sax_start_element (XMLSaxParseState *state, xmlChar const *name, xmlChar con
 		} else
 			xml_sax_unknown_state (state, name);
 		break;
-		
+
 	case STATE_SHEET_MERGED_REGION :
 		if (!xml_sax_switch_state (state, name, STATE_SHEET_MERGE))
 			xml_sax_unknown_state (state, name);
@@ -1746,14 +1746,14 @@ xml_sax_start_element (XMLSaxParseState *state, xmlChar const *name, xmlChar con
 		else
 			xml_sax_unknown_state (state, name);
 		break;
-		
+
 	case STATE_STYLE_VALIDATION :
 		if (xml_sax_switch_state (state, name, STATE_STYLE_VALIDATION_EXPR0));
 		else if (xml_sax_switch_state (state, name, STATE_STYLE_VALIDATION_EXPR1));
 		else
 			xml_sax_unknown_state (state, name);
 		break;
-		
+
 	case STATE_SHEET_COLS :
 		if (xml_sax_switch_state (state, name, STATE_COL))
 			xml_sax_colrow (state, attrs, TRUE);
@@ -1805,7 +1805,7 @@ xml_sax_start_element (XMLSaxParseState *state, xmlChar const *name, xmlChar con
 		} else
 			xml_sax_unknown_state (state, name);
 		break;
-		
+
 	case STATE_NAMES:
 		if (xml_sax_switch_state (state, name, STATE_NAMES_NAME)) {
 		} else
@@ -1873,7 +1873,7 @@ xml_sax_end_element (XMLSaxParseState *state, const xmlChar *name)
 		xml_sax_wb_sheetname (state);
 		g_string_truncate (state->content, 0);
 		break;
-		
+
 	case STATE_SHEET_NAME :
 		xml_sax_sheet_name (state);
 		g_string_truncate (state->content, 0);
@@ -1883,7 +1883,7 @@ xml_sax_end_element (XMLSaxParseState *state, const xmlChar *name)
 		xml_sax_sheet_zoom (state);
 		g_string_truncate (state->content, 0);
 		break;
-		
+
 	case STATE_SHEET_NAMES_NAME :
 		xml_sax_finish_parse_sheet_names_name (state);
 		break;
@@ -1893,7 +1893,7 @@ xml_sax_end_element (XMLSaxParseState *state, const xmlChar *name)
 		xml_sax_name (state);
 		g_string_truncate (state->content, 0);
 		break;
-		
+
 	case STATE_PRINT_MARGIN_TOP :
 	case STATE_PRINT_MARGIN_BOTTOM :
 	case STATE_PRINT_MARGIN_LEFT :
@@ -1910,7 +1910,7 @@ xml_sax_end_element (XMLSaxParseState *state, const xmlChar *name)
 	case STATE_STYLE_VALIDATION :
 		xml_sax_validation_end (state);
 		break;
-		
+
 	case STATE_STYLE_VALIDATION_EXPR0 :
 	case STATE_STYLE_VALIDATION_EXPR1 :
 		xml_sax_validation_expr_end (state);
@@ -1934,7 +1934,7 @@ xml_sax_end_element (XMLSaxParseState *state, const xmlChar *name)
 		xml_sax_merge (state);
 		g_string_truncate (state->content, 0);
 		break;
-		
+
 	case STATE_NAMES_NAME :
 		xml_sax_finish_parse_wb_names_name (state);
 		break;
@@ -2088,7 +2088,7 @@ xml_sax_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	 * and using vfs.
 	 */
 	ctxt = xmlCreateFileParserCtxt (filename);
-	if (ctxt == NULL) { 
+	if (ctxt == NULL) {
 		gnumeric_io_error_string (io_context, _("xmlCreateFileParserCtxt () failed."));
 		return;
 	}

@@ -229,7 +229,7 @@ graph_guru_get_spec (GraphGuruState *s)
 
 		indx = e_xml_get_integer_prop_by_name_with_default (plot, (xmlChar *)"index", -1);
 		g_return_if_fail (indx >= 0);
-		gtk_object_set_data (GTK_OBJECT (item), "index", 
+		gtk_object_set_data (GTK_OBJECT (item), "index",
 			GINT_TO_POINTER (indx));
 
 		if (s->current_plot < 0 || s->current_plot == indx)
@@ -310,8 +310,8 @@ vector_state_fill (VectorState *vs, xmlNode *series)
 
 	/* clear beforehand to make error handling simpler */
 	vs->state->updating = TRUE;
-	gnumeric_expr_entry_clear (vs->entry);
-	gnumeric_expr_entry_set_flags (vs->entry,
+	gnm_expr_entry_load_from_text (vs->entry, "");
+	gnm_expr_entry_set_flags (vs->entry,
 		GNUM_EE_ABS_COL|GNUM_EE_ABS_ROW, GNUM_EE_MASK);
 	vs->state->updating = FALSE;
 
@@ -326,10 +326,9 @@ vector_state_fill (VectorState *vs, xmlNode *series)
 		id = e_xml_get_integer_prop_by_name_with_default (dim, (xmlChar *)"ID", -1);
 		if (id >= 0) {
 			vs->vector = gnm_graph_get_vector (vs->state->graph, id);
-			gnumeric_expr_entry_set_rangesel_from_dep (
-				vs->entry,
+			gnm_expr_entry_load_from_dep (vs->entry,
 				gnm_graph_vector_get_dependent (vs->vector));
-			gnumeric_expr_entry_set_flags (vs->entry,
+			gnm_expr_entry_set_flags (vs->entry,
 				GNUM_EE_ABS_COL|GNUM_EE_ABS_ROW, GNUM_EE_MASK);
 		}
 	}
@@ -338,19 +337,18 @@ vector_state_fill (VectorState *vs, xmlNode *series)
 static void
 vector_state_apply_changes (VectorState *vs)
 {
-	char const *str;
 	ExprTree *expr = NULL;
 	gboolean changed;
 
 	if (vs == NULL || !vs->changed)
 		return;
 
-	str = gtk_entry_get_text (GTK_ENTRY (vs->entry));
 	/* If we are setting something */
-	if (*str != '\0') {
+	if (!gnm_expr_entry_is_blank (vs->entry)) {
 		ParsePos pos;
-		expr = gnumeric_expr_entry_parse (GNUMERIC_EXPR_ENTRY (vs->entry),
-			parse_pos_init (&pos, NULL, vs->state->sheet, 0, 0), TRUE);
+		parse_pos_init (&pos, NULL, vs->state->sheet, 0, 0);
+		expr = gnm_expr_entry_parse (vs->entry, &pos, NULL, TRUE);
+
 		/* TODO : add some error dialogs split out
 		 * the code in workbok_edit.
 		 */
@@ -362,7 +360,7 @@ vector_state_apply_changes (VectorState *vs)
 	if (changed)
 		vector_state_series_set_dimension (vs, expr);
 
-	vector_state_fill (vs, 
+	vector_state_fill (vs,
 		graph_guru_get_series (vs->state, vs->series_index));
 
 	vs->state->current_vector = NULL;
@@ -431,22 +429,22 @@ vector_state_new (GraphGuruState *state, gboolean shared, int dim_indx)
 	gtk_table_attach (table, alignment,
 		0, 1, dim_indx, dim_indx+1, GTK_FILL, 0, 5, 3);
 
-	vs->entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
-	gnumeric_expr_entry_set_scg (vs->entry, state->scg);
+	vs->entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	gnm_expr_entry_set_scg (vs->entry, state->scg);
 	gtk_table_attach (table, GTK_WIDGET (vs->entry),
 		1, 2, dim_indx, dim_indx+1, GTK_EXPAND|GTK_FILL, 0, 5, 3);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-		GTK_EDITABLE (vs->entry));
+		GTK_WIDGET (vs->entry));
 
 	gtk_object_set_data (GTK_OBJECT (vs->entry), "VectorState", vs);
 
 	/* flag when things change so we'll know if we need to update the vector */
-	gtk_signal_connect (GTK_OBJECT (vs->entry),
+	g_signal_connect (G_OBJECT (vs->entry),
 		"changed",
-		GTK_SIGNAL_FUNC (cb_entry_changed), vs);
-	gtk_signal_connect (GTK_OBJECT (vs->entry),
+		G_CALLBACK (cb_entry_changed), vs);
+	g_signal_connect (G_OBJECT (vs->entry),
 		"rangesel_drag_finished",
-		GTK_SIGNAL_FUNC (cb_entry_rangesel_drag_finished), vs);
+		G_CALLBACK (cb_entry_rangesel_drag_finished), vs);
 
 	return vs;
 }
@@ -486,13 +484,13 @@ graph_guru_state_destroy (GraphGuruState *state)
 	graph_guru_select_plot (state, NULL, -1);
 
 	if (state->plot_selector) {
-		gtk_signal_disconnect_by_data (
-			GTK_OBJECT (state->plot_selector), state);
+		g_signal_disconnect_by_data (
+			G_OBJECT (state->plot_selector), state);
 		state->plot_selector = NULL;
 	}
 	if (state->series_selector != NULL) {
 		gtk_signal_disconnect_by_data (
-			GTK_OBJECT (state->series_selector), state);
+			G_OBJECT (state->series_selector), state);
 			state->series_selector = NULL;
 	}
 
@@ -679,7 +677,7 @@ graph_guru_select_plot (GraphGuruState *s, xmlNode *plot, int seriesID)
 		indx = e_xml_get_integer_prop_by_name_with_default (series, (xmlChar *)"index", -1);
 
 		g_return_if_fail (indx >= 0);
-		gtk_object_set_data (GTK_OBJECT (item), "index", 
+		gtk_object_set_data (GTK_OBJECT (item), "index",
 			GINT_TO_POINTER (indx));
 		if (s->current_series < 0)
 			graph_guru_select_series (s, series);
@@ -847,9 +845,9 @@ static GtkWidget *
 graph_guru_init_button  (GraphGuruState *state, char const *widget_name)
 {
 	GtkWidget *tmp = glade_xml_get_widget (state->gui, widget_name);
-	gtk_signal_connect (GTK_OBJECT (tmp),
+	g_signal_connect (G_OBJECT (tmp),
 		"clicked",
-		GTK_SIGNAL_FUNC (cb_graph_guru_clicked), state);
+		G_CALLBACK (cb_graph_guru_clicked), state);
 
 	return tmp;
 }
@@ -909,8 +907,8 @@ cb_plot_selection_changed (GtkWidget *ct, GtkWidget *item, GraphGuruState *s)
 
 static GtkWidget *
 graph_guru_selector_init (GraphGuruState *s, char const *name, int i,
-			  GtkSignalFunc	entry_changed,
-			  GtkSignalFunc	selection_changed)
+			  GCallback	entry_changed,
+			  GCallback	selection_changed)
 {
 	GtkWidget    *w  = gnm_combo_text_new (NULL);
 	GnmComboText *ct = GNM_COMBO_TEXT (w);
@@ -918,10 +916,12 @@ graph_guru_selector_init (GraphGuruState *s, char const *name, int i,
 		w, 1, 2, i, i+1);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (ct), _(name));
 	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (ct), GTK_RELIEF_NONE);
-	gtk_signal_connect (GTK_OBJECT (ct), "entry_changed",
-		entry_changed, s);
-	gtk_signal_connect (GTK_OBJECT (ct), "selection_changed",
-		selection_changed, s);
+	g_signal_connect (G_OBJECT (ct),
+		"entry_changed",
+		G_CALLBACK (entry_changed), s);
+	g_signal_connect (G_OBJECT (ct),
+		"selection_changed",
+		G_CALLBACK (selection_changed), s);
 
 	return w;
 }
@@ -1009,31 +1009,31 @@ graph_guru_init (GraphGuruState *s)
 	s->sample_frame	    = glade_xml_get_widget (s->gui, "sample_frame");
 	s->shared_series_details = glade_xml_get_widget (s->gui, "shared_series_details");
 
-	gtk_signal_connect (GTK_OBJECT (s->series_add),
+	g_signal_connect (G_OBJECT (s->series_add),
 		"clicked",
-		GTK_SIGNAL_FUNC (cb_graph_guru_series_add), s);
-	gtk_signal_connect (GTK_OBJECT (s->series_delete),
+		G_CALLBACK (cb_graph_guru_series_add), s);
+	g_signal_connect (G_OBJECT (s->series_delete),
 		"clicked",
-		GTK_SIGNAL_FUNC (cb_graph_guru_series_delete), s);
+		G_CALLBACK (cb_graph_guru_series_delete), s);
 
 	s->plot_selector    = graph_guru_selector_init (s, N_("Plot name"), 0,
-		GTK_SIGNAL_FUNC (cb_plot_entry_changed),
-		GTK_SIGNAL_FUNC (cb_plot_selection_changed));
+		G_CALLBACK (cb_plot_entry_changed),
+		G_CALLBACK (cb_plot_selection_changed));
 	s->series_selector  = graph_guru_selector_init (s, N_("Series name"), 1,
-		GTK_SIGNAL_FUNC (cb_series_entry_changed),
-		GTK_SIGNAL_FUNC (cb_series_selection_changed));
+		G_CALLBACK (cb_series_entry_changed),
+		G_CALLBACK (cb_series_selection_changed));
 
 	/* Lifecyle management */
 	wbcg_edit_attach_guru (s->wbcg, s->dialog);
-	gtk_signal_connect (GTK_OBJECT (s->dialog),
+	g_signal_connect (G_OBJECT (s->dialog),
 		"destroy",
-		GTK_SIGNAL_FUNC (cb_graph_guru_destroy), s);
-	gtk_signal_connect (GTK_OBJECT (s->dialog),
+		G_CALLBACK (cb_graph_guru_destroy), s);
+	g_signal_connect (G_OBJECT (s->dialog),
 		"key_press_event",
-		GTK_SIGNAL_FUNC (cb_graph_guru_key_press), s);
-	gtk_signal_connect (GTK_OBJECT (s->dialog),
+		G_CALLBACK (cb_graph_guru_key_press), s);
+	g_signal_connect (G_OBJECT (s->dialog),
 		"set-focus",
-		GTK_SIGNAL_FUNC (cb_graph_guru_focus), s);
+		G_CALLBACK (cb_graph_guru_focus), s);
 
 	gnumeric_set_transient (s->wbcg, GTK_WINDOW (s->dialog));
 

@@ -142,7 +142,7 @@ search_replace_verify (SearchReplace *sr, gboolean repl)
 		if (!sr->range_text || sr->range_text[0] == 0)
 			return g_strdup (_("You must specify a range to search."));
 
-		if ((range_list = global_range_list_parse (sr->curr_sheet, sr->range_text)) 
+		if ((range_list = global_range_list_parse (sr->curr_sheet, sr->range_text))
 		    == NULL)
 			return g_strdup (_("The search range is invalid."));
 		range_list_destroy (range_list);
@@ -595,7 +595,7 @@ search_filter_matching_free (GPtrArray *matches)
 	unsigned i;
 	for (i = 0; i < matches->len; i++)
 		g_free (g_ptr_array_index (matches, i));
-	g_ptr_array_free (matches, TRUE);	
+	g_ptr_array_free (matches, TRUE);
 }
 
 /* ------------------------------------------------------------------------- */

@@ -7,17 +7,16 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+1.2 Targets
+-----------
 
 Pending Patches
 ---------------
 
-    Yukihiro's IM support
+    Yukihiro's IM support (broken in the context of gnome2)
 
 Long term breakage
 ------------------
-
-- gnumeric_editable_enters the arguments are backwards.  This is being called
-  on the editable, not the dialog.
 
 - Auto-format (the "style on a range" kind) assumes a certain data layout,
   such as a final "Total" row.  I would like an extension that would allow
@@ -35,9 +34,6 @@ Long term breakage
 
 - Audit all fixed-length buffers.  Most non-time-critical can be replaced
   by proper usage of g_strdup_printf.
-
-- Fix user visible strings "Foo :" to be "Foo:".  (The former is a French
-  habit that we should let the French l10n team handle.)
 
 - Fix "-geometry" handling:
   : When an anchor is specified (e.g., "+0+0"), the window manager should

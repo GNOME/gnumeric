@@ -245,7 +245,7 @@ coupnum (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean e
 	g_date_clear (&this_coupondate, 1);
 	g_date_set_julian (&this_coupondate, g_date_julian(maturity));
 
-	months = g_date_month (maturity) - g_date_month (settlement) + 
+	months = g_date_month (maturity) - g_date_month (settlement) +
 		12 * (g_date_year (maturity) - g_date_year  (settlement));
 
 	g_date_subtract_months (&this_coupondate, months);
@@ -253,19 +253,19 @@ coupnum (GDate *settlement, GDate *maturity, int freq, basis_t basis, gboolean e
 	if (eom &&  g_date_is_last_of_month (maturity))
 		while (!g_date_is_last_of_month (&this_coupondate))
 				g_date_add_days (&this_coupondate, 1);
- 
+
 	if (g_date_day (settlement) >= g_date_day (&this_coupondate))
 	        months--;
 
 	return (1 + months / (12 / freq));
 }
 
-static gnum_float 
+static gnum_float
 couppcd (GDate *settlement, GDate *maturity, int freq,  basis_t basis, gboolean eom)
 {
 	GDate *date;
 	int   serial_date;
-	
+
 	date = coup_cd (settlement, maturity, freq, eom, FALSE);
 	serial_date = datetime_g_to_serial (date);
 	g_date_free (date);
@@ -273,12 +273,12 @@ couppcd (GDate *settlement, GDate *maturity, int freq,  basis_t basis, gboolean 
 	return serial_date;
 }
 
-static gnum_float 
+static gnum_float
 coupncd (GDate *settlement, GDate *maturity, int freq,  basis_t basis, gboolean eom)
 {
 	GDate *date;
 	int   serial_date;
-	
+
 	date = coup_cd (settlement, maturity, freq, eom, TRUE);
 	serial_date = datetime_g_to_serial (date);
 	g_date_free (date);
@@ -289,14 +289,14 @@ coupncd (GDate *settlement, GDate *maturity, int freq,  basis_t basis, gboolean 
 
 /************************************************************************
  *
- * Reading and verifying the arguments for the various COUP____  
+ * Reading and verifying the arguments for the various COUP____
  * functions. Calls the passed coup_fn to do the real work
  *
  ***********************************************************************/
 
 static Value *
-func_coup (FunctionEvalInfo *ei, Value **argv, 
-	   gnum_float (coup_fn)(GDate *settlement, GDate *maturity, 
+func_coup (FunctionEvalInfo *ei, Value **argv,
+	   gnum_float (coup_fn)(GDate *settlement, GDate *maturity,
 				  int freq, basis_t basis, gboolean eom))
 {
         GDate   *settlement;

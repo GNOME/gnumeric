@@ -109,7 +109,7 @@ stf_preparse (IOContext *context, char const *filename)
 {
 	char *data = stf_open_and_read (filename);
 	unsigned char const *c;
-	
+
 	if (!data) {
 		if (context)
 			gnumeric_io_error_read (context,
@@ -168,7 +168,7 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 	data = stf_preparse (context, filename);
 	if (!data)
 		return;
-		
+
 	/*
 	 * Add Sheet
 	 */
@@ -208,7 +208,7 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 
 			col++;
 		}
-		
+
 		if (!stf_parse_sheet (dialogresult->parseoptions, dialogresult->newstart, sheet)) {
 
 			workbook_sheet_detach (book, sheet);
@@ -268,16 +268,16 @@ stf_read_workbook_default_csv (GnumFileOpener const *fo, IOContext *context,
 	workbook_sheet_attach (book, sheet, NULL);
 
 	po = stf_parse_options_new ();
-	
+
 	stf_parse_options_set_type (po, PARSE_TYPE_CSV);
 	stf_parse_options_set_trim_spaces (po, TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT);
 	stf_parse_options_set_lines_to_parse (po, -1);
-	
+
 	stf_parse_options_csv_set_separators (po, ",", NULL);
 	stf_parse_options_csv_set_stringindicator (po, '"');
 	stf_parse_options_csv_set_indicator_2x_is_single (po, FALSE);
 	stf_parse_options_csv_set_duplicates (po, FALSE);
-	
+
 	if (!stf_parse_sheet (po, data, sheet)) {
 
 		workbook_sheet_detach (book, sheet);
@@ -290,11 +290,11 @@ stf_read_workbook_default_csv (GnumFileOpener const *fo, IOContext *context,
 		return;
 	}
 	stf_parse_options_free (po);
-	
+
 	workbook_recalc (book);
 	sheet_calc_spans (sheet, SPANCALC_RENDER);
 	workbook_set_saveinfo (book, filename, FILE_FL_MANUAL, NULL);
-	
+
 	/*
 	 * Note the buffer was allocated with malloc, not with g_malloc
 	 * as g_malloc aborts if there is not enough memory
@@ -319,7 +319,7 @@ stf_read_default_probe (GnumFileOpener const *fo, const gchar *file_name, FilePr
 		close (fd);
 		return FALSE;
 	}
-		
+
 	if (read (fd, data, STF_PROBE_SIZE) < 1) {
 		g_free (data);
 		close (fd);
@@ -338,15 +338,6 @@ stf_read_default_probe (GnumFileOpener const *fo, const gchar *file_name, FilePr
 
 /***********************************************************************************/
 
-/**
- * stf_open_for_write:
- * @context: commandcontext
- * @filename: file to open
- *
- * Opens a file
- *
- * Return value: NULL on error or a pointer to a FILE struct on success.
- **/
 static FILE *
 stf_open_for_write (IOContext *context, const char *filename)
 {
@@ -360,22 +351,10 @@ stf_open_for_write (IOContext *context, const char *filename)
 	return f;
 }
 
-/**
- * stf_write_func:
- * @string: data to write
- * @data: file to write too
- *
- * Callback routine which writes to a file
- *
- * Return value: TRUE on successful write, FALSE otherwise
- **/
 static gboolean
 stf_write_func (const char *string, FILE *f)
 {
-	if (fputs (string, f) >= 0)
-		return TRUE;
-	else
-		return FALSE;
+	return (fputs (string, f) >= 0);
 }
 
 /**
@@ -391,7 +370,6 @@ static void
 stf_write_workbook (GnumFileSaver const *fs, IOContext *context, WorkbookView *wbv, const char *filename)
 {
 	StfE_Result_t *result = NULL;
-	
 
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (wbv != NULL);
@@ -420,29 +398,23 @@ stf_write_workbook (GnumFileSaver const *fs, IOContext *context, WorkbookView *w
 
 		fclose (f);
 		stf_export_dialog_result_free (result);
-	} else {
+	} else
 		gnumeric_io_error_unknown (context);
-	}
 }
-/**
- * stf_init
- *
- * Registers the file format
- *
- * returns : nothing
- **/
+
 void
 stf_init (void)
 {
-	register_file_opener_as_importer_as_default (gnum_file_opener_new (
-	                      "Gnumeric_stf:stf_druid", _("Text File import (customizable)"),
-	                      NULL, stf_read_workbook), 50);
 	register_file_opener (gnum_file_opener_new (
-		"Gnumeric_stf:stf_csv", _("Text File import (default csv)"),
+		"Gnumeric_stf:stf_csv",
+		_("Text import (defaults to csv)"),
 		stf_read_default_probe, stf_read_workbook_default_csv), 0);
-			      
+	register_file_opener_as_importer_as_default (gnum_file_opener_new (
+		"Gnumeric_stf:stf_druid",
+		_("Text import (configurable)"),
+		NULL, stf_read_workbook), 50);
 	register_file_saver (gnum_file_saver_new (
-	                     "Gnumeric_stf:stf", "csv",
-	                     _("Text File Export (*.csv)"),
-	                     FILE_FL_MANUAL, stf_write_workbook));
+		"Gnumeric_stf:stf", "csv",
+		_("Text export (configurable)"),
+		FILE_FL_MANUAL, stf_write_workbook));
 }

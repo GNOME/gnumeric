@@ -13,6 +13,7 @@
 #include "item-debug.h"
 #include "gnumeric-canvas.h"
 
+#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <gal/util/e-util.h>
 
 #define MARGIN	10

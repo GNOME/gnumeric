@@ -1,18 +1,18 @@
 #ifndef GNUMERIC_GUI_UTIL_H
 #define GNUMERIC_GUI_UTIL_H
 
-#include <libgnomeui/libgnomeui.h>
-#include <glade/glade-xml.h>
 #include "workbook-control-gui.h"
 #include "error-info.h"
 #include "gutils.h"
+#include <libgnomeui/libgnomeui.h>
+#include <glade/glade-xml.h>
 
 gboolean   gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
                                             const gchar *message,
                                             gboolean default_answer);
 gboolean   gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, GtkFileSelection *fsel);
 void       gnumeric_notice (WorkbookControlGUI *wbcg, GtkMessageType type, const char *str);
-void       gnumeric_notice_nonmodal (GtkWindow *parent, GtkWidget **ref, 
+void       gnumeric_notice_nonmodal (GtkWindow *parent, GtkWidget **ref,
 				     GtkMessageType type, char const *str);
 
 void       gnumeric_non_modal_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog);
@@ -29,7 +29,7 @@ void       gnumeric_keyed_dialog (WorkbookControlGUI *wbcg,
 				  const char *key);
 gboolean   gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg,
 					    char *key);
-void       gnumeric_editable_enters (GtkWindow *window, GtkEditable *editable);
+void       gnumeric_editable_enters (GtkWindow *window, GtkWidget *w);
 void       gnumeric_combo_enters (GtkWindow *window, GtkCombo *combo);
 void       gnumeric_toolbar_insert_with_eventbox (GtkToolbar *toolbar,
                                                   GtkWidget  *widget,
@@ -41,13 +41,17 @@ void       gnumeric_toolbar_append_with_eventbox (GtkToolbar *toolbar,
                                                   const char *tooltip_text,
                                                   const char *tooltip_private_text);
 
-/* A simple routine for making a popup menu */
-int        run_popup_menu  (GdkEvent *event, int button, char **strings);
+/* change alignment of a stock buttons content (should be removed for 2.2) */
+void gtk_button_stock_alignment_set (GtkButton *button,
+				     gfloat     xalign,
+				     gfloat     yalign,
+				     gfloat     xscale,
+				     gfloat     yscale);
 
 /* Utility routine as Gtk does not have any decent routine to do this */
-int        gtk_radio_group_get_selected (GSList *radio_group);
+int gtk_radio_group_get_selected (GSList *radio_group);
 /* Utility routine as libglade does not have any decent routine to do this */
-int        gnumeric_glade_group_value (GladeXML *gui, const char *group[]);
+int gnumeric_glade_group_value (GladeXML *gui, const char *group[]);
 
 /* Use this on menus that are popped up */
 void gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event);
@@ -108,6 +112,7 @@ GtkWidget *gnumeric_toolbar_new (WorkbookControlGUI *wbcg, GnomeUIInfo *info,
 GtkWidget *gnumeric_toolbar_get_widget (GtkToolbar *toolbar, int pos);
 
 void gnumeric_help_display	(char const *link);
+void gnumeric_init_help_button	(GtkWidget *w, char const *link);
 void gnumeric_pbox_init_help	(GtkWidget *dialog, char const *link);
 
 char *gnumeric_textview_get_text (GtkTextView *text_view);
@@ -116,7 +121,8 @@ void  gnumeric_textview_set_text (GtkTextView *text_view, char const *txt);
 int entry_to_float (GtkEntry *entry, gnum_float *the_float, gboolean update);
 int entry_to_int (GtkEntry *entry, gint *the_int, gboolean update);
 void float_to_entry (GtkEntry *entry, gnum_float the_float);
-void int_to_entry (GtkEntry *entry, gint the_int); 
+void int_to_entry (GtkEntry *entry, gint the_int);
 
+GtkWidget *gnumeric_load_image (char const * const name);
 
 #endif /* GNUMERIC_GUI_UTIL_H */

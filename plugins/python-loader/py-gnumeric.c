@@ -129,7 +129,7 @@ create_python_interpreter (PluginInfo *pinfo)
 		return NULL;
 	}
 	PySys_SetArgv (sizeof plugin_argv / sizeof plugin_argv[0] - 1, plugin_argv);
-	Gnumeric_module = py_initgnumeric (pinfo); 
+	Gnumeric_module = py_initgnumeric (pinfo);
 
 	interpreter_info = g_new (InterpreterInfo, 1);
 	interpreter_info->py_thread_state = py_thread_state;
@@ -376,7 +376,7 @@ convert_gnumeric_value_to_python (const EvalPos *eval_pos, const Value *val)
 			for (y = 0; y < val->v_array.y; y++) {
 				python_val = convert_gnumeric_value_to_python (eval_pos, val->v_array.vals[x][y]);
 				(void) PyList_SetItem (col, y, python_val);
-			}		
+			}
 			(void) PyList_SetItem (py_val, x, col);
 		}
 		break;
@@ -419,7 +419,7 @@ convert_python_to_gnumeric_value (const EvalPos *eval_pos, PyObject *py_val)
 		ret_val = value_new_string (PyString_AsString (py_val));
 	} else if (py_val_type == (PyObject *) &py_RangeRef_object_type) {
 		RangeRef *range_ref;
-		
+
 		range_ref = py_RangeRef_as_RangeRef ((py_RangeRef_object *) py_val);
 		ret_val = value_new_cellrange_unsafe (&range_ref->a, &range_ref->b);
 	} else if (PyList_Check (py_val)) {

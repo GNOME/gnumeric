@@ -8,8 +8,8 @@
     <property name="type">GTK_WINDOW_TOPLEVEL</property>
     <property name="modal">no</property>
     <property name="allow_shrink">no</property>
-    <property name="allow_grow">no</property>
-    <property name="window-position">GTK_WIN_POS_NONE</property>
+    <property name="allow_grow">yes</property>
+    <property name="window_position">GTK_WIN_POS_MOUSE</property>
 
     <child internal-child="vbox">
       <widget class="GtkVBox" id="vbox1">
@@ -27,7 +27,6 @@
             <child>
               <widget class="GtkButton" id="okbutton">
                 <property name="can_default">yes</property>
-                <property name="has_default">yes</property>
                 <property name="can_focus">yes</property>
                 <property name="visible">yes</property>
                 <property name="label" translatable="yes">gtk-ok</property>

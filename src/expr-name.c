@@ -288,7 +288,7 @@ expr_name_create (ParsePos const *pp, char const *name,
 	NamedExpression *res;
 	char const *err = NULL;
 	ExprTree *tree;
-	
+
 	tree = expr_parse_str (value, pp, GNM_PARSER_DEFAULT, error);
 	if (!tree)
 		return NULL;
@@ -447,9 +447,9 @@ expr_name_eval (NamedExpression const *nexpr,
  */
 /**
  * expr_name_set_scope:
- * @nexpr: 
- * @sheet: 
- * 
+ * @nexpr:
+ * @sheet:
+ *
  * Return Value: FALSE or error, TRUE otherwise
  **/
 gboolean
@@ -458,10 +458,10 @@ expr_name_set_scope (NamedExpression *nexpr, Sheet *sheet)
 	Workbook *wb;
 
 	g_return_val_if_fail (IS_SHEET (nexpr->pos.sheet), FALSE);
-	
+
 	sheet = nexpr->pos.sheet;
 	wb = sheet->workbook;
-	
+
 	nexpr->pos.sheet = NULL;
 	nexpr->pos.wb = wb;
 
@@ -472,7 +472,7 @@ expr_name_set_scope (NamedExpression *nexpr, Sheet *sheet)
 
 	return TRUE;
 }
-	
+
 void
 expr_name_set_expr (NamedExpression *nexpr, ExprTree *new_expr)
 {

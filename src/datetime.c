@@ -70,7 +70,7 @@ datetime_serial_to_g (int serial)
 
 /* ------------------------------------------------------------------------- */
 
-/** 
+/**
  * Free GDate. Can be called with NULL without complaining.
  */
 void
@@ -279,7 +279,7 @@ datetime_isoweeknum (GDate *date)
 		if (nextjan1wday <= G_DATE_THURSDAY)
 			week = 1;
 	}
-	
+
 	return week;
 }
 
@@ -353,7 +353,7 @@ days_between_BASIS_30E_360 (GDate *from, GDate *to)
 	m2 = g_date_month (to);
 	d2 = g_date_day (to);
 
-	if (d1 == 31) 
+	if (d1 == 31)
 		d1 = 30;
 	if (d2 == 31)
 		d2 = 30;
@@ -373,7 +373,7 @@ days_between_BASIS_30Ep_360 (GDate *from, GDate *to)
 	m2 = g_date_month (to);
 	d2 = g_date_day (to);
 
-	if (d1 == 31) 
+	if (d1 == 31)
 		d1 = 30;
 	if (d2 == 31) {
 		d2 = 1;
@@ -388,7 +388,7 @@ days_between_BASIS_30Ep_360 (GDate *from, GDate *to)
  * days_between_basis
  *
  * @from      : GDate *
- * @to        : GDate * 
+ * @to        : GDate *
  * @basis     : basis_t
  * see datetime.h and doc/fn-financial-basis.txt for details
  *
@@ -406,7 +406,7 @@ days_between_basis (GDate *from, GDate *to, int basis)
 		return (- days_between_basis (to, from, basis));
 	default:
 		break;
-	} 
+	}
 
 	switch (basis) {
 	case BASIS_ACT_ACT:
@@ -415,14 +415,14 @@ days_between_basis (GDate *from, GDate *to, int basis)
 		return (g_date_julian (to) - g_date_julian (from));
 		break;
 	case BASIS_30E_360:
-		return days_between_BASIS_30E_360 (from, to); 
+		return days_between_BASIS_30E_360 (from, to);
 		break;
 	case BASIS_30Ep_360:
-		return days_between_BASIS_30Ep_360 (from, to); 
+		return days_between_BASIS_30Ep_360 (from, to);
 		break;
 	case BASIS_MSRB_30_360:
 	default:
-		return days_between_BASIS_MSRB_30_360 (from, to); 
+		return days_between_BASIS_MSRB_30_360 (from, to);
 		break;
 	}
 }
@@ -435,7 +435,7 @@ days_between_basis (GDate *from, GDate *to, int basis)
  * @settlement: GDate *
  * @maturity  : GDate *  must follow settlement strictly
  * @freq      : int      divides 12 evenly
- * @eom       : gboolean whether to do special end of month 
+ * @eom       : gboolean whether to do special end of month
  *                       handling
  * @next      : gboolean whether next or previous date
  *
@@ -464,7 +464,7 @@ coup_cd (GDate *settlement, GDate *maturity, int freq, gboolean eom, gboolean ne
 		g_date_set_julian (result, g_date_julian (maturity));
 		periods++;
 		g_date_subtract_months (result, periods * months);
-		if (is_eom_special) 
+		if (is_eom_special)
 			while (!g_date_is_last_of_month (result))
 				g_date_add_days (result, 1);
 		/* Change to g_date_get_days_in_month with glib 1.8+ */
@@ -474,7 +474,7 @@ coup_cd (GDate *settlement, GDate *maturity, int freq, gboolean eom, gboolean ne
 		g_date_set_julian (result, g_date_julian (maturity));
 		periods--;
 		g_date_subtract_months (result, periods * months);
-		if (is_eom_special) 
+		if (is_eom_special)
 			while (!g_date_is_last_of_month (result))
 				g_date_add_days (result, 1);
 		/* Change to g_date_get_days_in_month with glib 1.8+ */

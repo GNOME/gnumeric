@@ -9,10 +9,10 @@
 #include "plugin.h"
 
 #define TYPE_GNUMERIC_PLUGIN_LOADER             (gnumeric_plugin_loader_get_type ())
-#define GNUMERIC_PLUGIN_LOADER(obj)             (GTK_CHECK_CAST ((obj), TYPE_GNUMERIC_PLUGIN_LOADER, GnumericPluginLoader))
-#define GNUMERIC_PLUGIN_LOADER_CLASS(klass)     (GTK_CHECK_CLASS_CAST ((klass), TYPE_GNUMERIC_PLUGIN_LOADER, GnumericPluginLoaderClass))
-#define IS_GNUMERIC_PLUGIN_LOADER(obj)          (GTK_CHECK_TYPE ((obj), TYPE_GNUMERIC_PLUGIN_LOADER))
-#define IS_GNUMERIC_PLUGIN_LOADER_CLASS(klass)  (GTK_CHECK_CLASS_TYPE ((klass), TYPE_GNUMERIC_PLUGIN_LOADER))
+#define GNUMERIC_PLUGIN_LOADER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GNUMERIC_PLUGIN_LOADER, GnumericPluginLoader))
+#define GNUMERIC_PLUGIN_LOADER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GNUMERIC_PLUGIN_LOADER, GnumericPluginLoaderClass))
+#define IS_GNUMERIC_PLUGIN_LOADER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GNUMERIC_PLUGIN_LOADER))
+#define IS_GNUMERIC_PLUGIN_LOADER_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_GNUMERIC_PLUGIN_LOADER))
 
 typedef struct _GnumericPluginLoader GnumericPluginLoader;
 typedef struct _GnumericPluginLoaderClass GnumericPluginLoaderClass;
@@ -44,7 +44,7 @@ struct _GnumericPluginLoaderClass {
 	gint (*get_extra_info_list) (GnumericPluginLoader *loader, GList **ret_keys_list, GList **ret_values_list);
 };
 
-GtkType gnumeric_plugin_loader_get_type (void);
+GType gnumeric_plugin_loader_get_type (void);
 
 void gnumeric_plugin_loader_set_attributes (GnumericPluginLoader *loader,
                                             GList *attr_names, GList *attr_values,

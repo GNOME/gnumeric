@@ -727,7 +727,7 @@ ms_escher_read_ClientAnchor (MSEscherState *state, MSEscherHeader *h)
 		guint8 *anchor = g_malloc (MS_ANCHOR_SIZE);
 		memcpy (anchor, data, MS_ANCHOR_SIZE);
 
-		ms_escher_header_add_attr (h, 
+		ms_escher_header_add_attr (h,
 			ms_object_attr_new_ptr (MS_OBJ_ATTR_ANCHOR,
 						anchor));
 
@@ -1772,10 +1772,10 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		}
 
 		if (id & MS_OBJ_ATTR_IS_INT_MASK)
-			ms_escher_header_add_attr (h, 
+			ms_escher_header_add_attr (h,
 				ms_object_attr_new_uint (id, val));
 		else if (id != MS_OBJ_ATTR_NONE)
-			ms_escher_header_add_attr (h, 
+			ms_escher_header_add_attr (h,
 				ms_object_attr_new_flag (id));
 	}
 	if (needs_free)

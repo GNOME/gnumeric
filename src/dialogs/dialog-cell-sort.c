@@ -17,7 +17,6 @@
 #include <expr.h>
 #include <selection.h>
 #include <parse-util.h>
-#include <utils-dialog.h>
 #include <ranges.h>
 #include <commands.h>
 #include <workbook.h>
@@ -26,7 +25,6 @@
 #include <workbook-edit.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <value.h>
-#include <analysis-tools.h>
 
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
@@ -51,7 +49,6 @@ typedef struct {
 	GtkWidget *warning_dialog;
 	GtkWidget *cancel_button;
 	GtkWidget *ok_button;
-	GtkWidget *help_button;
 	GtkWidget *up_button;
 	GtkWidget *down_button;
 	GtkWidget *add_button;
@@ -83,31 +80,16 @@ enum {
 };
 
 static void
-cb_dialog_help (GtkWidget *button, char const *link)
-{
-	gnumeric_help_display (link);
-}
-
-/**
- * dialog_set_focus:
- * @window:
- * @focus_widget:
- * @state:
- *
- **/
-static void
 dialog_set_focus (GtkWidget *window, GtkWidget *focus_widget,
-			SortFlowState *state)
+		  SortFlowState *state)
 {
 	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
 		wbcg_set_entry (state->wbcg,
 				    GNUMERIC_EXPR_ENTRY (focus_widget));
-		gnumeric_expr_entry_set_absolute (GNUMERIC_EXPR_ENTRY (focus_widget));
+		gnm_expr_entry_set_absolute (GNUMERIC_EXPR_ENTRY (focus_widget));
 	} else
 		wbcg_set_entry (state->wbcg, NULL);
 }
-
-
 
 
 static gchar *
@@ -135,7 +117,7 @@ col_row_name (Sheet *sheet, int col, int row, gboolean header, gboolean is_cols)
 }
 
 static gboolean
-translate_range (Value *range, SortFlowState *state) 
+translate_range (Value *range, SortFlowState *state)
 {
 	gboolean old_header = state->header;
 	gboolean old_is_cols = state->is_cols;
@@ -167,7 +149,7 @@ translate_range (Value *range, SortFlowState *state)
 }
 
 static void
-load_model_data (SortFlowState *state) 
+load_model_data (SortFlowState *state)
 {
 	int start;
 	int end;
@@ -220,7 +202,7 @@ load_model_data (SortFlowState *state)
  * @state:
  *
  * Update the dialog widgets sensitivity if the only items of interest
- * are one or two standard input and and one output item, permitting multiple 
+ * are one or two standard input and and one output item, permitting multiple
  * areas as first input.
  **/
 static void
@@ -229,7 +211,7 @@ cb_update_sensitivity (GtkWidget *dummy, SortFlowState *state)
         Value *range;
 	int items;
 
-        range = gnumeric_expr_entry_parse_to_value 
+        range = gnm_expr_entry_parse_as_value
 		(GNUMERIC_EXPR_ENTRY (state->range_entry), state->sheet);
 	if (range == NULL) {
 		if (state->sel != NULL) {
@@ -242,13 +224,13 @@ cb_update_sensitivity (GtkWidget *dummy, SortFlowState *state)
 	} else {
 		if (translate_range (range, state))
 			load_model_data (state);
-		items = state->is_cols ? (state->sel->v_range.cell.b.row - 
-			state->sel->v_range.cell.a.row + 1) : 
-			(state->sel->v_range.cell.b.col - 
+		items = state->is_cols ? (state->sel->v_range.cell.b.row -
+			state->sel->v_range.cell.a.row + 1) :
+			(state->sel->v_range.cell.b.col -
 			state->sel->v_range.cell.a.col + 1);
 		if (state->header)
 			items -= 1;
-		gtk_widget_set_sensitive (state->ok_button, 
+		gtk_widget_set_sensitive (state->ok_button,
 					  (state->sort_items != 0) &&
 					  (items > 1));
 	}
@@ -268,7 +250,7 @@ dialog_destroy (GtkObject *w, SortFlowState  *state)
 {
 	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
-	
+
 	wbcg_edit_detach_guru (state->wbcg);
 
 	if (state->gui != NULL) {
@@ -329,11 +311,11 @@ cb_dialog_ok_clicked (GtkWidget *button, SortFlowState *state)
 	data = g_new (SortData, 1);
 	data->sheet = state->sel->v_range.cell.a.sheet;
 	data->range = g_new (Range, 1);
-	data->range = range_init (data->range, state->sel->v_range.cell.a.col 
-				  + ((state->header && !state->is_cols) ? 1 : 0), 
+	data->range = range_init (data->range, state->sel->v_range.cell.a.col
+				  + ((state->header && !state->is_cols) ? 1 : 0),
 				  state->sel->v_range.cell.a.row
 				  + ((state->header && state->is_cols) ? 1 : 0),
-				  state->sel->v_range.cell.b.col, 
+				  state->sel->v_range.cell.b.col,
 				  state->sel->v_range.cell.b.row);
 	data->num_clause = state->sort_items;
 	data->clauses = array;
@@ -362,11 +344,10 @@ cb_dialog_cancel_clicked (GtkWidget *button, SortFlowState *state)
 static void
 dialog_load_selection (SortFlowState *state)
 {
-	char *name;
 	Range const *first;
 
 	first = selection_first_range (state->sheet, NULL, NULL);
-	
+
 	if (first != NULL) {
 /* 		gtk_toggle_button_set_active ( */
 /* 			GTK_TOGGLE_BUTTON (state->cell_sort_row_rb), */
@@ -374,10 +355,9 @@ dialog_load_selection (SortFlowState *state)
 		gtk_toggle_button_set_active (
 			GTK_TOGGLE_BUTTON (state->cell_sort_col_rb),
 			first->end.row - first->start.row > first->end.col - first->start.col);
-		name =  global_range_name (state->sheet, first);
-		gtk_entry_set_text (GTK_ENTRY (state->range_entry), name);
-		g_free (name);
-	} else 
+		gnm_expr_entry_load_from_range (state->range_entry,
+			state->sheet, first);
+	} else
 /* 		gtk_toggle_button_set_active ( */
 /* 			GTK_TOGGLE_BUTTON (state->cell_sort_row_rb), */
 /* 			FALSE); */
@@ -397,20 +377,20 @@ location_of_iter (GtkTreeIter  *iter, GtkListStore *model)
 
 	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (model),
 					       &this_iter, NULL, n)) {
-		gtk_tree_model_get (GTK_TREE_MODEL (model), &this_iter, ITEM_NUMBER, 
+		gtk_tree_model_get (GTK_TREE_MODEL (model), &this_iter, ITEM_NUMBER,
 				    &this_row, -1);
 		if (this_row == row)
 			return n;
 		n++;
 	}
-	
+
 	g_warning ("We should have never gotten to this point!\n");
 	return -1;
 }
 
 /**
  * Refreshes the buttons on a row (un)selection
- * 
+ *
  */
 static void
 cb_sort_selection_changed (GtkTreeSelection *ignored, SortFlowState *state)
@@ -418,7 +398,7 @@ cb_sort_selection_changed (GtkTreeSelection *ignored, SortFlowState *state)
 	GtkTreeIter iter;
 	GtkTreeIter this_iter;
 	gint row;
-	
+
 	if (!gtk_tree_selection_get_selected (state->selection, NULL, &iter)) {
 		gtk_widget_set_sensitive (state->up_button, FALSE);
 		gtk_widget_set_sensitive (state->down_button, FALSE);
@@ -447,10 +427,10 @@ toggled (GtkCellRendererToggle *cell,
 	GtkTreeIter iter;
 	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
 	gboolean value;
-	
+
 	gtk_tree_model_get_iter (model, &iter, path);
 	gtk_tree_model_get (model, &iter, column, &value, -1);
-	
+
 	value = !value;
 	gtk_list_store_set (GTK_LIST_STORE (model), &iter, column, value, -1);
 
@@ -464,10 +444,10 @@ move_cb (SortFlowState *state, gint direction)
 	gboolean in_use, descending, case_sensitive, sort_by_value, move_format;
 	gint number, row;
 	char* name;
-	
+
 	if (!gtk_tree_selection_get_selected (state->selection, NULL, &iter))
 		return;
-	
+
 	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
 			    ITEM_IN_USE, &in_use,
 			    ITEM_NAME, &name,
@@ -480,7 +460,7 @@ move_cb (SortFlowState *state, gint direction)
 	row = location_of_iter (&iter, state->model);
 	if (row + direction < 0)
 		return;
-	gtk_list_store_remove (state->model, &iter);		
+	gtk_list_store_remove (state->model, &iter);
 	gtk_list_store_insert (state->model, &iter, row + direction);
 	gtk_list_store_set (state->model, &iter,
 			    ITEM_IN_USE, in_use,
@@ -498,8 +478,8 @@ move_cb (SortFlowState *state, gint direction)
 static void cb_up   (GtkWidget *w, SortFlowState *state) { move_cb (state, -1); }
 static void cb_down (GtkWidget *w, SortFlowState *state) { move_cb (state,  1); }
 
-static void cb_delete_clicked (GtkWidget *w, SortFlowState *state) 
-{ 
+static void cb_delete_clicked (GtkWidget *w, SortFlowState *state)
+{
 	GtkTreeIter iter;
 	gboolean in_use;
 
@@ -511,7 +491,7 @@ static void cb_delete_clicked (GtkWidget *w, SortFlowState *state)
 			    -1);
 	if (in_use)
 		state->sort_items -= 1;
-	gtk_list_store_remove (state->model, &iter);	
+	gtk_list_store_remove (state->model, &iter);
 	if (state->sort_items == 0 || state->sort_items == 1)
 		cb_update_sensitivity (NULL, state);
 }
@@ -526,7 +506,7 @@ cb_toggled_in_use (GtkCellRendererToggle *cell,
 	GtkTreeIter iter;
 	GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
 	gboolean value;
-	
+
 	gtk_tree_model_get_iter (model, &iter, path);
 	gtk_tree_model_get (model, &iter, ITEM_IN_USE, &value, -1);
 
@@ -536,7 +516,7 @@ cb_toggled_in_use (GtkCellRendererToggle *cell,
 
 	value = !value;
 	gtk_list_store_set (GTK_LIST_STORE (model), &iter, ITEM_IN_USE, value, -1);
-	
+
 	gtk_tree_path_free (path);
 }
 
@@ -582,36 +562,39 @@ dialog_init (SortFlowState *state)
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "cell_sort_table"));
 
 /* setup range entry */
-	state->range_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
-	gnumeric_expr_entry_set_flags (state->range_entry,
-                                      GNUM_EE_SINGLE_RANGE, 
+	state->range_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	gnm_expr_entry_set_flags (state->range_entry,
+                                      GNUM_EE_SINGLE_RANGE,
                                       GNUM_EE_MASK);
-        gnumeric_expr_entry_set_scg (state->range_entry, wbcg_cur_scg (state->wbcg));
+        gnm_expr_entry_set_scg (state->range_entry, wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->range_entry),
 			  1, 2, 0, 1,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_EDITABLE (state->range_entry));
+				  GTK_WIDGET (state->range_entry));
 	gtk_widget_show (GTK_WIDGET (state->range_entry));
-	gtk_signal_connect (GTK_OBJECT (state->range_entry), "changed",
-			    GTK_SIGNAL_FUNC (cb_update_sensitivity), state);
+	g_signal_connect (G_OBJECT (state->range_entry),
+		"changed",
+		G_CALLBACK (cb_update_sensitivity), state);
 
 /* Set-up tree view */
 	scrolled = glade_xml_get_widget (state->gui, "scrolled_cell_sort_list");
 	state->model = gtk_list_store_new (NUM_COLMNS, G_TYPE_BOOLEAN, G_TYPE_STRING,
-					   G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, 
+					   G_TYPE_BOOLEAN, G_TYPE_BOOLEAN,
 					   G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_INT);
 	state->treeview = GTK_TREE_VIEW (
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model)));
 	state->selection = gtk_tree_view_get_selection (state->treeview);
 	gtk_tree_selection_set_mode (state->selection, GTK_SELECTION_BROWSE);
-	g_signal_connect (state->selection, "changed",
-			  G_CALLBACK (cb_sort_selection_changed), state);
+	g_signal_connect (state->selection,
+		"changed",
+		G_CALLBACK (cb_sort_selection_changed), state);
 
 	renderer = gtk_cell_renderer_toggle_new ();
-	g_signal_connect (G_OBJECT (renderer), "toggled",
-			  G_CALLBACK (cb_toggled_in_use), state);
+	g_signal_connect (G_OBJECT (renderer),
+		"toggled",
+		G_CALLBACK (cb_toggled_in_use), state);
 	column = gtk_tree_view_column_new_with_attributes (_("Sort"),
 							   renderer,
 							   "active", ITEM_IN_USE, NULL);
@@ -623,24 +606,27 @@ dialog_init (SortFlowState *state)
 	gtk_tree_view_append_column (state->treeview, column);
 
 	renderer = gtk_cell_renderer_toggle_new ();
-	g_signal_connect (G_OBJECT (renderer), "toggled",
-			  G_CALLBACK (cb_toggled_descending), state);
+	g_signal_connect (G_OBJECT (renderer),
+		"toggled",
+		G_CALLBACK (cb_toggled_descending), state);
 	column = gtk_tree_view_column_new_with_attributes (_("Descend"),
 							   renderer,
 							   "active", ITEM_DESCENDING, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
 
 	renderer = gtk_cell_renderer_toggle_new ();
-	g_signal_connect (G_OBJECT (renderer), "toggled",
-			  G_CALLBACK (cb_toggled_case_sensitive), state);
+	g_signal_connect (G_OBJECT (renderer),
+		"toggled",
+		G_CALLBACK (cb_toggled_case_sensitive), state);
  	column = gtk_tree_view_column_new_with_attributes (_("Case Sensitive"),
 							   renderer,
 							   "active", ITEM_CASE_SENSITIVE, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
 
 	renderer = gtk_cell_renderer_toggle_new ();
-	g_signal_connect (G_OBJECT (renderer), "toggled",
-			  G_CALLBACK (cb_toggled_sort_by_value), state);
+	g_signal_connect (G_OBJECT (renderer),
+		"toggled",
+		G_CALLBACK (cb_toggled_sort_by_value), state);
 	column = gtk_tree_view_column_new_with_attributes (_("By Value"),
 							   renderer,
 							   "active", ITEM_SORT_BY_VALUE, NULL);
@@ -654,51 +640,62 @@ dialog_init (SortFlowState *state)
 /* Set-up other widgets */
 	state->cell_sort_row_rb = glade_xml_get_widget (state->gui, "cell_sort_row_rb");
 	state->cell_sort_col_rb = glade_xml_get_widget (state->gui, "cell_sort_col_rb");
-	gtk_signal_connect (GTK_OBJECT (state->cell_sort_row_rb), "toggled",
-			    GTK_SIGNAL_FUNC (cb_update_sensitivity), state);
+	g_signal_connect (GTK_OBJECT (state->cell_sort_row_rb),
+		"toggled",
+		G_CALLBACK (cb_update_sensitivity), state);
 
-	state->cell_sort_header_check = glade_xml_get_widget (state->gui, 
+	state->cell_sort_header_check = glade_xml_get_widget (state->gui,
 							      "cell_sort_header_check");
-	gtk_signal_connect (GTK_OBJECT (state->cell_sort_header_check), "toggled",
-			    GTK_SIGNAL_FUNC (cb_update_sensitivity), state);
-
+	g_signal_connect (G_OBJECT (state->cell_sort_header_check),
+		"toggled",
+		G_CALLBACK (cb_update_sensitivity), state);
 
 /* Set-up buttons */
 	state->up_button  = glade_xml_get_widget (state->gui, "up_button");
-	gtk_signal_connect (GTK_OBJECT (state->up_button),
+	g_signal_connect (GTK_OBJECT (state->up_button),
 		"clicked",
-		GTK_SIGNAL_FUNC (cb_up), state);
+		G_CALLBACK (cb_up), state);
 	state->down_button  = glade_xml_get_widget (state->gui, "down_button");
-	gtk_signal_connect (GTK_OBJECT (state->down_button),
+	g_signal_connect (GTK_OBJECT (state->down_button),
 		"clicked",
-		GTK_SIGNAL_FUNC (cb_down), state);
+		G_CALLBACK (cb_down), state);
 	state->add_button  = glade_xml_get_widget (state->gui, "add_button");
 	gtk_widget_set_sensitive (state->add_button, FALSE);
 	state->delete_button  = glade_xml_get_widget (state->gui, "delete_button");
-	gtk_signal_connect (GTK_OBJECT (state->delete_button),
+	g_signal_connect (GTK_OBJECT (state->delete_button),
 		"clicked",
-		GTK_SIGNAL_FUNC (cb_delete_clicked), state);
+		G_CALLBACK (cb_delete_clicked), state);
 	gtk_widget_set_sensitive (state->delete_button, FALSE);
 
-	state->help_button  = glade_xml_get_widget (state->gui, "help_button");
-	gtk_signal_connect (GTK_OBJECT (state->help_button), "clicked",
-			    GTK_SIGNAL_FUNC (cb_dialog_help), "cell-sort.html");
+	gtk_button_stock_alignment_set (GTK_BUTTON (state->up_button),
+		0., .5, 0., 0.);
+	gtk_button_stock_alignment_set (GTK_BUTTON (state->down_button),
+		0., .5, 0., 0.);
+	gtk_button_stock_alignment_set (GTK_BUTTON (state->add_button),
+		0., .5, 0., 0.);
+	gtk_button_stock_alignment_set (GTK_BUTTON (state->delete_button),
+		0., .5, 0., 0.);
+	gnumeric_init_help_button (
+		glade_xml_get_widget (state->gui, "help_button"),
+		"cell-sort.html");
 
 	state->ok_button  = glade_xml_get_widget (state->gui, "ok_button");
-	gtk_signal_connect (GTK_OBJECT (state->ok_button), "clicked",
-			    GTK_SIGNAL_FUNC (cb_dialog_ok_clicked),
-			    state);
+	g_signal_connect (G_OBJECT (state->ok_button),
+		"clicked",
+		G_CALLBACK (cb_dialog_ok_clicked), state);
 	state->cancel_button  = glade_xml_get_widget (state->gui, "cancel_button");
-	gtk_signal_connect (GTK_OBJECT (state->cancel_button), "clicked",
-			    GTK_SIGNAL_FUNC (cb_dialog_cancel_clicked),
-			    state);
+	g_signal_connect (G_OBJECT (state->cancel_button),
+		"clicked",
+		G_CALLBACK (cb_dialog_cancel_clicked), state);
 
 /* Finish dialog signals */
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",
-			    GTK_SIGNAL_FUNC (dialog_set_focus), state);
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
-			    GTK_SIGNAL_FUNC (dialog_destroy), state);
+	g_signal_connect (G_OBJECT (state->dialog),
+		"set-focus",
+		G_CALLBACK (dialog_set_focus), state);
+	g_signal_connect (GTK_OBJECT (state->dialog),
+		"destroy",
+		G_CALLBACK (dialog_destroy), state);
 	cb_sort_selection_changed (NULL, state);
 	dialog_load_selection (state);
 

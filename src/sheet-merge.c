@@ -303,7 +303,7 @@ sheet_merge_relocate (ExprRelocateInfo const *ri)
 	g_return_if_fail (ri != NULL);
 	g_return_if_fail (IS_SHEET (ri->origin_sheet));
 	g_return_if_fail (IS_SHEET (ri->target_sheet));
-	    
+
 	dest = ri->origin;
 	range_translate (&dest, ri->col_offset, ri->row_offset);
 	change_sheets = (ri->origin_sheet != ri->target_sheet);

@@ -123,15 +123,13 @@ stf_preview_draw_line (GnomeCanvasGroup *group, char *color, double x1, double y
 static void
 stf_preview_draw_box (GnomeCanvasGroup *group, char *color, double x1, double y1, double x2, double y2)
 {
-
-	gnome_canvas_item_new (group,
-			       gnome_canvas_rect_get_type (),
-			       "x1", x1, "y1", y1,
-			       "x2", x2, "y2", y2,
-			       "width_pixels", (int) 0,
-			       "fill_color", color,
-			       "outline_color", NULL,
-			       NULL);
+	gnome_canvas_item_new (group, GNOME_TYPE_CANVAS_RECT,
+		"x1", x1,	"y1", y1,
+		"x2", x2,	"y2", y2,
+		"width_pixels",	(int) 0,
+		"fill_color",	color,
+		"outline_color", NULL,
+		NULL);
 }
 
 /******************************************************************************************************************
@@ -309,7 +307,7 @@ stf_preview_render_row (RenderData_t *renderdata, double rowy, GList *row, int c
 			 */
 			if (strlen (iterator->data) > X_OVERFLOW_PROTECT - 1)
 				text = g_strndup (iterator->data, X_OVERFLOW_PROTECT - 1);
-			
+
 			/* In case the active color differs from the inactive color
 			 * this code can be activated
 			 *
@@ -318,7 +316,7 @@ stf_preview_render_row (RenderData_t *renderdata, double rowy, GList *row, int c
 			 * else
 			 *	 color = text_color;
 			 */
-			
+
 			textwidth = stf_preview_draw_text (renderdata->group,
 							   text ? text : iterator->data,
 							   renderdata->font,
@@ -439,9 +437,9 @@ stf_preview_format_line (RenderData_t *renderdata, GList *data, int colcount)
 			iterator = g_list_next (iterator);
 			continue;
 		}
-		
+
 		sf = g_ptr_array_index (renderdata->colformats, col);
-		
+
 		/* Formatting */
 		if (NULL == (value = format_match (iterator->data, sf)))
 			value = value_new_string (iterator->data);
@@ -475,7 +473,7 @@ stf_preview_format_line (RenderData_t *renderdata, GList *data, int colcount)
 void
 stf_preview_render (RenderData_t *renderdata, GList *list, int rowcount, int colcount)
 {
-	GnomeCanvasRect *centerrect;
+	GnomeCanvasItem *centerrect;
 	GList *iterator;
 	GList *captions;
 	int i;
@@ -535,18 +533,18 @@ stf_preview_render (RenderData_t *renderdata, GList *list, int rowcount, int col
 
 	stf_preview_draw_grid (renderdata, rowcount, colcount);
 
-	centerrect = GNOME_CANVAS_RECT (gnome_canvas_item_new (renderdata->group,
-							       gnome_canvas_rect_get_type (),
-							       "x1", 0,	 "y1", 0,
-							       "x2", 10, "y2", 10,
-							       "width_pixels", (int) 0,
-							       "fill_color", "white",
-							       NULL));
+	centerrect = gnome_canvas_item_new (renderdata->group,
+		GNOME_TYPE_CANVAS_RECT,
+		"x1",	0,	"y1", 0,
+		"x2",	10,	"y2", 10,
+		"width_pixels",	(int) 0,
+		"fill_color",	"white",
+		NULL);
 
 	stf_dialog_set_scroll_region_and_prevent_center (renderdata->canvas,
-							 centerrect,
-							 stf_preview_get_table_pixel_width (renderdata),
-							 stf_preview_get_table_pixel_height (renderdata, rowcount));
+		GNOME_CANVAS_RECT (centerrect),
+		stf_preview_get_table_pixel_width (renderdata),
+		stf_preview_get_table_pixel_height (renderdata, rowcount));
 
 	iterator = captions;
 	while (iterator) {
@@ -567,7 +565,7 @@ stf_preview_render (RenderData_t *renderdata, GList *list, int rowcount, int col
 	iterator = list;
 	while (iterator) {
 		GList *subiterator = iterator->data;
-		
+
 		while (subiterator) {
 			g_free ((char *) subiterator->data);
 			subiterator = g_list_next (subiterator);

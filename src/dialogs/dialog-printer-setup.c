@@ -17,7 +17,6 @@
 #include <sheet.h>
 #include <workbook.h>
 #include <workbook-edit.h>
-#include <utils-dialog.h>
 #include <style.h>
 
 #include <libgnome/gnome-i18n.h>
@@ -528,9 +527,8 @@ preview_page_create (PrinterSetupState *state)
 		"y", 0.0,
 		NULL);
 
-	gnome_canvas_item_new (
-		GNOME_CANVAS_GROUP (pi->group),
-		gnome_canvas_rect_get_type (),
+	gnome_canvas_item_new (GNOME_CANVAS_GROUP (pi->group),
+		GNOME_TYPE_CANVAS_RECT,
 		"x1",  	      	 (double) x1+2,
 		"y1",  	      	 (double) y1+2,
 		"x2",  	      	 (double) x2+2,
@@ -540,9 +538,8 @@ preview_page_create (PrinterSetupState *state)
 		"width_pixels",   1,
 		NULL);
 
-	gnome_canvas_item_new (
-		GNOME_CANVAS_GROUP (pi->group),
-		gnome_canvas_rect_get_type (),
+	gnome_canvas_item_new (GNOME_CANVAS_GROUP (pi->group),
+		GNOME_TYPE_CANVAS_RECT,
 		"x1",  	      	 (double) x1,
 		"y1",  	      	 (double) y1,
 		"x2",  	      	 (double) x2,
@@ -686,9 +683,9 @@ add_unit (GtkWidget *menu, int i, PrinterSetupState *state,
 
 	gtk_object_set_data (GTK_OBJECT (item),
 			     "dialog-print-info", (gpointer) state);
-	gtk_signal_connect (
-		GTK_OBJECT (item), "activate",
-		GTK_SIGNAL_FUNC (listeners_convert), (gpointer) convert);
+	g_signal_connect (G_OBJECT (item),
+		"activate",
+		G_CALLBACK (listeners_convert), convert);
 }
 
 
@@ -759,15 +756,15 @@ unit_editor_configure (UnitInfo *target, PrinterSetupState *state,
 	cbdata = g_new (UnitInfo_cbdata, 1);
 	cbdata->state = state;
 	cbdata->target = target;
-	gtk_signal_connect (
-		GTK_OBJECT (target->spin), "focus_in_event",
-		GTK_SIGNAL_FUNC (unit_activated), cbdata);
-	gtk_signal_connect (
-		GTK_OBJECT (target->spin), "focus_out_event",
-		GTK_SIGNAL_FUNC (unit_deactivated), cbdata);
+	g_signal_connect (G_OBJECT (target->spin),
+		"focus_in_event",
+		G_CALLBACK (unit_activated), cbdata);
+	g_signal_connect (G_OBJECT (target->spin),
+		"focus_out_event",
+		G_CALLBACK (unit_deactivated), cbdata);
 	gtk_signal_connect_full (
 		GTK_OBJECT (target->spin), "changed",
-		GTK_SIGNAL_FUNC (unit_changed),
+		G_CALLBACK (unit_changed),
 		NULL,
 		cbdata,
 		(GtkDestroyNotify)g_free,
@@ -936,7 +933,7 @@ do_footer_customize (GtkWidget *button, PrinterSetupState *state)
  * of existing header/footer formats
  */
 static void
-fill_hf (PrinterSetupState *state, GtkOptionMenu *om, GtkSignalFunc callback, gboolean header)
+fill_hf (PrinterSetupState *state, GtkOptionMenu *om, GCallback callback, gboolean header)
 {
 	GList *l;
 	HFRenderInfo *hfi;
@@ -973,7 +970,7 @@ fill_hf (PrinterSetupState *state, GtkOptionMenu *om, GtkSignalFunc callback, gb
 		gtk_widget_show (li);
 		gtk_container_add (GTK_CONTAINER (menu), li);
 		gtk_object_set_user_data (GTK_OBJECT (li), format);
-		gtk_signal_connect (GTK_OBJECT (li), "activate", callback, state);
+		g_signal_connect (G_OBJECT (li), "activate", callback, state);
 
 		g_free (res);
 		g_free (left);
@@ -982,16 +979,17 @@ fill_hf (PrinterSetupState *state, GtkOptionMenu *om, GtkSignalFunc callback, gb
 	}
 
 	/* Add menu option to customize the header/footer. */
-	if (header) 
+	if (header)
 		res = g_strdup_printf (_("Customize header"));
 	else
 		res = g_strdup_printf (_("Customize footer"));
 	li = gtk_menu_item_new_with_label (res);
 	gtk_widget_show (li);
 	gtk_container_add (GTK_CONTAINER (menu), li);
-	gtk_signal_connect (GTK_OBJECT (li), "activate", header
-			    ? GTK_SIGNAL_FUNC (do_header_customize)
-			    : GTK_SIGNAL_FUNC (do_footer_customize), state);
+	g_signal_connect (G_OBJECT (li),
+		"activate",
+		header  ? G_CALLBACK (do_header_customize)
+			: G_CALLBACK (do_footer_customize), state);
 	g_free (res);
 
 	gtk_option_menu_set_menu (om, menu);
@@ -1012,9 +1010,9 @@ do_setup_hf_menus (PrinterSetupState *state)
 	footer = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "option-menu-footer"));
 
 	if (state->header)
-		fill_hf (state, header, GTK_SIGNAL_FUNC (header_changed), TRUE);
+		fill_hf (state, header, G_CALLBACK (header_changed), TRUE);
 	if (state->footer)
-		fill_hf (state, footer, GTK_SIGNAL_FUNC (footer_changed), FALSE);
+		fill_hf (state, footer, G_CALLBACK (footer_changed), FALSE);
 }
 
 static char *
@@ -1114,7 +1112,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 		state->customize_header = dialog;
 		gtk_window_set_title (GTK_WINDOW (dialog), _("Custom header configuration"));
 		gtk_label_set_text (label, _("Customize header"));
-		
+
 	} else {
 		config = &state->footer;
 		state->customize_footer = dialog;
@@ -1131,13 +1129,13 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 	gnome_dialog_editable_enters (GNOME_DIALOG (dialog), GTK_EDITABLE (middle));
 	gnome_dialog_editable_enters (GNOME_DIALOG (dialog), GTK_EDITABLE (right));
 
-	gtk_signal_connect (GTK_OBJECT (dialog), "apply", GTK_SIGNAL_FUNC (hf_customize_apply), state);
-	gtk_signal_connect (GTK_OBJECT (dialog), "help", GTK_SIGNAL_FUNC (hf_customize_help), NULL);
+	g_signal_connect (G_OBJECT (dialog), "apply", G_CALLBACK (hf_customize_apply), state);
+	g_signal_connect (G_OBJECT (dialog), "help", G_CALLBACK (hf_customize_help), NULL);
 
-	if (header) 
-		gtk_signal_connect (GTK_OBJECT (dialog), "destroy", GTK_SIGNAL_FUNC (gtk_widget_destroyed), &state->customize_header);
+	if (header)
+		g_signal_connect (G_OBJECT (dialog), "destroy", G_CALLBACK (gtk_widget_destroyed), &state->customize_header);
 	else
-		gtk_signal_connect (GTK_OBJECT (dialog), "destroy", GTK_SIGNAL_FUNC (gtk_widget_destroyed), &state->customize_footer);
+		g_signal_connect (G_OBJECT (dialog), "destroy", G_CALLBACK (gtk_widget_destroyed), &state->customize_footer);
 
 
 	/* Remember whether it is customizing header or footer. */
@@ -1145,15 +1143,15 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 
 	/* Setup bindings to mark when the property box entries modified. */
 	gtk_signal_connect_object (GTK_OBJECT (left), "key-press-event",
-			GTK_SIGNAL_FUNC (gnome_property_box_changed),
+			G_CALLBACK (gnome_property_box_changed),
 			GTK_OBJECT (dialog));
 
 	gtk_signal_connect_object (GTK_OBJECT (middle), "key-press-event",
-			GTK_SIGNAL_FUNC (gnome_property_box_changed),
+			G_CALLBACK (gnome_property_box_changed),
 			GTK_OBJECT (dialog));
 
 	gtk_signal_connect_object (GTK_OBJECT (right), "key-press-event",
-			GTK_SIGNAL_FUNC (gnome_property_box_changed),
+			G_CALLBACK (gnome_property_box_changed),
 			GTK_OBJECT (dialog));
 
 	/* Let them begin typing into the first entry widget. */
@@ -1219,9 +1217,8 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (pi->canvas), 0.0, 0.0, width, width);
 
-        gnome_canvas_item_new (
-		gnome_canvas_root (GNOME_CANVAS (pi->canvas)),
-		gnome_canvas_rect_get_type (),
+        gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (pi->canvas)),
+		GNOME_TYPE_CANVAS_RECT,
 		"x1",		shadow,
 		"y1",		(header ? shadow : 0),
 		"x2",		width + shadow,
@@ -1229,9 +1226,8 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		"fill_color",	"black",
 		NULL);
 
-        gnome_canvas_item_new (
-		gnome_canvas_root (GNOME_CANVAS (pi->canvas)),
-		gnome_canvas_rect_get_type (),
+        gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (pi->canvas)),
+		GNOME_TYPE_CANVAS_RECT,
 		"x1",		0.0,
 		"y1",		0.0,
 		"x2",		width,
@@ -1278,12 +1274,14 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 	gtk_widget_show_all (pi->canvas);
 
 	if (header) {
-		gtk_signal_connect (GTK_OBJECT (pi->canvas), "event",
-			GTK_SIGNAL_FUNC (header_preview_event), state);
+		g_signal_connect (G_OBJECT (pi->canvas),
+			"event",
+			G_CALLBACK (header_preview_event), state);
 		wid = glade_xml_get_widget (state->gui, "container-header-sample");
 	} else {
-		gtk_signal_connect (GTK_OBJECT (pi->canvas), "event",
-			GTK_SIGNAL_FUNC (footer_preview_event), state);
+		g_signal_connect (G_OBJECT (pi->canvas),
+			"event",
+			G_CALLBACK (footer_preview_event), state);
 		wid = glade_xml_get_widget (state->gui, "container-footer-sample");
 	}
 	gtk_box_pack_start (GTK_BOX (wid), GTK_WIDGET (pi->canvas), TRUE, TRUE, 0);
@@ -1348,21 +1346,18 @@ do_setup_page_info (PrinterSetupState *state)
 	GtkCombo *comments_combo;
 	GtkWidget *order;
 
-	state->area_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
-	gnumeric_expr_entry_set_scg (state->area_entry,
-				     wbcg_cur_scg (state->wbcg));
-	gnumeric_expr_entry_set_flags (state->area_entry,
+	state->area_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	gnm_expr_entry_set_scg (state->area_entry, wbcg_cur_scg (state->wbcg));
+	gnm_expr_entry_set_flags (state->area_entry,
 				       GNUM_EE_SHEET_OPTIONAL,
 				       GNUM_EE_SHEET_OPTIONAL);
 	gtk_box_pack_start (GTK_BOX (pa_hbox), GTK_WIDGET (state->area_entry),
 			    TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET (state->area_entry));
 
-	state->top_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
-	gnumeric_expr_entry_set_scg (state->top_entry,
-				     wbcg_cur_scg (state->wbcg));
-	gnumeric_expr_entry_set_flags (
-		state->top_entry,
+	state->top_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	gnm_expr_entry_set_scg (state->top_entry, wbcg_cur_scg (state->wbcg));
+	gnm_expr_entry_set_flags (state->top_entry,
 		GNUM_EE_FULL_ROW | GNUM_EE_SHEET_OPTIONAL,
 		GNUM_EE_FULL_ROW | GNUM_EE_SHEET_OPTIONAL);
 	gtk_table_attach (GTK_TABLE (repeat_table),
@@ -1371,10 +1366,9 @@ do_setup_page_info (PrinterSetupState *state)
 			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
 	gtk_widget_show (GTK_WIDGET (state->top_entry));
 
-	state->left_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
-	gnumeric_expr_entry_set_scg (state->left_entry,
-				     wbcg_cur_scg (state->wbcg));
-	gnumeric_expr_entry_set_flags (
+	state->left_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	gnm_expr_entry_set_scg (state->left_entry, wbcg_cur_scg (state->wbcg));
+	gnm_expr_entry_set_flags (
 		state->left_entry,
 		GNUM_EE_FULL_COL | GNUM_EE_SHEET_OPTIONAL,
 		GNUM_EE_FULL_COL | GNUM_EE_SHEET_OPTIONAL);
@@ -1397,7 +1391,7 @@ do_setup_page_info (PrinterSetupState *state)
 		GTK_TABLE (order_table), state->icon_dr,
 		1, 2, 0, 2, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
 
-	gtk_signal_connect (GTK_OBJECT (order_rd), "toggled", GTK_SIGNAL_FUNC (display_order_icon), state);
+	g_signal_connect (G_OBJECT (order_rd), "toggled", G_CALLBACK (display_order_icon), state);
 
 	if (state->pi->print_grid_lines)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (gridlines), TRUE);
@@ -1430,13 +1424,13 @@ do_setup_page_info (PrinterSetupState *state)
 	gnumeric_combo_enters (GTK_WINDOW (state->dialog), comments_combo);
 
 	if (state->pi->repeat_top.use)
-		gnumeric_expr_entry_set_range (
+		gnm_expr_entry_load_from_range (
 			state->top_entry,
 			wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
 			&state->pi->repeat_top.range);
 
 	if (state->pi->repeat_left.use)
-		gnumeric_expr_entry_set_range (
+		gnm_expr_entry_load_from_range (
 			state->left_entry,
 			wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
 			&state->pi->repeat_left.range);
@@ -1496,9 +1490,9 @@ do_setup_page (PrinterSetupState *state)
 
 	gtk_toggle_button_set_active (
 		GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, toggle)), 1);
-	gtk_signal_connect (
-		GTK_OBJECT (glade_xml_get_widget (gui, "horizontal-radio")),
-		"toggled", GTK_SIGNAL_FUNC (orientation_changed), state);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "horizontal-radio")),
+		"toggled",
+		G_CALLBACK (orientation_changed), state);
 
 	/*
 	 * Set the scale
@@ -1539,8 +1533,9 @@ do_setup_page (PrinterSetupState *state)
 		gtk_combo_set_popdown_strings (paper_size_combo, sizes);
 		gnome_print_paper_free_list (sizes);
 	}
-	gtk_signal_connect (GTK_OBJECT (paper_size_combo->entry), "changed",
-			    GTK_SIGNAL_FUNC (paper_size_changed), state);
+	g_signal_connect (G_OBJECT (paper_size_combo->entry),
+		"changed",
+		G_CALLBACK (paper_size_changed), state);
 	gnumeric_combo_enters (GTK_WINDOW (state->dialog), paper_size_combo);
 
 	if (state->pi->paper == NULL)
@@ -1629,31 +1624,35 @@ do_setup_main_dialog (PrinterSetupState *state)
 	state->dialog = glade_xml_get_widget (state->gui, "print-setup");
 
 	w = glade_xml_get_widget (state->gui, "ok");
-	gtk_signal_connect (GTK_OBJECT (w), "clicked",
-			    GTK_SIGNAL_FUNC (cb_do_print_ok), state);
+	g_signal_connect (G_OBJECT (w),
+		"clicked",
+		G_CALLBACK (cb_do_print_ok), state);
 	w = glade_xml_get_widget (state->gui, "print");
-	gtk_signal_connect (GTK_OBJECT (w), "clicked",
-			    GTK_SIGNAL_FUNC (cb_do_print), state);
+	g_signal_connect (G_OBJECT (w),
+		"clicked",
+		G_CALLBACK (cb_do_print), state);
 	w = glade_xml_get_widget (state->gui, "preview");
-	gtk_signal_connect (GTK_OBJECT (w), "clicked",
-			    GTK_SIGNAL_FUNC (cb_do_print_preview), state);
+	g_signal_connect (GTK_OBJECT (w),
+		"clicked",
+		G_CALLBACK (cb_do_print_preview), state);
 	w = glade_xml_get_widget (state->gui, "cancel");
-	gtk_signal_connect (GTK_OBJECT (w), "clicked",
-			    GTK_SIGNAL_FUNC (cb_do_print_cancel), state);
+	g_signal_connect (GTK_OBJECT (w),
+		"clicked",
+		G_CALLBACK (cb_do_print_cancel), state);
 
 	/* Hide non-functional buttons for now */
 	w = glade_xml_get_widget (state->gui, "options");
 	gtk_widget_hide (w);
 
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	gtk_signal_connect (
-		GTK_OBJECT (state->dialog), "set-focus",
-		GTK_SIGNAL_FUNC (cb_do_print_set_focus), state);
+	g_signal_connect (G_OBJECT (state->dialog),
+		"set-focus",
+		G_CALLBACK (cb_do_print_set_focus), state);
 
 	/* Lifecyle management */
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
-			    GTK_SIGNAL_FUNC (cb_do_print_destroy),
-			    (gpointer) state);
+	g_signal_connect (G_OBJECT (state->dialog),
+		"destroy",
+		G_CALLBACK (cb_do_print_destroy), state);
 
 }
 

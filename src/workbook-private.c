@@ -28,16 +28,16 @@
 
 #ifdef ENABLE_BONOBO
 #define WORKBOOK_PRIVATE_TYPE        (workbook_private_get_type ())
-#define WORKBOOK_PRIVATE(o)          (GTK_CHECK_CAST ((o), WORKBOOK_PRIVATE_TYPE, WorkbookPrivate))
-#define WORKBOOK_PRIVATE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), WORKBOOK_PRIVATE_TYPE, WorkbookPrivateClass))
-#define IS_WORKBOOK_PRIVATE(o)       (GTK_CHECK_TYPE ((o), WORKBOOK_PRIVATE_TYPE))
-#define IS_WORKBOOK_PRIVATE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), WORKBOOK_PRIVATE_TYPE))
+#define WORKBOOK_PRIVATE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), WORKBOOK_PRIVATE_TYPE, WorkbookPrivate))
+#define WORKBOOK_PRIVATE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), WORKBOOK_PRIVATE_TYPE, WorkbookPrivateClass))
+#define IS_WORKBOOK_PRIVATE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), WORKBOOK_PRIVATE_TYPE))
+#define IS_WORKBOOK_PRIVATE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), WORKBOOK_PRIVATE_TYPE))
 
 typedef struct {
 	BonoboObjectClass bonobo_parent_class;
 } WorkbookPrivateClass;
 
-GtkType workbook_private_get_type (void);
+GType workbook_private_get_type (void);
 
 static void
 workbook_private_init (GtkObject *object)
@@ -51,13 +51,13 @@ workbook_private_class_init (GtkObjectClass *object_class)
 {
 }
 
-GtkType
+GType
 workbook_private_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
 	if (!type) {
-		GtkTypeInfo info = {
+		GTypeInfo info = {
 			"WorkbookPrivate",
 			sizeof (WorkbookPrivate),
 			sizeof (WorkbookPrivateClass),
@@ -79,7 +79,7 @@ WorkbookPrivate *
 workbook_private_new (void)
 {
 #ifdef ENABLE_BONOBO
-	WorkbookPrivate *wbp = gtk_type_new (workbook_private_get_type ());
+	WorkbookPrivate *wbp = g_object_new (workbook_private_get_type (), NULL);
 #else
 	WorkbookPrivate *wbp = g_new0 (WorkbookPrivate, 1);
 #endif

@@ -31,6 +31,7 @@ libbonoboui-2.0 >= 1.106.0
 libgnomeprint-2.0 >= 1.106.0
 libgnomeprintui-2.0 >= 1.106.0
 libglade-2.0 >= 1.99.4
+libgnomecanvas-2.0 >= 1.110.0
 libxml-2.0 >= 2.4.12
 ])
 AC_SUBST(GNUMERIC_LIBS)
@@ -395,6 +396,8 @@ gnumeric_datadir="${datadir}/gnumeric/${gnumeric_version}"
 gnumeric_libdir="${libdir}/gnumeric/${gnumeric_version}"
 gnumeric_plugindir="${gnumeric_libdir}/plugins"
 gnumeric_gladedir="${gnumeric_datadir}/glade"
+gnumeric_icondir="${datadir}/pixmaps/gnumeric"
+
 gnumeric_autoformatdir="${gnumeric_datadir}/autoformat-templates"
 
 dnl Export to gnumeric-config.h
@@ -408,6 +411,7 @@ AC_SUBST(gnumeric_version)
 AC_SUBST(gnumeric_libdir)
 AC_SUBST(gnumeric_plugindir)
 AC_SUBST(gnumeric_gladedir)
+AC_SUBST(gnumeric_icondir)
 AC_SUBST(gnumeric_autoformatdir)
 AC_SUBST(gnumeric_bonobo_enabled)
 

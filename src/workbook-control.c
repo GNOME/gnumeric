@@ -160,7 +160,7 @@ wb_control_claim_selection (WorkbookControl *wbc)
  *	-1 : continue editing
  */
 int
-wb_control_validation_msg (WorkbookControl *wbc, Validation const *v,
+wb_control_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 			   char const *title, char const *msg)
 {
 	WorkbookControlClass *wbc_class;

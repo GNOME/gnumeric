@@ -2,12 +2,12 @@
 #define GNUMERIC_EXPR_ENTRY_H
 
 #include "gui-gnumeric.h"
-#include <gtk/gtkwidget.h>
+#include <gtk/gtkentry.h>
 
 #define GNUMERIC_TYPE_EXPR_ENTRY	 (gnumeric_expr_entry_get_type ())
-#define GNUMERIC_EXPR_ENTRY(obj)	 (GTK_CHECK_CAST ((obj), GNUMERIC_TYPE_EXPR_ENTRY, GnumericExprEntry))
-#define GNUMERIC_EXPR_ENTRY_CLASS(klass) (GTK_CHECK_CLASS_CAST ((klass), GNUMERIC_TYPE_EXPR_ENTRY, GnumericExprEntryClass))
-#define IS_GNUMERIC_EXPR_ENTRY(obj)	 (GTK_CHECK_TYPE ((obj), GNUMERIC_TYPE_EXPR_ENTRY))
+#define GNUMERIC_EXPR_ENTRY(obj)	 (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNUMERIC_TYPE_EXPR_ENTRY, GnumericExprEntry))
+#define GNUMERIC_EXPR_ENTRY_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), GNUMERIC_TYPE_EXPR_ENTRY, GnumericExprEntryClass))
+#define IS_GNUMERIC_EXPR_ENTRY(obj)	 (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNUMERIC_TYPE_EXPR_ENTRY))
 
 typedef struct _GnumericExprEntry GnumericExprEntry;
 
@@ -22,37 +22,41 @@ typedef enum
 	GNUM_EE_MASK            = 0x3F
 } GnumericExprEntryFlags;
 
-/* Standard Gtk functions */
-GtkType	   gnumeric_expr_entry_get_type (void);
-GtkWidget *gnumeric_expr_entry_new (WorkbookControlGUI *wbcg);
+GType gnumeric_expr_entry_get_type (void);
+GnumericExprEntry *gnumeric_expr_entry_new (WorkbookControlGUI *wbcg,
+					    gboolean with_icon);
 
 /* Widget specific methods */
-void gnumeric_expr_entry_freeze 	(GnumericExprEntry *expr_entry);
-void gnumeric_expr_entry_thaw		(GnumericExprEntry *expr_entry);
-void gnumeric_expr_entry_set_flags	(GnumericExprEntry *expr_entry,
+void	  gnm_expr_entry_freeze 	(GnumericExprEntry *e);
+void	  gnm_expr_entry_thaw		(GnumericExprEntry *e);
+void	  gnm_expr_entry_set_absolute	(GnumericExprEntry *e);
+void	  gnm_expr_entry_set_flags	(GnumericExprEntry *e,
 					 GnumericExprEntryFlags flags,
 					 GnumericExprEntryFlags mask);
-void gnumeric_expr_entry_set_scg	(GnumericExprEntry *expr_entry,
+void	  gnm_expr_entry_set_scg	(GnumericExprEntry *e,
 					 SheetControlGUI *scg);
-void gnumeric_expr_entry_get_rangesel	(GnumericExprEntry *expr_entry,
+GtkEntry *gnm_expr_entry_get_entry	(GnumericExprEntry *e);
+void	  gnm_expr_entry_get_rangesel	(GnumericExprEntry *e,
 					 Range *r, Sheet **sheet);
-void gnumeric_expr_entry_rangesel_start (GnumericExprEntry *expr_entry);
-void gnumeric_expr_entry_rangesel_stop  (GnumericExprEntry *expr_entry,
+void	  gnm_expr_entry_rangesel_start	(GnumericExprEntry *e);
+void	  gnm_expr_entry_rangesel_stop	(GnumericExprEntry *e,
 					 gboolean clear_string);
-void gnumeric_expr_entry_end_of_drag	(GnumericExprEntry *gee);
-gboolean gnumeric_expr_entry_set_range	(GnumericExprEntry *expr_entry,
+
+gboolean  gnm_expr_entry_can_rangesel	(GnumericExprEntry *e);
+gboolean  gnm_expr_entry_is_blank	(GnumericExprEntry *e);
+
+Value	 *gnm_expr_entry_parse_as_value	(GnumericExprEntry *ee, Sheet *sheet);
+GSList	 *gnm_expr_entry_parse_as_list	(GnumericExprEntry *ee, Sheet *sheet);
+ExprTree *gnm_expr_entry_parse		(GnumericExprEntry *e,
+					 ParsePos const *pp,
+					 ParseError *perr, gboolean start_sel);
+void	 gnm_expr_entry_load_from_text  (GnumericExprEntry *e, char const *str);
+void	 gnm_expr_entry_load_from_dep   (GnumericExprEntry *e,
+					 Dependent const *dep);
+gboolean gnm_expr_entry_load_from_range (GnumericExprEntry *e,
 					 Sheet *sheet, Range const *r);
 
-void	 gnumeric_expr_entry_clear 		     (GnumericExprEntry *gee);
-void	 gnumeric_expr_entry_set_rangesel_from_dep   (GnumericExprEntry *gee,
-						      Dependent const *dep);
+/* private : for internal use */
+void gnm_expr_entry_end_of_drag	(GnumericExprEntry *gee);
 
-/* Is a range selection meaningful here? */
-gboolean  gnumeric_expr_entry_rangesel_meaningful (GnumericExprEntry *expr_entry);
-
-/* Convenience functions */
-void gnumeric_expr_entry_set_absolute (GnumericExprEntry *expr_entry);
-ExprTree *gnumeric_expr_entry_parse (GnumericExprEntry *entry, ParsePos const *pp,
-				     gboolean start_sel);
-
-#endif
+#endif /* GNUMERIC_EXPR_ENTRY_H */

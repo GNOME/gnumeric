@@ -45,7 +45,7 @@ struct _SheetObjectAnchor {
 #define SHEET_OBJECT_TYPE     (sheet_object_get_type ())
 #define SHEET_OBJECT(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_OBJECT_TYPE, SheetObject))
 #define IS_SHEET_OBJECT(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_TYPE))
-GtkType sheet_object_get_type (void);
+GType sheet_object_get_type (void);
 
 void	     sheet_object_register	   (void);
 gboolean     sheet_object_clear_sheet	   (SheetObject *so);
@@ -66,9 +66,9 @@ void	     sheet_object_default_size	   (SheetObject *so,
 					    double *w, double *h);
 
 void		 sheet_object_new_view	   (SheetObject *so, SheetControlGUI *);
-GtkObject	*sheet_object_get_view	   (SheetObject *so, SheetControl *);
-SheetObject     *sheet_object_view_obj     (GtkObject *view);
-SheetControlGUI *sheet_object_view_control (GtkObject *view);
+GObject		*sheet_object_get_view	   (SheetObject *so, SheetControl *);
+SheetObject     *sheet_object_view_obj     (GObject *view);
+SheetControlGUI *sheet_object_view_control (GObject *view);
 
 Range const *	sheet_object_range_get	   (SheetObject const *so);
 void		sheet_object_anchor_set	   (SheetObject *so,
@@ -83,8 +83,8 @@ void sheet_object_position_pixels_set	   (SheetObject const *so,
 
 /* Object Management */
 void    sheet_objects_relocate (ExprRelocateInfo const *rinfo, gboolean update);
-void	sheet_objects_clear    (Sheet const *sheet, Range const *r, GtkType t);
-GSList *sheet_objects_get      (Sheet const *sheet, Range const *r, GtkType t);
+void	sheet_objects_clear    (Sheet const *sheet, Range const *r, GType t);
+GSList *sheet_objects_get      (Sheet const *sheet, Range const *r, GType t);
 
 void     sheet_object_direction_set (SheetObject *so, gdouble *coords);
 gboolean sheet_object_rubber_band_directly (SheetObject const *so);

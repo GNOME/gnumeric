@@ -277,9 +277,9 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 	free_plugin_id (pm_gui->current_plugin_id);
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
 		pm_gui->current_plugin_id = NULL;
-		gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_plugin), 
+		gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_plugin),
 					  FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_plugin), 
+		gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_plugin),
 					  FALSE);
 	} else {
 		gboolean is_marked, is_active;
@@ -294,10 +294,10 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 
 		is_active = plugin_info_is_active (pinfo);
 		is_marked = plugin_db_is_plugin_marked_for_deactivation (pinfo);
-		
-		gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_plugin), 
+
+		gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_plugin),
 					  is_marked || !is_active);
-		gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_plugin), 
+		gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_plugin),
 					  is_active && !is_marked);
 	}
 	update_plugin_details_view (pm_gui);
@@ -306,26 +306,26 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 static void
 pm_dialog_init (PluginManagerGUI *pm_gui)
 {
-	gtk_signal_connect (GTK_OBJECT (pm_gui->button_activate_plugin), "clicked",
-	                    (GtkSignalFunc) cb_pm_button_activate_plugin_clicked,
-	                    (gpointer) pm_gui);
-	gtk_signal_connect (GTK_OBJECT (pm_gui->button_deactivate_plugin), "clicked",
-	                    (GtkSignalFunc) cb_pm_button_deactivate_plugin_clicked,
-	                    (gpointer) pm_gui);
-	gtk_signal_connect (GTK_OBJECT (pm_gui->button_activate_all), "clicked",
-	                    (GtkSignalFunc) cb_pm_button_activate_all_clicked,
-	                    (gpointer) pm_gui);
-	gtk_signal_connect (GTK_OBJECT (pm_gui->button_deactivate_all), "clicked",
-	                    (GtkSignalFunc) cb_pm_button_deactivate_all_clicked,
-	                    (gpointer) pm_gui);
-	gtk_signal_connect (GTK_OBJECT (pm_gui->button_install_plugin), "clicked",
-	                    (GtkSignalFunc) cb_pm_button_install_plugin_clicked,
-	                    (gpointer) pm_gui);
-	gtk_signal_connect (GTK_OBJECT (pm_gui->checkbutton_install_new), "toggled",
-	                    (GtkSignalFunc) cb_pm_checkbutton_install_new_toggled,
-	                    (gpointer) pm_gui);
+	g_signal_connect (G_OBJECT (pm_gui->button_activate_plugin),
+		"clicked",
+		G_CALLBACK (cb_pm_button_activate_plugin_clicked), pm_gui);
+	g_signal_connect (G_OBJECT (pm_gui->button_deactivate_plugin),
+		"clicked",
+		G_CALLBACK (cb_pm_button_deactivate_plugin_clicked), pm_gui);
+	g_signal_connect (G_OBJECT (pm_gui->button_activate_all),
+		"clicked",
+		G_CALLBACK (cb_pm_button_activate_all_clicked), pm_gui);
+	g_signal_connect (G_OBJECT (pm_gui->button_deactivate_all),
+		"clicked",
+		G_CALLBACK (cb_pm_button_deactivate_all_clicked), pm_gui);
+	g_signal_connect (G_OBJECT (pm_gui->button_install_plugin),
+		"clicked",
+		G_CALLBACK (cb_pm_button_install_plugin_clicked), pm_gui);
+	g_signal_connect (G_OBJECT (pm_gui->checkbutton_install_new),
+		"toggled",
+		G_CALLBACK (cb_pm_checkbutton_install_new_toggled), pm_gui);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pm_gui->checkbutton_install_new),
-	                              gnome_config_get_bool_with_default 
+	                              gnome_config_get_bool_with_default
 				      ("Gnumeric/Plugin/ActivateNewByDefault=true", NULL));
 	update_plugin_manager_view (pm_gui);
 }
@@ -349,12 +349,12 @@ update_plugin_manager_view (PluginManagerGUI *pm_gui)
 	gchar *id;
 	gchar *last_selected_plugin;
 
-	last_selected_plugin = (pm_gui->current_plugin_id != NULL) ? 
+	last_selected_plugin = (pm_gui->current_plugin_id != NULL) ?
 		g_strdup (pm_gui->current_plugin_id) : NULL;
 
 	gtk_list_store_clear (pm_gui->model_plugins);
 
-	sorted_plugin_list = g_list_sort (g_list_copy 
+	sorted_plugin_list = g_list_sort (g_list_copy
 					  (plugin_db_get_available_plugin_info_list ()),
 	                                  &plugin_compare_name);
 
@@ -414,9 +414,9 @@ update_plugin_manager_view (PluginManagerGUI *pm_gui)
 		gtk_tree_iter_free (select_iter);
 	}
 
-	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_all), 
+	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_all),
 				  n_inactive_plugins > 0);
-	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_all), 
+	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_all),
 				  n_active_plugins > 0);
 	cb_pm_selection_changed (pm_gui->selection, pm_gui);
 }
@@ -442,7 +442,7 @@ update_plugin_details_view (PluginManagerGUI *pm_gui)
 					  plugin_info_peek_description (pinfo),
 					  strlen (plugin_info_peek_description (pinfo)));
 
-		n_extra_info_items = plugin_info_get_extra_info_list 
+		n_extra_info_items = plugin_info_get_extra_info_list
 			(pinfo, &extra_info_keys, &extra_info_values);
 		if (n_extra_info_items > 0) {
 			for (i = 0, lkey = extra_info_keys, lvalue = extra_info_values;
@@ -484,17 +484,17 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	pm_gui = g_new (PluginManagerGUI, 1);
 	pm_gui->wbcg = wbcg;
 	pm_gui->dialog_pm = GTK_DIALOG (glade_xml_get_widget (gui, "dialog_plugin_manager"));
-	pm_gui->button_activate_plugin = GTK_BUTTON (glade_xml_get_widget 
+	pm_gui->button_activate_plugin = GTK_BUTTON (glade_xml_get_widget
 						     (gui, "button_activate_plugin"));
-	pm_gui->button_deactivate_plugin = GTK_BUTTON (glade_xml_get_widget 
+	pm_gui->button_deactivate_plugin = GTK_BUTTON (glade_xml_get_widget
 						       (gui, "button_deactivate_plugin"));
-	pm_gui->button_activate_all = GTK_BUTTON (glade_xml_get_widget 
+	pm_gui->button_activate_all = GTK_BUTTON (glade_xml_get_widget
 						  (gui, "button_activate_all"));
-	pm_gui->button_deactivate_all = GTK_BUTTON (glade_xml_get_widget 
+	pm_gui->button_deactivate_all = GTK_BUTTON (glade_xml_get_widget
 						    (gui, "button_deactivate_all"));
-	pm_gui->button_install_plugin = GTK_BUTTON (glade_xml_get_widget 
+	pm_gui->button_install_plugin = GTK_BUTTON (glade_xml_get_widget
 						    (gui, "button_install_plugin"));
-	pm_gui->checkbutton_install_new = GTK_CHECK_BUTTON (glade_xml_get_widget 
+	pm_gui->checkbutton_install_new = GTK_CHECK_BUTTON (glade_xml_get_widget
 							    (gui, "checkbutton_install_new"));
 	pm_gui->entry_name = GTK_ENTRY (glade_xml_get_widget (gui, "entry_name"));
 	pm_gui->entry_directory = GTK_ENTRY (glade_xml_get_widget (gui, "entry_directory"));
@@ -505,7 +505,7 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	page_plugin_details = glade_xml_get_widget (gui, "page_plugin_details");
 	scrolled = glade_xml_get_widget (gui, "scrolled_plugin_list");
 	scrolled_extra = glade_xml_get_widget (gui, "scrolled_extra_info");
-	
+
 	g_return_if_fail (pm_gui->dialog_pm != NULL &&
 	                  scrolled != NULL &&
 	                  scrolled_extra != NULL &&
@@ -520,14 +520,15 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	                  page_plugin_details != NULL);
 
 	pm_gui->model_plugins = gtk_list_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_STRING,
-						    G_TYPE_INT, 
+						    G_TYPE_INT,
 						    G_TYPE_STRING, G_TYPE_POINTER);
 	pm_gui->list_plugins = GTK_TREE_VIEW (
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (pm_gui->model_plugins)));
 	pm_gui->selection = gtk_tree_view_get_selection (pm_gui->list_plugins);
 	gtk_tree_selection_set_mode (pm_gui->selection, GTK_SELECTION_BROWSE);
-	g_signal_connect (pm_gui->selection, "changed",
-			  G_CALLBACK (cb_pm_selection_changed), pm_gui);
+	g_signal_connect (G_OBJECT (pm_gui->selection),
+		"changed",
+		G_CALLBACK (cb_pm_selection_changed), pm_gui);
 	column = gtk_tree_view_column_new_with_attributes (_("State"),
 							   gtk_cell_renderer_text_new (),
 							   "text", PLUGIN_STATE_STR, NULL);
@@ -540,7 +541,7 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	gtk_tree_view_append_column (pm_gui->list_plugins, column);
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (pm_gui->list_plugins));
 
-	pm_gui->model_extra_info = gtk_list_store_new (EXTRA_NUM_COLMNS, G_TYPE_STRING, 
+	pm_gui->model_extra_info = gtk_list_store_new (EXTRA_NUM_COLMNS, G_TYPE_STRING,
 						       G_TYPE_STRING);
 	extra_list_view = GTK_TREE_VIEW (
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (pm_gui->model_extra_info)));

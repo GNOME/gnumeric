@@ -62,7 +62,7 @@ int datetime_weeknum (GDate *date, int method);
 
 typedef enum { /* see doc/fn-financial-basis.txt for details */
 	BASIS_MSRB_30_360 = 0,
-	BASIS_ACT_ACT     = 1, 
+	BASIS_ACT_ACT     = 1,
 	BASIS_ACT_360     = 2,
 	BASIS_ACT_365     = 3,
 	BASIS_30E_360     = 4,

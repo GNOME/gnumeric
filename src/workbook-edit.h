@@ -19,7 +19,7 @@ gboolean    wbcg_auto_completing        (WorkbookControlGUI const *wbcg);
 void	    wbcg_auto_complete_destroy  (WorkbookControlGUI *wbcg);
 char const *wbcg_edit_get_display_text	(WorkbookControlGUI *wbcg);
 
-GnumericExprEntry *wbcg_get_entry	  (WorkbookControlGUI const  *wbcg);
+GtkEntry    	  *wbcg_get_entry  	  (WorkbookControlGUI const  *wbcg);
 GnumericExprEntry *wbcg_get_entry_logical (WorkbookControlGUI const  *wbcg);
 void		   wbcg_set_entry	  (WorkbookControlGUI *wbc,
 					   GnumericExprEntry *new_entry);

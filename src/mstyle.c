@@ -20,6 +20,8 @@
 #include "format.h"
 #include "sheet-style.h"
 
+#include <stdio.h>
+
 typedef struct {
 	MStyleElementType type;
 	union {
@@ -284,7 +286,7 @@ mstyle_element_dump (const MStyleElement *e)
 	case MSTYLE_PATTERN :
 		g_string_sprintf (ans, "pattern %d", e->u.pattern);
 		break;
-		
+
 	case MSTYLE_VALIDATION :
 		g_string_sprintf (ans, "validation ref_count '%d'", e->u.validation->ref_count);
 		break;
@@ -588,7 +590,7 @@ mstyle_copy_merge (const MStyle *orig, const MStyle *overlay)
 
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
 		res_e [i] = mstyle_element_ref (
-			(overlay_e [i].type ? overlay_e : orig_e) + i); 
+			(overlay_e [i].type ? overlay_e : orig_e) + i);
 
 	d(("copy merge %p\n", res));
 	return res;
@@ -686,7 +688,7 @@ link_pattern_color (MStyle *style, StyleColor *auto_color, gboolean make_copy)
 {
 	MStyleElementType etype = MSTYLE_COLOR_PATTERN;
 	StyleColor *pattern_color = style->elements[etype].u.color.any;
-	
+
 	if (pattern_color->is_auto && auto_color != pattern_color) {
 		style_color_ref (auto_color);
 		if (make_copy) {
@@ -712,7 +714,6 @@ link_pattern_color (MStyle *style, StyleColor *auto_color, gboolean make_copy)
 static MStyle *
 link_border_colors (MStyle *style, StyleColor *auto_color, gboolean make_copy)
 {
-	MStyleElementType etype;
 	StyleBorder *border;
 	StyleColor *color;
 	int i;
@@ -724,7 +725,7 @@ link_border_colors (MStyle *style, StyleColor *auto_color, gboolean make_copy)
 			if (color->is_auto && auto_color != color) {
 				StyleBorder *new_border;
 				StyleBorderOrientation orientation;
-		
+
 				switch (i) {
 				case MSTYLE_BORDER_LEFT:
 				case MSTYLE_BORDER_RIGHT:
@@ -739,7 +740,7 @@ link_border_colors (MStyle *style, StyleColor *auto_color, gboolean make_copy)
 				default:
 					orientation = STYLE_BORDER_HORIZONTAL;
 					break;
-				}	
+				}
 				style_color_ref (auto_color);
 				new_border = style_border_fetch (
 					border->line_type, auto_color,
@@ -776,7 +777,6 @@ mstyle_link_sheet (MStyle *style, Sheet *sheet)
 {
 	StyleColor *auto_color;
 	MStyle *orig = style;
-	int i;
 
 	if (style->linked_sheet != NULL) {
 		style = mstyle_copy (style);
@@ -1360,11 +1360,11 @@ mstyle_set_validation (MStyle *style, Validation *v)
 {
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (v != NULL);
-	
+
 	mstyle_element_unref (style->elements[MSTYLE_VALIDATION]);
 	style->elements[MSTYLE_VALIDATION].type = MSTYLE_VALIDATION;
 	style->elements[MSTYLE_VALIDATION].u.validation = v;
-	
+
 }
 
 Validation *

@@ -58,7 +58,7 @@ gboolean cmd_clear_selection	(WorkbookControl *wbc, Sheet *sheet,
 				 int clear_flags);
 
 gboolean cmd_autoformat         (WorkbookControl *wbc, Sheet *sheet,
-				 FormatTemplate const *ft);
+				 FormatTemplate *ft);
 
 gboolean cmd_colrow_hide_selection (WorkbookControl *wbc, Sheet *sheet,
 				    gboolean is_cols, gboolean visible);
@@ -79,7 +79,7 @@ gboolean cmd_colrow_std_size    (WorkbookControl *wbc, Sheet *sheet,
 				 gboolean is_cols, double new_default);
 
 gboolean cmd_consolidate        (WorkbookControl *wbc, Consolidate *cs);
-				 
+
 gboolean cmd_zoom               (WorkbookControl *wbc, GSList *sheets, double factor);
 
 gboolean cmd_object_insert	(WorkbookControl *wbc, SheetObject *so,

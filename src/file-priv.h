@@ -5,14 +5,14 @@
  * GnumFileOpener
  */
 
-#define GNUM_FILE_OPENER_CLASS(klass)     (GTK_CHECK_CLASS_CAST ((klass), TYPE_GNUM_FILE_OPENER, GnumFileOpenerClass))
-#define IS_GNUM_FILE_OPENER_CLASS(klass)  (GTK_CHECK_CLASS_TYPE ((klass), TYPE_GNUM_FILE_OPENER))
- 
+#define GNUM_FILE_OPENER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GNUM_FILE_OPENER, GnumFileOpenerClass))
+#define IS_GNUM_FILE_OPENER_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_GNUM_FILE_OPENER))
+
 #define GNUM_FILE_OPENER_METHOD(obj,name) \
         ((GNUM_FILE_OPENER_CLASS (G_OBJECT_GET_CLASS (obj)))->name)
 
 struct _GnumFileOpenerClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	gboolean  (*probe) (GnumFileOpener const *fo,
 	                    const gchar *file_name,
@@ -24,7 +24,7 @@ struct _GnumFileOpenerClass {
 };
 
 struct _GnumFileOpener {
-	GtkObject parent;
+	GObject parent;
 
 	gchar                  *id;
 	gchar                  *description;
@@ -41,14 +41,14 @@ void gnum_file_opener_setup (GnumFileOpener *fo, const gchar *id,
  * GnumFileSaver
  */
 
-#define GNUM_FILE_SAVER_CLASS(klass)     (GTK_CHECK_CLASS_CAST ((klass), TYPE_GNUM_FILE_SAVER, GnumFileSaverClass))
-#define IS_GNUM_FILE_SAVER_CLASS(klass)  (GTK_CHECK_CLASS_TYPE ((klass), TYPE_GNUM_FILE_SAVER))
+#define GNUM_FILE_SAVER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GNUM_FILE_SAVER, GnumFileSaverClass))
+#define IS_GNUM_FILE_SAVER_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_GNUM_FILE_SAVER))
 
 #define GNUM_FILE_SAVER_METHOD(obj,name) \
         ((GNUM_FILE_SAVER_CLASS (G_OBJECT_GET_CLASS (obj)))->name)
 
 struct _GnumFileSaverClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	void (*save) (GnumFileSaver const *fs,
 	              IOContext *io_context,
@@ -64,7 +64,7 @@ struct _GnumFileSaverClass {
 };
 
 struct _GnumFileSaver {
-	GtkObject parent;
+	GObject parent;
 
 	gchar                *id;
 	const gchar          *mime_type;

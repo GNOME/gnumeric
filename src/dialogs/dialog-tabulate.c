@@ -523,8 +523,8 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	dd->source_table = GTK_TABLE (glade_xml_get_widget (gui, "source_table"));
 	for (i = 1; i < dd->source_table->nrows; i++) {
-		GnumericExprEntry *ge = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (wbcg));
-		gnumeric_expr_entry_set_flags (ge,
+		GnumericExprEntry *ge = gnumeric_expr_entry_new (wbcg, TRUE);
+		gnm_expr_entry_set_flags (ge,
 					       GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL,
 					       GNUM_EE_MASK);
 
@@ -534,37 +534,33 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 				  i, i + 1,
 				  GTK_FILL, GTK_FILL,
 				  0, 0);
-		gnumeric_expr_entry_set_scg (ge,
-					     wbcg_cur_scg (wbcg));
+		gnm_expr_entry_set_scg (ge, wbcg_cur_scg (wbcg));
 		gtk_widget_show (GTK_WIDGET (ge));
 	}
 
-	dd->resultrangetext = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (wbcg));
-	gnumeric_expr_entry_set_flags (dd->resultrangetext,
+	dd->resultrangetext = gnumeric_expr_entry_new (wbcg, TRUE);
+	gnm_expr_entry_set_flags (dd->resultrangetext,
 				       GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL,
 				       GNUM_EE_MASK);
 	gtk_box_pack_start (GTK_BOX (glade_xml_get_widget (gui, "result_hbox")),
 			    GTK_WIDGET (dd->resultrangetext),
 			    TRUE, TRUE, 0);
-	gnumeric_expr_entry_set_scg (dd->resultrangetext,
-				     wbcg_cur_scg (wbcg));
+	gnm_expr_entry_set_scg (dd->resultrangetext, wbcg_cur_scg (wbcg));
 	gtk_widget_show (GTK_WIDGET (dd->resultrangetext));
 
-	gtk_signal_connect (GTK_OBJECT (glade_xml_get_widget (gui, "ok_button")),
-			    "clicked",
-			    GTK_SIGNAL_FUNC (ok_clicked),
-			    dd);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "ok_button")),
+		"clicked",
+		G_CALLBACK (ok_clicked), dd);
 
-	gtk_signal_connect (GTK_OBJECT (glade_xml_get_widget (gui, "cancel_button")),
-			    "clicked",
-			    GTK_SIGNAL_FUNC (cancel_clicked),
-			    dd);
-	gtk_signal_connect (GTK_OBJECT (dialog),
-			    "destroy",
-			    GTK_SIGNAL_FUNC (dialog_destroy),
-			    dd);
-	gtk_signal_connect (GTK_OBJECT (dialog), "set-focus",
-			    GTK_SIGNAL_FUNC (set_focus), dd);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "cancel_button")),
+		"clicked",
+		G_CALLBACK (cancel_clicked), dd);
+	g_signal_connect (G_OBJECT (dialog),
+		"destroy",
+		G_CALLBACK (dialog_destroy), dd);
+	g_signal_connect (G_OBJECT (dialog),
+		"set-focus",
+		G_CALLBACK (set_focus), dd);
 
 	gtk_widget_show_all (dialog->vbox);
 	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (dialog));

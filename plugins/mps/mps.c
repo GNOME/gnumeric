@@ -110,7 +110,7 @@ typedef struct {
         gint   line_no;
         gchar *line;
         gint   line_len, alloc_line_len;
-  
+
         Sheet  *sheet;
 
         gchar      *name;
@@ -260,7 +260,7 @@ mps_create_sheet (MpsInputContext *ctxt,  WorkbookView *wbv)
 	mps_prepare (wbv, ctxt);
 
 
-	/* Initialize var_range to contain the range name of the 
+	/* Initialize var_range to contain the range name of the
 	 * objective function variables. */
 	range_init (&range, VARIABLE_COL, VARIABLE_ROW, ctxt->n_cols,
 		    VARIABLE_ROW);
@@ -326,7 +326,7 @@ mps_create_sheet (MpsInputContext *ctxt,  WorkbookView *wbv)
 	/*
 	 * Add constraints into the sheet.
 	 */
-	
+
 	/* Print 'Constraints:'. */
 	mps_set_cell (sh, CONSTRAINT_COL, CONSTRAINT_ROW - 2, _("Constraints:"));
 
@@ -350,9 +350,9 @@ mps_create_sheet (MpsInputContext *ctxt,  WorkbookView *wbv)
 		  row = (MpsRow *) current->data;
 		  if (row->type == ObjectiveRow)
 		          continue;
-			  
+
 		  /* Add row name */
-		  mps_set_cell (sh, CONSTRAINT_COL - 1, i+CONSTRAINT_ROW, 
+		  mps_set_cell (sh, CONSTRAINT_COL - 1, i+CONSTRAINT_ROW,
 				row->name);
 
 		  /* Add Type field */
@@ -371,7 +371,7 @@ mps_create_sheet (MpsInputContext *ctxt,  WorkbookView *wbv)
 					   i + CONSTRAINT_ROW);
 		  cell_set_text (cell, buf->str);
 		  g_string_free (buf, FALSE);
-			  
+
 		  /* Add Slack calculation */
 		  buf = g_string_new ("");
 		  if (row->type == LessOrEqualRow) {
@@ -428,13 +428,13 @@ mps_create_sheet (MpsInputContext *ctxt,  WorkbookView *wbv)
 		  g_string_free (buf, FALSE);
 
 		  for (n=0; n<ctxt->n_cols; n++)
-		          mps_set_cell_float (sh, n + 1, i + CONSTRAINT_ROW, 
+		          mps_set_cell_float (sh, n + 1, i + CONSTRAINT_ROW,
 					      ctxt->matrix[row->index][n]);
 		  /* Initialize RHS to 0 */
 		  if (i < ctxt->n_rows - ctxt->n_bounds - 1)
 		          mps_set_cell_float (sh, n + 3, i + CONSTRAINT_ROW,
 					      0.0);
-		  
+
 		  /* Add Solver constraint */
 		  c = g_new (SolverConstraint, 1);
 		  c->lhs.col = ctxt->n_cols + 1;
@@ -446,7 +446,7 @@ mps_create_sheet (MpsInputContext *ctxt,  WorkbookView *wbv)
 		  c->rows = 1;
 		  c->str = write_constraint_str (c->lhs.col, c->lhs.row,
 						 c->rhs.col, c->rhs.row,
-						 c->type, c->cols, 
+						 c->type, c->cols,
 						 c->rows);
 
 		  param->constraints = g_slist_append (param->constraints, c);
@@ -635,7 +635,7 @@ mps_input_context_destroy (MpsInputContext *ctxt)
 		   g_free (bound->name);
 		   g_free (current->data);
 	}
-	
+
 	g_slist_free (ctxt->rows);
 	g_slist_free (ctxt->cols);
 	g_slist_free (ctxt->rhs);
@@ -645,7 +645,7 @@ mps_input_context_destroy (MpsInputContext *ctxt)
 	g_hash_table_foreach_remove (ctxt->col_hash, (GHRFunc) ch_rm_cb, NULL);
 	g_hash_table_destroy (ctxt->row_hash);
 	g_hash_table_destroy (ctxt->col_hash);
-	
+
 	if (ctxt->col_name_tbl) {
 		g_free (ctxt->col_name_tbl);
 		ctxt->col_name_tbl = NULL;
@@ -689,7 +689,7 @@ mps_get_line (MpsInputContext *ctxt)
 	}
 	ctxt->line[ctxt->line_len] = '\0';
 
-	if (p == p_limit || (p == p_limit - 1 && (p[0] == '\n' || 
+	if (p == p_limit || (p == p_limit - 1 && (p[0] == '\n' ||
 						  p[0] == '\r'))) {
 	        ctxt->cur = p_limit;
 	} else if ((p[0] == '\n' && p[1] == '\r') || (p[0] == '\r' &&
@@ -711,7 +711,7 @@ mps_get_line (MpsInputContext *ctxt)
 }
 
 static gboolean
-mps_parse_data (gchar *str, gchar *type, gchar *name1, gchar *name2, 
+mps_parse_data (gchar *str, gchar *type, gchar *name1, gchar *name2,
 		gchar *value1, gchar *name3, gchar *value2)
 {
         gint i;
@@ -852,7 +852,7 @@ mps_add_row (MpsInputContext *ctxt, MpsRowType type, gchar *txt)
 
 /* Add one COLUMN definition. */
 static gboolean
-mps_add_column (MpsInputContext *ctxt, gchar *row_name, gchar *col_name, 
+mps_add_column (MpsInputContext *ctxt, gchar *row_name, gchar *col_name,
 		gchar *value_str)
 {
         MpsCol *col;
@@ -876,7 +876,7 @@ mps_add_column (MpsInputContext *ctxt, gchar *row_name, gchar *col_name,
 		  ctxt->n_cols += 1;
 		  g_hash_table_insert (ctxt->col_hash, col->name, (gpointer) i);
 	}
-	
+
 	return TRUE;
 }
 
@@ -1128,7 +1128,7 @@ mps_parse_sheet (MpsInputContext *ctxt)
 	        gnumeric_io_error_info_set (ctxt->io_context,
 					    error_info_new_printf (_("Invalid ROWS section in the file.")));
 	} else if (!mps_parse_columns (ctxt)) {
-	        gnumeric_io_error_info_set (ctxt->io_context, 
+	        gnumeric_io_error_info_set (ctxt->io_context,
 					    error_info_new_printf (_("Invalid COLUMNS section in the file.")));
 	} else if (!mps_parse_rhs (ctxt)) {
 	        gnumeric_io_error_info_set (ctxt->io_context,

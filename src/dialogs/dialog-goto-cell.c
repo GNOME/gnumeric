@@ -12,7 +12,6 @@
 #include <gui-util.h>
 #include <workbook.h>
 #include <workbook-control.h>
-#include <utils-dialog.h>
 
 #include <libgnome/gnome-i18n.h>
 
@@ -64,10 +63,12 @@ dialog_goto_cell (WorkbookControlGUI *wbcg)
 		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (swin),
 						GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-		entry = gnumeric_dialog_entry_new (GNOME_DIALOG (dialog));
+		entry = gtk_entry_new ();
+		gnumeric_editable_enters (GTK_WINDOW (dialog), entry);
 
-		gtk_signal_connect (GTK_OBJECT (clist), "select_row",
-				    GTK_SIGNAL_FUNC (cb_row_selected), entry);
+		g_signal_connect (G_OBJECT (clist),
+			"select_row",
+			G_CALLBACK (cb_row_selected), entry);
 
 		box = gtk_vbox_new (FALSE, 0);
 

@@ -99,8 +99,7 @@ function_list_fill (FunctionSelectState *state)
 }
 
 static gboolean
-category_and_function_key_press (GtkCList *list, GdkEventKey *event,
-				 int *index)
+cb_key_press (GtkCList *list, GdkEventKey *event, int *index)
 {
 	if (event->string && isalpha ((unsigned char)(*event->string))) {
 		int i, first, next;
@@ -108,7 +107,7 @@ category_and_function_key_press (GtkCList *list, GdkEventKey *event,
 		first = next = -1;
 		for (i = 0; i < list->rows; i++) {
 			char *t[1];
-			
+
 			gtk_clist_get_text (list, i, 0, t);
 			if (strncasecmp (t[0], event->string, 1) == 0) {
 				if (first == -1)
@@ -117,19 +116,19 @@ category_and_function_key_press (GtkCList *list, GdkEventKey *event,
 					next = i;
 			}
 		}
-		
+
 		i = -1;
 		if (next == -1 && first != -1)
 			i = first;
 		else
 			i = next;
-			
+
 		if (i >= 0) {
 			gtk_clist_select_row (list, i, 0);
 			gnumeric_clist_moveto (list,i);
 		}
 	}
-	
+
 	return TRUE;
 }
 
@@ -138,8 +137,7 @@ function_select_row (GtkCList *clist, gint row, gint col,
 		     GdkEvent *event, FunctionSelectState *state)
 {
 	if (event && event->type == GDK_2BUTTON_PRESS)
-		gtk_signal_emit_by_name (GTK_OBJECT (state->dialog),
-					 "clicked", 0);
+		g_signal_emit_by_name (G_OBJECT (state->dialog), "clicked", 0);
 	state->selected_func = row;
 	state->func = gtk_clist_get_row_data (state->functions, row);
 
@@ -190,19 +188,18 @@ dialog_function_select_impl (WorkbookControlGUI *wbcg, GladeXML *gui)
 	g_return_val_if_fail (state.func_name, NULL);
 	g_return_val_if_fail (state.description, NULL);
 
-	gtk_signal_connect (GTK_OBJECT (state.categories), "key-press-event",
-			    GTK_SIGNAL_FUNC (category_and_function_key_press),
-			    &state.selected_cat);
-	gtk_signal_connect (GTK_OBJECT (state.functions), "key-press-event",
-			    GTK_SIGNAL_FUNC (category_and_function_key_press),
-			    &state.selected_func);
-
-	gtk_signal_connect (GTK_OBJECT (state.categories), "select-row",
-			    GTK_SIGNAL_FUNC (category_select_row),
-			    &state);
-	gtk_signal_connect (GTK_OBJECT (state.functions), "select-row",
-			    GTK_SIGNAL_FUNC (function_select_row),
-			    &state);
+	g_signal_connect (G_OBJECT (state.categories),
+		"key-press-event",
+		G_CALLBACK (cb_key_press), &state.selected_cat);
+	g_signal_connect (G_OBJECT (state.functions),
+		"key-press-event",
+		G_CALLBACK (cb_key_press), &state.selected_func);
+	g_signal_connect (G_OBJECT (state.categories),
+		"select-row",
+		G_CALLBACK (category_select_row), &state);
+	g_signal_connect (G_OBJECT (state.functions),
+		"select-row",
+		G_CALLBACK (function_select_row), &state);
 
 	/* Init the selection */
 	state.selected_cat  = state.selected_func = 0;

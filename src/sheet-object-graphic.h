@@ -7,7 +7,7 @@
 #define SHEET_OBJECT_GRAPHIC(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_OBJECT_GRAPHIC_TYPE, SheetObjectGraphic))
 #define IS_SHEET_OBJECT_GRAPHIC(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_GRAPHIC_TYPE))
 
-GtkType	     sheet_object_graphic_get_type (void);
+GType	     sheet_object_graphic_get_type (void);
 SheetObject *sheet_object_line_new  (gboolean with_arrow);
 void         sheet_object_graphic_fill_color_set (SheetObject *so,
 						  StyleColor *color);
@@ -16,7 +16,7 @@ void         sheet_object_graphic_fill_color_set (SheetObject *so,
 #define SHEET_OBJECT_FILLED(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_OBJECT_FILLED_TYPE, SheetObjectFilled))
 #define IS_SHEET_OBJECT_FILLED(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_FILLED_TYPE))
 
-GtkType      sheet_object_filled_get_type (void);
+GType      sheet_object_filled_get_type (void);
 SheetObject *sheet_object_box_new   (gboolean is_oval);
 void	     sheet_object_filled_outline_color_set (SheetObject *so,
 						    StyleColor *color);

@@ -148,13 +148,13 @@ embeddable_grid_factory (BonoboGenericFactory *This, void *data)
 	return BONOBO_OBJECT (embeddable_grid);
 }
 
-GtkType
+GType
 embeddable_grid_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
 	if (!type){
-		GtkTypeInfo info = {
+		GTypeInfo info = {
 			"IDL:GNOME/Gnumeric/EmbeddableGrid:1.0",
 			sizeof (EmbeddableGrid),
 			sizeof (EmbeddableGridClass),
@@ -186,13 +186,13 @@ EmbeddableGridFactory_init (void)
 /*
  * GridView object
  */
-GtkType
+GType
 grid_view_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
 	if (!type){
-		GtkTypeInfo info = {
+		GTypeInfo info = {
 			"EmbeddableGridView",
 			sizeof (GridView),
 			sizeof (GridViewClass),
@@ -239,8 +239,9 @@ grid_view_new (EmbeddableGrid *eg)
 	if (!grid_view)
 		return NULL;
 
-	gtk_signal_connect (GTK_OBJECT (grid_view), "activate",
-			    GTK_SIGNAL_FUNC (grid_view_activate), NULL);
+	g_signal_connect (G_OBJECT (grid_view),
+		"activate",
+		G_CALLBACK (grid_view_activate), NULL);
 
 	return BONOBO_VIEW (grid_view);
 }

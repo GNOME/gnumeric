@@ -302,42 +302,35 @@ stf_export_dialog_attach_page_signals (GladeXML *gui, StfE_DruidData_t *druid_da
 
 	/* Signals for individual pages */
 
-	gtk_signal_connect (GTK_OBJECT (druid_data->sheet_page),
-			    "next",
-			    GTK_SIGNAL_FUNC (stf_export_dialog_druid_page_next),
-			    druid_data);
+	g_signal_connect (G_OBJECT (druid_data->sheet_page),
+		"next",
+		G_CALLBACK (stf_export_dialog_druid_page_next), druid_data);
 
-        gtk_signal_connect (GTK_OBJECT (druid_data->format_page),
-			    "back",
-			    GTK_SIGNAL_FUNC (stf_export_dialog_druid_page_previous),
-			    druid_data);
-	gtk_signal_connect (GTK_OBJECT (druid_data->format_page),
-			    "finish",
-			    GTK_SIGNAL_FUNC (stf_export_dialog_druid_format_page_finish),
-			    druid_data);
+        g_signal_connect (G_OBJECT (druid_data->format_page),
+		"back",
+		G_CALLBACK (stf_export_dialog_druid_page_previous), druid_data);
+	g_signal_connect (G_OBJECT (druid_data->format_page),
+		"finish",
+		G_CALLBACK (stf_export_dialog_druid_format_page_finish), druid_data);
 
-	gtk_signal_connect (GTK_OBJECT (druid_data->sheet_page),
-			    "cancel",
-			    GTK_SIGNAL_FUNC (stf_export_dialog_druid_page_cancel),
-			    druid_data);
-	gtk_signal_connect (GTK_OBJECT (druid_data->format_page),
-			    "cancel",
-			    GTK_SIGNAL_FUNC (stf_export_dialog_druid_page_cancel),
-			    druid_data);
+	g_signal_connect (G_OBJECT (druid_data->sheet_page),
+		"cancel",
+		G_CALLBACK (stf_export_dialog_druid_page_cancel), druid_data);
+	g_signal_connect (G_OBJECT (druid_data->format_page),
+		"cancel",
+		G_CALLBACK (stf_export_dialog_druid_page_cancel), druid_data);
 
 	/* Signals for the druid itself */
 
-	gtk_signal_connect (GTK_OBJECT (druid_data->druid),
-			    "cancel",
-			    GTK_SIGNAL_FUNC (stf_export_dialog_druid_cancel),
-			    druid_data);
+	g_signal_connect (G_OBJECT (druid_data->druid),
+		"cancel",
+		G_CALLBACK (stf_export_dialog_druid_cancel), druid_data);
 
 	/* And for the surrounding window */
 
-	gtk_signal_connect (GTK_OBJECT (druid_data->window),
-			    "key_press_event",
-			    GTK_SIGNAL_FUNC (stf_export_dialog_check_escape),
-			    druid_data);
+	g_signal_connect (G_OBJECT (druid_data->window),
+		"key_press_event",
+		G_CALLBACK (stf_export_dialog_check_escape), druid_data);
 }
 
 /**
@@ -352,7 +345,7 @@ static void
 stf_export_dialog_editables_enter (StfE_DruidData_t *druid_data)
 {
 	gnumeric_editable_enters (druid_data->window,
-				  GTK_EDITABLE (druid_data->format_page_data->format_custom));
+				  GTK_WIDGET (druid_data->format_page_data->format_custom));
 	gnumeric_combo_enters (druid_data->window,
 			       druid_data->format_page_data->format_quotechar);
 }

@@ -8,8 +8,8 @@
     <property name="type">GTK_WINDOW_TOPLEVEL</property>
     <property name="modal">no</property>
     <property name="allow_shrink">no</property>
-    <property name="allow_grow">no</property>
-    <property name="window-position">GTK_WIN_POS_NONE</property>
+    <property name="allow_grow">yes</property>
+    <property name="window_position">GTK_WIN_POS_MOUSE</property>
 
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox4">

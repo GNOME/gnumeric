@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * corba-args.c:  This routine bootstraps Gnumeric with CORBA.
  *
@@ -94,8 +95,9 @@ workbook_container_get_object (BonoboObject *container, CORBA_char *item_name,
 		embeddable_grid_set_range (eg, a->col, a->row, b->col, b->row);
 	}
 
-	gtk_signal_connect (GTK_OBJECT (eg), "destroy",
-			    grid_destroyed, wb);
+	g_signal_connect (G_OBJECT (eg),
+		"destroy",
+		G_CALLBACK (grid_destroyed), wb);
 
 	wb->priv->workbook_views = g_list_prepend (wb->priv->workbook_views, eg);
 

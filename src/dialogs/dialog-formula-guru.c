@@ -46,8 +46,8 @@ typedef struct _FormulaGuruState FormulaGuruState;
 typedef struct
 {
 	FormulaGuruState	*state;
-	GtkWidget	*name_label, *type_label;
 	GnumericExprEntry	*entry;
+	GtkWidget *name_label, *type_label;
 
 	gchar 	  *name;
 	gchar	   type;
@@ -68,7 +68,7 @@ struct _FormulaGuruState
 	GtkWidget *cancel_button;
 	GtkWidget *rolled_box;
 	GtkWidget *rolled_label;
-	GtkWidget *rolled_entry;
+	GnumericExprEntry *rolled_entry;
 	GtkWidget *unrolled_box;
 	GtkWidget *arg_table;
 	GtkWidget *arg_frame;
@@ -143,7 +143,7 @@ formula_guru_free (FormulaGuruState *state)
 static void
 formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 {
-	GnumericExprEntry *entry;
+	GtkEntry *entry;
 	GString *str;
 	int pos = 0;
 	guint i;
@@ -261,7 +261,7 @@ formula_guru_set_rolled_state (FormulaGuruState *state, gboolean is_rolled)
 
 	state->is_rolled = is_rolled;
 	if (is_rolled) {
-		new_entry = GNUMERIC_EXPR_ENTRY (state->rolled_entry);
+		new_entry = state->rolled_entry;
 		gtk_entry_set_text (
 			GTK_ENTRY (new_entry),
 			gtk_entry_get_text (
@@ -270,7 +270,7 @@ formula_guru_set_rolled_state (FormulaGuruState *state, gboolean is_rolled)
 			state->cur_arg->name);
 
 		gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-					  GTK_EDITABLE (new_entry));
+					  GTK_WIDGET (new_entry));
 
 		gtk_widget_show	(state->rolled_box);
 		gtk_widget_hide	(state->unrolled_box);
@@ -454,10 +454,10 @@ formula_guru_arg_new (char * const name,
 	gtk_table_attach (GTK_TABLE (state->arg_table),
 			  as->name_label,
 			  0, 1, row, row+1,
-			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
+			  0, 0, 0, 0);
 
-	as->entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
-	gnumeric_expr_entry_set_flags (
+	as->entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	gnm_expr_entry_set_flags (
 		as->entry, GNUM_EE_SHEET_OPTIONAL, GNUM_EE_SHEET_OPTIONAL);
 	gtk_table_attach (GTK_TABLE (state->arg_table),
 			  GTK_WIDGET (as->entry),
@@ -473,21 +473,24 @@ formula_guru_arg_new (char * const name,
 	gtk_table_attach (GTK_TABLE (state->arg_table),
 			  as->type_label,
 			  2, 3, row, row+1,
-			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
+			  0, 0, 0, 0);
 	g_free (label);
 
 	/* FIXME : Do I really need focus-in ?  is there something less draconian */
-	gtk_signal_connect (GTK_OBJECT (as->entry), "focus-in-event",
-			    GTK_SIGNAL_FUNC (cb_formula_guru_entry_focus_in), as);
-	gtk_signal_connect (GTK_OBJECT (as->entry), "changed",
-			    GTK_SIGNAL_FUNC (cb_formula_guru_entry_changed), as);
-	gtk_signal_connect_after (GTK_OBJECT (as->entry), "key-press-event",
-		GTK_SIGNAL_FUNC (cb_formula_guru_entry_event), as);
-	gtk_signal_connect_after (GTK_OBJECT (as->entry), "button-press-event",
-		GTK_SIGNAL_FUNC (cb_formula_guru_entry_event), as);
+	g_signal_connect (G_OBJECT (as->entry),
+		"focus-in-event",
+		G_CALLBACK (cb_formula_guru_entry_focus_in), as);
+	g_signal_connect (G_OBJECT (as->entry),
+		"changed",
+		G_CALLBACK (cb_formula_guru_entry_changed), as);
+	g_signal_connect_after (G_OBJECT (as->entry),
+		"key-press-event",
+		G_CALLBACK (cb_formula_guru_entry_event), as);
+	g_signal_connect_after (G_OBJECT (as->entry),
+		"button-press-event",
+		G_CALLBACK (cb_formula_guru_entry_event), as);
 
-	gnumeric_expr_entry_set_scg (as->entry,
-				     wbcg_cur_scg (state->wbcg));
+	gnm_expr_entry_set_scg (as->entry, wbcg_cur_scg (state->wbcg));
 
 	g_ptr_array_add (state->args, as);
 	if (row == 0)
@@ -584,9 +587,9 @@ static GtkWidget *
 formula_guru_init_button (FormulaGuruState *state, char const *name)
 {
 	GtkWidget *tmp = glade_xml_get_widget (state->gui, name);
-	gtk_signal_connect (GTK_OBJECT (tmp), "clicked",
-			    GTK_SIGNAL_FUNC (cb_formula_guru_clicked),
-			    state);
+	g_signal_connect (G_OBJECT (tmp),
+		"clicked",
+		G_CALLBACK (cb_formula_guru_clicked), state);
 	return tmp;
 }
 
@@ -631,12 +634,12 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 	state->cancel_button= formula_guru_init_button (state, "cancel_button");
 	state->rolled_box   = glade_xml_get_widget (state->gui, "rolled_box");
 	state->rolled_label = glade_xml_get_widget (state->gui, "rolled_label");
-	state->rolled_entry = gnumeric_expr_entry_new (state->wbcg);
-	gnumeric_expr_entry_set_flags (
-		GNUMERIC_EXPR_ENTRY (state->rolled_entry),
+	state->rolled_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	gnm_expr_entry_set_flags (state->rolled_entry,
 		GNUM_EE_SHEET_OPTIONAL, GNUM_EE_SHEET_OPTIONAL);
-	gtk_box_pack_start (GTK_BOX (state->rolled_box), state->rolled_entry,
-			    TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (state->rolled_box),
+		GTK_WIDGET (state->rolled_entry),
+		TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET (state->rolled_entry));
 	state->unrolled_box = glade_xml_get_widget (state->gui, "unrolled_box");
 	state->arg_table    = glade_xml_get_widget (state->gui, "arg_table");
@@ -647,12 +650,15 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 
 	formula_guru_init_args (state);
 
-	gtk_signal_connect (GTK_OBJECT (state->rolled_entry), "changed",
-		GTK_SIGNAL_FUNC (cb_formula_guru_rolled_entry_changed), state);
-	gtk_signal_connect_after (GTK_OBJECT (state->rolled_entry), "key-press-event",
-		GTK_SIGNAL_FUNC (cb_formula_guru_rolled_entry_event), state);
-	gtk_signal_connect_after (GTK_OBJECT (state->rolled_entry), "button-press-event",
-		GTK_SIGNAL_FUNC (cb_formula_guru_rolled_entry_event), state);
+	g_signal_connect (G_OBJECT (state->rolled_entry),
+		"changed",
+		G_CALLBACK (cb_formula_guru_rolled_entry_changed), state);
+	g_signal_connect_after (G_OBJECT (state->rolled_entry),
+		"key-press-event",
+		G_CALLBACK (cb_formula_guru_rolled_entry_event), state);
+	g_signal_connect_after (G_OBJECT (state->rolled_entry),
+		"button-press-event",
+		G_CALLBACK (cb_formula_guru_rolled_entry_event), state);
 
 	/* If there were arguments initialize the fields */
 	if (expr != NULL) {
@@ -680,14 +686,13 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 
 	/* Lifecyle management */
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	gnumeric_expr_entry_set_scg (GNUMERIC_EXPR_ENTRY (state->rolled_entry),
-				     wbcg_cur_scg (state->wbcg));
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
-			    GTK_SIGNAL_FUNC (cb_formula_guru_destroy),
-			    state);
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "key_press_event",
-			    GTK_SIGNAL_FUNC (cb_formula_guru_key_press),
-			    state);
+	gnm_expr_entry_set_scg (state->rolled_entry, wbcg_cur_scg (state->wbcg));
+	g_signal_connect (G_OBJECT (state->dialog),
+		"destroy",
+		G_CALLBACK (cb_formula_guru_destroy), state);
+	g_signal_connect (G_OBJECT (state->dialog),
+		"key_press_event",
+		G_CALLBACK (cb_formula_guru_key_press), state);
 
 	help_tokens = tokenized_help_new (state->fd);
 	gtk_frame_set_label (GTK_FRAME (state->arg_frame),
@@ -737,8 +742,7 @@ dialog_formula_guru (WorkbookControlGUI *wbcg)
 	 */
 	if (expr == NULL) {
 		wbcg_edit_start (wbcg, TRUE, TRUE);
-		gtk_entry_set_text (
-			GTK_ENTRY (wbcg_get_entry (wbcg)), "=");
+		gtk_entry_set_text (wbcg_get_entry (wbcg), "=");
 
 		fd = dialog_function_select (wbcg);
 		if (fd == NULL) {
@@ -748,8 +752,7 @@ dialog_formula_guru (WorkbookControlGUI *wbcg)
 	} else {
 		ParsePos pos;
 		char const *sub_str;
-		char const *full_str = gtk_entry_get_text (
-			GTK_ENTRY (wbcg_get_entry (wbcg)));
+		char const *full_str = gtk_entry_get_text (wbcg_get_entry (wbcg));
 		char *func_str = expr_tree_as_string (expr,
 			parse_pos_init_cell (&pos, cell));
 

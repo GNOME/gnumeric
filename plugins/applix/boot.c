@@ -4,7 +4,7 @@
  * boot.c : Installation and bootstraping routines to
  *          register the applix plugin.
  *
- * Copyright (C) 2000-2001 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2002 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -33,45 +33,48 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <gnome.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-gboolean applix_file_probe (GnumFileOpener const *fo, const gchar *file_name,
+gboolean applix_file_probe (GnumFileOpener const *fo, char const *file_name,
                             FileProbeLevel pl);
 void     applix_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                           WorkbookView *wb_view, const char *filename);
-
+                           WorkbookView *wb_view, char const *filename);
 
 gboolean
-applix_file_probe (GnumFileOpener const *fo, const gchar *file_name, FileProbeLevel pl)
+applix_file_probe (GnumFileOpener const *fo, char const *file_name, FileProbeLevel pl)
 {
-	FILE *file;
-	gboolean res;
-
-	file = fopen (file_name, "r");
+	gboolean res = FALSE;
+	FILE *file = fopen (file_name, "r");
 	if (file == NULL) {
-		res = FALSE;
-	} else {
 		res = applix_read_header (file);
 		fclose (file);
 	}
-
 	return res;
 }
 
 void
 applix_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                  WorkbookView *wb_view, const char *filename)
+                  WorkbookView *wb_view, char const *filename)
 {
-	FILE *file;
 	ErrorInfo *error;
-
-	file = gnumeric_fopen_error_info (filename, "r", &error);
-	if (file == NULL) {
-		gnumeric_io_error_info_set (io_context, error);
-	} else {
+	FILE *file = gnumeric_fopen_error_info (filename, "r", &error);
+	if (file != NULL) {
 		applix_read (io_context, wb_view, file);
 		fclose (file);
-	}
+	} else
+		gnumeric_io_error_info_set (io_context, error);
+}
+
+void
+applix_file_save (GnumFileSaver const *fs, IOContext *io_context,
+		  WorkbookView *wb_view, char const *filename)
+{
+	ErrorInfo *error;
+	FILE *file = gnumeric_fopen_error_info (filename, "w", &error);
+	if (file != NULL) {
+		applix_write (io_context, wb_view, file);
+		fclose (file);
+	} else
+		gnumeric_io_error_info_set (io_context, error);
 }

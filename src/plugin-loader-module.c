@@ -626,16 +626,16 @@ gnumeric_plugin_loader_module_unload_service_function_group (GnumericPluginLoade
  */
 
 typedef struct {
-	GtkType (*module_func_get_loader_type) (ErrorInfo **ret_error);
+	GType (*module_func_get_loader_type) (ErrorInfo **ret_error);
 } ServiceLoaderDataPluginLoader;
 
-static GtkType
+static GType
 gnumeric_plugin_loader_module_func_get_loader_type (PluginService *service,
                                                     ErrorInfo **ret_error)
 {
 	ServiceLoaderDataPluginLoader *loader_data;
 	ErrorInfo *error;
-	GtkType loader_type;
+	GType loader_type;
 
 	g_return_val_if_fail (service != NULL, 0);
 	g_return_val_if_fail (ret_error != NULL, 0);
@@ -647,7 +647,7 @@ gnumeric_plugin_loader_module_func_get_loader_type (PluginService *service,
 		return loader_type;
 	} else {
 		*ret_error = error;
-		return (GtkType) 0;
+		return (GType) 0;
 	}
 }
 

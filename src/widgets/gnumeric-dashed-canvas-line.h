@@ -8,13 +8,13 @@
 #define GNUMERIC_TYPE_DASHED_CANVAS_LINE\
     (gnumeric_dashed_canvas_line_get_type ())
 #define GNUMERIC_DASHED_CANVAS_LINE(obj)\
-    (GTK_CHECK_CAST ((obj), GNUMERIC_TYPE_DASHED_CANVAS_LINE, GnumericDashedCanvasLine))
+    (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNUMERIC_TYPE_DASHED_CANVAS_LINE, GnumericDashedCanvasLine))
 #define GNUMERIC_DASHED_CANVAS_LINE_CLASS(klass)\
-    (GTK_CHECK_CLASS_CAST ((klass), GNUMERIC_TYPE_DASHED_CANVAS_LINE, GnumericDashedCanvasLineClass))
+    (G_TYPE_CHECK_CLASS_CAST ((klass), GNUMERIC_TYPE_DASHED_CANVAS_LINE, GnumericDashedCanvasLineClass))
 #define GNUMERIC_IS_DASHED_CANVAS_LINE(obj)\
-    (GTK_CHECK_TYPE ((obj), GNUMERIC_TYPE_DASHED_CANVAS_LINE))
+    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNUMERIC_TYPE_DASHED_CANVAS_LINE))
 #define GNUMERIC_IS_DASHED_CANVAS_LINE_CLASS(klass)\
-    (GTK_CHECK_CLASS_TYPE ((klass), GNUMERIC_TYPE_DASHED_CANVAS_LINE))
+    (G_TYPE_CHECK_CLASS_TYPE ((klass), GNUMERIC_TYPE_DASHED_CANVAS_LINE))
 
 
 typedef struct _GnumericDashedCanvasLine GnumericDashedCanvasLine;
@@ -37,6 +37,6 @@ void    gnumeric_dashed_canvas_line_set_dash_index (GnumericDashedCanvasLine *li
 						    StyleBorderType const indx);
 
 /* Standard Gtk function */
-GtkType gnumeric_dashed_canvas_line_get_type (void);
+GType gnumeric_dashed_canvas_line_get_type (void);
 
 #endif

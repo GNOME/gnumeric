@@ -133,7 +133,7 @@ biff_put_text (BiffPut *bp, const char *txt, MsBiffVersion ver,
 		for (lp = 0; lp < len; lp++) {
 			MS_OLE_SET_GUINT16 (data, wcbuf[lp]);
 			ms_biff_put_var_write (bp, data, 2);
-		}		
+		}
 		g_free(wcbuf);
 		lp *= 2;
 	} else {
@@ -143,12 +143,12 @@ biff_put_text (BiffPut *bp, const char *txt, MsBiffVersion ver,
 		char const * inbufptr = txt;
 		guint32 retlen;
 
-		excel_iconv (current_workbook_iconv, &inbufptr, &inbufleft, 
+		excel_iconv (current_workbook_iconv, &inbufptr, &inbufleft,
 			     &outbufptr, &outbufleft);
 		retlen = outbufptr - mbbuf;
 		for (lp = 0; lp < retlen; lp++) {
 			MS_OLE_SET_GUINT8 (data, mbbuf[lp]);
-			ms_biff_put_var_write (bp, data, 1);			
+			ms_biff_put_var_write (bp, data, 1);
 		}
 		g_free(mbbuf);
 	};
@@ -319,7 +319,7 @@ write_setup (BiffPut *bp, ExcelSheet *esheet)
  * XL doesn't write externsheets as often as we do. The previous version of
  * this function causes XL to crash when we exported a spreadsheet function
  * which is not an XL builtin. This version is still wrong, but won't crash
- * XL. 
+ * XL.
  */
 static void
 write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
@@ -347,7 +347,7 @@ write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 
 	if (externcount == 0)
 		return;
-	
+
 	data = ms_biff_put_len_next (bp, BIFF_EXTERNCOUNT, 2);
 	MS_OLE_SET_GUINT16(data, externcount);
 	ms_biff_put_commit (bp);
@@ -840,9 +840,8 @@ put_color (ExcelWorkbook *wb, const StyleColor *c)
 			   "Found unique color %d - 0x%6.6x\n");
 
 	idx = two_way_table_key_to_idx (twt, pc);
-	if (idx >= 0 && idx < EXCEL_DEF_PAL_LEN) {
+	if (idx >= 0 && idx < EXCEL_DEF_PAL_LEN)
 		wb->pal->entry_in_use [idx] = TRUE; /* Default entry in use */
-	}
 }
 
 /**
@@ -1723,7 +1722,7 @@ gather_styles (ExcelWorkbook *wb)
 		s = g_ptr_array_index (wb->sheets, i);
 		n += g_hash_table_size (s->gnum_sheet->cell_hash);
 		n += s->max_row;
-	}	
+	}
 
 	count_io_progress_set (wb->io_context, n, N_CELLS_BETWEEN_UPDATES);
 	for (i = 0; i < wb->sheets->len; i++) {
@@ -3011,7 +3010,7 @@ write_default_col_width (BiffPut *bp, ExcelSheet *esheet)
 /**
  * write_colinfo
  * @bp:   BIFF buffer
- * @esheet: 
+ * @esheet:
  * @ci   : the descriptor of the first col
  * @last_index : the index of the last contiguous identical col
  * @xf_index   : the style index to the entire col (< 0 for none)
@@ -3329,7 +3328,7 @@ write_rowinfo (BiffPut *bp, ExcelSheet *esheet, guint32 row, guint32 last_col)
 /**
  * write_db_cell
  * @bp        BIFF buffer
- * @esheet    
+ * @esheet
  * @ri_start  start positions of first 2 rowinfo records
  * @rc_start  start positions of first row in each cell in block
  * @nrows  no. of rows in block.

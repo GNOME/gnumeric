@@ -156,7 +156,7 @@ translate_cell_format (StyleFormat const *format)
 	 */
 	for (i = 0; i < translate_table_count; i++) {
 		const translate_t *t = &translate_table[i];
-		
+
 		if (!g_strcasecmp (fmt, t->format)) {
 			g_free (fmt);
 			return value_new_string (t->output);
@@ -184,7 +184,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 {
 	const char *info_type = value_peek_string (argv[0]);
 	CellRef ref = argv [1]->v_range.cell.a;
-	
+
 	if (!g_strcasecmp(info_type, "address")) {
 		/* Reference of the first cell in reference, as text. */
 		return value_new_string (cell_coord_name (ref.col, ref.row));
@@ -200,7 +200,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 			value_new_int (0);
 	} else if (!g_strcasecmp (info_type, "contents")) {
 		Cell *cell = sheet_cell_get (ei->pos->sheet, ref.col, ref.row);
-		
+
 		if (cell && cell->value)
 			return value_duplicate (cell->value);
 		return value_new_empty ();
@@ -214,7 +214,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 	} else if (!g_strcasecmp (info_type, "format")) {
 		MStyle *mstyle = sheet_style_get (ei->pos->sheet, ref.col,
 						  ref.row);
-		
+
 		return translate_cell_format (mstyle_get_format (mstyle));
 	} else if (!g_strcasecmp (info_type, "parentheses")) {
 		FormatCharacteristics info = retrieve_format_info (ei->pos->sheet,
@@ -228,7 +228,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		MStyle *mstyle = sheet_style_get (ei->pos->sheet, ref.col,
 						  ref.row);
 		Cell *cell = sheet_cell_get (ei->pos->sheet, ref.col, ref.row);
-		
+
 		if (cell && cell->value && cell->value->type == VALUE_STRING) {
 			switch (mstyle_get_align_h (mstyle)) {
 			case HALIGN_GENERAL: return value_new_string ("'");

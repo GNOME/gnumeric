@@ -204,9 +204,9 @@ plugin_init_general (ErrorInfo **ret_error)
 	char *name, *dir;
 
 	*ret_error = NULL;
-	
+
 	 scm_init_guile ();
-	
+
 	/* Initialize just in case. */
 	eval_pos = NULL;
 

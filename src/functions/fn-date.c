@@ -235,7 +235,7 @@ datedif_opt_yd (GDate *gdate1, GDate *gdate2, int excel_compat)
 		/* this is clearly wrong, but it's what Excel does. */
 		/* (I use 2004 here since it is clearly a leap year.) */
 		new_year1 = 2004 + (g_date_year (gdate1) & 0x3);
-		new_year2 = new_year1 + (g_date_year (gdate2) - 
+		new_year2 = new_year1 + (g_date_year (gdate2) -
 					 g_date_year (gdate1));
 		g_date_set_year (gdate1, new_year1);
 		g_date_set_year (gdate2, new_year2);
@@ -493,7 +493,7 @@ static char *help_timevalue = {
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "TIMEVALUE(\"3:05\") equals 0.128472.\n" 
+	   "TIMEVALUE(\"3:05\") equals 0.128472.\n"
 	   "TIMEVALUE(\"2:24:53 PM\") equals 0.600613.\n"
 	   "\n"
 	   "@SEEALSO=HOUR,MINUTE")
@@ -1139,7 +1139,7 @@ gnumeric_isoweeknum (FunctionEvalInfo *ei, Value **argv)
 	Value *res;
 	GDate *date;
 	int isoweeknum;
-	
+
 	if (argv[0]->type == VALUE_ERROR)
 		return value_duplicate (argv[0]);
 
@@ -1149,7 +1149,7 @@ gnumeric_isoweeknum (FunctionEvalInfo *ei, Value **argv)
 
 	isoweeknum = datetime_weeknum (date, WEEKNUM_METHOD_ISO);
 	res = value_new_int (isoweeknum);
-	
+
 	g_date_free (date);
 	return res;
 }
@@ -1194,7 +1194,7 @@ gnumeric_weeknum (FunctionEvalInfo *ei, Value **argv)
 	      method == WEEKNUM_METHOD_MONDAY ||
 	      method == WEEKNUM_METHOD_ISO))
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
-	
+
 	if (argv[0]->type == VALUE_ERROR)
 		return value_duplicate (argv[0]);
 
@@ -1204,7 +1204,7 @@ gnumeric_weeknum (FunctionEvalInfo *ei, Value **argv)
 
 	weeknum = datetime_weeknum (date, method);
 	res = value_new_int (weeknum);
-	
+
 	g_date_free (date);
 	return res;
 }

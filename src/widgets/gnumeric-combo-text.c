@@ -14,7 +14,7 @@
 #include <gtk/gtkscrolledwindow.h>
 #include <gal/util/e-util.h>
 
-#define GNM_COMBO_TEXT_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, gnm_combo_text_get_type (), GnmComboTextClass)
+#define GNM_COMBO_TEXT_CLASS(klass) G_TYPE_CHECK_CLASS_CAST (klass, gnm_combo_text_get_type (), GnmComboTextClass)
 typedef struct _GnmComboTextClass   GnmComboTextClass;
 
 struct _GnmComboTextClass {
@@ -219,28 +219,28 @@ gnm_combo_text_init (GnmComboText *ct)
 		gtk_scrolled_window_get_vadjustment (
 			GTK_SCROLLED_WINDOW (ct->scroll)));
 
-	gtk_signal_connect (GTK_OBJECT (ct->entry),
+	g_signal_connect (G_OBJECT (ct->entry),
 		"activate",
 		GTK_SIGNAL_FUNC (cb_entry_activate), (gpointer) ct);
-	gtk_signal_connect (GTK_OBJECT (ct->scroll),
+	g_signal_connect (G_OBJECT (ct->scroll),
 		"size_request",
-		GTK_SIGNAL_FUNC (cb_scroll_size_request), (gpointer) ct);
-	gtk_signal_connect (GTK_OBJECT (ct->list),
+		G_CALLBACK (cb_scroll_size_request), (gpointer) ct);
+	g_signal_connect (G_OBJECT (ct->list),
 		"select-child",
-		GTK_SIGNAL_FUNC (cb_list_select), (gpointer) ct);
-	gtk_signal_connect (GTK_OBJECT (ct->list),
+		G_CALLBACK (cb_list_select), (gpointer) ct);
+	g_signal_connect (G_OBJECT (ct->list),
 		"unselect-child",
-		GTK_SIGNAL_FUNC (cb_list_unselect), (gpointer) ct);
-	gtk_signal_connect (GTK_OBJECT (ct->list),
+		G_CALLBACK (cb_list_unselect), (gpointer) ct);
+	g_signal_connect (G_OBJECT (ct->list),
 		"map",
-		GTK_SIGNAL_FUNC (cb_list_mapped), NULL);
+		G_CALLBACK (cb_list_mapped), NULL);
 
 	gtk_widget_show (ct->entry);
 	gtk_combo_box_construct (GTK_COMBO_BOX (ct),
 		ct->entry, ct->scroll);
-	gtk_signal_connect (GTK_OBJECT (ct),
+	g_signal_connect (G_OBJECT (ct),
 		"pop_down_done",
-		GTK_SIGNAL_FUNC (cb_pop_down), NULL);
+		G_CALLBACK (cb_pop_down), NULL);
 }
 
 static void
@@ -250,10 +250,9 @@ gnm_combo_text_destroy (GtkObject *object)
 	GnmComboText *ct = GNM_COMBO_TEXT (object);
 
 	gtk_signal_disconnect_by_func (GTK_OBJECT (ct),
-				       GTK_SIGNAL_FUNC (cb_pop_down), NULL);
+		G_CALLBACK (cb_pop_down), NULL);
 	gtk_signal_disconnect_by_func (GTK_OBJECT (ct->list),
-				       GTK_SIGNAL_FUNC (cb_list_unselect),
-				       (gpointer) ct);
+		G_CALLBACK (cb_list_unselect), ct);
 
 	parent = g_type_class_peek (gtk_combo_box_get_type ());
 	if (parent && parent->destroy)
@@ -347,13 +346,13 @@ gnm_combo_text_set_text (GnmComboText *ct, const gchar *text,
 			}
 		}
 
-	gtk_signal_handler_block_by_func (GTK_OBJECT (ct->list), 
-					  GTK_SIGNAL_FUNC (cb_list_select),
+	gtk_signal_handler_block_by_func (GTK_OBJECT (ct->list),
+					  G_CALLBACK (cb_list_select),
 					  (gpointer) ct);
-	gtk_signal_handler_block_by_func (GTK_OBJECT (ct->list), 
+	gtk_signal_handler_block_by_func (GTK_OBJECT (ct->list),
 					  GTK_SIGNAL_FUNC (cb_list_unselect),
 					  (gpointer) ct);
-	
+
 	gtk_list_unselect_all (list);
 
 	/* Use visible label rather than supplied text just in case */
@@ -366,10 +365,10 @@ gnm_combo_text_set_text (GnmComboText *ct, const gchar *text,
 	} else
 		gtk_entry_set_text (GTK_ENTRY (ct->entry), text);
 
-	gtk_signal_handler_unblock_by_func (GTK_OBJECT (ct->list), 
+	gtk_signal_handler_unblock_by_func (GTK_OBJECT (ct->list),
 					    GTK_SIGNAL_FUNC (cb_list_select),
 					    (gpointer) ct);
-	gtk_signal_handler_unblock_by_func (GTK_OBJECT (ct->list), 
+	gtk_signal_handler_unblock_by_func (GTK_OBJECT (ct->list),
 					    GTK_SIGNAL_FUNC (cb_list_unselect),
 					    (gpointer) ct);
 	return found;
@@ -393,13 +392,13 @@ gnm_combo_text_add_item (GnmComboText *ct,
 	g_return_val_if_fail (label, NULL);
 
 	listitem = gtk_list_item_new_with_label (label);
-	gtk_signal_connect (GTK_OBJECT (listitem),
+	g_signal_connect (G_OBJECT (listitem),
 		"enter-notify-event",
 		GTK_SIGNAL_FUNC (cb_enter), (gpointer) ct);
-	gtk_signal_connect (GTK_OBJECT (listitem),
+	g_signal_connect (G_OBJECT (listitem),
 		"leave-notify-event",
 		GTK_SIGNAL_FUNC (cb_exit), (gpointer) ct);
-	gtk_signal_connect (GTK_OBJECT (listitem),
+	g_signal_connect (G_OBJECT (listitem),
 		"toggle",
 		GTK_SIGNAL_FUNC (cb_toggle), (gpointer) ct);
 

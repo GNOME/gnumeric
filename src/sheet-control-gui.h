@@ -5,13 +5,13 @@
 #include "sheet-control.h"
 
 #define SHEET_CONTROL_GUI_TYPE        (sheet_control_gui_get_type ())
-#define SHEET_CONTROL_GUI(obj)        (GTK_CHECK_CAST((obj), SHEET_CONTROL_GUI_TYPE, SheetControlGUI))
-#define SHEET_CONTROL_GUI_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), SHEET_CONTROL_GUI_TYPE))
-#define IS_SHEET_CONTROL_GUI(o)       (GTK_CHECK_TYPE((o), SHEET_CONTROL_GUI_TYPE))
+#define SHEET_CONTROL_GUI(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_CONTROL_GUI_TYPE, SheetControlGUI))
+#define SHEET_CONTROL_GUI_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), SHEET_CONTROL_GUI_TYPE))
+#define IS_SHEET_CONTROL_GUI(o)       (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_CONTROL_GUI_TYPE))
 
 #define	SHEET_CONTROL_KEY	"SheetControl"
 
-GtkType sheet_control_gui_get_type (void);
+GType sheet_control_gui_get_type (void);
 SheetControlGUI *sheet_control_gui_new      (Sheet *sheet);
 
 GtkWidget *scg_toplevel		(SheetControlGUI *scg);

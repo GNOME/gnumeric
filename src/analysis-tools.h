@@ -181,11 +181,10 @@ void set_cell_na     (data_analysis_output_t *dao,
 void prepare_output  (WorkbookControl *wbc,
 		      data_analysis_output_t *dao, const char *name);
 void tool_load_selection (GenericToolState *state, gboolean allow_multiple);
-Value *gnumeric_expr_entry_parse_to_value (GnumericExprEntry *ee, Sheet *sheet);
 gboolean tool_destroy (GtkObject *w, GenericToolState  *state);
 void tool_set_focus (GtkWidget *window, GtkWidget *focus_widget, GenericToolState *state);
-void dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb);
-void dialog_tool_init_buttons (GenericToolState *state, GtkSignalFunc ok_function);
+void dialog_tool_init_outputs (GenericToolState *state, GCallback sensitivity_cb);
+void dialog_tool_init_buttons (GenericToolState *state, GCallback ok_function);
 void error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str);
 int parse_output (GenericToolState *state, data_analysis_output_t *dao);
 

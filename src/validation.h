@@ -39,7 +39,7 @@ typedef enum {
 
 struct _Validation {
 	int              ref_count;
-	
+
 	String          *title;
 	String          *msg;
 	ExprTree	*expr [2];

@@ -49,10 +49,10 @@ void gnumeric_xml_read_workbook (GnumFileOpener const *fo, IOContext *context,
 void gnumeric_xml_write_workbook (GnumFileSaver const *fs, IOContext *context,
                                   WorkbookView *wbv, gchar const *filename);
 #ifdef ENABLE_BONOBO
-void gnumeric_xml_write_workbook_to_stream (GnumFileSaver const *fs, 
+void gnumeric_xml_write_workbook_to_stream (GnumFileSaver const *fs,
 		                            IOContext *context,
 					    WorkbookView *wbv,
-					    BonoboStream *stream, 
+					    BonoboStream *stream,
 					    CORBA_Environment *ev);
 #endif
 

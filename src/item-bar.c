@@ -121,7 +121,7 @@ item_bar_calc_size (ItemBar *ib)
 
 	ib->pango.item->analysis.font = g_object_ref (normal_font->pango.font);
 	ib->pango.item->analysis.shape_engine =
-		pango_font_find_shaper (normal_font->pango.font, 
+		pango_font_find_shaper (normal_font->pango.font,
 			pango_language_from_string ("C"), 'A');
 
 	/* Use the size of the bold header font to size the free dimensions No
@@ -622,7 +622,7 @@ ib_set_cursor (ItemBar *ib, int x, int y)
 static void
 colrow_tip_setlabel (ItemBar *ib, gboolean const is_cols, int size_pixels)
 {
-	if (ib->tip) {
+	if (ib->tip != NULL) {
 		char *buffer;
 		double const scale = 72. / application_display_dpi_get (!is_cols);
 		if (is_cols)

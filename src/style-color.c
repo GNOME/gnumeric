@@ -53,7 +53,7 @@ style_color_new_uninterned (gushort red, gushort green, gushort blue,
 	sc->selected_color.green = green;
 	sc->selected_color.blue = blue;
 	sc->selected_color.pixel = e_color_alloc (red, green, blue);
-	
+
 	sc->ref_count = 1;
 
 	return sc;

@@ -485,8 +485,8 @@ dialog_search (WorkbookControlGUI *wbcg)
 
 	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
 
-	dd->rangetext = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (wbcg));
-	gnumeric_expr_entry_set_flags (dd->rangetext, 0, GNUM_EE_MASK);
+	dd->rangetext = gnumeric_expr_entry_new (wbcg, TRUE);
+	gnm_expr_entry_set_flags (dd->rangetext, 0, GNUM_EE_MASK);
 	gtk_box_pack_start (GTK_BOX (glade_xml_get_widget (gui, "range_hbox")),
 			    GTK_WIDGET (dd->rangetext),
 			    TRUE, TRUE, 0);
@@ -521,41 +521,34 @@ dialog_search (WorkbookControlGUI *wbcg)
 	gnome_dialog_editable_enters
 		(dialog, GTK_EDITABLE (glade_xml_get_widget (gui, "searchtext")));
 
-	gtk_signal_connect (GTK_OBJECT (dd->e_table),
-			    "cursor_change",
-			    GTK_SIGNAL_FUNC (cursor_change),
-			    dd);
-
-	gtk_signal_connect (GTK_OBJECT (glade_xml_get_widget (gui, "search_button")),
-			    "clicked",
-			    GTK_SIGNAL_FUNC (search_clicked),
-			    dd);
-	gtk_signal_connect (GTK_OBJECT (dd->prev_button),
-			    "clicked",
-			    GTK_SIGNAL_FUNC (prev_clicked),
-			    dd);
-	gtk_signal_connect (GTK_OBJECT (dd->next_button),
-			    "clicked",
-			    GTK_SIGNAL_FUNC (next_clicked),
-			    dd);
-
-	gtk_signal_connect (GTK_OBJECT (glade_xml_get_widget (gui, "close_button")),
-			    "clicked",
-			    GTK_SIGNAL_FUNC (close_clicked),
-			    dd);
-	gtk_signal_connect (GTK_OBJECT (dialog),
-			    "destroy",
-			    GTK_SIGNAL_FUNC (dialog_destroy),
-			    dd);
-	gtk_signal_connect (GTK_OBJECT (dialog), "set-focus",
-			    GTK_SIGNAL_FUNC (set_focus), dd);
-	gtk_signal_connect (GTK_OBJECT (dd->rangetext), "focus-in-event",
-			    GTK_SIGNAL_FUNC (range_focused), dd);
+	g_signal_connect (G_OBJECT (dd->e_table),
+		"cursor_change",
+		G_CALLBACK (cursor_change), dd);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "search_button")),
+		"clicked",
+		G_CALLBACK (search_clicked), dd);
+	g_signal_connect (G_OBJECT (dd->prev_button),
+		"clicked",
+		G_CALLBACK (prev_clicked), dd);
+	g_signal_connect (G_OBJECT (dd->next_button),
+		"clicked",
+		G_CALLBACK (next_clicked), dd);
+	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "close_button")),
+		"clicked",
+		G_CALLBACK (close_clicked), dd);
+	g_signal_connect (G_OBJECT (dialog),
+		"destroy",
+		G_CALLBACK (dialog_destroy), dd);
+	g_signal_connect (G_OBJECT (dialog),
+		"set-focus",
+		G_CALLBACK (set_focus), dd);
+	g_signal_connect (G_OBJECT (dd->rangetext),
+		"focus-in-event",
+		G_CALLBACK (range_focused), dd);
 
 	cursor_change (dd->e_table, 0, dd);
 	gtk_widget_show_all (dialog->vbox);
-	gnumeric_expr_entry_set_scg (dd->rangetext,
-				     wbcg_cur_scg (wbcg));
+	gnm_expr_entry_set_scg (dd->rangetext, wbcg_cur_scg (wbcg));
 	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (dialog));
 
 	non_model_dialog (wbcg, dialog, SEARCH_KEY);

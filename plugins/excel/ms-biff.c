@@ -204,7 +204,7 @@ ms_biff_put_len_next (BiffPut *bp, guint16 opcode, guint32 len)
 		bp->data = g_new (guint8, len);
 		bp->data_malloced = 1;
 	}
-	
+
 	return bp->data;
 }
 void

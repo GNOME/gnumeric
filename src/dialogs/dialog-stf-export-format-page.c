@@ -79,10 +79,9 @@ stf_export_dialog_format_page_init (GladeXML *gui)
 
 	menu = (GtkMenu *) gtk_option_menu_get_menu (data->format_separator);
 
-	gtk_signal_connect (GTK_OBJECT (menu),
-			    "deactivate",
-			    GTK_SIGNAL_FUNC (sheet_page_separator_menu_deactivate),
-			    data);
+	g_signal_connect (G_OBJECT (menu),
+		"deactivate",
+		G_CALLBACK (sheet_page_separator_menu_deactivate), data);
 
 	return data;
 }

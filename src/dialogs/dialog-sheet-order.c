@@ -133,16 +133,16 @@ populate_sheet_list (SheetManager *state)
 	column = gtk_tree_view_column_new_with_attributes ("Sheets",
 			gtk_cell_renderer_text_new (),
 			"text", SHEET_NAME, NULL);
-/*	gtk_tree_view_column_set_sort_column_id (column, 0);*/
 	gtk_tree_view_append_column (state->sheet_list, column);
-	gtk_tree_view_set_reorderable (state->sheet_list, FALSE);
+	gtk_tree_view_set_reorderable (state->sheet_list, TRUE);
+	gtk_tree_view_set_headers_visible (state->sheet_list, FALSE);
 
 	/* Init the buttons & selection */
 	cb_selection_changed (NULL, state);
 	g_signal_connect (selection,
 		"changed",
 		G_CALLBACK (cb_selection_changed), state);
-	g_signal_connect (selection,
+	g_signal_connect (GTK_TREE_MODEL (state->model),
 		"row_inserted",
 		G_CALLBACK (cb_row_inserted), state);
 
@@ -220,22 +220,25 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	state->down_btn   = glade_xml_get_widget (gui, "down_button");
 	state->close_btn  = glade_xml_get_widget (gui, "close_button");
 
+	gtk_button_stock_alignment_set (GTK_BUTTON (state->up_btn),   0., .5, 0., 0.);
+	gtk_button_stock_alignment_set (GTK_BUTTON (state->down_btn), 0., .5, 0., 0.);
+
 	populate_sheet_list (state);
 
-	gtk_signal_connect (GTK_OBJECT (state->up_btn),
+	g_signal_connect (G_OBJECT (state->up_btn),
 		"clicked",
-		GTK_SIGNAL_FUNC (cb_up), state);
-	gtk_signal_connect (GTK_OBJECT (state->down_btn),
+		G_CALLBACK (cb_up), state);
+	g_signal_connect (G_OBJECT (state->down_btn),
 		"clicked",
-		GTK_SIGNAL_FUNC (cb_down), state);
-	gtk_signal_connect (GTK_OBJECT (state->close_btn),
+		G_CALLBACK (cb_down), state);
+	g_signal_connect (G_OBJECT (state->close_btn),
 		"clicked",
-		GTK_SIGNAL_FUNC (cb_close_clicked), state);
+		G_CALLBACK (cb_close_clicked), state);
 
 	/* a candidate for merging into attach guru */
-	gtk_signal_connect (GTK_OBJECT (state->dialog),
+	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",
-		GTK_SIGNAL_FUNC (cb_sheet_order_destroy), state);
+		G_CALLBACK (cb_sheet_order_destroy), state);
 	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));

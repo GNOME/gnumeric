@@ -1,3 +1,16 @@
+2002-02-10  Jody Goldberg <jody@gnome.org>
+
+	* dialog-formula-guru.c (formula_guru_arg_new) : labels don't need
+	  to expand.
+
+2002-02-08  Jody Goldberg <jody@gnome.org>
+
+	* sheet-order.glade  : supply a default size.
+
+2002-02-07  Jody Goldberg <jody@gnome.org>
+
+	* dialog-autoformat.c (cb_remove_current_activated) : unused.
+
 2002-02-06  Michael Meeks  <michael@ximian.com>
 
 	* dialog-graph-guru.c (dialog_graph_guru): fix typo.

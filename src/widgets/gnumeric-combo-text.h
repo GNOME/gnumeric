@@ -4,9 +4,7 @@
 
 #include <gal/widgets/gtk-combo-box.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define GNM_TYPE_COMBO_TEXT	(gnm_combo_text_get_type ())
 #define GNM_COMBO_TEXT(obj)	(G_TYPE_CHECK_INSTANCE_CAST (obj, GNM_TYPE_COMBO_TEXT, GnmComboText))
@@ -41,8 +39,6 @@ GtkWidget *gnm_combo_text_add_item	 (GnmComboText *ct, const gchar *label);
 
 void       gnm_combo_text_clear	 	 (GnmComboText *ct);
 
-#ifdef __cplusplus
-};
-#endif /* __cplusplus */
+G_END_DECLS
 
-#endif
+#endif /* _GNM_COMBO_TEXT_H */

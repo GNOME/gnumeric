@@ -54,12 +54,12 @@ lookup_font_base_char_width_new (char const * const name, double size_pts,
 				 gboolean const is_default);
 
 
-/* a group of iconv_* - like functions, with safe fallbacks if iconv is 
+/* a group of iconv_* - like functions, with safe fallbacks if iconv is
  * unavailable. Sorry for stupid prefix - Vlad Harchev <hvv@hippo.ru>
  */
 typedef void* excel_iconv_t; /*can't be NULL or (-1) */
 
-/* 
+/*
  * this returns code of the codepage that should be used when exporting
  * .xls files (it's guessed by looking at language name). Fallback is 1252.
  */
@@ -77,11 +77,11 @@ void excel_iconv_close (excel_iconv_t handle);
  * now, return value is not meaningfull at all - 0 is always returned.
 */
 size_t excel_iconv (excel_iconv_t handle, char const **inbuf, size_t *inbytesleft,
-		    char **outbuf, size_t *outbytesleft); 
+		    char **outbuf, size_t *outbytesleft);
 
 /* Same as wcstombs(3), but tries to convert as much characters as possible,
- * replacing the ones it can't convert with '?' or something resembling 
- * original character (e.g. "(C)" for copyright sign). 
+ * replacing the ones it can't convert with '?' or something resembling
+ * original character (e.g. "(C)" for copyright sign).
  */
 size_t excel_wcstombs(char* outbuf,wchar_t* wc,size_t length);
 

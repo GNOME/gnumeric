@@ -94,7 +94,7 @@ stf_parse_options_new (void)
 
 	parseoptions->sep.str = NULL;
 	parseoptions->sep.chr = NULL;
-	
+
 	return parseoptions;
 }
 
@@ -113,12 +113,12 @@ stf_parse_options_free (StfParseOptions_t *parseoptions)
 		g_free (parseoptions->sep.chr);
 	if (parseoptions->sep.str) {
 		GSList *l;
-		
+
 		for (l = parseoptions->sep.str; l != NULL; l = l->next)
 			g_free ((char *) l->data);
 		g_slist_free (parseoptions->sep.str);
 	}
-	
+
 	g_array_free (parseoptions->splitpositions, TRUE);
 
 	g_free (parseoptions);
@@ -191,7 +191,7 @@ stf_parse_options_csv_set_separators (StfParseOptions_t *parseoptions, char cons
 {
 	GSList const *l = NULL;
 	GSList *r;
-	
+
 	g_return_if_fail (parseoptions != NULL);
 
 	if (parseoptions->sep.chr)
@@ -346,7 +346,7 @@ stf_parse_csv_is_separator (char const *character, char const *chr, GSList const
 
 	if (str) {
 		GSList const *l;
-		
+
 		for (l = str; l != NULL; l = l->next) {
 			char const *s = l->data;
 			char const *r;
@@ -357,7 +357,7 @@ stf_parse_csv_is_separator (char const *character, char const *chr, GSList const
 			for (r = character, cnt = 0; cnt < len; cnt++, r++)
 				if (*r == '\0')
 					break;
-			
+
 			if ((cnt == len) && (strncmp (character, s, len) == 0))
 				return character + len;
 		}
@@ -365,7 +365,7 @@ stf_parse_csv_is_separator (char const *character, char const *chr, GSList const
 
 	if (chr) {
 		char const *s;
-		
+
 		for (s = chr; *s != '\0'; s++) {
 			if (*character == *s)
 				return character + 1;
@@ -418,7 +418,7 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 			}
 		} else {
 			char const *s;
-			
+
 			if (*cur == parseoptions->terminator)
 				break;
 
@@ -607,12 +607,12 @@ stf_parse_general (StfParseOptions_t *parseoptions, char const *data)
 
 	while (*src.position != '\0') {
 		GList *r;
-			
+
 		if (++row >= SHEET_MAX_ROWS) {
 				g_warning (WARN_TOO_MANY_ROWS, row);
 				break;
 		}
-				
+
 		if (parseoptions->parselines != -1)
 			if (row > parseoptions->parselines)
 				break;
@@ -621,7 +621,7 @@ stf_parse_general (StfParseOptions_t *parseoptions, char const *data)
 			? stf_parse_csv_line (&src, parseoptions)
 			: stf_parse_fixed_line (&src, parseoptions);
 		l = g_list_prepend (l, r);
-		
+
 		src.position++;
 	}
 
@@ -677,7 +677,7 @@ stf_parse_get_colcount (StfParseOptions_t *parseoptions, char const *data)
 
 		while (*iterator != '\0') {
 			char const *s;
-			
+
 			if (*iterator == parseoptions->terminator) {
 				if (tempcount > colcount)
 					colcount = tempcount;
@@ -732,7 +732,7 @@ stf_parse_get_longest_row_width (StfParseOptions_t *parseoptions, char const *da
 			if (row > parseoptions->parselines)
 				break;
 	}
-	
+
 	return longest;
 }
 
@@ -756,7 +756,7 @@ stf_parse_get_colwidth (StfParseOptions_t *parseoptions, char const *data, int c
 
 		while (*iterator != '\0') {
 			char const *s;
-			
+
 			if ((s = stf_parse_csv_is_separator (iterator, parseoptions->sep.chr, parseoptions->sep.str))) {
 
 				iterator = s;
@@ -827,7 +827,7 @@ gboolean
 stf_parse_convert_to_unix (char *data)
 {
 	char *s, *d;
-	
+
 	if (!data)
 		return FALSE;
 
@@ -842,7 +842,7 @@ stf_parse_convert_to_unix (char *data)
 			s++;
 			continue;
 		}
-		
+
 		*d++ = *s++;
 	}
 	*d = '\0';
@@ -1179,7 +1179,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions, char const *data, Sheet *sheet
 
 		for (col = 0, m = mres; m != NULL; m = m->next, col++) {
 			char *text = m->data;
-			
+
 			if (text) {
 				Cell *newcell = sheet_cell_new (sheet, col, row);
 
@@ -1192,15 +1192,15 @@ stf_parse_sheet (StfParseOptions_t *parseoptions, char const *data, Sheet *sheet
 					g_free (text);
 					text = tmp;
 				}
-				
+
 				cell_set_text (newcell, text);
 				g_free (text);
 			}
 		}
-		
+
 		g_list_free (mres);
 	}
-	
+
 	g_list_free (res);
 	return sheet;
 }
@@ -1224,7 +1224,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data)
 
 		for (col = 0, m = mres; m != NULL; m = m->next, col++) {
 			char *text = m->data;
-			
+
 			if (text) {
 				CellCopy *ccopy;
 
@@ -1253,7 +1253,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data)
 			colhigh = col;
 		g_list_free (mres);
 	}
-	
+
 	g_list_free (res);
 
 	cr = cellregion_new (NULL);
@@ -1261,5 +1261,5 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data)
 	cr->cols    = (colhigh > 0) ? colhigh : 1;
 	cr->rows    = row;
 
-	return cr;	
+	return cr;
 }

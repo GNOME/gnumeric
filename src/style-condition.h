@@ -60,7 +60,7 @@ struct _StyleCondition {
 		StyleConditionConstraint constraint;
 		StyleConditionFlags      flags;
 	} u;
-	
+
 	struct _StyleCondition *next;
 	StyleConditionBool      next_op;
 };

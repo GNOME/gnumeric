@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * formats.c: The default formats supported in Gnumeric
  *
@@ -99,7 +100,7 @@ cell_format_date [] = {
 	"yyyy",			/* 31 */
 	NULL
 };
-	
+
 /*****************************************************/
 
 /* Some are generated */
@@ -591,9 +592,13 @@ cell_format_classify (StyleFormat const *sf, FormatCharacteristics *info)
 	info->thousands_sep = FALSE;
 	info->num_decimals = 2;
 	info->negative_fmt = 0;
+	info->list_element = 0;
 	info->currency_symbol_index = 1; /* '$' */
 	info->date_has_days = FALSE;
 	info->date_has_months = FALSE;
+
+	if (style_format_is_general (sf))
+		return FMT_GENERAL;
 
 	/* Can we parse it ? */
 	if ((res = cell_format_is_number (fmt, info)) != FMT_UNKNOWN)

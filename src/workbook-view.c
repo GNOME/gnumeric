@@ -212,7 +212,7 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 		char buffer [10 + 2 * 4 * sizeof (int)];
 		char const *sel_descr = buffer;
 		Range const *r, *m;
-		
+
 		g_return_if_fail (IS_SHEET (sheet));
 		g_return_if_fail (sheet->selections);
 
@@ -497,7 +497,7 @@ workbook_view_new (Workbook *optional_wb)
  * @file_name   : File name
  * @context     :
  *
- * Saves @wbv and workbook it's attached to into @file_name file using 
+ * Saves @wbv and workbook it's attached to into @file_name file using
  * @fs file saver.
  *
  * Return value: TRUE if file was successfully saved and FALSE otherwise.

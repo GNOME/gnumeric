@@ -59,8 +59,8 @@ typedef struct _GnumFileOpener GnumFileOpener;
 typedef struct _GnumFileOpenerClass GnumFileOpenerClass;
 
 #define TYPE_GNUM_FILE_OPENER             (gnum_file_opener_get_type ())
-#define GNUM_FILE_OPENER(obj)             (GTK_CHECK_CAST ((obj), TYPE_GNUM_FILE_OPENER, GnumFileOpener))
-#define IS_GNUM_FILE_OPENER(obj)          (GTK_CHECK_TYPE ((obj), TYPE_GNUM_FILE_OPENER))
+#define GNUM_FILE_OPENER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GNUM_FILE_OPENER, GnumFileOpener))
+#define IS_GNUM_FILE_OPENER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GNUM_FILE_OPENER))
 
 typedef gboolean (*GnumFileOpenerProbeFunc) (GnumFileOpener const *fo,
                                              const gchar *file_name,
@@ -70,7 +70,7 @@ typedef void     (*GnumFileOpenerOpenFunc) (GnumFileOpener const *fo,
                                             WorkbookView *wbv,
                                             const gchar *file_name);
 
-GtkType gnum_file_opener_get_type (void);
+GType gnum_file_opener_get_type (void);
 
 GnumFileOpener *gnum_file_opener_new (const gchar *id,
                                       const gchar *description,
@@ -92,8 +92,8 @@ typedef struct _GnumFileSaver GnumFileSaver;
 typedef struct _GnumFileSaverClass GnumFileSaverClass;
 
 #define TYPE_GNUM_FILE_SAVER             (gnum_file_saver_get_type ())
-#define GNUM_FILE_SAVER(obj)             (GTK_CHECK_CAST ((obj), TYPE_GNUM_FILE_SAVER, GnumFileSaver))
-#define IS_GNUM_FILE_SAVER(obj)          (GTK_CHECK_TYPE ((obj), TYPE_GNUM_FILE_SAVER))
+#define GNUM_FILE_SAVER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GNUM_FILE_SAVER, GnumFileSaver))
+#define IS_GNUM_FILE_SAVER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GNUM_FILE_SAVER))
 
 typedef void (*GnumFileSaverSaveFunc) (GnumFileSaver const *fs,
                                        IOContext *io_context,
@@ -107,7 +107,7 @@ typedef void (*GnumFileSaverSaveToStreamFunc) (GnumFileSaver const  *fs,
 					       CORBA_Environment *ev);
 #endif
 
-GtkType gnum_file_saver_get_type (void);
+GType gnum_file_saver_get_type (void);
 
 GnumFileSaver *gnum_file_saver_new (const gchar *id,
                                     const gchar *extension,
@@ -121,9 +121,9 @@ FileSaveScope gnum_file_saver_get_save_scope (GnumFileSaver *fs);
 void         gnum_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
                                    WorkbookView *wbv, const gchar *file_name);
 #ifdef ENABLE_BONOBO
-void         gnum_file_saver_save_to_stream (GnumFileSaver const *fs, 
+void         gnum_file_saver_save_to_stream (GnumFileSaver const *fs,
                                              IOContext *io_context,
-                                             WorkbookView *wbv, 
+                                             WorkbookView *wbv,
                                              BonoboStream *stream,
                                              CORBA_Environment *ev);
 #endif

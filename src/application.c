@@ -58,7 +58,7 @@ add_icon (GtkIconFactory *factory,
 			gdk_pixbuf_new_from_inline (-1, scalable_data, FALSE, NULL));
 		gtk_icon_set_add_source (set, src);	/* copies the src */
 	}
-  
+
 	if (sized_data != NULL) {
 		gtk_icon_source_set_size (src, GTK_ICON_SIZE_MENU);
 		gtk_icon_source_set_size_wildcarded (src, FALSE);
@@ -125,6 +125,7 @@ application_init (void)
 		{ gnm_function_selector,		NULL,				"Gnumeric_FormulaGuru" },
 		{ gnm_bucket,				NULL,				"Gnumeric_Bucket" },
 		{ gnm_font,				NULL,				"Gnumeric_Font" },
+		{ gnm_expr_entry,			NULL,				"Gnumeric_ExprEntry" },
 
 		{ gnm_object_arrow_24,			NULL,				"Gnumeric_ObjectArrow" },
 		{ gnm_object_ellipse_24,		NULL,				"Gnumeric_ObjectEllipse" },
@@ -220,11 +221,11 @@ application_clipboard_clear (gboolean drop_selection)
 		Sheet *sheet = app.clipboard_sheet;
 
 		sheet_unant (sheet);
-		
+
 		sheet->priv->enable_paste_special = FALSE;
 		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
 			wb_control_menu_state_update (control, sheet, MS_PASTE_SPECIAL););
-			
+
 		app.clipboard_sheet = NULL;
 
 		/* Release the selection */

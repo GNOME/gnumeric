@@ -30,8 +30,10 @@
 #include "value.h"
 #include "widgets/gnumeric-expr-entry.h"
 
+#include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 #include <ctype.h>
+#include <string.h>
 
 /*
  * Shuts down the auto completion engine
@@ -107,19 +109,8 @@ workbook_edit_set_sensitive (WorkbookControlGUI *wbcg, gboolean flag1, gboolean 
 static gboolean
 wbcg_edit_error_dialog (WorkbookControlGUI *wbcg, char *str)
 {
-	GnomeDialog *dialog;
-	int ret;
-
-	dialog = GNOME_DIALOG (
-		gnome_message_box_new (
-		str, GNOME_MESSAGE_BOX_ERROR,
-		_("Edit Expression"), _("Discard Expression"), NULL));
-	/* FIXME: This doesn't seem to have any effect */
-	gnome_dialog_set_default (dialog, 0);
-	gnome_dialog_set_parent (dialog, wbcg->toplevel);
-	ret = gnome_dialog_run (dialog);
-
-	return (ret == 0);
+	return wb_control_validation_msg (WORKBOOK_CONTROL (wbcg),
+		VALIDATION_STYLE_STOP, NULL, str) != 1;
 }
 
 gboolean
@@ -202,8 +193,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 					gtk_editable_set_position (
 						GTK_EDITABLE (wbcg_get_entry (wbcg)), -1);
 				else
-					gtk_entry_select_region (
-						GTK_ENTRY (wbcg_get_entry (wbcg)),
+					gtk_entry_select_region (wbcg_get_entry (wbcg),
 						perr.begin_char, perr.end_char);
 				gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
 						      GTK_WIDGET (wbcg_get_entry (wbcg)));
@@ -289,7 +279,7 @@ entry_changed (GtkEntry *entry, void *data)
 	int text_len;
 	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
 
-	text = gtk_entry_get_text (GTK_ENTRY (wbcg_get_entry (wbcg)));
+	text = gtk_entry_get_text (wbcg_get_entry (wbcg));
 	text_len = strlen (text);
 
 	if (text_len > wbcg->auto_max_size)
@@ -367,14 +357,13 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 		 * That is not actually part of the parsable expression.
 		 */
 		if (NULL != cell_is_array (cell))
-			gtk_entry_set_text (
-				GTK_ENTRY (wbcg_get_entry (wbcg)), text);
+			gtk_entry_set_text (wbcg_get_entry (wbcg), text);
 	} else
-		gtk_entry_set_text (GTK_ENTRY (wbcg_get_entry (wbcg)), "");
+		gtk_entry_set_text (wbcg_get_entry (wbcg), "");
 
-	gnumeric_expr_entry_set_scg (wbcg->edit_line.entry, scg);
-	gnumeric_expr_entry_set_flags (
-		wbcg->edit_line.entry, GNUM_EE_SHEET_OPTIONAL,
+	gnm_expr_entry_set_scg (wbcg->edit_line.entry, scg);
+	gnm_expr_entry_set_flags (wbcg->edit_line.entry,
+		GNUM_EE_SHEET_OPTIONAL,
 		GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL);
 	scg_edit_start (scg);
 
@@ -407,9 +396,10 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	 * properly before
 	 */
 	g_assert (wbcg->edit_line.signal_changed == -1);
-	wbcg->edit_line.signal_changed = gtk_signal_connect (
-		GTK_OBJECT (wbcg_get_entry (wbcg)), "changed",
-		GTK_SIGNAL_FUNC (entry_changed), wbcg);
+	wbcg->edit_line.signal_changed = g_signal_connect (
+		G_OBJECT (wbcg_get_entry (wbcg)),
+		"changed",
+		G_CALLBACK (entry_changed), wbcg);
 
 	if (text)
 		g_free (text);
@@ -417,12 +407,12 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	inside_editing = FALSE;
 }
 
-GnumericExprEntry *
+GtkEntry *
 wbcg_get_entry (WorkbookControlGUI const *wbcg)
 {
 	g_return_val_if_fail (wbcg != NULL, NULL);
 
-	return wbcg->edit_line.entry;
+	return gnm_expr_entry_get_entry (wbcg->edit_line.entry);
 }
 
 GnumericExprEntry *
@@ -462,7 +452,7 @@ wbcg_edit_attach_guru (WorkbookControlGUI *wbcg, GtkWidget *guru)
 	application_clipboard_unant ();
 
 	wbcg->edit_line.guru = guru;
-	gtk_entry_set_editable (GTK_ENTRY (wbcg->edit_line.entry), FALSE);
+	gtk_entry_set_editable (wbcg_get_entry (wbcg), FALSE);
 	workbook_edit_set_sensitive (wbcg, FALSE, FALSE);
 	wb_control_menu_state_update (wbc, NULL, MS_GURU_MENU_ITEMS);
 }
@@ -478,7 +468,7 @@ wbcg_edit_detach_guru (WorkbookControlGUI *wbcg)
 
 	wbcg_set_entry (wbcg, NULL);
 	wbcg->edit_line.guru = NULL;
-	gtk_entry_set_editable (GTK_ENTRY (wbcg->edit_line.entry), TRUE);
+	gtk_entry_set_editable (wbcg_get_entry (wbcg), TRUE);
 	workbook_edit_set_sensitive (wbcg, FALSE, TRUE);
 	wb_control_menu_state_update (wbc, NULL, MS_GURU_MENU_ITEMS);
 }
@@ -504,7 +494,7 @@ wbcg_auto_completing (WorkbookControlGUI const *wbcg)
 static gboolean
 auto_complete_matches (WorkbookControlGUI *wbcg)
 {
-	GtkEntry *entry = GTK_ENTRY (wbcg_get_entry (wbcg));
+	GtkEntry *entry = wbcg_get_entry (wbcg);
 	int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (entry));
 	char const *text = gtk_entry_get_text (entry);
 	gboolean equal;
@@ -554,8 +544,7 @@ wbcg_edit_get_display_text (WorkbookControlGUI *wbcg)
 	if (auto_complete_matches (wbcg))
 		return wbcg->auto_complete_text;
 	else
-		return gtk_entry_get_text (
-			GTK_ENTRY (wbcg_get_entry (wbcg)));
+		return gtk_entry_get_text (wbcg_get_entry (wbcg));
 }
 
 /* Initializes the Workbook entry */
@@ -565,8 +554,7 @@ wbcg_edit_ctor (WorkbookControlGUI *wbcg)
 	g_assert (IS_WORKBOOK_CONTROL_GUI (wbcg));
 	g_assert (wbcg->edit_line.entry == NULL);
 
-	wbcg->edit_line.entry =
-		GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (wbcg));
+	wbcg->edit_line.entry = gnumeric_expr_entry_new (wbcg, FALSE);
 	wbcg->edit_line.temp_entry = NULL;
 	wbcg->edit_line.guru = NULL;
 	wbcg->edit_line.signal_changed = -1;

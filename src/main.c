@@ -38,7 +38,8 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <glib.h>
+#include <time.h>
+#include <gtk/gtkmain.h>
 #include <locale.h>
 #ifdef ENABLE_BONOBO
 #include "bonobo-io.h"
@@ -95,7 +96,7 @@ gnumeric_popt_options[] = {
 	  N_("Enables some print debugging behavior"), N_("LEVEL") },
 
 	{ "geometry", 'g', POPT_ARG_STRING, &x_geometry, 0,
-	  N_("Specify the size and location of the initial window"), N_("WIDTHxHEIGHT+XOFF+YOFF")  
+	  N_("Specify the size and location of the initial window"), N_("WIDTHxHEIGHT+XOFF+YOFF")
 	},
 
 	{ "quit", '\0', POPT_ARG_NONE, &immediate_exit_flag, 0,
@@ -172,7 +173,7 @@ main (int argc, char *argv [])
 	/* Make stdout line buffered - we only use it for debug info */
 	setvbuf (stdout, NULL, _IOLBF, 0);
 
-	bindtextdomain (GETTEXT_PACKAGE, GNOMELOCALEDIR);  
+	bindtextdomain (GETTEXT_PACKAGE, GNOMELOCALEDIR);
         bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 

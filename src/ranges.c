@@ -656,13 +656,13 @@ range_normalize (Range *src)
  * @sheet: sheet cells are contained on
  * @range: range to trim empty cells from
  * @cols: trim from right, vs bottom
- * 
+ *
  * This removes empty rows/cols from the
  * right hand or bottom edges of the range
  * depending on the value of @location.
- * 
+ *
  * WARNING! FOR LARGE RANGES THIS IS EXPENSIVE!
- * 
+ *
  * Return value: TRUE if the range was totally empty, else FALSE.
  **/
 gboolean
@@ -959,7 +959,7 @@ global_range_new (Sheet *sheet, Range const *r)
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (r != NULL, NULL);
-	
+
 	gr->sheet = sheet;
 	gr->range = *r;
 
@@ -970,7 +970,7 @@ void
 global_range_free (GlobalRange *gr)
 {
 	g_return_if_fail (gr != NULL);
-	
+
 	g_free (gr);
 }
 
@@ -982,7 +982,7 @@ global_range_overlap (GlobalRange const *a, GlobalRange const *b)
 
 	if (a->sheet == b->sheet && range_overlap (&a->range, &b->range))
 		return TRUE;
-		
+
 	return FALSE;
 }
 
@@ -1001,7 +1001,7 @@ global_range_name    (Sheet *sheet, Range const *r)
 
 	if (sheet == NULL)
 		return g_strdup (the_range_name);
-	
+
 	return g_strdup_printf ("%s!%s", sheet->name_quoted, the_range_name);
 }
 
@@ -1112,19 +1112,19 @@ global_range_list_foreach (GSList *gr_list, EvalPos const *ep,
  * return true if a is containde in b
  * we do not handle 3d ranges
  **/
-gboolean  
+gboolean
 global_range_contained (Value *a, Value *b)
 {
-	if ((a->type != VALUE_CELLRANGE) || (b->type != VALUE_CELLRANGE)) 
+	if ((a->type != VALUE_CELLRANGE) || (b->type != VALUE_CELLRANGE))
 		return FALSE;
 
 	if (a->v_range.cell.a.sheet != a->v_range.cell.b.sheet)
 		return FALSE;
 
-	if ((a->v_range.cell.a.sheet != b->v_range.cell.a.sheet) 
+	if ((a->v_range.cell.a.sheet != b->v_range.cell.a.sheet)
 	    && (a->v_range.cell.a.sheet != b->v_range.cell.b.sheet))
 		return FALSE;
-	
+
 	if (a->v_range.cell.a.row < b->v_range.cell.a.row)
 		return FALSE;
 

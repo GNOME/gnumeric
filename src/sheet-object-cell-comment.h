@@ -8,7 +8,7 @@
 #define CELL_COMMENT_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), CELL_COMMENT_TYPE, CellCommentClass))
 #define IS_CELL_COMMENT(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), CELL_COMMENT_TYPE))
 
-GtkType	     cell_comment_get_type (void);
+GType	     cell_comment_get_type (void);
 
 char const  *cell_comment_author_get (CellComment const *cc);
 void         cell_comment_author_set (CellComment       *cc, char const *);

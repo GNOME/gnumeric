@@ -292,7 +292,7 @@ gnumeric_plugin_loader_load_service (GnumericPluginLoader *loader, PluginService
 	}
 
 	if (*ret_error == NULL) {
-		loader->n_loaded_services++; 
+		loader->n_loaded_services++;
 	}
 }
 

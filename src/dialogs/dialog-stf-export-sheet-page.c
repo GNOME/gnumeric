@@ -301,39 +301,30 @@ stf_export_dialog_sheet_page_init (GladeXML *gui, Workbook *wb)
 
 	/* Connect signals */
 
-	gtk_signal_connect (GTK_OBJECT (data->sheet_add),
-			    "clicked",
-			    GTK_SIGNAL_FUNC (sheet_page_add_clicked),
-			    data);
-	gtk_signal_connect (GTK_OBJECT (data->sheet_remove),
-			    "clicked",
-			    GTK_SIGNAL_FUNC (sheet_page_remove_clicked),
-			    data);
-	gtk_signal_connect (GTK_OBJECT (data->sheet_addall),
-			    "clicked",
-			    GTK_SIGNAL_FUNC (sheet_page_addall_clicked),
-			    data);
-	gtk_signal_connect (GTK_OBJECT (data->sheet_removeall),
-			    "clicked",
-			    GTK_SIGNAL_FUNC (sheet_page_removeall_clicked),
-			    data);
-	gtk_signal_connect (GTK_OBJECT (data->sheet_up),
-			    "clicked",
-			    GTK_SIGNAL_FUNC (sheet_page_up_clicked),
-			    data);
-	gtk_signal_connect (GTK_OBJECT (data->sheet_down),
-			    "clicked",
-			    GTK_SIGNAL_FUNC (sheet_page_down_clicked),
-			    data);
-
-	gtk_signal_connect (GTK_OBJECT (data->sheet_avail),
-			    "select_row",
-			    GTK_SIGNAL_FUNC (sheet_page_avail_select_row),
-			    data);
-	gtk_signal_connect (GTK_OBJECT (data->sheet_export),
-			    "select_row",
-			    GTK_SIGNAL_FUNC (sheet_page_export_select_row),
-			    data);
+	g_signal_connect (G_OBJECT (data->sheet_add),
+		"clicked",
+		G_CALLBACK (sheet_page_add_clicked), data);
+	g_signal_connect (G_OBJECT (data->sheet_remove),
+		"clicked",
+		G_CALLBACK (sheet_page_remove_clicked), data);
+	g_signal_connect (G_OBJECT (data->sheet_addall),
+		"clicked",
+		G_CALLBACK (sheet_page_addall_clicked), data);
+	g_signal_connect (G_OBJECT (data->sheet_removeall),
+		"clicked",
+		G_CALLBACK (sheet_page_removeall_clicked), data);
+	g_signal_connect (G_OBJECT (data->sheet_up),
+		"clicked",
+		G_CALLBACK (sheet_page_up_clicked), data);
+	g_signal_connect (G_OBJECT (data->sheet_down),
+		"clicked",
+		G_CALLBACK (sheet_page_down_clicked), data);
+	g_signal_connect (G_OBJECT (data->sheet_avail),
+		"select_row",
+		G_CALLBACK (sheet_page_avail_select_row), data);
+	g_signal_connect (G_OBJECT (data->sheet_export),
+		"select_row",
+		G_CALLBACK (sheet_page_export_select_row), data);
 
 	gtk_clist_select_row (data->sheet_avail, 0, 0);
 

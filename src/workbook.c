@@ -40,9 +40,11 @@
 #include "sheet-object-bonobo.h"
 #endif
 
+#include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include <ctype.h>
+#include <string.h>
 #include <stdlib.h>
 
 static GObjectClass *workbook_parent_class;
@@ -343,9 +345,9 @@ workbook_bonobo_setup (Workbook *wb)
 		BONOBO_OBJECT (wb->priv),
 		BONOBO_OBJECT (wb->priv->persist_file));
 
-	gtk_signal_connect (
-		GTK_OBJECT (wb->priv->bonobo_container), "get_object",
-		GTK_SIGNAL_FUNC (workbook_container_get_object), wb);
+	g_signal_connect (G_OBJECT (wb->priv->bonobo_container),
+		"get_object",
+		G_CALLBACK (workbook_container_get_object), wb);
 }
 #endif
 
@@ -546,18 +548,14 @@ workbook_set_saveinfo (Workbook *wb, const gchar *file_name,
 	}
 
 	wb->file_format_level = level;
-	if (wb->file_saver_sig_id != 0) {
+	if (wb->file_saver_sig_id != 0)
 		gtk_signal_disconnect (GTK_OBJECT (wb->file_saver), wb->file_saver_sig_id);
-	}
+
 	wb->file_saver = fs;
-	if (wb->file_saver != NULL) {
-		wb->file_saver_sig_id = gtk_signal_connect (GTK_OBJECT (wb->file_saver),
-		                        "destroy",
-		                        GTK_SIGNAL_FUNC (cb_saver_destroy_event),
-		                        wb);
-	} else {
-		wb->file_saver_sig_id = 0;
-	}
+	wb->file_saver_sig_id = (wb->file_saver == NULL) ? 0
+		: g_signal_connect (G_OBJECT (wb->file_saver),
+			"destroy",
+			G_CALLBACK (cb_saver_destroy_event), wb);
 
 	return TRUE;
 }

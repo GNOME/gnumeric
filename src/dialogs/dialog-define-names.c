@@ -34,7 +34,7 @@ typedef struct {
 	GtkWidget *dialog;
 	GtkList   *list;
 	GtkEntry  *name;
-	GnumericExprEntry *expr_text;
+	GnumericExprEntry *expr_entry;
 	GtkToggleButton *sheet_scope;
 	GtkToggleButton *wb_scope;
 	GList     *expr_names;
@@ -111,18 +111,13 @@ name_guru_set_expr (NameGuruState *state, NamedExpression *expr_name)
 {
 	state->updating = TRUE;
 	if (expr_name) {
-		gchar *txt;
-
-		/* Display the name */
-		gtk_entry_set_text (state->name, expr_name->name->str);
-
-		/* Display the expr_text */
-		txt = expr_name_as_string (expr_name, &state->pp);
-		gtk_entry_set_text (GTK_ENTRY (state->expr_text), txt);
+		char *txt = expr_name_as_string (expr_name, &state->pp);
+		gnm_expr_entry_load_from_text  (state->expr_entry, txt);
 		g_free (txt);
+		gtk_entry_set_text (state->name, expr_name->name->str);
 	} else {
+		gnm_expr_entry_load_from_text (state->expr_entry, "");
 		gtk_entry_set_text (state->name, "");
-		gtk_entry_set_text (GTK_ENTRY (state->expr_text), "");
 	}
 	state->updating = FALSE;
 
@@ -193,7 +188,6 @@ name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
 	gboolean add;
 	gboolean in_list = FALSE;
 	char const *name;
-	char const *expr_text;
 
 	g_return_if_fail (state->list != NULL);
 
@@ -201,7 +195,6 @@ name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
 		return;
 
 	name  = gtk_entry_get_text (state->name);
-	expr_text = gtk_entry_get_text (GTK_ENTRY (state->expr_text));
 
 	/** Add is active if :
 	 *  - We have a name in the entry to add
@@ -338,14 +331,13 @@ static gboolean
 name_guru_add (NameGuruState *state)
 {
 	NamedExpression *expr_name;
-	ParseError    perr;
-	ExprTree *expr;
-	char const *name, *expr_text, *tmp;
+	ExprTree	*expr;
+	ParseError	 perr;
+	char const *name;
 	gboolean dirty = FALSE;
 
 	g_return_val_if_fail (state != NULL, FALSE);
 
-	expr_text = gtk_entry_get_text (GTK_ENTRY (state->expr_text));
 	name  = gtk_entry_get_text (state->name);
 
 	if (!name || (name[0] == '\0'))
@@ -353,19 +345,16 @@ name_guru_add (NameGuruState *state)
 
 	expr_name = expr_name_lookup (&state->pp, name);
 
-	/* strip off optional preceding '=' */
-	if (NULL != (tmp = gnumeric_char_start_expr_p (expr_text)))
-		expr_text = tmp;
-	expr = expr_parse_str (expr_text, &state->pp,
-		GNM_PARSER_DEFAULT, parse_error_init (&perr));
-
-	/* If the expression is invalid */
+	expr = gnm_expr_entry_parse (state->expr_entry,
+		&state->pp, &perr, FALSE);
 	if (expr == NULL) {
 		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, perr.message);
-		gtk_widget_grab_focus (GTK_WIDGET (state->expr_text));
+		gtk_widget_grab_focus (GTK_WIDGET (state->expr_entry));
 		parse_error_free (&perr);
 		return FALSE;
-	} else if (expr_name) {
+	}
+
+	if (expr_name) {
 		if (!expr_name->builtin) {
 			/* This means that the expresion was updated.
 			 * FIXME: if the scope has been changed too, call scope
@@ -392,7 +381,7 @@ name_guru_add (NameGuruState *state)
 		if (expr_name == NULL) {
 			g_return_val_if_fail (error != NULL, FALSE);
 			gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, error);
-			gtk_widget_grab_focus (GTK_WIDGET (state->expr_text));
+			gtk_widget_grab_focus (GTK_WIDGET (state->expr_entry));
 			return FALSE;
 		}
 		dirty = TRUE;
@@ -445,9 +434,9 @@ name_guru_init_button (NameGuruState *state, char const *name)
 
 	g_return_val_if_fail (tmp != NULL, NULL);
 
-	gtk_signal_connect (GTK_OBJECT (tmp), "clicked",
-			    GTK_SIGNAL_FUNC (cb_name_guru_clicked),
-			    state);
+	g_signal_connect (G_OBJECT (tmp),
+		"clicked",
+		G_CALLBACK (cb_name_guru_clicked), state);
 	return tmp;
 }
 
@@ -482,8 +471,8 @@ cb_name_guru_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 {
 	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
 		wbcg_set_entry (state->wbcg,
-				    GNUMERIC_EXPR_ENTRY (focus_widget));
-		gnumeric_expr_entry_set_absolute (state->expr_text);
+				GNUMERIC_EXPR_ENTRY (focus_widget));
+		gnm_expr_entry_set_absolute (state->expr_entry);
 	} else
 		wbcg_set_entry (state->wbcg, NULL);
 }
@@ -509,12 +498,12 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 	state->dialog = glade_xml_get_widget (state->gui, "NameGuru");
 	table2 = GTK_TABLE (glade_xml_get_widget (state->gui, "table2"));
 	state->name  = GTK_ENTRY (glade_xml_get_widget (state->gui, "name"));
-	state->expr_text = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
-	gtk_table_attach (table2, GTK_WIDGET (state->expr_text),
+	state->expr_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
+	gtk_table_attach (table2, GTK_WIDGET (state->expr_entry),
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
-	gtk_widget_show (GTK_WIDGET (state->expr_text));
+	gtk_widget_show (GTK_WIDGET (state->expr_entry));
 	state->sheet_scope = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "sheet_scope"));
 	state->wb_scope = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "workbook_scope"));
 	state->list  = GTK_LIST (glade_xml_get_widget (state->gui, "name_list"));
@@ -525,9 +514,9 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 	gtk_label_set_text (GTK_LABEL (GTK_BIN (state->sheet_scope)->child),
 		state->sheet->name_unquoted);
 	name_guru_display_scope (state);
-	gtk_signal_connect (GTK_OBJECT (state->sheet_scope),
+	g_signal_connect (G_OBJECT (state->sheet_scope),
 		"toggled",
-		GTK_SIGNAL_FUNC (cb_scope_changed), state);
+		G_CALLBACK (cb_scope_changed), state);
 
 	state->ok_button     = name_guru_init_button (state, "ok_button");
 	state->close_button  = name_guru_init_button (state, "close_button");
@@ -535,31 +524,41 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 	state->delete_button = name_guru_init_button (state, "delete_button");
 	state->update_button = name_guru_init_button (state, "update_button");
 
-	gtk_signal_connect (GTK_OBJECT (state->list), "selection_changed",
-			    GTK_SIGNAL_FUNC (cb_name_guru_select_name), state);
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",
-			    GTK_SIGNAL_FUNC (cb_name_guru_set_focus), state);
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
-			    GTK_SIGNAL_FUNC (cb_name_guru_destroy), state);
-	gtk_signal_connect (GTK_OBJECT (state->name), "changed",
-			    GTK_SIGNAL_FUNC (cb_name_guru_update_sensitivity), state);
+	g_signal_connect (G_OBJECT (state->list),
+		"selection_changed",
+		G_CALLBACK (cb_name_guru_select_name), state);
+	g_signal_connect (G_OBJECT (state->dialog),
+		"set-focus",
+		G_CALLBACK (cb_name_guru_set_focus), state);
+	g_signal_connect (G_OBJECT (state->name),
+		"changed",
+		G_CALLBACK (cb_name_guru_update_sensitivity), state);
 	/* We need to connect after because this is an expresion, and it will
 	 * be changed by the mouse selecting a range, update after the entry
 	 * is updated with the new text.
 	 */
-	gtk_signal_connect_after (GTK_OBJECT (state->expr_text), "changed",
-				  GTK_SIGNAL_FUNC (cb_name_guru_update_sensitivity), state);
+	g_signal_connect_after (G_OBJECT (state->expr_entry),
+		"changed",
+		G_CALLBACK (cb_name_guru_update_sensitivity), state);
 
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_EDITABLE (state->name));
+				  GTK_WIDGET (state->name));
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_EDITABLE (state->expr_text));
+				  GTK_WIDGET (state->expr_entry));
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       DEFINE_NAMES_KEY);
 
-	gnumeric_expr_entry_set_scg (state->expr_text,
-				     wbcg_cur_scg (wbcg));
+	gnm_expr_entry_set_scg (state->expr_entry, wbcg_cur_scg (wbcg));
+
+	name_guru_populate_list (state);
+
+	/* a candidate for merging into attach guru */
+	g_signal_connect (GTK_OBJECT (state->dialog),
+		"destroy",
+		G_CALLBACK (cb_name_guru_destroy), state);
+	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	gtk_widget_show_all (GTK_WIDGET (state->dialog));
 
 	return FALSE;
 }
@@ -592,7 +591,4 @@ dialog_define_names (WorkbookControlGUI *wbcg)
 		g_free (state);
 		return;
 	}
-
-	name_guru_populate_list (state);
-	gtk_widget_show (state->dialog);
 }

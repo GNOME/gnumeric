@@ -325,7 +325,7 @@ gnumeric_concatenate (FunctionEvalInfo *ei, ExprList *l)
 					_("Invalid number of arguments"));
 
 	s = g_string_new ("");
-	while (l != NULL 
+	while (l != NULL
 	       && (v = expr_eval (l->data, ei->pos, EVAL_STRICT)) != NULL) {
 		if (VALUE_IS_EMPTY_OR_ERROR (v))
 			goto error;

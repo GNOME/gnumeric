@@ -179,7 +179,7 @@ cellspan_is_empty (int col, ColRowInfo const *ri, Cell const *ok_span_cell)
 	 * existing spans continue to flow through, but never get removed
 	 * because we don't respan expression results.
 	 */
-	return (tmp == NULL || tmp->value == NULL || 
+	return (tmp == NULL || tmp->value == NULL ||
 		(tmp->value->type == VALUE_EMPTY && !cell_has_expr(tmp)));
 }
 

@@ -21,6 +21,8 @@
 #include "sheet.h"
 #include "ranges.h"
 
+#include <libgnomecanvas/gnome-canvas-line.h>
+
 static void
 gnumeric_pane_realized (GtkWidget *widget, gpointer ignored)
 {
@@ -62,8 +64,9 @@ gnumeric_pane_header_init (GnumericPane *pane, SheetControlGUI *scg,
 			gtk_layout_get_vadjustment (GTK_LAYOUT (pane->gcanvas)));
 #endif
 
-	gtk_signal_connect (GTK_OBJECT (canvas), "realize",
-		GTK_SIGNAL_FUNC (gnumeric_pane_realized), NULL);
+	g_signal_connect (G_OBJECT (canvas),
+		"realize",
+		G_CALLBACK (gnumeric_pane_realized), NULL);
 }
 
 void
@@ -195,7 +198,7 @@ gnm_pane_colrow_resize_start (GnumericPane *pane,
 
 	/* Position the stationary only.  Guide line is handled elsewhere. */
 	item = gnome_canvas_item_new (pane->gcanvas->object_group,
-				      gnome_canvas_line_get_type (),
+				      GNOME_TYPE_CANVAS_LINE,
 				      "points", points,
 				      "fill_color", "black",
 				      "width_pixels", 1,
@@ -203,7 +206,7 @@ gnm_pane_colrow_resize_start (GnumericPane *pane,
 	pane->colrow_resize.start = GTK_OBJECT (item);
 
 	item = gnome_canvas_item_new (pane->gcanvas->object_group,
-				      gnome_canvas_line_get_type (),
+				      GNOME_TYPE_CANVAS_LINE,
 				      "fill_color", "black",
 				      "width_pixels", 1,
 				      NULL);

@@ -16,6 +16,7 @@
 #include <preview-grid.h>
 #include <style-color.h>
 
+#include <gal/util/e-util.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/libgnomeui.h>
 #include <stdlib.h>
@@ -101,10 +102,10 @@ fs_fill_font_name_list (FontSelector *fs)
 		 gtk_clist_append (GTK_CLIST (fs->font_name_list), array);
 	 }
 
-	 gtk_signal_connect (
+	 g_signal_connect (
 		 GTK_OBJECT (fs->font_name_list), "select_row",
 		 GTK_SIGNAL_FUNC (font_selected), fs);
-	 gtk_signal_connect (
+	 g_signal_connect (
 		 GTK_OBJECT (fs->font_name_list), "map",
 		 GTK_SIGNAL_FUNC (list_mapped), NULL);
 }
@@ -160,10 +161,10 @@ fs_fill_font_style_list (FontSelector *fs)
 
 		 gtk_clist_append (style_list, array);
 	 }
-	 gtk_signal_connect (
+	 g_signal_connect (
 		 GTK_OBJECT (fs->font_style_list), "select_row",
 		 GTK_SIGNAL_FUNC (style_selected), fs);
-	 gtk_signal_connect (
+	 g_signal_connect (
 		 GTK_OBJECT (fs->font_style_list), "map",
 		 GTK_SIGNAL_FUNC (list_mapped), NULL);
 }
@@ -208,14 +209,14 @@ fs_fill_font_size_list (FontSelector *fs)
 		array[0] = buffer;
 		gtk_clist_append (GTK_CLIST (fs->font_size_list), array);
 	}
-	gtk_signal_connect (
+	g_signal_connect (
 		GTK_OBJECT (fs->font_size_list), "select_row",
 		GTK_SIGNAL_FUNC (size_selected), fs);
-	gtk_signal_connect (
+	g_signal_connect (
 		GTK_OBJECT (fs->font_size_list), "map",
 		GTK_SIGNAL_FUNC (list_mapped), NULL);
 
-	gtk_signal_connect (
+	g_signal_connect (
 		GTK_OBJECT (fs->font_size_entry), "changed",
 		GTK_SIGNAL_FUNC (size_changed), fs);
 }
@@ -291,21 +292,20 @@ fs_init (FontSelector *fs)
 		"RenderGridlines", FALSE,
 		NULL));
 
-	gtk_signal_connect (
-		GTK_OBJECT (fs->font_preview_grid), "get_row_height",
+	g_signal_connect (G_OBJECT (fs->font_preview_grid),
+		"get_row_height",
 		GTK_SIGNAL_FUNC (cb_get_row_height), fs);
-	gtk_signal_connect (
-		GTK_OBJECT (fs->font_preview_grid), "get_col_width",
+	g_signal_connect (GTK_OBJECT (fs->font_preview_grid),
+		"get_col_width",
 		GTK_SIGNAL_FUNC (cb_get_col_width), fs);
-	gtk_signal_connect (
-		GTK_OBJECT (fs->font_preview_grid), "get_cell_style",
+	g_signal_connect (G_OBJECT (fs->font_preview_grid),
+		"get_cell_style",
 		GTK_SIGNAL_FUNC (cb_get_cell_style), fs);
-	gtk_signal_connect (
-		GTK_OBJECT (fs->font_preview_grid), "get_cell_value",
+	g_signal_connect (G_OBJECT (fs->font_preview_grid),
+		"get_cell_value",
 		GTK_SIGNAL_FUNC (cb_get_cell_value), fs);
-
-	gtk_signal_connect (
-		GTK_OBJECT (fs->font_preview_canvas), "size-allocate",
+	g_signal_connect (G_OBJECT (fs->font_preview_canvas),
+		"size-allocate",
 		GTK_SIGNAL_FUNC (canvas_size_changed), fs);
 
 	fs->mstyle = mstyle_new_default ();
@@ -359,28 +359,8 @@ fs_class_init (GtkObjectClass *klass)
 			GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
 }
 
-GtkType
-font_selector_get_type (void)
-{
-	static GtkType fs_type = 0;
-
-	if (!fs_type) {
-		GtkTypeInfo fs_info = {
-			"FontSelector",
-			sizeof (FontSelector),
-			sizeof (FontSelectorClass),
-			(GtkClassInitFunc) fs_class_init,
-			(GtkObjectInitFunc) fs_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		fs_type = gtk_type_unique (gtk_hbox_get_type (), &fs_info);
-	}
-
-	return fs_type;
-}
+E_MAKE_TYPE (font_selector, "FontSelector", FontSelector,
+	     fs_class_init, fs_init, GTK_TYPE_HBOX)
 
 GtkWidget *
 font_selector_new (void)
@@ -402,7 +382,6 @@ select_row (GtkWidget *list, int row)
 void
 font_selector_set_value (FontSelector *fs, const Value *v)
 {
-	g_return_if_fail (fs != NULL);
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 
 	value_release (fs->value);
@@ -421,7 +400,6 @@ font_selector_set_name (FontSelector *fs,
 	GList *l;
 	int row;
 
-	g_return_if_fail (fs != NULL);
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 	g_return_if_fail (font_name != NULL);
 
@@ -443,7 +421,6 @@ font_selector_set_style (FontSelector *fs,
 	int n;
 	MStyle *change;
 
-	g_return_if_fail (fs != NULL);
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 
 	if (is_bold) {
@@ -470,7 +447,7 @@ void
 font_selector_set_strike (FontSelector *fs, gboolean strikethrough)
 {
 	MStyle *change;
-	g_return_if_fail (fs != NULL);
+
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 
 	change = mstyle_new ();
@@ -483,7 +460,7 @@ void
 font_selector_set_underline (FontSelector *fs, StyleUnderlineType underline)
 {
 	MStyle *change;
-	g_return_if_fail (fs != NULL);
+
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 
 	change = mstyle_new ();
@@ -496,7 +473,7 @@ void
 font_selector_set_color (FontSelector *fs, StyleColor *color)
 {
 	MStyle *change;
-	g_return_if_fail (fs != NULL);
+
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 
 	change = mstyle_new ();
@@ -511,7 +488,6 @@ font_selector_set_points (FontSelector *fs,
 {
 	int i;
 
-	g_return_if_fail (fs != NULL);
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 
 	for (i = 0; gnumeric_point_sizes[i] != 0; i++) {

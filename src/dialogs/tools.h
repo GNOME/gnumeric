@@ -15,14 +15,14 @@ int descriptive_stat_tool (WorkbookControl *context, Sheet *current_sheet,
 			   data_analysis_output_t *dao);
 int sampling_tool         (WorkbookControl *context, Sheet *sheet,
 			   GSList *input, group_by_t group_by,
-			   gboolean periodic_flag, guint size, guint number, 
+			   gboolean periodic_flag, guint size, guint number,
 			   data_analysis_output_t *dao);
 int ftest_tool            (WorkbookControl *context, Sheet *sheet,
 			   Value *input_range1, Value *input_range2,
 			   gnum_float alpha,
 			   data_analysis_output_t *dao);
 int regression_tool       (WorkbookControl *context, Sheet *sheet,
-			   GSList *x_input, Value *y_input, group_by_t group_by, 
+			   GSList *x_input, Value *y_input, group_by_t group_by,
 			   gnum_float alpha, data_analysis_output_t *dao,
 			   int intercept);
 int ttest_paired_tool     (WorkbookControl *context, Sheet *sheet,
@@ -72,7 +72,7 @@ int anova_two_factor_with_r_tool (WorkbookControl *context, Sheet *sheet,
 int histogram_tool        (WorkbookControl *context, Sheet *sheet,
 			   GSList *input, Value *bin, group_by_t group_by,
 			   gboolean bin_labels, gboolean pareto, gboolean percentage,
-			   gboolean cumulative, gboolean chart, 
+			   gboolean cumulative, gboolean chart,
 			   histogram_calc_bin_info_t *bin_info,
 			   data_analysis_output_t *dao);
 

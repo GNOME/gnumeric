@@ -52,7 +52,7 @@
 #ifndef DISABLE_DEBUG
 #define d(code)	do { code; } while (0)
 #else
-#define d(code)	
+#define d(code)
 #endif
 
 #define	MANAGER		  GNOME_Gnumeric_Graph_v2_Manager
@@ -392,7 +392,7 @@ gnm_graph_vector_corba_init (GnmGraphVector *vector)
 	if ((ok = ev._major == CORBA_NO_EXCEPTION)) {
 		PortableServer_ObjectId *oid;
 		PortableServer_POA poa = bonobo_poa ();
-		
+
 		vector->initialized = TRUE;
 
 		oid = PortableServer_POA_activate_object (poa,
@@ -676,7 +676,7 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 				StyleFormat *fmt;
 				FormatCharacteristics info;
 				FormatFamily family;
-					
+
 				value_cellrange_normalize (&ep, vector->value, &start_sheet, &end_sheet, &r);
 				fmt = cell_get_format (sheet_cell_get (start_sheet, r.start.col, r.start.row));
 				family = cell_format_classify (fmt, &info);
@@ -1041,8 +1041,9 @@ gnm_graph_populate_menu (SheetObject *so,
 
 	graph = GNUMERIC_GRAPH (so);
 	item = gtk_menu_item_new_with_label (_("Data..."));
-	gtk_signal_connect (GTK_OBJECT (item), "activate",
-			    GTK_SIGNAL_FUNC (cb_graph_assign_data), obj_view);
+	g_signal_connect (G_OBJECT (item),
+		"activate",
+		G_CALLBACK (cb_graph_assign_data), obj_view);
 	gtk_menu_append (menu, item);
 
 	if (SHEET_OBJECT_CLASS (gnm_graph_parent_class)->populate_menu)
@@ -1214,7 +1215,7 @@ gnm_graph_exception (CORBA_Environment *ev)
         if (ev->_major == CORBA_USER_EXCEPTION) {
 		if (!strcmp (ev->_id, "IDL:GNOME/Gnumeric/Error:1.0")) {
                         GNOME_Gnumeric_Error *err = ev->_params;
-                        
+
                         if (!err || !err->mesg) {
                                 return "No general exception error message";
                         } else {

@@ -52,7 +52,7 @@ psiconv_file_probe (GnumFileOpener const *fo, const gchar *file_name, FileProbeL
 	gboolean res;
 
 	file = fopen (file_name, "rb");
-	if (file == NULL) 
+	if (file == NULL)
 		return FALSE;
 	res = psiconv_read_header (file);
 	fclose (file);

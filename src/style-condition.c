@@ -35,21 +35,21 @@ static void
 style_condition_expr_dep_eval (Dependent *dep)
 {
 	StyleConditionExpr *sce;
-	
+
 	g_return_if_fail (dep != NULL);
 	sce = DEP_TO_STYLE_CONDITION_EXPR (dep);
-	
+
 	if (sce->val) {
 		value_release (sce->val);
 		sce->val = NULL;
 	}
-		
+
 	if (dep->expression) {
 		EvalPos ep;
 
 		ep.eval.row = ep.eval.col = 0;
 		ep.sheet = dep->sheet;
-			
+
 		sce->val = expr_eval (dep->expression, &ep, 0);
 	}
 }
@@ -58,7 +58,7 @@ static void
 style_condition_expr_dep_set_expr (Dependent *dep, ExprTree *new_expr)
 {
 	StyleConditionExpr *sce = DEP_TO_STYLE_CONDITION_EXPR (dep);
-	
+
 	/* Make sure no invalid 'cached' value
 	 * of the previous expression remains
 	 */
@@ -72,7 +72,7 @@ static void
 style_condition_expr_dep_debug_name (Dependent const *dep, FILE *out)
 {
 	g_return_if_fail (dep != NULL);
-	
+
 	fprintf (out, "StyleCondition Dep %p", dep);
 }
 
@@ -93,21 +93,21 @@ style_condition_new_expr (StyleConditionOperator op, ExprTree *expr)
 	StyleCondition *sc;
 
 	g_return_val_if_fail (expr != NULL, NULL);
-	
+
 	sc = g_new0 (StyleCondition, 1);
 
 	sc->type      = SCT_EXPR;
 	sc->ref_count = 1;
-	
+
 	sc->u.expr.op        = op;
 	sc->u.expr.dep.sheet = NULL;
 	sc->u.expr.dep.flags = style_condition_expr_dep_get_dep_type ();
 	sc->u.expr.dep.expression = expr;
 	sc->u.expr.val = NULL;
-	
+
 	sc->next    = NULL;
 	sc->next_op = SCB_NONE;
-		
+
 	return sc;
 }
 
@@ -122,7 +122,7 @@ style_condition_new_constraint (StyleConditionConstraint constraint)
 	sc->ref_count = 1;
 
 	sc->u.constraint = constraint;
-	
+
 	sc->next    = NULL;
 	sc->next_op = SCB_NONE;
 
@@ -140,7 +140,7 @@ style_condition_new_flags (StyleConditionFlags flags)
 	sc->ref_count = 1;
 
 	sc->u.flags = flags;
-	
+
 	sc->next    = NULL;
 	sc->next_op = SCB_NONE;
 
@@ -189,7 +189,7 @@ style_condition_unref (StyleCondition *sc)
 	g_return_if_fail (sc->ref_count > 0);
 
 	sc->ref_count--;
-	
+
 	if (sc->ref_count <= 0) {
 		if (sc->next)
 			style_condition_unref (sc->next);
@@ -202,7 +202,7 @@ style_condition_unref (StyleCondition *sc)
 			}
 		} else if (sc->type != SCT_CONSTRAINT && sc->type != SCT_FLAGS)
 			g_warning ("Unhandled StyleCondition type");
-		
+
 		g_free (sc);
 	}
 }
@@ -220,7 +220,7 @@ style_condition_chain (StyleCondition *dst, StyleConditionBool op,
 	g_return_val_if_fail (dst != NULL, NULL);
 	g_return_val_if_fail (src != NULL, NULL);
 	g_return_val_if_fail (dst->next == NULL, NULL);
-	
+
 	dst->next    = src;
 	dst->next_op = op;
 	return dst;
@@ -230,7 +230,7 @@ static gboolean
 style_condition_expr_eval (StyleConditionExpr *sce, Value *val, StyleFormat *format)
 {
 	ValueCompare vc;
-			
+
 	if (sce->val == NULL) {
 		sce->dep.flags |= DEPENDENT_NEEDS_RECALC;
 		dependent_eval (&sce->dep);
@@ -243,7 +243,7 @@ style_condition_expr_eval (StyleConditionExpr *sce, Value *val, StyleFormat *for
 	}
 
 	vc = value_compare (val, sce->val, TRUE);
-			
+
 	switch (sce->op) {
 	case SCO_EQUAL :
 		if (vc != IS_EQUAL) return FALSE; break;
@@ -292,7 +292,7 @@ style_condition_constraint_eval (StyleConditionConstraint scc, Value *val, Style
 		g_warning ("Style Condition: Unhandled operator");
 		return FALSE;
 	}
-	
+
 	return TRUE;
 }
 
@@ -312,12 +312,12 @@ style_condition_dump (StyleCondition *sc)
 	int             i;
 
 	g_return_if_fail (sc != NULL);
-	
+
 	fprintf (stdout, "---------------------------------------\n");
 	for (i = 0, sci = sc; sci != NULL; sci = sci->next, i++) {
 		char     *t = NULL;
 		GString  *s = NULL;
-		
+
 		fprintf (stdout, "=> Element %d\n", i);
 
 		switch (sci->type) {
@@ -348,7 +348,7 @@ style_condition_dump (StyleCondition *sc)
 			if (sci->u.expr.dep.expression) {
 				ParsePos  pp;
 				Sheet    *sheet = sci->u.expr.dep.sheet;
-				
+
 				parse_pos_init (&pp, sheet->workbook, sheet, 0, 0);
 				t = expr_tree_as_string (sci->u.expr.dep.expression, &pp);
 				fprintf (stdout, "\t\tExpression : %s\n", t);
@@ -362,7 +362,7 @@ style_condition_dump (StyleCondition *sc)
 					 value_peek_string (sci->u.expr.val));
 			else
 				fprintf (stdout, "\t\tResult     : (NULL)\n");
-			
+
 			break;
 		case SCT_CONSTRAINT :
 			switch (sci->u.constraint) {
@@ -377,7 +377,7 @@ style_condition_dump (StyleCondition *sc)
 				t = "Unknown      (???)";
 			}
 			fprintf (stdout, "\t\tConstraint : %s\n", t);
-			
+
 			break;
 		case SCT_FLAGS :
 			s = g_string_new ("");
@@ -386,10 +386,10 @@ style_condition_dump (StyleCondition *sc)
 				g_string_append (s, "(Allow Blank)");
 			if (sci->u.flags & SCF_IN_CELL_DROPDOWN)
 				g_string_append (s, "(In Cell Dropdown)");
-			
+
 			fprintf (stdout, "\t\tFlags      : %s\n", s->str);
 			g_string_free (s, TRUE);
-			
+
 			break;
 		}
 
@@ -414,12 +414,12 @@ style_condition_eval (StyleCondition *sc, Value *val, StyleFormat *format)
 	StyleConditionBool  scb = SCB_NONE;
 	gboolean            prev_result = FALSE;
 	gboolean            result = TRUE;
-	
+
 	g_return_val_if_fail (val != NULL, FALSE);
 
 	for (sci = sc; sci != NULL; sci = sci->next) {
 		result = TRUE;
-		
+
 		switch (sci->type) {
 		case SCT_EXPR :
 			result = style_condition_expr_eval (&sci->u.expr, val, format);
@@ -480,6 +480,6 @@ style_condition_eval (StyleCondition *sc, Value *val, StyleFormat *format)
 		scb = sci->next_op;
 		prev_result = result;
 	}
-	
+
 	return result;
 }

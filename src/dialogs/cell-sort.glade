@@ -9,7 +9,7 @@
     <property name="modal">no</property>
     <property name="allow_shrink">no</property>
     <property name="allow_grow">yes</property>
-    <property name="window-position">GTK_WIN_POS_CENTER</property>
+    <property name="window_position">GTK_WIN_POS_MOUSE</property>
 
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox2">
@@ -141,7 +141,7 @@
 			    <property name="visible">True</property>
 			    <property name="xalign">0</property>
 			    <property name="yalign">1</property>
-			    <property name="xscale">0</property>
+			    <property name="xscale">1</property>
 			    <property name="yscale">0</property>
 
 			    <child>
@@ -167,7 +167,7 @@
 			    <property name="visible">True</property>
 			    <property name="xalign">0</property>
 			    <property name="yalign">0</property>
-			    <property name="xscale">0</property>
+			    <property name="xscale">1</property>
 			    <property name="yscale">0</property>
 
 			    <child>
@@ -193,7 +193,7 @@
 			    <property name="visible">True</property>
 			    <property name="xalign">0</property>
 			    <property name="yalign">1</property>
-			    <property name="xscale">0</property>
+			    <property name="xscale">1</property>
 			    <property name="yscale">0</property>
 
 			    <child>
@@ -219,7 +219,7 @@
 			    <property name="visible">True</property>
 			    <property name="xalign">0</property>
 			    <property name="yalign">0</property>
-			    <property name="xscale">0</property>
+			    <property name="xscale">1</property>
 			    <property name="yscale">0</property>
 
 			    <child>

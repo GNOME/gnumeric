@@ -17,8 +17,8 @@
 #undef PLUGIN_ALWAYS_LOAD
 */
 
-typedef struct _PluginInfo PluginInfo;
-typedef struct _PluginService PluginService;
+typedef struct _PluginInfo	PluginInfo;
+typedef struct _PluginService	PluginService;
 
 struct _GnumericPluginLoader;
 struct _PluginServicesData;
@@ -34,12 +34,12 @@ void         plugins_shutdown (void);
 
 GList       *gnumeric_extra_plugin_dirs (void);
 
-typedef GtkType (*PluginLoaderGetTypeCallback) (gpointer callback_data, ErrorInfo **ret_error);
+typedef GType (*PluginLoaderGetTypeCallback) (gpointer callback_data, ErrorInfo **ret_error);
 
-void         plugin_loader_register_type (const gchar *id_str, GtkType loader_type);
+void         plugin_loader_register_type (const gchar *id_str, GType loader_type);
 void         plugin_loader_register_id_only (const gchar *id_str, PluginLoaderGetTypeCallback callback,
                                              gpointer callback_data);
-GtkType      plugin_loader_get_type_by_id (const gchar *id_str, ErrorInfo **ret_error);
+GType      plugin_loader_get_type_by_id (const gchar *id_str, ErrorInfo **ret_error);
 gboolean     plugin_loader_is_available_by_id (const gchar *id_str);
 
 void         plugin_info_free (PluginInfo *pinfo);

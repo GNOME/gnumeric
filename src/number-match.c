@@ -1129,7 +1129,6 @@ format_match (char const *text, StyleFormat *cur_fmt)
 	Value  *v;
 	GSList *l;
 	regmatch_t mp[NM + 1];
-	StyleFormat *matching_format;
 
 	if (text[0] == '\0')
 		return value_new_empty ();

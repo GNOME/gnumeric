@@ -62,7 +62,7 @@ csv_page_global_change (GtkWidget *widget, DruidPageData_t *data)
 		g_string_append_c (sepc, '-');
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->csv_bang)))
 		g_string_append_c (sepc, '!');
-		
+
 	stf_parse_options_csv_set_separators (parseoptions,
 					      strcmp (sepc->str, "") == 0 ? NULL : sepc->str,
 					      sepstr);
@@ -262,65 +262,49 @@ stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	stf_parse_options_set_type  (info->csv_run_parseoptions, PARSE_TYPE_CSV);
 
 	/* Connect signals */
-	gtk_signal_connect (GTK_OBJECT (info->csv_tab),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (csv_page_global_change),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->csv_colon),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (csv_page_global_change),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->csv_comma),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (csv_page_global_change),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->csv_space),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (csv_page_global_change),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->csv_semicolon),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (csv_page_global_change),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->csv_pipe),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (csv_page_global_change),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->csv_slash),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (csv_page_global_change),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->csv_hyphen),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (csv_page_global_change),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->csv_bang),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (csv_page_global_change),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->csv_custom),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (csv_page_custom_toggled),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->csv_customseparator),
-			    "changed",
-			    GTK_SIGNAL_FUNC (csv_page_global_change),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->csv_2x_indicator),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (csv_page_global_change),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->csv_duplicates),
-			    "toggled",
-			    GTK_SIGNAL_FUNC (csv_page_global_change),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->csv_textfield),
-			    "changed",
-			    GTK_SIGNAL_FUNC (csv_page_global_change),
-			    pagedata);
-
-	gtk_signal_connect (GTK_OBJECT (GTK_RANGE (info->csv_scroll)->adjustment),
-			    "value_changed",
-			    GTK_SIGNAL_FUNC (csv_page_scroll_value_changed),
-			    pagedata);
+	g_signal_connect (G_OBJECT (info->csv_tab),
+		"toggled",
+		G_CALLBACK (csv_page_global_change), pagedata);
+	g_signal_connect (G_OBJECT (info->csv_colon),
+		"toggled",
+		G_CALLBACK (csv_page_global_change), pagedata);
+	g_signal_connect (G_OBJECT (info->csv_comma),
+		"toggled",
+		G_CALLBACK (csv_page_global_change), pagedata);
+	g_signal_connect (G_OBJECT (info->csv_space),
+		"toggled",
+		G_CALLBACK (csv_page_global_change), pagedata);
+	g_signal_connect (G_OBJECT (info->csv_semicolon),
+		"toggled",
+		G_CALLBACK (csv_page_global_change), pagedata);
+	g_signal_connect (G_OBJECT (info->csv_pipe),
+		"toggled",
+		G_CALLBACK (csv_page_global_change), pagedata);
+	g_signal_connect (G_OBJECT (info->csv_slash),
+		"toggled",
+		G_CALLBACK (csv_page_global_change), pagedata);
+	g_signal_connect (G_OBJECT (info->csv_hyphen),
+		"toggled",
+		G_CALLBACK (csv_page_global_change), pagedata);
+	g_signal_connect (G_OBJECT (info->csv_bang),
+		"toggled",
+		G_CALLBACK (csv_page_global_change), pagedata);
+	g_signal_connect (G_OBJECT (info->csv_custom),
+		"toggled",
+		G_CALLBACK (csv_page_custom_toggled), pagedata);
+	g_signal_connect (G_OBJECT (info->csv_customseparator),
+		"changed",
+		G_CALLBACK (csv_page_global_change), pagedata);
+	g_signal_connect (G_OBJECT (info->csv_2x_indicator),
+		"toggled",
+		G_CALLBACK (csv_page_global_change), pagedata);
+	g_signal_connect (G_OBJECT (info->csv_duplicates),
+		"toggled",
+		G_CALLBACK (csv_page_global_change), pagedata);
+	g_signal_connect (G_OBJECT (info->csv_textfield),
+		"changed",
+		G_CALLBACK (csv_page_global_change), pagedata);
+	g_signal_connect (G_OBJECT (GTK_RANGE (info->csv_scroll)->adjustment),
+		"value_changed",
+		G_CALLBACK (csv_page_scroll_value_changed), pagedata);
 }

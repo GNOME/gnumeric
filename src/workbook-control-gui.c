@@ -38,6 +38,7 @@
 #include "sheet-object.h"
 #include "dialogs.h"
 #include "commands.h"
+#include "datetime.h"
 #include "cmd-edit.h"
 #include "workbook-cmd-format.h"
 #include "selection.h"
@@ -223,7 +224,7 @@ wbcg_rangesel_possible (WorkbookControlGUI const *wbcg)
 	if (!wbcg_is_editing (wbcg) && !wbcg_edit_entry_redirect_p (wbcg))
 		return FALSE;
 
-	return gnumeric_expr_entry_rangesel_meaningful (wbcg_get_entry_logical (wbcg));
+	return gnm_expr_entry_can_rangesel (wbcg_get_entry_logical (wbcg));
 }
 
 gboolean
@@ -355,7 +356,7 @@ wbcg_zoom_feedback (WorkbookControl *wbc)
 static void
 wbcg_edit_line_set (WorkbookControl *wbc, char const *text)
 {
-	GtkEntry *entry = GTK_ENTRY (wbcg_get_entry ((WorkbookControlGUI*)wbc));
+	GtkEntry *entry = wbcg_get_entry ((WorkbookControlGUI*)wbc);
 	gtk_entry_set_text (entry, text);
 }
 
@@ -494,10 +495,9 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 		gtk_menu_append (GTK_MENU (menu), item);
 		gtk_widget_show (item);
 
-		gtk_signal_connect (
-			GTK_OBJECT (item), "activate",
-			GTK_SIGNAL_FUNC (sheet_label_context_actions [i].function),
-			scg);
+		g_signal_connect (G_OBJECT (item),
+			"activate",
+			G_CALLBACK (sheet_label_context_actions [i].function), scg);
 	}
 
 	gnumeric_popup_menu (GTK_MENU (menu), event);
@@ -575,15 +575,15 @@ wbcg_sheet_add (WorkbookControl *wbc, Sheet *sheet)
 	 * gtk_notebook_set_tab_label kills our widget & replaces with a label.
 	 */
 	sheet_label = editable_label_new (sheet->name_unquoted, sheet->tab_color);
-	gtk_signal_connect_after (
-		GTK_OBJECT (sheet_label), "text_changed",
-		GTK_SIGNAL_FUNC (cb_sheet_label_changed), wbcg);
-	gtk_signal_connect (
-		GTK_OBJECT (sheet_label), "editing_stopped",
-		GTK_SIGNAL_FUNC (cb_sheet_label_edit_stopped), wbcg);
-	gtk_signal_connect (
-		GTK_OBJECT (sheet_label), "button_press_event",
-		GTK_SIGNAL_FUNC (cb_sheet_label_button_press), scg->table);
+	g_signal_connect_after (GTK_OBJECT (sheet_label),
+		"text_changed",
+		G_CALLBACK (cb_sheet_label_changed), wbcg);
+	g_signal_connect (G_OBJECT (sheet_label),
+		"editing_stopped",
+		G_CALLBACK (cb_sheet_label_edit_stopped), wbcg);
+	g_signal_connect (G_OBJECT (sheet_label),
+		"button_press_event",
+		G_CALLBACK (cb_sheet_label_button_press), scg->table);
 
 	gtk_widget_show (sheet_label);
 	gtk_widget_show_all (GTK_WIDGET (scg->table));
@@ -1204,7 +1204,7 @@ static char const * const preset_zoom [] = {
  * 0) canceled
  * 1) closed
  * 2) pristine can close
- * TODO 
+ * TODO
  * 3) save any future dirty
  * 4) do not save any future dirty
  */
@@ -2322,7 +2322,7 @@ static void
 cb_data_validate (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_cell_format (wbcg, wb_control_cur_sheet (wbc), FD_VALIDATION);	
+	dialog_cell_format (wbcg, wb_control_cur_sheet (wbc), FD_VALIDATION);
 }
 
 static void
@@ -2424,7 +2424,7 @@ cb_autosum (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	if (wbcg->editing)
 		return;
 
-	entry = GTK_ENTRY (wbcg_get_entry (wbcg));
+	entry = wbcg_get_entry (wbcg);
 	txt = gtk_entry_get_text (entry);
 	if (strncmp (txt, "=sum(", 5)) {
 		wbcg_edit_start (wbcg, TRUE, TRUE);
@@ -2763,7 +2763,7 @@ static GnomeUIInfo workbook_menu_view [] = {
 		cb_view_new_unshared),
 
 	GNOMEUIINFO_SEPARATOR,
-	
+
 	GNOMEUIINFO_ITEM_NONE (N_("_Zoom..."),
 		N_("Zoom the spreadsheet in or out"),
 		cb_view_zoom),
@@ -2965,7 +2965,7 @@ static GnomeUIInfo workbook_menu_tools_two_means [] = {
 		cb_tools_ttest_paired),
 
 	GNOMEUIINFO_ITEM_NONE (N_("Unpaired Samples, E_qual Var.: T-Test"),
-		N_("Comparing two population means for two unpaired samples " 
+		N_("Comparing two population means for two unpaired samples "
 		   "from pop. with equal var.: t-test"),
 		cb_tools_ttest_equal_var),
 
@@ -3244,7 +3244,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditSearchReplace", cb_edit_search_replace),
 	BONOBO_UI_UNSAFE_VERB ("EditGoto", cb_edit_goto),
 	BONOBO_UI_UNSAFE_VERB ("EditRecalc", cb_edit_recalc),
-	
+
 	BONOBO_UI_UNSAFE_VERB ("ViewNewShared", cb_view_new_shared),
 	BONOBO_UI_UNSAFE_VERB ("ViewNewUnshared", cb_view_new_unshared),
 	BONOBO_UI_UNSAFE_VERB ("ViewZoom", cb_view_zoom),
@@ -3354,8 +3354,9 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 	/* Zoom combo box */
 	zoom = wbcg->zoom_entry = gnm_combo_text_new (NULL);
 	entry = GNM_COMBO_TEXT (zoom)->entry;
-	gtk_signal_connect (GTK_OBJECT (zoom), "entry_changed",
-			    GTK_SIGNAL_FUNC (cb_change_zoom), wbcg);
+	g_signal_connect (G_OBJECT (zoom),
+		"entry_changed",
+		G_CALLBACK (cb_change_zoom), wbcg);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (zoom), _("Zoom"));
 
 	/* Set a reasonable default width */
@@ -3368,17 +3369,17 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 
 	/* Undo dropdown list */
 	undo = wbcg->undo_combo = gtk_combo_stack_new (GTK_STOCK_UNDO, TRUE);
-	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (undo), GTK_RELIEF_NONE);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (undo), _("Undo"));
-	gtk_signal_connect (GTK_OBJECT (undo), "pop",
-			    (GtkSignalFunc) cb_undo_combo, wbcg);
+	g_signal_connect (G_OBJECT (undo),
+		"pop",
+		G_CALLBACK (cb_undo_combo), wbcg);
 
 	/* Redo dropdown list */
 	redo = wbcg->redo_combo = gtk_combo_stack_new (GTK_STOCK_REDO, TRUE);
-	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (redo), GTK_RELIEF_NONE);
 	gtk_combo_box_set_title (GTK_COMBO_BOX (redo), _("Redo"));
-	gtk_signal_connect (GTK_OBJECT (redo), "pop",
-			    (GtkSignalFunc) cb_redo_combo, wbcg);
+	g_signal_connect (G_OBJECT (redo),
+		"pop",
+		G_CALLBACK (cb_redo_combo), wbcg);
 
 #ifdef ENABLE_BONOBO
 	gnumeric_inject_widget_into_bonoboui (wbcg, undo, "/StandardToolbar/EditUndo");
@@ -3397,9 +3398,9 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 	gnumeric_toolbar_append_with_eventbox (
 		GTK_TOOLBAR (wbcg->standard_toolbar),
 					       zoom, _("Zoom"), NULL);
-	gtk_signal_connect (GTK_OBJECT(wbcg->standard_toolbar),
+	g_signal_connect (G_OBJECT(wbcg->standard_toolbar),
 		"orientation-changed",
-		GTK_SIGNAL_FUNC (workbook_standard_toolbar_orient), wbcg);
+		G_CALLBACK (workbook_standard_toolbar_orient), wbcg);
 	gtk_widget_show (wbcg->standard_toolbar);
 #endif
 }
@@ -3457,7 +3458,7 @@ cb_autofunction (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	if (wbcg->editing)
 		return;
 
-	entry = GTK_ENTRY (wbcg_get_entry (wbcg));
+	entry = wbcg_get_entry (wbcg);
 	txt = gtk_entry_get_text (entry);
 	if (strncmp (txt, "=", 1)) {
 		wbcg_edit_start (wbcg, TRUE, TRUE);
@@ -3475,14 +3476,15 @@ cb_autofunction (GtkWidget *widget, WorkbookControlGUI *wbcg)
 
 static GtkWidget *
 edit_area_button (WorkbookControlGUI *wbcg, gboolean sensitive,
-		  GtkSignalFunc func, char const *stock_id)
+		  GCallback func, char const *stock_id)
 {
 	GtkWidget *button = gtk_button_new_from_stock (stock_id);
 	if (!sensitive)
 		gtk_widget_set_sensitive (button, FALSE);
 	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
-	gtk_signal_connect (GTK_OBJECT (button), "clicked",
-			    GTK_SIGNAL_FUNC (func), wbcg);
+	g_signal_connect (G_OBJECT (button),
+		"clicked",
+		G_CALLBACK (func), wbcg);
 
 	return button;
 }
@@ -3496,7 +3498,7 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 	wbcg->selection_descriptor     = gtk_entry_new ();
 
 	wbcg_edit_ctor (wbcg);
-	entry = GTK_ENTRY (wbcg_get_entry (wbcg));
+	entry = wbcg_get_entry (wbcg);
 
 	box           = gtk_hbox_new (0, 0);
 	box2          = gtk_hbox_new (0, 0);
@@ -3504,17 +3506,18 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 	gtk_widget_set_usize (wbcg->selection_descriptor, 100, 0);
 
 	wbcg->cancel_button = edit_area_button (wbcg, FALSE,
-		GTK_SIGNAL_FUNC (cb_cancel_input), GNOME_STOCK_BUTTON_CANCEL);
+		G_CALLBACK (cb_cancel_input), GNOME_STOCK_BUTTON_CANCEL);
 	wbcg->ok_button = edit_area_button (wbcg, FALSE,
-		GTK_SIGNAL_FUNC (cb_accept_input), GNOME_STOCK_BUTTON_OK);
+		G_CALLBACK (cb_accept_input), GNOME_STOCK_BUTTON_OK);
 
 	/* Auto function */
 	wbcg->func_button	= gtk_button_new ();
 	pix = gnome_pixmap_new_from_xpm_d (equal_sign_xpm);
 	gtk_container_add (GTK_CONTAINER (wbcg->func_button), pix);
 	GTK_WIDGET_UNSET_FLAGS (wbcg->func_button, GTK_CAN_FOCUS);
-	gtk_signal_connect (GTK_OBJECT (wbcg->func_button), "clicked",
-			    GTK_SIGNAL_FUNC (cb_autofunction), wbcg);
+	g_signal_connect (G_OBJECT (wbcg->func_button),
+		"clicked",
+		G_CALLBACK (cb_autofunction), wbcg);
 
 	gtk_box_pack_start (GTK_BOX (box2), wbcg->selection_descriptor, 0, 0, 0);
 	gtk_box_pack_start (GTK_BOX (box), wbcg->cancel_button, 0, 0, 0);
@@ -3525,29 +3528,30 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 	if (gnumeric_debugging > 9 ||
 	    style_debugging > 0 || dependency_debugging > 0) {
 		GtkWidget *deps_button = edit_area_button (wbcg, TRUE,
-			GTK_SIGNAL_FUNC (cb_workbook_debug_info),
+			G_CALLBACK (cb_workbook_debug_info),
 			GNOME_STOCK_PIXMAP_BOOK_RED);
 		gtk_box_pack_start (GTK_BOX (box), deps_button, 0, 0, 0);
 	}
 
 	gtk_box_pack_start (GTK_BOX (box2), box, 0, 0, 0);
-	gtk_box_pack_end   (GTK_BOX (box2), GTK_WIDGET (entry), 1, 1, 0);
+	gtk_box_pack_end   (GTK_BOX (box2), GTK_WIDGET (wbcg->edit_line.entry), 1, 1, 0);
 
 	gtk_table_attach (GTK_TABLE (wbcg->table), box2,
 			  0, 1, 0, 1,
 			  GTK_FILL | GTK_EXPAND | GTK_SHRINK, 0, 0, 0);
 
 	/* Do signal setup for the editing input line */
-	gtk_signal_connect (GTK_OBJECT (entry), "focus-in-event",
-			    GTK_SIGNAL_FUNC (cb_editline_focus_in),
-			    wbcg);
-	gtk_signal_connect (GTK_OBJECT (entry), "activate",
-			    GTK_SIGNAL_FUNC (cb_accept_input),
-			    wbcg);
+	g_signal_connect (G_OBJECT (entry),
+		"focus-in-event",
+		G_CALLBACK (cb_editline_focus_in), wbcg);
+	g_signal_connect (G_OBJECT (entry),
+		"activate",
+		G_CALLBACK (cb_accept_input), wbcg);
 
 	/* Do signal setup for the status input line */
-	gtk_signal_connect (GTK_OBJECT (wbcg->selection_descriptor), "activate",
-			    GTK_SIGNAL_FUNC (wb_jump_to_cell), wbcg);
+	g_signal_connect (G_OBJECT (wbcg->selection_descriptor),
+		"activate",
+		G_CALLBACK (wb_jump_to_cell), wbcg);
 	gtk_widget_show_all (box2);
 }
 
@@ -3717,7 +3721,7 @@ workbook_setup_sheets (WorkbookControlGUI *wbcg)
 {
 	GtkWidget *w = gtk_notebook_new ();
 	wbcg->notebook = GTK_NOTEBOOK (w);
-	gtk_signal_connect_after (GTK_OBJECT (wbcg->notebook), "switch_page",
+	g_signal_connect_after (GTK_OBJECT (wbcg->notebook), "switch_page",
 		GTK_SIGNAL_FUNC (cb_notebook_switch_page), wbcg);
 
 	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (wbcg->notebook), GTK_POS_BOTTOM);
@@ -3819,8 +3823,9 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, Workbook *wbcg)
 			quick_compute_routines [i].function);
 		gtk_object_set_data (GTK_OBJECT (item), "name",
 			_(quick_compute_routines [i].displayed_name));
-		gtk_signal_connect (GTK_OBJECT (item), "activate",
-			GTK_SIGNAL_FUNC (cb_auto_expr_changed), wbcg);
+		g_signal_connect (G_OBJECT (item),
+			"activate",
+			G_CALLBACK (cb_auto_expr_changed), wbcg);
 		gtk_menu_append (GTK_MENU (menu), item);
 		gtk_widget_show (item);
 	}
@@ -3840,8 +3845,9 @@ workbook_setup_auto_calc (WorkbookControlGUI *wbcg)
 	gtk_widget_ensure_style (tmp);
 	gtk_widget_set_usize (tmp,
 		gdk_text_measure (gtk_style_get_font (tmp->style), "W", 1) * 15, -1);
-	gtk_signal_connect (GTK_OBJECT (tmp), "button_press_event",
-			    GTK_SIGNAL_FUNC (cb_select_auto_expr), wbcg);
+	g_signal_connect (G_OBJECT (tmp),
+		"button_press_event",
+		G_CALLBACK (cb_select_auto_expr), wbcg);
 	frame1 = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame1), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (frame1), tmp);
@@ -3902,7 +3908,7 @@ read_int (gchar   *string,
 {
   int result = 0;
   int sign = 1;
-  
+
   if (*string == '+')
     string++;
   else if (*string == '-')
@@ -3924,7 +3930,7 @@ read_int (gchar   *string,
     return (-result);
 }
 
-/* 
+/*
  * Bitmask returned by XParseGeometry().  Each bit tells if the corresponding
  * value (x, y, width, height) was found in the parsed string.
  */
@@ -3942,8 +3948,8 @@ static int
 gtk_XParseGeometry (const char   *string,
                     int          *x,
                     int          *y,
-                    unsigned int *width,   
-                    unsigned int *height)  
+                    unsigned int *width,
+                    unsigned int *height)
 {
   int mask = NoValue;
   char *strind;
@@ -3956,7 +3962,7 @@ gtk_XParseGeometry (const char   *string,
   tempHeight = 0;
   tempX = 0;
   tempY = 0;
-  
+
   if ( (string == NULL) || (*string == '\0')) return(mask);
   if (*string == '=')
     string++;  /* ignore possible '=' at beg of geometry spec */
@@ -3964,13 +3970,13 @@ gtk_XParseGeometry (const char   *string,
   strind = (char *)string;
   if (*strind != '+' && *strind != '-' && *strind != 'x') {
     tempWidth = read_int(strind, &nextCharacter);
-    if (strind == nextCharacter) 
+    if (strind == nextCharacter)
       return (0);
     strind = nextCharacter;
     mask |= WidthValue;
   }
 
-  if (*strind == 'x' || *strind == 'X') {	
+  if (*strind == 'x' || *strind == 'X') {
     strind++;
     tempHeight = read_int(strind, &nextCharacter);
     if (strind == nextCharacter)
@@ -4018,7 +4024,7 @@ gtk_XParseGeometry (const char   *string,
       mask |= YValue;
     }
   }
-	
+
   /* If strind isn't at the end of the string the it's an invalid
 		geometry specification. */
 
@@ -4050,7 +4056,7 @@ show_gui (WorkbookControlGUI *wbcg)
 	gdouble fx, fy;
 	GdkGeometry geometry;
 	GdkWindowHints size_hints = GDK_HINT_MAX_SIZE;
-	
+
 	fx = gnome_config_get_float_with_default (
 		"Gnumeric/Placement/WindowRelativeSizeX=0.75", NULL);
 	fy = gnome_config_get_float_with_default (
@@ -4062,16 +4068,16 @@ show_gui (WorkbookControlGUI *wbcg)
 
 	if (x_geometry && wbv && wbcg->toplevel) {
 		gint result;
-		guint width;   
-		guint height;  
-		
+		guint width;
+		guint height;
+
 		result = gtk_XParseGeometry (x_geometry, &x_loc, &y_loc,
-					     &width, &height); 
-		
+					     &width, &height);
+
 		if (!(result & WidthValue) || width == 0 || wbv->preferred_width > 0)
 			width = (wbv->preferred_width == 0) ? sx * fx : wbv->preferred_width;
 		if (!(result & HeightValue) || height == 0 || wbv->preferred_height > 0)
-			height = (wbv->preferred_height == 0) ? 
+			height = (wbv->preferred_height == 0) ?
 				sy * fy : wbv->preferred_height;
 		gtk_window_set_default_size (wbcg->toplevel, width, height);
 
@@ -4084,19 +4090,19 @@ show_gui (WorkbookControlGUI *wbcg)
 			size_hints |= GDK_HINT_POS;
 		}
 
-	} else {	
+	} else {
 /* Set grid size to preferred width */
 		if (wbv && (wbv->preferred_width > 0 || wbv->preferred_height > 0)) {
 			int pwidth = wbv->preferred_width;
 			int pheight = wbv->preferred_height;
-			
+
 			pwidth = pwidth > 0 ? pwidth : -2;
 			pheight = pheight > 0 ? pheight : -2;
 			gtk_widget_set_usize (GTK_WIDGET (wbcg->notebook),
 					      pwidth, pheight);
 		} else {
 			gtk_window_set_default_size (wbcg->toplevel, sx * fx, sy * fy);
-		} 
+		}
 	}
 
 	geometry.max_width  = sx;
@@ -4278,18 +4284,18 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	wbcg->editing_cell = NULL;
 	wbcg->rangesel = NULL;
 
-	gtk_signal_connect_after (GTK_OBJECT (wbcg->toplevel),
+	g_signal_connect_after (G_OBJECT (wbcg->toplevel),
 		"delete_event",
-		GTK_SIGNAL_FUNC (wbcg_delete_event), wbcg);
-	gtk_signal_connect_after ( GTK_OBJECT (wbcg->toplevel),
+		G_CALLBACK (wbcg_delete_event), wbcg);
+	g_signal_connect_after (G_OBJECT (wbcg->toplevel),
 		"set_focus",
-		GTK_SIGNAL_FUNC (wbcg_set_focus), wbcg);
-	gtk_signal_connect (GTK_OBJECT (wbcg->toplevel),
+		G_CALLBACK (wbcg_set_focus), wbcg);
+	g_signal_connect (G_OBJECT (wbcg->toplevel),
 		"button-release-event",
-		GTK_SIGNAL_FUNC (cb_scroll_wheel_support), wbcg);
-	gtk_signal_connect (GTK_OBJECT (wbcg->toplevel),
+		G_CALLBACK (cb_scroll_wheel_support), wbcg);
+	g_signal_connect (G_OBJECT (wbcg->toplevel),
 		"realize",
-		GTK_SIGNAL_FUNC (cb_realize), wbcg);
+		G_CALLBACK (cb_realize), wbcg);
 #if 0
 	/* Enable toplevel as a drop target */
 	gtk_drag_dest_set (wbcg->toplevel,
@@ -4297,9 +4303,9 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 			   drag_types, n_drag_types,
 			   GDK_ACTION_COPY);
 
-	gtk_signal_connect (GTK_OBJECT (wb->toplevel),
-			    "drag_data_received",
-			    GTK_SIGNAL_FUNC (filenames_dropped), wb);
+	g_signal_connect (G_OBJECT (wb->toplevel),
+		"drag_data_received",
+		G_CALLBACK (filenames_dropped), wb);
 #endif
 
 	gtk_window_set_policy (wbcg->toplevel, TRUE, TRUE, FALSE);
@@ -4320,17 +4326,17 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 }
 
 static int
-wbcg_validation_msg (WorkbookControl *wbc, Validation const *v,
+wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 		     char const *title, char const *msg)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	ValidationStatus res0, res1;
+	ValidationStatus res0, res1 = VALIDATION_STATUS_VALID; /* supress warning */
 	char *btn0, *btn1;
 	GtkMessageType  type;
 	GtkWidget  *dialog;
 	int response;
 
-	switch (v->style) {
+	switch (v) {
 	case VALIDATION_STYLE_STOP :
 		res0 = VALIDATION_STATUS_INVALID_EDIT;		btn0 = _("Re-Edit");
 		res1 = VALIDATION_STATUS_INVALID_DISCARD;	btn1 = _("Discard");

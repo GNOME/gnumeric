@@ -4,11 +4,14 @@
 #include "gnumeric.h"
 #include "workbook-control-gui.h"
 #include "workbook-control-priv.h"
+#include "file.h"
+#include "widgets/gnumeric-expr-entry.h"
+
+#include <gtk/gtknotebook.h>
+#include <libgnomeui/gnome-appbar.h>
 #ifdef ENABLE_BONOBO
 #include <bonobo.h>
 #endif
-#include "file.h"
-#include "widgets/gnumeric-expr-entry.h"
 
 struct _WorkbookControlGUI {
 	WorkbookControl	wb_control;
@@ -42,7 +45,7 @@ struct _WorkbookControlGUI {
 	GtkWidget  *menu_item_define_name;
 	GtkWidget  *menu_item_consolidate;
 	GtkWidget  *menu_item_freeze_panes;
-	
+
 	/* Menu items that get toggled */
 	GtkWidget  *menu_item_sheet_display_formulas;
 	GtkWidget  *menu_item_sheet_hide_zero;
@@ -53,7 +56,7 @@ struct _WorkbookControlGUI {
 	GtkWidget  *menu_item_sheet_display_outlines;
 	GtkWidget  *menu_item_sheet_outline_symbols_below;
 	GtkWidget  *menu_item_sheet_outline_symbols_right;
-	
+
 	/* Toolbars */
 	GtkWidget *standard_toolbar;
 	GtkWidget *format_toolbar;

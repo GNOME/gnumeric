@@ -1,3 +1,52 @@
+2002-02-15  Jody Goldberg <jody@gnome.org>
+
+	* src/item-cursor.c (item_cursor_tip_setlabel) : enable now that the
+	  canvas bug is fixed.
+
+	* src/sheet-control-gui.c (cb_hscrollbar_adjust_bounds) : new.
+	(cb_vscrollbar_adjust_bounds) : new.
+
+	* src/gui-util.c (gtk_button_stock_alignment_set) : new.
+	(gnumeric_init_help_button) : new.
+
+	* src/gnumeric-canvas.h : Move declaration of
+	  GnumericCanvasSlideHandler here.
+
+	* src/gnumeric-canvas.c (gnm_canvas_guru_key) : forward to the entry,
+	  not the GnumericExprEntry wrapper.
+	(gnm_canvas_key_mode_sheet) : ditto.
+
+	* src/formats.c (cell_format_classify) : handle general.
+
+	* src/file-priv.h : Inherit from GObject.
+
+	* src/complete-sheet.c (complete_sheet_finalize) : call class_peek
+	  here to avoid potential reference problems.
+
+	* src/commands.c (cmd_set_text) : doh!  fix multi-line text.
+	(cmd_autoformat) : const.
+
+	* src/cell.c (cell_relocate) : const.
+	* src/clipboard.c (paste_cell_with_operation) : const.
+	(paste_cell) : ditto.
+
+	* src/application.c (application_init) : add jimmac's expr-entry icon.
+
+	* src/Makefile.am : distribute the marshaller.list
+
+	s/GtkType/GType/
+	s/GtkSignalFunc/GCallback/
+	s/gtk_signal_connect/g_signal_connect/  + reformating.
+	s/GTK_CHECK_CAST/G_TYPE_CHECK_INSTANCE_CAST/
+	s/GTK_CHECK_TYPE/G_TYPE_CHECK_CLASS_CAST/
+	s/GTK_CHECK_CLASS_CAST/G_TYPE_CHECK_INSTANCE_TYPE/
+	s/GTK_CHECK_CLASS_TYPE/G_TYPE_CHECK_CLASS_TYPE/
+
+2002-02-11  Jody Goldberg <jody@gnome.org>
+
+	* src/stf.c (stf_init) : Make the names of the text import/export
+	  clearer.
+
 2002-02-12  Morten Welinder  <terra@diku.dk>
 
 	* src/io-context.c (value_io_progress_update): Correct assertion.

@@ -137,9 +137,9 @@ void sheet_functions_init (void);
 void
 sheet_functions_init (void)
 {
-	FunctionCategory *cat0 = function_get_category_with_translation 
+	FunctionCategory *cat0 = function_get_category_with_translation
 	  ("Sheet", _("Sheet"));
-	FunctionCategory *cat1 = function_get_category_with_translation 
+	FunctionCategory *cat1 = function_get_category_with_translation
 	  ("Gnumeric", _("Gnumeric"));
 
 	function_add_args (cat0, "selection", "b",  "permit_intersection",

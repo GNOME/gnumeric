@@ -630,46 +630,36 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	g_free (t[1]);
 
 	/* Connect signals */
-	gtk_signal_connect (GTK_OBJECT (info->fixed_collist),
-			    "select_row",
-			    GTK_SIGNAL_FUNC (fixed_page_collist_select_row),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->fixed_colend),
-			    "changed",
-			    GTK_SIGNAL_FUNC (fixed_page_colend_changed),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->fixed_add),
-			    "clicked",
-			    GTK_SIGNAL_FUNC (fixed_page_add_clicked),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->fixed_remove),
-			    "clicked",
-			    GTK_SIGNAL_FUNC (fixed_page_remove_clicked),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->fixed_clear),
-			    "clicked",
-			    GTK_SIGNAL_FUNC (fixed_page_clear_clicked),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->fixed_auto),
-			    "clicked",
-			    GTK_SIGNAL_FUNC (fixed_page_auto_clicked),
-			    pagedata);
+	g_signal_connect (G_OBJECT (info->fixed_collist),
+		"select_row",
+		G_CALLBACK (fixed_page_collist_select_row), pagedata);
+	g_signal_connect (G_OBJECT (info->fixed_colend),
+		"changed",
+		G_CALLBACK (fixed_page_colend_changed), pagedata);
+	g_signal_connect (G_OBJECT (info->fixed_add),
+		"clicked",
+		G_CALLBACK (fixed_page_add_clicked), pagedata);
+	g_signal_connect (G_OBJECT (info->fixed_remove),
+		"clicked",
+		G_CALLBACK (fixed_page_remove_clicked), pagedata);
+	g_signal_connect (G_OBJECT (info->fixed_clear),
+		"clicked",
+		G_CALLBACK (fixed_page_clear_clicked), pagedata);
+	g_signal_connect (G_OBJECT (info->fixed_auto),
+		"clicked",
+		G_CALLBACK (fixed_page_auto_clicked), pagedata);
 
-	gtk_signal_connect (GTK_OBJECT (info->fixed_canvas),
-			    "motion_notify_event",
-			    GTK_SIGNAL_FUNC (fixed_page_canvas_motion_notify_event),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->fixed_canvas),
-			    "button_press_event",
-			    GTK_SIGNAL_FUNC (fixed_page_canvas_button_press_event),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->fixed_canvas),
-			    "button_release_event",
-			    GTK_SIGNAL_FUNC (fixed_page_canvas_button_release_event),
-			    pagedata);
+	g_signal_connect (G_OBJECT (info->fixed_canvas),
+		"motion_notify_event",
+		G_CALLBACK (fixed_page_canvas_motion_notify_event), pagedata);
+	g_signal_connect (G_OBJECT (info->fixed_canvas),
+		"button_press_event",
+		G_CALLBACK (fixed_page_canvas_button_press_event), pagedata);
+	g_signal_connect (G_OBJECT (info->fixed_canvas),
+		"button_release_event",
+		G_CALLBACK (fixed_page_canvas_button_release_event), pagedata);
 
-	gtk_signal_connect (GTK_OBJECT (GTK_RANGE (info->fixed_scroll)->adjustment),
-			    "value_changed",
-			    GTK_SIGNAL_FUNC (fixed_page_scroll_value_changed),
-			    pagedata);
+	g_signal_connect (G_OBJECT (GTK_RANGE (info->fixed_scroll)->adjustment),
+		"value_changed",
+		G_CALLBACK (fixed_page_scroll_value_changed), pagedata);
 }

@@ -193,8 +193,8 @@ scg_setup_group_buttons (SheetControlGUI *scg, unsigned max_outline,
 		GtkWidget *btn = gtk_button_new ();
 		char *tmp = g_strdup_printf ("%d", btns->len+1);
 		gtk_container_add (GTK_CONTAINER (in), gtk_label_new (tmp));
-		gtk_container_add (GTK_CONTAINER (btn), in); 
-		gtk_container_add (GTK_CONTAINER (out), btn); 
+		gtk_container_add (GTK_CONTAINER (btn), in);
+		gtk_container_add (GTK_CONTAINER (out), btn);
 		gtk_box_pack_end (GTK_BOX (box), out, TRUE, TRUE, 0);
 		g_ptr_array_add (btns, out);
 		g_free (tmp);
@@ -550,38 +550,36 @@ cb_select_all (GtkWidget *the_button, SheetControlGUI *scg)
 }
 
 static void
-vertical_scroll_offset_changed (GtkRange *range, /* int top, int is_hint, */
-				SheetControlGUI *scg)
+cb_vscrollbar_value_changed (GtkRange *range, SheetControlGUI *scg)
 {
-	/* kludge until we can fix the custom scrollbars */
-	gboolean is_hint = FALSE;
-	int top = range->adjustment->value;
-	if (is_hint) {
-		char *buffer = g_strdup_printf (_("Row: %s"), row_name (top));
-		wb_control_gui_set_status_text (scg->wbcg, buffer);
-		g_free (buffer);
-	} else {
-		if (scg->wbcg)
-			wb_control_gui_set_status_text (scg->wbcg, "");
-		scg_set_top_row (scg, top);
-	}
+	scg_set_top_row (scg, range->adjustment->value);
+}
+static void
+cb_hscrollbar_value_changed (GtkRange *range, SheetControlGUI *scg)
+{
+	scg_set_left_col (scg, range->adjustment->value);
 }
 
 static void
-horizontal_scroll_offset_changed (GtkRange *range, /* int left, int is_hint, */
-				  SheetControlGUI *scg)
+cb_hscrollbar_adjust_bounds (GtkRange *range, gdouble new_value)
 {
-	/* kludge until we can fix the custom scrollbars */
-	gboolean is_hint = FALSE;
-	int left = range->adjustment->value;
-	if (is_hint) {
-		char *buffer = g_strdup_printf (_("Column: %s"), col_name (left));
-		wb_control_gui_set_status_text (scg->wbcg, buffer);
-		g_free (buffer);
-	} else {
-		if (scg->wbcg)
-			wb_control_gui_set_status_text (scg->wbcg, "");
-		scg_set_left_col (scg, left);
+	gdouble limit = range->adjustment->upper - range->adjustment->page_size;
+	if (range->adjustment->upper < SHEET_MAX_COLS && new_value > limit) {
+		range->adjustment->upper = new_value + range->adjustment->page_size;
+		if (range->adjustment->upper > SHEET_MAX_COLS)
+			range->adjustment->upper = SHEET_MAX_COLS;
+		gtk_adjustment_changed (range->adjustment);
+	}
+}
+static void
+cb_vscrollbar_adjust_bounds (GtkRange *range, gdouble new_value)
+{
+	gdouble limit = range->adjustment->upper - range->adjustment->page_size;
+	if (range->adjustment->upper < SHEET_MAX_ROWS && new_value > limit) {
+		range->adjustment->upper = new_value + range->adjustment->page_size;
+		if (range->adjustment->upper > SHEET_MAX_ROWS)
+			range->adjustment->upper = SHEET_MAX_ROWS;
+		gtk_adjustment_changed (range->adjustment);
 	}
 }
 
@@ -1034,7 +1032,7 @@ scg_set_panes (SheetControl *sc)
 			GTK_FILL | GTK_SHRINK,
 			GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 			0, 0);
-	} else { 
+	} else {
 		gnm_pane_release (scg->pane + 1);
 		gnm_pane_release (scg->pane + 2);
 		gnm_pane_release (scg->pane + 3);
@@ -1064,6 +1062,7 @@ sheet_control_gui_new (Sheet *sheet)
 {
 	int i;
 	SheetControlGUI *scg;
+	GtkUpdateType scroll_update_policy;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
@@ -1080,9 +1079,9 @@ sheet_control_gui_new (Sheet *sheet)
 	scg->row_group.button_box = gtk_hbox_new (0, TRUE);
 	scg->select_all_btn = gtk_button_new ();
 	GTK_WIDGET_UNSET_FLAGS (scg->select_all_btn, GTK_CAN_FOCUS);
-	gtk_signal_connect (GTK_OBJECT (scg->select_all_btn),
+	g_signal_connect (G_OBJECT (scg->select_all_btn),
 		"clicked",
-		GTK_SIGNAL_FUNC (cb_select_all), scg);
+		G_CALLBACK (cb_select_all), scg);
 
 	scg->corner	 = GTK_TABLE (gtk_table_new (2, 2, FALSE));
 	gtk_table_attach (scg->corner, scg->col_group.button_box,
@@ -1126,18 +1125,31 @@ sheet_control_gui_new (Sheet *sheet)
 	gtk_widget_show_all (GTK_WIDGET (scg->inner_table));
 
 	/* Scroll bars and their adjustments */
+	scroll_update_policy = application_live_scrolling ()
+		? GTK_UPDATE_CONTINUOUS : GTK_UPDATE_DELAYED;
 	scg->va = gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
+	scg->vs = g_object_new (GTK_TYPE_VSCROLLBAR,
+			"adjustment",	 GTK_ADJUSTMENT (scg->va),
+			"update_policy", scroll_update_policy,
+			NULL);
+	g_signal_connect (G_OBJECT (scg->vs),
+		"value_changed",
+		G_CALLBACK (cb_vscrollbar_value_changed), scg);
+	g_signal_connect (G_OBJECT (scg->vs),
+		"adjust_bounds",
+		G_CALLBACK (cb_vscrollbar_adjust_bounds), NULL);
+
 	scg->ha = gtk_adjustment_new (0., 0., 1, 1., 1., 1.);
-	scg->vs = gtk_vscrollbar_new (GTK_ADJUSTMENT (scg->va));
-	scg->hs = gtk_hscrollbar_new (GTK_ADJUSTMENT (scg->ha));
-#if 1
-	gtk_signal_connect (GTK_OBJECT (scg->vs), "value_changed",
-		GTK_SIGNAL_FUNC (vertical_scroll_offset_changed),
-		scg);
-	gtk_signal_connect (GTK_OBJECT (scg->hs), "value_changed",
-		GTK_SIGNAL_FUNC (horizontal_scroll_offset_changed),
-		scg);
-#endif
+	scg->hs = g_object_new (GTK_TYPE_HSCROLLBAR,
+			"adjustment", GTK_ADJUSTMENT (scg->ha),
+			"update_policy", scroll_update_policy,
+			NULL);
+	g_signal_connect (G_OBJECT (scg->hs),
+		"value_changed",
+		G_CALLBACK (cb_hscrollbar_value_changed), scg);
+	g_signal_connect (G_OBJECT (scg->hs),
+		"adjust_bounds",
+		G_CALLBACK (cb_hscrollbar_adjust_bounds), NULL);
 
 	scg->table = GTK_TABLE (gtk_table_new (4, 4, FALSE));
 	gtk_object_set_data (GTK_OBJECT (scg->table), SHEET_CONTROL_KEY, scg);
@@ -1156,12 +1168,12 @@ sheet_control_gui_new (Sheet *sheet)
 		GTK_EXPAND | GTK_FILL | GTK_SHRINK,
 		GTK_FILL,
 		0, 0);
-	gtk_signal_connect_after (GTK_OBJECT (scg->table),
+	g_signal_connect_after (G_OBJECT (scg->table),
 		"size_allocate",
-		GTK_SIGNAL_FUNC (cb_table_size_allocate), scg);
-	gtk_signal_connect (GTK_OBJECT (scg->table),
+		G_CALLBACK (cb_table_size_allocate), scg);
+	g_signal_connect (G_OBJECT (scg->table),
 		"destroy",
-		GTK_SIGNAL_FUNC (cb_table_destroy), scg);
+		G_CALLBACK (cb_table_destroy), scg);
 
 	sheet_attach_control (sheet, SHEET_CONTROL (scg));
 
@@ -1179,7 +1191,7 @@ scg_finalize (GObject *object)
 
 	if (scg->table)
 		gtk_object_unref (GTK_OBJECT (scg->table));
-	
+
 	/* FIXME : Should we be pedantic and clear the control points ? */
 
 	if (G_OBJECT_CLASS (scg_parent_class)->finalize)
@@ -1381,7 +1393,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		  gboolean is_col, gboolean is_row)
 {
 	SheetControl *sc = (SheetControl *) scg;
-	
+
 	enum {
 		CONTEXT_DISPLAY_FOR_CELLS = 1,
 		CONTEXT_DISPLAY_FOR_ROWS = 2,
@@ -1512,7 +1524,7 @@ scg_cursor_visible (SheetControlGUI *scg, gboolean is_visible)
 	/* there is always a grid 0 */
 	if (NULL == scg->pane[0].gcanvas)
 		return;
-	
+
 	for (i = scg->active_panes; i-- > 0 ; )
 		item_cursor_set_visibility (scg->pane[i].cursor.std,
 					    is_visible);
@@ -1527,7 +1539,7 @@ scg_cursor_visible (SheetControlGUI *scg, gboolean is_visible)
 static void
 scg_object_stop_editing (SheetControlGUI *scg, SheetObject *so)
 {
-	GtkObject *view;
+	GObject *view;
 	int i;
 
 	if (so == NULL || so != scg->current_object)
@@ -1571,7 +1583,7 @@ void
 scg_mode_edit (SheetControl *sc)
 {
 	SheetControlGUI *scg = (SheetControlGUI *)sc;
-	
+
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	scg_mode_clear (scg);
@@ -1598,7 +1610,7 @@ scg_mode_edit (SheetControl *sc)
 void
 scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 {
-	GtkObject *view;
+	GObject *view;
 
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
@@ -1636,12 +1648,12 @@ scg_mode_create_object (SheetControlGUI *scg, SheetObject *so)
 static void
 display_object_menu (SheetObject *so, GnomeCanvasItem *view, GdkEvent *event)
 {
-	SheetControlGUI *scg = sheet_object_view_control (GTK_OBJECT (view));
+	SheetControlGUI *scg = sheet_object_view_control (G_OBJECT (view));
 	GtkMenu *menu;
 
 	scg_mode_edit_object (scg, so);
 	menu = GTK_MENU (gtk_menu_new ());
-	SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so))->populate_menu (so, GTK_OBJECT (view), menu);
+	SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so))->populate_menu (so, G_OBJECT (view), menu);
 
 	gtk_widget_show_all (GTK_WIDGET (menu));
 	gnumeric_popup_menu (menu, &event->button);
@@ -1698,7 +1710,7 @@ scg_object_move (SheetControlGUI *scg, SheetObject *so,
 	if (idx != 8)
 		scg->object_was_resized = TRUE;
 	sheet_object_direction_set (so, new_coords);
-	
+
 	/* Tell the object to update its co-ordinates */
 	scg_object_update_bbox (scg, so, new_coords);
 }
@@ -1751,7 +1763,7 @@ static int
 cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 			GnomeCanvasItem *so_view)
 {
-	SheetObject *so = sheet_object_view_obj (GTK_OBJECT (so_view));
+	SheetObject *so = sheet_object_view_obj (G_OBJECT (so_view));
 	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (ctrl_pt->canvas);
 	SheetControlGUI *scg = gcanvas->simple.scg;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (scg_get_wbcg (scg));
@@ -1856,7 +1868,7 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
  *     5 -------- 6 -------- 7
  **/
 static GnomeCanvasItem *
-new_control_point (GtkObject *so_view, int idx, double x, double y,
+new_control_point (GObject *so_view, int idx, double x, double y,
 		   ECursorType ct)
 {
 	GnomeCanvasItem *item, *so_view_item = GNOME_CANVAS_ITEM (so_view);
@@ -1870,9 +1882,9 @@ new_control_point (GtkObject *so_view, int idx, double x, double y,
 		"width_pixels",  CTRL_PT_OUTLINE,
 		NULL);
 
-	gtk_signal_connect (GTK_OBJECT (item), "event",
-			    GTK_SIGNAL_FUNC (cb_control_point_event),
-			    so_view);
+	g_signal_connect (G_OBJECT (item),
+		"event",
+		G_CALLBACK (cb_control_point_event), so_view);
 
 	gtk_object_set_user_data (GTK_OBJECT (item), GINT_TO_POINTER (idx));
 	gtk_object_set_data (GTK_OBJECT (item), "cursor", GINT_TO_POINTER (ct));
@@ -1887,7 +1899,7 @@ new_control_point (GtkObject *so_view, int idx, double x, double y,
  * creating the control point if necessary.
  */
 static void
-set_item_x_y (SheetControlGUI *scg, GtkObject *so_view, int idx,
+set_item_x_y (SheetControlGUI *scg, GObject *so_view, int idx,
 	      double x, double y, ECursorType ct, gboolean visible)
 {
 	if (scg->control_points [idx] == NULL)
@@ -1909,7 +1921,7 @@ set_item_x_y (SheetControlGUI *scg, GtkObject *so_view, int idx,
 #define normalize_high_low(d1,d2) if (d1<d2) { double tmp=d1; d1=d2; d2=tmp;}
 
 static void
-set_acetate_coords (SheetControlGUI *scg, GtkObject *so_view,
+set_acetate_coords (SheetControlGUI *scg, GObject *so_view,
 		    double l, double t, double r, double b)
 {
 	GnomeCanvasItem *so_view_item = GNOME_CANVAS_ITEM (so_view);
@@ -1935,12 +1947,12 @@ set_acetate_coords (SheetControlGUI *scg, GtkObject *so_view,
 			"outline_stipple",	stipple,
 			NULL);
 		gdk_bitmap_unref (stipple);
-		gtk_signal_connect (GTK_OBJECT (item), "event",
-				    GTK_SIGNAL_FUNC (cb_control_point_event),
-				    so_view);
+		g_signal_connect (G_OBJECT (item),
+			"event",
+			G_CALLBACK (cb_control_point_event), so_view);
 		gtk_object_set_user_data (GTK_OBJECT (item), GINT_TO_POINTER (8));
 		gtk_object_set_data (GTK_OBJECT (item), "cursor",
-				     GINT_TO_POINTER (E_CURSOR_MOVE));
+			GINT_TO_POINTER (E_CURSOR_MOVE));
 
 		scg->control_points [8] = item;
 	}
@@ -1968,7 +1980,7 @@ scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
 			double const *new_coords)
 {
 	double l, t, r ,b;
-	GtkObject *so_view_obj;
+	GObject *so_view_obj;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
@@ -1986,7 +1998,7 @@ scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
 		scg_object_calc_position (scg, so, new_coords);
 	else
 		scg_object_view_position (scg, so, scg->object_coords);
-	
+
 	l = scg->object_coords [0];
 	t = scg->object_coords [1];
 	r = scg->object_coords [2] + 1;
@@ -2116,7 +2128,7 @@ scg_object_view_position (SheetControlGUI *scg, SheetObject *so, double *coords)
 }
 
 static void
-cb_sheet_object_view_destroy (GtkObject *view, SheetObject *so)
+cb_sheet_object_view_destroy (GObject *view, SheetObject *so)
 {
 	SheetControlGUI	*scg = sheet_object_view_control (view);
 
@@ -2150,7 +2162,7 @@ cb_sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event,
 		break;
 
 	case GDK_BUTTON_PRESS: {
-		SheetControlGUI *scg = sheet_object_view_control (GTK_OBJECT (item));
+		SheetControlGUI *scg = sheet_object_view_control (G_OBJECT (item));
 
 		/* Ignore mouse wheel events */
 		if (event->button.button > 3)
@@ -2195,8 +2207,8 @@ cb_sheet_object_widget_canvas_event (GtkWidget *widget, GdkEvent *event,
 				     GnomeCanvasItem *view)
 {
 	if (event->type == GDK_BUTTON_PRESS && event->button.button == 3) {
-		SheetObject *so = sheet_object_view_obj (GTK_OBJECT (view));
-		SheetControlGUI *scg = sheet_object_view_control (GTK_OBJECT (view));
+		SheetObject *so = sheet_object_view_obj (G_OBJECT (view));
+		SheetControlGUI *scg = sheet_object_view_control (G_OBJECT (view));
 
 		g_return_val_if_fail (so != NULL, FALSE);
 
@@ -2218,12 +2230,13 @@ cb_sheet_object_widget_canvas_event (GtkWidget *widget, GdkEvent *event,
 void
 scg_object_register (SheetObject *so, GnomeCanvasItem *view)
 {
-	gtk_signal_connect (GTK_OBJECT (view), "event",
-			    GTK_SIGNAL_FUNC (cb_sheet_object_canvas_event),
-			    so);
-	gtk_signal_connect (GTK_OBJECT (view), "destroy",
-			    GTK_SIGNAL_FUNC (cb_sheet_object_view_destroy),
-			    so);
+	g_signal_connect (G_OBJECT (view),
+		"event",
+		G_CALLBACK (cb_sheet_object_canvas_event), so);
+	/* all gui views are gtkobjects */
+	g_signal_connect (G_OBJECT (view),
+		"destroy",
+		G_CALLBACK (cb_sheet_object_view_destroy), so);
 }
 
 /**
@@ -2240,9 +2253,9 @@ void
 scg_object_widget_register (SheetObject *so, GtkWidget *widget,
 			    GnomeCanvasItem *view)
 {
-	gtk_signal_connect (GTK_OBJECT (widget), "event",
-			    GTK_SIGNAL_FUNC (cb_sheet_object_widget_canvas_event),
-			    view);
+	g_signal_connect (G_OBJECT (widget),
+		"event",
+		G_CALLBACK (cb_sheet_object_widget_canvas_event), view);
 	scg_object_register (so, view);
 }
 
@@ -2515,25 +2528,24 @@ scg_rangesel_changed (SheetControlGUI *scg,
 	sheet = ((SheetControl *) scg)->sheet;
 	expr_entry = wbcg_get_entry_logical (scg->wbcg);
 
-	gnumeric_expr_entry_freeze (expr_entry);
+	gnm_expr_entry_freeze (expr_entry);
 	/* The order here is tricky.
 	 * 1) Assign the range to the expr entry.
 	 */
-	ic_changed = gnumeric_expr_entry_set_range (
+	ic_changed = gnm_expr_entry_load_from_range (
 		expr_entry, sheet, r);
 
 	/* 2) if the expr entry changed the region get the new region */
 	if (ic_changed)
-		gnumeric_expr_entry_get_rangesel (expr_entry, r, NULL);
+		gnm_expr_entry_get_rangesel (expr_entry, r, NULL);
 
 	/* 3) now double check that all merged regions are fully contained */
 	last_r = *r;
 	sheet_merge_find_container (sheet, r);
 	if (!range_equal (&last_r, r))
-		(void) gnumeric_expr_entry_set_range (
-			expr_entry, sheet, r);
+		gnm_expr_entry_load_from_range (expr_entry, sheet, r);
 
-	gnumeric_expr_entry_thaw (expr_entry);
+	gnm_expr_entry_thaw (expr_entry);
 
 	for (i = scg->active_panes ; i-- > 0 ; )
 		gnm_pane_rangesel_bound_set (scg->pane + i, r);
@@ -2558,7 +2570,7 @@ scg_rangesel_start (SheetControlGUI *scg,
 	scg->wbcg->rangesel = scg;
 	scg->rangesel.active = TRUE;
 
-	gnumeric_expr_entry_rangesel_start (wbcg_get_entry_logical (scg->wbcg));
+	gnm_expr_entry_rangesel_start (wbcg_get_entry_logical (scg->wbcg));
 
 	range_init (&r, base_col, base_row, move_col, move_row);
 	for (i = scg->active_panes ; i-- > 0 ;)
@@ -2570,7 +2582,7 @@ void
 scg_rangesel_stop (SheetControlGUI *scg, gboolean clear_string)
 {
 	int i;
-	
+
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
 	if (!scg->rangesel.active)
@@ -2583,8 +2595,7 @@ scg_rangesel_stop (SheetControlGUI *scg, gboolean clear_string)
 	for (i = scg->active_panes ; i-- > 0 ; )
 		gnm_pane_rangesel_stop (scg->pane + i);
 
-	gnumeric_expr_entry_rangesel_stop (
-		GNUMERIC_EXPR_ENTRY (wbcg_get_entry_logical (scg->wbcg)),
+	gnm_expr_entry_rangesel_stop (wbcg_get_entry_logical (scg->wbcg),
 		clear_string);
 }
 
@@ -2674,7 +2685,7 @@ scg_rangesel_extend (SheetControlGUI *scg, int n,
 		     gboolean jump_to_bound, gboolean horiz)
 {
 	Sheet *sheet = ((SheetControl *) scg)->sheet;
-	
+
 	if (scg->rangesel.active) {
 		CellPos tmp = scg->rangesel.move_corner;
 
@@ -2691,7 +2702,7 @@ scg_rangesel_extend (SheetControlGUI *scg, int n,
 			scg->rangesel.base_corner.col,
 			scg->rangesel.base_corner.row, tmp.col, tmp.row);
 
-		scg_make_cell_visible (scg, 
+		scg_make_cell_visible (scg,
 			scg->rangesel.move_corner.col,
 			scg->rangesel.move_corner.row, FALSE, TRUE);
 	} else
@@ -2858,7 +2869,7 @@ scg_class_init (GObjectClass *object_class)
 	SheetControlClass *sc_class = SHEET_CONTROL_CLASS (object_class);
 
 	g_return_if_fail (sc_class != NULL);
-	
+
 	scg_parent_class = gtk_type_class (sheet_control_get_type ());
 	object_class->finalize = scg_finalize;
 

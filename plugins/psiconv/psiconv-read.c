@@ -54,7 +54,7 @@
 #include <psiconv/parse.h>
 
 static void
-append_zeros (char *s, int n) 
+append_zeros (char *s, int n)
 {
 	if (n > 0) {
 		s = s + strlen (s);
@@ -409,7 +409,7 @@ parse_subexpr(const psiconv_formula psi_formula)
 		default:
 		}
 	}
-		
+
 	return NULL;
 }
 
@@ -468,13 +468,13 @@ add_cell (Sheet *sheet, const psiconv_sheet_cell psi_cell,
 }
 
 static void
-add_cells(Sheet *sheet, const psiconv_sheet_cell_list psi_cells, 
+add_cells(Sheet *sheet, const psiconv_sheet_cell_list psi_cells,
           const psiconv_formula_list psi_formulas,
           const MStyle *default_style)
 {
 	psiconv_u32 i;
 	psiconv_sheet_cell psi_cell;
-	
+
 	/* FIXME : Without seeing the psiconv code this seems
 	 * VERY inefficent.  index & len are O(n) operations on lists.
 	 * Why not just walk the list ?
@@ -497,9 +497,9 @@ add_worksheet(Workbook *wb, psiconv_sheet_worksheet psi_worksheet,int nr,
 	sheet_name = g_strdup_printf (_("Sheet%d"),nr);
 	sheet = sheet_new (wb, sheet_name);
 	g_free (sheet_name);
-	if (!sheet) 
+	if (!sheet)
 		return;
-	
+
 	/* Default layout */
 	default_style = mstyle_new_default();
 	if (!default_style) {
@@ -511,7 +511,7 @@ add_worksheet(Workbook *wb, psiconv_sheet_worksheet psi_worksheet,int nr,
 	/* TODO: Add show_zeros */
 
 	add_cells(sheet,psi_worksheet->cells,psi_formulas,default_style);
-	
+
 	/* TODO: What about the NULL? */
 	sheet_flag_recompute_spans(sheet);
 	workbook_sheet_attach (wb,sheet,NULL);
@@ -572,7 +572,7 @@ psiconv_read (IOContext *io_context, Workbook *wb, FILE *file)
 		gnumeric_io_error_info_set (io_context,
 		                            error_info_new_str(_("Error while reading psiconv file.")));
 		return;
-	} 
+	}
 
 	/* For temporary debugging purposes */
 	/* psiconv_verbosity = PSICONV_VERB_DEBUG; */

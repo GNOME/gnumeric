@@ -9,7 +9,7 @@ typedef enum {
 	 * one of them can be set. Indicates
 	 * what sort of consolidation we will
 	 * execute
-	 */ 
+	 */
 	CONSOLIDATE_ROW_LABELS   = 1 << 0,
 	CONSOLIDATE_COL_LABELS   = 1 << 1,
 

@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * complete-sheet.c: Auto completes values from a sheet.
  *
@@ -24,17 +25,19 @@
 #define SEARCH_STEPS	50
 
 #define PARENT_TYPE 	COMPLETE_TYPE
-static GObjectClass *parent_class;
 
 static void
 complete_sheet_finalize (GObject *object)
 {
+	GObjectClass *parent_class;
 	CompleteSheet *cs = COMPLETE_SHEET (object);
 	if (cs->current != NULL) {
 		g_free (cs->current);
 		cs->current = NULL;
 	}
-	parent_class->finalize (object);
+	parent_class = g_type_class_peek (PARENT_TYPE);
+	if (parent_class && parent_class->finalize)
+		parent_class->finalize (object);
 }
 
 #define MAX_SCAN_SPACE 1024
@@ -117,8 +120,6 @@ complete_sheet_class_init (GObjectClass *object_class)
 
 	object_class->finalize = complete_sheet_finalize;
 	auto_complete_class->search_iteration = complete_sheet_search_iteration;
-
-	parent_class = g_type_class_peek (PARENT_TYPE);
 }
 
 Complete *

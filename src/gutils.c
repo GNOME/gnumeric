@@ -57,7 +57,7 @@ gnumeric_time_counter_pop (void)
 
 /**
  * gnumeric_config_get_string_list:
- * @config_path: GNOME configuration path or its prefix if 
+ * @config_path: GNOME configuration path or its prefix if
  *               @item_name_prefix != NULL.
  * @item_name_prefix: Prefix of key name when reading multiple strings from
  *                    configuration.
@@ -109,7 +109,7 @@ gnumeric_config_get_string_list (const gchar *config_path,
 
 /**
  * gnumeric_config_set_string_list:
- * @config_path: GNOME configuration path or its prefix if 
+ * @config_path: GNOME configuration path or its prefix if
  *               @item_name_prefix != NULL.
  * @item_name_prefix: Prefix of key name when writing multiple strings to
  *                    configuration.
@@ -194,7 +194,7 @@ g_create_list (gpointer item1, ...)
 	va_start (args, item1);
 	for (item = item1; item != NULL; item = va_arg (args, gpointer)) {
 		list = g_list_prepend (list, item);
-	}		
+	}
 	va_end (args);
 
 	return g_list_reverse (list);
@@ -242,7 +242,7 @@ g_list_free_custom (GList *list, GFreeFunc free_func)
  * g_strdup).
  *
  * Return value: new copy of the list which you should free after use using
- *               function e_free_string_list() 
+ *               function e_free_string_list()
  */
 GList *
 g_string_list_copy (GList *list)

@@ -57,7 +57,7 @@ static Value *
 func_opt_bs_call (FunctionEvalInfo *ei, Value *argv [])
 {
 	gnum_float S, X, stddev, t, r;
-  
+
 	gnum_float d1, d2, C;
 
 	X = value_get_as_float (argv[0]);
@@ -147,7 +147,7 @@ func_opt_bs_call_theta (FunctionEvalInfo *ei, Value *argv[])
 	d2 = calc_d2 (X, S, stddev, t, r);
 	theta = -(S * stddev * calc_Np (d1)) / (2.0 * sqrt (t))
 		-(r * X * calc_N (d2) * exp (-r * t));
-  
+
 	return value_new_float (theta);
 }
 

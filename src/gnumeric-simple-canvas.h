@@ -13,9 +13,9 @@ typedef struct {
 } GnmSimpleCanvasClass;
 
 #define GNM_SIMPLE_CANVAS_TYPE     (gnm_simple_canvas_get_type ())
-#define GNM_SIMPLE_CANVAS(obj)     (GTK_CHECK_CAST((obj), GNM_SIMPLE_CANVAS_TYPE, GnmSimpleCanvas))
+#define GNM_SIMPLE_CANVAS(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), GNM_SIMPLE_CANVAS_TYPE, GnmSimpleCanvas))
 
-GtkType	     gnm_simple_canvas_get_type (void);
+GType	     gnm_simple_canvas_get_type (void);
 GnomeCanvas *gnm_simple_canvas_new      (SheetControlGUI *scg);
 
 void gnm_simple_canvas_ungrab (GnomeCanvasItem *item, guint32 etime);

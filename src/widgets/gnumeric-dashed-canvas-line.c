@@ -4,67 +4,19 @@
  * Author:
  *  Jody Goldberg (jody@gnome.org)
  *
- *  (C) 1999, 2000 Jody Goldberg
+ *  (C) 1999-2002 Jody Goldberg
  */
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "gnumeric-dashed-canvas-line.h"
 
+#include <gal/util/e-util.h>
 #include <math.h>
 
-/*
- * A utility class to provide advanced dashed line support to the gnome-canvas-line.
- * We need not just the predefined dash styles, we need to be able to set the styles directly.
- */
-static void gnumeric_dashed_canvas_line_class_init (GnumericDashedCanvasLineClass *klass);
-static void gnumeric_dashed_canvas_line_init       (GnumericDashedCanvasLine      *line);
-
-static void   gnumeric_dashed_canvas_line_draw     (GnomeCanvasItem *item, GdkDrawable *drawable,
-						    int x, int y, int width, int height);
+static void gnumeric_dashed_canvas_line_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
+					      int x, int y, int width, int height);
 
 static GnumericDashedCanvasLineClass *gnumeric_dashed_canvas_line_class;
-
-GtkType
-gnumeric_dashed_canvas_line_get_type (void)
-{
-	static GtkType line_type = 0;
-
-	if (!line_type) {
-		GtkTypeInfo line_info = {
-			"GnumericDashedCanvasLine",
-			sizeof (GnumericDashedCanvasLine),
-			sizeof (GnumericDashedCanvasLineClass),
-			(GtkClassInitFunc) gnumeric_dashed_canvas_line_class_init,
-			(GtkObjectInitFunc) gnumeric_dashed_canvas_line_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		line_type = gtk_type_unique (gnome_canvas_line_get_type (), &line_info);
-	}
-
-	return line_type;
-}
-
-static void
-gnumeric_dashed_canvas_line_class_init (GnumericDashedCanvasLineClass *klass)
-{
-	GnomeCanvasItemClass *item_class;
-
-	gnumeric_dashed_canvas_line_class = klass;
-
-	item_class = (GnomeCanvasItemClass *) klass;
-
-	klass->real_draw = item_class->draw;
-	item_class->draw = &gnumeric_dashed_canvas_line_draw;
-}
-
-static void
-gnumeric_dashed_canvas_line_init (GnumericDashedCanvasLine *line)
-{
-	line->dash_style_index = STYLE_BORDER_THIN;
-}
 
 static inline double
 hypothenuse (double xlength, double ylength)
@@ -184,6 +136,28 @@ gnumeric_dashed_canvas_line_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			real_draw (item, drawable, x, y, width, height);
 	}
 }
+
+static void
+gnumeric_dashed_canvas_line_class_init (GnumericDashedCanvasLineClass *klass)
+{
+	GnomeCanvasItemClass *item_class;
+
+	gnumeric_dashed_canvas_line_class = klass;
+
+	item_class = (GnomeCanvasItemClass *) klass;
+
+	klass->real_draw = item_class->draw;
+	item_class->draw = &gnumeric_dashed_canvas_line_draw;
+}
+
+static void
+gnumeric_dashed_canvas_line_init (GnumericDashedCanvasLine *line)
+{
+	line->dash_style_index = STYLE_BORDER_THIN;
+}
+
+E_MAKE_TYPE (gnumeric_dashed_canvas_line, "GnumericDashedCanvasLine", GnumericDashedCanvasLine,
+	     gnumeric_dashed_canvas_line_class_init, gnumeric_dashed_canvas_line_init, GNOME_TYPE_CANVAS_LINE)
 
 void
 gnumeric_dashed_canvas_line_set_dash_index (GnumericDashedCanvasLine *line,

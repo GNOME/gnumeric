@@ -116,7 +116,7 @@ apply_paste_oper_to_values (Cell const *old_cell, Cell const *copied_cell,
 static void
 paste_cell_with_operation (Sheet *dest_sheet,
 			   int target_col, int target_row,
-			   ExprRewriteInfo *rwinfo,
+			   ExprRewriteInfo const *rwinfo,
 			   CellCopy *c_copy, int paste_flags)
 {
 	Cell *new_cell;
@@ -203,7 +203,7 @@ paste_link (PasteTarget const *pt, int top, int left,
 static void
 paste_cell (Sheet *dest_sheet,
 	    int target_col, int target_row,
-	    ExprRewriteInfo *rwinfo,
+	    ExprRewriteInfo const *rwinfo,
 	    CellCopy *c_copy, int paste_flags)
 {
 	if (!(paste_flags & (PASTE_CONTENT | PASTE_AS_VALUES)))
@@ -223,11 +223,11 @@ paste_cell (Sheet *dest_sheet,
 			g_warning ("Cell copy type set but no cell found (this is bad!)");
 			return;
 		}
-			
+
 		if (cell_has_expr (src_cell)) {
 			cell_set_expr_and_value (new_cell, src_cell->base.expression,
 						 value_duplicate (src_cell->value), FALSE);
-			
+
 			if (paste_flags & PASTE_CONTENT)
 				cell_relocate (new_cell, rwinfo);
 			else
@@ -295,7 +295,7 @@ clipboard_paste_region (WorkbookControl *wbc,
 		int tmp = src_cols;
 		src_cols = src_rows;
 		src_rows = tmp;
-	} 
+	}
 
 	if (content->not_as_content && (pt->paste_flags & PASTE_CONTENT)) {
 		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
@@ -465,7 +465,7 @@ clipboard_paste_region (WorkbookControl *wbc,
 
 	if (pt->paste_flags & PASTE_UPDATE_ROW_HEIGHT)
 		rows_height_update (pt->sheet, &pt->range, FALSE);
-	
+
 	return FALSE;
 }
 

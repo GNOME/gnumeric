@@ -173,12 +173,12 @@ typedef struct _GnumPluginFileOpener GnumPluginFileOpener;
 typedef struct _GnumPluginFileOpenerClass GnumPluginFileOpenerClass;
 
 #define TYPE_GNUM_PLUGIN_FILE_OPENER             (gnum_plugin_file_opener_get_type ())
-#define GNUM_PLUGIN_FILE_OPENER(obj)             (GTK_CHECK_CAST ((obj), TYPE_GNUM_PLUGIN_FILE_OPENER, GnumPluginFileOpener))
-#define GNUM_PLUGIN_FILE_OPENER_CLASS(klass)     (GTK_CHECK_CLASS_CAST ((klass), TYPE_GNUM_PLUGIN_FILE_OPENER, GnumPluginFileOpenerClass))
-#define IS_GNUM_PLUGIN_FILE_OPENER(obj)          (GTK_CHECK_TYPE ((obj), TYPE_GNUM_PLUGIN_FILE_OPENER))
-#define IS_GNUM_PLUGIN_FILE_OPENER_CLASS(klass)  (GTK_CHECK_CLASS_TYPE ((klass), TYPE_GNUM_PLUGIN_FILE_OPENER))
+#define GNUM_PLUGIN_FILE_OPENER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GNUM_PLUGIN_FILE_OPENER, GnumPluginFileOpener))
+#define GNUM_PLUGIN_FILE_OPENER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GNUM_PLUGIN_FILE_OPENER, GnumPluginFileOpenerClass))
+#define IS_GNUM_PLUGIN_FILE_OPENER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GNUM_PLUGIN_FILE_OPENER))
+#define IS_GNUM_PLUGIN_FILE_OPENER_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_GNUM_PLUGIN_FILE_OPENER))
 
-GtkType gnum_plugin_file_opener_get_type (void);
+GType gnum_plugin_file_opener_get_type (void);
 
 struct _GnumPluginFileOpenerClass {
 	GnumFileOpenerClass parent_class;
@@ -233,7 +233,7 @@ gnum_plugin_file_opener_probe (GnumFileOpener const *fo, const gchar *file_name,
 				g_warning ("Not implemented");
 			} else {
 				g_assert_not_reached ();
-			}	
+			}
 		}
 
 		return match;
@@ -327,7 +327,7 @@ gnum_plugin_file_opener_new (PluginService *service)
 	opener_id = g_strdup_printf ("%s:%s",
 	                             plugin_info_peek_id (service->plugin),
 	                             service_file_opener->id);
-	fo = GNUM_PLUGIN_FILE_OPENER (gtk_type_new (TYPE_GNUM_PLUGIN_FILE_OPENER));
+	fo = GNUM_PLUGIN_FILE_OPENER (g_object_new (TYPE_GNUM_PLUGIN_FILE_OPENER, NULL));
 	gnum_file_opener_setup (GNUM_FILE_OPENER (fo), opener_id,
 	                        service_file_opener->description,
 	                        NULL, NULL);
@@ -371,7 +371,7 @@ input_file_save_info_read (xmlNode *tree)
 	save_info->saver_id_str = saver_id_str != NULL ? saver_id_str : g_strdup ("");
 	save_info->format_level = parse_format_level_str (format_level_str, FILE_FL_MANUAL);
 
-	g_free (format_level_str);		
+	g_free (format_level_str);
 
 	return save_info;
 }
@@ -566,12 +566,12 @@ typedef struct _GnumPluginFileSaver GnumPluginFileSaver;
 typedef struct _GnumPluginFileSaverClass GnumPluginFileSaverClass;
 
 #define TYPE_GNUM_PLUGIN_FILE_SAVER             (gnum_plugin_file_saver_get_type ())
-#define GNUM_PLUGIN_FILE_SAVER(obj)             (GTK_CHECK_CAST ((obj), TYPE_GNUM_PLUGIN_FILE_SAVER, GnumPluginFileSaver))
-#define GNUM_PLUGIN_FILE_SAVER_CLASS(klass)     (GTK_CHECK_CLASS_CAST ((klass), TYPE_GNUM_PLUGIN_FILE_SAVER, GnumPluginFileSaverClass))
-#define IS_GNUM_PLUGIN_FILE_SAVER(obj)          (GTK_CHECK_TYPE ((obj), TYPE_GNUM_PLUGIN_FILE_SAVER))
-#define IS_GNUM_PLUGIN_FILE_SAVER_CLASS(klass)  (GTK_CHECK_CLASS_TYPE ((klass), TYPE_GNUM_PLUGIN_FILE_SAVER))
+#define GNUM_PLUGIN_FILE_SAVER(obj)             (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GNUM_PLUGIN_FILE_SAVER, GnumPluginFileSaver))
+#define GNUM_PLUGIN_FILE_SAVER_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_GNUM_PLUGIN_FILE_SAVER, GnumPluginFileSaverClass))
+#define IS_GNUM_PLUGIN_FILE_SAVER(obj)          (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GNUM_PLUGIN_FILE_SAVER))
+#define IS_GNUM_PLUGIN_FILE_SAVER_CLASS(klass)  (G_TYPE_CHECK_CLASS_TYPE ((klass), TYPE_GNUM_PLUGIN_FILE_SAVER))
 
-GtkType gnum_plugin_file_saver_get_type (void);
+GType gnum_plugin_file_saver_get_type (void);
 
 struct _GnumPluginFileSaverClass {
 	GnumFileSaverClass parent_class;
@@ -636,7 +636,7 @@ gnum_plugin_file_saver_new (PluginService *service)
 	saver_id = g_strdup_printf ("%s:%s",
 	                             plugin_info_peek_id (service->plugin),
 	                             service_file_saver->id);
-	fs = GNUM_PLUGIN_FILE_SAVER (gtk_type_new (TYPE_GNUM_PLUGIN_FILE_SAVER));
+	fs = GNUM_PLUGIN_FILE_SAVER (g_object_new (TYPE_GNUM_PLUGIN_FILE_SAVER, NULL));
 	gnum_file_saver_setup (GNUM_FILE_SAVER (fs), saver_id,
 	                       service_file_saver->file_extension,
 	                       service_file_saver->description,
@@ -689,7 +689,7 @@ plugin_service_file_saver_read (xmlNode *tree, ErrorInfo **ret_error)
 	}
 	if (id_str != NULL && description != NULL) {
 		PluginServiceFileSaver *service_file_saver;
-		
+
 		service = g_new (PluginService, 1);
 		plugin_service_init (service, PLUGIN_SERVICE_FILE_SAVER);
 		service_file_saver = &service->t.file_saver;
@@ -721,7 +721,7 @@ plugin_service_file_saver_read (xmlNode *tree, ErrorInfo **ret_error)
 	g_free (format_level_str);
 	g_free (save_scope_str);
 
-	return service;	
+	return service;
 }
 
 static void
@@ -864,17 +864,17 @@ plugin_service_function_group_read (xmlNode *tree, ErrorInfo **ret_error)
 			error_list = g_list_prepend (error_list,
 			                             error_info_new_str (
 			                             _("Missing function group id.")));
-		}	
+		}
 		if (category_name == NULL) {
 			error_list = g_list_prepend (error_list,
 			                             error_info_new_str (
 			                             _("Missing function category name.")));
-		}	
+		}
 		if (function_name_list == NULL) {
 			error_list = g_list_prepend (error_list,
 			                             error_info_new_str (
 			                             _("Missing function category name.")));
-		}	
+		}
 		error_list = g_list_reverse (error_list);
 		*ret_error = error_info_new_from_error_list (error_list);
 
@@ -1049,13 +1049,13 @@ plugin_service_plugin_loader_free (PluginService *service)
 	g_free (service_plugin_loader->loader_id);
 }
 
-static GtkType
+static GType
 plugin_service_plugin_loader_get_type_callback (gpointer callback_data, ErrorInfo **ret_error)
 {
 	PluginService *service;
 	PluginServicePluginLoader *service_plugin_loader;
 	ErrorInfo *error;
-	GtkType loader_type;
+	GType loader_type;
 
 	*ret_error = NULL;
 	service = (PluginService *) callback_data;
@@ -1064,18 +1064,15 @@ plugin_service_plugin_loader_get_type_callback (gpointer callback_data, ErrorInf
 	if (error == NULL) {
 		loader_type = service_plugin_loader->plugin_func_get_loader_type (
 		                                     service, &error);
-		if (error == NULL) {
+		if (error == NULL)
 			return loader_type;
-		} else {
-			*ret_error = error;
-			return (GtkType) 0;
-		}
+		*ret_error = error;
 	} else {
 		*ret_error = error_info_new_str_with_details (
 		             _("Error while loading plugin service."),
 		             error);
-		return (GtkType) 0;
 	}
+	return G_TYPE_NONE;
 }
 
 static void

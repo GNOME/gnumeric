@@ -68,7 +68,7 @@ segments_intersect (int const s_a, int const e_a,
  *    there is more than one range.
  */
 Range const *
-selection_first_range (Sheet const *sheet, 
+selection_first_range (Sheet const *sheet,
 		       WorkbookControl *wbc, char const *cmd_name)
 {
 	Range const *r;
@@ -124,7 +124,7 @@ sheet_selection_extend_to (Sheet *sheet, int col, int row)
 		return;
 
 	sheet_selection_set (sheet, sheet->edit_pos.col, sheet->edit_pos.row,
-			     base_col, base_row, col, row); 
+			     base_col, base_row, col, row);
 
 	/*
 	 * FIXME : Does this belong here ?
@@ -351,7 +351,7 @@ sheet_selection_set_internal (Sheet *sheet,
 			sheet_redraw_headers (sheet, FALSE, TRUE, &tmp);
 		}
 	}
-	
+
 set_menu_flags:
 	sheet_flag_selection_change (sheet);
 
@@ -1096,7 +1096,7 @@ sheet_selection_walk_step (Sheet *sheet,
 				is_singleton = TRUE;
 		}
 	}
-			
+
 	if (is_singleton) {
 		Range full_sheet;
 		if (horizontal) {

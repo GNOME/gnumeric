@@ -16,9 +16,9 @@
 
 #define EXCEL_TYPE_GB_CONTEXT            (excel_gb_context_get_type ())
 #define EXCEL_GB_CONTEXT(obj)            (GTK_CHECK_CAST ((obj), EXCEL_TYPE_GB_CONTEXT, ExcelGBContext))
-#define EXCEL_GB_CONTEXT_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), EXCEL_TYPE_GB_CONTEXT, ExcelGBContextClass))
-#define EXCEL_IS_GB_CONTEXT(obj)         (GTK_CHECK_TYPE ((obj), EXCEL_TYPE_GB_CONTEXT))
-#define EXCEL_IS_GB_CONTEXT_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), EXCEL_TYPE_GB_CONTEXT))
+#define EXCEL_GB_CONTEXT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), EXCEL_TYPE_GB_CONTEXT, ExcelGBContextClass))
+#define EXCEL_IS_GB_CONTEXT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EXCEL_TYPE_GB_CONTEXT))
+#define EXCEL_IS_GB_CONTEXT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EXCEL_TYPE_GB_CONTEXT))
 
 typedef struct {
 	GBRunEvalContext parent;

@@ -96,7 +96,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 				 gdk_pixbuf_new_from_file ("gnome-gnumeric.png", NULL));
 
 	hbox = gtk_hbox_new (TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), 
+	gtk_box_pack_start (GTK_BOX (hbox),
 		gnome_href_new ("http://www.gnumeric.org", _("Gnumeric Home Page")),
 		FALSE, FALSE, 0);
 

@@ -42,7 +42,7 @@
 /*************************************************************************/
 /*
  *  data_set_t: a data set format (optionally) keeping track of missing
- *  observations. 
+ *  observations.
  *
  */
 
@@ -274,11 +274,11 @@ union_of_int_sets (GSList * list_1, GSList * list_2)
 	GSList *list_res = NULL;
 
 	if ((list_1 == NULL) || (g_slist_length (list_1) == 0))
-		return ((list_2 == NULL) ? NULL : 
+		return ((list_2 == NULL) ? NULL :
 			g_slist_copy (list_2));
 	if ((list_2 == NULL) || (g_slist_length (list_2) == 0))
 		return g_slist_copy (list_1);
-	
+
 	list_res = g_slist_copy (list_1);
 	g_slist_foreach (list_2, cb_insert_diff_elements, &list_res);
 
@@ -324,7 +324,7 @@ strip_missing (GArray * data, GSList * missing)
 	g_memmove (new_data->data, data->data, sizeof (gnum_float) * data->len);
 	g_slist_foreach (sorted_missing, cb_remove_missing_el, &new_data);
 	g_slist_free (sorted_missing);
-	
+
 	return new_data;
 }
 
@@ -527,7 +527,7 @@ range_sort (const gnum_float *xs, int n)
 	else {
 		gnum_float *ys = g_new (gnum_float, n);
 		memcpy (ys, xs, n * sizeof (gnum_float));
-		qsort (ys, n, sizeof (ys[0]), 
+		qsort (ys, n, sizeof (ys[0]),
 		       (int (*) (const void *, const void *))&float_compare);
 		return ys;
 	}
@@ -1021,7 +1021,7 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data,
 		set_cell_float_na (dao, col + 1, 1, info.mean, info.error_mean == 0);
 
 		/* Standard Error */
-		set_cell_float_na (dao, col + 1, 2, sqrt (info.var / info.len), 
+		set_cell_float_na (dao, col + 1, 2, sqrt (info.var / info.len),
 				   info.error_var == 0);
 
 		/* Standard Deviation */
@@ -1094,7 +1094,7 @@ confidence_level (WorkbookControl *wbc, GPtrArray *data, gnum_float c_level,
 		if ((c_level < 1) && (c_level >= 0)) {
 			info = g_array_index (basic_stats, desc_stats_t, col);
 			if (info.error_mean == 0 && info.error_var == 0) {
-				x = -qt ((1 - c_level) / 2, info.len - 1) * 
+				x = -qt ((1 - c_level) / 2, info.len - 1) *
 					sqrt (info.var / info.len);
 				set_cell_float (dao, col + 1, 1, info.mean - x);
 				set_cell_float (dao, col + 1, 2, info.mean + x);
@@ -1347,8 +1347,8 @@ sampling_tool (WorkbookControl *wbc, Sheet *sheet,
 
 
 int
-ztest_tool (WorkbookControl *wbc, Sheet *sheet, 
-	    Value *input_range_1, Value *input_range_2, 
+ztest_tool (WorkbookControl *wbc, Sheet *sheet,
+	    Value *input_range_1, Value *input_range_2,
 	    gnum_float mean_diff, gnum_float known_var_1,
 	    gnum_float known_var_2, gnum_float alpha,
 	    data_analysis_output_t *dao)
@@ -1378,15 +1378,15 @@ ztest_tool (WorkbookControl *wbc, Sheet *sheet,
 					"/P (Z<=z) two-tail"
 					"/z Critical two-tail"));
 
-	mean_error_1 = range_average ((const gnum_float *) variable_1->data->data, 
+	mean_error_1 = range_average ((const gnum_float *) variable_1->data->data,
 				      variable_1->data->len, &mean_1);
-	mean_error_2 = range_average ((const gnum_float *) variable_2->data->data, 
+	mean_error_2 = range_average ((const gnum_float *) variable_2->data->data,
 				      variable_2->data->len, &mean_2);
 	no_error = (mean_error_1 == 0) && (mean_error_2 == 0);
- 
+
 	if (no_error) {
 		z = (mean_1 - mean_2 - mean_diff) /
-			sqrt (known_var_1 / variable_1->data->len  + known_var_2 / 
+			sqrt (known_var_1 / variable_1->data->len  + known_var_2 /
 			      variable_2->data->len);
 		p = 1 - pnorm (fabs (z), 0, 1);
 	}
@@ -1460,8 +1460,8 @@ ztest_tool (WorkbookControl *wbc, Sheet *sheet,
 /* t-Test: Paired Two Sample for Means.
  */
 int
-ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet, 
-		   Value *input_range_1, Value *input_range_2, 
+ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
+		   Value *input_range_1, Value *input_range_2,
 		   gnum_float mean_diff_hypo, gnum_float alpha,
 		   data_analysis_output_t *dao)
 {
@@ -1494,7 +1494,7 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
 	missing = union_of_int_sets (variable_1->missing, variable_2->missing);
 	cleaned_variable_1 = strip_missing (variable_1->data, missing);
 	cleaned_variable_2 = strip_missing (variable_2->data, missing);
-	
+
 	prepare_output (wbc, dao, _("t-Test"));
 
         set_cell (dao, 0, 0, "");
@@ -1521,26 +1521,26 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
 		g_array_append_val (difference, diff);
 	}
 
-	mean_error_1 = range_average ((const gnum_float *) cleaned_variable_1->data, 
+	mean_error_1 = range_average ((const gnum_float *) cleaned_variable_1->data,
 				      cleaned_variable_1->len, &mean_1);
-	mean_error_2 = range_average ((const gnum_float *) cleaned_variable_2->data, 
+	mean_error_2 = range_average ((const gnum_float *) cleaned_variable_2->data,
 				      cleaned_variable_2->len, &mean_2);
-	mean_diff_error = range_average ((const gnum_float *) difference->data, 
+	mean_diff_error = range_average ((const gnum_float *) difference->data,
 					 difference->len, &mean_diff);
 
-	if (mean_error_1 == 0) 
+	if (mean_error_1 == 0)
 		var_error_1 = range_var_est (
-			(const gnum_float *)cleaned_variable_1->data, 
+			(const gnum_float *)cleaned_variable_1->data,
 			cleaned_variable_1->len , &var_1);
-	if (mean_error_2 == 0) 
+	if (mean_error_2 == 0)
 		var_error_2 = range_var_est (
-			(const gnum_float *) cleaned_variable_2->data, 
+			(const gnum_float *) cleaned_variable_2->data,
 			cleaned_variable_2->len , &var_2);
-	if (mean_diff_error == 0) 
+	if (mean_diff_error == 0)
 		var_diff_error = range_var_est (
-			(const gnum_float *) difference->data, 
+			(const gnum_float *) difference->data,
 			difference->len , &var_diff);
-	else 
+	else
 		var_diff_error = 99;
 
 	df = cleaned_variable_1->len - 1;
@@ -1624,8 +1624,8 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
 /* t-Test: Two-Sample Assuming Equal Variances.
  */
 int
-ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet, 
-		   Value *input_range_1, Value *input_range_2, 
+ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet,
+		   Value *input_range_1, Value *input_range_2,
 		   gnum_float mean_diff, gnum_float alpha,
 		   data_analysis_output_t *dao)
 {
@@ -1658,18 +1658,18 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 					"/P (T<=t) two-tail"
 					"/t Critical two-tail"));
 
-	mean_error_1 = range_average ((const gnum_float *) variable_1->data->data, 
+	mean_error_1 = range_average ((const gnum_float *) variable_1->data->data,
 				      variable_1->data->len, &mean_1);
-	mean_error_2 = range_average ((const gnum_float *) variable_2->data->data, 
+	mean_error_2 = range_average ((const gnum_float *) variable_2->data->data,
 				      variable_2->data->len, &mean_2);
- 
-	if (mean_error_1 == 0) 
+
+	if (mean_error_1 == 0)
 		var_error_1 = range_var_est (
-			(const gnum_float *)variable_1->data->data, 
+			(const gnum_float *)variable_1->data->data,
 			variable_1->data->len , &var_1);
-	if (mean_error_2 == 0) 
+	if (mean_error_2 == 0)
 		var_error_2 = range_var_est (
-			(const gnum_float *) variable_2->data->data, 
+			(const gnum_float *) variable_2->data->data,
 			variable_2->data->len , &var_2);
 
 	df = variable_1->data->len + variable_2->data->len - 2;
@@ -1678,7 +1678,7 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 		       (var_error_1 == 0) && (var_error_2 == 0) && (df > 0));
 
 	if (no_error) {
-		var = (var_1 * (variable_1->data->len - 1) + 
+		var = (var_1 * (variable_1->data->len - 1) +
 		       var_2 * (variable_2->data->len - 1)) / df;
 		if (var != 0) {
 			t = (mean_1 - mean_2 - mean_diff) /
@@ -1710,7 +1710,7 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_cell_float (dao, 1, 5, mean_diff);
 
 	/* Observed Mean Difference */
-	set_cell_float_na (dao, 1, 6, mean_1 - mean_2, 
+	set_cell_float_na (dao, 1, 6, mean_1 - mean_2,
 			   (mean_error_1 == 0) && (mean_error_2 == 0));
 
 	/* df */
@@ -1752,8 +1752,8 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 /* t-Test: Two-Sample Assuming Unequal Variances.
  */
 int
-ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet, 
-		    Value *input_range_1, Value *input_range_2, 
+ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet,
+		    Value *input_range_1, Value *input_range_2,
 		    gnum_float mean_diff, gnum_float alpha,
 		    data_analysis_output_t *dao)
 {
@@ -1785,30 +1785,30 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 					"/P (T<=t) two-tail"
 					"/t Critical two-tail"));
 
-	mean_error_1 = range_average ((const gnum_float *) variable_1->data->data, 
+	mean_error_1 = range_average ((const gnum_float *) variable_1->data->data,
 				      variable_1->data->len, &mean_1);
-	mean_error_2 = range_average ((const gnum_float *) variable_2->data->data, 
+	mean_error_2 = range_average ((const gnum_float *) variable_2->data->data,
 				      variable_2->data->len, &mean_2);
- 
-	if (mean_error_1 == 0) 
+
+	if (mean_error_1 == 0)
 		var_error_1 = range_var_est (
-			(const gnum_float *)variable_1->data->data, 
+			(const gnum_float *)variable_1->data->data,
 			variable_1->data->len , &var_1);
-	if (mean_error_2 == 0) 
+	if (mean_error_2 == 0)
 		var_error_2 = range_var_est (
-			(const gnum_float *) variable_2->data->data, 
+			(const gnum_float *) variable_2->data->data,
 			variable_2->data->len , &var_2);
 
 	no_error = ((mean_error_1 == 0) && (mean_error_2 == 0) &&
-		    (var_error_1 == 0) && (var_error_2 == 0) && 
+		    (var_error_1 == 0) && (var_error_2 == 0) &&
 		    (variable_1->data->len > 0) && (variable_2->data->len > 0));
 
 	if (no_error) {
-		c = (var_1 / variable_1->data->len) / 
+		c = (var_1 / variable_1->data->len) /
 			(var_1 / variable_1->data->len + var_2 / variable_2->data->len);
 		df = 1.0 / ((c * c) / (variable_1->data->len - 1.0) +
 			    ((1 - c)* (1 - c)) / (variable_2->data->len - 1.0));
-		
+
 		t =  (mean_1 - mean_2 - mean_diff) /
 			sqrt (var_1 / variable_1->data->len + var_2 / variable_2->data->len);
 		p = 1.0 - pt (fabs (t), df);
@@ -1834,7 +1834,7 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_cell_float (dao, 1, 4, mean_diff);
 
 	/* Observed Mean Difference */
-	set_cell_float_na (dao, 1, 5, mean_1 - mean_2, 
+	set_cell_float_na (dao, 1, 5, mean_1 - mean_2,
 			   (mean_error_1 == 0) && (mean_error_2 == 0));
 
 	/* df */
@@ -1884,8 +1884,8 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 /* F-Test: Two-Sample for Variances
  */
 int
-ftest_tool (WorkbookControl *wbc, Sheet *sheet, 
-	    Value *input_range_1, Value *input_range_2, 
+ftest_tool (WorkbookControl *wbc, Sheet *sheet,
+	    Value *input_range_1, Value *input_range_2,
 	    gnum_float alpha,
 	    data_analysis_output_t *dao)
 {
@@ -1912,11 +1912,11 @@ ftest_tool (WorkbookControl *wbc, Sheet *sheet,
 	} else {
 
 		prepare_output (wbc, dao, _("F-Test"));
-		
+
 		set_cell (dao, 0, 0, "");
 		set_cell (dao, 1, 0, variable_1->label);
 		set_cell (dao, 2, 0, variable_2->label);
-		
+
 		set_cell_text_col (dao, 0, 1, _("/Mean"
 						"/Variance"
 						"/Observations"
@@ -1929,28 +1929,28 @@ ftest_tool (WorkbookControl *wbc, Sheet *sheet,
 						"/P two-tail"
 						"/F Critical two-tail"));
 
-	        mean_error_1 = range_average ((const gnum_float *) variable_1->data->data, 
+	        mean_error_1 = range_average ((const gnum_float *) variable_1->data->data,
 					      variable_1->data->len, &mean_1);
-	        mean_error_2 = range_average ((const gnum_float *) variable_2->data->data, 
+	        mean_error_2 = range_average ((const gnum_float *) variable_2->data->data,
 					      variable_2->data->len, &mean_2);
 
-		if (mean_error_1 == 0) 
+		if (mean_error_1 == 0)
 			var_error_1 = range_var_est (
-				(const gnum_float *)variable_1->data->data, 
+				(const gnum_float *)variable_1->data->data,
 				variable_1->data->len , &var_1);
-		if (mean_error_2 == 0) 
+		if (mean_error_2 == 0)
 			var_error_2 = range_var_est (
-				(const gnum_float *) variable_2->data->data, 
+				(const gnum_float *) variable_2->data->data,
 				variable_2->data->len , &var_2);
 
 		df_1 = variable_1->data->len - 1;
 		df_2 = variable_2->data->len - 1;
 
-		
-		
+
+
 		calc_error = !((mean_error_1 == 0) && (mean_error_2 == 0) &&
 			(var_error_1 == 0) && (var_error_2 == 0) && (var_2 != 0));
-		
+
 		if (!calc_error) {
 			f = var_1/var_2;
 			p_right_tail = 1.0 - pf (f, df_1, df_2);
@@ -1961,7 +1961,7 @@ ftest_tool (WorkbookControl *wbc, Sheet *sheet,
 				p_2_tail =  2 * p_right_tail;
 			else
 				p_2_tail =  2 * p_left_tail;
-		
+
 			q_2_tail_left =  qf (alpha/2.0, df_1, df_2);
 			q_2_tail_right  =  qf (1.0 - alpha/2.0, df_1, df_2);
 		}
@@ -1969,55 +1969,55 @@ ftest_tool (WorkbookControl *wbc, Sheet *sheet,
 		/* Mean */
 		set_cell_float_na (dao, 1, 1, mean_1, mean_error_1 == 0);
 		set_cell_float_na (dao, 2, 1, mean_2, mean_error_2 == 0);
-		
+
 		/* Variance */
 		set_cell_float_na (dao, 1, 2, var_1, (mean_error_1 == 0) && (var_error_1 == 0));
 		set_cell_float_na (dao, 2, 2, var_2, (mean_error_2 == 0) && (var_error_2 == 0));
-		
+
 		/* Observations */
 		set_cell_int (dao, 1, 3, variable_1->data->len);
 		set_cell_int (dao, 2, 3, variable_2->data->len);
-		
+
 		/* df */
 		set_cell_int (dao, 1, 4, df_1);
 		set_cell_int (dao, 2, 4, df_2);
-		
+
 		/* F */
 		set_cell_float_na (dao, 1, 5, f, !calc_error);
-		
+
 		/* P (F<=f) right-tail */
 		set_cell_float_na (dao, 1, 6, p_right_tail, !calc_error);
-		
+
 		/* F Critical right-tail */
 		set_cell_float_na (dao, 1, 7, q_right_tail, !calc_error);
 
 		/* P (F<=f) left-tail */
 		set_cell_float_na (dao, 1, 8, p_left_tail, !calc_error);
-		
+
 		/* F Critical left-tail */
 		set_cell_float_na (dao, 1, 9, q_left_tail, !calc_error);
 
 		/* P (F<=f) two-tail */
 		set_cell_float_na (dao, 1, 10, p_2_tail, !calc_error);
-		
+
 		/* F Critical two-tail */
 		set_cell_float_na (dao, 1, 11, q_2_tail_left, !calc_error);
 		set_cell_float_na (dao, 2, 11, q_2_tail_right, !calc_error);
-		
+
 		set_italic (dao, 0, 0, 0, 11);
 		set_italic (dao, 0, 0, 2, 0);
-		
+
 		autofit_columns (dao, 0, 2);
-		
+
 		sheet_set_dirty (dao->sheet, TRUE);
 		sheet_update (sheet);
 	}
-	
+
 	value_release (input_range_1);
 	value_release (input_range_2);
 	destroy_data_set (variable_1);
 	destroy_data_set (variable_2);
-	
+
 	return result;
 }
 
@@ -2057,15 +2057,15 @@ random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
 		        Cell *cell = sheet_cell_get (range->v_range.cell.a.sheet,
 						     range->v_range.cell.a.col + 1, i);
 
-			if (cell == NULL || 
+			if (cell == NULL ||
 			    (v = cell->value) == NULL ||
 			    !VALUE_IS_NUMBER (v)) {
 				err = 1;
-				goto random_tool_discrete_out;				
+				goto random_tool_discrete_out;
 			}
 			if ((thisprob = value_get_as_float (v)) < 0) {
 				err = 3;
-				goto random_tool_discrete_out;				
+				goto random_tool_discrete_out;
 			}
 
 			prob[j] = thisprob;
@@ -2269,7 +2269,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	gnum_float   *res,  **xss;
 	guint        i;
 	guint        xdim           = 0;
-	int          err            = 0; 
+	int          err            = 0;
 	int          cor_err        = 0;
 	int          av_err         = 0;
 	int          sumsq_err      = 0;
@@ -2293,7 +2293,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 		destroy_data_set_list (x_data);
 		range_list_destroy (x_input_range);
 		value_release (y_input);
-		return 3;		
+		return 3;
 	}
 
 /* create a list of all missing or incomplete observations */
@@ -2301,7 +2301,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	for (i = 0; i < xdim; i++) {
 		GSList *this_missing;
 		GSList *the_union;
-		
+
 		this_missing = ((data_set_t *)g_ptr_array_index (x_data, i))->missing;
 		the_union = union_of_int_sets (missing, this_missing);
 		g_slist_free (missing);
@@ -2314,7 +2314,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 		y_data->data = cleaned;
 		for (i = 0; i < xdim; i++) {
 			cleaned = strip_missing (((data_set_t *)
-						  g_ptr_array_index (x_data, i))->data, 
+						  g_ptr_array_index (x_data, i))->data,
 						 missing);
 			g_array_free (((data_set_t *)
 				       g_ptr_array_index (x_data, i))->data, TRUE);
@@ -2328,11 +2328,11 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	res = g_new (gnum_float, xdim + 1);
 
 	for (i = 0; i < xdim; i++) {
-		xss[i] = (gnum_float *)(((data_set_t *)g_ptr_array_index 
+		xss[i] = (gnum_float *)(((data_set_t *)g_ptr_array_index
 					 (x_data, i))->data->data);
 	}
 
-	err = linear_regression (xss, xdim, (gnum_float *)(y_data->data->data), 
+	err = linear_regression (xss, xdim, (gnum_float *)(y_data->data->data),
 				 y_data->data->len, intercept, res, &extra_stat);
 
 	if (err) {
@@ -2374,7 +2374,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 					 "/F"
 					 "/Significance of F"));
 	set_italic (dao, 1, 10, 5, 10);
-	
+
 	text = g_strdup_printf (_("/Coefficients"
 				  "/Standard Error"
 				  "/t Stat"
@@ -2426,7 +2426,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_cell_float_na (dao, 2, 13, ss_yy, (sumsq_err == 0) && (av_err == 0));
 
 	/* Regression / SS */
-	set_cell_float_na (dao, 2, 11, ss_yy - extra_stat.ss_resid, 
+	set_cell_float_na (dao, 2, 11, ss_yy - extra_stat.ss_resid,
 			   (sumsq_err == 0) && (av_err == 0));
 
 	/* Regression / MS */
@@ -2527,7 +2527,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 
 
 int
-average_tool (WorkbookControl *wbc, Sheet *sheet, 
+average_tool (WorkbookControl *wbc, Sheet *sheet,
 	      GSList *input, group_by_t group_by,
 	      int interval,
 	      int std_error_flag, data_analysis_output_t *dao)
@@ -2563,9 +2563,9 @@ average_tool (WorkbookControl *wbc, Sheet *sheet,
 		add_cursor = del_cursor = 0;
 		sum = 0;
 		std_err = 0;
-		
+
 		for (row = 0; row < interval - 1; row++) {
-			prev[add_cursor] = g_array_index 
+			prev[add_cursor] = g_array_index
 				(current->data, gnum_float, row);
 			sum += prev[add_cursor];
 			++add_cursor;
@@ -2574,7 +2574,7 @@ average_tool (WorkbookControl *wbc, Sheet *sheet,
 				set_cell_na (dao, col + 1, row + 1);
 		}
 		for (row = interval - 1; row < (gint)current->data->len; row++) {
-			prev[add_cursor] = g_array_index 
+			prev[add_cursor] = g_array_index
 				(current->data, gnum_float, row);
 			sum += prev[add_cursor];
 			prev_av[add_cursor] = sum / interval;
@@ -2584,7 +2584,7 @@ average_tool (WorkbookControl *wbc, Sheet *sheet,
 				std_err += (prev[add_cursor] - prev_av[add_cursor]) *
 					(prev[add_cursor] - prev_av[add_cursor]);
 				if (row >= 2 * interval - 2) {
-					set_cell_float (dao, col + 1, row + 1, 
+					set_cell_float (dao, col + 1, row + 1,
 							sqrt (std_err / interval));
 					std_err -= (prev[del_cursor] - prev_av[del_cursor]) *
 						(prev[del_cursor] - prev_av[del_cursor]);
@@ -2659,7 +2659,7 @@ exp_smoothing_tool (WorkbookControl *wbc, Sheet *sheet,
 		for (row = 0; row < current->data->len; row++) {
 			if (row == 0)
 				/* Cannot forecast for the first data element */
-				
+
 				set_cell_na (dao, dataset, row + 1);
 			else if (row == 1) {
 				/* The second forecast is always the first data element */
@@ -2669,7 +2669,7 @@ exp_smoothing_tool (WorkbookControl *wbc, Sheet *sheet,
 				/* F(t+1) = F(t) + (1 - damp_fact) * ( A(t) - F(t) ),
 				 * where A(t) is the t'th data element.
 				 */
-				
+
 				f = f + (1.0 - damp_fact) * (a - f);
 				set_cell_float (dao, dataset, row + 1, f);
 			}
@@ -2739,7 +2739,7 @@ ranking_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input,
 		set_cell (dao, n_data * 4+1, 0, this_data_set->label);
 		set_cell (dao, n_data * 4 + 2, 0, _("Rank"));
 		set_cell (dao, n_data * 4 + 3, 0, _("Percent"));
-		
+
 		rank = g_new (rank_t, this_data_set->data->len);
 
 		for (i = 0; i < this_data_set->data->len; i++) {
@@ -2772,14 +2772,14 @@ ranking_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input,
 			set_cell_float (dao, n_data * 4 + 1, i + 1, rank[i].x);
 
 			/* Rank */
-			set_cell_float (dao, n_data * 4 + 2, i + 1, 
-					rank[i].rank + 
+			set_cell_float (dao, n_data * 4 + 2, i + 1,
+					rank[i].rank +
 					(av_ties_flag ? rank[i].same_rank_count/2. : 0));
 
 			/* Percent */
 			set_cell_float_na (dao, n_data * 4 + 3, i + 1,
 					   1. - (rank[i].rank - 1.)/
-						    (this_data_set->data->len - 1.), 
+						    (this_data_set->data->len - 1.),
 					   this_data_set->data->len != 0);
 		}
 		g_free (rank);
@@ -2805,7 +2805,7 @@ ranking_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input,
  **/
 
 int
-anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet, 
+anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet,
 			  GSList *input, group_by_t group_by,
 			  gnum_float alpha, data_analysis_output_t *dao)
 {
@@ -2840,39 +2840,39 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet,
 
 	dao->start_row += 4;
 	dao->rows -= 4;
-	if ((dao->type == RangeOutput) &&  (dao->rows <= 0)) 
+	if ((dao->type == RangeOutput) &&  (dao->rows <= 0))
 		goto finish_anova_single_factor_tool;
-	
+
 	/* SUMMARY & ANOVA calculation*/
 	treatment_mean = g_new (gnum_float, data->len);
 	for (index = 0; index < data->len; index++) {
 		gnum_float x;
 		data_set_t *current_data;
 		gnum_float *the_data;
-		
+
 		current_data = g_ptr_array_index (data, index);
 		the_data = (gnum_float *)current_data->data->data;
-		
+
 		/* Label */
 		set_cell_printf (dao, 0, index, current_data->label);
-		
+
 		/* Count */
 		set_cell_int (dao, 1, index, current_data->data->len);
 		N += current_data->data->len;
-		
+
 		/* Sum */
-		error = range_sum (the_data, 
+		error = range_sum (the_data,
 				   current_data->data->len, &x);
 		set_cell_float_na (dao, 2, index, x, error == 0);
 
 		/* Average */
-		error = range_average (the_data, 
+		error = range_average (the_data,
 				       current_data->data->len, &x);
 		set_cell_float_na (dao, 3, index, x, error == 0);
 		treatment_mean[index] = x;
-		
+
 		/* Variance */
-		error = range_var_est (the_data, 
+		error = range_var_est (the_data,
 				       current_data->data->len, &x);
 		set_cell_float_na (dao, 4, index, x, error == 0);
 
@@ -2882,7 +2882,7 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet,
 
 	dao->start_row += data->len + 2;
 	dao->rows -= data->len + 2;
-	if ((dao->type == RangeOutput) &&  (dao->rows <= 0)) 
+	if ((dao->type == RangeOutput) &&  (dao->rows <= 0))
 		goto finish_anova_single_factor_tool;
 
 
@@ -2903,7 +2903,7 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet,
 	df_b = data->len - 1;
 	df_w = N - data->len;
 	df_t = N - 1;
-	
+
 	error = range_average (treatment_mean, data->len, &overall_mean);
 	ss_terms = g_new (gnum_float, data->len);
 	for (index = 0; index < data->len; index++) {
@@ -3001,24 +3001,24 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *inpu
 		col_input_range = g_slist_remove_link (col_input_range, list);
 		range_list_destroy (list);
 	}
-	if (col_input_range == NULL || row_input_range == NULL || 
+	if (col_input_range == NULL || row_input_range == NULL ||
 	    col_input_range->next == NULL || row_input_range->next == NULL) {
 		range_list_destroy (col_input_range);
 		range_list_destroy (row_input_range);
-		return 3; 
+		return 3;
 	}
 
 	row_data = new_data_set_list (row_input_range, GROUPED_BY_ROW,
 				  FALSE, dao->labels_flag, sheet);
 	col_data = new_data_set_list (col_input_range, GROUPED_BY_COL,
 				  FALSE, dao->labels_flag, sheet);
-	if (check_data_for_missing (row_data) || 
+	if (check_data_for_missing (row_data) ||
 	    check_data_for_missing (col_data)) {
 		range_list_destroy (col_input_range);
 		range_list_destroy (row_input_range);
 		destroy_data_set_list (row_data);
 		destroy_data_set_list (col_data);
-		return 2; 
+		return 2;
 	}
 
 	prepare_output (wbc, dao, _("Anova"));
@@ -3048,15 +3048,15 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *inpu
 		sum +=  v;
 		ss_r += v * v/ data_set->data->len;
 		set_cell_float_na (dao, 2, i + 3, v, error == 0);
-		set_cell_float_na (dao, 3, i + 3,  v / data_set->data->len, 
+		set_cell_float_na (dao, 3, i + 3,  v / data_set->data->len,
 				   error == 0 && data_set->data->len != 0);
 		error = range_var_est (the_data, data_set->data->len , &v);
 		set_cell_float_na (dao, 4, i + 3, v, error == 0);
-		
+
 		error = range_sumsq (the_data, data_set->data->len, &v);
 		ss_t += v;
 	}
-	
+
 	for (i = 0; i < cols; i++) {
 	        gnum_float v;
 		data_set_t *data_set;
@@ -3070,7 +3070,7 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *inpu
 		error = range_sum (the_data, data_set->data->len, &v);
 		ss_c += v * v/ data_set->data->len;
 		set_cell_float_na (dao, 2, i + 4 + rows, v, error == 0);
-		set_cell_float_na (dao, 3, i + 4 + rows, v / data_set->data->len, 
+		set_cell_float_na (dao, 3, i + 4 + rows, v / data_set->data->len,
 				   error == 0 && data_set->data->len != 0);
 		error = range_var_est (the_data, data_set->data->len , &v);
 		set_cell_float_na (dao, 4, i + 4 + rows, v, error == 0);
@@ -3154,7 +3154,7 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *inpu
  **/
 
 static char *
-make_label (Sheet *sheet, int col, int row, char *default_format, int index, 
+make_label (Sheet *sheet, int col, int row, char *default_format, int index,
 	    gboolean read_cell)
 {
 	char *rendered_text = NULL;
@@ -3162,7 +3162,7 @@ make_label (Sheet *sheet, int col, int row, char *default_format, int index,
 		Cell *cell;
 		cell = sheet_cell_get (sheet, col, row);
 		if (cell)
-			rendered_text = cell_get_rendered_text (cell);	
+			rendered_text = cell_get_rendered_text (cell);
 	}
 	if (rendered_text != NULL) {
 		if (strlen (rendered_text) == 0)
@@ -3195,10 +3195,10 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 	gboolean empty_sample = FALSE;
 	gint return_value = 0;
 
-	rows = input->v_range.cell.b.row - input->v_range.cell.a.row + 
+	rows = input->v_range.cell.b.row - input->v_range.cell.a.row +
 		(dao->labels_flag ? 0 : 1);
 	n_r = rows/rows_per_sample;
-	n_c = input->v_range.cell.b.col - input->v_range.cell.a.col + 
+	n_c = input->v_range.cell.b.col - input->v_range.cell.a.col +
 		(dao->labels_flag ? 0 : 1);
 
 	/* Check that correct number of rows per sample */
@@ -3219,28 +3219,28 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 
 	col_labels = g_ptr_array_new ();
 	g_ptr_array_set_size (col_labels, n_c);
-	for (i_c = 0; i_c < n_c; i_c++) 
+	for (i_c = 0; i_c < n_c; i_c++)
 		g_ptr_array_index (col_labels, i_c) = make_label (
 			sheet, input->v_range.cell.a.col + i_c,
 			input->v_range.cell.a.row - 1,
 			_("Column %i"), i_c + 1, dao->labels_flag);
 	row_labels = g_ptr_array_new ();
 	g_ptr_array_set_size (row_labels, n_r);
-	for (i_r = 0; i_r < n_r; i_r++) 
+	for (i_r = 0; i_r < n_r; i_r++)
 		g_ptr_array_index (row_labels, i_r) = make_label (
-			sheet, 
+			sheet,
 			input->v_range.cell.a.col - 1,
 			input->v_range.cell.a.row + i_r * rows_per_sample,
 			_("Row %i"), i_r + 1, dao->labels_flag);
 
 	input_cp = value_duplicate (input);
-	input_cp->v_range.cell.b.row = input_cp->v_range.cell.a.row + 
+	input_cp->v_range.cell.b.row = input_cp->v_range.cell.a.row +
 		rows_per_sample - 1;
 	row_data = g_ptr_array_new ();
 	while (input_cp->v_range.cell.a.row < input->v_range.cell.b.row) {
 		GPtrArray *col_data = NULL;
 		GSList *col_input_range = NULL;
-		
+
 		col_input_range = g_slist_prepend (NULL, value_duplicate (input_cp));
 		prepare_input_range (&col_input_range, GROUPED_BY_COL);
 		col_data = new_data_set_list (col_input_range, GROUPED_BY_COL,
@@ -3249,11 +3249,11 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 		range_list_destroy (col_input_range);
 		input_cp->v_range.cell.a.row += rows_per_sample;
 		input_cp->v_range.cell.b.row += rows_per_sample;
-	}	
+	}
 	value_release (input_cp);
 
 /* We have loaded the data, we should now check for missing observations */
-	
+
 	for (i_r = 0; i_r < n_r; i_r++) {
 		GPtrArray *data = NULL;
 
@@ -3261,10 +3261,10 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 		for (i_c = 0; i_c < n_c; i_c++) {
 			data_set_t *cell_data;
 			guint num;
-			
+
 			cell_data = g_ptr_array_index (data, i_c);
 			num = cell_data->data->len;
-			if (num == 0) 
+			if (num == 0)
 				empty_sample = TRUE;
 			else {
 				if (num > max_sample_size)
@@ -3288,7 +3288,7 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 	set_cell (dao, 0, 0, _("Anova: Two-Factor With Replication"));
 	set_cell (dao, 0, 2, _("SUMMARY"));
 	for (i_c = 0; i_c < n_c; i_c++)
-		set_cell (dao, 1 + i_c, 2, 
+		set_cell (dao, 1 + i_c, 2,
 			 (char *)g_ptr_array_index (col_labels, i_c));
 	set_cell (dao, 1 + n_c, 2, _("Total"));
 	for (i_r = 0; i_r <= n_r; i_r++) {
@@ -3297,7 +3297,7 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 							"/Average"
 							"/Variance"));
 		if (i_r < n_r)
-			set_cell (dao, 0, 3 + i_r * 6, 
+			set_cell (dao, 0, 3 + i_r * 6,
 				  (char *)g_ptr_array_index (row_labels, i_r));
 	}
 	set_cell (dao, 0, 3 + n_r * 6, _("Total"));
@@ -3330,7 +3330,7 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 			int error;
 			int num;
 			gnum_float *the_data;
-			
+
 			cell_data = g_ptr_array_index (data, i_c);
 			the_data = (gnum_float *)cell_data->data->data;
 			num = cell_data->data->len;
@@ -3341,7 +3341,7 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 			row_sum += v;
 			ss_rc += v * v / num;
 			set_cell_float_na (dao, 1 + i_c, 5 + i_r * 6, v, error == 0);
-			set_cell_float_na (dao, 1 + i_c, 6 + i_r * 6, v / num, 
+			set_cell_float_na (dao, 1 + i_c, 6 + i_r * 6, v / num,
 					   error == 0 && num > 0);
 			error = range_var_est (the_data, num , &v);
 			set_cell_float_na (dao, 1 + i_c, 7 + i_r * 6, v, error == 0);
@@ -3356,7 +3356,7 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 		set_cell_int (dao, 1 + n_c, 4 + i_r * 6, row_cnt);
 		set_cell_float (dao, 1 + n_c, 5 + i_r * 6, row_sum);
 		set_cell_float (dao, 1 + n_c, 6 + i_r * 6, row_sum / row_cnt);
-		set_cell_float (dao, 1 + n_c, 7 + i_r * 6, 
+		set_cell_float (dao, 1 + n_c, 7 + i_r * 6,
 				(row_sum_sq - row_sum * row_sum / row_cnt) / (row_cnt - 1));
 	}
 
@@ -3371,7 +3371,7 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 			int error;
 			gnum_float *the_data;
 			GPtrArray *data = NULL;
-			
+
 			data = g_ptr_array_index (row_data, i_r);
 			cell_data = g_ptr_array_index (data, i_c);
 			the_data = (gnum_float *)cell_data->data->data;
@@ -3381,13 +3381,13 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 			col_sum += v;
 
 			error = range_sumsq (the_data, cell_data->data->len, &v);
-			col_sum_sq += v;			
+			col_sum_sq += v;
 		}
 		ss_c += col_sum * col_sum / col_cnt;
 		set_cell_int (dao, 1 + i_c, 4 + n_r * 6, col_cnt);
 		set_cell_float (dao, 1 + i_c, 5 + n_r * 6, col_sum);
 		set_cell_float (dao, 1 + i_c, 6 + n_r * 6, col_sum / col_cnt);
-		set_cell_float (dao, 1 + i_c, 7 + n_r * 6, 
+		set_cell_float (dao, 1 + i_c, 7 + n_r * 6,
 				(col_sum_sq - col_sum * col_sum / col_cnt) / (col_cnt - 1));
 	}
 
@@ -3396,7 +3396,7 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 	set_cell_float (dao, 1 + n_c, 6 + n_r * 6, cm / n);
 	cm = cm * cm/ n;
 	set_cell_float   (dao, 1 + n_c, 7 + n_r * 6, (ss_total - cm) / (n - 1));
-	
+
 	df_r = n_r - 1;
 	df_c = n_c - 1;
 	df_rc = df_r * df_c;
@@ -3414,12 +3414,12 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 
 		for (i_r = 0; i_r < n_r; i_r++) {
 			GPtrArray *data = NULL;
-			
+
 			data = g_ptr_array_index (row_data, i_r);
 			for (i_c = 0; i_c < n_c; i_c++) {
 				data_set_t *cell_data;
 				guint num, error;
-				
+
 				cell_data = g_ptr_array_index (data, i_c);
 				num = cell_data->data->len;
 				if (num < max_sample_size) {
@@ -3448,7 +3448,7 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 			gnum_float row_sum = 0.0;
 			gnum_float row_sum_sq = 0.0;
 			guint row_cnt = 0;
-			
+
 			data = g_ptr_array_index (row_data, i_r);
 			for (i_c = 0; i_c < n_c; i_c++) {
 				data_set_t *cell_data;
@@ -3456,16 +3456,16 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 				int error;
 				int num;
 				gnum_float *the_data;
-				
+
 				cell_data = g_ptr_array_index (data, i_c);
 				the_data = (gnum_float *)cell_data->data->data;
 				num = cell_data->data->len;
 				row_cnt += num;
-				
+
 				error = range_sum (the_data, num, &v);
 				row_sum += v;
 				ss_rc += v * v / num;
-			
+
 				error = range_sumsq (the_data, num, &v);
 				row_sum_sq += v;
 			}
@@ -3474,29 +3474,29 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 			ss_r += row_sum * row_sum / row_cnt;
 			ss_total += row_sum_sq;
 		}
-		
+
 		for (i_c = 0; i_c < n_c; i_c++) {
 			gnum_float col_sum = 0.0;
 			guint col_cnt = 0;
-			
+
 			for (i_r = 0; i_r < n_r; i_r++) {
 				data_set_t *cell_data;
 				gnum_float v;
 				int error;
 				gnum_float *the_data;
 				GPtrArray *data = NULL;
-				
+
 				data = g_ptr_array_index (row_data, i_r);
 				cell_data = g_ptr_array_index (data, i_c);
 				the_data = (gnum_float *)cell_data->data->data;
-				
+
 				col_cnt += cell_data->data->len;
 				error = range_sum (the_data, cell_data->data->len, &v);
 				col_sum += v;
 			}
 			ss_c += col_sum * col_sum / col_cnt;
 		}
-		
+
 		cm = cm * cm/ n;
 	}
 
@@ -3544,11 +3544,11 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 	set_cell_float_na (dao, 5, n_r * 6 + 13, p_c, ms_e != 0 && df_c > 0 && df_e > 0);
 	set_cell_float_na (dao, 5, n_r * 6 + 14, p_rc, ms_e != 0 && df_rc > 0 && df_e > 0);
 
-	set_cell_float_na (dao, 6, n_r * 6 + 12, qf (1 - alpha, df_r, df_e), 
+	set_cell_float_na (dao, 6, n_r * 6 + 12, qf (1 - alpha, df_r, df_e),
 			   df_r > 0 && df_e > 0);
-	set_cell_float_na (dao, 6, n_r * 6 + 13, qf (1 - alpha, df_c, df_e), 
+	set_cell_float_na (dao, 6, n_r * 6 + 13, qf (1 - alpha, df_c, df_e),
 			   df_c > 0 && df_e > 0);
-	set_cell_float_na (dao, 6, n_r * 6 + 14, qf (1 - alpha, df_rc, df_e), 
+	set_cell_float_na (dao, 6, n_r * 6 + 14, qf (1 - alpha, df_rc, df_e),
 			   df_rc > 0 && df_e > 0);
 
 	set_italic (dao, 0, n_r * 6 + 11, 6, n_r * 6 + 11);
@@ -3638,7 +3638,7 @@ bin_pareto (const bin_t *set_a, const bin_t *set_b)
 	return bin_pareto_at_i (set_a, set_b, 0);
 }
 
-static void 
+static void
 destroy_items (gpointer data, gpointer user_data) {
 	if (((bin_t*)data)->label != NULL && ((bin_t*)data)->destroy_label)
 		g_free(((bin_t*)data)->label);
@@ -3647,7 +3647,7 @@ destroy_items (gpointer data, gpointer user_data) {
 
 int
 histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
-		group_by_t group_by, gboolean bin_labels, 
+		group_by_t group_by, gboolean bin_labels,
 		gboolean pareto, gboolean percentage, gboolean cumulative,
 		gboolean chart, histogram_calc_bin_info_t *bin_info,
 		data_analysis_output_t *dao)
@@ -3690,7 +3690,7 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 		for (i=0; i < bin_data->len; i++) {
 			a_bin = g_new (bin_t, 1);
 			a_bin->limit = g_array_index (
-				((data_set_t *)g_ptr_array_index (bin_data, i))->data, 
+				((data_set_t *)g_ptr_array_index (bin_data, i))->data,
 				gnum_float, 0);
 			a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnum_float));
 			a_bin->counts = g_array_set_size (a_bin->counts, data->len);
@@ -3715,7 +3715,7 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 				GArray * the_data;
 				gnum_float a_max;
 				the_data = ((data_set_t *)(g_ptr_array_index (data, i)))->data;
-				if (0 == range_max ((gnum_float *)the_data->data, the_data->len, 
+				if (0 == range_max ((gnum_float *)the_data->data, the_data->len,
 						    &a_max)) {
 					if (value_set) {
 						if (a_max > bin_info->max)
@@ -3735,7 +3735,7 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 				GArray * the_data;
 				gnum_float a_min;
 				the_data = ((data_set_t *)(g_ptr_array_index (data, i)))->data;
-				if (0 == range_min ((gnum_float *)the_data->data, the_data->len, 
+				if (0 == range_min ((gnum_float *)the_data->data, the_data->len,
 						    &a_min)) {
 					if (value_set) {
 						if (a_min < bin_info->min)
@@ -3761,7 +3761,7 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 			a_bin->last = FALSE;
 			a_bin->first = FALSE;
 			a_bin->strict = FALSE;
-			bin_list = g_slist_prepend (bin_list, a_bin);			
+			bin_list = g_slist_prepend (bin_list, a_bin);
 		}
 		a_bin = g_new (bin_t, 1);
 		a_bin->limit = bin_info->min;
@@ -3782,7 +3782,7 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 		a_bin->last = FALSE;
 		a_bin->first = TRUE;
 		a_bin->strict = TRUE;
-		bin_list = g_slist_prepend (bin_list, a_bin);			
+		bin_list = g_slist_prepend (bin_list, a_bin);
 		bin_labels = FALSE;
 	}
 	a_bin = g_new (bin_t, 1);
@@ -3802,7 +3802,7 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 			a_bin->label = g_strdup_printf (_(">%s"), text);
 			a_bin->destroy_label = TRUE;
 			g_free (text);
-		} else 
+		} else
 			a_bin->label = _("Too Large");
 		if (val)
 			value_release(val);
@@ -3819,16 +3819,16 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 
 		the_data = ((data_set_t *)(g_ptr_array_index (data, i)))->data;
 		the_sorted_data =  range_sort ((gnum_float *)(the_data->data), the_data->len);
-		
+
 		this = bin_list;
 		this_value = the_sorted_data;
 
 		for (j = 0; j < the_data->len;) {
 			if ((*this_value < ((bin_t *)this->data)->limit) ||
-			    (*this_value == ((bin_t *)this->data)->limit && 
+			    (*this_value == ((bin_t *)this->data)->limit &&
 			     !((bin_t *)this->data)->strict) ||
 			    (this->next == NULL)){
-				(g_array_index (((bin_t *)this->data)->counts, 
+				(g_array_index (((bin_t *)this->data)->counts,
 						gnum_float, i))++;
 				j++;
 				this_value++;
@@ -3848,9 +3848,9 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 
 /* print labels */
 	row = dao->labels_flag ? 1 : 0;
-	if (!bin_labels) 
+	if (!bin_labels)
 		set_cell (dao, 0, row, _("Bin"));
-	
+
 	this = bin_list;
 	while (this != NULL) {
 		row++;
@@ -3870,13 +3870,13 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 		row = 0;
 
 		if (dao->labels_flag) {
-			set_cell (dao, col, row, 
+			set_cell (dao, col, row,
 				  ((data_set_t *)g_ptr_array_index (data, i))->label);
 			row++;
 		}
 		set_cell (dao, col, row, _("Frequency"));
 		if (percentage)
-			set_cell (dao, ++l_col, row, _("%"));		
+			set_cell (dao, ++l_col, row, _("%"));
 		if (cumulative)
 			/* xgettext:no-c-format */
 			set_cell (dao, ++l_col, row, _("Cumulative %"));
@@ -3884,7 +3884,7 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 		this = bin_list;
 		while (this != NULL) {
 			gnum_float x;
-			
+
 			l_col = col;
 			x = g_array_index (((bin_t *)this->data)->counts, gnum_float, i);
 			row ++;
@@ -3921,7 +3921,7 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 	}
 	g_slist_foreach (bin_list, destroy_items, NULL);
 	g_slist_free (bin_list);
-	
+
 
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (dao->sheet);
@@ -3934,13 +3934,13 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 
 /************* Fourier Analysis Tool **************************************
  *
- * This tool performa a fast fourier transform calculating the fourier 
+ * This tool performa a fast fourier transform calculating the fourier
  * transform as defined in Weaver: THeory of dis and cont Fouriere Analysis
- * 
+ *
  * If the length of the given sequence is not a power of 2, an appropriate
  * number of 0s are added.
  *
- * 
+ *
  *
  **/
 
@@ -3969,7 +3969,7 @@ fourier_fft (fourier_t *in, fourier_t *fourier)
 		fourier->skip = 1;
 		fourier->n = 1;
 		*(fourier->real) = *(in->real);
-		*(fourier->imaginary) = 0.0; 
+		*(fourier->imaginary) = 0.0;
 		return;
 	}
 
@@ -3987,21 +3987,21 @@ fourier_fft (fourier_t *in, fourier_t *fourier)
 	fourier->real = g_new (gnum_float, fourier->n);
 	fourier->imaginary = g_new (gnum_float, fourier->n);
 	fourier->skip = 1;
-	
+
 	for (i = 0; i < fourier_1.n; i++) {
 		gnum_float arg = M_PI * i / fourier_1.n;
 
-		fourier->real[i] = (fourier_1.real[i] + 
+		fourier->real[i] = (fourier_1.real[i] +
 			fourier_2.real[i] * cos (arg) +
 			fourier_2.imaginary[i] * sin (arg))/2;
-		fourier->imaginary[i] = (fourier_1.imaginary[i] + 
+		fourier->imaginary[i] = (fourier_1.imaginary[i] +
 			fourier_2.imaginary[i] * cos (arg) -
 			fourier_2.real[i] * sin (arg))/2;
 
-		fourier->real[i + fourier_1.n] = (fourier_1.real[i] - 
+		fourier->real[i + fourier_1.n] = (fourier_1.real[i] -
 			fourier_2.real[i] * cos (arg) -
 			fourier_2.imaginary[i] * sin (arg))/2;
-		fourier->imaginary[i + fourier_1.n] = (fourier_1.imaginary[i] - 
+		fourier->imaginary[i + fourier_1.n] = (fourier_1.imaginary[i] -
 			fourier_2.imaginary[i] * cos (arg) +
 			fourier_2.real[i] * sin (arg))/2;
 	}
@@ -4010,7 +4010,7 @@ fourier_fft (fourier_t *in, fourier_t *fourier)
 	g_free (fourier_1.real);
 	g_free (fourier_1.imaginary);
 	g_free (fourier_2.real);
-	g_free (fourier_2.imaginary);	
+	g_free (fourier_2.imaginary);
 }
 
 static void
@@ -4031,7 +4031,7 @@ fourier_fft_inv (fourier_t *in, fourier_t *fourier)
 		fourier->skip = 1;
 		fourier->n = 1;
 		*(fourier->real) = *(in->real);
-		*(fourier->imaginary) = 0.0; 
+		*(fourier->imaginary) = 0.0;
 		return;
 	}
 
@@ -4049,21 +4049,21 @@ fourier_fft_inv (fourier_t *in, fourier_t *fourier)
 	fourier->real = g_new (gnum_float, fourier->n);
 	fourier->imaginary = g_new (gnum_float, fourier->n);
 	fourier->skip = 1;
-	
+
 	for (i = 0; i < fourier_1.n; i++) {
 		gnum_float arg = M_PI * i / fourier_1.n;
 
-		fourier->real[i] = (fourier_1.real[i] + 
+		fourier->real[i] = (fourier_1.real[i] +
 			fourier_2.real[i] * cos (arg) -
 			fourier_2.imaginary[i] * sin (arg))/2;
-		fourier->imaginary[i] = (fourier_1.imaginary[i] + 
+		fourier->imaginary[i] = (fourier_1.imaginary[i] +
 			fourier_2.imaginary[i] * cos (arg) +
 			fourier_2.real[i] * sin (arg))/2;
 
-		fourier->real[i + fourier_1.n] = (fourier_1.real[i] - 
+		fourier->real[i + fourier_1.n] = (fourier_1.real[i] -
 			fourier_2.real[i] * cos (arg) +
 			fourier_2.imaginary[i] * sin (arg))/2;
-		fourier->imaginary[i + fourier_1.n] = (fourier_1.imaginary[i] - 
+		fourier->imaginary[i + fourier_1.n] = (fourier_1.imaginary[i] -
 			fourier_2.imaginary[i] * cos (arg) -
 			fourier_2.real[i] * sin (arg))/2;
 	}
@@ -4072,7 +4072,7 @@ fourier_fft_inv (fourier_t *in, fourier_t *fourier)
 	g_free (fourier_1.real);
 	g_free (fourier_1.imaginary);
 	g_free (fourier_2.real);
-	g_free (fourier_2.imaginary);	
+	g_free (fourier_2.imaginary);
 }
 
 int
@@ -4117,7 +4117,7 @@ fourier_tool (WorkbookControl *wbc, Sheet *sheet,
 		in.real = (gnum_float *) current->data->data;
 		in.skip = 1;
 		in.n = current->data->len;
-		
+
 		if (inverse_flag == 0)
 			fourier_fft (&in, &fourier);
 		else
@@ -4126,7 +4126,7 @@ fourier_tool (WorkbookControl *wbc, Sheet *sheet,
 		if (fourier.real != NULL && fourier.imaginary != NULL) {
 			gnum_float  *imag =  fourier.imaginary;
 			gnum_float  *real =  fourier.real;
-			
+
 			for (row = 0; row < given_length; row++) {
 				set_cell_float (dao, col, row + 2, *real);
 				set_cell_float (dao, col + 1, row + 2, *imag);

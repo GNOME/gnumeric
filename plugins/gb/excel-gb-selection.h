@@ -12,9 +12,9 @@
 
 #define EXCEL_TYPE_GB_SELECTION            (excel_gb_selection_get_type ())
 #define EXCEL_GB_SELECTION(obj)            (GTK_CHECK_CAST ((obj), EXCEL_TYPE_GB_SELECTION, ExcelGBSelection))
-#define EXCEL_GB_SELECTION_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), EXCEL_TYPE_GB_SELECTION, ExcelGBSelectionClass))
-#define EXCEL_IS_GB_SELECTION(obj)         (GTK_CHECK_TYPE ((obj), EXCEL_TYPE_GB_SELECTION))
-#define EXCEL_IS_GB_SELECTION_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), EXCEL_TYPE_GB_SELECTION))
+#define EXCEL_GB_SELECTION_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), EXCEL_TYPE_GB_SELECTION, ExcelGBSelectionClass))
+#define EXCEL_IS_GB_SELECTION(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EXCEL_TYPE_GB_SELECTION))
+#define EXCEL_IS_GB_SELECTION_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EXCEL_TYPE_GB_SELECTION))
 
 typedef struct {
 	GBRunObject object;

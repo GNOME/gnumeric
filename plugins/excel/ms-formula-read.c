@@ -1316,7 +1316,7 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 			ExcelWorkbook *wb = sheet->wb;
 
 			if (ver >= MS_BIFF_V8) {
-				XLExternSheet const *es = ms_excel_workboot_get_externsheets (sheet->wb, 
+				XLExternSheet const *es = ms_excel_workboot_get_externsheets (sheet->wb,
 					MS_OLE_GET_GUINT16 (cur));
 
 				g_return_val_if_fail (es != NULL, NULL);
@@ -1382,7 +1382,7 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 			ExcelWorkbook *wb = sheet->wb;
 
 			if (ver >= MS_BIFF_V8) {
-				XLExternSheet const *es = ms_excel_workboot_get_externsheets (sheet->wb, 
+				XLExternSheet const *es = ms_excel_workboot_get_externsheets (sheet->wb,
 					MS_OLE_GET_GUINT16 (cur));
 
 				g_return_val_if_fail (es != NULL, NULL);

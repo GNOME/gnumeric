@@ -13,7 +13,7 @@ INCLUDES = 								\
 	-DGNUMERIC_SYSCONFDIR=\""$(sysconfdir)"\"			\
 	-DGNUMERIC_DATADIR=\""$(gnumeric_datadir)"\"			\
 	-DGNUMERIC_LIBDIR=\""$(gnumeric_libdir)"\"			\
-	-DGNOME_ICONDIR=\""$(datadir)/pixmaps"\"			\
+	-DGNUMERIC_ICONDIR=\""$(gnumeric_icondir)"\"			\
 	-I$(top_srcdir)							\
 	-I$(srcdir)							\
 	-I$(srcdir)/widgets						\
@@ -309,8 +309,8 @@ gui-gtkmarshalers.c : gui-gtkmarshalers.list $(GLIB_GENMARSHAL)
 
 # include conditional files to ensure everything gets distributed no matter
 # what the build
-EXTRA_DIST = GNOME_Gnumeric.xml \
-	    normal-args.c corba-args.c		 \
+EXTRA_DIST = GNOME_Gnumeric.xml gui-gtkmarshalers.list	\
+	    normal-args.c corba-args.c			\
 	    $(GNUMERIC_BONOBO)
 
 #number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c

@@ -200,7 +200,7 @@ format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
 		sf = listitem->data;
 		if (sf)
 			style_format_unref (sf);
-			
+
 		listitem->data = style_format_new_XL (new_fmt, TRUE);
 
 		gtk_clist_set_text (info->format_collist, info->format_run_index, 1, new_fmt);
@@ -389,25 +389,20 @@ stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	gtk_clist_set_column_justification (info->format_collist, 0, GTK_JUSTIFY_RIGHT);
 
 	/* Connect signals */
-	gtk_signal_connect (GTK_OBJECT (info->format_format),
-			    "changed",
-			    GTK_SIGNAL_FUNC (format_page_format_changed),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->format_collist),
-			    "select_row",
-			    GTK_SIGNAL_FUNC (format_page_collist_select_row),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->format_sublist),
-			    "select_row",
-			    GTK_SIGNAL_FUNC (format_page_sublist_select_row),
-			    pagedata);
-	gtk_signal_connect (GTK_OBJECT (info->format_canvas),
-			    "button_press_event",
-			    GTK_SIGNAL_FUNC (format_page_canvas_button_press_event),
-			    pagedata);
+	g_signal_connect (G_OBJECT (info->format_format),
+		"changed",
+		G_CALLBACK (format_page_format_changed), pagedata);
+	g_signal_connect (G_OBJECT (info->format_collist),
+		"select_row",
+		G_CALLBACK (format_page_collist_select_row), pagedata);
+	g_signal_connect (G_OBJECT (info->format_sublist),
+		"select_row",
+		G_CALLBACK (format_page_sublist_select_row), pagedata);
+	g_signal_connect (G_OBJECT (info->format_canvas),
+		"button_press_event",
+		G_CALLBACK (format_page_canvas_button_press_event), pagedata);
 
-	gtk_signal_connect (GTK_OBJECT (GTK_RANGE (info->format_scroll)->adjustment),
-			    "value_changed",
-			    GTK_SIGNAL_FUNC (format_page_scroll_value_changed),
-			    pagedata);
+	g_signal_connect (G_OBJECT (GTK_RANGE (info->format_scroll)->adjustment),
+		"value_changed",
+		G_CALLBACK (format_page_scroll_value_changed), pagedata);
 }

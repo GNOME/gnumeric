@@ -45,12 +45,12 @@ typedef struct {
 } SheetViewClass;
 
 #define SHEET_VIEW_TYPE     (sheet_view_get_type ())
-#define SHEET_VIEW(obj)     (GTK_CHECK_CAST ((obj), SHEET_VIEW_TYPE, SheetView))
-#define IS_SHEET_VIEW(o)    (GTK_CHECK_TYPE ((o), SHEET_VIEW_TYPE))
-#define SHEET_VIEW_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_VIEW_TYPE, SheetViewClass))
+#define SHEET_VIEW(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), SHEET_VIEW_TYPE, SheetView))
+#define IS_SHEET_VIEW(o)    (G_TYPE_CHECK_INSTANCE_TYPE ((o), SHEET_VIEW_TYPE))
+#define SHEET_VIEW_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_VIEW_TYPE, SheetViewClass))
 
 /* Lifecycle */
-GtkType	   sheet_view_get_type	 (void);
+GType	   sheet_view_get_type	 (void);
 SheetView *sheet_view_new	 (Sheet *sheet);
 void	   sheet_view_init       (SheetView *sv, Sheet *sheet);
 void	   s_view_attach_control (SheetView *sv, SheetControl *sc);

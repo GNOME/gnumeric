@@ -80,7 +80,7 @@ typedef struct _PluginLoaderTypeInfo PluginLoaderTypeInfo;
 struct _PluginLoaderTypeInfo {
 	gchar  *id_str;
 	gboolean has_type;
-	GtkType loader_type;
+	GType loader_type;
 	PluginLoaderGetTypeCallback get_type_callback;
 	gpointer get_type_callback_data;
 };
@@ -154,7 +154,7 @@ plugin_file_state_from_string (const gchar *str)
 	state->file_state = strv[1];
 	state->dir_name = strv[2];
 	g_free (strv);
-	
+
 	return state;
 }
 
@@ -413,7 +413,7 @@ plugin_info_provides_loader_by_type_str (PluginInfo *pinfo, const gchar *loader_
 		    (loader_type_str == NULL ||
 		     strcmp ((*service_ptr)->t.plugin_loader.loader_id, loader_type_str) == 0)) {
 			return TRUE;
-		}	
+		}
 	}
 
 	return FALSE;
@@ -457,12 +457,12 @@ plugin_info_get_loader (PluginInfo *pinfo)
  */
 
 void
-plugin_loader_register_type (const gchar *id_str, GtkType loader_type)
+plugin_loader_register_type (const gchar *id_str, GType loader_type)
 {
 	PluginLoaderTypeInfo *loader_type_info;
 
 	g_return_if_fail (id_str != NULL);
- 
+
 	loader_type_info = g_new (PluginLoaderTypeInfo, 1);
 	loader_type_info->id_str = g_strdup (id_str);
 	loader_type_info->has_type = TRUE;
@@ -480,23 +480,23 @@ plugin_loader_register_id_only (const gchar *id_str, PluginLoaderGetTypeCallback
 
 	g_return_if_fail (id_str != NULL);
 	g_return_if_fail (callback != NULL);
- 
+
 	loader_type_info = g_new (PluginLoaderTypeInfo, 1);
 	loader_type_info->id_str = g_strdup (id_str);
 	loader_type_info->has_type = FALSE;
-	loader_type_info->loader_type = (GtkType) 0;
+	loader_type_info->loader_type = G_TYPE_NONE;
 	loader_type_info->get_type_callback = callback;
 	loader_type_info->get_type_callback_data = callback_data;
 	registered_loader_types = g_list_append (registered_loader_types, loader_type_info);
 }
 
-GtkType
+GType
 plugin_loader_get_type_by_id (const gchar *id_str, ErrorInfo **ret_error)
 {
 	GList *l;
 
-	g_return_val_if_fail (id_str != NULL, (GtkType) 0);
-	g_return_val_if_fail (ret_error != NULL, (GtkType) 0);
+	g_return_val_if_fail (id_str != NULL, G_TYPE_NONE);
+	g_return_val_if_fail (ret_error != NULL, G_TYPE_NONE);
 
 	*ret_error = NULL;
 	for (l = registered_loader_types; l != NULL; l = l->next) {
@@ -507,7 +507,7 @@ plugin_loader_get_type_by_id (const gchar *id_str, ErrorInfo **ret_error)
 				return loader_type_info->loader_type;
 			} else {
 				ErrorInfo *error;
-				GtkType loader_type;
+				GType loader_type;
 
 				loader_type = loader_type_info->get_type_callback (
 				              loader_type_info->get_type_callback_data,
@@ -521,7 +521,7 @@ plugin_loader_get_type_by_id (const gchar *id_str, ErrorInfo **ret_error)
 					             _("Error while preparing loader \"%s\"."),
 					             id_str);
 					error_info_add_details (*ret_error, error);
-					return (GtkType) 0;
+					return G_TYPE_NONE;
 				}
 			}
 		}
@@ -530,7 +530,7 @@ plugin_loader_get_type_by_id (const gchar *id_str, ErrorInfo **ret_error)
 	*ret_error = error_info_new_printf (
 	             _("Unsupported loader type \"%s\"."),
 	             id_str);
-	return (GtkType) 0;
+	return G_TYPE_NONE;
 }
 
 gboolean
@@ -541,11 +541,9 @@ plugin_loader_is_available_by_id (const gchar *id_str)
 	g_return_val_if_fail (id_str != NULL, FALSE);
 
 	for (l = registered_loader_types; l != NULL; l = l->next) {
-		PluginLoaderTypeInfo *loader_type_info = l->data;
-
-		if (strcmp (loader_type_info->id_str, id_str) == 0) {
+		PluginLoaderTypeInfo const *loader_type_info = l->data;
+		if (strcmp (loader_type_info->id_str, id_str) == 0)
 			return TRUE;
-		}
 	}
 
 	return FALSE;
@@ -556,10 +554,8 @@ plugin_dependency_get_plugin_info (PluginDependency *dep)
 {
 	g_return_val_if_fail (dep != NULL, NULL);
 
-	if (dep->pinfo == NULL) {
+	if (dep->pinfo == NULL)
 		dep->pinfo = plugin_db_get_plugin_info_by_plugin_id (dep->plugin_id);
-	}
-
 	return dep->pinfo;
 }
 
@@ -617,7 +613,7 @@ plugin_info_read_service_list (xmlNode *tree, ErrorInfo **ret_error)
 			ErrorInfo *service_error;
 
 			service = plugin_service_read (node, &service_error);
-			
+
 			if (service != NULL) {
 				g_assert (service_error == NULL);
 				service_list = g_list_prepend (service_list, service);
@@ -967,7 +963,7 @@ static void
 plugin_get_loader_if_needed (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
 	PluginLoaderStaticInfo *loader_info;
-	GtkType loader_type;
+	GType loader_type;
 	ErrorInfo *error;
 
 	g_return_if_fail (pinfo != NULL);
@@ -986,7 +982,7 @@ plugin_get_loader_if_needed (PluginInfo *pinfo, ErrorInfo **ret_error)
 		GnumericPluginLoader *loader;
 		ErrorInfo *error;
 
-		loader = GNUMERIC_PLUGIN_LOADER (gtk_type_new (loader_type));
+		loader = GNUMERIC_PLUGIN_LOADER (g_object_new (loader_type, NULL));
 		gnumeric_plugin_loader_set_attributes (loader, loader_info->attr_names, loader_info->attr_values, &error);
 		if (error == NULL) {
 			pinfo->loader = loader;
@@ -1141,7 +1137,7 @@ static void
 plugin_info_force_mark_inactive (PluginInfo *pinfo)
 {
 	g_return_if_fail (pinfo != NULL);
-	
+
 	if (!plugin_info_read_full_info_if_needed (pinfo)) {
 		return;
 	}
@@ -1317,7 +1313,7 @@ plugin_info_read_for_dir (const gchar *dir_name, ErrorInfo **ret_error)
 	return pinfo;
 }
 
-/* 
+/*
  * May return partial list and some error info.
  */
 static GList *
@@ -1363,7 +1359,7 @@ plugin_info_list_read_for_subdirs_of_dir (const gchar *dir_name, ErrorInfo **ret
 	return g_list_reverse (plugin_info_list);
 }
 
-/* 
+/*
  * May return partial list and some error info.
  */
 static GList *
@@ -1420,7 +1416,7 @@ gnumeric_extra_plugin_dirs (void)
 	return g_string_list_copy (extra_dirs);
 }
 
-/* 
+/*
  * May return partial list and some error info.
  */
 static GList *
@@ -1444,7 +1440,7 @@ plugin_info_list_read_for_all_dirs (ErrorInfo **ret_error)
 	return plugin_info_list;
 }
 
-/* 
+/*
  * May activate some plugins and return error info for the rest.
  * Doesn't report errors for plugins with unknown loader types
  * (plugin_loader_is_available_by_id() returns FALSE).
@@ -1483,7 +1479,7 @@ plugin_db_activate_plugin_list (GList *plugins, ErrorInfo **ret_error)
 	}
 }
 
-/* 
+/*
  * May deactivate some plugins and return error info for the rest.
  * Doesn't report errors for plugins that are currently in use
  * (plugin_can_deactivate() returns FALSE).
@@ -1600,7 +1596,7 @@ plugin_db_is_plugin_marked_for_deactivation (PluginInfo *pinfo)
 	       g_hash_table_lookup (plugins_marked_for_deactivation_hash, pinfo->id) != NULL;
 }
 
-/* 
+/*
  * May return errors for some plugins.
  */
 void
@@ -1663,7 +1659,7 @@ plugin_db_init (ErrorInfo **ret_error)
 	}
 }
 
-/* 
+/*
  * May return errors for some plugins.
  */
 void

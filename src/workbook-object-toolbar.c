@@ -61,7 +61,7 @@ cmd_create_frame (GtkWidget *ignored, WorkbookControlGUI *wbcg)
 		g_object_new (sheet_widget_frame_get_type(), NULL));
 }
 
-#if 0 
+#if 0
 	/* not useful until we have scripts */
 static void
 cmd_create_button (GtkWidget *widget, WorkbookControlGUI *wbcg)

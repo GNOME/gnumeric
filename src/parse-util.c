@@ -255,7 +255,7 @@ char const *
 gnumeric_char_start_expr_p (char const * c)
 {
 	char c0;
-	
+
 	if (NULL == c)
 		return NULL;
 
@@ -523,7 +523,7 @@ parse_error_init (ParseError *pe)
 	pe->message    = NULL;
 	pe->begin_char = -1;
 	pe->end_char   = -1;
-	
+
 	return pe;
 }
 

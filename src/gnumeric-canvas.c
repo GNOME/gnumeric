@@ -41,7 +41,7 @@ static gboolean
 gnm_canvas_guru_key (WorkbookControlGUI const *wbcg, GdkEventKey *event)
 {
 	GtkWidget *guru = wbcg_edit_has_guru (wbcg);
-	GtkWidget *entry = GTK_WIDGET (wbcg_get_entry_logical (wbcg));
+	GtkWidget *entry = GTK_WIDGET (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg)));
 
 	if (guru == NULL)
 		return FALSE;
@@ -87,7 +87,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 		if ((event->state & GDK_CONTROL_MASK) && (event->state & GDK_SHIFT_MASK)) {
 			char const *fmt = NULL;
 			char const *desc = NULL;
-			
+
 			switch (event->keyval) {
 			case GDK_asciitilde :
 				fmt = cell_formats [FMT_NUMBER][0];
@@ -138,7 +138,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 			? scg_cursor_extend
 			: scg_cursor_move;
 	}
-	
+
 	switch (event->keyval) {
 	case GDK_KP_Left:
 	case GDK_Left:
@@ -222,7 +222,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 			scg_set_top_row (gcanvas->simple.scg, new_row);
 		} else {
 			Range r = sheet_get_extent (sheet, FALSE);
-		
+
 			/* do the ctrl-end jump to the extent in 2 steps */
 			(*movefn)(gcanvas->simple.scg, r.end.col - sheet->edit_pos.col, FALSE, TRUE);
 			if ((event->state & GDK_CONTROL_MASK))
@@ -263,7 +263,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 		     event->state == GDK_MOD1_MASK))
 			/* Forward the keystroke to the input line */
 			return gtk_widget_event (
-				GTK_WIDGET (wbcg_get_entry_logical (wbcg)),
+				GTK_WIDGET (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg))),
 				(GdkEvent *) event);
 		/* fall down */
 
@@ -276,7 +276,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 		/* Be careful to restore the editing sheet if we are editing */
 		if (wbcg->editing)
 			sheet = wbcg->editing_sheet;
-			
+
 		if (wbcg_edit_finish (wbcg, TRUE)) {
 			/* Figure out the direction */
 			gboolean const direction = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
@@ -291,10 +291,10 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 		wbcg_edit_finish (wbcg, FALSE);
 		application_clipboard_unant ();
 		break;
-		
+
 	case GDK_F4:
 		if (wbcg->editing)
-			return gtk_widget_event (GTK_WIDGET (wbcg_get_entry_logical (wbcg)),
+			return gtk_widget_event (GTK_WIDGET (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg))),
 						 (GdkEvent *) event);
 		return TRUE;
 
@@ -327,7 +327,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 		scg_rangesel_stop (gcanvas->simple.scg, FALSE);
 
 		/* Forward the keystroke to the input line */
-		return gtk_widget_event (GTK_WIDGET (wbcg_get_entry_logical (wbcg)),
+		return gtk_widget_event (GTK_WIDGET (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg))),
 					 (GdkEvent *) event);
 	}
 
@@ -718,16 +718,16 @@ gnumeric_canvas_new (SheetControlGUI *scg, GnumericPane *pane)
 		GNUMERIC_CANVAS_FACTOR_X, GNUMERIC_CANVAS_FACTOR_Y);
 
 	/* Setup a test of Drag and Drop */
-	gtk_signal_connect (GTK_OBJECT (gcanvas),
+	g_signal_connect (G_OBJECT (gcanvas),
 		"drag_data_get",
-		GTK_SIGNAL_FUNC (gnm_canvas_drag_data_get), NULL);
+		G_CALLBACK (gnm_canvas_drag_data_get), NULL);
 	gtk_drag_dest_set (GTK_WIDGET (gcanvas),
 		GTK_DEST_DEFAULT_ALL,
 		drag_types, n_drag_types,
 		GDK_ACTION_COPY);
-	gtk_signal_connect (GTK_OBJECT (gcanvas),
+	g_signal_connect (G_OBJECT (gcanvas),
 		"drag_data_received",
-		GTK_SIGNAL_FUNC (gnm_canvas_filenames_dropped),
+		G_CALLBACK (gnm_canvas_filenames_dropped),
 		gcanvas);
 
 	root_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (gcanvas)->root);
@@ -1065,7 +1065,7 @@ gcanvas_sliding_callback (gpointer data)
 			gcanvas->sliding_adjacent_h = FALSE;
 
 		if (slide_x) {
-			col = target_gcanvas->last_full.col + 
+			col = target_gcanvas->last_full.col +
 				col_scroll_step (gcanvas->sliding_dx);
 			if (col >= SHEET_MAX_COLS-1) {
 				col = SHEET_MAX_COLS-1;
@@ -1085,7 +1085,7 @@ gcanvas_sliding_callback (gpointer data)
 					col = gnm_canvas_find_col (gcanvas1, x, NULL);
 					slide_x = FALSE;
 				}
-			} 
+			}
 
 			if (col <= gcanvas1->first.col) {
 				col = gcanvas1->first.col;
@@ -1095,7 +1095,7 @@ gcanvas_sliding_callback (gpointer data)
 			col = 0;
 			slide_x = FALSE;
 		}
-	} 
+	}
 
 	if (gcanvas->sliding_dy > 0) {
 		GnumericCanvas *target_gcanvas = gcanvas;
@@ -1119,7 +1119,7 @@ gcanvas_sliding_callback (gpointer data)
 			gcanvas->sliding_adjacent_v = FALSE;
 
 		if (slide_y) {
-			row = target_gcanvas->last_full.row + 
+			row = target_gcanvas->last_full.row +
 				row_scroll_step (gcanvas->sliding_dy);
 			if (row >= SHEET_MAX_ROWS-1) {
 				row = SHEET_MAX_ROWS-1;
@@ -1139,7 +1139,7 @@ gcanvas_sliding_callback (gpointer data)
 					row = gnm_canvas_find_row (gcanvas3, y, NULL);
 					slide_y = FALSE;
 				}
-			} 
+			}
 
 			if (row <= gcanvas3->first.row) {
 				row = gcanvas3->first.row;
@@ -1180,7 +1180,7 @@ gcanvas_sliding_callback (gpointer data)
  * @gcanvas	 : The GnumericCanvas managing the scroll
  * @canvas	 : The Canvas the event comes from
  * @event	 : The motion event
- * @slide_flags	 : 
+ * @slide_flags	 :
  * @slide_handler: The handler when sliding
  * @user_data	 : closure data
  *

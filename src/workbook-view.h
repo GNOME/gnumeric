@@ -74,7 +74,7 @@ void		 wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display);
 void		 wb_view_auto_expr	  (WorkbookView *wbv,
 					   char const *name, char const *expr);
 
-/* I/O routines */ 
+/* I/O routines */
 gboolean wb_view_save_as     (WorkbookView *wbv, GnumFileSaver *fs,
 			      char const *file_name, CommandContext *context);
 gboolean wb_view_save        (WorkbookView *wbv, CommandContext *context);

@@ -32,7 +32,7 @@ typedef enum {
 	SHEET_OBJECT_OVAL	= 102,
 } SheetObjectGraphicType;
 
-#define SHEET_OBJECT_GRAPHIC_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_OBJECT_GRAPHIC_TYPE))
+#define SHEET_OBJECT_GRAPHIC_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_OBJECT_GRAPHIC_TYPE))
 
 typedef struct {
 	SheetObject  sheet_object;
@@ -49,7 +49,7 @@ static SheetObjectClass *sheet_object_graphic_parent_class;
 /**
  * sheet_object_graphic_fill_color_set :
  * @so :
- * @color : 
+ * @color :
  *
  * Absorb the colour reference.
  */
@@ -112,14 +112,14 @@ static void
 sheet_object_graphic_destroy (GtkObject *object)
 {
 	SheetObjectGraphic *sog;
-	
+
 	sog = SHEET_OBJECT_GRAPHIC (object);
 	style_color_unref (sog->fill_color);
 
 	GTK_OBJECT_CLASS (sheet_object_graphic_parent_class)->destroy (object);
 }
 
-static GtkObject *
+static GObject *
 sheet_object_graphic_new_view (SheetObject *so, SheetControlGUI *scg)
 {
 	/* FIXME : this is bogus */
@@ -161,11 +161,11 @@ sheet_object_graphic_new_view (SheetObject *so, SheetControlGUI *scg)
 	}
 
 	scg_object_register (so, item);
-	return GTK_OBJECT (item);
+	return G_OBJECT (item);
 }
 
 static void
-sheet_object_graphic_update_bounds (SheetObject *so, GtkObject *view,
+sheet_object_graphic_update_bounds (SheetObject *so, GObject *view,
 				    SheetControlGUI *scg)
 {
 	GnomeCanvasPoints *points = gnome_canvas_points_new (2);
@@ -193,7 +193,7 @@ sheet_object_graphic_read_xml (SheetObject *so,
 	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPHIC (so), TRUE);
 	sog = SHEET_OBJECT_GRAPHIC (so);
 
-	sheet_object_graphic_fill_color_set (so, 
+	sheet_object_graphic_fill_color_set (so,
 		xml_node_get_color (tree, "FillColor"));
 
 	if (xml_node_get_int (tree, "Type", &tmp))
@@ -215,7 +215,7 @@ sheet_object_graphic_write_xml (SheetObject const *so,
 				XmlParseContext const *ctxt, xmlNodePtr tree)
 {
 	SheetObjectGraphic *sog;
-	
+
 	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPHIC (so), TRUE);
 	sog = SHEET_OBJECT_GRAPHIC (so);
 
@@ -320,7 +320,7 @@ sheet_object_graphic_print (SheetObject const *so, GnomePrintContext *ctx,
 			gnome_print_rotate (ctx, phi / (2 * M_PI) * 360);
 			gnome_print_setlinewidth (ctx, 1.0);
 			gnome_print_newpath (ctx);
-			gnome_print_moveto (ctx, 0.0, 0.0); 
+			gnome_print_moveto (ctx, 0.0, 0.0);
 			gnome_print_lineto (ctx, -sog->c, -sog->b);
 			gnome_print_lineto (ctx, 0.0, -sog->a);
 			gnome_print_lineto (ctx, sog->c, -sog->b);
@@ -383,7 +383,7 @@ cb_dialog_graphic_clicked (GnomeDialog *dialog, int button,
 			color_combo_get_style_color (data->fill_color_combo));
 
 		if (data->sog->type == SHEET_OBJECT_ARROW)
-			sheet_object_graphic_abc_set (data->sog, 
+			sheet_object_graphic_abc_set (data->sog,
 				GTK_ADJUSTMENT (data->adj_a)->value,
 				GTK_ADJUSTMENT (data->adj_b)->value,
 				GTK_ADJUSTMENT (data->adj_c)->value);
@@ -429,7 +429,7 @@ cb_fill_color_changed (ColorCombo *color_combo, GdkColor *color,
 static void
 sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
 {
-	GtkWidget *dialog, *table, *label, *spin, *spin_a, *spin_b, *spin_c; 
+	GtkWidget *dialog, *table, *label, *spin, *spin_a, *spin_b, *spin_c;
 	GtkTooltips *tooltips;
 	WorkbookControlGUI *wbcg;
 	SheetObjectGraphic *sog;
@@ -481,10 +481,10 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
 
 	data->fill_color_combo = color_combo_new (NULL, NULL, NULL,
 					color_group_fetch ("color", so));
-	color_combo_set_color (COLOR_COMBO (data->fill_color_combo), 
+	color_combo_set_color (COLOR_COMBO (data->fill_color_combo),
 			       sog->fill_color ? &sog->fill_color->color : NULL);
 	data->fill_color = style_color_ref (sog->fill_color);
-	
+
 	data->adj_width = gtk_adjustment_new ((float) sog->width, 1.0,
 					      100.0, 1.0, 5.0, 1.0);
 	spin = gtk_spin_button_new (GTK_ADJUSTMENT (data->adj_width), 1, 0);
@@ -527,7 +527,7 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
 		points->coords [3] = data->canvas->allocation.height;
 		data->arrow = gnome_canvas_item_new (
 				gnome_canvas_root (GNOME_CANVAS (data->canvas)),
-				GNOME_TYPE_CANVAS_LINE, "points", points, 
+				GNOME_TYPE_CANVAS_LINE, "points", points,
 				"fill_color_gdk", sog->fill_color,
 				"first_arrowhead", TRUE, NULL);
 		gnome_canvas_points_free (points);
@@ -536,28 +536,29 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
 					data->canvas->allocation.height);
 		cb_adjustment_value_changed (NULL, data);
 
-		gtk_signal_connect (GTK_OBJECT (data->adj_width),
-				"value_changed",
-				GTK_SIGNAL_FUNC (cb_adjustment_value_changed),
-				data);
-		gtk_signal_connect (GTK_OBJECT (data->adj_a), "value_changed",
-				GTK_SIGNAL_FUNC (cb_adjustment_value_changed),
-				data);
-		gtk_signal_connect (GTK_OBJECT (data->adj_b), "value_changed",
-				GTK_SIGNAL_FUNC (cb_adjustment_value_changed),
-				data);
-		gtk_signal_connect (GTK_OBJECT (data->adj_c), "value_changed",
-				GTK_SIGNAL_FUNC (cb_adjustment_value_changed),
-				data);
-		gtk_signal_connect (GTK_OBJECT (data->fill_color_combo),
-				"changed", 
-				GTK_SIGNAL_FUNC (cb_fill_color_changed), data);
+		g_signal_connect (G_OBJECT (data->adj_width),
+			"value_changed",
+			G_CALLBACK (cb_adjustment_value_changed), data);
+		g_signal_connect (G_OBJECT (data->adj_a),
+			"value_changed",
+			G_CALLBACK (cb_adjustment_value_changed), data);
+		g_signal_connect (G_OBJECT (data->adj_b),
+			"value_changed",
+			G_CALLBACK (cb_adjustment_value_changed), data);
+		g_signal_connect (G_OBJECT (data->adj_c),
+			"value_changed",
+			G_CALLBACK (cb_adjustment_value_changed), data);
+		g_signal_connect (G_OBJECT (data->fill_color_combo),
+			"changed",
+			G_CALLBACK (cb_fill_color_changed), data);
 	}
 
-	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
-			    GTK_SIGNAL_FUNC (cb_dialog_graphic_clicked), data);
-	gtk_signal_connect (GTK_OBJECT (dialog), "close",
-			    GTK_SIGNAL_FUNC (cb_dialog_graphic_close), data);
+	g_signal_connect (G_OBJECT (dialog),
+		"clicked",
+		G_CALLBACK (cb_dialog_graphic_clicked), data);
+	g_signal_connect (G_OBJECT (dialog),
+		"close",
+		G_CALLBACK (cb_dialog_graphic_close), data);
 }
 
 static void
@@ -572,13 +573,13 @@ sheet_object_graphic_class_init (GtkObjectClass *object_class)
 
 	/* SheetObject class method overrides */
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
-	sheet_object_class->update_bounds = sheet_object_graphic_update_bounds;
 	sheet_object_class->new_view	  = sheet_object_graphic_new_view;
+	sheet_object_class->update_bounds = sheet_object_graphic_update_bounds;
 	sheet_object_class->read_xml	  = sheet_object_graphic_read_xml;
 	sheet_object_class->write_xml	  = sheet_object_graphic_write_xml;
-	sheet_object_class->print         = sheet_object_graphic_print;
 	sheet_object_class->clone         = sheet_object_graphic_clone;
 	sheet_object_class->user_config   = sheet_object_graphic_user_config;
+	sheet_object_class->print         = sheet_object_graphic_print;
 	sheet_object_class->rubber_band_directly = TRUE;
 }
 
@@ -587,7 +588,7 @@ sheet_object_graphic_init (GtkObject *obj)
 {
 	SheetObjectGraphic *sog;
 	SheetObject *so;
-	
+
 	sog = SHEET_OBJECT_GRAPHIC (obj);
 	sog->fill_color = style_color_new_name ("black");
 	sog->width = 1.0;
@@ -610,7 +611,7 @@ E_MAKE_TYPE (sheet_object_graphic, "SheetObjectGraphic", SheetObjectGraphic,
  *
  * Derivative of SheetObjectGraphic, with filled parameter
  */
-#define IS_SHEET_OBJECT_FILLED_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_OBJECT_FILLED_TYPE, SheetObjectFilledClass))
+#define IS_SHEET_OBJECT_FILLED_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_OBJECT_FILLED_TYPE, SheetObjectFilledClass))
 
 typedef struct {
 	SheetObjectGraphic sheet_object_graphic;
@@ -658,7 +659,7 @@ static void
 sheet_object_filled_destroy (GtkObject *object)
 {
 	SheetObjectFilled *sof;
-	
+
 	sof = SHEET_OBJECT_FILLED (object);
 	style_color_unref (sof->outline_color);
 
@@ -666,13 +667,13 @@ sheet_object_filled_destroy (GtkObject *object)
 }
 
 static void
-sheet_object_filled_update_bounds (SheetObject *so, GtkObject *view,
+sheet_object_filled_update_bounds (SheetObject *so, GObject *view,
 				   SheetControlGUI *scg)
 {
 	double coords [4];
 
 	scg_object_view_position (scg, so, coords);
-	
+
 	gnome_canvas_item_set (GNOME_CANVAS_ITEM (view),
 		"x1", MIN (coords [0], coords [2]),
 		"x2", MAX (coords [0], coords [2]),
@@ -686,7 +687,7 @@ sheet_object_filled_update_bounds (SheetObject *so, GtkObject *view,
 		gnome_canvas_item_hide (GNOME_CANVAS_ITEM (view));
 }
 
-static GtkObject *
+static GObject *
 sheet_object_filled_new_view (SheetObject *so, SheetControlGUI *scg)
 {
 	/* FIXME : this is bogus */
@@ -707,15 +708,15 @@ sheet_object_filled_new_view (SheetObject *so, SheetControlGUI *scg)
 	item = gnome_canvas_item_new (
 		gcanvas->object_group,
 		(sog->type == SHEET_OBJECT_OVAL) ?
-					gnome_canvas_ellipse_get_type () : 
-					gnome_canvas_rect_get_type (),
+					GNOME_TYPE_CANVAS_ELLIPSE :
+					GNOME_TYPE_CANVAS_RECT,
 		"fill_color_gdk",	fill_color,
 		"outline_color_gdk",	outline_color,
 		"width_units",		sog->width,
 		NULL);
 
 	scg_object_register (so, item);
-	return GTK_OBJECT (item);
+	return G_OBJECT (item);
 }
 
 static gboolean
@@ -727,18 +728,18 @@ sheet_object_filled_read_xml (SheetObject *so,
 	g_return_val_if_fail (IS_SHEET_OBJECT_FILLED (so), TRUE);
 	sof = SHEET_OBJECT_FILLED (so);
 
-	sheet_object_filled_outline_color_set (so, 
+	sheet_object_filled_outline_color_set (so,
 		xml_node_get_color (tree, "OutlineColor"));
 
 	return sheet_object_graphic_read_xml (so, ctxt, tree);
 }
 
 static gboolean
-sheet_object_filled_write_xml (SheetObject const *so, 
+sheet_object_filled_write_xml (SheetObject const *so,
 			       XmlParseContext const *ctxt, xmlNodePtr tree)
 {
 	SheetObjectFilled *sof;
-	
+
 	g_return_val_if_fail (IS_SHEET_OBJECT_FILLED (so), TRUE);
 	sof = SHEET_OBJECT_FILLED (so);
 
@@ -766,7 +767,7 @@ sheet_object_filled_clone (SheetObject const *so, Sheet *sheet)
 	return SHEET_OBJECT (new_sof);
 }
 
-typedef struct 
+typedef struct
 {
 	SheetObjectFilled *sof;
 	GtkWidget *fill_color_combo;
@@ -791,11 +792,11 @@ cb_dialog_filled_clicked (GnomeDialog *dialog, int button,
 {
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (data->sof);
 	SheetObject *so = SHEET_OBJECT (data->sof);
-		
+
 	switch (button) {
 	case 0: /* Ok */
 	case 1: /* Apply */
-		sheet_object_graphic_width_set (sog, 
+		sheet_object_graphic_width_set (sog,
 			GTK_ADJUSTMENT (data->adj_width)->value);
 
 		sheet_object_graphic_fill_color_set (so,
@@ -826,7 +827,7 @@ static void
 sheet_object_filled_user_config (SheetObject *so, SheetControlGUI *scg)
 {
 	WorkbookControlGUI *wbcg;
-	GtkWidget *dialog, *table, *label, *spin; 
+	GtkWidget *dialog, *table, *label, *spin;
 	SheetObjectFilled *sof;
 	SheetObjectGraphic *sog;
 	DialogFilledData *data;
@@ -868,10 +869,10 @@ sheet_object_filled_user_config (SheetObject *so, SheetControlGUI *scg)
 
 	data->fill_color_combo = color_combo_new (NULL, _("Transparent"),
 				NULL, color_group_fetch ("fill_color", so));
-	color_combo_set_color (COLOR_COMBO (data->fill_color_combo), 
+	color_combo_set_color (COLOR_COMBO (data->fill_color_combo),
 			       sog->fill_color ? &sog->fill_color->color : NULL);
 	data->fill_color = style_color_ref (sog->fill_color);
-	
+
 	data->adj_width = gtk_adjustment_new ((float) sog->width, 1.0,
 					      100.0, 1.0, 5.0, 1.0);
 	spin = gtk_spin_button_new (GTK_ADJUSTMENT (data->adj_width), 1, 0);
@@ -883,10 +884,12 @@ sheet_object_filled_user_config (SheetObject *so, SheetControlGUI *scg)
 				   data->fill_color_combo, 1, 2, 1, 2);
 	gtk_table_attach_defaults (GTK_TABLE (table), spin, 1, 2, 2, 3);
 
-	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
-			    GTK_SIGNAL_FUNC (cb_dialog_filled_clicked), data);
-	gtk_signal_connect (GTK_OBJECT (dialog), "close",
-			    GTK_SIGNAL_FUNC (cb_dialog_filled_close), data);
+	g_signal_connect (G_OBJECT (dialog),
+		"clicked",
+		G_CALLBACK (cb_dialog_filled_clicked), data);
+	g_signal_connect (G_OBJECT (dialog),
+		"close",
+		G_CALLBACK (cb_dialog_filled_close), data);
 
 	gtk_widget_show_all (dialog);
 }
@@ -902,7 +905,7 @@ make_rect (GnomePrintContext *ctx, double x1, double x2, double y1, double y2)
 }
 
 /*
- * The following lines are copy and paste from dia. The ellipse logic has been 
+ * The following lines are copy and paste from dia. The ellipse logic has been
  * slightly adapted. I have _no_ idea what's going on...
  */
 
@@ -969,7 +972,7 @@ make_ellipse (GnomePrintContext *ctx,
 	gnome_print_curveto (ctx,
 			     center_x - cw4, center_y + ch2,
 			     x1,             center_y + ch1,
-			     x1,             center_y); 
+			     x1,             center_y);
 }
 
 static void
@@ -1051,7 +1054,7 @@ static void
 sheet_object_filled_init (GtkObject *obj)
 {
 	SheetObjectFilled *sof;
-	
+
 	sof = SHEET_OBJECT_FILLED (obj);
 	sof->outline_color = style_color_new_name ("black");
 	sheet_object_graphic_fill_color_set (SHEET_OBJECT (sof),
