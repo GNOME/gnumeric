@@ -120,8 +120,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-26 15:08+0200\n"
-"PO-Revision-Date: 2004-04-27 22:42+0200\n"
+"POT-Creation-Date: 2004-05-01 15:05+0200\n"
+"PO-Revision-Date: 2004-05-01 21:12+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
@@ -240,13 +240,21 @@ msgid ""
 "@SEEALSO=OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_BS\n"
-"@SYNTAX=OPT_BS(call_put_keuze,prijs;koers;resterende_looptijd;rente;volatiliteit[;cost_of_carry])\n"
-"@DESCRIPTION=OPT_BS gebruikt het Black-Scholes model voor de berekening van de prijs van een Europese call- of put-optie (aangegeven met c of p) met een uitoefenprijs: @prijs op activa met een koers: @koers.\n"
-"@resterende_looptijd is de tijd tot expiratie (vervaldatum) uitgedrukt in jaren.\n"
+"@SYNTAX=OPT_BS(call_put_keuze,prijs;koers;resterende_looptijd;rente;"
+"volatiliteit[;cost_of_carry])\n"
+"@DESCRIPTION=OPT_BS gebruikt het Black-Scholes model voor de berekening van "
+"de prijs van een Europese call- of put-optie (aangegeven met c of p) met een "
+"uitoefenprijs: @prijs op activa met een koers: @koers.\n"
+"@resterende_looptijd is de tijd tot expiratie (vervaldatum) uitgedrukt in "
+"jaren.\n"
 "@rente is de risico-vrije rentestand tot expiratie, in percentage.\n"
-"@volatiliteit is de jaarlijkse volatiliteit (beweeglijkheid van de onderliggende waarde), in percentage, van de activa voor de resterende looptijd.\n"
-"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor normale aandelen zou dit het dividentrendement zijn.\n"
-"* Het gegeven resultaat is uitgedrukt in dezelfde eenheden als @koers en @prijs.\n"
+"@volatiliteit is de jaarlijkse volatiliteit (beweeglijkheid van de "
+"onderliggende waarde), in percentage, van de activa voor de resterende "
+"looptijd.\n"
+"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor "
+"normale aandelen zou dit het dividentrendement zijn.\n"
+"* Het gegeven resultaat is uitgedrukt in dezelfde eenheden als @koers en "
+"@prijs.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -276,14 +284,23 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_BS_DELTA\n"
-"@SYNTAX=OPT_BS_DELTA(call_put_keuze,prijs;koers;resterende_looptijd;rente;volatiliteit[;cost_of_carry])\n"
-"@DESCRIPTION=OPT_BS_DELTA gebruikt het Black-Scholes model voor de berekening van de \"delta\" van een Europese call- of put-optie (aangegeven met c of p) met een uitoefenprijs: @prijs op activa met een koers: @koers.\n"
-"@resterende_looptijd is de tijd tot expiratie (vervaldatum) uitgedrukt in jaren.\n"
+"@SYNTAX=OPT_BS_DELTA(call_put_keuze,prijs;koers;resterende_looptijd;rente;"
+"volatiliteit[;cost_of_carry])\n"
+"@DESCRIPTION=OPT_BS_DELTA gebruikt het Black-Scholes model voor de "
+"berekening van de \"delta\" van een Europese call- of put-optie (aangegeven "
+"met c of p) met een uitoefenprijs: @prijs op activa met een koers: @koers.\n"
+"@resterende_looptijd is de tijd tot expiratie (vervaldatum) uitgedrukt in "
+"jaren.\n"
 "@rente is de risico-vrije rentestand tot expiratie, in percentage.\n"
-"@volatiliteit is de jaarlijkse volatiliteit (beweeglijkheid van de onderliggende waarde), in percentage, van de activa voor de resterende looptijd.\n"
-"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor normale aandelen zou dit het dividentrendement zijn.\n"
-"* Het gegeven resultaat is uitgedrukt in dezelfde eenheden als @koers en @prijs.\n"
-"De delta van een optie geeft aan hoeveel de waarde van die optie verandert als de koers van de onderliggende waarde verandert.\n"
+"@volatiliteit is de jaarlijkse volatiliteit (beweeglijkheid van de "
+"onderliggende waarde), in percentage, van de activa voor de resterende "
+"looptijd.\n"
+"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor "
+"normale aandelen zou dit het dividentrendement zijn.\n"
+"* Het gegeven resultaat is uitgedrukt in dezelfde eenheden als @koers en "
+"@prijs.\n"
+"De delta van een optie geeft aan hoeveel de waarde van die optie verandert "
+"als de koers van de onderliggende waarde verandert.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -314,17 +331,27 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA"
 msgstr ""
 "@FUNCTION=OPT_BS_GAMMA\n"
-"@SYNTAX=OPT_BS_GAMMA(prijs;koers;resterende_looptijd;rente;volatiliteit[;cost_of_carry])\n"
-"@DESCRIPTION=OPT_BS_GAMMA gebruikt het Black-Scholes model voor de berekening van de \"gamma\" van een Europese optie met een uitoefenprijs: @prijs op activa met een koers: @koers.\n"
+"@SYNTAX=OPT_BS_GAMMA(prijs;koers;resterende_looptijd;rente;volatiliteit[;"
+"cost_of_carry])\n"
+"@DESCRIPTION=OPT_BS_GAMMA gebruikt het Black-Scholes model voor de "
+"berekening van de \"gamma\" van een Europese optie met een uitoefenprijs: "
+"@prijs op activa met een koers: @koers.\n"
 "\n"
-"(De gamma van een optie is de tweede afgeleide van de optiewaarde naar de koers van de onderliggende waarde. De gamma heeft dezelfde waarde voor calls en puts.)\n"
+"(De gamma van een optie is de tweede afgeleide van de optiewaarde naar de "
+"koers van de onderliggende waarde. De gamma heeft dezelfde waarde voor calls "
+"en puts.)\n"
 "\n"
-"@resterende_looptijd is de tijd tot expiratie (vervaldatum) uitgedrukt in jaren.\n"
+"@resterende_looptijd is de tijd tot expiratie (vervaldatum) uitgedrukt in "
+"jaren.\n"
 "@rente is de risico-vrije rentestand tot expiratie, in percentage.\n"
-"@volatiliteit is de jaarlijkse volatiliteit (beweeglijkheid van de onderliggende waarde), in percentage, van de activa voor de resterende looptijd.\n"
-"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor normale aandelen zou dit het dividentrendement zijn.\n"
+"@volatiliteit is de jaarlijkse volatiliteit (beweeglijkheid van de "
+"onderliggende waarde), in percentage, van de activa voor de resterende "
+"looptijd.\n"
+"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor "
+"normale aandelen zou dit het dividentrendement zijn.\n"
 "\n"
-"* Het gegeven resultaat is uitgedrukt als de verandering in delta per eenheid verandering van de koers @koers.\n"
+"* Het gegeven resultaat is uitgedrukt als de verandering in delta per "
+"eenheid verandering van de koers @koers.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -356,16 +383,25 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_VEGA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_BS_THETA\n"
-"@SYNTAX=OPT_BS_THETA(call_put_keuze;prijs;koers;resterende_looptijd;rente;volatiliteit[;cost_of_carry])\n"
-"@DESCRIPTION=OPT_BS_THETA gebruikt het Black-Scholes model voor de berekening van de \"theta\" van een Europese call- of put-optie (aangegeven met c of p) met een uitoefenprijs: @prijs op activa met een koers: @koers.\n"
+"@SYNTAX=OPT_BS_THETA(call_put_keuze;prijs;koers;resterende_looptijd;rente;"
+"volatiliteit[;cost_of_carry])\n"
+"@DESCRIPTION=OPT_BS_THETA gebruikt het Black-Scholes model voor de "
+"berekening van de \"theta\" van een Europese call- of put-optie (aangegeven "
+"met c of p) met een uitoefenprijs: @prijs op activa met een koers: @koers.\n"
 "\n"
-"(De theta van een optie geeft aan hoeveel de waarde van die optie verandert naarmate de resterende looptijd verandert.)\n"
+"(De theta van een optie geeft aan hoeveel de waarde van die optie verandert "
+"naarmate de resterende looptijd verandert.)\n"
 "\n"
-"@resterende_looptijd is de tijd tot expiratie (vervaldatum) uitgedrukt in jaren.\n"
+"@resterende_looptijd is de tijd tot expiratie (vervaldatum) uitgedrukt in "
+"jaren.\n"
 "@rente is de risico-vrije rentestand tot expiratie, in percentage.\n"
-"@volatiliteit is de jaarlijkse volatiliteit (beweeglijkheid van de onderliggende waarde), in percentage, van de activa voor de resterende looptijd.\n"
-"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor normale aandelen zou dit het dividentrendement zijn.\n"
-"* Het gegeven resultaat is uitgedrukt als: minus de mate van verandering van de optiewaarde, per 365,25 dagen.\n"
+"@volatiliteit is de jaarlijkse volatiliteit (beweeglijkheid van de "
+"onderliggende waarde), in percentage, van de activa voor de resterende "
+"looptijd.\n"
+"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor "
+"normale aandelen zou dit het dividentrendement zijn.\n"
+"* Het gegeven resultaat is uitgedrukt als: minus de mate van verandering van "
+"de optiewaarde, per 365,25 dagen.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -396,17 +432,27 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_BS_VEGA\n"
-"@SYNTAX=OPT_BS_VEGA(prijs;koers;resterende_looptijd;rente;volatiliteit[;cost_of_carry])\n"
-"@DESCRIPTION=OPT_BS_VEGA gebruikt het Black-Scholes model voor de berekening van de \"vega\" van een Europese optie met een uitoefenprijs: @prijs op activa met een koers: @koers.\n"
+"@SYNTAX=OPT_BS_VEGA(prijs;koers;resterende_looptijd;rente;volatiliteit[;"
+"cost_of_carry])\n"
+"@DESCRIPTION=OPT_BS_VEGA gebruikt het Black-Scholes model voor de berekening "
+"van de \"vega\" van een Europese optie met een uitoefenprijs: @prijs op "
+"activa met een koers: @koers.\n"
 "\n"
-"(De vega van een optie is de mate van verandering in optiewaarde ten opzichte van de volatiliteit. De vega heeft dezelfde waarde voor calls en puts.)\n"
+"(De vega van een optie is de mate van verandering in optiewaarde ten "
+"opzichte van de volatiliteit. De vega heeft dezelfde waarde voor calls en "
+"puts.)\n"
 "\n"
-"@volatiliteit is de jaarlijkse volatiliteit (beweeglijkheid van de onderliggende waarde), in percentage, van de activa voor de resterende looptijd.\n"
-"@resterende_looptijd is de tijd tot expiratie (vervaldatum) uitgedrukt in jaren.\n"
+"@volatiliteit is de jaarlijkse volatiliteit (beweeglijkheid van de "
+"onderliggende waarde), in percentage, van de activa voor de resterende "
+"looptijd.\n"
+"@resterende_looptijd is de tijd tot expiratie (vervaldatum) uitgedrukt in "
+"jaren.\n"
 "@rente is de risico-vrije rentestand tot expiratie, in percentage.\n"
-"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor normale aandelen zou dit het dividentrendement zijn.\n"
+"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor "
+"normale aandelen zou dit het dividentrendement zijn.\n"
 "\n"
-"* Het gegeven resultaat is uitgedrukt als de verandering in optiewaarde per 100% volatiliteit.\n"
+"* Het gegeven resultaat is uitgedrukt als de verandering in optiewaarde per "
+"100% volatiliteit.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -541,17 +587,27 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
-"@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_keuze;prijs;koers;resterende_looptijd;binnenlands_rente;buitenlandse_rente;volatiliteit[;cost_of_carry])\n"
-"@DESCRIPTION=OPT_GARMAN_KOHLHAGEN berekent de theoretische prijs van een Europese waardemunt-optie met een uitoefenprijs: @prijs op activa met een koers: @koers.\n"
+"@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_keuze;prijs;koers;resterende_looptijd;"
+"binnenlands_rente;buitenlandse_rente;volatiliteit[;cost_of_carry])\n"
+"@DESCRIPTION=OPT_GARMAN_KOHLHAGEN berekent de theoretische prijs van een "
+"Europese waardemunt-optie met een uitoefenprijs: @prijs op activa met een "
+"koers: @koers.\n"
 "\n"
 "@call_put_keuze is c of p voor respectievelijk een call of een put.\n"
-"@volatiliteit is de jaarlijkse volatiliteit (beweeglijkheid van de onderliggende waarde), in percentage, van de activa voor de resterende looptijd.\n"
-"@resterende_looptijd is de tijd tot expiratie (vervaldatum) uitgedrukt in dagen.\n"
-"@binnenlandse_rente is de binnenlandse risico-vrije rentestand tot expiratie, in percentage. \n"
-"@buitenlandse_rente is de buitenlandse risico-vrije rentestand tot expiratie, in percentage.\n"
-"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor normale aandelen zou dit het dividentrendement zijn.\n"
+"@volatiliteit is de jaarlijkse volatiliteit (beweeglijkheid van de "
+"onderliggende waarde), in percentage, van de activa voor de resterende "
+"looptijd.\n"
+"@resterende_looptijd is de tijd tot expiratie (vervaldatum) uitgedrukt in "
+"dagen.\n"
+"@binnenlandse_rente is de binnenlandse risico-vrije rentestand tot "
+"expiratie, in percentage. \n"
+"@buitenlandse_rente is de buitenlandse risico-vrije rentestand tot "
+"expiratie, in percentage.\n"
+"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor "
+"normale aandelen zou dit het dividentrendement zijn.\n"
 "\n"
-"\"* Het gegeven resultaat is uitgedrukt als de mate van verandering van de optiewaarde, per 100% volatiliteit.\n"
+"\"* Het gegeven resultaat is uitgedrukt als de mate van verandering van de "
+"optiewaarde, per 100% volatiliteit.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -586,18 +642,26 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_FRENCH\n"
-"@SYNTAX=OPT_FRENCH(call_put_keuze;prijs;koers;resterende_looptijd;t2;rente;volatiliteit[;cost_of_carry])\n"
-"@DESCRIPTION=OPT_FRENCH modelleert de theoretische prijs van een Europese optie aangepast voor handelsdag-volatiliteit, met een uitoefenprijs: @prijs op activa met een koers: @koers.\n"
+"@SYNTAX=OPT_FRENCH(call_put_keuze;prijs;koers;resterende_looptijd;t2;rente;"
+"volatiliteit[;cost_of_carry])\n"
+"@DESCRIPTION=OPT_FRENCH modelleert de theoretische prijs van een Europese "
+"optie aangepast voor handelsdag-volatiliteit, met een uitoefenprijs: @prijs "
+"op activa met een koers: @koers.\n"
 "@call_put_keuze is c of p voor respectievelijk een call of een put optie. \n"
-"@volatiliteit is de jaarlijkse volatiliteit in percentage van de activa voor de periode tot de uitoefendatum\n"
-"@resterende_looptijd is het aantal calenderdagen tot expiratie van de optie gedeeld door het aantal kalenderdagen in het jaar.\n"
-"@t2 is het aantal handelsdagen tot expiratie gedeeld door het aantal kalenderdagen in het jaar.\n"
+"@volatiliteit is de jaarlijkse volatiliteit in percentage van de activa voor "
+"de periode tot de uitoefendatum\n"
+"@resterende_looptijd is het aantal calenderdagen tot expiratie van de optie "
+"gedeeld door het aantal kalenderdagen in het jaar.\n"
+"@t2 is het aantal handelsdagen tot expiratie gedeeld door het aantal "
+"kalenderdagen in het jaar.\n"
 "@rente is het risicovrije jaarlijkse rentepercentage\n"
-"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor normale aandelen zou dit het dividentrendement zijn.\n"
+"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor "
+"normale aandelen zou dit het dividentrendement zijn.\n"
 "@koers is de koers waarbij de optie wordt geïnd.\n"
 "@prijs is de uitoefenprijs van de onderliggende waarde\n"
 "\n"
-"* De resultaatwaarde zal worden uitgedrukt als het tempo van verandering van de optiewaarde, per 100% volatiliteit\n"
+"* De resultaatwaarde zal worden uitgedrukt als het tempo van verandering van "
+"de optiewaarde, per 100% volatiliteit\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -625,16 +689,20 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_JUMP_DIFF\n"
-"@SYNTAX=OPT_JUMP_DIFF(call_put_keuze;prijs;koers;resterende_looptijd;rente;volatiliteit;lambda;gamma)\n"
-"@DESCRIPTION=OPT_JUMP-DIFF modelleert de theoretische prijs van een optie volgens het jump-diffusie proces (Merton).\n"
+"@SYNTAX=OPT_JUMP_DIFF(call_put_keuze;prijs;koers;resterende_looptijd;rente;"
+"volatiliteit;lambda;gamma)\n"
+"@DESCRIPTION=OPT_JUMP-DIFF modelleert de theoretische prijs van een optie "
+"volgens het jump-diffusie proces (Merton).\n"
 "@call_put_keuze is c of p voor respectievelijk een call of een put optie. \n"
 "@prijs is de uitoefenprijs van de onderliggende waarde\n"
 "@koers is de koers waarbij de optie wordt geïnd.\n"
 "@resterende_looptijd is het aantal dagen tot expiratie van de optie\n"
 "@rente is het risicovrije jaarlijkse rentepercentage\n"
-"@volatiliteit is de jaarlijkse volatiliteit in prijs van de onderliggende waarde\n"
+"@volatiliteit is de jaarlijkse volatiliteit in prijs van de onderliggende "
+"waarde\n"
 "@lambda is het verwachte aantal 'jumps' per jaar\n"
-"@gamma is het aandeel in de volatiliteit dat verklaard kan worden uit de 'jumps'\n"
+"@gamma is het aandeel in de volatiliteit dat verklaard kan worden uit de "
+"'jumps'\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
@@ -670,22 +738,30 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
-"@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_keuze;p_t;f_t;x;t1;t2;v_s;v_e;v_f;rho_se;rho_sf;rho_ef;kappa_e;kappa_f)\n"
-"@DESCRIPTION=OPT_MILTERSEN_SCHWARTZ modelleert de theoretische prijs van opties op 'commodities futures' volgens Miltersen & Schwartz.\n"
+"@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_keuze;p_t;f_t;x;t1;t2;v_s;v_e;v_f;"
+"rho_se;rho_sf;rho_ef;kappa_e;kappa_f)\n"
+"@DESCRIPTION=OPT_MILTERSEN_SCHWARTZ modelleert de theoretische prijs van "
+"opties op 'commodities futures' volgens Miltersen & Schwartz.\n"
 "@call_put_keuze is c of p voor respectievelijk een call of een put optie.\n"
 "@p_t is een nul coupon-obligatie met expiratie op de optie-vervaldatum \n"
 "@f_t is de koers van de futures\n"
 "@x is koersprijs \n"
 "@t1 is het aantal dagen tot expiratie van de optie\n"
-"@t2 is het aantal dagen tot expiratie van het onderliggende 'commodity futures' contract \n"
+"@t2 is het aantal dagen tot expiratie van het onderliggende 'commodity "
+"futures' contract \n"
 "@v_s is de volatiliteit van de 'commodity' koersprijs\n"
 "@v_e is de volatiliteit van het 'future convenience' rendement\n"
 "@v_f is de volatiliteit van de 'forward interest' rente\n"
-"@rho_se is de correlatie tussen de commodity prijs en het convenience rendement\n"
-"@rho_sf is de correlatie tussen de commodity prijs en de 'forward interest' rente\n"
-"@rho_ef is de correlatie tussen de 'forward interest' rente en het 'convenience' rendement \n"
-"@kappa_e is de snelheid van de gemiddelde reversie van het 'convenience' rendement\n"
-"@kappa_f is de snelheid van de gemiddelde reversie van de 'forward interest' rente \n"
+"@rho_se is de correlatie tussen de commodity prijs en het convenience "
+"rendement\n"
+"@rho_sf is de correlatie tussen de commodity prijs en de 'forward interest' "
+"rente\n"
+"@rho_ef is de correlatie tussen de 'forward interest' rente en het "
+"'convenience' rendement \n"
+"@kappa_e is de snelheid van de gemiddelde reversie van het 'convenience' "
+"rendement\n"
+"@kappa_f is de snelheid van de gemiddelde reversie van de 'forward interest' "
+"rente \n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -713,7 +789,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=OPT_RGW\n"
 "@SYNTAX=OPT_RGW(call_put_keuze;prijs;koers;t1;t2;rente;d;volatiliteit)\n"
-"@DESCRIPTION=OPT_RGW modelleert de theoretische prijs van een Amerikaanse optie volgens de benaderingstechniek van Roll-Geske-Whaley.\n"
+"@DESCRIPTION=OPT_RGW modelleert de theoretische prijs van een Amerikaanse "
+"optie volgens de benaderingstechniek van Roll-Geske-Whaley.\n"
 "@call_put_keuze is c of p voor respectievelijk een call of een put optie. \n"
 "@prijs is de uitoefenprijs van de onderliggende waarde\n"
 "@koers is de koers waarbij de optie wordt geïnd.\n"
@@ -721,7 +798,8 @@ msgstr ""
 "@t2 is het aantal dagen tot expiratie van de optie\n"
 "@rente is het jaarlijkse rentepercentage\n"
 "@d is de hoeveelheid uit te betalen dividend\n"
-"@volatiliteit is de jaarlijkse volatiliteit in prijs van de onderliggende waarde\n"
+"@volatiliteit is de jaarlijkse volatiliteit in prijs van de onderliggende "
+"waarde\n"
 "@cost_of_carry is het waardeverloop van de onderliggende waarde.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -750,15 +828,19 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_BAW_AMER\n"
-"@SYNTAX=OPT_BAW_AMER(call_put_keuze;prijs;koers;resterende_looptijd;rente;cost_of_carry;volatiliteit)\n"
-"@DESCRIPTION=OPT_BAW_AMER modeleert de theoretische prijs van een optie volgens de benaderingstechniek van  Barone Adesie & Whaley. \n"
+"@SYNTAX=OPT_BAW_AMER(call_put_keuze;prijs;koers;resterende_looptijd;rente;"
+"cost_of_carry;volatiliteit)\n"
+"@DESCRIPTION=OPT_BAW_AMER modeleert de theoretische prijs van een optie "
+"volgens de benaderingstechniek van  Barone Adesie & Whaley. \n"
 "@call_put_keuze is c or p voor respectievelijk een call of een put optie. \n"
 "@prijs is de uitoefenprijs van de onderliggende waarde\n"
 "@koers is de koers waarbij de optie wordt geïnd\n"
 "@resterende_looptijd  het aantal dagen tot expiratie van de optie\n"
 "@rente is het risicovrije jaarlijkse rentepercentage\n"
-"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor normale aandelen zou dit het dividentrendement zijn.\n"
-"@volatility is de jaarlijkse volatiliteit in prijs van de onderliggende waarde\n"
+"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor "
+"normale aandelen zou dit het dividentrendement zijn.\n"
+"@volatility is de jaarlijkse volatiliteit in prijs van de onderliggende "
+"waarde\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -787,15 +869,19 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_BJERSTENS\n"
-"@SYNTAX=OPT_BJERSTENS(call_put_keuze;prijs;koers;resterende_looptijd;rente;volatiliteit[;cost_of_carry])\n"
-"@DESCRIPTION=OPT_BJERSTENS modelleert de theoretische prijs van Amerikaanse opties volgens de benaderingstechniek van Bjerksund & Stensland.\n"
+"@SYNTAX=OPT_BJERSTENS(call_put_keuze;prijs;koers;resterende_looptijd;rente;"
+"volatiliteit[;cost_of_carry])\n"
+"@DESCRIPTION=OPT_BJERSTENS modelleert de theoretische prijs van Amerikaanse "
+"opties volgens de benaderingstechniek van Bjerksund & Stensland.\n"
 "@call_put_keuze is c of p voor respectievelijk een call of een put optie. \n"
 "@prijs is de uitoefenprijs van de onderliggende waarde\n"
 "@koers is de koers waarbij de optie wordt geïnd.\n"
 "@resterende_looptijd is het aantal dagen tot expiratie van de optie\n"
 "@rente is het risicovrije jaarlijkse rentepercentage\n"
-"@volatiliteit is de jaarlijkse volatiliteit in prijs van de onderliggende waarde\n"
-"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor normale aandelen zou dit het dividentrendement zijn.\n"
+"@volatiliteit is de jaarlijkse volatiliteit in prijs van de onderliggende "
+"waarde\n"
+"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor "
+"normale aandelen zou dit het dividentrendement zijn.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -826,16 +912,21 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_EXEC\n"
-"@SYNTAX=OPT_EXEC(call_put_keuze;prijs;koers;resterende_looptijd;rente;volatiliteit;cost_of_carry;lambda)\n"
-"@DESCRIPTION=OPT_EXEC modelleert de theoretische prijs van beursopties voor executieven.\n"
+"@SYNTAX=OPT_EXEC(call_put_keuze;prijs;koers;resterende_looptijd;rente;"
+"volatiliteit;cost_of_carry;lambda)\n"
+"@DESCRIPTION=OPT_EXEC modelleert de theoretische prijs van beursopties voor "
+"executieven.\n"
 "@call_put_keuze is c of p voor respectievelijk een call of een put optie. \n"
 "@prijs is de uitoefenprijs van de onderliggende waarde\n"
 "@koers is de koers waarbij de optie wordt geïnd.\n"
 "@resterende_looptijd is het aantal dagen tot expiratie van de optie\n"
 "@rente is het risicovrije jaarlijkse rentepercentage\n"
-"@volatiliteit is de jaarlijkse volatiliteit in prijs van de onderliggende waarde\n"
-"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor normale aandelen zou dit het dividentrendement zijn.\n"
-"@lambda is de jump-rate voor executieven. Het model neemt aan dat executieven hun opties verspelen als zij het bedrijf verlaten.\n"
+"@volatiliteit is de jaarlijkse volatiliteit in prijs van de onderliggende "
+"waarde\n"
+"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor "
+"normale aandelen zou dit het dividentrendement zijn.\n"
+"@lambda is de jump-rate voor executieven. Het model neemt aan dat "
+"executieven hun opties verspelen als zij het bedrijf verlaten.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -864,16 +955,21 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_FORWARD_START\n"
-"@SYNTAX=OPT_FORWARD_START(call_put_keuze;prijs;alpha;tijd1;resterende_looptijd;rente;volatiliteit;cost_of_carry)\n"
-"@DESCRIPTION=OPT_FORWARD_START modelleert de theoretische prijs van 'forward_start'-opties.\n"
+"@SYNTAX=OPT_FORWARD_START(call_put_keuze;prijs;alpha;tijd1;"
+"resterende_looptijd;rente;volatiliteit;cost_of_carry)\n"
+"@DESCRIPTION=OPT_FORWARD_START modelleert de theoretische prijs van "
+"'forward_start'-opties.\n"
 "@call_put_keuze is c of p voor respectievelijk een call of een put optie. \n"
 "@prijs is de uitoefenprijs van de onderliggende waarde\n"
-"@alpha is een fractie die de koersprijs geeft op een toekomstige datum @tijd1\n"
+"@alpha is een fractie die de koersprijs geeft op een toekomstige datum "
+"@tijd1\n"
 "@tijd1 is het aantal dagen tot de startdatum van de optie\n"
 "@resterende_looptijd is het aantal dagen tot expiratie van de optie\n"
 "@rente is het risicovrije jaarlijkse rentepercentage\n"
-"@volatiliteit is de jaarlijkse volatiliteit in prijs van de onderliggende waarde\n"
-"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor normale aandelen zou dit het dividentrendement zijn.\n"
+"@volatiliteit is de jaarlijkse volatiliteit in prijs van de onderliggende "
+"waarde\n"
+"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor "
+"normale aandelen zou dit het dividentrendement zijn.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -905,18 +1001,26 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_TIME_SWITCH\n"
-"@SYNTAX=OPT_TIME_SWITCH(call_put_keuze;prijs;koers;a;resterende_looptijd;m;dt;rente;cost_of_carry;volatiliteit)\n"
-"@DESCRIPTION=OPT_TIME_SWITCH modelleert de theoretische prijs van 'time switch' opties. (Pechtl 1995)\n"
-"De houder ontvangt @a * @dt voor elke periode dt waarin de prijs van de activa groter was dan de koersprijs (voor een call) of lager (voor een put) \n"
+"@SYNTAX=OPT_TIME_SWITCH(call_put_keuze;prijs;koers;a;resterende_looptijd;m;"
+"dt;rente;cost_of_carry;volatiliteit)\n"
+"@DESCRIPTION=OPT_TIME_SWITCH modelleert de theoretische prijs van 'time "
+"switch' opties. (Pechtl 1995)\n"
+"De houder ontvangt @a * @dt voor elke periode dt waarin de prijs van de "
+"activa groter was dan de koersprijs (voor een call) of lager (voor een "
+"put) \n"
 "@call_put_keuze is c or p voor respectievelijk een call of put optie\n"
 "@prijs is de uitoefenprijs van de onderliggende waarde\n"
 "@koers is de koers waarbij de optie wordt geïnd.\n"
-"@a is de ontvangen hoeveelheid voor elke tijdsperiode zoals hierboven beschreven.\n"
+"@a is de ontvangen hoeveelheid voor elke tijdsperiode zoals hierboven "
+"beschreven.\n"
 "@resterende_looptijd is de resterende looptijd van de optie in jaren.\n"
-"@m is het aantal tijdseenheden waarin de optie heeft voldaan aan de voorwaarden.\n"
-"@dt is de afgesproken discrete tijdseenheid (gewoonlijk een dag) uitgedrukt als een fractie van een jaar. \n"
+"@m is het aantal tijdseenheden waarin de optie heeft voldaan aan de "
+"voorwaarden.\n"
+"@dt is de afgesproken discrete tijdseenheid (gewoonlijk een dag) uitgedrukt "
+"als een fractie van een jaar. \n"
 "@rente is het risicovrije jaarlijkse rentepercentage.\n"
-"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor normale aandelen zou dit het dividentrendement zijn.\n"
+"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor "
+"normale aandelen zou dit het dividentrendement zijn.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
@@ -941,6 +1045,19 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
+"@FUNCTION=OPT_SIMPLE_CHOOSER\n"
+"@SYNTAX=OPT_SIMPLE_CHOOSER(call_put_keuze;prijs;koers;tijd1;tijd2;rente;cost_of_carry;volatiliteit)\n"
+"@DESCRIPTION=OPT_SIMPLE_CHOOSER modelleert de theoretische prijs van 'simple chooser' opties.\n"
+"@call_put_keuze is c or p voor respectievelijk een call of een put optie.\n"
+"@prijs is de uitoefenprijs van de onderliggende waarde.\n"
+"@strike is de koers waarbij de optie wordt geïnd.\n"
+"@tijd1 is de tijd in jaren tot een houder een put of een call optie kiest.\n"
+"@tijd2 is de tijd in jaren tot de gekozen optie expireert.\n"
+"@rente is is het risicovrije jaarlijkse rentepercentage. \n"
+"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor normale aandelen zou dit het dividentrendement zijn.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1533
 #, no-c-format
@@ -966,6 +1083,23 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
+"@FUNCTION=OPT_COMPLEX_CHOOSER\n"
+"@SYNTAX=OPT_COMPLEX_CHOOSER(call_put_keuze;prijs;koers_call;koers_put;tijd;tijd_call;tijd_put;rente;cost_of_carry;volatiliteit)\n"
+"@DESCRIPTION=OPT_COMPLEX_CHOOSER modelleert de theoretische prijs van 'complex chooser' opties.\n"
+"@call_put_keuze is voor respectievelijk een call of een put optie. \n"
+"@prijs is de uitoefenprijs van de onderliggende waarde.\n"
+"@koers_call is de koersprijs waarbij de optie wordt gekocht.\n"
+"@koers_put is de koersprijs waarbij de optie wordt gekocht. \n"
+"@tijd is de tijd in jaren tot een houder een put of een call optie kiest.\n"
+"@time_call is de resterende looptijd in jaren van de call optie indien gekozen.\n"
+"@time_put is de resterende looptijd in jaren van de put optie indien gekozen.\n"
+"@rente is het risicovrije jaarlijkse rentepercentage.\n"
+"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor normale aandelen zou dit het dividentrendement zijn\n"
+"@volatiliteit is de jaarlijkse volatiliteit in prijs van de onderliggende waarde.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1648
 #, no-c-format
@@ -992,6 +1126,23 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
+"@FUNCTION=OPT_ON_OPTIONS\n"
+"@SYNTAX=OPT_ON_OPTIONS(keuzetype;prijs;koers1;koers2;tijd1;tijd2;rente;cost_of_carry;volatiliteit)\n"
+"@DESCRIPTION=OPT_ON_OPTIONS modelleert de theoretiche prijs van opties op opties \n"
+"@keuzetype is 'cc' voor calls op calls, 'cp' voor calls op puts, en zo verder voor 'pc' en 'pp'\n"
+"@prijs is de prijs van de onderliggende waarde.\n"
+"@koers1 is de koersprijs waarbij de optie wordt gekocht.\n"
+"@koers2 is de koersprijs waarbij de optie wordt gekocht.\n"
+"@tijd1 is de resterende looptijd van de optie in jaren.\n"
+"@tijd2 is de resterende looptijd van de onderliggende optie in jaren.\n"
+"(@tijd2 >= @tijd1)\n"
+"@rente is het risicovrije jaarlijkse rentepercentage.\n"
+"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor normale aandelen zou dit het dividentrendement zijn.\n"
+"@volatility is de jaarlijkse volatiliteit in prijs van de onderliggende waarde.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1733
 #, no-c-format
@@ -1018,12 +1169,31 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
+"@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
+"@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_keuze;prijs;koers1;koers2;tijd1;tijd2;rente;cost_of_carry;volatiliteit)\n"
+"@DESCRIPTION=OPT_EXTENDIBLE_WRITER modelleert de theoretiche prijs van 'extendible writer' opties. Dit zijn opties die kunnen worden uitgevoerd gedurende een beginperiode @tijd1, of hun resterende looptijd kan worden verlengd naar @tijd2 indien de optie zonder geld zt op @tijd1.\n"
+"\n"
+"@call_put_keuze is c of p voor respectievelijk een call of een put optie.\n"
+"@prijs is de prijs van de onderliggende waarde.\n"
+"@koers1 is de koersprijs waarbij de optie wordt gekocht.\n"
+"@koers2 is de koersprijs waarbij de optie wordt gekocht.\n"
+"@tijd1 is de initiële resterende looptijd van de optie in jaren.\n"
+"@tijd2 is de verlengde resterende looptijd van de optie jaren indien gekozen.\n"
+"@rente is het risicovrije jaarlijkse rentepercentage.\n"
+"@cost_of_carry is het waardeverloop van de onderliggende waarde. Voor normale aandelen zou dit het dividentrendement zijn.\n"
+"@volatility is de jaarlijkse volatiliteit in prijs van de onderliggende waarde.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA<"
 
 #: plugins/derivatives/options.c:1761 plugins/derivatives/options.c:1766
 #: plugins/derivatives/options.c:1771 plugins/derivatives/options.c:1776
 #: plugins/derivatives/options.c:1791
 msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
-msgstr "call_put_keuze; prijs; koers; resterende_looptijd; rente; volatiliteit; cost_of_carry"
+msgstr ""
+"call_put_keuze; prijs; koers; resterende_looptijd; rente; volatiliteit; "
+"cost_of_carry"
 
 #: plugins/derivatives/options.c:1781 plugins/derivatives/options.c:1786
 msgid "spot, strike, time, rate, volatility, cost_of_carry"
@@ -1042,20 +1212,28 @@ msgstr ""
 
 #: plugins/derivatives/options.c:1806
 msgid "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
-msgstr "call_put_keuze; prijs; koers; resterende_looptijd; t2; rente; volatiliteit; cost_of_carry"
+msgstr ""
+"call_put_keuze; prijs; koers; resterende_looptijd; t2; rente; volatiliteit; "
+"cost_of_carry"
 
 #: plugins/derivatives/options.c:1811
 msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
-msgstr "call_put_keuze; prijs; koers; resterende_looptijd; rente; volatiliteit; lambda; gamma"
+msgstr ""
+"call_put_keuze; prijs; koers; resterende_looptijd; rente; volatiliteit; "
+"lambda; gamma"
 
 #: plugins/derivatives/options.c:1816
 msgid ""
 "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
-msgstr "call_put_keuze; prijs; koers; resterende_looptijd; rente; volatiliteit; cost_of_carry; lambda"
+msgstr ""
+"call_put_keuze; prijs; koers; resterende_looptijd; rente; volatiliteit; "
+"cost_of_carry; lambda"
 
 #: plugins/derivatives/options.c:1821 plugins/derivatives/options.c:1831
 msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
-msgstr "call_put_keuze; prijs; koers; resterende_looptijd; rente; cost_of_carry; volatiliteit"
+msgstr ""
+"call_put_keuze; prijs; koers; resterende_looptijd; rente; cost_of_carry; "
+"volatiliteit"
 
 #: plugins/derivatives/options.c:1826
 msgid ""
@@ -1072,12 +1250,16 @@ msgstr "call_put_keuze; prijs; koers; t1; t2; rente; d; volatiliteit"
 #: plugins/derivatives/options.c:1841
 msgid ""
 "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
-msgstr "call_put_keuze; prijs; alpha; tijd1; resterende_looptijd; rente; volatiliteit; cost_of_carry"
+msgstr ""
+"call_put_keuze; prijs; alpha; tijd1; resterende_looptijd; rente; "
+"volatiliteit; cost_of_carry"
 
 #: plugins/derivatives/options.c:1846
 msgid ""
 "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
-msgstr "call_put_keuze; prijs; koers; a; resterende_looptijd; m; dt; rente; cost_of_carry; volatiliteit"
+msgstr ""
+"call_put_keuze; prijs; koers; a; resterende_looptijd; m; dt; rente; "
+"cost_of_carry; volatiliteit"
 
 #: plugins/derivatives/options.c:1851
 msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
@@ -1087,7 +1269,9 @@ msgstr "prijs; koers; tijd1; tijd2; rente; cost_of_carry; volatiliteit"
 msgid ""
 "spot, strike_call, strike_put, time, time_call, time_put, rate, "
 "cost_of_carry, volatility"
-msgstr "prijs; koers_call; koers_put; resterende_looptijd; tijd_call; tijd_put; rente; cost_of_carry; volatiliteit"
+msgstr ""
+"prijs; koers_call; koers_put; resterende_looptijd; tijd_call; tijd_put; "
+"rente; cost_of_carry; volatiliteit"
 
 #: plugins/derivatives/options.c:1861 plugins/derivatives/options.c:1866
 msgid ""
@@ -7699,18 +7883,13 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=ODDLYIELD\n"
-"@SYNTAX=ODDLYIELD(stortingsdatum;vervaldatum;laatste_rente;rente;prijs;"
-"aflossingsprijs;frequentie[;soort_jaar])\n"
-"@DESCRIPTION=ODDLYIELD (ned. AFW.LT.REND) berekent het rendement voor een "
-"waardepapier met een afwijkende (korte of lange) laatste  coupon-termijn.\n"
+"@SYNTAX=ODDLYIELD(stortingsdatum;vervaldatum;laatste_rente;rente;prijs;aflossingsprijs;frequentie[;soort_jaar])\n"
+"@DESCRIPTION=ODDLYIELD (ned. AFW.LT.REND) berekent het rendement voor een waardepapier met een afwijkende (korte of lange) laatste  coupon-termijn.\n"
 "\n"
-"@stortingsdatum is de stortingsdatum van het waardepapier. (de datum waarop "
-"het waardepapier aan de koper wordt verkocht)\n"
-"@vervaldatum is de vervaldatum van het waardepapier. (de datum waarop het "
-"waardepapier verloopt)\n"
+"@stortingsdatum is de stortingsdatum van het waardepapier. (de datum waarop het waardepapier aan de koper wordt verkocht)\n"
+"@vervaldatum is de vervaldatum van het waardepapier. (de datum waarop het waardepapier verloopt)\n"
 "@laatste_rente is de laatste coupon-vervaldatum van het waardepapier.\n"
-"@frequentie is het aantal coupon-uitbetalingen per jaar. Toegestaan zijn: 1 "
-"= jaarlijks, 2 = halfjaarlijks, 4 = driemaandelijks.\n"
+"@frequentie is het aantal coupon-uitbetalingen per jaar. Toegestaan zijn: 1 = jaarlijks, 2 = halfjaarlijks, 4 = driemaandelijks.\n"
 "@soort_jaar is het type dagentelling dat wordt gebruikt:\n"
 "\n"
 "  0  Amerikaans 30/360\n"
@@ -7719,11 +7898,9 @@ msgstr ""
 "  3  werkelijk/365\n"
 "  4  Europees 30/360\n"
 "\n"
-"* Als @frequentie iets anders is dan 1, 2 of 4 geeft ODDLYIELDeen #GETAL! "
-"foutmelding.\n"
+"* Als @frequentie iets anders is dan 1, 2 of 4 geeft ODDLYIELD een #GETAL! foutmelding.\n"
 "* Als @soort_jaar is weggelaten wordt uitgegaan van Amerikaans 30/360.\n"
-"* Als @soort_jaar niet tussen 0 en 4 ligt geeft ODDLYIELD een #GETAL! "
-"foutmelding.\n"
+"* Als @soort_jaar niet tussen 0 en 4 ligt geeft ODDLYIELD een #GETAL! foutmelding.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -7763,6 +7940,32 @@ msgid ""
 "\n"
 "@SEEALSO=AMORLINC"
 msgstr ""
+"@FUNCTION=AMORDEGRC\n"
+"@SYNTAX=AMORDEGRC(kosten;aankoopdatum;eerste_temijn;restwaarde;termijn;rente[;soort_jaar])\n"
+"@DESCRIPTION=AMORDEGRC berekent de afschrijving voor elke boekhoudtermijn volgens Franse boekhoudconventies.   Activa aangekocht in het midden van een termijn nemen een afschrijving per percentage in rekening.  Dit is gelijk aan AMORLINC, behalve dat in de berekeningeen afschrijvingscoëfficiënt wordt toegepast afhankelijk  van de levensduur van de activa.\n"
+"Genoemd naar AMORtissement DEGRessif Comptabilite\n"
+"\n"
+"@kosten de waarde van de activa.\n"
+"@aankoopdatum de aankoopdatum van de activa.\n"
+"@eerste_termijn het einde van de eerste termijn.\n"
+"@restwaarde waarde van de activa op de vervaldatum.\n"
+"@termijn de lengte van de boekhoudtermijnen.\n"
+"@rente rente van afschrijving als een percentage.\n"
+"@soort_jaar is het type dagentelling dat wordt gebruikt:\n"
+"\n"
+"  0  Amerikaans 30/360\n"
+"  1  werkelijk/werkelijk\n"
+"  2  werkelijk/360\n"
+"  3  werkelijk/365\n"
+"  4  Europees 30/360\n"
+"\n"
+"* Als @soort_jaar is weggelaten wordt Amerikaans 30/360 toegepast.\n"
+"* Als @soort_jaar niet tussen 0 en 4 ligt geeft AMORLINC een #GETAL! foutmelding.\n"
+"\n"
+"@EXAMPLES=\n"
+"AMORDEGRC(2400;DATE(1998;8;19);DATE(1998;12;30);300;1;0,14;1) = 733\n"
+"\n"
+"@SEEALSO=AMORLINC"
 
 # prorated: betekent per rente, dus lineair afhankelijk
 #: plugins/fn-financial/functions.c:3179
@@ -7797,6 +8000,32 @@ msgid ""
 "\n"
 "@SEEALSO=AMORDEGRC"
 msgstr ""
+"@FUNCTION=AMORLINC\n"
+"@SYNTAX=AMORLINC(kosten;aankoopdatum;eerste_termijn;restwaarde;termijn;rente[;soort_jaar])\n"
+"@DESCRIPTION=AMORLINC berekent de afschrijving voor elke boekhoudtermijn volgens Franse boekhoudconventies.   Acitva aangekocht in het midden van een termijn nemen een afschrijving per percentage in rekening.\n"
+"Genoemd naar AMORtissement LINeaire Comptabilite.\n"
+"\n"
+"@kosten de waarde van de activa.\n"
+"@aankoopdatum de aankoopdatum van de activa.\n"
+"@eerste_termijn het einde van de eerste termijn.\n"
+"@restwaarde waarde van de activa op de vervaldatum.\n"
+"@termijn de lengte van de boekhoudtermijnen.\n"
+"@rente rente van afschrijving als een percentage.\n"
+"@soort_jaar is het type dagentelling dat wordt gebruikt:\n"
+"\n"
+"  0  Amerikaans 30/360\n"
+"  1  werkelijk/werkelijk\n"
+"  2  werkelijk/360\n"
+"  3  werkelijk/365\n"
+"  4  Europees 30/360\n"
+"\n"
+"* Als @soort_jaar is weggelaten wordt Amerikaans 30/360 toegepast.\n"
+"* Als @soort_jaar niet tussen 0 en 4 ligt geeft AMORLINC een #GETAL! foutmelding.\n"
+"\n"
+"@EXAMPLES=\n"
+"AMORLINC(2400;DATE(1998;8;19);DATE(1998;12;31);300;1;0,15;1) = 360\n"
+"\n"
+"@SEEALSO=AMORDEGRC"
 
 #: plugins/fn-financial/functions.c:3237
 msgid ""
@@ -12887,6 +13116,19 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=SIMTABLE\n"
+"@SYNTAX=SIMTABLE(d1; d2; ...; dN)\n"
+"@DESCRIPTION=SIMTABLE geeft een van de waarden uit de gegeven argumentenlijst afhankelijk van het rondegetal van de simulatie. Indien de simulatie-tool niet is geactiveerd, geeft SIMTABLE @d1.\n"
+"\n"
+"Met de simulatie-tool en de functie SIMTABLE kunt u gegeven beslissingsvariabelen testen. Elke SIMTABLE functie bevat de mogelijke waarden van een simulatievariabele. In de meeste geldige simulatiemodellen is het aantal waarden @dN voor alle beslissingsvariabelen gelijk.  Indien de simulatie vaker wordt uitgevoerd dan dat er waarden zijn gedefinieerd, geeft SIMTABLE een #N/B! foutmelding (bijv als A1 `=SIMTABLE(1)' bevat en A2 `=SIMTABLE(1;2)', geeft A1 een #N/B! foutmelding bij de tweede simulatieronde).\n"
+"\n"
+"Het achtereenvolgende gebruik van de simulatie-tool vereist ook dat u aan de tool tenminste één invoervariabele geeft die een functie RAND() of een andere functie RAND<distributienaam> bevat. Bij elke ronde itereert de simulatie-tool voor het gegeven aantal rondes over alle invoervariablen om deze opnieuw te evalueren. Bij elke iteratie worden de waarden van de uitvoervariabelen opgeslagen en bij voltooing van de ronde wordt aan de hand van deze waarden, beschrijvende statistische informatie gegenereerd.\n"
+"\n"
+"@EXAMPLES=\n"
+"SIMTABLE(WAAR;ONWAAR) geeft WAAR bij de eerste simulatieronde en ONWAAR bij de tweede ronde.\n"
+"SIMTABLE(223;225;227;229) geeft 227 bij simulatieronde #3.\n"
+"\n"
+"@SEEALSO="
 
 #: plugins/fn-random/functions.c:1100 plugins/fn-random/functions.c:1136
 #: plugins/fn-random/functions.c:1154 plugins/fn-stat/functions.c:5798
@@ -14868,12 +15110,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=SSMEDIAN\n"
 "@SYNTAX=SSMEDIAN(array[;interval)]\n"
-"@DESCRIPTION=SSMEDIAN geeft de mediaan voor gegroepeerde data zoals die gewoonlijk worden gebruikt in de sociale wetenschappen. De datapunten gegeven in @array worden verondersteld het resultaat te zijn van het groeperen van de data in intervallen met lengte @interval\n"
+"@DESCRIPTION=SSMEDIAN geeft de mediaan voor gegroepeerde data zoals die "
+"gewoonlijk worden gebruikt in de sociale wetenschappen. De datapunten "
+"gegeven in @array worden verondersteld het resultaat te zijn van het "
+"groeperen van de data in intervallen met lengte @interval\n"
 "\n"
 "* Als @interval niet wordt gegeven gebruikt SSMEDIAN de waarde 1.\n"
 "* Als @array leeg is geeft SSMEDIAN een #GETAL! foutmelding.\n"
 "* Als @interval <= 0 geeft SSMEDIAN een #GETAL! foutmelding.\n"
-"* SSMEDIAN controleert niet of de datapunten tenminste een lengte @interval uit elkaar liggen.\n"
+"* SSMEDIAN controleert niet of de datapunten tenminste een lengte @interval "
+"uit elkaar liggen.\n"
 "\n"
 "@EXAMPLES=\n"
 "Als de cellen A1, A2, A3 de getallen 7, 8, 8 bevatte, dan geldt:\n"
@@ -18582,7 +18828,7 @@ msgstr ""
 "met meerdere werkbladen slechts één werkblad wordt opgeslagen."
 
 #: schemas/gnumeric-general.schemas.in.h:29 src/GNOME_Gnumeric.xml.h:233
-#: src/workbook-control-gui.c:4051
+#: src/workbook-control-gui.c:4056
 msgid "Sort Ascending"
 msgstr "Oplopend sorteeren"
 
@@ -18793,8 +19039,8 @@ msgstr "Bij LaTeX-export, UTF-8 gebruiken"
 msgid "About this application"
 msgstr "Info over deze toepassing"
 
-#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:1549
-#: src/workbook-control-gui.c:3926
+#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:1554
+#: src/workbook-control-gui.c:3931
 msgid "Add _Auto Filter"
 msgstr "_Auto-Filter toevoegen"
 
@@ -18802,15 +19048,15 @@ msgstr "_Auto-Filter toevoegen"
 msgid "Add a scenario"
 msgstr "Een scenario toevoegen"
 
-#: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3889
+#: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3894
 msgid "Add an outline group"
 msgstr "Een outline-groep toevoegen"
 
-#: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3927
+#: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3932
 msgid "Add or remove a filter"
 msgstr "Een filter toevoegen of verwijderen"
 
-#: src/GNOME_Gnumeric.xml.h:6 src/workbook-control-gui.c:3932
+#: src/GNOME_Gnumeric.xml.h:6 src/workbook-control-gui.c:3937
 msgid "Advanced _Filter..."
 msgstr "Geavanceerd _Filter..."
 
@@ -18824,7 +19070,7 @@ msgstr "De inhoud naar links uitlijnen en de tabulatie vergroten."
 
 # mogelijk kan 'achteraan' worden weggelaten (we gebruiken
 # toevoegen ipv invoegen)
-#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:3464
+#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:3469
 msgid "Append a new sheet"
 msgstr "Een nieuw werkblad achteraan toevoegen"
 
@@ -18832,23 +19078,23 @@ msgstr "Een nieuw werkblad achteraan toevoegen"
 msgid "Arrow"
 msgstr "Pijl"
 
-#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3845
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3850
 msgid "Auto _Correct..."
 msgstr "Automatische _Correctie..."
 
-#: src/GNOME_Gnumeric.xml.h:12 src/workbook-control-gui.c:3432
+#: src/GNOME_Gnumeric.xml.h:12 src/workbook-control-gui.c:3437
 msgid "Auto_fill"
 msgstr "Auto_vullen"
 
-#: src/GNOME_Gnumeric.xml.h:13 src/workbook-control-gui.c:3433
+#: src/GNOME_Gnumeric.xml.h:13 src/workbook-control-gui.c:3438
 msgid "Automatically fill the current selection"
 msgstr "De huidige selectie automatisch vullen"
 
-#: src/GNOME_Gnumeric.xml.h:14 src/workbook-control-gui.c:3846
+#: src/GNOME_Gnumeric.xml.h:14 src/workbook-control-gui.c:3851
 msgid "Automatically perform simple spell checking"
 msgstr "Automatisch eenvoudige spellingscontrole uitvoeren"
 
-#: src/GNOME_Gnumeric.xml.h:15 src/workbook-control-gui.c:3849
+#: src/GNOME_Gnumeric.xml.h:15 src/workbook-control-gui.c:3854
 msgid "Automatically save the current document at regular intervals"
 msgstr "Geregeld het huidige document automatisch opslaan. "
 
@@ -18873,19 +19119,19 @@ msgstr "Randen"
 msgid "Button"
 msgstr "Knop"
 
-#: src/GNOME_Gnumeric.xml.h:20 src/workbook-control-gui.c:3592
+#: src/GNOME_Gnumeric.xml.h:20 src/workbook-control-gui.c:3597
 msgid "C_ells..."
 msgstr "_Cellen..."
 
-#: src/GNOME_Gnumeric.xml.h:21 src/workbook-control-gui.c:3607
+#: src/GNOME_Gnumeric.xml.h:21 src/workbook-control-gui.c:3612
 msgid "C_hart..."
 msgstr "_Grafiek..."
 
-#: src/GNOME_Gnumeric.xml.h:22 src/workbook-control-gui.c:3499
+#: src/GNOME_Gnumeric.xml.h:22 src/workbook-control-gui.c:3504
 msgid "C_lear"
 msgstr "_Wissen"
 
-#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:3718
+#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:3723
 msgid "C_olumn"
 msgstr "K_olom"
 
@@ -18901,27 +19147,27 @@ msgstr "Centreren Over Selectie"
 msgid "Center across the selected cells"
 msgstr "Centreren over de geselecteerde cellen"
 
-#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:3370
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:3375
 msgid "Change Gnumeric Preferences"
 msgstr "Verander Gnumeric Voorkeuren"
 
-#: src/GNOME_Gnumeric.xml.h:28 src/workbook-control-gui.c:3652
+#: src/GNOME_Gnumeric.xml.h:28 src/workbook-control-gui.c:3657
 msgid "Change height of the selected rows"
 msgstr "Pas de hoogte van de geselecteerde rijen aan"
 
-#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:3645
+#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:3650
 msgid "Change the default column width"
 msgstr "Pas de standaard kolom breedte aan"
 
-#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:3664
+#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:3669
 msgid "Change the default row height"
 msgstr "Pas de standaard rij hoogte aan"
 
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:3633
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:3638
 msgid "Change width of the selected columns"
 msgstr "Pas de breedte van de geselecteerde kolommen aan"
 
-#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:4060
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:4065
 msgid "Chart Guru"
 msgstr "Grafiekgoeroe"
 
@@ -18929,19 +19175,19 @@ msgstr "Grafiekgoeroe"
 msgid "Checkbox"
 msgstr "Vinkje"
 
-#: src/GNOME_Gnumeric.xml.h:34 src/workbook-control-gui.c:3389
+#: src/GNOME_Gnumeric.xml.h:34 src/workbook-control-gui.c:3394
 msgid "Clear the selected cells' comments"
 msgstr "Verwijder de opmerkingen van de geselecteerde cellen"
 
-#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:3392
+#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:3397
 msgid "Clear the selected cells' contents"
 msgstr "Verwijder de inhoud van de geselecteerde cellen"
 
-#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3386
+#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3391
 msgid "Clear the selected cells' formats"
 msgstr "Verwijder de opmaak van de geselecteerde cellen"
 
-#: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:3383
+#: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:3388
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Verwijder de opmaak, opmerkingen en inhoud van de geselecteerde cellen"
 
@@ -18949,20 +19195,20 @@ msgstr "Verwijder de opmaak, opmerkingen en inhoud van de geselecteerde cellen"
 msgid "Close the current file"
 msgstr "Het huidige bestand sluiten"
 
-#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3508
+#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3513
 msgid "Co_mment..."
 msgstr "Op_merking..."
 
 #: src/GNOME_Gnumeric.xml.h:40 src/dialogs/print.glade.h:7
-#: src/workbook-control-gui.c:3388
+#: src/workbook-control-gui.c:3393
 msgid "Co_mments"
 msgstr "Op_merkingen"
 
-#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3804
+#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3809
 msgid "Co_variance..."
 msgstr "Co_variantie..."
 
-#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3883
+#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3888
 msgid "Collapse an outline group"
 msgstr "Outline groep inklappen"
 
@@ -19000,7 +19246,7 @@ msgstr ""
 "Twee populatiegemiddelden vergelijken van populaties met bekende varianties "
 "of gebruik maken van een grote steekproef: z-test"
 
-#: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:3832
+#: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:3837
 msgid "Comparing two population variances"
 msgstr "Twee Populatie varianties vergelijken"
 
@@ -19008,12 +19254,12 @@ msgstr "Twee Populatie varianties vergelijken"
 msgid "Configure toolbars"
 msgstr "Configureer knoppenbalken"
 
-#: src/GNOME_Gnumeric.xml.h:50 src/workbook-control-gui.c:3958
+#: src/GNOME_Gnumeric.xml.h:50 src/workbook-control-gui.c:3963
 msgid "Consolidate regions using a function"
 msgstr "Celbereiken consolideren gebruik makend van een functie"
 
 #: src/GNOME_Gnumeric.xml.h:51 src/sheet-view.c:313
-#: src/workbook-control-gui.c:4017
+#: src/workbook-control-gui.c:4022
 msgid "Copy"
 msgstr "Kopiëren"
 
@@ -19021,13 +19267,13 @@ msgstr "Kopiëren"
 msgid "Copy the selection"
 msgstr "Selectie kopiëren"
 
-#: src/GNOME_Gnumeric.xml.h:53 src/workbook-control-gui.c:4017
+#: src/GNOME_Gnumeric.xml.h:53 src/workbook-control-gui.c:4022
 msgid "Copy the selection to the clipboard"
 msgstr "De selectie naar het klembord kopiëren"
 
 #: src/GNOME_Gnumeric.xml.h:54 src/dialogs/covariance.glade.h:3
 #: src/tools/analysis-tools.c:888 src/tools/analysis-tools.c:891
-#: src/workbook-control-gui.c:3805
+#: src/workbook-control-gui.c:3810
 msgid "Covariance"
 msgstr "Covariantie"
 
@@ -19064,12 +19310,12 @@ msgstr "Een lijstobject aanmaken"
 msgid "Create a new shared view of the workbook"
 msgstr "Een nieuwe gedeelde weergave van de werkmap maken"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/workbook-control-gui.c:3339
-#: src/workbook-control-gui.c:3993
+#: src/GNOME_Gnumeric.xml.h:63 src/workbook-control-gui.c:3344
+#: src/workbook-control-gui.c:3998
 msgid "Create a new workbook"
 msgstr "Een nieuwe werkmap aanmaken"
 
-#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:3964
+#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:3969
 msgid "Create a pivot table"
 msgstr "Een draaitabel aanmaken"
 
@@ -19106,17 +19352,17 @@ msgid "Cu_t"
 msgstr "K_nippen"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:3565
+#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:3570
 msgid "Current _date"
 msgstr "Huidige _datum"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:3571
+#: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:3576
 msgid "Current _time"
 msgstr "Huidige _tijd"
 
 #: src/GNOME_Gnumeric.xml.h:75 src/sheet-view.c:338 src/sheet-view.c:341
-#: src/workbook-control-gui.c:4014
+#: src/workbook-control-gui.c:4019
 msgid "Cut"
 msgstr "Knippen"
 
@@ -19124,7 +19370,7 @@ msgstr "Knippen"
 msgid "Cut the selection"
 msgstr "Selectie knippen"
 
-#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:4014
+#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:4019
 msgid "Cut the selection to the clipboard"
 msgstr "De selectie naar het klembord knippen"
 
@@ -19141,35 +19387,35 @@ msgstr "Precisie verlagen"
 msgid "Decrease the number of decimals displayed"
 msgstr "Minder decimalen weergeven"
 
-#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3679
+#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3684
 msgid "Display _Formulas"
 msgstr "_Formules weergeven"
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3898
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3903
 msgid "Display _Outlines"
 msgstr "_Outlines weergeven"
 
-#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3680
+#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3685
 msgid "Display the value of a formula or the formula itself"
 msgstr "De waarde van een formule tonen of de formule zelf"
 
-#: src/GNOME_Gnumeric.xml.h:84 src/workbook-control-gui.c:4048
+#: src/GNOME_Gnumeric.xml.h:84 src/workbook-control-gui.c:4053
 msgid "Edit a function in the current cell"
 msgstr "Een functie in de huidige cel bewerken"
 
-#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3366
+#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3371
 msgid "Edit descriptive information"
 msgstr "Beschrijvende informatie bewerken"
 
-#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3580
+#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3585
 msgid "Edit sheet and workbook names"
 msgstr "Namen van werkblad en werkmap bewerken"
 
-#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3726
+#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3731
 msgid "Edit the Gnumeric Preferences"
 msgstr "De Gnumeric Voorkeuren bewerken"
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3509
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3514
 msgid "Edit the selected cell's comment"
 msgstr "De opmerking bij de geselecteerde cel bewerken"
 
@@ -19177,11 +19423,11 @@ msgstr "De opmerking bij de geselecteerde cel bewerken"
 msgid "Ellipse"
 msgstr "Ellips"
 
-#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:3636
+#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:3641
 msgid "Ensure columns are just wide enough to display content"
 msgstr "Zorg dat kolommen breed genoeg zijn om de inhoud weer te geven."
 
-#: src/GNOME_Gnumeric.xml.h:91 src/workbook-control-gui.c:3655
+#: src/GNOME_Gnumeric.xml.h:91 src/workbook-control-gui.c:3660
 msgid "Ensure rows are just tall enough to display content"
 msgstr "Zorg dat rijen hoog genoeg zijn om de inhoud weer te geven"
 
@@ -19189,19 +19435,19 @@ msgstr "Zorg dat rijen hoog genoeg zijn om de inhoud weer te geven"
 msgid "Exponential smoothing"
 msgstr "Exponentieel Glad"
 
-#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:3811
+#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:3816
 msgid "F_orecasting"
 msgstr "V_oorspellen"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:3984
+#: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:3989
 msgid "F_ormat"
 msgstr "_Opmaak"
 
-#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:3442
+#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:3447
 msgid "Fill according to a linear or exponential series"
 msgstr "Vullen volgens een lineaire of exponentiële serie"
 
-#: src/GNOME_Gnumeric.xml.h:96 src/workbook-control-gui.c:3933
+#: src/GNOME_Gnumeric.xml.h:96 src/workbook-control-gui.c:3938
 msgid "Filter data with given criteria"
 msgstr "Filter de gegevens met de opgegeven criteria."
 
@@ -19227,12 +19473,12 @@ msgstr "Lettergrootte"
 msgid "Foreground"
 msgstr "Voorgrond"
 
-#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:3730
+#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:3735
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formateer een celbereik volgens een voor gedefinieerd sjabloon"
 
 #: src/GNOME_Gnumeric.xml.h:102 src/dialogs/fourier-analysis.glade.h:3
-#: src/workbook-control-gui.c:3814
+#: src/workbook-control-gui.c:3819
 msgid "Fourier Analysis"
 msgstr "Fourier Analyse"
 
@@ -19241,67 +19487,67 @@ msgstr "Fourier Analyse"
 msgid "Frame"
 msgstr "Frame"
 
-#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:1534
-#: src/workbook-control-gui.c:3556
+#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:1539
+#: src/workbook-control-gui.c:3561
 msgid "Freeze the top left of the sheet"
 msgstr "Het gedeelte van het werkblad links boven vastzetten"
 
 #: src/GNOME_Gnumeric.xml.h:105 src/dialogs/function-select.glade.h:3
-#: src/workbook-control-gui.c:4047
+#: src/workbook-control-gui.c:4052
 msgid "Function"
 msgstr "Functie"
 
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3445
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3450
 msgid "Generate random numbers of a selection of distributions"
 msgstr ""
 "Genereer steekproefgetallen voor een aantal verschillende soorten "
 "distributies"
 
-#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:3967
+#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:3972
 msgid "Get _External Data"
 msgstr "_Externe date verkrijgen"
 
-#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:3651
+#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:3656
 msgid "H_eight..."
 msgstr "Hoogt_e..."
 
-#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3697
+#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3702
 msgid "Hide _Column Headers"
 msgstr "Verberg _Kolom Koppen"
 
-#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3691
+#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3696
 msgid "Hide _Gridlines"
 msgstr "Verberg _Rasterlijnen"
 
-#: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3703
+#: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3708
 msgid "Hide _Row Headers"
 msgstr "Verberg _Rij Koppen"
 
-#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3685
+#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3690
 msgid "Hide _Zeros"
 msgstr "Verberg _Nullen"
 
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3639
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3644
 msgid "Hide the selected columns"
 msgstr "Verberg de geselecteerde kolommen"
 
-#: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:3658
+#: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:3663
 msgid "Hide the selected rows"
 msgstr "Verberg de geselecteerde rijen."
 
-#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:3621
+#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:3626
 msgid "Hyper_link..."
 msgstr "Hyper_link..."
 
-#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:4039
+#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:4044
 msgid "Hyperlink"
 msgstr "Hyperlink"
 
-#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:3919
+#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:3924
 msgid "Import _Text File..."
 msgstr "Tekstbestand importeren..."
 
-#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:3920
+#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:3925
 msgid "Import the text from a file"
 msgstr "De tekst vanuit een bestand importeren."
 
@@ -19326,17 +19572,17 @@ msgstr "Component Invoegen"
 msgid "Insert Shaped Component"
 msgstr "Gevormd Object Invoegen"
 
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:3622
-#: src/workbook-control-gui.c:4040
+#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:3627
+#: src/workbook-control-gui.c:4045
 msgid "Insert a Hyperlink"
 msgstr "Hyperlink invoegen"
 
-#: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:3616
+#: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:3621
 msgid "Insert a function into the selected cell"
 msgstr "Zet een functie in de geselecteerde cel"
 
-#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3460
-#: src/workbook-control-gui.c:3602
+#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3465
+#: src/workbook-control-gui.c:3607
 msgid "Insert a new sheet"
 msgstr "Voeg een nieuw werkblad in"
 
@@ -19344,7 +19590,7 @@ msgstr "Voeg een nieuw werkblad in"
 msgid "Insert a shaped component into the spreadsheet"
 msgstr "Voeg een gevormd object in"
 
-#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:3612
+#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:3617
 msgid "Insert an image"
 msgstr "Voeg een afbeelding in"
 
@@ -19352,23 +19598,23 @@ msgstr "Voeg een afbeelding in"
 msgid "Insert an object into the spreadsheet"
 msgstr "Voeg een object in"
 
-#: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3593
+#: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3598
 msgid "Insert new cells"
 msgstr "Nieuwe cellen invoegen"
 
-#: src/GNOME_Gnumeric.xml.h:131 src/workbook-control-gui.c:3596
+#: src/GNOME_Gnumeric.xml.h:131 src/workbook-control-gui.c:3601
 msgid "Insert new columns"
 msgstr "Nieuwe kolommen invoegen"
 
-#: src/GNOME_Gnumeric.xml.h:132 src/workbook-control-gui.c:3599
+#: src/GNOME_Gnumeric.xml.h:132 src/workbook-control-gui.c:3604
 msgid "Insert new rows"
 msgstr "Nieuwe rijen invoegen"
 
-#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:3566
+#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:3571
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Zet de huidige datum in de geselecteerde cel(len)"
 
-#: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:3572
+#: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:3577
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Zet de huidige tijd in de geselecteerde cel(len)"
 
@@ -19380,7 +19626,7 @@ msgstr "Nieuw bonobo object invoegen"
 msgid "Inserts a Shaped Bonobo object"
 msgstr "Voegt een gevormd bonobo object in."
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3472
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3477
 msgid "Irrevocably remove an entire sheet"
 msgstr "Onherroepelijk een volledig werkblad verwijderen"
 
@@ -19389,15 +19635,15 @@ msgstr "Onherroepelijk een volledig werkblad verwijderen"
 msgid "Italic"
 msgstr "Cursief"
 
-#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:3855
+#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:3860
 msgid "Iteratively recalculate to find a target value"
 msgstr "Herhalend berekenen om een doelwaarde te vinden"
 
-#: src/GNOME_Gnumeric.xml.h:140 src/workbook-control-gui.c:3859
+#: src/GNOME_Gnumeric.xml.h:140 src/workbook-control-gui.c:3864
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr "Herhalend berekenen met beperkingen om een doelwaarde te bereiken"
 
-#: src/GNOME_Gnumeric.xml.h:141 src/workbook-control-gui.c:3533
+#: src/GNOME_Gnumeric.xml.h:141 src/workbook-control-gui.c:3538
 msgid "Jump to a specified cell"
 msgstr "Spring naar een specifieke cel"
 
@@ -19407,8 +19653,8 @@ msgstr "Spring naar een specifieke cel"
 msgid "Label"
 msgstr "Label"
 
-#: src/GNOME_Gnumeric.xml.h:143 src/workbook-control-gui.c:3608
-#: src/workbook-control-gui.c:4061
+#: src/GNOME_Gnumeric.xml.h:143 src/workbook-control-gui.c:3613
+#: src/workbook-control-gui.c:4066
 msgid "Launch the Chart Guru"
 msgstr "De grafiekgoeroe opstarten"
 
@@ -19430,28 +19676,28 @@ msgstr "Lijn"
 msgid "List"
 msgstr "Lijst"
 
-#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:3468
+#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:3473
 msgid "Make a copy of the current sheet"
 msgstr "Maak een kopie van het huidige werkblad"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3439
+#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3444
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr "Maak een tebel van de waarde van een cel als functie van andere cellen"
 
-#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:3642
+#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:3647
 msgid "Make any hidden columns in the selection visible"
 msgstr "Maak verborgen kolommen in de selectie weer zichtbaar."
 
-#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:3661
+#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:3666
 msgid "Make any hidden rows in the selection visible"
 msgstr "Maak verborgen rijen in de selectie weer zichtbaar"
 
-#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:3840
+#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:3845
 msgid "Manage available plugin modules"
 msgstr "Beheer de beschikbare plugin modules."
 
-#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3454
-#: src/workbook-control-gui.c:3671
+#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3459
+#: src/workbook-control-gui.c:3676
 msgid "Manage the sheets in this workbook"
 msgstr "Beheer de werkbladen in deze werkmap"
 
@@ -19465,18 +19711,18 @@ msgstr "Samenvoegen"
 msgid "Merge a range of cells"
 msgstr "Cellen samenvoegen"
 
-#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3436
+#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3441
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 "Voegt kolomgegevens naar een werkblad door duplikaatbladen voor elke rij te "
 "maken"
 
-#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3715
+#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3720
 msgid "Modify the formatting of the selected cells"
 msgstr "De opmaak van de geselecteerde cellen veranderen"
 
-#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:3723
+#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:3728
 msgid "Modify the workbook attributes"
 msgstr "Verander de attributten van de werkmap"
 
@@ -19488,7 +19734,7 @@ msgstr "Geld"
 msgid "Moving average"
 msgstr "Bewegend gemiddelde"
 
-#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:3993
+#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:3998
 msgid "New"
 msgstr "Nieuw"
 
@@ -19496,19 +19742,19 @@ msgstr "Nieuw"
 msgid "One Factor Analysis of Variance"
 msgstr "Een Factor Analyse van Variantie"
 
-#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:3996
+#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:4001
 msgid "Open"
 msgstr "Openen"
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3996
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:4001
 msgid "Open a file"
 msgstr "Bestand openen"
 
-#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3904
+#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3909
 msgid "Outlines _Below"
 msgstr "Outlines onder"
 
-#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3910
+#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3915
 msgid "Outlines _Right"
 msgstr "Outlines _rechts"
 
@@ -19519,16 +19765,16 @@ msgstr "Pl_akken Speciaal..."
 # dit opent het dialoogvenster: Afdrukinstellingen
 # Bugrapport?
 #: src/GNOME_Gnumeric.xml.h:168 src/GNOME_Gnumeric_Component.xml.h:4
-#: src/workbook-control-gui.c:3349
+#: src/workbook-control-gui.c:3354
 msgid "Page Set_up..."
 msgstr "Pagina-inst_ellingen..."
 
-#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3955
+#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3960
 msgid "Parse the text in the selection into data"
 msgstr "De tekst in de selectie als gegevens verwerken"
 
 #: src/GNOME_Gnumeric.xml.h:170 src/cmd-edit.c:344
-#: src/workbook-control-gui.c:4020
+#: src/workbook-control-gui.c:4025
 msgid "Paste"
 msgstr "Plakken"
 
@@ -19536,15 +19782,15 @@ msgstr "Plakken"
 msgid "Paste the clipboard"
 msgstr "Plakken vanuit klembord"
 
-#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:4020
+#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:4025
 msgid "Paste the contents of the clipboard"
 msgstr "De inhoud van het klembord plakken"
 
-#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3494
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3499
 msgid "Paste with optional filters and transformations"
 msgstr "Plakken met optionele filters en transformaties"
 
-#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:3802
+#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:3807
 msgid "Pearson Correlation"
 msgstr "Pearson-correlatie"
 
@@ -19552,30 +19798,30 @@ msgstr "Pearson-correlatie"
 msgid "Percent"
 msgstr "Procent"
 
-#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:3826
+#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:3831
 msgid "Periodic and random samples"
 msgstr "Periodieke en willekeurige steekproeven"
 
-#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3369
+#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3374
 msgid "Preferen_ces..."
 msgstr "_Voorkeuren..."
 
 #: src/GNOME_Gnumeric.xml.h:178 src/dialogs/print.glade.h:14
-#: src/workbook-control-gui.c:4005
+#: src/workbook-control-gui.c:4010
 msgid "Print"
 msgstr "Afdrukken"
 
-#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:3352
+#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:3357
 msgid "Print Pre_view..."
 msgstr "_Afdrukvoorbeeld..."
 
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:4008
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:4013
 msgid "Print Preview"
 msgstr "Afdrukvoorbeeld"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1329 src/workbook-control-gui.c:3353
-#: src/workbook-control-gui.c:4008
+#: src/print.c:1329 src/workbook-control-gui.c:3358
+#: src/workbook-control-gui.c:4013
 msgid "Print preview"
 msgstr "Afdrukvoorbeeld"
 
@@ -19583,12 +19829,12 @@ msgstr "Afdrukvoorbeeld"
 msgid "Print the current file"
 msgstr "Het huidige bestand afdrukken"
 
-#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:4005
+#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:4010
 msgid "Print the workbook"
 msgstr "Druk het werkboek af"
 
 #: src/GNOME_Gnumeric.xml.h:184 src/GNOME_Gnumeric_Component.xml.h:8
-#: src/workbook-control-gui.c:3365
+#: src/workbook-control-gui.c:3370
 msgid "Proper_ties..."
 msgstr "_Eigenschappen..."
 
@@ -19604,20 +19850,20 @@ msgstr "Radio Knop"
 msgid "Ranks and _Percentiles..."
 msgstr "Rangen en _percentielen..."
 
-#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:3820
+#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:3825
 msgid "Ranks, placements and percentiles"
 msgstr "Rangen, plaatsingen en percentielen"
 
-#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3475
-#: src/workbook-control-gui.c:3673
+#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3480
+#: src/workbook-control-gui.c:3678
 msgid "Re_name"
 msgstr "Her_noemen"
 
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3538
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3543
 msgid "Recalculate"
 msgstr "Herberekenen"
 
-#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3539
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3544
 msgid "Recalculate the spreadsheet"
 msgstr "De spreadsheet opnieuw berekenen"
 
@@ -19629,26 +19875,26 @@ msgstr "Rechthoek"
 # Je voert een bewerking uit.
 # Je herstelt de bewerking.
 # Je besluit om toch de bewerking uit te voeren.
-#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:4284
+#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:4289
 msgid "Redo the undone action"
 msgstr "De ongedaan gemaakte actie opnieuw uitvoeren"
 
-#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3823
+#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3828
 msgid "Regression Analysis"
 msgstr "Regressie-analyse"
 
-#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3892
+#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3897
 msgid "Remove an outline group"
 msgstr "Een outline-groep verwijderen"
 
-#: src/GNOME_Gnumeric.xml.h:196 src/workbook-control-gui.c:3502
+#: src/GNOME_Gnumeric.xml.h:196 src/workbook-control-gui.c:3507
 msgid "Remove selected cells, shifting others into their place"
 msgstr ""
 "Verwijder de geselecteerde cellen waardoor andere cellen in hun plaats "
 "schuiven"
 
-#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:3476
-#: src/workbook-control-gui.c:3674
+#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:3481
+#: src/workbook-control-gui.c:3679
 msgid "Rename the current sheet"
 msgstr "Geef het huidige werkblad een andere naam"
 
@@ -19660,15 +19906,15 @@ msgstr "Rechts uitlijnen"
 msgid "Right align"
 msgstr "Rechts uitlijnen"
 
-#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:3514
+#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:3519
 msgid "S_heet"
 msgstr "_Blad"
 
-#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:3626
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:3631
 msgid "S_pecial"
 msgstr "_Speciaal"
 
-#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:3999
+#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:4004
 msgid "Save"
 msgstr "Opslaan"
 
@@ -19676,7 +19922,7 @@ msgstr "Opslaan"
 msgid "Save _As..."
 msgstr "Opslaan _als..."
 
-#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:3999
+#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:4004
 msgid "Save the current workbook"
 msgstr "De huidige werkmap opslaan"
 
@@ -19684,7 +19930,7 @@ msgstr "De huidige werkmap opslaan"
 msgid "Save the current workbook with a different name"
 msgstr "De huidige werkmap opslaan onder een andere naam"
 
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3869
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3874
 msgid "Sce_narios"
 msgstr "Sce_narios"
 
@@ -19692,78 +19938,78 @@ msgstr "Sce_narios"
 msgid "Scrollbar"
 msgstr "Schuifbalk"
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:3526
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:3531
 msgid "Search and Replace..."
 msgstr "Zoeken en vervangen..."
 
 #: src/GNOME_Gnumeric.xml.h:209 src/GNOME_Gnumeric_Component.xml.h:10
-#: src/workbook-control-gui.c:3521
+#: src/workbook-control-gui.c:3526
 msgid "Search for some text"
 msgstr "Zoek naar een tekst"
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:3527
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:3532
 msgid "Search for some text and replace it with something else"
 msgstr "Zoek een bepaalde tekst en vervang die door iets anders"
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3520
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3525
 msgid "Search..."
 msgstr "Zoeken..."
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:3415
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:3420
 msgid "Select Arra_y"
 msgstr "R_eeks selecteren"
 
-#: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:3400
+#: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:3405
 msgid "Select _All"
 msgstr "_Alles selecteren"
 
-#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3405
+#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3410
 msgid "Select _Column"
 msgstr "_Kolom selecteren"
 
-#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3420
+#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3425
 msgid "Select _Depends"
 msgstr "A_fhankelijkheden selecteren"
 
-#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3424
+#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3429
 msgid "Select _Inputs"
 msgstr "_Invoer selecteren"
 
-#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3410
+#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3415
 msgid "Select _Row"
 msgstr "_Rij selecteren"
 
-#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3401
+#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3406
 msgid "Select all cells in the spreadsheet"
 msgstr "Alle cellen in het rekenblad selecteren"
 
 # EN Spelling: *that* are uses by...
-#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:3425
+#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:3430
 msgid "Select all the cells are used by the current edit cell"
 msgstr "Alle cellen selecteren die gebruikt worden door de huidige actieve cel"
 
-#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3421
+#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3426
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Alle cellen selecteren die afhankelijk zijn van de huidige actieve cel"
 
-#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3416
+#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3421
 msgid "Select an array of cells"
 msgstr "Een celbereik selecteren"
 
-#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:3406
+#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:3411
 msgid "Select an entire column"
 msgstr "Gehele kolom selecteren"
 
-#: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:3411
+#: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:3416
 msgid "Select an entire row"
 msgstr "Gehele rij selecteren"
 
 # was eerst versturen aan...
-#: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:3362
+#: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:3367
 msgid "Sen_d To..."
 msgstr "Verzenden naar..."
 
-#: src/GNOME_Gnumeric.xml.h:225 src/workbook-control-gui.c:3363
+#: src/GNOME_Gnumeric.xml.h:225 src/workbook-control-gui.c:3368
 msgid "Send the current file via email"
 msgstr "Het huidige bestand per e-mail versturen"
 
@@ -19782,15 +20028,15 @@ msgid "Set the format of the selected cells to percentage"
 msgstr "De geselecteerde cellen als percentages weergeven"
 
 #: src/GNOME_Gnumeric.xml.h:229 src/GNOME_Gnumeric_Component.xml.h:11
-#: src/workbook-control-gui.c:3350
+#: src/workbook-control-gui.c:3355
 msgid "Setup the page settings for your current printer"
 msgstr "Pagina-instellingen voor de huidige printer."
 
-#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3930
+#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3935
 msgid "Show all filtered and hidden rows"
 msgstr "Alle gefilterde en verborgen rijen tonen"
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:3864
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:3869
 msgid "Si_mulation..."
 msgstr "Si_mulatie..."
 
@@ -19798,15 +20044,15 @@ msgstr "Si_mulatie..."
 msgid "Slider"
 msgstr "Schuifknop"
 
-#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:4054
+#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:4059
 msgid "Sort Descending"
 msgstr "Sorteer Aflopend"
 
-#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:3942
+#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:3947
 msgid "Sort the selected region"
 msgstr "Het geselecteerde gebied sorteren"
 
-#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:4052
+#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:4057
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
@@ -19814,7 +20060,7 @@ msgstr ""
 "Sorteer het geselecteerde gebied in oplopende volgorde gebaseerd op de eerst "
 "geselecteerde kolom"
 
-#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:4055
+#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:4060
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
@@ -19834,20 +20080,20 @@ msgstr "Splitsen"
 msgid "Split merged ranges of cells"
 msgstr "Samengevoegde cellen splitsen"
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3875
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3880
 msgid "Statistical Anal_ysis"
 msgstr "_Statistische Analyses"
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:4044
-#: src/workbook-control-gui.c:4864 src/workbook-view.c:543
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:4049
+#: src/workbook-control-gui.c:4869 src/workbook-view.c:543
 msgid "Sum"
 msgstr "Som"
 
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:4045
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:4050
 msgid "Sum into the current cell"
 msgstr "Sommeer in huidige cel"
 
-#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3865
+#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3870
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
@@ -19859,31 +20105,31 @@ msgstr ""
 msgid "Thousands Separator"
 msgstr "Scheidingsteken voor Duizendtallen"
 
-#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3698
+#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3703
 msgid "Toggle whether or not to display column headers"
 msgstr "Zet de weergave van kolomkoppen aan of uit"
 
-#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3692
+#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3697
 msgid "Toggle whether or not to display gridlines"
 msgstr "Zet de weergave van rasterlijnen aan of uit"
 
-#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:3899
+#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:3904
 msgid "Toggle whether or not to display outline groups"
 msgstr "Zet de weergave van outline-groepen aan of uit"
 
-#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3704
+#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3709
 msgid "Toggle whether or not to display row headers"
 msgstr "Zet de weergave van rijkoppen aan of uit"
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:3686
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:3691
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Nullen als lege cellen weergeven, aan of uitzetten"
 
-#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3911
+#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3916
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Zet de weergave van kolom-outlines links of rechts"
 
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3905
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3910
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Zet de weergave van rij-outlines boven of onder"
 
@@ -19891,11 +20137,11 @@ msgstr "Zet de weergave van rij-outlines boven of onder"
 msgid "Two Factor Analysis of Variance"
 msgstr "Twee Factor Analyse van Variantie"
 
-#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:3829
+#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:3834
 msgid "Two _Means"
 msgstr "Twee Ge_middelden:"
 
-#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3886
+#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3891
 msgid "Uncollapse an outline group"
 msgstr "Outline-groep uitklappen"
 
@@ -19903,41 +20149,41 @@ msgstr "Outline-groep uitklappen"
 msgid "Underline"
 msgstr "Onderstrepen"
 
-#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:4281
+#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:4286
 msgid "Undo the last action"
 msgstr "Laatste bewerking ongedaan maken"
 
-#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3778
+#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3783
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
 msgstr "Niet gekoppelde steekproeven, _Gelijke Var.: T-Test"
 
-#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:3783
+#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:3788
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
 msgstr "Niet gekoppelde steekproeven, _Ongelijke Var.: T-Test"
 
-#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:3949
+#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:3954
 msgid "Validate input with preset criteria"
 msgstr "Controleer invoer volgens de huidige criteria"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3817
+#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3822
 msgid "Various frequency tables"
 msgstr "Verschillende frequentietabellen"
 
-#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3808
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3813
 msgid "Various summary statistics"
 msgstr "Verschillende samenvattingsstatistieken"
 
-#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3739
+#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3744
 msgid "View, delete and report different scenarios"
 msgstr "Verschillende scenarios bekijken, verwijderen en rapporteren"
 
 # inzoomen of uitzoomen
-#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:3553
-#: src/workbook-control-gui.c:4287
+#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:3558
+#: src/workbook-control-gui.c:4292
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zoom in of uit"
 
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:3799
+#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:3804
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
@@ -19945,34 +20191,34 @@ msgstr "_ANOVA"
 msgid "_About"
 msgstr "In_fo"
 
-#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:3741
+#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:3746
 msgid "_Add..."
 msgstr "_Toevoegen..."
 
-#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3382
+#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3387
 msgid "_All"
 msgstr "_Volledig"
 
 # Achteraan toevoegen
-#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:3463
+#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:3468
 msgid "_Append"
 msgstr "_Toevoegen"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3848
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3853
 msgid "_Auto Save..."
 msgstr "_Automatisch Opslaan..."
 
-#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:3635
-#: src/workbook-control-gui.c:3654
+#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:3640
+#: src/workbook-control-gui.c:3659
 msgid "_Auto fit selection"
 msgstr "Selectie _Automatisch passend maken"
 
-#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3729
+#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3734
 msgid "_Autoformat..."
 msgstr "_Automatische opmaak..."
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:3714
+#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:3719
 msgid "_Cells..."
 msgstr "_Cellen..."
 
@@ -19987,15 +20233,15 @@ msgstr "Sl_uiten"
 #: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:24
 #: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:12
 #: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:18
-#: src/dialogs/shuffle.glade.h:5 src/workbook-control-gui.c:3595
+#: src/dialogs/shuffle.glade.h:5 src/workbook-control-gui.c:3600
 msgid "_Columns"
 msgstr "_Kolommen"
 
-#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:3957
+#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:3962
 msgid "_Consolidate..."
 msgstr "_Consolideren..."
 
-#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:3391
+#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:3396
 msgid "_Contents"
 msgstr "_Inhoud"
 
@@ -20004,30 +20250,30 @@ msgstr "_Inhoud"
 msgid "_Copy"
 msgstr "_Kopiëren"
 
-#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3801
+#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3806
 msgid "_Correlation..."
 msgstr "_Correlatie..."
 
 #: src/GNOME_Gnumeric.xml.h:280 src/dialogs/pivottable.glade.h:8
-#: src/workbook-control-gui.c:3986
+#: src/workbook-control-gui.c:3991
 msgid "_Data"
 msgstr "_Gegevens"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:3579
+#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:3584
 msgid "_Define..."
 msgstr "_Definieren..."
 
 #: src/GNOME_Gnumeric.xml.h:282 src/sheet-control-gui.c:1506
-#: src/workbook-control-gui.c:3501
+#: src/workbook-control-gui.c:3506
 msgid "_Delete..."
 msgstr "_Verwijderen..."
 
-#: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:3807
+#: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:3812
 msgid "_Descriptive Statistics..."
 msgstr "_Beschrijvende Statistieken..."
 
 #: src/GNOME_Gnumeric.xml.h:284 src/dialogs/sheet-order.glade.h:2
-#: src/workbook-control-gui.c:3467
+#: src/workbook-control-gui.c:3472
 msgid "_Duplicate"
 msgstr "_Dupliceren"
 
@@ -20035,7 +20281,7 @@ msgstr "_Dupliceren"
 msgid "_Edit"
 msgstr "Be_werken"
 
-#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:3761
+#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:3766
 msgid "_Exponential Smoothing..."
 msgstr "_Exponentieel glad..."
 
@@ -20044,48 +20290,48 @@ msgid "_File"
 msgstr "_Bestand"
 
 #: src/GNOME_Gnumeric.xml.h:288 src/dialogs/cell-format.glade.h:96
-#: src/workbook-control-gui.c:3518
+#: src/workbook-control-gui.c:3523
 msgid "_Fill"
 msgstr "_Vullen"
 
-#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3947
+#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3952
 msgid "_Filter"
 msgstr "_Filteren"
 
-#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:3385
+#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:3390
 msgid "_Formats"
 msgstr "_Opmaak"
 
-#: src/GNOME_Gnumeric.xml.h:291 src/workbook-control-gui.c:3813
+#: src/GNOME_Gnumeric.xml.h:291 src/workbook-control-gui.c:3818
 msgid "_Fourier Analysis..."
 msgstr "_Fourier Analyse..."
 
-#: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:1531
-#: src/workbook-control-gui.c:3555
+#: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:1536
+#: src/workbook-control-gui.c:3560
 msgid "_Freeze Panes"
 msgstr "_Raam Vastzetten"
 
-#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3615
+#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3620
 msgid "_Function..."
 msgstr "_Functie..."
 
-#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:3725
+#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:3730
 msgid "_Gnumeric..."
 msgstr "_Gnumeric..."
 
-#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3854
+#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3859
 msgid "_Goal Seek..."
 msgstr "_Doelzoeken..."
 
-#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3532
+#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3537
 msgid "_Goto cell..."
 msgstr "_Ga naar cel..."
 
-#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3961
+#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3966
 msgid "_Group and Outline"
 msgstr "_Groeperen en Outlines"
 
-#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:3888
+#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:3893
 msgid "_Group..."
 msgstr "_Groeperen..."
 
@@ -20094,55 +20340,55 @@ msgid "_Help"
 msgstr "_Hulp"
 
 #: src/GNOME_Gnumeric.xml.h:300 src/sheet-control-gui.c:1531
-#: src/sheet-control-gui.c:1539 src/workbook-control-gui.c:3638
-#: src/workbook-control-gui.c:3657
+#: src/sheet-control-gui.c:1539 src/workbook-control-gui.c:3643
+#: src/workbook-control-gui.c:3662
 msgid "_Hide"
 msgstr "_Verbergen"
 
-#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3882
+#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3887
 msgid "_Hide Detail"
 msgstr "Details verbergen"
 
-#: src/GNOME_Gnumeric.xml.h:302 src/workbook-control-gui.c:3816
+#: src/GNOME_Gnumeric.xml.h:302 src/workbook-control-gui.c:3821
 msgid "_Histogram..."
 msgstr "_Histogram..."
 
-#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3611
+#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3616
 msgid "_Image..."
 msgstr "_Afbeelding..."
 
 # de I is een kleine letter voor de sneltoets
 #: src/GNOME_Gnumeric.xml.h:304 src/dialogs/function-select.glade.h:6
-#: src/workbook-control-gui.c:3459 src/workbook-control-gui.c:3983
+#: src/workbook-control-gui.c:3464 src/workbook-control-gui.c:3988
 msgid "_Insert"
 msgstr "_Invoegen"
 
-#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3788
+#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3793
 msgid "_Known Variances or Large Sample: Z-Test..."
 msgstr "_Bekende varianties of Grote steekproef: Z-Test..."
 
-#: src/GNOME_Gnumeric.xml.h:306 src/workbook-control-gui.c:3453
-#: src/workbook-control-gui.c:3670
+#: src/GNOME_Gnumeric.xml.h:306 src/workbook-control-gui.c:3458
+#: src/workbook-control-gui.c:3675
 msgid "_Manage Sheets..."
 msgstr "_Bladen Beheren..."
 
-#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3435
+#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3440
 msgid "_Merge..."
 msgstr "_Samenvoegen..."
 
-#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3765
+#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3770
 msgid "_Moving Average..."
 msgstr "_Bewegend Gemiddelde..."
 
-#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3619
+#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3624
 msgid "_Name"
 msgstr "_Naam"
 
-#: src/GNOME_Gnumeric.xml.h:310 src/workbook-control-gui.c:3339
+#: src/GNOME_Gnumeric.xml.h:310 src/workbook-control-gui.c:3344
 msgid "_New"
 msgstr "_Nieuw"
 
-#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3549
+#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3554
 msgid "_New View..."
 msgstr "_Nieuw beeld..."
 
@@ -20150,7 +20396,7 @@ msgstr "_Nieuw beeld..."
 msgid "_Object..."
 msgstr "_Object..."
 
-#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3749
+#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3754
 msgid "_One Factor..."
 msgstr "_Een factor..."
 
@@ -20158,7 +20404,7 @@ msgstr "_Een factor..."
 msgid "_Open..."
 msgstr "_Openen..."
 
-#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3774
+#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3779
 msgid "_Paired Samples: T-Test..."
 msgstr "_Gekoppelde steekproeven: T-Test..."
 
@@ -20166,11 +20412,11 @@ msgstr "_Gekoppelde steekproeven: T-Test..."
 msgid "_Paste"
 msgstr "_Plakken"
 
-#: src/GNOME_Gnumeric.xml.h:317 src/workbook-control-gui.c:3963
+#: src/GNOME_Gnumeric.xml.h:317 src/workbook-control-gui.c:3968
 msgid "_PivotTable..."
 msgstr "_Draaitabel..."
 
-#: src/GNOME_Gnumeric.xml.h:318 src/workbook-control-gui.c:3839
+#: src/GNOME_Gnumeric.xml.h:318 src/workbook-control-gui.c:3844
 msgid "_Plug-ins..."
 msgstr "_Plug-ins..."
 
@@ -20182,25 +20428,25 @@ msgstr "Af_drukken..."
 msgid "_Quit"
 msgstr "A_fsluiten"
 
-#: src/GNOME_Gnumeric.xml.h:321 src/workbook-control-gui.c:3444
+#: src/GNOME_Gnumeric.xml.h:321 src/workbook-control-gui.c:3449
 msgid "_Random Generator..."
 msgstr "Steekproefgetallen Generator..."
 
-#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:1575
+#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:1580
 msgid "_Redo"
 msgstr "O_pnieuw"
 
-#: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:3822
+#: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:3827
 msgid "_Regression..."
 msgstr "_Regressie..."
 
 #: src/GNOME_Gnumeric.xml.h:324 src/dialogs/autocorrect.glade.h:13
-#: src/dialogs/pivottable.glade.h:12 src/workbook-control-gui.c:3471
+#: src/dialogs/pivottable.glade.h:12 src/workbook-control-gui.c:3476
 msgid "_Remove"
 msgstr "_Verwijderen"
 
 #: src/GNOME_Gnumeric.xml.h:325 src/dialogs/pivottable.glade.h:13
-#: src/workbook-control-gui.c:3719
+#: src/workbook-control-gui.c:3724
 msgid "_Row"
 msgstr "_Rij"
 
@@ -20211,11 +20457,11 @@ msgstr "_Rij"
 #: src/dialogs/fourier-analysis.glade.h:17 src/dialogs/histogram.glade.h:30
 #: src/dialogs/moving-averages.glade.h:19 src/dialogs/rank.glade.h:19
 #: src/dialogs/regression.glade.h:20 src/dialogs/sampling.glade.h:25
-#: src/dialogs/shuffle.glade.h:6 src/workbook-control-gui.c:3598
+#: src/dialogs/shuffle.glade.h:6 src/workbook-control-gui.c:3603
 msgid "_Rows"
 msgstr "_Rijen"
 
-#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3825
+#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3830
 msgid "_Sampling..."
 msgstr "_Steekproeven..."
 
@@ -20223,11 +20469,11 @@ msgstr "_Steekproeven..."
 msgid "_Save"
 msgstr "Op_slaan"
 
-#: src/GNOME_Gnumeric.xml.h:329 src/workbook-control-gui.c:3516
+#: src/GNOME_Gnumeric.xml.h:329 src/workbook-control-gui.c:3521
 msgid "_Select"
 msgstr "_Selecteren"
 
-#: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3441
+#: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3446
 msgid "_Series..."
 msgstr "_Series..."
 
@@ -20235,40 +20481,40 @@ msgstr "_Series..."
 msgid "_Shaped Object"
 msgstr "Gevormd Object"
 
-#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3601
-#: src/workbook-control-gui.c:3720
+#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3606
+#: src/workbook-control-gui.c:3725
 msgid "_Sheet"
 msgstr "_Blad"
 
-#: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3929
+#: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3934
 msgid "_Show All"
 msgstr "_Alles weergeven"
 
-#: src/GNOME_Gnumeric.xml.h:334 src/workbook-control-gui.c:3885
+#: src/GNOME_Gnumeric.xml.h:334 src/workbook-control-gui.c:3890
 msgid "_Show Detail"
 msgstr "Detail_s weergeven"
 
-#: src/GNOME_Gnumeric.xml.h:335 src/workbook-control-gui.c:3858
+#: src/GNOME_Gnumeric.xml.h:335 src/workbook-control-gui.c:3863
 msgid "_Solver..."
 msgstr "Oplo_sser..."
 
-#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3941
+#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3946
 msgid "_Sort..."
 msgstr "_Sorteren..."
 
-#: src/GNOME_Gnumeric.xml.h:337 src/workbook-control-gui.c:3663
+#: src/GNOME_Gnumeric.xml.h:337 src/workbook-control-gui.c:3668
 msgid "_Standard Height"
 msgstr "_Standaard Hoogte"
 
-#: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:3644
+#: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:3649
 msgid "_Standard Width"
 msgstr "_Standaard Breedte"
 
-#: src/GNOME_Gnumeric.xml.h:339 src/workbook-control-gui.c:3438
+#: src/GNOME_Gnumeric.xml.h:339 src/workbook-control-gui.c:3443
 msgid "_Tabulate Dependency..."
 msgstr "Afhankelijkheid _Tabuleren..."
 
-#: src/GNOME_Gnumeric.xml.h:340 src/workbook-control-gui.c:3954
+#: src/GNOME_Gnumeric.xml.h:340 src/workbook-control-gui.c:3959
 msgid "_Text to Columns..."
 msgstr "_Tekst naar kolommen..."
 
@@ -20276,34 +20522,34 @@ msgstr "_Tekst naar kolommen..."
 msgid "_Toolbars..."
 msgstr "_Werkbalken..."
 
-#: src/GNOME_Gnumeric.xml.h:342 src/workbook-control-gui.c:3985
+#: src/GNOME_Gnumeric.xml.h:342 src/workbook-control-gui.c:3990
 msgid "_Tools"
 msgstr "E_xtra"
 
-#: src/GNOME_Gnumeric.xml.h:343 src/workbook-control-gui.c:3752
+#: src/GNOME_Gnumeric.xml.h:343 src/workbook-control-gui.c:3757
 msgid "_Two Factor..."
 msgstr "_Twee factor..."
 
-#: src/GNOME_Gnumeric.xml.h:344 src/workbook-control-gui.c:3831
+#: src/GNOME_Gnumeric.xml.h:344 src/workbook-control-gui.c:3836
 msgid "_Two Variances: FTest..."
 msgstr "_Twee varianties: FTest..."
 
-#: src/GNOME_Gnumeric.xml.h:345 src/workbook-control-gui.c:1574
+#: src/GNOME_Gnumeric.xml.h:345 src/workbook-control-gui.c:1579
 msgid "_Undo"
 msgstr "_Ongedaan maken"
 
-#: src/GNOME_Gnumeric.xml.h:346 src/workbook-control-gui.c:3891
+#: src/GNOME_Gnumeric.xml.h:346 src/workbook-control-gui.c:3896
 msgid "_Ungroup..."
 msgstr "Groepering _opheffen..."
 
 #: src/GNOME_Gnumeric.xml.h:347 src/sheet-control-gui.c:1533
-#: src/sheet-control-gui.c:1541 src/workbook-control-gui.c:3641
-#: src/workbook-control-gui.c:3660
+#: src/sheet-control-gui.c:1541 src/workbook-control-gui.c:3646
+#: src/workbook-control-gui.c:3665
 msgid "_Unhide"
 msgstr "_Zichtbaar maken"
 
 # Valideren?
-#: src/GNOME_Gnumeric.xml.h:348 src/workbook-control-gui.c:3948
+#: src/GNOME_Gnumeric.xml.h:348 src/workbook-control-gui.c:3953
 msgid "_Validate..."
 msgstr "C_ontroleren..."
 
@@ -20311,19 +20557,19 @@ msgstr "C_ontroleren..."
 msgid "_View"
 msgstr "Beel_d"
 
-#: src/GNOME_Gnumeric.xml.h:350 src/workbook-control-gui.c:3738
+#: src/GNOME_Gnumeric.xml.h:350 src/workbook-control-gui.c:3743
 msgid "_View..."
 msgstr "B_eeld..."
 
-#: src/GNOME_Gnumeric.xml.h:351 src/workbook-control-gui.c:3632
+#: src/GNOME_Gnumeric.xml.h:351 src/workbook-control-gui.c:3637
 msgid "_Width..."
 msgstr "_Breedte..."
 
-#: src/GNOME_Gnumeric.xml.h:352 src/workbook-control-gui.c:3722
+#: src/GNOME_Gnumeric.xml.h:352 src/workbook-control-gui.c:3727
 msgid "_Workbook..."
 msgstr "_Werkmap..."
 
-#: src/GNOME_Gnumeric.xml.h:353 src/workbook-control-gui.c:3552
+#: src/GNOME_Gnumeric.xml.h:353 src/workbook-control-gui.c:3557
 msgid "_Zoom..."
 msgstr "_Zoomen..."
 
@@ -20726,7 +20972,7 @@ msgid "Pasting into %s"
 msgstr "Plakken in %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3014 src/commands.c:3015 src/workbook-control-gui.c:2339
+#: src/commands.c:3014 src/commands.c:3015 src/workbook-control-gui.c:2344
 msgid "Autofill"
 msgstr "Autovul"
 
@@ -21327,7 +21573,7 @@ msgid "%d x %d"
 msgstr "%d x %d"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:579
-#: src/workbook-control-gui.c:3150
+#: src/workbook-control-gui.c:3155
 msgid "Select an image"
 msgstr "Een afbeelding selecteren"
 
@@ -22505,7 +22751,7 @@ msgstr "Eerste Letter"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:663
-#: src/format.c:2195 src/format.c:2324 src/format.c:2330 src/format.c:2406
+#: src/format.c:2192 src/format.c:2321 src/format.c:2327 src/format.c:2403
 #: src/plugin-service.c:200 src/widgets/widget-format-selector.c:76
 msgid "General"
 msgstr "Algemeen"
@@ -24194,8 +24440,8 @@ msgstr "Vensters"
 msgid "Files"
 msgstr "Bestanden"
 
-#: src/dialogs/dialog-preferences.c:1503 src/workbook-control-gui.c:1571
-#: src/workbook-control-gui.c:4027 src/workbook-control-gui.c:4256
+#: src/dialogs/dialog-preferences.c:1503 src/workbook-control-gui.c:1576
+#: src/workbook-control-gui.c:4032 src/workbook-control-gui.c:4261
 msgid "Undo"
 msgstr "Ongedaan maken"
 
@@ -24632,16 +24878,16 @@ msgid "Variable"
 msgstr "Variabele"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:254
-#: src/workbook-control-gui.c:4865
+#: src/workbook-control-gui.c:4870
 msgid "Min"
 msgstr "Min"
 
-#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4867
+#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4872
 msgid "Average"
 msgstr "Gemiddelde"
 
 #: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:256
-#: src/workbook-control-gui.c:4866
+#: src/workbook-control-gui.c:4871
 msgid "Max"
 msgstr "Max"
 
@@ -25355,7 +25601,7 @@ msgstr "Vergroting"
 msgid "Sheets"
 msgstr "Bladen"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4241
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4246
 msgid "Zoom"
 msgstr "Zoomen"
 
@@ -27222,7 +27468,7 @@ msgid "Yellow"
 msgstr "Geel"
 
 #. Array of arrays ??
-#: src/format.c:2087
+#: src/format.c:2084
 msgid "ARRAY"
 msgstr "REEKS"
 
@@ -29023,7 +29269,7 @@ msgstr "Doorzichtig"
 msgid "CheckBox %d"
 msgstr "Vinkje %d"
 
-#: src/sheet-object-widget.c:1554 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1556 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "RadioKnop"
 
@@ -29684,7 +29930,7 @@ msgstr "Kurtosis"
 msgid "Range"
 msgstr "Bereik"
 
-#: src/tools/simulation.c:264 src/workbook-control-gui.c:4868
+#: src/tools/simulation.c:264 src/workbook-control-gui.c:4873
 msgid "Count"
 msgstr "Telling"
 
@@ -31501,67 +31747,67 @@ msgstr "Bestand/"
 msgid "Nothing"
 msgstr "Niets"
 
-#: src/workbook-control-gui.c:1530
+#: src/workbook-control-gui.c:1535
 msgid "Un_freeze Panes"
 msgstr "Raam ontdooien"
 
 # ontdooien of loslaten
-#: src/workbook-control-gui.c:1533
+#: src/workbook-control-gui.c:1538
 msgid "Unfreeze the top left of the sheet"
 msgstr "Het gedeelte van het werkblad links boven ontdooien"
 
-#: src/workbook-control-gui.c:1548
+#: src/workbook-control-gui.c:1553
 msgid "Remove _Auto Filter"
 msgstr "_Autofilter verwijderen"
 
-#: src/workbook-control-gui.c:1551
+#: src/workbook-control-gui.c:1556
 msgid "Remove a filter"
 msgstr "Een filter verwijderen"
 
-#: src/workbook-control-gui.c:1552
+#: src/workbook-control-gui.c:1557
 msgid "Add a filter"
 msgstr "Een filter toevoegen"
 
-#: src/workbook-control-gui.c:1572 src/workbook-control-gui.c:4030
-#: src/workbook-control-gui.c:4263
+#: src/workbook-control-gui.c:1577 src/workbook-control-gui.c:4035
+#: src/workbook-control-gui.c:4268
 msgid "Redo"
 msgstr "Opnieuw"
 
-#: src/workbook-control-gui.c:1761
+#: src/workbook-control-gui.c:1766
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr "Veranderingen aan werkboek '%s' opslaan voor afsluiten?"
 
-#: src/workbook-control-gui.c:1765
+#: src/workbook-control-gui.c:1770
 msgid "Save changes to workbook before closing?"
 msgstr "Veranderingen aan werkboek opslaan voor afsluiten?"
 
-#: src/workbook-control-gui.c:1771
+#: src/workbook-control-gui.c:1776
 msgid "If you close without saving, changes will be discarded."
 msgstr "Als u afsluit zonder opslaan, zullen de veranderingen verloren gaan."
 
-#: src/workbook-control-gui.c:1777
+#: src/workbook-control-gui.c:1782
 msgid "Discard all"
 msgstr "Alles verwerpen"
 
-#: src/workbook-control-gui.c:1779 src/workbook-control-gui.c:1788
-#: src/workbook-control-gui.c:1796
+#: src/workbook-control-gui.c:1784 src/workbook-control-gui.c:1793
+#: src/workbook-control-gui.c:1801
 msgid "Discard"
 msgstr "Verwerpen"
 
-#: src/workbook-control-gui.c:1781
+#: src/workbook-control-gui.c:1786
 msgid "Save all"
 msgstr "Alles opslaan"
 
-#: src/workbook-control-gui.c:1783 src/workbook-control-gui.c:1790
+#: src/workbook-control-gui.c:1788 src/workbook-control-gui.c:1795
 msgid "Don't quit"
 msgstr "Niet afsluiten"
 
-#: src/workbook-control-gui.c:1798
+#: src/workbook-control-gui.c:1803
 msgid "Don't close"
 msgstr "Niet sluiten"
 
-#: src/workbook-control-gui.c:2247
+#: src/workbook-control-gui.c:2252
 #, c-format
 msgid ""
 "In cell %s, the current contents\n"
@@ -31580,7 +31826,7 @@ msgstr ""
 "\n"
 "De vervanging is afgebroken en niets is veranderd."
 
-#: src/workbook-control-gui.c:2284
+#: src/workbook-control-gui.c:2289
 #, c-format
 msgid "Comment in cell %s!%s"
 msgstr "Opmerking in cel %s!%s"
@@ -31589,102 +31835,102 @@ msgstr "Opmerking in cel %s!%s"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:2524
+#: src/workbook-control-gui.c:2529
 msgid "Insert rows"
 msgstr "Rijen invoegen"
 
-#: src/workbook-control-gui.c:2544
+#: src/workbook-control-gui.c:2549
 msgid "Insert columns"
 msgstr "Kolommen invoegen"
 
-#: src/workbook-control-gui.c:2938
+#: src/workbook-control-gui.c:2943
 msgid "Add Filter"
 msgstr "Filter toevoegen"
 
-#: src/workbook-control-gui.c:2950
+#: src/workbook-control-gui.c:2955
 msgid "AutoFilter"
 msgstr "Auto-Filter"
 
-#: src/workbook-control-gui.c:2950
+#: src/workbook-control-gui.c:2955
 msgid "Requires more than 1 row"
 msgstr "Heeft meer dan 1 rij nodig"
 
-#: src/workbook-control-gui.c:3007 src/workbook-control-gui.c:3026
+#: src/workbook-control-gui.c:3012 src/workbook-control-gui.c:3031
 msgid "Show Detail"
 msgstr "Details weergeven"
 
-#: src/workbook-control-gui.c:3007 src/workbook-control-gui.c:3026
+#: src/workbook-control-gui.c:3012 src/workbook-control-gui.c:3031
 msgid "Hide Detail"
 msgstr "Details verbergen"
 
-#: src/workbook-control-gui.c:3014
+#: src/workbook-control-gui.c:3019
 msgid "can only be performed on an existing group"
 msgstr "kan enkel worden uitgevoerd op een bestaande groep"
 
-#: src/workbook-control-gui.c:3072
+#: src/workbook-control-gui.c:3077
 msgid "Group"
 msgstr "Groeperen"
 
-#: src/workbook-control-gui.c:3072
+#: src/workbook-control-gui.c:3077
 msgid "Ungroup"
 msgstr "Groepering opheffen"
 
-#: src/workbook-control-gui.c:3201
+#: src/workbook-control-gui.c:3206
 msgid "Sort"
 msgstr "Sorteren"
 
-#: src/workbook-control-gui.c:3280
+#: src/workbook-control-gui.c:3285
 msgid "Select an object to add"
 msgstr "Een object selecteren om toe te voegen"
 
-#: src/workbook-control-gui.c:3291
+#: src/workbook-control-gui.c:3296
 #, c-format
 msgid "Unable to create object of type '%s'"
 msgstr "Kan object van type '%s' niet maken"
 
-#: src/workbook-control-gui.c:3493
+#: src/workbook-control-gui.c:3498
 msgid "P_aste special..."
 msgstr "Pl_akken speciaal..."
 
-#: src/workbook-control-gui.c:3550
+#: src/workbook-control-gui.c:3555
 msgid "Create a new view of the workbook"
 msgstr "Een nieuwe weergave van de werkmap maken"
 
-#: src/workbook-control-gui.c:3584
+#: src/workbook-control-gui.c:3589
 msgid "_Auto generate names..."
 msgstr "_Automatisch namen genereren..."
 
-#: src/workbook-control-gui.c:3585
+#: src/workbook-control-gui.c:3590
 msgid "Use the current selection to create names"
 msgstr "Gebruik de huidige selectie om namen te maken"
 
-#: src/workbook-control-gui.c:3742
+#: src/workbook-control-gui.c:3747
 msgid "Add a new scenario"
 msgstr "Een nieuw scenario toevoegen"
 
-#: src/workbook-control-gui.c:3750
+#: src/workbook-control-gui.c:3755
 msgid "One Factor Analysis of Variance..."
 msgstr "Een-factor-analyse van variantie..."
 
-#: src/workbook-control-gui.c:3753
+#: src/workbook-control-gui.c:3758
 msgid "Two Factor Analysis of Variance..."
 msgstr "Twee-factor-analyse van variantie..."
 
-#: src/workbook-control-gui.c:3762
+#: src/workbook-control-gui.c:3767
 msgid "Exponential smoothing..."
 msgstr "Exponentieel glad..."
 
-#: src/workbook-control-gui.c:3766
+#: src/workbook-control-gui.c:3771
 msgid "Moving average..."
 msgstr "Bewegend gemiddelde..."
 
-#: src/workbook-control-gui.c:3775
+#: src/workbook-control-gui.c:3780
 msgid "Comparing two population means for two paired samples: t-test..."
 msgstr ""
 "Twee populatiegemiddelden vergelijken voor twee afhankelijke steekproeven: t-"
 "test..."
 
-#: src/workbook-control-gui.c:3779
+#: src/workbook-control-gui.c:3784
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test..."
@@ -31692,7 +31938,7 @@ msgstr ""
 "Twee populatiegemiddelden vergelijken voor twee onafhankelijke steekproeven "
 "uit populaties met gelijke varianties: t-test..."
 
-#: src/workbook-control-gui.c:3784
+#: src/workbook-control-gui.c:3789
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test..."
@@ -31700,7 +31946,7 @@ msgstr ""
 "Twee populatiegemiddelden vergelijken voor twee onafhankelijke steekproeven "
 "uit populaties met ongelijke variantie: t-test..."
 
-#: src/workbook-control-gui.c:3789
+#: src/workbook-control-gui.c:3794
 msgid ""
 "Comparing two population means from populations with known variances or "
 "using a large sample: z-test..."
@@ -31708,50 +31954,50 @@ msgstr ""
 "Twee populatiegemiddelden vergelijken van populaties met bekende varianties "
 "of gebruik maken van een grote steekproef: z-test..."
 
-#: src/workbook-control-gui.c:3819
+#: src/workbook-control-gui.c:3824
 msgid "Ranks And _Percentiles..."
 msgstr "Rangen en _Percentielen..."
 
 # schudden? door elkaar husselen
-#: src/workbook-control-gui.c:3944
+#: src/workbook-control-gui.c:3949
 msgid "Sh_uffle..."
 msgstr "_Husselen..."
 
-#: src/workbook-control-gui.c:3945
+#: src/workbook-control-gui.c:3950
 msgid "Shuffle cells, rows or columns"
 msgstr "Cellen, rijen of kolommen husselen"
 
-#: src/workbook-control-gui.c:4027
+#: src/workbook-control-gui.c:4032
 msgid "Undo the operation"
 msgstr "De ingreep ongedaan maken"
 
-#: src/workbook-control-gui.c:4030
+#: src/workbook-control-gui.c:4035
 msgid "Redo the operation"
 msgstr "De ingreep herhalen"
 
-#: src/workbook-control-gui.c:5161
+#: src/workbook-control-gui.c:5166
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Bestand \"%s\" heeft een onbekend formaat."
 
 # versturen
-#: src/workbook-control-gui.c:5207
+#: src/workbook-control-gui.c:5212
 msgid "Send"
 msgstr "Verzenden"
 
-#: src/workbook-control-gui.c:5207
+#: src/workbook-control-gui.c:5212
 msgid "Send the current file in email"
 msgstr "Verstuur het huidige bestand per email"
 
-#: src/workbook-control-gui.c:5447 src/workbook-control-gui.c:5462
+#: src/workbook-control-gui.c:5452 src/workbook-control-gui.c:5467
 msgid "_Re-Edit"
 msgstr "_Opnieuw bewerken"
 
-#: src/workbook-control-gui.c:5448 src/workbook-control-gui.c:5453
+#: src/workbook-control-gui.c:5453 src/workbook-control-gui.c:5458
 msgid "_Discard"
 msgstr "_Verwerpen"
 
-#: src/workbook-control-gui.c:5452 src/workbook-control-gui.c:5463
+#: src/workbook-control-gui.c:5457 src/workbook-control-gui.c:5468
 msgid "_Accept"
 msgstr "_Accepteren"
 
