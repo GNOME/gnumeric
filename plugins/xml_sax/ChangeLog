@@ -8,6 +8,13 @@
 	(xml_sax_end_element) : delete STATE_WB_ATTRIBUTES,
 	  STATE_WB_ATTRIBUTES_ELEM_TYPE.
 
+2002-01-23  Jody Goldberg <jody@gnome.org>
+
+	* xml-sax-read.c (xml_sax_end_element) : conditionally handle the
+	  newer non-Content version.
+	(xml_sax_characters) : accumulate content for cells too.
+	(xml_sax_wb) : add missing versions.
+
 2002-01-21  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.3
