@@ -6,10 +6,12 @@
 #include <glib.h>
 
 #ifndef FINITE
-#  ifdef finite
+#  if defined(HAVE_FINITE)
 #    define FINITE finite
-#  elif defined(isfinite)
+#  elif defined(HAVE_ISFINITE)
 #    define FINITE isfinite
+#  else
+#    error FINITE undefined
 #  endif
 #endif
 

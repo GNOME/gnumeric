@@ -1,5 +1,7 @@
 2001-04-26  Jody Goldberg <jgoldberg@home.com>
 
+	* configure.in : Add configure checks for finite and isfinite
+
 	* src/mathfunc.h (FINITE) : Move the #define wrapper out here.
 
 	* src/cell.c : prune some includes

@@ -94,9 +94,10 @@ void		 colrow_set_visibility_list	(Sheet *sheet, gboolean is_col,
 						 ColRowVisList *list);
 
 /* Misc */
+#define		 colrow_max(is_cols)		((is_cols) ? SHEET_MAX_COLS : SHEET_MAX_ROWS)
 int              colrow_find_adjacent_visible   (Sheet *sheet, gboolean const is_col,
 						 int const index, gboolean forward);
+
 void             rows_height_update		(Sheet *sheet, Range const *range);
-#define		 colrow_max(is_cols)		((is_cols) ? SHEET_MAX_COLS : SHEET_MAX_ROWS)
 
 #endif /* GNUMERIC_COLROW_H */
