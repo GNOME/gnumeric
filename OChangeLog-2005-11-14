@@ -1,5 +1,8 @@
 2003-05-31  Jody Goldberg <jody@gnome.org>
 
+	* src/gnumeric-pane.c (cb_sheet_object_canvas_event) : don't freak out
+	  if we can't edit the seleted object.
+
 	* src/xml-io.c (xml_read_style) : target needs a function, it is not a
 	  GObject::param.
 

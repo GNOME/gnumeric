@@ -836,6 +836,10 @@ cb_sheet_object_canvas_event (FooCanvasItem *item, GdkEvent *event,
 		if (scg->current_object != so)
 			scg_mode_edit_object (scg, so);
 
+		/* we might be protected */
+		if (scg->current_object != so)
+			return FALSE;
+
 		if (event->button.button < 3) {
 			GnumericPane *pane = sheet_object_view_key (G_OBJECT (item));
 

@@ -1695,6 +1695,9 @@ scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
+	if (wb_view_is_protected (sv_wbv (sc_view ((SheetControl *)scg)), TRUE))
+		return;
+
 	/* Add protective ref before clearing the mode, in case we are starting
 	 * to edit a newly created object
 	 */
