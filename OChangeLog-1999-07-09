@@ -1,5 +1,7 @@
 1999-06-08  Morten Welinder  <terra@diku.dk>
 
+	* src/fn-date.c (gnumeric_days360): Get it right, I hope.
+
 	* src/xml-io.c (xmlGetDoubleValue): Improve precision.
 	(xmlGetCoordinate): Ditto.
 	(xmlGetGnomeCanvasPoints): Ditto.

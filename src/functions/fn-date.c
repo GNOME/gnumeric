@@ -473,10 +473,7 @@ static char *help_days360 = {
 	   "case, if the day of the month is 31 it will be considered as 30."
 	   "\n"
 	   "If method is false or omitted, the US method will be used.  "
-	   "This method is identical to the European, except that if the "
-	   "the ending date is on the 31th and the starting date is on the "
-	   "29th or earlier, then the ending date is considered to be the "
-	   "1st of the following month."
+	   "This is a somewhat complicated industry standard method."
 	   "\n"
 	   "Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
@@ -490,7 +487,9 @@ gnumeric_days360 (FunctionDefinition *fd, Value *argv [], char **error_string)
 {
 	enum { METHOD_US, METHOD_EUROPE } method;
 	GDate *date1, *date2;
-	int day1, day2, result;
+	int day1, day2, month1, month2, year1, year2, result;
+	gboolean flipped;
+	float_t serial1, serial2;
 
 	if (argv[2]) {
 		int err;
@@ -502,20 +501,35 @@ gnumeric_days360 (FunctionDefinition *fd, Value *argv [], char **error_string)
 	} else
 		method = METHOD_US;
 
-	date1 = g_date_new_serial (get_serial_date (argv[0]));
-	date2 = g_date_new_serial (get_serial_date (argv[1]));
+	serial1 = get_serial_date (argv[0]);
+	serial2 = get_serial_date (argv[1]);
+	if ((flipped = (serial1 > serial2))) {
+		float_t tmp = serial1;
+		serial1 = serial2;
+		serial2 = tmp;
+	}
 
+	date1 = g_date_new_serial (serial1);
+	date2 = g_date_new_serial (serial2);
 	day1 = g_date_day (date1);
 	day2 = g_date_day (date2);
+	month1 = g_date_month (date1);
+	month2 = g_date_month (date2);
+	year1 = g_date_year (date1);
+	year2 = g_date_year (date2);
 
 	switch (method) {
 	case METHOD_US:
-		if (day2 == 31)
-			if (day1 < 30) {
-				g_date_add_days (date2, +1);
-				day2 = 1;
-			} else
-				day2 = 30;
+		if (month1 == 2 && month2 == 2 &&
+		    g_date_is_last_of_month (date1) &&
+		    g_date_is_last_of_month (date2))
+			day2 = 30;
+
+		if (month1 == 2 && g_date_is_last_of_month (date1))
+			day1 = 30;
+
+		if (day2 == 31 && day1 >= 30)
+			day2 = 30;
 
 		if (day1 == 31)
 			day1 = 30;
@@ -532,14 +546,13 @@ gnumeric_days360 (FunctionDefinition *fd, Value *argv [], char **error_string)
 		abort ();
 	}
 
-	result = ((g_date_year (date2) - g_date_year (date1)) * 12 +
-		  (g_date_month (date2) - g_date_month (date1))) * 30 +
+	result = ((year2 - year1) * 12 + (month2 - month1)) * 30 +
 		(day2 - day1);
 
 	g_date_free (date1);
 	g_date_free (date2);
 
-	return value_new_int (result);
+	return value_new_int (flipped ? -result : result);
 }
 
 
