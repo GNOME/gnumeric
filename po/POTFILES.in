@@ -58,7 +58,6 @@ src/dialogs/dialog-insert-cells.c
 src/dialogs/dialog-paste-special.c
 src/dialogs/dialog-plugin-manager.c
 src/dialogs/dialog-printer-setup.c
-src/dialogs/dialog-printer.c
 src/dialogs/dialog-sheet-order.c
 src/dialogs/dialog-solver.c
 src/dialogs/dialog-stf-csv-page.c

@@ -1,3 +1,8 @@
+2000-05-07  Jon K Hellan  <hellan@acm.org>
+
+	* POTFILES.in: Removed dialog-printer.c - it's been superseded by
+	gnome-print dialogs.
+
 2000-05-07  Karl Eichwalder  <ke@suse.de>
 
 	* de.po: Corrections.
