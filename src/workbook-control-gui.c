@@ -420,7 +420,23 @@ wbcg_update_action_sensitivity (WorkbookControl *wbc)
 	gtk_widget_set_sensitive (wbcg->ok_button, enable_edit_ok_cancel);
 	gtk_widget_set_sensitive (wbcg->cancel_button, enable_edit_ok_cancel);
 	gtk_widget_set_sensitive (wbcg->func_button, enable_actions);
-	wbcg_actions_sensitive (wbcg, enable_actions, enable_actions|enable_edit_ok_cancel);
+
+	if (wbcg->notebook) {
+		int i;
+		for (i = 0; i < gtk_notebook_get_n_pages (wbcg->notebook); i++) {
+			GtkWidget *page = gtk_notebook_get_nth_page (wbcg->notebook, i);
+			SheetControlGUI *scg = g_object_get_data (G_OBJECT (page), SHEET_CONTROL_KEY);
+			/*
+			 * FIXME: This is somewhat brutal.
+			 *
+			 * We need to prevent the context menu, not sheet-
+			 * changing.  For now, this fixes 170958.
+			 */
+			gtk_widget_set_sensitive (scg->label, enable_actions);
+		}
+	}
+
+	wbcg_actions_sensitive (wbcg, enable_actions, enable_actions || enable_edit_ok_cancel);
 }
 
 static gboolean
