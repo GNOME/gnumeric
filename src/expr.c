@@ -2334,6 +2334,48 @@ gnm_expr_get_range (GnmExpr const *expr)
 	}
 }
 
+
+static GSList *
+do_gnm_expr_get_ranges (GnmExpr const *expr, GSList *ranges)
+{
+
+	switch (expr->any.oper) {
+	case GNM_EXPR_OP_RANGE_CTOR:
+	case GNM_EXPR_OP_INTERSECT:
+	case GNM_EXPR_OP_ANY_BINARY:
+		return do_gnm_expr_get_ranges (
+			expr->binary.value_a,
+			do_gnm_expr_get_ranges (
+				expr->binary.value_b,
+				ranges));
+	case GNM_EXPR_OP_ANY_UNARY:
+		return do_gnm_expr_get_ranges (expr->unary.value, ranges);
+	case GNM_EXPR_OP_FUNCALL: {
+		GnmExprList *l;
+		for (l = expr->func.arg_list; l; l = l->next)
+			ranges = do_gnm_expr_get_ranges (l->data, ranges);
+		return ranges;
+	}
+	case GNM_EXPR_OP_SET: {
+		GnmExprList *l;
+		for (l = expr->set.set; l; l = l->next)
+			ranges = do_gnm_expr_get_ranges (l->data, ranges);
+		return ranges;
+	}
+
+	case GNM_EXPR_OP_NAME:
+		/* What?  */
+
+	default: {
+		GnmValue *v = gnm_expr_get_range (expr);
+		if (v)
+			return g_slist_insert_unique (ranges, v);
+		return ranges;
+	}
+	}
+}
+
+
 /**
  * gnm_expr_get_ranges:
  * @expr :
@@ -2345,25 +2387,8 @@ gnm_expr_get_range (GnmExpr const *expr)
 GSList *
 gnm_expr_get_ranges (GnmExpr const *expr)
 {
-	GHashTable *singles, *ranges;
-
 	g_return_val_if_fail (expr != NULL, NULL);
-
-	switch (expr->any.oper) {
-	case GNM_EXPR_OP_CELLREF :
-		return NULL;
-
-	case GNM_EXPR_OP_CONSTANT:
-		return NULL;
-
-	case GNM_EXPR_OP_NAME:
-		if (!expr->name.name->active)
-			return NULL;
-		return NULL;
-
-	default:
-		return NULL;
-	}
+	return do_gnm_expr_get_ranges (expr, NULL);
 }
 
 /**

@@ -39,6 +39,7 @@
 #include "ranges.h"
 #include "commands.h"
 #include "clipboard.h"
+#include "value.h"
 
 #include <gtk/gtk.h>
 
@@ -244,8 +245,8 @@ void
 sv_select_cur_inputs (SheetView *sv)
 {
 	GnmCell  *cell;
-	GnmRange *r;
 	GSList   *ranges, *ptr;
+	GnmEvalPos ep;
 
 	g_return_if_fail (IS_SHEET_VIEW (sv));
 
@@ -257,17 +258,32 @@ sv_select_cur_inputs (SheetView *sv)
 	if (ranges == NULL)
 		return;
 
-#if 0
-	sv_selection_reset (sv);
-	for (ptr = ranges ; ptr != NULL ; ptr = ptr->next)
-		sv_selection_add_range (sv,
-					r->start.col, r->start.row,
-					r->start.col, r->start.row,
-					r->end.col, r->end.row);
-	g_slist_free (ranges);
-#endif
+	ep.eval = sv->edit_pos;
+	ep.sheet = sv->sheet;
+	ep.dep = NULL;
 
-	/* TODO : finish this */
+	sv_selection_reset (sv);
+	for (ptr = ranges ; ptr != NULL ; ptr = ptr->next) {
+		GnmValue *v = ptr->data;
+		GnmRangeRef const *r = value_get_rangeref (v);
+
+#warning "FIXME: What do we do in these 3D cases?"
+		if (r->a.sheet != r->b.sheet)
+			continue;
+		if (r->a.sheet != NULL && r->a.sheet != sv->sheet)
+			continue;
+
+		sv_selection_add_range (sv,
+					cellref_get_abs_col (&r->a, &ep),
+					cellref_get_abs_row (&r->a, &ep),
+					cellref_get_abs_col (&r->a, &ep),
+					cellref_get_abs_row (&r->a, &ep),
+					cellref_get_abs_col (&r->b, &ep),
+					cellref_get_abs_row (&r->b, &ep));
+		value_release (v);
+	}
+	g_slist_free (ranges);
+
 	sheet_update (sv->sheet);
 }
 
