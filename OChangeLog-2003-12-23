@@ -1,3 +1,23 @@
+2003-05-09  Morten Welinder  <terra@gnome.org>
+
+	* src/format.h: Use gnumeric_regex_t, not regex_t.
+
+	* configure.in: Check for memmove.  Add
+	src/cut-n-paste-code/pcre/Makefile.
+
+	* src/Makefile.am (gnumeric_app_libs): Add
+	cut-n-paste-code/pcre/libpcre.a.
+
+	* src/formats.c (currency_date_format_init): Switch to pcre
+	(==perl) syntax in regular expressions.
+	(cell_format_is_number): Use UTF-8 regexp
+	routines.
+
+	* src/number-match.c (char_to_re): Take a gunichar, just in case.
+	(format_create_regexp): Take an unsigned char *.  Make UTF-8 safe.
+
+	* src/regutf8.c: Switch to using pcre.
+
 2003-05-08  Morten Welinder  <terra@gnome.org>
 
 	* src/cell-draw.c (cell_draw): Fix HALIGN_CENTER case when a cell
@@ -24,18 +44,6 @@
 	* src/stf-export.h
 	(StfExportOptions_t): add charset
 	
-2003-05-07  Morten Welinder  <terra@gnome.org>
-
-	* src/number-match.c (char_to_re): Take a gunichar, just in case.
-	(format_create_regexp): Take an unsigned char *.  Make UTF-8 safe.
-
-	* src/formats.c (cell_format_is_number): Use UTF-8 regexp
-	routines.
-
-	* src/regutf8.c (gnumeric_regcomp, gnumeric_regexec): Switch to C
-	locale if needed.
-	(make_pattern): Add back reference support.
-
 2003-05-07  Andreas Guelzow <aguelzow@taliesin.ca>
 
 	* src/regutf8.c (ISASCII): last ASCII is 0x7f

@@ -165,17 +165,17 @@ cell_formats [] = {
 };
 
 /* The compiled regexp for cell_format_classify */
-static regex_t re_simple_number;
-static regex_t re_red_number;
-static regex_t re_brackets_number;
-static regex_t re_percent_science;
-static regex_t re_account;
+static gnumeric_regex_t re_simple_number;
+static gnumeric_regex_t re_red_number;
+static gnumeric_regex_t re_brackets_number;
+static gnumeric_regex_t re_percent_science;
+static gnumeric_regex_t re_account;
 
 static const char *
-my_regerror (int err, const regex_t *preg)
+my_regerror (int err, const gnumeric_regex_t *preg)
 {
 	static char buffer[1024];
-	regerror (err, preg, buffer, sizeof (buffer));
+	gnumeric_regerror (err, preg, buffer, sizeof (buffer));
 	return buffer;
 }
 
@@ -193,10 +193,10 @@ currency_date_format_init (void)
 	char const * const simple_number_pattern = "^((\\$|£|¥|€|\\[\\$.{1,3}-?[0-9]{0,3}\\]) ?)?(#,##)?0(\\.0{1,30})?( ?(\\$|£|¥|€|\\[\\$.{1,3}-?[0-9]{0,3}\\]))?$";
 
 	/* This one is for matching formats like 0.00;[Red]0.00 */
-	char const * const red_number_pattern = "^\\(.*\\);\\[[Rr][Ee][Dd]\\]\\1$";
+	char const * const red_number_pattern = "^(.*);\\[[Rr][Ee][Dd]\\]\\1$";
 
 	/* This one is for matching formats like 0.00_);(0.00) */
-	char const * const brackets_number_pattern = "^\\(.*\\)_);\\(\\[[Rr][Ee][Dd]\\]\\)\\{0,1\\}(\\1)$";
+	char const * const brackets_number_pattern = "^(.*)_\\);(\\[[Rr][Ee][Dd]\\])?\\(\\1\\)$";
 
 	/* This one is for FMT_PERCENT and FMT_SCIENCE, extended regexp */
 	char const *pattern_percent_science = "^0(.0{1,30})?(%|E+00)$";
@@ -214,33 +214,33 @@ currency_date_format_init (void)
 	 *  8. "$"
 	 */
 
-	char const *pattern_account = "^_(\\(\\(\\(.*\\)\\*  \\{0,1\\}\\)\\{0,1\\}\\)\\(#,##0\\(\\.0\\{1,30\\}\\)\\{0,1\\}\\)\\(\\(\\*  \\{0,1\\}\\(.*\\)\\)\\{0,1\\}\\)_);_(\\1(\\4)\\6;_(\\1\"-\"?\\{0,30\\}\\6_);_(@_)$";
+	char const *pattern_account = "^_\\((((.*)\\*  ?)?)(#,##0(\\.0{1,30})?)((\\*  ?}(.*))?)_\\);_\\(\\1\\(\\4\\)\\6;_\\(\\1\"-\"\\?{0,30}\\6_\\);_\\(@_\\)$";
 
 
-	err = regcomp (&re_simple_number, simple_number_pattern, REG_EXTENDED);
+	err = gnumeric_regcomp (&re_simple_number, simple_number_pattern, 0);
 	if (err)
-		g_warning ("Error in regcomp() for simple number, please report the bug [%s]",
-			   my_regerror (err, &re_simple_number));
+		g_warning ("Error in regcomp() for simple number, please report the bug [%s] [%s]",
+			   my_regerror (err, &re_simple_number), simple_number_pattern);
 
-	err = regcomp (&re_red_number, red_number_pattern, 0);
+	err = gnumeric_regcomp (&re_red_number, red_number_pattern, 0);
 	if (err)
-		g_warning ("Error in regcomp() for red number, please report the bug [%s]",
-			   my_regerror (err, &re_red_number));
+		g_warning ("Error in regcomp() for red number, please report the bug [%s] [%s]",
+			   my_regerror (err, &re_red_number), red_number_pattern);
 
-	err = regcomp (&re_brackets_number, brackets_number_pattern, 0);
+	err = gnumeric_regcomp (&re_brackets_number, brackets_number_pattern, 0);
 	if (err)
-		g_warning ("Error in regcomp() for brackets number, please report the bug [%s]",
-			   my_regerror (err, &re_brackets_number));
+		g_warning ("Error in regcomp() for brackets number, please report the bug [%s] [%s]",
+			   my_regerror (err, &re_brackets_number), brackets_number_pattern);
 
-	err = regcomp (&re_percent_science, pattern_percent_science, REG_EXTENDED);
+	err = gnumeric_regcomp (&re_percent_science, pattern_percent_science, 0);
 	if (err)
-		g_warning ("Error in regcomp() for percent and science, please report the bug [%s]",
-			  my_regerror (err, &re_percent_science));
+		g_warning ("Error in regcomp() for percent and science, please report the bug [%s] [%s]",
+			  my_regerror (err, &re_percent_science), pattern_percent_science);
 
-	err = regcomp (&re_account, pattern_account, 0);
+	err = gnumeric_regcomp (&re_account, pattern_account, 0);
 	if (err)
-		g_warning ("Error in regcomp() for account, please report the bug [%s]",
-			   my_regerror (err, &re_account));
+		g_warning ("Error in regcomp() for account, please report the bug [%s] [%s]",
+			   my_regerror (err, &re_account), pattern_account);
 
 	if (precedes) {
 		post_rep = post = (char *)"";
@@ -528,7 +528,7 @@ cell_format_simple_number (char const * const fmt, FormatCharacteristics *info)
 	int cur = -1;
 	regmatch_t match[7];
 
-	if (regexec (&re_simple_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
+	if (gnumeric_regexec (&re_simple_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
 
 		if (match[2].rm_eo == -1 && match[6].rm_eo == -1) {
 			result = FMT_NUMBER;
@@ -574,7 +574,7 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 	if ((result = cell_format_simple_number (fmt, info)) != FMT_UNKNOWN)
 		return result;
 
-	if (regexec (&re_red_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
+	if (gnumeric_regexec (&re_red_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
 		char *tmp = g_strndup(fmt+match[1].rm_so,
 				      match[1].rm_eo-match[1].rm_so);
 		result = cell_format_simple_number (tmp, info);
@@ -583,7 +583,7 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 		return result;
 	}
 
-	if (regexec (&re_brackets_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
+	if (gnumeric_regexec (&re_brackets_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
 		char *tmp = g_strndup(fmt+match[1].rm_so,
 				      match[1].rm_eo-match[1].rm_so);
 		result = cell_format_simple_number (tmp, info);
@@ -596,7 +596,7 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 	}
 
 	/* FMT_PERCENT or FMT_SCIENCE ? */
-	if (regexec (&re_percent_science, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
+	if (gnumeric_regexec (&re_percent_science, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
 
 		info->num_decimals = 0;
 		if (match[1].rm_eo != -1)
@@ -610,7 +610,7 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 	}
 
 	/* FMT_ACCOUNT */
-	if (regexec (&re_account, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
+	if (gnumeric_regexec (&re_account, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
 
 		info->num_decimals = 0;
 		if (match[5].rm_eo != -1)

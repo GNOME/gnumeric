@@ -28,6 +28,7 @@
 #include "value.h"
 #include "mathfunc.h"
 #include "str.h"
+#include "regutf8.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -98,7 +99,7 @@ typedef enum {
 } MatchType;
 
 static void
-char_to_re (char dst[3], char c)
+char_to_re (char dst[7], gunichar c)
 {
 	switch (c) {
 	case '^': case '$': case '.': case '[':
@@ -109,22 +110,28 @@ char_to_re (char dst[3], char c)
 		dst[2] = 0;
 		break;
 
-	default:
-		dst[0] = c;
-		dst[1] = 0;
+	default: {
+		int len = g_unichar_to_utf8 (c, dst);
+		dst[len] = 0;
+	}
 	}
 }
 
 #define append_type(t) do { guint8 x = t; match_types = g_byte_array_append (match_types, &x, 1); } while (0)
 
+/*
+ * format_create_regexp:
+ * Create a regular expression for the given XL-style format.  Note:
+ * the format as well as the regexp are UTF-8 encoded.
+ */
 static char *
-format_create_regexp (char const *format, GByteArray **dest)
+format_create_regexp (const unsigned char *format, GByteArray **dest)
 {
 	GString *regexp;
 	GByteArray *match_types;
 	char *str;
 	gboolean hour_seen = FALSE;
-	char re_thousands_sep[3], re_decimal[3];
+	char re_thousands_sep[7], re_decimal[7];
 
 	g_return_val_if_fail (format != NULL, NULL);
 
@@ -134,18 +141,20 @@ format_create_regexp (char const *format, GByteArray **dest)
 #ifdef DEBUG_NUMBER_MATCH
 	printf ("'%s' = ", format);
 #endif
-	regexp = g_string_new (NULL);
+	regexp = g_string_new ("^");
 	match_types = g_byte_array_new ();
 
-	for (; *format; format++) {
-		switch (*format) {
+	for (; *format; format = g_utf8_next_char (format)) {
+		gunichar c = g_utf8_get_char (format);
+		switch (c) {
 		case '*':
+			/* FIXME: I don't think this will work for '^'.  */
 			if (format[1]) {
+				format++;
 				g_string_append_c (regexp, '[');
-				g_string_append_c (regexp, format[1]);
+				g_string_append_unichar (regexp, g_utf8_get_char (format));
 				g_string_append_c (regexp, ']');
 				g_string_append_c (regexp, '*');
-				format++;
 			}
 			break;
 
@@ -155,10 +164,10 @@ format_create_regexp (char const *format, GByteArray **dest)
 			break;
 
 		case '\\': {
-			char buf[3];
+			char buf[7];
 			if (format[1] != '\0')
 				format++;
-			char_to_re (buf, *format);
+			char_to_re (buf, g_utf8_get_char (format));
 			g_string_append (regexp, buf);
 			break;
 		}
@@ -189,26 +198,9 @@ format_create_regexp (char const *format, GByteArray **dest)
 				break;
 			}
 
-		case '^':
-		case '|':
-		case ']' :
-		case '$' :
-		case '£' :
-		case '¥' :
-		case '¤' :
-			g_string_append_c (regexp, '\\');
-			g_string_append_c (regexp, *format);
-			break;
-
 		case '%':
 			g_string_append (regexp, "%");
 			append_type (MATCH_PERCENT);
-			break;
-
-		case '(':
-		case ')':
-			g_string_append_c (regexp, '\\');
-			g_string_append_c (regexp, *format);
 			break;
 
 		case '#': case '0': case '.': case '+': case '?': {
@@ -377,9 +369,10 @@ format_create_regexp (char const *format, GByteArray **dest)
 
 		case ';':
 			/* TODO : Is it ok to only match the first entry ?? */
+			/* FIXME: What is this?  */
 			while (*format)
-				format++;
-			format--;
+				format = g_utf8_next_char (format);
+			format = g_utf8_prev_char (format);;
 			break;
 
 		case 'A': case 'a':
@@ -399,31 +392,20 @@ format_create_regexp (char const *format, GByteArray **dest)
 			append_type (MATCH_AMPM);
 			break;
 
+		case '"':
 			/* Matches a string */
-		case '"': {
-			const char *p, *q;
+			format++;
+			while (*format != '"') {
+				char buf[7];
 
-			for (p = format + 1; *p && *p != '"'; p++)
-				; /* Nothing */
+				if (*format == 0)
+					goto error;
+				char_to_re (buf, g_utf8_get_char (format));
+				g_string_append (regexp, buf);
 
-			if (*p != '"')
-				goto error;
-
-			for (q = format + 1; q < p; q++) {
-				switch (*q) {
-				case '\\': case '$': case '^': case '.':
-				case '+': case '*': case '?': case '|':
-				case '[': case ']':
-					g_string_append_c (regexp, '\\');
-					/* Fall through.  */
-				default:
-					g_string_append_c (regexp, *q);
-				}
+				format = g_utf8_next_char (format);
 			}
-
-			format = p;
 			break;
-		}
 
 		case '@':
 			g_string_append (regexp, "(.*)");
@@ -437,23 +419,37 @@ format_create_regexp (char const *format, GByteArray **dest)
 			}
 			break;
 
+#if 0
 		/* these were here explicitly before adding default.
 		 * Leave them explicit for now as documentation.
 		 */
+			/* Default appears fine for this.  */
+		case 0x00a3: /* GBP sign. */
+		case 0x00a5: /* JPY sign. */
+		case 0x20ac: /* EUR sign. */
+		case '^':
+		case '|':
+		case ']':
+		case '$':
 		case ':':
 		case '/':
 		case '-':
 		case ' ':
-		default :
-			g_string_append_c (regexp, *format);
+		case '(':
+		case ')':
+
+#endif
+		default : {
+			char buf[7];
+			char_to_re (buf, c);
+			g_string_append (regexp, buf);
+		}
 		}
 	}
 
-	g_string_prepend_c (regexp, '^');
 	g_string_append_c (regexp, '$');
 
-	str = g_strdup (regexp->str);
-	g_string_free (regexp, TRUE);
+	str = g_string_free (regexp, FALSE);
 	*dest = match_types;
 
 #ifdef DEBUG_NUMBER_MATCH
@@ -501,10 +497,12 @@ print_regex_error (int ret)
 			 "The regular expression referred to an invalid character class name.\n");
 		break;
 
+#if REG_EESCAPE != REG_BADPAT
 	case REG_EESCAPE:
 		fprintf (stderr,
 			 "The regular expression ended with `\\'.\n");
 		break;
+#endif
 
 	case REG_ESUBREG:
 		fprintf (stderr,
@@ -516,16 +514,20 @@ print_regex_error (int ret)
 			 "There were unbalanced square brackets in the regular expression.\n");
 		break;
 
+#if REG_EPAREN != REG_BADPAT
 	case REG_EPAREN:
 		fprintf (stderr,
 			 "An extended regular expression had unbalanced parentheses, or a\n"
 			 "basic regular expression had unbalanced `\\(' and `\\)'.\n");
 		break;
+#endif
 
+#if REG_EBRACE != REG_BADPAT
 	case REG_EBRACE:
 		fprintf (stderr,
 			 "The regular expression had unbalanced `\\{' and `\\}'.\n");
 		break;
+#endif
 
 #ifdef REG_EBOL
 	case REG_EBOL:
@@ -562,7 +564,7 @@ format_match_release (StyleFormat *fmt)
 {
 	if (fmt->regexp_str != NULL) {
 		g_free (fmt->regexp_str);
-		regfree (&fmt->regexp);
+		gnumeric_regfree (&fmt->regexp);
 		g_byte_array_free (fmt->match_tags, TRUE);
 	}
 }
@@ -572,7 +574,7 @@ format_match_create (StyleFormat *fmt)
 {
 	GByteArray *match_tags;
 	char *regexp;
-	regex_t r;
+	gnumeric_regex_t r;
 	int ret;
 
 	g_return_val_if_fail (fmt != NULL, FALSE);
@@ -587,7 +589,7 @@ format_match_create (StyleFormat *fmt)
 		return FALSE;
 	}
 
-	ret = regcomp (&r, regexp, REG_EXTENDED | REG_ICASE);
+	ret = gnumeric_regcomp (&r, regexp, REG_EXTENDED | REG_ICASE);
 	if (ret != 0) {
 		g_warning ("expression [%s] produced [%s]", fmt->format, regexp);
 		print_regex_error (ret);
@@ -1142,7 +1144,7 @@ format_match (char const *text, StyleFormat *cur_fmt,
 		if (style_format_is_text (cur_fmt))
 			return value_new_string (text);
 		if (cur_fmt->regexp_str != NULL &&
-		    regexec (&cur_fmt->regexp, text, NM, mp, 0) != REG_NOMATCH &&
+		    gnumeric_regexec (&cur_fmt->regexp, text, NM, mp, 0) != REG_NOMATCH &&
 		    NULL != (v = compute_value (text, mp, cur_fmt->match_tags,
 						date_conv))) {
 #ifdef DEBUG_NUMBER_MATCH
@@ -1177,7 +1179,7 @@ format_match (char const *text, StyleFormat *cur_fmt,
 #ifdef DEBUG_NUMBER_MATCH
 		printf ("test: %s \'%s\'\n", fmt->format, fmt->regexp_str);
 #endif
-		if (regexec (&fmt->regexp, text, NM, mp, 0) == REG_NOMATCH)
+		if (gnumeric_regexec (&fmt->regexp, text, NM, mp, 0) == REG_NOMATCH)
 			continue;
 
 #ifdef DEBUG_NUMBER_MATCH

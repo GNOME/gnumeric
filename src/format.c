@@ -1827,6 +1827,8 @@ style_format_delocalize (char const *descriptor_string)
  *
  * Looks up and potentially creates a StyleFormat from the supplied string in
  * XL format.
+ *
+ * @descriptor_string: XL descriptor in UTF-8 encoding.
  */
 StyleFormat *
 style_format_new_XL (char const *descriptor_string, gboolean delocalize)

@@ -326,7 +326,7 @@ dnl
 AC_CHECK_HEADERS(ieeefp.h ieee754.h)
 
 dnl Check for some functions
-AC_CHECK_FUNCS(random drand48 finite)
+AC_CHECK_FUNCS(random drand48 finite memmove)
 
 dnl FIXME: Does this really belong here?
 AC_CHECK_FUNC(bind_textdomain_codeset,,[AC_CHECK_LIB(intl,bind_textdomain_codeset)])
@@ -715,6 +715,7 @@ src/cut-n-paste-code/goffice/graph/plugins/Makefile
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/Makefile
 src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/Makefile
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/Makefile
+src/cut-n-paste-code/pcre/Makefile
 doc/Makefile
 doc/C/Makefile
 doc/C/figures/Makefile

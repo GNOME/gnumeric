@@ -4,7 +4,7 @@
 #include "gnumeric.h"
 #include "numbers.h"
 #include <sys/types.h>
-#include <regex.h>
+#include "regutf8.h"
 
 struct _StyleFormat {
 	int    ref_count;
@@ -12,7 +12,7 @@ struct _StyleFormat {
         GSList *entries;  /* Of type StyleFormatEntry. */
 	char        *regexp_str;
 	GByteArray  *match_tags;
-	regex_t     regexp;
+	gnumeric_regex_t regexp;
 };
 
 char	      *style_format_delocalize  (char const *descriptor_string);
