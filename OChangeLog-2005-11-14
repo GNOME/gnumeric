@@ -1,3 +1,22 @@
+2000-11-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/analysis-tools.glade : Rename 'Alpha' to '1 - Alpha'
+
+	* src/complete-sheet.c (text_matches) : Only use values that are strings
+	  do not bother with 'entered_text'
+	(complete_sheet_search_iteration) : Adjust the calls to text_matches.
+
+	* src/dialogs/dialog-cell-format.c (fmt_dialog_init_format_page) : Be
+	  careful to use the non-localized version of the format internally.
+
+	* src/cellspan.c (cell_calc_span) : Ignore hidden columns.
+
+	* src/colrow.c (col_row_set_visibility_list) : regen the spans outside
+	  the region which changes visibility.
+
+	* src/sheet.c (sheet_regen_adjacent_spans) : Split this out
+	  from sheet_clear_region.
+
 2000-11-02  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-autofill.c (string_has_number) : thou shalt not use atoi

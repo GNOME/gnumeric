@@ -161,12 +161,12 @@ ColRowInfo *sheet_col_get_info            (Sheet const *sheet, int const col);
 ColRowInfo *sheet_row_get_info            (Sheet const *sheet, int const row);
 
 /* Returns a pointer to a ColRowInfo: existed or NULL */
-ColRowInfo *sheet_row_get                 (Sheet const *sheet, int const pos);
 ColRowInfo *sheet_col_get                 (Sheet const *sheet, int const pos);
+ColRowInfo *sheet_row_get                 (Sheet const *sheet, int const pos);
 
 /* Returns a pointer to a ColRowInfo: existed or freshly created */
-ColRowInfo *sheet_row_fetch               (Sheet *sheet, int pos);
 ColRowInfo *sheet_col_fetch               (Sheet *sheet, int pos);
+ColRowInfo *sheet_row_fetch               (Sheet *sheet, int pos);
 
 /* Add a ColRowInfo to the Sheet */
 void        sheet_col_add                 (Sheet *sheet, ColRowInfo *cp);
@@ -302,6 +302,10 @@ void sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str);
 void sheet_calc_spans	    (Sheet const *sheet,	SpanCalcFlags flags);
 void sheet_range_calc_spans (Sheet *sheet, Range r,	SpanCalcFlags flags);
 void sheet_cell_calc_span   (Cell const *cell,		SpanCalcFlags flags);
+void sheet_regen_adjacent_spans (Sheet *sheet,
+			     int start_col, int start_row,
+			     int end_col, int end_row,
+			     int *min_col, int *max_col);
 SpanCalcFlags required_updates_for_style (MStyle *style);
 
 /*

@@ -482,9 +482,14 @@ col_row_set_visibility_list (Sheet *sheet, gboolean const is_cols,
 		return;
 
 	for (; list != NULL ; list = list->next) {
+		int min_col, max_col;
 		ColRowIndex *info = list->data;
 		col_row_set_visibility (sheet, is_cols, visible,
 					info->first, info->last);
+		sheet_regen_adjacent_spans (sheet,
+					    info->first, 0,
+					    info->last, SHEET_MAX_ROWS-1,
+					    &min_col, &max_col);
 	}
 
 	sheet_redraw_all (sheet);

@@ -103,7 +103,7 @@ typedef struct _FormatState
 		GtkBox		*box;
 		GtkWidget	*widget[F_MAX_WIDGET];
 
-		gchar const	*spec;
+		gchar const	*spec;	/* in internal (not localized) form */
 		gint		 current_type;
 		int		 num_decimals;
 		int		 negative_format;
@@ -746,7 +746,7 @@ cb_format_entry (GtkEditable *w, FormatState *state)
 	if (state->enable_edit) {
 		g_free ((char *)state->format.spec);
 		state->format.spec = fmt;
-		mstyle_set_format_text (state->result, state->format.spec);
+		mstyle_set_format_text (state->result, fmt);
 		fmt_dialog_changed (state);
 		draw_format_preview (state);
 	} else
@@ -845,7 +845,7 @@ fmt_dialog_init_format_page (FormatState *state)
 	char const * format;
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_FORMAT)) {
 		StyleFormat const *fmt = mstyle_get_format (state->style);
-		format = style_format_as_XL (fmt, TRUE);
+		format = style_format_as_XL (fmt, FALSE);
 	} else
 		format = g_strdup (cell_formats [0][0]);
 

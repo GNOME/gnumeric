@@ -65,10 +65,17 @@ reset_search (CompleteSheet *cs)
 }
 
 static gboolean
-text_matches (CompleteSheet *cs, const char *text)
+text_matches (CompleteSheet const *cs)
 {
-	Complete *complete = &cs->parent;
+	char const *text;
+	Complete const *complete = &cs->parent;
+	Cell *cell = sheet_cell_get (cs->sheet, cs->col, cs->inf);
 
+	if (cell == NULL || cell->value == NULL ||
+	    cell->value->type == VALUE_STRING || cell_has_expr (cell))
+		return FALSE;
+
+	text = cell->value->v_str.val->str;
 	if (strncmp (text, complete->text, strlen (complete->text)) != 0)
 		return FALSE;
 
@@ -94,33 +101,13 @@ complete_sheet_search_iteration (Complete *complete)
 	if (ci == &cs->sheet->cols.default_style)
 		return FALSE;
 
-	for (i = 0; (i < SEARCH_STEPS) && (cs->inf >= 0); i++, cs->inf--){
-		Cell *cell;
-
-		cell = sheet_cell_get (cs->sheet, cs->col, cs->inf);
-		if (!cell)
-			continue;
-
-		if (cell_has_expr (cell))
-			continue;
-
-		if (text_matches (cs, cell->entered_text->str))
+	for (i = 0; (i < SEARCH_STEPS) && (cs->inf >= 0); i++, cs->inf--)
+		if (text_matches (cs))
 			return FALSE;
-	}
 
-	for (i = 0; (i < SEARCH_STEPS) && (cs->sup < SHEET_MAX_ROWS); i++, cs->sup++){
-		Cell *cell;
-
-		cell = sheet_cell_get (cs->sheet, cs->col, cs->sup);
-		if (!cell)
-			continue;
-
-		if (cell_has_expr (cell))
-			continue;
-
-		if (text_matches (cs, cell->entered_text->str))
+	for (i = 0; (i < SEARCH_STEPS) && (cs->sup < SHEET_MAX_ROWS); i++, cs->sup++)
+		if (text_matches (cs))
 			return FALSE;
-	}
 
 	if (search_space_complete (cs))
 		return FALSE;

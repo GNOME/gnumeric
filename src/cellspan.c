@@ -203,22 +203,21 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		margin = cell->col_info->margin_b;
 
 		for (; left > 0 && pos < SHEET_MAX_COLS-1; pos++){
-			ColRowInfo *ci;
-			Cell *sibling;
+			ColRowInfo *ci = sheet_col_get_info (sheet, pos);
 
-			sibling = sheet_cell_get (sheet, pos, row);
+			if (ci->visible) {
+				Cell *sibling =sheet_cell_get (sheet, pos, row);
 
-			if (!cell_is_blank (sibling))
-				return;
+				if (!cell_is_blank (sibling))
+					return;
 
-			ci = sheet_col_get_info (sheet, pos);
-
-			/* The space consumed is:
-			 *    - The margin_b from the last column
-			 *    - The width of the cell
-			 */
-			left -= COL_INTERNAL_WIDTH (ci) +
-				margin + ci->margin_a;
+				/* The space consumed is:
+				 *   - The margin_b from the last column
+				 *   - The width of the cell
+				 */
+				left -= COL_INTERNAL_WIDTH (ci) +
+					margin + ci->margin_a;
+			}
 			margin = ci->margin_b;
 			(*col2)++;
 		}
@@ -231,22 +230,21 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		margin = cell->col_info->margin_a;
 
 		for (; left > 0 && pos >= 0; pos--){
-			ColRowInfo *ci;
-			Cell *sibling;
+			ColRowInfo *ci = sheet_col_get_info (sheet, pos);
 
-			sibling = sheet_cell_get (sheet, pos, row);
+			if (ci->visible) {
+				Cell *sibling =sheet_cell_get (sheet, pos, row);
 
-			if (!cell_is_blank (sibling))
-				return;
+				if (!cell_is_blank (sibling))
+					return;
 
-			ci = sheet_col_get_info (sheet, pos);
-
-			/* The space consumed is:
-			 *   - The margin_a from the last column
-			 *   - The width of this cell
-			 */
-			left -= COL_INTERNAL_WIDTH (ci) +
-				margin + ci->margin_b;
+				/* The space consumed is:
+				 *   - The margin_a from the last column
+				 *   - The width of this cell
+				 */
+				left -= COL_INTERNAL_WIDTH (ci) +
+					margin + ci->margin_b;
+			}
 			margin = ci->margin_a;
 			(*col1)--;
 		}
@@ -269,15 +267,20 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 			Cell *left_sibling, *right_sibling;
 
 			if (*col1 - 1 >= 0){
-				left_sibling = sheet_cell_get (sheet, *col1 - 1, row);
+				ci = sheet_col_get_info (sheet, *col1 - 1);
 
-				if (!cell_is_blank (left_sibling))
-					left_left = 0;
-				else {
-					ci = sheet_col_get_info (sheet, *col1 - 1);
+				if (ci->visible) {
+					left_sibling = sheet_cell_get (sheet, *col1 - 1, row);
 
-					left_left -= COL_INTERNAL_WIDTH (ci) +
-						margin_a + ci->margin_b;
+					if (!cell_is_blank (left_sibling))
+						left_left = 0;
+					else {
+						left_left -= COL_INTERNAL_WIDTH (ci) +
+							margin_a + ci->margin_b;
+						margin_a = ci->margin_a;
+						(*col1)--;
+					}
+				} else {
 					margin_a = ci->margin_a;
 					(*col1)--;
 				}
@@ -285,15 +288,20 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 				left_left = 0;
 
 			if (*col2 + 1 < SHEET_MAX_COLS-1){
-				right_sibling = sheet_cell_get (sheet, *col2 + 1, row);
+				ci = sheet_col_get_info (sheet, *col2 + 1);
 
-				if (!cell_is_blank (right_sibling))
-					left_right = 0;
-				else {
-					ci = sheet_col_get_info (sheet, *col2 + 1);
+				if (ci->visible) {
+					right_sibling = sheet_cell_get (sheet, *col2 + 1, row);
 
-					left_right -= COL_INTERNAL_WIDTH (ci) +
-						margin_b + ci->margin_a;
+					if (!cell_is_blank (right_sibling))
+						left_right = 0;
+					else {
+						left_right -= COL_INTERNAL_WIDTH (ci) +
+							margin_b + ci->margin_a;
+						margin_b = ci->margin_b;
+						(*col2)++;
+					}
+				} else {
 					margin_b = ci->margin_b;
 					(*col2)++;
 				}
@@ -306,6 +314,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 
 	case HALIGN_CENTER_ACROSS_SELECTION:
 	{
+		ColRowInfo const *ci;
 		ColRowInfo const *ri = cell->row_info;
 		int const row = ri->pos;
 		int left = cell->pos.col, right = left;
@@ -314,31 +323,45 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		left_loop :
 			tmp = left - 1;
 			/* When scanning left make sure not to overrun other spans */
-			if (tmp >= 0 &&
-			    cell_is_blank (sheet_cell_get (sheet, tmp, row)) &&
-			    NULL == row_span_get (ri, tmp)) {
-				MStyle * const mstyle =
-				    sheet_style_compute (cell->base.sheet, tmp, row);
-				gboolean const res =
-				    (mstyle_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION);
-				mstyle_unref (mstyle);
+			if (tmp >= 0) {
+				ci = sheet_col_get_info (sheet, tmp);
+				if (ci->visible) {
+					if (cell_is_blank (sheet_cell_get (sheet, tmp, row)) &&
+					    NULL == row_span_get (ri, tmp)) {
+						MStyle * const mstyle =
+						    sheet_style_compute (cell->base.sheet, tmp, row);
+						gboolean const res =
+						    (mstyle_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION);
+						mstyle_unref (mstyle);
 
-				if (res) {
+						if (res) {
+							left = tmp;
+							goto left_loop;
+						}
+					}
+				} else {
 					left = tmp;
 					goto left_loop;
 				}
 			}
 		right_loop :
 			tmp = right + 1;
-			if (tmp < SHEET_MAX_COLS &&
-			    cell_is_blank (sheet_cell_get (sheet, tmp, row))) {
-				MStyle * const mstyle =
-				    sheet_style_compute (cell->base.sheet, tmp, row);
-				gboolean const res =
-				    (mstyle_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION);
-				mstyle_unref (mstyle);
+			if (tmp < SHEET_MAX_COLS) {
+				ci = sheet_col_get_info (sheet, tmp);
+				if (ci->visible) {
+					if (cell_is_blank (sheet_cell_get (sheet, tmp, row))) {
+						MStyle * const mstyle =
+						    sheet_style_compute (cell->base.sheet, tmp, row);
+						gboolean const res =
+						    (mstyle_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION);
+						mstyle_unref (mstyle);
 
-				if (res) {
+						if (res) {
+							right = tmp;
+							goto right_loop;
+						}
+					}
+				} else {
 					right = tmp;
 					goto right_loop;
 				}

@@ -2267,6 +2267,82 @@ cb_clear_cell_comments (Sheet *sheet, int col, int row, Cell *cell,
 }
 
 /**
+ * sheet_regen_adjacent_spans :
+ *
+ * @sheet : The sheet to operate on
+ * @start_col :
+ * @start_row :
+ * @end_col :
+ * @end_row :
+ *
+ * When a region has been cleared the adjacent spans may be able to
+ * expand into the newly cleared area.
+ */
+void
+sheet_regen_adjacent_spans (Sheet *sheet,
+			    int start_col, int start_row,
+			    int end_col, int end_row,
+			    int *min_col, int *max_col)
+{
+	int i, row, col[2];
+	gboolean test[2];
+
+	*min_col = start_col;
+	*max_col = end_col;
+
+	test[0] = (start_col > 0);
+	test[1] = (end_col < SHEET_MAX_ROWS-1);
+	col[0] = start_col - 1;
+	col[1] = end_col + 1;
+	for (row = start_row; row <= end_row ; ++row) {
+		ColRowInfo const *ri = sheet_row_get (sheet, row);
+
+		if (ri == NULL) {
+			/* skip segments with no cells */
+			if (row == COLROW_SEGMENT_START (row)) {
+				ColRowInfo const * const * const segment =
+					COLROW_GET_SEGMENT(&(sheet->rows), row);
+				if (segment == NULL)
+					row = COLROW_SEGMENT_END(row);
+			}
+			continue;
+		}
+
+		for (i = 2 ; i-- > 0 ; ) {
+			int left, right;
+			CellSpanInfo const *span = NULL;
+			Cell const *cell;
+
+			if (!test[i])
+				continue;
+
+			cell = sheet_cell_get (sheet, col[i], ri->pos);
+			if (cell == NULL) {
+				span = row_span_get (ri, col[i]);
+				if (span == NULL)
+					continue;
+				cell = span->cell;
+			}
+
+			cell_calc_span (cell, &left, &right);
+			if (span) {
+				if (left != span->left || right != span->right) {
+					cell_unregister_span (cell);
+					cell_register_span (cell, left, right);
+				}
+			} else if (left != right)
+				cell_register_span (cell, left, right);
+
+			/* We would not need to redraw the old span, just the new one */
+			if (*min_col > left)
+				*min_col = left;
+			if (*max_col < right)
+				*max_col = right;
+		}
+	}
+}
+
+/**
  * sheet_clear_region:
  *
  * Clears are region of cells
@@ -2325,9 +2401,6 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 	max_col = end_col;
 
 	if (clear_flags & CLEAR_VALUES) {
-		int i, row, col[2];
-		gboolean test[2];
-
 		/* Remove or empty the cells depending on
 		 * whether or not there are comments
 		 */
@@ -2336,60 +2409,10 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 					  &cb_empty_cell,
 					  GINT_TO_POINTER(!(clear_flags & CLEAR_COMMENTS)));
 
-		/*
-		 * Regen the spans from adjacent cells that may now be
-		 * able to continue.
-		 */
-		test[0] = (start_col > 0);
-		test[1] = (end_col < SHEET_MAX_ROWS-1);
-		col[0] = start_col - 1;
-		col[1] = end_col + 1;
-		for (row = start_row; row <= end_row ; ++row) {
-			ColRowInfo const *ri = sheet_row_get (sheet, row);
-
-			if (ri == NULL) {
-				/* skip segments with no cells */
-				if (row == COLROW_SEGMENT_START (row)) {
-					ColRowInfo const * const * const segment =
-						COLROW_GET_SEGMENT(&(sheet->rows), row);
-					if (segment == NULL)
-						row = COLROW_SEGMENT_END(row);
-				}
-				continue;
-			}
-
-			for (i = 2 ; i-- > 0 ; ) {
-				int left, right;
-				CellSpanInfo const *span = NULL;
-				Cell const *cell;
-
-				if (!test[i])
-					continue;
-
-				cell = sheet_cell_get (sheet, col[i], ri->pos);
-				if (cell == NULL) {
-					span = row_span_get (ri, col[i]);
-					if (span == NULL)
-						continue;
-					cell = span->cell;
-				}
-
-				cell_calc_span (cell, &left, &right);
-				if (span) {
-					if (left != span->left || right != span->right) {
-						cell_unregister_span (cell);
-						cell_register_span (cell, left, right);
-					}
-				} else if (left != right)
-					cell_register_span (cell, left, right);
-
-				/* We would not need to redraw the old span, just the new one */
-				if (min_col > left)
-					min_col = left;
-				if (max_col < right)
-					max_col = right;
-			}
-		}
+		sheet_regen_adjacent_spans (sheet,
+					    start_col, start_row,
+					    end_col, end_row,
+					    &min_col, &max_col);
 
 		sheet_flag_status_update_range (sheet, &r);
 	}

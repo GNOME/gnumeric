@@ -306,7 +306,7 @@
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label4</name>
-	    <label>_Alpha:</label>
+	    <label>1 - _Alpha:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>1</xalign>
@@ -784,7 +784,7 @@
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label5</name>
-	    <label>_Alpha:</label>
+	    <label>1 - _Alpha:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>1</xalign>
@@ -1173,7 +1173,7 @@
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label5</name>
-	    <label>_Alpha:</label>
+	    <label>1 - _Alpha:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>1</xalign>
@@ -1678,7 +1678,7 @@
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label5</name>
-	    <label>_Alpha:</label>
+	    <label>1 - _Alpha:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>1</xalign>
@@ -2058,7 +2058,7 @@
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>label4</name>
-	      <label>_Alpha:</label>
+	      <label>1 - _Alpha:</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
 	      <xalign>1</xalign>
@@ -2439,7 +2439,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>label16</name>
-	  <label>_Alpha:</label>
+	  <label>1 - _Alpha:</label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>1</xalign>
@@ -2796,7 +2796,7 @@
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label4</name>
-	    <label>_Alpha:</label>
+	    <label>1 - _Alpha:</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>1</xalign>
