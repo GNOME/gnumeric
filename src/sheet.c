@@ -27,6 +27,7 @@
 #include "commands.h"
 #include "cellspan.h"
 #include "sheet-private.h"
+#include "expr-name.h"
 
 #ifdef ENABLE_BONOBO
 #    include <libgnorba/gnorba.h>
@@ -925,7 +926,7 @@ sheet_update_auto_expr (Sheet const *sheet)
 		EvalPosition pos;
 		/* const_cast */
 		eval_pos_init (&pos, (Sheet *)sheet, 0, 0);
-		v = eval_expr (&pos, wb->auto_expr);
+		v = eval_expr (&pos, wb->auto_expr, EVAL_STRICT);
 		if (v) {
 			char *s;
 

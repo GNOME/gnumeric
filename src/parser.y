@@ -18,6 +18,7 @@
 #include "number-match.h"
 #include "symbol.h"
 #include "expr.h"
+#include "expr-name.h"
 #include "sheet.h"
 #include "application.h"
 #include "utils.h"

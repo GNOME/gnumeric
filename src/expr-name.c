@@ -351,7 +351,7 @@ expr_name_value (const ExprName *expr_name)
 
 Value *
 eval_expr_name (EvalPosition const * const pos, const ExprName *expr_name,
-		gboolean const as_scalar)
+		ExprEvalFlags const flags)
 {
 	g_return_val_if_fail (pos, NULL);
 
@@ -365,7 +365,7 @@ eval_expr_name (EvalPosition const * const pos, const ExprName *expr_name,
 					no descriptors for builtins */
 		return expr_name->t.expr_func (&ei, NULL);
 	} else
-		return eval_expr_empty (pos, expr_name->t.expr_tree, as_scalar);
+		return eval_expr (pos, expr_name->t.expr_tree, flags);
 }
 
 /* ------------------------------------------------------------- */

@@ -345,7 +345,7 @@ gnumeric_concatenate (FunctionEvalInfo *ei, GList *l)
 	s = g_new(gchar, 1);
 	*s = '\0';
 	while ( l != NULL &&
-		(v = eval_expr(ei->pos, l->data)) != NULL) {
+		(v = eval_expr(ei->pos, l->data, EVAL_STRICT)) != NULL) {
 /*
 		if (v->type != VALUE_STRING) {
 			return value_new_error (ei->pos,

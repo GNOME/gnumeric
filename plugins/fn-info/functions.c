@@ -32,7 +32,8 @@ get_value_class (FunctionEvalInfo *ei, ExprTree *expr)
 	Value *value;
 	enum Value_Class res;
 
-	value = eval_expr_empty (ei->pos, expr, FALSE);
+	value = eval_expr (ei->pos, expr,
+			   EVAL_PERMIT_NON_SCALAR|EVAL_PERMIT_EMPTY);
 	if (value) {
 		switch (value->type) {
 		case VALUE_INTEGER:
@@ -356,7 +357,7 @@ gnumeric_check_for_err (FunctionEvalInfo *ei, GList *expr_node_list,
 				       _("Argument mismatch"));
 		return NULL;
 	}
-	tmp = eval_expr (ei->pos, (ExprTree *) expr_node_list->data);
+	tmp = eval_expr (ei->pos, (ExprTree *) expr_node_list->data, EVAL_STRICT);
 
 	if (tmp != NULL) {
 		if (tmp->type == VALUE_ERROR)

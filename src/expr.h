@@ -4,8 +4,6 @@
 #include "gnumeric.h"
 #include "symbol.h"
 #include "numbers.h"
-#include "str.h"
-#include "expr-name.h"
 
 /* Warning: if you add something here, see do_expr_decode_tree ! */
 typedef enum {
@@ -187,18 +185,16 @@ void expr_dump_tree (const ExprTree *tree);
  * Returns int(0) if the expression uses a non-existant cell for anything
  * other than an equality test.
  */
+typedef enum
+{
+    EVAL_STRICT = 0x0,
+    EVAL_PERMIT_NON_SCALAR = 0x1,
+    EVAL_PERMIT_EMPTY = 0x2
+} ExprEvalFlags;
+
 Value       *eval_expr (EvalPosition const * const pos,
-			ExprTree const * const tree);
-
-/* Identical to eval_expr but permits being called as an array */
-Value       *eval_expr_nonempty (EvalPosition const * const pos,
-				 ExprTree const *tree,
-				 gboolean const as_scalar);
-
-/* Same as eval_expr, except that this return NULL for empty values.  */
-Value       *eval_expr_empty (EvalPosition const * const pos,
-			      ExprTree const * const tree,
-			      gboolean const as_scalar);
+			ExprTree const * const tree,
+			ExprEvalFlags const flags);
 
 Value       *expr_implicit_intersection (EvalPosition const * const pos,
 					 Value * const v);

@@ -143,7 +143,7 @@ function_iterate_argument_values (const EvalPosition      *ep,
 
 		/* Permit empties and non scalars. We don't know what form the
 		 * function wants its arguments */
-		val = eval_expr_empty (ep, tree, FALSE);
+		val = eval_expr (ep, tree, EVAL_PERMIT_NON_SCALAR|EVAL_PERMIT_EMPTY);
 
 		if (val == NULL)
 			continue;
@@ -346,11 +346,10 @@ function_marshal_arg (FunctionEvalInfo *ei,
 		v = value_new_cellrange (&t->u.ref, &t->u.ref);
 	else
 		/* force scalars whenever we are certain */
-		v = eval_expr_nonempty (ei->pos, t,
-					(arg_type != 'r' &&
-					 arg_type != 'a' &&
-					 arg_type != 'A' &&
-					 arg_type != '?'));
+		v = eval_expr (ei->pos, t,
+			       (arg_type == 'r' || arg_type == 'a' ||
+				arg_type == 'A' || arg_type == '?')
+			       ? EVAL_PERMIT_NON_SCALAR : EVAL_STRICT);
 		
 	switch (arg_type) {
 

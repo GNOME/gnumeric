@@ -25,6 +25,7 @@
 #include "xml-io.h"
 #include "file.h"
 #include "expr.h"
+#include "expr-name.h"
 #include "cell.h"
 #include "workbook.h"
 #include "workbook-view.h"
@@ -719,7 +720,7 @@ xml_set_color_value (xmlNodePtr node, const char *name, StyleColor *val)
  ** Private functions : mapping between in-memory structure and XML tree
  **
  **/
-
+#if 0
 static int
 style_is_default_fore (StyleColor *color)
 {
@@ -743,6 +744,7 @@ style_is_default_back (StyleColor *color)
 	else
 		return FALSE;
 }
+#endif
 
 /*
  * Create an XML subtree of doc equivalent to the given StyleBorder.
@@ -1160,7 +1162,6 @@ xml_write_attributes (parse_xml_context_t *ctxt, guint n_args, GtkArg *args)
 	for (i=0; i < n_args; args++, i++) {
 		xmlNodePtr tmp;
 		xmlChar *tstr;
-		gchar *str;
 
 		tmp = xmlNewDocNode (ctxt->doc, ctxt->ns, "Attribute", NULL);
 
@@ -1195,7 +1196,7 @@ xml_free_arg_list (GList *list)
 static void
 xml_read_attribute (parse_xml_context_t *ctxt, xmlNodePtr attr, GtkArg *arg)
 {
-	xmlNodePtr *val;
+	xmlNodePtr val;
 	char *value;
 	
 	switch (arg->type) {

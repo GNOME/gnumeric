@@ -21,6 +21,7 @@
 #include "selection.h"
 #include "utils.h"	/* for cell_name */
 #include "ranges.h"
+#include "expr-name.h"
 #include "style.h"
 #include "application.h"
 #include "workbook.h"

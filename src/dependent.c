@@ -253,7 +253,7 @@ cell_eval_content (Cell *cell)
 #endif
 
 	v = eval_expr (eval_pos_cell (&pos, cell),
-		       cell->parsed_node);
+		       cell->parsed_node, EVAL_STRICT);
 
 #ifdef DEBUG_EVALUATION
 	if (dependency_debugging > 1) {

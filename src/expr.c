@@ -11,6 +11,7 @@
 #include <locale.h>
 #include "gnumeric.h"
 #include "expr.h"
+#include "expr-name.h"
 #include "eval.h"
 #include "format.h"
 #include "func.h"
@@ -619,7 +620,7 @@ eval_range (EvalPosition const * const pos, Value *v)
 
 static Value *
 eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
-		gboolean const as_scalar)
+		ExprEvalFlags const flags)
 {
 	Value *res = NULL, *a = NULL, *b = NULL;
 	
@@ -635,7 +636,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 	case OPER_LTE: {
 		int comp;
 
-		a = eval_expr_real (pos, tree->u.binary.value_a, as_scalar);
+		a = eval_expr_real (pos, tree->u.binary.value_a, flags);
 		if (a != NULL) {
 			if (a->type == VALUE_CELLRANGE) {
 				a = expr_implicit_intersection (pos, a);
@@ -645,7 +646,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 				return a;
 		}
 
-		b = eval_expr_real (pos, tree->u.binary.value_b, as_scalar);
+		b = eval_expr_real (pos, tree->u.binary.value_b, flags);
 		if (b != NULL) {
 			Value *res = NULL;
 			if (b->type == VALUE_CELLRANGE) {
@@ -729,8 +730,9 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 		 * 5) result of operation, or error specific to the operation
 		 */
 
-	        /* Garantees that a != NULL */
-		a = eval_expr_nonempty (pos, tree->u.binary.value_a, as_scalar);
+	        /* Ensure a != NULL */
+		a = eval_expr (pos, tree->u.binary.value_a,
+			       flags & (~EVAL_PERMIT_EMPTY));
 
 		/* Handle implicit intersection */
 		if (a->type == VALUE_CELLRANGE) {
@@ -750,7 +752,8 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 		}
 
 	        /* Garantees that b != NULL */
-		b = eval_expr_nonempty (pos, tree->u.binary.value_b, as_scalar);
+		b = eval_expr (pos, tree->u.binary.value_b,
+			       flags & (~EVAL_PERMIT_EMPTY));
 
 		/* Handle implicit intersection */
 		if (b->type == VALUE_CELLRANGE) {
@@ -869,7 +872,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 	case OPER_UNARY_NEG:
 	case OPER_UNARY_PLUS:
 	        /* Garantees that a != NULL */
-		a = eval_expr_nonempty (pos, tree->u.value, as_scalar);
+		a = eval_expr (pos, tree->u.value, flags & (~EVAL_PERMIT_EMPTY));
 
 		/* Handle implicit intersection */
 		if (a->type == VALUE_CELLRANGE) {
@@ -903,10 +906,10 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 	case OPER_CONCAT: {
 		char *sa, *sb, *tmp;
 
-		a = eval_expr_real (pos, tree->u.binary.value_a, as_scalar);
+		a = eval_expr_real (pos, tree->u.binary.value_a, flags);
 		if (a != NULL && a->type == VALUE_ERROR)
 			return a;
-		b = eval_expr_real (pos, tree->u.binary.value_b, as_scalar);
+		b = eval_expr_real (pos, tree->u.binary.value_b, flags);
 		if (b != NULL && b->type == VALUE_ERROR) {
 			if (a != NULL)
 				value_release (a);
@@ -933,7 +936,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 		return eval_funcall (pos, tree);
 
 	case OPER_NAME:
-		return eval_expr_name (pos, tree->u.name, as_scalar);
+		return eval_expr_name (pos, tree->u.name, flags);
 
 	case OPER_VAR: {
 		Sheet *cell_sheet;
@@ -964,7 +967,7 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 		res = tree->u.constant;
 		if (res->type != VALUE_CELLRANGE)
 			return value_duplicate (res);
-		if (!as_scalar) {
+		if (flags & EVAL_PERMIT_NON_SCALAR) {
 			eval_range (pos, res);
 			return value_duplicate (res);
 		} else {
@@ -1080,40 +1083,22 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 }
 
 Value *
-eval_expr_nonempty (EvalPosition const * const pos, ExprTree const *tree,
-		    gboolean const as_scalar)
+eval_expr (EvalPosition const * const pos, ExprTree const *tree,
+	   ExprEvalFlags const flags)
 {
-	Value * res = eval_expr_real (pos, tree, as_scalar);
-	if (res == NULL)
+	Value * res = eval_expr_real (pos, tree, flags);
+
+	if (res == NULL && !(flags&EVAL_PERMIT_EMPTY))
 		return value_new_int (0);
 
 	if (res->type == VALUE_EMPTY) {
 		value_release (res);
+		if (flags & EVAL_PERMIT_EMPTY)
+			return NULL;
 		return value_new_int (0);
 	}
 	return res;
 }
-
-Value *
-eval_expr (EvalPosition const * const pos, ExprTree const *tree)
-{
-	return eval_expr_nonempty (pos, tree, TRUE);
-}
-
-Value *
-eval_expr_empty (EvalPosition const * const pos, ExprTree const * const tree,
-		 gboolean const as_scalar)
-{
-	Value * res = eval_expr_real (pos, tree, as_scalar);
-
-	if (res && res->type == VALUE_EMPTY) {
-		value_release (res);
-		res = NULL;
-	}
-
-	return res;
-}
-
 
 int
 cell_ref_get_abs_col (CellRef const * const ref, EvalPosition const * const pos)

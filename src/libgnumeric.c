@@ -20,6 +20,7 @@
 #include "cursors.h"
 #include "number-match.h"
 #include "main.h"
+#include "expr-name.h"
 #include "func.h"
 #include "application.h"
 #include "print-info.h"

@@ -9,6 +9,9 @@
 #ifndef GNUMERIC_EXPR_NAME_H
 #define GNUMERIC_EXPR_NAME_H
 
+#include "gnumeric.h"
+#include "expr.h"
+
 /* Initialise builtins */
 void      expr_name_init       (void);
 
@@ -36,7 +39,7 @@ GList    *expr_name_list       (Workbook *wb, Sheet *sheet, gboolean builtins_to
 
 /* Evaluate the name's expression */
 Value    *eval_expr_name       (EvalPosition const * const pos, const ExprName *exprn,
-				gboolean const as_scalar);
+				ExprEvalFlags const flags);
 
 char     *expr_name_value      (const ExprName *expr_name);
 

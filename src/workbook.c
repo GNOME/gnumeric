@@ -27,6 +27,7 @@
 #include "ranges.h"
 #include "selection.h"
 #include "print.h"
+#include "expr-name.h"
 #include "value.h"
 #include "widgets/gnumeric-toolbar.h"
 #include "workbook-cmd-format.h"

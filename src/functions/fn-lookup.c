@@ -160,7 +160,7 @@ gnumeric_choose (FunctionEvalInfo *ei, GList *l)
 	if (argc < 1 || !l->data)
 		return value_new_error (ei->pos, _("#ARG!"));
 
-	v = eval_expr (ei->pos, l->data);
+	v = eval_expr (ei->pos, l->data, EVAL_STRICT);
 	if (!v)
 		return NULL;
 
@@ -176,8 +176,7 @@ gnumeric_choose (FunctionEvalInfo *ei, GList *l)
 	while (l){
 		index--;
 		if (!index)
-			/* The result need not be a scalar */
-			return eval_expr_nonempty (ei->pos, l->data, FALSE);
+			return eval_expr (ei->pos, l->data, EVAL_PERMIT_NON_SCALAR);
 		l = g_list_next (l);
 	}
 	return value_new_error (ei->pos, gnumeric_err_VALUE);

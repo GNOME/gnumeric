@@ -1,3 +1,10 @@
+2000-04-05  Jody Goldberg <jgoldberg@home.com>
+
+	* (*.[ch]) : merge eval_expr, eval_expr_nonempty, eval_expr_empty.
+
+	* src/xml-io.c (xml_write_attributes) : remove unused variable.
+	(xml_read_attribute) : Fix warning.
+
 2000-04-05  Miguel de Icaza  <miguel@gnu.org>
 
 	Fix #8326

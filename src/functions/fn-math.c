@@ -2837,7 +2837,7 @@ gnumeric_subtotal (FunctionEvalInfo *ei, GList *expr_node_list)
 	if (tree == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	val = eval_expr (ei->pos, tree);
+	val = eval_expr (ei->pos, tree, EVAL_STRICT);
 	if (!val) return NULL;
 	if (!VALUE_IS_NUMBER (val)) {
 		value_release (val);
@@ -2943,7 +2943,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 	if (tree == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	val = eval_expr (ei->pos, tree);
+	val = eval_expr (ei->pos, tree, EVAL_STRICT);
 	if (!val) return NULL;
 	if (! VALUE_IS_NUMBER(val)) {
 		value_release (val);
@@ -2959,7 +2959,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 	if (tree == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	val = eval_expr (ei->pos, tree);
+	val = eval_expr (ei->pos, tree, EVAL_STRICT);
 	if (!val) return NULL;
 	if (! VALUE_IS_NUMBER(val)) {
 		value_release (val);
@@ -2978,7 +2978,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GList *nodes)
 	if (tree == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	val = eval_expr (ei->pos, tree);
+	val = eval_expr (ei->pos, tree, EVAL_STRICT);
 	if (!val) return NULL;
 	if (! VALUE_IS_NUMBER(val)) {
 		value_release (val);
@@ -3348,8 +3348,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GList *expr_node_list)
 		ExprTree *tree = (ExprTree *) expr_node_list->data;
 		Value    *val;
 
-		/* The result need not be a scalar */
-		val = eval_expr_nonempty (ei->pos, tree, FALSE);
+		val = eval_expr (ei->pos, tree, EVAL_PERMIT_NON_SCALAR);
 
 		if (val) {
 		        p.current = p.components;
