@@ -53,6 +53,7 @@
 #include <gtk/gtktable.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkmenuitem.h>
 #include <stdio.h>
 
 /* FIXME: do not hardcode pixel counts.  */
