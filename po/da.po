@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
 "POT-Creation-Date: 2000-11-03 01:33+0100\n"
-"PO-Revision-Date: 2000-09-30 02:30+02:00\n"
+"PO-Revision-Date: 2000-11-03 02:30+02:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -1064,7 +1064,7 @@ msgstr "Procent"
 msgid "Anova"
 msgstr "Anova"
 
-#: po/tmp/analysis-tools.glade.h:8 src/analysis-tools.c:2330
+#: po/tmp/analysis-tools.glade.h:9 src/analysis-tools.c:2330
 #: src/dialogs/dialog-analysis-tools.c:83
 msgid "Anova: Single Factor"
 msgstr "Anova: Enkelfaktor"
@@ -1100,7 +1100,7 @@ msgstr "Mellem grupper"
 msgid "Within Groups"
 msgstr "Indenfor grupper"
 
-#: po/tmp/analysis-tools.glade.h:10 src/analysis-tools.c:2497
+#: po/tmp/analysis-tools.glade.h:11 src/analysis-tools.c:2497
 #: src/dialogs/dialog-analysis-tools.c:87
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Tofaktor uden replikering"
@@ -1118,7 +1118,7 @@ msgstr "Kolonner"
 msgid "Error"
 msgstr "Fejl"
 
-#: po/tmp/analysis-tools.glade.h:9 src/analysis-tools.c:2672
+#: po/tmp/analysis-tools.glade.h:10 src/analysis-tools.c:2672
 #: src/dialogs/dialog-analysis-tools.c:85
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Tofaktor med replikering"
@@ -1135,7 +1135,7 @@ msgstr "Indeni"
 msgid "F crit"
 msgstr "F krit"
 
-#: po/tmp/analysis-tools.glade.h:18 src/analysis-tools.c:2817
+#: po/tmp/analysis-tools.glade.h:19 src/analysis-tools.c:2817
 #: src/dialogs/dialog-analysis-tools.c:99
 msgid "Histogram"
 msgstr "Histogram"
@@ -1263,7 +1263,7 @@ msgid "Undo Clear"
 msgstr "Fortryd rydning"
 
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:1014 src/sheet.c:2301
+#: src/commands.c:1014 src/sheet.c:2377
 msgid "Clear"
 msgstr "Ryd"
 
@@ -1340,16 +1340,16 @@ msgstr "Skjul rækker"
 msgid "Moving cells"
 msgstr "Flytter celler"
 
-#: src/commands.c:2000
+#: src/commands.c:2002
 #, c-format
 msgid "Pasting into %s"
 msgstr "Indsætter i %s"
 
-#: src/commands.c:2124
+#: src/commands.c:2126
 msgid "Autofill"
 msgstr "Autofyld"
 
-#: src/commands.c:2280
+#: src/commands.c:2282
 msgid "Autoformat"
 msgstr "Autoformat"
 
@@ -1560,109 +1560,108 @@ msgstr "_Kun forskellige poster"
 #. * DO NOT compile it as part of your application.
 #.
 #: po/tmp/analysis-tools.glade.h:7
+msgid "1 - _Alpha:"
+msgstr "1 - _Alfa:"
+
+#: po/tmp/analysis-tools.glade.h:8
 msgid "Analysis Tools"
 msgstr "Analyseværktøjer"
 
-#: po/tmp/analysis-tools.glade.h:11
+#: po/tmp/analysis-tools.glade.h:12
 msgid "C_umulative Percentages"
 msgstr "_Procent"
 
-#: po/tmp/analysis-tools.glade.h:12 src/dialogs/dialog-analysis-tools.c:89
+#: po/tmp/analysis-tools.glade.h:13 src/dialogs/dialog-analysis-tools.c:89
 msgid "Correlation"
 msgstr "Orientering"
 
-#: po/tmp/analysis-tools.glade.h:13 src/dialogs/dialog-analysis-tools.c:91
+#: po/tmp/analysis-tools.glade.h:14 src/dialogs/dialog-analysis-tools.c:91
 msgid "Covariance"
 msgstr "Kovarians"
 
-#: po/tmp/analysis-tools.glade.h:14
+#: po/tmp/analysis-tools.glade.h:15
 msgid "Data Analysis"
 msgstr "Dataanalyse"
 
-#: po/tmp/analysis-tools.glade.h:15 src/dialogs/dialog-analysis-tools.c:95
+#: po/tmp/analysis-tools.glade.h:16 src/dialogs/dialog-analysis-tools.c:95
 msgid "F-Test: Two-Sample for Variances"
 msgstr "F-Test: To-prøve for varianser"
 
-#: po/tmp/analysis-tools.glade.h:16 src/dialogs/dialog-analysis-tools.c:97
+#: po/tmp/analysis-tools.glade.h:17 src/dialogs/dialog-analysis-tools.c:97
 msgid "Fourier Analysis"
 msgstr "Fourier-analyse"
 
-#: po/tmp/analysis-tools.glade.h:17
+#: po/tmp/analysis-tools.glade.h:18
 msgid "Grouped by:"
 msgstr "Grupperet efter:"
 
-#: po/tmp/analysis-tools.glade.h:19
+#: po/tmp/analysis-tools.glade.h:20
 msgid "I_nverse"
 msgstr "I_nvertér"
 
-#: po/tmp/analysis-tools.glade.h:20
+#: po/tmp/analysis-tools.glade.h:21
 msgid "In_terval:"
 msgstr "In_terval:"
 
-#: po/tmp/analysis-tools.glade.h:21
+#: po/tmp/analysis-tools.glade.h:22
 msgid "Input"
 msgstr "Inddata"
 
-#: po/tmp/analysis-tools.glade.h:22 src/dialogs/dialog-analysis-tools.c:101
+#: po/tmp/analysis-tools.glade.h:23 src/dialogs/dialog-analysis-tools.c:101
 msgid "Moving Average"
 msgstr "Flytter gennemsnit"
 
-#: po/tmp/analysis-tools.glade.h:23
+#: po/tmp/analysis-tools.glade.h:24
 msgid "N_ew Workbook"
 msgstr "Ny _arbejdsbog"
 
-#: po/tmp/analysis-tools.glade.h:24
+#: po/tmp/analysis-tools.glade.h:25
 msgid "N_ew sheet"
 msgstr "Nyt _ark"
 
-#: po/tmp/analysis-tools.glade.h:25
+#: po/tmp/analysis-tools.glade.h:26
 msgid "New _workbook"
 msgstr "Ny arbejds_bog"
 
-#: po/tmp/analysis-tools.glade.h:26
+#: po/tmp/analysis-tools.glade.h:27
 msgid "Numbe_r of samples:"
 msgstr "Antal _stikprøver:"
 
-#: po/tmp/analysis-tools.glade.h:27
+#: po/tmp/analysis-tools.glade.h:28
 msgid "Output options"
 msgstr "Uddataflag"
 
-#: po/tmp/analysis-tools.glade.h:28 src/dialogs/dialog-analysis-tools.c:103
+#: po/tmp/analysis-tools.glade.h:29 src/dialogs/dialog-analysis-tools.c:103
 msgid "Random Number Generation"
 msgstr "Tilfældig nummergeneration"
 
-#: po/tmp/analysis-tools.glade.h:29 src/dialogs/dialog-analysis-tools.c:105
+#: po/tmp/analysis-tools.glade.h:30 src/dialogs/dialog-analysis-tools.c:105
 msgid "Rank and Percentile"
 msgstr "Grad og percentil"
 
-#: po/tmp/analysis-tools.glade.h:30
+#: po/tmp/analysis-tools.glade.h:31
 msgid "T-Test: Assuming Equal Variances"
 msgstr "T-Test: forudsættende ens varians"
 
-#: po/tmp/analysis-tools.glade.h:31
+#: po/tmp/analysis-tools.glade.h:32
 msgid "T-Test: Assuming Unequal Variances"
 msgstr "T-Test: Forudsættende uens varians"
 
-#: po/tmp/analysis-tools.glade.h:32
+#: po/tmp/analysis-tools.glade.h:33
 msgid "T-Test: Paired Two Sample for Means"
 msgstr "T-Test: to stikprøver parret for gennemsnit"
 
-#: po/tmp/analysis-tools.glade.h:33
+#: po/tmp/analysis-tools.glade.h:34
 msgid "Va_riable 2 Range:"
 msgstr "O_mfang for variabel 2:"
 
-#: po/tmp/analysis-tools.glade.h:34
-msgid "_Alpha:"
-msgstr "_Alfa:"
-
 #: po/tmp/analysis-tools.glade.h:35
-#, fuzzy
 msgid "_Bin Range:"
-msgstr "_Inddataomfang:"
+msgstr "_Bin område:"
 
 #: po/tmp/analysis-tools.glade.h:36
 msgid "_Chart Output"
-msgstr "Graf uddata"
+msgstr "_Graf uddata"
 
 #: po/tmp/analysis-tools.glade.h:37 po/tmp/gnumeric.xml.h:195
 #: src/workbook-control-gui.c:1779
@@ -3190,11 +3189,11 @@ msgstr "&lt;- Fjern alle"
 #.
 #: po/tmp/dialog-stf-export.glade.h:9 po/tmp/dialog-stf.glade.h:7
 msgid "&quot;"
-msgstr ""
+msgstr "&quot;"
 
 #: po/tmp/dialog-stf-export.glade.h:10
 msgid "Add -&gt;"
-msgstr "Addér -&gt;"
+msgstr "Tilføj -&gt;"
 
 #: po/tmp/dialog-stf-export.glade.h:11
 msgid "Add all -&gt;"
@@ -3277,6 +3276,7 @@ msgstr "Data (fra %s)"
 msgid ""
 "Actual processing will start at this line, any previous lines will be ignored"
 msgstr ""
+"Egentlig behandling vil starte med denne linje, alle foregående linjer vil blive ignoreret"
 
 #: po/tmp/dialog-stf.glade.h:9
 msgid "Add a new column"
@@ -3284,7 +3284,7 @@ msgstr "Indsæt ny kolonne"
 
 #: po/tmp/dialog-stf.glade.h:10
 msgid "Attempt to recognize columns in the text automatically"
-msgstr ""
+msgstr "Forsøg at genkende kolonner automatisk i teksten"
 
 #: po/tmp/dialog-stf.glade.h:11
 msgid "Auto Column _Discovery"
@@ -3303,11 +3303,12 @@ msgid ""
 "Character interpreted as quote character. If the separation character is "
 "encountered within quotes it will be ignored"
 msgstr ""
+"Tegnet fortolkes som et citations-tegn. Hvis adskillelsestegnet mødes "
+"mellem citationstegn, ignoreres det."
 
 #: po/tmp/dialog-stf.glade.h:15
-#, fuzzy
 msgid "Clear list of columns"
-msgstr "Indsætter bredde på kolonner"
+msgstr "Tøm liste af kolonner"
 
 #: po/tmp/dialog-stf.glade.h:16
 msgid "Click to select a column"
@@ -3338,6 +3339,8 @@ msgid ""
 "Customize the columns using the buttons or the mouse (hover mouse above "
 "example for instructions)"
 msgstr ""
+"Tilpas kolonnerne ved brug af knapperne eller musen (løft musen henover "
+"eksemplet for instruktion)"
 
 #: po/tmp/dialog-stf.glade.h:24
 msgid "Data type and number of lines"
@@ -3345,13 +3348,14 @@ msgstr "Datatype og antal linjer"
 
 #: po/tmp/dialog-stf.glade.h:25
 msgid "Define the width of each column manually"
-msgstr ""
+msgstr "Definér bredden på hver kolonne manuelt"
 
 #: po/tmp/dialog-stf.glade.h:26
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon"
 msgstr ""
+"Hver kolonne i teksten er adskilt med et 'adskillelses'-tegn, fx et semikolon"
 
 #: po/tmp/dialog-stf.glade.h:27
 msgid "End"
@@ -3374,9 +3378,8 @@ msgid "Format"
 msgstr "Format"
 
 #: po/tmp/dialog-stf.glade.h:32
-#, fuzzy
 msgid "Formatting for the selected column"
-msgstr "Indsætter bredde på kolonner"
+msgstr "Formatering for den valgte kolonne"
 
 #: po/tmp/dialog-stf.glade.h:33
 msgid "Formatting options"
@@ -3395,17 +3398,14 @@ msgid "H_yphen (-)"
 msgstr "_Bindestreg (-)"
 
 #: po/tmp/dialog-stf.glade.h:37
-#, fuzzy
 msgid ""
 "Left click to create a new column, right click on a column border to delete "
 "an existing column or hold the left mouse button on a column border and drag "
 "to resize a column"
 msgstr ""
-"Tilpas kolonnerne med tilføj/fjern knapperne eller musen : venstre-klik for "
-"at oprette en ny kolonne, højre-klik på en kolonnekant for at slette en "
-"eksisterende kolonne, og hold den venstre museknap på en kolonnekant og træk "
-"for at ændre størrelsen på en kolonne. Auto kolonne opdagelse vil prøve at "
-"genkende kolonner i teksten automatisk."
+"Venstreklik for at oprette en ny kolonne, højreklik på en kolonnekant for at "
+"slette en eksisterende kolonne, eller hold venstre museknap på en kolonnekant "
+"og træk for at ændre størrelse på en kolonne"
 
 #: po/tmp/dialog-stf.glade.h:38
 msgid "Lines to import"
@@ -3433,12 +3433,11 @@ msgstr "Formatering per kolonne"
 
 #: po/tmp/dialog-stf.glade.h:44
 msgid "Processing ends at this line, any subsequent lines will be ignored"
-msgstr ""
+msgstr "Behandling slutter med denne linje, alle følgende linjer ignoreres"
 
 #: po/tmp/dialog-stf.glade.h:45
-#, fuzzy
 msgid "Remove selected column"
-msgstr "Sorterer de valgte celler"
+msgstr "Fjern valgte kolonne"
 
 #: po/tmp/dialog-stf.glade.h:46
 msgid "S_ee two separators as one"
@@ -3456,32 +3455,29 @@ msgstr "Se to successive adskillelsestegn som ét"
 msgid ""
 "See two successive text indicators as one that does not terminate the cell"
 msgstr ""
+"Brug to følgende tekst-indikatorer som én der ikke afslutter cellen"
 
 #: po/tmp/dialog-stf.glade.h:50
-#, fuzzy
 msgid ""
 "Select the format for each column. You can click in the column list on the "
 "left or in the example to select a column. You can then enter a custom "
 "format or select one from the list on the right."
 msgstr ""
-"Vælg formatet for hver kolonne. Du kan klikke i kolonnelisten til venstrefor "
-"at vælge en kolonne, eller du kan klikke i forhåndsvisningen. Du kan så "
-"indtaste et tilpasset format eller vælge én fra listen til højre."
+"Vælg formatet på hver kolonne. Du kan klikke i kolonnelisten til venstre "
+"eller i eksemplet for at vælge en kolonne. Du kan så angive et egendefineret "
+"format eller vælge én fra listen til højre."
 
 #: po/tmp/dialog-stf.glade.h:51
-#, fuzzy
 msgid ""
 "Select the separators that appear in the text (you can choose multiple "
 "separators if desired and also enter a custom one)"
 msgstr ""
-"Vælg de adskillelsestegn som optræder i teksten (du kan vælge flere "
-"adskillelsestegn om ønsket, og også indtaste dine egne). Du kan vælge "
-"streng-indikatoren, og om du også ønsker at se to samfølgende "
-"adskillelsestegn som ét. Ændringer vil ses i eksemplet nedenunder."
+"Vælg de adskillelsestegn som optræder i teksten (du kan bruge flere "
+"adskillelsestegn om ønsket, og også opgive en egendefineret)"
 
 #: po/tmp/dialog-stf.glade.h:52
 msgid "Select the structure of the text that most closely matches the data."
-msgstr ""
+msgstr "Vælg strukturen på teksten som nærmest passer til data"
 
 #: po/tmp/dialog-stf.glade.h:53
 msgid "Semicolo_n (;)"
@@ -3489,16 +3485,15 @@ msgstr "Semikolon (_;)"
 
 #: po/tmp/dialog-stf.glade.h:54
 msgid "Separation customization"
-msgstr "tilpasning af adskillelsetegn"
+msgstr "Tilpasning af adskillelsetegn"
 
 #: po/tmp/dialog-stf.glade.h:55
 msgid "Separators"
 msgstr "Separatorer"
 
 #: po/tmp/dialog-stf.glade.h:56
-#, fuzzy
 msgid "Set the end of this column"
-msgstr "Vælg en hel kolonne"
+msgstr "Sæt slutningen på denne kolonne"
 
 #: po/tmp/dialog-stf.glade.h:57
 msgid "Slas_h (/)"
@@ -3521,6 +3516,9 @@ msgid ""
 "Trim leading and trailing spaces from each column, if you are unsure you "
 "should leave this at the default setting"
 msgstr ""
+"Fjern indledende og afsluttende mellemrum fra hver kolonne, hvis du er "
+"usikker bør du lade dette være som det var oprindeligt"
+
 
 #: po/tmp/dialog-stf.glade.h:63
 msgid "_Adjacent text indicators escaped"
@@ -5596,7 +5594,7 @@ msgstr "[$YDD]"
 
 #: src/formats.c:380
 msgid "Democratic Yemeni dinar"
-msgstr "Demokratisk Jemen dinar"
+msgstr "Demokratisk Yemen dinar"
 
 #: src/formats.c:381
 msgid "[$YER]"
@@ -7445,8 +7443,8 @@ msgid ""
 "@SEEALSO=ACCRINTM"
 msgstr ""
 "@FUNCTION=ACCRINT\n"
-"@SYNTAX=ACCRINT(udstedelse,første_rente,anbringelse,rente,pari,frekvens[,basi"
-"s])\n"
+"@SYNTAX=ACCRINT(udstedelse,første_rente,anbringelse,rente,pari,frekvens"
+"[,basis])\n"
 "@DESCRIPTION=ACCRINT beregner den påløbne rente for et værdipapir som "
 "udbetaler periodisk rente. @rente er værdipapirets pålydende årlige rente og "
 "@pari er værdipapirets pålydende værdi. @basis er den type "
@@ -8611,8 +8609,8 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=ODDFPRICE\n"
-"@SYNTAX=ODDFPRICE(anbringelse,forfald,udstedelse,første_kupon,rente,ydelse,in"
-"dfrielse,frekvens,basis)\n"
+"@SYNTAX=ODDFPRICE(anbringelse,forfald,udstedelse,første_kupon,rente,ydelse,"
+"indfrielse,frekvens,basis)\n"
 "@DESCRIPTION=\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8629,8 +8627,8 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=ODDFYIELD\n"
-"@SYNTAX=ODDFYIELD(anbringelse,forfald,udstedelse,første_kupon,rente,pris,indf"
-"rielse,frekvens,basis)\n"
+"@SYNTAX=ODDFYIELD(anbringelse,forfald,udstedelse,første_kupon,rente,pris,"
+"indfrielse,frekvens,basis)\n"
 "@DESCRIPTION=\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8647,8 +8645,8 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=ODDLPRICE\n"
-"@SYNTAX=ODDLPRICE(anbringelse,forfald,sidste_rente,rente,ydelse,indfrielse,fr"
-"ekvens,basis)\n"
+"@SYNTAX=ODDLPRICE(anbringelse,forfald,sidste_rente,rente,ydelse,indfrielse,"
+"frekvens,basis)\n"
 "@DESCRIPTION=\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8665,8 +8663,8 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=ODDLYIELD\n"
-"@SYNTAX=ODDLYIELD(anbringelse,forfald,sidste_rente,rente,pris,indfrielse,frek"
-"vens,basis)\n"
+"@SYNTAX=ODDLYIELD(anbringelse,forfald,sidste_rente,rente,pris,indfrielse,"
+"frekvens,basis)\n"
 "@DESCRIPTION=\n"
 "@EXAMPLES=\n"
 "\n"
@@ -14919,19 +14917,19 @@ msgstr "Række: %d"
 msgid "Column: %s"
 msgstr "Kolonne: %s"
 
-#: src/sheet.c:2791 src/sheet.c:2801
+#: src/sheet.c:2814 src/sheet.c:2824
 msgid "Insert Columns"
 msgstr "Indsæt kolonner"
 
-#: src/sheet.c:2872
+#: src/sheet.c:2895
 msgid "Delete Columns"
 msgstr "Slet kolonner"
 
-#: src/sheet.c:2942 src/sheet.c:2952
+#: src/sheet.c:2965 src/sheet.c:2975
 msgid "Insert Rows"
 msgstr "Indsæt rækker"
 
-#: src/sheet.c:3023
+#: src/sheet.c:3046
 msgid "Delete Rows"
 msgstr "Slet rækker"
 
@@ -15070,8 +15068,8 @@ msgid ""
 "This file does not seem to be a valid text file.\n"
 "The character '%c' (ASCII decimal %d) was encountered"
 msgstr ""
-"Denne fil synes ikke at være en gyldig tekstfilTegnet '%c' (ASCII decimalt "
-"%d) blev læst"
+"Denne fil synes ikke at være en gyldig tekstfil. Tegnet "
+"'%c' (ASCII decimalt %d) blev læst"
 
 #: src/stf.c:184
 msgid "Parse error while trying to parse data into sheet"
@@ -15614,24 +15612,20 @@ msgid "Zoom the spreadsheet in or out"
 msgstr "Zoom ind og ud på regnearket"
 
 #: src/workbook-control-gui.c:1734
-#, fuzzy
 msgid "New _Shared"
-msgstr "Ny delt"
+msgstr "Ny _delt"
 
 #: src/workbook-control-gui.c:1735
-#, fuzzy
 msgid "Create a new shared view of the workbook"
-msgstr "Opret ny delt arbejdsbog"
+msgstr "Opret en ny delt visning af arbejdsbogen"
 
 #: src/workbook-control-gui.c:1737
-#, fuzzy
 msgid "New _Unshared"
-msgstr "Nyt _ark"
+msgstr "Ny _udelt"
 
 #: src/workbook-control-gui.c:1738
-#, fuzzy
 msgid "Create a new unshared view of the workbook"
-msgstr "Opret ny arbejdsbog"
+msgstr "Opret en ny udelt visning af arbejdsbogen"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
 #: po/tmp/gnumeric.xml.h:52 src/workbook-control-gui.c:1747
@@ -16022,9 +16016,8 @@ msgid "Is not an autoformat template file"
 msgstr "Er ikke en autoformat skabelonsfil"
 
 #: src/xml-io-autoft.c:480
-#, fuzzy
 msgid "Error while trying to build tree from autoformat template file"
-msgstr "Fejl under forsøg på at lagertildele fil"
+msgstr "Fejl ved forsøg på at bygge træ fra autoformat skabelonsfil"
 
 #.
 #. * Translatable strings file generated by extract-ui.
@@ -16056,9 +16049,8 @@ msgid "C_lear..."
 msgstr "_Ryd..."
 
 #: po/tmp/gnumeric.xml.h:23
-#, fuzzy
 msgid "Centers the text in each selection"
-msgstr "Indtast formatstrengene for hver del:"
+msgstr "Centrerer teksten i hver markering"
 
 #: po/tmp/gnumeric.xml.h:24
 msgid "Change height of the selected rows"
@@ -16069,14 +16061,12 @@ msgid "Change the default column width"
 msgstr "Indsætter bredde på kolonner"
 
 #: po/tmp/gnumeric.xml.h:26
-#, fuzzy
 msgid "Change the default row height"
-msgstr "Indsætter bredde på kolonner"
+msgstr "Ændre standard rækkehøjde"
 
 #: po/tmp/gnumeric.xml.h:27
-#, fuzzy
 msgid "Change the order the sheets are displayed"
-msgstr "Indsætter bredde på kolonner"
+msgstr "Ændr rækkefølgen for hvordan arkene bliver vist"
 
 #: po/tmp/gnumeric.xml.h:28
 msgid "Change width of the selected columns"
@@ -16087,23 +16077,20 @@ msgid "Close"
 msgstr "Luk"
 
 #: po/tmp/gnumeric.xml.h:35
-#, fuzzy
 msgid "Close the current file"
-msgstr "Summér til den aktuelle celle."
+msgstr "Luk den aktive fil"
 
 #: po/tmp/gnumeric.xml.h:37
 msgid "Combo Box"
 msgstr "Kombiboks"
 
 #: po/tmp/gnumeric.xml.h:39
-#, fuzzy
 msgid "Copy the current selection to the clipboard"
-msgstr "Kopierer det markerede til klippebordet"
+msgstr "Kopiér det nuværende valg til klippebordet"
 
 #: po/tmp/gnumeric.xml.h:40
-#, fuzzy
 msgid "Copy the selection"
-msgstr "_Autotilpas markering"
+msgstr "Kopiér de valgte"
 
 #: po/tmp/gnumeric.xml.h:41
 msgid "Create a button"
@@ -16130,9 +16117,8 @@ msgid "Create a line"
 msgstr "Opret linje"
 
 #: po/tmp/gnumeric.xml.h:47
-#, fuzzy
 msgid "Create a list"
-msgstr "Opretter en liste"
+msgstr "Opret en liste"
 
 #: po/tmp/gnumeric.xml.h:49
 msgid "Create a new workbook"
@@ -16143,27 +16129,24 @@ msgid "Create a radio button"
 msgstr "Opret radioknap"
 
 #: po/tmp/gnumeric.xml.h:55
-#, fuzzy
 msgid "Cut the selection"
-msgstr "_Autotilpas markering"
+msgstr "Klip det valgte fra"
 
 #: po/tmp/gnumeric.xml.h:57
 msgid "Decrease Precision"
 msgstr "Formindsk præcision"
 
 #: po/tmp/gnumeric.xml.h:58
-#, fuzzy
 msgid "Decrease the preceision of the selected cells"
-msgstr "Indsæt dags dato i de(n) markerede celle(r)"
+msgstr "Formindsk præcisionen for de valgte celler"
 
 #: po/tmp/gnumeric.xml.h:60
 msgid "Display the value of a formula or the formula itself"
-msgstr ""
+msgstr "Vis værdien af en formel, eller formlen selv"
 
 #: po/tmp/gnumeric.xml.h:61
-#, fuzzy
 msgid "Draw a rectangle"
-msgstr "Opret et firkants-objekt"
+msgstr "Tegn en firkant"
 
 #: po/tmp/gnumeric.xml.h:62
 msgid "Draw an oval"
@@ -16174,44 +16157,40 @@ msgid "E_xit"
 msgstr "Afslut"
 
 #: po/tmp/gnumeric.xml.h:64
-#, fuzzy
 msgid "Edit a formula in the current cell"
-msgstr "Redigér en funktion i den aktuelle celle."
+msgstr "Redigér en formel i den aktive celle"
 
 #: po/tmp/gnumeric.xml.h:66
-#, fuzzy
 msgid "Edit the name of the current sheet"
-msgstr "Redigér en funktion i den aktuelle celle."
+msgstr "Redigér navnet på det aktive ark"
 
 #: po/tmp/gnumeric.xml.h:68
 msgid "Ensure columns are just wide enough to display content"
-msgstr ""
+msgstr "Forsikr at kolonner er netop brede nok til at vise indhold"
 
 #: po/tmp/gnumeric.xml.h:69
 msgid "Ensure rows are just tall enough to display content"
-msgstr ""
+msgstr "Forsikr at rækker er netop høje nok til at vise indhold"
 
 #: po/tmp/gnumeric.xml.h:70
 msgid "Exit the program"
 msgstr "Afslut programmet"
 
 #: po/tmp/gnumeric.xml.h:78
-#, fuzzy
 msgid "Format the selected cells as money"
-msgstr "Sorterer de valgte celler"
+msgstr "Formatér de valgte celler som penge"
 
 #: po/tmp/gnumeric.xml.h:79
-#, fuzzy
 msgid "Format the selected cells as percentages"
-msgstr "Sætter formatet for de valgte celler til procent"
+msgstr "Formatér de valgte celler som procenter"
 
 #: po/tmp/gnumeric.xml.h:81
 msgid "Function Guru"
-msgstr "Funktions troldmand"
+msgstr "Funktions-troldmand"
 
 #: po/tmp/gnumeric.xml.h:82
 msgid "Graph Guru"
-msgstr "Graf troldmand"
+msgstr "Graf-troldmand"
 
 #: po/tmp/gnumeric.xml.h:83
 msgid "Hide _Column Headers"
@@ -16222,32 +16201,28 @@ msgid "Hide _Row Headers"
 msgstr "Skjul _rækkehoveder"
 
 #: po/tmp/gnumeric.xml.h:87
-#, fuzzy
 msgid "Hide the selected columns"
-msgstr "Sorterer de valgte celler"
+msgstr "Skjul de valgte kolonner"
 
 #: po/tmp/gnumeric.xml.h:88
-#, fuzzy
 msgid "Hide the selected rows"
-msgstr "Sorterer de valgte celler"
+msgstr "Skjul de valgte rækker"
 
 #: po/tmp/gnumeric.xml.h:89
 msgid "Import..."
 msgstr "Importér..."
 
 #: po/tmp/gnumeric.xml.h:91
-#, fuzzy
 msgid "Includes a thousands seperator in the selected cells"
-msgstr "Indsæt dags dato i de(n) markerede celle(r)"
+msgstr "Inkluderer en tusind-adskiller i de valgte celler"
 
 #: po/tmp/gnumeric.xml.h:92
 msgid "Increase Precision"
 msgstr "Øg præcision"
 
 #: po/tmp/gnumeric.xml.h:93
-#, fuzzy
 msgid "Increase the preceision of the selected cells"
-msgstr "Indsæt dags dato i de(n) markerede celle(r)"
+msgstr "Øg præcisionen i de valgte celler"
 
 #: po/tmp/gnumeric.xml.h:94
 msgid "Insert Component"
@@ -16258,39 +16233,32 @@ msgid "Insert Shaped Component"
 msgstr "Indsæt delt komponent"
 
 #: po/tmp/gnumeric.xml.h:97
-#, fuzzy
 msgid "Insert a shaped component into the spreadsheet"
-msgstr "Indsætter et formet objekt i regnearket"
+msgstr "Indsæt en formet komponent i regnearket"
 
 #: po/tmp/gnumeric.xml.h:98
-#, fuzzy
 msgid "Insert an object into the spreadsheet"
-msgstr "Indsætter et objekt i regnearket"
+msgstr "Indsæt et objekt i regnearket"
 
 #: po/tmp/gnumeric.xml.h:105
-#, fuzzy
 msgid "Invoke the graph guru to create a graph"
-msgstr "Starter grafik-troldmanden for at lave en graf"
+msgstr "Kald på graf-guruen for at oprette en graf"
 
 #: po/tmp/gnumeric.xml.h:107
-#, fuzzy
 msgid "Italicize"
-msgstr "Kursiv"
+msgstr "Kursivér"
 
 #: po/tmp/gnumeric.xml.h:113
-#, fuzzy
 msgid "Left justifies the contents of each cell"
-msgstr "Venstrejusterer cellens indhold"
+msgstr "Venstre-justerer indholdet i hver celle"
 
 #: po/tmp/gnumeric.xml.h:116
-#, fuzzy
 msgid "Make any hidden columns in the selection visible"
-msgstr "Kan ikke tilføje flere end den valgte længde"
+msgstr "Gør enhver skjult kolonne synlig i det valgte"
 
 #: po/tmp/gnumeric.xml.h:117
-#, fuzzy
 msgid "Make any hidden rows in the selection visible"
-msgstr "Kan ikke tilføje flere end den valgte længde"
+msgstr "Gør enhver skjult række synlig i det valgte"
 
 #: po/tmp/gnumeric.xml.h:118
 msgid "Make font bold"
@@ -16301,14 +16269,12 @@ msgid "Makes font italic"
 msgstr "Gør skriften kursiv"
 
 #: po/tmp/gnumeric.xml.h:120
-#, fuzzy
 msgid "Manage available plugin modules"
-msgstr "Håndtér tilgængelige indstiksmoduler."
+msgstr "Administrér tilgængelige indstik-moduler"
 
 #: po/tmp/gnumeric.xml.h:121
-#, fuzzy
 msgid "Mark the current selection for movement"
-msgstr "Brug det nuværende valg til at generere navne"
+msgstr "Markér det valgte til flytning"
 
 #: po/tmp/gnumeric.xml.h:124
 msgid "Money"
@@ -16336,7 +16302,7 @@ msgstr "Indsæt klippebordet"
 
 #: po/tmp/gnumeric.xml.h:134
 msgid "Paste the contents of the clipboard or cut buffer"
-msgstr ""
+msgstr "Indsæt indholdet af klippebordet eller fraklip buffer"
 
 #: po/tmp/gnumeric.xml.h:138
 msgid "Print Pre_view"
@@ -16351,9 +16317,8 @@ msgid "Print S_etup"
 msgstr "Printeropsætning"
 
 #: po/tmp/gnumeric.xml.h:142
-#, fuzzy
 msgid "Print the current file"
-msgstr "Summér til den aktuelle celle."
+msgstr "Udskriv den aktive fil"
 
 #: po/tmp/gnumeric.xml.h:143
 msgid "Print the workbook"
@@ -16368,14 +16333,12 @@ msgid "Redo the undone action"
 msgstr "Gentag den ugjorte handling"
 
 #: po/tmp/gnumeric.xml.h:149
-#, fuzzy
 msgid "Remove selected cells, shifting others into their place"
-msgstr "Fjern valgte celler, med skift af andre i deres sted"
+msgstr "Fjern valgte celler, idet andre celler skiftes ind i stedet"
 
 #: po/tmp/gnumeric.xml.h:151
-#, fuzzy
 msgid "Right justifies the contents of each cell"
-msgstr "Højrejusterer cellens indhold"
+msgstr "Højrejusterer indholdet af hver celle"
 
 #: po/tmp/gnumeric.xml.h:154
 msgid "Save As"
@@ -16386,22 +16349,20 @@ msgid "Save the current file"
 msgstr "Gem den aktuelle fil."
 
 #: po/tmp/gnumeric.xml.h:156
-#, fuzzy
 msgid "Save the current file with a different name"
-msgstr "Brug det nuværende valg til at generere navne"
+msgstr "Gem den aktive fil under et andet navn"
 
 #: po/tmp/gnumeric.xml.h:157
 msgid "Save the current workbook"
 msgstr "Gem aktuelle arbejdsbog"
 
 #: po/tmp/gnumeric.xml.h:164
-#, fuzzy
 msgid "Select all the cells that depend on the current edit cell"
-msgstr "Vælg alle celler som afhænger af den aktive celle."
+msgstr "Vælg alle cellerne som afhænger af den aktive celle under redigering"
 
 #: po/tmp/gnumeric.xml.h:168
 msgid "Setup the page settings for your current printer"
-msgstr ""
+msgstr "Indstil sideopsætningen for din aktive printer"
 
 #: po/tmp/gnumeric.xml.h:172
 msgid ""
@@ -16429,19 +16390,19 @@ msgstr "Summér til den aktuelle celle."
 
 #: po/tmp/gnumeric.xml.h:179
 msgid "Toggle whether or not to display column headers"
-msgstr ""
+msgstr "Slå visning af kolonneoverskrifter fra/til"
 
 #: po/tmp/gnumeric.xml.h:180
 msgid "Toggle whether or not to display gridlines"
-msgstr ""
+msgstr "Slå visning af gitterlinjer fra/til"
 
 #: po/tmp/gnumeric.xml.h:181
 msgid "Toggle whether or not to display row headers"
-msgstr ""
+msgstr "Slå visning af rækkeoverskrifter fra/til"
 
 #: po/tmp/gnumeric.xml.h:182
 msgid "Toggle whether or not to display zeros as blanks"
-msgstr ""
+msgstr "Slå visning af nuller som blanke fra/til"
 
 #: po/tmp/gnumeric.xml.h:184
 msgid "Underlines the text"
