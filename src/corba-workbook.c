@@ -11,7 +11,7 @@
 #include "sheet.h"
 #include "gnumeric.h"
 #include "workbook.h"
-#include "idl/Gnumeric.h"
+#include "Gnumeric.h"
 #include "xml-io.h"
 #include "corba.h"
 #include "commands.h"
