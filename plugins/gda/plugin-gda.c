@@ -36,12 +36,12 @@ static GdaConnectionPool* connection_pool = NULL;
 static Value *
 display_recordset (GdaRecordset *recset)
 {
-	gint       position;
+	guint      position;
 	Value*     array = NULL;
 	gint       col;
-	gint       cnt;
+	guint      cnt;
 	gint       fieldcount = 0;
-	GPtrArray* data_loaded = NULL; // array for rows
+	GPtrArray* data_loaded = NULL; /* array for rows */
 
 	g_return_val_if_fail(GDA_IS_RECORDSET(recset), NULL);
 
@@ -90,10 +90,12 @@ display_recordset (GdaRecordset *recset)
 		GPtrArray* tmp = (GPtrArray *) g_ptr_array_index(data_loaded, cnt);
 		if (tmp) {
 			/* free each row */
-			//for (col = 0; col < tmp->len; col++) {
-			//	gchar* str = (gchar *) g_ptr_array_index(data_loaded, col);
-			//	if (str) g_free((gpointer) str);
-			//}
+/*
+			for (col = 0; col < tmp->len; col++) {
+				gchar* str = (gchar *) g_ptr_array_index(data_loaded, col);
+				if (str) g_free((gpointer) str);
+			}
+*/
 			g_ptr_array_free(tmp, FALSE);
 		}
 	}
@@ -126,9 +128,9 @@ gnumeric_execSQL (FunctionEvalInfo *ei, Value **args)
 	gchar*          user_name;
 	gchar*          password;
 	gchar*          sql;
-	GdaConnection* cnc;
-	GdaRecordset*  recset;
-	glong           reccount;
+	GdaConnection*  cnc;
+	GdaRecordset*   recset;
+	gulong          reccount;
 	
 	dsn_name = value_get_as_string(args[0]);
 	user_name = value_get_as_string(args[1]);
