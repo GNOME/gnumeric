@@ -2291,3 +2291,54 @@ workbook_sheets (Workbook *wb)
 	g_hash_table_foreach (wb->sheets, cb_workbook_sheets, &sheets);
 	return sheets;
 }
+
+typedef struct {
+	Sheet   *base_sheet;
+	GString *result;
+} selection_assemble_closure_t;
+
+static void
+cb_assemble_selection (gpointer key, gpointer value, gpointer user_data)
+{
+	selection_assemble_closure_t *info = (selection_assemble_closure_t *) user_data;
+	Sheet *sheet = value;
+	gboolean include_prefix;
+	
+	if (*info->result->str)
+		g_string_append_c (info->result, ",");
+
+	/*
+	 * If a base sheet is specified, use this to avoid prepending
+	 * the full path to the cell region.
+	 */
+	if (info->base_sheet && (info->base_sheet != value))
+		include_prefix = TRUE;
+	else
+		include_prefix = FALSE;
+	
+	sel = sheet_selection_to_string (sheet, include_prefix);
+	g_string_append (res, sel);
+	g_free (sel);
+}
+
+char *
+workbook_selection_to_string (Workbook *wb, Sheet *base_sheet)
+{
+	selection_assemble_closure_t info;
+	char *str;
+	
+	g_return_val_if_fail (wb != NULL, NULL);
+
+	if (base_sheet == NULL){
+		g_return_val_if_fail (IS_SHEET (base_sheet), NULL);
+	}
+
+	info.result = g_string_new ("");
+	info.base_sheet = base_sheet;
+	g_hash_table_foreach (wb->sheets, cb_assemble_selection, &info);
+
+	result = info->result->str;
+	g_string_free (info->result, FALSE);
+
+	return result;
+}

@@ -1022,6 +1022,12 @@ format_value (StyleFormat *format, Value *value, StyleColor **color)
 	case VALUE_STRING:
 		return g_strdup (value->v.str->str);
 
+	case VALUE_CELLRANGE:
+		return g_strdup (_("CELLRANGE"));
+
+	case VALUE_ARRAY:
+		return g_strdup (_("ARRAY"));
+		
 	default:
 		return g_strdup ("Internal error");
 	}

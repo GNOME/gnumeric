@@ -138,4 +138,67 @@ graphic_context_data_range_remove (GraphicContext *gc, const char *range_name)
 	}
 }
 
+void
+graphics_context_data_range_clear (GraphicContext *gc)
+{
+	GList *l;
+	
+	g_return_if_fail (gc != NULL);
+
+	for (l = gc->data_range_list; l; l = l->next){
+		DataRange *data_range = l->data;
+
+		data_range_destroy (data_range);
+	}
+	g_list_free (gc->data_range_list);
+	gc->data_range_list = NULL;
+}
+
+/**
+ * graphic_context_set_data_range:
+ * @gc: the graphics context
+ * @data_range_spec: a string description of the cell ranges
+ * @vertical: whether we need to create the data ranges in vertical mode
+ *
+ * This routine defines the data ranges based on the @data_range_spec, and
+ * it guesses the series values using @vertical
+ */
+void
+graphic_context_set_data_range (GraphicContext *gc, const char *data_range_spec, gboolean vertical)
+{
+	ExprTree *tree;
+	char *p;
+	char *error;
+	
+	g_return_if_fail (gc != NULL);
+	g_return_if_fail (data_range_spec != NULL);
+
+	graphics_context_data_range_clear (gc);
+
+	/* Hack:
+	 * Create a valid expression, parse as expression, and pull the
+	 * parsed arguments.
+	 */
+	expr = g_strconcat ("=SELECTION(", data_range_spec, ")", NULL);
+	tree = expr_parse_string (expr, NULL, 0, 0, 0, &error);
+	g_free (expr);
+	
+	if (tree == NULL)
+		return;
+
+	assert (tree->oper == OPER_FUNCALL);
+
+	args = tree->u.function.arg_list;
+
+	/*
+	 * Guess the data ranges.  From the selected ranges.  Simple
+	 * case is just a region selected, so we can guess a number
+	 * of parameters from this.
+	 */
+	g_warning ("Should do something more interesting with disjoint selections");
+	
+	expr_tree_unref (tree);
+}
+
+
 

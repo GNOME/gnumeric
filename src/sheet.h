@@ -218,6 +218,7 @@ int         sheet_selection_first_range  (Sheet *sheet,
 					  int *start_col, int *start_row,
 					  int *end_col,   int *end_row);
 CellList   *sheet_selection_to_list      (Sheet *sheet);
+char       *sheet_selection_to_string    (Sheet *sheet, gboolean include_sheet_name_prefix);
 
 /* Operations on the selection */
 void        sheet_selection_clear             (Sheet *sheet);
@@ -238,7 +239,6 @@ int         sheet_selection_walk_step         (Sheet *sheet,
 void        sheet_selection_extend_horizontal (Sheet *sheet, int count);
 void        sheet_selection_extend_vertical   (Sheet *sheet, int count);
 int         sheet_selection_is_cell_selected  (Sheet *sheet, int col, int row);
-
 gboolean    sheet_verify_selection_simple     (Sheet *sheet, const char *command_name);
 
 /* Cell management */
@@ -426,6 +426,7 @@ gboolean    workbook_rename_sheet        (Workbook *wb,
 int         workbook_sheet_count         (Workbook *wb);
 gboolean    workbook_can_detach_sheet    (Workbook *wb, Sheet *sheet);
 GList      *workbook_sheets              (Workbook *wb);
+char       *workbook_selection_to_string (Workbook *wb, Sheet *base_sheet);
 
 /*
  * Does any pending recalculations

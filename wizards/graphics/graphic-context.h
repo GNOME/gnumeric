@@ -41,7 +41,7 @@ typedef struct {
 	GnomeObjectClient *guppi;
 	GnomeClientSite   *client_site;
 	GnomeContainer    *container;
-} GraphicContext;
+} WizardGraphicContext;
 
 #define GC_SIGNATURE ((('G' << 8) | ('C' << 8)) | 'o')
 #define IS_GRAPHIC_CONTEXT(gc) (gc->signature == GC_SIGNATURE)

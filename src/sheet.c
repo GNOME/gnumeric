@@ -1688,6 +1688,57 @@ sheet_selection_to_list (Sheet *sheet)
 	return list;
 }
 
+static void
+reference_append (GString *result_str, int col, int row)
+{
+	char *row_string = g_strdup_printf ("%d", row);
+	
+	g_string_append_c (result_str, "$");
+	g_string_append (result_str, col_name (col));
+	g_string_append_c (result_str, "$");
+	g_string_append (result_str, row_string);
+	
+	g_free (row_string);
+}
+
+char *
+sheet_selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
+{
+	GString *result_str;
+	char *result;
+	sheet_cell_foreach_callback assembler;
+	
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (sheet->selections, NULL);
+
+	result_str = g_string_new ("");
+	for (selections = sheet->selections; selections; selections = selections->next){
+		SheetSelection *ss = selections->data;
+
+		if (*result_str->str)
+			g_string_append_c (result_str, ',');
+		
+		if (include_sheet_name_prefix){
+			g_string_append_c (result_str, '\'');
+			g_string_append (result_str, sheet->name);
+			g_string_append (result_str, "'!");
+		}
+
+		if ((ss->start_col != ss->end_col) ||
+		    (ss->start_row != ss->end_row)){
+			reference_append (result_str, ss->start_col, ss->end_row);
+			g_string_append_c (result_str, ":");
+			reference_append (result_str, ss->end_col, ss->end_row);
+		} else
+			reference_append (result_str, ss->start_col, ss->start_row);
+	}
+
+	result = result_str->str;
+	g_string_free (result_str, FALSE);
+	return result;
+}
+
 /**
  * sheet_col_get:
  *

@@ -1,3 +1,24 @@
+1999-05-15  Heath Martin <martinh@pegasus.cc.ucf.edu>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_compute_visible_ranges):
+	Small cut and paste fix.  Use row here instead of col.
+
+1999-05-13  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* configure.in (ALL_LINGUAS): Added slovak language.
+
+1999-05-09  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_selection_to_string): New routine.  Returns a
+	string representation of the current selection. 
+
+	* src/workbook.c (workbook_selection_to_string): New routine.
+	Retunrs a string representation of the current selection.
+
+1999-05-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/corba-workbook.c (corba_sheet): Fix.
+
 1999-05-16  Michael Meeks  <michael@imaginator.com>
 
 	* CHANGES: Added to ease burdern of creating accurate descriptions

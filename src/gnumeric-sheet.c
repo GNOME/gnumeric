@@ -996,7 +996,7 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet)
 			gsheet->last_full_row = row;
 		} if (cb > height){
 			gsheet->last_visible_row = row;
-			if (col == gsheet->top_row)
+			if (row == gsheet->top_row)
 				gsheet->last_full_row = gsheet->top_row;
 			else
 				gsheet->last_full_row = row - 1;
