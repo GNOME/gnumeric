@@ -22,11 +22,6 @@ SGML_FILES =			\
 	translating.sgml	\
 	worksheet.sgml
 
-#TEXT_FILES =			\
-#	Design			\
-#	Future-Roadmap		\
-#	saving.txt
-
 PERL_FILES = 			\
 	make-index.pl		\
 	make-docbook.pl	
@@ -35,8 +30,7 @@ EXTRA_DIST = \
 	topic.dat		\
 	func.defs		\
 	$(SGML_FILES)		\
-	$(PERL_FILES)		\
-	$(TEXT_FILES)
+	$(PERL_FILES)
 
 all: 
 

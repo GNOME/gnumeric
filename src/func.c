@@ -145,7 +145,7 @@ function_iterate_argument_values (Sheet                   *sheet,
 }
 
 GPtrArray *
-function_categories_get ()
+function_categories_get (void)
 {
 	return categories;
 }
@@ -155,7 +155,7 @@ tokenized_help_new (FunctionDefinition *fd)
 {
 	TokenizedHelp *tok;
 
-	g_return_if_fail (fd != NULL);
+	g_return_val_if_fail (fd != NULL, NULL);
 
 	tok = g_new (TokenizedHelp, 1);
 

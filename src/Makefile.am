@@ -150,7 +150,8 @@ gnumeric_LDADD = 			\
 	$(GUILE_LIBS)			\
 	$(INTLLIBS)
 
-gnumeric_corba_LDADD = $(gnumeric_LDADD) $(GNOMEGNORBA_LIBS)
+gnumeric_corba_LDADD = $(gnumeric_LDADD) $(GNOMEGNORBA_LIBS) $(BONOBO_LIBS)
+
 
 wc:
 	wc -l $(gnumeric_SOURCES)

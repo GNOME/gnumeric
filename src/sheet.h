@@ -1,6 +1,10 @@
 #ifndef GNUMERIC_SHEET_H
 #define GNUMERIC_SHEET_H
 
+#ifdef ENABLE_BONOBO
+#    include <bonobo/gnome-container.h>
+#endif
+
 #include "solver.h"
 
 #define SHEET_MAX_ROWS (16 * 1024)
@@ -72,8 +76,10 @@ typedef struct {
 
 	void       *toolbar;
 
-#ifdef HAVE_BONOBO
+#ifdef ENABLE_BONOBO
+	/* A GnomeContainer */
 	GnomeContainer *gnome_container;
+	
 #endif
 } Workbook;
 
@@ -149,7 +155,7 @@ typedef struct {
         /* Solver parameters */
         SolverParameters solver_parameters;
 
-#ifdef HAVE_BONOBO
+#ifdef ENABLE_BONOBO
 	GListClientSite *client_site_list;
 #endif
 } Sheet;
@@ -368,6 +374,11 @@ char        *cellref_name                 (CellRef *cell_ref,
 					   Sheet *eval_sheet,
 					   int eval_col,
 					   int eval_row);
+
+/*
+ * Sheet, Bobobo objects
+ */
+void sheet_insert_object (Sheet *sheet, char *repoid);
 
 /*
  * Workbook

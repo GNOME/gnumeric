@@ -101,19 +101,19 @@ order_box_get_text(ORDER_BOX * this, int *asc)
 typedef struct {
 	int col_offset;
 	int asc;
-} CLAUSE_DATA;
+} ClauseData;
 
 typedef struct {
 	Sheet *sheet;
-	CLAUSE_DATA *clauses;
+	ClauseData *clauses;
 	Cell **cells;
 	int num_clause;
 	int col;
 	int row;
-} SORT_DATA;
+} SortData;
 
 static int
-compare_values (const SORT_DATA * ain, const SORT_DATA * bin, int clause)
+compare_values (const SortData * ain, const SortData * bin, int clause)
 {
 	Cell *ca, *cb;
 	Value *a, *b;
@@ -131,10 +131,10 @@ compare_values (const SORT_DATA * ain, const SORT_DATA * bin, int clause)
 	else
 		b = cb->value;
 
-	switch (a->type) {
+	switch (a->type){
 	case VALUE_FLOAT:
 	case VALUE_INTEGER:
-		switch (b->type) {
+		switch (b->type){
 		case VALUE_FLOAT:
 		case VALUE_INTEGER:
 			{
@@ -155,7 +155,7 @@ compare_values (const SORT_DATA * ain, const SORT_DATA * bin, int clause)
 		}
 		break;
 	default:{
-			switch (b->type) {
+			switch (b->type){
 			case VALUE_FLOAT:
 			case VALUE_INTEGER:
 				ans = 1;
@@ -193,29 +193,32 @@ compare_values (const SORT_DATA * ain, const SORT_DATA * bin, int clause)
 	return fans;
 }
 
-static int qsort_func(const SORT_DATA * a, const SORT_DATA * b)
+static int
+qsort_func (const void *a, const void *b)
 {
-	return compare_values(a, b, 0);
+	return compare_values (a, b, 0);
 }
 
-static void sort_cell_range(Sheet * sheet, CLAUSE_DATA * clauses, int num_clause, int start_col, int start_row,
-			    int end_col, int end_row)
+static void
+sort_cell_range (Sheet * sheet, ClauseData * clauses, int num_clause, int start_col, int start_row,
+		 int end_col, int end_row)
 {
-	SORT_DATA *array;
+	SortData *array;
 	int lp, height, width, lp2;
 
 	height = end_row - start_row + 1;
 	width = end_col - start_col + 1;
-	array = g_new(SORT_DATA, height);
+	array = g_new(SortData, height);
 
-	for (lp = 0; lp < height; lp++) {
-		array[lp].sheet = sheet;
-		array[lp].clauses = clauses;
-		array[lp].num_clause = num_clause;
-		array[lp].col = start_col;
-		array[lp].row = start_row + lp;
-		array[lp].cells = g_new(Cell *, width);
-		for (lp2 = 0; lp2 < width; lp2++) {
+	for (lp = 0; lp < height; lp++){
+		array [lp].sheet = sheet;
+		array [lp].clauses = clauses;
+		array [lp].num_clause = num_clause;
+		array [lp].col = start_col;
+		array [lp].row = start_row + lp;
+		array [lp].cells = g_new(Cell *, width);
+
+		for (lp2 = 0; lp2 < width; lp2++){
 			Cell *cell;
 			cell = sheet_cell_get(sheet,
 					start_col + lp2, start_row + lp);
@@ -225,12 +228,12 @@ static void sort_cell_range(Sheet * sheet, CLAUSE_DATA * clauses, int num_clause
 		}
 	}
 
-	qsort(array, height, sizeof(SORT_DATA), qsort_func);
+	qsort(array, height, sizeof(SortData), qsort_func);
 /*             (int *(const void *, const void *))qsort_func); */
 	{
 		Cell *cell;
-		for (lp = 0; lp < height; lp++) {
-			for (lp2 = 0; lp2 < width; lp2++) {
+		for (lp = 0; lp < height; lp++){
+			for (lp2 = 0; lp2 < width; lp2++){
 				cell = array[lp].cells[lp2];
 /*                              printf ("%s\n", cell?value_string(cell->value):"Null"); */
 				if (cell)
@@ -271,7 +274,7 @@ static void add_clause(GtkWidget * widget, SORT_FLOW * sf)
 
 static void del_clause(GtkWidget * widget, SORT_FLOW * sf)
 {
-	if (sf->num_clause > 1) {
+	if (sf->num_clause > 1){
 		sf->num_clause--;
 		order_box_remove(sf->clauses[sf->num_clause]);
 		order_box_destroy(sf->clauses[sf->num_clause]);
@@ -300,13 +303,13 @@ void dialog_cell_sort(Workbook * inwb, Sheet * sheet)
 
 	if (!sheet_selection_first_range(sheet, &base_col, &base_row,
 					 &start_col, &start_row,
-					 &end_col, &end_row)) {
+					 &end_col, &end_row)){
 		gnumeric_notice(inwb, GNOME_MESSAGE_BOX_ERROR,
 				_("Selection must be a single range"));
 		return;
 	}
 	if (end_row >= SHEET_MAX_ROWS - 2 ||
-	    end_col >= SHEET_MAX_COLS - 2) {
+	    end_col >= SHEET_MAX_COLS - 2){
 		gnumeric_notice(inwb, GNOME_MESSAGE_BOX_ERROR,
 				_("Selection must be a finite range"));
 		return;
@@ -332,7 +335,7 @@ void dialog_cell_sort(Workbook * inwb, Sheet * sheet)
 		gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(sort_flow.dialog)->vbox),
 				   sort_flow.clause_box, FALSE, TRUE, 0);
 
-		for (lp = 0; lp < sort_flow.num_clause; lp++) {
+		for (lp = 0; lp < sort_flow.num_clause; lp++){
 			sort_flow.clauses[lp] =
 			    order_box_new(sort_flow.clause_box,
 					lp ? _("then by") : _("sort by"),
@@ -361,23 +364,23 @@ void dialog_cell_sort(Workbook * inwb, Sheet * sheet)
 	do {			/* Run the dialog */
 		sort_flow.retry = 0;
 		sort_flow.force_redisplay = 0;
-		if (gnome_dialog_run(GNOME_DIALOG(sort_flow.dialog)) == 0) {
-			CLAUSE_DATA *array;
+		if (gnome_dialog_run(GNOME_DIALOG(sort_flow.dialog)) == 0){
+			ClauseData *array;
 
-			array = g_new(CLAUSE_DATA, sort_flow.num_clause);
-			for (lp = 0; lp < sort_flow.num_clause; lp++) {
+			array = g_new(ClauseData, sort_flow.num_clause);
+			for (lp = 0; lp < sort_flow.num_clause; lp++){
 				int col;
 				char *txt = order_box_get_text(sort_flow.clauses[lp],
 							 &array[lp].asc);
-				if (strlen(txt)) {
+				if (strlen(txt)){
 					col = col_from_name(txt);
-					if (col < start_col || col > end_col) {
+					if (col < start_col || col > end_col){
 						gnumeric_notice(sort_flow.wb, GNOME_MESSAGE_BOX_ERROR,
 								_("Column must be within range"));
 						sort_flow.retry = 1;
 					}
 					array[lp].col_offset = col - start_col;
-				} else if (lp <= 0) {
+				} else if (lp <= 0){
 					gnumeric_notice(sort_flow.wb, GNOME_MESSAGE_BOX_ERROR,
 					_("First column must be valid"));
 					sort_flow.retry = 1;

@@ -100,7 +100,7 @@ dependency_hash_init (void)
  * We compute the location from cell->row->pos and cell->col->pos
  */
 static void
-add_cell_range_deps (Cell *cell, CellRef *a, CellRef *b)
+add_cell_range_deps (Cell *cell, const CellRef *a, const CellRef *b)
 {
 	DependencyRange range, *result;
 	int col = cell->col->pos;

@@ -5,13 +5,14 @@ AM_INIT_AUTOMAKE(gnumeric,0.23)
 AM_MAINTAINER_MODE
 AM_ACLOCAL_INCLUDE(macros)
 
-GNOME_INIT
 AC_ISC_POSIX
 AC_PROG_CC
 AC_STDC_HEADERS
 AC_PROG_YACC
 AC_ARG_PROGRAM
 AM_PROG_LIBTOOL
+
+GNOME_INIT
 
 ## this should come after `AC_PROG_CC'
 GNOME_COMPILE_WARNINGS
@@ -112,6 +113,11 @@ if $python_val; then
 	  fi
 fi
 AM_CONDITIONAL(WITH_PYTHON, $python_val)
+
+dnl ******************************
+dnl Check for Bonobo
+dnl ******************************
+AM_PATH_BONOBO(0.1.0, [AC_DEFINE(ENABLE_BONOBO)])
 
 AC_OUTPUT([
 gnumeric.spec

@@ -1189,7 +1189,7 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 }
 
 void
-cell_get_abs_col_row (CellRef *cell_ref, int eval_col, int eval_row, int *col, int *row)
+cell_get_abs_col_row (const CellRef *cell_ref, int eval_col, int eval_row, int *col, int *row)
 {
 	g_return_if_fail (cell_ref != NULL);
 

@@ -1,9 +1,6 @@
 #ifndef GNUMERIC_SOLVER_H
 #define GNUMERIC_SOLVER_H
 
-#include "sheet.h"
-
-
 typedef enum {
         SolverMinimize, SolverMaximize, SolverEqualTo
 } SolverProblemType;

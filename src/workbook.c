@@ -1428,7 +1428,7 @@ workbook_new (void)
 	gtk_widget_show_all (wb->table);
 
 #ifdef ENABLE_BONOBO
-	wb->container = GNOME_CONTAINER (gnome_container_new ());
+	wb->gnome_container = GNOME_CONTAINER (gnome_container_new ());
 #endif
 	return wb;
 }

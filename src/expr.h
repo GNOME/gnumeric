@@ -140,7 +140,7 @@ extern ExprTree *parser_result;
 extern void     *parser_sheet;
 extern int       parser_col, parser_row;
 
-void        cell_get_abs_col_row (CellRef *cell_ref,
+void        cell_get_abs_col_row (const CellRef *cell_ref,
 				  int eval_col, int eval_row,
 				  int *col, int *row);
 

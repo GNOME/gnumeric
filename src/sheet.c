@@ -3437,13 +3437,13 @@ sheet_lookup_by_name (Sheet *base, char *name)
 void
 sheet_insert_object (Sheet *sheet, char *repoid)
 {
-	GnomeClientSite *client;
+	GnomeClientSite *client_site;
 	GnomeObject *object_server;
 	GList *l;
 	
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (repoid != NULL);
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (repoid != NULL);
 
 	object_server = gnome_object_activate_with_repo_id (NULL, repoid, 0, NULL);
 	if (!object_server){
@@ -3451,16 +3451,16 @@ sheet_insert_object (Sheet *sheet, char *repoid)
 
 		msg = g_strdup_printf (_("I was not able to activate object %s"), repoid);
 		
-		gnumeric_notice (sheet->wb, GNOME_MESSAGE_BOX_ERROR, msg);
+		gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR, msg);
 		g_free (msg);
 		return;
 	}
 	
-	client_site = gnome_client_site_new (sheet->wb->gnome_container);
-	gnome_container_add (sheet->wb->container, client_site);
+	client_site = gnome_client_site_new (sheet->workbook->gnome_container);
+	gnome_container_add (sheet->workbook->gnome_container, GNOME_OBJECT (client_site));
 
 	if (!gnome_client_site_bind_component (client_site, object_server)){
-		gnumeric_notice (sheet->wb, GNOME_MESSAGE_BOX_ERROR,
+		gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR,
 				 _("I was unable to the bind object"));
 		gtk_object_unref (GTK_OBJECT (object_server));
 		gtk_object_unref (GTK_OBJECT (client_site));
@@ -3472,7 +3472,7 @@ sheet_insert_object (Sheet *sheet, char *repoid)
 	for (l = sheet->sheet_views; l; l = g_list_next (l)){
 		SheetView *sheet_view = l->data;
 
-		sheet_view_object_add (sheet_view, object_server);
+		sheet_view_insert_object (sheet_view, object_server);
 	}
 }
 

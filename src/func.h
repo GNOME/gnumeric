@@ -69,7 +69,7 @@ typedef struct {
 	FunctionDefinition *functions;
 } FunctionCategory;
 
-extern GPtrArray *function_categories_get ();
+GPtrArray *function_categories_get (void);
 
 typedef struct {
 	GPtrArray *sections ;
