@@ -32,11 +32,13 @@ dialog_about (WorkbookControlGUI *wbcg)
 		N_("Frank Chiulli, OLE support."),
 		N_("Kenneth Christiansen, i18n, misc stuff."),
 		N_("Zbigniew Chyla, plugin system, i18n."),
+		N_("J.H.M. Dassen (Ray), debian packaging."),
 		N_("Tom Dyas, plugin support."),
 		/* if your charset allows it, replace the 'o' of 'Gergo'
 		 * with 'odoubleacute' (U0151) and the 'E' of 'Erdi'
 		 * with 'Eacute' (U00C9) */
 		N_("Gergo Erdi, Gnumeric hacker."),
+		N_("John Gotts, rpm packaging."),
 		N_("Andreas J. Guelzow, statistics stuff."),
 		N_("Jon K. Hellan, Gnumeric hacker."),
 		N_("Ross Ihaka, special functions."),
@@ -46,6 +48,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 		N_("Adrian Likins, documentation, debugging."),
 		N_("Takashi Matsuda, original text plugin."),
 		N_("Michael Meeks, Excel and OLE2 importing."),
+		N_("Lutz Muller, SheetObject improvements"),
 		N_("Federico M. Quintero, canvas support."),
 		N_("Mark Probst, Guile support."),
 		N_("Rasca, HTML, troff, LaTeX exporters."),

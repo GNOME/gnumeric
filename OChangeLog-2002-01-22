@@ -1,3 +1,13 @@
+2001-08-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-about.c (dialog_about) : update.
+	* AUTHORS : update.
+
+2001-08-13    J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.ac: Test whether _USE_BSD is needed for M_PI and caddr_t.
+	Made --without-evolution work as intended by fixing two tests.
+
 2001-08-14  Ariel Rios  <ariel@linuxppc.org>
 
 	* src/main.c (main): Remove guile stuff. We no longer need

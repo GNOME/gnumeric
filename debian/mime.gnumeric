@@ -1,1 +1,0 @@
-application/vnd.ms-excel; gnumeric '%s'; description="MS Excel spreadsheet"; test=test "$DISPLAY"

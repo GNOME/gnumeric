@@ -1,2 +1,4 @@
 ?package(gnumeric):needs=X11 section=Apps/Math hints="Gnome,Spreadsheets" \
   title="gnumeric" command="/usr/bin/gnumeric"
+?package(gnumeric):needs=X11 section=Apps/Math hints="Gnome,Spreadsheets" \
+  title="gnumeric" command="/usr/bin/gnumeric"
