@@ -1,5 +1,12 @@
 2003-09-15  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-label.c (gog_label_view_size_request) : empty labels are
+	  of size 0,0 not 1,1
+
+	* graph/gog-view.c (gog_view_size_allocate_real) : don't pad if the
+	  child is 0 sized.
+	(gog_view_size_child_request) : ditto.
+
 	* graph/gog-axis.c (gog_axis_num_markers) : we can't use the max_val
 	  as a fallback if there is no data defining it.
 

@@ -226,27 +226,39 @@ gog_view_size_allocate_real (GogView *view, GogViewAllocation const *allocation)
 			tmp = res;
 
 			if (pos & GOG_POSITION_N) {
-				res.y += req.h + pad_h;
-				res.h -= req.h + pad_h;
+				if (req.h > 0) {
+					res.y += req.h + pad_h;
+					res.h -= req.h + pad_h;
+				} else
+					req.h = 0;
 				tmp.h  = req.h;
 				vertical = FALSE;
 			} else if (pos & GOG_POSITION_S) {
-				res.h -= req.h + pad_h;
-				tmp.y  = res.y + res.h + pad_h;
+				if (req.h > 0) {
+					res.h -= req.h + pad_h;
+					tmp.y  = res.y + res.h + pad_h;
+				} else
+					req.h = 0;
 				tmp.h  = req.h;
 				vertical = FALSE;
 			} 
 
 			if (pos & GOG_POSITION_E) {
-				res.w -= req.w + pad_w;
-				tmp.x  = res.x + res.w + pad_w;
+				if (req.w > 0) {
+					res.w -= req.w + pad_w;
+					tmp.x  = res.x + res.w + pad_w;
+				} else
+					req.w = 0;
 				tmp.w  = req.w;
 				/* For NE & NW only alignment fill makes sense */
 				if (pos & (GOG_POSITION_N|GOG_POSITION_S))
 					pos = GOG_POSITION_ALIGN_FILL;
 			} else if (pos & GOG_POSITION_W) {
-				res.x += req.w + pad_w;
-				res.w -= req.w + pad_w;
+				if (req.w > 0) {
+					res.x += req.w + pad_w;
+					res.w -= req.w + pad_w;
+				} else
+					req.w = 0;
 				tmp.w  = req.w;
 				/* For NE & NW only alignment fill makes sense */
 				if (pos & (GOG_POSITION_N|GOG_POSITION_S))
@@ -543,14 +555,16 @@ gog_view_size_child_request (GogView *view,
 			/* Dead simple */
 			gog_view_size_request (child, &req);
 
-			if (pos & (GOG_POSITION_N|GOG_POSITION_S))
-				res->h += req.h + pad_h;
-			else if (res->h < req.h)
+			if (pos & (GOG_POSITION_N|GOG_POSITION_S)) {
+				if (req.h > 0)
+					res->h += req.h + pad_h;
+			} else if (res->h < req.h)
 				res->h = req.h;
 
-			if (pos & (GOG_POSITION_E|GOG_POSITION_W))
-				res->w += req.w + pad_w;
-			else if (res->w < req.w)
+			if (pos & (GOG_POSITION_E|GOG_POSITION_W)) {
+				if (req.w > 0)
+					res->w += req.w + pad_w;
+			} else if (res->w < req.w)
 				res->w = req.w;
 
 		} else if (pos != GOG_POSITION_SPECIAL)

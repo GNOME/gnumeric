@@ -189,7 +189,7 @@ gog_label_view_size_request (GogView *v, GogViewRequisition *req)
 	double outline = gog_renderer_line_size (
 		v->renderer, l->base.style->outline.width);
 
-	req->w = req->h = 1.;
+	req->w = req->h = 0.;
 	if (l->text.data != NULL) {
 		char const *text = go_data_scalar_get_str (GO_DATA_SCALAR (l->text.data));
 		if (text != NULL) {
