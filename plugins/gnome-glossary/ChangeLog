@@ -1,0 +1,4 @@
+2001-03-05  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* Makefile.am, plugin.xml, glossary-po-header, gnome_glossary_py:
+	New plugin, Gnome Glossary .po exporter (sample Python plugin).

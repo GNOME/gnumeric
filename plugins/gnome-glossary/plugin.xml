@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<gnumeric_plugin_group>
+<plugin id="Gnumeric_GnomeGlossary">
+	<information name="Gnome Glossary" description="It provides support for saving Gnome Glossary in .po files."/>
+	<loader type="python">
+		<attribute name="module_name" value="gnome_glossary"/>
+	</loader>
+	<services>
+		<service type="file_saver" id="po" file_extension="po" format_level="auto">
+			<information description="Gnome Glossary PO file format"/>
+		</service>
+	</services>
+</plugin>
+</gnumeric_plugin_group>
