@@ -1,3 +1,38 @@
+2001-04-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cellspan.c (cell_calc_span) : fix chema's spanning problem.
+
+	* src/workbook-control-gui.c (workbook_menu_data) : Add an icon for
+	  the sort menu item.
+
+2001-04-9  Jody Goldberg <jgoldberg@home.com>
+
+	s/cmd_hide_selection_colrow/cmd_colrow_hide_selection/
+
+	* src/commands.c (cmd_colrow_outline_change) : new wrapper for
+	  colrow_hide that handled outline changes.
+
+	* src/workbook-control-gui.c (cb_insert_{cols,rows}) : cancel edit.
+	(cb_select_auto_expr) : return a value.
+
+	* src/colrow.c (cb_col_row_visibility) : Use get rather than fetch.
+	(colrow_find_outline_bound) : new function.
+	(cb_colrow_visibility) : turn this into a wrapper for.
+	(colrow_visibility) : this, and add honour_collapse flag.
+	  invert the search to go fro mthe end to the start in preparation for
+	  supporting the honour_collapse flag.  Insert the items into a sorted
+	  list in case we want to merge them some day.
+	(colrow_get_outline_toggle) : use new routine here too.
+
+2001-04-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-bar.c (item_bar_event) : Doh!  The outline events are
+	  controled by the minor coordinate.
+
+2001-04-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/main.c (gnumeric_main) : shut plugins down first.
+
 2001-04-04  Morten Welinder  <terra@diku.dk>
 
 	* src/style.c (font_init): Improve error message.  Constify.

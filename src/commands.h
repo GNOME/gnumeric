@@ -55,8 +55,10 @@ gboolean cmd_clear_selection	(WorkbookControl *wbc, Sheet *sheet,
 
 gboolean cmd_autoformat         (WorkbookControl *wbc, Sheet *sheet, FormatTemplate *ft);
 
-gboolean cmd_hide_selection_colrow (WorkbookControl *wbc, Sheet *sheet,
+gboolean cmd_colrow_hide_selection (WorkbookControl *wbc, Sheet *sheet,
 				    gboolean is_cols, gboolean visible);
+gboolean cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
+				    gboolean is_cols, int index, int depth);
 
 gboolean cmd_merge_cells	(WorkbookControl *wbc, Sheet *sheet,
 				 GList const *selection);

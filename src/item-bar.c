@@ -19,6 +19,7 @@
 #include "gnumeric-type-util.h"
 #include "gnumeric-util.h"
 #include "parse-util.h"
+#include "commands.h"
 
 /* The signals we emit */
 enum {
@@ -720,7 +721,8 @@ outline_button_press (ItemBar const *ib, int element, int pixel)
 
 	step = pixel / inc;
 
-	printf ("%d @ %d\n", element+1, step);
+	cmd_colrow_outline_change (WORKBOOK_CONTROL (ib->scg->wbcg), sheet,
+				   ib->is_col_header, element, step);
 	return TRUE;
 }
 
@@ -734,7 +736,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 	GnumericSheet * const gsheet = GNUMERIC_SHEET (item_bar->scg->canvas);
 	gboolean const is_cols = item_bar->is_col_header;
 	double const zoom = sheet->last_zoom_factor_used;
-	int pos, start, element, x, y;
+	int pos, other_pos, start, element, x, y;
 
 	/* NOTE :
 	 * No need to map coordinates since we do the zooming of the item bars manually
@@ -830,12 +832,18 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		scg_mode_edit (item_bar->scg);
 
 		gnome_canvas_w2c (canvas, e->button.x, e->button.y, &x, &y);
-		pos = (is_cols) ? x : y;
+		if (is_cols) {
+			pos = x;
+			other_pos = y;
+		} else {
+			pos = y;
+			other_pos = x;
+		}
 		cri = is_pointer_on_division (item_bar, pos, &start, &element);
 		if (element < 0)
 			return FALSE;
-		if (pos < item_bar->indent)
-			return outline_button_press (item_bar, element, pos);
+		if (other_pos < item_bar->indent)
+			return outline_button_press (item_bar, element, other_pos);
 
 		if (e->button.button == 3) {
 			/* If the selection does not contain the current row/col

@@ -76,15 +76,18 @@ void		 colrow_restore_sizes_group	(Sheet *sheet, gboolean const is_cols,
 						 int old_size);
 
 /* Support for Col/Row visibility */
-void		 colrow_set_visibility		(Sheet *sheet, gboolean const is_col,
-						 gboolean const visible,
-						 int first, int last);
+int		 colrow_find_outline_bound	(Sheet const *sheet, gboolean is_cols,
+						 int index, int depth, gboolean inc);
+ColRowVisList	*colrow_get_outline_toggle	(Sheet const *sheet, gboolean is_cols,
+						 gboolean visible, int first, int last);
+ColRowVisList	*colrow_get_visiblity_toggle	(Sheet *sheet, gboolean is_cols,
+						 gboolean visible);
+void		 colrow_set_visibility		(Sheet *sheet, gboolean is_cols,
+						 gboolean visible, int first, int last);
 
-ColRowVisList	*colrow_get_visiblity_toggle	(Sheet *sheet, gboolean const is_col,
-						 gboolean const visible);
 ColRowVisList	*colrow_vis_list_destroy	(ColRowVisList *list);
-void		 colrow_set_visibility_list	(Sheet *sheet, gboolean const is_col,
-						 gboolean const visible,
+void		 colrow_set_visibility_list	(Sheet *sheet, gboolean is_col,
+						 gboolean visible,
 						 ColRowVisList *list);
 
 /* Misc */

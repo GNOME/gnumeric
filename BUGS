@@ -8,9 +8,22 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-- Figure out what to do in src/style.c now that gnome-print installs a
-  fontmap2 file.
+    - rename gnumeric.xml
 
+    - defining file patterns in plugin spec overrides 'has_probe' flag silently.
+
+    - pasting with singleton destination circumvents checks for arrays and
+      merged cells.
+
+    - Get the i18n XL patches verified and in
+
+    - Fix XL named expr import for sheet local names
+
+    - #52753 Figure out the GAL colour combo problem that activates all
+      workbooks together when only 1 changes.
+
+    - Figure out what to do in src/style.c now that gnome-print installs a
+      fontmap2 file.
 
 Long term breakage
 ------------------

@@ -411,55 +411,91 @@ rows_height_update (Sheet *sheet, Range const * range)
 }
 /*****************************************************************************/
 
-struct col_row_visiblity
+struct colrow_visiblity
 {
 	gboolean is_cols, visible;
 	ColRowVisList *elements;
 };
 
-static void
-cb_col_row_visibility (Sheet *sheet, Range const *r,
-		       void *closure)
+static gint
+colrow_index_cmp (ColRowIndex const *a, ColRowIndex const *b)
 {
-	struct col_row_visiblity * const dat = closure;
+	/* We can be very simplistic here because the ranges never overlap */
+	return b->first - a->first;
+}
+
+static void
+colrow_visibility (Sheet const *sheet, struct colrow_visiblity * const dat,
+		   int first, int last, gboolean honour_collapse)
+{
+	int i;
 	gboolean const visible = dat->visible;
-	ColRowInfo * (*fetch) (Sheet *sheet, int pos);
-	int i, j, end;
+	ColRowInfo * (*get) (Sheet const *sheet, int pos) = (dat->is_cols)
+		? &sheet_col_get : &sheet_row_get;
 
-	if (dat->is_cols) {
-		i = r->start.col;
-		end = r->end.col;
-		fetch = &sheet_col_fetch;
-	} else {
-		i = r->start.row;
-		end = r->end.row;
-		fetch = &sheet_row_fetch;
-	}
+	/* Find the end of a segment that will be toggled */
+	for (i = last; i>=first; --i) {
+		int j;
+		ColRowIndex *res;
+		ColRowInfo const *cri = (*get) (sheet, i);
 
-	/* Find the begining of a segment that will be toggled */
-	for (;i <= end ; ++i) {
-		ColRowInfo *cri = (*fetch) (sheet, i);
-		if ((visible == 0) != (cri->visible == 0)) {
-			ColRowIndex *res = g_new(ColRowIndex, 1);
+		if (cri == NULL) {
+			if (visible != 0)
+				continue;
+		} else if ((visible != 0) == (cri->visible != 0))
+			continue;
 
-			/* Find the end */
-			for (j = i+1; j <= end ; ++j) {
-				ColRowInfo * cri = (*fetch) (sheet, j);
-				if ((visible == 0) == (cri->visible == 0))
+		/* Find the begining */
+		for (j = i-1; j >= first ; --j) {
+			ColRowInfo const * cri = (*get) (sheet, j);
+
+			if (cri == NULL) {
+				if (visible != 0)
 					break;
-			}
-			res->first = i;
-			res->last = j - 1;
-
-#if 0
-			printf ("%d %d\n", res->index, res->count);
-#endif
-			dat->elements = g_slist_prepend (dat->elements, res);
-			i = j;
+			} else if ((visible != 0) == (cri->visible != 0))
+				break;
 		}
+		res = g_new (ColRowIndex, 1);
+		res->first = j + 1;
+		res->last = i;
+#if 0
+		printf ("%d %d\n", res->index, res->count);
+#endif
+		dat->elements = g_slist_insert_sorted (dat->elements, res,
+					(GCompareFunc)colrow_index_cmp);
+		i = j;
 	}
 }
 
+ColRowVisList *
+colrow_get_outline_toggle (Sheet const *sheet, gboolean is_cols, gboolean visible,
+			   int first, int last)
+{
+	struct colrow_visiblity closure;
+	closure.is_cols = is_cols;
+	closure.visible = visible;
+	closure.elements = NULL;
+
+	colrow_visibility (sheet, &closure, first, last, TRUE);
+	return closure.elements;
+}
+
+static void
+cb_colrow_visibility (Sheet *sheet, Range const *r,
+		       void *closure)
+{
+	struct colrow_visiblity * const dat = (struct colrow_visiblity *)closure;
+	int first, last;
+
+	if (dat->is_cols) {
+		first = r->start.col;
+		last = r->end.col;
+	} else {
+		first = r->start.row;
+		last = r->end.row;
+	}
+	colrow_visibility (sheet, dat, first, last, FALSE);
+}
 /*
  * colrow_get_visiblity_toggle :
  * @sheet : The sheet whose selection we are interested in.
@@ -468,17 +504,20 @@ cb_col_row_visibility (Sheet *sheet, Range const *r,
  *
  * Searches the selection list and generates a list of index,count
  * pairs of row/col ranges that need to be hidden or unhiden.
+ *
+ * NOTE : leave sheet non-const until we have a const version of
+ *        selection_apply.
  */
 ColRowVisList *
-colrow_get_visiblity_toggle (Sheet *sheet, gboolean const is_cols,
-			     gboolean const visible)
+colrow_get_visiblity_toggle (Sheet *sheet, gboolean is_cols,
+			     gboolean visible)
 {
-	struct col_row_visiblity closure;
+	struct colrow_visiblity closure;
 	closure.is_cols = is_cols;
 	closure.visible = visible;
 	closure.elements = NULL;
 
-	selection_apply (sheet, &cb_col_row_visibility, FALSE, &closure);
+	selection_apply (sheet, &cb_colrow_visibility, FALSE, &closure);
 
 	return closure.elements;
 }
@@ -515,17 +554,48 @@ colrow_set_visibility_list (Sheet *sheet, gboolean const is_cols,
 				       info->first, info->last);
 	}
 
-	for (ptr = list; ptr != NULL ; ptr = ptr->next) {
-		int min_col, max_col;
-		ColRowIndex *info = ptr->data;
-		sheet_regen_adjacent_spans (sheet,
-					    info->first, 0,
-					    info->last, SHEET_MAX_ROWS-1,
-					    &min_col, &max_col);
-	}
+	if (is_cols)
+		for (ptr = list; ptr != NULL ; ptr = ptr->next) {
+			int min_col, max_col;
+			ColRowIndex *info = ptr->data;
+			sheet_regen_adjacent_spans (sheet,
+				info->first, 0,
+				info->last, SHEET_MAX_ROWS-1,
+				&min_col, &max_col);
+		}
 
 	sheet_redraw_all (sheet);
 	sheet_redraw_headers (sheet, TRUE, TRUE, NULL);
+}
+
+/**
+ * colrow_find_outline_bound :
+ *
+ * find the next/prev col/row at the designated depth starting from the
+ * supplied @index.
+ */
+int
+colrow_find_outline_bound (Sheet const *sheet, gboolean is_cols,
+			   int index, int depth, gboolean inc)
+{
+	ColRowInfo * (*get) (Sheet const *sheet, int pos) = is_cols
+		? &sheet_col_get : &sheet_row_get;
+	int const max = is_cols ? SHEET_MAX_COLS : SHEET_MAX_ROWS;
+	int const step = inc ? 1 : -1;
+
+	while (1) {
+		ColRowInfo const *cri;
+		int const next = index + step;
+		
+		if (next < 0 || next >= max)
+			return index;
+		cri = (*get) (sheet, next);
+		if (cri == NULL || cri->outline_level < depth)
+			return index;
+		index = next;
+	}
+
+	return index;
 }
 
 /**
@@ -539,8 +609,8 @@ colrow_set_visibility_list (Sheet *sheet, gboolean const is_cols,
  *               there are no more visible cols/rows left.
  **/
 int
-colrow_find_adjacent_visible (Sheet *sheet, gboolean const is_col, int const index,
-			      gboolean forward)
+colrow_find_adjacent_visible (Sheet *sheet, gboolean const is_col,
+			      int const index, gboolean forward)
 {
 	int const max    = is_col ? SHEET_MAX_COLS : SHEET_MAX_ROWS;
 	int i            = index; /* To avoid trouble at edges */
@@ -577,8 +647,8 @@ colrow_find_adjacent_visible (Sheet *sheet, gboolean const is_col, int const ind
  * Change the visibility of the selected range of contiguous rows/cols.
  */
 void
-colrow_set_visibility (Sheet *sheet, gboolean const is_cols, gboolean const visible,
-		       int first, int last)
+colrow_set_visibility (Sheet *sheet, gboolean const is_cols,
+		       gboolean const visible, int first, int last)
 {
 	int i, prev_outline = 0;
 	gboolean prev_changed = FALSE;

@@ -5,6 +5,7 @@ Jody:
 	* Restore horizontal FILL alignment.
 	* Fix array intercept checking.
 	* Some XL import improvement when parsing objects.
+	* Some fine tuning to improve start and exit times.
 
 Morten:
 	* Make search-and-destroy work better on comments.

@@ -732,18 +732,24 @@ wbcg_menu_state_enable_insert (WorkbookControl *wbc, Sheet const *sheet,
 
 #ifndef ENABLE_BONOBO
 	if (col)
-		change_menu_sensitivity (wbcg->menu_item_insert_cols, sheet->priv->enable_insert_cols);
+		change_menu_sensitivity (wbcg->menu_item_insert_cols,
+					 sheet->priv->enable_insert_cols);
 	if (row)
-		change_menu_sensitivity (wbcg->menu_item_insert_rows, sheet->priv->enable_insert_rows);
+		change_menu_sensitivity (wbcg->menu_item_insert_rows,
+					 sheet->priv->enable_insert_rows);
 	if (cell)
-		change_menu_sensitivity (wbcg->menu_item_insert_cells, sheet->priv->enable_insert_cells);
+		change_menu_sensitivity (wbcg->menu_item_insert_cells,
+					 sheet->priv->enable_insert_cells);
 #else
 	if (col)
-		change_menu_sensitivity (wbcg, "/commands/InsertColumns", sheet->priv->enable_insert_cols);
+		change_menu_sensitivity (wbcg, "/commands/InsertColumns",
+					 sheet->priv->enable_insert_cols);
 	if (row)
-		change_menu_sensitivity (wbcg, "/commands/InsertRows", sheet->priv->enable_insert_rows);
+		change_menu_sensitivity (wbcg, "/commands/InsertRows",
+					 sheet->priv->enable_insert_rows);
 	if (cell)
-		change_menu_sensitivity (wbcg, "/commands/InsertCells", sheet->priv->enable_insert_cells);
+		change_menu_sensitivity (wbcg, "/commands/InsertCells",
+					 sheet->priv->enable_insert_cells);
 #endif
 }
 
@@ -1491,6 +1497,8 @@ cb_insert_rows (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	Range *ss;
 	int rows;
 
+	workbook_finish_editing (wbcg, FALSE);
+
 	/* TODO : No need to check simplicty.  XL applies for each
 	 * non-discrete selected region, (use selection_apply)
 	 * we do need to check for arrays and merged cells 
@@ -1516,6 +1524,8 @@ cb_insert_cols (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	Range *ss;
 	int cols;
+
+	workbook_finish_editing (wbcg, FALSE);
 
 	/* TODO : No need to check simplicty.  XL applies for each
 	 * non-discrete selected region, (use selection_apply)
@@ -2271,9 +2281,9 @@ static GnomeUIInfo workbook_menu_tools [] = {
 
 /* Data menu */
 static GnomeUIInfo workbook_menu_data [] = {
-	GNOMEUIINFO_ITEM_NONE (N_("_Sort..."),
-		N_("Sort the selected cells"),
-		cb_data_sort),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Sort"),
+		N_("Sorts the selected region."),
+		cb_data_sort, "Gnumeric_SortAscending"),
 	GNOMEUIINFO_ITEM_NONE (N_("_Filter..."),
 		N_("Filter data with given criteria"),
 		cb_data_filter),
@@ -3064,7 +3074,7 @@ cb_auto_expr_changed (GtkWidget *item, WorkbookControlGUI *wbcg)
 		gtk_object_get_data (GTK_OBJECT (item), "expr"));
 }
 
-static void
+static gboolean
 cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, Workbook *wbcg)
 {
 	/*
@@ -3103,16 +3113,17 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, Workbook *wbcg)
 		item = gtk_menu_item_new_with_label (
 			_(quick_compute_routines [i].displayed_name));
 		gtk_object_set_data (GTK_OBJECT (item), "expr",
-				     quick_compute_routines [i].function);
+			quick_compute_routines [i].function);
 		gtk_object_set_data (GTK_OBJECT (item), "name",
-				     _(quick_compute_routines [i].displayed_name));
+			_(quick_compute_routines [i].displayed_name));
 		gtk_signal_connect (GTK_OBJECT (item), "activate",
-				    GTK_SIGNAL_FUNC (cb_auto_expr_changed), wbcg);
+			GTK_SIGNAL_FUNC (cb_auto_expr_changed), wbcg);
 		gtk_menu_append (GTK_MENU (menu), item);
 		gtk_widget_show (item);
 	}
 
 	gnumeric_popup_menu (GTK_MENU (menu), event);
+	return TRUE;
 }
 
 /* Setup the autocalc and status labels */

@@ -1819,8 +1819,8 @@ cmd_sort (WorkbookControl *wbc, SortData *data)
 
 /******************************************************************/
 
-#define CMD_HIDE_COLROW_TYPE        (cmd_hide_colrow_get_type ())
-#define CMD_HIDE_COLROW(o)          (GTK_CHECK_CAST ((o), CMD_HIDE_COLROW_TYPE, CmdHideColRow))
+#define CMD_COLROW_HIDE_TYPE        (cmd_colrow_hide_get_type ())
+#define CMD_COLROW_HIDE(o)          (GTK_CHECK_CAST ((o), CMD_COLROW_HIDE_TYPE, CmdColRowHide))
 
 typedef struct
 {
@@ -1830,21 +1830,22 @@ typedef struct
 	gboolean       is_cols;
 	gboolean       visible;
 	ColRowVisList *elements;
-} CmdHideColRow;
+} CmdColRowHide;
 
-GNUMERIC_MAKE_COMMAND (CmdHideColRow, cmd_hide_colrow);
+GNUMERIC_MAKE_COMMAND (CmdColRowHide, cmd_colrow_hide);
 
 static void
-cmd_hide_colrow_correct_selection (GnumericCommand *cmd)
+cmd_colrow_hide_correct_selection (CmdColRowHide *me)
 {
-	CmdHideColRow *me = CMD_HIDE_COLROW (cmd);
 	int x, y, index;
 	
 	/*
 	 * Make sure the selection/cursor is set to a visible row/col
 	 */
-	index = colrow_find_adjacent_visible (me->sheet, me->is_cols, me->is_cols
-					      ? me->sheet->edit_pos.col : me->sheet->edit_pos.row,
+	index = colrow_find_adjacent_visible (me->sheet, me->is_cols,
+					      me->is_cols
+					      ? me->sheet->edit_pos.col
+					      : me->sheet->edit_pos.row,
 					      TRUE);
 
 	x = me->is_cols ? me->sheet->edit_pos.row : index;
@@ -1863,9 +1864,9 @@ cmd_hide_colrow_correct_selection (GnumericCommand *cmd)
 }
 
 static gboolean
-cmd_hide_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_colrow_hide_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
-	CmdHideColRow *me = CMD_HIDE_COLROW (cmd);
+	CmdColRowHide *me = CMD_COLROW_HIDE (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -1873,15 +1874,15 @@ cmd_hide_colrow_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 				    !me->visible, me->elements);
 
 	if (me->visible == TRUE)
-		cmd_hide_colrow_correct_selection (cmd);
+		cmd_colrow_hide_correct_selection (me);
 
 	return FALSE;
 }
 
 static gboolean
-cmd_hide_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+cmd_colrow_hide_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
-	CmdHideColRow *me = CMD_HIDE_COLROW (cmd);
+	CmdColRowHide *me = CMD_COLROW_HIDE (cmd);
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
@@ -1889,30 +1890,30 @@ cmd_hide_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 				    me->visible, me->elements);
 
 	if (me->visible != TRUE)
-		cmd_hide_colrow_correct_selection (cmd);
+		cmd_colrow_hide_correct_selection (me);
 
 	return FALSE;
 }
 
 static void
-cmd_hide_colrow_destroy (GtkObject *cmd)
+cmd_colrow_hide_destroy (GtkObject *cmd)
 {
-	CmdHideColRow *me = CMD_HIDE_COLROW (cmd);
+	CmdColRowHide *me = CMD_COLROW_HIDE (cmd);
 	me->elements = colrow_vis_list_destroy (me->elements);
 	gnumeric_command_destroy (cmd);
 }
 
 gboolean
-cmd_hide_selection_colrow (WorkbookControl *wbc, Sheet *sheet,
+cmd_colrow_hide_selection (WorkbookControl *wbc, Sheet *sheet,
 			   gboolean is_cols, gboolean visible)
 {
 	GtkObject *obj;
-	CmdHideColRow *me;
+	CmdColRowHide *me;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
-	obj = gtk_type_new (CMD_HIDE_COLROW_TYPE);
-	me = CMD_HIDE_COLROW (obj);
+	obj = gtk_type_new (CMD_COLROW_HIDE_TYPE);
+	me = CMD_COLROW_HIDE (obj);
 
 	me->sheet = sheet;
 	me->is_cols = is_cols;
@@ -1924,6 +1925,63 @@ cmd_hide_selection_colrow (WorkbookControl *wbc, Sheet *sheet,
 	me->parent.cmd_descriptor = g_strdup (is_cols
 		? (visible ? _("Unhide columns") : _("Hide columns"))
 		: (visible ? _("Unhide rows") : _("Hide rows")));
+
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
+}
+
+gboolean
+cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
+			   gboolean is_cols, int index, int depth)
+{
+	GtkObject *obj;
+	CmdColRowHide *me;
+	ColRowInfo const *cri;
+	int first = -1, last = -1;
+	gboolean visible;
+
+	g_return_val_if_fail (sheet != NULL, TRUE);
+
+	cri = is_cols ? sheet_col_get (sheet, index)
+		      : sheet_row_get (sheet, index);
+
+	if (index > 0) {
+		ColRowInfo const *prev = is_cols ? sheet_col_get (sheet, index-1)
+						 : sheet_row_get (sheet, index-1);
+
+		if (prev != NULL && prev->outline_level > depth) {
+			visible = (cri != NULL) ? cri->is_collapsed : FALSE;
+			last = index - 1;
+			first = colrow_find_outline_bound (sheet, is_cols, index-1,
+							   depth, FALSE);
+		}
+	}
+	if (first < 0 && cri != NULL && cri->outline_level > 0) {
+		first = colrow_find_outline_bound (sheet, is_cols, index, depth, FALSE);
+		last = colrow_find_outline_bound (sheet, is_cols, index, depth, TRUE);
+		visible = FALSE;
+
+		if (first == last && depth > cri->outline_level)
+			first = last = -1;
+	}
+
+	if (first < 0 || last < 0)
+		return TRUE;
+
+	obj = gtk_type_new (CMD_COLROW_HIDE_TYPE);
+	me = CMD_COLROW_HIDE (obj);
+
+	me->sheet = sheet;
+	me->is_cols = is_cols;
+	me->visible = visible;
+	me->elements = colrow_get_outline_toggle (sheet, is_cols, visible,
+						  first, last);
+
+	me->parent.sheet = sheet;
+	me->parent.size = 1 + g_slist_length (me->elements);
+	me->parent.cmd_descriptor = g_strdup (is_cols
+		? (visible ? _("Expand columns") : _("Collapse columns"))
+		: (visible ? _("Expand rows") : _("Collapse rows")));
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);

@@ -314,7 +314,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 					} else
 						remain_left = 0;
 				} else
-					margin_a = ci->margin_a;
+				    pos_l = margin_a = ci->margin_a;
 			} else
 				remain_left = 0;
 
@@ -328,7 +328,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 						margin_b = ci->margin_b;
 						*col2 = pos_r;
 					} else
-						remain_right = 0;
+						max_col = remain_right = 0;
 				} else
 					margin_b = ci->margin_b;
 			} else

@@ -215,6 +215,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 		gtk_main ();
 	}
 
+	plugins_shutdown ();
 	print_shutdown ();
 	auto_format_shutdown ();
 	e_cursors_shutdown ();
@@ -224,7 +225,6 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	style_shutdown ();
 
 	global_gnome_font_shutdown ();
-	plugins_shutdown ();
 
 	gnome_config_drop_all ();
 }
