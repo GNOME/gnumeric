@@ -26,6 +26,7 @@
 #include "module-plugin-defs.h"
 
 #include <string.h>
+#include <stdlib.h>
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-textline.h>
 
