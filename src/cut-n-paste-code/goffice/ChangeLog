@@ -1,3 +1,47 @@
+2004-08-09  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-axis.c (map_[log,linear,discrete]_init) : add arguments
+	for direct mapping to canvas coordinates.
+	(gog_axis_map_new) : idem. 
+	(map_[log,linear,discrete]_to_canvas : new.
+	(gog_axis_map_to_canvas) : new.
+	(map_discrete) : handle barcol / area,line correctly.
+	(map_log_auto_bounds): be smarter in case of min <= 0.
+	(gog_axis_render) : draw axis/ticks in one call. Drop labels when they
+	overlap.
+	* graph/gog-error-bar.c (gog_error_bar_get_bounds) : return relative
+	values of errors instead of absolute values.
+	(gog_error_bar_get_min_max) : adapt to new gog_error_bar_get_bounds.
+	(gog_error_bar_render) : use gog_axis_map functions.
+	* graph/gog-grid.c (gog_grid_render) : remove kludge.
+	* grapg/gog-renderer-gnome-print.c (gog_graph_print_to_gnome_print) :
+	add a workaround for a bug in libgnomeprint.
+	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_start_clipping) :
+	rendering fix.
+	(gog_renderer_pixbuf_line_size) : new.
+	(gog_renderer_pixbuf_sharp_path) : new. Tweak a path for sharp
+	rendering with libart.
+	(gog_renderer_pixbuf_draw_marker) : zoom support for markers. Fix
+	marker position.
+	* graph/gog-renderer.c (gog_renderer_draw_sharp_path) : new.
+	(gog_renderer_draw_sharp_polygon) : new.
+	(gog_renderer_line_size) : remove kludge.
+	* graph/plugins/plot_barcol/gog-1.5d.c (gog_plot1_5d_axis_get_bounds)
+	: maxima = num_elements - 1.
+	* graph/plugins/plot_barcol/gog-barcol.c
+	(gog_barcol_update_stacked_and_percentage) : adapt
+	to new gog_error_bar_get_bounds.
+	(gog_barcol_axis_get_bounds) : new.
+	(barcol_draw_rest) : remove kludge.
+	(gog_barcol_view_render) : use gog_axis_map functions.
+	* graph/plugins/plot_barcol/gog-line.c
+	(gog_line_update_stacked_and_percentage) : adapt
+	to new gog_error_bar_get_bounds.
+	(gog_line_view_render) : use gog_axis_map functions.
+	* graph/plugins/plot_xy/gog-xy.c (gog_xy_plot_render) : use
+	gog_axis_map_to_canvas and new gog_error_bar_get_bounds.
+	* utils/go-marker.c (go_marker_get_pixbuf) : add a scale argument.
+	
 2004-07-29  Morten Welinder  <terra@gnome.org>
 
 	* gui-utils/go-action-combo-pixmaps.c

@@ -57,6 +57,7 @@ struct _GOMarker {
 	GObject 	base;
 
 	int		size;
+	double		scale;
 	GOMarkerShape	shape;
 	GOColor		outline_color;
 	GOColor		fill_color;
@@ -71,7 +72,7 @@ char const      *go_marker_shape_as_str         (GOMarkerShape shape);
 void		 go_marker_get_paths		(GOMarker * marker,
 						 ArtVpath const **outline_path,
 						 ArtVpath const **fill_path);
-GdkPixbuf const *go_marker_get_pixbuf		(GOMarker *m);
+GdkPixbuf const *go_marker_get_pixbuf		(GOMarker *m, double scale);
 GdkPixbuf const	*go_marker_get_pixbuf_with_size (GOMarker *m, guint size);
 GOMarkerShape 	 go_marker_get_shape		(GOMarker *m);
 void 		 go_marker_set_shape 		(GOMarker *m, GOMarkerShape shape);

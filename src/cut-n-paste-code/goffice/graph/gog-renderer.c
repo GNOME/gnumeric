@@ -243,6 +243,32 @@ gog_renderer_stop_clipping (GogRenderer *rend)
 }
 
 /**
+ * gog_renderer_draw_sharp_polygon :
+ * @rend : #GogRenderer
+ * @path  : #ArtVpath
+ * @bound  : #GogViewAllocation optional clip
+ *
+ * Draws @path using the outline elements of the current style,
+ * trying to make line with sharp edge.
+ **/
+void
+gog_renderer_draw_sharp_path (GogRenderer *rend, ArtVpath *path,
+			      GogViewAllocation const *bound)
+{
+	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
+
+	g_return_if_fail (klass != NULL);
+	g_return_if_fail (rend->cur_style != NULL);
+
+	if (klass->sharp_path) {
+		(klass->sharp_path) (rend, path, 
+			gog_renderer_line_size (rend, rend->cur_style->line.width));
+	}
+
+	(klass->draw_path) (rend, path, bound);
+}
+
+/**
  * gog_renderer_draw_polygon :
  * @rend : #GogRenderer
  * @path  : #ArtVpath
@@ -260,6 +286,34 @@ gog_renderer_draw_path (GogRenderer *rend, ArtVpath const *path,
 	g_return_if_fail (rend->cur_style != NULL);
 
 	(klass->draw_path) (rend, path, bound);
+}
+
+/**
+ * gog_renderer_draw_sharp_polygon :
+ * @rend : #GogRenderer
+ * @path  : #ArtVpath
+ * @narrow : if TRUE skip any outline the current style specifies.
+ * @bound  : #GogViewAllocation optional clip
+ *
+ * Draws @path and fills it with the fill elements of the current style,
+ * trying to draw line with sharp edge.
+ * If @narrow is false it alos outlines it using the outline elements.
+ **/
+void
+gog_renderer_draw_sharp_polygon (GogRenderer *rend, ArtVpath *path, gboolean narrow,
+				 GogViewAllocation const *bound)
+{
+	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
+
+	g_return_if_fail (klass != NULL);
+	g_return_if_fail (rend->cur_style != NULL);
+
+	if (klass->sharp_path) {
+		(klass->sharp_path) (rend, path,
+			gog_renderer_line_size (rend, rend->cur_style->outline.width));
+	}
+
+	(klass->draw_polygon) (rend, path, narrow, bound);
 }
 
 /**
@@ -391,6 +445,9 @@ gog_renderer_class_init (GogRendererClass *renderer_klass)
 	gobject_klass->set_property = gog_renderer_set_property;
 	gobject_klass->get_property = gog_renderer_get_property;
 
+	renderer_klass->sharp_path = NULL;
+	renderer_klass->line_size = NULL;
+
 	g_object_class_install_property (gobject_klass, RENDERER_PROP_MODEL,
 		g_param_spec_object ("model", "model",
 			"the GogGraph this renderer displays",
@@ -482,12 +539,16 @@ gog_renderer_draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect,
 double
 gog_renderer_line_size (GogRenderer const *rend, double width)
 {
+	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
+
+	if (klass->line_size)
+		return (klass->line_size) (rend, width);
+	
 	if (width < 0.)
 		return 0.;
-	width *= rend->scale;
-	if (width < 1.) /* cheesy version of hairline */
-		return 1.;
-	return floor (width);
+	if (width == 0.)
+		width = 1.;
+	return width * rend->scale;
 }
 
 double

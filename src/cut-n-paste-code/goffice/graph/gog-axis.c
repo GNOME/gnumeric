@@ -148,20 +148,31 @@ get_adjusted_tick_array (GogAxisTick *ticks, int allocated_size, int exact_size)
  * Discrete mapping
  */
 
-static gboolean
-map_discrete_init (GogAxisMap *map)
+typedef struct
 {
-	double *data;
+	double min;
+	double max;
+	double scale;
+	double a;
+	double b;
+} MapData;
+
+static gboolean
+map_discrete_init (GogAxisMap *map, double offset, double length)
+{
+	MapData *data;
 	
-	map->data = g_new (double, 3);
+	map->data = g_new (MapData, 1);
 	data = map->data;
 
-	if (gog_axis_get_bounds (map->axis, &data[0], &data[1])) {
-		data[0] -= 0.5;
-		data[1] -= 0.5;
-		data[2] = data[1] - data[0];
+	if (gog_axis_get_bounds (map->axis, &data->min, &data->max)) {
+		data->scale = 1.0 / (data->max - data->min);
+		data->a = data->scale * length;
+		data->b = offset - data->a * data->min;
 		return TRUE;
 	}
+	data->min = data->scale = data->a = data->b = 0.0;
+	data->max = 0.0;
 
 	return FALSE;
 }
@@ -169,9 +180,19 @@ map_discrete_init (GogAxisMap *map)
 static double
 map_discrete (GogAxisMap *map, double value) 
 {
-	double *data = map->data;
+	MapData *data = map->data;
 	
-	return (value - data[0]) / data[2];
+	return (value - data->min) * data->scale;
+}
+
+static double
+map_discrete_to_canvas (GogAxisMap *map, double value, gboolean inverted)
+{
+	MapData *data = map->data;
+
+	return inverted ? 
+		(data->min + data->max - value) * data->a + data->b :
+		value * data->a + data->b;
 }
 
 static void
@@ -219,7 +240,7 @@ map_discrete_calc_ticks (GogAxis *axis,
 	count = 0;
 	for (i = 0; i < tick_nbr; i++) {
 		increment = draw_minor;
-		ticks[count].position = minimum + (double) (i);
+		ticks[count].position = (double) (i);
 		ticks[count].type = TICK_MINOR;
 		ticks[count].label = NULL;
 		
@@ -227,8 +248,12 @@ map_discrete_calc_ticks (GogAxis *axis,
 			ticks[count].type = TICK_MAJOR;
 			increment = TRUE;
 		}
-		
-		if ((i % major_label == 0) && draw_labels && i < tick_nbr - 1) {
+
+		/* Minimum >= .0 test is a trick to know if it's a barcol or an area/line plot */
+		if (i == 0 && minimum >=.0)
+			ticks[count].type = TICK_NONE;
+		if ((i % major_label == 0) && draw_labels && 
+		    (i < tick_nbr - 1 || minimum >= .0)) {
 			increment = TRUE;
 			if (axis->labels != NULL) {
 				if (i < go_data_vector_get_len (axis->labels))
@@ -252,17 +277,21 @@ map_discrete_calc_ticks (GogAxis *axis,
  */
 
 static gboolean
-map_linear_init (GogAxisMap *map)
+map_linear_init (GogAxisMap *map, double offset, double length)
 {
-	double *data;
+	MapData *data;
 	
-	map->data = g_new (double, 3);
-	data = map->data;
+	map->data = g_new (MapData, 1);
+	data = (MapData *) map->data;
 
-	if (gog_axis_get_bounds (map->axis, &data[0], &data[1])) {
-		data[2] = data[1] - data[0];
+	if (gog_axis_get_bounds (map->axis, &data->min, &data->max)) {
+		data->scale = 1 / (data->max - data->min);
+		data->a = data->scale * length;
+		data->b = offset - data->a * data->min;
 		return TRUE;
 	}
+	data->min = data->scale = data->a = data->b = 0.0;
+	data->max = 0.0;
 
 	return FALSE;
 }
@@ -270,9 +299,19 @@ map_linear_init (GogAxisMap *map)
 static double
 map_linear (GogAxisMap *map, double value) 
 {
-	double *data = map->data;
+	MapData *data = map->data;
 	
-	return (value - data[0]) / data[2];
+	return (value - data->min) * data->scale;
+}
+
+static double
+map_linear_to_canvas (GogAxisMap *map, double value, gboolean inverted)
+{
+	MapData *data = map->data;
+
+	return inverted ? 
+		(data->min + data->max - value) * data->a + data->b :
+		value * data->a + data->b;
 }
 
 static void
@@ -392,20 +431,38 @@ map_linear_calc_ticks (GogAxis *axis,
  * Logarithmic mapping
  */
 
-static gboolean
-map_log_init (GogAxisMap *map)
+typedef struct
 {
-	double *data;
+	double min;
+	double max;
+	double scale;
+	double a;
+	double b;
+	double a_inv;
+	double b_inv;
+} MapLogData;
+
+static gboolean
+map_log_init (GogAxisMap *map, double offset, double length)
+{
+	MapLogData *data;
 	
-	map->data = g_new (double, 3);
+	map->data = g_new (MapLogData, 1);
 	data = map->data;
 
-	if (gog_axis_get_bounds (map->axis, &data[0], &data[1])) {
-		data[0] = log (data[0]);
-		data[1] = log (data[1]);
-		data[2] = data[1] - data[0];
+	if (gog_axis_get_bounds (map->axis, &data->min, &data->max)) {
+		data->min = log (data->min);
+		data->max = log (data->max);
+		data->scale = 1/ (data->max - data->min);
+		data->a = data->scale * length;
+		data->b = offset - data->a * data->min;
+		data->a_inv = -data->scale * length;
+		data->b_inv = offset + length - data->a_inv * data->min;
 		return TRUE;
 	}
+	data->min = data->scale = data->a = data->b = 0.0;
+	data->a_inv = data->b_inv;
+	data->max = 0.0;
 
 	return FALSE;
 }
@@ -413,9 +470,26 @@ map_log_init (GogAxisMap *map)
 static double
 map_log (GogAxisMap *map, double value) 
 {
-	double *data = map->data;
+	MapLogData *data = map->data;
+	
+	return (log (value) - data->min) * data->scale;
+}
 
-	return (log (value) - data[0]) / data[2];
+static double
+map_log_to_canvas (GogAxisMap *map, double value, gboolean inverted) 
+{
+	MapLogData *data = map->data;
+	double result;
+	
+	if (value <= 0.) 
+		/* Make libart happy */
+		result = inverted ? DBL_MIN : DBL_MAX; 
+	else
+		result = inverted ? 
+			log (value) * data->a_inv + data->b_inv :
+			log (value) * data->a + data->b;
+
+	return result;
 }
 
 static void
@@ -423,10 +497,13 @@ map_log_auto_bound (GogAxis *axis, double minimum, double maximum, double *bound
 {
 	double step;
 
+	if (maximum <= 0.0)
+		maximum = 1.0;
 	if (minimum <= 0.0)
-		minimum = 1.0;
+		minimum = maximum / 100.0;
 	if (maximum < minimum)
-		maximum = minimum + 1.0;
+		maximum = minimum * 100.0;
+
 	maximum = ceil (log10 (maximum));
 	minimum = floor (log10 (minimum));
 	
@@ -459,7 +536,7 @@ map_log_calc_ticks (GogAxis *axis,
 		return;
 	}
 	start_tick = ceil (log10 (minimum));
-	tick_nbr = major_tick = ceil (ceil (log10 (maximum)) - floor (log10 (minimum)) + 2.0);
+	tick_nbr = major_tick = ceil (ceil (log10 (maximum)) - floor (log10 (minimum)) + 1.0);
 	if (draw_minor)
 		tick_nbr *= minor_tick;
 	if (tick_nbr < 1 || tick_nbr > GOG_AXIS_MAX_TICK_NBR) {
@@ -470,10 +547,10 @@ map_log_calc_ticks (GogAxis *axis,
 
 	count = 0;
 	for (i = 0; i < major_tick; i++) {
-		position = pow (10.0, i);
+		position = pow (10.0, i + start_tick);
 		if (position >= go_sub_epsilon (minimum) && go_sub_epsilon (position) <= maximum) {
 			ticks[count].position = position;
-			if ((i - start_tick) % major_label == 0 && draw_labels) {
+			if ((i) % major_label == 0 && draw_labels) {
 				ticks[count].type = TICK_MAJOR;
 				if (axis->assigned_format == NULL || 
 				    style_format_is_general (axis->assigned_format))
@@ -490,7 +567,7 @@ map_log_calc_ticks (GogAxis *axis,
 		} 
 		if (draw_minor)
 			for (j = 1; j < minor_tick; j++) {
-				position = pow (10.0, i) * (9.0 / (double)minor_tick * (double) j + 1.0);
+				position = pow (10.0, i + start_tick) * (9.0 / (double)minor_tick * (double) j + 1.0);
 				if (position >= go_sub_epsilon (minimum) && go_sub_epsilon (position) <= maximum) {
 					ticks[count].position = position;
 					ticks[count].type = TICK_MINOR;
@@ -506,7 +583,8 @@ map_log_calc_ticks (GogAxis *axis,
 
 static GogAxisMapDesc map_desc_discrete = 
 {
-	map_discrete,			map_discrete_init,		NULL,
+	map_discrete,			map_discrete_to_canvas,
+	map_discrete_init,		NULL,
 	map_discrete_auto_bound,	map_discrete_calc_ticks,
 	N_("Discrete"),			N_("Discrete mapping")
 };
@@ -514,12 +592,14 @@ static GogAxisMapDesc map_desc_discrete =
 static GogAxisMapDesc map_descs[] = 
 {
 	{
-		map_linear,		map_linear_init, 	NULL,	
+		map_linear,		map_linear_to_canvas,
+		map_linear_init, 	NULL,	
 		map_linear_auto_bound, 	map_linear_calc_ticks,	
 		N_("Linear"),		N_("Linear mapping")
 	},
 	{
-		map_log,		map_log_init,		NULL,	
+		map_log,		map_log_to_canvas,
+		map_log_init,		NULL,	
 		map_log_auto_bound, 	map_log_calc_ticks,	
 		N_("Log"),		N_("Logarithm mapping")
 	}
@@ -568,8 +648,20 @@ gog_axis_map_set (GogAxis *axis, char const *name)
 	axis->map_desc = &map_descs[map];
 }
 
+/**
+ * gog_axis_map_new :
+ * @axis : #GogAxis
+ * @offset : start of plot area.
+ * @length : length of plot area.
+ *
+ * Return a new GogAxisMap for data mapping to plot window.
+ * offset and length are optional parameters to be used with 
+ * gog_axis_map_to_canvas in order to translates data coordinates 
+ * into canvas space.
+ **/
+
 GogAxisMap *
-gog_axis_map_new (GogAxis *axis)
+gog_axis_map_new (GogAxis *axis, double offset, double length)
 {
 	GogAxisMap *map;
 	
@@ -583,10 +675,19 @@ gog_axis_map_new (GogAxis *axis)
 	map->data = NULL;
 
 	if (map->desc->init != NULL)
-		map->desc->init (map);
+		map->desc->init (map, offset, length);
 
 	return map;
 }
+
+/**
+ * gog_axis_map :
+ * @map : #GogAxisMap
+ * value : value to map to plot space.
+ *
+ * Return a value where [0,1.0] means a data within plot
+ * bounds.
+ * */
 
 double 
 gog_axis_map (GogAxisMap *map,
@@ -596,6 +697,29 @@ gog_axis_map (GogAxisMap *map,
 		1.0 - map->desc->map (map, value) :
 		map->desc->map (map, value));
 }
+
+/**
+ * gog_axis_map_to_canvas :
+ * @map : #GogAxisMap
+ * @value : value to map to canvas space.
+ *
+ * Return a value in canvas coordinates, where
+ * [offset,offset+length] means a data within plot bounds.
+ **/
+
+double 
+gog_axis_map_to_canvas (GogAxisMap *map,
+			double value)
+{
+	return map->desc->map_to_canvas (map, value, map->axis->inverted);
+}
+
+/**
+ * gog_axis_map_free :
+ * @map : #GogAxisMap
+ *
+ * Free GogAxisMap object.
+ **/
 
 void
 gog_axis_map_free (GogAxisMap *map)
@@ -1885,26 +2009,22 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 	GtkAnchorType anchor;
 	GogViewAllocation const *area = &v->residual;
 	GogViewAllocation label_pos, label_result;
-	ArtVpath axis_path[3], major_path[3], minor_path[3];
+	double last_label_pos = .0, last_label_size = -1.;
+	ArtVpath *path = NULL;
 	GogAxis *axis = GOG_AXIS (v->model);
 	unsigned i;
 	double pre, post, tick_len, label_pad, dir, center;
 	double line_width = gog_renderer_line_size (
 		v->renderer, axis->base.style->line.width) / 2;
 	double pos, offset;
-	gboolean draw_minor, draw_major;
+	double major_in = 0., major_out = 0.;
+	double minor_in = 0., minor_out = 0.;
 
 	(aview_parent_klass->render) (v, bbox);
 
 	g_return_if_fail (axis->pos != GOG_AXIS_IN_MIDDLE);
 
 	gog_renderer_push_style (v->renderer, axis->base.style);
-	axis_path[0].code = major_path[0].code = minor_path[0].code = ART_MOVETO;
-	axis_path[1].code = major_path[1].code = minor_path[1].code = ART_LINETO;
-	axis_path[2].code = major_path[2].code = minor_path[2].code = ART_END;
-
-	draw_minor = (axis->minor.tick_in || axis->minor.tick_out) && line_width > 0;
-	draw_major = (axis->major.tick_in || axis->major.tick_out) && line_width > 0;
 
 	switch (axis->type) {
 	case GOG_AXIS_X:
@@ -1914,91 +2034,88 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 			case GOG_AXIS_AT_LOW:
 				anchor = GTK_ANCHOR_N;
 				dir = 1.;
-				center = area->y + line_width;
+				center = area->y;
 				break;
 
 			case GOG_AXIS_AT_HIGH:
 				anchor = GTK_ANCHOR_S;
 				dir = -1.;
-				center = area->y + area->h - line_width;
+				center = area->y + area->h;
 				break;
 		}
 
-		center = floor (center + .5) - .5;
-		axis_path[0].y = axis_path[1].y = center;
-		axis_path[0].x = area->x + pre - line_width;
-		axis_path[1].x = area->x + area->w - post + line_width;
-
-		/* set major tick height */
-		tick_len = gog_renderer_pt2r_y (v->renderer, axis->major.size_pts);
-		if (draw_major && axis->major.tick_out)
-			major_path[0].y = center + dir * (line_width + tick_len);
-		else
-			major_path[0].y = center - dir * line_width;
-		if (draw_major && axis->major.tick_in)
-			major_path[1].y = center - dir * (line_width + tick_len);
-		else
-			major_path[1].y = center + dir * line_width;
-		/* set minor tick height */
-		tick_len = gog_renderer_pt2r_y (v->renderer, axis->minor.size_pts);
-		if (draw_minor && axis->minor.tick_out)
-			minor_path[0].y = center + dir * (line_width + tick_len);
-		else
-			minor_path[0].y = center - dir * line_width;
-		if (draw_minor && axis->minor.tick_in)
-			minor_path[1].y = center - dir * (line_width + tick_len);
-		else
-			minor_path[1].y = center + dir * line_width;
-
+		if (line_width > 0) {
+			tick_len = gog_renderer_pt2r_y (v->renderer, axis->major.size_pts);
+			major_out = axis->major.tick_out ? center + dir * (line_width + tick_len) : center;
+			major_in  = axis->major.tick_in  ? center - dir * (line_width + tick_len) : center;
+			tick_len = gog_renderer_pt2r_y (v->renderer, axis->minor.size_pts);
+			minor_out = axis->minor.tick_out ? center + dir * (line_width + tick_len) : center;
+			minor_in  = axis->minor.tick_in  ? center - dir * (line_width + tick_len) : center;
+			
+			path = g_new (ArtVpath, axis->tick_nbr * 2 + 3);
+			path[0].y = path[1].y = center;
+			path[0].x = area->x + pre - line_width;
+			path[1].x = area->x + area->w - post + line_width;
+			path[0].code = ART_MOVETO;
+			path[1].code = ART_LINETO;
+		}
+		
 		if (axis->major_tick_labeled) {
 			label_pad = gog_renderer_pt2r_y (v->renderer, TICK_LABEL_PAD_VERT);
 			label_pos.y = (axis->major.tick_out && !axis->is_discrete)
-				? major_path[0].y + dir * label_pad
+				? major_out + dir * label_pad
 				: center + dir * (line_width + label_pad);
 			label_pos.h  = area->h - line_width;
 			label_pos.w  = -1;
 		}
 
 		if (axis->tick_nbr > 0) {
-			GogAxisMap *map = gog_axis_map_new (axis);
+			GogAxisMap *map = gog_axis_map_new (axis, area->x + pre, area->w - pre - post);
 			offset = axis->is_discrete ? -0.5 : 0.0;
 			for (i = 0; i < axis->tick_nbr; i++) {
-				
-				if (draw_major || draw_minor) {
-					pos = gog_axis_map (map, axis->ticks[i].position + offset) *
-						(area->w -pre - post) +
-						area->x + pre;
 
+				if (line_width > 0) {
+					pos = gog_axis_map_to_canvas (map, axis->ticks[i].position + offset);
+					path[2*i + 2].code = ART_MOVETO;
+					path[2*i + 3].code = ART_LINETO;
 					switch (axis->ticks[i].type) {
 						case TICK_MAJOR:
-							major_path[0].x = major_path[1].x = pos;
-							gog_renderer_draw_path (v->renderer, major_path, NULL);
+							path[2*i + 2].x = path[2*i + 3].x = pos;
+							path[2*i + 2].y = major_out;
+							path[2*i + 3].y = major_in;
 							break;
 
 						case TICK_MINOR:
-							minor_path[0].x = minor_path[1].x = pos;
-							gog_renderer_draw_path (v->renderer, minor_path, NULL);
+							path[2*i + 2].x = path[2*i + 3].x = pos;
+							path[2*i + 2].y = minor_out;
+							path[2*i + 3].y = minor_in;
 							break;
 
 						default:
+							path[2*i + 2].x = path[2*i + 3].x =
+							path[2*i + 2].y = path[2*i + 3].y = 0.;
 							break;
 					}
 				}
 
 				if (axis->ticks[i].label != NULL) {
-					label_pos.x = gog_axis_map (map, axis->ticks[i].position) *
-						(area->w -pre - post) +
-						area->x + pre;
-					/* TODO: handle label overlap */
-					gog_renderer_draw_text (v->renderer, axis->ticks[i].label,
-								&label_pos, anchor, &label_result);
+					label_pos.x = gog_axis_map_to_canvas (map, axis->ticks[i].position);
+					if (fabs (last_label_pos - label_pos.x) > last_label_size) {
+						gog_renderer_draw_text (v->renderer, axis->ticks[i].label,
+									&label_pos, anchor, &label_result);
+						last_label_pos = label_pos.x;
+						/* 1.2 -> some padding between labels */
+						last_label_size = 1.2 * label_result.w;
+					}
 				}
 			}
-			gog_axis_map_free (map);
 		}
 
-		if (line_width > 0)
-			gog_renderer_draw_path (v->renderer, axis_path, NULL);
+		if (line_width > 0) {
+			path[axis->tick_nbr * 2 + 2].code = ART_END;
+			gog_renderer_draw_sharp_path (v->renderer, path, NULL);
+			g_free (path);
+		}
 
 		break;
 
@@ -2008,69 +2125,60 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 			case GOG_AXIS_AT_LOW:
 				anchor = GTK_ANCHOR_E;
 				dir = -1.;
-				center = area->x + area->w - line_width;
+				center = area->x + area->w;
 				break;
 			case GOG_AXIS_AT_HIGH:
 				anchor = GTK_ANCHOR_W;
 				dir = 1.;
-				center = area->x + line_width;
+				center = area->x;
 				break;
 		}
 
-		center = floor (center + .5) + .5;
-		axis_path[0].x = axis_path[1].x = center;
-		axis_path[0].y = area->y + area->h + line_width;
-		axis_path[1].y = area->y + line_width;
-
-		/* set major tick width */
-		tick_len = gog_renderer_pt2r_x (v->renderer, axis->major.size_pts);
-		if (draw_major && axis->major.tick_out)
-			major_path[0].x = center + dir * (line_width + tick_len);
-		else
-			major_path[0].x = center - dir * line_width;
-		if (draw_major && axis->major.tick_in)
-			major_path[1].x = center - dir * (line_width + tick_len);
-		else
-			major_path[1].x = center + dir * line_width;
-		/* set minor tick width */
-		tick_len = gog_renderer_pt2r_x (v->renderer, axis->minor.size_pts);
-		if (draw_minor && axis->minor.tick_out)
-			minor_path[0].x = center + dir * (line_width + tick_len);
-		else
-			minor_path[0].x = center - dir * line_width;
-		if (draw_minor && axis->minor.tick_in)
-			minor_path[1].x = center - dir * (line_width + tick_len);
-		else
-			minor_path[1].x = center + dir * line_width;
+		if (line_width > 0) {
+			tick_len = gog_renderer_pt2r_x (v->renderer, axis->major.size_pts);
+			major_out = axis->major.tick_out ? center + dir * (line_width + tick_len) : center;
+			major_in  = axis->major.tick_in  ? center - dir * (line_width + tick_len) : center;
+			tick_len = gog_renderer_pt2r_x (v->renderer, axis->minor.size_pts);
+			minor_out = axis->minor.tick_out ? center + dir * (line_width + tick_len) : center;
+			minor_in  = axis->minor.tick_in  ? center - dir * (line_width + tick_len) : center;
+			
+			path = g_new (ArtVpath, axis->tick_nbr * 2 + 3);
+			path[0].x = path[1].x = center;
+			path[0].y = area->y + area->h + line_width;
+			path[1].y = area->y - line_width;
+			path[0].code = ART_MOVETO;
+			path[1].code = ART_LINETO;
+		}
 
 		if (axis->major_tick_labeled) {
 			label_pad = gog_renderer_pt2r_x (v->renderer, TICK_LABEL_PAD_HORIZ);
 			label_pos.x = (axis->major.tick_out && !axis->is_discrete)
-				? major_path[0].x + dir * label_pad
+				? major_out + dir * label_pad
 				: center + dir * (line_width + label_pad);
 			label_pos.w  = area->w - line_width;
 			label_pos.h  = -1;
 		}
 
 		if (axis->tick_nbr > 0) {
-			GogAxisMap *map = gog_axis_map_new (axis);
+			GogAxisMap *map = gog_axis_map_new (axis, area->h + area->y, -area->h);
 			offset = axis->is_discrete ? -0.5 : 0.0;
 			for (i = 0; i < axis->tick_nbr; i++) {
 				
-				if (draw_major || draw_minor) {
-					pos = area->h + area->y - 
-						gog_axis_map (map, axis->ticks[i].position + offset) *
-						area->h;
-
+				if (line_width > 0) {
+					path[2*i + 2].code = ART_MOVETO;
+					path[2*i + 3].code = ART_LINETO;
+					pos = gog_axis_map_to_canvas (map, axis->ticks[i].position + offset);
 					switch (axis->ticks[i].type) {
 						case TICK_MAJOR:
-							major_path[0].y = major_path[1].y = pos;
-							gog_renderer_draw_path (v->renderer, major_path, NULL);
+							path[2*i + 2].y = path[2*i + 3].y = pos;
+							path[2*i + 2].x = major_out;
+							path[2*i + 3].x = major_in;
 							break;
 
 						case TICK_MINOR:
-							minor_path[0].y = minor_path[1].y = pos;
-							gog_renderer_draw_path (v->renderer, minor_path, NULL);
+							path[2*i + 2].y = path[2*i + 3].y = pos;
+							path[2*i + 2].x = minor_out;
+							path[2*i + 3].x = minor_in;
 							break;
 
 						default:
@@ -2079,18 +2187,23 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 				}
 
 				if (axis->ticks[i].label != NULL) {
-					label_pos.y = area->h + area->y - 
-						gog_axis_map (map, axis->ticks[i].position) *
-						area->h;
-					/* TODO: handle label overlap */
-					gog_renderer_draw_text (v->renderer, axis->ticks[i].label,
-								&label_pos, anchor, &label_result);
+					label_pos.y = gog_axis_map_to_canvas (map, axis->ticks[i].position);
+					if (fabs (last_label_pos - label_pos.y) > last_label_size) {
+						gog_renderer_draw_text (v->renderer, axis->ticks[i].label,
+									&label_pos, anchor, &label_result);
+						last_label_pos = label_pos.y;
+						last_label_size = label_result.h;
+					}
 				}
 			}
 			gog_axis_map_free (map);
 		}
-		if (line_width > 0)
-			gog_renderer_draw_path (v->renderer, axis_path, NULL);
+
+		if (line_width > 0) {
+			path[axis->tick_nbr * 2 + 2].code = ART_END;
+			gog_renderer_draw_sharp_path (v->renderer, path, NULL);
+			g_free (path);
+		}
 		break;
 
 	case GOG_AXIS_CIRCULAR:

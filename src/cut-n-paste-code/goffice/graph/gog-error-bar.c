@@ -492,12 +492,10 @@ GSF_CLASS_FULL (GogErrorBar, gog_error_bar,
  * @min : where the minimum value will be stored 
  * @max : where the maximum value will be stored
  *
- * If the value correponding to @index is valid, fills min and max with the bounds for the values:
- * -> value + positive_error in @max.
- * -> value - negative_error in @min.
- * If one of the errors is not valid or not defined, *max will be lower than value or *min greater than value
- * (or both). The differencies, after mapping according to the axis settings, will be used as "plus" and "minus"
- * parameters for #gog_error_bar_render.
+ * If the value correponding to @index is valid, fills min and max with the error values:
+ * -> positive_error in @max.
+ * -> negative_error in @min.
+ * If one of the errors is not valid or not defined, its value is set to -1.0.
  *
  * Return value : FALSE if the @bar->type is GOG_ERROR_BAR_TYPE_NONE or if the value is not valid,
  * TRUE otherwise.
@@ -508,16 +506,19 @@ gog_error_bar_get_bounds (GogErrorBar const *bar, int index, double *min, double
 	double value = go_data_vector_get_values (GO_DATA_VECTOR (bar->series->values[bar->dim_i].data))[index];
 	GOData *data = bar->series->values[bar->error_i].data;
 	int length = (IS_GO_DATA (data))? go_data_vector_get_len (GO_DATA_VECTOR (data)): 0;
-	if ((bar->type == GOG_ERROR_BAR_TYPE_NONE) || isnan (value) || !go_finite (value))
-		return FALSE;
+	
 	/* -1 ensures that the bar will not be displayed if the error is not a correct one.
 		With a 0 value, it might be, because of rounding errors */
-	*max = -1.; 
-	*min = -1.;
+	*min = *max = -1.; 
+
+	if ((bar->type == GOG_ERROR_BAR_TYPE_NONE) || isnan (value) || !go_finite (value))
+		return FALSE;
+	
 	if (length == 1) 
 		*max = *go_data_vector_get_values (GO_DATA_VECTOR (data));
 	else if (length > index)
 		*max = go_data_vector_get_values (GO_DATA_VECTOR (data))[index];
+	
 	data = bar->series->values[bar->error_i + 1].data;
 	length = (IS_GO_DATA (data))? go_data_vector_get_len (GO_DATA_VECTOR (data)): 0;
 	if (length == 0)
@@ -526,10 +527,14 @@ gog_error_bar_get_bounds (GogErrorBar const *bar, int index, double *min, double
 		*min = *go_data_vector_get_values (GO_DATA_VECTOR (data));
 	else if (length > index)
 		*min = go_data_vector_get_values (GO_DATA_VECTOR (data))[index];
-	if (isnan (*min) || !go_finite (*min) || (*min <= 0))
+	
+	if (isnan (*min) || !go_finite (*min) || (*min <= 0)) {
 		*min = -1.;
-	if (isnan (*max) || !go_finite (*max) || (*max <= 0))
+	}
+	if (isnan (*max) || !go_finite (*max) || (*max <= 0)) {
 		*max = -1.;
+	}
+	
 	switch (bar->type)
 	{
 	case GOG_ERROR_BAR_TYPE_RELATIVE:
@@ -543,24 +548,28 @@ gog_error_bar_get_bounds (GogErrorBar const *bar, int index, double *min, double
 	default:
 		break;
 	}
-	*max += value;
-	*min = value - *min;
 	return TRUE;
 }
 
 void
 gog_error_bar_get_minmax (const GogErrorBar *bar, double *min, double *max)
 {
+	double value;
 	int i, imax = go_data_vector_get_len (GO_DATA_VECTOR (bar->series->values[bar->dim_i].data));
-	double tmp_min, tmp_max;
+	double tmp_min, tmp_max, plus, minus;
+	
 	go_data_vector_get_minmax (GO_DATA_VECTOR (bar->series->values[bar->dim_i].data), min, max);
-	for (i = 0; i < imax; i++)
-		if  (gog_error_bar_get_bounds (bar, i, &tmp_min, &tmp_max)) {
+	for (i = 0; i < imax; i++) {
+		if  (gog_error_bar_get_bounds (bar, i, &minus, &plus)) {
+			value = go_data_vector_get_values (GO_DATA_VECTOR (bar->series->values[bar->dim_i].data))[i];
+			tmp_min = value - minus;
+			tmp_max = value + plus;
 			if (tmp_min < *min)
 				*min = tmp_min;
 			if (tmp_max > *max)
 				*max = tmp_max;
 		}
+	}
 }
 
 GogErrorBar  *
@@ -586,6 +595,8 @@ gog_error_bar_dup		(GogErrorBar const *bar)
  * gog_error_bar_get_bounds :
  * @bar : A GogErrorBar
  * @rend : A GogRenderer 
+ * @x_map :  A GogAxisMap for the x axis
+ * @y_map :  A GogAxisMap for the y axis
  * @x : x coordinate of the origin of the bar 
  * @y : y coordinate of the origin of the bar
  * @plus : distance from the origin to the positive end of the bar 
@@ -594,31 +605,45 @@ gog_error_bar_dup		(GogErrorBar const *bar)
  *
  * Displays the error bar. If @plus is negative, the positive side of the bar is not displayed,
  * and if @minus is negative, the negative side of the bar is not displayed.
+ * x_map and y_map are used to convert coordinates from data space to canvas coordinates.
  * This function must not be called if #gog_error_bar_get_bounds returned FALSE.
  **/
 void gog_error_bar_render (const GogErrorBar *bar,
-			GogRenderer *rend,
-			double x, double y,
-			double plus, double minus,
-			gboolean horizontal)
+			   GogRenderer *rend,
+			   GogAxisMap *x_map, GogAxisMap *y_map,
+			   double x, double y,
+			   double minus,
+			   double plus,
+			   gboolean horizontal)
 {
 	ArtVpath path [7];
 	int n;
 	double x_start, y_start, x_end, y_end;
-	gboolean start = ((plus > 0.) && (bar ->display & GOG_ERROR_BAR_DISPLAY_POSITIVE)),
-					  end = ((minus > 0.) && (bar ->display & GOG_ERROR_BAR_DISPLAY_NEGATIVE));
+	double line_width, width;
+	gboolean start = plus > .0 && bar ->display & GOG_ERROR_BAR_DISPLAY_POSITIVE,
+		 end = minus > 0. && bar ->display & GOG_ERROR_BAR_DISPLAY_NEGATIVE;
 
 	if (!start && !end) return;
 
 	if (horizontal) {
-		x_start = (start)? x + plus: x;
-		x_end = (end)? x - minus: x;
-		y_start = y_end = y;
+		x_start = start ? 
+			gog_axis_map_to_canvas (x_map, x + plus) : 
+			gog_axis_map_to_canvas (x_map, x);
+		x_end =  end ? 
+			gog_axis_map_to_canvas (x_map , x - minus) :
+			gog_axis_map_to_canvas (x_map , x);
+		y_start = y_end = gog_axis_map_to_canvas (y_map, y);
 	} else {
-		x_start = x_end = x;
-		y_start = (start)? y - plus: y;
-		y_end = (end)? y + minus: y;
+		x_start = x_end = gog_axis_map_to_canvas (x_map ,x);
+		y_start = start ? 
+			gog_axis_map_to_canvas (y_map, y + plus) :
+			gog_axis_map_to_canvas (y_map, y);
+		y_end =  end ? 
+			gog_axis_map_to_canvas (y_map, y - minus) :
+			gog_axis_map_to_canvas (y_map, y);
 	}
+	x = gog_axis_map_to_canvas (x_map, x);
+	y = gog_axis_map_to_canvas (y_map, y);
 
 	path[0].code = ART_MOVETO;
 	path[1].code = ART_LINETO;
@@ -628,8 +653,15 @@ void gog_error_bar_render (const GogErrorBar *bar,
 	path[0].y = y_start;
 	path[1].y = y_end;
 
-	if (bar->width > bar->style->line.width) {
-		double width = bar->width / 2.;
+	if (horizontal) {
+		width = gog_renderer_pt2r_y (rend, bar->width) / 2.;
+		line_width = gog_renderer_pt2r_x (rend, bar->style->line.width);
+	} else {
+		width = gog_renderer_pt2r_x (rend, bar->width) / 2.;
+		line_width = gog_renderer_pt2r_y (rend, bar->style->line.width);
+	}
+
+	if ((2. * width) > line_width) {
 		if (start && end) {
 			path[2].code = ART_MOVETO;
 			path[3].code = ART_LINETO;
@@ -666,7 +698,7 @@ void gog_error_bar_render (const GogErrorBar *bar,
 		path[2].code = ART_END;
 
 	gog_renderer_push_style (rend, bar->style);
-	gog_renderer_draw_path (rend, path, NULL);
+	gog_renderer_draw_sharp_path (rend, path, NULL);
 	gog_renderer_pop_style (rend);
 }
 

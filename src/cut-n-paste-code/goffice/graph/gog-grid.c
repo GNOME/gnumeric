@@ -76,20 +76,21 @@ static void
 gog_grid_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogGrid *grid = GOG_GRID (view->model);
+	ArtVpath path[6];
 
-#warning KLUDGE KLUDGE
-	/* there seems to be a fence post discrepency in the code where axis
-	 * and plots extend 1 pixel past the edge of the grid.  cheat for now
-	 * and extend the grid 1 pixel,  chase this down after the release */
-	GogViewAllocation kludge;
-
-	kludge.x = floor (view->allocation.x + .5) - .5;
-	kludge.y = floor (view->allocation.y + .5) - .5;
-	kludge.h = floor (view->allocation.h + .5) + 2.;
-	kludge.w = floor (view->allocation.w + .5) + 2.;
+	path[0].code = ART_MOVETO;
+	path[1].code = ART_LINETO;
+	path[2].code = ART_LINETO;
+	path[3].code = ART_LINETO;
+	path[4].code = ART_LINETO;
+	path[5].code = ART_END;
+	path[0].x = path[1].x = path[4].x = view->allocation.x;
+	path[2].x = path[3].x = path[0].x + view->allocation.w;
+	path[0].y = path[3].y = path[4].y = view->allocation.y; 
+	path[1].y = path[2].y = path[0].y + view->allocation.h; 
 
 	gog_renderer_push_style (view->renderer, grid->base.style);
-	gog_renderer_draw_rectangle (view->renderer, &kludge, NULL);
+	gog_renderer_draw_polygon (view->renderer, path, FALSE, NULL);
 	gog_renderer_pop_style (view->renderer);
 	(gview_parent_klass->render) (view, bbox);
 }

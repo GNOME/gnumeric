@@ -533,7 +533,7 @@ gog_pie_view_info_at_point (GogView *view, double x, double y,
 {
 	GogPiePlot const *model = GOG_PIE_PLOT (view->model);
 	GogPieSeries const *series = NULL;
-	double *vals, scale, len, theta, r = view->allocation.h;
+	double *vals, scale, len = 0, theta, r = view->allocation.h;
 	GSList *ptr;
 	unsigned i;
 

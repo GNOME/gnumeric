@@ -41,6 +41,10 @@ void  gog_renderer_pop_style      (GogRenderer *r);
 void  gog_renderer_start_clipping (GogRenderer *r, GogViewAllocation const *region);
 void  gog_renderer_stop_clipping  (GogRenderer *r);
 
+void  gog_renderer_draw_sharp_path	(GogRenderer *r, ArtVpath *path,
+					 GogViewAllocation const *bound);
+void  gog_renderer_draw_sharp_polygon   (GogRenderer *r, ArtVpath *path,
+					 gboolean narrow, GogViewAllocation const *bound);
 void  gog_renderer_draw_path      (GogRenderer *r, ArtVpath const *path,
 				   GogViewAllocation const *bound);
 void  gog_renderer_draw_polygon   (GogRenderer *r, ArtVpath const *path,

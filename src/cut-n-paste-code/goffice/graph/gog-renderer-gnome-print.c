@@ -554,6 +554,15 @@ gog_graph_print_to_gnome_print (GogGraph *graph,
 	allocation.w = width;
 	allocation.h = height;
 	gog_view_size_allocate (prend->base.view, &allocation);
+	
+	/* FIXME FIXME FIXME this is a workaround for a bug in libgnomeprint
+	 * where line with width == 1.0 don't scale properly before an other
+	 * line width is set.
+	 * 
+	 * http://bugzilla.gnome.org/show_bug.cgi?id=149452
+	 */
+	gnome_print_setlinewidth (prend->gp_context, 0.1);
+	
 	gog_view_render	(prend->base.view, NULL);
 	g_object_unref (prend);
 }

@@ -39,6 +39,8 @@ enum {
 	BARCOL_PROP_HORIZONTAL
 };
 
+static GogObjectClass *gog_barcol_parent_klass;
+
 static GType gog_barcol_view_get_type (void);
 
 static void
@@ -129,8 +131,8 @@ gog_barcol_update_stacked_and_percentage (GogPlot1_5d *model,
 				continue;
 			if (gog_error_bar_is_visible (errors[j])) {
 					gog_error_bar_get_bounds (errors[j], i, &errminus, &errplus);
-					errminus = (errminus < tmp)? tmp - errminus: 0.;
-					errplus = (errplus > tmp)? errplus - tmp: 0.;
+					errminus = errminus > 0. ? errminus : 0.;
+					errplus = errplus > 0. ? errplus : 0.;
 				} else
 					errplus = errminus = 0.;
 			if (tmp > 0.) {
@@ -159,6 +161,25 @@ gog_barcol_update_stacked_and_percentage (GogPlot1_5d *model,
 	}
 }
 
+static GOData *
+gog_barcol_axis_get_bounds (GogPlot *plot, GogAxisType axis,
+			    GogPlotBoundInfo *bounds)
+{
+	GogPlot1_5d *model = GOG_PLOT1_5D (plot);
+	GogPlot1_5dClass *plot1_5d_klass = GOG_PLOT1_5D_CLASS (gog_barcol_parent_klass);
+	GOData *data;
+
+	data = (plot1_5d_klass->base.axis_get_bounds) (plot, axis, bounds); 
+	
+	if (axis == gog_axis_get_atype (gog_plot1_5d_get_index_axis (model))) {
+		bounds->val.minima -= .5;
+		bounds->val.maxima += .5;
+		bounds->logical.minima = -.5;
+	}
+
+	return data;
+}
+
 static void
 gog_barcol_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 {
@@ -166,6 +187,7 @@ gog_barcol_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 	GogObjectClass *gog_object_klass = (GogObjectClass *) gog_plot_1_5d_klass;
 	GogPlotClass   *plot_klass = (GogPlotClass *) gog_plot_1_5d_klass;
 
+	gog_barcol_parent_klass = g_type_class_peek_parent (gog_plot_1_5d_klass);
 	gobject_klass->set_property = gog_barcol_plot_set_property;
 	gobject_klass->get_property = gog_barcol_plot_get_property;
 
@@ -187,7 +209,8 @@ gog_barcol_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 	gog_object_klass->editor	= gog_barcol_plot_editor;
 	gog_object_klass->view_type	= gog_barcol_view_get_type ();
 
-	plot_klass->desc.series.style_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
+	plot_klass->desc.series.style_fields	= GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
+	plot_klass->axis_get_bounds   		= gog_barcol_axis_get_bounds;
 
 	gog_plot_1_5d_klass->swap_x_and_y = gog_barcol_swap_x_and_y;
 	gog_plot_1_5d_klass->update_stacked_and_percentage =
@@ -209,6 +232,7 @@ typedef GogPlotView		GogBarColView;
 typedef GogPlotViewClass	GogBarColViewClass;
 
 /**
+ * FIXME FIXME FIXME Wrong description
  * barcol_draw_rect :
  * @rend : #GogRenderer
  * @flip :
@@ -223,45 +247,47 @@ typedef GogPlotViewClass	GogBarColViewClass;
  **/
 static void
 barcol_draw_rect (GogRenderer *rend, gboolean flip,
-		  GogViewAllocation const *base,
+		  GogAxisMap *x_map,
+		  GogAxisMap *y_map,
 		  GogViewAllocation const *rect)
 {
 	ArtVpath path[6];
-	double base_x, base_y, w, h;
+	double x0, x1, y0, y1;
 
-	w = rect->w;
-	if (w < 1.)
-		w = 1.;
-	h = rect->h;
-	if (h < 1.)
-		h = 1.;
-
-#warning TODO this has no business being done at this level.  Move it into GogRendererPixbuf
-	/* tweak to make libart happier.  for the common case of hairline
-	 * libart wants to draw 1/2 a pixel above and 1/2 below producing a
-	 * fuzzy outline when antialiased. */
 	if (flip) {
-		base_x = base->y + base->h;
-		base_y = base->x + base->w;
-		path[4].x = path[1].x = path[0].x = ceil (base_x - rect->y) - .5;
-		path[4].y = path[3].y = path[0].y = ceil (base_y - rect->x) - .5; 
-		path[2].y = path[1].y = ceil (base_y - (rect->x + w)) - .5; 
-		path[3].x = path[2].x = ceil (base_x - (rect->y + h)) - .5;
+		x0 = gog_axis_map_to_canvas (x_map, rect->y);
+		x1 = gog_axis_map_to_canvas (x_map, rect->y + rect->h);
+		y0 = gog_axis_map_to_canvas (y_map, rect->x);
+		y1 = gog_axis_map_to_canvas (y_map, rect->x + rect->w);
 	} else {
-		path[4].x = path[1].x = path[0].x = ceil (base->x + rect->x) - .5;
-		path[4].y = path[3].y = path[0].y = ceil (base->y + rect->y) - .5; 
-		path[2].y = path[1].y = ceil (base->y + rect->y + h) - .5; 
-		path[3].x = path[2].x = ceil (base->x + rect->x + w) - .5;
+		x0 = gog_axis_map_to_canvas (x_map, rect->x);
+		x1 = gog_axis_map_to_canvas (x_map, rect->x + rect->w);
+		y0 = gog_axis_map_to_canvas (y_map, rect->y);
+		y1 = gog_axis_map_to_canvas (y_map, rect->y + rect->h);
 	}
+
+	path[0].x = path[3].x = path[4].x = x0;
+	path[1].x = path[2].x = x1;
+	path[0].y = path[1].y = path[4].y = y0;
+	path[2].y = path[3].y = y1;
 	path[0].code = ART_MOVETO;
 	path[1].code = ART_LINETO;
 	path[2].code = ART_LINETO;
 	path[3].code = ART_LINETO;
 	path[4].code = ART_LINETO;
 	path[5].code = ART_END;
-
-	gog_renderer_draw_polygon (rend, path, (w < 3.) || (h < 3.), NULL);
+	
+	gog_renderer_draw_sharp_polygon (rend, path, 
+					 fabs (x1 - x0) < 3. || fabs (y1 - y0) < 3.
+					 , NULL);
 }
+
+typedef struct {
+	double		plus;
+	double 		minus;
+	double		x;
+	double		y;
+} ErrorBarData;
 
 static void
 gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
@@ -269,17 +295,20 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogBarColPlot const *model = GOG_BARCOL_PLOT (view->model);
 	GogPlot1_5d const *gog_1_5d_model = GOG_PLOT1_5D (view->model);
 	GogSeries1_5d const *series;
-	GogViewAllocation base, work;
+	GogViewAllocation work;
 	GogRenderer *rend = view->renderer;
+	GogAxisMap *x_map, *y_map;
 	gboolean is_vertical = ! (model->horizontal);
-	double **vals, sum, neg_base, pos_base, tmp, val_min, val_max;
-	double **errplus, **errminus, **cx, **cy, x;
-	double col_step, group_step, scale, data_scale;
+	double **vals, sum, neg_base, pos_base, tmp;
+	double val_min, val_max;
+	double x;
+	double col_step, group_step, offset, data_scale;
 	unsigned i, j;
 	unsigned num_elements = gog_1_5d_model->num_elements;
 	unsigned num_series = gog_1_5d_model->num_series;
 	GogPlot1_5dType const type = gog_1_5d_model->type;
 	GogStyle **styles;
+	ErrorBarData **error_data;
 	GogErrorBar **errors;
 	GSList *ptr;
 	unsigned *lengths;
@@ -292,14 +321,18 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 				  &val_min, &val_max))
 		return;
 
+	/* FIXME: add a way to check if map is ok */
+	x_map = gog_axis_map_new (GOG_PLOT (model)->axis[0], 
+				  view->allocation.x, view->allocation.w);
+	y_map = gog_axis_map_new (GOG_PLOT (model)->axis[1], view->allocation.y + view->allocation.h, 
+				  -view->allocation.h);
+
 	vals = g_alloca (num_series * sizeof (double *));
-	errplus = g_alloca (num_series * sizeof (double *));
-	errminus = g_alloca (num_series * sizeof (double *));
-	cx = g_alloca (num_series * sizeof (double *));
-	cy = g_alloca (num_series * sizeof (double *));
 	lengths = g_alloca (num_series * sizeof (unsigned));
 	styles = g_alloca (num_series * sizeof (GogStyle *));
 	errors = g_alloca (num_series * sizeof (GogErrorBar *));
+	error_data = g_alloca (num_series * sizeof (ErrorBarData *));
+	
 	i = 0;
 	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
@@ -311,37 +344,22 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			GO_DATA_VECTOR (series->base.values[1].data));
 		styles[i] = GOG_STYLED_OBJECT (series)->style;
 		errors[i] = series->errors;
-		if (gog_error_bar_is_visible (series->errors)) {
-			errminus[i] = g_malloc (sizeof (double) * lengths[i]);
-			errplus[i] = g_malloc (sizeof (double) * lengths[i]);
-			cx[i] = g_malloc (sizeof (double) * lengths[i]);
-			cy[i] = g_malloc (sizeof (double) * lengths[i]);
-		}
-		else
-			errminus[i] = errplus[i] = cx[i] = cy[i] = NULL;
+		if (gog_error_bar_is_visible (series->errors)) 
+			error_data[i] = g_malloc (sizeof (ErrorBarData) * lengths[i]);
+		else 
+			error_data[i] = NULL;
 		i++;
 	}
-
-	/* flip things */
-	if (is_vertical) {
-		base.x = view->allocation.y;
-		base.y = view->allocation.x;
-		base.w = view->allocation.h;
-		base.h = view->allocation.w;
-	} else
-		base = view->allocation;
 
 	/* work in coordinates drawing bars from the top */
 	col_step = 1. - model->overlap_percentage / 100.;
 	group_step = model->gap_percentage / 100.;
-	work.h = base.h / (num_elements * (1. + ((num_series - 1) * col_step) + group_step));
+	work.h = 1.0 / (1. + ((num_series - 1.0) * col_step) + group_step);
 	col_step *= work.h;
-	group_step *= work.h;
-	work.y = base.h - group_step / 2.; /* indent by half a group step */
-	scale = data_scale = base.w / (val_max - val_min);
+	offset = (col_step * (num_series - 1.0) + work.h) / 2.0; 
+	data_scale = 1.0;
 
-	group_step -= col_step; /* inner loop increments 1 extra time */
-	for (i = 0 ; i < num_elements ; i++, work.y -= group_step) {
+	for (i = 0 ; i < num_elements ; i++) {
 		if (type == GOG_1_5D_AS_PERCENTAGE) {
 			sum = 0.;
 			for (j = num_series ; j-- > 0 ; ) {
@@ -356,12 +374,14 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 					sum -= tmp;
 			}
 
-			data_scale = (fabs (go_sub_epsilon (sum)) > 0) ? scale / sum : scale;
+			data_scale = (fabs (go_sub_epsilon (sum)) > 0.0) ? 1.0 / sum : 1.0;
 		}
 
-		pos_base = neg_base = -val_min * scale;
-		work.y -= work.h;
-		for (j = 0 ; j < num_series ; j++, work.y -= col_step) {
+		pos_base = neg_base = 0.0;
+		for (j = 0 ; j < num_series ; j++) {
+			
+			work.y = (double) j * col_step + (double) i - offset;
+			
 			if (i >= lengths[j])
 				continue;
 			tmp = vals[j][i];
@@ -369,8 +389,6 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 				continue;
 			if (gog_error_bar_is_visible (errors[j])) {
 				gog_error_bar_get_bounds (errors[j], i, &minus, &plus);
-				plus -= tmp;
-				minus = tmp - minus;
 			}
 			tmp *= data_scale;
 			if (tmp >= 0.) {
@@ -385,29 +403,20 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 					neg_base += tmp;
 			}
 
-			if (work.x < 0) {
-				work.w += work.x;
-				work.x = 0;
-			} else if (work.x >= base.w)
-				continue;
-			if (work.w < 0)
-				continue;
-			if ((work.x + work.w) >= base.w)
-				work.w = base.w - work.x;
 			gog_renderer_push_style (view->renderer, styles[j]);
-			barcol_draw_rect (rend, is_vertical, &base, &work);
+			barcol_draw_rect (rend, is_vertical, x_map, y_map, &work);
 			gog_renderer_pop_style (view->renderer);
+			
 			if (gog_error_bar_is_visible (errors[j])) {
-				cx[j][i] = 
-				x = (tmp > 0)? work.x + work.w: work.x;
-				errplus[j][i] = plus * data_scale;
-				errminus[j][i] = minus * data_scale;
+				x = tmp > 0 ? work.x + work.w: work.x;
+				error_data[j][i].plus = plus * data_scale;
+				error_data[j][i].minus =minus * data_scale;
 				if (is_vertical) {
-					cx[j][i] = view->allocation.x+view->allocation.w - work.y - work.h / 2.;
-					cy[j][i] = view->allocation.y + view->allocation.h - x;
+					error_data[j][i].x = work.y + work.h / 2.0;
+					error_data[j][i].y = x;
 				} else {
-					cx[j][i] = view->allocation.x + x;
-					cy[j][i] = view->allocation.y + work.y + work.h / 2.;
+					error_data[j][i].x = x;
+					error_data[j][i].y = work.y + work.h / 2.0;
 				}
 			}
 		}
@@ -417,13 +426,15 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (gog_error_bar_is_visible (errors[i])) {
 			for (j = 0; j < lengths[i]; j++)
 				gog_error_bar_render (errors[i], view->renderer,
-						      cx[i][j], cy[i][j],
-						      errplus[i][j], errminus[i][j], model->horizontal);
-			g_free (errminus[i]);
-			g_free (errplus[i]);
-			g_free (cx[i]);
-			g_free (cy[i]);
+						      x_map, y_map,
+						      error_data[i][j].x , error_data[i][j].y,
+						      error_data[i][j].minus, error_data[i][j].plus,
+						      model->horizontal);
+			g_free (error_data[i]);
 		}
+
+	gog_axis_map_free (x_map);
+	gog_axis_map_free (y_map);
 }
 
 static gboolean

@@ -137,7 +137,7 @@ gog_plot1_5d_get_value_axis (GogPlot1_5d *model)
 	return model->base.axis [GOG_AXIS_Y];
 }
 
-static GogAxis *
+GogAxis *
 gog_plot1_5d_get_index_axis (GogPlot1_5d *model)
 {
 	GogPlot1_5dClass *klass = GOG_PLOT1_5D_GET_CLASS (model);
@@ -259,7 +259,7 @@ gog_plot1_5d_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		GSList *ptr;
 
 		bounds->val.minima = 0.;
-		bounds->val.maxima = model->num_elements;
+		bounds->val.maxima = model->num_elements - 1.;
 		bounds->logical.minima = 0.;
 		bounds->logical.maxima = go_nan;
 		bounds->is_discrete    = TRUE;

@@ -279,6 +279,8 @@ marker_create_pixbuf_with_size (GOMarker *marker, guint size)
 	ArtVpath  *fill_path;
 	GdkPixbuf *pixbuf;
 
+	size = rint (marker->scale * size);
+
 	if (size < 1 || marker->shape == GO_MARKER_NONE)
 		return NULL;
 
@@ -362,7 +364,8 @@ go_marker_init (GOMarker * marker)
 	marker->outline_color	= RGBA_BLACK;
 	marker->fill_color	= RGBA_WHITE;
 	marker->size		= MARKER_DEFAULT_SIZE;
-	marker->pixbuf = NULL;
+	marker->pixbuf 		= NULL;
+	marker->scale		= 1.;
 }
 
 static void
@@ -402,12 +405,15 @@ go_marker_get_paths (GOMarker * marker,
 }
 
 GdkPixbuf const *
-go_marker_get_pixbuf (GOMarker * marker)
+go_marker_get_pixbuf (GOMarker * marker, double scale)
 {
 	g_return_val_if_fail (IS_GO_MARKER (marker), NULL);
 
-	if (marker->pixbuf == NULL)
+	if (marker->pixbuf == NULL ||
+	    marker->scale !=  scale) {
+		marker->scale = scale;
 		marker_update_pixbuf (marker);
+	}
 	return marker->pixbuf;
 }
 
@@ -428,7 +434,8 @@ go_marker_get_shape (GOMarker * marker)
 void
 go_marker_set_shape (GOMarker *marker, GOMarkerShape shape)
 {
-	g_return_if_fail (IS_GO_MARKER (marker));
+	g_return_if_fail (IS_GO_MARKER (marker));	    
+
 	if (marker->shape == shape)
 		return;
 
@@ -579,7 +586,7 @@ go_marker_selector (GOColor outline_color, GOColor fill_color,
 		shape = elements[i];
 		is_auto = (shape == GO_MARKER_MAX);
 		go_marker_set_shape (marker, is_auto ? default_shape : shape);
-		pixbuf = go_marker_get_pixbuf (marker);
+		pixbuf = go_marker_get_pixbuf (marker, 1.0);
 		if (pixbuf == NULL) /* handle none */
 			pixbuf = new_blank_pixbuf (marker, marker->size);
 		else	/* add_element absorbs ref */

@@ -7,7 +7,14 @@ Andreas:
 	* Some minor About box changes
 
 Emmanuel Pacaud:
-	* Add logarithmic mapping support to xy plots
+	* Add logarithmic mapping support to xy/bar/col/line/area plots
+	* Zoom support for markers and error bars.
+	* Move sharp libart rendering tweaks to pixbuf renderer.
+	* Improve chart SVG export.
+	http://bugzilla.gnome.org/show_bug.cgi?id=132063
+	* Improve chart printing.
+	* Fix minor tick rendering
+	http://bugzilla.gnome.org/show_bug.cgi?id=144123
 
 Harald Ashburner:
 	* Updates for the option pricers.

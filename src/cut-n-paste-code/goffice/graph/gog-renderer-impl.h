@@ -59,6 +59,8 @@ typedef struct {
  	void (*start_clipping)	(GogRenderer *renderer);
  	void (*stop_clipping) 	(GogRenderer *renderer);
  	
+	void (*sharp_path)	(GogRenderer *renderer, ArtVpath *path, double line_width);
+
 	void (*draw_path)      	(GogRenderer *renderer, ArtVpath const *path,
 				 GogViewAllocation const *bound);
 	void (*draw_polygon)   	(GogRenderer *renderer, ArtVpath const *path, gboolean narrow,
@@ -69,6 +71,7 @@ typedef struct {
 	void (*draw_marker)    	(GogRenderer *rend, double x, double y);
 	void (*measure_text)   	(GogRenderer *rend, 
 				 char const *text, GogViewRequisition *size);
+	double (*line_size)	(GogRenderer *rend, double width);
 
 	/* Signals */
 	void (*request_update) (GogRenderer *renderer);

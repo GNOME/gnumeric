@@ -1,3 +1,8 @@
+2004-08-09  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* src/sheet-object-graph.c (cb_save_as) : Set zoom to 1.0 when
+	exporting to SVG.
+
 2004-08-02  Jody Goldberg <jody@gnome.org>
 
 	* src/expr.c (gnm_expr_eval) : Functions returning an array when only

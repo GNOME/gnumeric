@@ -75,7 +75,8 @@ typedef struct {
 
 struct _GogAxisMapDesc {
 	double 		(*map) (GogAxisMap *map, double value);
-	gboolean 	(*init) (GogAxisMap *map);
+	double 		(*map_to_canvas) (GogAxisMap *map, double value, gboolean inverted);
+	gboolean 	(*init) (GogAxisMap *map, double offset, double length);
 	void		(*destroy) (GogAxisMap *map);
 	void		(*auto_bound) (GogAxis *axis, 
 				       double minimum, double maximum,
@@ -88,8 +89,9 @@ struct _GogAxisMapDesc {
 	char const	*description;
 };
 
-GogAxisMap*   gog_axis_map_new	 	  (GogAxis *axis);
+GogAxisMap*   gog_axis_map_new	 	  (GogAxis *axis, double offset, double length);
 double	      gog_axis_map 		  (GogAxisMap *map, double x);
+double	      gog_axis_map_to_canvas	  (GogAxisMap *map, double x);
 void 	      gog_axis_map_free		  (GogAxisMap *map);
 
 G_END_DECLS

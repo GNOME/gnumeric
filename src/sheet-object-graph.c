@@ -229,7 +229,7 @@ cb_save_as (GtkWidget *widget, GObject *obj_view)
 			ret = gog_graph_export_to_svg (sog->graph, output,
 						       fabs (coords[2] - coords[0]),
 						       fabs (coords[3] - coords[1]),
-						       1. / gnm_app_dpi_to_pixels ());
+						       1.);
 
 			gsf_output_close (output);
 			g_object_unref (output);
