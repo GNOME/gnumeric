@@ -1,3 +1,15 @@
+2003-05-16  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=106148.
+	* src/expr.c (cellrange_relocate) : remove previous hack.  We're not
+	  changing the expression so don't pretend to.  The right solution is.
+	* src/dependent.c (dependents_relocate) : here.
+	  Even if the expression does not change queue it for recalc.  We know
+	  it depends on the region, so it needs to recalc.
+
+	* src/sheet.c (sheet_move_range) : queue dependencies of target region
+	  for recalc their expressions may not change but the content will.
+
 2003-05-16  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-control-gui.c (workbook_setup_auto_calc,

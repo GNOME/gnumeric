@@ -1697,11 +1697,13 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 						dependent_link (dep, pos);
 				}
 			}
-		}
+		} else
+			/* the expression may not be changing, but it depends
+			 * on something that is */
+			dependent_queue_recalc (dep);
 
 		/* Not the most efficient, but probably not too bad.  It is
-		 * definitely cheaper tha finding the set of effected sheets.
-		 */
+		 * definitely cheaper than finding the set of effected sheets. */
 		sheet_flag_status_update_range (dep->sheet, NULL);
 	}
 

@@ -3407,15 +3407,15 @@ sheet_move_range (GnmExprRelocateInfo const *rinfo,
 
 	/* 4. Clear the target area & invalidate references to it */
 	if (!out_of_range)
-		/*
-		 * we can clear content but not styles from the destination
+		/* we can clear content but not styles from the destination
 		 * region without worrying if it overlaps with the source,
-		 * because we have already extracted the content.
-		 */
+		 * because we have already extracted the content.  However,
+		 * we do need to queue anything that depends on the region for
+		 * recalc. */
 		sheet_clear_region (rinfo->target_sheet,
 				    dst.start.col, dst.start.row,
 				    dst.end.col, dst.end.row,
-				    CLEAR_VALUES, cc); /* Do not to clear styles, or objects */
+				    CLEAR_VALUES|CLEAR_RECALC_DEPS, cc);
 
 	/* 5. Slide styles BEFORE the cells so that spans get computed properly */
 	sheet_style_relocate (rinfo);
@@ -3762,14 +3762,14 @@ sheet_row_get_default_size_pixels (Sheet const *sheet)
 void
 sheet_row_set_default_size_pts (Sheet *sheet, double height_pts)
 {
-	sheet_colrow_default_calc (sheet, height_pts, 1, 0, FALSE, TRUE);
+	sheet_colrow_default_calc (sheet, height_pts, 0, 0, FALSE, TRUE);
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->reposition_objects.row = 0;
 }
 void
 sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels)
 {
-	sheet_colrow_default_calc (sheet, height_pixels, 1, 0, FALSE, FALSE);
+	sheet_colrow_default_calc (sheet, height_pixels, 0, 0, FALSE, FALSE);
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->reposition_objects.row = 0;
 }

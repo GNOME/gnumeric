@@ -673,7 +673,7 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 		cursor_change (dd->matches_table, dd);
 	}
 
-	gtk_notebook_set_page (dd->notebook, dd->notebook_matches_page);
+	gtk_notebook_set_current_page (dd->notebook, dd->notebook_matches_page);
 	gtk_widget_grab_focus (GTK_WIDGET (dd->matches_table));
 
 	/* Save the contents of the search in the gnome-entry. */

@@ -282,7 +282,7 @@ attr_dialog_impl (AttrState *state)
 	attr_dialog_init_view_page (state);
 
 	/* Select the same page the last invocation used */
-	gtk_notebook_set_page (
+	gtk_notebook_set_current_page (
 		GTK_NOTEBOOK (state->notebook),
 		attr_dialog_page);
         g_signal_connect (

@@ -972,13 +972,13 @@ typedef enum {
 	fill_Pattern = 1,	/* bitmap */
 	fill_Texture = 2,	/* pattern with private Colour map) */
 	fill_Picture = 3,	/* Center picture on the shape */
-	fill_Shade = 4,	/* Shade from start to end points */
-	fill_ShadeCenter =5,/* Shade from bounding rectangle to end point */
-	fill_ShadeShape = 6,/* Shade from shape outline to end point */
-	fill_ShadeScale = 7,/* Like fill_Shade, but fillAngle is also scaled by
-			       the aspect ratio of the shape. If shape is square,
-			       it is the same as fill_Shade. */
-	fill_ShadeTitle = 8,/* shade to title  ?? what is this for */
+	fill_Shade = 4,		/* Shade from start to end points */
+	fill_ShadeCenter =5,	/* Shade from bounding rectangle to end point */
+	fill_ShadeShape = 6,	/* Shade from shape outline to end point */
+	fill_ShadeScale = 7,	/* Like fill_Shade, but fillAngle is also scaled by
+				   the aspect ratio of the shape. If shape is square,
+				   it is the same as fill_Shade. */
+	fill_ShadeTitle = 8,	/* shade to title  ?? what is this for */
 	fill_Background = 9	/* Use background fill color/pattern */
 } FillType;
 
@@ -1383,6 +1383,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 445 : name = "bool fillShape"; break;
 		/* FALSE : Use the large rect? */
 		case 446 : name = "bool fillUseRect"; break;
+
 		/* FALSE : Hit test a shape as though filled */
 		case 447 :
 			/* NOTE : This test is somewhat questionable.

@@ -319,7 +319,7 @@ recalc_spans (FooCanvasItem *item)
 
 	tmp = scg_colrow_distance_get (item_edit->scg, FALSE,
 				       item_edit->pos.row, end_row+1) - 2;
-	item->y2 = 1 + item->y1 + MAX (height, tmp);
+	item->y2 = item->y1 + MAX (height, tmp);
 	g_object_unref (layout);
 }
 
@@ -449,7 +449,6 @@ static void
 item_edit_destroy (GtkObject *o)
 {
 	ItemEdit *item_edit = ITEM_EDIT (o);
-	GtkEntry *entry = item_edit->entry;
 
 	item_edit_cursor_blink_stop (item_edit);
 	entry_destroy_feedback_range (item_edit);

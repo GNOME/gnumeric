@@ -1486,19 +1486,13 @@ cellrange_relocate (Value const *v, GnmExprRelocateInfo const *rinfo)
 
 		/* Dont allow creation of 3D references */
 		if (sheet_a == sheet_b) {
-			/* If just 1 end is moving do not change the reference
-			 * _but_
-			 * return a new expression with the original reference
-			 * as if it did change so that the routines using this
-			 * will know to recalc the dependent. */
+			/* If just 1 end is moving do not change the reference */
 			if ((needs == 0x1 && cellref_shift (&ref_b, rinfo)) ||
 			    (needs == 0x2 && cellref_shift (&ref_a, rinfo)))
 				res = value_new_cellrange_unsafe (&v->v_range.cell.a,
 								  &v->v_range.cell.b);
 			else
-				res = value_new_cellrange (&ref_a, &ref_b,
-							   rinfo->pos.eval.col,
-							   rinfo->pos.eval.row);
+				return NULL;
 		} else
 			res = value_new_error_REF (NULL);
 

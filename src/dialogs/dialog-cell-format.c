@@ -2638,7 +2638,7 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 				gtk_option_menu_set_history (state->validation.constraint_type, 0);
 				cb_validation_sensitivity (NULL, state);
 			} else {
-				gtk_notebook_set_page (state->notebook, FD_VALIDATION);
+				gtk_notebook_set_current_page (state->notebook, FD_VALIDATION);
 
 				if (state->validation.valid == -1)
 					gnm_expr_entry_grab_focus (state->validation.expr0.entry, FALSE);
@@ -2834,7 +2834,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 
 	if (pageno == FD_CURRENT)
 		pageno = fmt_dialog_page;
-	gtk_notebook_set_page (state->notebook, pageno);
+	gtk_notebook_set_current_page (state->notebook, pageno);
 
 	page_signal = g_signal_connect (G_OBJECT (state->notebook),
 		"switch_page",
