@@ -2826,7 +2826,7 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 
 	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
-	old_msg_locale = textdomain (NULL);
+	old_msg_locale = g_strdup (textdomain (NULL));
 	textdomain ("C");
 
 	args = workbook_get_attributev (wb, &n_args);
@@ -2879,6 +2879,7 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 	xmlAddChild (cur, child);
 
 	textdomain (old_msg_locale);
+	g_free (old_msg_locale);
 	setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
 
@@ -2930,7 +2931,7 @@ xml_workbook_read (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree)
 
 	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 	setlocale (LC_NUMERIC, "C");
-	old_msg_locale = textdomain (NULL);
+	old_msg_locale = g_strdup (textdomain (NULL));
 	textdomain ("C");
 
 	child = xml_search_child (tree, "Summary");
@@ -2999,6 +3000,7 @@ xml_workbook_read (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree)
 	}
 
 	textdomain (old_msg_locale);
+	g_free (old_msg_locale);
 	setlocale (LC_NUMERIC, old_num_locale);
 	g_free (old_num_locale);
 
