@@ -14,7 +14,8 @@
 
 #define DEFAULT_FONT \
 	"-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*," \
-	"-*-*-medium-r-normal--12-*-*-*-*-*-*-*,*"
+	"-*-*-medium-r-normal--12-*-*-*-*-*-*-*," \
+	"-*-*-regular-r-normal--12-*-*-*-*-*-*-*,*"
 #define DEFAULT_BOLD_FONT \
 	"-adobe-helvetica-bold-r-normal--*-120-*-*-*-*-*-*," \
 	"-*-*-bold-r-normal--12-*-*-*-*-*-*-*,*"
@@ -527,8 +528,18 @@ font_init (void)
 	if (!gnumeric_default_font)
 		gnumeric_default_font = style_font_new_simple ("fixed", DEFAULT_SIZE);
 
-	if (!gnumeric_default_font)
-		g_error ("Could not load the default font");
+	if (!gnumeric_default_font) {
+		fprintf (stderr,
+			 "Gnumeric failed to find a suitable default font.\n"
+			 "Please file a proper bug report (see http://bugs.gnome.org)\n"
+			 "including the following extra items:\n"
+			 "\n"
+			 "1. Values of LC_ALL and LANG environment variables.\n"
+			 "2. A list of the fonts on your system (from the xlsfonts program).\n"
+			 "\n"
+			 "Thanks -- the Gnumeric Team\n");
+		exit (1);			
+	}
 
 	gnumeric_default_bold_font = style_font_new (DEFAULT_BOLD_FONT, DEFAULT_SIZE);
 	gnumeric_default_italic_font = style_font_new (DEFAULT_ITALIC_FONT, DEFAULT_SIZE);
