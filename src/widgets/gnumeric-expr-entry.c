@@ -344,20 +344,6 @@ gee_rangesel_update_text (GnumericExprEntry *gee)
 	g_free (text);
 }
 
-static gboolean
-split_char_p (unsigned char c)
-{
-	switch (c) {
-	case ',': case '=':
-	case '(': case '<': case '>':
-	case '+': case '-': case '*': case '/':
-	case '^': case '&': case '%': case '!':
-		return TRUE;
-	default :
-		return FALSE;
-	}
-}
-
 /**
  * gnm_expr_entry_rangesel_start
  * @gee:   a #GnumericExprEntry
@@ -461,15 +447,17 @@ gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 		rs->text_start = 0;
 		rs->text_end = last;
 	} else {
-		for (start = cursor; start >= 0; start--) {
-			if (!isalnum (*((unsigned char *)(text + start)))) {
+		for (start = cursor; start >= 0; start = g_utf8_prev_char (text + start) - text) {
+			gunichar c = g_utf8_get_char (text + start);
+			if (!isalnum (c)) {
 				break;
 			}
 		}
-		start++;
+		start = g_utf8_next_char (text + start) - text;
 		rs->text_start = (cursor < start) ? cursor : start;
-		for (end = cursor; end < last; end++) {
-			if (!isalnum (*((unsigned char *)(text + end)))) {
+		for (end = cursor; end < last; end = g_utf8_next_char (text + end) - text) {
+			gunichar c = g_utf8_get_char (text + end);
+			if (!g_unichar_isalnum (c)) {
 				break;
 			}
 		}
@@ -1031,6 +1019,23 @@ gnm_expr_entry_set_absolute (GnumericExprEntry *gee)
 
 	flags = GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL;
 	gnm_expr_entry_set_flags (gee, flags, flags);
+}
+
+
+#warning  FIXME: this is definitely not utf8 clean
+
+static gboolean
+split_char_p (unsigned char c)
+{
+	switch (c) {
+	case ',': case '=':
+	case '(': case '<': case '>':
+	case '+': case '-': case '*': case '/':
+	case '^': case '&': case '%': case '!':
+		return TRUE;
+	default :
+		return FALSE;
+	}
 }
 
 /**
