@@ -62,6 +62,7 @@ Morten:
 	* Support for --with-long-double
 	* Constify C strings.
 	* Switch to newer R sources.
+	* Fix "make -j" in plugins.
 
 Scott Ananian:
 	* Update the debian control files.
