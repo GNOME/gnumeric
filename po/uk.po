@@ -3183,7 +3183,7 @@ msgstr "\""
 
 #: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
-msgstr ""
+msgstr "'"
 
 #: src/dialogs/dialog-stf-export.glade.h:5
 msgid "Add ->"
@@ -4303,24 +4303,23 @@ msgstr "Будь-яке значення"
 
 #: src/dialogs/validate.glade.h:2
 msgid "Apply these changes to other cells with the same settings"
-msgstr ""
+msgstr "Застосувати ц╕ зм╕ни до ╕нших ком╕рок з тими ж установками"
 
 #: src/dialogs/validate.glade.h:4
 msgid "Data Validation"
-msgstr ""
+msgstr "Перев╕рка даних"
 
 #: src/dialogs/validate.glade.h:5
 msgid "Date"
 msgstr "Дата"
 
 #: src/dialogs/validate.glade.h:6
-#, fuzzy
 msgid "Decimal"
-msgstr "Спец╕альна"
+msgstr "Десятков╕"
 
 #: src/dialogs/validate.glade.h:7
 msgid "Ignore blank"
-msgstr ""
+msgstr "╤╜норувати порожн╕"
 
 #: src/dialogs/validate.glade.h:8 src/functions/fn-information.c:857
 msgid "Information"
@@ -4608,7 +4607,7 @@ msgstr "[$ADP]"
 
 #: src/formats.c:253
 msgid "Andorran peseta"
-msgstr "Андоррська песета"
+msgstr "Андоррськ╕ песети"
 
 #: src/formats.c:254
 msgid "[$AED]"
@@ -4616,7 +4615,7 @@ msgstr "[$AED]"
 
 #: src/formats.c:254
 msgid "UAE dirham"
-msgstr ""
+msgstr "Динари ОАЕ"
 
 #: src/formats.c:255
 msgid "[$AFA]"
@@ -4624,7 +4623,7 @@ msgstr "[$AFA]"
 
 #: src/formats.c:255
 msgid "Afghanistan afghani"
-msgstr "Аф╜ан╕станський аф╜ан╕"
+msgstr "Аф╜ан╕станськ╕ аф╜ан╕"
 
 #: src/formats.c:256
 msgid "[$ALL]"
@@ -4632,7 +4631,7 @@ msgstr "[$ALL]"
 
 #: src/formats.c:256
 msgid "Albanian lek"
-msgstr "Албанський лек"
+msgstr "Албанськ╕ леки"
 
 #: src/formats.c:257
 msgid "[$ANG]"
@@ -4640,7 +4639,7 @@ msgstr "[$ANG]"
 
 #: src/formats.c:257
 msgid "Netherlands Antillian guilder"
-msgstr ""
+msgstr "Голандськ╕ гульдени"
 
 #: src/formats.c:258
 msgid "[$AON]"
@@ -4648,7 +4647,7 @@ msgstr "[$AON]"
 
 #: src/formats.c:258
 msgid "Angolan new kwanza"
-msgstr ""
+msgstr "Ангольськ╕ нов╕ кванза"
 
 #: src/formats.c:259
 msgid "[$ARA]"
@@ -4656,7 +4655,7 @@ msgstr "[$ARA]"
 
 #: src/formats.c:259
 msgid "Argentine austral"
-msgstr ""
+msgstr "Ар╜ентинськ╕ австрал╕"
 
 #: src/formats.c:260
 msgid "[$ATS]"
@@ -4664,7 +4663,7 @@ msgstr "[$ATS]"
 
 #: src/formats.c:260
 msgid "Austrian schilling"
-msgstr "Австр╕йський шил╕н╜"
+msgstr "Австр╕йськ╕ шил╕н╜и"
 
 #: src/formats.c:261
 msgid "[$AUD]"
@@ -4672,7 +4671,7 @@ msgstr "[$AUD]"
 
 #: src/formats.c:261
 msgid "Australian dollar"
-msgstr "Австрал╕йський долар"
+msgstr "Австрал╕йськ╕ долари"
 
 #: src/formats.c:262
 msgid "[$AWG]"
@@ -4680,7 +4679,7 @@ msgstr "[$AWG]"
 
 #: src/formats.c:262
 msgid "Aruban guilder"
-msgstr "Арубський ╜ульден"
+msgstr "Арубськ╕ ╜ульдени"
 
 #: src/formats.c:263
 msgid "[$BBD]"
@@ -4688,7 +4687,7 @@ msgstr "[$BBD]"
 
 #: src/formats.c:263
 msgid "Barbados dollar"
-msgstr "Барбадоський долар"
+msgstr "Барбадоськ╕ долари"
 
 #: src/formats.c:264
 msgid "[$BDT]"
@@ -4696,7 +4695,7 @@ msgstr "[$BDT]"
 
 #: src/formats.c:264
 msgid "Bangladeshi taka"
-msgstr ""
+msgstr "Бан╜ладешськ╕ таки"
 
 #: src/formats.c:265
 msgid "[$BEF]"
@@ -4704,7 +4703,7 @@ msgstr "[$BEF]"
 
 #: src/formats.c:265
 msgid "Belgian franc"
-msgstr "Бельг╕йський франк"
+msgstr "Бельг╕йськ╕ франки"
 
 #: src/formats.c:266
 msgid "[$BGL]"
@@ -4712,7 +4711,7 @@ msgstr "[$BGL]"
 
 #: src/formats.c:266
 msgid "Bulgarian lev"
-msgstr "Болгарський лев"
+msgstr "Болгарськ╕ леви"
 
 #: src/formats.c:267
 msgid "[$BHD]"
@@ -4720,7 +4719,7 @@ msgstr "[$BHD]"
 
 #: src/formats.c:267
 msgid "Bahraini dinar"
-msgstr "Бахрейнський динар"
+msgstr "Бахрейнськ╕ динари"
 
 #: src/formats.c:268
 msgid "[$BIF]"
@@ -4728,7 +4727,7 @@ msgstr "[$BIF]"
 
 #: src/formats.c:268
 msgid "Burundi franc"
-msgstr "Бурунд╕йський франк"
+msgstr "Бурунд╕йськ╕ франки"
 
 #: src/formats.c:269
 msgid "[$BMD]"
@@ -4736,7 +4735,7 @@ msgstr "[$BMD]"
 
 #: src/formats.c:269
 msgid "Bermudian dollar"
-msgstr "Бермудський долар"
+msgstr "Бермудськ╕ долари"
 
 #: src/formats.c:270
 msgid "[$BND]"
@@ -4744,7 +4743,7 @@ msgstr "[$BND]"
 
 #: src/formats.c:270
 msgid "Brunei dollar"
-msgstr "Брунейський долар"
+msgstr "Брунейськ╕ долари"
 
 #: src/formats.c:271
 msgid "[$BOB]"
@@ -4752,7 +4751,7 @@ msgstr "[$BOB]"
 
 #: src/formats.c:271
 msgid "Bolivian boliviano"
-msgstr ""
+msgstr "Бол╕в╕йськ╕ бол╕в╕ано"
 
 #: src/formats.c:272
 msgid "[$BRE]"
@@ -4760,7 +4759,7 @@ msgstr "[$BRE]"
 
 #: src/formats.c:272
 msgid "Brazilian cruzeiro"
-msgstr ""
+msgstr "Бразильськ╕ крузейро"
 
 #: src/formats.c:273
 msgid "[$BSD]"
@@ -4768,7 +4767,7 @@ msgstr "[$BSD]"
 
 #: src/formats.c:273
 msgid "Bahamian dollar"
-msgstr "Багамський долар"
+msgstr "Багамськ╕ долари"
 
 #: src/formats.c:274
 msgid "[$BTN]"
@@ -4776,7 +4775,7 @@ msgstr "[$BTN]"
 
 #: src/formats.c:274
 msgid "Bhutan ngultrum"
-msgstr ""
+msgstr "Бутанськ╕ нгултруми"
 
 #: src/formats.c:275
 msgid "[$BWP]"
@@ -4784,7 +4783,7 @@ msgstr "[$BWP]"
 
 #: src/formats.c:275
 msgid "Botswanian pula"
-msgstr "Ботсванська пула"
+msgstr "Ботсванськ╕ пули"
 
 #: src/formats.c:276
 msgid "[$BYB]"
@@ -4792,7 +4791,7 @@ msgstr "[$BYB]"
 
 #: src/formats.c:276
 msgid "Belarussian ruble"
-msgstr "Б╕лоруський рубль"
+msgstr "Б╕лоруськ╕ рубл╕"
 
 #: src/formats.c:277
 msgid "[$BZD]"
@@ -4800,7 +4799,7 @@ msgstr "[$BZD]"
 
 #: src/formats.c:277
 msgid "Belize dollar"
-msgstr "Бел╕зький долар"
+msgstr "Бел╕зьк╕ долари"
 
 #: src/formats.c:278
 msgid "[$CAD]"
@@ -4808,7 +4807,7 @@ msgstr "[$CAD]"
 
 #: src/formats.c:278
 msgid "Canadian dollar"
-msgstr "Канадський долар"
+msgstr "Канадськ╕ долари"
 
 #: src/formats.c:279
 msgid "[$CHF]"
@@ -4816,7 +4815,7 @@ msgstr "[$CHF]"
 
 #: src/formats.c:279
 msgid "Swiss franc"
-msgstr "Швейцарський франк"
+msgstr "Швейцарськ╕ франки"
 
 #: src/formats.c:280
 msgid "[$CLP]"
@@ -4824,7 +4823,7 @@ msgstr "[$CLP]"
 
 #: src/formats.c:280
 msgid "Chilean peso"
-msgstr ""
+msgstr "Ч╕л╕йськ╕ песо"
 
 #: src/formats.c:281
 msgid "[$CNY]"
@@ -4832,7 +4831,7 @@ msgstr "[$CNY]"
 
 #: src/formats.c:281
 msgid "Chinese yuan renminbi"
-msgstr ""
+msgstr "Китайськ╕ юан╕"
 
 #: src/formats.c:282
 msgid "[$COP]"
@@ -4840,7 +4839,7 @@ msgstr "[$COP]"
 
 #: src/formats.c:282
 msgid "Colombian peso"
-msgstr "Колумб╕йське песо"
+msgstr "Колумб╕йськ╕ песо"
 
 #: src/formats.c:283
 msgid "[$CRC]"
@@ -4848,7 +4847,7 @@ msgstr "[$CRC]"
 
 #: src/formats.c:283
 msgid "Costa Rican colon"
-msgstr ""
+msgstr "Колони Коста Р╕ко"
 
 #: src/formats.c:284
 msgid "[$CSK]"
@@ -4856,7 +4855,7 @@ msgstr "[$CSK]"
 
 #: src/formats.c:284
 msgid "Czech Koruna"
-msgstr "Чешська крона"
+msgstr "Чешськ╕ крони"
 
 #: src/formats.c:285
 msgid "[$CUP]"
@@ -4864,7 +4863,7 @@ msgstr "[$CUP]"
 
 #: src/formats.c:285
 msgid "Cuban peso"
-msgstr "Кубинське песо"
+msgstr "Кубинськ╕ песо"
 
 #: src/formats.c:286
 msgid "[$CVE]"
@@ -4872,7 +4871,7 @@ msgstr "[$CVE]"
 
 #: src/formats.c:286
 msgid "Cape Verde escudo"
-msgstr ""
+msgstr "Ескудо Капе Верде"
 
 #: src/formats.c:287
 msgid "[$CYP]"
@@ -4880,7 +4879,7 @@ msgstr "[$CYP]"
 
 #: src/formats.c:287
 msgid "Cyprus pound"
-msgstr "К╕прський фунт"
+msgstr "К╕прськ╕ фунти"
 
 #: src/formats.c:288
 msgid "[$DEM]"
@@ -4888,7 +4887,7 @@ msgstr "[$DEM]"
 
 #: src/formats.c:288
 msgid "Deutsche mark"
-msgstr "Н╕мецька марка"
+msgstr "Н╕мецьк╕ марки"
 
 #: src/formats.c:289
 msgid "[$DJF]"
@@ -4896,7 +4895,7 @@ msgstr "[$DJF]"
 
 #: src/formats.c:289
 msgid "Djibouti franc"
-msgstr "Джибутський франк"
+msgstr "Джибутськ╕ франки"
 
 #: src/formats.c:290
 msgid "[$DKK]"
@@ -4904,7 +4903,7 @@ msgstr "[$DKK]"
 
 #: src/formats.c:290
 msgid "Danish krone"
-msgstr "Крона Дан╕╖"
+msgstr "Крони Дан╕╖"
 
 #: src/formats.c:291
 msgid "[$DOP]"
@@ -4912,7 +4911,7 @@ msgstr "[$DOP]"
 
 #: src/formats.c:291
 msgid "Dominican peso"
-msgstr "Дом╕н╕канське песо"
+msgstr "Дом╕н╕канськ╕ песо"
 
 #: src/formats.c:292
 msgid "[$DZD]"
@@ -4920,7 +4919,7 @@ msgstr "[$DZD]"
 
 #: src/formats.c:292
 msgid "Algerian dinar"
-msgstr "Динар Алгер╕╖"
+msgstr "Динари Алгер╕╖"
 
 #: src/formats.c:293
 msgid "[$ECS]"
@@ -4928,7 +4927,7 @@ msgstr "[$ECS]"
 
 #: src/formats.c:293
 msgid "Ecuador sucre"
-msgstr ""
+msgstr "Еквадорськ╕ сукре"
 
 #: src/formats.c:294
 msgid "[$EGP]"
@@ -4936,7 +4935,7 @@ msgstr "[$EGP]"
 
 #: src/formats.c:294
 msgid "Egyptian pound"
-msgstr "╢гипетський фунт"
+msgstr "╢гипетськ╕ фунти"
 
 #: src/formats.c:295
 msgid "[$ESP]"
@@ -4944,7 +4943,7 @@ msgstr "[$ESP]"
 
 #: src/formats.c:295
 msgid "Spanish peseta"
-msgstr "╤спанська песета"
+msgstr "╤спанськ╕ песети"
 
 #: src/formats.c:296
 msgid "[$ETB]"
@@ -4952,7 +4951,7 @@ msgstr "[$ETB]"
 
 #: src/formats.c:296
 msgid "Ethiopian birr"
-msgstr ""
+msgstr "Еф╕опськ╕ б╕ри"
 
 #: src/formats.c:297
 msgid "[$EUR]"
@@ -4968,7 +4967,7 @@ msgstr "[$FIM]"
 
 #: src/formats.c:298
 msgid "Finnish markka"
-msgstr "Ф╕нська марка"
+msgstr "Ф╕нськ╕ марки"
 
 #: src/formats.c:299
 msgid "[$FJD]"
@@ -4976,7 +4975,7 @@ msgstr "[$FJD]"
 
 #: src/formats.c:299
 msgid "Fiji dollar"
-msgstr "Долар Ф╕дж╕"
+msgstr "Долари Ф╕дж╕"
 
 #: src/formats.c:300
 msgid "[$FKP]"
@@ -4984,7 +4983,7 @@ msgstr "[$FKP]"
 
 #: src/formats.c:300
 msgid "Falkland Islands pound"
-msgstr ""
+msgstr "Фунти Фолклендських остров╕в"
 
 #: src/formats.c:301
 msgid "[$FRF]"
@@ -4992,7 +4991,7 @@ msgstr "[$FRF]"
 
 #: src/formats.c:301
 msgid "French franc"
-msgstr "Французький франк"
+msgstr "Французьк╕ франки"
 
 #: src/formats.c:302
 msgid "[$GBP]"
@@ -5008,7 +5007,7 @@ msgstr "[$GHC]"
 
 #: src/formats.c:303
 msgid "Ghanaian cedi"
-msgstr ""
+msgstr "╫анськ╕ сед╕"
 
 #: src/formats.c:304
 msgid "[$GIP]"
@@ -5016,7 +5015,7 @@ msgstr "[$GIP]"
 
 #: src/formats.c:304
 msgid "Gibraltar pound"
-msgstr "╫╕бралтарський фунт"
+msgstr "╫╕бралтарськ╕ фунти"
 
 #: src/formats.c:305
 msgid "[$GMD]"
@@ -5024,7 +5023,7 @@ msgstr "[$GMD]"
 
 #: src/formats.c:305
 msgid "Gambian dalasi"
-msgstr ""
+msgstr "╫амб╕йськ╕ далас╕"
 
 #: src/formats.c:306
 msgid "[$GNF]"
@@ -5032,7 +5031,7 @@ msgstr "[$GNF]"
 
 #: src/formats.c:306
 msgid "Guinea franc"
-msgstr "╫в╕нейський франк"
+msgstr "╫в╕нейськ╕ франки"
 
 #: src/formats.c:307
 msgid "[$GRD]"
@@ -5040,7 +5039,7 @@ msgstr "[$GRD]"
 
 #: src/formats.c:307
 msgid "Greek drachma"
-msgstr "Грецька драхма"
+msgstr "Грецьк╕ драхми"
 
 #: src/formats.c:308
 msgid "[$GTQ]"
@@ -5048,7 +5047,7 @@ msgstr "[$GTQ]"
 
 #: src/formats.c:308
 msgid "Guatemalan quetzal"
-msgstr ""
+msgstr "╫ватемальськ╕ кветцали"
 
 #: src/formats.c:309
 msgid "[$GWP]"
@@ -5056,7 +5055,7 @@ msgstr "[$GWP]"
 
 #: src/formats.c:309
 msgid "Guinea-Bissau peso"
-msgstr ""
+msgstr "Песо ╫в╕не╖-Б╕ссау"
 
 #: src/formats.c:310
 msgid "[$GYD]"
@@ -5072,7 +5071,7 @@ msgstr "[$HKD]"
 
 #: src/formats.c:311
 msgid "Hong Kong dollar"
-msgstr ""
+msgstr "Гон╜-Кон╜ськ╕ долари"
 
 #: src/formats.c:312
 msgid "[$HNL]"
@@ -5080,7 +5079,7 @@ msgstr "[$HNL]"
 
 #: src/formats.c:312
 msgid "Honduran lempira"
-msgstr ""
+msgstr "Годураськ╕ лемп╕ри"
 
 #: src/formats.c:313
 msgid "[$HRK]"
@@ -5088,7 +5087,7 @@ msgstr "[$HRK]"
 
 #: src/formats.c:313
 msgid "Croatian kuna"
-msgstr "Хорватська куна"
+msgstr "Хорватськ╕ куни"
 
 #: src/formats.c:314
 msgid "[$HTG]"
@@ -5104,7 +5103,7 @@ msgstr "[$HUF]"
 
 #: src/formats.c:315
 msgid "Hungarian forint"
-msgstr "Угорський форинт"
+msgstr "Угорськ╕ форинти"
 
 #: src/formats.c:316
 msgid "[$IDR]"
@@ -5112,7 +5111,7 @@ msgstr "[$IDR]"
 
 #: src/formats.c:316
 msgid "Indonesian rupiah"
-msgstr "╤ндонез╕йська руп╕я"
+msgstr "╤ндонез╕йськ╕ руп╕╖"
 
 #: src/formats.c:317
 msgid "[$IEP]"
@@ -5136,7 +5135,7 @@ msgstr "[$ILS]"
 
 #: src/formats.c:319
 msgid "Israeli shekel"
-msgstr "╤зра╕льський шекель"
+msgstr "╤зра╕льськ╕ шекел╕"
 
 #: src/formats.c:320
 msgid "[$INR]"
@@ -5144,7 +5143,7 @@ msgstr "[$INR]"
 
 #: src/formats.c:320
 msgid "Indian rupee"
-msgstr "╤нд╕йська руп╕я"
+msgstr "╤нд╕йськ╕ руп╕╖"
 
 #: src/formats.c:321
 msgid "[$IQD]"
@@ -5152,7 +5151,7 @@ msgstr "[$IQD]"
 
 #: src/formats.c:321
 msgid "Iraqi dinar"
-msgstr "╤ракський динар"
+msgstr "╤ракськ╕ динари"
 
 #: src/formats.c:322
 msgid "[$IRR]"
@@ -5160,7 +5159,7 @@ msgstr "[$IRR]"
 
 #: src/formats.c:322
 msgid "Iranian rial"
-msgstr ""
+msgstr "╤ранськ╕ р╕али"
 
 #: src/formats.c:323
 msgid "[$ISK]"
@@ -5168,7 +5167,7 @@ msgstr "[$ISK]"
 
 #: src/formats.c:323
 msgid "Iceland krona"
-msgstr "╤сландська крона"
+msgstr "╤сландськ╕ крони"
 
 #: src/formats.c:324
 msgid "[$ITL]"
@@ -5176,7 +5175,7 @@ msgstr "[$ITL]"
 
 #: src/formats.c:324
 msgid "Italian lira"
-msgstr "╤тал╕йська л╕ра"
+msgstr "╤тал╕йськ╕ л╕раи"
 
 #: src/formats.c:325
 msgid "[$JMD]"
@@ -5184,7 +5183,7 @@ msgstr "[$JMD]"
 
 #: src/formats.c:325
 msgid "Jamaican dollar"
-msgstr "Ямайський долар"
+msgstr "Ямайськ╕ долари"
 
 #: src/formats.c:326
 msgid "[$JOD]"
@@ -5192,7 +5191,7 @@ msgstr "[$JOD]"
 
 #: src/formats.c:326
 msgid "Jordanian dinar"
-msgstr "Йорданський динар"
+msgstr "Йорданськ╕ динари"
 
 #: src/formats.c:327
 msgid "[$JPY]"
@@ -5200,7 +5199,7 @@ msgstr "[$JPY]"
 
 #: src/formats.c:327
 msgid "Japanese yen"
-msgstr "Японська ╓на"
+msgstr "Японськ╕ ╓ни"
 
 #: src/formats.c:328
 msgid "[$KES]"
@@ -5208,7 +5207,7 @@ msgstr "[$KES]"
 
 #: src/formats.c:328
 msgid "Kenyan shilling"
-msgstr "Кен╕йський шил╕н╜"
+msgstr "Кен╕йськ╕ шил╕н╜и"
 
 #: src/formats.c:329
 msgid "[$KHR]"
@@ -5216,7 +5215,7 @@ msgstr "[$KHR]"
 
 #: src/formats.c:329
 msgid "Kampuchean riel"
-msgstr "Кампуч╕йський р╕ел"
+msgstr "Кампуч╕йськ╕ р╕ели"
 
 #: src/formats.c:330
 msgid "[$KMF]"
@@ -5224,7 +5223,7 @@ msgstr "[$KMF]"
 
 #: src/formats.c:330
 msgid "Comoros franc"
-msgstr "Комороський франк"
+msgstr "Комороськ╕ франки"
 
 #: src/formats.c:331
 msgid "[$KPW]"
@@ -5248,7 +5247,7 @@ msgstr "[$KWD]"
 
 #: src/formats.c:333
 msgid "Kuwaiti dinar"
-msgstr "Кувейтський динар"
+msgstr "Кувейтськ╕ динари"
 
 #: src/formats.c:334
 msgid "[$KYD]"
@@ -5256,7 +5255,7 @@ msgstr "[$KYD]"
 
 #: src/formats.c:334
 msgid "Cayman Islands dollar"
-msgstr ""
+msgstr "Долари Кайманових остров╕в"
 
 #: src/formats.c:335
 msgid "[$LAK]"
@@ -5264,7 +5263,7 @@ msgstr "[$LAK]"
 
 #: src/formats.c:335
 msgid "Lao kip"
-msgstr ""
+msgstr "Лаоськ╕ к╕пи"
 
 #: src/formats.c:336
 msgid "[$LBP]"
@@ -5320,7 +5319,7 @@ msgstr "[$MAD]"
 
 #: src/formats.c:342
 msgid "Moroccan dirham"
-msgstr ""
+msgstr "Марокканськ╕ динари"
 
 #: src/formats.c:343
 msgid "[$MDL]"
