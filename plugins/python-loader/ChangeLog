@@ -1,3 +1,8 @@
+2003-07-26  Jon K Hellan  <hellan@acm.org>
+
+	* py-gnumeric.c (py_Workbook_object_getattr): Reverse accidental
+	commit. 
+	
 2003-07-25  Jon K Hellan  <hellan@acm.org>
 
 	* py-gnumeric.[ch]: Make most stuff static.

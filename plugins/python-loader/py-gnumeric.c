@@ -1615,8 +1615,6 @@ py_Workbook_object_getattr (py_Workbook_object *self, gchar *name)
 		 METH_VARARGS},
 		{ (char *) "sheet_add",	(PyCFunction) py_Workbook_sheet_add,
 		 METH_VARARGS},
-		{ (char *) "show",	(PyCFunction) py_Workbook_show,
-		 METH_VARARGS},
 
 		{NULL, NULL}
 	};
