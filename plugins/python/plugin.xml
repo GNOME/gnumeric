@@ -2,6 +2,11 @@
 <gnumeric_plugin_group>
 <plugin id="Gnumeric_python">
 	<information name="Python Plugin" description="This plugin provides Python language support in Gnumeric"/>
-	<activation type="g_module" module_file="python.so"/>
+	<loader type="g_module">
+		<attribute name="module_file" value="python.so"/>
+	</loader>
+	<services>
+		<service type="general"></service>
+	</services>
 </plugin>
 </gnumeric_plugin_group>

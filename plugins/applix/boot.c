@@ -25,8 +25,10 @@
  */
 #include "config.h"
 #include "gnumeric.h"
+#include "io-context.h"
 #include "plugin.h"
 #include "plugin-util.h"
+#include "module-plugin-defs.h"
 #include "applix.h"
 #include "workbook-view.h"
 #include "workbook.h"
@@ -35,72 +37,42 @@
 #include <string.h>
 #include <gnome.h>
 
-gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-static FileOpenerId applix_opener_id;
+gboolean applix_file_probe (FileOpener const *fo, const gchar *file_name);
+void     applix_file_open (FileOpener const *fo, IOContext *io_context,
+                           WorkbookView *wb_view, const char *filename);
 
-static gboolean
-applix_probe (const char *filename, gpointer user_data)
+
+gboolean
+applix_file_probe (FileOpener const *fo, const gchar *file_name)
 {
-	gboolean res;
 	FILE *file;
+	gboolean res;
 
-	if (g_strcasecmp ("as", g_extension_pointer (filename)) != 0) {
-		return FALSE;
+	file = fopen (file_name, "r");
+	if (file == NULL) {
+		res = FALSE;
+	} else {
+		res = applix_read_header (file);
+		fclose (file);
 	}
 
-	/* Use fopen rather than gnumeric_fopen because we do not want
-	 * to report errors.
-	 */
-	file = fopen (filename, "r");
-	if (file == NULL)
-		return FALSE;
-
-	res = applix_read_header (file);
-	fclose (file);
-
 	return res;
 }
 
-static int
-applix_load (IOContext *context, WorkbookView *wb_view,
-             const char *filename, gpointer user_data)
+void
+applix_file_open (FileOpener const *fo, IOContext *io_context,
+                  WorkbookView *wb_view, const char *filename)
 {
-	int res;
-	FILE *file = gnumeric_fopen (context, filename, "r");
-	if (file == NULL)
-		return -1;
+	FILE *file;
+	ErrorInfo *error;
 
-	res = applix_read (context, wb_view, file);
-	fclose (file);
-
-	if (res == 0)
-		workbook_set_saveinfo (wb_view_workbook (wb_view),
-				       filename, FILE_FL_MANUAL_REMEMBER,
-				       FILE_SAVER_ID_INVALID);
-
-	return res;
-}
-
-gboolean
-can_deactivate_plugin (PluginInfo *pinfo)
-{
-	return TRUE;
-}
-
-gboolean
-cleanup_plugin (PluginInfo *pinfo)
-{
-	file_format_unregister_open (applix_opener_id);
-	return TRUE;
-}
-
-gboolean
-init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
-{
-	applix_opener_id = file_format_register_open (
-	                   100, _("Applix (*.as) file format"),
-	                   &applix_probe, &applix_load, NULL);
-
-	return TRUE;
+	file = gnumeric_fopen_error_info (filename, "r", &error);
+	if (file == NULL) {
+		gnumeric_io_error_info_set (io_context, error);
+	} else {
+		applix_read (io_context, wb_view, file);
+		fclose (file);
+	}
 }

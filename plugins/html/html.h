@@ -24,16 +24,12 @@
 
 #include "gnumeric.h"
 #include "file.h"
+#include "error-info.h"
 #include "gnumeric-util.h"
 
-void set_default_file_saver_id (FileSaverId file_saver_id);
-
-int html_write_wb_html32 (IOContext *context, WorkbookView *wb_view,
-                          const char *filename, gpointer user_data);
-int html_write_wb_html40 (IOContext *context, WorkbookView *wb_view,
-                          const char *filename, gpointer user_data);
-int html_read		 (IOContext *context, WorkbookView *view,
-                      const char *filename, gpointer user_data);
+void html32_file_save (FileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const char *filename);
+void html40_file_save (FileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const char *filename);
+void html32_file_open (FileOpener const *fo, IOContext *io_context, WorkbookView *wb_view, const char *filename);
 
 #define G_PLUGIN_FOR_HTML "GPFH/0.5"
 

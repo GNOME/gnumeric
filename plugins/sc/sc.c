@@ -13,8 +13,10 @@
 #include <gnome.h>
 #include "plugin.h"
 #include "plugin-util.h"
+#include "module-plugin-defs.h"
 #include "gnumeric.h"
 #include "io-context.h"
+#include "error-info.h"
 #include "workbook-view.h"
 #include "workbook.h"
 #include "parse-util.h"
@@ -23,7 +25,10 @@
 #include "cell.h"
 #include "style.h"
 
-gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+
+void sc_file_open (FileOpener const *fo, IOContext *io_context,
+                   WorkbookView *wb_view, const char *filename);
 
 typedef struct {
 	/* input data */
@@ -40,7 +45,6 @@ typedef enum {
 	RIGHTSTRING,
 } sc_string_cmd_t;
 
-static FileOpenerId sc_opener_id;
 
 /* we can't use parse_cell_name b/c it doesn't support 0 bases (A0, B0, ...) */
 static gboolean
@@ -367,34 +371,32 @@ sc_parse_line (sc_file_state_t *src, char *buf)
 }
 
 
-static int
-sc_parse_sheet (IOContext *context, sc_file_state_t *src)
+static void
+sc_parse_sheet (sc_file_state_t *src, ErrorInfo **ret_error)
 {
 	char buf [BUFSIZ];
 
-	g_return_val_if_fail (src, -1);
-	g_return_val_if_fail (src->f, -1);
+	g_return_if_fail (src);
+	g_return_if_fail (src->f);
 
+	*ret_error = NULL;
 	while (fgets (buf, sizeof (buf), src->f) != NULL) {
 		g_strchomp (buf);
 		if (isalpha ((unsigned char)(buf [0])) && !sc_parse_line (src, buf)) {
-			gnumeric_io_error_read (context, "Error parsing line");
-			return -1;
+			*ret_error = error_info_new_str (_("Error parsing line"));
+			return;
 		}
 	}
 
 	if (ferror (src->f)) {
-		gnumeric_io_error_system (context, g_strerror (errno));
-		return -1;
+		*ret_error = error_info_new_from_errno ();
+		return;
 	}
-
-	return 0;
 }
 
-
-static int
-sc_read_workbook (IOContext *context, WorkbookView *wb_view,
-                  const char *filename, gpointer user_data)
+void
+sc_file_open (FileOpener const *fo, IOContext *io_context,
+              WorkbookView *wb_view, const char *filename)
 {
 	/*
 	 * TODO : When there is a reasonable error reporting
@@ -402,61 +404,34 @@ sc_read_workbook (IOContext *context, WorkbookView *wb_view,
 	 */
 	sc_file_state_t src;
 	char *name;
-	int result;
 	FILE *f;
 	Workbook *book = wb_view_workbook (wb_view);
+	ErrorInfo *error;
 
-	g_return_val_if_fail (book, -1);
-	g_return_val_if_fail (filename, -1);
+	g_return_if_fail (book);
 
-	f = fopen (filename, "r");
-	if (!f) {
-		gnumeric_io_error_system (context, g_strerror (errno));
-		return -1;
+	f = gnumeric_fopen_error_info (filename, "r", &error);
+	if (f == NULL) {
+		gnumeric_io_error_info_set (io_context, error);
+		return;
 	}
 
 	name = g_strdup_printf (_("Imported %s"), g_basename (filename));
 
 	memset (&src, 0, sizeof (src));
-	src.f	  = f;
+	src.f     = f;
 	src.sheet = sheet_new (book, name);
 
 	workbook_sheet_attach (book, src.sheet, NULL);
-	workbook_set_saveinfo (book, filename, FILE_FL_MANUAL, FILE_SAVER_ID_INVALID);
 	g_free (name);
 
-	result = sc_parse_sheet (context, &src);
+	sc_parse_sheet (&src, &error);
+	if (error != NULL) {
+		gnumeric_io_error_info_set (io_context,
+		                            error_info_new_str_with_details (
+		                            _("Error reading sheet."),
+		                            error));
+	}
 
 	fclose(f);
-
-	return result;
-}
-
-
-gboolean
-can_deactivate_plugin (PluginInfo *pinfo)
-{
-	g_return_val_if_fail (pinfo != NULL, TRUE);
-
-	return TRUE;
-}
-
-gboolean
-cleanup_plugin (PluginInfo *pinfo)
-{
-	g_return_val_if_fail (pinfo != NULL, TRUE);
-
-	file_format_unregister_open (sc_opener_id);
-	return TRUE;
-}
-
-gboolean
-init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
-{
-	g_return_val_if_fail (pinfo != NULL, FALSE);
-
-	sc_opener_id = file_format_register_open (1, _("SC/xspread file import"),
-	                                          NULL, sc_read_workbook, NULL);
-
-	return TRUE;
 }

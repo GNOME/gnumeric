@@ -33,18 +33,12 @@
 #include "cell.h"
 #include "value.h"
 #include "font.h"
+#include "plugin-util.h"
+#include "error-info.h"
 
 #include <gnome.h>
 #include <errno.h>
 #include <ctype.h>
-
-static FileSaverId default_file_saver_id;
-
-void
-set_default_file_saver_id (FileSaverId file_saver_id)
-{
-	default_file_saver_id = file_saver_id; 
-}
 
 /*
  * escape special characters
@@ -217,9 +211,9 @@ html_write_cell40 (FILE *fp, Cell *cell, MStyle *style)
  *
  * FIXME: Should html quote sheet name (and everything else)
  */
-int
-html_write_wb_html32 (IOContext *context, WorkbookView *wb_view,
-                      const char *filename, gpointer user_data)
+void
+html32_file_save (FileSaver const *fs, IOContext *io_context,
+                  WorkbookView *wb_view, const gchar *file_name)
 {
 	FILE *fp;
 	GList *sheet_list;
@@ -227,14 +221,15 @@ html_write_wb_html32 (IOContext *context, WorkbookView *wb_view,
 	MStyle *style;
 	int row, col;
 	Workbook *wb = wb_view_workbook (wb_view);
+	ErrorInfo *open_error;
 
-	g_return_val_if_fail (wb != NULL, -1);
-	g_return_val_if_fail (filename != NULL, -1);
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (file_name != NULL);
 
-	fp = fopen (filename, "w");
-	if (!fp) {
-		gnumeric_io_error_save (context, g_strerror (errno));
-		return -1;
+	fp = gnumeric_fopen_error_info (file_name, "w", &open_error);
+	if (fp == NULL) {
+		gnumeric_io_error_info_set (io_context, open_error);
+		return;
 	}
 
 	fprintf (fp, "<!DOCTYPE HTML PUBLIC \"-//W3C/DTD HTML 3.2/EN\">\n");
@@ -277,7 +272,6 @@ html_write_wb_html32 (IOContext *context, WorkbookView *wb_view,
 	}
 	fprintf (fp, "<BODY>\n</HTML>\n");
 	fclose (fp);
-	return 0;	/* what do we have to return here?? */
 }
 
 /*
@@ -285,9 +279,9 @@ html_write_wb_html32 (IOContext *context, WorkbookView *wb_view,
  *
  * FIXME: Should html quote sheet name (and everything else)
  */
-int
-html_write_wb_html40 (IOContext *context, WorkbookView *wb_view,
-                      const char *filename, gpointer user_data)
+void
+html40_file_save (FileSaver const *fs, IOContext *io_context,
+                  WorkbookView *wb_view, const gchar *file_name)
 {
 	FILE *fp;
 	GList *sheet_list;
@@ -295,14 +289,15 @@ html_write_wb_html40 (IOContext *context, WorkbookView *wb_view,
 	MStyle *style;
 	int row, col;
 	Workbook *wb = wb_view_workbook (wb_view);
+	ErrorInfo *open_error;
 
-	g_return_val_if_fail (wb != NULL, -1);
-	g_return_val_if_fail (filename != NULL, -1);
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (file_name != NULL);
 
-	fp = fopen (filename, "w");
-	if (!fp) {
-		gnumeric_io_error_system (context, g_strerror (errno));
-		return -1;
+	fp = gnumeric_fopen_error_info (file_name, "w", &open_error);
+	if (fp == NULL) {
+		gnumeric_io_error_info_set (io_context, open_error);
+		return;
 	}
 
 	fprintf (fp, "<!DOCTYPE HTML PUBLIC \"-//W3C/DTD HTML 4.0/EN\">\n");
@@ -346,7 +341,6 @@ html_write_wb_html40 (IOContext *context, WorkbookView *wb_view,
 	}
 	fprintf (fp, "<BODY>\n</HTML>\n");
 	fclose (fp);
-	return 0;	/* Q: what do we have to return here?? */
 }
 
 #define HTML_BOLD	1
@@ -434,9 +428,9 @@ findtag (char const *buf, char const *tag)
 /*
  * try at least to read back what we have written before..
  */
-int
-html_read (IOContext *context, WorkbookView *wb_view,
-           const char *filename, gpointer user_data)
+void
+html32_file_open (FileOpener const *fo, IOContext *io_context,
+                  WorkbookView *wb_view, const char *filename)
 {
 	Workbook *wb = wb_view_workbook (wb_view);
 	FILE *fp;
@@ -445,15 +439,14 @@ html_read (IOContext *context, WorkbookView *wb_view,
 	int num, row, col, flags;
 	char const *p, *str, *ptr;
 	char buf[LINESIZE];
+	ErrorInfo *open_error;
 
-	g_return_val_if_fail (filename != NULL, -1);
+	g_return_if_fail (filename != NULL);
 
-	workbook_set_saveinfo (wb, filename, FILE_FL_AUTO, default_file_saver_id);
-
-	fp = fopen (filename, "r");
-	if (!fp) {
-		gnumeric_io_error_system (context, g_strerror (errno));
-		return -1;
+	fp = gnumeric_fopen_error_info (filename, "r", &open_error);
+	if (fp == NULL) {
+		gnumeric_io_error_info_set (io_context, open_error);
+		return;
 	}
 
 	sheet = NULL;
@@ -550,5 +543,4 @@ quick_hack :
 		}
 	}
 	fclose (fp);
-	return 0;
 }

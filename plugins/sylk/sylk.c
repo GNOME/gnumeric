@@ -13,16 +13,22 @@
 #include <gnome.h>
 #include <errno.h>
 #include "gnumeric.h"
-#include "plugin.h"
-#include "plugin-util.h"
 #include "file.h"
 #include "io-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
 #include "cell.h"
 #include "value.h"
+#include "error-info.h"
+#include "plugin-util.h"
+#include "plugin.h"
+#include "module-plugin-defs.h"
 
-gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+
+gboolean sylk_file_probe (FileOpener const *fo, const gchar *filename);
+void     sylk_file_open (FileOpener const *fo, IOContext *io_context,
+                         WorkbookView *wb_view, const char *filename);
 
 #define arraysize(x)     (sizeof(x)/sizeof(*(x)))
 
@@ -67,7 +73,6 @@ typedef struct {
 	unsigned hide_def_gridlines : 1;	/* sheet-wide */
 } sylk_file_state_t;
 
-static FileOpenerId sylk_opener_id;
 
 /* why?  because we must handle Mac text files, and because I'm too lazy to make it fast */
 static char *
@@ -397,40 +402,39 @@ sylk_parse_line (sylk_file_state_t *src, char *buf)
 	return TRUE;
 }
 
-static int
-sylk_parse_sheet (IOContext *context, sylk_file_state_t *src)
+static void
+sylk_parse_sheet (sylk_file_state_t *src, ErrorInfo **ret_error)
 {
 	char buf [BUFSIZ];
 
+	*ret_error = NULL;
 	if (fgets_mac (buf, sizeof (buf), src->f) == NULL) {
-		gnumeric_io_error_system (context, g_strerror (errno));
-		return -1;
+		*ret_error = error_info_new_from_errno ();
+		return;
 	}
 
 	if (strncmp ("ID;", buf, 3)) {
-		gnumeric_io_error_read (context, _("Not SYLK file"));
-		return -1;
+		*ret_error = error_info_new_str (_("Not SYLK file"));
+		return;
 	}
 
 	while (fgets_mac (buf, sizeof (buf), src->f) != NULL) {
 		g_strchomp (buf);
 		if ( buf [0] && !sylk_parse_line (src, buf) ) {
-			gnumeric_io_error_read (context, _("error parsing line\n"));
-			return -1;
+			*ret_error = error_info_new_str (_("error parsing line\n"));
+			return;
 		}
 	}
 
 	if (ferror (src->f)) {
-		gnumeric_io_error_system (context, g_strerror (errno));
-		return -1;
+		*ret_error = error_info_new_from_errno ();
+		return ;
 	}
-
-	return 0;
 }
 
-static int
-sylk_read_workbook (IOContext *context, WorkbookView *wb_view,
-                    const char *filename, gpointer user_data)
+void
+sylk_file_open (FileOpener const *fo, IOContext *io_context,
+                WorkbookView *wb_view, const char *filename)
 {
 	/*
 	 * TODO : When there is a reasonable error reporting
@@ -438,14 +442,17 @@ sylk_read_workbook (IOContext *context, WorkbookView *wb_view,
 	 */
 	sylk_file_state_t src;
 	char *name;
-	int result;
 	FILE *f;
 	Workbook *book = wb_view_workbook (wb_view);
+	ErrorInfo *sheet_error;
 
 	f = fopen (filename, "r");
-	if (!f) {
-		gnumeric_io_error_system (context, g_strerror (errno));
-		return -1;
+	if (f == NULL) {
+		gnumeric_io_error_info_set (io_context,
+		                            error_info_new_str_with_details (
+		                            _("Error while opening sylk file."),
+		                            error_info_new_from_errno ()));
+		return;
 	}
 
 	name = g_strdup_printf (_("Imported %s"), g_basename (filename));
@@ -457,58 +464,33 @@ sylk_read_workbook (IOContext *context, WorkbookView *wb_view,
 
 	workbook_sheet_attach (book, src.sheet, NULL);
 	g_free (name);
-	workbook_set_saveinfo (book, filename, FILE_FL_MANUAL_REMEMBER,
-			       FILE_SAVER_ID_INVALID);
 
-	result = sylk_parse_sheet (context, &src);
+	sylk_parse_sheet (&src, &sheet_error);
+	if (sheet_error != NULL) {
+		gnumeric_io_error_info_set (io_context,
+		                            error_info_new_str_with_details (
+		                            _("Error while reading sheet."),
+		                            sheet_error));
+	}
 
 	fclose(f);
-
-	return result;
 }
 
-
-static gboolean
-sylk_probe (const char *filename, gpointer user_data)
+gboolean
+sylk_file_probe (FileOpener const *fo, const char *filename)
 {
 	char buf [32] = "";
 	FILE *f;
 	int error;
 
 	f = fopen (filename, "r");
-	if (!f)
+	if (f == NULL) {
 		return FALSE;
+	}
 
 	fgets (buf, sizeof (buf), f);
 	error = ferror (f);
 	fclose (f);
 
-	if (!error && strncmp (buf, "ID;", 3) == 0)
-		return TRUE;
-
-	return FALSE;
-}
-
-
-gboolean
-can_deactivate_plugin (PluginInfo *pinfo)
-{
-	return TRUE;
-}
-
-gboolean
-cleanup_plugin (PluginInfo *pinfo)
-{
-	file_format_unregister_open (sylk_opener_id);
-	return TRUE;
-}
-
-gboolean
-init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
-{
-	sylk_opener_id = file_format_register_open (
-	                 1, _("MultiPlan (SYLK) import"),
-	                 sylk_probe, sylk_read_workbook, NULL);
-
-	return TRUE;
+	return (!error && strncmp (buf, "ID;", 3) == 0);
 }

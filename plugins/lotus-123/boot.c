@@ -17,6 +17,7 @@
 #include <ctype.h>
 #include <gnome.h>
 #include "gnumeric.h"
+#include "io-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
 #include "gnumeric-util.h"
@@ -28,78 +29,41 @@
 #include "lotus-types.h"
 #include "plugin.h"
 #include "plugin-util.h"
+#include "module-plugin-defs.h"
 
-gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-static FileOpenerId lotus_opener_id;
+gboolean lotus_file_probe (FileOpener const *fo, const gchar *file_name);
+void     lotus_file_open (FileOpener const *fo, IOContext *io_context,
+                          WorkbookView *wb_view, const char *filename);
 
-static gboolean
-lotus_probe (const char *filename, gpointer user_data)
+
+gboolean
+lotus_file_probe (FileOpener const *fo, const gchar *file_name)
 {
-	const char *ext;
 	char magic[4];
-	int fd, rcount;
+	FILE *f;
+	gint rcount;
 
-	if (!filename)
+	f = fopen (file_name, "rb");
+	if (f == NULL) {
 		return FALSE;
-	ext = g_extension_pointer (filename);
-	if (g_strcasecmp ("wk1", ext) != 0 &&
-	    g_strcasecmp ("wks", ext) != 0)
-		return FALSE;
+	}
+	rcount = fread (magic, 1, 4, f);
+	(void) fclose (f);
 
-	/* Filename is valid.  Now test file.  */
-	fd = open (filename, O_RDONLY);
-	if (fd < 0) return FALSE;
-	rcount = read (fd, magic, 4);
-	close (fd);
-
-	if (rcount != 4) return FALSE;
-
-	if (magic[0] == (LOTUS_BOF & 0xff) &&
-	    magic[1] == ((LOTUS_BOF >> 8) & 0xff) &&
-	    magic[2] == (2 & 0xff) &&
-	    magic[3] == ((2 >> 8) & 0xff))
-		return TRUE;
-
-	return FALSE;
+	return rcount == 4 &&
+	       magic[0] == (LOTUS_BOF & 0xff) &&
+	       magic[1] == ((LOTUS_BOF >> 8) & 0xff) &&
+	       magic[2] == (2 & 0xff) &&
+	       magic[3] == ((2 >> 8) & 0xff);
 }
 
-
-static int
-lotus_load (IOContext *context, WorkbookView *wb_view,
-            const char *filename, gpointer user_data)
+void
+lotus_file_open (FileOpener const *fo, IOContext *io_context,
+                 WorkbookView *wb_view, const char *file_name)
 {
 	Workbook *wb = wb_view_workbook (wb_view);
-	int ret;
 
-	ret = lotus_read (context, wb, filename);
-
-	if (ret == 0)
-		workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL_REMEMBER,
-				       FILE_SAVER_ID_INVALID);
-
-	return ret;
-}
-
-gboolean
-can_deactivate_plugin (PluginInfo *pinfo)
-{
-	return TRUE;
-}
-
-gboolean
-cleanup_plugin (PluginInfo *pinfo)
-{
-	file_format_unregister_open (lotus_opener_id);
-	return TRUE;
-}
-
-gboolean
-init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
-{
-	lotus_opener_id = file_format_register_open (
-	                  50, _("Lotus file format (*.wk1)"),
-	                  &lotus_probe, &lotus_load, NULL);
-
-	return TRUE;
+	lotus_read (io_context, wb, file_name);
 }

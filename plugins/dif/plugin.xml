@@ -2,6 +2,17 @@
 <gnumeric_plugin_group>
 <plugin id="Gnumeric_dif">
 	<information name="Data Interchange Format (CSV) module" description="Reads and writes information stored in the Data Interchange Format (*.dif)"/>
-	<activation type="g_module" module_file="dif.so"/>
+	<loader type="g_module">
+		<attribute name="module_file" value="dif.so"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="dif" priority="1" probe="FALSE">
+			<information description="Data Interchange Format (*.dif) file format"/>
+			<save_info saver_id="dif" format_level="manual"/>
+		</service>
+		<service type="file_saver" id="dif" file_extension="dif" format_level="manual">
+			<information description="Data Interchange Format (*.dif)"/>
+		</service>
+	</services>
 </plugin>
 </gnumeric_plugin_group>

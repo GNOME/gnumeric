@@ -14,16 +14,18 @@
 #include "func.h"
 #include "plugin.h"
 #include "plugin-util.h"
+#include "module-plugin-defs.h"
 #include "value.h"
 #include <limits.h>
 
-gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 #ifndef WORD_BIT
 #define WORD_BIT (sizeof (int) * CHAR_BIT)
 #endif
 
 #define OUT_OF_BOUNDS "#LIMIT!"
+
 
 /* ------------------------------------------------------------------------- */
 
@@ -42,7 +44,7 @@ intpow (int p, int v)
 
 #define PTABLE_CHUNK 64
 #define ITHPRIME_LIMIT 1000000
-static int *prime_table = NULL;
+static gint *prime_table = NULL;
 
 /* Calculate the i-th prime.  Returns TRUE on error.  */
 static gboolean
@@ -528,80 +530,29 @@ func_bitrshift (FunctionEvalInfo *ei, Value *argv [])
 
 /* ------------------------------------------------------------------------- */
 
-static const char *function_names[] = {
-	"nt_phi", "nt_d", "nt_sigma", "ithprime", "isprime", "nt_pi", "nt_mu",
-        "bitor", "bitxor", "bitand", "bitlshift", "bitrshift"
+void
+plugin_cleanup (void)
+{
+	g_free (prime_table);
+	prime_table = NULL;
+}
+
+ModulePluginFunctionInfo num_theory_functions[] = {
+	{"ithprime", "f", "number", &help_ithprime, &gnumeric_ithprime, NULL},
+	{"nt_phi",   "f", "number", &help_phi,      &gnumeric_phi,      NULL},
+	{"nt_d",     "f", "number", &help_d,        &gnumeric_d,        NULL},
+	{"nt_sigma", "f", "number", &help_sigma,    &gnumeric_sigma,    NULL},
+	{"isprime",  "f", "number", &help_isprime,  &gnumeric_isprime,  NULL},
+	{"nt_pi",    "f", "number", &help_nt_pi,    &gnumeric_nt_pi,    NULL},
+	{"nt_mu",    "f", "number", &help_nt_mu,    &gnumeric_nt_mu,    NULL},
+	{NULL}
 };
 
-static const int function_count =
-	sizeof (function_names) / sizeof (function_names[0]);
-
-gboolean
-can_deactivate_plugin (PluginInfo *pinfo)
-{
-	int i, excess = 0;
-
-	for (i = 0; i < function_count; i++) {
-		FunctionDefinition *func;
-		func = func_lookup_by_name (function_names[i], NULL);
-		excess += func ? func->ref_count - 1 : 0;
-	}
-
-	return excess == 0;
-}
-
-gboolean
-cleanup_plugin (PluginInfo *pinfo)
-{
-	int i;
-
-	for (i = 0; i < function_count; i++) {
-		FunctionDefinition *func;
-		func = func_lookup_by_name (function_names[i], NULL);
-		if (func)
-			func_unref (func);
-	}
-
-	g_free (prime_table);
-	prime_table = 0;
-	return TRUE;
-}
-
-gboolean
-init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
-{
-	FunctionCategory *cat;
-
-	cat = function_get_category (_("Number Theory"));
-
-	function_add_args  (cat, "ithprime","f",
-			    "number",    &help_ithprime, gnumeric_ithprime);
-	function_add_args  (cat, "nt_phi",     "f",
-			    "number",    &help_phi,      gnumeric_phi);
-	function_add_args  (cat, "nt_d",       "f",
-			    "number",    &help_d,        gnumeric_d);
-	function_add_args  (cat, "nt_sigma",   "f",
-			    "number",    &help_sigma,    gnumeric_sigma);
-	function_add_args  (cat, "isprime", "f",
-			    "number",    &help_isprime,  gnumeric_isprime);
-	function_add_args  (cat, "nt_pi",   "f",
-			    "number",    &help_nt_pi,    gnumeric_nt_pi);
-	function_add_args  (cat, "nt_mu",   "f",
-			    "number",    &help_nt_mu,    gnumeric_nt_mu);
-
-
-        cat = function_get_category (_("Bitwise Operations"));
-
-        function_add_args (cat, "bitor", "ff",
-			   "A,B", &help_bitor, func_bitor);
-        function_add_args (cat, "bitxor", "ff",
-			   "A,B", &help_bitxor, func_bitxor);
-        function_add_args (cat, "bitand", "ff",
-			   "A,B", &help_bitand, func_bitand);
-        function_add_args (cat, "bitlshift", "ff",
-			   "X,N", &help_bitlshift, func_bitlshift);
-        function_add_args (cat, "bitrshift", "ff",
-			   "N,N", &help_bitrshift, func_bitrshift);
-
-	return TRUE;
-}
+ModulePluginFunctionInfo bitwise_functions[] = {
+	{"bitor",     "ff", "A,B", &help_bitor,     &func_bitor,     NULL},
+	{"bitxor",    "ff", "A,B", &help_bitxor,    &func_bitxor,    NULL},
+	{"bitand",    "ff", "A,B", &help_bitand,    &func_bitand,    NULL},
+	{"bitlshift", "ff", "X,N", &help_bitlshift, &func_bitlshift, NULL},
+	{"bitrshift", "ff", "N,N", &help_bitrshift, &func_bitrshift, NULL},
+	{NULL}
+};

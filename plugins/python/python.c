@@ -15,13 +15,15 @@
 #include "func.h"
 #include "plugin.h"
 #include "plugin-util.h"
+#include "error-info.h"
+#include "module-plugin-defs.h"
 #include "gutils.h"
 #include "value.h"
 #include "command-context.h"
 
 #include "Python.h"
 
-gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /* Classes we define in Python code, and where we define them. */
 #define GNUMERIC_DEFS_MODULE "gnumeric_defs"
@@ -873,25 +875,19 @@ initgnumeric(void)
 }
 
 gboolean
-can_deactivate_plugin (PluginInfo *pinfo)
+plugin_can_deactivate_general (void)
 {
 	return FALSE;
 }
 
-gboolean
-cleanup_plugin (PluginInfo *pinfo)
+void
+plugin_cleanup_general (ErrorInfo **ret_error)
 {
-	return TRUE;
+	*ret_error = NULL;
 }
 
-/**
- * init_plugin
- * @pinfo    PluginInfo
- *
- * Initialize the plugin. Returns result.
- */
-gboolean
-init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
+void
+plugin_init_general (ErrorInfo **ret_error)
 {
 	gchar *exc_string;
 
@@ -909,13 +905,13 @@ init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 		             _("Unhandled Python exception: %s"), exc_string);
 		g_free (exc_string);
 		Py_Finalize ();
-		return FALSE;
+		return;
 	}
 
 	/* plugin stuff */
 
 	{
-		int ret = -1;
+		int ret;
 		char *dir = NULL, *name = NULL, buf[256];
 		FILE *fp;
 
@@ -939,6 +935,4 @@ init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 		g_free(name);
 		g_free(dir);
 	}
-
-	return TRUE;
 }

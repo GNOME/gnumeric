@@ -23,14 +23,11 @@
 #define GNUMERIC_PLUGIN_ROFF_H
 
 #include "gnumeric.h"
+#include "io-context.h"
 #include "gnumeric-util.h"
 
-int html_write_wb_roff_dvi (IOContext *context, WorkbookView *wb_view,
-                            const char *filename, gpointer user_data);
-int html_write_wb_roff_pdf (IOContext *context, WorkbookView *wb_view,
-                            const char *filename, gpointer user_data);
-int html_write_wb_roff	   (IOContext *context, WorkbookView *wb_view,
-                            const char *filename, gpointer user_data);
+void roff_dvi_file_save (FileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const char *filename);
+void roff_pdf_file_save (FileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const char *filename);
+void roff_file_save (FileSaver const *fs, IOContext *io_context, WorkbookView *wb_view, const char *filename);
 
 #endif
-

@@ -32,6 +32,8 @@
 #include "gnumeric.h"
 #include "plugin.h"
 #include "plugin-util.h"
+#include "error-info.h"
+#include "module-plugin-defs.h"
 #include "expr.h"
 #include "gutils.h"
 #include "func.h"
@@ -42,7 +44,7 @@
 #include "guile-support.h"
 #include "smob-value.h"
 
-gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /* This is damn ugly.
  * However, it will get things working again (I hope)
@@ -183,19 +185,19 @@ scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_categor
 }
 
 gboolean
-can_deactivate_plugin (PluginInfo *pinfo)
+plugin_can_deactivate_general (void)
 {
 	return FALSE;
 }
 
-gboolean
-cleanup_plugin (PluginInfo *pinfo)
+void
+plugin_cleanup_general (ErrorInfo **ret_error)
 {
-	return TRUE;
+	*ret_error = NULL;
 }
 
-gboolean
-init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
+void
+plugin_init_general (ErrorInfo **ret_error)
 {
 	FunctionCategory *cat;
 	char *name, *dir;
@@ -205,7 +207,7 @@ init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 	if (!has_gnumeric_been_compiled_with_guile_support ()) {
 		*ret_error = error_info_new_str (
 		             _("Gnumeric has not been compiled with support for guile."));
-		return FALSE;
+		return;
 	}
 
 	/* Initialize just in case. */
@@ -230,6 +232,4 @@ init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 		  SCM_EOL);
 	g_free (name);
 	g_free (dir);
-
-	return TRUE;
 }

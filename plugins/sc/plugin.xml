@@ -2,6 +2,14 @@
 <gnumeric_plugin_group>
 <plugin id="Gnumeric_sc">
 	<information name="SC/XSpread" description="Imports SC/XSpread files"/>
-	<activation type="g_module" module_file="sc.so"/>
+	<loader type="g_module">
+		<attribute name="module_file" value="sc.so"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="sc" priority="1" probe="FALSE">
+			<information description="SC/xspread file import"/>
+			<save_info saver_id="" format_level="manual"/>
+		</service>
+	</services>
 </plugin>
 </gnumeric_plugin_group>

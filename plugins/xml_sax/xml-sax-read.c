@@ -24,8 +24,10 @@
 #include "config.h"
 #include <gnome.h>
 #include "gnumeric.h"
+#include "io-context.h"
 #include "plugin.h"
 #include "plugin-util.h"
+#include "module-plugin-defs.h"
 #include "sheet-style.h"
 #include "style.h"
 #include "style-border.h"
@@ -40,6 +42,7 @@
 #include "command-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
+#include "error-info.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -47,12 +50,12 @@
 #include <gnome-xml/parser.h>
 #include <gnome-xml/parserInternals.h>
 
-gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-static FileOpenerId xml2_opener_id;
-#if 0
-static FileSaverId xml2_saver_id;
-#endif
+gboolean xml2_file_probe (FileOpener const *fo, const gchar *file_name);
+void     xml2_file_open (FileOpener const *fo, IOContext *io_context,
+                         WorkbookView *wb_view, char const *filename);
+
 
 typedef struct _XML2ParseState XML2ParseState;
 
@@ -170,15 +173,14 @@ xml2ParseRange (CHAR const * const *attrs, Range *res)
 #if 0
 /*
  * Save a Workbook in an XML file
- * returns 0 in case of success, -1 otherwise.
  */
-static int
-xml2_write (WorkbookControl *context, Workbook *wb, char const *filename, gpointer user_data)
+void
+xml2_write (Workbook *wb, char const *filename, ErrorInfo **ret_error)
 {
 	g_return_val_if_fail (wb != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
 
-	return 0;
+	*ret_error = NULL;
 }
 #endif
 
@@ -1093,8 +1095,8 @@ xml2UnknownState (XML2ParseState *state, CHAR const *name)
  * We parse and do some limited validation of the XML file, if this
  * passes, then we return TRUE
  */
-static gboolean
-xml2_probe (const char *filename, gpointer user_data)
+gboolean
+xml2_file_probe (FileOpener const *fo, const gchar *file_name)
 {
 	return TRUE;
 }
@@ -1529,18 +1531,17 @@ static xmlSAXHandler xml2SAXParser = {
 	(fatalErrorSAXFunc)xml2FatalError, /* fatalError */
 };
 
-
-static int
-xml2_read (IOContext *context, WorkbookView *wb_view,
-           char const *filename)
+void
+xml2_file_open (FileOpener const *fo, IOContext *io_context,
+                WorkbookView *wb_view, char const *filename)
 {
 	xmlParserCtxtPtr ctxt;
 	XML2ParseState state;
 
-	g_return_val_if_fail (wb_view != NULL, -1);
-	g_return_val_if_fail (filename != NULL, -1);
+	g_return_if_fail (wb_view != NULL);
+	g_return_if_fail (filename != NULL);
 
-	state.context = context;
+	state.context = io_context;
 	state.wb_view = wb_view;
 	state.wb = wb_view_workbook (wb_view);
 
@@ -1549,63 +1550,22 @@ xml2_read (IOContext *context, WorkbookView *wb_view,
 	 * and using vfs.
 	 */
 	ctxt = xmlCreateFileParserCtxt (filename);
-	if (!ctxt)
-		return -1;
+	if (ctxt == NULL) { 
+		gnumeric_io_error_info_set (io_context,
+		                            error_info_new_str (
+		                            _("xmlCreateFileParserCtxt() failed.")));
+		return;
+	}
 	ctxt->sax = &xml2SAXParser;
 	ctxt->userData = &state;
 
 	xmlParseDocument (ctxt);
 
-	if (!ctxt->wellFormed)
-		g_warning ("document not well formed!");
+	if (ctxt->wellFormed) {
+		gnumeric_io_error_info_set (io_context,
+		                            error_info_new_str (
+		                            _("XML document not well formed!")));
+	}
 	ctxt->sax = NULL;
 	xmlFreeParserCtxt (ctxt);
-
-	return 0;
-}
-
-static int
-xml2_open (IOContext *context, WorkbookView *wb_view,
-           char const *filename, gpointer user_data)
-{
-	int res = xml2_read (context, wb_view, filename);
-	if (res == 0) {
-		workbook_set_saveinfo (wb_view_workbook (wb_view), filename,
-		                       FILE_FL_MANUAL_REMEMBER,
-				       FILE_SAVER_ID_INVALID);
-	}
-	return res;
-}
-
-gboolean
-can_deactivate_plugin (PluginInfo *pinfo)
-{
-	return TRUE;
-}
-
-gboolean
-cleanup_plugin (PluginInfo *pinfo)
-{
-	file_format_unregister_open (xml2_opener_id);
-#if 0
-	file_format_unregister_save (xml_saver_id);
-#endif
-	return TRUE;
-}
-
-gboolean
-init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
-{
-	/* low priority for now */
-	xml2_opener_id = file_format_register_open (
-	                 1, _("EXPERIMENTAL Gnumeric (*.gnumeric) XML based file format"),
-	                 &xml2_probe, &xml2_open, NULL);
-
-#if 0
-	xml2_saver_id = file_format_register_save (
-	                ".gnumeric", _("Gnumeric (*.gnumeric) XML based file format"),
-	                FILE_FL_MANUAL, &xml2_write, NULL);
-#endif
-
-	return TRUE;
 }

@@ -3,6 +3,11 @@
 <plugin id="Gnumeric_gb">
 	<information name="Gnome Basic"
 	 description="Enables Gnome Basic support"/>
-	<activation type="g_module" module_file="gnum_gb.so"/>
+	<loader type="g_module">
+		<attribute name="module_file" value="gnum_gb.so"/>
+	</loader>
+	<services>
+		<service type="general"></service>
+	</services>
 </plugin>
 </gnumeric_plugin_group>

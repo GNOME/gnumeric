@@ -2,6 +2,14 @@
 <gnumeric_plugin_group>
 <plugin id="Gnumeric_plan_perfect">
 	<information name="Plan Perfect" description="Imports Plan Perfect Formatted Documents"/>
-	<activation type="g_module" module_file="plan_perfect.so"/>
+	<loader type="g_module">
+		<attribute name="module_file" value="plan_perfect.so"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="pln" priority="1" probe="FALSE">
+			<information description="Plan Perfect Format (PLN) import"/>
+			<save_info saver_id="" format_level="manual"/>
+		</service>
+	</services>
 </plugin>
 </gnumeric_plugin_group>

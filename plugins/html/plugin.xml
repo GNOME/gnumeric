@@ -2,6 +2,39 @@
 <gnumeric_plugin_group>
 <plugin id="Gnumeric_html">
 	<information name="HTML" description="Import/Export of HTML, TeX, DVI, roff and pdf"/>
-	<activation type="g_module" module_file="html.so"/>
+	<loader type="g_module">
+		<attribute name="module_file" value="html.so"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="html32" priority="100" probe="FALSE">
+			<information description="HTML file made by gnumeric"/>
+			<file_patterns>
+				<file_pattern type="shell_pattern" value="*.html"/>
+				<file_pattern type="shell_pattern" value="*.htm"/>
+			</file_patterns>
+			<save_info saver_id="html32" format_level="auto"/>
+		</service>
+		<service type="file_saver" id="html32" file_extension="html" format_level="auto">
+			<information description="HTML 3.2 file format (*.html)"/>
+		</service>
+		<service type="file_saver" id="html40" file_extension="html" format_level="auto">
+			<information description="HTML 4.0 file format (*.html)"/>
+		</service>
+		<service type="file_saver" id="latex" file_extension="tex" format_level="write_only">
+			<information description="LaTeX file format (*.tex)"/>
+		</service>
+		<service type="file_saver" id="latex2e" file_extension="tex" format_level="write_only">
+			<information description="LaTeX2e file format (*.tex)"/>
+		</service>
+		<service type="file_saver" id="roff_dvi" file_extension="dvi" format_level="write_only">
+			<information description="DVI TeX file format (via groff)"/>
+		</service>
+		<service type="file_saver" id="roff" file_extension="me" format_level="write_only">
+			<information description="TROFF file format (*.me)"/>
+		</service>
+		<service type="file_saver" id="roff_pdf" file_extension="pdf" format_level="write_only">
+			<information description="PDF file format (via groff/gs)"/>
+		</service>
+	</services>
 </plugin>
 </gnumeric_plugin_group>

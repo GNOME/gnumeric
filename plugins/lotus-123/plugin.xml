@@ -2,6 +2,18 @@
 <gnumeric_plugin_group>
 <plugin id="Gnumeric_lotus">
 	<information name="Lotus 123" description="Imports Lotus 123 files"/>
-	<activation type="g_module" module_file="lotus.so"/>
+	<loader type="g_module">
+		<attribute name="module_file" value="lotus.so"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="lotus" priority="50" probe="TRUE">
+			<information description="Lotus file format (*.wk1)"/>
+			<file_patterns>
+				<file_pattern type="shell_pattern" value="*.wk1"/>
+				<file_pattern type="shell_pattern" value="*.wks"/>
+			</file_patterns>
+			<save_info saver_id="" format_level="manual_remember"/>
+		</service>
+	</services>
 </plugin>
 </gnumeric_plugin_group>

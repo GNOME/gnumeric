@@ -19,6 +19,8 @@
 #include <gnome.h>
 #include "plugin.h"
 #include "plugin-util.h"
+#include "module-plugin-defs.h"
+#include "error-info.h"
 #include "gnumeric.h"
 #include "file.h"
 #include "value.h"
@@ -26,8 +28,13 @@
 #include "workbook.h"
 #include "workbook-view.h"
 #include "command-context.h"
+#include "io-context.h"
 
-gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+
+void pln_file_open (FileOpener const *fo, IOContext *io_context,
+                    WorkbookView *view, char const *filename);
+
 
 typedef struct {
 	char const *data, *cur;
@@ -42,8 +49,6 @@ typedef struct {
 	/* Font width should really be calculated, but it's too hard right now */
 #define PLN_BYTE(pointer) (((int)((*(pointer)))) & 0xFF)
 #define PLN_WORD(pointer) (PLN_BYTE(pointer) + PLN_BYTE((pointer) + 1) * 256)
-
-static FileOpenerId pln_opener_id;
 
 static const char* formula1[] =
 {
@@ -707,8 +712,8 @@ g_warning("PLN: Undefined formula code %d", fcode);
 	return result1;
 }
 
-static int
-pln_parse_sheet (CommandContext *context, FileSource_t *src)
+static void
+pln_parse_sheet (FileSource_t *src, ErrorInfo **ret_error)
 {
 	int rcode, rlength;
 	int crow, ccol, ctype, cformat, chelp, clength, cattr, cwidth;
@@ -718,9 +723,8 @@ pln_parse_sheet (CommandContext *context, FileSource_t *src)
 	char* svalue;
 	int lastrow = SHEET_MAX_ROWS;
 	int lastcol = SHEET_MAX_COLS;
-	char *template = _("Invalid PLN file has more than the maximum\n"
-			   "number of %s %d");
 
+	*ret_error = NULL;
 	/*
 	 * Make sure it really is a plan-perfect file
 	 *	0	= -1
@@ -734,15 +738,13 @@ pln_parse_sheet (CommandContext *context, FileSource_t *src)
 	 *	14-15	= unused
 	 */
 	if (memcmp(src->cur, "\377WPC\020\0\0\0\011\012", 10) != 0) {
-		gnumeric_error_read
-			(context, _("PLN : Not a PlanPerfect File"));
-		return -1;
+		*ret_error = error_info_new_str (_("PLN : Not a PlanPerfect File"));
+		return;
 	}
 
 	if ((*(src->cur + 12) != 0) || (*(src->cur + 13) != 0)) {
-		gnumeric_error_read
-			(context, _("PLN : Spreadsheet is password encrypted"));
-		return -1;
+		*ret_error = error_info_new_str (_("PLN : Spreadsheet is password encrypted"));
+		return;
 	}
 
 	/*
@@ -808,14 +810,15 @@ g_warning("PLN : Record handling code for code %d not yet written", rcode);
 
 		/* Special value indicating end of sheet */
 		if (crow == 65535)
-			return 0;
+			return;
 
 		if (crow >= SHEET_MAX_ROWS) {
-			char *message = g_strdup_printf (template, _("rows"),
-							 SHEET_MAX_ROWS);
-			gnumeric_error_read (context, message);
-			g_free (message);
-			return -1;
+			*ret_error = error_info_new_printf (
+			             _("Invalid PLN file has more than the maximum\n"
+			             "number of %s %d"),
+			             _("rows"),
+			             SHEET_MAX_ROWS);
+			return;
 		}
 
 		ccol = PLN_WORD(src->cur + 2);
@@ -877,30 +880,29 @@ g_warning("PLN : Record handling code for code %d not yet written", rcode);
 
 		src->cur += 20 + clength + cextra;
 	}
-
-	return 0;
 }
 
-static int
-pln_read_workbook (IOContext *context, WorkbookView *view,
-                   char const *filename, gpointer unused)
+void
+pln_file_open (FileOpener const *fo, IOContext *io_context,
+               WorkbookView *view, char const *filename)
 {
-	int result = 0;
 	int len;
 	struct stat sbuf;
 	char const *data;
-	int const fd = open(filename, O_RDONLY);
+	gint fd;
 	Workbook *book = wb_view_workbook (view);
+	ErrorInfo *error;
 
+	fd = gnumeric_open_error_info (filename, O_RDONLY, &error);
 	if (fd < 0) {
-		gnumeric_error_read (COMMAND_CONTEXT (context), g_strerror (errno));
-		return -1;
+		gnumeric_io_error_info_set (io_context, error);
+		return;
 	}
 
 	if (fstat(fd, &sbuf) < 0) {
 		close (fd);
-		gnumeric_error_read (COMMAND_CONTEXT (context), g_strerror (errno));
-		return -1;
+		gnumeric_io_error_info_set (io_context, error_info_new_from_errno ());
+		return;
 	}
 
 	len = sbuf.st_size;
@@ -917,48 +919,16 @@ pln_read_workbook (IOContext *context, WorkbookView *view,
 		workbook_sheet_attach (book, src.sheet, NULL);
 		g_free (name);
 
-		result = pln_parse_sheet (COMMAND_CONTEXT (context), &src);
-
-		if (result != 0)
+		pln_parse_sheet (&src, &error);
+		if (error != NULL) {
 			workbook_sheet_detach (book, src.sheet);
-		else
-			workbook_set_saveinfo (book, filename, FILE_FL_MANUAL, FILE_SAVER_ID_INVALID);
+			gnumeric_io_error_info_set (io_context, error);
+		}
 
 		munmap((char *)data, len);
 	} else {
-		result = -1;
-		gnumeric_error_read (COMMAND_CONTEXT (context), _("Unable to mmap the file"));
+		gnumeric_io_error_info_set (io_context,
+		                            error_info_new_str (_("Unable to mmap the file")));
 	}
 	close(fd);
-
-	return result;
-}
-
-
-#ifndef PAGE_SIZE
-#define PAGE_SIZE (BUFSIZ*8)
-#endif
-
-gboolean
-can_deactivate_plugin (PluginInfo *pinfo)
-{
-	/* We can always unload */
-	return TRUE;
-}
-
-gboolean
-cleanup_plugin (PluginInfo *pinfo)
-{
-	file_format_unregister_open (pln_opener_id);
-	return TRUE;
-}
-
-gboolean
-init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
-{
-	pln_opener_id = file_format_register_open (
-	                1, _("Plan Perfect Format (PLN) import"),
-	                NULL, pln_read_workbook, NULL);
-
-	return TRUE;
 }

@@ -24,6 +24,7 @@
  * USA
  */
 #include "config.h"
+#include <libgnome/libgnome.h>
 #include "applix.h"
 #include "application.h"
 #include "expr.h"
@@ -42,6 +43,7 @@
 #include "io-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
+#include "error-info.h"
 
 #include <ctype.h>
 #include <string.h>
@@ -50,14 +52,14 @@
 static int debug_applix_read = 1;
 
 typedef struct {
-	FILE		*file;
-	IOContext	*context;
-	WorkbookView	*wb_view;
-	Workbook	*wb;
-	GHashTable	*exprs, *styles;
-	GPtrArray	*colours;
-	GPtrArray	*attrs;
-	GPtrArray	*font_names;
+	FILE          *file;
+	ErrorInfo     *parse_error;
+	WorkbookView  *wb_view;
+	Workbook      *wb;
+	GHashTable    *exprs, *styles;
+	GPtrArray     *colours;
+	GPtrArray     *attrs;
+	GPtrArray     *font_names;
 
 	char *buffer;
 	int buffer_size;
@@ -71,9 +73,12 @@ typedef struct {
 static int
 applix_parse_error (ApplixReadState *state, char const *msg)
 {
-	gchar *tmp = g_strconcat ("APPLIX : ", msg, NULL);
-	gnumeric_io_error_read (state->context, msg);
-	g_free (tmp);
+	if (state->parse_error == NULL) {
+		state->parse_error = error_info_new_str (
+		                     _("Parse error while reading Applix file."));
+	}
+	error_info_add_details (state->parse_error,
+	                        error_info_new_str (msg));
 	return -1;
 }
 
@@ -1280,25 +1285,24 @@ cb_remove_style (gpointer key, gpointer value, gpointer user_data)
 	return TRUE;
 }
 
-int
-applix_read (IOContext *context, WorkbookView *wb_view,
-	     FILE *file)
+void
+applix_read (IOContext *io_context, WorkbookView *wb_view, FILE *file)
 {
 	int i;
 	int res;
+	ApplixReadState	state;
 
 	/* Init the state variable */
-	ApplixReadState	state;
-	state.file	= file;
-	state.context	= context;
-	state.wb_view	= wb_view;
-	state.wb	= wb_view_workbook (wb_view);
-	state.exprs	= g_hash_table_new (&g_int_hash, &g_int_equal);
-	state.styles	= g_hash_table_new (&g_str_hash, &g_str_equal);
-	state.colours	= g_ptr_array_new ();
-	state.attrs	= g_ptr_array_new ();
-	state.font_names= g_ptr_array_new ();
-	state.buffer	= NULL;
+	state.file        = file;
+	state.parse_error = NULL;
+	state.wb_view     = wb_view;
+	state.wb          = wb_view_workbook (wb_view);
+	state.exprs       = g_hash_table_new (&g_int_hash, &g_int_equal);
+	state.styles      = g_hash_table_new (&g_str_hash, &g_str_equal);
+	state.colours     = g_ptr_array_new ();
+	state.attrs       = g_ptr_array_new ();
+	state.font_names  = g_ptr_array_new ();
+	state.buffer      = NULL;
 
 	/* Actualy read the workbook */
 	res = applix_read_impl (&state);
@@ -1324,5 +1328,5 @@ applix_read (IOContext *context, WorkbookView *wb_view,
 		g_free (g_ptr_array_index(state.font_names, i));
 	g_ptr_array_free (state.font_names, TRUE);
 
-	return res;
+	gnumeric_io_error_info_set (io_context, state.parse_error);
 }

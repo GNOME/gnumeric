@@ -2,6 +2,11 @@
 <gnumeric_plugin_group>
 <plugin id="Gnumeric_gdaif">
 	<information name="Database" description="Database functions for allowing the retrieval of data from a database"/>
-	<activation type="g_module" module_file="gdaif.so"/>
+	<loader type="g_module">
+		<attribute name="module_file" value="gdaif.so"/>
+	</loader>
+	<services>
+		<service type="general"></service>
+	</services>
 </plugin>
 </gnumeric_plugin_group>

@@ -25,5 +25,5 @@ gboolean  record_seek (XBrecord *record, int whence, glong row);
 void      record_free (XBrecord *record);
 guint8   *record_get_field (const XBrecord *record, guint num);
 
-XBfile *xbase_open (IOContext *context, const char *filename);
+XBfile *xbase_open (const char *filename, ErrorInfo **ret_error);
 void    xbase_close (XBfile *file);

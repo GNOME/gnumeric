@@ -218,16 +218,20 @@ xbase_read_field (XBfile *file)
 }
 
 XBfile *
-xbase_open (IOContext *context, const char *filename)
+xbase_open (const char *filename, ErrorInfo **ret_error)
 {
-	XBfile *ans = g_new (XBfile, 1);
+	FILE *f;
+	XBfile *ans;
 	XBfield *field;
 
-	if ((ans->f = fopen (filename, "rb")) == NULL) {
-		gnumeric_io_error_system (context, g_strerror (errno));
-		g_free (ans);
+	*ret_error = NULL;
+	if ((f = fopen (filename, "rb")) == NULL) {
+		*ret_error = error_info_new_from_errno ();
 		return NULL;
 	}
+
+	ans = g_new (XBfile, 1);
+	ans->f = f;
 	ans->offset = 0;
 
 	xbase_read_header (ans); /* FIXME: Clean up xbase_read_header

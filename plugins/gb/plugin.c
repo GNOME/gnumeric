@@ -30,6 +30,8 @@
 #include "gnumeric.h"
 #include "plugin.h"
 #include "plugin-util.h"
+#include "error-info.h"
+#include "module-plugin-defs.h"
 #include "expr.h"
 #include "func.h"
 
@@ -40,7 +42,7 @@
 #include "excel-gb-context.h"
 #include "../excel/excel.h"
 
-gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 #ifndef MAP_FAILED
 /* Someone needs their head examining - BSD ? */
@@ -57,18 +59,17 @@ typedef struct {
 int gb_debug = 0;
 
 gboolean
-can_deactivate_plugin (PluginInfo *pd)
+plugin_can_deactivate_general (void)
 {
 	return FALSE;
 }
 
-gboolean
-cleanup_plugin (PluginInfo *pd)
+void
+plugin_cleanup_general (ErrorInfo **ret_error)
 {
+	*ret_error = NULL;
 	gbrun_shutdown ();
 	gb_shutdown ();
-
-	return TRUE;
 }
 
 static Value *
@@ -119,7 +120,7 @@ generic_marshaller (FunctionEvalInfo *ei, GList *nodes)
 
 	args = g_slist_reverse (args);
 
-	gb_ans = gbrun_project_invoke (wd->ec, wd->proj, ei->func_def->name, args);
+	gb_ans = gbrun_project_invoke (wd->ec, wd->proj, function_def_get_name (ei->func_def), args);
 	if (gb_ans)
 		ans = gb_to_value (gb_ans);
 
@@ -351,15 +352,14 @@ file_provider (GBRunEvalContext *ec,
 	return ret;
 }
 
-gboolean
-init_plugin (PluginInfo *pd, ErrorInfo **err)
+void
+plugin_init_general (ErrorInfo **err)
 {
 	GBEvalContext *ec;
 	GBLexerStream *proj_stream;
 	char          *proj_name;
-	gboolean       success = TRUE;
 
-	g_return_val_if_fail (err != NULL, FALSE);
+	g_return_if_fail (err != NULL);
 
 	*err = NULL;
 
@@ -371,7 +371,7 @@ init_plugin (PluginInfo *pd, ErrorInfo **err)
 		*err = error_info_new_printf (
 			_("Error initializing gb '%s'"),
 			gb_eval_context_get_text (ec));
-		return FALSE;
+		return;
 	}
 
 	excel_gb_application_register_types ();
@@ -385,10 +385,7 @@ init_plugin (PluginInfo *pd, ErrorInfo **err)
 		proj_stream = file_to_stream (proj_name);
 		if (!read_gb (NULL, NULL, proj_stream, file_provider, NULL)) {
 			*err = error_info_new_printf (_("Error in project '%s'"), proj_name);
-			success = FALSE;
 		}
 	}
 	g_free (proj_name);
-
-	return success;
 }

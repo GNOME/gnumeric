@@ -2,6 +2,34 @@
 <gnumeric_plugin_group>
 <plugin id="Gnumeric_numtheory">
 	<information name="Number Theory" description="Several basic utilities for prime numbers, pi, phi, sigma. It also hold some simple bitwise operations"/>
-	<activation type="g_module" module_file="numtheory.so"/>
+	<loader type="g_module">
+		<attribute name="module_file" value="numtheory.so"/>
+	</loader>
+	<services>
+		<service type="function_group" id="num_theory">
+			<category name="Number Theory"/>
+			<category xml:lang="pl" name="Teoria liczb"/>
+			<functions>
+				<function name="ithprime"/>
+				<function name="nt_phi"/>
+				<function name="nt_d"/>
+				<function name="nt_sigma"/>
+				<function name="isprime"/>
+				<function name="nt_pi"/>
+				<function name="nt_mu"/>
+			</functions>
+		</service>
+		<service type="function_group" id="bitwise">
+			<category name="Bitwise Operations"/>
+			<category xml:lang="pl" name="Operacje bitowe"/>
+			<functions>
+				<function name="bitor"/>
+				<function name="bitxor"/>
+				<function name="bitand"/>
+				<function name="bitlshift"/>
+				<function name="bitrshift"/>
+			</functions>
+		</service>
+	</services>
 </plugin>
 </gnumeric_plugin_group>

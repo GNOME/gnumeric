@@ -2,6 +2,14 @@
 <gnumeric_plugin_group>
 <plugin id="Gnumeric_sylk">
 	<information name="MultiPlan (SYLK)" description="Imports MultiPlan (SYLK) files"/>
-	<activation type="g_module" module_file="sylk.so"/>
+	<loader type="g_module">
+		<attribute name="module_file" value="sylk.so"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="sylk" priority="1" probe="TRUE">
+			<information description="MultiPlan (SYLK) import"/>
+			<save_info saver_id="" format_level="manual_remember"/>
+		</service>
+	</services>
 </plugin>
 </gnumeric_plugin_group>

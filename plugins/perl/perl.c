@@ -12,33 +12,36 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "plugin.h"
+#include "error-info.h"
+#include "module-plugin-defs.h"
 #define dirty _perl_dirty
 #undef _perl_dirty
 
-gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 extern void xs_init(void);
 
 static PerlInterpreter *gnumeric_perl_interp;
 
 gboolean
-can_deactivate_plugin (PluginInfo *pinfo)
+plugin_can_deactivate_general (void)
 {
 	return FALSE;
 }
 
-gboolean
-cleanup_plugin (PluginInfo *pinfo)
+void
+plugin_cleanup_general (ErrorInfo **ret_error)
 {
-	return TRUE;
+	ret_error = NULL;
 }
 
-gboolean
-init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
+void
+plugin_init_general (ErrorInfo **ret_error)
 {
 	char *argv[] = { "", NULL, NULL, NULL };
 	char *arg;
 
+	*ret_error = NULL;
 	/* Initialize the Perl interpreter. */
 	arg = gnumeric_sys_data_dir ("perl");
 	argv[1] = g_strconcat("-I", arg, NULL);
@@ -48,6 +51,4 @@ init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 	perl_construct(gnumeric_perl_interp);
 	perl_parse(gnumeric_perl_interp, xs_init, 3, argv, NULL);
 	perl_run(gnumeric_perl_interp);
-
-	return TRUE;
 }

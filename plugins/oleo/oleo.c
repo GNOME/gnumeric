@@ -30,6 +30,8 @@
 #include "value.h"
 #include "file.h"
 #include "parse-util.h"
+#include "plugin-util.h"
+#include "error-info.h"
 
 #include "oleo.h"
 
@@ -176,20 +178,20 @@ oleo_deal_with_cell (char *str, Sheet *sheet, int *ccol, int *crow)
 	}
 }
 
-int
-oleo_read (IOContext *context, Workbook *wb, const char *filename)
+void
+oleo_read (IOContext *io_context, Workbook *wb, const gchar *filename)
 {
-	FILE *f = fopen (filename, "rb");
+	FILE *f;
 	int sheetidx  = 0;
-
 	int ccol = 0, crow = 0;
-
 	Sheet *sheet = NULL;
 	char str[2048];
+	ErrorInfo *error;
 
-	if (!f) {
-		gnumeric_io_error_system (context, g_strerror (errno));
-		return -1;
+	f = gnumeric_fopen_error_info (filename, "rb", &error);
+	if (f == NULL) {
+		gnumeric_io_error_info_set (io_context, error);
+		return;
 	}
 
 	sheet = attach_sheet (wb, sheetidx++);
@@ -224,5 +226,4 @@ oleo_read (IOContext *context, Workbook *wb, const char *filename)
 	}
 
 	fclose (f);
-	return 0;
 }

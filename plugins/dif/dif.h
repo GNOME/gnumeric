@@ -13,6 +13,4 @@
 #include "sheet.h"
 #include "plugin.h"
 
-PluginInitResult       init_plugin (CommandContext *context, PluginData *pd);
-
 #endif /* GNUMERIC_DIF_H */

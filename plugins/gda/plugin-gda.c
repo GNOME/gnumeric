@@ -25,9 +25,11 @@
 #include "func.h"
 #include "plugin.h"
 #include "plugin-util.h"
+#include "error-info.h"
+#include "module-plugin-defs.h"
 #include "expr.h"
 
-gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 static Gda_ConnectionPool* connection_pool = NULL;
 
@@ -159,19 +161,20 @@ gnumeric_execSQL (FunctionEvalInfo *ei, Value **args)
 }
 
 gboolean
-can_deactivate_plugin (PluginInfo *pinfo)
+plugin_can_deactivate_general (void)
 {
 	FunctionDefinition *func;
 
 	func = func_lookup_by_name ("execSQL", NULL);
-	return func != NULL && func->ref_count <= 1;
+	return func != NULL && func_get_ref_count (func) <= 1;
 }
 
-gboolean
-cleanup_plugin (PluginInfo *pinfo)
+void
+plugin_cleanup_general (ErrorInfo **ret_error)
 {
 	FunctionDefinition *func;
 
+	*ret_error = NULL;
 	func = func_lookup_by_name ("execSQL", NULL);
 	if (func)
 		func_unref (func);
@@ -182,18 +185,16 @@ cleanup_plugin (PluginInfo *pinfo)
 		gda_connection_pool_free(connection_pool);
 		connection_pool = NULL;
 	}
-	return TRUE;
 }
 
-gboolean
-init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
+void
+plugin_init_general (ErrorInfo **ret_error)
 {
 	FunctionCategory *cat;
 
+	*ret_error = NULL;
 	/* register functions */
-	cat = function_get_category(_("Database"));
+	cat = function_get_category_with_translation ("Database", _("Database"));
 	
 	function_add_args(cat, "execSQL", "ssss", "dsn,username,password,sql", &help_execSQL, gnumeric_execSQL);
-	
-	return TRUE;
 }

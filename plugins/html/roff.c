@@ -22,7 +22,6 @@
 #include <errno.h>
 #include <gnome.h>
 #include "config.h"
-#include "io-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
 #include "sheet.h"
@@ -30,6 +29,9 @@
 #include "roff.h"
 #include "font.h"
 #include "cell.h"
+#include "io-context.h"
+#include "error-info.h"
+#include "plugin-util.h"
 
 /*
  * escape special characters .. needs work
@@ -73,15 +75,15 @@ roff_fprintf (FILE *fp, const Cell *cell)
  *
  * FIXME: Should roff quote sheet name (and everything else)
  */
-static int
-write_wb_roff (IOContext *context, WorkbookView *wb_view, FILE *fp)
+static void
+write_wb_roff (IOContext *io_context, WorkbookView *wb_view, FILE *fp)
 {
 	GList *sheet_list;
 	Cell *cell;
 	int row, col, fontsize, v_size;
 	Workbook *wb = wb_view_workbook (wb_view);
 
-	g_return_val_if_fail (wb != NULL, -1);
+	g_return_if_fail (wb != NULL);
 
 	fprintf (fp, ".\\\" TROFF file\n");
 	fprintf (fp, ".fo ''%%''\n");
@@ -174,98 +176,81 @@ write_wb_roff (IOContext *context, WorkbookView *wb_view, FILE *fp)
 		fprintf (fp, ".TE\n\n");
 		sheet_list = sheet_list->next;
 	}
-	return 0;	/* what do we have to return here?? */
 }
 
 /*
  * write sheets to a DVI file using groff as filter
  */
-int
-html_write_wb_roff_dvi (IOContext *context, WorkbookView *wb_view,
-                        const char *filename, gpointer user_data)
+void
+roff_dvi_file_save (FileSaver const *fs, IOContext *io_context,
+                    WorkbookView *wb_view, const gchar *file_name)
 {
 	FILE *fp;
-	int rc = 0;
 	char *cmd;
 
-	g_return_val_if_fail (wb_view != NULL, -1);
-	g_return_val_if_fail (filename != NULL, -1);
-	cmd = g_malloc (strlen (filename) + 64);
-	if (!cmd)
-		return -1;	/* Don't try to report this, we would
-				 * have to allocate memory to do so  */
+	g_return_if_fail (wb_view != NULL);
+	g_return_if_fail (file_name != NULL);
 
-	sprintf (cmd, "groff -me -t -Tdvi - > %s", filename);
+	cmd = g_strdup_printf ("groff -me -t -Tdvi - > %s", file_name);
 	fp = popen (cmd, "w");
-	if (!fp) {
-		gnumeric_io_error_save (context, g_strerror (errno));
-		rc = -1;
-		goto out;
-	}
-	rc =  write_wb_roff (context, wb_view, fp);
-	pclose (fp);
-
-out:
 	g_free (cmd);
-	return (rc);
+	if (fp == NULL) {
+		gnumeric_io_error_info_set (io_context, error_info_new_str_with_details (
+		                            _("Error executing groff."),
+		                            error_info_new_from_errno ()));
+		return;
+	}
+	write_wb_roff (io_context, wb_view, fp);
+	pclose (fp);
 }
 
 /*
  * write sheets to a PDF file using groff and gs as filter
  */
-int
-html_write_wb_roff_pdf (IOContext *context, WorkbookView *wb_view,
-                        const char *filename, gpointer user_data)
+void
+roff_pdf_file_save (FileSaver const *fs, IOContext *io_context,
+                    WorkbookView *wb_view, const gchar *file_name)
 {
 	FILE *fp;
-	int rc = 0;
 	char *cmd;
 
-	g_return_val_if_fail (wb_view != NULL, -1);
-	g_return_val_if_fail (filename != NULL, -1);
-	cmd = g_malloc (strlen (filename) + 256);
-	if (!cmd)
-		return -1;	/* Don't try to report this, we would
-				 * have to allocate memory to do so  */
+	g_return_if_fail (wb_view != NULL);
+	g_return_if_fail (file_name != NULL);
 
-	sprintf (cmd,
+	cmd = g_strdup_printf (
 		"groff -me -t -Tps - |"
 		"gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile=%s"
-		" -c save pop -f -", filename);
+		" -c save pop -f -", file_name);
 	fp = popen (cmd, "w");
-	if (!fp) {
-		gnumeric_io_error_save (context, g_strerror (errno));
-		rc = -1;
-		goto out;
-	}
-	rc =  write_wb_roff (context, wb_view, fp);
-	pclose (fp);
-
-out:
 	g_free (cmd);
-	return (rc);
+	if (fp == NULL) {
+		gnumeric_io_error_info_set (io_context, error_info_new_str_with_details (
+		                            _("Error executing groff+gs."),
+		                            error_info_new_from_errno ()));
+		return;
+	}
+	write_wb_roff (io_context, wb_view, fp);
+	pclose (fp);
 }
 
 /*
  * write sheets to a roff file
  */
-int
-html_write_wb_roff (IOContext *context, WorkbookView *wb_view,
-                    const char *filename, gpointer user_data)
+void
+roff_file_save (FileSaver const *fs, IOContext *io_context,
+                WorkbookView *wb_view, const gchar *file_name)
 {
 	FILE *fp;
-	int rc = 0;
+	ErrorInfo *error;
 
-	g_return_val_if_fail (wb_view != NULL, -1);
-	g_return_val_if_fail (filename != NULL, -1);
+	g_return_if_fail (wb_view != NULL);
+	g_return_if_fail (file_name != NULL);
 
-	fp = fopen (filename, "w");
-	if (!fp) {
-		gnumeric_io_error_save (context, g_strerror (errno));
-		return -1;
+	fp = gnumeric_fopen_error_info (file_name, "w", &error);
+	if (fp == NULL) {
+		gnumeric_io_error_info_set (io_context, error);
+		return;
 	}
-	rc =  write_wb_roff (context, wb_view, fp);
+	write_wb_roff (io_context, wb_view, fp);
 	fclose (fp);
-	return (rc);
 }
-

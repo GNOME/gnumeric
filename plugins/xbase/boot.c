@@ -23,11 +23,16 @@
 #include "value.h"
 #include "cell.h"
 #include "file.h"
-#include "xbase.h"
+#include "error-info.h"
 #include "plugin.h"
 #include "plugin-util.h"
+#include "module-plugin-defs.h"
+#include "xbase.h"
 
-gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+
+void xbase_file_open (FileOpener const *fo, IOContext *io_context,
+                      WorkbookView *wb_view, const char *filename);
 
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
 
@@ -71,15 +76,6 @@ xb_setdouble (guint8 *p, double d)
 #endif
 
 #endif
-
-static FileOpenerId xbase_opener_id;
-
-static gboolean
-xbase_probe (const char *filename, gpointer user_data)
-{
-	return filename != NULL &&
-	       g_strcasecmp ("dbf", g_extension_pointer (filename)) == 0;
-}
 
 static Value *
 xbase_field_as_value (XBrecord *record, guint num)
@@ -146,9 +142,9 @@ xbase_field_as_value (XBrecord *record, guint num)
 	}
 }
 
-static int
-xbase_load (IOContext *context, WorkbookView *wb_view,
-            const char *filename, gpointer user_data)
+void
+xbase_file_open (FileOpener const *fo, IOContext *io_context,
+                 WorkbookView *wb_view, const char *filename)
 {
 	Workbook *wb = wb_view_workbook (wb_view);
 	XBfile *file;
@@ -158,10 +154,13 @@ xbase_load (IOContext *context, WorkbookView *wb_view,
 	Sheet *sheet = NULL;
 	Cell *cell;
 	Value *val;
+	ErrorInfo *open_error;
 
-	if (!(file = xbase_open (context, filename))) {
-		gnumeric_io_error_system (context, g_strerror (errno));
-		return -1;
+	if ((file = xbase_open (filename, &open_error)) == NULL) {
+		gnumeric_io_error_info_set (io_context, error_info_new_str_with_details (
+		                            _("Error while opening xbase file."),
+		                            open_error));
+		return;
 	}
 
 	name = g_strdup(filename);
@@ -172,8 +171,6 @@ xbase_load (IOContext *context, WorkbookView *wb_view,
 	sheet = sheet_new (wb, g_basename (name));
 	g_free (name);
 	workbook_sheet_attach (wb, sheet, NULL);
-	workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL_REMEMBER,
-			       FILE_SAVER_ID_INVALID);
 
 	field = 0;
 	while (field < file->fields) {
@@ -195,30 +192,4 @@ xbase_load (IOContext *context, WorkbookView *wb_view,
 
 	record_free (rec);
 	xbase_close (file);
-
-	return 0;
-}
-
-gboolean
-can_deactivate_plugin (PluginInfo *pinfo)
-{
-	return TRUE;
-}
-
-gboolean
-cleanup_plugin (PluginInfo *pinfo)
-{
-	file_format_unregister_open (xbase_opener_id);
-	return TRUE;
-}
-
-gboolean
-init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
-{
-	/* We register XBase format with a precendence of 100 */
-	xbase_opener_id = file_format_register_open (100,
-	                                             _("Xbase (*.dbf) file format"),
-	                                             &xbase_probe, &xbase_load, NULL);
-
-	return TRUE;
 }

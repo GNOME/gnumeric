@@ -1,5 +1,50 @@
 2001-02-24  Zbigniew Chyla  <cyba@gnome.pl>
 
+	* plugins/applix/applix-read.c,
+	plugins/applix/applix.h, plugins/applix/boot.c,
+	plugins/applix/plugin.xml,
+	plugins/dif/dif.c, /plugins/dif/plugin.xml,
+	plugins/html/boot.c, plugins/html/html.c,
+	plugins/html/html.h, /plugins/html/latex.c,
+	plugins/html/latex.h, plugins/html/plugin.xml,
+	plugins/html/roff.c, /plugins/html/roff.h,
+	plugins/lotus-123/boot.c, plugins/lotus-123/lotus.c,
+	plugins/lotus-123/lotus.h, plugins/lotus-123/plugin.xml,
+	plugins/oleo/boot.c, plugins/oleo/oleo.c,
+	plugins/oleo/oleo.h, plugins/oleo/plugin.xml,
+	plugins/plan-perfect/pln.c, plugins/plan-perfect/plugin.xml,
+	plugins/sc/plugin.xml, plugins/sc/sc.c,
+	plugins/sylk/plugin.xml, plugins/sylk/sylk.c,
+	plugins/xbase/boot.c, plugins/xbase/plugin.xml,
+	plugins/xbase/xbase.c, plugins/xbase/xbase.h,
+	plugins/xml2/plugin.xml, plugins/xml2/xml2.c:
+	Export "file_opener" plugin service (+ "file_saver" for dif and html).
+	Use ErrorInfo where needed.
+	Use GNUMERIC_MODULE_PLUGIN_INFO_DECL macro instead of
+	gnumeric_plugin_version[] declaration.
+
+	* plugins/numtheory/numtheory.c, plugins/numtheory/plugin.xml:
+	Export "function_group" plugin service.
+
+	* plugins/gb/plugin.c, plugins/gb/plugin.xml,
+	plugins/gda/plugin-gda.c, plugins/gda/plugin.xml,
+	plugins/guile/plugin.c, /plugins/guile/plugin.xml,
+	plugins/perl/perl.c, plugins/perl/plugin.xml,
+	plugins/python/Makefile.am, plugins/python/plugin.xml,
+	plugins/python/python.c:
+	Export "general" plugin service.
+	Use ErrorInfo where needed.
+	(init_plugin, can_deactivate_plugin, cleanup_plugin): Rename and
+	signature changes.
+
+	* plugins/excel/boot.c (excel_save_95, excel_save_98, excel_save, excel_probe,
+	excel_load): Signature changes.
+
+	* plugins/excel/ms-formula-write.c: Use accessor functions from
+	func.h instead of accessing FunctionDefinition struct directly.
+
+2001-02-24  Zbigniew Chyla  <cyba@gnome.pl>
+
 	* src/Makefile.am: Added files:  plugin-service.[ch],
 	plugin-loader.[ch], plugin-loader-module.[ch], module-plugin-defs.h.
 

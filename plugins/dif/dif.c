@@ -18,6 +18,7 @@
 #include <gnome.h>
 #include "plugin.h"
 #include "plugin-util.h"
+#include "module-plugin-defs.h"
 #include "gnumeric.h"
 #include "cell.h"
 #include "value.h"
@@ -26,14 +27,12 @@
 #include "workbook-view.h"
 #include "workbook.h"
 
-gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-static FileOpenerId dif_opener_id;
-static FileSaverId dif_saver_id;
-
-static int
-dif_write_workbook (IOContext *context, WorkbookView *wb_view,
-                    const char *filename, gpointer user_data);
+void dif_file_open (FileOpener const *fo, IOContext *io_context,
+                    WorkbookView *wb_view, char const *filename);
+void dif_file_save (FileSaver const *fs, IOContext *io_context,
+                    WorkbookView *wb_view, const gchar *file_name);
 
 typedef struct {
 	char const *data, *cur;
@@ -248,25 +247,26 @@ g_warning("DIF SUCCESS");
 #   define MAP_FAILED -1
 #endif
 
-static int
-dif_read_workbook (IOContext *context, WorkbookView *wb_view,
-                   char const *filename, gpointer user_data)
+void
+dif_file_open (FileOpener const *fo, IOContext *io_context,
+               WorkbookView *wb_view, char const *filename)
 {
-	int result = 0;
 	int len;
 	struct stat sbuf;
 	char const *data;
-	int const fd = open(filename, O_RDONLY);
+	int fd;
+	ErrorInfo *error;
 
+	fd = gnumeric_open_error_info (filename, O_RDONLY, &error);
 	if (fd < 0) {
-		gnumeric_io_error_system (context, g_strerror (errno));
-		return -1;
+		gnumeric_io_error_info_set (io_context, error);
+		return;
 	}
 
-	if (fstat(fd, &sbuf) < 0) {
+	if (fstat (fd, &sbuf) < 0) {
+		gnumeric_io_error_info_set (io_context, error_info_new_from_errno ());
 		close (fd);
-		gnumeric_io_error_system (context, g_strerror (errno));
-		return -1;
+		return;
 	}
 
 	len = sbuf.st_size;
@@ -280,20 +280,15 @@ dif_read_workbook (IOContext *context, WorkbookView *wb_view,
 		src.sheet = workbook_sheet_add (wb, NULL, FALSE);
 
 		if (!dif_parse_sheet (&src)) {
-			gnumeric_io_error_read (context,
-					     _("DIF : Failed to load sheet"));
-			result = -1;
-		} else {
-			workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL, dif_saver_id);
+			gnumeric_io_error_info_set (io_context,
+			                            error_info_new_str (_("DIF : Failed to load sheet")));
 		}
 		munmap((char *)data, len);
 	} else {
-		result = -1;
-		gnumeric_io_error_read (context, _("Unable to mmap the file"));
+		gnumeric_io_error_info_set (io_context,
+		                            error_info_new_str (_("Unable to mmap the file")));
 	}
-	close(fd);
-
-	return result;
+	close (fd);
 }
 
 static int
@@ -323,20 +318,22 @@ dif_write_cell (FILE *f, Cell const *cell)
 /*
  * write every sheet of the workbook to a DIF format file
  */
-static int
-dif_write_workbook (IOContext *context, WorkbookView *wb_view,
-                    const char *filename, gpointer user_data)
+void
+dif_file_save (FileSaver const *fs, IOContext *io_context,
+               WorkbookView *wb_view, const gchar *file_name)
 {
 	Workbook *wb = wb_view_workbook (wb_view);
 	GList *sheet_list;
 	Cell *cell;
 	int row, col, rc=0;
 	char *workstring;
-	FILE *f = fopen (filename, "w");
+	FILE *f;
+	ErrorInfo *error;
 
-	if (!f) {
-		gnumeric_io_error_system (context, g_strerror (errno));
-		return -1;
+	f = gnumeric_fopen_error_info (file_name, "w", &error);
+	if (f == NULL) {
+		gnumeric_io_error_info_set (io_context, error);
+		return;
 	}
 
 	/*
@@ -386,36 +383,8 @@ dif_write_workbook (IOContext *context, WorkbookView *wb_view,
 out:
 	if (f)
 		fclose (f);
-	if (rc < 0)
-		gnumeric_io_error_save (context, "");
-
-	return rc;	/* Q: what do we have to return here?? */
-}
-
-
-gboolean
-can_deactivate_plugin (PluginInfo *pinfo)
-{
-	return TRUE;
-}
-
-gboolean
-cleanup_plugin (PluginInfo *pinfo)
-{
-	file_format_unregister_open (dif_opener_id);
-	file_format_unregister_save (dif_saver_id);
-	return TRUE;
-}
-
-gboolean
-init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
-{
-	dif_opener_id = file_format_register_open (
-	                1, _("Data Interchange Format (*.dif) file format"),
-	                NULL, &dif_read_workbook, NULL);
-	dif_saver_id = file_format_register_save (
-	               ".dif", _("Data Interchange Format (*.dif)"),
-	               FILE_FL_MANUAL, &dif_write_workbook, NULL);
-
-	return TRUE;
+	if (rc < 0) {
+		gnumeric_io_error_info_set (io_context,
+		                            error_info_new_str (_("Error while saving dif file.")));
+	}
 }

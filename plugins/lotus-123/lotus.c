@@ -25,6 +25,8 @@
 #include "cell.h"
 #include "gutils.h"
 #include "expr.h"
+#include "plugin-util.h"
+#include "error-info.h"
 
 #include "lotus.h"
 #include "lotus-types.h"
@@ -200,10 +202,10 @@ attach_sheet (Workbook *wb, int idx)
 }
 
 /* buf was old siag wb / sheet */
-static int
-read_workbook (IOContext *context, Workbook *wb, FILE *f)
+static gboolean
+read_workbook (Workbook *wb, FILE *f)
 {
-	int result = 0;
+	gboolean result = TRUE;
 	int sheetidx = 0;
 	Sheet *sheet = NULL;
 	record_t *r;
@@ -217,7 +219,7 @@ read_workbook (IOContext *context, Workbook *wb, FILE *f)
 		guint16  fmt;	/* Format code of Lotus Cell */
 
 		if (sheetidx == 0 && r->type != 0) {
-			result = -1;
+			result = FALSE;
 			break;
 		}
 
@@ -297,19 +299,22 @@ read_workbook (IOContext *context, Workbook *wb, FILE *f)
 	return result;
 }
 
-int
-lotus_read (IOContext *context, Workbook *wb, const char *filename)
+void
+lotus_read (IOContext *io_context, Workbook *wb, const char *filename)
 {
 	FILE *f;
-	int res;
+	ErrorInfo *error;
 
-	if (!(f = fopen (filename, "rb"))) {
-		gnumeric_io_error_system (context, g_strerror (errno));
-		return -1;
+	f = gnumeric_fopen_error_info (filename, "rb", &error);
+	if (f == NULL) {
+		gnumeric_io_error_info_set (io_context, error);
+		return;
 	}
 
-	res = read_workbook (context, wb, f);
-	fclose (f);
+	if (!read_workbook (wb, f)) {
+		gnumeric_io_error_info_set (io_context,
+		                            error_info_new_str (_("Error while reading lotus workbook.")));
+	}
 
-	return res;
+	fclose (f);
 }
