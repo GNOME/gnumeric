@@ -710,7 +710,11 @@ sv_panes_insdel_colrow (SheetView *sv, gboolean is_cols,
 			br.col += count;
 			if (tl.col > start)
 				tl.col += count;
+			if (br.col < tl.col || br.col >= SHEET_MAX_COLS)
+				return;
 		} else {
+			if (tl.col < start)
+				tl.col -= count;
 			br.col -= count;
 			if (br.col <= tl.col)
 				br.col = tl.col + 1;
@@ -723,7 +727,11 @@ sv_panes_insdel_colrow (SheetView *sv, gboolean is_cols,
 			br.row += count;
 			if (tl.row > start)
 				tl.row += count;
+			if (br.row < tl.row || br.row >= SHEET_MAX_ROWS)
+				return;
 		} else {
+			if (tl.row < start)
+				tl.row -= count;
 			br.row -= count;
 			if (br.row <= tl.row)
 				br.row = tl.row + 1;

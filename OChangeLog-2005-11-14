@@ -1,5 +1,10 @@
 2004-11-21  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-view.c (sv_panes_insdel_colrow) : be more careful
+	  inserting large numbers of cols/rows
+
+2004-11-21  Jody Goldberg <jody@gnome.org>
+
 	* src/sheet.c (sheet_insert_rows) : no need to test when inserting
 	  SHEET_MAX_ROWS
 	(sheet_insert_cols) : ditto for SHEET_MAX_COLS
