@@ -1042,7 +1042,10 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			break;
 
 		case '\\':
-			if (*(format+1)){
+			if (format[1] != '\0') {
+				/* TODO TODO TODO : Do we need any more chars here ?? */
+				if (format[1] == '-')
+					info.supress_minus = TRUE;
 				format++;
 				g_string_append_c (result, *format);
 			}
@@ -1072,9 +1075,6 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			/* fall down */
 
 		case '$':
-			g_string_append_c (result, *format);
-			break;
-
 		case '£':
 			g_string_append_c (result, *format);
 			break;

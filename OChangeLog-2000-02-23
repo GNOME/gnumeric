@@ -1,3 +1,8 @@
+1999-12-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/format.c (format_number) : Supress printing a '-' if the format
+	  includes a manual '-' even if the negative is preceded by a \
+
 1999-12-18  Kjartan Maraas  <kmaraas@online.no>
 
 	* src/dialogs/print.glade.h: Added xgettext:no-c-format in
