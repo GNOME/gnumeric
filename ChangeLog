@@ -1,3 +1,9 @@
+2001-08-31  Morten Welinder  <terra@diku.dk>
+
+	* src/xml-io.c (xml_workbook_read): Avoid geek speak.  Most users
+ 	should not know, not care, that the underlying format is XML.
+	(gnumeric_xml_read_workbook): Ditto.
+
 2001-08-31  Abel Cheung  <maddog@linux.org.hk>
 
 	* configure.in (ALL_LINGUAS): zh_TW.Big5 -> zh_TW

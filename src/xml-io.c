@@ -2998,7 +2998,7 @@ xml_workbook_read (IOContext *context, WorkbookView *wb_view,
 	/*
 	 * Pass 2: read the contents
 	 */
-	io_progress_message (context, _("Processing XML tree..."));
+	io_progress_message (context, _("Processing file..."));
 	io_progress_range_push (context, 0.5, 1.0);
 	count_io_progress_set (context, xml_read_workbook_n_elements (child),
 	                       N_ELEMENTS_BETWEEN_UPDATES);
@@ -3226,7 +3226,7 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 		_("Not enough memory to create zlib decompression state.")));
 		return;
 	}
-	io_progress_message (context, _("Parsing XML file..."));
+	io_progress_message (context, _("Reading file..."));
 	io_progress_range_push (context, 0.0, 0.5);
 	value_io_progress_set (context, file_size, 0);
 	bytes = gzread (f, buffer, 4);

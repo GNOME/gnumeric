@@ -22,7 +22,7 @@ Morten:
 Zbigniew:
 	* Support for translations in plugin.xml files using xml-i18n-tools
 	  (modified xml file structure a bit).
-	* Speeded up Gnumeric compilation by replacing #include <gnome.h> with
+	* Sped up Gnumeric compilation by replacing #include <gnome.h> with
 	  something smaller in almost all source files.
 
 --------------------------------------------------------------------------
