@@ -1,5 +1,10 @@
 2003-06-11  Jody Goldberg <jody@gnome.org>
 
+	* ms-excel-write.c (excel_sheet_new) : Capitalize and mark Excel as a
+	   trademark.
+
+2003-06-11  Jody Goldberg <jody@gnome.org>
+
 	* ms-chart.c (ms_excel_read_chart) : handle NULL sogs.  That currently
 	  indicates an attempt to read a chart in its own notebook tab.
 

@@ -507,7 +507,7 @@ static char const *help_imargument = {
 	   "@SYNTAX=IMARGUMENT(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMARGUMENT returns the argument theta of a complex number, "
-	   "i. e. the angle in radians from the real axis to the "
+	   "i.e. the angle in radians from the real axis to the "
 	   "representation of the number in polar coordinates.\n"
 	   "\n"
 	   "* If @inumber is not a valid complex number, IMARGUMENT returns "

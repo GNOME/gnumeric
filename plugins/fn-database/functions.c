@@ -273,7 +273,7 @@ static char const *help_daverage = {
 	   "The first row of a database contains labels for each column. " \
 	   "\n\n" \
 	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example. 2, the second column is used. " \
+	   "@field is an integer, for example 2, the second column is used. " \
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
@@ -307,7 +307,6 @@ static char const *help_daverage = {
 	   "<30\n" \
 	   ">40     >46000\n"
 	   "\n"
-	   "@EXAMPLES=\n"
            "DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
 	   "DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
            "DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
@@ -346,7 +345,7 @@ static char const *help_dcount = {
 	   "The first row of a database contains labels for each column. " \
 	   "\n\n" \
 	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example. 2, the second column is used. " \
+	   "@field is an integer, for example 2, the second column is used. " \
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
@@ -380,7 +379,6 @@ static char const *help_dcount = {
 	   "<30\n" \
 	   ">40     >46000\n"
 	   "\n"
-	   "@EXAMPLES=\n"
            "DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
            "DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
            "DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
@@ -418,7 +416,7 @@ static char const *help_dcounta = {
 	   "The first row of a database contains labels for each column. " \
 	   "\n\n" \
 	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example. 2, the second column is used. " \
+	   "@field is an integer, for example 2, the second column is used. " \
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
@@ -452,7 +450,6 @@ static char const *help_dcounta = {
 	   "<30\n" \
 	   ">40     >46000\n"
 	   "\n"
-	   "@EXAMPLES=\n"
            "DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
            "DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
            "DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
@@ -488,7 +485,7 @@ static char const *help_dget = {
 	   "The first row of a database contains labels for each column. " \
 	   "\n\n" \
 	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example. 2, the second column is used. " \
+	   "@field is an integer, for example 2, the second column is used. " \
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
@@ -527,7 +524,6 @@ static char const *help_dget = {
 	   "* If more than one items match the conditions, DGET returns #NUM! "
 	   "error.\n"
 	   "\n"
-	   "@EXAMPLES=\n"
            "DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
            "DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
 	   "\n"
@@ -570,7 +566,7 @@ static char const *help_dmax = {
 	   "The first row of a database contains labels for each column. " \
 	   "\n\n" \
 	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example. 2, the second column is used. " \
+	   "@field is an integer, for example 2, the second column is used. " \
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
@@ -604,7 +600,6 @@ static char const *help_dmax = {
 	   "<30\n" \
 	   ">40     >46000\n"
 	   "\n"
-	   "@EXAMPLES=\n"
            "DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
            "DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
            "DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
@@ -644,7 +639,7 @@ static char const *help_dmin = {
 	   "The first row of a database contains labels for each column. " \
 	   "\n\n" \
 	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example. 2, the second column is used. " \
+	   "@field is an integer, for example 2, the second column is used. " \
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
@@ -678,7 +673,6 @@ static char const *help_dmin = {
 	   "<30\n" \
 	   ">40     >46000\n"
 	   "\n"
-	   "@EXAMPLES=\n"
            "DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
            "DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
 	   "\n"
@@ -715,7 +709,7 @@ static char const *help_dproduct = {
 	   "The first row of a database contains labels for each column. " \
 	   "\n\n" \
 	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example. 2, the second column is used. " \
+	   "@field is an integer, for example 2, the second column is used. " \
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
@@ -749,7 +743,6 @@ static char const *help_dproduct = {
 	   "<30\n" \
 	   ">40     >46000\n"
 	   "\n"
-	   "@EXAMPLES=\n"
            "DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
 	   "\n"
            "@SEEALSO=DSUM")
@@ -787,7 +780,7 @@ static char const *help_dstdev = {
 	   "The first row of a database contains labels for each column. " \
 	   "\n\n" \
 	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example. 2, the second column is used. " \
+	   "@field is an integer, for example 2, the second column is used. " \
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
@@ -821,7 +814,6 @@ static char const *help_dstdev = {
 	   "<30\n" \
 	   ">40     >46000\n"
 	   "\n"
-	   "@EXAMPLES=\n"
            "DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
            "DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
 	   "\n"
@@ -859,7 +851,7 @@ static char const *help_dstdevp = {
 	   "The first row of a database contains labels for each column. " \
 	   "\n\n" \
 	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example. 2, the second column is used. " \
+	   "@field is an integer, for example 2, the second column is used. " \
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
@@ -893,7 +885,6 @@ static char const *help_dstdevp = {
 	   "<30\n" \
 	   ">40     >46000\n"
 	   "\n"
-	   "@EXAMPLES=\n"
            "DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
            "DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
 	   "\n"
@@ -930,7 +921,7 @@ static char const *help_dsum = {
 	   "The first row of a database contains labels for each column. " \
 	   "\n\n" \
 	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example. 2, the second column is used. " \
+	   "@field is an integer, for example 2, the second column is used. " \
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
@@ -964,7 +955,6 @@ static char const *help_dsum = {
 	   "<30\n" \
 	   ">40     >46000\n"
 	   "\n"
-	   "@EXAMPLES=\n"
            "DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
            "DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
 	   "\n"
@@ -1003,7 +993,7 @@ static char const *help_dvar = {
 	   "The first row of a database contains labels for each column. " \
 	   "\n\n" \
 	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example. 2, the second column is used. " \
+	   "@field is an integer, for example 2, the second column is used. " \
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
@@ -1037,7 +1027,6 @@ static char const *help_dvar = {
 	   "<30\n" \
 	   ">40     >46000\n"
 	   "\n"
-	   "@EXAMPLES=\n"
            "DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
            "DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
 	   "\n"
@@ -1075,7 +1064,7 @@ static char const *help_dvarp = {
 	   "The first row of a database contains labels for each column. " \
 	   "\n\n" \
 	   "@field specifies which column is used in the function.  If " \
-	   "@field is an integer, for example. 2, the second column is used. " \
+	   "@field is an integer, for example 2, the second column is used. " \
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
 	   "\n\n" \
@@ -1109,7 +1098,6 @@ static char const *help_dvarp = {
 	   "<30\n" \
 	   ">40     >46000\n"
 	   "\n"
-	   "@EXAMPLES=\n"
            "DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
            "DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
 	   "\n"

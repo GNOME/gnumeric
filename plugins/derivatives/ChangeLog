@@ -1,3 +1,7 @@
+2003-06-11  Jody Goldberg <jody@gnome.org>
+
+	* options.c (cum_biv_norm_dist) : missing space in string.
+
 2003-06-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.19

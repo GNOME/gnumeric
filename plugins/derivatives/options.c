@@ -143,7 +143,7 @@ static char const *help_cum_biv_norm_dist = {
 
 	   "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
 	   "@DESCRIPTION="
-	   "CUM_BIV_NORM_DIST calculates the cumulative bivariate"
+	   "CUM_BIV_NORM_DIST calculates the cumulative bivariate "
 	   "normal distribution from parameters a, b & rho")
 };
 
