@@ -36,6 +36,9 @@
 #include "workbook-edit.h"
 #include "workbook.h"
 #include "sheet.h"
+#include "cell.h"
+#include "value.h"
+#include "mathfunc.h"
 #include "gnumeric-expr-entry.h"
 #include "dialogs.h"
 #include "widgets/gnumeric-combo-text.h"
@@ -581,16 +584,23 @@ cb_scrollbar_value_changed (GtkAdjustment *adjustment,
 	if (swb->being_updated)
 		return;
 
-	swb->being_updated = TRUE;
 	if (sheet_widget_scrollbar_get_ref (swb, &ref)) {
 		Cell *cell = sheet_cell_fetch (ref.sheet, ref.col, ref.row);
 		/* TODO : add more control for precision, XL is stupid */
-		sheet_cell_set_value (cell, value_new_int (swb->adjustment->value), NULL);
+		int new_val = gnumeric_fake_round (swb->adjustment->value);
+		if (cell->value != NULL &&
+		    cell->value->type == VALUE_INTEGER &&
+		    cell->value->v_int.val == new_val)
+			return;
+
+		swb->being_updated = TRUE;
+		sheet_cell_set_value (cell, value_new_int (new_val), cell->format);
+		swb->being_updated = FALSE;
+
 		sheet_set_dirty (ref.sheet, TRUE);
 		workbook_recalc (ref.sheet->workbook);
 		sheet_update (ref.sheet);
 	}
-	swb->being_updated = FALSE;
 }
 
 static void
@@ -837,8 +847,6 @@ sheet_widget_scrollbar_set_sheet (SheetObject *so, Sheet *sheet)
 	SheetWidgetScrollbar *swb = SHEET_WIDGET_SCROLLBAR (so);
 
 	dependent_set_sheet (&swb->dep, sheet);
-	if (swb->dep.expression != NULL)
-		scrollbar_eval (&swb->dep);
 
 	return FALSE;
 }

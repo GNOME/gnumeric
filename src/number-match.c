@@ -216,7 +216,7 @@ format_create_regexp (char const *format, GByteArray **dest)
 				 *  $###0.00
 				 * as a result $1000 would not be recognized.
 				 */
-				g_string_append (regexp, "([-+]?[0-9]+(\\");
+				g_string_append (regexp, "([-+]?[0-9]+(");
 				g_string_append (regexp, re_thousands_sep);
 				g_string_append (regexp, "[0-9]{3})*)");
 				append_type (MATCH_SKIP);
@@ -224,7 +224,7 @@ format_create_regexp (char const *format, GByteArray **dest)
 				g_string_append (regexp, "([-+]?[0-9]+)");
 
 			if (include_decimal) {
-				g_string_append (regexp, "?(\\");
+				g_string_append (regexp, "?(");
 				g_string_append (regexp, re_decimal);
 				g_string_append (regexp, "[0-9]+([Ee][-+]?[0-9]+)?)");
 				append_type (MATCH_NUMBER_DECIMALS);

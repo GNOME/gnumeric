@@ -1,3 +1,13 @@
+2002-01-24  Jody Goldberg <jody@gnome.org>
+
+	* src/number-match.c (format_create_regexp) : We already escape the
+	  thousands sep and decimal point.  Don't double escape them.
+
+2002-01-23  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-widget.c (sheet_widget_scrollbar_set_sheet) : don't
+	  eval.  We've already set the value.
+
 2002-01-23  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : restore the missing lines.
