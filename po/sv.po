@@ -1,6 +1,6 @@
 # Swedish translation of gnumeric.
 # Copyright (C) 1998,1999,2000 Free Software Foundation, Inc.
-# Richard Hult <rhult@codefactory.se>, 1999-2000.
+# Richard Hult <rhult@codefactory.se>, 1999-2001.
 # Andreas Hyden <a.hyden@cyberpoint.se>, 2000.
 # Christian Rose <menthos@menthos.com>, 2000.
 #
@@ -715,9 +715,8 @@ msgid "Ariel Rios, Guile support."
 msgstr "Ariel Rios, stöd för Guile."
 
 #: src/about.c:57
-#, fuzzy
 msgid "Almer S. Tigelaar, text import."
-msgstr "Almer. S. Tigelaar, textimport."
+msgstr "Almer S. Tigelaar, textimport."
 
 #: src/about.c:58
 msgid "Bruno Unna, Excel bits."
@@ -1295,9 +1294,8 @@ msgid "Unmerge Cells"
 msgstr "_Slå ihop celler"
 
 #: src/commands.c:2655
-#, fuzzy
 msgid "Merge Cells"
-msgstr "_Slå ihop celler"
+msgstr "Slå ihop celler"
 
 #: src/corba-args.c:25
 msgid "Oaf options"
@@ -2774,9 +2772,8 @@ msgid " "
 msgstr ""
 
 #: src/dialogs/dialog-autoformat.c:70
-#, fuzzy
 msgid "Jan"
-msgstr "*jan"
+msgstr "jan"
 
 #: src/dialogs/dialog-autoformat.c:70
 #, fuzzy
@@ -2788,100 +2785,89 @@ msgid "Mrt"
 msgstr ""
 
 #: src/dialogs/dialog-autoformat.c:71
-#, fuzzy
 msgid "North"
-msgstr "Sortera"
+msgstr "Norr"
 
 #: src/dialogs/dialog-autoformat.c:71
 msgid "6"
-msgstr ""
+msgstr "6"
 
 #: src/dialogs/dialog-autoformat.c:71
-#, fuzzy
 msgid "13"
-msgstr "1"
+msgstr "13"
 
 #: src/dialogs/dialog-autoformat.c:71
-#, fuzzy
 msgid "20"
-msgstr "0"
+msgstr "20"
 
 #: src/dialogs/dialog-autoformat.c:71
 msgid "39"
-msgstr ""
+msgstr "39"
 
 #: src/dialogs/dialog-autoformat.c:72
-#, fuzzy
 msgid "South"
-msgstr "Sortera"
+msgstr "Söder"
 
 #: src/dialogs/dialog-autoformat.c:72
-#, fuzzy
 msgid "12"
-msgstr "1"
+msgstr "12"
 
 #: src/dialogs/dialog-autoformat.c:72
 msgid "4"
-msgstr ""
+msgstr "4"
 
 #: src/dialogs/dialog-autoformat.c:72
-#, fuzzy
 msgid "17"
-msgstr "1"
+msgstr "17"
 
 #: src/dialogs/dialog-autoformat.c:72
 msgid "33"
-msgstr ""
+msgstr "33"
 
 #: src/dialogs/dialog-autoformat.c:73
-#, fuzzy
 msgid "West"
-msgstr "z-Test"
+msgstr "Väst"
 
 #: src/dialogs/dialog-autoformat.c:73
 msgid "8"
-msgstr ""
+msgstr "8"
 
 #: src/dialogs/dialog-autoformat.c:73
 msgid "2"
-msgstr ""
+msgstr "2"
 
 #: src/dialogs/dialog-autoformat.c:73
 msgid "0"
 msgstr "0"
 
 #: src/dialogs/dialog-autoformat.c:73
-#, fuzzy
 msgid "10"
-msgstr "1"
+msgstr "10"
 
 #: src/dialogs/dialog-autoformat.c:74
 msgid "26"
-msgstr ""
+msgstr "26"
 
 #: src/dialogs/dialog-autoformat.c:74
-#, fuzzy
 msgid "19"
-msgstr "1"
+msgstr "19"
 
 #: src/dialogs/dialog-autoformat.c:74
 msgid "37"
-msgstr ""
+msgstr "37"
 
 #: src/dialogs/dialog-autoformat.c:74
-#, fuzzy
 msgid "81"
-msgstr "1"
+msgstr "81"
 
 #: src/dialogs/dialog-autoformat.c:536
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to remove the template '%s' ?"
-msgstr "Är du säker på att du vill ta bort bladet med namn `%s'?"
+msgstr "Är du säker på att du vill ta bort mallen \"%s\"?"
 
 #: src/dialogs/dialog-autoformat.c:550
-#, fuzzy
 msgid "Could not remove template"
-msgstr "Kunde inte evaluera argument"
+msgstr "Kunde inte ta bort mall"
 
 #: src/dialogs/dialog-autoformat.c:828 src/dialogs/dialog-stf-export.c:380
 #: src/dialogs/dialog-stf.c:532
@@ -2979,9 +2965,8 @@ msgid "You cannot redefine a builtin name."
 msgstr "Du kan inte omdefiniera ett inbyggt namn."
 
 #: src/dialogs/dialog-define-names.c:648
-#, fuzzy
 msgid "Could not create the Name Guru."
-msgstr "Kunde inte evaluera argument"
+msgstr "Kunde inte skapa namngurun."
 
 #: src/dialogs/dialog-function-wizard.c:398
 #, c-format
@@ -4355,9 +4340,8 @@ msgid "Information"
 msgstr "Information"
 
 #: src/dialogs/validate.glade.h:14
-#, fuzzy
 msgid "Input _Message"
-msgstr "Indataområde:"
+msgstr "Indata_meddelande"
 
 #: src/dialogs/validate.glade.h:15 src/gnumeric.xml.h:118
 #: src/workbook-object-toolbar.c:144
@@ -4365,22 +4349,20 @@ msgid "List"
 msgstr "Lista"
 
 #: src/dialogs/validate.glade.h:16
-#, fuzzy
 msgid "St_yle:"
-msgstr "_Stil"
+msgstr "_Stil:"
 
 #: src/dialogs/validate.glade.h:17
 msgid "Stop"
-msgstr ""
+msgstr "Stopp"
 
 #: src/dialogs/validate.glade.h:18
 msgid "Text length"
-msgstr ""
+msgstr "Textlängd"
 
 #: src/dialogs/validate.glade.h:19
-#, fuzzy
 msgid "Time"
-msgstr "_Tid"
+msgstr "Tid"
 
 #: src/dialogs/validate.glade.h:20
 #, fuzzy
@@ -4396,14 +4378,12 @@ msgid "Whole numbers"
 msgstr ""
 
 #: src/dialogs/validate.glade.h:23
-#, fuzzy
 msgid "_Allow:"
-msgstr "_Allt"
+msgstr "Tillåt:"
 
 #: src/dialogs/validate.glade.h:24
-#, fuzzy
 msgid "_Clear All"
-msgstr "_Töm"
+msgstr "_Töm alla"
 
 #: src/dialogs/validate.glade.h:25
 msgid "_Error Alert"
@@ -4411,21 +4391,19 @@ msgstr ""
 
 #: src/dialogs/validate.glade.h:26
 msgid "_Error message:"
-msgstr ""
+msgstr "Felmeddelande:"
 
 #: src/dialogs/validate.glade.h:27
 msgid "_In-cell dropdown"
 msgstr ""
 
 #: src/dialogs/validate.glade.h:28
-#, fuzzy
 msgid "_Input Message"
-msgstr "_Indataområde:"
+msgstr "_Indatameddelande"
 
 #: src/dialogs/validate.glade.h:29
-#, fuzzy
 msgid "_Settings"
-msgstr "Sträng"
+msgstr "In_ställningar"
 
 #: src/dialogs/validate.glade.h:30
 msgid "_Show error alert after invalid data is entered"
@@ -4436,24 +4414,20 @@ msgid "_Show input message when cell is selected"
 msgstr ""
 
 #: src/dialogs/validate.glade.h:32
-#, fuzzy
 msgid "_Title :"
-msgstr "Titel"
+msgstr "_Titel :"
 
 #: src/dialogs/validate.glade.h:33
-#, fuzzy
 msgid "_Title:"
-msgstr "Titel"
+msgstr "_Titel:"
 
 #: src/dialogs/validate.glade.h:34
-#, fuzzy
 msgid "label11"
-msgstr "Etikett"
+msgstr ""
 
 #: src/dialogs/validate.glade.h:35
-#, fuzzy
 msgid "label12"
-msgstr "Etikett"
+msgstr ""
 
 #: src/dialogs/validate.glade.h:36
 msgid "min <= val <= max         (between)"
@@ -4580,11 +4554,9 @@ msgstr ""
 "%%s"
 
 #: src/file.c:355
-#, fuzzy
 msgid "There are no file savers loaded"
 msgstr ""
-"Det finns inga filsparare,\n"
-"kan inte spara"
+"Det finns inga filsparare laddade"
 
 #: src/format.c:568
 msgid "black"
@@ -13704,24 +13676,24 @@ msgstr ""
 "Pluginversionen '%s' är annorlunda från applikationen '%s'."
 
 #: src/plugin.c:117
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open module file \"%s\": %s"
-msgstr "kan inte öppna modulfilen: "
+msgstr "kan inte öppna modulfilen \"%s\": %s"
 
 #: src/plugin.c:130
-#, fuzzy, c-format
+#, c-format
 msgid "Plugin \"%s\" doesn't contain init_plugin function."
-msgstr "Tillägg måste innehålla funktionen init_plugin."
+msgstr "Insticksmodulen \"%s\" innehåller inte funktionen init_plugin."
 
 #: src/plugin.c:141
-#, fuzzy, c-format
+#, format
 msgid "Couldn't determine size or modification date for plugin \"%s\"."
-msgstr "Kunde inte bestämma storlek eller ändringsdatum"
+msgstr "Kunde inte bestämma storlek eller ändringsdatum för insticksmodulen \"%s\"."
 
 #: src/plugin.c:158
-#, fuzzy, c-format
+#,c-format
 msgid "Function init_plugin inside \"%s\" returned error"
-msgstr "init_plugin returnerade felvärde"
+msgstr "Funktionen init_plugin i \"%s\" returnerade ett felvärde"
 
 #: src/plugin.c:171
 #, c-format
@@ -13880,24 +13852,20 @@ msgid "_Delete..."
 msgstr "_Ta bort..."
 
 #: src/sheet-control-gui.c:1095
-#, fuzzy
 msgid "_Insert Column(s)"
-msgstr "Infoga kolumner"
+msgstr "_Infoga kolumn(er)"
 
 #: src/sheet-control-gui.c:1097
-#, fuzzy
 msgid "_Delete Column(s)"
-msgstr "Ta bort kolumner"
+msgstr "Ta _bort kolumn(er)"
 
 #: src/sheet-control-gui.c:1099
-#, fuzzy
 msgid "_Insert Row(s)"
-msgstr "Infoga rader"
+msgstr "_Infoga rad(er)"
 
 #: src/sheet-control-gui.c:1101
-#, fuzzy
 msgid "_Delete Row(s)"
-msgstr "Ta bort rader"
+msgstr "Ta _bort rad(er)"
 
 #: src/sheet-control-gui.c:1104
 msgid "Clear Co_ntents"
@@ -14226,29 +14194,24 @@ msgid "Right justifies the cell contents"
 msgstr "Högerjusterar cellinnehållet"
 
 #: src/workbook-format-toolbar.c:426
-#, fuzzy
 msgid "Center across selection"
 msgstr "Centrera över markering"
 
 #: src/gnumeric.xml.h:125 src/workbook-format-toolbar.c:430
-#, fuzzy
 msgid "Merge"
-msgstr "Medelvärde"
+msgstr "Slå ihop"
 
 #: src/gnumeric.xml.h:126 src/workbook-format-toolbar.c:430
-#, fuzzy
 msgid "Merge a range of cells"
-msgstr "Markera ett fält av celler"
+msgstr "Slå ihop ett område av celler"
 
 #: src/gnumeric.xml.h:180 src/workbook-format-toolbar.c:433
-#, fuzzy
 msgid "Split"
 msgstr "Sampling"
 
 #: src/gnumeric.xml.h:181 src/workbook-format-toolbar.c:433
-#, fuzzy
 msgid "Split merged ranges of cells"
-msgstr "Markera ett fält av celler"
+msgstr "Dela sammanslagna cellområden"
 
 #: src/workbook-format-toolbar.c:438
 msgid "Money format"
@@ -14507,9 +14470,8 @@ msgid "Select an object to add"
 msgstr "Välj ett objekt att lägga till"
 
 #: src/workbook-control-gui.c:1373
-#, fuzzy
 msgid "Unable to create object of type '"
-msgstr "kan inte skapa object för \"%s\""
+msgstr "Kan inte skapa objekt av typen '"
 
 #: src/gnumeric.xml.h:221 src/workbook-control-gui.c:1691
 msgid "_New"
@@ -15078,14 +15040,12 @@ msgid "C_lear..."
 msgstr "_Töm..."
 
 #: src/gnumeric.xml.h:22
-#, fuzzy
 msgid "CenterAcrossSelection"
-msgstr "Centrera över markering"
+msgstr "CenterAcrossSelection"
 
 #: src/gnumeric.xml.h:23
-#, fuzzy
 msgid "Centers across the selected cells"
-msgstr "Centrera över markering"
+msgstr "Centrerar över de markerade cellerna"
 
 #: src/gnumeric.xml.h:24
 msgid "Centers the text in each selection"
