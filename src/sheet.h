@@ -52,6 +52,8 @@ struct _Sheet {
 
         SolverParameters *solver_parameters;
 
+	gint simulation_round;
+
 	GnmDepContainer *deps;
 
 	GSList		 *list_merged;
