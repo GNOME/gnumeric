@@ -49,6 +49,7 @@
 #include "style-color.h"
 
 #include <gtk/gtktable.h>
+#include <gtk/gtkhbox.h>
 #include <gtk/gtkradiobutton.h>
 #include <string.h>
 

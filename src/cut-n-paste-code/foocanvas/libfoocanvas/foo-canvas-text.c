@@ -1228,11 +1228,11 @@ foo_canvas_text_get_property (GObject            *object,
 		break;
 
 	case PROP_FILL_COLOR:
-                g_value_set_string_take_ownership (value,
-						   g_strdup_printf ("#%02x%02x%02x",
-                                                                    text->rgba >> 24,
-                                                                    (text->rgba >> 16) & 0xff,
-                                                                    (text->rgba >> 8) & 0xff));
+                g_value_take_string (value,
+				     g_strdup_printf ("#%02x%02x%02x",
+						      text->rgba >> 24,
+						      (text->rgba >> 16) & 0xff,
+						      (text->rgba >> 8) & 0xff));
 		break;
 
 	case PROP_FILL_COLOR_GDK: {

@@ -36,7 +36,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtklabel.h>
-#include <gtk/gtkbox.h>
+#include <gtk/gtkhbox.h>
 
 struct _GogLabel {
 	GogOutlinedObject	base;

@@ -33,6 +33,7 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtkcelleditable.h>
 #include <gtk/gtkimage.h>
+#include <gtk/gtkhbox.h>
 #include <gdk/gdkkeysyms.h>
 #include <string.h>
 

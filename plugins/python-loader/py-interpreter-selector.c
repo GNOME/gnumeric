@@ -5,6 +5,9 @@
  * Author: Zbigniew Chyla (cyba@gnome.pl)
  */
 
+#undef GTK_DISABLE_DEPRECATED
+#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
+
 #include <gnumeric-config.h>
 #include <string.h>
 #include <glib.h>

@@ -1,3 +1,8 @@
+2004-01-06  Jody Goldberg <jody@gnome.org>
+
+	* color-palette.h : remove visible use of GnomeColorPicker
+	* color-palette.c : manage it internally
+
 2003-12-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnm-dao.h (gnm_dao_new): add in-place argument

@@ -7,6 +7,9 @@
  *    Zbigniew Chyla (cyba@gnome.pl)
  *    Andreas J. Guelzow (aguelzow@taliesin.ca)
  */
+#undef GTK_DISABLE_DEPRECATED
+#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu and GtkCombo"
+
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include "gnumeric.h"
@@ -24,7 +27,11 @@
 #include "gnumeric-gconf.h"
 #include "widgets/widget-charmap-selector.h"
 
-#include <gtk/gtk.h>
+#include <gtk/gtkcombo.h>
+#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtktable.h>
+#include <gtk/gtkcombo.h>
 #include <glade/glade.h>
 #include <unistd.h>
 #include <errno.h>

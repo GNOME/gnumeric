@@ -19,10 +19,14 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#undef GTK_DISABLE_DEPRECATED
+#warning "This file uses GTK_DISABLE_DEPRECATED for GtkCombo"
+
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "dialog-stf.h"
 #include "format.h"
+#include <gtk/gtkcombo.h>
 
 /*************************************************************************************************
  * SIGNAL HANDLERS
@@ -248,7 +252,7 @@ stf_dialog_csv_page_init (GladeXML *gui, StfDialogData *pagedata)
 	pagedata->csv.csv_custom          = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_custom"));
 	pagedata->csv.csv_customseparator = GTK_ENTRY        (glade_xml_get_widget (gui, "csv_customseparator"));
 	pagedata->csv.csv_2x_indicator  = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_2x_indicator"));
-	pagedata->csv.csv_textindicator = GTK_COMBO    (glade_xml_get_widget (gui, "csv_textindicator"));
+	pagedata->csv.csv_textindicator = glade_xml_get_widget (gui, "csv_textindicator");
 	pagedata->csv.csv_textfield     = GTK_ENTRY    (glade_xml_get_widget (gui, "csv_textfield"));
 
 	pagedata->csv.csv_duplicates    = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "csv_duplicates"));

@@ -19,10 +19,13 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  **/
 
-#include "gnm-dao.h"
+#undef GTK_DISABLE_DEPRECATED
+#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
 
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
+#include "gnm-dao.h"
+
 #include "gnumeric-expr-entry.h"
 #include "tools/dao.h"
 #include "value.h"
@@ -31,6 +34,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtktable.h>
+#include <gtk/gtkhbox.h>
 #include <gtk/gtktogglebutton.h>
 
 struct  _GnmDao {

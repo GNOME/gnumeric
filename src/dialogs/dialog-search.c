@@ -19,6 +19,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+#undef GTK_DISABLE_DEPRECATED
+#warning "This file uses GTK_DISABLE_DEPRECATED for GtkCombo in GnomeEntry"
+#undef GNOME_DISABLE_DEPRECATED
+#warning "This file uses GNOME_DISABLE_DEPRECATED for GnomeEntry"
+
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <gnumeric.h>
@@ -164,11 +169,11 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 			g_value_set_string (value, cell_comment_text_get (item->comment));
 			return;
 		case SRL_value:
-			g_value_set_string_take_ownership (value,
+			g_value_take_string (value,
 				value_get_as_string (cell->value));
 			return;
 		case SRL_contents:
-			g_value_set_string_take_ownership (value,
+			g_value_take_string (value,
 				cell_get_entered_text (cell));
 			return;
 #ifndef DEBUG_SWITCH_ENUM

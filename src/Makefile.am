@@ -304,14 +304,14 @@ gnumeric_LDFLAGS = -export-dynamic
 
 gnumeric_app_libs =				\
 	dialogs/libdialogs.a			\
-	widgets/libwidgets.a			\
 	tools/libtools.a			\
 	tools/solver/libsolver.a		\
 	tools/solver/glpk/source/libglpk.a	\
 	tools/solver/lp_solve/liblp_solve.a	\
 	cut-n-paste-code/goffice/libgoffice.la	\
 	cut-n-paste-code/pcre/libpcre.a		\
-	cut-n-paste-code/foocanvas/libfoocanvas/libfoocanvas.a
+	cut-n-paste-code/foocanvas/libfoocanvas/libfoocanvas.a	\
+	widgets/libwidgets.a
 
 if ENABLE_BONOBO_COMPONENT
 gnumeric_component_SOURCES =			\

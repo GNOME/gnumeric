@@ -27,6 +27,7 @@
 #include <gui-util.h>
 #include <workbook-control-gui.h>
 #include <gtk/gtkradiobutton.h>
+#include <gtk/gtkbox.h>
 
 #define VIEW_DIALOG_KEY "view-dialog"
 

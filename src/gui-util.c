@@ -5,6 +5,8 @@
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
  */
+#undef GTK_DISABLE_DEPRECATED
+#warning "This file uses GTK_DISABLE_DEPRECATED for GtkCombo and some signal handling"
 
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
@@ -1471,7 +1473,8 @@ void
 gnm_widget_disable_focus (GtkWidget *w)
 {
 	if (GTK_IS_CONTAINER (w))
-		gtk_container_foreach (GTK_CONTAINER (w), gnm_widget_disable_focus, NULL);
+		gtk_container_foreach (GTK_CONTAINER (w),
+			(GtkCallback) gnm_widget_disable_focus, NULL);
 	GTK_WIDGET_UNSET_FLAGS (w, GTK_CAN_FOCUS);
 }
 

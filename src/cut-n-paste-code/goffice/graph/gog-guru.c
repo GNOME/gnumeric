@@ -51,6 +51,7 @@
 #include <gtk/gtkframe.h>
 #include <gtk/gtkviewport.h>
 #include <gtk/gtkvbox.h>
+#include <gtk/gtkhbox.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkcellrendererpixbuf.h>
 #include <gtk/gtkstock.h>

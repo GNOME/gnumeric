@@ -41,7 +41,7 @@ typedef struct {
 	GtkEntry        *csv_customseparator;
 	GtkCheckButton  *csv_duplicates;
 	GtkCheckButton  *csv_2x_indicator;
-	GtkCombo        *csv_textindicator;
+	GtkWidget       *csv_textindicator;
 	GtkEntry        *csv_textfield;
 	GtkWidget       *csv_data_container;
 
@@ -62,7 +62,7 @@ typedef struct {
 /* for the format_page */
 typedef struct {
 	GtkWidget         *format_data_container;
-        GtkOptionMenu     *format_trim;
+        GtkWidget	  *format_trim;
 	NumberFormatSelector *format_selector;
      
 	/* Page members that are created at run-time */

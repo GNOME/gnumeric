@@ -21,6 +21,11 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
   **/
 
+#undef GTK_DISABLE_DEPRECATED
+#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
+#undef PANGO_DISABLE_DEPRECATED
+#warning "This file uses PANGO_DISABLE_DEPRECATED for pango_ft2_get_context"
+
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <gnumeric.h>

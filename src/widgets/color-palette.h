@@ -30,7 +30,6 @@
 #ifndef GNUMERIC_COLOR_PALETTE_H
 #define GNUMERIC_COLOR_PALETTE_H
 
-#include <libgnomeui/gnome-color-picker.h>
 #include <widgets/color-group.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtktooltips.h>
@@ -43,7 +42,7 @@ typedef struct _ColorNamePair ColorNamePair;
 typedef struct _ColorPalette {
 	GtkVBox          vbox;
 	GtkTooltips      *tool_tip;
-	GnomeColorPicker *picker;
+	GtkWidget	 *picker;
 	/*
 	 * Array of colors
 	 */

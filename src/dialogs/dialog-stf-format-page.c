@@ -19,6 +19,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#undef GTK_DISABLE_DEPRECATED
+#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <gnumeric.h>
@@ -35,13 +37,12 @@
 
 static void format_page_update_preview (StfDialogData *pagedata);
 
-/**                                                                                         * main_page_trim_toggled:                                                                  * @button: the toggle button the event handler is attached to                              * @data: mother struct                                                                     *                                                                                          **/
 static void
 format_page_trim_menu_deactivate (G_GNUC_UNUSED GtkMenu *menu,
 				  StfDialogData *data)
 {
 	StfTrimType_t trim;
-	int trimtype = gtk_option_menu_get_history (data->format.format_trim);
+	int trimtype = gtk_option_menu_get_history (GTK_OPTION_MENU (data->format.format_trim));
 
 	switch (trimtype) {
 	case -1:
@@ -545,7 +546,7 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 	pagedata->format.format_selector      = NUMBER_FORMAT_SELECTOR( number_format_selector_new ());
 
 	pagedata->format.format_data_container = glade_xml_get_widget (gui, "format_data_container");
-	pagedata->format.format_trim   = GTK_OPTION_MENU  (glade_xml_get_widget (gui, "format_trim"));
+	pagedata->format.format_trim   = glade_xml_get_widget (gui, "format_trim");
 
 	format_hbox = glade_xml_get_widget (gui, "format_hbox");
 	gtk_box_pack_end_defaults (GTK_BOX (format_hbox), GTK_WIDGET (pagedata->format.format_selector));
@@ -580,7 +581,7 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 			  "locale_changed",
 			  G_CALLBACK (locale_changed_cb), pagedata);
 
-	menu = (GtkMenu *) gtk_option_menu_get_menu (pagedata->format.format_trim);
+	menu = (GtkMenu *) gtk_option_menu_get_menu (GTK_OPTION_MENU (pagedata->format.format_trim));
         g_signal_connect (G_OBJECT (menu),
 			  "deactivate",
 			  G_CALLBACK (format_page_trim_menu_deactivate), pagedata);

@@ -787,12 +787,25 @@ wbc_gtk_style_feedback (WorkbookControl *wbc, GnmStyle const *changes)
 extern void wbcg_register_actions (WorkbookControlGUI *wbcg, GtkActionGroup *group);;
 
 static void
+cb_handlebox_dock_status (G_GNUC_UNUSED GtkHandleBox *hb,
+			  GtkToolbar *toolbar, gpointer attached)
+{
+	gtk_toolbar_set_show_arrow (toolbar, GPOINTER_TO_INT (attached));
+}
+
+static void
 cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		       GtkWidget *w, WBCgtk *gtk)
 {
 	if (GTK_IS_TOOLBAR (w)) {
 		GtkWidget *box = gtk_handle_box_new ();
 		gtk_container_add (GTK_CONTAINER (box), w);
+		g_signal_connect (box, "child_attached",
+			G_CALLBACK (cb_handlebox_dock_status),
+			GINT_TO_POINTER (TRUE));
+		g_signal_connect (box, "child_detached",
+			G_CALLBACK (cb_handlebox_dock_status),
+			GINT_TO_POINTER (FALSE));
 		gtk_toolbar_set_show_arrow (GTK_TOOLBAR (w), TRUE);
 		gtk_toolbar_set_style (GTK_TOOLBAR (w), GTK_TOOLBAR_ICONS);
 		gtk_box_pack_start (GTK_BOX (gtk->toolbar_zone), box, FALSE, FALSE, 0);
@@ -831,7 +844,7 @@ wbc_gtk_init (GObject *obj)
 	gtk_window_set_title (wbcg->toplevel, "Gnumeric");
 	gtk_window_set_wmclass (wbcg->toplevel, "Gnumeric", "Gnumeric");
 	gtk->menu_zone = gtk_vbox_new (TRUE, 0);
-	gtk->toolbar_zone = gtk_vbox_new (TRUE, 0);
+	gtk->toolbar_zone = gtk_vbox_new (FALSE, 0);
 	gtk->everything = gtk_vbox_new (FALSE, 0);
 
 	gtk_box_pack_start (GTK_BOX (gtk->everything),

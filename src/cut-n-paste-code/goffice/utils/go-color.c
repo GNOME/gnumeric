@@ -19,9 +19,12 @@
  * USA
  */
 
+#undef GNOME_DISABLE_DEPRECATED
+#warning "This file uses GNOME_DISABLE_DEPRECATED for GnomeColorPicker"
 #include <gnumeric-config.h>
 #include <goffice/utils/go-color.h>
 #include <widgets/widget-color-combo.h>
+#include <libgnomeui/gnome-color-picker.h>
 
 #include <stdio.h>
 
@@ -341,7 +344,7 @@ color_combo_get_gocolor (GtkWidget *cc, gboolean is_custom) /* , GOColor default
 	 * stock combo interface loses the alpha by storing a GdkColor */
 	if (is_custom) {
 		guint8 r, g, b, a;
-		gnome_color_picker_get_i8 (COLOR_COMBO (cc)->palette->picker,
+		gnome_color_picker_get_i8 (GNOME_COLOR_PICKER (COLOR_COMBO (cc)->palette->picker),
 			&r, &g, &b, &a);
 		return RGBA_TO_UINT (r, g, b, a);
 	} else {
@@ -364,7 +367,7 @@ color_combo_set_gocolor (GtkWidget *cc, GOColor c)
 		/* should not be necessary.  The CC should do it for itself */
 		gdk_rgb_find_color (gtk_widget_get_colormap (cc), &gdk);
 		color_combo_set_color (COLOR_COMBO (cc), &gdk);
-		gnome_color_picker_set_i8 (COLOR_COMBO (cc)->palette->picker,
+		gnome_color_picker_set_i8 (GNOME_COLOR_PICKER (COLOR_COMBO (cc)->palette->picker),
 			UINT_RGBA_R (c), UINT_RGBA_G (c),
 			UINT_RGBA_B (c), UINT_RGBA_A (c));
 	} else

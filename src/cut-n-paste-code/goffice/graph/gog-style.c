@@ -19,6 +19,11 @@
  * USA
  */
 
+#undef GTK_DISABLE_DEPRECATED
+#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
+#undef GNOME_DISABLE_DEPRECATED
+#warning "This file uses GNOME_DISABLE_DEPRECATED for GnomeColorPicker"
+
 #include <gnumeric-config.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-styled-object.h>
@@ -41,6 +46,8 @@
 #include <widgets/widget-font-selector.h>
 #include <widgets/preview-file-selection.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
+
+#include <libgnomeui/gnome-color-picker.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
@@ -121,7 +128,7 @@ create_color_combo (StylePrefState *state,
 		&gdk_default, color_group_fetch (group, NULL));
 	color_combo_set_instant_apply (COLOR_COMBO (w), FALSE);
 	gnm_combo_box_set_tearable (GNM_COMBO_BOX (w), FALSE);
-	gnome_color_picker_set_use_alpha (COLOR_COMBO (w)->palette->picker, TRUE);
+	gnome_color_picker_set_use_alpha (GNOME_COLOR_PICKER (COLOR_COMBO (w)->palette->picker), TRUE);
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (glade_xml_get_widget (state->gui, label_name)), w);
 	color_combo_set_gocolor (w, initial_val);

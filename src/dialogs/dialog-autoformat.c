@@ -24,6 +24,9 @@
  * remove the disabling of new/edit/remove buttons!
  */
 
+#undef GTK_DISABLE_DEPRECATED
+#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
+
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <gnumeric.h>

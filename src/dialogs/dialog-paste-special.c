@@ -36,6 +36,7 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtkframe.h>
 #include <gtk/gtkvbox.h>
+#include <gtk/gtkhbox.h>
 
 #define BUTTON_PASTE_LINK 0
 

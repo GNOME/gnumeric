@@ -308,7 +308,7 @@ gog_axis_get_property (GObject *obj, guint param_id,
 		break;
 	case AXIS_PROP_ASSIGNED_FORMAT_STR_XL :
 		if (axis->assigned_format != NULL)
-			g_value_set_string_take_ownership (value,
+			g_value_take_string (value,
 				go_format_as_XL	(axis->assigned_format, FALSE));
 		else
 			g_value_set_static_string (value, NULL);

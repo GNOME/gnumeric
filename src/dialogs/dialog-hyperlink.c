@@ -19,6 +19,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
+#undef GTK_DISABLE_DEPRECATED
+#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "dialogs.h"
@@ -38,6 +40,7 @@
 #include <workbook-edit.h>
 #include <glib/gi18n.h>
 
+#include <gtk/gtkbox.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtksizegroup.h>

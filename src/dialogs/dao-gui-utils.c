@@ -39,8 +39,9 @@
 #include <gtk/gtknotebook.h>
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtktable.h>
+#include <gtk/gtkbox.h>
 
-const char *output_group[] = {
+char const *output_group[] = {
 	"newsheet-button",
 	"newworkbook-button",
 	"outputrange-button",

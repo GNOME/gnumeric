@@ -19,6 +19,9 @@
  * USA
  */
 
+#undef PANGO_DISABLE_DEPRECATED
+#warning "This file uses PANGO_DISABLE_DEPRECATED for pango_ft2_get_context"
+
 #include <gnumeric-config.h>
 #include <goffice/graph/gog-renderer-svg.h>
 #include <goffice/graph/gog-renderer-impl.h>

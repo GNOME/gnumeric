@@ -22,6 +22,11 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#undef GTK_DISABLE_DEPRECATED
+#warning "This file uses GTK_DISABLE_DEPRECATED for GtkCombo in GnomeEntry"
+#undef GNOME_DISABLE_DEPRECATED
+#warning "This file uses GNOME_DISABLE_DEPRECATED for GnomeEntry"
+
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <gnumeric.h>

@@ -27,6 +27,9 @@
  * 02111-1307, USA.
  */
 
+#undef GNOME_DISABLE_DEPRECATED
+#warning "This file uses GNOME_DISABLE_DEPRECATED for GnomeColorPicker"
+
 #include <gnumeric-config.h>
 #include <libfoocanvas/foo-canvas.h>
 #include <gdk/gdkcolor.h>
@@ -35,9 +38,11 @@
 #include <gsf/gsf-impl-utils.h>
 #include "color-group.h"
 #include "color-palette.h"
+
 #include <gui-util.h>
 #include <style-color.h>
 #include <gtk/gtklabel.h>
+#include <libgnomeui/gnome-color-picker.h>
 
 #include <string.h>
 
@@ -170,7 +175,7 @@ color_palette_change_custom_color (ColorPalette *P, GdkColor const *new_color)
 	}
 	if (next_swatch != NULL) {
 		next_swatch->style->bg[GTK_STATE_NORMAL] = *new_color;
-		gnome_color_picker_set_i16 (P->picker,
+		gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (P->picker),
 			new_color->red, new_color->green, new_color->blue, 0);
 	}
 }
@@ -408,8 +413,9 @@ color_palette_setup (ColorPalette *P,
 	  Keep a pointer to the picker so that we can update it's color
 	  to keep it in synch with that of other members of the group
 	*/
-	P->picker = GNOME_COLOR_PICKER (gnome_color_picker_new ());
-	gnome_color_picker_set_title (P->picker, _("Choose Custom Color"));
+	P->picker = gnome_color_picker_new ();
+	gnome_color_picker_set_title (GNOME_COLOR_PICKER (P->picker),
+	    _("Choose Custom Color"));
 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (P->picker), ncols - 3, ncols,
 			  row + 1, row + 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	g_signal_connect (P->picker, "color_set",
@@ -457,7 +463,7 @@ color_palette_get_color_picker (ColorPalette *P)
 {
 	g_return_val_if_fail (IS_COLOR_PALETTE (P), NULL);
 
-	return GTK_WIDGET (P->picker);
+	return P->picker;
 }
 
 
