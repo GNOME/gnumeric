@@ -545,7 +545,7 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 
 		if (tmp == F_LIST) {
 			GtkCList *cl = GTK_CLIST (w);
-			int select = 0, start = 0, end = -1;
+			int select = -1, start = 0, end = -1;
 			switch (page) {
 			case 4: case 5:
 				start = end = page+1;
@@ -573,8 +573,15 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 						state->format.spec,
 						select, &count);
 
-			gtk_clist_select_row (cl, select, 0);
+			if  (page == 11 && select == -1) {
+				gchar *dummy[1];
+				dummy[0] = state->format.spec;
+				select = gtk_clist_append (cl, dummy);
+			}
 			gtk_clist_thaw (cl);
+			if (select < 0)
+				select = 0;
+			gtk_clist_select_row (cl, select, 0);
 			if (!gtk_clist_row_is_visible (cl, select))
 				gtk_clist_moveto (cl, select, 0, 0.5, 0.);
 		} else if (tmp == F_NEGATIVE)
@@ -661,6 +668,11 @@ fmt_dialog_init_format_page (FormatState *state)
 	for (i = 0; (name = format_buttons[i]) != NULL; ++i) {
 		tmp = glade_xml_get_widget (state->gui, name);
 		if (tmp != NULL) {
+
+			/* HACK : FIXME : Default to custom for now */
+			if (i == 11)
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp), TRUE);
+
 			gtk_object_set_data (GTK_OBJECT (tmp), "index", 
 					     GINT_TO_POINTER (i));
 			gtk_signal_connect (GTK_OBJECT (tmp), "toggled",

@@ -1,3 +1,10 @@
+1999-11-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-cell-format.c (fmt_dialog_enable_widgets) :
+	  Improve support for custom formats, and ensure that we
+	  temporarily start off in 'Custom' until the rest of the format
+	  recognition is ready.
+
 1999-11-03  Jody Goldberg <jgoldberg@home.com>
 
 	* src/dialog/dialog-cell-format.c : Rewrite.
