@@ -5,8 +5,12 @@
 #include <gal/util/e-util.h>
 #include <bonobo/bonobo-zoomable.h>
 
+#include "commands.h"
 #include "dialogs.h"
+#include "selection.h"
 #include "sheet.h"
+#include "sheet-control-gui.h"
+#include "workbook-edit.h"
 
 static char *
 wbcc_get_password (CommandContext *cc, char const* msg) { return NULL; }
@@ -153,10 +157,11 @@ wbcc_claim_selection (WorkbookControl *wbc)
 static int
 wbcc_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 		     char const *title, char const *msg)
-{}
+{
+	return 0;
+}
 
 static void
-
 wbcc_set_transient_for (WorkbookControlGUI *wbcg, GtkWindow *window)
 {
 	WorkbookControlComponent *wbcc;
@@ -166,7 +171,7 @@ wbcc_set_transient_for (WorkbookControlGUI *wbcg, GtkWindow *window)
 	g_return_if_fail (wbcc->bcontrol != NULL);
 
 #if 0
-	/* Waiting for resolution of bugs 80782/80783 */
+	/* Waiting for resolution of bug 80782 */
 	bonobo_control_set_transient_for (wbcc->bcontrol, window, NULL);
 #endif
 }
@@ -275,9 +280,6 @@ workbook_control_component_init (WorkbookControlComponent *wbcc,
 				 WorkbookView *optional_view,
 				 Workbook *optional_wb)
 {
-	static GtkTargetEntry const drag_types[] = {
-		{ (char *)"text/uri-list", 0, 0 }
-	};
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (wbcc);
 
 	wbcg->table    = gtk_table_new (0, 0, 0);
@@ -297,8 +299,12 @@ workbook_control_component_init (WorkbookControlComponent *wbcc,
 	wbcg->rangesel = NULL;
 
 	wbcc->bcontrol = NULL;
-	/* FIXME: Insert appropriate lifecycle here, and signal handlers
-	 * like for wbcg.  */
+
+	g_signal_connect (G_OBJECT (wbcg->table),
+			  "scroll-event",
+			  G_CALLBACK (wbcg_scroll_wheel_support_cb), wbcg);
+
+	/* FIXME: Insert appropriate lifecycle here */
 }
 
 static void

@@ -127,5 +127,10 @@ typedef struct {
 	void (*set_transient) (WorkbookControlGUI *wbcg, GtkWindow *window);
 } WorkbookControlGUIClass;
 
+/* Protected functions */
+gboolean wbcg_scroll_wheel_support_cb (GtkWidget *ignored,
+				       GdkEventScroll *event,
+				       WorkbookControlGUI *wbcg);
+
 #endif /* GNUMERIC_WORKBOOK_CONTROL_GUI_PRIV_H */
 

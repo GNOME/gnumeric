@@ -1,5 +1,17 @@
 2002-05-08  Jon K Hellan  <hellan@acm.org>
 
+	* src/workbook-control-gui.c, src/workbook-control-gui-priv.h
+	(wbcg_scroll_wheel_support_cb): Rename from
+	cb_scroll_wheel_support and export protected.
+
+	* src/workbook-control-component.c: Add more missing includes:
+	commands.h, selection.h, sheet-control-gui.h, workbook-edit.h.
+	(wbcc_validation_msg): Return a dummy 0 to satisfy prototype.
+	(workbook_control_component_init): Remve unused drag_types
+	variable. Add signal handler for mouse wheel scrolling.
+
+2002-05-08  Jon K Hellan  <hellan@acm.org>
+
 	* src/workbook-control-component.c: Include "dialogs.h" to get
 	prototype for dialog_search.
 
