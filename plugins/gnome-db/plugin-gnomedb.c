@@ -4,6 +4,7 @@
 
 #include <workbook-control-gui.h>
 #include <gui-util.h>
+#include <gnm-plugin.h>
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/module-plugin-defs.h>
 

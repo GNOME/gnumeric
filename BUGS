@@ -10,11 +10,8 @@ Release Critical
 
     : Use GNOME Recent for the gnome build
     : tie the custom ui into action sensitivity pools
-    : kasal's popt patch
     : support array evaluation for =LARGE and friends
     http://bugzilla.gnome.org/show_bug.cgi?id=159581
-    : undo has dep leaks
-    : gnome-db plugin does not compile
 
 Worries
 -------
