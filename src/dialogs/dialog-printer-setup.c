@@ -538,6 +538,7 @@ spin_button_adapt_to_unit (GtkSpinButton *spin, UnitName new_unit)
 		digits = 2;
 		break;
 	case UNIT_INCH:
+	default:
 		step_increment = 0.25;
 		digits = 2;
 		break;

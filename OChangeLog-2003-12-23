@@ -1,3 +1,19 @@
+2000-06-02  Jon K Hellan  <hellan@acm.org>
+
+	* src/gnumeric-util.c (gnumeric_wb_dialog_run): Do not set parent
+	if parent is already the right one. This avoids unwanted moving of
+	already displayed dialogs.
+
+	* src/about.c: Make sure it is only popped up once
+	(cb_closed): New callback to remove dialog from workbook window's
+	object data.
+	(dialog_about): Check if dialog exists as object data on workbook
+	window. If so, raise dialog window instead of creating a new one.
+	Otherwise store dialog as object data, and connect signal handler
+	for "close".  Replace calls to gnome_dialog_set_parent,
+	gnome_dialog_set_close and gtk_widget_show with a call to
+	gnumeric_dialog_show which does it all.
+
 2000-05-30  Michael Meeks  <michael@helixcode.com>
 
 	* src/Makefile.am (gnumeric_libs): kill libole2 hack.

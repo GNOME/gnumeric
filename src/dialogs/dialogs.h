@@ -5,6 +5,8 @@
 #include "cell.h"
 #include "summary.h"
 
+#define ABOUT_KEY          "about-dialog"
+
 void     dialog_function_druid  (Workbook *wb);
 void     dialog_plugin_manager  (Workbook *wb);
 void   	 dialog_goto_cell       (Workbook *wb);

@@ -1,3 +1,14 @@
+2000-06-02  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-autocorrect.c: #include dialog-autocorrect.h to silence
+	warning.
+
+	* dialog-printer-setup.c (spin_button_adapt_to_unit): Add default
+	clause to switch in order to silence warning.
+
+	* dialogs.h: Define key for storing about dialog as object data
+	on the workbook window.
+
 2000-05-29  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-analysis-tools.c (add_check_buttons) : Translate the parm

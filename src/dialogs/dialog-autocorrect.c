@@ -16,6 +16,7 @@
 #include "dialogs.h"
 #include "commands.h"
 #include "workbook.h"
+#include "dialog-autocorrect.h"
 
 
 typedef struct {

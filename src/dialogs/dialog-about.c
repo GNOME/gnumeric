@@ -10,6 +10,18 @@
 #include "gnumeric.h"
 #include "dialogs.h"
 #include "workbook.h"
+#include "gnumeric-util.h"
+
+/* Object data is to make sure we don't pop up more than one copy. When
+   closing, we remove the data */
+static void
+cb_closed (GtkWidget *button, GtkObject *toplevel)
+{
+	g_return_if_fail (GTK_IS_WINDOW (toplevel));
+	g_return_if_fail (gtk_object_get_data (toplevel, ABOUT_KEY) != NULL);
+	
+	gtk_object_remove_data (toplevel, ABOUT_KEY);
+}
 
 /*
  * We need to get rid of that so that we will be able
@@ -57,6 +69,12 @@ dialog_about (Workbook *wb)
 	    }
 	}
 #endif
+	/* Ensure we only pop up one copy per workbook */
+	about = gtk_object_get_data (GTK_OBJECT (wb->toplevel), ABOUT_KEY);
+	if (about && GNOME_IS_ABOUT (about)) {
+		gdk_window_raise (about->window);
+		return;
+	}
 
         about = gnome_about_new (_("Gnumeric"), VERSION,
 				 _("(C) 1998-2000 Miguel de Icaza"),
@@ -74,8 +92,13 @@ dialog_about (Workbook *wb)
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (about)->vbox),
 			    hbox, TRUE, FALSE, 0);
 	gtk_widget_show_all (hbox);
-	
-	gnome_dialog_set_parent (GNOME_DIALOG (about), GTK_WINDOW (wb->toplevel));
-	gnome_dialog_set_close (GNOME_DIALOG (about), TRUE);
-        gtk_widget_show (about);
+
+	gtk_object_set_data (GTK_OBJECT (wb->toplevel), ABOUT_KEY, about);
+
+	gtk_signal_connect (
+		GTK_OBJECT (about), "close",
+		GTK_SIGNAL_FUNC (cb_closed), (gpointer) wb->toplevel);
+
+	/* Close on click, close with parent */
+	gnumeric_dialog_show (wb->toplevel, GNOME_DIALOG (about), TRUE, TRUE);
 }
