@@ -1530,7 +1530,7 @@ msgstr ""
 
 #: plugins/excel/plugin.xml.in.h:1
 msgid "Imports/Exports MS Excel (tm) files"
-msgstr "MS Excel (tm) ファイルのインポート/エキスポート"
+msgstr "MS Excel (tm) ファイルのインポート/エクスポート"
 
 #: plugins/excel/plugin.xml.in.h:2
 msgid "MS Excel (tm)"
@@ -16038,7 +16038,7 @@ msgstr "HTML 4.0 (*.html)"
 
 #: plugins/html/plugin.xml.in.h:6
 msgid "Import/Export of HTML, TeX, DVI, roff"
-msgstr "HTML, TeX, DVI, roff のインポート/エキスポート"
+msgstr "HTML, TeX, DVI, roff のインポート/エクスポート"
 
 #: plugins/html/plugin.xml.in.h:7
 msgid "LaTeX 2e (*.tex)"
@@ -17763,9 +17763,8 @@ msgid "Would split an array"
 msgstr "配列に分割されます"
 
 #: src/commands.c:252
-#, fuzzy, c-format
 msgid "%s is locked. Unprotect the workbook to enable editing."
-msgstr "ワークブックは編集可能です (保護なし)"
+msgstr "%s はロックされています。ワークブックの保護を解除すると編集できます。"
 
 #: src/commands.c:253
 #, c-format
@@ -17791,9 +17790,8 @@ msgid "Typing \"%s%s\""
 msgstr "\"%s%s\"を入力"
 
 #: src/commands.c:1188
-#, fuzzy
 msgid "Ins/Del Column/Row"
-msgstr "列を挿入"
+msgstr "列/行を挿入/削除"
 
 #: src/commands.c:1295 src/commands.c:1300 src/sheet.c:3249
 msgid "Delete Columns"
@@ -17870,9 +17868,8 @@ msgid "Clearing %s in %s"
 msgstr "%s のクリア (%s 内の)"
 
 #: src/commands.c:1755
-#, fuzzy
 msgid "Changing Format"
-msgstr "書式 %s の変更"
+msgstr "書式の変更"
 
 #: src/commands.c:1880
 #, c-format
@@ -17915,7 +17912,6 @@ msgid "Autofitting columns %s"
 msgstr "列 %s の自動調整"
 
 #: src/commands.c:2007
-#, fuzzy, c-format
 msgid "Autofitting rows %s"
 msgstr "行 %s の自動調整"
 
@@ -17983,12 +17979,12 @@ msgstr "行を畳む"
 #: src/commands.c:2357
 #, c-format
 msgid "Show column outline %d"
-msgstr ""
+msgstr "列のアウトライン %d を表示"
 
 #: src/commands.c:2357
 #, c-format
 msgid "Show row outline %d"
-msgstr ""
+msgstr "行のアウトライン %d を表示"
 
 #: src/commands.c:2427
 msgid "Those columns are already grouped"
@@ -18038,9 +18034,8 @@ msgid "is beyond sheet boundaries"
 msgstr "はシートの限界を超えています"
 
 #: src/commands.c:2777
-#, fuzzy
 msgid "Paste Copy"
-msgstr "貼り付け方法"
+msgstr "コピーを貼り付け"
 
 #. FIXME?
 #: src/commands.c:2882
@@ -18101,14 +18096,12 @@ msgid "Zoom %s to %.0f%%"
 msgstr "%s を %0.f%% に縮小"
 
 #: src/commands.c:4415
-#, fuzzy
 msgid "Delete Object"
 msgstr "オブジェクトの削除"
 
 #: src/commands.c:4576
-#, fuzzy
 msgid "Format Object"
-msgstr "オブジェクトの移動"
+msgstr "オブジェクトの書式"
 
 #: src/commands.c:5175
 msgid "Reordering Sheets"
@@ -18119,9 +18112,8 @@ msgid "Renaming Sheets"
 msgstr "シート名の変更"
 
 #: src/commands.c:5181
-#, fuzzy, c-format
 msgid "Appending %i Sheets"
-msgstr "シート名の変更"
+msgstr "%i シートを追加しています"
 
 #: src/commands.c:5185
 msgid "Changing Tab Colors"
@@ -18129,21 +18121,19 @@ msgstr "タブの色の変更"
 
 #: src/commands.c:5188
 msgid "Changing Sheet Protection"
-msgstr ""
+msgstr "シートの保護属性を変更します"
 
 #: src/commands.c:5191
-#, fuzzy
 msgid "Delete sheets"
-msgstr "セルを削除"
+msgstr "シートの削除"
 
 #: src/commands.c:5194
-#, fuzzy
 msgid "Delete a sheet"
-msgstr "オブジェクトの削除"
+msgstr "シートの削除"
 
 #: src/commands.c:5197
 msgid "Changing Sheet Visibility"
-msgstr ""
+msgstr "シートの表示/非表示を変更します"
 
 #: src/commands.c:5200
 msgid "Reorganizing Sheets"
@@ -18169,23 +18159,20 @@ msgid "Changing summary info"
 msgstr "サマリ情報の変更"
 
 #: src/commands.c:5923
-#, fuzzy
 msgid "Pull Object to the Front"
-msgstr "制約条件:"
+msgstr "オブジェクトを最前面に移動します"
 
 #: src/commands.c:5926
-#, fuzzy
 msgid "Pull Object Forward"
-msgstr "GObjectローダー"
+msgstr "Objectを1つ前面に移動します"
 
 #: src/commands.c:5929
 msgid "Push Object Backward"
-msgstr ""
+msgstr "オブジェクトを1つ背面に移動します"
 
 #: src/commands.c:5932
-#, fuzzy
 msgid "Push Object to the Back"
-msgstr "制約条件:"
+msgstr "オブジェクトを最背面に移動します"
 
 #: src/commands.c:6047
 #, c-format
@@ -18251,22 +18238,19 @@ msgid "Duplicating %s"
 msgstr "%sの複製"
 
 #: src/commands.c:6955
-#, fuzzy
 msgid "Tabulating Dependencies"
 msgstr "依存関係を表にする"
 
 #: src/commands.c:7030
 #, fuzzy
 msgid "Reconfigure Graph"
-msgstr "ツールバーを設定します"
+msgstr "グラフを再設定します"
 
 #: src/consolidate.c:771
-#, fuzzy, c-format
 msgid "Consolidating to (%s)"
-msgstr "%s!%s へ合成する"
+msgstr "(%s) へ合成しています"
 
 #: src/consolidate.c:810 src/consolidate.c:813
-#, fuzzy
 msgid "Data Consolidation"
 msgstr "データの合成"
 
@@ -18277,28 +18261,24 @@ msgid "Discrete"
 msgstr "離散"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:612
-#, fuzzy
 msgid "Discrete mapping"
-msgstr "離散"
+msgstr "離散写像"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:621
-#, fuzzy
 msgid "Linear"
-msgstr "加算(_L)"
+msgstr "線形"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:621
 msgid "Linear mapping"
-msgstr ""
+msgstr "線型写像"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:627
-#, fuzzy
 msgid "Log"
-msgstr "論理"
+msgstr "対数"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:627
-#, fuzzy
 msgid "Logarithm mapping"
-msgstr "対数"
+msgstr "対数写像"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1411
 msgid "Details"
@@ -21867,9 +21847,8 @@ msgid "The output range overlaps with the input ranges."
 msgstr "出力範囲が入力範囲に重なっています。"
 
 #: src/dialogs/dialog-consolidate.c:555
-#, fuzzy
 msgid "Could not create the Consolidate dialog."
-msgstr "自動保存ダイアログが作成できませんでした。"
+msgstr "合成ダイアログが作成できませんでした。"
 
 #: src/dialogs/dialog-define-names.c:361
 msgid "Why would you want to define a name to be #NAME?"
@@ -21890,9 +21869,8 @@ msgid "Could not create the Delete Cell dialog."
 msgstr "セルの削除ダイアログが作成できませんでした。"
 
 #: src/dialogs/dialog-fill-series.c:256
-#, fuzzy
 msgid "Could not create the Fill Series dialog."
-msgstr "ソルバダイアログが作成できませんでした。"
+msgstr "連続データダイアログが作成できませんでした。"
 
 #: src/dialogs/dialog-formula-guru.c:301
 #, c-format
@@ -22085,14 +22063,12 @@ msgid "_All"
 msgstr "全て(_A)"
 
 #: src/dialogs/dialog-paste-special.c:67
-#, fuzzy
 msgid "Cont_ent"
-msgstr "内容"
+msgstr "内容(_E)"
 
 #: src/dialogs/dialog-paste-special.c:68
-#, fuzzy
 msgid "As _Value"
-msgstr "値として"
+msgstr "値として(_V)"
 
 #: src/dialogs/dialog-paste-special.c:69 src/wbcg-actions.c:1537
 msgid "_Formats"
@@ -22103,39 +22079,32 @@ msgid "Co_mments"
 msgstr "注釈(_M)"
 
 #: src/dialogs/dialog-paste-special.c:75
-#, fuzzy
 msgid "_None"
-msgstr "なし"
+msgstr "なし(_N)"
 
 #: src/dialogs/dialog-paste-special.c:76
-#, fuzzy
 msgid "A_dd"
-msgstr "加算"
+msgstr "加算(_D)"
 
 #: src/dialogs/dialog-paste-special.c:77
-#, fuzzy
 msgid "_Subtract"
-msgstr "減算"
+msgstr "減算(_S)"
 
 #: src/dialogs/dialog-paste-special.c:78
-#, fuzzy
 msgid "M_ultiply"
-msgstr "乗算"
+msgstr "乗算(_U)"
 
 #: src/dialogs/dialog-paste-special.c:79
-#, fuzzy
 msgid "D_ivide"
-msgstr "除算"
+msgstr "除算(_I)"
 
 #: src/dialogs/dialog-paste-special.c:186
-#, fuzzy
 msgid "Paste Special"
-msgstr "特別貼り付け(_S)"
+msgstr "特別貼り付け"
 
 #: src/dialogs/dialog-paste-special.c:189
-#, fuzzy
 msgid "Paste _Link"
-msgstr "リンクの貼付け"
+msgstr "リンクの貼付け(_L)"
 
 #: src/dialogs/dialog-paste-special.c:198
 msgid "Paste type"
@@ -22146,14 +22115,12 @@ msgid "Operation"
 msgstr "演算"
 
 #: src/dialogs/dialog-paste-special.c:234
-#, fuzzy
 msgid "_Transpose"
-msgstr "行と列を入れ替える"
+msgstr "行と列を入れ替える(_T)"
 
 #: src/dialogs/dialog-paste-special.c:240
-#, fuzzy
 msgid "Skip _Blanks"
-msgstr "空白を無視する"
+msgstr "空白を無視する(_B)"
 
 #: src/dialogs/dialog-plugin-manager.c:277
 msgid "Select Directory"
@@ -22307,9 +22274,8 @@ msgid "_Upper Bound:"
 msgstr "上界(_U):"
 
 #: src/dialogs/dialog-random-generator.c:113
-#, fuzzy
 msgid "Uniform Integer"
-msgstr "整数"
+msgstr "一様整数"
 
 #: src/dialogs/dialog-random-generator.c:116 src/dialogs/search.glade.h:13
 #: src/dialogs/search-replace.glade.h:14
@@ -22381,16 +22347,15 @@ msgstr "試行回数(_U):"
 
 #: src/dialogs/dialog-random-generator.c:130
 msgid "Cauchy"
-msgstr ""
+msgstr "コーシー"
 
 #: src/dialogs/dialog-random-generator.c:132
 msgid "Chisq"
-msgstr ""
+msgstr "カイ2乗"
 
 #: src/dialogs/dialog-random-generator.c:132
-#, fuzzy
 msgid "_nu Value:"
-msgstr "_p 値(_P):"
+msgstr "nu 値(_N):"
 
 #: src/dialogs/dialog-random-generator.c:134
 msgid "Exponential"
@@ -22406,23 +22371,20 @@ msgid "F"
 msgstr "F"
 
 #: src/dialogs/dialog-random-generator.c:138
-#, fuzzy
 msgid "nu_1 Value:"
-msgstr "_b 値(_B):"
+msgstr "nu1 値(_1):"
 
 #: src/dialogs/dialog-random-generator.c:138
-#, fuzzy
 msgid "nu_2 Value:"
-msgstr "_b 値(_B):"
+msgstr "nu2 値(_2):"
 
 #: src/dialogs/dialog-random-generator.c:140
 msgid "Gamma"
 msgstr "ガンマ"
 
 #: src/dialogs/dialog-random-generator.c:142
-#, fuzzy
 msgid "Gaussian Tail"
-msgstr "ロシア・ルーブル"
+msgstr "ガウスのすそ"
 
 #: src/dialogs/dialog-random-generator.c:142
 #: src/dialogs/dialog-random-generator.c:160
@@ -22430,17 +22392,16 @@ msgid "_Sigma"
 msgstr "シグマ(_S)"
 
 #: src/dialogs/dialog-random-generator.c:144
-#, fuzzy
 msgid "Geometric"
-msgstr "Gnumeric"
+msgstr "幾何"
 
 #: src/dialogs/dialog-random-generator.c:146
 msgid "Gumbel (Type I)"
-msgstr ""
+msgstr "ガンベル (タイプ I)"
 
 #: src/dialogs/dialog-random-generator.c:148
 msgid "Gumbel (Type II)"
-msgstr ""
+msgstr "ガンベル (タイプ II)"
 
 #: src/dialogs/dialog-random-generator.c:150
 msgid "Landau"
@@ -22455,9 +22416,8 @@ msgid "Levy alpha-Stable"
 msgstr ""
 
 #: src/dialogs/dialog-random-generator.c:154
-#, fuzzy
 msgid "_c Value:"
-msgstr "_p 値(_P):"
+msgstr "c 値(_C):"
 
 #: src/dialogs/dialog-random-generator.c:154
 msgid "_alpha:"
@@ -22476,9 +22436,8 @@ msgid "Lognormal"
 msgstr "対数正規"
 
 #: src/dialogs/dialog-random-generator.c:160
-#, fuzzy
 msgid "_Zeta Value:"
-msgstr "_p 値(_P):"
+msgstr "ζ値(_P):"
 
 #: src/dialogs/dialog-random-generator.c:162
 msgid "Negative Binomial"
@@ -22489,9 +22448,8 @@ msgid "N_umber of Failures"
 msgstr "失敗回数(_U)"
 
 #: src/dialogs/dialog-random-generator.c:165
-#, fuzzy
 msgid "Pareto"
-msgstr "対象"
+msgstr "パレート"
 
 #: src/dialogs/dialog-random-generator.c:167
 msgid "Poisson"
@@ -22502,32 +22460,29 @@ msgid "_Lambda:"
 msgstr "ラムダ(_L):"
 
 #: src/dialogs/dialog-random-generator.c:169
-#, fuzzy
 msgid "Rayleigh"
-msgstr "右"
+msgstr "レーリー"
 
 #: src/dialogs/dialog-random-generator.c:169
 #: src/dialogs/dialog-random-generator.c:171
 msgid "_Sigma:"
-msgstr ""
+msgstr "シグマ(_S):"
 
 #: src/dialogs/dialog-random-generator.c:171
 msgid "Rayleigh Tail"
-msgstr ""
+msgstr "レーリーのすそ"
 
 #: src/dialogs/dialog-random-generator.c:173
-#, fuzzy
 msgid "Student t"
-msgstr "件名"
+msgstr "スチューデントのt"
 
 #: src/dialogs/dialog-random-generator.c:173
-#, fuzzy
 msgid "nu Value:"
-msgstr "_b 値(_B):"
+msgstr "nu 値:"
 
 #: src/dialogs/dialog-random-generator.c:175
 msgid "Weibull"
-msgstr ""
+msgstr "ワイブル"
 
 #: src/dialogs/dialog-random-generator.c:849
 msgid "Could not create the Random Tool dialog."
@@ -22554,14 +22509,12 @@ msgid "Changing cells should be on the current sheet only."
 msgstr "変更中のセルは現在のシートになければなりません。"
 
 #: src/dialogs/dialog-scenarios.c:150
-#, fuzzy
 msgid "Scenario name already used"
-msgstr "これらの行は既にグループ化されています"
+msgstr "既に使用されているシナリオ名です"
 
 #: src/dialogs/dialog-scenarios.c:156
-#, fuzzy
 msgid "Invalid scenario name"
-msgstr "検索パターンが正しくありません。"
+msgstr "シナリオ名が正しくありません。"
 
 #: src/dialogs/dialog-scenarios.c:182
 msgid ""
@@ -22571,9 +22524,8 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/dialog-scenarios.c:216
-#, fuzzy
 msgid "Could not create the Scenario Add dialog."
-msgstr "ソルバダイアログが作成できませんでした。"
+msgstr "シナリオ追加ダイアログが作成できませんでした。"
 
 #: src/dialogs/dialog-scenarios.c:248
 #, fuzzy
@@ -22585,9 +22537,8 @@ msgid "Results entry did not contain valid cell names."
 msgstr ""
 
 #: src/dialogs/dialog-scenarios.c:640
-#, fuzzy
 msgid "Could not create the Scenarios dialog."
-msgstr "ソルバダイアログが作成できませんでした。"
+msgstr "シナリオダイアログが作成できませんでした。"
 
 #: src/dialogs/dialog-search.c:129
 msgid "Comment"
@@ -22640,37 +22591,35 @@ msgstr "新しい名前"
 
 #: src/dialogs/dialog-sheet-order.c:732
 msgid "At least one sheet must remain visible!"
-msgstr ""
+msgstr "少なくとも1つのシートは残して表示しなければなりません!"
 
 #: src/dialogs/dialog-sheet-order.c:737
-#, fuzzy
 msgid "You may not delete all sheets in a workbook!"
-msgstr "現在作業中のワークブックにある各シートを管理します"
+msgstr "ワークブックのシートをすべて削除したりはしないでしょう!"
 
 #: src/dialogs/dialog-sheet-order.c:742
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
 msgstr ""
+"存在するすべてのシートを置き換えるには、現在のワークブックを削除して"
+"新しく作成してください。"
 
 #: src/dialogs/dialog-sheet-order.c:987
 msgid "The sheet order has changed. Do you want to update the list?"
-msgstr ""
+msgstr "シートの順序が変更されました。リストを更新しますか?"
 
 #: src/dialogs/dialog-shuffle.c:151
-#, fuzzy
 msgid "Could not create the Data Shuffling dialog."
-msgstr "ジャンプ・ダイアログが作成できませんでした。"
+msgstr "データシャッフルダイアログが作成できませんでした。"
 
 #: src/dialogs/dialog-simulation.c:75
-#, fuzzy
 msgid "The input variable range is invalid."
-msgstr "条件範囲が正しくありません。"
+msgstr "入力変数の範囲が正しくありません。"
 
 #: src/dialogs/dialog-simulation.c:85
-#, fuzzy
 msgid "The output variable range is invalid."
-msgstr "出力範囲が正しくありません。"
+msgstr "出力変数の範囲が正しくありません。"
 
 #: src/dialogs/dialog-simulation.c:158
 msgid "Simulations"
@@ -22681,18 +22630,16 @@ msgid "Iterations"
 msgstr "反復"
 
 #: src/dialogs/dialog-simulation.c:158
-#, fuzzy
 msgid "# Input variables"
-msgstr "ラベルの入力(_L)"
+msgstr "# 入力変数"
 
 #: src/dialogs/dialog-simulation.c:159
 msgid "# Output variables"
 msgstr ""
 
 #: src/dialogs/dialog-simulation.c:159
-#, fuzzy
 msgid "Runtime"
-msgstr "時間"
+msgstr "実行時間"
 
 #: src/dialogs/dialog-simulation.c:159
 msgid "Run on"
@@ -22831,20 +22778,17 @@ msgid "Are you sure you want to cancel?"
 msgstr "本当にキャンセルしますか?"
 
 #: src/dialogs/dialog-stf-export.c:350
-#, fuzzy
 msgid "Export"
-msgstr "報告"
+msgstr "エクスポート"
 
 #: src/dialogs/dialog-stf-export.c:400
 #: src/dialogs/dialog-stf-export.glade.h:33
-#, fuzzy
 msgid "_Next"
-msgstr "テキスト(_X)"
+msgstr "次へ(_N)"
 
 #: src/dialogs/dialog-stf-export.c:403
-#, fuzzy
 msgid "_Finish"
-msgstr "終了(_I)"
+msgstr "終了(_F)"
 
 #: src/dialogs/dialog-stf-export.glade.h:1
 msgid ""
@@ -22852,48 +22796,46 @@ msgid ""
 "'\n"
 "`\n"
 msgstr ""
+"\"\n"
+"'\n"
+"`\n"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-#, fuzzy
 msgid ""
 "Automatic (puts quotes where needed)\n"
 "Always\n"
 "Never"
-msgstr "自動 (必要な場所に引用符を付与する)"
+msgstr "自動 (必要な場所に引用符を付与する)\n"
+"常に\n"
+"しない"
 
 #: src/dialogs/dialog-stf-export.glade.h:9 src/gui-file.c:209
 msgid "Character _encoding:"
 msgstr "文字エンコーディング(_E):"
 
 #: src/dialogs/dialog-stf-export.glade.h:10
-#, fuzzy
 msgid "Choose export formatting:"
-msgstr "エキスポート形式の選択"
+msgstr "エクスポート形式の選択:"
 
 #: src/dialogs/dialog-stf-export.glade.h:11
-#, fuzzy
 msgid "Choose sheets to export:"
-msgstr "エキスポートするシートの選択"
+msgstr "エクスポートするシートの選択:"
 
 #: src/dialogs/dialog-stf-export.glade.h:12
-#, fuzzy
 msgid "Export as Text"
-msgstr "時刻の書式"
+msgstr "テキストとしてエクスポート"
 
 #: src/dialogs/dialog-stf-export.glade.h:13
-#, fuzzy
 msgid "Qu_oting:"
-msgstr "引用符の付け方"
+msgstr "引用符の付け方(_O):"
 
 #: src/dialogs/dialog-stf-export.glade.h:14
-#, fuzzy
 msgid "Quote _character:"
-msgstr "引用符文字"
+msgstr "引用符文字(_C):"
 
 #: src/dialogs/dialog-stf-export.glade.h:15
-#, fuzzy
 msgid "Select N_one"
-msgstr "行の選択(_R)"
+msgstr "選択解除(_O)"
 
 #. Edit -> Select
 #: src/dialogs/dialog-stf-export.glade.h:16 src/wbcg-actions.c:1560
@@ -22913,25 +22855,38 @@ msgid ""
 "Slash (/)\n"
 "Custom"
 msgstr ""
+"スペース\n"
+"タブ\n"
+"感嘆符 (!)\n"
+"コロン (:)\n"
+"カンマ (,)\n"
+"ハイフン (-)\n"
+"パイプ (|)\n"
+"セミコロン (;)\n"
+"スラッシュ (/)\n"
+"カスタム"
 
 #: src/dialogs/dialog-stf-export.glade.h:27
 msgid ""
 "Transliterate\n"
 "Escape"
 msgstr ""
+"音訳\n"
+"エスケープ"
 
 #: src/dialogs/dialog-stf-export.glade.h:29
-#, fuzzy
 msgid ""
 "Unix (linefeed)\n"
 "Macintosh (carriage return)\n"
 "Windows (carriage return + linefeed)"
-msgstr "Windows形式 (キャリッジリターン + ラインフィード)"
+msgstr ""
+"Unix (ラインフィード)\n"
+"Macintosh (キャリッジリターン)\n"
+"Windows形式 (キャリッジリターン + ラインフィード)"
 
 #: src/dialogs/dialog-stf-export.glade.h:32
-#, fuzzy
 msgid "_Line termination:"
-msgstr "行終端:"
+msgstr "行終端(_L):"
 
 #: src/dialogs/dialog-stf-export.glade.h:34
 #, fuzzy
@@ -22939,9 +22894,8 @@ msgid "_Preserves Formats"
 msgstr "対象外の部分(_P)"
 
 #: src/dialogs/dialog-stf-export.glade.h:35
-#, fuzzy
 msgid "_Separator:"
-msgstr "セパレータ"
+msgstr "セパレータ(_S):"
 
 #: src/dialogs/dialog-stf-export.glade.h:36
 msgid "_Unknown characters:"
@@ -22972,14 +22926,12 @@ msgid "_Narrow"
 msgstr "狭くする(_N)"
 
 #: src/dialogs/dialog-stf-format-page.c:44
-#, fuzzy, c-format
 msgid "Importing %i columns and ignoring none."
-msgstr "右の列をすべてインポート"
+msgstr "%i 列をインポートして無視するものはありません。"
 
 #: src/dialogs/dialog-stf-format-page.c:47
-#, fuzzy, c-format
 msgid "Importing %i columns and ignoring %i."
-msgstr "右の列をすべてインポート"
+msgstr "%i 列をインポートして %i を無視します。"
 
 #: src/dialogs/dialog-stf-format-page.c:154
 #, c-format
@@ -23003,9 +22955,8 @@ msgid "Import all columns on left"
 msgstr "左の列をすべてインポート"
 
 #: src/dialogs/dialog-stf-format-page.c:287
-#, fuzzy
 msgid "Copy format to right"
-msgstr "左から右へ"
+msgstr "書式を右にコピー"
 
 #: src/dialogs/dialog-stf-format-page.c:430
 msgid ""
@@ -23052,24 +23003,27 @@ msgid ""
 "On left side only\n"
 "On right side only"
 msgstr ""
+"両側\n"
+"どちら側でもない\n"
+"左側のみ\n"
+"右側のみ"
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #: src/dialogs/dialog-stf.glade.h:12
 msgid "C_ustom"
 msgstr "カスタム(_U)"
 
 #: src/dialogs/dialog-stf.glade.h:13
-#, fuzzy
 msgid ""
 "Character interpreted as quote character. If a termination or separation "
 "character is encountered within quotes it will be considered part of the "
 "column text."
 msgstr ""
-"引用符として扱われる文字です。もしセパレータが引用符の間にあれば無視されま"
-"す。"
+"引用符として扱われる文字です。引用符の間に終端文字やセパレータがあっても"
+"列のテキストの一部と見なされます。"
 
 #: src/dialogs/dialog-stf.glade.h:14
 msgid "Clear list of columns"
@@ -27227,7 +27181,7 @@ msgstr "テキストのインポート (カスタマイズ可能)"
 
 #: src/stf.c:499
 msgid "Text export (configurable)"
-msgstr "テキストのエキスポート (カスタマイズ可能)"
+msgstr "テキストのエクスポート (カスタマイズ可能)"
 
 #: src/stf.c:503
 msgid "Comma separated values (CSV)"
@@ -27693,7 +27647,7 @@ msgstr "作成済みの報告: "
 #: src/tools/fill-series.c:396
 #, c-format
 msgid "Fill Series (%s)"
-msgstr "繰り返し (%s)"
+msgstr "連続データ (%s)"
 
 #: src/tools/random-generator.c:107
 msgid ""
