@@ -258,7 +258,7 @@ static char *help_trimmean = {
 	   "TRIMMEAN returns the mean of the interior of a data set. @ref "
 	   "is the list of numbers whose mean you want to calculate and "
 	   "@percent is the percentage of number excluded from the mean. "
-	   "For example, if percent=0.2 and the data set contans 40 numbers, "
+	   "For example, if percent=0.2 and the data set contains 40 numbers, "
 	   "8 numbers are trimmed from the data set (40 x 0.2), 4 from the "
 	   "top and 4 from the bottom of the set."
 	   "\n"
