@@ -151,12 +151,11 @@
 	  series would be in.
 	</para>
 	<para>
-	  The name field takes two arguements.  The first is the sheet
-	  name.  The second is the cell which the name is derived
-	  from.  In the cell definition, the row and columns are both
-	  preficed with a $.  The two arguements are separated by an
-	  exclamation mark.
-	  <example id="name-example">
+	  The <guilabel>Name</guilabel> field takes a simple
+	  reference.  The reference field needs what sheet and cell
+	  the information is stored on.  For more information on
+	  references, please consult <xref linkend="cell-referencing">.
+	  <example id="name-range-example">
 	    <title>Name Example</title>
 	    <para>
 	      A name needs to be derived from Sheet1 and cell B1.  The
@@ -174,9 +173,10 @@
 	  The <guilabel>Values</guilabel> field defines which data
 	  should be included in the graph.  The
 	  <guilabel>Values</guilabel> field takes two arguements.  The
-	  first being the sheet name.  The second being either a
-	  single, multiple, or range of cells to use.  The row and
-	  column of each cell needs to be prefaced by a $.
+	  reference requires the sheet name and cell range the
+	  information is located on. For more information on
+	  references, please consult <xref linkend="cell-referencing">.
+
 	  <example id="graphing-advanced-data-ranges-values-example">
 	    <title>Values Example</title>
 	    <para>
@@ -195,10 +195,10 @@
 	<para>
 	  The <guilabel>Category Labels</guilabel> field sets what
 	  cells are used to derive the labels on the x-axis.  The
-	  <guilabel>Category Labels</guilabel> takes two arguements.  The
-	  first being the sheet name.  The second being either a
-	  single, multiple, or range of cells to use.  The row and
-	  column of each cell needs to be prefaced by a $.
+	  <guilabel>Category Labels</guilabel> takes a simple reference.  The
+	  reference needs the sheet name and cell ranges that the
+	  information is on.  For more information on
+	  references, please consult <xref linkend="cell-referencing">.
 	  <example
 	  id="graphing-advanced-data-ranges-cat-labels-ex">
 	    <title>Category Labels Example</title>
