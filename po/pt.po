@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.4\n"
 "Report-Msgid-Bugs-To: Duarte Loreto <happyguy_pt@hotmail.com>\n"
-"POT-Creation-Date: 2003-08-04 20:33+0200\n"
-"PO-Revision-Date: 2003-08-05 01:55+0000\n"
+"POT-Creation-Date: 2003-08-06 20:44+0200\n"
+"PO-Revision-Date: 2003-08-06 23:05+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -17332,7 +17332,7 @@ msgstr "Função objectiva:"
 msgid "Constraints:"
 msgstr "Restrições:"
 
-#: plugins/mps/mps.c:247 src/commands.c:5708
+#: plugins/mps/mps.c:247 src/commands.c:5824
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:969
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:105
 #: src/dialogs/dialog-define-names.c:483 src/dialogs/dialog-formula-guru.c:810
@@ -17790,87 +17790,104 @@ msgstr "Leitor de plugin Python"
 msgid "This plugin provides support for Python plugins"
 msgstr "Este plugin disponibiliza suporte para plugins Python"
 
-#: plugins/python-loader/py-console.c:90
+#: plugins/python-loader/py-console.c:91
 #, c-format
 msgid "*** Interpreter: %s\n"
 msgstr "*** Interpretador: %s\n"
 
-#: plugins/python-loader/py-console.c:152
+#: plugins/python-loader/py-console.c:160
 msgid "Gnumeric Python console"
 msgstr "Consola Python Gnumeric"
 
-#: plugins/python-loader/py-console.c:162
+#: plugins/python-loader/py-console.c:169
 msgid "E_xecute in:"
 msgstr "E_xecutar em:"
 
-#: plugins/python-loader/py-console.c:207
+#: plugins/python-loader/py-console.c:214
 msgid "C_ommand:"
 msgstr "C_omando:"
 
-#: plugins/python-loader/py-gnumeric.c:226
+#: plugins/python-loader/py-gnumeric.c:237
 msgid "Python list is not an array"
 msgstr "Lista Python não é uma matriz"
 
-#: plugins/python-loader/py-gnumeric.c:233
+#: plugins/python-loader/py-gnumeric.c:244
 #, c-format
 msgid "Unsupported Python type: %s"
 msgstr "Tipo Python não suportado: %s"
 
-#: plugins/python-loader/py-gnumeric.c:260
+#: plugins/python-loader/py-gnumeric.c:271
 msgid "Unknown error"
 msgstr "Erro desconhecido"
 
-#: plugins/python-loader/py-gnumeric.c:266
+#: plugins/python-loader/py-gnumeric.c:277
 #, c-format
 msgid "Python exception (%s: %s)"
 msgstr "Excepção Python (%s: %s)"
 
-#: plugins/python-loader/py-gnumeric.c:270
+#: plugins/python-loader/py-gnumeric.c:281
 #, c-format
 msgid "Python exception (%s)"
 msgstr "Excepção Python (%s)"
 
-#: plugins/python-loader/python-loader.c:82
+#: plugins/python-loader/python-loader.c:81
 msgid "Python module name not given."
 msgstr "Nome de módulo Python não indicado."
 
-#: plugins/python-loader/python-loader.c:126
+#: plugins/python-loader/python-loader.c:106
+msgid "Cannot create new Python interpreter."
+msgstr "Incapaz de criar novo interpretador Python."
+
+#: plugins/python-loader/python-loader.c:127
 #, c-format
 msgid "Module \"%s\" doesn't exist."
 msgstr "Módulo \"%s\" não existe."
 
-#: plugins/python-loader/python-loader.c:144
+#: plugins/python-loader/python-loader.c:145
 #, c-format
 msgid "Execution of module \"%s\" failed."
 msgstr "Execução do módulo \"%s\" falhou."
 
-#: plugins/python-loader/python-loader.c:299
+#: plugins/python-loader/python-loader.c:298
 msgid "Some name"
 msgstr "Um nome"
 
-#: plugins/python-loader/python-loader.c:358
-#: plugins/python-loader/python-loader.c:448
-#: plugins/python-loader/python-loader.c:663
+#: plugins/python-loader/python-loader.c:360
+#: plugins/python-loader/python-loader.c:453
+#: plugins/python-loader/python-loader.c:676
+#: plugins/python-loader/python-loader.c:793
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "Ficheiro Python \"%s\" tem um formato inválido."
 
-#: plugins/python-loader/python-loader.c:362
-#: plugins/python-loader/python-loader.c:453 src/plugin-loader-module.c:360
+#: plugins/python-loader/python-loader.c:364
+#: plugins/python-loader/python-loader.c:458 src/plugin-loader-module.c:360
 #: src/plugin-loader-module.c:421
 #, c-format
 msgid "File doesn't contain \"%s\" function."
 msgstr "Ficheiro não contém função \"%s\"."
 
-#: plugins/python-loader/python-loader.c:668
+#: plugins/python-loader/python-loader.c:681
+#: plugins/python-loader/python-loader.c:798
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "Ficheiro não contém dicionário \"%s\"."
 
-#: plugins/python-loader/python-loader.c:673
+#: plugins/python-loader/python-loader.c:686
+#: plugins/python-loader/python-loader.c:803
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Objecto \"%s\" não é um dicionário."
+
+#: plugins/python-loader/python-loader.c:741 src/plugin-loader-module.c:610
+#, c-format
+msgid "Unknown verb: %s"
+msgstr "Verbo desconhecido: %s"
+
+#: plugins/python-loader/python-loader.c:746
+#, c-format
+msgid "Not a valid function for verb: %s"
+msgstr "Função inválida para o verbo: %s"
 
 #: plugins/python-loader/ui-console-menu.xml.h:1
 msgid "Open the Python console"
@@ -18005,7 +18022,7 @@ msgstr "Esta é uma mensagem do plugin \"%s\"."
 msgid "Error while opening xbase file."
 msgstr "Erro ao abrir ficheiro xbase."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4524
+#: plugins/xbase/boot.c:175 src/commands.c:4568
 #: src/dialogs/dialog-goto-cell.c:283 src/dialogs/dialog-search.c:390
 #: src/dialogs/print.glade.h:21 src/workbook.c:1040 src/xml-io.c:3588
 msgid "Sheet"
@@ -19619,7 +19636,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Anál_ise Estatística"
 
 #: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3979
-#: src/workbook-control-gui.c:4750 src/workbook-view.c:532
+#: src/workbook-control-gui.c:4750 src/workbook-view.c:540
 msgid "Sum"
 msgstr "Soma"
 
@@ -20233,450 +20250,450 @@ msgstr "%s está trancado. Desproteja a folha para permitir edição."
 msgid "..."
 msgstr "..."
 
-#: src/commands.c:865 src/commands.c:971 src/commands.c:976
+#: src/commands.c:867 src/commands.c:973 src/commands.c:978
 msgid "Set Text"
 msgstr "Definir Texto"
 
-#: src/commands.c:889
+#: src/commands.c:891
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "A escrever \"%s%s\" em %s"
 
-#: src/commands.c:1094
+#: src/commands.c:1096
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "A escrever \"%s%s\""
 
-#: src/commands.c:1218 src/commands.c:1223 src/sheet.c:3162
+#: src/commands.c:1226 src/commands.c:1231 src/sheet.c:3162
 msgid "Delete Columns"
 msgstr "Apagar Colunas"
 
-#: src/commands.c:1218 src/commands.c:1223 src/sheet.c:3276
+#: src/commands.c:1226 src/commands.c:1231 src/sheet.c:3276
 msgid "Delete Rows"
 msgstr "Apagar Linhas"
 
-#: src/commands.c:1373
+#: src/commands.c:1380
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "A inserir %d colunas antes de %s"
 
-#: src/commands.c:1374
+#: src/commands.c:1381
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "A inserir %d coluna antes de %s"
 
-#: src/commands.c:1389
+#: src/commands.c:1396
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "A inserir %d linhas antes de %s"
 
-#: src/commands.c:1390
+#: src/commands.c:1397
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "A inserir %d linha antes de %s"
 
-#: src/commands.c:1401
+#: src/commands.c:1408
 #, c-format
 msgid "Deleting columns %s"
 msgstr "A apagar colunas %s"
 
-#: src/commands.c:1402
+#: src/commands.c:1409
 #, c-format
 msgid "Deleting column %s"
 msgstr "A apagar coluna %s"
 
-#: src/commands.c:1412
+#: src/commands.c:1419
 #, c-format
 msgid "Deleting rows %s"
 msgstr "A apagar linhas %s"
 
-#: src/commands.c:1413
+#: src/commands.c:1420
 #, c-format
 msgid "Deleting row %s"
 msgstr "A apagar linha %s"
 
 #. Check for locked cells
-#: src/commands.c:1494 src/commands.c:1498 src/sheet.c:2779
+#: src/commands.c:1501 src/commands.c:1505 src/sheet.c:2779
 msgid "Clear"
 msgstr "Limpar"
 
-#: src/commands.c:1570
+#: src/commands.c:1577
 msgid "contents"
 msgstr "conteudos"
 
-#: src/commands.c:1572
+#: src/commands.c:1579
 msgid "formats"
 msgstr "formatos"
 
-#: src/commands.c:1574
+#: src/commands.c:1581
 msgid "comments"
 msgstr "comentários"
 
-#: src/commands.c:1590
+#: src/commands.c:1597
 msgid "all"
 msgstr "tudo"
 
-#: src/commands.c:1597
+#: src/commands.c:1604
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "A limpar %s em %s"
 
-#: src/commands.c:1676
+#: src/commands.c:1683
 msgid "Changing Format"
 msgstr "A Alterar Formato"
 
-#: src/commands.c:1803
+#: src/commands.c:1810
 #, c-format
 msgid "Changing format of %s"
 msgstr "A alterar formato de %s"
 
-#: src/commands.c:1916
+#: src/commands.c:1927
 #, c-format
 msgid "Autofitting column %s"
 msgstr "A auto-dimensionar coluna %s"
 
-#: src/commands.c:1917
+#: src/commands.c:1928
 #, c-format
 msgid "Autofitting row %s"
 msgstr "A auto-dimensionar linha %s"
 
-#: src/commands.c:1920
+#: src/commands.c:1931
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "A definir largura da coluna %s para %d pixels"
 
-#: src/commands.c:1922
+#: src/commands.c:1933
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "A definir altura da linha %s para %d pixels"
 
-#: src/commands.c:1925
+#: src/commands.c:1936
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "A definir largura da coluna %s por omissão"
 
-#: src/commands.c:1928
+#: src/commands.c:1939
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "A definir altura da linha %s por omissão"
 
-#: src/commands.c:1932 src/commands.c:1933
+#: src/commands.c:1943 src/commands.c:1944
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "A auto-dimensionar colunas %s"
 
-#: src/commands.c:1936
+#: src/commands.c:1947
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "A definir largura das colunas %s para %d pixels"
 
-#: src/commands.c:1938
+#: src/commands.c:1949
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "A definir altura das linhas %s para %d pixels"
 
-#: src/commands.c:1942
+#: src/commands.c:1953
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "A definir largura das colunas %s por omissão"
 
-#: src/commands.c:1944
+#: src/commands.c:1955
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "A definir altura das linhas %s por omissão"
 
-#: src/commands.c:2012 src/dialogs/dialog-preferences.c:1397
+#: src/commands.c:2029 src/dialogs/dialog-preferences.c:1397
 msgid "Sorting"
 msgstr "A ordenar"
 
-#: src/commands.c:2032
+#: src/commands.c:2049
 #, c-format
 msgid "Sorting %s"
 msgstr "A ordenar %s"
 
-#: src/commands.c:2173
+#: src/commands.c:2190
 msgid "Unhide columns"
 msgstr "Mostrar colunas"
 
-#: src/commands.c:2173
+#: src/commands.c:2190
 msgid "Hide columns"
 msgstr "Esconder colunas"
 
-#: src/commands.c:2174
+#: src/commands.c:2191
 msgid "Unhide rows"
 msgstr "Mostrar linhas"
 
-#: src/commands.c:2174
+#: src/commands.c:2191
 msgid "Hide rows"
 msgstr "Esconder linhas"
 
-#: src/commands.c:2257
+#: src/commands.c:2274
 msgid "Expand columns"
 msgstr "Expandir colunas"
 
-#: src/commands.c:2257
+#: src/commands.c:2274
 msgid "Collapse columns"
 msgstr "Recolher colunas"
 
-#: src/commands.c:2258
+#: src/commands.c:2275
 msgid "Expand rows"
 msgstr "Expandir linhas"
 
-#: src/commands.c:2258
+#: src/commands.c:2275
 msgid "Collapse rows"
 msgstr "Recolher linhas"
 
-#: src/commands.c:2285
+#: src/commands.c:2302
 #, c-format
 msgid "Show column outline %d"
 msgstr "Mostrar resumo coluna %d"
 
-#: src/commands.c:2285
+#: src/commands.c:2302
 #, c-format
 msgid "Show row outline %d"
 msgstr "Mostrar resumo linha %d"
 
-#: src/commands.c:2356
+#: src/commands.c:2373
 msgid "Those columns are already grouped"
 msgstr "Essas colunas já se encontram agrupadas"
 
-#: src/commands.c:2357
+#: src/commands.c:2374
 msgid "Those rows are already grouped"
 msgstr "Essas linhas já se encontram agrupadas"
 
-#: src/commands.c:2380
+#: src/commands.c:2397
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Essas colunas não estão agrupadas, não as pode desagrupar"
 
-#: src/commands.c:2381
+#: src/commands.c:2398
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Essas linhas não estão agrupadas, não as pode desagrupar"
 
-#: src/commands.c:2395
+#: src/commands.c:2412
 #, c-format
 msgid "Group columns %s"
 msgstr "Agrupar colunas %s"
 
-#: src/commands.c:2395
+#: src/commands.c:2412
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Desagrupar colunas %s"
 
-#: src/commands.c:2397
+#: src/commands.c:2414
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Agrupar linhas %d:%d"
 
-#: src/commands.c:2397
+#: src/commands.c:2414
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Desagrupar linhas %d:%d"
 
-#: src/commands.c:2605
+#: src/commands.c:2622
 #, c-format
 msgid "Moving %s"
 msgstr "A mover %s"
 
-#: src/commands.c:2614 src/commands.c:2825
+#: src/commands.c:2631 src/commands.c:2842
 msgid "is beyond sheet boundaries"
 msgstr "está para além das fronteiras da folha"
 
 #. FIXME?
-#: src/commands.c:2769
+#: src/commands.c:2786
 #, c-format
 msgid "Pasting into %s"
 msgstr "A colar em %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3003 src/commands.c:3004 src/workbook-control-gui.c:2304
+#: src/commands.c:3020 src/commands.c:3021 src/workbook-control-gui.c:2304
 msgid "Autofill"
 msgstr "Auto-enchimento"
 
 #. Changed in initial redo.
-#: src/commands.c:3027
+#: src/commands.c:3044
 #, c-format
 msgid "Autofilling %s"
 msgstr "A auto-encher %s"
 
-#: src/commands.c:3183
+#: src/commands.c:3200
 #, c-format
 msgid "Autoformatting %s"
 msgstr "A auto-formatar %s"
 
-#: src/commands.c:3301
+#: src/commands.c:3317
 #, c-format
 msgid "Unmerging %s"
 msgstr "A separar %s"
 
-#: src/commands.c:3444
+#: src/commands.c:3460
 #, c-format
 msgid "Merging %s"
 msgstr "A juntar %s"
 
 #. Corrected below.
-#: src/commands.c:3827 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:3860 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Procurar e Substituir"
 
-#: src/commands.c:3925
+#: src/commands.c:3962
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "A definir largura por omissão das colunas para %.2fpts"
 
-#: src/commands.c:3926
+#: src/commands.c:3963
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "A definir altura por omissão das linhas para %.2fpts"
 
-#: src/commands.c:4044
+#: src/commands.c:4088
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s para %.0f%%"
 
-#: src/commands.c:4117
+#: src/commands.c:4161
 msgid "Insert object"
 msgstr "Inserir objecto"
 
-#: src/commands.c:4179
+#: src/commands.c:4223
 msgid "Delete object"
 msgstr "Apagar objecto"
 
-#: src/commands.c:4261
+#: src/commands.c:4305
 msgid "Resize object"
 msgstr "Redimensionar objecto"
 
-#: src/commands.c:4261
+#: src/commands.c:4305
 msgid "Move object"
 msgstr "Mover objecto"
 
-#: src/commands.c:4768
+#: src/commands.c:4812
 msgid "Reordering Sheets"
 msgstr "A Re-ordenar Folhas"
 
-#: src/commands.c:4771
+#: src/commands.c:4815
 msgid "Renaming Sheets"
 msgstr "A Renomear Folhas"
 
-#: src/commands.c:4774
+#: src/commands.c:4818
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "A Adicionar %i Folhas"
 
-#: src/commands.c:4778
+#: src/commands.c:4822
 msgid "Changing Tab Colors"
 msgstr "A Alterar Cores Separadores"
 
-#: src/commands.c:4781
+#: src/commands.c:4825
 msgid "Changing Sheet Protection"
 msgstr "A Alterar Protecção Folha"
 
-#: src/commands.c:4784
+#: src/commands.c:4828
 msgid "Delete sheets"
 msgstr "Apagar folhas"
 
-#: src/commands.c:4787
+#: src/commands.c:4831
 msgid "Delete a sheet"
 msgstr "Apagar uma folha"
 
-#: src/commands.c:4790
+#: src/commands.c:4834
 msgid "Reorganizing Sheets"
 msgstr "A Reorganizar Folhas"
 
-#: src/commands.c:4939
+#: src/commands.c:4983
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "A limpar comentário de %s"
 
-#: src/commands.c:4940
+#: src/commands.c:4984
 #, c-format
 msgid "Setting comment of %s"
 msgstr "A definir comentário de %s"
 
-#: src/commands.c:5321
+#: src/commands.c:5427
 #, c-format
 msgid "Merging data into %s"
 msgstr "A juntar dados em %s"
 
-#: src/commands.c:5423
+#: src/commands.c:5528
 msgid "Changing summary info"
 msgstr "A alterar info de resumo"
 
-#: src/commands.c:5515
+#: src/commands.c:5620
 msgid "Raise object"
 msgstr "Subir objecto"
 
-#: src/commands.c:5518
+#: src/commands.c:5623
 msgid "Lower object"
 msgstr "Descer objecto"
 
-#: src/commands.c:5521
+#: src/commands.c:5626
 msgid "Raise object to top"
 msgstr "Subir objecto para o topo"
 
-#: src/commands.c:5524
+#: src/commands.c:5629
 msgid "Lower object to bottom"
 msgstr "Descer objecto para o fundo"
 
-#: src/commands.c:5646
+#: src/commands.c:5751
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Configuração Página Para %s"
 
-#: src/commands.c:5648
+#: src/commands.c:5753
 msgid "Page Setup For All Sheets"
 msgstr "Configuração Página Para Todas As Folhas"
 
-#: src/commands.c:5765
+#: src/commands.c:5881
 msgid "has a circular reference"
 msgstr "tem uma referência circular"
 
-#: src/commands.c:5788
+#: src/commands.c:5905
 #, c-format
 msgid "Define Name %s"
 msgstr "Definir Nome %s"
 
-#: src/commands.c:5791
+#: src/commands.c:5908
 #, c-format
 msgid "Update Name %s"
 msgstr "Actualizar Nome %s"
 
-#: src/commands.c:5858
+#: src/commands.c:5975
 msgid "Add scenario"
 msgstr "Adicionar cenário"
 
-#: src/commands.c:5936
+#: src/commands.c:6053
 msgid "Scenario Show"
 msgstr "Apresentação Cenário"
 
-#: src/commands.c:6002
+#: src/commands.c:6119
 msgid "Shuffle Data"
 msgstr "Misturar Dados"
 
 #. FIXME?
-#: src/commands.c:6115
+#: src/commands.c:6236
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Texto (%s) para Colunas (%s)"
 
 #. Fill in the header titles.
-#: src/commands.c:6264 src/dialogs/solver.glade.h:24
+#: src/commands.c:6386 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
 msgid "Solver"
 msgstr "Solucionador"
 
-#: src/commands.c:6352
+#: src/commands.c:6474
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Pesquisar Objectivos (%s)"
 
-#: src/commands.c:6496
+#: src/commands.c:6618
 #, c-format
 msgid "Duplicating %s"
 msgstr "A Duplicar %s"
 
-#: src/commands.c:6577
+#: src/commands.c:6699
 msgid "Tabulating Dependencies"
 msgstr "A Tabular Dependências"
 
@@ -20966,7 +20983,7 @@ msgstr "Seleccionar um ficheiro de imagem"
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:234
-#: src/dialogs/dialog-sheet-order.c:950 src/dialogs/dialog-sheet-order.c:963
+#: src/dialogs/dialog-sheet-order.c:941 src/dialogs/dialog-sheet-order.c:954
 msgid "Default"
 msgstr "Omissão"
 
@@ -22587,49 +22604,49 @@ msgstr "Kº Menor"
 msgid "S_ummary Statistics"
 msgstr "Resumo das Estatísticas"
 
-#: src/dialogs/dialog-about.c:45
+#: src/dialogs/dialog-about.c:46
 msgid "Miguel de Icaza, creator."
 msgstr "Miguel de Icaza, criador."
 
-#: src/dialogs/dialog-about.c:46
+#: src/dialogs/dialog-about.c:47
 msgid "Jody Goldberg, maintainer."
 msgstr "Jody Goldberg, manutenção."
 
-#: src/dialogs/dialog-about.c:47
+#: src/dialogs/dialog-about.c:48
 msgid "Sean Atkinson, functions and X-Base importing."
 msgstr "Sean Atkinson, funções e importação X-Base."
 
-#: src/dialogs/dialog-about.c:48
+#: src/dialogs/dialog-about.c:49
 msgid "Michel Berkelaar, Simplex algorithm for Solver (LP Solve)."
 msgstr ""
 "Michel Berkelaar, algorítmo de Simplex para Solucionador (Solucionador LP)."
 
-#: src/dialogs/dialog-about.c:49
+#: src/dialogs/dialog-about.c:50
 msgid "Grandma Chema Celorio, Tester and sheet copy."
 msgstr "Grandma Chema Celorio, Testes e cópia de folhas."
 
-#: src/dialogs/dialog-about.c:50
+#: src/dialogs/dialog-about.c:51
 msgid "Frank Chiulli, OLE support."
 msgstr "Frank Chiulli, suporte OLE."
 
-#: src/dialogs/dialog-about.c:51
+#: src/dialogs/dialog-about.c:52
 msgid "Kenneth Christiansen, i18n, misc stuff."
 msgstr "Kenneth Christiansen, i18n, várias coisas."
 
-#: src/dialogs/dialog-about.c:52
+#: src/dialogs/dialog-about.c:53
 msgid "Zbigniew Chyla, plugin system, i18n."
 msgstr "Zbigniew Chyla, sistema de plugins, i18n."
 
-#: src/dialogs/dialog-about.c:53
+#: src/dialogs/dialog-about.c:54
 msgid "J.H.M. Dassen (Ray), debian packaging."
 msgstr "J.H.M. Dassen (Ray), pacotes debian."
 
-#: src/dialogs/dialog-about.c:54
+#: src/dialogs/dialog-about.c:55
 msgid "Jeroen Dirks, Simplex algorithm for Solver (LP Solve)."
 msgstr ""
 "Jeroen Dirks, algorítmo de Simplex para Solucionador (Solucionador LP)."
 
-#: src/dialogs/dialog-about.c:55
+#: src/dialogs/dialog-about.c:56
 msgid "Tom Dyas, plugin support."
 msgstr "Tom Dyas, suporte plugin."
 
@@ -22637,112 +22654,112 @@ msgstr "Tom Dyas, suporte plugin."
 #. * if your charset allows it, replace the 'o' of 'Gergo'
 #. * with 'odoubleacute' (U0151) and the 'E' of 'Erdi'
 #. * with 'Eacute' (U00C9)
-#: src/dialogs/dialog-about.c:60
+#: src/dialogs/dialog-about.c:61
 msgid "Gergo Erdi, Gnumeric hacker."
 msgstr "Gergô Érdi, programador Gnumeric."
 
-#: src/dialogs/dialog-about.c:61
+#: src/dialogs/dialog-about.c:62
 msgid "John Gotts, rpm packaging."
 msgstr "John Gotts, pacotes rpm."
 
 #. xgettext:
 #. * The funny character between "G" and "l" here is a \"u.
-#: src/dialogs/dialog-about.c:64
+#: src/dialogs/dialog-about.c:65
 msgid "Andreas J. Gülzow, Gnumeric hacker."
 msgstr "Andreas J. Gülzow, programador Gnumeric."
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
-#: src/dialogs/dialog-about.c:67
+#: src/dialogs/dialog-about.c:68
 msgid "Jon Kåre Hellan, Gnumeric hacker."
 msgstr "Jon Kåre Hellan, programador Gnumeric."
 
-#: src/dialogs/dialog-about.c:68
+#: src/dialogs/dialog-about.c:69
 msgid "Ross Ihaka, special functions."
 msgstr "Ross Ihaka, funções especiais."
 
-#: src/dialogs/dialog-about.c:69
+#: src/dialogs/dialog-about.c:70
 msgid "Jukka-Pekka Iivonen, numerous functions and tools."
 msgstr "Jukka-Pekka Iivonen, numerosas funções e ferramentas."
 
-#: src/dialogs/dialog-about.c:70
+#: src/dialogs/dialog-about.c:71
 msgid "Jakub Jelinek, Gnumeric hacker."
 msgstr "Jakub Jelinek, programador Gnumeric."
 
-#: src/dialogs/dialog-about.c:71
+#: src/dialogs/dialog-about.c:72
 msgid "Chris Lahey, number format engine."
 msgstr "Chris Lahey, motor de formatação de números."
 
-#: src/dialogs/dialog-about.c:72
+#: src/dialogs/dialog-about.c:73
 msgid "Takashi Matsuda, original text plugin."
 msgstr "Takashi Matsuda, plugin de texto original."
 
-#: src/dialogs/dialog-about.c:73
+#: src/dialogs/dialog-about.c:74
 msgid "Michael Meeks, Excel and OLE2 importing."
 msgstr "Michael Meeks, importação Excel e OLE2."
 
-#: src/dialogs/dialog-about.c:74
+#: src/dialogs/dialog-about.c:75
 msgid "Lutz Muller, SheetObject improvements"
 msgstr "Lutz Muller, melhoramentos SheetObject"
 
-#: src/dialogs/dialog-about.c:75
+#: src/dialogs/dialog-about.c:76
 msgid "Federico M. Quintero, canvas support."
 msgstr "Federico M. Quintero, suporte tela."
 
-#: src/dialogs/dialog-about.c:76
+#: src/dialogs/dialog-about.c:77
 msgid "Mark Probst, Guile support."
 msgstr "Mark Probst, suporte Guile."
 
-#: src/dialogs/dialog-about.c:77
+#: src/dialogs/dialog-about.c:78
 msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr "Rasca, exportadores HTML, troff e LaTeX."
 
-#: src/dialogs/dialog-about.c:78
+#: src/dialogs/dialog-about.c:79
 msgid "Vincent Renardias, original CSV support, French localization."
 msgstr "Vincent Renardias, suporte CSV original, localização em Francês."
 
-#: src/dialogs/dialog-about.c:79
+#: src/dialogs/dialog-about.c:80
 msgid "Ariel Rios, Guile support."
 msgstr "Ariel Rios, suporte Guile."
 
-#: src/dialogs/dialog-about.c:80
+#: src/dialogs/dialog-about.c:81
 msgid "Arturo Tena, OLE support."
 msgstr "Arturo Tena, suporte OLE."
 
-#: src/dialogs/dialog-about.c:81
+#: src/dialogs/dialog-about.c:82
 msgid "Almer S. Tigelaar, Gnumeric hacker."
 msgstr "Almer S. Tigelaar, programador Gnumeric."
 
-#: src/dialogs/dialog-about.c:82
+#: src/dialogs/dialog-about.c:83
 msgid "Bruno Unna, Excel bits."
 msgstr "Bruno Unna, promenores Excel."
 
-#: src/dialogs/dialog-about.c:83
+#: src/dialogs/dialog-about.c:84
 msgid "Daniel Veillard, XML support."
 msgstr "Daniel Veillard, suporte XML."
 
-#: src/dialogs/dialog-about.c:84
+#: src/dialogs/dialog-about.c:85
 msgid "Vladimir Vuksan, financial functions."
 msgstr "Vladimir Vuksan, funções financeiras."
 
-#: src/dialogs/dialog-about.c:85
+#: src/dialogs/dialog-about.c:86
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr "Morten Welinder, programador Gnumeric."
 
-#: src/dialogs/dialog-about.c:111 src/func-builtin.c:127
+#: src/dialogs/dialog-about.c:112 src/func-builtin.c:127
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: src/dialogs/dialog-about.c:114
+#: src/dialogs/dialog-about.c:115
 msgid "A production ready spreadsheet"
 msgstr "Uma folha de cálculo de qualidade comercial"
 
 #. Translate the following string with the names of all translators for this locale.
-#: src/dialogs/dialog-about.c:117
+#: src/dialogs/dialog-about.c:118
 msgid "This is an untranslated version of Gnumeric."
 msgstr "Duarte Loreto <happyguy_pt@hotmail.com>"
 
-#: src/dialogs/dialog-about.c:123
+#: src/dialogs/dialog-about.c:124
 msgid "Gnumeric Home Page"
 msgstr "Página Web Gnumeric"
 
@@ -23904,11 +23921,11 @@ msgstr "Nome Actual"
 msgid "New Name"
 msgstr "Novo Nome"
 
-#: src/dialogs/dialog-sheet-order.c:665
+#: src/dialogs/dialog-sheet-order.c:656
 msgid "You may not delete all sheets in a workbook!"
 msgstr "Não pode apagar todas as folhas num livro de trabalho!"
 
-#: src/dialogs/dialog-sheet-order.c:891
+#: src/dialogs/dialog-sheet-order.c:882
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "A ordem de folhas foi alterada. Deseja actualizar a lista?"
 
@@ -27776,11 +27793,6 @@ msgstr "Ficheiro não contém matriz \"%s\"."
 msgid "Module doesn't contain \"%s\" function."
 msgstr "Módulo não contém função \"%s\"."
 
-#: src/plugin-loader-module.c:610
-#, c-format
-msgid "Unknown verb: %s"
-msgstr "Verbo desconhecido: %s"
-
 #: src/plugin-loader.c:259 src/plugin-loader.c:299
 #, c-format
 msgid "Service '%s' not supported by loader."
@@ -28813,23 +28825,23 @@ msgstr "Séries Fourier (%s)"
 msgid "Fourier Series"
 msgstr "Séries Fourier"
 
-#: src/tools/dao.c:129
+#: src/tools/dao.c:131
 msgid "New Sheet"
 msgstr "Nova Folha"
 
-#: src/tools/dao.c:132
+#: src/tools/dao.c:134
 msgid "New Workbook"
 msgstr "Novo Livro de Trabalho"
 
-#: src/tools/dao.c:861
+#: src/tools/dao.c:867
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: src/tools/dao.c:867
+#: src/tools/dao.c:873
 msgid "Worksheet:"
 msgstr "Folha de Trabalho:"
 
-#: src/tools/dao.c:875
+#: src/tools/dao.c:881
 msgid "Report Created: "
 msgstr "Relatório Criado: "
 
@@ -31094,21 +31106,31 @@ msgstr "Definir Margens"
 msgid "SpinButton"
 msgstr "BotãoRodar"
 
-#: src/workbook-view.c:269
+#: src/workbook-view.c:273
+#, c-format
+msgid "%dC"
+msgstr "%dC"
+
+#: src/workbook-view.c:275
+#, c-format
+msgid "%dR"
+msgstr "%dR"
+
+#: src/workbook-view.c:277
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dR x %dC"
 
-#: src/workbook-view.c:411
+#: src/workbook-view.c:419
 msgid "Internal ERROR"
 msgstr "ERRO Interno"
 
-#: src/workbook-view.c:568
+#: src/workbook-view.c:576
 #, c-format
 msgid "Can't open '%s' for writing: %s"
 msgstr "Incapaz de abrir '%s' para escrita: %s"
 
-#: src/workbook-view.c:592
+#: src/workbook-view.c:600
 #, c-format
 msgid "An unexplained error happened while saving %s"
 msgstr "Ocorreu um erro inexplicável ao gravar %s"
@@ -31117,23 +31139,23 @@ msgstr "Ocorreu um erro inexplicável ao gravar %s"
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:599 src/workbook-view.c:958
+#: src/workbook-view.c:607 src/workbook-view.c:966
 msgid "The filename given is not valid in the current encoding."
 msgstr "O nome de ficheiro indicado não é válido no local actual."
 
-#: src/workbook-view.c:684 src/workbook-view.c:800
+#: src/workbook-view.c:692 src/workbook-view.c:808
 msgid "Default file saver is not available."
 msgstr "Gravador de ficheiros por omissão não está disponível."
 
-#: src/workbook-view.c:759
+#: src/workbook-view.c:767
 msgid "Failed to create temporary file for sending."
 msgstr "Falha ao criar ficheiro temporário para enviar."
 
-#: src/workbook-view.c:893
+#: src/workbook-view.c:901
 msgid "Unsupported file format."
 msgstr "Formato de ficheiro não suportado."
 
-#: src/workbook-view.c:951
+#: src/workbook-view.c:959
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Ocorreu um erro inexplicável ao abrir %s"
