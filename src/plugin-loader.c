@@ -40,6 +40,7 @@ gnumeric_plugin_loader_init (GnumericPluginLoader *loader)
 
 	loader->plugin = NULL;
 	loader->is_loaded = FALSE;
+	loader->n_loaded_services = 0;
 }
 
 static void
@@ -196,14 +197,48 @@ gnumeric_plugin_loader_load (GnumericPluginLoader *loader, ErrorInfo **ret_error
 	if (loader->is_loaded) {
 		return;
 	}
-	gnumeric_plugin_loader_class = GNUMERIC_PLUGIN_LOADER_CLASS (GTK_OBJECT (loader)->klass);
-	g_return_if_fail (gnumeric_plugin_loader_class->load != NULL);
-	gnumeric_plugin_loader_class->load (loader, &error);
+	plugin_load_dependencies (loader->plugin, &error);
 	if (error == NULL) {
-		loader->is_loaded = TRUE;
-		PLUGIN_MESSAGE ("Loaded plugin \"%s\".\n", plugin_info_peek_id (loader->plugin));
+		gnumeric_plugin_loader_class = GNUMERIC_PLUGIN_LOADER_CLASS (GTK_OBJECT (loader)->klass);
+		g_return_if_fail (gnumeric_plugin_loader_class->load != NULL);
+		gnumeric_plugin_loader_class->load (loader, &error);
+		if (error == NULL) {
+			loader->is_loaded = TRUE;
+			plugin_dependencies_inc_dependants (loader->plugin, DEPENDENCY_LOAD);
+			PLUGIN_MESSAGE ("Loaded plugin \"%s\".\n", plugin_info_peek_id (loader->plugin));
+		} else {
+			*ret_error = error;
+		}
 	} else {
-		*ret_error = error;
+		*ret_error = error_info_new_str_with_details (
+		             _("Error while loading plugin dependencies."),
+		             error);
+	}
+}
+
+void
+gnumeric_plugin_loader_unload (GnumericPluginLoader *loader, ErrorInfo **ret_error)
+{
+	GnumericPluginLoaderClass *gnumeric_plugin_loader_class;
+	ErrorInfo *error;
+
+	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER (loader));
+	g_return_if_fail (ret_error != NULL);
+
+	*ret_error = NULL;
+	if (!loader->is_loaded) {
+		return;
+	}
+	gnumeric_plugin_loader_class = GNUMERIC_PLUGIN_LOADER_CLASS (GTK_OBJECT (loader)->klass);
+	if (gnumeric_plugin_loader_class->unload != NULL) {
+		gnumeric_plugin_loader_class->unload (loader, &error);
+		if (error == NULL) {
+			loader->is_loaded = FALSE;
+			plugin_dependencies_dec_dependants (loader->plugin, DEPENDENCY_LOAD);
+			PLUGIN_MESSAGE ("Unloaded plugin \"%s\".\n", plugin_info_peek_id (loader->plugin));
+		} else {
+			*ret_error = error;
+		}
 	}
 }
 
@@ -254,6 +289,10 @@ gnumeric_plugin_loader_load_service (GnumericPluginLoader *loader, PluginService
 		             _("Error while loading plugin."),
 		             error);
 	}
+
+	if (*ret_error == NULL) {
+		loader->n_loaded_services++; 
+	}
 }
 
 void
@@ -296,7 +335,17 @@ gnumeric_plugin_loader_unload_service (GnumericPluginLoader *loader, PluginServi
 		*ret_error = error_info_new_str (
 		             _("Service not supported by loader."));
 	}
-	*ret_error = error;
+
+	if (error == NULL) {
+		g_return_if_fail (loader->n_loaded_services > 0);
+		loader->n_loaded_services--;
+		if (loader->n_loaded_services == 0) {
+			gnumeric_plugin_loader_unload (loader, &error);
+			error_info_free (error);
+		}
+	} else {
+		*ret_error = error;
+	}
 }
 
 gint

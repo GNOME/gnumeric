@@ -16,6 +16,12 @@ typedef struct _PluginService PluginService;
 struct _GnumericPluginLoader;
 struct _PluginServicesData;
 
+typedef enum {
+	DEPENDENCY_ACTIVATE,
+	DEPENDENCY_LOAD,
+	DEPENDENCY_LAST
+} PluginDependencyType;
+
 void         plugins_init (CommandContext *context);
 void         plugins_shutdown (void);
 
@@ -36,11 +42,16 @@ void         deactivate_plugin (PluginInfo *pinfo, ErrorInfo **ret_error);
 gboolean     plugin_can_deactivate (PluginInfo *pinfo);
 void         plugin_load_service (PluginInfo *pinfo, PluginService *service, ErrorInfo **ret_error);
 void         plugin_unload_service (PluginInfo *pinfo, PluginService *service, ErrorInfo **ret_error);
+void         plugin_load_dependencies (PluginInfo *pinfo, ErrorInfo **ret_error);
 void         plugin_info_print (PluginInfo *pinfo);
 GList       *plugin_info_list_read_for_dir (const gchar *dir_name, ErrorInfo **ret_error);
 GList       *plugin_info_list_read_for_subdirs_of_dir (const gchar *dir_name, ErrorInfo **ret_error);
 GList       *plugin_info_list_read_for_subdirs_of_dir_list (GList *dir_list, ErrorInfo **ret_error);
 GList       *plugin_info_list_read_for_all_dirs (ErrorInfo **ret_error);
+void         plugin_inc_dependants (PluginInfo *pinfo, PluginDependencyType dep_type);
+void         plugin_dec_dependants (PluginInfo *pinfo, PluginDependencyType dep_type);
+void         plugin_dependencies_inc_dependants (PluginInfo *pinfo, PluginDependencyType dep_type);
+void         plugin_dependencies_dec_dependants (PluginInfo *pinfo, PluginDependencyType dep_type);
 
 GList       *plugin_db_get_known_plugin_id_list (void);
 void         plugin_db_extend_known_plugin_id_list (GList *extra_ids);
@@ -65,6 +76,7 @@ gchar       *plugin_info_get_dir_name (PluginInfo *pinfo);
 gchar       *plugin_info_get_id (PluginInfo *pinfo);
 gchar       *plugin_info_get_name (PluginInfo *pinfo);
 gchar       *plugin_info_get_description (PluginInfo *pinfo);
+gchar       *plugin_info_get_config_prefix (PluginInfo *pinfo);
 gint         plugin_info_get_extra_info_list (PluginInfo *pinfo, GList **ret_keys_list, GList **ret_values_list);
 gboolean     plugin_info_is_active (PluginInfo *pinfo);
 const gchar *plugin_info_peek_dir_name (PluginInfo *pinfo);

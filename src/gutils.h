@@ -17,6 +17,26 @@ GList    *g_create_list (gpointer item1, ...);
 void      g_list_free_custom (GList *list, GFreeFunc free_func);
 GList    *g_string_list_copy (GList *list);
 GList    *g_strsplit_to_list (const gchar *string, const gchar *delimiter);
+#define   g_list_to_vector(vector,elem_type,list_expr) \
+G_STMT_START { \
+	GList *list, *l; \
+	gint size, i; \
+	list = (list_expr); \
+	size = g_list_length (list); \
+	(vector) = g_new (elem_type *, size + 1); \
+	for (l = list, i = 0; l != NULL; l = l->next, i++) \
+		(vector)[i] = (elem_type *) l->data; \
+	(vector)[size] = NULL; \
+} G_STMT_END
+#define   g_vector_free_custom(vector_expr,elem_type,free_func_expr) \
+G_STMT_START { \
+	elem_type **vector; \
+	GFreeFunc free_func; \
+	free_func = free_func_expr; \
+	for (vector = (vector_expr); *vector != NULL; vector++) \
+		free_func (*vector); \
+	g_free (vector); \
+} G_STMT_END
 
 void      g_slist_free_custom (GSList *list, GFreeFunc free_func);
 

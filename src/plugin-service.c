@@ -379,11 +379,13 @@ plugin_service_file_opener_open_func (FileOpener const *fo, IOContext *io_contex
 	if (error == NULL) {
 		g_return_val_if_fail (service_file_opener->plugin_func_file_open != NULL, FALSE);
 		service_file_opener->plugin_func_file_open (fo, service, io_context, wb_view, file_name);
-		if (gnumeric_io_has_error_info (io_context)) {
-			gnumeric_io_error_info_push (io_context, error_info_new_str (
-			                             _("Error while reading file.")));
-			gnumeric_io_error_info_display (io_context);
-			gnumeric_io_error_info_clear (io_context);
+		if (gnumeric_io_error_occurred (io_context)) {
+			if (gnumeric_io_has_error_info (io_context)) {
+				gnumeric_io_error_info_push (io_context, error_info_new_str (
+				                             _("Error while reading file.")));
+				gnumeric_io_error_info_display (io_context);
+			}
+			gnumeric_io_clear_error (io_context);
 			return FALSE;
 		} else {
 			if (service_file_opener->save_info != NULL) {
@@ -551,11 +553,13 @@ plugin_service_file_saver_save_func (FileSaver const *fs, IOContext *io_context,
 	if (error == NULL) {
 		g_return_val_if_fail (service_file_saver->plugin_func_file_save != NULL, FALSE);
 		service_file_saver->plugin_func_file_save (fs, service, io_context, wb_view, file_name);
-		if (gnumeric_io_has_error_info (io_context)) {
-			gnumeric_io_error_info_push (io_context, error_info_new_str (
-			                             _("Error while saving file.")));
-			gnumeric_io_error_info_display (io_context);
-			gnumeric_io_error_info_clear (io_context);
+		if (gnumeric_io_error_occurred (io_context)) {
+			if (gnumeric_io_has_error_info (io_context)) {
+				gnumeric_io_error_info_push (io_context, error_info_new_str (
+				                             _("Error while saving file.")));
+				gnumeric_io_error_info_display (io_context);
+			}
+			gnumeric_io_clear_error (io_context);
 			return FALSE;
 		} else {
 			return TRUE;

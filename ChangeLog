@@ -1,5 +1,76 @@
 2001-03-20  Zbigniew Chyla  <cyba@gnome.pl>
 
+	Added support for plugin dependencies + some fixes.
+
+	* src/gutils.h (g_list_to_vector, g_vector_free_custom):
+	New macros. (used macros instead of functions to avoid casting and
+	pointer size problems - ANSI C doesn't guarantee that
+	sizeof (void *) == sizeof (something_else *).
+
+	* src/plugin-loader.c
+	(gnumeric_plugin_loader_load): Load required plugin dependencies
+	before the plugin itself, increment n_deps for every loaded
+	dependency (by calling plugin_dependencies_inc_dependants).
+	(gnumeric_plugin_loader_unload): New function.
+	(gnumeric_plugin_loader_load_service): Increment number of loaded
+	services if loaded succesfully.
+	(gnumeric_plugin_loader_unload_service): Decrement number of loaded
+	services if unloaded succesfully, unload plugin if it reaches zero.
+
+	* src/plugin-loader.h
+	(struct _GnumericPluginLoader): Added n_loaded_services.
+	(gnumeric_plugin_loader_unload): New function.
+
+	* src/plugin-service.c:
+	(plugin_service_file_opener_open_func,
+	plugin_service_file_saver_save_func):
+	Used gnumeric_io_error_occurred (and gnumeric_io_clear_error) when
+	checking for error.
+
+	* src/plugin.c:
+	(plugins_active_by_default): Array containing ids of "standard"
+	plugins. These will be active by default.
+	(struct _PluginDependency): New struct.
+	(struct _PluginInfo): Added dependencies_v, d_deps. Replaced
+	service_list with services_v (vector in place of list).
+	(plugin_info_get_config_prefix, plugin_dependency_get_plugin_info,
+	plugin_info_read_dependency_list, plugin_dependency_free,
+	plugin_inc_dependants, plugin_dec_dependants,
+	plugin_dependencies_inc_dependants,
+	plugin_dependencies_dec_dependants,
+	plugin_load_dependencies):
+	New functions.
+	(plugin_info_provides_loader_by_type_str, plugin_info_free):
+	Adjusted to service_list -> services_v change.
+	(plugin_info_read): Read (optional) dependencies, adjusted to
+	service_list -> services_v change.
+	(activate_plugin):
+	Activate required dependencies before the plugin itself.
+	Increment n_deps for every activated dependency (by calling
+	plugin_dependencies_inc_dependants).
+	Adjusted to service_list -> services_v change.
+	(deactivate_plugin):
+	Decrement n_deps for every activated dependency (by calling
+	plugin_dependencies_dec_dependants).	
+	Adjusted to service_list -> services_v change.
+	(plugin_can_deactivate):
+	Return FALSE if any of n_deps > 0.
+	Adjusted to service_list -> services_v change.
+	(plugin_list_sort_by_dependency): Removed.
+	(plugin_db_activate_plugin_list): Removed sorting.
+	(plugin_db_init): Always activate new plugin if it's defined in
+	plugins_active_by_default array.
+
+	* src/plugin.h:
+	(PluginDependencyType): New enum.
+	(plugin_load_dependencies,
+	plugin_inc_dependants, plugin_dec_dependants,
+	plugin_dependencies_inc_dependants,
+	plugin_dependencies_dec_dependants,
+	plugin_info_get_config_prefix): New functions.
+
+2001-03-20  Zbigniew Chyla  <cyba@gnome.pl>
+
 	* src/io-context-priv.h:
 	(struct _IOContext): Added error_occurred field.
 
