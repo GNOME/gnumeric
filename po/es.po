@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.20\n"
+"Project-Id-Version: gnumeric 0.27\n"
 "POT-Creation-Date: 1999-05-18 07:20-0500\n"
 "PO-Revision-Date: 1998-11-25 18:01:18+0100\n"
 "Last-Translator: Pablo Saratxaga <srtxg@chanae.alphanet.ch>\n"
@@ -17,25 +17,23 @@ msgstr ""
 
 #: plugins/excel/boot.c:74
 msgid "Saving over old files disabled for safety"
-msgstr ""
+msgstr "Sobrescritura de archivos al guardar desactivada por seguridad"
 
 #: plugins/excel/boot.c:82
 msgid "Can't open"
-msgstr ""
+msgstr "Imposible de abrir"
 
 #: plugins/excel/boot.c:115
 msgid "Microsoft(R) Excel file format"
 msgstr "Formato de archivo Microsoft® Excel"
 
 #: plugins/excel/boot.c:116
-#, fuzzy
 msgid "Excel(R) 98 file format"
-msgstr "Formato de archivo Microsoft® Excel"
+msgstr "Formato de archivo Excel® 98"
 
 #: plugins/excel/boot.c:117
-#, fuzzy
 msgid "Excel(R) 95 file format"
-msgstr "Formato de archivo Microsoft® Excel"
+msgstr "Formato de archivo Excel® 95"
 
 #: plugins/guile/plugin.c:220
 msgid "Argument must be a Guile expression"
@@ -92,7 +90,7 @@ msgstr "Extensión Python"
 
 #: plugins/stat/stat.c:27
 msgid "OLD Statistics Plugin, not required anymore"
-msgstr ""
+msgstr "ANTIGUA extensión de estadísticas, no es más necesaria"
 
 #: src/about.c:23
 msgid "Miguel de Icaza, main programmer."
@@ -155,9 +153,8 @@ msgid "Jukka-Pekka Iivonen, numerous functions"
 msgstr "Jukka-Pekka Iivonen, varias funciones"
 
 #: src/about.c:38
-#, fuzzy
 msgid "Morten Welinder, Gnumeric hacker"
-msgstr "Jakub Jelinek, Hacker de gnumeric"
+msgstr "Morten Welinder, Hacker de gnumeric"
 
 #: src/about.c:52
 msgid "Gnumeric"
@@ -1129,7 +1126,6 @@ msgstr ""
 "@SEEALSO=ABS, FLOOR, INT"
 
 #: src/fn-math.c:464
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(range,criteria)\n"
@@ -1137,13 +1133,13 @@ msgid ""
 "that meet the given criteria. \n"
 "@SEEALSO=COUNT,SUMIF"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(char)\n"
-"@DESCRIPTION=Devuelve el valor ASCII del carácter 'char'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=COUNTIF\n"
+"@SYNTAX=COUNTIF(rango,criterio)\n"
+"@DESCRIPTION=La función COUNTIF cuenta la cantidad de celdas en un rango "
+"que corresponde al criterio pasado en argumento.\n"
+"@SEEALSO=COUNT,SUMIF"
 
 #: src/fn-math.c:526
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(range,criteria)\n"
@@ -1151,11 +1147,11 @@ msgid ""
 "given criteria. \n"
 "@SEEALSO=COUNTIF,SUM"
 msgstr ""
-"@FUNCTION=SUM\n"
-"@SYNTAX=SUM(valor1, valor2, ...)\n"
-"@DESCRIPTION=Calcula la suma de todos los valores y celdas referenciados en "
-"la lista de argumentos. \n"
-"@SEEALSO=AVERAGE, COUNT"
+"@FUNCTION=SUMIF\n"
+"@SYNTAX=SUMIF(rango,criterio)\n"
+"@DESCRIPTION=La función SUMIF suma los valores de las celdas en el rango "
+"que corresponde al criterio pasado en argumento.\n"
+"@SEEALSO=COUNTIF,SUM"
 
 #: src/fn-math.c:594
 msgid ""
@@ -1315,7 +1311,6 @@ msgstr ""
 "@SEEALSO=FLOOR, CEIL, ABS"
 
 #: src/fn-math.c:885
-#, fuzzy
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -1324,25 +1319,21 @@ msgid ""
 "@SEEALSO=LN, LOG2, LOG10"
 msgstr ""
 "@FUNCTION=LOG\n"
-"@SYNTAX=LOG(x)\n"
-"@DESCRIPTION=Calcula el logaritmo natural de x.\n"
-"Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
-"devuelve un error.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@SYNTAX=LOG(x[,base])\n"
+"@DESCRIPTION=Calcula el logaritmo de x en la base dada. Si la base no "
+"se especifica LOG devuelve el logaritmo en base 10.\n"
+"@SEEALSO=LN, LOG2, LOG10"
 
 #: src/fn-math.c:917
-#, fuzzy
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
 "@DESCRIPTION=LN returns the natural logarithm of x. \n"
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr ""
-"@FUNCTION=LOG\n"
-"@SYNTAX=LOG(x)\n"
+"@FUNCTION=LN\n"
+"@SYNTAX=LN(x)\n"
 "@DESCRIPTION=Calcula el logaritmo natural de x.\n"
-"Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
-"devuelve un error.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
 #: src/fn-math.c:943
@@ -1429,7 +1420,6 @@ msgstr ""
 "@SEEALSO=PI,DEGREES"
 
 #: src/fn-math.c:1080
-#, fuzzy
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -1438,10 +1428,11 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(char)\n"
-"@DESCRIPTION=Devuelve el valor ASCII del carácter 'char'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=RAND\n"
+"@SYNTAX=RAND()\n"
+"@DESCRIPTION=Devuelve un número aleatorio mayor o igual a 0 e inferior "
+"a 1.\n"
+"@SEEALSO="
 
 #: src/fn-math.c:1099
 msgid ""
@@ -1507,7 +1498,6 @@ msgstr ""
 "@SEEALSO=AVERAGE, COUNT"
 
 #: src/fn-math.c:1258
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -1515,14 +1505,13 @@ msgid ""
 "cells referenced in the argument list. \n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
-"@FUNCTION=SUM\n"
-"@SYNTAX=SUM(valor1, valor2, ...)\n"
-"@DESCRIPTION=Calcula la suma de todos los valores y celdas referenciados en "
-"la lista de argumentos. \n"
-"@SEEALSO=AVERAGE, COUNT"
+"@FUNCTION=SUMSQ\n"
+"@SYNTAX=SUMSQ(valor1, valor2, ...)\n"
+"@DESCRIPTION=Calcula la suma de los cuadrados de todos los valores y "
+"celdas referenciados en la lista de argumentos. \n"
+"@SEEALSO=SUM, COUNT"
 
 #: src/fn-math.c:1313
-#, fuzzy
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -1530,14 +1519,13 @@ msgid ""
 "values to the product of factorials. \n"
 "@SEEALSO=SUM"
 msgstr ""
-"@FUNCTION=SUM\n"
-"@SYNTAX=SUM(valor1, valor2, ...)\n"
-"@DESCRIPTION=Calcula la suma de todos los valores y celdas referenciados en "
-"la lista de argumentos. \n"
-"@SEEALSO=AVERAGE, COUNT"
+"@FUNCTION=MULTINOMIAL\n"
+"@SYNTAX=MULTINOMIAL(valor1, valor2, ...)\n"
+"@DESCRIPTION=La función MULTINOMIAL devuelve el resultado de la división de "
+"la factorial de la suma de los valores, por el producto de los factoriales.\n"
+"@SEEALSO=SUM"
 
 #: src/fn-math.c:1371
-#, fuzzy
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -1545,11 +1533,11 @@ msgid ""
 "referenced in the argument list. \n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
-"@FUNCTION=SUM\n"
-"@SYNTAX=SUM(valor1, valor2, ...)\n"
-"@DESCRIPTION=Calcula la suma de todos los valores y celdas referenciados en "
+"@FUNCTION=PRODUCT\n"
+"@SYNTAX=PRODUCT(valor1, valor2, ...)\n"
+"@DESCRIPTION=Calcula el producto de todos los valores y celdas referenciados en "
 "la lista de argumentos. \n"
-"@SEEALSO=AVERAGE, COUNT"
+"@SEEALSO=SUM, COUNT"
 
 #: src/fn-math.c:1426
 msgid ""
@@ -1619,7 +1607,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/fn-math.c:1545
-#, fuzzy
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -1627,13 +1614,13 @@ msgid ""
 "integer. \n"
 "@SEEALSO=ODD"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(char)\n"
-"@DESCRIPTION=Devuelve el valor ASCII del carácter 'char'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=EVEN\n"
+"@SYNTAX=EVEN(número)\n"
+"@DESCRIPTION=La función EVEN devuelve el número redondeado "
+"al entero par más próximo.\n"
+"@SEEALSO=ODD"
 
 #: src/fn-math.c:1577
-#, fuzzy
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -1641,10 +1628,11 @@ msgid ""
 "integer. \n"
 "@SEEALSO=EVEN"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(char)\n"
-"@DESCRIPTION=Devuelve el valor ASCII del carácter 'char'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ODD\n"
+"@SYNTAX=ODD(número)\n"
+"@DESCRIPTION=La función ODD devuelve el número redondeado "
+"al entero impar más próximo.\n"
+"@SEEALSO=EVEN"
 
 #: src/fn-math.c:1609
 msgid ""
@@ -1657,7 +1645,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-math.c:1640
-#, fuzzy
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
@@ -1665,16 +1652,13 @@ msgid ""
 "@num is the divided and @den is the divisor. \n"
 "@SEEALSO=MOD"
 msgstr ""
-"@FUNCTION=TRUNC\n"
-"@SYNTAX=TRUNC(número[,cifras])\n"
-"@DESCRIPTION=La función TRUNC devuelve el valor del número troncado a la "
-"cantidad de cifras especificada. Si la cantidad de cifras no se especifica "
-"es cero por omisión.\n"
-"\n"
-"@SEEALSO="
+"@FUNCTION=QUOTIENT\n"
+"@SYNTAX=QUOTIENT(numerador,denominador)\n"
+"@DESCRIPTION=La función QUOTIENT devuelve el resultado entero de la "
+"división de @numerador por @denominado.\n"
+"@SEEALSO=MOD"
 
 #: src/fn-math.c:1662
-#, fuzzy
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(num)\n"
@@ -1682,13 +1666,13 @@ msgid ""
 "number is 0, and -1 if the number is negative. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(char)\n"
-"@DESCRIPTION=Devuelve el valor ASCII del carácter 'char'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=SIGN\n"
+"@SYNTAX=SIGN(número)\n"
+"@DESCRIPTION=La función SIGN devuelve 1 si el número es positivo, "
+"cero si se trata de 0, y -1 si el número es negativo.\n"
+"@SEEALSO="
 
 #: src/fn-math.c:1688
-#, fuzzy
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -1696,11 +1680,11 @@ msgid ""
 "by pi. \n"
 "@SEEALSO=PI"
 msgstr ""
-"@FUNCTION=SQRT\n"
-"@SYNTAX=SQRT(x)\n"
-"@DESCRIPTION=La función SQRT devuelve la raíz cuadrada de x,\n"
-"Si x es negativo devuelve #NUM!. Esta función accepta un solo argumento.\n"
-"@SEEALSO=POW"
+"@FUNCTION=SQRTPI\n"
+"@SYNTAX=SQRTPI(número)\n"
+"@DESCRIPTION=La función SQRTPI devuelve la raíz cuadrada de un número "
+"multiplicado por pi.\n"
+"@SEEALSO=PI"
 
 #: src/fn-math.c:1713
 msgid ""
@@ -1714,9 +1698,8 @@ msgid ""
 msgstr ""
 
 #: src/fn-math.c:1739 src/fn-math.c:2091 src/fn-math.c:2188 src/fn-math.c:2285
-#, fuzzy
 msgid "#N/A!"
-msgstr "#NUM!"
+msgstr "#N/D!"
 
 #: src/fn-math.c:1747
 msgid ""
@@ -1838,7 +1821,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-misc.c:18
-#, fuzzy
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(exp)\n"
@@ -1850,26 +1832,25 @@ msgstr ""
 "@SYNTAX=ISERROR(exp)\n"
 "@DESCRIPTION=Devuelve VERDAD si la expresión contiene un error\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=ERROR"
 
 #: src/fn-misc.c:34
 msgid "Argument mismatch"
 msgstr "El argumento no corresponde"
 
 #: src/fn-misc.c:49
-#, fuzzy
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
 "@DESCRIPTION=Return the specified error\n"
 "\n"
-"@SEEALSO=ISERROR"
+"@SEEALSO=ERROR"
 msgstr ""
-"@FUNCTION=ISERROR\n"
-"@SYNTAX=ISERROR(exp)\n"
-"@DESCRIPTION=Devuelve VERDAD si la expresión contiene un error\n"
+"@FUNCTION=ERROR\n"
+"@SYNTAX=ERROR(texto)\n"
+"@DESCRIPTION=Devuelve el error especificado.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=ERROR"
 
 #: src/fn-sheet.c:18
 msgid ""
@@ -2146,7 +2127,6 @@ msgstr ""
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 
 #: src/fn-string.c:775
-#, fuzzy
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
@@ -2594,19 +2574,16 @@ msgid "' can not be performed with multiple selections"
 msgstr ""
 
 #: src/sheet.c:2565
-#, fuzzy
 msgid "copy"
-msgstr "Copiar"
+msgstr "copiar"
 
 #: src/sheet.c:2590
-#, fuzzy
 msgid "cut"
-msgstr "Cortar"
+msgstr "cortar"
 
 #: src/sheet.c:2639
-#, fuzzy
 msgid "paste"
-msgstr "Pegar"
+msgstr "pegar"
 
 #: src/sheet.c:3532
 #, c-format
@@ -2632,9 +2609,8 @@ msgid "Workbook has unsaved changes, save them?"
 msgstr "El libro de trabajo ha sido modificado, ¿Guardo los cambios?"
 
 #: src/workbook.c:566
-#, fuzzy
 msgid "Insert cols"
-msgstr "Insertar celdas"
+msgstr "Insertar columnas"
 
 #: src/workbook.c:582
 msgid "Insert rows"
@@ -2727,12 +2703,11 @@ msgstr "Salta a la celda especificada"
 
 #: src/workbook.c:838
 msgid "Insert object..."
-msgstr ""
+msgstr "Insertar objeto..."
 
 #: src/workbook.c:839
-#, fuzzy
 msgid "Inserts a Bonobo object"
-msgstr "Crea una linea"
+msgstr "Inserta un objeto Bonobo"
 
 #: src/workbook.c:846
 msgid "_Define cell names"
@@ -2843,14 +2818,12 @@ msgid "_Row"
 msgstr "_Renglón"
 
 #: src/workbook.c:932
-#, fuzzy
 msgid "_Sort"
-msgstr "_Formato"
+msgstr "_Ordenar"
 
 #: src/workbook.c:933
-#, fuzzy
 msgid "Sort the selected cells"
-msgstr "Borra las celdas seleccionadas"
+msgstr "Ordena las celdas seleccionadas"
 
 #: src/workbook.c:934
 msgid "_Goal Seek..."
@@ -2858,7 +2831,7 @@ msgstr ""
 
 #: src/workbook.c:936
 msgid "_Solver..."
-msgstr ""
+msgstr "_Resolver..."
 
 #: src/workbook.c:952
 msgid "_Insert"
@@ -2870,7 +2843,7 @@ msgstr "_Formato"
 
 #: src/workbook.c:954
 msgid "_Tools"
-msgstr ""
+msgstr "_Herramientas"
 
 #: src/workbook.c:963
 msgid "New"
@@ -2949,9 +2922,8 @@ msgid "Graphic"
 msgstr ""
 
 #: src/workbook.c:1008
-#, fuzzy
 msgid "Creates a graphic in the spreadsheet"
-msgstr "Crea una nueva hoja de cálculo"
+msgstr "Crea un gráfico en la hoja de cálculo"
 
 #: src/workbook.c:1012
 msgid "Line"
@@ -3056,163 +3028,12 @@ msgid "Sheet %d"
 msgstr "Hoja %d"
 
 #: src/workbook.c:2130
-#, fuzzy
 msgid "Gnumeric: "
-msgstr "Gnumeric"
+msgstr "Gnumeric: "
 
 #: src/xml-io.c:1653
 msgid "Gnumeric XML file format"
 msgstr "Formato de archivo XML para Gnumeric"
-
-#~ msgid ""
-#~ "@FUNCTION=AND\n"
-#~ "@SYNTAX=AND(b1, b2, ...)\n"
-#~ "@DESCRIPTION=Implements the logical AND function: the result is TRUE if all "
-#~ "of the expression evaluates to TRUE, otherwise it returns FALSE.\n"
-#~ "b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an "
-#~ "integer or floating point value is provided zero is considered FALSE and "
-#~ "anything else is TRUE.\n"
-#~ "If the values contain strings or empty cells those values are ignored.  If "
-#~ "no logical values are provided, then the error '#VALUE!' is returned. \n"
-#~ "@SEEALSO=OR, NOT"
-#~ msgstr ""
-#~ "@FUNCTION=AND\n"
-#~ "@SYNTAX=AND(b1, b2, ...)\n"
-#~ "@DESCRIPTION=Implemente la función Y lógico: el resultado es VERDAD si todas "
-#~ "las expresiones devuelven VERDAD, sino el resultado es FALSO.\n"
-#~ "b1 a bN son espresiones que tienen que evaluarse como VERDAD o FALSO. Si un "
-#~ "número entero o decimal es utilizado, cero es considerado FALSO y cualquier "
-#~ "otra cosa VERDAD.\n"
-#~ "Si los valores contienen cadenas de texto o celdas vacias, esas celdas son "
-#~ "ignoradas. Si ningún valor lógico es dado devuelve el error '#VALOR!'. \n"
-#~ "@SEEALSO=OR, NOT"
-
-#~ msgid "#VALUE"
-#~ msgstr "#VALOR"
-
-#~ msgid ""
-#~ "@FUNCTION=AVERAGE\n"
-#~ "@SYNTAX=AVERAGE(value1, value2,...)\n"
-#~ "@DESCRIPTION=Computes the average of all the values and cells referenced in "
-#~ "the argument list.  This is equivalent to the sum of the arguments divided "
-#~ "by the count of the arguments.\n"
-#~ "@SEEALSO=SUM, COUNT"
-#~ msgstr ""
-#~ "@SYNTAX=AVERAGE(valor1, valor2,...)\n"
-#~ "@DESCRIPTION=Calcula la media de todos los valores y celdas referenciados en "
-#~ "la lista de argumentos. Es equivalente a la suma de los argumentos dividida "
-#~ "por la cantidad de argumentos.\n"
-#~ "@SEEALSO=SUM, COUNT"
-
-#~ msgid ""
-#~ "@FUNCTION=COUNT\n"
-#~ "@SYNTAX=COUNT(b1, b2, ...)\n"
-#~ "@DESCRIPTION=Returns the total number of arguments passed.\n"
-#~ "Performing this function on a string or empty cell simply does nothing.\n"
-#~ "@SEEALSO=AVERAGE"
-#~ msgstr ""
-#~ "@FUNCTION=COUNT\n"
-#~ "@SYNTAX=COUNT(b1, b2, ...)\n"
-#~ "@DESCRIPTION=Devuelve la cantidad total de argumentos pasados.\n"
-#~ "Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
-#~ "simplemente no hace nada.\n"
-#~ "@SEEALSO=AVERAGE"
-
-#~ msgid "log: domain error"
-#~ msgstr "log: error de dominio"
-
-#~ msgid ""
-#~ "@FUNCTION=MIN\n"
-#~ "@SYNTAX=MIN(b1, b2, ...)\n"
-#~ "@DESCRIPTION=MIN returns the value of the element of the values passed that "
-#~ "has the smallest value. With negative numbers considered smaller than "
-#~ "positive numbers.\n"
-#~ "Performing this function on a string or empty cell simply does nothing.\n"
-#~ "@SEEALSO=MAX,ABS"
-#~ msgstr ""
-#~ "@FUNCTION=MIN\n"
-#~ "@SYNTAX=MIN(b1, b2, ...)\n"
-#~ "@DESCRIPTION=MIN devuelve el valor del elemento con el valor más pequeño de "
-#~ "todos los elementos pasados en argumento. Los valores negativos "
-#~ "considerandose inferiores a los positivos.\n"
-#~ "Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
-#~ "simplemente no hace nada.\n"
-#~ "@SEEALSO=MAX,ABS"
-
-#~ msgid ""
-#~ "@FUNCTION=MAX\n"
-#~ "@SYNTAX=MAX(b1, b2, ...)\n"
-#~ "@DESCRIPTION=MAX returns the value of the element of the values passed that "
-#~ "has the largest value. With negative numbers considered smaller than "
-#~ "positive numbers.\n"
-#~ "Performing this function on a string or empty cell simply does nothing.\n"
-#~ "@SEEALSO=MIN,ABS"
-#~ msgstr ""
-#~ "@FUNCTION=MAX\n"
-#~ "@SYNTAX=MAX(b1, b2, ...)\n"
-#~ "@DESCRIPTION=MAX devuelve el valor del elemento con el valor más grande de "
-#~ "todos los elementos pasados en argumento. Los valores negativos "
-#~ "considerandose inferiores a los positivos.\n"
-#~ "Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
-#~ "simplemente no hace nada.\n"
-#~ "@SEEALSO=MIN,ABS"
-
-#~ msgid ""
-#~ "@FUNCTION=NOT\n"
-#~ "@SYNTAX=NOT(number)\n"
-#~ "@DESCRIPTION=Implements the logical NOT function: the result is TRUE if the "
-#~ "number is zero;  othewise the result is FALSE.\n"
-#~ "\n"
-#~ "@SEEALSO=AND, OR"
-#~ msgstr ""
-#~ "@FUNCTION=NOT\n"
-#~ "@SYNTAX=NOT(número)\n"
-#~ "@DESCRIPTION=Implementa la función NO lógico: el resultado es VERDAD si el "
-#~ "@número es cero; sino devuelve FALSO.\n"
-#~ "\n"
-#~ "@SEEALSO=AND, OR"
-
-#~ msgid ""
-#~ "@FUNCTION=OR\n"
-#~ "@SYNTAX=OR(b1, b2, ...)\n"
-#~ "@DESCRIPTION=Implements the logical OR function: the result is TRUE if any "
-#~ "of the values evaluated to TRUE.\n"
-#~ "b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an "
-#~ "integer or floating point value is provided zero is considered FALSE and "
-#~ "anything else is TRUE.\n"
-#~ "If the values contain strings or empty cells those values are ignored.  If "
-#~ "no logical values are provided, then the error '#VALUE!'is returned.\n"
-#~ "@SEEALSO=AND, NOT"
-#~ msgstr ""
-#~ "@FUNCTION=OR\n"
-#~ "@SYNTAX=OR(b1, b2, ...)\n"
-#~ "@DESCRIPTION=Implementa la función O lógico: el resultado es VERDAD si al "
-#~ "menos uno de los valores es VERDAD.\n"
-#~ "b1 a bN son expresiones que tienen que evaluarse como VERDAD o FALSO. Si un "
-#~ "número entero o decimal es usado, cero es considerado como FALSO y cualquier "
-#~ "otra cosa como VERDAD.\n"
-#~ "Si los valores contienen cadenas de texto o celdas vacías esas celdas son "
-#~ "ignoradas. Si ningún valor lógico es dado devuelve el error '#VALOR!'. \n"
-#~ "@SEEALSO=AND, NOT"
-
-#, fuzzy
-#~ msgid ""
-#~ "@FUNCTION=IF\n"
-#~ "@SYNTAX=IF(condition[,if-true,if-false])\n"
-#~ "@DESCRIPTION=Use the IF statement to evaluate conditionally other "
-#~ "expressions IF evaluates @condition.  If @condition returns a non-zero value "
-#~ "the result of the IF expression is the @if-true expression, otherwise IF "
-#~ "evaluates to the value of @if-false.If ommitted if-true defaults to TRUE and "
-#~ "if-false to FALSE.\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=IF\n"
-#~ "@SYNTAX=IF(condición,si-verdad,si-falso)\n"
-#~ "@DESCRIPTION=Use la construcción IF para evaluar condicionalmente otras "
-#~ "expresiones. IF evalúa la @condición, si la @condición devuelve un valor no "
-#~ "nulo el resultado de la expresión IF es la expresión @if-true, sino el "
-#~ "resultado de la expresión IF es el valor de @if-false \n"
-#~ "@SEEALSO="
 
 #~ msgid ""
 #~ "@FUNCTION=STDEV\n"
@@ -3260,11 +3081,3 @@ msgstr "Formato de archivo XML para Gnumeric"
 #~ "N, use VARIANCE.\n"
 #~ "@SEEALSO=AVERAGE, VARIANCE"
 
-#~ msgid "Statistics Plugin"
-#~ msgstr "Extensión de Estadísticas"
-
-#~ msgid "variance - division by 0"
-#~ msgstr "variance - división entre cero"
-
-#~ msgid "NoName"
-#~ msgstr "SinNombre"
