@@ -108,7 +108,8 @@ start_editing_at_cursor (GnumericSheet *sheet, GtkWidget *entry)
 	GnomeCanvasItem *item;
 	GnomeCanvas *canvas = GNOME_CANVAS (sheet);
 
-	item = gnome_canvas_item_new (canvas, canvas->root,
+	item = gnome_canvas_item_new (canvas,
+				      GNOME_CANVAS_GROUP(canvas->root),
 				      item_edit_get_type (),
 				      "ItemEdit::Sheet",    sheet->sheet,
 				      "ItemEdit::Grid",     sheet->item_grid,
@@ -146,9 +147,10 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 		if (!sheet->item_editor){
 			Workbook *wb = sheet->sheet->parent_workbook;
 			
-			gtk_window_set_focus (wb->toplevel, wb->ea_input);
+			gtk_window_set_focus (GTK_WINDOW(wb->toplevel),
+					      wb->ea_input);
 			start_editing_at_cursor (sheet, wb->ea_input);
-			gtk_widget_event (sheet->entry, event);
+			gtk_widget_event (sheet->entry, (GdkEvent *) event);
 		}
 	}
 	return 1;
