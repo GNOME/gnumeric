@@ -14,6 +14,10 @@ Pending Patches
 Long term breakage
 ------------------
 
+- CELL is broken according to infofuns.xls.
+
+- HYPERLINK's help text shows only one parameter, but talks about two.
+
 - outline mode
     : finish implementing optionally putting markers above/left
     : connect the hide/show menu items
