@@ -1,3 +1,9 @@
+2000-04-27  Jon K Hellan  <hellan@acm.org>
+
+	* src/rendered-value.c (cell_rendered_height): 
+	(cell_rendered_height): Check for null pointers. Zoomed sheets
+	with dangling references would segfault. 
+
 2000-04-27  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_update) : Do not update the status or
