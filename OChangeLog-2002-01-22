@@ -1,3 +1,7 @@
+2001-10-20  jody goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (cb_max_cell_width) : factor in indents too.
+
 2001-10-20  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_find_boundary_{horizontal,vertical}) : handle

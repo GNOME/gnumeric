@@ -1253,7 +1253,7 @@ cb_max_cell_width (Sheet *sheet, int col, int row, Cell *cell,
 	if (cell->rendered_value == NULL || cell->rendered_value->dynamic_width)
 		cell_render_value (cell, FALSE);
 
-	width = cell_rendered_width (cell);
+	width = cell_rendered_width (cell) + cell_rendered_offset (cell);
 	if (width > *max)
 		*max = width;
 	return NULL;
