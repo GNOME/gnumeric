@@ -10,9 +10,11 @@ Ben Liblit:
 Jody:
 	* Get the lifecycle of copied GogGraphs running smoothly.
 	* Fix printing of graphs.
+	* Fix expr relocation with cross sheet references.
 
 Morten:
 	* Support End+Home key sequence.
+	* Tidy up gradients for charting engine.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.20
