@@ -1092,17 +1092,20 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 	int copies = 1;
 	int collate = FALSE;
  	int first = 1;
-	int end = workbook_sheet_count (sheet->workbook);
+	int end;
 	int range;
 
-  	g_return_if_fail (sheet != NULL);
+  	g_return_if_fail (IS_SHEET (sheet));
+
+	end  = workbook_sheet_count (sheet->workbook);
 
   	if (!preview) {
 		gpd = (GnomePrintDialog *)gnome_print_dialog_new (
 			_("Print Sheets"),
 			GNOME_PRINT_DIALOG_RANGE|GNOME_PRINT_DIALOG_COPIES);
-		if (gpd == NULL)
-			return;
+
+		g_return_if_fail (gpd != NULL);
+		
 		gnome_print_dialog_construct_range_page (
 			gpd,
 			GNOME_PRINT_RANGE_CURRENT|GNOME_PRINT_RANGE_ALL|

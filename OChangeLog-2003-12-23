@@ -1,3 +1,8 @@
+2000-11-17  root  <chema@celorio.com>
+
+	* src/print.c (sheet_print): change to a g_return_val_if_fail
+	by gmorten's request
+
 2000-11-17  Chema Celorio  <chema@celorio.com>
 
 	* src/print.c (sheet_print): if gnome-print dialog is NULL,
