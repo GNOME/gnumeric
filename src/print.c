@@ -6,8 +6,10 @@
  *
  * Handles printing of Sheets.
  */
-#include <config.h>
+#include <gnumeric-config.h>
 #include "gnumeric.h"
+#include "print.h"
+
 #include "gui-util.h"
 #include "sheet-object.h"
 #include "sheet-object-impl.h"
@@ -19,14 +21,12 @@
 #include "value.h"
 #include "cellspan.h"
 #include "print-info.h"
-#include "print.h"
 #include "print-cell.h"
 #include "application.h"
 #include "sheet-style.h"
 #include "ranges.h"
 
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-paper.h>
 #include <libgnomeui/libgnomeui.h>

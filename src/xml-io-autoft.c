@@ -19,8 +19,10 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "xml-io-autoft.h"
+
 #include "command-context.h"
 #include "workbook-control.h"
 #include "str.h"
@@ -30,7 +32,6 @@
 #include "plugin-util.h"
 #include "mstyle.h"
 
-#include <glib.h>
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>

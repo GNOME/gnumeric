@@ -5,15 +5,15 @@
  *        Michael Meeks <michael@imaginator.com>
  *
  **/
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "dialogs.h"
+
+#include <gui-util.h>
+#include <workbook.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
-#include "gnumeric.h"
-#include "gui-util.h"
-#include "dialogs.h"
-#include "workbook.h"
 
 #define SUMMARY_DEBUG 0
 

@@ -9,7 +9,21 @@
  *    Zbigniew Chyla (cyba@gnome.pl)
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
+#include "plugin.h"
+
+#include "gui-util.h"
+#include "gutils.h"
+#include "command-context.h"
+#include "file.h"
+#include "workbook.h"
+#include "workbook-view.h"
+#include "error-info.h"
+#include "plugin-loader.h"
+#include "plugin-loader-module.h"
+#include "plugin-service.h"
+
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
@@ -22,7 +36,6 @@
 #include <dirent.h>
 #include <fnmatch.h>
 #include <locale.h>
-#include <glib.h>
 #include <gmodule.h>
 #include <libgnome/libgnome.h>
 #include <libxml/parser.h>
@@ -30,18 +43,6 @@
 #include <libxml/xmlmemory.h>
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
-#include "gnumeric.h"
-#include "gui-util.h"
-#include "gutils.h"
-#include "command-context.h"
-#include "file.h"
-#include "workbook.h"
-#include "workbook-view.h"
-#include "error-info.h"
-#include "plugin-loader.h"
-#include "plugin-loader-module.h"
-#include "plugin-service.h"
-#include "plugin.h"
 
 #define PLUGIN_INFO_FILE_NAME          "plugin.xml"
 

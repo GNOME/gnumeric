@@ -16,9 +16,10 @@
  *    notification function that was provided to Complete.
  *
  *
- * (C) 2000 Helix Code, Inc.
+ * (C) 2000-2001 Ximain Inc.
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "complete.h"
 
 #include <gal/util/e-util.h>

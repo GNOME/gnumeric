@@ -8,17 +8,17 @@
  *   Miguel de Icaza (miguel@gnu.org)
  */
 
-#include <config.h>
-#include <glib.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
+#include <idl/Gnumeric.h>
+
+#include "sheet.h"
+#include "workbook.h"
+#include "corba.h"
+
 #include <liboaf/liboaf.h>
 #include <bonobo.h>
 #include <bonobo/bonobo-object-directory.h>
-
-#include "sheet.h"
-#include "gnumeric.h"
-#include "workbook.h"
-#include "idl/Gnumeric.h"
-#include "corba.h"
 
 PortableServer_POA gnumeric_poa;
 

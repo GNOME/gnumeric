@@ -7,22 +7,11 @@
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
  */
-#include <config.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <glib.h>
-#include <locale.h>
+#include <gnumeric-config.h>
 #include "gnumeric.h"
-#include "xml-io.h"
-#ifdef ENABLE_BONOBO
-#include "bonobo-io.h"
-/* DO NOT include embeddable-grid.h.  It causes odd depends in the non-bonobo
- * case */
-extern gboolean EmbeddableGridFactory_init (void);
-#endif
-#include "stf.h"
 #include "main.h"
+
+#include "stf.h"
 #include "plugin.h"
 #include "format.h"
 #include "formats.h"
@@ -43,11 +32,23 @@ extern gboolean EmbeddableGridFactory_init (void);
 #include "style-color.h"
 #include "str.h"
 #include "eval.h"
+#include "sheet-autofill.h"
+#include "xml-io.h"
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <glib.h>
+#include <locale.h>
+#ifdef ENABLE_BONOBO
+#include "bonobo-io.h"
+/* DO NOT include embeddable-grid.h.  It causes odd depends in the non-bonobo
+ * case */
+extern gboolean EmbeddableGridFactory_init (void);
+#endif
 #include <gal/widgets/e-cursors.h>
 #include <glade/glade.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-config.h>
 
 #ifdef USE_WM_ICONS

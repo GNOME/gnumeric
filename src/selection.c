@@ -8,8 +8,10 @@
  *
  *  (C) 1999-2001 Jody Goldberg
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "selection.h"
+
 #include "sheet.h"
 #include "parse-util.h"
 #include "clipboard.h"
@@ -25,7 +27,6 @@
 #include "sheet-merge.h"
 #include "sheet-private.h"
 #include "sheet-control.h"
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 
 /*

@@ -7,8 +7,8 @@
  *      Michael Meeks  <michael@helixcode.com>
  */
 
-#include <config.h>
-#include "gnumeric.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "workbook.h"
 #include "sheet.h"
 #include "func.h"

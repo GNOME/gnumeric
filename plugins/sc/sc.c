@@ -5,7 +5,8 @@
  * With some code from sylk.c
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>
@@ -14,7 +15,6 @@
 #include "plugin.h"
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
-#include "gnumeric.h"
 #include "io-context.h"
 #include "error-info.h"
 #include "workbook-view.h"

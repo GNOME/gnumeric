@@ -21,9 +21,9 @@
  * USA
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "xml-io-version.h"
-#include "gnumeric.h"
 #include "io-context.h"
 #include "plugin.h"
 #include "plugin-util.h"

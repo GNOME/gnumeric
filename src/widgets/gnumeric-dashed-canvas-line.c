@@ -6,9 +6,11 @@
  *
  *  (C) 1999, 2000 Jody Goldberg
  */
-#include <config.h>
-#include <math.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "gnumeric-dashed-canvas-line.h"
+
+#include <math.h>
 
 /*
  * A utility class to provide advanced dashed line support to the gnome-canvas-line.

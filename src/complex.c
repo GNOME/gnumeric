@@ -6,13 +6,14 @@
  *  Jukka-Pekka Iivonen <iivonen@iki.fi>
  */
 
-#include <config.h>
-#include <glib.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
+#define GNUMERIC_COMPLEX_IMPLEMENTATION
+#include "complex.h"
+
 #include <stdlib.h>
 #include <errno.h>
 
-#define GNUMERIC_COMPLEX_IMPLEMENTATION
-#include "complex.h"
 
 /* ------------------------------------------------------------------------- */
 

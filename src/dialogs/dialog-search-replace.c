@@ -5,17 +5,17 @@
  * Author:
  *   Morten Welinder (terra@diku.dk)
  */
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "dialogs.h"
+
+#include <gui-util.h>
+#include <search.h>
+#include <widgets/gnumeric-expr-entry.h>
+#include <workbook-edit.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
-#include "gnumeric.h"
-#include "gui-util.h"
-#include "dialogs.h"
-#include "search.h"
-#include "widgets/gnumeric-expr-entry.h"
-#include "workbook-edit.h"
 
 #define SEARCH_REPLACE_KEY "search-replace-dialog"
 

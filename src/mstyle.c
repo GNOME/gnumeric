@@ -8,8 +8,10 @@
  * Contributors:
  *   Almer S. Tigelaar <almer@gnome.org>
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "mstyle.h"
+
 #include "str.h"
 #include "style-border.h"
 #include "style-color.h"

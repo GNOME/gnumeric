@@ -8,7 +8,8 @@
  * (C) 2000 HelixCode, Inc
  **/
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <assert.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -25,7 +26,6 @@
 #include <gb/gb-mmap-lex.h>
 #include <gbrun/libgbrun.h>
 
-#include "gnumeric.h"
 #include "plugin.h"
 #include "expr.h"
 #include "func.h"

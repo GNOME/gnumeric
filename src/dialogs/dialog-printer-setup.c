@@ -6,23 +6,23 @@
  *  Wayne Schuller (k_wayne@linuxpower.org)
  *  Miguel de Icaza (miguel@gnu.org)
  */
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "dialogs.h"
+
+#include <gui-util.h>
+#include <print-info.h>
+#include <print.h>
+#include <ranges.h>
+#include <sheet.h>
+#include <workbook.h>
+#include <workbook-edit.h>
+#include <utils-dialog.h>
+#include <style.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-help.h>
 #include <glade/glade.h>
-#include "gnumeric.h"
-#include "gui-util.h"
-#include "dialogs.h"
-#include "print-info.h"
-#include "print.h"
-#include "ranges.h"
-#include "sheet.h"
-#include "workbook.h"
-#include "workbook-edit.h"
-#include "utils-dialog.h"
-#include "style.h"
 
 #define PREVIEW_X 170
 #define PREVIEW_Y 170

@@ -5,8 +5,10 @@
  *    Jon K Hellan (hellan@acm.org)
  *    Zbigniew Chyla (cyba@gnome.pl)
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "gui-file.h"
+
 #include "gui-util.h"
 #include "dialogs.h"
 #include "sheet.h"
@@ -17,7 +19,6 @@
 #include "workbook-view.h"
 #include "workbook.h"
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-config.h>
 #include <libgnome/gnome-util.h>

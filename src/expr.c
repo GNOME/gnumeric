@@ -5,11 +5,10 @@
  * Author:
  *   Miguel de Icaza (miguel@gnu.org).
  */
-#include <config.h>
-#include <glib.h>
-#include <math.h>
-#include <string.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "expr.h"
+
 #include "expr-name.h"
 #include "eval.h"
 #include "format.h"
@@ -23,6 +22,9 @@
 #include "workbook.h"
 #include "gutils.h"
 #include "parse-util.h"
+
+#include <math.h>
+#include <string.h>
 
 /***************************************************************************/
 

@@ -10,7 +10,8 @@
  * unicode and national language support (C) 2001 by Vlad Harchev <hvv@hippo.ru>
  **/
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 
 #include "boot.h"
 #include "ms-formula-read.h"
@@ -46,7 +47,6 @@
 #  include <gnumeric-graph.h>
 #endif
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <locale.h>
 

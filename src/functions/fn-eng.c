@@ -5,12 +5,14 @@
  *  Michael Meeks <michael@imaginator.com>
  *  Jukka-Pekka Iivonen <iivonen@iki.fi>
  */
-#include <config.h>
-#include "func.h"
-#include "parse-util.h"
-#include "complex.h"
-#include "str.h"
-#include "mathfunc.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include <func.h>
+
+#include <parse-util.h>
+#include <complex.h>
+#include <str.h>
+#include <mathfunc.h>
 
 #include <ctype.h>
 #include <math.h>

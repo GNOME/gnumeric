@@ -19,9 +19,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#include <config.h>
-#include "workbook-control-priv.h"
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "workbook-view.h"
+
+#include "workbook-control-priv.h"
 #include "workbook.h"
 #include "history.h"
 #include "workbook-private.h"
@@ -40,7 +42,6 @@
 #include "parse-util.h"
 #include "io-context.h"
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <gal/util/e-util.h>

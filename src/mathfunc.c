@@ -16,8 +16,10 @@
  * Thank you Ross!
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "mathfunc.h"
+
 #include <math.h>
 #include <errno.h>
 #include <stdlib.h>
@@ -29,7 +31,6 @@
 #define IEEE_754
 #endif
 #endif
-#include <glib.h>
 
 #define M_LN_SQRT_2PI   0.918938533204672741780329736406  /* log(sqrt(2*pi)) */
 #define M_SQRT_32       5.656854249492380195206754896838  /* sqrt(32) */

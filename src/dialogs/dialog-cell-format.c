@@ -7,40 +7,41 @@
  *  Almer S. Tigelaar <almer@gnome.org>
  **/
 
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "dialogs.h"
+
+#include <sheet.h>
+#include <sheet-merge.h>
+#include <sheet-style.h>
+#include <style-color.h>
+#include <utils-dialog.h>
+#include <widgets/widget-font-selector.h>
+#include <widgets/gnumeric-dashed-canvas-line.h>
+#include <gui-util.h>
+#include <gui-validation.h>
+#include <selection.h>
+#include <str.h>
+#include <ranges.h>
+#include <cell.h>
+#include <expr.h>
+#include <format.h>
+#include <formats.h>
+#include <pattern.h>
+#include <position.h>
+#include <mstyle.h>
+#include <application.h>
+#include <validation.h>
+#include <workbook.h>
+#include <workbook-edit.h>
+#include <commands.h>
+#include <widgets/gnumeric-expr-entry.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-help.h>
 #include <libgnome/gnome-util.h>
 #include <glade/glade.h>
-#include "sheet.h"
-#include "sheet-merge.h"
-#include "sheet-style.h"
-#include "style-color.h"
-#include "dialogs.h"
-#include "utils-dialog.h"
-#include "widgets/widget-font-selector.h"
-#include "widgets/gnumeric-dashed-canvas-line.h"
-#include "gui-util.h"
-#include "gui-validation.h"
-#include "selection.h"
-#include "str.h"
-#include "ranges.h"
-#include "cell.h"
-#include "expr.h"
-#include "format.h"
-#include "formats.h"
-#include "pattern.h"
-#include "position.h"
-#include "mstyle.h"
-#include "application.h"
-#include "validation.h"
-#include "workbook.h"
-#include "workbook-edit.h"
-#include "commands.h"
 #include <gal/widgets/widget-color-combo.h>
-#include "widgets/gnumeric-expr-entry.h"
 
 /* The order corresponds to border_preset_buttons */
 typedef enum

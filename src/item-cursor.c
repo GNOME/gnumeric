@@ -6,9 +6,10 @@
  *     Miguel de Icaza (miguel@kernel.org)
  *     Jody Goldberg   (jody@gnome.org)
  */
-#include <config.h>
-
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "item-cursor.h"
+
 #define GNUMERIC_ITEM "CURSOR"
 #include "item-debug.h"
 #include "gnumeric-canvas.h"
@@ -26,7 +27,6 @@
 #include "commands.h"
 #include "ranges.h"
 #include "parse-util.h"
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-cursors.h>
 #include <gal/util/e-util.h>

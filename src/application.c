@@ -4,8 +4,10 @@
  * Author:
  *     Jody Goldberg <jody@gnome.org>
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "application.h"
+
 #include "clipboard.h"
 #include "selection.h"
 #include "workbook-control.h"
@@ -103,7 +105,6 @@
 #include "pixmaps/24_hide_detail.xpm"
 
 #include <gtk/gtk.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-config.h>
 #include <libgnomeui/gnome-stock.h>
 

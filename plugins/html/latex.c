@@ -36,7 +36,8 @@
  */
 
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "latex.h"
 #include <plugin-util.h>
 #include <io-context.h>

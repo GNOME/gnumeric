@@ -8,12 +8,12 @@
  *    Jody Goldberg (jody@gnome.org)
  *
  * (C) 1998, 1999, 2000 Miguel de Icaza
- * (C) 2000-2001 Helix Code, Inc.
+ * (C) 2000-2001 Ximian, Inc.
  */
-#include <config.h>
-
-#include <stdlib.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "workbook.h"
+
 #include "workbook-view.h"
 #include "workbook-control.h"
 #include "workbook-private.h"
@@ -39,10 +39,10 @@
 #include "sheet-object-bonobo.h"
 #endif
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include <ctype.h>
+#include <stdlib.h>
 
 static GtkObjectClass *workbook_parent_class;
 

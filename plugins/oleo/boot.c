@@ -6,7 +6,8 @@
  *
  * (this file adapted from lotus-123/boot.c)
  **/
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "oleo.h"
 
 #include <workbook-view.h>

@@ -7,8 +7,10 @@
  *   Miguel de Icaza <miguel@gnu.org>
  *   Jody Goldberg <jody@gnome.org>
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "xml-io.h"
+
 #include "style-color.h"
 #include "style-border.h"
 #include "style.h"
@@ -50,7 +52,6 @@
 #include <string.h>
 #include <gal/util/e-xml-utils.h>
 #include <gal/widgets/e-colors.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <libgnome/gnome-config.h>

@@ -20,7 +20,8 @@
  */
 
 #include <gnome.h>
-#include "config.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "boot.h"
 #include "html.h"
 #include "latex.h"

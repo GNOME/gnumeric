@@ -9,8 +9,10 @@
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "embeddable-grid.h"
+
 #include "sheet.h"
 #include "workbook.h"
 #include "sheet-private.h"

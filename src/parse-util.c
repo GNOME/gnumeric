@@ -21,8 +21,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#include "config.h"
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "parse-util.h"
+
 #include "workbook.h"
 #include "sheet.h"
 #include "value.h"
@@ -30,6 +32,7 @@
 #include "cell.h"
 #include "expr.h"
 #include "number-match.h"
+#include "format.h"
 
 #include <errno.h>
 #include <stdlib.h>

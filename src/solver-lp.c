@@ -6,8 +6,9 @@
  *
  * (C) Copyright 1999, 2000 by Jukka-Pekka Iivonen
 */
-#include <config.h>
+#include <gnumeric-config.h>
 #include "gnumeric.h"
+
 #include "parse-util.h"
 #include "solver.h"
 #include "func.h"

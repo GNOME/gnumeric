@@ -7,13 +7,11 @@
  * Author:
  *    Miguel de Icaza (miguel@gnu.org).
  */
-#include <config.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnomeui/gnome-init.h>
+#include <gnumeric-config.h>
 #include "gnumeric.h"
-#include "sheet.h"
-#include "workbook.h"
 #include "main.h"
+
+#include <libgnomeui/gnome-init.h>
 
 void
 gnumeric_arg_parse (int argc, char *argv [])

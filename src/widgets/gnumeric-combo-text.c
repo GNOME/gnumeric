@@ -2,7 +2,8 @@
 /*
  * gnumeric-combo-text: A combo box for selecting from a list.
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "gnumeric-combo-text.h"
 
 #include <ctype.h>

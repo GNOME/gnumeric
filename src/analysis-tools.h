@@ -1,8 +1,8 @@
 #ifndef GNUMERIC_ANALYSIS_TOOLS_H
 #define GNUMERIC_ANALYSIS_TOOLS_H
 
-#include "numbers.h"
 #include "gnumeric.h"
+#include "numbers.h"
 
 typedef enum {
 	GROUPED_BY_ROW = 0,
@@ -11,10 +11,6 @@ typedef enum {
 	GROUPED_BY_BIN = 3
 } group_by_t;
 
-
-typedef struct {
-        GtkWidget *entry[5];
-} stat_tool_t;
 
 typedef struct {
         gboolean summary_statistics;

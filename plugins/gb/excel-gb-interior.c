@@ -7,8 +7,8 @@
  *      Thomas Meeks  <thomas@imaginator.com>
  */
 
-#include <config.h>
-#include "gnumeric.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "workbook.h"
 #include "ranges.h"
 #include "sheet.h"

@@ -20,7 +20,8 @@
  */
 
 #include <gnome.h>
-#include "config.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "font.h"
 #include "style.h"
 

@@ -24,31 +24,27 @@
  * remove the disabling of new/edit/remove buttons!
  */
 
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "dialogs.h"
+
+#include <gui-util.h>
+#include <mstyle.h>
+#include <style-border.h>
+#include <value.h>
+#include <preview-grid.h>
+#include <format-template.h>
+#include <file-autoft.h>
+#include <workbook-control.h>
+#include <workbook.h>
+#include <commands.h>
+#include <selection.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/util/e-util.h>
 #include <math.h>
 #include <stdlib.h>
-
-#include "gnumeric.h"
-#include "gui-util.h"
-#include "mstyle.h"
-#include "style-border.h"
-#include "value.h"
-
-#include "dialogs.h"
-
-#include "preview-grid.h"
-#include "format-template.h"
-#include "file-autoft.h"
-
-#include "workbook-control.h"
-#include "workbook.h"
-#include "commands.h"
-#include "selection.h"
 
 #define GLADE_FILE "autoformat.glade"
 

@@ -1,4 +1,5 @@
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <gbrun/libgbrun.h>
 
 #include "common.h"

@@ -6,27 +6,27 @@
  *  Michael Meeks <michael@imaginator.com>
  */
 
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "dialogs.h"
+
+#include <workbook-view.h>
+#include <gui-util.h>
+#include <cell.h>
+#include <expr.h>
+#include <selection.h>
+#include <parse-util.h>
+#include <utils-dialog.h>
+#include <ranges.h>
+#include <commands.h>
+#include <workbook.h>
+#include <sort.h>
+#include <sheet.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/util/e-util.h>
 #include <ctype.h>
-#include "gnumeric.h"
-#include "workbook-view.h"
-#include "gui-util.h"
-#include "dialogs.h"
-#include "cell.h"
-#include "expr.h"
-#include "selection.h"
-#include "parse-util.h"
-#include "utils-dialog.h"
-#include "ranges.h"
-#include "commands.h"
-#include "workbook.h"
-#include "sort.h"
-#include "sheet.h"
 
 #define GLADE_FILE "cell-sort.glade"
 

@@ -17,7 +17,8 @@
 /*
  * FIXME: Check for errors and propagate upward. We've only started.
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "ms-formula-write.h"
 #include "boot.h"
 #include "ms-biff.h"
@@ -25,7 +26,6 @@
 #include "ms-excel-write.h"
 #include "ms-excel-xf.h"
 
-#include <gnumeric.h>
 #include <format.h>
 #include <position.h>
 #include <style-color.h>
@@ -60,7 +60,6 @@
 #include <ctype.h>
 #include <math.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 
 /* #define NO_DEBUG_EXCEL */

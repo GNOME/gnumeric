@@ -9,7 +9,7 @@
 	</loader>
 	<services>
 		<service type="function_group" id="derivatives">
-			<_category>Finance</_category>
+			<_category>Financial</_category>
 			<functions>
 				<function name="opt_bs_call"/>
 				<function name="opt_bs_call_delta"/>

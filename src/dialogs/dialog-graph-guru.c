@@ -20,18 +20,20 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#include <config.h>
-#include "gnumeric-graph.h"
-#include "gui-util.h"
-#include "ranges.h"
-#include "selection.h"
-#include "expr.h"
-#include "sheet.h"
-#include "workbook-edit.h"
-#include "sheet-control-gui.h"
-#include "sheet-object.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "dialogs.h"
-#include "widgets/gnumeric-combo-text.h"
+
+#include <gnumeric-graph.h>
+#include <gui-util.h>
+#include <ranges.h>
+#include <selection.h>
+#include <expr.h>
+#include <sheet.h>
+#include <workbook-edit.h>
+#include <sheet-control-gui.h>
+#include <sheet-object.h>
+#include <widgets/gnumeric-combo-text.h>
 #include <idl/GNOME_Gnumeric_Graph.h>
 
 #include <bonobo.h>

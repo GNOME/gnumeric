@@ -1,21 +1,9 @@
 #ifndef GNUMERIC_DIALOG_STF_H
 #define GNUMERIC_DIALOG_STF_H
 
-#include <config.h>
-#include <glib.h>
-#include <glade/glade.h>
-
-#include <stdlib.h>
-#include <string.h>
-
-#include "formats.h"
-#include "style.h"
-#include "mstyle.h"
-#include "gui-util.h"
-
-#include "stf-parse.h"
-
 #include "dialog-stf-preview.h"
+#include <stf-parse.h>
+#include <glade/glade.h>
 
 #define LINE_DISPLAY_LIMIT 128
 #define RAW_LINE_DISPLAY_LIMIT 4096

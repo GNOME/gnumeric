@@ -1,9 +1,8 @@
 /* vim: set sw=8: */
-
 /*
  * colrow.c: Utilities for Rows and Columns
  *
- * Copyright (C) 1999, 2000, 2001 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 1999-2001 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -20,8 +19,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "colrow.h"
+
 #include "sheet.h"
 #include "sheet-private.h"
 #include "application.h"

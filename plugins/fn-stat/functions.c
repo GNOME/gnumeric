@@ -6,17 +6,19 @@
  *  Michael Meeks <michael@imaginator.com>
  *  Morten Welinder <terra@diku.dk>
  */
-#include <config.h>
-#include "func.h"
-#include "func-util.h"
-#include "parse-util.h"
-#include "mathfunc.h"
-#include "rangefunc.h"
-#include "regression.h"
-#include "sheet.h"
-#include "cell.h"
-#include "collect.h"
-#include "auto-format.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include <func.h>
+
+#include <func-util.h>
+#include <parse-util.h>
+#include <mathfunc.h>
+#include <rangefunc.h>
+#include <regression.h>
+#include <sheet.h>
+#include <cell.h>
+#include <collect.h>
+#include <auto-format.h>
 
 #include <math.h>
 #include <stdlib.h>

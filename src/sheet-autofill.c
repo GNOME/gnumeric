@@ -13,8 +13,10 @@
  * the source cells into different types and the deltas
  * are computed on a per-group basis.
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "sheet-autofill.h"
+
 #include "sheet.h"
 #include "cell.h"
 #include "value.h"
@@ -34,7 +36,6 @@
 #include <ctype.h>
 #include <errno.h>
 #include <stdlib.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 
 typedef enum {

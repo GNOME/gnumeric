@@ -4,9 +4,11 @@
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
  */
-#include <config.h>
-#include "workbook-control-gui-priv.h"
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "gui-util.h"
+
+#include "workbook-control-gui-priv.h"
 #include "gutils.h"
 #include "parse-util.h"
 #include "style.h"
@@ -23,7 +25,6 @@
 #	include "workbook-private.h"
 #endif
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
 #include <libgnome/gnome-i18n.h>
 

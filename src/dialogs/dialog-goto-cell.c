@@ -5,16 +5,16 @@
  *  Miguel de Icaza (miguel@gnu.org)
  *
  */
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include "gnumeric.h"
-#include "gui-util.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "dialogs.h"
-#include "workbook.h"
-#include "workbook-control.h"
-#include "utils-dialog.h"
+
+#include <gui-util.h>
+#include <workbook.h>
+#include <workbook-control.h>
+#include <utils-dialog.h>
+
+#include <libgnome/gnome-i18n.h>
 
 static void
 cb_row_selected (GtkCList *clist, int row, int col, GdkEvent *event, GtkEntry *entry)

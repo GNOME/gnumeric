@@ -3,10 +3,12 @@
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
- *  (C) 1998, 1999, 2000 Miguel de Icaza
+ *  (C) 1998-2001 Miguel de Icaza
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "style.h"
+
 #include "format.h"
 #include "style-color.h"
 #include "application.h"
@@ -18,7 +20,6 @@
 
 #include <glib.h>
 #include <string.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <gal/widgets/e-colors.h>

@@ -5,30 +5,29 @@
  * Author:
  *   Morten Welinder (terra@diku.dk)
  */
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "dialogs.h"
+
+#include <gui-util.h>
+#include <search.h>
+#include <sheet.h>
+#include <workbook.h>
+#include <workbook-view.h>
+#include <selection.h>
+#include <cell.h>
+#include <value.h>
+#include <parse-util.h>
+#include <workbook-edit.h>
+#include <sheet-object-cell-comment.h>
+
+#include <widgets/gnumeric-expr-entry.h>
+#include <gal/widgets/e-cursors.h>
+#include <gal/e-table/e-table-simple.h>
+#include <gal/e-table/e-table.h>
+#include <gal/e-table/e-table-scrolled.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
-#include "gnumeric.h"
-#include "gui-util.h"
-#include "dialogs.h"
-#include "search.h"
-#include "sheet.h"
-#include "workbook.h"
-#include "workbook-view.h"
-#include "selection.h"
-#include "cell.h"
-#include "value.h"
-#include "parse-util.h"
-#include "workbook-edit.h"
-#include "sheet-object-cell-comment.h"
-
-#include "widgets/gnumeric-expr-entry.h"
-#include "gal/widgets/e-cursors.h"
-#include "gal/e-table/e-table-simple.h"
-#include "gal/e-table/e-table.h"
-#include "gal/e-table/e-table-scrolled.h"
 
 #define SEARCH_KEY "search-dialog"
 

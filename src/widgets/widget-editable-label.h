@@ -1,7 +1,6 @@
 #ifndef GNUMERIC_WIDGET_EDITABLE_LABEL_H
 #define GNUMERIC_WIDGET_EDITABLE_LABEL_H
 
-#include <libgnome/gnome-defs.h>
 #include <gtk/gtkwidget.h>
 #include <gtk/gtkentry.h>
 #include <libgnomeui/gnome-canvas.h>

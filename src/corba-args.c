@@ -6,19 +6,20 @@
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
  */
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <liboaf/liboaf.h>
-#include <bonobo.h>
-#include "sheet.h"
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "main.h"
+
+#include "sheet.h"
 #include "embeddable-grid.h"
 #include "corba.h"
 #include "workbook-private.h"
 #include "ranges.h"
 #include "value.h"
+
+#include <libgnome/gnome-i18n.h>
+#include <liboaf/liboaf.h>
+#include <bonobo.h>
 
 void
 gnumeric_arg_parse (int argc, char *argv [])

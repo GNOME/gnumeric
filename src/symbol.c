@@ -4,13 +4,15 @@
  * Author:
  *   Miguel de Icaza (miguel@kernel.org)
  */
-#include <config.h>
-#include <glib.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
+#include "symbol.h"
+
+#include "gutils.h"
+
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
-#include "symbol.h"
-#include "gutils.h"
 
 /**
  * symbol_lookup:

@@ -8,22 +8,23 @@
  *	Michael Meeks <michael@imaginator.com>
  *	Chema Celorio <chema@celorio.com>
  */
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "dialogs.h"
+
+#include <expr.h>
+#include <str.h>
+#include <expr-name.h>
+#include <sheet.h>
+#include <workbook.h>
+#include <workbook-control.h>
+#include <workbook-edit.h>
+#include <gui-util.h>
+#include <parse-util.h>
+#include <widgets/gnumeric-expr-entry.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
-#include "dialogs.h"
-#include "expr.h"
-#include "str.h"
-#include "expr-name.h"
-#include "sheet.h"
-#include "workbook.h"
-#include "workbook-control.h"
-#include "workbook-edit.h"
-#include "gui-util.h"
-#include "parse-util.h"
-#include "widgets/gnumeric-expr-entry.h"
 
 #define LIST_KEY "name_list_data"
 #define DEFINE_NAMES_KEY "define-names-dialog"

@@ -4,20 +4,21 @@
  * Author: Zbigniew Chyla (cyba@gnome.pl)
  */
 
-#include <config.h>
-#include <glib.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
+#include "plugin-loader-module.h"
+
+#include "file.h"
+#include "plugin.h"
+#include "plugin-service.h"
+#include "plugin-loader.h"
+
 #include <libgnome/libgnome.h>
 #include <gal/util/e-xml-utils.h>
 #include <gal/util/e-util.h>
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
-#include "gnumeric.h"
-#include "file.h"
-#include "plugin.h"
-#include "plugin-service.h"
-#include "plugin-loader.h"
-#include "plugin-loader-module.h"
 #include <string.h>
 
 struct _GnumericPluginLoaderModule {

@@ -9,13 +9,12 @@
  *
  * Strings representing ranges, when parsed ignore relative strings.
  */
-#include <config.h>
-#include <libgnorba/gnome-factory.h>
-#include <gnome.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
+#include <idl/Gnumeric.h>
+
 #include "sheet.h"
 #include "selection.h"
-#include "gnumeric.h"
-#include "idl/Gnumeric.h"
 #include "corba.h"
 #include "parse-util.h"
 #include "ranges.h"
@@ -29,6 +28,9 @@
 #include "sheet-private.h"
 #include "cell-comment.h"
 #include "cmd-edit.h"
+
+#include <libgnorba/gnome-factory.h>
+#include <gnome.h>
 
 #define verify(cond)          if (!(cond)){ out_of_range (ev); return; }
 #define verify_val(cond,val)  if (!(cond)){ out_of_range (ev); return (val); }

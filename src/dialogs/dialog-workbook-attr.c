@@ -6,30 +6,31 @@
  *
  **/
 
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "dialogs.h"
+
+#include <sheet.h>
+#include <style-color.h>
+#include <utils-dialog.h>
+#include <widgets/widget-font-selector.h>
+#include <widgets/gnumeric-dashed-canvas-line.h>
+#include <gui-util.h>
+#include <selection.h>
+#include <ranges.h>
+#include <format.h>
+#include <formats.h>
+#include <pattern.h>
+#include <mstyle.h>
+#include <application.h>
+#include <workbook-control.h>
+#include <workbook-view.h>
+#include <workbook.h>
+#include <commands.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-help.h>
 #include <glade/glade.h>
-#include "sheet.h"
-#include "style-color.h"
-#include "dialogs.h"
-#include "utils-dialog.h"
-#include "widgets/widget-font-selector.h"
-#include "widgets/gnumeric-dashed-canvas-line.h"
-#include "gui-util.h"
-#include "selection.h"
-#include "ranges.h"
-#include "format.h"
-#include "formats.h"
-#include "pattern.h"
-#include "mstyle.h"
-#include "application.h"
-#include "workbook-control.h"
-#include "workbook-view.h"
-#include "workbook.h"
-#include "commands.h"
 
 typedef struct _AttrState
 {

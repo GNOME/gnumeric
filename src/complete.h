@@ -1,7 +1,6 @@
 #ifndef GNUMERIC_COMPLETE_H
 #define GNUMERIC_COMPLETE_H
 
-#include <libgnome/gnome-defs.h>
 #include <gtk/gtkobject.h>
 
 #define COMPLETE_TYPE        (complete_get_type ())

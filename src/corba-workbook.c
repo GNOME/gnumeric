@@ -4,20 +4,22 @@
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
  */
-#include <config.h>
-#include <libgnorba/gnome-factory.h>
-#include <gnome.h>
-#include <bonobo/bonobo-object.h>
-#include "sheet.h"
+#include <gnumeric-config.h>
 #include "gnumeric.h"
+#include <idl/Gnumeric.h>
+
+#include "sheet.h"
 #include "workbook.h"
-#include "idl/Gnumeric.h"
 #include "xml-io.h"
 #include "corba.h"
 #include "commands.h"
 #include "command-context-corba.h"
 #include "workbook-private.h"
 #include "sheet-private.h"
+
+#include <libgnorba/gnome-factory.h>
+#include <gnome.h>
+#include <bonobo/bonobo-object.h>
 
 typedef struct {
 	POA_GNOME_Gnumeric_Workbook servant;

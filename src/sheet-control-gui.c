@@ -6,9 +6,10 @@
  *    Miguel de Icaza (miguel@kernel.org)
  *    Jody Goldberg (jody@gnome.org)
  */
-#include <config.h>
-
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "sheet-control-gui-priv.h"
+
 #define GNUMERIC_ITEM "SCG"
 #include "item-debug.h"
 #include "sheet.h"
@@ -43,7 +44,6 @@
 #include "widgets/gnumeric-hscrollbar.h"
 #include "widgets/gnumeric-expr-entry.h"
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <gal/util/e-util.h>

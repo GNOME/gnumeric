@@ -7,8 +7,10 @@
  *  Morten Welinder (terra@diku.dk)
  *  Jody Goldberg   (jody@gnome.org)
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "func.h"
+
 #include "portability.h"
 #include "parse-util.h"
 #include "eval.h"
@@ -20,7 +22,6 @@
 
 #include <string.h>
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <stdlib.h>
 #include <ctype.h>

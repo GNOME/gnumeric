@@ -7,15 +7,17 @@
  *  Sean Atkinson (sca20@cam.ac.uk)
  *  Jukka-Pekka Iivonen (iivonen@iki.fi)
  */
-#include <config.h>
-#include "func.h"
-#include "parse-util.h"
-#include "cell.h"
-#include "format.h"
-#include "str.h"
-#include "sheet.h"
-#include "number-match.h"
-#include "mathfunc.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include <func.h>
+
+#include <parse-util.h>
+#include <cell.h>
+#include <format.h>
+#include <str.h>
+#include <sheet.h>
+#include <number-match.h>
+#include <mathfunc.h>
 
 #include <ctype.h>
 #include <math.h>

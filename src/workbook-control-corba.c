@@ -5,9 +5,11 @@
  *   Jody Goldberg
  *   Miguel de Icaza (miguel@gnu.org)
  */
-#include <config.h>
-#include "workbook-control-priv.h"
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "workbook-control-corba.h"
+
+#include "workbook-control-priv.h"
 #include <gal/util/e-util.h>
 
 #define CCG_CLASS(o) CMD_CONTEXT_CORBA_CLASS (GTK_OBJECT (o)->klass)

@@ -6,12 +6,13 @@
  *   Miguel de Icaza (miguel@gnu.org)
  *
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
+#include "global-gnome-font.h"
+
 #include <string.h>
 #include <stdio.h>
-#include <glib.h>
 #include <libgnomeprint/gnome-font.h>
-#include "global-gnome-font.h"
 
 GList *gnumeric_font_family_list = NULL;
 GList *gnumeric_point_size_list = NULL;

@@ -5,7 +5,20 @@
  *   Miguel de Icaza (miguel@kernel.org)
  *   Zbigniew Chyla (cyba@gnome.pl)
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
+#include "file.h"
+
+#include "file-priv.h"
+#include "io-context.h"
+#include "command-context.h"
+#include "sheet.h"
+#include "application.h"
+#include "workbook-control.h"
+#include "workbook-view.h"
+#include "workbook.h"
+#include "gutils.h"
+
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -18,17 +31,6 @@
 #ifdef ENABLE_BONOBO
 #include <bonobo/bonobo-exception.h>
 #endif
-#include "file.h"
-#include "io-context.h"
-#include "command-context.h"
-#include "gnumeric.h"
-#include "sheet.h"
-#include "application.h"
-#include "workbook-control.h"
-#include "workbook-view.h"
-#include "workbook.h"
-#include "gutils.h"
-#include "file-priv.h"
 
 /*
  * GnumFileOpener

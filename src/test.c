@@ -1,5 +1,5 @@
-#include <config.h>
-#include "gnumeric.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "sheet.h"
 #include "sheet-style.h"
 #include "workbook.h"

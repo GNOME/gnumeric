@@ -6,14 +6,15 @@
  *   Miguel de Icaza (miguel@gnu.org)
  *   Almer S. Tigelaar (almer@gnome.org)
  */
-#include <config.h>
-#include <math.h>
-#include <glib.h>
-#include <glade/glade.h>
-#include "gnumeric.h"
-#include "gui-util.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "dialogs.h"
-#include "workbook.h"
+
+#include <gui-util.h>
+#include <workbook.h>
+
+#include <math.h>
+#include <glade/glade.h>
 
 gboolean
 dialog_choose_cols_vs_rows (WorkbookControlGUI *wbcg, const char *title,

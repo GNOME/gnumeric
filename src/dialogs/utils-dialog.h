@@ -1,6 +1,8 @@
 #ifndef GNUMERIC_UTILS_DIALOG_H
 #define GNUMERIC_UTILS_DIALOG_H
 
+#include <gui-gnumeric.h>
+
 GtkWidget *gnumeric_dialog_entry_new (GnomeDialog *dialog);
 
 GtkWidget *gnumeric_dialog_entry_new_with_max_length (GnomeDialog *dialog, guint16 max);

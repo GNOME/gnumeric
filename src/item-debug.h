@@ -1,3 +1,5 @@
+#include <gdk/gdk.h>
+
 #if 0
 #ifndef __GNUC__
 #define __FUNCTION__ __FILE__

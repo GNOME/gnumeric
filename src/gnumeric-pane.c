@@ -6,18 +6,20 @@
  * Author:
  *    Jody Goldberg (jody@gnome.org)
  */
-#include <config.h>
-#include <gnumeric-pane.h>
-#include <gnumeric-canvas.h>
-#include <gnumeric-simple-canvas.h>
-#include <item-bar.h>
-#include <item-cursor.h>
-#include <item-edit.h>
-#include <item-grid.h>
-#include <sheet-control-gui.h>
-#include <workbook-control.h>
-#include <sheet.h>
-#include <ranges.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
+#include "gnumeric-pane.h"
+
+#include "gnumeric-canvas.h"
+#include "gnumeric-simple-canvas.h"
+#include "item-bar.h"
+#include "item-cursor.h"
+#include "item-edit.h"
+#include "item-grid.h"
+#include "sheet-control-gui.h"
+#include "workbook-control.h"
+#include "sheet.h"
+#include "ranges.h"
 
 static void
 canvas_bar_realized (GtkWidget *widget, gpointer ignored)

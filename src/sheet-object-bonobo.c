@@ -17,13 +17,14 @@
  *    display and the BonoboViewFrame that logically "controls" this
  *    to keep track of the view frames.
  */
-#include <config.h>
+#include <gnumeric-config.h>
 #include "gnumeric.h"
+#include "sheet-object-bonobo.h"
+
 #include "workbook.h"
 #include "sheet.h"
 #include "workbook-private.h"
 #include "gui-util.h"
-#include "sheet-object-bonobo.h"
 
 #include <math.h>
 #include <gdk/gdkkeysyms.h>

@@ -7,9 +7,11 @@
  * We keep our own color context, as the color allocation might take place
  * before any of our Canvases are realized.
  */
-#include <config.h>
-#include <gtk/gtk.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "style-color.h"
+
+#include <gtk/gtk.h>
 #include <gal/widgets/e-colors.h>
 
 static gboolean color_inited = FALSE;

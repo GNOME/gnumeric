@@ -6,11 +6,11 @@
  *
  * (C) 1999-2001 Jody Goldberg
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "command-context-priv.h"
 
 #include <gal/util/e-util.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 
 #define CC_CLASS(o) COMMAND_CONTEXT_CLASS (GTK_OBJECT (o)->klass)

@@ -7,21 +7,10 @@
  * Copyright 2000, Helix Code, Inc.
  */
 
-#include <config.h>
-#include <stdio.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <locale.h>
-#include <math.h>
-#include <limits.h>
-#include <bonobo.h>
-
+#include <gnumeric-config.h>
 #include "gnumeric.h"
-#include "libxml/parser.h"
-#include "libxml/parserInternals.h"
-#include "libxml/xmlmemory.h"
-#include "libxml/xmlIO.h"
+#include "bonobo-io.h"
+
 #include "sheet-object-bonobo.h"
 #include "sheet-object-container.h"
 #include "io-context.h"
@@ -29,7 +18,18 @@
 #include "workbook.h"
 #include "sheet.h"
 #include "file.h"
-#include "bonobo-io.h"
+
+#include <libgnome/gnome-i18n.h>
+#include <stdio.h>
+#include <locale.h>
+#include <math.h>
+#include <limits.h>
+#include <bonobo.h>
+
+#include <libxml/parser.h>
+#include <libxml/parserInternals.h>
+#include <libxml/xmlmemory.h>
+#include <libxml/xmlIO.h>
 
 static GnumFileOpener *gnumeric_bonobo_opener;
 static GnumFileSaver *gnumeric_bonobo_saver;

@@ -5,14 +5,14 @@
  *  Miguel de Icaza (miguel@gnu.org)
  *
  */
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include "gnumeric.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "dialogs.h"
-#include "workbook.h"
-#include "gui-util.h"
+
+#include <workbook.h>
+#include <gui-util.h>
+
+#include <libgnome/gnome-i18n.h>
 
 #define ABOUT_KEY          "about-dialog"
 

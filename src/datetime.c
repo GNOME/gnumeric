@@ -7,8 +7,10 @@
  *   Jukka-Pekka Iivonen <iivonen@iki.fi>
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "datetime.h"
+
 #include "number-match.h"
 #include "value.h"
 #include <math.h>

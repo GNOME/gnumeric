@@ -6,12 +6,13 @@
  *    Jukka-Pekka Iivonen (iivonen@iki.fi)
  *    Zbigniew Chyla (cyba@gnome.pl)
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "gutils.h"
+
 #include "sheet.h"
 #include "ranges.h"
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-config.h>
 #include <stdlib.h>

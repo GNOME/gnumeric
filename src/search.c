@@ -3,25 +3,24 @@
  *
  * Author:
  *   Morten Welinder (terra@diku.dk)
- *
  */
 
-#include <config.h>
-#include <string.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <ctype.h>
-#include <stdlib.h>
+#include <gnumeric-config.h>
 #include "gnumeric.h"
-#include "ranges.h"
 #include "search.h"
+
+#include "ranges.h"
 #include "sheet.h"
 #include "workbook.h"
 #include "position.h"
 #include "cell.h"
 #include "value.h"
 #include "sheet-object-cell-comment.h"
+
+#include <string.h>
+#include <libgnome/gnome-i18n.h>
+#include <ctype.h>
+#include <stdlib.h>
 
 /* ------------------------------------------------------------------------- */
 

@@ -19,9 +19,10 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <config.h>
-#include "stf.h"
+#include <gnumeric-config.h>
 #include "gnumeric.h"
+#include "stf.h"
+
 #include "plugin-util.h"
 #include "file.h"
 #include "sheet.h"
@@ -47,7 +48,6 @@
 #include <string.h>
 #include <errno.h>
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <sys/types.h>

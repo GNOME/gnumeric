@@ -10,7 +10,7 @@
  *    Morten Welinder (terra@diku.dk)
  *    Almer S. Tigelaar (almer@gnome.org)
  */
-#include <config.h>
+#include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "number-match.h"
 #include "expr.h"
@@ -30,7 +30,6 @@
 #include <string.h>
 #include <errno.h>
 #include <stdlib.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 
 #define YYDEBUG 1

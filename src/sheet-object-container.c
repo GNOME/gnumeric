@@ -6,21 +6,20 @@
  *   Miguel de Icaza (miguel@kernel.org)
  *   Michael Meeks (mmeeks@gnu.org)
  */
-#include <config.h>
-#include <glib.h>
-#include <gdk/gdkkeysyms.h>
-#include <math.h>
+#include <gnumeric-config.h>
 #include "gnumeric.h"
+#include "sheet-object-container.h"
+
 #include "workbook-control-gui-priv.h"
 #include "workbook-private.h"
 #include "sheet.h"
 #include "gui-util.h"
 #include "sheet-control-gui.h"
 #include "gnumeric-canvas.h"
-#include "sheet-object-container.h"
 #include "sheet-object-widget.h"
 
-#include <libgnome/gnome-defs.h>
+#include <gdk/gdkkeysyms.h>
+#include <math.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include <bonobo/bonobo-item-container.h>

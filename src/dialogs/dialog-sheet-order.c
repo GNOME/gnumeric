@@ -6,20 +6,20 @@
  * Author:
  *   Dom Lachowicz (dominicl@seas.upenn.edu)
  */
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "dialogs.h"
+
+#include <gui-util.h>
+#include <workbook-control-gui.h>
+#include <workbook-view.h>
+#include <workbook.h>
+#include <sheet.h>
+#include <application.h>
+#include <expr.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
-#include "gnumeric.h"
-#include "gui-util.h"
-#include "dialogs.h"
-#include "workbook-control-gui.h"
-#include "workbook-view.h"
-#include "workbook.h"
-#include "sheet.h"
-#include "application.h"
-#include "expr.h"
 
 typedef struct {
 	Workbook  *wb;

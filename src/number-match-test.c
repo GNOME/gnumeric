@@ -1,7 +1,8 @@
-#include <config.h>
-#include <stdio.h>
-#include <glib.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "number-match.h"
+
+#include <stdio.h>
 
 int
 main ()

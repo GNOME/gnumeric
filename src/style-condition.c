@@ -18,7 +18,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "style-condition.h"
 
 #include "expr.h"

@@ -9,8 +9,10 @@
  *   Morten Welinder <terra@diku.dk>
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "auto-format.h"
+
 #include "gutils.h"
 #include "formats.h"
 #include "expr.h"

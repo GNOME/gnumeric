@@ -18,15 +18,16 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "dialog-stf.h"
-#include "format.h"
-#include "command-context.h"
-#include "workbook-control.h"
+
+#include <format.h>
+#include <command-context.h>
+#include <workbook-control.h>
+#include <gui-util.h>
+
+#include <libgnome/gnome-i18n.h>
 
 #define GLADE_FILE "dialog-stf.glade"
 

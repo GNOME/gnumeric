@@ -15,7 +15,8 @@
 #include <fcntl.h>
 #include <ctype.h>
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <glib.h>
 #include <libole2/ms-ole.h>
 

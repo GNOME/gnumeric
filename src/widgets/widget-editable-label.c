@@ -7,10 +7,12 @@
  * FIXME: add support for drawing the selection.
  *
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "widget-editable-label.h"
+
 #include <libgnomeui/libgnomeui.h>
 #include <gdk/gdkkeysyms.h>
-#include "widget-editable-label.h"
 
 #define MARGIN 1
 /*

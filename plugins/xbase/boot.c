@@ -5,7 +5,8 @@
  * Author:
  *    Sean Atkinson <sca20@cam.ac.uk>
  **/
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "xbase.h"
 
 #include <workbook-view.h>
@@ -20,7 +21,6 @@
 #include <mstyle.h>
 #include <sheet-style.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 

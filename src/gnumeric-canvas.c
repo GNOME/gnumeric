@@ -1,13 +1,14 @@
 /* vim: set sw=8: */
 /*
- * The Gnumeric Sheet widget.
+ * Gnumeric's extended canvas used to display the sheet.
  *
  * Author:
  *     Miguel de Icaza (miguel@kernel.org)
  */
-#include <config.h>
-
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "gnumeric-canvas.h"
+
 #include "sheet-control-gui-priv.h"
 #include "gui-util.h"
 #include "mstyle.h"
@@ -27,7 +28,6 @@
 #include "cmd-edit.h"
 #include "clipboard.h"
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-mime.h>
 #ifdef ENABLE_BONOBO

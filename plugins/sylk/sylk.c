@@ -9,10 +9,10 @@
  * Jody Goldberg   <jody@gnome.org>
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <gnome.h>
 #include <errno.h>
-#include "gnumeric.h"
 #include "file.h"
 #include "io-context.h"
 #include "workbook-view.h"

@@ -10,7 +10,8 @@
  * (C) 2000-2001 Jody Goldberg
  **/
 
-#include "config.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "ms-container.h"
 #include "ms-escher.h"
 #include "ms-obj.h"

@@ -24,8 +24,10 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "stf-export.h"
+
 #include "sheet.h"
 #include "cell.h"
 

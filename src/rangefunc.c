@@ -6,12 +6,13 @@
  *   Andreas J. Guelzow  <aguelzow@taliesin.ca>
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "rangefunc.h"
+
 #include "mathfunc.h"
 #include <math.h>
 #include <stdlib.h>
-#include <glib.h>
 
 /* Arithmetic sum.  */
 int

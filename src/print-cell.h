@@ -1,6 +1,9 @@
 #ifndef GNUMERIC_PRINT_CELL_H
 #define GNUMERIC_PRINT_CELL_H
 
+#include "gnumeric.h"
+#include <libgnomeprint/gnome-print.h>
+
 void print_cell_range (GnomePrintContext *context,
 		       Sheet const *sheet, Range *range,
 		       double base_x, double base_y,

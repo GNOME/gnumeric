@@ -8,7 +8,8 @@
  * partially based on the Lotus-123 code,
  * partially based on actual Oleo code.
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "oleo.h"
 
 #include <workbook.h>
@@ -23,7 +24,6 @@
 #include <ranges.h>
 #include <number-match.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <ctype.h>

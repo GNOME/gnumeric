@@ -18,15 +18,15 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <config.h>
-#include "gui-validation.h"
+#include <gnumeric-config.h>
 #include "gnumeric.h"
+#include "gui-validation.h"
+
 #include "str.h"
 #include "style-condition.h"
 #include "validation.h"
 #include "value.h"
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <string.h>
 #include <locale.h>

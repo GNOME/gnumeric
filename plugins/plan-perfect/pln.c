@@ -5,7 +5,8 @@
  *	Based on ff-csv code.
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <stdio.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -21,7 +22,6 @@
 #include "plugin-util.h"
 #include "module-plugin-defs.h"
 #include "error-info.h"
-#include "gnumeric.h"
 #include "file.h"
 #include "value.h"
 #include "cell.h"

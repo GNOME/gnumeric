@@ -8,9 +8,10 @@
  *     Miguel de Icaza (miguel@kernel.org)
  *     Jody Goldberg (jody@gnome.org)
  */
-#include <config.h>
-
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "item-grid.h"
+
 #define GNUMERIC_ITEM "GRID"
 #include "item-debug.h"
 #include "gnumeric-canvas.h"

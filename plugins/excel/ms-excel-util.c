@@ -8,7 +8,8 @@
  * excel_iconv* family of functions (C) 2001 by Vlad Harchev <hvv@hippo.ru>
  **/
 
-#include "config.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <glib.h>
 
 #include "boot.h"

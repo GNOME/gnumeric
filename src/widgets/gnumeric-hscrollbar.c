@@ -18,11 +18,13 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <config.h>
-#include "application.h"
-#include "gui-util.h"
-#include "parse-util.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "gnumeric-hscrollbar.h"
+
+#include <application.h>
+#include <gui-util.h>
+#include <parse-util.h>
 
 #include <gal/util/e-util.h>
 

@@ -8,8 +8,10 @@
  *
  * (C) 2000-2001 Ximian, Inc.
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "workbook-edit.h"
+
 #include "workbook-control-gui-priv.h"
 #include "workbook-view.h"
 #include "workbook.h"
@@ -30,7 +32,6 @@
 #include "value.h"
 #include "widgets/gnumeric-expr-entry.h"
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <ctype.h>
 

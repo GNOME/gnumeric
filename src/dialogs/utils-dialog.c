@@ -5,9 +5,10 @@
  *  Jon K Hellan <Jon.K.Hellan@item.ntnu.no>
  */
 
-#include <config.h>
-#include <libgnomeui/libgnomeui.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "utils-dialog.h"
+#include <libgnomeui/libgnomeui.h>
 
 /*
  * gnumeric_dialog_entry_new

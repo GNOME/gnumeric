@@ -6,7 +6,8 @@
  *
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "dialog-stf-export-private.h"
 
 /*

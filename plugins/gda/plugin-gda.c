@@ -18,10 +18,10 @@
  */
 
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <gda-client.h>
 
-#include "gnumeric.h"
 #include "func.h"
 #include "plugin.h"
 #include "plugin-util.h"

@@ -5,11 +5,11 @@
  *    See: README
  *    Michael Meeks <mmeeks@gnu.org>
  **/
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "lotus.h"
 #include "lotus-types.h"
 
-#include <gnumeric.h>
 #include <workbook-view.h>
 #include <file.h>
 #include <plugin.h>

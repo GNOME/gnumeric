@@ -10,22 +10,21 @@
  *   Zbigniew Chyla (cyba@gnome.pl)
  */
 
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "dialogs.h"
+
+#include <gui-util.h>
+#include <command-context.h>
+#include <workbook-control.h>
+#include <workbook.h>
+#include <plugin.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-config.h>
 #include <string.h>
 #include <glade/glade.h>
 #include <gal/util/e-util.h>
-
-#include "gnumeric.h"
-#include "gui-util.h"
-#include "command-context.h"
-#include "workbook-control.h"
-#include "workbook.h"
-#include "dialogs.h"
-#include "plugin.h"
 
 /* ---------- GnumericNotebook ---------- */
 

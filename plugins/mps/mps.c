@@ -13,7 +13,8 @@
  *      See, for example, the Netlib collection of LP problems in MPS format
  *      (ftp://netlib2.cs.utk.edu/lp/data).
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <sys/types.h>
 #include <sys/mman.h>
 #include <unistd.h>
@@ -22,7 +23,6 @@
 #include <string.h>
 #include <ctype.h>
 #include "portability.h"
-#include "gnumeric.h"
 #include "cell.h"
 #include "sheet.h"
 #include "value.h"

@@ -17,22 +17,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "dialogs.h"
 
-#include "commands.h"
-#include "consolidate.h"
-#include "func.h"
-#include "gnumeric.h"
-#include "gui-util.h"
-#include "ranges.h"
-#include "selection.h"
-#include "widgets/gnumeric-expr-entry.h"
-#include "workbook-edit.h"
+#include <commands.h>
+#include <consolidate.h>
+#include <func.h>
+#include <gui-util.h>
+#include <ranges.h>
+#include <selection.h>
+#include <widgets/gnumeric-expr-entry.h>
+#include <workbook-edit.h>
+
+#include <libgnome/gnome-i18n.h>
 
 #define GLADE_FILE "consolidate.glade"
 

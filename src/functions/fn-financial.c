@@ -8,15 +8,17 @@
  *
 
  */
-#include <config.h>
-#include "func.h"
-#include "parse-util.h"
-#include "cell.h"
-#include "goal-seek.h"
-#include "collect.h"
-#include "auto-format.h"
-#include "datetime.h"
-#include "str.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include <func.h>
+
+#include <parse-util.h>
+#include <cell.h>
+#include <goal-seek.h>
+#include <collect.h>
+#include <auto-format.h>
+#include <datetime.h>
+#include <str.h>
 
 #include <math.h>
 #include <limits.h>

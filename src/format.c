@@ -20,9 +20,11 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <config.h>
-#include "style-color.h"
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "format.h"
+
+#include "style-color.h"
 #include "expr.h"
 #include "dates.h"
 #include "value.h"
@@ -33,7 +35,6 @@
 #include "str.h"
 #include "number-match.h"
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <locale.h>
 #include <ctype.h>

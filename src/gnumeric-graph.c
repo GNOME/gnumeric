@@ -21,8 +21,10 @@
  * USA
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "gnumeric-graph.h"
+
 #include "eval.h"
 #include "expr.h"
 #include "value.h"

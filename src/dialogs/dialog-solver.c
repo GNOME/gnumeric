@@ -7,28 +7,28 @@
  * (C) Copyright 2000 by Jukka-Pekka Iivonen <iivonen@iki.fi>
  */
 
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "dialogs.h"
+
+#include <gui-util.h>
+#include <utils-dialog.h>
+#include <func.h>
+#include <tools.h>
+#include <value.h>
+#include <cell.h>
+#include <sheet.h>
+#include <workbook-edit.h>
+#include <workbook.h>
+#include <parse-util.h>
+#include <ranges.h>
+#include <utils-dialog.h>
+#include <widgets/gnumeric-expr-entry.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-help.h>
 #include <string.h>
 #include <glade/glade.h>
-#include "gnumeric.h"
-#include "gui-util.h"
-#include "dialogs.h"
-#include "utils-dialog.h"
-#include "func.h"
-#include "tools.h"
-#include "value.h"
-#include "cell.h"
-#include "sheet.h"
-#include "workbook-edit.h"
-#include "workbook.h"
-#include "parse-util.h"
-#include "ranges.h"
-#include "utils-dialog.h"
-#include "widgets/gnumeric-expr-entry.h"
 
 #define SOLVER_KEY            "solver-dialog"
 

@@ -21,14 +21,14 @@
  * Boston, MA 02111-1307 USA
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <glib.h>
 #include <assert.h>
 #include <stdio.h>
 #include <libguile.h>
 #include <gnome.h>
 
-#include "gnumeric.h"
 #include "plugin.h"
 #include "plugin-util.h"
 #include "error-info.h"

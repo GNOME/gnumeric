@@ -7,7 +7,8 @@
  *    Stephen Wood (saw@genhomepage.com)
  *    Morten Welinder (terra@diku.dk)
  **/
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "lotus.h"
 #include "lotus-types.h"
 #include "lotus-formula.h"
@@ -21,7 +22,6 @@
 #include <plugin-util.h>
 #include <error-info.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <stdio.h>
 #include <string.h>

@@ -21,8 +21,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <config.h>
-#include <gtk/gtk.h>
+#include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "preview-grid.h"
 

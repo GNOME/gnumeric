@@ -6,8 +6,10 @@
  *   Miguel de Icaza (miguel@gnu.org).
  *   Michael Meeks   (mmeeks@gnu.org).
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "ranges.h"
+
 #include "numbers.h"
 #include "expr.h"
 #include "expr-name.h"

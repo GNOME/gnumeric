@@ -9,9 +9,9 @@
 #include <stdio.h>
 #include <sys/stat.h>
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <gnome.h>
-#include "gnumeric.h"
 #include "file.h"
 #include "main.h"
 #include "io-context.h"

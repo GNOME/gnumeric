@@ -6,15 +6,13 @@
  *
  * (C) 1998, 1999 Miguel de Icaza.
  */
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
+#include <gnumeric-config.h>
 #include "gnumeric.h"
+#include "workbook-format-toolbar.h"
+
 #include "gui-util.h"
 #include "dialogs.h"
 #include "selection.h"
-#include "workbook-format-toolbar.h"
 #include "global-gnome-font.h"
 #include "workbook-control-gui-priv.h"
 #include "workbook-view.h"
@@ -35,6 +33,8 @@
 #include <gal/widgets/gtk-combo-text.h>
 #include <gal/widgets/widget-color-combo.h>
 #include <gal/widgets/widget-pixmap-combo.h>
+#include <libgnome/gnome-i18n.h>
+
 /*
  * Pixmaps
  */

@@ -1,4 +1,5 @@
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <excel-gb-context.h>
 
 static void

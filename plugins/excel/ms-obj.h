@@ -11,7 +11,6 @@
  * (C) 1998-2001 Michael Meeks, Jody Goldberg
  **/
 
-#include "config.h"
 #include "ms-excel-read.h"
 
 #define MS_ANCHOR_SIZE	18

@@ -13,18 +13,10 @@
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
  */
-#include <config.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <string.h>
-#include <ctype.h>
-#include <errno.h>
-#include <locale.h>
-#include <math.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "number-match.h"
+
 #include "formats.h"
 #include "dates.h"
 #include "numbers.h"
@@ -36,6 +28,14 @@
 #include "mathfunc.h"
 #include "str.h"
 
+#include <libgnome/gnome-i18n.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <errno.h>
+#include <locale.h>
+#include <math.h>
 #undef DEBUG_NUMBER_MATCH
 
 /*

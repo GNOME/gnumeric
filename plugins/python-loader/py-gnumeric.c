@@ -4,11 +4,11 @@
  * Author: Zbigniew Chyla (cyba@gnome.pl)
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <Python.h>
 #include <glib.h>
 #include <libgnome/libgnome.h>
-#include "gnumeric.h"
 #include "workbook.h"
 #include "cell.h"
 #include "mstyle.h"

@@ -4,14 +4,16 @@
  * Author:
  *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1999 Michael Meeks
+ * (C) 1999-2001 Michael Meeks
  */
-#include <config.h>
-#include <glib.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
+#include "summary.h"
+
+#include "gutils.h"
+
 #include <stdio.h>
 #include <time.h>
-#include "summary.h"
-#include "gutils.h"
 #include <ctype.h>
 #include <string.h>
 

@@ -5,15 +5,15 @@
  * Author:
  *  MIguel de Icaza (miguel@gnu.org)
  */
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include "gnumeric.h"
-#include "gui-util.h"
-#include "clipboard.h"
-#include "eval.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "dialogs.h"
+
+#include <gui-util.h>
+#include <clipboard.h>
+#include <eval.h>
+
+#include <libgnome/gnome-i18n.h>
 
 #define BUTTON_OK         1
 #define BUTTON_CANCEL     2

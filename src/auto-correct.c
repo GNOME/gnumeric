@@ -8,12 +8,12 @@
  *
  * (C) Copyright 2000, 2001 by Jukka-Pekka Iivonen <iivonen@iki.fi>
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "auto-correct.h"
 
 #include <ctype.h>
 #include <string.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-config.h>
 
 static struct {

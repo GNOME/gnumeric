@@ -1,5 +1,4 @@
 /* vim: set sw=8: */
-
 /*
  * cmd-edit.c: Various commands to be used by the edit menu.
  *
@@ -20,8 +19,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "cmd-edit.h"
+
 #include "application.h"
 #include "command-context.h"
 #include "workbook-control.h"
@@ -37,7 +38,6 @@
 #include "clipboard.h"
 
 #include <gtk/gtk.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 
 /**

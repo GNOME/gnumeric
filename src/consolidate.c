@@ -18,7 +18,10 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
  
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
+#include "consolidate.h"
+
 #include "cell.h"
 #include "eval.h"
 #include "func.h"
@@ -28,8 +31,6 @@
 #include "sheet.h"
 #include "str.h"
 #include "workbook.h"
-
-#include "consolidate.h"
 
 /**********************************************************************************
  * UTILITY ROUTINES

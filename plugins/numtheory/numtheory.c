@@ -6,11 +6,11 @@
  *    Morten Welinder (terra@diku.dk)            [Plugin framework]
  *    Brian J. Murrell (brian@interlinx.bc.ca)	 [Bitwise operators]
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <gnome.h>
 #include <glib.h>
 
-#include "gnumeric.h"
 #include "func.h"
 #include "plugin.h"
 #include "plugin-util.h"

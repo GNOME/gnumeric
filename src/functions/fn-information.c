@@ -8,18 +8,20 @@
  *  Morten Welinder (terra@diku.dk)
  *  Almer S. Tigelaar (almer@gnome.org)
  */
-#include <config.h>
-#include "func.h"
-#include "parse-util.h"
-#include "cell.h"
-#include "str.h"
-#include "sheet.h"
-#include "workbook.h"
-#include "format.h"
-#include "formats.h"
-#include "style.h"
-#include "sheet-style.h"
-#include "number-match.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include <func.h>
+
+#include <parse-util.h>
+#include <cell.h>
+#include <str.h>
+#include <sheet.h>
+#include <workbook.h>
+#include <format.h>
+#include <formats.h>
+#include <style.h>
+#include <sheet-style.h>
+#include <number-match.h>
 
 #include <sys/utsname.h>
 #include <math.h>

@@ -6,21 +6,21 @@
  *   Miguel de Icaza (miguel@gnu.org)
  *   Almer S. Tigelaar (almer@gnome.org)
  */
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "widget-font-selector.h"
+
+#include "../global-gnome-font.h"
+#include <value.h>
+#include <mstyle.h>
+#include <preview-grid.h>
+#include <style-color.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/libgnomeui.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "widget-font-selector.h"
 #include <string.h>
-#include "../global-gnome-font.h"
-
-#include "value.h"
-#include "mstyle.h"
-#include "preview-grid.h"
-#include "style-color.h"
 
 /*
  * Inside this file we define a number of aliases for the

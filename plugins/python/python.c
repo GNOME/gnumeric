@@ -8,10 +8,10 @@
  * Cell ranges - The sheet attribute is not yet handled.
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <gnome.h>
 #include <string.h>
-#include "gnumeric.h"
 #include "func.h"
 #include "plugin.h"
 #include "plugin-util.h"

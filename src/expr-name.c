@@ -7,12 +7,10 @@
  *    Michael Meeks <michael@ximian.com>
  */
 
-#include <config.h>
-#include <glib.h>
-#include <gdk/gdkkeysyms.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "expr-name.h"
+
 #include "eval.h"
 #include "cell.h"
 #include "value.h"
@@ -21,6 +19,9 @@
 #include "str.h"
 #include "sheet.h"
 #include "sheet-style.h"
+
+#include <gdk/gdkkeysyms.h>
+#include <libgnome/gnome-i18n.h>
 
 /* We don't expect that many global names ! */
 static GList *global_names = NULL;

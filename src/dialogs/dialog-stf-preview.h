@@ -1,11 +1,9 @@
 #ifndef GNUMERIC_DIALOG_STF_PREVIEW_H
 #define GNUMERIC_DIALOG_STF_PREVIEW_H
 
-#include <config.h>
-#include <libgnomeui/libgnomeui.h>
-
-#include "sheet.h"
-#include "stf.h"
+#include <gui-gnumeric.h>
+#include <sheet.h>
+#include <stf.h>
 
 #define LINE_COLOR "gray"
 #define CAPTION_LINE_COLOR "black"

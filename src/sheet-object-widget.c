@@ -20,13 +20,14 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#include <config.h>
+#include <gnumeric-config.h>
 #include "gnumeric.h"
+#include "sheet-object-widget.h"
+
 #include "gui-util.h"
 #include "eval.h"
 #include "gnumeric-canvas.h"
 #include "sheet-control-gui.h"
-#include "sheet-object-widget.h"
 #include "sheet-object-impl.h"
 #include "expr.h"
 #include "value.h"
@@ -39,7 +40,6 @@
 #include "dialogs.h"
 #include "widgets/gnumeric-combo-text.h"
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <math.h>

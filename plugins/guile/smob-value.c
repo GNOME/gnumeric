@@ -21,7 +21,8 @@
  * Boston, MA 02111-1307 USA
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <libguile.h>
 #include <glib.h>
 #include <gtk/gtk.h>

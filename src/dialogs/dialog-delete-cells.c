@@ -4,20 +4,20 @@
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
  */
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "dialogs.h"
+
+#include <gui-util.h>
+#include <selection.h>
+#include <workbook.h>
+#include <sheet.h>
+#include <commands.h>
+#include <ranges.h>
+#include <cmd-edit.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
-#include "gnumeric.h"
-#include "gui-util.h"
-#include "selection.h"
-#include "dialogs.h"
-#include "workbook.h"
-#include "sheet.h"
-#include "commands.h"
-#include "ranges.h"
-#include "cmd-edit.h"
 
 #define GLADE_FILE "delete-cells.glade"
 

@@ -8,9 +8,9 @@
  * (C) 1998-2001 Michael Meeks
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "ms-formula-write.h"
-#include "gnumeric.h"
 #include "excel.h"
 #include "ms-biff.h"
 #include "formula-types.h"

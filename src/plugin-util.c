@@ -7,8 +7,10 @@
  *
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "plugin-util.h"
+
 #include "command-context.h"
 #include "io-context.h"
 

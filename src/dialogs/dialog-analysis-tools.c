@@ -8,33 +8,32 @@
  * (C) Copyright 2000, 2001 by Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
  */
 
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "dialogs.h"
+
+#include <workbook.h>
+#include <workbook-control.h>
+#include <workbook-edit.h>
+#include <workbook-view.h>
+#include <gui-util.h>
+#include <utils-dialog.h>
+#include <parse-util.h>
+#include <utils-dialog.h>
+#include <format.h>
+#include <tools.h>
+#include <sheet.h>
+#include <expr.h>
+#include <number-match.h>
+#include <ranges.h>
+#include <selection.h>
+#include <value.h>
+#include <widgets/gnumeric-expr-entry.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-help.h>
 #include <glade/glade.h>
 #include <string.h>
-#include "gnumeric.h"
-#include "workbook.h"
-#include "workbook-control.h"
-#include "workbook-edit.h"
-#include "workbook-view.h"
-#include "gui-util.h"
-#include "utils-dialog.h"
-#include "dialogs.h"
-#include "parse-util.h"
-#include "utils-dialog.h"
-#include "format.h"
-#include "tools.h"
-#include "sheet.h"
-#include "expr.h"
-#include "number-match.h"
-#include "ranges.h"
-#include "selection.h"
-#include "value.h"
-#include "widgets/gnumeric-expr-entry.h"
-
 
 /**********************************************/
 /*  Generic guru items */

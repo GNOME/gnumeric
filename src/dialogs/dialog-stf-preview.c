@@ -22,14 +22,15 @@
  *  |--- GList (Sub) --> Contains strings as GList->Data
  *
  */
-#include <config.h>
-#include "format.h"
-#include "number-match.h"
-#include "value.h"
-#include "../portability.h"
-
-#include "dialog-stf.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "dialog-stf-preview.h"
+#include "dialog-stf.h"
+
+#include <format.h>
+#include <number-match.h>
+#include <value.h>
+#include "../portability.h"
 
 /******************************************************************************************************************
  * BASIC DRAWING FUNCTIONS

@@ -7,11 +7,13 @@
  * (C) 2000 JP Rosevear
  * (C) 2000 Morten Welinder
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
+#include "sort.h"
+
 #include "commands.h"
 #include "clipboard.h"
 #include "cell.h"
-#include "sort.h"
 #include "value.h"
 #include "sheet.h"
 #include "ranges.h"

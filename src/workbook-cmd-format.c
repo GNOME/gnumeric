@@ -6,11 +6,10 @@
  *   Miguel de Icaza (miguel@gnu.org)
  *   Jody Goldberg (jody@gnome.org)
  */
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
+#include <gnumeric-config.h>
 #include "gnumeric.h"
+#include "workbook-cmd-format.h"
+
 #include "eval.h"
 #include "ranges.h"
 #include "gui-util.h"
@@ -18,13 +17,14 @@
 #include "workbook-control.h"
 #include "workbook.h"
 #include "application.h"
-#include "workbook-cmd-format.h"
 #include "dialogs.h"
 #include "format.h"
 #include "sheet.h"
 #include "commands.h"
 #include "style-border.h"
 #include "style-color.h"
+
+#include <libgnome/gnome-i18n.h>
 
 /* Adds borders to all the selected regions on the sheet.
  * FIXME: This is a little more simplistic then it should be, it always

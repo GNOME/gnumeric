@@ -11,11 +11,11 @@
 #define DEBUG_GOAL_SEEK
 #endif
 
-#include <config.h>
-#include "goal-seek.h"
+#include <gnumeric-config.h>
 #include "gnumeric.h"
-#include "mathfunc.h"
+#include "goal-seek.h"
 
+#include "mathfunc.h"
 #include <stdlib.h>
 #include <math.h>
 #include <limits.h>

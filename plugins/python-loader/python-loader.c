@@ -4,7 +4,8 @@
  * Author: Zbigniew Chyla (cyba@gnome.pl)
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <Python.h>
 #include <glib.h>
 #include <libgnome/libgnome.h>
@@ -13,7 +14,6 @@
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
-#include "gnumeric.h"
 #include "workbook.h"
 #include "sheet.h"
 #include "workbook-view.h"

@@ -5,11 +5,12 @@
  *   Zbigniew Chyla (cyba@gnome.pl)
  */
 
-#include <config.h>
-#include <glib.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
+#include "error-info.h"
+
 #include <stdio.h>
 #include <errno.h>
-#include "error-info.h"
 
 struct _ErrorInfo {
 	gchar *msg;

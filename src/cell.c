@@ -6,8 +6,10 @@
  *    Jody Goldberg 2000, 2001 (jody@gnome.org)
  *    Miguel de Icaza 1998, 1999 (miguel@kernel.org)
  */
-#include "config.h"
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "cell.h"
+
 #include "workbook.h"
 #include "sheet.h"
 #include "expr.h"
@@ -18,8 +20,6 @@
 #include "sheet-object-cell-comment.h"
 #include "eval.h"
 #include "sheet-style.h"
-
-extern int dependency_debugging;
 
 /**
  * cell_dirty : Mark the sheet containing the cell as being dirty.

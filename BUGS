@@ -21,7 +21,6 @@ Release Critical
 - autofill with merges and partial regions can overflow the target with the
   final merge.
 - Various pasting & merging bugs.
-- Tino's INDEX error issue.
 
 Pending Patches
 ---------------

@@ -7,11 +7,10 @@
  * g_unichar_to_utf8: Copyright Red Hat, Inc
  * i18n of printing: Copyright 2001 by Vlad Harchev <hvv@hippo.ru>
  */
-#include <config.h>
-#include <glib.h>
-#include <locale.h>
-#include <libgnomeprint/gnome-print.h>
+#include <gnumeric-config.h>
 #include "gnumeric.h"
+#include "print-cell.h"
+
 #include "eval.h"
 #include "format.h"
 #include "style-color.h"
@@ -25,12 +24,12 @@
 #include "sheet.h"
 #include "sheet-style.h"
 #include "sheet-merge.h"
-#include "print-cell.h"
 #include "rendered-value.h"
 #include "portability.h"
 #include "str.h"
 
 #include <ctype.h>
+#include <locale.h>
 
 /*
   Define this to enable i18n-wise printing and string measuring - it requires

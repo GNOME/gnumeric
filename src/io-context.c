@@ -9,9 +9,10 @@
  *
  * (C) 2000, 2001 Jody Goldberg
  */
-#include <config.h>
-#include "io-context.h"
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "io-context-priv.h"
+
 #include "sheet.h"
 #include "workbook.h"
 #include "command-context.h"

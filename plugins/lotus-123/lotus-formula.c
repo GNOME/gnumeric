@@ -5,12 +5,12 @@
  *    See: README
  *    Michael Meeks <michael@imagiantor.com>
  **/
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "lotus.h"
 #include "lotus-types.h"
 #include "lotus-formula.h"
 
-#include <gnumeric.h>
 #include <expr.h>
 #include <value.h>
 #include <gutils.h>

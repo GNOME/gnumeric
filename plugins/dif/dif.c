@@ -7,7 +7,8 @@
  *
  *	Based on ff-csv code.
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <sys/types.h>
 #include <sys/mman.h>
 #include <unistd.h>
@@ -15,7 +16,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "portability.h"
-#include "gnumeric.h"
 #include "cell.h"
 #include "sheet.h"
 #include "value.h"

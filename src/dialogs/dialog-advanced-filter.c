@@ -6,20 +6,20 @@
  *
  * (C) Copyright 2000, 2001 by Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
  **/
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "dialogs.h"
+
+#include <sheet.h>
+#include <cell.h>
+#include <ranges.h>
+#include <func-util.h>
+#include <gui-util.h>
+#include <analysis-tools.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-help.h>
 #include <glade/glade.h>
-#include "gnumeric.h"
-#include "sheet.h"
-#include "cell.h"
-#include "dialogs.h"
-#include "ranges.h"
-#include "func-util.h"
-#include "gui-util.h"
-#include "analysis-tools.h"
 
 #define OK               0
 #define N_COLUMNS_ERROR  1

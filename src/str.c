@@ -5,10 +5,11 @@
  *   Miguel de Icaza (miguel@kernel.org)
  *
  */
-#include <config.h>
-#include <glib.h>
-#include <string.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "str.h"
+
+#include <string.h>
 
 static GHashTable *string_hash_table;
 

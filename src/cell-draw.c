@@ -4,9 +4,10 @@
  * Author:
  *    Miguel de Icaza 1998, 1999 (miguel@kernel.org)
  */
-#include <config.h>
-#include <gdk/gdk.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "cell-draw.h"
+
 #include "style.h"
 #include "style-color.h"
 #include "cell.h"
@@ -18,6 +19,7 @@
 #include "sheet-control-gui.h" /* FIXME : Only for scg_get_style_font */
 #include "parse-util.h"
 
+#include <gdk/gdk.h>
 #include <ctype.h>
 
 static inline void

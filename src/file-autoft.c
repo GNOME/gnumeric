@@ -19,27 +19,26 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
+#include "file-autoft.h"
+
+#include "gutils.h"
+#include "workbook-control.h"
+#include "xml-io.h"
+#include "xml-io-autoft.h"
+#include "format-template.h"
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
 #include <string.h>
 #include <errno.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <gal/util/e-util.h>
-
-#include "gutils.h"
-#include "workbook-control.h"
-
-#include "xml-io.h"
-#include "xml-io-autoft.h"
-#include "format-template.h"
-
-#include "file-autoft.h"
 
 #define TEMPLATE_FILE_EXT    ".xml"
 

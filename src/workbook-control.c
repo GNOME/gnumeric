@@ -20,8 +20,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "workbook-control-priv.h"
+
 #include "workbook-view.h"
 #include "workbook.h"
 #include "parse-util.h"
@@ -30,7 +32,6 @@
 #include "commands.h"
 
 #include <gal/util/e-util.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 
 #define WBC_CLASS(o) WORKBOOK_CONTROL_CLASS ((o)->context.gtk_object.klass)

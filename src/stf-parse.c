@@ -22,11 +22,13 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <config.h>
-#include <ctype.h>
-
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "stf-parse.h"
+
 #include "clipboard.h"
+
+#include <ctype.h>
 
 #define WARN_TOO_MANY_ROWS _("Too many rows in data to parse: %d")
 #define WARN_TOO_MANY_COLS _("Too many columns in data to parse: %d")

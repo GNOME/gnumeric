@@ -5,9 +5,12 @@
  *
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "dialog-stf.h"
-#include "format.h"
+#include <format.h>
+#include <formats.h>
+#include <gui-util.h>
 
 /*************************************************************************************************
  * MISC UTILITY FUNCTIONS

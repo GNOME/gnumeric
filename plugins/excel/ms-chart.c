@@ -8,7 +8,8 @@
  * (C) 1999-2001 Jody Goldberg
  **/
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "boot.h"
 #include "excel.h"
 #include "ms-chart.h"

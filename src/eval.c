@@ -3,8 +3,6 @@
  * eval.c:  Manage calculation dependencies between objects
  *
  * Copyright (C) 2000,2001
- *  Michael Meeks   (mmeeks@gnu.org)
- *  Miguel de Icaza (miguel@gnu.org)
  *  Jody Goldberg   (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
@@ -22,8 +20,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "eval.h"
+
 #include "parse-util.h"
 #include "ranges.h"
 #include "value.h"

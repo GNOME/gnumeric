@@ -4,14 +4,15 @@
  * Author: Zbigniew Chyla (cyba@gnome.pl)
  */
 
-#include <config.h>
-#include <glib.h>
-#include <libgnome/libgnome.h>
-#include <gal/util/e-util.h>
+#include <gnumeric-config.h>
 #include "gnumeric.h"
+#include "plugin-loader.h"
+
 #include "plugin.h"
 #include "plugin-service.h"
-#include "plugin-loader.h"
+
+#include <libgnome/libgnome.h>
+#include <gal/util/e-util.h>
 
 #define PARENT_TYPE (gtk_object_get_type ())
 #define PL_GET_CLASS(loader)	GNUMERIC_PLUGIN_LOADER_CLASS (GTK_OBJECT (loader)->klass)

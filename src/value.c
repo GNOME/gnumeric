@@ -8,8 +8,10 @@
  *   Jody Goldberg (jgolderg@home.com)
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "value.h"
+
 #include "parse-util.h"
 #include "style.h"
 #include "format.h"
@@ -20,7 +22,6 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <math.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 
 Value *

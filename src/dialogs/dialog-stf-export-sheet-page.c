@@ -6,14 +6,14 @@
  *
  */
 
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include "workbook.h"
-#include "sheet.h"
-
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "dialog-stf-export-private.h"
+
+#include <workbook.h>
+#include <sheet.h>
+
+#include <libgnome/gnome-i18n.h>
 
 /*************************************************************************************************
  * MISC UTILITY FUNCTIONS

@@ -8,8 +8,10 @@
  *   Jon Kåre Hellan (hellan@acm.org)
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "gnumeric-expr-entry.h"
+
 #include <workbook-edit.h>
 #include <workbook-control-gui-priv.h>
 #include <sheet-control-gui.h>

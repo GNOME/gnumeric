@@ -2,6 +2,7 @@
 #define GNUMERIC_CELL_DRAW_H
 
 #include "gnumeric.h"
+#include <gdk/gdk.h>
 
 void cell_draw (Cell const *cell, MStyle const *mstyle,
 		GdkGC *gc, GdkDrawable *drawable,

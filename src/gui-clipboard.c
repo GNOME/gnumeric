@@ -4,8 +4,10 @@
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "gui-clipboard.h"
+
 #include "gui-util.h"
 #include "clipboard.h"
 #include "selection.h"
@@ -20,8 +22,8 @@
 #include "value.h"
 #include "dialog-stf.h"
 #include "stf-parse.h"
+#include "mstyle.h"
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <locale.h>
 #include <string.h>

@@ -6,17 +6,17 @@
  * Author:
  *   Miguel de Icaza (miguel@kernel.org)
  */
-#include <config.h>
+#include <gnumeric-config.h>
 #include "gnumeric.h"
+#include "sheet-object-graphic.h"
+
 #include "sheet-control-gui.h"
 #include "gnumeric-canvas.h"
 #include "str.h"
 #include "gui-util.h"
 #include "style-color.h"
-#include "sheet-object-graphic.h"
 #include "sheet-object-impl.h"
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <gal/util/e-util.h>

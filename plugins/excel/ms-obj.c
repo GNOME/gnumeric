@@ -23,7 +23,8 @@
  * USA
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 
 #include "boot.h"
 #include "ms-obj.h"

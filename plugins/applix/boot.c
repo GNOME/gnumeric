@@ -21,8 +21,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#include "config.h"
-#include "gnumeric.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "io-context.h"
 #include "plugin.h"
 #include "plugin-util.h"

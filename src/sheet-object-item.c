@@ -4,18 +4,18 @@
  * Author:
  *   Miguel de Icaza (miguel@kernel.org)
  */
-#include <config.h>
-#include <glib.h>
-#include <gdk/gdkkeysyms.h>
-#include <bonobo/bonobo-ui-component.h>
+#include <gnumeric-config.h>
 #include "gnumeric.h"
+#include "sheet-object-item.h"
+
 #include "gui-util.h"
 #include "gnumeric-canvas.h"
 #include "sheet-control-gui-priv.h"
 #include "workbook-control-gui-priv.h"
 #include "dialogs.h"
-#include "sheet-object-item.h"
 
+#include <gdk/gdkkeysyms.h>
+#include <bonobo/bonobo-ui-component.h>
 #include <gal/util/e-util.h>
 
 static SheetObject *sheet_object_item_parent_class;

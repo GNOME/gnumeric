@@ -3,7 +3,7 @@
 /*
  * border.c: Managing drawing and printing cell borders
  *
- * Copyright (C) 1999, 2000, 2001 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 1999-2001 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -20,8 +20,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "style-border.h"
+
 #include "style-color.h"
 #include "style.h"
 #include "sheet-style.h"

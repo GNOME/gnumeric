@@ -22,8 +22,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "commands.h"
+
 #include "application.h"
 #include "sheet.h"
 #include "sheet-style.h"
@@ -55,7 +57,6 @@
 #include "sheet-object.h"
 #include "sheet-control.h"
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 

@@ -21,7 +21,8 @@
 
 #include <errno.h>
 #include <gnome.h>
-#include "config.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "workbook-view.h"
 #include "workbook.h"
 #include "sheet.h"

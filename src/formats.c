@@ -7,13 +7,13 @@
  * Author:
  *    Miguel de Icaza (miguel@kernel.org)
  */
-#include <config.h>
-#include <string.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "formats.h"
+
 #include "format.h"
+#include <string.h>
+#include <libgnome/gnome-i18n.h>
 
 /* The various formats */
 static char const * const

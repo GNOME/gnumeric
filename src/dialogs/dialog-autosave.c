@@ -7,14 +7,14 @@
  *
  * (C) Copyright 2000, 2001 by Jukka-Pekka Iivonen (jiivonen@hutcs.cs.hut.fi)
  **/
-#include <config.h>
-#include "gnumeric.h"
-#include "workbook.h"
-#include "workbook-control-gui-priv.h"
-#include "gui-util.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "dialogs.h"
 
-#include <libgnome/gnome-defs.h>
+#include <workbook.h>
+#include <workbook-control-gui-priv.h>
+#include <gui-util.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-help.h>
 #include <glade/glade.h>

@@ -8,13 +8,14 @@
  *
  * (C) Copyright 2000, 2001 by Jukka-Pekka Iivonen <iivonen@iki.fi>
  **/
-#include <config.h>
-#include "auto-correct.h"
-#include "gui-util.h"
-#include "workbook-edit.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "dialogs.h"
 
-#include <libgnome/gnome-defs.h>
+#include <auto-correct.h>
+#include <gui-util.h>
+#include <workbook-edit.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-help.h>
 #include <glade/glade.h>

@@ -6,32 +6,32 @@
  *   Morten Welinder (terra@diku.dk)
  */
 
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "dialogs.h"
+
+#include <gui-util.h>
+#include <cell.h>
+#include <sheet.h>
+#include <expr.h>
+#include <eval.h>
+#include <format.h>
+#include <value.h>
+#include <mstyle.h>
+#include <number-match.h>
+#include <parse-util.h>
+#include <workbook.h>
+#include <workbook-control.h>
+#include <workbook-edit.h>
+#include <workbook-view.h>
+#include <utils-dialog.h>
+#include <goal-seek.h>
+#include <mathfunc.h>
+#include <widgets/gnumeric-expr-entry.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-help.h>
 #include <math.h>
-#include "gnumeric.h"
-#include "gui-util.h"
-#include "dialogs.h"
-#include "cell.h"
-#include "sheet.h"
-#include "expr.h"
-#include "eval.h"
-#include "format.h"
-#include "value.h"
-#include "mstyle.h"
-#include "number-match.h"
-#include "parse-util.h"
-#include "workbook.h"
-#include "workbook-control.h"
-#include "workbook-edit.h"
-#include "workbook-view.h"
-#include "utils-dialog.h"
-#include "goal-seek.h"
-#include "mathfunc.h"
-#include "widgets/gnumeric-expr-entry.h"
 #ifdef HAVE_IEEEFP_H
 #include <ieeefp.h>
 #endif

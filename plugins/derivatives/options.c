@@ -6,11 +6,11 @@
  *   Morten Welinder <terra@diku.dk>     Port to new plugin framework.
  *                                         Cleanup.
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <glib.h>
 #include <math.h>
 
-#include "gnumeric.h"
 #include "func.h"
 #include "mathfunc.h"
 #include "plugin.h"

@@ -8,11 +8,10 @@
  *   Michael Meeks   (mmeeks@gnu.org)
  *   Jody Goldberg   (jody@gnome.org)
  */
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
+#include <gnumeric-config.h>
 #include "gnumeric.h"
+#include "sheet-object.h"
+
 #include "sheet-control-gui.h"
 #include "dialogs.h"
 #include "sheet-object-impl.h"
@@ -27,6 +26,7 @@
 #include "sheet-object-cell-comment.h"
 #include "sheet-object-widget.h"
 
+#include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 
 /* Returns the class for a SheetObject */

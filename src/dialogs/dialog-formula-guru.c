@@ -20,24 +20,24 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "dialogs.h"
+
+#include <parse-util.h>
+#include <gui-util.h>
+#include <workbook.h>
+#include <sheet.h>
+#include <workbook-edit.h>
+#include <workbook-control.h>
+#include <cell.h>
+#include <expr.h>
+#include <func.h>
+#include <format.h>
+#include <widgets/gnumeric-expr-entry.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <gdk/gdkkeysyms.h>
-#include "gnumeric.h"
-#include "parse-util.h"
-#include "gui-util.h"
-#include "dialogs.h"
-#include "workbook.h"
-#include "sheet.h"
-#include "workbook-edit.h"
-#include "workbook-control.h"
-#include "cell.h"
-#include "expr.h"
-#include "func.h"
-#include "format.h"
-#include "widgets/gnumeric-expr-entry.h"
 #include <locale.h>
 
 #define MAX_ARGS_DISPLAYED 4

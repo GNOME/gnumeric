@@ -8,7 +8,8 @@
  * (C) 2000 HelixCode, Inc
  **/
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <assert.h>
 #include <stdio.h>
 #include <sys/stat.h>
@@ -27,7 +28,6 @@
 #include <gbrun/libgbrun.h>
 #include <libole2/ms-ole-vba.h>
 
-#include "gnumeric.h"
 #include "plugin.h"
 #include "plugin-util.h"
 #include "error-info.h"

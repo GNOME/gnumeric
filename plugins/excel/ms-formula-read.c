@@ -6,13 +6,13 @@
  *
  * (C) 1998-2001 Michael Meeks
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "ms-formula-read.h"
 #include "excel.h"
 #include "ms-biff.h"
 #include "formula-types.h"
 #include "boot.h"
-#include <gnumeric.h>
 #include <gutils.h>
 #include <func.h>
 #include <value.h>

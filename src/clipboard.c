@@ -5,12 +5,10 @@
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
  */
-#include <config.h>
-#include <glib.h>
-#include <locale.h>
-#include <string.h>
-#include <ctype.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "clipboard.h"
+
 #include "sheet.h"
 #include "sheet-style.h"
 #include "sheet-merge.h"
@@ -25,9 +23,12 @@
 #include "expr.h"
 #include "commands.h"
 #include "value.h"
-
 #include "dialog-stf.h"
 #include "stf-parse.h"
+
+#include <locale.h>
+#include <string.h>
+#include <ctype.h>
 
 static gboolean
 cell_has_expr_or_number_or_blank (Cell const * cell)

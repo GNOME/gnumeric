@@ -5,16 +5,11 @@
  * Author: Zbigniew Chyla (cyba@gnome.pl)
  */
 
-#include <config.h>
-#include <fnmatch.h>
-#include <glib.h>
-#include <gnome-xml/tree.h>
-#include <gnome-xml/xmlmemory.h>
-#include <libgnome/libgnome.h>
-#include <gal/util/e-xml-utils.h>
-#include <gal/util/e-util.h>
-#include "portability.h"
+#include <gnumeric-config.h>
 #include "gnumeric.h"
+#include "plugin-service.h"
+
+#include "portability.h"
 #include "workbook.h"
 #include "workbook-view.h"
 #include "func.h"
@@ -23,7 +18,14 @@
 #include "file.h"
 #include "file-priv.h"
 #include "plugin.h"
-#include "plugin-service.h"
+
+#include <fnmatch.h>
+#include <glib.h>
+#include <gnome-xml/tree.h>
+#include <gnome-xml/xmlmemory.h>
+#include <libgnome/libgnome.h>
+#include <gal/util/e-xml-utils.h>
+#include <gal/util/e-util.h>
 
 typedef enum {FILE_PATTERN_SHELL, FILE_PATTERN_REGEXP, FILE_PATTERN_LAST} InputFilePatternType;
 

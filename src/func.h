@@ -5,7 +5,6 @@
 #include "value.h"
 #include "expr.h"
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 
 /* Setup of the symbol table */

@@ -5,16 +5,15 @@
  *  Mike Kestner (mkestner@ameritech.net)
  *
  */
-#include <config.h>
-#include <glib.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
+#include "history.h"
 
 #include "application.h"
-#include "history.h"
 #include "workbook-control-gui-priv.h"
 #include "workbook-view.h"
 #include "workbook.h"
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #ifdef ENABLE_BONOBO
 #include <bonobo.h>

@@ -15,8 +15,10 @@
  * the "owner" of the cell to be able to repaint its contents.
  *
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "cellspan.h"
+
 #include "cell.h"
 #include "sheet.h"
 #include "sheet-merge.h"

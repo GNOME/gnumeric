@@ -5,15 +5,17 @@
  *  Michael Meeks <michael@imaginator.com>
  *
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include "dialogs.h"
+
+#include <gui-util.h>
+#include <func.h>
+#include <workbook.h>
+#include <str.h>
+
 #include <ctype.h>
 #include <glade/glade.h>
-#include "gnumeric.h"
-#include "gui-util.h"
-#include "func.h"
-#include "dialogs.h"
-#include "workbook.h"
-#include "str.h"
 
 #define HELP_BUTTON (GNOME_CANCEL + 1)
 

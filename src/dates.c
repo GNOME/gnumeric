@@ -5,11 +5,11 @@
  *    Miguel de Icaza (miguel@kernel.org)
  */
 
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "dates.h"
+
+#include <libgnome/gnome-i18n.h>
 
 /* FIXME : use nl_langinfo */
 const char *day_short [] =

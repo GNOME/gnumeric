@@ -5,13 +5,15 @@
  *   Miguel de Icaza (miguel@gnu.org)
  *   Jukka-Pekka Iivonen (iivonen@iki.fi)
  */
-#include <config.h>
-#include "func.h"
-#include "parse-util.h"
-#include "str.h"
-#include "cell.h"
-#include "datetime.h"
-#include "auto-format.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include <func.h>
+
+#include <parse-util.h>
+#include <str.h>
+#include <cell.h>
+#include <datetime.h>
+#include <auto-format.h>
 
 #include <math.h>
 #include <string.h>

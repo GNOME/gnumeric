@@ -11,9 +11,10 @@
  *   * Feedback on expressions in the spreadsheet (referenced cells or
  *     ranges are highlighted on the spreadsheet).
  */
-#include <config.h>
-
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "item-edit.h"
+
 #include "item-cursor.h"
 #define GNUMERIC_ITEM "EDIT"
 #include "item-debug.h"

@@ -1,12 +1,12 @@
 #ifndef GNUMERIC_WIDGET_FONT_SELECTOR_H
 #define GNUMERIC_WIDGET_FONT_SELECTOR_H
 
-#include <gtk/gtk.h>
+#include <gui-gnumeric.h>
 #include <libgnomeprint/gnome-font.h>
 #include <glade/glade.h>
 
-#include "mstyle.h"
-#include "preview-grid.h"
+#include <mstyle.h>
+#include <preview-grid.h>
 
 #define FONT_SELECTOR_TYPE        (font_selector_get_type ())
 #define FONT_SELECTOR(obj)        (GTK_CHECK_CAST((obj), FONT_SELECTOR_TYPE, FontSelector))

@@ -1,4 +1,5 @@
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>

@@ -7,8 +7,10 @@
  *  Miguel de Icaza (miguel@gnu.org)
  *  Jody Goldberg (jgoldbeg@home.com)
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "sheet.h"
+
 #include "command-context.h"
 #include "sheet-control.h"
 #include "sheet-style.h"
@@ -37,7 +39,6 @@
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <stdlib.h>
 #include <ctype.h>

@@ -6,8 +6,10 @@
  *   Jukka-Pekka Iivonen <iivonen@iki.fi>
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "collect.h"
+
 #include "func.h"
 #include "datetime.h"
 

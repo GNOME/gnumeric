@@ -2,7 +2,8 @@
  * Plugin for Gnumeric for the Perl scripting language.
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <EXTERN.h>
 #include <perl.h>
 #undef _
@@ -10,7 +11,6 @@
 #undef dirty
 #include <glib.h>
 #include <gnome.h>
-#include "gnumeric.h"
 #include "plugin.h"
 #include "error-info.h"
 #include "module-plugin-defs.h"

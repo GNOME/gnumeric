@@ -4,14 +4,16 @@
  * Author:
  *  Jukka-Pekka Iivonen (iivonen@iki.fi)
  */
-#include <config.h>
-#include "func.h"
-#include "func-util.h"
-#include "parse-util.h"
-#include "str.h"
-#include "cell.h"
-#include "sheet.h"
-#include "number-match.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include <func.h>
+
+#include <func-util.h>
+#include <parse-util.h>
+#include <str.h>
+#include <cell.h>
+#include <sheet.h>
+#include <number-match.h>
 
 #include <math.h>
 #include <string.h>

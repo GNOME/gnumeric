@@ -20,8 +20,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "workbook-control-gui-priv.h"
+
 #include "application.h"
 #include "workbook-object-toolbar.h"
 #include "workbook-format-toolbar.h"
@@ -72,7 +74,6 @@
 #include <gal/widgets/widget-color-combo.h>
 #include <gal/widgets/gtk-combo-stack.h>
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-config.h>
 

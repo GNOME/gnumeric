@@ -20,21 +20,22 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
+#include "workbook-object-toolbar.h"
+
 #include "sheet.h"
 #include "sheet-control-gui.h"
 #include "workbook-control-gui-priv.h"
 #include "workbook.h"
-#include "workbook-object-toolbar.h"
 #include "gnumeric-toolbar.h"
 #include "sheet-object-widget.h"
 #include "sheet-object-graphic.h"
+
 #ifdef ENABLE_BONOBO
 #include <bonobo.h>
 #endif
+#include <libgnome/gnome-i18n.h>
 
 static void
 create_object_command (SheetControlGUI *scg, SheetObject *so)

@@ -4,10 +4,12 @@
  * Author:
  *     Jody Goldberg <jody@gnome.org>
  *
- *  (C) 1999, 2000 Jody Goldberg
+ *  (C) 1999-2001 Jody Goldberg
  */
-#include "config.h"
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "pattern.h"
+
 #include "style-color.h"
 
 typedef struct {

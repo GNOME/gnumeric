@@ -19,8 +19,10 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#include <config.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "format-template.h"
+
 #include "mstyle.h"
 #include "xml-io-autoft.h"
 #include "sheet.h"
@@ -28,7 +30,6 @@
 #include "style-border.h"
 #include "command-context.h"
 #include "ranges.h"
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 

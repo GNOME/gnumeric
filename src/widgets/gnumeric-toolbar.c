@@ -6,9 +6,11 @@
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
  */
-#include <config.h>
-#include <libgnomeui/libgnomeui.h>
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "gnumeric-toolbar.h"
+
+#include <libgnomeui/libgnomeui.h>
 
 GtkType
 gnumeric_toolbar_get_type (void)

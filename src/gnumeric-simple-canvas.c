@@ -1,7 +1,8 @@
 /* vim: set sw=8: */
-#include <config.h>
-
+#include <gnumeric-config.h>
+#include "gnumeric.h"
 #include "gnumeric-simple-canvas.h"
+
 #include "sheet-control-gui-priv.h"
 #include <gal/util/e-util.h>
 

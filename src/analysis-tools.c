@@ -10,14 +10,13 @@
  * Modified 2001 to use range_* functions of mathfunc.h
  */
 
-#include <config.h>
-#include <glib.h>
-#include <string.h>
-#include <math.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
+#include "analysis-tools.h"
+
 #include "mathfunc.h"
 #include "rangefunc.h"
 #include "numbers.h"
-#include "gnumeric.h"
 #include "dialogs.h"
 #include "parse-util.h"
 #include "tools.h"
@@ -30,8 +29,9 @@
 #include "sheet-style.h"
 #include "workbook.h"
 
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+#include <string.h>
+#include <math.h>
 
 #undef DEBUG_ANALYSIS_TOOLS
 #ifdef DEBUG_ANALYSIS_TOOLS

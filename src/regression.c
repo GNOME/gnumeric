@@ -6,12 +6,13 @@
  *   Andrew Chatham  <andrew.chatham@duke.edu>
  */
 
-#include <config.h>
-#include <glib.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
+#include "regression.h"
+
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
-#include "regression.h"
 
 #define ALLOC_MATRIX(var,dim1,dim2)			\
   do { int _i, _d1, _d2;				\

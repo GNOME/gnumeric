@@ -9,14 +9,17 @@
  *
  * (C) 2000-2001 Ximian, Inc.
  */
-#include <config.h>
-#include <string.h>
+#include <gnumeric-config.h>
+#include "gnumeric.h"
+#include "complete-sheet.h"
+
 #include "sheet.h"
 #include "cell.h"
 #include "str.h"
 #include "value.h"
-#include "complete-sheet.h"
+
 #include <gal/util/e-util.h>
+#include <string.h>
 
 #define SEARCH_STEPS 50
 #define PARENT_TYPE (complete_get_type ())

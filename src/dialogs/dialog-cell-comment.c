@@ -5,16 +5,16 @@
  *  Miguel de Icaza (miguel@gnu.org)
  *
  */
-#include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include "gnumeric.h"
-#include "gui-util.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include "dialogs.h"
-#include "sheet.h"
-#include "cell.h"
-#include "sheet-object-cell-comment.h"
+
+#include <gui-util.h>
+#include <sheet.h>
+#include <cell.h>
+#include <sheet-object-cell-comment.h>
+
+#include <libgnome/gnome-i18n.h>
 
 void
 dialog_cell_comment (WorkbookControlGUI *wbcg, Sheet *sheet, CellPos const *pos)

@@ -1,12 +1,10 @@
 #ifndef GNUMERIC_DIALOG_STF_EXPORT_PRIVATE_H
 #define GNUMERIC_DIALOG_STF_EXPORT_PRIVATE_H
 
-#include <config.h>
-#include <glib.h>
-#include <glade/glade.h>
-
+#include "gui-gnumeric.h"
 #include "gui-util.h"
 #include "stf-export.h"
+#include <glade/glade.h>
 
 /* for the sheet page */
 typedef struct {

@@ -24,7 +24,8 @@
 /* Search for `TODO' for a list of things to do */
 
 /* TODO: Limit the number of include files a bit */
-#include "config.h"
+#include <gnumeric-config.h>
+#include <gnumeric.h>
 #include <libgnome/libgnome.h>
 #include "psiconv-plugin.h"
 #include "application.h"
