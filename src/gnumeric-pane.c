@@ -47,8 +47,8 @@ gnumeric_pane_header_init (GnumericPane *pane, SheetControlGUI *scg,
 	FooCanvasGroup *group = FOO_CANVAS_GROUP (canvas->root);
 	FooCanvasItem *item = foo_canvas_item_new (group,
 		item_bar_get_type (),
-		"ItemBar::GnumericCanvas", pane->gcanvas,
-		"ItemBar::IsColHeader", is_col_header,
+		"GnumericCanvas", pane->gcanvas,
+		"IsColHeader", is_col_header,
 		NULL);
 
 	/* give a non-constraining default in case something scrolls before we
@@ -103,7 +103,7 @@ gnm_pane_init (GnumericPane *pane, SheetControlGUI *scg,
 	gcanvas_group = FOO_CANVAS_GROUP (FOO_CANVAS (pane->gcanvas)->root);
 	item = foo_canvas_item_new (gcanvas_group,
 		item_grid_get_type (),
-		"ItemGrid::SheetControlGUI", scg,
+		"SheetControlGUI", scg,
 		NULL);
 	pane->grid = ITEM_GRID (item);
 
@@ -193,7 +193,7 @@ gnm_pane_bound_set (GnumericPane *pane,
 
 	range_init (&r, start_col, start_row, end_col, end_row);
 	foo_canvas_item_set (FOO_CANVAS_ITEM (pane->grid),
-			     "ItemGrid::Bound", &r,
+			     "bound", &r,
 			     NULL);
 }
 

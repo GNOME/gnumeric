@@ -81,6 +81,4 @@
 #define GNUMERIC_GCONF_CUTANDPASTE_DIRECTORY "/apps/gnumeric/cut-and-paste"
 #define GNUMERIC_GCONF_CUTANDPASTE_PREFER_CLIPBOARD GNUMERIC_GCONF_CUTANDPASTE_DIRECTORY "/prefer-clipboard"
 
-#include <gconf/gconf-client.h>
-
-#endif /* GNUMERIC_GRAPH_H */
+#endif /* GNUMERIC_GCONF_PRIV_H */

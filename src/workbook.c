@@ -56,56 +56,6 @@ enum {
 
 static GQuark signals [LAST_SIGNAL] = { 0 };
 
-/*
- * We introduced numbers in front of the the history file names for two
- * reasons:
- * 1. Bonobo won't let you make 2 entries with the same label in the same
- *    menu. But that's what happens if you e.g. access worksheets with the
- *    same name from 2 different directories.
- * 2. The numbers are useful accelerators.
- * 3. Excel does it this way.
- *
- * Because numbers are reassigned with each insertion, we have to remove all
- * the old entries and insert new ones.
- */
-static void
-workbook_history_update (GList *wl, gchar *filename)
-{
-	gchar *del_name;
-	gchar *canonical_name;
-	GSList *hl;
-	gchar *cwd;
-	gboolean add_sep;
-
-	/* Rudimentary filename canonicalization. */
-	if (!g_path_is_absolute (filename)) {
-		cwd = g_get_current_dir ();
-		canonical_name = g_strconcat (cwd, "/", filename, NULL);
-		g_free (cwd);
-	} else
-		canonical_name = g_strdup (filename);
-
-	/* Get the history list */
-	hl = application_history_get_list ();
-
-	/* If List is empty, a separator will be needed too. */
-	add_sep = (hl == NULL);
-
-	/* Do nothing if filename already at head of list */
-	if (!(hl && strcmp ((gchar *)hl->data, canonical_name) == 0)) {
-		history_menu_flush (wl, hl); /* Remove the old entries */
-
-		/* Update the history list */
-		del_name = application_history_update_list (canonical_name);
-		g_free (del_name);
-
-		/* Fill the menus */
-		hl = application_history_get_list ();
-		history_menu_fill (wl, hl, add_sep);
-	}
-	g_free (canonical_name);
-}
-
 static void
 cb_saver_finalize (Workbook *wb, GnmFileSaver *saver)
 {
@@ -200,7 +150,7 @@ workbook_finalize (GObject *wb_object)
 	wb->sheets = NULL;
 
 	if (wb->file_format_level >= FILE_FL_MANUAL_REMEMBER)
-		workbook_history_update (application_workbook_list (), wb->filename);
+		application_history_add (wb->filename);
 
 	if (wb->filename) {
 	       g_free (wb->filename);
@@ -208,10 +158,8 @@ workbook_finalize (GObject *wb_object)
 	}
 
 #warning this has no business being here
-	if (initial_workbook_open_complete && application_workbook_list () == NULL) {
-		application_history_write_config ();
+	if (initial_workbook_open_complete && application_workbook_list () == NULL)
 		gtk_main_quit ();
-	}
 	G_OBJECT_CLASS (workbook_parent_class)->finalize (wb_object);
 }
 

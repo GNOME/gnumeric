@@ -1,24 +1,23 @@
 #ifndef GNUMERIC_GCONF_H
 #define GNUMERIC_GCONF_H
 
-#include <gconf/gconf-client.h>
 #include <numbers.h>
 
 typedef struct {
 	struct {
-		GSList	*extra_dirs;
+		GSList	const *extra_dirs;
 		char	*sys_dir;
 		char	*usr_dir;
 	} autoformat;
 
 	gint     	 file_history_max;
-	GSList		*file_history_files;
+	GSList const	*file_history_files;
 	guint    	 num_of_recent_funcs;
-	GSList 		*recent_funcs;
+	GSList const	*recent_funcs;
 
-	GSList		*plugin_file_states;
-	GSList		*plugin_extra_dirs;
-	GSList		*active_plugins;
+	GSList const	*plugin_file_states;
+	GSList const	*plugin_extra_dirs;
+	GSList const	*active_plugins;
 	gboolean	 activate_new_plugins;
 
 	gboolean	 show_sheet_name;
@@ -59,16 +58,12 @@ void     gnm_conf_sync (void);
 guint    gnm_gconf_rm_notification (guint id);
 
 /* autocorrect */
-guint    gnm_gconf_add_notification_autocorrect (GConfClientNotifyFunc func);
 void     gnm_gconf_set_autocorrect_init_caps (gboolean val);
 void     gnm_gconf_set_autocorrect_first_letter (gboolean val);
 void     gnm_gconf_set_autocorrect_names_of_days (gboolean val);
 void     gnm_gconf_set_autocorrect_replace (gboolean val);
-void     gnm_gconf_set_autocorrect_init_caps_exceptions (GSList *list);
-void     gnm_gconf_set_autocorrect_first_letter_exceptions (GSList *list);
 
 /* autoformat */
-void     gnm_gconf_set_autoformat_extra_dirs (GSList *list);
 void     gnm_gconf_set_autoformat_sys_dirs (char const * string);
 void     gnm_gconf_set_autoformat_usr_dirs (char const * string);
 
@@ -77,7 +72,6 @@ void     gnm_gconf_set_file_history_max (gint val);
 void     gnm_gconf_set_file_history_files (GSList *list);
 
 /* plugins */
-guint    gnm_gconf_add_notification_plugin_directories (GConfClientNotifyFunc func, gpointer data);
 void     gnm_gconf_set_plugin_file_states (GSList *list);
 void     gnm_gconf_set_plugin_extra_dirs (GSList *list);
 void     gnm_gconf_set_active_plugins (GSList *list);

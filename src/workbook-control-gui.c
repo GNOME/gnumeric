@@ -21,8 +21,6 @@
  * USA
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED"
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include "gnumeric.h"
@@ -1045,12 +1043,157 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 	}
 }
 
+/* Command callback called on activation of a file history menu item. */
+#ifndef WITH_BONOBO
+
+#define UGLY_GNOME_UI_KEY "HistoryFilename"
+
 static void
-wbcg_history_setup (WorkbookControlGUI *wbcg)
+file_history_cmd (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	GSList *hl = application_history_get_list ();
-	if (hl)
-		history_menu_setup (wbcg, hl);
+	char *filename = g_object_get_data (G_OBJECT (widget), UGLY_GNOME_UI_KEY);
+	gui_file_read (wbcg, filename, NULL, NULL);
+}
+
+static void
+wbcg_load_file_history (WorkbookControlGUI *wbcg)
+{
+	/*
+	 * xgettext:
+	 * This string must translate to exactly the same strings as the
+	 * 'Preferences...' item in the
+	 * 'File' menu
+	 */
+	char const *seperator_path = _("_File/Preferen_ces...");
+	GtkWidget  *sep, *w;
+	int sep_pos, accel_number = 1;
+	GSList const *ptr = application_history_get_list (FALSE);
+	unsigned new_history_size = g_slist_length ((GSList *)ptr);
+	GnomeUIInfo info[] = {
+		{ GNOME_APP_UI_ITEM, NULL, NULL, file_history_cmd, NULL },
+		GNOMEUIINFO_END
+	};
+
+	sep = gnome_app_find_menu_pos (GNOME_APP (wbcg->toplevel)->menubar,
+		seperator_path, &sep_pos);
+	if (sep == NULL) {
+		g_warning ("Probable mis-translation. '%s' : was not found. "
+			   "Does this match the '_File/Preferen_ces...' menu exactly ?",
+			   seperator_path);
+		return;
+	}
+
+	/* remove the old items including the seperator */
+	if (wbcg->file_history_size > 0) {
+		char *label = history_item_label ((gchar *)ptr->data, 1);
+		char *path = g_strconcat (_("File/"), label, NULL);
+		gnome_app_remove_menu_range (GNOME_APP (wbcg->toplevel),
+			seperator_path, 1, wbcg->file_history_size + 1);
+		g_free (path);
+		g_free (label);
+	}
+
+	/* add seperator */
+	if (new_history_size > 0) {
+		w = gtk_menu_item_new ();
+		gtk_menu_shell_insert (GTK_MENU_SHELL (sep), w, sep_pos++);
+		gtk_widget_set_sensitive (w, FALSE);
+		gtk_widget_show (w);
+	}
+
+	for (accel_number = 1; ptr != NULL ; ptr = ptr->next, accel_number++) {
+		char *label = history_item_label (ptr->data, accel_number);
+		info [0].hint = ptr->data;;
+		info [0].label = label;
+		info [0].user_data = wbcg;
+
+		gnome_app_fill_menu (GTK_MENU_SHELL (sep), info,
+			GNOME_APP (wbcg->toplevel)->accel_group, TRUE,
+			sep_pos++);
+		gnome_app_install_menu_hints (GNOME_APP (wbcg->toplevel), info);
+		g_object_set_data (G_OBJECT (info[0].widget),
+			UGLY_GNOME_UI_KEY, ptr->data);
+		g_free (label);
+	}
+
+	wbcg->file_history_size = new_history_size;
+}
+#else
+
+static void
+file_history_cmd (BonoboUIComponent *uic, WorkbookControlGUI *wbcg, const char *path)
+{
+	char *fullpath = g_strconcat ("/menu/File/FileHistory/", path, NULL);
+	char *filename = bonobo_ui_component_get_prop (wbcg->uic, fullpath,
+						       "tip", NULL);
+
+	gui_file_read (wbcg, filename, NULL, NULL);
+	g_free (filename);
+	g_free (fullpath);
+}
+
+static void
+wbcg_load_file_history (WorkbookControlGUI *wbcg)
+{
+	GSList const *ptr = application_history_get_list (FALSE);
+	unsigned new_history_size = g_slist_length ((GSList *)ptr);
+	unsigned i, accel_number = 1;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	bonobo_ui_component_freeze (wbcg->uic, &ev);
+
+	/* first remove the items, then re-insert */
+	for (i = 0 ; i < wbcg->file_history_size  ; i++) {
+		char *tmp = g_strdup_printf (
+			"/menu/File/FileHistory/FileHistory%d", accel_number++);
+		bonobo_ui_component_rm (wbcg->uic, tmp, &ev);
+		g_free (tmp);
+
+		tmp = g_strdup_printf ("FileHistory%d", accel_number);
+		bonobo_ui_component_remove_verb (wbcg->uic, tmp);
+		g_free (tmp);
+	}
+
+	/* Add a new menu item for each item in the history list */
+	for (accel_number = 1; ptr != NULL ; ptr = ptr->next, accel_number++) {
+		char *id, *str, *label, *filename;
+
+		id = g_strdup_printf ("FileHistory%d", accel_number);
+		str = history_item_label (ptr->data, accel_number);
+		label = bonobo_ui_util_encode_str (str);
+		g_free (str);
+
+		filename = bonobo_ui_util_encode_str ((char const *) ptr->data);
+		str = g_strdup_printf ("<menuitem name=\"%s\" "
+				       "verb=\"%s\" "
+				       "label=\"%s\" "
+				       "tip=\"%s\"/>\n",
+				       id, id, label, filename);
+		bonobo_ui_component_set (wbcg->uic,
+					 "/menu/File/FileHistory", str, &ev);
+		bonobo_ui_component_add_verb (
+			wbcg->uic, id, (BonoboUIVerbFn) file_history_cmd, wbcg);
+		g_free (id);
+		g_free (str);
+		g_free (filename);
+		g_free (label);
+	}
+
+	bonobo_ui_component_thaw (wbcg->uic, &ev);
+	CORBA_exception_free (&ev);
+	wbcg->file_history_size = new_history_size;
+}
+#endif
+
+
+static void
+wbcg_file_history_setup (WorkbookControlGUI *wbcg)
+{
+	wbcg_load_file_history (wbcg);
+	g_signal_connect_object (gnumeric_application_get_app (),
+		"notify::file-history-list",
+		G_CALLBACK (wbcg_load_file_history), wbcg, G_CONNECT_SWAPPED);
 }
 
 static gboolean
@@ -1148,8 +1291,8 @@ change_menu_sensitivity (GtkWidget *menu_item, gboolean sensitive)
 }
 
 static void
-change_menu_label (GtkWidget *menu_item, char const *prefix, char const *suffix,
-		   char const *new_tip)
+change_menu_label (WorkbookControlGUI *wbcg, GtkWidget *menu_item,
+		   char const *prefix, char const *suffix, char const *new_tip)
 {
 	GtkBin   *bin = GTK_BIN (menu_item);
 	GtkLabel *label = GTK_LABEL (bin->child);
@@ -1157,7 +1300,8 @@ change_menu_label (GtkWidget *menu_item, char const *prefix, char const *suffix,
 	g_return_if_fail (label != NULL);
 
 	if (prefix == NULL) {
-		gtk_label_parse_uline (label, suffix);
+		gtk_label_set_text (label, suffix);
+		gtk_label_set_use_underline (label, TRUE);
 	} else {
 		gchar    *text;
 		gboolean  sensitive = TRUE;
@@ -1169,12 +1313,23 @@ change_menu_label (GtkWidget *menu_item, char const *prefix, char const *suffix,
 
 		text = g_strdup_printf ("%s : %s", prefix, suffix);
 
-		gtk_label_parse_uline (label, text);
-		gtk_widget_set_sensitive (menu_item, sensitive);
+		gtk_label_set_text (label, text);
+		gtk_label_set_use_underline (label, TRUE);
 		g_free (text);
+
+		gtk_widget_set_sensitive (menu_item, sensitive);
 	}
 
-#warning "FIXME: do something with new_tip here."
+	if (new_tip != NULL) {
+		/* MASSIVE HACK
+		 * libgnomeui adds the signal handlers every time we call
+		 * gnome_app_install_menu_hints.  Which builds up a rather
+		 * large signal queue.  So cheat andjsut tweak the underlying
+		 * data structure.  This code is going to get burned out as
+		 * soon as we move to egg menu */
+		g_object_set_data (G_OBJECT (menu_item),
+			"apphelper_statusbar_hint", (gpointer)(L_(new_tip)));
+	}
 }
 
 #else
@@ -1345,7 +1500,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 			: _("Freeze the top left of the sheet");
 
 #ifndef WITH_BONOBO
-		change_menu_label (wbcg->menu_item_freeze_panes,
+		change_menu_label (wbcg, wbcg->menu_item_freeze_panes,
 				   NULL, label, new_tip);
 #else
 		change_menu_label (wbcg, "/commands/ViewFreezeThawPanes",
@@ -1363,7 +1518,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 			: _("Add a filter");
 
 #ifndef WITH_BONOBO
-		change_menu_label (wbcg->menu_item_auto_filter,
+		change_menu_label (wbcg, wbcg->menu_item_auto_filter,
 				   NULL, label, new_tip);
 #else
 		change_menu_label (wbcg, "/commands/DataAutoFilter",
@@ -1379,8 +1534,8 @@ wbcg_undo_redo_labels (WorkbookControl *wbc, char const *undo, char const *redo)
 	g_return_if_fail (wbcg != NULL);
 
 #ifndef WITH_BONOBO
-	change_menu_label (wbcg->menu_item_undo, _("Undo"), undo, NULL);
-	change_menu_label (wbcg->menu_item_redo, _("Redo"), redo, NULL);
+	change_menu_label (wbcg, wbcg->menu_item_undo, _("Undo"), undo, NULL);
+	change_menu_label (wbcg, wbcg->menu_item_redo, _("Redo"), redo, NULL);
 #else
 	change_menu_label (wbcg, "/commands/EditUndo", _("_Undo"), undo, NULL);
 	change_menu_label (wbcg, "/commands/EditRedo", _("_Redo"), redo, NULL);
@@ -2080,11 +2235,7 @@ cb_edit_paste (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_edit_paste_special (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	SheetView *sv = wb_control_cur_sheet_view (wbc);
-	int flags = dialog_paste_special (wbcg);
-	if (flags != 0)
-		cmd_paste_to_selection (wbc, sv, flags);
+	dialog_paste_special (wbcg);
 }
 
 static void
@@ -2825,6 +2976,7 @@ cb_auto_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	GnmFilter *filter = sv_first_selection_in_filter (sv);
 
+#warning Add undo/redo
 	if (filter == NULL) {
 		Range const *src = selection_first_range (sv,
 			COMMAND_CONTEXT (wbcg), _("Add Filter"));
@@ -2833,7 +2985,6 @@ cb_auto_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 				 _("AutoFilter"), _("Requires more than 1 row"));
 			return;
 		}
-#warning Add undo/redo
 		gnm_filter_new (sv->sheet, src);
 	} else {
 		/* keep distinct to simplify undo/redo later */
@@ -4450,12 +4601,12 @@ wbcg_finalize (GObject *obj)
 	 * destruction.
 	 */
 	if (wbcg->notebook != NULL)
-		gtk_signal_disconnect_by_func (
-			GTK_OBJECT (wbcg->notebook),
-			GTK_SIGNAL_FUNC (cb_notebook_switch_page), wbcg);
-	gtk_signal_disconnect_by_func (
-		GTK_OBJECT (wbcg->toplevel),
-		GTK_SIGNAL_FUNC (wbcg_set_focus), wbcg);
+		g_signal_handlers_disconnect_by_func (
+			G_OBJECT (wbcg->notebook),
+			G_CALLBACK (cb_notebook_switch_page), wbcg);
+	g_signal_handlers_disconnect_by_func (
+		G_OBJECT (wbcg->toplevel),
+		G_CALLBACK (wbcg_set_focus), wbcg);
 
 	wbcg_auto_complete_destroy (wbcg);
 	wbcg_edit_dtor (wbcg);
@@ -4549,7 +4700,7 @@ workbook_setup_sheets (WorkbookControlGUI *wbcg)
 		G_CALLBACK (cb_notebook_switch_page), wbcg);
 
 	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (wbcg->notebook), GTK_POS_BOTTOM);
-	gtk_notebook_set_tab_border (GTK_NOTEBOOK (wbcg->notebook), 0);
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (wbcg->notebook), FALSE);
 
 	gtk_table_attach (GTK_TABLE (wbcg->table), GTK_WIDGET (wbcg->notebook),
 			  0, 1, 1, 2,
@@ -5180,7 +5331,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	workbook_create_object_toolbar (wbcg);
 	wbcg->toolbar_is_sensitive = TRUE;
 
-	wbcg_history_setup (wbcg);		/* Dynamic history menu items. */
+	wbcg_file_history_setup (wbcg);		/* Dynamic history menu items. */
 
 	/*
 	 * Initialize the menu items, This will enable insert cols/rows
@@ -5224,7 +5375,10 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		G_CALLBACK (wbcg_drag_data_get), WORKBOOK_CONTROL (wbc));
 #endif
 
-	gtk_window_set_policy (wbcg->toplevel, TRUE, TRUE, FALSE);
+	g_object_set (G_OBJECT (wbcg->toplevel),
+		"allow_grow", TRUE,
+		"allow_shrink", TRUE,
+		NULL);
 
 	/* Init autosave */
 	wbcg->autosave_timer = 0;
@@ -5243,7 +5397,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 #endif
 
 	/* Postpone showing the GUI, so that we may resize it freely. */
-	gtk_idle_add ((GtkFunction) show_gui, wbcg);
+	g_idle_add ((GSourceFunc) show_gui, wbcg);
 }
 
 static int

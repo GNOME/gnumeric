@@ -1617,7 +1617,7 @@ sheet_widget_list_finalize (GObject *obj)
 static GtkWidget *
 sheet_widget_list_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
 {
-	return gtk_list_new ();
+	return gtk_tree_view_new ();
 }
 
 static gboolean

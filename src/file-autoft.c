@@ -193,7 +193,8 @@ category_group_list_get (void)
 	dir_list = g_create_slist (gnm_app_prefs->autoformat.sys_dir,
 				   gnm_app_prefs->autoformat.usr_dir,
 				   NULL);
-	dir_list = g_slist_concat (dir_list, g_slist_copy (gnm_app_prefs->autoformat.extra_dirs));
+	dir_list = g_slist_concat (dir_list,
+		g_slist_copy ((GSList *)gnm_app_prefs->autoformat.extra_dirs));
 	categories = category_list_get_from_dir_list (dir_list);
 
 	categories = g_list_sort (categories, category_compare_orig_name_and_dir);

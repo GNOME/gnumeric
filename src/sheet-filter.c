@@ -213,15 +213,12 @@ static gint
 cb_filter_button_press (GtkWidget *popup, GdkEventButton *event,
 			GtkWidget *list)
 {
-	if (event->x >= 0 && event->y >= 0 &&
-	    event->x < popup->allocation.width &&
-	    event->y < popup->allocation.height) {
-		return FALSE;
-	}
-
 	/* A press outside the popup cancels */
-	filter_popup_destroy (popup, list);
-	return TRUE;
+	if (event->window != popup->window) {
+		filter_popup_destroy (popup, list);
+		return TRUE;
+	}
+	return FALSE;
 }
 
 static gint

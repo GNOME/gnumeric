@@ -19,6 +19,7 @@ struct _WorkbookControlGUI {
 	GtkWindow *toplevel;
 	GtkNotebook *notebook;
 
+	unsigned file_history_size;
 #ifdef WITH_BONOBO
 	GHashTable *custom_ui_components;
 	BonoboUIComponent *uic;

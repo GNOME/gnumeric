@@ -47,11 +47,8 @@ SheetView *  application_clipboard_sheet_view_get (void);
 CellRegion * application_clipboard_contents_get	  (void);
 Range const* application_clipboard_area_get	  (void);
 
-GSList *     application_history_get_list	(void);
-gchar *	     application_history_update_list	(const gchar *);
-gchar *	     application_history_list_shrink	(void);
-void 	     application_history_write_config 	(void);
-
+GSList const*application_history_get_list	(gboolean force_reload);
+void	     application_history_add		(char const *filename);
 
 double	     application_display_dpi_get (gboolean horizontal);
 double	     application_dpi_to_pixels (void);

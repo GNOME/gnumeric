@@ -9,8 +9,6 @@
  *     Jody Goldberg (jody@gnome.org)
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED"
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "item-grid.h"
@@ -56,14 +54,6 @@
 #define MERGE_DEBUG(range, str)
 #endif
 
-static FooCanvasItemClass *item_grid_parent_class;
-
-/* The arguments we take */
-enum {
-	ARG_0,
-	ARG_SHEET_CONTROL_GUI,
-	ARG_SHEET_BOUND
-};
 typedef enum {
 	ITEM_GRID_NO_SELECTION,
 	ITEM_GRID_SELECTING_CELL_RANGE,
@@ -102,6 +92,14 @@ struct _ItemGrid {
 
 	guint32 last_click_time;
 };
+typedef FooCanvasItemClass ItemGridClass;
+static FooCanvasItemClass *parent_class;
+
+enum {
+	ITEM_GRID_PROP_0,
+	ITEM_GRID_PROP_SHEET_CONTROL_GUI,
+	ITEM_GRID_PROP_BOUND
+};
 
 static void
 ig_clear_hlink_tip (ItemGrid *ig)
@@ -118,7 +116,7 @@ ig_clear_hlink_tip (ItemGrid *ig)
 }
 
 static void
-item_grid_destroy (GtkObject *object)
+item_grid_finalize (GObject *object)
 {
 	ItemGrid *ig = ITEM_GRID (object);
 
@@ -129,8 +127,8 @@ item_grid_destroy (GtkObject *object)
 	ig_clear_hlink_tip (ig);
 	ig->cur_link = NULL;
 
-	if (GTK_OBJECT_CLASS (item_grid_parent_class)->destroy)
-		(*GTK_OBJECT_CLASS (item_grid_parent_class)->destroy)(object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(*G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 static void
@@ -139,8 +137,8 @@ item_grid_realize (FooCanvasItem *item)
 	GdkWindow *window;
 	ItemGrid  *ig;
 
-	if (FOO_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)
-		(*FOO_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)(item);
+	if (parent_class->realize)
+		(*parent_class->realize) (item);
 
 	ig = ITEM_GRID (item);
 	window = GTK_WIDGET (item->canvas)->window;
@@ -171,15 +169,15 @@ item_grid_unrealize (FooCanvasItem *item)
 	g_object_unref (G_OBJECT (ig->gc.empty));	ig->gc.empty = NULL;
 	g_object_unref (G_OBJECT (ig->gc.bound));	ig->gc.bound = NULL;
 
-	if (FOO_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)
-		(*FOO_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)(item);
+	if (parent_class->unrealize)
+		(*parent_class->unrealize) (item);
 }
 
 static void
 item_grid_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int flags)
 {
-	if (FOO_CANVAS_ITEM_CLASS (item_grid_parent_class)->update)
-		(* FOO_CANVAS_ITEM_CLASS (item_grid_parent_class)->update) (item, i2w_dx, i2w_dy, flags);
+	if (parent_class->update)
+		(*parent_class->update) (item, i2w_dx, i2w_dy, flags);
 
 	item->x1 = 0;
 	item->y1 = 0;
@@ -1242,54 +1240,49 @@ item_grid_init (ItemGrid *ig)
 }
 
 static void
-item_grid_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+item_grid_set_property (GObject *obj, guint param_id,
+			GValue const *value, GParamSpec *pspec)
 {
-	ItemGrid *ig = ITEM_GRID (o);
+	ItemGrid *ig = ITEM_GRID (obj);
+	Range const *r;
 
-	switch (arg_id) {
-	case ARG_SHEET_CONTROL_GUI :
-		ig->scg = GTK_VALUE_POINTER (*arg);
+	switch (param_id) {
+	case ITEM_GRID_PROP_SHEET_CONTROL_GUI :
+		ig->scg = g_value_get_object (value);
 		break;
-	case ARG_SHEET_BOUND : {
-		Range const *r = GTK_VALUE_POINTER (*arg);
+
+	case ITEM_GRID_PROP_BOUND :
+		r = g_value_get_pointer (value);
 		g_return_if_fail (r != NULL);
 		ig->bound =  *r;
 		break;
 	}
-
-	default :
-		g_warning ("unknown arg %d", arg_id);
-	}
 }
 
-typedef struct {
-	FooCanvasItemClass parent_class;
-} ItemGridClass;
-
 static void
-item_grid_class_init (ItemGridClass *item_grid_class)
+item_grid_class_init (GObjectClass *gobject_klass)
 {
-	GtkObjectClass  *object_class;
-	FooCanvasItemClass *item_class;
+	FooCanvasItemClass *item_klass = (FooCanvasItemClass *) gobject_klass;
 
-	item_grid_parent_class = g_type_class_peek_parent (item_grid_class);
+	parent_class = g_type_class_peek_parent (gobject_klass);
 
-	object_class = (GtkObjectClass *) item_grid_class;
-	item_class = (FooCanvasItemClass *) item_grid_class;
+	gobject_klass->finalize     = item_grid_finalize;
+	gobject_klass->set_property = item_grid_set_property;
+	g_object_class_install_property (gobject_klass, ITEM_GRID_PROP_SHEET_CONTROL_GUI,
+		g_param_spec_object ("SheetControlGUI", "SheetControlGUI",
+			"the sheet control gui controlling the item",
+			SHEET_CONTROL_GUI_TYPE, G_PARAM_WRITABLE));
+	g_object_class_install_property (gobject_klass, ITEM_GRID_PROP_BOUND,
+		g_param_spec_pointer ("bound", "Bound",
+			"The display bounds",
+			G_PARAM_WRITABLE));
 
-	gtk_object_add_arg_type ("ItemGrid::SheetControlGUI", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_SHEET_CONTROL_GUI);
-	gtk_object_add_arg_type ("ItemGrid::Bound", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_SHEET_BOUND);
-
-	object_class->set_arg   = item_grid_set_arg;
-	object_class->destroy   = item_grid_destroy;
-	item_class->update      = item_grid_update;
-	item_class->realize     = item_grid_realize;
-	item_class->unrealize   = item_grid_unrealize;
-	item_class->draw        = item_grid_draw;
-	item_class->point       = item_grid_point;
-	item_class->event       = item_grid_event;
+	item_klass->update      = item_grid_update;
+	item_klass->realize     = item_grid_realize;
+	item_klass->unrealize   = item_grid_unrealize;
+	item_klass->draw        = item_grid_draw;
+	item_klass->point       = item_grid_point;
+	item_klass->event       = item_grid_event;
 }
 
 GSF_CLASS (ItemGrid, item_grid,

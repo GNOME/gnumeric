@@ -166,7 +166,7 @@ g_list_free_custom (GList *list, GFreeFunc free_func)
  * @map_func    : mapping function
  */
 GSList *
-g_slist_map (GSList *list, GnmMapFunc map_func)
+g_slist_map (GSList const *list, GnmMapFunc map_func)
 {
 	GSList *list_copy = NULL;
 

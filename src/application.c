@@ -19,6 +19,7 @@
 #include "sheet-view.h"
 #include "sheet-private.h"
 #include "auto-correct.h"
+#include "gutils.h"
 #include "pixmaps/gnumeric-stock-pixbufs.h"
 #include "gnm-marshalers.h"
 
@@ -26,6 +27,10 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtk.h>
 
+enum {
+	APPLICATION_PROP_0,
+	APPLICATION_PROP_FILE_HISTORY_LIST
+};
 /* Signals */
 enum {
 	WORKBOOK_ADDED,
@@ -54,8 +59,7 @@ struct _GnumericApplication {
 	GList		*workbook_list;
 };
 
-typedef struct
-{
+typedef struct {
 	GObjectClass     parent;
 
 	void (*workbook_added)     (GnumericApplication *gnm_app, Workbook *wb);
@@ -357,129 +361,89 @@ application_dpi_to_pixels (void)
 /**
  * application_history_get_list:
  *
- *  This function returns a pointer to the history list,
  * creating it if necessary.
  *
  * Return value: the list./
  **/
-GSList*
-application_history_get_list (void)
+GSList const *
+application_history_get_list (gboolean force_reload)
 {
         gint max_entries;
+	GSList const *ptr;
+	GSList *res = NULL;
 
-	/* If the list is already populated, return it. */
-	if (app->history_list)
-		return app->history_list;
-
-	max_entries = gnm_app_prefs->file_history_max;
-	app->history_list = gnm_app_prefs->file_history_files;
-
-	while (g_slist_length (app->history_list) > (guint)max_entries) {
-		GSList *last = g_slist_last (app->history_list);
-		g_free (last->data);
-		app->history_list = g_slist_delete_link (app->history_list,
-							last);
+	if (app->history_list != NULL) {
+		if (force_reload) {
+			GSList *tmp = app->history_list;
+			app->history_list = NULL;
+			g_slist_free_custom (tmp, g_free);
+		} else
+			return app->history_list;
 	}
 
-	return app->history_list;
+	max_entries = gnm_app_prefs->file_history_max;
+	for (ptr = gnm_app_prefs->file_history_files;
+	     ptr != NULL && max_entries-- > 0 ; ptr = ptr->next)
+		res = g_slist_prepend (res, g_strdup (ptr->data));
+	return app->history_list = g_slist_reverse (res);;
 }
 
 /**
  * application_history_update_list:
  * @filename:
  *
- * This function updates the history list.  The return value is a
- * pointer to the filename that was removed, if the list was already full
- * or NULL if no items were removed.
- *
- * Return value:
+ * Adds @filename to the application's history of files.
  **/
-gchar *
-application_history_update_list (const gchar *filename)
-{
-	gchar *name, *old_name = NULL;
-	GSList *l = NULL;
-	gint max_entries;
-
-	g_return_val_if_fail (filename != NULL, NULL);
-
-	/* Get maximum list length from config */
-	max_entries = gnm_app_prefs->file_history_max;
-
-	/* Shorten the list in case max_entries has changed. */
-	while (g_slist_length (app->history_list) > (guint) max_entries) {
-		GSList *last = g_slist_last (app->history_list);
-		g_free (last->data);
-		app->history_list = g_slist_delete_link (app->history_list,
-							last);
-	}
-
-	/* Check if this filename already exists in the list */
-	for (l = app->history_list; l ; l = l->next) {
-		if (!strcmp ((gchar *)l->data, filename)) {
-			old_name = (gchar *)l->data;
-			break;
-		}
-	}
-
-	/* Insert the new filename to the new list and free up the old list */
-	name = g_strdup (filename);
-	app->history_list  = g_slist_prepend (app->history_list, name);
-	if (l)
-		app->history_list = g_slist_delete_link (app->history_list, l);
-	if (g_slist_length (app->history_list) > (guint)max_entries) {
-		GSList *last = g_slist_last (app->history_list);
-		old_name = (gchar *)last->data;
-		app->history_list = g_slist_delete_link (app->history_list,
-							last);
-	}
-
-	gnm_gconf_set_file_history_files (app->history_list);
-	gnm_conf_sync ();
-	return old_name;
-}
-
-/* Remove the last item from the history list and return it. */
-gchar *
-application_history_list_shrink (void)
-{
-	gchar *name;
-	GSList *l;
-
-	if (app->history_list == NULL)
-		return NULL;
-
-	l = g_slist_last (app->history_list);
-	name = (gchar *)l->data;
-	app->history_list = g_slist_delete_link (app->history_list, l);
-
-	return name;
-}
-
-/* Write contents of the history list to the configuration file. */
 void
-application_history_write_config (void)
+application_history_add (char const *filename)
 {
-	gint max_entries;
+	char *canonical_name;
+        gint max_entries;
+	GSList *exists;
+	GSList **ptr;
 
-	if (app->history_list == NULL) return;
+	g_return_if_fail (filename != NULL);
 
-	max_entries = gnm_app_prefs->file_history_max;
+	/* Rudimentary filename canonicalization. */
+	if (!g_path_is_absolute (filename)) {
+		char *cwd = g_get_current_dir ();
+		canonical_name = g_strconcat (cwd, "/", filename, NULL);
+		g_free (cwd);
+	} else
+		canonical_name = g_strdup (filename);
 
-	/* Shorten the list in case max_entries has changed. */
-	while (g_slist_length (app->history_list) > (guint) max_entries) {
-		GSList *last = g_slist_last (app->history_list);
-		g_free (last->data);
-		app->history_list = g_slist_delete_link (app->history_list,
-							last);
+	/* force a reload in case max_entries has changed */
+	application_history_get_list (TRUE);
+	exists = g_slist_find_custom (app->history_list,
+				      canonical_name, g_str_compare);
+
+	if (exists != NULL) {
+		/* its already the top of the stack no need to do anything */
+		if (exists == app->history_list) {
+			g_free (canonical_name);
+			return;
+		}
+		/* remove the other instance */
+		g_free (exists->data);
+		app->history_list = g_slist_remove (app->history_list, exists->data);
 	}
 
-	gnm_gconf_set_file_history_files (app->history_list);
-	gnm_conf_sync ();
+	app->history_list = g_slist_prepend (app->history_list, canonical_name);
 
-	g_slist_foreach (app->history_list, (GFunc)g_free, NULL);
-	g_slist_free (app->history_list);
-	app->history_list = NULL;
+	/* clip the list if it is too long */
+	max_entries = gnm_app_prefs->file_history_max;
+	ptr = &(app->history_list);
+	while (*ptr != NULL && max_entries-- > 0)
+		ptr = &((*ptr)->next);
+	if (*ptr != NULL) {
+		g_slist_free_custom (*ptr, g_free);
+		*ptr = NULL;
+	}
+
+	g_object_notify (G_OBJECT (app), "file_history_list");
+	gnm_gconf_set_file_history_files (
+		g_string_slist_copy (app->history_list));
+	gnm_conf_sync ();
 }
 
 gboolean application_use_auto_complete	  (void) { return gnm_app_prefs->auto_complete; }
@@ -623,12 +587,31 @@ gnumeric_application_finalize (GObject *object)
 }
 
 static void
-gnumeric_application_class_init (GObjectClass *klass)
+gnumeric_application_get_property (GObject *obj, guint param_id,
+				   GValue *value, GParamSpec *pspec)
 {
-	parent_klass = g_type_class_peek_parent (klass);
+	GnumericApplication *application = GNUMERIC_APPLICATION (obj);
+	switch (param_id) {
+	case APPLICATION_PROP_FILE_HISTORY_LIST:
+		g_value_set_pointer (value, application->history_list);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static void
+gnumeric_application_class_init (GObjectClass *gobject_klass)
+{
+	parent_klass = g_type_class_peek_parent (gobject_klass);
 
 	/* Object class method overrides */
-	klass->finalize = gnumeric_application_finalize;
+	gobject_klass->finalize = gnumeric_application_finalize;
+	gobject_klass->get_property = gnumeric_application_get_property;
+	g_object_class_install_property (gobject_klass, APPLICATION_PROP_FILE_HISTORY_LIST,
+		g_param_spec_pointer ("file_history_list", "File History List",
+			"A GSlist of filenames that have been read recently",
+			G_PARAM_READABLE));
 
 	signals [WORKBOOK_ADDED] = g_signal_new ("workbook_added",
 		GNUMERIC_APPLICATION_TYPE,

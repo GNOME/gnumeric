@@ -8,7 +8,8 @@
  */
 
 #undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED"
+#warning "This file uses GTK_DISABLE_DEPRECATED for gtk_draw_shadow"
+
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include "gnumeric.h"
@@ -21,7 +22,6 @@
 #include "application.h"
 #include "selection.h"
 #include "gnumeric-canvas.h"
-#include "gnumeric-pane.h"
 #include "workbook-edit.h"
 #include "gui-util.h"
 #include "parse-util.h"
@@ -31,14 +31,6 @@
 #include <gsf/gsf-impl-utils.h>
 #define GNUMERIC_ITEM "BAR"
 #include "item-debug.h"
-
-static FooCanvasItemClass *item_bar_parent_class;
-
-enum {
-	ARG_0,
-	ARG_GNUMERIC_SHEET,
-	ARG_IS_COL_HEADER
-};
 
 struct _ItemBar {
 	FooCanvasItem  canvas_item;
@@ -64,9 +56,14 @@ struct _ItemBar {
 	} pango;
 };
 
-typedef struct {
-	FooCanvasItemClass parent_class;
-} ItemBarClass;
+typedef FooCanvasItemClass ItemBarClass;
+static FooCanvasItemClass *parent_class;
+
+enum {
+	ITEM_BAR_PROP_0,
+	ITEM_BAR_PROP_GNUMERIC_CANVAS,
+	ITEM_BAR_PROP_IS_COL_HEADER
+};
 
 static int
 ib_compute_pixels_from_indent (Sheet const *sheet, gboolean const is_cols)
@@ -187,8 +184,8 @@ item_bar_update (FooCanvasItem *item,  double i2w_dx, double i2w_dy, int flags)
 		item->y2 = INT_MAX/2;
 	}
 
-	if (FOO_CANVAS_ITEM_CLASS (item_bar_parent_class)->update)
-		(*FOO_CANVAS_ITEM_CLASS (item_bar_parent_class)->update)(item, i2w_dx, i2w_dy, flags);
+	if (parent_class->update)
+		(*parent_class->update)(item, i2w_dx, i2w_dy, flags);
 }
 
 static void
@@ -199,8 +196,8 @@ item_bar_realize (FooCanvasItem *item)
 	GtkStyle *style;
 	GdkDisplay *display;
 
-	if (FOO_CANVAS_ITEM_CLASS (item_bar_parent_class)->realize)
-		(*FOO_CANVAS_ITEM_CLASS (item_bar_parent_class)->realize)(item);
+	if (parent_class->realize)
+		(*parent_class->realize)(item);
 
 	ib = ITEM_BAR (item);
 	window = GTK_WIDGET (item->canvas)->window;
@@ -240,8 +237,8 @@ item_bar_unrealize (FooCanvasItem *item)
 	gdk_cursor_unref (ib->change_cursor);
 	gdk_cursor_unref (ib->normal_cursor);
 
-	if (FOO_CANVAS_ITEM_CLASS (item_bar_parent_class)->unrealize)
-		(*FOO_CANVAS_ITEM_CLASS (item_bar_parent_class)->unrealize)(item);
+	if (parent_class->unrealize)
+		(*parent_class->unrealize)(item);
 }
 
 static void
@@ -989,29 +986,26 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 }
 
 static void
-item_bar_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+item_bar_set_property (GObject *obj, guint param_id,
+		       GValue const *value, GParamSpec *pspec)
 {
-	FooCanvasItem *item;
-	ItemBar *ib;
+	ItemBar *ib = ITEM_BAR (obj);
 
-	item = FOO_CANVAS_ITEM (o);
-	ib = ITEM_BAR (o);
-
-	switch (arg_id){
-	case ARG_GNUMERIC_SHEET:
-		ib->gcanvas = GTK_VALUE_POINTER (*arg);
+	switch (param_id){
+	case ITEM_BAR_PROP_GNUMERIC_CANVAS:
+		ib->gcanvas = g_value_get_object (value);
 		break;
-	case ARG_IS_COL_HEADER:
-		ib->is_col_header = GTK_VALUE_BOOL (*arg);
+	case ITEM_BAR_PROP_IS_COL_HEADER:
+		ib->is_col_header = g_value_get_boolean (value);
 		break;
 	}
-	item_bar_update (item, 0., 0., 0);
+	foo_canvas_item_request_update (FOO_CANVAS_ITEM (ib));
 }
 
 static void
-item_bar_destroy (GtkObject *object)
+item_bar_finalize (GObject *obj)
 {
-	ItemBar *ib = ITEM_BAR (object);
+	ItemBar *ib = ITEM_BAR (obj);
 
 	ib_fonts_unref (ib);
 
@@ -1029,8 +1023,8 @@ item_bar_destroy (GtkObject *object)
 		ib->pango.item = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS (item_bar_parent_class)->destroy)
-		(*GTK_OBJECT_CLASS (item_bar_parent_class)->destroy)(object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(*G_OBJECT_CLASS (parent_class)->finalize) (obj);
 }
 
 static void
@@ -1060,29 +1054,30 @@ item_bar_init (ItemBar *ib)
 }
 
 static void
-item_bar_class_init (ItemBarClass *item_bar_class)
+item_bar_class_init (GObjectClass  *gobject_klass)
 {
-	GtkObjectClass  *object_class;
-	FooCanvasItemClass *item_class;
+	FooCanvasItemClass *item_klass = (FooCanvasItemClass *) gobject_klass;
 
-	item_bar_parent_class = g_type_class_peek_parent (item_bar_class);
+	parent_class = g_type_class_peek_parent (gobject_klass);
 
-	object_class = (GtkObjectClass *) item_bar_class;
-	item_class = (FooCanvasItemClass *) item_bar_class;
+	gobject_klass->finalize     = item_bar_finalize;
+	gobject_klass->set_property = item_bar_set_property;
+	g_object_class_install_property (gobject_klass, ITEM_BAR_PROP_GNUMERIC_CANVAS,
+		g_param_spec_object ("GnumericCanvas", "GnumericCanvas",
+			"the canvas of the associated grid",
+			GNM_CANVAS_TYPE, G_PARAM_WRITABLE));
+	g_object_class_install_property (gobject_klass, ITEM_BAR_PROP_IS_COL_HEADER,
+		g_param_spec_boolean ("IsColHeader", "IsColHeader",
+			"Is the item-bar a header for columns or rows",
+			FALSE,
+			G_PARAM_WRITABLE));
 
-	gtk_object_add_arg_type ("ItemBar::GnumericCanvas", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_GNUMERIC_SHEET);
-	gtk_object_add_arg_type ("ItemBar::IsColHeader", GTK_TYPE_BOOL,
-				 GTK_ARG_WRITABLE, ARG_IS_COL_HEADER);
-
-	item_class->update      = item_bar_update;
-	item_class->realize     = item_bar_realize;
-	item_class->unrealize   = item_bar_unrealize;
-	item_class->draw        = item_bar_draw;
-	item_class->point       = item_bar_point;
-	item_class->event       = item_bar_event;
-	object_class->destroy   = item_bar_destroy;
-	object_class->set_arg   = item_bar_set_arg;
+	item_klass->update      = item_bar_update;
+	item_klass->realize     = item_bar_realize;
+	item_klass->unrealize   = item_bar_unrealize;
+	item_klass->draw        = item_bar_draw;
+	item_klass->point       = item_bar_point;
+	item_klass->event       = item_bar_event;
 }
 
 GSF_CLASS (ItemBar, item_bar,

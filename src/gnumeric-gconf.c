@@ -172,6 +172,14 @@ gnm_gconf_rm_notification (guint id)
 void
 gnm_gconf_set_plugin_file_states (GSList *list)
 {
+	g_return_if_fail (prefs.plugin_file_states != list);
+
+	/* the const_casts are ok, the const in the header is just to keep
+	 * people for doing stupid things */
+	g_slist_foreach ((GSList *)prefs.plugin_file_states, (GFunc)g_free, NULL);
+	g_slist_free ((GSList *)prefs.plugin_file_states);
+	prefs.plugin_file_states = list;
+
 	gconf_client_set_list (application_get_gconf_client (),
 			       PLUGIN_GCONF_FILE_STATES,
 			       GCONF_VALUE_STRING, list, NULL);
@@ -180,16 +188,17 @@ gnm_gconf_set_plugin_file_states (GSList *list)
 void
 gnm_gconf_set_plugin_extra_dirs (GSList *list)
 {
+	g_return_if_fail (prefs.plugin_extra_dirs != list);
+
+	/* the const_casts are ok, the const in the header is just to keep
+	 * people for doing stupid things */
+	g_slist_foreach ((GSList *)prefs.plugin_extra_dirs, (GFunc)g_free, NULL);
+	g_slist_free ((GSList *)prefs.plugin_extra_dirs);
+	prefs.plugin_extra_dirs = list;
+
 	gconf_client_set_list (application_get_gconf_client (),
 			       PLUGIN_GCONF_EXTRA_DIRS,
 			       GCONF_VALUE_STRING, list, NULL);
-}
-
-guint
-gnm_gconf_add_notification_plugin_directories (GConfClientNotifyFunc func, gpointer data)
-{
-	return gconf_client_notify_add (application_get_gconf_client (), PLUGIN_GCONF_EXTRA_DIRS,
-					func, data, NULL, NULL);
 }
 
 void
@@ -276,6 +285,13 @@ gnm_gconf_set_file_history_max (gint val)
 void
 gnm_gconf_set_file_history_files (GSList *list)
 {
+	g_return_if_fail (prefs.file_history_files != list);
+
+	/* the const_casts are ok, the const in the header is just to keep
+	 * people for doing stupid things */
+	g_slist_foreach ((GSList *)prefs.file_history_files, (GFunc)g_free, NULL);
+	g_slist_free ((GSList *)prefs.file_history_files);
+	prefs.file_history_files = list;
 	gconf_client_set_list (application_get_gconf_client (),
 			       GNUMERIC_GCONF_FILE_HISTORY_FILES,
 			       GCONF_VALUE_STRING, list, NULL);
@@ -324,14 +340,6 @@ gnm_gconf_set_undo_max_number (gint val)
 	gconf_client_set_int (application_get_gconf_client (),
 			      GNUMERIC_GCONF_UNDO_MAXNUM,
 			      val, NULL);
-}
-
-void
-gnm_gconf_set_autoformat_extra_dirs (GSList *list)
-{
-	gconf_client_set_list (application_get_gconf_client (),
-			       AUTOFORMAT_GCONF_EXTRA_DIRS,
-			       GCONF_VALUE_STRING, list, NULL);
 }
 
 void

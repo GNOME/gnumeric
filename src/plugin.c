@@ -1401,7 +1401,7 @@ gnumeric_extra_plugin_dirs (void)
 	GSList *extra_dirs;
 	gchar const *plugin_path_env;
 
-	extra_dirs = gnm_app_prefs->plugin_extra_dirs;
+	extra_dirs = g_string_slist_copy (gnm_app_prefs->plugin_extra_dirs);
 	plugin_path_env = g_getenv ("GNUMERIC_PLUGIN_PATH");
 	if (plugin_path_env != NULL) {
 		GNM_SLIST_CONCAT (extra_dirs, g_strsplit_to_slist (plugin_path_env, ":"));
@@ -1696,7 +1696,7 @@ plugins_init (CommandContext *context)
 {
 	GSList *error_list = NULL;
 	ErrorInfo *error;
-	GSList *plugin_list, *state_str_list;
+	GSList *plugin_list;
 
 	gnumeric_time_counter_push ();
 
@@ -1704,15 +1704,13 @@ plugins_init (CommandContext *context)
 
 	/* initialize hash table with information about known plugin.xml files */
 	plugin_file_state_dir_hash = g_hash_table_new_full (g_str_hash, g_str_equal, NULL, plugin_file_state_free);
-	state_str_list = gnm_app_prefs->plugin_file_states;
-	GNM_SLIST_FOREACH (state_str_list, char, state_str,
+	GNM_SLIST_FOREACH (gnm_app_prefs->plugin_file_states, char, state_str,
 		PluginFileState *state;
 
 		state = plugin_file_state_from_string (state_str);
 		if (state != NULL)
 			g_hash_table_insert (plugin_file_state_dir_hash, state->dir_name, state);
 	);
-	g_slist_free_custom (state_str_list, g_free);
 	plugin_file_state_hash_changed = FALSE;
 
 	/* collect information about the available plugins */
@@ -1818,8 +1816,8 @@ plugins_shutdown (void)
 	    g_hash_table_size (plugin_file_state_dir_hash) != g_slist_length (used_plugin_state_strings)) {
 		gnm_gconf_set_plugin_file_states (used_plugin_state_strings);
 		plugin_message (5, "Plugin cache changed\n");
-	}
-	g_slist_free_custom (used_plugin_state_strings, g_free);
+	} else
+		g_slist_free_custom (used_plugin_state_strings, g_free);
 
 	g_hash_table_destroy (plugin_file_state_dir_hash);
 	g_hash_table_destroy (loader_services);

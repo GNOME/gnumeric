@@ -37,14 +37,14 @@ G_STMT_START { \
 #define GNM_LIST_SORT(list,cmp_func) \
 	(list = g_list_sort (list, cmp_func))
 
-GSList   *g_slist_map        (GSList *list, GnmMapFunc map_func);
+GSList   *g_slist_map        (GSList const *list, GnmMapFunc map_func);
 GSList    *g_create_slist	     (gpointer item1, ...);
 void      g_slist_free_custom (GSList *list, GFreeFunc free_func);
 #define   g_string_slist_copy(list) g_slist_map (list, (GnmMapFunc) g_strdup)
 GSList    *g_strsplit_to_slist (const gchar *string, const gchar *delimiter);
 #define GNM_SLIST_FOREACH(list,valtype,val,stmnt) \
 G_STMT_START { \
-	GSList *gnm_l; \
+	GSList const *gnm_l; \
 	for (gnm_l = (list); gnm_l != NULL; gnm_l = gnm_l->next) { \
 		valtype *val = gnm_l->data; \
 		stmnt \

@@ -1400,12 +1400,9 @@ context_menu_handler (GnumericPopupMenuElement const *element,
 	case CONTEXT_PASTE :
 		cmd_paste_to_selection (wbc, sv, PASTE_DEFAULT);
 		break;
-	case CONTEXT_PASTE_SPECIAL : {
-		int flags = dialog_paste_special (wbcg);
-		if (flags != 0)
-			cmd_paste_to_selection (wbc, sv, flags);
+	case CONTEXT_PASTE_SPECIAL :
+		dialog_paste_special (wbcg);
 		break;
-	}
 	case CONTEXT_INSERT :
 		dialog_insert_cells (wbcg);
 		break;
