@@ -104,7 +104,6 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-06-25 19:48-0400\n"
 "PO-Revision-Date: 2003-07-07 04:35+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
@@ -112,6 +111,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -16984,13 +16984,14 @@ msgid "Constraints:"
 msgstr "Voorwaarden:"
 
 #: plugins/mps/mps.c:247 src/commands.c:5445
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:969
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:115
+#: src/cut-n-paste-code/egg/menu/egg-action.c:120
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:961
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:111
 #: src/dialogs/dialog-define-names.c:483 src/dialogs/dialog-formula-guru.c:810
-#: src/dialogs/dialog-function-select.c:421
-#: src/dialogs/dialog-function-select.c:443 src/dialogs/dialog-scenarios.c:351
+#: src/dialogs/dialog-function-select.c:418
+#: src/dialogs/dialog-function-select.c:440 src/dialogs/dialog-scenarios.c:351
 #: src/dialogs/dialog-simulation.c:228 src/dialogs/dialog-zoom.c:192
-#: src/format-template.c:247 src/tools/solver/reports-write.c:81
+#: src/format-template.c:408 src/tools/solver/reports-write.c:81
 #: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
 #: src/tools/solver/reports-write.c:237 src/tools/solver/reports-write.c:283
 #: src/tools/solver/reports-write.c:395 src/tools/solver/reports-write.c:402
@@ -18220,7 +18221,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "About this application"
-msgstr "Over dit programma"
+msgstr "Info over deze toepassing"
 
 #: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:1515
 #: src/workbook-control-gui.c:3942
@@ -18441,14 +18442,14 @@ msgstr "Configureer knoppenbalken"
 msgid "Consolidate regions using a function"
 msgstr "Celbereiken consolideren gebruik makend van een functie"
 
-#: src/GNOME_Gnumeric.xml.h:50 src/sheet-view.c:309
-#: src/workbook-control-gui.c:4034
+#: src/GNOME_Gnumeric.xml.h:48 src/sheet-view.c:309
+#: src/workbook-control-gui.c:4031
 msgid "Copy"
 msgstr "Kopiëren"
 
-#: src/GNOME_Gnumeric.xml.h:51
+#: src/GNOME_Gnumeric.xml.h:49
 msgid "Copy the selection"
-msgstr "Kopiëer de selectie"
+msgstr "Selectie kopiëren"
 
 #: src/GNOME_Gnumeric.xml.h:52 src/workbook-control-gui.c:4034
 msgid "Copy the selection to the clipboard"
@@ -18521,7 +18522,7 @@ msgstr "Een pijl-object maken"
 msgid "Create an ellipse object"
 msgstr "Een ellips-object maken"
 
-#: src/GNOME_Gnumeric.xml.h:69 src/sheet-control-gui.c:1475
+#: src/GNOME_Gnumeric.xml.h:67 src/sheet-control-gui.c:1475
 msgid "Cu_t"
 msgstr "K_nippen"
 
@@ -18540,9 +18541,9 @@ msgstr "Huidige _tijd"
 msgid "Cut"
 msgstr "Knippen"
 
-#: src/GNOME_Gnumeric.xml.h:73
+#: src/GNOME_Gnumeric.xml.h:71
 msgid "Cut the selection"
-msgstr "De selectie knippen"
+msgstr "Selectie knippen"
 
 #: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:4031
 msgid "Cut the selection to the clipboard"
@@ -18626,8 +18627,8 @@ msgstr "Vullen volgens een lineaire of exponentiele serie"
 msgid "Filter data with given criteria"
 msgstr "Filter de gegevens met de opgegeven criteria."
 
-#: src/GNOME_Gnumeric.xml.h:94 src/dialogs/cell-format.glade.h:34
-#: src/workbook-format-toolbar.c:411
+#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/cell-format.glade.h:38
+#: src/workbook-format-toolbar.c:409
 msgid "Font"
 msgstr "Lettertype"
 
@@ -18917,13 +18918,13 @@ msgstr "Nieuw"
 msgid "One Factor Analysis of Variance"
 msgstr "Een Factor Analyse van Variantie"
 
-#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:4013
+#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:4010
 msgid "Open"
 msgstr "Openen"
 
-#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:4013
+#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:4010
 msgid "Open a file"
-msgstr "Een bestand openen"
+msgstr "Bestand openen"
 
 #: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:3918
 msgid "Outlines _Below"
@@ -18953,7 +18954,7 @@ msgstr "Plakken"
 
 #: src/GNOME_Gnumeric.xml.h:169
 msgid "Paste the clipboard"
-msgstr "De inhoud van het klembord plakken"
+msgstr "Plakken vanuit klembord"
 
 #: src/GNOME_Gnumeric.xml.h:170 src/workbook-control-gui.c:4037
 msgid "Paste the contents of the clipboard"
@@ -19083,7 +19084,7 @@ msgstr "_Blad"
 msgid "S_pecial"
 msgstr "_Speciaal"
 
-#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:4016
+#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:4013
 msgid "Save"
 msgstr "Opslaan"
 
@@ -19128,7 +19129,7 @@ msgstr "Zoeken..."
 msgid "Select Arra_y"
 msgstr "Selecteer reek_s"
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3428
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3427
 msgid "Select _All"
 msgstr "_Alles selecteren"
 
@@ -19288,9 +19289,9 @@ msgstr "Outline-groep uitklappen"
 msgid "Underline"
 msgstr "Onderstrepen"
 
-#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:4298
+#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:4295
 msgid "Undo the last action"
-msgstr "Maak de laatste ingreep ongedaan"
+msgstr "Laatste bewerking ongedaan maken"
 
 #: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3792
 #, fuzzy
@@ -19358,7 +19359,7 @@ msgstr "_Automatische opmaak..."
 msgid "_Cells..."
 msgstr "_Cellen..."
 
-#: src/GNOME_Gnumeric.xml.h:264
+#: src/GNOME_Gnumeric.xml.h:265
 msgid "_Close"
 msgstr "Sl_uiten"
 
@@ -19381,7 +19382,7 @@ msgstr "_Consolideren..."
 msgid "_Contents"
 msgstr "_Inhoud"
 
-#: src/GNOME_Gnumeric.xml.h:268 src/item-cursor.c:998
+#: src/GNOME_Gnumeric.xml.h:269 src/item-cursor.c:998
 #: src/sheet-control-gui.c:1477
 msgid "_Copy"
 msgstr "_Kopiëren"
@@ -19413,7 +19414,7 @@ msgstr "_Beschrijvende Statistieken"
 msgid "_Duplicate"
 msgstr "_Dupliceer"
 
-#: src/GNOME_Gnumeric.xml.h:275 src/GNOME_Gnumeric_Component.xml.h:15
+#: src/GNOME_Gnumeric.xml.h:276 src/GNOME_Gnumeric_Component.xml.h:15
 msgid "_Edit"
 msgstr "Be_werken"
 
@@ -19421,7 +19422,7 @@ msgstr "Be_werken"
 msgid "_Exponential Smoothing"
 msgstr "_Exponentieel Glad"
 
-#: src/GNOME_Gnumeric.xml.h:277 src/GNOME_Gnumeric_Component.xml.h:16
+#: src/GNOME_Gnumeric.xml.h:278 src/GNOME_Gnumeric_Component.xml.h:16
 msgid "_File"
 msgstr "_Bestand"
 
@@ -19471,7 +19472,7 @@ msgstr "_Groeperen en Outlines"
 msgid "_Group..."
 msgstr "_Groeperen..."
 
-#: src/GNOME_Gnumeric.xml.h:289 src/GNOME_Gnumeric_Component.xml.h:17
+#: src/GNOME_Gnumeric.xml.h:290 src/GNOME_Gnumeric_Component.xml.h:17
 msgid "_Help"
 msgstr "_Hulp"
 
@@ -19493,8 +19494,8 @@ msgstr "_Histogram"
 msgid "_Image..."
 msgstr "_Afbeelding..."
 
-#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:3480
-#: src/workbook-control-gui.c:4000
+#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3479
+#: src/workbook-control-gui.c:3997
 msgid "_Insert"
 msgstr "_Invoegen"
 
@@ -19561,7 +19562,7 @@ msgstr "_Plug-ins..."
 msgid "_Print..."
 msgstr "Af_drukken..."
 
-#: src/GNOME_Gnumeric.xml.h:310
+#: src/GNOME_Gnumeric.xml.h:311
 msgid "_Quit"
 msgstr "A_fsluiten"
 
@@ -19569,17 +19570,17 @@ msgstr "A_fsluiten"
 msgid "_Random Generator..."
 msgstr "Steekproefgetallen Generator..."
 
-#: src/GNOME_Gnumeric.xml.h:312 src/workbook-control-gui.c:1541
+#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:1541
 msgid "_Redo"
-msgstr "He_rhalen"
+msgstr "O_pnieuw"
 
 #: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3836
 msgid "_Regression"
 msgstr "_Regressie"
 
-#: src/GNOME_Gnumeric.xml.h:314 src/dialogs/autocorrect.glade.h:13
+#: src/GNOME_Gnumeric.xml.h:315 src/dialogs/autocorrect.glade.h:13
 #: src/dialogs/dialog-stf.glade.h:66 src/dialogs/pivottable.glade.h:12
-#: src/workbook-control-gui.c:3492
+#: src/workbook-control-gui.c:3491
 msgid "_Remove"
 msgstr "_Verwijderen"
 
@@ -19607,7 +19608,7 @@ msgstr "_Rijen"
 msgid "_Sampling"
 msgstr "_Steekproeven"
 
-#: src/GNOME_Gnumeric.xml.h:319
+#: src/GNOME_Gnumeric.xml.h:320
 msgid "_Save"
 msgstr "Op_slaan"
 
@@ -19676,9 +19677,9 @@ msgstr "_Twee Factor"
 msgid "_Two Variances: FTest"
 msgstr "_Twee Varianties: FTest"
 
-#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:1540
+#: src/GNOME_Gnumeric.xml.h:337 src/workbook-control-gui.c:1540
 msgid "_Undo"
-msgstr "_Herstellen"
+msgstr "_Ongedaan maken"
 
 #: src/GNOME_Gnumeric.xml.h:337 src/workbook-control-gui.c:3905
 msgid "_Ungroup..."
@@ -19695,7 +19696,7 @@ msgstr "_Zichtbaar maken"
 msgid "_Validate..."
 msgstr "C_ontroleren..."
 
-#: src/GNOME_Gnumeric.xml.h:340
+#: src/GNOME_Gnumeric.xml.h:341
 msgid "_View"
 msgstr "Beel_d"
 
@@ -19917,7 +19918,7 @@ msgstr "Verwijderen rij %s"
 #. Check for locked cells
 #: src/commands.c:1472 src/commands.c:1476 src/sheet.c:2779
 msgid "Clear"
-msgstr "Leegmaken"
+msgstr "Wissen"
 
 #: src/commands.c:1548
 msgid "contents"
@@ -20345,7 +20346,7 @@ msgstr ""
 "Voorbeeld\n"
 "Tonen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1180
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1172
 #: src/dialogs/dialog-plugin-manager.c:679
 #: src/dialogs/dialog-preferences.c:509 src/dialogs/function-select.glade.h:2
 msgid "Description"
@@ -21236,9 +21237,9 @@ msgstr "Eerste Letter"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:658
-#: src/format.c:1860 src/format.c:1947 src/format.c:1956 src/format.c:2024
-#: src/plugin-service.c:199 src/widgets/widget-format-selector.c:59
+#: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:675
+#: src/format.c:1830 src/format.c:1914 src/format.c:1923 src/format.c:1990
+#: src/plugin-service.c:200
 msgid "General"
 msgstr "Algemeen"
 
@@ -21390,7 +21391,7 @@ msgstr "C_ategorie:"
 msgid "Category:"
 msgstr "Categorie:"
 
-#: src/dialogs/autoformat.glade.h:12
+#: src/dialogs/autoformat.glade.h:11
 msgid "Description:"
 msgstr "Beschrijving:"
 
@@ -21497,7 +21498,7 @@ msgstr "Willekeurige waarde  (geen controle)"
 
 #: src/dialogs/cell-format.glade.h:17
 msgid "Background Color"
-msgstr "Achtergrondkleur:"
+msgstr "Achtergrondkleur"
 
 #: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2264
 msgid "Border"
@@ -21531,12 +21532,13 @@ msgstr "Kleur:"
 msgid "Control"
 msgstr "Controle"
 
-#: src/dialogs/cell-format.glade.h:27 src/dialogs/dialog-stf-export.glade.h:17
-#: src/widgets/widget-format-selector.c:70
+#: src/dialogs/cell-format.glade.h:28 src/dialogs/dialog-stf-export.glade.h:17
+#: src/dialogs/dialog-stf-format-page.c:188
+#: src/dialogs/dialog-stf-format-page.c:375
 msgid "Custom"
 msgstr "Aangepast"
 
-#: src/dialogs/cell-format.glade.h:28 src/widgets/widget-format-selector.c:63
+#: src/dialogs/cell-format.glade.h:29
 msgid "Date"
 msgstr "Datum"
 
@@ -21615,7 +21617,7 @@ msgstr "_Uitvullen?"
 msgid "Large Circles"
 msgstr "Grote cirkels"
 
-#: src/dialogs/cell-format.glade.h:48 src/workbook-format-toolbar.c:629
+#: src/dialogs/cell-format.glade.h:54 src/workbook-format-toolbar.c:627
 msgid "Left"
 msgstr "Links"
 
@@ -21637,9 +21639,10 @@ msgstr "Geen     (zwijgend incorrecte invoer accepteren)"
 msgid "Numbers"
 msgstr "Getallen"
 
-#: src/dialogs/cell-format.glade.h:55
+#: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:128
+#: src/dialogs/cell-format.glade.h:62
 msgid "Orientation"
-msgstr "Stand"
+msgstr "Oriëntatie"
 
 #: src/dialogs/cell-format.glade.h:56
 msgid "Outline"
@@ -21657,7 +21660,7 @@ msgstr "Omgekeerd Diagonaal"
 msgid "Reverse Diagonal Stripe"
 msgstr "Omgekeerd Diagonaal Gestreept"
 
-#: src/dialogs/cell-format.glade.h:61 src/workbook-format-toolbar.c:631
+#: src/dialogs/cell-format.glade.h:68 src/workbook-format-toolbar.c:629
 msgid "Right"
 msgstr "Rechts"
 
@@ -21730,7 +21733,7 @@ msgstr "Dun Omgekeerd Diagonaal Gestreept"
 msgid "Thin Vertical Stripe"
 msgstr "Dun Verticaal Gestreept"
 
-#: src/dialogs/cell-format.glade.h:80 src/widgets/widget-format-selector.c:64
+#: src/dialogs/cell-format.glade.h:90
 msgid "Time"
 msgstr "Tijd"
 
@@ -24125,9 +24128,9 @@ msgstr "Vergroting"
 msgid "Sheets"
 msgstr "Bladen"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4261
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4258
 msgid "Zoom"
-msgstr "Zoom"
+msgstr "Zoomen"
 
 #: src/dialogs/dialog-zoom.glade.h:9
 #, no-c-format
@@ -24713,7 +24716,7 @@ msgstr "_Pagina"
 
 #: src/dialogs/pivottable.glade.h:14
 msgid "_Up"
-msgstr "_Boven"
+msgstr "_Omhoog"
 
 #: src/dialogs/plugin-manager.glade.h:2
 msgid "Activate _new plugins by default"
@@ -25118,7 +25121,7 @@ msgstr "Bereik"
 #: src/dialogs/search-replace.glade.h:23
 #, fuzzy
 msgid "Search"
-msgstr "Zoek"
+msgstr "Zoeken"
 
 #: src/dialogs/search-replace.glade.h:25
 msgid "Search and Replace Query"
@@ -27034,7 +27037,7 @@ msgstr ""
 
 #: src/item-cursor.c:995
 msgid "_Move"
-msgstr "Ver_plaatsen"
+msgstr "_Verplaatsen"
 
 #: src/item-cursor.c:1001
 msgid "Copy _Formats"
@@ -29205,7 +29208,7 @@ msgstr "Koreaans"
 msgid "Turkish"
 msgstr "Turks"
 
-#: src/widgets/widget-charmap-selector.c:80
+#: src/widgets/widget-charmap-selector.c:82
 msgid "Unicode"
 msgstr "Unicode"
 
@@ -29214,7 +29217,7 @@ msgstr "Unicode"
 msgid "Vietnamese"
 msgstr "Vietnamees"
 
-#: src/widgets/widget-charmap-selector.c:82
+#: src/widgets/widget-charmap-selector.c:84
 msgid "Western"
 msgstr "Westers"
 
@@ -30322,15 +30325,15 @@ msgstr "Een filter verwijderen"
 msgid "Add a filter"
 msgstr "Een filter toevoegen"
 
-#: src/workbook-control-gui.c:1537 src/workbook-control-gui.c:4044
-#: src/workbook-control-gui.c:4276
+#: src/workbook-control-gui.c:1537 src/workbook-control-gui.c:4041
+#: src/workbook-control-gui.c:4273
 msgid "Undo"
 msgstr "Ongedaan maken"
 
-#: src/workbook-control-gui.c:1538 src/workbook-control-gui.c:4047
-#: src/workbook-control-gui.c:4283
+#: src/workbook-control-gui.c:1538 src/workbook-control-gui.c:4044
+#: src/workbook-control-gui.c:4280
 msgid "Redo"
-msgstr "Herhalen"
+msgstr "Opnieuw"
 
 #: src/workbook-control-gui.c:1727
 #, c-format
@@ -30434,7 +30437,7 @@ msgstr "Groeperen"
 msgid "Ungroup"
 msgstr "Groepering opheffen"
 
-#: src/workbook-control-gui.c:3236
+#: src/workbook-control-gui.c:3235
 msgid "Sort"
 msgstr "Sorteren"
 
@@ -30714,298 +30717,292 @@ msgstr "Fout bij opslaan bestand"
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML bestandsformaat"
 
-#~ msgid "serial_number,months"
-#~ msgstr "serienummerl;maanden"
+msgid "serial_number,months"
+msgstr "serienummerl;maanden"
 
-#~ msgid "Maths / Trig."
-#~ msgstr "Wiskunde / Trigonometrie"
+msgid "Maths / Trig."
+msgstr "Wiskunde / Trigonometrie"
 
-#~ msgid "x,meean,stdev"
-#~ msgstr "x;gemiddelde;stddev"
+msgid "x,meean,stdev"
+msgstr "x;gemiddelde;stddev"
 
-#~ msgid "p,mean,stdev"
-#~ msgstr "p;gemiddelde;stddev"
+msgid "p,mean,stdev"
+msgstr "p;gemiddelde;stddev"
 
-#~ msgid "find,within,start_num"
-#~ msgstr "vinden;binnen;begin_get"
+msgid "find,within,start_num"
+msgstr "vinden;binnen;begin_get"
 
-#~ msgid "Is not an Gnumeric Workbook file"
-#~ msgstr "Is geen Gnumeric Werkmapbestand"
+msgid "Is not an Gnumeric Workbook file"
+msgstr "Is geen Gnumeric Werkmapbestand"
 
-#~ msgid "Graph Guru"
-#~ msgstr "Grafiek Goeroe"
+msgid "Graph Guru"
+msgstr "Grafiek Goeroe"
 
-#~ msgid "Launch the Graph Guru"
-#~ msgstr "De Grafiek Goeroe opstarten"
+msgid "Launch the Graph Guru"
+msgstr "De Grafiek Goeroe opstarten"
 
-#~ msgid "_Add / Modify comment..."
-#~ msgstr "Opmerking _Toevoegen/Aanpassen ..."
+msgid "_Add / Modify comment..."
+msgstr "Opmerking _Toevoegen/Aanpassen ..."
 
-#~ msgid "A unique name for the action."
-#~ msgstr "Een unieke naam voor de actie."
+msgid "A unique name for the action."
+msgstr "Een unieke naam voor de actie."
 
-#~ msgid "The label used for menu items and buttons that activate this action."
-#~ msgstr "Het label voor menu-items en knoppen die deze actie activeren."
+msgid "The label used for menu items and buttons that activate this action."
+msgstr "Het label voor menu-items en knoppen die deze actie activeren."
 
-#~ msgid "Short label"
-#~ msgstr "Kort label"
+msgid "Short label"
+msgstr "Kort label"
 
-#~ msgid "A shorter label that may be used on toolbar buttons."
-#~ msgstr "Een korter label dat op de werkbalkknoppen kan worden gebruikt."
+msgid "A shorter label that may be used on toolbar buttons."
+msgstr "Een korter label dat op de werkbalkknoppen kan worden gebruikt."
 
-#~ msgid "Tooltip"
-#~ msgstr "Tooltip"
+msgid "Tooltip"
+msgstr "Tooltip"
 
-#~ msgid "A tooltip for this action."
-#~ msgstr "Een tooltip voor deze actie."
+msgid "A tooltip for this action."
+msgstr "Een tooltip voor deze actie."
 
-#~ msgid "Stock Icon"
-#~ msgstr "Standaardpictogram"
+msgid "Stock Icon"
+msgstr "Standaardpictogram"
 
-#~ msgid "The stock icon displayed in widgets representing this action."
-#~ msgstr ""
-#~ "Het standaardpictogram dat wordt getoond in widgets die bij deze actie "
-#~ "horen."
+msgid "The stock icon displayed in widgets representing this action."
+msgstr ""
+"Het standaardpictogram dat wordt getoond in widgets die bij deze actie horen."
 
-#~ msgid "Sensitive"
-#~ msgstr "Gevoelig"
+msgid "Sensitive"
+msgstr "Gevoelig"
 
-#~ msgid "Whether the action is enabled."
-#~ msgstr "Of de actie aangezet is."
+msgid "Whether the action is enabled."
+msgstr "Of de actie aangezet is."
 
-#~ msgid "Visible"
-#~ msgstr "Zichtbaar"
+msgid "Visible"
+msgstr "Zichtbaar"
 
-#~ msgid "Whether the action is visible."
-#~ msgstr "Of de actie zichtbaar is."
+msgid "Whether the action is visible."
+msgstr "Of de actie zichtbaar is."
 
-#~ msgid "Unknown attribute '%s' on line %d char %d"
-#~ msgstr "Onbekend attribuut '%s' op regel %d teken%d"
+msgid "Unknown attribute '%s' on line %d char %d"
+msgstr "Onbekend attribuut '%s' op regel %d teken%d"
 
-#~ msgid "Unknown tag '%s' on line %d char %d"
-#~ msgstr "Onbekend merkteken '%s' op regel %d teken %d"
+msgid "Unknown tag '%s' on line %d char %d"
+msgstr "Onbekend merkteken '%s' op regel %d teken %d"
 
-#~ msgid "The orientation of the toolbar"
-#~ msgstr "De oriëntatie van de werkbalk"
+msgid "The orientation of the toolbar"
+msgstr "De oriëntatie van de werkbalk"
 
-#~ msgid "How to draw the toolbar"
-#~ msgstr "Hoe de werkbalk moet worden getoond"
+msgid "How to draw the toolbar"
+msgstr "Hoe de werkbalk moet worden getoond"
 
-#~ msgid "Show Arrow"
-#~ msgstr "Pijl tonen"
+msgid "Show Arrow"
+msgstr "Pijl tonen"
 
-#~ msgid "If an arrow should be shown if the toolbar doesn't fit"
-#~ msgstr "Of een pijl moet worden weergegeven als de schuifbalk niet past."
+msgid "If an arrow should be shown if the toolbar doesn't fit"
+msgstr "Of een pijl moet worden weergegeven als de schuifbalk niet past."
 
-#~ msgid "Spacer size"
-#~ msgstr "Scheider-grootte:"
+msgid "Spacer size"
+msgstr "Scheider-grootte:"
 
-#~ msgid "Size of spacers"
-#~ msgstr "Grootte van Scheiders"
+msgid "Size of spacers"
+msgstr "Grootte van Scheiders"
 
-#~ msgid "Amount of border space between the toolbar shadow and the buttons"
-#~ msgstr "Hoeveelheid ruimte tussen de werkbalkschaduw en de knoppen."
+msgid "Amount of border space between the toolbar shadow and the buttons"
+msgstr "Hoeveelheid ruimte tussen de werkbalkschaduw en de knoppen."
 
-#~ msgid "Space style"
-#~ msgstr "Scheiders-stijl"
+msgid "Space style"
+msgstr "Scheiders-stijl"
 
-#~ msgid "Whether spacers are vertical lines or just blank"
-#~ msgstr "Of Scheiders vertikale strepen moeten zijn of gewoon onzichtbaar"
+msgid "Whether spacers are vertical lines or just blank"
+msgstr "Of Scheiders vertikale strepen moeten zijn of gewoon onzichtbaar"
 
-#~ msgid "Button relief"
-#~ msgstr "Knopreliëf"
+msgid "Button relief"
+msgstr "Knopreliëf"
 
-#~ msgid "Type of bevel around toolbar buttons"
-#~ msgstr "Soort kader rondom werkbalk-knoppen"
+msgid "Type of bevel around toolbar buttons"
+msgstr "Soort kader rondom werkbalk-knoppen"
 
-#~ msgid "Shadow type"
-#~ msgstr "Shaduwtype"
+msgid "Shadow type"
+msgstr "Shaduwtype"
 
-#~ msgid "Style of bevel around the toolbar"
-#~ msgstr "Type kader rondom de werkbalk"
+msgid "Style of bevel around the toolbar"
+msgstr "Type kader rondom de werkbalk"
 
-#~ msgid "Text to show in the item."
-#~ msgstr "De tekst in het item"
+msgid "Text to show in the item."
+msgstr "De tekst in het item"
 
-#~ msgid "Use underline"
-#~ msgstr "Onderstrepen gebruiken"
+msgid "Use underline"
+msgstr "Onderstrepen gebruiken"
 
-#~ msgid "Interpret underlines in the item label."
-#~ msgstr "De onderstreping in het itemlabel interpreteren."
+msgid "Interpret underlines in the item label."
+msgstr "De onderstreping in het itemlabel interpreteren."
 
-#~ msgid "Stock Id"
-#~ msgstr "Standaard id."
+msgid "Stock Id"
+msgstr "Standaard id."
 
-#~ msgid "The stock icon displayed on the item."
-#~ msgstr "Het standaardpictogram van het item."
+msgid "The stock icon displayed on the item."
+msgstr "Het standaardpictogram van het item."
 
-#~ msgid "Icon set"
-#~ msgstr "Pictogramverzameling"
+msgid "Icon set"
+msgstr "Pictogramverzameling"
 
-#~ msgid "Icon set to use to draw the item's icon."
-#~ msgstr "Te gebruiken pictogramverzameling voor het pictogram van het item."
+msgid "Icon set to use to draw the item's icon."
+msgstr "Te gebruiken pictogramverzameling voor het pictogram van het item."
 
-#~ msgid "Icon widget"
-#~ msgstr "Pictogram-widget"
+msgid "Icon widget"
+msgstr "Pictogram-widget"
 
-#~ msgid "Icon widget to display in the item."
-#~ msgstr "Pictogram-widget dat in het item wordt weergegeven."
+msgid "Icon widget to display in the item."
+msgstr "Pictogram-widget dat in het item wordt weergegeven."
 
-#~ msgid "Visible when horizontal"
-#~ msgstr "Zichtbaar bij horizontaal"
+msgid "Visible when horizontal"
+msgstr "Zichtbaar bij horizontaal"
 
-#~ msgid ""
-#~ "Whether the toolbar item is visible when the toolbar is in a horizontal "
-#~ "orientation."
-#~ msgstr "Of het werkbalk-item zichtbaar is als de werkbalk horizontaal is."
+msgid ""
+"Whether the toolbar item is visible when the toolbar is in a horizontal "
+"orientation."
+msgstr "Of het werkbalk-item zichtbaar is als de werkbalk horizontaal is."
 
-#~ msgid "Visible when vertical"
-#~ msgstr "Zichtbaar bij vertikaal"
+msgid "Visible when vertical"
+msgstr "Zichtbaar bij vertikaal"
 
-#~ msgid ""
-#~ "Whether the toolbar item is visible when the toolbar is in a vertical "
-#~ "orientation."
-#~ msgstr "Of het werkbalk-item zichtbaar is als de werkbalk vertikaal is."
+msgid ""
+"Whether the toolbar item is visible when the toolbar is in a vertical "
+"orientation."
+msgstr "Of het werkbalk-item zichtbaar is als de werkbalk vertikaal is."
 
-#~ msgid "Homogeneous size"
-#~ msgstr "Homogene afmeting"
+msgid "Homogeneous size"
+msgstr "Homogene afmeting"
 
-#~ msgid ""
-#~ "Whether the toolbar item should be the same size as other homogeneous "
-#~ "items."
-#~ msgstr ""
-#~ "Of het werkbalk-item dezelfde grootte moet hebben als andere homogene "
-#~ "items."
+msgid ""
+"Whether the toolbar item should be the same size as other homogeneous items."
+msgstr ""
+"Of het werkbalk-item dezelfde grootte moet hebben als andere homogene items."
 
-#~ msgid "Basic Types"
-#~ msgstr "Basistypen"
+msgid "Basic Types"
+msgstr "Basistypen"
 
 # Te veel hoofdletters?
-#~ msgid "_Rows Per Sample:"
-#~ msgstr "_Rijen Per Steekproef:"
+msgid "_Rows Per Sample:"
+msgstr "_Rijen Per Steekproef:"
 
-#~ msgid "The current category"
-#~ msgstr "De huidige categorie"
+msgid "The current category"
+msgstr "De huidige categorie"
 
-#~ msgid "_Category"
-#~ msgstr "_Categorie"
+msgid "_Category"
+msgstr "_Categorie"
 
-#~ msgid "Cust_om"
-#~ msgstr "Aangepast"
+msgid "Cust_om"
+msgstr "Aangepast"
 
-#~ msgid "De_lete Format"
-#~ msgstr "Opmaak verwijderen"
+msgid "De_lete Format"
+msgstr "Opmaak verwijderen"
 
-#~ msgid "Formatted Sample"
-#~ msgstr "Opgemaakt voorbeeld"
+msgid "Formatted Sample"
+msgstr "Opgemaakt voorbeeld"
 
-#~ msgid ""
-#~ "General format cells attempt to select an appropriate format depending on "
-#~ "the value of the cell."
-#~ msgstr ""
-#~ "Het algemene formaat probeert een geschikte opmaak te kiezen afhankelijk "
-#~ "van de waarde van de cel."
+msgid ""
+"General format cells attempt to select an appropriate format depending on "
+"the value of the cell."
+msgstr ""
+"Het algemene formaat probeert een geschikte opmaak te kiezen afhankelijk van "
+"de waarde van de cel."
 
-#~ msgid "Sp_ecial"
-#~ msgstr "Sp_eciaal"
+msgid "Sp_ecial"
+msgstr "Sp_eciaal"
 
-#~ msgid "Te_xt"
-#~ msgstr "Tekst"
+msgid "Te_xt"
+msgstr "Tekst"
 
-#~ msgid "_Number"
-#~ msgstr "_Getal"
+msgid "_Number"
+msgstr "_Getal"
 
-#~ msgid "_Time"
-#~ msgstr "_Tijd"
+msgid "_Time"
+msgstr "_Tijd"
 
-#~ msgid "K:"
-#~ msgstr "K:"
+msgid "K:"
+msgstr "K:"
 
-#~ msgid "Mrt"
-#~ msgstr "Mrt"
+msgid "Mrt"
+msgstr "Mrt"
 
-#~ msgid "_URL"
-#~ msgstr "_URL"
+msgid "_URL"
+msgstr "_URL"
 
-#~ msgid "Column formatting"
-#~ msgstr "Kolom formateren"
+msgid "Column formatting"
+msgstr "Kolom formateren"
 
 #, fuzzy
-#~ msgid "Customize the columns using the buttons or the mouse"
-#~ msgstr ""
-#~ "Gebruik de knoppen of de muis om de kolommen in te stellen (plaats de "
-#~ "muis boven het voorbeeld voor instructies)"
+msgid "Customize the columns using the buttons or the mouse"
+msgstr ""
+"Gebruik de knoppen of de muis om de kolommen in te stellen (plaats de muis "
+"boven het voorbeeld voor instructies)"
 
-#~ msgid "Data type and number of lines"
-#~ msgstr "Gegevenstype en aantal regels"
+msgid "Data type and number of lines"
+msgstr "Gegevenstype en aantal regels"
 
-#~ msgid "Fixed width customization"
-#~ msgstr "Vaste breedte instellen"
+msgid "Fixed width customization"
+msgstr "Vaste breedte instellen"
 
-#~ msgid "Formatting for the selected column"
-#~ msgstr "Opmaak voor de geselecteerde kolom."
+msgid "Formatting for the selected column"
+msgstr "Opmaak voor de geselecteerde kolom."
 
-#~ msgid "Importing structured text"
-#~ msgstr "Importeren van gestructureerde tekst"
+msgid "Importing structured text"
+msgstr "Importeren van gestructureerde tekst"
 
-#~ msgid "Misc"
-#~ msgstr "Overig"
+msgid "Misc"
+msgstr "Overig"
 
-#~ msgid ""
-#~ "Select the format for each column. You can click in the column list on "
-#~ "the left or in the example to select a column. You can then enter a "
-#~ "custom format or select one from the list on the right."
-#~ msgstr ""
-#~ "Selecteer het formaat voor elke kolom. U kan klikken in de kolom lijst "
-#~ "aan\n"
-#~ "de linkerkant om een kolom te selecteren, of U kan klikken in het "
-#~ "voorbeeld.\n"
-#~ "U kan dan een aangepast formaat intypen of een bestaande uit de lijst "
-#~ "aan\n"
-#~ "de rechterkant selecteren."
+msgid ""
+"Select the format for each column. You can click in the column list on the "
+"left or in the example to select a column. You can then enter a custom "
+"format or select one from the list on the right."
+msgstr ""
+"Selecteer het formaat voor elke kolom. U kan klikken in de kolom lijst aan\n"
+"de linkerkant om een kolom te selecteren, of U kan klikken in het "
+"voorbeeld.\n"
+"U kan dan een aangepast formaat intypen of een bestaande uit de lijst aan\n"
+"de rechterkant selecteren."
 
-#~ msgid ""
-#~ "Select the separators that appear in the text (you can choose multiple "
-#~ "separators if desired and also enter a custom one)"
-#~ msgstr ""
-#~ "Selecteer de scheidingstekens die in de tekst voorkomen (U kunt\n"
-#~ "meerdere scheidingstekens selecteren als U dat wilt, of U kunt \n"
-#~ "er zelf een samenstellen)"
+msgid ""
+"Select the separators that appear in the text (you can choose multiple "
+"separators if desired and also enter a custom one)"
+msgstr ""
+"Selecteer de scheidingstekens die in de tekst voorkomen (U kunt\n"
+"meerdere scheidingstekens selecteren als U dat wilt, of U kunt \n"
+"er zelf een samenstellen)"
 
-#~ msgid "Select the structure of the text that most closely matches the data."
-#~ msgstr ""
-#~ "Selecteer de stuctuur van de tekst die het best overeenkomt met de "
-#~ "gegevens."
+msgid "Select the structure of the text that most closely matches the data."
+msgstr ""
+"Selecteer de stuctuur van de tekst die het best overeenkomt met de gegevens."
 
-#~ msgid "Separation customization"
-#~ msgstr "Scheiding instellen"
+msgid "Separation customization"
+msgstr "Scheiding instellen"
 
-#~ msgid "Per_centages"
-#~ msgstr "_Percentages"
+msgid "Per_centages"
+msgstr "_Percentages"
 
-#~ msgid "Ro_ws"
-#~ msgstr "_Rijen"
+msgid "Ro_ws"
+msgstr "_Rijen"
 
-#~ msgid "Unkno_wn"
-#~ msgstr "_Onbekend"
+msgid "Unkno_wn"
+msgstr "_Onbekend"
 
-#~ msgid "Unknown Pop. Var. are:"
-#~ msgstr "Onbekende Pop. Var. zijn:"
+msgid "Unknown Pop. Var. are:"
+msgstr "Onbekende Pop. Var. zijn:"
 
-#~ msgid "Variable 1 Range:"
-#~ msgstr "Variabele 1 Bereik:"
+msgid "Variable 1 Range:"
+msgstr "Variabele 1 Bereik:"
 
-#~ msgid "Variable 2 Range:"
-#~ msgstr "Variabele 2 Bereik:"
+msgid "Variable 2 Range:"
+msgstr "Variabele 2 Bereik:"
 
-#~ msgid ";[Red]"
-#~ msgstr ";[Rood]"
+msgid ";[Red]"
+msgstr ";[Rood]"
 
-#~ msgid "_);("
-#~ msgstr "_);("
+msgid "_);("
+msgstr "_);("
 
-#~ msgid "_);[Red]("
-#~ msgstr "_);[Rood]("
+msgid "_);[Red]("
+msgstr "_);[Rood]("
 
-#~ msgid "Error while trying to pre-convert clipboard data"
-#~ msgstr "Fout bij omzetten van gegevens op het klembord"
+msgid "Error while trying to pre-convert clipboard data"
+msgstr "Fout bij omzetten van gegevens op het klembord"
