@@ -693,7 +693,7 @@ gnumeric_fv (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_pmt = {
 	N_("@FUNCTION=PMT\n"
-	   "@SYNTAX=PMT(rate,nper,pv,fv,type)\n"
+	   "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
 	   "@DESCRIPTION=Calculates the present value of an investment."
 	   "\n"
 	   "@SEEALSO=PPMT,PV,FV")
@@ -708,8 +708,14 @@ gnumeric_pmt (FunctionEvalInfo *ei, Value **argv)
 	rate = value_get_as_float (argv [0]);
 	nper = value_get_as_float (argv [1]);
 	pv   = value_get_as_float (argv [2]);
-	fv   = value_get_as_float (argv [3]);
-	type = value_get_as_int (argv [4]);
+	if (argv[3] == NULL)
+	        fv = 0;
+	else
+	        fv   = value_get_as_float (argv [3]);
+	if (argv[4] == NULL)
+	        type = 0;
+	else
+	        type = value_get_as_int (argv [4]);
 
         return value_new_float (calculate_pmt (rate, nper, pv, fv, type));
 }
@@ -758,7 +764,7 @@ gnumeric_ipmt (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_ppmt = {
 	N_("@FUNCTION=PPMT\n"
-	   "@SYNTAX=PPMT(rate,per,nper,pv,fv,type)\n"
+	   "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
 	   "@DESCRIPTION=Calculates the amount of a payment of an annuity going "
 	   "towards principal."
 	   "\n"
@@ -785,8 +791,14 @@ gnumeric_ppmt (FunctionEvalInfo *ei, Value **argv)
 	nper = value_get_as_float (argv [1]);
 	per  = value_get_as_float (argv [2]);
 	pv   = value_get_as_float (argv [3]);
-	fv   = value_get_as_float (argv [4]);
-	type = value_get_as_int (argv [5]);
+	if (argv[4] == NULL)
+	        fv = 0;
+	else
+	        fv   = value_get_as_float (argv [4]);
+	if (argv[5] == NULL)
+	        type = 0;
+	else
+	        type = value_get_as_int (argv [5]);
 
 	/* First calculate the payment */
         pmt = calculate_pmt(rate,nper,pv,fv,type);
@@ -892,9 +904,10 @@ void finance_functions_init()
 			    &help_nper,     gnumeric_nper);
         function_add_nodes (cat, "npv",     0,      "",
 			    &help_npv,      gnumeric_npv);
-	function_add_args  (cat, "pmt", "fffff", "rate,nper,pv,fv,type",
+	function_add_args  (cat, "pmt", "fff|ff", "rate,nper,pv[,fv,type]",
 			    &help_pmt,      gnumeric_pmt);
-	function_add_args  (cat, "ppmt", "ffffff", "rate,per,nper,pv,fv,type",
+	function_add_args  (cat, "ppmt", "ffff|ff",
+			    "rate,per,nper,pv[,fv,type]",
 			    &help_ppmt,     gnumeric_ppmt);
 	function_add_args  (cat, "pv", "fffff", "rate,nper,pmt,fv,type",
 			    &help_pv,       gnumeric_pv);
