@@ -1,5 +1,10 @@
 2002-03-09  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* reports.c (solver_answer_report): Fix the final value of
+	obj. fn. reporting in the case where the target cell has a
+	constant increment.
+	(solver_limits_report): Ditto.
+
 	* solver.c (solver_results_free): Plugged a leak.
 	(solver): Plugged a leak.
 	(check_program_definition_failures): Remove list inverting.

@@ -159,7 +159,9 @@ solver_answer_report (WorkbookControl *wbc,
 	set_cell_float (&dao, 3, 7, res->original_value_of_obj_fn);
 
 	/* Set `Final Value' field */
-	set_cell_float (&dao, 4, 7, res->value_of_obj_fn);
+	cell = sheet_cell_get (sheet, res->param->target_cell->pos.col,
+			       res->param->target_cell->pos.row);
+	set_cell_value (&dao, 4, 7, value_duplicate (cell->value));
 
 
 	/*
@@ -438,7 +440,9 @@ solver_limits_report (WorkbookControl *wbc,
 					 res->param->target_cell->pos.row));
 
 	/* Set `Target Value' field */
-	set_cell_float (&dao, 3, 7, res->value_of_obj_fn);
+        cell = sheet_cell_get (sheet, res->param->target_cell->pos.col,
+                               res->param->target_cell->pos.row);
+        set_cell_value (&dao, 3, 7, value_duplicate (cell->value));
 
 
 	/*
