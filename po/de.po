@@ -41,7 +41,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.52\n"
 "POT-Creation-Date: 2000-05-07 06:26+0200\n"
-"PO-Revision-Date: 2000-05-06 20:57+02:00\n"
+"PO-Revision-Date: 2000-05-07 07:20+02:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2805,7 +2805,7 @@ msgstr ""
 
 #: src/dialogs/dialog-solver.c:848
 msgid "You should introduce a valid cell name for 'Target cell'"
-msgstr "Einen gültigen Zellennamen für 'Zielzelle' angeben.\n"
+msgstr "Einen gültigen Zellennamen für 'Zielzelle' angeben."
 
 #: src/dialogs/dialog-solver.c:871
 msgid "You should introduce a valid cell names in 'By changing cells'"
