@@ -1,3 +1,17 @@
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* src/main-component.c (main) : bind the encoding to utf8 here.
+	* src/main-application.c (main) : and here.
+	* src/libgnumeric.c (init_init) : rather than here, which is too
+	  early.  It can't be done until after popt does its stuff.
+
+	* src/sheet-object.c (sheet_object_clone) : set_sheet adds a
+	  reference, we don't need to keep the original.
+
 2003-08-19  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-edit.c (wbcg_edit_attach_guru_main) : clear END-mode

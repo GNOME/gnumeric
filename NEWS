@@ -81,9 +81,14 @@ Jody:
 	* Work on image persistence in xml
 	* Revamp chart styles and patterns
 	* Improve behavior of autofilters with ins/del col/row
+	* Make mmult smarter about what constitutes a 3d ref
+	* Improve import of gnumeric-1.0.x era graphs
+	* Fix crash on xls export for autfilters with no conditions.
+	* Some basic work on axis
 
 John Gill:
 	* More More XLish heuristics for autofill range selection.
+	* Support End keys, and XL style 'transition' keys
 
 Jon Kåre:
 	* Improve color combo.

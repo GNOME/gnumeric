@@ -1,3 +1,7 @@
+2003-08-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.20
+
 2003-06-26  Andreas Guelzow <aguelzow@taliesin.ca>
 
 	* options.c: Remove self-reference of OPT_BS_THETA
