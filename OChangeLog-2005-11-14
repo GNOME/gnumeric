@@ -1,3 +1,7 @@
+2005-03-29  Jon K Hellan  <hellan@acm.org>
+
+	* src/xml-io.c (xml_cellregion_read): Silence warning.
+
 2005-03-29  Morten Welinder  <terra@gnome.org>
 
 	* src/parse-util.c (col_name_internal): Handle nagative column

@@ -3246,7 +3246,7 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar const *buffer, i
 
 	g_return_val_if_fail (buffer != NULL, NULL);
 
-	doc = xmlParseDoc (buffer);
+	doc = xmlParseDoc ((guchar *) buffer);
 	if (doc == NULL) {
 		go_cmd_context_error_import (GO_CMD_CONTEXT (wbc),
 			_("Unparsable xml in clipboard"));
