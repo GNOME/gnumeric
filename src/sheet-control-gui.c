@@ -1752,12 +1752,8 @@ new_control_point (GtkObject *so_view, int idx, double x, double y,
 	item = gnome_canvas_item_new (
 		gcanvas->object_group,
 		gnome_canvas_rect_get_type (),
-		"x1",    x - 2,
-		"y1",    y - 2,
-		"x2",    x + 2,
-		"y2",    y + 2,
 		"outline_color", "black",
-		"fill_color",    "black",
+		"fill_color",    "white",
 		NULL);
 
 	gtk_signal_connect (GTK_OBJECT (item), "event",
@@ -1780,16 +1776,17 @@ static void
 set_item_x_y (SheetControlGUI *scg, GtkObject *so_view, int idx,
 	      double x, double y, ECursorType ct)
 {
+#define CTRL_PT_SIZE 3
+
 	if (scg->control_points [idx] == NULL)
 		scg->control_points [idx] = new_control_point (
 			so_view, idx, x, y, ct);
-	else
-		gnome_canvas_item_set (
-		       scg->control_points [idx],
-		       "x1", x - 2,
-		       "x2", x + 2,
-		       "y1", y - 2,
-		       "y2", y + 2,
+	gnome_canvas_item_set (
+	       scg->control_points [idx],
+	       "x1", x - CTRL_PT_SIZE,
+	       "y1", y - CTRL_PT_SIZE,
+	       "x2", x + CTRL_PT_SIZE,
+	       "y2", y + CTRL_PT_SIZE,
 		       NULL);
 }
 
@@ -1816,10 +1813,6 @@ set_acetate_coords (SheetControlGUI *scg, GtkObject *so_view,
 			gcanvas->object_group,
 			gnome_canvas_widget_get_type (),
 			"widget", event_box,
-			"x",      l,
-			"y",      t,
-			"width",  r - l + 1.,
-			"height", b - t + 1.,
 			NULL);
 		gtk_signal_connect (GTK_OBJECT (item), "event",
 				    GTK_SIGNAL_FUNC (cb_control_point_event),
@@ -1829,14 +1822,14 @@ set_acetate_coords (SheetControlGUI *scg, GtkObject *so_view,
 				     GINT_TO_POINTER (E_CURSOR_MOVE));
 
 		scg->control_points [8] = item;
-	} else
-		gnome_canvas_item_set (
-		       scg->control_points [8],
-		       "x",      l,
-		       "y",      t,
-		       "width",  r - l + 1.,
-		       "height", b - t + 1.,
-		       NULL);
+	}
+	gnome_canvas_item_set (
+	       scg->control_points [8],
+	       "x",      l,
+	       "y",      t,
+	       "width",  r - l + 1.,
+	       "height", b - t + 1.,
+	       NULL);
 }
 
 /**
