@@ -17,7 +17,7 @@
 #include <stdlib.h>
 #include <gnome.h>
 #include <unistd.h>
-#include <sys/fcntl.h>
+#include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
