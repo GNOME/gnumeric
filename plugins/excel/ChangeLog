@@ -1,5 +1,9 @@
 2000-05-03  Jody Goldberg <jgoldberg@home.com>
 
+	* ms-excel-read.c : Include eval.h to suppress warning.
+
+2000-05-03  Jody Goldberg <jgoldberg@home.com>
+
 	* ms-excel-write.c (write_cell) : Use parse_pos_init_cell.
 
 	* ms-excel-read.c (ms_excel_read_formula) : No need to manually

@@ -23,6 +23,7 @@
 #include "ranges.h"
 #include "expr-name.h"
 #include "style.h"
+#include "eval.h"
 #include "cell-comment.h"
 #include "application.h"
 #include "workbook.h"
