@@ -224,6 +224,28 @@ gnumeric_if (FunctionEvalInfo *ei, GList *expr_node_list)
 
 /***************************************************************************/
 
+static char *help_true = {
+	N_("@FUNCTION=TRUE\n"
+	   "@SYNTAX=TRUE()\n"
+
+	   "@DESCRIPTION="
+	   "TRUE returns boolean value true.  "
+	   "This function is Excel compatible. "
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "TRUE() equals TRUE.\n"
+	   "\n"
+	   "@SEEALSO=FALSE")
+};
+
+static Value *
+gnumeric_true (FunctionEvalInfo *ei, GList *expr_node_list)
+{
+	return value_new_bool (TRUE);
+}
+
+/***************************************************************************/
+
 void
 logical_functions_init (void)
 {
@@ -245,4 +267,7 @@ logical_functions_init (void)
 	function_add_nodes (cat,"or",      0,
 			    "",
 			    &help_or,  gnumeric_or);
+	function_add_nodes (cat,"true",    0,
+			    "",
+			    &help_true,  gnumeric_true);
 }

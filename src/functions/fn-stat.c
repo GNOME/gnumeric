@@ -1647,7 +1647,7 @@ gnumeric_fdist (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_finv = {
         N_("@FUNCTION=FINV\n"
-           "@SYNTAX=TINV(p,dof)\n"
+           "@SYNTAX=FINV(p,dof1,dof2)\n"
 
            "@DESCRIPTION="
            "FINV function returns the inverse of the F probability "

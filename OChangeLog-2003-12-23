@@ -1,3 +1,13 @@
+2000-06-27  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/functions/fn-stat.c (help_finv): Fixed copy-paste bug in
+ 	documentation.
+
+	* src/functions/fn-logical.c: Added TRUE() function since it is
+ 	also a function in Excel.
+
+	* TODO: Updated the status of the build-in functions.
+	
 2000-06-26  JP Rosevear  <jpr@arcavia.com>
 
 	* src/value.c (value_get_as_checked_bool): New function that
