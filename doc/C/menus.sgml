@@ -1,0 +1,1465 @@
+<!-- ******************THE MENU SECTION ********************************** -->
+<sect1 id="menus-start">
+	<title>Introduction to Menus in Gnumeric</title>
+
+	<para> This section of the manual describes the use of the menu bar and the
+	menus themselves. The manual then explains each entry in every Gnumeric menu, 
+	submenu or context menu.</para>
+
+	<para>A menu is a graphical element within a program which appears with a list of
+	options. For instance, almost all applications have a <guilabel>File</guilabel> menu
+	through which the user can access the computer's filesystem. The main menus
+	are on the menubar. The use of these menus is discussed in <xref linkend="menu-bars">. 
+	Gnumeric also uses a context menu as a quick way to access certain
+	commands. The context menu will open up right under the mouse pointer when
+	one of the mouse buttons, usually the rightmost, is clicked. This menu is
+	called a context menu because the entries in the menu are different
+	depending on the location of the mouse pointer. The <guilabel>context</guilabel> 
+	menu is discussed in <xref linkend="context-menu">.</para>
+	
+<sect2 id="menu-bars">
+    <title>The Menu bar</title>    
+
+    <para>The default location of the menu bar is at the top of the application window.
+      The menus provide quick and organized access to all major commands such as
+	opening files, saving files, printing and quiting the application. </para>
+  <figure id="menubar.png">
+    <title>The Gnumeric menubar.</title>
+    <screenshot>
+      <graphic fileref="figures/menubar.png"></graphic>
+    </screenshot>
+  </figure>
+	<para>The leftmost portion of the menu bar is a little tab. This tab can be used
+	to grab the menu bar and remove it from the rest of the application. This is
+	done by clicking and holding on the tab and dragging it away from the Gnumeric
+	window. The menu can also be placed in different parts of the Gnumeric window,
+	so that it could appear at the very bottom of Gnumeric as is shown in <xref
+	linkend="gnumeric-rearranged.png">.</para>
+
+  <figure id="gnumeric-rearranged.png">
+    <title>A re-arranged Gnumeric.</title>
+    <screenshot>
+      <graphic fileref="figures/gnumeric-rearranged.png"></graphic>
+    </screenshot>
+  </figure>
+	<para>The menubars and the toolbars share this ability to be re-arranged as can be
+	seen in <xRef linkend="gnumeric-rearranged.png">. The menubar is at the bottom
+	of the Gnumeric window, the standard toolbar has been detached and the object
+	toolbar has been moved the the right side. The user can choose what
+	configuration works best. The toolbars can be dragged back into place in the same 
+	manner by which they were moved originally.</para>
+
+</sect2>
+
+
+<sect2 id="Menus-General">
+	<title>General Menu Behaviour</title>
+
+	<para>Gnumeric menus are opened with a simple click on the name of the menu in the menu bar. Once clicked, the menu will stay open. If the mouse pointer is dragged over the name of another menu on the menubar, the first menu will close and the new menu open up. This is a useful way to look in each menu to hunt for a commands. The open menu can be closed with a click over any other area of the application or of the desktop. The menus can also be closed by typing the escape key, <keysym>Esc</keysym>.</para>
+	<sect3>
+		<title>Menus can be "torn-off"</title>
+	<para>Gnumeric menus, like most menus in GNOME project software, are "tear-off" menus. This means that the menu can be opened up into its own window and kept open in a differnt part of the screen. This is useful if there is a menu that you keep using for a particular task. Just beneath the top of each menu is a broken line. Clicking on that line, tears off the menu.</para>
+ 		 <figure id="tear-off-menu.png">
+ 		   <title>Gnumeric menus can be torn off.</title>
+ 		   <screenshot>
+ 	 	    <graphic fileref="figures/tear-off-menu.png"></graphic>
+ 		   </screenshot>
+ 		 </figure>
+	<para>
+To get rid of a dettached menu, the dotted line can be clicked once more or
+the window containing the menu can simply be
+closed. The window can usually be closed by clicking in the top right corner of the window
+but that might be different depending on the desktop in which you have Gnumeric
+running.</para>
+	</sect3
+
+	<sect3>
+		<title>Gnumeric also has context menus.</title>
+
+		<para>Context menus are menus which appear under the mouse pointer when
+		one of the mouse buttons (usually the rightmost) is clicked. Context
+		menus are discussed in <xref linkend="context-menu">.</para>
+	</sect3>
+
+</sect2>
+
+</sect1>
+
+
+<!-- ************************  FILE MENU   *************************** -->
+<sect1 id="File-Menu">
+	<title>The File Menu</title>
+
+	<para>The <guimenu>File</guimenu> menu is the most important menu in Gnumeric 
+	because it gives 
+	the user  the ability to interact with the computer operating system. This
+	menu allows the user to create files containing all the work they have
+	done. It also enables users to print the results of their work. Finally, the
+	File menu is the best way to close Gnumeric.</para>
+		<figure id="menu-file-labelled.png">
+		    <title>The <guimenu>File</guimenu> menu.</title>
+		    <screenshot>
+		      <graphic fileref="figures/menu-file-labelled.png"></graphic>
+		    </screenshot>
+	    </figure>
+	<para>The menu choices are grouped into the following groups:</para>
+
+
+
+ <variablelist>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/label-one.png"></inlinegraphic>
+	    File operations.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>These menu items perform operations on files. Each item is presented
+below. File operations are critical and are therefore discussed in their own section latter 
+in this manual in <xRef linkend="Files">. </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/label-two.png"></inlinegraphic>
+	    Printing operations.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>These menu items enable Gnumeric to print. Each item is presented
+below and printing issues are discussed fully in <xRef linkend="Printing">. </para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/label-three.png"></inlinegraphic>
+	    The document summary.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This menu item allows us to edit the summary information of the file
+currently open in that window. Summary information describes the sheet for
+including for instance the author name and a comment. See the explanation below.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/label-four.png"></inlinegraphic>
+	    Recently used files.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>These menu entries are shortcuts to re-open recently used files.
+The list will change dynamically as new workbooks are opened and created.
+Clicking on a file name listed here is the same as using the
+<guimenuitem>Open</guimenuitem> menu entry and finding the file in the
+<guilabel>Find File</guilabel> dialog. Note that if the file has been moved since
+Gnumeric last saved it, gnumeric will not find the file. </para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/label-five.png"></inlinegraphic>
+	    The Close and Quit operations.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>These menu items either close the current worksheet,<guimenuitem>Close</guimenuitem>,
+or close all open worksheets,<guimenuitem>Quit</guimenuitem>. Gnumeric will prompt the user with a <guilabel>Save Workbook..</guilabel> dialog for any workbooks that have been changed since the last time they were opened or saved.</para>
+	</listitem>
+      </varlistentry>
+
+</variablelist>
+
+
+	<!--the list-->
+		<para>The <guimenu>File</guimenu> menu contains:
+         <itemizedlist>
+      	    <listitem>
+     	      <para>
+     	       <guimenuitem>New</guimenuitem>
+     	       &mdash; Create a new worksheet. This opens a new worksheet in a window.
+     	      </para>
+     	   </listitem>
+     	   <listitem>
+     	    <para>
+     	     <guimenuitem>Open</guimenuitem>
+      	    &mdash; Open an existing worksheet. A new window is created with the file selected in it.
+      	   </para>
+     	   </listitem>
+     	   <listitem>
+     		    <para>
+      		    <guimenuitem>Import</guimenuitem>
+     		     &mdash; FIXME
+     		    </para>
+    	    </listitem>
+      		 <listitem>
+   		      <para>
+          <guimenuitem>Save</guimenuitem>
+          &mdash; Save the current worksheet. If the file has been named and saved before, 
+          this will silently save the file to the current filename. If it has not been 
+          saved before, this will prompt for a filename and path.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Save As</guimenuitem>
+          &mdash; Save a file with a new name. Save a newly created file or save a file 
+          with a different name
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Summary</guimenuitem>
+          &mdash; Open the summary dialog. Displays a summary of the information about the 
+          current workbook.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Print Setup</guimenuitem>
+          &mdash; Displays the print setup dialog, from which various options relating to printing 
+          can be configured. This is detailed in <xref linkend="print-setup">
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Print</guimenuitem>
+          &mdash; Print the current worksheet. This is detailed in <xref linkend="print">
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Print Preview</guimenuitem>
+          &mdash; Displays a print preview of the current worksheet. This is
+          detailed in <xref linkend="print-preview">
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Close</guimenuitem>
+          &mdash; Close the current worksheet.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Exit</guimenuitem>
+          &mdash; Close the open worksheets and quit <application>Gnumeric</application>
+         </para>
+        </listitem>
+       </itemizedlist>
+      </para>
+		<!--end of the list-->
+
+
+</sect1>
+
+
+<!--  ******************************** EDIT MENU    ******************** -->
+<sect1 id="Edit-Menu">
+	<title>The Edit Menu</title>
+
+
+
+
+	<para>The <guimenu>Edit</guimenu> menu is </para>
+		<figure id="menu-edit-labelled.png">
+		    <title>The <guimenu>Edit</guimenu> menu.</title>
+		    <screenshot>
+		      <graphic fileref="figures/menu-edit-labelled.png"></graphic>
+		    </screenshot>
+	    </figure>
+	<para>The menu choices are grouped into the following groups:</para>
+
+
+
+ <variablelist>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/label-one.png"></inlinegraphic>
+	    Change History.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>These menu items allow the user to undo recent changes to a
+worksheet. </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/label-two.png"></inlinegraphic>
+	    Operations on selected areas.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>These menu items enable selected cell contents to be moved around
+	a spreadsheet, moved between sheets or beween workbooks. </para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/label-three.png"></inlinegraphic>
+	    Data removal operations.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>All of these operations remove data from the worksheet. They differ
+in the type of data removed and the re-arangement of remaining data. The
+differences are explained below.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/label-four.png"></inlinegraphic>
+	    Other operations on worksheets.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>These menu entries do not group together logically. Each entry is
+explained in detail below. </para>
+	</listitem>
+      </varlistentry>
+
+</variablelist>
+
+
+
+	<!--the list-->
+       <para>
+        This menu contains:
+         <itemizedlist>
+          <listitem>
+           <para>
+            <guimenuitem>Undo</guimenuitem>
+            &mdash; Undoes the last action undertaken.
+           </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Redo</guimenuitem>
+          &mdash; Reverses the previous undo operation, restoring 
+          the worksheet to its orginal state.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Cut</guimenuitem>
+          &mdash; Remove the content in the currently selected cells and save it.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Copy</guimenuitem>
+          &mdash; Make a copy of the current selection to be pasted later.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Paste</guimenuitem>
+          &mdash; Paste whatever is in the cut buffer at the cursor.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Paste Special</guimenuitem>
+          &mdash; Paste from the cut buffer, but with more options as to what to paste. 
+          Useful for pasting just format, or just values, etc.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guisubmenu>Clear -&gt;</guisubmenu>
+          &mdash; This sub menu contains:
+		    <itemizedlist>
+			      <listitem>
+			      <para>
+			      <guimenuitem>All</guimenuitem>
+			      &mdash;Clear every cell.
+			      </para>
+   		           </listitem>
+			      <listitem>
+			      <para>
+			      <guimenuitem>Formats</guimenuitem>
+			      &mdash;Clear the format from selected cells.
+			      </para>
+   		           </listitem>	
+			      <listitem>
+			      <para>
+			      <guimenuitem>Comments</guimenuitem>
+			      &mdash;FIXME
+			      </para>
+   		           </listitem>	
+			      <listitem>
+			      <para>
+				  <guimenuitem>Content</guimenuitem>
+			      &mdash;FIXME
+			      </para>
+   		           </listitem>	
+   		       </itemizedlist>
+    		   </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Delete</guimenuitem>
+          &mdash; Deletes the currently selected region
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Delete Sheet</guimenuitem>
+          &mdash; Select every cell in the worksheet.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Select All</guimenuitem>
+          &mdash; Select every cell in the worksheet.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Goto Cell...</guimenuitem>
+          &mdash; FIXME
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Recalculate</guimenuitem>
+          &mdash; FIXME
+         </para>
+        </listitem>
+       </itemizedlist>
+      </para>
+	<!--end of list -->    
+
+</sect1>
+
+
+<!-- *************************** View Menu *********** -->
+<sect1 id="View-Menu">
+	<title>The View Menu</title>
+
+ 
+
+
+	<para>The <guimenu>View</guimenu> menu is </para>
+		<figure id="menu-view-labelled.png">
+		    <title>The <guimenu>View</guimenu> menu.</title>
+		    <screenshot>
+		      <graphic fileref="figures/menu-view-labelled.png"></graphic>
+		    </screenshot>
+	    </figure>
+	<para>The menu choices are grouped into the following groups:</para>
+
+
+
+ <variablelist>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/label-one.png"></inlinegraphic>
+	    Alternative views of the current document.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>These menu items allow the user to open multiple views of the same
+document.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/label-two.png"></inlinegraphic>
+	    Global changes to the current view.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>The<guimenuitem>Zoom</guimenuitem> menu item allows a user to change 
+		the amount of the sheet visible in a window of a given size. The 
+		<guimenuitem>Freeze Panes</guimenuitem> menu item allows part of the 
+		worksheet to be frozen in place while the rest of the sheet scrolls 
+		next to it.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/label-three.png"></inlinegraphic>
+	    Toolbar configuration.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>The <guimenuitem>Toolbars</guimenuitem> menu option launches a
+dialog to configure the presence and look of the three toolbars.</para>
+	</listitem>
+      </varlistentry>
+</variablelist>
+
+
+<!-- THIS IS REALLY OLD! 
+
+     <para>This menu contains:
+         <itemizedlist>
+          <listitem>
+           <para>
+            <guimenuitem>Zoom</guimenuitem>
+            &mdash; Displays the zoom dialog, which allows the zoom level 
+            for the workbook to be changed.
+           </para>
+        </listitem>
+       </itemizedlist>
+      </para>
+     </listitem>
+    </varlistentry>
+    </variablelist>
+
+     <variablelist> 
+      <varlistentry>
+       <term><guimenu>Insert</guimenu></term>
+       <listitem>
+       <para>
+        This menu contains:
+         <itemizedlist>
+          <listitem>
+           <para>
+            <guimenuitem>Sheet</guimenuitem>
+            &mdash;Insert a Sheet in the current workbook.
+           </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Rows</guimenuitem>
+          &mdash;Insert a Row of cells.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Columns</guimenuitem>
+          &mdash;Insert a Column of cells.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Cells</guimenuitem>
+          &mdash;Insert new cells.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Define Name</guimenuitem>
+          &mdash;FIXME
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Add / Modify comment</guimenuitem>
+          &mdash;FIXME
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guisubmenu>Special -&gt;</guisubmenu>
+          &mdash;This sub menu contains:
+	    <itemizedlist>
+	      <listitem>
+                <para>
+                <guimenuitem>Current Date</guimenuitem>
+                &mdash;Inserts the current date into the currently selected cell.
+	        </para>
+	      </listitem>
+              <listitem>
+                <para>
+                <guimenuitem>Current Time</guimenuitem>
+                &mdash;Inserts the current time into the currently selected cell.
+	        </para>
+	      </listitem>
+            </itemizedlist>
+         </para>
+        </listitem>
+       </itemizedlist>
+      </para>
+     </listitem>
+    </varlistentry>
+    </variablelist>
+end of REALLY OLD SECTION -->
+
+</sect1>
+
+
+<!--  *********************************** INSERT MENU ********************* -->
+<sect1 id="Insert-Menu">
+	<title>The Insert Menu</title>
+
+
+
+	<para>The <guimenu>Insert</guimenu> menu is </para>
+		<figure id="menu-insert-labelled.png">
+		    <title>The <guimenu>Insert</guimenu> menu.</title>
+		    <screenshot>
+		      <graphic fileref="figures/menu-insert-labelled.png"></graphic>
+		    </screenshot>
+	    </figure>
+	<para>The menu choices are grouped into the following groups:</para>
+
+
+
+ <variablelist>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/label-one.png"></inlinegraphic>
+	    Insert into workbook.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>These menu items allow the user to insert objects to the workbook.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/label-two.png"></inlinegraphic>
+	    Insert to current cell.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>The menu items insert objects into the current cell.</para>
+	</listitem>
+      </varlistentry>
+
+</variablelist>
+
+
+
+
+	<!-- the list of insert menu items -->
+       <para>
+        This menu contains:
+         <itemizedlist>
+
+	          <listitem>
+	           <para>
+	            <guimenuitem>Sheet</guimenuitem>
+	            &mdash;Insert a new Sheet into the current workbook, immediately
+after the current worksheet.</para>
+	           </listitem>
+
+      		   <listitem>
+ 		        <para>
+ 		         <guisubmenu>Rows</guisubmenu>
+                 </para>
+ 		   	 </listitem>
+ 
+      		   <listitem>
+ 		        <para>
+ 		         <guisubmenu>Columns</guisubmenu>
+                 </para>
+ 		   	 </listitem>
+ 
+      		   <listitem>
+ 		        <para>
+ 		         <guisubmenu>Cells...</guisubmenu>
+                 </para>
+ 		   	 </listitem>
+ 
+      		   <listitem>
+ 		        <para>
+ 		         <guisubmenu>Graph</guisubmenu>
+                 </para>
+ 		   	 </listitem>
+ 
+      		   <listitem>
+ 		        <para>
+ 		         <guisubmenu>Object</guisubmenu>
+                 </para>
+ 		   	 </listitem>
+ 
+      		   <listitem>
+ 		        <para>
+ 		         <guisubmenu>Name</guisubmenu>
+                 </para>
+ 		   	 </listitem>
+ 
+      		   <listitem>
+ 		        <para>
+ 		         <guisubmenu>Add / Modify comment...</guisubmenu>
+                 </para>
+ 		   	 </listitem>
+ 
+      		   <listitem>
+ 		        <para>
+ 		         <guisubmenu>Special</guisubmenu>
+                 </para>
+ 		   	 </listitem>
+ 
+ 		  </itemizedlist>
+    		</para>
+
+</sect1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  ************************************FORMAT MENU ********************* -->
+<sect1 id="Format-Menu">
+	<title>The Format Menu</title>
+
+
+
+	<para>The <guimenu>Format</guimenu> menu is </para>
+		<figure id="menu-format-torn-off.png">
+		    <title>The <guimenu>Format</guimenu> menu.</title>
+		    <screenshot>
+		      <graphic fileref="figures/menu-format-torn-off.png"></graphic>
+		    </screenshot>
+	    </figure>
+	<para>The menu choices are presented below:</para>
+
+	<!-- the list of format menu items -->
+     <variablelist> 
+      <varlistentry>
+       <term><guimenu>Format</guimenu></term>
+       <listitem>
+       <para>
+        This menu contains:
+         <itemizedlist>
+          <listitem>
+           <para>
+            <guimenuitem>Cells...</guimenuitem>
+            &mdash;Open the cell format dialog. Used to change formatting, color, etc. 
+           </para>
+        </listitem>
+
+        <listitem>
+         <para>
+          <guisubmenu>Column-&gt;</guisubmenu>
+            &mdash; This submenu contains:
+			    <itemizedlist>
+ 		             <listitem>
+ 		               <para>
+ 		               <guimenuitem>Width</guimenuitem>
+ 	               &mdash;Allows the user to adjust the size of the column.
+						</para>
+				      </listitem>
+ 		             <listitem>
+					 <para>
+  		              <guimenuitem>Auto Fit Selection</guimenuitem>
+   		             &mdash;Automatically chooses the optimal size for the column which shows all the text entered.
+			        </para>
+			      </listitem>
+    	          <listitem>
+                       <para>
+      	          <guimenuitem>Hide</guimenuitem>
+     	           &mdash;Hides the selected columns so that they are not visible.
+	 		       </para>
+	 		     </listitem>
+    	          <listitem>
+     	           <para>
+     	           <guimenuitem>Unhide</guimenuitem>
+    	            &mdash;Makes any columns selected that have being hidden visible again.
+	  		      </para>
+	  		   	 </listitem>
+      	     	   <listitem>
+             		  <para>
+              		  <guimenuitem>Standard Width</guimenuitem>
+             		   &mdash;Resizes the columns back to the default width of 6.63.
+	   		  		   </para>
+	   	 	     </listitem>
+         	  </itemizedlist>
+         </para>
+        </listitem>
+
+
+        <listitem>
+         <para>
+           <guisubmenu>Row-&gt;</guisubmenu>
+	   &mdash; This sub menu contains:
+	    <itemizedlist>
+              <listitem>
+                <para>
+                <guimenuitem>Height</guimenuitem>
+                &mdash;Allows the user to adjust the size of the row.
+	        </para>
+	      </listitem>
+              <listitem>
+                <para>
+                <guimenuitem>Auto Fit Selection</guimenuitem>
+                &mdash;Automatically chooses the optimal size for the row which shows all the text entered.
+	        </para>
+	      </listitem>
+              <listitem>
+                <para>
+                <guimenuitem>Hide</guimenuitem>
+                &mdash;Hides the selected rows so that they are not visible.
+	        </para>
+	      </listitem>
+              <listitem>
+                <para>
+                <guimenuitem>Unhide</guimenuitem>
+                &mdash;Makes any rows selected that have being hidden visible again.
+	        </para>
+	      </listitem>
+              <listitem>
+                <para>
+                <guimenuitem>Standard Height</guimenuitem>
+                &mdash;Resizes the rows back to the default height of 11.61.
+	        </para>
+	      </listitem>
+           </itemizedlist>
+         </para>
+        </listitem>
+
+
+        <listitem>
+         <para>
+          <guimenuitem>Sheet-&gt;</guimenuitem>
+            &mdash; This sub menu contains:
+	    <itemizedlist>
+              <listitem>
+                <para>
+                <guimenuitem>Change Name...</guimenuitem>
+                &mdash;
+	        </para>
+	      </listitem>
+              <listitem>
+                 <para>
+                <guimenuitem>Re-Order Sheets...</guimenuitem>
+                &mdash;
+	        </para>
+	      </listitem>
+              <listitem>
+                <para>
+                <guimenuitem>Display Formulas</guimenuitem>
+                &mdash;
+	        </para>
+	      </listitem>
+              <listitem>
+                <para>
+                <guimenuitem>Hide Zeros</guimenuitem>
+                &mdash;
+	        </para>
+	      </listitem>
+              <listitem>
+                <para>
+                <guimenuitem>Hide Gridlines</guimenuitem>
+                &mdash;
+	        </para>
+	      </listitem>
+              <listitem>
+                <para>
+                <guimenuitem>Hide Column Header</guimenuitem>
+                &mdash;
+	        </para>
+	      </listitem>
+              <listitem>
+                <para>
+                <guimenuitem>Hide Row Header</guimenuitem>
+                &mdash;
+	        </para>
+	      </listitem>
+            </itemizedlist>
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Autoformat...</guimenuitem>
+          &mdash;
+         </para>
+        </listitem>
+         <listitem>
+         <para>
+          <guimenuitem>Workbook...</guimenuitem>
+          &mdash;Allows you to configure whether tabs and row and column headers will be shown.
+         </para>
+        </listitem>
+       </itemizedlist>
+      </para>
+     </listitem>
+    </varlistentry>
+    </variablelist>
+
+</sect1>
+
+
+
+<!--   ********************* TOOLS MENU ************  -->
+<sect1 id="Tools-Menu">
+	<title>The Tools Menu</title>
+
+	<para>The <guimenu>Tools</guimenu> menu is </para>
+		<figure id="menu-tools-labelled.png">
+		    <title>The <guimenu>Tools</guimenu> menu.</title>
+		    <screenshot>
+		      <graphic fileref="figures/menu-tools-labelled.png"></graphic>
+		    </screenshot>
+	    </figure>
+	<para>The menu choices are grouped into the following groups:</para>
+
+
+
+ <variablelist>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/label-one.png"></inlinegraphic>
+	    The Plug-ins dialog.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This entry launches the plug-in manangement dialog. Plug-ins are
+programs which are separate from gnumeric but provide useful functionality.
+Some of the core parts of gnumeric, such as Excel file format support, are
+actually plugins. This means that a user who never uses Excel files can remove
+this module from Gnumeric and make Gnumeric use less memory.<!-- <xRef
+linkend="Plugins"> explains plug-ins in greater detail.--></para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/label-two.png"></inlinegraphic>
+	    Automatic tools
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>These two tools allow the user to make Gnumeric automatically
+correct typing or automatically save workbooks at periodic intervals. These two
+tools are explained below.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/label-three.png"></inlinegraphic>
+	   Linear Programming tools
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Gnumeric can be used to solve systems of linear equations and other
+mathematical problems. These two dialogs enable access to these tools. A full
+discussion of these tools is presented in <xRef linkend="solver-chapter"> </para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/label-four.png"></inlinegraphic>
+	    Statistics and other Data Analsyis tools
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Statistical analysis can easily be done with Gnumeric. All the
+statistical functions are explained in <xRef linkend="analysis-tools">.</para>
+	</listitem>
+      </varlistentry>
+
+
+</variablelist>
+
+ 
+
+	<!-- the Tools menu list -->
+
+     <variablelist> 
+      <varlistentry>
+       <term><guimenu>Tools</guimenu></term>
+       <listitem>
+       <para>
+        This menu contains:
+         <itemizedlist>
+          <listitem>
+           <para>
+            <guimenuitem>Plug-ins</guimenuitem>
+            &mdash;Displays a list of the plugins currently installed.
+           </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Auto Correct</guimenuitem>
+          &mdash;Allows the user to configure various auto-correcting functions 
+          used when entering data.
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>AutoSave</guimenuitem>
+          &mdash;Allows the user to automatically save after a specified number of minutes
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Goal Seek</guimenuitem>
+          &mdash;FIXME
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Solver</guimenuitem>
+          &mdash;Brings up the Solver Dialog, which can be used to solve linear equations.
+          This is detailed in <xref linkend="solver">
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Data Analysis</guimenuitem>
+          &mdash;Allows various forms of data analysis to be used on a set of data.
+          This is detailed in <xref linkend="analysis-tools">
+         </para>
+        </listitem>
+       </itemizedlist>
+      </para>
+     </listitem>
+    </varlistentry>
+    </variablelist>
+
+
+</sect1>
+
+
+<!-- ******************* THE DATA MENU   ************** -->
+<sect1 id="Data-Menu">
+	<title>The Data Menu</title>
+
+
+
+
+
+	<para>The <guimenu>Data</guimenu> menu is </para>
+		<figure id="menu-data-labelled.png">
+		    <title>The <guimenu>Data</guimenu> menu.</title>
+		    <screenshot>
+		      <graphic fileref="figures/menu-data-labelled.png"></graphic>
+		    </screenshot>
+	    </figure>
+	<para>The menu choices are grouped into the following groups:</para>
+
+
+
+ <variablelist>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/label-one.png"></inlinegraphic>
+	    Data Field tools.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>These menu items allow the user to re-organize data fields.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/label-two.png"></inlinegraphic>
+	    Group and Outline.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>The sub-menu options of the <guimenu>Group and Outline</guimenu>
+menu are useful for creating data hiearchies within a worksheet.</para>
+	</listitem>
+      </varlistentry>
+
+</variablelist>
+
+
+
+	<!-- The data menu list -->
+
+    <variablelist> 
+      <varlistentry>
+       <term><guimenu>Data</guimenu></term>
+       <listitem>
+       <para>
+        This menu contains:
+         <itemizedlist>
+          <listitem>
+           <para>
+            <guimenuitem>Sort</guimenuitem>
+            &mdash;Sorts a selection of cells into ascending or descending order, 
+            based on the first column selected.
+           </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Filter</guimenuitem>
+          &mdash;FIXME
+         </para>
+        </listitem>
+       </itemizedlist>
+      </para>
+     </listitem>
+    </varlistentry>
+    </variablelist>
+
+</sect1>
+
+
+
+
+
+<!--  *********************** HELP MENU *****************-->
+<sect1 id="Help-Menu">
+	<title>The Help Menu</title>
+
+
+	<para>The <guimenu>Help</guimenu> menu is </para>
+		<figure id="menu-help-torn-off.png">
+		    <title>The <guimenu>Help</guimenu> menu.</title>
+		    <screenshot>
+		      <graphic fileref="figures/menu-help-torn-off.png"></graphic>
+		    </screenshot>
+	    </figure>
+	<para>The help menu connects users to this manual, to the list of functions
+	available for use in gnumeric and to the list of people who created this
+	wonderful application.</para>
+
+
+
+
+
+
+
+
+	<!-- the help menu list -->
+    <variablelist> 
+      <varlistentry>
+       <term><guimenu>Help</guimenu></term>
+       <listitem>
+       <para>
+        This menu contains:
+         <itemizedlist>
+          <listitem>
+           <para>
+            <guimenuitem>Gnumeric Manual</guimenuitem>
+            &mdash;Clicking on this menu entry should launch the local help
+system and display this manual. On the GNOME platform this 
+           </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>Gnumeric Function Reference</guimenuitem>
+          &mdash;View the Gnumeric function reference, a list and description 
+          of the functions available in Gnumeric. 
+         </para>
+        </listitem>
+        <listitem>
+         <para>
+          <guimenuitem>About</guimenuitem>
+          &mdash;hows basic information about Gnumeric, such as the authors' names 
+          and the application version number. 
+         </para>
+        </listitem>
+       </itemizedlist>
+      </para>
+     </listitem>
+    </varlistentry>
+    </variablelist>
+
+</sect1>
+
+
+
+
+
+
+
+
+<!--  *********************** CONTEXT MENUS *****************-->
+<sect1 id="context-menu">
+	<title>Context Menus in Gnumeric</title>
+
+	<para>Context menus are menus which open up under the mouse pointer and are
+	therefore detached from the format graphical structure
+	of the applicaton. These menus provide an extra and convinient way to access
+	Gnumeric commands. All of the commands in context menus are available
+	through the regular menu system. Context menus provide different commands
+	depending on the position of the pointer.</para>
+
+	<para>To activate a context menu, a user simply positions the pointer over
+	the appropriate area and clicks one of the buttons on their mouse. Since this
+	button is configurable and users have mice with different buttons, it may be a
+	different button on any given machine or may even require the combination of a
+	keyboard key and a mouse buttons. The user will have to find how to do this
+	themselves.</para>
+
+	<para> Currently Gnumeric provides five
+	different context menus. The context menu that is called in the central
+	grid area is discussed next in <xRef linkend="menu-context-grid">. The
+	Context menu that appears when the pointer is over the row headers or
+	column headers is presented in <xRef
+	linkend="menu-context-col-row-header">. Another context menu relates to the
+	worksheet tabs and is explained in <xref linkend="menu-context-tabs">. Yet
+	another context menu applies to embbeded objects or shaped components such
+	as a plot. These are shown in <xref linkend="menu-context-object">. The
+	final context menu allows the configuration of the toolbars. This menu is
+	presented in <xref linkend=menu-context-toolbars>.</para>
+
+
+<sect2 id="menu-context-grid">
+	<title>The Context Menu for the Cell Grid Area.</title>
+	<para>The context menu in the cell grid area apprears when the pointer is over the cell
+	grid area. This menu applies to the cells that have been selected, not
+	necessarily the cell underneath the mouse pointer. </para>
+		<figure id="menu-context-grid.png">
+		    <title>The Context Menu for the Cell Grid Area.</title>
+		    <screenshot>
+		      <graphic fileref="figures/menu-context-grid.png"></graphic>
+		    </screenshot>
+	    </figure>
+	<para>The grid context menu merely provides an extra way to access Gnumeric
+	commands. The first commands are  </para>
+
+
+</sect2>
+
+
+<sect2 id="menu-context-col-row-header">
+	<title>The Context Menu for Column and Row Headers</title>
+	<para>The Context Menu for Column and Row Headers</para>
+		<figure id="menu-context-col-row-header.png">
+		    <title>The Context Menu of a Row Header.</title>
+		    <screenshot>
+		      <graphic fileref="figures/menu-context-col-row-header.png"></graphic>
+		    </screenshot>
+	    </figure>
+	<para>The context menu which ....</para>
+
+
+</sect2>
+
+
+<sect2 id="menu-context-tabs">
+	<title>The Context Menu menu for Worksheet Tabs.</title>
+		<para>The Context Menu menu for Worksheet Tabs.</para>
+		<figure id="menu-context-tabs.png">
+		    <title>The Context Menu.</title>
+		    <screenshot>
+		      <graphic fileref="figures/menu-context-tabs.png"></graphic>
+		    </screenshot>
+	    </figure>
+	<para>The help menu connects users to this manual, to the list of functions
+	available for use in gnumeric and to the list of people who created this
+	wonderful application.</para>
+
+
+</sect2>
+
+
+<sect2 id="menu-context-object">
+	<title>The Context Menu for Embedded Objects and Components.</title>
+		<para>The Context Menu for Embedded Objects and Components.</para>
+		<figure id="menu-context-object.png">
+		    <title>The Context Menu.</title>
+		    <screenshot>
+		      <graphic fileref="figures/menu-context-object.png"></graphic>
+		    </screenshot>
+	    </figure>
+	<para>The help menu connects users to this manual, to the list of functions
+	available for use in gnumeric and to the list of people who created this
+	wonderful application.</para>
+
+
+</sect2>
+
+
+
+<sect2 id="menu-context-toolbars">
+	<title>The Context Menu for Toolbars</title>
+		<para>The Context Menu for Toolbars</para>
+		<figure id="menu-context-toolbars.png">
+		    <title>The Context Menu.</title>
+		    <screenshot>
+		      <graphic fileref="figures/menu-context-toolbars.png"></graphic>
+		    </screenshot>
+	    </figure>
+	<para>T</para>
+
+
+</sect2>
+
+
+
+
+
+</sect1>
+
+
+
+
+
+
+      <!-- IF someone knows a more approriate way to document menu
+      options, let me know. This seems a bit excessive, and the output
+      from db2html is kind of lame -->
+      
+     <!-- <title><guimenu><accel>F</accel>ile</guimenu></title>
+      <variablelist>
+	<varlistentry>
+	  <term><guimenuitem><accel>N</accel>ew</guimenuitem></term>
+	  <listitem><para>Create a new worksheet. This opens a new
+	  worksheet in a window.</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>O</accel>pen</guimenuitem></term>
+	  <listitem><para>Open an existing worksheet. A new window is
+	  created with the file selected in it.</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>S</accel>ave</guimenuitem></term>
+	  <listitem><para>Save the current worksheet. If the file has been named and saved before, this
+	      will silently save the file to the current filename. If it has not been saved before, this 
+	      will prompt for a filename and path.</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem>S<accel>a</accel>ve
+	  as..</guimenuitem></term>
+
+	  <listitem><para>Save a file with a new name. Save a newly created file or save
+	      a file with a different name. </para></listitem>
+
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>P</accel>lugins</guimenuitem></term>
+	  <listitem><para>Open the plugins dialog. For loading, saving of plugins. This 
+	      shows the listing of pre loaded plugins and allows the user the user to add more.</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>C</accel>lose</guimenuitem></term>
+	  <listitem><para>Close the current worksheet.</para></listitem>
+	</varlistentry>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>Q</accel>uit</guimenuitem></term>
+	  <listitem><para>Close the open worksheets and quit Gnumeric</para></listitem>
+	</varlistentry>
+	
+      </variablelist>  
+      
+      
+    </sect3> 
+    
+    <sect3>
+      <title><guimenu><accel>E</accel>dit</guimenu></title>
+      <variablelist>
+	
+	<varlistentry>
+	  <term><guimenuitem><accel>C</accel>ut</guimenuitem></term>
+	  <listitem><para>Remove the content in the currently selected cells and save it.</para></listitem>
+        </varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>C<accel>o</accel>py</guimenuitem></term>
+	  <listitem><para>Make a copy of the current selection to be pasted later.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem><accel>P</accel>aste</guimenuitem></term>
+	  <listitem><para>Paste whatever is in the cut buffer at the cursor.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem>P<accel>a</accel>ste Special</guimenuitem></term>
+	  <listitem><para>Paste from the cut buffer, but with more options as to what to paste.
+	      Useful for pasting just format, or just values, etc.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem><accel>S</accel>elect All</guimenuitem></term>
+	  <listitem><para>Select every cell in the worksheet.</para></listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guisubmenu>Clear -&gt;</guisubmenu></term>
+	  <listitem>
+	    <para>
+	      <variablelist>
+		<varlistentry>
+		  <term><guimenuitem><accel>A</accel>ll</guimenuitem></term>
+		  <listitem><para>Clear every cell.</para></listitem>
+		</varlistentry>
+		<varlistentry>
+		  <term><guimenuitem><accel>F</accel>ormats</guimenuitem></term>
+		  <listitem><para>Clear the format from selected cells.</para></listitem>
+		</varlistentry>
+	      </variablelist>
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guimenuitem><accel>G</accel>oto Cell</guimenuitem></term>
+	  <listitem><para>Let the user specify a cell to "jump" to.</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+    
+    <sect3>
+      <title><guimenu><accel>V</accel>iew</guimenu></title>
+      <variablelist>
+	<varlistentry><term><guimenuitem><accel>Z</accel>oom</guimenuitem></term>
+	  <listitem><para>Zoom in. To show a area of the spreadsheet in more detail.</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+    
+    <sect3>
+      <title><guimenu><accel>I</accel>nsert</guimenu></title>
+      <variablelist>
+	<varlistentry><term><guimenuitem><accel>C</accel>ells</guimenuitem></term>
+	  <listitem><para>Insert a new cell.</para></listitem>
+	</varlistentry>
+	<varlistentry><term><guimenuitem><accel>R</accel>ows</guimenuitem></term>
+	  <listitem><para>Insert a Row of cells.</para></listitem>
+	</varlistentry>
+	<varlistentry><term><guimenuitem>C<accel>o</accel>lumns</guimenuitem></term>
+	  <listitem><para>Insert a Column of cells.</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+    
+    <sect3>
+      <title><guimenu>F<accel>o</accel>rmat</guimenu></title>
+      <variablelist>
+	<varlistentry><term><guimenuitem><accel>C</accel>ells</guimenuitem></term>
+	  <listitem><para>Open the cell format dialog. Used to change formatting, color, etc</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>
+    
+    <sect3>
+      <title><guimenu><accel>H</accel>elp</guimenu></title>
+      <variablelist>
+	<varlistentry><term><guimenuitem>Cells</guimenuitem></term>
+	  <listitem><para>View the online help for Gnumeric</para></listitem>
+	</varlistentry>
+      </variablelist>
+    </sect3>-->
+  <!-- end of menubar description -->
+  
+

@@ -78,7 +78,7 @@
 	focus from the current cell to the editing region in the worksheet. This
 	allows more complete control over the text and data in the cell. This includes
 	the use of the cursor keys to position the cursor within the data in the cell.
-        See <xref linkend="worksheet-data-entry"> For more info on the data entry area.</para>
+        See <xref linkend="data-entry"> For more info on the data entry area.</para>
       
       <variablelist>
 	<varlistentry>

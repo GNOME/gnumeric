@@ -1,0 +1,709 @@
+<sect1 id="toolbars-start">
+    <title>The Gnumeric Toolbars</title>
+    
+    <para>The toolbars contain many icons representative of some the more common
+      operations a user may need to use. It is intended to provide fast access to these
+      tools.</para>
+   
+	<para>Gnumeric has three toolbars, the standard toolbar, the format toolbar
+and the object toolbar. These toolbars are essentialy groups of icons
+(pictures) which represent some of the more common tasks that users need. The
+three toolbars are shown in <xRef linkend="toolbars.png"></para
+
+    <figure id="toolbars.png">
+     <title>The Three Gnumeric Toolbars.</title>
+     <screenshot>
+      <graphic fileref="figures/toolbars.png" format="png" srccredit="The GNOME project">
+      </graphic>
+     </screenshot>
+    </figure>
+ 	<para> These toolbars will be discussed separately in the subsequent
+sections of the Manual. User intreaction with each toolbar happens in
+essentially the same way. Similarly, the toobars can be configured in the same
+way. The next section explains the standard behaviour of Gnumeric toolbars.</para>
+
+
+
+	<sect2 id="toolbar-use">
+		<title>General Toolbar Behaviour</title>
+
+		<para></para>
+
+	</sect2>
+</sect1>
+
+
+
+
+
+
+<!-- ************************* THE STANDARD TOOLBAR ************** -->
+<sect1 id="std-toolbar">
+	<title>The Standard Toolbar.</title>
+
+	<para>The standard toolbar is shown in <xRef linkend="toolbar-standard.png">.</para>
+
+    <figure id="toolbar-standard.png">
+     <title>The <interface>Standard Toolbar</interface>.</title>
+     <screenshot>
+      <graphic fileref="figures/toolbar-standard.png" format="png" srccredit="The GNOME project">
+      </graphic>
+     </screenshot>
+    </figure>
+ 	<para> The <interface>Standard Toolbar</interface> gives the user access to
+file operations, printing, movement of data blocks, the undo system, and to
+some of the powerful tools like the function creator and the graphing
+system.</para>
+
+
+
+
+	<!-- The list of standard toolbar objects. -->
+    <variablelist>
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-new.png"></inlinegraphic>
+	    New File.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Create a New file</para>
+	</listitem>
+      </varlistentry>
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-open.png"></inlinegraphic>
+	    Open
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Open an existing file.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-save.png"></inlinegraphic>
+	    Save
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Save the current worksheet to disk.</para>
+	</listitem>
+      </varlistentry>
+
+       <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-print.png"></inlinegraphic>
+          Print
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Prints the current worksheet to a file or a printer.</para>
+	</listitem>
+      </varlistentry>
+     
+       <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-preview.png"></inlinegraphic>
+          Print Setup
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Displays a print preview of the current worksheet.</para>
+	</listitem>
+      </varlistentry>
+     
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-cut.png"></inlinegraphic>
+	    Cut
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Copy the cells in the current selection to the cut buffer and delete them.</para>
+	</listitem>
+      </varlistentry>
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-copy.png"></inlinegraphic>
+	    Copy
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Copy the cells in the current selection to the cut buffer.</para>
+	</listitem>
+      </varlistentry>
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-paste.png"></inlinegraphic>
+	    Paste
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Paste the contents of the cut buffer into the active cell.</para>
+	</listitem>
+      </varlistentry>
+
+       <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-undo-and-history.png"></inlinegraphic>
+	   Undo 
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Undoes the last operation undertaken.</para>
+	</listitem>
+      </varlistentry>
+
+        <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-redo-and-history.png"></inlinegraphic>
+	   Redo 
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This is the reverse of the undo operation, restoring its orginal state.</para>
+	</listitem>
+      </varlistentry>
+
+     <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-sum.png"></inlinegraphic>
+	   Sum into the current cell 
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Sums the selected region in the selected cell.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-fx.png"></inlinegraphic>
+	   Sum into the current cell 
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Sums the selected region in the selected cell.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-sort-az.png"></inlinegraphic>
+	   Sort Ascending 
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Sorts the selected region in ascending order based on the 
+          first column selected.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-sort-za.png"></inlinegraphic>
+	    Sort Descending
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Sorts the selected region in descending order based on the 
+          first column selected.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-graph.png"></inlinegraphic>
+	   Graph
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button calls the graph guru to create a graph.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-insert-object.png"></inlinegraphic>
+	    Sort Descending
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Sorts the selected region in descending order based on the 
+          first column selected.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-insert-component.png"></inlinegraphic>
+	   Sort Ascending 
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Sorts the selected region in ascending order based on the 
+          first column selected.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-zoom.png"></inlinegraphic>
+	    Sort Descending
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Sorts the selected region in descending order based on the 
+          first column selected.</para>
+	</listitem>
+      </varlistentry>
+
+
+    </variablelist>
+</sect1>
+
+
+
+
+
+<!-- ************************* THE FORMAT TOOLBAR ************** -->
+<sect1 id="fmt-toolbar">
+	<title>The Format Toolbar.</title>
+
+	<para> The <interface>Format Toolbar</interface> ...</para>
+
+	<figure id="toolbar-format.png">
+     <title>The <interface>Format Toolbar</interface></title>
+     <screenshot>
+      <graphic fileref="figures/toolbar-format.png" format="png" srccredit="The GNOME project">
+      </graphic>
+     </screenshot>
+    </figure>
+
+ 	<para> The <interface>Format Toolbar</interface> .</para>
+
+
+
+    <variablelist>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-font-type.png"></inlinegraphic>
+	    Font Chooser.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>The user can change the font of a selection either by typing the
+name of a new font in the text area of this box or by clicking on the little
+arrow to the right of the text area. This will cause a menu to appear from
+which a font can be chosen.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-font-size.png"></inlinegraphic>
+	    Font size
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>The user can change the font size of a selection by typing the
+number of a different font size or by clicking on the little arrow to the right
+of the entry box and selecting the perferred size.</para>
+	</listitem>
+      </varlistentry>
+
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-bold.png"></inlinegraphic>
+	    Bold
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Change the style of the current cell to be bold, or un bold it if it is already bold.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-italic.png"></inlinegraphic>
+	    Italic
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Change the style of the current cell to be italicized  .</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-underline.png"></inlinegraphic>
+	   Underline
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Change the style of the current cell to be underlined.</para>
+	</listitem>
+      </varlistentry>
+
+
+
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-align-left.png"></inlinegraphic>
+	    Left justify..
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Justify the contents of the cell to the left of the cell.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-align-center.png"></inlinegraphic>
+	    Center
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Center the content of the cells.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-align-right.png"></inlinegraphic>
+	    Right Justify
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Justify the content of the cells to the right side of the cells</para>
+	</listitem>
+      </varlistentry>
+
+
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-center-across-selection.png"></inlinegraphic>
+	    Right Justify
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Justify the content of the cells to the right side of the cells</para>
+	</listitem>
+      </varlistentry>
+
+
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-merge.png"></inlinegraphic>
+	    Left justify..
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Justify the contents of the cell to the left of the cell.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-split.png"></inlinegraphic>
+	    Center
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Center the content of the cells.</para>
+	</listitem>
+      </varlistentry>
+
+      
+
+
+       <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-money.png"></inlinegraphic>
+	    Money
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Sets the format of the selected cells to be monetary.</para>
+	</listitem>
+      </varlistentry>
+      
+        <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-percent.png"></inlinegraphic>
+	    Percentage
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Sets the format of the selected cells to be a percentage.</para>
+	</listitem>
+      </varlistentry>
+      
+         <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-thousands.png"></inlinegraphic>
+	    Thousands separator
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Sets the format of the selected cells to be a thousands separator.</para>
+	</listitem>
+      </varlistentry>
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-increase-precision.png"></inlinegraphic>
+	    Increase the displayed precision.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Increases the number of decimals shown in the currently selected cell.</para>
+	</listitem>
+      </varlistentry>
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-decrease-precision.png"></inlinegraphic>
+          Decrease the displayed precision.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Decreases the number of decimals in the currently selected cell.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-decrease-indent.png"></inlinegraphic>
+          Decrease the displayed indentation.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button decreases the indentation of selected elements.</para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-increase-indent.png"></inlinegraphic>
+          Increase the displayed indentation.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button increases the indentation of selected elements.</para>
+	</listitem>
+      </varlistentry>
+
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-borders.png"></inlinegraphic>
+          Change the display borders.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button and drop down menu can be used to set the borders of
+all the cells in the selection.</para>
+	</listitem>
+      </varlistentry>
+
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-fill.png"></inlinegraphic>
+          Set the Background Colour.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button and drop down menu can be used to set the back ground
+colour.</para>
+	</listitem>
+      </varlistentry>
+
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-text-colour.png"></inlinegraphic>
+          Set the Text Colour
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This can be used to change the colour of the text.</para>
+	</listitem>
+      </varlistentry>
+
+
+   </variablelist>
+</sect1>
+
+
+
+
+
+
+
+
+
+
+<!-- ************************* THE OBJECT TOOLBAR ************** -->
+<sect1 id="obj-toolbar">
+	<title>The Object Toolbar.</title>
+
+
+	<figure id="toolbar-object.png">
+     <title>The <interface>Object Toolbar</interface></title>
+     <screenshot>
+      <graphic fileref="figures/toolbar-object.png" format="png" srccredit="The GNOME project">
+      </graphic>
+     </screenshot>
+    </figure>
+ 	<para> The <interface>Object Toolbar</interface> .</para>
+
+
+
+
+
+
+
+   <variablelist>
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-label.png"></inlinegraphic>
+          Insert a label.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button allows the user to insert a text label into a
+worksheet.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-frame.png"></inlinegraphic>
+          Insert a Frame.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button allows a user to insert a frame into a worksheet.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-checkbox.png"></inlinegraphic>
+          Insert a Checkbox.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button allows a user to insert a check box.</para>
+	</listitem>
+      </varlistentry>
+
+
+      
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-list.png"></inlinegraphic>
+          Insert a List.
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This button allows a user to insert a list.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-combo.png"></inlinegraphic>
+          Insert a Combo Box
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>This allows a user to insert a Combo Box.</para>
+	</listitem>
+      </varlistentry>
+
+
+
+
+
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-line.png"></inlinegraphic>
+	    Line
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Draw a line on the worksheet.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-arrow.png"></inlinegraphic>
+	    Arrow
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Draw a line with a arrow at one end. A pointer.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-rectangle.png"></inlinegraphic>
+	    Box
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Draw a box onto the worksheet.</para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <guiicon><inlinegraphic fileref="figures/button-oval.png"></inlinegraphic>
+	    Ellipse
+	  </guiicon>
+	</term>
+	<listitem>
+	  <para>Draw an ellipse or a circle on the worksheet.</para>
+	</listitem>
+      </varlistentry>
+    </variablelist>
+</sect1>
+  <!-- end of button bar docs -->
+ 
+

@@ -7,11 +7,12 @@
       existing name. </para>
     
     <para>The Save procedure can be invoked several ways. It is
-      available in the Menubar (see <xref linkend="menu-bar">) from
+      available in the Menubar from the 
       <guimenu><accel>F</accel>ile</guimenu>/
-      <guimenuitem><accel>S</accel>ave</guimenuitem> menuitem. There
+      <guimenuitem><accel>S</accel>ave</guimenuitem> menuitem
+	 (see <xref linkend="File-Menu">). There
       is also a buttonbar <guibutton>Save</guibutton> (see <xref
-      linkend="toolbar-buttons">).  All these methods are equivalent.
+      linkend="std-toolbar">).  All these methods are equivalent.
     </para>
 
     <!-- FIXME is this proper? --> 

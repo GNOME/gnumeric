@@ -1,0 +1,129 @@
+<sect1 id="preface-start">
+
+<title>Welcome to Gnumeric</title>
+
+	<para>Gnumeric is a powerful spreadsheet program created by the <ulink type="http" 
+	url="http://www.gnome.org/">GNOME</ulink> project. Gnumeric provides GNOME users 
+	with a core application for their desktops.</para>
+
+	<para>This manual describes Gnumeric version 1.0. This manual is intended
+	for new readers and advanced readers alike. This chapter gives a quick
+	introduction to Gnumeric.  <!--The <xRef linkend="outline"> should help
+	readers in search of specific information quickly find sections of the manual 
+	relevant to their questions.--></para>
+
+	<para>Gnumeric can be compared to other free and commercial spreadsheets programs 
+	based on these features:
+
+	<itemizedlist>
+
+		<listitem>
+			<para>
+			<guilabel>Compatibility</guilabel> &mdash;Gnumeric aims to replicate all 
+			the functionality of Excel and other spreadsheets. Gnumeric currently 
+			provides the core capabilities expected of a spreadsheet. For instance, 
+			Gnumeric has almost all of the calculation functions available in Excel 
+			and a few advanced ones of its own. 
+			</para>
+		</listitem>
+
+		<listitem>
+				<para>
+			<guilabel>File formats support</guilabel> &mdash; Gnumeric can use Excel, 
+			lotus 1-2-3, Applix, Sylk, XBase and Oleo file formats. Gnumeric
+			can also export its tables to LaTeX \longtables. Gnumeric can
+			easily be customized to support new formats.
+			</para>
+		</listitem>
+
+		<listitem>
+			<para>
+			<guilabel>Graphs</guilabel> &mdash; Gnumeric uses another GNOME program 
+			called Guppi to draw its graphs. Guppi is a powerful display engine for 
+			data which allows gnumeric users to redisplay their data directly on 
+			screen as they iteract with it.
+			</para>
+		</listitem>
+
+		<listitem>
+			<para>
+			<guilabel>Internationalization</guilabel> &mdash; Gnumeric works in
+			many different languages. It is already being used by people around the
+			globe in their native languages. The language capabilites of
+			Gnumeric are set to improve dramatically in the next year to enable
+			support for languages written left-right.</para>
+		</listitem>
+
+		<listitem>
+			<para>
+			<guilabel>Free Software</guilabel> &mdash; Gnumeric is <ulink type="http" 
+			url="http://www.gnu.org/philosophy/free-sw.html">free software</ulink> 
+			released under the <ulink type="http" 
+			url="http://www.gnu.org/copyleft/gpl.html">GNU GPL</ulink>. It is a
+			young project but developing fast based on the free software nature of
+			development. As an added bonus, it does not inherently cost its users 
+			any money.
+			</para> 
+		</listitem>
+  
+	</itemizedlist> 
+	</para>
+
+	<figure id="sample_gnumeric.png">
+		<title>An example of what Gnumeric can do.</title>
+		<screenshot>
+		<graphic fileref="figures/preface-screenshot.png" format="png"></graphic>
+		</screenshot>
+	</figure>
+
+	<para> This picture, <xref linkend="sample_gnumeric.png">, shows some advanced 
+	uses of the Gnumeric spreadsheet. These include support for graphing and 
+	embedding other GNOME programs. The table on the upper left shows a calculation 
+	which has been performed by gnumeric. The rightmost column of numbers (in grey) 
+	are automatically calculated based on the numbers in the rest of the table.</para>
+
+
+
+<sect2 id="Preface-what-is-a-spreadsheet">
+	<title>What is a spreadsheet?</title>
+	<para>A spreadsheet is an application to analyze and manage numeric data. It can 
+	calculate numbers based on others using sophisticated formuals. For example, 
+	Gnumeric can perform most basic statistical analyses. A spreadsheet can also plot 
+	data and print out tables of results. Spreadsheets are used to access databases, 
+	find results and perform calculations on these results. A spreadsheet can be used 
+	to maintain budget data, time allocations, personal finances, membership lists and 
+	many tasks which involve the storage, processing and reporting of number based 
+	data sets.</para>
+</sect2>
+
+<!-- This section can simply link to the mini-tutorial once that is written.-->
+<sect2 id="Preface-starting">
+	<title>Getting started using Gnumeric.</title>
+	<para>The best way to learn how to use Gnumeric is to begin exploring the program 
+	yourself. Enter some data into cells by clicking on the cell, typing a number and 
+	hitting return. Gnumeric supports different kinds of data such as numbers, dates, 
+	currency and text by formating each kind of data differently and by calculating 
+	results appropriate to each data type. To learn more look at the manual section on 
+	data entry <xref linkend="editing">.</para>
+
+	<para> Write a formula by clicking on an empty cell, typing the equals key, clicking 
+	on a second cell that has a number, typing the minus key, typing 2 and hitting 
+	return. The number you see should be the number in the second cell minus two. Try 
+	changing the number in the second cell and watch gnumeric automatically re-calculate 
+	the result. For more powerful functions see the section on formulas 
+	<xref linkend="formulas"> later in this manual. </para>
+
+	<para>You can format the data, by changing the text colour, adding borders and 
+	changing the placement. Explore the bottom toolbar and the menu that opens when 
+	you click on a cell with the rightmost mouse button. Look at 
+	<xref linkend="formatting"> later in this manual. </para>
+	<para>If you would like to learn more about Gnumeric, read this manual, visit the 
+	<ulink type="http" url="http://www.gnome.org/projects/gnumeric/"> Gnumeric 
+	home page</ulink>, ask friends who use spreadsheets or read a book on how to use 
+	Excel, since Gnumeric behaves almost exactly like Excel. If you have questions 
+	you can also send them to the Gnumeric mailing list at </para>
+</sect2>
+
+
+</sect1>
+

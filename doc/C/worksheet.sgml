@@ -1,964 +1,311 @@
-  <para>After opening up gnumeric, you're presented with a view of a
-    worksheet. This is where the majority of the work on the
-    spreadsheet is done, and provides access to all the various sub
-    dialogs of Gnumeric.</para>
-  
-  <para>The worksheet view is split into several main areas. The menu
-    bar, the button bar, the entry area, the main cell area, and the
-    info area. See <xref linkend="worksheet-all-1.jpg"> </para>
-  
-  <figure id="worksheet-all-1.jpg">
-    <title>A example of the entire worksheet.</title>
-    <screenshot>
-      <graphic fileref="figures/worksheet-all-1.jpg"></graphic>
-    </screenshot>
-  </figure>
-  
- <para>The rest of this chapter will explain all the elements of the worksheet.  </para>
-
-  <sect1 id="menu-bar">
-    <title>The Menu bar</title>    
-    <para>The default location of the menu bar is the top of the application window.
-      It provides a quick and organized access to some of the more common
-      operations available.</para>
-    
-    <sect2>
-      
-      <!-- IF someone knows a more approriate way to document menu
-      options, let me know. This seems a bit excessive, and the output
-      from db2html is kind of lame -->
-      
-      <title><guimenu><accel>F</accel>ile</guimenu></title>
-      <para>The <guimenu><accel>F</accel>ile</guimenu> menu contains:</para>
-      <variablelist>
-	<varlistentry>
-	  <term><guimenuitem><accel>N</accel>ew</guimenuitem></term>
-	  <listitem><para>Create a new worksheet. This opens a new
-	  worksheet in a window.</para></listitem>
-	</varlistentry>
+<sect1 id="other-gui-start">
+	<title>The Elements of the Gnumeric Worksheet.</title>
 	
-	<varlistentry>
-	  <term><guimenuitem><accel>O</accel>pen</guimenuitem></term>
-	  <listitem><para>Open an existing worksheet. A new window is
-	  created with the file selected in it.</para></listitem>
-	</varlistentry>
-	
-	<varlistentry>
-	  <term><guimenuitem><accel>I</accel>mport</guimenuitem></term>
-	  <listitem><para>WriteMe</para></listitem>
-	</varlistentry>
+	<para>The Gnumeric worksheet is made up of three elements which are presented 
+	below. <xref
+	linkend="data-entry"> explains the use of the Data entry area, the area
+	immediately above the worksheet area. <xref linkend="cell-grid"> explains
+	the cell grid which is the area in the middle of the window and the area
+	users spend the most time editing. Finally, <xref linkend="info-area">
+	explains the information area at the bottom of the worksheet where Gnumeric
+	displays information about its current work. </para>
 
-	<varlistentry>
-	  <term><guimenuitem><accel>S</accel>ave</guimenuitem></term>
-	  <listitem><para>Save the current worksheet. If the file has been named and saved before, this
-	      will silently save the file to the current filename. If it has not been saved before, this 
-	      will prompt for a filename and path.</para></listitem>
-	</varlistentry>
-	
-	<varlistentry>
-	  <term><guimenuitem>S<accel>a</accel>ve as..</guimenuitem></term>
-	  <listitem><para>Save a file with a new name. Save a newly created file or save
-	      a file with a different name. </para></listitem>
-	</varlistentry>
-
-	<varlistentry>
-	  <term><guimenuitem>Print S<accel>e</accel>tup..</guimenuitem></term>
-	  <listitem><para>Displays the print setup dialog, from which various 
-	  options relating to printing 
-          can be configured. This is detailed in <xref linkend="print-setup">.</para></listitem>
-	</varlistentry>
-	
-	<varlistentry>
-	  <term><guimenuitem><accel>P</accel>rint..</guimenuitem></term>
-	  <listitem><para>Print the current worksheet. This is detailed in <xref linkend="print">.
-	  </para></listitem>
-	</varlistentry>
-	
-	<varlistentry>
-	  <term><guimenuitem>Print Pre<accel>v</accel>iew..</guimenuitem></term>
-	  <listitem><para>Displays a print preview of the current worksheet. This is
-          detailed in <xref linkend="print-preview">.</para></listitem>
-	</varlistentry>	
-	
-	<varlistentry>
-	  <term><guimenuitem>Su<accel>m</accel>mary</guimenuitem></term>
-	  <listitem><para>Open the summary dialog. Displays a summary of the information about the 
-          current workbook.</para></listitem>
-	</varlistentry>
-	
-	<varlistentry>
-	  <term><guimenuitem><accel>C</accel>lose</guimenuitem></term>
-	  <listitem><para>Close the current worksheet.</para></listitem>
-	</varlistentry>
-	
-	<varlistentry>
-	  <term><guimenuitem><accel>Q</accel>uit</guimenuitem></term>
-	  <listitem><para>Close the open worksheets and quit Gnumeric</para></listitem>
-	</varlistentry>
-	
-      </variablelist>  
-      
-      
-    </sect2> 
-    
-    <sect2>
-      <title><guimenu><accel>E</accel>dit</guimenu></title>
-      <para>The <guimenu><accel>E</accel>dit</guimenu> menu contains:</para>
-      <variablelist>
-	
-	<varlistentry>
-	  <term><guimenuitem><accel>U</accel>ndo</guimenuitem></term>
-	  <listitem><para>Undoes the last action undertaken.</para></listitem>
-        </varlistentry>
-	<varlistentry>
-	  <term><guimenuitem><accel>R</accel>edo</guimenuitem></term>
-	  <listitem><para>Reverses the previous undo operation, restoring 
-          the worksheet to its orginal state.</para></listitem>
-        </varlistentry>
-	<varlistentry>
-	  <term><guimenuitem><accel>C</accel>ut</guimenuitem></term>
-	  <listitem><para>Remove the content in the currently selected cells and save it.</para></listitem>
-        </varlistentry>
-	<varlistentry>
-	  <term><guimenuitem>C<accel>o</accel>py</guimenuitem></term>
-	  <listitem><para>Make a copy of the current selection to be pasted later.</para></listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term><guimenuitem><accel>P</accel>aste</guimenuitem></term>
-	  <listitem><para>Paste whatever is in the cut buffer at the cursor.</para></listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term><guimenuitem>P<accel>a</accel>ste Special</guimenuitem></term>
-	  <listitem><para>Paste from the cut buffer, but with more options as to what to paste.
-	      Useful for pasting just format, or just values, etc.</para></listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term><guimenuitem><accel>S</accel>elect All</guimenuitem></term>
-	  <listitem><para>Select every cell in the worksheet.</para></listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term><guisubmenu>Clear -&gt;</guisubmenu></term>
-	  <listitem>
-	      <variablelist>
-		<varlistentry>
-		  <term><guimenuitem><accel>A</accel>ll</guimenuitem></term>
-		  <listitem><para>Clear every cell.</para></listitem>
-		</varlistentry>
-		<varlistentry>
-		  <term><guimenuitem><accel>F</accel>ormats</guimenuitem></term>
-		  <listitem><para>Clear the format from selected cells.</para></listitem>
-		</varlistentry>
-		<varlistentry>
-		  <term><guimenuitem>Co<accel>m</accel>ments</guimenuitem></term>
-		  <listitem><para>WriteMe</para></listitem>
-		</varlistentry>
-		<varlistentry>
-		  <term><guimenuitem>C<accel>ontents</accel></guimenuitem></term>
-		  <listitem><para>WriteMe</para></listitem>
-		</varlistentry>
-	      </variablelist>
-	  </listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term><guimenuitem>S<accel>h</accel>eet</guimenuitem></term>
-	  <listitem><para>WriteMe</para></listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term><guimenuitem><accel>S</accel>elect</guimenuitem></term>
-	  <listitem><para>WriteMe</para></listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term><guimenuitem><accel>F</accel>ill</guimenuitem></term>
-	  <listitem><para>WriteMe</para></listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term><guimenuitem>Search..</guimenuitem></term>
-	  <listitem><para>WriteMe</para></listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term><guimenuitem>Search and Replace..</guimenuitem></term>
-	  <listitem><para>WriteMe</para></listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term><guimenuitem><accel>G</accel>oto Cell</guimenuitem></term>
-	  <listitem><para>Let the user specify a cell to "jump" to.</para></listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term><guimenuitem>Recaclculate</guimenuitem></term>
-	  <listitem><para>WriteMe</para></listitem>
-	</varlistentry>
-      </variablelist>
-    </sect2>
-    
-    <sect2>
-      <title><guimenu><accel>V</accel>iew</guimenu></title>
-      <para>The <guimenu><accel>V</accel>iew</guimenu> menu contains:</para>
-      <variablelist>
-	<varlistentry><term><guimenuitem><accel>Z</accel>oom</guimenuitem></term>
-	  <listitem><para>Displays the zoom dialog, which allows the zoom level 
-            for the workbook to be changed.
-	  </para></listitem>
-	</varlistentry>
-      </variablelist>
-    </sect2>
-    
-    <sect2>
-      <title><guimenu><accel>I</accel>nsert</guimenu></title>
-      <para>The <guimenu><accel>I</accel>nsert</guimenu> menu contains:</para>
-      <variablelist>
-	<varlistentry><term><guimenuitem><accel>S</accel>heet</guimenuitem></term>
-	  <listitem><para>Insert a Sheet in the current workbook.</para></listitem>
-	</varlistentry>
-	<varlistentry><term><guimenuitem><accel>C</accel>ells</guimenuitem></term>
-	  <listitem><para>Insert a new cell.</para></listitem>
-	</varlistentry>
-	<varlistentry><term><guimenuitem><accel>R</accel>ows</guimenuitem></term>
-	  <listitem><para>Insert a Row of cells.</para></listitem>
-	</varlistentry>
-	<varlistentry><term><guimenuitem>C<accel>o</accel>lumns</guimenuitem></term>
-	  <listitem><para>Insert a Column of cells.</para></listitem>
-	</varlistentry>
-	<varlistentry><term><guimenuitem>C<accel>e</accel>lls</guimenuitem></term>
-	  <listitem><para>WriteMe</para></listitem>
-	</varlistentry>
-	<varlistentry><term><guimenuitem><accel>G</accel>raph</guimenuitem></term>
-	  <listitem><para>WriteMe</para></listitem>
-	</varlistentry>
-	<varlistentry><term><guimenuitem><accel>O</accel>bject</guimenuitem></term>
-	  <listitem><para>WriteMe</para></listitem>
-	</varlistentry>
-	<varlistentry><term><guimenuitem><accel>N</accel>ame</guimenuitem></term>
-	  <listitem><para>WriteMe</para></listitem>
-	</varlistentry>
-	<varlistentry><term><guimenuitem><accel>A</accel>dd / Modify comment</guimenuitem></term>
-	  <listitem><para>WriteMe</para></listitem>
-	</varlistentry>
-	<varlistentry><term><guisubmenu>S<accel>p</accel>cial</guisubmenu></term>
-	  <listitem>
-	      <variablelist>
-		<varlistentry>
-		  <term><guimenuitem>Current <accel>d</accel>ate</guimenuitem></term>
-		  <listitem><para>Inserts the current date into the currently 
-		  selected cell.</para></listitem>
-		</varlistentry>
-		<varlistentry>
-		  <term><guimenuitem>Current <accel>t</accel>ime</guimenuitem></term>
-		  <listitem><para>Inserts the current time into the currently 
-		  selected cell.</para></listitem>
-		</varlistentry>
-	      </variablelist>
-	      </listitem>
-	</varlistentry>
-      </variablelist>
-    </sect2>
-    
-    <sect2>
-      <title><guimenu>F<accel>o</accel>rmat</guimenu></title>
-      <para>
-        This menu contains:
-         <itemizedlist>
-          <listitem>
-           <para>
-            <guimenuitem>Cells</guimenuitem>
-            &mdash;Open the cell format dialog. Used to change formatting, color, etc. 
-           </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guisubmenu>Column-&gt;</guisubmenu>
-            &mdash; This submenu contains:
-	    <itemizedlist>
-              <listitem>
-                <para>
-                <guimenuitem>Auto Fit Selection</guimenuitem>
-                &mdash;Automatically chooses the optimal size for the column which shows all the text entered.
-	        </para>
-	      </listitem>
-              <listitem>
-                <para>
-                <guimenuitem>Width</guimenuitem>
-                &mdash;Allows the user to adjust the size of the column.
-	        </para>
-	      </listitem>
-              <listitem>
-                <para>
-                <guimenuitem>Hide</guimenuitem>
-                &mdash;Hides the selected columns so that they are not visible.
-	        </para>
-	      </listitem>
-              <listitem>
-                <para>
-                <guimenuitem>Unhide</guimenuitem>
-                &mdash;Makes any columns selected that have being hidden visible again.
-	        </para>
-	      </listitem>
-              <listitem>
-                <para>
-                <guimenuitem>Standard Width</guimenuitem>
-                &mdash;Resizes the columns back to the default width of 6.63.
-	        </para>
-	      </listitem>
-           </itemizedlist>
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-           <guisubmenu>Row-&gt;</guisubmenu>
-	   &mdash; This sub menu contains:
-	    <itemizedlist>
-              <listitem>
-                <para>
-                <guimenuitem>Auto Fit Selection</guimenuitem>
-                &mdash;Automatically chooses the optimal size for the row which shows all the text entered.
-	        </para>
-	      </listitem>
-              <listitem>
-                <para>
-                <guimenuitem>Height</guimenuitem>
-                &mdash;Allows the user to adjust the size of the row.
-	        </para>
-	      </listitem>
-              <listitem>
-                <para>
-                <guimenuitem>Hide</guimenuitem>
-                &mdash;Hides the selected rows so that they are not visible.
-	        </para>
-	      </listitem>
-              <listitem>
-                <para>
-                <guimenuitem>Unhide</guimenuitem>
-                &mdash;Makes any rows selected that have being hidden visible again.
-	        </para>
-	      </listitem>
-              <listitem>
-                <para>
-                <guimenuitem>Standard Height</guimenuitem>
-                &mdash;Resizes the rows back to the default height of 11.61.
-	        </para>
-	      </listitem>
-           </itemizedlist>
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Sheet-&gt;</guimenuitem>
-            &mdash; This sub menu contains:
-	    <itemizedlist>
-              <listitem>
-                <para>
-                <guimenuitem>Change Name</guimenuitem>
-                &mdash;
-	        </para>
-	      </listitem>
-              <listitem>
-                <para>
-                <guimenuitem>Display Formulas</guimenuitem>
-                &mdash;
-	        </para>
-	      </listitem>
-              <listitem>
-                <para>
-                <guimenuitem>Hide Zeros</guimenuitem>
-                &mdash;
-	        </para>
-	      </listitem>
-              <listitem>
-                <para>
-                <guimenuitem>Hide Gridlines</guimenuitem>
-                &mdash;
-	        </para>
-	      </listitem>
-              <listitem>
-                <para>
-                <guimenuitem>Hide Column Header</guimenuitem>
-                &mdash;
-	        </para>
-	      </listitem>
-              <listitem>
-                <para>
-                <guimenuitem>Hide Row Header</guimenuitem>
-                &mdash;
-	        </para>
-	      </listitem>
-            </itemizedlist>
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Workbook</guimenuitem>
-          &mdash;Allows you to configure whether tabs and row and column headers will be shown.
-         </para>
-        </listitem>
-       </itemizedlist>
-       </para>
-    </sect2>
-    
-    <sect2>
-      <title><guimenu><accel>T</accel>ools</guimenu></title>
-       <para>
-        This menu contains:
-         <itemizedlist>
-          <listitem>
-           <para>
-            <guimenuitem>Plug-ins</guimenuitem>
-            &mdash;Displays a list of the plugins currently installed.
-           </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Auto Correct</guimenuitem>
-          &mdash;Allows the user to configure various auto-correcting functions 
-          used when entering data.
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>AutoSave</guimenuitem>
-          &mdash;Allows the user to automatically save after a specified number of minutes
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Goal Seek</guimenuitem>
-          &mdash;FIXME
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Solver</guimenuitem>
-          &mdash;Brings up the Solver Dialog, which can be used to solve linear equations.
-          This is detailed in <xref linkend="solver">
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Data Analysis</guimenuitem>
-          &mdash;Allows various forms of data analysis to be used on a set of data.
-          This is detailed in <xref linkend="analysis-tools">
-         </para>
-        </listitem>
-       </itemizedlist>
-      </para>
-    </sect2>
-	
-    <sect2>
-      <title><guimenu><accel>D</accel>ata</guimenu></title>
-       <para>
-        This menu contains:
-         <itemizedlist>
-          <listitem>
-           <para>
-            <guimenuitem>Sort</guimenuitem>
-            &mdash;Sorts a selection of cells into ascending or descending order, 
-            based on the first column selected.
-           </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Filter</guimenuitem>
-          &mdash;FIXME
-         </para>
-        </listitem>
-       </itemizedlist>
-      </para>
-    </sect2>
-
-    <sect2>
-      <title><guimenu><accel>H</accel>elp</guimenu></title>
-       <para>
-        This menu contains:
-         <itemizedlist>
-          <listitem>
-           <para>
-            <guimenuitem>Gnumeric Manual</guimenuitem>
-            &mdash;Display this manual.
-           </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Gnumeric Function Reference</guimenuitem>
-          &mdash;View the Gnumeric function reference, a list and description 
-          of the functions available in Gnumeric. 
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>About</guimenuitem>
-          &mdash;hows basic information about Gnumeric, such as the authors' names 
-          and the application version number. 
-         </para>
-        </listitem>
-       </itemizedlist>
-      </para>
-    </sect2>
-  </sect1>
-  <!-- end of menubar description -->
-  
-  <sect1 id="toolbar-buttons">
-    <title>The Toolbar</title>
-    <para>The Toolbar contains many icons representative of some the more common
-      operations a user may need to use. It is intended to provide fast access to these
-      tools.</para>
-   
-    <figure id="mainwindow-fig">
-     <title>The <interface>toolbar</interface></title>
-     <screenshot>
-      <screeninfo>The <interface>toobar</interface></screeninfo>
-      <graphic fileref="figures/toolbar.png" format="png"
-       srccredit="Thomas Canty">
-      </graphic>
-     </screenshot>
-    </figure>
- 
-    <variablelist>
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/stock-new.png"></inlinegraphic>
-	    New File.
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Create a New file</para>
-	</listitem>
-      </varlistentry>
-      
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/stock-open.png"></inlinegraphic>
-	    Open
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Open an existing file.</para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/stock-save.png"></inlinegraphic>
-	    Save
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Save the current worksheet to disk.</para>
-	</listitem>
-      </varlistentry>
-
-       <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/print.png"></inlinegraphic>
-          Print
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Prints the current worksheet to a file or a printer.</para>
-	</listitem>
-      </varlistentry>
-     
-       <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/print-preview.png"></inlinegraphic>
-          Print Setup
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Displays a print preview of the current worksheet.</para>
-	</listitem>
-      </varlistentry>
-     
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/stock-cut.png"></inlinegraphic>
-	    Cut
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Copy the cells in the current selection to the cut buffer and delete them.</para>
-	</listitem>
-      </varlistentry>
-
-      
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/stock-copy.png"></inlinegraphic>
-	    Copy
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Copy the cells in the current selection to the cut buffer.</para>
-	</listitem>
-      </varlistentry>
-
-      
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/stock-paste.png"></inlinegraphic>
-	    Paste
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Paste the contents of the cut buffer into the active cell.</para>
-	</listitem>
-      </varlistentry>
-
-       <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/undo.png"></inlinegraphic>
-	   Undo 
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Undoes the last operation undertaken.</para>
-	</listitem>
-      </varlistentry>
-
-        <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/redo.png"></inlinegraphic>
-	   Redo 
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>This is the reverse of the undo operation, restoring its orginal state.</para>
-	</listitem>
-      </varlistentry>
-
-         <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/auto-sum.png"></inlinegraphic>
-	   Sum into the current cell 
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Sums the selected region in the selected cell.</para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/sort-ascending.png"></inlinegraphic>
-	   Sort Ascending 
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Sorts the selected region in ascending order based on the 
-          first column selected.</para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/sort-descending.png"></inlinegraphic>
-	    Sort Descending
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Sorts the selected region in descending order based on the 
-          first column selected.</para>
-	</listitem>
-      </varlistentry>
+</sect1>
 
 
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/align-left.png"></inlinegraphic>
-	    Left justify..
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Justify the contents of the cell to the left of the cell.</para>
-	</listitem>
-      </varlistentry>
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/align-center.png"></inlinegraphic>
-	    Center
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Center the content of the cells.</para>
-	</listitem>
-      </varlistentry>
 
-      
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/align-right.png"></inlinegraphic>
-	    Right Justify
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Justify the content of the cells to the right side of the cells</para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/bold.png"></inlinegraphic>
-	    Bold
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Change the style of the current cell to be bold, or un bold it if it is already bold.</para>
-	</listitem>
-      </varlistentry>
-
-
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/italic.png"></inlinegraphic>
-	    Italic
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Change the style of the current cell to be italicized  .</para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/underline.png"></inlinegraphic>
-	   Underline
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Change the style of the current cell to be underlined.</para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/line.png"></inlinegraphic>
-	    Line
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Draw a line on the worksheet.</para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/arrow.png"></inlinegraphic>
-	    Arrow
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Draw a line with a arrow at one end. A pointer.</para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/rect.png"></inlinegraphic>
-	    Box
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Draw a box onto the worksheet.</para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/oval.png"></inlinegraphic>
-	    Ellipse
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Draw an ellipse or a circle on the worksheet.</para>
-	</listitem>
-      </varlistentry>
-
-       <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/money.png"></inlinegraphic>
-	    Money
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Sets the format of the selected cells to be monetary.</para>
-	</listitem>
-      </varlistentry>
-      
-        <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/percentage.png"></inlinegraphic>
-	    Percentage
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Sets the format of the selected cells to be a percentage.</para>
-	</listitem>
-      </varlistentry>
-      
-         <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/thousands.png"></inlinegraphic>
-	    Thousands separator
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Sets the format of the selected cells to be a thousands separator.</para>
-	</listitem>
-      </varlistentry>
-      
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/add-decimals.png"></inlinegraphic>
-	    Add decimals
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Increases the number of decimals shown in the currently selected cell.</para>
-	</listitem>
-      </varlistentry>
-      
-      <varlistentry>
-	<term>
-	  <guiicon><inlinegraphic fileref="figures/remove-decimals.png"></inlinegraphic>
-          Remove decimals
-	  </guiicon>
-	</term>
-	<listitem>
-	  <para>Decreases the number of decimals in the currently selected cell.</para>
-	</listitem>
-      </varlistentry>
-    </variablelist>    
-  </sect1>
-  <!-- end of button bar docs -->
-  
-  <sect1 id="worksheet-data-entry">
+<sect1 id="data-entry">
     <title>Data entry area.</title>
     
-    <para>Immediately under the button bar is the data entry
-      area. This is a small area, which contains a current cell
-      indicator, a <guibutton>confirm</guibutton> and a
-      <guibutton>cancel</guibutton> button, and an entry area for
-      detailed editing of the cell contents.  See <xref
-	linkend="worksheet-data-1"></para>
-    
-    
-    <figure id="worksheet-data-1">
-      <title>The Data Entry area.</title>
-      <screenshot>
-	<graphic fileref="figures/worksheet-data-1.png"></graphic>
+    <para>Immediately above the grid of cells is the data entry
+      area as shown in <xref linkend="worksheet-data-1">.</para>
+	  <figure id="worksheet-data-1">
+   	   <title>The Data Entry area.</title>
+   	   <screenshot>
+		<graphic fileref="figures/worksheet-data-1.png" format="png"></graphic>
       </screenshot>
     </figure>
+    <para>This is a small area, which contains a current cell
+    indicator, a <guibutton>cancel</guibutton> button, a 
+	<guibutton>confirm</guibutton> button, an
+	<guibutton>entry</guibutton> button, and an entry area for
+    detailed editing of the cell contents. These elements are explained
+	individually below.
+	</para>
     
+
+
+	
     <sect2>
       <title>Current Cell Indicator.</title>
+	  
       <para>On the far left of the Data Entry area is the current cell indicator
-	area.  If a single cell is selected, it will show the address for the cell.
-	If a region is selected, it shows the size of the region in the format:</para>
-      
-      <blockquote><para>4Lx5C</para></blockquote>
-      
-      <para>Where L is the number of rows and C is the number of columns. In the example
-	above, this would be a selection of 4 rows by 5 columns.</para>
-      
-      
+	area.  This area is shown in <xref linkend="worksheet-data-2"></para>
       <figure id="worksheet-data-2">
 	<title>The Current Cell Indicator.</title>
 	<screenshot>
-	  <graphic fileref="figures/worksheet-data-2.png"></graphic>
+	  <graphic fileref="figures/worksheet-data-2.png" format="png"></graphic>
 	</screenshot>
       </figure>
+		<para>The cell indicator will show the address for the cell at the top
+	left of the selected region. This address is listed in the standard column:row 
+	notation. The alphabetic part indicates the the column of this top leftmost cell 
+	and the numeric part indicates the row of this top left cell. For instance, the 
+	cell which is over three columns and down two rows is designated:</para>
+		<blockquote><para>C2</para></blockquote>
+	<para>This designation matches the column and row headers for this
+	cell.</para>
+
+	<para>While a region is being selected, the current cell indicator will
+	change to show the size of the region which is being selected. This
+	information is presented in a row number by column number format. For
+	instance, this designation:
+      
+      <blockquote><para>15R x 6C</para></blockquote>
+      
+      would indicate a selection area 15 rows high by 6 columns wide. Once 
+	  the mouse is released at the end of the selection, the current cell indicator 
+	  goes back to giving the address of the single top leftmost cell.</para>
       
     </sect2>
     
-    <sect2>
-      <title><guibutton>The Confirm Button</guibutton></title>
-      
-      <para>While entering data in the entry area, you can confirm the
-	current cell contents by pressing the green return button
-	<guibutton>
-	  <inlinegraphic fileref="figures/worksheet-data-3.png">
-	  </inlinegraphic>
-	</guibutton>.
-      </para>
-      
-    </sect2>
+
     
     <sect2>
-      <title><guibutton>The Cancel Button</guibutton></title>
+      <title>The <guibutton>Cancel</guibutton> Button.</title>
       
-      <para>If a user decides that the data entered into a cell is
-	not what they want, the Cancel button will cancel the current
-	data and return the cell to the state it was at before. The
-	data being entered into the cell can be canceled by pressing
-	the red X button
-	<guibutton>
+      <para>The Cancel button 
+	  <guibutton>
 	  <inlinegraphic fileref="figures/worksheet-data-4.png">
 	  </inlinegraphic>
+	</guibutton>
+	can be used to cancel the current edit and to restore the cell contents to
+	the previous state.
+	If a user decides in the middle of an edit that the data being entered into a cell is
+	not what they want, the user can push this cancel button to cancel the current
+	data and return the cell to the state it was at before. </para>
+      
+      <para>The most common use of this button is when overwriting the contents
+	of a cell with new data. If the user decided to revert the change
+	before confirming it, the cancel button is the answer. Note that this 
+	button works just like typing the escape key on the keyboard.</para>
+    </sect2>
+
+	
+    <sect2>
+      <title>The <guibutton>Confirm</guibutton> Button.</title>
+      
+      <para>The confirm button
+	  <guibutton>
+	  <inlinegraphic fileref="figures/worksheet-data-3.png" format="png">
+	  </inlinegraphic>
 	</guibutton>.
+      can be used to finish the edit of a cell and enter the edit into the
+	  workbook. Note that this  button works in the same way as the enter key.
+	  </para>
+
+    </sect2>
+	
+	
+	<sect2>
+      <title>The <guibutton>Equals</guibutton> Button.</title>
+      
+      <para>The equals button 
+		<guibutton>
+		  <inlinegraphic fileref="figures/button-equals.png" format="png">
+		  </inlinegraphic>
+		</guibutton>
+	  can be used to start a formula in the currently selected cell. If a user
+	  wanted to make cell D10 equal to cell B4, the user could simply click on
+	  cell D10, click this equals button, click on cell B4 and type the enter
+	  key. Note that this button works the same way as the equals key.
       </para>
       
-      <para>The most common use of this is when overwriting the contents
-	of a cell with new data. If the user decided to revert the change
-	before confirming it, the cancel button is the answer.</para>
     </sect2>
-  </sect1>
+
+
+
+</sect1>
+
+
+
+
+
+
+
+
+
   
-  <sect1>
-    <title>The Cell area</title>
+<sect1 id="cell-grid">
+    <title>The Cell Grid</title>
       
     <para>Most of the work done on a spreadsheet is done to the main Cell area, the large
       grid like part of the worksheet. This is where all the formulas and data are entered,
       and is the center of activity for the spreadsheet.</para>
-    
-    <para>The sheet is bordered by a column label and a row label. Columns are labeled
-      alphabetically and are labeled horizontally across the top of the sheet. See <xref
-	linkend="worksheet-cols-1">. Rows are
-	labeled vertically along size the left side of the sheet and are sorted numerically.
-	See <xref linkend="worksheet-rows-1"></para>
-    
+
+    <figure id="cell-grid.png">
+      <title>The Cell Grid area, with cells of different sizes.</title>
+      <screenshot>
+	<graphic fileref="figures/cell-grid.png" format="png"></graphic>
+      </screenshot>
+    </figure>
+ 
+ 	<para><xref linkend="cell-grid.png"> shows the the 
+	cell grid area, the column and row headers on the top and left, the
+	scrollbars on the right and bottom and the tab list at the very bottom.
+	</para>
+	
+	<para> The figure has a few and shows that cell B3 as being 
+	selected. In this figure, the columns and rows have been 
+	resized and therefore look uneven. </para>
+	
+	<para>Each cell in this area is delimited by a light grey line by default.
+	The current selection is indicated by a rectangular box with a little box
+	on the lower right, this case cell J12. The view in this figure shows the
+	middle portion of a worksheet which is evident in two ways. Firstly, the
+	column and row headers do not start at column A and row 1. Secondly, the
+	scroll thumbs are not at the top and left. The thumbs are the boxes within
+	the scroll bars that are used to scroll. Note also that cell D19 has a
+	comment within it which is shown by the little red triangle at the top
+	right corner.</para>
+	
+	<para>The size of a cell is determined by the
+	width of the column and height of the row that the cell is in. The columns and rows
+	can be resized by acting on the header relevant to the cell. The user must move the 
+	mouse pointer to the edge of the header which is either to the right or below the cell. 
+	With the mouse pointer in this position, the pointer will change to a set of opposite 
+	pointing arrows. The user must then drag this edge away from the top left corner. This 
+	takes a little practice.</para>
+	
+	
+	<para>The cell area is the core of Gnumeric. Therefore the maual explains the use of 
+	cells in much greater detail in a separate section. Interested users should read 
+	<xref linkend="editing">.</para>
+
+	
+
+
+	<sect2 id="col-row-headers">
+		<title>The Column and Row Headers.</title>
+
+    <para>The sheet is bordered by column headers on the top and row headers to the left. 
+	Columns are labeled alphabetically running horizontally across the top of the sheet as 
+	shown in <xref linkend="worksheet-cols-1">.     
     <figure id="worksheet-cols-1">
       <title>The column labels at the top of the worksheet.</title>
       <screenshot>
-	<graphic fileref="figures/worksheet-cols-1.png"></graphic>
+	<graphic fileref="figures/worksheet-cols-1.png" format="png"></graphic>
       </screenshot>
     </figure>
+	Rows are labeled along the left side of the worksheet. Each label is a differrent integer
+	increasing downward. This is shown in <xref linkend="worksheet-rows-1">.
     
     <figure id="worksheet-rows-1">
       <title>The row labels at the left side of the worksheet.</title>
       <screenshot>
-	<graphic fileref="figures/worksheet-rows-1.png"></graphic>
+	<graphic fileref="figures/worksheet-rows-1.png" format="png"></graphic>
       </screenshot>
     </figure>
-    
-    
-  </sect1>
-  
-  <sect1>
-    <title>The Info Area</title>
-    
-    <para>The section at the very bottom of the worksheet view is the info area. It contains
-      information about the currently selected cells, and also provides access to buttons
-      for zooming in and out. This is also where the sheet indicator lives.</para>
-    
-    <figure id="worksheet-info-1">
-      <title>The info area.</title>
-      <screenshot>
-	<graphic fileref="figures/worksheet-info-1.png"></graphic>
-      </screenshot>
-    </figure>
-    
-    <sect2>
-      <title>Sheet indicator</title>
-      <para>To the left side is the sheet indicator. In workbooks where there are more
-	than one sheet, this indicates how many sheets are there, and also allows the user to 
-	move to another sheet by clicking the proper tag. </para>
+    </para>
+
+	</sect2>
+
+	<sect2>
+		<title>The Scrollbars</title>
+
+		<para>
+		The cell grid area's scrollbars work like other scrollbars. In this
+		case they let the user work on a worksheet which is much bigger than
+		what could be shown at any given momment.
+		</para>
+
+		</sect2>
+
+ <sect2>
+      <title>The Tabbed Sheet Indicator</title>
+      <para>At the bottom of <xref linkend="cell-grid.png">, Gnumeric has a tabbed sheet 
+	  indicator. This is the boxes with the labels "Guppies", "Turtles", "Mermaids", 
+	  "seahorses" and so on. In workbooks where there are more than one sheet, extra 
+	  tabs are used to indicate how many sheets are there, and also allows the user to move 
+	  to another sheet by clicking the proper tab. Each 
+	  tab is a link to a separte worksheet within Gnumeric. In this figure, the "Turtles" tab 
+	  has been selected. Gnumeric shows this by making the "Turtles" since the tab is a 
+	  little bigger and making it overlap the two neighbouring tabs.</para>
+	  
+	  <para>On the far
+	  right, the two arrows indicate that there are more sheets in the workbook
+	  and more tabs for those sheets. Unfortunately, there is not enough space
+	  to show them all so Gnumeric displays these arrows. If all the sheets are
+	  visible, these arrows will not be displayed. These arrows can be used to
+	  scroll the tabs and bring tabs that were hidden into view. This may be a
+	  little difficult to understand and work with but becomes easier quickly.</para>
     </sect2>
     
-    <sect2>
+
+
+
+
+    
+</sect1>
+ 
+
+
+
+
+
+
+
+
+<sect1 id="info-area">
+    <title>The Information Area</title>
+    
+    <para>The section at the very bottom of the worksheet view is the information area 
+	as is shown in <xref linkend="info-area.png">.
+
+	<figure id="info-area.png">
+      <title>The Information Display Area.</title>
+    	  <screenshot>
+			<graphic fileref="figures/info-area.png" format="png"></graphic>
+    	  </screenshot>
+   	 </figure>
+    The information area displays information depending on what is happening in
+	Gnumeric. 
+	</para>
+	
+	<sect2>
+		<title>The menu hint area</title>
+	
+	<para>
+	The leftmost portion of the information display area, the part which reads: 
+	"Sort the selected cells" is a
+	hint explaining what a menu does. In this case, the Data menu was opened
+	and the pointer is hovering above the "sort" menu entry. Gnumeric is
+	responding by giving a quick explanation of what that menu entry does.
+	</para>
+
+	</sect2>
+
+	<sect2>
+		<title>The File Status Indicator</title>
+
+		<para>
+		Whenever Gnumeric opens or saves a file, the file staus indicator
+		appears with a progress bar which grows as Gnumeric progresses. In
+		<xref linkend="info-area.png">, Gnumeric was just over halfway done
+		opening a file.
+		</para>
+	</sect2>
+
+
+
+       <sect2>
       <title>The running calculation area</title>
       
       <para>In the bottom right hand corner, is an info area that shows some constantly calculated
 	values. The default set is to show the Sum of all the currently selected cells.</para>
       
-      <para>Click on this area for a menu to choose to display any one ofSum, Min, 
-      Max, Average, Count.</para>
+      <para>There is a right click option that includes a few more options.  This can include
+	Sum, Min, Max, Average, Count.</para>
       
       <figure id="worksheet-running-calc-1">
 	<title>The running calculation area.</title>
@@ -969,19 +316,6 @@
     </sect2>
   </sect1>
 
+<!--end of chapter Other graphical elements.-->
 
-<!-- Keep this comment at the end of the file
-Local variables:
-mode: sgml
-sgml-omittag:t
-sgml-shorttag:t
-sgml-minimize-attributes:nil
-sgml-always-quote-attributes:t
-sgml-indent-step:2
-sgml-indent-data:t
-sgml-parent-document:nil
-sgml-exposed-tags:nil
-sgml-local-catalogs:nil
-sgml-local-ecat-files:nil
-End:
--->                         
+
