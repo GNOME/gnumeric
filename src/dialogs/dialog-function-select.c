@@ -130,6 +130,7 @@ dialog_function_select_destroy (FunctionSelectState  *state)
 		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;
 	}
+	g_slist_free (state->recent_funcs);
 	state->dialog = NULL;
 	g_free (state);
 }
@@ -176,7 +177,8 @@ cb_dialog_function_select_ok_clicked (__attribute__((unused)) GtkWidget *button,
 		dialog_formula_guru (wbcg, func);
 		return;
 	}
-	g_warning ("Something wrong, we should never get here!");
+
+	g_assert_not_reached ();
 	gtk_widget_destroy (state->dialog);
 	return;
 }
@@ -328,7 +330,7 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 				}
 			}
 
-			g_string_free (buf, FALSE);
+			g_string_free (buf, TRUE);
 			tokenized_help_destroy (help);
 		}
 		gtk_widget_set_sensitive (state->ok_button, TRUE);

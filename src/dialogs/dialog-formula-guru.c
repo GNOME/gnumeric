@@ -134,7 +134,6 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 	gboolean is_non_fun;
 	GnmFunc const *fd;
 	GtkTreeIter iter;
-	char *argument;
 	gboolean not_first = FALSE;
 	int arg_min, arg_num = 0;
 	gboolean find_origin = TRUE;
@@ -153,11 +152,15 @@ dialog_formula_guru_update_this_parent (GtkTreeIter *parent, FormulaGuruState *s
 
 	if (gtk_tree_model_iter_children (GTK_TREE_MODEL(state->model), &iter, parent)) {
 		do {
+			char *argument;
 			gtk_tree_model_get (GTK_TREE_MODEL(state->model), &iter,
 					    FUN_ARG_ENTRY, &argument,
 					    -1);
-			if ((argument == NULL  || g_utf8_strlen (argument, -1) == 0) && arg_num > arg_min)
+			if ((argument == NULL  || g_utf8_strlen (argument, -1) == 0) && arg_num > arg_min) {
+				g_free (argument);
 				break;
+			}
+
 			if (not_first) {
 				text = g_string_append_c (text, format_get_arg_sep ());
 				text = g_string_append_c (text, ' ');

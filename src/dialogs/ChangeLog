@@ -1,3 +1,11 @@
+2002-11-05  Morten Welinder  <terra@diku.dk>
+
+	* dialog-function-select.c (dialog_function_select_destroy): Plug
+ 	leak.
+	(cb_dialog_function_select_fun_selection_changed): Ditto.
+
+	* dialog-formula-guru.c (dialog_formula_guru_update_this_parent): Ditto.
+
 2002-11-03  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* dialog-cell-format.c: Annotated unused parameters.
