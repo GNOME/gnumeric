@@ -1,3 +1,9 @@
+2002-08-06  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* python-loader.c
+	(gnumeric_plugin_loader_python_func_get_full_function_info):
+	Always set *link and *unlink to NULL.
+
 2002-08-04  Jon K Hellan  <hellan@acm.org>
 
 	* python-loader.c (gnumeric_plugin_loader_python_func_file_open):

@@ -645,6 +645,8 @@ gnumeric_plugin_loader_python_func_get_full_function_info (PluginService *servic
 		                                               fn_info_obj, fn_name);
 		*fn_args_ptr = NULL;
 		*fn_nodes_ptr = &call_python_function_nodes;
+		*link = NULL;
+		*unlink = NULL;
 		return TRUE;
 	} else {
 		clear_python_error_if_needed ();
