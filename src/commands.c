@@ -2151,10 +2151,11 @@ typedef struct
 {
 	GnumericCommand parent;
 
-	ExprRelocateInfo info;
-	GSList		*paste_content;
-	GSList		*reloc_storage;
-	gboolean	 move_selection;
+	ExprRelocateInfo   info;
+	GSList		  *paste_content;
+	GSList		  *reloc_storage;
+	gboolean	   move_selection;
+	ColRowRLESizeList *saved_sizes;
 } CmdPasteCut;
 
 GNUMERIC_MAKE_COMMAND (CmdPasteCut, cmd_paste_cut);
@@ -2216,6 +2217,11 @@ cmd_paste_cut_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		cellregion_free (pc->contents);
 		g_free (pc);
 	}
+
+	/* Restore the original row heights */
+	colrow_restore_sizes (me->info.target_sheet, FALSE, me->info.origin.start.row + me->info.row_offset,
+			      me->info.origin.end.row + me->info.row_offset, me->saved_sizes);
+	me->saved_sizes = NULL;
 
 	/* Restore the changed expressions */
 	workbook_expr_unrelocate (me->info.target_sheet->workbook,
@@ -2286,6 +2292,8 @@ cmd_paste_cut_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	cmd_paste_cut_update_origin (&me->info, wbc);
 
+	/* Backup row heights and adjust row heights to fit */
+	me->saved_sizes = colrow_save_sizes (me->info.target_sheet, FALSE, tmp.start.row, tmp.end.row);
 	rows_height_update (me->info.target_sheet, &tmp);
 
 	/* Make sure the destination is selected */
@@ -2303,6 +2311,10 @@ cmd_paste_cut_destroy (GtkObject *cmd)
 {
 	CmdPasteCut *me = CMD_PASTE_CUT (cmd);
 
+	if (me->saved_sizes) {
+		colrow_rle_size_list_destroy (me->saved_sizes);
+		me->saved_sizes = NULL;
+	}
 	while (me->paste_content) {
 		PasteContent *pc = me->paste_content->data;
 		me->paste_content = g_slist_remove (me->paste_content, pc);
@@ -2358,6 +2370,7 @@ cmd_paste_cut (WorkbookControl *wbc, ExprRelocateInfo const *info,
 	me->paste_content  = NULL;
 	me->reloc_storage  = NULL;
 	me->move_selection = move_selection;
+	me->saved_sizes    = NULL;
 
 	me->parent.sheet = info->target_sheet;
 	me->parent.size = 1;  /* FIXME?  */
@@ -2388,9 +2401,10 @@ typedef struct
 {
 	GnumericCommand parent;
 
-	CellRegion *content;
-	PasteTarget dst;
-	gboolean    has_been_through_cycle;
+	CellRegion        *content;
+	PasteTarget        dst;
+	gboolean           has_been_through_cycle;
+	ColRowRLESizeList *saved_sizes;
 } CmdPasteCopy;
 
 GNUMERIC_MAKE_COMMAND (CmdPasteCopy, cmd_paste_copy);
@@ -2404,8 +2418,6 @@ cmd_paste_copy_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->content != NULL, TRUE);
 
-	me->dst.paste_flags |= PASTE_UPDATE_ROW_HEIGHT;
-	
 	content = clipboard_copy_range (me->dst.sheet, &me->dst.range);
 	if (clipboard_paste_region (wbc, &me->dst, me->content)) {
 		/* There was a problem, avoid leaking */
@@ -2413,12 +2425,23 @@ cmd_paste_copy_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		return TRUE;
 	}
 
-	if (me->has_been_through_cycle)
+	if (me->has_been_through_cycle) {
+		/* Restore sizes */
+		colrow_restore_sizes (me->dst.sheet, FALSE, me->dst.range.start.row,
+				      me->dst.range.end.row, me->saved_sizes);
+		me->saved_sizes = NULL;
+
 		cellregion_free (me->content);
-	else
+	} else {
 		/* Save the content */
 		me->dst.paste_flags = PASTE_CONTENT |
 			(me->dst.paste_flags & PASTE_FORMATS);
+
+		/* Save sizes and fit row heights */
+		me->saved_sizes = colrow_save_sizes (me->dst.sheet, FALSE, me->dst.range.start.row,
+						     me->dst.range.end.row);
+		rows_height_update (me->dst.sheet, &me->dst.range);
+	}
 
 	me->content = content;
 	me->has_been_through_cycle = TRUE;
@@ -2445,6 +2468,10 @@ cmd_paste_copy_destroy (GtkObject *cmd)
 {
 	CmdPasteCopy *me = CMD_PASTE_COPY (cmd);
 
+	if (me->saved_sizes) {
+		colrow_rle_size_list_destroy (me->saved_sizes);
+		me->saved_sizes = NULL;
+	}
 	if (me->content) {
 		if (me->has_been_through_cycle)
 			cellregion_free (me->content);
@@ -2470,7 +2497,8 @@ cmd_paste_copy (WorkbookControl *wbc,
 	me->dst = *pt;
 	me->content = content;
 	me->has_been_through_cycle = FALSE;
-
+	me->saved_sizes = NULL;
+	
 	/* If the destination is a singleton paste the entire content */
 	if (range_is_singleton (&me->dst.range)) {
 		if (pt->paste_flags & PASTE_TRANSPOSE) {

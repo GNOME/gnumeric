@@ -1,3 +1,14 @@
+2001-05-10  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/commands.c (cmd_paste_cut_undo): Restore
+	row heights after undo.
+	(cmd_paste_cut_redo): Backup row heights.
+	(cmd_paste_cut_destroy): Destroy saved sizes.
+	(cmd_paste_cut): Initialize saved sizes.
+	(cmd_paste_copy_undo): Save and restore row heights.
+	(cmd_paste_copy_destroy): Destroy saved sizes.
+	(cmd_paste_copy): Initialize saved sizes.
+
 2001-05-09  Jody Goldberg <jgoldberg@home.com>
 
 	* src/xml-io.c (xml_read_selection_info) : typo.  Use the child not
