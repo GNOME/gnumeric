@@ -78,5 +78,6 @@ rm -rf $RPM_BUILD_ROOT
 %{prefix}/share/mc/templates/*
 %{prefix}/share/mime-info/*
 %{prefix}/share/pixmaps/*
+%{prefix}/share/gnumeric/glade/*
 
 %config /etc/CORBA/servers/*
