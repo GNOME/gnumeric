@@ -20,6 +20,7 @@
 #include "selection.h"
 #include "border.h"
 #include "utils.h"	/* for cell_name */
+#include "ranges.h"
 
 /* #define NO_DEBUG_EXCEL */
 
@@ -876,6 +877,9 @@ ms_excel_palette_get (ExcelPalette const *pal, gint idx)
 	 * 	0 = black ?
 	 * 	1 = white ?
 	 *	64, 65, 127 = auto contrast ?
+	 *
+	 *	64 appears to be associated with the the background colour
+	 *	in the WINDOW2 record.
 	 */
 
 #ifndef NO_DEBUG_EXCEL
@@ -1391,6 +1395,11 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 	}
 
 	if (ver == eBiffV8) {
+		/* FIXME : This code seems irrelevant for merging.
+		 * The undocumented record MERGECELLS appears to be the correct source.
+		 * Nothing seems to set the merge flags.
+		 * I've not seen examples of indent or shrink.
+		 */
 		static gboolean indent_warn = TRUE;
 		static gboolean shrink_warn = TRUE;
 		static gboolean merge_warn = TRUE;
@@ -1482,9 +1491,10 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 		xf->pat_backgnd_col = (data & 0x3f80) >> 7;
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_color_debug > 2) {
-			printf("Color f=%x b=%x\n",
+			printf("Color f=0x%x b=0x%x pat=0x%x\n",
 			       xf->pat_foregnd_col,
-			       xf->pat_backgnd_col);
+			       xf->pat_backgnd_col,
+			       xf->fill_pattern_idx);
 		}
 #endif
 	} else { /* Biff 7 */
@@ -1493,8 +1503,17 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 		xf->pat_backgnd_col = (data & 0x1f80) >> 7;
 
 		data = MS_OLE_GET_GUINT16 (q->data + 10);
-		xf->fill_pattern_idx = data & 0x03f;
+		xf->fill_pattern_idx = 
 			excel_map_pattern_index_from_excel (data & 0x3f);
+
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_color_debug > 2) {
+			printf("Color f=0x%x b=0x%x pat=0x%x\n",
+			       xf->pat_foregnd_col,
+			       xf->pat_backgnd_col,
+			       xf->fill_pattern_idx);
+		}
+#endif
 		/*
 		 * Luckily this maps nicely onto the new set.
 		 */
@@ -2682,6 +2701,37 @@ ms_excel_read_GUTS (BiffQuery *q, ExcelSheet *sheet)
 	}
 }
 
+/*
+ * No documentation exists for this record, but this makes
+ * sense given the other record formats.
+ */
+static void
+ms_excel_read_mergecells (BiffQuery *q, ExcelSheet *sheet)
+{
+	guint16 const num_merged = MS_OLE_GET_GUINT16(q->data);
+	guint8 const *ptr = q->data + 2;
+	int i;
+
+	/* Do an anal sanity check. Just in case we've
+	 * mis-interpreted the format.
+	 */
+	g_return_if_fail (q->length == 2+8*num_merged);
+
+	for (i = 0 ; i < num_merged ; ++i, ptr += 8) {
+		Range r;
+		r.start.row = MS_OLE_GET_GUINT16(ptr);
+		r.start.col = MS_OLE_GET_GUINT16(ptr+2);
+		r.end.row = MS_OLE_GET_GUINT16(ptr+4);
+		r.end.col = MS_OLE_GET_GUINT16(ptr+6);
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 0) {
+			printf ("EXCEL Unimplemented merge-cells : ");
+			range_dump (&r);
+		}
+	}
+#endif
+}
+
 static gboolean
 ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 {
@@ -2969,9 +3019,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 			break;
 
 		case BIFF_MERGECELLS:
-#if 0
-			dump_biff (q);
-#endif
+			ms_excel_read_mergecells (q, sheet);
 			break;
 
 		default:
@@ -2981,10 +3029,10 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 
 			case BIFF_WINDOW2: /* FIXME: see S59E18.HTM */
 			{
-				int top_vis_row, left_vis_col;
+				int top_vis_row, left_vis_col, back_color;
 				guint16 options;
 
-				if (q->length < 6) {
+				if (q->length < 8) {
 					printf ("Duff window data");
 					break;
 				}
@@ -2992,12 +3040,15 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 				options      = MS_OLE_GET_GUINT16(q->data + 0);
 				top_vis_row  = MS_OLE_GET_GUINT16(q->data + 2);
 				left_vis_col = MS_OLE_GET_GUINT16(q->data + 4);
+				back_color   = MS_OLE_GET_GUINT16(q->data + 6);
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_read_debug > 0) {
 					if (options & 0x0001)
 						printf ("FIXME: Sheet display formulae\n");
 					if (options & 0x0200)
 						printf ("Sheet flag selected\n");
+					printf ("Default grid & pattern color = 0x%x\n",
+						back_color);
 				}
 #endif
 				if (options & 0x0400) {

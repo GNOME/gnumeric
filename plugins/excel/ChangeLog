@@ -1,5 +1,10 @@
 1999-11-17  Jody Goldberg <jgoldberg@home.com>
 
+	* ms-excel-read.c (ms_excel_read_mergecells) : New function.
+	  Test parser for merged cells.
+	(ms_excel_read_sheet) : Use it.
+	(biff_xf_data_new) : Fix typo.
+
 	* ms-excel-read.c (black_or_white_contrast) : Use new
 	  style_color{black,white} functions.
 	(ms_excel_palette_get) : Ditto.

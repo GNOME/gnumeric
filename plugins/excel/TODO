@@ -34,7 +34,10 @@ Jody
 	* More version size changes for NAME
 	* ExternSheet import for pre-biff8
 	* Save Array formulas
-	* Fix colour import to handle fore, back & PATTERN
+	* Keep probing XL colour indicies for more info on relationship
+	  for 64, 65 and the background colour in WINDOW2.  It appears to
+	  override the grid line colour and possibly the contrast nature
+	  of 64.  What does 65 become then ?
 
 Frank
 	* Summary:
