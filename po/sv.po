@@ -29,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-07-08 11:18+0200\n"
-"PO-Revision-Date: 2002-07-08 11:19+0200\n"
+"POT-Creation-Date: 2002-07-09 02:57+0200\n"
+"PO-Revision-Date: 2002-07-09 02:58+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -579,7 +579,7 @@ msgstr "#OKÄND!"
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1035 plugins/lotus-123/lotus.c:189
 #: plugins/oleo/oleo.c:362 plugins/psiconv/psiconv-read.c:500
-#: src/dialogs/dialog-sheet-order.c:415 src/dialogs/dialog-sheet-order.c:419
+#: src/dialogs/dialog-sheet-order.c:416 src/dialogs/dialog-sheet-order.c:420
 #, c-format
 msgid "Sheet%d"
 msgstr "Blad%d"
@@ -3565,7 +3565,6 @@ msgstr ""
 "@SEEALSO=PPMT,PV,FV"
 
 #: plugins/fn-financial/functions.c:2146
-#, fuzzy
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(settlement,maturity,coup,yield,freq[,basis])\n"
@@ -3588,14 +3587,12 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=YIELDMAT\n"
-"@SYNTAX=YIELDMAT(avräkning;mognad;start;räntesats;pr[;bas])\n"
-"@DESCRIPTION=YIELDMAT beräknar den årliga avkastningen av en säkerhet för "
-"vilken ränta betalas på mognadsdatum. @avräkning är avräkningsdatumet för "
-"säkerheten. @mognad är mognadsdatumet för säkerheten. @start är startdatumet "
-"för säkerheten. @räntesats är räntesatsen som är angiven för säkerheten. @pr "
-"är priset per $100 värde av säkerheten. @bas är den typ av "
-"dagsräkningssystem som du vill använda:\n"
+"@FUNCTION=DURATION\n"
+"@SYNTAX=DURATION(avräkning;mognad;kupong;avkastning;frekvens[;bas])\n"
+"@DESCRIPTION=DURATION beräknar .@mognad är mognadsdatumet för säkerheten. "
+"@start är startdatumet för säkerheten. @räntesats är räntesatsen som är "
+"angiven för säkerheten. @pr är priset per $100 värde av säkerheten. @bas är "
+"den typ av dagsräkningssystem som du vill använda:\n"
 "\n"
 "0  Amerikanskt 30/360\n"
 "1  verkliga dagar/verkliga dagar\n"
@@ -3603,15 +3600,14 @@ msgstr ""
 "3  verkliga dagar/365\n"
 "4  Europeiskt 30/360\n"
 "\n"
-"Om @frekvens är en annan än 1, 2 eller 4 returnerar YIELDDISC felvärdet "
+"Om @frekvens är en annan än 1, 2 eller 4 returnerar DURATION felvärdet "
 "#NUM!. Om @bas utelämnas används amerikanskt 30/360-system. Om @bas inte är "
-"mellan 1 och 4 returnerar YIELDDISC felvärdet #NUM!.\n"
+"mellan 1 och 4 returneras felvärdet #NUM!.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2209
-#, fuzzy
 msgid ""
 "@FUNCTION=G_DURATION\n"
 "@SYNTAX=G_DURATION(rate,pv,fv)\n"
@@ -3623,9 +3619,9 @@ msgid ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
-"@FUNCTION=DURATION\n"
-"@SYNTAX=DURATION(ränta;pv;fv)\n"
-"@DESCRIPTION=DURATION beräknar antalet perioder som behövs för att en "
+"@FUNCTION=G_DURATION\n"
+"@SYNTAX=G_DURATION(ränta;pv;fv)\n"
+"@DESCRIPTION=G_DURATION beräknar antalet perioder som behövs för att en "
 "investering ska nå ett önskat värde. Funktionen liknar FV och PV, med "
 "skillnaden att vi inte behöver ange i vilken riktning pengarna flödar, till "
 "exempel -100 för utåt och +100 för inåt.\n"
@@ -5381,7 +5377,7 @@ msgstr ""
 "@SEEALSO=TRUE"
 
 #: plugins/fn-logical/functions.c:353 plugins/fn-logical/functions.c:354
-#: plugins/fn-logical/functions.c:355 plugins/fn-math/functions.c:3270
+#: plugins/fn-logical/functions.c:355 plugins/fn-math/functions.c:3113
 #: plugins/fn-stat/functions.c:4696 plugins/fn-stat/functions.c:4698
 #: plugins/fn-stat/functions.c:4700 plugins/fn-stat/functions.c:4716
 #: plugins/fn-stat/functions.c:4718 plugins/fn-stat/functions.c:4728
@@ -5399,22 +5395,22 @@ msgstr ""
 msgid "number,number,"
 msgstr "tal;tal;"
 
-#: plugins/fn-logical/functions.c:356 plugins/fn-math/functions.c:3218
-#: plugins/fn-math/functions.c:3219 plugins/fn-math/functions.c:3220
-#: plugins/fn-math/functions.c:3221 plugins/fn-math/functions.c:3222
-#: plugins/fn-math/functions.c:3223 plugins/fn-math/functions.c:3224
-#: plugins/fn-math/functions.c:3226 plugins/fn-math/functions.c:3227
-#: plugins/fn-math/functions.c:3229 plugins/fn-math/functions.c:3231
-#: plugins/fn-math/functions.c:3232 plugins/fn-math/functions.c:3233
-#: plugins/fn-math/functions.c:3234 plugins/fn-math/functions.c:3235
-#: plugins/fn-math/functions.c:3237 plugins/fn-math/functions.c:3239
-#: plugins/fn-math/functions.c:3241 plugins/fn-math/functions.c:3243
-#: plugins/fn-math/functions.c:3244 plugins/fn-math/functions.c:3248
-#: plugins/fn-math/functions.c:3250 plugins/fn-math/functions.c:3252
-#: plugins/fn-math/functions.c:3265 plugins/fn-math/functions.c:3266
-#: plugins/fn-math/functions.c:3267 plugins/fn-math/functions.c:3268
-#: plugins/fn-math/functions.c:3269 plugins/fn-math/functions.c:3273
-#: plugins/fn-math/functions.c:3277 plugins/fn-math/functions.c:3278
+#: plugins/fn-logical/functions.c:356 plugins/fn-math/functions.c:3023
+#: plugins/fn-math/functions.c:3025 plugins/fn-math/functions.c:3027
+#: plugins/fn-math/functions.c:3029 plugins/fn-math/functions.c:3031
+#: plugins/fn-math/functions.c:3033 plugins/fn-math/functions.c:3035
+#: plugins/fn-math/functions.c:3039 plugins/fn-math/functions.c:3041
+#: plugins/fn-math/functions.c:3045 plugins/fn-math/functions.c:3049
+#: plugins/fn-math/functions.c:3051 plugins/fn-math/functions.c:3053
+#: plugins/fn-math/functions.c:3055 plugins/fn-math/functions.c:3057
+#: plugins/fn-math/functions.c:3061 plugins/fn-math/functions.c:3065
+#: plugins/fn-math/functions.c:3069 plugins/fn-math/functions.c:3073
+#: plugins/fn-math/functions.c:3075 plugins/fn-math/functions.c:3083
+#: plugins/fn-math/functions.c:3087 plugins/fn-math/functions.c:3091
+#: plugins/fn-math/functions.c:3103 plugins/fn-math/functions.c:3105
+#: plugins/fn-math/functions.c:3107 plugins/fn-math/functions.c:3109
+#: plugins/fn-math/functions.c:3111 plugins/fn-math/functions.c:3119
+#: plugins/fn-math/functions.c:3127 plugins/fn-math/functions.c:3129
 #: plugins/fn-stat/functions.c:4740 plugins/fn-stat/functions.c:4742
 #: plugins/fn-stat/functions.c:4750 plugins/fn-stat/functions.c:4798
 #: plugins/fn-string/functions.c:1233
@@ -5893,7 +5889,7 @@ msgstr "värde;område;approx"
 msgid "ref,row,col,height,width"
 msgstr "ref;rad;kol;höjd;bredd"
 
-#: plugins/fn-lookup/functions.c:1165 plugins/fn-math/functions.c:3282
+#: plugins/fn-lookup/functions.c:1165 plugins/fn-math/functions.c:3137
 msgid "array"
 msgstr "fält"
 
@@ -6641,129 +6637,6 @@ msgstr ""
 
 #: plugins/fn-math/functions.c:1234
 msgid ""
-"@FUNCTION=RAND\n"
-"@SYNTAX=RAND()\n"
-"@DESCRIPTION=RAND returns a random number between zero and one ([0..1]).\n"
-"This function is Excel compatible. \n"
-"@EXAMPLES=\n"
-"RAND() returns a random number greater than zero but less than one.\n"
-"\n"
-"@SEEALSO=RANDBETWEEN"
-msgstr ""
-"@FUNCTION=RAND\n"
-"@SYNTAX=RAND()\n"
-"@DESCRIPTION=RAND returnerar ett slumptal större än eller lika med 0 och "
-"mindre än eller lika med 1 ([0..1]).\n"
-"Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"RAND() returnerar ett slumptal större än noll men mindre än ett.\n"
-"\n"
-"@SEEALSO="
-
-#: plugins/fn-math/functions.c:1257
-msgid ""
-"@FUNCTION=RANDEXP\n"
-"@SYNTAX=RANDEXP(b)\n"
-"@DESCRIPTION=RANDEXP returns a exponentially-distributed random number. \n"
-"@EXAMPLES=\n"
-"RANDEXP(0.5).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
-msgstr ""
-"@FUNCTION=RANDEXP\n"
-"@SYNTAX=RANDEXP(b)\n"
-"@DESCRIPTION=RANDEXP returnerar ett exponentialfördelat slumptal.\n"
-"@EXAMPLES=\n"
-"RandExp(0,5).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
-
-#: plugins/fn-math/functions.c:1280
-msgid ""
-"@FUNCTION=RANDPOISSON\n"
-"@SYNTAX=RANDPOISSON(lambda)\n"
-"@DESCRIPTION=RANDPOISSON returns a poisson-distributed random number. \n"
-"@EXAMPLES=\n"
-"RANDPOISSON(3).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
-msgstr ""
-"@FUNCTION=RANDPOISSON\n"
-"@SYNTAX=RANDPOISSON(lambda)\n"
-"@DESCRIPTION=RANDPOISSON returnerar ett Poissonfördelat slumptal.\n"
-"@EXAMPLES=\n"
-"RandPoisson(3).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
-
-#: plugins/fn-math/functions.c:1306
-msgid ""
-"@FUNCTION=RANDBINOM\n"
-"@SYNTAX=RANDBINOM(p,trials)\n"
-"@DESCRIPTION=RANDBINOM returns a binomially-distributed random number. \n"
-"If @p < 0 or @p > 1 RANDBINOM returns #NUM! error. If @trials < 0 RANDBINOM "
-"returns #NUM! error. \n"
-"@EXAMPLES=\n"
-"RANDBINOM(0.5,2).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
-msgstr ""
-"@FUNCTION=RANDBINOM\n"
-"@SYNTAX=RANDBINOM(p;försök)\n"
-"@DESCRIPTION=RANDBINOM returnerar ett binomialfördelat slumptal.\n"
-"Om @p < 0 eller @p > 1 returnerar RANDBINOM felvärdet #NUM!. Om @försök < 0 "
-"returnerar RANDBINOM felvärdet #NUM!.\n"
-"@EXAMPLES=\n"
-"RANDBINOM(0,5;2).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
-
-#: plugins/fn-math/functions.c:1336
-msgid ""
-"@FUNCTION=RANDNEGBINOM\n"
-"@SYNTAX=RANDNEGBINOM(p,failures)\n"
-"@DESCRIPTION=RANDNEGBINOM returns a negative binomially-distributed random "
-"number. \n"
-"If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error. If @failures "
-"RANDNEGBINOM returns #NUM! error. \n"
-"@EXAMPLES=\n"
-"RANDNEGBINOM(0.5,2).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
-msgstr ""
-"@FUNCTION=RANDNEGBINOM\n"
-"@SYNTAX=RANDNEGBINOM(p;misslyckanden)\n"
-"@DESCRIPTION=RANDNEGBINOM returnerar ett negativt binomialfördelat "
-"slumptal.\n"
-"Om @p < 0 eller @p > 1 returnerar RANDNEGBINOM felvärdet #NUM!. Om "
-"@misslyckanden returnerar RANDNEGBINOM felvärdet #NUM!.\n"
-"@EXAMPLES=\n"
-"RANDNEGBINOM(0,5;2).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
-
-#: plugins/fn-math/functions.c:1367
-msgid ""
-"@FUNCTION=RANDBERNOULLI\n"
-"@SYNTAX=RANDBERNOULLI(p)\n"
-"@DESCRIPTION=RANDBERNOULLI returns a Bernoulli-distributed random number. \n"
-"If @p < 0 or @p > 1 RANDBERNOULLI returns #NUM! error. \n"
-"@EXAMPLES=\n"
-"RANDBERNOULLI(0.5).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
-msgstr ""
-"@FUNCTION=RANDBERNOULLI\n"
-"@SYNTAX=RANDBERNOULLI(p)\n"
-"@DESCRIPTION=RANDBERNOULLI returnerar ett Bernoullifördelat slumptal.\n"
-"Om @p < 0 eller @p > 1 returnerar RANDBERNOULLI felvärdet #NUM!.\n"
-"@EXAMPLES=\n"
-"RANDBERNOULLI(0,5).\n"
-"\n"
-"@SEEALSO=RAND,RANDBETWEEN"
-
-#: plugins/fn-math/functions.c:1395
-msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
 "@DESCRIPTION=SIN function returns the sine of @x, where @x is given in "
@@ -6784,7 +6657,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: plugins/fn-math/functions.c:1418
+#: plugins/fn-math/functions.c:1257
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -6805,7 +6678,7 @@ msgstr ""
 "SINH(0,5) är lika med 0,521095.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: plugins/fn-math/functions.c:1441
+#: plugins/fn-math/functions.c:1280
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -6827,7 +6700,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POWER"
 
-#: plugins/fn-math/functions.c:1468
+#: plugins/fn-math/functions.c:1307
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -6857,7 +6730,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1500
+#: plugins/fn-math/functions.c:1339
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -6883,7 +6756,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1531
+#: plugins/fn-math/functions.c:1370
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -6905,7 +6778,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM"
 
-#: plugins/fn-math/functions.c:1560
+#: plugins/fn-math/functions.c:1399
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -6927,7 +6800,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1588
+#: plugins/fn-math/functions.c:1427
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -6949,7 +6822,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:1611
+#: plugins/fn-math/functions.c:1450
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -6971,7 +6844,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:1634
+#: plugins/fn-math/functions.c:1473
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -6995,7 +6868,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SQRTPI"
 
-#: plugins/fn-math/functions.c:1659
+#: plugins/fn-math/functions.c:1498
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -7020,7 +6893,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INT"
 
-#: plugins/fn-math/functions.c:1694
+#: plugins/fn-math/functions.c:1533
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -7042,7 +6915,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ODD"
 
-#: plugins/fn-math/functions.c:1732
+#: plugins/fn-math/functions.c:1571
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -7064,7 +6937,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EVEN"
 
-#: plugins/fn-math/functions.c:1770
+#: plugins/fn-math/functions.c:1609
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -7090,7 +6963,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FACT"
 
-#: plugins/fn-math/functions.c:1808
+#: plugins/fn-math/functions.c:1647
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(numerator,denumerator)\n"
@@ -7112,7 +6985,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MOD"
 
-#: plugins/fn-math/functions.c:1840
+#: plugins/fn-math/functions.c:1679
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -7138,7 +7011,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:1874
+#: plugins/fn-math/functions.c:1713
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -7160,32 +7033,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI"
 
-#: plugins/fn-math/functions.c:1903
-msgid ""
-"@FUNCTION=RANDBETWEEN\n"
-"@SYNTAX=RANDBETWEEN(bottom,top)\n"
-"@DESCRIPTION=RANDBETWEEN function returns a random integer number between "
-"and including @bottom and @top.\n"
-"If @bottom or @top is non-integer, they are truncated. If @bottom > @top, "
-"RANDBETWEEN returns #NUM! error.\n"
-"This function is Excel compatible. \n"
-"@EXAMPLES=\n"
-"RANDBETWEEN(3,7).\n"
-"\n"
-"@SEEALSO=RAND"
-msgstr ""
-"@FUNCTION=RANDBETWEEN\n"
-"@SYNTAX=RANDBETWEEN(lägst;högst)\n"
-"@DESCRIPTION=RANDBETWEEN returnerar ett slumpheltal mellan och inklusive "
-"@lägst och @högst.\n"
-"Om @lägst eller @högst är icke-heltal, trunkeras de. Om @lägst > @högst, "
-"returneras felvärdet #NUM!. Denna funktion är kompatibel med Excel.\n"
-"@EXAMPLES=\n"
-"RANDBETWEEN(3;7).\n"
-"\n"
-"@SEEALSO=RAND"
-
-#: plugins/fn-math/functions.c:1937
+#: plugins/fn-math/functions.c:1742
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -7222,7 +7070,7 @@ msgstr ""
 "\n"
 " @SEEALSO=ROUND,ROUNDUP"
 
-#: plugins/fn-math/functions.c:1981
+#: plugins/fn-math/functions.c:1786
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -7258,7 +7106,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 
-#: plugins/fn-math/functions.c:2022
+#: plugins/fn-math/functions.c:1827
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -7295,7 +7143,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDDOWN"
 
-#: plugins/fn-math/functions.c:2066
+#: plugins/fn-math/functions.c:1871
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -7325,7 +7173,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 
-#: plugins/fn-math/functions.c:2116
+#: plugins/fn-math/functions.c:1921
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -7366,7 +7214,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:2382
+#: plugins/fn-math/functions.c:2187
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -7402,14 +7250,14 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2PY2"
 
-#: plugins/fn-math/functions.c:2438 plugins/fn-math/functions.c:2457
-#: plugins/fn-math/functions.c:2551 plugins/fn-math/functions.c:2571
-#: plugins/fn-math/functions.c:2663 plugins/fn-math/functions.c:2683
+#: plugins/fn-math/functions.c:2243 plugins/fn-math/functions.c:2262
+#: plugins/fn-math/functions.c:2356 plugins/fn-math/functions.c:2376
+#: plugins/fn-math/functions.c:2468 plugins/fn-math/functions.c:2488
 #: plugins/fn-stat/functions.c:2644 plugins/fn-stat/functions.c:2674
 msgid "Array version not implemented!"
 msgstr "Fältversion inte implementerad!"
 
-#: plugins/fn-math/functions.c:2495
+#: plugins/fn-math/functions.c:2300
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -7445,7 +7293,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2"
 
-#: plugins/fn-math/functions.c:2607
+#: plugins/fn-math/functions.c:2412
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -7482,7 +7330,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 
-#: plugins/fn-math/functions.c:2721
+#: plugins/fn-math/functions.c:2526
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -7512,7 +7360,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: plugins/fn-math/functions.c:2844
+#: plugins/fn-math/functions.c:2649
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -7537,11 +7385,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: plugins/fn-math/functions.c:2892
+#: plugins/fn-math/functions.c:2697
 msgid "#3D MULT?"
 msgstr "#3D MULT?"
 
-#: plugins/fn-math/functions.c:2971
+#: plugins/fn-math/functions.c:2776
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -7563,7 +7411,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
-#: plugins/fn-math/functions.c:3047
+#: plugins/fn-math/functions.c:2852
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -7593,7 +7441,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: plugins/fn-math/functions.c:3105
+#: plugins/fn-math/functions.c:2910
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -7627,95 +7475,71 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: plugins/fn-math/functions.c:3225
+#: plugins/fn-math/functions.c:3037
 msgid "xnum,ynum"
 msgstr "xtal;ytal"
 
-#: plugins/fn-math/functions.c:3228
+#: plugins/fn-math/functions.c:3043
 msgid "range,criteria"
 msgstr "område;kriterium"
 
-#: plugins/fn-math/functions.c:3230
+#: plugins/fn-math/functions.c:3047
 msgid "number,significance"
 msgstr "tal;signifikans"
 
-#: plugins/fn-math/functions.c:3236 plugins/fn-stat/functions.c:4730
+#: plugins/fn-math/functions.c:3059 plugins/fn-stat/functions.c:4730
 msgid "n,k"
 msgstr "n;k"
 
-#: plugins/fn-math/functions.c:3238
+#: plugins/fn-math/functions.c:3063
 msgid "number,number"
 msgstr "tal;tal"
 
-#: plugins/fn-math/functions.c:3242
+#: plugins/fn-math/functions.c:3071
 msgid "number,base"
 msgstr "tal;bas"
 
-#: plugins/fn-math/functions.c:3245 plugins/fn-math/functions.c:3251
+#: plugins/fn-math/functions.c:3077 plugins/fn-math/functions.c:3089
 msgid "numerator,denominator"
 msgstr "numerator;denominator"
 
-#: plugins/fn-math/functions.c:3246
+#: plugins/fn-math/functions.c:3079
 msgid "number,multiple"
 msgstr "tal;multipel"
 
-#: plugins/fn-math/functions.c:3249
+#: plugins/fn-math/functions.c:3085
 msgid "base,exponent"
 msgstr "bas;exponent"
 
-#: plugins/fn-math/functions.c:3254 plugins/fn-stat/functions.c:4800
-msgid "p"
-msgstr "p"
-
-#: plugins/fn-math/functions.c:3255
-msgid "bottom,top"
-msgstr "underkant;överkant"
-
-#: plugins/fn-math/functions.c:3256
-msgid "p,trials"
-msgstr "p;försök"
-
-#: plugins/fn-math/functions.c:3257
-msgid "b"
-msgstr "b"
-
-#: plugins/fn-math/functions.c:3258
-msgid "p,failures"
-msgstr "p;misslyckanden"
-
-#: plugins/fn-math/functions.c:3259
-msgid "lambda"
-msgstr "lambda"
-
-#: plugins/fn-math/functions.c:3260
+#: plugins/fn-math/functions.c:3093
 msgid "number,type"
 msgstr "tal;typ"
 
-#: plugins/fn-math/functions.c:3261 plugins/fn-math/functions.c:3262
-#: plugins/fn-math/functions.c:3263 plugins/fn-math/functions.c:3279
+#: plugins/fn-math/functions.c:3095 plugins/fn-math/functions.c:3097
+#: plugins/fn-math/functions.c:3099 plugins/fn-math/functions.c:3131
 msgid "number,digits"
 msgstr "tal;siffror"
 
-#: plugins/fn-math/functions.c:3264
+#: plugins/fn-math/functions.c:3101
 msgid "x,n,m,coefficients"
 msgstr "x;n;m;koefficienter"
 
-#: plugins/fn-math/functions.c:3271
+#: plugins/fn-math/functions.c:3115
 msgid "range,criteria,actual_range"
 msgstr "område;kriterium;verkligt_område"
 
-#: plugins/fn-math/functions.c:3272
+#: plugins/fn-math/functions.c:3117
 msgid "range,range,"
 msgstr "område;område;"
 
-#: plugins/fn-math/functions.c:3274 plugins/fn-math/functions.c:3275
-#: plugins/fn-math/functions.c:3276 plugins/fn-math/functions.c:3281
+#: plugins/fn-math/functions.c:3121 plugins/fn-math/functions.c:3123
+#: plugins/fn-math/functions.c:3125 plugins/fn-math/functions.c:3135
 #: plugins/fn-stat/functions.c:4724 plugins/fn-stat/functions.c:4726
 #: plugins/fn-stat/functions.c:4806 plugins/fn-stat/functions.c:4814
 msgid "array1,array2"
 msgstr "vektor1;vektor2"
 
-#: plugins/fn-math/functions.c:3283 plugins/fn-math/functions.c:3285
+#: plugins/fn-math/functions.c:3139 plugins/fn-math/functions.c:3142
 msgid "array,matrix_type,bandsize"
 msgstr "vektor;matristyp;bandstorlek"
 
@@ -10301,6 +10125,10 @@ msgstr "x;medelvärde;stdav;kumulativ"
 msgid "p,mean,stdev"
 msgstr "p;medelvärde;stdav"
 
+#: plugins/fn-stat/functions.c:4800
+msgid "p"
+msgstr "p"
+
 #: plugins/fn-stat/functions.c:4802
 msgid "array,k"
 msgstr "vektor,k"
@@ -10959,7 +10787,11 @@ msgstr "Aktiverar stöd för Gnome Basic"
 msgid "Gnome Basic"
 msgstr "Gnome Basic"
 
-#: plugins/gda/plugin-gda.c:83
+#: plugins/gda/plugin-gda.c:58
+msgid "Too much data returned"
+msgstr "För mycket data returnerat"
+
+#: plugins/gda/plugin-gda.c:85
 msgid ""
 "@FUNCTION=EXECSQL\n"
 "@SYNTAX=EXECSQL(i)\n"
@@ -10980,20 +10812,20 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO="
 
-#: plugins/gda/plugin-gda.c:114
+#: plugins/gda/plugin-gda.c:116
 msgid "Format: execSQL(dsn,user,password,sql)"
 msgstr "Format: execSQL(dsn,användare,lösenord,sql)"
 
-#: plugins/gda/plugin-gda.c:120
+#: plugins/gda/plugin-gda.c:122
 msgid "Error: could not initialize connection pool"
 msgstr "Fel: kunde inte initiera anslutningspool"
 
-#: plugins/gda/plugin-gda.c:125
+#: plugins/gda/plugin-gda.c:127
 #, c-format
 msgid "Error: could not open connection to %s"
 msgstr "Fel: kunde inte öppna anslutning till %s"
 
-#: plugins/gda/plugin-gda.c:135
+#: plugins/gda/plugin-gda.c:137
 msgid "Error: no recordsets were returned"
 msgstr "Fel: inga postsamlingar returnerades"
 
@@ -11127,9 +10959,9 @@ msgid "Constraints:"
 msgstr "Bivillkor:"
 
 #: plugins/mps/mps.c:251 src/dialogs/dialog-formula-guru.c:808
-#: src/dialogs/dialog-function-select.c:333
-#: src/dialogs/dialog-function-select.c:355
-#: src/dialogs/dialog-plugin-manager.c:709
+#: src/dialogs/dialog-function-select.c:334
+#: src/dialogs/dialog-function-select.c:356
+#: src/dialogs/dialog-plugin-manager.c:710
 #: src/dialogs/plugin-manager.glade.h:8 src/format-template.c:404
 #: src/tools/solver/reports-write.c:164 src/tools/solver/reports-write.c:186
 #: src/tools/solver/reports-write.c:213 src/tools/solver/reports-write.c:320
@@ -11139,7 +10971,7 @@ msgstr "Bivillkor:"
 msgid "Name"
 msgstr "Namn"
 
-#: plugins/mps/mps.c:278 src/dialogs/dialog-plugin-manager.c:714
+#: plugins/mps/mps.c:278 src/dialogs/dialog-plugin-manager.c:715
 #: src/dialogs/dialog-preferences.c:510 src/tools/solver/reports-write.c:321
 #: src/tools/solver/reports-write.c:367 src/tools/solver/reports-write.c:479
 #: src/tools/solver/reports-write.c:486
@@ -11171,27 +11003,27 @@ msgstr "Status"
 msgid "Error while reading MPS file."
 msgstr "Fel vid läsning av MPS-fil."
 
-#: plugins/mps/parser.c:548
+#: plugins/mps/parser.c:550
 msgid "Problem name was not defined in the file."
 msgstr "Problemnamnet angavs inte i filen."
 
-#: plugins/mps/parser.c:553
+#: plugins/mps/parser.c:555
 msgid "Invalid ROWS section in the file."
 msgstr "Ogiltigt ROWS-asvnitt i filen."
 
-#: plugins/mps/parser.c:558
+#: plugins/mps/parser.c:560
 msgid "Invalid COLUMNS section in the file."
 msgstr "Ogiltigt COLUMNS-avsnitt i filen."
 
-#: plugins/mps/parser.c:563
+#: plugins/mps/parser.c:565
 msgid "Invalid RHS section in the file."
 msgstr "Ogiltigt RHS-avsnitt i filen."
 
-#: plugins/mps/parser.c:568
+#: plugins/mps/parser.c:570
 msgid "Invalid RANGES section in the file."
 msgstr "Ogiltigt RANGES-avsnitt i filen."
 
-#: plugins/mps/parser.c:573
+#: plugins/mps/parser.c:575
 msgid "Invalid BOUNDS section in the file."
 msgstr "Ogiltigt BOUNDS-avsnitt i filen."
 
@@ -11580,31 +11412,31 @@ msgstr "Inläsare"
 msgid "Python module name"
 msgstr "Python-modulnamn"
 
-#: plugins/python-loader/python-loader.c:372
+#: plugins/python-loader/python-loader.c:373
 msgid "Some name"
 msgstr "Något namn"
 
-#: plugins/python-loader/python-loader.c:440
-#: plugins/python-loader/python-loader.c:525
-#: plugins/python-loader/python-loader.c:737
+#: plugins/python-loader/python-loader.c:441
+#: plugins/python-loader/python-loader.c:526
+#: plugins/python-loader/python-loader.c:738
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr "Python-filen \"%s\" har ett ogiltigt format."
 
-#: plugins/python-loader/python-loader.c:445
-#: plugins/python-loader/python-loader.c:451
-#: plugins/python-loader/python-loader.c:530 src/plugin-loader-module.c:440
-#: src/plugin-loader-module.c:446 src/plugin-loader-module.c:511
+#: plugins/python-loader/python-loader.c:446
+#: plugins/python-loader/python-loader.c:452
+#: plugins/python-loader/python-loader.c:531 src/plugin-loader-module.c:442
+#: src/plugin-loader-module.c:448 src/plugin-loader-module.c:513
 #, c-format
 msgid "File doesn't contain \"%s\" function."
 msgstr "Filen innehåller inte funktionen \"%s\"."
 
-#: plugins/python-loader/python-loader.c:742
+#: plugins/python-loader/python-loader.c:743
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "Filen innehåller inte ordboken \"%s\"."
 
-#: plugins/python-loader/python-loader.c:747
+#: plugins/python-loader/python-loader.c:748
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Objektet \"%s\" är inte en ordbok."
@@ -13218,16 +13050,16 @@ msgstr "Innehåller inte en arbetsboksfil"
 msgid "EXPERIMENTAL Bonobo EFS format"
 msgstr "EXPERIMENTELLT Bonobo EFS-format"
 
-#: src/clipboard.c:303 src/clipboard.c:316 src/clipboard.c:328
-#: src/clipboard.c:336
+#: src/clipboard.c:302 src/clipboard.c:315 src/clipboard.c:327
+#: src/clipboard.c:335
 msgid "Unable to paste"
 msgstr "Kan inte klistra in"
 
-#: src/clipboard.c:304
+#: src/clipboard.c:303
 msgid "Content can only be pasted by value or by link."
 msgstr "Innehåll kan endast klistras in via värde eller genom länk."
 
-#: src/clipboard.c:312
+#: src/clipboard.c:311
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -13238,7 +13070,7 @@ msgstr ""
 "\n"
 "Försök markera en enstaka cell eller en yta med samma form och storlek."
 
-#: src/clipboard.c:324
+#: src/clipboard.c:323
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -13249,7 +13081,7 @@ msgstr ""
 "\n"
 "Försök markera en enstaka cell eller en yta med samma form och storlek."
 
-#: src/clipboard.c:337
+#: src/clipboard.c:336
 msgid "result passes the sheet boundary"
 msgstr "resultatet går utanför bladets kant"
 
@@ -13297,410 +13129,410 @@ msgstr "Skulle delat vektorn %s"
 msgid "Would split an array"
 msgstr "Skulle delat en vektor"
 
-#: src/commands.c:220
+#: src/commands.c:221
 #, c-format
 msgid "%s is locked. Unprotect the workbook to enable editing."
 msgstr "%s är låst. Ta bort skyddet på arbetsboken för att tillåta redigering."
 
-#: src/commands.c:221
+#: src/commands.c:222
 #, c-format
 msgid "%s is locked. Unprotect the sheet to enable editing."
 msgstr "%s är låst. Ta bort skyddet på bladet för att tillåta redigering."
 
-#: src/commands.c:391
+#: src/commands.c:392
 msgid "..."
 msgstr "..."
 
-#: src/commands.c:819 src/commands.c:929 src/commands.c:934
+#: src/commands.c:820 src/commands.c:930 src/commands.c:935
 msgid "Set Text"
 msgstr "Ställ in text"
 
 # detta står i sammanhanget Ångra: "blabla"
-#: src/commands.c:858
+#: src/commands.c:859
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Inmatning av \"%s%s\" i %s"
 
 # detta står i sammanhanget Ångra: "blabla"
-#: src/commands.c:1040
+#: src/commands.c:1041
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Inmatning av \"%s%s\""
 
-#: src/commands.c:1159 src/commands.c:1164 src/sheet.c:3194
+#: src/commands.c:1160 src/commands.c:1165 src/sheet.c:3194
 msgid "Delete Columns"
 msgstr "Ta bort kolumner"
 
-#: src/commands.c:1159 src/commands.c:1164 src/sheet.c:3306
+#: src/commands.c:1160 src/commands.c:1165 src/sheet.c:3306
 msgid "Delete Rows"
 msgstr "Ta bort rader"
 
-#: src/commands.c:1310
+#: src/commands.c:1311
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Infogning av %d kolumner före %s"
 
-#: src/commands.c:1311
+#: src/commands.c:1312
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Infogning av %d kolumner före %s"
 
-#: src/commands.c:1326
+#: src/commands.c:1327
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Infogning av %d rader före %s"
 
-#: src/commands.c:1327
+#: src/commands.c:1328
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Infogning av %d rad före %s"
 
-#: src/commands.c:1338
+#: src/commands.c:1339
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Borttagning av kolumnerna %s"
 
-#: src/commands.c:1339
+#: src/commands.c:1340
 #, c-format
 msgid "Deleting column %s"
 msgstr "Borttagning av kolumn %s"
 
-#: src/commands.c:1349
+#: src/commands.c:1350
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Borttagning av raderna %s"
 
-#: src/commands.c:1350
+#: src/commands.c:1351
 #, c-format
 msgid "Deleting row %s"
 msgstr "Borttagning av rad %s"
 
 #. Check for locked cells
-#: src/commands.c:1427 src/commands.c:1431 src/sheet.c:2837
+#: src/commands.c:1428 src/commands.c:1432 src/sheet.c:2837
 msgid "Clear"
 msgstr "Töm"
 
-#: src/commands.c:1503
+#: src/commands.c:1504
 msgid "contents"
 msgstr "innehåll"
 
-#: src/commands.c:1505
+#: src/commands.c:1506
 msgid "formats"
 msgstr "format"
 
-#: src/commands.c:1507
+#: src/commands.c:1508
 msgid "comments"
 msgstr "kommentarer"
 
-#: src/commands.c:1523
+#: src/commands.c:1524
 msgid "all"
 msgstr "alla"
 
 # detta står i sammanhanget Ångra: "blabla"
-#: src/commands.c:1530
+#: src/commands.c:1531
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Tömmande av %s i %s"
 
-#: src/commands.c:1602
+#: src/commands.c:1603
 msgid "Changing Format"
 msgstr "Byter format"
 
-#: src/commands.c:1728
+#: src/commands.c:1729
 #, c-format
 msgid "Changing format of %s"
 msgstr "Byter format på %s"
 
-#: src/commands.c:1839
+#: src/commands.c:1840
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Autopassar kolumn %s"
 
-#: src/commands.c:1840
+#: src/commands.c:1841
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Autopassar rad %s"
 
-#: src/commands.c:1843
+#: src/commands.c:1844
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Ställer in bredden på kolumn %s till %d bildpunkter"
 
-#: src/commands.c:1845
+#: src/commands.c:1846
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Ställer in höjd på rad %s till %d bildpunkter"
 
-#: src/commands.c:1848
+#: src/commands.c:1849
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Ställer in bredden på kolumn %s till standardbredd"
 
-#: src/commands.c:1851
+#: src/commands.c:1852
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Ställer in höjd på rad %s till standardhöjd"
 
-#: src/commands.c:1855 src/commands.c:1856
+#: src/commands.c:1856 src/commands.c:1857
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Autopassar kolumner %s"
 
-#: src/commands.c:1859
+#: src/commands.c:1860
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Ställer in bredd på kolumner %s till %d bildpunkter"
 
-#: src/commands.c:1861
+#: src/commands.c:1862
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Ställer in höjd på rader %s till %d bildpunkter"
 
-#: src/commands.c:1865
+#: src/commands.c:1866
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Ställer in bredd på kolumner %s till standardbredden"
 
-#: src/commands.c:1867
+#: src/commands.c:1868
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Ställer in höjd på rader %s till standardhöjden"
 
-#: src/commands.c:1935
+#: src/commands.c:1936
 msgid "Sorting"
 msgstr "Sorterar"
 
-#: src/commands.c:1955
+#: src/commands.c:1956
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorterar %s"
 
-#: src/commands.c:2081
+#: src/commands.c:2082
 msgid "Unhide columns"
 msgstr "Visa kolumner"
 
-#: src/commands.c:2081
+#: src/commands.c:2082
 msgid "Hide columns"
 msgstr "Dölj kolumner"
 
-#: src/commands.c:2082
+#: src/commands.c:2083
 msgid "Unhide rows"
 msgstr "Visa rader"
 
-#: src/commands.c:2082
+#: src/commands.c:2083
 msgid "Hide rows"
 msgstr "Dölj rader"
 
-#: src/commands.c:2162
+#: src/commands.c:2163
 msgid "Expand columns"
 msgstr "Fäll ut kolumner"
 
-#: src/commands.c:2162
+#: src/commands.c:2163
 msgid "Collapse columns"
 msgstr "Fäll ihop kolumner"
 
-#: src/commands.c:2163
+#: src/commands.c:2164
 msgid "Expand rows"
 msgstr "Fäll ut rader"
 
-#: src/commands.c:2163
+#: src/commands.c:2164
 msgid "Collapse rows"
 msgstr "Fäll ihop rader"
 
-#: src/commands.c:2230
+#: src/commands.c:2231
 msgid "Those columns are already grouped"
 msgstr "Dessa kolumner är redan grupperade"
 
-#: src/commands.c:2231
+#: src/commands.c:2232
 msgid "Those rows are already grouped"
 msgstr "Dessa rader är redan grupperade"
 
-#: src/commands.c:2234
+#: src/commands.c:2235
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "De kolumnerna är inte grupperade, du kan inte ogruppera dem"
 
-#: src/commands.c:2235
+#: src/commands.c:2236
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "De raderna är inte grupperade, du kan inte ogruppera dem"
 
-#: src/commands.c:2246
+#: src/commands.c:2247
 #, c-format
 msgid "Group columns %s"
 msgstr "Gruppera kolumner %s"
 
-#: src/commands.c:2246
+#: src/commands.c:2247
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Ogruppera kolumner %s"
 
-#: src/commands.c:2248
+#: src/commands.c:2249
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Gruppera rader %d:%d"
 
-#: src/commands.c:2248
+#: src/commands.c:2249
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Ogruppera rader %d:%d"
 
-#: src/commands.c:2454
+#: src/commands.c:2455
 #, c-format
 msgid "Moving %s"
 msgstr "Flyttar %s"
 
-#: src/commands.c:2463 src/commands.c:2674
+#: src/commands.c:2464 src/commands.c:2675
 msgid "is beyond sheet boundaries"
 msgstr "är utanför bladets gränser"
 
 #. FIXME?
-#: src/commands.c:2618
+#: src/commands.c:2619
 #, c-format
 msgid "Pasting into %s"
 msgstr "Klistrar in i %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2851 src/commands.c:2852 src/workbook-control-gui.c:2013
+#: src/commands.c:2852 src/commands.c:2853 src/workbook-control-gui.c:2013
 msgid "Autofill"
 msgstr "Autofyllning"
 
 #. Changed in initial redo.
-#: src/commands.c:2875
+#: src/commands.c:2876
 #, c-format
 msgid "Autofilling %s"
 msgstr "Autofyllning av %s"
 
-#: src/commands.c:3023
+#: src/commands.c:3024
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Autoformatering av %s"
 
-#: src/commands.c:3133
+#: src/commands.c:3134
 #, c-format
 msgid "Unmerging %s"
 msgstr "Splittring av %s"
 
-#: src/commands.c:3271
+#: src/commands.c:3272
 #, c-format
 msgid "Merging %s"
 msgstr "Sammanslagning av %s"
 
 #. Corrected below.
-#: src/commands.c:3649 src/dialogs/search-replace.glade.h:20
+#: src/commands.c:3650 src/dialogs/search-replace.glade.h:20
 msgid "Search and Replace"
 msgstr "Sök och ersätt"
 
-#: src/commands.c:3745
+#: src/commands.c:3746
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Inställning av standardbredd på kolumner till %.2f punkter"
 
-#: src/commands.c:3746
+#: src/commands.c:3747
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Inställning av standardhöjd på rader till %.2f punkter"
 
 #. Changed in initial redo.
-#: src/commands.c:3831
+#: src/commands.c:3832
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "Konsolidation till %s!%s"
 
-#: src/commands.c:3948
+#: src/commands.c:3949
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Inzoomning av %s till %.0f%%"
 
-#: src/commands.c:4017
+#: src/commands.c:4018
 msgid "Insert object"
 msgstr "Infogning av objekt"
 
-#: src/commands.c:4075
+#: src/commands.c:4076
 msgid "Delete object"
 msgstr "Borttagning av objekt"
 
-#: src/commands.c:4156
+#: src/commands.c:4157
 msgid "Resize object"
 msgstr "Storleksändring av objekt"
 
-#: src/commands.c:4156
+#: src/commands.c:4157
 msgid "Move object"
 msgstr "Flyttning av objekt"
 
-#: src/commands.c:4397
+#: src/commands.c:4398
 msgid "Renaming Sheets"
 msgstr "Namnbyte på blad"
 
-#: src/commands.c:4400
+#: src/commands.c:4401
 msgid "Reordering Sheets"
 msgstr "Ändring av ordning av blad"
 
-#: src/commands.c:4405
+#: src/commands.c:4406
 msgid "Adding a sheet"
 msgstr "Tillägg av nytt blad"
 
-#: src/commands.c:4408
+#: src/commands.c:4409
 #, c-format
 msgid "Adding sheet '%s'"
 msgstr "Tillägg av bladet \"%s\""
 
-#: src/commands.c:4412
+#: src/commands.c:4413
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Namnbyte på bladet \"%s\" till \"%s\""
 
-#: src/commands.c:4417
+#: src/commands.c:4418
 msgid "Changing Tab Colors"
 msgstr "Färgbyte på flikar"
 
-#: src/commands.c:4420
+#: src/commands.c:4421
 msgid "Changing Sheet Protection"
 msgstr "Ändrar bladskydd"
 
-#: src/commands.c:4423
+#: src/commands.c:4424
 msgid "Reorganizing Sheets"
 msgstr "Ändring av ordning av blad"
 
-#: src/commands.c:4552
+#: src/commands.c:4553
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Tömning av kommentar för %s"
 
-#: src/commands.c:4553
+#: src/commands.c:4554
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Sättande av kommentar till %s"
 
-#: src/commands.c:4916
+#: src/commands.c:4917
 #, c-format
 msgid "Merging data into %s"
 msgstr "Sammanslagning av data i %s"
 
-#: src/commands.c:5019
+#: src/commands.c:5020
 msgid "Changing summary info"
 msgstr "Ändrar sammanfattningsinformation"
 
-#: src/commands.c:5110
+#: src/commands.c:5111
 msgid "Raise object"
 msgstr "Höj objekt"
 
-#: src/commands.c:5113
+#: src/commands.c:5114
 msgid "Lower object"
 msgstr "Sänk objekt"
 
-#: src/commands.c:5116
+#: src/commands.c:5117
 msgid "Raise object to top"
 msgstr "Höj objektet överst"
 
-#: src/commands.c:5119
+#: src/commands.c:5120
 msgid "Lower object to bottom"
 msgstr "Sänk objektet nederst"
 
-#: src/commands.c:5237
+#: src/commands.c:5238
 #, c-format
 msgid "Print Setup For %s"
 msgstr "Utskriftskonfiguration för %s"
 
-#: src/commands.c:5239
+#: src/commands.c:5240
 msgid "Print Setup For All Sheets"
 msgstr "Utskriftskonfiguration för alla blad"
 
@@ -15339,115 +15171,115 @@ msgstr "Antalet datarader måste vara en multipel av upprepningstalet."
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Kunde inte skapa ANOVA-verktygsdialogen (dubbel faktor)."
 
-#: src/dialogs/dialog-autocorrect.c:328
+#: src/dialogs/dialog-autocorrect.c:329
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Kunde inte skapa autokorrigeringsdialogen."
 
-#: src/dialogs/dialog-autoformat.c:66
+#: src/dialogs/dialog-autoformat.c:67
 msgid " "
 msgstr " "
 
-#: src/dialogs/dialog-autoformat.c:66
+#: src/dialogs/dialog-autoformat.c:67
 msgid "Jan"
 msgstr "jan"
 
-#: src/dialogs/dialog-autoformat.c:66
+#: src/dialogs/dialog-autoformat.c:67
 msgid "Feb"
 msgstr "feb"
 
-#: src/dialogs/dialog-autoformat.c:66
+#: src/dialogs/dialog-autoformat.c:67
 msgid "Mrt"
 msgstr "Mrt"
 
-#: src/dialogs/dialog-autoformat.c:66 src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:67 src/dialogs/dialog-autoformat.c:71
 #: src/tools/analysis-tools.c:3319 src/tools/analysis-tools.c:3329
 #: src/tools/analysis-tools.c:3337
 msgid "Total"
 msgstr "Totalt"
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:68
 msgid "North"
 msgstr "Nord"
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:68
 msgid "6"
 msgstr "6"
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:68
 msgid "13"
 msgstr "13"
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:68
 msgid "20"
 msgstr "20"
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:68
 msgid "39"
 msgstr "39"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:69
 msgid "South"
 msgstr "Syd"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:69
 msgid "12"
 msgstr "12"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:69
 msgid "4"
 msgstr "4"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:69
 msgid "17"
 msgstr "17"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:69
 msgid "33"
 msgstr "33"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:70
 msgid "West"
 msgstr "Väst"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:70
 msgid "8"
 msgstr "8"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:70
 msgid "2"
 msgstr "2"
 
-#: src/dialogs/dialog-autoformat.c:69 src/dialogs/mean-tests.glade.h:1
+#: src/dialogs/dialog-autoformat.c:70 src/dialogs/mean-tests.glade.h:1
 msgid "0"
 msgstr "0"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:70
 msgid "10"
 msgstr "10"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:71
 msgid "26"
 msgstr "26"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:71
 msgid "19"
 msgstr "19"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:71
 msgid "37"
 msgstr "37"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:71
 msgid "81"
 msgstr "81"
 
-#: src/dialogs/dialog-autoformat.c:654
+#: src/dialogs/dialog-autoformat.c:655
 msgid "An error occurred while reading the category list"
 msgstr "Ett fel uppstod vid läsning av kategorilistan"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:664 src/format.c:1657 src/format.c:1749
+#: src/dialogs/dialog-autoformat.c:665 src/format.c:1657 src/format.c:1749
 #: src/format.c:1758 src/format.c:1827
 msgid "General"
 msgstr "Allmän"
@@ -15576,11 +15408,11 @@ msgstr "Funktion/Argument"
 msgid "Could not create the formula guru."
 msgstr "Kunde inte skapa uttrycksgurun."
 
-#: src/dialogs/dialog-function-select.c:217
+#: src/dialogs/dialog-function-select.c:218
 msgid "Recently Used"
 msgstr "Nyligen använd"
 
-#: src/dialogs/dialog-function-select.c:419
+#: src/dialogs/dialog-function-select.c:420
 msgid "Could not create the function selector dialog."
 msgstr "Kunde inte skapa funktionsvalsdialogen."
 
@@ -15755,27 +15587,27 @@ msgstr "Transponera"
 msgid "Skip Blanks"
 msgstr "Hoppa över blanksteg"
 
-#: src/dialogs/dialog-plugin-manager.c:95
+#: src/dialogs/dialog-plugin-manager.c:96
 msgid "in memory"
 msgstr "i minne"
 
-#: src/dialogs/dialog-plugin-manager.c:96
+#: src/dialogs/dialog-plugin-manager.c:97
 msgid "deactivating"
 msgstr "inaktiverar"
 
-#: src/dialogs/dialog-plugin-manager.c:97
+#: src/dialogs/dialog-plugin-manager.c:98
 msgid "in memory, deactivating"
 msgstr "i minne, inaktiverar"
 
-#: src/dialogs/dialog-plugin-manager.c:98
+#: src/dialogs/dialog-plugin-manager.c:99
 msgid "inactive"
 msgstr "inaktiv"
 
-#: src/dialogs/dialog-plugin-manager.c:99
+#: src/dialogs/dialog-plugin-manager.c:100
 msgid "active"
 msgstr "aktiv"
 
-#: src/dialogs/dialog-plugin-manager.c:143
+#: src/dialogs/dialog-plugin-manager.c:144
 #, c-format
 msgid ""
 "This plugin depends on loader of type \"%s\".\n"
@@ -15786,28 +15618,28 @@ msgstr ""
 "Vill du aktivera lämplig insticksmodul tillsammans med denna?\n"
 "(annars kommer insticksmodulen inte att läsas in)"
 
-#: src/dialogs/dialog-plugin-manager.c:154
+#: src/dialogs/dialog-plugin-manager.c:155
 msgid "Error while activating plugin loader"
 msgstr "Fel vid aktivering av insticksmodulinläsaren"
 
-#: src/dialogs/dialog-plugin-manager.c:168
+#: src/dialogs/dialog-plugin-manager.c:169
 #, c-format
 msgid "Loader for selected plugin (type: \"%s\") is not available."
 msgstr "Det finns ingen inläsare för vald insticksmodul (typ: \"%s\")."
 
-#: src/dialogs/dialog-plugin-manager.c:181
+#: src/dialogs/dialog-plugin-manager.c:182
 msgid "Error while activating plugin"
 msgstr "Fel vid aktivering av insticksmodulen"
 
-#: src/dialogs/dialog-plugin-manager.c:208
+#: src/dialogs/dialog-plugin-manager.c:209
 msgid "Error while deactivating plugin"
 msgstr "Fel vid avaktivering av insticksmodulen"
 
-#: src/dialogs/dialog-plugin-manager.c:219
+#: src/dialogs/dialog-plugin-manager.c:220
 msgid "Plugin is still in use."
 msgstr "Insticksmodulen används fortfarande."
 
-#: src/dialogs/dialog-plugin-manager.c:225
+#: src/dialogs/dialog-plugin-manager.c:226
 msgid ""
 "Plugin cannot be deactivated because it's still in use.\n"
 "Do you want to mark it for deactivation such that it will be inactive after "
@@ -15817,23 +15649,23 @@ msgstr ""
 "Vill du att den ska markeras för inaktivering så att den blir inaktiv efter "
 "omstart av Gnumeric?"
 
-#: src/dialogs/dialog-plugin-manager.c:247
+#: src/dialogs/dialog-plugin-manager.c:248
 msgid "Errors while activating plugins"
 msgstr "Fel vid aktivering av insticksmoduler"
 
-#: src/dialogs/dialog-plugin-manager.c:265
+#: src/dialogs/dialog-plugin-manager.c:266
 msgid "Errors while deactivating plugins"
 msgstr "Fel vid aktivering av insticksmoduler"
 
-#: src/dialogs/dialog-plugin-manager.c:682
+#: src/dialogs/dialog-plugin-manager.c:683
 msgid "State"
 msgstr "Tillstånd"
 
-#: src/dialogs/dialog-plugin-manager.c:687
+#: src/dialogs/dialog-plugin-manager.c:688
 msgid "Plugins"
 msgstr "Insticksmoduler"
 
-#: src/dialogs/dialog-plugin-manager.c:730
+#: src/dialogs/dialog-plugin-manager.c:731
 #: src/dialogs/plugin-manager.glade.h:5
 msgid "Directory"
 msgstr "Katalog"
@@ -16016,45 +15848,45 @@ msgstr "Annat värde"
 msgid "Comment"
 msgstr "Kommentar"
 
-#: src/dialogs/dialog-sheet-order.c:306
+#: src/dialogs/dialog-sheet-order.c:307
 msgid "Current Name"
 msgstr "Nuvarande namn"
 
-#: src/dialogs/dialog-sheet-order.c:316
+#: src/dialogs/dialog-sheet-order.c:317
 msgid "New Name"
 msgstr "Nytt namn"
 
-#: src/dialogs/dialog-sheet-order.c:607
+#: src/dialogs/dialog-sheet-order.c:608
 msgid "Deletion of sheets is not undoable. Do you want to proceed?"
 msgstr "Borttagning av blad kan inte ångras. Vill du fortsätta?"
 
-#: src/dialogs/dialog-sheet-order.c:739 src/dialogs/dialog-sheet-order.c:751
+#: src/dialogs/dialog-sheet-order.c:740 src/dialogs/dialog-sheet-order.c:752
 msgid "Default"
 msgstr "Standard"
 
-#: src/dialogs/dialog-solver.c:81 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:82 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:82 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:83 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:83 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:84 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
 #. xgettext: Int == Integer constraint for the linear program
-#: src/dialogs/dialog-solver.c:85 src/dialogs/solver.glade.h:11
+#: src/dialogs/dialog-solver.c:86 src/dialogs/solver.glade.h:11
 msgid "Int"
 msgstr "Heltal"
 
 #. xgettext: Bool == Boolean (or binary) constraint for the linear program
-#: src/dialogs/dialog-solver.c:87 src/dialogs/solver.glade.h:8
+#: src/dialogs/dialog-solver.c:88 src/dialogs/solver.glade.h:8
 msgid "Bool"
 msgstr "Booleskt"
 
-#: src/dialogs/dialog-solver.c:685
+#: src/dialogs/dialog-solver.c:686
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
@@ -16062,7 +15894,7 @@ msgstr ""
 "Lösaren hittade en optimal lösning. Alla bivillkor och optimalitetsvillkor "
 "är uppfyllda.\n"
 
-#: src/dialogs/dialog-solver.c:694
+#: src/dialogs/dialog-solver.c:695
 msgid ""
 "Sensitivity nor limits report are not meaningful if the program has integer "
 "constraints. These reports will thus not be created."
@@ -16070,12 +15902,12 @@ msgstr ""
 "Känslighet eller gränsrapport är inte meningsfullt om programmet har "
 "heltalsbegränsningar. Dessa rapporter kommer således inte att skapas."
 
-#: src/dialogs/dialog-solver.c:712
+#: src/dialogs/dialog-solver.c:713
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr "Målcellens värde konvergerar inte! Programmet är obundet."
 
-#: src/dialogs/dialog-solver.c:726
+#: src/dialogs/dialog-solver.c:727
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
@@ -16083,7 +15915,7 @@ msgstr ""
 "En möjlig lösning kunde inte hittas. Alla angivna begränsningar kan inte "
 "uppfyllas samtidigt."
 
-#: src/dialogs/dialog-solver.c:741
+#: src/dialogs/dialog-solver.c:742
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
@@ -16091,7 +15923,7 @@ msgstr ""
 "Det maximala antalet iterationer överskreds. Det optimala värdet kunde inte "
 "hittas."
 
-#: src/dialogs/dialog-solver.c:755
+#: src/dialogs/dialog-solver.c:756
 msgid ""
 "The maximum time exceeded. The optimal value could not be found in given "
 "time."
@@ -16099,32 +15931,32 @@ msgstr ""
 "Den maximala tiden överskreds. Det optimala värdet kunde inte hittas inom "
 "den angivna tiden."
 
-#: src/dialogs/dialog-solver.c:798
+#: src/dialogs/dialog-solver.c:799
 msgid "Unknown error."
 msgstr "Okänt fel."
 
-#: src/dialogs/dialog-solver.c:815
+#: src/dialogs/dialog-solver.c:816
 msgid "You have not specified a problem to be solved"
 msgstr "Du har inte angett ett problem att lösa"
 
-#: src/dialogs/dialog-solver.c:834 src/tools/solver/solver.c:393
+#: src/dialogs/dialog-solver.c:835 src/tools/solver/solver.c:393
 msgid "Target cell should contain a formula."
 msgstr "Målcellen måste innehålla ett uttryck."
 
-#: src/dialogs/dialog-solver.c:867
+#: src/dialogs/dialog-solver.c:868
 msgid "The value given in 'Max Iterations' is not valid."
 msgstr "Värdet som är angivet i \"Max iterationer\" är inte giltigt."
 
-#: src/dialogs/dialog-solver.c:878
+#: src/dialogs/dialog-solver.c:879
 msgid "The value given in 'Max Time (sec.)' is not valid."
 msgstr "Värdet som är angivet i \"Maxtid (sekunder)\" är inte giltigt."
 
-#: src/dialogs/dialog-solver.c:915
+#: src/dialogs/dialog-solver.c:916
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Bivillkoret \"%s\" är för en cell som inte är en indatacell."
 
-#: src/dialogs/dialog-solver.c:1222
+#: src/dialogs/dialog-solver.c:1223
 msgid "Could not create the Solver dialog."
 msgstr "Kunde inte skapa lösardialogen."
 
@@ -17893,36 +17725,36 @@ msgstr "Okänt evalueringsfel"
 msgid "Invalid template file: %s"
 msgstr "Ogiltig mallfil: %s"
 
-#: src/file.c:264
+#: src/file.c:265
 msgid "Cannot create temporary file."
 msgstr "Kan inte skapa temporär fil."
 
-#: src/file.c:276
+#: src/file.c:277
 msgid "Error saving to temporary file."
 msgstr "Fel vid sparande till temporär fil."
 
-#: src/file.c:279
+#: src/file.c:280
 msgid "Cannot get temporary file size."
 msgstr "Kan inte få tag i storlek på temporär fil."
 
-#: src/file.c:285
+#: src/file.c:286
 msgid "Saving file to stream."
 msgstr "Sparar fil till flöde."
 
-#: src/file.c:298
+#: src/file.c:299
 msgid "Error reading temporary file."
 msgstr "Fel vid läsning av temporär fil."
 
-#: src/file.c:311
+#: src/file.c:312
 msgid "Exception occurred while saving to stream."
 msgstr "Ett undantag inträffade vid sparande till flöde."
 
-#: src/file.c:487
+#: src/file.c:488
 msgid "Saving over old files of this type is disabled for safety."
 msgstr ""
 "Överskrivning av gamla filer av denna typ är inaktiverat av säkerhetsskäl."
 
-#: src/file.c:489
+#: src/file.c:490
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -19566,7 +19398,7 @@ msgstr "Flera fel\n"
 msgid "Unable to open file '%s'"
 msgstr "Kan inte öppna filen \"%s\""
 
-#: src/gutils.c:535
+#: src/gutils.c:536
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "modfgnum."
@@ -19574,7 +19406,7 @@ msgstr ""
 "Denna version av Gnumeric har kompilerats med otillräcklig precision i "
 "modfgnum."
 
-#: src/gutils.c:629
+#: src/gutils.c:630
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "frexpgnum."
@@ -19582,7 +19414,7 @@ msgstr ""
 "Denna version av Gnumeric har kompilerats med otillräcklig precision i "
 "frexpgnum."
 
-#: src/gutils.c:682
+#: src/gutils.c:683
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "yngnum."
@@ -19850,9 +19682,9 @@ msgstr "Modulfilnamnet har inte angivits."
 msgid "Unable to open module file \"%s\"."
 msgstr "Kan inte öppna modulfilen \"%s\"."
 
-#: src/plugin-loader-module.c:130 src/plugin-loader-module.c:334
-#: src/plugin-loader-module.c:435 src/plugin-loader-module.c:506
-#: src/plugin-loader-module.c:599
+#: src/plugin-loader-module.c:130 src/plugin-loader-module.c:336
+#: src/plugin-loader-module.c:437 src/plugin-loader-module.c:508
+#: src/plugin-loader-module.c:601
 #, c-format
 msgid "Module file \"%s\" has invalid format."
 msgstr "Modulfilen \"%s\" har ogiltigt format."
@@ -19883,91 +19715,91 @@ msgstr "Kan inte stänga modulfilen \"%s\"."
 msgid "Module file name"
 msgstr "Modulfilnamn"
 
-#: src/plugin-loader-module.c:339
+#: src/plugin-loader-module.c:341
 msgid "File doesn't contain \"plugin_init_general\" function."
 msgstr "Filen innehåller inte funktionen \"plugin_init_general\"."
 
-#: src/plugin-loader-module.c:344
+#: src/plugin-loader-module.c:346
 msgid "File doesn't contain \"plugin_cleanup_general\" function."
 msgstr "Filen innehåller inte funktionen \"plugin_cleanup_general\"."
 
-#: src/plugin-loader-module.c:349
+#: src/plugin-loader-module.c:351
 msgid "File doesn't contain \"plugin_can_deactivate_general\" function."
 msgstr "Filen innehåller inte funktionen \"plugin_can_deactivate_general\"."
 
-#: src/plugin-loader-module.c:604
+#: src/plugin-loader-module.c:606
 #, c-format
 msgid "File doesn't contain \"%s\" array."
 msgstr "Filen innehåller inte vektorn \"%s\"."
 
-#: src/plugin-loader-module.c:691
+#: src/plugin-loader-module.c:693
 #, c-format
 msgid "Module doesn't contain \"%s\" function."
 msgstr "Modulen innehåller inte funktionen \"%s\"."
 
-#: src/plugin-loader.c:215
+#: src/plugin-loader.c:217
 msgid "Error while loading plugin dependencies."
 msgstr "Fel vid inläsning av insticksmodulberoenden."
 
-#: src/plugin-loader.c:286 src/plugin-loader.c:337
+#: src/plugin-loader.c:288 src/plugin-loader.c:339
 msgid "Service not supported by loader."
 msgstr "Tjänsten stöds inte av inläsaren."
 
-#: src/plugin-loader.c:290
+#: src/plugin-loader.c:292
 msgid "Error while loading plugin."
 msgstr "Fel vid inläsning av insticksmodul."
 
-#: src/plugin-service.c:129
+#: src/plugin-service.c:131
 msgid "Initializing function inside plugin returned error."
 msgstr "Initieringsfunktionen i insticksmodulen returnerade ett fel."
 
-#: src/plugin-service.c:134 src/plugin-service.c:1088
+#: src/plugin-service.c:136 src/plugin-service.c:1090
 msgid "Error while loading plugin service."
 msgstr "Fel vid inläsning av insticksmodultjänst."
 
-#: src/plugin-service.c:168
+#: src/plugin-service.c:170
 msgid "Cleanup function inside plugin returned error."
 msgstr "Uppstädningsfunktionen i insticksmodulen returnerade ett fel."
 
-#: src/plugin-service.c:311
+#: src/plugin-service.c:313
 msgid "Error while reading file."
 msgstr "Fel vid läsning av fil."
 
-#: src/plugin-service.c:488
+#: src/plugin-service.c:490
 msgid "File opener has no id"
 msgstr "Filöppnaren har inget id"
 
-#: src/plugin-service.c:491
+#: src/plugin-service.c:493
 #, c-format
 msgid "File opener with id=\"%s\" has no description"
 msgstr "Filöppnaren med id=\"%s\" har ingen beskrivning"
 
-#: src/plugin-service.c:621
+#: src/plugin-service.c:623
 msgid "Error while saving file."
 msgstr "Fel vid sparande av fil."
 
-#: src/plugin-service.c:720
+#: src/plugin-service.c:722
 msgid "File saver has no id"
 msgstr "Filspararen har inget id"
 
-#: src/plugin-service.c:723
+#: src/plugin-service.c:725
 #, c-format
 msgid "File saver with id=\"%s\" has no description"
 msgstr "Filspararen med id=\"%s\" har ingen beskrivning"
 
-#: src/plugin-service.c:875
+#: src/plugin-service.c:877
 msgid "Missing function group id."
 msgstr "Grupp-id för funktion saknas."
 
-#: src/plugin-service.c:880 src/plugin-service.c:885
+#: src/plugin-service.c:882 src/plugin-service.c:887
 msgid "Missing function category name."
 msgstr "Kategorinamn för funktion saknas."
 
-#: src/plugin-service.c:1051
+#: src/plugin-service.c:1053
 msgid "Missing loader id."
 msgstr "Inläsar-id saknas."
 
-#: src/plugin-service.c:1211
+#: src/plugin-service.c:1213
 #, c-format
 msgid "Error while reading service of type \"%s\"."
 msgstr "Fel vid läsning av tjänst av typen \"%s\"."
@@ -20005,140 +19837,140 @@ msgstr "Kan inte minnesmappa filen."
 msgid "Cannot get file size."
 msgstr "Kan inte få tag i filstorleken."
 
-#: src/plugin.c:239
+#: src/plugin.c:242
 #, c-format
 msgid "File contain plugin info with invalid id (%s), expected %s."
 msgstr ""
 "Filen innehåller insticksmodulinformation med felaktigt id (%s), %s "
 "förväntades."
 
-#: src/plugin.c:243
+#: src/plugin.c:246
 msgid "Couldn't read plugin info from file."
 msgstr "Kan inte läsa insticksmodulinformation från fil."
 
-#: src/plugin.c:293 src/plugin.c:370
+#: src/plugin.c:296 src/plugin.c:373
 msgid "Unknown name"
 msgstr "Okänt namn"
 
-#: src/plugin.c:520
+#: src/plugin.c:523
 #, c-format
 msgid "Error while preparing loader \"%s\"."
 msgstr "Fel vid förberedande av inläsare \"%s\"."
 
-#: src/plugin.c:530
+#: src/plugin.c:533
 #, c-format
 msgid "Unsupported loader type \"%s\"."
 msgstr "Inläsartypen \"%s\" stöds inte."
 
-#: src/plugin.c:623
+#: src/plugin.c:626
 #, c-format
 msgid "Error while reading service #%d info."
 msgstr "Fel vid läsning av information för tjänst nummer %d."
 
-#: src/plugin.c:675
+#: src/plugin.c:678
 msgid "Unspecified loader type."
 msgstr "Inläsartyp är inte angiven."
 
-#: src/plugin.c:724
+#: src/plugin.c:727
 #, c-format
 msgid "Can't read plugin info file (\"%s\")."
 msgstr "Kan inte läsa infofilen från insticksmodul (\"%s\")."
 
-#: src/plugin.c:728
+#: src/plugin.c:731
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
 msgstr "Filen \"%s\" är inte en giltig infofil från insticksmodul."
 
-#: src/plugin.c:811
+#: src/plugin.c:814
 msgid "Plugin has no id."
 msgstr "Insticksmodulen har inget id."
 
-#: src/plugin.c:820
+#: src/plugin.c:823
 msgid "Unknown plugin name."
 msgstr "Okänt namn på insticksmodul."
 
-#: src/plugin.c:825
+#: src/plugin.c:828
 #, c-format
 msgid "Errors while reading loader info for plugin with id=\"%s\"."
 msgstr "Fel vid läsning av inläsarinformation för insticksmodul med id=\"%s\"."
 
-#: src/plugin.c:830
+#: src/plugin.c:833
 #, c-format
 msgid "No loader defined for plugin with id=\"%s\"."
 msgstr "Ingen inläsare är angiven för insticksmodulen med id=\"%s\"."
 
-#: src/plugin.c:838
+#: src/plugin.c:841
 #, c-format
 msgid "Errors while reading services for plugin with id=\"%s\"."
 msgstr "Fel vid läsning av tjänster för insticksmodulen med id=\"%s\"."
 
-#: src/plugin.c:843
+#: src/plugin.c:846
 #, c-format
 msgid "No services defined for plugin with id=\"%s\"."
 msgstr "Inga tjänster är angivna för insticksmodulen med id=\"%s\"."
 
-#: src/plugin.c:993
+#: src/plugin.c:996
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
 msgstr "Fel vid initiering av insticksmodulinläsare (\"%s\")."
 
-#: src/plugin.c:1034
+#: src/plugin.c:1037
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which couldn't be activated."
 msgstr ""
 "Vi är beroende av insticksmodulen med id=\"%s\", som inte kunde aktiveras."
 
-#: src/plugin.c:1041 src/plugin.c:1229
+#: src/plugin.c:1044 src/plugin.c:1232
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which is not available."
 msgstr ""
 "Vi är beroende av insticksmodulen med id=\"%s\", som inte är tillgänglig."
 
-#: src/plugin.c:1054
+#: src/plugin.c:1057
 #, c-format
 msgid "Error while activating plugin service #%d."
 msgstr "Fel vid aktivering av insticksmodultjänst %d."
 
-#: src/plugin.c:1094
+#: src/plugin.c:1097
 #, c-format
 msgid "Error while deactivating plugin service #%d."
 msgstr "Fel vid inaktivering av insticksmodultjänst %d."
 
-#: src/plugin.c:1165 src/plugin.c:1215
+#: src/plugin.c:1168 src/plugin.c:1218
 msgid "Cannot load plugin loader."
 msgstr "Kan inte läsa in insticksmodulinläsare."
 
-#: src/plugin.c:1222
+#: src/plugin.c:1225
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which couldn't be loaded."
 msgstr ""
 "Vi är beroende av insticksmodulen med id=\"%s\" som inte kunde läsas in."
 
-#: src/plugin.c:1305
+#: src/plugin.c:1308
 #, c-format
 msgid "Errors occurred while reading plugin informations from file \"%s\"."
 msgstr ""
 "Fel inträffade vid läsning av insticksmodulinformation från filen \"%s\"."
 
-#: src/plugin.c:1461
+#: src/plugin.c:1464
 #, c-format
 msgid "Couldn't activate plugin \"%s\" (ID: %s)."
 msgstr "Kunde inte aktivera insticksmodulen \"%s\" (ID: %s)."
 
-#: src/plugin.c:1500
+#: src/plugin.c:1503
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
 msgstr "Kunde inte inaktivera insticksmodulen \"%s\" (ID: %s)."
 
-#: src/plugin.c:1795
+#: src/plugin.c:1798
 msgid "Errors while reading info about available plugins."
 msgstr "Fel vid läsning av information om tillgängliga insticksmoduler."
 
-#: src/plugin.c:1801
+#: src/plugin.c:1804
 msgid "Errors while activating plugins."
 msgstr "Fel vid aktivering av insticksmoduler."
 
-#: src/plugin.c:1807
+#: src/plugin.c:1810
 msgid "Errors while initializing plugin system."
 msgstr "Fel vid initiering av insticksmodulsystem."
 
@@ -21940,6 +21772,163 @@ msgstr "Är inte en Gnumeric-arbetsboksfil"
 #: src/xml-io.c:3441
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#~ msgid ""
+#~ "@FUNCTION=RAND\n"
+#~ "@SYNTAX=RAND()\n"
+#~ "@DESCRIPTION=RAND returns a random number between zero and one ([0..1]).\n"
+#~ "This function is Excel compatible. \n"
+#~ "@EXAMPLES=\n"
+#~ "RAND() returns a random number greater than zero but less than one.\n"
+#~ "\n"
+#~ "@SEEALSO=RANDBETWEEN"
+#~ msgstr ""
+#~ "@FUNCTION=RAND\n"
+#~ "@SYNTAX=RAND()\n"
+#~ "@DESCRIPTION=RAND returnerar ett slumptal större än eller lika med 0 och "
+#~ "mindre än eller lika med 1 ([0..1]).\n"
+#~ "Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "RAND() returnerar ett slumptal större än noll men mindre än ett.\n"
+#~ "\n"
+#~ "@SEEALSO="
+
+#~ msgid ""
+#~ "@FUNCTION=RANDEXP\n"
+#~ "@SYNTAX=RANDEXP(b)\n"
+#~ "@DESCRIPTION=RANDEXP returns a exponentially-distributed random number. \n"
+#~ "@EXAMPLES=\n"
+#~ "RANDEXP(0.5).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDBETWEEN"
+#~ msgstr ""
+#~ "@FUNCTION=RANDEXP\n"
+#~ "@SYNTAX=RANDEXP(b)\n"
+#~ "@DESCRIPTION=RANDEXP returnerar ett exponentialfördelat slumptal.\n"
+#~ "@EXAMPLES=\n"
+#~ "RandExp(0,5).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDBETWEEN"
+
+#~ msgid ""
+#~ "@FUNCTION=RANDPOISSON\n"
+#~ "@SYNTAX=RANDPOISSON(lambda)\n"
+#~ "@DESCRIPTION=RANDPOISSON returns a poisson-distributed random number. \n"
+#~ "@EXAMPLES=\n"
+#~ "RANDPOISSON(3).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDBETWEEN"
+#~ msgstr ""
+#~ "@FUNCTION=RANDPOISSON\n"
+#~ "@SYNTAX=RANDPOISSON(lambda)\n"
+#~ "@DESCRIPTION=RANDPOISSON returnerar ett Poissonfördelat slumptal.\n"
+#~ "@EXAMPLES=\n"
+#~ "RandPoisson(3).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDBETWEEN"
+
+#~ msgid ""
+#~ "@FUNCTION=RANDBINOM\n"
+#~ "@SYNTAX=RANDBINOM(p,trials)\n"
+#~ "@DESCRIPTION=RANDBINOM returns a binomially-distributed random number. \n"
+#~ "If @p < 0 or @p > 1 RANDBINOM returns #NUM! error. If @trials < 0 "
+#~ "RANDBINOM returns #NUM! error. \n"
+#~ "@EXAMPLES=\n"
+#~ "RANDBINOM(0.5,2).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDBETWEEN"
+#~ msgstr ""
+#~ "@FUNCTION=RANDBINOM\n"
+#~ "@SYNTAX=RANDBINOM(p;försök)\n"
+#~ "@DESCRIPTION=RANDBINOM returnerar ett binomialfördelat slumptal.\n"
+#~ "Om @p < 0 eller @p > 1 returnerar RANDBINOM felvärdet #NUM!. Om @försök < "
+#~ "0 returnerar RANDBINOM felvärdet #NUM!.\n"
+#~ "@EXAMPLES=\n"
+#~ "RANDBINOM(0,5;2).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDBETWEEN"
+
+#~ msgid ""
+#~ "@FUNCTION=RANDNEGBINOM\n"
+#~ "@SYNTAX=RANDNEGBINOM(p,failures)\n"
+#~ "@DESCRIPTION=RANDNEGBINOM returns a negative binomially-distributed "
+#~ "random number. \n"
+#~ "If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error. If @failures "
+#~ "RANDNEGBINOM returns #NUM! error. \n"
+#~ "@EXAMPLES=\n"
+#~ "RANDNEGBINOM(0.5,2).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDBETWEEN"
+#~ msgstr ""
+#~ "@FUNCTION=RANDNEGBINOM\n"
+#~ "@SYNTAX=RANDNEGBINOM(p;misslyckanden)\n"
+#~ "@DESCRIPTION=RANDNEGBINOM returnerar ett negativt binomialfördelat "
+#~ "slumptal.\n"
+#~ "Om @p < 0 eller @p > 1 returnerar RANDNEGBINOM felvärdet #NUM!. Om "
+#~ "@misslyckanden returnerar RANDNEGBINOM felvärdet #NUM!.\n"
+#~ "@EXAMPLES=\n"
+#~ "RANDNEGBINOM(0,5;2).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDBETWEEN"
+
+#~ msgid ""
+#~ "@FUNCTION=RANDBERNOULLI\n"
+#~ "@SYNTAX=RANDBERNOULLI(p)\n"
+#~ "@DESCRIPTION=RANDBERNOULLI returns a Bernoulli-distributed random "
+#~ "number. \n"
+#~ "If @p < 0 or @p > 1 RANDBERNOULLI returns #NUM! error. \n"
+#~ "@EXAMPLES=\n"
+#~ "RANDBERNOULLI(0.5).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDBETWEEN"
+#~ msgstr ""
+#~ "@FUNCTION=RANDBERNOULLI\n"
+#~ "@SYNTAX=RANDBERNOULLI(p)\n"
+#~ "@DESCRIPTION=RANDBERNOULLI returnerar ett Bernoullifördelat slumptal.\n"
+#~ "Om @p < 0 eller @p > 1 returnerar RANDBERNOULLI felvärdet #NUM!.\n"
+#~ "@EXAMPLES=\n"
+#~ "RANDBERNOULLI(0,5).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND,RANDBETWEEN"
+
+#~ msgid ""
+#~ "@FUNCTION=RANDBETWEEN\n"
+#~ "@SYNTAX=RANDBETWEEN(bottom,top)\n"
+#~ "@DESCRIPTION=RANDBETWEEN function returns a random integer number between "
+#~ "and including @bottom and @top.\n"
+#~ "If @bottom or @top is non-integer, they are truncated. If @bottom > @top, "
+#~ "RANDBETWEEN returns #NUM! error.\n"
+#~ "This function is Excel compatible. \n"
+#~ "@EXAMPLES=\n"
+#~ "RANDBETWEEN(3,7).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND"
+#~ msgstr ""
+#~ "@FUNCTION=RANDBETWEEN\n"
+#~ "@SYNTAX=RANDBETWEEN(lägst;högst)\n"
+#~ "@DESCRIPTION=RANDBETWEEN returnerar ett slumpheltal mellan och inklusive "
+#~ "@lägst och @högst.\n"
+#~ "Om @lägst eller @högst är icke-heltal, trunkeras de. Om @lägst > @högst, "
+#~ "returneras felvärdet #NUM!. Denna funktion är kompatibel med Excel.\n"
+#~ "@EXAMPLES=\n"
+#~ "RANDBETWEEN(3;7).\n"
+#~ "\n"
+#~ "@SEEALSO=RAND"
+
+#~ msgid "bottom,top"
+#~ msgstr "underkant;överkant"
+
+#~ msgid "p,trials"
+#~ msgstr "p;försök"
+
+#~ msgid "b"
+#~ msgstr "b"
+
+#~ msgid "p,failures"
+#~ msgstr "p;misslyckanden"
+
+#~ msgid "lambda"
+#~ msgstr "lambda"
 
 #~ msgid ""
 #~ "@FUNCTION=COMPLEX\n"
