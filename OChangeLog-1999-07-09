@@ -1,3 +1,11 @@
+1999-06-01  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-stat.c (gnumeric_confidence): Fix sign.
+	(gnumeric_devsq): Simplify and correct.
+
+	* src/file.c: undo last change.  (The operation succeeded, but the
+ 	patient died.)
+
 1999-05-31  Matt Loper  <matt@gnome-support.com>
 
 	* src/sheet-view.c: Because GNOME::Component was renamed to

@@ -350,7 +350,7 @@ static char *help_rank = {
 	   "number whose rank you want to find, @ref is the list of numbers, "
 	   "and @order specifies how to rank numbers. If order is 0 numbers "
 	   "are rank in descending order, otherwise numbers are rank in "
-	   "ascending order. "
+	   "ascending order."
 	   "\n"
 	   "@SEEALSO=PERCENTRANK")
 };
@@ -455,7 +455,7 @@ static char *help_trimmean = {
 	   "@percent is the percentage of number excluded from the mean. "
 	   "For example, if percent=0.2 and the data set contans 40 numbers, "
 	   "8 numbers are trimmed from the data set (40 x 0.2), 4 from the "
-	   "top and 4 from the bottom of the set. "
+	   "top and 4 from the bottom of the set."
 	   "\n"
 	   "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE")
 };
@@ -560,7 +560,7 @@ static char *help_covar = {
 	   "@SYNTAX=COVAR(array1,array2)\n"
 
 	   "@DESCRIPTION="
-	   "COVAR returns the covariance of two data sets. "
+	   "COVAR returns the covariance of two data sets."
 	   "\n"
 	   "Strings and empty cells are simply ignored."
 	   "\n"
@@ -680,7 +680,7 @@ static char *help_correl = {
 	   "@SYNTAX=CORREL(array1,array2)\n"
 
 	   "@DESCRIPTION="
-	   "CORREL returns the correllation coefficient of two data sets. "
+	   "CORREL returns the correllation coefficient of two data sets."
 	   "\n"
 	   "Strings and empty cells are simply ignored."
 	   "\n"
@@ -811,11 +811,11 @@ static char *help_negbinomdist = {
 	   "@DESCRIPTION="
 	   "The NEGBINOMDIST function returns the negative binomial "
 	   "distribution. @f is the number of failures, @t is the threshold "
-	   "number of successes, and @p is the probability of a success. "
+	   "number of successes, and @p is the probability of a success."
 	   "\n"
 	   "if f or t is a non-integer it is truncated. "
 	   "if (f + t -1) <= 0 NEGBINOMDIST returns #NUM! error. "
-	   "if p < 0 or p > 1 NEGBINOMDIST returns #NUM! error. "
+	   "if p < 0 or p > 1 NEGBINOMDIST returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT")
 };
@@ -1455,7 +1455,7 @@ static char *help_skew = {
 	   "@SYNTAX=SKEW(n1, n2, ...)\n"
 
 	   "@DESCRIPTION="
-	   "SKEW returns the skewness of a distribution. "
+	   "SKEW returns the skewness of a distribution."
 	   "\n"
 	   "Strings and empty cells are simply ignored."
 	   "\n"
@@ -1535,11 +1535,11 @@ static char *help_expondist = {
 	   "@DESCRIPTION="
 	   "The EXPONDIST function returns the exponential distribution. "
 	   "If the cumulative boolean is false it will return: "
-	   "y * exp (-y*x), otherwise it will return 1 - exp (-y*x). "
+	   "y * exp (-y*x), otherwise it will return 1 - exp (-y*x)."
 	   "\n"
 	   "If x<0 or y<=0 this will return an error"
 	   "Performing this function on a string or empty cell simply "
-	   "does nothing. "
+	   "does nothing."
 	   "\n"
 	   "@SEEALSO=POISSON")
 };
@@ -1576,10 +1576,10 @@ static char *help_gammaln = {
 
 	   "@DESCRIPTION="
 	   "The GAMMALN function returns the natural logarithm of the "
-	   "gamma function. "
+	   "gamma function."
 	   "\n"
 	   "If @x is non-number then GAMMALN returns #VALUE! error. "
-	   "If @x <= 0 then GAMMALN returns #NUM! error. "
+	   "If @x <= 0 then GAMMALN returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=POISSON")
 };
@@ -1615,10 +1615,10 @@ static char *help_gammadist = {
 	   "@DESCRIPTION="
 	   "GAMMADIST function returns the gamma distribution. If @cum "
 	   "is TRUE GAMMADIST returns the incomplete gamma function, "
-	   "otherwise it returns the probability mass function. "
+	   "otherwise it returns the probability mass function."
 	   "\n"
 	   "If @x < 0 GAMMADIST returns #NUM! error. "
-	   "If @alpha <= 0 or beta <= 0, GAMMADIST returns #NUM! error. "
+	   "If @alpha <= 0 or beta <= 0, GAMMADIST returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=GAMMAINV")
 };
@@ -1688,7 +1688,7 @@ static char *help_chidist = {
 	   "freedom."
 	   "\n"
 	   "If @dof is non-integer it is truncated. "
-	   "If @dof < 1 CHIDIST returns #NUM! error. "
+	   "If @dof < 1 CHIDIST returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=CHIINV,CHITEST")
 };
@@ -1910,11 +1910,11 @@ static char *help_betadist = {
 	   "BETADIST function returns the cumulative beta distribution. @a "
 	   "is the optional lower bound of @x and @b is the optinal upper "
 	   "bound of @x.  If @a is not given, BETADIST uses 0.  If @b is "
-	   "not given, BETADIST uses 1. "
+	   "not given, BETADIST uses 1."
 	   "\n"
 	   "If @x < @a or @x > @b BETADIST returns #NUM! error. "
 	   "If @alpha <= 0 or beta <= 0, BETADIST returns #NUM! error. "
-	   "If @a >= @b BETADIST returns #NUM! error. "
+	   "If @a >= @b BETADIST returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=BETAINV")
 };
@@ -1953,11 +1953,11 @@ static char *help_betainv = {
 	   "BETAINV function returns the inverse of cumulative beta "
 	   "distribution.  @a is the optional lower bound of @x and @b "
 	   "is the optinal upper bound of @x.  If @a is not given, "
-	   "BETAINV uses 0.  If @b is not given, BETAINV uses 1. "
+	   "BETAINV uses 0.  If @b is not given, BETAINV uses 1."
 	   "\n"
 	   "If @p < 0 or @p > 1 BETAINV returns #NUM! error. "
 	   "If @alpha <= 0 or beta <= 0, BETAINV returns #NUM! error. "
-	   "If @a >= @b BETAINV returns #NUM! error. "
+	   "If @a >= @b BETAINV returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=BETADIST")
 };
@@ -1998,7 +1998,7 @@ static char *help_tdist = {
 	   "you want one-tailed or two-tailed distribution."
 	   "\n"
 	   "If @dof < 1 TDIST returns #NUM! error. "
-	   "If @tails is neither 1 or 2 TDIST returns #NUM! error. "
+	   "If @tails is neither 1 or 2 TDIST returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=TINV,TTEST")
 };
@@ -2062,10 +2062,10 @@ static char *help_fdist = {
 	   "@DESCRIPTION="
 	   "FDIST function returns the F probability distribution. @dof1 "
 	   "is the numerator degrees of freedom and @dof2 is the denominator "
-	   "degrees of freedom. "
+	   "degrees of freedom."
 	   "\n"
 	   "If @x < 0 FDIST returns #NUM! error. "
-	   "If @dof1 < 1 or @dof2 < 1, GAMMADIST returns #NUM! error. "
+	   "If @dof1 < 1 or @dof2 < 1, GAMMADIST returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=FINV")
 };
@@ -2136,7 +2136,7 @@ static char *help_binomdist = {
 	   "if n or trials is a non-integer it is truncated. "
 	   "if n < 0 or trials < 0 BINOMDIST returns #NUM! error. "
 	   "if n > trials BINOMDIST returns #NUM! error. "
-	   "if p < 0 or p > 1 BINOMDIST returns #NUM! error. "
+	   "if p < 0 or p > 1 BINOMDIST returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=POISSON")
 };
@@ -2230,11 +2230,11 @@ static char *help_permut = {
 	   "@DESCRIPTION="
 	   "The PERMUT function returns the number of permutations. "
            "@n is the number of objects, @k is the number of objects in each "
-           "permutation. "
+           "permutation."
 	   "\n"
 	   "if n or k is non-integer PERMUT returns #VALUE! error. "
 	   "if n = 0 PERMUT returns #NUM! error. "
-	   "if n < k PERMUT returns #NUM! error. "
+	   "if n < k PERMUT returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=COMBIN")
 };
@@ -2273,7 +2273,7 @@ static char *help_hypgeomdist = {
 	   "\n"
 	   "if x,n,M or N is a non-integer it is truncated. "
 	   "if x,n,M or N < 0 HYPGEOMDIST returns #NUM! error. "
-	   "if x > M or n > N HYPGEOMDIST returns #NUM! error. "
+	   "if x > M or n > N HYPGEOMDIST returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=BINOMDIST,POISSON")
 };
@@ -2314,7 +2314,7 @@ static char *help_confidence = {
 	   "\n"
 	   "if size is non-integer it is truncated. "
 	   "if size < 0 CONFIDENCE returns #NUM! error. "
-	   "if size is 0 CONFIDENCE returns #DIV/0! error. "
+	   "if size is 0 CONFIDENCE returns #DIV/0! error."
 	   "\n"
 	   "@SEEALSO=AVERAGE")
 };
@@ -2344,7 +2344,7 @@ gnumeric_confidence (struct FunctionDefinition *i,
 		return NULL;
 	}
 
-	return value_new_float (qnorm (x/2, 0, 1) * (stddev/sqrt(size)));
+	return value_new_float (-qnorm (x/2, 0, 1) * (stddev/sqrt(size)));
 }
 
 static char *help_standardize = {
@@ -2356,7 +2356,7 @@ static char *help_standardize = {
 	   "@x is the number to be normalized, @mean is the mean of the "
 	   "distribution, @stdev is the standard deviation of the distribution."
 	   "\n"
-	   "If stddev is 0 STANDARDIZE returns #DIV/0! error. "
+	   "If stddev is 0 STANDARDIZE returns #DIV/0! error."
 	   "\n"
 	   "@SEEALSO=AVERAGE")
 };
@@ -2513,7 +2513,7 @@ static char *help_kurt = {
            "Strings and empty cells are simply ignored."
            "\n"
            "If fewer than four numbers are given or all of them are equal "
-           "KURT returns #DIV/0! error. "
+           "KURT returns #DIV/0! error."
 	   "\n"
            "@SEEALSO=VAR")
 };
@@ -2663,64 +2663,27 @@ static char *help_devsq = {
 
            "@DESCRIPTION="
            "DEVSQ returns the sum of squares of deviations of a data set from "
-           "the sample mean. "
+           "the sample mean."
            "\n"
            "Strings and empty cells are simply ignored."
            "\n"
            "@SEEALSO=STDEV")
 };
 
-typedef struct {
-        int first;
-        guint32 num;
-        float_t mean;
-        float_t sum;
-} stat_devsq_sum_t;
-
-static int
-callback_function_devsq_sum (Sheet *sheet, Value *value,
-			     char **error_string, void *closure)
-{
-        stat_devsq_sum_t *mm = closure;
-        float_t tmp;
-
-        switch (value->type){
-        case VALUE_INTEGER:
-                tmp = value->v.v_int - mm->mean;
-                mm->num++;
-                mm->sum += tmp * tmp;
-                break;
-        case VALUE_FLOAT:
-                tmp = value->v.v_int - mm->mean;
-                mm->num++;
-                mm->sum += tmp * tmp;
-                break;
-        default:
-                /* ignore strings */
-		return TRUE;
-        }
-        mm->first = FALSE;
-        return TRUE;
-}
 
 static Value *
 gnumeric_devsq (Sheet *sheet, GList *expr_node_list,
 		int eval_col, int eval_row, char **error_string)
 {
-        stat_devsq_sum_t pr;
+	stat_closure_t cl;
 
-        pr.first = TRUE;
+	setup_stat_closure (&cl);
 
-        pr.mean = value_get_as_float (gnumeric_average
-                (sheet, expr_node_list, eval_col, eval_row, error_string));
-        pr.num  = 0;
-        pr.sum  = 0.0;
+	function_iterate_argument_values (sheet, callback_function_stat,
+					  &cl, expr_node_list,
+					  eval_col, eval_row, error_string);
 
-        function_iterate_argument_values (sheet, callback_function_devsq_sum,
-                                          &pr, expr_node_list,
-                                          eval_col, eval_row, error_string);
-
-        return value_new_float (pr.sum);
+	return value_new_float (cl.Q);
 }
 
 static char *help_fisher = {
@@ -2728,7 +2691,7 @@ static char *help_fisher = {
            "@SYNTAX=FISHER(x)\n"
 
            "@DESCRIPTION="
-           "The FISHER function returns the Fisher transformation at x. "
+           "The FISHER function returns the Fisher transformation at x."
            "\n"
            "If x is not-number FISHER returns #VALUE! error."
            "If x<=-1 or x>=1 FISHER returns #NUM! error"
@@ -2766,7 +2729,7 @@ static char *help_poisson = {
 	   "\n"
 	   "if x is a non-integer it is truncated. "
 	   "if x <= 0 POISSON returns #NUM! error. "
-	   "if mean <= 0 POISSON returns the #NUM! error. "
+	   "if mean <= 0 POISSON returns the #NUM! error."
 	   "\n"
 	   "@SEEALSO=POISSON")
 };
@@ -2813,7 +2776,7 @@ static char *help_pearson = {
 
 	   "@DESCRIPTION="
 	   "PEARSON returns the Pearson correllation coefficient of two data "
-	   "sets. "
+	   "sets."
 	   "\n"
 	   "Strings and empty cells are simply ignored."
 	   "\n"
@@ -2877,7 +2840,7 @@ static char *help_rsq = {
 
 	   "@DESCRIPTION="
 	   "RSQ returns the square of the Pearson correllation coefficient "
-	   "of two data sets. "
+	   "of two data sets."
 	   "\n"
 	   "Strings and empty cells are simply ignored."
 	   "\n"
@@ -3033,11 +2996,11 @@ static char *help_large = {
 	   "@SYNTAX=LARGE(n1, n2, ..., k)\n"
 
 	   "@DESCRIPTION="
-	   "LARGE returns the k-th largest value in a data set. "
+	   "LARGE returns the k-th largest value in a data set."
 	   "\n"
 	   "If data set is empty LARGE returns #NUM! error. "
 	   "If k<=0 or k is greater than the number of data items given "
-	   "LARGE returns #NUM! error. "
+	   "LARGE returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL")
 };
@@ -3099,11 +3062,11 @@ static char *help_small = {
 	   "@SYNTAX=SMALL(n1, n2, ..., k)\n"
 
 	   "@DESCRIPTION="
-	   "SMALL returns the k-th smallest value in a data set. "
+	   "SMALL returns the k-th smallest value in a data set."
 	   "\n"
 	   "If data set is empty SMALL returns #NUM! error. "
 	   "If k<=0 or k is greater than the number of data items given "
-	   "SMALL returns #NUM! error. "
+	   "SMALL returns #NUM! error."
 	   "\n"
 	   "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE")
 };
@@ -3210,7 +3173,7 @@ static char *help_prob = {
 	   "If any value in @prob_range is <=0 or > 1, PROB returns #NUM! "
 	   "error. "
 	   "If @x_range and @prob_range contain a different number of data "
-	   "entries, PROB returns #N/A! error. "
+	   "entries, PROB returns #N/A! error."
 	   "\n"
 	   "@SEEALSO=BINOMDIST,CRITBINOM")
 };
@@ -3362,10 +3325,10 @@ static char *help_steyx = {
 
 	   "@DESCRIPTION="
 	   "STEYX function returns the standard error of the predicted "
-	   "y-value for each x in the regression.  "
+	   "y-value for each x in the regression. "
 	   "\n"
 	   "If @known_y's and @known_x's are empty or have a different number "
-	   "of arguments then STEYX returns #N/A! error. "
+	   "of arguments then STEYX returns #N/A! error."
 	   "\n"
 	   "@SEEALSO=PEARSON,RSQ,SLOPE")
 };
@@ -3516,12 +3479,12 @@ static char *help_ztest = {
 	   "@SYNTAX=ZTEST(ref,x)\n"
 
 	   "@DESCRIPTION="
-	   "ZTEST returns the two-tailed probability of a z-test. "
+	   "ZTEST returns the two-tailed probability of a z-test."
 	   "\n"
-	   "@ref is the data set and @x is the value to be tested. "
+	   "@ref is the data set and @x is the value to be tested."
 	   "\n"
 	   "If ref contains less than two data items ZTEST "
-	   "returns #DIV/0! error. "
+	   "returns #DIV/0! error."
 	   "\n"
 	   "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,"
 	   "STANDARDIZE")
@@ -3609,7 +3572,7 @@ static char *help_averagea = {
 	   "If the cell contains text or the argument evaluates to FALSE, "
 	   "it is counted as value zero (0).  If the argument evaluates to "
 	   "TRUE, it is counted as one (1).  Note that empty cells are not "
-	   "counted. "
+	   "counted."
 	   "\n"
 	   "@SEEALSO=AVERAGE")
 };
@@ -3660,7 +3623,7 @@ static char *help_maxa = {
 	   "If the cell contains text or the argument evaluates to FALSE, "
 	   "it is counted as value zero (0).  If the argument evaluates to "
 	   "TRUE, it is counted as one (1).  Note that empty cells are not "
-	   "counted. "
+	   "counted."
 	   "\n"
 	   "@SEEALSO=MAX,MINA")
 };
@@ -3751,7 +3714,7 @@ static char *help_mina = {
 	   "If the cell contains text or the argument evaluates to FALSE, "
 	   "it is counted as value zero (0).  If the argument evaluates to "
 	   "TRUE, it is counted as one (1).  Note that empty cells are not "
-	   "counted. "
+	   "counted."
 	   "\n"
 	   "@SEEALSO=MIN,MAXA")
 };
@@ -3784,7 +3747,7 @@ static char *help_vara = {
 	   "If the cell contains text or the argument evaluates"
 	   "to FALSE, it is counted as value zero (0).  If the "
 	   "argument evaluates to TRUE, it is counted as one (1).  Note "
-	   "that empty cells are not counted. "
+	   "that empty cells are not counted."
 	   "\n"
 	   "@SEEALSO=VAR,VARPA")
 };
@@ -3820,7 +3783,7 @@ static char *help_varpa = {
 	   "calculation too.  If the cell contains text or the argument "
 	   "evaluates to FALSE, it is counted as value zero (0).  If the "
 	   "argument evaluates to TRUE, it is counted as one (1).  Note "
-	   "that empty cells are not counted. "
+	   "that empty cells are not counted."
 	   "\n"
 	   "@SEEALSO=VARP,VARP")
 };
@@ -3856,7 +3819,7 @@ static char *help_stdeva = {
 	   "too.  If the cell contains text or the argument evaluates to "
 	   "FALSE, it is counted as value zero (0).  If the argument "
 	   "evaluates to TRUE, it is counted as one (1).  Note that empty "
-	   "cells are not counted. "
+	   "cells are not counted."
 	   "\n"
 	   "@SEEALSO=STDEV,STDEVPA")
 };
@@ -3883,7 +3846,7 @@ static char *help_stdevpa = {
 	   "the calculation too.  If the cell contains text or the argument "
 	   "evaluates to FALSE, it is counted as value zero (0).  If the "
 	   "argument evaluates to TRUE, it is counted as one (1).  Note "
-	   "that empty cells are not counted. "
+	   "that empty cells are not counted."
 	   "\n"
 	   "@SEEALSO=STDEVA,STDEVP")
 };
@@ -3906,7 +3869,7 @@ static char *help_slope = {
 	   "@SYNTAX=SLOPE(known_y's,known_x's)\n"
 
 	   "@DESCRIPTION="
-	   "SLOPE returns the slope of the linear regression line.  "
+	   "SLOPE returns the slope of the linear regression line. "
 	   "\n"
 	   "@SEEALSO=STDEV,STDEVPA")
 };
@@ -4060,14 +4023,14 @@ static char *help_percentrank = {
 	   "point which you want to rank, and the optional @significance "
 	   "indentifies the number of significant digits for the returned "
 	   "value.  If @significance is omitted, PERCENTRANK uses three "
-	   "digits. "
+	   "digits."
 	   "\n"
 	   "If @array contains not data points, PERCENTRANK returns #NUM! "
 	   "error. "
 	   "If @significance is less than one, PERCENTRANK returns #NUM! "
 	   "error. "
 	   "If @x does not match any of the values in @array or @x matches "
-	   "more than once, PERCENTRANK interpolates the returned value. "
+	   "more than once, PERCENTRANK interpolates the returned value."
 	   "\n"
 	   "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL")
 };
