@@ -1,5 +1,7 @@
 2000-02-21  Jody Goldberg <jgoldberg@home.com>
 
+	* src/cell-draw.c (cell_draw) : Doh!
+
 	* src/sheet.c (sheet_cursor_set) : Be religous about handing edit_pos
 	  changes.
 

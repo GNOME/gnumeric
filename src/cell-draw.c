@@ -178,7 +178,8 @@ cell_draw (Cell *cell, MStyle *mstyle,
 						   start_col, cell->col->pos);
 		rect.x     -= offset;
 		rect.width += offset;
-	} else if (end_col != cell->col->pos) {
+	}
+	if (end_col != cell->col->pos) {
 		int const offset =
 		    sheet_col_get_distance_pixels (cell->sheet,
 						   cell->col->pos+1, end_col+1);

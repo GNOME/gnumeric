@@ -3240,6 +3240,7 @@ col_row_info_init (Sheet *sheet, double pts, int margin_a, int margin_b,
  * sheet_col_get_distance_pixels:
  *
  * Return the number of pixels between from_col to to_col
+ * measured from the upper left corner.
  */
 int
 sheet_col_get_distance_pixels (Sheet const *sheet, int from, int to)
@@ -3271,6 +3272,7 @@ sheet_col_get_distance_pixels (Sheet const *sheet, int from, int to)
  * sheet_col_get_distance_pts:
  *
  * Return the number of points between from_col to to_col
+ * measured from the upper left corner.
  */
 double
 sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
@@ -3377,6 +3379,7 @@ sheet_col_set_default_size_pts (Sheet *sheet, double width_pts)
  * sheet_row_get_distance_pixels:
  *
  * Return the number of pixels between from_row to to_row
+ * measured from the upper left corner.
  */
 int
 sheet_row_get_distance_pixels (Sheet const *sheet, int from, int to)
@@ -3408,6 +3411,7 @@ sheet_row_get_distance_pixels (Sheet const *sheet, int from, int to)
  * sheet_row_get_distance_pts:
  *
  * Return the number of points between from_row to to_row
+ * measured from the upper left corner.
  */
 double
 sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
