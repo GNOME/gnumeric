@@ -992,7 +992,14 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 		param->constraints = NULL;
 	}
 	param->constraints = conv.c_list;
-
+	if (param->constraints == NULL) {
+		gnumeric_notice_nonmodal
+			((GtkWindow *) state->dialog,
+			 &(state->warning_dialog),
+			 GTK_MESSAGE_WARNING, _("No constraints defined for "
+						"the problem."));
+		goto out;
+	}
 	state->ov_target = value_get_as_float (param->target_cell->value);
 	state->ov = save_original_values (input_cells);
 	state->ov_stack = g_slist_prepend (state->ov_stack, state->ov);
