@@ -762,7 +762,7 @@ set_acetate_coords (GnumericPane *pane, GObject *so_view,
 			"join_style",		GDK_JOIN_ROUND,
 #endif
 			NULL);
-		gdk_bitmap_unref (stipple);
+		gdk_drawable_unref (stipple);
 		g_signal_connect (G_OBJECT (item),
 			"event",
 			G_CALLBACK (cb_control_point_event), so_view);
@@ -938,4 +938,3 @@ gnm_pane_widget_register (SheetObject *so, GtkWidget *widget,
 		G_CALLBACK (cb_sheet_object_widget_canvas_event), view);
 	gnm_pane_object_register (so, view);
 }
-

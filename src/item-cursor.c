@@ -160,7 +160,7 @@ item_cursor_unrealize (FooCanvasItem *item)
 	ic->gc = 0;
 
 	if (ic->stipple) {
-		gdk_pixmap_unref (ic->stipple);
+		gdk_drawable_unref (ic->stipple);
 		ic->stipple = NULL;
 	}
 

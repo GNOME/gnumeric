@@ -226,8 +226,8 @@ item_bar_unrealize (FooCanvasItem *item)
 	g_object_unref (G_OBJECT (ib->filter_gc));
 	g_object_unref (G_OBJECT (ib->lines));
 	g_object_unref (G_OBJECT (ib->shade));
-	gdk_cursor_destroy (ib->change_cursor);
-	gdk_cursor_destroy (ib->normal_cursor);
+	gdk_cursor_unref (ib->change_cursor);
+	gdk_cursor_unref (ib->normal_cursor);
 
 	if (FOO_CANVAS_ITEM_CLASS (item_bar_parent_class)->unrealize)
 		(*FOO_CANVAS_ITEM_CLASS (item_bar_parent_class)->unrealize)(item);

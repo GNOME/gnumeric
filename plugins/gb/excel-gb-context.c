@@ -64,7 +64,7 @@ excel_gb_context_new_control (const char       *module_name,
 	ret = gbrun_eval_context_construct (
 		GBRUN_EVAL_CONTEXT (ctx), module_name, flags);
 
-	gtk_object_ref (GTK_OBJECT (control));
+	g_object_ref (control);
 	ctx->control = control;
 
 	return GB_EVAL_CONTEXT (ret);

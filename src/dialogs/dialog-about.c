@@ -113,7 +113,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 /* Translate the following string with the names of all translators for this locale. */
 				 _("This is an untranslated version of Gnumeric."), icon);
 	if (icon != NULL)
-	    gdk_pixbuf_unref (icon);
+	    g_object_unref (icon);
 
 	hbox = gtk_hbox_new (TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox),

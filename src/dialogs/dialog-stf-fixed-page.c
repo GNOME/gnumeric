@@ -170,7 +170,7 @@ fixed_page_canvas_motion_notify_event (GnomeCanvas *canvas, GdkEventMotion *even
 
 		cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 		gdk_window_set_cursor (canvas->layout.bin_window, cursor);
-		gdk_cursor_destroy (cursor);
+		gdk_cursor_unref (cursor);
 
 		/* This is were the actual resizing is done, now we simply wait till
 		 * the user moves the mouse "width in pixels of a char" pixels
@@ -231,7 +231,7 @@ fixed_page_canvas_motion_notify_event (GnomeCanvas *canvas, GdkEventMotion *even
 
 		cursor = gdk_cursor_new (GDK_HAND2);
 		gdk_window_set_cursor (canvas->layout.bin_window, cursor);
-		gdk_cursor_destroy (cursor);
+		gdk_cursor_unref (cursor);
 	}
 
 	return TRUE;

@@ -89,7 +89,7 @@ menu_add_item_with_interpreter (GnmPyInterpreterSelector *sel, GtkWidget *menu,
 		G_CALLBACK (cb_selector_item_activated),
 		G_OBJECT (sel));
 	gtk_widget_show (item);
-	gtk_menu_insert (GTK_MENU (menu), item, pos);
+	gtk_menu_shell_insert (GTK_MENU_SHELL (menu), item, pos);
 	GNM_SLIST_PREPEND (sel->added_interpreters, interpreter);
 	g_object_weak_ref (
 		G_OBJECT (interpreter), (GWeakNotify) cb_destroyed_interpreter, sel);

@@ -76,16 +76,16 @@ gnm_py_command_line_keypress (GnmPyCommandLine *cline, GdkEventKey *event, gpoin
 			if (cline->history_tail != NULL) {
 				cline->history_cur = cline->history_tail;
 				gtk_entry_set_text (GTK_ENTRY (cline), cline->history_cur->data);
-				gtk_entry_set_position (
-					GTK_ENTRY (cline), strlen (cline->history_cur->data));
+				gtk_editable_set_position (
+					GTK_EDITABLE (cline), strlen (cline->history_cur->data));
 				cline->editing = FALSE;
 			}
 		} else {
 			if (cline->history_cur->prev != NULL) {
 				cline->history_cur = cline->history_cur->prev;
 				gtk_entry_set_text (GTK_ENTRY (cline), cline->history_cur->data);
-				gtk_entry_set_position (
-					GTK_ENTRY (cline), strlen (cline->history_cur->data));
+				gtk_editable_set_position (
+					GTK_EDITABLE (cline), strlen (cline->history_cur->data));
 				cline->editing = FALSE;
 			}
 		}
@@ -95,8 +95,8 @@ gnm_py_command_line_keypress (GnmPyCommandLine *cline, GdkEventKey *event, gpoin
 			if (cline->history_cur->next != NULL) {
 				cline->history_cur = cline->history_cur->next;
 				gtk_entry_set_text (GTK_ENTRY (cline), cline->history_cur->data);
-				gtk_entry_set_position (
-					GTK_ENTRY (cline), strlen (cline->history_cur->data));
+				gtk_editable_set_position (
+					GTK_EDITABLE (cline), strlen (cline->history_cur->data));
 				cline->editing = FALSE;
 			} else {
 				gtk_entry_set_text (GTK_ENTRY (cline), "");
