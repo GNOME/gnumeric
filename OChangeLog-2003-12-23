@@ -1,7 +1,7 @@
 2002-01-08  Morten Welinder  <terra@diku.dk>
 
 	* src/func.c (function_marshal_arg): When we want numbers, accept
-	strings that parse to numbers also.
+	strings that parse to numbers also.  Return a proper error.
 
 2002-01-08  Morten Welinder  <terra@diku.dk>
 

@@ -623,11 +623,11 @@ static inline Value *
 function_marshal_arg (FunctionEvalInfo *ei,
 		      ExprTree         *t,
 		      char              arg_type,
-		      gboolean         *type_mismatch)
+		      Value            **type_mismatch)
 {
 	Value *v;
 
-	*type_mismatch = FALSE;
+	*type_mismatch = NULL;
 
 	/*
 	 *  This is so we don't dereference 'A1' by accident
@@ -669,10 +669,18 @@ function_marshal_arg (FunctionEvalInfo *ei,
 			break;
 		}
 
+		if (v->type == VALUE_ERROR) {
+			*type_mismatch = v;
+			v = NULL;
+			break;
+		}
+
 		if (v->type != VALUE_INTEGER &&
 		    v->type != VALUE_FLOAT &&
-		    v->type != VALUE_BOOLEAN)
-			*type_mismatch = TRUE;
+		    v->type != VALUE_BOOLEAN) {
+			*type_mismatch = value_new_error (ei->pos,
+							  gnumeric_err_VALUE);
+		}
 		break;
 
 	case 's':
@@ -686,14 +694,20 @@ function_marshal_arg (FunctionEvalInfo *ei,
 				break;
 		}
 
-		if (v->type != VALUE_STRING)
-			*type_mismatch = TRUE;
+		if (v->type == VALUE_ERROR) {
+			*type_mismatch = v;
+			v = NULL;
+		} else if (v->type != VALUE_STRING) {
+			*type_mismatch = value_new_error (ei->pos,
+							  gnumeric_err_VALUE);
+		}
 		break;
 
 	case 'r':
-		if (v->type != VALUE_CELLRANGE)
-			*type_mismatch = TRUE;
-		else {
+		if (v->type != VALUE_CELLRANGE) {
+			*type_mismatch = value_new_error (ei->pos,
+							  gnumeric_err_VALUE);
+		} else {
 			cellref_make_abs (&v->v_range.cell.a,
 					  &v->v_range.cell.a,
 					  ei->pos);
@@ -704,14 +718,18 @@ function_marshal_arg (FunctionEvalInfo *ei,
 		break;
 
 	case 'a':
-		if (v->type != VALUE_ARRAY)
-			*type_mismatch = TRUE;
+		if (v->type != VALUE_ARRAY) {
+			*type_mismatch = value_new_error (ei->pos,
+							  gnumeric_err_VALUE);
+		}
 		break;
 
 	case 'A':
 		if (v->type != VALUE_ARRAY &&
-		    v->type != VALUE_CELLRANGE)
-			*type_mismatch = TRUE;
+		    v->type != VALUE_CELLRANGE) {
+			*type_mismatch = value_new_error (ei->pos,
+							  gnumeric_err_VALUE);
+		}
 
 		if (v->type == VALUE_CELLRANGE) {
 			cellref_make_abs (&v->v_range.cell.a,
@@ -791,17 +809,20 @@ function_call_with_list (FunctionEvalInfo *ei, ExprList *l)
 	values = g_new (Value *, fn_def->fn.args.max_args);
 
 	for (arg = 0; l; l = l->next, ++arg) {
-		char     arg_type;
-		gboolean type_mismatch;
+		char  arg_type;
+		Value *type_mismatch;
 
 		arg_type = fn_def->fn.args.arg_types[arg];
 
-		values [arg] = function_marshal_arg (ei, l->data, arg_type,
+		values[arg] = function_marshal_arg (ei, l->data, arg_type,
 						     &type_mismatch);
 
-		if (type_mismatch || values [arg] == NULL) {
+		if (type_mismatch || values[arg] == NULL) {
 			free_values (values, arg + 1);
-			return value_new_error (ei->pos, gnumeric_err_VALUE);
+			if (type_mismatch)
+				return type_mismatch;
+			else
+				return value_new_error (ei->pos, gnumeric_err_VALUE);
 		}
 	}
 	while (arg < fn_def->fn.args.max_args)
