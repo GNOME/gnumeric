@@ -221,7 +221,7 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 		display_data[length-2] = '.';
 		display_data[length-1] = '.';
 	} else 
-		display_data = pagedata->data;
+		display_data = (char *)pagedata->data;
 	info->main_run_text = GNOME_CANVAS_TEXT (gnome_canvas_item_new (gnome_canvas_root (info->main_canvas),
 									GNOME_TYPE_CANVAS_TEXT,
 									"text", lg < X_OVERFLOW_PROTECT ? display_data : _("LINES TOO LONG!"),
