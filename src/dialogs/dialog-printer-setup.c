@@ -1283,8 +1283,8 @@ static void
 do_print_ok_cb (GtkWidget *w, PrinterSetupState *state)
 {
 	/* Detach BEFORE we finish editing */
-	workbook_edit_detach_guru (state->wbcg);
-	workbook_finish_editing (state->wbcg, TRUE);
+	wbcg_edit_detach_guru (state->wbcg);
+	wbcg_edit_finish (state->wbcg, TRUE);
 	fetch_settings (state);
 	print_info_save (state->pi);
 	gnome_dialog_close (GNOME_DIALOG (state->dialog));
@@ -1294,19 +1294,18 @@ static void
 do_print_set_focus_cb (GtkWidget *window, GtkWidget *focus_widget,
 		       PrinterSetupState *state)
 {
-	if (GNUMERIC_IS_EXPR_ENTRY (focus_widget)) {
-		workbook_set_entry (state->wbcg,
+	if (GNUMERIC_IS_EXPR_ENTRY (focus_widget))
+		wbcg_set_entry (state->wbcg,
 				    GNUMERIC_EXPR_ENTRY (focus_widget));
-	} else
-		workbook_set_entry (state->wbcg, NULL);
+	else
+		wbcg_set_entry (state->wbcg, NULL);
 }
 
 static void
 do_print_destroy_cb (GtkWidget *button, PrinterSetupState *state)
 {
-
-	workbook_edit_detach_guru (state->wbcg);
-	workbook_finish_editing (state->wbcg, FALSE);
+	wbcg_edit_detach_guru (state->wbcg);
+	wbcg_edit_finish (state->wbcg, FALSE);
 	printer_setup_state_free (state);
 }
 
@@ -1338,7 +1337,7 @@ do_setup_main_dialog (PrinterSetupState *state)
 	w = glade_xml_get_widget (state->gui, "options");
 	gtk_widget_hide (w);
 
-	workbook_edit_attach_guru (state->wbcg, state->dialog);
+	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_signal_connect (
 		GTK_OBJECT (state->dialog), "set-focus",
 		GTK_SIGNAL_FUNC (do_print_set_focus_cb), state);
@@ -1528,7 +1527,7 @@ dialog_printer_setup (WorkbookControlGUI *wbcg, Sheet *sheet)
 	PrinterSetupState *state;
 
 	/* Only one guru per workbook. */
-	if (workbook_edit_has_guru (wbcg))
+	if (wbcg_edit_has_guru (wbcg))
 		return;
 
 	/* Only pop up one copy per workbook */

@@ -499,7 +499,7 @@ cb_name_guru_clicked (GtkWidget *button, NameGuruState *state)
 	if (state->dialog == NULL)
 		return;
 
-	workbook_set_entry (state->wbcg, NULL);
+	wbcg_set_entry (state->wbcg, NULL);
 
 	if (button == state->delete_button) {
 		cb_name_guru_remove (NULL, state);
@@ -541,14 +541,14 @@ cb_name_guru_destroy (GtkObject *w, NameGuruState *state)
 	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
 
-	workbook_edit_detach_guru (state->wbcg);
+	wbcg_edit_detach_guru (state->wbcg);
 
 	if (state->gui != NULL) {
 		gtk_object_unref (GTK_OBJECT (state->gui));
 		state->gui = NULL;
 	}
 
-	workbook_finish_editing (state->wbcg, FALSE);
+	wbcg_edit_finish (state->wbcg, FALSE);
 
 	state->dialog = NULL;
 
@@ -565,11 +565,11 @@ cb_name_guru_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 			NameGuruState *state)
 {
 	if (GNUMERIC_IS_EXPR_ENTRY (focus_widget)) {
-		workbook_set_entry (state->wbcg,
+		wbcg_set_entry (state->wbcg,
 				    GNUMERIC_EXPR_ENTRY (focus_widget));
 		gnumeric_expr_entry_set_absolute (state->expr_text);
 	} else
-		workbook_set_entry (state->wbcg, NULL);
+		wbcg_set_entry (state->wbcg, NULL);
 }
 
 static gboolean
@@ -637,7 +637,7 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 
 	gnumeric_expr_entry_set_scg (state->expr_text,
 				     wb_control_gui_cur_sheet (wbcg));
-	workbook_edit_attach_guru (state->wbcg, state->dialog);
+	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 
 	return FALSE;
 }
@@ -656,7 +656,7 @@ dialog_define_names (WorkbookControlGUI *wbcg)
 	g_return_if_fail (wbcg != NULL);
 
 	/* Only one guru per workbook. */
-	if (workbook_edit_has_guru (wbcg))
+	if (wbcg_edit_has_guru (wbcg))
 		return;
 
 	/* Only pop up one copy per workbook */

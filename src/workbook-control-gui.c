@@ -303,13 +303,8 @@ wbcg_edit_line_set (WorkbookControl *wbc, char const *text)
 {
 	GtkEntry *entry;
 
-	entry = GTK_ENTRY (workbook_get_entry ((WorkbookControlGUI*)wbc));
+	entry = GTK_ENTRY (wbcg_get_entry ((WorkbookControlGUI*)wbc));
 	gtk_entry_set_text (entry, text);
-}
-static void
-wbcg_finish_editing (WorkbookControl *wbc, gboolean accept)
-{
-	workbook_finish_editing ((WorkbookControlGUI*)wbc, accept);
 }
 
 static void
@@ -484,7 +479,9 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 
 	if (event->button == 3) {
 		g_return_val_if_fail (IS_SHEET_CONTROL_GUI (child), FALSE);
+
 		sheet_menu_label_run (SHEET_CONTROL_GUI (child), event);
+		scg_take_focus (SHEET_CONTROL_GUI (child));
 		return TRUE;
 	}
 
@@ -621,7 +618,7 @@ wbcg_sheet_remove_all (WorkbookControl *wbc)
 		GtkWidget *tmp = GTK_WIDGET (wbcg->notebook);
 
 		/* Be sure we are no longer editing */
-		workbook_finish_editing (wbcg, FALSE);
+		wbcg_edit_finish (wbcg, FALSE);
 
 		/* Clear notebook to disable updates as focus changes for pages
 		 * during destruction
@@ -783,13 +780,13 @@ wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 					 sheet->priv->enable_paste_special);
 	if (all || MS_PRINT_SETUP & flags)
 		change_menu_sensitivity (wbcg->menu_item_print_setup,
-					 !workbook_edit_has_guru (wbcg));
+					 !wbcg_edit_has_guru (wbcg));
 	if (all || MS_SEARCH_REPLACE & flags)
 		change_menu_sensitivity (wbcg->menu_item_search_replace,
-					 !workbook_edit_has_guru (wbcg));
+					 !wbcg_edit_has_guru (wbcg));
 	if (all || MS_DEFINE_NAME & flags)
 		change_menu_sensitivity (wbcg->menu_item_define_name,
-					 !workbook_edit_has_guru (wbcg));
+					 !wbcg_edit_has_guru (wbcg));
 #else
 	if (all || MS_INSERT_COLS & flags)
 		change_menu_sensitivity (wbcg, "/commands/InsertColumns",
@@ -811,13 +808,13 @@ wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 					 sheet->priv->enable_paste_special);
 	if (all || MS_PRINT_SETUP & flags)
 		change_menu_sensitivity (wbcg, "/commands/FilePrintSetup",
-					 !workbook_edit_has_guru (wbcg));
+					 !wbcg_edit_has_guru (wbcg));
 	if (all || MS_SEARCH_REPLACE & flags)
 		change_menu_sensitivity (wbcg, "/commands/EditSearchReplace",
-					 !workbook_edit_has_guru (wbcg));
+					 !wbcg_edit_has_guru (wbcg));
 	if (all || MS_DEFINE_NAME & flags)
 		change_menu_sensitivity (wbcg, "/commands/EditNames",
-					 !workbook_edit_has_guru (wbcg));
+					 !wbcg_edit_has_guru (wbcg));
 #endif
 }
 
@@ -1115,7 +1112,7 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 	g_return_val_if_fail (wb_view->wb_controls != NULL, TRUE);
 
 	/* If we were editing when the quit request came in abort the edit. */
-	workbook_finish_editing (wbcg, FALSE);
+	wbcg_edit_finish (wbcg, FALSE);
 
 	/* This is the last control */
 	if (wb_view->wb_controls->len <= 1) {
@@ -1231,7 +1228,7 @@ cb_file_quit (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	}
 
 	/* If we were editing when the quit request came in abort the edit. */
-	workbook_finish_editing (wbcg, FALSE);
+	wbcg_edit_finish (wbcg, FALSE);
 
 	/* list is modified during workbook destruction */
 	workbooks = g_list_copy (application_workbook_list ());
@@ -1317,7 +1314,7 @@ static void
 cb_edit_undo (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	workbook_finish_editing (wbcg, FALSE);
+	wbcg_edit_finish (wbcg, FALSE);
 	command_undo (wbc);
 }
 
@@ -1327,7 +1324,7 @@ cb_undo_combo (GtkWidget *widget, gint num, WorkbookControlGUI *wbcg)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	int i;
 
-	workbook_finish_editing (wbcg, FALSE);
+	wbcg_edit_finish (wbcg, FALSE);
 	for (i = 0; i < num; i++)
 		command_undo (wbc);
 }
@@ -1336,7 +1333,7 @@ static void
 cb_edit_redo (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	workbook_finish_editing (wbcg, FALSE);
+	wbcg_edit_finish (wbcg, FALSE);
 	command_redo (wbc);
 }
 
@@ -1346,7 +1343,7 @@ cb_redo_combo (GtkWidget *widget, gint num, WorkbookControlGUI *wbcg)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	int i;
 
-	workbook_finish_editing (wbcg, FALSE);
+	wbcg_edit_finish (wbcg, FALSE);
 	for (i = 0; i < num; i++)
 		command_redo (wbc);
 }
@@ -1569,7 +1566,7 @@ cb_insert_rows (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	Range const *sel;
 
-	workbook_finish_editing (wbcg, FALSE);
+	wbcg_edit_finish (wbcg, FALSE);
 
 	/* TODO : No need to check simplicty.  XL applies for each non-discrete
 	 * selected region, (use selection_apply).  Arrays and Merged regions
@@ -1587,7 +1584,7 @@ cb_insert_cols (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	Range const *sel;
 
-	workbook_finish_editing (wbcg, FALSE);
+	wbcg_edit_finish (wbcg, FALSE);
 
 	/* TODO : No need to check simplicty.  XL applies for each non-discrete
 	 * selected region, (use selection_apply).  Arrays and Merged regions
@@ -1870,14 +1867,14 @@ cb_autosum (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	if (wbcg->editing)
 		return;
 
-	entry = GTK_ENTRY (workbook_get_entry (wbcg));
+	entry = GTK_ENTRY (wbcg_get_entry (wbcg));
 	txt = gtk_entry_get_text (entry);
 	if (strncmp (txt, "=sum(", 5)) {
-		workbook_start_editing_at_cursor (wbcg, TRUE, TRUE);
+		wbcg_edit_start (wbcg, TRUE, TRUE);
 		gtk_entry_set_text (entry, "=sum()");
 		gtk_entry_set_position (entry, 5);
 	} else {
-		workbook_start_editing_at_cursor (wbcg, FALSE, TRUE);
+		wbcg_edit_start (wbcg, FALSE, TRUE);
 
 		/*
 		 * FIXME : This is crap!
@@ -2710,13 +2707,13 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 static void
 cb_cancel_input (GtkWidget *IGNORED, WorkbookControlGUI *wbcg)
 {
-	workbook_finish_editing (wbcg, FALSE);
+	wbcg_edit_finish (wbcg, FALSE);
 }
 
 static void
 cb_accept_input (GtkWidget *IGNORED, WorkbookControlGUI *wbcg)
 {
-	workbook_finish_editing (wbcg, TRUE);
+	wbcg_edit_finish (wbcg, TRUE);
 }
 
 static gboolean
@@ -2724,7 +2721,7 @@ cb_editline_focus_in (GtkWidget *w, GdkEventFocus *event,
 		      WorkbookControlGUI *wbcg)
 {
 	if (!wbcg->editing)
-		workbook_start_editing_at_cursor (wbcg, FALSE, TRUE);
+		wbcg_edit_start (wbcg, FALSE, TRUE);
 
 	return TRUE;
 }
@@ -2735,7 +2732,7 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event,
 {
 	switch (event->keyval) {
 	case GDK_Escape:
-		workbook_finish_editing (wbcg, FALSE);
+		wbcg_edit_finish (wbcg, FALSE);
 		return TRUE;
 
 	case GDK_F4:
@@ -2847,7 +2844,7 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event,
 				EvalPos pos;
 				gboolean const is_array = (event->state & GDK_SHIFT_MASK);
 				char const *text = gtk_entry_get_text (
-					GTK_ENTRY (workbook_get_entry (wbcg)));
+					GTK_ENTRY (wbcg_get_entry (wbcg)));
 				Sheet *sheet = wbcg->editing_sheet;
 
 				/* Be careful to use the editing sheet */
@@ -2859,14 +2856,14 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event,
 				 * If the assignment was successful it will
 				 * have taken care of that.
 				 */
-				workbook_finish_editing (wbcg, FALSE);
+				wbcg_edit_finish (wbcg, FALSE);
 				return TRUE;
 			}
 
 			/* Is this the right way to append a newline ?? */
 			if (event->state == GDK_MOD1_MASK)
 				gtk_entry_append_text (
-					GTK_ENTRY (workbook_get_entry (wbcg)),
+					GTK_ENTRY (wbcg_get_entry (wbcg)),
 					"\n");
 		}
 	default:
@@ -2907,14 +2904,14 @@ cb_autofunction (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	if (wbcg->editing)
 		return;
 
-	entry = GTK_ENTRY (workbook_get_entry (wbcg));
+	entry = GTK_ENTRY (wbcg_get_entry (wbcg));
 	txt = gtk_entry_get_text (entry);
 	if (strncmp (txt, "=", 1)) {
-		workbook_start_editing_at_cursor (wbcg, TRUE, TRUE);
+		wbcg_edit_start (wbcg, TRUE, TRUE);
 		gtk_entry_set_text (entry, "=");
 		gtk_entry_set_position (entry, 1);
 	} else {
-		workbook_start_editing_at_cursor (wbcg, FALSE, TRUE);
+		wbcg_edit_start (wbcg, FALSE, TRUE);
 
 		/* FIXME : This is crap!
 		 * When the function druid is more complete use that.
@@ -2949,7 +2946,7 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 	wbcg->selection_descriptor     = gtk_entry_new ();
 
 	wbcg_edit_ctor (wbcg);
-	entry = GTK_ENTRY (workbook_get_entry (wbcg));
+	entry = GTK_ENTRY (wbcg_get_entry (wbcg));
 
 	box           = gtk_hbox_new (0, 0);
 	box2          = gtk_hbox_new (0, 0);
@@ -3030,8 +3027,7 @@ static void
 cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 			 guint page_num, WorkbookControlGUI *wbcg)
 {
-	Sheet *sheet, *old_sheet;
-	gboolean accept = TRUE;
+	Sheet *sheet;
 
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 
@@ -3039,28 +3035,35 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 	if (wbcg->notebook == NULL)
 		return;
 
-	old_sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	sheet = wb_control_gui_focus_cur_sheet (wbcg);
-
 	/* While initializing adding the sheets will trigger page changes, but
 	 * we do not actually want to change the focus sheet for the view
 	 */
 	if (wbcg->updating_ui)
 		return;
 
-	/* Remove the range selection cursor if it exists */
-	if (old_sheet != NULL)
-		sheet_stop_range_selection (sheet, TRUE);
-
 	if (wbcg->editing) {
 		/* If we are not at a subexpression boundary then finish editing */
-		accept = !workbook_editing_expr (wbcg);
-		if (accept)
-			workbook_finish_editing (wbcg, FALSE);
+		if (scg_rangesel_possible (wb_control_gui_cur_sheet (wbcg))) {
+			GtkWidget *w = gtk_notebook_get_nth_page (wbcg->notebook, page_num);
+			SheetControlGUI *scg = SHEET_CONTROL_GUI (w);
+			Sheet *sheet = scg->sheet;
+			int opt = (wbcg->editing_sheet == sheet)
+				? GNUM_EE_SHEET_OPTIONAL : 0;
+
+			gnumeric_expr_entry_set_scg (wbcg_get_entry_logical (wbcg), scg);
+			gnumeric_expr_entry_set_flags (wbcg_get_entry_logical (wbcg),
+				opt, GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL);
+			scg_rangesel_start (scg,
+				sheet->edit_pos_real.col, sheet->edit_pos_real.row);
+			scg_take_focus (scg);
+			return;
+		}
+		wbcg_edit_finish (wbcg, FALSE);
 	}
 
 	/* if we are not selecting a range for an expression update */
-	if (accept && wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)) != NULL) {
+	sheet = wb_control_gui_focus_cur_sheet (wbcg);
+	if (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)) != NULL) {
 		sheet_flag_status_update_range (sheet, NULL);
 		sheet_update (sheet);
 		wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
@@ -3084,7 +3087,7 @@ wbcg_destroy (GtkObject *obj)
 		GTK_OBJECT (wbcg->toplevel),
 		GTK_SIGNAL_FUNC (wbcg_set_focus), wbcg);
 
-	workbook_auto_complete_destroy (wbcg);
+	wbcg_auto_complete_destroy (wbcg);
 	wbcg_edit_dtor (wbcg);
 
 	gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel), NULL);
@@ -3536,7 +3539,6 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->format_feedback	= wbcg_format_feedback;
 	wbc_class->zoom_feedback	= wbcg_zoom_feedback;
 	wbc_class->edit_line_set	= wbcg_edit_line_set;
-	wbc_class->finish_editing	= wbcg_finish_editing;
 	wbc_class->selection_descr_set	= wbcg_edit_selection_descr_set;
 	wbc_class->auto_expr_value	= wbcg_auto_expr_value;
 

@@ -730,12 +730,12 @@ cb_checkbox_config_destroy (GtkObject *w, CheckboxConfigState *state)
 	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
 
-	workbook_edit_detach_guru (state->wbcg);
+	wbcg_edit_detach_guru (state->wbcg);
 
 	/* Handle window manger closing the dialog.
 	 * This will be ignored if we are being destroyed differently.
 	 */
-	workbook_finish_editing (state->wbcg, FALSE);
+	wbcg_edit_finish (state->wbcg, FALSE);
 
 	state->dialog = NULL;
 
@@ -747,7 +747,7 @@ static void
 cb_checkbox_config_focus (GtkWidget *w, GdkEventFocus *ev, CheckboxConfigState *state)
 {
 	GnumericExprEntry *expr_entry = GNUMERIC_EXPR_ENTRY (state->entry);
-	workbook_set_entry (state->wbcg, expr_entry);
+	wbcg_set_entry (state->wbcg, expr_entry);
 	gnumeric_expr_entry_set_absolute (expr_entry);
 }
 
@@ -771,7 +771,7 @@ cb_checkbox_config_clicked (GnomeDialog *dialog, gint button_number,
 		} else
 			checkbox_set_expr (&state->swc->dep, NULL);
 	}
-	workbook_finish_editing (state->wbcg, FALSE);
+	wbcg_edit_finish (state->wbcg, FALSE);
 }
 
 static void
@@ -821,7 +821,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
 
-	workbook_edit_attach_guru (state->wbcg, state->dialog);
+	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_window_set_position (GTK_WINDOW (state->dialog), GTK_WIN_POS_MOUSE);
 	gtk_window_set_focus (GTK_WINDOW (state->dialog),
 			      GTK_WIDGET (state->entry));

@@ -127,7 +127,7 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 	}
 	g_string_append_c (str, ')'); /* FIXME use suffix string */
 
-	entry = workbook_get_entry (state->wbcg);
+	entry = wbcg_get_entry (state->wbcg);
 	if (set_text)
 		gtk_entry_set_text (GTK_ENTRY (entry), str->str);
 
@@ -228,7 +228,7 @@ formula_guru_set_rolled_state (FormulaGuruState *state, gboolean is_rolled)
 		gtk_widget_show (state->rollup_button);
 	}
 	gtk_widget_grab_focus (GTK_WIDGET (new_entry));
-	workbook_set_entry (state->wbcg, new_entry);
+	wbcg_set_entry (state->wbcg, new_entry);
 }
 
 static gboolean
@@ -301,7 +301,7 @@ cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, Ar
 		gtk_adjustment_value_changed (va);
 
 	state->cur_arg = as;
-	workbook_set_entry (state->wbcg, as->entry);
+	wbcg_set_entry (state->wbcg, as->entry);
 	formula_guru_set_expr (state, as->index, TRUE);
 
 	return FALSE;
@@ -313,7 +313,7 @@ cb_formula_guru_destroy (GtkObject *w, FormulaGuruState *state)
 	g_return_val_if_fail (w != NULL, FALSE);
 	g_return_val_if_fail (state != NULL, FALSE);
 
-	workbook_edit_detach_guru (state->wbcg);
+	wbcg_edit_detach_guru (state->wbcg);
 
 	if (state->args != NULL) {
 		int i;
@@ -337,7 +337,7 @@ cb_formula_guru_destroy (GtkObject *w, FormulaGuruState *state)
 	/* Handle window manger closing the dialog.
 	 * This will be ignored if we are being destroyed differently.
 	 */
-	workbook_finish_editing (state->wbcg, FALSE);
+	wbcg_edit_finish (state->wbcg, FALSE);
 
 	state->dialog = NULL;
 
@@ -350,7 +350,7 @@ cb_formula_guru_key_press (GtkWidget *widget, GdkEventKey *event,
 			   FormulaGuruState *state)
 {
 	if (event->keyval == GDK_Escape) {
-		workbook_finish_editing (state->wbcg, FALSE);
+		wbcg_edit_finish (state->wbcg, FALSE);
 		return TRUE;
 	} else
 		return FALSE;
@@ -375,8 +375,8 @@ cb_formula_guru_clicked (GtkWidget *button, FormulaGuruState *state)
 	}
 
 	/* Detach BEFORE we finish editing */
-	workbook_edit_detach_guru (state->wbcg);
-	workbook_finish_editing (state->wbcg, button == state->ok_button);
+	wbcg_edit_detach_guru (state->wbcg);
+	wbcg_edit_finish (state->wbcg, button == state->ok_button);
 
 	gtk_widget_destroy (state->dialog);
 }
@@ -640,7 +640,7 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 	}
 
 	/* Lifecyle management */
-	workbook_edit_attach_guru (state->wbcg, state->dialog);
+	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gnumeric_expr_entry_set_scg (GNUMERIC_EXPR_ENTRY (state->rolled_entry),
 				     wb_control_gui_cur_sheet (state->wbcg));
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
@@ -695,17 +695,17 @@ dialog_formula_guru (WorkbookControlGUI *wbcg)
 	 * expression
 	 */
 	if (expr == NULL) {
-		workbook_start_editing_at_cursor (wbcg, TRUE, TRUE);
+		wbcg_edit_start (wbcg, TRUE, TRUE);
 		gtk_entry_set_text (
-			GTK_ENTRY (workbook_get_entry (wbcg)), "=");
+			GTK_ENTRY (wbcg_get_entry (wbcg)), "=");
 
 		fd = dialog_function_select (wbcg);
 		if (fd == NULL) {
-			workbook_finish_editing (wbcg, FALSE);
+			wbcg_edit_finish (wbcg, FALSE);
 			return;
 		}
 	} else {
-		workbook_start_editing_at_cursor (wbcg, FALSE, TRUE);
+		wbcg_edit_start (wbcg, FALSE, TRUE);
 		fd = expr_tree_get_func_def (expr);
 	}
 

@@ -68,8 +68,6 @@ WBC_VIRTUAL (zoom_feedback,
 	(WorkbookControl *wbc), (wbc))
 WBC_VIRTUAL (edit_line_set,
 	(WorkbookControl *wbc, char const *text), (wbc, text))
-WBC_VIRTUAL (finish_editing,
-	(WorkbookControl *wbc, gboolean accept), (wbc, accept))
 WBC_VIRTUAL (selection_descr_set,
 	(WorkbookControl *wbc, char const *text), (wbc, text))
 WBC_VIRTUAL (auto_expr_value, (WorkbookControl *wbc), (wbc))

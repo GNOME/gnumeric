@@ -700,7 +700,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		gnome_canvas_item_ungrab (item, event->button.time);
 		gdk_flush ();
 
-		workbook_finish_editing (ic->scg->wbcg, TRUE);
+		wbcg_edit_finish (ic->scg->wbcg, TRUE);
 
 		if (sheet_is_region_empty (sheet, &ic->pos))
 			return TRUE;
@@ -1198,7 +1198,7 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		gnome_canvas_item_ungrab (item, event->button.time);
 		gdk_flush ();
 
-		workbook_finish_editing (item_cursor->scg->wbcg, TRUE);
+		wbcg_edit_finish (item_cursor->scg->wbcg, TRUE);
 		cmd_autofill (WORKBOOK_CONTROL (item_cursor->scg->wbcg), sheet,
 			      item_cursor->base.col,    item_cursor->base.row,
 			      item_cursor->base_cols+1, item_cursor->base_rows+1,

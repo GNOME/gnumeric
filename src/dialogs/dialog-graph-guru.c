@@ -109,7 +109,7 @@ graph_guru_state_destroy (GraphGuruState *state)
 {
 	g_return_if_fail (state != NULL);
 
-	workbook_edit_detach_guru (state->wbcg);
+	wbcg_edit_detach_guru (state->wbcg);
 
 	if (state->gui != NULL) {
 		gtk_object_unref (GTK_OBJECT (state->gui));
@@ -147,7 +147,7 @@ graph_guru_state_destroy (GraphGuruState *state)
 	/* Handle window manger closing the dialog.
 	 * This will be ignored if we are being destroyed differently.
 	 */
-	workbook_finish_editing (state->wbcg, FALSE);
+	wbcg_edit_finish (state->wbcg, FALSE);
 
 	state->dialog = NULL;
 
@@ -166,7 +166,7 @@ cb_graph_guru_key_press (GtkWidget *widget, GdkEventKey *event,
 			 GraphGuruState *state)
 {
 	if (event->keyval == GDK_Escape) {
-		workbook_finish_editing (state->wbcg, FALSE);
+		wbcg_edit_finish (state->wbcg, FALSE);
 		return TRUE;
 	} else
 		return FALSE;
@@ -219,7 +219,7 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 	if (state->dialog == NULL)
 		return;
 
-	workbook_set_entry (state->wbcg, NULL);
+	wbcg_set_entry (state->wbcg, NULL);
 
 	if (button == state->button_prev) {
 		graph_guru_set_page (state, state->current_page - 1);
@@ -308,7 +308,7 @@ graph_guru_init (GraphGuruState *state)
 	state->button_finish = graph_guru_init_button (state, "button_finish");
 
 	/* Lifecyle management */
-	workbook_edit_attach_guru (state->wbcg, state->dialog);
+	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (cb_graph_guru_destroy),
 			    state);

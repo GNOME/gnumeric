@@ -156,7 +156,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		     event->state == GDK_MOD1_MASK))
 			/* Forward the keystroke to the input line */
 			return gtk_widget_event (
-				GTK_WIDGET (workbook_get_entry_logical (wbcg)),
+				GTK_WIDGET (wbcg_get_entry_logical (wbcg)),
 				(GdkEvent *) event);
 		/* fall down */
 
@@ -168,7 +168,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		if (wbcg->editing)
 			sheet = wbcg->editing_sheet;
 			
-		if (workbook_finish_editing (wbcg, TRUE)) {
+		if (wbcg_edit_finish (wbcg, TRUE)) {
 			/* Figure out the direction */
 			gboolean const direction = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
 			gboolean const horizontal = (event->keyval == GDK_KP_Enter ||
@@ -180,17 +180,17 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	}
 
 	case GDK_Escape:
-		workbook_finish_editing (wbcg, FALSE);
+		wbcg_edit_finish (wbcg, FALSE);
 		application_clipboard_unant ();
 		break;
 
 	case GDK_F4:
 		if (wbcg->editing && gsheet->sel_cursor)
-			workbook_edit_toggle_absolute (wbcg);
+			wbcg_edit_toggle_absolute (wbcg);
 		break;
 
 	case GDK_F2:
-		workbook_start_editing_at_cursor (wbcg, FALSE, FALSE);
+		wbcg_edit_start (wbcg, FALSE, FALSE);
 		/* fall down */
 
 	default:
@@ -202,12 +202,12 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 			if (event->length == 0)
 				return FALSE;
 
-			workbook_start_editing_at_cursor (wbcg, TRUE, TRUE);
+			wbcg_edit_start (wbcg, TRUE, TRUE);
 		}
 		scg_rangesel_stop (gsheet->scg, FALSE);
 
 		/* Forward the keystroke to the input line */
-		return gtk_widget_event (GTK_WIDGET (workbook_get_entry_logical (wbcg)),
+		return gtk_widget_event (GTK_WIDGET (wbcg_get_entry_logical (wbcg)),
 					 (GdkEvent *) event);
 	}
 

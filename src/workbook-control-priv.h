@@ -22,7 +22,7 @@ typedef struct {
 	void (*format_feedback)	    (WorkbookControl *wbc);
 	void (*zoom_feedback)	    (WorkbookControl *wbc);
 	void (*edit_line_set)	    (WorkbookControl *wbc, char const *text);
-	void (*finish_editing)	    (WorkbookControl *wbc, gboolean accept);
+	void (*edit_finish)	    (WorkbookControl *wbc, gboolean accept);
 	void (*selection_descr_set) (WorkbookControl *wbc, char const *text);
 	void (*auto_expr_value)	    (WorkbookControl *wbc);
 	struct {

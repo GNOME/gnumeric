@@ -751,7 +751,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	 * ends the edit.
 	 */
 	if (scg->current_object != NULL) {
-		if (!workbook_edit_has_guru (scg->wbcg))
+		if (!wbcg_edit_has_guru (scg->wbcg))
 			scg_mode_edit (scg);
 	} else
 		wb_control_gui_focus_cur_sheet (scg->wbcg);
@@ -788,13 +788,13 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	}
 
 	/* While a guru is up ignore clicks */
-	if (workbook_edit_has_guru (scg->wbcg))
+	if (wbcg_edit_has_guru (scg->wbcg))
 		return 1;
 
 	/* This was a regular click on a cell on the spreadsheet.  Select it.
 	 * but only if the entered expression is valid
 	 */
-	if (workbook_finish_editing (scg->wbcg, TRUE) == FALSE)
+	if (wbcg_edit_finish (scg->wbcg, TRUE) == FALSE)
 		return 1;
 
 	if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
@@ -972,7 +972,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (event->button.button == 1)
 			return item_grid_button_1 (scg, &event->button,
 						   ig, col, row, x, y);
-		if (workbook_edit_has_guru (scg->wbcg))
+		if (wbcg_edit_has_guru (scg->wbcg))
 			return TRUE;
 
 		switch (event->button.button) {

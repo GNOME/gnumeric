@@ -135,7 +135,7 @@ dialog_destroy (GtkWidget *widget, DialogState *dd)
 {
 	GladeXML *gui = dd->gui;
 	gtk_object_unref (GTK_OBJECT (gui));
-	workbook_edit_detach_guru (dd->wbcg);
+	wbcg_edit_detach_guru (dd->wbcg);
 	memset (dd, 0, sizeof (*dd));
 	g_free (dd);
 }
@@ -145,10 +145,10 @@ static void
 set_focus (GtkWidget *widget, GtkWidget *focus_widget, DialogState *dd)
 {
 	if (GNUMERIC_IS_EXPR_ENTRY (focus_widget))
-		workbook_set_entry (dd->wbcg,
+		wbcg_set_entry (dd->wbcg,
 				    GNUMERIC_EXPR_ENTRY (focus_widget));
 	else
-		workbook_set_entry (dd->wbcg, NULL);
+		wbcg_set_entry (dd->wbcg, NULL);
 
 }
 
@@ -181,7 +181,7 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	g_return_if_fail (wbcg != NULL);
 
 	/* Only one guru per workbook. */
-	if (workbook_edit_has_guru (wbcg))
+	if (wbcg_edit_has_guru (wbcg))
 		return;
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, SEARCH_REPLACE_KEY))
@@ -230,7 +230,7 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	gtk_widget_show_all (dialog->vbox);
 	gnumeric_expr_entry_set_scg (dd->rangetext,
 				     wb_control_gui_cur_sheet (wbcg));
-	workbook_edit_attach_guru (wbcg, GTK_WIDGET (dialog));
+	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (dialog));
 
 	non_model_dialog (wbcg, dialog);
 }

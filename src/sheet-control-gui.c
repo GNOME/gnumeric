@@ -403,8 +403,8 @@ scg_select_all (SheetControlGUI *scg)
 	gboolean const rangesel = scg_rangesel_possible (scg);
 
 	if (!rangesel) {
-		if (!workbook_edit_has_guru (scg->wbcg)) {
-			workbook_finish_editing (scg->wbcg, FALSE);
+		if (!wbcg_edit_has_guru (scg->wbcg)) {
+			wbcg_edit_finish (scg->wbcg, FALSE);
 			cmd_select_all (scg->sheet);
 		}
 	} else {
@@ -425,7 +425,7 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 	gboolean const rangesel = scg_rangesel_possible (scg);
 
 	if (!rangesel)
-		workbook_finish_editing (scg->wbcg, FALSE);
+		wbcg_edit_finish (scg->wbcg, FALSE);
 
 	if (rangesel && !scg->rangesel.active)
 		scg_rangesel_start (scg, index, index);
@@ -1089,7 +1089,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 
 	GList *l;
 
-	workbook_finish_editing (scg->wbcg, FALSE);
+	wbcg_edit_finish (scg->wbcg, FALSE);
 
 	/*
 	 * Now see if there is some selection which selects a
@@ -1205,8 +1205,8 @@ scg_mode_edit (SheetControlGUI *scg)
 	scg_mode_clear (scg);
 	scg_cursor_visible (scg, TRUE);
 
-	if (workbook_edit_has_guru (scg->wbcg))
-		workbook_finish_editing (scg->wbcg, FALSE);
+	if (wbcg_edit_has_guru (scg->wbcg))
+		wbcg_edit_finish (scg->wbcg, FALSE);
 }
 
 /*
@@ -2042,7 +2042,7 @@ scg_rangesel_possible (SheetControlGUI const *scg)
 	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), FALSE);
 
 	wbcg = scg->wbcg;
-	if (workbook_edit_entry_redirect_p (wbcg))
+	if (wbcg_edit_entry_redirect_p (wbcg))
 		return TRUE;
 
 	if (!wbcg->editing)
@@ -2051,7 +2051,7 @@ scg_rangesel_possible (SheetControlGUI const *scg)
 	if (scg->rangesel.active)
 		return TRUE;
 
-	return workbook_editing_expr (wbcg);
+	return wbcg_editing_expr (wbcg);
 }
 
 /**
@@ -2097,7 +2097,7 @@ scg_rangesel_changed (SheetControlGUI *scg,
 	 * We'll also need to name selections containing merged cells
 	 * properly.
 	 */
-	expr_entry = workbook_get_entry_logical (scg->wbcg);
+	expr_entry = wbcg_get_entry_logical (scg->wbcg);
 	gnumeric_expr_entry_freeze (expr_entry);
 	ic_changed = gnumeric_expr_entry_set_rangesel_from_range (
 		expr_entry, r, scg->sheet, scg->rangesel.cursor_pos);
@@ -2124,7 +2124,7 @@ scg_rangesel_start (SheetControlGUI *scg, int col, int row)
 		return;
 
 	scg->rangesel.active = TRUE;
-	scg->rangesel.cursor_pos = GTK_EDITABLE (workbook_get_entry_logical (scg->wbcg))->current_pos;
+	scg->rangesel.cursor_pos = GTK_EDITABLE (wbcg_get_entry_logical (scg->wbcg))->current_pos;
 
 	gnumeric_sheet_rangesel_start (GNUMERIC_SHEET (scg->canvas), col, row);
 	scg_rangesel_changed (scg, col, row, col, row);
@@ -2142,7 +2142,7 @@ scg_rangesel_stop (SheetControlGUI *scg, gboolean clear_string)
 	gnumeric_sheet_rangesel_stop (GNUMERIC_SHEET (scg->canvas));
 	scg_stop_sliding (scg);
 	gnumeric_expr_entry_rangesel_stopped (
-		GNUMERIC_EXPR_ENTRY (workbook_get_entry_logical (scg->wbcg)),
+		GNUMERIC_EXPR_ENTRY (wbcg_get_entry_logical (scg->wbcg)),
 		clear_string);
 }
 
@@ -2176,7 +2176,7 @@ scg_cursor_move_to (SheetControlGUI *scg, int col, int row,
 	 */
 
 	/* Set the cursor BEFORE making it visible to decrease flicker */
-	if (workbook_finish_editing (scg->wbcg, TRUE) == FALSE)
+	if (wbcg_edit_finish (scg->wbcg, TRUE) == FALSE)
 		return;
 
 	if (clear_selection)
@@ -2219,22 +2219,16 @@ scg_rangesel_bound (SheetControlGUI *scg,
 	scg_rangesel_changed (scg, base_col, base_row, move_col, move_row);
 }
 
-static void
-start_range_selection (SheetControlGUI *scg)
-{
-	Sheet const *sheet = scg->sheet;
-	scg_rangesel_start (scg,
-		sheet->edit_pos_real.col, sheet->edit_pos_real.row);
-}
-
 void
 scg_rangesel_move (SheetControlGUI *scg, int n, gboolean jump_to_bound,
 		   gboolean horiz)
 {
+	Sheet const *sheet = scg->sheet;
 	CellPos tmp;
 
 	if (!scg->rangesel.active)
-		start_range_selection (scg);
+		scg_rangesel_start (scg,
+			sheet->edit_pos_real.col, sheet->edit_pos_real.row);
 
 	tmp = scg->rangesel.base_corner;
 	if (horiz)
