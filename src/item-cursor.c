@@ -740,14 +740,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		ic->drag_button = -1;
 
-		/*
-		 * We flush after the ungrab, to have the ungrab take
-		 * effect immediately (the copy operation might take
-		 * long, and we do not want the mouse to be grabbed
-		 * all this time).
-		 */
 		gnm_simple_canvas_ungrab (item, event->button.time);
-		gdk_flush ();
 
 		if (sheet_is_region_empty (sheet, &ic->pos))
 			return TRUE;
@@ -877,9 +870,6 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		gnm_simple_canvas_grab (item,
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK,
 			NULL, event->button.time);
-
-		/* Be extra paranoid.  Ensure that the grab is registered */
-		gdk_flush ();
 		return TRUE;
 
 	case GDK_BUTTON_RELEASE:
@@ -890,7 +880,6 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (ic->drag_button >= 0) {
 			ic->drag_button = -1;
 			gnm_simple_canvas_ungrab (item, event->button.time);
-			gdk_flush ();
 		}
 		return TRUE;
 
@@ -1195,7 +1184,6 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 		if ((int)event->button.button == ic->drag_button) {
 			gnm_canvas_slide_stop (GNUMERIC_CANVAS (item->canvas));
 			gnm_simple_canvas_ungrab (item, event->button.time);
-			gdk_flush ();
 			item_cursor_do_drop (ic, (GdkEventButton *) event);
 		}
 		return TRUE;
@@ -1269,12 +1257,7 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_BUTTON_RELEASE:
 		gnm_canvas_slide_stop (GNUMERIC_CANVAS (item->canvas));
 
-		/* We flush after the ungrab, to have the ungrab take effect
-		 * immediately (the fill operation might take a while, and we
-		 * do not want the mouse to be grabbed the entire time).
-		 */
 		gnm_simple_canvas_ungrab (item, event->button.time);
-		gdk_flush ();
 
 		inverse_autofill = (ic->pos.start.col < ic->autofill_src.start.col ||
 				    ic->pos.start.row < ic->autofill_src.start.row);

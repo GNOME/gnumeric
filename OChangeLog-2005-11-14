@@ -1,3 +1,8 @@
+2002-04-28  Jody Goldberg <jody@gnome.org>
+
+	* src/item-cursor.c : no need to do the gdk_flushes here.
+	  the grab/ungrab wrappers handle it.
+
 2002-04-29  Jon K Hellan  <hellan@acm.org>
 
 	* src/bonobo-io.c (deserialize_wb_from_xml_stream): New
