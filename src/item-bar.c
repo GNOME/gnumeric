@@ -139,12 +139,18 @@ item_bar_calc_size (ItemBar *ib)
 			      pango_font_metrics_get_descent (metrics));
 
 	/* 5 pixels left and right plus the width of the widest string I can think of */
-	{
-		const char eights[10 + 1] = "8888888888";
-		int digits = 1 + (int) floorgnum (log10gnum (SHEET_MAX_ROWS + 0.5));
-		ib->cell_width = 5 + 5 + gnm_measure_string (context, desc,
-							     eights + (10 - digits));
+	if (ib->is_col_header) {
+		static const char Ws[10 + 1] = "WWWWWWWWWW";
+		int labellen = strlen (col_name (SHEET_MAX_COLS - 1));
+		ib->cell_width = gnm_measure_string (context, desc,
+						     Ws + (10 - labellen));
+	} else {
+		static const char eights[10 + 1] = "8888888888";
+		int labellen = strlen (row_name (SHEET_MAX_ROWS - 1));
+		ib->cell_width = gnm_measure_string (context, desc,
+						     eights + (10 - labellen));
 	}
+	ib->cell_width += 5 + 5;
 
 	pango_font_metrics_unref (metrics);
 	pango_font_description_free (desc);
@@ -153,10 +159,7 @@ item_bar_calc_size (ItemBar *ib)
 	ib->pango.item->analysis.shape_engine =
 		pango_font_find_shaper (ib->normal_font, language, 'A');
 
-	ib->indent = ib->is_col_header
-		? ib_compute_pixels_from_indent (sheet, TRUE)
-		: ib_compute_pixels_from_indent (sheet, FALSE);
-
+	ib->indent = ib_compute_pixels_from_indent (sheet, ib->is_col_header);
 	foo_canvas_item_request_update (FOO_CANVAS_ITEM (ib));
 
 	return ib->indent +

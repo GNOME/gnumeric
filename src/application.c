@@ -518,6 +518,7 @@ gnumeric_application_setup_pixbufs (GnumericApplication *app)
 		{ gnm_cursor_cross, "cursor_cross" },
 		{ gnm_bucket, "bucket" },
 		{ gnm_font, "font" },
+		{ sheet_move_marker, "sheet_move_marker" },
 		/* Patterns */
 		{ gp_125grey, "gp_125grey" },
 		{ gp_25grey, "gp_25grey" },
