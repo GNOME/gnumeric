@@ -73,6 +73,7 @@ struct _ExcelWriteState {
 
 	/* we use the ewb as a closure for things, this is useful */
 	int tmp_counter;
+	int supbook_idx;
 
 	gboolean	 double_stream_file;
 	GPtrArray	*externnames;
