@@ -452,6 +452,8 @@ latex2e_find_vline (int col, int row, Sheet *sheet, MStyleElementType which_bord
 static void
 latex2e_print_vert_border (GsfOutput *output, StyleBorderType style)
 {
+	g_return_if_fail (style >= 0 && style < G_N_ELEMENTS (border_styles));
+
 	gsf_output_printf (output, "%s", border_styles[style].vertical);
 }
 

@@ -1,3 +1,7 @@
+2003-04-28  Morten Welinder  <terra@gnome.org>
+
+	* latex.c (latex2e_print_vert_border): Sanity check.
+
 2003-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* latex.c: add missing border connector (31) (Thanks Adrian!)
