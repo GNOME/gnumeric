@@ -1329,7 +1329,7 @@ make_dim_editor (GogDataset *set, GtkTable *table, unsigned dim,
 {
 	ElemToggleData *info;
 	GClosure *closure;
-	GtkWidget *editor = gog_data_allocator_editor (dalloc, set, dim, TRUE);
+	GtkWidget *editor = gog_data_allocator_editor (dalloc, set, dim, GOG_DATA_SCALAR);
 	char *txt = g_strconcat (_(dim_name [dim]), ":", NULL);
 	GtkWidget *toggle = gtk_check_button_new_with_mnemonic (txt);
 	g_free (txt);

@@ -108,7 +108,7 @@ gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 	gtk_box_pack_start (GTK_BOX (hbox), 
 		gtk_label_new_with_mnemonic (_("_Text:")), FALSE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), 
-		gog_data_allocator_editor (dalloc, GOG_DATASET (gobj), 0, TRUE),
+		gog_data_allocator_editor (dalloc, GOG_DATASET (gobj), 0, GOG_DATA_SCALAR),
 		TRUE, TRUE, 0);
 	gtk_container_add (GTK_CONTAINER (alignment), hbox);
 	gtk_widget_show_all (alignment);

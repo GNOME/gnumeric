@@ -375,7 +375,7 @@ gog_series_editor (GogObject *gobj,
 	gtk_container_set_border_width (GTK_CONTAINER (table), 12);
 
 	row = make_dim_editor (table, row,
-		gog_data_allocator_editor (dalloc, set, -1, TRUE),
+		gog_data_allocator_editor (dalloc, set, -1, GOG_DATA_SCALAR),
 		N_("Name"), TRUE, FALSE);
 
 	/* first the unshared entries */
@@ -798,4 +798,3 @@ gog_series_get_element (GogSeries const *series, int index)
 	
 	return FALSE;
 }
-

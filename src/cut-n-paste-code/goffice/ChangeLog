@@ -1,5 +1,12 @@
 2004-10-13  Jean Brefort <jean.brefort@normalesup.org>
 
+	* graph/gog-axis.c: (make_dim_editor): replace TRUE by GO_DATA_SCALAR in the
+	call to gog_data_allocator_editor.
+	* graph/gog-label.c: (gog_label_editor): ditto.
+	* graph/gog-series.c: (gog_series_editor): ditto.
+
+2004-10-13  Jean Brefort <jean.brefort@normalesup.org>
+
 	* graph/gog-plot-impl.h: added a foreach_elem member in GogPlotClass
 	* graph/gog-plot.c: (gog_plot_foreach_elem): calls Klass->foreach_elem
 	when not NULL to override default legends management.
