@@ -58,7 +58,7 @@ my %exceptions =
 	    while (<FIL>) {
 		$lineno++;
 
-		if (/^(static\s+)?(inline\s+)?(gboolean|(unsigned\s|signed\s|const\s)*int|gint)[^*]*$/) {
+		if (/^(static\s+)?(inline\s+)?(gboolean|(unsigned\s|signed\s|const\s)*int|gint)\b[^*]*$/) {
 		    $state = 1;
 		    $bad = 'NULL';
 		    $functype = 'integer';
