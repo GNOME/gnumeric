@@ -1,3 +1,18 @@
+1999-02-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/gnumeric-util.c (gnumeric_notice): Now we take a Workbook
+	argument to bind the dialog boxes properly to the main window.  We
+	use gnome_messagebox now to report errors.  We now take a type
+	parameter for the message box type.
+
+	* plugins/ff-csv/csv-io.c: Use gnumeric_error
+
+	* src/workbook.c (wb_input_finished): Call sheet_set_current_value
+	instead of the cancel pending input routine.
+
+	* Moved src/csv-io.[ch] to the plugins/ff-csv directory and
+	converted them to 
+	
 1999-02-06  Vincent Renardias <vincent@ldsol.com>
 
 	* src/csv-io.h src/csv-io.c: Added code to load

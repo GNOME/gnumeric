@@ -2367,7 +2367,7 @@ sheet_verify_selection_simple (Sheet *sheet, char *command_name)
 	msg = g_strconcat (
 		"The command `", command_name,
 		"' can not be performed with multiple selections", NULL);
-	gnumeric_notice (msg);
+	gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR, msg);
 	g_free (msg);
 	
 	return FALSE;

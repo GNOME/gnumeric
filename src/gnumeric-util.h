@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_GNUMERIC_UTIL_H
 #define GNUMERIC_GNUMERIC_UTIL_H
 
-void       gnumeric_notice (char *str);
+void       gnumeric_notice (Workbook *wb, char *type, char *str);
 
 /* A simple routine for making a popup menu */
 int        run_popup_menu  (GdkEvent *event, int button, char **strings);

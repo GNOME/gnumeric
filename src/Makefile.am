@@ -102,9 +102,7 @@ GNUMERIC_BASE_SOURCES =			\
 	widget-editable-label.h		\
 	workbook.c			\
 	xml-io.c			\
-	xml-io.h			\
-	csv-io.c			\
-	csv-io.h
+	xml-io.h
 
 GNUMERIC_CORBA_GENERATED =		\
 	Gnumeric-common.c		\

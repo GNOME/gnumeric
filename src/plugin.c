@@ -18,7 +18,7 @@
 GList *plugin_list = NULL;
 
 PluginData *
-plugin_load (gchar *modfile)
+plugin_load (Workbook *wb, gchar *modfile)
 {
 	PluginData *data;
 
@@ -34,19 +34,21 @@ plugin_load (gchar *modfile)
 	if (!data->handle) {
 		char *str;
 		str = g_strconcat(_("unable to open module file: "), g_module_error(), NULL);
-		gnumeric_notice(str);
+		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR, str);
 		g_free(str);
 		g_free(data);
 		return NULL;
 	}
 	
 	if (!g_module_symbol (data->handle, "init_plugin", (gpointer *) &data->init_plugin)){
-		gnumeric_notice (_("Plugin must contain init_plugin function."));
+		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
+				 _("Plugin must contain init_plugin function."));
 		goto error;
 	}
 	
 	if (data->init_plugin (data) < 0){
-		gnumeric_notice (_("init_plugin returned error"));
+		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+				 _("init_plugin returned error"));
 		goto error;
 	}
 
@@ -60,12 +62,13 @@ plugin_load (gchar *modfile)
 }
 
 void
-plugin_unload (PluginData *pd)
+plugin_unload (Workbook *wb, PluginData *pd)
 {
 	g_return_if_fail (pd != NULL);
 	
 	if (pd->can_unload && !pd->can_unload(pd)) {
-		gnumeric_notice(_("Plugin is still in use.\n"));
+		gnumeric_notice (wb, GNOME_MESSAGE_BOX_INFO,
+				 _("Plugin is still in use.\n"));
 		return;
 	}
 	
@@ -92,7 +95,7 @@ plugin_load_plugins_in_dir (char *directory)
 			char *plugin_name;
 			
 			plugin_name = g_strconcat (directory, e->d_name, NULL);
-			plugin_load (plugin_name);
+			plugin_load (NULL, plugin_name);
 			g_free (plugin_name);
 		}
 	}

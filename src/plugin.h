@@ -20,8 +20,8 @@ typedef struct PluginData PluginData;
 extern GList *plugin_list;
 
 void           plugins_init          (void);
-PluginData    *plugin_load           (gchar *filename);
-void           plugin_unload         (PluginData *pd);
+PluginData    *plugin_load           (Workbook *wb, gchar *filename);
+void           plugin_unload         (Workbook *wb, PluginData *pd);
 GtkWidget     *plugin_manager_new    (Workbook *wb);
 
 #endif /* GNUMERIC_PLUGIN_H */

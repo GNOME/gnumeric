@@ -13,17 +13,17 @@
 #include "style.h"
 
 void
-gnumeric_notice (char *str)
+gnumeric_notice (Workbook *wb, char *type, char *str)
 {
 	GtkWidget *dialog;
-	GtkWidget *label;
 
-	label = gtk_label_new (str);
-	dialog = gnome_dialog_new (_("Notice"), GNOME_STOCK_BUTTON_OK, NULL);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label, TRUE, TRUE, 0);
-	gtk_widget_show (label);
+	dialog = gnome_message_box_new (str, type, GNOME_STOCK_BUTTON_OK, NULL);
+
+	if (wb)
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
+					 GTK_WINDOW (wb->toplevel));
+			
 	gnome_dialog_run (GNOME_DIALOG (dialog));
-	gtk_object_destroy (GTK_OBJECT (dialog));
 }
 
 int

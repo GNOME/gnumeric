@@ -48,7 +48,8 @@ cleanup_plugin (PluginData *pd)
 	}
 }
 
-int init_plugin (PluginData * pd)
+int
+init_plugin (PluginData *pd)
 {
 	install_symbols (plugin_functions);
 	pd->can_unload = can_unload;
