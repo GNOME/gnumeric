@@ -1136,7 +1136,7 @@ change_auto_expr_menu (GtkWidget *widget, GdkEventButton *event, Workbook *wb)
 					     _(quick_compute_routines [i].displayed_name));
 		}
 	}
-	gnumeric_popup_menu (GTK_MENU (menu), event);
+	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, 0, NULL, event->button, event->time);
 }
 
 /*
