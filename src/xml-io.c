@@ -2523,7 +2523,6 @@ xml_write_selection_clipboard (XmlParseContext *ctxt, Sheet *sheet)
 		if (styles)
 			xmlAddChild (cur, styles);
 	}
-	range_fragment_free (range_list);
 
 	/* Write selected regions */
 	cells = xmlNewChild (cur, ctxt->ns, "Cells", NULL);

@@ -1,5 +1,10 @@
 2001-11-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/xml-io.c (xml_write_selection_clipboard) Don't free
+	  range_list until we are done with it. (#65495)
+
+2001-11-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/analysis-tools.c (free_data_set) : delete (obsolete)
 	(set_percent) new utility procedure to set cell format
 	(ranking_tool) rewrite to use new suport functions, to allow
