@@ -2,6 +2,7 @@
 #define GNUMERIC_COMMAND_CONTEXT_PRIV_H
 
 #include "command-context.h"
+#include "error-info.h"
 #include <gtk/gtkobject.h>
 
 struct _CommandContext {
@@ -23,6 +24,7 @@ typedef struct {
 					 char const *cmd, Range const *array);
 		void (*invalid)		(CommandContext *ctxt,
 					 char const *msg, char const *val);
+		void (*error_info)  (CommandContext *ctxt, ErrorInfo *error);
 	} error;
 } CommandContextClass;
 

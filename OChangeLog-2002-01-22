@@ -1,3 +1,50 @@
+2001-07-14  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/error-info.[ch]
+	(error_info_new_vprintf): New.
+	(error_info_new_printf): Use error_info_new_vprintf.
+	(error_info_peek_message): Constified.
+
+	* src/command-context-priv.h (struct CommandContextClass): Added
+	error.error_info virtual.
+
+	* src/command-context.[ch] (gnumeric_error_error_info): New.
+
+	* src/io-context.[ch]
+	(gnumeric_io_error_system, gnumeric_io_error_read,
+	gnumeric_io_error_save): Use gnumeric_io_error_string.
+	(gnumeric_io_error_string): New.
+	(gnumeric_io_error_display): Renamed from
+	gnumeric_io_error_info_display. Use CommandContext's virtual -
+	gnumeric_error_error_info.
+	(gnumeric_io_error_info_clear, gnumeric_io_has_error_info): Removed.
+	s/gnumeric_io_clear_error/gnumeric_io_error_clear
+	s/gnumeric_io_error_info_push/gnumeric_io_error_push/
+	s/gnumeric_io_error_info_pop/gnumeric_io_error_pop/
+
+	* src/gnumeric-util.c
+	(ctree_insert_error_info): Automatically expand most nodes (don't expand
+	nodes with siblings).
+	(gnumeric_error_info_dialog_show_full): Renamed from
+	gnumeric_error_info_dialog_show. Display only a tree with error
+	details. Don't hardcode ctree column width, make ctree look nicer (no
+	lines, triangles as icons).
+	(gnumeric_error_info_dialog_show): New function, displays only main part
+	of the error and (optionally) "Show details" button. Use standard
+	gnome_message_box.
+
+	* src/plugin-util.c (gnumeric_fopen_error_info,
+	gnumeric_mmap_error_info): Use error_info_new_from_errno.
+	(gnumeric_open_error_info): Use error_info_new_from_errno,
+	added missing *ret_error.
+
+	* src/workbook-control-gui.c (wbcg_error_error_info): New
+	(implementation of CommandContext's virtual).
+	(workbook_control_gui_ctor_class): Use it here.
+
+	* src/workbook-view.c (wb_view_save_as, wb_view_save,
+	wb_view_open_custom): Don't use removed gnumeric_io_has_error_info.
+
 2001-07-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_handle_motion) : adjust

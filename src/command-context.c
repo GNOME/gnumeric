@@ -96,6 +96,15 @@ gnumeric_error_splits_array (CommandContext *context,
 }
 
 void
+gnumeric_error_error_info (CommandContext *context, ErrorInfo *error)
+{
+	g_return_if_fail (IS_COMMAND_CONTEXT (context));
+
+	CC_CLASS (context)->error.error_info (context, error);
+}
+
+
+void
 gnumeric_progress_set (CommandContext *context, gfloat f)
 {
 	g_return_if_fail (IS_COMMAND_CONTEXT (context));

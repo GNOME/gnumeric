@@ -320,7 +320,7 @@ gnumeric_plugin_loader_python_func_file_open (GnumFileOpener const *fo, PluginSe
 		Py_DECREF (open_result);
 		workbook_sheet_attach (wb_view_workbook (wb_view), sheet, NULL);
 	} else {
-		gnumeric_io_error_info_set (io_context, error_info_new_str (convert_python_exception_to_string ()));
+		gnumeric_io_error_string (io_context, convert_python_exception_to_string ());
 		clear_python_error_if_needed ();
 		sheet_destroy (sheet);
 	}
@@ -421,7 +421,7 @@ gnumeric_plugin_loader_python_func_file_save (GnumFileSaver const *fs, PluginSer
 	if (save_result != NULL) {
 		Py_DECREF (save_result);
 	} else {
-		gnumeric_io_error_info_set (io_context, error_info_new_str (convert_python_exception_to_string ()));
+		gnumeric_io_error_string (io_context, convert_python_exception_to_string ());
 		clear_python_error_if_needed ();
 	}
 }

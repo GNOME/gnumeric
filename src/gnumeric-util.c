@@ -36,9 +36,9 @@ gnumeric_dialog_question_yes_no (WorkbookControlGUI *wbcg,
 	         GNOME_STOCK_BUTTON_NO,
 	         NULL);
 	if (default_answer) {
-		default_button = (GtkWidget *) (GNOME_DIALOG (dialog)->buttons)->data;
+		default_button = (GtkWidget *) GNOME_DIALOG (dialog)->buttons->data;
 	} else {
-		default_button = (GtkWidget *) (GNOME_DIALOG (dialog)->buttons)->next->data;
+		default_button = (GtkWidget *) GNOME_DIALOG (dialog)->buttons->next->data;
 	}
 	gtk_widget_grab_focus (default_button);
 
@@ -264,43 +264,43 @@ gnumeric_dialog_show (WorkbookControlGUI *wbcg, GnomeDialog *dialog,
 		gtk_widget_show(GTK_WIDGET(dialog));
 }
 
-#define ERROR_INFO_DIALOG_EXPANDED_LEVELS  1
-
 static GtkCTreeNode *
-ctree_insert_error_info (GtkCTree *ctree, GtkCTreeNode *parent, GtkCTreeNode *sibling, gint level, ErrorInfo *error)
+ctree_insert_error_info (GtkCTree *ctree, GtkCTreeNode *parent,
+                         GtkCTreeNode *sibling, ErrorInfo *error,
+                         gboolean expand)
 {
 	GtkCTreeNode *my_node, *last_child_node;
 	gchar *message;
+	gboolean child_expand;
 	GList *details_list, *l;
 
-	message = error_info_peek_message (error);
+	message = (gchar *) error_info_peek_message (error);
 	if (message == NULL) {
-		message = _("Unknown error");
+		message = _("Multiple errors");
 	}
 	details_list = error_info_peek_details (error);
-	my_node = gtk_ctree_insert_node (ctree, parent, sibling, &message, 0, NULL, NULL, NULL, NULL, details_list == NULL, level < ERROR_INFO_DIALOG_EXPANDED_LEVELS);
+	my_node = gtk_ctree_insert_node (ctree, parent, sibling, &message, 0, NULL, NULL, NULL, NULL, details_list == NULL, expand);
+
+	child_expand = details_list == NULL || details_list->next == NULL;
 	last_child_node = NULL;
 	for (l = details_list; l != NULL; l = l->next) {
-		ErrorInfo *detail_error;
+		ErrorInfo *detail_error = l->data;
 
-		detail_error = (ErrorInfo *) l->data;
-		last_child_node = ctree_insert_error_info (ctree, my_node, last_child_node, level + 1, detail_error);
+		last_child_node = ctree_insert_error_info (ctree, my_node, last_child_node,
+		                                           detail_error, child_expand);
 	}
 
 	return my_node;
 }
 
 /**
- * gnumeric_error_info_dialog_show
+ * gnumeric_error_info_dialog_show_full
  *
  */
-void
-gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
+static void
+gnumeric_error_info_dialog_show_full (WorkbookControlGUI *wbcg, ErrorInfo *error)
 {
-	gchar *message;
 	GtkWidget *dialog;
-	GtkWidget *notebook;
-	GtkWidget *label_message;
 	GtkWidget *scrolled_window, *ctree;
 	GtkCTreeNode *main_ctree_node;
 	GtkWidget *dialog_action_area;
@@ -308,29 +308,20 @@ gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
 
 	g_return_if_fail (error != NULL);
 
-	message = error_info_peek_message (error);
-	if (message == NULL) {
-		message = _("Unknown error");
-	}
-
-	dialog = gnome_dialog_new (_("Gnumeric error message"), NULL);
-	gtk_widget_set_usize (dialog, 500, 300);
+	dialog = gnome_dialog_new (_("Detailed error message"), NULL);
+	gtk_widget_set_usize (dialog, 600, 300);
 	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
 
-	notebook = gtk_notebook_new ();
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), notebook, TRUE, TRUE, 0);
-
-	label_message = gtk_label_new (message);
-	gtk_label_set_line_wrap (GTK_LABEL (label_message), TRUE);
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), label_message, gtk_label_new (_("Message")));
-
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	ctree = gtk_ctree_new (1, 0);
-	gtk_clist_set_column_width (GTK_CLIST (ctree), 0, 1000);
-	main_ctree_node = ctree_insert_error_info (GTK_CTREE (ctree), NULL, NULL, 0, error);
+	gtk_ctree_set_line_style (GTK_CTREE (ctree), GTK_CTREE_LINES_NONE);
+	gtk_ctree_set_expander_style (GTK_CTREE (ctree), GTK_CTREE_EXPANDER_TRIANGLE);
+	main_ctree_node = ctree_insert_error_info (GTK_CTREE (ctree), NULL, NULL, error, TRUE);
+	gtk_clist_set_column_auto_resize (GTK_CLIST (ctree), 0, TRUE);
 	gtk_container_add (GTK_CONTAINER (scrolled_window), ctree);
-	gtk_notebook_append_page (GTK_NOTEBOOK (notebook), scrolled_window, gtk_label_new (_("Details")));
+	gtk_widget_show_all (GTK_WIDGET (scrolled_window));
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), scrolled_window, TRUE, TRUE, 0);
 
 	dialog_action_area = GNOME_DIALOG (dialog)->action_area;
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (dialog_action_area), GTK_BUTTONBOX_END);
@@ -340,10 +331,55 @@ gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
 	button_close = GTK_WIDGET (g_list_last (GNOME_DIALOG (dialog)->buttons)->data);
 	GTK_WIDGET_SET_FLAGS (button_close, GTK_CAN_DEFAULT);
 
-	gtk_widget_show_all (GTK_WIDGET (notebook));
-
 	gnome_dialog_set_close (GNOME_DIALOG (dialog), TRUE);
 	gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
+}
+
+/**
+ * gnumeric_error_info_dialog_show
+ *
+ */
+void
+gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
+{
+	GString *str;
+	GList *details;
+	gboolean has_extra_details;
+	GtkWidget *dialog, *default_button;
+	
+	str = g_string_new (error_info_peek_message (error));
+	details = error_info_peek_details (error);
+	if (g_list_length (details) == 1) {
+		ErrorInfo *details_error = details->data;
+		const gchar *s;
+
+		s = error_info_peek_message (details_error);
+		if (s != NULL) {
+			g_string_append (str, "\n\n");
+			g_string_append (str, s);
+		}
+		has_extra_details = error_info_peek_details (details_error) != NULL;
+	} else {
+		has_extra_details = details != NULL;
+	}
+	if (has_extra_details) {
+		dialog = gnome_message_box_new (
+		         str->str, GNOME_MESSAGE_BOX_ERROR,
+		         _("Show details"), GNOME_STOCK_BUTTON_CLOSE, NULL);
+		default_button = (GtkWidget *) GNOME_DIALOG (dialog)->buttons->next->data;
+	} else {
+		dialog = gnome_message_box_new (
+		         str->str, GNOME_MESSAGE_BOX_ERROR,
+		         GNOME_STOCK_BUTTON_CLOSE, NULL);
+		default_button = (GtkWidget *) GNOME_DIALOG (dialog)->buttons->data;
+	}
+	g_string_free (str, TRUE);
+	gtk_widget_grab_focus (default_button);
+
+	if (gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog)) == 0 &&
+	    has_extra_details) {
+		gnumeric_error_info_dialog_show_full (wbcg, error);
+	}
 }
 
 /**

@@ -2,6 +2,7 @@
 #define GNUMERIC_COMMAND_CONTEXT_H
 
 #include "gnumeric.h"
+#include "error-info.h"
 #include <gtk/gtkobject.h>
 
 #define COMMAND_CONTEXT_TYPE        (command_context_get_type ())
@@ -23,6 +24,7 @@ void gnumeric_error_invalid	 (CommandContext *context,
 				  char const *msg, char const *val);
 void gnumeric_error_splits_array (CommandContext *context,
 				  char const *cmd, Range const *array);
+void gnumeric_error_error_info (CommandContext *context, ErrorInfo *error);
 void gnumeric_progress_set (CommandContext *context, gfloat f);
 void gnumeric_progress_message_set (CommandContext *context, gchar const *msg);
 

@@ -28,21 +28,28 @@ error_info_new_str (const gchar *msg)
 	return error;
 }
 
+ErrorInfo *
+error_info_new_vprintf (const gchar *msg_format, va_list args)
+{
+	ErrorInfo *error;
+
+	error = g_new (ErrorInfo, 1);
+	error->msg = g_strdup_vprintf (msg_format, args);
+	error->details = NULL;
+
+	return error;
+}
+
 
 ErrorInfo *
 error_info_new_printf (const gchar *msg_format, ...)
 {
 	ErrorInfo *error;
 	va_list args;
-	gchar *msg_str;
 
 	va_start (args, msg_format);
-	msg_str = g_strdup_vprintf (msg_format, args);
+	error = error_info_new_vprintf (msg_format, args);
 	va_end (args);
-
-	error = g_new (ErrorInfo, 1);
-	error->msg = msg_str;
-	error->details = NULL;
 
 	return error;
 }
@@ -178,7 +185,7 @@ error_info_print (ErrorInfo *error)
 	error_info_print_with_offset (error, 0);
 }
 
-gchar *
+const gchar *
 error_info_peek_message (ErrorInfo *error)
 {
 	g_return_val_if_fail (error != NULL, NULL);

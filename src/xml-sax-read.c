@@ -1912,9 +1912,7 @@ xml_sax_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	 */
 	ctxt = xmlCreateFileParserCtxt (filename);
 	if (ctxt == NULL) { 
-		gnumeric_io_error_info_set (io_context,
-		                            error_info_new_str (
-		                            _("xmlCreateFileParserCtxt () failed.")));
+		gnumeric_io_error_string (io_context, _("xmlCreateFileParserCtxt () failed."));
 		return;
 	}
 	ctxt->sax = &xmlSaxSAXParser;
@@ -1923,9 +1921,7 @@ xml_sax_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	xmlParseDocument (ctxt);
 
 	if (!ctxt->wellFormed)
-		gnumeric_io_error_info_set (io_context,
-		                            error_info_new_str (
-		                            _("XML document not well formed!")));
+		gnumeric_io_error_string (io_context, _("XML document not well formed!"));
 	else
 		workbook_queue_all_recalc (state.wb);
 

@@ -927,8 +927,7 @@ pln_file_open (GnumFileOpener const *fo, IOContext *io_context,
 
 		munmap((char *)data, len);
 	} else {
-		gnumeric_io_error_info_set (io_context,
-		                            error_info_new_str (_("Unable to mmap the file")));
+		gnumeric_io_error_string (io_context, _("Unable to mmap the file"));
 	}
 	close(fd);
 }

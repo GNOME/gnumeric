@@ -83,10 +83,9 @@ gnumeric_io_error_system (IOContext *context,
                           gchar const *message)
 {
 	g_return_if_fail (context != NULL);
-	g_return_if_fail (context->impl != NULL);
+	g_return_if_fail (message != NULL);
 
-	context->error_occurred = TRUE;
-	gnumeric_error_system (COMMAND_CONTEXT (context->impl), message);
+	gnumeric_io_error_string (context, message);
 }
 
 void
@@ -94,10 +93,9 @@ gnumeric_io_error_read (IOContext *context,
                         gchar const *message)
 {
 	g_return_if_fail (context != NULL);
-	g_return_if_fail (context->impl != NULL);
+	g_return_if_fail (message != NULL);
 
-	context->error_occurred = TRUE;
-	gnumeric_error_read (COMMAND_CONTEXT (context->impl), message);
+	gnumeric_io_error_string (context, message);
 }
 
 void
@@ -105,10 +103,9 @@ gnumeric_io_error_save (IOContext *context,
                         gchar const *message)
 {
 	g_return_if_fail (context != NULL);
-	g_return_if_fail (context->impl != NULL);
+	g_return_if_fail (message != NULL);
 
-	context->error_occurred = TRUE;
-	gnumeric_error_save (COMMAND_CONTEXT (context->impl), message);
+	gnumeric_io_error_string (context, message);
 }
 
 void
@@ -121,7 +118,7 @@ gnumeric_io_error_unknown (IOContext *context)
 }
 
 void
-gnumeric_io_error_info_set  (IOContext *context, ErrorInfo *error)
+gnumeric_io_error_info_set (IOContext *context, ErrorInfo *error)
 {
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (error != NULL);
@@ -129,10 +126,23 @@ gnumeric_io_error_info_set  (IOContext *context, ErrorInfo *error)
 	g_return_if_fail (context->error_info == NULL);
 
 	context->error_info = error;
+	context->error_occurred = TRUE;
 }
 
 void
-gnumeric_io_error_info_push (IOContext *context, ErrorInfo *error)
+gnumeric_io_error_string (IOContext *context, const gchar *str)
+{
+	ErrorInfo *error;
+
+	g_return_if_fail (context != NULL);
+	g_return_if_fail (str != NULL);
+
+	error = error_info_new_str (str);
+	gnumeric_io_error_info_set (context, error);
+}
+
+void
+gnumeric_io_error_push (IOContext *context, ErrorInfo *error)
 {
 	g_return_if_fail (context != NULL);
 	g_return_if_fail (error != NULL);
@@ -142,7 +152,7 @@ gnumeric_io_error_info_push (IOContext *context, ErrorInfo *error)
 }
 
 ErrorInfo *
-gnumeric_io_error_info_pop  (IOContext *context)
+gnumeric_io_error_pop  (IOContext *context)
 {
 	ErrorInfo *error;
 
@@ -155,45 +165,30 @@ gnumeric_io_error_info_pop  (IOContext *context)
 }
 
 void
-gnumeric_io_error_info_clear (IOContext *context)
+gnumeric_io_error_display (IOContext *context)
 {
 	g_return_if_fail (context != NULL);
 
-	error_info_free (context->error_info);
-	context->error_info = NULL;
+	if (context->error_info != NULL) {
+		gnumeric_error_error_info (COMMAND_CONTEXT (context->impl),
+		                           context->error_info);
+	}
 }
 
 void
-gnumeric_io_error_info_display (IOContext *context)
-{
-	g_return_if_fail (context != NULL);
-
-	gnumeric_error_info_dialog_show (WORKBOOK_CONTROL_GUI (context->impl),
-	                                 context->error_info);
-}
-
-gboolean
-gnumeric_io_has_error_info (IOContext *context)
-{
-	g_return_val_if_fail (context != NULL, FALSE);
-
-	return context->error_info != NULL;
-}
-
-void
-gnumeric_io_clear_error (IOContext *context)
+gnumeric_io_error_clear (IOContext *context)
 {
 	g_return_if_fail (context != NULL);
 
 	context->error_occurred = FALSE;
-	gnumeric_io_error_info_clear (context);
+	error_info_free (context->error_info);
+	context->error_info = NULL;
 }
 
 gboolean
 gnumeric_io_error_occurred (IOContext *context)
 {
-	return context->error_occurred ||
-	       gnumeric_io_has_error_info (context);
+	return context->error_occurred;
 }
 
 void

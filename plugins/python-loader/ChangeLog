@@ -1,3 +1,8 @@
+2001-07-14  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* python-loader.c (gnumeric_plugin_loader_python_func_file_open,
+	gnumeric_plugin_loader_python_func_file_save): Use gnumeric_io_error_string.
+
 2001-06-29  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* py-gnumeric.c (create_python_interpreter): Call PySys_SetArgv after

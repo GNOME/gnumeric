@@ -229,8 +229,7 @@ gnumeric_fopen_error_info (const char *file_name, const char *mode, ErrorInfo **
 			             _("Error while opening file \"%s\" for reading."),
 			             file_name);
 		}
-		error_info_add_details (*ret_error,
-		                        error_info_new_str (g_strerror (errno)));
+		error_info_add_details (*ret_error, error_info_new_from_errno ());
 	}
 
 	return f;
@@ -256,6 +255,7 @@ gnumeric_open_error_info (const gchar *file_name, gint flags, ErrorInfo **ret_er
 	g_return_val_if_fail (file_name != NULL, -1);
 	g_return_val_if_fail (ret_error != NULL, -1);
 
+	*ret_error = NULL;
 	fd = open (file_name, flags);
 	if (fd < 0) {
 		if (flags & O_WRONLY) {
@@ -267,8 +267,7 @@ gnumeric_open_error_info (const gchar *file_name, gint flags, ErrorInfo **ret_er
 			             _("Error while opening file \"%s\" for reading."),
 			             file_name);
 		}
-		error_info_add_details (*ret_error,
-		                        error_info_new_str (g_strerror (errno)));
+		error_info_add_details (*ret_error, error_info_new_from_errno ());
 	}
 
 	return fd;
@@ -311,7 +310,7 @@ gnumeric_mmap_error_info (const gchar *file_name, gint *file_size, ErrorInfo **r
 		*ret_error = error_info_new_str_with_details (error_message,
 		             error_info_new_str_with_details (
 		             _("Cannot get file size."),
-		             error_info_new_str (g_strerror (errno))));
+		             error_info_new_from_errno ()));
 		return NULL;
 	}
 
@@ -319,7 +318,7 @@ gnumeric_mmap_error_info (const gchar *file_name, gint *file_size, ErrorInfo **r
 	if (mem == MAP_FAILED) {
 		close (fd);
 		*ret_error = error_info_new_str_with_details (error_message,
-		             error_info_new_str (g_strerror (errno)));
+		             error_info_new_from_errno ());
 		return NULL;
 	}
 

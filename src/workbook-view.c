@@ -596,14 +596,12 @@ wb_view_save_as (WorkbookView *wbv, WorkbookControl *wbc,
 	wb = wb_control_workbook (wbc);
 	io_context = gnumeric_io_context_new (wbc);
 	gnum_file_saver_save (fs, io_context, wbv, file_name);
-	if (gnumeric_io_has_error_info (io_context)) {
-		gnumeric_io_error_info_display (io_context);
-	}
 	if (!gnumeric_io_error_occurred (io_context)) {
 		workbook_set_saveinfo (wb, file_name, gnum_file_saver_get_format_level (fs), fs);
 		workbook_set_dirty (wb, FALSE);
 		success = TRUE;
 	} else {
+		gnumeric_io_error_display (io_context);
 		success = FALSE;
 	}
 	gtk_object_destroy (GTK_OBJECT (io_context));
@@ -644,13 +642,11 @@ wb_view_save (WorkbookView *wbv, WorkbookControl *wbc)
 		gnumeric_io_error_save (io_context,
 		_("Default file saver is not available."));
 	}
-	if (gnumeric_io_has_error_info (io_context)) {
-		gnumeric_io_error_info_display (io_context);
-	}
 	if (!gnumeric_io_error_occurred (io_context)) {
 		workbook_set_dirty (wb, FALSE);
 		success = TRUE;
 	} else {
+		gnumeric_io_error_display (io_context);
 		success = FALSE;
 	}
 	gtk_object_destroy (GTK_OBJECT (io_context));
@@ -744,8 +740,9 @@ wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
 		} else
 			gnumeric_io_error_read (io_context, _("Unsupported file format."));
 
-		if (gnumeric_io_has_error_info (io_context))
-			gnumeric_io_error_info_display (io_context);
+		if (gnumeric_io_error_occurred (io_context)) {
+			gnumeric_io_error_display (io_context);
+		}
 
 		gtk_object_destroy (GTK_OBJECT (io_context));
 	} else {

@@ -296,8 +296,8 @@ gnum_plugin_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
 		}
 	} else {
 		gnumeric_io_error_info_set (io_context, error);
-		gnumeric_io_error_info_push (io_context, error_info_new_str (
-		                            _("Error while reading file.")));
+		gnumeric_io_error_push (io_context, error_info_new_str (
+		                        _("Error while reading file.")));
 	}
 }
 
@@ -586,8 +586,8 @@ gnum_plugin_file_saver_save (GnumFileSaver const *fs, IOContext *io_context,
 		service_file_saver->plugin_func_file_save (fs, pfs->service, io_context, wbv, file_name);
 	} else {
 		gnumeric_io_error_info_set (io_context, error);
-		gnumeric_io_error_info_push (io_context, error_info_new_str (
-		                             _("Error while saving file.")));
+		gnumeric_io_error_push (io_context, error_info_new_str (
+		                        _("Error while saving file.")));
 	}
 }
 

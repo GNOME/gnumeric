@@ -52,6 +52,7 @@
 #include "cell.h"
 #include "gui-file.h"
 #include "search.h"
+#include "error-info.h"
 #include <gal/widgets/widget-color-combo.h>
 
 #ifdef ENABLE_BONOBO
@@ -1119,6 +1120,13 @@ wbcg_error_splits_array (CommandContext *context,
 	message = g_strdup_printf (_("Would split array %s"), range_name (array));
 	gnumeric_error_invalid (context, cmd, message);
 	g_free (message);
+}
+
+static void
+wbcg_error_error_info (CommandContext *context,
+                       ErrorInfo *error)
+{
+	gnumeric_error_info_dialog_show (WORKBOOK_CONTROL_GUI (context), error);
 }
 
 static char const * const preset_zoom [] = {
@@ -3808,6 +3816,7 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->context_class.error.save	= wbcg_error_save;
 	wbc_class->context_class.error.invalid	= wbcg_error_invalid;
 	wbc_class->context_class.error.splits_array  = wbcg_error_splits_array;
+	wbc_class->context_class.error.error_info  = wbcg_error_error_info;
 
 	wbc_class->control_new		= wbcg_control_new;
 	wbc_class->init_state		= wbcg_init_state;

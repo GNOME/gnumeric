@@ -312,8 +312,7 @@ lotus_read (IOContext *io_context, Workbook *wb, const char *filename)
 	}
 
 	if (!read_workbook (wb, f)) {
-		gnumeric_io_error_info_set (io_context,
-		                            error_info_new_str (_("Error while reading lotus workbook.")));
+		gnumeric_io_error_string (io_context, _("Error while reading lotus workbook."));
 	}
 
 	fclose (f);
