@@ -292,7 +292,7 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 	int     i, n, r, ecol, inc2;
 	int     n_rows_per_fn;
 	GString *var_range [2];
-	Range   range;
+	Range   range, v_range;
 	Cell    *cell;
 	GString *buf;
 
@@ -328,24 +328,12 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 
 	/* Initialize var_range to contain the range name of the
 	 * objective function variables. */
-	if (ctxt->n_cols % MAX_COL != 0) {
-		i = 0;
-		if (n_rows_per_fn > 1) {
-			range_init (&range, VARIABLE_COL, VARIABLE_ROW,
-				    MAX_COL, VARIABLE_ROW + n_rows_per_fn - 2);
-			g_string_sprintfa (var_range [i++], "%s",
-					   range_name (&range));
-		}
-		range_init (&range, VARIABLE_COL,
-			    VARIABLE_ROW + n_rows_per_fn - 1,
-			    (ctxt->n_cols % MAX_COL),
-			    VARIABLE_ROW + n_rows_per_fn - 1);
-		g_string_sprintfa (var_range [i], "%s", range_name (&range));
-	} else {
-		range_init (&range, VARIABLE_COL, VARIABLE_ROW,
-			    MAX_COL, VARIABLE_ROW + n_rows_per_fn - 1);
-		g_string_sprintfa (var_range [0], "%s", range_name (&range));
-	}
+	i = 0;
+	range_init (&v_range, VARIABLE_COL,
+		    VARIABLE_ROW + n_rows_per_fn - 1,
+		    (ctxt->n_cols % MAX_COL),
+		    VARIABLE_ROW + n_rows_per_fn - 1);
+	g_string_sprintfa (var_range [i], "%s", range_name (&v_range));
 
 	i = 0;
 	for (current = ctxt->rows; current != NULL; current = current->next) {
@@ -370,23 +358,20 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 		  r   = CONSTRAINT_ROW  +  i * n_rows_per_fn  +  inc2;
 		  
 		  /* Add row name. */
-		  if (n_rows_per_fn == 1)
-			  mps_set_cell (sh, col - 1, r, row->name);
-		  else {
-			  for (n = 0; n < (ctxt->n_cols+MAX_COL)/MAX_COL; n++) {
-				  buf = g_string_new ("");
-				  g_string_sprintfa (buf, "%s[%d]",
-						     row->name, n+1);
-				  mps_set_cell (sh, col - 1, r + n, buf->str);
-				  g_string_free (buf, FALSE);
-			  }
-		  }
+		  mps_set_cell (sh, col - 1, r, row->name);
 
 		  /* Coefficients. */
 		  for (n = 0; n < ctxt->n_cols; n++)
-		          mps_set_cell_float (sh, col + n % MAX_COL,
-					      r + n / MAX_COL,
-					      ctxt->matrix[row->index][n]);
+			  /* Write only non-zero coefficents in order to save
+			   * memory, and, in addition, to speed up the loading.
+			   */
+#ifndef MPS_WRITE_ZERO_COEFFICIENTS
+			  if (ctxt->matrix [row->index][n] != 0)
+#endif
+				  mps_set_cell_float
+					  (sh, col + n % MAX_COL,
+					   r + n / MAX_COL,
+					   ctxt->matrix[row->index][n]);
 
 		  /* Add Type field. */
 		  mps_set_cell (sh, ecol + 2, r, type_str[(int) row->type]);
@@ -397,37 +382,20 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 
 
 		  /* Add LHS field using SUMPRODUCT function. */
-		  buf = g_string_new ("");
-		  if (ctxt->n_cols % MAX_COL == 0) {
-			  range_init (&range, col, r, MAX_COL,
-				      r + n_rows_per_fn - 1); 
-			  g_string_sprintfa (buf, "=SUMPRODUCT(%s,%s)",
-					     var_range[0]->str,
-					     range_name (&range));
-		  } else {
-			  if (n_rows_per_fn > 1) {
-				  range_init (&range, col, r, MAX_COL,
-					      r + n_rows_per_fn - 2); 
-				  g_string_sprintfa (buf, "=SUMPRODUCT(%s,%s)",
-						     var_range[0]->str,
-						     range_name (&range));
-				  range_init (&range, col, r+n_rows_per_fn - 1,
-					      ctxt->n_cols % MAX_COL,
-					      r + n_rows_per_fn - 1); 
-				  g_string_sprintfa (buf, "+SUMPRODUCT(%s,%s)",
-						     var_range[1]->str,
-						     range_name (&range));
-			  } else {
-				  range_init (&range, col, r, ctxt->n_cols, r);
-				  g_string_sprintfa (buf, "=SUMPRODUCT(%s,%s)",
-						     var_range[0]->str,
-						     range_name (&range));
-			  }
-		  }
-		  cell = sheet_cell_fetch (sh, ecol + 1, r);
-		  sheet_cell_set_text  (cell, buf->str);
-		  g_string_free (buf, FALSE);
+		  range_init (&range, col, r, ctxt->n_cols, r);
+		  args = (GnmExprList *) g_list_append
+			  (NULL, (gpointer) gnm_expr_new_constant
+				 (value_new_cellrange_r (NULL, &v_range)));
 
+		  args = (GnmExprList *) g_list_append
+			  ((GList *) args, (gpointer) gnm_expr_new_constant
+				 (value_new_cellrange_r (NULL, &range)));
+
+		  cell = sheet_cell_fetch (sh, ecol + 1, r);
+		  expr = (GnmExpr *) gnm_expr_new_funcall
+			  (func_lookup_by_name ("SUMPRODUCT", NULL), args);
+		  cell_set_expr (cell, expr);
+		  cell_queue_recalc (cell);
 
 		  /* Add Slack calculation */
 		  cellref_set (&ref1, sh, ecol + 1, r, FALSE);
@@ -476,39 +444,14 @@ mps_write_coefficients (MpsInputContext *ctxt, Sheet *sh,
 
 	/* Write the objective fn. */
 	buf = g_string_new ("");
-	if (ctxt->n_cols % MAX_COL == 0) {
-		range_init (&range, VARIABLE_COL,
-			    VARIABLE_ROW + 1 + n_rows_per_fn,
-			    MAX_COL,
-			    VARIABLE_ROW + 2*n_rows_per_fn);
-		g_string_sprintfa (buf, "=SUMPRODUCT(%s,%s)", var_range[0]->str,
-				   range_name (&range));
-	} else {
-		if (n_rows_per_fn > 1) {
-			range_init (&range, VARIABLE_COL,
-				    VARIABLE_ROW + 1 + n_rows_per_fn,
-				    MAX_COL,
-				    VARIABLE_ROW + 2 * n_rows_per_fn - 1);
-			g_string_sprintfa (buf, "=SUMPRODUCT(%s,%s)",
-					   var_range[0]->str,
-					   range_name (&range));
-			range_init (&range, VARIABLE_COL,
-				    VARIABLE_ROW + 2 * n_rows_per_fn,
-				    ctxt->n_cols % MAX_COL,
-				    VARIABLE_ROW + 2 * n_rows_per_fn);
-			g_string_sprintfa (buf, "+SUMPRODUCT(%s,%s)",
-					   var_range[1]->str,
-					   range_name (&range));
-		} else {
-			range_init (&range, VARIABLE_COL,
-				    VARIABLE_ROW + 1 + n_rows_per_fn,
-				    ctxt->n_cols,
-				    VARIABLE_ROW + 1 + n_rows_per_fn);
-			g_string_sprintfa (buf, "=SUMPRODUCT(%s,%s)",
-					   var_range[0]->str,
-					   range_name (&range));
-		}
-	}
+	range_init (&range, VARIABLE_COL,
+		    VARIABLE_ROW + 1 + n_rows_per_fn,
+		    ctxt->n_cols,
+		    VARIABLE_ROW + 1 + n_rows_per_fn);
+	g_string_sprintfa (buf, "=SUMPRODUCT(%s,%s)",
+			   var_range[0]->str,
+			   range_name (&range));
+
 	cell = sheet_cell_fetch (sh, OBJECTIVE_VALUE_COL, MAIN_INFO_ROW);
 	sheet_cell_set_text (cell, buf->str);
 	g_string_free (buf, FALSE);
