@@ -62,6 +62,15 @@
 #include <pango/pangoft2.h>
 #include <gal/widgets/widget-color-combo.h>
 
+static const struct {
+	const char *Cname;
+	StyleUnderlineType ut;
+} underline_types[] = {
+	{ N_("None"), UNDERLINE_NONE },
+	{ N_("Single"), UNDERLINE_SINGLE },
+	{ N_("Double"), UNDERLINE_DOUBLE }
+};
+
 /* The order corresponds to border_preset_buttons */
 typedef enum
 {
@@ -1528,19 +1537,17 @@ cb_font_underline_changed (G_GNUC_UNUSED GtkWidget *ct,
 			   char *new_text, FormatState *state)
 {
 	StyleUnderlineType res = UNDERLINE_NONE;
+	int i;
 
 	/* ignore the clear while assigning a new value */
 	if (!state->enable_edit || new_text == NULL || *new_text == '\0')
 		return FALSE;
 
-	/* XXX */
-	/* There must be a better way than this */
-	if (!g_ascii_strcasecmp (new_text, _("Single")))
-		res = UNDERLINE_SINGLE;
-	else if (!g_ascii_strcasecmp (new_text, _("Double")))
-		res = UNDERLINE_DOUBLE;
-	else if (g_ascii_strcasecmp (new_text, _("None")))
-		g_warning ("Invalid underline style '%s', assuming NONE", new_text);
+	for (i = G_N_ELEMENTS (underline_types); i-- > 0; )
+		if (gnumeric_utf8_collate_casefold (new_text, _(underline_types[i].Cname)) == 0) {
+			res = underline_types[i].ut;
+			break;
+		}
 
 	font_selector_set_underline (state->font.selector, res);
 	return TRUE;
@@ -1557,6 +1564,7 @@ fmt_dialog_init_font_page (FormatState *state)
 	char const *uline_str;
 	GtkWidget *strike = glade_xml_get_widget (state->gui, "strikethrough_button");
 	gboolean   strikethrough = FALSE;
+	int i;
 
 	g_return_if_fail (container != NULL);
 	g_return_if_fail (uline != NULL);
@@ -1594,16 +1602,11 @@ fmt_dialog_init_font_page (FormatState *state)
 		font_selector_set_points (state->font.selector,
 					  mstyle_get_font_size (state->style));
 
-	gnm_combo_text_add_item	(GNM_COMBO_TEXT (uline), _("None"));
-	gnm_combo_text_add_item	(GNM_COMBO_TEXT (uline), _("Single"));
-	gnm_combo_text_add_item	(GNM_COMBO_TEXT (uline), _("Double"));
+	for (i = 0; i < (int)G_N_ELEMENTS (underline_types); i++)
+		gnm_combo_text_add_item	(GNM_COMBO_TEXT (uline), _(underline_types[i].Cname));
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_UNDERLINE)) {
-		switch (mstyle_get_font_uline (state->style)) {
-		default :
-		case UNDERLINE_NONE   : uline_str = _("None"); break;
-		case UNDERLINE_SINGLE : uline_str = _("Single"); break;
-		case UNDERLINE_DOUBLE : uline_str = _("Double"); break;
-		};
+		StyleUnderlineType ut = mstyle_get_font_uline (state->style);
+		uline_str = _(underline_types[ut].Cname);
 		font_selector_set_underline (state->font.selector,
 			mstyle_get_font_uline (state->style));
 	} else

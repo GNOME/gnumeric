@@ -2,6 +2,8 @@
 
 	* dialog-cell-format.c (cb_pattern_preview_get_cell_style): Do not
 	ref the style.  None of the other callbacks do.
+	(fmt_dialog_init_font_page): Poor some sanity into handling of
+	underlines.
 
 2003-05-22  Morten Welinder  <terra@gnome.org>
 
