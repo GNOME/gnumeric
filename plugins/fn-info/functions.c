@@ -7,6 +7,7 @@
  *   Jody Goldberg (jody@gnome.org)
  *   Morten Welinder (terra@diku.dk)
  *   Almer S. Tigelaar (almer@gnome.org)
+ *   Harlan Grove
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +22,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ *
+ * Many thanks to Harlan Grove for his excellent characterization and writeup
+ * of the multitude of different potential arguments across the various
+ * different spreadsheets.  Although neither the code is not his, the set of
+ * attributes, and the comments on their behviour are.  Hence he holds partial
+ * copyright on the CELL implementation.
  */
 #include <gnumeric-config.h>
 #include <gnumeric.h>
@@ -208,51 +215,99 @@ static Value *
 gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 {
 	const char *info_type = value_peek_string (argv[0]);
-	CellRef ref = argv [1]->v_range.cell.a;
+	CellRef const *ref = &argv [1]->v_range.cell.a;
 
+	/* from CELL - limited usefulness! */
 	if (!g_strcasecmp(info_type, "address")) {
-		/* Reference of the first cell in reference, as text. */
-		return value_new_string (cell_coord_name (ref.col, ref.row));
-	} else if (!g_strcasecmp (info_type, "col")) {
-		return value_new_int (ref.col + 1);
+		ParsePos pp;
+		char *ref_name = cellref_name (ref,
+			parse_pos_init_evalpos (&pp, ei->pos), TRUE);
+		return value_new_string_nocopy (ref_name);
+
+	/* from later 123 versions - USEFUL! */
+	} else if (!g_strcasecmp(info_type, "coord")) {
+		ParsePos pp;
+		CellRef tmp = *ref;
+		char *ref_name;
+
+		if (tmp.sheet == NULL)
+			tmp.sheet = ei->pos->sheet;
+		ref_name = cellref_name (&tmp,
+			parse_pos_init_evalpos (&pp, ei->pos), FALSE);
+		return value_new_string_nocopy (ref_name);
+
+	/* from CELL - pointless - use COLUMN instead! */
+	} else if (!g_strcasecmp (info_type, "col") ||
+		   !g_strcasecmp (info_type, "column")) {
+		return value_new_int (ref->col + 1);
+
+	/* from CELL - pointless - use ROW instead! */
+	} else if (!g_strcasecmp (info_type, "row")) {
+		return value_new_int (ref->row + 1);
+
+	/* from CELL - limited usefulness
+	 * NOTE: differences between Excel & 123 - Excel's returns 1 whenever
+	 * there's a color specified for EITHER positive OR negative values
+	 * in the number format, e.g., 1 for format "[Black]0;-0;0" but not
+	 * for format "0;-0;[Green]0"
+	 * Another place where Excel doesn't conform to it's documentation!
+	 */
 	} else if (!g_strcasecmp (info_type, "color")) {
-		FormatCharacteristics info = retrieve_format_info (ei->pos->sheet,
-								   ref.col,
-								   ref.row);
+		FormatCharacteristics info =
+			retrieve_format_info (ei->pos->sheet, ref->col, ref->row);
 
 		/* 0x01 = first bit (1) indicating negative colors */
 		return (info.negative_fmt & 0x01) ? value_new_int (1) :
 			value_new_int (0);
-	} else if (!g_strcasecmp (info_type, "contents")) {
-		Cell *cell = sheet_cell_get (ei->pos->sheet, ref.col, ref.row);
 
+	/* absolutely pointless - compatibility only */
+	} else if (!g_strcasecmp (info_type, "contents") ||
+		   !g_strcasecmp (info_type, "value")) {
+		Cell const *cell =
+			sheet_cell_get (ei->pos->sheet, ref->col, ref->row);
 		if (cell && cell->value)
 			return value_duplicate (cell->value);
 		return value_new_empty ();
-	} else if (!g_strcasecmp (info_type, "filename"))	{
-		char *name = ei->pos->sheet->workbook->filename;
+
+	/* from CELL - limited usefulness!
+	 * A testament to Microsoft's hypocracy! They could include this from
+	 * 123R2.2 (it wasn't in 123R2.0x), modify it in Excel 4.0 to include
+	 * the worksheet name, but they can't make any other changes to CELL?!
+	 */
+	} else if (!g_strcasecmp (info_type, "filename")) {
+		char const *name = ei->pos->sheet->workbook->filename;
 
 		if (name == NULL)
 			return value_new_string ("");
 		else
 			return value_new_string (name);
+
+	/* from CELL */
+	/* Backwards compatibility w/123 - unnecessary */
 	} else if (!g_strcasecmp (info_type, "format")) {
-		MStyle *mstyle = sheet_style_get (ei->pos->sheet, ref.col,
-						  ref.row);
+		MStyle const *mstyle =
+			sheet_style_get (ei->pos->sheet, ref->col, ref->row);
 
 		return translate_cell_format (mstyle_get_format (mstyle));
+
+	/* from CELL */
+	/* Backwards compatibility w/123 - unnecessary */
 	} else if (!g_strcasecmp (info_type, "parentheses")) {
-		FormatCharacteristics info = retrieve_format_info (ei->pos->sheet,
-								   ref.col,
-								   ref.row);
+		FormatCharacteristics info =
+			retrieve_format_info (ei->pos->sheet, ref->col, ref->row);
 
 		/* 0x02 = second bit (2) indicating parentheses */
 		return (info.negative_fmt & 0x02) ? value_new_int (1) :
 			value_new_int (0);
-	} else if (!g_strcasecmp (info_type, "prefix")) {
-		MStyle *mstyle = sheet_style_get (ei->pos->sheet, ref.col,
-						  ref.row);
-		Cell *cell = sheet_cell_get (ei->pos->sheet, ref.col, ref.row);
+
+	/* from CELL */
+	/* Backwards compatibility w/123 - unnecessary */
+	} else if (!g_strcasecmp (info_type, "prefix") ||
+		   !g_strcasecmp (info_type, "prefixcharacter")) {
+		MStyle const *mstyle =
+			sheet_style_get (ei->pos->sheet, ref->col, ref->row);
+		Cell const *cell =
+			sheet_cell_get (ei->pos->sheet, ref->col, ref->row);
 
 		if (cell && cell->value && cell->value->type == VALUE_STRING) {
 			switch (mstyle_get_align_h (mstyle)) {
@@ -265,16 +320,43 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 			}
 		}
 		return value_new_string ("");
-	} else if (!g_strcasecmp (info_type, "protect")) {
-		MStyle const *mstyle = sheet_style_get (ei->pos->sheet, ref.col,
-							ref.row);
-		return value_new_int (mstyle_get_content_locked (mstyle) ? 1 : 0);
-	} else if (!g_strcasecmp (info_type, "row")) {
-		return value_new_int (ref.row + 1);
-	} else if (!g_strcasecmp (info_type, "type")) {
-		Cell *cell;
 
-		cell = sheet_cell_get (ei->pos->sheet, ref.col, ref.row);
+	/* from CELL */
+	} else if (!g_strcasecmp (info_type, "locked") ||
+		   !g_strcasecmp (info_type, "protect")) {
+		MStyle const *mstyle =
+			sheet_style_get (ei->pos->sheet, ref->col, ref->row);
+		return value_new_int (mstyle_get_content_locked (mstyle) ? 1 : 0);
+
+    /* different characteristics grouped for efficiency
+     * TYPE needed for backward compatibility w/123 but otherwise useless
+     * DATATYPE and FORMULATYPE are options in later 123 versions' @CELL
+     * no need for them but included to make 123 conversion easier
+    Case "datatype", "formulatype", "type"
+        t = Left(prop, 1)
+        
+            rv = IIf( t = "f" And rng.HasFormula, "f", "" )
+
+            If rng.formula = "" Then
+                rv = rv & "b"
+            ElseIf IsNumeric("0" & CStr(rng.Value)) _
+              Or (t = "t" And IsError(rng.Value)) Then
+                rv = rv & "v"
+            ElseIf rng.Value = CVErr(xlErrNA) Then
+                rv = rv & "n"
+            ElseIf IsError(rng.Value) Then
+                rv = rv & "e"
+            Else
+                rv = rv & "l"
+            End If
+        End If
+	*/
+
+	} else if (!g_strcasecmp (info_type, "type") ||
+		   !g_strcasecmp (info_type, "datatype") ||
+		   !g_strcasecmp (info_type, "formulatype")) {
+		Cell const *cell =
+			sheet_cell_get (ei->pos->sheet, ref->col, ref->row);
 		if (cell && cell->value) {
 			if (cell->value->type == VALUE_STRING)
 				return value_new_string ("l");
@@ -282,9 +364,12 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 				return value_new_string ("v");
 		}
 		return value_new_string ("b");
-	} else if (!g_strcasecmp (info_type, "width")) {
-		ColRowInfo const *info = sheet_col_get_info (ei->pos->sheet,
-							     ref.col);
+
+	/* from CELL */
+	} else if (!g_strcasecmp (info_type, "width") ||
+		   !g_strcasecmp (info_type, "columnwidth")) {
+		ColRowInfo const *info =
+			sheet_col_get_info (ei->pos->sheet, ref->col);
 		double charwidth;
 		int    cellwidth;
 
@@ -313,12 +398,6 @@ Function ExtCell( _
   Optional rng As Variant, _
   Optional rar As Boolean = False _
 ) As Variant
-   /*Copyright (C) 2002, Harlan Grove
-    *This is free software. It s use in derivative works is covered
-    *under the terms of the Free Software Foundation s GPL. See
-    *http://www.gnu.org/copyleft/gpl.html
-    */
-
     Dim ws As Worksheet, wb As Workbook, rv As Variant
     Dim i As Long, j As Long, m As Long, n As Long, t As String
 
@@ -363,17 +442,6 @@ Function ExtCell( _
               rng.HorizontalAlignment = _
               xlHAlignCenterAcrossSelection _
             )
-        End If
-    
-    Case "address"  /* from CELL - limited usefulness! */
-        If rar Then
-            For i = 1 To m
-                For j = 1 To n
-                    rv(i, j) = rng.Cells(i, j).Address
-                Next j
-            Next i
-        Else
-            rv = rng.Address
         End If
     
     Case "backgroundcolor"  /* from later 123 versions - USEFUL! */
@@ -425,41 +493,6 @@ Function ExtCell( _
             rv = rng.Borders(xlEdgeBottom).ColorIndex
         End If
 
-    Case "col", "column"  /* from CELL - pointless - use COLUMN instead! */
-        If rar Then
-            For i = 1 To m
-                For j = 1 To n
-                    rv(i, j) = rng.Cells(i, j).Column
-                Next j
-            Next i
-        Else
-            rv = rng.Column
-        End If
-
-    Case "color"  /* from CELL - limited usefulness */
-    /* NOTE: differences between Excel & 123 - Excel's returns 1 whenever */
-    /* there's a color specified for EITHER positive OR negative values */
-    /* in the number format, e.g., 1 for format "[Black]0;-0;0" but not */
-    /* for format "0;-0;[Green]0" */
-    /* Another place where Excel doesn't conform to it's documentation! */
-        If rar Then
-            For i = 1 To m
-                For j = 1 To n
-                    rv(i, j) = Evaluate( _
-                      "=CELL(""Color""," & _
-                      rng.Cells(i, j).Address(True, True, xlA1, True) & _
-                      ")" _
-                    )
-                Next j
-            Next i
-        Else
-            rv = Evaluate( _
-              "=CELL(""Color""," & _
-              rng.CellsAddress(True, True, xlA1, True) & _
-              ")" _
-            )
-        End If
-
     Case "columnhidden"
         If rar Then
             For i = 1 To m
@@ -490,21 +523,6 @@ Function ExtCell( _
             End If
         End If
 
-    Case "contents", "value"  /* absolutely pointless - compatibility only */
-        /* DOME - nothing more to do! */
-
-    Case "coord"  /* from later 123 versions - USEFUL! */
-        If rar Then
-            For i = 1 To m
-                For j = 1 To n
-                    rv(i, j) = "'" & ws.Name & "'!" & _
-                      rng.Cells(i, j).Address
-                Next j
-            Next i
-        Else
-            rv = "'" & ws.Name & "'!" & rng.Address
-        End If
-
     Case "currentarray"  /* NOTE: returns Range addresses! */
         If rar Then
             For i = 1 To m
@@ -527,80 +545,8 @@ Function ExtCell( _
             rv = rng.CurrentRegion.Address
         End If
 
-     /* different characteristics grouped for efficiency */
-    /* TYPE needed for backward compatibility w/123 but otherwise useless */
-    /* DATATYPE and FORMULATYPE are options in later 123 versions' @CELL */
-    /* no need for them but included to make 123 conversion easier */
-    Case "datatype", "formulatype", "type"
-        t = Left(prop, 1)
-        
-        If rar Then
-            For i = 1 To m
-                For j = 1 To n
-                    rv(i, j) = IIf( _
-                      t = "f" And rng.Cells(i, j).HasFormula, _
-                      "f", _
-                      "" _
-                    )
-                    
-                    If rng.Cells(i, j).formula = "" Then
-                        rv(i, j) = rv(i, j) & "b"
-                    ElseIf IsNumeric("0" & CStr(rng.Cells(i, j).Value)) _
-                      Or (t = "t" And IsError(rng.Cells(i, j).Value)) Then
-                        rv(i, j) = rv(i, j) & "v"
-                    ElseIf rng.Cells(i, j).Value = CVErr(xlErrNA) Then
-                        rv(i, j) = rv(i, j) & "n"
-                    ElseIf IsError(rng.Cells(i, j).Value) Then
-                        rv(i, j) = rv(i, j) & "e"
-                    Else
-                        rv(i, j) = rv(i, j) & "l"
-                    End If
-                Next j
-            Next i
-        Else
-            rv = IIf( _
-              t = "f" And rng.HasFormula, _
-              "f", _
-              "" _
-            )
-
-            If rng.formula = "" Then
-                rv = rv & "b"
-            ElseIf IsNumeric("0" & CStr(rng.Value)) _
-              Or (t = "t" And IsError(rng.Value)) Then
-                rv = rv & "v"
-            ElseIf rng.Value = CVErr(xlErrNA) Then
-                rv = rv & "n"
-            ElseIf IsError(rng.Value) Then
-                rv = rv & "e"
-            Else
-                rv = rv & "l"
-            End If
-        End If
-
     Case "filedate"  /* from later 123 versions - limited usefulness! */
         t = wb.BuiltinDocumentProperties("Last Save Time")  /* invariant! */
-
-        If rar Then
-            For i = 1 To m
-                For j = 1 To n
-                    rv(i, j) = t
-                Next j
-            Next i
-        Else
-            rv = t
-        End If
-
-    Case "filename"  /* from CELL - limited usefulness! */
-    /* A testament to Microsoft's hypocracy! They could include this from
-     * 123R2.2 (it wasn't in 123R2.0x), modify it in Excel 4.0 to include
-     * the worksheet name, but they can't make any other changes to CELL?!
-     */
-        t = Evaluate( _
-          "=CELL(""Filename""," & _
-          rng.Address(True, True, xlA1, True) & _
-          ")" _
-        )  /* invariant! */
 
         If rar Then
             For i = 1 To m
@@ -632,26 +578,6 @@ Function ExtCell( _
             Next i
         Else
             rv = rng.Font.Size
-        End If
-
-    Case "format"  /* from CELL */
-    /* Backwards compatibility w/123 - unnecessary */
-        If rar Then
-            For i = 1 To m
-                For j = 1 To n
-                    rv(i, j) = Evaluate( _
-                      "=CELL(""Format""," & _
-                      rng.Cells(i, j).Address(True, True, xlA1, True) & _
-                      ")" _
-                    )
-                Next j
-            Next i
-        Else
-            rv(i, j) = Evaluate( _
-              "=CELL(""Format""," & _
-              rng.Address(True, True, xlA1, True) & _
-              ")" _
-            )
         End If
 
     Case "formula"
@@ -859,17 +785,6 @@ Function ExtCell( _
             rv = rng.Borders(xlEdgeLeft).ColorIndex
         End If
 
-    Case "locked", "protect"  /* from CELL */
-        If rar Then
-            For i = 1 To m
-                For j = 1 To n
-                    rv(i, j) = CLng(rng.Cells(i, j).Locked)
-                Next j
-            Next i
-        Else
-            rv = CLng(rng.Locked)
-        End If
-
     Case "mergearea"  /* NOTE: returns Range addresses! */
         If rar Then
             For i = 1 To m
@@ -936,26 +851,6 @@ Function ExtCell( _
             rv = rng.Orientation
         End If
 
-    Case "parentheses"  /* from CELL */
-    /* Backwards compatibility w/123 - unnecessary */
-        If rar Then
-            For i = 1 To m
-                For j = 1 To n
-                    rv(i, j) = Evaluate( _
-                      "=CELL(""Parentheses""," & _
-                      rng.Cells(i, j).Address(True, True, xlA1, True) & _
-                      ")" _
-                    )
-                Next j
-            Next i
-        Else
-            rv = Evaluate( _
-              "=CELL(""Parentheses""," & _
-              rng.Address(True, True, xlA1, True) & _
-              ")" _
-            )
-        End If
-
     Case "pattern"  /* from later 123 versions */
         If rar Then
             For i = 1 To m
@@ -979,26 +874,6 @@ Function ExtCell( _
             Next i
         Else
             rv = rng.Interior.PatternColorIndex
-        End If
-
-    Case "prefix", "prefixcharacter"  /* from CELL */
-    /* Backwards compatibility w/123 - unnecessary */
-        If rar Then
-            For i = 1 To m
-                For j = 1 To n
-                    rv(i, j) = Evaluate( _
-                      "=CELL(""Prefix""," & _
-                      rng.Cells(i, j).Address(True, True, xlA1, True) & _
-                      ")" _
-                    )
-                Next j
-            Next i
-        Else
-            rv = Evaluate( _
-              "=CELL(""Prefix""," & _
-              rng.Address(True, True, xlA1, True) & _
-              ")" _
-            )
         End If
 
     Case "rightborder"  /* from later 123 versions */
@@ -1025,17 +900,6 @@ Function ExtCell( _
             Next i
         Else
             rv = rng.Borders(xlEdgeRight).ColorIndex
-        End If
-
-    Case "row"  /* from CELL - pointless - use ROW instead! */
-        If rar Then
-            For i = 1 To m
-                For j = 1 To n
-                    rv(i, j) = rng.Cells(i, j).Row
-                Next j
-            Next i
-        Else
-            rv = rng.Row
         End If
 
     Case "rowhidden"
@@ -1257,17 +1121,6 @@ Function ExtCell( _
             Next i
         Else
             rv = t
-        End If
-
-    Case "width", "columnwidth"  /* from CELL */
-        If rar Then
-            For i = 1 To m
-                For j = 1 To n
-                    rv(i, j) = rng.Cells(i, j).Width
-                Next j
-            Next i
-        Else
-            rv = rng.Width
         End If
 
     Case "workbookfullname"  /* same as FileName in later 123 versions */
