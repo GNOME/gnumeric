@@ -102,7 +102,7 @@ void         value_release         (Value *value);
 void         value_dump            (Value const *value);
 Value       *value_duplicate       (Value const *value);
 ValueCompare value_compare         (const Value *a, const Value *b,
-				    gboolean cs);
+				    gboolean case_sensitive);
 
 gboolean     value_get_as_bool         (Value const *v, gboolean *err);
 gboolean     value_get_as_checked_bool (Value const *v);

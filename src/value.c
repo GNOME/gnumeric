@@ -702,7 +702,13 @@ compare_float_float (Value const *va, Value const *vb)
 		return IS_GREATER;
 }
 
-/*
+/**
+ * value_compare :
+ *
+ * @a : value a
+ * @b : value b
+ * @case_sensitive : are string comparisons case sensitive.
+ *
  * Compares two (Value *) and returns one of ValueCompare
  *
  * if pos is non null it will perform implict intersection for
@@ -710,7 +716,7 @@ compare_float_float (Value const *va, Value const *vb)
  * comparisons.
  */
 ValueCompare
-value_compare (Value const *a, Value const *b, gboolean cs)
+value_compare (Value const *a, Value const *b, gboolean case_sensitive)
 {
 	ValueType ta, tb;
 
