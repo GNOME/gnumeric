@@ -11,7 +11,6 @@
 #include "dialogs.h"
 #include "xml-io.h"
 #include "file.h"
-#include <locale.h>
 
 static GList *gnumeric_file_savers = NULL;
 static GList *gnumeric_file_openers = NULL;
@@ -139,9 +138,6 @@ workbook_read (const char *filename)
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
-	/* Files are expected to be in standard C format.  */
-	setlocale (LC_ALL, "C");
-
 	for (l = gnumeric_file_openers; l; l = l->next){
 		const FileOpener *fo = l->data;
 
@@ -149,14 +145,10 @@ workbook_read (const char *filename)
 			Workbook *w;
 			w = (*fo->open) (filename);
 
-			if (w) {
-				setlocale (LC_ALL, "");
+			if (w)
 				return w;
-			}
 		}
 	}
-
-	setlocale (LC_ALL, "");
 	return NULL;
 }
 
@@ -331,12 +323,7 @@ workbook_save_as (Workbook *wb)
 
 				workbook_set_filename (wb, name);
 
-				/* Files are expected to be in standard C format.  */
-				setlocale (LC_ALL, "C");
-
 				current_saver->save (wb, wb->filename);
-
-				setlocale (LC_ALL, "");
 
 				g_free (name);
 			}
@@ -355,11 +342,7 @@ workbook_save (Workbook *wb)
 		return;
 	}
 
-	/* Files are expected to be in standard C format.  */
-	setlocale (LC_ALL, "C");
 	gnumericWriteXmlWorkbook (wb, wb->filename);
-
-	setlocale (LC_ALL, "");
 }
 
 char *
