@@ -1,8 +1,14 @@
 2002-08-03  Jon K Hellan  <hellan@acm.org>
 
-	* src/workbook-control-gui.c: (verbs, wbcg_menu_state_update):
-	Added Data/Filter/Show All.
+	* src/GNOME_Gnumeric.xml: Add Edit/Fill/Merge.
+	Change SheetReorder label to "Manage Sheets".
 
+	* src/workbook-control-gui.c (verbs): s/ToolsMERGE/ToolsMerge/
+
+2002-08-03  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-gui.c (verbs, wbcg_menu_state_update):
+	Added Data/Filter/Show All.
 
 	* src/GNOME_Gnumeric.xml: Added `Risk simulation' tool.
 	Added Data/Filter/Show All.
