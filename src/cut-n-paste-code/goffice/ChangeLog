@@ -1,3 +1,9 @@
+2005-02-22  Morten Welinder  <terra@gnome.org>
+
+	* gui-utils/go-gui-utils.c (filter_images): If we have no
+	mime-type, fall back to checking the extension against what
+	gdk-pixbuf supports.  Adapted from bug #164589.
+
 2005-02-17  Stepan Kasal  <kasal@ucw.cz>
 
 	* Makefile.am (INCLUDES): Remove -I$(top_srcdir)/src/cut-n-paste-code/goffice.

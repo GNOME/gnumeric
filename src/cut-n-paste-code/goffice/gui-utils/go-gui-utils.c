@@ -56,14 +56,14 @@
  * Code from gedit
  *
  * Creates a new GtkButton with custom label and stock image.
- * 
+ *
  * text : button label
  * stock_id : id for stock icon
  *
  * return : newly created button
  *
  **/
-GtkWidget* 
+GtkWidget*
 go_gtk_button_new_with_stock (char const *text, char const* stock_id)
 {
 	GtkWidget *button;
@@ -178,11 +178,11 @@ go_pixbuf_intelligent_scale (GdkPixbuf *buf, guint width, guint height)
 			h = height;
 			w = height * (((double)ow)/(double)oh);
 		}
-			
+
 		scaled = gdk_pixbuf_scale_simple (buf, w, h, GDK_INTERP_BILINEAR);
 	} else
 		scaled = g_object_ref (buf);
-	
+
 	return scaled;
 }
 
@@ -325,11 +325,49 @@ go_gtk_file_sel_dialog (GtkWindow *toplevel, GtkWidget *w)
 	return result;
 }
 
+static gboolean have_pixbufexts = FALSE;
+static GSList *pixbufexts = NULL;  /* FIXME: we leak this.  */
+
 static gboolean
 filter_images (const GtkFileFilterInfo *filter_info, gpointer data)
 {
-	return filter_info->mime_type &&
-		strncmp (filter_info->mime_type, "image/", 6) == 0;
+	if (filter_info->mime_type)
+		return strncmp (filter_info->mime_type, "image/", 6) == 0;
+
+	if (filter_info->display_name) {
+		GSList *l;
+		const char *ext = strrchr (filter_info->display_name, '.');
+		if (!ext) return FALSE;
+		ext++;
+
+		if (!have_pixbufexts) {
+			GSList *l, *pixbuf_fmts = gdk_pixbuf_get_formats ();
+
+			for (l = pixbuf_fmts; l != NULL; l = l->next) {
+				GdkPixbufFormat *fmt = l->data;
+				gchar **support_exts = gdk_pixbuf_format_get_extensions (fmt);
+				int i;
+
+				for (i = 0; support_exts[i]; ++i)
+					pixbufexts = g_slist_prepend (pixbufexts,
+								      support_exts[i]);
+				/*
+				 * Use g_free here because the strings have been
+				 * taken by pixbufexts.
+				 */
+				g_free (support_exts);
+			}
+
+			g_slist_free (pixbuf_fmts);
+			have_pixbufexts = TRUE;
+		}
+
+		for (l = pixbufexts; l != NULL; l = l->next)
+			if (g_ascii_strcasecmp (l->data, ext) == 0)
+				return TRUE;
+	}
+
+	return FALSE;
 }
 
 static void
@@ -396,12 +434,12 @@ gui_image_chooser_new (gboolean is_save)
 			       NULL));
 	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				is_save ? GTK_STOCK_SAVE : GTK_STOCK_OPEN, 
+				is_save ? GTK_STOCK_SAVE : GTK_STOCK_OPEN,
 				GTK_RESPONSE_OK,
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
 	/* Filters */
-	{	
+	{
 		GtkFileFilter *filter;
 
 		filter = gtk_file_filter_new ();
@@ -448,7 +486,7 @@ go_gtk_select_image (GtkWindow *toplevel, const char *initial)
 	if (initial)
 		gtk_file_chooser_set_uri (fsel, initial);
 	g_object_set (G_OBJECT (fsel), "title", _("Select an Image"), NULL);
-	
+
 	/* Show file selector */
 	if (go_gtk_file_sel_dialog (toplevel, GTK_WIDGET (fsel)))
 		uri = gtk_file_chooser_get_uri (fsel);
@@ -457,7 +495,7 @@ go_gtk_select_image (GtkWindow *toplevel, const char *initial)
 }
 
 char *
-gui_get_image_save_info (GtkWindow *toplevel, GSList *formats, 
+gui_get_image_save_info (GtkWindow *toplevel, GSList *formats,
 			 GOImageType const **ret_format)
 {
 	GOImageType const *sel_format = NULL;
@@ -466,7 +504,7 @@ gui_get_image_save_info (GtkWindow *toplevel, GSList *formats,
 	GtkFileChooser *fsel = gui_image_chooser_new (TRUE);
 
 	g_object_set (G_OBJECT (fsel), "title", _("Save as"), NULL);
-	
+
 	/* Make format chooser */
 	if (formats && ret_format) {
 		GtkWidget *label;
@@ -478,20 +516,20 @@ gui_get_image_save_info (GtkWindow *toplevel, GSList *formats,
 		if (*ret_format)
 			sel_format = *ret_format;
 		for (l = formats, i = 0; l != NULL; l = l->next, i++) {
-			gtk_combo_box_append_text 
-				(format_combo, 
+			gtk_combo_box_append_text
+				(format_combo,
 				 ((GOImageType *) (l->data))->desc);
 			if (l->data == (void *)sel_format)
 				gtk_combo_box_set_active (format_combo, i);
 		}
 		if (gtk_combo_box_get_active (format_combo) < 0)
 			gtk_combo_box_set_active (format_combo, 0);
-		
+
 		label = gtk_label_new_with_mnemonic (_("File _type:"));
 		gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
 		gtk_box_pack_start (GTK_BOX (box),  GTK_WIDGET (format_combo),
 				    TRUE, TRUE, 0);
-		gtk_label_set_mnemonic_widget (GTK_LABEL (label), 
+		gtk_label_set_mnemonic_widget (GTK_LABEL (label),
 					       GTK_WIDGET (format_combo));
 		gtk_file_chooser_set_extra_widget (fsel, box);
 	}
@@ -641,7 +679,7 @@ go_gtk_help_button_init (GtkWidget *w, char const *data_dir, char const *app, ch
  * go_gtk_url_is_writeable:
  * @parent : #GtkWindow
  * @uri :
- * 
+ *
  * Check if it makes sense to try saving.
  * If it's an existing file and writable for us, ask if we want to overwrite.
  * We check for other problems, but if we miss any, the saver will report.
@@ -798,7 +836,7 @@ go_gtk_query_yes_no (GtkWindow *parent, gchar const *message,
 
 /**
  * go_pixbuf_new_from_file :
- * @filename : 
+ * @filename :
  *
  * utility routine to create pixbufs from file @name in the goffice_icon_dir.
  *
