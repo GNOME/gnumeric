@@ -15,6 +15,11 @@ Release Critical
     : Delete grid then edit chart and see a new grid
     http://bugzilla.gnome.org/show_bug.cgi?id=Bug 142700
     : Zoom box shows the value of the zoom in the preceeding page
+    : http://bugzilla.gnome.org/show_bug.cgi?id=143525
+    http://bugzilla.gnome.org/show_bug.cgi?id=126442
+    : invert axis for XY plots {emmanual has patch}
+    http://bugzilla.gnome.org/show_bug.cgi?id=144112
+    : fraction matching
 
 Worries
     http://bugzilla.gnome.org/show_bug.cgi?id=123403

@@ -1,3 +1,14 @@
+2004-06-13  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (ms_excel_write_chart) : more work.  gnumeric and OOo can
+	  now import the basic column charts.  Unfortunately XL still crashes.
+
+2004-06-07  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_chart) : add and End after the common
+
+	* ms-chart.c (chart_write_color) : write.
+
 2004-06-08  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (excel_read_FILEPASS): Use gnm_destroy_password.

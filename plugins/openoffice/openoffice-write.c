@@ -300,7 +300,7 @@ openoffice_file_save (GnmFileSaver const *fs, IOContext *ioc,
 	gnm_setlocale (LC_MONETARY, "C");
 	gnm_set_untranslated_bools ();
 
-	outfile = GSF_OUTFILE (gsf_outfile_zip_new (output, &err));
+	outfile = gsf_outfile_zip_new (output, &err);
 
 	state.ioc = ioc;
 	state.wbv = wbv;

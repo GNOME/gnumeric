@@ -1094,7 +1094,7 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	OOParseState state;
 	GsfInput *content = NULL;
 	GError   *err = NULL;
-	GsfInfileZip *zip;
+	GsfInfile *zip;
 	int i;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wb_view));
@@ -1109,8 +1109,7 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 		return;
 	}
 
-	content = gsf_infile_child_by_name (GSF_INFILE (zip),
-					    "content.xml");
+	content = gsf_infile_child_by_name (zip, "content.xml");
 	if (content == NULL) {
 		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (io_context),
 			 _("No stream named content.xml found."));
@@ -1156,7 +1155,7 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 		g_slist_free (state.sheet_order);
 
 		/* look for the view settings */
-		settings = gsf_infile_child_by_name (GSF_INFILE (zip), "settings.xml");
+		settings = gsf_infile_child_by_name (zip, "settings.xml");
 		if (settings != NULL) {
 			state.base.doc = settings_doc;
 			gsf_xml_in_parse (&state.base, settings);

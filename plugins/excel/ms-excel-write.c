@@ -3323,6 +3323,10 @@ excel_write_chart (ExcelWriteSheet *esheet, SheetObject *so)
 
 	ms_biff_put_var_next (bp, BIFF_OBJ);
 	ms_objv8_write_common (bp, esheet->ewb->obj_count, 5, 0x6011);
+
+	GSF_LE_SET_GUINT32 (buf, 0); /* end */
+	ms_biff_put_var_write (bp, buf, 4);
+
 	ms_biff_put_commit (bp);
 	ms_excel_write_chart (esheet->ewb, so);
 }
@@ -3332,12 +3336,15 @@ excel_write_charts (ExcelWriteSheet *esheet)
 {
 	GList *ptr;
 
-	return; /* disable in the mainline until more of it is complete */
+#if 1
+	return; /* disable in the mainline until XL stops crashing */
+#endif
 
 	/* one thing at a time, lets do xl97+ first */
 	if (esheet->ewb->bp->version < MS_BIFF_V8)
 		return;
 
+#warning handle multiple charts in a graph by creating multiple objects
 	for (ptr = esheet->gnum_sheet->sheet_objects; ptr != NULL; ptr = ptr->next)
 		if (IS_SHEET_OBJECT_GRAPH (ptr->data))
 			excel_write_chart (esheet, ptr->data);
@@ -3458,7 +3465,7 @@ write_sheet_head (BiffPut *bp, ExcelWriteSheet *esheet)
 }
 
 void
-excel_write_SCL (BiffPut *bp, double zoom)
+excel_write_SCL (BiffPut *bp, double zoom, gboolean force)
 {
 	guint8 *data;
 	double whole, fractional = modf (zoom, &whole);
@@ -3468,7 +3475,7 @@ excel_write_SCL (BiffPut *bp, double zoom)
 	num += whole * denom;
 	d (2, fprintf (stderr, "Zoom %g == %d/%d\n", zoom, num, denom););
 
-	if (num == denom)
+	if (num == denom && !force)
 		return;
 
 	data = ms_biff_put_len_next (bp, BIFF_SCL, 4);
@@ -3827,7 +3834,7 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 		excel_write_PANE (ewb->bp, esheet);
 
 	excel_write_SCL (ewb->bp,
-		esheet->gnum_sheet->last_zoom_factor_used);
+		esheet->gnum_sheet->last_zoom_factor_used, FALSE);
 	excel_write_selections (ewb->bp, esheet);
 
 	/* These are actually specific to >= biff8

@@ -65,7 +65,6 @@ GType gog_plot1_5d_get_type (void);
 
 typedef struct {
 	GogSeries base;
-	unsigned num_elements;
 	GogErrorBar *errors;
 } GogSeries1_5d;
 typedef GogSeriesClass GogSeries1_5dClass;

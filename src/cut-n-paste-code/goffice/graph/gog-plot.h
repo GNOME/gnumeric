@@ -49,6 +49,7 @@ void	  gog_plot_get_cardinality (GogPlot *plot,
 				    unsigned *full, unsigned *visible);
 void      gog_plot_foreach_elem    (GogPlot *plot, gboolean only_visible,
 				    GogEnumFunc handler, gpointer data);
+GSList   *gog_plot_get_series	   (GogPlot const *plot);
 GOData	 *gog_plot_get_axis_bounds (GogPlot *plot, GogAxisType axis,
 				    GogPlotBoundInfo *bounds);
 
@@ -61,6 +62,7 @@ GogAxisSet gog_plot_axis_set_pref	(GogPlot const *plot);
 gboolean   gog_plot_axis_set_is_valid	(GogPlot const *plot, GogAxisSet type);
 gboolean   gog_plot_axis_set_assign	(GogPlot *plot, GogAxisSet type);
 void	   gog_plot_axis_clear		(GogPlot *plot, GogAxisSet filter);
+GogAxis	  *gog_plot_get_axis		(GogPlot const *plot, GogAxisType type);
 
 G_END_DECLS
 

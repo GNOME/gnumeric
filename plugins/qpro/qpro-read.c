@@ -73,8 +73,8 @@ qpro_check_signature (GsfInput *input)
 gboolean
 qpro_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
-	GsfInfileMSOle *ole;
-	GsfInput *stream;
+	GsfInfile *ole;
+	GsfInput  *stream;
 	gboolean res = FALSE;
 
 	/* check for >= QPro 6.0 which is OLE based */
@@ -827,8 +827,8 @@ qpro_file_open (GnmFileOpener const *fo, IOContext *context,
 		WorkbookView *new_wb_view, GsfInput *input)
 {
 	QProReadState state;
-	GsfInput *stream = NULL;
-	GsfInfileMSOle *ole;
+	GsfInput  *stream = NULL;
+	GsfInfile *ole;
 
 	state.io_context = context;
 	state.wbv = new_wb_view;

@@ -165,8 +165,8 @@ gog_plot1_5d_update (GogObject *obj)
 			continue;
 		num_series++;
 
-		if (num_elements < series->num_elements)
-			num_elements = series->num_elements;
+		if (num_elements < series->base.num_elements)
+			num_elements = series->base.num_elements;
 		if (GOG_1_5D_NORMAL == model->type) {
 			if (gog_error_bar_is_visible (series->errors))
 				gog_error_bar_get_minmax (series->errors, &minima, &maxima);
@@ -357,18 +357,18 @@ gog_series1_5d_update (GogObject *obj)
 	double *vals;
 	int len = 0;
 	GogSeries1_5d *series = GOG_SERIES1_5D (obj);
-	unsigned old_num = series->num_elements;
+	unsigned old_num = series->base.num_elements;
 
 	if (series->base.values[1].data != NULL) {
 		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
 		len = go_data_vector_get_len 
 			(GO_DATA_VECTOR (series->base.values[1].data));
 	}
-	series->num_elements = len;
+	series->base.num_elements = len;
 
 	/* queue plot for redraw */
 	gog_object_request_update (GOG_OBJECT (series->base.plot));
-	if (old_num != series->num_elements)
+	if (old_num != series->base.num_elements)
 		gog_plot_request_cardinality_update (series->base.plot);
 
 	if (gog_series1_5d_parent_klass->update)

@@ -48,6 +48,7 @@ void	      gog_series_set_dim    (GogSeries *series, int dim_i,
 void	      gog_series_set_index  (GogSeries *series,
 				     int ind, gboolean is_manual);
 
+unsigned      gog_series_num_elements (GogSeries const *series);
 GList 	     *gog_series_get_elements (GogSeries *series);
 
 G_END_DECLS

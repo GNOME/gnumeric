@@ -403,7 +403,7 @@ load_ppt (char *input_file)
 	GError    *err = NULL;
 	PresentPresentation *presentation = NULL;
 
-	input = GSF_INPUT (gsf_input_mmap_new (input_file, &err));
+	input = gsf_input_mmap_new (input_file, &err);
 	if (input == NULL) {
 		g_return_val_if_fail (err != NULL, NULL);
 		g_warning ("'%s' error: %s", input_file, err->message);
@@ -413,7 +413,7 @@ load_ppt (char *input_file)
 
 	input = gsf_input_uncompress (input);
 
-	infile = GSF_INFILE (gsf_infile_msole_new (input, &err));
+	infile = gsf_infile_msole_new (input, &err);
 	if (infile == NULL) {
 
 		g_return_val_if_fail (err != NULL, NULL);

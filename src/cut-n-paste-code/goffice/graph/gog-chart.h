@@ -43,7 +43,9 @@ void	 gog_chart_get_cardinality (GogChart *chart,
 				    unsigned *full, unsigned *visible);
 void	 gog_chart_foreach_elem	   (GogChart *chart, gboolean only_visible,
 				    GogEnumFunc handler, gpointer data);
+GSList	*gog_chart_get_plots	   (GogChart const *chart);
 
+GogAxisSet gog_chart_axis_set	     (GogChart const *chart);
 gboolean gog_chart_axis_set_is_valid (GogChart const *chart, GogAxisSet type);
 gboolean gog_chart_axis_set_assign   (GogChart *chart, GogAxisSet type);
 GSList	*gog_chart_get_axis	     (GogChart const *chart, GogAxisType type);

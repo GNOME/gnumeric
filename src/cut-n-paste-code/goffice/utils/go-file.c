@@ -28,6 +28,8 @@
 #include <gsf-gnome/gsf-input-gnomevfs.h>
 #endif
 
+#include <string.h>
+
 /* ------------------------------------------------------------------------- */
 
 char *
@@ -120,16 +122,11 @@ go_basename_from_uri (const char *uri)
 static GsfInput *
 open_plain_file (const char *path, GError **err)
 {
-	GsfInputMemory *in_mem;
-	GsfInputStdio  *in_stdio;
-
-	in_mem = gsf_input_mmap_new (path, NULL);
-	if (in_mem != NULL)
-		return GSF_INPUT (in_mem);
-
+	GsfInput *input = gsf_input_mmap_new (path, NULL);
+	if (input != NULL)
+		return input;
 	/* Only report error if stdio fails too */
-	in_stdio = gsf_input_stdio_new (path, err);
-	return in_stdio ? GSF_INPUT (in_stdio) : NULL;
+	return gsf_input_stdio_new (path, err);
 }
 
 
@@ -162,7 +159,7 @@ go_file_open (char const *uri, GError **err)
 	}
 
 #ifdef WITH_GNOME
-	return (GsfInput *)gsf_input_gnomevfs_new (uri, err);
+	return gsf_input_gnomevfs_new (uri, err);
 #else
 	g_set_error (err, gsf_input_error (), 0,
 		     "Invalid or non-supported URI");

@@ -126,7 +126,7 @@ unsigned excel_write_string	(BiffPut *bp, WriteStringFlags flags,
 				 guint8 const *txt);
 unsigned excel_write_BOF	(BiffPut *bp, MsBiffFileType type);
 void	 excel_write_SETUP	(BiffPut *bp, ExcelWriteSheet *esheet);
-void	 excel_write_SCL	(BiffPut *bp, double zoom);
+void	 excel_write_SCL	(BiffPut *bp, double zoom, gboolean force);
 
 int excel_write_get_externsheet_idx (ExcelWriteState *wb,
 				     Sheet *gnum_sheeta,

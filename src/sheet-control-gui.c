@@ -219,15 +219,17 @@ scg_setup_group_buttons (SheetControlGUI *scg, unsigned max_outline,
 		GtkWidget *out = gtk_alignment_new (.5, .5, 1., 1.);
 		GtkWidget *in  = gtk_alignment_new (.5, .5, 0., 0.);
 		GtkWidget *btn = gtk_button_new ();
-		char *tmp = g_strdup_printf ("%d", btns->len+1);
+		char *tmp = g_strdup_printf ("<small>%d</small>", btns->len+1);
+		GtkWidget *label = gtk_label_new (NULL);
+		gtk_label_set_markup (GTK_LABEL (label), tmp);
+		g_free (tmp);
 
 		GTK_WIDGET_UNSET_FLAGS (btn, GTK_CAN_FOCUS);
-		gtk_container_add (GTK_CONTAINER (in), gtk_label_new (tmp));
+		gtk_container_add (GTK_CONTAINER (in), label);
 		gtk_container_add (GTK_CONTAINER (btn), in);
 		gtk_container_add (GTK_CONTAINER (out), btn);
 		gtk_box_pack_start (GTK_BOX (box), out, TRUE, TRUE, 0);
 		g_ptr_array_add (btns, btn);
-		g_free (tmp);
 
 		g_signal_connect (G_OBJECT (btn),
 			"clicked",

@@ -364,6 +364,20 @@ gog_chart_foreach_elem (GogChart *chart, gboolean only_visible,
 		gog_plot_foreach_elem (ptr->data, only_visible, handler, data);
 }
 
+GSList *
+gog_chart_get_plots (GogChart const *chart)
+{
+	g_return_val_if_fail (GOG_CHART (chart) != NULL, NULL);
+	return chart->plots;
+}
+
+GogAxisSet
+gog_chart_axis_set (GogChart const *chart)
+{
+	g_return_val_if_fail (GOG_CHART (chart) != NULL, GOG_AXIS_SET_UNKNOWN);
+	return chart->axis_set;
+}
+
 gboolean
 gog_chart_axis_set_is_valid (GogChart const *chart, GogAxisSet type)
 {

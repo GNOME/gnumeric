@@ -689,6 +689,18 @@ static gint element_compare (GogSeriesElement *gse_a, GogSeriesElement *gse_b)
 	return gse_a->index - gse_b->index;
 }
 
+/**
+ * gog_series_num_elements :
+ * @series : #GogSeries 
+ *
+ * Returns the number of elements in the series
+ **/
+unsigned
+gog_series_num_elements (GogSeries const *series)
+{
+	return series->num_elements;
+}
+
 GList *
 gog_series_get_elements (GogSeries *series) 
 {

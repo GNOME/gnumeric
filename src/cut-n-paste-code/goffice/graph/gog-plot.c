@@ -383,6 +383,13 @@ gog_plot_foreach_elem (GogPlot *plot, gboolean only_visible,
 	g_object_unref (style);
 }
 
+GSList *
+gog_plot_get_series (GogPlot const *plot)
+{
+	g_return_val_if_fail (GOG_PLOT (plot) != NULL, NULL);
+	return plot->series;
+}
+
 /**
  * gog_plot_get_axis_bounds :
  * @plot : #GogPlot
@@ -501,6 +508,15 @@ gog_plot_axis_clear (GogPlot *plot, GogAxisSet filter)
 			gog_axis_del_contributor (plot->axis[type], GOG_OBJECT (plot));
 			plot->axis[type] = NULL;
 		}
+}
+
+GogAxis	*
+gog_plot_get_axis (GogPlot const *plot, GogAxisType type)
+{
+	g_return_if_fail (GOG_PLOT (plot) != NULL);
+	g_return_if_fail (type < GOG_AXIS_TYPES);
+	g_return_if_fail (GOG_AXIS_UNKNOWN < type);
+	return plot->axis[type];
 }
 
 /****************************************************************************/

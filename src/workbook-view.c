@@ -568,11 +568,11 @@ wbv_save_to_file (WorkbookView *wbv, GnmFileSaver const *fs,
 
 	filename = go_filename_from_uri (uri);
 	if (filename) {
-		output = (GsfOutput *)gsf_output_stdio_new (filename, &err);
+		output = gsf_output_stdio_new (filename, &err);
 		g_free (filename);
 	} else {
 #ifdef WITH_GNOME
-		output = (GsfOutput *)gsf_output_gnomevfs_new (uri, &err);
+		output = gsf_output_gnomevfs_new (uri, &err);
 #endif
 	}
 

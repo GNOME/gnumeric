@@ -48,7 +48,6 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 typedef struct {
 	GogSeries base;
-	unsigned num_elements;
 } GogRadarSeries;
 typedef GogSeriesClass GogRadarSeriesClass;
 
@@ -139,8 +138,8 @@ gog_radar_plot_update (GogObject *obj)
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
 
-		if (num_elements < series->num_elements)
-			num_elements = series->num_elements;
+		if (num_elements < series->base.num_elements)
+			num_elements = series->base.num_elements;
 		go_data_vector_get_minmax (GO_DATA_VECTOR (
 			series->base.values[1].data), &tmp_min, &tmp_max);
 		if (val_min > tmp_min) val_min = tmp_min;
@@ -341,9 +340,9 @@ gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		gog_renderer_push_style (view->renderer, style);
 
-		closed_shape = (series->num_elements == model->num_elements);
+		closed_shape = (series->base.num_elements == model->num_elements);
 		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
-		for (count = 0; count < series->num_elements; count++) {
+		for (count = 0; count < series->base.num_elements; count++) {
 			double angle_rad = count * 2.0 * M_PI / model->num_elements;
 			double x, y, scale;
 
@@ -364,7 +363,7 @@ gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
 			gog_renderer_draw_marker(view->renderer, x, y);
 		}
 
-		if (series->num_elements == model->num_elements
+		if (series->base.num_elements == model->num_elements
 		    && finite(vals[count-1])) {
 			path[count].code = ART_LINETO; 
 			path[count].x = path[0].x;
@@ -412,7 +411,7 @@ static void
 gog_radar_series_update (GogObject *obj)
 {
 	GogRadarSeries *series = GOG_RADAR_SERIES (obj);
-	unsigned old_num = series->num_elements;
+	unsigned old_num = series->base.num_elements;
 	double *vals;
 	unsigned len = 0;
 
@@ -421,14 +420,14 @@ gog_radar_series_update (GogObject *obj)
 		len = go_data_vector_get_len (
 			GO_DATA_VECTOR (series->base.values[1].data));
 	}
-	series->num_elements = len;
+	series->base.num_elements = len;
 
 	/* queue plot and axis for redraw */
 	gog_object_request_update (GOG_OBJECT (series->base.plot));
 	if (old_num != len)
 		gog_object_request_update (GOG_OBJECT (series->base.plot->axis[GOG_AXIS_CIRCULAR]));
 
-	if (old_num != series->num_elements)
+	if (old_num != series->base.num_elements)
 		gog_plot_request_cardinality_update (series->base.plot);
 
 	if (((GogObjectClass *)series_parent_klass)->update)

@@ -181,7 +181,7 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 			char *filename = g_strdup_printf ("unknown%d.%s",
 							  count++, soi->type);
 #if 0
-			GsfOutputStdio *file = gsf_output_stdio_new (filename, NULL);
+			GsfOutput *file = gsf_output_stdio_new (filename, NULL);
 			if (file) {
 				gsf_output_write (GSF_OUTPUT (file),
 						  soi->data_len,

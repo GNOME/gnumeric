@@ -3907,7 +3907,7 @@ xml_workbook_read (IOContext *context,
 static GsfInput *
 maybe_gunzip (GsfInput *input)
 {
-	GsfInput *gzip = GSF_INPUT (gsf_input_gzip_new (input, NULL));
+	GsfInput *gzip = gsf_input_gzip_new (input, NULL);
 	if (gzip) {
 		g_object_unref (input);
 		return gzip;
@@ -3962,7 +3962,7 @@ maybe_convert (GsfInput *input, gboolean quiet)
 	}
 
 	if (g_get_charset (NULL)) {
-		input = GSF_INPUT (gsf_input_memory_new (buffer->str, buffer->len, TRUE));
+		input = gsf_input_memory_new (buffer->str, buffer->len, TRUE);
 		g_string_free (buffer, FALSE);
 		if (!quiet)
 			g_warning ("Converted xml document with no encoding from pseudo-UTF-8 to UTF-8.");
@@ -3979,7 +3979,7 @@ maybe_convert (GsfInput *input, gboolean quiet)
 			return input;
 		}
 
-		input = GSF_INPUT (gsf_input_memory_new (converted, bytes_written, TRUE));
+		input = gsf_input_memory_new (converted, bytes_written, TRUE);
 		if (!quiet)
 			g_warning ("Converted xml document with no encoding from locale to UTF-8.");
 	}
@@ -4231,7 +4231,7 @@ gnumeric_xml_write_workbook (GnmFileSaver const *fs,
 	filename = gsf_output_name (output);
 	extension = filename ? gsf_extension_pointer (filename) : NULL;
 	if (extension == NULL || g_ascii_strcasecmp (extension, "xml") != 0) {
-		gzout  = GSF_OUTPUT (gsf_output_gzip_new (output, NULL));
+		gzout  = gsf_output_gzip_new (output, NULL);
 		output = gzout;
 	}
 	xmlIndentTreeOutput = TRUE;

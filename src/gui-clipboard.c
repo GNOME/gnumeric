@@ -153,7 +153,7 @@ table_cellregion_read (WorkbookControl *wbc, const char *reader_id,
 	GnmCellRegion *ret = NULL;
 	const GnmFileOpener *reader = gnm_file_opener_for_id (reader_id);
 	IOContext *ioc;
-	GsfInputMemory *input;
+	GsfInput *input;
 
 	if (!reader) {
 		g_warning ("No file opener for %s", reader_id);
@@ -162,7 +162,7 @@ table_cellregion_read (WorkbookControl *wbc, const char *reader_id,
 
 	ioc = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbc));
 	input = gsf_input_memory_new (buffer, length, FALSE);
-	wb_view = wb_view_new_from_input  (GSF_INPUT (input), reader, ioc, NULL);
+	wb_view = wb_view_new_from_input  (input, reader, ioc, NULL);
 	if (gnumeric_io_error_occurred (ioc) || wb_view == NULL) {
 		gnumeric_io_error_display (ioc);
 		goto out;
@@ -370,7 +370,7 @@ table_cellregion_write (WorkbookControl *wbc, GnmCellRegion *cr,
 	if (!saver)
 		return NULL;
 
-	output = GSF_OUTPUT (gsf_output_memory_new ());
+	output = gsf_output_memory_new ();
 	ioc = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbc));
 	wb = workbook_new_with_sheets (1);
 	wb_view = workbook_view_new (wb);

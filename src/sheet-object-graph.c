@@ -185,17 +185,17 @@ cb_save_as (GtkWidget *widget, GObject *obj_view)
 			GOG_RENDERER_PIXBUF (sog->renderer));
 		ret = gdk_pixbuf_save (pixbuf, fname, "jpg", &err, NULL);
 	} else if (g_ascii_strcasecmp (extension, "svg") == 0) {
-		GsfOutputStdio *output = gsf_output_stdio_new (fname, &err);
+		GsfOutput *output = gsf_output_stdio_new (fname, &err);
 
 		if (output != NULL) {
 			double coords [4];
 			sheet_object_position_pts_get (SHEET_OBJECT (sog), coords);
-			ret = gog_graph_export_to_svg (sog->graph, GSF_OUTPUT (output),
+			ret = gog_graph_export_to_svg (sog->graph, output,
 						       fabs (coords[2] - coords[0]),
 						       fabs (coords[3] - coords[1]),
 						       1. / gnm_app_dpi_to_pixels ());
 
-			gsf_output_close (GSF_OUTPUT (output));
+			gsf_output_close (output);
 			g_object_unref (output);
 
 			if (!ret && err == NULL)
