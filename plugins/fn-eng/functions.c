@@ -642,7 +642,7 @@ static const char *help_convert = {
 	   "\t'M'  \tmega  \t1E+06\n"
 	   "\t'k'  \tkilo  \t\t1E+03\n"
 	   "\t'h'  \thecto \t1E+02\n"
-	   "\t'e'  \tdekao \t1E+01\n"
+	   "\t'e'  \tdeka  \t1E+01\n"
 	   "\t'd'  \tdeci  \t1E-01\n"
 	   "\t'c'  \tcenti \t\t1E-02\n"
 	   "\t'm'  \tmilli \t\t1E-03\n"
