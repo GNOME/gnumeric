@@ -16,6 +16,7 @@ Morten:
 	* Draw rotated text.
 	* Print rotated text.
 	* Fix torn off undo/redo crash.
+	* Fix cell format dialog initialization problems.
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.1

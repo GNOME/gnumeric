@@ -1,3 +1,8 @@
+2004-12-17  Morten Welinder  <terra@gnome.org>
+
+	* dialog-cell-format.c (fmt_dialog_init_align_page): Handle the
+	no-common rotation case.  Fix the no-common indentation case.
+
 2004-12-14  Morten Welinder  <terra@gnome.org>
 
 	* dialog-cell-format.c (fmt_dialog_init_align_page): Initialize

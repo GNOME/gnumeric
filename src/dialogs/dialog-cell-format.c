@@ -850,7 +850,7 @@ fmt_dialog_init_align_page (FormatState *state)
 		"toggled",
 		G_CALLBACK (cb_align_wrap_toggle), state);
 
-	if (mstyle_is_element_conflict (state->style, MSTYLE_ALIGN_V) &&
+	if (mstyle_is_element_conflict (state->style, MSTYLE_INDENT) ||
 	    (h != HALIGN_LEFT && h != HALIGN_RIGHT))
 		state->align.indent = 0;
 	else
@@ -879,7 +879,10 @@ fmt_dialog_init_align_page (FormatState *state)
 	/* setup the rotation canvas */
 	state->align.line = NULL;
 	state->align.text = NULL;
-	state->align.rotation = mstyle_get_rotation (state->style);
+	state->align.rotation =
+		mstyle_is_element_conflict (state->style, MSTYLE_ROTATION)
+		? 0
+		: mstyle_get_rotation (state->style);
 	memset (state->align.rotate_marks, 0,
 		sizeof (state->align.rotate_marks));
 	w = glade_xml_get_widget (state->gui, "rotate_spinner");
