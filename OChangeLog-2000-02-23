@@ -1,3 +1,32 @@
+1998-11-11  Michael Meeks    <michael@imaginator.com>
+
+	* plugins/excel/ms-biff.h, plugins/excel/ms-excel.c: Removed fatal
+	bug, and accelerated code by testing for DV in MULBLANK case.
+
+	* plugins/excel/ms-excel.c(ms_excel_set_cell_xf): Out by one indexes
+	causing serious attribute offset grief in fonts.
+
+	* Rememberance_Day:
+	They went with songs to the battle, they were young,
+	Straight of limb, true of eye, steady and aglow.
+	They were staunch to the end against odds uncounted,
+	They fell with their faces to the foe.
+
+	They shall grow not old, as we that are left grow old,
+	Age shall not weary them, nor the years condemn.
+	At the going down of the sun, and in the morning,
+	We will remember them.
+
+	Lest we forget.
+
+1998-11-10  Bruno Unna       <bruno@iac.com.mx>
+
+	* plugins/excel/ms-excel.c(ms_excel_set_font): Started implementing
+	font styles properly.
+	
+	* src/gnumeric-util.c(font_get_bold_name, font_get_italic_name): Hacked
+	both so they allow testing of new font code.
+
 1998-11-10  Michael Meeks    <michael@imaginator.com>
 
 	* plugins/excel/ms-ole.c(create_link_array): Truly

@@ -131,6 +131,9 @@ extern void free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
 #define BIFF_RSTRING                    0xd6
 #define BIFF_XF                         0xe0
 
+/* Odd balls */
+#define BIFF_DV                        0x1be
+
 //------------------------------------------------------------------------
 #endif
 

@@ -127,8 +127,8 @@ static BIFF_FONT_DATA *new_biff_font_data (BIFF_QUERY *q)
 
   fd->height     = BIFF_GETWORD(q->data +  0) ;
   data           = BIFF_GETWORD(q->data +  2) ;
-  fd->italic     = (data & 0x2) ;
-  fd->struck_out = (data & 0x8) ;
+  fd->italic     = (data & 0x2) == 0x2 ;
+  fd->struck_out = (data & 0x8) == 0x8 ;
   fd->color_idx  = BIFF_GETWORD(q->data +  4) ;
   fd->boldness   = BIFF_GETWORD(q->data +  6) ;
   data           = BIFF_GETWORD(q->data +  8) ;
@@ -274,7 +274,25 @@ static void ms_excel_set_cell_font (MS_EXCEL_SHEET *sheet, Cell *cell, BIFF_XF_D
       if (idx==xf->font_idx)
 	{
 	  BIFF_FONT_DATA *fd = ptr->data ;
-	  cell_set_font (cell, fd->fontname) ;	  
+
+	  /* FIXME: the following does not accept the possibility of bold AND italic. Ugly code.  */
+	  if (fd->italic)
+	    {
+	      cell_set_font (cell, font_get_italic_name(fd->fontname)) ;
+	      cell->style->font->hint_is_italic = 1;
+	    }
+	  else
+	    {
+	      if (fd->boldness==0x2bc)
+		{
+		  cell_set_font (cell, font_get_bold_name(fd->fontname)) ;
+		  cell->style->font->hint_is_bold = 1;
+		}
+	      else
+		{
+		  cell_set_font (cell, fd->fontname) ;
+		}
+	    }
 	  return ;
 	}
       idx++ ;
@@ -300,7 +318,7 @@ void ms_excel_set_cell_xf(MS_EXCEL_SHEET *sheet, Cell *cell, int xfidx)
     }
   ptr = g_list_first (sheet->wb->XF_records) ;
   /*  printf ("Looking for %d\n", xfidx) ; */
-  cnt =  16+5 ; /* Magic number ... :-)  FIXME  */
+  cnt = 16+4 ; /* Magic number ... :-)  FIXME - dodgy */
   while (ptr)
     {
       BIFF_XF_DATA *xf = ptr->data ;
@@ -319,7 +337,7 @@ void ms_excel_set_cell_xf(MS_EXCEL_SHEET *sheet, Cell *cell, int xfidx)
       cnt++ ;
       ptr = ptr->next ;
     }
-  printf ("No XF record for %d found :-(\n", xfidx) ;
+  printf ("No XF record for %d out of %d found :-(\n", xfidx, cnt) ;
 }
 
 /**
@@ -608,29 +626,42 @@ static void ms_excel_read_cell  (BIFF_QUERY *q, MS_EXCEL_SHEET *sheet)
   switch (q->ls_op)
     {
     case BIFF_BLANK: /* FIXME: Not a good way of doing blanks ? */
-      printf ("Cell [%d, %d] XF = %x\n", BIFF_GETCOL(q), BIFF_GETROW(q),
-	      BIFF_GETXF(q)) ;
+      /* printf ("Cell [%d, %d] XF = %x\n", BIFF_GETCOL(q), BIFF_GETROW(q),
+	 BIFF_GETXF(q)) ; */
       ms_excel_sheet_insert (sheet, BIFF_GETXF(q), BIFF_GETCOL(q), BIFF_GETROW(q), "") ;
       break ;
-    case BIFF_MULBLANK:   /* S95DA7.HTM is extremely unclear, this is an educated guess */
+    case BIFF_MULBLANK:   /* S59DA7.HTM is extremely unclear, this is an educated guess */
       {
-	int row, col, lastcol ;
-	int incr ;
-	BYTE *ptr ;
-	/*	dump (q->data, q->length) ; */
-	row = BIFF_GETROW(q) ;
-	col = BIFF_GETCOL(q) ;
-	ptr = (q->data + 4) ;
-	lastcol = BIFF_GETWORD(q->data + q->length - 2) ; /* guess */
-	/*	printf ("Cells in row %d are blank starting at col %d until col %d\n",
-		row, col, lastcol) ; */
-	incr = (lastcol>col)?1:-1 ;
-	g_assert ((lastcol-col+1)*2+6<=q->length) ;
-	while (col!=lastcol)
+	if (q->opcode == BIFF_DV)
 	  {
-	    ms_excel_sheet_insert (sheet, BIFF_GETWORD(ptr), BIFF_GETCOL(q), BIFF_GETROW(q), "") ;
-	    col+= incr ;
-	    ptr+=2 ;
+	    printf ("Unimplemented DV: data validation criteria, FIXME\n") ;
+	    break ;
+	  }
+	else
+	  {
+	    int row, col, lastcol ;
+	    int incr ;
+	    BYTE *ptr ;
+	    /*	dump (q->data, q->length) ; */
+	    row = BIFF_GETROW(q) ;
+	    col = BIFF_GETCOL(q) ;
+	    ptr = (q->data + 4) ;
+	    lastcol = BIFF_GETWORD(q->data + q->length - 2) ; /* guess */
+	    printf ("Cells in row %d are blank starting at col %d until col %d (0x%x)\n",
+		    row, col, lastcol, lastcol) ; 
+	    /*	    if (lastcol<col)  What to do in this case ? 
+	      {
+		printf ("Serious implentation documentation error\n") ;
+		break ;
+		}*/
+	    incr = (lastcol>col)?1:-1 ;
+	    /*	    g_assert (((lastcol-col)*incr+1)*2+6<=q->length) ; */
+	    while (col!=lastcol)
+	      {
+		ms_excel_sheet_insert (sheet, BIFF_GETWORD(ptr), BIFF_GETCOL(q), BIFF_GETROW(q), "") ;
+		col+= incr ;
+		ptr+=2 ;
+	      }
 	  }
       }
       break ;
@@ -817,10 +848,12 @@ Workbook *ms_excelReadWorkbook(MS_OLE_FILE *file)
 	    printf ("READ PALETTE\n") ;
 	    wb->palette = new_ms_excel_palette (q) ;
 	    break;
-	  case BIFF_FONT:
+	  case BIFF_FONT: /* see S59D8C.HTM */
 	    {
-	      BIFF_FONT_DATA *ptr = new_biff_font_data (q) ;
+	      BIFF_FONT_DATA *ptr ;
 	      printf ("Read Font\n") ;
+	      dump (q->data, q->length) ;	      
+	      ptr = new_biff_font_data (q) ;
 	      wb->font_data = g_list_append (wb->font_data, ptr) ;
 	    }
 	    break ;
