@@ -26,11 +26,12 @@
 #
 # * Skriv en kommentar över strängar du är osäker på: # FIXME: kommentar.
 #
+#: plugins/fn-random/functions.c:908
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-07-21 18:56+0200\n"
-"PO-Revision-Date: 2002-07-21 18:57+0200\n"
+"POT-Creation-Date: 2002-07-26 02:34+0200\n"
+"PO-Revision-Date: 2002-07-26 02:35+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -97,7 +98,7 @@ msgid "Imports version 4.[234] spreadsheets"
 msgstr "Importerar kalkylblad från version 4.[234]"
 
 # FIXME: Någon som förstår detta?
-#: plugins/derivatives/options.c:291
+#: plugins/derivatives/options.c:304
 msgid ""
 "@FUNCTION=opt_bs_call\n"
 "@SYNTAX=opt_bs_call(strike,price,volatility,days_to_maturity,rate)\n"
@@ -131,7 +132,7 @@ msgstr ""
 "opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
 
-#: plugins/derivatives/options.c:311
+#: plugins/derivatives/options.c:324
 msgid ""
 "@FUNCTION=opt_bs_put\n"
 "@SYNTAX=opt_bs_put(strike,price,volatility,days_to_maturity,rate)\n"
@@ -165,7 +166,7 @@ msgstr ""
 "opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
 
-#: plugins/derivatives/options.c:331
+#: plugins/derivatives/options.c:344
 msgid ""
 "@FUNCTION=opt_bs_call_delta\n"
 "@SYNTAX=opt_bs_call_delta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -203,7 +204,7 @@ msgstr ""
 "opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
 
-#: plugins/derivatives/options.c:354
+#: plugins/derivatives/options.c:367
 msgid ""
 "@FUNCTION=opt_bs_put_delta\n"
 "@SYNTAX=opt_bs_put_delta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -241,7 +242,7 @@ msgstr ""
 "opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
 
-#: plugins/derivatives/options.c:378
+#: plugins/derivatives/options.c:391
 #, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_call_rho\n"
@@ -280,7 +281,7 @@ msgstr ""
 "opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
 
-#: plugins/derivatives/options.c:402
+#: plugins/derivatives/options.c:415
 #, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_put_rho\n"
@@ -319,7 +320,7 @@ msgstr ""
 "opt_bs_call_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
 "opt_bs_gamma"
 
-#: plugins/derivatives/options.c:425
+#: plugins/derivatives/options.c:438
 msgid ""
 "@FUNCTION=opt_bs_call_theta\n"
 "@SYNTAX=opt_bs_call_theta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -355,7 +356,7 @@ msgstr ""
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta, opt_bs_put_delta, "
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_vega, opt_bs_gamma"
 
-#: plugins/derivatives/options.c:448
+#: plugins/derivatives/options.c:461
 msgid ""
 "@FUNCTION=opt_bs_put_theta\n"
 "@SYNTAX=opt_bs_put_theta(strike,price,volatility,days_to_maturity,rate)\n"
@@ -391,7 +392,7 @@ msgstr ""
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, "
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_vega, opt_bs_gamma"
 
-#: plugins/derivatives/options.c:471
+#: plugins/derivatives/options.c:484
 msgid ""
 "@FUNCTION=opt_bs_gamma\n"
 "@SYNTAX=opt_bs_gamma(strike,price,volatility,days_to_maturity,rate)\n"
@@ -429,7 +430,7 @@ msgstr ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_rho, "
 "opt_bs_vega"
 
-#: plugins/derivatives/options.c:495
+#: plugins/derivatives/options.c:508
 #, no-c-format
 msgid ""
 "@FUNCTION=opt_bs_vega\n"
@@ -5500,15 +5501,24 @@ msgid ""
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
 "@DESCRIPTION=VDB calculates the depreciation of an asset for a given period "
 "or partial period using the double-declining balance method.\n"
+"If @start_period < 0, VDB returns #NUM! error. If @start_period > "
+"@end_period, VDB returns #NUM! error. If @end_period > @life, VDB returns "
+"#NUM! error. If @cost < 0, VDB returns #NUM! error. If @salvage > @cost, VDB "
+"returns #NUM! error. If @factor <= 0, VDB returns #NUM! error. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DB"
 msgstr ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(kostnad;bärgning;liv;startperiod;slutperiod[;faktor;växel])\n"
-"@DESCRIPTION=VDB beräknar värdeminskningen av en tillgån för en given "
+"@DESCRIPTION=VDB beräknar värdeminskningen av en tillgång för en given "
 "period, eller del av period, genom att använda den dubbelavtagande "
 "balansmetoden.\n"
+"Om @startperiod < 0 returnerar VDB felvärdet #NUM!. Om @startperiod > "
+"@slutperiod returnerar VDB felvärdet #NUM!. Om @slutperiod > @liv returnerar "
+"VDB felvärdet #NUM!. Om @kostnad < 0 returnerar VDB felvärdet #NUM!. Om "
+"@bärgning > @kostnad returnerar VDB felvärdet #NUM!. Om @faktor <= 0 "
+"returnerar VDB felvärdet #NUM!. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DB"
@@ -6301,19 +6311,19 @@ msgstr ""
 
 #: plugins/fn-logical/functions.c:351 plugins/fn-logical/functions.c:352
 #: plugins/fn-logical/functions.c:353 plugins/fn-math/functions.c:3114
-#: plugins/fn-stat/functions.c:4696 plugins/fn-stat/functions.c:4698
-#: plugins/fn-stat/functions.c:4700 plugins/fn-stat/functions.c:4716
-#: plugins/fn-stat/functions.c:4718 plugins/fn-stat/functions.c:4728
-#: plugins/fn-stat/functions.c:4756 plugins/fn-stat/functions.c:4764
-#: plugins/fn-stat/functions.c:4766 plugins/fn-stat/functions.c:4768
-#: plugins/fn-stat/functions.c:4770 plugins/fn-stat/functions.c:4780
-#: plugins/fn-stat/functions.c:4782 plugins/fn-stat/functions.c:4784
-#: plugins/fn-stat/functions.c:4786 plugins/fn-stat/functions.c:4788
-#: plugins/fn-stat/functions.c:4790 plugins/fn-stat/functions.c:4822
-#: plugins/fn-stat/functions.c:4826 plugins/fn-stat/functions.c:4828
-#: plugins/fn-stat/functions.c:4830 plugins/fn-stat/functions.c:4832
-#: plugins/fn-stat/functions.c:4848 plugins/fn-stat/functions.c:4850
-#: plugins/fn-stat/functions.c:4852 plugins/fn-stat/functions.c:4854
+#: plugins/fn-stat/functions.c:5149 plugins/fn-stat/functions.c:5151
+#: plugins/fn-stat/functions.c:5153 plugins/fn-stat/functions.c:5173
+#: plugins/fn-stat/functions.c:5175 plugins/fn-stat/functions.c:5185
+#: plugins/fn-stat/functions.c:5217 plugins/fn-stat/functions.c:5225
+#: plugins/fn-stat/functions.c:5227 plugins/fn-stat/functions.c:5229
+#: plugins/fn-stat/functions.c:5235 plugins/fn-stat/functions.c:5247
+#: plugins/fn-stat/functions.c:5249 plugins/fn-stat/functions.c:5251
+#: plugins/fn-stat/functions.c:5253 plugins/fn-stat/functions.c:5255
+#: plugins/fn-stat/functions.c:5257 plugins/fn-stat/functions.c:5295
+#: plugins/fn-stat/functions.c:5299 plugins/fn-stat/functions.c:5301
+#: plugins/fn-stat/functions.c:5303 plugins/fn-stat/functions.c:5305
+#: plugins/fn-stat/functions.c:5321 plugins/fn-stat/functions.c:5323
+#: plugins/fn-stat/functions.c:5325 plugins/fn-stat/functions.c:5327
 #: src/func-builtin.c:139 src/func-builtin.c:145
 msgid "number,number,"
 msgstr "tal;tal;"
@@ -6334,8 +6344,8 @@ msgstr "tal;tal;"
 #: plugins/fn-math/functions.c:3108 plugins/fn-math/functions.c:3110
 #: plugins/fn-math/functions.c:3112 plugins/fn-math/functions.c:3120
 #: plugins/fn-math/functions.c:3128 plugins/fn-math/functions.c:3130
-#: plugins/fn-stat/functions.c:4740 plugins/fn-stat/functions.c:4742
-#: plugins/fn-stat/functions.c:4750 plugins/fn-stat/functions.c:4798
+#: plugins/fn-stat/functions.c:5199 plugins/fn-stat/functions.c:5201
+#: plugins/fn-stat/functions.c:5209 plugins/fn-stat/functions.c:5265
 #: plugins/fn-string/functions.c:1233
 msgid "number"
 msgstr "tal"
@@ -8176,7 +8186,7 @@ msgstr ""
 #: plugins/fn-math/functions.c:2243 plugins/fn-math/functions.c:2263
 #: plugins/fn-math/functions.c:2357 plugins/fn-math/functions.c:2377
 #: plugins/fn-math/functions.c:2469 plugins/fn-math/functions.c:2489
-#: plugins/fn-stat/functions.c:2644 plugins/fn-stat/functions.c:2674
+#: plugins/fn-stat/functions.c:2866 plugins/fn-stat/functions.c:2896
 msgid "Array version not implemented!"
 msgstr "Fältversion inte implementerad!"
 
@@ -8410,7 +8420,7 @@ msgstr "område;kriterium"
 msgid "number,significance"
 msgstr "tal;signifikans"
 
-#: plugins/fn-math/functions.c:3060 plugins/fn-stat/functions.c:4730
+#: plugins/fn-math/functions.c:3060 plugins/fn-stat/functions.c:5189
 msgid "n,k"
 msgstr "n;k"
 
@@ -8457,8 +8467,8 @@ msgstr "område;område;"
 
 #: plugins/fn-math/functions.c:3122 plugins/fn-math/functions.c:3124
 #: plugins/fn-math/functions.c:3126 plugins/fn-math/functions.c:3136
-#: plugins/fn-stat/functions.c:4724 plugins/fn-stat/functions.c:4726
-#: plugins/fn-stat/functions.c:4806 plugins/fn-stat/functions.c:4814
+#: plugins/fn-stat/functions.c:5181 plugins/fn-stat/functions.c:5183
+#: plugins/fn-stat/functions.c:5275 plugins/fn-stat/functions.c:5287
 msgid "array1,array2"
 msgstr "vektor1;vektor2"
 
@@ -8553,6 +8563,7 @@ msgid ""
 "@FUNCTION=RANDPOISSON\n"
 "@SYNTAX=RANDPOISSON(lambda)\n"
 "@DESCRIPTION=RANDPOISSON returns a poisson-distributed random number. \n"
+"If @lambda < 0 RANDPOISSON returns #NUM! error. \n"
 "@EXAMPLES=\n"
 "RANDPOISSON(3).\n"
 "\n"
@@ -8562,11 +8573,11 @@ msgstr ""
 "@SYNTAX=RANDPOISSON(lambda)\n"
 "@DESCRIPTION=RANDPOISSON returnerar ett Poissonfördelat slumptal.\n"
 "@EXAMPLES=\n"
-"RandPoisson(3).\n"
+"RANDPOISSON(3).\n"
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:150
+#: plugins/fn-random/functions.c:152
 msgid ""
 "@FUNCTION=RANDBINOM\n"
 "@SYNTAX=RANDBINOM(p,trials)\n"
@@ -8588,7 +8599,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:180
+#: plugins/fn-random/functions.c:182
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -8614,7 +8625,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDUNIFORM"
 
-#: plugins/fn-random/functions.c:214
+#: plugins/fn-random/functions.c:217
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
@@ -8638,7 +8649,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:245
+#: plugins/fn-random/functions.c:248
 msgid ""
 "@FUNCTION=RANDBERNOULLI\n"
 "@SYNTAX=RANDBERNOULLI(p)\n"
@@ -8658,7 +8669,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 
-#: plugins/fn-random/functions.c:273
+#: plugins/fn-random/functions.c:276
 msgid ""
 "@FUNCTION=RANDGAUSSIAN\n"
 "@SYNTAX=RANDGAUSSIAN(mean,stdev)\n"
@@ -8678,7 +8689,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:302
+#: plugins/fn-random/functions.c:305
 msgid ""
 "@FUNCTION=RANDCAUCHY\n"
 "@SYNTAX=RANDCAUCHY(a)\n"
@@ -8702,7 +8713,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:332
+#: plugins/fn-random/functions.c:335
 msgid ""
 "@FUNCTION=RANDLOGNORM\n"
 "@SYNTAX=RANDLOGNORM(zeta,sigma)\n"
@@ -8720,7 +8731,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:356
+#: plugins/fn-random/functions.c:359
 msgid ""
 "@FUNCTION=RANDWEIBULL\n"
 "@SYNTAX=RANDWEIBULL(a,b)\n"
@@ -8738,7 +8749,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:380
+#: plugins/fn-random/functions.c:383
 msgid ""
 "@FUNCTION=RANDLAPLACE\n"
 "@SYNTAX=RANDLAPLACE(a)\n"
@@ -8760,7 +8771,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:405
+#: plugins/fn-random/functions.c:408
 msgid ""
 "@FUNCTION=RANDRAYLEIGH\n"
 "@SYNTAX=RANDRAYLEIGH(sigma)\n"
@@ -8778,7 +8789,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:428
+#: plugins/fn-random/functions.c:431
 msgid ""
 "@FUNCTION=RANDRAYLEIGHTAIL\n"
 "@SYNTAX=RANDRAYLEIGHTAIL(a,sigma)\n"
@@ -8802,7 +8813,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDRAYLEIGH"
 
-#: plugins/fn-random/functions.c:455
+#: plugins/fn-random/functions.c:458
 msgid ""
 "@FUNCTION=RANDGAMMA\n"
 "@SYNTAX=RANDGAMMA(a,b)\n"
@@ -8822,7 +8833,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:484
+#: plugins/fn-random/functions.c:487
 msgid ""
 "@FUNCTION=RANDPARETO\n"
 "@SYNTAX=RANDPARETO(a,b)\n"
@@ -8840,7 +8851,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:508
+#: plugins/fn-random/functions.c:511
 msgid ""
 "@FUNCTION=RANDFDIST\n"
 "@SYNTAX=RANDFDIST(nu1,nu2)\n"
@@ -8858,7 +8869,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:532
+#: plugins/fn-random/functions.c:535
 msgid ""
 "@FUNCTION=RANDBETA\n"
 "@SYNTAX=RANDBETA(a,b)\n"
@@ -8876,7 +8887,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDGAMMA"
 
-#: plugins/fn-random/functions.c:556
+#: plugins/fn-random/functions.c:559
 msgid ""
 "@FUNCTION=RANDLOGISTIC\n"
 "@SYNTAX=RANDLOGISTIC(a)\n"
@@ -8899,7 +8910,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:581
+#: plugins/fn-random/functions.c:584
 msgid ""
 "@FUNCTION=RANDGEOM\n"
 "@SYNTAX=RANDGEOM(p)\n"
@@ -8925,7 +8936,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:612
+#: plugins/fn-random/functions.c:615
 msgid ""
 "@FUNCTION=RANDHYPERG\n"
 "@SYNTAX=RANDHYPERG(n1,n2,t)\n"
@@ -8949,7 +8960,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:640
+#: plugins/fn-random/functions.c:643
 msgid ""
 "@FUNCTION=RANDLOG\n"
 "@SYNTAX=RANDLOG(p)\n"
@@ -8969,7 +8980,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:668
+#: plugins/fn-random/functions.c:671
 msgid ""
 "@FUNCTION=RANDCHISQ\n"
 "@SYNTAX=RANDCHISQ(nu)\n"
@@ -8987,7 +8998,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDGAMMA"
 
-#: plugins/fn-random/functions.c:691
+#: plugins/fn-random/functions.c:694
 msgid ""
 "@FUNCTION=RANDTDIST\n"
 "@SYNTAX=RANDTDIST(nu)\n"
@@ -9005,7 +9016,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:714
+#: plugins/fn-random/functions.c:717
 msgid ""
 "@FUNCTION=RANDGUMBEL\n"
 "@SYNTAX=RANDGUMBEL(a,b[,type])\n"
@@ -9031,7 +9042,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:750
+#: plugins/fn-random/functions.c:753
 msgid ""
 "@FUNCTION=RANDLEVY\n"
 "@SYNTAX=RANDLEVY(c,alpha[,beta])\n"
@@ -9059,7 +9070,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:784
+#: plugins/fn-random/functions.c:787
 msgid ""
 "@FUNCTION=RANDEXPPOW\n"
 "@SYNTAX=RANDEXPPOW(a,b)\n"
@@ -9085,77 +9096,113 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:816 plugins/fn-random/functions.c:836
-#: plugins/fn-random/functions.c:846 plugins/fn-stat/functions.c:4800
+#: plugins/fn-random/functions.c:816
+msgid ""
+"@FUNCTION=RANDLANDAU\n"
+"@SYNTAX=RANDLANDAU()\n"
+"@DESCRIPTION=RANDLANDAU returns a random variate from the Landau "
+"distribution. The probability distribution for Landau random variates is "
+"defined analytically by the complex integral, p(x) = (1/(2 pi i)) int_{c-i "
+"infty}^{c+i infty} ds exp(s log(s) + x s). For numerical purposes it is more "
+"convenient to use the following equivalent form of the integral, p(x) = (1/"
+"pi) int_0^ infty dt exp(-t log(t) - x t) sin(pi t).\n"
+"@EXAMPLES=\n"
+"RANDLANDAU().\n"
+"\n"
+"@SEEALSO=RAND"
+msgstr ""
+
+#: plugins/fn-random/functions.c:843
+msgid ""
+"@FUNCTION=RANDGAUSSIANTAIL\n"
+"@SYNTAX=RANDGAUSSIANTAIL(a,sigma)\n"
+"@DESCRIPTION=RANDGAUSSIANTAIL returns a random variates from the upper tail "
+"of a Gaussian distribution with standard deviation sigma. The values "
+"returned are larger than the lower limit a, which must be positive. The "
+"method is based on Marsaglia's famous rectangle-wedge-tail algorithm (Ann "
+"Math Stat 32, 894-899 (1961)), with this aspect explained in Knuth, v2, 3rd "
+"ed, p139, 586 (exercise 11).\n"
+"The probability distribution for Gaussian tail random variates is, p(x) dx = "
+"{1 over N(a;sigma)} exp (- x^2/(2 sigma^2)) dx, for x > a where N(a;sigma) "
+"is the normalization constant, N(a;sigma) = (1/2) erfc(a / sqrt(2 "
+"sigma^2)). \n"
+"@EXAMPLES=\n"
+"RANDGAUSSIANTAIL(0.5,0.1).\n"
+"\n"
+"@SEEALSO=RAND"
+msgstr ""
+
+#: plugins/fn-random/functions.c:880 plugins/fn-random/functions.c:902
+#: plugins/fn-random/functions.c:914 plugins/fn-stat/functions.c:5267
 msgid "p"
 msgstr "p"
 
-#: plugins/fn-random/functions.c:818 plugins/fn-random/functions.c:830
-#: plugins/fn-random/functions.c:834 plugins/fn-random/functions.c:856
-#: plugins/fn-random/functions.c:866 plugins/fn-random/functions.c:868
+#: plugins/fn-random/functions.c:882 plugins/fn-random/functions.c:894
+#: plugins/fn-random/functions.c:898 plugins/fn-random/functions.c:924
+#: plugins/fn-random/functions.c:934 plugins/fn-random/functions.c:936
 msgid "a,b"
 msgstr "a;b"
 
-#: plugins/fn-random/functions.c:820
+#: plugins/fn-random/functions.c:884
 msgid "bottom,top"
 msgstr "underkant;överkant"
 
-#: plugins/fn-random/functions.c:822
+#: plugins/fn-random/functions.c:886
 msgid "p,trials"
 msgstr "p;försök"
 
-#: plugins/fn-random/functions.c:824 plugins/fn-random/functions.c:842
-#: plugins/fn-random/functions.c:848
+#: plugins/fn-random/functions.c:888 plugins/fn-random/functions.c:910
+#: plugins/fn-random/functions.c:916
 msgid "a"
 msgstr "a"
 
-#: plugins/fn-random/functions.c:826 plugins/fn-random/functions.c:864
+#: plugins/fn-random/functions.c:890 plugins/fn-random/functions.c:932
 msgid "nu"
 msgstr "nu"
 
-#: plugins/fn-random/functions.c:828
+#: plugins/fn-random/functions.c:892
 msgid "b"
 msgstr "b"
 
-#: plugins/fn-random/functions.c:832
+#: plugins/fn-random/functions.c:896
 msgid "nu1,nu2"
 msgstr "nu1;nu2"
 
-#: plugins/fn-random/functions.c:838
+#: plugins/fn-random/functions.c:900 plugins/fn-random/functions.c:930
+msgid "a,sigma"
+msgstr "a;sigma"
+
+#: plugins/fn-random/functions.c:904
 msgid "a,b[,type]"
 msgstr "a;b[;typ]"
 
-#: plugins/fn-random/functions.c:840
+#: plugins/fn-random/functions.c:906
 msgid "n1,n2,t"
 msgstr "n1;n2;t"
 
-#: plugins/fn-random/functions.c:844
+#: plugins/fn-random/functions.c:912
 msgid "c,alpha[,beta]"
 msgstr "c;alfa[;beta]"
 
-#: plugins/fn-random/functions.c:850
+#: plugins/fn-random/functions.c:918
 msgid "zeta,sigma"
 msgstr "zeta;sigma"
 
-#: plugins/fn-random/functions.c:852
+#: plugins/fn-random/functions.c:920
 msgid "p,failures"
 msgstr "p;misslyckanden"
 
-#: plugins/fn-random/functions.c:854
+#: plugins/fn-random/functions.c:922
 msgid "mean,stdev"
 msgstr "medelvärde;stdav"
 
-#: plugins/fn-random/functions.c:858
+#: plugins/fn-random/functions.c:926
 msgid "lambda"
 msgstr "lambda"
 
-#: plugins/fn-random/functions.c:860
+#: plugins/fn-random/functions.c:928
 msgid "sigma"
 msgstr "sigma"
-
-#: plugins/fn-random/functions.c:862
-msgid "a,sigma"
-msgstr "a;sigma"
 
 #: plugins/fn-random/plugin.xml.in.h:1
 msgid "Functions for generating random numbers"
@@ -9554,7 +9601,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FISHER"
 
-#: plugins/fn-stat/functions.c:737
+#: plugins/fn-stat/functions.c:736
 msgid ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=MODE(n1, n2, ...)\n"
@@ -9584,7 +9631,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,MEDIAN"
 
-#: plugins/fn-stat/functions.c:773
+#: plugins/fn-stat/functions.c:772
 msgid ""
 "@FUNCTION=HARMEAN\n"
 "@SYNTAX=HARMEAN(b1, b2, ...)\n"
@@ -9611,7 +9658,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"
 
-#: plugins/fn-stat/functions.c:805
+#: plugins/fn-stat/functions.c:804
 msgid ""
 "@FUNCTION=GEOMEAN\n"
 "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
@@ -9637,7 +9684,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN"
 
-#: plugins/fn-stat/functions.c:836
+#: plugins/fn-stat/functions.c:835
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -9663,7 +9710,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: plugins/fn-stat/functions.c:879
+#: plugins/fn-stat/functions.c:878
 msgid ""
 "@FUNCTION=COUNTA\n"
 "@SYNTAX=COUNTA(b1, b2, ...)\n"
@@ -9689,7 +9736,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 
-#: plugins/fn-stat/functions.c:921
+#: plugins/fn-stat/functions.c:920
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -9717,7 +9764,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-stat/functions.c:953
+#: plugins/fn-stat/functions.c:952
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -9744,7 +9791,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,ABS"
 
-#: plugins/fn-stat/functions.c:995
+#: plugins/fn-stat/functions.c:994
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -9771,7 +9818,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MIN,ABS"
 
-#: plugins/fn-stat/functions.c:1037
+#: plugins/fn-stat/functions.c:1036
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -9807,7 +9854,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 
-#: plugins/fn-stat/functions.c:1075
+#: plugins/fn-stat/functions.c:1074
 msgid ""
 "@FUNCTION=SKEWP\n"
 "@SYNTAX=SKEWP(n1, n2, ...)\n"
@@ -9833,7 +9880,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
 
-#: plugins/fn-stat/functions.c:1108
+#: plugins/fn-stat/functions.c:1107
 msgid ""
 "@FUNCTION=EXPONDIST\n"
 "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
@@ -9858,7 +9905,31 @@ msgstr ""
 "EXPONDIST(2;4;0) ger 0,001341851.\n"
 "@SEEALSO=POISSON"
 
-#: plugins/fn-stat/functions.c:1151
+#: plugins/fn-stat/functions.c:1150
+msgid ""
+"@FUNCTION=BERNOULLI\n"
+"@SYNTAX=BERNOULLI(k,p)\n"
+"@DESCRIPTION=BERNOULLI returns the probability p(k) of obtaining @k from a "
+"Bernoulli distribution with probability parameter @p. \n"
+"If @k != 0 and @k != 1 BERNOULLI returns #NUM! error. If @p < 0 or @p > 1 "
+"BERNOULLI returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"BERNOULLI(0,0.5).\n"
+"\n"
+"@SEEALSO=RANDBERBOULLI"
+msgstr ""
+"@FUNCTION=BERNOULLI\n"
+"@SYNTAX=BERNOULLI(k;p)\n"
+"@DESCRIPTION=BERNOULLI returnerar sannolikheten p(k) för att få @k från en "
+"Bernoullifördelning med sannolikhetsparametern @p.\n"
+"Om @k != 0 och @k != 1 returnerar BERNOULLI felvärdet #NUM!. Om @p < 0 eller "
+"@p > 1 returnerar BERNOULLI felvärdet #NUM!.\n"
+"@EXAMPLES=\n"
+"BERNOULLI(0;0,5).\n"
+"\n"
+"@SEEALSO=RANDBERNOULLI"
+
+#: plugins/fn-stat/functions.c:1192
 msgid ""
 "@FUNCTION=GAMMALN\n"
 "@SYNTAX=GAMMALN(x)\n"
@@ -9884,7 +9955,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: plugins/fn-stat/functions.c:1188
+#: plugins/fn-stat/functions.c:1229
 msgid ""
 "@FUNCTION=GAMMADIST\n"
 "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
@@ -9912,7 +9983,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GAMMAINV"
 
-#: plugins/fn-stat/functions.c:1229
+#: plugins/fn-stat/functions.c:1270
 msgid ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
@@ -9938,7 +10009,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GAMMADIST"
 
-#: plugins/fn-stat/functions.c:1265
+#: plugins/fn-stat/functions.c:1306
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
@@ -9964,7 +10035,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIINV,CHITEST"
 
-#: plugins/fn-stat/functions.c:1301
+#: plugins/fn-stat/functions.c:1342
 msgid ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,dof)\n"
@@ -9988,7 +10059,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIDIST,CHITEST"
 
-#: plugins/fn-stat/functions.c:1335
+#: plugins/fn-stat/functions.c:1376
 msgid ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
@@ -10014,7 +10085,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIDIST,CHIINV"
 
-#: plugins/fn-stat/functions.c:1473
+#: plugins/fn-stat/functions.c:1514
 msgid ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
@@ -10045,7 +10116,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETAINV"
 
-#: plugins/fn-stat/functions.c:1513
+#: plugins/fn-stat/functions.c:1554
 msgid ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
@@ -10076,7 +10147,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETADIST"
 
-#: plugins/fn-stat/functions.c:1553
+#: plugins/fn-stat/functions.c:1594
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -10103,7 +10174,7 @@ msgstr ""
 "TDIST(2;5;1) är lika med 0,050969739.\n"
 "@SEEALSO=TINV,TTEST"
 
-#: plugins/fn-stat/functions.c:1590
+#: plugins/fn-stat/functions.c:1631
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
@@ -10127,7 +10198,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TDIST,TTEST"
 
-#: plugins/fn-stat/functions.c:1624
+#: plugins/fn-stat/functions.c:1665
 msgid ""
 "@FUNCTION=FDIST\n"
 "@SYNTAX=FDIST(x,dof1,dof2)\n"
@@ -10155,7 +10226,27 @@ msgstr ""
 "\n"
 "@SEEALSO=FINV"
 
-#: plugins/fn-stat/functions.c:1661
+#: plugins/fn-stat/functions.c:1702
+msgid ""
+"@FUNCTION=LANDAU\n"
+"@SYNTAX=LANDAU(x)\n"
+"@DESCRIPTION=LANDAU returns the probability density p(x) at @x for the "
+"Landau distribution using an approximation method. \n"
+"@EXAMPLES=\n"
+"LANDAU(0.34).\n"
+"\n"
+"@SEEALSO=RANDLANDAU"
+msgstr ""
+"@FUNCTION=LANDAU\n"
+"@SYNTAX=LANDAU(x)\n"
+"@DESCRIPTION=LANDAU returnerar sannolikhetstätheten p(x) vid @x för "
+"Landaufördelningen med hjälp av en approximationsmetod.\n"
+"@EXAMPLES=\n"
+"LANDAU(0,34).\n"
+"\n"
+"@SEEALSO=RANDLANDAU"
+
+#: plugins/fn-stat/functions.c:1844
 msgid ""
 "@FUNCTION=FINV\n"
 "@SYNTAX=FINV(p,dof1,dof2)\n"
@@ -10181,7 +10272,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST"
 
-#: plugins/fn-stat/functions.c:1697
+#: plugins/fn-stat/functions.c:1880
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -10214,7 +10305,29 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: plugins/fn-stat/functions.c:1743
+#: plugins/fn-stat/functions.c:1926
+msgid ""
+"@FUNCTION=CAUCHY\n"
+"@SYNTAX=CAUCHY(x,a)\n"
+"@DESCRIPTION=CAUCHY returns the probability density p(x) at x for @a Cauchy "
+"distribution with scale parameter @a. \n"
+"If @a < 0 CAUCHY returns #NUM! error. \n"
+"@EXAMPLES=\n"
+"CAUCHY(0.43,1).\n"
+"\n"
+"@SEEALSO=RANDCAUCHY"
+msgstr ""
+"@FUNCTION=CAUCHY\n"
+"@SYNTAX=CAUCHY(x;a)\n"
+"@DESCRIPTION=CAUCHY returnerar sannolikhetsfördelningen p(x) vid @x för en "
+"Cauchyfördelning med skalparametern @a.\n"
+"Om @a < 0 returnerar CAUCHY felvärdet #NUM!.\n"
+"@EXAMPLES=\n"
+"RANDCAUCHY(0,43;1).\n"
+"\n"
+"@SEEALSO=RANDCAUCHY"
+
+#: plugins/fn-stat/functions.c:1965
 msgid ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
@@ -10245,7 +10358,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST"
 
-#: plugins/fn-stat/functions.c:1783
+#: plugins/fn-stat/functions.c:2005
 msgid ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
@@ -10271,7 +10384,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COMBIN"
 
-#: plugins/fn-stat/functions.c:1818
+#: plugins/fn-stat/functions.c:2040
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
@@ -10301,7 +10414,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,POISSON"
 
-#: plugins/fn-stat/functions.c:1857
+#: plugins/fn-stat/functions.c:2079
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -10330,7 +10443,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: plugins/fn-stat/functions.c:1898
+#: plugins/fn-stat/functions.c:2120
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
@@ -10356,7 +10469,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: plugins/fn-stat/functions.c:1936
+#: plugins/fn-stat/functions.c:2158
 msgid ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
@@ -10384,7 +10497,7 @@ msgstr ""
 "WEIBULL(3;2;4;0) ger 0,213668559.\n"
 "@SEEALSO=POISSON"
 
-#: plugins/fn-stat/functions.c:1982
+#: plugins/fn-stat/functions.c:2204
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
@@ -10410,7 +10523,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: plugins/fn-stat/functions.c:2027
+#: plugins/fn-stat/functions.c:2249
 msgid ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,mean,stdev)\n"
@@ -10439,7 +10552,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 
-#: plugins/fn-stat/functions.c:2065
+#: plugins/fn-stat/functions.c:2287
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -10477,7 +10590,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
 
-#: plugins/fn-stat/functions.c:2105
+#: plugins/fn-stat/functions.c:2327
 msgid ""
 "@FUNCTION=KURTP\n"
 "@SYNTAX=KURTP(n1, n2, ...)\n"
@@ -10505,7 +10618,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
 
-#: plugins/fn-stat/functions.c:2139
+#: plugins/fn-stat/functions.c:2361
 msgid ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
@@ -10531,7 +10644,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV"
 
-#: plugins/fn-stat/functions.c:2170
+#: plugins/fn-stat/functions.c:2392
 msgid ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
@@ -10559,7 +10672,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV"
 
-#: plugins/fn-stat/functions.c:2203
+#: plugins/fn-stat/functions.c:2425
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
@@ -10583,7 +10696,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SKEW"
 
-#: plugins/fn-stat/functions.c:2238
+#: plugins/fn-stat/functions.c:2460
 msgid ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,mean,cumulative)\n"
@@ -10612,7 +10725,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST, WEIBULL"
 
-#: plugins/fn-stat/functions.c:2281
+#: plugins/fn-stat/functions.c:2503
 msgid ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(array1,array2)\n"
@@ -10634,7 +10747,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 
-#: plugins/fn-stat/functions.c:2306
+#: plugins/fn-stat/functions.c:2528
 msgid ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
@@ -10656,7 +10769,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 
-#: plugins/fn-stat/functions.c:2336
+#: plugins/fn-stat/functions.c:2558
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
@@ -10684,7 +10797,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 
-#: plugins/fn-stat/functions.c:2370
+#: plugins/fn-stat/functions.c:2592
 msgid ""
 "@FUNCTION=LARGE\n"
 "@SYNTAX=LARGE(n1, n2, ..., k)\n"
@@ -10714,7 +10827,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 
-#: plugins/fn-stat/functions.c:2417
+#: plugins/fn-stat/functions.c:2639
 msgid ""
 "@FUNCTION=SMALL\n"
 "@SYNTAX=SMALL(n1, n2, ..., k)\n"
@@ -10744,7 +10857,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 
-#: plugins/fn-stat/functions.c:2488
+#: plugins/fn-stat/functions.c:2710
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])\n"
@@ -10776,7 +10889,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,CRITBINOM"
 
-#: plugins/fn-stat/functions.c:2580
+#: plugins/fn-stat/functions.c:2802
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -10808,7 +10921,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 
-#: plugins/fn-stat/functions.c:2735
+#: plugins/fn-stat/functions.c:2957
 msgid ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(ref,x)\n"
@@ -10837,7 +10950,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 
-#: plugins/fn-stat/functions.c:2816
+#: plugins/fn-stat/functions.c:3038
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -10869,7 +10982,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: plugins/fn-stat/functions.c:2851
+#: plugins/fn-stat/functions.c:3073
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -10901,7 +11014,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,MINA"
 
-#: plugins/fn-stat/functions.c:2886
+#: plugins/fn-stat/functions.c:3108
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -10933,7 +11046,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,MINA"
 
-#: plugins/fn-stat/functions.c:2921
+#: plugins/fn-stat/functions.c:3143
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -10965,7 +11078,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VAR,VARPA"
 
-#: plugins/fn-stat/functions.c:2956
+#: plugins/fn-stat/functions.c:3178
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -10997,7 +11110,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VARP,VARP"
 
-#: plugins/fn-stat/functions.c:2991
+#: plugins/fn-stat/functions.c:3213
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -11029,7 +11142,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: plugins/fn-stat/functions.c:3026
+#: plugins/fn-stat/functions.c:3248
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -11061,7 +11174,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEVA,STDEVP"
 
-#: plugins/fn-stat/functions.c:3061
+#: plugins/fn-stat/functions.c:3283
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -11096,7 +11209,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 
-#: plugins/fn-stat/functions.c:3171
+#: plugins/fn-stat/functions.c:3393
 msgid ""
 "@FUNCTION=PERCENTILE\n"
 "@SYNTAX=PERCENTILE(array,k)\n"
@@ -11128,7 +11241,7 @@ msgstr ""
 "\n"
 "@SEEALSO=QUARTILE"
 
-#: plugins/fn-stat/functions.c:3220
+#: plugins/fn-stat/functions.c:3442
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
@@ -11174,7 +11287,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 
-#: plugins/fn-stat/functions.c:3276
+#: plugins/fn-stat/functions.c:3498
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -11202,7 +11315,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: plugins/fn-stat/functions.c:3326
+#: plugins/fn-stat/functions.c:3548
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -11259,7 +11372,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: plugins/fn-stat/functions.c:3494
+#: plugins/fn-stat/functions.c:3716
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -11287,7 +11400,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-stat/functions.c:3569
+#: plugins/fn-stat/functions.c:3791
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -11339,7 +11452,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,TREND"
 
-#: plugins/fn-stat/functions.c:3841
+#: plugins/fn-stat/functions.c:4063
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -11377,7 +11490,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LINEST"
 
-#: plugins/fn-stat/functions.c:3954
+#: plugins/fn-stat/functions.c:4176
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -11425,7 +11538,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: plugins/fn-stat/functions.c:4209
+#: plugins/fn-stat/functions.c:4431
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -11461,7 +11574,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: plugins/fn-stat/functions.c:4324
+#: plugins/fn-stat/functions.c:4546
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -11497,7 +11610,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
 
-#: plugins/fn-stat/functions.c:4395
+#: plugins/fn-stat/functions.c:4617
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -11531,7 +11644,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FORECAST,TREND"
 
-#: plugins/fn-stat/functions.c:4445
+#: plugins/fn-stat/functions.c:4667
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -11557,7 +11670,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: plugins/fn-stat/functions.c:4489
+#: plugins/fn-stat/functions.c:4711
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -11615,7 +11728,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: plugins/fn-stat/functions.c:4564
+#: plugins/fn-stat/functions.c:4786
 msgid ""
 "@FUNCTION=CRONBACH\n"
 "@SYNTAX=CRONBACH(ref1,ref2,...)\n"
@@ -11634,155 +11747,326 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-stat/functions.c:4702
+#: plugins/fn-stat/functions.c:4916
+msgid ""
+"@FUNCTION=GEOMDIST\n"
+"@SYNTAX=GEOMDIST(k,p,cum)\n"
+"@DESCRIPTION=GEOMDIST returns the probability p(k) of obtaining @k from a "
+"geometric distribution with probability parameter @p.\n"
+"If @k < 0 GEOMDIST returns #NUM! error. If @p < 0 or @p > 1 GEOMDIST returns "
+"#NUM! error. If @cum != TRUE and @cum != FALSE GEOMDIST returns #NUM! "
+"error. \n"
+"@EXAMPLES=\n"
+"GEOMDIST(2,10.4,TRUE).\n"
+"\n"
+"@SEEALSO=RANDGEOM"
+msgstr ""
+"@FUNCTION=GEOMDIST\n"
+"@SYNTAX=GEOMDIST(k;p;kum)\n"
+"@DESCRIPTION=GEOMDIST returnerar sannolikheten p(k) för att @k fås från en "
+"geometrisk fördelning med sannolikhetsparametern @p.\n"
+"Om @k < 0 returnerar GEOMDIST felvärdet #NUM!. Om @p < 0 eller @p > 1 "
+"returnerar GEOMDIST felvärdet #NUM!. Om @kum != SANT och @kum != FALSKT "
+"returnerar GEOMDIST felvärdet #NUM!.\n"
+"@EXAMPLES=\n"
+"GEOMDIST(2;10,4;TRUE).\n"
+"\n"
+"@SEEALSO=RANDGEOM"
+
+#: plugins/fn-stat/functions.c:4952
+msgid ""
+"@FUNCTION=LOGISTIC\n"
+"@SYNTAX=LOGISTIC(x,a)\n"
+"@DESCRIPTION=LOGISTIC returns the probability density p(x) at @x for a "
+"logistic distribution with scale parameter @a.\n"
+"@EXAMPLES=\n"
+"LOGISTIC(0.4,1).\n"
+"\n"
+"@SEEALSO=RANDLOGISTIC"
+msgstr ""
+"@FUNCTION=LOGISTIC\n"
+"@SYNTAX=LOGISTIC(x;a)\n"
+"@DESCRIPTION=LOGISTIC returnerar sannolikhetstätheten p(x) vid @x för en "
+"logistisk fördelning med skalparametern @a.\n"
+"@EXAMPLES=\n"
+"LOGISTIC(0,4;1).\n"
+"\n"
+"@SEEALSO=RANDLOGISTIC"
+
+#: plugins/fn-stat/functions.c:4985
+msgid ""
+"@FUNCTION=PARETO\n"
+"@SYNTAX=PARETO(x,a,b)\n"
+"@DESCRIPTION=PARETO returns the probability density p(x) at @x for a Pareto "
+"distribution with exponent @a and scale @b.\n"
+"@EXAMPLES=\n"
+"PARETO(0.6,1,2).\n"
+"\n"
+"@SEEALSO=RANDPARETO"
+msgstr ""
+"@FUNCTION=PARETO\n"
+"@SYNTAX=PARETO(x;a;b)\n"
+"@DESCRIPTION=PARETO returnerar sannolikhetstätheten p(x) vid @x för en "
+"Paretofördelning vid exponenten @a och skalan @b.\n"
+"@EXAMPLES=\n"
+"PARETO(0,6;1;2).\n"
+"\n"
+"@SEEALSO=RANDPARETO"
+
+#: plugins/fn-stat/functions.c:5020
+msgid ""
+"@FUNCTION=RAYLEIGH\n"
+"@SYNTAX=RAYLEIGH(x,sigma)\n"
+"@DESCRIPTION=RAYLEIGH returns the probability density p(x) at @x for a "
+"Rayleigh distribution with scale parameter @sigma.\n"
+"@EXAMPLES=\n"
+"RAYLEIGH(0.4,1).\n"
+"\n"
+"@SEEALSO=RANDRAYLEIGH"
+msgstr ""
+"@FUNCTION=RAYLEIGH\n"
+"@SYNTAX=RAYLEIGH(x;sigma)\n"
+"@DESCRIPTION=RAYLEIGH returnerar sannolikhetstätheten p(x) vid @x för en "
+"Rayleighfördelning med skalparametern @sigma.\n"
+"@EXAMPLES=\n"
+"RAYLEIGH(0,4;1).\n"
+"\n"
+"@SEEALSO=RANDRAYLEIGH"
+
+#: plugins/fn-stat/functions.c:5057
+msgid ""
+"@FUNCTION=RAYLEIGHTAIL\n"
+"@SYNTAX=RAYLEIGHTAIL(x,a,sigma)\n"
+"@DESCRIPTION=RAYLEIGHTAIL returns the probability density p(x) at @x for a "
+"Rayleigh tail distribution with scale parameter @sigma and lower limit @a.\n"
+"@EXAMPLES=\n"
+"RAYLEIGHTAIL(0.6,0.3,1).\n"
+"\n"
+"@SEEALSO=RANDRAYLEIGHTAIL"
+msgstr ""
+"@FUNCTION=RAYLEIGHTAIL\n"
+"@SYNTAX=RAYLEIGHTAIL(x;a;sigma)\n"
+"@DESCRIPTION=RAYLEIGHTAIL returnerar sannolikhetstätheten p(x) vid @x för en "
+"Rayleighsvansfördelning med skalparametern @sigma och lägre gräns @a.\n"
+"@EXAMPLES=\n"
+"RAYLEIGHTAIL(0,6;0,3;1).\n"
+"\n"
+"@SEEALSO=RANDRAYLEIGHTAIL"
+
+#: plugins/fn-stat/functions.c:5097
+msgid ""
+"@FUNCTION=EXPPOWDIST\n"
+"@SYNTAX=EXPPOWDIST(x,a,b)\n"
+"@DESCRIPTION=EXPPOWDIST returns the probability density p(x) at @x for "
+"Exponential Power distribution with scale parameter @a and exponent @b. \n"
+"@EXAMPLES=\n"
+"EXPPOWDIST(0.4,1,2).\n"
+"\n"
+"@SEEALSO=RANDEXPPOW"
+msgstr ""
+"@FUNCTION=EXPPOWDIST\n"
+"@SYNTAX=EXPPOWDIST(x;a;b)\n"
+"@DESCRIPTION=EXPPOWDIST returnerar sannolikhetstätheten p(x) vid @x för "
+"exponentialfördelningen med skalparametern @a och exponenten @b.\n"
+"@EXAMPLES=\n"
+"EXPPOWDIST(0,4;1;2).\n"
+"\n"
+"@SEEALSO=RANDEXPPOW"
+
+#: plugins/fn-stat/functions.c:5124
+msgid ""
+"@FUNCTION=LAPLACE\n"
+"@SYNTAX=LAPLACE(x,a)\n"
+"@DESCRIPTION=LAPLACE returns the probability density p(x) at @x for Laplace "
+"distribution with mean @a. \n"
+"@EXAMPLES=\n"
+"LAPLACE(0.4,1).\n"
+"\n"
+"@SEEALSO=RANDLAPLACE"
+msgstr ""
+"@FUNCTION=LAPLACE\n"
+"@SYNTAX=LAPLACE(x;a)\n"
+"@DESCRIPTION=LAPLACE returnerar sannolikhetstäthet p(x) vid @x för "
+"Laplacefördelningen med medelvärde @a.\n"
+"@EXAMPLES=\n"
+"LAPLACE(0,4;1).\n"
+"\n"
+"@SEEALSO=RANDLAPLACE"
+
+#: plugins/fn-stat/functions.c:5155 plugins/fn-stat/functions.c:5215
+msgid "k,p"
+msgstr "k;p"
+
+#: plugins/fn-stat/functions.c:5157
 msgid "x,alpha,beta,a,b"
 msgstr "x;alfa;beta;a;b"
 
-#: plugins/fn-stat/functions.c:4704
+#: plugins/fn-stat/functions.c:5159
 msgid "p,alpha,beta,a,b"
 msgstr "p;alfa;beta;a;b"
 
-#: plugins/fn-stat/functions.c:4706
+#: plugins/fn-stat/functions.c:5161
 msgid "n,t,p,c"
 msgstr "n;t;p;c"
 
-#: plugins/fn-stat/functions.c:4708
+#: plugins/fn-stat/functions.c:5163 plugins/fn-stat/functions.c:5233
+#: plugins/fn-stat/functions.c:5243
+msgid "x,a"
+msgstr "x;a"
+
+#: plugins/fn-stat/functions.c:5165
 msgid "x,dof"
 msgstr "x;frg"
 
-#: plugins/fn-stat/functions.c:4710 plugins/fn-stat/functions.c:4840
+#: plugins/fn-stat/functions.c:5167 plugins/fn-stat/functions.c:5313
 msgid "p,dof"
 msgstr "p;frg"
 
-#: plugins/fn-stat/functions.c:4712
+#: plugins/fn-stat/functions.c:5169
 msgid "act_range,theo_range"
 msgstr "verkligt_område;teoretiskt_område"
 
-#: plugins/fn-stat/functions.c:4714
+#: plugins/fn-stat/functions.c:5171
 msgid "x,stddev,size"
 msgstr "x;stdav;storlek"
 
-#: plugins/fn-stat/functions.c:4720
+#: plugins/fn-stat/functions.c:5177
 msgid "trials,p,alpha"
 msgstr "försök;p;alfa"
 
-#: plugins/fn-stat/functions.c:4722
+#: plugins/fn-stat/functions.c:5179
 msgid "ref,ref,"
 msgstr "ref;ref;"
 
-#: plugins/fn-stat/functions.c:4732
+#: plugins/fn-stat/functions.c:5187 plugins/fn-stat/functions.c:5269
+msgid "x,a,b"
+msgstr "x;a;b"
+
+#: plugins/fn-stat/functions.c:5191
 msgid "x,mean,cumulative"
 msgstr "x;medelvärde;kumulativ"
 
-#: plugins/fn-stat/functions.c:4734
+#: plugins/fn-stat/functions.c:5193
 msgid "x,y,cumulative"
 msgstr "x;y;kumulativ"
 
-#: plugins/fn-stat/functions.c:4736
+#: plugins/fn-stat/functions.c:5195
 msgid "x,dof of num,dof of denom"
 msgstr "x;frg hos num;frg hos denom"
 
-#: plugins/fn-stat/functions.c:4738
+#: plugins/fn-stat/functions.c:5197
 msgid "p,dof of num,dof of denom"
 msgstr "p;frg hos num;frg hos denom"
 
-#: plugins/fn-stat/functions.c:4744
+#: plugins/fn-stat/functions.c:5203
 msgid "x,known y's,known x's"
 msgstr "x;kända y;kända x"
 
-#: plugins/fn-stat/functions.c:4746
+#: plugins/fn-stat/functions.c:5205
 msgid "data_array,bins_array"
 msgstr "datavektor;högvektor"
 
-#: plugins/fn-stat/functions.c:4748
+#: plugins/fn-stat/functions.c:5207
 msgid "arr1,arr2"
 msgstr "vektor1;vektor2"
 
-#: plugins/fn-stat/functions.c:4752
+#: plugins/fn-stat/functions.c:5211
 msgid "number,alpha,beta,cum"
 msgstr "tal;alfa;beta;kum"
 
-#: plugins/fn-stat/functions.c:4754
+#: plugins/fn-stat/functions.c:5213
 msgid "number,alpha,beta"
 msgstr "tal;alfa;beta"
 
-#: plugins/fn-stat/functions.c:4758 plugins/fn-stat/functions.c:4842
+#: plugins/fn-stat/functions.c:5219 plugins/fn-stat/functions.c:5315
 msgid "known_y's,known_x's,new_x's,const"
 msgstr "kända_y;kända_x;nya_x;konst"
 
-#: plugins/fn-stat/functions.c:4762
+#: plugins/fn-stat/functions.c:5223
 msgid "x,n,M,N"
 msgstr "x;n;M;N"
 
-#: plugins/fn-stat/functions.c:4772 plugins/fn-stat/functions.c:4774
+#: plugins/fn-stat/functions.c:5231
+msgid "x"
+msgstr "x"
+
+#: plugins/fn-stat/functions.c:5237 plugins/fn-stat/functions.c:5239
 msgid "known_y's,known_x's,const,stat"
 msgstr "kända_y;kända_x;konst;stat"
 
-#: plugins/fn-stat/functions.c:4776
+#: plugins/fn-stat/functions.c:5241
 msgid "p,mean,stddev"
 msgstr "p;medelvärde;stdav"
 
-#: plugins/fn-stat/functions.c:4778
+#: plugins/fn-stat/functions.c:5245
 msgid "x,meean,stdev"
 msgstr "x;medelvärde;stdav"
 
-#: plugins/fn-stat/functions.c:4792
+#: plugins/fn-stat/functions.c:5259
 msgid "f,t,p"
 msgstr "f;t;p"
 
-#: plugins/fn-stat/functions.c:4794
+#: plugins/fn-stat/functions.c:5261
 msgid "x,mean,stdev,cumulative"
 msgstr "x;medelvärde;stdav;kumulativ"
 
-#: plugins/fn-stat/functions.c:4796
+#: plugins/fn-stat/functions.c:5263
 msgid "p,mean,stdev"
 msgstr "p;medelvärde;stdav"
 
-#: plugins/fn-stat/functions.c:4802
+#: plugins/fn-stat/functions.c:5271
 msgid "array,k"
 msgstr "vektor,k"
 
-#: plugins/fn-stat/functions.c:4804
+#: plugins/fn-stat/functions.c:5273
 msgid "array,x,significance"
 msgstr "vektor;x;signifikans"
 
-#: plugins/fn-stat/functions.c:4808
+#: plugins/fn-stat/functions.c:5277
 msgid "x_range,prob_range,lower_limit,upper_limit"
 msgstr "x-område;sannolikhetsområde;undre_gräns;övre_gräns"
 
-#: plugins/fn-stat/functions.c:4810
+#: plugins/fn-stat/functions.c:5279
 msgid "array,quart"
 msgstr "vektor;fjärdedel"
 
-#: plugins/fn-stat/functions.c:4820 plugins/fn-stat/functions.c:4834
+#: plugins/fn-stat/functions.c:5283
+msgid "x,sigma"
+msgstr "x;sigma"
+
+#: plugins/fn-stat/functions.c:5285
+msgid "x,a,sigma"
+msgstr "x;a;sigma"
+
+#: plugins/fn-stat/functions.c:5293 plugins/fn-stat/functions.c:5307
 msgid "known_y's,known_x's"
 msgstr "kända_y;kända_x"
 
-#: plugins/fn-stat/functions.c:4824
+#: plugins/fn-stat/functions.c:5297
 msgid "x,mean,stddev"
 msgstr "x;medelvärde;stdav"
 
-#: plugins/fn-stat/functions.c:4836
+#: plugins/fn-stat/functions.c:5309
 msgid "function_nbr,ref,ref,"
 msgstr "funktionsnummer;ref;ref;"
 
-#: plugins/fn-stat/functions.c:4838
+#: plugins/fn-stat/functions.c:5311
 msgid "x,dof,tails"
 msgstr "x;frg;svansar"
 
-#: plugins/fn-stat/functions.c:4844
+#: plugins/fn-stat/functions.c:5317
 msgid "ref,fraction"
 msgstr "ref;bråktal"
 
-#: plugins/fn-stat/functions.c:4846
+#: plugins/fn-stat/functions.c:5319
 msgid "array1,array2,tails,type"
 msgstr "vektor1;vektor2;svansar;typ"
 
-#: plugins/fn-stat/functions.c:4856
+#: plugins/fn-stat/functions.c:5329
 msgid "x.alpha,beta,cumulative"
 msgstr "x.alfa;beta;kumulativ"
 
-#: plugins/fn-stat/functions.c:4858
+#: plugins/fn-stat/functions.c:5331
 msgid "ref,x"
 msgstr "ref;x"
 
@@ -12648,7 +12932,7 @@ msgstr "Uttrycksformatmodul för linjär- och heltalsprogram (MPS)"
 msgid "Reads LP programs stored in the MPS format (*.mps)"
 msgstr "Läser LP-program lagrade i MPS-formatet (*.mps)"
 
-#: plugins/numtheory/numtheory.c:198
+#: plugins/numtheory/numtheory.c:212
 msgid ""
 "@FUNCTION=NT_PHI\n"
 "@SYNTAX=NT_PHI(n)\n"
@@ -12666,7 +12950,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:233
+#: plugins/numtheory/numtheory.c:247
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -12692,7 +12976,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
-#: plugins/numtheory/numtheory.c:272
+#: plugins/numtheory/numtheory.c:286
 msgid ""
 "@FUNCTION=NT_D\n"
 "@SYNTAX=NT_D(n)\n"
@@ -12708,7 +12992,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:306
+#: plugins/numtheory/numtheory.c:320
 msgid ""
 "@FUNCTION=NT_SIGMA\n"
 "@SYNTAX=NT_SIGMA(n)\n"
@@ -12725,7 +13009,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
-#: plugins/numtheory/numtheory.c:341
+#: plugins/numtheory/numtheory.c:355
 msgid ""
 "@FUNCTION=ITHPRIME\n"
 "@SYNTAX=ITHPRIME(i)\n"
@@ -12741,7 +13025,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:369
+#: plugins/numtheory/numtheory.c:383
 msgid ""
 "@FUNCTION=ISPRIME\n"
 "@SYNTAX=ISPRIME(i)\n"
@@ -12757,7 +13041,7 @@ msgstr ""
 "Denna funktion tar endast ett argument.\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:395
+#: plugins/numtheory/numtheory.c:409
 msgid ""
 "@FUNCTION=NT_PI\n"
 "@SYNTAX=NT_PI(n)\n"
@@ -12773,7 +13057,7 @@ msgstr ""
 "Denna funktion tar endast ett argument.\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
-#: plugins/numtheory/numtheory.c:422
+#: plugins/numtheory/numtheory.c:436
 msgid ""
 "@FUNCTION=BITOR\n"
 "@SYNTAX=BITOR(a,b)\n"
@@ -12789,7 +13073,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITXOR,BITAND"
 
-#: plugins/numtheory/numtheory.c:441
+#: plugins/numtheory/numtheory.c:455
 msgid ""
 "@FUNCTION=BITXOR\n"
 "@SYNTAX=BITXOR(a,b)\n"
@@ -12807,7 +13091,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITAND"
 
-#: plugins/numtheory/numtheory.c:460
+#: plugins/numtheory/numtheory.c:474
 msgid ""
 "@FUNCTION=BITAND\n"
 "@SYNTAX=BITAND(a,b)\n"
@@ -12823,7 +13107,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITXOR"
 
-#: plugins/numtheory/numtheory.c:480
+#: plugins/numtheory/numtheory.c:494
 msgid ""
 "@FUNCTION=BITLSHIFT\n"
 "@SYNTAX=BITLSHIFT(x,n)\n"
@@ -12842,7 +13126,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITRSHIFT"
 
-#: plugins/numtheory/numtheory.c:507
+#: plugins/numtheory/numtheory.c:521
 msgid ""
 "@FUNCTION=BITRSHIFT\n"
 "@SYNTAX=BITRSHIFT(x,n)\n"
@@ -17350,214 +17634,230 @@ msgid "Uniform"
 msgstr "Likafördelad"
 
 #: src/dialogs/dialog-random-generator.c:104
+#: src/dialogs/dialog-random-generator.c:106
 msgid "_Lower Bound:"
 msgstr "_Nedre gräns:"
 
 #: src/dialogs/dialog-random-generator.c:104
+#: src/dialogs/dialog-random-generator.c:106
 msgid "_Upper Bound:"
 msgstr "_Övre gräns:"
 
 #: src/dialogs/dialog-random-generator.c:106
+msgid "Uniform Integer"
+msgstr "Uniformt heltal"
+
+#: src/dialogs/dialog-random-generator.c:109
 #: src/widgets/widget-font-selector.c:114
 msgid "Normal"
 msgstr "Normal"
 
-#: src/dialogs/dialog-random-generator.c:106
+#: src/dialogs/dialog-random-generator.c:109
 msgid "_Mean:"
 msgstr "_Medelvärde:"
 
-#: src/dialogs/dialog-random-generator.c:106
+#: src/dialogs/dialog-random-generator.c:109
 msgid "_Standard Deviation:"
 msgstr "_Standardavvikelse:"
 
-#: src/dialogs/dialog-random-generator.c:108
+#: src/dialogs/dialog-random-generator.c:111
 #: src/tools/solver/reports-write.c:808
 msgid "Discrete"
 msgstr "Diskret"
 
-#: src/dialogs/dialog-random-generator.c:108
+#: src/dialogs/dialog-random-generator.c:111
 msgid "_Value And Probability Input Range:"
 msgstr "Indataområde för _värde och sannolikhet:"
 
-#: src/dialogs/dialog-random-generator.c:114
+#: src/dialogs/dialog-random-generator.c:117
 msgid "Bernoulli"
 msgstr "Bernoulli"
 
-#: src/dialogs/dialog-random-generator.c:114
-#: src/dialogs/dialog-random-generator.c:118
-#: src/dialogs/dialog-random-generator.c:132
-#: src/dialogs/dialog-random-generator.c:138
-#: src/dialogs/dialog-random-generator.c:144
+#: src/dialogs/dialog-random-generator.c:117
+#: src/dialogs/dialog-random-generator.c:121
+#: src/dialogs/dialog-random-generator.c:137
+#: src/dialogs/dialog-random-generator.c:145
+#: src/dialogs/dialog-random-generator.c:151
 msgid "_p Value:"
 msgstr "_p-värde:"
 
-#: src/dialogs/dialog-random-generator.c:116
+#: src/dialogs/dialog-random-generator.c:119
 msgid "Beta"
 msgstr "Beta"
 
-#: src/dialogs/dialog-random-generator.c:116
-#: src/dialogs/dialog-random-generator.c:120
-#: src/dialogs/dialog-random-generator.c:126
-#: src/dialogs/dialog-random-generator.c:130
-#: src/dialogs/dialog-random-generator.c:134
-#: src/dialogs/dialog-random-generator.c:140
+#: src/dialogs/dialog-random-generator.c:119
+#: src/dialogs/dialog-random-generator.c:123
+#: src/dialogs/dialog-random-generator.c:129
+#: src/dialogs/dialog-random-generator.c:133
+#: src/dialogs/dialog-random-generator.c:135
+#: src/dialogs/dialog-random-generator.c:141
 #: src/dialogs/dialog-random-generator.c:147
-#: src/dialogs/dialog-random-generator.c:153
-#: src/dialogs/dialog-random-generator.c:157
-#: src/dialogs/dialog-random-generator.c:159
-#: src/dialogs/dialog-random-generator.c:161
+#: src/dialogs/dialog-random-generator.c:154
+#: src/dialogs/dialog-random-generator.c:160
+#: src/dialogs/dialog-random-generator.c:164
+#: src/dialogs/dialog-random-generator.c:166
+#: src/dialogs/dialog-random-generator.c:168
 msgid "_a Value:"
 msgstr "_a-värde:"
 
-#: src/dialogs/dialog-random-generator.c:116
-#: src/dialogs/dialog-random-generator.c:124
-#: src/dialogs/dialog-random-generator.c:126
-#: src/dialogs/dialog-random-generator.c:130
-#: src/dialogs/dialog-random-generator.c:147
-#: src/dialogs/dialog-random-generator.c:157
-#: src/dialogs/dialog-random-generator.c:159
-#: src/dialogs/dialog-random-generator.c:161
+#: src/dialogs/dialog-random-generator.c:119
+#: src/dialogs/dialog-random-generator.c:127
+#: src/dialogs/dialog-random-generator.c:129
+#: src/dialogs/dialog-random-generator.c:133
+#: src/dialogs/dialog-random-generator.c:154
+#: src/dialogs/dialog-random-generator.c:164
+#: src/dialogs/dialog-random-generator.c:166
+#: src/dialogs/dialog-random-generator.c:168
 msgid "_b Value:"
 msgstr "_b-värde:"
 
-#: src/dialogs/dialog-random-generator.c:118
+#: src/dialogs/dialog-random-generator.c:121
 msgid "Binomial"
 msgstr "Binomial"
 
-#: src/dialogs/dialog-random-generator.c:118
+#: src/dialogs/dialog-random-generator.c:121
 msgid "N_umber of Trials:"
 msgstr "An_tal försök:"
 
-#: src/dialogs/dialog-random-generator.c:120
+#: src/dialogs/dialog-random-generator.c:123
 msgid "Cauchy"
 msgstr "Cauchy"
 
-#: src/dialogs/dialog-random-generator.c:122
+#: src/dialogs/dialog-random-generator.c:125
 msgid "Chisq"
 msgstr "Chisq"
 
-#: src/dialogs/dialog-random-generator.c:122
+#: src/dialogs/dialog-random-generator.c:125
 msgid "_nu Value:"
 msgstr "_nu-värde:"
 
-#: src/dialogs/dialog-random-generator.c:124
+#: src/dialogs/dialog-random-generator.c:127
 msgid "Exponential"
 msgstr "Exponentiell"
 
-#: src/dialogs/dialog-random-generator.c:126
+#: src/dialogs/dialog-random-generator.c:129
 msgid "Exponential Power"
 msgstr "Exponentialpotens"
 
-#: src/dialogs/dialog-random-generator.c:128
+#: src/dialogs/dialog-random-generator.c:131
 msgid "F"
 msgstr "F"
 
-#: src/dialogs/dialog-random-generator.c:128
+#: src/dialogs/dialog-random-generator.c:131
 msgid "nu_1 Value:"
 msgstr "nu_1-värde:"
 
-#: src/dialogs/dialog-random-generator.c:128
+#: src/dialogs/dialog-random-generator.c:131
 msgid "nu_2 Value:"
 msgstr "nu_2-värde:"
 
-#: src/dialogs/dialog-random-generator.c:130
+#: src/dialogs/dialog-random-generator.c:133
 msgid "Gamma"
 msgstr "Gamma"
 
-#: src/dialogs/dialog-random-generator.c:132
-msgid "Geometric"
-msgstr "Geometrisk"
+#: src/dialogs/dialog-random-generator.c:135
+msgid "Gaussian Tail"
+msgstr "Gaussisk svans"
 
-#: src/dialogs/dialog-random-generator.c:134
-msgid "Laplace"
-msgstr "Laplace"
-
-#: src/dialogs/dialog-random-generator.c:136
-msgid "Levy alpha-Stable"
-msgstr "Levy alfa-stabil"
-
-#: src/dialogs/dialog-random-generator.c:136
-msgid "_c Value:"
-msgstr "_c-värde:"
-
-#: src/dialogs/dialog-random-generator.c:136
-msgid "_alpha:"
-msgstr "_alfa:"
-
-#: src/dialogs/dialog-random-generator.c:138
-msgid "Logarithmic"
-msgstr "Logaritmisk"
-
-#: src/dialogs/dialog-random-generator.c:140
-msgid "Logistic"
-msgstr "Logistik"
-
-#: src/dialogs/dialog-random-generator.c:142
-msgid "Lognormal"
-msgstr "Lognormal"
-
-#: src/dialogs/dialog-random-generator.c:142
-msgid "_Zeta Value:"
-msgstr "_Zeta-värde:"
-
-#: src/dialogs/dialog-random-generator.c:142
+#: src/dialogs/dialog-random-generator.c:135
+#: src/dialogs/dialog-random-generator.c:149
 msgid "_Sigma"
 msgstr "_Sigma"
 
-#: src/dialogs/dialog-random-generator.c:144
+#: src/dialogs/dialog-random-generator.c:137
+msgid "Geometric"
+msgstr "Geometrisk"
+
+#: src/dialogs/dialog-random-generator.c:139
+msgid "Landau"
+msgstr "Landau"
+
+#: src/dialogs/dialog-random-generator.c:141
+msgid "Laplace"
+msgstr "Laplace"
+
+#: src/dialogs/dialog-random-generator.c:143
+msgid "Levy alpha-Stable"
+msgstr "Levy alfa-stabil"
+
+#: src/dialogs/dialog-random-generator.c:143
+msgid "_c Value:"
+msgstr "_c-värde:"
+
+#: src/dialogs/dialog-random-generator.c:143
+msgid "_alpha:"
+msgstr "_alfa:"
+
+#: src/dialogs/dialog-random-generator.c:145
+msgid "Logarithmic"
+msgstr "Logaritmisk"
+
+#: src/dialogs/dialog-random-generator.c:147
+msgid "Logistic"
+msgstr "Logistik"
+
+#: src/dialogs/dialog-random-generator.c:149
+msgid "Lognormal"
+msgstr "Lognormal"
+
+#: src/dialogs/dialog-random-generator.c:149
+msgid "_Zeta Value:"
+msgstr "_Zeta-värde:"
+
+#: src/dialogs/dialog-random-generator.c:151
 msgid "Negative Binomial"
 msgstr "Negativ binomial"
 
-#: src/dialogs/dialog-random-generator.c:145
+#: src/dialogs/dialog-random-generator.c:152
 msgid "N_umber of Failures"
 msgstr "Antal _misslyckanden"
 
-#: src/dialogs/dialog-random-generator.c:147
+#: src/dialogs/dialog-random-generator.c:154
 msgid "Pareto"
 msgstr "Pareto"
 
-#: src/dialogs/dialog-random-generator.c:149
+#: src/dialogs/dialog-random-generator.c:156
 msgid "Poisson"
 msgstr "Poisson"
 
-#: src/dialogs/dialog-random-generator.c:149
+#: src/dialogs/dialog-random-generator.c:156
 msgid "_Lambda:"
 msgstr "_Lambda:"
 
-#: src/dialogs/dialog-random-generator.c:151
+#: src/dialogs/dialog-random-generator.c:158
 msgid "Rayleigh"
 msgstr "Rayleigh"
 
-#: src/dialogs/dialog-random-generator.c:151
-#: src/dialogs/dialog-random-generator.c:153
+#: src/dialogs/dialog-random-generator.c:158
+#: src/dialogs/dialog-random-generator.c:160
 msgid "_Sigma:"
 msgstr "_Sigma:"
 
-#: src/dialogs/dialog-random-generator.c:153
+#: src/dialogs/dialog-random-generator.c:160
 msgid "Rayleigh Tail"
 msgstr "Rayleighsvans"
 
-#: src/dialogs/dialog-random-generator.c:155
+#: src/dialogs/dialog-random-generator.c:162
 msgid "T"
 msgstr "T"
 
-#: src/dialogs/dialog-random-generator.c:155
+#: src/dialogs/dialog-random-generator.c:162
 msgid "nu Value:"
 msgstr "nu-värde:"
 
-#: src/dialogs/dialog-random-generator.c:157
+#: src/dialogs/dialog-random-generator.c:164
 msgid "Type I Gumbel"
 msgstr "Typ I-Gumbel"
 
-#: src/dialogs/dialog-random-generator.c:159
+#: src/dialogs/dialog-random-generator.c:166
 msgid "Type II Gumbel"
 msgstr "Typ II-Gumbel"
 
-#: src/dialogs/dialog-random-generator.c:161
+#: src/dialogs/dialog-random-generator.c:168
 msgid "Weibull"
 msgstr "Weibull"
 
-#: src/dialogs/dialog-random-generator.c:842
+#: src/dialogs/dialog-random-generator.c:889
 msgid "Could not create the Random Tool dialog."
 msgstr "Kunde inte skapa dialogen för slumpverkyget."
 
@@ -18792,8 +19092,8 @@ msgstr "Antal _variabler:"
 msgid "Random Number Generation"
 msgstr "Slumptalsgenerering"
 
-#: src/dialogs/random-generation.glade.h:8 src/tools/random-generator.c:625
-#: src/tools/random-generator.c:628
+#: src/dialogs/random-generation.glade.h:8 src/tools/random-generator.c:676
+#: src/tools/random-generator.c:679
 msgid "Random Numbers"
 msgstr "Slumptal"
 
@@ -22490,7 +22790,7 @@ msgstr "Inget av värdena i värdeområdet får vara tomt!"
 msgid "The probabilities may not all be 0!"
 msgstr "Sannolikheterna får inte vara 0!"
 
-#: src/tools/random-generator.c:607
+#: src/tools/random-generator.c:658
 #, c-format
 msgid "Random Numbers (%s)"
 msgstr "Slumptal (%s)"
@@ -23540,27 +23840,48 @@ msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
 
 #~ msgid ""
-#~ "@FUNCTION=RANDRAYLEIGHTAIL\n"
-#~ "@SYNTAX=RANDRAYLEIGHTAIL(a,sigma)\n"
-#~ "@DESCRIPTION=RANDRAYLEIGHTAIL returns a random variate from the tail of "
-#~ "the Rayleigh distribution with scale parameter sigma and a lower limit of "
-#~ "a. The distribution is, p(x) dx = {x over sigma^2} exp ((a^2 - x^2) /(2 "
-#~ "sigma^2)) dx, for x > a. \n"
+#~ "@FUNCTION=BERNOULLI\n"
+#~ "@SYNTAX=BERNOULLI(k,p)\n"
+#~ "@DESCRIPTION=BERNOULLI returns the probability p(k) of obtaining @k from "
+#~ "a Bernoulli distribution with probability parameter @p. \n"
+#~ "If @k != 0 and @k != 1 BERNOULLI returns #NUM! error. If @p < 0 or @p > 1 "
+#~ "BERNOULLI returns #NUM! error. \n"
 #~ "@EXAMPLES=\n"
-#~ "RANDRAYLEIGHTAIL(0.3,1).\n"
+#~ "BERNOULLI(0,0.5).\n"
 #~ "\n"
-#~ "@SEEALSO=RAND,RANDRAYLEIGH"
+#~ "@SEEALSO=RANDBERNOULLI"
 #~ msgstr ""
-#~ "@FUNCTION=RANDRAYLEIGHTAIL\n"
-#~ "@SYNTAX=RANDRAYLEIGHTAIL(a;sigma)\n"
-#~ "@DESCRIPTION=RANDRAYLEIGHTAIL returnerar ett slumpvariat från svansen på "
-#~ "Rayleigh-fördelningen med skalparametrar sigma och en undre gräns a. "
-#~ "Fördelningen är p(x) dx = {x over sigma²} exp ((a² - x²) /(2 sigma²)) dx, "
-#~ "för x > a. \n"
+#~ "@FUNCTION=BERNOULLI\n"
+#~ "@SYNTAX=BERNOULLI(k;p)\n"
+#~ "@DESCRIPTION=BERNOULLI returnerar sannolikheten p(k) för att få @k från "
+#~ "en Bernoullifördelning med sannolikhetsparametern @p.\n"
+#~ "Om @k != 0 och @k != 1 returnerar BERNOULLI felvärdet #NUM!. Om @p < 0 "
+#~ "eller @p > 1 returnerar BERNOULLI felvärdet #NUM!.\n"
 #~ "@EXAMPLES=\n"
-#~ "RANDRAYLEIGHTAIL(0,3;1).\n"
+#~ "BERNOULLI(0;0,5).\n"
 #~ "\n"
-#~ "@SEEALSO=RAND,RANDRAYLEIGH"
+#~ "@SEEALSO=RANDBERNOULLI"
+
+#~ msgid ""
+#~ "@FUNCTION=CAUCHY\n"
+#~ "@SYNTAX=CAUCHY(x,a)\n"
+#~ "@DESCRIPTION=CAUCHY returns the probability density p(x) at @x for a "
+#~ "Cauchy distribution with scale parameter @a. \n"
+#~ "If @a < 0 CAUCHY returns #NUM! error. \n"
+#~ "@EXAMPLES=\n"
+#~ "CAUCHY(0.43,1).\n"
+#~ "\n"
+#~ "@SEEALSO=RANDCAUCHY"
+#~ msgstr ""
+#~ "@FUNCTION=CAUCHY\n"
+#~ "@SYNTAX=CAUCHY(x;a)\n"
+#~ "@DESCRIPTION=CAUCHY returnerar sannolikhetsfördelningen p(x) vid @x för "
+#~ "en Cauchyfördelning med skalparametern @a.\n"
+#~ "Om @a < 0 returnerar CAUCHY felvärdet #NUM!.\n"
+#~ "@EXAMPLES=\n"
+#~ "RANDCAUCHY(0,43;1).\n"
+#~ "\n"
+#~ "@SEEALSO=RANDCAUCHY"
 
 #~ msgid "Could not create the Fourier Analyis Tool dialog."
 #~ msgstr "Kunde inte skapa dialogen för fourieranalysverktyget."
@@ -23737,9 +24058,6 @@ msgstr "Gnumeric XML-filformat"
 
 #~ msgid "Por_trait"
 #~ msgstr "S_tående"
-
-#~ msgid "_Landscape"
-#~ msgstr "_Liggande"
 
 #~ msgid ""
 #~ "Sort the selected region in ascending order based on the first column "
