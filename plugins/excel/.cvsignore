@@ -1,3 +1,5 @@
-.deps
-Makefile.in
 Makefile
+Makefile.in
+.deps
+.libs
+ole
