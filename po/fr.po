@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1999-02-17 17:31-0600\n"
+"POT-Creation-Date: 1999-02-19 15:10+0100\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Vincent Renardias <vincent@ldsol.com>\n"
 "Language-Team: Vincent Renardias <vincent@ldsol.com>\n"
@@ -13,7 +13,11 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: plugins/stat/stat.c:10
+#: plugins/excel/boot.c:67
+msgid "Microsoft(R) Excel file format"
+msgstr "format de fichier Microsoft(R) Excel"
+
+#: plugins/stat/stat.c:12
 msgid ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX = STDEV(value1, value2, ...)@DESCRIPTION=Computes the standard "
@@ -28,7 +32,7 @@ msgstr ""
 "variance.\n"
 "@SEEALSO=VARIANCE"
 
-#: plugins/stat/stat.c:21
+#: plugins/stat/stat.c:23
 msgid ""
 "@FUNCTION=VARIANCE\n"
 "@SYNTAX = VARIANCE(value1, value2, ...)@DESCRIPTION=Computes the variation "
@@ -44,7 +48,7 @@ msgstr ""
 "valeurs moins un. Si vous voulez diviser par N à la place de N - 1, utilisez "
 "NVARIANCE.@SEEALSO=AVERAGE, NVARIANCE"
 
-#: plugins/stat/stat.c:32
+#: plugins/stat/stat.c:34
 msgid ""
 "@FUNCTION=NVARIANCE\n"
 "@SYNTAX = NVARIANVE(value1, value2, ...)@DESCRIPTION=Computes the variation "
@@ -60,19 +64,67 @@ msgstr ""
 "valeurs. Si vous voulez diviser par N - 1 à la place de N, utilisez "
 "VARIANCE.@SEEALSO=AVERAGE, VARIANCE"
 
-#: plugins/stat/stat.c:67
+#: plugins/stat/stat.c:69
 msgid "Statistics Plugin"
 msgstr "Plugin Statistiques"
 
-#: plugins/stat/stat.c:100
+#: plugins/stat/stat.c:102
 msgid "variance - division by 0"
 msgstr "variance - division par 0"
 
-#: src/about.c:38
+#: src/about.c:23
+msgid "Miguel de Icaza, main programmer."
+msgstr ""
+
+#: src/about.c:24
+msgid "Daniel Veillard, XML support."
+msgstr ""
+
+#: src/about.c:25
+msgid "Chris Lahey, Number format engine."
+msgstr ""
+
+#: src/about.c:26
+msgid "Tom Dyas, Plugin support."
+msgstr ""
+
+#: src/about.c:27
+msgid "Federico Mena, Canvas support."
+msgstr ""
+
+#: src/about.c:28
+msgid "Adrian Likins, Documentation, debugging"
+msgstr ""
+
+#: src/about.c:29
+msgid "Jakub Jelinek, Gnumeric hacker"
+msgstr ""
+
+#: src/about.c:30
+msgid "Michael Meeks, Excel and OLE2 importing"
+msgstr ""
+
+#: src/about.c:31
+msgid "Sean Atkinson, Excel functions"
+msgstr ""
+
+#: src/about.c:32
+msgid "Bruno Unna, Excel code"
+msgstr ""
+
+#: src/about.c:33
+msgid "Mark Probst, Guile support"
+msgstr ""
+
+#: src/about.c:34
+msgid "Vincent Renardias, CSV support"
+msgstr ""
+
+#: src/about.c:45
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: src/about.c:41
+#: src/about.c:48
 msgid ""
 "The GNOME spreadsheet.\n"
 "http://www.gnome.org/gnumeric"
@@ -232,6 +284,10 @@ msgstr "Novembre"
 msgid "December"
 msgstr "Décembre"
 
+#: src/dialog-cell-comment.c:24
+msgid "Cell comment"
+msgstr "Commentaire de cellule"
+
 #: src/dialog-cell-format.c:66
 msgid "Numbers"
 msgstr "Nombres"
@@ -287,7 +343,7 @@ msgstr "Exemple:"
 msgid "Format codes"
 msgstr "Codes de formats"
 
-#: src/dialog-cell-format.c:353 src/formats.c:16 src/number-match.c:450
+#: src/dialog-cell-format.c:353 src/formats.c:16 src/number-match.c:455
 msgid "General"
 msgstr "Général"
 
@@ -349,9 +405,8 @@ msgid "Use this color"
 msgstr "Utiliser cette couleur"
 
 #: src/dialog-cell-format.c:605
-#, fuzzy
 msgid "No change"
-msgstr "Aucun"
+msgstr "Aucun changement"
 
 #: src/dialog-cell-format.c:628
 msgid "Background configuration"
@@ -389,7 +444,7 @@ msgstr "Définir les noms"
 msgid "Add"
 msgstr "Ajouter"
 
-#: src/dialog-define-names.c:27 src/plugin-manager.c:131
+#: src/dialog-define-names.c:27 src/plugin-manager.c:132
 msgid "Remove"
 msgstr "Enlever"
 
@@ -527,6 +582,11 @@ msgstr "Cette valeur doit être supérieure à 50%"
 msgid "Zoom factor should be at most 900%"
 msgstr "Cette valeur doit être inférieure à 900%"
 
+#: src/dump.c:29
+#, c-format
+msgid "Can not create file %s\n"
+msgstr ""
+
 #: src/expr.c:59
 msgid "Syntax error"
 msgstr "Erreur de syntaxe"
@@ -556,9 +616,8 @@ msgid "Unknown evaluation error"
 msgstr "Erreur d'évaluation inconnue"
 
 #: src/file.c:217
-#, fuzzy
 msgid "File format:"
-msgstr "Format de cellule"
+msgstr "Format de fichier:"
 
 #: src/file.c:256
 msgid "Save workbook as"
@@ -566,7 +625,7 @@ msgstr "Enregistrer la feuille sous"
 
 #: src/file.c:288
 msgid "Sorry, there are no file savers loaded, I can not save"
-msgstr ""
+msgstr "Désolé, il n'y a pas d'enregistreurs de fichiers chargés, je ne peux pas enregistrer"
 
 #: src/file.c:316
 msgid "Load file"
@@ -1390,7 +1449,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/fn-math.c:1114
-#, fuzzy
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -1400,11 +1458,11 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=La fonction PI retourne la valeur de Pi telle qu'elle est "
-"définie par M_PI.\n"
-"Cette fonction ne prend aucun argument.\n"
+"@FUNCTION=TRUNC\n"
+"@SYNTAX=TRUNC(nombre[,chiffres])\n"
+"@DESCRIPTION=La fonction TRUNC retourne la valeur du nombre tronqué au nombre de chiffres spécifié."
+" Si le nombre de chiffre n'est pas donné, zéro est utilisé par défaut.\n"
+"\n"
 "@SEEALSO="
 
 #: src/fn-misc.c:18
@@ -1925,35 +1983,35 @@ msgstr "NIVEAU"
 msgid "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 msgstr ""
 
-#: src/plugin-manager.c:94 src/plugin-manager.c:95
+#: src/plugin-manager.c:95 src/plugin-manager.c:96
 msgid "Name"
 msgstr "Nom"
 
-#: src/plugin-manager.c:94 src/plugin-manager.c:95
+#: src/plugin-manager.c:95 src/plugin-manager.c:96
 msgid "File"
 msgstr "Fichier"
 
-#: src/plugin-manager.c:125
+#: src/plugin-manager.c:126
 msgid "Close"
 msgstr "Fermer"
 
-#: src/plugin-manager.c:128
+#: src/plugin-manager.c:129
 msgid "Add..."
 msgstr "Ajouter..."
 
-#: src/plugin.c:36
+#: src/plugin.c:37
 msgid "unable to open module file: "
 msgstr "impossible d'ouvrir le fichier module: "
 
-#: src/plugin.c:45
+#: src/plugin.c:46
 msgid "Plugin must contain init_plugin function."
 msgstr "Un plugin doit contenir la fonction init_plugin."
 
-#: src/plugin.c:51
+#: src/plugin.c:52
 msgid "init_plugin returned error"
 msgstr "init_plugin a retourné une erreur"
 
-#: src/plugin.c:71
+#: src/plugin.c:72
 msgid "Plugin is still in use.\n"
 msgstr "Le plugin est toujours en cours d'utilisation.\n"
 
@@ -2363,12 +2421,6 @@ msgstr "SansNom"
 #: src/xml-io.c:1598
 msgid "Gnumeric XML file format"
 msgstr "format de fichier Gnumeric XML"
-
-#~ msgid "Microsoft(R) Excel file format"
-#~ msgstr "format de fichier Microsoft(R) Excel"
-
-#~ msgid "Cell comment"
-#~ msgstr "Commentaire de cellule"
 
 #~ msgid "Notice"
 #~ msgstr "Message"
