@@ -17,7 +17,7 @@ GtkType         color_palette_get_type (void);
 
 GtkWidget       *color_palette_new (char const * const no_color_label,
 				    GdkColor *default_color,
-				    gchar *group_name);
+				    const gchar *group_name);
 
 GdkColor        *color_palette_get_current_color (ColorPalette *P);
 GtkWidget       *color_palette_get_color_picker (ColorPalette *P);

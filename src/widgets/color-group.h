@@ -19,7 +19,7 @@ typedef struct _ColorGroup ColorGroup;
 
 GtkType         color_group_get_type  (void);
 
-GtkObject      *color_group_new_named (gchar * name);
+GtkObject      *color_group_new_named (const gchar *name);
 
 void            color_group_set_history_size (ColorGroup *cg, gint size);
 

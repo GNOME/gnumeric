@@ -1599,24 +1599,6 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 #if 0
-	/*
-	 * Mark Copper <ad8854@wayne.edu> submits that the following
-	 * special case is not worth the effort and risk of being
-	 * incorrect since the goal seek below will converge really
-	 * fast in this case.
-	 */
-	if (udata.pmt == 0) {
-		if (udata.pv == 0 || udata.pv * udata.fv > 0)
-			return value_new_error (ei->pos, gnumeric_err_NUM);
-		else {
-			/* Exact case.  */
-			return value_new_float (pow (-udata.fv / udata.pv,
-						     1.0 / udata.nper) - 1);
-		}
-	}
-#endif
-
-#if 0
 	printf ("Guess = %.15g\n", rate0);
 #endif
 	goal_seek_initialise (&data);
@@ -1639,7 +1621,7 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 	if (status != GOAL_SEEK_OK) {
 		int factor;
 		/* Lay a net of test points around the guess.  */
-		for (factor = 2; factor < 100; factor *= 2) {
+		for (factor = 2; !(data.havexneg && data.havexpos) && factor < 100; factor *= 2) {
 			goal_seek_point (&gnumeric_rate_f, &data, &udata, rate0 * factor);
 			goal_seek_point (&gnumeric_rate_f, &data, &udata, rate0 / factor);
 		}
@@ -1768,7 +1750,7 @@ gnumeric_irr (FunctionEvalInfo *ei, Value **argv)
 	if (status != GOAL_SEEK_OK) {
 		int factor;
 		/* Lay a net of test points around the guess.  */
-		for (factor = 2; factor < 100; factor *= 2) {
+		for (factor = 2; !(data.havexneg && data.havexpos) && factor < 100; factor *= 2) {
 			goal_seek_point (&irr_npv, &data, &p, rate0 * factor);
 			goal_seek_point (&irr_npv, &data, &p, rate0 / factor);
 		}

@@ -36,7 +36,7 @@ struct _ColorPalette {
 	 * Array of colors
 	 */
 	GnomeCanvasItem **items;
-	/* The (potententially NULL) default color */
+	/* The (potentially NULL) default color */
         GdkColor *default_color;
         /*
 	 * Position of the last possible position
@@ -510,7 +510,7 @@ static GtkWidget*
 color_palette_new_with_vals ( char const * const no_color_label,
 			      int ncols, int nrows, ColorNamePair *color_names,
 			      GdkColor *default_color, 
-			      gchar *group_name){
+			      const gchar *group_name){
 	ColorPalette *P;
 	
 	g_return_val_if_fail (color_names != NULL, NULL);
@@ -614,7 +614,8 @@ static ColorNamePair default_color_set [] = {
  */
 GtkWidget*
 color_palette_new (  char const * const no_color_label,
-		     GdkColor *default_color, gchar *group_name) {
+		     GdkColor *default_color, const gchar *group_name)
+{
 	/* specify 6 rows to allow for a row of custom colors */
 	return color_palette_new_with_vals (no_color_label,
 					    8, 6, 

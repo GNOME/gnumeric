@@ -1,5 +1,5 @@
 /*
- * color-group.c : Utility to keep a ahered memory of custom and
+ * color-group.c : Utility to keep a shered memory of custom and
  *                  current colors between arbitrary widgets
  *
  * Author:
@@ -223,7 +223,7 @@ color_group_set_history_size (ColorGroup *cg, gint size)
  * incremented and a pointer to the group is returned.
  */
 GtkObject *
-color_group_new_named (gchar * name)
+color_group_new_named (const gchar *name)
 {
 	GtkObject *obj;
 	ColorGroup *cg;
@@ -237,7 +237,9 @@ color_group_new_named (gchar * name)
 	else
 		new_name = g_strdup (name);
 
-	if((obj  = color_group_from_name(new_name)) != NULL) {
+	obj = color_group_from_name (new_name);
+	if (obj) {
+		g_free (new_name);
 		gtk_object_ref(GTK_OBJECT(obj));
 		return obj;
 	}

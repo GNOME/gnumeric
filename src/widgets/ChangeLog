@@ -1,3 +1,10 @@
+2000-09-11  Morten Welinder  <terra@diku.dk>
+
+	* color-group.c (color_group_new_named): Constify.  Plug leak.
+
+	* color-palette.c (color_palette_new_with_vals): Constify.
+	(color_palette_new): Constify.
+
 2000-09-10  Miguel de Icaza  <miguel@helixcode.com>
 
 	* widget-editable-label.c (el_start_editing): Optionally select
