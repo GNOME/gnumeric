@@ -1,3 +1,10 @@
+2002-08-18  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-util.c (excel_iconv_open_for_import) : fix unicode codepage
+	  to be actual unicode with the high bit lopped off, which I hope is
+	  synonymous with 8859-1.  This still needs to be translated into
+	  utf8.
+
 2002-08-17  Jon K Hellan  <hellan@acm.org>
 
 	* ms-chart.c (BC_R): Fix typos.

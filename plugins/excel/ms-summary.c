@@ -1,3 +1,4 @@
+/* vim: set sw=8: */
 /**
  * ms-summary.c: MS Excel support for Gnumeric
  *
@@ -24,7 +25,7 @@
 typedef struct _MsOleSummaryHeader MsOleSummaryHeader;
 typedef struct _MsOleSummaryRecord MsOleSummaryRecord;
 typedef guint32 MsOleSummaryFileTime;
-static	excel_iconv_t current_summary_iconv = NULL;
+static	GIConv current_summary_iconv = NULL;
 
 #define SUMMARY_DEBUG 0
 
@@ -167,7 +168,7 @@ read_summary_items (SummaryInfo *sin, MsOleSummary *si, MsOlePropertySetID psid)
 						ptr++;
 					}
 
-					excel_iconv (current_summary_iconv,
+					g_iconv (current_summary_iconv,
 					     &inbufptr, &inbytes,
 					     &outbufptr, &outbytes);
 
@@ -250,7 +251,7 @@ ms_summary_read (MsOle *f, SummaryInfo *sin)
 		printf ("ms_summary_read: Unable to open DocumentSummaryInformation.\n");
 #endif
 	}
-	excel_iconv_close (current_summary_iconv);
+	gnm_iconv_close (current_summary_iconv);
 	current_summary_iconv = NULL;
 }
 
@@ -281,8 +282,8 @@ set_summary_item (SummaryItem *s_item, MsOleSummary *ms_sum)
 				char const * inbufptr = s_item->v.txt;
 				guint32 retlen;
 
-				excel_iconv (current_summary_iconv, &inbufptr, &inbufleft,
-				     &outbufptr, &outbufleft);
+				g_iconv (current_summary_iconv, &inbufptr, &inbufleft,
+					 &outbufptr, &outbufleft);
 				retlen = outbufptr - mbbuf;
 				ret = g_new(char, retlen + 1);
 				ret[retlen] = 0;
@@ -365,7 +366,7 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 	si = ms_ole_docsummary_create (f);
 	if (si == NULL) {
 		g_warning ("ms_summary_write: doc summary NOT created.");
-		excel_iconv_close (current_summary_iconv);
+		gnm_iconv_close (current_summary_iconv);
 		current_summary_iconv = NULL;
 		return;
 	}
@@ -379,6 +380,6 @@ ms_summary_write (MsOle *f, SummaryInfo *sin)
 	g_list_free (si_list);
 
 	ms_ole_summary_close (si);
-	excel_iconv_close (current_summary_iconv);
+	gnm_iconv_close (current_summary_iconv);
 	current_summary_iconv = NULL;
 }

@@ -52,12 +52,7 @@ two_way_table_idx_to_key (const TwoWayTable *table, gint idx);
 /* A new version based on hard coded tables to match XL */
 double lookup_font_base_char_width (char const *name, double size_pts,
 				    gboolean const is_default);
-
-
-/* a group of iconv_* - like functions, with safe fallbacks if iconv is
- * unavailable. Sorry for stupid prefix - Vlad Harchev <hvv@hippo.ru>
- */
-typedef void* excel_iconv_t; /*can't be NULL or (-1) */
+void destroy_xl_font_widths (void);
 
 /*
  * this returns code of the codepage that should be used when exporting
@@ -66,19 +61,7 @@ typedef void* excel_iconv_t; /*can't be NULL or (-1) */
 guint excel_iconv_win_codepage (void);
 
 /*these two will figure out which charset names to use*/
-excel_iconv_t excel_iconv_open_for_import (guint codepage);
-excel_iconv_t excel_iconv_open_for_export (void);
-void excel_iconv_close (excel_iconv_t handle);
-
-/* if fails (or if compiled without support for iconv), it will  copy the input
- * string to output and pretend that all worked fine.  If some char is
- * non-convertable, it will replace that char with "?".  It's required that
- * inbytesleft <= outbytesleft (so that fallback will be able to work). As for
- * now, return value is not meaningfull at all - 0 is always returned.
-*/
-size_t excel_iconv (excel_iconv_t handle, char const **inbuf, size_t *inbytesleft,
-		    char **outbuf, size_t *outbytesleft);
-
-void destroy_xl_font_widths (void);
+GIConv excel_iconv_open_for_import (guint codepage);
+GIConv excel_iconv_open_for_export (void);
 
 #endif

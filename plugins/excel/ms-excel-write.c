@@ -62,7 +62,7 @@
 
 #define N_ELEMENTS_BETWEEN_PROGRESS_UPDATES   20
 
-static excel_iconv_t current_workbook_iconv = NULL;
+static GIConv current_workbook_iconv = NULL;
 
 static guint style_color_to_rgb888 (const StyleColor *c);
 static gint  palette_get_index (ExcelWorkbook *wb, guint c);
@@ -98,13 +98,14 @@ biff_convert_text (char **buf, const char *txt, MsBiffVersion ver)
 	} else {
 		size_t inbufleft = len, outbufleft = len*8;
 		char *outbufptr;
-		char const * inbufptr = txt;
+		char const *inbufptr = txt;
 
 		*buf = g_new(char, outbufleft);
 		outbufptr = *buf;
 
-		excel_iconv (current_workbook_iconv, &inbufptr, &inbufleft, 
-			     &outbufptr, &outbufleft);
+		g_iconv (current_workbook_iconv,
+			 (char **)&inbufptr, &inbufleft, 
+			 &outbufptr, &outbufleft);
 		len = outbufptr - *buf;
 	};
 	return len;
@@ -3508,7 +3509,7 @@ write_workbook (IOContext *context, BiffPut *bp, ExcelWorkbook *wb, MsBiffVersio
 					    s->streamPos);
 	}
 	/* End Finalised workbook */
-	excel_iconv_close (current_workbook_iconv);
+	gnm_iconv_close (current_workbook_iconv);
 	current_workbook_iconv = NULL;
 }
 

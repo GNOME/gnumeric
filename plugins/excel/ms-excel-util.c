@@ -1,3 +1,4 @@
+/* vim: set sw=8: */
 /**
  * ms-excel-util.c: Utility functions for MS Excel import / export
  *
@@ -22,11 +23,6 @@
 
 #ifdef HAVE_LANGINFO_H
 #include <langinfo.h>
-#endif
-
-#ifdef HAVE_ICONV_H
-#define HAVE_ICONV
-#include <iconv.h>
 #endif
 
 /*
@@ -461,74 +457,38 @@ excel_iconv_win_codepage (void)
 }
 
 /*these two will figure out which charset names to use*/
-excel_iconv_t
+GIConv
 excel_iconv_open_for_import (guint codepage)
 {
-#ifndef HAVE_ICONV
-	iconv_t iconv_handle;
+	GIConv iconv_handle;
 
 	if (codepage != 1200 && codepage != 1201) {
 		char* src_charset = g_strdup_printf ("CP%d", codepage);
-		iconv_handle = iconv_open ("UTF-8", src_charset);
+		iconv_handle = g_iconv_open ("UTF-8", src_charset);
 		g_free (src_charset);
-		if (iconv_handle != (excel_iconv_t)(-1))
+		if (iconv_handle != (GIConv)(-1))
 			return iconv_handle;
 		g_warning ("Unknown codepage %d", codepage);
+		return (GIConv)(-1);
 	}
 
-	/* 1200 == little endian unicode */
-#endif
-	return (excel_iconv_t)(-1);
+	/* this is 'compressed' unicode.  unicode characters 0000->00FF
+	 * which looks the same as 8859-1.  I have no idea what little
+	 * endian vs bigendian has to do with this.  There is only 1
+	 * byte, and it would certainly not be useful to keep the low
+	 * byte as 0.
+	 */
+	return g_iconv_open ("UTF-8", "ISO-8859-1");
 }
 
-excel_iconv_t
+GIConv
 excel_iconv_open_for_export (void)
 {
-#ifndef HAVE_ICONV
-	return (excel_iconv_t)(-1);
-#else
 	static char* dest_charset = NULL;
-	iconv_t iconv_handle;
+	GIConv iconv_handle;
 
 	if (!dest_charset)
 		dest_charset = g_strdup_printf ("CP%d", excel_iconv_win_codepage());
-	iconv_handle = iconv_open (dest_charset, "UTF-8");
+	iconv_handle = g_iconv_open (dest_charset, "UTF-8");
 	return iconv_handle;
-#endif
-}
-
-void
-excel_iconv_close (excel_iconv_t handle)
-{
-#ifdef HAVE_ICONV
-	if (handle && handle != (excel_iconv_t)(-1))
-		iconv_close (handle);
-#endif
-}
-
-size_t
-excel_iconv (excel_iconv_t handle,
-	     char const * *inbuf, size_t *inbytesleft,
-	     char **outbuf, size_t *outbytesleft)
-{
-#ifndef HAVE_ICONV
-	guint tocopy = *inbytesleft <= *outbytesleft ? *inbytesleft : *outbytesleft;
-	memcpy(*outbuf,*inbuf,tocopy);
-	*outbuf += tocopy;
-	*inbuf += tocopy;
-	*outbytesleft -= tocopy;
-	*inbytesleft -= tocopy;
-#else
-	while (*inbytesleft) {
-		if (handle && handle != (iconv_t)(-1))
-			iconv ((iconv_t)handle, (char **)inbuf, inbytesleft,
-			       outbuf, outbytesleft);
-		if (!*inbytesleft || !*outbytesleft)
-			return 0;
-		/*got invalid seq - so replace it with original character*/
-		**outbuf = **inbuf; (*outbuf)++; (*outbytesleft)--;
-		(*inbuf)++; (*inbytesleft)--;
-	}
-#endif
-	return 0;
 }

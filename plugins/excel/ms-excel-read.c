@@ -67,7 +67,7 @@
 #define d(level, code)
 #endif
 
-static excel_iconv_t current_workbook_iconv = NULL;
+static GIConv current_workbook_iconv = NULL;
 
 char const *excel_builtin_formats[EXCEL_BUILTIN_FORMAT_LEN] = {
 /* 0x00 */	"General",
@@ -686,8 +686,8 @@ get_chars (char const *ptr, guint length, gboolean use_utf16)
 		char *outbuf = g_new (char, outbytes + 1);
 
 		ans = outbuf;
-		excel_iconv (current_workbook_iconv,
-			     &ptr, &length, &outbuf, &outbytes);
+		g_iconv (current_workbook_iconv,
+			 (char **)&ptr, &length, &outbuf, &outbytes);
 
 		i = outbuf - ans;
 		ans [i] = 0;
@@ -4881,7 +4881,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			/* MW: And on Excel seems to drive the display
 			   of currency amounts.  */
 			guint16 const codepage = GSF_LE_GET_GUINT16 (q->data);
-			excel_iconv_close (current_workbook_iconv);
+			gnm_iconv_close (current_workbook_iconv);
 			current_workbook_iconv = excel_iconv_open_for_import (codepage);
 			d (0, {
 				switch (codepage) {
@@ -5034,8 +5034,8 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		fflush (stdout);
 	}
 #endif
-	excel_iconv_close (current_workbook_iconv);
-	current_workbook_iconv = 0;
+	gnm_iconv_close (current_workbook_iconv);
+	current_workbook_iconv = NULL;
 	if (wb) {
 		/* Cleanup */
 		ms_excel_workbook_destroy (wb);
