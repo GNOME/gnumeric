@@ -1,5 +1,9 @@
 1999-10-11  Michael Meeks  <mmeeks@gnu.org>
 
+	* gnumeric.desktop: remove, its auto-generated.
+	
+1999-10-11  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/Gnumeric.idl: Add a variable name for datanotify so it compiles!
 	kill redundant (void) on count.
 
