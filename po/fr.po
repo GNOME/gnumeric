@@ -28132,7 +28132,7 @@ msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
-"Moyenne/Err std/Médiane/Mode/Ecart type/Var éch./Kurtosis/Skewness/"
+"/Moyenne/Err std/Médiane/Mode/Ecart type/Var éch./Kurtosis/Skewness/"
 "Intervalle/Min/Max/Somme/Nombre"
 
 #: src/tools/analysis-tools.c:1022
