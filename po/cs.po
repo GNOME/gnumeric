@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Gnumeric cs.po\n"
-"POT-Creation-Date: 2002-12-09 22:49+0100\n"
+"POT-Creation-Date: 2002-12-11 00:35-0500\n"
 "PO-Revision-Date: 2002-12-09 22:49GMT\n"
 "Last-Translator: Michal Bukovjan <bukm@centrum.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -857,8 +857,8 @@ msgstr "Finanční deriváty"
 msgid "Functions related to financial derivatives"
 msgstr "Funkce spojené s finančními deriváty"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5079
-#: plugins/gnumeric_1_0/xml-io.c:3370 plugins/mps/mps.c:549 src/xml-io.c:3393
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5080
+#: plugins/gnumeric_1_0/xml-io.c:3370 plugins/mps/mps.c:549 src/xml-io.c:3552
 msgid "Reading file..."
 msgstr "Načítá se soubor..."
 
@@ -997,27 +997,27 @@ msgstr ""
 "Odkazy OLE nejsou podporovány.\n"
 "Název '%s' bude ztracen.\n"
 
-#: plugins/excel/ms-excel-read.c:2780
+#: plugins/excel/ms-excel-read.c:2781
 msgid "Failure parsing AutoFilter."
 msgstr "Chyba při zpracování AutoFiltru."
 
-#: plugins/excel/ms-excel-read.c:4489
+#: plugins/excel/ms-excel-read.c:4490
 msgid "external references"
 msgstr "externí odkazy"
 
-#: plugins/excel/ms-excel-read.c:5223
+#: plugins/excel/ms-excel-read.c:5224
 msgid "This file is encrypted"
 msgstr "Tento soubor je šifrovaný"
 
-#: plugins/excel/ms-excel-read.c:5225
+#: plugins/excel/ms-excel-read.c:5226
 msgid "No password supplied"
 msgstr "Nebylo zadáno žádné heslo"
 
-#: plugins/excel/ms-excel-read.c:5229
+#: plugins/excel/ms-excel-read.c:5230
 msgid "Invalid password"
 msgstr "Neplatné heslo"
 
-#: plugins/excel/ms-excel-read.c:5324
+#: plugins/excel/ms-excel-read.c:5325
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nepodařilo se nalézt platný sešit MS Excel"
 
@@ -16517,33 +16517,33 @@ msgstr "Formát souborů PO slovníku Gnome"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Poskytuje podporu pro ukládání Slovníku Gnome do souborů .po."
 
-#: plugins/gnumeric_1_0/xml-io.c:2825 src/xml-io.c:2857
+#: plugins/gnumeric_1_0/xml-io.c:2825 src/xml-io.c:3016
 msgid "Unparsable xml in clipboard"
 msgstr "Obsah schránky v XML není možné zpracovat"
 
-#: plugins/gnumeric_1_0/xml-io.c:2832 src/xml-io.c:2864
+#: plugins/gnumeric_1_0/xml-io.c:2832 src/xml-io.c:3023
 msgid "Clipboard is in unknown format"
 msgstr "Obsah schránky má neznámý formát."
 
 #: plugins/gnumeric_1_0/xml-io.c:3112 plugins/xbase/boot.c:172
 #: src/dialogs/dialog-goto-cell.c:286 src/dialogs/dialog-search.c:731
 #: src/dialogs/print.glade.h:20 src/workbook.c:1047 src/workbook.c:1377
-#: src/xml-io.c:3144
+#: src/xml-io.c:3303
 msgid "Sheet"
 msgstr "List"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: plugins/gnumeric_1_0/xml-io.c:3239 src/xml-io.c:3271
+#: plugins/gnumeric_1_0/xml-io.c:3239 src/xml-io.c:3430
 msgid "Processing file..."
 msgstr "Zpracovává se soubor..."
 
-#: plugins/gnumeric_1_0/xml-io.c:3412 src/xml-io.c:3435
+#: plugins/gnumeric_1_0/xml-io.c:3412 src/xml-io.c:3594
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Není soubor se sešitem Gnumeric"
 
-#: plugins/gnumeric_1_0/xml-io.c:3447 src/xml-io.c:3472
+#: plugins/gnumeric_1_0/xml-io.c:3447 src/xml-io.c:3631
 msgid "Failure saving file"
 msgstr "Chyba při ukládání souboru."
 
@@ -18353,7 +18353,7 @@ msgid "Statistical Anal_ysis"
 msgstr "Statistická ana_lýza"
 
 #: src/GNOME_Gnumeric.xml.h:235 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:3844 src/workbook-control-gui.c:4591
+#: src/workbook-control-gui.c:3844 src/workbook-control-gui.c:4594
 #: src/workbook-view.c:511
 msgid "Sum"
 msgstr "Součet"
@@ -20724,7 +20724,7 @@ msgid "Add the entered area to the list of source areas"
 msgstr "Přidá zadanou oblast do seznamu zdrojových oblastí"
 
 #: src/dialogs/consolidate.glade.h:2 src/dialogs/dialog-simulation.c:204
-#: src/workbook-control-gui.c:4594
+#: src/workbook-control-gui.c:4597
 msgid "Average"
 msgstr "Průměr"
 
@@ -20737,7 +20737,7 @@ msgid "Clear the list of source areas"
 msgstr "Vymaže seznam zdrojových oblastí"
 
 #: src/dialogs/consolidate.glade.h:5 src/tools/simulation.c:264
-#: src/workbook-control-gui.c:4595
+#: src/workbook-control-gui.c:4598
 msgid "Count"
 msgstr "Počet"
 
@@ -20770,12 +20770,12 @@ msgid "Labels"
 msgstr "Titulky"
 
 #: src/dialogs/consolidate.glade.h:13 src/dialogs/dialog-simulation.c:204
-#: src/tools/simulation.c:256 src/workbook-control-gui.c:4593
+#: src/tools/simulation.c:256 src/workbook-control-gui.c:4596
 msgid "Max"
 msgstr "Max"
 
 #: src/dialogs/consolidate.glade.h:14 src/dialogs/dialog-simulation.c:204
-#: src/tools/simulation.c:254 src/workbook-control-gui.c:4592
+#: src/tools/simulation.c:254 src/workbook-control-gui.c:4595
 msgid "Min"
 msgstr "Min"
 
@@ -26124,23 +26124,23 @@ msgstr "Upravit _hypertextový odkaz"
 msgid "_Remove Hyperlink"
 msgstr "Odst_ranit hypertextový odkaz"
 
-#: src/sheet-filter.c:351
+#: src/sheet-filter.c:350
 msgid "(All)"
 msgstr "(Vše)"
 
-#: src/sheet-filter.c:356
+#: src/sheet-filter.c:355
 msgid "(Top 10...)"
 msgstr "(Horních 10...)"
 
-#: src/sheet-filter.c:363
+#: src/sheet-filter.c:362
 msgid "(Custom...)"
 msgstr "(Vlastní...)"
 
-#: src/sheet-filter.c:406
+#: src/sheet-filter.c:405
 msgid "(Blanks...)"
 msgstr "(Prázdné...)"
 
-#: src/sheet-filter.c:412
+#: src/sheet-filter.c:411
 msgid "(Non Blanks...)"
 msgstr "(Neprázdné...)"
 
@@ -27360,8 +27360,8 @@ msgid "Discard All"
 msgstr "Zahodit vše"
 
 #: src/workbook-control-gui.c:1617 src/workbook-control-gui.c:1624
-#: src/workbook-control-gui.c:1630 src/workbook-control-gui.c:5167
-#: src/workbook-control-gui.c:5172
+#: src/workbook-control-gui.c:1630 src/workbook-control-gui.c:5170
+#: src/workbook-control-gui.c:5175
 msgid "Discard"
 msgstr "Zahodit"
 
@@ -27474,24 +27474,24 @@ msgstr "Vrátí poslední operaci"
 msgid "Redo the operation"
 msgstr "Opakuje vrácenou operaci"
 
-#: src/workbook-control-gui.c:4883
+#: src/workbook-control-gui.c:4886
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Soubor \"%s\" má neznámý formát."
 
-#: src/workbook-control-gui.c:4934
+#: src/workbook-control-gui.c:4937
 msgid "Send"
 msgstr "Poslat"
 
-#: src/workbook-control-gui.c:4934
+#: src/workbook-control-gui.c:4937
 msgid "Send the current file in email"
 msgstr "Pošle aktuální soubor elektronickou poštou"
 
-#: src/workbook-control-gui.c:5166 src/workbook-control-gui.c:5181
+#: src/workbook-control-gui.c:5169 src/workbook-control-gui.c:5184
 msgid "Re-Edit"
 msgstr "Znovu upravit"
 
-#: src/workbook-control-gui.c:5171 src/workbook-control-gui.c:5182
+#: src/workbook-control-gui.c:5174 src/workbook-control-gui.c:5185
 msgid "Accept"
 msgstr "Přijmout"
 
@@ -27657,7 +27657,7 @@ msgstr "Již existuje list s názvem"
 msgid "You may not use this name twice"
 msgstr "Nemůžete použít jeden název dvakrát"
 
-#: src/xml-io.c:3504
+#: src/xml-io.c:3663
 msgid "Gnumeric XML file format"
 msgstr "Souborový formát Gnumeric XML"
 
