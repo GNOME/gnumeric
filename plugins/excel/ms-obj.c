@@ -174,6 +174,52 @@ ms_obj_dump (guint8 const * const data, int const len, char const * const name)
 	printf ("}; /* %s */\n", name);
 }
 
+
+static void
+ms_obj_read_pre_biff8_obj (BiffQuery *q, ExcelWorkbook * wb)
+{
+	static char const * const obj_types[] = {
+	    "Group", "Line", "Rectangle", "Oval", "Arc", "Chart", "Text",
+	    "Button", "Picture", "Polygon", "Checkbox", "OptionButton",
+	    "Edit box", "Label", "Dialog frame", "Spinner", "Listbox",
+	    "Group box", "Dropdown"
+	};
+#if 0
+	guint32 const numObjects = MS_OLE_GET_GUINT32(q->data);
+	guint16 const flags = MS_OLE_GET_GUINT32(q->data+8);
+#endif
+	guint16 tmp = MS_OLE_GET_GUINT32(q->data+4);
+	guint16 const obj_id = MS_OLE_GET_GUINT32(q->data+6);
+
+	guint16 const left_col = MS_OLE_GET_GUINT32(q->data+10);
+	guint16 const top_row = MS_OLE_GET_GUINT32(q->data+14);
+	guint16 const right_col = MS_OLE_GET_GUINT32(q->data+18);
+	guint16 const bottom_row = MS_OLE_GET_GUINT32(q->data+22);
+
+	/* As 1/1024 of cell width */
+	guint16 const left_offset = MS_OLE_GET_GUINT32(q->data+12);
+	guint16 const top_offset = MS_OLE_GET_GUINT32(q->data+16);
+	guint16 const right_offset = MS_OLE_GET_GUINT32(q->data+20);
+	guint16 const bottom_offset = MS_OLE_GET_GUINT32(q->data+24);
+
+	if (tmp >= (sizeof(obj_types)/sizeof(char const * const))) {
+		printf ("EXCEL : invalid object type %d\n", tmp);
+		return;
+	}
+
+	if (ms_excel_read_debug > 0) {
+		printf ("EXCEL : Found %s @ (%s%d + %f %%, %f %%):(%s%d + %f %%, %f %%)\n",
+			obj_types[tmp],
+			col_name(left_col), top_row+1,
+			left_offset/1024., top_offset/1024.,
+			col_name(right_col), bottom_row+1,
+			right_offset/1024., bottom_offset/1024.);
+	}
+
+	if (tmp == 0x5)
+		ms_excel_read_chart (q, wb, obj_id);
+}
+
 static void
 ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb)
 {
@@ -274,7 +320,8 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb)
 		{
 			guint16 const row = MS_OLE_GET_GUINT16(data+11);
 			guint16 const col = MS_OLE_GET_GUINT16(data+13) &0x3fff;
-			printf ("%s%d\n", col_name(col), row+1);
+			if (ms_excel_read_debug > 0)
+				printf ("Checkbox linked to : %s%d\n", col_name(col), row+1);
 			ms_obj_dump (data, len, "CheckBoxFmla");
 			break;
 		}
@@ -352,5 +399,5 @@ ms_obj_read_obj (BiffQuery *q, ExcelWorkbook * wb)
 	if (wb->ver >= eBiffV8)
 		ms_obj_read_biff8_obj (q, wb);
 	else
-		printf ("Only Biff8 Objects are supporting currently\n");
+		ms_obj_read_pre_biff8_obj (q, wb);
 }

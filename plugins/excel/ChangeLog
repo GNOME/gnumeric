@@ -1,3 +1,19 @@
+1999-08-02  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-obj.c (ms_obj_read_pre_biff8_obj) : New function to catch
+          charts.
+	(ms_obj_read_obj) : Use ms_obj_read_pre_biff8_obj.
+
+	* ms-excel-read.c (ms_excel_read_cell) : Catch use of chart
+          records when we expect a cell.
+	(ms_excel_read_formula) : Clarify error message.
+
+	* ms-chart.c (ms_excel_biff_dimensions) : Don't print unless
+          we're debugging.
+
+	* ms-obj.c (ms_obj_read_biff8_obj) : Don't print checkbox link
+          unless we're debugging.
+
 1999-07-30  Jody Goldberg  <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_read_error) : Delete

@@ -308,9 +308,23 @@ BC_R(attachedlabel)(ExcelChartHandler const *handle,
 	gboolean const show_label_prercent = (flags&0x04) ? TRUE : FALSE;
 	gboolean const smooth_line = (flags&0x08) ? TRUE : FALSE;
 	gboolean const show_label = (flags&0x10) ? TRUE : FALSE;
+
+	if (show_value)
+		puts ("Show Value");
+	if (show_percent)
+		puts ("Show as Percentage");
+	if (show_label_prercent)
+		puts ("Show as Label Percentage");
+	if (smooth_line)
+		puts ("Smooth line");
+	if (show_label)
+		puts ("Show the label");
+
 	if (s->ver >= eBiffV8)
 	{
 		gboolean const show_bubble_size = (flags&0x20) ? TRUE : FALSE;
+		if (show_bubble_size)
+			puts ("Show bubble size");
 	}
 	return FALSE;
 }
@@ -468,6 +482,10 @@ BC_R(bar)(ExcelChartHandler const *handle,
 	else
 		printf ("Overlayed values\n");
 
+	printf ("Space between bars = %d %% of width\n",
+		space_between_bar);
+	printf ("Space between categories = %d %% of width\n",
+		space_between_categories);
 	if (s->ver >= eBiffV8)
 	{
 		gboolean const has_shadow = (flags & 0x04) ? TRUE : FALSE;
@@ -1872,9 +1890,10 @@ ms_excel_biff_dimensions (BiffQuery *q, ExcelWorkbook *wb)
 		last_col  = MS_OLE_GET_GUINT16 (q->data+6);
 	}
 
-	printf ("Dimension = %s%d:%s%d\n",
-		col_name(first_col), first_row+1,
-		col_name(last_col), last_row+1);
+	if (ms_excel_chart_debug > 0)
+		printf ("Dimension = %s%d:%s%d\n",
+			col_name(first_col), first_row+1,
+			col_name(last_col), last_row+1);
 }
 
 void

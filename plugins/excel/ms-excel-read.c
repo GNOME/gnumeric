@@ -1480,8 +1480,14 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 	 */
 	ExprTree *expr;
 	Value *val = NULL;
-	if (q->length < 22 ||
-	    q->length < 22 + MS_OLE_GET_GUINT16 (q->data+20)) {
+	if (q->length < 22) {
+		printf ("FIXME: serious formula error: "
+			"invalid FORMULA (0x%x) record with length %d (should >= 22)\n",
+			q->opcode, q->length);
+		cell_set_text (cell, "Formula error");
+		return;
+	}
+	if (q->length < (22 + MS_OLE_GET_GUINT16 (q->data+20))) {
 		printf ("FIXME: serious formula error: "
 			"supposed length 0x%x, real len 0x%x\n",
 			MS_OLE_GET_GUINT16 (q->data+20), q->length);
@@ -2328,6 +2334,11 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 			printf ("Opcode : 0x%x\n", q->opcode);
 		}
 #endif
+		if (q->ms_op == 0x10) {
+			puts ("EXCEL : How are we seeing chart records in a sheet ?");
+			continue;
+		}
+
 		switch (q->ls_op) {
 		case BIFF_EOF:
 			if (q->streamPos == blankSheetPos || sheet->blank) {
