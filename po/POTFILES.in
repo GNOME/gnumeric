@@ -1,10 +1,11 @@
 # List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
+GNOME_Gnumeric.server.in
 gnumeric.desktop.in
 plugins/applix/applix-read.c
 plugins/applix/plugin.xml.in
-plugins/derivatives/plugin.xml.in
 plugins/derivatives/options.c
+plugins/derivatives/plugin.xml.in
 plugins/dif/dif.c
 plugins/dif/plugin.xml.in
 plugins/excel/boot.c
