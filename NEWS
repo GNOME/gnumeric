@@ -34,7 +34,8 @@ Ben Liblit:
 
 Emmanuel Pacaud:
 	* New format selector for stf.
-	* support Ring plots
+	* Ring plots
+	* Line and Area plots
 
 Gustavo Carneiro:
 	* Use gnome-common detection for libtool version
