@@ -308,6 +308,7 @@ expr_name_create (ParsePos const *pp, char const *name,
 	 * creation error back to the calling routine
 	 */
 	res = expr_name_add (pp, name, expr, &err);
+	gnm_expr_unref (expr);
 	if (err != NULL)
 		error->message = g_strdup (err);
 	return res;

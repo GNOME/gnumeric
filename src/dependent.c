@@ -145,8 +145,6 @@ dependent_set_expr (Dependent *dep, GnmExpr const *new_expr)
 }
 #endif
 
-	if (new_expr != NULL)
-		gnm_expr_ref (new_expr);
 	if (dependent_is_linked (dep))
 		dependent_unlink (dep, NULL);
 
@@ -160,6 +158,8 @@ dependent_set_expr (Dependent *dep, GnmExpr const *new_expr)
 		DependentClass *klass = g_ptr_array_index (dep_classes, t);
 
 		g_return_if_fail (klass);
+		if (new_expr != NULL)
+			gnm_expr_ref (new_expr);
 		if (klass->set_expr != NULL)
 			(*klass->set_expr) (dep, new_expr);
 
@@ -1540,8 +1540,10 @@ invalidate_refs (Dependent *dep, GnmExprRewriteInfo const *rwinfo)
 	 * 2j we had a duplicate reference and we have already removed it.
 	 * 3) We depended on things via a name which will be invalidated elsewhere
 	 */
-	if (newtree != NULL)
+	if (newtree != NULL) {
 		dependent_set_expr (dep, newtree);
+		gnm_expr_unref (newtree);
+	}
 }
 
 /*
@@ -1610,6 +1612,7 @@ cb_name_invalidate_sheet (gpointer key, gpointer value, gpointer rwinfo)
 	GnmExpr const *new_expr = gnm_expr_rewrite (nexpr->t.expr_tree, rwinfo);
 	g_return_if_fail (new_expr != NULL);
 	expr_name_set_expr (nexpr, new_expr);
+	gnm_expr_unref (new_expr);
 }
 
 /*

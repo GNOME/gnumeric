@@ -1,5 +1,12 @@
 2002-04-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/dependent.c (dependent_set_expr) : fix leak
+	(invalidate_refs) : fix leak
+	(cb_name_invalidate_sheet) : fix leak
+	* src/expr-name.c (expr_name_create) : fix leak
+
+2002-04-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/sheet-object-graphic.c (cb_dialog_graphic_config_apply_clicked) :
 	  removed
 	(cb_dialog_graphic_config_ok_clicked) : don't call 
