@@ -1524,17 +1524,19 @@ radio_button_eval (GnmDependent *dep)
 {
 	GnmValue *v;
 	GnmEvalPos pos;
-	gboolean err;
+/*	gboolean err; */
 	int result;
 
 	v = gnm_expr_eval (dep->expression, eval_pos_init_dep (&pos, dep),
 			   GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	result = value_get_as_int (v);
 	value_release (v);
+#if 0
 	if (!err) {
 		/* FIXME : finish this when I have a better idea of a group */
 		/* SheetWidgetRadioButton *swrb = DEP_TO_RADIO_BUTTON (dep); */
 	}
+#endif
 }
 
 static void
@@ -1664,16 +1666,18 @@ list_content_eval (GnmDependent *dep)
 {
 	GnmValue *v;
 	GnmEvalPos pos;
-	gboolean err;
+/*	gboolean err;*/
 	int result;
 
 	v = gnm_expr_eval (dep->expression, eval_pos_init_dep (&pos, dep),
 			   GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	result = value_get_as_int (v);
 	value_release (v);
+#if 0
 	if (!err) {
 		/* SheetWidgetListBase *swc = DEP_TO_LIST_BASE_INPUT (dep); */
 	}
+#endif
 }
 
 static void
@@ -1690,16 +1694,18 @@ list_output_eval (GnmDependent *dep)
 {
 	GnmValue *v;
 	GnmEvalPos pos;
-	gboolean err;
+/*	gboolean err;*/
 	int result;
 
 	v = gnm_expr_eval (dep->expression, eval_pos_init_dep (&pos, dep),
 			   GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	result = value_get_as_int (v);
 	value_release (v);
+#if 0
 	if (!err) {
 		/* SheetWidgetListBase *swc = DEP_TO_LIST_BASE_OUTPUT (dep); */
 	}
+#endif
 }
 
 static void
