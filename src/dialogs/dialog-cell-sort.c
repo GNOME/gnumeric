@@ -374,7 +374,7 @@ dialog_cell_sort_ok (SortFlow *sf)
 	data->clauses = array;
 	data->top = sf->top;
 	
-	cmd_sort (NULL, data);
+	cmd_sort (WORKBOOK_CONTROL (sf->wbcg), data);
 	
 
 	return FALSE;
