@@ -1,12 +1,13 @@
 # Gnumeric Hungarian translations
 # Copyright (C) 1998-2000 Free Software Foundation, Inc.
 # Emese Kovacs <emese@gnome.hu>, 2000
+# Andras TIMAR <timar_a@freemail.hu>, 2000
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 2000-10-10 11:30-0400\n"
-"PO-Revision-Date: 2000-10-09 13:46+0202\n"
-"Last-Translator: Emese Kovacs <emese@gnome.hu>\n"
+"POT-Creation-Date: 2000-10-09 16:26+0200\n"
+"PO-Revision-Date: 2000-10-24 21:52GMT+1\n"
+"Last-Translator: Andras TIMAR <timar_a@freemail.hu>\n"
 "Language-Team: Hungarian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-2\n"
@@ -54,10 +55,8 @@ msgid "Data Interchange Format (CSV) module"
 msgstr "Data Interchange Format (CSV) modul"
 
 #: plugins/dif/dif.c:426
-msgid ""
-"Reads and writes information stored in the Data Interchange Format (*.dif)"
-msgstr ""
-"Data Interchange Format (*.dif) fájlokban lévõ adatokat írja és olvasssa"
+msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgstr "Data Interchange Format (*.dif) fájlokban lévõ adatokat írja és olvasssa"
 
 #: plugins/excel/boot.c:122
 msgid "Saving over old files disabled for safety"
@@ -226,12 +225,10 @@ msgid "Lotus 123"
 msgstr "Lotus 123"
 
 #: plugins/lotus-123/boot.c:92
-#, fuzzy
 msgid "Imports Lotus 123 files"
-msgstr "Lotus 123 fájlokat importál be"
+msgstr "Lotus 123 fájlok importálása"
 
 #: plugins/numtheory/numtheory.c:193
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_PHI\n"
 "@SYNTAX=NT_PHI(n)\n"
@@ -241,12 +238,13 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 msgstr ""
-"@FUNCTION=TAN\n"
-"@SYNTAX=TAN(szám)\n"
-"@DESCRIPTION=A radiánban megadott szög tangensét adja eredményül.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
+"@FUNCTION=NT_PHI\n"
+"@SYNTAX=NT_PHI(n)\n"
+"@DESCRIPTION=Az NT_PHI függvény megadja az olyan @n-nél kisebbegyenlõ egészek "
+"számát, amelyek @n-re nézve relatív prímek.\n"
+"A függvénynek csak egy argumentuma lehet.\n"
+"@EXAMPLES=\n"
+"@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:228
 msgid ""
@@ -262,9 +260,19 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 msgstr ""
+"@FUNCTION=NT_MU\n"
+"@SYNTAX=NT_MU(n)\n"
+"@DESCRIPTION=Az NT_MU függvény (Möbius-féle mû függvény) 0-t ad vissza,\n"
+"ha @n osztható egy prímszám négyzetével. \n"
+"Egyébként a visszatérési értéke: \n"
+"-1, ha @n páratlan számú különbözõ prímszám szorzatára bontható \n"
+"1, ha @n páros számú különbözõ prímszám szorzatára bontható \n"
+"Ha @n=1, a függvény értéke1. \n"
+"\n"
+"@EXAMPLES=\n"
+"@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
 #: plugins/numtheory/numtheory.c:267
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_D\n"
 "@SYNTAX=NT_D(n)\n"
@@ -273,13 +281,14 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA"
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (óra, perc, másodperc)\n"
-"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
-"@SEEALSO=HOUR"
+"@FUNCTION=NT_D\n"
+"@SYNTAX=NT_D(n)\n"
+"@DESCRIPTION=Az NT_D függvény megadja @n osztóinak számát.\n"
+"A függvény csak egy argumentumot fogad el.\n"
+"@EXAMPLES=\n"
+"@SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:301
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_SIGMA\n"
 "@SYNTAX=NT_SIGMA(n)\n"
@@ -289,15 +298,14 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 msgstr ""
-"@FUNCTION=TAN\n"
-"@SYNTAX=TAN(szám)\n"
-"@DESCRIPTION=A radiánban megadott szög tangensét adja eredményül.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
+"@FUNCTION=NT_SIGMA\n"
+"@SYNTAX=NT_SIGMA(n)\n"
+"@DESCRIPTION=Az NT_SIGMA függvény kiszámítja @n osztóinak összegét.\n"
+"A függvény csak egy argumentumot fogad el.\n"
+"@EXAMPLES=\n"
+"@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
 #: plugins/numtheory/numtheory.c:336
-#, fuzzy
 msgid ""
 "@FUNCTION=ITHPRIME\n"
 "@SYNTAX=ITHPRIME(i)\n"
@@ -306,16 +314,14 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, NT_SIGMA"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
+"@FUNCTION=ITHPRIME\n"
+"@SYNTAX=ITHPRIME(i)\n"
+"@DESCRIPTION=Az ITHPRIME függvény megadja az @i-edik prímet.\n"
+"A függvény csak egy argumentumot fogad el.\n"
+"@EXAMPLES=\n"
+"@SEEALSO=NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:364
-#, fuzzy
 msgid ""
 "@FUNCTION=ISPRIME\n"
 "@SYNTAX=ISPRIME(i)\n"
@@ -324,10 +330,12 @@ msgid ""
 "This function only takes one argument.\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (óra, perc, másodperc)\n"
-"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
-"@SEEALSO=HOUR"
+"@FUNCTION=ISPRIME\n"
+"@SYNTAX=ISPRIME(i)\n"
+"@DESCRIPTION=Az ISPRIME függvény IGAZ értékkel tér vissza, ha az @i"
+"prím, egyébként HAMIS-sal.\n"
+"A függvény csak egy argumentumot fogad el.\n"
+"@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:390
 msgid ""
@@ -338,9 +346,13 @@ msgid ""
 "This function only takes one argument.\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 msgstr ""
+"@FUNCTION=NT_PI\n"
+"@SYNTAX=NT_PI(n)\n"
+"@DESCRIPTION=Az NT_PI függvény megadja az @n-nél kisebbegyenlõ prímek számát.\n"
+"A függvény csak egy argumentumot fogad el.\n"
+"@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:417
-#, fuzzy
 msgid ""
 "@FUNCTION=BITOR\n"
 "@SYNTAX=BITOR(a,b)\n"
@@ -349,16 +361,14 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITXOR,BITAND"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
+"@FUNCTION=BITOR\n"
+"@SYNTAX=BITOR(a,b)\n"
+"@DESCRIPTION=A BITOR függvény végrehajt egy bitenkénti VAGY mûveletet az argumentumok között.\n"
+"\n"
+"@EXAMPLES=\n"
+"@SEEALSO=BITXOR,BITAND"
 
 #: plugins/numtheory/numtheory.c:436
-#, fuzzy
 msgid ""
 "@FUNCTION=BITXOR\n"
 "@SYNTAX=BITXOR(a,b)\n"
@@ -368,16 +378,15 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITAND"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
+"@FUNCTION=BITXOR\n"
+"@SYNTAX=BITXOR(a,b)\n"
+"@DESCRIPTION=A BITXOR függvény végrehajt egy bitenkénti kizáró VAGY "
+"mûveletet az argumentumok között.\n"
+"\n"
+"@EXAMPLES=\n"
+"@SEEALSO=BITOR,BITAND"
 
 #: plugins/numtheory/numtheory.c:455
-#, fuzzy
 msgid ""
 "@FUNCTION=BITAND\n"
 "@SYNTAX=BITAND(a,b)\n"
@@ -386,16 +395,14 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITXOR"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
+"@FUNCTION=BITAND\n"
+"@SYNTAX=BITAND(a,b)\n"
+"@DESCRIPTION=A BITAND függvény végrehajt egy bitenkénti ÉS mûveletet az argumentumok között.\n"
+"\n"
+"@EXAMPLES=\n"
+"@SEEALSO=BITOR,BITXOR"
 
 #: plugins/numtheory/numtheory.c:475
-#, fuzzy
 msgid ""
 "@FUNCTION=BITLSHIFT\n"
 "@SYNTAX=BITLSHIFT(x,n)\n"
@@ -405,16 +412,15 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITRSHIFT"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
+"@FUNCTION=BITLSHIFT\n"
+"@SYNTAX=BITLSHIFT(x,n)\n"
+"@DESCRIPTION=A BITLSHIFT függvény eltolja @x bitjeit balra @n-szer. \n"
+"Ha @n negatív, akkor jobbra tolja a biteket.\n"
+"\n"
+"@EXAMPLES=\n"
+"@SEEALSO=BITRSHIFT"
 
 #: plugins/numtheory/numtheory.c:502
-#, fuzzy
 msgid ""
 "@FUNCTION=BITRSHIFT\n"
 "@SYNTAX=BITRSHIFT(x,n)\n"
@@ -425,28 +431,29 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITRSHIFT"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
+"@FUNCTION=BITRSHIFT\n"
+"@SYNTAX=BITRSHIFT(x,n)\n"
+"@DESCRIPTION=A BITRSHIFT függvény eltolja @x bitjeit jobbra @n-szer. \n"
+"Ha @n negatív, akkor balra tolja a biteket.\n"
+"\n"
+"@EXAMPLES=\n"
+"@SEEALSO=BITRSHIFT"
 
 #: plugins/numtheory/numtheory.c:574 plugins/numtheory/numtheory.c:606
 msgid "Number Theory"
 msgstr "Számelmélet"
 
 #: plugins/numtheory/numtheory.c:592
-#, fuzzy
 msgid "Bitwise Operations"
-msgstr "Mûvelet"
+msgstr "Bitenkénti mûveletek"
 
 #: plugins/numtheory/numtheory.c:607
 msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also hold some "
 "simple bitwise operations"
 msgstr ""
+"Néhány prímszámokkal kapcsolatos függvény, pi, fi, szigma. Tartalmaz még "
+"egy pár bitenkénti mûveletet is."
 
 #: plugins/oleo/boot.c:87
 msgid "GNU Oleo (*.oleo) file format"
@@ -469,11 +476,13 @@ msgid "Enables the creation of functions in PERL"
 msgstr "Segítségével PERL függvényeket hozhatsz létre"
 
 #: plugins/plan-perfect/pln.c:715
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Invalid PLN file has more than the maximum\n"
 "number of %s %d"
-msgstr "Érvénytelen CSV fájl, több %s van, mint a maximálisan megengedett %d"
+msgstr ""
+"Érvénytelen PLN fájl, több %s van, mint a \n"
+"maximálisan megengedett %d"
 
 #: plugins/plan-perfect/pln.c:732
 msgid "PLN : Not a PlanPerfect File"
@@ -561,35 +570,31 @@ msgstr "XBase fájlt importál be"
 
 #: plugins/xml2/xml2.c:1448
 msgid "EXPERIMENTAL XML"
-msgstr ""
+msgstr "KÍSÉRLETI XML"
 
 #: plugins/xml2/xml2.c:1449
 msgid "The next generation sax based xml I/O subsystem"
 msgstr ""
 
 #: plugins/xml2/xml2.c:1453
-#, fuzzy
 msgid "EXPERIMENTAL Gnumeric (*.gnumeric) XML based file format"
-msgstr "Gnumeric XML fájlformátum"
+msgstr "KÍSÉRLETI Gnumeric (*.gnumeric) XML-alapú fájlformátum"
 
 #: plugins/xml2/xml2.c:1458
-#, fuzzy
 msgid "Gnumeric (*.gnumeric) XML based file format"
-msgstr "Gnumeric XML fájlformátum"
+msgstr "Gnumeric (*.gnumeric) XML-alapú fájlformátum"
 
 #: src/about.c:39
 msgid "Miguel de Icaza, main programmer."
 msgstr "Miguel de Icaza, vezetõprogramozó."
 
 #: src/about.c:40
-#, fuzzy
 msgid "Sean Atkinson, functions and X-Base importing."
-msgstr "Sean Atkinson, Függvények és X-Base importálás."
+msgstr "Sean Atkinson, függvények és X-Base importálás."
 
 #: src/about.c:41
-#, fuzzy
 msgid "Tom Dyas, plugin support."
-msgstr "Tom Dyas, Plugin támogatás."
+msgstr "Tom Dyas, plugin támogatás."
 
 #: src/about.c:42
 msgid "Gergõ Érdi, Gnumeric hacker."
@@ -616,23 +621,20 @@ msgid "Jon K Hellan, Gnumeric hacker."
 msgstr "Jon K. Hellan, Gnumeric hacker."
 
 #: src/about.c:48
-#, fuzzy
 msgid "Chris Lahey, number format engine."
-msgstr "Chris Lahey, Számformátum engine."
+msgstr "Chris Lahey, számformátum motor."
 
 #: src/about.c:49
-#, fuzzy
 msgid "Adrian Likins, documentation, debugging."
-msgstr "Adrian Likins, Dokumentáció, hibakeresés."
+msgstr "Adrian Likins, dokumentáció, hibakeresés."
 
 #: src/about.c:50
 msgid "Takashi Matsuda, original text plugin."
 msgstr "Takashi Matsuda, eredeti szöveg plugin."
 
 #: src/about.c:51
-#, fuzzy
 msgid "Federico Mena, canvas support."
-msgstr "Frederico Mena, Canvas támogatás."
+msgstr "Frederico Mena, canvas támogatás."
 
 #: src/about.c:52
 msgid "Michael Meeks, Excel and OLE2 importing."
@@ -647,7 +649,6 @@ msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr "Rasca, HTML, troff, LaTeX exportálás."
 
 #: src/about.c:55
-#, fuzzy
 msgid "Vincent Renardias, original CSV support, French localization."
 msgstr "Vincent Renardias, eredeti CSV támogatás, francia fordítás."
 
@@ -656,9 +657,8 @@ msgid "Ariel Rios, Guile support."
 msgstr "Ariel Rios, Guile támogatás."
 
 #: src/about.c:57
-#, fuzzy
 msgid "Almer. S. Tigelaar, text import."
-msgstr "Almer. S. Tigelaar, Szöveg importálás."
+msgstr "Almer. S. Tigelaar, szöveg importálása."
 
 #: src/about.c:58
 msgid "Bruno Unna, Excel bits."
@@ -678,7 +678,7 @@ msgstr "Morten Welinder, Gnumeric hacker."
 
 #: src/about.c:62
 msgid "Kenneth Christiansen, i18n, misc stuff."
-msgstr ""
+msgstr "Kenneth Christiansen, i18n, vegyes dolgok."
 
 #: src/about.c:82 src/functions/fn-sheet.c:139
 msgid "Gnumeric"
@@ -716,7 +716,6 @@ msgid "Row %d"
 msgstr "Sor %d"
 
 #: src/analysis-tools.c:555
-#, fuzzy
 msgid "Covariances"
 msgstr "Kovarianciák"
 
@@ -732,23 +731,20 @@ msgstr "Mintaközép"
 
 #: src/analysis-tools.c:738 src/analysis-tools.c:1901
 #: src/analysis-tools.c:1921
-#, fuzzy
 msgid "Standard Error"
-msgstr "Szintaktikai hiba"
+msgstr "Standard hiba"
 
 #: src/analysis-tools.c:739
 msgid "Median"
 msgstr "Medián"
 
 #: src/analysis-tools.c:740
-#, fuzzy
 msgid "Mode"
-msgstr "Áthelyezés"
+msgstr "Módusz"
 
 #: src/analysis-tools.c:741
-#, fuzzy
 msgid "Standard Deviation"
-msgstr "_Magasság"
+msgstr "Szórás"
 
 #: src/analysis-tools.c:742
 msgid "Sample Variance"
@@ -756,11 +752,11 @@ msgstr "Minta varianciája"
 
 #: src/analysis-tools.c:743
 msgid "Kurtosis"
-msgstr ""
+msgstr "Csúcsosság"
 
 #: src/analysis-tools.c:744
 msgid "Skewness"
-msgstr ""
+msgstr "Ferdeség"
 
 #: src/analysis-tools.c:745 src/dialogs/dialog-function-wizard.c:407
 msgid "Range"
@@ -787,11 +783,11 @@ msgstr "Darabszám"
 
 #: src/analysis-tools.c:829
 msgid "Confidence Level"
-msgstr "Megbízhatóság"
+msgstr "Megbízhatósági szint"
 
 #: src/analysis-tools.c:841
 msgid "Confidence Level (%g%%)"
-msgstr "Megbízhatóság (%g%%)"
+msgstr "Megbízhatóság szint (%g%%)"
 
 #: src/analysis-tools.c:851
 msgid "Kth Largest"
@@ -818,7 +814,7 @@ msgstr "Minta"
 
 #: src/analysis-tools.c:1071
 msgid "z-Test"
-msgstr "z Próba"
+msgstr "z-próba"
 
 #: src/analysis-tools.c:1094 src/analysis-tools.c:1205
 #: src/analysis-tools.c:1343 src/analysis-tools.c:1460
@@ -881,7 +877,7 @@ msgstr "Variancia"
 
 #: src/analysis-tools.c:1212
 msgid "Pearson Correlation"
-msgstr "Pearson Korreláció"
+msgstr "Pearson-korreláció"
 
 #: src/analysis-tools.c:1214 src/analysis-tools.c:1352
 #: src/analysis-tools.c:1468 src/analysis-tools.c:1586
@@ -892,9 +888,8 @@ msgstr "df"
 
 #: src/analysis-tools.c:1215 src/analysis-tools.c:1353
 #: src/analysis-tools.c:1469 src/analysis-tools.c:1922
-#, fuzzy
 msgid "t Stat"
-msgstr "*Szo"
+msgstr "t-eloszlás"
 
 #: src/analysis-tools.c:1216 src/analysis-tools.c:1354
 #: src/analysis-tools.c:1470
@@ -917,9 +912,8 @@ msgid "t Critical two-tail"
 msgstr ""
 
 #: src/analysis-tools.c:1350
-#, fuzzy
 msgid "Pooled Variance"
-msgstr "Kovariancia"
+msgstr ""
 
 #: src/analysis-tools.c:1556
 msgid "F-Test"
@@ -965,9 +959,8 @@ msgid "Regression Statistics"
 msgstr "Regresszióanalízis"
 
 #: src/analysis-tools.c:1898
-#, fuzzy
 msgid "Multiple R"
-msgstr "Szorzás"
+msgstr ""
 
 #: src/analysis-tools.c:1899
 msgid "R Square"
@@ -980,7 +973,7 @@ msgstr ""
 #: src/analysis-tools.c:1904 src/analysis-tools.c:2392
 #: src/analysis-tools.c:2583 src/analysis-tools.c:2749
 msgid "ANOVA"
-msgstr ""
+msgstr "ANOVA"
 
 #: src/analysis-tools.c:1906
 msgid "Residual"
@@ -993,24 +986,23 @@ msgid "Total"
 msgstr ""
 
 #: src/analysis-tools.c:1909
-#, fuzzy
 msgid "Intercept"
-msgstr "Beszúrás"
+msgstr "Megszakítás"
 
 #: src/analysis-tools.c:1912
-#, fuzzy, c-format
+#, c-format
 msgid "X Variable %d"
-msgstr "1. változó tartománya:"
+msgstr "X változó %d"
 
 #: src/analysis-tools.c:1915 src/analysis-tools.c:2394
 #: src/analysis-tools.c:2585 src/analysis-tools.c:2757
 msgid "SS"
-msgstr ""
+msgstr "SS"
 
 #: src/analysis-tools.c:1916 src/analysis-tools.c:2396
 #: src/analysis-tools.c:2587 src/analysis-tools.c:2759
 msgid "MS"
-msgstr ""
+msgstr "MS"
 
 #: src/analysis-tools.c:1918
 msgid "Significance F"
@@ -1040,18 +1032,16 @@ msgid "Moving Averages"
 msgstr "Mozgó átlagok"
 
 #: src/analysis-tools.c:2183
-#, fuzzy
 msgid "Ranks"
-msgstr "Tartomány"
+msgstr ""
 
 #: src/analysis-tools.c:2191 src/analysis-tools.c:2216
 msgid "Point"
 msgstr "Pont"
 
 #: src/analysis-tools.c:2201 src/analysis-tools.c:2227
-#, fuzzy
 msgid "Rank"
-msgstr "Tartomány"
+msgstr ""
 
 #: src/analysis-tools.c:2202 src/analysis-tools.c:2228
 #: src/workbook-format-toolbar.c:376
@@ -1122,32 +1112,28 @@ msgid "Anova: Two-Factor With Replication"
 msgstr ""
 
 #: src/analysis-tools.c:2753
-#, fuzzy
 msgid "Interaction"
-msgstr "Információ"
+msgstr ""
 
 #: src/analysis-tools.c:2754
-#, fuzzy
 msgid "Within"
-msgstr "_Jó szöveg:"
+msgstr ""
 
 #: src/analysis-tools.c:2762
-#, fuzzy
 msgid "F crit"
-msgstr "F kritikus"
+msgstr ""
 
 #: src/analysis-tools.c:2806 src/dialogs/dialog-analysis-tools.c:95
 msgid "Histogram"
-msgstr ""
+msgstr "Hisztogramm"
 
 #: src/analysis-tools.c:2809
-#, fuzzy
 msgid "Bin"
-msgstr "Minimum"
+msgstr ""
 
 #: src/analysis-tools.c:2810
 msgid "Frequency"
-msgstr ""
+msgstr "Frekvencia"
 
 #: src/analysis-tools.c:2812
 #, c-format
@@ -1183,11 +1169,13 @@ msgid "Error while trying to pre-convert clipboard data"
 msgstr "Hiba a vágólapon lévõ adat konvertálása közben"
 
 #: src/clipboard.c:610
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The data on the clipboard does not seem to be valid text.\n"
 "The character '%c' (ASCII decimal %d) was encountered"
-msgstr "A vágolapon lévõ adat nem tûnik érvényes szövegnek"
+msgstr ""
+"A vágólapon lévõ adat nem tûnik érvényes szövegnek.\n"
+"Ott van egy '%c' karakter (decimális ASCII kódja %d)."
 
 #: src/clipboard.c:630
 msgid "Parse error while trying to parse data into cellregion"
@@ -1861,7 +1849,6 @@ msgstr "_Jó szöveg:"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/autoformat.glade.h:7
-#, fuzzy
 msgid "Gnumeric: Autoformat"
 msgstr "Gnumeric: Automatikus formázás"
 
@@ -1891,9 +1878,8 @@ msgid "_Show Gridlines"
 msgstr "_Cellarácsokkal"
 
 #: src/dialogs/autoformat.glade.h:14
-#, fuzzy
 msgid "_New..."
-msgstr "Új..."
+msgstr "_Új..."
 
 #: src/dialogs/autoformat.glade.h:15
 msgid "_Edit..."
@@ -2295,27 +2281,22 @@ msgid "Pick a Pattern color"
 msgstr "Válassz egy minta színt"
 
 #: src/dialogs/cell-format.glade.h:91
-#, c-format
 msgid "75% Grey"
 msgstr "75% Szürke"
 
 #: src/dialogs/cell-format.glade.h:92
-#, c-format
 msgid "50% Grey"
 msgstr "50% Szürke"
 
 #: src/dialogs/cell-format.glade.h:93
-#, c-format
 msgid "25% Grey"
 msgstr "25% Szürke"
 
 #: src/dialogs/cell-format.glade.h:94
-#, c-format
 msgid "12.5% Grey"
 msgstr "12.5% Szürke"
 
 #: src/dialogs/cell-format.glade.h:95
-#, c-format
 msgid "6.25% Grey"
 msgstr "6.25% Szürke"
 
@@ -2596,9 +2577,8 @@ msgid "_Mean:"
 msgstr "_Közép"
 
 #: src/dialogs/dialog-analysis-tools.c:123
-#, fuzzy
 msgid "_Standard deviation:"
-msgstr "_Magasság"
+msgstr "_Szórás:"
 
 #: src/dialogs/dialog-analysis-tools.c:125
 msgid "Poisson"
@@ -2681,7 +2661,7 @@ msgstr "Cimkék az elsõ sorban"
 
 #: src/dialogs/dialog-analysis-tools.c:335
 msgid "Force Intercept to Be Zero"
-msgstr ""
+msgstr "A tengelymetszet legyen nulla"
 
 #: src/dialogs/dialog-analysis-tools.c:406
 msgid "Periodic"
@@ -2691,8 +2671,7 @@ msgstr "Periodikus"
 #: src/dialogs/dialog-analysis-tools.c:650
 #: src/dialogs/dialog-analysis-tools.c:2415
 msgid "You should introduce a valid cell range in 'Input Range:'"
-msgstr ""
-"Érvényes cellatartományt kellene megani a 'Bemeneti Tartomány:' mezõben"
+msgstr "Érvényes cellatartományt kellene megani a 'Bemeneti Tartomány:' mezõben"
 
 #: src/dialogs/dialog-analysis-tools.c:525
 msgid "Output options:"
@@ -2730,8 +2709,7 @@ msgstr "Csoportosítás e szerint:"
 #: src/dialogs/dialog-analysis-tools.c:2771
 #: src/dialogs/dialog-analysis-tools.c:2878
 msgid "You should introduce a valid cell range in 'Output Range:'"
-msgstr ""
-"Érvényes cellatartományt kellene megani a 'Kimeneti Tartomány:' mezõben"
+msgstr "Érvényes cellatartományt kellene megadni a 'Kimeneti Tartomány:' mezõben"
 
 #: src/dialogs/dialog-analysis-tools.c:750
 #: src/dialogs/dialog-analysis-tools.c:872
@@ -2743,7 +2721,7 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:2760
 #: src/dialogs/dialog-analysis-tools.c:2869
 msgid "You should introduce a valid cell range in 'Range:'"
-msgstr "Érvényes cellatartományt kellene megani a 'Tartomány:' mezõben"
+msgstr "Érvényes cellatartományt kellene megadni a 'Tartomány:' mezõben"
 
 #: src/dialogs/dialog-analysis-tools.c:807
 #: src/dialogs/dialog-analysis-tools.c:921
@@ -2850,13 +2828,12 @@ msgstr ""
 "és próbáld újra a regressziót."
 
 #: src/dialogs/dialog-analysis-tools.c:2087
-msgid ""
-"There must be an equal number of entries for each variable in the regression."
+msgid "There must be an equal number of entries for each variable in the regression."
 msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:2317
 msgid "Fourier analysis is not implemented yet.  Sorry."
-msgstr ""
+msgstr "Sajnálom, de a Fourier-analízis még nincs implementálva."
 
 #: src/dialogs/dialog-analysis-tools.c:2426
 #, fuzzy
@@ -2884,9 +2861,9 @@ msgstr ""
 
 #: src/dialogs/dialog-autoformat.c:859 src/dialogs/dialog-stf-export.c:380
 #: src/dialogs/dialog-stf.c:531
-#, fuzzy, c-format
+#, c-format
 msgid "Missing %s file"
-msgstr "Hiányzó idézõjel"
+msgstr "Hiányzó %s fájl"
 
 #: src/dialogs/dialog-autoformat.c:993
 msgid "An error occured while reading the category list"
@@ -2965,9 +2942,8 @@ msgid "then by"
 msgstr "utána e szerint"
 
 #: src/dialogs/dialog-define-names.c:57 src/dialogs/dialog-define-names.c:61
-#, fuzzy
 msgid "Workbook"
-msgstr "Új munkafüzet"
+msgstr "Munkafüzet"
 
 #: src/dialogs/dialog-define-names.c:193
 msgid "You cannot redefine a builtin name."
@@ -2999,9 +2975,8 @@ msgid "Range/Array"
 msgstr "Tartomány/Tömb"
 
 #: src/dialogs/dialog-function-wizard.c:410
-#, fuzzy
 msgid "Scalar"
-msgstr "Méret"
+msgstr "Skalár"
 
 #: src/dialogs/dialog-function-wizard.c:412
 msgid "Any"
@@ -3065,8 +3040,7 @@ msgstr "A 'Cella beállítása' mezõben szereplõ cellában képlet kell legyen"
 
 #: src/dialogs/dialog-goal-seek.c:382
 msgid "You should introduce a valid cell name in 'By changing cell'"
-msgstr ""
-"Érvényes cellanevet kellen beírni a 'Ezen cella változtatásával' mezõbe"
+msgstr "Érvényes cellanevet kellen beírni a 'Ezen cella változtatásával' mezõbe"
 
 #: src/dialogs/dialog-goal-seek.c:391
 msgid "The cell named in 'By changing cell' must not contain a formula"
@@ -3128,9 +3102,8 @@ msgid "Paste special"
 msgstr "Irányított beillesztés"
 
 #: src/dialogs/dialog-paste-special.c:104
-#, fuzzy
 msgid "Paste Link"
-msgstr "Beillesztés"
+msgstr "Link beillesztése"
 
 #: src/dialogs/dialog-paste-special.c:111
 msgid "Paste type"
@@ -3163,20 +3136,20 @@ msgid "Size:"
 msgstr "Méret:"
 
 #: src/dialogs/dialog-plugin-manager.c:100
-#, fuzzy, c-format
+#, c-format
 msgid "Size: %ld bytes"
-msgstr "Fájlméret: %ld bájt"
+msgstr "Méret: %ld bájt"
 
 #: src/dialogs/dialog-plugin-manager.c:105
 #: src/dialogs/plugin-manager.glade.h:14
 msgid "Modified:"
-msgstr ""
+msgstr "Módosítva:"
 
 #. get rid of '\n'
 #: src/dialogs/dialog-plugin-manager.c:110
 #, c-format
 msgid "Modified: %s"
-msgstr ""
+msgstr "Módosítva: %s"
 
 #: src/dialogs/dialog-printer-setup.c:965
 msgid "Custom header configuration"
@@ -3197,7 +3170,7 @@ msgstr "<="
 
 #: src/dialogs/dialog-solver.c:28
 msgid ">="
-msgstr ""
+msgstr ">="
 
 #: src/dialogs/dialog-solver.c:29
 msgid "="
@@ -3223,8 +3196,7 @@ msgstr "Érvényes cellanevet kellene megadni a 'Célcella' mezõben"
 
 #: src/dialogs/dialog-solver.c:883
 msgid "You should introduce a valid cell names in 'By changing cells'"
-msgstr ""
-"Érvényes cellanevet kellene megadni az 'Ezen cella változtatásával' mezõben"
+msgstr "Érvényes cellanevet kellene megadni az 'Ezen cella változtatásával' mezõben"
 
 #: src/dialogs/dialog-solver.c:907
 #, c-format
@@ -3269,23 +3241,20 @@ msgid "Sheets to export"
 msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:12
-#, fuzzy
 msgid "Add ->"
-msgstr "Összeadás "
+msgstr "Hozzáadás ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:13
-#, fuzzy
 msgid "<- Remove"
-msgstr "Eltávolítás"
+msgstr "<- Eltávolítás"
 
 #: src/dialogs/dialog-stf-export.glade.h:14
 msgid "Add all ->"
-msgstr ""
+msgstr "Összes hozzáadása ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:15
-#, fuzzy
 msgid "<- Remove all"
-msgstr "Eltávolítás"
+msgstr "<- Összes eltávolítása"
 
 #: src/dialogs/dialog-stf-export.glade.h:16
 msgid "Choose export formatting"
@@ -3300,7 +3269,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:18
 msgid "Line termination :"
-msgstr ""
+msgstr "Sorvégjel :"
 
 #: src/dialogs/dialog-stf-export.glade.h:19
 msgid ""
@@ -3308,10 +3277,13 @@ msgid ""
 "Macintosh (carriage return)\n"
 "Windows (carriage return + linefeed)\n"
 msgstr ""
+"Unix (soremelés)\n"
+"Macintosh (kocsivissza)\n"
+"Windows (kocsivissza + soremelés)\n"
 
 #: src/dialogs/dialog-stf-export.glade.h:23
 msgid "Separator :"
-msgstr ""
+msgstr "Elválasztó :"
 
 #: src/dialogs/dialog-stf-export.glade.h:24 src/dialogs/dialog-stf.glade.h:42
 msgid ""
@@ -3319,10 +3291,13 @@ msgid ""
 "'\n"
 "`\n"
 msgstr ""
+"\"\n"
+"'\n"
+"`\n"
 
 #: src/dialogs/dialog-stf-export.glade.h:28 src/dialogs/dialog-stf.glade.h:46
 msgid "\""
-msgstr ""
+msgstr "\""
 
 #: src/dialogs/dialog-stf-export.glade.h:29
 msgid ""
@@ -3353,6 +3328,16 @@ msgid ""
 "Slash (/)\n"
 "Custom\n"
 msgstr ""
+"Szóköz\n"
+"Tab\n"
+"Felkiáltójel (!)\n"
+"Kettõspont (:)\n"
+"Vesszõ (,)\n"
+"Kötõjel (-)\n"
+"Vonal (|)\n"
+"Pontosvesszõ (;)\n"
+"Perjel (/)\n"
+"Egyéni\n"
 
 #: src/dialogs/dialog-stf-fixed-page.c:63
 msgid "Autodiscovery did not find any columns in the text. Try manually"
@@ -3365,14 +3350,14 @@ msgid "Custom"
 msgstr "E_gyéni"
 
 #: src/dialogs/dialog-stf-main-page.c:85
-#, fuzzy, c-format
+#, c-format
 msgid "%d lines to import"
-msgstr "Címként nyomtatandók a"
+msgstr "%d sor importálása"
 
 #: src/dialogs/dialog-stf-main-page.c:218
 #, c-format
 msgid "Data (from %s)"
-msgstr ""
+msgstr "Adatok (%s-ból)"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3399,9 +3384,8 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:10
-#, fuzzy
 msgid "Formatting options"
-msgstr "Kimeneti beállítások:"
+msgstr "Formázási beállítások:"
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid "Trim :"
@@ -3449,9 +3433,8 @@ msgstr "Minták száma"
 
 #: src/dialogs/dialog-stf.glade.h:24 src/dialogs/dialog-stf.glade.h:47
 #: src/dialogs/dialog-stf.glade.h:58 src/dialogs/dialog-stf.glade.h:65
-#, fuzzy
 msgid "Example"
-msgstr "Minta"
+msgstr "Példa"
 
 #: src/dialogs/dialog-stf.glade.h:25
 msgid "Separation customization"
@@ -3470,13 +3453,12 @@ msgid "Separators"
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:28
-#, fuzzy
 msgid "C_ustom"
 msgstr "E_gyéni"
 
 #: src/dialogs/dialog-stf.glade.h:29
 msgid "H_yphen (-)"
-msgstr ""
+msgstr "H_yphen (-)"
 
 #: src/dialogs/dialog-stf.glade.h:30
 #, fuzzy
@@ -3541,9 +3523,8 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:51 src/dialogs/dialog-stf.glade.h:62
-#, fuzzy
 msgid "Column"
-msgstr "Oszlopok"
+msgstr "Oszlop"
 
 #: src/dialogs/dialog-stf.glade.h:52
 msgid "End"
@@ -3564,9 +3545,8 @@ msgid "Auto Column _Discovery"
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:59
-#, fuzzy
 msgid "Column formatting"
-msgstr "Információ"
+msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:60
 msgid ""
@@ -3580,14 +3560,12 @@ msgid "Per column formatting"
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:63
-#, fuzzy
 msgid "Format"
-msgstr "Formátumot"
+msgstr "Formátum"
 
 #: src/dialogs/dialog-stf.glade.h:64
-#, fuzzy
 msgid "_Format :"
-msgstr "_Formátumot"
+msgstr "_Formátum :"
 
 #: src/dialogs/dialog-workbook-attr.c:165
 msgid "Workbook Attributes"
@@ -3604,32 +3582,32 @@ msgstr "Nagyítás/kicsinyítés"
 
 #: src/dialogs/dialog-zoom.glade.h:8
 msgid "Magnification"
-msgstr ""
+msgstr "Nagyítás"
 
 #: src/dialogs/dialog-zoom.glade.h:10
 #, no-c-format
 msgid "20_0 %"
-msgstr ""
+msgstr "20_0 %"
 
 #: src/dialogs/dialog-zoom.glade.h:12
 #, no-c-format
 msgid "_100 %"
-msgstr ""
+msgstr "_100 %"
 
 #: src/dialogs/dialog-zoom.glade.h:14
 #, no-c-format
 msgid "_75 %"
-msgstr ""
+msgstr "_75 %"
 
 #: src/dialogs/dialog-zoom.glade.h:16
 #, no-c-format
 msgid "_50 %"
-msgstr ""
+msgstr "_50 %"
 
 #: src/dialogs/dialog-zoom.glade.h:18
 #, no-c-format
 msgid "_25 %"
-msgstr ""
+msgstr "_25 %"
 
 #: src/dialogs/dialog-zoom.glade.h:20
 #, fuzzy, no-c-format
@@ -3729,9 +3707,8 @@ msgstr "Add meg a formátum karakterláncot mindegyik részhez:"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/import.glade.h:7
-#, fuzzy
 msgid "Import"
-msgstr "_Importálás..."
+msgstr "Importálás"
 
 #: src/dialogs/import.glade.h:8
 msgid "Choose an import filter for loading the file:"
@@ -3799,14 +3776,12 @@ msgid "Installed Plugins"
 msgstr "Példa Plugin"
 
 #: src/dialogs/plugin-manager.glade.h:11
-#, fuzzy
 msgid "_Description"
-msgstr "Leírás:"
+msgstr "_Leírás"
 
 #: src/dialogs/plugin-manager.glade.h:12
-#, fuzzy
 msgid "Path:"
-msgstr "Beillesztés"
+msgstr "Elérési út:"
 
 #: src/dialogs/plugin-manager.glade.h:15
 msgid "_File Details"
@@ -3879,14 +3854,12 @@ msgid "_Left:"
 msgstr "_Bal:"
 
 #: src/dialogs/print.glade.h:24
-#, fuzzy
 msgid "_Right:"
-msgstr "_Jobb"
+msgstr "_Jobb:"
 
 #: src/dialogs/print.glade.h:25
-#, fuzzy
 msgid "_Units:"
-msgstr "_Jó szöveg:"
+msgstr "_Egység:"
 
 #: src/dialogs/print.glade.h:26
 msgid ""
@@ -3895,6 +3868,10 @@ msgid ""
 "cm\n"
 "In\n"
 msgstr ""
+"pont\n"
+"mm\n"
+"cm\n"
+"hüvelyk\n"
 
 #: src/dialogs/print.glade.h:31
 msgid "_Top:"
@@ -3905,9 +3882,8 @@ msgid "He_ader:"
 msgstr "F_ejléc:"
 
 #: src/dialogs/print.glade.h:33
-#, fuzzy
 msgid "_Footer:"
-msgstr "_Lábléc"
+msgstr "_Lábléc:"
 
 #: src/dialogs/print.glade.h:34
 msgid "_Bottom:"
@@ -4015,14 +3991,12 @@ msgstr "Egyebe_k"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/row-height.glade.h:7
-#, fuzzy
 msgid "Row height"
-msgstr "_Sor magassága:"
+msgstr "Sor magassága"
 
 #: src/dialogs/row-height.glade.h:8
-#, fuzzy
 msgid "_Row height (pts):"
-msgstr "_Sor magassága:"
+msgstr "_Sor magassága (pont):"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -4030,14 +4004,12 @@ msgstr "_Sor magassága:"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/sheet-order.glade.h:7
-#, fuzzy
 msgid "Order Sheets"
-msgstr "_Lap törlése"
+msgstr "Lapok rendezése"
 
 #: src/dialogs/sheet-order.glade.h:8
-#, fuzzy
 msgid "Sheet Name"
-msgstr "Munkalap 1"
+msgstr "Lap neve"
 
 #: src/dialogs/sheet-order.glade.h:9
 msgid "Move the currently selected sheet up one position"
@@ -4061,9 +4033,8 @@ msgstr ""
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/sheet-rename.glade.h:7
-#, fuzzy
 msgid "Rename sheet"
-msgstr "Aktuális lap átnevezése"
+msgstr "Lap átnevezése"
 
 #: src/dialogs/sheet-rename.glade.h:8
 msgid "Enter new _sheet name:"
@@ -4109,7 +4080,7 @@ msgstr "_Jobb oldal:"
 
 #: src/dialogs/solver.glade.h:11
 msgid "Add  "
-msgstr ""
+msgstr "Hozzáadás  "
 
 #: src/dialogs/solver.glade.h:12
 msgid "Change Constraint"
@@ -4235,34 +4206,28 @@ msgstr "Cégnév"
 #. * DO NOT compile it as part of your application.
 #.
 #: src/dialogs/workbook-attr.glade.h:7
-#, fuzzy
 msgid "Scrollbars"
-msgstr "USA dollár"
+msgstr "Görgetõsáv"
 
 #: src/dialogs/workbook-attr.glade.h:8
-#, fuzzy
 msgid "_Horizontal Scrollbar"
-msgstr "Belül Vízszintes"
+msgstr "_Vízszintes görgetõsáv"
 
 #: src/dialogs/workbook-attr.glade.h:9
-#, fuzzy
 msgid "_Vertical Scrollbar"
-msgstr "Belül Függõleges"
+msgstr "_Függõleges görgetõsáv"
 
 #: src/dialogs/workbook-attr.glade.h:10
-#, fuzzy
 msgid "Notebook"
-msgstr "Új munkafüzet"
+msgstr "Jegyzetfüzet"
 
 #: src/dialogs/workbook-attr.glade.h:11
-#, fuzzy
 msgid "_Tabs"
-msgstr "Cimkék"
+msgstr ""
 
 #: src/dialogs/workbook-attr.glade.h:12
-#, fuzzy
 msgid "View"
-msgstr "_Nézet"
+msgstr "Nézet"
 
 #: src/expr-name.c:166
 msgid "already defined"
@@ -4337,6 +4302,8 @@ msgid ""
 "%s\n"
 "is a directory name"
 msgstr ""
+"%s\n"
+"egy könyvtárnév"
 
 #: src/file.c:589
 #, c-format
@@ -4442,1183 +4409,1183 @@ msgstr "Általános"
 #.
 #: src/formats.c:225
 msgid "[$ADP]"
-msgstr ""
+msgstr "[$ADP]"
 
 #: src/formats.c:225
 msgid "Andorran peseta"
-msgstr ""
+msgstr "andorrai peseta"
 
 #: src/formats.c:226
 msgid "[$AED]"
-msgstr ""
+msgstr "[$AED]"
 
 #: src/formats.c:226
 msgid "UAE dirham"
-msgstr ""
+msgstr "egyesült arab emírségekbeli dirham"
 
 #: src/formats.c:227
 msgid "[$AFA]"
-msgstr ""
+msgstr "[$AFA]"
 
 #: src/formats.c:227
 msgid "Afghanistan afghani"
-msgstr ""
+msgstr "afgán afgani"
 
 #: src/formats.c:228
 msgid "[$ALL]"
-msgstr ""
+msgstr "[$ALL]"
 
 #: src/formats.c:228
 msgid "Albanian lek"
-msgstr ""
+msgstr "albán lek"
 
 #: src/formats.c:229
 msgid "[$ANG]"
-msgstr ""
+msgstr "[$ANG]"
 
 #: src/formats.c:229
 msgid "Netherlands Antillian guilder"
-msgstr ""
+msgstr "holland antilláki guilder"
 
 #: src/formats.c:230
 msgid "[$AON]"
-msgstr ""
+msgstr "[$AON]"
 
 #: src/formats.c:230
 msgid "Angolan new kwanza"
-msgstr ""
+msgstr "angolai új kwanza"
 
 #: src/formats.c:231
 msgid "[$ARA]"
-msgstr ""
+msgstr "[$ARA]"
 
 #: src/formats.c:231
 msgid "Argentine austral"
-msgstr ""
+msgstr "argentin austral"
 
 #: src/formats.c:232
 msgid "[$ATS]"
-msgstr ""
+msgstr "[$ATS]"
 
 #: src/formats.c:232
 msgid "Austrian schilling"
-msgstr ""
+msgstr "osztrák schilling"
 
 #: src/formats.c:233
 msgid "[$AUD]"
-msgstr ""
+msgstr "[$AUD]"
 
 #: src/formats.c:233
 msgid "Australian dollar"
-msgstr ""
+msgstr "ausztrál dollár"
 
 #: src/formats.c:234
 msgid "[$AWG]"
-msgstr ""
+msgstr "[$AWG]"
 
 #: src/formats.c:234
 msgid "Aruban guilder"
-msgstr ""
+msgstr "arubai guilder"
 
 #: src/formats.c:235
 msgid "[$BBD]"
-msgstr ""
+msgstr "[$BBD]"
 
 #: src/formats.c:235
 msgid "Barbados dollar"
-msgstr ""
+msgstr "barbadosi dollár"
 
 #: src/formats.c:236
 msgid "[$BDT]"
-msgstr ""
+msgstr "[$BDT]"
 
 #: src/formats.c:236
 msgid "Bangladeshi taka"
-msgstr ""
+msgstr "bangladesi taka"
 
 #: src/formats.c:237
 msgid "[$BEF]"
-msgstr ""
+msgstr "[$BEF]"
 
 #: src/formats.c:237
 msgid "Belgian franc"
-msgstr ""
+msgstr "belga frank"
 
 #: src/formats.c:238
 msgid "[$BGL]"
-msgstr ""
+msgstr "[$BGL]"
 
 #: src/formats.c:238
 msgid "Bulgarian lev"
-msgstr ""
+msgstr "bolgár leva"
 
 #: src/formats.c:239
 msgid "[$BHD]"
-msgstr ""
+msgstr "[$BHD]"
 
 #: src/formats.c:239
 msgid "Bahraini dinar"
-msgstr ""
+msgstr "bahraini dínár"
 
 #: src/formats.c:240
 msgid "[$BIF]"
-msgstr ""
+msgstr "[$BIF]"
 
 #: src/formats.c:240
 msgid "Burundi franc"
-msgstr ""
+msgstr "burundi frank"
 
 #: src/formats.c:241
 msgid "[$BMD]"
-msgstr ""
+msgstr "[$BMD]"
 
 #: src/formats.c:241
 msgid "Bermudian dollar"
-msgstr ""
+msgstr "bermudai dollár"
 
 #: src/formats.c:242
 msgid "[$BND]"
-msgstr ""
+msgstr "[$BND]"
 
 #: src/formats.c:242
 msgid "Brunei dollar"
-msgstr ""
+msgstr "brunei dollár"
 
 #: src/formats.c:243
 msgid "[$BOB]"
-msgstr ""
+msgstr "[$BOB]"
 
 #: src/formats.c:243
 msgid "Bolivian boliviano"
-msgstr ""
+msgstr "bolíviai boliviano"
 
 #: src/formats.c:244
 msgid "[$BRE]"
-msgstr ""
+msgstr "[$BRE]"
 
 #: src/formats.c:244
 msgid "Brazilian cruzeiro"
-msgstr ""
+msgstr "brazil cruzeiro"
 
 #: src/formats.c:245
 msgid "[$BSD]"
-msgstr ""
+msgstr "[$BSD]"
 
 #: src/formats.c:245
 msgid "Bahamian dollar"
-msgstr ""
+msgstr "bahamai dollár"
 
 #: src/formats.c:246
 msgid "[$BTN]"
-msgstr ""
+msgstr "[$BTN]"
 
 #: src/formats.c:246
 msgid "Bhutan ngultrum"
-msgstr ""
+msgstr "butáni ngultrum"
 
 #: src/formats.c:247
 msgid "[$BWP]"
-msgstr ""
+msgstr "[$BWP]"
 
 #: src/formats.c:247
 msgid "Botswanian pula"
-msgstr ""
+msgstr "botswanai pula"
 
 #: src/formats.c:248
 msgid "[$BYB]"
-msgstr ""
+msgstr "[$BYB]"
 
 #: src/formats.c:248
 msgid "Belarussian ruble"
-msgstr ""
+msgstr "belarusz rubel"
 
 #: src/formats.c:249
 msgid "[$BZD]"
-msgstr ""
+msgstr "[$BZD]"
 
 #: src/formats.c:249
 msgid "Belize dollar"
-msgstr ""
+msgstr "Belize-i dollár"
 
 #: src/formats.c:250
 msgid "[$CAD]"
-msgstr ""
+msgstr "[$CAD]"
 
 #: src/formats.c:250
 msgid "Canadian dollar"
-msgstr ""
+msgstr "kanadai dollár"
 
 #: src/formats.c:251
 msgid "[$CHF]"
-msgstr ""
+msgstr "[$CHF]"
 
 #: src/formats.c:251
 msgid "Swiss franc"
-msgstr ""
+msgstr "svájci frank"
 
 #: src/formats.c:252
 msgid "[$CLP]"
-msgstr ""
+msgstr "[$CLP]"
 
 #: src/formats.c:252
 msgid "Chilean peso"
-msgstr ""
+msgstr "chilei peso"
 
 #: src/formats.c:253
 msgid "[$CNY]"
-msgstr ""
+msgstr "[$CNY]"
 
 #: src/formats.c:253
 msgid "Chinese yuan renminbi"
-msgstr ""
+msgstr "kínai jüan"
 
 #: src/formats.c:254
 msgid "[$COP]"
-msgstr ""
+msgstr "[$COP]"
 
 #: src/formats.c:254
 msgid "Colombian peso"
-msgstr ""
+msgstr "kolumbiai peso"
 
 #: src/formats.c:255
 msgid "[$CRC]"
-msgstr ""
+msgstr "[$CRC]"
 
 #: src/formats.c:255
 msgid "Costa Rican colon"
-msgstr ""
+msgstr "Costa Rica-i colon"
 
 #: src/formats.c:256
 msgid "[$CSK]"
-msgstr ""
+msgstr "[$CSK]"
 
 #: src/formats.c:256
 msgid "Czech Koruna"
-msgstr ""
+msgstr "cseh korona"
 
 #: src/formats.c:257
 msgid "[$CUP]"
-msgstr ""
+msgstr "[$CUP]"
 
 #: src/formats.c:257
 msgid "Cuban peso"
-msgstr "Kubai pezó"
+msgstr "kubai peso"
 
 #: src/formats.c:258
 msgid "[$CVE]"
-msgstr ""
+msgstr "[$CVE]"
 
 #: src/formats.c:258
 msgid "Cape Verde escudo"
-msgstr ""
+msgstr "zöldfoki escudo"
 
 #: src/formats.c:259
 msgid "[$CYP]"
-msgstr ""
+msgstr "[$CYP]"
 
 #: src/formats.c:259
 msgid "Cyprus pound"
-msgstr "Ciprusi font"
+msgstr "ciprusi font"
 
 #: src/formats.c:260
 msgid "[$DEM]"
-msgstr ""
+msgstr "[$DEM]"
 
 #: src/formats.c:260
 msgid "Deutsche mark"
-msgstr "Német márka"
+msgstr "német márka"
 
 #: src/formats.c:261
 msgid "[$DJF]"
-msgstr ""
+msgstr "[$DJF]"
 
 #: src/formats.c:261
 msgid "Djibouti franc"
-msgstr ""
+msgstr "dzsibuti frank"
 
 #: src/formats.c:262
 msgid "[$DKK]"
-msgstr ""
+msgstr "[$DKK]"
 
 #: src/formats.c:262
 msgid "Danish krone"
-msgstr "Dán korona"
+msgstr "dán korona"
 
 #: src/formats.c:263
 msgid "[$DOP]"
-msgstr ""
+msgstr "[$DOP]"
 
 #: src/formats.c:263
 msgid "Dominican peso"
-msgstr "Dominikai pezó"
+msgstr "dominikai peso"
 
 #: src/formats.c:264
 msgid "[$DZD]"
-msgstr ""
+msgstr "[$DZD]"
 
 #: src/formats.c:264
 msgid "Algerian dinar"
-msgstr "Algériai dínár"
+msgstr "algériai dínár"
 
 #: src/formats.c:265
 msgid "[$ECS]"
-msgstr ""
+msgstr "[$ECS]"
 
 #: src/formats.c:265
 msgid "Ecuador sucre"
-msgstr ""
+msgstr "equadori sucre"
 
 #: src/formats.c:266
 msgid "[$EGP]"
-msgstr ""
+msgstr "[$EGP]"
 
 #: src/formats.c:266
 msgid "Egyptian pound"
-msgstr "Egyiptomi font"
+msgstr "egyiptomi font"
 
 #: src/formats.c:267
 msgid "[$ESP]"
-msgstr ""
+msgstr "[$ESP]"
 
 #: src/formats.c:267
 msgid "Spanish peseta"
-msgstr "Spanyol pezeta"
+msgstr "spanyol peseta"
 
 #: src/formats.c:268
 msgid "[$ETB]"
-msgstr ""
+msgstr "[$ETB]"
 
 #: src/formats.c:268
 msgid "Ethiopian birr"
-msgstr ""
+msgstr "etiópiai birr"
 
 #: src/formats.c:269
 msgid "[$EUR]"
-msgstr ""
+msgstr "[$EUR]"
 
 #: src/formats.c:269
 msgid "Euro"
-msgstr ""
+msgstr "euro"
 
 #: src/formats.c:270
 msgid "[$FIM]"
-msgstr ""
+msgstr "[$FIM]"
 
 #: src/formats.c:270
 msgid "Finnish markka"
-msgstr "Finn márka"
+msgstr "finn márka"
 
 #: src/formats.c:271
 msgid "[$FJD]"
-msgstr ""
+msgstr "[$FJD]"
 
 #: src/formats.c:271
 msgid "Fiji dollar"
-msgstr ""
+msgstr "fiji dollár"
 
 #: src/formats.c:272
 msgid "[$FKP]"
-msgstr ""
+msgstr "[$FKP]"
 
 #: src/formats.c:272
 msgid "Falkland Islands pound"
-msgstr ""
+msgstr "Falkland-szigeteki font"
 
 #: src/formats.c:273
 msgid "[$FRF]"
-msgstr ""
+msgstr "[$FRF]"
 
 #: src/formats.c:273
 msgid "French franc"
-msgstr "Francia frank"
+msgstr "francia frank"
 
 #: src/formats.c:274
 msgid "[$GBP]"
-msgstr ""
+msgstr "[$GBP]"
 
 #: src/formats.c:274
 msgid "UK pound sterling"
-msgstr "Angol font"
+msgstr "angol font"
 
 #: src/formats.c:275
 msgid "[$GHC]"
-msgstr ""
+msgstr "[$GHC]"
 
 #: src/formats.c:275
 msgid "Ghanaian cedi"
-msgstr ""
+msgstr "ghánai cedi"
 
 #: src/formats.c:276
 msgid "[$GIP]"
-msgstr ""
+msgstr "[$GIP]"
 
 #: src/formats.c:276
 msgid "Gibraltar pound"
-msgstr "Gibraltári font"
+msgstr "gibraltári font"
 
 #: src/formats.c:277
 msgid "[$GMD]"
-msgstr ""
+msgstr "[$GMD]"
 
 #: src/formats.c:277
 msgid "Gambian dalasi"
-msgstr ""
+msgstr "gambiai dalasi"
 
 #: src/formats.c:278
 msgid "[$GNF]"
-msgstr ""
+msgstr "[$GNF]"
 
 #: src/formats.c:278
 msgid "Guinea franc"
-msgstr ""
+msgstr "guineai frank"
 
 #: src/formats.c:279
 msgid "[$GRD]"
-msgstr ""
+msgstr "[$GRD]"
 
 #: src/formats.c:279
 msgid "Greek drachma"
-msgstr "Görög drahma"
+msgstr "görög drachma"
 
 #: src/formats.c:280
 msgid "[$GTQ]"
-msgstr ""
+msgstr "[$GTQ]"
 
 #: src/formats.c:280
 msgid "Guatemalan quetzal"
-msgstr ""
+msgstr "guatemalai quetzal"
 
 #: src/formats.c:281
 msgid "[$GWP]"
-msgstr ""
+msgstr "[$GWP]"
 
 #: src/formats.c:281
 msgid "Guinea-Bissau peso"
-msgstr ""
+msgstr "Guinea-Bissau-i peso"
 
 #: src/formats.c:282
 msgid "[$GYD]"
-msgstr ""
+msgstr "[$GYD]"
 
 #: src/formats.c:282
 msgid "Guyanan dollar"
-msgstr ""
+msgstr "guyanai dollár"
 
 #: src/formats.c:283
 msgid "[$HKD]"
-msgstr ""
+msgstr "[$HKD]"
 
 #: src/formats.c:283
 msgid "Hong Kong dollar"
-msgstr ""
+msgstr "hongkongi dollár"
 
 #: src/formats.c:284
 msgid "[$HNL]"
-msgstr ""
+msgstr "[$HNL]"
 
 #: src/formats.c:284
 msgid "Honduran lempira"
-msgstr ""
+msgstr "hondurasi lempira"
 
 #: src/formats.c:285
 msgid "[$HRK]"
-msgstr ""
+msgstr "[$HRK]"
 
 #: src/formats.c:285
 msgid "Croatian kuna"
-msgstr ""
+msgstr "horvát kuna"
 
 #: src/formats.c:286
 msgid "[$HTG]"
-msgstr ""
+msgstr "[$HTG]"
 
 #: src/formats.c:286
 msgid "Haitian gourde"
-msgstr ""
+msgstr "haiti gourde"
 
 #: src/formats.c:287
 msgid "[$HUF]"
-msgstr ""
+msgstr "[$HUF]"
 
 #: src/formats.c:287
 msgid "Hungarian forint"
-msgstr "Magyar forint"
+msgstr "magyar forint"
 
 #: src/formats.c:288
 msgid "[$IDR]"
-msgstr ""
+msgstr "[$IDR]"
 
 #: src/formats.c:288
 msgid "Indonesian rupiah"
-msgstr "Indonéz rúpia"
+msgstr "indonéziai rúpia"
 
 #: src/formats.c:289
 msgid "[$IEP]"
-msgstr ""
+msgstr "[$IEP]"
 
 #: src/formats.c:289
 msgid "Irish punt"
-msgstr ""
+msgstr "ír font"
 
 #: src/formats.c:290
 msgid "[$IEX]"
-msgstr ""
+msgstr "[$IEX]"
 
 #: src/formats.c:290
 msgid "Irish pence ***"
-msgstr ""
+msgstr "ír penny ***"
 
 #: src/formats.c:291
 msgid "[$ILS]"
-msgstr ""
+msgstr "[$ILS]"
 
 #: src/formats.c:291
 msgid "Israeli shekel"
-msgstr ""
+msgstr "izraeli sékel"
 
 #: src/formats.c:292
 msgid "[$INR]"
-msgstr ""
+msgstr "[$INR]"
 
 #: src/formats.c:292
 msgid "Indian rupee"
-msgstr ""
+msgstr "indiai rúpia"
 
 #: src/formats.c:293
 msgid "[$IQD]"
-msgstr ""
+msgstr "[$IQD]"
 
 #: src/formats.c:293
 msgid "Iraqi dinar"
-msgstr ""
+msgstr "iraki dínár"
 
 #: src/formats.c:294
 msgid "[$IRR]"
-msgstr ""
+msgstr "[$IRR]"
 
 #: src/formats.c:294
 msgid "Iranian rial"
-msgstr ""
+msgstr "iráni rial"
 
 #: src/formats.c:295
 msgid "[$ISK]"
-msgstr ""
+msgstr "[$ISK]"
 
 #: src/formats.c:295
 msgid "Iceland krona"
-msgstr ""
+msgstr "izlandi korona"
 
 #: src/formats.c:296
 msgid "[$ITL]"
-msgstr ""
+msgstr "[$ITL]"
 
 #: src/formats.c:296
 msgid "Italian lira"
-msgstr "Olasz líra"
+msgstr "olasz líra"
 
 #: src/formats.c:297
 msgid "[$JMD]"
-msgstr ""
+msgstr "[$JMD]"
 
 #: src/formats.c:297
 msgid "Jamaican dollar"
-msgstr ""
+msgstr "jamaikai dollár"
 
 #: src/formats.c:298
 msgid "[$JOD]"
-msgstr ""
+msgstr "[$JOD]"
 
 #: src/formats.c:298
 msgid "Jordanian dinar"
-msgstr "Jordán dínár"
+msgstr "jordániai dínár"
 
 #: src/formats.c:299
 msgid "[$JPY]"
-msgstr ""
+msgstr "[$JPY]"
 
 #: src/formats.c:299
 msgid "Japanese yen"
-msgstr "Japán jen"
+msgstr "japán jen"
 
 #: src/formats.c:300
 msgid "[$KES]"
-msgstr ""
+msgstr "[$KES]"
 
 #: src/formats.c:300
 msgid "Kenyan shilling"
-msgstr ""
+msgstr "kenyai shilling"
 
 #: src/formats.c:301
 msgid "[$KHR]"
-msgstr ""
+msgstr "[$KHR]"
 
 #: src/formats.c:301
 msgid "Kampuchean riel"
-msgstr ""
+msgstr "kambodzsai riel"
 
 #: src/formats.c:302
 msgid "[$KMF]"
-msgstr ""
+msgstr "[$KMF]"
 
 #: src/formats.c:302
 msgid "Comoros franc"
-msgstr ""
+msgstr "Comore-szigeteki frank"
 
 #: src/formats.c:303
 msgid "[$KPW]"
-msgstr ""
+msgstr "[$KPW]"
 
 #: src/formats.c:303
 msgid "North Korean won"
-msgstr ""
+msgstr "észak-koreai won"
 
 #: src/formats.c:304
 msgid "[$KRW]"
-msgstr ""
+msgstr "[$KRW]"
 
 #: src/formats.c:304
 msgid "Republic of Korea won"
-msgstr ""
+msgstr "dél-koreai won"
 
 #: src/formats.c:305
 msgid "[$KWD]"
-msgstr ""
+msgstr "[$KWD]"
 
 #: src/formats.c:305
 msgid "Kuwaiti dinar"
-msgstr ""
+msgstr "kuvaiti dínár"
 
 #: src/formats.c:306
 msgid "[$KYD]"
-msgstr ""
+msgstr "[$KYD]"
 
 #: src/formats.c:306
 msgid "Cayman Islands dollar"
-msgstr ""
+msgstr "Kajmán-szigeteki dollár"
 
 #: src/formats.c:307
 msgid "[$LAK]"
-msgstr ""
+msgstr "[$LAK]"
 
 #: src/formats.c:307
 msgid "Lao kip"
-msgstr ""
+msgstr "laoszi kip"
 
 #: src/formats.c:308
 msgid "[$LBP]"
-msgstr ""
+msgstr "[$LBP]"
 
 #: src/formats.c:308
 msgid "Lebanese pound"
-msgstr ""
+msgstr "libanoni font"
 
 #: src/formats.c:309
 msgid "[$LKR]"
-msgstr ""
+msgstr "[$LKR]"
 
 #: src/formats.c:309
 msgid "Sri Lanka rupee"
-msgstr ""
+msgstr "Sri Lanka-i rúpia"
 
 #: src/formats.c:310
 msgid "[$LRD]"
-msgstr ""
+msgstr "[$LRD]"
 
 #: src/formats.c:310
 msgid "Liberian dollar"
-msgstr ""
+msgstr "libériai dolllár"
 
 #: src/formats.c:311
 msgid "[$LSL]"
-msgstr ""
+msgstr "[$LSL]"
 
 #: src/formats.c:311
 msgid "Lesotho loti"
-msgstr ""
+msgstr "lesothoi loti"
 
 #: src/formats.c:312
 msgid "[$LUF]"
-msgstr ""
+msgstr "[$LUF]"
 
 #: src/formats.c:312
 msgid "Luxembourg franc"
-msgstr ""
+msgstr "luxemburgi frank"
 
 #: src/formats.c:313
 msgid "[$LYD]"
-msgstr ""
+msgstr "[$LYD]"
 
 #: src/formats.c:313
 msgid "Libyan dinar"
-msgstr ""
+msgstr "líbiai dínár"
 
 #: src/formats.c:314
 msgid "[$MAD]"
-msgstr ""
+msgstr "[$MAD]"
 
 #: src/formats.c:314
 msgid "Moroccan dirham"
-msgstr ""
+msgstr "marokkói dirham"
 
 #: src/formats.c:315
 msgid "[$MDL]"
-msgstr ""
+msgstr "[$MDL]"
 
 #: src/formats.c:315
 msgid "Moldovan leu"
-msgstr ""
+msgstr "moldovai lej"
 
 #: src/formats.c:316
 msgid "[$MGF]"
-msgstr ""
+msgstr "[$MGF]"
 
 #: src/formats.c:316
 msgid "Malagasy franc"
-msgstr ""
+msgstr "madagaszkári frank"
 
 #: src/formats.c:317
 msgid "[$MLF]"
-msgstr ""
+msgstr "[$MLF]"
 
 #: src/formats.c:317
 msgid "Mali franc"
-msgstr ""
+msgstr "mali frank"
 
 #: src/formats.c:318
 msgid "[$MMK]"
-msgstr ""
+msgstr "[$MMK]"
 
 #: src/formats.c:318
 msgid "Myanmar kyat"
-msgstr ""
+msgstr "myanmari kyat"
 
 #: src/formats.c:319
 msgid "[$MNT]"
-msgstr ""
+msgstr "[$MNT]"
 
 #: src/formats.c:319
 msgid "Mongolian tugrik"
-msgstr ""
+msgstr "mongol tugrik"
 
 #: src/formats.c:320
 msgid "[$MOP]"
-msgstr ""
+msgstr "[$MOP]"
 
 #: src/formats.c:320
 msgid "Macau pataca"
-msgstr ""
+msgstr "makaói pataca"
 
 #: src/formats.c:321
 msgid "[$MRO]"
-msgstr ""
+msgstr "[$MRO]"
 
 #: src/formats.c:321
 msgid "Mauritanian ouguiya"
-msgstr ""
+msgstr "mauritániai ouguiya"
 
 #: src/formats.c:322
 msgid "[$MTL]"
-msgstr ""
+msgstr "[$MTL]"
 
 #: src/formats.c:322
 msgid "Maltese lira"
-msgstr ""
+msgstr "máltai líra"
 
 #: src/formats.c:323
 msgid "[$MUR]"
-msgstr ""
+msgstr "[$MUR]"
 
 #: src/formats.c:323
 msgid "Mauritius rupee"
-msgstr ""
+msgstr "mauritiusi rúpia"
 
 #: src/formats.c:324
 msgid "[$MVR]"
-msgstr ""
+msgstr "[$MVR]"
 
 #: src/formats.c:324
 msgid "Maldive rupee"
-msgstr ""
+msgstr "maldívi rúpia"
 
 #: src/formats.c:325
 msgid "[$MWK]"
-msgstr ""
+msgstr "[$MWK]"
 
 #: src/formats.c:325
 msgid "Malawi kwacha"
-msgstr ""
+msgstr "malawi kwacha"
 
 #: src/formats.c:326
 msgid "[$MXP]"
-msgstr ""
+msgstr "[$MXP]"
 
 #: src/formats.c:326
 msgid "Mexican peso"
-msgstr ""
+msgstr "mexikói peso"
 
 #: src/formats.c:327
 msgid "[$MYR]"
-msgstr ""
+msgstr "[$MYR]"
 
 #: src/formats.c:327
 msgid "Malaysian ringgit"
-msgstr ""
+msgstr "malajziai ringgit"
 
 #: src/formats.c:328
 msgid "[$MZM]"
-msgstr ""
+msgstr "[$MZM]"
 
 #: src/formats.c:328
 msgid "Mozambique metical"
-msgstr ""
+msgstr "mozambiki metical"
 
 #: src/formats.c:329
 msgid "[$NGN]"
-msgstr ""
+msgstr "[$NGN]"
 
 #: src/formats.c:329
 msgid "Nigerian naira"
-msgstr ""
+msgstr "nigériai naira"
 
 #: src/formats.c:330
 msgid "[$NIO]"
-msgstr ""
+msgstr "[$NIO]"
 
 #: src/formats.c:330
 msgid "Nicaraguan cordoba oro"
-msgstr ""
+msgstr "nicaraguai arany cordoba"
 
 #: src/formats.c:331
 msgid "[$NLG]"
-msgstr ""
+msgstr "[$NLG]"
 
 #: src/formats.c:331
 msgid "Netherlands guilder"
-msgstr ""
+msgstr "Holland forint"
 
 #: src/formats.c:332
 msgid "[$NOK]"
-msgstr ""
+msgstr "[$NOK]"
 
 #: src/formats.c:332
 msgid "Norwegian krone"
-msgstr "Norvég korona"
+msgstr "norvég korona"
 
 #: src/formats.c:333
 msgid "[$NPR]"
-msgstr ""
+msgstr "[$NPR]"
 
 #: src/formats.c:333
 msgid "Nepalese rupee"
-msgstr "Nepál rúpia"
+msgstr "nepáli rúpia"
 
 #: src/formats.c:334
 msgid "[$NZD]"
-msgstr ""
+msgstr "[$NZD]"
 
 #: src/formats.c:334
 msgid "New Zealand dollar"
-msgstr ""
+msgstr "új-zélandi dollár"
 
 #: src/formats.c:335
 msgid "[$OMR]"
-msgstr ""
+msgstr "[$OMR]"
 
 #: src/formats.c:335
 msgid "Rial Omani"
-msgstr ""
+msgstr "ománi rial"
 
 #: src/formats.c:336
 msgid "[$PAB]"
-msgstr ""
+msgstr "[$PAB]"
 
 #: src/formats.c:336
 msgid "Panamanian balboa"
-msgstr ""
+msgstr "panamai balboa"
 
 #: src/formats.c:337
 msgid "[$PEI]"
-msgstr ""
+msgstr "[$PEI]"
 
 #: src/formats.c:337
 msgid "Peruvian inti"
-msgstr ""
+msgstr "perui inti"
 
 #: src/formats.c:338
 msgid "[$PGK]"
-msgstr ""
+msgstr "[$PGK]"
 
 #: src/formats.c:338
 msgid "Papua New Guinea kina"
-msgstr ""
+msgstr "pápua új-guineai kina"
 
 #: src/formats.c:339
 msgid "[$PHP]"
-msgstr ""
+msgstr "[$PHP]"
 
 #: src/formats.c:339
 msgid "Philippino peso"
-msgstr ""
+msgstr "Fülöp-szigeteki peso"
 
 #: src/formats.c:340
 msgid "[$PKR]"
-msgstr ""
+msgstr "[$PKR]"
 
 #: src/formats.c:340
 msgid "Pakistan rupee"
-msgstr ""
+msgstr "pakisztáni rúpia"
 
 #: src/formats.c:341
 msgid "[$PLZ]"
-msgstr ""
+msgstr "[$PLZ]"
 
 #: src/formats.c:341
 msgid "Polish zloty"
-msgstr "Lengyel zlotyi"
+msgstr "lengyel zlotyi"
 
 #: src/formats.c:342
 msgid "[$PTE]"
-msgstr ""
+msgstr "[$PTE]"
 
 #: src/formats.c:342
 msgid "Portuguese escudo"
-msgstr "Portugál eszkúdó"
+msgstr "portugál escudo"
 
 #: src/formats.c:343
 msgid "[$PYG]"
-msgstr ""
+msgstr "[$PYG]"
 
 #: src/formats.c:343
 msgid "Paraguay guarani"
-msgstr ""
+msgstr "paraguay-i guarani"
 
 #: src/formats.c:344
 msgid "[$QAR]"
-msgstr ""
+msgstr "[$QAR]"
 
 #: src/formats.c:344
 msgid "Qatari rial"
-msgstr ""
+msgstr "katari rial"
 
 #: src/formats.c:345
 msgid "[$ROL]"
-msgstr ""
+msgstr "[$ROL]"
 
 #: src/formats.c:345
 msgid "Romanian leu"
-msgstr "Román lei"
+msgstr "román lej"
 
 #: src/formats.c:346
 msgid "[$RWF]"
-msgstr ""
+msgstr "[$RWF]"
 
 #: src/formats.c:346
 msgid "Rwanda franc"
-msgstr ""
+msgstr "ruandai frank"
 
 #: src/formats.c:347
 msgid "[$SAR]"
-msgstr ""
+msgstr "[$SAR]"
 
 #: src/formats.c:347
 msgid "Saudi Arabian riyal"
-msgstr "Szaudi-arab rial"
+msgstr "szaud-arábiai rial"
 
 #: src/formats.c:348
 msgid "[$SBD]"
-msgstr ""
+msgstr "[$SBD]"
 
 #: src/formats.c:348
 msgid "Solomon Islands dollar"
-msgstr ""
+msgstr "Salamon-szigeteki dollár"
 
 #: src/formats.c:349
 msgid "[$SCR]"
-msgstr ""
+msgstr "[$SCR]"
 
 #: src/formats.c:349
 msgid "Seychelles rupee"
-msgstr ""
+msgstr "Seychelles-i rúpia"
 
 #: src/formats.c:350
 msgid "[$SDP]"
-msgstr ""
+msgstr "[$SDP]"
 
 #: src/formats.c:350
 msgid "Sudanese pound"
-msgstr ""
+msgstr "szudáni font"
 
 #: src/formats.c:351
 msgid "[$SEK]"
-msgstr ""
+msgstr "[$SEK]"
 
 #: src/formats.c:351
 msgid "Swedish krona"
-msgstr "Svéd korona"
+msgstr "svéd korona"
 
 #: src/formats.c:352
 msgid "[$SGD]"
-msgstr ""
+msgstr "[$SGD]"
 
 #: src/formats.c:352
 msgid "Singapore dollar"
-msgstr ""
+msgstr "szingapúri dollár"
 
 #: src/formats.c:353
 msgid "[$SHP]"
-msgstr ""
+msgstr "[$SHP]"
 
 #: src/formats.c:353
 msgid "St.Helena pound"
-msgstr ""
+msgstr "St. Helena-i font"
 
 #: src/formats.c:354
 msgid "[$SLL]"
-msgstr ""
+msgstr "[$SLL]"
 
 #: src/formats.c:354
 msgid "Sierra Leone leone"
-msgstr ""
+msgstr "Sierra Leone-i leone"
 
 #: src/formats.c:355
 msgid "[$SOS]"
-msgstr ""
+msgstr "[$SOS]"
 
 #: src/formats.c:355
 msgid "Somali shilling"
-msgstr ""
+msgstr "szomáliai shilling"
 
 #: src/formats.c:356
 msgid "[$SRG]"
-msgstr ""
+msgstr "[$SRG]"
 
 #: src/formats.c:356
 msgid "Suriname guilder"
-msgstr ""
+msgstr "szurinámi guilder"
 
 #: src/formats.c:357
 msgid "[$STD]"
-msgstr ""
+msgstr "[$STD]"
 
 #: src/formats.c:357
 msgid "Sao Tome and Principe dobra"
-msgstr ""
+msgstr "Sao Tome és Principe-i dobra"
 
 #: src/formats.c:358
 msgid "[$SUR]"
-msgstr ""
+msgstr "[$SUR]"
 
 #: src/formats.c:358
 msgid "USSR rouble"
-msgstr "Orosz rúbel"
+msgstr "szovjet rubel"
 
 #: src/formats.c:359
 msgid "[$SVC]"
-msgstr ""
+msgstr "[$SVC]"
 
 #: src/formats.c:359
 msgid "El Salvador colon"
-msgstr ""
+msgstr "El Salvador-i colon"
 
 #: src/formats.c:360
 msgid "[$SYP]"
-msgstr ""
+msgstr "[$SYP]"
 
 #: src/formats.c:360
 msgid "Syrian pound"
-msgstr ""
+msgstr "szíriai font"
 
 #: src/formats.c:361
 msgid "[$SZL]"
-msgstr ""
+msgstr "[$SZL]"
 
 #: src/formats.c:361
 msgid "Swaziland lilangeni"
-msgstr ""
+msgstr "szváziföldi lilangeni"
 
 #: src/formats.c:362
 msgid "[$THB]"
-msgstr ""
+msgstr "[$THB]"
 
 #: src/formats.c:362
 msgid "Thai baht"
-msgstr ""
+msgstr "thai baht"
 
 #: src/formats.c:363
 msgid "[$TND]"
-msgstr ""
+msgstr "[$TND]"
 
 #: src/formats.c:363
 msgid "Tunisian dinar"
-msgstr ""
+msgstr "tunéziai dínár"
 
 #: src/formats.c:364
 msgid "[$TOP]"
-msgstr ""
+msgstr "[$TOP]"
 
 #: src/formats.c:364
 msgid "Tongan pa'anga"
-msgstr ""
+msgstr "tongai pa'anga"
 
 #: src/formats.c:365
 msgid "[$TPE]"
-msgstr ""
+msgstr "[$TPE]"
 
 #: src/formats.c:365
 msgid "East Timor escudo"
-msgstr ""
+msgstr "kelet-timori escudo"
 
 #: src/formats.c:366
 msgid "[$TRL]"
-msgstr ""
+msgstr "[$TRL]"
 
 #: src/formats.c:366
 msgid "Turkish lira"
-msgstr "Török líra"
+msgstr "török líra"
 
 #: src/formats.c:367
 msgid "[$TTD]"
-msgstr ""
+msgstr "[$TTD]"
 
 #: src/formats.c:367
 msgid "Trinidad and Tobago dollar"
-msgstr ""
+msgstr "Trinidad és Tobago-i dollár"
 
 #: src/formats.c:368
 msgid "[$TWD]"
-msgstr ""
+msgstr "[$TWD]"
 
 #: src/formats.c:368
 msgid "New Taiwan dollar"
-msgstr ""
+msgstr "új tajvani dollár"
 
 #: src/formats.c:369
 msgid "[$TZS]"
-msgstr ""
+msgstr "[$TZS]"
 
 #: src/formats.c:369
 msgid "Tanzanian shilling"
-msgstr ""
+msgstr "tanzániai shilling"
 
 #: src/formats.c:370
 msgid "[$UAH]"
-msgstr ""
+msgstr "[$UAH]"
 
 #: src/formats.c:370
 msgid "Ukrainian hryvnia"
-msgstr ""
+msgstr "ukrán hrivnya"
 
 #: src/formats.c:371
 msgid "[$UGX]"
-msgstr ""
+msgstr "[$UGX]"
 
 #: src/formats.c:371
 msgid "Ugandan shilling"
-msgstr ""
+msgstr "ugangai shilling"
 
 #: src/formats.c:372
 msgid "[$USD]"
-msgstr ""
+msgstr "[$USD]"
 
 #: src/formats.c:372
 msgid "US dollar"
@@ -5626,130 +5593,130 @@ msgstr "USA dollár"
 
 #: src/formats.c:373
 msgid "[$UYP]"
-msgstr ""
+msgstr "[$UYP]"
 
 #: src/formats.c:373
 msgid "Uruguayan peso"
-msgstr ""
+msgstr "uruguay-i peso"
 
 #: src/formats.c:374
 msgid "[$VEB]"
-msgstr ""
+msgstr "[$VEB]"
 
 #: src/formats.c:374
 msgid "Venezuelan bolivar"
-msgstr ""
+msgstr "venezuelai bolivar"
 
 #: src/formats.c:375
 msgid "[$VND]"
-msgstr ""
+msgstr "[$VND]"
 
 #: src/formats.c:375
 msgid "Vietnamese dong"
-msgstr "Vietnámi dong"
+msgstr "vietnámi dong"
 
 #: src/formats.c:376
 msgid "[$VUV]"
-msgstr ""
+msgstr "[$VUV]"
 
 #: src/formats.c:376
 msgid "Vanuatu vatu"
-msgstr ""
+msgstr "vanuatui vatu"
 
 #: src/formats.c:377
 msgid "[$WST]"
-msgstr ""
+msgstr "[$WST]"
 
 #: src/formats.c:377
 msgid "Samoan tala"
-msgstr ""
+msgstr "szamoai tala"
 
 #: src/formats.c:378
 msgid "[$XCD]"
-msgstr ""
+msgstr "[$XCD]"
 
 #: src/formats.c:378
 msgid "East Caribbean dollar"
-msgstr ""
+msgstr "kelet-karib dollár"
 
 #: src/formats.c:379
 msgid "[$XEU]"
-msgstr ""
+msgstr "[$XEU]"
 
 #: src/formats.c:379
 msgid "European currency unit"
-msgstr "Euro"
+msgstr "euro"
 
 #: src/formats.c:380
 msgid "[$YDD]"
-msgstr ""
+msgstr "[$YDD]"
 
 #: src/formats.c:380
 msgid "Democratic Yemeni dinar"
-msgstr ""
+msgstr "demokratikus jemeni dínár"
 
 #: src/formats.c:381
 msgid "[$YER]"
-msgstr ""
+msgstr "[$YER]"
 
 #: src/formats.c:381
 msgid "Yemeni rial"
-msgstr ""
+msgstr "jemeni rial"
 
 #: src/formats.c:382
 msgid "[$YUN]"
-msgstr ""
+msgstr "[$YUN]"
 
 #: src/formats.c:382
 msgid "New Yugoslavia dinar"
-msgstr "Új jugoszláv dínár"
+msgstr "új jugoszláv dínár"
 
 #: src/formats.c:383
 msgid "[$ZAL]"
-msgstr ""
+msgstr "[$ZAL]"
 
 #: src/formats.c:383
 msgid "South African rand funds code"
-msgstr ""
+msgstr "dél-afrikai rand alapok kódja"
 
 #: src/formats.c:384
 msgid "[$ZAR]"
-msgstr ""
+msgstr "[$ZAR]"
 
 #: src/formats.c:384
 msgid "South African rand"
-msgstr ""
+msgstr "dél-afrikai rand"
 
 #: src/formats.c:385
 msgid "[$ZMK]"
-msgstr ""
+msgstr "[$ZMK]"
 
 #: src/formats.c:385
 msgid "Zambian kwacha"
-msgstr ""
+msgstr "zambiai kwacha"
 
 #: src/formats.c:386
 msgid "[$ZRZ]"
-msgstr ""
+msgstr "[$ZRZ]"
 
 #: src/formats.c:386
 msgid "Zaire Zaire"
-msgstr ""
+msgstr "zairei zaire"
 
 #: src/formats.c:387
 msgid "[$ZWD]"
-msgstr ""
+msgstr "[$ZWD]"
 
 #: src/formats.c:387
 msgid "Zimbabwe dollar"
-msgstr ""
+msgstr "zimbabwei dollár"
 
 #: src/formats.c:519
 msgid "[Red]"
-msgstr ""
+msgstr "[Piros]"
 
 #: src/func.c:76
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create file %s\n"
 msgstr "Nem tudom létrehozni a %s fájlt\n"
 
@@ -5773,17 +5740,6 @@ msgstr ""
 "@DESCRIPTION=A DAVERAGE függvény átlagolja az adott listából vagy "
 "adatbázisból a megadott feltételnek megfelelõ értékeket.\n"
 
-#: src/functions/fn-database.c:500
-msgid ""
-"\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:561
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -5795,16 +5751,6 @@ msgstr ""
 "@SYNTAX=DCOUNT(adatbázis,mezõ,kritérium)\n"
 "@DESCRIPTION=A DCOUNT függvény megszámolja, hogy hány számokat tartalmazó "
 "cella felel meg a paraméterben megadott feltételnek.\n"
-
-#: src/functions/fn-database.c:569
-msgid ""
-"\n"
-"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
-"\n"
-"@SEEALSO=DAVERAGE"
-msgstr ""
 
 #: src/functions/fn-database.c:622
 msgid ""
@@ -5818,16 +5764,6 @@ msgstr ""
 "@DESCRIPTION=A DCOUNTA függvény megszámolja, hogy hány adatot tartalmazó "
 "cella felel meg a paraméterben megadott feltételnek.\n"
 
-#: src/functions/fn-database.c:630
-msgid ""
-"\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:680
 msgid ""
 "@FUNCTION=DGET\n"
@@ -5835,17 +5771,10 @@ msgid ""
 "@DESCRIPTION=DGET function returns a single value from a column that match "
 "conditions specified. \n"
 msgstr ""
-
-#: src/functions/fn-database.c:688
-msgid ""
-"\n"
-"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-"\n"
-"If none of the items match the conditions, DGET returns #VALUE! error. If "
-"more than one items match the conditions, DGET returns #NUM! error. \n"
-"@SEEALSO=DCOUNT"
-msgstr ""
+"@FUNCTION=DGET\n"
+"@SYNTAX=DGET(adatbázis,mezõ,feltétel)\n"
+"@DESCRIPTION=A DGET függvény visszaad egy értéket "
+"abból az oszlopból, amely kielégíti a megadott feltételeket.\n"
 
 #: src/functions/fn-database.c:748
 msgid ""
@@ -5854,16 +5783,10 @@ msgid ""
 "@DESCRIPTION=DMAX function returns the largest number in a column that match "
 "conditions specified. \n"
 msgstr ""
-
-#: src/functions/fn-database.c:756
-msgid ""
-"\n"
-"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
-"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
-"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
-"\n"
-"@SEEALSO=DMIN"
-msgstr ""
+"@FUNCTION=DMAX\n"
+"@SYNTAX=DMAX(adatbázis,mezõ,feltétel)\n"
+"@DESCRIPTION=A DMAX függvény visszaadja azt a legnagyobb számot egy "
+"oszlopból, amelyre igaz a megadott feltétel.\n"
 
 #: src/functions/fn-database.c:819
 msgid ""
@@ -5872,37 +5795,22 @@ msgid ""
 "@DESCRIPTION=DMIN function returns the smallest number in a column that "
 "match conditions specified. \n"
 msgstr ""
-
-#: src/functions/fn-database.c:827
-msgid ""
-"\n"
-"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
-"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
-"\n"
-"@SEEALSO=DMAX"
-msgstr ""
+"@FUNCTION=DMIN\n"
+"@SYNTAX=DMIN(adatbázis,mezõ,feltétel)\n"
+"@DESCRIPTION=A DMIN függvény visszaadja azt a legkisebb számot egy "
+"oszlopból, amelyre igaz a megadott feltétel.\n"
 
 #: src/functions/fn-database.c:889
-#, fuzzy
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
 "@DESCRIPTION=DPRODUCT function returns the product of numbers in a column "
 "that match conditions specified. \n"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
-
-#: src/functions/fn-database.c:897
-msgid ""
-"\n"
-"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
-"\n"
-"@SEEALSO=DSUM"
-msgstr ""
+"@FUNCTION=DPRODUCT\n"
+"@SYNTAX=DPRODUCT(adatbázis,mezõ,feltétel)\n"
+"@DESCRIPTION=A DPRODUCT függvény visszaadja azoknak a számoknak a szorzatát egy oszlopból,"
+"amelyekre igaz a megadott feltétel.\n"
 
 #: src/functions/fn-database.c:956
 msgid ""
@@ -5912,15 +5820,10 @@ msgid ""
 "of a population based on a sample. The populations consists of numbers that "
 "match conditions specified. \n"
 msgstr ""
-
-#: src/functions/fn-database.c:965
-msgid ""
-"\n"
-"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
-"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
-"\n"
-"@SEEALSO=DSTDEVP"
-msgstr ""
+"@FUNCTION=DSTDEV\n"
+"@SYNTAX=DSTDEV(adatbázis,mezõ,feltétel)\n"
+"@DESCRIPTION=A DSTDEV függvény becslést ad egy sokaság szórására egy minta alapján. "
+"A sokaságok azokból a számokból állnak, amelyekre igaz a megadott feltétel.\n"
 
 #: src/functions/fn-database.c:1022
 msgid ""
@@ -5930,38 +5833,23 @@ msgid ""
 "based on the entire populations. The populations consists of numbers that "
 "match conditions specified. \n"
 msgstr ""
-
-#: src/functions/fn-database.c:1031
-msgid ""
-"\n"
-"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
-"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
-"\n"
-"@SEEALSO=DSTDEV"
-msgstr ""
+"@FUNCTION=DSTDEVP\n"
+"@SYNTAX=DSTDEVP(adatbázis,mezõ,feltétel)\n"
+"@DESCRIPTION=A DSTDEVP függvény becslést ad egy sokaság "
+"szórására az egész sokaság alapján. "
+"A sokaságok azokból a számokból állnak, amelyekre igaz a megadott feltétel.\n"
 
 #: src/functions/fn-database.c:1090
-#, fuzzy
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
 "@DESCRIPTION=DSUM function returns the sum of numbers in a column that match "
 "conditions specified. \n"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
-
-#: src/functions/fn-database.c:1098
-msgid ""
-"\n"
-"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
-"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
-"\n"
-"@SEEALSO=DPRODUCT"
-msgstr ""
+"@FUNCTION=DSUM\n"
+"@SYNTAX=DSUM(adatbázis,mezõ,feltétel)\n"
+"@DESCRIPTION=A DSUM függvény visszaadja azoknak a számoknak az összegét egy oszlopból,"
+"amelyekre igaz a megadott feltétel.\n"
 
 #: src/functions/fn-database.c:1157
 msgid ""
@@ -5971,15 +5859,10 @@ msgid ""
 "based on a sample. The populations consists of numbers that match conditions "
 "specified. \n"
 msgstr ""
-
-#: src/functions/fn-database.c:1166
-msgid ""
-"\n"
-"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
-"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
-"\n"
-"@SEEALSO=DVARP"
-msgstr ""
+"@FUNCTION=DVAR\n"
+"@SYNTAX=DVAR(adatbázis,mezõ,feltétel)\n"
+"@DESCRIPTION=A DVAR függvény becslést ad egy sokaság szórásnégyzetére (varianciájára) "
+"egy minta alapján. A sokaság azokból a számokból áll, amelyekre igaz a megadott feltétel.\n"
 
 #: src/functions/fn-database.c:1225
 msgid ""
@@ -5989,15 +5872,11 @@ msgid ""
 "the entire populations. The populations consists of numbers that match "
 "conditions specified. \n"
 msgstr ""
-
-#: src/functions/fn-database.c:1234
-msgid ""
-"\n"
-"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
-"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
-"\n"
-"@SEEALSO=DVAR"
-msgstr ""
+"@FUNCTION=DVARP\n"
+"@SYNTAX=DVARP(adatbázis,mezõ,feltétel)\n"
+"@DESCRIPTION=A DVARP függvény megadja egy sokaság "
+"tapasztalati szórásnégyzetét (varianciáját). "
+"A sokaság azokból a számokból áll, amelyekre igaz a megadott feltétel.\n"
 
 #: src/functions/fn-database.c:1294
 msgid ""
@@ -6026,14 +5905,23 @@ msgid ""
 "\n"
 "@SEEALSO=TODAY, NOW"
 msgstr ""
+"@FUNCTION=DATE\n"
+"@SYNTAX=DATE (év,hónap,nap)\n"
+"@DESCRIPTION=Kiszámolja, hogy hány nap telt el 1900. január 1. és a megadott "
+"dátum között.\n"
+"A @nap lehet negatív, lehet hátrafelé számolni az elõzõ hónapba. "
+"Az év legalább 1900 kell legyen.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-date.c:55
 msgid "Invalid month or year"
-msgstr ""
+msgstr "Érvénytelen hónap vagy év"
 
 #: src/functions/fn-date.c:67
 msgid "Invalid day"
-msgstr ""
+msgstr "Érvénytelen nap"
 
 #: src/functions/fn-date.c:77
 msgid ""
@@ -6095,13 +5983,12 @@ msgstr ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
 "@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
+"január 1-tõl eltelt napokat jelzi.\n"
 "@EXAMPLE=\n"
 "\n"
 "@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-date.c:329
-#, fuzzy
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -6119,8 +6006,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
-"@DESCRIPTION=A mai datum dátumértékét és a pontos idõ idõértékét adja "
-"eredményül.\n"
+"@DESCRIPTION=A kiértékeléskori dátumot és pontos idõt adja eredményül.\n"
 "A Gnumeric a dátumot sorszámként, míg az idõt tizedes törtként tárolja. A "
 "sorszám az 1900. január 1.-tõl eltelt napok számát jelenti, a törtszám meg "
 "az óra, perc és másodperc értékekbõl adódik.\n"
@@ -6129,7 +6015,6 @@ msgstr ""
 "@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-date.c:358
-#, fuzzy
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -6141,10 +6026,11 @@ msgstr ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (óra, perc, másodperc)\n"
 "@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=HOUR"
 
 #: src/functions/fn-date.c:385
-#, fuzzy
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
@@ -6155,8 +6041,11 @@ msgid ""
 "@SEEALSO=HOUR"
 msgstr ""
 "@FUNCTION=TIME\n"
-"@SYNTAX=TIME (óra, perc, másodperc)\n"
-"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
+"@SYNTAX=TIME (idõ)\n"
+"@DESCRIPTION=Adott idõpont idõértékét adja meg, ami egy 0 és "
+"1 közé esõ szám.\n"
+"@EXAMPLES=\n"
+"\n"
 "@SEEALSO=HOUR"
 
 #: src/functions/fn-date.c:411
@@ -6302,7 +6191,7 @@ msgstr ""
 #: src/functions/fn-information.c:219 src/functions/fn-information.c:286
 #: src/functions/fn-information.c:302
 msgid "Unimplemented"
-msgstr ""
+msgstr "Nem implementált"
 
 #: src/functions/fn-date.c:851
 msgid ""
@@ -6339,7 +6228,6 @@ msgid "Base error"
 msgstr ""
 
 #: src/functions/fn-eng.c:137
-#, fuzzy
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
@@ -6350,15 +6238,16 @@ msgid ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
+"@FUNCTION=BIN2DEC\n"
+"@SYNTAX=BIN2DEC(x)\n"
+"@DESCRIPTION=A BIN2DEC függvény egy bináris számot kovertál "
+"át decimális formátumra. A függvény Excel kompatíbilis \n"
+"@EXAMPLES=\n"
+"BIN2DEC(101) egyenlõ 5.\n"
+"\n"
+"@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
 #: src/functions/fn-eng.c:160
-#, fuzzy
 msgid ""
 "@FUNCTION=BIN2OCT\n"
 "@SYNTAX=BIN2OCT(number[,places])\n"
@@ -6372,12 +6261,6 @@ msgid ""
 "\n"
 "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-eng.c:186
 #, fuzzy
@@ -6592,7 +6475,6 @@ msgstr ""
 "@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-eng.c:440
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELI\n"
 "@SYNTAX=BESSELI(x,y)\n"
@@ -6606,16 +6488,19 @@ msgid ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
+"@FUNCTION=BESSELI\n"
+"@SYNTAX=BESSELI(x,y)\n"
+"@DESCRIPTION=A BESSELI függvény kiszámítja a Neumann-, Weber- "
+"vagy Bessel-függvényt az @x pontban. Az @y a Bessel-függvény rendje,"
+"ha nem egész szám, akkor az egészrészét veszi figyelembe.\n"
+"Ha @x vagy @y nem szám, akkor  #VALUE! hibát ad. Ha @y < 0, akkor #NUM!"
+"hibát ad. A függvény Excel kompatíbilis. \n"
+"@EXAMPLES=\n"
+"BESSELI(0.7,3) egyenlõ 0.007367374.\n"
+"\n"
+"@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
 #: src/functions/fn-eng.c:481
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
@@ -6629,16 +6514,19 @@ msgid ""
 "\n"
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
+"@FUNCTION=BESSELK\n"
+"@SYNTAX=BESSELK(x,y)\n"
+"@DESCRIPTION=A BESSELK függvény kiszámítja a Neumann-, Weber- "
+"vagy Bessel-függvényt az @x pontban. Az @y a Bessel-függvény rendje,"
+"ha nem egész szám, akkor az egészrészét veszi figyelembe.\n"
+"Ha @x vagy @y nem szám, akkor  #VALUE! hibát ad. Ha @y < 0, akkor #NUM!"
+"hibát ad. A függvény Excel kompatíbilis. \n "
+"@EXAMPLES=\n"
+"BESSELK(3,9) egyenlõ 397.95880.\n"
+"\n"
+"@SEEALSO=BESSELI,BESSELJ,BESSELY"
 
 #: src/functions/fn-eng.c:521
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
@@ -6652,16 +6540,19 @@ msgid ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
+"@FUNCTION=BESSELJ\n"
+"@SYNTAX=BESSELJ(x,y)\n"
+"@DESCRIPTION=A BESSELJ függvény kiszámítja a Neumann-, Weber- "
+"vagy Bessel-függvényt az @x pontban. Az @y a Bessel-függvény rendje,"
+"ha nem egész szám, akkor az egészrészét veszi figyelembe.\n"
+"Ha @x vagy @y nem szám, akkor  #VALUE! hibát ad. Ha @y < 0, akkor #NUM!"
+"hibát ad. A függvény Excel kompatíbilis. \n "
+"@EXAMPLES=\n"
+"BESSELJ(0.89,3) egyenlõ 0.013974004.\n"
+"\n"
+"@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
 #: src/functions/fn-eng.c:557
-#, fuzzy
 msgid ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
@@ -6675,13 +6566,17 @@ msgid ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
+"@FUNCTION=BESSELY\n"
+"@SYNTAX=BESSELY(x,y)\n"
+"@DESCRIPTION=A BESSELY függvény kiszámítja a Neumann-, Weber- "
+"vagy Bessel-függvényt az @x pontban. Az @y a Bessel-függvény rendje,"
+"ha nem egész szám, akkor az egészrészét veszi figyelembe.\n"
+"Ha @x vagy @y nem szám, akkor  #VALUE! hibát ad. Ha @y < 0, akkor #NUM!"
+"hibát ad. A függvény Excel kompatíbilis. \n "
+"@EXAMPLES=\n"
+"BESSELY(4,2) egyenlõ 0.215903595.\n"
+"\n"
+"@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
 #: src/functions/fn-eng.c:633
 msgid ""
@@ -6698,9 +6593,20 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=COMPLEX\n"
+"@SYNTAX=COMPLEX(valós,képzetes[,i vagy j])\n"
+"@DESCRIPTION=A COMPLEX elõállít egy komplex számot x + yi alakban. "
+"A @valós a valós, a @képzetes a képzetes rész a a komplex számnak."
+"Megadható, hogy a képzetes részt 'i'-vel vagy 'j'-vel jelölje, "
+"alapértelmezett az 'i'.\n "
+"Ha nem 'i'-t vagy 'j'-t adunk meg harmadik argumentumként,"
+"akkor #VALUE! hibát ad. A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"COMPLEX(1,-1) egyenlõ 1-i.\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-eng.c:677
-#, fuzzy
 msgid ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
@@ -6711,13 +6617,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMREAL"
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (óra, perc, másodperc)\n"
-"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
-"@SEEALSO=HOUR"
+"@FUNCTION=IMAGINARY\n"
+"@SYNTAX=IMAGINARY(komplex szám)\n"
+"@DESCRIPTION=Az IMAGINARY megadja egy komplex szám képzetes részét."
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"IMAGINARY(\"132-j\") egyenlõ -1.\n"
+"\n"
+"@SEEALSO=IMREAL"
 
 #: src/functions/fn-eng.c:708
-#, fuzzy
 msgid ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
@@ -6728,16 +6637,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMAGINARY"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
+"@FUNCTION=IMREAL\n"
+"@SYNTAX=IMREAL(komplex szám)\n"
+"@DESCRIPTION=Az IMREAL megadja egy komplex szám valós részét."
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"imreal(\"132-j\") egyenlõ 132.\n"
+"\n"
+"@SEEALSO=IMAGINARY"
 
 #: src/functions/fn-eng.c:739
-#, fuzzy
 msgid ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(inumber)\n"
@@ -6748,14 +6657,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 msgstr ""
-"@FUNCTION=LOG\n"
-"@SYNTAX=LOG(szám)\n"
-"@DESCRIPTION=Egy szám természetes alapú logaritmusát számítja ki.\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=IMABS\n"
+"@SYNTAX=IMABS(komplex szám)\n"
+"@DESCRIPTION=Az IMABS megadja egy komplex szám abszolút értékét."
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"IMABS(\"2-j\") egyenlõ 2.23606798.\n"
+"\n"
+"@SEEALSO=IMAGINARY,IMREAL"
 
 #: src/functions/fn-eng.c:770
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(inumber)\n"
@@ -6766,14 +6677,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 msgstr ""
-"@FUNCTION=LOG\n"
-"@SYNTAX=LOG(szám)\n"
-"@DESCRIPTION=Egy szám természetes alapú logaritmusát számítja ki.\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=IMCONJUGATE\n"
+"@SYNTAX=IMCONJUGATE(komplex szám)\n"
+"@DESCRIPTION=Az IMCONJUGATE megadja egy komplex szám komplex konjugáltját."
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"IMCONJUGATE(\"1-j\") egyenlõ 1+j.\n"
+"\n"
+"@SEEALSO=IMAGINARY,IMREAL"
 
 #: src/functions/fn-eng.c:801
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(inumber)\n"
@@ -6784,16 +6697,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMSIN,IMTAN"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
+"@FUNCTION=IMCOS\n"
+"@SYNTAX=IMCOS(komplex szám)\n"
+"@DESCRIPTION=Az IMCOS megadja egy komplex szám cosinusát."
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"IMCOS(\"1+j\") egyenlõ 0.833730-0.988898j.\n"
+"\n"
+"@SEEALSO=IMSIN,IMTAN"
 
 #: src/functions/fn-eng.c:829
-#, fuzzy
 msgid ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(inumber)\n"
@@ -6803,14 +6716,15 @@ msgid ""
 "\n"
 "@SEEALSO=IMSIN,IMCOS"
 msgstr ""
-"@FUNCTION=LOG\n"
-"@SYNTAX=LOG(szám)\n"
-"@DESCRIPTION=Egy szám természetes alapú logaritmusát számítja ki.\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=IMTAN\n"
+"@SYNTAX=IMTAN(komplex szám)\n"
+"@DESCRIPTION=Az IMTAN megadja egy komplex szám tangensét."
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=IMSIN,IMCOS"
 
 #: src/functions/fn-eng.c:856
-#, fuzzy
 msgid ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(inumber)\n"
@@ -6821,16 +6735,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMLN"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
+"@FUNCTION=IMEXP\n"
+"@SYNTAX=IMEXP(komplex szám)\n"
+"@DESCRIPTION=Az IMEXP megadja e-nek adott kitevõjû hatványát. "
+"A függvény Excel kompatíbilis \n"
+"@EXAMPLES=\n"
+"IMEXP(\"2-j\") egyenlõ 3.992324-6.217676j.\n"
+"\n"
+"@SEEALSO=IMLN"
 
 #: src/functions/fn-eng.c:884
-#, fuzzy
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
@@ -6841,11 +6755,14 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
+"@FUNCTION=IMARGUMENT\n"
+"@SYNTAX=IMARGUMENT(komplex szám)\n"
+"@DESCRIPTION=Az IMARGUMENT megadja egy komplex szám theta argumentumát."
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"IMARGUMENT(\"2-j\") egyenlõ -0.463647609.\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-eng.c:911
 msgid ""
@@ -6861,9 +6778,18 @@ msgid ""
 "\n"
 "@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 msgstr ""
+"@FUNCTION=IMLN\n"
+"@SYNTAX=IMLN(komplex szám)\n"
+"@DESCRIPTION=Az IMLN megadja egy komplex szám természetes alapú logaritmusát."
+"(Az eredmény képzetes része -pi és pi között lesz. Egy komplex szám természetes "
+"alapú logaritmusa nem egyértelmûen meghatározott, az eredmény képzetes részéhez "
+"pi páros többszöröseit hozzá lehet adni, vagy le lehet vonni.) A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"IMLN(\"3-j\") egyenlõ 1.15129-0.32175j.\n"
+"\n"
+"@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 
 #: src/functions/fn-eng.c:943
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(inumber)\n"
@@ -6874,14 +6800,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMLN,IMLOG10"
 msgstr ""
-"@FUNCTION=LOG\n"
-"@SYNTAX=LOG(szám)\n"
-"@DESCRIPTION=Egy szám természetes alapú logaritmusát számítja ki.\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=IMLOG2\n"
+"@SYNTAX=IMLOG2(komplex szám)\n"
+"@DESCRIPTION=AZ IMLOG2 megadja egy komplex szám kettes alapú logaritmusát."
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"IMLOG2(\"3-j\") egyenlõ 1.66096-0.46419j.\n"
+"\n"
+"@SEEALSO=IMLN,IMLOG10"
 
 #: src/functions/fn-eng.c:973
-#, fuzzy
 msgid ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
@@ -6892,14 +6820,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMLN,IMLOG2"
 msgstr ""
-"@FUNCTION=LOG\n"
-"@SYNTAX=LOG(szám)\n"
-"@DESCRIPTION=Egy szám természetes alapú logaritmusát számítja ki.\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=IMLOG10\n"
+"@SYNTAX=IMLOG10(komplex szám)\n"
+"@DESCRIPTION=Az IMLOG10 megadja egy komplex szám tízes alapú logaritmusát."
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"IMLOG10(\"3-j\") egyenlõ 0.5-0.13973j.\n"
+"\n"
+"@SEEALSO=IMLN,IMLOG2"
 
 #: src/functions/fn-eng.c:1003
-#, fuzzy
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber,number)\n"
@@ -6912,14 +6842,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMSQRT"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
+"@FUNCTION=IMPOWER\n"
+"@SYNTAX=IMPOWER(komplex szám, szám)\n"
+"@DESCRIPTION=Az IMPOWER megadja egy komplex szám @szám-adik hatványát."
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"IMPOWER(\"4-j\",2) egyenlõ 15-8j.\n"
+"\n"
+"@SEEALSO=IMSQRT"
 
 #: src/functions/fn-eng.c:1039
-#, fuzzy
 msgid ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber,inumber)\n"
@@ -6930,14 +6862,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMPRODUCT"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
+"@FUNCTION=IMDIV\n"
+"@SYNTAX=IMDIV(komplex szám,komplex szám)\n"
+"@DESCRIPTION=Az IMDIV megadja két komplex szám hányadosát. "
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"IMDIV(\"2-j\",\"2+j\") egyenlõ 0.6-0.8j.\n"
+"\n"
+"@SEEALSO=IMPRODUCT"
 
 #: src/functions/fn-eng.c:1073
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
@@ -6948,14 +6882,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMCOS,IMTAN"
 msgstr ""
-"@FUNCTION=LOG\n"
-"@SYNTAX=LOG(szám)\n"
-"@DESCRIPTION=Egy szám természetes alapú logaritmusát számítja ki.\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=IMSIN\n"
+"@SYNTAX=IMSIN(komplex szám)\n"
+"@DESCRIPTION=Az IMSIN megadja egy komplex szám sinusát."
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"IMSIN(\"1+j\") egyenlõ 1.29846+0.63496j.\n"
+"\n"
+"@SEEALSO=IMCOS,IMTAN"
 
 #: src/functions/fn-eng.c:1101
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
@@ -6966,16 +6902,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMPOWER"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
+"@FUNCTION=IMSQRT\n"
+"@SYNTAX=IMSQRT(komplex szám)\n"
+"@DESCRIPTION=Az IMSQRT megadja egy komplex szám négyzetgyökét."
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"IMSQRT(\"1+j\") egyenlõ 1.09868+0.4550899j.\n"
+"\n"
+"@SEEALSO=IMPOWER"
 
 #: src/functions/fn-eng.c:1129
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber,inumber)\n"
@@ -6986,16 +6922,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMSUM"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
+"@FUNCTION=IMSUB\n"
+"@SYNTAX=IMSUB(komplex szám,komplex szám)\n"
+"@DESCRIPTION=Az IMSUB megadja két komplex szám különbségét."
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"IMSUB(\"3-j\",\"2+j\") egyenlõ 1-2j.\n"
+"\n"
+"@SEEALSO=IMSUM"
 
 #: src/functions/fn-eng.c:1160
-#, fuzzy
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
@@ -7006,14 +6942,16 @@ msgid ""
 "\n"
 "@SEEALSO=IMDIV"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
+"@FUNCTION=IMPRODUCT\n"
+"@SYNTAX=IMPRODUCT(komplex szám1[,komplex szám2,...])\n"
+"@DESCRIPTION=Az IMPRODUCT megadja az argumentumokban felsorolt komplex számok szorzatát."
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"IMPRODUCT(\"2-j\",\"4-2j\") egyenlõ 6-8j.\n"
+"\n"
+"@SEEALSO=IMDIV"
 
 #: src/functions/fn-eng.c:1230
-#, fuzzy
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber,inumber)\n"
@@ -7024,13 +6962,14 @@ msgid ""
 "\n"
 "@SEEALSO=IMSUB"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
+"@FUNCTION=IMSUM\n"
+"@SYNTAX=IMSUM(komplex szám,komplex szám)\n"
+"@DESCRIPTION=Az IMSUM megadja két komplex szám összegét."
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"IMSUM(\"2-4j\",\"9-j\") egyenlõ 11-5j.\n"
+"\n"
+"@SEEALSO=IMSUB"
 
 #: src/functions/fn-eng.c:1264
 msgid ""
@@ -7136,6 +7075,107 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=CONVERT\n"
+"@SYNTAX=CONVERT(szám,mibõl,mibe)\n"
+"@DESCRIPTION=A CONVERT egyik mértékegysébõl a másikba konvertál .. "
+"Például egy fontban megadott súlyt átszámol grammra. A @szám az az érték, "
+"amit át kell konvertálni, a @mibõl megadja a @szám mértékegységét, és a @mibe"
+"határozza meg a vegeredmény mértékegységét.\n"
+"A @mibõl és a @mibe az alábbiak bármelyike lehet:\n\n"
+"\n"
+"Súly és tömeg:\n"
+"'g'    gramm\n"
+"'sg'   slug\n"
+"'lbm'  font\n"
+"'u'    U (atomi egység)\n"
+"'ozm'  uncia\n"
+"\n"
+"Távolság:\n"
+"'m'    méter\n"
+"'mi'   angol mérföld\n"
+"'Nmi'  tengeri mérföld\n"
+"'in'   hüvelyk\n"
+"'ft'   láb\n"
+"'yd'   yard\n"
+"'ang'  angström\n"
+"'Pica' pica\n"
+"\n"
+"Idõ:\n"
+"'yr'   év\n"
+"'day'  nap\n"
+"'hr'   óra\n"
+"'mn'   perc\n"
+"'sec'  másodperc\n"
+"\n"
+"Nyomás:\n"
+"'Pa'   pascal\n"
+"'atm'  atmoszféra\n"
+"'mmHg' higanymilliméter\n"
+"\n"
+"Erõ:\n"
+"'N'    newton\n"
+"'dyn'  din\n"
+"'lbf'  font-erõ\n"
+"\n"
+"Energia:\n"
+"'J'    joule\n"
+"'e'    erg\n"
+"'c'    termodinamikai kalória\n"
+"'cal'  IT kalória\n"
+"'eV'   elektronvolt\n"
+"'HPh'  lóerõóra\n"
+"'Wh'   wattóra\n"
+"'flb'  láb-font\n"
+"'BTU'  BTU\n"
+"\n"
+"Teljesítmény:\n"
+"'HP'   lóerõ\n"
+"'W'    watt\n"
+"Mágnesesség:\n"
+"'T'    tesla\n"
+"'ga'   gauss\n"
+"\n"
+"Hõmérséklet:\n"
+"'C'    Celsius-fok\n"
+"'F'    Fahrenheit-fok\n"
+"'K'    kelvin\n"
+"\n"
+"Ûrmérték:\n"
+"'tsp'  teáskanál\n"
+"'tbs'  kanál\n"
+"'oz'   uncia\n"
+"'cup'  csésze\n"
+"'pt'   pint\n"
+"'qt'   quart\n"
+"'gal'  gallon\n"
+"'l'    liter\n"
+"\n"
+"A metrikus egységekre a következõ prefixumok alkalmazhatók:\n"
+"'E'  exa    1E+18\n"
+"'P'  peta   1E+15\n"
+"'T'  tera   1E+12\n"
+"'G'  giga   1E+09\n"
+"'M'  mega   1E+06\n"
+"'k'  kilo   1E+03\n"
+"'h'  hecto  1E+02\n"
+"'e'  dekao  1E+01\n"
+"'d'  deci   1E-01\n"
+"'c'  centi  1E-02\n"
+"'m'  milli  1E-03\n"
+"'u'  micro  1E-06\n"
+"'n'  nano   1E-09\n"
+"'p'  pico   1E-12\n"
+"'f'  femto  1E-15\n"
+"'a'  atto   1E-18\n"
+"\n"
+"Ha a @mibõl és a @mibe különbözõ típusba tartoznak, a CONVERT #NUM! hibát ad."
+"A függvény Excel kompatíbilis. \n"
+"@EXAMPLES=\n"
+"CONVERT(3,\"lbm\",\"g\") egyenlõ 1360.7769.\n"
+"CONVERT(5.8,\"m\",\"in\") egyenlõ 228.3465.\n"
+"CONVERT(7.9,\"cal\",\"J\") egyenlõ 33.07567.\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-eng.c:1664
 msgid ""
@@ -7157,6 +7197,22 @@ msgid ""
 "deviations of the mean.\n"
 "@SEEALSO=ERFC"
 msgstr ""
+"@FUNCTION=ERF\n"
+"@SYNTAX=ERF([alsó határ,]felsõ határ)\n"
+"@DESCRIPTION=Ha csak egy argumentummal hívják, az ERF megadja a"
+"erf(x) = 2/sqrt(pi)* integrál 0-tól x-ig exp(-t*t) dt képlettel definiált hibaintegrál"
+"értékét. Ha két argumentummal hívják, akkor azok az integrál alsó és felsõ"
+"határai.\n"
+"Ha az alsó vagy felsõ határ nem szám, akkor #VALUE! hibát ad. "
+"A függvény felülrõl kompatíbilis az Excellel. (Ha két argumentummal hívják,"
+"az Excel nem engedi hogy bármelyik is negatív legyen.)\n"
+"@EXAMPLES=\n"
+"ERF(0.4) egyenlõ 0.428392355.\n"
+"ERF(1.6448536269515/SQRT(2)) egyenlõ 0.90.\n"
+"\n"
+"A második példa megmutatja, hogy egy normális eloszlású valószínûségi változó"
+"90 százalékos valószínûséggel esik 1.645 szórásnyin belül a várható érték körül."
+"@SEEALSO=ERFC"
 
 #: src/functions/fn-eng.c:1711
 #, fuzzy
@@ -7204,7 +7260,7 @@ msgstr ""
 
 #: src/functions/fn-eng.c:1786 src/functions/fn-eng.c:1840
 msgid "Impossible"
-msgstr ""
+msgstr "Lehetetlen"
 
 #: src/functions/fn-eng.c:1797
 #, fuzzy
@@ -7230,7 +7286,7 @@ msgstr ""
 
 #: src/functions/fn-eng.c:1854
 msgid "Engineering"
-msgstr ""
+msgstr "Mûszaki"
 
 #: src/functions/fn-financial.c:561
 msgid ""
@@ -7429,9 +7485,8 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:973
-#, fuzzy
 msgid "effect - domain error"
-msgstr "acos: nincs értelmezve"
+msgstr "effect - nincs értelmezve"
 
 #: src/functions/fn-financial.c:981
 msgid ""
@@ -7452,12 +7507,10 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:1011
-#, fuzzy
 msgid "nominal - domain error"
-msgstr "asin: nincs értelmezve"
+msgstr "nominal - nincs értelmezve"
 
 #: src/functions/fn-financial.c:1020
-#, fuzzy
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -7467,13 +7520,6 @@ msgid ""
 "\n"
 "@SEEALSO=PV"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
 
 #: src/functions/fn-financial.c:1054
 msgid ""
@@ -7530,9 +7576,8 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:1200
-#, fuzzy
 msgid "sln - domain error"
-msgstr "asin: nincs értelmezve"
+msgstr "sln - nincs értelmezve"
 
 #: src/functions/fn-financial.c:1208
 msgid ""
@@ -7561,12 +7606,10 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:1254
-#, fuzzy
 msgid "syd - domain error"
-msgstr "acos: nincs értelmezve"
+msgstr "syd - nincs értelmezve"
 
 #: src/functions/fn-financial.c:1264
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -7578,14 +7621,8 @@ msgid ""
 "\n"
 "@SEEALSO=DOLLARFR"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-financial.c:1306
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -7597,14 +7634,8 @@ msgid ""
 "\n"
 "@SEEALSO=DOLLARDE"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-financial.c:1348
-#, fuzzy
 msgid ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
@@ -7614,11 +7645,6 @@ msgid ""
 "\n"
 "@SEEALSO=NPV"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-financial.c:1408
 msgid ""
@@ -7667,7 +7693,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:1535
-#, fuzzy
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -7676,10 +7701,6 @@ msgid ""
 "\n"
 "@SEEALSO=PV,FV"
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (óra, perc, másodperc)\n"
-"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
-"@SEEALSO=HOUR"
 
 #: src/functions/fn-financial.c:1645
 msgid ""
@@ -7716,9 +7737,8 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:1802
-#, fuzzy
 msgid "pv - domain error"
-msgstr "acos: nincs értelmezve"
+msgstr "pv - nincs értelmezve"
 
 #: src/functions/fn-financial.c:1818
 msgid ""
@@ -7788,7 +7808,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:2074
-#, fuzzy
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -7798,10 +7817,6 @@ msgid ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (óra, perc, másodperc)\n"
-"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
-"@SEEALSO=HOUR"
 
 #: src/functions/fn-financial.c:2103
 msgid ""
@@ -7868,7 +7883,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:2285
-#, fuzzy
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -7882,11 +7896,6 @@ msgid ""
 "FVSCHEDULE(3000,A1:A5) equals 4942.7911611.\n"
 "@SEEALSO=PV,FV"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-financial.c:2329
 msgid ""
@@ -7998,7 +8007,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:2561
-#, fuzzy
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate,basis)"
@@ -8008,13 +8016,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (óra, perc, másodperc)\n"
-"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
-"@SEEALSO=HOUR"
 
 #: src/functions/fn-financial.c:2580
-#, fuzzy
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate,basis)\n"
@@ -8023,13 +8026,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (óra, perc, másodperc)\n"
-"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
-"@SEEALSO=HOUR"
 
 #: src/functions/fn-financial.c:2599
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -8039,16 +8037,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@EXAMPLE=\n"
-"\n"
-"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-financial.c:2649
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])\n"
@@ -8058,16 +8048,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@EXAMPLE=\n"
-"\n"
-"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-financial.c:2699
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])\n"
@@ -8077,16 +8059,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@EXAMPLE=\n"
-"\n"
-"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-financial.c:2719
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
@@ -8095,13 +8069,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (óra, perc, másodperc)\n"
-"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
-"@SEEALSO=HOUR"
 
 #: src/functions/fn-financial.c:2768
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
@@ -8110,10 +8079,6 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (óra, perc, másodperc)\n"
-"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
-"@SEEALSO=HOUR"
 
 #: src/functions/fn-financial.c:2787
 msgid ""
@@ -8127,7 +8092,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:2833
-#, fuzzy
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -8137,16 +8101,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
 
 #: src/functions/fn-financial.c:2853
-#, fuzzy
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -8156,13 +8112,8 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (óra, perc, másodperc)\n"
-"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
-"@SEEALSO=HOUR"
 
 #: src/functions/fn-financial.c:2873
-#, fuzzy
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -8172,10 +8123,6 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (óra, perc, másodperc)\n"
-"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
-"@SEEALSO=HOUR"
 
 #: src/functions/fn-financial.c:2892
 msgid ""
@@ -8193,7 +8140,6 @@ msgid "Financial"
 msgstr "Pénzügyi"
 
 #: src/functions/fn-information.c:72
-#, fuzzy
 msgid ""
 "@FUNCTION=CELL\n"
 "@SYNTAX=CELL()\n"
@@ -8203,17 +8149,19 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (óra, perc, másodperc)\n"
-"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
-"@SEEALSO=HOUR"
+"@FUNCTION=CELL\n"
+"@SYNTAX=CELL()\n"
+"@DESCRIPTION=A CELL információt ad a cella formázásáról, "
+"helyérõl illetve tartalmáról \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-information.c:222 src/functions/fn-information.c:339
 msgid "Unknown info_type"
 msgstr ""
 
 #: src/functions/fn-information.c:228
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
@@ -8223,11 +8171,13 @@ msgid ""
 "\n"
 "@SEEALSO=COUNT"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
+"@FUNCTION=COUNTBLANK\n"
+"@SYNTAX=COUNTBLANK(tartomány)\n"
+"@DESCRIPTION=A COUNTBLANK megadja az üres cellák számát a @tartomány-ban. "
+"A függvény Excel kompatíbilis. \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=COUNT"
 
 #: src/functions/fn-information.c:267
 #, fuzzy
@@ -8948,6 +8898,16 @@ msgid ""
 "\n"
 "@SEEALSO=LCM"
 msgstr ""
+"@FUNCTION=GCD\n"
+"@SYNTAX=GCD(szám1,szám2,...)\n"
+"@DESCRIPTION=A GCD kiszámítja a megadott számok legnagyobb közös osztóját.\n"
+"Ha bármelyik argumentum kisebb nullánál, a GCD #NUM! hibát ad. A nem egész argumentumoknak"
+"a függvény az egészrészével számol .A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"GCD(470,770) egyenlõ 10.\n"
+"GCD(470,770,1495) egyenlõ 5.\n"
+"\n"
+"@SEEALSO=LCM"
 
 #: src/functions/fn-math.c:171
 msgid ""
@@ -8964,9 +8924,20 @@ msgid ""
 "\n"
 "@SEEALSO=GCD"
 msgstr ""
+"@FUNCTION=LCM\n"
+"@SYNTAX=LCM(szám1,szám2,...)\n"
+"@DESCRIPTION=Az LCM kiszámítja a megadott egészek legkisebb közös többszörösét. "
+"A legkisebb közös többszörös az a legkisebb pozitív egész szám, amely az összes"
+"megadott egész többszöröse. \n"
+"Ha bármelyik argumentum egynél kisebb, az LCM #NULL! hibát ad. "
+"A függvény Excel kompatíbilis. \n"
+"@EXAMPLES=\n"
+"LCM(2,13) egyenlõ 26.\n"
+"LCM(4,7,5) egyenlõ 140.\n"
+"\n"
+"@SEEALSO=GCD"
 
 #: src/functions/fn-math.c:226
-#, fuzzy
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -8979,14 +8950,18 @@ msgid ""
 "\n"
 "@SEEALSO=CEIL, FLOOR"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
+"@FUNCTION=ABS\n"
+"@SYNTAX=ABS(b1)\n"
+"@DESCRIPTION=Az ABS kiszámítja az argumentumként megadott egész vagy "
+"lebegõpontos szám abszolút értékét, azaz eltünteti a negatív elõjelet (ha volt)."
+"A függvény Excel kompatíbilis. \n"
+"@EXAMPLES=\n"
+"ABS(7) egyenlõ 7.\n"
+"ABS(-3.14) egyenlõ 3.14.\n"
+"\n"
+"@SEEALSO=CEIL, FLOOR"
 
 #: src/functions/fn-math.c:251
-#, fuzzy
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -9000,15 +8975,18 @@ msgid ""
 "\n"
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=TAN\n"
-"@SYNTAX=TAN(szám)\n"
-"@DESCRIPTION=A radiánban megadott szög tangensét adja eredményül.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
+"@FUNCTION=ACOS\n"
+"@SYNTAX=ACOS(x)\n"
+"@DESCRIPTION=Az ACOS függvény kiszámítja @x arcus cosinusát, amely az az érték,"
+"amelynek a cosinusa @x. Ha @x nem esik bele a -1 és 1 közötti intevallumba, akkor az"
+"ACOS #NUM! hibát ad vissza. A visszaadott érték radiánban van. A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"ACOS(0.1) egyenlõ 1.470629.\n"
+"ACOS(-0.1) egyenlõ 1.670964.\n"
+"\n"
+"@SEEALSO=COS, SIN, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:283
-#, fuzzy
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -9021,15 +8999,18 @@ msgid ""
 "\n"
 "@SEEALSO=ACOS, ASINH, DEGREES, RADIANS "
 msgstr ""
-"@FUNCTION=SINH\n"
-"@SYNTAX=SINH(szám)\n"
-"@DESCRIPTION=A megadott szám szinusz hiperbolikusát adja eredményül.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
+"@FUNCTION=ACOSH\n"
+"@SYNTAX=ACOSH(x)\n"
+"@DESCRIPTION=Az ACOSH függvény kiszámítja az @x area cosinus hiperbolicusát, azaz"
+"azt az értéket, amelynek a cosinus hiperbolicusa @x. Ha @x < 1.0, az ACOSH #NUM! "
+"hibát ad. A függvény Excel kompatíbilis. \n"
+"@EXAMPLES=\n"
+"ACOSH(2) egyenlõ 1.31696.\n"
+"ACOSH(5.3) egyenlõ 2.35183.\n"
+"\n"
+"@SEEALSO=ACOS, ASINH, DEGREES, RADIANS "
 
 #: src/functions/fn-math.c:314
-#, fuzzy
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -9042,15 +9023,18 @@ msgid ""
 "\n"
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=TAN\n"
-"@SYNTAX=TAN(szám)\n"
-"@DESCRIPTION=A radiánban megadott szög tangensét adja eredményül.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
+"@FUNCTION=ASIN\n"
+"@SYNTAX=ASIN(x)\n"
+"@DESCRIPTION=Az ASIN függvény kiszámítja @x arcus sinusát, amely az az érték,"
+"amelynek a sinusa @x. Ha @x nem esik bele a -1 és 1 közötti intevallumba, akkor az"
+"ASIN #NUM! hibát ad vissza. A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"ASIN(0.5) egyenlõ 0.523599.\n"
+"ASIN(1) egyenlõ 1.570797.\n"
+"\n"
+"@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:345
-#, fuzzy
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -9063,15 +9047,18 @@ msgid ""
 "\n"
 "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=TANH\n"
-"@SYNTAX=TANH(szám)\n"
-"@DESCRIPTION=A megadott szám tangens hiperbolikusát adja eredményül.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
+"@FUNCTION=ASINH\n"
+"@SYNTAX=ASINH(x)\n"
+"@DESCRIPTION=Az ASINH függvény kiszámítja az @x area sinus hiperbolicusát, azaz"
+"azt az értéket, amelynek a sinus hiperbolicusa @x. "
+"A függvény Excel kompatíbilis. \n"
+"@EXAMPLES=\n"
+"ASINH(0.5) egyenlõ 0.481212.\n"
+"ASINH(1.0) egyenlõ 0.881374.\n"
+"\n"
+"@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:369
-#, fuzzy
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -9084,15 +9071,18 @@ msgid ""
 "\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=TAN\n"
-"@SYNTAX=TAN(szám)\n"
-"@DESCRIPTION=A radiánban megadott szög tangensét adja eredményül.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
+"@FUNCTION=ATAN\n"
+"@SYNTAX=ATAN(x)\n"
+"@DESCRIPTION=Az ATAN függvény kiszámítja az @x arcus tangensét, azaz"
+"azt az értéket, amelynek a tangense @x. A visszatérési érték radiánban van. "
+"A függvény Excel kompatíbilis. \n"
+"@EXAMPLES=\n"
+"ATAN(0.5) egyenlõ 0,463648.\n"
+"ATAN(1) egyenlõ 0,785398.\n"
+"\n"
+"@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:394
-#, fuzzy
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -9106,15 +9096,18 @@ msgid ""
 "\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=TANH\n"
-"@SYNTAX=TANH(szám)\n"
-"@DESCRIPTION=A megadott szám tangens hiperbolikusát adja eredményül.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
+"@FUNCTION=ATANH\n"
+"@SYNTAX=ATANH(x)\n"
+"@DESCRIPTION=Az ATANH függvény kiszámítja az @x area tangens hiperbolicusát, azaz"
+"azt az értéket, amelynek a tangens hiperbolicusa @x. Ha @x abszolút értéke nagyobb, mint 1.0, "
+"az ATANH #NUM! hibát ad. A függvény Excel kompatíbilis. \n"
+"@EXAMPLES=\n"
+"ATANH(0.5) egyenlõ 0.549306.\n"
+" ATANH(0.8) egyenlõ 1.098612.\n"
+"\n"
+"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:426
-#, fuzzy
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -9129,12 +9122,6 @@ msgid ""
 "\n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=TAN\n"
-"@SYNTAX=TAN(szám)\n"
-"@DESCRIPTION=A radiánban megadott szög tangensét adja eredményül.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:454
 #, fuzzy
@@ -9224,7 +9211,6 @@ msgstr ""
 "@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-math.c:750
-#, fuzzy
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -9236,15 +9222,17 @@ msgid ""
 "\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
-"@FUNCTION=SIN\n"
-"@SYNTAX=SIN(szám)\n"
-"@DESCRIPTION=A radiánban megadott szög szinuszát adja eredményül.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
+"@FUNCTION=COS\n"
+"@SYNTAX=COS(x)\n"
+"@DESCRIPTION=A COS függvény kiszámítja a radiánban megadott @x cosinusát."
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"COS(0.5) egyenlõ 0.877583.\n"
+"COS(1) egyenlõ 0.540302.\n"
+"\n"
+"@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
 #: src/functions/fn-math.c:774
-#, fuzzy
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -9257,15 +9245,18 @@ msgid ""
 "\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 msgstr ""
-"@FUNCTION=SINH\n"
-"@SYNTAX=SINH(szám)\n"
-"@DESCRIPTION=A megadott szám szinusz hiperbolikusát adja eredményül.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
+"@FUNCTION=COSH\n"
+"@SYNTAX=COSH(x)\n"
+"@DESCRIPTION=A COSH kiszámítja a radiánban megadott @x cosinus hiperbolicusát, "
+"amelynek definíciója (exp(@x) + exp(-@x)) / 2. "
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"COSH(0.5) egyenlõ 1.127626.\n"
+"COSH(1) egyenlõ 1.543081.\n"
+"\n"
+"@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
 #: src/functions/fn-math.c:799
-#, fuzzy
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -9276,15 +9267,16 @@ msgid ""
 "\n"
 "@SEEALSO=RADIANS, PI"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
+"@FUNCTION=DEGREES\n"
+"@SYNTAX=DEGREES(x)\n"
+"@DESCRIPTION=A DEGREES átszámítja @x-et radiánból fokba. A függvény "
+"Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"DEGREES(2.5) egyenlõ 143.2394.\n"
+"\n"
+"@SEEALSO=RADIANS, PI"
 
 #: src/functions/fn-math.c:821
-#, fuzzy
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -9295,14 +9287,16 @@ msgid ""
 "\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 msgstr ""
-"@FUNCTION=LOG\n"
-"@SYNTAX=LOG(szám)\n"
-"@DESCRIPTION=Egy szám természetes alapú logaritmusát számítja ki.\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=EXP\n"
+"@SYNTAX=EXP(x)\n"
+"@DESCRIPTION=Az EXP kiszámítja e (a természetes logaritmus alapszáma) "
+"@x-edik hatványát. A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"EXP(2) egyenlõ 7.389056.\n"
+"\n"
+"@SEEALSO=LOG, LOG2, LOG10"
 
 #: src/functions/fn-math.c:844
-#, fuzzy
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -9314,14 +9308,17 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=LOG\n"
-"@SYNTAX=LOG(szám)\n"
-"@DESCRIPTION=Egy szám természetes alapú logaritmusát számítja ki.\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=FACT\n"
+"@SYNTAX=FACT(x)\n"
+"@DESCRIPTION=A FACT kiszámítja @x faktoriálist, azaz @x!-t. "
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"FACT(3) egyenlõ 6.\n"
+"FACT(9) egyenlõ 362880.\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-math.c:885
-#, fuzzy
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -9335,11 +9332,16 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=LOG\n"
-"@SYNTAX=LOG(szám)\n"
-"@DESCRIPTION=Egy szám természetes alapú logaritmusát számítja ki.\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=COMBIN\n"
+"@SYNTAX=COMBIN(n,k)\n"
+"@DESCRIPTION=A COMBIN megadja a kombinációk számát. \n"
+"Nme egész vagy negatív számokra a függvény hibát ad. Ha @n kisebb,"
+"mint @k, akkor is hibát ad. A függvény Excel kompatíbilis. \n"
+"@EXAMPLES=\n"
+"COMBIN(8,6) egyenlõ 28.\n"
+"COMBIN(6,2) egyenlõ 15.\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-math.c:919
 #, fuzzy
@@ -9365,7 +9367,6 @@ msgstr ""
 "@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-math.c:956
-#, fuzzy
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
@@ -9378,15 +9379,8 @@ msgid ""
 "\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-math.c:982
-#, fuzzy
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -9400,13 +9394,16 @@ msgid ""
 "@SEEALSO=LN, LOG2, LOG10"
 msgstr ""
 "@FUNCTION=LOG\n"
-"@SYNTAX=LOG(szám)\n"
-"@DESCRIPTION=Egy szám természetes alapú logaritmusát számítja ki.\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@SYNTAX=LOG(x[,alap])\n"
+"@DESCRIPTION=A LOG kiszámítja @x @alap alapú logaritmusát. Ha nincs megadva"
+"@alap, a LOG tízes alapú logaritmust számol. A függvény Excel kompatíbilis. \n"
+"@EXAMPLES=\n"
+"LOG(2) egyenlõ 0.30103.\n"
+"LOG(8192,2) egyenlõ 13.\n"
+"\n"
+"@SEEALSO=LN, LOG2, LOG10"
 
 #: src/functions/fn-math.c:1021
-#, fuzzy
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -9417,10 +9414,13 @@ msgid ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr ""
-"@FUNCTION=LOG\n"
-"@SYNTAX=LOG(szám)\n"
-"@DESCRIPTION=Egy szám természetes alapú logaritmusát számítja ki.\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
+"@FUNCTION=LN\n"
+"@SYNTAX=LN(x)\n"
+"@DESCRIPTION=Az LN megadja az @x természetes alapú logaritmusát. Ha @x <= 0, az LN "
+"#NUM! hibát ad. A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"LN(7) egyenlõ 1.94591.\n"
+"\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
 #: src/functions/fn-math.c:1051
@@ -9443,7 +9443,6 @@ msgstr ""
 "@SEEALSO=EXP, LOG2, LOG10"
 
 #: src/functions/fn-math.c:1085
-#, fuzzy
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -9454,13 +9453,16 @@ msgid ""
 "\n"
 "@SEEALSO=EXP, LOG10, LOG"
 msgstr ""
-"@FUNCTION=LOG2@SYNTAX=LOG2(szám)\n"
-"@DESCRIPTION=Egy szám 2-es alapú logaritmusát számítja ki.\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
+"@FUNCTION=LOG2\n"
+"@SYNTAX=LOG2(x)\n"
+"@DESCRIPTION=A LOG2 megadja az @x kettes alapú logaritmusát. Ha @x <= 0, a LOG2 "
+"#NUM! hibát ad. \n"
+"@EXAMPLES=\n"
+"LOG2(1024) egyenlõ 10.\n"
+"\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
 #: src/functions/fn-math.c:1113
-#, fuzzy
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -9471,9 +9473,13 @@ msgid ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG"
 msgstr ""
-"@FUNCTION=LOG10@SYNTAX=LOG10(szám)\n"
-"@DESCRIPTION=Egy szám 10-es alapú logaritmusát számítja ki.\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
+"@FUNCTION=LOG10\n"
+"@SYNTAX=LOG10(x)\n"
+"@DESCRIPTION=A LOG10 megadja az @x tízes alapú logaritmusát. Ha @x <= 0, a LOG10 "
+"#NUM! hibát ad. A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"LOG10(7) egyenlõ 0.845098.\n"
+"\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
 #: src/functions/fn-math.c:1142
@@ -9491,7 +9497,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:1190
-#, fuzzy
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -9503,10 +9508,12 @@ msgid ""
 "@SEEALSO=PI,DEGREES"
 msgstr ""
 "@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
+"@SYNTAX=RADIANS(x)\n"
+"@DESCRIPTION=A megadott @x szöget radiánba számolja át.\n"
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"RADIANS(180) egyenlõ 3.14159.\n"
+"\n"
 "@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-math.c:1212
@@ -9610,7 +9617,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:1373
-#, fuzzy
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -9622,14 +9628,15 @@ msgid ""
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 "@FUNCTION=SIN\n"
-"@SYNTAX=SIN(szám)\n"
-"@DESCRIPTION=A radiánban megadott szög szinuszát adja eredményül.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
+"@SYNTAX=SIN(x)\n"
+"@DESCRIPTION=A SIN függvény kiszámítja a radiánban megadott @x sinusát."
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"SIN(0.5) egyenlõ 0.479426.\n"
+"\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
 #: src/functions/fn-math.c:1396
-#, fuzzy
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -9642,14 +9649,16 @@ msgid ""
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr ""
 "@FUNCTION=SINH\n"
-"@SYNTAX=SINH(szám)\n"
-"@DESCRIPTION=A megadott szám szinusz hiperbolikusát adja eredményül.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
+"@SYNTAX=SINH(x)\n"
+"@DESCRIPTION=A SINH függvény kiszámítja a radiánban megadott @x szám sinus hiperbolicusát, "
+"amelynek definíciója (exp(@x) - exp(-@x)) / 2. "
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"SINH(0.5) egyenlõ 0.521095.\n"
+"\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
 #: src/functions/fn-math.c:1419
-#, fuzzy
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -9661,16 +9670,17 @@ msgid ""
 "\n"
 "@SEEALSO=POWER"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
+"@FUNCTION=SQRT\n"
+"@SYNTAX=SQRT(x)\n"
+"@DESCRIPTION=Az SQRT függvény kiszámítja @x négyzetgyökét. "
+"A függvény Excel kompatíbilis.\n"
+"Ha @x negatív, az SQRT #NUM! hibát ad. \n"
+"@EXAMPLES=\n"
+"SQRT(2) egyenlõ 1.4142136.\n"
+"\n"
+"@SEEALSO=POWER"
 
 #: src/functions/fn-math.c:1447
-#, fuzzy
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -9683,11 +9693,6 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-math.c:1477
 msgid ""
@@ -9707,7 +9712,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:1509
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -9720,11 +9724,6 @@ msgid ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-math.c:1540
 msgid ""
@@ -9739,7 +9738,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:1600
-#, fuzzy
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -9751,14 +9749,8 @@ msgid ""
 "\n"
 "@SEEALSO=SUM, COUNT, G_PRODUCT"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-math.c:1638
-#, fuzzy
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -9770,14 +9762,8 @@ msgid ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-math.c:1666
-#, fuzzy
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -9789,14 +9775,15 @@ msgid ""
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
 "@FUNCTION=TAN\n"
-"@SYNTAX=TAN(szám)\n"
-"@DESCRIPTION=A radiánban megadott szög tangensét adja eredményül.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
+"@SYNTAX=TAN(x)\n"
+"@DESCRIPTION=A radiánban megadott @x szög tangensét adja eredményül.\n"
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"TAN(3) egyenlõ -0.1425465.\n"
+"\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:1689
-#, fuzzy
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -9809,14 +9796,15 @@ msgid ""
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
 "@FUNCTION=TANH\n"
-"@SYNTAX=TANH(szám)\n"
-"@DESCRIPTION=A megadott szám tangens hiperbolikusát adja eredményül.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
+"@SYNTAX=TANH(x)\n"
+"@DESCRIPTION=A megadott @x szám tangens hiperbolikusát adja eredményül, ami definíció szerint "
+"sinh(@x) / cosh(@x). A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"TANH(2) egyenlõ 0.96402758.\n"
+"\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:1712
-#, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -9830,14 +9818,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
+"@DESCRIPTION=A PI függvény a pi értékét adja meg.\n"
+"A függvénynek nincsenek argumentumai. A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"PI() egyenlõ 3.141593.\n"
+"\n"
+"@SEEALSO=SQRTPI"
 
 #: src/functions/fn-math.c:1736
-#, fuzzy
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -9850,16 +9838,8 @@ msgid ""
 "\n"
 "@SEEALSO=INT"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:1775
-#, fuzzy
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -9870,14 +9850,8 @@ msgid ""
 "\n"
 "@SEEALSO=ODD"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-math.c:1813
-#, fuzzy
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -9888,14 +9862,8 @@ msgid ""
 "\n"
 "@SEEALSO=EVEN"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-math.c:1851
-#, fuzzy
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -9908,14 +9876,8 @@ msgid ""
 "\n"
 "@SEEALSO=FACT"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-math.c:1889
-#, fuzzy
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
@@ -9927,16 +9889,8 @@ msgid ""
 "\n"
 "@SEEALSO=MOD"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:1920
-#, fuzzy
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -9950,14 +9904,19 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
+"@FUNCTION=SIGN\n"
+"@SYNTAX=SIGN(szám)\n"
+"@DESCRIPTION=A SIGN függvény 1-et ad vissza, ha @szám pozitív, "
+"0-t ha a @szám 0, és -1-et ha a @szám negatív. A függvény Excel "
+"kompatíbilis.\n"
+"@EXAMPLES=\n"
+"SIGN(3) egyenlõ 1.\n"
+"SIGN(-3) egyenlõ -1.\n"
+"SIGN(0) egyenlõ 0.\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-math.c:1954
-#, fuzzy
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -9968,13 +9927,6 @@ msgid ""
 "\n"
 "@SEEALSO=PI"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
 
 #: src/functions/fn-math.c:1983
 msgid ""
@@ -10205,7 +10157,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:2981
-#, fuzzy
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -10218,20 +10169,21 @@ msgid ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
+"@FUNCTION=MINVERSE\n"
+"@SYNTAX=MINVERSE(mátrix)\n"
+"@DESCRIPTION=A MINVERSE függvény kiszámítja a megadott @mátrix inverzét.\n"
+"Ha a @mátrix-ot nem lehet invertálni, a MINVERSE #NUM!! hibát ad. Ha a @mátrix"
+"sorainak és oszlopainak száma eltér, a MINVERSE #VALUE! hibát ad. A függvény "
+"Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=MMULT, MDETERM"
 
 #: src/functions/fn-math.c:3029
 msgid "#3D MULT?"
 msgstr ""
 
 #: src/functions/fn-math.c:3108
-#, fuzzy
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -10242,12 +10194,14 @@ msgid ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 msgstr ""
-"@FUNCTION=TAN\n"
-"@SYNTAX=TAN(szám)\n"
-"@DESCRIPTION=A radiánban megadott szög tangensét adja eredményül.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
+"@FUNCTION=MMULT\n"
+"@SYNTAX=MMULT(tömb1,tömb2)\n"
+"@DESCRIPTION=Az MMULT függvény kiszámítja két tömb mátrixszorzatát."
+"Az eredmény egy olyan tömb, amely ugyanannyi sorból áll, mint a @tömb1 elemszáma, "
+"és ugyanannyi oszlopból, mint a @tömb2 elemszáma. A függvény Excel kompatíbilis. \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=TRANSPOSE,MINVERSE"
 
 #: src/functions/fn-math.c:3184
 #, fuzzy
@@ -10273,7 +10227,6 @@ msgstr ""
 "@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-math.c:3242
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -10290,16 +10243,24 @@ msgid ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
+"@FUNCTION=SUMPRODUCT\n"
+"@SYNTAX=SUMPRODUCT(tömb1,tömb2,...)\n"
+"@DESCRIPTION=A SUMPRODUCT függvény összeszorozza a megadott tömbök"
+"összetartozó elemeit, és visszadja ezen szorzatok összegét. Ha egy tömbelem nem"
+"szám, az nulla értékkel lesz figyelembe véve. \n"
+"A a megadott tömbök nem egyforma nagyok, a SUMPRODUCT #VALUE! hibát ad. "
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"Tegyük fel, hogy az A1, A2, ..., A5 cellák a 11, 15, 17, 21 "
+"és 43 számokat, és a B1, B2, ..., B5 cellák a 13, 22, 31, 33 és 39 számokat tartalmazzák. "
+"Ekkor\n"
+"SUMPRODUCT(A1:A5,B1:B5) egyenlõ 3370.\n"
+"\n"
+"@SEEALSO=SUM,PRODUCT"
 
 #: src/functions/fn-math.c:3356
 msgid "Maths / Trig."
-msgstr ""
+msgstr "Matematika / Trigonometria"
 
 #: src/functions/fn-sheet.c:18
 msgid ""
@@ -10317,7 +10278,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-sheet.c:103
-#, fuzzy
 msgid ""
 "@FUNCTION=GNUMERIC_VERSION\n"
 "@SYNTAX=GNUMERIC_VERSION()\n"
@@ -10326,13 +10286,14 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (óra, perc, másodperc)\n"
-"@DESCRIPTION=Adott idõpont idõértékét adja meg.\n"
-"@SEEALSO=HOUR"
+"@FUNCTION=GNUMERIC_VERSION\n"
+"@SYNTAX=GNUMERIC_VERSION()\n"
+"@DESCRIPTION=Megadja a Gnumeric verzióját karakterláncként.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-stat.c:121
-#, fuzzy
 msgid ""
 "@FUNCTION=VARP\n"
 "@SYNTAX=VARP(b1, b2, ...)\n"
@@ -10346,15 +10307,19 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
+"@FUNCTION=VARP\n"
+"@SYNTAX=VARP(b1, b2, ...)\n"
+"@DESCRIPTION=A VARP kiszámítja egy számokból álló halmaz tapasztalati "
+"szórásnégyzetét (varianciáját), feltéve, hogy a halmaz maga az egész sokaság.\n"
+"(A VARP N-variancia néven is ismert.)\n"
+"@EXAMPLES=\n"
+"Tegyük fel, hogy az A1; A2; ...; A5 cellák a 11,4; 17,3; "
+"21,3; 25,9 és 40,1 értékeket tartalmazzák. Ekkor\n"
+"VARP(A1:A5) egyenlõ 94,112.\n"
+"\n"
+"@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR"
 
 #: src/functions/fn-stat.c:153
-#, fuzzy
 msgid ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1, b2, ...)\n"
@@ -10370,15 +10335,20 @@ msgid ""
 "\n"
 "@SEEALSO=VARP,STDEV"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
+"@FUNCTION=VAR\n"
+"@SYNTAX=VAR(b1, b2, ...)\n"
+"@DESCRIPTION=A VAR becslést ad egy sokaság szórásnégyzetére a megadott minta"
+"alapján. Egy teljes sokaság valódi szórásnégyzetét a @VARP függvény adja meg. \n"
+"(A VAR N-1 variancia néven is ismert. Általában ez a valódi szórás maximum-likelihood-becslése. "
+"A függvény Excel kompatíbilis. \n"
+"@EXAMPLES=\n"
+"Tegyük fel, hogy az A1; A2; ...; A5 cellák a 11,4; 17,3; "
+"21,3; 25,9 és 40,1 értékeket tartalmazzák. Ekkor\n"
+"VAR(A1:A5) egyenlõ 117,64.\n"
+"\n"
+"@SEEALSO=VARP,STDEV"
 
 #: src/functions/fn-stat.c:187
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=STDEV(b1, b2, ...)\n"
@@ -10392,15 +10362,18 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
+"@FUNCTION=STDEV\n"
+"@SYNTAX=STDEV(b1, b2, ...)\n"
+"@DESCRIPTION=Az STDEV kiszámítja egy minta korrigált tapasztalati szórását. "
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"Tegyük fel, hogy az A1; A2; ...; A5 cellák a 11,4; 17,3; "
+"21,3; 25,9 és 40,1 értékeket tartalmazzák. Ekkor\n"
+"STDEV(A1:A5) egyenlõ 10,84619749.\n"
+"\n"
+"@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
 
 #: src/functions/fn-stat.c:217
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVP\n"
 "@SYNTAX=STDEVP(b1, b2, ...)\n"
@@ -10414,12 +10387,16 @@ msgid ""
 "\n"
 "@SEEALSO=STDEV,STDEVA,STDEVPA"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
+"@FUNCTION=STDEVP\n"
+"@SYNTAX=STDEVP(b1, b2, ...)\n"
+"@DESCRIPTION=Az STDEVP kiszámítja a megadott sokaság szórását. "
+"A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"Tegyük fel, hogy az A1; A2; ...; A5 cellák a 11,4; 17,3; "
+"21,3; 25,9 és 40,1 értékeket tartalmazzák. Ekkor\n"
+"STDEVP(A1:A5) egyenlõ 9.701133954.\n"
+"\n"
+"@SEEALSO=STDEV,STDEVA,STDEVPA"
 
 #: src/functions/fn-stat.c:247
 msgid ""
@@ -10451,7 +10428,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:395
-#, fuzzy
 msgid ""
 "@FUNCTION=COVAR\n"
 "@SYNTAX=COVAR(array1,array2)\n"
@@ -10466,15 +10442,20 @@ msgid ""
 "\n"
 "@SEEALSO=CORREL,FISHER,FISHERINV"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
+"@FUNCTION=COVAR\n"
+"@SYNTAX=COVAR(tömb1,tömb2)\n"
+"@DESCRIPTION=A COVAR kiszámítja két adatsor kovarianciáját.\n"
+"A karakterláncokat és az üres cellákat figyelmen kívül hagyja. A függvény"
+"Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"Tegyük fel, hogy az A1; A2; ...; A5 cellák a 11,4; 17,3; "
+"21,3; 25,9 és 40,1 értékeket tartalmazzák, és a B1; B2; ...; B5 cellák a 23,2; "
+"25,8; 29,9; 33,5 és 42,7 értékeket tartalmazzák. Ekkor\n"
+"COVAR(A1:A5,B1:B5) egyenlõ 65.858.\n"
+"\n"
+"@SEEALSO=CORREL,FISHER,FISHERINV"
 
 #: src/functions/fn-stat.c:427
-#, fuzzy
 msgid ""
 "@FUNCTION=CORREL\n"
 "@SYNTAX=CORREL(array1,array2)\n"
@@ -10489,15 +10470,19 @@ msgid ""
 "\n"
 "@SEEALSO=COVAR,FISHER,FISHERINV"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
+"@FUNCTION=CORREL\n"
+"@SYNTAX=CORREL(tömb1,tömb2)\n"
+"@DESCRIPTION=A CORREL kiszámítja két adatsor korrelációs együtthatóját. "
+"A függvény Excel kompatíbilis. \n"
+"@EXAMPLES=\n"
+"Tegyük fel, hogy az A1; A2; ...; A5 cellák a 11,4; 17,3; "
+"21,3; 25,9 és 40,1 értékeket tartalmazzák, és a B1; B2; ...; B5 cellák a 23,2; "
+"25,8; 29,9; 33,5 és 42,7 értékeket tartalmazzák. Ekkor\n"
+"CORREL(A1:A5,B1:B5) egyenlõ 0.996124788.\n"
+"\n"
+"@SEEALSO=COVAR,FISHER,FISHERINV"
 
 #: src/functions/fn-stat.c:459
-#, fuzzy
 msgid ""
 "@FUNCTION=NEGBINOMDIST\n"
 "@SYNTAX=NEGBINOMDIST(f,t,p)\n"
@@ -10512,15 +10497,8 @@ msgid ""
 "\n"
 "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:498
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMSDIST(x)\n"
@@ -10532,15 +10510,16 @@ msgid ""
 "\n"
 "@SEEALSO=NORMDIST"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
+"@FUNCTION=NORMSDIST\n"
+"@SYNTAX=NORMSDIST(x)\n"
+"@DESCRIPTION=A NORMSDIST megadja a standard normális eloszlás eloszlásfüggvényének "
+"értékét az @x helyen. A függvény Excel kompatíbilis. \n"
+"@EXAMPLES=\n"
+"NORMSDIST(2) egyenlõ 0.977249868.\n"
+"\n"
+"@SEEALSO=NORMDIST"
 
 #: src/functions/fn-stat.c:525
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMSINV\n"
 "@SYNTAX=NORMSINV(p)\n"
@@ -10553,12 +10532,6 @@ msgid ""
 "\n"
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:558
 msgid ""
@@ -10593,7 +10566,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:636
-#, fuzzy
 msgid ""
 "@FUNCTION=FISHERINV\n"
 "@SYNTAX=FISHERINV(x)\n"
@@ -10606,13 +10578,6 @@ msgid ""
 "\n"
 "@SEEALSO=FISHER"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
 
 #: src/functions/fn-stat.c:664
 msgid ""
@@ -10627,9 +10592,17 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,MEDIAN"
 msgstr ""
+"@FUNCTION=MODE\n"
+"@SYNTAX=MODE(n1, n2, ...)\n"
+"@DESCRIPTION=A MODE megadja egy adatsor leggyakoribb elemét (móduszát). Ha több szám "
+"is ugyanakkora gyakorisággal fordul elõ, akkor az elsõ ilyet adja meg. Ha az adatsorban "
+"minden adat különbözõ, akkor a MODE #N/A! hibát ad. A függvény Excel kompatíbilis. \n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=AVERAGE,MEDIAN"
 
 #: src/functions/fn-stat.c:755
-#, fuzzy
 msgid ""
 "@FUNCTION=HARMEAN\n"
 "@SYNTAX=HARMEAN(b1, b2, ...)\n"
@@ -10643,15 +10616,19 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
+"@FUNCTION=HARMEAN\n"
+"@SYNTAX=HARMEAN(b1, b2, ...)\n"
+"@DESCRIPTION=A HARMEAN kiszámítja a megadott N db szám harmonikus közepét. "
+"N db szám harmonikus közepén reciprok értékük számtani közepének reciprok értékét értjük. "
+"A függvény Excel kompatíbilis. \n"
+"@EXAMPLES=\n"
+"Tegyük fel, hogy az A1; A2; ...; A5 cellák a 11,4; 17,3; "
+"21,3; 25,9 és 40,1 értékeket tartalmazzák. Ekkor\n"
+"HARMEAN(A1:A5) egyenlõ 19.529814427.\n"
+"\n"
+"@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"
 
 #: src/functions/fn-stat.c:787
-#, fuzzy
 msgid ""
 "@FUNCTION=GEOMEAN\n"
 "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
@@ -10665,15 +10642,18 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
+"@FUNCTION=GEOMEAN\n"
+"@SYNTAX=GEOMEAN(b1, b2, ...)\n"
+"@DESCRIPTION=A GEOMEAN kiszámítja a megadott N dn szám mérteni közepét, ami nem más, mint "
+"a számok szorzatának N-edik gyöke. A függvény Excel kompatíbilis. \n"
+"@EXAMPLES=\n"
+"Tegyük fel, hogy az A1; A2; ...; A5 cellák a 11,4; 17,3; "
+"21,3; 25,9 és 40,1 értékeket tartalmazzák. Ekkor\n"
+"GEOMEAN(A1:A5) egyenlõ 21.279182482.\n"
+"\n"
+"@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MODE,TRIMMEAN"
 
 #: src/functions/fn-stat.c:818
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -10686,15 +10666,8 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:860
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNTA\n"
 "@SYNTAX=COUNTA(b1, b2, ...)\n"
@@ -10707,14 +10680,8 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-stat.c:903
-#, fuzzy
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -10729,14 +10696,19 @@ msgid ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
+"@FUNCTION=AVERAGE\n"
+"@SYNTAX=AVERAGE(érték1, érték2,...)\n"
+"@DESCRIPTION=Az AVERAGE kiszámítja az argumentumlistában megadott "
+"értéket illetve cellatartalmak számtani közepét, ami nem más, mint az argumentumok összege "
+"osztva az argumentumok számával. A függvény Excel kompatíbilis. \n"
+"@EXAMPLES=\n"
+"Tegyük fel, hogy az A1; A2; ...; A5 cellák a 11,4; 17,3; "
+"21,3; 25,9 és 40,1 értékeket tartalmazzák. Ekkor\n"
+"AVERAGE(A1:A5) egyenlõ 23.2.\n"
+"\n"
+"@SEEALSO=SUM, COUNT"
 
 #: src/functions/fn-stat.c:935
-#, fuzzy
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -10750,15 +10722,8 @@ msgid ""
 "\n"
 "@SEEALSO=MAX,ABS"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:977
-#, fuzzy
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -10772,15 +10737,8 @@ msgid ""
 "\n"
 "@SEEALSO=MIN,ABS"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:1019
-#, fuzzy
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -10799,15 +10757,8 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:1057
-#, fuzzy
 msgid ""
 "@FUNCTION=SKEWP\n"
 "@SYNTAX=SKEWP(n1, n2, ...)\n"
@@ -10821,12 +10772,6 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:1090
 msgid ""
@@ -10844,7 +10789,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:1133
-#, fuzzy
 msgid ""
 "@FUNCTION=GAMMALN\n"
 "@SYNTAX=GAMMALN(x)\n"
@@ -10857,14 +10801,8 @@ msgid ""
 "\n"
 "@SEEALSO=POISSON"
 msgstr ""
-"@FUNCTION=LOG\n"
-"@SYNTAX=LOG(szám)\n"
-"@DESCRIPTION=Egy szám természetes alapú logaritmusát számítja ki.\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
 
 #: src/functions/fn-stat.c:1170
-#, fuzzy
 msgid ""
 "@FUNCTION=GAMMADIST\n"
 "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
@@ -10878,12 +10816,6 @@ msgid ""
 "\n"
 "@SEEALSO=GAMMAINV"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:1211
 msgid ""
@@ -10900,7 +10832,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:1247
-#, fuzzy
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
@@ -10913,11 +10844,6 @@ msgid ""
 "\n"
 "@SEEALSO=CHIINV,CHITEST"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-stat.c:1283
 msgid ""
@@ -10981,7 +10907,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:1555
-#, fuzzy
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -10995,12 +10920,6 @@ msgid ""
 "\n"
 "@SEEALSO=TINV,TTEST"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:1595
 msgid ""
@@ -11017,7 +10936,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:1629
-#, fuzzy
 msgid ""
 "@FUNCTION=FDIST\n"
 "@SYNTAX=FDIST(x,dof1,dof2)\n"
@@ -11031,16 +10949,8 @@ msgid ""
 "\n"
 "@SEEALSO=FINV"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
 
 #: src/functions/fn-stat.c:1666
-#, fuzzy
 msgid ""
 "@FUNCTION=FINV\n"
 "@SYNTAX=FINV(p,dof1,dof2)\n"
@@ -11053,16 +10963,8 @@ msgid ""
 "\n"
 "@SEEALSO=FDIST"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
 
 #: src/functions/fn-stat.c:1702
-#, fuzzy
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -11079,15 +10981,8 @@ msgid ""
 "\n"
 "@SEEALSO=POISSON"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:1748
-#, fuzzy
 msgid ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
@@ -11104,15 +10999,8 @@ msgid ""
 "\n"
 "@SEEALSO=BINOMDIST"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:1788
-#, fuzzy
 msgid ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
@@ -11125,16 +11013,8 @@ msgid ""
 "\n"
 "@SEEALSO=COMBIN"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
 
 #: src/functions/fn-stat.c:1823
-#, fuzzy
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
@@ -11149,15 +11029,8 @@ msgid ""
 "\n"
 "@SEEALSO=BINOMDIST,POISSON"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:1863
-#, fuzzy
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -11172,15 +11045,8 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:1904
-#, fuzzy
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
@@ -11194,12 +11060,6 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:1942
 msgid ""
@@ -11218,7 +11078,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:1988
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
@@ -11232,12 +11091,6 @@ msgid ""
 "\n"
 "@SEEALSO=POISSON"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:2033
 msgid ""
@@ -11256,7 +11109,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:2071
-#, fuzzy
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -11275,15 +11127,8 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:2111
-#, fuzzy
 msgid ""
 "@FUNCTION=KURTP\n"
 "@SYNTAX=KURTP(n1, n2, ...)\n"
@@ -11298,15 +11143,8 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:2145
-#, fuzzy
 msgid ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
@@ -11319,15 +11157,8 @@ msgid ""
 "\n"
 "@SEEALSO=STDEV"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:2176
-#, fuzzy
 msgid ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
@@ -11342,15 +11173,8 @@ msgid ""
 "\n"
 "@SEEALSO=STDEV"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:2209
-#, fuzzy
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
@@ -11362,16 +11186,8 @@ msgid ""
 "\n"
 "@SEEALSO=SKEW"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-"(3.14159265358979323846)\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-"függvénynek nem lehet argumentuma.\n"
-"@SEEALSO="
 
 #: src/functions/fn-stat.c:2244
-#, fuzzy
 msgid ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,mean,cumulative)\n"
@@ -11386,15 +11202,8 @@ msgid ""
 "\n"
 "@SEEALSO=NORMDIST, WEIBULL"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:2287
-#, fuzzy
 msgid ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(array1,array2)\n"
@@ -11406,14 +11215,8 @@ msgid ""
 "\n"
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 msgstr ""
-"@FUNCTION=LOG\n"
-"@SYNTAX=LOG(szám)\n"
-"@DESCRIPTION=Egy szám természetes alapú logaritmusát számítja ki.\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
 
 #: src/functions/fn-stat.c:2312
-#, fuzzy
 msgid ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
@@ -11425,14 +11228,8 @@ msgid ""
 "\n"
 "@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 msgstr ""
-"@FUNCTION=LOG\n"
-"@SYNTAX=LOG(szám)\n"
-"@DESCRIPTION=Egy szám természetes alapú logaritmusát számítja ki.\n"
-"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
 
 #: src/functions/fn-stat.c:2342
-#, fuzzy
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
@@ -11447,15 +11244,8 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:2393
-#, fuzzy
 msgid ""
 "@FUNCTION=LARGE\n"
 "@SYNTAX=LARGE(n1, n2, ..., k)\n"
@@ -11471,15 +11261,8 @@ msgid ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:2446
-#, fuzzy
 msgid ""
 "@FUNCTION=SMALL\n"
 "@SYNTAX=SMALL(n1, n2, ..., k)\n"
@@ -11495,12 +11278,6 @@ msgid ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:2523
 msgid ""
@@ -11519,7 +11296,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:2647
-#, fuzzy
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -11536,15 +11312,8 @@ msgid ""
 "\n"
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:2802
-#, fuzzy
 msgid ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(ref,x)\n"
@@ -11559,15 +11328,8 @@ msgid ""
 "\n"
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:2883
-#, fuzzy
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -11583,14 +11345,8 @@ msgid ""
 "\n"
 "@SEEALSO=AVERAGE"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-stat.c:2918
-#, fuzzy
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -11607,15 +11363,8 @@ msgid ""
 "\n"
 "@SEEALSO=MAX,MINA"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:2953
-#, fuzzy
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -11632,15 +11381,8 @@ msgid ""
 "\n"
 "@SEEALSO=MIN,MAXA"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:2988
-#, fuzzy
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -11656,14 +11398,8 @@ msgid ""
 "\n"
 "@SEEALSO=VAR,VARPA"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-stat.c:3023
-#, fuzzy
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -11680,14 +11416,8 @@ msgid ""
 "\n"
 "@SEEALSO=VARP,VARP"
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=A mai dátumot megadó számot adja eredményül. A szám az 1900. "
-"január 1.-tõl eltelt napokat jelzi.\n"
-"@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-stat.c:3058
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -11704,15 +11434,8 @@ msgid ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:3093
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -11729,12 +11452,6 @@ msgid ""
 "\n"
 "@SEEALSO=STDEVA,STDEVP"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:3128
 msgid ""
@@ -11755,7 +11472,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-stat.c:3243
-#, fuzzy
 msgid ""
 "@FUNCTION=PERCENTILE\n"
 "@SYNTAX=PERCENTILE(array,k)\n"
@@ -11771,12 +11487,6 @@ msgid ""
 "\n"
 "@SEEALSO=QUARTILE"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
 
 #: src/functions/fn-stat.c:3310
 msgid ""
@@ -11976,6 +11686,21 @@ msgid ""
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
+"@FUNCTION=FORECAST\n"
+"@SYNTAX=FORECAST(x,ismert y-ok,ismert x-ek)\n"
+"@DESCRIPTION=A FORECAST függvény becslést ad egy jövõbeli értékre"
+"egyszerû lineáris regresszió segítségével. A becsült jövõbeli érték egy y-érték,"
+"amely a megadott @x értékéhez tartozik. \n"
+"Ha a megadott x és y koordináták száma eltér, vagy az egyik csoport üres, a"
+"FORECAST #N/A! hibát ad. Ha az ismert x-ek varianciája nulla, az FORECAST"
+"#DIV/0 hibát ad. A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"Tegyük fel, hogy az A1; A2; ...; A5 cellák a 11,4; 17,3; "
+"21,3; 25,9 és 40,1 számokat, és a B1; B2; ... B5 cellák a 23,2; 25,8; 29,9; 33,5 "
+"és 42,7 számokat tartalmazzák.  Ekkor a\n"
+"FORECAST(7,A1:A5,B1:B5) egyenlõ -10.859397661.\n"
+"\n"
+"@SEEALSO=INTERCEPT,TREND"
 
 #: src/functions/fn-stat.c:4612
 msgid ""
@@ -11994,9 +11719,22 @@ msgid ""
 "\n"
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
+"@FUNCTION=INTERCEPT\n"
+"@SYNTAX=INTERCEPT(ismert y-ok,ismert x-ek)\n"
+"@DESCRIPTION=Az INTERCEPT függvény kiszámítja az pontot, ahol a"
+"regressziós egyenes metszi az y-tengelyt.\n"
+"Ha a megadott x és y koordináták száma eltér, vagy az egyik csoport üres, az"
+"INTERCEPT #N/A! hibát ad. Ha az ismert x-ek varianciája nulla, az INTERCEPT"
+"#DIV/0 hibát ad. A függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"Tegyük fel, hogy az A1; A2; ...; A5 cellák a 11,4; 17,3; "
+"21,3; 25,9 és 40,1 számokat, és a B1; B2; ... B5 cellák a 23,2; 25,8; 29,9; 33,5 "
+"és 42,7 számokat tartalmazzák.  Ekkor az\n"
+"INTERCEPT(A1:A5,B1:B5) egyenlõ -20.785117212.\n"
+"\n"
+"@SEEALSO=FORECAST,TREND"
 
 #: src/functions/fn-stat.c:4661
-#, fuzzy
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -12010,16 +11748,21 @@ msgid ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
+"@FUNCTION=SLOPE\n"
+"@SYNTAX=SLOPE(ismert y-ok,ismert x-ek)\n"
+"@DESCRIPTION=A SLOPE megadja a regressziós egyenes meredekségét. "
+"Eza függvény Excel kompatíbilis.\n"
+"@EXAMPLES=\n"
+"Tegyük fel, hogy az A1; A2; ...; A5 cellák a 11,4; 17,3; "
+"21,3; 25,9 és 40,1 számokat, és a B1; B2; ... B5 cellák a 23,2; 25,8; 29,9; 33,5 "
+"és 42,7 számokat tartalmazzák.  Ekkor a\n"
+"SLOPE(A1:A5,B1:B5) egyenlõ 1,417959936.\n"
+"\n"
+"@SEEALSO=STDEV,STDEVPA"
 
 #: src/functions/fn-stat.c:4708
 msgid "Statistics"
-msgstr ""
+msgstr "Statisztika"
 
 #: src/functions/fn-string.c:23
 #, fuzzy
@@ -12448,25 +12191,23 @@ msgstr "Nem tudom mmap-olni a fájlt"
 #. * 'Print Preview' item in the
 #. * 'File' menu
 #.
-#: src/history.c:145 src/history.c:158
-#, fuzzy
+#: src/history.c:143 src/history.c:156
 msgid "File/Print preview"
-msgstr "Nyomtatási kép"
+msgstr "Fájl/Nyomtatási kép"
 
-#: src/history.c:245
-#, fuzzy
+#: src/history.c:236
 msgid "File/"
-msgstr "Cím"
+msgstr "Fájl/"
 
 #: src/item-bar.c:481
-#, fuzzy, c-format
+#, c-format
 msgid "Height: %.2f pts (%d pixels)"
-msgstr "Magasság: %.2f (%d pixel)"
+msgstr "Magasság: %.2f pont (%d pixel)"
 
 #: src/item-bar.c:484
-#, fuzzy, c-format
+#, c-format
 msgid "Width: %.2f pts (%d pixels)"
-msgstr "Szélesség: %.2f (%d pixel)"
+msgstr "Szélesség: %.2f pont (%d pixel)"
 
 #: src/item-cursor.c:671
 msgid ""
@@ -12824,9 +12565,8 @@ msgid "S_heets"
 msgstr "Munkalapok"
 
 #: src/print.c:1197
-#, fuzzy
 msgid "Printing failed"
-msgstr "Hiányzó idézõjel"
+msgstr "A nyomtatás nem sikerült"
 
 #: src/selection.c:150
 #, fuzzy
@@ -12908,9 +12648,8 @@ msgstr ""
 
 #: src/solver-lp.c:906 src/solver-lp.c:932 src/solver-lp.c:967
 #: src/solver-lp.c:1064 src/solver-lp.c:1113
-#, fuzzy
 msgid "Name"
-msgstr "Névtelen"
+msgstr "Név"
 
 #: src/solver-lp.c:907 src/solver-lp.c:933
 #, fuzzy
@@ -12932,9 +12671,8 @@ msgid "Constraints"
 msgstr "_Képletet"
 
 #: src/solver-lp.c:968
-#, fuzzy
 msgid "Cell Value"
-msgstr "b Érték"
+msgstr "Cellaérték"
 
 #: src/solver-lp.c:969
 #, fuzzy
@@ -12970,18 +12708,16 @@ msgid "Gnumeric Solver Sensitivity Report"
 msgstr "Gnumeric Megoldó paraméterei"
 
 #: src/solver-lp.c:1058 src/solver-lp.c:1106
-#, fuzzy
 msgid "Final"
-msgstr "Pénzügyi"
+msgstr "Végsõ"
 
 #: src/solver-lp.c:1059
 msgid "Reduced"
 msgstr ""
 
 #: src/solver-lp.c:1060
-#, fuzzy
 msgid "Objective"
-msgstr "_Objektum..."
+msgstr "Célfüggvény"
 
 #: src/solver-lp.c:1061 src/solver-lp.c:1062 src/solver-lp.c:1109
 #: src/solver-lp.c:1110
@@ -12989,31 +12725,28 @@ msgid "Allowable"
 msgstr ""
 
 #: src/solver-lp.c:1066
-#, fuzzy
 msgid "Cost"
-msgstr "Darabszám"
+msgstr "Költség"
 
 #: src/solver-lp.c:1067
 msgid "Coefficient"
-msgstr ""
+msgstr "Együttható"
 
 #: src/solver-lp.c:1068 src/solver-lp.c:1117
 msgid "Increase"
-msgstr ""
+msgstr "Növelés"
 
 #: src/solver-lp.c:1069 src/solver-lp.c:1118
-#, fuzzy
 msgid "Decrease"
-msgstr "december"
+msgstr "Csökkentés"
 
 #: src/solver-lp.c:1107
 msgid "Shadow"
 msgstr ""
 
 #: src/solver-lp.c:1108
-#, fuzzy
 msgid "Constraint"
-msgstr "_Képletet"
+msgstr "Korlátozó feltétel"
 
 #: src/solver-lp.c:1115
 #, fuzzy
@@ -13126,9 +12859,8 @@ msgid "Makes the font italic"
 msgstr "Medönti a betûket"
 
 #: src/workbook-format-toolbar.c:354
-#, fuzzy
 msgid "Underline"
-msgstr "_Aláhúzás:"
+msgstr "Aláhúzás"
 
 #: src/workbook-format-toolbar.c:355
 #, fuzzy
@@ -13268,29 +13000,24 @@ msgid "Font selector"
 msgstr "Tört"
 
 #: src/workbook-format-toolbar.c:731
-#, fuzzy
 msgid "Font Size"
-msgstr "Betûtípus"
+msgstr "Betûméret"
 
 #: src/workbook-object-toolbar.c:130
-#, fuzzy
 msgid "Label"
-msgstr "_Cimkék"
+msgstr "Címke"
 
 #: src/workbook-object-toolbar.c:130
-#, fuzzy
 msgid "Creates a label"
-msgstr "Vonalrajzolás"
+msgstr "Címke létrehozása"
 
 #: src/workbook-object-toolbar.c:133
-#, fuzzy
 msgid "Frame"
-msgstr "Névtelen"
+msgstr "Keret"
 
 #: src/workbook-object-toolbar.c:133
-#, fuzzy
 msgid "Creates a frame"
-msgstr "Új munkalap"
+msgstr "Keret létrehozása"
 
 #: src/workbook-object-toolbar.c:136
 msgid "Creates a button"
@@ -13306,19 +13033,16 @@ msgid "Creates a checkbox"
 msgstr "Új munkalap"
 
 #: src/workbook-object-toolbar.c:142
-#, fuzzy
 msgid "RadioButton"
-msgstr "Gomb"
+msgstr "Rádióomb"
 
 #: src/workbook-object-toolbar.c:142
-#, fuzzy
 msgid "Creates a radio button"
-msgstr "Létrehoz egy gombot"
+msgstr "Rádiógomb létrehozása"
 
 #: src/workbook-object-toolbar.c:145
-#, fuzzy
 msgid "List"
-msgstr "Vonal"
+msgstr "Lista"
 
 #: src/workbook-object-toolbar.c:145
 #, fuzzy
@@ -13381,9 +13105,8 @@ msgid "Redo"
 msgstr "Véletlenszerû"
 
 #: src/workbook-view.c:174
-#, fuzzy
 msgid " : Gnumeric"
-msgstr "Gnumeric"
+msgstr " : Gnumeric"
 
 #: src/workbook.c:213 src/workbook.c:250
 #, fuzzy
@@ -13637,9 +13360,8 @@ msgid "_Object..."
 msgstr "_Objektum..."
 
 #: src/workbook.c:1425
-#, fuzzy
 msgid "Inserts a Bonobo object"
-msgstr "Bonobo objektumot szúr be"
+msgstr "Bonobo objektum beszúrása"
 
 #: src/workbook.c:1431
 #, fuzzy
@@ -13665,9 +13387,8 @@ msgid "_Auto fit selection"
 msgstr "Balra zárás"
 
 #: src/workbook.c:1447
-#, fuzzy
 msgid "_Width..."
-msgstr "_Szélesség"
+msgstr "_Szélesség..."
 
 #: src/workbook.c:1456
 msgid "_Standard Width"
@@ -13796,7 +13517,7 @@ msgstr "_Adatelemzés"
 
 #: src/workbook.c:1569
 msgid "Statistical methods."
-msgstr ""
+msgstr "Statisztikai módszerek."
 
 #: src/workbook.c:1577
 msgid "_Sort..."
@@ -13893,9 +13614,8 @@ msgid "Sum into the current cell."
 msgstr ""
 
 #: src/workbook.c:1657
-#, fuzzy
 msgid "Function"
-msgstr "_Tört"
+msgstr "Függvény"
 
 #: src/workbook.c:1657
 msgid "Edit a function in the current cell."
@@ -13995,719 +13715,489 @@ msgstr "Gnumeric XML fájlformátum"
 msgid "Is not an autoformat template file"
 msgstr ""
 
+#: src/gnumeric.xml:426
 #, fuzzy
-#~ msgid "*Control*b"
-#~ msgstr "Szöveg elhelyezése"
+msgid "*Control*b"
+msgstr "Szöveg elhelyezése"
 
+#: src/gnumeric.xml:430
 #, fuzzy
-#~ msgid "*Control*i"
-#~ msgstr "Szöveg elhelyezése"
+msgid "*Control*i"
+msgstr "Szöveg elhelyezése"
 
+#: src/gnumeric.xml:434
 #, fuzzy
-#~ msgid "*Control*u"
-#~ msgstr "Szöveg elhelyezése"
+msgid "*Control*u"
+msgstr "Szöveg elhelyezése"
 
-#, fuzzy
-#~ msgid "C_lear..."
-#~ msgstr "_Törlés"
-
-#, fuzzy
-#~ msgid "C_ut"
-#~ msgstr "Kivágás"
-
-#, fuzzy
-#~ msgid "Centers the text in each selection"
-#~ msgstr "Add meg a formátum karakterláncot mindegyik részhez:"
-
-#, fuzzy
-#~ msgid "Change height of the selected rows"
-#~ msgstr "Sormagasság beállítása"
-
-#, fuzzy
-#~ msgid "Change width of the selected columns"
-#~ msgstr "Oszlopszélesség beállítása"
-
-#, fuzzy
-#~ msgid "Clear the selection"
-#~ msgstr "Középsõ rész:"
-
-#, fuzzy
-#~ msgid "Combo Box"
-#~ msgstr "Szín"
-
-#, fuzzy
-#~ msgid "Copy the current selection to the clipboard"
-#~ msgstr "Kimásolja a kiválasztott részt a vágólapra"
-
-#, fuzzy
-#~ msgid "Copy the selection"
-#~ msgstr "Balra zárás"
-
-#, fuzzy
-#~ msgid "Create a button"
-#~ msgstr "Létrehoz egy gombot"
-
-#, fuzzy
-#~ msgid "Create a checkbox"
-#~ msgstr "Új munkalap"
-
-#, fuzzy
-#~ msgid "Create a combo box"
-#~ msgstr "Új munkalap"
-
-#, fuzzy
-#~ msgid "Create a frame"
-#~ msgstr "Új munkalap"
-
-#, fuzzy
-#~ msgid "Create a label"
-#~ msgstr "Vonalrajzolás"
-
-#, fuzzy
-#~ msgid "Create a line"
-#~ msgstr "Vonalrajzolás"
-
-#, fuzzy
-#~ msgid "Create a list"
-#~ msgstr "Vonalrajzolás"
-
-#, fuzzy
-#~ msgid "Create a new workbook"
-#~ msgstr "Nevek a munkafüzetben:"
-
-#, fuzzy
-#~ msgid "Create a radio button"
-#~ msgstr "Létrehoz egy gombot"
-
-#, fuzzy
-#~ msgid "Cut the selection"
-#~ msgstr "Balra zárás"
-
-#, fuzzy
-#~ msgid "Decrease Precision"
-#~ msgstr "december"
-
-#, fuzzy
-#~ msgid "Draw a rectangle"
-#~ msgstr "Téglalaprajzolás"
-
-#, fuzzy
-#~ msgid "E_xit"
-#~ msgstr "Szö_veg"
-
-#, fuzzy
-#~ msgid "Format the selected cells as money"
-#~ msgstr "A kiválasztott cellákat sorbarendezi"
+#: src/gnumeric.xml:419
+msgid "2"
+msgstr "2"
 
-#, fuzzy
-#~ msgid "Format the selected cells as percentages"
-#~ msgstr "Középre zárás"
-
-#, fuzzy
-#~ msgid "Function Guru"
-#~ msgstr "_Tört"
-
-#, fuzzy
-#~ msgid "Graph Guru"
-#~ msgstr "Képletet"
+#: src/gnumeric.xml:475
+msgid "3"
+msgstr "3"
 
-#, fuzzy
-#~ msgid "Hide _Column Headers"
-#~ msgstr "Oszlopok rejtése"
+#: src/gnumeric.xml:344
+msgid "About this application"
+msgstr "Az alkalmazás névjegye"
 
-#, fuzzy
-#~ msgid "Hide _Row Headers"
-#~ msgstr "Sorok rejtése"
+#: src/gnumeric.xml:83
+msgid "C_lear..."
+msgstr "_Törlés..."
 
-#, fuzzy
-#~ msgid "Hide the selected columns"
-#~ msgstr "A kiválasztott cellákat sorbarendezi"
+#: src/gnumeric.xml:65
+msgid "C_ut"
+msgstr "Ki_vágás"
 
+#: src/gnumeric.xml:443
 #, fuzzy
-#~ msgid "Hide the selected rows"
-#~ msgstr "A kiválasztott cellákat sorbarendezi"
+msgid "Centers the text in each selection"
+msgstr "Add meg a formátum karakterláncot mindegyik részhez:"
 
+#: src/gnumeric.xml:241
 #, fuzzy
-#~ msgid "Includes a thousands seperator in the selected cells"
-#~ msgstr "Beszúrja a jelenlegi dátumot a kiválasztott cellá(k)ba"
+msgid "Change height of the selected rows"
+msgstr "Sormagasság beállítása"
 
+#: src/gnumeric.xml:231
 #, fuzzy
-#~ msgid "Increase the preceision of the selected cells"
-#~ msgstr "Beszúrja a jelenlegi dátumot a kiválasztott cellá(k)ba"
+msgid "Change the default column width"
+msgstr "Oszlopszélesség beállítása"
 
-#, fuzzy
-#~ msgid "Insert Component"
-#~ msgstr "_Oszlopo(ka)t szúr be"
+#: src/gnumeric.xml:253
+msgid "Change the default row height"
+msgstr ""
 
+#: src/gnumeric.xml:263
 #, fuzzy
-#~ msgid "Insert Shaped Component"
-#~ msgstr "Bonobo objektumot szúr be"
+msgid "Change the order the sheets are displayed"
+msgstr "Sormagasság beállítása"
 
+#: src/gnumeric.xml:219
 #, fuzzy
-#~ msgid "Insert a shaped component into the spreadsheet"
-#~ msgstr "Új diagrammot hoz létre az aktuális munkalapon"
+msgid "Change width of the selected columns"
+msgstr "Oszlopszélesség beállítása"
 
-#, fuzzy
-#~ msgid "Insert an object into the spreadsheet"
-#~ msgstr "Új munkalap beszúrása"
+#: src/gnumeric.xml:104
+msgid "Clear the selection"
+msgstr ""
 
-#, fuzzy
-#~ msgid "Italicize"
-#~ msgstr "Dõlt"
+#: src/gnumeric.xml:45
+msgid "Close the current file"
+msgstr "Az aktuális fájl bezárása"
 
+#: src/gnumeric.xml:489
 #, fuzzy
-#~ msgid "Left justifies the contents of each cell"
-#~ msgstr "Középre zárás"
+msgid "Combo Box"
+msgstr "Szín"
 
+#: src/gnumeric.xml:378
 #, fuzzy
-#~ msgid "Make any hidden rows in the selection visible"
-#~ msgstr "Nem adhatsz többet hozzá, mint a kijelölt rész hossza."
+msgid "Copy the current selection to the clipboard"
+msgstr "Kimásolja a kiválasztott részt a vágólapra"
 
+#: src/gnumeric.xml:69
 #, fuzzy
-#~ msgid "Make font bold"
-#~ msgstr "Medönti a betûket"
+msgid "Copy the selection"
+msgstr "Balra zárás"
 
-#, fuzzy
-#~ msgid "Makes font italic"
-#~ msgstr "Medönti a betûket"
+#: src/gnumeric.xml:481
+msgid "Create a button"
+msgstr "Gomb létrehozása"
 
+#: src/gnumeric.xml:483
 #, fuzzy
-#~ msgid "Mark the current selection for movement"
-#~ msgstr "Kivágja a kiválasztott részt a vágólapra"
+msgid "Create a checkbox"
+msgstr "Új munkalap"
 
+#: src/gnumeric.xml:489
 #, fuzzy
-#~ msgid "Money"
-#~ msgstr "Hétfõ"
+msgid "Create a combo box"
+msgstr "Új munkalap"
 
-#, fuzzy
-#~ msgid "Open a file"
-#~ msgstr "Fájlt importál be"
+#: src/gnumeric.xml:494
+msgid "Create a frame"
+msgstr "Keret létrehozása"
 
-#, fuzzy
-#~ msgid "Open an existing workbook"
-#~ msgstr "Egy létezõ munkafüzet megnyitása"
+#: src/gnumeric.xml:477
+msgid "Create a label"
+msgstr "Címke létrehozása"
 
-#, fuzzy
-#~ msgid "Paste the clipboard"
-#~ msgstr "Beilleszti a vágólap tartalmát"
+#: src/gnumeric.xml:492
+msgid "Create a line"
+msgstr "Vonal rajzolása"
 
+#: src/gnumeric.xml:487
 #, fuzzy
-#~ msgid "Print Pre_view"
-#~ msgstr "Nyomtatási _kép"
+msgid "Create a list"
+msgstr "Vonalrajzolás"
 
+#: src/gnumeric.xml:354
 #, fuzzy
-#~ msgid "Print Preview"
-#~ msgstr "Nyomtatási kép"
+msgid "Create a new workbook"
+msgstr "Nevek a munkafüzetben:"
 
-#, fuzzy
-#~ msgid "Print S_etup..."
-#~ msgstr "Nyomtatás beállítása"
+#: src/gnumeric.xml:485
+msgid "Create a radio button"
+msgstr "Rádiógomb létrehozása"
 
+#: src/gnumeric.xml:65
 #, fuzzy
-#~ msgid "Print the workbook"
-#~ msgstr "Munkafüzet nyomtatása"
+msgid "Cut the selection"
+msgstr "Balra zárás"
 
-#, fuzzy
-#~ msgid "Radio Button"
-#~ msgstr "Gomb"
+#: src/gnumeric.xml:464
+msgid "Decrease Precision"
+msgstr "Pontosság csökkentése"
 
-#, fuzzy
-#~ msgid "Redo the undone action"
-#~ msgstr "Véletlenszám-generálás"
+#: src/gnumeric.xml:267
+msgid "Display the value of a formula or the formula itself"
+msgstr ""
 
-#, fuzzy
-#~ msgid "Right justifies the contents of each cell"
-#~ msgstr "Középre zárás"
+#: src/gnumeric.xml:496
+msgid "Draw a rectangle"
+msgstr "Téglalap rajzolása"
 
-#, fuzzy
-#~ msgid "Save _As..."
-#~ msgstr "_Cellák..."
+#: src/gnumeric.xml:498
+msgid "Draw an oval"
+msgstr "Ellipszis rajzolása"
 
-#, fuzzy
-#~ msgid "Save the current file with a different name"
-#~ msgstr "Kivágja a kiválasztott részt a vágólapra"
+#: src/gnumeric.xml:50
+msgid "E_xit"
+msgstr "_Kilépés"
 
-#, fuzzy
-#~ msgid "Save the current workbook"
-#~ msgstr "Munkafüzet mentése"
+#: src/gnumeric.xml:395
+msgid "Edit a formula in the current cell"
+msgstr ""
 
-#, fuzzy
-#~ msgid "Underlines the text"
-#~ msgstr "_Aláhúzás:"
+#: src/gnumeric.xml:259
+msgid "Edit the name of the current sheet"
+msgstr ""
 
-#, fuzzy
-#~ msgid "Undo the last action"
-#~ msgstr "Ismeretlen mûvelet"
+#: src/gnumeric.xml:215
+msgid "Ensure columns are just wide enough to display content"
+msgstr ""
 
-#, fuzzy
-#~ msgid "_About..."
-#~ msgstr "Sorba ren_dezés..."
+#: src/gnumeric.xml:237
+msgid "Ensure rows are just tall enough to display content"
+msgstr ""
 
-#, fuzzy
-#~ msgid "_Add / modify comment..."
-#~ msgstr "Megjegyzés beszúrása/módosítása..."
+#: src/gnumeric.xml:50
+msgid "Exit the program"
+msgstr ""
 
+#: src/gnumeric.xml:452
 #, fuzzy
-#~ msgid "_Cells"
-#~ msgstr "Cella"
+msgid "Format the selected cells as money"
+msgstr "A kiválasztott cellákat sorbarendezi"
 
+#: src/gnumeric.xml:455
 #, fuzzy
-#~ msgid "_Change Name"
-#~ msgstr "Átne_vezés"
+msgid "Format the selected cells as percentages"
+msgstr "Középre zárás"
 
+#: src/gnumeric.xml:395
 #, fuzzy
-#~ msgid "_Close"
-#~ msgstr "Törlés"
+msgid "Function Guru"
+msgstr "_Tört"
 
+#: src/gnumeric.xml:407
 #, fuzzy
-#~ msgid "_Edit"
-#~ msgstr "Törlés"
+msgid "Graph Guru"
+msgstr "Képletet"
 
+#: src/gnumeric.xml:278
 #, fuzzy
-#~ msgid "_File"
-#~ msgstr "K_itöltve"
+msgid "Hide _Column Headers"
+msgstr "Oszlopok rejtése"
 
+#: src/gnumeric.xml:282
 #, fuzzy
-#~ msgid "_Help"
-#~ msgstr "_Elrejt"
+msgid "Hide _Row Headers"
+msgstr "Sorok rejtése"
 
+#: src/gnumeric.xml:223
 #, fuzzy
-#~ msgid "_Object"
-#~ msgstr "_Objektum..."
+msgid "Hide the selected columns"
+msgstr "A kiválasztott cellákat sorbarendezi"
 
+#: src/gnumeric.xml:245
 #, fuzzy
-#~ msgid "_Open..."
-#~ msgstr "Új dok_umentum"
+msgid "Hide the selected rows"
+msgstr "A kiválasztott cellákat sorbarendezi"
 
+#: src/gnumeric.xml:458
 #, fuzzy
-#~ msgid "_Paste special..."
-#~ msgstr "Irányított beillesztés"
+msgid "Includes a thousands seperator in the selected cells"
+msgstr "Beszúrja a jelenlegi dátumot a kiválasztott cellá(k)ba"
 
+#: src/gnumeric.xml:461
 #, fuzzy
-#~ msgid "_Print"
-#~ msgstr "Nyomtatás"
+msgid "Increase Precision"
+msgstr "december"
 
+#: src/gnumeric.xml:461
 #, fuzzy
-#~ msgid "_Redo"
-#~ msgstr "Véletlenszerû"
+msgid "Increase the preceision of the selected cells"
+msgstr "Beszúrja a jelenlegi dátumot a kiválasztott cellá(k)ba"
 
+#: src/gnumeric.xml:410
 #, fuzzy
-#~ msgid "_Save"
-#~ msgstr "Mentés"
+msgid "Insert Component"
+msgstr "_Oszlopo(ka)t szúr be"
 
+#: src/gnumeric.xml:413
 #, fuzzy
-#~ msgid "_Undo"
-#~ msgstr "Véletlenszerû"
+msgid "Insert Shaped Component"
+msgstr "Bonobo objektumot szúr be"
 
+#: src/gnumeric.xml:413
 #, fuzzy
-#~ msgid "_View"
-#~ msgstr "_Nézet"
-
-#~ msgid "Warning"
-#~ msgstr "Figyelmeztetés"
-
-#~ msgid "I could not initialize Bonobo"
-#~ msgstr "Nem tudtam inicializáni a Bonobo-t"
-
-#~ msgid "Chart type"
-#~ msgstr "Diagramm típus"
-
-#~ msgid "Col/bar mode"
-#~ msgstr "Oszlop/rúd mód"
-
-#~ msgid "Line mode"
-#~ msgstr "Vonal mód"
-
-#~ msgid ""
-#~ "Invalid CSV file - \n"
-#~ "unexpected end of line at line %d"
-#~ msgstr ""
-#~ "Érvénytelen CSV fájl - \n"
-#~ "váratlan fájlvég a %d. sornál"
-
-#~ msgid ""
-#~ "Invalid CSV file has more than the maximum\n"
-#~ "number of %s %d"
-#~ msgstr ""
-#~ "Érvénytelen CSV fájl, több %s van, mint a maximálisan megengedett %d"
-
-#~ msgid "columns"
-#~ msgstr "oszlop"
-
-#~ msgid "Comma Separated Value (CSV) import"
-#~ msgstr "Vesszõvel határolt (CSV) fájl importálása"
+msgid "Insert a shaped component into the spreadsheet"
+msgstr "Új diagrammot hoz létre az aktuális munkalapon"
 
-#~ msgid "Comma Separated Value format (*.csv)"
-#~ msgstr "Vesszõvel határolt formátum (*.csv)"
-
-#~ msgid "Comma Separated Value (CSV) module"
-#~ msgstr "Vesszõvel határolt (CSV) modul"
-
-#~ msgid ""
-#~ "Adds several basic number theory functions, including utilities for prime "
-#~ "numbers, pi, phi and sigma."
-#~ msgstr ""
-#~ "Több alapvetõ számelméleti függvénnyel lát el minket, pl. a prím szamokhoz, "
-#~ "pi-hez, fi-hez és szigmá-hoz."
-
-#~ msgid "Sample Plugin"
-#~ msgstr "Példa Plugin"
-
-#~ msgid "PlusOne"
-#~ msgstr "PlusOne"
-
-#~ msgid "Empty file"
-#~ msgstr "Üres fájl"
-
-#~ msgid "File is too large"
-#~ msgstr "A fájl túl nagy"
-
-#~ msgid "Simple Text"
-#~ msgstr "Egyszerû szöveg"
-
-#~ msgid "Basic Text I/O"
-#~ msgstr "Alap Szöveg I/O"
-
-#~ msgid "Read/Write workbooks using a simple text format."
-#~ msgstr "Munkafüzetek írása/olvasása egyszerû szöveg formátum segítségével"
-
-#~ msgid ""
-#~ "None\n"
-#~ "Single\n"
-#~ "Double\n"
-#~ msgstr ""
-#~ "Nincs\n"
-#~ "Egyszeres\n"
-#~ "Kétszeres\n"
-
-#~ msgid "Names in workbook:"
-#~ msgstr "Nevek a munkafüzetben:"
-
-#~ msgid "Refers to:"
-#~ msgstr "Erre hivatkozik:"
-
+#: src/gnumeric.xml:410
 #, fuzzy
-#~ msgid "Internal error"
-#~ msgstr "Belsõ hiba"
-
-#~ msgid "0"
-#~ msgstr "0"
-
-#~ msgid "0.00"
-#~ msgstr "0.00"
-
-#~ msgid "#,##0_);[Red](#,##0)"
-#~ msgstr "#,##0_);[Piros](#,##0)"
-
-#~ msgid "#,##0.00_);[Red](#,##0.00)"
-#~ msgstr "#,##0.00_);[Piros](#,##0.00)"
-
-#~ msgid "$#,##0_);[Red]($#,##0)"
-#~ msgstr "$#,##0_);[Piros]($#,##0)"
-
-#~ msgid "$#,##0.00_);[Red]($#,##0.00)"
-#~ msgstr "$#,##0.00_);[Piros]($#,##0.00)"
-
-#~ msgid "m/d/yy"
-#~ msgstr "yy/m/d"
+msgid "Insert an object into the spreadsheet"
+msgstr "Új munkalap beszúrása"
 
-#~ msgid "m/d/yyyy"
-#~ msgstr "yyyy/m/d"
+#: src/gnumeric.xml:407
+msgid "Invoke the graph guru to create a graph"
+msgstr ""
 
-#~ msgid "d-mmm-yy"
-#~ msgstr "yy-mmm-d"
-
-#~ msgid "d-mmm-yyyy"
-#~ msgstr "yyyy-mmm-d"
-
-#~ msgid "d-mmm"
-#~ msgstr "mmm-d"
-
-#~ msgid "d-mm"
-#~ msgstr "mm-d"
-
-#~ msgid "mm/dd/yy"
-#~ msgstr "yy/mm/dd"
-
-#~ msgid "mm/dd/yyyy"
-#~ msgstr "yyyy/mm/dd"
-
-#~ msgid "mmm/dd/yy"
-#~ msgstr "yyyy/mmm/dd"
-
-#~ msgid "mmm/dd/yyyy"
-#~ msgstr "yyyy/mmm/dd"
-
-#~ msgid "mmm/ddd/yy"
-#~ msgstr "yy/mmm/ddd"
-
-#~ msgid "mmm/ddd/yyyy"
-#~ msgstr "yyyy/mmm/ddd"
-
-#~ msgid "mm/ddd/yy"
-#~ msgstr "yy/mm/ddd"
-
-#~ msgid "mm/ddd/yyyy"
-#~ msgstr "yyyy/mm/ddd"
-
-#~ msgid "mmm-yy"
-#~ msgstr "yy-mmm"
-
-#~ msgid "mmm-yyyy"
-#~ msgstr "yyyy-mmm"
-
-#, fuzzy
-#~ msgid "mmmm-yy"
-#~ msgstr "yy-mmm"
-
+#: src/gnumeric.xml:429
 #, fuzzy
-#~ msgid "mmmm-yyyy"
-#~ msgstr "yyyy-mmm"
-
-#~ msgid "m/d/yy h:mm"
-#~ msgstr "yy/m/d h:mm"
+msgid "Italicize"
+msgstr "Dõlt"
 
-#~ msgid "m/d/yyyy h:mm"
-#~ msgstr "yyyy/m/d h:mm"
-
+#: src/gnumeric.xml:440
 #, fuzzy
-#~ msgid "yyyy/mmm/dd"
-#~ msgstr "yyyy/mmm/dd"
+msgid "Left justifies the contents of each cell"
+msgstr "Középre zárás"
 
+#: src/gnumeric.xml:227
 #, fuzzy
-#~ msgid "yyyy"
-#~ msgstr "yyyy/m/d"
+msgid "Make any hidden columns in the selection visible"
+msgstr "Nem adhatsz többet hozzá, mint a kijelölt rész hossza."
 
+#: src/gnumeric.xml:249
 #, fuzzy
-#~ msgid ""
-#~ "@FUNCTION=ERF\n"
-#~ "@SYNTAX=ERF(lower limit[,upper_limit])\n"
-#~ "@DESCRIPTION=ERF function returns the integral of the error function between "
-#~ "the limits.  If the @upper_limit ommitted ERF returns the integral between "
-#~ "zero and the @lower_limit.\n"
-#~ "If either @lower_limit or @upper_limit are not numeric a #VALUE! error is "
-#~ "returned.  If either @lower_limit or @upper_limit are < 0 a #NUM! error is "
-#~ "returned. This function is Excel compatible. \n"
-#~ "@EXAMPLES=\n"
-#~ "ERF(0.4) equals 0.428392355.\n"
-#~ "\n"
-#~ "@SEEALSO=ERFC"
-#~ msgstr ""
-#~ "@FUNCTION=PI\n"
-#~ "@SYNTAX=PI()\n"
-#~ "@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
-#~ "(3.14159265358979323846)\n"
-#~ "A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
-#~ "függvénynek nem lehet argumentuma.\n"
-#~ "@SEEALSO="
+msgid "Make any hidden rows in the selection visible"
+msgstr "Nem adhatsz többet hozzá, mint a kijelölt rész hossza."
 
-#~ msgid "I was not able to activate object %s"
-#~ msgstr "Nem tudtam aktiválni a %s objektumot"
+#: src/gnumeric.xml:425
+msgid "Make font bold"
+msgstr ""
 
-#~ msgid "I was unable to the bind object"
-#~ msgstr "Nem tudtam bind-olni az objektumot"
+#: src/gnumeric.xml:429
+msgid "Makes font italic"
+msgstr "Megdönti a betûket"
 
-#, fuzzy
-#~ msgid "Custom Color:"
-#~ msgstr "Egyéni Szín:"
+#: src/gnumeric.xml:300
+msgid "Manage available plugin modules"
+msgstr ""
 
+#: src/gnumeric.xml:375
 #, fuzzy
-#~ msgid "navy"
-#~ msgstr "Vasárnap"
-
-#~ msgid "dark blue"
-#~ msgstr "sötét kék"
+msgid "Mark the current selection for movement"
+msgstr "Kivágja a kiválasztott részt a vágólapra"
 
-#~ msgid "purple #2"
-#~ msgstr "2. lila"
+#: src/gnumeric.xml:452
+msgid "Money"
+msgstr "Pénz"
 
-#~ msgid "very dark gray"
-#~ msgstr "nagyon sötét szürke"
+#: src/gnumeric.xml:10
+msgid "Open a file"
+msgstr "Fájlt megnyitása"
 
-#~ msgid "dark red"
-#~ msgstr "sötét vörös"
+#: src/gnumeric.xml:357
+msgid "Open an existing workbook"
+msgstr "Egy létezõ munkafüzet megnyitása"
 
-#~ msgid "red-orange"
-#~ msgstr "narancsvörös"
+#: src/gnumeric.xml:498
+msgid "Oval"
+msgstr ""
 
-#~ msgid "gold"
-#~ msgstr "arany"
-
-#, fuzzy
-#~ msgid "dark green"
-#~ msgstr "Zöld"
-
+#: src/gnumeric.xml:73
 #, fuzzy
-#~ msgid "dull blue"
-#~ msgstr "Kék"
+msgid "Paste the clipboard"
+msgstr "Beilleszti a vágólap tartalmát"
 
-#, fuzzy
-#~ msgid "orange"
-#~ msgstr "Tartomány"
+#: src/gnumeric.xml:381
+msgid "Paste the contents of the clipboard or cut buffer"
+msgstr ""
 
-#, fuzzy
-#~ msgid "lime"
-#~ msgstr "Idõ"
+#: src/gnumeric.xml:35
+msgid "Print Pre_view"
+msgstr "Nyomtatási _kép"
 
-#, fuzzy
-#~ msgid "dull green"
-#~ msgstr "Zöld"
+#: src/gnumeric.xml:369
+msgid "Print Preview"
+msgstr "Nyomtatási kép"
 
-#, fuzzy
-#~ msgid "gray"
-#~ msgstr "Tömb"
+#: src/gnumeric.xml:27
+msgid "Print S_etup..."
+msgstr "Nyomtatás _beállítása"
 
-#, fuzzy
-#~ msgid "pink"
-#~ msgstr "Mûvelet"
+#: src/gnumeric.xml:36
+msgid "Print the current file"
+msgstr ""
 
-#, fuzzy
-#~ msgid "light orange"
-#~ msgstr "Jobbra zárás"
+#: src/gnumeric.xml:366
+msgid "Print the workbook"
+msgstr "Munkafüzet nyomtatása"
 
-#, fuzzy
-#~ msgid "light yellow"
-#~ msgstr "Sárga"
+#: src/gnumeric.xml:485
+msgid "Radio Button"
+msgstr "Rádiógomb"
 
+#: src/gnumeric.xml:60
 #, fuzzy
-#~ msgid "light green"
-#~ msgstr "Jobbra zárás"
+msgid "Redo the undone action"
+msgstr "Véletlenszám-generálás"
 
-#, fuzzy
-#~ msgid "light cyan"
-#~ msgstr "Jobbra zárás"
+#: src/gnumeric.xml:107
+msgid "Remove selected cells, shifting others into their place"
+msgstr ""
 
+#: src/gnumeric.xml:446
 #, fuzzy
-#~ msgid "sky blue"
-#~ msgstr "Kék"
+msgid "Right justifies the contents of each cell"
+msgstr "Középre zárás"
 
-#, fuzzy
-#~ msgid "_($ #,##0.00_);($ #,##0.00)"
-#~ msgstr "$#,##0.00_);[Piros]($#,##0.00)"
+#: src/gnumeric.xml:21
+msgid "Save _As..."
+msgstr "Me_ntés másként..."
 
-#, fuzzy
-#~ msgid "Define _Name"
-#~ msgstr "Név definiálása"
+#: src/gnumeric.xml:18
+msgid "Save the current file"
+msgstr "Az aktuális fájl mentése"
 
-#~ msgid "_Height"
-#~ msgstr "_Magasság"
+#: src/gnumeric.xml:22
+msgid "Save the current file with a different name"
+msgstr "Az aktuális fájl mentése más néven"
 
-#, fuzzy
-#~ msgid "Insert Object"
-#~ msgstr "Oszlopok"
+#: src/gnumeric.xml:360
+msgid "Save the current workbook"
+msgstr "Aktuális munkafüzet mentése"
 
-#, fuzzy
-#~ msgid "Scatter points"
-#~ msgstr "pont"
+#: src/gnumeric.xml:135
+msgid "Select all the cells that depend on the current edit cell"
+msgstr ""
 
-#, fuzzy
-#~ msgid "Scatter"
-#~ msgstr "Minta"
+#: src/gnumeric.xml:28
+msgid "Setup the page settings for your current printer"
+msgstr ""
 
-#, fuzzy
-#~ msgid "Areas"
-#~ msgstr "Tömb"
+#: src/gnumeric.xml:398
+msgid ""
+"Sort the selected region in ascending order based on the first column "
+"selected"
+msgstr ""
 
-#, fuzzy
-#~ msgid "Cancel"
-#~ msgstr "Kovariancia"
+#: src/gnumeric.xml:401
+msgid ""
+"Sort the selected region in descending order based on the first column "
+"selected"
+msgstr ""
 
-#, fuzzy
-#~ msgid "<< _Previous"
-#~ msgstr "_Elõzõ oldal"
+#: src/gnumeric.xml:326
+msgid "Statistical methods"
+msgstr "Statisztikai módszerek"
 
-#, fuzzy
-#~ msgid "_Next step >>"
-#~ msgstr "_Következõ oldal"
+#: src/gnumeric.xml:392
+msgid "Sum into the current cell"
+msgstr ""
 
-#, fuzzy
-#~ msgid "label15"
-#~ msgstr "cimke8"
+#: src/gnumeric.xml:279
+msgid "Toggle whether or not to display column headers"
+msgstr ""
 
-#, fuzzy
-#~ msgid "label16"
-#~ msgstr "cimke8"
+#: src/gnumeric.xml:275
+msgid "Toggle whether or not to display gridlines"
+msgstr ""
 
-#, fuzzy
-#~ msgid "Plot description"
-#~ msgstr "Leírás:"
+#: src/gnumeric.xml:283
+msgid "Toggle whether or not to display row headers"
+msgstr ""
 
-#, fuzzy
-#~ msgid "_Show sample"
-#~ msgstr "Minta"
+#: src/gnumeric.xml:271
+msgid "Toggle whether or not to display zeros as blanks"
+msgstr ""
 
-#, fuzzy
-#~ msgid "Standard Types"
-#~ msgstr "_Magasság"
+#: src/gnumeric.xml:433
+msgid "Underlines the text"
+msgstr "Szöveg aláhúzása"
 
-#, fuzzy
-#~ msgid "Custom types"
-#~ msgstr "Beilleszt"
+#: src/gnumeric.xml:57
+msgid "Undo the last action"
+msgstr "Utolsó mûvelet visszavonása"
 
-#, fuzzy
-#~ msgid "Step1"
-#~ msgstr "*szept."
+#: src/gnumeric.xml:344
+msgid "_About..."
+msgstr "_Névjegy..."
 
-#, fuzzy
-#~ msgid "_Data Range:"
-#~ msgstr "Bemeneti tartomány:"
+#: src/gnumeric.xml:185
+msgid "_Add / modify comment..."
+msgstr "_Megjegyzés beszúrása/módosítása..."
 
-#, fuzzy
-#~ msgid "Series in:"
-#~ msgstr "Regresszió"
+#: src/gnumeric.xml:170
+msgid "_Cells"
+msgstr "_Cella"
 
-#, fuzzy
-#~ msgid "Data ranges"
-#~ msgstr "Adatbázis"
+#: src/gnumeric.xml:258
+msgid "_Change Name"
+msgstr "Átne_vezés"
 
-#, fuzzy
-#~ msgid "Serie:"
-#~ msgstr "Méret:"
+#: src/gnumeric.xml:44
+msgid "_Close"
+msgstr "_Bezárás"
 
-#, fuzzy
-#~ msgid "label27"
-#~ msgstr "cimke7"
+#: src/gnumeric.xml:55
+msgid "_Edit"
+msgstr "_Szerkesztés"
 
-#, fuzzy
-#~ msgid "_Value:"
-#~ msgstr "Érték"
+#: src/gnumeric.xml:3
+msgid "_File"
+msgstr "_Fájl"
 
-#, fuzzy
-#~ msgid "Series"
-#~ msgstr "Munkalapok"
+#: src/gnumeric.xml:340
+msgid "_Help"
+msgstr "_Súgó"
 
-#, fuzzy
-#~ msgid "Step2"
-#~ msgstr "*szept."
+#: src/gnumeric.xml:173
+msgid "_Object"
+msgstr "_Objektum"
 
-#, fuzzy
-#~ msgid "_Plot title:"
-#~ msgstr "Betûstílus:"
+#: src/gnumeric.xml:9
+msgid "_Open..."
+msgstr "_Megnyitás..."
 
+#: src/gnumeric.xml:77
 #, fuzzy
-#~ msgid "Titles"
-#~ msgstr "Cím"
+msgid "_Paste special..."
+msgstr "Irányított beillesztés"
 
-#, fuzzy
-#~ msgid "_Scale"
-#~ msgstr "Méret"
+#: src/gnumeric.xml:31
+msgid "_Print"
+msgstr "_Nyomtatás"
 
+#: src/gnumeric.xml:60
 #, fuzzy
-#~ msgid " Location "
-#~ msgstr "Védelem"
+msgid "_Redo"
+msgstr "Véletlenszerû"
 
-#, fuzzy
-#~ msgid "_Down"
-#~ msgstr "So_r"
+#: src/gnumeric.xml:17
+msgid "_Save"
+msgstr "_Mentés"
 
-#, fuzzy
-#~ msgid "_Corner"
-#~ msgstr "_Középre"
+#: src/gnumeric.xml:57
+msgid "_Undo"
+msgstr "_Visszavonás"
 
+#: src/gnumeric.xml:151
 #, fuzzy
-#~ msgid "Step3"
-#~ msgstr "*szept."
+msgid "_View"
+msgstr "_Nézet"
 
-#, fuzzy
-#~ msgid "Unable to launch the graphics service"
-#~ msgstr "Nem tudom mmap-olni a fájlt"
