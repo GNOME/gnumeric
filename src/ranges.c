@@ -101,30 +101,29 @@ range_parse (Sheet *sheet, char const *range, gboolean strict)
 	CellRef a, b;
 	CellPos tmp;
 
-	g_return_val_if_fail (range != NULL, FALSE);
-
-	a.col_relative = 0;
-	b.col_relative = 0;
-	a.row_relative = 0;
-	b.row_relative = 0;
+	g_return_val_if_fail (range != NULL, NULL);
 
 	range = cellpos_parse (range, &tmp, FALSE);
 	if (!range)
-		return FALSE;
+		return NULL;
 
 	a.sheet = sheet;
-	a.col   = tmp.col;
-	a.row   = tmp.row;
+	a.col = tmp.col;
+	a.col_relative = 0;
+	a.row = tmp.row;
+	a.row_relative = 0;
 
 	if (*range == ':') {
 		range = cellpos_parse (range + 1, &tmp, strict);
 		if (!range)
-			return FALSE;
+			return NULL;
 		b.sheet = sheet;
-		b.col   = tmp.col;
-		b.row   = tmp.row;
+		b.col = tmp.col;
+		b.col_relative = 0;
+		b.row = tmp.row;
+		b.row_relative = 0;
 	} else if (strict && *range)
-		return FALSE;
+		return NULL;
 	else
 		b = a;
 

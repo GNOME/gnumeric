@@ -1,3 +1,7 @@
+2002-12-29  Morten Welinder  <terra@diku.dk>
+
+	* src/ranges.c (range_parse): Return NULL on failure, not FALSE.
+
 2002-12-28  Rodrigo Moya <rodrigo@gnome-db.org>
 
 	* configure.in: require libgda >= 0.10, needed for the read-only
