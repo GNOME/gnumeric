@@ -1269,6 +1269,9 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 			G_CALLBACK (footer_preview_event), state);
 		wid = glade_xml_get_widget (state->gui, "container-footer-sample");
 	}
+	gtk_widget_set_size_request (wid, width, height);
+
+
 	gtk_box_pack_start (GTK_BOX (wid), GTK_WIDGET (pi->canvas), TRUE, TRUE, 0);
 }
 

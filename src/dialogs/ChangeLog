@@ -1,5 +1,10 @@
 2002-05-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-printer-setup.c (create_hf_preview_canvas) : size
+	  widget to show the whole preview.
+
+2002-05-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-printer-setup.c (get_printable_width) : deleted
 	(set_horizontal_bounds) : deleted
 	(get_printable_height) : margins are now in print_config
