@@ -265,41 +265,31 @@ calculate_replacement (SearchReplace *sr, const char *src, const regmatch_t *pm)
 	 * TheSearch -> TheReplace
 	 */
 	if (sr->preserve_case) {
-		gboolean is_upper, is_capital, has_letter;
-		int i;
+		gboolean is_upper = TRUE;
+		gboolean is_capital = TRUE;
+		gboolean has_letter = FALSE;
+		gboolean expect_upper = TRUE;
+		/* FIXME: check when we get a utf8 regexp.  */
+		const char *p = src + pm->rm_so;
+		const char *pend = src + pm->rm_eo;
 
-		/* FIXME: not yet UTF-8 safe.  */
-		is_upper = TRUE;
-		has_letter = FALSE;
-		for (i = pm->rm_so; i < pm->rm_eo; i++) {
-			unsigned char c = (unsigned char)src[i];
-			if (isalpha (c)) {
+		for (; p < pend; p = g_utf8_next_char (p)) {
+			gunichar c = g_utf8_get_char (p);
+			if (g_unichar_isalpha (c)) {
 				has_letter = TRUE;
-				if (!isupper (c)) {
+				if (!g_unichar_isupper (c)) {
 					is_upper = FALSE;
-					break;
 				}
-			}
-		}
-		if (!has_letter) is_upper = FALSE;
 
-		/* FIXME: not yet UTF-8 safe.  */
-		if (!is_upper && has_letter) {
-			gboolean up = TRUE;
-			is_capital = TRUE;
-			for (i = pm->rm_so; i < pm->rm_eo; i++) {
-				unsigned char c = (unsigned char)src[i];
-				if (isalpha (c)) {
-					if (up ? !isupper (c) : !islower (c)) {
-						is_capital = FALSE;
-						break;
-					}
-					up = FALSE;
-				} else
-					up = TRUE;
-			}
-		} else
-			is_capital = FALSE;
+				if (expect_upper ? !g_unichar_isupper (c) : !g_unichar_islower (c)) {
+					is_capital = FALSE;
+				}
+				expect_upper = FALSE;
+			} else
+				expect_upper = TRUE;
+		}
+		if (!has_letter)
+			is_upper = is_capital = FALSE;
 
 		if (is_upper) {
 			char *newres = g_utf8_strup (res, -1);

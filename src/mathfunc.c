@@ -5358,7 +5358,7 @@ stern_brocot (float val, int max_denom, int *res_num, int *res_denom)
 			return;
 		}
 	}
-	if (bd > max_denom || fabs (val * ad - an) < fabs (val * bd - bn)) {
+	if (bd > max_denom || gnumabs (val * ad - an) < gnumabs (val * bd - bn)) {
 	        *res_num = an;
 		*res_denom = ad;
 	} else {

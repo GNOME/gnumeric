@@ -1,5 +1,8 @@
 2002-07-18  Morten Welinder  <terra@diku.dk>
 
+	* src/search.c (calculate_replacement): One step closer to utf-8
+	safety.
+
 	* src/mathfunc.c (random_01): Use unsigned char array, not
 	unsigned int.
 	(random_cauchy, etc.): Make gnum_float safe.
