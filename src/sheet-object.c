@@ -294,6 +294,7 @@ void
 sheet_object_realize (SheetObject *so)
 {
 	g_return_if_fail (IS_SHEET_OBJECT (so));
+	g_return_if_fail (IS_SHEET (so->sheet));
 
 	SHEET_FOREACH_CONTROL (so->sheet, control,
 		sheet_object_new_view (so, control););

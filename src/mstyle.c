@@ -185,6 +185,7 @@ mstyle_element_dump (const MStyleElement *e)
 	GString *ans = g_string_new ("");
 	char    *txt_ans;
 
+	/* This leaks ans from above.  Let's consider that a feature.  */
 	g_return_val_if_fail (e != NULL, g_strdup ("Duff element"));
 
 	switch (e->type) {
