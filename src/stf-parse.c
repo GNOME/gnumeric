@@ -1572,7 +1572,7 @@ stf_parse_options_fixed_autodiscover (StfParseOptions_t *parseoptions, int data_
 						trigger = FALSE;
 					}
 
-					if (trigger) {
+					if (trigger || pos == end - 1) {
 						if (!space_trigger && *iterator == ' ') {
 			
 							space_trigger = TRUE;

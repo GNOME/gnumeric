@@ -1,3 +1,9 @@
+2000-07-06  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* src/stf-parse.c (stf_parse_options_fixed_autodiscover): When splitting
+	columns in 2 the last character in the rightmost column would not be
+	taken into account.
+
 2000-07-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-cursor.c (item_cursor_do_action) : Do not do anything if we
