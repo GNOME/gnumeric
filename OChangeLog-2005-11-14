@@ -1,3 +1,28 @@
+2003-10-06  Jody Goldberg <jody@gnome.org>
+
+	* src/value.c (criteria_test_equal) : privatize
+	(criteria_test_less) : privatize
+	(criteria_test_greater) : privatize
+	(criteria_test_less_or_equal) : privatize
+	(criteria_test_greater_or_equal) : privatize
+	(criteria_test_unequal) : privatize and have it handle empty.
+	(parse_criteria) : avoid replicated code.  Handle the trivial ==number
+	  case here too.
+	(parse_criteria_range) : use the new simplified interface.
+
+2003-10-05  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control.c (wb_control_parse_and_jump) : skip blanks
+
+	* src/func.c (function_def_get_arg_type_string) : handle 'B' a scalar
+	  that can even be blank.
+	(function_call_with_list) : ditto.
+
+2003-10-05  Jody Goldberg <jody@gnome.org>
+
+	* src/ssconvert.c : if no export file name is specified try to
+	  generate one based on the exporter.
+
 2003-10-05  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-object-graphic.c (sheet_object_graphic_user_config):

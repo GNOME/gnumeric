@@ -50,20 +50,17 @@
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 
-/* Useful routines for multiple functions */
 static gboolean
-find_type_valid (const Value *find)
+find_type_valid (Value const *find)
 {
 	/* Excel does not lookup errors or blanks */
-	if (VALUE_IS_NUMBER (find) || find->type == VALUE_STRING) {
-		return TRUE;
-	}
-
-	return FALSE;
+	if (VALUE_IS_EMPTY (find))
+		return FALSE;
+	return VALUE_IS_NUMBER (find) || find->type == VALUE_STRING;
 }
 
 static gboolean
-find_compare_type_valid (const Value *find, const Value *val)
+find_compare_type_valid (Value const *find, Value const *val)
 {
 	if (!val) {
 		return FALSE;
@@ -141,7 +138,7 @@ static int
 find_index_linear (FunctionEvalInfo *ei, Value *find, Value *data,
 		   gint type, gboolean height)
 {
-	const Value *index_val = NULL;
+	Value const *index_val = NULL;
 	ValueCompare comp;
 	int length, lp, index = -1;
 
@@ -151,7 +148,7 @@ find_index_linear (FunctionEvalInfo *ei, Value *find, Value *data,
 		length = value_area_get_width (data, ei->pos);
 
 	for (lp = 0; lp < length; lp++){
-		const Value *v;
+		Value const *v;
 
 		if (height)
 			v = value_area_fetch_x_y (data, 0, lp, ei->pos);
@@ -215,7 +212,7 @@ find_index_bisection (FunctionEvalInfo *ei, Value *find, Value *data,
 	}
 
 	while (low <= high) {
-		const Value *v = NULL;
+		Value const *v = NULL;
 		int start;
 
 		if ((type >= 1) != (comp == IS_LESS)) {
@@ -599,7 +596,7 @@ gnumeric_vlookup (FunctionEvalInfo *ei, Value **args)
 		return value_new_int (index);
 
 	if (index >= 0) {
-	        const Value *v;
+	        Value const *v;
 
 		v = value_area_fetch_x_y (args [1], col_idx-1, index, ei->pos);
 		g_return_val_if_fail (v != NULL, NULL);
@@ -658,7 +655,7 @@ gnumeric_hlookup (FunctionEvalInfo *ei, Value **args)
 		return value_new_int (index);
 
 	if (index >= 0) {
-	        const Value *v;
+	        Value const *v;
 
 		v = value_area_fetch_x_y (args[1], index, row_idx-1, ei->pos);
 		g_return_val_if_fail (v != NULL, NULL);
@@ -717,7 +714,7 @@ gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
 				      width > height ? FALSE : TRUE);
 
 	if (index >= 0) {
-	        const Value *v = NULL;
+	        Value const *v = NULL;
 		int width = value_area_get_width (result, ei->pos);
 		int height = value_area_get_height (result, ei->pos);
 
@@ -766,13 +763,11 @@ gnumeric_match (FunctionEvalInfo *ei, Value **args)
 	int width = value_area_get_width (args[1], ei->pos);
 	int height = value_area_get_height (args[1], ei->pos);
 
-	if (!find_type_valid (args[0])) {
+	if (!find_type_valid (args[0]))
 		return value_new_error_NA (ei->pos);
-	}
 
-	if (width > 1 && height > 1) {
+	if (width > 1 && height > 1)
 		return value_new_error_NA (ei->pos);
-	}
 
 	type = value_get_as_int (args[2]);
 
@@ -977,10 +972,10 @@ static char const *help_columnnumber = {
 static Value *
 gnumeric_columnnumber (FunctionEvalInfo *ei, Value **args)
 {
-	const char *name = value_peek_string (args[0]);
+	char const *name = value_peek_string (args[0]);
 	int colno;
 	unsigned char relative;
-	const char *after = col_parse (name, &colno, &relative);
+	char const *after = col_parse (name, &colno, &relative);
 
 	if (after == NULL || *after)
 		return value_new_error_VALUE (ei->pos);
@@ -1220,7 +1215,7 @@ gnumeric_transpose (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-const GnmFuncDescriptor lookup_functions[] = {
+GnmFuncDescriptor const lookup_functions[] = {
 	{ "address",   "ff|ffs", N_("row_num,col_num,abs_num,a1,text"),
 	  &help_address,  gnumeric_address, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_EXHAUSTIVE },
@@ -1239,7 +1234,7 @@ const GnmFuncDescriptor lookup_functions[] = {
 	{ "columns",   "A",    N_("ref"),
 	  &help_columns, gnumeric_columns, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "hlookup",   "SAf|bb", N_("val,range,col_idx,approx,as_index"),
+	{ "hlookup",   "BAf|bb", N_("val,range,col_idx,approx,as_index"),
 	  &help_hlookup, gnumeric_hlookup, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "hyperlink", "s|s", N_("link_location, label"),
@@ -1251,10 +1246,10 @@ const GnmFuncDescriptor lookup_functions[] = {
 	{ "index",     "A|fff",N_("reference,row,col,area"),
 	  &help_index,    NULL, gnumeric_index, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "lookup",    "SA|r", N_("val,range,range"),
+	{ "lookup",    "BA|r", N_("val,range,range"),
 	  &help_lookup,   gnumeric_lookup, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "match",     "SA|f", N_("val,range,approx"),
+	{ "match",     "BA|f", N_("val,range,approx"),
 	  &help_match,    gnumeric_match, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "offset",    "rff|ff",N_("ref,row,col,height,width"),
@@ -1269,7 +1264,7 @@ const GnmFuncDescriptor lookup_functions[] = {
 	{ "transpose", "A",    N_("array"),
 	  &help_transpose, gnumeric_transpose, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_RETURNS_NON_SCALAR, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "vlookup",   "SAf|bb", N_("val,range,col_idx,approx,as_index"),
+	{ "vlookup",   "BAf|bb", N_("val,range,col_idx,approx,as_index"),
 	  &help_vlookup, gnumeric_vlookup, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 

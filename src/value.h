@@ -172,17 +172,6 @@ extern Value const *value_zero;
 void value_array_set       (Value *array, int col, int row, Value *v);
 void value_array_resize    (Value *v, int width, int height);
 
-/* Type definitions and function prototypes for criteria functions.
- * This includes the database functions and some mathematical functions
- * like COUNTIF, SUMIF...
- */
-gboolean criteria_test_equal            (Value const *x, Value const *y);
-gboolean criteria_test_unequal          (Value const *x, Value const *y);
-gboolean criteria_test_greater          (Value const *x, Value const *y);
-gboolean criteria_test_less             (Value const *x, Value const *y);
-gboolean criteria_test_greater_or_equal (Value const *x, Value const *y);
-gboolean criteria_test_less_or_equal    (Value const *x, Value const *y);
-
 /* FIXME: this stuff below ought to go elsewhere.  */
 typedef struct {
         int    row;
@@ -194,16 +183,17 @@ typedef struct {
         Value               *x;
         int                 column;
 } func_criteria_t;
-void parse_criteria                 (char const *criteria,
-				     criteria_test_fun_t *fun,
-				     Value **test_value,
-				     GnmDateConventions const *date_conv);
-void free_criterias                 (GSList *criterias);
-GSList *find_rows_that_match        (Sheet *sheet, int first_col,
-				     int first_row, int last_col, int last_row,
-				     GSList *criterias, gboolean unique_only);
-GSList *parse_database_criteria     (const EvalPos *ep, Value *database, Value *criteria);
-int find_column_of_field (const EvalPos *ep, Value *database, Value *field);
+void	parse_criteria		(Value *criteria,
+				 criteria_test_fun_t *fun,
+				 Value **test_value,
+				 CellIterFlags *iter_flags,
+				 GnmDateConventions const *date_conv);
+void	free_criterias		(GSList *criterias);
+GSList *find_rows_that_match	(Sheet *sheet, int first_col,
+				 int first_row, int last_col, int last_row,
+				 GSList *criterias, gboolean unique_only);
+GSList *parse_database_criteria (EvalPos const *ep, Value *database, Value *criteria);
+int     find_column_of_field	(EvalPos const *ep, Value *database, Value *field);
 
 void value_init (void);
 void value_shutdown (void);

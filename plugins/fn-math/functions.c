@@ -106,30 +106,32 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 	Value           *v;
 
 	mm->total_num++;
-	if (cell == NULL)
-	        return NULL;
-	cell_eval (cell);
-        switch (cell->value->type) {
-	case VALUE_BOOLEAN:
-	case VALUE_INTEGER:
-	case VALUE_FLOAT:
-	case VALUE_STRING:
-	        v = value_duplicate (cell->value);
-		break;
-	case VALUE_EMPTY:
-	default:
-	        return NULL;
-	}
+	if (cell != NULL) {
+		cell_eval (cell);
+		switch (cell->value->type) {
+		case VALUE_BOOLEAN:
+		case VALUE_INTEGER:
+		case VALUE_FLOAT:
+		case VALUE_STRING:
+			v = value_duplicate (cell->value);
+			break;
+		case VALUE_EMPTY:
+		default:
+			v = NULL;
+		}
+	} else
+		v = NULL;
 
 	if (mm->fun (v, mm->test_value)) {
 	        if (mm->actual_range) {
 		        mm->list = g_slist_append (mm->list,
 				GINT_TO_POINTER (mm->total_num));
-			value_release (v);
+			if (v != NULL)
+				value_release (v);
 		} else
 		        mm->list = g_slist_append (mm->list, v);
 		mm->num++;
-	} else
+	} else if (v != NULL)
 	        value_release (v);
 
 	return NULL;
@@ -530,8 +532,8 @@ static Value *
 gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 {
         Value           *range = argv[0];
-	Value           *tmpval = NULL;
 	Sheet           *sheet;
+	CellIterFlags    iter_flags;
 
 	math_criteria_t  items;
 	Value           *ret;
@@ -546,28 +548,19 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 	    || (range->type != VALUE_CELLRANGE))
 	        return value_new_error_VALUE (ei->pos);
 
-	if (VALUE_IS_NUMBER (argv[1])) {
-	        items.fun = (criteria_test_fun_t) criteria_test_equal;
-		items.test_value = argv[1];
-	} else {
-	        parse_criteria (value_peek_string (argv[1]),
-				&items.fun, &items.test_value,
-				workbook_date_conv (ei->pos->sheet->workbook));
-		tmpval = items.test_value;
-	}
+	parse_criteria (argv[1], &items.fun, &items.test_value, &iter_flags,
+		workbook_date_conv (ei->pos->sheet->workbook));
 
 	sheet = eval_sheet (range->v_range.cell.a.sheet, ei->pos->sheet);
 	ret = sheet_foreach_cell_in_range (sheet,
-		CELL_ITER_IGNORE_BLANK,
+		iter_flags,
 		range->v_range.cell.a.col,
 		range->v_range.cell.a.row,
 		range->v_range.cell.b.col,
 		range->v_range.cell.b.row,
 		callback_function_criteria,
 		&items);
-
-	if (tmpval)
-		value_release (tmpval);
+	value_release (items.test_value);
 
 	if (ret != NULL)
 	        return value_new_error_VALUE (ei->pos);
@@ -575,7 +568,8 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
         list = items.list;
 
 	while (list != NULL) {
-		value_release (list->data);
+		if (list->data != NULL)
+			value_release (list->data);
 		list = list->next;
 	}
 	g_slist_free (items.list);
@@ -641,8 +635,8 @@ callback_function_sumif (Sheet *sheet, int col, int row,
 		default:
 			return VALUE_TERMINATE;
 		}
+		mm->sum += v;
 	}
-	mm->sum += v;
 	mm->current = mm->current->next;
 
 	return NULL;
@@ -653,12 +647,12 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 {
         Value          *range = argv[0];
 	Value          *actual_range = argv[2];
-	Value          *tmpval = NULL;
 
 	math_criteria_t items;
 	Value          *ret;
 	gnm_float      sum;
 	GSList         *list;
+	CellIterFlags   iter_flags;
 
 	items.num  = 0;
 	items.total_num = 0;
@@ -668,21 +662,9 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	    !(VALUE_IS_NUMBER (argv[1]) || argv[1]->type == VALUE_STRING))
 	        return value_new_error_VALUE (ei->pos);
 
-	/* If the criteria is a number test for equality else the parser
-	 * will evaluate the condition as a string
-	 */
-	if (VALUE_IS_NUMBER (argv[1])) {
-	        items.fun = (criteria_test_fun_t) criteria_test_equal;
-		items.test_value = argv[1];
-	} else {
-	        parse_criteria (value_peek_string (argv[1]),
-				&items.fun, &items.test_value,
-				workbook_date_conv (ei->pos->sheet->workbook));
-		tmpval = items.test_value;
-	}
-
+	parse_criteria (argv[1], &items.fun, &items.test_value, &iter_flags,
+		workbook_date_conv (ei->pos->sheet->workbook));
 	items.actual_range = (actual_range != NULL);
-
 	ret = sheet_foreach_cell_in_range (
 		eval_sheet (range->v_range.cell.a.sheet, ei->pos->sheet),
 		/*
@@ -690,7 +672,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 		 * target range.  We need the orders of the source values to
 		 * line up with the values of the target range.
 		 */
-		(actual_range == NULL) ? CELL_ITER_IGNORE_BLANK : CELL_ITER_ALL,
+		(actual_range == NULL) ? iter_flags : CELL_ITER_ALL,
 
 		range->v_range.cell.a.col,
 		range->v_range.cell.a.row,
@@ -698,9 +680,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 		range->v_range.cell.b.row,
 		callback_function_criteria,
 		&items);
-
-	if (tmpval)
-		value_release (tmpval);
+	value_release (items.test_value);
 
 	if (ret != NULL)
 	        return value_new_error_VALUE (ei->pos);
@@ -712,9 +692,10 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 		while (list != NULL) {
 		        Value *v = list->data;
 
-			if (v != NULL)
+			if (v != NULL) {
 			        sum += value_get_as_float (v);
-			value_release (v);
+				value_release (v);
+			}
 			list = list->next;
 		}
 	} else {

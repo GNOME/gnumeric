@@ -418,8 +418,10 @@ name_guru_init_button (NameGuruState *state, char const *name)
 static void
 cb_name_guru_destroy (NameGuruState *state)
 {
-	wbcg_edit_detach_guru (state->wbcg);
+	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 
+	wb_view_selection_desc (wb_control_view (wbc), TRUE, wbc);
+	wbcg_edit_detach_guru (state->wbcg);
 	if (state->gui != NULL) {
 		g_object_unref (G_OBJECT (state->gui));
 		state->gui = NULL;

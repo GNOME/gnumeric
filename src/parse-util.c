@@ -820,7 +820,7 @@ rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 	}
 
 	tmp2 = row_parse (tmp1, &res->a.row, &res->a.row_relative);
-	if (!tmp2) { /* check for col only ref B:C */
+	if (!tmp2) { /* check for col only ref B:C or R1C1 style */
 		if (*tmp1++ != ':') /* col only requires : even for singleton */
 			return start;
 		tmp2 = col_parse (tmp1, &res->b.col, &res->b.col_relative);

@@ -34,7 +34,15 @@ Jody:
 	* Fix import typo that broke xls import of local hyperlinks
 	* Draw marker and lines for legend elements that support them
 	* Memory error when adding a series to a bar/col/line/area plot
+	* Tune Planperfect importer.
 	* Cleanup header inclusion to make things work even with gtk HEAD
+	* Have ssconvert generate export file name from exporter if needed
+	http://bugzilla.gnome.org/show_bug.cgi?id=123270
+	* update the goto box in a few more places
+	http://bugzilla.gnome.org/show_bug.cgi?id=122085
+	* Have 'MATCH/LOOKUP/HLOOKUP/VLOOKUP' handle blank criteria XLishly.
+	http://bugzilla.gnome.org/show_bug.cgi?id=123325    [countif]
+	* COUNTIF counts empties
 
 John Gill:
 	* Heuristics to improve finger feel of autofilter range selection

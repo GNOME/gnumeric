@@ -213,9 +213,13 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 	CellPos tmp;
 	Sheet *sheet  = wb_control_cur_sheet (wbc);
 	SheetView *sv;
-	Value *target = global_range_parse (sheet, text);
+	Value *target;
+
+	if (text == NULL || *text == '\0')
+		return FALSE;
 
 	/* not an address, is it a name ? */
+	target = global_range_parse (sheet, text);
 	if (target == NULL) {
 		ParsePos pp;
 		GnmNamedExpr *nexpr = expr_name_lookup (

@@ -1902,8 +1902,7 @@ cb_file_new (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
-cb_file_open
- (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cb_file_open (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	gui_file_open (wbcg, NULL);
 	wbcg_focus_cur_scg (wbcg); /* force focus back to sheet */
@@ -4274,10 +4273,12 @@ cb_editline_focus_in (GtkWidget *w, GdkEventFocus *event,
 static void
 cb_statusbox_activate (GtkEntry *entry, WorkbookControlGUI *wbcg)
 {
-	wb_control_parse_and_jump (WORKBOOK_CONTROL (wbcg),
-		gtk_entry_get_text (entry));
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	wb_control_parse_and_jump (wbc, gtk_entry_get_text (entry));
 	wbcg_focus_cur_scg (wbcg);
+	wb_view_selection_desc (wb_control_view (wbc), TRUE, wbc);
 }
+
 static gboolean
 cb_statusbox_focus (GtkEntry *entry, GdkEventFocus *event,
 		    WorkbookControlGUI *wbcg)

@@ -685,6 +685,8 @@ function_def_get_arg_type_string (GnmFunc const *fn_def,
 		return _("Cell Range");
 	case 'A':
 		return _("Area");
+	case 'B':
+		return _("Scalar or Blank");
 	case 'E':
 		return _("Scalar or Error");
 	case 'S':
@@ -833,7 +835,9 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 		tmp = args[i] = gnm_expr_eval (expr, ei->pos,
 		       ((iter_count >= 0 || arg_type == '?')
 			       ? GNM_EXPR_EVAL_PERMIT_NON_SCALAR
-			       : GNM_EXPR_EVAL_SCALAR_NON_EMPTY));
+			       : ((arg_type == 'B')
+					? GNM_EXPR_EVAL_PERMIT_EMPTY
+					: GNM_EXPR_EVAL_SCALAR_NON_EMPTY)));
 
 		if (tmp == NULL ||	/* Optional arguments can be empty */
 		    arg_type == '?')	/* '?' arguments are unrestriced */
@@ -906,6 +910,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 			}
 			break;
 
+		case 'B': /* nothing necessary */
 		case 'E': /* nothing necessary */
 			break;
 

@@ -1347,7 +1347,7 @@ value_set_fmt (Value *v, StyleFormat const *fmt)
 
 /****************************************************************************/
 
-gboolean
+static gboolean
 criteria_test_equal (Value const *x, Value const *y)
 {
 	g_return_val_if_fail (x != NULL, FALSE);
@@ -1360,11 +1360,13 @@ criteria_test_equal (Value const *x, Value const *y)
 			g_ascii_strcasecmp (x->v_str.val->str, y->v_str.val->str) == 0);
 }
 
-gboolean
+static gboolean
 criteria_test_unequal (Value const *x, Value const *y)
 {
-	g_return_val_if_fail (x != NULL, FALSE);
-	g_return_val_if_fail (y != NULL, FALSE);
+	if (x == NULL)
+		return y != NULL;
+	if (y == NULL)
+		return TRUE;
         if (VALUE_IS_NUMBER (x) && VALUE_IS_NUMBER (y))
 	        return (value_get_as_float (x) != value_get_as_float (y));
 	else
@@ -1374,7 +1376,7 @@ criteria_test_unequal (Value const *x, Value const *y)
 			g_ascii_strcasecmp (x->v_str.val->str, y->v_str.val->str) != 0);
 }
 
-gboolean
+static gboolean
 criteria_test_less (Value const *x, Value const *y)
 {
 	g_return_val_if_fail (x != NULL, FALSE);
@@ -1385,7 +1387,7 @@ criteria_test_less (Value const *x, Value const *y)
 	        return FALSE;
 }
 
-gboolean
+static gboolean
 criteria_test_greater (Value const *x, Value const *y)
 {
 	g_return_val_if_fail (x != NULL, FALSE);
@@ -1396,7 +1398,7 @@ criteria_test_greater (Value const *x, Value const *y)
 	        return FALSE;
 }
 
-gboolean
+static gboolean
 criteria_test_less_or_equal (Value const *x, Value const *y)
 {
 	g_return_val_if_fail (x != NULL, FALSE);
@@ -1407,7 +1409,7 @@ criteria_test_less_or_equal (Value const *x, Value const *y)
 	        return FALSE;
 }
 
-gboolean
+static gboolean
 criteria_test_greater_or_equal (Value const *x, Value const *y)
 {
 	g_return_val_if_fail (x != NULL, FALSE);
@@ -1496,21 +1498,45 @@ free_criterias (GSList *criterias)
 	g_slist_free (list);
 }
 
+/**
+ * parse_criteria :
+ * @crit_val : #Value 
+ * @fun : #criteria_test_fun_t result
+ * @test_value : #Value the value to compare against.
+ * @iter_flags :
+ * @date_conv : #GnmDateConventions
+ *
+ * If @crit_val is a number set @text_val and @fun to test for equality, other
+ * wise parse it as a string and see if it matches one of the available
+ * operators.  Caller is responsible for freeing @test_value.
+ **/
 void
-parse_criteria (char const *criteria, criteria_test_fun_t *fun,
-		Value **test_value, GnmDateConventions const *date_conv)
+parse_criteria (Value *crit_val, criteria_test_fun_t *fun, Value **test_value,
+		CellIterFlags *iter_flags, GnmDateConventions const *date_conv)
 {
 	int len;
+	char const *criteria;
 
+	if (iter_flags)
+		*iter_flags = CELL_ITER_IGNORE_BLANK;
+	if (VALUE_IS_NUMBER (crit_val)) {
+		*fun = criteria_test_equal;
+		*test_value = value_duplicate (crit_val);
+		return;
+	}
+
+	criteria = value_peek_string (crit_val);
         if (strncmp (criteria, "<=", 2) == 0) {
-	        *fun = (criteria_test_fun_t) criteria_test_less_or_equal;
+	        *fun = criteria_test_less_or_equal;
 		len = 2;
 	} else if (strncmp (criteria, ">=", 2) == 0) {
-	        *fun = (criteria_test_fun_t) criteria_test_greater_or_equal;
+	        *fun = criteria_test_greater_or_equal;
 		len = 2;
 	} else if (strncmp (criteria, "<>", 2) == 0) {
 	        *fun = (criteria_test_fun_t) criteria_test_unequal;
 		len = 2;
+		if (iter_flags)
+			*iter_flags = CELL_ITER_ALL;
 	} else if (*criteria == '<') {
 	        *fun = (criteria_test_fun_t) criteria_test_less;
 		len = 1;
@@ -1555,18 +1581,8 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 			if (cell_is_empty (cell))
 			        continue;
 
-			/* Equality condition (in number format) */
 			cond = g_new (func_criteria_t, 1);
-			if (VALUE_IS_NUMBER (cell->value)) {
-			        cond->x = value_duplicate (cell->value);
-				cond->fun = (criteria_test_fun_t) criteria_test_equal;
-			} else {
-				/* Other conditions (in string format) */
-				char const *cell_str =
-					value_peek_string (cell->value);
-				parse_criteria (cell_str, &cond->fun, &cond->x, date_conv);
-			}
-
+			parse_criteria (cell->value, &cond->fun, &cond->x, NULL, date_conv);
 			cond->column = (field_ind != NULL) ? field_ind[j - b_col] : j - b_col;
 			conditions = g_slist_append (conditions, cond);
 		}
