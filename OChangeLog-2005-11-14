@@ -1,3 +1,8 @@
+2001-11-27  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_draw) : minor tweaks.
+	* src/print-cell.c (print_cell_range) : sync with drawing code.
+
 2001-11-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/xml-io.c (xml_write_selection_clipboard) Don't free
@@ -11,7 +16,6 @@
 	  input references to other sheets, handle ties in ranks 
 	  according to statistical practice, set cell format for 
 	  percentile
-	
 
 2001-11-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 

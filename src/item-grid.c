@@ -283,7 +283,6 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	int start_row = gnm_canvas_find_row (gcanvas, draw_y-2, &y);
 	int end_row = gnm_canvas_find_row (gcanvas, draw_y+height+2, NULL);
 	int const diff_y = y - draw_y;
-	int prev_row = -666; /* any impossible value will do */
 
 	StyleRow sr, next_sr;
 	MStyle const **styles;
@@ -396,13 +395,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		for (ptr = merged_unused; ptr != NULL; ) {
 			Range * const r = ptr->data;
 
-			/* If this is the top, or we potentially skipped part
-			 * use the merge
-			 */
-			if ((r->start.row == row) ||
-			    ((prev_row+1) != row && r->start.row < row)) {
-				ColRowInfo const *ci =
-					sheet_col_get_info (sheet, r->start.col);
+			if (r->start.row <= row) {
 				GSList *tmp = ptr;
 				ptr = *lag = tmp->next;
 				if (r->end.row < row) {
@@ -410,6 +403,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 					merged_used = tmp;
 					MERGE_DEBUG (r, " : unused -> used\n");
 				} else {
+					ColRowInfo const *ci =
+						sheet_col_get_info (sheet, r->start.col);
 					g_slist_free_1 (tmp);
 					merged_active = g_slist_insert_sorted (merged_active, r,
 								(GCompareFunc)merged_col_cmp);
@@ -424,7 +419,6 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				ptr = ptr->next;
 			}
 		}
-		prev_row = row;
 
 		for (col = start_col, x = diff_x; col <= end_col ; col++) {
 			MStyle const *style;
@@ -496,8 +490,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			 */
 			if (ri->pos == -1 || NULL == (span = row_span_get (ri, col))) {
 
-				/*
-				 * If it is being edited pretend it is empty to
+				/* If it is being edited pretend it is empty to
 				 * avoid problems with the a long cells
 				 * contents extending past the edge of the edit
 				 * box.  Ignore blanks too.

@@ -768,6 +768,7 @@ print_cell_range (GnomePrintContext *context,
 	double x, y;
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
 	int start_row, start_col, end_col, end_row;
+
 	StyleRow sr, next_sr;
 	MStyle const **styles;
 	StyleBorder const **borders, **prev_vert;
@@ -775,7 +776,6 @@ print_cell_range (GnomePrintContext *context,
 		hide_grid ? NULL : style_border_none ();
 
 	Range     view;
-	gboolean  first_row;
 	GSList	 *merged_active, *merged_active_seen,
 		 *merged_used, *merged_unused, *ptr, **lag;
 
@@ -790,7 +790,12 @@ print_cell_range (GnomePrintContext *context,
 	end_col = range->end.col;
 	end_row = range->end.row;
 
-	/* Skip any hidden rows at the start */
+	/* Skip any hidden cols/rows at the start */
+	for (; start_col <= end_col ; ++start_col) {
+		ri = sheet_col_get_info (sheet, start_col);
+		if (ri->visible)
+			break;
+	}
 	for (; start_row <= end_row ; ++start_row) {
 		ri = sheet_row_get_info (sheet, start_row);
 		if (ri->visible)
@@ -798,7 +803,6 @@ print_cell_range (GnomePrintContext *context,
 	}
 
 	/* Get ordered list of merged regions */
-	first_row = TRUE;
 	merged_active = merged_active_seen = merged_used = NULL;
 	merged_unused = sheet_merge_get_overlap (sheet,
 		range_init (&view, start_col, start_row, end_col, end_row));
@@ -813,27 +817,8 @@ print_cell_range (GnomePrintContext *context,
 	 * Note that this means that in some cases array [-1] is legal.
 	 */
 	n = end_col - start_col + 3; /* 1 before, 1 after, 1 fencepost */
-	sr.vertical	 = g_alloca (n * 8 * sizeof (gpointer));
-	sr.vertical 	-= start_col-1;
-	sr.top		 = sr.vertical + n;
-	sr.bottom	 = sr.top + n;
-	next_sr.top	 = sr.bottom; /* yes they should share */
-	next_sr.bottom	 = next_sr.top + n;
-	next_sr.vertical = next_sr.bottom + n;
-	prev_vert	 = next_sr.vertical + n;
-	sr.styles	 = ((MStyle const **) (prev_vert + n));
-	next_sr.styles	 = sr.styles + n;
-	sr.start_col	 = next_sr.start_col	 = start_col;
-	sr.end_col	 = next_sr.end_col	 = end_col;
-	sr.hide_grid = next_sr.hide_grid = hide_grid;
-
-	/* Init the areas that sheet_style_get_row will not */
-	for (col = start_col-1 ; col <= end_col+1; ++col)
-		prev_vert [col] = sr.top [col] = none;
-	sr.vertical	 [start_col-1] = sr.vertical	  [end_col+1] =
-	next_sr.vertical [start_col-1] = next_sr.vertical [end_col+1] =
-	next_sr.top	 [start_col-1] = next_sr.top	  [end_col+1] =
-	next_sr.bottom	 [start_col-1] = next_sr.bottom	  [end_col+1] = none;
+	style_row_init (&prev_vert, &sr, &next_sr, start_col, end_col,
+			g_alloca (n * 8 * sizeof (gpointer)), hide_grid);
 
 	/* load up the styles for the first row */
 	next_sr.row = sr.row = row = start_row;
@@ -876,23 +861,30 @@ print_cell_range (GnomePrintContext *context,
 		for (ptr = merged_unused; ptr != NULL; ) {
 			Range * const r = ptr->data;
 
-			if ((r->start.row == row) ||
-			    (first_row && r->start.row < row)) {
+			if (r->start.row <= row) {
 				GSList *tmp = ptr;
 				ptr = *lag = tmp->next;
+				if (r->end.row < row) {
+					tmp->next = merged_used;
+					merged_used = tmp;
+					MERGE_DEBUG (r, " : unused -> used\n");
+				} else {
+					ColRowInfo const *ci =
+						sheet_col_get_info (sheet, r->start.col);
 				g_slist_free_1 (tmp);
 				merged_active = g_slist_insert_sorted (merged_active, r,
 							(GCompareFunc)merged_col_cmp);
 				MERGE_DEBUG (r, " : unused -> active\n");
 
+					if (ci->visible)
 				print_merged_range (context, sheet,
 						    base_x, y, &view, r);
+				}
 			} else {
 				lag = &(ptr->next);
 				ptr = ptr->next;
 			}
 		}
-		first_row = FALSE;
 
 		for (col = start_col, x = base_x; col <= end_col ; col++) {
 			MStyle const *style;
@@ -926,7 +918,7 @@ print_cell_range (GnomePrintContext *context,
 
 					ptr = merged_active;
 					merged_active = merged_active->next;
-					if (r->end.row == row) {
+					if (r->end.row <= row) {
 						clear_bottom = FALSE;
 						ptr->next = merged_used;
 						merged_used = ptr;
@@ -952,8 +944,7 @@ print_cell_range (GnomePrintContext *context,
 
 			style = sr.styles [col];
 			print_cell_background (context, style, col, row, x, y,
-					       ci->size_pts,
-					       ri->size_pts);
+					       ci->size_pts, ri->size_pts);
 
 			/* Is this part of a span?
 			 * 1) There are cells allocated in the row
@@ -963,7 +954,7 @@ print_cell_range (GnomePrintContext *context,
 			 */
 			if (ri->pos == -1 || NULL == (span = row_span_get (ri, col))) {
 
-				/* no need to draw the edit cell, or blanks */
+				/* no need to draw blanks */
 				Cell const *cell = sheet_cell_get (sheet, col, row);
 				if (!cell_is_blank (cell))
 					print_cell (cell, style, context,
@@ -1033,7 +1024,8 @@ print_cell_range (GnomePrintContext *context,
 		g_slist_free (merged_used);
 	if (merged_active_seen) /* ranges whose bottoms are below the view */
 		g_slist_free (merged_active_seen);
+	if (merged_unused != NULL);	/* merges in hidden rows */
+		g_slist_free (merged_unused);
 
-	g_return_if_fail (merged_unused == NULL);
 	g_return_if_fail (merged_active == NULL);
 }
