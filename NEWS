@@ -33,6 +33,7 @@ Jody:
 	* Fix data validation.
 	* Dirty workbook when modifying summary info.
 	* Invalidate names refering to deleted expressions.
+	* Fix row height resize when undoing changes to JIT rendering.
 
 Morten:
 	* Fix DATE.
