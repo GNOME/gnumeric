@@ -29,7 +29,7 @@ INCLUDES = 						\
         -DGNUMERIC_ICONSDIR=\""$(iconsdir)"\"           \
 	-I$(includedir)				 	\
 	-I$(top_srcdir)/src				\
-	-I$(top_srcdir)/idl				\
+	-I../../idl				\
 	-I../../src					\
 	$(GNOME_INCLUDEDIR)
 

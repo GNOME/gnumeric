@@ -1,3 +1,8 @@
+2000-03-13  Jody Goldberg <jgoldberg@home.com>
+
+	* graphics.glade : Put the 'data in row/col' selector in the same
+	  radio group.  Exported the translatable strings.
+
 2000-03-13  Jon K Hellan  <hellan@acm.org>
 
 	* graphic-context.c (graphic_context_auto_guess_series): 
