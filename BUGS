@@ -13,6 +13,7 @@ Release Critical
 Pending Patches
 ---------------
 
+    missing accels http://bugzilla.gnome.org/show_bug.cgi?id=68246
     Yukihiro's IM support
     libole2 + vfs support.
 
@@ -52,6 +53,7 @@ Long term breakage
     - Delete Comment.
     - Freeze panes.
     - Changing summary info.
+    - change tab colours
 
 - Misc.
     - Add an idle handler at start up to check for availablity of
