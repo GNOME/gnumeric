@@ -18,6 +18,8 @@ Release Critical
     * border style double_line does not handle all of the different
       intersection cases.
 
+- Resolve Gal version issue.
+
 Long term breakage
 ------------------
 
