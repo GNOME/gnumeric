@@ -1,5 +1,5 @@
-#ifndef ITEM_CURSOR_H
-#define ITEM_CURSOR_H
+#ifndef GNUMERIC_ITEM_CURSOR_H
+#define GNUMERIC_ITEM_CURSOR_H
 
 #define ITEM_CURSOR(obj)          (GTK_CHECK_CAST((obj), item_cursor_get_type (), ItemCursor))
 #define ITEM_CURSOR_CLASS(k)      (GTK_CHECK_CLASS_CAST ((k), item_cursor_get_type ()))
@@ -57,5 +57,4 @@ void item_cursor_set_bounds     (ItemCursor *item_cursor,
 void item_cursor_set_visibility (ItemCursor *item_cursor,
 				 int visible);
 
-#endif
-
+#endif /* GNUMERIC_ITEM_CURSOR_H */

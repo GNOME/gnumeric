@@ -1,5 +1,5 @@
-#ifndef ITEM_EDIT_H
-#define ITEM_EDIT_H
+#ifndef GNUMERIC_ITEM_EDIT_H
+#define GNUMERIC_ITEM_EDIT_H
 
 #define ITEM_EDIT(obj)          (GTK_CHECK_CAST((obj), item_edit_get_type (), ItemEdit))
 #define ITEM_EDIT_CLASS(k)      (GTK_CHECK_CLASS_CAST ((k), item_edit_get_type ()))
@@ -29,5 +29,4 @@ typedef struct {
 	GnomeCanvasItemClass parent_class;
 } ItemEditClass;
 
-
-#endif
+#endif /* GNUMERIC_ITEM_EDIT_H */

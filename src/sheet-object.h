@@ -1,5 +1,5 @@
-#ifndef SHEET_OBJECT_H
-#define SHEET_OBJECT_H
+#ifndef GNUMERIC_SHEET_OBJECT_H
+#define GNUMERIC_SHEET_OBJECT_H
 
 typedef enum {
 	SHEET_OBJECT_LINE,
@@ -59,5 +59,5 @@ void             sheet_object_make_current   (Sheet *sheet,
 void             sheet_object_register       (Sheet *sheet,
 					      SheetObject *object);
 
-#endif
+#endif /* GNUMERIC_SHEET_OBJECT_H */
 

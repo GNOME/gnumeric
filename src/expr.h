@@ -1,5 +1,5 @@
-#ifndef EXPR_H
-#define EXPR_H
+#ifndef GNUMERIC_EXPR_H
+#define GNUMERIC_EXPR_H
 
 typedef enum {
 	OPER_EQUAL,
@@ -169,4 +169,4 @@ int         yyparse              (void);
 void        functions_init       (void);
 void        constants_init       (void);
 
-#endif
+#endif /* GNUMERIC_EXPR_H */

@@ -1,5 +1,5 @@
-#ifndef EVAL_H
-#define EVAL_H
+#ifndef GNUMERIC_EVAL_H
+#define GNUMERIC_EVAL_H
 
 /*
  * A DependencyRange defines a range of cells whose values
@@ -50,5 +50,5 @@ void cell_queue_recalc_list      (GList *list);
  */
 void cell_eval                   (Cell *cell);
 
-#endif
+#endif /* GNUMERIC_EVAL_H */
 

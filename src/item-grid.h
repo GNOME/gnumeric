@@ -1,5 +1,5 @@
-#ifndef ITEM_GRID_H
-#define ITEM_GRID_H
+#ifndef GNUMERIC_ITEM_GRID_H
+#define GNUMERIC_ITEM_GRID_H
 
 #define ITEM_GRID(obj)          (GTK_CHECK_CAST((obj), item_grid_get_type (), ItemGrid))
 #define ITEM_GRID_CLASS(k)      (GTK_CHECK_CLASS_CAST ((k), item_grid_get_type ()))
@@ -40,4 +40,4 @@ typedef struct {
 	GnomeCanvasItemClass parent_class;
 } ItemGridClass;
 
-#endif
+#endif /* GNUMERIC_ITEM_GRID_H */

@@ -1,5 +1,5 @@
-#ifndef SYMBOL_H
-#define SYMBOL_H
+#ifndef GNUMERIC_SYMBOL_H
+#define GNUMERIC_SYMBOL_H
 
 typedef enum {
 	SYMBOL_FUNCTION,
@@ -26,4 +26,4 @@ Symbol *symbol_ref_string     (char *str);
 
 extern GHashTable *symbol_hash_table;
 
-#endif
+#endif /* GNUMERIC_SYMBOL_H */

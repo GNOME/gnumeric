@@ -1,9 +1,9 @@
-#ifndef GNUMERIC_NUMBER_MATCH
-#define GNUMERIC_NUMBER_MATCH
+#ifndef GNUMERIC_NUMBER_MATCH_H
+#define GNUMERIC_NUMBER_MATCH_H
 
 int      format_match_define (char *format);
 void     format_match_init   (void);
 void     format_match_finish (void);
 gboolean format_match        (char *s, double *v, char **format);
 
-#endif
+#endif /* GNUMERIC_NUMBER_MATCH_H */

@@ -1,5 +1,5 @@
-#ifndef CLIPBOARD_H
-#define CLIPBOARD_H
+#ifndef GNUMERIC_CLIPBOARD_H
+#define GNUMERIC_CLIPBOARD_H
 
 enum {
 	PASTE_VALUES   = 0,
@@ -32,4 +32,4 @@ void        clipboard_release            (CellRegion *region);
 
 void        x_clipboard_bind_workbook    (Workbook *wb);
 	
-#endif
+#endif /* GNUMERIC_CLIPBOARD_H */

@@ -1,3 +1,5 @@
+#ifndef GNUMERIC_NUMBERS_H
+#define GNUMERIC_NUMBERS_H
 #ifdef GNUMERIC_USE_GMP
 
 #include <gmp.h>
@@ -33,4 +35,4 @@ typedef int    int_t;
 #define mpf_neg(a,b) a = -b
 #endif
 
-
+#endif /* GNUMERIC_NUMBERS_H */

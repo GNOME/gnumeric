@@ -1,5 +1,5 @@
-#ifndef SHEET_VIEW_H
-#define SHEET_VIEW_H
+#ifndef GNUMERIC_SHEET_VIEW_H
+#define GNUMERIC_SHEET_VIEW_H
 
 #include <gtk/gtktable.h>
 
@@ -60,4 +60,4 @@ typedef struct {
 	GtkTableClass parent_class;
 } SheetViewClass;
 
-#endif /* SHEET_VIEW_H */
+#endif /* GNUMERIC_SHEET_VIEW_H */

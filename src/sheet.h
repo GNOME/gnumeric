@@ -1,5 +1,5 @@
-#ifndef SHEET_H
-#define SHEET_H
+#ifndef GNUMERIC_SHEET_H
+#define GNUMERIC_SHEET_H
 
 #define SHEET_MAX_ROWS (16 * 1024)
 #define SHEET_MAX_COLS 256
@@ -358,5 +358,5 @@ void     workbook_feedback_set        (Workbook *,
 				       void *data);
 
 extern   Workbook *current_workbook;
-#endif
+#endif /* GNUMERIC_SHEET_H */
 

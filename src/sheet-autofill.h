@@ -1,5 +1,5 @@
-#ifndef SHEET_AUTOFILL
-#define SHEET_AUTOFILL
+#ifndef GNUMERIC_SHEET_AUTOFILL_H
+#define GNUMERIC_SHEET_AUTOFILL_H
 
 typedef int (*AutofillFunction)     (Sheet *sheet,
 				     int base_col, int base_row,
@@ -13,4 +13,4 @@ void    sheet_autofill              (Sheet *sheet,
 				     int w,        int h,
 				     int end_col,  int end_row);
 
-#endif
+#endif /* GNUMERIC_SHEET_AUTOFILL_H */

@@ -637,6 +637,14 @@ sheet_set_text (Sheet *sheet, int col, int row, char *str)
 
 	text = gtk_entry_get_text (GTK_ENTRY (sheet->workbook->ea_input));
 
+	if (*text == '@'){
+		char *new_text = g_strdup (text);
+		
+		*new_text = '=';
+		gtk_entry_set_text (GTK_ENTRY (sheet->workbook->ea_input), new_text);
+		g_free (new_text);
+	}
+	
 	/*
 	 * Figure out if a format matches, and for sanity compare that to
 	 * a rendered version of the text, if they compare equally, then

@@ -1,5 +1,5 @@
-#ifndef ITEM_BAR_H
-#define ITEM_BAR_H
+#ifndef GNUMERIC_ITEM_BAR_H
+#define GNUMERIC_ITEM_BAR_H
 
 #define ITEM_BAR(obj)          (GTK_CHECK_CAST((obj), item_bar_get_type (), ItemBar))
 #define ITEM_BAR_CLASS(k)      (GTK_CHECK_CLASS_CAST ((k), item_bar_get_type ()))
@@ -40,4 +40,4 @@ typedef struct {
 	void (* size_changed)      (ItemBar *, int column, int new_width);
 } ItemBarClass;
 
-#endif
+#endif /* GNUMERIC_ITEM_BAR_H */

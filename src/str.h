@@ -1,5 +1,5 @@
-#ifndef STRING_H
-#define STRING_H
+#ifndef GNUMERIC_STRING_H
+#define GNUMERIC_STRING_H
 
 typedef struct {
 	int        ref_count;
@@ -14,4 +14,4 @@ String *string_ref            (String *);
 void    string_unref          (String *);
 void    string_unref_ptr      (String **);
 
-#endif
+#endif /* GNUMERIC_STRING_H */

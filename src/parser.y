@@ -169,8 +169,6 @@ exp:	  NUMBER 	{ $$ = $1 }
 	}
 
 	| '(' exp ')'  {
-		$$ = p_new (ExprTree);
-		$$->ref_count = 1;
 		$$ = $2;
 	}
 

@@ -1,5 +1,5 @@
-#ifndef _PLUGIN_H
-#define _PLUGIN_H
+#ifndef GNUMERIC_PLUGIN_H
+#define GNUMERIC_PLUGIN_H
 
 #include <gmodule.h>
 
@@ -24,4 +24,4 @@ PluginData    *plugin_load           (gchar *filename);
 void           plugin_unload         (PluginData *pd);
 GtkWidget     *plugin_manager_new    (void);
 
-#endif
+#endif /* GNUMERIC_PLUGIN_H */

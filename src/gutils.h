@@ -1,5 +1,5 @@
-#ifndef G_UTILS_H
-#define G_UTILS_H
+#ifndef GNUMERIC_UTILS_H
+#define GNUMERIC_UTILS_H
 
 /* Gets an integer in the buffer in start to end */
 void      int_get_from_range   (char *start, char *end, int_t *t);
@@ -11,4 +11,4 @@ char      *cellref_name        (CellRef *cell_ref, int eval_col, int eval_row);
 int       parse_cell_name      (char *cell_str, int *col, int *row);
 char      *col_name            (int col);
 
-#endif
+#endif /* GNUMERIC_UTILS_H */

@@ -6,12 +6,12 @@
  * $Id$
  */
 
-#ifndef __GNUMERIC_XML_IO__
-#define __GNUMERIC_XML_IO__
+#ifndef GNUMERIC_XML_IO_H
+#define GNUMERIC_XML_IO_H
 
 Sheet*    gnumericReadXmlSheet     (const char *filename);
 int       gnumericWriteXmlSheet    (Sheet *sheet, const char *filename);
 Workbook* gnumericReadXmlWorkbook  (const char *filename);
 int       gnumericWriteXmlWorkbook (Workbook *sheet, const char *filename);
 
-#endif /* __GNUMERIC_XML_IO__ */
+#endif /* GNUMERIC_XML_IO_H */

@@ -1,5 +1,5 @@
-#ifndef DIALOGS_H
-#define DIALOGS_H
+#ifndef GNUMERIC_DIALOGS_H
+#define GNUMERIC_DIALOGS_H
 
 void  dialog_goto_cell       (Workbook *wb);
 void  dialog_cell_format     (Sheet *sheet);
@@ -10,4 +10,4 @@ void  dialog_zoom            (Sheet *sheet);
 char *dialog_query_load_file (void);
 void  dialog_about           (void);
 
-#endif
+#endif /* GNUMERIC_DIALOGS_H */
