@@ -1,3 +1,8 @@
+2001-02-21  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.h (SHEET_FOREACH_CONTROL) : Be really really careful about
+	  potential modifications to the list why we are walking it.
+
 2001-02-20  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell.c (cell_default_halign) : add support for arrays
