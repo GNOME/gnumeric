@@ -5,8 +5,14 @@ and longer term bugs.
 Release Critical
 ----------------
 - Changing an expression name that is in use causes a crash.
+
 - Saving xml should not rely on changing the textdomain to disable translation
   of TRUE/FALSE.
+
+- Importing fixed-width text (try "ls -l" output) with space stripping
+  essentially requires columns to be selected right-to-left because
+  stripping is done too early and mangles columns.
+
 
 Long term breakage
 ------------------
