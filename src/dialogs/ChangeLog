@@ -1,3 +1,8 @@
+2003-10-27  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-main-page.c (stf_dialog_main_page_init): Handle
+	missing columns when input is empty.
+
 2003-10-27  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=125422

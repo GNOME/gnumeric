@@ -325,7 +325,6 @@ stf_dialog_main_page_init (GladeXML *gui, StfDialogData *pagedata)
 {
 	RenderData_t *renderdata;
 	GtkTreeViewColumn *column;
-	GtkCellRenderer *cell;
 	char const *locale_encoding;
 
 	g_get_charset (&locale_encoding);
@@ -364,20 +363,26 @@ stf_dialog_main_page_init (GladeXML *gui, StfDialogData *pagedata)
 	main_page_update_preview (pagedata);
 
 	column = stf_preview_get_column (renderdata, 0);
-	cell = stf_preview_get_cell_renderer (renderdata, 0);
-	gtk_tree_view_column_set_title (column, _("Line"));
-	g_object_set (G_OBJECT (cell),
-		      "xalign", 1.0,
-		      "style", PANGO_STYLE_ITALIC,
-		      "background", "lightgrey",
-		      NULL);
+	if (column) {
+		/* This probably cannot happen.  */
+		GtkCellRenderer *cell = stf_preview_get_cell_renderer (renderdata, 0);
+		gtk_tree_view_column_set_title (column, _("Line"));
+		g_object_set (G_OBJECT (cell),
+			      "xalign", 1.0,
+			      "style", PANGO_STYLE_ITALIC,
+			      "background", "lightgrey",
+			      NULL);
+	}
 
 	column = stf_preview_get_column (renderdata, 1);
-	cell = stf_preview_get_cell_renderer (renderdata, 1);
-	gtk_tree_view_column_set_title (column, _("Text"));
-	g_object_set (G_OBJECT (cell),
-		      "family", "monospace",
-		      NULL);
+	if (column) {
+		/* In case of an empty file, there will be no column.  */
+		GtkCellRenderer *cell = stf_preview_get_cell_renderer (renderdata, 1);
+		gtk_tree_view_column_set_title (column, _("Text"));
+		g_object_set (G_OBJECT (cell),
+			      "family", "monospace",
+			      NULL);
+	}
 
 	/* Set properties */
 	main_page_set_spin_button_adjustment (pagedata->main.main_startrow, 1, renderdata->lines->len);
