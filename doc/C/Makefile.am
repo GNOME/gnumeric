@@ -293,7 +293,6 @@ include $(top_srcdir)/doc/sgmldocs.make
 dist-hook: app-dist-hook
 
 PERL_FILES =					\
-	make-func-index.pl			\
 	make-func-list.pl
 
 # include generated files to simplify installation
@@ -301,18 +300,18 @@ EXTRA_DIST +=					\
 	topic.dat				\
 	func.defs				\
 	func-header.sgml func-footer.sgml	\
-	func-list.sgml func-index.sgml		\
+	func-list.sgml 				\
 	gnumeric.1				\
 	$(PERL_FILES)
 
-functions.sgml: func-list.sgml func-index.sgml func-header.sgml func-footer.sgml
-	cd $(srcdir) && cat func-header.sgml func-index.sgml func-list.sgml func-footer.sgml > functions.sgml
+functions.sgml: func-list.sgml func-header.sgml func-footer.sgml
+	cd $(srcdir) && cat func-header.sgml func-list.sgml func-footer.sgml > functions.sgml
 
 func-list.sgml: func.defs make-func-list.pl
 	cd $(srcdir) && perl make-func-list.pl func.defs > func-list.sgml
 
-func-index.sgml: func.defs make-func-index.pl
-	cd $(srcdir) && perl make-func-index.pl func.defs > func-index.sgml
+#func-index.sgml: func.defs make-func-index.pl
+#	cd $(srcdir) && perl make-func-index.pl func.defs > func-index.sgml
 
 func.defs: 
 	gnumericdir=`cd $(top_builddir)/src && pwd`; \

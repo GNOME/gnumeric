@@ -1,29 +1,32 @@
-.TH GNUMERIC 1 "August 07, 2001" gnumeric "GNOME"
+.TH GNUMERIC 1 "January 1, 2002" gnumeric "GNOME"
 .SH NAME
-gnumeric \- GNOME spreadsheet application
+gnumeric \- a GNOME spreadsheet application.
 
 .SH SYNOPSIS
-\fBgnumeric\fR [\fIOPTIONS\fR]
+\fBgnumeric\fR [\fIOPTIONS\fR] [\fIfiles\fR \fI...\fR ]
 
 .SH DESCRIPTION
-\fBgnumeric\fR is a powerful and easy to use spreadsheet program from the GNOME
-project. Its goal is to compete with the commercial offerings; users of Excel
-should be already familiar with \fBgnumeric\fR's advanced features. A plugin system
-lets you extend \fBgnumeric\fR with GPL extensions, and optional Python, Guile, and
-Perl plugins let you define complex functions in those popular languages.
+\fBgnumeric\fR is a powerful spreadsheet program created by the GNOME
+project. \fBgnumeric\fR intends to compete with commercial spreadsheets
+by becoming fully compatible with Microsoft Excel and through the support 
+of most popular spreadsheet file formats such as Excel, Lotus 1-2-3, Applix, 
+Sylk, XBase and Oleo formats.
 
-\fBgnumeric\fR will import your existing Excel, 1-2-3, Applix, Sylk, XBase and
-Oleo files and can export to LaTeX and HTML as well.
+\fBgnumeric\fR supports advanced calculations using statistical, financial 
+and database access functions. Plotting data is supported through an 
+interface to the \fBGuppi\fR plotting program. A plugin system extends 
+\fBgnumeric\fR to enable the use the Python, Guile, or Perl programing 
+languages and to enable the export of data to the LaTeX \\longtable format.
 
-.SH USAGE
-\fBgnumeric\fR is documented in great detail by \fIGnumeric's user manual\fR
-(see below).
+The program can be started from the command line as \fBgnumeric\fR or from one
+of the menus provided by underlying platform. When started on the command
+line, \fBgnumeric\fR may be followed by the options listed below and possibly
+the names of \fBgnumeric\fR compressed XML format files which will then be 
+opened immediately.
 
 .SH OPTIONS
 This program follows the usual GNU command line syntax, with long options
-starting with two dashes (`--'). A summary of the options supported by
-\fBgnumeric\fR is included below.
-
+starting with two dashes (`--'). 
 .SS "Oaf options"
 .TP
 \fB\-\-oaf-od-ior=\fR\fIIOR\fR
@@ -114,6 +117,11 @@ Specify prefix of saved configuration
 .B \-\-sm-disable
 Disable connection to session manager
 
+.SS "X options"
+.TP
+\fB\-geom, \-\-geometry=\fIgeometry\fR
+Set the size and position of the first window.
+
 .SS "gnumeric options"
 .TP
 .B \-v, \-\-version
@@ -144,28 +152,42 @@ Exit immediately after loading the selected books (useful for testing).
 Enables extra consistency checking while reading ole files
 
 .SH VERSION
-0.68
+1.0
 
 .SH BUGS
-To report \fBgnumeric\fR bugs, please visit \fIhttp://bugzilla.gnome.org\fR.
+For the list of known \fBgnumeric\fR bugs, or to report new ones please 
+visit \fIhttp://bugzilla.gnome.org\fR.
 
 .SH "SEE ALSO"
 .TP
-\fBGnumeric's user manual\fR
-.I http://www.gnome.org/projects/gnumeric/doc/index.html
+.B The gnumeric manual
+Available through the \fBHelp\fR menu or on the world wide web at 
+\fIhttp://www.gnome.org/projects/gnumeric/doc/index.html\fR
 .TP
-.B GnomeHelp
-.I gnome-help-browser(1)
+.B The gnumeric homepage
+.I http://www.gnome.org/projects/gnumeric/
 .TP
 .B The GNOME project
 .I http://www.gnome.org
 
+.SH LICENSE
+
+\fBgnumeric\fR is licensed under the terms of the General Public License
+version 2. For information on this license look at the source code that came
+with the software or see the GNU project page at http://www.gnu.org.
+
+.SH COPYRIGHT
+
+The copyright on the \fBgnumeric\fR software and source code is held by the
+individual authors as is documented in the source code.
 
 
 .SH AUTHORS
 .SS "gnumeric"
-Jody Goldberg <jgoldberg@home.com>
+Jody Goldberg <jgoldberg@gnome.org>
 .br
-Miguel de Icaza <miguel@helixcode.com>
+Miguel de Icaza <miguel@gnome.org>
 .SS "This manual page"
-Jan Schaumann <jschauma@netmeister.org>.
+Jan Schaumann <jschauma@netmeister.org>
+.br
+Adrian Custer <acuster@nature.berkeley.edu>

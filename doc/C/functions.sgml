@@ -3,349 +3,6 @@
 
 
  
-<itemizedlist mark="bullet">
-<listitem><para><link linkend="gnumeric-ABS">ABS</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ACCRINT">ACCRINT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ACCRINTM">ACCRINTM</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ACOS">ACOS</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ACOSH">ACOSH</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ADDRESS">ADDRESS</link></para></listitem>
-<listitem><para><link linkend="gnumeric-AMORDEGRC">AMORDEGRC</link></para></listitem>
-<listitem><para><link linkend="gnumeric-AMORLINC">AMORLINC</link></para></listitem>
-<listitem><para><link linkend="gnumeric-AND">AND</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ASIN">ASIN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ASINH">ASINH</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ATAN">ATAN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ATAN2">ATAN2</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ATANH">ATANH</link></para></listitem>
-<listitem><para><link linkend="gnumeric-AVEDEV">AVEDEV</link></para></listitem>
-<listitem><para><link linkend="gnumeric-AVERAGE">AVERAGE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-AVERAGEA">AVERAGEA</link></para></listitem>
-<listitem><para><link linkend="gnumeric-BESSELI">BESSELI</link></para></listitem>
-<listitem><para><link linkend="gnumeric-BESSELJ">BESSELJ</link></para></listitem>
-<listitem><para><link linkend="gnumeric-BESSELK">BESSELK</link></para></listitem>
-<listitem><para><link linkend="gnumeric-BESSELY">BESSELY</link></para></listitem>
-<listitem><para><link linkend="gnumeric-BETADIST">BETADIST</link></para></listitem>
-<listitem><para><link linkend="gnumeric-BETAINV">BETAINV</link></para></listitem>
-<listitem><para><link linkend="gnumeric-BIN2DEC">BIN2DEC</link></para></listitem>
-<listitem><para><link linkend="gnumeric-BIN2HEX">BIN2HEX</link></para></listitem>
-<listitem><para><link linkend="gnumeric-BIN2OCT">BIN2OCT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-BINOMDIST">BINOMDIST</link></para></listitem>
-<listitem><para><link linkend="gnumeric-CEIL">CEIL</link></para></listitem>
-<listitem><para><link linkend="gnumeric-CEILING">CEILING</link></para></listitem>
-<listitem><para><link linkend="gnumeric-CELL">CELL</link></para></listitem>
-<listitem><para><link linkend="gnumeric-CHAR">CHAR</link></para></listitem>
-<listitem><para><link linkend="gnumeric-CHIDIST">CHIDIST</link></para></listitem>
-<listitem><para><link linkend="gnumeric-CHIINV">CHIINV</link></para></listitem>
-<listitem><para><link linkend="gnumeric-CHITEST">CHITEST</link></para></listitem>
-<listitem><para><link linkend="gnumeric-CHOOSE">CHOOSE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-CLEAN">CLEAN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-CODE">CODE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-COLUMN">COLUMN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-COLUMNS">COLUMNS</link></para></listitem>
-<listitem><para><link linkend="gnumeric-COMBIN">COMBIN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-COMPLEX">COMPLEX</link></para></listitem>
-<listitem><para><link linkend="gnumeric-CONCATENATE">CONCATENATE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-CONFIDENCE">CONFIDENCE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-CONVERT">CONVERT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-CORREL">CORREL</link></para></listitem>
-<listitem><para><link linkend="gnumeric-COS">COS</link></para></listitem>
-<listitem><para><link linkend="gnumeric-COSH">COSH</link></para></listitem>
-<listitem><para><link linkend="gnumeric-COUNT">COUNT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-COUNTA">COUNTA</link></para></listitem>
-<listitem><para><link linkend="gnumeric-COUNTBLANK">COUNTBLANK</link></para></listitem>
-<listitem><para><link linkend="gnumeric-COUNTIF">COUNTIF</link></para></listitem>
-<listitem><para><link linkend="gnumeric-COUPDAYBS">COUPDAYBS</link></para></listitem>
-<listitem><para><link linkend="gnumeric-COUPDAYS">COUPDAYS</link></para></listitem>
-<listitem><para><link linkend="gnumeric-COUPDAYSNC">COUPDAYSNC</link></para></listitem>
-<listitem><para><link linkend="gnumeric-COUPNCD">COUPNCD</link></para></listitem>
-<listitem><para><link linkend="gnumeric-COUPNUM">COUPNUM</link></para></listitem>
-<listitem><para><link linkend="gnumeric-COUPPCD">COUPPCD</link></para></listitem>
-<listitem><para><link linkend="gnumeric-COVAR">COVAR</link></para></listitem>
-<listitem><para><link linkend="gnumeric-CRITBINOM">CRITBINOM</link></para></listitem>
-<listitem><para><link linkend="gnumeric-CUMIPMT">CUMIPMT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-CUMPRINC">CUMPRINC</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DATE">DATE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DATEDIF">DATEDIF</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DATEVALUE">DATEVALUE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DAVERAGE">DAVERAGE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DAY">DAY</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DAYS360 ">DAYS360 </link></para></listitem>
-<listitem><para><link linkend="gnumeric-DB">DB</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DCOUNT">DCOUNT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DCOUNTA">DCOUNTA</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DDB">DDB</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DEC2BIN">DEC2BIN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DEC2HEX">DEC2HEX</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DEC2OCT">DEC2OCT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DEGREES">DEGREES</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DELTA">DELTA</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DEVSQ">DEVSQ</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DGET">DGET</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DISC">DISC</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DMAX">DMAX</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DMIN">DMIN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DOLLAR">DOLLAR</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DOLLARDE">DOLLARDE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DOLLARFR">DOLLARFR</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DPRODUCT">DPRODUCT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DSTDEV">DSTDEV</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DSTDEVP">DSTDEVP</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DSUM">DSUM</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DURATION">DURATION</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DVAR">DVAR</link></para></listitem>
-<listitem><para><link linkend="gnumeric-DVARP">DVARP</link></para></listitem>
-<listitem><para><link linkend="gnumeric-EDATE">EDATE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-EFFECT">EFFECT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-EOMONTH">EOMONTH</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ERF">ERF</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ERFC">ERFC</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ERROR">ERROR</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ERROR.TYPE">ERROR.TYPE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-EURO">EURO</link></para></listitem>
-<listitem><para><link linkend="gnumeric-EVEN">EVEN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-EXACT">EXACT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-EXP">EXP</link></para></listitem>
-<listitem><para><link linkend="gnumeric-EXPONDIST">EXPONDIST</link></para></listitem>
-<listitem><para><link linkend="gnumeric-EXPRESSION">EXPRESSION</link></para></listitem>
-<listitem><para><link linkend="gnumeric-FACT">FACT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-FACTDOUBLE">FACTDOUBLE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-FALSE">FALSE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-FDIST">FDIST</link></para></listitem>
-<listitem><para><link linkend="gnumeric-FIND">FIND</link></para></listitem>
-<listitem><para><link linkend="gnumeric-FINV">FINV</link></para></listitem>
-<listitem><para><link linkend="gnumeric-FISHER">FISHER</link></para></listitem>
-<listitem><para><link linkend="gnumeric-FISHERINV">FISHERINV</link></para></listitem>
-<listitem><para><link linkend="gnumeric-FIXED">FIXED</link></para></listitem>
-<listitem><para><link linkend="gnumeric-FLOOR">FLOOR</link></para></listitem>
-<listitem><para><link linkend="gnumeric-FORECAST">FORECAST</link></para></listitem>
-<listitem><para><link linkend="gnumeric-FREQUENCY">FREQUENCY</link></para></listitem>
-<listitem><para><link linkend="gnumeric-FTEST">FTEST</link></para></listitem>
-<listitem><para><link linkend="gnumeric-FV">FV</link></para></listitem>
-<listitem><para><link linkend="gnumeric-FVSCHEDULE">FVSCHEDULE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-GAMMADIST">GAMMADIST</link></para></listitem>
-<listitem><para><link linkend="gnumeric-GAMMAINV">GAMMAINV</link></para></listitem>
-<listitem><para><link linkend="gnumeric-GAMMALN">GAMMALN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-GCD">GCD</link></para></listitem>
-<listitem><para><link linkend="gnumeric-GEOMEAN">GEOMEAN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-GESTEP">GESTEP</link></para></listitem>
-<listitem><para><link linkend="gnumeric-GETPIVOTDATA">GETPIVOTDATA</link></para></listitem>
-<listitem><para><link linkend="gnumeric-GNUMERICxVERSION">GNUMERIC_VERSION</link></para></listitem>
-<listitem><para><link linkend="gnumeric-GROWTH">GROWTH</link></para></listitem>
-<listitem><para><link linkend="gnumeric-GxPRODUCT">G_PRODUCT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-HARMEAN">HARMEAN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-HEX2BIN">HEX2BIN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-HEX2DEC">HEX2DEC</link></para></listitem>
-<listitem><para><link linkend="gnumeric-HEX2OCT">HEX2OCT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-HLOOKUP">HLOOKUP</link></para></listitem>
-<listitem><para><link linkend="gnumeric-HOUR">HOUR</link></para></listitem>
-<listitem><para><link linkend="gnumeric-HYPERLINK">HYPERLINK</link></para></listitem>
-<listitem><para><link linkend="gnumeric-HYPGEOMDIST">HYPGEOMDIST</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IF">IF</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IMABS">IMABS</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IMAGINARY">IMAGINARY</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IMARGUMENT">IMARGUMENT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IMCONJUGATE">IMCONJUGATE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IMCOS">IMCOS</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IMDIV">IMDIV</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IMEXP">IMEXP</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IMLN">IMLN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IMLOG10">IMLOG10</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IMLOG2">IMLOG2</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IMPOWER">IMPOWER</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IMPRODUCT">IMPRODUCT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IMREAL">IMREAL</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IMSIN">IMSIN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IMSQRT">IMSQRT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IMSUB">IMSUB</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IMSUM">IMSUM</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IMTAN">IMTAN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-INDEX">INDEX</link></para></listitem>
-<listitem><para><link linkend="gnumeric-INDIRECT">INDIRECT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-INFO">INFO</link></para></listitem>
-<listitem><para><link linkend="gnumeric-INT">INT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-INTERCEPT">INTERCEPT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-INTRATE">INTRATE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IPMT">IPMT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-IRR">IRR</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ISBLANK">ISBLANK</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ISERR">ISERR</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ISERROR">ISERROR</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ISEVEN">ISEVEN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ISLOGICAL">ISLOGICAL</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ISNA">ISNA</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ISNONTEXT">ISNONTEXT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ISNUMBER">ISNUMBER</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ISODD">ISODD</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ISPMT">ISPMT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ISREF">ISREF</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ISTEXT">ISTEXT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-KURT">KURT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-KURTP">KURTP</link></para></listitem>
-<listitem><para><link linkend="gnumeric-LARGE">LARGE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-LCM">LCM</link></para></listitem>
-<listitem><para><link linkend="gnumeric-LEFT">LEFT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-LEN">LEN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-LINEST">LINEST</link></para></listitem>
-<listitem><para><link linkend="gnumeric-LN">LN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-LOG">LOG</link></para></listitem>
-<listitem><para><link linkend="gnumeric-LOG10">LOG10</link></para></listitem>
-<listitem><para><link linkend="gnumeric-LOG2">LOG2</link></para></listitem>
-<listitem><para><link linkend="gnumeric-LOGEST">LOGEST</link></para></listitem>
-<listitem><para><link linkend="gnumeric-LOGINV">LOGINV</link></para></listitem>
-<listitem><para><link linkend="gnumeric-LOGNORMDIST">LOGNORMDIST</link></para></listitem>
-<listitem><para><link linkend="gnumeric-LOOKUP">LOOKUP</link></para></listitem>
-<listitem><para><link linkend="gnumeric-LOWER">LOWER</link></para></listitem>
-<listitem><para><link linkend="gnumeric-MATCH">MATCH</link></para></listitem>
-<listitem><para><link linkend="gnumeric-MAX">MAX</link></para></listitem>
-<listitem><para><link linkend="gnumeric-MAXA">MAXA</link></para></listitem>
-<listitem><para><link linkend="gnumeric-MDETERM">MDETERM</link></para></listitem>
-<listitem><para><link linkend="gnumeric-MDURATION">MDURATION</link></para></listitem>
-<listitem><para><link linkend="gnumeric-MEDIAN">MEDIAN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-MID">MID</link></para></listitem>
-<listitem><para><link linkend="gnumeric-MIN">MIN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-MINA">MINA</link></para></listitem>
-<listitem><para><link linkend="gnumeric-MINUTE">MINUTE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-MINVERSE">MINVERSE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-MIRR">MIRR</link></para></listitem>
-<listitem><para><link linkend="gnumeric-MMULT">MMULT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-MOD">MOD</link></para></listitem>
-<listitem><para><link linkend="gnumeric-MODE">MODE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-MONTH">MONTH</link></para></listitem>
-<listitem><para><link linkend="gnumeric-MROUND">MROUND</link></para></listitem>
-<listitem><para><link linkend="gnumeric-MULTINOMIAL">MULTINOMIAL</link></para></listitem>
-<listitem><para><link linkend="gnumeric-N">N</link></para></listitem>
-<listitem><para><link linkend="gnumeric-NA">NA</link></para></listitem>
-<listitem><para><link linkend="gnumeric-NEGBINOMDIST">NEGBINOMDIST</link></para></listitem>
-<listitem><para><link linkend="gnumeric-NETWORKDAYS">NETWORKDAYS</link></para></listitem>
-<listitem><para><link linkend="gnumeric-NOMINAL">NOMINAL</link></para></listitem>
-<listitem><para><link linkend="gnumeric-NORMDIST">NORMDIST</link></para></listitem>
-<listitem><para><link linkend="gnumeric-NORMINV">NORMINV</link></para></listitem>
-<listitem><para><link linkend="gnumeric-NORMSDIST">NORMSDIST</link></para></listitem>
-<listitem><para><link linkend="gnumeric-NORMSINV">NORMSINV</link></para></listitem>
-<listitem><para><link linkend="gnumeric-NOT">NOT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-NOW">NOW</link></para></listitem>
-<listitem><para><link linkend="gnumeric-NPER">NPER</link></para></listitem>
-<listitem><para><link linkend="gnumeric-NPV">NPV</link></para></listitem>
-<listitem><para><link linkend="gnumeric-OCT2BIN">OCT2BIN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-OCT2DEC">OCT2DEC</link></para></listitem>
-<listitem><para><link linkend="gnumeric-OCT2HEX">OCT2HEX</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ODD">ODD</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ODDFPRICE">ODDFPRICE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ODDFYIELD">ODDFYIELD</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ODDLPRICE">ODDLPRICE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ODDLYIELD">ODDLYIELD</link></para></listitem>
-<listitem><para><link linkend="gnumeric-OFFSET">OFFSET</link></para></listitem>
-<listitem><para><link linkend="gnumeric-OR">OR</link></para></listitem>
-<listitem><para><link linkend="gnumeric-PEARSON">PEARSON</link></para></listitem>
-<listitem><para><link linkend="gnumeric-PERCENTILE">PERCENTILE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-PERCENTRANK">PERCENTRANK</link></para></listitem>
-<listitem><para><link linkend="gnumeric-PERMUT">PERMUT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-PI">PI</link></para></listitem>
-<listitem><para><link linkend="gnumeric-PMT">PMT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-POISSON">POISSON</link></para></listitem>
-<listitem><para><link linkend="gnumeric-POWER">POWER</link></para></listitem>
-<listitem><para><link linkend="gnumeric-PPMT">PPMT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-PRICE">PRICE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-PRICEDISC">PRICEDISC</link></para></listitem>
-<listitem><para><link linkend="gnumeric-PRICEMAT">PRICEMAT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-PROB">PROB</link></para></listitem>
-<listitem><para><link linkend="gnumeric-PRODUCT">PRODUCT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-PROPER">PROPER</link></para></listitem>
-<listitem><para><link linkend="gnumeric-PV">PV</link></para></listitem>
-<listitem><para><link linkend="gnumeric-QUARTILE">QUARTILE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-QUOTIENT">QUOTIENT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-RADIANS">RADIANS</link></para></listitem>
-<listitem><para><link linkend="gnumeric-RAND">RAND</link></para></listitem>
-<listitem><para><link linkend="gnumeric-RANDBETWEEN">RANDBETWEEN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-RANDNEGBINOM">RANDNEGBINOM</link></para></listitem>
-<listitem><para><link linkend="gnumeric-RANK">RANK</link></para></listitem>
-<listitem><para><link linkend="gnumeric-RATE">RATE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-RECEIVED">RECEIVED</link></para></listitem>
-<listitem><para><link linkend="gnumeric-REPLACE">REPLACE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-REPT">REPT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-RIGHT">RIGHT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ROMAN">ROMAN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ROUND">ROUND</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ROUNDDOWN">ROUNDDOWN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ROUNDUP">ROUNDUP</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ROW">ROW</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ROWS">ROWS</link></para></listitem>
-<listitem><para><link linkend="gnumeric-RSQ">RSQ</link></para></listitem>
-<listitem><para><link linkend="gnumeric-RandBernoulli">RandBernoulli</link></para></listitem>
-<listitem><para><link linkend="gnumeric-RandBinom">RandBinom</link></para></listitem>
-<listitem><para><link linkend="gnumeric-RandExp">RandExp</link></para></listitem>
-<listitem><para><link linkend="gnumeric-RandPoisson">RandPoisson</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SEARCH">SEARCH</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SECOND">SECOND</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SELECTION">SELECTION</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SERIESSUM">SERIESSUM</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SIGN">SIGN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SIN">SIN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SINH">SINH</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SKEW">SKEW</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SKEWP">SKEWP</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SLN">SLN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SLOPE">SLOPE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SMALL">SMALL</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SQRT">SQRT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SQRTPI">SQRTPI</link></para></listitem>
-<listitem><para><link linkend="gnumeric-STANDARDIZE">STANDARDIZE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-STDEV">STDEV</link></para></listitem>
-<listitem><para><link linkend="gnumeric-STDEVA">STDEVA</link></para></listitem>
-<listitem><para><link linkend="gnumeric-STDEVP">STDEVP</link></para></listitem>
-<listitem><para><link linkend="gnumeric-STDEVPA">STDEVPA</link></para></listitem>
-<listitem><para><link linkend="gnumeric-STEYX">STEYX</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SUBSTITUTE">SUBSTITUTE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SUBTOTAL">SUBTOTAL</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SUM">SUM</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SUMA">SUMA</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SUMIF">SUMIF</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SUMPRODUCT">SUMPRODUCT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SUMSQ">SUMSQ</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SUMX2MY2">SUMX2MY2</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SUMX2PY2">SUMX2PY2</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SUMXMY2">SUMXMY2</link></para></listitem>
-<listitem><para><link linkend="gnumeric-SYD">SYD</link></para></listitem>
-<listitem><para><link linkend="gnumeric-T">T</link></para></listitem>
-<listitem><para><link linkend="gnumeric-TAN">TAN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-TANH">TANH</link></para></listitem>
-<listitem><para><link linkend="gnumeric-TBILLEQ">TBILLEQ</link></para></listitem>
-<listitem><para><link linkend="gnumeric-TBILLPRICE">TBILLPRICE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-TBILLYIELD">TBILLYIELD</link></para></listitem>
-<listitem><para><link linkend="gnumeric-TDIST">TDIST</link></para></listitem>
-<listitem><para><link linkend="gnumeric-TEXT">TEXT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-TIME">TIME</link></para></listitem>
-<listitem><para><link linkend="gnumeric-TIMEVALUE">TIMEVALUE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-TINV">TINV</link></para></listitem>
-<listitem><para><link linkend="gnumeric-TODAY">TODAY</link></para></listitem>
-<listitem><para><link linkend="gnumeric-TRANSPOSE">TRANSPOSE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-TREND">TREND</link></para></listitem>
-<listitem><para><link linkend="gnumeric-TRIM">TRIM</link></para></listitem>
-<listitem><para><link linkend="gnumeric-TRIMMEAN">TRIMMEAN</link></para></listitem>
-<listitem><para><link linkend="gnumeric-TRUE">TRUE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-TRUNC">TRUNC</link></para></listitem>
-<listitem><para><link linkend="gnumeric-TTEST">TTEST</link></para></listitem>
-<listitem><para><link linkend="gnumeric-TYPE">TYPE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-UPPER">UPPER</link></para></listitem>
-<listitem><para><link linkend="gnumeric-VALUE">VALUE</link></para></listitem>
-<listitem><para><link linkend="gnumeric-VAR">VAR</link></para></listitem>
-<listitem><para><link linkend="gnumeric-VARA">VARA</link></para></listitem>
-<listitem><para><link linkend="gnumeric-VARP">VARP</link></para></listitem>
-<listitem><para><link linkend="gnumeric-VARPA">VARPA</link></para></listitem>
-<listitem><para><link linkend="gnumeric-VDB">VDB</link></para></listitem>
-<listitem><para><link linkend="gnumeric-VLOOKUP">VLOOKUP</link></para></listitem>
-<listitem><para><link linkend="gnumeric-WEEKDAY">WEEKDAY</link></para></listitem>
-<listitem><para><link linkend="gnumeric-WEIBULL">WEIBULL</link></para></listitem>
-<listitem><para><link linkend="gnumeric-WORKDAY">WORKDAY</link></para></listitem>
-<listitem><para><link linkend="gnumeric-XIRR">XIRR</link></para></listitem>
-<listitem><para><link linkend="gnumeric-XNPV">XNPV</link></para></listitem>
-<listitem><para><link linkend="gnumeric-YEAR">YEAR</link></para></listitem>
-<listitem><para><link linkend="gnumeric-YIELD">YIELD</link></para></listitem>
-<listitem><para><link linkend="gnumeric-YIELDDISC">YIELDDISC</link></para></listitem>
-<listitem><para><link linkend="gnumeric-YIELDMAT">YIELDMAT</link></para></listitem>
-<listitem><para><link linkend="gnumeric-ZTEST">ZTEST</link></para></listitem>
-</itemizedlist>
 
 
   <refentry id="gnumeric-ABS">
@@ -2134,7 +1791,7 @@
       <refsect1>
         <title>Description</title>
         <para>DATE returns the number of days since the 1st of january of 1900(the date serial number) for the given year, month and day.</para>
-        <para>The @day might be negative (to count backwards) and it is relative to the previous @month.  The @years should be at least 1900.  If @years &lt;= 30, it is assumed to be 2000 + @years.  If 30 &lt; @years &lt; 100, it is assumed to be 1900 + @years.</para>        <para>If the given date is not valid, DATE returns #VALUE! error.</para>        <para>This function is Excel compatible.</para>
+        <para></para>        <para>If @month &lt; 1 or @month &gt; 12, the year will be corrected.  A similar correction takes place for days.</para>        <para></para>        <para>The @years should be at least 1900.  If @years &lt; 1900, it is assumed to be 1900 + @years.</para>        <para></para>        <para>If the given date is not valid, DATE returns #NUM! error.</para>        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -2195,7 +1852,7 @@
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>DATEVALUE("1/1/1999") equals 36160.</para>
+        <para>DATEVALUE("1/1/1999") equals 36161.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DATE">DATE</link>.
@@ -3067,7 +2724,7 @@
       <refsect1>
         <title>Description</title>
         <para>EFFECT calculates the effective interest rate from a given nominal rate.</para>
-        <para>Effective interest rate is calculated using this formulae:</para>        <para></para>        <para>         @r( 1 + ------ ) ^ @nper - 1       @nper</para>        <para>where:</para>        <para></para>        <para>@r = nominal interest rate (stated in yearly terms)</para>        <para>@nper = number of periods used for compounding</para>
+        <para>Effective interest rate is calculated using this formula:</para>        <para></para>        <para>    (1 + @r / @nper) ^ @nper - 1</para>        <para></para>        <para>where:</para>        <para></para>        <para>@r = nominal interest rate (stated in yearly terms)</para>        <para>@nper = number of periods used for compounding</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -4889,16 +4546,16 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>INDEX(reference,[row, col, area])</synopsis>
+      <synopsis>INDEX(array,[row, col, area])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>INDEX function returns a reference to the cell at a offset into the reference specified by row, col.</para>
-        <para>If things go wrong returns #REF!</para>
+        <para>INDEX gives a reference to a cell in the given @array.The cell is pointed out by @row and @col, which count the rows and columnsin the array.</para>
+        <para>If @row and @col are ommited the are assumed to be 1.@area has to be 1; references to multiple areas are not yet implemented.If the reference falls outside the range of the @array, INDEX returns a#REF! error.</para>        <para></para>
     </refsect1>      <refsect1>
         <title>Examples</title>
-        <para></para>
-        <para></para>
+        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3,21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25,9</para>
+
     </refsect1>
     <refsect1><title>See also</title>
       <para>      </para>

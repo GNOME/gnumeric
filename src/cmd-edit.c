@@ -109,8 +109,8 @@ cmd_select_cur_array (Sheet *sheet)
 	 */
 	sheet_selection_add_range (sheet, col, row,
 				   col - array->x, row - array->y,
-				   col - array->x + array->cols,
-				   row - array->y + array->rows);
+				   col - array->x + array->cols - 1,
+				   row - array->y + array->rows - 1);
 
 	sheet_update (sheet);
 }

@@ -1,3 +1,8 @@
+2001-12-28  Jody Goldberg <jody@gnome.org>
+
+	* Makefile.am : We no longer seem to need to generate the index
+	  ourselves.
+
 2001-12-28  Alexander Kirillov  <kirillov@math.sunysb.edu>
 
 	* gnumeric.sgml: changed license to FDL, added FDL as an appendix

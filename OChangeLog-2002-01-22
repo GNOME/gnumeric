@@ -1,5 +1,7 @@
 2001-12-28  Jody Goldberg <jody@gnome.org>
 
+	* src/cmd-edit.c (cmd_select_cur_array) : fence post error.
+
 	* src/sheet.c (sheet_destroy) : be more forgiving about exit errors.
 	(sheet_destroy_contents) : Remove stupid hash clearing.  Just delete
 	  the thing.

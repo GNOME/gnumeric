@@ -759,9 +759,13 @@ CRITBINOM(10,0.5,0.75) equals 6.
 @FUNCTION=DATE
 @SYNTAX=DATE (year,month,day)
 @DESCRIPTION=DATE returns the number of days since the 1st of january of 1900(the date serial number) for the given year, month and day.
-The @day might be negative (to count backwards) and it is relative to the previous @month.  The @years should be at least 1900.  If @years <= 30, it is assumed to be 2000 + @years.  If 30 < @years < 100, it is assumed to be 1900 + @years. 
-If the given date is not valid, DATE returns #VALUE! error.
-This function is Excel compatible. 
+
+If @month < 1 or @month > 12, the year will be corrected.  A similar correction takes place for days.
+
+The @years should be at least 1900.  If @years < 1900, it is assumed to be 1900 + @years.
+
+If the given date is not valid, DATE returns #NUM! error.
+This function is Excel compatible.
 @EXAMPLES=
 DATE(2001, 3, 30) returns 'Mar 30, 2001'.
  
@@ -786,7 +790,7 @@ DATEDIF(DATE(2000,4,30),DATE(2003,8,4),"y") equals 3.
 @DESCRIPTION=DATEVALUE returns the serial number of the date.  @date_str is the string that contains the date.
 This function is Excel compatible. 
 @EXAMPLES=
-DATEVALUE("1/1/1999") equals 36160. 
+DATEVALUE("1/1/1999") equals 36161.
 @SEEALSO=DATE
 
 @FUNCTION=DAVERAGE
@@ -1273,9 +1277,10 @@ EDATE(DATE(2001,12,30),2) returns 'Feb 28, 2002'.
 @FUNCTION=EFFECT
 @SYNTAX=EFFECT(r,nper)
 @DESCRIPTION=EFFECT calculates the effective interest rate from a given nominal rate.
-Effective interest rate is calculated using this formulae:
+Effective interest rate is calculated using this formula:
 
-         @r( 1 + ------ ) ^ @nper - 1       @nper
+    (1 + @r / @nper) ^ @nper - 1
+
 where:
 
 @r = nominal interest rate (stated in yearly terms)
@@ -1895,11 +1900,11 @@ This function is Excel compatible.
 @SEEALSO=IMSIN,IMCOS
 
 @FUNCTION=INDEX
-@SYNTAX=INDEX(reference,[row, col, area])
-@DESCRIPTION=INDEX function returns a reference to the cell at a offset into the reference specified by row, col.
-If things go wrong returns #REF! 
-@EXAMPLES=
+@SYNTAX=INDEX(array,[row, col, area])
+@DESCRIPTION=INDEX gives a reference to a cell in the given @array.The cell is pointed out by @row and @col, which count the rows and columnsin the array.
+If @row and @col are ommited the are assumed to be 1.@area has to be 1; references to multiple areas are not yet implemented.If the reference falls outside the range of the @array, INDEX returns a#REF! error.
 
+@EXAMPLES=Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3,21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25,9
 @SEEALSO=
 
 @FUNCTION=INDIRECT
