@@ -68,10 +68,17 @@ sub copy_subsystem {
 	    die "$0: Cannot write $dstdir/$file.new: $!\n";
 
 	print STDERR "Creating $dstdir/$file...";
+      LINE:
 	while (<SRC>) {
 	    if (m{^\s*\#\s*include\s*[<\"]libegg/(.*)[>\"]}) {
 		print DST "#include \"egg/$1\"\n";
-		next;
+		next LINE;
+	    }
+
+	    # Turn C++ comments into C comments.
+	    if (m|^\s*//|) {
+		s|//|/*|;
+		s|$|*/|;
 	    }
 
 	    print DST;
