@@ -11,7 +11,7 @@
 
 #include "gnumeric-canvas.h"
 
-#include <libfoocanvas/foo-canvas-rect-ellipse.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <gsf/gsf-impl-utils.h>
 #define GNUMERIC_ITEM "ACETATE"
 #include "item-debug.h"

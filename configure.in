@@ -957,8 +957,6 @@ src/tools/solver/glpk/source/Makefile
 src/tools/solver/glpk/include/Makefile
 src/tools/solver/lp_solve/Makefile
 src/cut-n-paste-code/Makefile
-src/cut-n-paste-code/foocanvas/Makefile
-src/cut-n-paste-code/foocanvas/libfoocanvas/Makefile
 doc/Makefile
 doc/C/Makefile
 doc/C/figures/Makefile

@@ -27,8 +27,8 @@
 #include "commands.h"
 #include "gui-util.h"
 
-#include <libfoocanvas/foo-canvas-line.h>
-#include <libfoocanvas/foo-canvas-rect-ellipse.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtkseparatormenuitem.h>

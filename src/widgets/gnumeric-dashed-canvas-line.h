@@ -2,7 +2,7 @@
 #define GNUMERIC_DASHED_CANVAS_LINE_H
 
 /* dashed Line item for the canvas */
-#include <libfoocanvas/foo-canvas-line.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
 #include "style-border.h"
 
 #define GNUMERIC_TYPE_DASHED_CANVAS_LINE\

@@ -29,7 +29,6 @@ INCLUDES = 								\
 	-I$(srcdir)/widgets						\
 	-I$(srcdir)/dialogs						\
 	-I$(srcdir)/tools						\
-	-I$(top_srcdir)/src/cut-n-paste-code/foocanvas			\
 	$(GNUMERIC_CFLAGS)
 
 # A hint is needed to build these headers first:
@@ -301,7 +300,6 @@ endif
 gnumeric_app_libs =				\
 	dialogs/libdialogs.a			\
 	tools/libtools.a			\
-	cut-n-paste-code/foocanvas/libfoocanvas/libfoocanvas.a	\
 	widgets/libwidgets.a
 
 if ENABLE_SOLVER

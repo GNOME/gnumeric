@@ -42,11 +42,11 @@
 #include <libgnomeprintui/gnome-print-paper-selector.h>
 #include <libgnomeprintui/gnome-print-unit-selector.h>
 
-#include <libfoocanvas/foo-canvas.h>
-#include <libfoocanvas/foo-canvas-util.h>
-#include <libfoocanvas/foo-canvas-line.h>
-#include <libfoocanvas/foo-canvas-text.h>
-#include <libfoocanvas/foo-canvas-rect-ellipse.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-text.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <glade/glade.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtknotebook.h>

@@ -2,7 +2,7 @@
 #define GNUMERIC_PATTERN_H
 
 #include "style.h"
-#include <libfoocanvas/foo-canvas.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <libgnomeprint/gnome-print.h>
 
 #define GNUMERIC_SHEET_PATTERNS 25

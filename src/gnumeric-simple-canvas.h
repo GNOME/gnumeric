@@ -2,7 +2,7 @@
 #define GNM_SIMPLE_CANVAS_H
 
 #include "gui-gnumeric.h"
-#include <libfoocanvas/foo-canvas.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 
 typedef struct {
 	FooCanvas   canvas;

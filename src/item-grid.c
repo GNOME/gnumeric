@@ -38,7 +38,7 @@
 #include "hlink.h"
 #include "gui-util.h"
 
-#include <libfoocanvas/foo-canvas-rect-ellipse.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <gtk/gtkdnd.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtklabel.h>

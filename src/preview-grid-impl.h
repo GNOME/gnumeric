@@ -3,7 +3,7 @@
 #define PREVIEW_GRID_IMPL_H
 
 #include "preview-grid.h"
-#include <libfoocanvas/foo-canvas.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 
 struct _PreviewGrid {
 	FooCanvasGroup base;

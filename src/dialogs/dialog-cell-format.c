@@ -79,12 +79,12 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkbox.h>
-#include <libfoocanvas/foo-canvas.h>
-#include <libfoocanvas/foo-canvas-util.h>
-#include <libfoocanvas/foo-canvas-line.h>
-#include <libfoocanvas/foo-canvas-pixbuf.h>
-#include <libfoocanvas/foo-canvas-rect-ellipse.h>
-#include <libfoocanvas/foo-canvas-widget.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-pixbuf.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
 
 static struct {
 	char const *Cname;

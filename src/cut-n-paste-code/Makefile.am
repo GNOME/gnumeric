@@ -1,1 +1,1 @@
-SUBDIRS = foocanvas
+SUBDIRS = 

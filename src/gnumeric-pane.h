@@ -2,8 +2,8 @@
 #define GNUMERIC_PANE_H
 
 #include "gui-gnumeric.h"
-#include <libfoocanvas/foo-canvas.h>
-#include <libfoocanvas/foo-canvas-util.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
 #include "gui-util.h"
 
 struct _GnumericPane {

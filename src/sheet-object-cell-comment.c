@@ -36,7 +36,7 @@
 
 #include <libxml/globals.h>
 #include <gsf/gsf-impl-utils.h>
-#include <libfoocanvas/foo-canvas-polygon.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-polygon.h>
 
 struct _GnmComment {
 	SheetObject	base;

@@ -57,10 +57,10 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtkstock.h>
-#include <libfoocanvas/foo-canvas-line.h>
-#include <libfoocanvas/foo-canvas-rect-ellipse.h>
-#include <libfoocanvas/foo-canvas-polygon.h>
-#include <libfoocanvas/foo-canvas-text.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-polygon.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-text.h>
 #include <math.h>
 #include <string.h>
 

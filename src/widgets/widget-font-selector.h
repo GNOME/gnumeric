@@ -3,7 +3,7 @@
 
 #include <gui-gnumeric.h>
 #include <style.h>
-#include <libfoocanvas/foo-canvas.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <gtk/gtkwindow.h>
 
 #define FONT_SELECTOR_TYPE        (font_selector_get_type ())

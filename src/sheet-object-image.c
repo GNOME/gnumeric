@@ -21,8 +21,8 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-utils.h>
-#include <libfoocanvas/foo-canvas-pixbuf.h>
-#include <libfoocanvas/foo-canvas-rect-ellipse.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-pixbuf.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
 #include <goffice/utils/go-file.h>
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtkimage.h>

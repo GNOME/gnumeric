@@ -52,7 +52,7 @@
 
 #include <gsf/gsf-impl-utils.h>
 #include <libxml/globals.h>
-#include <libfoocanvas/foo-canvas-widget.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkframe.h>
 #include <gtk/gtklabel.h>

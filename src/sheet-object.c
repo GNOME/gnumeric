@@ -36,7 +36,7 @@
 #include "gutils.h"
 
 #include <libxml/globals.h>
-#include <libfoocanvas/foo-canvas.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <gsf/gsf-impl-utils.h>
 
 #include <string.h>

@@ -40,7 +40,7 @@
 #include "style-color.h"
 #include <goffice/utils/regutf8.h>
 
-#include <libfoocanvas/foo-canvas-widget.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-widget.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkevents.h>
 #include <gdk/gdkkeysyms.h>

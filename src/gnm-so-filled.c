@@ -54,7 +54,7 @@ typedef struct {
 typedef SheetObjectClass GnmSOFilledClass;
 
 #ifdef WITH_GTK
-#include <libfoocanvas/foo-canvas.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 static void
 so_filled_view_destroy (SheetObjectView *sov)
 {
@@ -151,10 +151,10 @@ sof_default_style (void)
 #include <gnumeric-pane.h>
 #include <gnumeric-simple-canvas.h>
 #include <gnumeric-canvas.h>
-#include <libfoocanvas/foo-canvas-rect-ellipse.h>
-#include <libfoocanvas/foo-canvas-util.h>
-#include <libfoocanvas/foo-canvas-polygon.h>
-#include <libfoocanvas/foo-canvas-text.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-rect-ellipse.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-polygon.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-text.h>
 
 static void
 gnm_so_filled_user_config (SheetObject *so, SheetControl *sc)
@@ -586,7 +586,7 @@ typedef GnmSOFilledClass GnmSOPolygonClass;
 static SheetObjectClass *gnm_so_polygon_parent_class;
 
 #ifdef WITH_GTK
-#include <libfoocanvas/foo-canvas.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 static void
 so_polygon_view_destroy (SheetObjectView *sov)
 {

@@ -72,9 +72,9 @@ typedef SheetObjectClass GnmSOLineClass;
 static SheetObjectClass *gnm_so_line_parent_class;
 
 #ifdef WITH_GTK
-#include <libfoocanvas/foo-canvas.h>
-#include <libfoocanvas/foo-canvas-line.h>
-#include <libfoocanvas/foo-canvas-util.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-line.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas-util.h>
 static void
 so_line_view_destroy (SheetObjectView *sov)
 {

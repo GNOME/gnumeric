@@ -26,7 +26,7 @@
 
 #include <gui-util.h>
 #include <mathfunc.h>
-#include <libfoocanvas/foo-canvas.h>
+#include <goffice/cut-n-paste/foocanvas/foo-canvas.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-styled-object.h>
 #include <goffice/graph/gog-style.h>
