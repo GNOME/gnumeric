@@ -231,8 +231,10 @@ EXTRA_DIST = \
      menubar.png \
      menu-context-col-row-header.png \
      menu-context-graph.png \
+     menu-context-graph-order.png \
      menu-context-grid.png \
      menu-context-object.png \
+     menu-context-object-order.png \
      menu-context-tabs.png \
      menu-context-toolbars.png \
      menu-data-labelled.png \

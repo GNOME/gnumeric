@@ -1,4 +1,3 @@
-
 <sect1 id="sect-worksheets-overview">
   <title>Overview</title>
 
@@ -147,24 +146,110 @@
       
     </para>
 
-    <sect3 id="sect-worksheets-display-appearance-zoom">
-      <title>Zoom: Changing the Scale of a View</title>
+    <sect3 id="sect-worksheets-display-appearance-cell">
+      <title>The cell content appearance</title>
 
       <para>
         This section has not yet been written.
       </para>
 
+      <sect4 id="sect-worksheets-display-appearance-cell-formulas">
+        <title>Displaying Formulas or Results</title>
+
+        <para>
+          This section has not yet been written.
+        </para>
+
+      </sect4>
+
+      <sect4 id="sect-worksheets-display-appearance-zeros">
+        <title>Displaying Zeros or Blank cells</title>
+
+        <para>
+          This section has not yet been written.
+        </para>
+
+      </sect4>
+
     </sect3>
 
 
-    <sect3 id="sect-worksheets-display-appearance-">
-      <title></title>
+
+    <sect3 id="sect-worksheets-display-appearance-grid">
+      <title>The grid area appearance</title>
 
       <para>
         This section has not yet been written.
       </para>
 
+      <sect4 id="sect-worksheets-display-appearance-grid-lines">
+        <title>Displaying Gridlines</title>
+
+        <para>
+          This section has not yet been written.
+        </para>
+
+      </sect4>
+
+      <sect4 id="sect-worksheets-display-appearance-grid-headers">
+        <title>Displaying Row and Column Headers</title>
+
+        <para>
+          This section has not yet been written.
+        </para>
+
+      </sect4>
+
+'    </sect3>
+
+
+
+    <sect3 id="sect-worksheets-display-appearance-book">
+      <title>The workbook appearance</title>
+
+      <para>
+        This section has not yet been written.
+      </para>
+
+
+      <sect4 id="sect-worksheets-display-appearance-book-zoom">
+        <title>Zoom: Changing the Scale of a View</title>
+
+        <para>
+          This section has not yet been written.
+        </para>
+      </sect4>
+
+
+      <sect4 id="sect-worksheets-display-appearance-book-full">
+        <title>Full Screen Mode</title>
+
+        <para>
+          This section has not yet been written.
+        </para>
+
+      </sect4>
+
+      <sect4 id="sect-worksheets-display-appearance-tabs">
+        <title>Displaying Workbook Tabs</title>
+
+        <para>
+          This section has not yet been written.
+        </para>
+
+      </sect4>
+
+      <sect4 id="sect-worksheets-display-appearance-scroolbars">
+        <title>Displaying Grid Area Scrollbars</title>
+
+        <para>
+          This section has not yet been written.
+        </para>
+
+      </sect4>
+
     </sect3>
+
 
 
   </sect2>

@@ -1,5 +1,22 @@
 2004-11-22  Adrian Custer <acuster@gnome.org>
 
+	* NEWS Comment out worksheet/workbook.
+
+	* gnumeric.xml: comment out worksheet/book chapters.
+	* manual-usage.xml: comment out worksheet/book chapters.
+	* gui-menus.xml: Change context menu shot, edit the section,
+	                 remove the section on toolbar context menus.
+	* worksheet.xml: minor tweaks.
+	* workbook.xml: minor tweaks.
+	* graphics-overview.xml: Change the context menu shot, edit the
+	                         text. 
+
+	* figures/menu-context-object-order.png: Added.
+	* figures/menu-context-graph-order.png: Added.
+	* figures/Makefile.am: Support for above.
+	
+2004-11-22  Adrian Custer <acuster@gnome.org>
+
 	* NEWS Bugs, typos and other lower life forms.
 
 	* configuration-preferences.xml: change section.

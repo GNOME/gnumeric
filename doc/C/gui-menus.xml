@@ -2132,35 +2132,90 @@
 </sect2>
 
 
-<sect2 id="menu-context-object">
-	<title>The Context Menu for Embedded Objects and Components</title>
-		<para>The Context Menu for Embedded Objects and Components.</para>
-		<figure id="menu-context-object.png">
-		    <title>The Context Menu</title>
-		    <screenshot>
-		      <mediaobject>
-            <imageobject>
-              <imagedata fileref="figures/menu-context-object.png" />
-            </imageobject>
-            <textobject>
-              <phrase>An image of the context menu on embedded objects.</phrase>
-            </textobject>
-           </mediaobject>
-		    </screenshot>
-	    </figure>
-	<para>Since this menu gives access to functionality which is not part of
-	Gnumeric, the menu entries will be different for each kind of object. This
-	menu is accessible when first selecting on the embedded object or if the user
-	clicks on the very border of the inserted object. All objects will provide a
-	method to delete the object which will remove the object. Note that this
-	operation will mostly not register into Gnumeric's history and therefore
-	cannot easily be reversed.
-	</para>
+  <sect2 id="menu-context-object">
+    <title>The Context Menu for Embedded Objects and Components</title>
+
+    <para>
+      The Context Menu for Embedded Objects and Components.
+    </para>
+
+    <figure id="menu-context-object.png">
+      <title>The Context Menu for Graphical Objects</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/menu-context-object.png" />
+          </imageobject>
+          <textobject>
+            <phrase>An image of the context menu on embedded objects.</phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+    <para>
+      All embedded objects, such as drawing elements, graphs and
+      images, have a context menu which can be invoked by placing the
+      mouse pointer over the element and clicking with one of the
+      secondary mouse buttons.
+    </para>
+
+    <para>
+      The first menu entry, labeled
+      <guimenuitem>Properties</guimenuitem>, will open a dialog
+      specific to the type of element selected in which the user can
+      configure the properties of the element.
+    </para>
+
+    <para>
+      A second menu entry, labeled <guimenuitem>Save
+      As...</guimenuitem> and only present for certain elements,
+      allows the object to be saved as an image file. This menu item
+      is not present in <xref linkend="menu-context-object.png"/>.
+    </para>
+
+    <para>
+      A third menu entry, labeled <guimenuitem>Order</guimenuitem>,
+      opens a submenu which allows the user to change the visual order
+      in which the graphical elements are placed. This order will
+      affect the way in which the graphical elements obscure each other.
+    </para>
+
+    <figure id="menu-context-object-order.png">
+      <title>The Context Submenu for Graphical Object Order</title>
+      <screenshot>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/menu-context-object-order.png" />
+          </imageobject>
+          <textobject>
+            <phrase>An image of the context submenu allowing the
+            re-odering of graphical objects.</phrase>
+          </textobject>
+        </mediaobject>
+      </screenshot>
+    </figure>
+
+
+    <para>
+      The remaining menu entries, labeled <guimenuitem>Cut</guimenuitem>,
+      <guimenuitem>Copy</guimenuitem>, and
+      <guimenuitem>Delete</guimenuitem>, allow the user to operate on
+      the whole object at once. The <guimenuitem>Cut</guimenuitem>
+      menu item allows the user to remove the element from its current
+      position and then paste the object in a different location on
+      the same sheet, in a different worksheet, in a different
+      gnumeric file, or in a file from a different program entirely. The
+      <guimenuitem>Copy</guimenuitem> menu item provides the same
+      functionality while leaving the original item in place. The
+      <guimenuitem>Delete</guimenuitem> allows the user to remove the
+      graphical element entirely.
+    </para>
 
 
 </sect2>
 
-
+<!-- No longer relevant in version 1.4+
 
 <sect2 id="menu-context-toolbars">
 	<title>The Context Menu for Toolbars</title>
@@ -2190,7 +2245,7 @@
 
 </sect2>
 
-
+-->
 
 </sect1>
 

@@ -1,6 +1,6 @@
 
 <sect1 id="sect-graphical-overview">
-  <title>The basics of Graphical Elements</title>
+  <title>Overview</title>
 
   <para>
     <application>Gnumeric</application> provides several types of
@@ -327,6 +327,41 @@
             image, four entries to reorder the stacking of the graph
             in front or behind other graphs and one entry to delete
             the graph.
+          </para>
+	</caption>
+      </mediaobject>
+    </screenshot>
+  </figure>
+
+  <para>
+    The context menu for graphical elements contains a sub-menu
+    labelled <guimenuitem>Order</guimenuitem> which allows the user to
+    change the presentation order for overlapping graphical objects.
+  </para>
+
+  <figure id="fig-gnumeric-graphical-overview-contextmenu-order">
+    <title>
+      The order submenu of graphical element context menus.
+    </title>
+    <screenshot>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="figures/menu-context-graph-order.png" 
+              format="PNG" />
+        </imageobject>
+        <textobject>
+          <phrase>
+             An image of the order sub-menu in the context menu of
+             graph elements.
+          </phrase>
+        </textobject>
+	<caption>
+	  <para>
+            The order submenu of the context menu for graph elements
+            allows the user to change the stacking order for the
+            various graphs on the worksheet. This will affect which
+            objects are visible in front of other objects when several
+            objects overlap.
           </para>
 	</caption>
       </mediaobject>
