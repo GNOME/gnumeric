@@ -108,7 +108,8 @@ view_activated_cb (BonoboViewFrame *view_frame, gboolean activated, SheetObject 
 static void
 item_destroyed (GnomeCanvasItem *item, BonoboViewFrame *view_frame)
 {
-	bonobo_object_unref (BONOBO_OBJECT (view_frame));
+	if (view_frame)
+		bonobo_object_unref (BONOBO_OBJECT (view_frame));
 }
 
 static GnomeCanvasItem *
@@ -124,6 +125,11 @@ sheet_object_container_realize (SheetObject *so, SheetView *sheet_view)
 	view_frame = bonobo_client_site_new_view (
 		SHEET_OBJECT_BONOBO (so)->client_site,
 		bonobo_object_corba_objref (BONOBO_OBJECT (sheet_view->sheet->workbook->priv->uih)));
+
+	if (!view_frame) {
+		g_warning ("Component died");
+		return NULL;
+	}
 
 	gtk_signal_connect (GTK_OBJECT (view_frame), "user_activate",
 			    GTK_SIGNAL_FUNC (user_activation_request_cb), so);

@@ -687,6 +687,8 @@ sheet_finish_object_creation (Sheet *sheet, SheetObject *o)
 {
 	GList *l;
 
+	o->dragging = FALSE;
+
 	/* Set the mode */
 	sheet_set_mode_type (sheet, SHEET_MODE_OBJECT_SELECTED);
 

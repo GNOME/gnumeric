@@ -1,3 +1,14 @@
+2000-08-02  Michael Meeks  <michael@helixcode.com>
+
+	* configure.in: update for BonoboX
+
+2000-07-22  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-object.c (sheet_finish_object_creation): unset
+	dragging.
+
+	* src/sheet-object-container.c (item_destroyed): conditional unref.
+
 2000-07-31  Jody Goldberg <jgoldberg@home.com>
 
 	* src/functions/fn-date.c (date_functions_ini) : Convert most of the

@@ -1,3 +1,7 @@
+2000-07-22  Michael Meeks  <michael@helixcode.com>
+
+	* dialog-cell-format.c (cb_font_changed): update.
+
 2000-07-22  Karl Eichwalder  <ke@suse.de>
 
 	* dialog-analysis-tools.c (dialog_histogram_tool): Normalize string.

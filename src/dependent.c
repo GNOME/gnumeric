@@ -332,7 +332,9 @@ workbook_deps_destroy (Workbook *wb)
  * cell_eval_content:
  * @cell: the cell to evaluate.
  *
- * This function evaluates the contents of the cell.
+ * This function evaluates the contents of the cell,
+ * it should not be used by anyone. It is an internal
+ * function.
  *
  **/
 void
@@ -1237,3 +1239,25 @@ sheet_recalc_dependencies (Sheet *sheet)
 	if (deps)
 		eval_queue_list (deps, TRUE);
 }
+
+/*
+ * Ok; so we will have some new semantics;
+ */
+
+/*
+CELL_QUEUED_FOR_RECALC will signify that the cell is in fact in the
+recalc list. This means this cell will have to be re-calculated, it
+also means that _All_ its dependencies are also in the re-calc list.
+
+Hence; whenever a cell is added to the recalc list; its dependency
+tree, must be progressively added to the list. Clearly any entries
+marked 'CELL_QUEUED_FOR_RECALC' are already in there ( as are their
+children ) so we can quickly and efficiently prune the tree.
+
+The advantage of this is that we can dispense with the generation
+scheme, with its costly linear reset ( even though amortized over
+255 calculations it is an expense. ) We also have the _Luxury_ of
+leaving things uncalculated with no loss of efficiency in the
+queue. This will allow us to do far less re-calculating.
+
+*/

@@ -209,7 +209,7 @@ if $try_bonobo; then
 		AC_MSG_RESULT(found)
 		AC_DEFINE(ENABLE_BONOBO)
 		have_bonobo=true
-		bonobo=bonobo
+		bonobo=bonobox_print
 		bonobo_msg=yes
 		bonobo_suffix=-bonobo
 	        gnumeric_executable=gnumeric-bonobo
