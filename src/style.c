@@ -172,13 +172,27 @@ style_new (void)
 
 	style = g_new0 (Style, 1);
 
-	style->format  = style_format_new ("#");
+	style->valid_flags = STYLE_ALL;
+	
+	style->format  = style_format_new ("0");
 	style->font    = style_font_new ("-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*", 14);
 	style->border  = style_border_new_plain ();
 
 	style->halign = HALIGN_LEFT;
 	style->valign = VALIGN_CENTER;
 	style->orientation = ORIENT_HORIZ;
+	
+	return style;
+}
+
+Style *
+style_new_empty (void)
+{
+	Style *style;
+
+	style = g_new0 (Style, 1);
+
+	style->valid_flags = 0;
 	
 	return style;
 }
@@ -190,10 +204,15 @@ style_destroy (Style *style)
 	g_return_if_fail (style->format != NULL);
 	g_return_if_fail (style->font != NULL);
 	g_return_if_fail (style->border != NULL);
-	
-	style_format_unref (style->format);
-	style_font_unref   (style->font);
-	style_border_unref (style->border);
+
+	if (style->valid_flags & STYLE_FORMAT)
+		style_format_unref (style->format);
+
+	if (style->valid_flags & STYLE_FONT)
+		style_font_unref   (style->font);
+
+	if (style->valid_flags & STYLE_BORDER)
+		style_border_unref (style->border);
 	
 	g_free (style);
 }

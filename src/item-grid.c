@@ -468,6 +468,7 @@ context_delete_cmd (GtkWidget *widget, ItemGrid *item_grid)
 static void
 context_cell_format_cmd (GtkWidget *widget, ItemGrid *item_grid)
 {
+	dialog_cell_format (item_grid->sheet);
 	context_destroy_menu (widget);
 }
 

@@ -67,6 +67,14 @@ typedef enum {
 	ORIENT_VERT_VERT_TEXT2 = 8
 } StyleOrientation;
 
+#define STYLE_FORMAT   1
+#define STYLE_FONT     2
+#define STYLE_BORDER   4
+#define STYLE_SHADING  8
+#define STYLE_ALIGN   16
+
+#define STYLE_ALL (STYLE_FORMAT | STYLE_FONT | STYLE_BORDER | STYLE_SHADING | STYLE_ALIGN)
+
 typedef struct {
 	StyleFormat   *format;
 	StyleFont     *font;
@@ -76,12 +84,14 @@ typedef struct {
 	unsigned int halign:6;
 	unsigned int valign:4;
 	unsigned int orientation:4;
+	unsigned char valid_flags;
 } Style;
 
 void           style_init  	      (void);
 Style         *style_new   	      (void);
 Style         *style_duplicate        (Style *style);
 void           style_destroy          (Style *style);
+Style         *style_new_empty        (void);
 
 StyleFormat   *style_format_new       (char *name);
 void           style_format_ref       (StyleFormat *sf);
@@ -102,7 +112,5 @@ StyleBorder   *style_border_new       (StyleBorderType left,
 				       GdkColor *right_color,
 				       GdkColor *top_color,
 				       GdkColor *bottom_color);
-
-
 
 #endif /* GNUMERIC_STYLE_H */

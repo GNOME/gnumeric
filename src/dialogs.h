@@ -1,6 +1,7 @@
 #ifndef DIALOGS_H
 #define DIALOGS_H
 
-void dialog_goto_cell (Workbook *wb);
+void dialog_goto_cell   (Workbook *wb);
+void dialog_cell_format (Sheet *sheet);
 
 #endif

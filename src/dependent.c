@@ -39,7 +39,7 @@ cell_eval (Cell *cell)
 		cell->value = NULL;
 	} else {
 		/* FIXME: Use the format stuff */
-		char *str = value_string (v);
+		char *str = value_format (v, cell->style->format, NULL);
 		
 		cell->value = v;
 		cell->text  = string_get (str);

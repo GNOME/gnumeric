@@ -18,6 +18,7 @@ GNUMERIC_BASE_SOURCES =		\
 	clipboard.c		\
 	clipboard.h		\
 	dialog-goto-cell.c	\
+	dialog-cell-format.c	\
 	dialogs.h		\
 	eval.c			\
 	expr.c			\
@@ -27,6 +28,8 @@ GNUMERIC_BASE_SOURCES =		\
 	fn-sheet.c		\
 	fn-math.c		\
 	fn-misc.c		\
+	format.c		\
+	format.h		\
 	gnumeric-sheet.c	\
 	gnumeric-sheet.h	\
 	gnumeric-util.c		\

@@ -77,6 +77,15 @@ goto_cell_cmd (GtkWidget *widget, Workbook *wb)
 	dialog_goto_cell (wb);
 }
 
+static void
+format_cells_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+	
+	sheet = workbook_get_current_sheet (wb);
+	dialog_cell_format (sheet);
+}
+
 static GnomeUIInfo workbook_menu_file [] = {
 	{ GNOME_APP_UI_ITEM, N_("Save"), NULL, save_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE },
@@ -100,9 +109,16 @@ static GnomeUIInfo workbook_menu_edit [] = {
 	GNOMEUIINFO_END
 };
 
+static GnomeUIInfo workbook_menu_format [] = {
+	{ GNOME_APP_UI_ITEM, N_("Cells.."), NULL, format_cells_cmd, NULL, NULL,
+	  0, 0, GDK_1, GDK_CONTROL_MASK },
+	GNOMEUIINFO_END
+};
+	
 static GnomeUIInfo workbook_menu [] = {
-	{ GNOME_APP_UI_SUBTREE, N_("File"), NULL, &workbook_menu_file },
-	{ GNOME_APP_UI_SUBTREE, N_("Edit"), NULL, &workbook_menu_edit },
+	{ GNOME_APP_UI_SUBTREE, N_("File"),   NULL, &workbook_menu_file },
+	{ GNOME_APP_UI_SUBTREE, N_("Edit"),   NULL, &workbook_menu_edit },
+	{ GNOME_APP_UI_SUBTREE, N_("Format"), NULL, &workbook_menu_format },
 	GNOMEUIINFO_END
 };
 
@@ -416,7 +432,8 @@ workbook_new (void)
 	workbook_setup_sheets (wb);
 	gnome_app_set_contents (GNOME_APP (wb->toplevel), wb->table);
 	gnome_app_create_menus_with_data (GNOME_APP (wb->toplevel), workbook_menu, wb);
-
+/*	gtk_accel_group_attach (GTK_OBJECT (wb->toplevel)); */
+		
 	/* Set the default operation to be performed over selections */
 	workbook_set_auto_expr (wb, "SUM", "SUM(SELECTION())");
 

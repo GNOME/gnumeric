@@ -12,7 +12,7 @@
 #include <ctype.h>
 #include <string.h>
 #include "numbers.h"
-#include "symbol.h"
+#include "symbol.h"	
 #include "str.h"
 #include "expr.h"
 #include "utils.h"
@@ -615,40 +615,6 @@ forget_tree (ExprTree *tree)
 {
 	forget (ALLOC_BUFFER, tree);
 	expr_tree_unref (tree); 
-}
-
-/*
- * FIXME: For now this is only supporting double/int, not
- * mpz/mpf.
- * FIXME: This is not using the format_* routines as
- * Chris has been working on those and has not commited
- * his new version
- */
-char *
-value_string (Value *value)
-{
-	char buffer [1024];
-		
-	switch (value->type){
-	case VALUE_STRING:
-		return g_strdup (value->v.str->str);
-
-	case VALUE_INTEGER:
-		snprintf (buffer, sizeof (buffer)-1, "%d", value->v.v_int);
-		break;
-
-	case VALUE_FLOAT:
-		snprintf (buffer, sizeof (buffer)-1, "%g", value->v.v_float);
-		break;
-
-	case VALUE_ARRAY:
-		snprintf (buffer, sizeof (buffer)-1, "ARRAY");
-		break;
-		
-	case VALUE_CELLRANGE:
-		return g_strdup ("Internal problem");
-	}
-	return g_strdup (buffer);
 }
 
 void

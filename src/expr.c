@@ -5,6 +5,7 @@
 #include "gnumeric.h"
 #include "expr.h"
 #include "eval.h"
+#include "format.h"
 
 char *parser_expr;
 ParseErr parser_error;
@@ -135,6 +136,57 @@ expr_tree_unref (ExprTree *tree)
 	g_return_if_fail (tree->ref_count > 0);
 
 	do_expr_tree_unref (tree);
+}
+
+/*
+ * simplistic value rendering
+ */
+char *
+value_string (Value *value)
+{
+	char buffer [1024];
+		
+	switch (value->type){
+	case VALUE_STRING:
+		return g_strdup (value->v.str->str);
+
+	case VALUE_INTEGER:
+		snprintf (buffer, sizeof (buffer)-1, "%d", value->v.v_int);
+		break;
+
+	case VALUE_FLOAT:
+		snprintf (buffer, sizeof (buffer)-1, "%g", value->v.v_float);
+		break;
+
+	case VALUE_ARRAY:
+		snprintf (buffer, sizeof (buffer)-1, "ARRAY");
+		break;
+		
+	case VALUE_CELLRANGE:
+		return g_strdup ("Internal problem");
+	}
+	return g_strdup (buffer);
+}
+
+/*
+ * formats a number with the format string
+ */
+char *
+value_format (Value *v, StyleFormat *format, char **color)
+{
+	switch (v->type){
+	case VALUE_INTEGER:
+		return format_number (v->v.v_int, format->format, color);
+
+	case VALUE_FLOAT:
+		return format_number (v->v.v_float, format->format, color);
+
+	default:
+		if (color)
+			*color = NULL;
+		
+		return value_string (v);
+	}
 }
 
 void

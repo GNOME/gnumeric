@@ -885,6 +885,10 @@ sheet_select_all (Sheet *sheet)
 	}
 }
 
+/*
+ * FIXME: This routine is pretty simplistic: It should figure out
+ * which cells in the region cross the cell boundary
+ */
 void
 sheet_redraw_cell_region (Sheet *sheet, int start_col, int start_row,
 			  int end_col, int end_row)
@@ -1279,6 +1283,45 @@ sheet_selection_walk_step (Sheet *sheet, int forward, int horizontal,
 }
 
 /*
+ * assemble_cell_list: A callback for sheet_cell_foreach_range
+ * intented to assemble a list of cells in a region.
+ *
+ * The closure parameter should be a pointer to a GList.
+ */
+static int
+assemble_cell_list (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+{
+	GList **l = (GList **) user_data;
+
+	*l = g_list_prepend (*l, cell);
+	return TRUE;
+}
+
+CellList *
+sheet_selection_to_list (Sheet *sheet)
+{
+	GList *selections;
+	CellList *list;
+
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	g_return_val_if_fail (sheet->selections, NULL);
+
+	list = NULL;
+	for (selections = sheet->selections; selections; selections = selections->next){
+		SheetSelection *ss = selections->data;
+
+		sheet_cell_foreach_range (
+			sheet, TRUE,
+			ss->start_col, ss->start_row,
+			ss->end_col, ss->end_row,
+			assemble_cell_list, &list);
+	}
+
+	return list;
+}
+
+/*
  * Returns an allocated column:  either an existing one, or a fresh copy
  */
 ColRowInfo *
@@ -1561,15 +1604,6 @@ sheet_cell_formula_unlink (Cell *cell)
 	sheet->formula_cell_list = g_list_remove (sheet->formula_cell_list, cell);
 }
 
-static int
-assemble_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
-{
-	GList **l = (GList **) user_data;
-
-	*l = g_list_prepend (*l, cell);
-	return TRUE;
-}
-
 /*
  * Clears are region of cells
  *
@@ -1591,7 +1625,7 @@ sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int
 		sheet, TRUE,
 		start_col, start_row,
 		end_col, end_row,
-		assemble_cell, &destroyable_cells);
+		assemble_cell_list, &destroyable_cells);
 
 	for (l = destroyable_cells; l; l = l->next){
 		Cell *cell = l->data;
@@ -1608,7 +1642,8 @@ sheet_selection_copy (Sheet *sheet)
 	SheetSelection *ss;
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
-
+	g_return_if_fail (sheet->selections);
+	
 	if (g_list_length (sheet->selections) != 1){
 		gnumeric_notice (_("Can not copy non-contiguous selections"));
 		return;
@@ -1632,7 +1667,8 @@ sheet_selection_cut (Sheet *sheet)
 	
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
-
+	g_return_if_fail (sheet->selections);
+	
 	if (g_list_length (sheet->selections) != 1){
 		gnumeric_notice (_("Can not cut non-contiguous selections"));
 		return;
@@ -1650,7 +1686,8 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags
 	CellRegion *content;
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
-
+	g_return_if_fail (sheet->selections);
+	
 	content = sheet->workbook->clipboard_contents;
 	
 	if (!content)
@@ -1659,3 +1696,8 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags
 	clipboard_paste_region (content, sheet, dest_col, dest_row, paste_flags);
 }
 
+void
+sheet_style_attach (Sheet *sheet, int start_col, int start_row, int end_col, int end_row, Style *style)
+{
+	printf ("WARNING: sheet_style_attach not implemeneted yet\n");
+}

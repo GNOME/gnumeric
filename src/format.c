@@ -303,7 +303,8 @@ format_number( gdouble number, gchar *format, char **color_name )
   time_t timec;
   struct tm *time_split;
 
-  *color_name = NULL;
+  if (color_name)
+	  *color_name = NULL;
   
   date = number;
   date -= 25569.0;

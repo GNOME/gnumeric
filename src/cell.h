@@ -51,6 +51,8 @@ typedef struct {
 	char      generation;
 } Cell;
 
+typedef GList CellList;
+
 #define CELL_TEXT_GET(cell) ((cell)->text ? cell->text->str : cell->entered_text->str)
 #define CELL_IS_FORMULA(cell) (cell->entered_text->str [0] == '=')
 
@@ -66,12 +68,18 @@ typedef struct {
 	CellCopyList *list;
 } CellRegion;
 
+char       *value_format              (Value *value, StyleFormat *format, char **color);
+
 void        cell_set_text             (Cell *cell, char *text);
 void        cell_set_formula          (Cell *cell, char *text);
+void        cell_set_format           (Cell *cell, char *format);
+void        cell_set_rendered_text    (Cell *cell, char *rendered_text);
+void        cell_render_value         (Cell *cell);
 void        cell_calc_dimensions      (Cell *cell);
 Cell       *cell_copy                 (Cell *cell);
 void        cell_destroy              (Cell *cell);
 void        cell_formula_changed      (Cell *cell);
+void        cell_queue_redraw         (Cell *cell);
 
 #endif /* GNUMERIC_CELL_H */
 

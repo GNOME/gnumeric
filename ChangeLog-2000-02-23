@@ -1,5 +1,35 @@
 1998-08-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/eval.c (cell_eval): Use the formating routine now. 
+
+	* src/expr.c (value_format): Format a Value with a StyleFormat. 
+
+	* src/item-cursor.c (item_cursor_set_bounds_visibly): Force a
+	canvas update after moving the selection.
+
+	* src/sheet.c (sheet_selection_to_list): New function: generates a
+	list of cells from the sheet->selections list. 
+
+	* src/style.c: Now styles have a "valid_flag" that has a bit
+	turned on for those parts of the style that are actually used.
+	This is required for adding the regions of style application in a
+	Sheet.
+	(style_destroy): destroy only those valid parts in a style.
+
+	* src/dialog-cell-format.c: New file.   Implements the cell/format
+	dialog box. 
+
+	* src/cell.c (cell_render_value): new routine used to render the
+	cell->value into cell->text.
+	(cell_queue_redraw): new routine to queue individual redraws of
+	the screen.  I believe it is buggy, as the screen does not update
+	after an apply in the cell/format dialog box.
+	(cell_set_format): New routine to change the format of an existing
+	cell. 
+
+	* src/format.c (format_number): Added color argument;  smaller
+	fixes to use it within gnumeric. 
+
 	* src/main.c (main): Include i18n setup as per namsh's suggetion. 
 
 1998-08-15  Chris Lahey  <clahey@umich.edu>

@@ -118,6 +118,7 @@ void        sheet_selection_append_range (Sheet *sheet,
 					  int base_col,  int base_row,
 					  int start_col, int start_row,
 					  int end_col,   int end_row);
+CellList   *sheet_selection_to_list      (Sheet *sheet);
 
 /* Cut/Copy/Paste on the workbook selection */
 void        sheet_selection_copy         (Sheet *sheet);
@@ -204,7 +205,11 @@ void        sheet_shift_column        (Sheet *sheet,
 void        sheet_shift_row           (Sheet *sheet,
 				       int    column, int row,
 				       int    count);
-				       
+
+void        sheet_style_attach        (Sheet *sheet,
+				       int    start_col, int start_row,
+				       int    end_col,   int end_row,
+				       Style  *style);
 /*
  * Workbook
  */

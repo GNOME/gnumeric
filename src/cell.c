@@ -52,6 +52,32 @@ cell_calc_dimensions (Cell *cell)
 }
 
 void
+cell_set_rendered_text (Cell *cell, char *rendered_text)
+{
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (rendered_text != NULL);
+	
+	if (cell->text)
+		string_unref (cell->text);
+
+	cell->text = string_get (rendered_text);
+	cell_calc_dimensions (cell);
+}
+
+void
+cell_render_value (Cell *cell)
+{
+	char *str;
+	
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (cell->value != NULL);
+
+	str = value_format (cell->value, cell->style->format, NULL);
+	cell_set_rendered_text (cell, str);
+	g_free (str);
+}
+
+void
 cell_set_text (Cell *cell, char *text)
 {
 	GList   *deps;
@@ -80,11 +106,6 @@ cell_set_text (Cell *cell, char *text)
 		int is_text = 0, is_float = 0;
 		char *p;
 		
-		if (cell->text)
-			string_unref (cell->text);
-
-		cell->text = string_get (text);
-
 		for (p = text; *p && !is_text; p++){
 			switch (*p){
 			case '0': case '1': case '2': case '3': case '4':
@@ -101,6 +122,8 @@ cell_set_text (Cell *cell, char *text)
 		if (is_text){
 			v->type = VALUE_STRING;
 			v->v.str = string_get (text);
+
+			cell_set_rendered_text (cell, text);
 		} else {
 			if (is_float){
 				v->type = VALUE_FLOAT;
@@ -111,11 +134,10 @@ cell_set_text (Cell *cell, char *text)
 				int_get_from_range (text, text+strlen (text),
 						    &v->v.v_int);
 			}
-			/* FIXME: */
-			/* In this case we need to format the text */
 		}
 		cell->value = v;
-		cell_calc_dimensions (cell);
+		
+		cell_render_value (cell);
 	}
 
 	/* Queue all of the dependencies for this cell */
@@ -170,4 +192,26 @@ cell_destroy (Cell *cell)
 	string_unref    (cell->text);
 	style_destroy   (cell->style);
 	value_release   (cell->value);
+}
+
+void
+cell_queue_redraw (Cell *cell)
+{
+	sheet_redraw_cell_region (cell->sheet,
+				  cell->col->pos, cell->row->pos,
+				  cell->col->pos, cell->row->pos);
+}
+
+void
+cell_set_format (Cell *cell, char *format)
+{
+	if (strcmp (format, cell->style->format->format) == 0)
+		return;
+
+	/* Change the format */
+	style_format_unref (cell->style->format);
+	cell->style->format = style_format_new (format);
+
+	/* re-render the cell text */
+	cell_render_value (cell);
 }
