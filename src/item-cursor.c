@@ -523,10 +523,10 @@ static double
 item_cursor_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 		   GnomeCanvasItem **actual_item)
 {
-	ItemCursor *item_cursor = ITEM_CURSOR (item);
+	ItemCursor const *ic = ITEM_CURSOR (item);
 
 	/* Ensure that animated cursors do not receive events */
-	if (item_cursor->style == ITEM_CURSOR_ANTED)
+	if (!ic->visible || ic->style == ITEM_CURSOR_ANTED)
 		return DBL_MAX;
 
 	*actual_item = NULL;

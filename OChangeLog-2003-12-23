@@ -1,3 +1,8 @@
+2001-08-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-cursor.c (item_cursor_point) : Disable selection if we are
+	  invisible.
+
 2001-08-06  Morten Welinder  <terra@diku.dk>
 
 	* configure.in (psion): Improve psiconv test.
