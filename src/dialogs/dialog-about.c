@@ -37,6 +37,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 		 * with 'odoubleacute' (U0151) and the 'E' of 'Erdi'
 		 * with 'Eacute' (U00C9) */
 		N_("Gergo Erdi, Gnumeric hacker."),
+		N_("Andreas J. Guelzow, statistics stuff."),
 		N_("Jon K. Hellan, Gnumeric hacker."),
 		N_("Ross Ihaka, special functions."),
 		N_("Jukka-Pekka Iivonen, numerous functions and tools."),

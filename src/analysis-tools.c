@@ -2701,18 +2701,27 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 			      int rows_per_sample, gnum_float alpha,
 			      data_analysis_output_t *dao)
 {
-	int        cols, rows, i, j, k, n;
-	int        count, gr_count;
+	int        cols, rows, i, j, k, n, a, b;
+	int        count, gr_count, tot_count;
 	gnum_float    sum, sqrsum, x, v;
 	gnum_float    gr_sum, gr_sqrsum;
+	gnum_float    tot_sum, tot_sqrsum;
 	int        *col_count;
 	gnum_float    *col_sum, *col_sqrsum;
+	gnum_float    col_sum_sqrsum, gr_sum_sqrsum, sample_sum_sqrsum;
+	gnum_float    df_col, df_gr, df_inter, df_within;
+	gnum_float    ss_col, ss_gr, ss_inter, ss_within, ss_tot;
+	gnum_float    ms_col, ms_gr, ms_inter, ms_within;
+	gnum_float    f_col, f_gr, f_inter;
+	gnum_float    p_col, p_gr, p_inter;
 	Cell       *cell;
 
 	cols = range->end.col - range->start.col + 1;
 	rows = range->end.row - range->start.row + 1;
 
 	/* Check that correct number of rows per sample */
+	if (rows_per_sample == 0)
+	        return 1;
 	if ((rows - 1) % rows_per_sample != 0)
 	        return 1;
 
@@ -2751,6 +2760,14 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 	}
 	set_italic (dao, 1, 2, i - 1, 2);
 	set_cell (dao, i, 2, _("Total"));
+
+	tot_count = 0;
+	tot_sum = 0;
+	tot_sqrsum = 0;
+
+	sample_sum_sqrsum = 0;
+
+	gr_sum_sqrsum = 0;
 
 	for (i = n = 0; i < rows - 1; i += rows_per_sample) {
 	       cell = sheet_cell_get (sheet, range->start.col,
@@ -2791,6 +2808,12 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 		      gr_sum += sum;
 		      gr_sqrsum += sqrsum;
 
+  		      sample_sum_sqrsum += sum * sum;
+
+		      tot_count += count;
+		      tot_sum += sum;
+		      tot_sqrsum += sqrsum;
+
 		      set_cell_int   (dao, j, n * 6 + 4, count);
 		      set_cell_float (dao, j, n * 6 + 5, sum);
 		      set_cell_float (dao, j, n * 6 + 6, sum / count);
@@ -2802,6 +2825,8 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 	       set_cell_float (dao, j, n * 6 + 6, gr_sum / gr_count);
 	       set_cell_float (dao, j, n * 6 + 7, v);
 
+	       gr_sum_sqrsum += (gr_sum * gr_sum);
+
 	       ++n;
 	}
 
@@ -2812,6 +2837,8 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 	set_cell (dao, 0, n * 6 + 6, _("Average"));
 	set_cell (dao, 0, n * 6 + 7, _("Variance"));
 
+	col_sum_sqrsum = 0;
+
 	for (i = 1; i < cols; i++) {
 	        v = (col_sqrsum[i - 1] - (col_sum[i - 1] * col_sum[i - 1]) /
 		     col_count[i - 1]) / (col_count[i - 1] - 1);
@@ -2819,7 +2846,34 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 	        set_cell_float (dao, i, n * 6 + 5, col_sum[i - 1]);
 	        set_cell_float (dao, i, n * 6 + 6, col_sum[i - 1] / col_count[i - 1]);
 	        set_cell_float (dao, i, n * 6 + 7, v);
+		col_sum_sqrsum +=  (col_sum[i - 1] * col_sum[i - 1]);
 	}
+
+	a = (rows - 1)/rows_per_sample;
+	b = cols -1;
+	ss_gr = (gr_sum_sqrsum - (tot_sum*tot_sum)/a) / (b * rows_per_sample) ;
+	ss_col = (col_sum_sqrsum - (tot_sum*tot_sum)/b) / (a * rows_per_sample) ;
+	ss_within = tot_sqrsum - sample_sum_sqrsum / rows_per_sample;
+	ss_tot = tot_sqrsum - (tot_sum*tot_sum) / (a * b * rows_per_sample);
+	ss_inter = ss_tot - ss_within - ss_col - ss_gr;
+
+	df_gr = a - 1;
+	df_col = b - 1;
+	df_inter = (a -1) * (b - 1);
+	df_within = a * b * (rows_per_sample - 1);
+
+	ms_gr = ss_gr / df_gr;
+	ms_col = ss_col / df_col;
+	ms_inter = ss_inter / df_inter;
+	ms_within = ss_within / df_within;
+
+	f_gr = ms_gr / ms_within;
+	f_col = ms_col / ms_within;
+	f_inter = ms_inter / ms_within;
+
+	p_gr = 1.0 - pf(f_gr,df_gr,df_within);
+	p_col = 1.0 - pf(f_col,df_col,df_within);
+	p_inter = 1.0 - pf(f_inter,df_inter,df_within);
 
 	set_cell (dao, 0, n * 6 + 10, _("ANOVA"));
 	set_cell (dao, 0, n * 6 + 11, _("Source of Variation"));
@@ -2830,20 +2884,54 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 	set_cell (dao, 0, n * 6 + 17, _("Total"));
 
 	set_cell (dao, 1, n * 6 + 11, _("SS"));
+	set_cell_float (dao, 1, n * 6 + 12, ss_gr);
+	set_cell_float (dao, 1, n * 6 + 13, ss_col);
+	set_cell_float (dao, 1, n * 6 + 14, ss_inter);
+	set_cell_float (dao, 1, n * 6 + 15, ss_within);
+	set_cell_float (dao, 1, n * 6 + 17, ss_tot);
+
 	set_cell (dao, 2, n * 6 + 11, _("df"));
+	set_cell_int   (dao, 2, n * 6 + 12, df_gr);
+	set_cell_int   (dao, 2, n * 6 + 13, df_col);
+	set_cell_int   (dao, 2, n * 6 + 14, df_inter);
+	set_cell_int   (dao, 2, n * 6 + 15, df_within);
+	set_cell_int   (dao, 2, n * 6 + 17, tot_count-1);
+
+	/* Note: a * b * rows_per_sample, tot_count and df_gr+df_col+df_inter+df_within should all be the same*/
+
 	set_cell (dao, 3, n * 6 + 11, _("MS"));
+	set_cell_float (dao, 3, n * 6 + 12, ms_gr);
+	set_cell_float (dao, 3, n * 6 + 13, ms_col);
+	set_cell_float (dao, 3, n * 6 + 14, ms_inter);
+	set_cell_float (dao, 3, n * 6 + 15, ms_within);
+
+
 	set_cell (dao, 4, n * 6 + 11, _("F"));
+	set_cell_float (dao, 4, n * 6 + 12, f_gr);
+	set_cell_float (dao, 4, n * 6 + 13, f_col);
+	set_cell_float (dao, 4, n * 6 + 14, f_inter);
+
+
 	set_cell (dao, 5, n * 6 + 11, _("P-value"));
+	set_cell_float (dao, 5, n * 6 + 12, p_gr);
+	set_cell_float (dao, 5, n * 6 + 13, p_col);
+	set_cell_float (dao, 5, n * 6 + 14, p_inter);
+
 	set_cell (dao, 6, n * 6 + 11, _("F crit"));
+	set_cell_float (dao, 6, n * 6 + 12, qf(alpha,df_gr,df_within));
+	set_cell_float (dao, 6, n * 6 + 13, qf(alpha,df_col,df_within));
+	set_cell_float (dao, 6, n * 6 + 14, qf(alpha,df_inter,df_within));
 
 	set_italic (dao, 0, n * 6 + 11, 6, n * 6 + 11);
 
-	/* FIXME: Implement the rest of the ANOVA computations. */
+	g_free(col_count);
+	g_free(col_sum);
+	g_free(col_sqrsum);
 
 	return 0;
 }
 
-
+
 /************* Histogram Tool *********************************************
  *
  * The results are given in a table which can be printed out in a new
