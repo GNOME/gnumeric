@@ -1,3 +1,10 @@
+2003-09-23  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-axis.h : delete unused enum GogAxisTickLevel.
+	  Publicize the data elements.
+	(gog_axis_update) : Manually handle the epsilon shifts so that we can
+	  ignore sign.
+
 2003-09-22  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-view.c (cb_remove_child) : doh!

@@ -7,7 +7,7 @@ SUBDIRS = pixmaps dialogs widgets tools cut-n-paste-code
 if WITH_BONOBO
 libexec_PROGRAMS = gnumeric-component
 endif
-bin_PROGRAMS = gnumeric # ssconvert
+bin_PROGRAMS = gnumeric ssconvert
 check_PROGRAMS = test-pango # number-match
 
 INCLUDES = 								\
@@ -293,9 +293,14 @@ GNUMERIC_BONOBO = 				\
 	workbook-control-component-priv.h
 
 if WITH_BONOBO
+GNUMERIC_SOURCE	= $(GNUMERIC_BASE) $(GNUMERIC_BONOBO)
+else
+GNUMERIC_SOURCE	= $(GNUMERIC_BASE)
+endif
+
+if WITH_BONOBO
 gnumeric_SOURCES =				\
-	$(GNUMERIC_BASE)			\
-	$(GNUMERIC_BONOBO)			\
+	$(GNUMERIC_SOURCE)			\
 	io-context-gtk.c			\
 	io-context-gtk.h			\
 	main-application.c			\
@@ -307,7 +312,7 @@ gnumeric_LDADD =				\
 	$(INTLLIBS)
 else
 gnumeric_SOURCES =				\
-	$(GNUMERIC_BASE)			\
+	$(GNUMERIC_SOURCE)			\
 	io-context-gtk.c			\
 	io-context-gtk.h			\
 	main-application.c			\
@@ -334,8 +339,7 @@ gnumeric_app_libs =				\
 
 if WITH_BONOBO
 gnumeric_component_SOURCES =			\
-	$(GNUMERIC_BASE)			\
-	$(GNUMERIC_BONOBO)			\
+	$(GNUMERIC_SOURCE)			\
 	main-component.c
 
 gnumeric_component_LDADD = $(gnumeric_LDADD)
@@ -345,10 +349,16 @@ gnumeric_component_LDFLAGS = $(gnumeric_LDFLAGS)
 gnumeric_component_app_libs = $(gnumeric_app_libs)
 endif
 
+ssconvert_LDADD   = $(gnumeric_LDADD)
+ssconvert_LDFLAGS = $(gnumeric_LDFLAGS)
+ssconvert_SOURCES =				\
+	$(GNUMERIC_SOURCE)			\
+	ssconvert.c
+
 test_pango_LDADD   = $(gnumeric_LDADD)
 test_pango_LDFLAGS = $(gnumeric_LDFLAGS)
 test_pango_SOURCES =				\
-	$(GNUMERIC_BASE) normal-args.c		\
+	$(GNUMERIC_SOURCE) normal-args.c		\
 	test-pango.c
 
 gnm-marshalers.h : gnm-marshalers.list $(GLIB_GENMARSHAL)
@@ -379,7 +389,7 @@ EXTRA_DIST = GNOME_Gnumeric.xml GNOME_Gnumeric_Component.xml	\
 	    main-application.c normal-args.c 			\
 	    main-component.c					\
 	    $(GNUMERIC_BONOBO) README.gnm_float			\
-	    gnumeric-paths.sh.in
+	    gnumeric-paths.sh.in ssconvert.c
 
 #number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
 

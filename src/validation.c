@@ -62,8 +62,8 @@ validation_new (ValidationStyle style,
 	v = g_new0 (Validation, 1);
 	v->ref_count = 1;
 
-	v->title = title ? string_get (title) : NULL;
-	v->msg   = msg ? string_get (msg) : NULL;
+	v->title = title ? gnm_string_get (title) : NULL;
+	v->msg   = msg ? gnm_string_get (msg) : NULL;
 	v->expr[0] = expr0;
 	v->expr[1] = expr1;
 	v->style   = style;
@@ -93,11 +93,11 @@ validation_unref (Validation *v)
 
 	if (v->ref_count < 1) {
 		if (v->title != NULL) {
-			string_unref (v->title);
+			gnm_string_unref (v->title);
 			v->title = NULL;
 		}
 		if (v->msg != NULL) {
-			string_unref (v->msg);
+			gnm_string_unref (v->msg);
 			v->msg = NULL;
 		}
 		for (i = 0 ; i < 2 ; i++)

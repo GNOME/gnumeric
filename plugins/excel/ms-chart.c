@@ -28,6 +28,7 @@
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-chart.h>
+#include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-plot-impl.h>
 #include <goffice/graph/gog-series-impl.h>
 #include <goffice/graph/gog-object.h>
@@ -55,6 +56,7 @@ typedef struct _XLChartSeries {
 		GOData *data;
 	} data [GOG_MS_DIM_TYPES];
 	int chart_group;
+	GogStyle *style;
 } XLChartSeries;
 
 typedef struct {
@@ -68,13 +70,15 @@ typedef struct {
 	GogGraph	*graph;
 	GogChart	*chart;
 	GogPlot		*plot;
+	GogStyle	*default_plot_style;
 	GogObject	*axis;
-
 	GogStyle	*style;
+
 	int		 style_element;
 
-	int plot_counter;
-	XLChartSeries *currentSeries;
+	gboolean	frame_for_grid;
+	int		plot_counter;
+	XLChartSeries  *currentSeries;
 	GPtrArray	 *series;
 } XLChartReadState;
 
@@ -104,6 +108,7 @@ excel_chart_series_new (void)
 	series = g_new (XLChartSeries, 1);
 
 	series->chart_group = -1;
+	series->style = NULL;
 	for (i = GOG_MS_DIM_TYPES; i-- > 0 ; ) {
 		series->data [i].data = NULL;
 		series->data [i].num_elements = 0;
@@ -120,6 +125,8 @@ excel_chart_series_delete (XLChartSeries *series)
 	for (i = GOG_MS_DIM_TYPES; i-- > 0 ; )
 		if (series->data [i].data != NULL)
 			g_object_unref (series->data[i].data);
+	if (series->style != NULL)
+		g_object_unref (series->style);
 	g_free (series);
 }
 
@@ -134,15 +141,13 @@ BC_R(top_state) (XLChartReadState *s)
 static GOColor
 BC_R(color) (guint8 const *data, char const *type)
 {
-	guint32 const rgb = GSF_LE_GET_GUINT32 (data);
+	guint32 const bgr = GSF_LE_GET_GUINT32 (data);
+	guint16 const r = (bgr >>  0) & 0xff;
+	guint16 const g = (bgr >>  8) & 0xff;
+	guint16 const b = (bgr >> 16) & 0xff;
 
-	d (1, {
-		guint16 const r = (rgb >>  0) & 0xff;
-		guint16 const g = (rgb >>  8) & 0xff;
-		guint16 const b = (rgb >> 16) & 0xff;
-		fprintf(stderr, "%s %02x:%02x:%02x;\n", type, r, g, b);
-	});
-	return RGB_TO_RGBA (rgb, 0xff);
+	d (1, fprintf(stderr, "%s %02x:%02x:%02x;\n", type, r, g, b););
+	return RGBA_TO_UINT (r, g, b, 0xff);
 }
 
 /****************************************************************************/
@@ -356,16 +361,25 @@ BC_R(areaformat)(XLChartHandler const *handle,
 			fputs ("Swap fore and back colours when displaying negatives;", stderr);
 	});
 
-	/* These apply to frames also */
+#if 0 
+	/* 18 */ "5%"
+#endif
 	if (s->style == NULL)
-		return FALSE;
-
-	s->style->fill.type = GOG_FILL_STYLE_PATTERN;
-	s->style->fill.is_auto = auto_format;
-	s->style->fill.invert_if_negative = invert_if_negative;
-	s->style->fill.u.pattern.pat.pattern = pattern;
-	s->style->fill.u.pattern.pat.fore = BC_R(color) (q->data+0, "AreaFore");
-	s->style->fill.u.pattern.pat.back = BC_R(color) (q->data+4, "AreaBack");
+		s->style = gog_style_new ();
+	if (pattern > 0) {
+		s->style->fill.type = GOG_FILL_STYLE_PATTERN;
+		s->style->fill.is_auto = auto_format;
+		s->style->fill.invert_if_negative = invert_if_negative;
+		s->style->fill.u.pattern.pat.pattern = pattern - 1;
+		s->style->fill.u.pattern.pat.fore = BC_R(color) (q->data+0, "AreaFore");
+		s->style->fill.u.pattern.pat.back = BC_R(color) (q->data+4, "AreaBack");
+		if (s->style->fill.u.pattern.pat.pattern == 0) {
+			GOColor tmp = s->style->fill.u.pattern.pat.fore;
+			s->style->fill.u.pattern.pat.fore = s->style->fill.u.pattern.pat.back;
+			s->style->fill.u.pattern.pat.back = tmp;
+		}
+	} else
+		s->style->fill.type = GOG_FILL_STYLE_NONE;
 
 	return FALSE;
 }
@@ -532,7 +546,7 @@ static gboolean
 BC_R(begin)(XLChartHandler const *handle,
 	    XLChartReadState *s, BiffQuery *q)
 {
-	d(0, fputs ("{", stderr););
+	d(0, fputs ("{\n", stderr););
 	s->stack = g_array_append_val (s->stack, s->prev_opcode);
 	return FALSE;
 }
@@ -695,7 +709,6 @@ BC_R(dataformat)(XLChartHandler const *handle,
 	guint16 const excel4_auto_color = GSF_LE_GET_GUINT16 (q->data+6) & 0x01;
 #endif
 
-	g_return_val_if_fail (s->style == NULL, TRUE);
 	g_return_val_if_fail (series_index < s->series->len, TRUE);
 
 	series = g_ptr_array_index (s->series, series_index);
@@ -709,7 +722,6 @@ BC_R(dataformat)(XLChartHandler const *handle,
 		s->style_element = pt_num;
 		d (0, fprintf (stderr, "Point-%hd", pt_num););
 	}
-	s->style = gog_style_new ();
 
 	d (0, fprintf (stderr, ", series=%hd\n", series_index););
 
@@ -790,17 +802,19 @@ static gboolean
 BC_R(frame)(XLChartHandler const *handle,
 	    XLChartReadState *s, BiffQuery *q)
 {
+#if 0
 	guint16 const type = GSF_LE_GET_GUINT16 (q->data);
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+2);
 	gboolean border_shadow, auto_size, auto_pos;
 
-#if 0
 	g_return_val_if_fail (type == 1 || type ==4, TRUE);
-#endif
 	/* FIXME FIXME FIXME : figure out what other values are */
 	border_shadow = (type == 4) ? TRUE : FALSE;
 	auto_size = (flags&0x01) ? TRUE : FALSE;
 	auto_pos = (flags&0x02) ? TRUE : FALSE;
+#endif
+
+	s->frame_for_grid = (s->prev_opcode == BIFF_CHART_plotarea);
 
 	return FALSE;
 }
@@ -937,29 +951,23 @@ BC_R(lineformat)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+8);
-	GogStyle *style = s->style;
 
-	if (style == NULL) {
-		if (s->axis != NULL)
-			style = gog_styled_object_get_style (GOG_STYLED_OBJECT (s->axis));
-		if (style == NULL)
-			return FALSE;
-	}
-
+	if (s->style == NULL) 
+		s->style = gog_style_new ();
 	switch (GSF_LE_GET_GUINT16 (q->data+6)) {
 	default :
-	case -1 : style->line.width = 0; /* hairline */
+	case -1 : s->style->line.width = 0; /* hairline */
 		break;
-	case  0 : style->line.width = 1; /* 'normal' */
+	case  0 : s->style->line.width = 1; /* 'normal' */
 		break;
-	case  1 : style->line.width = 3; /* 'medium' */
+	case  1 : s->style->line.width = 3; /* 'medium' */
 		break;
-	case  2 : style->line.width = 5; /* 'wide' */
+	case  2 : s->style->line.width = 5; /* 'wide' */
 		break;
 	}
-	style->line.color      = BC_R(color) (q->data, "LineColor");
-	style->line.auto_color = (flags & 0x01) ? TRUE : FALSE;
-	style->line.pattern    = GSF_LE_GET_GUINT16 (q->data+4);
+	s->style->line.color      = BC_R(color) (q->data, "LineColor");
+	s->style->line.auto_color = (flags & 0x01) ? TRUE : FALSE;
+	s->style->line.pattern    = GSF_LE_GET_GUINT16 (q->data+4);
 
 	d (0, fprintf (stderr, "Lines are %f pts wide.\n", s->style->line.width););
 	d (0, fprintf (stderr, "Lines have a %s pattern.\n",
@@ -996,8 +1004,7 @@ BC_R(markerformat)(XLChartHandler const *handle,
 	/* gboolean const auto_color = (flags & 0x01) ? TRUE : FALSE; */
 
 	if (s->style == NULL)
-		return FALSE;
-
+		s->style = gog_style_new ();
 	marker = go_marker_new ();
 
 	d (0, fprintf (stderr, "Marker = %s\n", ms_chart_marker [shape]););
@@ -1012,8 +1019,8 @@ BC_R(markerformat)(XLChartHandler const *handle,
 
 	if (s->container.ver >= MS_BIFF_V8) {
 		guint32 const marker_size = GSF_LE_GET_GUINT32 (q->data+16);
-		go_marker_set_size (marker, marker_size);
-		d (1, fprintf (stderr, "Marker is %u\n", marker_size););
+		go_marker_set_size (marker, marker_size / 20.);
+		d (1, fprintf (stderr, "Marker size : is %f pts\n", marker_size / 20.););
 	}
 
 	gog_style_set_marker (s->style, marker);
@@ -1541,39 +1548,44 @@ BC_R(units)(XLChartHandler const *handle,
 /****************************************************************************/
 
 
-static gboolean
-conditional_get_double (gboolean flag, guint8 const *data,
-			gchar const *name)
+static void
+conditional_set_double (gboolean flag, guint8 const *data,
+			gchar const *name, unsigned dim, GogObject *axis)
 {
+	GOData *dat;
 	if (!flag) {
+		dat = NULL;
+		d (1, fprintf (stderr, "%s = Auto\n", name););
+	} else {
 		double const val = gsf_le_get_double (data);
 		d (1, fprintf (stderr, "%s = %f\n", name, val););
-		return TRUE;
 	}
-	d (1, fprintf (stderr, "%s = Auto\n", name););
-	return FALSE;
 }
 
 static gboolean
 BC_R(valuerange)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
-	guint16 const flags = gsf_le_get_double (q->data+40);
+	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+40);
 
-	conditional_get_double (flags&0x01, q->data+ 0, "Min Value");
-	conditional_get_double (flags&0x02, q->data+ 8, "Max Value");
-	conditional_get_double (flags&0x04, q->data+16, "Major Increment");
-	conditional_get_double (flags&0x08, q->data+24, "Minor Increment");
-	conditional_get_double (flags&0x10, q->data+32, "Cross over point");
+	conditional_set_double (flags&0x01, q->data+ 0, "Min Value", AXIS_ELEM_MIN, s->axis);
+	conditional_set_double (flags&0x02, q->data+ 8, "Max Value", AXIS_ELEM_MAX, s->axis);
+	conditional_set_double (flags&0x04, q->data+16, "Major Increment", AXIS_ELEM_MAJOR_TICK, s->axis);
+	conditional_set_double (flags&0x08, q->data+24, "Minor Increment", AXIS_ELEM_MINOR_TICK, s->axis);
+	conditional_set_double (flags&0x10, q->data+32, "Cross over point", AXIS_ELEM_CROSS_POINT, s->axis);
 
-	d (1, {
-	if (flags&0x20)
-		fputs ("Log scaled", stderr);
-	if (flags&0x40)
-		fputs ("Values in reverse order", stderr);
-	if (flags&0x80)
-		fputs ("Cross over at max value", stderr);
-	});
+	if (flags & 0x20) {
+		g_object_set (s->axis, "log-scale", TRUE, NULL);
+		d (1, fputs ("Log scaled", stderr););
+	}
+	if (flags & 0x40) {
+		g_object_set (s->axis, "invert-axis", TRUE, NULL);
+		d (1, fputs ("Values in reverse order", stderr););
+	}
+	if (flags & 0x80) {
+		g_object_set (s->axis, "pos_str", "high", NULL);
+		d (1, fputs ("Cross over at max value", stderr););
+	}
 
 	return FALSE;
 }
@@ -1604,7 +1616,7 @@ BC_R(end)(XLChartHandler const *handle,
 {
 	int popped_state;
 
-	d (0, fputs ("}", stderr););
+	d (0, fputs ("}\n", stderr););
 
 	g_return_val_if_fail (s->stack != NULL, TRUE);
 	g_return_val_if_fail (s->stack->len > 0, TRUE);
@@ -1614,7 +1626,35 @@ BC_R(end)(XLChartHandler const *handle,
 
 	switch (popped_state) {
 	case BIFF_CHART_axis :
+		if (s->style != NULL) {
+			g_object_set (G_OBJECT (s->axis),
+				"style", s->style,
+				NULL);
+			g_object_unref (s->style);
+			s->style = NULL;
+		}
 		s->axis = NULL;
+		break;
+
+	case BIFF_CHART_frame :
+		if (s->style != NULL) {
+			GogObject *obj;
+			if (s->chart != NULL) {
+				if (s->frame_for_grid) {
+					GogGrid *tmp = gog_chart_get_grid (s->chart);
+					obj = (tmp == NULL)
+						? gog_object_add_by_name (GOG_OBJECT (s->chart), "Grid", NULL)
+						: GOG_OBJECT (tmp);
+				} else
+					obj = GOG_OBJECT (s->chart);
+				if (obj != NULL)
+					g_object_set (G_OBJECT (obj),
+						"style", s->style,
+						NULL);
+			}
+			g_object_unref (s->style);
+			s->style = NULL;
+		}
 		break;
 
 	case BIFF_CHART_series :
@@ -1626,6 +1666,7 @@ BC_R(end)(XLChartHandler const *handle,
 		unsigned i, j;
 		XLChartSeries *eseries;
 		GogSeries     *series;
+		GogStyle      *style;
 
 		g_return_val_if_fail (s->plot != NULL, TRUE);
 
@@ -1640,17 +1681,36 @@ BC_R(end)(XLChartHandler const *handle,
 						eseries->data [j].data);
 					eseries->data [j].data = NULL;
 				}
+			style = eseries->style;
+			if (style == NULL)
+				style = s->default_plot_style;
+			if (style != NULL)
+				g_object_set (G_OBJECT (series),
+					"style", style,
+					NULL);
 		}
 
 		gog_object_add_by_name (GOG_OBJECT (s->chart),
 			"Plot", GOG_OBJECT (s->plot));
 		s->plot = NULL;
+		if (s->default_plot_style != NULL) {
+			g_object_unref (s->default_plot_style);
+			s->default_plot_style = NULL;
+		}
 		break;
 	}
 
 	case BIFF_CHART_dataformat :
-		g_return_val_if_fail (s->style != NULL, TRUE);
-		g_object_unref (s->style);
+		if (s->style == NULL)
+			break;
+		else if (s->currentSeries != NULL && s->style_element < 0) {
+			g_return_val_if_fail (s->currentSeries->style == NULL, TRUE);
+			s->currentSeries->style = s->style;
+		} else if (s->plot != NULL) {
+			g_return_val_if_fail (s->default_plot_style == NULL, TRUE);
+			s->default_plot_style = s->style;
+		} else
+			g_object_unref (s->style);
 		s->style = NULL;
 		break;
 
@@ -1852,6 +1912,7 @@ ms_excel_read_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 		state.graph = NULL;
 		state.chart = NULL;
 	}
+	state.default_plot_style = NULL;
 	state.plot  = NULL;
 	state.axis  = NULL;
 	state.style = NULL;

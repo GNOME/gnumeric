@@ -3,18 +3,17 @@
 
 #include "gnumeric.h"
 
-struct _String {
+struct _GnmString {
 	int        ref_count;
 	char       *str;
 };
 
-void    string_init           (void);
-void    string_shutdown       (void);
+void    gnm_string_init       (void);
+void    gnm_string_shutdown   (void);
 
-String *string_lookup         (const char *s);
-String *string_get            (const char *s);
-String *string_get_nocopy     (char *s);
-String *string_ref            (String *);
-void    string_unref          (String *);
+GnmString *gnm_string_get        (char const *s);
+GnmString *gnm_string_get_nocopy (char *s);
+GnmString *gnm_string_ref        (GnmString *);
+void       gnm_string_unref      (GnmString *);
 
 #endif /* GNUMERIC_STRING_H */

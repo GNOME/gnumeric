@@ -184,8 +184,8 @@ gnm_func_group_free (GnmFuncGroup *fn_group)
 	g_return_if_fail (fn_group != NULL);
 	g_return_if_fail (fn_group->functions == NULL);
 
-	string_unref (fn_group->internal_name);
-	string_unref (fn_group->display_name);
+	gnm_string_unref (fn_group->internal_name);
+	gnm_string_unref (fn_group->display_name);
 	g_free (fn_group);
 }
 
@@ -223,12 +223,12 @@ gnm_func_group_fetch_with_translation (char const *name,
 
 	if (l == NULL) {
 		cat = g_new (GnmFuncGroup, 1);
-		cat->internal_name = string_get (name);
+		cat->internal_name = gnm_string_get (name);
 		if (translation != NULL) {
-			cat->display_name = string_get (translation);
+			cat->display_name = gnm_string_get (translation);
 			cat->has_translation = TRUE;
 		} else {
-			cat->display_name = string_get (name);
+			cat->display_name = gnm_string_get (name);
 			cat->has_translation = FALSE;
 		}
 		cat->functions = NULL;
@@ -236,8 +236,8 @@ gnm_func_group_fetch_with_translation (char const *name,
 		             categories, cat, &function_category_compare);
 	} else if (translation != NULL && translation != name &&
 	           !cat->has_translation) {
-		string_unref (cat->display_name);
-		cat->display_name = string_get (translation);
+		gnm_string_unref (cat->display_name);
+		cat->display_name = gnm_string_get (translation);
 		cat->has_translation = TRUE;
 		g_list_remove_link (categories, l);
 		g_list_free_1 (l);

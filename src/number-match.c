@@ -946,7 +946,7 @@ compute_value (char const *s, const regmatch_t *mp,
 			break;
 
 		case MATCH_STRING_CONSTANT:
-			return value_new_string_str (string_get_nocopy (str));
+			return value_new_string_str (gnm_string_get_nocopy (str));
 
 		default :
 			g_warning ("compute_value: This should not happen.");

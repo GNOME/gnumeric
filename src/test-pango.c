@@ -76,7 +76,7 @@ cb_exercise_pango (gpointer data)
 int
 main (int argc, char *argv [])
 {
-	CommandContextStderr *ccs;
+	CommandContext *cc;
 	WorkbookControl *wbc;
 	IOContext *ioc;
 	poptContext ctx;
@@ -86,8 +86,8 @@ main (int argc, char *argv [])
 	ctx = gnumeric_arg_parse (argc, argv);
 
 	ccs = command_context_stderr_new ();
-	ioc = gnumeric_io_context_new (COMMAND_CONTEXT (ccs));
-	g_object_unref (ccs);
+	ioc = gnumeric_io_context_new (cc);
+	g_object_unref (cc);
 
 	/* TODO: Use the ioc. */
 	gnm_common_init ();

@@ -218,13 +218,18 @@ gnumeric_color_init (void)
 {
 	GdkColor error;
 
-	/*
-	 * Make sure we can see bogus attempt at getting the pixel
-	 * value.  This is, by nature, not multi-head safe.
-	 */
 	gdk_color_parse ("cyan", &error);
-	gdk_rgb_find_color (gdk_screen_get_default_colormap (gdk_screen_get_default ()),
-			    &error);
+	if (gdk_screen_get_default () != NULL) {
+		/*
+		 * Make sure we can see bogus attempt at getting the pixel
+		 * value.  This is, by nature, not multi-head safe.
+		 */
+		gdk_rgb_find_color (
+			gdk_screen_get_default_colormap (
+				    gdk_screen_get_default ()),
+			&error);
+	} else
+		error.pixel = 0;
 
 	gs_black.pixel = error.pixel;
 	gs_white.pixel = error.pixel;

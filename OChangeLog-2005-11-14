@@ -1,7 +1,40 @@
+2003-09-25  Jody Goldberg <jody@gnome.org>
+
+	* src/style.c (gnm_pango_context_get) : simple wrapper to enable
+	  windowless operation.
+	(font_init) : move the global_font crap here temporarily to enable
+	  windowless operation.
+	(font_shutdown) :  new merged in global_font_shutdown.
+
+	* src/ssconvert.c : stick this ins CVS as an incentive to someone to
+	  polish it up a bit and finish it.
+
+	* src/sheet.c (sheet_new) : Use the new gnm_pango_context_get.
+
+	* src/libgnumeric.c (gnm_common_init) : global_gnome_font_init is gone
+	(gnm_shutdown) : ditto global_gnome_font_shutdown.
+
+	* src/global-gnome-font.c : rip the init and shutdown logic out of here
+
+	* src/style-color.c (gnumeric_color_init) : allow this to work with no
+	  display.
+
+	* src/command-context-stderr.c (command_context_stderr_new) : change
+	  return type to the more useful and popular base class.
+
+2003-09-25  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=123226
+	* gnumeric.spec.in : patch the bugs mentioned and some general cleanup
+
 2003-09-24  Morten Welinder  <terra@gnome.org>
 
 	* src/number-match.c (compute_value): Reduce the number of
 	localtime calls when matching partial dates.
+
+2003-09-23  Jody Goldberg <jody@gnome.org>
+
+	* src/str.h : Start of the big renaming s/String/GnmString/
 
 2003-09-23  Jody Goldberg <jody@gnome.org>
 

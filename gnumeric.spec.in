@@ -1,10 +1,9 @@
 # conditional features selected using --with <foo> or --without <foo>
-%{!?_with_bonobo: %{!?_without_bonobo: %define _without_bonobo --without-bonobo}}
-%{!?_with_gda: %{!?_without_gda: %define _without_gda --without-gda}}
-%{!?_with_gb: %{!?_without_gb: %define _without_gb --without-gb}}
-%{!?_with_guile: %{!?_without_guile: %define _without_guile --without-guile}}
-%{!?_with_long_double: %{!?_without_long_double: %define _without_long_double --without-long-double}}
-%{!?_with_python: %{!?_without_python: %define _with_python --with-python}}
+%{!?_with_bonobo:	%{!?_without_bonobo: %define _without_bonobo --without-bonobo}}
+%{!?_with_gda:		%{!?_without_gda: %define _without_gda --without-gda}}
+%{!?_with_guile:	%{!?_without_guile: %define _without_guile --without-guile}}
+%{!?_with_long_double:	%{!?_without_long_double: %define _without_long_double --without-long-double}}
+%{!?_with_python:	%{!?_without_python: %define _with_python --with-python}}
 
 %define  RELEASE 1
 %define  rel     %{?CUSTOM_RELEASE} %{!?CUSTOM_RELEASE:%RELEASE}
@@ -31,23 +30,18 @@ BuildRequires:	libgnomeprintui22	>= 2.2.0
 %if %{?_with_bonobo:1}%{!?_with_bonobo:0}
 BuildRequires: libbonobo-devel		>= 2.0.0
 BuildRequires: libbonoboui-devel	>= 2.0.0
-BuildRequires: bonobo-activation-devel	>= 2.0.0
 %endif
 %{?_with_gda:BuildRequires:	libgda-devel		>= 0.10}
-%{?_with_gb:BuildRequires:	libgb-devel		== 1.17}
 %{?_with_guile:BuildRequires:	guile-devel		>= 1.5}
 %{?_with_python:BuildRequires:	pygtk2-devel		>= 1.99.10}
 Prereq:		GConf2
 Prereq:		scrollkeeper
 
 %description
-GNOME (GNU Network Object Model Environment) is a user-friendly set of
-applications and desktop tools to be used in conjunction with a window
-manager for the X Window System.
-
-This is the Gnumeric, a spreadsheet for GNOME.  It aims to be a drop in
-replacement for commercial spreadsheets.  It provides import/export from
-MS Excel files and many other formats (csv, latex, xbase, applix).
+This is Gnumeric, a spreadsheet for GNOME.  It aims to be a drop in
+replacement for proprietary spreadsheets.  It provides import/export from
+MS Excel files and many other formats (csv, latex, xbase, applix, quattro pro,
+OpenOffice, planperfect).
 
 # Don't even think about it. -- MW
 #%package devel
@@ -69,7 +63,6 @@ MS Excel files and many other formats (csv, latex, xbase, applix).
 %configure \
   %{?_with_bonobo} %{?_without_bonobo} \
   %{?_with_gda} %{?_without_gda} \
-  %{?_with_gb} %{?_without_gb} \
   %{?_with_guile} %{?_without_guile} \
   %{?_with_long_double} %{?_without_long_double} \
   %{?_with_python} %{?_without_python}
@@ -106,6 +99,10 @@ scrollkeeper-update
 %{_datadir}/mime-info/*
 %{_datadir}/pixmaps/*
 %{_datadir}/omf/*
+%if %{?_with_bonobo:1}%{!?_with_bonobo:0}
+%{_libexecdir}/*
+%endif
+
 %doc HACKING AUTHORS ChangeLog NEWS BUGS README COPYING TODO
 
 # Don't even think about it.  -MW

@@ -3,14 +3,13 @@
  *
  * Author:
  *   Miguel de Icaza (miguel@kernel.org)
- *
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "str.h"
 #include "gutils.h"
-#include "stdio.h"
 
+#include <stdio.h>
 #include <string.h>
 
 #ifndef USE_STRING_POOLS
@@ -29,24 +28,24 @@ static gnm_mem_chunk *string_pool;
 
 static GHashTable *string_hash_table;
 
-String *
-string_lookup (const char *s)
+static GnmString *
+gnm_string_lookup (char const *s)
 {
 	g_return_val_if_fail (s != NULL, NULL);
 	return g_hash_table_lookup (string_hash_table, s);
 }
 
-String *
-string_get (const char *s)
+GnmString *
+gnm_string_get (char const *s)
 {
-	String *string = string_lookup (s);
+	GnmString *string = gnm_string_lookup (s);
 	if (string){
-		string_ref (string);
+		gnm_string_ref (string);
 		return string;
 	}
 
 	/* If non-existant, create */
-	string = CHUNK_ALLOC (String, string_pool);
+	string = CHUNK_ALLOC (GnmString, string_pool);
 	string->ref_count = 1;
 	string->str = g_strdup (s);
 
@@ -56,23 +55,23 @@ string_get (const char *s)
 }
 
 /*
- * string_get_nocopy :
+ * gnm_string_get_nocopy :
  *
  * Take control of the supplied string.
  * delete it if it is already available.
  */
-String *
-string_get_nocopy (char *s)
+GnmString *
+gnm_string_get_nocopy (char *s)
 {
-	String *string = string_lookup (s);
+	GnmString *string = gnm_string_lookup (s);
 	if (string) {
-		string_ref (string);
+		gnm_string_ref (string);
 		g_free (s);
 		return string;
 	}
 
 	/* If non-existant, create */
-	string = CHUNK_ALLOC (String, string_pool);
+	string = CHUNK_ALLOC (GnmString, string_pool);
 	string->ref_count = 1;
 	string->str = s;
 
@@ -81,8 +80,8 @@ string_get_nocopy (char *s)
 	return string;
 }
 
-String *
-string_ref (String *string)
+GnmString *
+gnm_string_ref (GnmString *string)
 {
 	g_return_val_if_fail (string != NULL, NULL);
 
@@ -92,7 +91,7 @@ string_ref (String *string)
 }
 
 void
-string_unref (String *string)
+gnm_string_unref (GnmString *string)
 {
 	g_return_if_fail (string != NULL);
 	g_return_if_fail (string->ref_count > 0);
@@ -105,13 +104,13 @@ string_unref (String *string)
 }
 
 void
-string_init (void)
+gnm_string_init (void)
 {
 	string_hash_table = g_hash_table_new (g_str_hash, g_str_equal);
 #if USE_STRING_POOLS
 	string_pool =
 		gnm_mem_chunk_new ("string pool",
-				   sizeof (String),
+				   sizeof (GnmString),
 				   16 * 1024 - 128);
 #endif
 }
@@ -120,14 +119,14 @@ string_init (void)
 static void
 cb_string_pool_leak (gpointer data, gpointer user)
 {
-	String *string = data;
+	GnmString *string = data;
 	fprintf (stderr, "Leaking string [%s] with ref_count=%d.\n",
 		 string->str, string->ref_count);
 }
 #endif
 
 void
-string_shutdown (void)
+gnm_string_shutdown (void)
 {
 	g_hash_table_destroy (string_hash_table);
 	string_hash_table = NULL;

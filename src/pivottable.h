@@ -14,7 +14,7 @@ typedef enum {
 
 struct _GnmPivotTableField {
 	GnmPivotTableFieldType type;
-	String *name;
+	GnmString *name;
 };
 
 typedef struct {

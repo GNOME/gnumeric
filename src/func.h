@@ -16,7 +16,7 @@ void function_dump_defs (char const *filename, gboolean def_or_state);
 
 typedef struct _GnmFuncGroup GnmFuncGroup;
 struct _GnmFuncGroup {
-	String *internal_name, *display_name;
+	GnmString *internal_name, *display_name;
 	gboolean has_translation;
 	GList *functions;
 };

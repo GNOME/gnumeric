@@ -30,7 +30,7 @@ typedef struct {
  (G_TYPE_CHECK_CLASS_CAST ((k), COMMAND_CONTEXT_STDERR_TYPE, \
  CommandContextStderrClass))
 
-CommandContextStderr *
+CommandContext *
 command_context_stderr_new (void)
 {
 	return g_object_new (command_context_stderr_get_type (), NULL);

@@ -207,6 +207,9 @@
 		  <property name="xpad">5</property>
 		  <property name="ypad">0</property>
 		  <property name="mnemonic_widget">one_alpha</property>
+		  <accessibility>
+		    <atkrelation target="one_alpha" type="label-for"/>
+		  </accessibility>
 		</widget>
 		<packing>
 		  <property name="left_attach">0</property>
@@ -229,6 +232,9 @@
 		  <property name="has_frame">True</property>
 		  <property name="invisible_char" translatable="yes">*</property>
 		  <property name="activates_default">False</property>
+		  <accessibility>
+		    <atkrelation target="label7" type="labelled-by"/>
+		  </accessibility>
 		</widget>
 		<packing>
 		  <property name="left_attach">1</property>

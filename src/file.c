@@ -26,6 +26,7 @@
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-utils.h>
 #include <string.h>
 
 static void
@@ -795,6 +796,27 @@ gnm_file_saver_for_mime_type (gchar const *mime_type)
 		}
 	}
 	return (NULL);
+}
+
+/**
+ * gnm_file_saver_for_file_name :
+ * @file_name :
+ *
+ * Searches for file opener with given @filename, registered using
+ * gnm_file_opener_register
+ *
+ * Return value: GnmFileOpener object or NULL if opener cannot be found.
+ **/
+GnmFileSaver *
+gnm_file_saver_for_file_name (char const *file_name)
+{
+	GList *l;
+	char const *extension = gsf_extension_pointer (file_name);
+
+	for (l = file_saver_list; l != NULL; l = l->next)
+		if (!strcmp (gnm_file_saver_get_extension (l->data), extension))
+			return l->data;
+	return NULL;
 }
 
 /**

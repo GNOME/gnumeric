@@ -125,6 +125,11 @@
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">5</property>
 		  <property name="ypad">0</property>
+		  <accessibility>
+		    <atkrelation target="grouped_by_row" type="label-for"/>
+		    <atkrelation target="grouped_by_col" type="label-for"/>
+		    <atkrelation target="grouped_by_area" type="label-for"/>
+		  </accessibility>
 		</widget>
 		<packing>
 		  <property name="left_attach">0</property>
@@ -173,6 +178,9 @@
 		      <property name="active">True</property>
 		      <property name="inconsistent">False</property>
 		      <property name="draw_indicator">True</property>
+		      <accessibility>
+			<atkrelation target="label2" type="labelled-by"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
@@ -192,6 +200,9 @@
 		      <property name="inconsistent">False</property>
 		      <property name="draw_indicator">True</property>
 		      <property name="group">grouped_by_col</property>
+		      <accessibility>
+			<atkrelation target="label2" type="labelled-by"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
@@ -211,6 +222,9 @@
 		      <property name="inconsistent">False</property>
 		      <property name="draw_indicator">True</property>
 		      <property name="group">grouped_by_col</property>
+		      <accessibility>
+			<atkrelation target="label2" type="labelled-by"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
@@ -283,6 +297,9 @@
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
 		      <property name="mnemonic_widget">alpha-entry</property>
+		      <accessibility>
+			<atkrelation target="alpha-entry" type="label-for"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">0</property>
@@ -305,6 +322,9 @@
 		      <property name="has_frame">True</property>
 		      <property name="invisible_char" translatable="yes">*</property>
 		      <property name="activates_default">False</property>
+		      <accessibility>
+			<atkrelation target="label3" type="labelled-by"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">1</property>

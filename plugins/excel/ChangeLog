@@ -1,3 +1,26 @@
+2003-09-25  Jody Goldberg <jody@gnome.org>
+
+	* ms-escher.c (ms_escher_read_OPT) : dump the complex data too so that
+	  we don't forget it exists.
+
+	* ms-chart.c (excel_chart_series_new) : init style.
+	(excel_chart_series_delete) : unref style if necessary.
+	(BC_R(color)) : DOH!  they use bgr no rgb.
+	(BC_R(areaformat)) : handle none, and start work on pattern map.
+	(BC_R(begin)) : make prettier with newline.
+	(BC_R(dataformat)) : don't create the style here.  Do it on demand in
+	  {area,line,marker}format.
+	(BC_R(frame)) : notice the difference between a chart and a grid.
+	(BC_R(markerformat)) : create the styles on demand.
+	(conditional_set_double) : prep for importing manual axis bounds.
+	(BC_R(valuerange)) : ditto.  Still need a static GOData.
+	(BC_R(end)) : hook the series and plot default styles in.
+	  Enable styles for charts and grids.
+
+2003-09-23  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R(lineformat)) : fix import of axis line styles.
+
 2003-09-13  Nick Lamb <njl195@zepler.org.uk>
 
 	* ms-excel-read.c (excel_sheet_new) : typo fix

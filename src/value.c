@@ -47,7 +47,7 @@
 static struct {
 	char const *C_name;
 	char const *locale_name;
-	String *locale_name_str;
+	GnmString *locale_name_str;
 } standard_errors[] = {
 	{ N_("#NULL!"), NULL, NULL },
 	{ N_("#DIV/0!"), NULL, NULL },
@@ -115,17 +115,17 @@ value_new_error (EvalPos const *ep, char const *mesg)
 	ValueErr *v = CHUNK_ALLOC (ValueErr, value_error_pool);
 	*((ValueType *)&(v->type)) = VALUE_ERROR;
 	v->fmt = NULL;
-	v->mesg = string_get (mesg);
+	v->mesg = gnm_string_get (mesg);
 	return (Value *)v;
 }
 
 Value *
-value_new_error_str (EvalPos const *ep, String *mesg)
+value_new_error_str (EvalPos const *ep, GnmString *mesg)
 {
 	ValueErr *v = CHUNK_ALLOC (ValueErr, value_error_pool);
 	*((ValueType *)&(v->type)) = VALUE_ERROR;
 	v->fmt = NULL;
-	v->mesg = string_ref (mesg);
+	v->mesg = gnm_string_ref (mesg);
 	return (Value *)v;
 }
 
@@ -238,7 +238,7 @@ static gnm_mem_chunk *value_string_pool;
 
 /* NOTE : absorbs the reference */
 Value *
-value_new_string_str (String *str)
+value_new_string_str (GnmString *str)
 {
 	ValueStr *v = CHUNK_ALLOC (ValueStr, value_string_pool);
 	*((ValueType *)&(v->type)) = VALUE_STRING;
@@ -250,13 +250,13 @@ value_new_string_str (String *str)
 Value *
 value_new_string (char const *str)
 {
-	return value_new_string_str (string_get (str));
+	return value_new_string_str (gnm_string_get (str));
 }
 
 Value *
 value_new_string_nocopy (char *str)
 {
-	return value_new_string_str (string_get_nocopy (str));
+	return value_new_string_str (gnm_string_get_nocopy (str));
 }
 
 static gnm_mem_chunk *value_range_pool;
@@ -500,12 +500,12 @@ value_release (Value *value)
 			return;
 		}
 
-		string_unref (value->v_err.mesg);
+		gnm_string_unref (value->v_err.mesg);
 		CHUNK_FREE (value_error_pool, value);
 		return;
 
 	case VALUE_STRING:
-		string_unref (value->v_str.val);
+		gnm_string_unref (value->v_str.val);
 		CHUNK_FREE (value_string_pool, value);
 		return;
 
@@ -574,7 +574,7 @@ value_duplicate (Value const *src)
 		break;
 
 	case VALUE_STRING:
-		string_ref (src->v_str.val);
+		gnm_string_ref (src->v_str.val);
 		res = value_new_string_str (src->v_str.val);
 		break;
 
@@ -1717,7 +1717,7 @@ value_init (void)
 	for (i = 0; i < G_N_ELEMENTS (standard_errors); i++) {
 		standard_errors[i].locale_name = _(standard_errors[i].C_name);
 		standard_errors[i].locale_name_str =
-			string_get (standard_errors[i].locale_name);
+			gnm_string_get (standard_errors[i].locale_name);
 	}
 
 #if USE_VALUE_POOLS
@@ -1760,7 +1760,7 @@ value_shutdown (void)
 	size_t i;
 
 	for (i = 0; i < G_N_ELEMENTS (standard_errors); i++) {
-		string_unref (standard_errors[i].locale_name_str);
+		gnm_string_unref (standard_errors[i].locale_name_str);
 		standard_errors[i].locale_name_str = NULL;
 	}
 

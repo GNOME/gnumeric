@@ -3061,7 +3061,7 @@ excel_write_autofilter_names (ExcelWriteState *ewb)
 	GnmFilter const *filter;
 	GnmNamedExpr nexpr;
 
-	nexpr.name = string_get ("_FilterDatabase");
+	nexpr.name = gnm_string_get ("_FilterDatabase");
 	nexpr.is_hidden = TRUE;
 	nexpr.is_placeholder = FALSE;
 	for (i = 0; i < ewb->sheets->len; i++) {
@@ -3076,7 +3076,7 @@ excel_write_autofilter_names (ExcelWriteState *ewb)
 			gnm_expr_unref (nexpr.expr);
 		}
 	}
-	string_unref (nexpr.name);
+	gnm_string_unref (nexpr.name);
 }
 
 static void
@@ -3847,7 +3847,7 @@ excel_write_SST (ExcelWriteState *ewb)
 
 	ptr = data + 8;
 	for (i = 0; i < strings->len ; i++) {
-		String const *string = g_ptr_array_index (strings, i);
+		GnmString const *string = g_ptr_array_index (strings, i);
 		char const *str = string->str;
 		unsigned char_len, byte_len;
 
@@ -4206,7 +4206,7 @@ static void
 sst_collect_str (gpointer ignored, Cell const *cell, ExcelWriteState *ewb)
 {
 	int index;
-	String *str;
+	GnmString *str;
 
 	if (cell_has_expr (cell) || cell->value == NULL ||
 	    cell->value->type != VALUE_STRING)

@@ -154,9 +154,9 @@ main (int argc, char *argv [])
 		handle_paint_events ();
 	} else {
 		/* TODO: Make this inconsistency go away */
-		CommandContextStderr *ccs = command_context_stderr_new ();
-		ioc = gnumeric_io_context_new (COMMAND_CONTEXT (ccs));
-		g_object_unref (ccs);
+		CommandContext *cc = command_context_stderr_new ();
+		ioc = gnumeric_io_context_new (cc);
+		g_object_unref (cc);
 	}
 
 	/* TODO: Use the ioc. */

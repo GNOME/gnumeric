@@ -83,6 +83,7 @@ GnomeFont *gnm_font_find_closest_from_weight_slant (const guchar *family,
 						    GnomeFontWeight weight, 
 						    gboolean italic, 
 						    gdouble size);
+PangoContext *gnm_pango_context_get (void);
 
 #include "mstyle.h"
 

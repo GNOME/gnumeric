@@ -40,14 +40,6 @@
 #include <gtk/gtkcheckbutton.h>
 #include <glade/glade-xml.h>
 
-enum {
-	AXIS_ELEM_MIN = 0,
-	AXIS_ELEM_MAX,
-	AXIS_ELEM_MAJOR_TICK,
-	AXIS_ELEM_MINOR_TICK,
-	AXIS_ELEM_MAX_ENTRY
-};
-
 struct _GogAxis {
 	GogStyledObject	 base;
 
@@ -62,7 +54,7 @@ struct _GogAxis {
 		int size_pts;
 	} major, minor;
 	gboolean major_tick_labeled;
-	gboolean inverted;
+	gboolean inverted, log_scale;
 
 	double		min_val, max_val;
 	double		logical_min_val, logical_max_val;
@@ -83,6 +75,7 @@ enum {
 	AXIS_PROP_POS,
 	AXIS_PROP_POS_STR,
 	AXIS_PROP_INVERT,
+	AXIS_PROP_LOG_SCALE,
 	AXIS_PROP_MAJOR_TICK_LABELED,
 	AXIS_PROP_MAJOR_TICK_IN,
 	AXIS_PROP_MAJOR_TICK_OUT,
@@ -165,6 +158,9 @@ gog_axis_set_property (GObject *obj, guint param_id,
 	case AXIS_PROP_INVERT:
 		axis->inverted = g_value_get_boolean (value);
 		break;
+	case AXIS_PROP_LOG_SCALE:
+		axis->log_scale = g_value_get_boolean (value);
+		break;
 
 	case AXIS_PROP_MAJOR_TICK_LABELED:
 		itmp = g_value_get_boolean (value);
@@ -244,6 +240,9 @@ gog_axis_get_property (GObject *obj, guint param_id,
 	case AXIS_PROP_INVERT:
 		g_value_set_boolean (value, axis->inverted);
 		break;
+	case AXIS_PROP_LOG_SCALE:
+		g_value_set_boolean (value, axis->log_scale);
+		break;
 
 	case AXIS_PROP_MAJOR_TICK_LABELED:
 		g_value_set_boolean (value, axis->major_tick_labeled);
@@ -292,8 +291,9 @@ gog_axis_update (GogObject *obj)
 {
 	GSList *ptr;
 	GogAxis *axis = GOG_AXIS (obj);
+	int expon;
+	double range, step, mant;
 	double minima, maxima, logical_min, logical_max;
-	double range, step;
 	double old_min = axis->auto_bound [AXIS_ELEM_MIN];
 	double old_max = axis->auto_bound [AXIS_ELEM_MAX];
 	GOData *labels;
@@ -354,18 +354,20 @@ gog_axis_update (GogObject *obj)
 			step *= 2.;	/* 2 4 6 */
 
 		/* we want the bounds to be loose so jump up a step if we get too close */
+		mant = frexpgnum (minima/step, &expon);
 		axis->auto_bound [AXIS_ELEM_MIN] = step *
-			floor (gnumeric_sub_epsilon (minima/step));
+			floor (ldexpgnum (mant - GNUM_EPSILON, expon));
+		mant = frexpgnum (maxima/step, &expon);
 		axis->auto_bound [AXIS_ELEM_MAX] = step *
-			ceil (gnumeric_add_epsilon (maxima/step));
+			ceil (ldexpgnum (mant + GNUM_EPSILON, expon));
 		axis->auto_bound [AXIS_ELEM_MAJOR_TICK] = step;
 		axis->auto_bound [AXIS_ELEM_MINOR_TICK] = step / 5.;
 
-		/* pull to zero if its nearby */
+		/* pull to zero if its nearby (do not pull both directions to 0) */
 		if (axis->auto_bound [AXIS_ELEM_MIN] > 0 &&
 		    (axis->auto_bound [AXIS_ELEM_MIN] - 10. * step) < 0)
 			axis->auto_bound [AXIS_ELEM_MIN] = 0;
-		if (axis->auto_bound [AXIS_ELEM_MAX] < 0 &&
+		else if (axis->auto_bound [AXIS_ELEM_MAX] < 0 &&
 		    (axis->auto_bound [AXIS_ELEM_MAX] + 10. * step) < 0)
 			axis->auto_bound [AXIS_ELEM_MAX] = 0;
 
@@ -435,7 +437,8 @@ make_dim_editor (GogDataset *set, GtkTable *table, unsigned dim,
 		N_("M_in"),
 		N_("M_ax"),
 		N_("Ma_jor Ticks"),
-		N_("Mi_nor Ticks")
+		N_("Mi_nor Ticks"),
+		N_("_Cross")
 	};
 	ElemToggleData *closure;
 	GtkWidget *editor = gog_data_allocator_editor (dalloc, set, dim, TRUE);
@@ -562,7 +565,11 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 	g_object_class_install_property (gobject_klass, AXIS_PROP_INVERT,
 		g_param_spec_boolean ("invert-axis", NULL,
 			"Scale from high to low rather than low to high",
-			TRUE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, AXIS_PROP_LOG_SCALE,
+		g_param_spec_boolean ("log-scale", NULL,
+			"Use a logarithmic scale",
+			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_PROP_MAJOR_TICK_LABELED,
 		g_param_spec_boolean ("major-tick-labeled", NULL,
 			"Show labels for major ticks",
@@ -610,6 +617,7 @@ gog_axis_init (GogAxis *axis)
 	axis->major.tick_out = TRUE;
 	axis->major_tick_labeled = TRUE;
 	axis->inverted = FALSE;
+	axis->log_scale = FALSE;
 	axis->major.size_pts = 4;
 	axis->minor.size_pts = 2;
 

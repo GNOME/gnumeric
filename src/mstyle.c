@@ -63,7 +63,7 @@ typedef struct {
 		guint32          pattern;
 
 		union {
-			String   *name;
+			GnmString *name;
 			gboolean  bold;
 			gboolean  italic;
 			StyleUnderlineType  underline;
@@ -463,7 +463,7 @@ mstyle_element_ref (const MStyleElement *e)
 		style_border_ref (e->u.border.any);
 		break;
 	case MSTYLE_FONT_NAME:
-		string_ref (e->u.font.name);
+		gnm_string_ref (e->u.font.name);
 		break;
 	case MSTYLE_FORMAT:
 		style_format_ref (e->u.format);
@@ -497,7 +497,7 @@ mstyle_element_unref (MStyleElement e)
 		style_border_unref (e.u.border.any);
 		break;
 	case MSTYLE_FONT_NAME:
-		string_unref (e.u.font.name);
+		gnm_string_unref (e.u.font.name);
 		break;
 	case MSTYLE_FORMAT:
 		style_format_unref (e.u.format);
@@ -1258,7 +1258,7 @@ mstyle_set_font_name (MStyle *style, const char *name)
 
 	mstyle_element_unref (style->elements[MSTYLE_FONT_NAME]);
 	style->elements[MSTYLE_FONT_NAME].type = MSTYLE_FONT_NAME;
-	style->elements[MSTYLE_FONT_NAME].u.font.name = string_get (name);
+	style->elements[MSTYLE_FONT_NAME].u.font.name = gnm_string_get (name);
 	mstyle_font_clear (style);
 	mstyle_pango_clear (style);
 }

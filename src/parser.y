@@ -1120,11 +1120,11 @@ yylex (void)
 			       !g_unichar_isspace (tmp)) {
 				state->ptr = g_utf8_next_char (state->ptr);
 				if (tmp == '!' || tmp == '?') {
-					String *name = string_get_nocopy (g_strndup (start, state->ptr - start));
+					GnmString *name = gnm_string_get_nocopy (g_strndup (start, state->ptr - start));
 					yylval.expr = register_expr_allocation
 						(gnm_expr_new_constant (
 							value_new_error_str (NULL, name)));
-					string_unref (name);
+					gnm_string_unref (name);
 					return CONSTANT;
 				}
 			}

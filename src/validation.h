@@ -41,8 +41,8 @@ typedef enum {
 struct _Validation {
 	int              ref_count;
 
-	String          *title;
-	String          *msg;
+	GnmString       *title;
+	GnmString       *msg;
 	GnmExpr	const   *expr [2];
 	ValidationStyle  style;
 	ValidationType	 type;

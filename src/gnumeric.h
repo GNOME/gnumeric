@@ -119,7 +119,7 @@ typedef struct _GnmFunc			GnmFunc;
 typedef struct _ErrorInfo		ErrorInfo;
 
 typedef struct _PrintInformation        PrintInformation;
-typedef struct _String	 	        String;
+typedef struct _GnmString 	        GnmString;
 
 typedef struct _GnmFileOpener		GnmFileOpener;	/* TODO rename to GnmFileFormatReader */
 

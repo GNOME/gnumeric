@@ -109,17 +109,17 @@ typedef struct _FillItem {
 
 	union {
 		GnmExpr const *expr;
-		Value    *value;
-		String   *str;
+		Value     *value;
+		GnmString *str;
 		struct {
 			AutoFillList const *list;
 			int           num;
 			int           was_i18n;
 		} list;
 		struct {
-			String   *str;
-			int       pos, endpos; /* In bytes */
-			int       num;
+			GnmString *str;
+			int        pos, endpos; /* In bytes */
+			int        num;
 		} numstr;
 		gboolean v_bool;
 	} v;
@@ -184,7 +184,7 @@ matches_list (char const *s, int *n, int *is_i18n)
 }
 
 static gboolean
-string_has_number (String const *str, int *num, int *bytepos, int *byteendpos)
+string_has_number (GnmString const *str, int *num, int *bytepos, int *byteendpos)
 {
 	char const *s = str->str;
 	char const *end, *p;
@@ -242,11 +242,11 @@ fill_item_destroy (FillItem *fi)
 		break;
 
 	case FILL_STRING_CONSTANT:
-		string_unref (fi->v.str);
+		gnm_string_unref (fi->v.str);
 		break;
 
 	case FILL_STRING_WITH_NUMBER:
-		string_unref (fi->v.numstr.str);
+		gnm_string_unref (fi->v.numstr.str);
 		break;
 
 	default:
@@ -319,7 +319,7 @@ fill_item_new (Sheet *sheet, int col, int row)
 		int  num, pos, endpos, i18;
 
 		fi->type = FILL_STRING_CONSTANT;
-		fi->v.str = string_ref (value->v_str.val);
+		fi->v.str = gnm_string_ref (value->v_str.val);
 
 		list = matches_list (value->v_str.val->str, &num, &i18);
 		if (list) {

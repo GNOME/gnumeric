@@ -47,6 +47,7 @@ gboolean  gog_chart_axis_set_is_valid (GogChart const *chart, GogAxisSet type);
 gboolean  gog_chart_axis_set_assign   (GogChart *chart, GogAxisSet type);
 GSList	 *gog_chart_get_axis	      (GogChart const *chart, GogAxisType type);
 
+GogGrid  *gog_chart_get_grid	      (GogChart const *chart);
 
 /* View utils */
 void	  gog_chart_view_get_indents  (GogView const *view,

@@ -27,6 +27,9 @@ Jody:
 	* Big performance improvement when autosizing row heights.
 	* Fix recalc for ISBLANK
 	* Fix deleting a graph object with expr entries.
+	* Tweak the axis auto range selector to keep things symetric
+	* Enable basic style import for chart elements
+	* Drop in a basic implementatin of ssconvert
 
 John Gill:
 	* Heuristics to improve finger feel of autofilter range selection

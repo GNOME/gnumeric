@@ -5,5 +5,6 @@ src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml
 src/parser.c
+src/ssconvert.c
 src/test-pango.c
 schemas/plot-types.xml.in

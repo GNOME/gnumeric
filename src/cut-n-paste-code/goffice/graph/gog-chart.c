@@ -471,6 +471,20 @@ gog_chart_get_axis (GogChart const *chart, GogAxisType target)
 	return res;
 }
 
+/**
+ * gog_chart_get_grid :
+ * @chart : #GogChart
+ *
+ * Returns the grid associated with @chart if one exists
+ * otherwise NULL.
+ **/
+GogGrid  *
+gog_chart_get_grid (GogChart const *chart)
+{
+	g_return_val_if_fail (GOG_CHART (chart) != NULL, NULL);
+	return chart->grid;
+}
+
 /*********************************************************************/
 
 typedef struct {

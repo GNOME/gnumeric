@@ -1321,7 +1321,9 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 
 	/* FillStyle */
 		/* Solid : Type of fill */
-		case 384 : name = "FillType fillType"; break;
+		case 384 : id = MS_OBJ_ATTR_FILL_TYPE;
+			   name = "FillType fillType";
+			   break;
 
 		/* white : Foreground color */
 		case 385 : id = MS_OBJ_ATTR_FILL_COLOR;
@@ -1329,11 +1331,17 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 			   break;
 
 		/* 1<<16 : Fixed 16.16 */
-		case 386 : name = "long fillOpacity"; break;
+		case 386 : id = MS_OBJ_ATTR_FILL_ALPHA;
+			   name = "long fillOpacity";
+			   break;
 		/* white : Background color */
-		case 387 : name = "Colour fillBackColor"; break;
+		case 387 : id = MS_OBJ_ATTR_FILL_BACKGROUND;
+			   name = "Colour fillBackColor";
+			   break;
 		/* 1<<16 : Shades only */
-		case 388 : name = "long fillBackOpacity"; break;
+		case 388 : id = MS_OBJ_ATTR_FILL_BACKGROUND_ALPHA;
+			   name = "long fillBackOpacity";
+			   break;
 		/* undefined : Modification for BW views */
 		case 389 : name = "Colour fillCrMod"; break;
 		/* NULL : Pattern/texture */
@@ -1733,10 +1741,20 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 
 		/* TODO : use this for something */
 		if (is_complex) {
-			extra += val;
-
 			/* check for over run */
-			g_return_val_if_fail (extra - data + COMMON_HEADER_LEN <= h->len, TRUE);
+			g_return_val_if_fail (extra + val - data + COMMON_HEADER_LEN <= h->len, TRUE);
+
+			d (5, gsf_mem_dump (extra, val););
+			d (7, { 
+				static int count = 0;
+				char *name = g_strdup_printf ("gnumeric-complex-opt-%d", count++);
+				FILE *f = fopen (name, "w");
+				if (f != NULL) {
+					fwrite (extra, 1, val, f);
+					fclose (f);
+				}
+			});
+			extra += val;
 		}
 
 		if (id & MS_OBJ_ATTR_IS_INT_MASK)

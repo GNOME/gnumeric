@@ -115,7 +115,7 @@ gnm_common_init (void)
 	plugin_services_init ();
 	libgoffice_init ();
 	gnm_conf_init ();
-	string_init ();
+	gnm_string_init ();
 	mstyle_init ();
 	value_init ();
 	parse_util_init ();
@@ -148,7 +148,6 @@ gnm_common_init (void)
 #endif
 #endif
 
-	global_gnome_font_init ();
 	glade_init ();
 }
 
@@ -156,10 +155,10 @@ int
 gnm_dump_func_defs (char const* filename, gboolean def_or_state)
 {
 	int retval;
-	CommandContextStderr *ccs = command_context_stderr_new ();
+	CommandContext *cc = command_context_stderr_new ();
 
-	plugins_init (COMMAND_CONTEXT (ccs));
-	if ((retval = command_context_stderr_get_status (ccs)) == 0)
+	plugins_init (cc);
+	if ((retval = command_context_stderr_get_status (COMMAND_CONTEXT_STDERR (cc))) == 0)
 		function_dump_defs (filename, def_or_state);
 
 	return retval;
@@ -186,8 +185,7 @@ gnm_shutdown (void)
 	parse_util_shutdown ();
 	value_shutdown ();
 	mstyle_shutdown ();
-	string_shutdown ();
-	global_gnome_font_shutdown ();
+	gnm_string_shutdown ();
 	application_release_gconf_client ();
 	libgoffice_shutdown ();
 	plugin_services_shutdown ();

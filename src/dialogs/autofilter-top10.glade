@@ -89,6 +89,11 @@
 	      <property name="yalign">0.5</property>
 	      <property name="xpad">0</property>
 	      <property name="ypad">0</property>
+	      <accessibility>
+		<atkrelation target="top_vs_bottom_option_menu" type="label-for"/>
+		<atkrelation target="item_vs_percentage_option_menu" type="label-for"/>
+		<atkrelation target="item_count" type="label-for"/>
+	      </accessibility>
 	    </widget>
 	    <packing>
 	      <property name="padding">0</property>
@@ -110,6 +115,11 @@
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
 		  <property name="history">0</property>
+		  <accessibility>
+		    <atkrelation target="label1" type="labelled-by"/>
+		    <atkrelation target="item_vs_percentage_option_menu" type="label-for"/>
+		    <atkrelation target="item_count" type="label-for"/>
+		  </accessibility>
 
 		  <child>
 		    <widget class="GtkMenu" id="top_vs_bottom">
@@ -152,6 +162,11 @@
 	      <property name="snap_to_ticks">False</property>
 	      <property name="wrap">False</property>
 	      <property name="adjustment">10 1 500 1 0 0</property>
+	      <accessibility>
+		<atkrelation target="top_vs_bottom_option_menu" type="labelled-by"/>
+		<atkrelation target="label1" type="labelled-by"/>
+		<atkrelation target="item_vs_percentage_option_menu" type="label-for"/>
+	      </accessibility>
 	    </widget>
 	    <packing>
 	      <property name="padding">0</property>
@@ -173,6 +188,11 @@
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
 		  <property name="history">0</property>
+		  <accessibility>
+		    <atkrelation target="top_vs_bottom_option_menu" type="labelled-by"/>
+		    <atkrelation target="label1" type="labelled-by"/>
+		    <atkrelation target="item_count" type="labelled-by"/>
+		  </accessibility>
 
 		  <child>
 		    <widget class="GtkMenu" id="item_vs_percentage">

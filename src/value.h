@@ -44,14 +44,14 @@ struct _ValueFloat {
 struct _ValueErr {
 	ValueType const type;
 	StyleFormat *fmt;
-	String       *mesg;
+	GnmString   *mesg;
 	/* Currently unused.  Intended to support audit functions */
 	EvalPos  src;
 };
 struct _ValueStr {
 	ValueType const type;
 	StyleFormat *fmt;
-	String *val;
+	GnmString   *val;
 };
 struct _ValueRange {
 	ValueType const type;
@@ -99,7 +99,7 @@ Value       *value_new_bool             (gboolean b);
 Value       *value_new_int              (int i);
 Value       *value_new_float            (gnm_float f);
 Value       *value_new_error            (EvalPos const *pos, char const *mesg);
-Value       *value_new_error_str        (EvalPos const *pos, String *mesg);
+Value       *value_new_error_str        (EvalPos const *pos, GnmString *mesg);
 Value       *value_new_error_std        (EvalPos const *pos, GnmStdError err);
 Value       *value_new_error_NULL       (EvalPos const *pos);
 Value       *value_new_error_DIV0       (EvalPos const *pos);
@@ -111,7 +111,7 @@ Value       *value_new_error_NA         (EvalPos const *pos);
 Value       *value_new_error_RECALC     (EvalPos const *pos);
 Value       *value_new_string           (char const *str);
 Value       *value_new_string_nocopy    (char *str);
-Value       *value_new_string_str       (String *str);
+Value       *value_new_string_str       (GnmString *str);
 Value       *value_new_cellrange_unsafe (CellRef const *a, CellRef const *b);
 Value       *value_new_cellrange        (CellRef const *a, CellRef const *b,
 				         int eval_col, int eval_row);

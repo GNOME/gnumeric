@@ -259,7 +259,7 @@ expr_name_new (char const *name, gboolean is_placeholder)
 
 	nexpr->ref_count	= 1;
 	nexpr->active		= FALSE;
-	nexpr->name		= string_get (name);
+	nexpr->name		= gnm_string_get (name);
 	nexpr->expr		= NULL;
 	nexpr->dependents	= NULL;
 	nexpr->is_placeholder	= is_placeholder;
@@ -421,7 +421,7 @@ expr_name_unref (GnmNamedExpr *nexpr)
 	g_return_if_fail (!nexpr->active);
 
 	if (nexpr->name) {
-		string_unref (nexpr->name);
+		gnm_string_unref (nexpr->name);
 		nexpr->name = NULL;
 	}
 

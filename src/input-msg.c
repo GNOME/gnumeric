@@ -29,8 +29,8 @@
 
 struct _GnmInputMsg {
 	GObject obj;
-	String          *title;
-	String          *msg;
+	GnmString *title;
+	GnmString *msg;
 };
 
 typedef struct {
@@ -44,11 +44,11 @@ gnm_input_msg_finalize (GObject *obj)
 	GnmInputMsg *msg = (GnmInputMsg *)obj;
 
 	if (msg->title != NULL) {
-		string_unref (msg->title);
+		gnm_string_unref (msg->title);
 		msg->title = NULL;
 	}
 	if (msg->msg != NULL) {
-		string_unref (msg->msg);
+		gnm_string_unref (msg->msg);
 		msg->msg = NULL;
 	}
 
@@ -79,9 +79,9 @@ gnm_input_msg_new (char const *msg, char const *title)
 	GnmInputMsg *res = g_object_new (GNM_INPUT_MSG_TYPE, NULL);
 
 	if (msg != NULL)
-		res->msg = string_get (msg);
+		res->msg = gnm_string_get (msg);
 	if (title != NULL)
-		res->title = string_get (title);
+		res->title = gnm_string_get (title);
 
 	return res;
 }

@@ -106,6 +106,10 @@
 		      <property name="xpad">5</property>
 		      <property name="ypad">0</property>
 		      <property name="mnemonic_widget">format_category</property>
+		      <accessibility>
+			<atkrelation target="menubar1" type="label-for"/>
+			<atkrelation target="format_category" type="label-for"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
@@ -119,6 +123,9 @@
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="history">-1</property>
+		      <accessibility>
+			<atkrelation target="label13" type="labelled-by"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
@@ -130,6 +137,9 @@
 		  <child>
 		    <widget class="GtkMenuBar" id="menubar1">
 		      <property name="visible">True</property>
+		      <accessibility>
+			<atkrelation target="label13" type="labelled-by"/>
+		      </accessibility>
 
 		      <child>
 			<widget class="GtkMenuItem" id="settings1">
@@ -589,6 +599,9 @@
 		      <property name="right_margin">0</property>
 		      <property name="indent">0</property>
 		      <property name="text" translatable="yes"></property>
+		      <accessibility>
+			<atkrelation target="label12" type="labelled-by"/>
+		      </accessibility>
 		    </widget>
 		  </child>
 		</widget>
@@ -613,6 +626,9 @@
 		  <property name="has_frame">True</property>
 		  <property name="invisible_char" translatable="yes">*</property>
 		  <property name="activates_default">False</property>
+		  <accessibility>
+		    <atkrelation target="label11" type="labelled-by"/>
+		  </accessibility>
 		</widget>
 		<packing>
 		  <property name="left_attach">1</property>
@@ -634,6 +650,9 @@
 		  <property name="has_frame">True</property>
 		  <property name="invisible_char" translatable="yes">*</property>
 		  <property name="activates_default">False</property>
+		  <accessibility>
+		    <atkrelation target="label10" type="labelled-by"/>
+		  </accessibility>
 		</widget>
 		<packing>
 		  <property name="left_attach">1</property>
@@ -655,6 +674,9 @@
 		  <property name="has_frame">True</property>
 		  <property name="invisible_char" translatable="yes">*</property>
 		  <property name="activates_default">False</property>
+		  <accessibility>
+		    <atkrelation target="label9" type="labelled-by"/>
+		  </accessibility>
 		</widget>
 		<packing>
 		  <property name="left_attach">1</property>
@@ -679,6 +701,9 @@
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
+		  <accessibility>
+		    <atkrelation target="format_info_name" type="label-for"/>
+		  </accessibility>
 		</widget>
 		<packing>
 		  <property name="left_attach">0</property>
@@ -703,6 +728,9 @@
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
+		  <accessibility>
+		    <atkrelation target="format_info_author" type="label-for"/>
+		  </accessibility>
 		</widget>
 		<packing>
 		  <property name="left_attach">0</property>
@@ -727,6 +755,9 @@
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
+		  <accessibility>
+		    <atkrelation target="format_info_cat" type="label-for"/>
+		  </accessibility>
 		</widget>
 		<packing>
 		  <property name="left_attach">0</property>
@@ -751,6 +782,9 @@
 		  <property name="yalign">0.1</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
+		  <accessibility>
+		    <atkrelation target="format_info_descr" type="label-for"/>
+		  </accessibility>
 		</widget>
 		<packing>
 		  <property name="left_attach">0</property>

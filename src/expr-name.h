@@ -8,7 +8,7 @@
 
 struct _GnmNamedExpr {
 	int	    ref_count;
-	String     *name;
+	GnmString  *name;
 	ParsePos    pos;
 	GHashTable *dependents;
 	GnmExpr const *expr;
