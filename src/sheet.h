@@ -119,13 +119,9 @@ struct _Sheet {
 
 	double      last_zoom_factor_used;
 
-	/*
-	 * When editing a cell: the cell (may be NULL) and
-	 * the original text of the cell
-	 */
-	String      *editing_saved_text;
+	/* When editing a cell: the cell (may be NULL) */
 	Cell        *editing_cell;
-	int         editing;
+	int          editing;
 
 	/* Objects */
 	SheetModeType mode;	/* Sheet mode */
@@ -219,9 +215,6 @@ double *    sheet_save_row_col_sizes	   (Sheet *sheet, gboolean const is_cols,
 					    int index, int count);
 void 	    sheet_restore_row_col_sizes	   (Sheet *sheet, gboolean const is_cols,
 					    int index, int count, double *);
-
-/* Duplicates the information of a col/row */
-ColRowInfo *sheet_duplicate_colrow        (ColRowInfo *original);
 
 /* Retrieve information from a col/row */
 ColRowInfo *sheet_col_get_info            (Sheet const *sheet, int const col);
@@ -350,10 +343,10 @@ void        sheet_update_controls         (Sheet *sheet);
  * Sheet visual editing
  */
 void        sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp);
-void        sheet_set_current_value       (Sheet *sheet);
 void        sheet_accept_pending_input    (Sheet *sheet);
 void        sheet_cancel_pending_input    (Sheet *sheet);
 void        sheet_load_cell_val           (Sheet *sheet);
+void        sheet_set_text                (Sheet *sheet, char const *text, Range const * r);
 
 int         sheet_col_selection_type      (Sheet const *sheet, int col);
 int         sheet_row_selection_type      (Sheet const *sheet, int row);

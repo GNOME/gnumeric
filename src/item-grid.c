@@ -445,7 +445,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 				continue;
 
 			/* If the cell does not exist paint it as an empty cell */
-			if (cell == NULL) {
+			if (cell == NULL || sheet->editing_cell == cell) {
 				item_grid_paint_empty_cell (
 					drawable, item_grid, ci, ri,
 					col, row, x_paint, y_paint,
@@ -470,7 +470,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 				 * cell, adjust x to point to the beginning
 				 * of that cell.
 				 */
-				if (cell) {
+				if (cell != NULL && sheet->editing_cell != cell) {
 					int i, count, end_col;
 
 					/*

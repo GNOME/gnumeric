@@ -13,8 +13,7 @@ void command_list_release      (GSList *cmds);
 
 gboolean cmd_set_text (CommandContext *context,
 		       Sheet *sheet, CellPos const * const pos,
-		       char * new_text,
-		       String const * const old_text);
+		       char * new_text);
 
 gboolean cmd_set_date_time (CommandContext *context, gboolean is_date,
 			    Sheet *sheet, int col, int row);

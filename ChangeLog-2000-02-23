@@ -1,3 +1,27 @@
+2000-01-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.c (cmd_set_text_undo) : Special case VALUE_EMPTY.
+	  Move to the previous cell only after reverting its value so that the
+	  edit area is updated.
+	(cmd_set_text) : Retrieve the old text of the cell directly.
+
+	* src/sheet.c (sheet_set_current_value) : Delete and merge into...
+	(sheet_accept_pending_input) : Here.  Harmonize the logic with.
+	(sheet_cancel_pending_input) : this function.
+	(sheet_set_text) : Publicize.
+	(sheet_stop_editing) : Removed storage of value of cell being edited.
+	(sheet_start_editing_at_cursor) : Ditto.
+
+	* src/workbook.c (accept_input) : Use sheet_accept_pending_input.
+	(redo_cmd, undo_cmd) : cancel pending input.
+
+2000-01-28  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_draw) : Pretend that the cell being
+	  edited (and anything it spans) are empty.
+
+	* src/sheet.c (sheet_duplicate_colrow) : Delete unused.
+
 2000-01-29  Jon K Hellan  <hellan@acm.org>
 
 	Megacommit.
@@ -76,11 +100,12 @@
 2000-01-28    Mike Kestner    <mkestner@ameritech.net>
 
 	* src/sheet-style.c (sheet_style_insert_colrow): Now does option checking
-	and calls either the new style preserving insert function or the existing
-	functionality in its new function. (stylish_insert_colrow): New.
-	Preserves style information by extending ranges that contain the
-	insertion point. (styleless_insert_colrow): Renamed.  Existing algorithm
-	that fragments style ranges to insert an unformatted col/row.
+	  and calls either the new style preserving insert function or the existing
+	  functionality in its new function.
+	(stylish_insert_colrow): New.  Preserves style information by
+	  extending ranges that contain the insertion point.
+	(styleless_insert_colrow): Renamed.  Existing algorithm that fragments
+	  style ranges to insert an unformatted col/row.
 
 2000-01-28  Michael Meeks  <mmeeks@gnu.org>
 

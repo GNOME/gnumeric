@@ -340,19 +340,6 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 	sheet_cells_update (sheet, sheet_get_full_range (), FALSE);
 }
 
-/*
- * Duplicates a column or row
- */
-ColRowInfo *
-sheet_duplicate_colrow (ColRowInfo *original)
-{
-	ColRowInfo *info = g_new (ColRowInfo, 1);
-
-	*info = *original;
-	
-	return info;
-}
-
 ColRowInfo *
 sheet_row_new (Sheet *sheet)
 {
@@ -1297,7 +1284,7 @@ cb_set_cell_value (Sheet *sheet, int col, int row, Cell *cell,
 	return NULL;
 }
 
-static void
+void
 sheet_set_text (Sheet *sheet, char const *text, Range const * r)
 {
 	g_return_if_fail (sheet != NULL);
@@ -1329,8 +1316,15 @@ sheet_set_text (Sheet *sheet, char const *text, Range const * r)
 				  &cb_set_cell_text, (void *)text);
 }
 
+static void
+sheet_stop_editing (Sheet *sheet)
+{
+	sheet->editing = FALSE;
+	sheet->editing_cell = NULL;
+}
+
 void
-sheet_set_current_value (Sheet *sheet)
+sheet_accept_pending_input (Sheet *sheet)
 {
 	GList *l;
 	char *str;
@@ -1338,6 +1332,10 @@ sheet_set_current_value (Sheet *sheet)
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
+
+	if (!sheet->editing)
+		return;
+	sheet_stop_editing (sheet);
 
 	str = gtk_entry_get_text (GTK_ENTRY (sheet->workbook->ea_input));
 	g_return_if_fail (str != NULL);
@@ -1356,42 +1354,8 @@ sheet_set_current_value (Sheet *sheet)
 
 	/* TODO : Get a context */
 	/* Store the old value for undo */
-	if (!cmd_set_text (NULL, sheet, &r.start, str, sheet->editing_saved_text))
+	if (!cmd_set_text (NULL, sheet, &r.start, str))
 		sheet_set_text (sheet, str, &r);
-
-	for (l = sheet->sheet_views; l; l = l->next){
-		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
-
-		gnumeric_sheet_destroy_editing_cursor (gsheet);
-	}
-
-	workbook_recalc (sheet->workbook);
-}
-
-static void
-sheet_stop_editing (Sheet *sheet)
-{
-	sheet->editing = FALSE;
-
-	if (sheet->editing_saved_text) {
-		string_unref (sheet->editing_saved_text);
-		sheet->editing_saved_text = NULL;
-		sheet->editing_cell = NULL;
-	}
-}
-
-void
-sheet_accept_pending_input (Sheet *sheet)
-{
-	GList *l;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	if (!sheet->editing)
-		return;
-
-	sheet_set_current_value (sheet);
 
 	/*
 	 * If user was editing on the input line, get the focus back
@@ -1403,7 +1367,8 @@ sheet_accept_pending_input (Sheet *sheet)
 
 		gnumeric_sheet_stop_editing (gsheet);
 	}
-	sheet_stop_editing (sheet);
+
+	workbook_recalc (sheet->workbook);
 }
 
 void
@@ -1416,21 +1381,18 @@ sheet_cancel_pending_input (Sheet *sheet)
 
 	if (!sheet->editing)
 		return;
-
-	if (sheet->editing_cell) {
-		const char *oldtext = sheet->editing_saved_text->str;
-		
-		gtk_entry_set_text (GTK_ENTRY (sheet->workbook->ea_input), oldtext);
-		cell_set_text (sheet->editing_cell, oldtext);
-	}
 	sheet_stop_editing (sheet);
 
+	/*
+	 * If user was editing on the input line, get the focus back
+	 */
+	workbook_focus_current_sheet (sheet->workbook);
+	
 	for (l = sheet->sheet_views; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
 
 		gnumeric_sheet_destroy_editing_cursor (gsheet);
 	}
-	workbook_recalc (sheet->workbook);
 }
 
 /**
@@ -1477,7 +1439,6 @@ void
 sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp)
 {
 	GList *l;
-	Cell  *cell;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -1494,18 +1455,8 @@ sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp)
 		}
 
 	sheet->editing = TRUE;
-	cell = sheet_cell_get (sheet, sheet->cursor_col, sheet->cursor_row);
-	if (cell) {
-		char *text;
-
-		text = cell_get_text (cell);
-		sheet->editing_saved_text = string_get (text);
-		g_free (text);
-
-		sheet->editing_cell = cell;
-		if (blankp)
-			cell_set_text (cell, "");
-	}
+	sheet->editing_cell =
+	    sheet_cell_get (sheet, sheet->cursor_col, sheet->cursor_row);
 }
 
 /**

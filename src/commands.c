@@ -317,29 +317,32 @@ cmd_set_text_undo (GnumericCommand *cmd, CommandContext *context)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	/* Move back to the cell that was edited */
-	sheet_cursor_move (me->pos.sheet,
-			   me->pos.eval.col,
-			   me->pos.eval.row,
-			   TRUE, TRUE);
-
 	/* Save the new value so we can redo */
 	cell = sheet_cell_get (me->pos.sheet,
 			       me->pos.eval.col,
 			       me->pos.eval.row);
 
-	g_return_val_if_fail (cell != NULL, TRUE);
-
-	new_text = cell_get_text (cell);
+	new_text = (cell == NULL || cell->value == NULL || cell->value->type == VALUE_EMPTY)
+	    ? NULL : cell_get_text (cell);
 
 	/* Restore the old value (possibly empty) */
 	if (me->text != NULL) {
-		cell_set_text (cell, me->text);
+		Range r;
+		r.start = me->pos.eval;
+		r.end = me->pos.eval;
+		sheet_set_text (me->pos.sheet, me->text, &r);
 		g_free (me->text);
-	} else
+	} else if (cell != NULL)
 		cell_set_value (cell, value_new_empty ());
 
 	me->text = new_text;
+
+	/* Move back to the cell that was edited, and update the edit area */
+	sheet_cursor_move (me->pos.sheet,
+			   me->pos.eval.col,
+			   me->pos.eval.row,
+			   TRUE, TRUE);
+
 	return FALSE;
 }
 
@@ -364,8 +367,7 @@ cmd_set_text_destroy (GtkObject *cmd)
 gboolean
 cmd_set_text (CommandContext *context,
 	      Sheet *sheet, CellPos const * const pos,
-	      char * new_text,
-	      String const * const old_text)
+	      char * new_text)
 {
 	static int const max_descriptor_width = 15;
 
@@ -373,6 +375,7 @@ cmd_set_text (CommandContext *context,
 	CmdSetText *me;
 	gchar *pad = "";
 	gchar *text;
+	Cell  *cell;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 	g_return_val_if_fail (new_text != NULL, TRUE);
@@ -385,10 +388,14 @@ cmd_set_text (CommandContext *context,
 	/* Store the specs for the object */
 	me->pos.sheet = sheet;
 	me->pos.eval = *pos;
-	if (old_text != NULL)
-		me->text = g_strdup (old_text->str);
-	else
-		me->text = NULL;
+
+	/* Save the new value so we can redo */
+	cell = sheet_cell_get (me->pos.sheet,
+			       me->pos.eval.col,
+			       me->pos.eval.row);
+
+	me->text = (cell == NULL || cell->value == NULL || cell->value->type == VALUE_EMPTY)
+	    ? NULL : cell_get_text (cell);
 
 	/* Limit the size of the descriptor to something reasonable */
 	if (strlen(new_text) > max_descriptor_width) {

@@ -17,6 +17,7 @@ Jukka:
 Jody:
 	* Row/Col header redraw improvements.
 	* Zoom enhancement/fixing.
+	* More work on undo.
 
 Jon:
 	* Cursor fixes and speedups.

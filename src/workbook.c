@@ -612,14 +612,32 @@ quit_cmd (void)
 }
 
 static void
+accept_input (GtkWidget *IGNORED, Workbook *wb)
+{
+	Sheet *sheet = wb->current_sheet;
+	sheet_accept_pending_input (sheet);
+	workbook_focus_current_sheet (wb);
+}
+
+static void
+cancel_input (GtkWidget *IGNORED, Workbook *wb)
+{
+	Sheet *sheet = wb->current_sheet;
+	sheet_cancel_pending_input (sheet);
+	workbook_focus_current_sheet (wb);
+}
+
+static void
 undo_cmd (GtkWidget *widget, Workbook *wb)
 {
+	cancel_input (NULL, wb);
 	command_undo (workbook_command_context_gui (wb), wb);
 }
 
 static void
 redo_cmd (GtkWidget *widget, Workbook *wb)
 {
+	cancel_input (NULL, wb);
 	command_redo (workbook_command_context_gui (wb), wb);
 }
 
@@ -1591,22 +1609,6 @@ workbook_set_region_status (Workbook *wb, const char *str)
 }
 
 static void
-accept_input (GtkWidget *widget, Workbook *wb)
-{
-	Sheet *sheet = wb->current_sheet;
-	sheet_set_current_value (sheet);
-	workbook_focus_current_sheet (wb);
-}
-
-static void
-cancel_input (GtkWidget *widget, Workbook *wb)
-{
-	Sheet *sheet = wb->current_sheet;
-	sheet_cancel_pending_input (sheet);
-	workbook_focus_current_sheet (wb);
-}
-
-static void
 wizard_input (GtkWidget *widget, Workbook *wb)
 {
 	FunctionDefinition *fd = dialog_function_select (wb);
@@ -1986,7 +1988,6 @@ workbook_persist_file_load (BonoboPersistFile *ps, const CORBA_char *filename, v
 {
 	Workbook *wb = closure;
 	CommandContext *context = workbook_command_context_gui (wb);
-
 	return workbook_load_from (context, wb, filename);
 }
 
