@@ -1,3 +1,8 @@
+2001-02-25  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/file.c (workbook_save_as): Fixed crash (caused by calling
+	gnumeric_io_context_free twice).
+
 2001-02-24  Jody Goldberg <jgoldberg@home.com>
 
 	* src/format.c (format_number) : Invert the logic if this test.

@@ -479,7 +479,6 @@ workbook_save_as (WorkbookControl *wbc, WorkbookView *wb_view,
 	if (file_saver_save (fs, io_context, wb_view, name)) {
 		workbook_set_saveinfo (wb, name, fs->level, fs);
 		workbook_set_dirty (wb, FALSE);
-		gnumeric_io_context_free (io_context);
 		success = TRUE;
 	}
 
