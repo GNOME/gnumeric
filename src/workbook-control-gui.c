@@ -3681,9 +3681,9 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 	gtk_widget_set_usize (wbcg->selection_descriptor, 100, 0);
 
 	wbcg->cancel_button = edit_area_button (wbcg, FALSE,
-		G_CALLBACK (cb_cancel_input), GNOME_STOCK_BUTTON_CANCEL);
+		G_CALLBACK (cb_cancel_input), GTK_STOCK_CANCEL);
 	wbcg->ok_button = edit_area_button (wbcg, FALSE,
-		G_CALLBACK (cb_accept_input), GNOME_STOCK_BUTTON_OK);
+		G_CALLBACK (cb_accept_input), GTK_STOCK_OK);
 
 	/* Auto function */
 	wbcg->func_button	= gtk_button_new ();
@@ -4344,8 +4344,8 @@ wbcg_filenames_dropped (GtkWidget *widget, GdkDragContext *context,
 		}
 #if 0
 		if (gnome_vfs_uri_is_local (uri)) {
-		if (!wb_view_open (wb_control_view (wbc), wbc, file_name, FALSE)) {
-		}
+			if (!wb_view_open (file_name, wbc, FALSE, NULL)) {
+			}
 		}
 		/* If it wasn't a workbook, see if we have a control for it */
 		SheetObject *so = sheet_object_container_new_file (
@@ -4559,6 +4559,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 
 	/* Postpone showing the GUI, so that we may resize it freely. */
 	gtk_idle_add ((GtkFunction) show_gui, wbcg);
+
 	/* Postpone clipboard setup. For mysterious reasons, connecting
 	   callbacks to the table doesn't work. toplevel does work, but we
 	   must wait until we live inside a toplevel. */
