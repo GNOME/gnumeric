@@ -22,3 +22,9 @@ A tally of the beverages owed.
 
     Morten 			: Hot Chocolate.
     Autofilter crash on error
+
+    Adrian Custer		: TBD
+    http://bugzilla.gnome.org/show_bug.cgi?id=66666
+
+    Mihael Vrbanec <miqster@gmx.net> : Long Island Ice Tea
+    Crash when shrink a selection for autofill without inverting.

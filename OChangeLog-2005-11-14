@@ -1,5 +1,12 @@
 2001-12-12  Jody Goldberg <jody@gnome.org>
 
+	* src/commands.c (cmd_autofill_redo) : add some protection against
+	  failed copies.
+	* src/commands.c (cmd_autofill) : disable attempts to shrink a
+	  selection.
+
+2001-12-12  Jody Goldberg <jody@gnome.org>
+
 	* src/file-autoft.c (category_group_list_find_category_by_name) : make
 	  const.
 	* src/plugin-service.c (gnum_plugin_file_opener_probe) : const.

@@ -51,6 +51,8 @@ Jody:
 	* Don't compress file when suffix is .xml.
 	* Actually put the schema file where we say it is.
 	* More work on libxml2 compatibility.
+	* Some simple shared steps towards gnome2.
+	* Fix autofill crash ehwn shrinking regions.
 
 Morten:
 	* Fix EXPRESSION crash.

@@ -2662,10 +2662,14 @@ cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me->content == NULL, TRUE);
 
 	me->content = clipboard_copy_range (me->dst.sheet, &me->dst.range);
+
+	g_return_val_if_fail (me->content != NULL, TRUE);
+
 	sheet_clear_region (wbc, me->dst.sheet,
 			    me->dst.range.start.col, me->dst.range.start.row,
 			    me->dst.range.end.col,   me->dst.range.end.row,
 			    CLEAR_VALUES | CLEAR_NOCHECKARRAY);
+
 
 	if (me->parent.size == 1)
 		me->parent.size += (g_list_length (me->content->content) +
@@ -2742,6 +2746,12 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 			range_init (&r, base_col, base_row + h,
 				    end_col, end_row);
 	}
+
+	/* We don't support clearing regions, when a user uses the autofill
+	 * cursor to 'shrink' a selection
+	 */
+	if (r.start.col > r.end.col || r.start.row > r.end.row)
+		return TRUE;
 
 	/* Check arrays or merged regions */
 	if (sheet_range_splits_region (sheet, &r, NULL, wbc, _("Autofill")))
