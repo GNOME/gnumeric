@@ -1,3 +1,8 @@
+2002-10-30  Andreas J. Guelzow <aguelzow@taliesin.ca> for
+
+	* roff.c (roff_fprintf) : do not print hidden cells
+	(write_wb_roff) : recalculcate spans if necessary
+
 2002-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* html_read.c: Added explicit casts between the various char types.
@@ -10,7 +15,7 @@
 
 	* Release 1.1.11
 
-2002-10-17  Andreas J. Guelzow <aguelzow@taliesin.ca> for
+2002-10-30  Andreas J. Guelzow <aguelzow@taliesin.ca> for
 	Dustin T. Mudryk <mordak@hotmail.com>
 
 	* latex.c (latex2e_write_multicolumn_cell) modified to exclude hidden

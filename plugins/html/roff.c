@@ -32,6 +32,7 @@
 #include "io-context.h"
 #include "error-info.h"
 #include "plugin-util.h"
+#include "cellspan.h"
 
 #include <errno.h>
 #include <string.h>
@@ -45,8 +46,13 @@ roff_fprintf (FILE *fp, const Cell *cell)
 	int len, i;
 	const char *p;
 	char * s;
+	MStyle *mstyle;
 
 	if (cell_is_blank (cell))
+		return 0;
+
+	mstyle = cell_get_mstyle (cell);
+	if (mstyle != NULL && mstyle_get_content_hidden (mstyle))
 		return 0;
 
 	s = cell_get_rendered_text (cell);
@@ -100,6 +106,11 @@ write_wb_roff (IOContext *io_context, WorkbookView *wb_view, FILE *fp)
 		fprintf (fp, "allbox;\n");
 
 		for (row = r.start.row; row <= r.end.row; row++) {
+			ColRowInfo const * ri;
+			ri = sheet_row_get_info (sheet, row);
+			if (ri->needs_respan)
+				row_calc_spans ((ColRowInfo *) ri, sheet);
+
 			if (row > r.start.row)
 				fprintf (fp, ".T&\n");
 			/* define alignments, bold etc. per cell */
