@@ -1,3 +1,9 @@
+2001-05-27  Jody Goldberg <jgoldberg@home.com>
+
+	* src/eval.c (sheet_region_queue_recalc) : Queue the dependents in the
+	  region not just those that depend on it.
+	(cell_queue_recalc) : no need to queue non expression cells.
+
 2001-05-27  Nathan Cullen <furyu@fuse.net>
  
  	* src/history.c (history_menu_insert_separator): Fixed keyboard
@@ -6,6 +12,15 @@
  	to arrow down twice to get from "Print Preview" to the first file.
  
 2001-05-27  Jody Goldberg <jgoldberg@home.com>
+
+	* src/expr.c (eval_expr_real) : recurse for arrays too.
+	(expr_tree_array_corner) : rename from expr_tree_array_formula_corner,
+	  and return the corner, not the expression in the corner.
+
+	* src/eval.c (cb_range_hash_invalidate) : invalidate and free things
+	  in place.
+	(cb_single_hash_invalidate) : ditto.
+	(do_deps_destroy) : simplify.
 
 	* src/workbook-control-gui.c (wbcg_sheet_rename) : Use the table not
 	  the container.

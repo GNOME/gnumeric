@@ -651,6 +651,7 @@ workbook_expr_unrelocate (Workbook *wb, GSList *info)
 			sheet_cell_set_expr (cell, tmp->oldtree);
 		} else
 			dependent_set_expr (tmp->u.dep, tmp->oldtree);
+#warning Check to see what recalc assumptions the callers make
 		expr_tree_unref (tmp->oldtree);
 
 		info = info->next;
@@ -718,6 +719,7 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 				undo_info = g_slist_prepend (undo_info, tmp);
 			}
 
+#warning Check to see what recalc assumptions the callers make
 			dependent_set_expr (dep, newtree);
 			expr_tree_unref (newtree);
 		}

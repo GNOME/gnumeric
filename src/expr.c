@@ -198,33 +198,28 @@ ExprTree *
 expr_parse_string (char const *expr_text, ParsePos const *pp,
 		   StyleFormat **desired_format, ParseError *error)
 {
-	ExprTree   *tree;
+	ExprTree   *expr;
 	ParseError errrec;
 	ParseError *perr = error ? error : &errrec;
 
 	g_return_val_if_fail (expr_text != NULL, NULL);
 
-	tree = gnumeric_expr_parser (expr_text, pp, TRUE, FALSE, desired_format,
+	expr = gnumeric_expr_parser (expr_text, pp, TRUE, FALSE, desired_format,
 				     parse_error_init (perr));
 
 	if (error == NULL)
 		parse_error_free (perr);
 
-	return tree;
+	return expr;
 }
 
 
-static ExprTree *
-expr_tree_array_formula_corner (ExprTree const *expr,
-				Sheet const *sheet, CellPos const *pos)
+static Cell *
+expr_tree_array_corner (ExprTree const *expr,
+			Sheet const *sheet, CellPos const *pos)
 {
-	Cell *corner;
-
-	g_return_val_if_fail (pos != NULL, NULL);
-
-	corner = sheet_cell_get (sheet,
-				 pos->col - expr->array.x,
-				 pos->row - expr->array.y);
+	Cell *corner = sheet_cell_get (sheet,
+		pos->col - expr->array.x, pos->row - expr->array.y);
 
 	/* Sanity check incase the corner gets removed for some reason */
 	g_return_val_if_fail (corner != NULL, NULL);
@@ -234,7 +229,7 @@ expr_tree_array_formula_corner (ExprTree const *expr,
 	g_return_val_if_fail (corner->base.expression->array.x == 0, NULL);
 	g_return_val_if_fail (corner->base.expression->array.y == 0, NULL);
 
-	return corner->base.expression;
+	return corner;
 }
 
 /*
@@ -242,35 +237,35 @@ expr_tree_array_formula_corner (ExprTree const *expr,
  * Increments the ref_count for part of a tree
  */
 void
-expr_tree_ref (ExprTree *tree)
+expr_tree_ref (ExprTree *expr)
 {
-	g_return_if_fail (tree != NULL);
-	g_return_if_fail (tree->any.ref_count > 0);
+	g_return_if_fail (expr != NULL);
+	g_return_if_fail (expr->any.ref_count > 0);
 
-	tree->any.ref_count++;
+	expr->any.ref_count++;
 }
 
 static void
-do_expr_tree_unref (ExprTree *tree)
+do_expr_tree_unref (ExprTree *expr)
 {
-	if (--tree->any.ref_count > 0)
+	if (--expr->any.ref_count > 0)
 		return;
 
-	switch (tree->any.oper){
+	switch (expr->any.oper){
 	case OPER_VAR:
 		break;
 
 	case OPER_CONSTANT:
-		value_release (tree->constant.value);
+		value_release (expr->constant.value);
 		break;
 
 	case OPER_FUNCALL: {
 		GList *l;
 
-		for (l = tree->func.arg_list; l; l = l->next)
+		for (l = expr->func.arg_list; l; l = l->next)
 			do_expr_tree_unref (l->data);
-		g_list_free (tree->func.arg_list);
-		func_unref (tree->func.func);
+		g_list_free (expr->func.arg_list);
+		func_unref (expr->func.func);
 		break;
 	}
 
@@ -278,18 +273,18 @@ do_expr_tree_unref (ExprTree *tree)
 		break;
 
 	case OPER_ANY_BINARY:
-		do_expr_tree_unref (tree->binary.value_a);
-		do_expr_tree_unref (tree->binary.value_b);
+		do_expr_tree_unref (expr->binary.value_a);
+		do_expr_tree_unref (expr->binary.value_b);
 		break;
 
 	case OPER_ANY_UNARY:
-		do_expr_tree_unref (tree->unary.value);
+		do_expr_tree_unref (expr->unary.value);
 		break;
 	case OPER_ARRAY:
-		if (tree->array.x == 0 && tree->array.y == 0) {
-			if (tree->array.corner.value)
-				value_release (tree->array.corner.value);
-			do_expr_tree_unref (tree->array.corner.expr);
+		if (expr->array.x == 0 && expr->array.y == 0) {
+			if (expr->array.corner.value)
+				value_release (expr->array.corner.value);
+			do_expr_tree_unref (expr->array.corner.expr);
 		}
 		break;
 	default:
@@ -297,7 +292,7 @@ do_expr_tree_unref (ExprTree *tree)
 		break;
 	}
 
-	g_free (tree);
+	g_free (expr);
 }
 
 /*
@@ -307,12 +302,12 @@ do_expr_tree_unref (ExprTree *tree)
  * go down over the tree and unref the tree and its leaves stuff.)
  */
 void
-expr_tree_unref (ExprTree *tree)
+expr_tree_unref (ExprTree *expr)
 {
-	g_return_if_fail (tree != NULL);
-	g_return_if_fail (tree->any.ref_count > 0);
+	g_return_if_fail (expr != NULL);
+	g_return_if_fail (expr->any.ref_count > 0);
 
-	do_expr_tree_unref (tree);
+	do_expr_tree_unref (expr);
 }
 
 /**
@@ -320,15 +315,15 @@ expr_tree_unref (ExprTree *tree)
  *   for the supplied expression is > 1
  */
 gboolean
-expr_tree_shared (ExprTree const *tree)
+expr_tree_shared (ExprTree const *expr)
 {
-	g_return_val_if_fail (tree != NULL, FALSE);
+	g_return_val_if_fail (expr != NULL, FALSE);
 
-	return (tree->any.ref_count > 1);
+	return (expr->any.ref_count > 1);
 }
 
 static Value *
-eval_funcall (EvalPos const *pos, ExprTree const *tree,
+eval_funcall (EvalPos const *pos, ExprTree const *expr,
 	      ExprEvalFlags flags)
 {
 	FunctionEvalInfo ei;
@@ -336,12 +331,12 @@ eval_funcall (EvalPos const *pos, ExprTree const *tree,
 	GList *args;
 
 	g_return_val_if_fail (pos != NULL, NULL);
-	g_return_val_if_fail (tree != NULL, NULL);
+	g_return_val_if_fail (expr != NULL, NULL);
 
-	fd = tree->func.func;
+	fd = expr->func.func;
 	ei.func_def = fd;
 	ei.pos = pos;
-	args = tree->func.arg_list;
+	args = expr->func.arg_list;
 
 	/*if (flags & EVAL_PERMIT_NON_SCALAR)*/
 	return function_call_with_list (&ei, args);
@@ -426,15 +421,15 @@ cb_range_eval (Sheet *sheet, int col, int row, Cell *cell, void *ignore)
 }
 
 static Value *
-eval_expr_real (EvalPos const *pos, ExprTree const *tree,
+eval_expr_real (EvalPos const *pos, ExprTree const *expr,
 		ExprEvalFlags flags)
 {
 	Value *res = NULL, *a = NULL, *b = NULL;
 
-	g_return_val_if_fail (tree != NULL, NULL);
+	g_return_val_if_fail (expr != NULL, NULL);
 	g_return_val_if_fail (pos != NULL, NULL);
 
-	switch (tree->any.oper){
+	switch (expr->any.oper){
 	case OPER_EQUAL:
 	case OPER_NOT_EQUAL:
 	case OPER_GT:
@@ -443,7 +438,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 	case OPER_LTE: {
 		ValueCompare comp;
 
-		a = eval_expr_real (pos, tree->binary.value_a, flags);
+		a = eval_expr_real (pos, expr->binary.value_a, flags);
 		if (a != NULL) {
 			if (a->type == VALUE_CELLRANGE) {
 				a = expr_implicit_intersection (pos, a);
@@ -457,7 +452,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 				return a;
 		}
 
-		b = eval_expr_real (pos, tree->binary.value_b, flags);
+		b = eval_expr_real (pos, expr->binary.value_b, flags);
 		if (b != NULL) {
 			Value *res = NULL;
 			if (b->type == VALUE_CELLRANGE) {
@@ -490,15 +485,15 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 			 *    regarding what is comparing to what
 			 */
 			/* For equality comparisons even errors are ok */
-			if (tree->any.oper == OPER_EQUAL)
+			if (expr->any.oper == OPER_EQUAL)
 				return value_new_bool (FALSE);
-			if (tree->any.oper == OPER_NOT_EQUAL)
+			if (expr->any.oper == OPER_NOT_EQUAL)
 				return value_new_bool (TRUE);
 
 			return value_new_error (pos, gnumeric_err_VALUE);
 		}
 
-		switch (tree->any.oper) {
+		switch (expr->any.oper) {
 		case OPER_EQUAL:
 			res = value_new_bool (comp == IS_EQUAL);
 			break;
@@ -546,7 +541,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 		 */
 
 	        /* Guarantees a != NULL */
-		a = eval_expr (pos, tree->binary.value_a,
+		a = eval_expr (pos, expr->binary.value_a,
 			       flags & (~EVAL_PERMIT_EMPTY));
 
 		/* Handle implicit intersection */
@@ -578,7 +573,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 		}
 
 	        /* Guarantees that b != NULL */
-		b = eval_expr (pos, tree->binary.value_b,
+		b = eval_expr (pos, expr->binary.value_b,
 			       flags & (~EVAL_PERMIT_EMPTY));
 
 		/* Handle implicit intersection */
@@ -625,7 +620,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 
 			/* FIXME: we could use simple (cheap) heuristics to
 			   catch most cases where overflow will not happen.  */
-			switch (tree->any.oper){
+			switch (expr->any.oper){
 			case OPER_ADD:
 				dres = (double)ia + (double)ib;
 				ires = (int)dres;
@@ -679,7 +674,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 			value_release (a);
 			value_release (b);
 
-			switch (tree->any.oper){
+			switch (expr->any.oper){
 			case OPER_ADD:
 				return value_new_float (va + vb);
 
@@ -711,7 +706,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 	case OPER_UNARY_NEG:
 	case OPER_UNARY_PLUS:
 	        /* Garantees that a != NULL */
-		a = eval_expr (pos, tree->unary.value, flags & (~EVAL_PERMIT_EMPTY));
+		a = eval_expr (pos, expr->unary.value, flags & (~EVAL_PERMIT_EMPTY));
 
 		/* Handle implicit intersection */
 		if (a->type == VALUE_CELLRANGE) {
@@ -727,14 +722,14 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 		if (a->type == VALUE_ERROR)
 			return a;
 
-		if (tree->any.oper == OPER_UNARY_PLUS)
+		if (expr->any.oper == OPER_UNARY_PLUS)
 			return a;
 
 		if (!VALUE_IS_NUMBER (a)){
 			value_release (a);
 			return value_new_error (pos, gnumeric_err_VALUE);
 		}
-		if (tree->any.oper == OPER_UNARY_NEG) {
+		if (expr->any.oper == OPER_UNARY_NEG) {
 			if (a->type == VALUE_INTEGER)
 				res = value_new_int (-a->v_int.val);
 			else if (a->type == VALUE_FLOAT)
@@ -747,10 +742,10 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 		return res;
 
 	case OPER_CONCAT:
-		a = eval_expr_real (pos, tree->binary.value_a, flags);
+		a = eval_expr_real (pos, expr->binary.value_a, flags);
 		if (a != NULL && a->type == VALUE_ERROR)
 			return a;
-		b = eval_expr_real (pos, tree->binary.value_b, flags);
+		b = eval_expr_real (pos, expr->binary.value_b, flags);
 		if (b != NULL && b->type == VALUE_ERROR) {
 			if (a != NULL)
 				value_release (a);
@@ -778,10 +773,10 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 		return res;
 
 	case OPER_FUNCALL:
-		return eval_funcall (pos, tree, flags);
+		return eval_funcall (pos, expr, flags);
 
 	case OPER_NAME:
-		return eval_expr_name (pos, tree->name.name, flags);
+		return eval_expr_name (pos, expr->name.name, flags);
 
 	case OPER_VAR: {
 		Sheet *cell_sheet;
@@ -789,7 +784,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 		Cell *cell;
 		int col, row;
 
-		ref = &tree->var.ref;
+		ref = &expr->var.ref;
 		cell_get_abs_col_row (ref, &pos->eval, &col, &row);
 
 		cell_sheet = eval_sheet (ref->sheet, pos->sheet);
@@ -803,7 +798,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 	}
 
 	case OPER_CONSTANT:
-		res = tree->constant.value;
+		res = expr->constant.value;
 		if (res->type != VALUE_CELLRANGE)
 			return value_duplicate (res);
 		if (flags & EVAL_PERMIT_NON_SCALAR) {
@@ -856,11 +851,11 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 	case OPER_ARRAY:
 	{
 		/* The upper left corner manages the recalc of the expr */
-		int x = tree->array.x;
-		int y = tree->array.y;
+		int x = expr->array.x;
+		int y = expr->array.y;
 		if (x == 0 && y == 0){
 			/* Release old value if necessary */
-			a = tree->array.corner.value;
+			a = expr->array.corner.value;
 			if (a != NULL)
 				value_release (a);
 
@@ -883,17 +878,18 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 			 * array and iterate over the elements, but that theory
 			 * needs validation.
 			 */
-			a = eval_expr_real (pos, tree->array.corner.expr,
+			a = eval_expr_real (pos, expr->array.corner.expr,
 					    EVAL_PERMIT_NON_SCALAR);
 
 			/* Store real result (cast away const)*/
-			*((Value **)&(tree->array.corner.value)) = a;
+			*((Value **)&(expr->array.corner.value)) = a;
 		} else {
-			ExprTree const * const array =
-			    expr_tree_array_formula_corner (tree, pos->sheet, &pos->eval);
-			if (array)
-				a = array->array.corner.value;
-			else
+			Cell *corner = expr_tree_array_corner (expr,
+				pos->sheet, &pos->eval);
+			if (corner != NULL) {
+				cell_eval (corner);
+				a = corner->base.expression->array.corner.value;
+			} else
 				a = NULL;
 		}
 
@@ -928,10 +924,10 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 }
 
 Value *
-eval_expr (EvalPos const *pos, ExprTree const *tree,
+eval_expr (EvalPos const *pos, ExprTree const *expr,
 	   ExprEvalFlags flags)
 {
-	Value * res = eval_expr_real (pos, tree, flags);
+	Value * res = eval_expr_real (pos, expr, flags);
 
 	if (res == NULL)
 		return (flags & EVAL_PERMIT_EMPTY)
@@ -954,7 +950,7 @@ eval_expr (EvalPos const *pos, ExprTree const *tree,
  * creates a string representation.
  */
 static char *
-do_expr_tree_to_string (ExprTree const *tree, ParsePos const *pp,
+do_expr_tree_to_string (ExprTree const *expr, ParsePos const *pp,
 			int paren_level)
 {
 	static const struct {
@@ -985,7 +981,7 @@ do_expr_tree_to_string (ExprTree const *tree, ParsePos const *pp,
 	};
 	int op;
 
-	op = tree->any.oper;
+	op = expr->any.oper;
 
 	switch (op) {
 	case OPER_ANY_BINARY: {
@@ -993,9 +989,9 @@ do_expr_tree_to_string (ExprTree const *tree, ParsePos const *pp,
 		char const *opname;
 		int const prec = operations[op].prec;
 
-		a = do_expr_tree_to_string (tree->binary.value_a, pp,
+		a = do_expr_tree_to_string (expr->binary.value_a, pp,
 					    prec - operations[op].assoc_left);
-		b = do_expr_tree_to_string (tree->binary.value_b, pp,
+		b = do_expr_tree_to_string (expr->binary.value_b, pp,
 					    prec - operations[op].assoc_right);
 		opname = operations[op].name;
 
@@ -1014,11 +1010,11 @@ do_expr_tree_to_string (ExprTree const *tree, ParsePos const *pp,
 		char const *opname;
 		int const prec = operations[op].prec;
 
-		a = do_expr_tree_to_string (tree->unary.value, pp,
+		a = do_expr_tree_to_string (expr->unary.value, pp,
 					    operations[op].prec);
 		opname = operations[op].name;
 
-		if (tree->any.oper != OPER_PERCENT) {
+		if (expr->any.oper != OPER_PERCENT) {
 			if (prec <= paren_level)
 				res = g_strconcat ("(", opname, a, ")", NULL);
 			else
@@ -1040,8 +1036,8 @@ do_expr_tree_to_string (ExprTree const *tree, ParsePos const *pp,
 		char **args;
 		int  argc;
 
-		fd = tree->func.func;
-		arg_list = tree->func.arg_list;
+		fd = expr->func.func;
+		arg_list = expr->func.arg_list;
 		argc = g_list_length (arg_list);
 
 		if (argc) {
@@ -1084,15 +1080,15 @@ do_expr_tree_to_string (ExprTree const *tree, ParsePos const *pp,
 	}
 
 	case OPER_NAME:
-		return g_strdup (tree->name.name->name->str);
+		return g_strdup (expr->name.name->name->str);
 
 	case OPER_VAR: {
-		CellRef const *cell_ref = &tree->var.ref;
+		CellRef const *cell_ref = &expr->var.ref;
 		return cellref_name (cell_ref, pp, FALSE);
 	}
 
 	case OPER_CONSTANT: {
-		Value *v = tree->constant.value;
+		Value *v = expr->constant.value;
 
 		switch (v->type) {
 		case VALUE_CELLRANGE: {
@@ -1149,25 +1145,25 @@ do_expr_tree_to_string (ExprTree const *tree, ParsePos const *pp,
 	}
 	case OPER_ARRAY:
 	{
-		int const x = tree->array.x;
-		int const y = tree->array.y;
+		int const x = expr->array.x;
+		int const y = expr->array.y;
 		char *res;
 		if (x != 0 || y != 0) {
-			ExprTree *array = expr_tree_array_formula_corner (tree,
-						pp->sheet, &pp->eval);
-			if (array) {
+			Cell *corner = expr_tree_array_corner (expr,
+				pp->sheet, &pp->eval);
+			if (corner) {
 				ParsePos tmp_pos;
 				tmp_pos.wb  = pp->wb;
 				tmp_pos.eval.col = pp->eval.col - x;
 				tmp_pos.eval.row = pp->eval.row - y;
 				res = do_expr_tree_to_string (
-					array->array.corner.expr,
+					corner->base.expression->array.corner.expr,
 					&tmp_pos, 0);
 			} else
 				res = g_strdup ("<ERROR>");
 		} else {
 			res = do_expr_tree_to_string (
-			    tree->array.corner.expr, pp, 0);
+			    expr->array.corner.expr, pp, 0);
 		}
 
 		return res;
@@ -1179,11 +1175,11 @@ do_expr_tree_to_string (ExprTree const *tree, ParsePos const *pp,
 }
 
 char *
-expr_tree_as_string (ExprTree const *tree, ParsePos const *pp)
+expr_tree_as_string (ExprTree const *expr, ParsePos const *pp)
 {
-	g_return_val_if_fail (tree != NULL, NULL);
+	g_return_val_if_fail (expr != NULL, NULL);
 
-	return do_expr_tree_to_string (tree, pp, 0);
+	return do_expr_tree_to_string (expr, pp, 0);
 }
 
 typedef enum {

@@ -1,3 +1,16 @@
+2001-05-27  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-write.c (write_window2) :
+	  Switch the BIFF_WINDOW2 0x23e -> 0x3e
+	(write_names) : fix biff type.
+
+	* ms-excel-read.c (ms_excel_read_formula) : cleanup some old
+	  inconsistentcies.  keep as many of the BIFF_* using their major
+	  types.
+	  Switch the BIFF_STRING 0x207 -> 0x07
+	  Switch the BIFF_BOOLERR 0x205 -> 0x05
+	(ms_excel_read_window2) : split this out into a neater bundle.
+
 2001-05-26  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-write.c (write_sheet_bools) : Save the iteration

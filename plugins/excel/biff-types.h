@@ -19,7 +19,9 @@
 #define BIFF_BLANK                      0x01	/* 2, NOT 10 */
 #define BIFF_NUMBER                     0x03	/* 2, NOT 1,10 */
 #define BIFF_LABEL                      0x04	/* 2 */
+#define BIFF_BOOLERR                    0x05	/* 2, NOT 10 */
 #define BIFF_FORMULA                    0x06	/* 4, NOT 10 */
+#define BIFF_STRING                     0x07	/* 2 */
 #define BIFF_ROW                        0x08	/* 2 */
 #define BIFF_BOF                        0x09	/* 8, NOT 10 */
 #define BIFF_EOF                        0x0a	/* 0, NOT 10 */
@@ -56,8 +58,10 @@
 #define BIFF_FILEPASS                   0x2f	/* 0 */
 #define BIFF_FONT                       0x31	/* 2 */
 #define BIFF_PRINTSIZE                  0x33	/* 0, Undocumented */
+#define BIFF_TABLE                      0x36	/* 2 */
 #define BIFF_CONTINUE                   0x3c	/* 0, NOT 10 */
 #define BIFF_WINDOW1                    0x3d	/* 0, NOT 1,10 */
+#define BIFF_WINDOW2                    0x3e	/* 2, NOT 10 */
 #define BIFF_BACKUP                     0x40	/* 0, NOT 10 */
 #define BIFF_PANE                       0x41	/* 0, NOT 10 */
 #define BIFF_CODEPAGE                   0x42	/* DUPLICATE 42 */
@@ -94,6 +98,7 @@
 #define BIFF_SORT                       0x90	/* 0 */
 #define BIFF_SUB                        0x91	/* 0 */
 #define BIFF_PALETTE                    0x92	/* 0 */
+#define BIFF_STYLE                      0x93	/* 2 */
 #define BIFF_LHRECORD                   0x94	/* 0 */
 #define BIFF_LHNGRAPH                   0x95	/* 0 */
 #define BIFF_SOUND                      0x96	/* 0 */
@@ -186,13 +191,7 @@
 #define BIFF_SXFDBTYPE                 0x1bb
 #define BIFF_PROT4REVPASS              0x1bc	/* ONLY 1 */
 #define BIFF_DV                        0x1be	/* ONLY 1 */
-
-
-#define BIFF_BOOLERR                   0x205	/* Why not as 05 */
-#define BIFF_STRING                    0x207	/* Why not as 07, NOT 10 */
-#define BIFF_TABLE                     0x236	/* Why not as 36 */
-#define BIFF_WINDOW2                   0x23e	/* Why not as 3e, NOT 10 */
-#define BIFF_STYLE                     0x293	/* Why not as 93 */
+#define BIFF_UNKNOWN_1		       0x810	/* what this is */
 
 /* Chart Specific */
 /* These must be here for the ole program to work, and the suffixes must be

@@ -1983,7 +1983,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 
 	if (is_string) {
 		guint16 code;
-		if (ms_biff_query_peek_next (q, &code) && code == BIFF_STRING) {
+		if (ms_biff_query_peek_next (q, &code) && (0xff & code) == BIFF_STRING) {
 			char *v = NULL;
 			if (ms_biff_query_next (q)) {
 				/*
@@ -3031,8 +3031,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 	}
 
 	switch (q->ls_op) {
-	case BIFF_BLANK:
-	{
+	case BIFF_BLANK: {
 		const guint16 xf = EX_GETXF (q);
 		const guint16 col = EX_GETCOL (q);
 		const guint16 row = EX_GETROW (q);
@@ -3043,6 +3042,46 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		ms_excel_sheet_insert_blank (sheet, xf, col, row);
 		break;
 	}
+
+	case BIFF_NUMBER: { /* S59DAC.HTM */
+		Value *v = value_new_float (gnumeric_get_le_double (q->data + 6));
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 2) {
+			printf ("Read number %g\n",
+				gnumeric_get_le_double (q->data + 6));
+		}
+#endif
+		ms_excel_sheet_insert_val (sheet, EX_GETXF (q), EX_GETCOL (q),
+					   EX_GETROW (q), v);
+		break;
+	}
+
+	case BIFF_LABEL: { /* See: S59D9D.HTM */
+		char *label;
+		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
+				       (label = biff_get_text (q->data + 8, EX_GETSTRLEN (q), NULL)));
+		g_free (label);
+		break;
+	}
+
+	case BIFF_BOOLERR: { /* S59D5F.HTM */
+		Value *v;
+		const guint8 val = MS_OLE_GET_GUINT8 (q->data + 6);
+		if (MS_OLE_GET_GUINT8 (q->data + 7)) {
+			/* FIXME : Init EvalPos */
+			v = value_new_error (NULL,
+					     biff_get_error_text (val));
+		} else
+			v = value_new_bool (val);
+		ms_excel_sheet_insert_val (sheet,
+					   EX_GETXF (q), EX_GETCOL (q),
+					   EX_GETROW (q), v);
+		break;
+	}
+
+	case BIFF_FORMULA: /* See: S59D8F.HTM */
+ 		ms_excel_read_formula (q, sheet);
+		break;
 
 	case BIFF_MULBLANK:
 	{
@@ -3117,21 +3156,6 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		/* Can be ignored on read side */
 		break;
 
-	/* S59DAC.HTM */
-	case BIFF_NUMBER:
-	{
-		Value *v = value_new_float (gnumeric_get_le_double (q->data + 6));
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 2) {
-			printf ("Read number %g\n",
-				gnumeric_get_le_double (q->data + 6));
-		}
-#endif
-		ms_excel_sheet_insert_val (sheet, EX_GETXF (q), EX_GETCOL (q),
-					   EX_GETROW (q), v);
-		break;
-	}
-
 	case BIFF_ROW:
 		ms_excel_read_row (q, sheet);
 		break;
@@ -3181,19 +3205,6 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		}
 		break;
 	}
-	/* See: S59D9D.HTM */
-	case BIFF_LABEL:
-	{
-		char *label;
-		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q),
-				       (label = biff_get_text (q->data + 8, EX_GETSTRLEN (q), NULL)));
-		g_free (label);
-		break;
-	}
-
-	case BIFF_FORMULA: /* See: S59D8F.HTM */
- 		ms_excel_read_formula (q, sheet);
-		break;
 
 	case BIFF_LABELSST: /* See: S59D9E.HTM */
 	{
@@ -3223,21 +3234,6 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 
 	default:
 		switch (q->opcode) {
-		case BIFF_BOOLERR: /* S59D5F.HTM */
-		{
-			Value *v;
-			const guint8 val = MS_OLE_GET_GUINT8 (q->data + 6);
-			if (MS_OLE_GET_GUINT8 (q->data + 7)) {
-				/* FIXME : Init EvalPos */
-				v = value_new_error (NULL,
-						     biff_get_error_text (val));
-			} else
-				v = value_new_bool (val);
-			ms_excel_sheet_insert_val (sheet,
-						   EX_GETXF (q), EX_GETCOL (q),
-						   EX_GETROW (q), v);
-			break;
-		}
 		default:
  			ms_excel_unexpected_biff (q, "Cell", ms_excel_read_debug);
 			break;
@@ -3505,6 +3501,10 @@ ms_excel_read_delta (BiffQuery *q, ExcelWorkbook *wb)
 {
 	double tolerance;
 
+	/* samples/excel/dbfuns.xls has as sample of this record */
+	if (q->opcode == BIFF_UNKNOWN_1)
+		return;
+
 	g_return_if_fail (q->length == 8);
 
 	tolerance = gnumeric_get_le_double (q->data);
@@ -3520,6 +3520,68 @@ ms_excel_read_iteration (BiffQuery *q, ExcelWorkbook *wb)
 
 	enabled = MS_OLE_GET_GUINT16 (q->data);
 	workbook_iteration_enabled (wb->gnum_wb, enabled);
+}
+
+static void
+ms_excel_read_window2 (BiffQuery *q, ExcelSheet *sheet, WorkbookView *wb_view)
+{
+	if (q->length >= 10) {
+		const guint16 options    = MS_OLE_GET_GUINT16 (q->data + 0);
+		guint16 top_row    = MS_OLE_GET_GUINT16 (q->data + 2);
+		guint16 left_col   = MS_OLE_GET_GUINT16 (q->data + 4);
+
+		sheet->gnum_sheet->display_formulas	= (options & 0x0001);
+		sheet->gnum_sheet->hide_zero		= !(options & 0x0010);
+		sheet->gnum_sheet->hide_grid 		= !(options & 0x0002);
+		sheet->gnum_sheet->hide_col_header =
+			sheet->gnum_sheet->hide_row_header	= !(options & 0x0004);
+
+		/* The docs are unclear whether or not the counters
+		 * are 0 or 1 based.  I'll assume 1 based but make the
+		 * checks conditional just in case I'm wrong.
+		 */
+		if (top_row > 0)
+			--top_row;
+		if (left_col > 0)
+			--left_col;
+		sheet_make_cell_visible (sheet->gnum_sheet, left_col, top_row);
+
+#if 0
+		if (!(options & 0x0008))
+			printf ("Unsupported : frozen panes\n");
+		if (!(options & 0x0020)) {
+			guint32 const grid_color = MS_OLE_GET_GUINT32 (q->data + 6);
+			/* This is quicky fake code to express the idea */
+			set_grid_and_header_color (get_color_from_index (grid_color));
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_color_debug > 2) {
+				printf ("Default grid & pattern color = 0x%hx\n",
+					grid_color);
+			}
+#endif
+		}
+#endif
+
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 0) {
+			if (options & 0x0200)
+				printf ("Sheet flag selected\n");
+		}
+#endif
+		if (options & 0x0400)
+			wb_view_sheet_focus (wb_view,
+					     sheet->gnum_sheet);
+	}
+
+#ifndef NO_DEBUG_EXCEL
+	if (q->length >= 14) {
+		const guint16 pageBreakZoom = MS_OLE_GET_GUINT16 (q->data + 10);
+		const guint16 normalZoom = MS_OLE_GET_GUINT16 (q->data + 12);
+
+		if (ms_excel_read_debug > 2)
+			printf ("%hx %hx\n", normalZoom, pageBreakZoom);
+	}
+#endif
 }
 
 static gboolean
@@ -3565,6 +3627,10 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, WorkbookView *wb_view,
 		}
 
 		switch (q->ls_op) {
+		case BIFF_DIMENSIONS:	/* 2, NOT 1,10 */
+			ms_excel_biff_dimensions (q, wb);
+			break;
+
 		case BIFF_EOF:
 			return TRUE;
 
@@ -3763,10 +3829,6 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, WorkbookView *wb_view,
 				g_warning ("Duff BIFF_SCL record");
 			break;
 
-		case BIFF_DIMENSIONS:	/* 2, NOT 1,10 */
-			ms_excel_biff_dimensions (q, wb);
-			break;
-
 		case BIFF_SCENMAN:
 		case BIFF_SCENARIO:
 			break;
@@ -3778,71 +3840,18 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, WorkbookView *wb_view,
 		case BIFF_EXTERNNAME:
 			ms_excel_externname (q, sheet->wb, sheet);
 			break;
-		case (BIFF_NAME & 0xff) : /* Why here and not as 18 */
+		case BIFF_NAME :
 			ms_excel_read_name (q, sheet->wb, sheet);
+			break;
+
+		case BIFF_WINDOW2:
+			ms_excel_read_window2 (q, sheet, wb_view);
 			break;
 
 		default:
 			switch (q->opcode) {
 			case BIFF_CODENAME :
 				break;
-
-			case BIFF_WINDOW2:
-			if (q->length >= 10) {
-				const guint16 options    = MS_OLE_GET_GUINT16 (q->data + 0);
-				guint16 top_row    = MS_OLE_GET_GUINT16 (q->data + 2);
-				guint16 left_col   = MS_OLE_GET_GUINT16 (q->data + 4);
-
-				sheet->gnum_sheet->display_formulas	= (options & 0x0001);
-				sheet->gnum_sheet->hide_zero		= !(options & 0x0010);
-				sheet->gnum_sheet->hide_grid 		= !(options & 0x0002);
-				sheet->gnum_sheet->hide_col_header =
-				    sheet->gnum_sheet->hide_row_header	= !(options & 0x0004);
-
-				/* The docs are unclear whether or not the counters
-				 * are 0 or 1 based.  I'll assume 1 based but make the
-				 * checks conditional just in case I'm wrong.
-				 */
-				if (top_row > 0) --top_row;
-				if (left_col > 0) --left_col;
-				sheet_make_cell_visible (sheet->gnum_sheet,
-							 left_col, top_row);
-#if 0
-				if (!(options & 0x0008))
-					printf ("Unsupported : frozen panes\n");
-				if (!(options & 0x0020)) {
-					guint32 const grid_color = MS_OLE_GET_GUINT32 (q->data + 6);
-					/* This is quicky fake code to express the idea */
-					set_grid_and_header_color (get_color_from_index (grid_color));
-#ifndef NO_DEBUG_EXCEL
-					if (ms_excel_color_debug > 2) {
-						printf ("Default grid & pattern color = 0x%hx\n",
-							grid_color);
-					}
-#endif
-				}
-#endif
-
-#ifndef NO_DEBUG_EXCEL
-				if (ms_excel_read_debug > 0) {
-					if (options & 0x0200)
-						printf ("Sheet flag selected\n");
-				}
-#endif
-				if (options & 0x0400)
-					wb_view_sheet_focus (wb_view,
-							     sheet->gnum_sheet);
-			}
-#ifndef NO_DEBUG_EXCEL
-			if (q->length >= 14) {
-				const guint16 pageBreakZoom = MS_OLE_GET_GUINT16 (q->data + 10);
-				const guint16 normalZoom = MS_OLE_GET_GUINT16 (q->data + 12);
-
-				if (ms_excel_read_debug > 2)
-					printf ("%hx %hx\n", normalZoom, pageBreakZoom);
-#endif
-			}
-			break;
 
 			default:
 				ms_excel_read_cell (q, sheet);
@@ -4073,8 +4082,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			case BIFF_PROT4REVPASS :
 				break;
 
-			case BIFF_CODENAME :
-				/* TODO : What to do with this name ? */
+			case BIFF_CODENAME : /* TODO : What to do with this name ? */
 				break;
 
 			case BIFF_SUPBOOK:
@@ -4308,7 +4316,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			problem_loading = g_strdup (_("Password protected workbooks are not supported yet."));
 			break;
 
-		case (BIFF_STYLE & 0xff) : /* Why here and not as 93 */
+		case BIFF_STYLE :
 			break;
 
 		case BIFF_WINDOWPROTECT :
@@ -4318,7 +4326,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			ms_excel_externname (q, wb, NULL);
 			break;
 
-		case (BIFF_NAME & 0xff) : /* Why here and not as 18 */
+		case BIFF_NAME :
 			ms_excel_read_name (q, wb, NULL);
 			break;
 

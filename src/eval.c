@@ -98,7 +98,6 @@ dependent_set_expr (Dependent *dep, ExprTree *expr)
 		 * replacing the corner of an array.
 		 */
 		cell_set_expr_unsafe (DEP_TO_CELL (dep), expr, NULL);
-#warning Check to see what recalc assumptions the callers make
 	} else {
 		DependentClass *klass = g_ptr_array_index (dep_classes, t);
 
@@ -439,14 +438,12 @@ drop_range_dep (DependencyData *deps, Dependent *dependent,
 #endif
 }
 
-static gboolean
-dependency_single_destroy (gpointer key, gpointer value, gpointer closure)
+static void
+depsingle_dtor (DependencySingle *single)
 {
-	DependencySingle *single = value;
 	g_list_free (single->dependent_list);
-	single->dependent_list = NULL;
-	g_free (value);
-	return TRUE;
+	single->dependent_list = NULL;	/* poison it */
+	g_free (single);
 }
 
 static void
@@ -466,14 +463,12 @@ deprange_init (DependencyRange *range, CellPos const *pos,
 		g_warning ("FIXME: 3D references need work");
 }
 
-static gboolean
-deprange_dtor (gpointer key, gpointer value, gpointer closure)
+static void
+deprange_dtor (DependencyRange *deprange)
 {
-	DependencyRange *deprange = value;
 	g_list_free (deprange->dependent_list);
-	deprange->dependent_list = NULL;
-	g_free (value);
-	return TRUE;
+	deprange->dependent_list = NULL;	/* poison it */
+	g_free (deprange);
 }
 
 /*
@@ -797,7 +792,8 @@ void
 cell_queue_recalc (Cell const *cell)
 {
 	if (!cell_needs_recalc (cell)) {
-		dependent_queue_recalc (CELL_TO_DEP (cell));
+		if (cell_has_expr (cell))
+			dependent_queue_recalc (CELL_TO_DEP (cell));
 		cell_foreach_dep (cell, cb_dependent_queue_recalc, NULL);
 	}
 }
@@ -921,20 +917,30 @@ cb_single_recalc_all_depends (gpointer key, gpointer value, gpointer ignore)
 
 /**
  * sheet_region_queue_recalc :
- * Queue dependencies of the region for recalc.
  *
  * @sheet : The sheet.
  * @range : Optionally NULL range.
  *
+ * Queues things that depend on @sheet!@range for recalc.
+ *
  * If @range is NULL the entire sheet is used.
  */
 void
-sheet_region_queue_recalc (Sheet const *sheet, Range const *range)
+sheet_region_queue_recalc (Sheet const *sheet, Range const *r)
 {
+	GList *l;
+	Dependent *dep;
+
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->deps != NULL);
 
-	if (range == NULL) {
+	if (r == NULL) {
+		for (l = sheet->workbook->dependents; l; l = l->next) {
+			dep = l->data;
+			if (dep->sheet == sheet)
+				dependent_queue_recalc (dep);
+		}
+
 		/* Find anything that depends on a range in this sheet */
 		g_hash_table_foreach (sheet->deps->range_hash,
 				      &cb_range_recalc_all_depends, NULL);
@@ -944,74 +950,35 @@ sheet_region_queue_recalc (Sheet const *sheet, Range const *range)
 				      &cb_single_recalc_all_depends, NULL);
 	} else {
 		int ix, iy, end_col, end_row;
+		Cell *cell;
+
+		for (l = sheet->workbook->dependents; l; l = l->next) {
+			dep = l->data;
+			cell = DEP_TO_CELL (dep);
+			if (dep->sheet == sheet &&
+			    ((dep->flags & DEPENDENT_TYPE_MASK) == DEPENDENT_CELL) &&
+			    range_contains (r, cell->pos.col, cell->pos.row))
+				dependent_queue_recalc (dep);
+		}
 
 		g_hash_table_foreach (sheet->deps->range_hash,
 				      &cb_region_contained_depend,
-				      (gpointer)range);
+				      (gpointer)r);
 
 		/* TODO : Why not use sheet_foreach_cell ?
 		 * We would need to be more careful about queueing
 		 * things that depends on blanks, but that is not too hard.
 		 */
-		end_col = MIN (range->end.col, sheet->cols.max_used);
-		end_row = MIN (range->end.row, sheet->rows.max_used);
-		for (ix = range->start.col; ix <= end_col; ix++)
-			for (iy = range->start.row; iy <= end_row; iy++)
+		end_col = MIN (r->end.col, sheet->cols.max_used);
+		end_row = MIN (r->end.row, sheet->rows.max_used);
+		for (ix = r->start.col; ix <= end_col; ix++)
+			for (iy = r->start.row; iy <= end_row; iy++)
 				cell_foreach_single_dep (sheet, ix, iy,
 					cb_dependent_queue_recalc, NULL);
 	}
 }
 
 /*******************************************************************/
-
-typedef struct {
-	ExprRewriteInfo const *rwinfo;
-	GSList          *dependent_list;
-} destroy_closure_t;
-
-static void
-cb_range_hash_to_list (gpointer key, gpointer value, gpointer closure)
-{
-	destroy_closure_t *c = closure;
-	GList             *l;
-	DependencyRange   *dep = value;
-
-	for (l = dep->dependent_list; l; l = l->next) {
-		Dependent *dependent = l->data;
-
-		if      (c->rwinfo->type == EXPR_REWRITE_SHEET &&
-			 dependent->sheet != c->rwinfo->u.sheet)
-
-			c->dependent_list = g_slist_prepend (c->dependent_list, l->data);
-
-		else if (c->rwinfo->type == EXPR_REWRITE_WORKBOOK &&
-			 dependent->sheet->workbook != c->rwinfo->u.workbook)
-
-			c->dependent_list = g_slist_prepend (c->dependent_list, l->data);
-	}
-}
-
-static void
-cb_single_hash_to_list (gpointer key, gpointer value, gpointer closure)
-{
-	destroy_closure_t *c = closure;
-	GList             *l;
-	DependencySingle  *dep = value;
-
-	for (l = dep->dependent_list; l; l = l->next) {
-		Dependent *dependent = l->data;
-
-		if      (c->rwinfo->type == EXPR_REWRITE_SHEET &&
-			 dependent->sheet != c->rwinfo->u.sheet)
-
-			c->dependent_list = g_slist_prepend (c->dependent_list, l->data);
-
-		else if (c->rwinfo->type == EXPR_REWRITE_WORKBOOK &&
-			 dependent->sheet->workbook != c->rwinfo->u.workbook)
-
-			c->dependent_list = g_slist_prepend (c->dependent_list, l->data);
-	}
-}
 
 static void
 invalidate_refs (Dependent *dep, ExprRewriteInfo const *rwinfo)
@@ -1031,6 +998,72 @@ invalidate_refs (Dependent *dep, ExprRewriteInfo const *rwinfo)
 }
 
 /*
+ * WARNING : Hash is pointing to freed memory once this is complete
+ * This is tightly coupled with do_deps_destroy.
+ */
+static void
+cb_range_hash_invalidate (gpointer key, gpointer value, gpointer closure)
+{
+	ExprRewriteInfo const *rwinfo = closure;
+	GList             *l;
+	DependencyRange   *deprange = value;
+	Dependent *dependent;
+
+	if (rwinfo->type == EXPR_REWRITE_SHEET) {
+		Sheet const *target = rwinfo->u.sheet;
+		for (l = deprange->dependent_list; l; l = l->next) {
+			dependent = l->data;
+			if (dependent->sheet != target)
+				invalidate_refs (dependent, rwinfo);
+		}
+	} else if (rwinfo->type == EXPR_REWRITE_WORKBOOK) {
+		Workbook const *target = rwinfo->u.workbook;
+		for (l = deprange->dependent_list; l; l = l->next) {
+			dependent = l->data;
+			if (dependent->sheet->workbook != target)
+				invalidate_refs (dependent, rwinfo);
+		}
+	} else {
+		g_assert_not_reached ();
+	}
+
+	deprange_dtor (deprange);
+}
+
+/*
+ * WARNING : Hash is pointing to freed memory once this is complete
+ * This is tightly coupled with do_deps_destroy.
+ */
+static void
+cb_single_hash_invalidate (gpointer key, gpointer value, gpointer closure)
+{
+	ExprRewriteInfo const *rwinfo = closure;
+	GList             *l;
+	DependencySingle  *depsingle = value;
+	Dependent *dependent;
+
+	if (rwinfo->type == EXPR_REWRITE_SHEET) {
+		Sheet const *target = rwinfo->u.sheet;
+		for (l = depsingle->dependent_list; l; l = l->next) {
+			dependent = l->data;
+			if (dependent->sheet != target)
+				invalidate_refs (dependent, rwinfo);
+		}
+	} else if (rwinfo->type == EXPR_REWRITE_WORKBOOK) {
+		Workbook const *target = rwinfo->u.workbook;
+		for (l = depsingle->dependent_list; l; l = l->next) {
+			dependent = l->data;
+			if (dependent->sheet->workbook != target)
+				invalidate_refs (dependent, rwinfo);
+		}
+	} else {
+		g_assert_not_reached ();
+	}
+
+	depsingle_dtor (depsingle);
+}
+
+/*
  * do_deps_destroy :
  * Invalidate references of all kinds to the target region described by
  * @rwinfo.
@@ -1038,49 +1071,24 @@ invalidate_refs (Dependent *dep, ExprRewriteInfo const *rwinfo)
 static void
 do_deps_destroy (Sheet *sheet, ExprRewriteInfo const *rwinfo)
 {
-	DependencyData   *deps;
-	destroy_closure_t c;
+	DependencyData *deps;
 
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 
 	deps = sheet->deps;
 	if (deps == NULL)
 		return;
 
-	c.rwinfo    = rwinfo;
-	c.dependent_list = NULL;
-
 	if (deps->range_hash) {
 		g_hash_table_foreach (deps->range_hash,
-				      &cb_range_hash_to_list, &c);
-
-		while (c.dependent_list) {
-			invalidate_refs (c.dependent_list->data, rwinfo);
-			c.dependent_list = g_slist_remove (c.dependent_list, c.dependent_list->data);
-		}
-
-		g_hash_table_foreach_remove (deps->range_hash,
-					     deprange_dtor,
-					     NULL);
-
+				      &cb_range_hash_invalidate, (gpointer)rwinfo);
 		g_hash_table_destroy (deps->range_hash);
 		deps->range_hash = NULL;
 	}
 
-	c.dependent_list = NULL;
 	if (deps->single_hash) {
 		g_hash_table_foreach (deps->single_hash,
-				      &cb_single_hash_to_list, &c);
-
-		while (c.dependent_list) {
-			invalidate_refs (c.dependent_list->data, rwinfo);
-			c.dependent_list = g_slist_remove (c.dependent_list, c.dependent_list->data);
-		}
-
-		g_hash_table_foreach_remove (deps->single_hash,
-					     dependency_single_destroy,
-					     NULL);
-
+				      &cb_single_hash_invalidate, (gpointer)rwinfo);
 		g_hash_table_destroy (deps->single_hash);
 		deps->single_hash = NULL;
 	}
@@ -1123,6 +1131,7 @@ workbook_deps_destroy (Workbook *wb)
 void
 workbook_queue_all_recalc (Workbook *wb)
 {
+#warning what about dependents in other workbooks
 	dependent_queue_recalc_list (wb->dependents, FALSE);
 }
 

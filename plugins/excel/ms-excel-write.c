@@ -398,14 +398,14 @@ write_window2 (BiffPut *bp, MsBiffVersion ver, ExcelSheet *sheet)
 		options |= 0x600; /* assume selected if it is current */
 
 	if (ver <= MS_BIFF_V7) {
-		data = ms_biff_put_len_next (bp, BIFF_WINDOW2, 10);
+		data = ms_biff_put_len_next (bp, 0x200|BIFF_WINDOW2, 10);
 
 		MS_OLE_SET_GUINT16 (data +  0, options);
 		MS_OLE_SET_GUINT16 (data +  2, 0x0);	/* top row */
 		MS_OLE_SET_GUINT16 (data +  4, 0x0);	/* left col */
 		MS_OLE_SET_GUINT32 (data +  6, 0x40);	/* grid color index (0x40 == auto) */
 	} else {
-		data = ms_biff_put_len_next (bp, BIFF_WINDOW2, 18);
+		data = ms_biff_put_len_next (bp, 0x200|BIFF_WINDOW2, 18);
 
 		MS_OLE_SET_GUINT16 (data +  0, options);
 		MS_OLE_SET_GUINT16 (data +  2, 0x0);	/* top row */
@@ -2283,7 +2283,7 @@ write_xf (BiffPut *bp, ExcelWorkbook *wb)
 
 	/* See: S59DEA.HTM */
 	for (lp = 0; lp < 6; lp++) {
-		guint8 *data = ms_biff_put_len_next (bp, BIFF_STYLE, 4);
+		guint8 *data = ms_biff_put_len_next (bp, 0x200|BIFF_STYLE, 4);
 		MS_OLE_SET_GUINT32 (data, style_magic[lp]); /* cop out */
 		ms_biff_put_commit (bp);
 	}
@@ -2321,7 +2321,7 @@ write_names (BiffPut *bp, ExcelWorkbook *wb)
 		for (i = 0; i < 20; i++) data[i] = 0;
 
 		text = expr_name->name->str;
-		ms_biff_put_var_next (bp, BIFF_NAME);
+		ms_biff_put_var_next (bp, 0x200|BIFF_NAME);
 		name_len = strlen (expr_name->name->str);
 		MS_OLE_SET_GUINT8 (data + 3, name_len); /* name_len */
 
