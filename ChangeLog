@@ -1,5 +1,7 @@
 2002-04-11  Morten Welinder  <terra@diku.dk>
 
+	* */*: Make new plugins fn-eng from src/functions/fn-eng.c
+
 	* src/parser.y (gnumeric_parse_error): Plug leak.
 
 	* src/item-edit.c (item_edit_destroy): Fix memory corruption on

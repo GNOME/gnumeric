@@ -183,8 +183,8 @@ unregister_allocation (void const *data)
 #define ERROR -1
 
 /* Bison/Yacc internals */
-static int  yylex (void);
-static int  yyerror (const char *s);
+static int yylex (void);
+static int yyerror (const char *s);
 
 typedef struct {
 	/* The expression being parsed */
@@ -233,6 +233,7 @@ build_binop (GnmExpr *l, GnmExprOp op, GnmExpr *r)
 	unregister_allocation (l);
 	return register_expr_allocation (gnm_expr_new_binary (l, op, r));
 }
+
 static GnmExpr *
 build_logical (GnmExpr *l, gboolean is_and, GnmExpr *r)
 {
@@ -248,6 +249,7 @@ build_logical (GnmExpr *l, gboolean is_and, GnmExpr *r)
 	return register_expr_allocation (gnm_expr_new_funcall (is_and ? and_func : or_func,
 		    g_slist_prepend (g_slist_prepend (NULL, l), r)));
 }
+
 static GnmExpr *
 build_not (GnmExpr *expr)
 {
@@ -440,13 +442,13 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	| exp '^' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_EXP,	$3); }
 	| exp '&' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_CAT,	$3); }
 	| exp '=' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_EQUAL,	$3); }
-	| exp '<' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_LT,	$3); }
-	| exp '>' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_GT,	$3); }
+	| exp '<' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_LT,		$3); }
+	| exp '>' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_GT,		$3); }
 	| exp GTE exp	{ $$ = build_binop ($1, GNM_EXPR_OP_GTE,	$3); }
 	| exp NE  exp	{ $$ = build_binop ($1, GNM_EXPR_OP_NOT_EQUAL,	$3); }
 	| exp LTE exp	{ $$ = build_binop ($1, GNM_EXPR_OP_LTE,	$3); }
-	| exp AND exp	{ $$ = build_logical ($1, TRUE,		$3); }
-	| exp OR  exp	{ $$ = build_logical ($1, FALSE,	$3); }
+	| exp AND exp	{ $$ = build_logical ($1, TRUE,	$3); }
+	| exp OR  exp	{ $$ = build_logical ($1, FALSE, $3); }
 	| '(' exp ')'   { $$ = $2; }
 
         | '-' exp %prec NEG { $$ = build_unary_op (GNM_EXPR_OP_UNARY_NEG, $2); }

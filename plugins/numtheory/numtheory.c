@@ -8,8 +8,8 @@
  */
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include <gnome.h>
 #include <glib.h>
+#include <libgnome/gnome-i18n.h>
 
 #include "func.h"
 #include "plugin.h"

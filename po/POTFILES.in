@@ -13,6 +13,8 @@ plugins/excel/ms-excel-read.c
 plugins/excel/ms-excel-write.c
 plugins/excel/ms-formula-read.c
 plugins/excel/plugin.xml.in
+plugins/fn-eng/functions.c
+plugins/fn-eng/plugin.xml.in
 plugins/gb/plugin.c
 plugins/gb/plugin.xml.in
 plugins/gda/plugin-gda.c
@@ -107,7 +109,6 @@ src/dialogs/dialog-row-height.c
 src/dialogs/dialog-search-replace.c
 src/dialogs/dialog-search.c
 src/dialogs/dialog-sheet-order.c
-src/dialogs/dialog-simple-input.c
 src/dialogs/dialog-solver.c
 src/dialogs/dialog-stf-csv-page.c
 src/dialogs/dialog-stf-export-format-page.c
@@ -170,7 +171,6 @@ src/formats.c
 src/func.c
 src/functions/fn-database.c
 src/functions/fn-date.c
-src/functions/fn-eng.c
 src/functions/fn-financial.c
 src/functions/fn-information.c
 src/functions/fn-logical.c

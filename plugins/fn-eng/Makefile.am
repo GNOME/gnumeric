@@ -5,9 +5,9 @@ INCLUDES = \
 
 gnumeric_plugin_fnengdir = $(gnumeric_plugindir)/fn-eng
 xmldir = $(gnumeric_plugin_fnengdir)
-gnumeric_plugin_fneng_LTLIBRARIES = functions.la
-fneng_la_LDFLAGS = -module -avoid-version
-fneng_la_SOURCES = functions.c
+gnumeric_plugin_fneng_LTLIBRARIES = plugin.la
+plugin_la_LDFLAGS = -module -avoid-version
+plugin_la_SOURCES = functions.c
 
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
