@@ -1,5 +1,7 @@
 2001-12-28  Kevin Breit  <mrproper@ximian.com>
 
+	* autofill.sgml: Increased the amount of info about fill types
+
 	* gnumeric.sgml: Small change in the titles
 
 	* autofill.sgml: Rewrote the entire autofill chapter
