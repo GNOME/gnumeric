@@ -1,3 +1,12 @@
+2003-07-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-stf-format-page.c (cb_col_clicked) : check argument
+	(cb_popup_menu_uncheck_right) : new stub
+	(cb_popup_menu_check_right) : new stub
+	(cb_popup_menu_extend_format) : new
+	(cb_column_popup) : new
+	(format_page_update_preview): add context menu to column headers
+
 2003-07-03  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-sheet-order.c (dialog_sheet_order): Turn off color combo
