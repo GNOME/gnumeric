@@ -1,3 +1,8 @@
+2003-06-26  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (stf_parse_options_guess): Improve separator
+	guessing.
+
 2003-06-25  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (gdk_cursor_new_from_pixbuf): Please leaks in

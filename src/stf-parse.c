@@ -1350,10 +1350,20 @@ stf_parse_options_guess (const char *data)
 	if (tabcount >= 1 && tabcount >= sepcount - 1)
 		stf_parse_options_csv_set_separators (res, "\t", NULL);
 	else {
-		char sep[7];
+		gunichar c;
 
-		sep[g_unichar_to_utf8 (sepchar, sep)] = 0;
-		stf_parse_options_csv_set_separators (res, sep, NULL);
+		/*
+		 * Try a few more or less likely characters and pick the first
+		 * one that occurs on at least half the lines.
+		 */
+		if (count_character (lines, (c = sepchar), 0.5) > 0 ||
+		    count_character (lines, (c = format_get_col_sep ()), 0.5) > 0 ||
+		    count_character (lines, (c = ' '), 0.5) > 0 ||
+		    count_character (lines, (c = ':'), 0.5) > 0) {
+			char sep[7];
+			sep[g_unichar_to_utf8 (c, sep)] = 0;
+			stf_parse_options_csv_set_separators (res, sep, NULL);
+		}
 	}
 
 	if (1) {
