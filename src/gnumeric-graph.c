@@ -425,7 +425,7 @@ gnm_graph_vector_corba_init (GnmGraphVector *vector)
 }
 
 static void
-gnm_graph_vector_corba_destroy (GnmGraphVector *vector)
+gnm_graph_vector_corba_finalize (GnmGraphVector *vector)
 {
 	CORBA_Environment ev;
 
@@ -475,7 +475,7 @@ gnm_graph_vector_finalize (GObject *obj)
 {
 	GnmGraphVector *vector = GNUMERIC_GRAPH_VECTOR (obj);
 
-	d(printf ("graph-vector::destroy %p\n", obj));
+	d(printf ("graph-vector::finalize %p\n", obj));
 
 	dependent_unlink (&vector->dep, NULL);
 	if (vector->dep.expression != NULL) {
@@ -483,7 +483,7 @@ gnm_graph_vector_finalize (GObject *obj)
 		vector->dep.expression = NULL;
 	}
 
-	gnm_graph_vector_corba_destroy (vector);
+	gnm_graph_vector_corba_finalize (vector);
 
 	if (vector->value != NULL) {
 		value_release (vector->value);
@@ -1019,7 +1019,7 @@ gnm_graph_finalize (GObject *obj)
 {
 	GnmGraph *graph = GNUMERIC_GRAPH (obj);
 
-	d(printf ("gnumeric : graph destroy %p\n", obj));
+	d(printf ("gnumeric : graph finalize %p\n", obj));
 
 	if (graph->manager_client != CORBA_OBJECT_NIL) {
 		bonobo_object_release_unref (graph->manager_client, NULL);
