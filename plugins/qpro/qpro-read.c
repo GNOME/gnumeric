@@ -326,6 +326,7 @@ qpro_read_sheet (QProReadState *state)
 
 	state->cur_sheet = sheet;
 	workbook_sheet_attach (state->wb, sheet, NULL);
+	sheet_flag_recompute_spans (sheet);
 	printf ("----------> start %s\n", def_name);
 	while (NULL != (data = qpro_get_record (state, &id, &len))) {
 		switch (id) {

@@ -43,7 +43,7 @@ PSICONV_DIR=
 endif
 
 SUBDIRS_FILE_FORMATS = excel lotus-123 oleo sc sylk xbase html dif qpro \
-	xml_sax applix mps $(PSICONV_DIR)
+	plan-perfect xml_sax applix mps $(PSICONV_DIR)
 
 SUBDIRS_FUNCTIONS = numtheory fn-database fn-date fn-eng fn-financial fn-info \
 	fn-logical fn-complex fn-lookup fn-math fn-stat fn-string fn-random \

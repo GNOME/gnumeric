@@ -625,11 +625,6 @@ ORBIT_IDL="${ORBIT} -I${BONOBO_IDL_DIR} -I${BONOBO_ACTIVATION_IDL_DIR}"
 AC_SUBST(ORBIT_IDL)
 
 dnl ====================================
-dnl = Plan Perfect Plugin
-dnl ====================================
-AM_CONDITIONAL(WITH_PLAN_PERFECT, false)
-
-dnl ====================================
 dnl = Test whether jw is installed
 dnl ====================================
 AC_PATH_PROG(JW,jw,no)

@@ -1,3 +1,7 @@
+2002-08-09  Jody Goldberg <jody@gnome.org>
+
+	* qpro-read.c (qpro_read_sheet) : make sure to queue a span recalc.
+
 2002-08-04  Jon K Hellan  <hellan@acm.org>
 
 	* qpro-read.c: include gutils.h.
