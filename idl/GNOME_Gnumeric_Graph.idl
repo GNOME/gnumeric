@@ -96,7 +96,8 @@ module GNOME {
 		 * Register new vectors and get their callbacks.
 		 */
 		VectorSelection addVector (in VectorSelection v,
-					   in VectorType type, in VectorID id);
+					   in VectorType type, in VectorID id,
+					   in string default_fmt);
 
 		/**
 		 * clearVectors :

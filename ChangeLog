@@ -1,5 +1,9 @@
 2002-01-20  Jody Goldberg <jody@gnome.org>
 
+	* src/gnumeric-graph.c (gnm_graph_subscribe_vector) : Pass a place
+	  holder for the format.
+	* idl/GNOME_Gnumeric_Graph.idl (Manager::addVector) : ditto.
+
 	* gnumeric.xsd : Add SheetLayout.
 
 2002-01-21  Jakub Steiner <jimmac@ximian.com>

@@ -592,9 +592,11 @@ gnm_graph_subscribe_vector (GnmGraph *graph, GnmGraphVector *vector)
 	if (graph->manager == CORBA_OBJECT_NIL)
 		return FALSE;
 
+	/* Pass a place holder for the format */
 	id = graph->vectors->len;
 	vector->subscriber.any = MANAGER1 (addVector) (
-		graph->manager, vector->corba_obj, vector->type, id, &ev);
+		graph->manager, vector->corba_obj, vector->type, id,
+		CORBA_string_dup (""), &ev);
 
 	if ((ok = ev._major == CORBA_NO_EXCEPTION)) {
 		g_ptr_array_add (graph->vectors, vector);
