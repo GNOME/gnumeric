@@ -16,7 +16,6 @@
 #include "parse-util.h"
 #include "ranges.h"
 #include "sheet.h"
-#include "sheet-private.h"
 #include "application.h"
 #include "workbook-view.h"
 #include "workbook-edit.h"
@@ -50,7 +49,6 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 	WorkbookControlGUI *wbcg = gcanvas->scg->wbcg;
 	gboolean const jump_to_bounds = event->state & GDK_CONTROL_MASK;
 	int state = gnumeric_filter_modifiers (event->state);
-	Range const * const bound = &sheet->priv->unhidden_region;
 	void (*movefn) (SheetControlGUI *, int n,
 			gboolean jump, gboolean horiz);
 
@@ -133,45 +131,33 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 	switch (event->keyval) {
 	case GDK_KP_Left:
 	case GDK_Left:
-		if (event->state & GDK_MOD5_MASK) { /* Scroll Lock */
-			int left = gcanvas->first.col - 1;
-			if (left < bound->start.col)
-				left = bound->start.col;
-			scg_set_left_col (gcanvas->scg, left);
-		} else
+		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
+			scg_set_left_col (gcanvas->scg, gcanvas->first.col - 1);
+		else
 			(*movefn) (gcanvas->scg, -1, jump_to_bounds, TRUE);
 		break;
 
 	case GDK_KP_Right:
 	case GDK_Right:
-		if (event->state & GDK_MOD5_MASK) { /* Scroll Lock */
-			int left = gcanvas->first.col + 1;
-			if (left > bound->end.col)
-				left = bound->end.col;
-			scg_set_left_col (gcanvas->scg, left);
-		} else
+		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
+			scg_set_left_col (gcanvas->scg, gcanvas->first.col + 1);
+		else
 			(*movefn) (gcanvas->scg, 1, jump_to_bounds, TRUE);
 		break;
 
 	case GDK_KP_Up:
 	case GDK_Up:
-		if (event->state & GDK_MOD5_MASK) { /* Scroll Lock */
-			int top = gcanvas->first.row - 1;
-			if (top < bound->start.row)
-				top = bound->start.row;
-			scg_set_top_row (gcanvas->scg, top);
-		} else
+		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
+			scg_set_top_row (gcanvas->scg, gcanvas->first.row - 1);
+		else
 			(*movefn) (gcanvas->scg, -1, jump_to_bounds, FALSE);
 		break;
 
 	case GDK_KP_Down:
 	case GDK_Down:
-		if (event->state & GDK_MOD5_MASK) { /* Scroll Lock */
-			int top = gcanvas->first.row + 1;
-			if (top > bound->end.row)
-				top = bound->end.row;
-			scg_set_top_row (gcanvas->scg, top);
-		} else
+		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
+			scg_set_top_row (gcanvas->scg, gcanvas->first.row + 1);
+		else
 			(*movefn) (gcanvas->scg, 1, jump_to_bounds, FALSE);
 		break;
 
@@ -221,11 +207,8 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 		if (event->state & GDK_MOD5_MASK) { /* Scroll Lock */
 			int new_col = sheet->edit_pos.col - (gcanvas->last_full.col - gcanvas->first.col);
 			int new_row = sheet->edit_pos.row - (gcanvas->last_full.row - gcanvas->first.row);
-			
-			if (new_col > 0)
-				scg_set_left_col (gcanvas->scg, new_col);
-			if (new_row > 0)
-				scg_set_top_row (gcanvas->scg, new_row);
+			scg_set_left_col (gcanvas->scg, new_col);
+			scg_set_top_row (gcanvas->scg, new_row);
 		} else {
 			Range r = sheet_get_extent (sheet, FALSE);
 		
@@ -406,45 +389,6 @@ gnm_canvas_key_release (GtkWidget *widget, GdkEventKey *event)
 			sc->wbc), TRUE, NULL);
 
 	return (*GTK_WIDGET_CLASS (gcanvas_parent_class)->key_release_event)(widget, event);
-}
-
-static gint
-gnm_canvas_button_release (GtkWidget *widget, GdkEventButton *button)
-{
-	GnumericCanvas *current = GNUMERIC_CANVAS (widget);
-
-	/* scroll always operates on pane 0 */
-	GnumericCanvas *gcanvas = scg_pane (current->scg, 0);
-
-	if (button->button != 4 && button->button != 5)
-		return (*GTK_WIDGET_CLASS (gcanvas_parent_class)->button_release_event)(widget, button);
-
-	/* Roll Up or Left */
-	/* Roll Down or Right */
-	if ((button->state & GDK_MOD1_MASK)) {
-		int col = (gcanvas->last_full.col - gcanvas->first.col) / 4;
-		if (col < 1)
-			col = 1;
-		if (button->button == 4)
-			col = gcanvas->first.col - col;
-		else
-			col = gcanvas->first.col + col;
-
-		if (0 <= col && col <= SHEET_MAX_COLS-1)
-			scg_set_left_col (gcanvas->scg, col);
-	} else {
-		int row = (gcanvas->last_full.row - gcanvas->first.row) / 4;
-		if (row < 1)
-			row = 1;
-		if (button->button == 4)
-			row = gcanvas->first.row - row;
-		else
-			row = gcanvas->first.row + row;
-
-		if (0 <= row && row <= SHEET_MAX_ROWS-1)
-			scg_set_top_row (gcanvas->scg, row);
-	}
-	return TRUE;
 }
 
 /* Focus in handler for the canvas */
@@ -660,7 +604,6 @@ gnm_canvas_class_init (GnumericCanvasClass *Class)
  	widget_class->size_allocate	   = gnm_canvas_size_allocate;
 	widget_class->key_press_event	   = gnm_canvas_key_press;
 	widget_class->key_release_event	   = gnm_canvas_key_release;
-	widget_class->button_release_event = gnm_canvas_button_release;
 	widget_class->focus_in_event	   = gnm_canvas_focus_in;
 	widget_class->focus_out_event	   = gnm_canvas_focus_out;
 }

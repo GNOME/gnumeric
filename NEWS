@@ -12,6 +12,7 @@ Jody:
 	* Fix non-bonobo View menu
 	* Fix sheet extent calculation new complex objects.
 	* Improve formula guru.
+	* Support scrollwheel in a larger area.
 
 Jukka:
 	* Documented the advanced filter.

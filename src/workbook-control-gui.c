@@ -3450,22 +3450,38 @@ wbcg_destroy (GtkObject *obj)
 }
 
 static gboolean
-cb_scroll_wheel_support (GtkWidget *w, GdkEventButton *event,
-			 WorkbookControlGUI *wb)
+cb_scroll_wheel_support (GtkWidget *ignored, GdkEventButton *button,
+			 WorkbookControlGUI *wbcg)
 {
-	/* FIXME : now that we have made the split this is no longer true. */
-	/* This is a stub routine to handle scroll wheel events
-	 * Unfortunately the toplevel window is currently owned by the workbook
-	 * rather than a workbook-view so we cannot really scroll things
-	 * unless we scrolled all the views at once which is ugly.
-	 */
-#if 0
-	if (event->button == 4)
-	    puts("up");
-	else if (event->button == 5)
-	    puts("down");
-#endif
-	return FALSE;
+	/* scroll always operates on pane 0 */
+	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
+	GnumericCanvas *gcanvas = scg_pane (scg, 0);
+
+	if (button->button != 4 && button->button != 5)
+		return FALSE;
+
+	/* Roll Up or Left */
+	/* Roll Down or Right */
+	if ((button->state & GDK_MOD1_MASK)) {
+		int col = (gcanvas->last_full.col - gcanvas->first.col) / 4;
+		if (col < 1)
+			col = 1;
+		if (button->button == 4)
+			col = gcanvas->first.col - col;
+		else
+			col = gcanvas->first.col + col;
+		scg_set_left_col (gcanvas->scg, col);
+	} else {
+		int row = (gcanvas->last_full.row - gcanvas->first.row) / 4;
+		if (row < 1)
+			row = 1;
+		if (button->button == 4)
+			row = gcanvas->first.row - row;
+		else
+			row = gcanvas->first.row + row;
+		scg_set_top_row (gcanvas->scg, row);
+	}
+	return TRUE;
 }
 
 /*

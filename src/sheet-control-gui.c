@@ -12,6 +12,7 @@
 #define GNUMERIC_ITEM "SCG"
 #include "item-debug.h"
 #include "sheet.h"
+#include "sheet-private.h"
 #include "sheet-merge.h"
 #include "workbook.h"
 #include "workbook-view.h"
@@ -617,10 +618,20 @@ gnm_canvas_set_left_col (GnumericCanvas *gcanvas, int new_first_col)
 void
 scg_set_left_col (SheetControlGUI *scg, int col)
 {
+	Sheet const *sheet;
+	Range const *bound;
+
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
+	sheet = scg->sheet_control.sheet;
+	bound = &sheet->priv->unhidden_region;
+	if (col < bound->start.col)
+		col = bound->start.col;
+	else if (col > bound->end.col)
+		col = bound->end.col;
+
 	if (scg->active_panes > 1) {
-		int right = scg->sheet_control.sheet->unfrozen_top_left.col;
+		int right = sheet->unfrozen_top_left.col;
 		if (col < right)
 			col = right;
 		gnm_canvas_set_left_col (scg_pane (scg, 3), col);
@@ -666,10 +677,20 @@ gnm_canvas_set_top_row (GnumericCanvas *gcanvas, int new_first_row)
 void
 scg_set_top_row (SheetControlGUI *scg, int row)
 {
+	Sheet const *sheet;
+	Range const *bound;
+
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
+	sheet = scg->sheet_control.sheet;
+	bound = &sheet->priv->unhidden_region;
+	if (row < bound->start.row)
+		row = bound->start.row;
+	else if (row > bound->end.row)
+		row = bound->end.row;
+
 	if (scg->active_panes > 1) {
-		int bottom = scg->sheet_control.sheet->unfrozen_top_left.row;
+		int bottom = sheet->unfrozen_top_left.row;
 		if (row < bottom)
 			row = bottom;
 		gnm_canvas_set_top_row (scg_pane (scg, 1), row);

@@ -1,4 +1,9 @@
-2001-10-30  Jody Goldberg <jgoldberg@home.com>
+2001-10-31  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_sheet) : move the bounds
+	  checking into the scg.
+	(gnm_canvas_button_release) : move this from here.
+	* src/workbook-control-gui.c (cb_scroll_wheel_support) : to here.
 
 	* src/func.c (tokenized_help_new) : don't include the trailing
 	  newlines.
