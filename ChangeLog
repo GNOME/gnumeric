@@ -1,3 +1,10 @@
+2003-07-26  Jon K Hellan  <hellan@acm.org>
+
+	* src/plugin.c (gnm_plugin_try_unref): New function. Unref plugin
+	object if it is legal to destroy it.
+	(plugins_shutdown): Use it. Fixes
+	http://bugzilla.gnome.org/show_bug.cgi?id=114211.
+
 2003-07-25  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-util.c (gnumeric_clist_moveto): Finally delete this.

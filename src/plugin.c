@@ -1775,6 +1775,24 @@ ghf_collect_used_plugin_state_strings (gpointer key, gpointer value, gpointer us
 }
 
 /**
+ * gnm_plugin_try_unref
+ *
+ * Unref plugin object if it is legal to destroy it. Destruction is
+ * not legal if a type or interface has been registered for it. "Once
+ * a GTypeModule is initialized, it must exist forever" - docs of
+ * g_type_module_unuse().
+ */
+static void *
+gnm_plugin_try_unref (gpointer plugin)
+{
+	GTypeModule *module = G_TYPE_MODULE (plugin);
+
+	if (!module->type_infos && !module->interface_infos) {
+		g_object_unref (plugin);
+	}
+}
+
+/**
  * plugins_shutdown:
  *
  * Shuts down the plugin subsystem. Call this function only once before
@@ -1822,7 +1840,7 @@ plugins_shutdown (void)
 	g_hash_table_destroy (plugin_file_state_dir_hash);
 	g_hash_table_destroy (loader_services);
 	g_hash_table_destroy (available_plugins_id_hash);
-	g_slist_free_custom (available_plugins, g_object_unref);
+	g_slist_free_custom (available_plugins, gnm_plugin_try_unref);
 
 	gnm_conf_sync ();
 }
