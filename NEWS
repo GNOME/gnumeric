@@ -33,6 +33,7 @@ Morten:
 	* Improve goal seek for the case without a proper df.
 	* Fix XIRR.
 	* Plug leaks and improve speed of string functions.
+	* Fix DOLLAR.
 
 Jon Kåre:
 	* Install bonobo control
