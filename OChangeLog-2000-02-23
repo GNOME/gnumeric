@@ -1,3 +1,8 @@
+1999-12-16  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet.c (sheet_get_extent_cb): Fix biggest leak ever seen,
+	use cell_is_blank.
+
 1999-12-14  Cort Dougan  <cort@ppc.kernel.org>
 
 	* src/corba-sheet.c (Sheet_range_set_font, Sheet_range_set_foreground),

@@ -560,26 +560,24 @@ sheet_cell_fetch (Sheet *sheet, int col, int row)
  * checks the cell to see if should be used to calculate sheet extent
  **/
 static void
-sheet_get_extent_cb (gpointer key, gpointer value, gpointer data) {
-
+sheet_get_extent_cb (gpointer key, gpointer value, gpointer data)
+{
 	Cell *cell = (Cell *) value;
-	if ( cell ) {
-		gchar *text = cell_get_text( cell );
-		if ( strcmp( text, "") ) {
-			Range *range = (Range *)data;
-			if ( cell->row->pos < range->start.row) {
-				range->start.row = cell->row->pos;
-			}
-			if ( cell->row->pos > range->end.row) {
-				range->end.row = cell->row->pos;
-			}
-			if ( cell->col->pos < range->start.col) {
-				range->start.col = cell->col->pos;
-			}
-			if ( cell->col->pos > range->end.col) {
-				range->end.col = cell->col->pos;
-			}
-		}
+	
+	if ( cell && !cell_is_blank (cell)) {
+		Range *range = (Range *)data;
+
+		if ( cell->row->pos < range->start.row)
+			range->start.row = cell->row->pos;
+
+		if ( cell->row->pos > range->end.row)
+			range->end.row = cell->row->pos;
+
+		if ( cell->col->pos < range->start.col)
+			range->start.col = cell->col->pos;
+
+		if ( cell->col->pos > range->end.col)
+			range->end.col = cell->col->pos;
 	}
 }
 
