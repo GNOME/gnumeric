@@ -1,3 +1,7 @@
+2004-08-21  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* configure.in: Add «nb» to ALL_LINGUAS.
+
 2004-08-20  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet.c (sheet_new_special) : renamed from sheet_new, and a
