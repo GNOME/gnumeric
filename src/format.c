@@ -302,7 +302,7 @@ append_day (GString *string, const guchar *format, const struct tm *time_split)
  * Renders the hour.
  */
 static void
-append_hour (GString *string, int n, const struct tm *time_split,
+append_hour (GString *string, int n, struct tm const *time_split,
 	     gboolean want_am_pm)
 {
 	char *temp = g_alloca (n + 4 * sizeof (int));
@@ -312,85 +312,64 @@ append_hour (GString *string, int n, const struct tm *time_split,
 		 ? (((time_split->tm_hour + 11) % 12) + 1)
 		 : time_split->tm_hour);
 	g_string_append (string, temp);
-
-	return;
 }
 
 /*
  * Renders the hour.
  */
 static void
-append_hour_elapsed (GString *string, int n, const struct tm *time_split, int number)
+append_hour_elapsed (GString *string, struct tm const *time_split, int number)
 {
-	char *temp = g_alloca (n + 4 * sizeof (int));
-	unsigned long hours;
-
-	hours = number * 24 + time_split->tm_hour;
-	sprintf (temp, "%0*d", n, hours);
-	g_string_append (string, temp);
-
-	return;
+	unsigned char buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
+	double hours = number * 24. + time_split->tm_hour;
+	snprintf (buf, sizeof (buf), "%.0f", hours);
+	g_string_append (string, buf);
 }
 
 /*
  * Renders the number of minutes.
  */
 static void
-append_minute (GString *string, int n, const struct tm *time_split)
+append_minute (GString *string, int n, struct tm const *time_split)
 {
 	char *temp = g_alloca (n + 4 * sizeof (int));
-
 	sprintf (temp, "%0*d", n, time_split->tm_min);
 	g_string_append (string, temp);
-
-	return;
 }
 
 /*
  * Renders the number of minutes, in elapsed format
  */
 static void
-append_minute_elapsed (GString *string, int n, const struct tm *time_split, int number)
+append_minute_elapsed (GString *string, struct tm const *time_split, int number)
 {
-	char *temp = g_alloca (n + 4 * sizeof (int));
-	unsigned long minutes;
-
-	minutes = ((number * 24) + time_split->tm_hour) * 60 + time_split->tm_min;
-
-	sprintf (temp, "%0*d", n, minutes);
-	g_string_append (string, temp);
-
-	return;
+	unsigned char buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
+	double minutes = ((number * 24.) + time_split->tm_hour) * 60. + time_split->tm_min;
+	snprintf (buf, sizeof (buf), "%.0f", minutes);
+	g_string_append (string, buf);
 }
 
 /*
  * Renders the second field.
  */
 static void
-append_second (GString *string, int n, const struct tm *time_split)
+append_second (GString *string, int n, struct tm const *time_split)
 {
 	char *temp = g_alloca (n + 4 * sizeof (int));
-
 	sprintf (temp, "%0*d", n, time_split->tm_sec);
 	g_string_append (string, temp);
-
-	return;
 }
 
 /*
  * Renders the second field in elapsed
  */
 static void
-append_second_elapsed (GString *string, int n, const struct tm *time_split, int number)
+append_second_elapsed (GString *string, int n, struct tm const *time_split, int number)
 {
-	char *temp = g_alloca (n + 4 * sizeof (int));
-	unsigned long seconds;
-
-	seconds = (((number * 24 + time_split->tm_hour) * 60 + time_split->tm_min) * 60) + time_split->tm_sec;
-	sprintf (temp, "%0*d", n, seconds);
-	g_string_append (string, temp);
-
-	return;
+	unsigned char buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
+	double seconds = (((number * 24. + time_split->tm_hour) * 60. + time_split->tm_min) * 60.) + time_split->tm_sec;
+	snprintf (buf, sizeof (buf), "%.0f", seconds);
+	g_string_append (string, buf);
 }
 
 static StyleFormatEntry *
@@ -1255,7 +1234,7 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 			if (time_display_elapsed) {
 				time_display_elapsed = FALSE;
 				ignore_further_elapsed = TRUE;
-				append_minute_elapsed (result, n, time_split, number);
+				append_minute_elapsed (result, time_split, number);
 			} else if (hour_seen ||
 				   (format[1] == ':' && tolower (format[2]) == 's')){
 				append_minute (result, n, time_split);
@@ -1312,7 +1291,7 @@ format_number (gdouble number, int col_width, StyleFormatEntry const *entry)
 			if (time_display_elapsed){
 				time_display_elapsed = FALSE;
 				ignore_further_elapsed = TRUE;
-				append_hour_elapsed (result, n, time_split, number);
+				append_hour_elapsed (result, time_split, number);
 			} else
 				/* h == hour optionally in 24 hour mode
 				 * h followed by am/pm puts it in 12 hout mode
