@@ -1,7 +1,7 @@
 # German message file for Gnumeric.
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # Matthias Warkus <mawa@iname.com>, 1999, 2000.
-# Karl Eichwalder <ke@suse.de>, 1999, 2000.
+# Karl Eichwalder <ke@suse.de>, 1999, 2000, 2001.
 # Karsten Weiss <karsten@addx.au.s.shuttle.de>, 1999.
 # Ralf Baechle <ralf@gnu.org>, 1999.
 #
@@ -36,8 +36,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.62cvs\n"
-"POT-Creation-Date: 2001-02-07 07:53+0100\n"
-"PO-Revision-Date: 2001-02-07 08:15+01:00\n"
+"POT-Creation-Date: 2001-02-08 19:44+0100\n"
+"PO-Revision-Date: 2001-02-08 20:35+01:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -162,7 +162,7 @@ msgstr "Konnte die Gnumeric-Arbeitsbuch-Factory nicht initialisieren"
 #: plugins/gda/plugin-gda.c:147
 #, c-format
 msgid "Error: could not open connection to %s"
-msgstr ""
+msgstr "Fehler: Verbindung zu %s konnte nicht geöffnet werden"
 
 #. register functions
 #: plugins/gda/plugin-gda.c:194 src/functions/fn-database.c:1337
@@ -188,7 +188,7 @@ msgstr "Nicht definierte Scheme-Funktion"
 
 #: plugins/guile/plugin.c:97
 msgid "Could not evaluate argument"
-msgstr "Konnte das Argument nicht auswerten"
+msgstr "Das Argument konnte nicht ausgewertet werden"
 
 #: plugins/guile/plugin.c:207
 msgid "Gnumeric has not been compiled with support for guile."
@@ -472,9 +472,9 @@ msgid "object must be callable"
 msgstr "Objekt muss aufrufbar sein"
 
 #: plugins/python/python.c:909
-#, fuzzy, c-format
+#, c-format
 msgid "Unhandled Python exception: %s"
-msgstr "Python-Ausnahme"
+msgstr "Nicht-abgefangene Python-Ausnahme: %s"
 
 #: plugins/sc/sc.c:458
 msgid "SC/xspread file import"
@@ -497,14 +497,12 @@ msgid "Xbase (*.dbf) file format"
 msgstr "Xbase (*.dbf) Dateiformat"
 
 #: plugins/xml2/xml2.c:1572
-#, fuzzy
 msgid "EXPERIMENTAL Gnumeric (*.gnumeric) XML based file format"
-msgstr "Gnumeric-XML-Dateiformat"
+msgstr "EXPERIMENTELLES Gnumeric-XML-Dateiformat (*.gnumeric)"
 
 #: plugins/xml2/xml2.c:1577
-#, fuzzy
 msgid "Gnumeric (*.gnumeric) XML based file format"
-msgstr "Gnumeric-XML-Dateiformat"
+msgstr "Gnumeric-XML-Dateiformat(*.gnumeric)"
 
 #: src/about.c:38
 msgid "Miguel de Icaza, main programmer."
@@ -945,9 +943,8 @@ msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ungültige XML-Datei. Ist der Baum leer?"
 
 #: src/bonobo-io.c:482
-#, fuzzy
 msgid "Does not contain a Workbook file"
-msgstr "Ist keine gnumeric-Arbeitsbuch-Datei"
+msgstr "Beinhaltet keine Arbeitsbuch-Datei"
 
 #: src/bonobo-io.c:528
 msgid "Gnumeric Bonobo file format"
@@ -1002,7 +999,7 @@ msgstr ""
 
 #: src/cmd-edit.c:319
 msgid "Unable to paste into selection"
-msgstr "Kann nicht in die Markierung einfügen."
+msgstr "Es ist nicht möglich, in die Markierung einzufügen."
 
 #: src/cmd-edit.c:356 src/gnumeric.xml.h:133 src/workbook-control-gui.c:2179
 msgid "Paste"
@@ -1080,7 +1077,7 @@ msgstr "Zellen formatieren"
 #: src/commands.c:1397
 #, c-format
 msgid "Rename sheet '%s' '%s'"
-msgstr "Benenne Blatt von `%s' in `%s' um"
+msgstr "Benenne Blatt von »%s« in »%s« um"
 
 #. FIXME : the '>' prefix is intended to give the translators
 #. * a chance to provide a locale specific date format.
@@ -1168,16 +1165,15 @@ msgid "Autoformat"
 msgstr "Autoformat"
 
 #: src/commands.c:2568
-#, fuzzy
 msgid "Unmerge Cells"
-msgstr "Zellen zusa_mmenführen"
+msgstr "Zellen vereinzeln"
 
 #: src/commands.c:2680
 msgid "Merge Cells"
 msgstr "Zellen zusammenführen"
 
 #. Corrected below.
-#: src/commands.c:3135 src/dialogs/search-replace.glade.h:41
+#: src/commands.c:3133 src/dialogs/search-replace.glade.h:41
 msgid "Search and Replace"
 msgstr "Suchen und Ersetzen"
 
@@ -1386,9 +1382,8 @@ msgid "Analysis Tools"
 msgstr "Analyse-Werkzeuge"
 
 #: src/dialogs/analysis-tools.glade.h:6
-#, fuzzy
 msgid "C_umulative Percentages"
-msgstr "_Prozent"
+msgstr "K_umulativer Prozentwert"
 
 #: src/dialogs/analysis-tools.glade.h:7 src/dialogs/dialog-analysis-tools.c:89
 msgid "Correlation"
@@ -1417,9 +1412,8 @@ msgid "Grouped by:"
 msgstr "Gruppiert nach:"
 
 #: src/dialogs/analysis-tools.glade.h:14
-#, fuzzy
 msgid "I_nverse"
-msgstr "Erhöhen"
+msgstr "U_mgekehrt"
 
 #: src/dialogs/analysis-tools.glade.h:15
 msgid "In_terval:"
@@ -2726,14 +2720,13 @@ msgid "81"
 msgstr "1"
 
 #: src/dialogs/dialog-autoformat.c:536
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to remove the template '%s' ?"
-msgstr "Sind Sie sicher, dass Sie das Blatt `%s' entfernen wollen?"
+msgstr "Sind Sie sicher, dass Sie die Vorlage »%s« entfernen wollen?"
 
 #: src/dialogs/dialog-autoformat.c:550
-#, fuzzy
 msgid "Could not remove template"
-msgstr "Konnte das Argument nicht auswerten"
+msgstr "Die Vorlage konnte nicht entfernt werden"
 
 #: src/dialogs/dialog-autoformat.c:828 src/dialogs/dialog-stf-export.c:380
 #: src/dialogs/dialog-stf.c:532
@@ -3009,11 +3002,11 @@ msgstr "Lücken überspringen"
 
 #: src/dialogs/dialog-plugin-manager.c:184
 msgid "Error while activating plugin"
-msgstr ""
+msgstr "Fehler beim Aktivieren des Plugins"
 
 #: src/dialogs/dialog-plugin-manager.c:213
 msgid "Error while deactivating plugin"
-msgstr ""
+msgstr "Fehler beim Deaktivieren des Plugins"
 
 #: src/dialogs/dialog-plugin-manager.c:226
 msgid "Plugin is still in use."
@@ -3021,11 +3014,11 @@ msgstr "Plugin ist noch in Benutzung."
 
 #: src/dialogs/dialog-plugin-manager.c:242
 msgid "Errors while activating plugins"
-msgstr ""
+msgstr "Fehler beim Aktivieren der Plugins"
 
 #: src/dialogs/dialog-plugin-manager.c:261
 msgid "Errors while deactivating plugins"
-msgstr ""
+msgstr "Fehler beim Deaktivieren der Plugins"
 
 #: src/dialogs/dialog-plugin-manager.c:508
 msgid "Plugin list"
@@ -3874,7 +3867,7 @@ msgstr "Druck"
 msgid "Print _area:"
 msgstr "_Bereich drucken:"
 
-#: src/dialogs/print.glade.h:22 src/gnumeric.xml.h:142 src/print.c:1186
+#: src/dialogs/print.glade.h:22 src/gnumeric.xml.h:142 src/print.c:1205
 msgid "Print preview"
 msgstr "Druckvorschau"
 
@@ -4003,13 +3996,12 @@ msgid "_Row height (pts):"
 msgstr "_Zeilenhöhe (Punkte):"
 
 #: src/dialogs/search-replace.glade.h:1
-#, fuzzy
 msgid "Advanced"
-msgstr "Komplex..."
+msgstr "Komplex"
 
 #: src/dialogs/search-replace.glade.h:2
 msgid "Ask before each change"
-msgstr ""
+msgstr "Vor jedem Ändern fragen"
 
 #: src/dialogs/search-replace.glade.h:3
 msgid "Attempt to preserve case of text when replacing"
@@ -4017,7 +4009,7 @@ msgstr ""
 
 #: src/dialogs/search-replace.glade.h:4
 msgid "By"
-msgstr ""
+msgstr "Durch"
 
 #: src/dialogs/search-replace.glade.h:5
 #, fuzzy
@@ -4033,9 +4025,8 @@ msgid "Create =ERROR(\"...\")"
 msgstr ""
 
 #: src/dialogs/search-replace.glade.h:8
-#, fuzzy
 msgid "Current sheet"
-msgstr "Aktuelles _Datum"
+msgstr "Aktuelles Blatt"
 
 #: src/dialogs/search-replace.glade.h:9
 msgid "Do not consider matches in the middle of words"
@@ -4047,7 +4038,7 @@ msgstr ""
 
 #: src/dialogs/search-replace.glade.h:11
 msgid "Don't change"
-msgstr ""
+msgstr "Nicht ändern"
 
 #: src/dialogs/search-replace.glade.h:12
 #, fuzzy
@@ -4059,9 +4050,8 @@ msgid "Error behaviour"
 msgstr ""
 
 #: src/dialogs/search-replace.glade.h:14
-#, fuzzy
 msgid "Expressions"
-msgstr "Regression"
+msgstr "Ausdrücke"
 
 #: src/dialogs/search-replace.glade.h:15
 #, fuzzy
@@ -4073,14 +4063,12 @@ msgid "Fail without any changes actually being done to any cell"
 msgstr ""
 
 #: src/dialogs/search-replace.glade.h:17
-#, fuzzy
 msgid "Ignore case"
-msgstr "Erhöhen"
+msgstr "Groß-/Kleinschreibung ignorieren"
 
 #: src/dialogs/search-replace.glade.h:18
-#, fuzzy
 msgid "Location"
-msgstr "Aktion"
+msgstr "Stelle"
 
 #: src/dialogs/search-replace.glade.h:19
 msgid "Make error expression"
@@ -4100,7 +4088,7 @@ msgstr ""
 
 #: src/dialogs/search-replace.glade.h:24
 msgid "Other values"
-msgstr ""
+msgstr "Andere Werte"
 
 #: src/dialogs/search-replace.glade.h:25
 #, fuzzy
@@ -4128,9 +4116,8 @@ msgid "Perform this replacement"
 msgstr ""
 
 #: src/dialogs/search-replace.glade.h:31
-#, fuzzy
 msgid "Plain text"
-msgstr "Plan Perfect"
+msgstr ""
 
 #: src/dialogs/search-replace.glade.h:32
 msgid "Preserve case"
@@ -4145,14 +4132,12 @@ msgid "Query for replacement"
 msgstr ""
 
 #: src/dialogs/search-replace.glade.h:36
-#, fuzzy
 msgid "Regular expression"
-msgstr "Regression"
+msgstr "Regulärer Ausdruck"
 
 #: src/dialogs/search-replace.glade.h:37
-#, fuzzy
 msgid "Replace by"
-msgstr "_Ersetzen:"
+msgstr "Ersetzen durch"
 
 #: src/dialogs/search-replace.glade.h:38
 #, fuzzy
@@ -4165,9 +4150,8 @@ msgid "Scope"
 msgstr "kopieren"
 
 #: src/dialogs/search-replace.glade.h:40
-#, fuzzy
 msgid "Search"
-msgstr "März"
+msgstr "Suchen"
 
 #: src/dialogs/search-replace.glade.h:42
 msgid "Search and replace in all cells in the workbook"
@@ -4182,18 +4166,16 @@ msgid "Search and replace in specified range only"
 msgstr ""
 
 #: src/dialogs/search-replace.glade.h:45
-#, fuzzy
 msgid "Search for"
-msgstr "Trennzeichen"
+msgstr "Suchen nach"
 
 #: src/dialogs/search-replace.glade.h:46
 msgid "Skip cells that that would result in errors"
 msgstr ""
 
 #: src/dialogs/search-replace.glade.h:47
-#, fuzzy
 msgid "Strings"
-msgstr "Zeichenkette"
+msgstr "Zeichenketten"
 
 #: src/dialogs/search-replace.glade.h:48
 msgid "The search text is a regular expression"
@@ -4360,9 +4342,8 @@ msgid "Company"
 msgstr "Firma"
 
 #: src/dialogs/summary.glade.h:5
-#, fuzzy
 msgid "Document Summary Information"
-msgstr "Kurzinformation zum Dokument\n"
+msgstr "Kurzinformation zum Dokument"
 
 #: src/dialogs/summary.glade.h:6
 msgid "Keywords"
@@ -4381,9 +4362,8 @@ msgid "Title"
 msgstr "Titel"
 
 #: src/dialogs/validate.glade.h:1
-#, fuzzy
 msgid "Any Value"
-msgstr "Wert"
+msgstr "Ein Wert"
 
 #: src/dialogs/validate.glade.h:2
 msgid "Apply these changes to other cells with the same settings"
@@ -4399,9 +4379,8 @@ msgid "Date"
 msgstr "_Datum"
 
 #: src/dialogs/validate.glade.h:6
-#, fuzzy
 msgid "Decimal"
-msgstr "Sp_ezial"
+msgstr ""
 
 #: src/dialogs/validate.glade.h:7
 msgid "Ignore blank"
@@ -4422,9 +4401,8 @@ msgid "List"
 msgstr ""
 
 #: src/dialogs/validate.glade.h:11
-#, fuzzy
 msgid "St_yle:"
-msgstr "_Stil"
+msgstr "_Stil:"
 
 #: src/dialogs/validate.glade.h:12
 msgid "Stop"
@@ -4432,7 +4410,7 @@ msgstr ""
 
 #: src/dialogs/validate.glade.h:13
 msgid "Text length"
-msgstr ""
+msgstr "Textlänge"
 
 #: src/dialogs/validate.glade.h:14
 #, fuzzy
@@ -4480,9 +4458,8 @@ msgid "_Input Message"
 msgstr "_Eingabebereich:"
 
 #: src/dialogs/validate.glade.h:24
-#, fuzzy
 msgid "_Settings"
-msgstr "Zeichenkette"
+msgstr "_Einstellungen"
 
 #: src/dialogs/validate.glade.h:25
 msgid "_Show error alert after invalid data is entered"
@@ -4493,14 +4470,12 @@ msgid "_Show input message when cell is selected"
 msgstr ""
 
 #: src/dialogs/validate.glade.h:27
-#, fuzzy
 msgid "_Title :"
-msgstr "Titel"
+msgstr "_Titel :"
 
 #: src/dialogs/validate.glade.h:28
-#, fuzzy
 msgid "_Title:"
-msgstr "Titel"
+msgstr "_Titel:"
 
 #: src/dialogs/validate.glade.h:29
 #, fuzzy
@@ -4558,7 +4533,7 @@ msgstr "Rollbalken"
 
 #: src/dialogs/workbook-attr.glade.h:3
 msgid "View"
-msgstr "_Ansicht"
+msgstr "Ansicht"
 
 #: src/dialogs/workbook-attr.glade.h:4
 msgid "_Horizontal Scrollbar"
@@ -4573,14 +4548,12 @@ msgid "_Vertical Scrollbar"
 msgstr "_Vertikaler Rollbalken"
 
 #: src/expr-name.c:165
-#, fuzzy
 msgid "already defined in sheet"
-msgstr "schon definiert"
+msgstr "schon im Blatt definiert"
 
 #: src/expr-name.c:169
-#, fuzzy
 msgid "already defined in workbook"
-msgstr "schon definiert"
+msgstr "schon im Arbeitsbuch definiert"
 
 #: src/expr-name.c:173
 msgid "circular reference"
@@ -11641,24 +11614,21 @@ msgid "Unknown error"
 msgstr "Unbekannter GB-Fehler"
 
 #: src/gnumeric-util.c:228
-#, fuzzy
 msgid "Gnumeric error message"
-msgstr "Homepage zu Gnumeric"
+msgstr "Fehlermeldung von Gnumeric"
 
 #: src/gnumeric-util.c:237
-#, fuzzy
 msgid "Message"
-msgstr "Mittel"
+msgstr "Meldung"
 
 #: src/gnumeric-util.c:245
-#, fuzzy
 msgid "Details"
-msgstr "_Details zu den Dateien"
+msgstr "Details"
 
 #: src/gnumeric-util.c:723
 #, c-format
 msgid "Unable to open file '%s'"
-msgstr "Kann Datei '%s' nicht öffnen"
+msgstr "Datei »%s« kann nicht geöffnet werden"
 
 #.
 #. * xgettext:
@@ -11667,7 +11637,6 @@ msgstr "Kann Datei '%s' nicht öffnen"
 #. * 'File' menu
 #.
 #: src/history.c:125 src/history.c:138
-#, fuzzy
 msgid "File/Print Preview"
 msgstr "Datei/Druckvorschau"
 
@@ -11696,23 +11665,20 @@ msgstr ""
 "dieses Bereichs ersetzen?"
 
 #: src/item-cursor.c:909
-#, fuzzy
 msgid "_Move"
-msgstr "Verschieben"
+msgstr "_Verschieben"
 
 #: src/gnumeric.xml.h:208 src/item-cursor.c:912 src/sheet-control-gui.c:1095
 msgid "_Copy"
 msgstr "_Kopieren"
 
 #: src/item-cursor.c:915
-#, fuzzy
 msgid "Copy _Formats"
-msgstr "Formate kopieren"
+msgstr "_Formate kopieren"
 
 #: src/item-cursor.c:917
-#, fuzzy
 msgid "Copy _Values"
-msgstr "Werte kopieren"
+msgstr "_Werte kopieren"
 
 #: src/item-cursor.c:922
 #, fuzzy
@@ -11735,9 +11701,8 @@ msgid "Shift Righ_t and Move"
 msgstr "Zellen nach rechts verschieben und bewegen"
 
 #: src/item-cursor.c:933
-#, fuzzy
 msgid "C_ancel"
-msgstr "_Leerzeichen"
+msgstr "_Abbrechen"
 
 #: src/main.c:84
 msgid "Display Gnumeric's version"
@@ -11810,25 +11775,23 @@ msgid "Enables extra consistancy checking while reading ole files"
 msgstr "Aktiviert zusätzliche Konsistenzprüfung beim Lesen von OLE-Dateien"
 
 #: src/main.c:160
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "gnumeric version '%s'\n"
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 msgstr ""
-"gnumeric-Version %s\n"
-"datadir := %s\n"
-"libdir := %s\n"
+"Gnumeric-Version »%s«\n"
+"datadir := »%s«\n"
+"libdir := »%s«\n"
 
 #: src/main.c:210
-#, fuzzy
 msgid "Could not initialize Workbook factory"
-msgstr "Konnte die Gnumeric-Arbeitsbuch-Factory nicht initialisieren"
+msgstr "Die Arbeitsbuch-Factory konnte nicht initialisiert werden"
 
 #: src/main.c:214
-#, fuzzy
 msgid "Could not initialize EmbeddableGrid factory"
-msgstr "Konnte die Gnumeric-Arbeitsbuch-Factory nicht initialisieren"
+msgstr "Die EmbeddableGrid-Factory konnte nicht initialisiert werden"
 
 #: src/number-match.c:613
 msgid "#NULL!"
@@ -11887,9 +11850,8 @@ msgid "Error while reading plugin information of type \"%s\"."
 msgstr ""
 
 #: src/plugin.c:266
-#, fuzzy
 msgid "Plugin has no id."
-msgstr "Plugin ist noch in Benutzung."
+msgstr "Plugin hat keine Kennung."
 
 #: src/plugin.c:269
 #, c-format
@@ -11897,9 +11859,8 @@ msgid "Required information for plugin with id=\"%s\" not found in file."
 msgstr ""
 
 #: src/plugin.c:273
-#, fuzzy
 msgid "Unknown plugin name."
-msgstr "Unbekannter Auswertungsfehler"
+msgstr "Unbekannter Pluginname."
 
 #: src/plugin.c:276
 #, fuzzy
@@ -11909,12 +11870,12 @@ msgstr "Unbekannter Python-Typ"
 #: src/plugin.c:396
 #, c-format
 msgid "Can't read plugin #%d info."
-msgstr ""
+msgstr "Die Plugin #%d Information ist nicht zu lesen."
 
 #: src/plugin.c:406
-#, fuzzy, c-format
+#, c-format
 msgid "Errors occured while reading plugin informations from file \"%s\"."
-msgstr "Beim Lesen der Kategorieenliste trat ein Fehler auf"
+msgstr "Beim Lesen der Plugin-Informationen von Datei »%s« traten Fehler auf"
 
 #: src/plugin.c:415
 #, c-format
@@ -11954,9 +11915,8 @@ msgid "Errors while initializing plugin system."
 msgstr ""
 
 #: src/plugin.c:973
-#, fuzzy
 msgid "Module file name"
-msgstr "Dateiname:"
+msgstr "Dateiname des Modules:"
 
 #: src/plugin.c:1023
 #, c-format
@@ -11973,21 +11933,21 @@ msgid "Function init_plugin inside \"%s\" returned error."
 msgstr "»init_plugin« gibt Fehler zurück."
 
 #: src/plugin.c:1089
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open module file \"%s\": %s"
-msgstr "Diese Modul-Datei kann nicht geöffnet werden: "
+msgstr "Die Modul-Datei »%s« kann nicht geöffnet werden: %s"
 
 #: src/plugin.c:1094
 #, fuzzy, c-format
 msgid "Plugin version \"%s\" is different from application \"%s\"."
 msgstr ""
-"Kann Plugin `%s' nicht öffnen.\n"
-"Version des Plugins `%s' unterscheidet sich von der der Anwendung `%s'."
+"Kann Plugin »%s« nicht öffnen.\n"
+"Version des Plugins »%s« unterscheidet sich von der der Anwendung »%s«."
 
 #: src/plugin.c:1098
 #, c-format
 msgid "Module file \"%s\" has invalid format."
-msgstr ""
+msgstr "Die Module-Datei »%s« hat ein ungültiges Format."
 
 #: src/plugin.c:1103
 #, fuzzy
@@ -12078,27 +12038,27 @@ msgid "time"
 msgstr "Zeit"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:500
+#: src/print.c:512
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:982 src/workbook-control-gui.c:2613
+#: src/print.c:1001 src/workbook-control-gui.c:2613
 msgid "Selection must be a single range"
 msgstr "Auswahl muss ein einzelner Bereich sein"
 
-#: src/print.c:1099
+#: src/print.c:1118
 msgid "Print Sheets"
 msgstr "Blätter drucken"
 
-#: src/print.c:1109
+#: src/print.c:1128
 msgid "Act_ive sheet"
 msgstr "Akt_ives Blatt"
 
-#: src/print.c:1109
+#: src/print.c:1128
 msgid "S_heets"
 msgstr "_Blätter"
 
-#: src/print.c:1196
+#: src/print.c:1215
 msgid "Printing failed"
 msgstr "Drucken ist fehlgeschlagen"
 
@@ -13452,7 +13412,7 @@ msgstr "muss wenigstens einen Buchstaben haben"
 #: src/workbook.c:1180
 #, c-format
 msgid "There is already a sheet named '%s'"
-msgstr ""
+msgstr "Es gibt bereits ein Blatt mit dem Namen »%s«"
 
 #: src/xml-io.c:3155
 msgid "Invalid xml clipboard data. Tree is empty ?"
@@ -13583,9 +13543,8 @@ msgid "Create a label"
 msgstr "Eine Grafik erzeugen"
 
 #: src/gnumeric.xml.h:41
-#, fuzzy
 msgid "Create a line"
-msgstr "Eine Grafik erzeugen"
+msgstr "Eine Linie erzeugen"
 
 #: src/gnumeric.xml.h:42
 #, fuzzy
@@ -13633,7 +13592,7 @@ msgstr "Ein neues Arbeitsbuch erzeugen"
 
 #: src/gnumeric.xml.h:59
 msgid "Draw an oval"
-msgstr ""
+msgstr "Ein Oval zeichnen"
 
 #: src/gnumeric.xml.h:60
 #, fuzzy
@@ -13660,7 +13619,7 @@ msgstr ""
 
 #: src/gnumeric.xml.h:67
 msgid "Exit the program"
-msgstr ""
+msgstr "Das Programm beenden"
 
 #: src/gnumeric.xml.h:75
 #, fuzzy
@@ -13767,9 +13726,8 @@ msgid "Make any hidden rows in the selection visible"
 msgstr "Kann nicht mehr als die Auswahllänge hinzufügen."
 
 #: src/gnumeric.xml.h:116
-#, fuzzy
 msgid "Make font bold"
-msgstr "Die Schrift kursiv machen"
+msgstr "Die Schrift fett machen"
 
 #: src/gnumeric.xml.h:117
 #, fuzzy
@@ -13787,9 +13745,8 @@ msgid "Mark the current selection for movement"
 msgstr "Die aktuelle Markierung verwenden, um Namen zu erzeugen."
 
 #: src/gnumeric.xml.h:124
-#, fuzzy
 msgid "Money"
-msgstr "Montag"
+msgstr "Geld"
 
 #: src/gnumeric.xml.h:129
 #, fuzzy
@@ -13803,17 +13760,15 @@ msgstr "Ein vorhandenes Arbeitsbuch öffnen"
 
 #: src/gnumeric.xml.h:131
 msgid "Oval"
-msgstr ""
+msgstr "Oval"
 
 #: src/gnumeric.xml.h:132
-#, fuzzy
 msgid "P_aste Special..."
 msgstr "Einfügen _spezial..."
 
 #: src/gnumeric.xml.h:134
-#, fuzzy
 msgid "Paste the clipboard"
-msgstr "Den Inhalt der Zwischenablage einfügen"
+msgstr "Inhalt der Zwischenablage einfügen"
 
 #: src/gnumeric.xml.h:135
 msgid "Paste the contents of the clipboard or cut buffer"
@@ -13830,19 +13785,16 @@ msgid "Print the current file"
 msgstr "Summe in die aktuelle Zelle schreiben"
 
 #: src/gnumeric.xml.h:144
-#, fuzzy
 msgid "Print the workbook"
 msgstr "Arbeitsbuch drucken"
 
 #: src/gnumeric.xml.h:145
-#, fuzzy
 msgid "Radio Button"
-msgstr "Unten"
+msgstr ""
 
 #: src/gnumeric.xml.h:147
-#, fuzzy
 msgid "Re-_Order..."
-msgstr "Blätter neu _ordnen"
+msgstr "Blätter neu _ordnen..."
 
 #: src/gnumeric.xml.h:152
 #, fuzzy
@@ -13860,9 +13812,8 @@ msgid "Right justifies the contents of each cell"
 msgstr "Zelleninhalt rechts ausrichten"
 
 #: src/gnumeric.xml.h:160
-#, fuzzy
 msgid "Save _As"
-msgstr "Speichern"
+msgstr "Speichern _unter"
 
 #: src/gnumeric.xml.h:161
 #, fuzzy
