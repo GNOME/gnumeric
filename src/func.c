@@ -159,6 +159,7 @@ functions_init (void)
 	install_symbols (date_functions);
 	install_symbols (string_functions);
 	install_symbols (stat_functions);
+	install_symbols (finance_functions);
 }
 
 void

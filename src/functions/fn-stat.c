@@ -197,5 +197,5 @@ FunctionDefinition stat_functions [] = {
 
 
 /*
-  Mode, Median: Use large hash table :-)
+ * Mode, Median: Use large hash table :-)
  */

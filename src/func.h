@@ -7,6 +7,7 @@ extern FunctionDefinition misc_functions [];
 extern FunctionDefinition date_functions [];
 extern FunctionDefinition string_functions [];
 extern FunctionDefinition stat_functions [];
+extern FunctionDefinition finance_functions [];
 
 typedef int (*FunctionIterateCallback)(Sheet *sheet, Value *value, char **error_string, void *);
 
