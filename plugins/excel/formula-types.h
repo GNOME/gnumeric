@@ -10,7 +10,21 @@
 
 #define FORMULA_PTG_MAX                0x7f
 
-#define FORMULA_PTG_EXP                0x01
+#define FORMULA_PTG_EXPR               0x01
+
+#define FORMULA_PTG_ADD                0x03
+#define FORMULA_PTG_SUB                0x04
+#define FORMULA_PTG_MULT               0x05
+#define FORMULA_PTG_DIV                0x06
+#define FORMULA_PTG_EXP                0x07
+#define FORMULA_PTG_CONCAT             0x08
+#define FORMULA_PTG_LT                 0x09
+#define FORMULA_PTG_LTE                0x0a
+#define FORMULA_PTG_EQUAL              0x0b
+#define FORMULA_PTG_GTE                0x0c
+#define FORMULA_PTG_GT                 0x0d
+#define FORMULA_PTG_NOT_EQUAL          0x0e
+
 #define FORMULA_PTG_U_PLUS             0x12
 #define FORMULA_PTG_U_MINUS            0x13
 #define FORMULA_PTG_PAREN              0x15

@@ -9,12 +9,12 @@
 
 #include <glib.h>
 
-#include "ms-excel-read.h"
+#include "ms-excel-write.h"
 #include "ms-biff.h"
+#include "formula-types.h"
 
-ExprTree *
-ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
-			int fn_col, int fn_row,
-			int shared, guint16 length) ;
+void
+ms_excel_write_formula (BIFF_PUT *bp, ExcelSheet *sheet, ExprTree *expr,
+			int fn_col, int fn_row);
 
 #endif

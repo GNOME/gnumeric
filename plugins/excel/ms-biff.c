@@ -365,6 +365,7 @@ ms_biff_put_var_next   (BIFF_PUT *bp, guint16 opcode)
 	bp->ls_op      = (opcode & 0xff);
 	bp->padding    = ms_bug_get_padding (opcode);
 	bp->num_merges = 0;
+	bp->curpos     = 0;
 	bp->length     = 0;
 	bp->data       = 0;
 	bp->streamPos  = bp->pos->tell (bp->pos);
@@ -386,28 +387,42 @@ ms_biff_put_var_write  (BIFF_PUT *bp, guint8 *data, guint32 len)
 	g_return_if_fail (bp->length+len < 0xf000);
 
 	bp->pos->write (bp->pos, data, len);
-	bp->length+= len;
+	bp->curpos+= len;
+	if (bp->curpos > bp->length)
+		bp->length = bp->curpos;
 }
+void
+ms_biff_put_var_seekto (BIFF_PUT *bp, ms_ole_pos_t pos)
+{
+	g_return_if_fail (bp);
+	g_return_if_fail (!bp->len_fixed);
+	g_return_if_fail (!bp->data);
+
+	bp->curpos = pos;
+	bp->pos->lseek (bp->pos, bp->streamPos + bp->curpos + 4, MS_OLE_SEEK_SET);
+}
+
 static void
 ms_biff_put_var_commit (BIFF_PUT *bp)
 {
 	guint8       tmp[4];
-	ms_ole_pos_t curpos;
+	ms_ole_pos_t endpos;
 
 	g_return_if_fail (bp);
 	g_return_if_fail (bp->pos);
 	g_return_if_fail (!bp->len_fixed);
 	g_return_if_fail (!bp->data);
 
-	curpos = bp->pos->tell (bp->pos);
+	endpos = bp->streamPos + bp->length + 4;
 	bp->pos->lseek (bp->pos, bp->streamPos, MS_OLE_SEEK_SET);
 
 	BIFF_SET_GUINT16 (tmp, (bp->ms_op<<8) + bp->ls_op);
 	BIFF_SET_GUINT16 (tmp+2, bp->length);
 	bp->pos->write (bp->pos, tmp, 4);
 
-	bp->pos->lseek (bp->pos, curpos, MS_OLE_SEEK_SET);
-	bp->streamPos  = curpos;
+	bp->pos->lseek (bp->pos, endpos, MS_OLE_SEEK_SET);
+	bp->streamPos  = endpos;
+	bp->curpos     = 0;
 }
 static void
 ms_biff_put_len_commit (BIFF_PUT *bp)
@@ -420,7 +435,6 @@ ms_biff_put_len_commit (BIFF_PUT *bp)
 	g_return_if_fail (bp->length == 0 || bp->data);
 	g_return_if_fail (bp->length < MAX_LIKED_BIFF_LEN);
 
-
 /*	if (!bp->data_malloced) Unimplemented optimisation
 		bp->pos->lseek (bp->pos, bp->length, MS_OLE_SEEK_CUR);
 		else */
@@ -431,7 +445,8 @@ ms_biff_put_len_commit (BIFF_PUT *bp)
 
 	g_free (bp->data);
 	bp->data      = 0 ;
-	bp->streamPos  = bp->pos->tell (bp->pos);
+	bp->streamPos = bp->pos->tell (bp->pos);
+	bp->curpos    = 0;
 }
 void ms_biff_put_commit (BIFF_PUT *bp)
 {

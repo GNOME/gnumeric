@@ -18,17 +18,9 @@
 #include "excel.h"
 #include "ms-biff.h"
 #include "ms-formula-read.h"
+#include "formula-types.h"
 
 #define FORMULA_DEBUG 0
-
-#define NO_PRECEDENCE 256
-
-typedef struct _FORMULA_FUNC_DATA
-{
-	char *prefix ;
-	int num_args ; /* -1 for multi-arg */
-		       /* -2 for unknown args */
-} FORMULA_FUNC_DATA ;
 
 /**
  * Various bits of data for operators
@@ -36,35 +28,30 @@ typedef struct _FORMULA_FUNC_DATA
  * formula PTG, prefix, middle, suffix, precedence
  **/
 
-typedef struct _FORMULA_OP_DATA
-{
-	Operation op;
-} FORMULA_OP_DATA ;
-
   /* Binary operator tokens */
-FORMULA_OP_DATA formula_op_data[] = {
-	{ OPER_ADD  }, /* ptgAdd : Addition */
-	{ OPER_SUB  }, /* ptgSub : Subtraction */
-	{ OPER_MULT }, /* ptgMul : Multiplication */
-	{ OPER_DIV }, /* ptgDiv : Division */
-	{ OPER_EXP }, /* ptgPower : Exponentiation */
-	{ OPER_CONCAT }, /* ptgConcat : Concatenation */
-	{ OPER_LT }, /* ptgLT : Less Than */
-	{ OPER_LTE }, /* ptgLTE : Less Than or Equal */
-	{ OPER_EQUAL }, /* ptgEQ : Equal */
-	{ OPER_GTE }, /* ptgGTE : Greater Than or Equal */
-	{ OPER_GT }, /* ptgGT : Greater Than */
-	{ OPER_NOT_EQUAL }, /* ptgNE : Not Equal */
+Operation formula_op_data[] = {
+	OPER_ADD, /* ptgAdd : Addition */
+	OPER_SUB, /* ptgSub : Subtraction */
+	OPER_MULT, /* ptgMul : Multiplication */
+	OPER_DIV, /* ptgDiv : Division */
+	OPER_EXP, /* ptgPower : Exponentiation */
+	OPER_CONCAT, /* ptgConcat : Concatenation */
+	OPER_LT, /* ptgLT : Less Than */
+	OPER_LTE, /* ptgLTE : Less Than or Equal */
+	OPER_EQUAL, /* ptgEQ : Equal */
+	OPER_GTE, /* ptgGTE : Greater Than or Equal */
+	OPER_GT, /* ptgGT : Greater Than */
+	OPER_NOT_EQUAL, /* ptgNE : Not Equal */
 /* FIXME: These need implementing ... */
-	{ OPER_ADD }, /* ptgIsect : Intersection */
-	{ OPER_ADD }, /* ptgUnion : Union */
-	{ OPER_ADD }, /* ptgRange : Range */
+	OPER_ADD, /* ptgIsect : Intersection */
+	OPER_ADD, /* ptgUnion : Union */
+	OPER_ADD, /* ptgRange : Range */
 } ;
-#define FORMULA_OP_DATA_LEN   (sizeof(formula_op_data)/sizeof(FORMULA_OP_DATA))
+#define FORMULA_OP_DATA_LEN   15
 #define FORMULA_OP_START      0x03
 
 /**
- * Populate from xlcall.h
+ * Populated from xlcall.h
  * Functions in order, zero based, with number of arguments or
  *		'-1' for vararg or with optional arguments.
  *		'-2' for unknown numbers or arguments.
@@ -73,7 +60,7 @@ FORMULA_OP_DATA formula_op_data[] = {
  *     macrofun.hlp has info on them but supporting Excel4 macro sheets is not
  *     top priority.
  **/
-FORMULA_FUNC_DATA formula_func_data[] =
+FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
 {
 /* 0 */		{ "COUNT", -1 },
 /* 1 */		{ "IF", -1 },
@@ -445,8 +432,6 @@ FORMULA_FUNC_DATA formula_func_data[] =
 /* 367 */	{ "VARA", -1 }
 };
 
-#define FORMULA_FUNC_DATA_LEN (sizeof(formula_func_data)/sizeof(FORMULA_FUNC_DATA))
-
 /**
  * Helper functions.
  **/
@@ -473,7 +458,6 @@ expr_tree_string (const char *str)
 static CellRef *
 getRefV7(MS_EXCEL_SHEET *sheet, BYTE col, WORD gbitrw, int curcol, int currow, int shrfmla)
 {
-	gint8 row_offset= 0, col_offset= 0;
 	CellRef *cr = (CellRef *)g_malloc(sizeof(CellRef)) ;
 	cr->col          = col ;
 	cr->row          = (gbitrw & 0x3fff) ;
@@ -676,7 +660,7 @@ make_function (PARSE_LIST **stack, int fn_idx, int numargs)
 			return 1 ;
 		}
 	} else if (fn_idx >= 0 && fn_idx < FORMULA_FUNC_DATA_LEN) {
-			const FORMULA_FUNC_DATA *fd = &formula_func_data[fn_idx] ;
+			const FormulaFuncData *fd = &formula_func_data[fn_idx] ;
 			GList *args;
 
 #if FORMULA_DEBUG > 0
@@ -979,7 +963,7 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 			} else
 				parse_list_push_raw (&stack, g_strdup(txt), NO_PRECEDENCE) ;
 		}*/
-		case FORMULA_PTG_EXP:
+		case FORMULA_PTG_EXPR:
 		{
 			int top_left_col = BIFF_GETWORD(cur+2) ;
 			int top_left_row = BIFF_GETWORD(cur+0) ;
@@ -1147,12 +1131,11 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 		{
 /*	    printf ("Search %d records\n", (int)FORMULA_OP_DATA_LEN) ; */
 			if (ptgbase >= FORMULA_OP_START && ptgbase < FORMULA_OP_START+FORMULA_OP_DATA_LEN) {
-				FORMULA_OP_DATA *fd =
-					&formula_op_data[ptgbase - FORMULA_OP_START];
+				Operation op = formula_op_data[ptgbase - FORMULA_OP_START];
 				ExprTree *l, *r;
 				r = parse_list_pop (&stack);
 				l = parse_list_pop (&stack);
-				parse_list_push (&stack, expr_tree_new_binary (l, fd->op, r));
+				parse_list_push (&stack, expr_tree_new_binary (l, op, r));
 			} else {
 #if FORMULA_DEBUG > 0
 				printf ("Unknown PTG 0x%x base %x\n", ptg, ptgbase);

@@ -25,6 +25,8 @@ libexcel_a_SOURCES =		\
 	ms-excel-write.h	\
 	ms-formula-read.c	\
 	ms-formula-read.h	\
+	ms-formula-write.c	\
+	ms-formula-write.h	\
 	ms-obj.c		\
 	ms-obj.h		\
 	ms-chart.h		\

@@ -31,8 +31,14 @@ extern  EXCEL_PALETTE_ENTRY const excel_default_palette[];
 extern  char *excel_builtin_formats[];
 #define EXCEL_BUILTIN_FORMAT_LEN 0x32
 
+typedef struct 
+{
+	char *prefix ;
+	int num_args ; /* -1 for multi-arg */
+		       /* -2 for unknown args */
+} FormulaFuncData;
+
+extern FormulaFuncData formula_func_data[];
+#define FORMULA_FUNC_DATA_LEN 368
+
 #endif
-
-
-
-

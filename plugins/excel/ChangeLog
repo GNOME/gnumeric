@@ -1,3 +1,33 @@
+1999-07-01  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c (ms_excel_read_formula): Fix silly
+	bug with broken formuale.
+
+	* ms-biff.c (ms_biff_put_var_seekto): Added seekto
+	API for fiddly biff types.
+
+	* ms-excel-write.c (biff_put_text): Made external
+
+	* ms-formeula-write.c: Created.
+
+1999-06-30  Michael Meeks  <michael@edenproject.org>
+
+	* ms-formula-read.c (ms_excel_parse_formula): Updated
+	Operation handling for new structure ( array ).
+
+	* ms-excel-read.c (biff_get_global_string): Removed.
+
+	* ms-formula-read.c: Updated func_data, and
+	formula_op_data for Miguel and correctness.
+	Cleaned FORMULA_NO_PRECEDENCE.
+
+	* excel.h: Move and rename FormulaFuncData.
+
+	* ms-excel-write.c: Moved structures to header.
+	Renamed all structures to make Miguel happy.
+
+	* Makefile.am: Added ms-formula-write.[ch]
+
 1999-06-30  Michael Meeks  <michael@edenproject.org>
 
 	* ms-formula-read.h: Split out types.

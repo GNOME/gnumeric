@@ -196,17 +196,6 @@ biff_get_text (BYTE *pos, guint32 length, guint32* byte_length)
 	return ans;
 }
 
-static char *
-biff_get_global_string(MS_EXCEL_SHEET *sheet, int number)
-{
-	MS_EXCEL_WORKBOOK *wb = sheet->wb;
-	
-        if (number >= wb->global_string_max)
-		return "Too Weird";
-	
-	return wb->global_strings[number] ;
-}
-
 const char *
 biff_get_error_text (const guint8 err)
 {
@@ -1329,6 +1318,7 @@ ms_excel_read_formula (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		printf ("FIXME: serious formula error: "
 			"supposed length 0x%x, real len 0x%x\n",
 			BIFF_GETWORD (q->data+20), q->length);
+		cell_set_text (cell, "Formula error");
 		return;
 	}
 
@@ -2008,7 +1998,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 	}
 	case BIFF_FORMULA: /* See: S59D8F.HTM */
  		ms_excel_read_formula (q, sheet) ;
-			break;
+		break;
 
 	case BIFF_LABELSST:
 	{

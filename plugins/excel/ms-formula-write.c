@@ -1,0 +1,256 @@
+/*
+ * ms-formula-write.c: MS Excel <- Gnumeric formula conversion
+ *
+ * Author:
+ *    Michael Meeks (michael@imaginator.com)
+ */
+
+#include <fcntl.h>
+#include <assert.h>
+#include <config.h>
+#include <stdio.h>
+#include <gnome.h>
+#include "gnumeric.h"
+#include "func.h"
+
+#include "utils.h"
+
+#include "excel.h"
+#include "ms-biff.h"
+#include "ms-formula-write.h"
+#include "formula-types.h"
+
+#define FORMULA_DEBUG 1
+
+/* FIXME: Leaks like a leaky bucket */
+
+typedef struct {
+	const FormulaFuncData *fd;
+	guint32 idx;
+} FormulaCacheEntry;
+
+/* Lookup Name -> integer */
+static GHashTable *formula_cache = NULL;
+
+static FormulaCacheEntry *
+get_formula_index (const gchar *name)
+{
+	int i;
+	FormulaCacheEntry *fce;
+
+	g_return_val_if_fail (name, NULL);
+
+	if (!formula_cache)
+		formula_cache = g_hash_table_new (g_str_hash, g_str_equal);
+
+	if ((fce = g_hash_table_lookup (formula_cache, name)))
+		return fce;
+	else {
+		for (i=0;i<FORMULA_FUNC_DATA_LEN;i++) {
+			if (!strcmp (formula_func_data[i].prefix,
+				     name)) {
+				FormulaCacheEntry *fce = g_new (FormulaCacheEntry, 1);
+				fce->fd  = &formula_func_data[i];
+				fce->idx = i;
+				g_hash_table_insert (formula_cache, fce->fd->prefix, fce);
+				return fce;
+			}
+		}
+		g_warning ("Serious error, unknown function");
+		return NULL;
+	}
+}
+
+/* Parse it into memory, unlikely to be too big */
+typedef struct {
+	BIFF_PUT     *bp;
+	GList        *arrays; /* A list of Value *'s ? */
+	ExcelSheet   *sheet;
+	int           col;
+	int           row;
+	eBiff_version ver;
+} PolishData;
+
+static void
+push_guint8 (PolishData *pd, guint8 b)
+{
+	ms_biff_put_var_write (pd->bp, &b, sizeof(guint8));
+}
+
+static void
+push_guint16 (PolishData *pd, guint16 b)
+{
+	guint8 data[2];
+	BIFF_SET_GUINT16 (data, b);
+	ms_biff_put_var_write (pd->bp, data, sizeof(data));
+}
+
+static void
+push_guint32 (PolishData *pd, guint32 b)
+{
+	guint8 data[4];
+	BIFF_SET_GUINT32 (data, b);
+	ms_biff_put_var_write (pd->bp, data, sizeof(data));
+}
+
+/**
+ * Recursion is just so fun.
+ **/
+static void
+write_node (PolishData *pd, ExprTree *tree)
+{
+	g_return_if_fail (pd);
+	g_return_if_fail (tree);
+
+	switch (tree->oper) {
+	case OPER_EQUAL:
+		write_node  (pd, tree->u.binary.value_a);
+		write_node  (pd, tree->u.binary.value_b);
+		push_guint8 (pd, FORMULA_PTG_EQUAL);
+		break;
+	case OPER_GT:
+		write_node  (pd, tree->u.binary.value_a);
+		write_node  (pd, tree->u.binary.value_b);
+		push_guint8 (pd, FORMULA_PTG_GT);
+		break;
+	case OPER_LT:
+		write_node  (pd, tree->u.binary.value_a);
+		write_node  (pd, tree->u.binary.value_b);
+		push_guint8 (pd, FORMULA_PTG_LT);
+		break;
+	case OPER_GTE:
+		write_node  (pd, tree->u.binary.value_a);
+		write_node  (pd, tree->u.binary.value_b);
+		push_guint8 (pd, FORMULA_PTG_GTE);
+		break;
+	case OPER_LTE:
+		write_node  (pd, tree->u.binary.value_a);
+		write_node  (pd, tree->u.binary.value_b);
+		push_guint8 (pd, FORMULA_PTG_LTE);
+		break;
+	case OPER_NOT_EQUAL:
+		write_node  (pd, tree->u.binary.value_a);
+		write_node  (pd, tree->u.binary.value_b);
+		push_guint8 (pd, FORMULA_PTG_NOT_EQUAL);
+		break;
+	case OPER_ADD:
+		write_node  (pd, tree->u.binary.value_a);
+		write_node  (pd, tree->u.binary.value_b);
+		push_guint8 (pd, FORMULA_PTG_ADD);
+		break;
+	case OPER_SUB:
+		write_node  (pd, tree->u.binary.value_a);
+		write_node  (pd, tree->u.binary.value_b);
+		push_guint8 (pd, FORMULA_PTG_SUB);
+		break;
+	case OPER_MULT:
+		write_node  (pd, tree->u.binary.value_a);
+		write_node  (pd, tree->u.binary.value_b);
+		push_guint8 (pd, FORMULA_PTG_MULT);
+		break;
+	case OPER_DIV:
+		write_node  (pd, tree->u.binary.value_a);
+		write_node  (pd, tree->u.binary.value_b);
+		push_guint8 (pd, FORMULA_PTG_DIV);
+		break;
+	case OPER_EXP:
+		write_node  (pd, tree->u.binary.value_a);
+		write_node  (pd, tree->u.binary.value_b);
+		push_guint8 (pd, FORMULA_PTG_EXP);
+		break;
+	case OPER_CONCAT:
+		write_node  (pd, tree->u.binary.value_a);
+		write_node  (pd, tree->u.binary.value_b);
+		push_guint8 (pd, FORMULA_PTG_CONCAT);
+		break;
+	case OPER_FUNCALL:
+	{
+		FormulaCacheEntry *fce;
+		
+		if ((fce = get_formula_index (tree->u.function.symbol->str))) {
+			GList   *args     = tree->u.function.arg_list;
+			gint     num_args = 0;
+			gboolean prompt   = 0;
+			gboolean cmdequiv = 0;
+
+			while (args) {
+				write_node (pd, args->data);
+				args = g_list_next (args);
+				num_args++;
+			}
+
+			g_assert (num_args < 128);
+			if (fce->fd->num_args == -1) {
+				push_guint8  (pd, FORMULA_PTG_FUNC_VAR);
+				push_guint8  (pd, num_args | (prompt&0x80));
+				push_guint16 (pd, fce->idx | (cmdequiv&0x8000));
+			} else {
+				push_guint8  (pd, FORMULA_PTG_FUNC);
+				push_guint16 (pd, fce->idx);
+			}
+		} else {
+			printf ("Untranslatable function '%s'\n", tree->u.function.symbol->str);
+			push_guint8 (pd, FORMULA_PTG_STR);
+			biff_put_text (pd->bp, "Untranslatable", pd->ver, FALSE);
+		}
+		break;
+	}
+        case OPER_CONSTANT:
+	{
+		Value *v = tree->u.constant;
+		switch (v->type) {
+		case VALUE_INTEGER:
+		case VALUE_FLOAT:
+		{
+			guint8 data[10];
+			BIFF_SET_GUINT8 (data, FORMULA_PTG_NUM);
+			BIFF_SETDOUBLE (data+1, value_get_as_float (v));
+			ms_biff_put_var_write (pd->bp, data, 9);
+			break;
+		}
+		case VALUE_STRING:
+		{
+			push_guint8 (pd, FORMULA_PTG_STR);
+			biff_put_text (pd->bp, v->v.str->str, pd->ver, FALSE);
+			break;
+		}
+		default:
+			printf ("Unhandled type %d\n", v->type);
+			break;
+		}
+		break;
+	}
+	case OPER_NEG:
+		write_node  (pd, tree->u.value);
+		push_guint8 (pd, FORMULA_PTG_U_MINUS);
+		break;
+	case OPER_VAR:
+	case OPER_ARRAY:
+	default:
+		push_guint8 (pd, FORMULA_PTG_STR);
+		biff_put_text (pd->bp, "Unknown", pd->ver, FALSE);
+		printf ("Unhandled node type %d\n", tree->oper);
+		break;
+	}
+}
+
+void
+ms_excel_write_formula (BIFF_PUT *bp, ExcelSheet *sheet, ExprTree *expr,
+			int fn_col, int fn_row)
+{
+	PolishData *pd;
+	
+	g_return_if_fail (bp);
+	g_return_if_fail (expr);
+	g_return_if_fail (sheet);
+
+	pd = g_new (PolishData, 1);
+	pd->col    = fn_col;
+	pd->row    = fn_row;
+	pd->sheet  = sheet;
+	pd->bp     = bp;
+	pd->arrays = NULL;
+	pd->ver    = sheet->wb->ver;
+
+	write_node (pd, expr);
+}
