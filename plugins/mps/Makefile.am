@@ -7,7 +7,7 @@ gnumeric_plugin_mpsdir = $(gnumeric_plugindir)/mps
 xmldir = $(gnumeric_plugin_mpsdir)
 gnumeric_plugin_mps_LTLIBRARIES = mps.la
 mps_la_LDFLAGS = -module -avoid-version
-mps_la_SOURCES = mps.c
+mps_la_SOURCES = mps.c mps.h parser.c
 
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)
