@@ -1,16 +1,9 @@
-INCLUDES = \
-    -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-    -I$(top_srcdir)/src	-I$(top_builddir)/src	\
-    -I$(top_srcdir)	-I$(top_builddir)	\
-    -I$(top_srcdir)/src/cut-n-paste-code		\
-    $(GNUMERIC_CFLAGS)
-
 goffice_graph_xydir = $(gnumeric_plugindir)/plot_xy
 xmldir	 = $(goffice_graph_xydir)
 gladedir = $(goffice_graph_xydir)
 
 goffice_graph_xy_LTLIBRARIES = xy.la
-xy_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
+xy_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
 xy_la_SOURCES = \
 	gog-xy.c		\
 	gog-xy.h		\
@@ -30,3 +23,5 @@ plot-types.xml : plot-types.xml.in
 
 EXTRA_DIST	= $(xml_in_files) $(glade_DATA)
 DISTCLEANFILES	= $(xml_in_files:.xml.in=.xml)
+
+include $(srcdir)/../../../goffice-plugins.mk

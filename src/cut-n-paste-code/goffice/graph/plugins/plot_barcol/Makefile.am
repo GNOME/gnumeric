@@ -1,16 +1,9 @@
-INCLUDES = \
-    -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-    -I$(top_srcdir)/src	-I$(top_builddir)/src	\
-    -I$(top_srcdir)	-I$(top_builddir)	\
-    -I$(top_srcdir)/src/cut-n-paste-code		\
-    $(GNUMERIC_CFLAGS)
-
 goffice_graph_barcoldir = $(gnumeric_plugindir)/plot_barcol
 xmldir	 = $(goffice_graph_barcoldir)
 gladedir = $(goffice_graph_barcoldir)
 
 goffice_graph_barcol_LTLIBRARIES = barcol.la
-barcol_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
+barcol_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
 barcol_la_SOURCES = gog-1.5d.c 		\
 		    gog-1.5d.h		\
 		    gog-line.c		\
@@ -33,3 +26,5 @@ plot-types.xml : plot-types.xml.in
 
 EXTRA_DIST = $(xml_in_files) $(glade_DATA)
 DISTCLEANFILES = $(xml_in_files:.xml.in=.xml)
+
+include $(srcdir)/../../../goffice-plugins.mk

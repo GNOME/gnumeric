@@ -1,16 +1,9 @@
-INCLUDES = \
-    -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-    -I$(top_srcdir)/src	-I$(top_builddir)/src	\
-    -I$(top_srcdir)	-I$(top_builddir)	\
-    -I$(top_srcdir)/src/cut-n-paste-code		\
-    $(GNUMERIC_CFLAGS)
-
 goffice_graph_piedir = $(gnumeric_plugindir)/plot_pie
 xmldir	 = $(goffice_graph_piedir)
 gladedir = $(goffice_graph_piedir)
 
 goffice_graph_pie_LTLIBRARIES = pie.la
-pie_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
+pie_la_LDFLAGS = -module $(GOFFICE_PLUGIN_FLAGS)
 pie_la_SOURCES = \
 	gog-pie.c		\
 	gog-pie.h		\
@@ -30,3 +23,5 @@ plot-types.xml : plot-types.xml.in
 
 EXTRA_DIST = $(xml_in_files) $(glade_DATA)
 DISTCLEANFILES = $(xml_in_files:.xml.in=.xml)
+
+include $(srcdir)/../../../goffice-plugins.mk

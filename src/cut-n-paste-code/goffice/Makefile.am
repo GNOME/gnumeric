@@ -16,6 +16,6 @@ libgoffice_la_SOURCES = 	\
 	goffice.h		\
 	goffice-config.h
 
-EXTRA_DIST = goffice.mk
+EXTRA_DIST = goffice.mk goffice-plugins.mk
 
 include $(srcdir)/goffice.mk

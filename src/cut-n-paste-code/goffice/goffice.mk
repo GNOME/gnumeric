@@ -6,3 +6,5 @@ INCLUDES = -I$(top_srcdir) 					\
 	   -I$(top_srcdir)/src/cut-n-paste-code/foocanvas	\
 	    $(GNUMERIC_CFLAGS) \
 	   -DGNUMERICICONDIR=\"$(gnumeric_icondir)\"
+
+GOFFICE_PLUGIN_FLAGS = $(GNUMERIC_PLUGIN_LDFLAGS)
