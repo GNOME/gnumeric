@@ -1013,6 +1013,17 @@ workbook_sheet_hide_controls (Workbook *wb, Sheet *sheet)
 	return focus != NULL;
 }
 
+void
+workbook_sheet_unhide_controls (Workbook *wb, Sheet *sheet)
+{
+	g_return_if_fail (IS_WORKBOOK (wb));
+	g_return_if_fail (IS_SHEET (sheet));
+
+	WORKBOOK_FOREACH_VIEW (wb, wbv,
+		wb_view_sheet_add (wbv, sheet););
+}
+
+
 /**
  * workbook_sheet_detach:
  * @wb: workbook.

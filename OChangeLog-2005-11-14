@@ -1,5 +1,10 @@
 2004-10-08  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook.c (workbook_sheet_unhide_controls): New function.
+
+	* src/sheet.c (sheet_set_visibility): Call
+	workbook_sheet_unhide_controls as appropriate.
+
 	* src/gui-file.c (gui_file_open): Start browsing in the same
 	directory as the workbook from which we initiated the open.
 

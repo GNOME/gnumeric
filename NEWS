@@ -5,6 +5,7 @@ Morten:
 	* Fix sample datasource's recalc.  [#154857]
 	* Make File->Open start in the directory where the current file
 	  was loaded.  [#143188]
+	* Make it possible to unhide sheets.  [#154710]
 
 --------------------------------------------------------------------------
 
