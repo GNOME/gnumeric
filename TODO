@@ -5,12 +5,6 @@ Gnumeric Spread Sheet task list
 
 The bugs are listed in a separate file -> BUGS
 
-Project
-    - Switch hard coded states on SAX in to use dynamic 
-    - add a parallel i/o mechanism for SAX based i/o to sheet object
-    - a SAXOut struct and utils as a wrapper for FILE/gnome-vfs & indent info
-    - xml_sax out using ^^
-
 Optimizations, Polish and Extensions
 ====================================
 This section lists various optimizations/extensions that can be done
@@ -49,7 +43,6 @@ to features that already work.
     + Line Fit Plots
 
 * Printing
-
    + Preview
      - Stroke support for zoom etc.
    + Print setup: 
@@ -60,11 +53,9 @@ to features that already work.
    + Add column/row title printing
 
 * Font dialog
-
    + Create a simplistic dialog (to map to font-bold yes/no).
 
 * Cut&Paste
-
    + when cuting & pasting a cell that is inside a range on another cell grow
      the range of the formula if the cell is pasted in a place where it grows
      it boundaries.
@@ -91,19 +82,10 @@ to features that already work.
      Columns should have an "auto-grow-up-to-this-point" feature.  Beyond that
      size, it would truncate as it does now.
 
-   + Cell data entry
-     double click on cell allows editing as in main editing box.
-
    + Cell comments
      Cell comments should be wrapped - at least so that they do not run
      off the screen.
    
-   + Captions (ItemBar)
-     It should be possible to set the dimensions of the cols, rows to
-     contain information as "min_points", "max_points".  
-
-     Interesting side effect: min_points == max_points means "fixed". 
-
 * Auditing
 
    + Write the sheet auditing code.
@@ -123,12 +105,8 @@ to features that already work.
    + Support for popular formats.  
      I have the specs for the XS3 format.  SC should be
      trivial to support as well (from the guile sources)
-   + star office, kspread ?
-   + Add "hints" to the file save routine based on the registered
-     formats.
    + Supply default extension to use with a write operation.
    + Improve handling of unknown fonts and functions when importing.
-
 
 * Workbooks:
 
@@ -149,11 +127,9 @@ to features that already work.
    + fully support R[-1]C[3] type references.
 
 * Calculation
-   + Rework 'Name' dependencies so we can re-express names.
    + Dependancies for - CELL, INDIRECT functions.
 
 * Excel Import
-
    + Localise sheet/workbook Name import.
 
 1.1

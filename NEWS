@@ -31,6 +31,7 @@ Jody:
 	* Begin support for intersection
 	* Start parsing range sets
 	* Simple OpenOffice importer (lots more to do)
+	* Support multi-region version of INDEX
 
 Michael Meeks:
 	* Spruce up the CORBA code to use some bonobo utils.

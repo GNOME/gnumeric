@@ -36,6 +36,7 @@
 #include <value.h>
 #include <expr.h>
 #include <expr-impl.h>
+#include <expr-impl.h>
 #include <expr-name.h>
 #include <parse-util.h>
 
@@ -792,11 +793,7 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 
 /*****************************************************************************/
 
-/*
- * FIXME: The concept of multiple range references needs core support.
- *        hence this whole implementation is a cop-out really.
- */
-static const char *help_index = {
+static char const *help_index = {
 	N_(
 	"@FUNCTION=INDEX\n"
 	"@SYNTAX=INDEX(array,[row, col, area])\n"
@@ -806,43 +803,60 @@ static const char *help_index = {
 	"columns in the array.\n"
 	"\n"
 	"* If @row and @col are ommited the are assumed to be 1.\n"
-	"* @area has to be 1; references to multiple areas are not yet "
-	"implemented.\n"
 	"* If the reference falls outside the range of the @array, INDEX "
 	"returns a #REF! error.\n"
 	"\n"
 	"@EXAMPLES="
 	"Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, "
-	"17.3, 21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25,9\n"
+	"17.3, 21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25.9\n"
 	"\n"
 	"@SEEALSO=")
 };
 
 static Value *
-gnumeric_index (FunctionEvalInfo *ei, Value **args)
+gnumeric_index (FunctionEvalInfo *ei, GnmExprList *l)
 {
-	Value *area = args[0];
-	int    col_off = 0, row_off = 0;
+	GnmExpr const *source;
+	int elem[3] = { 0, 0, 0 };
+	unsigned i = 0;
+	gboolean valid;
+	Value *v, *res;
 
-	if (args[3] &&
-	    value_get_as_int (args[3]) != 1) {
-		g_warning ("Multiple range references unimplemented");
+	if (l == NULL)
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
+	source = l->data;
+	l = l->next;
+
+	for (i = 0; l != NULL && i < G_N_ELEMENTS (elem) ; i++, l = l->next) {
+		v = value_coerce_to_number (
+			gnm_expr_eval (l->data, ei->pos, 0),
+			&valid, ei->pos);
+		if (!valid)
+			return v;
+		elem[i] = value_get_as_int (v) - 1;
+		value_release (v);
+	}
+
+	if (source->any.oper == GNM_EXPR_OP_SET) {
+		source = gnm_expr_list_nth (source->set.set, elem[2]);
+		if (elem[2] < 0 || source == NULL)
+			return value_new_error (ei->pos, gnumeric_err_REF);
+	} else if (elem[2] != 0)
+		return value_new_error (ei->pos, gnumeric_err_REF);
+
+	v = gnm_expr_eval (source, ei->pos, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+
+	if (elem[1] < 0 ||
+	    elem[1] >= value_area_get_width (ei->pos, v) ||
+	    elem[0] < 0 ||
+	    elem[0] >= value_area_get_height (ei->pos, v)) {
+		value_release (v);
 		return value_new_error (ei->pos, gnumeric_err_REF);
 	}
 
-	if (args[1])
-		row_off = value_get_as_int (args[1]) - 1;
-
-	if (args[2])
-		col_off = value_get_as_int (args[2]) - 1;
-
-	if (col_off < 0 ||
-	    col_off >= value_area_get_width (ei->pos, area) ||
-	    row_off < 0 ||
-	    row_off >= value_area_get_height (ei->pos, area))
-		return value_new_error (ei->pos, gnumeric_err_REF);
-
-	return value_duplicate (value_area_fetch_x_y (ei->pos, area, col_off, row_off));
+	res = value_duplicate (value_area_fetch_x_y (ei->pos, v, elem[1], elem[0]));
+	value_release (v);
+	return res;
 }
 
 /***************************************************************************/
@@ -1146,7 +1160,7 @@ const ModulePluginFunctionInfo lookup_functions[] = {
 	{ "indirect",  "s|b",N_("ref_string,format"),
 	  &help_indirect, gnumeric_indirect, NULL, NULL, NULL },
 	{ "index",     "A|fff",N_("reference,row,col,area"),
-	  &help_index,    gnumeric_index, NULL, NULL, NULL },
+	  &help_index,    NULL, gnumeric_index, NULL, NULL },
 	{ "lookup",    "?A|r", N_("val,range,range"),
 	  &help_lookup,   gnumeric_lookup, NULL, NULL, NULL },
 	{ "match",     "?A|f", N_("val,range,approx"),
