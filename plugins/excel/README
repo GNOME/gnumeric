@@ -1,6 +1,3 @@
-The Excel code is not actually a plugin, despite its position in the
-plugins directory. This is for ease of debugging at least initialy.
-
 Simply select an excel file and watch those bits go flying.
 
 For information on the Excel file format simply see:

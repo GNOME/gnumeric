@@ -2385,6 +2385,8 @@ ms_excel_read_comment (BiffQuery *q, ExcelSheet *sheet)
 				obj_id, options, hidden, author);
 		}
 #endif
+
+		g_free (author);
 	} else {
 		guint len = MS_OLE_GET_GUINT16 (q->data+4);
 		GString *comment = g_string_sized_new (len);

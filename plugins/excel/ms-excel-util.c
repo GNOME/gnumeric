@@ -177,7 +177,7 @@ struct XL_font_width {
 };
 
 static void
-init_xl_font_widths ()
+init_xl_font_widths (void)
 {
 	/* These are the widths in pixels for a 128pt fonts assuming 96dpi
 	 * They were inductively calculated.

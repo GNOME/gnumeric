@@ -41,9 +41,13 @@
 void
 ms_destroy_OBJ (MSObj *obj)
 {
-	/* TODO : Fill in the blank */
-	if (obj)
+	if (obj) {
+		/* TODO : Fill in the blank */
+		if (obj->gnum_obj) {
+			gtk_object_unref (obj->gnum_obj);
+		}
 		g_free (obj);
+	}
 }
 
 /*
