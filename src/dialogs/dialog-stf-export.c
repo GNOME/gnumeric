@@ -23,7 +23,7 @@
 #undef GTK_DISABLE_DEPRECATED
 #warning "This file uses GTK_DISABLE_DEPRECATED"
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialog-stf-export.h"
 #include "dialog-stf-export-private.h"

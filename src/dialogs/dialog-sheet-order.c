@@ -25,7 +25,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
@@ -211,7 +211,7 @@ cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
 	gtk_widget_set_sensitive (state->delete_btn, TRUE);
 	gtk_button_set_label (GTK_BUTTON (state->delete_btn),
                               is_deleted ? GTK_STOCK_UNDELETE : GTK_STOCK_DELETE);
-	gtk_button_stock_alignment_set (GTK_BUTTON (state->delete_btn), 0., .5, 0., 0.);
+	gtk_button_set_alignment (GTK_BUTTON (state->delete_btn), 0., .5);
 
 	gtk_widget_set_sensitive (state->up_btn,
 				  location_of_iter (&iter, state->model) > 0);
@@ -945,10 +945,10 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 		"sheet_order_changed", G_CALLBACK (cb_sheet_order_changed),
 		state);
 
-	gtk_button_stock_alignment_set (GTK_BUTTON (state->up_btn),   0., .5, 0., 0.);
-	gtk_button_stock_alignment_set (GTK_BUTTON (state->down_btn), 0., .5, 0., 0.);
-	gtk_button_stock_alignment_set (GTK_BUTTON (state->add_btn), 0., .5, 0., 0.);
-	gtk_button_stock_alignment_set (GTK_BUTTON (state->delete_btn), 0., .5, 0., 0.);
+	gtk_button_set_alignment (GTK_BUTTON (state->up_btn),     0., .5);
+	gtk_button_set_alignment (GTK_BUTTON (state->down_btn),   0., .5);
+	gtk_button_set_alignment (GTK_BUTTON (state->add_btn),    0., .5);
+	gtk_button_set_alignment (GTK_BUTTON (state->delete_btn), 0., .5);
 
 	vbox = GTK_BOX (glade_xml_get_widget (gui,"sheet_order_buttons_vbox"));
 	cg = color_group_fetch ("back_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));

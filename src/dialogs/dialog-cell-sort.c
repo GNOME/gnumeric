@@ -22,7 +22,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
@@ -523,7 +523,7 @@ cb_dialog_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 				    -1);
 		item++;
 		this_array_item->offset = number - base;
-		this_array_item->asc = descending ? 1 : 0;
+		this_array_item->asc = descending ? TRUE : FALSE;
 		this_array_item->cs = case_sensitive;
 		this_array_item->val = sort_by_value;
 		this_array_item++;
@@ -1128,16 +1128,11 @@ dialog_init (SortFlowState *state)
 		G_CALLBACK (cb_clear_clicked), state);
 	gtk_widget_set_sensitive (state->clear_button, FALSE);
 
-	gtk_button_stock_alignment_set (GTK_BUTTON (state->up_button),
-		0., .5, 0., 0.);
-	gtk_button_stock_alignment_set (GTK_BUTTON (state->down_button),
-		0., .5, 0., 0.);
-	gtk_button_stock_alignment_set (GTK_BUTTON (state->add_button),
-		0., .5, 0., 0.);
-	gtk_button_stock_alignment_set (GTK_BUTTON (state->delete_button),
-		0., .5, 0., 0.);
-	gtk_button_stock_alignment_set (GTK_BUTTON (state->clear_button),
-		0., .5, 0., 0.);
+	gtk_button_set_alignment (GTK_BUTTON (state->up_button), 0., .5);
+	gtk_button_set_alignment (GTK_BUTTON (state->down_button), 0., .5);
+	gtk_button_set_alignment (GTK_BUTTON (state->add_button), 0., .5);
+	gtk_button_set_alignment (GTK_BUTTON (state->delete_button), 0., .5);
+	gtk_button_set_alignment (GTK_BUTTON (state->clear_button), 0., .5);
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_CELL_SORT);

@@ -24,7 +24,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
@@ -347,9 +347,9 @@ dialog_merge (WorkbookControlGUI *wbcg)
 	state->cancel_btn  = glade_xml_get_widget (gui, "cancel_button");
 	gtk_widget_set_size_request (state->delete_btn, 100, -1);
 
-	gtk_button_stock_alignment_set (GTK_BUTTON (state->add_btn), 0., .5, 0., 0.);
-	gtk_button_stock_alignment_set (GTK_BUTTON (state->delete_btn), 0., .5, 0., 0.);
-	gtk_button_stock_alignment_set (GTK_BUTTON (state->change_btn), 0., .5, 0., 0.);
+	gtk_button_set_alignment (GTK_BUTTON (state->add_btn),    0., .5);
+	gtk_button_set_alignment (GTK_BUTTON (state->delete_btn), 0., .5);
+	gtk_button_set_alignment (GTK_BUTTON (state->change_btn), 0., .5);
 
 	table = GTK_TABLE (glade_xml_get_widget (gui, "main_table"));
 	state->zone = gnm_expr_entry_new (wbcg, TRUE);

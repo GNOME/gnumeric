@@ -27,7 +27,7 @@
  */
 
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
+#include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
 #include "help.h"
@@ -745,12 +745,10 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 
 	pm_gui->button_directory_add = GTK_BUTTON (glade_xml_get_widget
 						  (gui, "button_directory_add"));
-	gtk_button_stock_alignment_set (GTK_BUTTON (pm_gui->button_directory_add),
-					0., .5, 0., 0.);
+	gtk_button_set_alignment (GTK_BUTTON (pm_gui->button_directory_add), 0., .5);
 	pm_gui->button_directory_delete = GTK_BUTTON (glade_xml_get_widget
 						  (gui, "button_directory_delete"));
-	gtk_button_stock_alignment_set (GTK_BUTTON (pm_gui->button_directory_delete),
-					0., .5, 0., 0.);
+	gtk_button_set_alignment (GTK_BUTTON (pm_gui->button_directory_delete), 0., .5);
 
 	cb_pm_dir_selection_changed (NULL, pm_gui);
 	g_signal_connect (pm_gui->selection_directory,
