@@ -32,6 +32,11 @@ struct _WorkbookPrivate {
 	GtkWidget *size_widget;
 
 	/*
+	 * GtkCombo for the zoomer
+	 */
+	GtkWidget *zoom_entry;
+
+	/*
 	 * ColorCombos for the foreground and background
 	 */
 	GtkWidget *fore_combo, *back_combo;

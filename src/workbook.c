@@ -33,6 +33,7 @@
 #include "workbook-view.h"
 #include "command-context-gui.h"
 #include "commands.h"
+#include "widgets/gtk-combo-text.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/bonobo-persist-file.h>
@@ -56,6 +57,16 @@ static int workbook_count;
 static GList *workbook_list = NULL;
 
 static WORKBOOK_PARENT_CLASS *workbook_parent_class;
+
+/* Workbook signals */
+enum {
+	SHEET_CHANGED,
+	LAST_SIGNAL
+};
+
+static gint workbook_signals [LAST_SIGNAL] = {
+	0, /* SHEET_CHANGED */
+};
 
 static void workbook_set_focus (GtkWindow *window, GtkWidget *focus, Workbook *wb);
 static int  workbook_can_close (Workbook *wb);
@@ -1409,6 +1420,8 @@ workbook_focus_current_sheet (Workbook *wb)
 
 		gtk_window_set_focus (GTK_WINDOW (wb->toplevel), sheet_view->sheet_view);
 
+		gtk_signal_emit (GTK_OBJECT (wb), workbook_signals[SHEET_CHANGED], sheet);
+		
 		wb->current_sheet = sheet;
 	} else
 		g_warning ("There is no current sheet in this workbook");
@@ -2064,6 +2077,20 @@ static void
 workbook_class_init (GtkObjectClass *object_class)
 {
 	workbook_parent_class = gtk_type_class (WORKBOOK_PARENT_CLASS_TYPE);
+
+	workbook_signals [SHEET_CHANGED] =
+		gtk_signal_new (
+			"sheet_changed",
+			GTK_RUN_LAST,
+			object_class->type,
+			GTK_SIGNAL_OFFSET (WorkbookClass,
+					   sheet_changed),
+			gtk_marshal_NONE__POINTER,
+			GTK_TYPE_NONE,
+			1,
+			GTK_TYPE_POINTER);
+	gtk_object_class_add_signals (object_class, workbook_signals, LAST_SIGNAL);
+		
 	object_class->destroy = workbook_destroy;
 }
 
@@ -2094,6 +2121,46 @@ workbook_get_type (void)
 	return type;
 }
 
+static void
+change_zoom_in_current_sheet_cb (GtkWidget *caller, Workbook *wb)
+{
+	int factor = atoi (gtk_entry_get_text (GTK_ENTRY (caller)));
+	sheet_set_zoom_factor(wb->current_sheet, (double)factor / 100);
+}
+
+static void
+change_displayed_zoom_cb (GtkObject *caller, Sheet* sheet, gpointer data)
+{
+	GtkWidget *combo;
+	gchar *str;
+	int factor = (int) (sheet->last_zoom_factor_used * 100);
+	
+	g_return_if_fail (combo = WORKBOOK (caller)->priv->zoom_entry);
+
+	str = g_strdup_printf("%d", factor);
+	
+	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO_TEXT (combo)->entry),
+			    str);
+
+	g_free (str);
+}
+
+/*
+ * Hide/show some toolbar items depending on the toolbar orientation
+ */
+static void
+workbook_standard_toolbar_orient (GtkToolbar *toolbar,
+				  GtkOrientation orientation,
+				  gpointer data)
+{
+	Workbook* wb = (Workbook*)data;
+	
+	if (orientation == GTK_ORIENTATION_HORIZONTAL)
+		gtk_widget_show (wb->priv->zoom_entry);
+	else
+		gtk_widget_hide (wb->priv->zoom_entry);
+}
+
 /*
  * These create toolbar routines are kept independent, as they
  * will need some manual customization in the future (like adding
@@ -2102,7 +2169,21 @@ workbook_get_type (void)
 static GtkWidget *
 workbook_create_standard_toobar (Workbook *wb)
 {
-	GtkWidget *toolbar;
+#define NUM_PRESET_ZOOM 5
+#define DEF_PRESET_ZOOM 1
+	static struct {
+		char const * const name;
+		char const * const factor;
+	} preset_zoom[NUM_PRESET_ZOOM] = {
+		{ "200%", "200" },
+		{ "100%", "100" },
+		{ "75%", "75" },
+		{ "50%", "50" },
+		{ "25%", "25" },
+	};
+	int i, len;
+	
+	GtkWidget *toolbar, *zoom, *entry;
 	
 	const char *name = "StandardToolbar";
 	
@@ -2115,7 +2196,41 @@ workbook_create_standard_toobar (Workbook *wb)
 		GNOME_DOCK_ITEM_BEH_NORMAL,
 		GNOME_DOCK_TOP, 1, 0, 0);
 
+	/* Zoom combo box */
+	zoom = wb->priv->zoom_entry = gtk_combo_text_new ();
+	entry = GTK_COMBO_TEXT (zoom)->entry;
+	gtk_signal_connect (GTK_OBJECT (entry), "activate",
+			    GTK_SIGNAL_FUNC (change_zoom_in_current_sheet_cb), wb);
+
+	/* Change the value when the displayed sheet is changed */
+	gtk_signal_connect (GTK_OBJECT (wb), "sheet_changed",
+			    (GtkSignalFunc) (change_displayed_zoom_cb), NULL);
+	
+	/* Set a reasonable default width */
+	len = gdk_string_measure (entry->style->font, "000000");
+	gtk_widget_set_usize (entry, len, 0);
+
+	/* Preset values */
+	for (i = 0; i < NUM_PRESET_ZOOM; i++)
+	{
+		gtk_combo_text_add_item(GTK_COMBO_TEXT (zoom),
+					preset_zoom[i].name,
+					preset_zoom[i].factor);
+	}
+
+	/* Add it to the toolbar */
+	gtk_widget_show (zoom);
+	gtk_toolbar_append_widget (GTK_TOOLBAR (toolbar),
+				   zoom, _("Zoom"), NULL);
+
+
+	gtk_signal_connect (
+		GTK_OBJECT(toolbar), "orientation-changed",
+		GTK_SIGNAL_FUNC (&workbook_standard_toolbar_orient), wb);
+
 	return toolbar;
+#undef NUM_PRESET_ZOOM
+#undef DEF_PRESET_ZOOM
 }
 
 static void

@@ -129,13 +129,13 @@ gtk_combo_box_popup_hide (GtkComboBox *combo_box)
 	arrow = combo_box->priv->arrow_button;
 
 	gtk_signal_handler_block_by_func (GTK_OBJECT (arrow),
-					  gtk_combo_toggle_pressed,
+					  GTK_SIGNAL_FUNC (gtk_combo_toggle_pressed),
 					  combo_box);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (arrow), FALSE);
 	
        	gtk_signal_handler_unblock_by_func (GTK_OBJECT (arrow),
-					    gtk_combo_toggle_pressed,
+					    GTK_SIGNAL_FUNC (gtk_combo_toggle_pressed),
 					    combo_box);
 
 }

@@ -19,6 +19,7 @@
 #include "selection.h"
 #include "datetime.h"
 #include "colrow.h"
+#include "dialogs.h"
 
 /*
  * NOTE : This is a work in progress

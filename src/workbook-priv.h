@@ -125,6 +125,9 @@ typedef struct {
 #else
 	GtkObjectClass   gtk_parent_class;
 #endif
+	
+	/* Signals */
+	void (* sheet_changed) (Sheet *sh);
 } WorkbookClass;
 
 GtkType     workbook_get_type            (void);

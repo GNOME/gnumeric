@@ -43,6 +43,7 @@ dialog_about (Workbook *wb)
 		N_("Daniel Veillard, XML support."),
 		N_("Vladimir Vuksan, financial functions."),
 		N_("Morten Welinder, Gnumeric hacker."),
+		N_("Gergõ Érdi, Gnumeric hacker."),
 		NULL
 	};
 

@@ -1,3 +1,28 @@
+2000-02-01  ERDI Gergo  <cactus@cactus.rulez.org>
+
+	* src/about.c (dialog_about): Added myself to the contributors list
+
+	* src/widgets/gtk-combo-box.c (gtk_combo_box_popup_hide):
+	explicitly cast function pointers to avoid a warning
+
+	* src/solver-lp.c (simplex_step_three): Default value for `min' to
+	eliminate a warning
+
+	* src/dialogs/dialog-advanced-filter.c: Included ranges.h
+	(removing an `implicit declaration' warning)
+
+	* src/commands.c: Included `dialogs.h'
+
+	* src/workbook.c (workbook_standard_toolbar_orient): Hide the zoom
+	combo box on vertical toolbars
+
+	* src/widgets/gtk-combo-text.[ch]: New widget: easy-to-use combo box
+
+2000-01-28  ERDI Gergo  <cactus@cactus.rulez.org>
+
+	* src/workbook.c (workbook_create_standard_toobar): Added a zoom
+	button to the toolbar as requested
+
 2000-02-05  JP Rosevear  <jpr@arcavia.com>
 
 	* src/commands.h : Fix typo
