@@ -1,5 +1,10 @@
 2002-11-18  Jon K Hellan  <hellan@acm.org>
 
+	* src/workbook-control-gui.c (show_gui): This is getting
+	embarassing!
+
+2002-11-18  Jon K Hellan  <hellan@acm.org>
+
 	* src/io-context-gtk.c (icg_init_gui): I could have sworn...
 
 2002-11-18  Jon K Hellan  <hellan@acm.org>

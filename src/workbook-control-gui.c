@@ -4575,7 +4575,7 @@ show_gui (WorkbookControlGUI *wbcg)
 	/* In a Xinerama setup, we want the geometry of the actual display
 	 * unit, if available. See bug 59902. This call was added for
 	 * gtk2.2*/
-	gdk_screen_get_monitor_geometry (wbcg->toplevel->window->screen, 0, &rect);
+	gdk_screen_get_monitor_geometry (wbcg->toplevel->screen, 0, &rect);
 	sx = MAX (rect.width, 600);
 	sy = MAX (rect.height, 200);
 #else
