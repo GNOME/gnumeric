@@ -1,3 +1,9 @@
+2003-10-05  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* dialog-autocorrect.c, dialog-cell-sort.c, dialog-function-select.c,
+	dialog-scenarios.c, dialog-sheet-order.c, dialog-simulation.c,
+	dialog-zoom.c: #include <gtkliststore.h> to fix build.
+
 2003-10-02  Morten Welinder  <terra@gnome.org>
 
 	* dialog-goal-seek.c (cb_dialog_apply_clicked): Don't use

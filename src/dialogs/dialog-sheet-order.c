@@ -47,6 +47,7 @@
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtkliststore.h>
 #include <string.h>
 #include <stdio.h>
 

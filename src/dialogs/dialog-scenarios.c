@@ -42,6 +42,7 @@
 #include <glade/glade.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkliststore.h>
 #include <string.h>
 
 typedef struct {

@@ -53,6 +53,7 @@
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtkcellrenderer.h>
 #include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkliststore.h>
 #include <gsf/gsf-impl-utils.h>
 #include <stdio.h>
 

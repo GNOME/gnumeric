@@ -43,6 +43,7 @@
 #include <gtk/gtktreeview.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkliststore.h>
 
 #define SIMULATION_KEY         "simulation-dialog"
 

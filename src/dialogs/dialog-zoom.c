@@ -38,6 +38,7 @@
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkliststore.h>
 
 #define ZOOM_DIALOG_KEY "zoom-dialog"
 #define ZOOM_DIALOG_FACTOR_KEY "zoom-dialog-factor"

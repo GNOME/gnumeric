@@ -44,6 +44,7 @@
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkpaned.h>
+#include <gtk/gtkliststore.h>
 #include <string.h>
 
 #define FUNCTION_SELECT_KEY "function-selector-dialog"
