@@ -49,15 +49,14 @@ gnumeric_dialog_entry_new_with_max_length (GnomeDialog *dialog, guint16 max)
 }
 
 GtkWidget *
-hbox_pack_label_and_entry(char *str, char *default_str,
-			  int entry_len, GtkWidget *vbox)
+hbox_pack_label_and_entry(GtkWidget *dialog, GtkWidget *vbox, char *str,
+			  char *default_str, int entry_len)
 {
         GtkWidget *box, *label, *entry;
-	GnomeDialog *dialog;
 
         box = gtk_hbox_new (FALSE, 0);
-	dialog = GNOME_DIALOG (gtk_widget_get_toplevel (GTK_WIDGET (vbox)));
-	entry = gnumeric_dialog_entry_new_with_max_length (dialog, entry_len);
+	entry = gnumeric_dialog_entry_new_with_max_length
+		(GNOME_DIALOG (dialog), entry_len);
 	label = gtk_label_new (str);
 	gtk_entry_set_text (GTK_ENTRY (entry), default_str);
 

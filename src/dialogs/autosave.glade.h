@@ -7,4 +7,4 @@
 gchar *s = N_("Auto Save");
 gchar *s = N_("_Automatic Save Every");
 gchar *s = N_("_Prompt Before Saving");
-gchar *s = N_("minutes");
+gchar *s = N_("_minutes");

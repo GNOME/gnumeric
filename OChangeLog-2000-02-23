@@ -1,3 +1,41 @@
+2000-02-22  Jon K Hellan  <hellan@acm.org>
+
+	* src/dialogs/dialog-solver.c (dialog_solver): Set constraint
+	clist title passive.
+	(constr_add_click): Make solver dialog reappear if user presses
+	<Esc>. Make <Ret> in entry fields invoke default.
+	(constr_change_click): Make <Ret> in entry fields invoke default.
+
+	* src/dialogs/solver.glade: Make more room for constraint list title.
+	
+	* src/dialogs/solver.glade,
+	src/dialogs/solver.glade.h: Accelerators.
+
+	* src/dialogs/solver-options.glade,
+	src/dialogs/solver-options.glade.h: Accelerators
+
+	* src/dialogs/utils-dialog.[ch] (hbox_pack_label_and_entry):
+	Explicit dialog parameter. Reorder arguments in signature.
+
+	* src/dialogs/dialog-analysis-tools.c (dialog_sampling_tool,
+	dialog_descriptive_stat_tool, dialog_ztest_tool,
+	dialog_random_tool, dialog_regression_tool): Use new signature of
+	hbox_pack_label_and_entry. This kills some Gtk warnings.
+	(dialog_data_analysis): Do not destroy if gnumeric_dialog_run
+	returns -1.
+
+	* src/dialogs/autosave.glade, src/dialogs/autosave.glade.h : 
+	Accelerator for "minutes" field.
+
+	* src/dialogs/autocorrect-exceptions.glade,
+	src/dialogs/autocorrect-exceptions.glade.h: Accelerators
+
+	* src/dialogs/dialog-autocorrect.c (exceptions_callback): Really
+	make <Ret> in entry fields invoke default.
+
+	* src/dialogs/dialog-goal-seek.c (dialog_found_solution):
+	Deflickerize.
+
 2000-02-21  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell-draw.c (cell_draw) : Doh!
@@ -60,7 +98,11 @@
 	(stf_read_workbook) : Detach sheet on parse error.
 
 2000-02-21  Jon K Hellan  <hellan@acm.org>
+>>>>>>> 1.1342
 
+	* src/dialogs/dialog-analysis-tools.c (dialog_sampling_tool,
+	dialog_descriptive_stat_tool, dialog_ztest_tool,
+	dialog_random_tool, dialog_regression_tool): Deflickerize.
 
 	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort): Deflickerize.
 

@@ -750,7 +750,7 @@ dialog_sampling_tool (Workbook *wb, Sheet *sheet)
 		box = new_frame(_("Input:"), box);
 
 		range_entry = hbox_pack_label_and_entry
-		  (_("Input Range:"), "", 20, box);
+		  (dialog, box, _("Input Range:"), "", 20);
 
 		sampling_label = gtk_label_new (_("Sampling Method:"));
 
@@ -791,10 +791,8 @@ dialog_sampling_tool (Workbook *wb, Sheet *sheet)
 
 		output_range_entry = add_output_frame(box, &output_ops);
 
-		gtk_widget_show_all (dialog);
-	} else
-		gtk_widget_show_all (dialog);
-
+		gtk_widget_show_all (GNOME_DIALOG (dialog)->vbox);
+	}
         gtk_widget_grab_focus (range_entry);
 
 sampling_dialog_loop:
@@ -866,16 +864,16 @@ dialog_descriptive_stat_tool (Workbook *wb, Sheet *sheet)
 		box = new_frame(_("Input:"), box);
 
 		range_entry = hbox_pack_label_and_entry
-		  (_("Input Range:"), "", 20, box);
+		  (dialog, box, _("Input Range:"), "", 20);
 
 		group_ops = add_groupped_by(box);
 		add_check_buttons(box, first_row_label_button);
 
 		check_buttons = gtk_vbox_new (FALSE, 0);
-		add_check_buttons(check_buttons, desc_stat_buttons);
 		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG
 					     (dialog)->vbox), 
 				    check_buttons, TRUE, TRUE, 0);
+		add_check_buttons(check_buttons, desc_stat_buttons);
 
 		box = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
@@ -883,10 +881,8 @@ dialog_descriptive_stat_tool (Workbook *wb, Sheet *sheet)
 
 		output_range_entry = add_output_frame(box, &output_ops);
 
-		gtk_widget_show_all (dialog);
-	} else
-		gtk_widget_show_all (dialog);
-
+		gtk_widget_show_all (GNOME_DIALOG (dialog)->vbox);
+	}
         gtk_widget_grab_focus (range_entry);
 
 stat_dialog_loop:
@@ -967,22 +963,22 @@ dialog_ztest_tool (Workbook *wb, Sheet *sheet)
 		box = new_frame(_("Input:"), box);
 
 		range1_entry = hbox_pack_label_and_entry
-		  (_("Variable 1 Range:"), "", 20, box);
+		  (dialog, box, _("Variable 1 Range:"), "", 20);
 
 		range2_entry = hbox_pack_label_and_entry
-		  (_("Variable 2 Range:"), "", 20, box);
+		  (dialog, box, _("Variable 2 Range:"), "", 20);
 
 		mean_diff_entry = hbox_pack_label_and_entry
-		  (_("Hypothesized Mean Difference:"), "0", 20, box);
+		  (dialog, box, _("Hypothesized Mean Difference:"), "0", 20);
 
 		known_var1_entry = hbox_pack_label_and_entry
-		  (_("Variable 1 Variance (known):"), "", 20, box);
+		  (dialog, box, _("Variable 1 Variance (known):"), "", 20);
 
 		known_var2_entry = hbox_pack_label_and_entry
-		  (_("Variable 2 Variance (known):"), "", 20, box);
+		  (dialog, box, _("Variable 2 Variance (known):"), "", 20);
 
-		alpha_entry = hbox_pack_label_and_entry(_("Alpha:"), "0.95",
-							20, box);
+		alpha_entry = hbox_pack_label_and_entry
+			(dialog, box, _("Alpha:"), "0.95", 20);
 		add_check_buttons(box, first_row_label_button);
 
 		box = gtk_vbox_new (FALSE, 0);
@@ -991,10 +987,8 @@ dialog_ztest_tool (Workbook *wb, Sheet *sheet)
 
 		output_range_entry = add_output_frame(box, &output_ops);
 
-		gtk_widget_show_all (dialog);
-	} else
-		gtk_widget_show_all (dialog);
-
+		gtk_widget_show_all (GNOME_DIALOG (dialog)->vbox);
+	}
         gtk_widget_grab_focus (range1_entry);
 
 ztest_dialog_loop:
@@ -1651,10 +1645,10 @@ dialog_random_tool (Workbook *wb, Sheet *sheet)
 						      (dialog)->vbox), box);
 
 		vars_entry = hbox_pack_label_and_entry
-		  (_("Number of Variables:"), "", 20, box);
+		  (dialog, box, _("Number of Variables:"), "", 20);
 	
 		count_entry = hbox_pack_label_and_entry
-		  (_("Number of Random Numbers:"), "", 20, box);
+		  (dialog, box, _("Number of Random Numbers:"), "", 20);
 
 		distribution_combo = gtk_combo_new ();
 		gtk_combo_set_popdown_strings (GTK_COMBO (distribution_combo),
@@ -1678,47 +1672,59 @@ dialog_random_tool (Workbook *wb, Sheet *sheet)
 
 		callback_data.discrete_box = gtk_vbox_new (FALSE, 0);
 		discrete_range_entry = hbox_pack_label_and_entry
-		  (_("Value and Probability Input Range:"), "", 20,
-		   callback_data.discrete_box);
+		  (dialog, callback_data.discrete_box,
+		   _("Value and Probability Input Range:"), "",  20);
 
 		callback_data.uniform_box = gtk_vbox_new (FALSE, 0);
 		uniform_lower_entry = 
-		  hbox_pack_label_and_entry(_("Between:"), "0", 20,
-					    callback_data.uniform_box);
+		  hbox_pack_label_and_entry(dialog, callback_data.uniform_box,
+					    _("Between:"), "0", 20);
 		uniform_upper_entry = 
-		  hbox_pack_label_and_entry(_("And:"), "1", 20, 
-					    callback_data.uniform_box);
+			hbox_pack_label_and_entry(dialog,
+						  callback_data.uniform_box,
+						  _("And:"), "1", 20);
+					    
 
 		callback_data.normal_box = gtk_vbox_new (FALSE, 0);
 		normal_mean_entry = hbox_pack_label_and_entry
-		  (_("Mean = "), "0", 20, callback_data.normal_box);
+			(dialog, callback_data.normal_box, _("Mean = "),
+			 "0", 20);
 		normal_stdev_entry = hbox_pack_label_and_entry
-		  (_("Standard Deviation = "), "1", 20, callback_data.normal_box);
+			(dialog, callback_data.normal_box,
+			_("Standard Deviation = "), "1", 20);
 
 		callback_data.poisson_box = gtk_vbox_new (FALSE, 0);
 		poisson_lambda_entry = hbox_pack_label_and_entry
-		  (_("Lambda"), "0", 20, callback_data.poisson_box);
+			(dialog, callback_data.poisson_box, _("Lambda"),
+			 "0", 20);
 
 		callback_data.exponential_box = gtk_vbox_new (FALSE, 0);
 		exponential_b_entry = hbox_pack_label_and_entry
-		  (_("b Value"), "0", 20, callback_data.exponential_box);
+		  (dialog, callback_data.exponential_box, _("b Value"),
+		   "0", 20);
+
 
 		callback_data.binomial_box = gtk_vbox_new (FALSE, 0);
 		binomial_p_entry = hbox_pack_label_and_entry
-		  (_("p Value"), "0", 20, callback_data.binomial_box);
+			(dialog, callback_data.binomial_box, _("p Value"),
+			 "0", 20);
 		binomial_trials_entry = hbox_pack_label_and_entry
-		  (_("Number of Trials"), "0", 20, callback_data.binomial_box);
+		(dialog, callback_data.binomial_box, _("Number of Trials"),
+		 "0", 20);
 
 		callback_data.negbinom_box = gtk_vbox_new (FALSE, 0);
 		negbinom_p_entry = hbox_pack_label_and_entry
-		  (_("p Value"), "0", 20, callback_data.negbinom_box);
+			(dialog, callback_data.negbinom_box, _("p Value"),
+			 "0", 20);
 		negbinom_f_entry = hbox_pack_label_and_entry
-		  (_("Number of Failures"), "0", 20,
-		   callback_data.negbinom_box);
+		  (dialog, callback_data.negbinom_box,
+		   _("Number of Failures"), "0", 20);
+		   
 
 		callback_data.bernoulli_box = gtk_vbox_new (FALSE, 0);
 		bernoulli_p_entry = hbox_pack_label_and_entry
-		  (_("p Value"), "0", 20, callback_data.bernoulli_box);
+			(dialog, callback_data.bernoulli_box, _("p Value"),
+			 "0", 20);
 
 		box = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
@@ -1749,7 +1755,7 @@ dialog_random_tool (Workbook *wb, Sheet *sheet)
 		gtk_container_add(GTK_CONTAINER(param_box),
 				  callback_data.normal_box);
 
-		gtk_widget_show_all (dialog);
+		gtk_widget_show_all (GNOME_DIALOG (dialog)->vbox);
 		gtk_widget_hide (callback_data.exponential_box);
 		gtk_widget_hide (callback_data.negbinom_box);
 		gtk_widget_hide (callback_data.binomial_box);
@@ -1758,7 +1764,7 @@ dialog_random_tool (Workbook *wb, Sheet *sheet)
 		gtk_widget_hide (callback_data.normal_box);
 		gtk_widget_hide (callback_data.bernoulli_box);
 	} else {
-		gtk_widget_show_all (dialog);
+		gtk_widget_show_all (GNOME_DIALOG (dialog)->vbox);
 		switch (distribution) {
 		case DiscreteDistribution:
 		        gtk_widget_hide (callback_data.uniform_box);
@@ -1956,13 +1962,13 @@ dialog_regression_tool (Workbook *wb, Sheet *sheet)
 						      (dialog)->vbox), box);
 
 		range1_entry = hbox_pack_label_and_entry
-		  (_("Input Y Range:"), "", 20, vbox);
+		  (dialog, vbox, _("Input Y Range:"), "", 20);
 
 		range2_entry = hbox_pack_label_and_entry
-		  (_("Input X Range:"), "", 20, vbox);
+		  (dialog, vbox, _("Input X Range:"), "", 20);
 
-		alpha_entry = hbox_pack_label_and_entry(_("Confidence Level:"),
-							"0.95", 20, vbox);
+		alpha_entry = hbox_pack_label_and_entry
+			(dialog, vbox, _("Confidence Level:"), "0.95", 20);
 
 		add_check_buttons(vbox, first_row_label_button);
 		add_check_buttons(vbox, force_intercept_zero_button); 
@@ -1973,10 +1979,8 @@ dialog_regression_tool (Workbook *wb, Sheet *sheet)
 
 		output_range_entry = add_output_frame(box, &output_ops);
 
-		gtk_widget_show_all (dialog);
-	} else
-		gtk_widget_show_all (dialog);
-
+		gtk_widget_show_all (GNOME_DIALOG (dialog)->vbox);
+	}
         gtk_widget_grab_focus (range1_entry);
 
 dialog_loop:
@@ -2522,11 +2526,12 @@ dialog_data_analysis (Workbook *wb, Sheet *sheet)
 
 	/* Run the dialog */
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
-	gtk_object_destroy (GTK_OBJECT (dialog));
 	gtk_object_unref (GTK_OBJECT (gui));
-	
+
 	if (selection == -1)
 		return;
+	else
+		gtk_object_destroy (GTK_OBJECT (dialog));
 	
 	if (selection == 0) {
 	        g_return_if_fail (tools[selected_row].fun != NULL);

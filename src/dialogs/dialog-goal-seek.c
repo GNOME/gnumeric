@@ -238,7 +238,7 @@ dialog_found_solution (Cell *set_cell, Cell *change_cell, float_t target_value)
 	gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
 					      (dialog)->vbox), label_box);
 
-	gtk_widget_show_all (dialog);
+	gtk_widget_show_all (GNOME_DIALOG (dialog)->vbox);
         selection = gnumeric_dialog_run (set_cell->sheet->workbook, GNOME_DIALOG (dialog));
 
 	if (selection >= 0)

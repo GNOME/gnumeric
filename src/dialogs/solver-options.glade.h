@@ -5,5 +5,5 @@
  */
 
 gchar *s = N_("Solver Options");
-gchar *s = N_("Assume Linear Model");
-gchar *s = N_("Assume Non-Negative");
+gchar *s = N_("Assume _Linear Model");
+gchar *s = N_("Assume _Non-Negative");

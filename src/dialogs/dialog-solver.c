@@ -182,6 +182,13 @@ constr_add_click (GtkWidget *widget, constraint_dialog_t *constraint_dialog)
 	type_entry = glade_xml_get_widget (gui, "combo1");
 	combo_entry = glade_xml_get_widget (gui, "combo-entry1");
 
+	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
+				      GTK_EDITABLE (lhs_entry));
+	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
+				      GTK_EDITABLE (combo_entry));
+	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
+				      GTK_EDITABLE (rhs_entry));
+	
 	if (!dialog || !lhs_entry || !rhs_entry ||
 	    !type_entry || !combo_entry) {
 		printf ("Corrupt file solver.glade\n");
@@ -201,13 +208,11 @@ add_dialog:
 	selection = gnumeric_dialog_run (constraint_dialog->wb,
 					 GNOME_DIALOG (dialog));
 
-	if (selection == -1){
-		gtk_object_destroy (GTK_OBJECT (gui));
-		return;
-	}
-	
-	if (selection == 1) {
-	        gnome_dialog_close (GNOME_DIALOG (dialog));
+	if (selection == -1 || selection == GNOME_CANCEL) {
+		if (selection == -1)
+			gtk_object_destroy (GTK_OBJECT (gui));
+		else
+			gnome_dialog_close (GNOME_DIALOG (dialog));
 		gtk_widget_show (constraint_dialog->dialog);
 		return;
 	}
@@ -290,6 +295,13 @@ constr_change_click (GtkWidget *widget, constraint_dialog_t *data)
 		return;
 	}
 
+	gnome_dialog_editable_enters (GNOME_DIALOG (dia),
+				      GTK_EDITABLE (lhs_entry));
+	gnome_dialog_editable_enters (GNOME_DIALOG (dia),
+				      GTK_EDITABLE (combo_entry));
+	gnome_dialog_editable_enters (GNOME_DIALOG (dia),
+				      GTK_EDITABLE (rhs_entry));
+	
 	gtk_combo_set_popdown_strings (GTK_COMBO (type_combo),
 				       constraint_type_strs);
 
@@ -617,7 +629,9 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 				      GTK_EDITABLE (target_entry));
 	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
 				      GTK_EDITABLE (input_entry));
+	gtk_clist_column_titles_passive (GTK_CLIST (constraint_list));
 
+	
 	sheet->solver_parameters.problem_type = SolverMaximize;
 
 	if (input_entry_str)

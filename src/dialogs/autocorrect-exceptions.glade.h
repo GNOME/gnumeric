@@ -5,11 +5,11 @@
  */
 
 gchar *s = N_("AutoCorrect Exceptions");
-gchar *s = N_("Do not capitalize after:");
+gchar *s = N_("_Do not capitalize after:");
+gchar *s = N_("_Add");
+gchar *s = N_("_Remove");
+gchar *s = N_("_First Letter");
+gchar *s = N_("Do _not correct:");
 gchar *s = N_("Add");
 gchar *s = N_("Remove");
-gchar *s = N_("First Letter");
-gchar *s = N_("Do not correct:");
-gchar *s = N_("Add");
-gchar *s = N_("Remove");
-gchar *s = N_("INitial CApitals");
+gchar *s = N_("_INitial CApitals");
