@@ -206,11 +206,10 @@ stf_store_results (DialogStfResult_t *dialogresult,
 		   Sheet *sheet, int start_col, int start_row)
 {
 	unsigned int ui;
-	int col, rowcount;
+	int rowcount;
 
 	stf_parse_options_set_lines_to_parse (dialogresult->parseoptions, dialogresult->lines);
 
-	col = start_col;
 	rowcount = stf_parse_get_rowcount (dialogresult->parseoptions, dialogresult->newstart);
 	for (ui = 0; ui < dialogresult->formats->len; ui++) {
 		StyleFormat *sf = g_ptr_array_index (dialogresult->formats, ui);
@@ -219,14 +218,12 @@ stf_store_results (DialogStfResult_t *dialogresult,
 
 		mstyle_set_format (style, sf);
 
-		range.start.col = col;
+		range.start.col = start_col + ui;
 		range.start.row = start_row;
-		range.end.col   = col;
-		range.end.row   = rowcount;
+		range.end.col   = start_col + ui;
+		range.end.row   = start_row + rowcount - 1;
 
 		sheet_style_apply_range (sheet, &range, style);
-
-		col++;
 	}
 
 	return stf_parse_sheet (dialogresult->parseoptions,

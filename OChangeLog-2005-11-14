@@ -1,5 +1,11 @@
 2003-06-04  Morten Welinder  <terra@gnome.org>
 
+	* src/stf.c (stf_store_results): Fix off-by-one and missing base
+	error in setting formats.
+
+	* src/gui-clipboard.c (x_clipboard_to_cell_region): Fix off-by-one
+	error in setting formats.
+
 	* src/stf-parse.c (stf_parse_region): Quote anything that might be
 	an expression.  Still not brilliant, but better.
 
