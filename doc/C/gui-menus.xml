@@ -247,7 +247,7 @@
 			open Microsoft Excel's file format which uses the ".xls" extension. 
 			The <guimenuitem>Open</guimenuitem> menu item creates a new window 
 			containing the selected file.  A more extensive dicsussion is
-			presented in <xref linkend="sect-files-opening" />.
+			presented in <xref linkend="sect-file-open" />.
       	   </para>
      	   </listitem>
      	   <listitem>
@@ -261,7 +261,7 @@
 					formats. For more information on file import, including the
 					extensive druid to assist users importing text files, such 
 					as tab delimited files or comma separated value files, 
-					see <xref linkend="sect-files-importing" />.
+					see <xref linkend="sect-file-open" />.
      		    </para>
     	    </listitem>
       		 <listitem>

@@ -556,9 +556,9 @@ gunzip Book1.text.gz
     <para>
       &gnum; can open and save files to the CSV format when the text
       importer or the text exporter is configured appropriately. See
-      the section on <link linkend="file-format-import-text">importing
+      the section on <link linkend="sect-file-textImport">importing
       text files</link> or the section on <link
-      linkend="file-format-export-text">exporting text files</link>
+      linkend="sect-file-textExport">exporting text files</link>
       for an explanation of how to open or save CSV files.
     </para>
 
@@ -2460,8 +2460,8 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
       &gnum; can open and save files to the tab separated value format
       when the text importer or the text exporter is configured
       appropriately. See the section on <link
-      linkend="file-format-import-text">importing text files</link> or
-      the section on <link linkend="file-format-export-text">exporting
+      linkend="sect-file-textImport">importing text files</link> or
+      the section on <link linkend="sect-file-textExport">exporting
       text files</link> for an explanation of how to open or save tab
       separated value files.
     </para>
@@ -2598,8 +2598,8 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
       formats when the text importer or the text exporter is
       configured appropriately. File can be generated with many
       different encodings. See the section on <link
-      linkend="file-format-import-text">importing text files</link> or
-      the section on <link linkend="file-format-export-text">exporting
+      linkend="sect-file-textImport">importing text files</link> or
+      the section on <link linkend="sect-file-textExport">exporting
       text files</link> for an explanation of how to open or save
       these formatted text files.
     </para>

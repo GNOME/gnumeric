@@ -1071,11 +1071,11 @@
     <para>
       &gnum; can write files in several formats used by other
       programs. The details of these formats are provided in <xref
-      linkend="sect-files-formats"/> and the name of each file type in
+      linkend="sect-file-formats"/> and the name of each file type in
       the table below skips to the appropriate section of <xref
-      linkend="sect-files-formats"/>. The creation of files which
+      linkend="sect-file-formats"/>. The creation of files which
       consist of structured text is described in <xref
-      linkend="file-format-export-text" />. The creation of Postscript
+      linkend="sect-file-textExport" />. The creation of Postscript
       and Portable Document Format (PDF) files is done through the
       printing mechanism and is described in <xref
       linkend="chapter-printing" />.&gnum; can also export text data

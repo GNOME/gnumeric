@@ -49,7 +49,7 @@
       variety of schemes can be imported correctly into
       <application>gnumeric</application>. Obtaining data from these
       files is explained in detail in the section titled <xref
-      linkend="sect-files-openimport" />.
+      linkend="sect-file-open" />.
     </para>
 
     <para>

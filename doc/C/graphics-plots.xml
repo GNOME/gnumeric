@@ -3719,7 +3719,7 @@
 	  The <guilabel>Style</guilabel> tab changes the linear style
 	  of the axis in the same way as it acted on category
 	  axes. The explanation given in <xref
-	  linkend="sect-graphics-plots-elementProperties-axes-category"/>
+	  linkend="sect-graphics-plots-elementProperties-axes-categorical"/>
 	  apply equally well to continuous axes.
 	</para>
 
@@ -3728,7 +3728,7 @@
 	  configure the font used in the numeric markers along the
 	  axis. Selecting the font for a continuous axis works in the
 	  same way as for a category axis as was explained in <xref
-	  linkend="sect-graphics-plots-elementProperties-axes-category"/>.
+	  linkend="sect-graphics-plots-elementProperties-axes-categorical"/>.
 	</para>
 
 	<para>
