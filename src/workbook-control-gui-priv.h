@@ -111,9 +111,6 @@ struct _WorkbookControlGUI {
 	/* Edit area */
 	GtkWidget *selection_descriptor;	/* A GtkEntry */
 
-	/* Used to pass information to tha async paste handler. */
-	PasteTarget *clipboard_paste_callback_data;
-
 	/* Autosave */
         gboolean   autosave;
         gboolean   autosave_prompt;
