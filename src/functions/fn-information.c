@@ -523,6 +523,9 @@ gnumeric_n (FunctionEvalInfo *ei, Value **argv)
 	double v;
 	char *format;
 
+	if (argv[0]->type == VALUE_BOOLEAN)
+		return value_new_int (value_get_as_int(argv[0]));
+
 	if (VALUE_IS_NUMBER (argv[0]))
 		return value_duplicate (argv[0]);
 

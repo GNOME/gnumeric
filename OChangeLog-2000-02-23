@@ -1,3 +1,9 @@
+1999-08-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/fn-information.c (gnumeric_n) : Fix boolean support.
+
+	* src/corba-sheet.c: Correct previous typo.
+
 1999-08-02  Elliot Lee <sopwith@redhat.com>
 	* gnumeric.spec.in: Fix the .spec file to include correct documentation pieces.
 	* doc/C/Makefile.am: Work with builddir != srcdir
