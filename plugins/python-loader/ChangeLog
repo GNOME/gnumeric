@@ -1,3 +1,7 @@
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
 2002-07-20  Jon K Hellan  <hellan@acm.org>
 
 	* python-loader.c (BROKEN_PY_INITIALIZE): Test for this condition

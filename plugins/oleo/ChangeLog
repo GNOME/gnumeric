@@ -1,3 +1,7 @@
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
 2002-06-08  Jody Goldberg <jody@gnome.org>
 
 	* boot.c (oleo_file_open) : convert to libgsf.

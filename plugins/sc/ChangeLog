@@ -1,3 +1,7 @@
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
 2002-06-21  Jody Goldberg <jody@gnome.org>
 
 	* sc.c (sc_parse_cell_name_list) : change to parse_cell_name.

@@ -1,3 +1,7 @@
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
 2002-07-19  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (ms_excel_read_hlink) : improve bounds checking.

@@ -1,3 +1,7 @@
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
 2002-06-07  Jody Goldberg <jody@gnome.org>
 
 	* psiconv-read.c (psiconv_file_to_buffer) : BROKEN!

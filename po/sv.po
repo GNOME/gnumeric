@@ -29,7 +29,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-07-20 21:26+0200\n"
+"POT-Creation-Date: 2002-07-21 08:41-0400\n"
 "PO-Revision-Date: 2002-07-20 21:27+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -8779,6 +8779,31 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:428
+#, fuzzy
+msgid ""
+"@FUNCTION=RANDRAYLEIGHTAIL\n"
+"@SYNTAX=RANDRAYLEIGHTAIL(a,sigma)\n"
+"@DESCRIPTION=RANDRAYLEIGHTAIL returns  a random variate from the tail of the "
+"Rayleigh distribution with scale parameter sigma and a lower limit of a. The "
+"distribution is, p(x) dx = {x over sigma^2} exp ((a^2 - x^2) /(2 sigma^2)) "
+"dx, for x > a. \n"
+"@EXAMPLES=\n"
+"RANDRAYLEIGHTAIL(0.3,1).\n"
+"\n"
+"@SEEALSO=RAND,RANDRAYLEIGH"
+msgstr ""
+"@FUNCTION=RANDLOGISTIC\n"
+"@SYNTAX=RANDLOGISTIC(a)\n"
+"@DESCRIPTION=RANDLOGISTIC returnerar ett logistikfördelat slumptal. "
+"Distributionsfunktionen är p(x) dx = { exp(-x/a) över ett (1 + exp(-x/a))² } "
+"dx för -oändl < x < +oändl.\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDLOGISTIC(1).\n"
+"\n"
+"@SEEALSO=RAND"
+
+#: plugins/fn-random/functions.c:455
 msgid ""
 "@FUNCTION=RANDGAMMA\n"
 "@SYNTAX=RANDGAMMA(a,b)\n"
@@ -8798,7 +8823,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:457
+#: plugins/fn-random/functions.c:484
 msgid ""
 "@FUNCTION=RANDPARETO\n"
 "@SYNTAX=RANDPARETO(a,b)\n"
@@ -8816,7 +8841,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:481
+#: plugins/fn-random/functions.c:508
 msgid ""
 "@FUNCTION=RANDFDIST\n"
 "@SYNTAX=RANDFDIST(nu1,nu2)\n"
@@ -8834,7 +8859,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:505
+#: plugins/fn-random/functions.c:532
 msgid ""
 "@FUNCTION=RANDBETA\n"
 "@SYNTAX=RANDBETA(a,b)\n"
@@ -8852,7 +8877,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDGAMMA"
 
-#: plugins/fn-random/functions.c:529
+#: plugins/fn-random/functions.c:556
 msgid ""
 "@FUNCTION=RANDLOGISTIC\n"
 "@SYNTAX=RANDLOGISTIC(a)\n"
@@ -8875,7 +8900,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:554
+#: plugins/fn-random/functions.c:581
 msgid ""
 "@FUNCTION=RANDGEOM\n"
 "@SYNTAX=RANDGEOM(p)\n"
@@ -8901,7 +8926,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:585
+#: plugins/fn-random/functions.c:612
 msgid ""
 "@FUNCTION=RANDHYPERG\n"
 "@SYNTAX=RANDHYPERG(n1,n2,t)\n"
@@ -8925,7 +8950,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:613
+#: plugins/fn-random/functions.c:640
 msgid ""
 "@FUNCTION=RANDLOG\n"
 "@SYNTAX=RANDLOG(p)\n"
@@ -8945,7 +8970,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:641
+#: plugins/fn-random/functions.c:668
 msgid ""
 "@FUNCTION=RANDCHISQ\n"
 "@SYNTAX=RANDCHISQ(nu)\n"
@@ -8963,7 +8988,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND,RANDGAMMA"
 
-#: plugins/fn-random/functions.c:664
+#: plugins/fn-random/functions.c:691
 msgid ""
 "@FUNCTION=RANDTDIST\n"
 "@SYNTAX=RANDTDIST(nu)\n"
@@ -8981,7 +9006,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:687
+#: plugins/fn-random/functions.c:714
 msgid ""
 "@FUNCTION=RANDGUMBEL\n"
 "@SYNTAX=RANDGUMBEL(a,b[,type])\n"
@@ -9007,7 +9032,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:723
+#: plugins/fn-random/functions.c:750
 msgid ""
 "@FUNCTION=RANDLEVY\n"
 "@SYNTAX=RANDLEVY(c,alpha[,beta])\n"
@@ -9035,72 +9060,92 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: plugins/fn-random/functions.c:760 plugins/fn-random/functions.c:778
-#: plugins/fn-random/functions.c:788 plugins/fn-stat/functions.c:4800
+#: plugins/fn-random/functions.c:784
+msgid ""
+"@FUNCTION=RANDEXPPOW\n"
+"@SYNTAX=RANDEXPPOW(a,b)\n"
+"@DESCRIPTION=RANDLEVY returns a random variate from the exponential power "
+"distribution with scale parameter @a and exponent @b. The distribution is, p"
+"(x) dx = {1 over 2 a Gamma(1+1/b)} exp(-|x/a|^b) dx, for x >= 0. For b = 1 "
+"this reduces to the Laplace distribution. For b = 2 it has the same form as "
+"a gaussian distribution, but with a = sqrt{2} sigma. \n"
+"@EXAMPLES=\n"
+"RANDEXPPOW(0.5,0.1).\n"
+"\n"
+"@SEEALSO=RAND"
+msgstr ""
+
+#: plugins/fn-random/functions.c:816 plugins/fn-random/functions.c:836
+#: plugins/fn-random/functions.c:846 plugins/fn-stat/functions.c:4800
 msgid "p"
 msgstr "p"
 
-#: plugins/fn-random/functions.c:762 plugins/fn-random/functions.c:776
-#: plugins/fn-random/functions.c:798 plugins/fn-random/functions.c:806
-#: plugins/fn-random/functions.c:808
+#: plugins/fn-random/functions.c:818 plugins/fn-random/functions.c:830
+#: plugins/fn-random/functions.c:834 plugins/fn-random/functions.c:856
+#: plugins/fn-random/functions.c:866 plugins/fn-random/functions.c:868
 msgid "a,b"
 msgstr "a;b"
 
-#: plugins/fn-random/functions.c:764
+#: plugins/fn-random/functions.c:820
 msgid "bottom,top"
 msgstr "underkant;överkant"
 
-#: plugins/fn-random/functions.c:766
+#: plugins/fn-random/functions.c:822
 msgid "p,trials"
 msgstr "p;försök"
 
-#: plugins/fn-random/functions.c:768 plugins/fn-random/functions.c:784
-#: plugins/fn-random/functions.c:790
+#: plugins/fn-random/functions.c:824 plugins/fn-random/functions.c:842
+#: plugins/fn-random/functions.c:848
 msgid "a"
 msgstr "a"
 
-#: plugins/fn-random/functions.c:770 plugins/fn-random/functions.c:804
+#: plugins/fn-random/functions.c:826 plugins/fn-random/functions.c:864
 msgid "nu"
 msgstr "nu"
 
-#: plugins/fn-random/functions.c:772
+#: plugins/fn-random/functions.c:828
 msgid "b"
 msgstr "b"
 
-#: plugins/fn-random/functions.c:774
+#: plugins/fn-random/functions.c:832
 msgid "nu1,nu2"
 msgstr "nu1;nu2"
 
-#: plugins/fn-random/functions.c:780
+#: plugins/fn-random/functions.c:838
 msgid "a,b[,type]"
 msgstr "a;b[;typ]"
 
-#: plugins/fn-random/functions.c:782
+#: plugins/fn-random/functions.c:840
 msgid "n1,n2,t"
 msgstr "n1;n2;t"
 
-#: plugins/fn-random/functions.c:786
+#: plugins/fn-random/functions.c:844
 msgid "c,alpha[,beta]"
 msgstr "c;alfa[;beta]"
 
-#: plugins/fn-random/functions.c:792
+#: plugins/fn-random/functions.c:850
 msgid "zeta,sigma"
 msgstr "zeta;sigma"
 
-#: plugins/fn-random/functions.c:794
+#: plugins/fn-random/functions.c:852
 msgid "p,failures"
 msgstr "p;misslyckanden"
 
-#: plugins/fn-random/functions.c:796
+#: plugins/fn-random/functions.c:854
 msgid "mean,stdev"
 msgstr "medelvärde;stdav"
 
-#: plugins/fn-random/functions.c:800
+#: plugins/fn-random/functions.c:858
 msgid "lambda"
 msgstr "lambda"
 
-#: plugins/fn-random/functions.c:802
+#: plugins/fn-random/functions.c:860
 msgid "sigma"
+msgstr "sigma"
+
+#: plugins/fn-random/functions.c:862
+#, fuzzy
+msgid "a,sigma"
 msgstr "sigma"
 
 #: plugins/fn-random/plugin.xml.in.h:1
@@ -12613,10 +12658,11 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:233
+#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=The NT_MU function (Mbius mu function) returns \n"
+"@DESCRIPTION=The NT_MU function (Möbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "-1 if @n has an odd  number of different prime factors .\n"
@@ -17331,9 +17377,9 @@ msgstr "Bernoulli"
 
 #: src/dialogs/dialog-random-generator.c:114
 #: src/dialogs/dialog-random-generator.c:118
-#: src/dialogs/dialog-random-generator.c:130
-#: src/dialogs/dialog-random-generator.c:136
-#: src/dialogs/dialog-random-generator.c:142
+#: src/dialogs/dialog-random-generator.c:132
+#: src/dialogs/dialog-random-generator.c:138
+#: src/dialogs/dialog-random-generator.c:144
 msgid "_p Value:"
 msgstr "_p-värde:"
 
@@ -17343,23 +17389,26 @@ msgstr "Beta"
 
 #: src/dialogs/dialog-random-generator.c:116
 #: src/dialogs/dialog-random-generator.c:120
-#: src/dialogs/dialog-random-generator.c:128
-#: src/dialogs/dialog-random-generator.c:132
-#: src/dialogs/dialog-random-generator.c:138
-#: src/dialogs/dialog-random-generator.c:145
+#: src/dialogs/dialog-random-generator.c:126
+#: src/dialogs/dialog-random-generator.c:130
+#: src/dialogs/dialog-random-generator.c:134
+#: src/dialogs/dialog-random-generator.c:140
+#: src/dialogs/dialog-random-generator.c:147
 #: src/dialogs/dialog-random-generator.c:153
-#: src/dialogs/dialog-random-generator.c:155
 #: src/dialogs/dialog-random-generator.c:157
+#: src/dialogs/dialog-random-generator.c:159
+#: src/dialogs/dialog-random-generator.c:161
 msgid "_a Value:"
 msgstr "_a-värde:"
 
 #: src/dialogs/dialog-random-generator.c:116
 #: src/dialogs/dialog-random-generator.c:124
-#: src/dialogs/dialog-random-generator.c:128
-#: src/dialogs/dialog-random-generator.c:145
-#: src/dialogs/dialog-random-generator.c:153
-#: src/dialogs/dialog-random-generator.c:155
+#: src/dialogs/dialog-random-generator.c:126
+#: src/dialogs/dialog-random-generator.c:130
+#: src/dialogs/dialog-random-generator.c:147
 #: src/dialogs/dialog-random-generator.c:157
+#: src/dialogs/dialog-random-generator.c:159
+#: src/dialogs/dialog-random-generator.c:161
 msgid "_b Value:"
 msgstr "_b-värde:"
 
@@ -17388,110 +17437,121 @@ msgid "Exponential"
 msgstr "Exponentiell"
 
 #: src/dialogs/dialog-random-generator.c:126
+#, fuzzy
+msgid "Exponential Power"
+msgstr "Exponentiell"
+
+#: src/dialogs/dialog-random-generator.c:128
 msgid "F"
 msgstr "F"
 
-#: src/dialogs/dialog-random-generator.c:126
+#: src/dialogs/dialog-random-generator.c:128
 msgid "nu_1 Value:"
 msgstr "nu_1-värde:"
 
-#: src/dialogs/dialog-random-generator.c:126
+#: src/dialogs/dialog-random-generator.c:128
 msgid "nu_2 Value:"
 msgstr "nu_2-värde:"
 
-#: src/dialogs/dialog-random-generator.c:128
+#: src/dialogs/dialog-random-generator.c:130
 msgid "Gamma"
 msgstr "Gamma"
 
-#: src/dialogs/dialog-random-generator.c:130
+#: src/dialogs/dialog-random-generator.c:132
 msgid "Geometric"
 msgstr "Geometrisk"
 
-#: src/dialogs/dialog-random-generator.c:132
+#: src/dialogs/dialog-random-generator.c:134
 msgid "Laplace"
 msgstr "Laplace"
 
-#: src/dialogs/dialog-random-generator.c:134
+#: src/dialogs/dialog-random-generator.c:136
 msgid "Levy alpha-Stable"
 msgstr "Levy alfa-stabil"
 
-#: src/dialogs/dialog-random-generator.c:134
+#: src/dialogs/dialog-random-generator.c:136
 msgid "_c Value:"
 msgstr "_c-värde:"
 
-#: src/dialogs/dialog-random-generator.c:134
+#: src/dialogs/dialog-random-generator.c:136
 msgid "_alpha:"
 msgstr "_alfa:"
 
-#: src/dialogs/dialog-random-generator.c:136
+#: src/dialogs/dialog-random-generator.c:138
 msgid "Logarithmic"
 msgstr "Logaritmisk"
 
-#: src/dialogs/dialog-random-generator.c:138
+#: src/dialogs/dialog-random-generator.c:140
 msgid "Logistic"
 msgstr "Logistik"
 
-#: src/dialogs/dialog-random-generator.c:140
+#: src/dialogs/dialog-random-generator.c:142
 msgid "Lognormal"
 msgstr "Lognormal"
 
-#: src/dialogs/dialog-random-generator.c:140
+#: src/dialogs/dialog-random-generator.c:142
 msgid "_Zeta Value:"
 msgstr "_Zeta-värde:"
 
-#: src/dialogs/dialog-random-generator.c:140
+#: src/dialogs/dialog-random-generator.c:142
 msgid "_Sigma"
 msgstr "_Sigma"
 
-#: src/dialogs/dialog-random-generator.c:142
+#: src/dialogs/dialog-random-generator.c:144
 msgid "Negative Binomial"
 msgstr "Negativ binomial"
 
-#: src/dialogs/dialog-random-generator.c:143
+#: src/dialogs/dialog-random-generator.c:145
 msgid "N_umber of Failures"
 msgstr "Antal _misslyckanden"
 
-#: src/dialogs/dialog-random-generator.c:145
+#: src/dialogs/dialog-random-generator.c:147
 msgid "Pareto"
 msgstr "Pareto"
 
-#: src/dialogs/dialog-random-generator.c:147
+#: src/dialogs/dialog-random-generator.c:149
 msgid "Poisson"
 msgstr "Poisson"
 
-#: src/dialogs/dialog-random-generator.c:147
+#: src/dialogs/dialog-random-generator.c:149
 msgid "_Lambda:"
 msgstr "_Lambda:"
 
-#: src/dialogs/dialog-random-generator.c:149
+#: src/dialogs/dialog-random-generator.c:151
 msgid "Rayleigh"
 msgstr "Rayleigh"
 
-#: src/dialogs/dialog-random-generator.c:149
+#: src/dialogs/dialog-random-generator.c:151
+#: src/dialogs/dialog-random-generator.c:153
 msgid "_Sigma:"
 msgstr "_Sigma:"
 
-#: src/dialogs/dialog-random-generator.c:151
+#: src/dialogs/dialog-random-generator.c:153
+#, fuzzy
+msgid "Rayleigh Tail"
+msgstr "Rayleigh"
+
+#: src/dialogs/dialog-random-generator.c:155
 msgid "T"
 msgstr "T"
 
-#: src/dialogs/dialog-random-generator.c:151
+#: src/dialogs/dialog-random-generator.c:155
 msgid "nu Value:"
 msgstr "nu-värde:"
 
-#: src/dialogs/dialog-random-generator.c:153
+#: src/dialogs/dialog-random-generator.c:157
 msgid "Type I Gumbel"
 msgstr "Typ I-Gumbel"
 
-#: src/dialogs/dialog-random-generator.c:155
+#: src/dialogs/dialog-random-generator.c:159
 msgid "Type II Gumbel"
 msgstr "Typ II-Gumbel"
 
-#: src/dialogs/dialog-random-generator.c:157
+#: src/dialogs/dialog-random-generator.c:161
 msgid "Weibull"
 msgstr "Weibull"
 
-#: src/dialogs/dialog-random-generator.c:810
+#: src/dialogs/dialog-random-generator.c:842
 msgid "Could not create the Random Tool dialog."
 msgstr "Kunde inte skapa dialogen för slumpverkyget."
 
@@ -18726,8 +18786,8 @@ msgstr "Antal _variabler:"
 msgid "Random Number Generation"
 msgstr "Slumptalsgenerering"
 
-#: src/dialogs/random-generation.glade.h:8 src/tools/random-generator.c:593
-#: src/tools/random-generator.c:596
+#: src/dialogs/random-generation.glade.h:8 src/tools/random-generator.c:625
+#: src/tools/random-generator.c:628
 msgid "Random Numbers"
 msgstr "Slumptal"
 
@@ -22424,7 +22484,7 @@ msgstr "Inget av värdena i värdeområdet får vara tomt!"
 msgid "The probabilities may not all be 0!"
 msgstr "Sannolikheterna får inte vara 0!"
 
-#: src/tools/random-generator.c:575
+#: src/tools/random-generator.c:607
 #, c-format
 msgid "Random Numbers (%s)"
 msgstr "Slumptal (%s)"

@@ -1,3 +1,7 @@
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
 2002-07-04  Jukka Pekka  <jiivonen@cs145201.pp.htv.fi>
 
 	* solve.c (check_solution): Removed.

@@ -117,6 +117,7 @@ GNUMERIC_BASE =					\
 	gutils.h				\
 	hlink.c					\
 	hlink.h					\
+	hlink-impl.h				\
 	history.c				\
 	history.h				\
 	item-acetate.c				\

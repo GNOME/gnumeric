@@ -1,3 +1,7 @@
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.6
+
 2002-07-17  Morten Welinder  <terra@diku.dk>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_rangesel_start): Reorder
