@@ -1174,7 +1174,7 @@ mstyle_visible_in_blank (const MStyle *st)
 	    mstyle_get_pattern (st) > 0)
 		return TRUE;
 
-	for (i = MSTYLE_BORDER_TOP ; i <= MSTYLE_BORDER_REV_DIAGONAL ; ++i)
+	for (i = MSTYLE_BORDER_TOP ; i <= MSTYLE_BORDER_DIAGONAL ; ++i)
 		if (mstyle_is_element_set (st, i) &&
 		    style_border_visible_in_blank (mstyle_get_border (st, i)))
 			return TRUE;

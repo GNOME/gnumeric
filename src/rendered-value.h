@@ -24,7 +24,7 @@ struct _RenderedValue {
 	 * Computed sizes of rendered text.
 	 * In pixels EXCLUSIVE of margins and grid lines
 	 */
-	short         width_pixel, height_pixel;
+	short         width_pixel, height_pixel, offset;
 	gboolean      dynamic_width;
 };
 

@@ -658,19 +658,19 @@ xml_write_style_border (XmlParseContext *ctxt,
 	xmlNodePtr side;
 	int        i;
 
-	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_REV_DIAGONAL; i++) {
+	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
 		StyleBorder const *border;
 		if (mstyle_is_element_set (style, i) &&
 		    NULL != (border = mstyle_get_border (style, i))) {
 			break;
 		}
 	}
-	if (i > MSTYLE_BORDER_REV_DIAGONAL)
+	if (i > MSTYLE_BORDER_DIAGONAL)
 		return NULL;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "StyleBorder", NULL);
 
-	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_REV_DIAGONAL; i++) {
+	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
 		StyleBorder const *border;
 		if (mstyle_is_element_set (style, i) &&
 		    NULL != (border = mstyle_get_border (style, i))) {
@@ -702,7 +702,7 @@ xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, MStyle *mstyle)
 			 tree->name);
 	}
 
-	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_REV_DIAGONAL; i++) {
+	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_DIAGONAL; i++) {
  		if ((side = e_xml_get_child_by_name (tree,
 					      StyleSideNames [i - MSTYLE_BORDER_TOP])) != NULL) {
 			int		 t;

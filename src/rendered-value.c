@@ -35,6 +35,8 @@
 #include "sheet-control-gui.h"
 #include "application.h"
 
+#include <math.h>
+
 /**
  * rendered_value_new:
  * @cell:   The cell
@@ -111,7 +113,7 @@ rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 	res = g_new (RenderedValue, 1);
 	res->rendered_text = string_get (str);
 	res->render_color = color;
-	res->width_pixel = res->height_pixel = 0;
+	res->width_pixel = res->height_pixel = res->offset = 0;
 	res->dynamic_width = dynamic_width;
 	g_free (str);
 
@@ -169,6 +171,7 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 	GdkFont *gdk_font = style_font_gdk_font (style_font);
 	int font_height = style_font_get_height (style_font);
 	int const cell_w = COL_INTERNAL_WIDTH (cell->col_info);
+	StyleHAlignFlags const halign = mstyle_get_align_h (mstyle);
 	int text_width;
 	char *text;
 
@@ -183,7 +186,7 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 	     sheet != NULL && !sheet->display_formulas)) {
 		rv->width_pixel  = text_width;
 		rv->height_pixel = font_height;
-	} else if (mstyle_get_align_h (mstyle) == HALIGN_JUSTIFY ||
+	} else if (halign == HALIGN_JUSTIFY ||
 		   mstyle_get_align_v (mstyle) == VALIGN_JUSTIFY ||
 		   mstyle_get_fit_in_cell (mstyle)) {
 		char const *p, *line_begin;
@@ -246,6 +249,10 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 		rv->width_pixel  = text_width;
 		rv->height_pixel = font_height;
 	}
+
+	if (halign == HALIGN_LEFT || halign == HALIGN_RIGHT)
+		rv->offset = rint (mstyle_get_indent (mstyle) *
+				    style_font->approx_width);
 	style_font_unref (style_font);
 }
 

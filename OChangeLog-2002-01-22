@@ -1,5 +1,12 @@
 2001-02-15  Jody Goldberg <jgoldberg@home.com>
 
+	* src/mstyle.c (mstyle_visible_in_blank) : off by one error.
+	* src/xml-io.c (xml_write_style_border) : Ditto.
+	(xml_read_style_border) : ditto.
+
+	* src/rendered-value.c (rendered_value_calc_size_ext) : calculate the
+	  indent offsets.
+
 	* src/sheet-merge.c (sheet_merge_add) : redraw the entire region.
 
 2001-02-14  Jody Goldberg <jgoldberg@home.com>
