@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.3\n"
-"POT-Creation-Date: 1999-02-09 20:08-0600\n"
+"POT-Creation-Date: 1999-02-10 12:56-0600\n"
 "PO-Revision-Date: 1998-12-05 07:00+09:00\n"
 "Last-Translator: Mitsuru Oka <95i44@is.kochi-u.ac.jp>\n"
 "Language-Team: \n"
@@ -550,16 +550,20 @@ msgstr "ゼロによる除算が生じました"
 msgid "Unknown evaluation error"
 msgstr "未知の式評価エラーです"
 
-#: src/file.c:214
+#: src/file.c:217
 #, fuzzy
 msgid "File format:"
 msgstr "セルフォーマット"
 
-#: src/file.c:238
+#: src/file.c:254
 msgid "Save workbook as"
 msgstr "名前を付けてワークブックを保存します"
 
-#: src/file.c:293
+#: src/file.c:286
+msgid "Sorry, there are no file savers loaded, I can not save"
+msgstr ""
+
+#: src/file.c:314
 msgid "Load file"
 msgstr "ファイルを読み込みます"
 
@@ -1487,7 +1491,7 @@ msgstr ""
 "@DESCRIPTION=Returns a fraction representing the hour\n"
 "@SEEALSO=HOUR"
 
-#: src/fn-string.c:207
+#: src/fn-string.c:209
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
@@ -1496,7 +1500,7 @@ msgid ""
 "@SEEALSO=LEFT, RIGHT"
 msgstr ""
 
-#: src/fn-string.c:255
+#: src/fn-string.c:257
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -1510,7 +1514,7 @@ msgstr ""
 "合は右端の文字を返します。\n"
 "@SEEALSO=MID, LEFT"
 
-#: src/fn-string.c:295
+#: src/fn-string.c:297
 #, fuzzy
 msgid ""
 "@FUNCTION=UPPER\n"
