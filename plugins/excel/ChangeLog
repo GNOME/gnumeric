@@ -1,3 +1,13 @@
+1999-07-02  Jody Goldberg  <jgoldberg@home.com>
+
+	* ms-chart.c : Stylistic consistancy.
+	s/BIFF_CHART_WRITER/ExcelChartWriter/g
+	s/BIFF_CHART_READER/ExcelChartReader/g
+	s/BIFF_CHART_HANDLER/ExcelChartHandler/g
+	s/GUPPI_CHART_STATE/GuppiChartState/g
+	s/BIFF_CHART_STATE/ExcelChartState/g
+	s:\([^/]\)\* :\1*:g
+
 1999-07-02  Michael Meeks  <michael@edenproject.org>
 
 	* *.[ch]: Much stylistic fiddling:

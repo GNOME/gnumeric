@@ -181,7 +181,7 @@ biff_get_text (guint8 *pos, guint32 length, guint32 *byte_length)
 		dump (pos, *byte_length);
 	}
 #endif
-	
+
 	for (lp = 0; lp < length; lp++) {
 		guint16 c;
 		if (high_byte) {
@@ -1406,7 +1406,7 @@ ms_excel_read_formula (BiffQuery * q, ExcelSheet * sheet)
 					 "missing STRING record");
 			}
 			break;
-			
+
 		case 1 : /* Boolean */
 			{
 				guint8 const v = BIFF_GET_GUINT8 (q->data+8);
@@ -2397,7 +2397,7 @@ find_workbook (MsOle *ptr)
 	while (ms_ole_directory_next (d)) {
 		if (d->type == MsOle_PPS_STREAM) {
 			int hit = 0;
-			
+
 			/*
 			 * printf ("Checking '%s'\n", d->name);
 			 */
@@ -2752,7 +2752,7 @@ ms_excel_read_workbook (MsOle *file)
 				/* This seems to appear within a workbook */
 				char * page = NULL;
 				guint16 codepage = BIFF_GET_GUINT16 (q->data);
-				
+
 				switch(codepage)
 				{
 				case 0x01b5 :
@@ -2770,7 +2770,7 @@ ms_excel_read_workbook (MsOle *file)
 				};
 			}
 			break;
-			
+
 			case BIFF_PROTECT :
 	     			break;
 
@@ -2867,7 +2867,7 @@ ms_excel_read_workbook (MsOle *file)
 #endif
 
 	cell_deep_thaw_redraws ();
-	
+
 	if (wb) {
 		Workbook *ans = wb->gnum_wb;
 		ms_excel_workbook_destroy (wb);
