@@ -7,9 +7,9 @@ GNU oleo">
 <!ENTITY preface	SYSTEM "preface.xml">
 <!ENTITY gui-elements	SYSTEM "gui-elements.xml">
 <!ENTITY menus		SYSTEM "menus.xml">
+<!ENTITY toolbars	SYSTEM "toolbars.xml">
+<!ENTITY worksheet	SYSTEM "worksheet.xml">
 <!--
-<!ENTITY toolbars	SYSTEM "toolbars.sgml">
-<!ENTITY worksheet	SYSTEM "worksheet.sgml">
 <!ENTITY editing	SYSTEM "editing.sgml">
 <!ENTITY numberformat	SYSTEM "number-format.sgml">
 <!ENTITY formulas	SYSTEM "formulas.sgml">
@@ -90,18 +90,18 @@ GNU oleo">
     <title>Gnumeric Menus</title>
     &menus;
   </chapter>
-  <!--  
+
   <chapter id="toolbars">
     <title>Gnumeric Toolbars</title>
     &toolbars;
   </chapter>
-  
+
   <chapter id="other-elements">
     <title>Gnumeric Data Entry area, Cell Grid and Information Area
     </title>
     &worksheet;
   </chapter>
-  
+<!--  
   <chapter id="editing">
     <title>Entering data</title>
     &editing;

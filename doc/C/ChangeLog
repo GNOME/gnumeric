@@ -1,3 +1,15 @@
+2002-01-26  Kevin Breit  <mrproper@ximian.com>
+
+	* new/worksheet.xml: This file builds properly now
+
+2002-01-25  Kevin Breit  <mrproper@ximian.com>
+
+	* new/gnumeric.xml: Made worksheet and toolbars be enabled
+
+	* new/worksheet.xml: XMLized and added
+
+	* new/toolbars.xml: XMLized and added
+
 2002-01-24  Kevin Breit  <mrproper@ximian.com>
 
 	* new/gui-elements.xml: Added file, not yet XMLized
