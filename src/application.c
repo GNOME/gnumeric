@@ -631,6 +631,8 @@ gnumeric_application_setup_icons (void)
 		{ gnm_merge_cells_24,			gnm_merge_cells_16,		"Gnumeric_MergeCells" },
 		{ gnm_split_cells_24,			gnm_split_cells_16,		"Gnumeric_SplitCells" },
 
+		{ gnm_halign_fill_24,			NULL,				"Gnumeric_HAlignFill" },
+
 		{ NULL,					gnm_comment_add_16,		"Gnumeric_CommentAdd" },
 		{ NULL,					gnm_comment_delete_16,		"Gnumeric_CommentDelete" },
 		{ NULL,					gnm_comment_edit_16,		"Gnumeric_CommentEdit" },
