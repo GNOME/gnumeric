@@ -47,8 +47,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
-"POT-Creation-Date: 2002-08-12 16:31-0400\n"
-"PO-Revision-Date: 2002-08-10 16:41+0100\n"
+"POT-Creation-Date: 2002-08-14 17:14+0200\n"
+"PO-Revision-Date: 2002-08-14 17:11+0100\n"
 "Last-Translator: Christian Neumair <christian-neumair@web.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -371,7 +371,7 @@ msgstr "Finanzfunktionen"
 msgid "Functions related to financial derivatives"
 msgstr "Funktionen aus dem Finanzbereich"
 
-#: plugins/dif/dif.c:59 plugins/excel/ms-excel-read.c:4761
+#: plugins/dif/dif.c:59 plugins/excel/ms-excel-read.c:4782
 #: plugins/mps/mps.c:639 src/xml-io.c:3351
 msgid "Reading file..."
 msgstr "Datei wird gelesen..."
@@ -463,47 +463,47 @@ msgstr "»%s« konnte nicht geöffnet werden: %s"
 msgid "Saving file..."
 msgstr "Datei wird gespeichert..."
 
-#: plugins/excel/ms-excel-read.c:912
+#: plugins/excel/ms-excel-read.c:933
 msgid "#UNKNOWN!"
 msgstr "#UNBEKANNT!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1046 plugins/oleo/oleo.c:362
+#: plugins/excel/ms-excel-read.c:1067 plugins/oleo/oleo.c:362
 #: plugins/psiconv/psiconv-read.c:500 src/dialogs/dialog-sheet-order.c:416
 #: src/dialogs/dialog-sheet-order.c:420
 #, c-format
 msgid "Sheet%d"
 msgstr "Blatt%d"
 
-#: plugins/excel/ms-excel-read.c:1049
+#: plugins/excel/ms-excel-read.c:1070
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1052
+#: plugins/excel/ms-excel-read.c:1073
 #, c-format
 msgid "Chart%d"
 msgstr "Diagramm%d"
 
-#: plugins/excel/ms-excel-read.c:1055
+#: plugins/excel/ms-excel-read.c:1076
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:4642
+#: plugins/excel/ms-excel-read.c:4663
 msgid "external references"
 msgstr "externe Bezüge"
 
-#: plugins/excel/ms-excel-read.c:4920
+#: plugins/excel/ms-excel-read.c:4941
 msgid "This file is encrypted"
 msgstr "Diese Datei ist verschlüsselt"
 
-#: plugins/excel/ms-excel-read.c:4922
+#: plugins/excel/ms-excel-read.c:4943
 msgid "Invalid password"
 msgstr "Ungültiges Passwort"
 
-#: plugins/excel/ms-excel-read.c:5046
+#: plugins/excel/ms-excel-read.c:5067
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Es konnte kein gültiges MS-Excel-Arbeitsbuch aufgefunden werden."
 
@@ -5819,14 +5819,12 @@ msgid "Functions for looking up values in ranges"
 msgstr ""
 
 #: plugins/fn-lookup/plugin.xml.in.h:2
-#, fuzzy
 msgid "Lookup"
-msgstr "Daten / Auffinden"
+msgstr "Suche"
 
 #: plugins/fn-lookup/plugin.xml.in.h:3
-#, fuzzy
 msgid "Lookup Functions"
-msgstr "Funktion"
+msgstr "Suchfunktionen"
 
 #: plugins/fn-math/functions.c:140
 msgid ""
@@ -7823,18 +7821,16 @@ msgstr "p"
 #: plugins/fn-random/functions.c:1099 plugins/fn-random/functions.c:1113
 #: plugins/fn-random/functions.c:1117 plugins/fn-random/functions.c:1143
 #: plugins/fn-random/functions.c:1153 plugins/fn-random/functions.c:1155
-#, fuzzy
 msgid "a,b"
-msgstr "Tabulator"
+msgstr "a,b"
 
 #: plugins/fn-random/functions.c:1101
 msgid "bottom,top"
 msgstr ""
 
 #: plugins/fn-random/functions.c:1103
-#, fuzzy
 msgid "p,trials"
-msgstr "April"
+msgstr "p,Versuche"
 
 #: plugins/fn-random/functions.c:1105 plugins/fn-random/functions.c:1129
 #: plugins/fn-random/functions.c:1135
@@ -7879,9 +7875,8 @@ msgid "zeta,sigma"
 msgstr "Zeta,Sigma"
 
 #: plugins/fn-random/functions.c:1139
-#, fuzzy
 msgid "p,failures"
-msgstr "Werte"
+msgstr "p,Fehlschläge"
 
 #: plugins/fn-random/functions.c:1141
 msgid "mean,stdev"
@@ -7908,9 +7903,8 @@ msgid "Random"
 msgstr "Zufällig"
 
 #: plugins/fn-random/plugin.xml.in.h:3
-#, fuzzy
 msgid "Random Number Functions"
-msgstr "Erzeugung von Zufallszahlen"
+msgstr "Zufallszahlen-Funktionen"
 
 #: plugins/fn-stat/functions.c:190
 msgid ""
@@ -9779,9 +9773,8 @@ msgstr ""
 # or better: Einzug?
 # 2001-11-27 14:16:24 CET -ke-
 #: plugins/fn-stat/functions.c:5193 plugins/fn-stat/functions.c:5275
-#, fuzzy
 msgid "x,a,b"
-msgstr "Tabulator"
+msgstr "x,a,b"
 
 #: plugins/fn-stat/functions.c:5197
 #, fuzzy
@@ -9819,7 +9812,7 @@ msgstr ""
 
 #: plugins/fn-stat/functions.c:5219
 msgid "number,alpha,beta"
-msgstr ""
+msgstr "Zahl,Alpha,Beta"
 
 #: plugins/fn-stat/functions.c:5225 plugins/fn-stat/functions.c:5321
 msgid "known_y's,known_x's,new_x's,const"
@@ -9862,9 +9855,8 @@ msgid "p,mean,stdev"
 msgstr ""
 
 #: plugins/fn-stat/functions.c:5277
-#, fuzzy
 msgid "array,k"
-msgstr "Feld"
+msgstr "Array,k"
 
 #: plugins/fn-stat/functions.c:5279
 msgid "array,x,significance"
@@ -10515,11 +10507,11 @@ msgstr ""
 
 #: plugins/fn-string/functions.c:1274
 msgid "text,old,new,num"
-msgstr ""
+msgstr "Text,Alt,Neu,Zahl"
 
 #: plugins/fn-string/functions.c:1278
 msgid "value,format_text"
-msgstr ""
+msgstr "Wert,Format_Text"
 
 #: plugins/fn-string/plugin.xml.in.h:1
 msgid "Functions for manipulating strings"
@@ -10732,17 +10724,17 @@ msgstr "Beschränkungen:"
 #: plugins/mps/mps.c:251 src/dialogs/dialog-formula-guru.c:808
 #: src/dialogs/dialog-function-select.c:419
 #: src/dialogs/dialog-function-select.c:441 src/format-template.c:404
-#: src/tools/solver/reports-write.c:123 src/tools/solver/reports-write.c:145
-#: src/tools/solver/reports-write.c:172 src/tools/solver/reports-write.c:279
-#: src/tools/solver/reports-write.c:325 src/tools/solver/reports-write.c:437
-#: src/tools/solver/reports-write.c:444 src/tools/solver/reports-write.c:714
+#: src/tools/solver/reports-write.c:124 src/tools/solver/reports-write.c:146
+#: src/tools/solver/reports-write.c:173 src/tools/solver/reports-write.c:280
+#: src/tools/solver/reports-write.c:326 src/tools/solver/reports-write.c:438
+#: src/tools/solver/reports-write.c:445 src/tools/solver/reports-write.c:715
 #: src/workbook-control.c:242
 msgid "Name"
 msgstr "Name"
 
 #: plugins/mps/mps.c:278 src/dialogs/dialog-preferences.c:510
-#: src/tools/solver/reports-write.c:280 src/tools/solver/reports-write.c:326
-#: src/tools/solver/reports-write.c:438 src/tools/solver/reports-write.c:445
+#: src/tools/solver/reports-write.c:281 src/tools/solver/reports-write.c:327
+#: src/tools/solver/reports-write.c:439 src/tools/solver/reports-write.c:446
 msgid "Value"
 msgstr "Wert"
 
@@ -10750,7 +10742,7 @@ msgstr "Wert"
 #. * Fill in the labels of `General Info' section.
 #.
 #: plugins/mps/mps.c:279 src/dialogs/dialog-formula-guru.c:812
-#: src/tools/solver/reports-write.c:561
+#: src/tools/solver/reports-write.c:562
 msgid "Type"
 msgstr "Typ"
 
@@ -10758,12 +10750,12 @@ msgstr "Typ"
 msgid "RHS"
 msgstr "RHS"
 
-#: plugins/mps/mps.c:281 src/tools/solver/reports-write.c:176
+#: plugins/mps/mps.c:281 src/tools/solver/reports-write.c:177
 msgid "Slack"
 msgstr "Schlupf"
 
-#: plugins/mps/mps.c:282 src/tools/solver/reports-write.c:175
-#: src/tools/solver/reports-write.c:562
+#: plugins/mps/mps.c:282 src/tools/solver/reports-write.c:176
+#: src/tools/solver/reports-write.c:563
 msgid "Status"
 msgstr "Status"
 
@@ -11074,21 +11066,21 @@ msgstr "Aktiviert das Erstellen von Funktionen in Perl"
 msgid "Perl"
 msgstr "Perl"
 
-#: plugins/plan-perfect/pln.c:722
+#: plugins/plan-perfect/pln.c:520
 msgid "PLN : Spreadsheet is password encrypted"
 msgstr "PLN: Das Arbeitsblatt ist mit einem Passwort verschlüsselt"
 
-#: plugins/plan-perfect/pln.c:787
+#: plugins/plan-perfect/pln.c:586
 #, c-format
 msgid "Ignoring data that claims to be in row %u which is > max row %u"
 msgstr ""
 
-#: plugins/plan-perfect/pln.c:791
+#: plugins/plan-perfect/pln.c:590
 #, c-format
 msgid "Ignoring data that claims to be in column %u which is > max column %u"
 msgstr ""
 
-#: plugins/plan-perfect/pln.c:863
+#: plugins/plan-perfect/pln.c:681
 msgid "PLN : Not a PlanPerfect File"
 msgstr "PLN: Keine PlanPerfect-Datei"
 
@@ -11454,7 +11446,7 @@ msgstr "Den Text bei allen Markierungen zentrieren"
 
 #: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2910
 msgid "Change Gnumeric Preferences"
-msgstr "Gnumeric-Vorlieben ändern"
+msgstr "Gnumeric-Einstellungen ändern"
 
 #: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:3171
 msgid "Change height of the selected rows"
@@ -11697,7 +11689,7 @@ msgstr "Namen des Blatts und des Arbeitsbuchs bearbeiten"
 
 #: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:3245
 msgid "Edit the Gnumeric Preferences"
-msgstr "Die Gnumeric-Vorlieben festlegen"
+msgstr "Die Gnumeric-Einstellungen festlegen"
 
 #: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3142
 msgid "Edit the selected cell's comment"
@@ -12063,59 +12055,60 @@ msgstr "Einfügen _spezial..."
 # CHECK
 #: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:2905
 msgid "P_roperties..."
-msgstr "Eigenschaften..."
+msgstr "E_igenschaften..."
 
-#: src/GNOME_Gnumeric.xml.h:166 src/cmd-edit.c:343
+#: src/GNOME_Gnumeric.xml.h:166 src/GNOME_Gnumeric_Component.xml.h:5
+#, fuzzy
+msgid "Page S_etup..."
+msgstr "Sei_teneinstellungen..."
+
+#: src/GNOME_Gnumeric.xml.h:167 src/cmd-edit.c:343
 #: src/workbook-control-gui.c:3499
 msgid "Paste"
 msgstr "Einfügen"
 
-#: src/GNOME_Gnumeric.xml.h:167
+#: src/GNOME_Gnumeric.xml.h:168
 msgid "Paste the clipboard"
 msgstr "Inhalt der Zwischenablage einfügen"
 
-#: src/GNOME_Gnumeric.xml.h:168
+#: src/GNOME_Gnumeric.xml.h:169
 msgid "Paste the contents of the clipboard or cut buffer"
 msgstr "Inhalt der Zwischenablage oder des Ausschneide-Puffers einfügen"
 
-#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3021
+#: src/GNOME_Gnumeric.xml.h:170 src/workbook-control-gui.c:3021
 msgid "Paste with optional filters and transformations"
 msgstr "Mit optionalen Filtern und Umwandlungen einfügen"
 
-#: src/GNOME_Gnumeric.xml.h:170 src/workbook-control-gui.c:3310
+#: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:3310
 msgid "Pearson Correlation"
 msgstr "Pearson-Korrelation"
 
-#: src/GNOME_Gnumeric.xml.h:171 src/workbook-format-toolbar.c:457
+#: src/GNOME_Gnumeric.xml.h:172 src/workbook-format-toolbar.c:457
 msgid "Percent"
 msgstr "Prozent"
 
-#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3334
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3334
 msgid "Periodic and random samples"
 msgstr "Periodische und zufällige Stichproben"
 
-#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:2909
+#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:2909
 msgid "Preferen_ces..."
-msgstr "_Vorlieben..."
+msgstr "_Einstellungen..."
 
-#: src/GNOME_Gnumeric.xml.h:174 src/dialogs/print.glade.h:13
+#: src/GNOME_Gnumeric.xml.h:175 src/dialogs/print.glade.h:13
 #: src/workbook-control-gui.c:3484
 msgid "Print"
 msgstr "Druck"
 
-#: src/GNOME_Gnumeric.xml.h:175 src/GNOME_Gnumeric_Component.xml.h:5
+#: src/GNOME_Gnumeric.xml.h:176 src/GNOME_Gnumeric_Component.xml.h:6
 #: src/workbook-control-gui.c:2900
 msgid "Print Pre_view..."
 msgstr "Druck_vorschau..."
 
-#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:2900
+#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:2900
 #: src/workbook-control-gui.c:3487
 msgid "Print Preview"
 msgstr "Druckvorschau"
-
-#: src/GNOME_Gnumeric.xml.h:177 src/GNOME_Gnumeric_Component.xml.h:6
-msgid "Print S_etup..."
-msgstr "Druck_er einrichten..."
 
 #: src/GNOME_Gnumeric.xml.h:178 src/GNOME_Gnumeric_Component.xml.h:7
 #: src/dialogs/print.glade.h:15 src/print.c:1218
@@ -12575,7 +12568,7 @@ msgstr "_Funktion..."
 
 #: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:3244
 msgid "_Gnumeric..."
-msgstr "_Gnumeric..."
+msgstr "_Einstellungen..."
 
 #: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3362
 msgid "_Goal Seek..."
@@ -13001,11 +12994,11 @@ msgstr "\"%s%s\" wird in %s eingeben"
 msgid "Typing \"%s%s\""
 msgstr "\"%s%s\" wird eingeben"
 
-#: src/commands.c:1160 src/commands.c:1165 src/sheet.c:3188
+#: src/commands.c:1160 src/commands.c:1165 src/sheet.c:3194
 msgid "Delete Columns"
 msgstr "Spalten löschen"
 
-#: src/commands.c:1160 src/commands.c:1165 src/sheet.c:3300
+#: src/commands.c:1160 src/commands.c:1165 src/sheet.c:3306
 msgid "Delete Rows"
 msgstr "Zeilen löschen"
 
@@ -13050,7 +13043,7 @@ msgid "Deleting row %s"
 msgstr "Zeile %s löschen"
 
 #. Check for locked cells
-#: src/commands.c:1428 src/commands.c:1432 src/sheet.c:2833
+#: src/commands.c:1428 src/commands.c:1432 src/sheet.c:2839
 msgid "Clear"
 msgstr "Entfernen"
 
@@ -14123,7 +14116,7 @@ msgstr "Negative Zahl:"
 
 #: src/dialogs/cell-format.glade.h:57 src/dialogs/dialog-cell-format.c:1327
 #: src/dialogs/dialog-cell-format.c:1382 src/dialogs/dialog-cell-format.c:1388
-#: src/dialogs/dialog-paste-special.c:48 src/tools/solver/reports-write.c:773
+#: src/dialogs/dialog-paste-special.c:48 src/tools/solver/reports-write.c:774
 msgid "None"
 msgstr "Keine"
 
@@ -14427,7 +14420,7 @@ msgid "A _header"
 msgstr "Eine _Kopfzeile"
 
 #: src/dialogs/cell-sort.glade.h:2 src/dialogs/print.glade.h:10
-#: src/tools/solver/reports-write.c:806
+#: src/tools/solver/reports-write.c:807
 msgid "Options"
 msgstr "Optionen"
 
@@ -14889,7 +14882,7 @@ msgstr "Die Eingabebereiche müssen die gleiche Größe haben."
 
 #: src/dialogs/dialog-analysis-tools.c:637
 msgid "Could not create the Correlation Tool dialog."
-msgstr "Es war nicht möglich, den Korrelation-Druiden zu erzeugen."
+msgstr "Es war nicht möglich, den Korrelations-Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:753
 msgid "Could not create the Covariance Tool dialog."
@@ -15337,10 +15330,10 @@ msgstr "Arbeitsbuchwert"
 #. * Fill in the labels of `Target Cell' section.
 #.
 #: src/dialogs/dialog-goto-cell.c:286 src/dialogs/tabulate.glade.h:1
-#: src/tools/solver/reports-write.c:122 src/tools/solver/reports-write.c:144
-#: src/tools/solver/reports-write.c:171 src/tools/solver/reports-write.c:278
-#: src/tools/solver/reports-write.c:324 src/tools/solver/reports-write.c:436
-#: src/tools/solver/reports-write.c:443
+#: src/tools/solver/reports-write.c:123 src/tools/solver/reports-write.c:145
+#: src/tools/solver/reports-write.c:172 src/tools/solver/reports-write.c:279
+#: src/tools/solver/reports-write.c:325 src/tools/solver/reports-write.c:437
+#: src/tools/solver/reports-write.c:444
 msgid "Cell"
 msgstr "Zelle"
 
@@ -15628,7 +15621,7 @@ msgid "_Standard Deviation:"
 msgstr "_Standardabweichung:"
 
 #: src/dialogs/dialog-random-generator.c:111
-#: src/tools/solver/reports-write.c:767
+#: src/tools/solver/reports-write.c:768
 msgid "Discrete"
 msgstr "Diskret"
 
@@ -15965,7 +15958,7 @@ msgstr "Unbekannter Fehler."
 msgid "You have not specified a problem to be solved"
 msgstr "Sie haben kein zu lösendes Problem angegeben"
 
-#: src/dialogs/dialog-solver.c:835 src/tools/solver/solver.c:393
+#: src/dialogs/dialog-solver.c:835 src/tools/solver/solver.c:394
 msgid "Target cell should contain a formula."
 msgstr "Zielzelle sollte eine Formel enthalten."
 
@@ -16963,7 +16956,7 @@ msgstr "_Plugin-Details"
 
 #: src/dialogs/preferences.glade.h:1
 msgid "Gnumeric Preferences"
-msgstr "Gnumeric-Vorlieben"
+msgstr "Gnumeric-Einstellungen"
 
 #: src/dialogs/print.glade.h:2
 #, no-c-format
@@ -17495,6 +17488,11 @@ msgstr "Wertebereich"
 msgid "_Regular expression"
 msgstr "Regulärer Ausdruck"
 
+#: src/dialogs/sheet-order.glade.h:1
+#, fuzzy
+msgid "Manage Sheets..."
+msgstr "Blätter _verwalten..."
+
 #: src/dialogs/so-arrow.glade.h:1
 msgid "Configure Arrow/Line"
 msgstr "Pfeil oder Linie konfigurieren"
@@ -17539,9 +17537,9 @@ msgstr "Automatische _Skalierung"
 msgid "B_y Changing Cells: "
 msgstr "D_urch Ändern von Zellen:"
 
-#: src/dialogs/solver.glade.h:9 src/tools/solver/reports-write.c:241
-#: src/tools/solver/reports-write.c:402 src/tools/solver/reports-write.c:615
-#: src/tools/solver/reports-write.c:646
+#: src/dialogs/solver.glade.h:9 src/tools/solver/reports-write.c:242
+#: src/tools/solver/reports-write.c:403 src/tools/solver/reports-write.c:616
+#: src/tools/solver/reports-write.c:647
 msgid "Constraints"
 msgstr "Beschränkungen"
 
@@ -17561,8 +17559,8 @@ msgstr "Max. _Iterationen:"
 msgid "Max _Time (sec.)"
 msgstr "Max. _Zeit (Sek.)"
 
-#: src/dialogs/solver.glade.h:15 src/tools/solver/reports-write.c:754
-#: src/tools/solver/reports-write.c:762
+#: src/dialogs/solver.glade.h:15 src/tools/solver/reports-write.c:755
+#: src/tools/solver/reports-write.c:763
 msgid "Model Assumptions:"
 msgstr "Modellannahmen:"
 
@@ -17591,10 +17589,10 @@ msgid "Solve"
 msgstr "Lösen"
 
 #. Fill in the header titles.
-#: src/dialogs/solver.glade.h:22 src/tools/solver/reports-write.c:237
-#: src/tools/solver/reports-write.c:398 src/tools/solver/reports-write.c:528
-#: src/tools/solver/reports-write.c:798 src/tools/solver/reports-write.c:961
-#: src/tools/solver/reports-write.c:1012
+#: src/dialogs/solver.glade.h:22 src/tools/solver/reports-write.c:238
+#: src/tools/solver/reports-write.c:399 src/tools/solver/reports-write.c:529
+#: src/tools/solver/reports-write.c:799 src/tools/solver/reports-write.c:962
+#: src/tools/solver/reports-write.c:1013
 msgid "Solver"
 msgstr "Lösungssuche"
 
@@ -17940,125 +17938,104 @@ msgid "United Arab Emirates, Dirhams"
 msgstr "Vereinigte Arab. Emirate, Dirhams"
 
 #: src/formats.c:259
-#, fuzzy
 msgid "Afghanistan, Afghanis"
-msgstr "Afghanischer Afghani"
+msgstr "Afghanistan, Afghani"
 
 #: src/formats.c:260
-#, fuzzy
 msgid "Albania, Leke"
-msgstr "Albanischer Lek"
+msgstr "Albanischer Leke"
 
 #: src/formats.c:261
 msgid "Armenia, Drams"
-msgstr ""
+msgstr "Armenischer Dram"
 
 #: src/formats.c:262
 msgid "Netherlands Antilles, Guilders"
 msgstr "Niederländische Antillen, Gulden"
 
 #: src/formats.c:263
-#, fuzzy
 msgid "Angola, Kwanza"
-msgstr "Angolanischer Neuer Kwanza"
+msgstr "Angola, Angolanischer Kwanza"
 
 #: src/formats.c:264
-#, fuzzy
 msgid "Argentina, Pesos"
-msgstr "Argentinischer Peso"
+msgstr "Argentinien, Peso"
 
 #: src/formats.c:265
-#, fuzzy
 msgid "Australia, Dollars"
-msgstr "Australischer Dollar"
+msgstr "Australien, Dollar"
 
 #: src/formats.c:266
-#, fuzzy
 msgid "Aruba, Guilders"
-msgstr "Arubanischer Gulden"
+msgstr "Aruba-Gulden"
 
 #: src/formats.c:267
 msgid "Azerbaijan, Manats"
-msgstr ""
+msgstr "Aserbaidschan-Manat"
 
 #: src/formats.c:268
 msgid "Bosnia and Herzegovina, Convertible Marka"
 msgstr "Bosnien-Herzigowina, konvertierbare Marka"
 
 #: src/formats.c:269
-#, fuzzy
 msgid "Barbados, Dollars"
-msgstr "Barbados-Dollar"
+msgstr "Barbados, Dollar"
 
 #: src/formats.c:270
-#, fuzzy
 msgid "Bangladesh, Taka"
-msgstr "Bangladesh-Taka"
+msgstr "Bangladeschischer Taka"
 
 #: src/formats.c:271
-#, fuzzy
 msgid "Bulgaria, Leva"
-msgstr "Bulgarischer Lev"
+msgstr "Bulgarischer Lew"
 
 #: src/formats.c:272
-#, fuzzy
 msgid "Bahrain, Dinars"
-msgstr "Bahrein-Dinar"
+msgstr "Bahrain-Dinar"
 
 #: src/formats.c:273
-#, fuzzy
 msgid "Burundi, Francs"
-msgstr "Burundi-Franc"
+msgstr "Burundi, Franc"
 
 #: src/formats.c:274
-#, fuzzy
 msgid "Bermuda, Dollars"
-msgstr "Bermuda-Dollar"
+msgstr "Bermuda, Dollar"
 
 #: src/formats.c:275
-#, fuzzy
 msgid "Brunei Darussalam, Dollars"
-msgstr "Brunei-Dollar"
+msgstr "Brunei Darussalam, Dollar"
 
 #: src/formats.c:276
-#, fuzzy
 msgid "Bolivia, Bolivianos"
-msgstr "Bolivischer Boliviano"
+msgstr "Bolivien, Boliviano"
 
 #: src/formats.c:277
-#, fuzzy
 msgid "Brazil, Brazil Real"
-msgstr "Brasilianischer Real"
+msgstr "Brasilien, Brasilianischer Real"
 
 #: src/formats.c:278
-#, fuzzy
 msgid "Bahamas, Dollars"
-msgstr "Bahamas-Dollar"
+msgstr "Bahamas, Dollar"
 
 #: src/formats.c:279
-#, fuzzy
 msgid "Bhutan, Ngultrum"
-msgstr "Bhutan-Ngultrum"
+msgstr "Bhutanischer Ngultrum"
 
 #: src/formats.c:280
-#, fuzzy
 msgid "Botswana, Pulas"
-msgstr "Botswanischer Pula"
+msgstr "Botswana, Pula"
 
 #: src/formats.c:281
-#, fuzzy
 msgid "Belarus, Rubles"
-msgstr "Weißrussischer Rubel"
+msgstr "Belarussland, Rubel"
 
 #: src/formats.c:282
-#, fuzzy
 msgid "Belize, Dollars"
-msgstr "Belize-Dollar"
+msgstr "Belize, Dollar"
 
 #: src/formats.c:283
-#, fuzzy
 msgid "Canada, Dollars"
-msgstr "Kanadischer Dollar"
+msgstr "Kanada, Dollar"
 
 #: src/formats.c:284
 msgid "Congo/Kinshasa, Congolese Francs"
@@ -18069,32 +18046,26 @@ msgid "Switzerland, Francs"
 msgstr "Schweiz, Franken"
 
 #: src/formats.c:286
-#, fuzzy
 msgid "Chile, Pesos"
-msgstr "Chilenischer Peso"
+msgstr "Chile, Peso"
 
 #: src/formats.c:287
-#, fuzzy
 msgid "China, Yuan Renminbi"
-msgstr "Chinesischer Yuan Renminbi"
+msgstr "Chinesischer Renminbi Yuan"
 
 #: src/formats.c:288
-#, fuzzy
 msgid "Colombia, Pesos"
-msgstr "Kolumbischer Peso"
+msgstr "Kolumbien, Peso"
 
 #: src/formats.c:289
-#, fuzzy
 msgid "Costa Rica, Colones"
-msgstr "Costaricanischer Colon"
+msgstr "Costa Rica, Colón"
 
 #: src/formats.c:290
-#, fuzzy
 msgid "Cuba, Pesos"
-msgstr "Kubanischer Peso"
+msgstr "Kuba, Peso"
 
 #: src/formats.c:291
-#, fuzzy
 msgid "Cape Verde, Escudos"
 msgstr "Kap-Verde-Escudo"
 
@@ -18103,44 +18074,38 @@ msgid "Cyprus, Pounds"
 msgstr "Zypern, Pfund"
 
 #: src/formats.c:293
-#, fuzzy
 msgid "Czech Republic, Koruny"
 msgstr "Tschechische Krone"
 
 #: src/formats.c:294
-#, fuzzy
 msgid "Djibouti, Francs"
-msgstr "Djibouti-Franc"
+msgstr "Djibouti, Franc"
 
 #: src/formats.c:295
 msgid "Denmark, Kroner"
 msgstr "Dänemark, Kronen"
 
 #: src/formats.c:296
-#, fuzzy
 msgid "Dominican Republic, Pesos"
 msgstr "Dominikanischer Peso"
 
 #: src/formats.c:297
-#, fuzzy
 msgid "Algeria, Algeria Dinars"
 msgstr "Algerischer Dinar"
 
 #: src/formats.c:298
 msgid "Estonia, Krooni"
-msgstr ""
+msgstr "Estnische Krone"
 
 #: src/formats.c:299
-#, fuzzy
 msgid "Egypt, Pounds"
-msgstr "Ägyptisches Pfund"
+msgstr "Ägypten, Ägyptisches Pfund"
 
 #: src/formats.c:300
 msgid "Eritrea, Nakfa"
 msgstr ""
 
 #: src/formats.c:301
-#, fuzzy
 msgid "Ethiopia, Birr"
 msgstr "Äthiopischer Birr"
 
@@ -18149,14 +18114,12 @@ msgid "Euro Member Countries, Euro"
 msgstr "Euro-Mitgliedsstaaten, Euro"
 
 #: src/formats.c:303
-#, fuzzy
 msgid "Fiji, Dollars"
-msgstr "Fiji-Dollar"
+msgstr "Fidschi, Dollar"
 
 #: src/formats.c:304
-#, fuzzy
 msgid "Falkland Islands (Malvinas), Pounds"
-msgstr "Pfund der Falklandinseln"
+msgstr "Falklandinseln (Malvinen), Pfund"
 
 #: src/formats.c:305
 msgid "United Kingdom, Pounds"
@@ -18171,91 +18134,74 @@ msgid "Guernsey, Pounds"
 msgstr ""
 
 #: src/formats.c:308
-#, fuzzy
 msgid "Ghana, Cedis"
 msgstr "Ghanaischer Cedi"
 
 #: src/formats.c:309
-#, fuzzy
 msgid "Gibraltar, Pounds"
-msgstr "Gibraltar-Pfund"
+msgstr "Gibraltar, Pfund"
 
 #: src/formats.c:310
-#, fuzzy
 msgid "Gambia, Dalasi"
 msgstr "Gambischer Dalasi"
 
 #: src/formats.c:311
-#, fuzzy
 msgid "Guinea, Francs"
-msgstr "Guinea-Franc"
+msgstr "Guinea, Franc"
 
 #: src/formats.c:312
-#, fuzzy
 msgid "Guatemala, Quetzales"
 msgstr "Guatemaltekischer Quetzal"
 
 #: src/formats.c:313
-#, fuzzy
 msgid "Guyana, Dollars"
-msgstr "Guyana-Dollar"
+msgstr "Guyana, Dollar"
 
 #: src/formats.c:314
-#, fuzzy
 msgid "Hong Kong, Dollars"
 msgstr "Hongkong-Dollar"
 
 #: src/formats.c:315
-#, fuzzy
 msgid "Honduras, Lempiras"
 msgstr "Honduranische Lempira"
 
 #: src/formats.c:316
-#, fuzzy
 msgid "Croatia, Kuna"
 msgstr "Kroatische Kuna"
 
 #: src/formats.c:317
-#, fuzzy
 msgid "Haiti, Gourdes"
 msgstr "Haitianische Gourde"
 
 #: src/formats.c:318
-#, fuzzy
 msgid "Hungary, Forint"
 msgstr "Ungarischer Forint"
 
 #: src/formats.c:319
-#, fuzzy
 msgid "Indonesia, Rupiahs"
-msgstr "Indonesische Rupie"
+msgstr "Indonesische Rupiah"
 
 #: src/formats.c:320
-#, fuzzy
 msgid "Israel, New Shekels"
-msgstr "Israelischer Schekel"
+msgstr "Israelischer Neuer Schekel"
 
 #: src/formats.c:321
 msgid "Isle of Man, Pounds"
 msgstr "Isle of Man, Pfund"
 
 #: src/formats.c:322
-#, fuzzy
 msgid "India, Rupees"
 msgstr "Indische Rupie"
 
 #: src/formats.c:323
-#, fuzzy
 msgid "Iraq, Dinars"
 msgstr "Irakischer Dinar"
 
 #: src/formats.c:324
-#, fuzzy
 msgid "Iran, Rials"
 msgstr "Iranischer Rial"
 
 #: src/formats.c:325
-#, fuzzy
 msgid "Iceland, Kronur"
 msgstr "Isländische Krone"
 
@@ -18264,37 +18210,32 @@ msgid "Jersey, Pounds"
 msgstr "Jersey, Pfund"
 
 #: src/formats.c:327
-#, fuzzy
 msgid "Jamaica, Dollars"
 msgstr "Jamaikanischer Dollar"
 
 #: src/formats.c:328
-#, fuzzy
 msgid "Jordan, Dinars"
 msgstr "Jordanischer Dinar"
 
 #: src/formats.c:329
-#, fuzzy
 msgid "Japan, Yen"
 msgstr "Japanischer Yen"
 
 #: src/formats.c:330
-#, fuzzy
 msgid "Kenya, Shillings"
-msgstr "Kenianischer Shilling"
+msgstr "Kenia, Schilling"
 
 #: src/formats.c:331
 msgid "Kyrgyzstan, Soms"
-msgstr ""
+msgstr "Kirgisistan-Som"
 
 #: src/formats.c:332
 msgid "Cambodia, Riels"
-msgstr ""
+msgstr "Kampodschanische Riel"
 
 #: src/formats.c:333
-#, fuzzy
 msgid "Comoros, Francs"
-msgstr "Komoren-Franc"
+msgstr "Komoren, Franc"
 
 #: src/formats.c:334
 msgid "Korea (North), Won"
@@ -18305,66 +18246,56 @@ msgid "Korea (South), Won"
 msgstr "Korea (Süd), Won"
 
 #: src/formats.c:336
-#, fuzzy
 msgid "Kuwait, Dinars"
-msgstr "Kuwait-Dinar"
+msgstr "Kuwaitischer Dinar"
 
 #: src/formats.c:337
-#, fuzzy
 msgid "Cayman Islands, Dollars"
-msgstr "Caymaninseln-Dollar"
+msgstr "Kaiman-Dollar"
 
 #: src/formats.c:338
 msgid "Kazakstan, Tenge"
-msgstr ""
+msgstr "Kasachischer Tenge"
 
 #: src/formats.c:339
-#, fuzzy
 msgid "Laos, Kips"
-msgstr "Lao Kip"
+msgstr "Laotischer Kip"
 
 #: src/formats.c:340
-#, fuzzy
 msgid "Lebanon, Pounds"
 msgstr "Libanesisches Pfund"
 
 #: src/formats.c:341
-#, fuzzy
 msgid "Sri Lanka, Rupees"
-msgstr "Sri-Lanka-Rupie"
+msgstr "Sri-Lanka, Rupie"
 
 #: src/formats.c:342
-#, fuzzy
 msgid "Liberia, Dollars"
-msgstr "Liberianischer Dollar"
+msgstr "Liberia, Dollar"
 
 #: src/formats.c:343
-#, fuzzy
 msgid "Lesotho, Maloti"
-msgstr "Lesotho Loti"
+msgstr "Lesothischer Loti"
 
 #: src/formats.c:344
 msgid "Lithuania, Litai"
-msgstr ""
+msgstr "Litauischer Litas"
 
 #: src/formats.c:345
 msgid "Latvia, Lati"
 msgstr ""
 
 #: src/formats.c:346
-#, fuzzy
 msgid "Libya, Dinars"
 msgstr "Libyscher Dinar"
 
 #: src/formats.c:347
-#, fuzzy
 msgid "Morocco, Dirhams"
 msgstr "Marokkanischer Dirham"
 
 #: src/formats.c:348
-#, fuzzy
 msgid "Moldova, Lei"
-msgstr "Modavischer Leu"
+msgstr "Moldavien, Leu"
 
 #: src/formats.c:349
 msgid "Madagascar, Malagasy Francs"
@@ -18372,7 +18303,7 @@ msgstr "Madagaskar, Madagaskar-Franc"
 
 #: src/formats.c:350
 msgid "Macedonia, Denars"
-msgstr ""
+msgstr "Mazedonischer Denar"
 
 #: src/formats.c:351
 msgid "Myanmar (Burma), Kyats"
@@ -18383,60 +18314,52 @@ msgid "Mongolia, Tugriks"
 msgstr "Mongolei, Tugrik"
 
 #: src/formats.c:353
-#, fuzzy
 msgid "Macau, Patacas"
-msgstr "Macauischer Pataca"
+msgstr "Macauische Pataca"
 
 #: src/formats.c:354
-#, fuzzy
 msgid "Mauritania, Ouguiyas"
-msgstr "Mauritanischer Ouguiya"
+msgstr "Mauretanische Ouguiya"
 
 #: src/formats.c:355
 msgid "Malta, Liri"
 msgstr "Malta, Lira"
 
 #: src/formats.c:356
-#, fuzzy
 msgid "Mauritius, Rupees"
-msgstr "Mauritius-Rupie"
+msgstr "Mauritius, Rupie"
 
 #: src/formats.c:357
 msgid "Maldives (Maldive Islands), Rufiyaa"
 msgstr ""
 
 #: src/formats.c:358
-#, fuzzy
 msgid "Malawi, Kwachas"
-msgstr "Malawi Kwacha"
+msgstr "Malawi-Kwacha"
 
 #: src/formats.c:359
 msgid "Mexico, Pesos"
 msgstr "Mexico, Peso"
 
 #: src/formats.c:360
-#, fuzzy
 msgid "Malaysia, Ringgits"
 msgstr "Malaysischer Ringgit"
 
 #: src/formats.c:361
-#, fuzzy
 msgid "Mozambique, Meticais"
-msgstr "Mozambikanischer Metical"
+msgstr "Mosambikanischer Metical"
 
 #: src/formats.c:362
-#, fuzzy
 msgid "Namibia, Dollars"
-msgstr "Bahamas-Dollar"
+msgstr "Namimbia, Dollar"
 
 #: src/formats.c:363
 msgid "Nigeria, Nairas"
 msgstr "Nigeria, Naira"
 
 #: src/formats.c:364
-#, fuzzy
 msgid "Nicaragua, Gold Cordobas"
-msgstr "Nicaragischer Cordoba Oro"
+msgstr "Nicaraguanischer Córdoba"
 
 #: src/formats.c:365
 msgid "Norway, Krone"
@@ -18447,18 +18370,16 @@ msgid "Nepal, Nepal Rupees"
 msgstr "Nepal, Nepalesische Rupie"
 
 #: src/formats.c:367
-#, fuzzy
 msgid "New Zealand, Dollars"
-msgstr "Neuseeland-Dollar"
+msgstr "Neuseeland, Dollar"
 
 #: src/formats.c:368
 msgid "Oman, Rials"
 msgstr ""
 
 #: src/formats.c:369
-#, fuzzy
 msgid "Panama, Balboa"
-msgstr "Panamesischer Balboa"
+msgstr "Panama, Balboa"
 
 #: src/formats.c:370
 msgid "Peru, Nuevos Soles"
@@ -18478,35 +18399,31 @@ msgstr "Pakistan, Rupien"
 
 #: src/formats.c:374
 msgid "Poland, Zlotych"
-msgstr ""
+msgstr "Polnischer Zloty"
 
 #: src/formats.c:375
 msgid "Paraguay, Guarani"
 msgstr "Paraguay, Guarani"
 
 #: src/formats.c:376
-#, fuzzy
 msgid "Qatar, Rials"
-msgstr "Qatar-Rial"
+msgstr "Katar, Riyal"
 
 #: src/formats.c:377
-#, fuzzy
 msgid "Romania, Lei"
-msgstr "Rumänischer Leu"
+msgstr "Rumänien, Leu"
 
 #: src/formats.c:378
 msgid "Russia, Rubles"
 msgstr "Russland, Rubel"
 
 #: src/formats.c:379
-#, fuzzy
 msgid "Rwanda, Rwanda Francs"
-msgstr "Ruandischer Franc"
+msgstr "Ruanda, Ruanda-Franc"
 
 #: src/formats.c:380
-#, fuzzy
 msgid "Saudi Arabia, Riyals"
-msgstr "Saudi-Arabischer Rial"
+msgstr "Saudi-Arabien, Riyal"
 
 #: src/formats.c:381
 msgid "Solomon Islands, Dollars"
@@ -18518,7 +18435,7 @@ msgstr "Seychellen, Rupien"
 
 #: src/formats.c:383
 msgid "Sudan, Dinars"
-msgstr ""
+msgstr "Sudanesischer Denar"
 
 #: src/formats.c:384
 msgid "Sweden, Kronor"
@@ -18538,50 +18455,43 @@ msgstr "Slowenien, Tolar"
 
 #: src/formats.c:388
 msgid "Slovakia, Koruny"
-msgstr ""
+msgstr "Slowakische Krone"
 
 #: src/formats.c:389
-#, fuzzy
 msgid "Sierra Leone, Leones"
-msgstr "Sierra Leone Leone"
+msgstr "Sierra Leone, Leone"
 
 #: src/formats.c:390
-#, fuzzy
 msgid "Somalia, Shillings"
-msgstr "Somalischer Schilling"
+msgstr "Somalia, Schilling"
 
 #: src/formats.c:391
 msgid "Seborga, Luigini"
 msgstr ""
 
 #: src/formats.c:392
-#, fuzzy
 msgid "Suriname, Guilders"
-msgstr "Surinamesischer Gulden"
+msgstr "Suriname-Gulden"
 
 #: src/formats.c:393
-#, fuzzy
 msgid "Sao Tome and Principe, Dobras"
-msgstr "Sao Tome and Principe Dobra"
+msgstr "São-Tomé/Príncipe-Dobra"
 
 #: src/formats.c:394
-#, fuzzy
 msgid "El Salvador, Colones"
-msgstr "El Salvador Colon"
+msgstr "El-Salvador-Colón"
 
 #: src/formats.c:395
 msgid "Syria, Pounds"
 msgstr "Syrien, Pfund"
 
 #: src/formats.c:396
-#, fuzzy
 msgid "Swaziland, Emalangeni"
-msgstr "Swaziland Lilangeni"
+msgstr "Swaziländischer Lilangeni"
 
 #: src/formats.c:397
-#, fuzzy
 msgid "Thailand, Baht"
-msgstr "Thai Baht"
+msgstr "Thailändischer Baht"
 
 #: src/formats.c:398
 msgid "Tajikistan, Rubles"
@@ -18589,17 +18499,15 @@ msgstr "Tadschikistan, Rubel"
 
 #: src/formats.c:399
 msgid "Turkmenistan, Manats"
-msgstr ""
+msgstr "Turkmenistan-Manat"
 
 #: src/formats.c:400
-#, fuzzy
 msgid "Tunisia, Dinars"
 msgstr "Tunesischer Dinar"
 
 #: src/formats.c:401
-#, fuzzy
 msgid "Tonga, Pa'anga"
-msgstr "Tongan Pa'anga"
+msgstr "Tongaische Pa'anga"
 
 #: src/formats.c:402
 msgid "Turkey, Liras"
@@ -18622,47 +18530,40 @@ msgid "Tanzania, Shillings"
 msgstr "Tanzania, Schilling"
 
 #: src/formats.c:407
-#, fuzzy
 msgid "Ukraine, Hryvnia"
-msgstr "Ukrainischer Hryvnia"
+msgstr "Ukrainische Griwna"
 
 #: src/formats.c:408
-#, fuzzy
 msgid "Uganda, Shillings"
-msgstr "Ugandischer Shilling"
+msgstr "Uganda-Schilling"
 
 #: src/formats.c:409
 msgid "United States of America, Dollars"
 msgstr "Vereinigte Staaten von Amerika, Dollars"
 
 #: src/formats.c:410
-#, fuzzy
 msgid "Uruguay, Pesos"
-msgstr "Uruguayanischer Peso"
+msgstr "Uruguayischer Peso"
 
 #: src/formats.c:411
 msgid "Uzbekistan, Sums"
-msgstr ""
+msgstr "Usbekistan-Sum"
 
 #: src/formats.c:412
-#, fuzzy
 msgid "Venezuela, Bolivares"
 msgstr "Venezolanischer Bolivar"
 
 #: src/formats.c:413
-#, fuzzy
 msgid "Viet Nam, Dong"
-msgstr "Vietnamescher Dong"
+msgstr "Vietnamesischer Dong"
 
 #: src/formats.c:414
-#, fuzzy
 msgid "Vanuatu, Vatu"
-msgstr "Vanuatu Vatu"
+msgstr "Vanuatu-Vatu"
 
 #: src/formats.c:415
-#, fuzzy
 msgid "Samoa, Tala"
-msgstr "Saoanischer Tala"
+msgstr "Samoanischer Tala"
 
 #: src/formats.c:416
 msgid "Communaute Financiere Africaine BEAC, Francs"
@@ -18706,18 +18607,16 @@ msgid "Yemen, Rials"
 msgstr "Jemen, Rial"
 
 #: src/formats.c:426
-#, fuzzy
 msgid "Yugoslavia, New Dinars"
-msgstr "Neuer Jugoslawischer Dinar"
+msgstr "Jugoslawischer Dinar"
 
 #: src/formats.c:427
 msgid "South Africa, Rand"
 msgstr "Südafrika, Rand"
 
 #: src/formats.c:428
-#, fuzzy
 msgid "Zambia, Kwacha"
-msgstr "Zambianischer Kwacha"
+msgstr "Sambischer Kwacha"
 
 #: src/formats.c:429
 msgid "Zimbabwe, Zimbabwe Dollars"
@@ -19313,9 +19212,9 @@ msgid "Module doesn't contain \"%s\" function."
 msgstr "Modul weist keine »%s«-Funktion auf."
 
 #: src/plugin-loader-module.c:621
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown verb: %s"
-msgstr "Unbekannte Version"
+msgstr "Unbekanntes Verb: %s"
 
 #: src/plugin-loader.c:260 src/plugin-loader.c:300
 msgid "Service not supported by loader."
@@ -19835,23 +19734,23 @@ msgstr "Transparent"
 msgid "CheckBox %d"
 msgstr "Checkbox %d"
 
-#: src/sheet.c:1939
+#: src/sheet.c:1944
 msgid "Target region contains merged cells"
 msgstr "Zielbereich beinhaltet zusammengeführte Zellen"
 
-#: src/sheet.c:2001
+#: src/sheet.c:2006
 msgid "cannot operate on merged cells"
 msgstr "kann nicht auf zusammengeführte Zellen angewendet werden"
 
-#: src/sheet.c:2011
+#: src/sheet.c:2016
 msgid "cannot operate on array formulae"
 msgstr "kann nicht auf Array-Formeln angewendet werden"
 
-#: src/sheet.c:3130
+#: src/sheet.c:3136
 msgid "Insert Columns"
 msgstr "Spalten einfügen"
 
-#: src/sheet.c:3242
+#: src/sheet.c:3248
 msgid "Insert Rows"
 msgstr "Zeilen einfügen"
 
@@ -20341,7 +20240,7 @@ msgstr "Kumulative %"
 msgid "Histogram (%s)"
 msgstr "Histogramm (%s)"
 
-#: src/tools/analysis-tools.c:4163 src/tools/solver/reports-write.c:690
+#: src/tools/analysis-tools.c:4163 src/tools/solver/reports-write.c:691
 msgid "Real"
 msgstr "Wirklich"
 
@@ -20409,205 +20308,205 @@ msgid "Random Numbers (%s)"
 msgstr "Zufallszahlen (%s)"
 
 # CHECK, imho "Ergebnis" better than "Antwort" --miq
-#: src/tools/solver/reports-write.c:109 src/tools/solver/reports-write.c:237
+#: src/tools/solver/reports-write.c:110 src/tools/solver/reports-write.c:238
 msgid "Answer Report"
 msgstr "Ergebnisbericht"
 
-#: src/tools/solver/reports-write.c:124 src/tools/solver/reports-write.c:146
+#: src/tools/solver/reports-write.c:125 src/tools/solver/reports-write.c:147
 msgid "Original Value"
 msgstr "Originalwert"
 
-#: src/tools/solver/reports-write.c:125 src/tools/solver/reports-write.c:147
+#: src/tools/solver/reports-write.c:126 src/tools/solver/reports-write.c:148
 msgid "Final Value"
 msgstr "Endgültiger Wert"
 
-#: src/tools/solver/reports-write.c:173
+#: src/tools/solver/reports-write.c:174
 msgid "Cell Value"
 msgstr "Zellenwert"
 
-#: src/tools/solver/reports-write.c:174
+#: src/tools/solver/reports-write.c:175
 msgid "Formula"
 msgstr "Formeln"
 
 # CHECK
 #. Set `Status' column
 #. FIXME
-#: src/tools/solver/reports-write.c:197 src/tools/solver/reports-write.c:203
+#: src/tools/solver/reports-write.c:198 src/tools/solver/reports-write.c:204
 msgid "Binding"
 msgstr "nicht locker"
 
 # CHECK
-#: src/tools/solver/reports-write.c:205
+#: src/tools/solver/reports-write.c:206
 msgid "Not Binding"
 msgstr "locker"
 
-#: src/tools/solver/reports-write.c:222 src/tools/solver/reports-write.c:941
+#: src/tools/solver/reports-write.c:223 src/tools/solver/reports-write.c:942
 msgid "Assume that all variables are integer."
 msgstr "Annehmen, dass alle Variablen ganzzahlen sind"
 
-#: src/tools/solver/reports-write.c:232
+#: src/tools/solver/reports-write.c:233
 msgid "Target Cell (Maximize)"
 msgstr "Zielzelle (Maximieren)"
 
-#: src/tools/solver/reports-write.c:234
+#: src/tools/solver/reports-write.c:235
 msgid "Target Cell (Minimize)"
 msgstr "Zielzelle (Minimieren)"
 
 #. Fill in other titles.
-#: src/tools/solver/reports-write.c:240 src/tools/solver/reports-write.c:401
+#: src/tools/solver/reports-write.c:241 src/tools/solver/reports-write.c:402
 msgid "Adjustable Cells"
 msgstr "Anpassbare Zellen"
 
-#: src/tools/solver/reports-write.c:258 src/tools/solver/reports-write.c:398
+#: src/tools/solver/reports-write.c:259 src/tools/solver/reports-write.c:399
 msgid "Sensitivity Report"
 msgstr "Bericht der Sensitivität"
 
 #.
 #. * Fill in the labels of `Adjustable Cells' section.
 #.
-#: src/tools/solver/reports-write.c:272 src/tools/solver/reports-write.c:318
+#: src/tools/solver/reports-write.c:273 src/tools/solver/reports-write.c:319
 msgid "Final"
 msgstr "Endgültig"
 
-#: src/tools/solver/reports-write.c:273
+#: src/tools/solver/reports-write.c:274
 msgid "Reduced"
 msgstr "Rduziert"
 
-#: src/tools/solver/reports-write.c:274
+#: src/tools/solver/reports-write.c:275
 msgid "Objective"
 msgstr "Objektiv"
 
-#: src/tools/solver/reports-write.c:275 src/tools/solver/reports-write.c:276
-#: src/tools/solver/reports-write.c:321 src/tools/solver/reports-write.c:322
+#: src/tools/solver/reports-write.c:276 src/tools/solver/reports-write.c:277
+#: src/tools/solver/reports-write.c:322 src/tools/solver/reports-write.c:323
 msgid "Allowable"
 msgstr "Erlaubbar"
 
-#: src/tools/solver/reports-write.c:281
+#: src/tools/solver/reports-write.c:282
 msgid "Cost"
 msgstr "Kosten"
 
-#: src/tools/solver/reports-write.c:282
+#: src/tools/solver/reports-write.c:283
 msgid "Coefficient"
 msgstr "Koeffizient"
 
-#: src/tools/solver/reports-write.c:283 src/tools/solver/reports-write.c:329
+#: src/tools/solver/reports-write.c:284 src/tools/solver/reports-write.c:330
 msgid "Increase"
 msgstr "Erhöhen"
 
-#: src/tools/solver/reports-write.c:284 src/tools/solver/reports-write.c:330
+#: src/tools/solver/reports-write.c:285 src/tools/solver/reports-write.c:331
 msgid "Decrease"
 msgstr "Vermindern"
 
-#: src/tools/solver/reports-write.c:319
+#: src/tools/solver/reports-write.c:320
 msgid "Shadow"
 msgstr "Schatten"
 
-#: src/tools/solver/reports-write.c:320
+#: src/tools/solver/reports-write.c:321
 msgid "Constraint"
 msgstr "Beschränkung"
 
-#: src/tools/solver/reports-write.c:327
+#: src/tools/solver/reports-write.c:328
 msgid "Price"
 msgstr "Preis"
 
-#: src/tools/solver/reports-write.c:328
+#: src/tools/solver/reports-write.c:329
 msgid "R.H. Side"
 msgstr "Rechte Seite"
 
-#: src/tools/solver/reports-write.c:365 src/tools/solver/reports-write.c:373
+#: src/tools/solver/reports-write.c:366 src/tools/solver/reports-write.c:374
 msgid "Infinity"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:419 src/tools/solver/reports-write.c:528
+#: src/tools/solver/reports-write.c:420 src/tools/solver/reports-write.c:529
 msgid "Limits Report"
 msgstr "Schrankenbericht"
 
 #.
 #. * Fill in the labels.
 #.
-#: src/tools/solver/reports-write.c:435 src/tools/solver/reports-write.c:448
-#: src/tools/solver/reports-write.c:453
+#: src/tools/solver/reports-write.c:436 src/tools/solver/reports-write.c:449
+#: src/tools/solver/reports-write.c:454
 msgid "Target"
 msgstr "Ziel"
 
-#: src/tools/solver/reports-write.c:442
+#: src/tools/solver/reports-write.c:443
 msgid "Adjustable"
 msgstr "Anpassbar"
 
-#: src/tools/solver/reports-write.c:447
+#: src/tools/solver/reports-write.c:448
 #, fuzzy
 msgid "Lower"
 msgstr "Starter"
 
-#: src/tools/solver/reports-write.c:449 src/tools/solver/reports-write.c:454
+#: src/tools/solver/reports-write.c:450 src/tools/solver/reports-write.c:455
 msgid "Limit"
 msgstr "Grenze"
 
-#: src/tools/solver/reports-write.c:450 src/tools/solver/reports-write.c:455
+#: src/tools/solver/reports-write.c:451 src/tools/solver/reports-write.c:456
 msgid "Result"
 msgstr "Ergebnis"
 
-#: src/tools/solver/reports-write.c:452
+#: src/tools/solver/reports-write.c:453
 msgid "Upper"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:548 src/tools/solver/reports-write.c:798
+#: src/tools/solver/reports-write.c:549 src/tools/solver/reports-write.c:799
 msgid "Performance Report"
 msgstr "Leistungsbericht"
 
-#: src/tools/solver/reports-write.c:563
+#: src/tools/solver/reports-write.c:564
 msgid "Nbr of Iterations"
 msgstr "Anzahl der Iterationen"
 
-#: src/tools/solver/reports-write.c:569
+#: src/tools/solver/reports-write.c:570
 msgid "Minimization"
 msgstr "Minimierung"
 
-#: src/tools/solver/reports-write.c:572
+#: src/tools/solver/reports-write.c:573
 msgid "Maximization"
 msgstr "Maximierung"
 
-#: src/tools/solver/reports-write.c:575
+#: src/tools/solver/reports-write.c:576
 #, fuzzy
 msgid "Target value search"
 msgstr "Suche starten"
 
-#: src/tools/solver/reports-write.c:582
+#: src/tools/solver/reports-write.c:583
 msgid "Optimal solution found"
 msgstr "Optimale Lösung gefunden"
 
-#: src/tools/solver/reports-write.c:585
+#: src/tools/solver/reports-write.c:586
 msgid "Unbounded problem"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:588
+#: src/tools/solver/reports-write.c:589
 msgid "Infeasible problem"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:592
+#: src/tools/solver/reports-write.c:593
 msgid "Maximum number of iterations exceeded: optimization interupted"
 msgstr "Maximale Zeit verstrichen: Optimierung unterbrochen"
 
-#: src/tools/solver/reports-write.c:597
+#: src/tools/solver/reports-write.c:598
 msgid "Maximum time exceeded: optimization interupted"
 msgstr "Maximale Anzahl an Iterationen verstrichen: Optimierung unterbrochen"
 
 #.
 #. * Fill in the labels of `Problem Size' section.
 #.
-#: src/tools/solver/reports-write.c:614
+#: src/tools/solver/reports-write.c:615
 msgid "Variables"
 msgstr "Variablen"
 
-#: src/tools/solver/reports-write.c:616
+#: src/tools/solver/reports-write.c:617
 msgid "Int Constraints"
 msgstr "Ganzzahlige Schranken"
 
-#: src/tools/solver/reports-write.c:617
+#: src/tools/solver/reports-write.c:618
 msgid "Bool Constraints"
 msgstr "Booleansche Schranken"
 
-#: src/tools/solver/reports-write.c:618 src/tools/solver/reports-write.c:649
+#: src/tools/solver/reports-write.c:619 src/tools/solver/reports-write.c:650
 #, fuzzy
 msgid "Number of"
 msgstr "Zahl von"
@@ -20615,170 +20514,170 @@ msgstr "Zahl von"
 #.
 #. * Fill in the labels of `Data Sparsity' section.
 #.
-#: src/tools/solver/reports-write.c:643
+#: src/tools/solver/reports-write.c:644
 msgid "Matrix"
 msgstr "Matrix"
 
-#: src/tools/solver/reports-write.c:644
+#: src/tools/solver/reports-write.c:645
 msgid "Elements"
 msgstr "Elemente"
 
-#: src/tools/solver/reports-write.c:645 src/tools/solver/reports-write.c:647
+#: src/tools/solver/reports-write.c:646 src/tools/solver/reports-write.c:648
 msgid "Non-zeros in"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:648
+#: src/tools/solver/reports-write.c:649
 msgid "Obj. fn"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:650
+#: src/tools/solver/reports-write.c:651
 msgid "Ratio"
 msgstr "Verhältnis"
 
 #.
 #. * Fill in the labels of `Computing Time' section.
 #.
-#: src/tools/solver/reports-write.c:688
+#: src/tools/solver/reports-write.c:689
 msgid "User"
 msgstr "Benutzer"
 
-#: src/tools/solver/reports-write.c:689
+#: src/tools/solver/reports-write.c:690
 msgid "System"
 msgstr "System"
 
-#: src/tools/solver/reports-write.c:691
+#: src/tools/solver/reports-write.c:692
 msgid "Time (sec.)"
 msgstr "Zeit (Sek.)"
 
 #.
 #. * Fill in the labels of `System Information' section.
 #.
-#: src/tools/solver/reports-write.c:711
+#: src/tools/solver/reports-write.c:712
 msgid "CPU Model"
 msgstr "CPU-Modell"
 
-#: src/tools/solver/reports-write.c:712
+#: src/tools/solver/reports-write.c:713
 msgid "CPU MHz"
 msgstr "Prozessor MHz"
 
-#: src/tools/solver/reports-write.c:713
+#: src/tools/solver/reports-write.c:714
 msgid "OS"
 msgstr "Betriebssystem"
 
 #. Set the `CPU Model'.
-#: src/tools/solver/reports-write.c:726 src/tools/solver/reports-write.c:729
-#: src/tools/solver/reports-write.c:734
+#: src/tools/solver/reports-write.c:727 src/tools/solver/reports-write.c:730
+#: src/tools/solver/reports-write.c:735
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: src/tools/solver/reports-write.c:739
+#: src/tools/solver/reports-write.c:740
 #, c-format
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: src/tools/solver/reports-write.c:753
+#: src/tools/solver/reports-write.c:754
 msgid "Algorithm:"
 msgstr "Algorithmus:"
 
-#: src/tools/solver/reports-write.c:755
+#: src/tools/solver/reports-write.c:756
 msgid "Autoscaling:"
 msgstr "Auto-Skalieren:"
 
-#: src/tools/solver/reports-write.c:756
+#: src/tools/solver/reports-write.c:757
 msgid "Max Iterations:"
 msgstr "Max. Iterationen:"
 
-#: src/tools/solver/reports-write.c:757
+#: src/tools/solver/reports-write.c:758
 msgid "Max Time:"
 msgstr "Max. Zeit:"
 
 #. Set the options.
-#: src/tools/solver/reports-write.c:761
+#: src/tools/solver/reports-write.c:762
 msgid "LP Solve 3.2"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:770
+#: src/tools/solver/reports-write.c:771
 msgid "Non-Negative"
 msgstr "Nicht-Negativ"
 
-#: src/tools/solver/reports-write.c:777
+#: src/tools/solver/reports-write.c:778
 msgid "Yes"
 msgstr "Ja"
 
-#: src/tools/solver/reports-write.c:779
+#: src/tools/solver/reports-write.c:780
 msgid "No"
 msgstr "Nein"
 
 #. Fill in other titles.
-#: src/tools/solver/reports-write.c:801
+#: src/tools/solver/reports-write.c:802
 msgid "General Information"
 msgstr "Allgemeine Informationen"
 
-#: src/tools/solver/reports-write.c:802
+#: src/tools/solver/reports-write.c:803
 msgid "Problem Size"
 msgstr "Problemgröße"
 
-#: src/tools/solver/reports-write.c:803
+#: src/tools/solver/reports-write.c:804
 msgid "Data Sparsity"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:804
+#: src/tools/solver/reports-write.c:805
 msgid "Computing Time"
 msgstr "Rechenzeit"
 
-#: src/tools/solver/reports-write.c:805
+#: src/tools/solver/reports-write.c:806
 msgid "System Information"
 msgstr "Systeminformationen"
 
-#: src/tools/solver/reports-write.c:821 src/tools/solver/reports-write.c:961
+#: src/tools/solver/reports-write.c:822 src/tools/solver/reports-write.c:962
 msgid "Program Report"
 msgstr "Programmbericht"
 
-#: src/tools/solver/reports-write.c:950
+#: src/tools/solver/reports-write.c:951
 msgid "Assume that all variables take only positive values."
 msgstr "Annehmen, dass alle Variablen ausschließlich positive Werte annehmen."
 
-#: src/tools/solver/reports-write.c:966
+#: src/tools/solver/reports-write.c:967
 msgid "Minimize"
 msgstr "Minimieren"
 
-#: src/tools/solver/reports-write.c:969
+#: src/tools/solver/reports-write.c:970
 msgid "Maximize"
 msgstr "Maximieren"
 
-#: src/tools/solver/reports-write.c:972
+#: src/tools/solver/reports-write.c:973
 msgid "Equal to"
 msgstr "Ist gleich"
 
 #. Print `Subject to' title.
-#: src/tools/solver/reports-write.c:978
+#: src/tools/solver/reports-write.c:979
 msgid "Subject to"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:999 src/tools/solver/reports-write.c:1012
+#: src/tools/solver/reports-write.c:1000 src/tools/solver/reports-write.c:1013
 #, fuzzy
 msgid "Dual Program Report"
 msgstr "Programmname"
 
-#: src/tools/solver/reports.c:329
+#: src/tools/solver/reports.c:330
 msgid ""
 "Model is too large for program report generation. Program report was not "
 "created."
 msgstr ""
 
-#: src/tools/solver/solver.c:409
+#: src/tools/solver/solver.c:410
 msgid ""
 "The LHS cells should contain formulas that yield proper numerical values.  "
 "Specify valid LHS entries."
 msgstr ""
 
-#: src/tools/solver/solver.c:448
+#: src/tools/solver/solver.c:449
 msgid ""
 "The RHS cells should contain proper numerical values only.  Specify valid "
 "RHS entries."
 msgstr ""
 
-#: src/tools/solver/solver.c:531
+#: src/tools/solver/solver.c:528
 msgid ""
 "Some of the input cells contain non-numeric values.  Specify a valid input "
 "range."
@@ -21434,9 +21333,3 @@ msgstr "Ist keine gnumeric-Arbeitsbuch-Datei"
 #: src/xml-io.c:3450
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric-XML-Dateiformat"
-
-#~ msgid "Manage Sheets..."
-#~ msgstr "Blätter verwalten"
-
-#~ msgid " Unknown formula"
-#~ msgstr " Unbekannte Formel"
