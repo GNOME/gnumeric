@@ -311,8 +311,8 @@ gog_renderer_init (GogRenderer *rend)
 	rend->cur_style    = NULL;
 	rend->style_stack  = NULL;
 	rend->scale = rend->scale_x = rend->scale_y = 1.;
-	rend->logical_width_pts    = GO_CM_TO_PT (6);
-	rend->logical_height_pts   = GO_CM_TO_PT (6);
+	rend->logical_width_pts    = GO_CM_TO_PT (12);
+	rend->logical_height_pts   = GO_CM_TO_PT (8);
 }
 
 GSF_CLASS (GogRenderer, gog_renderer,

@@ -29,8 +29,7 @@ G_BEGIN_DECLS
 
 void gog_graph_print_to_gnome_print (GogGraph *graph,
 				     GnomePrintContext *gp_context,
-				     double base_x, double base_y,
-				     double coords[]);
+				     double width, double height);
 
 G_END_DECLS
 

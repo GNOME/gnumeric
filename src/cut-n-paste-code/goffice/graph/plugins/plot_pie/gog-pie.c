@@ -315,23 +315,23 @@ GSF_CLASS (GogRingPlot, gog_ring_plot,
 typedef GogPlotView		GogPieView;
 typedef GogPlotViewClass	GogPieViewClass;
 
-#define MAX_ARC_SEGMENTS 128
+#define MAX_ARC_SEGMENTS 64
 
 static void
 gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogPiePlot const *model = GOG_PIE_PLOT (view->model);
 	GogPieSeries const *series;
-	double real_cx, real_cy, cx, cy, r, dt, tmp, theta, len, *vals, scale;
+	double separated_cx, separated_cy, cx, cy, r, dt, tmp, theta, len, *vals, scale;
 	double default_sep;
 	unsigned elem, j, n, k;
-	ArtVpath path [MAX_ARC_SEGMENTS + 4];
+	ArtVpath path [MAX_ARC_SEGMENTS*2 + 4];
 	GObjectClass *klass;
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (model));
 	GogStyle *style;
 	GSList *ptr;
 	unsigned num_series = 0;
-	unsigned index;
+	unsigned index, mirror;
 	double center_radius;
 	double center_size = 0.0;
 	double r_ext, r_int;
@@ -388,42 +388,51 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (!finite (len) || len < 1e-3)
 				continue;
 
-			/* only separate the outer ring ? (check this) */
-			if (num_series == index) {
-				real_cx = cx + default_sep * cos (theta + len/2.);
-				real_cy = cy + default_sep * sin (theta + len/2.);
-			} else {
-				real_cx = cx;
-				real_cy = cy;
+			/* only separate the outer ring */
+			separated_cx = cx;
+			separated_cy = cy;
+			if (num_series == index && default_sep > 0.) {
+				separated_cx += default_sep * cos (theta + len/2.);
+				separated_cy += default_sep * sin (theta + len/2.);
 			}
 
 			n = MAX_ARC_SEGMENTS * len / (2 * M_PI);
-			if (n < 12)
-				n = 12;
+			if (n < 6)
+				n = 6;
 			else if (n > MAX_ARC_SEGMENTS)
 				n = MAX_ARC_SEGMENTS;
 
-			n /= 2;
-
 			dt = (double)len / (double)n;
 			path[0].code = ART_MOVETO;
-			path[0].x = real_cx + r_int * cos (theta);
-			path[0].y = real_cy + r_int * sin (theta);
-			for (tmp = theta, j = 0; j <= n ; tmp += dt, j++) {
-				path[j + 1].code = ART_LINETO;
-				path[j + 1].x = real_cx + r_ext * cos (tmp);
-				path[j + 1].y = real_cy + r_ext * sin (tmp);
-				path[2 * n - j + 2].code = ART_LINETO;
-				path[2 * n - j + 2].x = real_cx + r_int * cos (tmp);
-				path[2 * n - j + 2].y = real_cy + r_int * sin (tmp);
+			path[0].x = separated_cx;
+			path[0].y = separated_cy;
+			if (index > 1) {
+				path[0].x += r_int * cos (theta);
+				path[0].y += r_int * sin (theta);
+				mirror = 2*n + 3;
+				path[mirror].code = ART_END;
+			} else {
+				path[n+2].code = ART_LINETO;
+				path[n+2].x = separated_cx;
+				path[n+2].y = separated_cy;
+				path[n+3].code = ART_END;
 			}
-			path[2 * n + 3].code = ART_END;
+			for (tmp = theta, j = 0; j++ <= n ; tmp += dt) {
+				path[j].code = ART_LINETO;
+				path[j].x = separated_cx + r_ext * cos (tmp);
+				path[j].y = separated_cy + r_ext * sin (tmp);
+				if (index > 1) {
+					path[mirror - j].code = ART_LINETO;
+					path[mirror - j].x = separated_cx + r_int * cos (tmp);
+					path[mirror - j].y = separated_cy + r_int * sin (tmp);
+				}
+			}
 
 			if (model->base.vary_style_by_element)
 				gog_theme_init_style (theme, style, klass,
-						      model->base.index_num + k);
+					model->base.index_num + k);
 			gog_renderer_draw_polygon (view->renderer, path,
-						   r * len < 5 /* drop outline for thin segments */);
+				r * len < 5 /* drop outline for thin segments */);
 
 			theta += len;
 		}

@@ -356,28 +356,19 @@ static GSF_CLASS (GogRendererGnomePrint, gog_renderer_gnome_print,
 void
 gog_graph_print_to_gnome_print (GogGraph *graph,
 				GnomePrintContext *gp_context,
-				double base_x, double base_y,
-				double coords[])
+				double width, double height)
 {
 	GogViewAllocation allocation;
 	GogRendererGnomePrint *prend =
 		g_object_new (GOG_RENDERER_GNOME_PRINT_TYPE,
-			      "model", graph,NULL);
+			      "model", graph, NULL);
 	g_object_ref (gp_context);
 	prend->gp_context = gp_context;
-
 	allocation.x = 0.;
 	allocation.y = 0.;
-	allocation.w = fabs (coords[2] - coords[0]);
-	allocation.h = fabs (coords[3] - coords[1]);
-	gnome_print_gsave (gp_context);
-	gnome_print_translate (gp_context,
-		base_x, base_y);
-
+	allocation.w = width;
+	allocation.h = height;
 	gog_view_size_allocate (prend->base.view, &allocation);
-
 	gog_view_render	(prend->base.view, NULL);
-
-	gnome_print_grestore (gp_context);
 	g_object_unref (prend);
 }

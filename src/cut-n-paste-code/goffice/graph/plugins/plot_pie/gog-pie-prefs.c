@@ -32,7 +32,7 @@ GtkWidget *gog_pie_plot_pref   (GogPiePlot *plot, CommandContext *cc);
 static void
 cb_default_separation_changed (GtkAdjustment *adj, GObject *pie)
 {
-	g_object_set (pie, "default_separation", adj->value, NULL);
+	g_object_set (pie, "default_separation", adj->value / 100., NULL);
 }
 
 static void
@@ -61,7 +61,7 @@ gog_pie_plot_pref_signal_connect (GogPiePlot *pie, GladeXML *gui)
 		G_CALLBACK (cb_rotation_changed), pie);
 
 	w = glade_xml_get_widget (gui, "separation_spinner");
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), pie->default_separation);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), pie->default_separation * 100.);
 	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
 		"value_changed",
 		G_CALLBACK (cb_default_separation_changed), pie);

@@ -21,7 +21,7 @@ xml_DATA = $(xml_in_files:.xml.in=.xml) gog-pie-prefs.glade gog-ring-prefs.glade
 
 @INTLTOOL_XML_RULE@
 
-glade_DATA = gog-pie-prefs.glade
+glade_DATA = gog-pie-prefs.glade gog-ring-prefs.glade
 
 # do not use the intl-tool stuff to merge the text back
 # its simpler to just use gettext directly
