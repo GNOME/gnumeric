@@ -1,5 +1,9 @@
 2003-06-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* widget-locale-selector.c: added more locales
+
+2003-06-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* Makefile.am: added src/widgets/widget-locale-selector.[ch]
 	* widget-locale-selector.[ch]: new
 
