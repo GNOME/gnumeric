@@ -1,3 +1,8 @@
+2002-06-11  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (callback_function_count) : only count ints and floats,
+	  not booleans.
+
 2002-06-01  Jody Goldberg <jody@gnome.org>
 
 	* functions.c (stat_functions) : don't translate the empty string. 
