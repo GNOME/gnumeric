@@ -26,7 +26,7 @@ AC_DEFUN([AM_GNOME_WITH_NLS],
 
     dnl If we use NLS figure out what method
     if test "$USE_NLS" = "yes"; then
-#      AC_DEFINE(ENABLE_NLS)
+#      AC_DEFINE(ENABLE_NLS, 1, [Define if NLS is to be used])
 #      AC_MSG_CHECKING([whether included gettext is requested])
 #      AC_ARG_WITH(included-gettext,
 #        [  --with-included-gettext use the GNU gettext library included here],
@@ -99,7 +99,7 @@ AC_DEFUN([AM_GNOME_WITH_NLS],
 	    dnl No gettext in C library.  Try catgets next.
 	    AC_CHECK_LIB(i, main)
 	    AC_CHECK_FUNC(catgets,
-	      [AC_DEFINE(HAVE_CATGETS)
+	      [AC_DEFINE(HAVE_CATGETS, 1, [Define if catgets(3) is to be used])
 	       INTLOBJS="\$(CATOBJS)"
 	       AC_PATH_PROG(GENCAT, gencat, no)dnl
 #	       if test "$GENCAT" != "no"; then
@@ -132,7 +132,7 @@ AC_DEFUN([AM_GNOME_WITH_NLS],
       fi
 
       if test "$nls_cv_use_gnu_gettext" != "yes"; then
-        AC_DEFINE(ENABLE_NLS)
+        AC_DEFINE(ENABLE_NLS, 1, [Define if NLS is to be used])
       else
          # Unset this variable since we use the non-zero value as a flag.
          CATOBJEXT=
