@@ -203,7 +203,8 @@ char *
 go_conf_get_short_desc (char const *key)
 {
 	GConfSchema *schema = get_schema (key);
-	char *desc = g_strdup (gconf_schema_get_short_desc (schema));
+	char *desc = g_strdup ((schema == NULL) ? 
+			       "" : gconf_schema_get_short_desc (schema));
 	if (schema != NULL)
 		gconf_schema_free (schema);
 	return desc;
@@ -212,7 +213,8 @@ char *
 go_conf_get_long_desc  (char const *key)
 {
 	GConfSchema *schema = get_schema (key);
-	char *desc = g_strdup (gconf_schema_get_long_desc (schema));
+	char *desc = g_strdup ((schema == NULL) ? 
+			       "" : gconf_schema_get_long_desc (schema));
 	if (schema != NULL)
 		gconf_schema_free (schema);
 	return desc;
