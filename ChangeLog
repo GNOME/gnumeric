@@ -1,3 +1,7 @@
+2004-03-16  Jean Brefort  <jean.brefort@ac-dijon.fr>
+
+	* configure.in: add src/cut-n-paste-code/goffice/data/Makefile.in
+
 2004-03-11  Jody Goldberg <jody@gnome.org>
 
 	* src/stf.c (csv_tsv_probe) : Be more forgiving about what might be

@@ -1,4 +1,4 @@
-2004-03-16  Jean Bréfort  <jean.brefort@ac-dijon.fr>
+2004-03-16  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
 	* Makefile.am: restore data subdir
 	* data/Makefile.am: add error bars icons

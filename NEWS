@@ -21,6 +21,9 @@ Emmanuel Pacaud:
 	http://bugzilla.gnome.org/show_bug.cgi?id=135621
 	* Fix rounding issue for markers in xy plots and for axis ticks.
 
+Jean Brefort:
+	* Add error bars in scatter and bubble plots.
+
 Jody:
 	* Drop gnome-app-helper in favour of GtkAction
 	http://bugzilla.gnome.org/show_bug.cgi?id=128524
