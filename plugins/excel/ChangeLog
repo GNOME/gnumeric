@@ -1,5 +1,17 @@
 1999-07-01  Michael Meeks  <michael@edenproject.org>
 
+	* ms-formula-write.c (ms_formula_cache_init),
+	(ms_formula_cache_shutdown, cache_remove):
+	Implemented.
+
+	* excel.h: Added formula_cache functions.
+
+	* boot.h (excel_init): Added excel_shutdown
+
+	* boot.c (excel_shutdown): Created.
+
+1999-07-01  Michael Meeks  <michael@edenproject.org>
+
 	* ms-formula-write.c (write_string): Created
 	Implemented throughout for simplicity.
 
@@ -8,7 +20,7 @@
 
 	* ms-excel-write.h: Added type to specify string write.
 
-	* ms-formula-write.c: All bif_put_text's write length
+	* ms-formula-write.c: All biff_put_text's write length
 	correctly.
 	Implemented Area PTGs
 

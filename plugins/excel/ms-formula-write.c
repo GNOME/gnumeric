@@ -32,6 +32,27 @@ typedef struct {
 /* Lookup Name -> integer */
 static GHashTable *formula_cache = NULL;
 
+void
+ms_formula_cache_init (void)
+{
+	formula_cache = g_hash_table_new (g_str_hash, g_str_equal);
+}
+
+static gboolean
+cache_remove (gchar *name, FormulaCacheEntry *fce, void *dummy)
+{
+	g_free (fce);
+	return TRUE;
+}
+
+void
+ms_formula_cache_shutdown (void)
+{
+	g_hash_table_foreach_remove (formula_cache, (GHRFunc)cache_remove,
+				     NULL);
+	g_hash_table_destroy (formula_cache);
+}
+
 static FormulaCacheEntry *
 get_formula_index (const gchar *name)
 {
@@ -39,9 +60,7 @@ get_formula_index (const gchar *name)
 	FormulaCacheEntry *fce;
 
 	g_return_val_if_fail (name, NULL);
-
-	if (!formula_cache)
-		formula_cache = g_hash_table_new (g_str_hash, g_str_equal);
+	g_return_val_if_fail (formula_cache, NULL);
 
 	if ((fce = g_hash_table_lookup (formula_cache, name))) {
 #if FORMULA_DEBUG > 0

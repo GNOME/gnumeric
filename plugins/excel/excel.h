@@ -41,4 +41,7 @@ typedef struct
 extern FormulaFuncData formula_func_data[];
 #define FORMULA_FUNC_DATA_LEN 368
 
+extern void ms_formula_cache_init     (void);
+extern void ms_formula_cache_shutdown (void);
+
 #endif

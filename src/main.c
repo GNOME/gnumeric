@@ -94,6 +94,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 
 	gtk_main ();
 
+	excel_shutdown ();
 	cursors_shutdown ();
 	format_match_finish ();
 	format_color_shutdown ();
