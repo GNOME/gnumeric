@@ -375,7 +375,7 @@ dist-hook :
 
 # include conditional files to ensure everything gets distributed no matter
 # what the build
-EXTRA_DIST = GNOME_Gnumeric-gtk.xml				\
+EXTRA_DIST = GNOME_Gnumeric-gtk.xml.in				\
 	    gnm-marshalers.list	                        	\
 	    main-application.c 					\
 	    main-component.c					\
@@ -392,6 +392,8 @@ EXTRA_DIST = GNOME_Gnumeric-gtk.xml				\
 
 gtkactiondir=$(gnumeric_datadir)
 gtkaction_DATA = GNOME_Gnumeric-gtk.xml
+
+@INTLTOOL_XML_RULE@
 
 # Bonobo requires things to be in a subdir of this form
 #bonobo_component_uidir=$(gnumeric_datadir)/gnome-2.0/ui

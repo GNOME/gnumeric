@@ -1,3 +1,9 @@
+2004-10-16  Yukihiro Nakai  <nakai@gnome.gr.jp>
+
+	* src/GNOME_Gnumeric-gtk.xml: Obsolete
+	* src/GNOME_Gnumeric-gtk.xml.in: Newly added for gettextize.
+	* src/wbc-gtk.c: Gettextize the toolbar.
+
 2004-10-18  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=152516

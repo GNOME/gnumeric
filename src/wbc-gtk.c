@@ -1115,7 +1115,7 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		GtkToggleActionEntry entry;
 		char const *name = gtk_widget_get_name (w);
 		char *toggle_name = g_strdup_printf ("ViewMenuToolbar%s", name);
-		char *tooltip = g_strdup_printf (_("Show/Hide toolbar %s"), name);
+		char *tooltip = g_strdup_printf (_("Show/Hide toolbar %s"), _(name));
 
 		gtk_container_add (GTK_CONTAINER (box), w);
 		g_object_connect (box,
@@ -1129,7 +1129,7 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 
 		entry.name = toggle_name;
 		entry.stock_id = NULL;
-		entry.label = name;
+		entry.label = _(name);
 		entry.accelerator = (0 == strcmp (name, "StandardToolbar")) ? "<control>7" : NULL;
 		entry.tooltip = tooltip;
 		entry.callback = G_CALLBACK (cb_toolbar_activate);

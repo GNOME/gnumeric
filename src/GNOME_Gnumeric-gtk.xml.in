@@ -218,7 +218,7 @@
       <menuitem action="HelpAbout"/>
     </menu>
   </menubar>
-  <toolbar name="StandardToolbar">
+  <toolbar _name="StandardToolbar">
     <toolitem action="FileNew"/>
     <toolitem action="FileOpen"/>
     <toolitem action="FileSave"/>
@@ -242,7 +242,7 @@
     <toolitem action="ChartGuru" />
     <toolitem action="Zoom"/>
   </toolbar>
-  <toolbar name="FormatToolbar">
+  <toolbar _name="FormatToolbar">
     <toolitem action="FontName"/>
     <toolitem action="FontSize"/>
     <toolitem action="FontBold"/>
@@ -269,7 +269,7 @@
     <toolitem action="ColorBack"/>
     <toolitem action="ColorFore"/>
   </toolbar>
-  <toolbar name="ObjectToolbar">
+  <toolbar _name="ObjectToolbar">
     <toolitem action="CreateLabel"/>
     <toolitem action="CreateFrame"/>
 <!-- Not useful until we have scripts
