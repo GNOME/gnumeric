@@ -358,10 +358,10 @@ map_linear_auto_bound (GogAxis *axis, double minimum, double maximum, double *bo
 		step *= 2.;	/* 2 4 6 */
 
 	/* we want the bounds to be loose so jump up a step if we get too close */
-	mant = frexpgnum (minimum / step, &expon);
-	bound [AXIS_ELEM_MIN] = step * floor (ldexpgnum (mant - GNUM_EPSILON, expon));
-	mant = frexpgnum (maximum / step, &expon);
-	bound [AXIS_ELEM_MAX] = step * ceil (ldexpgnum (mant + GNUM_EPSILON, expon));
+	mant = frexp (minimum / step, &expon);
+	bound [AXIS_ELEM_MIN] = step * floor (ldexp (mant - DBL_EPSILON, expon));
+	mant = frexp (maximum / step, &expon);
+	bound [AXIS_ELEM_MAX] = step * ceil (ldexp (mant + DBL_EPSILON, expon));
 	bound [AXIS_ELEM_MAJOR_TICK] = step;
 	bound [AXIS_ELEM_MINOR_TICK] = step / 5.;
 
@@ -597,7 +597,7 @@ map_log_calc_ticks (GogAxis *axis,
 	gog_axis_set_ticks (axis, count, ticks);
 }
 
-static GogAxisMapDesc map_desc_discrete = 
+static const GogAxisMapDesc map_desc_discrete = 
 {
 	map_discrete,			map_discrete_to_canvas,
 	map_discrete_init,		NULL,
@@ -605,7 +605,7 @@ static GogAxisMapDesc map_desc_discrete =
 	N_("Discrete"),			N_("Discrete mapping")
 };
 
-static GogAxisMapDesc map_descs[] = 
+static const GogAxisMapDesc map_descs[] = 
 {
 	{
 		map_linear,		map_linear_to_canvas,
@@ -1171,7 +1171,19 @@ gog_axis_get_entry (GogAxis const *axis, unsigned i, gboolean *user_defined)
 			return tmp;
 		}
 	}
-	
+#warning "The above code doesn't trigger anymore -- the following does.  Sort this out."
+	if (dat != NULL && IS_GO_DATA_VECTOR (dat)) {
+		GODataVector *vec = GO_DATA_VECTOR (dat);
+		if (go_data_vector_get_len (vec) == 1) {
+			double tmp = *go_data_vector_get_values (vec);
+			if (go_finite (tmp)) {
+				if (user_defined)
+					*user_defined = TRUE;
+				return tmp;
+			}
+		}
+	}
+
 	return axis->auto_bound [i];
 }
 
@@ -1383,7 +1395,6 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 	};
 	GtkWidget *w, *notebook; /* , *cbox; */
 	GtkTable  *table;
-	gboolean cur_val;
 	unsigned i = 0;
 	GogAxis *axis = GOG_AXIS (gobj);
 	GogDataset *set = GOG_DATASET (gobj);
@@ -1404,14 +1415,14 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 	gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), cc, notebook);
 
 	if (!axis->is_discrete) {
-		w = glade_xml_get_widget (gui, "map_type_combo");
+		GtkWidget *w = glade_xml_get_widget (gui, "map_type_combo");
 		gog_axis_map_populate_combo (axis, GTK_COMBO_BOX (w));
 		g_signal_connect_object (G_OBJECT (w),
 					 "changed",
 					 G_CALLBACK (cb_map_combo_changed),
 					 axis, 0);
 	} else {
-		w= glade_xml_get_widget (gui, "map_type_box");
+		GtkWidget *w = glade_xml_get_widget (gui, "map_type_box");
 		gtk_widget_hide (w);
 	}
 
@@ -1426,7 +1437,9 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 		G_CALLBACK (cb_pos_changed), axis, 0);
 
 	for (i = 0; i < G_N_ELEMENTS (toggle_props) ; i++) {
-		w = glade_xml_get_widget (gui, toggle_props[i]);
+		gboolean cur_val;
+		GtkWidget *w = glade_xml_get_widget (gui, toggle_props[i]);
+
 		g_object_get (G_OBJECT (gobj), toggle_props[i], &cur_val, NULL);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), cur_val);
 		g_signal_connect_object (G_OBJECT (w),
@@ -1435,7 +1448,7 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 	}
 	if (axis->is_discrete) {
 		/* Hide minor tick properties */
-		w = glade_xml_get_widget (gui, "minor_tick_box");
+		GtkWidget *w = glade_xml_get_widget (gui, "minor_tick_box");
 		gtk_widget_hide (w);
 	}
 
@@ -2400,7 +2413,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 		num_radii = rint (circular_max);
 
 		for (i = 0; i < num_radii; i++) {
-			double angle_rad = i * 2.0 * M_PI/(num_radii);
+			double angle_rad = i * (2.0 * M_PI / num_radii);
 			draw_axis_from_a_to_b (v, axis,
 					       center_x, center_y,
 					       center_x + radius * sin (angle_rad),

@@ -1,3 +1,9 @@
+2004-10-12  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-axis.c (map_linear_auto_bound): Fix gnm_float/double
+	confusion.
+	(gog_axis_get_entry): Temporary fix for user-defined axis limits.
+
 2004-10-11  Morten Welinder  <terra@gnome.org>
 
 	* graph/gog-series.c (gog_series_finalize): Plug leak.
