@@ -77,11 +77,6 @@ to features that already work.
 
 * Number formatting
 
-   + The formatting code should take the current GtkFont for the cell
-     being formatted as well as the width allowed and take this into
-     account to render the number as well as possible given the space so
-     that for small regions, numbers in scientific notation are displayed.
-
    + FIXME : The formating is incomplete.
      - It does not support seconds fractions.
      - It incorrectly accepts mmm:ss as some sort of minute spec.
@@ -152,7 +147,6 @@ to features that already work.
      formats.
    + Supply default extension to use with a write operation.
    + Improve error handling and display in file_read routines.
-   + Add ability to send warnings, and progress while loading.
    + Improve handling of unknown fonts and functions when importing.
 
 * Unicode
@@ -176,7 +170,6 @@ to features that already work.
 * Parser
 
    + fully support R[-1]C[3] type references.
-   + Improve error reporting.
 
 * Internals
 
@@ -191,21 +184,6 @@ to features that already work.
    + Implicit iteration.  For an array expression that returns scalar results.
      which takes a range as a scalar argument, apply the expression to each element
      of the input range.
-   + Rethink 'generation' mechanism.  It currently forces all cells to
-     be recalculated when the value of any of them change.
-     i.e.
-
-     a1 : sum (b2:c3)
-     changing b2 bumps the generation of the workbook.
-     All 4 cells b2,b3,c2,c3 get recalculated even though
-     only b2 needed it.
-
-     Functions taking ranges as arguments are forced to do their own
-     recalc checking for elements of the range.  They cheat and use
-     the generation to test for recalc.  This is wrong!  It should be sufficent
-     to only manually recalc a cell that has its recalc flag set.  However,
-     in order to support that we need mark all cells that directly or indirectly
-     depend on a cell as requiring recalc when a cell changes.
 
    + Make checks for inserting rows/cols more intelligent in the face of multiple selections.
      Currently it just checks the first selected range for infiniteness we need to check all
@@ -228,44 +206,11 @@ worked on, others are partially finished. But none is finished
 to an extent that it can be actually "used".
 Items marked (!) are open for someone to step in.
 
-* Global Preferences Dialog (!)
-  
-   + Needs to be adopted.
-
-* Conditional Formatting
-
-   + Conceptual progress being made, nothing concrete yet.
-    Very tightly coupled with Data Validation, see below.
-
-* Data Validation
-
-   + This is in the works. Some other things need to be finished
-     first before this can be fully implemented. The dialog is
-     already there.
-
-* Split/Frozen panes
-
-   + In the works.
-
-* Pivot Tables (!)
-  
-   + Needs to be adopted. Look at other implementations of this
-     feature to get an idea what needs to be done.
-
 * Graphs
 
    + Large parts of this are done. Most of the work related to
      this will be in Guppi (cvs module guppi3). It's needs
      to be tested tidied and generally needs love :-)
-
-* Scripting (!)
-
-   + Needs to be adopted.
-
-* Function Documentation
-  
-   + There is some function documentation already, but
-     it's incomplete.
 
 Post - 1.0
 ==========
@@ -281,6 +226,35 @@ under "1.0" are more important.
      indicate where new pages start when printing. Jody has been
      doing work on this.
 
+* Global Preferences Dialog (!)
+  
+   + Needs to be adopted.
+
+* Conditional Formatting
+
+   + Conceptual progress being made, nothing concrete yet.
+    Very tightly coupled with Data Validation, see below.
+
+* Data Validation
+
+   + This is in the works. Some other things need to be finished
+     first before this can be fully implemented. The dialog is
+     already there.
+
+* Pivot Tables (!)
+  
+   + Needs to be adopted. Look at other implementations of this
+     feature to get an idea what needs to be done.
+
+* Scripting (!)
+
+   + Needs to be adopted.
+
+* Function Documentation
+  
+   + There is some function documentation already, but
+     it's incomplete.
+
 * Subtotals
 
    + This will really need to wait for a while.
@@ -288,6 +262,3 @@ under "1.0" are more important.
 * Autofilter
 
    + ?
-
-
-
