@@ -123,6 +123,7 @@ glade_DATA = 				\
 	sheet-order.glade		\
 	so-arrow.glade			\
 	so-checkbox.glade		\
+	so-fill.glade			\
 	so-scrollbar.glade		\
 	solver.glade			\
 	summary.glade			\

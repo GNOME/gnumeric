@@ -1,5 +1,14 @@
 2002-04-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/sheet-object-graphic.c (sheet_object_filled_user_config) : don't
+	  use GnomeDialog. Use Glade.
+	(cb_dialog_filled_config_destroy) : replaces cb_dialog_filled_close
+	(cb_dialog_filled_config_apply_clicked) : replaces cb_dialog_filled_clicked
+	(cb_dialog_filled_config_ok_clicked) : new
+	(cb_dialog_filled_config_cancel_clicked) : new
+
+2002-04-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/sheet-object-graphic.c (sheet_object_graphic_user_config) : add line 
 	  preview
 

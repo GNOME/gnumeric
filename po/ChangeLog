@@ -1,5 +1,10 @@
 2002-04-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* POTFILES.in : added src/dialogs/so-arrow.glade and
+	  src/dialogs/so-fill.glade
+
+2002-04-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* POTFILES.in : added src/dialogs/so-checkbox.glade
 
 2002-04-10  Andreas J. Guelzow <aguelzow@taliesin.ca>

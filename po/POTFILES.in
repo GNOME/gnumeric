@@ -149,7 +149,9 @@ src/dialogs/sampling.glade
 src/dialogs/search-replace.glade
 src/dialogs/search.glade
 src/dialogs/sheet-order.glade
+src/dialogs/so-arrow.glade
 src/dialogs/so-checkbox.glade
+src/dialogs/so-fill.glade
 src/dialogs/so-scrollbar.glade
 src/dialogs/solver.glade
 src/dialogs/summary.glade

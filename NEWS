@@ -18,6 +18,7 @@ Andreas:
 	* Fix Sheet Object leak.
 	* Fix Sheet-Object-Checkbox configuration dialog.
 	* Fix Sheet-Object Arrow/Line configuration dialog.
+	* Fix Sheet-Object Fill configuration dialog.
 
 Jody:
 	* Add password dialog to support encrypted input.
