@@ -1,3 +1,11 @@
+2001-01-26  Michael Meeks  <michael@helixcode.com>
+
+	* Makefile.am (gnum_gb_la_SOURCES): install plugin.xml
+
+	* plugin.c (init_plugin): fix bit rot.
+	(can_deactivate_plugin): rename
+	(cleanup_plugin): cleanup.
+
 2001-01-08  Jody Goldberg <jgoldberg@home.com>
 
 	* excel-gb-interior.c (excel_gb_interior_get_arg) : User

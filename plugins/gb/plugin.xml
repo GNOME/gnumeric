@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<gnumeric_plugin_group>
+<plugin id="Gnumeric_gb">
+	<information name="Gnome Basic"
+	 description="Enables Gnome Basic support"/>
+	<activation type="g_module" module_file="gnum_gb.so"/>
+</plugin>
+</gnumeric_plugin_group>

@@ -35,4 +35,7 @@ gnum_gb_la_LIBADD =		\
 	$(EXTRA_GNOME_LIBS)	\
 	-lm @GLIB_LIBS@ -lgb -lgbrun
 
+gnumeric_plugin_gbdir = $(gnumeric_plugindir)/gb
+gnumeric_plugin_gb_DATA = plugin.xml
+
 EXTRA_DIST = README main.gba gnumeric.gbp

@@ -56,17 +56,19 @@ typedef struct {
 
 int gb_debug = 0;
 
-static int
-dont_unload (PluginData *pd)
+gboolean
+can_deactivate_plugin (PluginInfo *pd)
 {
-	return 0;
+	return FALSE;
 }
 
-static void
-cleanup (PluginData *pd)
+gboolean
+cleanup_plugin (PluginInfo *pd)
 {
 	gbrun_shutdown ();
 	gb_shutdown ();
+
+	return TRUE;
 }
 
 static Value *
@@ -349,24 +351,26 @@ file_provider (GBRunEvalContext *ec,
 	return ret;
 }
 
-PluginInitResult
-init_plugin (CommandContext *context, PluginData *pd)
+gboolean
+init_plugin (PluginInfo *pd, ErrorInfo **err)
 {
 	GBEvalContext *ec;
 	GBLexerStream *proj_stream;
 	char          *proj_name;
 
-	if (plugin_version_mismatch (context, pd, GNUMERIC_VERSION))
-		return PLUGIN_QUIET_ERROR;
+	g_return_val_if_fail (err != NULL, FALSE);
+
+	*err = NULL;
 
 	gb_init ();
 
 	ec = gb_eval_context_new ();
 	gbrun_init (ec);
 	if (gb_eval_exception (ec)) {
-		g_warning ("Error initializing gb '%s'",
-			   gb_eval_context_get_text (ec));
-		return PLUGIN_ERROR;
+		*err = error_info_new_printf (
+			_("Error initializing gb '%s'"),
+			gb_eval_context_get_text (ec));
+		return FALSE;
 	}
 
 	excel_gb_application_register_types ();
@@ -379,17 +383,10 @@ init_plugin (CommandContext *context, PluginData *pd)
 	if (g_file_exists (proj_name)) {
 		proj_stream = file_to_stream (proj_name);
 		if (!read_gb (NULL, NULL, proj_stream, file_provider, NULL))
-			g_warning ("Error in project '%s'", proj_name);
+			*err = error_info_new_printf (_("Error in project '%s'"), proj_name);
 	}
 	g_free (proj_name);
 
-	if (plugin_data_init (pd, dont_unload, cleanup,
-			      _("Gnome Basic"),
-			      _("Enables Gnome Basic support")))
-		return PLUGIN_OK;
-	else
-		return PLUGIN_ERROR;
-
-	return PLUGIN_OK;
+	return *err != NULL;
 }
 
