@@ -94,6 +94,7 @@ gnm_float qbinom (gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gb
 /* Negative binomial distribution.  */
 gnm_float dnbinom (gnm_float x, gnm_float n, gnm_float p, gboolean give_log);
 gnm_float pnbinom (gnm_float x, gnm_float n, gnm_float p, gboolean lower_tail, gboolean log_p);
+gnm_float qnbinom (gnm_float p, gnm_float n, gnm_float pr, gboolean lower_tail, gboolean log_p);
 
 /* Hyper-geometrical distribution.  */
 gnm_float dhyper (gnm_float x, gnm_float r, gnm_float b, gnm_float n, gboolean give_log);
