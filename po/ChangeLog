@@ -1,3 +1,7 @@
+2000-09-20  Kai Lahmann <kl@linuxfaqs.de>
+
+	* de.po: Updated German translation
+
 2000-09-17  Jody Goldberg <jgoldberg@home.com>
 	
 	* POTFILES.in : remove the widgets that have now moved to GAL.
