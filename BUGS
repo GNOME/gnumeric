@@ -12,7 +12,7 @@ Release Critical
 - We need to somehow add --export-dynamic to the gnumeric link line, or else
   plugins won't load on Solaris/gcc.
 - Why doesn't float_range_function2 use its "flags" argument?
-- Search and search/replace dialogs are currently shot.
+- Search/replace dialog is currently shot.
 - Printing dialogs are shot.
 - Text-import dialog crashes.
 - Summary dialog is non-functional.
