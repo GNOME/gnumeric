@@ -50,6 +50,12 @@ typedef struct {
 	int pattern;
 } StyleShade;
 
+typedef struct {
+	int      ref_count;
+	GdkColor foreground;
+	GdkColor background;
+} StyleColor;
+
 /* Alignment definitions */
 typedef enum {
 	HALIGN_GENERAL =     1,
@@ -79,16 +85,19 @@ typedef enum {
 #define STYLE_BORDER   4
 #define STYLE_SHADING  8
 #define STYLE_ALIGN   16
+#define STYLE_COLOR   32
 
 /* Define all of the styles we actually know about */
-#define STYLE_ALL (STYLE_FORMAT | STYLE_FONT | STYLE_BORDER | STYLE_ALIGN)
+#define STYLE_ALL (STYLE_FORMAT | STYLE_FONT | STYLE_BORDER | STYLE_ALIGN | STYLE_COLOR)
 
 typedef struct {
 	StyleFormat   *format;
 	StyleFont     *font;
 	StyleBorder   *border;
 	StyleShade    *shading;
-	
+	StyleColor    *color;	/* it might be null even if STYLE_COLOR is set
+				 * that means use the default spreadsheet colors.
+				 */
 	unsigned int halign:6;
 	unsigned int valign:4;
 	unsigned int orientation:4;
@@ -109,6 +118,10 @@ void           style_format_unref     (StyleFormat *sf);
 StyleFont     *style_font_new         (char *font_name, int units);
 void           style_font_ref         (StyleFont *sf);
 void           style_font_unref       (StyleFont *sf);
+
+StyleColor    *style_color_new        (char *fore, char *back);
+void           style_color_ref        (StyleColor *sc);
+void           style_color_unref      (StyleColor *sc);
 
 StyleBorder   *style_border_new_plain (void);
 void           style_border_ref       (StyleBorder *sb);

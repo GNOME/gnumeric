@@ -1268,8 +1268,9 @@ sheet_selection_is_cell_selected (Sheet *sheet, int col, int row)
 		SheetSelection *ss = list->data;
 
 		if ((ss->start_col <= col) && (col <= ss->end_col) &&
-		    (ss->start_row <= row) && (row <= ss->end_row))
+		    (ss->start_row <= row) && (row <= ss->end_row)){
 			return 1;
+		}
 	}
 	return 0;
 }

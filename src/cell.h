@@ -5,11 +5,6 @@ typedef unsigned char  ColType;
 typedef unsigned short RowType;
 
 typedef struct {
-	int       ref_count;
-	GdkColor  color;
-} CellColor;
-
-typedef struct {
 	int        pos;			/* the column or row number */
 
 	/* The height */
@@ -22,18 +17,6 @@ typedef struct {
 
 	void       *data;
 } ColRowInfo;
-
-typedef enum {
-	CELL_COLOR_IS_SET  = 1,
-
-	/* If this flag is set we are free to change the style of a cell
-	 * automatically depending on the type of data entered (strings
-	 * get left alignment, numbers right alignment, etc).
-	 *
-	 * If it is not set, then we can do this.
-	 */
-	CELL_DEFAULT_STYLE = 2, 
-} CellFlags;
 
 typedef struct {
 	void       *sheet;
@@ -50,7 +33,6 @@ typedef struct {
 	
 	/* computed versions of the cell contents */
 	String    *text;	/* Text rendered and displayed */
-	GdkColor  color;	/* color for the displayed text */
 	int       width;	/* Width of text */
 	int       height;	/* Height of text */
 

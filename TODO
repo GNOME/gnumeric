@@ -2,6 +2,18 @@
 
 GNOME Spread Sheet task list
 
+* Split the sheet from the view
+
+  Right now the code has a Sheet (which is the repository for
+information) and this Sheet has a GnumericSheet inside (which is the
+display canvas).
+
+  We need to make the Sheet control multiple "views".  Say, SheetView
+objects, which will in turn include GnumericSheet objects.
+
+  Cursor position should be moved from GnumericSheet to Sheet as
+well
+
 * Format engine
 
    The format engine needs to support the following format styles:

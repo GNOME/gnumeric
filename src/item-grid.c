@@ -162,23 +162,27 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	int           x_offset, y_offset, text_base, pixels;
 	GdkRectangle  rect;
 	int           halign;
+	int           cell_is_selected;
 	
-#if 0
-	item_debug_cross (drawable, gc, x1, y1, x1+width, y1+height);
-#endif
-	
-	/* If cell is selected, draw selection */
-	if (sheet_selection_is_cell_selected (sheet, col, row)){
-		GdkGC *black_gc = GTK_WIDGET (canvas)->style->black_gc;
+	cell_is_selected = sheet_selection_is_cell_selected (sheet, col, row);
 		
-		if (!(gsheet->cursor_col == col && gsheet->cursor_row == row))
-			gdk_draw_rectangle (drawable, black_gc, TRUE,
-					    x1+1, y1+1, width - 2, height - 2);
-	}
-
 	cell = sheet_cell_get (sheet, col, row);
-	if (!cell)
+
+	/*
+	 * If the cell does not exist, there is little to do: only
+	 * check if we should paint it as a selected cell
+	 */
+	if (!cell){
+		if (cell_is_selected){
+			GdkGC *black_gc = GTK_WIDGET (canvas)->style->black_gc;
+			
+			if (!(gsheet->cursor_col == col && gsheet->cursor_row == row))
+				gdk_draw_rectangle (drawable, black_gc, TRUE,
+						    x1+1, y1+1, width - 2, height - 2);
+		}
+		
 		return;
+	}
 
 	/* The offsets where we start drawing the text */
 	x_offset = y_offset = 0;
@@ -258,8 +262,9 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 		break;
 	}
 
-	if (cell->flags & CELL_COLOR_IS_SET){
-		gdk_gc_set_foreground (gc, &cell->color);
+	if ((cell->style->valid_flags & STYLE_COLOR) && cell->style->color){
+		gdk_gc_set_foreground (gc, &cell->style->color->foreground);
+		gdk_gc_set_background (gc, &cell->style->color->background);
 	} else 
 		gdk_gc_set_foreground (gc, &item_grid->default_color);
 
@@ -283,8 +288,10 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 			    height - (cell->row->margin_a + cell->row->margin_b));
 
 	pixels = 0;
-	if (!cell->entered_text)
+	if (!cell->entered_text){
+		printf ("No entered text in cell %d,%d\n", cell->col->pos, cell->row->pos);
 		return;
+	}
 
 	do {
 		char *text;
@@ -298,6 +305,18 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 		pixels += cell->width;
 	} while (style->halign == HALIGN_FILL &&
 		 pixels < cell->col->pixels);
+
+	if (cell_is_selected){
+		if (gsheet->cursor_col == col && gsheet->cursor_row == row)
+			return;
+		
+		gdk_gc_set_function (gc, GDK_INVERT);
+		gdk_gc_set_foreground (gc, &gs_black);
+		gdk_draw_rectangle (drawable, gc, TRUE,
+				    x1 + 1,
+				    y1 + 1,
+				    width - 1, height - 1);
+	}
 }
 
 static void

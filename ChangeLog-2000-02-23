@@ -1,3 +1,19 @@
+1998-08-26  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/style.c (style_color_new, style_color_ref,
+	style_color_unref): New functions.  Color for a cell will be kept
+	as part of the style.  Hack note: if valid_flags reports
+	STYLE_COLOR style->color might be NULL: this means use the default
+	sheet colors for this cell. 
+
+	* src/cell.h: Get rid of GdkColor field.
+
+	* src/item-grid.c (item_grid_draw_cell): Draw selected cells
+	smartly.  Now we invert the resulting area (this works for my
+	16-bpp display, have to try the XOR trick tomorrow on a paletted
+	display). 
+	
+
 1998-08-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/sheet.c (sheet_row_selection_changed,
