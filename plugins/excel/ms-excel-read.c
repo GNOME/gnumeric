@@ -2677,6 +2677,8 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 			if (ms_excel_read_debug > 2) {
 				printf (" xf(%s) = 0x%x",
 					col_name (i), xf_index);
+				if (i == firstcol)
+					printf ("\n");
 			}
 #endif
 			if (prev_xf != xf_index) {

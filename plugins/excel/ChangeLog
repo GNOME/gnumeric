@@ -1,3 +1,112 @@
+1999-12-08  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-write.c: (palette_color_to_int): New function. Convert
+	EXCEL_PALETTE_ENTRY to guint.
+	(style_color_to_int): New function. Convert StyleColor to guint.
+	(log_put_color): New function. Debug log when color added to
+	palette
+	(palette_put_defaults): New function. Put Excel default colors to
+	palette.
+	(palette_init): New function. Initialize palette table.
+	(palette_free): New function. Free palette table.
+	(palette_get_index): New function. Get color index.
+	(put_color): New function. Add color to palette.
+	(put_colors): New function. Add colors in MStyle to palette
+	(gather_palette): New function. Add all colors in workbook to
+	palette.
+	(write_palette): Use color info from styles. Make void.
+	(excel_font_to_string): New function. Return string desc. of font
+	(excel_font_new): New function. Make an ExcelFont (font + color).
+	(excel_font_free): New function. Free an ExcelFont.
+	(excel_font_hash): New function. Hash function for ExcelFonts.
+	(excel_font_equal): New function. Compare ExcelFonts.
+	(fonts_init): New function. Initialize font table
+	(fonts_free): New function. Free font table.
+	(fonts_get_index): New function. Get index of ExcelFont
+	(after_put_font): New function. Debug log when font is added to
+	table.
+	(put_font): New function. Add font to table.
+	(gather_fonts): New function. Add all fonts in workbook to table.
+	(write_font): New function. Write a font to file. Essentially,
+	inner loop of the old version of write_fonts.
+	(write_fonts): Rewritten. Make void
+	(after_put_format): New function. Debug log when format is added
+	to table.
+	(formats_put_magic): New function. Add builit-in formats to table.
+	(formats_init): New function. Initialize format table
+	(formats_free): New function. Free format table
+	(formats_get_index): New function. Get index of format
+	(put_format): New function. Add a format to table
+	(gather_formats): New function. Add all formats in workbook to
+	table.
+	(write_format): New function. Write a format to file. Essentially,
+	inner loop of the old version of write_formats.
+	(write_formats): Rewritten. Make void.
+	(cell_used_map_new): New function. Make bitmap for cells in use.
+	(cell_mark_used): New function. Mark cell in use in bitmap.
+	(cell_is_used): New function. Return true if cell marked in use in
+	bitmap.
+	(get_default_mstyle): New function. Get default mstyle of
+	sheet. Placeholder function until this info is exported from
+	sheet.
+	(xf_init): New function. Initialize xf/mstyle table.
+	(xf_free): Rewritten. New signature. Release allocated style data.
+	(after_put_mstyle): New function. Debug log when MStyle added to
+	table.
+	(put_mstyle): New function. Add MStyle to table.
+	(excel_cell_get): New function. Get ExcelCell record for cell
+	position.
+	(pre_cell): Constify key. Add cell MStyle to table. Cache some
+	info
+	(pre_blank): New function. Add MStyle of blank cell to table.
+	(pre_blanks): New function. Add MStyles of all blank cells in
+	workbook to table.
+	(gather_styles): New function. Add all MStyles in workbook to
+	table.
+	(map_pattern_index_to_excel): New function. Map Gnumeric pattern
+	index to Excel ditto.
+	(write_xf_magic_record): New function. Essentially, the old
+	version of write_xf_record.
+	(write_xf_record): Rewritten. Use style info from worksheet.
+	(write_xf): Use style info from worksheet. Changed signature.
+	(write_value): Let ms_excel_write_debug govern debug logging.
+	(write_formula): Add xf parameter. Write true xf index
+	(write_cell): ExcelCell parameter instead of Cell, bringing in xf.
+	Write true xf index.  Let ms_excel_write_debug govern debug
+	logging.
+	(write_mulblank): Add xf_list parameter. Write true xf
+	index. Remove #define XF_MAGIC. Add debug logging. Add
+	ms_biff_put_commit.
+	(write_index): Let ms_excel_write_debug govern debug logging.
+	(write_sheet): Let ms_excel_write_debug govern debug logging.
+	(write_sheet): Use ExcelCell instead of Cell. Pass xf or xf_list
+	to called functions.
+	(new_sheet): Initialize sheet->cells, sheet->cell_used_map
+	(free_sheet): Free sheet->cells, sheet->cell_used_map
+	(pre_pass): Rewrite. Change signature
+	(write_workbook): Initialize font, format, palette and xf tables.
+	Free xf list.
+	(ms_excel_write_workbook): Flush debug log at end.
+
+	* ms-excel-write.h: Define TwoWayIndex, ExcelFont, ExcelCell,
+	ExcelRow. Redefined Palette, Fonts, Formats, XF. Add cells and
+	cell_used_map to ExcelSheet. Add xf to ExcelWorkbook.  Define
+	AfterPutFunc. Declare ms_excel_write_debug.  Move #defines from
+	ms-excel-write.c. Move function declarations last.
+
+	* ms-excel-util.c New file.
+	(two_way_index_new): New function. Make TwoWayTable.
+	(two_way_index_free): New function. Destroy TwoWayTable
+	(two_way_index_put): New function. Put a key to TwoWayTable
+	(two_way_index_replace): New function. Replace key for index in
+	TwoWayTable
+	(two_way_index_key_to_idx): New function. Find index given key
+	(two_way_index_idx_to_key): New function. Find key given index
+
+	* ms-excel-util.h New file.
+
+	* ms-excel-read.c (ms_excel_read_cell): Add \n to debug print.
+
 1999-12-06  Michael Meeks  <mmeeks@gnu.org>
 
 	* ms-excel-write.c (new_sheet): Update to sheet_get_extent.

@@ -1,10 +1,16 @@
 /**
  * ms-excel-write.c: MS Excel support for Gnumeric
  *
- * Author:
- *    Michael Meeks (michael@imaginator.com)
+ * Authors:
+ *    Michael Meeks (mmeeks@gnu.org)
+ *    Jon K Hellan  (hellan@acm.org)
  *
- * (C) 1998, 1999 Michael Meeks
+ * (C) 1998, 1999 Michael Meeks, Jon K Hellan
+ **/
+
+/**
+ * Read the comments to gather_styles to see how style information is
+ * collected.
  **/
 
 #include <stdio.h>
@@ -38,8 +44,6 @@
 #include "excel.h"
 #include "ms-excel-write.h"
 #include "ms-formula-write.h"
-
-#define EXCEL_DEBUG 0
 
 /**
  *  This function writes simple strings...
@@ -493,179 +497,982 @@ biff_boundsheet_write_last (MsOleStream *s, guint32 pos,
 	s->lseek (s, oldpos, MsOleSeekSet);
 }
 
-#define PALETTE_WHITE 0
-#define PALETTE_BLACK 1
+/**
+ * Convert EXCEL_PALETTE_ENTRY to guint representation used in BIFF file 
+ **/
+static guint 
+palette_color_to_int (const EXCEL_PALETTE_ENTRY *c)
+{
+	return (c->b << 16) + (c->g << 8) + (c->r << 0);
+	
+}
 
-static Palette *
+/** 
+ * Convert StyleColor to guint representation used in BIFF file 
+ **/
+static guint 
+style_color_to_int (const StyleColor *c)
+{
+	return ((c->blue & 0xff00) << 8) + (c->green & 0xff00) + (c->red >> 8);
+	
+}
+
+/**
+ * Callback called when putting color to palette. Print to debug log when
+ * color is added to table.
+ * @c          color
+ * @was_added  true if color was added
+ * @index      index of color
+ * @tmpl       printf template
+ **/
+inline static void
+log_put_color (guint c, gboolean was_added, gint index, const char *tmpl)
+{
+#ifndef NO_DEBUG_EXCEL
+	if (was_added) {
+		if (ms_excel_write_debug > 2) {
+			printf (tmpl, index, c);
+		}
+	}
+#endif
+}
+
+/** 
+ * Put Excel default colors to palette table 
+ **/
+static void
+palette_put_defaults (ExcelWorkbook *wb)
+{
+	int i;
+	const EXCEL_PALETTE_ENTRY *epe;
+	guint num;
+
+	for (i = 0; i < EXCEL_DEF_PAL_LEN; i++) {
+		epe = &excel_default_palette[i];
+		num = palette_color_to_int (epe);
+		two_way_table_put (wb->pal->two_way_table, 
+				   GUINT_TO_POINTER (num), FALSE, 
+				   (AfterPutFunc) log_put_color,
+				   "Default color %d - 0x%6.6x\n");
+		wb->pal->entry_in_use[i] = FALSE;
+	}
+}
+
+/**
+ * Initialize palette in worksheet. Fill in with default colors
+ **/
+static void
+palette_init (ExcelWorkbook *wb)
+{
+	wb->pal = g_new (Palette, 1);
+	wb->pal->two_way_table 	= two_way_table_new (g_direct_hash,
+						     g_direct_equal, 0);
+	palette_put_defaults (wb);
+	
+}
+
+/**
+ * Free palette table
+ **/
+static void
+palette_free (ExcelWorkbook *wb)
+{
+	TwoWayTable *twt;
+
+	if (wb && wb->pal) {
+		twt = wb->pal->two_way_table;
+		if (twt) {
+			two_way_table_free (twt);
+		}
+		g_free (wb->pal);
+		wb->pal = NULL;
+	}
+}
+
+/**
+ * Get index of color
+ * @wb workbook
+ * @c  color
+ *
+ * The color index to use is *not* simply the index into the palette.
+ * See comment to ms_excel_palette_get in ms-excel-read.c 
+ **/ 
+static gint
+palette_get_index (ExcelWorkbook *wb, guint c)
+{
+	gint idx;
+	TwoWayTable *twt = wb->pal->two_way_table;
+
+	if (c == 0) {
+		idx = 0;
+	} else if (c == 0xffffff) {
+		idx = 1;
+	} else {
+		idx = two_way_table_key_to_idx (twt, (gconstpointer) c);
+		if (idx < EXCEL_DEF_PAL_LEN) {
+			idx += 8;
+		} else {
+			idx = 0;
+		}
+	}
+
+	return idx;
+}
+
+/**
+ * Add a color to palette if it is not already there
+ **/
+static void
+put_color (ExcelWorkbook *wb, const StyleColor *c)
+{
+	TwoWayTable *twt = wb->pal->two_way_table;
+	gpointer pc = GUINT_TO_POINTER (style_color_to_int (c));
+	gint idx;
+
+	two_way_table_put (twt, pc, TRUE, 
+			   (AfterPutFunc) log_put_color, 
+			   "Found unique color %d - 0x%6.6x\n");
+	
+	idx = two_way_table_key_to_idx (twt, pc);
+	if (idx >= 0 && idx < EXCEL_DEF_PAL_LEN) {
+		wb->pal->entry_in_use [idx] = TRUE; /* Default entry in use */
+	}
+}
+
+/**
+ * Add colors in mstyle to palette
+ *
+ * FIXME: Border colors not yet included
+ **/
+static void
+put_colors (MStyle *st, gconstpointer dummy, ExcelWorkbook *wb)
+{
+	put_color (wb, mstyle_get_color (st, MSTYLE_COLOR_FORE));
+	put_color (wb, mstyle_get_color (st, MSTYLE_COLOR_BACK));
+	put_color (wb, mstyle_get_color (st, MSTYLE_COLOR_PATTERN));
+}
+
+/**
+ * Add all colors in workbook to palette.
+ *
+ * The palette is apparently limited to EXCEL_DEF_PAL_LEN.  We start
+ * with the default palette in the table. Next, we traverse all colors
+ * in all styles. When we find a default color, we note that it is in
+ * use. When we find a custom colors, we add it to the table. This
+ * yields an oversize palette.
+ * Finally, we knock out unused entries in the default palette, to make 
+ * room for the custom colors. We don't touch 0 or 1 (white/black)
+ *
+ * FIXME:
+ * We are not able to recognize that we are actually using a color in the 
+ * default palette. The causes seem to be elsewhere in gnumeric and gnome.
+ **/
+static void
+gather_palette (ExcelWorkbook *wb)
+{
+	TwoWayTable *twt = wb->xf->two_way_table;
+	int i, j;
+	int upper_limit = EXCEL_DEF_PAL_LEN;
+	guint color;
+
+	/* For each color in each style, get color index from hash. If
+           none, it's not there yet, and we enter it. */
+	g_hash_table_foreach (twt->key_to_idx, (GHFunc) put_colors, wb);
+
+	twt = wb->pal->two_way_table;
+	for (i = twt->idx_to_key->len - 1; i >= EXCEL_DEF_PAL_LEN; i--) {
+		color = GPOINTER_TO_UINT (two_way_table_idx_to_key (twt, i));
+		for (j = upper_limit - 1; j > 1; j--) {
+			if (!wb->pal->entry_in_use[j]) {
+				/* Replace table entry with color. */
+#ifndef NO_DEBUG_EXCEL
+				if (ms_excel_write_debug > 2) {
+					printf ("Custom color %d (0x%6.6x)"
+						" moved to unused index %d\n",
+						i, color, j);
+				}
+#endif
+				(void) two_way_table_replace 
+					(twt, j, GUINT_TO_POINTER (color));
+				upper_limit = j;
+				wb->pal->entry_in_use[j] = TRUE;
+				break;
+			}
+		}
+	}
+}
+
+/**  
+ * Write palette to file
+ * @wb workbook
+ * @bp BIFF buffer
+ **/
+static void
 write_palette (BiffPut *bp, ExcelWorkbook *wb)
 {
-	Palette *pal = g_new (Palette, 1);
-	guint8  r,g,b, data[8];
-	guint32 num, i;
-	pal->col_to_idx = g_hash_table_new (g_direct_hash,
-					    g_direct_equal);
-	/* FIXME: should scan styles for colors and write intelligently. */
+	TwoWayTable *twt = wb->pal->two_way_table;
+	guint8  data[8];
+	guint   num, i;
+
 	ms_biff_put_var_next (bp, BIFF_PALETTE);
 	
 	MS_OLE_SET_GUINT16 (data, EXCEL_DEF_PAL_LEN); /* Entries */
 
 	ms_biff_put_var_write (bp, data, 2);
 	for (i = 0; i < EXCEL_DEF_PAL_LEN; i++) {
-		r = excel_default_palette[i].r;
-		g = excel_default_palette[i].g;
-		b = excel_default_palette[i].b;
-		num = (b<<16) + (g<<8) + (r<<0);
+		num = GPOINTER_TO_UINT (two_way_table_idx_to_key (twt, i));
 		MS_OLE_SET_GUINT32 (data, num);
 		ms_biff_put_var_write (bp, data, 4);
 	}
 
 	ms_biff_put_commit (bp);
-
-	return pal;
 }
 
-/* To be used ... */
-static guint32
-palette_lookup (Palette *pal, StyleColor *col)
+#ifndef NO_DEBUG_EXCEL
+/**
+ * Return string description of font to print in debug log
+ **/
+static char *
+excel_font_to_string (const ExcelFont *f)
 {
-	return PALETTE_WHITE;
+	const StyleFont *sf = f->style_font;
+	static char buf[64];
+	char* fstyle = "";
+
+	if (sf->is_bold && sf->is_italic)
+		fstyle = ", bold, italic";
+	else if (sf->is_bold)
+		fstyle = ", bold";
+	else if (sf->is_italic)
+		fstyle = ", italic";
+	snprintf (buf, sizeof buf, "%s, %g %s", 
+		  sf->font_name, sf->size, fstyle);
+
+	return buf;
 }
+#endif
 
-static void
-palette_free (Palette *pal)
+/**
+ * Make an ExcelFont.
+ * @st style - which includes style font and color
+ *
+ * In, Excel, the foreground color is a font attribute. ExcelFont
+ * consists of a StyleFont and a color.
+ *
+ * Style color is *not* unrefed. This is correct
+ **/
+static ExcelFont *excel_font_new (MStyle *st)
 {
-	if (pal) {
-		/* Leak need to free indexes too */
-		g_hash_table_destroy (pal->col_to_idx);
-		g_free (pal);
-	}
-}
-
-#define FONT_MAGIC 0
-
-/* See S59D8C.HTM */
-static Fonts *
-write_fonts (BiffPut *bp, ExcelWorkbook *wb)
-{
-	Fonts *fonts = g_new (Fonts, 1);
-	guint8 data[64];
-	int lp;
+	ExcelFont *f;
+	StyleColor *c;
 	
-	for (lp = 0; lp < 5; lp++) { /* FIXME: Magic minimum fonts */
-		fonts->StyleFont_to_idx = g_hash_table_new (g_direct_hash,
-							    g_direct_equal);
-		/* Kludge for now ... */
-		ms_biff_put_var_next (bp, BIFF_FONT);
-		
-		MS_OLE_SET_GUINT16(data + 0, 10*20); /* 10 point */
-		MS_OLE_SET_GUINT16(data + 2, (0<<1) + (0<<3)); /* italic, struck */
-/*		MS_OLE_SET_GUINT16(data + 4, PALETTE_BLACK); */
-		MS_OLE_SET_GUINT16(data + 4, 0x7fff); /* Magic ! */
+	if (!st)
+		return NULL;
 
-		if (1)
-			MS_OLE_SET_GUINT16(data + 6, 0x190); /* Normal boldness */
-		else
-			MS_OLE_SET_GUINT16(data + 6, 0x2bc); /* Bold */
+	f = g_new (ExcelFont, 1);
+	f->style_font = mstyle_get_font (st, 1.0);
+	c = mstyle_get_color (st, MSTYLE_COLOR_FORE);
+	f->color = style_color_to_int (c);
 
-		MS_OLE_SET_GUINT16(data + 8, 0); /* 0: Normal, 1; Super, 2: Sub script*/
-		MS_OLE_SET_GUINT16(data +10, 0); /* No underline */
-		MS_OLE_SET_GUINT16(data +12, 0); /* seems OK. */
-		MS_OLE_SET_GUINT8 (data +13, 0);
-		ms_biff_put_var_write (bp, data, 14);
-		
-		biff_put_text (bp, "Arial", wb->ver, TRUE, EIGHT_BIT);
-		
-		ms_biff_put_commit (bp);
-	}
-
-	return fonts;
+	return f;
 }
 
-static guint32
-fonts_get_index (Fonts *fonts, StyleFont *sf)
-{
-	return FONT_MAGIC;
-}
-
+/**
+ * Free an ExcelFont
+ **/
 static void
-fonts_free (Fonts *fonts)
+excel_font_free (ExcelFont *f)
 {
-	if (fonts) {
-		g_free (fonts->StyleFont_to_idx);
-		g_free (fonts);
+	if (f && f != (ExcelFont *) 0xdeadbeef) {
+		style_font_unref (f->style_font);
+		g_free (f);
 	}
 }
 
-#define FORMAT_MAGIC 0
-
-/* See S59D8E.HTM */
-static Formats *
-write_formats (BiffPut *bp, ExcelWorkbook *wb)
+/**
+ * Hash function for ExcelFonts
+ * @f font
+ **/
+static guint
+excel_font_hash (gconstpointer f)
 {
-	Formats *formats = g_new (Formats, 1);
+	guint res;
+	ExcelFont * font = (ExcelFont *) f;
+
+	if (!f || f == (gpointer) 0xdeadbeef) {
+		res = 0;	/* Recognize junk - inelegant, I know! */
+	} else {
+		res = style_font_hash_func (font->style_font) ^ font->color;
+	}
+
+	return res;
+}
+
+/**
+ * ExcelFont comparison function used when hashing.
+ * @a font a
+ * @b font b
+ **/
+static gint  
+excel_font_equal (gconstpointer	a, gconstpointer b)
+{
+	gint res;
+	gconstpointer deadbeef = (gconstpointer) 0xdeadbeef;
+
+	if (a == b)
+		res = TRUE;
+	else if (a == deadbeef || b == deadbeef)
+		res = FALSE;	/* Recognize junk - inelegant, I know! */
+	else {
+		const ExcelFont *fa  = (const ExcelFont *) a;	
+		const ExcelFont *fb  = (const ExcelFont *) b;	
+		res = style_font_equal (fa->style_font, fb->style_font) 
+			&& (fa->color == fb->color);
+	}
+	
+	return res;
+}
+
+/**
+ * Initialize table of fonts in worksheet.
+ **/
+static void
+fonts_init (ExcelWorkbook *wb)
+{
+	wb->fonts = g_new (Fonts, 1);
+	wb->fonts->two_way_table 
+		= two_way_table_new (excel_font_hash, excel_font_equal, 0);
+}
+
+/**
+ * Free font table
+ **/
+static void
+fonts_free (ExcelWorkbook *wb)
+{
+	TwoWayTable *twt;
+	int i;
+	ExcelFont *f;
+
+	if (wb && wb->fonts) {
+		twt = wb->fonts->two_way_table;
+		if (twt) {
+			for (i = 0; i < twt->idx_to_key->len; i++) {
+				f = two_way_table_idx_to_key (twt, 
+							      i + twt->base);
+				excel_font_free (f);
+			}
+			two_way_table_free (twt);
+		}
+		g_free (wb->fonts);
+		wb->fonts = NULL;
+	}
+}
+
+/**
+ * Get index of an ExcelFont
+ **/
+static gint
+fonts_get_index (ExcelWorkbook *wb, const ExcelFont *f)
+{
+	TwoWayTable *twt = wb->fonts->two_way_table;
+	return two_way_table_key_to_idx (twt, f);
+}
+
+/**
+ * Callback called when putting font to table. Print to debug log when
+ * font is added. Free resources when it was already there.
+ **/
+static void
+after_put_font (ExcelFont *f, gboolean was_added, gint index, gpointer dummy)
+{
+	if (was_added) {
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_write_debug > 1) {
+			printf ("Found unique font %d - %s\n", 
+			index, excel_font_to_string (f));
+		}
+#endif
+	} else {
+		excel_font_free (f);
+	}
+}
+
+/**
+ * Add a font to table if it is not already there.
+ **/
+static void
+put_font (MStyle *st, gconstpointer dummy, ExcelWorkbook *wb)
+{
+	TwoWayTable *twt = wb->fonts->two_way_table;
+	ExcelFont *f = excel_font_new (st);
+
+	/* Occupy index FONT_SKIP with junk - Excel skips it */
+	if (twt->idx_to_key->len == FONT_SKIP)
+		(void) two_way_table_put (twt, (gpointer) 0xdeadbeef, 
+					  FALSE, NULL, NULL);
+	
+	two_way_table_put (twt, f, TRUE, (AfterPutFunc) after_put_font, NULL);
+}
+
+/**
+ * Add all fonts in workbook to table
+ **/
+static void
+gather_fonts (ExcelWorkbook *wb)
+{
+	TwoWayTable *twt = wb->xf->two_way_table;
+
+	/* For each style, get fonts index from hash. If none, it's
+           not there yet, and we enter it. */	
+	g_hash_table_foreach (twt->key_to_idx, (GHFunc) put_font, wb);
+}
+
+/**
+ * Write a font to file
+ * @wb workbook
+ * @bp BIFF buffer
+ * @f  font
+ *
+ * See S59D8C.HTM
+ *
+ * FIXME:
+ * It would be useful to map well known fonts to Windows equivalents
+ **/
+static void
+write_font (ExcelWorkbook *wb, BiffPut *bp, const ExcelFont *f)
+{
+	guint8 data[64];
+	StyleFont  *sf  = f->style_font;
+	guint32 size  = sf->size * 20;
+	guint16 grbit = 0;
+	guint16 color = palette_get_index (wb, f->color);
+
+	guint16 boldstyle = 190; /* Normal boldness */
+	guint16 subsuper  = 0;   /* 0: Normal, 1; Super, 2: Sub script*/
+	guint8  underline = 0;	 /* No underline */
+	guint8  family    = 0;
+	guint8  charset   = 0;	 /* Seems OK. */
+	char    *font_name = sf->font_name;
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_write_debug > 1) {
+		printf ("Writing font %s, color idx %u\n", 
+			excel_font_to_string (f), color);
+	}
+#endif
+
+	if (sf->is_italic)
+		grbit |= 1 << 1; 
+	if (sf->is_bold)
+		boldstyle = 0x2bc;
+
+	ms_biff_put_var_next (bp, BIFF_FONT);
+	MS_OLE_SET_GUINT16 (data + 0, size);
+	MS_OLE_SET_GUINT16 (data + 2, grbit);
+	MS_OLE_SET_GUINT16 (data + 4, color);
+	MS_OLE_SET_GUINT16 (data + 6, boldstyle);
+	MS_OLE_SET_GUINT16 (data + 8, subsuper);
+	MS_OLE_SET_GUINT8  (data + 10, underline);
+	MS_OLE_SET_GUINT8  (data + 11, family);
+	MS_OLE_SET_GUINT8  (data + 12, charset);
+	MS_OLE_SET_GUINT8  (data +13, 0);
+	ms_biff_put_var_write (bp, data, 14);
+		
+	biff_put_text (bp, font_name, wb->ver, TRUE, EIGHT_BIT);
+		
+	ms_biff_put_commit (bp);
+}
+
+/**
+ * Write all fonts to file
+ * @wb workbook
+ * @bp BIFF buffer
+ **/
+static void
+write_fonts (ExcelWorkbook *wb, BiffPut *bp)
+{
+	TwoWayTable *twt = wb->fonts->two_way_table;
+	int nfonts = twt->idx_to_key->len;
+	int lp;
+	ExcelFont *f;
+	
+	for (lp = 0; lp < nfonts; lp++) {
+		if (lp != FONT_SKIP) {	/* FONT_SKIP is invalid, skip it */
+			f = two_way_table_idx_to_key (twt, lp);
+			write_font (wb, bp, f);
+		}
+	}
+
+	if (nfonts < FONTS_MINIMUM + 1) { /* Add 1 to account for skip */
+		/* Fill up until we've got the minimum number */
+		f = two_way_table_idx_to_key (twt, 0);
+		for (; lp < FONTS_MINIMUM + 1; lp++) {
+			if (lp != FONT_SKIP) {	
+				/* FONT_SKIP is invalid, skip it */
+				write_font (wb, bp, f);
+			}
+		}
+	}
+}
+
+/**
+ * Callback called when putting format to table. Print to debug log when
+ * format is added. Free resources when it was already there.
+ * @format     format
+ * @was_added  true if format was added
+ * @index      index of format
+ * @tmpl       printf template
+ **/
+static void
+after_put_format (char *format, gboolean was_added, gint index, 
+		  const char *tmpl)
+{
+	if (was_added) {
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_write_debug > 2) {
+			printf (tmpl, index, format);
+		}
+#endif
+	} else {
+		g_free (format);
+	}
+}
+
+/**
+ * Add built-in formats to format table
+ **/
+static void
+formats_put_magic (ExcelWorkbook *wb)
+{
+	int i;
+	char *fmt;
+
+	for (i = 0; i < EXCEL_BUILTIN_FORMAT_LEN; i++) {
+		fmt = excel_builtin_formats[i];
+		if (!fmt || strlen (fmt) == 0)
+			fmt = "General";
+		two_way_table_put (wb->formats->two_way_table,
+				   g_strdup (fmt),
+				   FALSE, /* Not unique */
+				   (AfterPutFunc) after_put_format,
+				   "Magic format %d - %s\n");
+	}
+}
+
+/**
+ * Initialize format table
+ **/
+static void
+formats_init (ExcelWorkbook *wb)
+{
+	
+	wb->formats = g_new (Formats, 1);
+	wb->formats->two_way_table 
+		= two_way_table_new (g_str_hash, g_str_equal, 0);
+
+	formats_put_magic (wb);
+}
+
+/**
+ * Free format table
+ **/
+static void
+formats_free (ExcelWorkbook *wb)
+{
+	TwoWayTable *twt;
+	int i;
+	char *format;
+
+	if (wb && wb->formats) {
+		twt = wb->formats->two_way_table;
+		if (twt) {
+			for (i = 0; i < twt->idx_to_key->len; i++) {
+				format = two_way_table_idx_to_key 
+					(twt, i + twt->base);
+				g_free (format);
+			}
+			two_way_table_free (twt);
+		}
+		g_free (wb->formats);
+		wb->formats = NULL;
+	}
+}
+
+/**
+ * Get index of a format
+ **/
+static gint
+formats_get_index (ExcelWorkbook *wb, const char *format)
+{
+	TwoWayTable *twt = wb->formats->two_way_table;
+	return two_way_table_key_to_idx (twt, format);
+}
+
+/**
+ * Add a format to table if it is not already there.
+ *
+ * Style format is *not* unrefed. This is correct
+ **/
+static void
+put_format (MStyle *mstyle, gconstpointer dummy, ExcelWorkbook *wb)
+{
+	StyleFormat *sf = mstyle_get_format (mstyle);
+
+	two_way_table_put (wb->formats->two_way_table, 
+			   g_strdup (sf->format), TRUE, 
+			   (AfterPutFunc) after_put_format, 
+			   "Found unique format %d - %s\n");
+}
+
+
+/**
+ * Add all formats in workbook to table
+ **/
+static void
+gather_formats (ExcelWorkbook *wb)
+{
+	TwoWayTable *twt = wb->xf->two_way_table;
+	/* For each style, get fonts index from hash. If none, it's
+           not there yet, and we enter it. */	
+	g_hash_table_foreach (twt->key_to_idx, (GHFunc) put_format, wb);
+}
+
+
+/**
+ * Write a format to file
+ * @wb   workbook
+ * @bp   BIFF buffer
+ * @fidx format index
+ *
+ * See S59D8E.HTM
+ **/
+static void
+write_format (ExcelWorkbook *wb, BiffPut *bp, int fidx)
+{
+	guint8 data[64];
+	TwoWayTable *twt = wb->formats->two_way_table;
+	char *format = two_way_table_idx_to_key (twt, fidx);
+	
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_write_debug > 1) {
+		printf ("Writing format 0x%x: %s\n", fidx, format);
+	}
+#endif
+	/* Kludge for now ... */
+	if (wb->ver >= eBiffV7)
+		ms_biff_put_var_next (bp, (0x400|BIFF_FORMAT));
+	else
+		ms_biff_put_var_next (bp, BIFF_FORMAT);
+	
+	MS_OLE_SET_GUINT16 (data, fidx);
+	ms_biff_put_var_write (bp, data, 2);
+
+	biff_put_text (bp, format, eBiffV7, TRUE, AS_PER_VER);
+	ms_biff_put_commit (bp);
+}
+
+/**
+ * Write all formats to file.
+ * @wb workbook
+ * @bp BIFF buffer
+ *
+ * Although we do, the formats apparently don't have to be written out in order
+ **/
+static void
+write_formats (ExcelWorkbook *wb, BiffPut *bp)
+{
+	TwoWayTable *twt = wb->formats->two_way_table;
+	int nformats = twt->idx_to_key->len;
+	int i;
 	int   magic_num[] = { 5, 6, 7, 8, 0x2a, 0x29, 0x2c, 0x2b };
-	char *magic[] = {
-		"\"\xa3\"#,##0;\\-\"\xa3\"#,##0",
-		"\"\xa3\"#,##0;[Red]\\-\"\xa3\"#,##0",
-		"\"\xa3\"#,##0.00;\\-\"\xa3\"#,##0.00",
-		"\"\xa3\"#,##0.00;[Red]\\-\"\xa3\"#,##0.00",
-		"_-\"\xa3\"*\x20#,##0_-;\\-\"\xa3\"*\x20#,##0_-;_-\"\xa3\"*\x20\"-\"_-;_-@_-",
-		"_-*\x20#,##0_-;\\-*\x20#,##0_-;_-*\x20\"-\"_-;_-@_-",
-		"_-\"\xa3\"*\x20#,##0.00_-;\\-\"\xa3\"*\x20#,##0.00_-;_-\"\xa3\"*\x20\"-\"??_-;_-@_-",
-		"_-*\x20#,##0.00_-;\\-*\x20#,##0.00_-;_-*\x20\"-\"??_-;_-@_-",
-	};
-	guint8 data[64];
-	int lp;
 	
-	for (lp = 0; lp < 8; lp++) { /* FIXME: Magic minimum formats */
-		guint fidx = magic_num[lp];
-		char *fmt;
-		formats->StyleFormat_to_idx = g_hash_table_new (g_direct_hash,
-								g_direct_equal);
-		/* Kludge for now ... */
-		if (wb->ver >= eBiffV7)
-			ms_biff_put_var_next (bp, (0x400|BIFF_FORMAT));
-		else
-			ms_biff_put_var_next (bp, BIFF_FORMAT);
-		
-		g_assert (fidx < EXCEL_BUILTIN_FORMAT_LEN);
-		g_assert (fidx >= 0);
-		fmt = magic[lp]; /*excel_builtin_formats[fidx];*/
-
-		MS_OLE_SET_GUINT16 (data, fidx);
-		ms_biff_put_var_write (bp, data, 2);
-
-		if (fmt)
-			biff_put_text (bp, fmt, eBiffV7, TRUE, AS_PER_VER);
-		else
-			biff_put_text (bp, "", eBiffV7, TRUE, AS_PER_VER);
-		
-		ms_biff_put_commit (bp);
+	/* The built-in fonts which get localized */
+	for (i = 0; i < sizeof magic_num / sizeof magic_num[0]; i++) {
+		write_format (wb, bp, magic_num[i]);
 	}
 
-	return formats;
-}
-
-static guint32
-formats_get_index (Formats *formats, StyleFormat *sf)
-{
-	return FORMAT_MAGIC;
-}
-
-static void
-formats_free (Formats *formats)
-{
-	if (formats) {
-		g_free (formats->StyleFormat_to_idx);
-		g_free (formats);
+	/* The custom fonts */
+	for (i = EXCEL_BUILTIN_FORMAT_LEN; i < nformats; i++) { 
+		write_format (wb, bp, i);
 	}
 }
 
-#define XF_MAGIC 15
+/**
+ * Make bitmap for keeping track of cells in use
+ **/
+static gpointer 
+cell_used_map_new (ExcelSheet *sheet)
+{
+	long nwords;
+	gpointer ptr = NULL;
+	if (sheet->maxx > 0 && sheet->maxy> 0) {
+		nwords = (sheet->maxx * sheet->maxy - 1) / 32 + 1;
+		ptr = g_malloc0 (nwords * 4);
+	}
+	return ptr;
+}
 
-/* See S59E1E.HTM */
+/**
+ * Mark cell in use in bitmap
+ **/
 static void
-write_xf_record (BiffPut *bp, MStyle *mstyle, eBiff_version ver, int hack)
+cell_mark_used (ExcelSheet *sheet, int col, int row)
+{
+	long bit_ix = row * sheet->maxx + col;
+	long word_ix = bit_ix / 32;
+	int  rem     = bit_ix % 32;
+
+	if (sheet && sheet->cell_used_map)
+		*((guint32 *) sheet->cell_used_map + word_ix) |= 1 << rem;
+}
+
+/**
+ * Return true if cell marked in use in bitmap
+ **/
+static gboolean
+cell_is_used (const ExcelSheet *sheet, int col, int row)
+{
+	long bit_ix = row * sheet->maxx + col;
+	long word_ix = bit_ix / 32;
+	int  rem     = bit_ix % 32;
+	gboolean ret = FALSE;
+
+	if (sheet && sheet->cell_used_map)
+		ret = 1 & *((guint32 *) sheet->cell_used_map + word_ix) >> rem;
+	
+	return ret;
+}
+
+/**
+ * Get default MStyle of sheet
+ *
+ * FIXME: This works now. But only because the default style for a
+ * sheet or workbook can't be changed. Unfortunately, there is no
+ * proper API for accessing the default style of an existing sheet.  
+ **/
+static MStyle *
+get_default_mstyle ()
+{
+	return mstyle_new_default ();
+}
+
+/**
+ * Initialize XF/MStyle table.
+ *
+ * The table records MStyles. For each MStyle, an XF record will be
+ * written to file.
+ **/
+static void
+xf_init (ExcelWorkbook *wb)
+{
+	wb->xf = g_new (XF, 1);
+	/* Excel starts at XF_RESERVED for user defined xf */
+	wb->xf->two_way_table 
+		= two_way_table_new (mstyle_hash, (GCompareFunc) mstyle_equal, 
+				     XF_RESERVED);
+	wb->xf->default_style = get_default_mstyle ();
+}
+
+/**
+ * Free XF/MStyle table
+ **/
+static void
+xf_free (ExcelWorkbook *wb)
+{
+	TwoWayTable *twt;
+	MStyle *st;
+	int i;
+
+	if (wb && wb->xf) {
+		if (wb->xf->two_way_table) {
+			twt = wb->xf->two_way_table;
+			for (i = 0; i < twt->idx_to_key->len; i++) {
+				st = two_way_table_idx_to_key (twt, 
+							       i + twt->base);
+				mstyle_unref (st);
+			}
+			two_way_table_free (wb->xf->two_way_table);
+		}
+		g_free (wb->xf);
+		wb->xf = NULL;
+	}
+}
+
+/**
+ * Callback called when putting MStyle to table. Print to debug log when
+ * style is added. Free resources when it was already there.
+ **/
+static void 
+after_put_mstyle (MStyle *st, gboolean was_added, gint index, gpointer dummy)
+{
+	if (was_added) {
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_write_debug > 1) {
+			printf ("Found unique mstyle %d\n", index);
+			mstyle_dump (st);
+		}
+#endif
+	} else {
+		mstyle_unref (st);
+	}
+}
+
+/**
+ * Add an MStyle to table if it is not already there.
+ **/
+static gint
+put_mstyle (ExcelWorkbook *wb, MStyle *st)
+{
+	TwoWayTable *twt = wb->xf->two_way_table;
+	
+	return two_way_table_put (twt, st, TRUE, 
+				  (AfterPutFunc) after_put_mstyle, NULL);
+}
+
+/**
+ * Get ExcelCell record for cell position.
+ **/
+static ExcelCell *
+excel_cell_get (ExcelSheet *sheet, int col, int row)
+{
+	return sheet->cells + row * sheet->maxx + col;
+}
+
+/**
+ * Add MStyle of cell to table if not already there. Cache some info.
+ **/
+static void
+pre_cell (gconstpointer dummy, Cell *cell, ExcelSheet *sheet)
+{
+	ExcelCell *c;
+	int col, row;
+
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (sheet != NULL);
+
+	col = cell->col->pos;
+	row = cell->row->pos;
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_write_debug > 3) {
+		printf ("Pre cell %s\n", cell_name (col, row));
+	}
+#endif
+	cell_mark_used (sheet, col, row);
+	if (cell->parsed_node)
+		ms_formula_build_pre_data (sheet, cell->parsed_node);
+
+	/* Save cell pointer */
+	c = excel_cell_get (sheet, col, row);
+	c->gnum_cell = cell;
+	c->xf = put_mstyle (sheet->wb, cell_get_mstyle (cell));
+}
+
+/**
+ * Add MStyle of blank cell to table if not already there.
+ **/
+static void 
+pre_blank (ExcelSheet *sheet, int col, int row)
+{
+	ExcelCell *c = excel_cell_get (sheet, col, row);
+
+	MStyle *st = sheet_style_compute (sheet->gnum_sheet,
+				      col, row);
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_write_debug > 3) {
+		printf ("Pre blank %s\n", cell_name (col, row));
+	}
+#endif
+	c->gnum_cell = NULL;
+	c->xf = put_mstyle (sheet->wb, st);
+}
+
+/**
+ * Add MStyles of all blank cells to table if not already there.
+ **/
+static void 
+pre_blanks (ExcelSheet *sheet)
+{
+	int row, col;
+
+	for (row = 0; row < sheet->maxy; row++)
+		for (col = 0; col < sheet->maxx; col++)
+			if (!cell_is_used (sheet, col, row))
+				pre_blank (sheet, col, row);
+}
+
+/**
+ * Add all MStyles in workbook to table
+ *
+ * First, we invoke pre_cell on each cell in the cell hash. This
+ * computes the style for each non-blank cell, and adds the style to
+ * the table. 
+ * 
+ * We also need styles for blank cells, so we let pre_blanks scan all
+ * blank cell positions, limited by maxx and maxy.
+ *
+ * To see what cells are blank, we use the cell_used_map, where
+ * pre_cell sets a bit for each cell which is in use. This should be
+ * somewhat faster than just visiting each cell postion in sequence.
+ *
+ * Another optimization we do: When writing to file, we need the cell
+ * pointer and the XF style index for each cell. To avoid having to
+ * locate the cell pointer and computing the style once more, we cache
+ * the cell pointer and XF index in en ExcelCell in the cells table.
+ **/
+static void
+gather_styles (ExcelWorkbook *wb)
+{
+	int i;
+
+	for (i = 0; i < wb->sheets->len; i++) {
+		ExcelSheet *s = g_ptr_array_index (wb->sheets, i);
+
+		/* Gather style info from cells and blanks */
+		g_hash_table_foreach (s->gnum_sheet->cell_hash,
+				      (GHFunc) pre_cell, s);
+		pre_blanks (s);
+	}
+}
+
+/**
+ * Map Gnumeric pattern index to Excel ditto.
+ * @i Gnumeric pattern index 
+ *
+ * FIXME: 
+ * Move this and ms-excel-read.c::excel_map_pattern_index_from_excel 
+ * to common utility file. Generate one map from the other for 
+ * consistency
+ **/
+static int
+map_pattern_index_to_excel (int const i)
+{
+	static int const map_to_excel[] = {
+		 0,
+		 1,  3,  2,  4, 17, 18,
+		 5,  6,  8,  7,  9, 10,
+		11, 12, 13, 14, 15, 16
+	};
+
+	/* Default to Solid if out of range */
+	g_return_val_if_fail (i >= 0 &&
+			      i < (sizeof(map_to_excel)/sizeof(int)), 0);
+
+	return map_to_excel[i];
+}
+
+/**
+ * Write a built-in XF record to file
+ * @bp  BIFF buffer
+ * @ver BIFF version
+ * @idx Index of record
+ *
+ * See S59E1E.HTM
+ **/
+static void
+write_xf_magic_record (BiffPut *bp, eBiff_version ver, int idx)
 {
 	guint8 data[256];
 	int lp;
@@ -679,38 +1486,38 @@ write_xf_record (BiffPut *bp, MStyle *mstyle, eBiff_version ver, int hack)
 		ms_biff_put_var_next (bp, BIFF_XF_OLD);
 
 	if (ver >= eBiffV8) {
-		MS_OLE_SET_GUINT16(data+0, fonts_get_index (0, 0));
-		MS_OLE_SET_GUINT16(data+2, formats_get_index (0, 0));
+		MS_OLE_SET_GUINT16(data+0, FONT_MAGIC);
+		MS_OLE_SET_GUINT16(data+2, FORMAT_MAGIC);
 		MS_OLE_SET_GUINT16(data+18, 0xc020); /* Color ! */
 		ms_biff_put_var_write (bp, data, 24);
 	} else {
-		MS_OLE_SET_GUINT16(data+0, fonts_get_index (0, 0));
-		MS_OLE_SET_GUINT16(data+2, formats_get_index (0, 0));
+		MS_OLE_SET_GUINT16(data+0, FONT_MAGIC);
+		MS_OLE_SET_GUINT16(data+2, FORMAT_MAGIC);
 		MS_OLE_SET_GUINT16(data+4, 0xfff5); /* FIXME: Magic */
 		MS_OLE_SET_GUINT16(data+6, 0xf420);
 		MS_OLE_SET_GUINT16(data+8, 0x20c0); /* Color ! */
 
-		if (hack == 1 || hack == 2)
+		if (idx == 1 || idx == 2)
 			MS_OLE_SET_GUINT16 (data,1);
-		if (hack == 3 || hack == 4)
+		if (idx == 3 || idx == 4)
 			MS_OLE_SET_GUINT16 (data,2);
-		if (hack == 15) {
+		if (idx == 15) {
 			MS_OLE_SET_GUINT16 (data+4, 1);
 			MS_OLE_SET_GUINT8  (data+7, 0x0);
 		}
-		if (hack == 16)
+		if (idx == 16)
 			MS_OLE_SET_GUINT32 (data, 0x002b0001); /* These turn up in the formats... */
-		if (hack == 17)
+		if (idx == 17)
 			MS_OLE_SET_GUINT32 (data, 0x00290001);
-		if (hack == 18)
+		if (idx == 18)
 			MS_OLE_SET_GUINT32 (data, 0x002c0001);
-		if (hack == 19)
+		if (idx == 19)
 			MS_OLE_SET_GUINT32 (data, 0x002a0001);
-		if (hack == 20)
+		if (idx == 20)
 			MS_OLE_SET_GUINT32 (data, 0x00090001);
-		if (hack < 21 && hack > 15) /* Style bit ? */
+		if (idx < 21 && idx > 15) /* Style bit ? */
 			MS_OLE_SET_GUINT8  (data+7, 0xf8);
-		if (hack == 0)
+		if (idx == 0)
 			MS_OLE_SET_GUINT8  (data+7, 0);			
 
 		ms_biff_put_var_write (bp, data, 16);
@@ -718,20 +1525,143 @@ write_xf_record (BiffPut *bp, MStyle *mstyle, eBiff_version ver, int hack)
 	ms_biff_put_commit (bp);
 }
 
-static XF *
-write_xf (BiffPut *bp, ExcelWorkbook *wb)
+/**
+ * Write an XF record to file
+ * @wb  Workbook
+ * @bp  BIFF buffer
+ * @st  Style
+ * @idx Index of record
+ *
+ * See S59E1E.HTM
+ *
+ * The following features are implemented:
+ * - Font
+ * - Format
+ * The following features are implemented only for BIFF V7:
+ * - Fill pattern
+ * - Fill pattern foreground color
+ * - Fill pattern background color
+ *
+ * Style colors and style format are *not* unrefed. This is correct
+ *
+ * FIXME: It may be possible to recognize auto contrast for a few
+ * simple cases.
+ **/
+static void
+write_xf_record (ExcelWorkbook *wb, BiffPut *bp, MStyle *st, int idx)
 {
+	guint8 data[256];
+	StyleFormat *sf = mstyle_get_format (st);
+	ExcelFont *f    = excel_font_new (st);
+	StyleColor *sc_fill = mstyle_get_color (st, MSTYLE_COLOR_PATTERN);
+	StyleColor *sc_bg   = mstyle_get_color (st, MSTYLE_COLOR_BACK);
+	int pat         = mstyle_get_pattern (st);
+	guint16 ifont   = fonts_get_index (wb, f);
+	guint16 iformat = formats_get_index (wb, sf->format);
+	guint cfill = sc_fill ? style_color_to_int (sc_fill) : PALETTE_BLACK;
+	guint cbg   = sc_bg   ? style_color_to_int (sc_bg)   : PALETTE_WHITE;
+	/* The "magic 0x20c0 means: 
+	 * Fill patt foreground 64 = Autocontrast 
+	 * Fill patt background  1 = white
+	 * fSxButton bit set */
+	guint16 icolor = 0x20c0; /* Only V7 */
+	/* FIXME : Only V7 */
+	guint16 ipat   = (map_pattern_index_to_excel (pat) & 0x3f); 
+	guint16 ifill;
+	guint16 ibg;
+	guint16 differences = 0;
 	int lp;
+
+	ibg   = palette_get_index (wb, cbg);
+	ifill = palette_get_index (wb, cfill);
+
+	/* Solid patterns seem to reverse the meaning */
+	if (ipat == 1 && ibg != PALETTE_WHITE) {
+		ifill = palette_get_index (wb, cbg);
+		ibg   = palette_get_index (wb, cfill);
+	}
+	
+	icolor = (icolor & (~ 0x1fff)) /* Only V7 */
+		| (ifill & 0x7f) 
+		| ((ibg << 7) & 0x1f80);
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_write_debug > 1) {
+		printf ("Writing xf 0x%x : font 0x%x (%s), format 0x%x (%s)\n"
+			"fill fg color idx 0x%x"
+			", fill bg color idx 0x%x"
+			", pattern (Excel) %d\n",
+			idx, ifont, excel_font_to_string (f), 
+			iformat, sf->format, ifill, ibg, ipat);
+	}
+#endif
+	excel_font_free (f);
+
+	/* Map of differences to parent style */
+	if (iformat != 0)	/* Bit 10: Format */
+		differences |= 1 << 10;
+	if (ifont != 0)		/* Bit 11: Font */
+		differences |= 1 << 11;
+	/* Bit 12: Alignment or wrap  */
+	/* Bit 13: Border line */
+	if (ifill != PALETTE_BLACK || ibg != PALETTE_WHITE || ipat != 0) {
+		/* FIXME - Check if different from default */
+		differences |= 1 << 14;	/* Bit 14: Fill pattern */
+	}
+	/* Bit 15: Locking */
+
+	for (lp = 0; lp < 250; lp++)
+		data[lp] = 0;
+
+	if (wb->ver >= eBiffV7)
+		ms_biff_put_var_next (bp, BIFF_XF);
+	else
+		ms_biff_put_var_next (bp, BIFF_XF_OLD);
+
+	if (wb->ver >= eBiffV8) {
+		MS_OLE_SET_GUINT16 (data+0, ifont);
+		MS_OLE_SET_GUINT16 (data+2, iformat);
+		MS_OLE_SET_GUINT16(data+18, 0xc020); /* Color ! */
+		ms_biff_put_var_write (bp, data, 24);
+	} else {
+		MS_OLE_SET_GUINT16 (data+0, ifont);
+		MS_OLE_SET_GUINT16 (data+2, iformat);
+		/* According to doc, 1 means locked, this seems to be wrong */
+		MS_OLE_SET_GUINT16(data+4, 0x0001); 
+		MS_OLE_SET_GUINT16(data+6, differences);
+		MS_OLE_SET_GUINT16(data+8, icolor);
+		MS_OLE_SET_GUINT16(data+10, ipat);
+
+		ms_biff_put_var_write (bp, data, 16);
+	}
+	ms_biff_put_commit (bp);
+}
+
+/**
+ * Write XF records to file for all MStyles
+ * @wb workbook
+ * @bp BIFF buffer
+ **/
+static void
+write_xf (ExcelWorkbook *wb, BiffPut *bp)
+{
+	TwoWayTable *twt = wb->xf->two_way_table;
+	int nxf = twt->idx_to_key->len;
+	int lp;
+	MStyle *st;
+
 	guint32 style_magic[6] = { 0xff038010, 0xff068011, 0xff048012, 0xff078013,
 				   0xff008000, 0xff058014 };
 
-	/* FIXME: Scan through all the Styles... */
-	XF *xf = g_new (XF, 1);
-	xf->Style_to_idx = g_hash_table_new (g_direct_hash,
-					    g_direct_equal);
 	/* Need at least 16 apparently */
-	for (lp = 0; lp < 21; lp++)
-		write_xf_record (bp, NULL, wb->ver,lp);
+	for (lp = 0; lp < XF_RESERVED; lp++)
+		write_xf_magic_record (bp, wb->ver,lp);
+
+	/* Scan through all the Styles... */
+	for (; lp < nxf + twt->base; lp++) { 
+		st = two_way_table_idx_to_key (twt, lp);
+		write_xf_record (wb, bp, st, lp);
+	}
 
 	/* See: S59DEA.HTM */
 	for (lp = 0; lp < 6; lp++) {
@@ -745,25 +1675,6 @@ write_xf (BiffPut *bp, ExcelWorkbook *wb)
 		guint8 *data = ms_biff_put_len_next (bp, BIFF_USESELFS, 2);
 		MS_OLE_SET_GUINT16 (data, 0x1); /* we are language naturals */
 		ms_biff_put_commit (bp);
-	}
-
-	return xf;
-}
-
-static guint32
-xf_lookup (XF *xf, MStyle *mstyle)
-{
-	/* Fixme: Hash table lookup */
-	return XF_MAGIC;
-}
-
-static void
-xf_free (XF *xf)
-{
-	if (xf) {
-		/* Another leak */
-		g_hash_table_destroy (xf->Style_to_idx);
-		g_free (xf);
 	}
 }
 
@@ -838,6 +1749,15 @@ ms_excel_write_map_errcode (Value const * const v)
 	return 29;
 }
 
+/**
+ * Write cell value to file
+ * @bp  BIFF buffer
+ * @v   value
+ * @ver BIFF version
+ * @col column
+ * @row row
+ * @xf  XF index
+ **/
 static void
 write_value (BiffPut *bp, Value *v, eBiff_version ver,
 	     guint32 col, guint32 row, guint16 xf)
@@ -874,8 +1794,9 @@ write_value (BiffPut *bp, Value *v, eBiff_version ver,
 		int_t vint = v->v.v_int;
 		guint8 *data;
 
-#if EXCEL_DEBUG > 0
-		printf ("writing %d %d %d\n", vint, v->v.v_int);
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_write_debug > 3)
+			printf ("Writing %d %d\n", vint, v->v.v_int);
 #endif
 		if (((vint<<2)>>2) != vint) { /* Chain to floating point then. */
 			Value *vf = value_new_float (v->v.v_int);
@@ -899,9 +1820,11 @@ write_value (BiffPut *bp, Value *v, eBiff_version ver,
 		gboolean is_int = ((val - (int)val) == 0.0) &&
 			(((((int)val)<<2)>>2) == ((int)val));
 
-#if EXCEL_DEBUG > 0
-		printf ("writing %g is (%g %g) is int ? %d\n", val, 1.0*(int)val,
-			1.0*(val - (int)val), is_int);
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_write_debug > 3) 
+			printf ("Writing %g is (%g %g) is int ? %d\n",
+				val, 1.0*(int)val,
+				1.0*(val - (int)val), is_int);
 #endif
 
 		/* FIXME : Add test for double with 2 digits of fraction
@@ -956,8 +1879,15 @@ write_value (BiffPut *bp, Value *v, eBiff_version ver,
 	}
 }
 
+/**
+ * Write formula to file
+ * @bp    BIFF buffer
+ * @sheet sheet
+ * @cell  cell
+ * @xf    XF index
+ **/
 static void
-write_formula (BiffPut *bp, ExcelSheet *sheet, Cell *cell)
+write_formula (BiffPut *bp, ExcelSheet *sheet, const Cell *cell, gint16 xf)
 {
 	guint8   data[22];
 	guint8   lendat[2];
@@ -980,7 +1910,7 @@ write_formula (BiffPut *bp, ExcelSheet *sheet, Cell *cell)
 	ms_biff_put_var_next (bp, BIFF_FORMULA);
 	EX_SETROW (data, row);
 	EX_SETCOL (data, col);
-	EX_SETXF  (data, XF_MAGIC);
+	EX_SETXF  (data, xf);
 	switch (v->type) {
 	case VALUE_INTEGER :
 	case VALUE_FLOAT :
@@ -1038,46 +1968,82 @@ write_formula (BiffPut *bp, ExcelSheet *sheet, Cell *cell)
 	}
 }
 
+/**
+ * Write cell to file
+ * @bp    biff buffer
+ * @sheet sheet
+ * @cell  cell
+ **/
 static void
-write_cell (BiffPut *bp, ExcelSheet *sheet, Cell *cell)
+write_cell (BiffPut *bp, ExcelSheet *sheet, const ExcelCell *cell)
 {
 	gint col, row;
+	Cell *gnum_cell;
+
 	g_return_if_fail (bp);
 	g_return_if_fail (cell);
+	g_return_if_fail (cell->gnum_cell);
+	g_return_if_fail (sheet);
 	
-	col = cell->col->pos;
-	row = cell->row->pos;
+	gnum_cell = cell->gnum_cell;
+	col = gnum_cell->col->pos;
+	row = gnum_cell->row->pos;
 
-#if EXCEL_DEBUG > 2
-	{
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_write_debug > 2) {
 		ParsePosition tmp;
-		printf ("Cell at %s '%s' = '%s'\n", cell_name (col, row),
-			cell->parsed_node?expr_decode_tree (cell->parsed_node,
-							    parse_pos_init (&tmp, sheet->wb->gnum_wb,
-									    col, row)):"none",
-			cell->value?value_get_as_string (cell->value):"empty");
+		printf ("Writing cell at %s '%s' = '%s', xf = 0x%x\n",
+			cell_name (col, row),
+			(gnum_cell->parsed_node ? 
+			 expr_decode_tree (gnum_cell->parsed_node,
+					   parse_pos_init (&tmp, 
+							   sheet->wb->gnum_wb,
+							   col, row)) :
+			 "none"),
+			(gnum_cell->value ?
+			 value_get_as_string (gnum_cell->value) : "empty"),
+			cell->xf);
 	}
 #endif
-	if (cell->parsed_node)
-		write_formula (bp, sheet, cell);
-	else if (cell->value)
-		write_value (bp, cell->value, sheet->wb->ver,
-			     col, row, XF_MAGIC);
+	if (gnum_cell->parsed_node)
+		write_formula (bp, sheet, gnum_cell, cell->xf);
+	else if (gnum_cell->value)
+		write_value (bp, gnum_cell->value, sheet->wb->ver,
+			     col, row, cell->xf);
 }
 
-#define MAGIC_BLANK_XF 0
-
+/**
+ * Write multiple blanks to file
+ * @bp      BIFF buffer
+ * @sheet   sheet
+ * @end_col last blank column
+ * @row     row
+ * @xf_list list of XF indices - one per cell
+ * @run     number of blank cells
+ **/
 static void
-write_mulblank (BiffPut *bp, ExcelSheet *sheet, guint32 end_col, guint32 row, guint32 run)
+write_mulblank (BiffPut *bp, ExcelSheet *sheet, guint32 end_col, guint32 row, 
+		GList *xf_list, guint32 run)
 {
+	guint16 xf;
 	g_return_if_fail (bp);
 	g_return_if_fail (run);
 	g_return_if_fail (sheet);
 
+	xf = GPOINTER_TO_INT (xf_list->data);
+
 	if (run == 1) {
 		guint8 *data;
+
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_write_debug > 2) {
+			printf ("Writing blank at %s, xf = 0x%x\n",
+				cell_name (end_col, row), xf);
+		}
+#endif
+
 		data = ms_biff_put_len_next (bp, 0x200|BIFF_BLANK, 6);
-		EX_SETXF (data, MAGIC_BLANK_XF);
+		EX_SETXF (data, xf);
 		EX_SETCOL(data, end_col);
 		EX_SETROW(data, row);
 		ms_biff_put_commit (bp);
@@ -1085,18 +2051,45 @@ write_mulblank (BiffPut *bp, ExcelSheet *sheet, guint32 end_col, guint32 row, gu
 		guint8   *ptr;
 		guint32 len = 4 + 2*run + 2;
 		guint8 *data;
-	
+
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_write_debug > 2) {
+			/* Strange looking code because the second
+			 * cell_name call overwrites the result of the
+			 * first */
+			printf ("Writing multiple blanks %s",
+				cell_name (end_col + 1 - run, row));
+			printf (":%s\n", cell_name (end_col, row)); 
+		}
+#endif
 		data = ms_biff_put_len_next (bp, BIFF_MULBLANK, len);
 
-		EX_SETCOL (data, end_col-run);
+		EX_SETCOL (data, end_col + 1 - run);
 		EX_SETROW (data, row);
 		MS_OLE_SET_GUINT16 (data + len - 2, end_col);
 		ptr = data + 4;
-		while (run > 0) {
-			MS_OLE_SET_GUINT16 (ptr, MAGIC_BLANK_XF);
-			ptr+=2;
+		for (;;) {
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_write_debug > 3) {
+				printf (" xf(%s) = 0x%x",
+					cell_name (end_col + 1 - run, row), 
+					xf);
+			}
+#endif
+			MS_OLE_SET_GUINT16 (ptr, xf);
+			ptr += 2;
 			run--;
+			if (!xf_list->next)
+				break;
+			xf_list = xf_list->next;
+			xf = GPOINTER_TO_INT (xf_list->data);
 		}
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_write_debug > 3) {
+			printf ("\n");
+		}
+#endif
+		ms_biff_put_commit (bp);
 	}
 }
 
@@ -1384,9 +2377,12 @@ write_index (MsOleStream *s, ExcelSheet *sheet, MsOlePos pos)
 	for (lp = 0; lp < sheet->dbcells->len; lp++) {
 		MsOlePos pos = g_array_index (sheet->dbcells, MsOlePos, lp);
 		MS_OLE_SET_GUINT32 (data, pos - sheet->wb->streamPos);
-#if EXCEL_DEBUG > 1
-		printf ("writing index record 0x%4x - 0x%4x = 0x%4x\n",
-			pos, sheet->wb->streamPos, pos - sheet->wb->streamPos);
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_write_debug > 2)
+			printf ("Writing index record"
+				" 0x%4.4x - 0x%4.4x = 0x%4.4x\n",
+				pos, sheet->wb->streamPos, 
+				pos - sheet->wb->streamPos);
 #endif
 		s->write (s, data, 4);
 	}
@@ -1473,29 +2469,43 @@ write_sheet (BiffPut *bp, ExcelSheet *sheet)
 /* Finding cell records in Biff files see: S59E28.HTM */
 	maxx = sheet->maxx;
 	maxy = sheet->maxy;
-#if EXCEL_DEBUG > 0
-	printf ("Saving sheet '%s' geom (%d, %d)\n", sheet->gnum_sheet->name,
-		maxx, maxy);
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_write_debug > 1)
+		printf ("Saving sheet '%s' geom (%d, %d)\n", 
+			sheet->gnum_sheet->name, maxx, maxy);
 #endif
 	for (y = 0; y < maxy; y++) {
 		guint32 run_size = 0;
+		GList *xf_list = NULL;
 		MsOlePos start;
 
 		start = write_rowinfo (bp, y, maxx);
 
 		for (x = 0; x < maxx; x++) {
-			Cell *cell = sheet_cell_get (sheet->gnum_sheet, x, y);
-			if (!cell)
+			const ExcelCell *cell = excel_cell_get (sheet, x, y);
+			if (!cell->gnum_cell) {
+				xf_list = g_list_append 
+					(xf_list, GINT_TO_POINTER (cell->xf));
 				run_size++;
-			else {
-				if (run_size)
-					write_mulblank (bp, sheet, x, y, run_size);
-				run_size = 0;
+			} else {
+				if (run_size) {
+					write_mulblank (bp, sheet, x - 1, y, 
+							xf_list, run_size);
+					g_list_free (xf_list);
+					xf_list = NULL;
+					run_size = 0;
+				}
 				write_cell (bp, sheet, cell);
 			}
 		}
-		if (run_size > 0 && run_size < maxx)
-			write_mulblank (bp, sheet, x, y, run_size);
+		if (run_size > 0 && run_size <= maxx) {
+			write_mulblank (bp, sheet, x - 1, y, 
+					xf_list, run_size);
+		}
+		if (xf_list) {
+			g_list_free (xf_list);
+			xf_list = NULL;
+		}
 
 		write_db_cell (bp, sheet, start);
 	}
@@ -1526,51 +2536,45 @@ new_sheet (ExcelWorkbook *wb, Sheet *value)
 	g_ptr_array_add (wb->sheets, sheet);
 
 	ms_formula_cache_init (sheet);
+	sheet->cell_used_map = cell_used_map_new (sheet);
+	sheet->cells = g_new (ExcelCell, sheet->maxy * sheet->maxx);
 }
 
 static void
 free_sheet (ExcelSheet *sheet)
 {
 	if (sheet) {
+		g_free (sheet->cell_used_map);
+		g_free (sheet->cells);
 		g_array_free (sheet->dbcells, TRUE);
 		ms_formula_cache_shutdown (sheet);
 		g_free (sheet);
 	}
 }
 
-static void
-pre_cell (gpointer key, Cell *cell, ExcelSheet *sheet)
-{
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (sheet != NULL);
-
-	if (cell->parsed_node)
-		ms_formula_build_pre_data (sheet, cell->parsed_node);
-	/*
-	 *  Need to do start comparing styles here if we can't do
-	 * anything about the crackpot innards of gnumeric styles :-)
-	 */
-}
-
 /**
  * pre_pass:
  * @wb: the workbook to scan
- * @ver: the target version.
  * 
- *   Scans all the sheet items and resolves any referencing
- * problems before they occur, hence the records can be written in a
- * linear order.
+ * Scans all the workbook items. Adds all styles, fonts, formats and
+ * colors to tables. Resolves any referencing problems before they
+ * occur, hence the records can be written in a linear order.
  *
  **/
 static void
-pre_pass (ExcelWorkbook *wb, eBiff_version ver)
+pre_pass (ExcelWorkbook *wb)
 {
-	int i;
-	for (i = 0; i < wb->sheets->len; i++) {
-		ExcelSheet *s = g_ptr_array_index (wb->sheets, i);
-		g_hash_table_foreach (s->gnum_sheet->cell_hash,
-				      (GHFunc)pre_cell, s);
-	}
+	/* The default style first */
+	put_mstyle (wb, wb->xf->default_style);
+	/* Its font and format */
+	put_font (wb->xf->default_style, NULL, wb);
+	put_format (wb->xf->default_style, NULL, wb);
+
+	gather_styles (wb);	/* (and cache cells) */
+	/* Gather Info from styles */
+	gather_fonts (wb);
+	gather_formats (wb);
+	gather_palette (wb);
 }
 
 static void
@@ -1585,14 +2589,18 @@ write_workbook (BiffPut *bp, Workbook *gwb, eBiff_version ver)
 	wb->gnum_wb  = gwb;
 	wb->sheets   = g_ptr_array_new ();
 	wb->names    = g_ptr_array_new ();
-	
+	fonts_init (wb);
+	formats_init (wb);
+	palette_init (wb);
+	xf_init (wb);
+
 	sheets = workbook_sheets (gwb);
 	while (sheets) {
 		new_sheet (wb, sheets->data);
 		sheets = g_list_next (sheets);
 	}
 
-	pre_pass (wb, ver);
+	pre_pass (wb);
 
 	/* Workbook */
 	wb->streamPos = biff_bof_write (bp, ver, eBiffTWorkbook);
@@ -1601,10 +2609,10 @@ write_workbook (BiffPut *bp, Workbook *gwb, eBiff_version ver)
 /*	write_externsheets    (bp, wb, NULL); */
 	write_bits            (bp, wb, ver);
 
-	wb->fonts   = write_fonts (bp, wb);
-	wb->formats = write_formats (bp, wb);
-	write_xf (bp, wb);
-	wb->pal     = write_palette (bp, wb);
+	write_fonts (wb, bp);
+	write_formats (wb, bp);
+	write_xf (wb, bp);
+	write_palette (bp, wb);
 
 	for (lp = 0; lp < wb->sheets->len; lp++) {
 		s = g_ptr_array_index (wb->sheets, lp);
@@ -1633,9 +2641,10 @@ write_workbook (BiffPut *bp, Workbook *gwb, eBiff_version ver)
 	/* End Finalised workbook */
 
 	/* Free various bits */
-	fonts_free   (wb->fonts);
-	formats_free (wb->formats);
-	palette_free (wb->pal);
+	fonts_free   (wb);
+	formats_free (wb);
+	palette_free (wb);
+	xf_free  (wb);
 	for (lp = 0; lp < wb->sheets->len; lp++) {
 		ExcelSheet *s = g_ptr_array_index (wb->sheets, lp);
 		free_sheet (s);
@@ -1688,6 +2697,12 @@ ms_excel_write_workbook (MsOle *file, Workbook *wb,
 	ms_biff_put_destroy (bp);
 
 	ms_ole_stream_close (&str);
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_write_debug > 0) {
+		fflush (stdout);
+	}
+#endif
 
 	return 1;
 }

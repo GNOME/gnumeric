@@ -1785,8 +1785,9 @@ static gboolean
 ms_escher_read_container (MSEscherState * state, MSEscherHeader * container,
 			  gint const prefix)
 {
-	MSEscherHeader	h;
-	ms_escher_init_header(&h);
+	MSEscherHeader h;
+
+	ms_escher_init_header (&h);
 	h.container = container;
 
 	/* Skip the common header */
@@ -1806,11 +1807,11 @@ ms_escher_read_container (MSEscherState * state, MSEscherHeader * container,
 		if (data == NULL)
 			return TRUE;
 
-		tmp	= MS_OLE_GET_GUINT16(data+0);
-		h.fbt	= MS_OLE_GET_GUINT16(data+2);
+		tmp	= MS_OLE_GET_GUINT16 (data+0);
+		h.fbt	= MS_OLE_GET_GUINT16 (data+2);
 
 		/* Include the length of this header in the record size */
-		h.len	= MS_OLE_GET_GUINT32(data+4) + common_header_len;
+		h.len	= MS_OLE_GET_GUINT32 (data+4) + common_header_len;
 		h.ver      = tmp & 0x0f;
 		h.instance = (tmp>>4) & 0xfff;
 
@@ -1929,7 +1930,7 @@ ms_escher_parse (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 	state.start_offset = 0;
 	state.end_offset   = q->length;
 
-	ms_escher_init_header(&fake_header);
+	ms_escher_init_header (&fake_header);
 	fake_header.container = NULL;
 	fake_header.offset = 0;
 
