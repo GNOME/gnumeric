@@ -47,8 +47,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
-"POT-Creation-Date: 2001-12-14 18:21-0500\n"
-"PO-Revision-Date: 2001-12-04 23:19+0100\n"
+"POT-Creation-Date: 2001-12-15 11:18+0100\n"
+"PO-Revision-Date: 2001-12-15 11:04+0100\n"
 "Last-Translator: Ole Laursen <olau@hardworking.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -384,9 +384,8 @@ msgid "Import/Export of HTML, TeX, DVI, roff"
 msgstr "Import/eksport af HTML, TeX, DVI, roff"
 
 #: plugins/html/plugin.xml.in.h:7
-#, fuzzy
 msgid "LaTeX 2e (*.tex)"
-msgstr "LaTeX2e (*.tex)"
+msgstr "LaTeX 2e (*.tex)"
 
 #: plugins/html/plugin.xml.in.h:8
 msgid "TROFF (*.me)"
@@ -1804,7 +1803,7 @@ msgstr "Søg..."
 
 #: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2526
 msgid "Select Arra_y"
-msgstr "Markér matrix"
+msgstr "Markér _matrix"
 
 #: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:2511
 msgid "Select _All"
@@ -3898,28 +3897,28 @@ msgid "val != bound                  (not equal to)"
 msgstr "værdi != grænse           (forskellig fra)"
 
 #: src/dialogs/cell-format.glade.h:130
-msgid "val <  bound                  (less than)"
-msgstr "værdi < grænse            (mindre end)"
-
-#: src/dialogs/cell-format.glade.h:131
-msgid "val <= min || max <= val (not between)"
-msgstr "værdi <= min || maks <= værdi (ikke mellem)"
-
-#: src/dialogs/cell-format.glade.h:132
-msgid "val <=bound                  (less than or equal to)"
-msgstr "værdi <= grænse           (mindre end eller lig med)"
-
-#: src/dialogs/cell-format.glade.h:133
-msgid "val == bound                 (equal to)"
-msgstr "værdi == grænse           (lig med)"
-
-#: src/dialogs/cell-format.glade.h:134
 msgid "val >  bound                  (greater than)"
 msgstr "værdi > grænse            (større end)"
 
-#: src/dialogs/cell-format.glade.h:135
+#: src/dialogs/cell-format.glade.h:131
 msgid "val >=bound                  (greater than or equal to)"
 msgstr "værdi >= grænse           (større end eller lig med)"
+
+#: src/dialogs/cell-format.glade.h:132
+msgid "val <  bound                  (less than)"
+msgstr "værdi < grænse            (mindre end)"
+
+#: src/dialogs/cell-format.glade.h:133
+msgid "val <= min || max <= val (not between)"
+msgstr "værdi <= min || maks <= værdi (ikke mellem)"
+
+#: src/dialogs/cell-format.glade.h:134
+msgid "val <=bound                  (less than or equal to)"
+msgstr "værdi <= grænse           (mindre end eller lig med)"
+
+#: src/dialogs/cell-format.glade.h:135
+msgid "val == bound                 (equal to)"
+msgstr "værdi == grænse           (lig med)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A header"
@@ -5191,15 +5190,15 @@ msgstr "Du skal vælge nogle celletyper at søge efter"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Er du sikker på at du ønsker af fjerne arket '%s'?"
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:68 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:68 src/dialogs/solver.glade.h:1
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:69 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:69 src/dialogs/solver.glade.h:3
 msgid "="
 msgstr "="
 
@@ -5242,21 +5241,21 @@ msgstr "Du skal vælge mindst ét ark til eksportering"
 msgid "Are you sure you want to cancel?"
 msgstr "Er du sikker på at du ønsker at annullere?"
 
-#: src/dialogs/dialog-stf-export.glade.h:1 src/dialogs/dialog-stf.glade.h:1
-msgid "\""
-msgstr "\""
-
-#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
-msgid "'"
-msgstr "'"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
+#: src/dialogs/dialog-stf-export.glade.h:1
 msgid "<- Remove"
 msgstr "<- Fjern"
 
-#: src/dialogs/dialog-stf-export.glade.h:4
+#: src/dialogs/dialog-stf-export.glade.h:2
 msgid "<- Remove all"
 msgstr "<- Fjern alle"
+
+#: src/dialogs/dialog-stf-export.glade.h:3 src/dialogs/dialog-stf.glade.h:1
+msgid "\""
+msgstr "\""
+
+#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+msgid "'"
+msgstr "'"
 
 #: src/dialogs/dialog-stf-export.glade.h:5
 msgid "Add ->"
@@ -5396,11 +5395,11 @@ msgstr ""
 msgid "%d lines to import"
 msgstr "%d linjer at eksportere"
 
-#: src/dialogs/dialog-stf-main-page.c:210
+#: src/dialogs/dialog-stf-main-page.c:227
 msgid "LINES TOO LONG!"
 msgstr "LINJER FOR LANGE!"
 
-#: src/dialogs/dialog-stf-main-page.c:234
+#: src/dialogs/dialog-stf-main-page.c:253
 #, c-format
 msgid "Data (from %s)"
 msgstr "Data (fra %s)"
@@ -18080,9 +18079,8 @@ msgstr "Forkast"
 #. * 'File' menu
 #.
 #: src/history.c:129
-#, fuzzy
 msgid "File/Print Preview..."
-msgstr "Filer/Vis udskrift"
+msgstr "Filer/Vis udskrift..."
 
 #: src/history.c:142
 msgid "File/Print Preview"

@@ -1,3 +1,7 @@
+2001-12-15  Ole Laursen  <olau@hardworking.dk>
+
+	* da.po: Fixed a missing shortcut underscore in Danish translation.
+
 2001-12-15  Roy-Magne Mo  <rmo@sunnmore.net>
 
 	* nn.po: Updated Norwegian (nynorsk) translation.
