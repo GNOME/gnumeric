@@ -3,6 +3,7 @@ Gnumeric 1.1.4
 Almer:
 	* Implement validation criteria checking.
           (http://bugzilla.gnome.org/show_bug.cgi?id=72554)
+	* Port part of the string functions to utf8.
 
 Andreas:
 	* Improve printing dialogs.
@@ -11,7 +12,7 @@ Andreas:
 	* Add sheet selector to print-setup dialog.
 	* Fix print range selection.
 	* Added new stats function CRONBACH.
-	* Improve focus handling in search dialog 
+	* Improve focus handling in search dialog
 	  (http://bugzilla.gnome.org/show_bug.cgi?id=81087).
 	* Persist printer information
 

@@ -1,6 +1,24 @@
+2002-05-09  Almer S. Tigelaar  <almer@gnome.org>
+
+	* functions.c (gnumeric_exact) : Port to utf8.
+	(gnumeric_lower) : Idem.
+	(gnumeric_mid) : Idem and fix segfault that would
+	occur when specifying a bigger offset then the
+	string length.
+	(gnumeric_left): Protect against negatives.
+	(gnumeric_right): Idem and port to utf8.
+	(gnumeric_upper): Port to utf8.
+	(gnumeric_rept): Idem.
+	(gnumeric_clean): Idem.
+	(gnumeric_find): Idem.
+	(gnumeric_proper): Idem.
+	(gnumeric_replace): Idem and kill unused variable.
+	(gnumeric_trim): Port to utf8.
+	(gnumeric_value): Idem.
+
 2002-05-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* functions.c : mark argument names for translation and adjust 
+	* functions.c : mark argument names for translation and adjust
 	  them for use by the formula guru.
 
 2002-04-29  Jody Goldberg <jody@gnome.org>
@@ -11,5 +29,5 @@
 
 	* functions.c (gnumeric_len) : port to utf8
 	(gnumeric_left) : ditto
-	(gnumeric_concatenate) : use string_range_function and 
+	(gnumeric_concatenate) : use string_range_function and
 	  range_concatenate

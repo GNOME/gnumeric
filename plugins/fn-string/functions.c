@@ -6,6 +6,7 @@
  *  Miguel de Icaza (miguel@gnu.org)
  *  Sean Atkinson (sca20@cam.ac.uk)
  *  Jukka-Pekka Iivonen (iivonen@iki.fi)
+ *  Almer S. Tigelaar (almer@gnome.org)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -118,8 +119,8 @@ static const char *help_exact = {
 static Value *
 gnumeric_exact (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_bool (strcmp (value_peek_string (argv[0]),
-				       value_peek_string (argv[1])) == 0);
+	return value_new_bool (g_utf8_collate (value_peek_string (argv[0]),
+					       value_peek_string (argv[1])) == 0);
 }
 
 /***************************************************************************/
@@ -164,18 +165,21 @@ static const char *help_left = {
 static Value *
 gnumeric_left (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *v;
-	char *s;
+	Value      *v;
+	GString    *res;
 	char const *peek;
-	int count;
+	int         count;
 
 	count = argv[1] ? value_get_as_int (argv[1]) : 1;
-	peek = value_peek_string (argv[0]);
-	s = g_new (gchar, strlen (peek) + 1);
-	g_utf8_strncpy (s, peek, count);
-	v = value_new_string (s);
-	g_free (s);
 
+	if (count < 0)
+		return value_new_error (ei->pos, _("Invalid arguments"));
+
+	peek = value_peek_string (argv[0]);
+	res  = g_string_new_len (peek, count);
+
+	v = value_new_string (res->str);
+	g_string_free (res, TRUE);
 	return v;
 }
 
@@ -201,8 +205,7 @@ gnumeric_lower (FunctionEvalInfo *ei, Value **argv)
 	Value *v;
 	char *s;
 
-	s = value_get_as_string (argv[0]);
-	g_strdown (s);
+	s = g_utf8_strdown (value_peek_string (argv[0]), -1);
 	v = value_new_string (s);
 	g_free (s);
 
@@ -229,10 +232,11 @@ static const char *help_mid = {
 static Value *
 gnumeric_mid (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *v;
-	int pos, len;
-	char *s;
+	Value      *v;
+	GString    *res;
+	char       *upos;
 	char const *source;
+	int         pos, len, ulen, slen;
 
 	pos = value_get_as_int (argv[1]);
 	len = value_get_as_int (argv[2]);
@@ -240,17 +244,22 @@ gnumeric_mid (FunctionEvalInfo *ei, Value **argv)
 	if (len < 0 || pos <= 0)
 		return value_new_error (ei->pos, _("Invalid arguments"));
 
+	source = value_peek_string (argv[0]);
+	slen   = g_utf8_strlen (source, -1);
+
+	if (pos > slen)
+		return value_new_error (ei->pos, _ ("Arguments out of range"));
+
 	pos--;  /* Make pos zero-based.  */
 
-	source = value_peek_string (argv[0]);
-	len = MIN (len, (int)strlen (source) - pos);
+	len  = MIN (len, (int) slen - pos);
+	upos = g_utf8_offset_to_pointer (source, pos);
+	ulen = g_utf8_offset_to_pointer (source, pos + len) - upos;
 
-	s = g_new (gchar, len + 1);
-	memcpy (s, source + pos, len);
-	s[len] = '\0';
-	v = value_new_string (s);
-	g_free (s);
+	res = g_string_new_len (upos, ulen);
 
+	v = value_new_string (res->str);
+	g_string_free (res, TRUE);
 	return v;
 }
 
@@ -277,19 +286,24 @@ gnumeric_right (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
 	int count, slen;
+	char const *os;
 	char *s;
 
 	count = argv[1] ? value_get_as_int (argv[1]) : 1;
-	s = value_get_as_string (argv[0]);
 
-	slen = strlen (s);
-	if (count < slen) {
-		memmove (s, s + (slen - count), count);
-		s[count] = 0;
-	}
+	if (count < 0)
+		return value_new_error (ei->pos, _("Invalid arguments"));
+
+	os   = value_get_as_string (argv[0]);
+	slen = g_utf8_strlen (os, -1);
+
+	if (count < slen)
+		s = g_strdup (g_utf8_offset_to_pointer (os, slen - count));
+	else
+		s = g_strdup (os);
+
 	v = value_new_string (s);
 	g_free (s);
-
 	return v;
 }
 
@@ -315,8 +329,7 @@ gnumeric_upper (FunctionEvalInfo *ei, Value **argv)
 	Value *v;
 	char *s;
 
-	s = value_get_as_string (argv[0]);
-	g_strup (s);
+	s = g_utf8_strup (value_peek_string (argv[0]), -1);
 	v = value_new_string (s);
 	g_free (s);
 
@@ -366,17 +379,19 @@ static const char *help_rept = {
 static Value *
 gnumeric_rept (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *v;
-	char *s, *p;
+	Value      *v;
+	GString    *res;
 	const char *source;
-	int num;
-	int len;
+	int         num;
+	int         len;
+	int         i;
 
 	num = value_get_as_int (argv[1]);
 	if (num < 0)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
+
 	source = value_peek_string (argv[0]);
-	len = strlen (source);
+	len    = g_utf8_strlen (source, -1);
 
 	/* Fast special case.  =REPT ("",2^30) should not take long.  */
 	if (len == 0 || num == 0)
@@ -386,20 +401,12 @@ gnumeric_rept (FunctionEvalInfo *ei, Value **argv)
 	if (num >= INT_MAX / len)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	p = s = g_new (gchar, 1 + len * num);
-	if (!p)
-		/* FIXME: this and above case should probably have the
-		   same error message.  */
-		return value_new_error (ei->pos, _("Out of memory"));
+	res = g_string_sized_new ((g_utf8_offset_to_pointer (source, len) - source) * num);
+	for (i = 0; i < num; i++)
+		g_string_append (res, source);
 
-	while (num--) {
-		memcpy (p, source, len);
-		p += len;
-	}
-	*p = '\0';
-	v = value_new_string (s);
-	g_free (s);
-
+	v = value_new_string (res->str);
+	g_string_free (res, TRUE);
 	return v;
 }
 
@@ -421,18 +428,22 @@ static const char *help_clean = {
 static Value *
 gnumeric_clean (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *res;
-	unsigned char *s, *p, *q;
+	Value   *v;
+	char    *s   = value_get_as_string (argv[0]);
+	GString *res = g_string_sized_new (g_utf8_strlen (s, -1));
 
-	s = (unsigned char *)value_get_as_string (argv[0]);
-	for (p = q = s; *p; p++)
-		if (isprint (*p))
-			*q++ = *p;
-	*q = 0;
-	res = value_new_string ((char *)s);
-	g_free (s);
+	while (*s) {
+		gunichar uc = g_utf8_get_char (s);
 
-	return res;
+		if (g_unichar_isprint (uc))
+			g_string_append_unichar (res, uc);
+
+		s = g_utf8_next_char (s);
+	}
+
+	v = value_new_string (res->str);
+	g_string_free (res, TRUE);
+	return v;
 }
 
 /***************************************************************************/
@@ -458,19 +469,32 @@ gnumeric_find (FunctionEvalInfo *ei, Value **argv)
 	int count, haystacksize;
 	const char *haystack, *needle;
 
-	needle = value_peek_string (argv[0]);
+	/*
+	 * FIXME: My gut feeling is that we should return arguments
+	 * invalid when g_utf8_strlen (needle, -1) is 0 (i.e. needle is "")
+	 * Currently we return "1" which seems nonsensical.
+	 */
+	needle   = value_peek_string (argv[0]);
 	haystack = value_peek_string (argv[1]);
-	count = argv[2] ? value_get_as_int (argv[2]) : 1;
+	count    = argv[2] ? value_get_as_int (argv[2]) : 1;
 
-	haystacksize = strlen (haystack);
+	haystacksize = g_utf8_strlen (haystack, -1);
 
+	/*
+	 * NOTE: It seems that the implementation of g_strstr will
+	 * even work for utf8 string, even though there is no special
+	 * utf8 version for it, this is why we use "strlen (haystart)"
+	 * and not g_utf8_strlen below
+	 */
 	if (count <= 0 || count > haystacksize) {
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 	} else {
-		const char *haystart = haystack + (count - 1);
-		const char *p = strstr (haystart, needle);
+		const char *haystart = g_utf8_offset_to_pointer (haystack, count - 1);
+		const char *p        = g_strstr_len (haystart, strlen (haystart), needle);
+
 		if (p)
-			return value_new_int (count + (p - haystart));
+			/* One-based */
+			return value_new_int (g_utf8_pointer_to_offset (haystack, p) + 1);
 		else
 			/* Really?  */
 			return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -569,25 +593,32 @@ static const char *help_proper = {
 static Value *
 gnumeric_proper (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *v;
-	unsigned char *s, *p;
-	gboolean inword = FALSE;
+	Value               *v;
+	unsigned char const *p;
+	GString             *res    = g_string_new ("");
+	gboolean             inword = FALSE;
 
-	s = (unsigned char *)value_get_as_string (argv[0]);
-	for (p = s; *p; p++) {
-		if (isalpha (*p)) {
+	p = (unsigned char const *) value_peek_string (argv[0]);
+	while (*p) {
+		gunichar uc = g_utf8_get_char (p);
+
+		if (g_unichar_isalpha (uc)) {
 			if (inword) {
-				*p = tolower (*p);
+				g_string_append_unichar (res, g_unichar_tolower (uc));
 			} else {
-				*p = toupper (*p);
+				g_string_append_unichar (res, g_unichar_toupper (uc));
 				inword = TRUE;
 			}
-		} else
+		} else {
+			g_string_append_unichar (res, uc);
 			inword = FALSE;
+		}
+
+		p = g_utf8_next_char (p);
 	}
 
-	v = value_new_string ((char *)s);
-	g_free (s);
+	v = value_new_string (res->str);
+	g_string_free (res, TRUE);
 	return v;
 }
 
@@ -612,24 +643,26 @@ gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 {
 	Value *v;
 	GString *s;
-	gint start, num, oldlen, newlen;
+	gint start, num, oldlen;
 	char const *old;
 	char const *new;
 
-	start = value_get_as_int (argv[1]);
-	num = value_get_as_int (argv[2]);
-	old = value_peek_string (argv[0]);
-	oldlen = strlen (old);
+	start  = value_get_as_int (argv[1]);
+	num    = value_get_as_int (argv[2]);
+	old    = value_peek_string (argv[0]);
+	oldlen = g_utf8_strlen (old, -1);
 
 	if (start <= 0 || num <= 0)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
+	if (start > oldlen)
+		return value_new_error (ei->pos, _ ("Arguments out of range"));
+
 	start--;  /* Make this zero-based.  */
 
 	if (start + num > oldlen)
 		num = oldlen - start;
 
 	new = value_peek_string (argv[3]);
-	newlen = strlen (new);
 
 	s = g_string_new (old);
 	g_string_erase (s, start, num);
@@ -637,7 +670,6 @@ gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 
 	v = value_new_string (s->str);
 	g_string_free (s, TRUE);
-
 	return v;
 }
 
@@ -736,31 +768,39 @@ static const char *help_trim = {
 static Value *
 gnumeric_trim (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *v;
-	gchar *new, *dest, *src;
-	gboolean space = TRUE;
+	Value    *v;
+	char     *s;
+	GString  *res   = g_string_new ("");
+	gboolean  space = TRUE;
+	int       len;
 
-	src = dest = new = value_get_as_string (argv[0]);
+	s = value_get_as_string (argv[0]);
+	while (*s) {
+		gunichar uc = g_utf8_get_char (s);
 
-	while (*src) {
-		if (*src == ' ') {
+		/*
+		 * FIXME: This takes care of tabs and the likes too
+		 * is that the desired behaviour?
+		 */
+		if (g_unichar_isspace (uc)) {
 			if (!space) {
-				*dest++ = *src;
+				g_string_append_unichar (res, uc);
 				space = TRUE;
 			}
 		} else {
+			g_string_append_unichar (res, uc);
 			space = FALSE;
-			*dest++ = *src;
 		}
-		src++;
+
+		s = g_utf8_next_char (s);
 	}
-	if (space && dest > new)
-		dest--;
-	*dest = '\0';
 
-	v = value_new_string (new);
-	g_free (new);
+	len = g_utf8_strlen (res->str, -1);
+	if (space && len > 0)
+		g_string_truncate (res, len - 1);
 
+	v = value_new_string (res->str);
+	g_string_free (res, TRUE);
 	return v;
 }
 
@@ -794,7 +834,8 @@ gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 		unsigned char *p, *arg = (unsigned char *)value_get_as_string (argv[0]);
 
 		/* Skip leading spaces */
-		for (p = arg ; *p && isspace (*p) ; ++p)
+		for (p = arg; *p && g_unichar_isspace (g_utf8_get_char (p));
+		     p = g_utf8_next_char (p))
 			;
 
 		v = format_match_number ((char *)p, NULL);
