@@ -1,3 +1,9 @@
+2002-06-19  Morten Welinder  <terra@diku.dk>
+
+	* src/mathfunc.c: Update to R 1.5.1.
+	(pexp, pweibull): Use R's version.  All callers
+	changed to match new prototype.
+
 2002-06-19  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet.c (sheet_attach_view) : renamed from sheet_attach_control.

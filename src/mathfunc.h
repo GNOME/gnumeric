@@ -82,7 +82,7 @@ gnum_float qchisq (gnum_float p, gnum_float df, gboolean lower_tail, gboolean lo
 
 /* The Weibull distribution.  */
 gnum_float dweibull (gnum_float x, gnum_float shape, gnum_float scale, gboolean give_log);
-gnum_float pweibull (gnum_float x, gnum_float shape, gnum_float scale);
+gnum_float pweibull (gnum_float x, gnum_float shape, gnum_float scale, gboolean lower_tail, gboolean log_p);
 
 /* The Poisson distribution.  */
 gnum_float dpois (gnum_float x, gnum_float lambda, gboolean give_log);
@@ -90,7 +90,7 @@ gnum_float ppois (gnum_float x, gnum_float lambda, gboolean lower_tail, gboolean
 
 /* The exponential distribution.  */
 gnum_float dexp (gnum_float x, gnum_float scale, gboolean give_log);
-gnum_float pexp (gnum_float x, gnum_float scale);
+gnum_float pexp (gnum_float x, gnum_float scale, gboolean lower_tail, gboolean log_p);
 
 /* Binomial distribution.  */
 gnum_float dbinom (gnum_float x, gnum_float n, gnum_float p, gboolean give_log);

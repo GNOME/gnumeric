@@ -1141,7 +1141,7 @@ gnumeric_expondist (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
 	if (cuml)
-		return value_new_float (pexp (x, 1 / y));
+		return value_new_float (pexp (x, 1 / y, TRUE, FALSE));
 	else
 		return value_new_float (dexp (x, 1 / y, FALSE));
 }
@@ -1973,7 +1973,7 @@ gnumeric_weibull (FunctionEvalInfo *ei, Value **argv)
                 return value_new_error (ei->pos, gnumeric_err_VALUE);
 
         if (cuml)
-                return value_new_float (pweibull (x, alpha, beta));
+                return value_new_float (pweibull (x, alpha, beta, TRUE, FALSE));
         else
 		return value_new_float (dweibull (x, alpha, beta, FALSE));
 }

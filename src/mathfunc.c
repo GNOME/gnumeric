@@ -3,17 +3,19 @@
  *
  * Authors:
  *   Ross Ihaka (See also note below.)
+ *   The R Development Core Team (See also note below.)
  *   Morten Welinder <terra@diku.dk>
  *   Miguel de Icaza (miguel@gnu.org)
  *   Jukka-Pekka Iivonen (iivonen@iki.fi)
  */
 
 /*
- * NOTE: most of this file comes from the "R" package, notably version 0.64.
+ * NOTE: most of this file comes from the "R" package, notably version 1.5.1.
  * "R" is distributed under GPL licence, see file COPYING.
- * The relevant parts are copyright (C) 1998 Ross Ihaka.
+ * The relevant parts are copyright (C) 1998 Ross Ihaka and
+ * 2000-2002 The R Development Core Team.
  *
- * Thank you Ross!
+ * Thank you!
  */
 
 /* for random() */
@@ -130,30 +132,6 @@ gnumeric_fake_trunc (gnum_float x)
 		: -gnumeric_fake_floor (-x);
 }
 
-/* When R 1.5 comes out, their pweibull should be ok.  */
-gnum_float
-pweibull (gnum_float x, gnum_float shape, gnum_float scale)
-{
-    if (shape <= 0 || scale <= 0)
-	    return ML_NAN;
-    else if (x <= 0)
-	    return 0;
-    else
-	    return -expm1gnum (-powgnum (x / scale, shape));
-}
-
-/* When R 1.5 comes out, their pexp should be ok.  */
-gnum_float
-pexp (gnum_float x, gnum_float scale)
-{
-	if (scale <= 0)
-		return ML_NAN;
-	else if (x <= 0)
-		return 0;
-	else
-		return -expm1gnum (-x / scale);
-}
-
 /* ------------------------------------------------------------------------- */
 /* --- BEGIN MAGIC R SOURCE MARKER --- */
 
@@ -182,8 +160,14 @@ pexp (gnum_float x, gnum_float scale)
 
 #define R_DT_val(x)	R_D_val(R_D_Lval(x))		/*  x  in pF */
 #define R_DT_Cval(x)	R_D_val(R_D_Cval(x))		/*  1 - x */
-#define R_DT_qIv(p)	R_D_Lval(R_D_qIv(p))		/*  p  in qF ! */
-#define R_DT_CIv(p)	R_D_Cval(R_D_qIv(p))		/*  1 - p in qF */
+/*#define R_DT_qIv(p)	R_D_Lval(R_D_qIv(p))		 *  p  in qF ! */
+#define R_DT_qIv(p)	(log_p ? (lower_tail ? expgnum(p) : - expm1(p)) \
+			       : R_D_Lval(p))
+
+/*#define R_DT_CIv(p)	R_D_Cval(R_D_qIv(p))		 *  1 - p in qF */
+#define R_DT_CIv(p)	(log_p ? (lower_tail ? -expm1(p) : expgnum(p)) \
+			       : R_D_Cval(p))
+
 
 #define R_DT_exp(x)	R_D_exp(R_D_Lval(x))		/* expgnum(x) */
 #define R_DT_Cexp(x)	R_D_exp(R_D_Cval(x))		/* expgnum(1 - x) */
@@ -1892,12 +1876,12 @@ static gnum_float pbeta_raw(gnum_float x, gnum_float pin, gnum_float qin, gboole
 
 	/* tail approximation */
 
-	ans = 0;
 	xb = p * loggnum(fmax2(y, sml)) - loggnum(p) - lbeta(p, q);
-	if (xb > lnsml && y != 0)
-	    ans = expgnum(xb);
-	if (swap_tail == lower_tail)
-	    ans = 1 - ans;
+	if (xb > lnsml && y != 0) {
+	    ans = (swap_tail == lower_tail) ? -expm1(xb) : expgnum(xb);
+	} else {
+	    ans = (swap_tail == lower_tail) ? 1. : 0;
+	}
     }
     else {
 	/*___ FIXME ___:  This takes forever (or ends wrongly)
@@ -2231,7 +2215,7 @@ gnum_float pt(gnum_float x, gnum_float n, gboolean lower_tail, gboolean log_p)
 	lower_tail = !lower_tail;
 
     if(log_p) {
-	if(lower_tail) return loggnum(1 - 0.5*expgnum(val));
+	if(lower_tail) return log1pgnum(-0.5*expgnum(val));
 	else return val - M_LN2gnum; /* = loggnum(.5* pbeta(....)) */
     }
     else {
@@ -2245,7 +2229,7 @@ gnum_float pt(gnum_float x, gnum_float n, gboolean lower_tail, gboolean log_p)
 /*
  *  Mathlib : A C Library of Special Functions
  *  Copyright (C) 1998 Ross Ihaka
- *  Copyright (C) 2000 The R Development Core Team
+ *  Copyright (C) 2000-2002 The R Development Core Team
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -2345,15 +2329,7 @@ gnum_float qt(gnum_float p, gnum_float ndf, gboolean lower_tail, gboolean log_p)
 	    c = (((0.05 * d * x - 5) * x - 7) * x - 2) * x + b + c;
 	    y = (((((0.4 * y + 6.3) * y + 36) * y + 94.5) / c
 		  - y - 3) / b + 1) * x;
-	    y = a * y * y;
-	    /* FIXME: Following cutoff is machine-precision dependent
-	       -----  Really, use stable impl. of expm1(y) == expgnum(y) - 1,
-	              as it is in GNU's mathlib ..*/
-	    if (1) /* was (y > 0.002) */
-		y = expm1gnum(y);
-	    else { /* Taylor of	 e^y -1 : */
-		y = (0.5 * y + 1) * y;
-	    }
+	    y = expm1(a * y * y);
 	} else {
 	    y = ((1 / (((ndf + 6) / (ndf * y) - 0.089 * d - 0.822)
 		       * (ndf + 2) * 3) + 0.5 / (ndf + 4))
@@ -2579,11 +2555,58 @@ gnum_float dweibull(gnum_float x, gnum_float shape, gnum_float scale, gboolean g
 }
 
 /* ------------------------------------------------------------------------ */
+/* Imported src/nmath/pweibull.c from R.  */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *  Copyright (C) 2000-2002 The R Development Core Team
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *
+ *  DESCRIPTION
+ *
+ *    The distribution function of the Weibull distribution.
+ */
+
+
+gnum_float pweibull(gnum_float x, gnum_float shape, gnum_float scale, gboolean lower_tail, gboolean log_p)
+{
+#ifdef IEEE_754
+    if (isnangnum(x) || isnangnum(shape) || isnangnum(scale))
+	return x + shape + scale;
+#endif
+    if(shape <= 0 || scale <= 0) ML_ERR_return_NAN;
+
+    if (x <= 0)
+	return R_DT_0;
+    x = -powgnum(x / scale, shape);
+    if (lower_tail)
+	return (log_p
+		/* loggnum(1 - expgnum(x))  for x < 0 : */
+		? (x > -M_LN2gnum ? loggnum(-expm1(x)) : log1pgnum(-expgnum(x)))
+		: -expm1(x));
+    /* else:  !lower_tail */
+    return R_D_exp(x);
+}
+
+/* ------------------------------------------------------------------------ */
 /* Imported src/nmath/pbinom.c from R.  */
 /*
  *  Mathlib : A C Library of Special Functions
  *  Copyright (C) 1998 Ross Ihaka
- *  Copyright (C) 2000 The R Development Core Team
+ *  Copyright (C) 2000, 2002 The R Development Core Team
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -2612,10 +2635,11 @@ gnum_float pbinom(gnum_float x, gnum_float n, gnum_float p, gboolean lower_tail,
     if (!finitegnum(n) || !finitegnum(p)) ML_ERR_return_NAN;
 
 #endif
-    n = floorgnum(n + 0.5);
+    if(R_D_nonint(n)) ML_ERR_return_NAN;
+    n = R_D_forceint(n);
     if(n <= 0 || p < 0 || p > 1) ML_ERR_return_NAN;
 
-    x = floorgnum(x);
+    x = floorgnum(x + 1e-7);
     if (x < 0.0) return R_DT_0;
     if (n <= x) return R_DT_1;
     return pbeta(1 - p, n - x, x + 1, lower_tail, log_p);
@@ -2707,7 +2731,7 @@ gnum_float dbinom(gnum_float x, gnum_float n, gnum_float p, gboolean give_log)
 /*
  *  Mathlib : A C Library of Special Functions
  *  Copyright (C) 1998 Ross Ihaka
- *  Copyright (C) 2000 The R Development Core Team
+ *  Copyright (C) 2000, 2002 The R Development Core Team
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -2749,7 +2773,7 @@ gnum_float qbinom(gnum_float p, gnum_float n, gnum_float pr, gboolean lower_tail
 	ML_ERR_return_NAN;
     R_Q_P01_check(p);
 
-    n = floorgnum(n + 0.5);
+    if(n != floorgnum(n + 0.5)) ML_ERR_return_NAN;
     if (pr <= 0 || pr >= 1 || n <= 0)
 	ML_ERR_return_NAN;
 
@@ -2860,6 +2884,55 @@ gnum_float dexp(gnum_float x, gnum_float scale, gboolean give_log)
     return (give_log ?
 	    (-x / scale) - loggnum(scale) :
 	    expgnum(-x / scale) / scale);
+}
+
+/* ------------------------------------------------------------------------ */
+/* Imported src/nmath/pexp.c from R.  */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *  Copyright (C) 2000-2002 The R Development Core Team
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *
+ *  DESCRIPTION
+ *
+ *	The distribution function of the exponential distribution.
+ */
+
+gnum_float pexp(gnum_float x, gnum_float scale, gboolean lower_tail, gboolean log_p)
+{
+#ifdef IEEE_754
+    if (isnangnum(x) || isnangnum(scale))
+	return x + scale;
+    if (scale < 0) ML_ERR_return_NAN;
+#else
+    if (scale <= 0) ML_ERR_return_NAN;
+#endif
+
+    if (x <= 0.)
+	return R_DT_0;
+    /* same as weibull( shape = 1): */
+    x = -(x / scale);
+    if (lower_tail)
+	return (log_p
+		/* loggnum(1 - expgnum(x))  for x < 0 : */
+		? (x > -M_LN2gnum ? loggnum(-expm1(x)) : log1pgnum(-expgnum(x)))
+		: -expm1(x));
+    /* else:  !lower_tail */
+    return R_D_exp(x);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -3027,6 +3100,8 @@ gnum_float bessel_i(gnum_float x, gnum_float alpha, gnum_float expo)
 {
     long nb, ncalc, ize;
     gnum_float *bi;
+    char *vmax;
+
 #ifdef IEEE_754
     /* NaNs propagated correctly */
     if (isnangnum(x) || isnangnum(alpha)) return x + alpha;
@@ -3049,6 +3124,7 @@ gnum_float bessel_i(gnum_float x, gnum_float alpha, gnum_float expo)
     bi = (gnum_float *) calloc(nb, sizeof(gnum_float));
     if (!bi) MATHLIB_ERROR("%s", "bessel_i allocation error");
 #else
+    vmax = vmaxget();
     bi = (gnum_float *) R_alloc(nb, sizeof(gnum_float));
 #endif
     I_bessel(&x, &alpha, &nb, &ize, bi, &ncalc);
@@ -3064,6 +3140,8 @@ gnum_float bessel_i(gnum_float x, gnum_float alpha, gnum_float expo)
     x = bi[nb-1];
 #ifdef MATHLIB_STANDALONE
     free(bi);
+#else
+    vmaxset(vmax);
 #endif
     return x;
 }
@@ -3495,6 +3573,8 @@ gnum_float bessel_k(gnum_float x, gnum_float alpha, gnum_float expo)
 {
     long nb, ncalc, ize;
     gnum_float *bk;
+    char *vmax;
+
 #ifdef IEEE_754
     /* NaNs propagated correctly */
     if (isnangnum(x) || isnangnum(alpha)) return x + alpha;
@@ -3512,6 +3592,7 @@ gnum_float bessel_k(gnum_float x, gnum_float alpha, gnum_float expo)
     bk = (gnum_float *) calloc(nb, sizeof(gnum_float));
     if (!bk) MATHLIB_ERROR("%s", "bessel_k allocation error");
 #else
+    vmax = vmaxget();
     bk = (gnum_float *) R_alloc(nb, sizeof(gnum_float));
 #endif
     K_bessel(&x, &alpha, &nb, &ize, bk, &ncalc);
@@ -3526,6 +3607,8 @@ gnum_float bessel_k(gnum_float x, gnum_float alpha, gnum_float expo)
     x = bk[nb-1];
 #ifdef MATHLIB_STANDALONE
     free(bk);
+#else
+    vmaxset(vmax);
 #endif
     return x;
 }
