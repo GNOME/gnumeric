@@ -189,8 +189,7 @@ autocorrect_tool (char const *command)
 					GSList *c = autocorrect.exceptions.init_caps;
 					while (c != NULL) {
 						guchar *a = (guchar *)c->data;
-						if (strncmp (s, a, strlen (a))
-						    == 0) {
+						if (strncmp (s, a, strlen (a)) == 0) {
 							s++;
 							goto skip_ic_correct;
 						}
@@ -198,7 +197,7 @@ autocorrect_tool (char const *command)
 					}
 					s[1] = tolower (s[1]);
 				} else
-					while (!isspace(*s))
+					while (*s && !isspace(*s))
 						++s;
 			}
 		}

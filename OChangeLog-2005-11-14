@@ -1,3 +1,8 @@
+2002-08-29  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : bump gal version req
+	* README : ditto.
+
 2002-08-28  Jody Goldberg <jody@gnome.org>
 
 	* src/print.c (print_range_down_then_right) : fix fence post error.
