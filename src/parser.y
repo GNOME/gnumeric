@@ -324,7 +324,7 @@ parse_string_as_value_or_name (ExprTree *str)
 	expr_name = expr_name_lookup (state->pos, str->constant.value->v_str.val->str);
 	if (expr_name != NULL) {
 		unregister_allocation (str); expr_tree_unref (str);
-		return register_expr_allocation (expr_tree_new_name (expr_name));
+		return register_expr_allocation (expr_tree_new_name (expr_name, NULL, NULL));
 	}
 
 	/* NOTE : parse_string_as_value modifies str in place */
@@ -443,14 +443,52 @@ exp:	  CONSTANT 	{ $$ = $1; }
 		if (expr_name == NULL) {
 			int retval = gnumeric_parse_error (
 				state, PERR_UNKNOWN_EXPRESSION,
-				g_strdup_printf (_("Expression '%s' does not exist on sheet '%s'"), name, $1->name_quoted),
+				g_strdup_printf (_("Name '%s' does not exist in sheet '%s'"),
+						name, $1->name_quoted),
 				state->expr_text - state->expr_backup + 1, strlen (name));
 
 			unregister_allocation ($2); expr_tree_unref ($2);
 			return retval;
 		} else
 			unregister_allocation ($2); expr_tree_unref ($2);
-	        $$ = register_expr_allocation (expr_tree_new_name (expr_name));
+	        $$ = register_expr_allocation (expr_tree_new_name (expr_name, $1, NULL));
+	}
+	| '[' string_opt_quote ']' string_opt_quote {
+		NamedExpression *expr_name;
+		char *name = $4->constant.value->v_str.val->str;
+		char *wb_name = $2->constant.value->v_str.val->str;
+		ParsePos pos = *state->pos;
+
+		pos.sheet = NULL;
+		pos.wb = application_workbook_get_by_name (wb_name);
+
+		if (pos.wb == NULL) {
+			int retval = gnumeric_parse_error (
+				state, PERR_UNKNOWN_EXPRESSION,
+				g_strdup_printf (_("Unknown workbook '%s'"), wb_name), 
+				state->expr_text - state->expr_backup + 1, strlen (name));
+
+			unregister_allocation ($4); expr_tree_unref ($4);
+			unregister_allocation ($2); expr_tree_unref ($2);
+			return retval;
+		}
+
+		expr_name = expr_name_lookup (&pos, name);
+		if (expr_name == NULL) {
+			int retval = gnumeric_parse_error (
+				state, PERR_UNKNOWN_EXPRESSION,
+				g_strdup_printf (_("Name '%s' does not exist in workbook '%s'"),
+						name, wb_name),
+				state->expr_text - state->expr_backup + 1, strlen (name));
+
+			unregister_allocation ($4); expr_tree_unref ($4);
+			unregister_allocation ($2); expr_tree_unref ($2);
+			return retval;
+		} else {
+			unregister_allocation ($4); expr_tree_unref ($4);
+			unregister_allocation ($2); expr_tree_unref ($2);
+		}
+	        $$ = register_expr_allocation (expr_tree_new_name (expr_name, NULL, pos.wb));
 	}
 	;
 

@@ -25,326 +25,8 @@
 /* We don't expect that many global names ! */
 static GList *global_names = NULL;
 
-static NamedExpression *
-expr_name_lookup_list (GList *p, const char *name)
-{
-	while (p) {
-		NamedExpression *expr_name = p->data;
-		g_return_val_if_fail (expr_name != NULL, 0);
-		if (g_strcasecmp (expr_name->name->str, name) == 0)
-			return expr_name;
-		p = g_list_next (p);
-	}
-	return NULL;
-}
-
-/* FIXME : Why not use hash tables ? */
-NamedExpression *
-expr_name_lookup (const ParsePos *pos, const char *name)
-{
-	NamedExpression *res = NULL;
-	Sheet const *sheet = NULL;
-	Workbook const *wb = NULL;
-
-	g_return_val_if_fail (name != NULL, NULL);
-
-	if (pos != NULL) {
-		sheet = pos->sheet;
-		wb = (sheet != NULL) ? sheet->workbook : pos->wb;
-	}
-
-	if (sheet != NULL)
-		res = expr_name_lookup_list (sheet->names, name);
-	if (res == NULL && wb != NULL)
-		res = expr_name_lookup_list (wb->names, name);
-	if (res == NULL)
-		res = expr_name_lookup_list (global_names, name);
-	return res;
-}
-
-static NamedExpression *
-named_expr_new (char const *name, gboolean builtin)
-{
-	NamedExpression *expr_name;
-
-	g_return_val_if_fail (name != NULL, NULL);
-
-	expr_name = g_new0 (NamedExpression,1);
-
-	expr_name->ref_count = 1;
-	expr_name->builtin = builtin;
-	expr_name->name    = string_get (name);
-	expr_name->dependents =
-		g_hash_table_new (g_direct_hash, g_direct_equal);
-
-	g_return_val_if_fail (expr_name->name != NULL, NULL);
-
-	return expr_name;
-}
-
-/*
- * NB. if we already have a circular reference in addition
- * to this one we are checking we will come to serious grief.
- */
-static gboolean
-name_refer_circular (const char *name, ExprTree *expr)
-{
-	g_return_val_if_fail (expr != NULL, TRUE);
-
-	switch (expr->any.oper) {
-	case OPER_ANY_BINARY:
-		return (name_refer_circular (name, expr->binary.value_a) ||
-			name_refer_circular (name, expr->binary.value_b));
-	case OPER_ANY_UNARY:
-		return name_refer_circular (name, expr->unary.value);
-	case OPER_NAME: {
-		NamedExpression const *expr_name = expr->name.name;
-		if (expr_name->builtin)
-			return FALSE;
-
-		if (!g_strcasecmp (expr_name->name->str, name))
-			return TRUE;
-
-		/* And look inside this name tree too */
-		return name_refer_circular (name, expr_name->t.expr_tree);
-	}
-	case OPER_FUNCALL: {
-		GList *l = expr->func.arg_list;
-		while (l) {
-			if (name_refer_circular (name, l->data))
-				return TRUE;
-			l = g_list_next (l);
-		}
-		break;
-	}
-	case OPER_CONSTANT:
-	case OPER_VAR:
-	case OPER_ARRAY:
-		break;
-	}
-	return FALSE;
-}
-
-/**
- * expr_name_add:
- * @pp:
- * @name:
- * @expr:
- * @error_msg:
- *
- * Absorbs the reference to @expr.
- **/
-NamedExpression *
-expr_name_add (ParsePos const *pp, const char *name,
-	       ExprTree *expr, char **error_msg)
-{
-	NamedExpression *expr_name;
-	GList **scope = NULL;
-
-	g_return_val_if_fail (pp != NULL, NULL);
-	g_return_val_if_fail (name != NULL, NULL);
-	g_return_val_if_fail (expr != NULL, NULL);
-
-/*	printf ("Adding name '%s' to %p %p\n", name, wb, sheet);*/
-	if (pp->sheet != NULL) {
-		scope = &(pp->sheet->names);
-		*error_msg = _("already defined in sheet");
-	} else if (pp->wb != NULL) {
-		scope = &(pp->wb->names);
-		*error_msg = _("already defined in workbook");
-	} else {
-		scope = &global_names;
-		*error_msg = _("already globally defined ");
-	}
-
-	if (expr_name_lookup_list (*scope, name) != NULL)
-		return NULL;
-	if (name_refer_circular (name, expr)) {
-		*error_msg = _("'%s' has a circular reference");
-		return NULL;
-	}
-	*error_msg = NULL;
-
-	expr_name = named_expr_new (name, FALSE);
-	expr_name->t.expr_tree = expr;
-	parse_pos_init (&expr_name->pos,
-			pp->wb, pp->sheet, pp->eval.col, pp->eval.row);
-
-	*scope = g_list_append (*scope, expr_name);
-
-	return expr_name;
-}
-
-/**
- * expr_name_create:
- * @pp:
- * @name:
- * @value:
- * @error_msg:
- *
- * Parses a texual name in @value, and enters the value
- * either as a workbook name if @sheet == NULL or a sheet
- * name if @wb == NULL.
- *
- * Return value: The created NamedExpression.
- **/
-NamedExpression *
-expr_name_create (ParsePos const *pp, const char *name,
-		  const char *value, ParseError *error)
-{
-	ExprTree *tree = expr_parse_string (value, pp, NULL, error);
-	if (!tree)
-		return NULL;
-
-	/* We know there has been no parse error, but set the
-	 * use the message part of the struct to pass a name
-	 * creation error back to the calling routine
-	 */
-	return expr_name_add (pp, name, tree, &error->message);
-}
-
 void
-expr_name_ref (NamedExpression *expr_name)
-{
-	g_return_if_fail (expr_name != NULL);
-
-	expr_name->ref_count++;
-}
-
-void
-expr_name_unref (NamedExpression *expr_name)
-{
-	g_return_if_fail (expr_name != NULL);
-
-	if (expr_name->ref_count-- > 1)
-		return;
-
-	if (expr_name->name) {
-		string_unref (expr_name->name);
-		expr_name->name = NULL;
-	}
-
-	if (!expr_name->builtin && expr_name->t.expr_tree) {
-		expr_tree_unref (expr_name->t.expr_tree);
-		expr_name->t.expr_tree = NULL;
-	}
-
-	if (expr_name->dependents != NULL) {
-		g_hash_table_destroy (expr_name->dependents);
-		expr_name->dependents  = NULL;
-	}
-
-	expr_name->pos.wb      = NULL;
-	expr_name->pos.sheet   = NULL;
-
-	g_free (expr_name);
-}
-
-static void
-expr_name_unlink (NamedExpression *expr_name)
-{
-	Workbook *wb = NULL;
-	Sheet    *sheet = NULL;
-
-	/* printf ("Removing : '%s'\n", expr_name->name->str);*/
-	if (expr_name->pos.sheet) {
-		sheet = expr_name->pos.sheet;
-		g_return_if_fail (g_list_find (sheet->names, expr_name) != NULL);
-		sheet->names = g_list_remove (sheet->names, expr_name);
-	} else if (expr_name->pos.wb) {
-		wb = expr_name->pos.wb;
-		g_return_if_fail (g_list_find (wb->names, expr_name) != NULL);
-		wb->names = g_list_remove (wb->names, expr_name);
-	} else {
-		g_return_if_fail (g_list_find (global_names, expr_name) != NULL);
-		global_names = g_list_remove (global_names, expr_name);
-	}
-}
-
-void
-expr_name_remove (NamedExpression *expr_name)
-{
-	g_return_if_fail (expr_name != NULL);
-
-	expr_name_unlink (expr_name);
-	expr_name_invalidate_refs_name (expr_name);
-	expr_name_unref (expr_name);
-}
-
-/*
- * expr_name_list_destroy :
- *
- * Frees names in the local scope.
- * NOTE : THIS DOES NOT INVALIDATE NAMES THAT REFER
- *        TO THIS SCOPE.
- *        eg
- *           in scope sheet2 we have a name that refers
- *           to sheet1.  That will remain!
- *           sheet_deps_destroy handles that.
- */
-GList *
-expr_name_list_destroy (GList *names)
-{
-	GList *p;
-
-	/* Empty the name list */
-	for (p = names ; p != NULL ; p = g_list_next (p)) {
-		NamedExpression *expr_name = p->data;
-		expr_name_unref (expr_name);
-	}
-	g_list_free (names);
-	return NULL;
-}
-
-/**
- * expr_name_as_string :
- * @nexpr :
- * @pp : optionally null.
- *
- * returns a string that the caller needs to free.
- */
-char *
-expr_name_as_string (NamedExpression const *nexpr, ParsePos const *pp)
-{
-	if (nexpr->builtin)
-		return g_strdup (_("Builtin"));
-
-	if (pp == NULL)
-		pp = &nexpr->pos;
-	return expr_tree_as_string (nexpr->t.expr_tree, pp);
-}
-
-Value *
-expr_name_eval (NamedExpression const *expr_name,
-		EvalPos const *pos, ExprEvalFlags flags)
-{
-	g_return_val_if_fail (pos, NULL);
-
-	if (!expr_name)
-		return value_new_error (pos, gnumeric_err_NAME);
-
-	if (expr_name->builtin) {
-		FunctionEvalInfo ei;
-		ei.pos = pos;
-		ei.func_def = NULL; /* FIXME : This is ugly. why are there
-					no descriptors for builtins */
-		return expr_name->t.expr_func (&ei, NULL);
-	}
-
-	return expr_eval (expr_name->t.expr_tree, pos, flags);
-}
-
-/*******************************************************************
- * Manage things that depend on named expressions.
- */
-
-void
-expr_name_invalidate_refs_name (NamedExpression *nexpr)
-{
-}
-
-void
-expr_name_invalidate_refs_sheet (const Sheet *sheet)
+expr_name_invalidate_refs_sheet (Sheet const *sheet)
 {
 #if 0
 	static gboolean warned = FALSE;
@@ -355,7 +37,7 @@ expr_name_invalidate_refs_sheet (const Sheet *sheet)
 }
 
 void
-expr_name_invalidate_refs_wb (const Workbook *wb)
+expr_name_invalidate_refs_wb (Workbook const *wb)
 {
 #if 0
 	static gboolean warned = FALSE;
@@ -409,6 +91,339 @@ expr_name_link_deps (GSList *deps)
 	g_slist_free (deps);
 }
 
+
+static NamedExpression *
+expr_name_lookup_list (GList *p, char const *name)
+{
+	while (p) {
+		NamedExpression *nexpr = p->data;
+		g_return_val_if_fail (nexpr != NULL, 0);
+		if (g_strcasecmp (nexpr->name->str, name) == 0)
+			return nexpr;
+		p = g_list_next (p);
+	}
+	return NULL;
+}
+
+/* FIXME : Why not use hash tables ? */
+NamedExpression *
+expr_name_lookup (ParsePos const *pos, char const *name)
+{
+	NamedExpression *res = NULL;
+	Sheet const *sheet = NULL;
+	Workbook const *wb = NULL;
+
+	g_return_val_if_fail (name != NULL, NULL);
+
+	if (pos != NULL) {
+		sheet = pos->sheet;
+		wb = (sheet != NULL) ? sheet->workbook : pos->wb;
+	}
+
+	if (sheet != NULL)
+		res = expr_name_lookup_list (sheet->names, name);
+	if (res == NULL && wb != NULL)
+		res = expr_name_lookup_list (wb->names, name);
+	if (res == NULL)
+		res = expr_name_lookup_list (global_names, name);
+	return res;
+}
+
+static NamedExpression *
+named_expr_new (char const *name, gboolean builtin)
+{
+	NamedExpression *nexpr;
+
+	g_return_val_if_fail (name != NULL, NULL);
+
+	nexpr = g_new0 (NamedExpression,1);
+
+	nexpr->ref_count = 1;
+	nexpr->builtin = builtin;
+	nexpr->active  = TRUE;
+	nexpr->name    = string_get (name);
+	nexpr->dependents =
+		g_hash_table_new (g_direct_hash, g_direct_equal);
+
+	g_return_val_if_fail (nexpr->name != NULL, NULL);
+
+	return nexpr;
+}
+
+/*
+ * NB. if we already have a circular reference in addition
+ * to this one we are checking we will come to serious grief.
+ */
+static gboolean
+name_refer_circular (char const *name, ExprTree *expr)
+{
+	g_return_val_if_fail (expr != NULL, TRUE);
+
+	switch (expr->any.oper) {
+	case OPER_ANY_BINARY:
+		return (name_refer_circular (name, expr->binary.value_a) ||
+			name_refer_circular (name, expr->binary.value_b));
+	case OPER_ANY_UNARY:
+		return name_refer_circular (name, expr->unary.value);
+	case OPER_NAME: {
+		NamedExpression const *nexpr = expr->name.name;
+		if (nexpr->builtin)
+			return FALSE;
+
+		if (!g_strcasecmp (nexpr->name->str, name))
+			return TRUE;
+
+		/* And look inside this name tree too */
+		return name_refer_circular (name, nexpr->t.expr_tree);
+	}
+	case OPER_FUNCALL: {
+		GList *l = expr->func.arg_list;
+		while (l) {
+			if (name_refer_circular (name, l->data))
+				return TRUE;
+			l = g_list_next (l);
+		}
+		break;
+	}
+	case OPER_CONSTANT:
+	case OPER_VAR:
+	case OPER_ARRAY:
+		break;
+	}
+	return FALSE;
+}
+
+/**
+ * expr_name_add:
+ * @pp:
+ * @name:
+ * @expr:
+ * @error_msg:
+ *
+ * Absorbs the reference to @expr.
+ **/
+NamedExpression *
+expr_name_add (ParsePos const *pp, const char *name,
+	       ExprTree *expr, char const **error_msg)
+{
+	NamedExpression *nexpr;
+	GList **scope = NULL;
+
+	g_return_val_if_fail (pp != NULL, NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+	g_return_val_if_fail (expr != NULL, NULL);
+
+/*	printf ("Adding name '%s' to %p %p\n", name, wb, sheet);*/
+	if (pp->sheet != NULL) {
+		scope = &(pp->sheet->names);
+		if (error_msg)
+			*error_msg = _("already defined in sheet");
+	} else if (pp->wb != NULL) {
+		scope = &(pp->wb->names);
+		if (error_msg)
+			*error_msg = _("already defined in workbook");
+	} else {
+		scope = &global_names;
+		if (error_msg)
+			*error_msg = _("already globally defined ");
+	}
+
+	if (expr_name_lookup_list (*scope, name) != NULL)
+		return NULL;
+	if (name_refer_circular (name, expr)) {
+		*error_msg = _("'%s' has a circular reference");
+		return NULL;
+	}
+	if (error_msg)
+		*error_msg = NULL;
+
+	nexpr = named_expr_new (name, FALSE);
+	nexpr->t.expr_tree = expr;
+	parse_pos_init (&nexpr->pos,
+			pp->wb, pp->sheet, pp->eval.col, pp->eval.row);
+
+	*scope = g_list_append (*scope, nexpr);
+
+	return nexpr;
+}
+
+/**
+ * expr_name_create:
+ * @pp:
+ * @name:
+ * @value:
+ * @error:
+ *
+ * Parses a texual name in @value, and enters the value
+ * either as a workbook name if @sheet == NULL or a sheet
+ * name if @wb == NULL.
+ *
+ * Return value: The created NamedExpression.
+ **/
+NamedExpression *
+expr_name_create (ParsePos const *pp, const char *name,
+		  const char *value, ParseError *error)
+{
+	NamedExpression *res;
+	char const *err = NULL;
+	ExprTree *tree;
+	
+	tree = expr_parse_string (value, pp, NULL, error);
+	if (!tree)
+		return NULL;
+
+	/* We know there has been no parse error, but set the
+	 * use the message part of the struct to pass a name
+	 * creation error back to the calling routine
+	 */
+	res = expr_name_add (pp, name, tree, &err);
+	if (err != NULL)
+		error->message = g_strdup (err);
+	return res;
+}
+
+void
+expr_name_ref (NamedExpression *nexpr)
+{
+	g_return_if_fail (nexpr != NULL);
+
+	nexpr->ref_count++;
+}
+
+void
+expr_name_unref (NamedExpression *nexpr)
+{
+	g_return_if_fail (nexpr != NULL);
+
+	if (nexpr->ref_count-- > 1)
+		return;
+
+	if (nexpr->name) {
+		string_unref (nexpr->name);
+		nexpr->name = NULL;
+	}
+
+	if (!nexpr->builtin && nexpr->t.expr_tree) {
+		expr_tree_unref (nexpr->t.expr_tree);
+		nexpr->t.expr_tree = NULL;
+	}
+
+	if (nexpr->dependents != NULL) {
+		g_hash_table_destroy (nexpr->dependents);
+		nexpr->dependents  = NULL;
+	}
+
+	nexpr->pos.wb      = NULL;
+	nexpr->pos.sheet   = NULL;
+
+	g_free (nexpr);
+}
+
+static void
+expr_name_unlink (NamedExpression *nexpr)
+{
+	Workbook *wb = NULL;
+	Sheet    *sheet = NULL;
+
+	/* printf ("Removing : '%s'\n", nexpr->name->str);*/
+	if (nexpr->pos.sheet) {
+		sheet = nexpr->pos.sheet;
+		g_return_if_fail (g_list_find (sheet->names, nexpr) != NULL);
+		sheet->names = g_list_remove (sheet->names, nexpr);
+	} else if (nexpr->pos.wb) {
+		wb = nexpr->pos.wb;
+		g_return_if_fail (g_list_find (wb->names, nexpr) != NULL);
+		wb->names = g_list_remove (wb->names, nexpr);
+	} else {
+		g_return_if_fail (g_list_find (global_names, nexpr) != NULL);
+		global_names = g_list_remove (global_names, nexpr);
+	}
+}
+
+static void
+expr_name_invalidate_refs (NamedExpression *nexpr)
+{
+}
+
+void
+expr_name_remove (NamedExpression *nexpr)
+{
+	g_return_if_fail (nexpr != NULL);
+	g_return_if_fail (nexpr->active);
+
+	expr_name_unlink (nexpr);
+	expr_name_invalidate_refs (nexpr);
+	nexpr->active = FALSE;
+	expr_name_unref (nexpr);
+}
+
+/**
+ * expr_name_list_destroy :
+ *
+ * Frees names in the local scope.
+ * NOTE : THIS DOES NOT INVALIDATE NAMES THAT REFER
+ *        TO THIS SCOPE.
+ *        eg
+ *           in scope sheet2 we have a name that refers
+ *           to sheet1.  That will remain!
+ *           sheet_deps_destroy handles that.
+ */
+GList *
+expr_name_list_destroy (GList *names)
+{
+	GList *p;
+
+	/* Empty the name list */
+	for (p = names ; p != NULL ; p = g_list_next (p)) {
+		NamedExpression *nexpr = p->data;
+		nexpr->active = FALSE;
+		expr_name_unref (nexpr);
+	}
+	g_list_free (names);
+	return NULL;
+}
+
+/**
+ * expr_name_as_string :
+ * @nexpr :
+ * @pp : optionally null.
+ *
+ * returns a string that the caller needs to free.
+ */
+char *
+expr_name_as_string (NamedExpression const *nexpr, ParsePos const *pp)
+{
+	if (nexpr->builtin)
+		return g_strdup (_("Builtin"));
+
+	if (pp == NULL)
+		pp = &nexpr->pos;
+	return expr_tree_as_string (nexpr->t.expr_tree, pp);
+}
+
+Value *
+expr_name_eval (NamedExpression const *nexpr,
+		EvalPos const *pos, ExprEvalFlags flags)
+{
+	g_return_val_if_fail (pos, NULL);
+
+	if (!nexpr)
+		return value_new_error (pos, gnumeric_err_NAME);
+
+	if (nexpr->builtin) {
+		FunctionEvalInfo ei;
+		ei.pos = pos;
+		ei.func_def = NULL; /* FIXME : This is ugly. why are there
+					no descriptors for builtins */
+		return nexpr->t.expr_func (&ei, NULL);
+	}
+
+	return expr_eval (nexpr->t.expr_tree, pos, flags);
+}
+
+/*******************************************************************
+ * Manage things that depend on named expressions.
+ */
 /**
  * expr_name_set_scope:
  * @expression: 
@@ -517,10 +532,10 @@ expr_name_init (void)
 
 	/* Not in global function table though ! */
 	for (; builtins[lp].name ; lp++) {
-		NamedExpression *expr_name;
-		expr_name = named_expr_new (builtins[lp].name, TRUE);
-		expr_name->t.expr_func = builtins[lp].fn;
-		global_names = g_list_append (global_names, expr_name);
+		NamedExpression *nexpr;
+		nexpr = named_expr_new (builtins[lp].name, TRUE);
+		nexpr->t.expr_func = builtins[lp].fn;
+		global_names = g_list_append (global_names, nexpr);
 	}
 }
 

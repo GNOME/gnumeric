@@ -1,3 +1,7 @@
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-printer-setup.c (do_print_destroy_cb) : warning suppression.
+
 2001-10-28  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-define-names.c (name_guru_display_scope) : set active on

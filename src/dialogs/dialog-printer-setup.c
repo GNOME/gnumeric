@@ -1560,7 +1560,7 @@ do_setup_page (PrinterSetupState *state)
 }
 
 static void
-do_print_cb (GtkWidget *w, PrinterSetupState *state)
+cb_do_print (GtkWidget *w, PrinterSetupState *state)
 {
 	WorkbookControlGUI *wbcg;
 	Sheet *sheet;
@@ -1573,20 +1573,20 @@ do_print_cb (GtkWidget *w, PrinterSetupState *state)
 }
 
 static void
-do_print_preview_cb (GtkWidget *w, PrinterSetupState *state)
+cb_do_print_preview (GtkWidget *w, PrinterSetupState *state)
 {
 	fetch_settings (state);
 	sheet_print (state->wbcg, state->sheet, TRUE, PRINT_ACTIVE_SHEET);
 }
 
 static void
-do_print_cancel_cb (GtkWidget *w, PrinterSetupState *state)
+cb_do_print_cancel (GtkWidget *w, PrinterSetupState *state)
 {
 	gnome_dialog_close (GNOME_DIALOG (state->dialog));
 }
 
 static void
-do_print_ok_cb (GtkWidget *w, PrinterSetupState *state)
+cb_do_print_ok (GtkWidget *w, PrinterSetupState *state)
 {
 	/* Detach BEFORE we finish editing */
 	wbcg_edit_detach_guru (state->wbcg);
@@ -1597,7 +1597,7 @@ do_print_ok_cb (GtkWidget *w, PrinterSetupState *state)
 }
 
 static void
-do_print_set_focus_cb (GtkWidget *window, GtkWidget *focus_widget,
+cb_do_print_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 		       PrinterSetupState *state)
 {
 	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget))
@@ -1608,16 +1608,16 @@ do_print_set_focus_cb (GtkWidget *window, GtkWidget *focus_widget,
 }
 
 static void
-do_print_destroy_cb (GtkWidget *button, PrinterSetupState *state)
+cb_do_print_destroy (GtkWidget *button, PrinterSetupState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
 	wbcg_edit_finish (state->wbcg, FALSE);
 
 	if (state->customize_header)
-		gnome_dialog_close(state->customize_header);
+		gnome_dialog_close (GNOME_DIALOG (state->customize_header));
 
 	if (state->customize_footer)
-		gnome_dialog_close(state->customize_footer);
+		gnome_dialog_close (GNOME_DIALOG (state->customize_footer));
 
 	printer_setup_state_free (state);
 }
@@ -1635,16 +1635,16 @@ do_setup_main_dialog (PrinterSetupState *state)
 
 	w = glade_xml_get_widget (state->gui, "ok");
 	gtk_signal_connect (GTK_OBJECT (w), "clicked",
-			    GTK_SIGNAL_FUNC (do_print_ok_cb), state);
+			    GTK_SIGNAL_FUNC (cb_do_print_ok), state);
 	w = glade_xml_get_widget (state->gui, "print");
 	gtk_signal_connect (GTK_OBJECT (w), "clicked",
-			    GTK_SIGNAL_FUNC (do_print_cb), state);
+			    GTK_SIGNAL_FUNC (cb_do_print), state);
 	w = glade_xml_get_widget (state->gui, "preview");
 	gtk_signal_connect (GTK_OBJECT (w), "clicked",
-			    GTK_SIGNAL_FUNC (do_print_preview_cb), state);
+			    GTK_SIGNAL_FUNC (cb_do_print_preview), state);
 	w = glade_xml_get_widget (state->gui, "cancel");
 	gtk_signal_connect (GTK_OBJECT (w), "clicked",
-			    GTK_SIGNAL_FUNC (do_print_cancel_cb), state);
+			    GTK_SIGNAL_FUNC (cb_do_print_cancel), state);
 
 	/* Hide non-functional buttons for now */
 	w = glade_xml_get_widget (state->gui, "options");
@@ -1653,11 +1653,11 @@ do_setup_main_dialog (PrinterSetupState *state)
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_signal_connect (
 		GTK_OBJECT (state->dialog), "set-focus",
-		GTK_SIGNAL_FUNC (do_print_set_focus_cb), state);
+		GTK_SIGNAL_FUNC (cb_do_print_set_focus), state);
 
 	/* Lifecyle management */
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
-			    GTK_SIGNAL_FUNC (do_print_destroy_cb),
+			    GTK_SIGNAL_FUNC (cb_do_print_destroy),
 			    (gpointer) state);
 
 }

@@ -1,3 +1,22 @@
+2001-10-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/parser.y : add support for referencing names in other workbooks.
+
+	* src/expr.c (expr_tree_new_name) : take an optional sheet and
+	  workbook as scoping info.
+	(expr_eval_real) : handle inactive names.
+	(do_expr_tree_to_string) : improve scoping.
+	(expr_rewrite) : handle inactives and scope changes.
+
+	* src/expr-name.c (expr_name_lookup) : add the notion of active and a
+	  ref count so that we can do a delayed destruction and invalidation.
+	(expr_name_add) : make it clearer that the return is not meant
+	  to be freed.
+	(expr_name_create) : don't free the result of expr_name_lookup.
+	(expr_name_ref) : generalize.
+	(expr_name_unref) : ditto.
+	(expr_name_remove) : deactivate the name.
+
 2001-10-27  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/GNOME_Gnumeric.xml: Tidy view menu.

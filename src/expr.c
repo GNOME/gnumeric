@@ -112,7 +112,8 @@ expr_tree_new_binary (ExprTree *l, Operation op, ExprTree *r)
 }
 
 ExprTree *
-expr_tree_new_name (NamedExpression *name)
+expr_tree_new_name (NamedExpression *name,
+		    Sheet *optional_scope, Workbook *optional_wb_scope)
 {
 	ExprName *ans;
 
@@ -124,6 +125,9 @@ expr_tree_new_name (NamedExpression *name)
 	*((Operation *)&(ans->oper)) = OPER_NAME;
 	ans->name = name;
 	expr_name_ref (name);
+
+	ans->optional_scope = optional_scope;
+	ans->optional_wb_scope = optional_wb_scope;
 
 	return (ExprTree *)ans;
 }
@@ -829,7 +833,9 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 		return eval_funcall (pos, expr, flags);
 
 	case OPER_NAME:
-		return expr_name_eval (expr->name.name, pos, flags);
+		if (expr->name.name->active)
+			return expr_name_eval (expr->name.name, pos, flags);
+		return value_new_error (pos, gnumeric_err_REF);
 
 	case OPER_VAR: {
 		CellRef const * const ref = &expr->var.ref;
@@ -1131,6 +1137,17 @@ do_expr_tree_to_string (ExprTree const *expr, ParsePos const *pp,
 	}
 
 	case OPER_NAME:
+		if (!expr->name.name->active)
+			return g_strdup (gnumeric_err_REF);
+		if (expr->name.optional_scope != NULL) {
+			if (expr->name.optional_scope->workbook != pp->wb)
+				return g_strconcat (
+					"[", expr->name.optional_wb_scope->filename, "]",
+					expr->name.name->name->str, NULL);
+			return g_strconcat (expr->name.optional_scope->name_quoted, "!",
+					    expr->name.name->name->str, NULL);
+		}
+
 		return g_strdup (expr->name.name->name->str);
 
 	case OPER_VAR:
@@ -1503,33 +1520,78 @@ expr_rewrite (ExprTree const *expr, ExprRewriteInfo const *rwinfo)
 		return NULL;
 	}
 
-	case OPER_NAME:
-		if (!expr->name.name->builtin) {
-			/* Do NOT rewrite the name.  Just invalidate the use of the name */
-			ExprTree *tmp = expr_rewrite (expr->name.name->t.expr_tree, rwinfo);
-			if (tmp != NULL) {
-				expr_tree_unref (tmp);
-				return expr_tree_new_constant (
-					value_new_error (NULL, gnumeric_err_REF));
+	case OPER_NAME: {
+		NamedExpression *nexpr = expr->name.name;
+		ExprTree *tmp;
+
+		if (nexpr->builtin)
+			return NULL;
+
+		/* we can not invalidate references to the name that are
+		 * sitting in the undo queue, or the clipboard.  So we just
+		 * flag the name as inactive and remove the reference here.
+		 */
+		if (!nexpr->active ||
+		    (rwinfo->type == EXPR_REWRITE_NAME && rwinfo->u.name == nexpr) ||
+		    (rwinfo->type == EXPR_REWRITE_SHEET && rwinfo->u.sheet == nexpr->pos.sheet) ||
+		    (rwinfo->type == EXPR_REWRITE_WORKBOOK && rwinfo->u.workbook == nexpr->pos.wb))
+			return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+
+		if (rwinfo->type != EXPR_REWRITE_RELOCATE)
+			return NULL;
+
+		/* If the nme is not officially scope check that it is
+		 * available in the new scope ?
+		 */
+		if (expr->name.optional_scope == NULL &&
+		    rwinfo->u.relocate.target_sheet != rwinfo->u.relocate.origin_sheet) {
+			NamedExpression *new_nexpr;
+			ParsePos pos;
+			parse_pos_init (&pos,  NULL,
+				rwinfo->u.relocate.target_sheet, 0, 0);
+
+			/* If the name is not available in the new scope explicitly scope it */
+			new_nexpr = expr_name_lookup (&pos, nexpr->name->str);
+			if (new_nexpr == NULL) {
+				if (nexpr->pos.sheet != NULL)
+					return expr_tree_new_name (nexpr, nexpr->pos.sheet, NULL);
+				return expr_tree_new_name (nexpr, NULL, nexpr->pos.wb);
 			}
+
+			/* replace it with the new name using qualified as
+			 * local to the target sheet
+			 */
+			return expr_tree_new_name (new_nexpr, pos.sheet, NULL);
 		}
+
+		/* Do NOT rewrite the name.  Just invalidate the use of the name */
+		tmp = expr_rewrite (expr->name.name->t.expr_tree, rwinfo);
+		if (tmp != NULL) {
+			expr_tree_unref (tmp);
+			return expr_tree_new_constant (
+				value_new_error (NULL, gnumeric_err_REF));
+		}
+
 		return NULL;
+	}
 
 	case OPER_VAR:
-		if (rwinfo->type == EXPR_REWRITE_SHEET) {
+		switch (rwinfo->type) {
+		case EXPR_REWRITE_SHEET :
 			if (expr->var.ref.sheet == rwinfo->u.sheet)
 				return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
-			else
-				return NULL;
+			return NULL;
 
-		} else if (rwinfo->type == EXPR_REWRITE_WORKBOOK) {
-			if (expr->var.ref.sheet &&
+		case EXPR_REWRITE_WORKBOOK :
+			if (expr->var.ref.sheet != NULL &&
 			    expr->var.ref.sheet->workbook == rwinfo->u.workbook)
 				return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
-			else
-				return NULL;
+			return NULL;
 
-		} else {
+		case EXPR_REWRITE_NAME :
+			return NULL;
+
+		case EXPR_REWRITE_RELOCATE : {
 			CellRef res = expr->var.ref; /* Copy */
 
 			switch (cellref_relocate (&res, &rwinfo->u.relocate, FALSE, FALSE)) {
@@ -1543,6 +1605,8 @@ expr_rewrite (ExprTree const *expr, ExprRewriteInfo const *rwinfo)
 				return expr_tree_new_var (&res);
 			}
 		}
+		}
+		return NULL;
 
 	case OPER_CONSTANT: {
 		Value const *v = expr->constant.value;
@@ -1756,10 +1820,9 @@ expr_tree_get_range (ExprTree const *expr)
 		return NULL;
 
 	case OPER_NAME:
-		if (expr->name.name->builtin)
+		if (!expr->name.name->active || expr->name.name->builtin)
 			return NULL;
-		else
-			return expr_tree_get_range (expr->name.name->t.expr_tree);
+		return expr_tree_get_range (expr->name.name->t.expr_tree);
 
 	default:
 		return NULL;

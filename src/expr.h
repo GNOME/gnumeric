@@ -71,10 +71,13 @@ struct _ExprBinary {
 	ExprTree *value_b;
 };
 
+/* We could brek this out into multiple types to be more space efficient */
 struct _ExprName {
 	Operation const oper;
 	int       ref_count;
 
+	Sheet	 *optional_scope;
+	Workbook *optional_wb_scope;
 	NamedExpression *name;
 };
 
@@ -138,7 +141,8 @@ ExprTree   *expr_tree_new_error    (char const *txt);
 ExprTree   *expr_tree_new_unary    (Operation op, ExprTree *e);
 ExprTree   *expr_tree_new_binary   (ExprTree *l, Operation op, ExprTree *r);
 ExprTree   *expr_tree_new_funcall  (FunctionDefinition *func, GList *args);
-ExprTree   *expr_tree_new_name     (NamedExpression *name);
+ExprTree   *expr_tree_new_name     (NamedExpression *name,
+				    Sheet *sheet_scope, Workbook *wb_scope);
 ExprTree   *expr_tree_new_var      (CellRef const *cr);
 ExprTree   *expr_tree_new_array	   (int x, int y, int rows, int cols);
 

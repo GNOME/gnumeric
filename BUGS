@@ -8,10 +8,7 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - Check name scope when relocating
     - name dialog
-	: selecting a name in a different scope does not change the scope radio
-	  button properly.
 	: We should start with the expr entry set to either the current cell,
 	  or by selecting the first named expression in scope that contains the
 	  current cell.
@@ -26,8 +23,6 @@ Pending Patches
 ---------------
 
     http://bugzilla.gnome.org/show_bug.cgi?id=60468	oleo
-
-    Status of acuster's latex fix ?
 
 Long term breakage
 ------------------

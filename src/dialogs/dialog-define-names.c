@@ -278,6 +278,8 @@ name_guru_populate_list (NameGuruState *state)
 
 	state->cur_name = NULL;
 
+	gtk_list_clear_items (state->list, 0, -1);
+
 	g_list_free (state->expr_names);
 	state->expr_names = sheet_get_available_names (state->sheet);
 
@@ -300,7 +302,6 @@ name_guru_populate_list (NameGuruState *state)
 	name_guru_update_sensitivity (state, TRUE);
 }
 
-
 /**
  * cb_name_guru_remove:
  * @ignored:
@@ -312,22 +313,17 @@ static void
 cb_name_guru_remove (GtkWidget *ignored, NameGuruState *state)
 {
 	g_return_if_fail (state != NULL);
+	g_return_if_fail (state->cur_name != NULL);
 
-	if (state->cur_name != NULL) {
-		if (!name_guru_warn (state))
-			return;
-		state->expr_names = g_list_remove (state->expr_names, state->cur_name);
-		expr_name_remove (state->cur_name);
-		state->cur_name = NULL;
+	if (!name_guru_warn (state))
+		return;
 
-		gtk_list_clear_items (state->list, 0, -1);
-		name_guru_populate_list (state);
-	} else {
-		g_warning ("Why is the delete button sensitive ? ...\n");
-	}
+	state->expr_names = g_list_remove (state->expr_names, state->cur_name);
+	expr_name_remove (state->cur_name);
+	state->cur_name = NULL;
 
+	name_guru_populate_list (state);
 }
-
 
 /**
  * cb_name_guru_add:
@@ -379,7 +375,7 @@ cb_name_guru_add (NameGuruState *state)
 			gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,
 					 _("You cannot redefine a builtin name."));
 	} else {
-		char *error = NULL;
+		char const *error = NULL;
 		ParsePos pos;
 		if (name_guru_scope_is_sheet (state))
 			parse_pos_init (&pos, NULL, state->sheet,
@@ -402,7 +398,6 @@ cb_name_guru_add (NameGuruState *state)
 
 	g_return_val_if_fail (expr_name != NULL, FALSE);
 
-	gtk_list_clear_items (state->list, 0, -1);
 	name_guru_populate_list (state);
 	gtk_widget_grab_focus (GTK_WIDGET (state->name));
 

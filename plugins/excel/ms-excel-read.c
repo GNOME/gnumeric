@@ -862,7 +862,7 @@ biff_name_data_get_name (ExcelSheet const *esheet, int idx)
 	}
 
 	if (bnd->type == BNDName && bnd->v.name)
-		return expr_tree_new_name (bnd->v.name);
+		return expr_tree_new_name (bnd->v.name, NULL, NULL);
 	return expr_tree_new_constant (value_new_string (bnd->name));
 }
 

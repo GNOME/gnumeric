@@ -10,8 +10,8 @@ struct _NamedExpression {
 	String     *name;
 	ParsePos    pos;
 	GHashTable *dependents;
-
-	gboolean    builtin;
+	gboolean    active : 1;
+	gboolean    builtin : 1;
 	union {
 		ExprTree     *expr_tree;
 		FunctionArgs *expr_func;
@@ -20,7 +20,7 @@ struct _NamedExpression {
 
 NamedExpression *expr_name_lookup (ParsePos const *pos, char const *name);
 NamedExpression *expr_name_add    (ParsePos const *pp, char const *name,
-				   ExprTree *expr, char **error_msg);
+				   ExprTree *expr, char const **error_msg);
 NamedExpression *expr_name_create (ParsePos const *pp, char const *name,
 				   char const *expr_str, ParseError *error);
 
@@ -36,7 +36,6 @@ void	 expr_name_add_dep    (NamedExpression *ne, Dependent *dep);
 void	 expr_name_remove_dep (NamedExpression *ne, Dependent *dep);
 
 GList	 *expr_name_list_destroy	  (GList *names);
-void      expr_name_invalidate_refs_name  (NamedExpression *ne);
 void      expr_name_invalidate_refs_sheet (Sheet const *sheet);
 void      expr_name_invalidate_refs_wb	  (Workbook const *wb);
 

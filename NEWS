@@ -1,5 +1,12 @@
 Gnumeric 0.73
 
+Adrian Custer:
+	* Improve latex exporter to support multiple pages and basic support
+	  for merges.
+
+Almer:
+	* More work on validation.
+
 Andreas:
 	* Allow analysis tool output to be directed onto a range 
           on another sheet.
