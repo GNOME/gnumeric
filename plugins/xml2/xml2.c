@@ -27,6 +27,7 @@
 #include "plugin-util.h"
 #include "workbook.h"
 #include "style.h"
+#include "format.h"
 #include "border.h"
 #include "cell.h"
 #include "position.h"
