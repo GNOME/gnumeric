@@ -57,6 +57,7 @@ Morten:
 	* Clean out work-arounds for old GTK+.
 	* Turn on multi-head support.
 	* Initiate switch to file chooser.
+	* Eliminate use of GnomeEntry.
 
 --------------------------------------------------------------------------
 
