@@ -259,7 +259,6 @@ typedef struct {
 static int
 append_year (GString *string, guchar const *format, struct tm const *time_split)
 {
-	char temp[5];
 	int year = time_split->tm_year + 1900;
 
 	if (format[1] != 'y' && format[1] != 'Y') {
@@ -269,14 +268,11 @@ append_year (GString *string, guchar const *format, struct tm const *time_split)
 
 	if ((format[2] != 'y' && format[2] != 'Y') ||
 	    (format[3] != 'y' && format[3] != 'Y')) {
-		sprintf (temp, "%02d", year % 100);
-		g_string_append_len (string, temp, 2);
+		g_string_append_printf (string, "%02d", year % 100);
 		return 2;
 	}
 
-	sprintf (temp, "%04d", year);
-	g_string_append_len (string, temp, 4);
-
+	g_string_append_printf (string, "%04d", year);
 	return 4;
 }
 
@@ -287,26 +283,24 @@ append_year (GString *string, guchar const *format, struct tm const *time_split)
 static int
 append_month (GString *string, int n, struct tm const *time_split)
 {
-	char temp[3];
+	int month = time_split->tm_mon + 1;
 
-	if (n == 1){
-		sprintf (temp, "%d", time_split->tm_mon + 1);
-		g_string_append (string, temp);
+	if (n == 1) {
+		g_string_append_printf (string, "%d", month);
 		return 1;
 	}
 
-	if (n == 2){
-		sprintf (temp, "%02d", time_split->tm_mon + 1);
-		g_string_append_len (string, temp, 2);
+	if (n == 2) {
+		g_string_append_printf (string, "%02d", month);
 		return 2;
 	}
 
 	if (n == 3){
-		g_string_append (string, _(month_short[time_split->tm_mon]) + 1);
+		g_string_append (string, _(month_short[month - 1]) + 1);
 		return 3;
 	}
 
-	g_string_append (string, _(month_long[time_split->tm_mon]));
+	g_string_append (string, _(month_long[month - 1]));
 	return 4;
 }
 
@@ -317,27 +311,24 @@ append_month (GString *string, int n, struct tm const *time_split)
 static int
 append_day (GString *string, guchar const *format, struct tm const *time_split)
 {
-	char temp[3];
-
 	if (format[1] != 'd' && format[1] != 'D') {
-		sprintf (temp, "%d", time_split->tm_mday);
-		g_string_append (string, temp);
+		g_string_append_printf (string, "%d", time_split->tm_mday);
 		return 1;
 	}
 
 	if (format[2] != 'd' && format[2] != 'D') {
-		sprintf (temp, "%02d", time_split->tm_mday);
-		g_string_append_len (string, temp, 2);
+		g_string_append_printf (string, "%02d", time_split->tm_mday);
 		return 2;
 	}
 
 	if (format[3] != 'd' && format[3] != 'D') {
+		/* Note: day-of-week.  */
 		g_string_append (string, _(day_short[time_split->tm_wday]) + 1);
 		return 3;
 	}
 
+	/* Note: day-of-week.  */
 	g_string_append (string, _(day_long[time_split->tm_wday]));
-
 	return 4;
 }
 
@@ -345,19 +336,17 @@ static void
 append_hour (GString *string, int n, struct tm const *time_split,
 	     gboolean want_am_pm)
 {
-	char *temp = g_alloca (n + 4 * sizeof (int));
+	int hour = time_split->tm_hour;
 
-	sprintf (temp, "%0*d", n,
-		 want_am_pm
-		 ? (((time_split->tm_hour + 11) % 12) + 1)
-		 : time_split->tm_hour);
-	g_string_append (string, temp);
+	g_string_append_printf (string, "%0*d", n,
+				want_am_pm
+				? ((hour + 11) % 12) + 1
+				: hour);
 }
 
 static void
 append_hour_elapsed (GString *string, struct tm *tm, gnm_float number)
 {
-	char buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
 	double res, int_part;
 
 	/* ick.  round assuming no more than 100th of a second, we really need
@@ -369,29 +358,24 @@ append_hour_elapsed (GString *string, struct tm *tm, gnm_float number)
 	tm->tm_min = res / 60.;
 	tm->tm_sec = res - tm->tm_min * 60;
 
-	snprintf (buf, sizeof (buf), "%d", tm->tm_hour);
-	g_string_append (string, buf);
+	g_string_append_printf (string, "%d", tm->tm_hour);
 }
 
 static void
 append_minute (GString *string, int n, struct tm const *time_split)
 {
-	char *temp = g_alloca (n + 4 * sizeof (int));
-	sprintf (temp, "%0*d", n, time_split->tm_min);
-	g_string_append (string, temp);
+	g_string_append_printf (string, "%0*d", n, time_split->tm_min);
 }
 
 static void
 append_minute_elapsed (GString *string, struct tm *tm, gnm_float number)
 {
-	char buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
 	double res, int_part;
 
 	res = modf (gnumeric_fake_round (number * 24. * 60.), &int_part);
 	tm->tm_min = int_part;
 	tm->tm_sec = res * ((res < 0.) ? -60. : 60.);
-	snprintf (buf, sizeof (buf), "%d", tm->tm_min);
-	g_string_append (string, buf);
+	g_string_append_printf (string, "%d", tm->tm_min);
 }
 
 /*
@@ -400,9 +384,7 @@ append_minute_elapsed (GString *string, struct tm *tm, gnm_float number)
 static void
 append_second (GString *string, int n, struct tm const *time_split)
 {
-	char *temp = g_alloca (n + 4 * sizeof (int));
-	sprintf (temp, "%0*d", n, time_split->tm_sec);
-	g_string_append (string, temp);
+	g_string_append_printf (string, "%0*d", n, time_split->tm_sec);
 }
 
 /*
@@ -411,10 +393,8 @@ append_second (GString *string, int n, struct tm const *time_split)
 static void
 append_second_elapsed (GString *string, gnm_float number)
 {
-	char buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
-	snprintf (buf, sizeof (buf), "%d",
-		(int) gnumeric_fake_round (number * 24. * 3600.));
-	g_string_append (string, buf);
+	g_string_append_printf (string, "%d",
+				(int) gnumeric_fake_round (number * 24. * 3600.));
 }
 
 static StyleFormatEntry *
@@ -1301,7 +1281,6 @@ format_number (GString *result,
 			gboolean const is_lower = (*format == 'e');
 			gboolean shows_plus = FALSE;
 			int prec = info.right_optional + info.right_req;
-			char *buffer = g_alloca (40 + prec + 2);
 
 			can_render_number = TRUE;
 			while (*(++format))
@@ -1312,12 +1291,11 @@ format_number (GString *result,
 				else
 					break;
 
-			sprintf (buffer, is_lower ? "%s%.*" GNUM_FORMAT_e : "%s%.*" GNUM_FORMAT_E,
-				 info.negative ? "-" :
-				 shows_plus ? "+" : "",
-				 prec, number);
-
-			g_string_append (result, buffer);
+			g_string_append_printf (result,
+						is_lower ? "%s%.*" GNUM_FORMAT_e : "%s%.*" GNUM_FORMAT_E,
+						info.negative ? "-" :
+						shows_plus ? "+" : "",
+						prec, number);
 			return;
 		}
 
@@ -2060,7 +2038,6 @@ style_format_str_as_XL (char const *ptr, gboolean localized)
 	{
 	char const *thousands_sep = format_get_thousand ();
 	char const *decimal = format_get_decimal ();
-	char *tmp;
 	GString *res = g_string_sized_new (strlen (ptr));
 
 	/* TODO : XL seems to do an adaptive escaping of
@@ -2097,10 +2074,12 @@ style_format_str_as_XL (char const *ptr, gboolean localized)
 			    }
 			    break;
 
-		case '[' : tmp = translate_format_color (res, ptr, FALSE);
-			   if (tmp != NULL)
-				   ptr = tmp;
-			   break;
+		case '[' : {
+			char *tmp = translate_format_color (res, ptr, FALSE);
+			if (tmp != NULL)
+				ptr = tmp;
+			break;
+		}
 
 		default   : if (strncmp (ptr, decimal, strlen (decimal)) == 0 ||
 				strncmp (ptr, thousands_sep, strlen (thousands_sep)) == 0)

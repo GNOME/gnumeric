@@ -2,6 +2,10 @@
 
 	* src/format.c (format_number): Fix sign position for fractions.
 	Align fractions.
+	(append_year, append_month, append_day, append_hour,
+	append_hour_elapsed, append_minute, append_minute_elapsed,
+	append_second, append_second_elapsed, format_number): Simplify
+	using g_string_append_printf.
 
 2003-07-14  Morten Welinder  <terra@gnome.org>
 
