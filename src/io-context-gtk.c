@@ -180,9 +180,13 @@ icg_init_gui (IOContextGtk *icg)
 	g_signal_connect (G_OBJECT (icg->window), "destroy",
 			  G_CALLBACK (cb_icg_window_destroyed), icg);
 
-#ifdef HAVE_GDK_SCREEN_GET_WIDTH
-	sx = gdk_screen_get_width (icg->window->screen);
-	sy = gdk_screen_get_height (icg->window->screen);
+#ifdef HAVE_GDK_SCREEN_GET_MONITOR_GEOMETRY
+	/* In a Xinerama setup, we want the geometry of the actual display
+	 * unit, if available. See bug 59902. This call was added for
+	 * gtk2.2*/
+	gdk_screen_get_monitor_geometry (icg->window->screen, 0, &rect);
+	sx = rect.width;
+	sy = rect.height;
 #else
 	sx = gdk_screen_width  ();
 	sy = gdk_screen_height ();

@@ -4563,20 +4563,19 @@ workbook_setup_status_area (WorkbookControlGUI *wbcg)
 	workbook_setup_auto_calc (wbcg);
 }
 
-/* Replacing gdk_screen_width/height with gdk_screen_get_monitor_geometry
- * fixes bug 59902: Window too large with xinerama setup. This call was
- * added for gtk2.2, so it is ifdef'ed out until we declare a dependency on
- * that version. */
 static int
 show_gui (WorkbookControlGUI *wbcg)
 {
 	WorkbookView *wbv = wb_control_view (WORKBOOK_CONTROL (wbcg));
 	int sx, sy;
 	gdouble fx, fy;
-#if 0
+#ifdef HAVE_GDK_SCREEN_GET_MONITOR_GEOMETRY
 	GdkRectangle rect;
 
-	gdk_screen_get_monitor_geometry (gdk_screen_get_default (), 0, &rect);
+	/* In a Xinerama setup, we want the geometry of the actual display
+	 * unit, if available. See bug 59902. This call was added for
+	 * gtk2.2*/
+	gdk_screen_get_monitor_geometry (wbcg->toplevel->window->screen, 0, &rect);
 	sx = MAX (rect.width, 600);
 	sy = MAX (rect.height, 200);
 #else

@@ -1,5 +1,16 @@
 2002-11-18  Jon K Hellan  <hellan@acm.org>
 
+	* src/workbook-control-gui.c (show_gui): Use window->screen
+	instead of default screen.
+
+	* src/io-context-gtk.c (icg_init_gui): Use
+	gdk_screen_get_monitor_geometry instead of gdk_screen_get_width.
+
+	* configure.in (LIBS): Check for gdk_screen_get_monitor_geometry
+	instead.
+
+2002-11-18  Jon K Hellan  <hellan@acm.org>
+
 	* src/gui-file.c (gui_file_read): Display both errors and warning
 	(accidentally left out of commit 2002-11-15).
 
