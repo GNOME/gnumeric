@@ -2660,6 +2660,7 @@ sheet_fill_selection_with (Sheet *sheet, const char *str,
 		sheet_set_text (sheet, str, &ss->user);
 	}
 	cell_thaw_redraws();
+	workbook_recalc (sheet->workbook);
 }
 
 void
