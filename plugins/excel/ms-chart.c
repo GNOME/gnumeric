@@ -59,6 +59,7 @@ typedef struct _XLChartSeries {
 		GOData *data;
 	} data [GOG_MS_DIM_TYPES];
 	int chart_group;
+	gboolean  has_legend;
 	GogStyle *style;
 } XLChartSeries;
 
@@ -114,6 +115,7 @@ excel_chart_series_new (void)
 	series = g_new (XLChartSeries, 1);
 
 	series->chart_group = -1;
+	series->has_legend = TRUE;
 	series->style = NULL;
 	for (i = GOG_MS_DIM_TYPES; i-- > 0 ; ) {
 		series->data [i].data = NULL;
@@ -1043,8 +1045,8 @@ BC_R(legendxn)(XLChartHandler const *handle,
 	       XLChartReadState *s, BiffQuery *q)
 {
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+2);
-	if (flags & 1)
-		g_warning ("deleted legend entry");
+	if ((flags & 1) && s->currentSeries != NULL)
+		s->currentSeries->has_legend = FALSE;
 	return FALSE;
 }
 
@@ -1906,6 +1908,10 @@ BC_R(end)(XLChartHandler const *handle,
 			if (style != NULL)
 				g_object_set (G_OBJECT (series),
 					"style", style,
+					NULL);
+			if (!series->has_legend)
+				g_object_set (G_OBJECT (series),
+					"has-legend", FALSE,
 					NULL);
 		}
 

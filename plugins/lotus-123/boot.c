@@ -11,6 +11,7 @@
 #include "lotus.h"
 #include "lotus-types.h"
 
+#include <file.h>
 #include <workbook-view.h>
 #include <plugin.h>
 #include <plugin-util.h>

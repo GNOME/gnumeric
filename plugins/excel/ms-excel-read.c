@@ -4132,6 +4132,10 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 			esheet->sheet, pattern_color);
 	}
 
+	/* until we import multiple views unfreeze just in case a previous view
+	 * had frozen */
+	sv_freeze_panes (sv, NULL, NULL);
+
 	/* NOTE : This is top left of screen even if frozen, modify when
 	 *        we read PANE */
 	sv_set_initial_top_left (sv, left_col, top_row);

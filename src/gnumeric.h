@@ -94,8 +94,6 @@ typedef GSList  ColRowStateList;
 typedef GList   ColRowIndexList;
 typedef struct _ColRowIndexSet          ColRowIndexSet;
 
-typedef struct _GnmFileOpener		GnmFileOpener;
-
 typedef struct _GnmFormat	        GnmFormat;
 typedef struct _GnmFont	        GnmFont;
 typedef struct _GnmColor	        GnmColor;
@@ -154,6 +152,9 @@ typedef enum {
 
 typedef struct _GnmMemChunk		GnmMemChunk;
 typedef struct _GnmString 	        GnmString;
+
+typedef struct _GnmFileSaver 		GnmFileSaver;
+typedef struct _GnmFileOpener		GnmFileOpener;
 
 typedef struct _GnmPlugin		GnmPlugin;
 typedef struct _GnmPluginService	GnmPluginService;

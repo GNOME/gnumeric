@@ -2,8 +2,8 @@
 #define GNUMERIC_WORKBOOK_VIEW_H
 
 #include "gnumeric.h"
-#include "file.h"
 #include <glib-object.h>
+#include <gsf/gsf.h>
 
 struct _WorkbookView {
 	GObject  base;

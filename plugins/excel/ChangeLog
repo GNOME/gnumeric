@@ -1,3 +1,10 @@
+2004-05-09  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_WINDOW2) : It seems like there can be
+	  multiple WINDOW2, SCL, PANE, SELECTION blocks when there are
+	  multiple windows.  For now we don't support importing multiple views
+	  so we need to at leat not break if a previous view was frozen.
+
 2004-05-07  Jody Goldberg <jody@gnome.org>
 
 	* ms-biff.c (ms_biff_put_var_write) : Quick and simple support for

@@ -102,7 +102,6 @@ gboolean    gnm_file_opener_can_probe		  (GnmFileOpener const *fo,
  * GnmFileSaver
  */
 
-typedef struct _GnmFileSaver GnmFileSaver;
 typedef struct _GnmFileSaverClass GnmFileSaverClass;
 
 #define TYPE_GNM_FILE_SAVER             (gnm_file_saver_get_type ())
