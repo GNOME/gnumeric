@@ -34,6 +34,7 @@ Jody:
 Morten:
 	http://bugzilla.gnome.org/show_bug.cgi?id=152511
 	* Fix crash when adding a xy plot over a pie plot
+	* Work on using pango layouts for printing.
 
 Uwe Steinmann:
 	* Validate the field names for paradox databases
@@ -41,6 +42,7 @@ Uwe Steinmann:
 Yaacov Zamir:
 	* Fix header/footer printing to use pango layouts.
 	* Fix graph printing to use pango layouts for text.
+	* Fix cell printing to use pango layouts.  [not turned on]
 
 --------------------------------------------------------------------------
 

@@ -46,8 +46,6 @@
 
 #define BUG_105322
 
-#undef QUANTIFYING
-
 #ifndef USE_RV_POOLS
 #define USE_RV_POOLS 1
 #endif
@@ -200,15 +198,6 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	/* This screws thread safety (which we don't need).  */
 	static GString  *str = NULL;
 
-#ifdef QUANTIFYING
-	static gboolean Q = FALSE;
-	if (!Q) {
-		quantify_clear_data ();
-		Q = TRUE;
-	}
-	quantify_start_recording_data ();
-#endif
-
 	g_return_val_if_fail (cell != NULL, NULL);
 	g_return_val_if_fail (cell->value != NULL, NULL);
 	g_return_val_if_fail (context != NULL, NULL);
@@ -321,9 +310,6 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 				     &res->layout_natural_height);
 
 
-#ifdef QUANTIFYING
-	quantify_stop_recording_data ();
-#endif
 	return res;
 }
 

@@ -25,6 +25,10 @@
 #include "sheet-merge.h"
 #include "rendered-value.h"
 #include "str.h"
+#include "cell-draw.h"
+#ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
+#include <libgnomeprint/gnome-print-pango.h>
+#endif
 
 #include <string.h>
 #include <locale.h>
@@ -34,6 +38,15 @@
 #else
 #define MERGE_DEBUG(range, str)
 #endif
+
+/*
+ * This code will die when gnumeric require libgnomeprint 2.8
+ *
+ * This code duplicate the functionality of libgnomeprint's >= 2.8
+ * pango functions and will be replaced by call to the
+ * gnome_print_pango_XXX functions when gnumeric will require 
+ * libgnomeprint 2.8
+ */ 
 
 static inline void
 print_hline (GnomePrintContext *context,
@@ -182,6 +195,10 @@ cell_split_text (GnomeFont *font, char const *text, int const width)
 }
 
 /*
+ * End of code that will die when we require libgnomeprint 2.8
+ */ 
+
+/*
  * print_make_rectangle_path
  * @pc      print context
  * @left    left side x coordinate
@@ -216,9 +233,58 @@ print_make_rectangle_path (GnomePrintContext *pc,
  *      |      |
  *      \------/
  */
+#ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
 static void
-print_cell (GnmCell const *cell, GnmStyle const *mstyle, GnomePrintContext *context,
-	    double x1, double y1, double width, double height, double h_center)
+print_cell_NEW (GnmCell const *cell, GnmStyle const *mstyle,
+		GnomePrintContext *context, PangoContext *pcontext,
+		double x1, double y1, double width, double height, double h_center)
+{
+	RenderedValue *rv, *cell_rv = cell->rendered_value;
+	PangoLayout *layout, *cell_layout = cell_rv->layout;
+	GdkRectangle  rect;
+	GdkColor *color; 
+	gint x;
+	gint y;
+
+	/* Create a rendered value for printing */
+	rv = rendered_value_new ((GnmCell *)cell, mstyle, TRUE, pcontext);
+	layout = rv->layout;
+	pango_layout_set_text (layout, 
+			       pango_layout_get_text (cell_layout), -1);
+	pango_layout_set_attributes (layout, 
+				     pango_layout_get_attributes (cell_layout));
+
+	if (cell_calc_layout (cell, rv, TRUE,
+			      (int)x1, (int)y1, (int)width, (int)height, (int)h_center,
+			      &rect, &color, &x, &y)) {
+		/* Clip the printed rectangle */
+		gnome_print_gsave (context);
+		print_make_rectangle_path (context,
+					   rect.x - 1,
+					   rect.y - rect.height - 1,
+					   rect.x + rect.width + 1,
+					   rect.y + 1);
+		gnome_print_clip (context);
+
+		/* Set the font colour */
+		gnome_print_setrgbcolor (context,
+					 color->red   / (double) 0xffff,
+					 color->green / (double) 0xffff,
+					 color->blue  / (double) 0xffff);
+
+		gnome_print_moveto (context, x, y);
+		gnome_print_pango_layout (context, layout);
+		gnome_print_grestore (context);
+	}
+
+	rendered_value_destroy (rv);
+}
+#endif
+
+static void
+print_cell_OLD (GnmCell const *cell, GnmStyle const *mstyle,
+		GnomePrintContext *context, PangoContext *pcontext,
+		double x1, double y1, double width, double height, double h_center)
 {
 	Sheet const * const sheet = cell->base.sheet;
 	GnmFont *style_font = mstyle_get_font (mstyle, sheet->context, 1.0);
@@ -492,9 +558,15 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle, GnomePrintContext *cont
 		g_list_free (lines);
 	}
 	style_font_unref (style_font);
-
 	gnome_print_grestore (context);
 }
+
+#ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
+#define print_cell (g_getenv ("USE_NEW_PRINT") ? print_cell_NEW : print_cell_OLD)
+#else
+#define print_cell print_cell_OLD
+#endif
+
 
 /* We do not use print_make_rectangle_path here - because we do not want a
  * new path.  */
@@ -532,7 +604,8 @@ print_cell_background (GnomePrintContext *context,
  * segments that are selected.
  */
 static void
-print_merged_range (GnomePrintContext *context, Sheet const *sheet,
+print_merged_range (GnomePrintContext *context, PangoContext *pcontext,
+		    Sheet const *sheet,
 		    double start_x, double start_y,
 		    GnmRange const *view, GnmRange const *range)
 {
@@ -585,7 +658,7 @@ print_merged_range (GnomePrintContext *context, Sheet const *sheet,
 			row_calc_spans ((ColRowInfo *)ri, sheet);
 
 		/* FIXME : get the margins from the far col/row too */
-		print_cell (cell, style, context,
+		print_cell (cell, style, context, pcontext,
 			    l, t,
 			    r - l - ci->margin_b - ci->margin_a,
 			    t - b - ri->margin_b - ri->margin_a, -1.);
@@ -609,6 +682,7 @@ print_cell_range (GnomePrintContext *context,
 	double x, y;
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
 	int start_row, start_col, end_col, end_row;
+	PangoContext *pcontext;
 
 	GnmRow sr, next_sr;
 	GnmStyle const **styles;
@@ -625,6 +699,13 @@ print_cell_range (GnomePrintContext *context,
 	g_return_if_fail (range != NULL);
 	g_return_if_fail (range->start.col <= range->end.col);
 	g_return_if_fail (range->start.row <= range->end.row);
+
+#ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
+	pcontext = gnome_print_pango_create_context
+		(gnome_print_pango_get_default_font_map ());
+#else
+	pcontext = NULL;
+#endif
 
 	start_col = range->start.col;
 	start_row = range->start.row;
@@ -726,7 +807,7 @@ print_cell_range (GnomePrintContext *context,
 				MERGE_DEBUG (r, " : unused -> active\n");
 
 				if (ci->visible)
-					print_merged_range (context, sheet,
+					print_merged_range (context, pcontext, sheet,
 							    base_x, y, &view, r);
 				}
 			} else {
@@ -823,7 +904,7 @@ print_cell_range (GnomePrintContext *context,
 				/* no need to draw blanks */
 				GnmCell const *cell = sheet_cell_get (sheet, col, row);
 				if (!cell_is_empty (cell))
-					print_cell (cell, style, context,
+					print_cell (cell, style, context, pcontext,
 						    x, y, -1., -1., -1.);
 
 			/* Only draw spaning cells after all the backgrounds
@@ -863,7 +944,7 @@ print_cell_range (GnomePrintContext *context,
 					tmp_width += sheet_col_get_distance_pts (
 						sheet, col+1, end_span_col + 1);
 
-				print_cell (cell, style, context,
+				print_cell (cell, style, context, pcontext,
 					    real_x, y, tmp_width, -1, h_center);
 			} else if (col != span->left)
 				sr.vertical [col] = NULL;
@@ -904,5 +985,8 @@ print_cell_range (GnomePrintContext *context,
 	g_slist_free (merged_used);	   /* merges with bottom in view */
 	g_slist_free (merged_active_seen); /* merges with bottom the view */
 	g_slist_free (merged_unused);	   /* merges in hidden rows */
+#ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
+	g_object_unref (pcontext);
+#endif
 	g_return_if_fail (merged_active == NULL);
 }
