@@ -30,6 +30,10 @@ global_gnome_font_init (void)
 	GList *l, *ll;
 
 	l = gnome_font_family_list ();
+#if 0
+  pango_context_list_families (gtk_widget_get_pango_context (GTK_WIDGET (fontsel)),
+			       &fontsel->families, &n_families);
+#endif
 
 	for (ll = l; ll; ll = ll->next){
 		gnumeric_font_family_list = g_list_insert_sorted (
