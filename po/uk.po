@@ -5519,7 +5519,7 @@ msgstr "[$PHP]"
 
 #: src/formats.c:367
 msgid "Philippino peso"
-msgstr ""
+msgstr "Ф╕л╕п╕нськ╕ песо"
 
 #: src/formats.c:368
 msgid "[$PKR]"
@@ -5543,7 +5543,7 @@ msgstr "[$PTE]"
 
 #: src/formats.c:370
 msgid "Portuguese escudo"
-msgstr "Порту╜альський ескудо"
+msgstr "Порту╜альськ╕ ескудо"
 
 #: src/formats.c:371
 msgid "[$PYG]"
@@ -5559,7 +5559,7 @@ msgstr "[$QAR]"
 
 #: src/formats.c:372
 msgid "Qatari rial"
-msgstr ""
+msgstr "Катарськ╕ р╕али"
 
 #: src/formats.c:373
 msgid "[$ROL]"
@@ -5567,7 +5567,7 @@ msgstr "[$ROL]"
 
 #: src/formats.c:373
 msgid "Romanian leu"
-msgstr "Румунський лей"
+msgstr "Румунськ╕ ле╖"
 
 #: src/formats.c:374
 msgid "[$RWF]"
@@ -5575,7 +5575,7 @@ msgstr "[$RWF]"
 
 #: src/formats.c:374
 msgid "Rwanda franc"
-msgstr "Руанд╕йський франк"
+msgstr "Руанд╕йськ╕ франки"
 
 #: src/formats.c:375
 msgid "[$SAR]"
@@ -5591,7 +5591,7 @@ msgstr "[$SBD]"
 
 #: src/formats.c:376
 msgid "Solomon Islands dollar"
-msgstr "Долар Соломонових Остров╕в"
+msgstr "Долари Соломонових остров╕в"
 
 #: src/formats.c:377
 msgid "[$SCR]"
@@ -5599,7 +5599,7 @@ msgstr "[$SCR]"
 
 #: src/formats.c:377
 msgid "Seychelles rupee"
-msgstr "Сейшельська руп╕я"
+msgstr "Сейшельськ╕ руп╕╖"
 
 #: src/formats.c:378
 msgid "[$SDP]"
@@ -5607,7 +5607,7 @@ msgstr "[$SDP]"
 
 #: src/formats.c:378
 msgid "Sudanese pound"
-msgstr "Суданський фунт"
+msgstr "Суданськ╕ фунти"
 
 #: src/formats.c:379
 msgid "[$SEK]"
@@ -5615,7 +5615,7 @@ msgstr "[$SEK]"
 
 #: src/formats.c:379
 msgid "Swedish krona"
-msgstr "Шведська крона"
+msgstr "Шведськ╕ крони"
 
 #: src/formats.c:380
 msgid "[$SGD]"
@@ -5623,7 +5623,7 @@ msgstr "[$SGD]"
 
 #: src/formats.c:380
 msgid "Singapore dollar"
-msgstr "С╕н╜апурський долар"
+msgstr "С╕н╜апурськ╕ долари"
 
 #: src/formats.c:381
 msgid "[$SHP]"
@@ -5647,7 +5647,7 @@ msgstr "[$SLL]"
 
 #: src/formats.c:383
 msgid "Sierra Leone leone"
-msgstr ""
+msgstr "Леони Сь╓ра-Леоне"
 
 #: src/formats.c:384
 msgid "[$SOS]"
@@ -5655,7 +5655,7 @@ msgstr "[$SOS]"
 
 #: src/formats.c:384
 msgid "Somali shilling"
-msgstr "Сомал╕йський шил╕н╜"
+msgstr "Сомал╕йськ╕ шил╕н╜"
 
 #: src/formats.c:385
 msgid "[$SRG]"
@@ -5663,7 +5663,7 @@ msgstr "[$SRG]"
 
 #: src/formats.c:385
 msgid "Suriname guilder"
-msgstr "Сур╕намський ╜ульден"
+msgstr "Сур╕намськ╕ ╜ульдени"
 
 #: src/formats.c:386
 msgid "[$STD]"
@@ -5695,7 +5695,7 @@ msgstr "[$SYP]"
 
 #: src/formats.c:389
 msgid "Syrian pound"
-msgstr "Сир╕йський фунт"
+msgstr "Сир╕йськ╕ фунти"
 
 #: src/formats.c:390
 msgid "[$SZL]"
@@ -5719,7 +5719,7 @@ msgstr "[$TND]"
 
 #: src/formats.c:392
 msgid "Tunisian dinar"
-msgstr "Тун╕ський динар"
+msgstr "Тун╕ськ╕ динари"
 
 #: src/formats.c:393
 msgid "[$TOP]"
@@ -5735,7 +5735,7 @@ msgstr "[$TPE]"
 
 #: src/formats.c:394
 msgid "East Timor escudo"
-msgstr ""
+msgstr "Ескудо П╕вденного Т╕мору"
 
 #: src/formats.c:395
 msgid "[$TRL]"
@@ -5743,7 +5743,7 @@ msgstr "[$TRL]"
 
 #: src/formats.c:395
 msgid "Turkish lira"
-msgstr "Турецька л╕ра"
+msgstr "Турецьк╕ л╕ри"
 
 #: src/formats.c:396
 msgid "[$TTD]"
@@ -5751,7 +5751,7 @@ msgstr "[$TTD]"
 
 #: src/formats.c:396
 msgid "Trinidad and Tobago dollar"
-msgstr "Долар Тр╕надад ╕ Тобаго"
+msgstr "Долари Тр╕нададу ╕ Тобаго"
 
 #: src/formats.c:397
 msgid "[$TWD]"
@@ -5759,7 +5759,7 @@ msgstr "[$TWD]"
 
 #: src/formats.c:397
 msgid "New Taiwan dollar"
-msgstr "Новий тайванський долар"
+msgstr "Нов╕ тайванськ╕ долар"
 
 #: src/formats.c:398
 msgid "[$TZS]"
@@ -5767,7 +5767,7 @@ msgstr "[$TZS]"
 
 #: src/formats.c:398
 msgid "Tanzanian shilling"
-msgstr "Танзанський шил╕н╜"
+msgstr "Танзанськ╕ шил╕н╜и"
 
 #: src/formats.c:399
 msgid "[$UAH]"
@@ -5775,7 +5775,7 @@ msgstr "[$UAH]"
 
 #: src/formats.c:399
 msgid "Ukrainian hryvnia"
-msgstr "Укра╖нська гривня"
+msgstr "Укра╖нськ╕ гривн╕"
 
 #: src/formats.c:400
 msgid "[$UGX]"
@@ -5783,7 +5783,7 @@ msgstr "[$UGX]"
 
 #: src/formats.c:400
 msgid "Ugandan shilling"
-msgstr "Уганд╕йський шил╕н╜"
+msgstr "Уганд╕йськ╕ шил╕н╜и"
 
 #: src/formats.c:401
 msgid "[$USD]"
@@ -12970,7 +12970,7 @@ msgstr "Сформатувати д╕лянку ком╕рок в╕дпов╕дно до визначеного шаблону"
 
 #: src/gnumeric.xml.h:249 src/workbook-control-gui.c:2073
 msgid "_Workbook..."
-msgstr "Книга"
+msgstr "Книга..."
 
 #: src/gnumeric.xml.h:123 src/workbook-control-gui.c:2074
 msgid "Modify the workbook attributes"
