@@ -116,8 +116,10 @@ static char *help_varp = {
 	   "\n"
 	   "(VARP is also known as the N-variance.)"
 	   "\n"
-	   "Performing this function on a string or empty cell simply does "
-	   "nothing."
+	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "VARP(A1:A5) equals 94.112.\n"
 	   "\n"
 	   "@SEEALSO=STDEV,VAR,MEAN")
 };
@@ -146,10 +148,10 @@ static char *help_var = {
 	   "conditions, it is the maximum-likelihood estimator for the "
 	   "true variance.)"
 	   "\n"
-	   "Performing this function on a string or empty cell simply does "
-	   "nothing."
-	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "VAR(A1:A5) equals 117.64.\n"
 	   "\n"
 	   "@SEEALSO=VARP,STDEV")
 };
@@ -174,9 +176,10 @@ static char *help_stdev = {
 	   "STDEV returns standard deviation of a set of numbers "
 	   "treating these numbers as members of a population"
 	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing."
-	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "STDEV(A1:A5) equals 10.84619749.\n"
 	   "\n"
 	   "@SEEALSO=VAR,MEAN")
 };
@@ -201,10 +204,10 @@ static char *help_stdevp = {
 	   "STDEVP returns standard deviation of a set of numbers "
 	   "treating these numbers as members of a complete population"
 	   "\n"
-	   "Performing this function on a string or empty cell simply does "
-	   "nothing."
-	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "STDEVP(A1:A5) equals 9.701133954.\n"
 	   "\n"
 	   "@SEEALSO=STDEV,VAR,MEAN")
 };
@@ -620,21 +623,21 @@ gnumeric_fisherinv (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 static char *help_mode = {
-       N_("@FUNCTION=MODE\n"
-          "@SYNTAX=MODE(n1, n2, ...)\n"
+        N_("@FUNCTION=MODE\n"
+           "@SYNTAX=MODE(n1, n2, ...)\n"
 
-          "@DESCRIPTION="
-          "MODE returns the most common number of the data set. If the data "
-	  "set has many most common numbers MODE returns the first one of "
-	  "them. "
-          "\n"
-          "Strings and empty cells are simply ignored."
-	  "If the data set does not contain any duplicates MODE returns "
-          "#N/A! error."
-          "\n"
+           "@DESCRIPTION="
+           "MODE returns the most common number of the data set. If the data "
+	   "set has many most common numbers MODE returns the first one of "
+	   "them. "
+           "\n"
+           "Strings and empty cells are simply ignored."
+	   "If the data set does not contain any duplicates MODE returns "
+           "#N/A! error."
+           "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-          "@SEEALSO=AVERAGE,MEDIAN")
+           "@SEEALSO=AVERAGE,MEDIAN")
 };
 
 typedef struct {
@@ -716,10 +719,10 @@ static char *help_harmean = {
 	   "@DESCRIPTION="
 	   "HARMEAN returns the harmonic mean of the N data points."
 	   "\n"
-	   "Performing this function on a string or empty cell simply does "
-	   "nothing."
-	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "HARMEAN(A1:A5) equals 19.529814427.\n"
 	   "\n"
 	   "@SEEALSO=GEOMEAN,MEDIAN,MEAN,MODE")
 };
@@ -745,10 +748,10 @@ static char *help_geomean = {
 	   "GEOMEAN returns the geometric mean of the given arguments. "
 	   "This is equal to the Nth root of the product of the terms."
 	   "\n"
-	   "Performing this function on a string or empty cell simply "
-	   "does nothing."
-	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "GEOMEAN(A1:A5) equals 21.279182482.\n"
 	   "\n"
 	   "@SEEALSO=HARMEAN,MEDIAN,MEAN,MODE")
 };
@@ -771,13 +774,13 @@ static char *help_count = {
 	   "@SYNTAX=COUNT(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
-	   "Returns the total number of integer or floating point "
+	   "COUNT returns the total number of integer or floating point "
 	   "arguments passed."
 	   "\n"
-	   "Performing this function on a string or empty cell simply does "
-	   "nothing."
-	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "COUNT(A1:A5) equals 5.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE")
 };
@@ -811,9 +814,14 @@ static char *help_counta = {
            "@SYNTAX=COUNTA(b1, b2, ...)\n"
 
            "@DESCRIPTION="
-           "Returns the number of arguments passed not including empty cells."
+           "COUNTA returns the number of arguments passed not including "
+	   "empty cells."
            "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "and strings 11.4, \"missing\", \"missing\", 25.9, and 40.1.  "
+	   "Then\n"
+	   "COUNTA(A1:A5) equals 5.\n"
 	   "\n"
            "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM")
 };
@@ -847,11 +855,14 @@ static char *help_average = {
 	   "@SYNTAX=AVERAGE(value1, value2,...)\n"
 
 	   "@DESCRIPTION="
-	   "Computes the average of all the values and cells referenced in "
-	   "the argument list.  This is equivalent to the sum of the "
-	   "arguments divided by the count of the arguments."
+	   "AVERAGE computes the average of all the values and cells "
+	   "referenced in the argument list.  This is equivalent to the "
+	   "sum of the arguments divided by the count of the arguments."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "AVERAGE(A1:A5) equals 23.2.\n"
 	   "\n"
 	   "@SEEALSO=SUM, COUNT")
 };
@@ -878,10 +889,10 @@ static char *help_min = {
 	   "that has the smallest value. With negative numbers considered "
 	   "smaller than positive numbers."
 	   "\n"
-	   "Performing this function on a string or empty cell simply does "
-	   "nothing."
-	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "MIN(A1:A5) equals 11.4.\n"
 	   "\n"
 	   "@SEEALSO=MAX,ABS")
 };
@@ -908,10 +919,10 @@ static char *help_max = {
 	   "that has the largest value. With negative numbers considered "
 	   "smaller than positive numbers."
 	   "\n"
-	   "Performing this function on a string or empty cell simply does "
-	   "nothing."
-	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "MAX(A1:A5) equals 40.1.\n"
 	   "\n"
 	   "@SEEALSO=MIN,ABS")
 };
@@ -945,6 +956,9 @@ static char *help_skew = {
 	   "If less than three numbers are given, SKEW returns #DIV/0! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "SKEW(A1:A5) equals 0.976798268.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE,VAR,SKEWP,KURT")
 };
@@ -974,6 +988,9 @@ static char *help_skewp = {
 	   "If less than two numbers are given, SKEWP returns #DIV/0! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "SKEWP(A1:A5) equals 0.655256198.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE,VARP,SKEW,KURTP")
 };
@@ -1001,8 +1018,6 @@ static char *help_expondist = {
 	   "@y * exp (-@y*@x), otherwise it will return 1 - exp (-@y*@x)."
 	   "\n"
 	   "If @x < 0 or @y <= 0 this will return an error.  "
-	   "Performing this function on a string or empty cell simply "
-	   "does nothing."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "EXPONDIST(2,4,0) equals 0.001341851.\n"
@@ -1215,20 +1230,20 @@ gnumeric_chiinv (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 static char *help_chitest = {
-       N_("@FUNCTION=CHITEST\n"
-          "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
+        N_("@FUNCTION=CHITEST\n"
+           "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
 
-          "@DESCRIPTION="
-          "The CHITEST function returns the test for independence of "
-	  "chi-squared distribution."
-          "\n"
-	  "@actual_range is a range that contains the observed data points. "
-	  "@theoretical_range is a range that contains the expected values "
-	  "of the data points. "
-	  "\n"
+           "@DESCRIPTION="
+           "CHITEST function returns the test for independence of "
+	   "chi-squared distribution."
+           "\n"
+	   "@actual_range is a range that contains the observed data points. "
+	   "@theoretical_range is a range that contains the expected values "
+	   "of the data points. "
+	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
-          "@SEEALSO=CHIDIST,CHIINV")
+           "@SEEALSO=CHIDIST,CHIINV")
 };
 
 typedef struct {
@@ -1601,8 +1616,6 @@ static char *help_binomdist = {
            "and @cumulative describes whether to return the sum of the"
            "binomial function from 0 to @n."
 	   "\n"
-	   "Performing this function on a string or empty cell returns an "
-	   "error."
 	   "If @n or @trials are non-integer they are truncated. "
 	   "If @n < 0 or @trials < 0 BINOMDIST returns #NUM! error. "
 	   "If @n > trials BINOMDIST returns #NUM! error. "
@@ -1715,7 +1728,7 @@ static char *help_hypgeomdist = {
 	   "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
 
 	   "@DESCRIPTION="
-	   "The HYPGEOMDIST function returns the hypergeometric distribution "
+	   "HYPGEOMDIST function returns the hypergeometric distribution "
 	   "@x is the number of successes in the sample, @n is the number "
            "of trials, @M is the number of successes overall, and @N is the"
            "population size."
@@ -1754,7 +1767,7 @@ static char *help_confidence = {
 	   "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
 
 	   "@DESCRIPTION="
-	   "The CONFIDENCE function returns the confidence interval for a "
+	   "CONFIDENCE function returns the confidence interval for a "
 	   "mean. @x is the significance level, @stddev is the standard "
 	   "deviation, and @size is the size of the sample."
 	   "\n"
@@ -1794,7 +1807,7 @@ static char *help_standardize = {
 	   "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
 
 	   "@DESCRIPTION="
-	   "The STANDARDIZE function returns a normalized value. "
+	   "STANDARDIZE function returns a normalized value. "
 	   "@x is the number to be normalized, @mean is the mean of the "
 	   "distribution, @stdev is the standard deviation of the "
 	   "distribution."
@@ -1831,7 +1844,7 @@ static char *help_weibull = {
            "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
 
            "@DESCRIPTION="
-           "The WEIBULL function returns the Weibull distribution. "
+           "WEIBULL function returns the Weibull distribution. "
            "If the @cumulative boolean is true it will return: "
            "1 - exp (-(@x/@beta)^@alpha), otherwise it will return "
            "(@alpha/@beta^@alpha) * @x^(@alpha-1) * exp(-(@x/@beta^@alpha)). "
@@ -1876,7 +1889,7 @@ static char *help_normdist = {
            "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
 
            "@DESCRIPTION="
-           "The NORMDIST function returns the normal cumulative distribution. "
+           "NORMDIST function returns the normal cumulative distribution. "
 	   "@x is the value for which you want the distribution, @mean is "
 	   "the mean of the distribution, @stdev is the standard deviation. "
            "\n"
@@ -1920,7 +1933,7 @@ static char *help_norminv = {
            "@SYNTAX=NORMINV(p,mean,stdev)\n"
 
            "@DESCRIPTION="
-           "The NORMINV function returns the inverse of the normal "
+           "NORMINV function returns the inverse of the normal "
 	   "cumulative distribution. @p is the given probability "
 	   "corresponding to the normal distribution, @mean is the "
 	   "arithmetic mean of the distribution, and @stdev is the "
@@ -1970,6 +1983,9 @@ static char *help_kurt = {
            "KURT returns #DIV/0! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "KURT(A1:A5) equals 1.234546305.\n"
 	   "\n"
            "@SEEALSO=AVERAGE,VAR,SKEW,KURTP")
 };
@@ -2000,6 +2016,9 @@ static char *help_kurtp = {
            "KURTP returns #DIV/0! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "KURTP(A1:A5) equals -0.691363424.\n"
 	   "\n"
            "@SEEALSO=AVERAGE,VARP,SKEWP,KURT")
 };
@@ -2025,10 +2044,10 @@ static char *help_avedev = {
            "AVEDEV returns the average of the absolute deviations of a data "
 	   "set from their mean. "
            "\n"
-           "Performing this function on a string or empty cell simply does "
-	   "nothing."
-           "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "AVEDEV(A1:A5) equals 7.84.\n"
 	   "\n"
            "@SEEALSO=STDEV")
 };
@@ -2057,6 +2076,9 @@ static char *help_devsq = {
            "Strings and empty cells are simply ignored."
            "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "DEVSQ(A1:A5) equals 470.56.\n"
 	   "\n"
            "@SEEALSO=STDEV")
 };
@@ -2079,7 +2101,7 @@ static char *help_fisher = {
            "@SYNTAX=FISHER(x)\n"
 
            "@DESCRIPTION="
-           "The FISHER function returns the Fisher transformation at @x."
+           "FISHER function returns the Fisher transformation at @x."
            "\n"
            "If @x is not-number FISHER returns #VALUE! error."
            "If @x <= -1 or @x >= 1 FISHER returns #NUM! error"
@@ -2113,7 +2135,7 @@ static char *help_poisson = {
 	   "@SYNTAX=POISSON(x,mean,cumulative)\n"
 
 	   "@DESCRIPTION="
-	   "The POISSON function returns the Poisson distribution "
+	   "POISSON function returns the Poisson distribution "
 	   "@x is the number of events, @mean is the expected numeric value "
 	   "@cumulative describes whether to return the sum of the "
 	   "poisson function from 0 to @x."
@@ -2204,19 +2226,22 @@ gnumeric_rsq (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 static char *help_median = {
-       N_("@FUNCTION=MEDIAN\n"
-          "@SYNTAX=MEDIAN(n1, n2, ...)\n"
+        N_("@FUNCTION=MEDIAN\n"
+           "@SYNTAX=MEDIAN(n1, n2, ...)\n"
 
-          "@DESCRIPTION="
-          "MEDIAN returns the median of the given data set."
-          "\n"
-          "Strings and empty cells are simply ignored. "
-	  "If even numbers are given MEDIAN returns the average of the two "
-	  "numbers in the middle."
-          "\n"
+           "@DESCRIPTION="
+           "MEDIAN returns the median of the given data set."
+           "\n"
+           "Strings and empty cells are simply ignored. "
+	   "If even numbers are given MEDIAN returns the average of the two "
+	   "numbers in the middle."
+           "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "MEDIAN(A1:A5) equals 21.3.\n"
 	   "\n"
-          "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM")
+           "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM")
 };
 
 /* Special Excel-meaning of median.  */
@@ -2261,6 +2286,10 @@ static char *help_large = {
 	   "LARGE returns #NUM! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "LARGE(A1:A5,2) equals 25.9.\n"
+	   "LARGE(A1:A5,4) equals 17.3.\n"
 	   "\n"
 	   "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL")
 };
@@ -2308,6 +2337,10 @@ static char *help_small = {
 	   "SMALL returns #NUM! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "SMALL(A1:A5,2) equals 17.3.\n"
+	   "SMALL(A1:A5,4) equals 25.9.\n"
 	   "\n"
 	   "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE")
 };
@@ -2660,6 +2693,9 @@ static char *help_ztest = {
 	   "returns #DIV/0! error."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "ZTEST(A1:A5,20) equals 0.254717826.\n"
 	   "\n"
 	   "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,"
 	   "STANDARDIZE")
@@ -2737,6 +2773,9 @@ static char *help_averagea = {
 	   "counted."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "and strings 11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
+	   "AVERAGEA(A1:A5) equals 18.94.\n"
 	   "\n"
 	   "@SEEALSO=AVERAGE")
 };
@@ -2767,6 +2806,9 @@ static char *help_maxa = {
 	   "counted."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "and strings 11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
+	   "MINA(A1:A5) equals 0.\n"
 	   "\n"
 	   "@SEEALSO=MAX,MINA")
 };
@@ -2797,6 +2839,9 @@ static char *help_mina = {
 	   "counted."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "and strings 11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
+	   "MAXA(A1:A5) equals 40.1.\n"
 	   "\n"
 	   "@SEEALSO=MIN,MAXA")
 };
@@ -2827,6 +2872,9 @@ static char *help_vara = {
 	   "that empty cells are not counted."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "and strings 11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
+	   "VARA(A1:A5) equals 228.613.\n"
 	   "\n"
 	   "@SEEALSO=VAR,VARPA")
 };
@@ -2857,6 +2905,9 @@ static char *help_varpa = {
 	   "that empty cells are not counted."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "and strings 11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
+	   "VARPA(A1:A5) equals 182.8904.\n"
 	   "\n"
 	   "@SEEALSO=VARP,VARP")
 };
@@ -2887,6 +2938,9 @@ static char *help_stdeva = {
 	   "cells are not counted."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "and strings 11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
+	   "STDEVA(A1:A5) equals 15.119953704.\n"
 	   "\n"
 	   "@SEEALSO=STDEV,STDEVPA")
 };
@@ -2917,6 +2971,9 @@ static char *help_stdevpa = {
 	   "that empty cells are not counted."
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "and strings 11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
+	   "STDEVPA(A1:A5) equals 13.523697719.\n"
 	   "\n"
 	   "@SEEALSO=STDEVA,STDEVP")
 };
@@ -3066,6 +3123,9 @@ static char *help_quartile = {
 	   "If @quart is not an integer, it is truncated. "
 	   "\n"
 	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
+	   "QUARTILE(A1:A5,1) equals 17.3.\n"
 	   "\n"
 	   "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL")
 };
