@@ -17,6 +17,7 @@ typedef struct { /* database instance */
 	guint     records; /* number of records */
 	guint     fields; /* number of fields */
 	guint     fieldlen; /* bytes per record */
+	guint     headerlen; /* bytes per record */
 	XBfield **format; /* array of (pointers to) field formats */
 	gsf_off_t offset; /* start of records in file */
 } XBfile;

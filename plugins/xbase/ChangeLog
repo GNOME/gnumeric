@@ -1,3 +1,12 @@
+2002-09-28  Jody Goldberg <jody@gnome.org>
+
+	* xbase.c (xbase_read_header) : don't guess about the existence of a
+	  dbc field.  Foxbase docs claim there is a 263 byte field after the
+	  field descriptors, all the other docs claim not.  Use the stored
+	  header size directly.
+
+	  while we're in here add more enum values for codepage, and version.
+
 2002-08-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.8

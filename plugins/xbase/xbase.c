@@ -65,7 +65,7 @@ record_seek (XBrecord *record, int whence, gsf_off_t row)
 	if (offset < 1 || offset > (int)record->file->records)
 		return FALSE;
 	record->row = offset;
-	offset = (offset-1) * record->file->fieldlen + record->file->offset;
+	offset = (offset-1) * record->file->fieldlen + record->file->headerlen;
 	return !gsf_input_seek (record->file->input, offset, G_SEEK_SET) &&
 	    gsf_input_read (record->file->input, record->file->fieldlen, record->data) != NULL;
 }
@@ -94,67 +94,125 @@ record_get_field (XBrecord const *record, guint num)
 static gboolean
 xbase_read_header (XBfile *x)
 {
+	int cp;
 	guint8 hdr[32];
+
 	if (gsf_input_read (x->input, 32, hdr) == NULL) {
 		g_warning ("Header short");
 		return TRUE;
 	}
 	switch (hdr[0]) { /* FIXME: assuming dBASE III+, not IV */
-	case 0x02:
-		fprintf (stderr, "FoxBase\n");
-		break;
-	case 0x03:
-		fprintf (stderr, "File without DBT\n");
-		break;
-	case 0x30:
-		fprintf (stderr, "Visual FoxPro\n");
-		break;
-	case 0x83:
-		fprintf (stderr, "File with DBT\n"); /* bits: 0-3 version, 3-5 SQL, 7 DBT flag */
-		break;
+	case 0x02: fprintf (stderr, "FoxBASE\n"); break;
+	case 0x03: fprintf (stderr, "FoxBASE+/dBASE III PLUS, no memo\n"); break;
+	case 0x30: fprintf (stderr, "Visual FoxPro\n"); break;
+	case 0x43: fprintf (stderr, "dBASE IV SQL table files, no memo\n"); break;
+	case 0x63: fprintf (stderr, "dBASE IV SQL system files, no memo\n"); break;
+	case 0x83: fprintf (stderr, "FoxBASE+/dBASE III PLUS, with memo\n"); break;
+	case 0x8B: fprintf (stderr, "dBASE IV with memo\n"); break;
+	case 0xCB: fprintf (stderr, "dBASE IV SQL table files, with memo\n"); break;
+	case 0xF5: fprintf (stderr, "FoxPro 2.x (or earlier) with memo\n"); break;
+	case 0xFB: fprintf (stderr, "FoxBASE\n"); break;
 	default:
-		fprintf (stderr, "unknown!\n");
+		fprintf (stderr, "unknown 0x%hhx\n", hdr[0]);
 	}
-	x->records  = GSF_LE_GET_GUINT32 (hdr + 4);
-	x->fieldlen = GSF_LE_GET_GUINT16 (hdr + 10);
+
+	x->records     = GSF_LE_GET_GUINT32 (hdr + 4);
+	x->headerlen   = GSF_LE_GET_GUINT16 (hdr + 8);
+	x->fieldlen    = GSF_LE_GET_GUINT16 (hdr + 10);
 #if XBASE_DEBUG > 0
-	fprintf (stderr, "Last update (YY/MM/DD):\t%2d/%2d/%2d\n",hdr[1],hdr[2],hdr[3]); /* Y2K ?!? */
+	fprintf (stderr, "Last update (YY/MM/DD):\t%2hhd/%2hhd/%2hhd\n",hdr[1],hdr[2],hdr[3]); /* Y2K ?!? */
 	fprintf (stderr, "Records:\t%u\n", x->records);
-	fprintf (stderr, "Header length:\t%d\n", GSF_LE_GET_GUINT16 (hdr + 8));
-	fprintf (stderr, "Record length:\t%d\n", x->fieldlen);
+	fprintf (stderr, "Header length:\t%u\n", x->headerlen);
+	fprintf (stderr, "Record length:\t%u\n", x->fieldlen);
 	fprintf (stderr, "Reserved:\t%d\n", GSF_LE_GET_GUINT16 (hdr + 12));
-	fprintf (stderr, "Incomplete transaction:\t%d\n", hdr[14]);
+	fprintf (stderr, "Incomplete transaction:\t%hhd\n", hdr[14]);
 	fprintf (stderr, "Encryption flag:\t%d\n", hdr[15]);
 	fprintf (stderr, "Free record thread:\t%u\n", GSF_LE_GET_GUINT32 (hdr + 16));
-#ifdef THIS_IS_BOGUS
-	fprintf (stderr, "Reserved (multi-user):\t%lu\n", GUINT64_FROM_LE((guint64)hdr[20])); /* FIXME: printf needs to support 64-bit integers */
-#endif
+	fprintf (stderr, "Reserved (multi-user):\t%" G_GINT64_FORMAT "\n",
+		 GSF_LE_GET_GUINT64(hdr + 20));
 	fprintf (stderr, "MDX flag:\t%d\n", hdr[28]); /* FIXME: decode */
 	fprintf (stderr, "Language driver (code page):\t");
 	switch (hdr[29]) {
-	case 0x01:
-		fprintf (stderr, "DOS USA (437)\n");
+	case 0x01: cp = 437;
+		fprintf (stderr, "U.S. MS-DOS (%d)\n", cp);
 		break;
-	case 0x02:
-		fprintf (stderr, "DOS Multilingual (850)\n");
+	case 0x69: cp = 620;
+		fprintf (stderr, "Mazovia (Polish) MS-DOS (%d)\n", cp);
 		break;
-	case 0x03:
-		fprintf (stderr, "Windows ANSI (1251)\n");
+	case 0x6A: cp = 737;
+		fprintf (stderr, "Greek MS-DOS (437G) (%d)\n", cp);
 		break;
-	case 0xC8:
-		fprintf (stderr, "Windows EE (1250)\n");
+	case 0x02: cp = 850;
+		fprintf (stderr, "International MS-DOS (%d)\n", cp);
 		break;
-	case 0x64:
-		fprintf (stderr, "EE MS-DOS (852)\n");
+	case 0x64: cp = 852;
+		fprintf (stderr, "Eastern European MS-DOS (%d)\n", cp);
 		break;
-	case 0x66:
-		fprintf (stderr, "Russian MS-DOS (866)\n");
+	case 0x6B: cp = 857;
+		fprintf (stderr, "Turkish MS-DOS (%d)\n", cp);
 		break;
-	case 0x65:
-		fprintf (stderr, "Nordic MS-DOS (865)\n");
+	case 0x67: cp = 861;
+		fprintf (stderr, "Icelandic MS-DOS (%d)\n", cp);
+		break;
+	case 0x66: cp = 865;
+		fprintf (stderr, "Nordic MS-DOS (%d)\n", cp);
+		break;
+	case 0x65: cp = 866;
+		fprintf (stderr, "Russian MS-DOS (%d)\n", cp);
+		break;
+	case 0x7C: cp = 874;
+		fprintf (stderr, "Thai Windows (%d)\n", cp);
+		break;
+	case 0x68: cp = 895;
+		fprintf (stderr, "Kamenicky (Czech) MS-DOS (%d)\n", cp);
+		break;
+	case 0x7B: cp = 932;
+		fprintf (stderr, "Japanese Windows (%d)\n", cp);
+		break;
+	case 0x7A: cp = 936;
+		fprintf (stderr, "Chinese (PRC, Singapore) Windows (%d)\n", cp);
+		break;
+	case 0x79: cp = 949;
+		fprintf (stderr, "Korean Windows (%d)\n", cp);
+		break;
+	case 0x78: cp = 950;
+		fprintf (stderr, "Chinese (Hong Kong SAR, Taiwan) Windows (%d)\n", cp);
+		break;
+	case 0xC8: cp = 1250;
+		fprintf (stderr, "Eastern European Windows (%d)\n", cp);
+		break;
+	case 0xC9: cp = 1251;
+		fprintf (stderr, "Russian Windows (%d)\n", cp);
+		break;
+	case 0x03: cp = 1252;
+		fprintf (stderr, "Windows ANSI (%d)\n", cp);
+		break;
+	case 0xCB: cp = 1253;
+		fprintf (stderr, "Greek Windows (%d)\n", cp);
+		break;
+	case 0xCA: cp = 1254;
+		fprintf (stderr, "Turkish Windows (%d)\n", cp);
+		break;
+	case 0x7D: cp = 1255;
+		fprintf (stderr, "Hebrew Windows (%d)\n", cp);
+		break;
+	case 0x7E: cp = 1256;
+		fprintf (stderr, "Arabic Windows (%d)\n", cp);
+		break;
+	case 0x04: cp = 10000;
+		fprintf (stderr, "Standard Macintosh (%d)\n", cp);
+		break;
+	case 0x98: cp = 10006;
+		fprintf (stderr, "Greek Macintosh (%d)\n", cp);
+		break;
+	case 0x96: cp = 10007;
+		fprintf (stderr, "Russian Macintosh (%d)\n", cp);
+		break;
+	case 0x97: cp = 10029;
+		fprintf (stderr, "Macintosh EE (%d)\n", cp);
 		break;
 	default:
-		fprintf (stderr, "unknown!\n");
+		fprintf (stderr, "unknown 0x%hhx\n!\n", hdr[29]);
 	}
 	fprintf (stderr, "Reserved:\t%d\n", GSF_LE_GET_GUINT16 (hdr + 30));
 #endif
@@ -171,11 +229,11 @@ xbase_field_new (XBfile *file)
 		g_warning ("xbase_field_new: fread error");
 		return NULL;
 	} else if (buf[0] == 0x0D || buf[0] == 0) { /* field array terminator */
-		if (buf[1] == 0) { /* FIXME: crude test, not in spec */
+		file->offset = gsf_input_tell (file->input);
+		if (buf[0] == 0x00 && buf[1] == 0x0D) { /* FIXME: crude test, not in spec */
 			if (gsf_input_seek (file->input, 263, G_SEEK_CUR)) /* skip DBC */
 				g_warning ("xbase_field_new: fseek error");
 		}
-		file->offset = gsf_input_tell (file->input);
 		return NULL;
 	} else if (gsf_input_read (file->input, 30, buf+2) == NULL) {
 		g_warning ("Field descriptor short");
@@ -222,7 +280,6 @@ xbase_open (GsfInput *input, ErrorInfo **ret_error)
 
 	ans = g_new (XBfile, 1);
 	ans->input = input;
-	ans->offset = 0;
 
 	xbase_read_header (ans); /* FIXME: Clean up xbase_read_header
 				  * and handle errors */
