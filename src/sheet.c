@@ -688,7 +688,7 @@ sheet_update (Sheet const *sheet)
 	if (p->recompute_visibility) {
 		/* TODO : There is room for some opimization
 		 * We only need to force complete visibility recalculation
-		 * (which we do in sheet_compute_visible_ranges by passing TRUE)
+		 * (which we do in sheet_compute_visible_ranges)
 		 * if a row or col before the start of the visible range.
 		 * If we are REALLY smart we could even accumulate the size differential
 		 * and use that.
@@ -698,9 +698,10 @@ sheet_update (Sheet const *sheet)
 		sheet_redraw_all (sheet);
 	}
 
-	/* FIXME FIXME FIXME : We need to set these in lots more places
-	 * especially when changing ranges
-	 */
+	/* Only manipulate the status line if we are not selecting a region */
+	if (sheet->workbook->editing)
+		return;
+
 	if (sheet->priv->edit_pos_changed) {
 		sheet->priv->edit_pos_changed = FALSE;
 		sheet_load_cell_val (sheet);
