@@ -152,7 +152,7 @@
 	      <child>
 		<widget class="GtkLabel" id="sheets_label">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Choose sheets to export:</property>
+		  <property name="label" translatable="yes">Choose sheets to export and determine export ordering of the sheets:</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -193,7 +193,7 @@
 			  <property name="headers_visible">True</property>
 			  <property name="rules_hint">False</property>
 			  <property name="reorderable">True</property>
-			  <property name="enable_search">True</property>
+			  <property name="enable_search">False</property>
 			</widget>
 		      </child>
 		    </widget>
