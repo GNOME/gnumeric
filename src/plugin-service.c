@@ -1340,6 +1340,19 @@ plugin_service_activate (PluginService *service, ErrorInfo **ret_error)
 	if (service->is_active) {
 		return;
 	}
+#ifdef PLUGIN_ALWAYS_LOAD
+	{
+		ErrorInfo *load_error;
+
+		plugin_service_load (service, &load_error);
+		if (load_error != NULL) {
+			*ret_error = error_info_new_str_with_details (
+				_("We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) "
+				  "but loading failed."), load_error);
+			return;
+		}
+	}
+#endif
 	GPS_GET_CLASS (service)->activate (service, ret_error);
 }
 

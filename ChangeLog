@@ -1,3 +1,18 @@
+2002-08-06  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/plugin.h: Put information about PLUGIN_ALWAYS_LOAD in the comment.
+
+	* src/plugin-service.c (plugin_service_activate):
+	Load before activating if PLUGIN_ALWAYS_LOAD is defined.
+
+	* src/plugin-loader.c
+	(gnumeric_plugin_loader_load_base, gnumeric_plugin_loader_unload_base):
+	Pass sensible level value to plugin_message().
+
+	* src/plugin.c
+	(plugin_info_read, plugins_init, plugins_shutdown): ditto
+
+
 2002-08-05  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* samples/fn-random.gnumeric: A sample file containing 10,000

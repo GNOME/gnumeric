@@ -178,7 +178,7 @@ gnumeric_plugin_loader_load_base (GnumericPluginLoader *loader, ErrorInfo **ret_
 	gnumeric_plugin_loader_class->load_base (loader, &error);
 	if (error == NULL) {
 		loader->is_base_loaded = TRUE;
-		plugin_message (0, "Loaded plugin \"%s\".\n", gnm_plugin_get_id (loader->plugin));
+		plugin_message (3, "Loaded plugin \"%s\".\n", gnm_plugin_get_id (loader->plugin));
 	} else {
 		*ret_error = error;
 	}
@@ -201,7 +201,7 @@ gnumeric_plugin_loader_unload_base (GnumericPluginLoader *loader, ErrorInfo **re
 		gnumeric_plugin_loader_class->unload_base (loader, &error);
 		if (error == NULL) {
 			loader->is_base_loaded = FALSE;
-			plugin_message (0, "Unloaded plugin \"%s\".\n", gnm_plugin_get_id (loader->plugin));
+			plugin_message (3, "Unloaded plugin \"%s\".\n", gnm_plugin_get_id (loader->plugin));
 		} else {
 			*ret_error = error;
 		}

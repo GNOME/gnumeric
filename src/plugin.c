@@ -55,8 +55,6 @@
 #define PLUGIN_INFO_FILE_NAME          "plugin.xml"
 #define PLUGIN_ID_VALID_CHARS          "_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 
-#define PLUGIN_DEBUG 10
-
 #define BUILTIN_LOADER_MODULE_ID       "Gnumeric_Builtin:module"
 
 
@@ -320,7 +318,6 @@ plugin_info_read_full_info_if_needed_error_info (GnmPlugin *pinfo, ErrorInfo **r
 		g_free (pinfo->dir_name);
 		pinfo->id = old_id;
 		pinfo->dir_name = old_dir_name;
-		plugin_message (1, "Read plugin.xml file for %s.\n", pinfo->id);
 		pinfo->has_full_info = TRUE;
 	} else {
 		plugin_message (1, "Can't read plugin.xml file for %s.\n", old_id);
@@ -821,6 +818,7 @@ plugin_info_read (GnmPlugin *pinfo, const gchar *dir_name, ErrorInfo **ret_error
 		GNM_SLIST_FOREACH (pinfo->services, PluginService, service,
 			plugin_service_set_plugin (service, pinfo);
 		);
+		plugin_message (4, "Read plugin.xml file for %s.\n", pinfo->id);
 	} else {
 		if (id == NULL) {
 			*ret_error = error_info_new_str (_("Plugin has no id."));
@@ -1693,9 +1691,7 @@ plugins_init (CommandContext *context)
 	ErrorInfo *error;
 	GSList *saved_active_ids, *plugin_list, *state_str_list;
 
-#ifdef PLUGIN_DEBUG
 	gnumeric_time_counter_push ();
-#endif
 
 	loader_services = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
@@ -1762,9 +1758,7 @@ plugins_init (CommandContext *context)
 		error_info_free (error);
 	}
 
-#ifdef PLUGIN_DEBUG
-	g_print ("plugins_init() time: %fs\n", gnumeric_time_counter_pop ());
-#endif
+	plugin_message (4, "plugins_init() time: %fs\n", gnumeric_time_counter_pop ());
 }
 
 static void
@@ -1818,7 +1812,7 @@ plugins_shutdown (void)
 	if (plugin_file_state_hash_changed ||
 	    g_hash_table_size (plugin_file_state_dir_hash) != g_slist_length (used_plugin_state_strings)) {
 		gnm_gconf_set_plugin_file_states (used_plugin_state_strings);
-		plugin_message (0, "Plugin cache changed\n");
+		plugin_message (5, "Plugin cache changed\n");
 	}
 	g_slist_free_custom (used_plugin_state_strings, g_free);
 

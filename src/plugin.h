@@ -6,10 +6,11 @@
 #include "error-info.h"
 
 /*
- * Use "#define PLUGIN_DEBUG 0" to enable some plugin related debugging
+ * Use "#define PLUGIN_DEBUG x" to enable some plugin related debugging
  * messages.
 #undef PLUGIN_DEBUG
-*/
+ * Define PLUGIN_ALWAYS_LOAD to disable loading on demand feature
+ */
 
 #define GNM_PLUGIN_TYPE        (gnm_plugin_get_type ())
 #define GNM_PLUGIN(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_TYPE, GnmPlugin))
