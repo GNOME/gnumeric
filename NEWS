@@ -28,9 +28,9 @@ Jon Kåre:
         * Don't crash on csv file with invalid unicode [#167190]
 	* Import html hyperlinks as hyperlinks.
 	* Fix session management bug when gnumeric is minimized. [#166769]
-	* Receive drag/drop images.
 	* Paste images from clipboard.
 	* Copy images and graphs to clipboard.
+	* Receive and send images by drag and drop.
 
 Kasal:
 	* Modified the way generated files are handled by Automake.

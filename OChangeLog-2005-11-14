@@ -1,3 +1,47 @@
+2005-04-01  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-gui.c (wbcg_sheet_add): Make the
+	GNUMERIC_SHEET target GTK_TARGET_SAME_APP. 
+	(cb_wbcg_drag_data_received): Added source_widget parameter.
+
+	* src/sheet-object.c (sheet_object_rubber_band_directly): Always
+	return FALSE.
+
+	* src/gnumeric-pane.c (drag_types_in, drag_types_out):
+	New. Supported drag targets.
+	(cb_pane_drag_data_received): Pass source widget to
+	scg_drag_data_received. 
+	(cb_gnm_pane_drag_data_get): New. drag-data-get callback.
+	(cb_gnm_pane_drag_motion): New. drag-motion callback.
+	(cb_gnm_pane_drag_leave): New. drag-leave callback.
+	(gnm_pane_drag_dest_init): New. Factor out of gnm_pane_init and
+	Connect drag-data-get, drag-motion and drag-leave callbacks. 
+	(gnm_pane_init): Use it.
+	(gnm_pane_objects_drag): New. Factored out of gnm_pane_object_move.
+	(gnm_pane_object_move): Use it.
+	(cb_test_so_imageable): New. Check if object is imageable.
+	(gnm_pane_drag_begin): New. Start gtk drag.
+	(cb_control_point_event): Use it.
+
+	* src/sheet-control-gui.c (scg_paste_cellregion): New. Paste
+	a cellregion.
+	(scg_drag_receive_cellregion): New. Receive a dropped cellregion.
+	(scg_drag_receive_uri_list): New. Receive a dropped uri list.
+	(scg_drag_receive_same_scg): New. Receive a drop from same scg.
+	(scg_drag_receive_same_proc_other_scg): New. Receive a drop from
+	another scg in same process.
+	(scg_drag_receive_same_process): New. Receive a drop from this
+	gnumeric process.
+	(scg_drag_data_received): Added source_widget parameter. Handling
+	of each target moved to a separate function. Added support for gnumeric
+	gtk clipboard format. Added support for process internal dnd which
+	shortcuts the selection.
+	(scg_drag_send_image): New. Send an image over the dnd selection.
+	(scg_drag_send_clipboard_objects): New. Send selected objects over
+	the dnd selection. Gnumeric gtk clipboard format is used.
+	(scg_drag_data_get): New. Send selected objects over the dnd
+	selection in requested format.
+
 2005-04-01  Morten Welinder  <terra@gnome.org>
 
 	* src/stf-export.c: Gut.  Use GsfOutputCsv.  (Fixes #126513.)

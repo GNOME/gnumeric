@@ -825,7 +825,7 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 	Sheet		*sheet;
 	GList *ptr;
 	static GtkTargetEntry const drag_types[] = {
-		{ (char *) "GNUMERIC_SHEET", 0, TARGET_SHEET }
+		{ (char *) "GNUMERIC_SHEET", GTK_TARGET_SAME_APP, TARGET_SHEET }
 	};
 
 	g_return_if_fail (wbcg != NULL);
@@ -2089,8 +2089,10 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	gchar *target_type = gdk_atom_name (selection_data->target);
 
 	if (!strcmp (target_type, "text/uri-list")) { /* filenames from nautilus */
-		scg_drag_data_received (wbcg_cur_scg (wbcg), 0, 0, 
-					selection_data);
+		scg_drag_data_received 
+			(wbcg_cur_scg (wbcg), 
+			 gtk_drag_get_source_widget (context), 0, 0, 
+			 selection_data);
 	} else if (!strcmp (target_type, "GNUMERIC_SHEET")) {
 		/* The user wants to reorder the sheets but hasn't dropped
 		 * the sheet onto a label. Never mind. We figure out

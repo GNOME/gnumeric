@@ -100,8 +100,11 @@ void scg_queue_movement		(SheetControlGUI *scg,
 				 int n, gboolean jump, gboolean horiz);
 void  scg_paste_image (SheetControlGUI *scg, GnmRange *where, 
 		       guint8 const *data, unsigned len);
-void scg_drag_data_received     (SheetControlGUI *scg, double x, double y, 
-				 GtkSelectionData *selection_data);
+void scg_drag_data_received (SheetControlGUI *scg, GtkWidget *source_widget,
+			     double x, double y, 
+			     GtkSelectionData *selection_data);
+void scg_drag_data_get      (SheetControlGUI *scg, 
+			     GtkSelectionData *selection_data);
 
 /* DO NOT USE THIS WITHOUT ALOT OF THOUGHT */
 GnmCanvas	   *scg_pane		(SheetControlGUI *scg, int pane);

@@ -68,6 +68,9 @@ void gnm_pane_special_cursor_start 		(GnmPane *pane, int style, int button);
 void gnm_pane_special_cursor_stop		(GnmPane *pane);
 void gnm_pane_mouse_cursor_set                  (GnmPane *pane, GdkCursor *c);
 
+void gnm_pane_objects_drag        (GnmPane *pane, SheetObject *so,
+				   gdouble new_x, gdouble new_y,int drag_type, 
+				   gboolean symmetric,gboolean snap_to_grid);
 void gnm_pane_object_unselect	  (GnmPane *pane, SheetObject *so);
 void gnm_pane_object_update_bbox  (GnmPane *pane, SheetObject *so);
 void gnm_pane_object_start_resize (GnmPane *pane, GdkEventButton *event,

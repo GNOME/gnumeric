@@ -801,7 +801,7 @@ sheet_object_direction_set (SheetObject *so, gdouble const *coords)
 gboolean
 sheet_object_rubber_band_directly (SheetObject const *so)
 {
-	return SO_CLASS (so)->rubber_band_directly;
+	return FALSE;
 }
 
 /**

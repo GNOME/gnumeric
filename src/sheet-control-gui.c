@@ -39,6 +39,7 @@
 #include "gui-file.h"
 #include "sheet-merge.h"
 #include "ranges.h"
+#include "xml-io.h"
 
 #include "gnumeric-canvas.h"
 #include "item-bar.h"
@@ -51,6 +52,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-input.h>
+#include <gsf/gsf-output-memory.h>
 #include <gtk/gtkframe.h>
 #include <gtk/gtkalignment.h>
 #include <gtk/gtklabel.h>
@@ -61,10 +63,11 @@
 #include <gtk/gtkvscrollbar.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkhbox.h>
+#include <gtk/gtkdnd.h>
 
 #include <string.h>
 
-#undef DEBUG_DND
+#define DEBUG_DND
 
 static GObjectClass *scg_parent_class;
 
@@ -2934,7 +2937,6 @@ scg_queue_movement (SheetControlGUI	*scg,
 		(GSourceFunc)cb_scg_queued_movement, scg);
 }
 
-
 static void
 scg_image_create (SheetControlGUI *scg, SheetObjectAnchor *anchor, 
 		  guint8 const *data, unsigned len)
@@ -3031,36 +3033,132 @@ scg_drag_receive_spreadsheet (SheetControlGUI *scg, const gchar *uri)
 	g_object_unref (ioc);
 }
 
+static void 
+scg_paste_cellregion (SheetControlGUI *scg, double x, double y, 
+		       GnmCellRegion *content)
+{
+	SheetControl *sc = SHEET_CONTROL (scg);
+	WorkbookControl	*wbc  = sc_wbc (sc);
+	Sheet *sheet = sc_sheet (sc) ;
+	GnmPasteTarget pt;
+	SheetObjectAnchor anchor;
+	double coords[4];
+		
+	sheet_object_anchor_init (&anchor, NULL, NULL, NULL, 
+				  SO_DIR_DOWN_RIGHT);
+	coords[0] = coords[2] = x;
+	coords[1] = coords[3] = y;
+	scg_object_coords_to_anchor (scg, coords, &anchor);
+	paste_target_init (&pt, sheet, &anchor.cell_bound, PASTE_ALL_TYPES);
+	if (content && ((content->cols > 0 && content->rows > 0) ||
+			content->objects != NULL))
+		cmd_paste_copy (wbc, &pt, content);
+}
+
+static void
+scg_drag_receive_cellregion (SheetControlGUI *scg, double x, double y, 
+			     guint8 const *data, unsigned len)
+{
+	GnmCellRegion *content;
+	SheetControl *sc = SHEET_CONTROL (scg);
+
+	content = xml_cellregion_read (sc_wbc (sc), sc_sheet (sc), data, len);
+	scg_paste_cellregion (scg, x, y, content);
+	cellregion_unref (content);
+}
+
+static void
+scg_drag_receive_uri_list (SheetControlGUI *scg, double x, double y, 
+			   guint8 const *data, unsigned len)
+{
+	char *cdata = g_strndup (data, len);
+	GSList *urls = go_file_split_urls (cdata);
+	GSList *l;
+
+	g_free (cdata);
+	for (l = urls; l; l = l-> next) {
+		const char *uri_str = l->data;
+		char *mime = go_get_mime_type (uri_str);
+		if (!mime)
+			continue;
+		if (!strncmp (mime, "image/", 6)) {
+			scg_drag_receive_img_uri (scg, x, y, uri_str);
+		} else if (!strcmp (mime, "application/x-gnumeric") ||
+			   !strcmp (mime, 
+				    "application/vnd.ms-excel")) {
+			scg_drag_receive_spreadsheet (scg, uri_str);
+		}
+	}
+	go_slist_free_custom (urls, (GFreeFunc) g_free);
+}
+
+static void
+scg_drag_receive_same_scg (SheetControlGUI *scg, GnmCanvas *gcanvas, 
+			   double x, double y)
+{
+	gnm_pane_objects_drag (gcanvas->pane, NULL, x, y, 8, FALSE, FALSE);
+	scg_objects_drag_commit	(scg, 8, FALSE);
+}
+
+static void
+scg_drag_receive_same_proc_other_scg (SheetControlGUI *scg, 
+				     SheetControlGUI *source_scg, 
+				     double x, double y)
+{
+	GnmCellRegion *content;
+	GSList *objects;
+
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (source_scg)); 
+
+	objects = go_hash_keys (source_scg->selected_objects);
+	content = clipboard_copy_obj (sc_sheet (SHEET_CONTROL (source_scg)),
+				      objects);
+	scg_paste_cellregion (scg, x, y, content);
+	cellregion_unref (content);
+	g_slist_free (objects);
+}
+
+static void
+scg_drag_receive_same_process (SheetControlGUI *scg, GtkWidget *source_widget,
+			       double x, double y)
+{
+	SheetControlGUI *source_scg = NULL;
+	GnmCanvas *gcanvas;
+
+	g_return_if_fail (source_widget != NULL); 
+	g_return_if_fail (IS_GNM_CANVAS (source_widget));
+
+	gcanvas = GNM_CANVAS (source_widget);
+	source_scg = gcanvas->simple.scg;
+	if (source_scg == scg)
+		scg_drag_receive_same_scg (scg, gcanvas, x, y);
+	else
+		scg_drag_receive_same_proc_other_scg (scg, source_scg, x, y);
+}
+
 void
-scg_drag_data_received (SheetControlGUI *scg, double x, double y, 
-			GtkSelectionData *selection_data)
+scg_drag_data_received (SheetControlGUI *scg, GtkWidget *source_widget,
+			double x, double y, GtkSelectionData *selection_data)
 {
 	gchar *target_type;
 
 	target_type = gdk_atom_name (selection_data->target);
 
 	if (!strcmp (target_type, "text/uri-list")) {
-		char *cdata = g_strndup (selection_data->data, 
-					 selection_data->length);
-		GSList *l, *urls = go_file_split_urls (cdata);
-		g_free (cdata);
-		for (l = urls; l; l = l-> next) {
-			const char *uri_str = l->data;
-			char *mime = go_get_mime_type (uri_str);
-			if (!mime)
-				continue;
-			if (!strncmp (mime, "image/", 6)) {
-				scg_drag_receive_img_uri (scg, x, y, uri_str);
-			} else if (!strcmp (mime, "application/x-gnumeric") ||
-				   !strcmp (mime, 
-					    "application/vnd.ms-excel")) {
-				scg_drag_receive_spreadsheet (scg, uri_str);
-			}
-		}
-		go_slist_free_custom (urls, (GFreeFunc)g_free);
-	} else if (!strncmp (target_type, "image/", 6)) {
-		scg_drag_receive_img_data (scg, x, y, selection_data->data,
+		scg_drag_receive_uri_list (scg, x, y, 
+					   selection_data->data, 
 					   selection_data->length);
+
+	} else if (!strncmp (target_type, "image/", 6)) {
+		scg_drag_receive_img_data (scg, x, y, 
+					   selection_data->data,
+					   selection_data->length);
+	} else if (!strcmp (target_type, "GNUMERIC_SAME_PROC")) {
+		scg_drag_receive_same_process (scg, source_widget, x, y);
+	} else if (!strcmp (target_type, "application/x-gnumeric")) {
+		scg_drag_receive_cellregion (scg, x, y, 
+					     selection_data->data, 
+					     selection_data->length);
 #ifdef DEBUG_DND
 	} else if (!strcmp (target_type, "x-special/gnome-copied-files")) {
 		char *cdata = g_strndup (selection_data->data, 
@@ -3092,4 +3190,79 @@ scg_drag_data_received (SheetControlGUI *scg, double x, double y,
 		g_warning ("Unknown target type '%s'!", target_type);
 
 	g_free (target_type);
+}
+
+static void
+scg_drag_send_image (SheetControlGUI *scg, 
+		     GtkSelectionData *selection_data,
+		     GSList *objects,
+		     gchar const *mime_type)
+{
+	SheetObject *so = NULL;
+	GsfOutput *output;
+	GsfOutputMemory *omem;
+	gsf_off_t osize;
+	const char *format;
+	GSList *ptr;
+
+	for (ptr = objects; ptr != NULL; ptr = ptr->next) {
+		if (IS_SHEET_OBJECT_IMAGEABLE (SHEET_OBJECT (ptr->data))) {
+			so = SHEET_OBJECT (ptr->data);
+			break;
+		}
+	}
+	if (so == NULL) {
+		g_warning ("non imageable object requested as image\n");
+		return;
+	}
+
+	format = mime_type + 6;
+	output = gsf_output_memory_new ();
+	omem = GSF_OUTPUT_MEMORY (output);
+	sheet_object_write_image (so, format, output, NULL);
+	osize = gsf_output_size (output);
+	
+	gtk_selection_data_set 
+		(selection_data, selection_data->target,
+		 8, gsf_output_memory_get_bytes (omem), osize);
+	gsf_output_close (output);
+	g_object_unref (output);
+}
+
+static void
+scg_drag_send_clipboard_objects (SheetControlGUI *scg, 
+				 GtkSelectionData *selection_data,
+				 GSList *objects)
+{
+	GnmCellRegion *contents;
+	xmlChar *buffer;
+	int buffer_size;
+	
+	contents = clipboard_copy_obj (sc_sheet (SHEET_CONTROL (scg)),
+				       objects);
+	buffer = xml_cellregion_write (sc_wbc (SHEET_CONTROL (scg)), 
+				       contents, &buffer_size);
+	gtk_selection_data_set (selection_data, selection_data->target,
+				8, buffer, buffer_size);
+	xmlFree (buffer);
+	cellregion_unref (contents);
+}
+
+void
+scg_drag_data_get (SheetControlGUI *scg, GtkSelectionData *selection_data)
+{
+	gchar *target_name = gdk_atom_name (selection_data->target);
+	GSList *objects = go_hash_keys (scg->selected_objects);
+
+	if (strcmp (target_name, "GNUMERIC_SAME_PROC") == 0) {
+		/* Set dummy selection for process internal dnd */
+		gtk_selection_data_set 
+			(selection_data, selection_data->target, 8, "", 1);
+	} else if (strcmp (target_name, "application/x-gnumeric") == 0) {
+		scg_drag_send_clipboard_objects (scg, selection_data, objects);
+	} else if (strncmp (target_name, "image/", 6) == 0) {
+		scg_drag_send_image (scg, selection_data, objects, target_name);
+	}
+	g_free (target_name);
+	g_slist_free (objects);
 }
