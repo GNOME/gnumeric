@@ -4,6 +4,7 @@ Jody:
 	* Initial work on supporting merged cells.
 	* Improve sheet object and cell comment infrastructure.
 	* More work on expression relocation.
+	* Bugs.
 
 Jon Kåre:
 	* Improve XL export of non-builtin functions.

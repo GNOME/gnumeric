@@ -6,11 +6,12 @@ Release Critical
 ----------------
 
 - Persistance of sheet objects.
-- Other anchor types for sheet objects
-- calculated cells do not respan.
 
 Long term breakage
 ------------------
+
+- Other anchor types for sheet objects
+- calculated cells do not respan.
 
 - Look into ability to identify versions of gnumeric xml that are newer than we
   are.  Ask DV about name spaces.

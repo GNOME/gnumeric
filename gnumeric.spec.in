@@ -20,7 +20,7 @@ Requires: gnome-print >= 0.25
 Requires: libglade >= 0.14
 Requires: libxml >= 1.8.5
 Requires: libole2 >= 0.1.7
-Requires: gal >= 0.2.99
+Requires: gal >= 0.3.0
 
 %description
 GNOME (GNU Network Object Model Environment) is a user-friendly set of
@@ -121,6 +121,9 @@ fi
 %{prefix}/lib/gnumeric/%{version}/plugins/*.la
 
 %changelog
+* Wed Dec 06 2000 Jody Goldberg <jgoldberg@home.com>
+- Updated version requirements for GAL
+
 * Tue Nov 14 2000 John Gotts <jgotts@linuxsavvy.com>
 - Require GAL 0.2.2 instead of 0.2.2.0.
 - Use %{version} instead of at characters surrouding VERSION (it makes a nicer

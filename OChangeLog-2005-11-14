@@ -1,3 +1,7 @@
+2000-12-06  Jody Goldberg <jgoldberg@home.com>
+
+	* configure.in : Update GAL req.
+
 2000-12-06  Jon K Hellan  <hellan@acm.org>
 
 	* src/file.c (set_ok): Rename to handle_ok. Make it check if
