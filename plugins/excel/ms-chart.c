@@ -140,10 +140,8 @@ excel_chart_series_delete (XLChartSeries *series)
 static void
 BC_R(get_style) (XLChartReadState *s)
 {
-	if (s->style == NULL) {
+	if (s->style == NULL)
 		s->style = gog_style_new ();
-		s->style->needs_obj_defaults = FALSE;
-	}
 }
 
 static int
@@ -2130,7 +2128,7 @@ chart_get_sheet (MSContainer const *container)
 }
 
 gboolean
-ms_excel_read_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
+ms_excel_chart_read (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 		     SheetObject *sog)
 {
 	static MSContainerClass const vtbl = {
@@ -2307,15 +2305,15 @@ ms_excel_read_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver,
 	return FALSE;
 }
 
-/* A wrapper which reads and checks the BOF record then calls ms_excel_read_chart */
+/* A wrapper which reads and checks the BOF record then calls ms_excel_chart_read */
 /**
- * ms_excel_read_chart_BOF :
+ * ms_excel_chart_read_BOF :
  * @q : #BiffQuery
  * @container : #MSContainer
  * @sog : #SheetObjectGraph
  **/
 gboolean
-ms_excel_read_chart_BOF (BiffQuery *q, MSContainer *container, SheetObject *sog)
+ms_excel_chart_read_BOF (BiffQuery *q, MSContainer *container, SheetObject *sog)
 {
 	MsBiffBofData *bof;
 	gboolean res = TRUE;
@@ -2331,7 +2329,7 @@ ms_excel_read_chart_BOF (BiffQuery *q, MSContainer *container, SheetObject *sog)
 	 * XP saving as 95 will mark the book as biff7
 	 * but sheets and charts are marked as biff8, even though they are not
 	 * using unicode */
-	res = ms_excel_read_chart (q, container, container->ver, sog);
+	res = ms_excel_chart_read (q, container, container->ver, sog);
 
 	ms_biff_bof_data_destroy (bof);
 	return res;
@@ -2352,6 +2350,7 @@ typedef struct {
 
 typedef struct {
 	GogAxis *axis [GOG_AXIS_TYPES];
+	gboolean transpose;
 	GSList  *plots;
 } XLAxisSet;
 
@@ -2359,6 +2358,8 @@ static gint
 cb_axis_set_cmp (XLAxisSet const *a, XLAxisSet const *b)
 {
 	int i;
+	if (!a->transpose == !b->transpose)
+		return FALSE;
 	for (i = GOG_AXIS_X; i < GOG_AXIS_TYPES; i++)
 		if (a->axis[i] != b->axis[i])
 			return FALSE;
@@ -2391,8 +2392,167 @@ chart_write_color (XLChartWriteState *s, guint8 *data, GOColor c)
 	abgr |= UINT_RGBA_B(c) << 16;
 	GSF_LE_SET_GUINT32 (data, abgr);
 
-#warning arbitrary index for black we need to check objects for colors
-	return 0x4d;
+	return palette_get_index (s->ewb, abgr & 0xffffff);
+}
+
+static void
+chart_write_AREAFORMAT (XLChartWriteState *s, GogStyle const *style, gboolean disable_auto)
+{
+	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_areaformat,
+		(s->bp->version >= MS_BIFF_V8) ? 16: 12);
+	guint16 fore_index, back_index, pat, flags = 0;
+	GOColor fore, back;
+
+	if (style != NULL) {
+		switch (style->fill.type) {
+		default :
+			g_warning ("invalid fill type, saving as none");
+		case GOG_FILL_STYLE_IMAGE:
+#warning export images
+		case GOG_FILL_STYLE_NONE:
+			pat = 0;
+			fore = RGBA_WHITE;
+			back = RGBA_WHITE;
+			break;
+		case GOG_FILL_STYLE_PATTERN: {
+			pat = style->fill.u.pattern.pat.pattern + 1;
+			if (pat == 1) {
+				back = style->fill.u.pattern.pat.fore;
+				fore = style->fill.u.pattern.pat.back;
+			} else {
+				fore = style->fill.u.pattern.pat.fore;
+				back = style->fill.u.pattern.pat.back;
+			}
+			break;
+		}
+		case GOG_FILL_STYLE_GRADIENT:
+			pat = 1;
+			fore = back = style->fill.u.gradient.start;
+#warning export gradients
+			break;
+		}
+
+		if (style->fill.is_auto && !disable_auto)
+			flags |= 1;
+		if (style->fill.invert_if_negative)
+			flags |= 2;
+	} else {
+		fore = back = 0;
+		pat = 0;
+		flags = disable_auto ? 0 : 1;
+	}
+	fore_index = chart_write_color (s, data+0, fore);
+	back_index = chart_write_color (s, data+4, back);
+	GSF_LE_SET_GUINT16 (data+8,  pat);
+	GSF_LE_SET_GUINT16 (data+10, flags);
+	if (s->bp->version >= MS_BIFF_V8) {
+		GSF_LE_SET_GUINT16 (data+12, fore_index);
+		GSF_LE_SET_GUINT16 (data+14, back_index);
+	}
+
+	ms_biff_put_commit (s->bp);
+}
+
+static void
+chart_write_LINEFORMAT (XLChartWriteState *s, GogStyleLine const *lstyle,
+			gboolean draw_ticks, gboolean clear_lines_for_null)
+{
+	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_lineformat,
+		(s->bp->version >= MS_BIFF_V8) ? 12: 10);
+	guint16 w, color_index, pat, flags = 0;
+
+	if (lstyle != NULL) {
+		color_index = chart_write_color (s, data, lstyle->color);
+		pat = lstyle->pattern;
+		if (lstyle->width < 0.) {
+			w = 0xffff;
+			pat = 5;	/* none */
+		} else if (lstyle->width <= .5)
+			w = 0xffff;	/* hairline */
+		else if (lstyle->width <= 1.5)
+			w = 0;	/* normal */
+		else if (lstyle->width <= 2.5)
+			w = 1;	/* medium */
+		else
+			w = 2;	/* wide */
+		if (lstyle->auto_color)
+			flags |= 9; 	/* docs only mention 1, but there is an 8 in there too */
+	} else {
+		color_index = chart_write_color (s, data, 0);
+		if (clear_lines_for_null) {
+			pat = 5;
+			flags = 8; 	/* docs only mention 1, but there is an 8 in there too */
+		} else {
+			pat = 0;
+			flags = 9; 	/* docs only mention 1, but there is an 8 in there too */
+		}
+		w = 0xffff;
+	}
+	if (draw_ticks)
+		flags |= 4;
+
+	GSF_LE_SET_GUINT16 (data+4, pat);
+	GSF_LE_SET_GUINT16 (data+6, w);
+	GSF_LE_SET_GUINT16 (data+8, flags);
+	if (s->bp->version >= MS_BIFF_V8)
+		GSF_LE_SET_GUINT16 (data+10, color_index);
+	ms_biff_put_commit (s->bp);
+}
+
+static void
+chart_write_MARKERFORMAT (XLChartWriteState *s, GogStyle const *style,
+			  gboolean clear_marks_for_null)
+{
+	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_markerformat,
+		(s->bp->version >= MS_BIFF_V8) ? 20: 12);
+	guint16 fore_index, back_index, shape, flags = 0;
+	guint32 size;
+	GOColor fore, back;
+
+	if (style != NULL) {
+		fore = go_marker_get_outline_color (style->marker.mark);
+		back = go_marker_get_fill_color	(style->marker.mark);
+		shape = go_marker_get_shape (style->marker.mark); /* TODO : map */
+		size = go_marker_get_size (style->marker.mark) * 20;
+		if (style->marker.auto_outline_color &&
+		    style->marker.auto_fill_color)
+			flags |= 1;
+		if (fore == 0)
+			flags |= 0x10;
+		if (back == 0)
+			flags |= 0x20;
+	} else {
+		fore = back = 0;
+		if (clear_marks_for_null) {
+			shape = flags = 0;
+		} else {
+			shape = 2;
+			flags = 1;
+		}
+		size = 60;
+	}
+
+	fore_index = chart_write_color (s, data+0, fore);
+	back_index = chart_write_color (s, data+4, back);
+	GSF_LE_SET_GUINT16 (data+8,  shape);
+	GSF_LE_SET_GUINT16 (data+10, flags);
+	if (s->bp->version >= MS_BIFF_V8) {
+		GSF_LE_SET_GUINT16 (data+12, fore_index);
+		GSF_LE_SET_GUINT16 (data+14, back_index);
+		GSF_LE_SET_GUINT32 (data+16, size);
+	}
+
+	ms_biff_put_commit (s->bp);
+}
+static void
+chart_write_PIEFORMAT (XLChartWriteState *s, float separation)
+{
+	gint tmp = separation * 100;
+	if (tmp < 0)
+		tmp = 0;
+	else if (tmp > 500)
+		tmp = 500;
+	ms_biff_put_2byte (s->bp, BIFF_CHART_pieformat, tmp);
 }
 
 static guint32
@@ -2434,14 +2594,14 @@ chart_write_FBI (XLChartWriteState *s, guint16 i, guint16 n)
 }
 
 static void
-chart_write_DATAFORMAT (BiffPut *bp, unsigned i)
+chart_write_DATAFORMAT (XLChartWriteState *s, guint16 flag, guint16 indx, guint16 visible_indx)
 {
-	guint8 *data = ms_biff_put_len_next (bp, BIFF_CHART_dataformat, 8);
-	GSF_LE_SET_GUINT16 (data+0, 0xffff); /* entire series */
-	GSF_LE_SET_GUINT16 (data+2, i); /* index */
-	GSF_LE_SET_GUINT16 (data+4, i); /* visible index */
+	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_dataformat, 8);
+	GSF_LE_SET_GUINT16 (data+0, flag);
+	GSF_LE_SET_GUINT16 (data+2, indx);
+	GSF_LE_SET_GUINT16 (data+4, visible_indx);
 	GSF_LE_SET_GUINT16 (data+6, 0); /* do not use XL 4 autocolor */
-	ms_biff_put_commit (bp);
+	ms_biff_put_commit (s->bp);
 }
 
 static void
@@ -2567,6 +2727,7 @@ chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 	int i, msdim;
 	guint8 *data;
 	GOData *dat;
+	GogStyle const *style;
 	unsigned num_elements = gog_series_num_elements (series);
 	
 	/* SERIES */
@@ -2592,9 +2753,19 @@ chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 		chart_write_AI (s, dat, i, default_ref_type[i]);
 	}
 
-	chart_write_DATAFORMAT (s->bp, n); /* ignore single elements for now */
+	chart_write_DATAFORMAT (s, 0xffff, n, n); /* ignore single elements for now */
 	chart_write_BEGIN (s);
 	ms_biff_put_2byte (s->bp, BIFF_CHART_3dbarshape, 0); /* box */
+	style = GOG_STYLED_OBJECT (series)->style;
+	if (!gog_style_is_completely_auto (style)) {
+		if ((style->interesting_fields & GOG_STYLE_LINE))
+			chart_write_LINEFORMAT (s, &style->line, FALSE, FALSE);
+		else
+			chart_write_LINEFORMAT (s, &style->outline, FALSE, FALSE);
+		chart_write_AREAFORMAT (s, style, FALSE);
+		chart_write_PIEFORMAT (s, 0.);
+		chart_write_MARKERFORMAT (s, style, FALSE);
+	}
 	chart_write_END (s);
 
 	ms_biff_put_2byte (s->bp, BIFF_CHART_sertocrt, 0);
@@ -2602,107 +2773,22 @@ chart_write_series (XLChartWriteState *s, GogSeries const *series, unsigned n)
 }
 
 static void
-chart_write_AREAFORMAT (XLChartWriteState *s, GogStyle const *style)
+chart_write_dummy_style (XLChartWriteState *s, float default_separation,
+			 gboolean clear_marks, gboolean clear_lines)
 {
-	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_areaformat,
-		(s->bp->version >= MS_BIFF_V8) ? 16: 12);
-	guint16 fore_index, back_index, pat, flags = 0;
-	GOColor fore, back;
-
-	switch (style->fill.type) {
-	default :
-		g_warning ("invalid fill type, saving as none");
-	case GOG_FILL_STYLE_IMAGE:
-#warning export images
-	case GOG_FILL_STYLE_NONE:
-		pat = 0;
-		fore = RGBA_WHITE;
-		back = RGBA_WHITE;
-		break;
-	case GOG_FILL_STYLE_PATTERN: {
-		pat = style->fill.u.pattern.pat.pattern + 1;
-		if (pat == 1) {
-			back = style->fill.u.pattern.pat.fore;
-			fore = style->fill.u.pattern.pat.back;
-		} else {
-			fore = style->fill.u.pattern.pat.fore;
-			back = style->fill.u.pattern.pat.back;
-		}
-		break;
-	}
-	case GOG_FILL_STYLE_GRADIENT:
-		pat = 1;
-		fore = back = style->fill.u.gradient.start;
-#warning export gradients
-		break;
-	}
-
-	if (style->fill.is_auto)
-		flags |= 1;
-	if (style->fill.invert_if_negative)
-		flags |= 2;
-	fore_index = chart_write_color (s, data+0, fore);
-	back_index = chart_write_color (s, data+4, back);
-	GSF_LE_SET_GUINT16 (data+8,  pat);
-	GSF_LE_SET_GUINT16 (data+10, flags);
-	if (s->bp->version >= MS_BIFF_V8) {
-		GSF_LE_SET_GUINT16 (data+12, fore_index);
-		GSF_LE_SET_GUINT16 (data+14, back_index);
-	}
-
-	ms_biff_put_commit (s->bp);
+	chart_write_DATAFORMAT (s, 0, 0, 0xfffd);
+	chart_write_BEGIN (s);
+	ms_biff_put_2byte (s->bp, BIFF_CHART_3dbarshape, 0); /* box */
+	chart_write_LINEFORMAT (s, NULL, FALSE, clear_lines);
+	chart_write_AREAFORMAT (s, NULL, FALSE);
+	chart_write_MARKERFORMAT (s, NULL, clear_marks);
+	chart_write_PIEFORMAT (s, default_separation);
+	chart_write_END (s);
 }
 
 static void
-chart_write_LINEFORMAT (XLChartWriteState *s,
-			GogStyleLine const *lstyle, gboolean draw_ticks)
-{
-	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_lineformat,
-		(s->bp->version >= MS_BIFF_V8) ? 12: 10);
-	guint16 w, color_index, pat = lstyle->pattern, flags = 0;
-
-	color_index = chart_write_color (s, data, lstyle->color);
-	if (lstyle->width < 0.) {
-		w = 0xffff;
-		pat = 5;	/* none */
-	} else if (lstyle->width <= .5)
-		w = 0xffff;	/* hairline */
-	else if (lstyle->width <= 1.5)
-		w = 0;	/* normal */
-	else if (lstyle->width <= 2.5)
-		w = 1;	/* medium */
-	else
-		w = 2;	/* wide */
-
-	GSF_LE_SET_GUINT16 (data+4, pat);
-	GSF_LE_SET_GUINT16 (data+6, w);
-	if (lstyle->auto_color)
-		flags |= 9; 	/* docs only mention 1, but there is an 8 in there too */
-	if (draw_ticks)
-		flags |= 4;
-	GSF_LE_SET_GUINT16 (data+8, flags);
-	if (s->bp->version >= MS_BIFF_V8)
-		GSF_LE_SET_GUINT16 (data+10, color_index);
-	ms_biff_put_commit (s->bp);
-}
-
-static void
-chart_write_MARKERFORMAT (XLChartWriteState *s, GogStyle const *style)
-{
-#warning markerformat
-	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_markerformat, 12);
-	ms_biff_put_commit (s->bp);
-}
-static void
-chart_write_PIEFORMAT (XLChartWriteState *s, GogStyle const *style)
-{
-#warning pieformat
-	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_pieformat, 12);
-	ms_biff_put_commit (s->bp);
-}
-
-static void
-chart_write_frame (XLChartWriteState *s, GogObject const *frame, gboolean calc_size)
+chart_write_frame (XLChartWriteState *s, GogObject const *frame,
+		   gboolean calc_size, gboolean disable_auto)
 {
 	GogStyle *style = gog_styled_object_get_style (GOG_STYLED_OBJECT (frame));
 	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_frame, 4);
@@ -2711,8 +2797,8 @@ chart_write_frame (XLChartWriteState *s, GogObject const *frame, gboolean calc_s
 	ms_biff_put_commit (s->bp);
 
 	chart_write_BEGIN (s);
-	chart_write_LINEFORMAT (s, &style->line, FALSE);
-	chart_write_AREAFORMAT (s, style);
+	chart_write_LINEFORMAT (s, &style->line, FALSE, FALSE);
+	chart_write_AREAFORMAT (s, style, disable_auto);
 	chart_write_END (s);
 }
 
@@ -2729,9 +2815,10 @@ xl_axis_set_elem (GogAxis const *axis,
 static void
 chart_write_axis (XLChartWriteState *s, GogAxis const *axis, unsigned i)
 {
-	gboolean inverted = FALSE;
+	gboolean labeled, in, out, inverted = FALSE;
 	guint16 tick_color_index, flags = 0;
-	guint8 *data = ms_biff_put_len_next (s->bp, BIFF_CHART_axis, 18);
+	guint8 tmp, *data = ms_biff_put_len_next (s->bp, BIFF_CHART_axis, 18);
+
 	GSF_LE_SET_GUINT32 (data + 0, i);
 	memset (data+2, 0, 16);
 	ms_biff_put_commit (s->bp);
@@ -2801,19 +2888,32 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis, unsigned i)
 	}
 	data = ms_biff_put_len_next (s->bp, BIFF_CHART_tick,
 		(s->bp->version >= MS_BIFF_V8) ? 30 : 26);
-#warning fill in flags
-	GSF_LE_SET_GUINT8  (data+0, 2); /* major : 0 == none
-					 * 	   1 == outside
-					 * 	   2 == inside
-					 * 	   3 == cross */
-	GSF_LE_SET_GUINT8  (data+1, 0); /* minor : 0 == none
-					 * 	   1 == outside
-					 * 	   2 == inside
-					 * 	   3 == cross */
-	GSF_LE_SET_GUINT8  (data+2, 3); /* label : 0 == none
-					 * 	   1 == low
-					 * 	   2 == high
-					 * 	   3 == beside axis */
+	g_object_get (G_OBJECT (axis),
+		"major-tick-labeled",		&labeled,
+		"major-tick-in", 		&in,
+		"major-tick-out", 		&out,
+		/* "major-tick-size-pts",	(unsupported in XL) */
+		/* "minor-tick-size-pts",	(unsupported in XL) */
+		NULL);
+	tmp = out ? 2 : 0;
+	if (in)
+		tmp |= 1;
+	GSF_LE_SET_GUINT8  (data+0, tmp);
+
+	g_object_get (G_OBJECT (axis),
+		"minor-tick-in", 	&in,
+		"minor-tick-out", 	&out,
+		NULL);
+	tmp = out ? 2 : 0;
+	if (in)
+		tmp |= 1;
+	GSF_LE_SET_GUINT8  (data+1, tmp);
+
+	tmp = labeled ? 3 : 0; /* label : 0 == none
+				* 	  1 == low	(unsupported in gnumeric)
+				* 	  2 == high	(unsupported in gnumeric)
+				* 	  3 == beside axis */
+	GSF_LE_SET_GUINT8  (data+2, tmp);
 	GSF_LE_SET_GUINT8  (data+3, 1); /* background mode : 1 == transparent
 					 *		     2 == opaque */
 	tick_color_index = chart_write_color (s, data+4, 0); /* tick color */
@@ -2828,7 +2928,8 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis, unsigned i)
 
 	if (axis != NULL) {
 		ms_biff_put_2byte (s->bp, BIFF_CHART_axislineformat, 0); /* a real axis */
-		chart_write_LINEFORMAT (s, &GOG_STYLED_OBJECT (axis)->style->line, TRUE);
+		chart_write_LINEFORMAT (s, &GOG_STYLED_OBJECT (axis)->style->line,
+					TRUE, FALSE);
 	}
 	chart_write_END (s);
 }
@@ -2847,7 +2948,7 @@ map_1_5d_type (XLChartWriteState *s, GogPlot const *plot,
 	if (0 == strcmp (type, "stacked"))
 		return res | stacked;
 	if (0 == strcmp (type, "as_percentage"))
-		return res | percentage;
+		return res | percentage | stacked;
 	return res;
 }
 
@@ -2857,6 +2958,8 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 	guint16 flags = 0;
 	guint8 *data;
 	char const *type = G_OBJECT_TYPE_NAME (plot);
+	gboolean check_lines = FALSE;
+	gboolean check_marks = FALSE;
 
 	if (0 == strcmp (type, "GogAreaPlot")) {
 		ms_biff_put_2byte (s->bp, BIFF_CHART_area,
@@ -2882,30 +2985,40 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 	} else if (0 == strcmp (type, "GogLinePlot")) {
 		ms_biff_put_2byte (s->bp, BIFF_CHART_line,
 			map_1_5d_type (s, plot, 1, 2, 4));
+		check_marks = TRUE;
 	} else if (0 == strcmp (type, "GogPiePlot") ||
 		   0 == strcmp (type, "GogRingPlot")) {
 		gboolean in_3d = FALSE;
-		float initial_angle = 0., center_size = 0.;
-		short int tmp;
-		g_object_set (G_OBJECT (plot),
+		float initial_angle = 0., center_size = 0., default_separation = 0.;
+		gint16 center = 0;
+		g_object_get (G_OBJECT (plot),
 			"in_3d",		&in_3d,
 			"initial_angle",	&initial_angle,
-			"center_size",		&center_size,
+			"default_separation",	&default_separation,
 			NULL);
 
 		data = ms_biff_put_len_next (s->bp, BIFF_CHART_pie,
 			(s->bp->version >= MS_BIFF_V8) ? 6 : 4);
 		GSF_LE_SET_GUINT16 (data + 0, (int)initial_angle);
-		tmp = (int)floor (center_size * 100. + .5);
-		if (tmp < 0)
-			tmp = 0;
-		else if (tmp > 100)
-			tmp = 100;
-		GSF_LE_SET_GUINT16 (data + 2, tmp);
+
+		if (0 == strcmp (type, "GogRingPlot")) {
+			g_object_get (G_OBJECT (plot),
+				"center_size",		&center_size,
+				NULL);
+			center = (int)floor (center_size * 100. + .5);
+			if (center < 0)
+				center = 0;
+			else if (center > 100)
+				center = 100;
+		} else
+			center = 0;
+		GSF_LE_SET_GUINT16 (data + 2, center);
 		if (s->bp->version >= MS_BIFF_V8 && in_3d)
 			flags = 1;
 		GSF_LE_SET_GUINT16 (data + 4, flags);
 		ms_biff_put_commit (s->bp);
+		if (fabs (default_separation) > .005)
+			chart_write_dummy_style (s, default_separation, FALSE, FALSE);
 	} else if (0 == strcmp (type, "GogRadarPlot")) {
 		gboolean area;
 		g_object_get (G_OBJECT (plot), "area", &area, NULL);
@@ -2921,6 +3034,7 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 				GSF_LE_SET_GUINT16 (data + 0, 100);
 				GSF_LE_SET_GUINT16 (data + 2, 1);
 				GSF_LE_SET_GUINT16 (data + 4, 0);
+				check_marks = check_lines = TRUE;
 			} else {
 				gboolean show_neg = FALSE, in_3d = FALSE, as_area = TRUE;
 				g_object_get (G_OBJECT (plot),
@@ -2937,7 +3051,7 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 					flags |= 2;
 				if (in_3d)
 					flags |= 4;
-				GSF_LE_SET_GUINT16 (data + 4, 0);
+				GSF_LE_SET_GUINT16 (data + 4, flags);
 			}
 			ms_biff_put_commit (s->bp);
 		} else 
@@ -2945,12 +3059,29 @@ chart_write_plot (XLChartWriteState *s, GogPlot const *plot)
 	} else {
 		g_warning ("unexpected plot type %s", type);
 	}
+
+	/* be careful ! the XL default is to have lines and markers */
+	if (check_marks) {
+		g_object_get (G_OBJECT (plot),
+			"default-style-has-markers",	&check_marks,
+			NULL);
+		check_marks = !check_marks;
+	}
+	if (check_lines) {
+		g_object_get (G_OBJECT (plot),
+			"default-style-has-lines",	&check_lines,
+			NULL);
+		check_lines = !check_lines;
+	}
+
+	if (check_marks || check_lines)
+		chart_write_dummy_style (s, 0., check_marks, check_lines);
 }
 
 static void
 chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 {
-	guint16 i, j;
+	guint16 i;
 	guint8 *data;
 	GSList *sptr, *pptr;
 	XLAxisSet *axis_set;
@@ -2979,8 +3110,13 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 		case GOG_AXIS_SET_XY :
 		case GOG_AXIS_SET_XY_pseudo_3d :
 			/* BIFF_CHART_pos, optional we use auto positioning */
-			for (j = GOG_AXIS_X ; j <= GOG_AXIS_Y ; j++)
-				chart_write_axis (s, axis_set->axis[j], j);
+			if (axis_set->transpose) {
+				chart_write_axis (s, axis_set->axis[GOG_AXIS_X], GOG_AXIS_Y);
+				chart_write_axis (s, axis_set->axis[GOG_AXIS_Y], GOG_AXIS_X);
+			} else {
+				chart_write_axis (s, axis_set->axis[GOG_AXIS_X], GOG_AXIS_X);
+				chart_write_axis (s, axis_set->axis[GOG_AXIS_Y], GOG_AXIS_Y);
+			}
 			break;
 		case GOG_AXIS_SET_RADAR :
 			break;
@@ -2991,7 +3127,7 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 				gog_object_find_role_by_name (s->chart, "Grid"));
 			if (grid != NULL) {
 				ms_biff_put_empty (s->bp, BIFF_CHART_plotarea);
-				chart_write_frame (s, grid, TRUE);
+				chart_write_frame (s, grid, TRUE, TRUE);
 			}
 		}
 
@@ -3014,13 +3150,17 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 			chart_write_BEGIN (s);
 			chart_write_plot (s, pptr->data);
 
-
-#if 0
 			/* BIFF_CHART_chartformatlink documented as unnecessary */
 			if (i == 0 && legend != NULL) {
 				GogObjectPosition pos = gog_object_get_pos (legend);
+				guint16 flags = 0x1f;
+
 				data = ms_biff_put_len_next (s->bp, BIFF_CHART_legend, 20);
 				chart_write_position (s, legend, data);
+				GSF_LE_SET_GUINT8 (data + 16, 3);
+				GSF_LE_SET_GUINT8 (data + 17, 1);
+				GSF_LE_SET_GUINT16 (data + 18, flags);
+
 				ms_biff_put_commit (s->bp);
 
 				chart_write_BEGIN (s);
@@ -3028,7 +3168,6 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 				chart_write_text (s, NULL, NULL);
 				chart_write_END (s);
 			}
-#endif
 			chart_write_END (s);
 		}
 		chart_write_END (s);
@@ -3040,7 +3179,7 @@ chart_write_axis_sets (XLChartWriteState *s, GSList *sets)
 }
 
 void
-ms_excel_write_chart (ExcelWriteState *ewb, SheetObject *so)
+ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 {
 	guint8 *data;
 	GogRenderer *renderer;
@@ -3096,13 +3235,18 @@ ms_excel_write_chart (ExcelWriteState *ewb, SheetObject *so)
 		GSF_LE_SET_GUINT32 (data + 4, 0x10000);
 		ms_biff_put_commit (state.bp);
 	}
-	chart_write_frame (&state, state.chart, FALSE);
+	chart_write_frame (&state, state.chart, FALSE, FALSE);
 	/* collect axis sets */
 	sets = NULL;
 	for (plots = gog_chart_get_plots (GOG_CHART (state.chart)) ; plots != NULL ; plots = plots->next) {
 		axis_set = g_new0 (XLAxisSet, 1);
 		for (i = GOG_AXIS_X; i < GOG_AXIS_TYPES; i++)
 			axis_set->axis[i] = gog_plot_get_axis (plots->data, i);
+
+		if (0 == strcmp (G_OBJECT_TYPE_NAME (plots->data), "GogBarColPlot"))
+			g_object_get (G_OBJECT (plots->data),
+				      "horizontal", &axis_set->transpose,
+				      NULL);
 		ptr = g_slist_find_custom (sets, axis_set,
 			(GCompareFunc) cb_axis_set_cmp);
 		if (ptr != NULL) {

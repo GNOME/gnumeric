@@ -5104,7 +5104,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 			 * at the NEXT record.
 			 */
 			if (q->opcode == BIFF_CHART_units)
-				ms_excel_read_chart (q, sheet_container (esheet),
+				ms_excel_chart_read (q, sheet_container (esheet),
 						     ver, sheet_object_graph_new (NULL));
 			else
 				g_warning ("EXCEL: How are we seeing chart records in a sheet ?");
@@ -5572,7 +5572,7 @@ excel_read_BOF (BiffQuery	 *q,
 			/* enable when we support workbooklevel objects */
 			sheet_object_graph_new (NULL)
 #endif
-		ms_excel_read_chart (q, &ewb->container, ver->version, NULL);
+		ms_excel_chart_read (q, &ewb->container, ver->version, NULL);
 	} else if (ver->type == MS_BIFF_TYPE_VBModule ||
 		 ver->type == MS_BIFF_TYPE_Macrosheet) {
 		/* Skip contents of Module, or MacroSheet */

@@ -55,21 +55,23 @@ static void
 gog_line_series_init_style (GogStyledObject *gso, GogStyle *style)
 {
 	GogSeries *series = GOG_SERIES (gso);
+	GogLinePlot const *plot;
 
 	series_parent_klass->init_style (gso, style);
-	if (style->needs_obj_defaults &&
-	    style->marker.auto_shape &&
-	    series->plot != NULL) {
-		GogLinePlot const *line = GOG_LINE_PLOT (series->plot);
-		if (!line->default_style_has_markers) {
+	if (series->plot == NULL)
+		return;
+
+	plot = GOG_LINE_PLOT (series->plot);
+	if (!plot->default_style_has_markers) {
+		style->disable_theming |= GOG_STYLE_MARKER;
+		if (style->marker.auto_shape) {
 			GOMarker *m = go_marker_new ();
 			go_marker_set_shape (m, GO_MARKER_NONE);
 			gog_style_set_marker (style, m);
-			style->marker.auto_shape = FALSE;
 		}
-		style->needs_obj_defaults = FALSE;
 	}
 }
+
 static void
 gog_line_series_class_init (GogStyledObjectClass *gso_klass)
 {

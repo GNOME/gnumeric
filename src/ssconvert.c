@@ -18,10 +18,14 @@
 #include <src/command-context-stderr.h>
 #include <src/io-context.h>
 #include <src/workbook-view.h>
+#include <src/file.h>
+#include <goffice/utils/go-file.h>
+#include <string.h>
 
+#ifdef WITH_GNOME
 #include <libgnome/gnome-program.h>
 #include <libgnome/gnome-init.h>
-#include <string.h>
+#endif
 
 char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
 char const *gnumeric_data_dir = GNUMERIC_DATADIR;
@@ -31,7 +35,6 @@ static gboolean ssconvert_list_importers = FALSE;
 static char const *ssconvert_import_encoding = NULL;
 static char const *ssconvert_export_id = NULL;
 
-#warning remove from POTFILES.skip when 1.3 branches
 const struct poptOption
 gnumeric_popt_options[] = {
 	{ "version", 'v', POPT_ARG_NONE, &ssconvert_show_version, 0,

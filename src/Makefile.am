@@ -5,7 +5,7 @@
 SUBDIRS = pixmaps dialogs widgets tools cut-n-paste-code
 
 bin_PROGRAMS = gnumeric
-#check_PROGRAMS = ssconvert test-pango number-match
+check_PROGRAMS = ssconvert # test-pango number-match
 
 INCLUDES = 								\
 	-I$(top_srcdir)							\
@@ -312,11 +312,11 @@ gnumeric_app_libs =				\
 	cut-n-paste-code/foocanvas/libfoocanvas/libfoocanvas.a	\
 	widgets/libwidgets.a
 
-#ssconvert_LDADD   = $(gnumeric_LDADD)
-#ssconvert_LDFLAGS = $(gnumeric_LDFLAGS)
-#ssconvert_SOURCES =				\
-#	$(GNUMERIC_SOURCE)			\
-#	ssconvert.c
+ssconvert_LDADD   = $(gnumeric_LDADD)
+ssconvert_LDFLAGS = $(gnumeric_LDFLAGS)
+ssconvert_SOURCES =				\
+	$(GNUMERIC_SOURCE)			\
+	ssconvert.c
 
 #test_pango_LDADD   = $(gnumeric_LDADD)
 #test_pango_LDFLAGS = $(gnumeric_LDFLAGS)

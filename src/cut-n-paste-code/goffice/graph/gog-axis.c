@@ -1603,10 +1603,11 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 		major_step *= (area->w - pre - post);
 		minor_step *= (area->w - pre - post);
 
-		center = floor (center + .5) + .5;
+		center = floor (center + .5) - .5;
 		axis_path[0].y = axis_path[1].y = center;
-		axis_path[0].x = cur = minor_pos = area->x + pre;
-		axis_path[1].x = area->x + area->w - post;
+		cur = minor_pos = area->x + pre;
+		axis_path[0].x = cur - line_width;
+		axis_path[1].x = area->x + area->w - post + line_width;
 
 		/* set major tick height */
 		tick_len = gog_renderer_pt2r_y (v->renderer, axis->major.size_pts);
@@ -1647,12 +1648,12 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 				for (; minor_pos < cur ; minor_pos += minor_step)
 					;
 				for (; minor_pos < next ; minor_pos += minor_step) {
-					minor_path[1].x = minor_path[0].x = floor (minor_pos + .5) + .5;
+					minor_path[1].x = minor_path[0].x = minor_pos;
 					gog_renderer_draw_path (v->renderer, minor_path, NULL);
 				}
 			}
 			if (draw_major) {
-				major_path[1].x = major_path[0].x = floor (cur + .5) + .5;
+				major_path[1].x = major_path[0].x = cur;
 				gog_renderer_draw_path (v->renderer, major_path, NULL);
 			}
 			if (axis->major_tick_labeled) {
@@ -1695,8 +1696,9 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 
 		center = floor (center + .5) + .5;
 		axis_path[0].x = axis_path[1].x = center;
-		axis_path[0].y = cur = minor_pos = area->y + area->h;
-		axis_path[1].y = area->y;
+		cur = minor_pos = area->y + area->h;
+		axis_path[0].y = cur + line_width;
+		axis_path[1].y = area->y + line_width;
 
 		/* set major tick width */
 		tick_len = gog_renderer_pt2r_x (v->renderer, axis->major.size_pts);
@@ -1736,12 +1738,12 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 				for (; minor_pos > cur ; minor_pos -= minor_step)
 					;
 				for (; minor_pos > next ; minor_pos -= minor_step) {
-					minor_path[1].y = minor_path[0].y = floor (minor_pos + .5) + .5;
+					minor_path[1].y = minor_path[0].y = minor_pos;
 					gog_renderer_draw_path (v->renderer, minor_path, NULL);
 				}
 			}
 			if (draw_major) {
-				major_path[1].y = major_path[0].y = floor (cur + .5) + .5;
+				major_path[1].y = major_path[0].y = cur;
 				gog_renderer_draw_path (v->renderer, major_path, NULL);
 			}
 			if (axis->major_tick_labeled) {

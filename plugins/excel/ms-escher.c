@@ -2067,36 +2067,3 @@ ms_escher_parse (BiffQuery *q, MSContainer *container, gboolean return_attrs)
 	ms_escher_header_release (&fake_header);
 	return res;
 }
-
-/****************************************************************************/
-
-void
-excel_write_MS_O_DRAWING_GROUP (BiffPut *bp, unsigned count)
-{
-	/* just hard code the data for now nothing seems to change */
-	static guint8 const stock_header[] = {
-/* DggContainer */	0xf, 0, 0, 0xf0,	0x52, 0, 0, 0,
-/* Dgg */		  0, 0, 6, 0xf0,	0x18, 0, 0, 0,
-				0, 0, 0, 0,		/* fill in obj count | 0x400 (a) */
-				2, 0, 0, 0,
-				0, 0, 0, 0,		/* fill in obj count (b) */
-				1, 0, 0, 0,
-				1, 0, 0, 0,
-				0, 0, 0, 0,		/* fill in count (c) */
-/* OPT */		0x33, 0,  0xb, 0xf0,	0x12, 0, 0, 0,
-				0xbf, 0,    8,  0, 8, 0, /* bool fFitTextToShape 191	= 0x00080008; */
-				0x81, 1, 0x41,  0, 0, 8, /* colour fillColor 385	= 0x08000041; */
-				0xc0, 1, 0x40,  0, 0, 8, /* colour lineColor 448	= 0x08000040; */
-/* SplitMenuColors */	0x40, 0, 0x1e, 0xf1,	0x10, 0, 0, 0,
-				0x0d, 0, 0, 8, 0x0c, 0, 0, 0x08,
-				0x17, 0, 0, 8, 0xf7, 0, 0, 0x10
-	};
-
-	guint8 *data = ms_biff_put_len_next (bp, BIFF_MS_O_DRAWING_GROUP,
-					     sizeof stock_header);
-	memcpy (data, stock_header, sizeof stock_header);
-	GSF_LE_SET_GUINT32 (data+0x10, 0x400 | count);	/* (a) */
-	GSF_LE_SET_GUINT32 (data+0x18, count);		/* (b) */
-	GSF_LE_SET_GUINT32 (data+0x24, count);		/* (c) */
-	ms_biff_put_commit (bp);
-}

@@ -869,26 +869,29 @@ static void
 gog_xy_series_init_style (GogStyledObject *gso, GogStyle *style)
 {
 	GogSeries *series = GOG_SERIES (gso);
+	GogXYPlot const *plot;
 
 	series_parent_klass->init_style (gso, style);
-	if (!style->needs_obj_defaults || series->plot == NULL)
+	if (series->plot == NULL ||
+	    GOG_IS_BUBBLE_PLOT (series->plot))
 		return;
-	if (!GOG_IS_BUBBLE_PLOT (series->plot)) {
-		GogXYPlot const *xy;
-		xy = GOG_XY_PLOT (series->plot);
-	
-		if (style->marker.auto_shape && !xy->default_style_has_markers) {
+
+	plot = GOG_XY_PLOT (series->plot);
+	if (!plot->default_style_has_markers) {
+		style->disable_theming |= GOG_STYLE_MARKER;
+		if (style->marker.auto_shape) {
 			GOMarker *m = go_marker_new ();
 			go_marker_set_shape (m, GO_MARKER_NONE);
 			gog_style_set_marker (style, m);
-			style->marker.auto_shape = FALSE;
-		}
-		if (style->line.auto_color && !xy->default_style_has_lines) {
-			style->line.color = 0;
-			style->line.auto_color = FALSE;
 		}
 	}
-	style->needs_obj_defaults = FALSE;
+	if (!plot->default_style_has_lines) {
+		style->disable_theming |= GOG_STYLE_LINE;
+		if (style->line.auto_color) {
+			style->line.width = -1;
+			style->line.color = 0;
+		}
+	}
 }
 
 static void

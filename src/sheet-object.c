@@ -751,7 +751,7 @@ sheet_objects_get (Sheet const *sheet, GnmRange const *r, GType t)
 				res = g_slist_prepend (res, so);
 		}
 	}
-	return res;
+	return g_slist_reverse (res);
 }
 
 /**

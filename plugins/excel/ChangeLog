@@ -1,3 +1,20 @@
+2004-06-20  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (palette_get_index) : make public
+	(excel_write_start_drawing) : new to handle spids across sheets.
+	(excel_write_autofilter_objs) : use it.
+	(excel_write_chart) : use it.
+	(excel_write_objs) : do more detailed obj setup here.
+	(put_color) : minor simplification.
+	(extract_gog_object_style) : new
+	(excel_write_state_new) : use it to collect the colors for the
+	  palette.
+	(excel_sheet_new) : decide on sheet obejcts to export here.
+
+	* ms-escher.c (-excel_write_MS_O_DRAWING_GROUP) : delete
+
+	* ms-chart.c (}) : First pass at a basicly working chart exporter
+
 2004-06-13  Jody Goldberg <jody@gnome.org>
 
 	* ms-escher.c (excel_write_MS_O_DRAWING_GROUP) : merge the xp and 2k

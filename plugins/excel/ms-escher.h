@@ -32,6 +32,5 @@ typedef struct _MSEscherWriter MSEscherWriter;
 MSEscherWriter *ms_escher_writer_new (BiffPut *bp);
 void		ms_escher_writer_commit (MSEscherWriter *ew);
 #endif
-void excel_write_MS_O_DRAWING_GROUP (BiffPut *bp, unsigned count);
 
 #endif /* GNUMERIC_MS_OFFICE_ESCHER_H */

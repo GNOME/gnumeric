@@ -1,3 +1,12 @@
+2004-06-20  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-axis.c (gog_axis_view_render) : Ensure that the line
+	  extends out far enough for the first and last tick.
+
+	* graph/gog-theme.c (map_area_series_solid_default) : honour the new
+	  disable_theming flag.
+	* graph/gog-style.c (gog_style_is_completely_auto) : new.
+
 2004-06-16  Morten Welinder  <terra@gnome.org>
 
 	* utils/go-file.c (go_filename_to_uri): Handle "//" and "/./"

@@ -513,9 +513,9 @@ gog_plot_axis_clear (GogPlot *plot, GogAxisSet filter)
 GogAxis	*
 gog_plot_get_axis (GogPlot const *plot, GogAxisType type)
 {
-	g_return_if_fail (GOG_PLOT (plot) != NULL);
-	g_return_if_fail (type < GOG_AXIS_TYPES);
-	g_return_if_fail (GOG_AXIS_UNKNOWN < type);
+	g_return_val_if_fail (GOG_PLOT (plot) != NULL, NULL);
+	g_return_val_if_fail (type < GOG_AXIS_TYPES, NULL);
+	g_return_val_if_fail (GOG_AXIS_UNKNOWN < type, NULL);
 	return plot->axis[type];
 }
 

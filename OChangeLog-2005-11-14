@@ -1,3 +1,13 @@
+2004-06-20  Jody Goldberg <jody@gnome.org>
+
+	* src/Makefile.am : re-enable ssconvert as a test program for now to
+	  avoid rebuilding it all the time.
+
+2004-06-15  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object.c (sheet_objects_get) : don't reverse the z
+	  ordering
+
 2004-06-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/consolidate.c (simple_consolidate): dao_set_cell_expr now

@@ -38,3 +38,4 @@ intl
 GNOME_Gnumeric.server.in
 GNOME_Gnumeric.server
 .intltool-cache*
+xmldocs.make

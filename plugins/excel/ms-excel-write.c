@@ -58,6 +58,13 @@
 #include <gutils.h>
 #include <str.h>
 #include <mathfunc.h>
+#include <goffice/graph/goffice-graph.h>
+#include <goffice/graph/gog-object.h>
+#include <goffice/graph/gog-styled-object.h>
+#include <goffice/graph/gog-style.h>
+#include <goffice/graph/gog-axis.h>
+#include <goffice/utils/go-color.h>
+#include <goffice/utils/go-marker.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-outfile.h>
@@ -74,8 +81,22 @@
 
 #define N_ELEMENTS_BETWEEN_PROGRESS_UPDATES   20
 
-static guint style_color_to_rgb888 (GnmColor const *c);
-static gint  palette_get_index (ExcelWriteState *ewb, guint c);
+static guint
+gnm_color_to_bgr (GnmColor const *c)
+{
+	return ((c->color.blue & 0xff00) << 8) + (c->color.green & 0xff00) + (c->color.red >> 8);
+
+}
+static guint
+go_color_to_bgr (GOColor const c)
+{
+	guint32 abgr;
+	abgr  = UINT_RGBA_R(c);
+	abgr |= UINT_RGBA_G(c) << 8;
+	abgr |= UINT_RGBA_B(c) << 16;
+	return abgr;
+}
+
 
 /**
  * excel_write_string_len :
@@ -517,7 +538,7 @@ excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet)
 		options |= 0x0010;
 	/* Grid / auto pattern color */
 	if (!style_color_equal (sheet_auto, default_auto)) {
-		biff_pat_col = style_color_to_rgb888 (sheet_auto);
+		biff_pat_col = gnm_color_to_bgr (sheet_auto);
 		if (bp->version > MS_BIFF_V7)
 			biff_pat_col = palette_get_index (esheet->ewb,
 							  biff_pat_col);
@@ -1001,26 +1022,6 @@ palette_color_to_int (ExcelPaletteEntry const *c)
 
 }
 
-/**
- * Convert GnmColor to guint representation used in BIFF file
- **/
-static guint
-style_color_to_rgb888 (GnmColor const *c)
-{
-	return ((c->color.blue & 0xff00) << 8) + (c->color.green & 0xff00) + (c->color.red >> 8);
-
-}
-
-/**
- * log_put_color
- * @c          color
- * @was_added  true if color was added
- * @index      index of color
- * @tmpl       printf template
-
- * Callback called when putting color to palette. Print to debug log when
- * color is added to table.
- **/
 inline static void
 log_put_color (guint c, gboolean was_added, gint index, char const *tmpl)
 {
@@ -1071,7 +1072,7 @@ palette_free (ExcelWriteState *ewb)
  * The color index to use is *not* simply the index into the palette.
  * See comment to ms_excel_palette_get in ms-excel-read.c
  **/
-static gint
+gint
 palette_get_index (ExcelWriteState *ewb, guint c)
 {
 	gint idx;
@@ -1082,6 +1083,11 @@ palette_get_index (ExcelWriteState *ewb, guint c)
 		return PALETTE_WHITE;
 
 	idx = two_way_table_key_to_idx (ewb->pal.two_way_table, GUINT_TO_POINTER (c));
+	if (idx < 0) {
+		g_warning ("Unknown color (%x), converting it to black\n", c);
+		return PALETTE_BLACK;
+	}
+
 	if (idx >= EXCEL_DEF_PAL_LEN) {
 		g_warning ("We lost colour #%d (%x), converting it to black\n", idx, c);
 		return PALETTE_BLACK;
@@ -1089,23 +1095,22 @@ palette_get_index (ExcelWriteState *ewb, guint c)
 	return idx + 8;
 }
 
-/**
- * Add a color to palette if it is not already there
- **/
 static void
-put_color (ExcelWriteState *ewb, GnmColor const *c)
+put_color_bgr (ExcelWriteState *ewb, guint32 bgr)
 {
 	TwoWayTable *twt = ewb->pal.two_way_table;
-	gpointer pc = GUINT_TO_POINTER (style_color_to_rgb888 (c));
-	gint idx;
-
-	two_way_table_put (twt, pc, TRUE,
+	gpointer pc = GUINT_TO_POINTER (bgr);
+	gint idx = two_way_table_put (twt, pc, TRUE,
 			   (AfterPutFunc) log_put_color,
 			   "Found unique color %d - 0x%6.6x\n");
-
-	idx = two_way_table_key_to_idx (twt, pc);
 	if (idx >= 0 && idx < EXCEL_DEF_PAL_LEN)
 		ewb->pal.entry_in_use [idx] = TRUE; /* Default entry in use */
+}
+
+static void
+put_color_gnm (ExcelWriteState *ewb, GnmColor const *c)
+{
+	put_color_bgr (ewb, gnm_color_to_bgr (c));
 }
 
 /**
@@ -1117,15 +1122,15 @@ put_colors (GnmStyle *st, gconstpointer dummy, ExcelWriteState *ewb)
 	int i;
 	GnmBorder const *b;
 
-	put_color (ewb, mstyle_get_color (st, MSTYLE_COLOR_FORE));
-	put_color (ewb, mstyle_get_color (st, MSTYLE_COLOR_BACK));
-	put_color (ewb, mstyle_get_color (st, MSTYLE_COLOR_PATTERN));
+	put_color_gnm (ewb, mstyle_get_color (st, MSTYLE_COLOR_FORE));
+	put_color_gnm (ewb, mstyle_get_color (st, MSTYLE_COLOR_BACK));
+	put_color_gnm (ewb, mstyle_get_color (st, MSTYLE_COLOR_PATTERN));
 
 	/* Borders */
 	for (i = STYLE_TOP; i < STYLE_ORIENT_MAX; i++) {
 		b = mstyle_get_border (st, MSTYLE_BORDER_TOP + i);
 		if (b && b->color)
-			put_color (ewb, b->color);
+			put_color_gnm (ewb, b->color);
 	}
 }
 
@@ -1276,7 +1281,7 @@ excel_font_new (GnmStyle const *base_style)
 	efont->strikethrough	= mstyle_get_font_strike (base_style);
 
 	c = mstyle_get_color (base_style, MSTYLE_COLOR_FORE);
-	efont->color = style_color_to_rgb888 (c);
+	efont->color = gnm_color_to_bgr (c);
 	efont->is_auto = c->is_auto;
 
 	return efont;
@@ -1930,7 +1935,7 @@ style_color_to_pal_index (GnmColor *color, ExcelWriteState *ewb,
 		else
 			idx = PALETTE_AUTO_PATTERN;
 	} else
-		idx = palette_get_index	(ewb, style_color_to_rgb888 (color));
+		idx = palette_get_index	(ewb, gnm_color_to_bgr (color));
 
 	return idx;
 }
@@ -3153,6 +3158,14 @@ excel_write_anchor (guint8 *buf, SheetObjectAnchor const *anchor)
 	GSF_LE_SET_GUINT16 (buf + 14, (guint16)(anchor->offset[3]*256. + .5));
 }
 
+static guint32
+excel_write_start_drawing (ExcelWriteSheet *esheet)
+{
+	if (esheet->cur_obj++ > 0)
+		ms_biff_put_var_next (esheet->ewb->bp, BIFF_MS_O_DRAWING);
+	return 0x400*esheet->ewb->cur_obj_group + esheet->cur_obj + 1;
+}
+
 static void
 excel_write_autofilter_objs (ExcelWriteSheet *esheet)
 {
@@ -3225,13 +3238,10 @@ excel_write_autofilter_objs (ExcelWriteSheet *esheet)
 		sheet_object_anchor_init (&anchor, &r, offsets, anchor_types,
 			SO_DIR_DOWN_RIGHT);
 		if (bp->version >= MS_BIFF_V8) {
-			/* just merge the content onto the header */
-			if (esheet->ewb->cur_obj++ > 0)
-				ms_biff_put_var_next (bp, BIFF_MS_O_DRAWING);
-
+			guint32 id = excel_write_start_drawing (esheet);
 			memcpy (buf, obj_v8, sizeof obj_v8);
-			GSF_LE_SET_GUINT32 (buf + 16, 0x400 | esheet->ewb->cur_obj);
-			excel_write_anchor (buf + 72, &anchor);
+			GSF_LE_SET_GUINT32 (buf + 16, id);
+			excel_write_anchor (buf + 66, &anchor);
 			ms_biff_put_var_write (bp, buf, sizeof obj_v8);
 			ms_biff_put_commit (bp);
 
@@ -3240,16 +3250,16 @@ excel_write_autofilter_objs (ExcelWriteSheet *esheet)
 			 * I am guessing is tied to the fact that XL created
 			 * this. not the user*/
 			ms_objv8_write_common (bp,
-				esheet->ewb->cur_obj, 0x14, 0x2101);
+				esheet->cur_obj, 0x14, 0x2101);
 			ms_objv8_write_scrollbar (bp);
 			ms_objv8_write_listbox (bp, cond != NULL); /* acts as an end */
 		} else {
 			data = ms_biff_put_len_next (bp, BIFF_OBJ, sizeof std_obj_v7);
 			memcpy (data, std_obj_v7, sizeof std_obj_v7);
 
-			esheet->ewb->cur_obj++;
-			GSF_LE_SET_GUINT32 (data +  0, esheet->ewb->cur_obj);
-			GSF_LE_SET_GUINT16 (data +  6, esheet->ewb->cur_obj);
+			esheet->cur_obj++;
+			GSF_LE_SET_GUINT32 (data +  0, esheet->cur_obj);
+			GSF_LE_SET_GUINT16 (data +  6, esheet->cur_obj);
 			excel_write_anchor (data + 10, &anchor);
 			if (cond != NULL)
 				GSF_LE_SET_GUINT16 (data + 124, 0xa);
@@ -3282,24 +3292,21 @@ excel_write_chart (ExcelWriteSheet *esheet, SheetObject *so)
 
 	guint8 buf [sizeof obj_v8];
 	BiffPut *bp = esheet->ewb->bp;
-
-	/* just merge the content onto the header */
-	if (esheet->ewb->cur_obj++ > 0)
-		ms_biff_put_var_next (bp, BIFF_MS_O_DRAWING);
+	guint32 id = excel_write_start_drawing (esheet);
 
 	memcpy (buf, obj_v8, sizeof obj_v8);
-	GSF_LE_SET_GUINT32 (buf + 16, 0x400 | esheet->ewb->cur_obj);
+	GSF_LE_SET_GUINT32 (buf + 16, id);
 	excel_write_anchor (buf + 0x5a, sheet_object_anchor_get (so));
 	ms_biff_put_var_write (bp, buf, sizeof obj_v8);
 	ms_biff_put_commit (bp);
 
 	ms_biff_put_var_next (bp, BIFF_OBJ);
-	ms_objv8_write_common (bp, esheet->ewb->cur_obj, 5, 0x6011);
+	ms_objv8_write_common (bp, esheet->cur_obj, 5, 0x6011);
 	GSF_LE_SET_GUINT32 (buf, 0); /* end */
 	ms_biff_put_var_write (bp, buf, 4);
 
 	ms_biff_put_commit (bp);
-	ms_excel_write_chart (esheet->ewb, so);
+	ms_excel_chart_write (esheet->ewb, so);
 }
 
 /* See: S59D76.HTM */
@@ -3732,37 +3739,45 @@ excel_write_objs (ExcelWriteSheet *esheet)
 	BiffPut *bp = esheet->ewb->bp;
 	GSList  *ptr, *charts = sheet_objects_get (esheet->gnum_sheet,
 		NULL, SHEET_OBJECT_GRAPH_TYPE);
-	int	 len, num_filters = 0, num_charts = g_slist_length (charts);
+	int	 len;
 
-	if (esheet->gnum_sheet->filters != NULL) {
-		GnmFilter const *f = esheet->gnum_sheet->filters->data;
-		num_filters = range_width (&f->r);
-	}
-	if (num_filters == 0 && num_charts == 0)
+	if (esheet->num_objs == 0)
 		return;
-
 	/* The header */
 	if (bp->version >= MS_BIFF_V8) {
 		static guint8 const header_obj_v8[] = {
 /* DgContainers */ 0x0f, 0,   2, 0xf0,	   0, 0, 0, 0,	/* fill in length */
 /* Dg */	   0x10, 0,   8, 0xf0,	   8, 0, 0, 0,
-			0, 0, 0, 0,			/* fill in count of objects */
-			0, 0, 0, 0,			/* fill in spid | 0x400 */
+			0, 0, 0, 0,			/* fill num objects in this group */
+			0, 0, 0, 0,			/* fill last spid in this group */
 /* SpgrContainer */0x0f, 0,   3, 0xf0,	   0, 0, 0, 0,	/* fill in length */
 /* SpContainer */  0x0f, 0,   4, 0xf0,	0x28, 0, 0, 0,
 /* Spgr */	      1, 0,   9, 0xf0,	0x10, 0, 0, 0,	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 /* Sp */	      2, 0, 0xa, 0xf0,     8, 0, 0, 0,	0, 4, 0, 0, 5, 0, 0, 0
 		};
 		guint8 buf [sizeof header_obj_v8];
-		unsigned last = esheet->ewb->cur_obj + num_filters + num_charts;
+		unsigned last_id, num_filters = 0;
+		unsigned num_charts = g_slist_length (charts);
+
+		if (esheet->gnum_sheet->filters != NULL) {
+			GnmFilter const *f = esheet->gnum_sheet->filters->data;
+			num_filters = range_width (&f->r);
+
+			if (esheet->gnum_sheet->filters->next != NULL) {
+				g_warning ("MS Excel does not support multiple autofilters in one sheet (%s), only the first will be saved", esheet->gnum_sheet->name_unquoted);
+			}
+		}
+
+		esheet->ewb->cur_obj_group++;
+		last_id = 0x400*esheet->ewb->cur_obj_group + esheet->num_objs + 1;
 
 		ms_biff_put_var_next (bp, BIFF_MS_O_DRAWING);
 		memcpy (buf, header_obj_v8, sizeof header_obj_v8);
 		len = 90*num_filters + 114*num_charts;
 		GSF_LE_SET_GUINT32 (buf +  4, 72 + len);
-		GSF_LE_SET_GUINT32 (buf + 16, esheet->ewb->num_objs);
+		GSF_LE_SET_GUINT32 (buf + 16, esheet->num_objs);
+		GSF_LE_SET_GUINT32 (buf + 20, last_id);	/* last spid in this group */
 		GSF_LE_SET_GUINT32 (buf + 28, 48 + len);
-		GSF_LE_SET_GUINT32 (buf + 20, 0x400 | last);	/* last spid in this group */
 		ms_biff_put_var_write (bp, buf, sizeof header_obj_v8);
 	}
 
@@ -3823,7 +3838,7 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 		excel_write_comments_biff7 (ewb->bp, esheet);
 	excel_sheet_write_INDEX (esheet, index_off, dbcells);
 
-	if (ewb->num_objs > 0)
+	if (ewb->num_obj_groups > 0)
 		excel_write_objs (esheet);
 
 #warning check this.  Why is there a window1 here ?
@@ -3865,6 +3880,7 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 	int const maxrows = biff7 ? MsBiffMaxRowsV7 : MsBiffMaxRowsV8;
 	ExcelWriteSheet *esheet = g_new (ExcelWriteSheet, 1);
 	GnmRange extent;
+	GSList *objs;
 	int i;
 
 	g_return_val_if_fail (sheet, NULL);
@@ -3918,6 +3934,18 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 		esheet->max_col = 256;
 	if (esheet->max_row > maxrows)
 		esheet->max_row = maxrows;
+
+	/* we only export charts for now */
+	esheet->cur_obj = esheet->num_objs = 0;
+	objs = sheet_objects_get (sheet, NULL, SHEET_OBJECT_GRAPH_TYPE);
+	esheet->num_objs += g_slist_length (objs);
+	g_slist_free (objs);
+
+	/* And the autofilters */
+	if (sheet->filters != NULL) {
+		GnmFilter const *filter = sheet->filters->data;
+		esheet->num_objs += filter->fields->len;
+	}
 
 	return esheet;
 }
@@ -4198,7 +4226,7 @@ excel_write_workbook (ExcelWriteState *ewb)
 	BiffPut		*bp = ewb->bp;
 	ExcelWriteSheet	*s = NULL;
 	guint8 *data;
-	unsigned i, len;
+	unsigned i, n;
 
 	ewb->streamPos = excel_write_BOF (ewb->bp, MS_BIFF_TYPE_Workbook);
 
@@ -4225,9 +4253,9 @@ excel_write_workbook (ExcelWriteState *ewb)
 		ms_biff_put_2byte (ewb->bp, BIFF_DSF, ewb->double_stream_file ? 1 : 0);
 		ms_biff_put_empty (ewb->bp, BIFF_XL9FILE);
 
-		len = ewb->sheets->len;
-		data = ms_biff_put_len_next (bp, BIFF_TABID, len * 2);
-		for (i = 0; i < len; i++)
+		n = ewb->sheets->len;
+		data = ms_biff_put_len_next (bp, BIFF_TABID, n * 2);
+		for (i = 0; i < n; i++)
 			GSF_LE_SET_GUINT16 (data + i*2, i + 1);
 		ms_biff_put_commit (bp);
 
@@ -4284,7 +4312,7 @@ excel_write_workbook (ExcelWriteState *ewb)
 	}
 
 	if (bp->version >= MS_BIFF_V8) {
-		Sheet const *sheet;
+		unsigned max_obj_id, num_objs;
 
 		excel_write_COUNTRY (bp);
 
@@ -4294,27 +4322,61 @@ excel_write_workbook (ExcelWriteState *ewb)
 		excel_write_names (ewb);
 
 		/* If there are any objects in the workbook add a header */
-		len = 0;
-		for (i = 0; i < (unsigned) workbook_sheet_count (ewb->gnum_wb) ; i++) {
-			GSList *objs;
-
-			sheet = workbook_sheet_by_index	(ewb->gnum_wb, i);
-
-			/* we only export charts for now */
-			objs = sheet_objects_get (sheet, NULL, SHEET_OBJECT_GRAPH_TYPE);
-			len += g_slist_length (objs);
-			g_slist_free (objs);
-
-			/* And the autofilters */
-			if (sheet->filters != NULL) {
-				GnmFilter const *filter = sheet->filters->data;
-				len += filter->fields->len;
+		num_objs = max_obj_id = 0;
+		for (i = 0; i < ewb->sheets->len; i++) {
+			s = g_ptr_array_index (ewb->sheets, i);
+			if (s->num_objs > 0) {
+				ewb->num_obj_groups++;
+				max_obj_id = 0x400 * (ewb->num_obj_groups) | s->num_objs;
+				num_objs += s->num_objs + 1;
 			}
 		}
-		if (len > 0) {
-			ewb->num_objs = len + 1;
-			excel_write_MS_O_DRAWING_GROUP (ewb->bp, len + 1);
+
+		if (ewb->num_obj_groups > 0) {
+			static guint8 const header[] = {
+/* DggContainer */	0xf, 0, 0, 0xf0,	0, 0, 0, 0, /* fill in length */
+/* Dgg */		  0, 0, 6, 0xf0,	0, 0, 0, 0, /* fill in length */
+			};
+			static guint8 const footer[] = {
+/* OPT */		0x33, 0,  0xb, 0xf0,	0x12, 0, 0, 0,
+				0xbf, 0,    8,  0, 8, 0, /* bool fFitTextToShape 191	= 0x00080008; */
+				0x81, 1, 0x41,  0, 0, 8, /* colour fillColor 385	= 0x08000041; */
+				0xc0, 1, 0x40,  0, 0, 8, /* colour lineColor 448	= 0x08000040; */
+/* SplitMenuColors */	0x40, 0, 0x1e, 0xf1,	0x10, 0, 0, 0,
+				0x0d, 0, 0, 8, 0x0c, 0, 0, 0x08,
+				0x17, 0, 0, 8, 0xf7, 0, 0, 0x10
+			};
+
+			guint8 buf[16];
+			
+			ms_biff_put_var_next (bp, BIFF_MS_O_DRAWING_GROUP);
+			memcpy (buf, header, sizeof header);
+			GSF_LE_SET_GUINT32 (buf+ 4, (0x4a + ewb->num_obj_groups * 8));
+			GSF_LE_SET_GUINT32 (buf+12, (0x10 + ewb->num_obj_groups * 8));
+			ms_biff_put_var_write (bp, buf, sizeof header);
+
+			GSF_LE_SET_GUINT32 (buf+  0, (max_obj_id+1));
+			GSF_LE_SET_GUINT32 (buf+  4, (ewb->num_obj_groups+1));
+			GSF_LE_SET_GUINT32 (buf+  8, num_objs);		/* (c) */
+			GSF_LE_SET_GUINT32 (buf+ 12, ewb->num_obj_groups);
+			ms_biff_put_var_write (bp, buf, 4*4);
+
+			ewb->cur_obj_group = 0;
+			for (i = 0; i < ewb->sheets->len; i++) {
+				s = g_ptr_array_index (ewb->sheets, i);
+				if (s->num_objs > 0) {
+					ewb->cur_obj_group++;
+					GSF_LE_SET_GUINT32 (buf+0, ewb->cur_obj_group);
+					GSF_LE_SET_GUINT32 (buf+4, s->num_objs+1);
+					ms_biff_put_var_write (bp, buf, 8);
+				}
+			}
+			ewb->cur_obj_group = 0;
+
+			ms_biff_put_var_write (bp, footer, sizeof footer);
+			ms_biff_put_commit (bp);
 		}
+
 		excel_write_SST (ewb);
 	}
 
@@ -4390,6 +4452,58 @@ cb_check_names (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
 		excel_write_prep_expr (ewb, nexpr->expr);
 }
 
+static void
+extract_gog_object_style (ExcelWriteState *ewb, GogObject *obj)
+{
+	GSList *ptr = obj->children;
+
+	if (IS_GOG_STYLED_OBJECT (obj)) {
+		GogStyle const *style = GOG_STYLED_OBJECT (obj)->style;
+		if (style->interesting_fields & GOG_STYLE_OUTLINE)
+			put_color_bgr (ewb, go_color_to_bgr (style->outline.color));
+		else if (style->interesting_fields & GOG_STYLE_LINE)
+			put_color_bgr (ewb, go_color_to_bgr (style->line.color));
+		if (style->interesting_fields & GOG_STYLE_FILL)
+			switch (style->fill.type) {
+			default :
+			case GOG_FILL_STYLE_NONE :
+			case GOG_FILL_STYLE_IMAGE :
+				break;
+			case GOG_FILL_STYLE_PATTERN :
+				put_color_bgr (ewb, go_color_to_bgr (style->fill.u.pattern.pat.fore));
+				put_color_bgr (ewb, go_color_to_bgr (style->fill.u.pattern.pat.back));
+				break;
+			case GOG_FILL_STYLE_GRADIENT :
+				put_color_bgr (ewb, go_color_to_bgr (style->fill.u.gradient.start));
+			}
+		if (style->interesting_fields & GOG_STYLE_MARKER) {
+				put_color_bgr (ewb, go_color_to_bgr (go_marker_get_outline_color (style->marker.mark)));
+				put_color_bgr (ewb, go_color_to_bgr (go_marker_get_fill_color (style->marker.mark)));
+		}
+
+		if (style->interesting_fields & GOG_STYLE_FONT) {
+		}
+	}
+	if (IS_GOG_AXIS (obj)) {
+		char *fmt_str;
+		GnmFormat *fmt;
+		g_object_get (G_OBJECT (obj), "assigned-format-string-XL", &fmt_str, NULL);
+		fmt = style_format_new_XL (fmt_str, FALSE);
+		g_free (fmt_str);
+
+		if (!style_format_is_general (fmt))
+			two_way_table_put (ewb->formats.two_way_table,
+					   (gpointer)fmt, TRUE,
+					   (AfterPutFunc) after_put_format,
+					   "Found unique format %d - 0x%x\n");
+		else
+			style_format_unref (fmt);
+	}
+
+	for ( ; ptr != NULL ; ptr = ptr->next)
+		extract_gog_object_style (ewb, ptr->data);
+}
+
 static void cb_g_array_free (GArray *array) { g_array_free (array, TRUE); }
 ExcelWriteState *
 excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
@@ -4398,6 +4512,7 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 	ExcelWriteState *ewb = g_new (ExcelWriteState, 1);
 	ExcelWriteSheet *esheet;
 	Sheet		*sheet;
+	GSList		*charts, *ptr;
 	int i;
 
 	g_return_val_if_fail (ewb != NULL, NULL);
@@ -4415,6 +4530,7 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 	ewb->cell_markup  = g_hash_table_new_full (g_direct_hash, g_direct_equal,
 		NULL, (GDestroyNotify) cb_g_array_free);
 	ewb->double_stream_file = biff7 && biff8;
+	ewb->num_obj_groups = ewb->cur_obj_group = 0;
 
 	ewb->fonts.two_way_table = two_way_table_new (
 		excel_font_hash, excel_font_equal, 0,
@@ -4438,6 +4554,12 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 			excel_write_prep_validations (esheet); /* validation */
 		if (sheet->filters != NULL)
 			excel_write_prep_sheet (ewb, sheet);	/* filters */
+		charts = sheet_objects_get (sheet,
+			NULL, SHEET_OBJECT_GRAPH_TYPE);
+		for (ptr = charts ; ptr != NULL ; ptr = ptr->next)
+			extract_gog_object_style (ewb,
+				(GogObject *)sheet_object_graph_get_gog (ptr->data));
+		g_slist_free (charts);
 	}
 
 	if (biff8) {
@@ -4448,8 +4570,6 @@ excel_write_state_new (IOContext *context, WorkbookView const *gwb_view,
 		ewb->sst.indicies = NULL;
 	}
 	pre_pass (ewb);
-
-	ewb->cur_obj = ewb->num_objs = 0;
 
 	return ewb;
 }

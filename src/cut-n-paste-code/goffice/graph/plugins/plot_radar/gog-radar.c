@@ -438,24 +438,23 @@ static void
 gog_radar_series_init_style (GogStyledObject *gso, GogStyle *style)
 {
 	GogSeries *series = GOG_SERIES (gso);
-	GogRadarPlot const *model;
+	GogRadarPlot const *plot;
 
 	series_parent_klass->init_style (gso, style);
 	if (series->plot == NULL)
 		return;
 
-	model = GOG_RADAR_PLOT (series->plot);
-	if (GOG_IS_PLOT_RADAR_AREA (model) ||
-	    (style->needs_obj_defaults && style->marker.auto_shape &&
-	     !model->default_style_has_markers)) {
-		GOMarker *m = go_marker_new ();
-		go_marker_set_shape (m, GO_MARKER_NONE);
-		gog_style_set_marker (style, m);
-		style->marker.auto_shape = FALSE;
+	plot = GOG_RADAR_PLOT (series->plot);
+	if (!plot->default_style_has_markers) {
+		style->disable_theming |= GOG_STYLE_MARKER;
+		if (style->marker.auto_shape) {
+			GOMarker *m = go_marker_new ();
+			go_marker_set_shape (m, GO_MARKER_NONE);
+			gog_style_set_marker (style, m);
+		}
 	}
-
-	style->needs_obj_defaults = FALSE;
 }
+
 static void
 gog_radar_series_class_init (GogStyledObjectClass *gso_klass)
 {

@@ -32,14 +32,14 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
-typedef void (GogThemeStyleMap) (GogStyle *style, unsigned ind);
+typedef void (*GogThemeStyleMap) (GogStyle *style, unsigned ind);
 typedef struct {
 	/* if role is non-null, it specifies the container class,
 	 * if role is null, it specifies object type */
 	char const *klass_name;
 	char const *role_id;
 	GogStyle	 *style;
-	GogThemeStyleMap *map;
+	GogThemeStyleMap  map;
 } GogThemeElement;
 struct _GogTheme {
 	GObject	base;
@@ -189,6 +189,7 @@ gog_theme_init_style (GogTheme *theme, GogStyle *style,
 	/* no theme entry for this type */
 	g_return_if_fail (elem != NULL);
 
+#warning we should handle the applicability here not in the themes
 	gog_style_apply_theme (style, elem->style);
 	if (ind >= 0 && elem->map)
 		(elem->map) (style, ind);
@@ -226,7 +227,7 @@ gog_theme_register_file (char const *name, char const *file)
 
 static void
 gog_theme_add_element (GogTheme *theme, GogStyle *style,
-		       GogThemeStyleMap	*map,
+		       GogThemeStyleMap	map,
 		       char const *klass_name, char const *role_id)
 {
 	GogThemeElement *elem;
@@ -348,9 +349,10 @@ map_area_series_solid_default (GogStyle *style, unsigned ind)
 	palette_index += 8;
 	if (palette_index >= G_N_ELEMENTS (palette))
 		palette_index -= G_N_ELEMENTS (palette);
-	if (style->line.auto_color)
+	if (style->line.auto_color && !(style->disable_theming & GOG_STYLE_LINE))
 		style->line.color = palette [palette_index];
-	map_marker (&style->marker, ind, palette_index, palette);
+	if (!(style->disable_theming & GOG_STYLE_MARKER))
+		map_marker (&style->marker, ind, palette_index, palette);
 }
 
 static void
@@ -372,7 +374,7 @@ map_area_series_solid_guppi (GogStyle *style, unsigned ind)
 		palette_index %= G_N_ELEMENTS (palette);
 	if (style->fill.is_auto) {
 		if (style->fill.type == GOG_FILL_STYLE_PATTERN)
-		style->fill.u.pattern.pat.back = palette [palette_index];
+			style->fill.u.pattern.pat.back = palette [palette_index];
 		else if (style->fill.type == GOG_FILL_STYLE_GRADIENT &&
 			 style->fill.u.gradient.brightness >= 0) {
 			style->fill.u.gradient.start = palette [palette_index];
@@ -381,9 +383,10 @@ map_area_series_solid_guppi (GogStyle *style, unsigned ind)
 				style->fill.u.gradient.brightness);
 		}
 	}
-	if (style->line.auto_color)
+	if (style->line.auto_color && !(style->disable_theming & GOG_STYLE_LINE))
 		style->line.color = palette [palette_index];
-	map_marker (&style->marker, ind, palette_index, palette);
+	if (!(style->disable_theming & GOG_STYLE_MARKER))
+		map_marker (&style->marker, ind, palette_index, palette);
 }
 
 /**************************************************************************/

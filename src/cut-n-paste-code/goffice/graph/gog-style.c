@@ -1089,7 +1089,7 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 		dst->fill.u.image.filename = g_strdup (dst->fill.u.image.filename);
 
 	dst->interesting_fields = src->interesting_fields;
-	dst->needs_obj_defaults = src->needs_obj_defaults;
+	dst->disable_theming = src->disable_theming;
 }
 
 /**
@@ -1185,7 +1185,7 @@ static void
 gog_style_init (GogStyle *style)
 {
 	style->interesting_fields = GOG_STYLE_ALL;
-	style->needs_obj_defaults = TRUE;
+	style->disable_theming = 0;
 	style->marker.mark = go_marker_new ();
 	style->marker.auto_shape =
 	style->marker.auto_outline_color =
@@ -1643,7 +1643,6 @@ gog_style_persist_dom_load (GogPersist *gp, xmlNode *node)
 	xmlNode *ptr;
 
 	/* while reloading no need to reapply settings */
-	style->needs_obj_defaults = FALSE;
 	for (ptr = node->xmlChildrenNode ; ptr != NULL ; ptr = ptr->next) {
 		if (xmlIsBlankNode (ptr) || ptr->name == NULL)
 			continue;
@@ -1737,6 +1736,31 @@ gog_style_is_line_visible (GogStyle const *style)
 {
 #warning TODO : make this smarter
 	return style->line.width >= 0 && UINT_RGBA_A (style->line.color) > 0;
+}
+gboolean
+gog_style_is_completely_auto (GogStyle const *style)
+{
+	if ((style->interesting_fields & GOG_STYLE_OUTLINE) &&
+	    !style->outline.auto_color)
+		return FALSE;
+	if ((style->interesting_fields & GOG_STYLE_FILL)) {
+		if (!style->fill.is_auto ||
+		    !style->fill. pattern_fore_auto ||
+		    !style->fill. pattern_back_auto ||
+		    !style->fill. gradient_start_auto ||
+		    !style->fill. gradient_end_auto)
+			return FALSE;
+	}
+	if ((style->interesting_fields & GOG_STYLE_LINE) &&
+	    !style->line.auto_color)
+		return FALSE;
+	if ((style->interesting_fields & GOG_STYLE_MARKER)) {
+		if (!style->marker.auto_shape ||
+		    !style->marker.auto_outline_color ||
+		    !style->marker.auto_fill_color)
+			return FALSE;
+	}
+	return TRUE;
 }
 
 /**

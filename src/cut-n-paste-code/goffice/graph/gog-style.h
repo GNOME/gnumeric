@@ -76,8 +76,9 @@ typedef struct {
 
 struct _GogStyle {
 	GObject	base;
+
 	GogStyleFlag	interesting_fields;
-	gboolean	needs_obj_defaults;
+	GogStyleFlag	disable_theming;
 
 	GogStyleLine	outline, line;
 	struct {
@@ -125,6 +126,7 @@ void	   gog_style_set_fill_image_filename	(GogStyle *style, char *filename);
 gboolean   gog_style_is_different_size	(GogStyle const *a, GogStyle const *b);
 gboolean   gog_style_is_marker_visible	(GogStyle const *style);
 gboolean   gog_style_is_line_visible	(GogStyle const *style);
+gboolean   gog_style_is_completely_auto	(GogStyle const *style);
 
 gpointer   gog_style_editor		(GogStyle *style,
 					 GogStyle *default_style,

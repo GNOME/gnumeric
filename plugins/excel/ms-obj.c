@@ -1073,7 +1073,7 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container, MSObjAttrBag *attrs)
 
 	/* Chart, There should be a BOF next */
 	if (obj->excel_type == 0x5 &&
-	    ms_excel_read_chart_BOF (q, container, obj->gnum_obj)) {
+	    ms_excel_chart_read_BOF (q, container, obj->gnum_obj)) {
 		ms_obj_delete (obj);
 		return;
 	}

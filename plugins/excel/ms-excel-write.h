@@ -1,10 +1,11 @@
 /**
- * ms-excel-write.h: MS Excel support for Gnumeric
+ * ms-excel-write.h: MS Excel export
  *
  * Author:
  *    Michael Meeks (michael@ximian.com)
+ *    Jody Goldberg (jody@gnome.org)
  *
- * (C) 1998, 1999, 2000 Michael Meeks
+ * (C) 1998-2004 Jody Goldberg, Michael Meeks
  **/
 #ifndef GNUMERIC_MS_EXCEL_WRITE_H
 #define GNUMERIC_MS_EXCEL_WRITE_H
@@ -42,8 +43,9 @@ typedef struct {
 	guint32		 boundsheetPos;
 	gint32		 max_col, max_row;
 	guint16		 col_xf    [SHEET_MAX_COLS];
-	GnmStyle		*col_style [SHEET_MAX_COLS];
+	GnmStyle	*col_style [SHEET_MAX_COLS];
 	GnmStyleList 	*validations;
+	unsigned	 cur_obj, num_objs;
 } ExcelWriteSheet;
 
 struct _ExcelWriteState {
@@ -90,7 +92,7 @@ struct _ExcelWriteState {
 		GPtrArray  *indicies;
 	} sst;
 
-	unsigned cur_obj, num_objs;
+	unsigned num_obj_groups, cur_obj_group;
 	gboolean export_macros;
 };
 
@@ -128,6 +130,7 @@ unsigned excel_write_BOF	(BiffPut *bp, MsBiffFileType type);
 void	 excel_write_SETUP	(BiffPut *bp, ExcelWriteSheet *esheet);
 void	 excel_write_SCL	(BiffPut *bp, double zoom, gboolean force);
 
+gint palette_get_index (ExcelWriteState *ewb, guint c);
 int excel_write_get_externsheet_idx (ExcelWriteState *wb,
 				     Sheet *gnum_sheeta,
 				     Sheet *gnum_sheetb);
