@@ -42,6 +42,7 @@ my %pot_files;
     open (*POT, "<$pofilename") or die "Cannot read $pofilename: $!\n";
     while (<POT>) {
 	next if /^\s*\#/ || /^\s*$/;
+	next if /^\s*\[encoding/;
 	chomp;
 	push @pot_files, $_;
 	$pot_files{$_} = 1;
