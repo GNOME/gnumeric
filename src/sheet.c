@@ -194,6 +194,8 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->last_zoom_factor_used = -1.0;
 	sheet->cols.max_used = -1;
 	sheet->rows.max_used = -1;
+	sheet->solver_parameters.options.assume_linear_model = TRUE;
+	sheet->solver_parameters.options.assume_non_negative = TRUE;
 
 	g_ptr_array_set_size (sheet->cols.info = g_ptr_array_new (), 
 			      COLROW_SEGMENT_INDEX (SHEET_MAX_COLS-1)+1);

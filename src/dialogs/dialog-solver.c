@@ -8,6 +8,7 @@
 #include <config.h>
 #include <gnome.h>
 #include <string.h>
+#include <glade/glade.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
@@ -27,52 +28,10 @@ static const char *constraint_strs[] = {
 	NULL
 };
 
-#if 0
-static struct {
-	const char *name;
-	int  disables_second_group;
-} paste_types [] = {
-	{ N_("All"),      0 },
-	{ N_("Formulas"), 0 },
-	{ N_("Values"),   0 },
-	{ N_("Formats"),  1 },
-	{ NULL, 0 }
-};
-#endif
 
 static const char *equal_ops [] = {
 	N_("Max"),
 	N_("Min"),
-	NULL
-};
-
-static const char *estimate_ops [] = {
-	N_("Tangent"),
-	N_("Quadratic"),
-	NULL
-};
-
-static const char *derivative_ops [] = {
-	N_("Forward"),
-	N_("Central"),
-	NULL
-};
-
-static const char *search_ops [] = {
-	N_("Newton"),
-	N_("Conjugate"),
-	NULL
-};
-
-static const char *check_button_left_ops [] = {
-	N_("Assume Linear Model"),
-	N_("Assume Non-Negative"),
-	NULL
-};
-
-static const char *check_button_right_ops [] = {
-	N_("Use Automatic Scaling"),
-	N_("Show Iteration Results"),
 	NULL
 };
 
@@ -101,18 +60,6 @@ add_radio_buttons (GtkWidget *hbox, const char *title, const char *ops[])
 	return group_ops;
 }
 
-static void
-add_check_buttons (GtkWidget *box, const char *ops[])
-{
-        GtkWidget *button;
-	int       i;
-
-	for (i = 0; ops[i]; i++) {
-	        button = gtk_check_button_new_with_label (ops[i]);
-		gtk_box_pack_start (GTK_BOX (box), button, TRUE, TRUE, 0);
-	}
-}
-
 typedef struct {
         GtkWidget *dialog;
         GSList    *constraints;
@@ -123,59 +70,78 @@ typedef struct {
 
 
 static void
+linearmodel_toggled(GtkWidget *widget, Sheet *sheet)
+{
+        sheet->solver_parameters.options.assume_linear_model = 
+	        GTK_TOGGLE_BUTTON (widget)->active;
+}
+
+static void
+nonnegative_toggled(GtkWidget *widget, Sheet *sheet)
+{
+        sheet->solver_parameters.options.assume_non_negative = 
+	        GTK_TOGGLE_BUTTON (widget)->active;
+}
+
+static void
 dialog_solver_options (Workbook *wb, Sheet *sheet)
 
 {
-	GtkWidget *dialog;
-	GtkWidget *radio_buttons, *check_buttons;
-	GtkWidget *check_buttons_left, *check_buttons_right;
-	GSList *group_estimates, *group_derivatives, *group_search;
+	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR 
+					"/solver-options.glade",
+					NULL);
+	GtkWidget *dia;
+	GtkWidget *linearmodel;
+	GtkWidget *nonnegative;
+	gint      v, old_lm, old_nn;
 
-	dialog = gnome_dialog_new (_("Gnumeric Solver Options"),
-				   GNOME_STOCK_BUTTON_OK,
-				   GNOME_STOCK_BUTTON_CANCEL,
-				   NULL);
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog), 
+	old_lm = sheet->solver_parameters.options.assume_linear_model;
+	old_nn = sheet->solver_parameters.options.assume_non_negative;
+
+	if (!gui) {
+		printf ("Could not find solver-options.glade\n");
+		return;
+	}
+	
+	dia = glade_xml_get_widget (gui, "SolverOptions");
+	if (!dia) {
+		printf ("Corrupt file solver-options.glade\n");
+		return;
+	}
+
+	gnome_dialog_set_parent (GNOME_DIALOG (dia),
 				 GTK_WINDOW (wb->toplevel));
 
-	check_buttons_left = gtk_vbox_new (TRUE, 0);
-	check_buttons_right = gtk_vbox_new (TRUE, 0);
-	check_buttons = gtk_hbox_new(TRUE, 0);
-	radio_buttons = gtk_hbox_new (TRUE, 0);
+	linearmodel = glade_xml_get_widget (gui, "linearmodel");
+        if (old_lm)
+	        gtk_toggle_button_set_active ((GtkToggleButton *)
+					      linearmodel, old_lm);
+	gtk_signal_connect (GTK_OBJECT (linearmodel), "toggled",
+			    GTK_SIGNAL_FUNC (linearmodel_toggled), sheet);
 
-	add_check_buttons(check_buttons_left, check_button_left_ops);
-	add_check_buttons(check_buttons_right, check_button_right_ops);
+	nonnegative = glade_xml_get_widget (gui, "nonnegative");
+	if (old_nn)
+	        gtk_toggle_button_set_active ((GtkToggleButton *)
+					      nonnegative, old_nn);
+	gtk_signal_connect (GTK_OBJECT (nonnegative), "toggled",
+			    GTK_SIGNAL_FUNC (nonnegative_toggled), sheet);
 
-	group_estimates = add_radio_buttons(radio_buttons, 
-					    _("Estimates"), estimate_ops);
-	group_derivatives = add_radio_buttons(radio_buttons,
-					      _("Derivatives"), 
-					      derivative_ops);
-	group_search = add_radio_buttons(radio_buttons,
-					 _("Search"), search_ops);
-
-	gtk_box_pack_start (GTK_BOX (check_buttons), 
-			    check_buttons_left, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (check_buttons), 
-			    check_buttons_right, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), 
-			    check_buttons, TRUE, TRUE, 0);
-
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), 
-			    radio_buttons, TRUE, TRUE, 0);
-
-	gtk_widget_show_all (dialog);
+	gtk_widget_set_sensitive (linearmodel, FALSE);
+	gtk_widget_set_sensitive (nonnegative, FALSE);
 
 	/* Run the dialog */
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-	gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	gtk_window_set_modal (GTK_WINDOW (dia), TRUE);
+	gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
 
-	sheet->solver_parameters.options.assume_linear_model = 1;
-	sheet->solver_parameters.options.assume_non_negative = 1;
-	sheet->solver_parameters.options.automatic_scaling = 0;
-	sheet->solver_parameters.options.show_iteration_results = 0;
+	if (v == 1) {
+	        sheet->solver_parameters.options.assume_linear_model = old_lm;
+		sheet->solver_parameters.options.assume_non_negative = old_nn;
+	}
 
-	gtk_object_unref (GTK_OBJECT (dialog));
+	if (v != -1)
+		gtk_object_destroy (GTK_OBJECT (dia));
+
+	gtk_object_unref (GTK_OBJECT (gui));
 }
 
 

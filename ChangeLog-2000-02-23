@@ -1,3 +1,15 @@
+2000-01-24  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/dialogs/solver-options.glade, src/dialogs/Makefile.am: New
+ 	file for Solver options.
+
+	* src/dialogs/dialog-solver.c: Updated for the new Glade file.
+  	Removed some unimplemented options.  Made the Solver options
+ 	unsensitive.
+
+	* src/sheet.c (sheet_new): Added setting some default parameter
+ 	values for the Solver tool.
+	
 2000-01-23  Miguel de Icaza   <miguel@gnu.org>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Handle
