@@ -156,18 +156,18 @@ html_write_cell_content (FILE *fp, Cell *cell, MStyle *mstyle, html_version_t ve
 
 	if (mstyle != NULL) {
 		if (mstyle_get_font_italic (mstyle))
-			fputs ("<I>", fp);
+			fputs ("<i>", fp);
 		if (mstyle_get_font_bold (mstyle))
-			fputs ("<B>", fp);
+			fputs ("<b>", fp);
 		if (font_is_monospaced (mstyle))
-			fputs ("<TT>", fp);
+			fputs ("<tt>", fp);
 	}
 
 	if (cell != NULL) {
 		if (mstyle != NULL && version != HTML40) {
 			html_get_text_color (cell, mstyle, &r, &g, &b);
 			if (r > 0 || g > 0 || b > 0)
-				fprintf (fp, "<FONT color=\"#%02X%02X%02X\">", r, g, b);
+				fprintf (fp, "<font color=\"#%02X%02X%02X\">", r, g, b);
 		}
 		rendered_string = cell_get_rendered_text (cell);
 		html_print_encoded (fp, rendered_string);
@@ -175,14 +175,14 @@ html_write_cell_content (FILE *fp, Cell *cell, MStyle *mstyle, html_version_t ve
 	}
 
 	if (r > 0 || g > 0 || b > 0)
-		fputs ("</FONT>", fp);
+		fputs ("</font>", fp);
 	if (mstyle != NULL) {
 		if (font_is_monospaced (mstyle))
-			fputs ("</TT>", fp);
+			fputs ("</tt>", fp);
 		if (mstyle_get_font_bold (mstyle))
-			fputs ("</B>", fp);
+			fputs ("</b>", fp);
 		if (mstyle_get_font_italic (mstyle))
-			fputs ("</I>", fp);
+			fputs ("</i>", fp);
 	}
 }
 
@@ -391,7 +391,7 @@ write_cell (FILE *fp, Sheet *sheet, gint row, gint col, html_version_t version)
 	}
 	fprintf (fp, ">");
 	html_write_cell_content (fp, cell, mstyle, version);
-	fputs ("</TD>\n", fp);
+	fputs ("</td>\n", fp);
 }
 
 
@@ -426,7 +426,7 @@ write_row (FILE *fp, Sheet *sheet, gint row, Range *range, html_version_t versio
 		/* Is this a span */
 		the_span = row_span_get (ri, col);
 		if (the_span != NULL) {
-			fprintf (fp, "<TD COLSPAN=%i ", the_span->right - col + 1);
+			fprintf (fp, "<td colspan=%i ", the_span->right - col + 1);
 			write_cell (fp, sheet, row, the_span->cell->pos.col, version);
 			col = the_span->right;
 			continue;
@@ -438,14 +438,14 @@ write_row (FILE *fp, Sheet *sheet, gint row, Range *range, html_version_t versio
 			if (merge_range->start.col != col ||
 			    merge_range->start.row != row)
 				continue;
-			fprintf (fp, "<TD COLSPAN=%i ROWSPAN=%i ",
+			fprintf (fp, "<td colspan=%i rowspan=%i ",
 				 merge_range->end.col - merge_range->start.col + 1,
 				 merge_range->end.row - merge_range->start.row + 1);
 			write_cell (fp, sheet, row, col, version);
 			col = merge_range->end.col;
 			continue;
 		}
-		fputs ("<TD ", fp);
+		fputs ("<td ", fp);
 		write_cell (fp, sheet, row, col, version);
 	}
 }
@@ -467,21 +467,21 @@ write_sheet (FILE *fp, Sheet *sheet, html_version_t version)
 	gint row;
 
 	if (version == HTML40)
-		fputs ("<P><TABLE cellspacing=\"0\" cellpadding=\"3\">\n", fp);
+		fputs ("<p><table cellspacing=\"0\" cellpadding=\"3\">\n", fp);
 	else
-		fputs ("<P><TABLE border=\"1\">\n", fp);
+		fputs ("<p><table border=\"1\">\n", fp);
 
-	fputs ("<CAPTION>", fp);
+	fputs ("<caption>", fp);
 	html_print_encoded (fp, sheet->name_unquoted);
-	fputs ("</CAPTION>\n", fp);
+	fputs ("</caption>\n", fp);
 
 	total_range = sheet_get_extent (sheet, TRUE);
 	for (row = total_range.start.row; row <=  total_range.end.row; row++) {
-		fputs ("<TR>\n", fp);
+		fputs ("<tr>\n", fp);
 		write_row (fp, sheet, row, &total_range, version);
-		fputs ("</TR>\n", fp);
+		fputs ("</tr>\n", fp);
 	}
-	fputs ("</TABLE>\n", fp);
+	fputs ("</table>\n", fp);
 }
 
 /*
@@ -512,46 +512,46 @@ html_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	fputs (
 "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2//EN\">\n"
 "<HTML>\n"
-"<HEAD>\n\t<TITLE>Tables</TITLE>\n"
-"<META http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">\n"
+"<head>\n\t<title>Tables</title>\n"
+"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">\n"
 "\t<!-- \"G_PLUGIN_FOR_HTML\" -->\n"
-"<STYLE><!--\n"
-"TT {\n"
+"<style><!--\n"
+"tt {\n"
 "\tfont-family: courier;\n"
 "}\n"
-"TD {\n"
+"td {\n"
 "\tfont-family: helvetica, sans-serif;\n"
 "}\n"
-"CAPTION {\n"
+"caption {\n"
 "\tfont-family: helvetica, sans-serif;\n"
 "\tfont-size: 14pt;\n"
 "\ttext-align: left;\n"
 "}\n"
-"--></STYLE>\n"
-"</HEAD>\n<BODY>\n", fp);
+"--></style>\n"
+"</head>\n<body>\n", fp);
 		break;
 	case HTML40:
 		fputs (
 "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\"\n"
 "\t\t\"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<HTML>\n"
-"<HEAD>\n\t<TITLE>Tables</TITLE>\n"
-"<META http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">\n"
+"<head>\n\t<title>Tables</title>\n"
+"<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">\n"
 "\t<!-- \"G_PLUGIN_FOR_HTML\" -->\n"
-"<STYLE type=\"text/css\">\n"
-"TT {\n"
+"<style type=\"text/css\">\n"
+"tt {\n"
 "\tfont-family: courier;\n"
 "}\n"
-"TD {\n"
+"td {\n"
 "\tfont-family: helvetica, sans-serif;\n"
 "}\n"
-"CAPTION {\n"
+"caption {\n"
 "\tfont-family: helvetica, sans-serif;\n"
 "\tfont-size: 14pt;\n"
 "\ttext-align: left;\n"
 "}\n"
-"</STYLE>\n"
-"</HEAD>\n<BODY>\n", fp);
+"</style>\n"
+"</head>\n<body>\n", fp);
 		break;
 	default:
 		break;
@@ -563,7 +563,7 @@ html_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	}
 	g_list_free (sheets);
 	if (version == HTML32 || version == HTML40)
-		fputs ("</BODY>\n</HTML>\n", fp);
+		fputs ("</body>\n</HTML>\n", fp);
 	fclose (fp);
 }
 

@@ -1,3 +1,12 @@
+2002-09-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* html.c (html_write_cell_content): change to
+	  lowercase tags
+	(write_cell): ditto
+	(write_row): ditto
+	(write_sheet): ditto
+	(html_file_save): ditto
+
 2002-08-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=92367
