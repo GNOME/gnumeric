@@ -1,5 +1,8 @@
 2001-05-10  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook.c (workbook_sheet_delete) : Clear the combos as well as
+	  the menus.
+
 	* src/workbook-view.c (wb_view_selection_desc) : intelligent naming.
 
 2001-05-10  Morten Welinder  <terra@diku.dk>

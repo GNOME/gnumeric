@@ -1020,6 +1020,8 @@ workbook_sheet_delete (Sheet *sheet)
 	wb->undo_commands = NULL;
 	wb->redo_commands = NULL;
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
+		wb_control_undo_redo_clear (control, TRUE);
+		wb_control_undo_redo_clear (control, FALSE);
 		wb_control_undo_redo_labels (control, NULL, NULL);
 	);
 
