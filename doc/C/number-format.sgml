@@ -961,12 +961,13 @@
     <para>
       If you choose one of the options <guilabel>Stop</guilabel>,
       <guilabel>Warning</guilabel>, or
-      <guilabel>Information</guilabel>, you must enter the message
-      that will be show to the user in the error or warning
-      dialog. Otherwise, the dialog will be empty so it will be
-      completely useless. You need to enter the title (which will be
-      used as the window title for the dialog window) and the message
-      itself. For example, the values shown in <xref linkend="format-validation"> will
+      <guilabel>Information</guilabel>, you should enter a message
+      that will be shown to the user in the error or warning
+      dialog. Otherwise, gnumeric will choose a message itself,
+      which may not clearly indicate the relevant validation criteria.
+      You should also enter a title, which will be
+      used as the window title for the dialog window.
+      For example, the values shown in <xref linkend="format-validation"> will
       produce the dialog shown in <xref linkend="format-validation-warning">. 
     </para> 
 

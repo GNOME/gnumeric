@@ -1232,14 +1232,14 @@ gnumeric_rand (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 static char *help_randexp = {
-        N_("@FUNCTION=RandExp\n"
-           "@SYNTAX=RandExp(b)\n"
+        N_("@FUNCTION=RANDEXP\n"
+           "@SYNTAX=RANDEXP(b)\n"
 
            "@DESCRIPTION="
-           "RandExp returns a exponentially distributed random number. "
+           "RANDEXP returns a exponentially-distributed random number. "
            "\n"
            "@EXAMPLES=\n"
-           "RandExp(0.5).\n"
+           "RANDEXP(0.5).\n"
            "\n"
            "@SEEALSO=RAND,RANDBETWEEN")
 };
@@ -1255,14 +1255,14 @@ gnumeric_randexp (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 static char *help_randpoisson = {
-        N_("@FUNCTION=RandPoisson\n"
-           "@SYNTAX=RandPoisson(lambda)\n"
+        N_("@FUNCTION=RANDPOISSON\n"
+           "@SYNTAX=RANDPOISSON(lambda)\n"
 
            "@DESCRIPTION="
-           "RandPoisson returns a poisson distributed random number. "
+           "RANDPOISSON returns a poisson-distributed random number. "
            "\n"
            "@EXAMPLES=\n"
-           "RandPoisson(3).\n"
+           "RANDPOISSON(3).\n"
            "\n"
            "@SEEALSO=RAND,RANDBETWEEN")
 };
@@ -1281,17 +1281,17 @@ gnumeric_randpoisson (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 static char *help_randbinom = {
-        N_("@FUNCTION=RandBinom\n"
-           "@SYNTAX=RandBinom(p,trials)\n"
+        N_("@FUNCTION=RANDBINOM\n"
+           "@SYNTAX=RANDBINOM(p,trials)\n"
 
            "@DESCRIPTION="
-           "RandBinom returns a binomialy distributed random number. "
+           "RANDBINOM returns a binomially-distributed random number. "
            "\n"
-           "If @p < 0 or @p > 1 RandBinom returns #NUM! error. "
-           "If @trials < 0 RandBinom returns #NUM! error. "
+           "If @p < 0 or @p > 1 RANDBINOM returns #NUM! error. "
+           "If @trials < 0 RANDBINOM returns #NUM! error. "
 	   "\n"
            "@EXAMPLES=\n"
-           "RandBinom(0.5,2).\n"
+           "RANDBINOM(0.5,2).\n"
            "\n"
            "@SEEALSO=RAND,RANDBETWEEN")
 };
@@ -1315,7 +1315,7 @@ static char *help_randnegbinom = {
            "@SYNTAX=RANDNEGBINOM(p,failures)\n"
 
            "@DESCRIPTION="
-           "RANDNEGBINOM returns a negitive binomialy distributed random "
+           "RANDNEGBINOM returns a negative binomially-distributed random "
            "number. "
            "\n"
            "If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error. "
@@ -1342,16 +1342,16 @@ gnumeric_randnegbinom (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 static char *help_randbernoulli = {
-        N_("@FUNCTION=RandBernoulli\n"
-           "@SYNTAX=RandBernoulli(p)\n"
+        N_("@FUNCTION=RANDBERNOULLI\n"
+           "@SYNTAX=RANDBERNOULLI(p)\n"
 
            "@DESCRIPTION="
-           "RandBernoulli returns a Bernoulli distributed random number. "
+           "RANDBERNOULLI returns a Bernoulli-distributed random number. "
            "\n"
-           "If @p < 0 or @p > 1 RandBernoulli returns #NUM! error. "
+           "If @p < 0 or @p > 1 RANDBERNOULLI returns #NUM! error. "
 	   "\n"
            "@EXAMPLES=\n"
-           "RandBernoulli(0.5).\n"
+           "RANDBERNOULLI(0.5).\n"
            "\n"
            "@SEEALSO=RAND,RANDBETWEEN")
 };

@@ -59,8 +59,8 @@ add2numbers (FunctionEvalInfo *ei, Value *argv [])
 
 The function should return a newly allocated Value structure.
 Arguments are passed in the argv array and they contain Value
-structures (look in gnumeric/src/expr.h for the definition of the
-Value structure).
+structures (look in gnumeric/src/value.h for the definition of the
+_Value union, which is typedef'ed to Value in gnumeric.h).
 
 The first parameter, ei is a pointer to the FunctionEvalInfo
 structure, this looks like this: ( from expr.h )
@@ -109,11 +109,11 @@ add2numbers (FunctionEvalPos *ei, Value *argv [])
 
 	switch (argv [1].type){
 	case VALUE_INTEGER:
-		number_a = argv [1].v.v_int;
+		number_b = argv [1].v.v_int;
 		break;
 
 	case VALUE_FLOAT:
-		number_a = argv [1].v.v_float;
+		number_b = argv [1].v.v_float;
 		break;
 
 	default:

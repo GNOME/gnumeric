@@ -3009,12 +3009,12 @@ RAND() returns a random number greater than zero but less than one.
 
 @SEEALSO=RANDBETWEEN
 
-@FUNCTION=RandBernoulli
-@SYNTAX=RandBernoulli(p)
-@DESCRIPTION=RandBernoulli returns a Bernoulli distributed random number. 
-If @p < 0 or @p > 1 RandBernoulli returns #NUM! error. 
+@FUNCTION=RANDBERNOULLI
+@SYNTAX=RANDBERNOULLI(p)
+@DESCRIPTION=RANDBERNOULLI returns a Bernoulli distributed random number. 
+If @p < 0 or @p > 1 RANDBERNOULLI returns #NUM! error. 
 @EXAMPLES=
-RandBernoulli(0.5).
+RANDBERNOULLI(0.5).
 
 @SEEALSO=RAND,RANDBETWEEN
 
@@ -3028,37 +3028,37 @@ RANDBETWEEN(3,7).
 
 @SEEALSO=RAND
 
-@FUNCTION=RandBinom
-@SYNTAX=RandBinom(p,trials)
-@DESCRIPTION=RandBinom returns a binomialy distributed random number. 
-If @p < 0 or @p > 1 RandBinom returns #NUM! error. If @trials < 0 RandBinom returns #NUM! error. 
+@FUNCTION=RANDBINOM
+@SYNTAX=RANDBINOM(p,trials)
+@DESCRIPTION=RANDBINOM returns a binomialy distributed random number. 
+If @p < 0 or @p > 1 RANDBINOM returns #NUM! error. If @trials < 0 RANDBINOM returns #NUM! error. 
 @EXAMPLES=
-RandBinom(0.5,2).
+RANDBINOM(0.5,2).
 
 @SEEALSO=RAND,RANDBETWEEN
 
-@FUNCTION=RandExp
-@SYNTAX=RandExp(b)
-@DESCRIPTION=RandExp returns a exponentially distributed random number. 
+@FUNCTION=RANDEXP
+@SYNTAX=RANDEXP(b)
+@DESCRIPTION=RANDEXP returns a exponentially distributed random number. 
 @EXAMPLES=
-RandExp(0.5).
+RANDEXP(0.5).
 
 @SEEALSO=RAND,RANDBETWEEN
 
 @FUNCTION=RANDNEGBINOM
 @SYNTAX=RANDNEGBINOM(p,failures)
-@DESCRIPTION=RANDNEGBINOM returns a negitive binomialy distributed random number. 
+@DESCRIPTION=RANDNEGBINOM returns a negative binomially-distributed random number. 
 If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error. If @failures RANDNEGBINOM returns #NUM! error. 
 @EXAMPLES=
 RANDNEGBINOM(0.5,2).
 
 @SEEALSO=RAND,RANDBETWEEN
 
-@FUNCTION=RandPoisson
-@SYNTAX=RandPoisson(lambda)
-@DESCRIPTION=RandPoisson returns a poisson distributed random number. 
+@FUNCTION=RANDPOISSON
+@SYNTAX=RANDPOISSON(lambda)
+@DESCRIPTION=RANDPOISSON returns a poisson distributed random number. 
 @EXAMPLES=
-RandPoisson(3).
+RANDPOISSON(3).
 
 @SEEALSO=RAND,RANDBETWEEN
 
