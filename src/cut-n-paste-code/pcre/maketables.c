@@ -45,6 +45,7 @@ DFTABLES is defined. */
 
 #ifndef DFTABLES
 #include "internal.h"
+#include <glib.h>
 #endif
 
 

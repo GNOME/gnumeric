@@ -1,5 +1,7 @@
 2003-05-19  Morten Welinder  <terra@gnome.org>
 
+	* import-pcre: Warning killer.
+
 	* fixup-deprecated: Handle even more objectified stuff.
 
 2003-05-18  Morten Welinder  <terra@gnome.org>

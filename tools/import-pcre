@@ -76,6 +76,12 @@ for my $filename (@SRC_C, @EXTRA_C, @SRC_H) {
 
 	s/\b(to(lower|upper)|is(lower|upper|digit|xdigit|space|print|cntrl|alpha|alnum|graph|punct))\b/g_unichar_$1/g;
 
+	if ($filename =~ /maketables/i) {
+	    if (/^\s*\#\s*include\s*.internal\.h/) {
+		$_ .= "#include <glib.h>\n";
+	    }
+	}
+
 	s/"config\.h"/\<gnumeric-config.h\>/;
 	if (s{^(\s*\#\s*include\s*.ctype\.h.*)}{/* $1 */}) {
 	    print DST "/* Whatever the question is, ctype.h is not the answer.  */\n";
