@@ -1,3 +1,7 @@
+2001-11-05  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.sgml: Documented the goal seek tool.
+
 2001-11-01  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* filter.sgml: Added figures.
