@@ -1,23 +1,23 @@
-# translation of gnumeric.HEAD.po to Spanish
-# gnumeric es.po
-# Copyright (C) 1998,2002 Free Software Foundation, Inc.
-# Francisco Javier Fernández <serrador@arrakis.es>, 2003
-# Alfonso  Pedereño García-LaPuya, 2002
+# Spanish translation of gnumeric
+# Copyright (C) 1998,2003 Free Software Foundation, Inc.
 # Federico Mena Quintero,Pregonero <federico@casiopea.quartic.org>, 1998
 # Pablo Saratxaga <pablo@mandrakesoft.com>, 1999-2000
 # Germán Poo Caamaño <gpoo@ubiobio.cl>, 2001
+# Alfonso  Pedereño García-LaPuya, 2002
 # Juan Manuel García Molina <juanma_gm@wanadoo.es>, 2002.
+# Francisco Javier Fernández <serrador@arrakis.es>, 2003
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric.HEAD\n"
-"POT-Creation-Date: 2003-02-02 17:39-0300\n"
-"PO-Revision-Date: 2003-01-27 00:58+0100\n"
-"Last-Translator: Germán Poo Caamaño <gpoo@ubiobio.cl>\n"
+"Project-Id-Version: gnumeric\n"
+"POT-Creation-Date: 2003-02-04 12:47-0300\n"
+"PO-Revision-Date: 2003-02-03 16:57GMT+1\n"
+"Last-Translator: Francisco Javier Fernández <serrador@arrakis.es>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 0.9.5\n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -94,6 +94,10 @@ msgid ""
 "@DESCRIPTION=CUM_BIV_NORM_DIST calculates the cumulative bivariatenormal "
 "distribution from parameters a, b & rho"
 msgstr ""
+"@FUNCTION=CUM_BIV_NORM_DIST\n"
+"@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
+"@DESCRIPTION=CUM_BIV_NORM_DIST calcula la distribucion acumulada "
+"bivariadanormal con los parámetros a, b & rho"
 
 #: plugins/derivatives/options.c:202
 msgid ""
@@ -478,7 +482,7 @@ msgstr ""
 
 #: plugins/derivatives/options.c:1733
 msgid "a, b, rho"
-msgstr ""
+msgstr "a, b, rho"
 
 #: plugins/derivatives/options.c:1738
 msgid "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
@@ -731,6 +735,8 @@ msgid ""
 "Some content will be lost when saving as excel.It only supports %d rows, and "
 "this workbook has %d"
 msgstr ""
+"Algunos contenidos se perderán al guardar como Excel. Excel sólo soporta %d "
+"columnas y este libro de cuentas tiene %d."
 
 #: plugins/excel/ms-excel-write.c:4088
 msgid "Couldn't open stream 'Book' for writing\n"
@@ -776,9 +782,8 @@ msgid "MS Excel (tm) 97/2000/XP & 5.0/95"
 msgstr "MS Excel (tm) 97/2000/XP y 5.0/95"
 
 #: plugins/excel/plugin.xml.in.h:7
-#, fuzzy
 msgid "MS Excel (tm) XML"
-msgstr "MS Excel (tm)"
+msgstr "MS Excel (tm) XML"
 
 #: plugins/fn-complex/functions.c:80
 msgid ""
@@ -830,10 +835,10 @@ msgid ""
 "@SEEALSO=IMREAL"
 msgstr ""
 "@FUNCTION=IMAGINARY\n"
-"@SYNTAX=IMAGINARY(número_im)\n"
+"@SYNTAX=IMAGINARY(inum)\n"
 "@DESCRIPTION=IMAGINARY devuelve la parte imaginaria de un número complejo.\n"
 "\n"
-"* Si @número_im no es un número complejo válido, IMAGINARY devuelve el error "
+"* Si @inum no es un número complejo válido, IMAGINARY devuelve el error "
 "#VALOR!.\n"
 "* Esta función es compatible con Excel.\n"
 "\n"
@@ -857,10 +862,10 @@ msgid ""
 "@SEEALSO=IMAGINARY,IMREAL"
 msgstr ""
 "@FUNCTION=IMABS\n"
-"@SYNTAX=IMABS(número_im)\n"
+"@SYNTAX=IMABS(inum)\n"
 "@DESCRIPTION=Devuelve el valor absoluto de un número complejo.\n"
 "\n"
-"* Si @número_im no es un número complejo válido, IMABS devuelve el error "
+"* Si @inum no es un número complejo válido, IMABS devuelve el error "
 "#VALOR!.\n"
 "* Esta función es compatible con Excel. \n"
 "@EXAMPLES=\n"
@@ -911,11 +916,11 @@ msgid ""
 "@SEEALSO=IMAGINARY,IMREAL"
 msgstr ""
 "@FUNCTION=IMCONJUGATE\n"
-"@SYNTAX=IMLCONJUGATE(número_im)\n"
+"@SYNTAX=IMLCONJUGATE(inum)\n"
 "@DESCRIPTION=Devuelve el conjugado de un número complejo.\n"
 "\n"
-"* Si @número_im no es un número complejo válido, IMCONJUGATE devuelve el "
-"error #VALOR!.\n"
+"* Si @inum no es un número complejo válido, IMCONJUGATE devuelve el error "
+"#VALOR!.\n"
 "* Esta función es compatible con Excel. \n"
 "@EXAMPLES=\n"
 "IMCONJUGATE(\"1-j\") es igual a 1+i.\n"
@@ -939,13 +944,13 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=IMINV\n"
-"@SYNTAX=IMINV(número_im)\n"
+"@SYNTAX=IMINV(ncomplejo)\n"
 "@DESCRIPTION=IMINV devuelve el inverso, o recíproco, del número complejo z "
-"(@número_im), donde\n"
+"(@ncomplejo), donde\n"
 "\n"
 "\t1/z = (x - i y)/(x^2 + y^2).\n"
 "\n"
-"* Si @número_im no es un número complejo válido, IMINV devuelve el error "
+"* Si @ncomplejo no es un número complejo válido, IMINV devuelve el error "
 "#VALOR!.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -970,8 +975,8 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=IMNEG\n"
-"@SYNTAX=IMNEG(número_im)\n"
-"@DESCRIPTION=IMNEG devuelve el negativo del número complejo z (@número_im), "
+"@SYNTAX=IMNEG(ncomplejo)\n"
+"@DESCRIPTION=IMNEG devuelve el negativo del número complejo z (@ncomplejo), "
 "donde\n"
 "\n"
 "\t-z = (-x) + i(-y).\n"
@@ -1297,12 +1302,12 @@ msgid ""
 "@SEEALSO=IMSQRT"
 msgstr ""
 "@FUNCTION=IMPOWER\n"
-"@SYNTAX=IMPOWER(número_im1;número_im2)\n"
-"@DESCRIPTION=Devuelve un número complejo elevado a una potencia. @number_im1 "
-"es el número complejo y @número_im2 es la potencia con la cual se desea "
+"@SYNTAX=IMPOWER(ncomplejo1;ncomplejo2)\n"
+"@DESCRIPTION=Devuelve un número complejo elevado a una potencia. @ncomplejo1 "
+"es el número complejo y @ncomplejo2 es la potencia con la cual se desea "
 "elevar el número complejo.\n"
 "\n"
-"* Si @numero_im1 o @número_im2 no son números complejos válidos, IMPOWER "
+"* Si @ncomplejo1 o @ncomplejo2 no son números complejos válidos, IMPOWER "
 "devuelve un error #VALOR!\n"
 "* Esta función es compatible con Excel.\n"
 "\n"
@@ -1812,6 +1817,18 @@ msgid ""
 "\n"
 "@SEEALSO=IMARCSINH,IMARCCOSH"
 msgstr ""
+"@FUNCTION=IMARCTANH\n"
+"@SYNTAX=IMARCTANH(inum)\n"
+"@DESCRIPTION=IMARCTANH devuelve el arco tangente hiperbólico imaginario del "
+"número complejo @inum. El corte con los ejes se encuentra en el eje real, "
+"menor que -1 y mayor que 1.\n"
+"\n"
+"* Si @inum no es un complejo válido, IMARCHTANH devuelve un error #VALOR!\n"
+"\n"
+"@EXAMPLES=\n"
+"IMARCTANH(\"1+j\") es igual a 0.4023595+1.0172220j.\n"
+"\n"
+"@SEEALSO=IMARCSINH,IMARCCOSH"
 
 #: plugins/fn-complex/functions.c:1216
 msgid ""
@@ -2020,7 +2037,7 @@ msgstr ""
 
 #: plugins/fn-complex/functions.c:1484
 msgid "real,im[,suffix]"
-msgstr ""
+msgstr "real,im[,sufijo]"
 
 #: plugins/fn-complex/functions.c:1487 plugins/fn-complex/functions.c:1490
 #: plugins/fn-complex/functions.c:1493 plugins/fn-complex/functions.c:1496
@@ -2896,7 +2913,7 @@ msgstr ""
 "@DESCRIPTION=Devuelve el número de serie de la fecha correspondiente a la "
 "fecha especificada por el número de meses antes o después de la fecha dada. "
 "@fecha es el número de serie de la fecha inicial y @meses es el número de "
-"meses antes (encaso de ser negativo) o despuñes (si es positivo) de la fecha "
+"meses antes (encaso de ser negativo) o después (si es positivo) de la fecha "
 "inicial.\n"
 "\n"
 "* Si @meses no es un entero será truncado. \n"
@@ -3554,7 +3571,7 @@ msgstr "fecha1,fecha2,método"
 
 #: plugins/fn-date/functions.c:1267
 msgid "serial_number,months"
-msgstr ""
+msgstr "numero_de_serie,meses"
 
 #: plugins/fn-date/functions.c:1271
 msgid "start_date,months"
@@ -3567,7 +3584,7 @@ msgstr "hora"
 
 #: plugins/fn-date/functions.c:1287
 msgid "start_date,end_date,holidays"
-msgstr ""
+msgstr "fecha_inicio,fecha_fin,vacaciones"
 
 #: plugins/fn-date/functions.c:1299
 msgid "hours,minutes,seconds"
@@ -4006,8 +4023,10 @@ msgstr ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
 "@DESCRIPTION=La función BESSELK devuelve la función de Neumann, Weber o "
-"Bessel. @x es donde se evalúa la función. @y es el orden de la función "
-"bessel, si no es un entero se trunca.\n"
+"Bessel.\n"
+"\n"
+"@x es donde se evalúa la función. @y es el orden de la función bessel, si no "
+"es un entero se trunca.\n"
 "\n"
 "* Si x o n no son numéricos se devuelve un error #VALOR!.\n"
 "* Si y < 0 se devuelve un error #NUM!.\n"
@@ -5237,6 +5256,26 @@ msgid ""
 "IRR(A1:A8) returns 0.04375. \n"
 "@SEEALSO=FV,NPV,PV"
 msgstr ""
+"@FUNCTION=IRR\n"
+"@SYNTAX=IRR(valores[,estimación])\n"
+"@DESCRIPTION=IRR calcula y devuelve la tasa interna de devolución de una "
+"inversión. Esta función está relacionada con la función de valor neto actual "
+"(NPV). La IRR es la tasa de interés para una serie de fujos de capital donde "
+"el valor neto actual es cero.\n"
+"\n"
+"@valores contiene la serie de flujos de capital generados por la inversión.  "
+"Los pagos deberían ocurrir a intervalos regulares.  El parámetro opcional "
+"@estimación es el valor inicial para calcular la IRR.  No tiene qye usarlo, "
+"sólo se proporciona para compatibilidad con Excel.\n"
+"\n"
+"* Esta función es compatible con Excel.\n"
+"\n"
+"@EXAMPLES=\n"
+"Asumamos que las celdas A1:A8 contienen los números -32432, 5324, 7432, "
+"9332, 12324, 4334, 1235, -3422.  Entonces\n"
+"IRR(A1:A8) devuelve 0.04375. \n"
+"\n"
+"@SEEALSO=FV,NPV,PV"
 
 #: plugins/fn-financial/functions.c:1635
 msgid ""
@@ -5267,6 +5306,17 @@ msgid ""
 "\n"
 "@SEEALSO=PV,XNPV"
 msgstr ""
+"@FUNCTION=NPV\n"
+"@SYNTAX=NPV(tasa,v1,v2,...)\n"
+"@DESCRIPTION=NPV calcula el valor presente neto de una inversión que genera "
+"pagos periódicos. @tasa es la tasa periódica de interés y @v1, @v2, ... son "
+"los pagos periódicos.  Si la planificación de los flujos de capital no es "
+"periódica use la función XNPV.\n"
+"\n"
+"@EXAMPLES=\n"
+"NPV(0.17,-10000,3340,2941,2493,3233,1732,2932) es igual a 186.30673.\n"
+"\n"
+"@SEEALSO=PV,XNPV"
 
 #: plugins/fn-financial/functions.c:1730
 msgid ""
@@ -5284,6 +5334,19 @@ msgid ""
 "\n"
 "@SEEALSO=NPV,PV"
 msgstr ""
+"@FUNCTION=XNPV\n"
+"@SYNTAX=XNPV(tasa,valores,fechas)\n"
+"@DESCRIPTION=XNPV calcula el valor neto actual de una inversión.  La "
+"planificación de los flujos de capital se da en el array @fechas.  La "
+"primera fecha indica el principio de la planificación de pagos..  @tasa es "
+"la tasa de interés y @valores son los pagos.\n"
+"\n"
+"* Si @valores y @fechas contienen distinto número de valores, XNPV devuelve "
+"el error #NUM!\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=NPV,PV"
 
 #: plugins/fn-financial/functions.c:1790
 msgid ""
@@ -5310,6 +5373,29 @@ msgid ""
 "XIRR(A1:A5,B1:B5) returns 0.224838. \n"
 "@SEEALSO=IRR,XNPV"
 msgstr ""
+"@FUNCTION=XIRR\n"
+"@SYNTAX=XIRR(valores,fechas[,estimar])\n"
+"@DESCRIPTION=XIRR calcula y devuelve la tasa interna de retorno de una "
+"inversión que no tiene necesariamente pagos periódicos. Esta función está "
+"relacionada cercanamente con función de valor presente (NPV y XNPV).  La "
+"función XIRR es la tasa de interés para una serie de flujo de capital donde "
+"el XNPV es cero.\n"
+"\n"
+"@valores contiene la serie de flujo de capitales generados por la inversión. "
+"@fechas contiene las fechas de pagos.  La primera fecha describe el día de "
+"pago del pago inicial así que todas las demás fechas deberán ir tras esta "
+"fecha . El parámetro opcional @estimar  es el vaor inicial usado en el "
+"cálculo de XIRR. No tiene que usar lo, tan sñolo se proporciona por "
+"compatibilidad con Excel.\n"
+"\n"
+"* Esta función es compatible con Excel. (TIR.NO.PER)\n"
+"\n"
+"@EXAMPLES=\n"
+"Asumamos que las celdas A1:A5 contienen los números -6000, 2134, 1422, 1933, "
+"y 1422, y las celdas B1:B5 contienen las fechas \"15-01-1991\", \"04-04-19991"
+"\", \"05-09-1991\", \"12-03-2000\", y\"01-05-2000\". Entonces\n"
+"XIRR(A1:A5,B1:B5) devuelve 0.224838. \n"
+"@SEEALSO=IRR,XNPV"
 
 #: plugins/fn-financial/functions.c:1897
 msgid ""
@@ -5328,6 +5414,20 @@ msgid ""
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
 msgstr ""
+"@FUNCTION=FV\n"
+"@SYNTAX=FV(tasa,nper,pmt[,pv,tipo])\n"
+"@DESCRIPTION=FV calcula el valor futuro de una inversión. Esto se basa en "
+"pagos periódicos, constantes y una tasa constante de interés.  La tasa de "
+"interés por periodo es @tasa, @term es el número de períodos en una "
+"anualidad, @pmt es el pago hecha cada período, @pv es el valor presente y "
+"@tipo es cuándo se hace el pago.\n"
+"\n"
+"* Si @tipo = 1 entonces el pago se hace al principio del período.\n"
+"* Si @tipo = 0 se hace al final de cada periodo.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=PV,PMT,PPMT"
 
 #: plugins/fn-financial/functions.c:1934
 msgid ""
@@ -5374,6 +5474,25 @@ msgid ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
+"@FUNCTION=IPMT\n"
+"@SYNTAX=IPMT(tasa,per,nper,pv[,fv,tipo])\n"
+"@DESCRIPTION=IPMT calcula la cantidad de un pago de una anualidad con del "
+"interés.\n"
+"\n"
+"La fórmula para IOPMT es:\n"
+"\n"
+"IPMT(PER) = -PRINCIPAL(PER-1) * INTEREST_RATE\n"
+"\n"
+"donde:\n"
+"\n"
+"PRINCIPAL(PER-1) = cantidad de remanente principal del último período\n"
+"\n"
+"* Si @fv se omite, se asume que es 0.\n"
+"* Si @tipo se omite, se asume que es 0.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=PPMT,PV,FV"
 
 #: plugins/fn-financial/functions.c:2021
 msgid ""
@@ -9789,6 +9908,23 @@ msgid ""
 "\n"
 "@SEEALSO=RANDBETWEEN,RAND"
 msgstr ""
+"@FUNCTION=RANDDISCRETE\n"
+"@SYNTAX=RANDDISCRETE(rango_val[,rango_prob])\n"
+"@DESCRIPTION=RANDDISCRETE devuelve uno de los valores en @rango_val. La "
+"probabilidades de cada valor se dan en el @rango_prob.\n"
+"\n"
+"* Si @rango_prob se omite, se asume la distribución discreta uniforme.\n"
+"* Si la suma de todos los valores en @rango_prob es distinta de uno, "
+"RANDDISCRETE devuelve el error #NUM!.\n"
+"* Si @rango_val y @rango_prob no son del mismo tamaño, RANDDISCRETE devuelve "
+"el error #NUM!.\n"
+"* Si @rango_val o @rango_prob no es un rango, RANDDISCRETE devuelve un "
+"error  #VALOR!.\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDDISCRETE(A1:A6) devuelve uno de los valores en el rango A1:A6.\n"
+"\n"
+"@SEEALSO=RANDBETWEEN,RAND"
 
 #: plugins/fn-random/functions.c:234
 msgid ""
@@ -10101,6 +10237,20 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDRAYLEIGH"
 msgstr ""
+"@FUNCTION=RANDRAYLEIGHTAIL\n"
+"@SYNTAX=RANDRAYLEIGHTAIL(a,sigma)\n"
+"@DESCRIPTION=RANDRAYLEIGHTAIL devuelve una variavión aleatoria de la cola "
+"de  una distribución Rayleigh con parámetro de escala @sigma y límite "
+"inferior @a. La distribución es:\n"
+"\n"
+"\tp(x) dx = {x sobre sigma^2} exp ((a^2 - x^2) /(2 sigma^2)) dx,\n"
+"\n"
+"para x > a.\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDRAYLEIGHTAIL(0.3,1).\n"
+"\n"
+"@SEEALSO=RAND,RANDRAYLEIGH"
 
 #: plugins/fn-random/functions.c:592
 msgid ""
@@ -10115,6 +10265,17 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
+"@FUNCTION=RANDGAMMA\n"
+"@SYNTAX=RANDGAMMA(a,b)\n"
+"@DESCRIPTION=RANDGAMMA devuelve un número aleatorio según una distribución "
+"Gamma.\n"
+"\n"
+"* Si @a <= 0 RANDGAMMA devuelve el error #NUM!.\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDGAMMA(1,2).\n"
+"\n"
+"@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:621
 msgid ""
@@ -10127,6 +10288,15 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
+"@FUNCTION=RANDPARETO\n"
+"@SYNTAX=RANDPARETO(a,b)\n"
+"@DESCRIPTION=RANDPARETO devuelve un número aleatorio distribuído según "
+"Pareto.\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDPARETO(1,2).\n"
+"\n"
+"@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:645
 msgid ""
@@ -10139,6 +10309,14 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDGAMMA"
 msgstr ""
+"@FUNCTION=RANDFDIST\n"
+"@SYNTAX=RANDFDIST(nu1,nu2)\n"
+"@DESCRIPTION=RANDFDIST devuelve un número aleatorio F-distribuído.\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDFDIST(1,2).\n"
+"\n"
+"@SEEALSO=RAND,RANDGAMMA"
 
 #: plugins/fn-random/functions.c:669
 msgid ""
@@ -10151,6 +10329,14 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDGAMMA"
 msgstr ""
+"@FUNCTION=RANDBETA\n"
+"@SYNTAX=RANDBETA(a,b)\n"
+"@DESCRIPTION=RANDBETA devuelve un número aleatorio Beta- distribuído.\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDBETA(1,2).\n"
+"\n"
+"@SEEALSO=RAND,RANDGAMMA"
 
 #: plugins/fn-random/functions.c:693
 msgid ""
@@ -10167,6 +10353,17 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
+"@FUNCTION=RANDLOGISTIC\n"
+"@SYNTAX=RANDLOGISTIC(a)\n"
+"@DESCRIPTION=RANDLOGISTIC devuelve un número aleatorio logisticamente "
+"distribuido. La función de distribución es:\n"
+"\n"
+"\tp(x) dx = { exp(-x/a) sobre (1 + exp(-x/a))^2 } dx para -inf < x < +inf.\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDLOGISTIC(1).\n"
+"\n"
+"@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:719
 msgid ""
@@ -10184,6 +10381,21 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
+"@FUNCTION=RANDGEOM\n"
+"@SYNTAX=RANDGEOM(p)\n"
+"@DESCRIPTION=RANDGEOM devuelve un número aleatorio geométricamente  "
+"distribuido. El número de intentos independientes con probabilidad @p hasta "
+"el primer éxito. La distribución de probabilidad pra variaciones geométricas "
+"es:\n"
+"\n"
+"\tp(k) =  p (1-p)^(k-1), for k >= 1.\n"
+"\n"
+"* Si @p < 0 o @p > 1 RANDGEOM devuelve un error #NUM!. \n"
+"\n"
+"@EXAMPLES=\n"
+"RANDGEOM(0.4).\n"
+"\n"
+"@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:750
 msgid ""
@@ -10202,6 +10414,21 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
+"@FUNCTION=RANDHYPERG\n"
+"@SYNTAX=RANDHYPERG(n1,n2,t)\n"
+"@DESCRIPTION=RANDHYPERG devuelve un número aleatorio según una distribución "
+"hipergeométrica. La distribución de probabilidades para una variación "
+"hipergeométrica aleatoria es:\n"
+"\n"
+"\tp(k) =  C(n_1,k) C(n_2, t-k) / C(n_1 + n_2,k), \n"
+"\n"
+"donde C(a,b) = a!/(b!(a-b)!). \n"
+"\n"
+"El dominio de k es max(0,t-n_2), ..., max(t,n_1).\n"
+"@EXAMPLES=\n"
+"RANDHYPERG(21,1,9).\n"
+"\n"
+"@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:780
 msgid ""
@@ -10216,6 +10443,17 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
+"@FUNCTION=RANDLOG\n"
+"@SYNTAX=RANDLOG(p)\n"
+"@DESCRIPTION=RANDLOG devuelve un número aleatorio logarítmicamente "
+"distribuido.\n"
+"\n"
+"* Si @p < 0 o @p > 1 RANDLOG devuelve un error #NUM!\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDHYPERG(0.72).\n"
+"\n"
+"@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:808
 msgid ""
@@ -10228,6 +10466,15 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDGAMMA"
 msgstr ""
+"@FUNCTION=RANDCHISQ\n"
+"@SYNTAX=RANDCHISQ(nu)\n"
+"@DESCRIPTION=RANDCHISQ devuelve un número aleatorio distribuido según chi-"
+"cuadrado.\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDCHISQ(0.5).\n"
+"\n"
+"@SEEALSO=RAND,RANDGAMMA"
 
 #: plugins/fn-random/functions.c:831
 msgid ""
@@ -10240,6 +10487,14 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
+"@FUNCTION=RANDTDIST\n"
+"@SYNTAX=RANDTDIST(nu)\n"
+"@DESCRIPTION=RANDTDIST devuelve un número aletatorio T distribuido.\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDTDIST(0.5).\n"
+"\n"
+"@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:854
 msgid ""
@@ -10257,6 +10512,19 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
+"@FUNCTION=RANDGUMBEL\n"
+"@SYNTAX=RANDGUMBEL(a,b[,tipo])\n"
+"@DESCRIPTION=RANDGUMBEL devuelve un número aleatorio según una distribución "
+"de Tipo I o Tipo II de Gumbel. @tipo es o 1 o 2 y especifica el tipo de "
+"distribución  (Tipo II o Tipo II).\n"
+"\n"
+"* Si @tipo no es 1 o 2, RANDGUMBEL devuelve un error #NUM!\n"
+"* Si @tipo se omite, se asume Tipo I.\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDGUMBEL(0.5,1,2).\n"
+"\n"
+"@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:890
 msgid ""
@@ -10276,6 +10544,21 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
+"@FUNCTION=RANDLEVY\n"
+"@SYNTAX=RANDLEVY(c,alfa[,beta])\n"
+"@DESCRIPTION=RANDLEVY devuelve un número aleatorio distribuido según Levy. "
+"Si se omite @beta, se asume que es 0.\n"
+"\n"
+"* Para alfa = 1, beta=0, se obtiene la distribución de Lorentz.\n"
+"* Para alfa = 2, beta=0, se obtiene la distribución de Gauss.\n"
+"\n"
+"* If @alfa <= 0 o @alfa > 2, RANDLEVY devuelve un error #NUM!\n"
+"* If @beta < -1 o @beta > 1, RANDLEVY devuelve un error #NUM!\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDLEVY(0.5,0.1,1).\n"
+"\n"
+"@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:925
 msgid ""
@@ -10295,6 +10578,21 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
+"@FUNCTION=RANDEXPPOW\n"
+"@SYNTAX=RANDEXPPOW(a,b)\n"
+"@DESCRIPTION=RANDEXPPOW devuelve una variación aleatoria de la distribución "
+"exponencial con parámetro de escala @a y exponente @b. La distribución es,\n"
+"\n"
+"\tp(x) dx = {1 over 2 a Gamma(1+1/b)} exp(-|x/a|^b) dx, for x >= 0.\n"
+"\n"
+"* Para b = 1 esto se reduce a la distribución de Laplace.\n"
+"* Para b = 2 esto tiene la misma forma que una distribución gaussiana, pero "
+"con  a = sqrt{2} sigma.\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDEXPPOW(0.5,0.1).\n"
+"\n"
+"@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:956
 msgid ""
@@ -10316,6 +10614,23 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
+"@FUNCTION=RANDLANDAU\n"
+"@SYNTAX=RANDLANDAU()\n"
+"@DESCRIPTION=RANDLANDAU devuelve una variación aleatoria de una distribución "
+"Landau. La distribución de probabilidad para la variaciones Landau  "
+"aleatorias se definen analíticamente por la integral compleja:\n"
+"\n"
+"\tp(x) = (1/(2 pi i)) int_{c-i infty}^{c+i infty} ds exp(s log(s) + x s).\n"
+"\n"
+"Para propósitos numéricos es más conveniente usar la siguiente forma "
+"equivalente de la integral:\n"
+"\n"
+"\tp(x) = (1/pi) int_0^ infty dt exp(-t log(t) - x t) sin(pi t).\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDLANDAU().\n"
+"\n"
+"@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:984
 msgid ""
@@ -10389,7 +10704,7 @@ msgstr "p,intentos"
 #: plugins/fn-random/functions.c:1109 plugins/fn-random/functions.c:1145
 #: plugins/fn-random/functions.c:1154
 msgid "a"
-msgstr ""
+msgstr "a"
 
 #: plugins/fn-random/functions.c:1112 plugins/fn-random/functions.c:1178
 msgid "nu"
@@ -10409,7 +10724,7 @@ msgstr "nu1,nu2"
 
 #: plugins/fn-random/functions.c:1130 plugins/fn-random/functions.c:1175
 msgid "a,sigma"
-msgstr ""
+msgstr "a,sigma"
 
 #: plugins/fn-random/functions.c:1136
 msgid "a,b[,type]"
@@ -10417,7 +10732,7 @@ msgstr "a,b[,tipo]"
 
 #: plugins/fn-random/functions.c:1139
 msgid "n1,n2,t"
-msgstr ""
+msgstr "n1,n2,t"
 
 #: plugins/fn-random/functions.c:1148
 msgid "c,alpha[,beta]"
@@ -11715,6 +12030,18 @@ msgid ""
 "\n"
 "@SEEALSO=RANDCAUCHY"
 msgstr ""
+"@FUNCTION=CAUCHY\n"
+"@SYNTAX=CAUCHY(x,a,cum)\n"
+"@DESCRIPTION=CAUCHY devuelve la distribución de Cauchy con parámetro de "
+"escala @a. Si @cum es TRUE, CAUCHY devuelve la distribución acumulada.\n"
+"\n"
+"* Si @a < 0 CAUCHY devuelve un error #NUM!.\n"
+"* Si @cum != TRUE y @cum != FALSE CAUCHY devuelve un error #VALOR!.\n"
+"\n"
+"@EXAMPLES=\n"
+"CAUCHY(0.43,1,TRUE) devuelve 0.370735.\n"
+"\n"
+"@SEEALSO=RANDCAUCHY"
 
 #: plugins/fn-stat/functions.c:1967
 msgid ""
@@ -13122,6 +13449,39 @@ msgid ""
 "\n"
 "@SEEALSO=LOGREG,LINEST,LOGEST"
 msgstr ""
+"@FUNCTION=LOGFIT\n"
+"@SYNTAX=LOGFIT(known_y's,known_x's)\n"
+"@DESCRIPTION=La función LOGFIT aplica el método de mínimos cuadrados para "
+"ajustar la ecuación logarítmica \n"
+"\t\n"
+"\ty = a + b * ln(sign * (x - c)) ,   sign = +1 o -1 \n"
+"\n"
+"a sus datos. La gráfica de la ecuación es una curva logarítmica desplazada "
+"horizontalmente por c y posiblemente reflejada a través del eje y (si sign = "
+"-1).\n"
+"\n"
+"LOGFIT devuelve un array conteniendo cinco columnas y una fila. `Signo' se "
+"da en la primera columna, `a', `b', y `c' se dan el las columnas 2 a 4. La "
+"columna 5 contiene la suma de los residuos al cuadrado.\n"
+"\n"
+"Se devuelve un error cuando hay menos  de 3 x's o y's diferentes, o cuando "
+"la forma de la nuve de puntos es demasiado diferente de una forma "
+"«logaritmica».\n"
+"\n"
+"Puese usar la fórmula\n"
+"\t= a + b * ln(sign * (x - c)) \n"
+"o reordenarla a\n"
+"\t= (exp((y - a) / b)) / sign + c \n"
+"para calcular y's o x's desconocidas respectivamente.\n"
+"\n"
+"Técnicamente, esto es un ajuste no linear mediante prueba y error.. La "
+"precisión de «c» es: el ancho de x-range -> redondeado al siguiente más "
+"pequeño (10^enteros), 0.000001 veces. Quizá haya casos en los que el ajuste "
+"devuelto no sea el mejor posible.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=LOGREG,LINEST,LOGEST"
 
 #: plugins/fn-stat/functions.c:4446
 msgid ""
@@ -13197,6 +13557,34 @@ msgid ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
+"@FUNCTION=LOGEST\n"
+"@SYNTAX=LOGEST(y_conocido[,x_conocido,const,estad])\n"
+"@DESCRIPTION=La función LOGEST aplica el método de «mínimos cuadrados» para "
+"ajustar una curva exponencial de la forma:\n"
+"\n"
+"\ty = b * m{1}^x{1} * m{2}^x{2}... a sus datos.\n"
+"\n"
+"Si @estad es TRUE, se devuelve información estadística adicional. La "
+"información estadística adicional se escribe bajo los coeficientes "
+"deregresión lineal en el array de resultados. La información estadística "
+"adicional consiste en cuatro líneas de datos. En la primera línea se "
+"representan los valores de error estándar para los coeficientes m1, "
+"(m2, ...), b.  La segunda fila contiene el cuadrado de R y el error estándar "
+"para la estimación de y. La tercera línea el valor observado por F y los "
+"grados de libertad.  La última fila contiene suma de los cuadrados de la "
+"regresión y la suma de los cuadrados residual.\n"
+"\n"
+"* Si @y_conocida se omite, se usa un array {1, 2, 3, ...}. LOGEST devuelve "
+"un array { m{n},m{n-1}, ...,m{1},b }.\n"
+"* Si alguna @y_conocida y @x_conocida tienen distinto número de puntos de "
+"datos, LOGEST devuelve el error #NUM!\n"
+"* Si @const es FALSE, la línea será forzada a ir a través de (0,1), o sea, b "
+"será uno..  Por omisión es TRUE.\n"
+"* El valor predeterminado de @estad es FALSE.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=LOGEST,GROWTH,TREND"
 
 #: plugins/fn-stat/functions.c:4810
 msgid ""
@@ -13450,6 +13838,19 @@ msgid ""
 "\n"
 "@SEEALSO=RANDGEOM"
 msgstr ""
+"@FUNCTION=GEOMDIST\n"
+"@SYNTAX=GEOMDIST(k,p,cum)\n"
+"@DESCRIPTION=GEOMDIST devuelve la probabilidad p(k) de obtener @k de una "
+"distribución geométrica con parámetro de probabilidad @p.\n"
+"\n"
+"* Si @k < 0 GEOMDIST devuelve un error #NUM!\n"
+"* Si @p < 0 o @p > 1 GEOMDIST devuelve un error #NUM!\n"
+"* Si @cum != TRUE y @cum != FALSE GEOMDIST devuelve #NUM!\n"
+"\n"
+"@EXAMPLES=\n"
+"GEOMDIST(2,10.4,TRUE).\n"
+"\n"
+"@SEEALSO=RANDGEOM"
 
 #: plugins/fn-stat/functions.c:5352
 msgid ""
@@ -13530,6 +13931,16 @@ msgid ""
 "\n"
 "@SEEALSO=RANDRAYLEIGHTAIL"
 msgstr ""
+"@FUNCTION=RAYLEIGHTAIL\n"
+"@SYNTAX=RAYLEIGHTAIL(x,a,sigma)\n"
+"@DESCRIPTION=RAYLEIGHTAIL devuelve la densidad de probabilidad p(x) en @x "
+"para una distribución en cola Rayleigh con parámetro de escala @sigma y "
+"límite inferior @a.\n"
+"\n"
+"@EXAMPLES=\n"
+"RAYLEIGHTAIL(0.6,0.3,1).\n"
+"\n"
+"@SEEALSO=RANDRAYLEIGHTAIL"
 
 #: plugins/fn-stat/functions.c:5509
 msgid ""
@@ -13576,7 +13987,7 @@ msgstr ""
 
 #: plugins/fn-stat/functions.c:5581 plugins/fn-stat/functions.c:5840
 msgid "k,p"
-msgstr ""
+msgstr "k,p"
 
 #: plugins/fn-stat/functions.c:5585
 msgid "x,alpha,beta,a,b"
@@ -14576,6 +14987,21 @@ msgid ""
 "READDBTABLE(\"mydatasource\",\"username\",\"password\",\"customers\")\n"
 "@SEEALSO=EXECSQL"
 msgstr ""
+"@FUNCTION=READDBTABLE\n"
+"@SYNTAX=READDBTABLE(dsn,usuario,contraseña,tabla)\n"
+"@DESCRIPTION=La función READDBTABLE le permite obtener el contenido de una "
+"tabla almacenados en uns base de datos. Para usarla, primero tiene que "
+"configurar un origen de datos libgda.\n"
+"Note que esta función devuelve todas las filas en la tabla dada. Si quiere "
+"obtener datos de más de una tabla o quiere una selección más precisa "
+"(condiciones), utilice la función EXECSQL.\n"
+"\n"
+"@EXAMPLES=\n"
+"Para obtener todos los datos de la tabla «Clientes» presente en origen de "
+"datos GDA \"miorigendedados\" debería hacer:\n"
+"READDBTABLE(\"mydatasource\",\"usuario\",\"contraseña\",\"clientes\")\n"
+"\n"
+"@SEEALSO=EXECSQL"
 
 #: plugins/gda/plugin-gda.c:195
 msgid "Format: readDBTable(dsn,user,password,table)"
@@ -14827,11 +15253,10 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:246
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU function (Möbius mu function) returns \n"
+"@DESCRIPTION=NT_MU function (Mbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "\n"
@@ -15090,18 +15515,20 @@ msgstr "La expresión del array no indica el número de filas"
 #: plugins/openoffice/openoffice-read.c:747
 #, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
-msgstr ""
+msgstr "Imposible analizar la posición para la expresión «%s» @ «%s» porque «%s»"
 
 #: plugins/openoffice/openoffice-read.c:760
 #, c-format
 msgid "Unable to parse position for expression '%s' with value '%s' because '%s'"
 msgstr ""
+"Imposible analizar la posición para la expresión «%s» con valor «%s» debido "
+"a «%s»"
 
-#: plugins/openoffice/openoffice-read.c:934
+#: plugins/openoffice/openoffice-read.c:935
 msgid "No stream named content.xml found."
 msgstr "No se encontró ningún flujo llamado content.xml"
 
-#: plugins/openoffice/openoffice-read.c:974
+#: plugins/openoffice/openoffice-read.c:975
 #: plugins/xml_sax/xml-sax-read.c:1501
 msgid "XML document not well formed!"
 msgstr "El documento XML no se encuentra bien definido"
@@ -15141,10 +15568,6 @@ msgid "Ignoring data that claims to be in column %u which is > max column %u"
 msgstr ""
 "Ignorando dato que dice estar en columna %u que es > que el máximo de "
 "columnas %u"
-
-#: plugins/plan-perfect/pln.c:668
-msgid "PLN : Not a PlanPerfect File"
-msgstr "PLN: No es un archivo PlanPerfect"
 
 #: plugins/plan-perfect/plugin.xml.in.h:1
 msgid "Imports Plan Perfect Formatted Documents"
@@ -15297,26 +15720,28 @@ msgstr "Abrir la consola Python"
 msgid "Python console"
 msgstr "Consola Python"
 
-#: plugins/qpro/qpro-read.c:150
+#: plugins/qpro/qpro-read.c:151
 #, c-format
 msgid "Invalid '%s' record of length %hd instead of %d"
 msgstr "Registro «%s» inválido de longitud %hd en vez de %d"
 
-#: plugins/qpro/qpro-read.c:774
+#: plugins/qpro/qpro-read.c:775
 #, c-format
 msgid "Invalid zoom %hd %%"
 msgstr "Zoom %hd %% inválido"
 
-#: plugins/qpro/qpro-read.c:816
+#: plugins/qpro/qpro-read.c:817
 #, c-format
 msgid "Invalid record %d of length %hd"
 msgstr "Registro %d inválido de longitud %hd"
 
-#: plugins/qpro/qpro-read.c:847
+#: plugins/qpro/qpro-read.c:849
 msgid ""
 "Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro "
 "file?"
 msgstr ""
+"No se pudo encontrar el flujo PerfectOffice_MAIN. ¿Es esto un archivo "
+"Quattro Pro?"
 
 #: plugins/qpro/plugin.xml.in.h:1
 msgid "Imports Quatro Pro (tm) files"
@@ -15441,7 +15866,7 @@ msgstr "La próxima generación del subsistema de E/S de XML basada en SAX"
 #: plugins/xml_sax/xml-sax-read.c:267
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
-msgstr ""
+msgstr "Atributo inesperado %s::%s == «%s»."
 
 #: plugins/xml_sax/xml-sax-read.c:299
 #, c-format
@@ -16060,8 +16485,8 @@ msgstr "Alinea a la izquierda"
 msgid "Left align"
 msgstr "Alinea a la izquierda"
 
-#: schemas/plot-types.xml.in.h:32 src/GNOME_Gnumeric.xml.h:142
-#: src/dialogs/cell-format.glade.h:54 src/workbook-object-toolbar.c:160
+#: src/GNOME_Gnumeric.xml.h:142 src/dialogs/cell-format.glade.h:54
+#: src/workbook-object-toolbar.c:160 schemas/plot-types.xml.in.h:32
 msgid "Line"
 msgstr "Línea"
 
@@ -16418,8 +16843,8 @@ msgstr "Definir el formato de página para la impresora actual"
 msgid "Show all filtered and hidden rows"
 msgstr "Mostrar todas las filas filtradas y ocultas"
 
-#: schemas/gnumeric-general.schemas.in.h:28 src/GNOME_Gnumeric.xml.h:227
-#: src/workbook-control-gui.c:3848
+#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:3848
+#: schemas/gnumeric-general.schemas.in.h:28
 msgid "Sort Ascending"
 msgstr "Ordenar Ascendente"
 
@@ -17501,11 +17926,11 @@ msgstr "Un consejo para esta acción."
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:149
 msgid "Stock Icon"
-msgstr ""
+msgstr "Icono de Stock"
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:150
 msgid "The stock icon displayed in widgets representing this action."
-msgstr ""
+msgstr "El icono de stock mostrado en los widgets representando esta acción."
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:156
 msgid "Sensitive"
@@ -17544,8 +17969,8 @@ msgstr "Orientación"
 msgid "The orientation of the toolbar"
 msgstr "La orientación de la barra de herramientas"
 
-#: schemas/gnumeric-general.schemas.in.h:51
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:137
+#: schemas/gnumeric-general.schemas.in.h:51
 msgid "Toolbar Style"
 msgstr "Estilo de la barra de herramientas"
 
@@ -17619,7 +18044,7 @@ msgstr "Interpretar guiones bajos en la etiqueta del elemento."
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbutton.c:115
 msgid "Stock Id"
-msgstr ""
+msgstr "Id de Stock"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbutton.c:116
 msgid "The stock icon displayed on the item."
@@ -17672,6 +18097,8 @@ msgstr "Tamaño homogéneo"
 #: src/cut-n-paste-code/egg/toolbar/eggtoolitem.c:169
 msgid "Whether the toolbar item should be the same size as other homogeneous items."
 msgstr ""
+"Indica si el eleento de la barra de tareas debería tener el mismo tamaño que "
+"otros elementos homogéneos."
 
 #: src/dates.c:16
 msgid "*Sun"
@@ -17922,14 +18349,14 @@ msgstr "Sólo registros _únicos"
 msgid " "
 msgstr " "
 
-#: src/dialogs/autocorrect.glade.h:1
 #: src/dialogs/autofilter-expression.glade.h:2
-#: src/dialogs/autoformat.glade.h:1 src/dialogs/cell-format.glade.h:1
-#: src/dialogs/dialog-stf-export.glade.h:3 src/dialogs/dialog-stf.glade.h:3
-#: src/dialogs/font-sel.glade.h:1 src/dialogs/hyperlink.glade.h:1
-#: src/dialogs/names.glade.h:1 src/dialogs/plugin-manager.glade.h:1
-#: src/dialogs/print.glade.h:3 src/dialogs/so-frame.glade.h:1
-#: src/dialogs/solver.glade.h:1 src/dialogs/workbook-attr.glade.h:1
+#: src/dialogs/autocorrect.glade.h:1 src/dialogs/autoformat.glade.h:1
+#: src/dialogs/cell-format.glade.h:1 src/dialogs/dialog-stf-export.glade.h:3
+#: src/dialogs/dialog-stf.glade.h:3 src/dialogs/font-sel.glade.h:1
+#: src/dialogs/hyperlink.glade.h:1 src/dialogs/names.glade.h:1
+#: src/dialogs/plugin-manager.glade.h:1 src/dialogs/print.glade.h:3
+#: src/dialogs/so-frame.glade.h:1 src/dialogs/solver.glade.h:1
+#: src/dialogs/workbook-attr.glade.h:1
 msgid "*"
 msgstr "*"
 
@@ -19081,14 +19508,12 @@ msgstr "John Gotts, paquetes RPM."
 
 #. The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:62
-#, fuzzy
-msgid "Andreas J. Gülzow, Gnumeric hacker."
+msgid "Andreas J. Glzow, Gnumeric hacker."
 msgstr "Andreas J. Guelzow, hacker de Gnumeric."
 
 #. The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:64
-#, fuzzy
-msgid "Jon Kåre Hellan, Gnumeric hacker."
+msgid "Jon Kre Hellan, Gnumeric hacker."
 msgstr "Jon Kre Hellan, hacker de Gnumeric."
 
 #: src/dialogs/dialog-about.c:65
@@ -19597,7 +20022,7 @@ msgstr "El área de origen %s se superpone a la región de destino"
 
 #: src/dialogs/dialog-define-names.c:356
 msgid "Why would you want to define a name to be #NAME?"
-msgstr ""
+msgstr "¿Por qué quiere devinir un nombre como #NAME?"
 
 #: src/dialogs/dialog-define-names.c:586
 msgid "Could not create the Name Guru."
@@ -20325,7 +20750,7 @@ msgstr "# Variables de salida = "
 
 #: src/dialogs/dialog-simulation.c:172
 msgid "Runtime\t\t\t= "
-msgstr ""
+msgstr "Runtime\t\t\t= "
 
 #: src/dialogs/dialog-simulation.c:173
 msgid "Run on\t\t\t= "
@@ -20383,7 +20808,7 @@ msgstr "Booleano"
 
 #: src/dialogs/dialog-solver.c:103
 msgid "Revised Simplex (GLPK 3.2)"
-msgstr ""
+msgstr "Simplex revisado (GLPK 3.2)"
 
 #: src/dialogs/dialog-solver.c:104
 msgid "Simplex (LP Solve 3.2)"
@@ -20699,7 +21124,7 @@ msgstr "Fin de _columna: "
 msgid "Co_mma (,)"
 msgstr "_Coma (,)"
 
-#: schemas/plot-types.xml.in.h:27 src/dialogs/dialog-stf.glade.h:15
+#: src/dialogs/dialog-stf.glade.h:15 schemas/plot-types.xml.in.h:27
 msgid "Column"
 msgstr "Columna"
 
@@ -21468,9 +21893,9 @@ msgid "Gnumeric Preferences"
 msgstr "Preferencias de Gnumeric"
 
 #: src/dialogs/print.glade.h:2
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "% of _normal size"
-msgstr "% del tamaño original"
+msgstr "% del _tamaño original"
 
 #: src/dialogs/print.glade.h:4
 msgid "Apply _to:"
@@ -21581,14 +22006,12 @@ msgid "_Vertically"
 msgstr "_Verticalmente"
 
 #: src/dialogs/print.glade.h:36
-#, fuzzy
 msgid "_page(s) wide by"
-msgstr "páginas de ancho, por"
+msgstr "_página(s) de ancho"
 
 #: src/dialogs/print.glade.h:37
-#, fuzzy
 msgid "_tall"
-msgstr "de alto"
+msgstr "_alto"
 
 #: src/dialogs/random-generation.glade.h:5
 msgid "Number of _Variables:"
@@ -23715,7 +24138,7 @@ msgstr "El número se encuentra fuera de rango"
 
 #: src/parser.y:1123
 msgid "Improperly formatted error token"
-msgstr ""
+msgstr "Símbolo de error formateado inapropiadamente"
 
 #: src/parser.y:1285
 msgid "Multiple expressions are not supported in this context"
@@ -23856,8 +24279,12 @@ msgstr "La función de agrupamiento está vacía."
 #: src/plugin-service.c:1131
 #, c-format
 msgid "%d function in category \"%s\""
-msgid_plural "Group of %d functions in category \"%s\""
-msgstr[0] "%d función en la categoría «%s»"
+msgstr "%d función en la categoría «%s»"
+
+#: src/plugin-service.c:1132
+#, c-format
+msgid "Group of %d functions in category \"%s\""
+msgstr "Grupo de %d funciones en la categoría «%s»"
 
 #: src/plugin-service.c:1228
 msgid "Plugin loader"
@@ -23877,8 +24304,12 @@ msgstr ""
 #: src/plugin-service.c:1406
 #, c-format
 msgid "User interface with %d action"
-msgid_plural "User interface with %d actions"
-msgstr[0] "Interfaz de usuario con %d acción"
+msgstr "Interfaz de usuario con %d acción"
+
+#: src/plugin-service.c:1407
+#, c-format
+msgid "User interface with %d actions"
+msgstr "Interfaz de usuario con %d acciones"
 
 #: src/plugin-service.c:1499
 msgid "No \"type\" attribute on \"service\" element."
@@ -24909,12 +25340,16 @@ msgid ""
 "Input variable did not yield to a numeric value. Check the model (maybe your "
 "last round # is too high)."
 msgstr ""
+"La variable de entrada no produjo un valor numérico. Compruebe el modelo "
+"(quizá su última ronda # es demasiado alta)."
 
 #: src/tools/simulation.c:126
 msgid ""
 "Output variable did not yield to a numeric value. Check the output variables "
 "in your model (maybe your last round # is too high)."
 msgstr ""
+"La salida de la variable no produjo un valor numérico. Verifique las "
+"variables de salida en su modelo (quizá su última ronda # es demasiado alta)."
 
 #: src/tools/simulation.c:242
 msgid "Simulation Report"
@@ -24937,9 +25372,8 @@ msgid "Variance"
 msgstr "Varianza"
 
 #: src/tools/simulation.c:261
-#, fuzzy
 msgid "Skewness"
-msgstr "Sesgado, oblicuo"
+msgstr "Sesgo"
 
 #: src/tools/simulation.c:262
 msgid "Kurtosis"
@@ -24963,7 +25397,7 @@ msgstr "Límite superior (95 %)"
 
 #: src/tools/simulation.c:335
 msgid "SUMMARY OF SIMULATION ROUND #"
-msgstr ""
+msgstr "RESUMEN DE LA RONDA DE SIMULACIÓN #"
 
 #: src/tools/simulation.c:349
 msgid "Report"
@@ -25787,7 +26221,7 @@ msgstr "Un error inexplicable ocurrió mientras se guardaba %s"
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:572 src/workbook-view.c:797
+#: src/workbook-view.c:572 src/workbook-view.c:805
 msgid "The filename given is not valid."
 msgstr "El nombre del archivo dado no es válido."
 
@@ -25795,11 +26229,11 @@ msgstr "El nombre del archivo dado no es válido."
 msgid "Default file saver is not available."
 msgstr "No se encuentra disponible el diálogo para guardar."
 
-#: src/workbook-view.c:743
+#: src/workbook-view.c:745
 msgid "Unsupported file format."
 msgstr "Formato de archivo no soportado."
 
-#: src/workbook-view.c:790
+#: src/workbook-view.c:798
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Un error inexplicable ocurrió mientras se abría %s"
@@ -25935,7 +26369,7 @@ msgstr "Categoría contra valor"
 
 #: schemas/plot-types.xml.in.h:28
 msgid "High, Low, Close."
-msgstr ""
+msgstr "Alto, bajo, cerrar."
 
 #: schemas/plot-types.xml.in.h:29
 msgid "Interpolate between multi-dimensional points, with markers at each point."
@@ -25996,62 +26430,84 @@ msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D horizontal "
 "bars, grouped by major category."
 msgstr ""
+"Categorías menores apiladas como porcentajes del total menor, en barras "
+"horizontales 3D, agrupadas por categoría mayor."
 
 #: schemas/plot-types.xml.in.h:42
 msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D vertical "
 "bars, grouped by major category."
 msgstr ""
+"Categorías menores apiladas como porcentajes del total menor, en barras "
+"verticales 3D, agrupadas por categoría mayor."
 
 #: schemas/plot-types.xml.in.h:43
 msgid ""
 "Minor categories stacked as percentages of the minor total, in horizontal "
 "bars, grouped by major category."
 msgstr ""
+"Categorías menores apiladas como porcentages del total menor, en barras "
+"horizontales, agrupadas por categoría mayor."
 
 #: schemas/plot-types.xml.in.h:44
 msgid ""
 "Minor categories stacked as percentages of the minor total, in lines, "
 "grouped by major category, with markers at each point."
 msgstr ""
+"Categorías menores apiladas como porcentajes del menor total, en líneas, "
+"agrupadas por categoría mayor, con marcadores en cada punto."
 
 #: schemas/plot-types.xml.in.h:45
 msgid ""
 "Minor categories stacked as percentages of the minor total, in lines, "
 "grouped by major category."
 msgstr ""
+"Categorías menores apiladas como porcentajes del total menor, en líneas, "
+"agrupadas por categoría mayor."
 
 #: schemas/plot-types.xml.in.h:46
 msgid ""
 "Minor categories stacked as percentages of the minor total, in vertical "
 "columns, grouped by major category."
 msgstr ""
+"Categorías menores apiladas como porcentages del menor total, en columnas "
+"verticales, agrupadas por categoría mayor."
 
 #: schemas/plot-types.xml.in.h:47
 msgid "Minor categories stacked in horizontal 3D bars, grouped by major category."
 msgstr ""
+"Categorías menores apiladas en barras 3D horizontales, agrupadas por "
+"categoría mayor."
 
 #: schemas/plot-types.xml.in.h:48
 msgid "Minor categories stacked in horizontal bars grouped by major category."
 msgstr ""
+"Categorías menores apiladas en barras horizontales agrupadas por categoría "
+"mayor."
 
 #: schemas/plot-types.xml.in.h:49
 msgid ""
 "Minor categories stacked in lines grouped by major category, with markers at "
 "each point."
 msgstr ""
+"Categorías menores apiladas en líneas agrupadas por categoríamayor, con "
+"marcadores en cada punto."
 
 #: schemas/plot-types.xml.in.h:50
 msgid "Minor categories stacked in lines grouped by major category."
-msgstr ""
+msgstr "Categorías menores apiladas en líneas agrupadas por categoría mayor."
 
 #: schemas/plot-types.xml.in.h:51
 msgid "Minor categories stacked in vertical 3D columns, grouped by major category."
 msgstr ""
+"Categorías menores apiladas en columnas 3D verticales, agrupadas por "
+"categoría mayor."
 
 #: schemas/plot-types.xml.in.h:52
 msgid "Minor categories stacked in vertical columns grouped by major category."
 msgstr ""
+"Minorar categorías apiladas en columnas verticales agupadas por la categoría "
+"mayor"
 
 #: schemas/plot-types.xml.in.h:53
 msgid "Multi-pie"
@@ -26079,7 +26535,7 @@ msgstr "El porcentaje de cada contribuyente en una tarta 3D."
 
 #: schemas/plot-types.xml.in.h:59
 msgid "Percentage of each contributor with 3D wedges split apart."
-msgstr ""
+msgstr "Porcentaje de cada contribuyente con porciones 3D aparte."
 
 #: schemas/plot-types.xml.in.h:60
 msgid "Percentage of each contributor with wedges split apart."
@@ -26131,15 +26587,15 @@ msgstr "Excedentes"
 
 #: schemas/plot-types.xml.in.h:72
 msgid "Volume, High, Low, Close."
-msgstr ""
+msgstr "Volumen, alto, bajo cerrar."
 
 #: schemas/plot-types.xml.in.h:73
 msgid "Volume, Open, High, Low, Close."
-msgstr ""
+msgstr "Volumen, Abrir, Arriba, Abajo, Cerrar"
 
 #: schemas/plot-types.xml.in.h:74
 msgid "open, High, Low, Close."
-msgstr ""
+msgstr "abrir, arriba, abajo, cerrar."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
 msgid "Activate New Plugins"
@@ -26203,7 +26659,7 @@ msgstr "Lista de funciones usadas recientemente."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:16
 msgid "Maximum Length of Recently Used Functions List"
-msgstr ""
+msgstr "Máxima longitd de la lista de funciones recientemente usadas."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:17
 msgid "Print-to Filename"
@@ -26337,10 +26793,12 @@ msgid ""
 "This value determines whether by default the print set-up dialog applies to "
 "all sheets simultaneously."
 msgstr ""
+"Este valor determina si de manera predeterminada el diálogo de configuración "
+"de impresión se aplica a todas las hojas simultáneamente."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:40
 msgid "This variable determines whether to activate every new encountered plugin."
-msgstr ""
+msgstr "Esta variable determina si se debe activar cada extensión nueva encontrada."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:41
 msgid "User Directory for Autoformats"
@@ -26467,6 +26925,10 @@ msgid ""
 "case-sensitive sort and determine the initial state of the case-sensitive "
 "checkbox in the sort dialog."
 msgstr ""
+"Poner esta opción hará que los botones de ordenamiento de la barra de "
+"herramientas efectúen una ordenaci sensible a mayúsculas y determina el "
+"estado inicial de la casilla de verificación «sensible a mayúsculas» en el "
+"diálogo »ordenar»."
 
 #: schemas/gnumeric-general.schemas.in.h:25
 msgid ""
@@ -26474,6 +26936,10 @@ msgid ""
 "the cell formats while sorting and determines the initial state of the "
 "preserve-formats checkbox in the sort dialog."
 msgstr ""
+"Al poner esta opción se hará que los botones de ordenación de la barra de "
+"herramientas conserven el formato de las celdas cuando se ordenan y "
+"determina el estado inicial de la casilla de verificación «preservar "
+"formatos» en el diálogo «ordenar»."
 
 #: schemas/gnumeric-general.schemas.in.h:26
 msgid "Show Sheet Name in Undo List"
@@ -26485,6 +26951,9 @@ msgid ""
 "whether the user will be warned if only a single sheet of a multi-sheet "
 "workbook is being saved."
 msgstr ""
+"Algunos formatos de archivo contienen sólo una única hoja. Esta variable "
+"determina si el usuario será advertido si se guarda sólo una única hoja de "
+"un libro multi-hoja"
 
 #: schemas/gnumeric-general.schemas.in.h:29
 msgid "Sort Preserve Formats"
@@ -26553,6 +27022,8 @@ msgid ""
 "This number (between 0.25 and 1.00) gives the vertical fraction of the "
 "screen size covered by the default window."
 msgstr ""
+"Este número (entre 0,25 y 1,00) da la fracción vertical del tamaño de la "
+"pantalla cubierto por la ventana predeterminada."
 
 #: schemas/gnumeric-general.schemas.in.h:42
 msgid ""
@@ -26578,6 +27049,8 @@ msgstr ""
 #: schemas/gnumeric-general.schemas.in.h:44
 msgid "This value determines the maximum number of items in the undo/redo list."
 msgstr ""
+"Este valor determmina el máximo número de elementos en la lista hacer/"
+"deshacer."
 
 #: schemas/gnumeric-general.schemas.in.h:45
 msgid "This value determines whether the default font for a new workbook bold is."
@@ -26588,32 +27061,42 @@ msgstr ""
 #: schemas/gnumeric-general.schemas.in.h:46
 msgid "This value determines whether the default font for a new workbook italic is."
 msgstr ""
+"Este valor determina si la tipografía predeterminada para un libro de "
+"cuentas nuevo es itálica."
 
 #: schemas/gnumeric-general.schemas.in.h:47
 msgid ""
 "This value determines whether to show the sheet names in the undo and redo "
 "lists."
 msgstr ""
+"Este valor determina si se muestran los nombres de las hojas en las listas "
+"hacer y deshacer."
 
 #: schemas/gnumeric-general.schemas.in.h:48
 msgid ""
 "This value is indicative of the maximum length of the command descriptors in "
 "the undo and redo chains."
 msgstr ""
+"Este valor indica la longitud máxima de los descriptores de comandos en las "
+"cadenas hacer y deshacer."
 
 #: schemas/gnumeric-general.schemas.in.h:49
 msgid "This variable determines whether autocompletion is set on."
-msgstr ""
+msgstr "Esta variable determina si la autocompletación está activada."
 
 #: schemas/gnumeric-general.schemas.in.h:50
 msgid ""
 "This variable determines whether live (versus delayed) scrolling is "
 "performed."
 msgstr ""
+"Esta variable determina si se debe realizar el desplazamiento en directo (en "
+"vez de diferido)."
 
 #: schemas/gnumeric-general.schemas.in.h:52
 msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
 msgstr ""
+"Estilo de la barra de herramientas.  Los valores válidos son ambos, ambos_horiz, "
+"icono y texto"
 
 #: schemas/gnumeric-general.schemas.in.h:53
 msgid "Vertical DPI"
