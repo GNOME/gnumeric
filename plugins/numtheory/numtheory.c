@@ -233,7 +233,7 @@ static const char *help_nt_mu = {
 	N_("@FUNCTION=NT_MU\n"
 	   "@SYNTAX=NT_MU(n)\n"
 	   "@DESCRIPTION="
-	   "The NT_MU function (Moebius mu function) returns \n"
+	   "The NT_MU function (Möbius mu function) returns \n"
 	   "0  if @n is divisible by the square of a prime .\n"
 	   "Otherwise it returns: \n"
 	   "-1 if @n has an odd  number of different prime factors .\n"
