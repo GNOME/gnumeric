@@ -813,7 +813,7 @@ write_cell (BIFF_PUT *bp, ExcelSheet *sheet, Cell *cell)
 		ms_excel_write_formula (bp, sheet, cell->parsed_node,
 					col, row);
 	       
-		len = bp->length;
+		len = bp->length - 22;
 		g_assert (len <= 0xffff);
 		ms_biff_put_var_seekto (bp, 20);
 		BIFF_SET_GUINT16 (lendat, len);

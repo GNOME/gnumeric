@@ -43,16 +43,18 @@ get_formula_index (const gchar *name)
 	if (!formula_cache)
 		formula_cache = g_hash_table_new (g_str_hash, g_str_equal);
 
-	if ((fce = g_hash_table_lookup (formula_cache, name)))
+	if ((fce = g_hash_table_lookup (formula_cache, name))) {
+		printf ("Found '%s' in fn cache\n", name);
 		return fce;
-	else {
+	} else {
 		for (i=0;i<FORMULA_FUNC_DATA_LEN;i++) {
-			if (!strcmp (formula_func_data[i].prefix,
-				     name)) {
+			if (!g_strcasecmp (formula_func_data[i].prefix,
+					   name)) {
 				FormulaCacheEntry *fce = g_new (FormulaCacheEntry, 1);
 				fce->fd  = &formula_func_data[i];
 				fce->idx = i;
 				g_hash_table_insert (formula_cache, fce->fd->prefix, fce);
+				printf ("Caching and returning '%s' as %d\n", name, i);
 				return fce;
 			}
 		}
@@ -91,6 +93,34 @@ push_guint32 (PolishData *pd, guint32 b)
 	guint8 data[4];
 	BIFF_SET_GUINT32 (data, b);
 	ms_biff_put_var_write (pd->bp, data, sizeof(data));
+}
+
+static void
+write_cellref (PolishData *pd, const CellRef *ref)
+{
+	guint8  data[6];
+	guint    row, col;
+
+	g_assert (pd->ver <= eBiffV7);
+
+	if (ref->col_relative)
+		col = ref->col + pd->col;
+	else
+		col = ref->col;
+	if (ref->row_relative)
+		row = ref->row + pd->row;
+	else
+		row = ref->row;
+
+	if (ref->col_relative)
+		row|=0x8000;
+	if (ref->row_relative)
+		row|=0x4000;
+
+	BIFF_SET_GUINT16 (data,   row);
+	BIFF_SET_GUINT8  (data+2, col);
+
+	ms_biff_put_var_write (pd->bp, data, 3);
 }
 
 /**
@@ -179,6 +209,9 @@ write_node (PolishData *pd, ExprTree *tree)
 				num_args++;
 			}
 
+			printf ("Writing function '%s' as idx %d\n",
+				tree->u.function.symbol->str, fce->idx);
+
 			g_assert (num_args < 128);
 			if (fce->fd->num_args == -1) {
 				push_guint8  (pd, FORMULA_PTG_FUNC_VAR);
@@ -191,7 +224,7 @@ write_node (PolishData *pd, ExprTree *tree)
 		} else {
 			printf ("Untranslatable function '%s'\n", tree->u.function.symbol->str);
 			push_guint8 (pd, FORMULA_PTG_STR);
-			biff_put_text (pd->bp, "Untranslatable", pd->ver, FALSE);
+			biff_put_text (pd->bp, "Untranslatable", eBiffV8, FALSE);
 		}
 		break;
 	}
@@ -211,10 +244,12 @@ write_node (PolishData *pd, ExprTree *tree)
 		case VALUE_STRING:
 		{
 			push_guint8 (pd, FORMULA_PTG_STR);
-			biff_put_text (pd->bp, v->v.str->str, pd->ver, FALSE);
+			biff_put_text (pd->bp, v->v.str->str, eBiffV8, FALSE);
 			break;
 		}
 		default:
+			push_guint8 (pd, FORMULA_PTG_STR);
+			biff_put_text (pd->bp, "Unknown type", eBiffV8, FALSE);
 			printf ("Unhandled type %d\n", v->type);
 			break;
 		}
@@ -225,10 +260,15 @@ write_node (PolishData *pd, ExprTree *tree)
 		push_guint8 (pd, FORMULA_PTG_U_MINUS);
 		break;
 	case OPER_VAR:
+	{
+		push_guint8 (pd, FORMULA_PTG_REF);
+		write_cellref (pd, &tree->u.ref);
+		break;
+	}
 	case OPER_ARRAY:
 	default:
 		push_guint8 (pd, FORMULA_PTG_STR);
-		biff_put_text (pd->bp, "Unknown", pd->ver, FALSE);
+		biff_put_text (pd->bp, "Unknown", eBiffV8, FALSE);
 		printf ("Unhandled node type %d\n", tree->oper);
 		break;
 	}
