@@ -126,10 +126,12 @@ sheet_rename (Sheet *sheet, char const *new_name)
 static void
 sheet_init_sc (Sheet const *sheet, SheetControl *sc)
 {
+	/* set_panes will change the initial so cache it */
+	CellPos initial = sheet->initial_top_left;
 	sc_set_panes (sc);
-	sc_set_top_left (sc,
-			 sheet->initial_top_left.col,
-			 sheet->initial_top_left.row);
+
+	/* And this will restore it */
+	sc_set_top_left (sc, initial.col, initial.row);
 	sc_scrollbar_config (sc);
 
 	/* Set the visible bound, not the logical bound */

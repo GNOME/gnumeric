@@ -578,6 +578,24 @@ scg_init (SheetControlGUI *scg)
 
 /*************************************************************************/
 
+/**
+ * gnumeric_sheet_update_inital_top_left :
+ * A convenience routine to store the new topleft back in the view.
+ * FIXME : for now we don't have a sheetView so we endup just storing it in the
+ * Sheet.  Having this operation wrapped nicely here will make it easy to fix
+ * later.
+ */
+static void
+gnumeric_sheet_update_inital_top_left (GnumericSheet const *gsheet)
+{
+	/* FIXME : we need SheetView */
+	if (gsheet->pane->index == 0) {
+		Sheet *sheet = gsheet->scg->sheet_control.sheet;
+		sheet->initial_top_left.col = gsheet->col.first;
+		sheet->initial_top_left.row = gsheet->row.first;
+	}
+}
+
 static int
 bar_set_left_col (GnumericSheet *gsheet, int new_first_col)
 {
@@ -609,6 +627,7 @@ gnumeric_sheet_set_left_col (GnumericSheet *gsheet, int new_first_col)
 
 		gsheet_compute_visible_region (gsheet, FALSE);
 		gnome_canvas_scroll_to (canvas, col_offset, gsheet->row_offset.first);
+		gnumeric_sheet_update_inital_top_left (gsheet);
 	}
 }
 
@@ -657,6 +676,7 @@ gnumeric_sheet_set_top_row (GnumericSheet *gsheet, int new_first_row)
 
 		gsheet_compute_visible_region (gsheet, FALSE);
 		gnome_canvas_scroll_to (canvas, gsheet->col_offset.first, row_offset);
+		gnumeric_sheet_update_inital_top_left (gsheet);
 	}
 }
 
@@ -708,6 +728,7 @@ gnumeric_sheet_set_top_left (GnumericSheet *gsheet,
 
 	gsheet_compute_visible_region (gsheet, force_scroll);
 	gnome_canvas_scroll_to (GNOME_CANVAS (gsheet), col_offset, row_offset);
+	gnumeric_sheet_update_inital_top_left (gsheet);
 }
 
 static void

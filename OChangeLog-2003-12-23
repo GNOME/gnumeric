@@ -1,3 +1,14 @@
+2001-07-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_init_sc) : Don't allow positioning during the
+	  initialization sequence of a control to overwrite requested top_left.
+
+	* src/sheet-control-gui.c (gnumeric_sheet_update_inital_top_left) :
+	  new function.
+	(gnumeric_sheet_set_left_col) : used here.
+	(gnumeric_sheet_set_top_row) : used here.
+	(gnumeric_sheet_set_top_left) : used here.
+
 2001-07-26  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/stf.c (stf_read_workbook): Set the format on all lines.
