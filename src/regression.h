@@ -5,7 +5,7 @@
 
 /**
  * linear_regression:
- * @xss: x-vectors.  (Ie., independent data.)
+ * @xss: x-vectors.  (I.e., independent data.)
  * @dim: number of x-vectors.
  * @ys: y-vector.  (Dependent data.)
  * @n: number of data points.
@@ -16,8 +16,11 @@
  * This performs multi-dimensional linear regressions on the input points.
  * Fits to "y = b + a1 * x1 + ... ad * xd".
  *
- * Returns 0 for ok, non-zero otherwise.  (Errors: less than two points,
- * all points on a vertical line.)
+ * Returns
+ *   0 for ok.
+ *   1 for too few points.
+ *   2 for singular.
+ *   3 for near-singular, all precision lost.
  */
 
 typedef struct {
@@ -44,7 +47,7 @@ int linear_regression (gnum_float **xss, int dim,
 
 /**
  * exponential_regression:
- * @xss: x-vectors.  (Ie., independent data.)
+ * @xss: x-vectors.  (I.e., independent data.)
  * @dim: number of x-vectors.
  * @ys: y-vector.  (Dependent data.)
  * @n: number of data points.
@@ -56,8 +59,7 @@ int linear_regression (gnum_float **xss, int dim,
  * Fits to "y = b * m1^x1 * ... * md^xd " or equivalently to
  * "log y = log b + x1 * log m1 + ... + xd * log md".
  *
- * Returns 0 for ok, non-zero otherwise.  (Errors: less than two points,
- * all points on a vertical line, non-positive y data.)
+ * Returns 0 for ok, non-zero otherwise; see general_linear_regression.
  */
 
 int exponential_regression (gnum_float **xss, int dim,
