@@ -1,5 +1,7 @@
 2004-04-09  Morten Welinder  <terra@gnome.org>
 
+	* src/gutils.c (erfgnum): Improve precision for small x.
+
 	* src/mathfunc.c (pbeta): New implementation.
 	(lgamma1p, swap_log_tail, log1pmx): New function.
 

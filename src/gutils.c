@@ -513,7 +513,20 @@ frexpgnum (gnm_float x, int *exp)
 gnm_float
 erfgnum (gnm_float x)
 {
-	/* FIXME: this looks like it might lack precision for x near zero.  */
+	if (gnumabs (x) < 0.1) {
+		/* For small x the pnorm formula loses precision.  */
+		gnm_float sum = 0;
+		gnm_float term = x * 2 / sqrtgnum (M_PIgnum);
+		gnm_float n;
+		gnm_float x2 = x * x;
+
+		for (n = 0; gnumabs (term) >= gnumabs (sum) * GNUM_EPSILON ; n++) {
+			sum += term / (2 * n + 1);
+			term *= -x2 / (n + 1);
+		}
+
+		return sum;
+	}
 	return pnorm (x * M_SQRT2gnum, 0, 1, TRUE, FALSE) * 2 - 1;
 }
 #endif
@@ -917,7 +930,7 @@ gnm_guess_encoding (const char *raw, size_t len, const char *user_guess,
 
 /**
  * gnm_get_real_name :
- * 
+ *
  * Return a utf8 encoded string with the current user name.
  * Caller should _NOT_ free the result.
  **/
