@@ -191,7 +191,7 @@ fi
 dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
-try_bonobo=true
+try_bonobo=false
 bonobo=
 bonobo_msg=no
 using_oaf=no
