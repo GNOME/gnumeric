@@ -85,4 +85,20 @@ RegressionResult exponential_regression (gnum_float **xss, int dim,
 					 gnum_float *res,
 					 regression_stat_t *stat);
 
+
+
+typedef RegressionResult (*RegressionFunction)
+    (gnum_float * x, gnum_float * params, gnum_float *f);
+
+
+RegressionResult non_linear_regression (RegressionFunction f,
+					gnum_float **xvals,
+					gnum_float *par,
+					gnum_float *yvals,
+					gnum_float *sigmas,
+					int x_dim,
+					int p_dim,
+					gnum_float *chi,
+					gnum_float *errors);
+
 #endif

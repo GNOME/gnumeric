@@ -3,7 +3,8 @@
  *
  * Authors:
  *   Morten Welinder <terra@diku.dk>
- *   Andrew Chatham  <andrew.chatham@duke.edu>
+ *   Andrew Chatham <andrew.chatham@duke.edu>
+ *   Daniel Carrera <dcarrera@math.toronto.edu>
  */
 
 #include <gnumeric-config.h>
@@ -371,7 +372,7 @@ general_linear_regression (gnum_float **xss, int xdim,
 			? 1
 			: 1 - regression_stat->ss_resid / regression_stat->ss_total;
 		/* FIXME: we want to guard against division by zero.  */
-		regression_stat->adj_sqr_r = 1 - regression_stat->ss_resid * (n - 1) / 
+		regression_stat->adj_sqr_r = 1 - regression_stat->ss_resid * (n - 1) /
 			((n - xdim) * regression_stat->ss_total);
 		regression_stat->var = (n == xdim)
 			? 0
@@ -533,11 +534,11 @@ exponential_regression (gnum_float **xss, int dim,
 
 /* ------------------------------------------------------------------------- */
 
-regression_stat_t * 
+regression_stat_t *
 regression_stat_new (void)
 {
 	regression_stat_t * regression_stat = g_new0 (regression_stat_t, 1);
-	
+
 	regression_stat->se = NULL;
 	regression_stat->t = NULL;
 	regression_stat->xbar = NULL;
@@ -547,8 +548,8 @@ regression_stat_new (void)
 
 /* ------------------------------------------------------------------------- */
 
-void 
-regression_stat_destroy (regression_stat_t *regression_stat) 
+void
+regression_stat_destroy (regression_stat_t *regression_stat)
 {
 	g_return_if_fail (regression_stat != NULL);
 
@@ -562,3 +563,394 @@ regression_stat_destroy (regression_stat_t *regression_stat)
 }
 
 /* ------------------------------------------------------------------------- */
+
+#define DELTA      0.01
+/* FIXME:  I pulled this number out of my hat.
+ * I need some testing to pick a sensible value.
+ */
+#define MAX_STEPS   200
+
+/*
+ * SYNOPSIS:
+ *      result = derivative( f, &df, x, par, i)
+ *
+ * Approximates the partial derivative of a given function, at (x;params)
+ * with respect to the parameter indicated by ith parameter.  The resulst
+ * is stored in 'df'.
+ *
+ * See the header file for more information.
+ */
+static RegressionResult
+derivative (RegressionFunction f,
+	    gnum_float *df,
+	    gnum_float *x, /* Only one point, not the whole data set. */
+	    gnum_float *par,
+	    int index)
+{
+	gnum_float y1, y2;
+	RegressionResult result;
+	gnum_float par_save = par[index];
+
+	par[index] = par_save - DELTA;
+	result = (*f) (x, par, &y1);
+	if (result != REG_ok) {
+		par[index] = par_save;
+		return result;
+	}
+
+	par[index] = par_save + DELTA;
+	result = (*f) (x, par, &y2);
+	if (result != REG_ok) {
+		par[index] = par_save;
+		return result;
+	}
+
+#ifdef DEBUG
+	printf ("y1 = %lf\n", y1);
+	printf ("y2 = %lf\n", y2);
+	printf ("DELTA = %lf\n",DELTA);
+#endif
+
+	*df = (y2 - y1) / (2 * DELTA);
+	par[index] = par_save;
+	return REG_ok;
+}
+
+/*
+ * SYNOPSIS:
+ *   result = chi_squared (f, xvals, par, yvals, sigmas, x_dim, &chisq)
+ *
+ *                            /  y  - f(x ; par) \ 2
+ *            2              |    i      i        |
+ *         Chi   ==   Sum (  | ------------------ |   )
+ *                            \     sigma        /
+ *                                       i
+ *
+ * sigmas  -> Measurement errors in the dataset (along the y-axis).
+ *            NULL means "no errors available", so they are all set to 1.
+ *
+ * x_dim   -> Number of data points.
+ *
+ * This value is not very meaningful without the sigmas.  However, it is
+ * still useful for the fit.
+ */
+static RegressionResult
+chi_squared (RegressionFunction f,
+	     gnum_float ** xvals, /* The entire data set. */
+	     gnum_float *par,
+	     gnum_float *yvals,   /* Ditto. */
+	     gnum_float *sigmas,  /* Ditto. */
+	     int x_dim,          /* Number of data points. */
+	     gnum_float *chisq)   /* Chi Squared */
+{
+	int i;
+	RegressionResult result;
+	gnum_float tmp, y;
+	*chisq = 0;
+
+	for (i = 0; i < x_dim; i++) {
+		result = f (xvals[i], par, &y);
+		if (result != REG_ok)
+			return result;
+
+		tmp = (yvals[i] - y ) / (sigmas ? sigmas[i] : 1);
+
+		*chisq += tmp * tmp;
+	}
+
+	return REG_ok;
+}
+
+
+/*
+ * SYNOPSIS:
+ *      result = chi_derivative (f, &dchi, xvals, par, i, yvals,
+ *                               sigmas, x_dim)
+ *
+ * This is a simple adaptation of the derivative() function specific to
+ * the Chi Squared.
+ */
+static RegressionResult
+chi_derivative (RegressionFunction f,
+		gnum_float *dchi,
+		gnum_float **xvals, /* The entire data set. */
+		gnum_float *par,
+		int index,
+		gnum_float *yvals,  /* Ditto. */
+		gnum_float *sigmas, /* Ditto. */
+		int x_dim)
+{
+	gnum_float y1, y2;
+	RegressionResult result;
+	gnum_float par_save = par[index];
+
+	par[index] = par_save - DELTA;
+	result = chi_squared (f, xvals, par, yvals, sigmas, x_dim, &y1);
+	if (result != REG_ok) {
+		par[index] = par_save;
+		return result;
+	}
+
+	par[index] = par_save + DELTA;
+	result = chi_squared (f, xvals, par, yvals, sigmas, x_dim, &y2);
+	if (result != REG_ok) {
+                par[index] = par_save;
+		return result;
+	}
+
+#ifdef DEBUG
+	printf ("y1 = %lf\n", y1);
+	printf ("y2 = %lf\n", y2);
+	printf ("DELTA = %lf\n", DELTA);
+#endif
+
+	*dchi = (y2 - y1) / (2 * DELTA);
+	par[index] = par_save;
+	return REG_ok;
+}
+
+/*
+ * SYNOPSIS:
+ *   result = coefficient_matrix (A, f, xvals, par, yvals, sigmas,
+ *                                x_dim, p_dim, r)
+ *
+ * RETURNS:
+ *   The coefficient matrix of the LM method.
+ *
+ * DETAIS:
+ *   The coefficient matrix matrix is defined by
+ *
+ *            N        1      df  df
+ *     A   = Sum  ( -------   --  --  ( i == j ? 1 + r : 1 ) a)
+ *      ij   k=1    sigma^2   dp  dp
+ *                       k      i   j
+ *
+ * A      -> p_dim X p_dim coefficient matrix.  MUST ALREADY BE ALLOCATED.
+ *
+ * sigmas -> Measurement errors in the dataset (along the y-axis).
+ *           NULL means "no errors available", so they are all set to 1.
+ *
+ * x_dim  -> Number of data points.
+ *
+ * p_dim  -> Number of parameters.
+ *
+ * r      -> Positive constant.  It's value is altered during the LM procedure.
+ */
+
+static RegressionResult
+coefficient_matrix (gnum_float **A, /* Output matrix. */
+		    RegressionFunction f,
+		    gnum_float **xvals, /* The entire data set. */
+		    gnum_float *par,
+		    gnum_float *yvals,  /* Ditto. */
+		    gnum_float *sigmas, /* Ditto. */
+		    int x_dim,          /* Number of data points. */
+		    int p_dim,          /* Number of parameters.  */
+		    gnum_float r)
+{
+	int i, j, k;
+	RegressionResult result;
+	gnum_float df_i, df_j;
+	gnum_float sum, sigma;
+
+	/* Notice that the matrix is symetric.  */
+	for (i = 0; i < p_dim; i++) {
+		for (j = 0; j <= i; j++) {
+			sum = 0;
+			for (k = 0; k < x_dim; k++) {
+				result = derivative (f, &df_i, xvals[k],
+						     par, i);
+				if (result != REG_ok)
+					return result;
+
+				result = derivative (f, &df_j, xvals[k],
+						     par, j);
+				if (result != REG_ok)
+					return result;
+
+				sigma = (sigmas ? sigmas[k] : 1);
+
+				sum += (df_i * df_j) / (sigma * sigma) *
+					(i == j ? 1 + r : 1) ;
+			}
+			A[i][j] = A[j][i] = sum;
+		}
+	}
+
+	return REG_ok;
+}
+
+
+/*
+ * SYNOPSIS:
+ *   result = parameter_errors (f, xvals, par, yvals, sigmas,
+ *                              x_dim, p_dim, errors)
+ *
+ * Returns the errors associated with the parameters.
+ * If an error is infinite, it is set to -1.
+ *
+ * sigmas  -> Measurement errors in the dataset (along the y-axis).
+ *            NULL means "no errors available", so they are all set to 1.
+ *
+ * x_dim   -> Number of data points.
+ *
+ * p_dim   -> Number of parameters.
+ *
+ * errors  -> MUST ALREADY BE ALLOCATED.
+ */
+
+/* FIXME:  I am not happy with the behaviour with infinite errors.  */
+static RegressionResult
+parameter_errors (RegressionFunction f,
+		  gnum_float **xvals, /* The entire data set. */
+		  gnum_float *par,
+		  gnum_float *yvals,  /* Ditto. */
+		  gnum_float *sigmas, /* Ditto. */
+		  int x_dim,          /* Number of data points. */
+		  int p_dim,          /* Number of parameters.  */
+		  gnum_float *errors)
+{
+	RegressionResult result;
+	gnum_float **A;
+	int i;
+
+	ALLOC_MATRIX (A, p_dim, p_dim);
+
+	result = coefficient_matrix (A, f, xvals, par, yvals, sigmas,
+				     x_dim, p_dim, 0);
+	if (result == REG_ok) {
+		for (i = 0; i < p_dim; i++)
+			/* FIXME: these were "[i][j]" which makes no sense.  */
+			errors[i] = (A[i][i] != 0
+				     ? 1 / sqrt (A[i][i])
+				     : -1);
+	}
+
+	FREE_MATRIX (A, p_dim, p_dim);
+	return result;
+}
+
+
+/*
+ * SYNOPSIS:
+ *   result = non_linear_regression (f, xvals, par, yvals, sigmas,
+ *                                   x_dim, p_dim, &chi, errors)
+ *
+ * Returns the results of the non-linear regression from the given initial
+ * values.
+ * The resulting parameters are placed back into 'par'.
+ *
+ * PARAMETERS:
+ *
+ * sigmas  -> Measurement errors in the dataset (along the y-axis).
+ *            NULL means "no errors available", so they are all set to 1.
+ *
+ * x_dim   -> Number of data points.
+ *
+ * p_dim   -> Number of parameters.
+ *
+ * errors  -> MUST ALREADY BE ALLOCATED.  These are the approximated standard
+ *            deviation for each parameter.
+ *
+ * chi     -> Chi Squared of the final result.  This value is not very
+ *            meaningful without the sigmas.
+ */
+RegressionResult
+non_linear_regression (RegressionFunction f,
+		       gnum_float **xvals, /* The entire data set. */
+		       gnum_float *par,
+		       gnum_float *yvals,  /* Ditto. */
+		       gnum_float *sigmas, /* Ditto. */
+		       int x_dim,          /* Number of data points. */
+		       int p_dim,          /* Number of parameters.  */
+		       gnum_float *chi,
+		       gnum_float *errors)
+{
+	gnum_float r = 0.001; /* Pick a conservative initial value. */
+	gnum_float *b, **A;
+	gnum_float *dpar;
+	gnum_float *tmp_par;
+	gnum_float chi_pre, chi_pos, dchi;
+	RegressionResult result;
+	int i, count;
+
+	result = chi_squared (f, xvals, par, yvals, sigmas, x_dim, &chi_pre);
+	if (result != REG_ok)
+		return result;
+
+	ALLOC_MATRIX (A, p_dim, p_dim);
+	dpar    = g_new (gnum_float, p_dim);
+	tmp_par = g_new (gnum_float, p_dim);
+	b       = g_new (gnum_float, p_dim);
+#ifdef DEBUG
+	printf ("Chi Squared : %lf", chi_pre);
+#endif
+
+	for (count = 0; count < MAX_STEPS; count++) {
+		for (i = 0; i < p_dim; i++) {
+			/*
+			 *          d Chi
+			 *  b   ==  -----
+			 *   k       d p
+			 *              k
+			 */
+			result = chi_derivative (f, &dchi, xvals, par, i,
+						 yvals, sigmas, x_dim);
+			if (result != REG_ok)
+				goto out;
+
+			b[i] = - dchi;
+		}
+
+		result = coefficient_matrix (A, f, xvals, par, yvals,
+					     sigmas, x_dim, p_dim, r);
+		if (result != REG_ok)
+			goto out;
+
+		result = linear_solve (A, b, p_dim, dpar);
+		if (result != REG_ok)
+			goto out;
+
+		for(i = 0; i < p_dim; i++)
+			tmp_par[i] = par[i] + dpar[i];
+
+		result = chi_squared (f, xvals, par, yvals, sigmas,
+				      x_dim, &chi_pos);
+		if (result != REG_ok)
+			goto out;
+
+#ifdef DEBUG
+		printf ("Chi Squared : %lf", chi_pre);
+		printf ("Chi Squared : %lf", chi_pos);
+		printf ("r  :  %lf", r);
+#endif
+
+		if (chi_pos <= chi_pre + DELTA / 2) {
+			/* There is improvement */
+			r /= 10;
+			par = tmp_par;
+
+			if (abs (chi_pos - chi_pre) < DELTA)
+				break;
+
+			chi_pre = chi_pos;
+		} else {
+			r *= 10;
+		}
+	}
+
+	result = parameter_errors (f, xvals, par, yvals, sigmas,
+				   x_dim, p_dim, errors);
+	if (result != REG_ok)
+		goto out;
+
+	*chi = chi_pos;
+
+ out:
+	FREE_MATRIX (A, p_dim, p_dim);
+	g_free (dpar);
+	g_free (tmp_par);
+	g_free (b);
+
+	return result;
+}
