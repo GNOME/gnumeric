@@ -22,6 +22,7 @@
  */
 
 #include "config.h"
+#include <gnome.h>
 #include "gnumeric.h"
 #include "plugin.h"
 #include "plugin-util.h"
@@ -33,6 +34,7 @@
 #include "cell.h"
 #include "position.h"
 #include "expr.h"
+#include "print-info.h"
 #include "value.h"
 #include "selection.h"
 #include "command-context.h"
@@ -41,7 +43,6 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <gnome.h>
 #include <gnome-xml/tree.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/parserInternals.h>
@@ -198,7 +199,13 @@ STATE_WB,
 			STATE_SHEET_MAXROW,	/* convert to attr */
 			STATE_SHEET_ZOOM,	/* convert to attr */
 			STATE_SHEET_PRINTINFO,
-				STATE_PRINT_MARGIN,
+                                STATE_PRINT_MARGINS,
+					STATE_PRINT_MARGIN_TOP,
+					STATE_PRINT_MARGIN_BOTTOM,
+					STATE_PRINT_MARGIN_LEFT,
+					STATE_PRINT_MARGIN_RIGHT,
+					STATE_PRINT_MARGIN_HEADER,
+					STATE_PRINT_MARGIN_FOOTER,
 				STATE_PRINT_VCENTER,
 				STATE_PRINT_HCENTER,
 				STATE_PRINT_GRID,
@@ -272,7 +279,13 @@ static char const * const xml2_state_names[] =
 			"gmr:MaxRow",
 			"gmr:Zoom",
 			"gmr:PrintInformation",
-				"gmr:PrintUnit",
+				"gmr:Margins",
+					"gmr:top",
+					"gmr:bottom",
+					"gmr:left",
+					"gmr:right",
+					"gmr:header",
+					"gmr:footer",
 				"gmr:vcenter",
 				"gmr:hcenter",
 				"gmr:grid",
@@ -504,6 +517,57 @@ xml2ParseSheetZoom (XML2ParseState *state)
 
 	if (xmlParseDouble (content, &zoom))
 		sheet_set_zoom_factor (state->sheet, zoom, FALSE, FALSE);
+}
+
+static void
+xml2ParseMargin (XML2ParseState *state, CHAR const **attrs)
+{
+	PrintInformation *pi;
+	PrintUnit *pu;
+	double points;
+
+	g_return_if_fail (state->sheet != NULL);
+	g_return_if_fail (state->sheet->print_info != NULL);
+
+	pi = state->sheet->print_info;
+	switch (state->state) {
+	case STATE_PRINT_MARGIN_TOP:
+		pu = &pi->margins.top;
+		break;
+	case STATE_PRINT_MARGIN_BOTTOM:
+		pu = &pi->margins.bottom;
+		break;
+	case STATE_PRINT_MARGIN_LEFT:
+		pu = &pi->margins.left;
+		break;
+	case STATE_PRINT_MARGIN_RIGHT:
+		pu = &pi->margins.right;
+		break;
+	case STATE_PRINT_MARGIN_HEADER:
+		pu = &pi->margins.header;
+		break;
+	case STATE_PRINT_MARGIN_FOOTER:
+		pu = &pi->margins.footer;
+		break;
+	default:
+		return;
+	}
+
+	for (; attrs[0] && attrs[1] ; attrs += 2) {
+		if (xml2ParseAttrDouble (attrs, "Points", &points))
+			pu->points = points;
+		else if (!strcmp (attrs[0], "PrefUnit")) {
+			if (!g_strcasecmp (attrs[1], "points"))
+				pu->desired_display = UNIT_POINTS;
+			else if (!g_strcasecmp (attrs[1], "mm"))
+				pu->desired_display = UNIT_MILLIMETER;
+			else if (!g_strcasecmp (attrs[1], "cm"))
+				pu->desired_display = UNIT_CENTIMETER;
+			else if (!g_strcasecmp (attrs[1], "in"))
+				pu->desired_display = UNIT_INCH;
+		} else
+			xml2UnknownAttr (state, attrs, "Margin");
+	}
 }
 
 static void
@@ -1076,7 +1140,7 @@ xml2StartElement (XML2ParseState *state, CHAR const *name, CHAR const **attrs)
 		break;
 
 	case STATE_SHEET_PRINTINFO :
-		if (xml2SwitchState (state, name, STATE_PRINT_MARGIN)) {
+		if (xml2SwitchState (state, name, STATE_PRINT_MARGINS)) {
 		} else if (xml2SwitchState (state, name, STATE_PRINT_VCENTER)) {
 		} else if (xml2SwitchState (state, name, STATE_PRINT_HCENTER)) {
 		} else if (xml2SwitchState (state, name, STATE_PRINT_GRID)) {
@@ -1090,6 +1154,19 @@ xml2StartElement (XML2ParseState *state, CHAR const *name, CHAR const **attrs)
 		} else if (xml2SwitchState (state, name, STATE_PRINT_HEADER)) {
 		} else if (xml2SwitchState (state, name, STATE_PRINT_FOOTER)) {
 		} else if (xml2SwitchState (state, name, STATE_PRINT_PAPER)) {
+		} else
+			xml2UnknownState (state, name);
+		break;
+
+	case STATE_PRINT_MARGINS :
+		if (xml2SwitchState (state, name, STATE_PRINT_MARGIN_TOP) ||
+		    xml2SwitchState (state, name, STATE_PRINT_MARGIN_BOTTOM) ||
+		    xml2SwitchState (state, name, STATE_PRINT_MARGIN_LEFT) ||
+		    xml2SwitchState (state, name, STATE_PRINT_MARGIN_RIGHT) ||
+		    xml2SwitchState (state, name,
+				     STATE_PRINT_MARGIN_HEADER) ||
+		    xml2SwitchState (state, name, STATE_PRINT_MARGIN_FOOTER)) {
+			xml2ParseMargin (state, attrs);
 		} else
 			xml2UnknownState (state, name);
 		break;
@@ -1254,7 +1331,12 @@ xml2EndElement (XML2ParseState *state, const CHAR *name)
 		g_string_truncate(state->content, 0);
 		break;
 
-	case STATE_PRINT_MARGIN :
+	case STATE_PRINT_MARGIN_TOP :
+	case STATE_PRINT_MARGIN_BOTTOM :
+	case STATE_PRINT_MARGIN_LEFT :
+	case STATE_PRINT_MARGIN_RIGHT :
+	case STATE_PRINT_MARGIN_HEADER :
+	case STATE_PRINT_MARGIN_FOOTER :
 	case STATE_PRINT_ORDER :
 	case STATE_PRINT_ORIENT :
 	case STATE_PRINT_PAPER :
@@ -1292,7 +1374,12 @@ xml2Characters (XML2ParseState *state, const CHAR *chars, int len)
 	case STATE_WB_SUMMARY_ITEM_VALUE_STR :
 	case STATE_SHEET_NAME :
 	case STATE_SHEET_ZOOM :
-	case STATE_PRINT_MARGIN :
+	case STATE_PRINT_MARGIN_TOP :
+	case STATE_PRINT_MARGIN_BOTTOM :
+	case STATE_PRINT_MARGIN_LEFT :
+	case STATE_PRINT_MARGIN_RIGHT :
+	case STATE_PRINT_MARGIN_HEADER :
+	case STATE_PRINT_MARGIN_FOOTER :
 	case STATE_PRINT_ORDER :
 	case STATE_PRINT_ORIENT :
 	case STATE_PRINT_PAPER :

@@ -1,3 +1,24 @@
+2001-01-07  Jon K Hellan  <hellan@acm.org>
+
+	* src/xml-io.c (POINT_SIZE_PRECISION): New define giving precision
+	for point measures.
+	(xml_set_value_double): Add precision parameter.  -1 means default
+	(DBL_DIG).
+	(xml_set_value_points): New function. Set a double value for a
+	node with POINT_SIZE_PRECISION digits precision.
+	(xml_set_print_unit): Save in a more natural way.
+	(xml_get_print_unit): Do not expect the node to have a child.
+	(xml_write_print_info): Save margins as children of a "Margins"
+	node.
+	(xml_read_print_margins): New function: Read margins.
+	(xml_read_print_info): Find the PrintInformation node so that we
+	actually read print info.
+	(xml_write_style): Save font size using xml_set_value_points.
+	(xml_write_colrow_info): Save font size using
+	xml_set_value_points.
+	(xml_sheet_write): Save Cols, Rows DefaultSizePts using
+	xml_set_value_points.
+
 2001-01-07  Fatih Demir	<kabalak@gmx.net>
 
 	* configure.in: Added tr to ALL_LINGUAS.

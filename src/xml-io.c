@@ -40,6 +40,9 @@
 #include "format.h"
 #include "ranges.h"
 
+/* Precision to use when saving point measures. */
+#define POINT_SIZE_PRECISION 3
+
 XmlParseContext *
 xml_parse_ctx_new_full (xmlDocPtr             doc,
 			xmlNsPtr              ns,
@@ -364,14 +367,18 @@ xml_set_value_int (xmlNodePtr node, const char *name, int val)
  * the content of a child.
  */
 static void
-xml_set_value_double (xmlNodePtr node, const char *name, double val)
+xml_set_value_double (xmlNodePtr node, const char *name, double val,
+		      int precision)
 {
 	char *ret;
 	xmlNodePtr child;
 	char str[101 + DBL_DIG];
 
+	if (precision < 0 || precision > DBL_DIG)
+		precision = DBL_DIG;
+	
 	if (fabs (val) < 1e9 && fabs (val) > 1e-5)
-		snprintf (str, 100 + DBL_DIG, "%.*g", DBL_DIG, val);
+		snprintf (str, 100 + DBL_DIG, "%.*g", precision, val);
 	else
 		snprintf (str, 100 + DBL_DIG, "%f", val);
 
@@ -390,6 +397,15 @@ xml_set_value_double (xmlNodePtr node, const char *name, double val)
 		child = child->next;
 	}
 	xmlSetProp (node, name, str);
+}
+
+/*
+ * Set a double value for a node with POINT_SIZE_PRECISION digits precision.
+ */
+static void
+xml_set_value_points (xmlNodePtr node, const char *name, double val)
+{
+	xml_set_value_double (node, name, val, POINT_SIZE_PRECISION);
 }
 
 static void
@@ -418,11 +434,9 @@ xml_set_print_unit (xmlNodePtr node, const char *name,
 		break;
 	}
 
-	tstr = xmlEncodeEntitiesReentrant (node->doc, name);
-	child = xmlNewChild (node, NULL, "PrintUnit", tstr);
-	if (tstr) xmlFree (tstr);
+	child = xmlNewChild (node, NULL, name, NULL);
 
-	xml_set_value_double (child, "Points", pu->points);
+	xml_set_value_points (child, "Points", pu->points);
 
 	tstr = xmlEncodeEntitiesReentrant (node->doc, txt);
 	xml_set_value_cstr (child, "PrefUnit", tstr);
@@ -436,7 +450,6 @@ xml_get_print_unit (xmlNodePtr node, PrintUnit * const pu)
 
 	g_return_if_fail (pu != NULL);
 	g_return_if_fail (node != NULL);
-	g_return_if_fail (node->childs != NULL);
 
 	xml_get_value_double (node, "Points", &pu->points);
 	txt = xml_value_get  (node, "PrefUnit");
@@ -858,7 +871,7 @@ xml_write_style (XmlParseContext *ctxt,
 		if (tstr) xmlFree (tstr);
 
 		if (mstyle_is_element_set (style, MSTYLE_FONT_SIZE))
-			xml_set_value_double (child, "Unit",
+			xml_set_value_points (child, "Unit",
 					      mstyle_get_font_size (style));
 		if (mstyle_is_element_set (style, MSTYLE_FONT_BOLD))
 			xml_set_value_int (child, "Bold",
@@ -1276,13 +1289,14 @@ xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "PrintInformation", NULL);
 
-	xml_set_print_unit (cur, "top",    &pi->margins.top);
-	xml_set_print_unit (cur, "bottom", &pi->margins.bottom);
-	xml_set_print_unit (cur, "left",   &pi->margins.left);
-	xml_set_print_unit (cur, "right",  &pi->margins.right);
-	xml_set_print_unit (cur, "header", &pi->margins.header);
-	xml_set_print_unit (cur, "footer", &pi->margins.footer);
-
+	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "Margins", NULL);
+	xmlAddChild (cur, child);
+	xml_set_print_unit (child, "top",    &pi->margins.top);
+	xml_set_print_unit (child, "bottom", &pi->margins.bottom);
+	xml_set_print_unit (child, "left",   &pi->margins.left);
+	xml_set_print_unit (child, "right",  &pi->margins.right);
+	xml_set_print_unit (child, "header", &pi->margins.header);
+	xml_set_print_unit (child, "footer", &pi->margins.footer);
 
 	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "vcenter", NULL);
 	xml_set_value_int  (child, "value", pi->center_vertically);
@@ -1332,6 +1346,34 @@ xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 }
 
 static void
+xml_read_print_margins (XmlParseContext *ctxt, xmlNodePtr tree)
+{
+	xmlNodePtr child;
+	PrintInformation *pi;
+
+	g_return_if_fail (ctxt != NULL);
+	g_return_if_fail (tree != NULL);
+	g_return_if_fail (ctxt->sheet != NULL);
+
+	pi = ctxt->sheet->print_info;
+
+	g_return_if_fail (pi != NULL);
+
+	if ((child = xml_search_child (tree, "top")))
+		xml_get_print_unit (child, &pi->margins.top);
+	if ((child = xml_search_child (tree, "bottom")))
+		xml_get_print_unit (child, &pi->margins.bottom);
+	if ((child = xml_search_child (tree, "left")))
+		xml_get_print_unit (child, &pi->margins.left);
+	if ((child = xml_search_child (tree, "right")))
+		xml_get_print_unit (child, &pi->margins.right);
+	if ((child = xml_search_child (tree, "header")))
+		xml_get_print_unit (child, &pi->margins.header);
+	if ((child = xml_search_child (tree, "footer")))
+		xml_get_print_unit (child, &pi->margins.footer);
+}
+
+static void
 xml_read_print_repeat_range (XmlParseContext *ctxt, xmlNodePtr tree, char *name, PrintRepeatRange *range)
 {
 	xmlNodePtr child;
@@ -1378,19 +1420,13 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	g_return_if_fail (pi != NULL);
 
-	if ((child = xml_search_child (tree, "top")))
-		xml_get_print_unit (child, &pi->margins.top);
-	if ((child = xml_search_child (tree, "bottom")))
-		xml_get_print_unit (child, &pi->margins.bottom);
-	if ((child = xml_search_child (tree, "left")))
-		xml_get_print_unit (child, &pi->margins.left);
-	if ((child = xml_search_child (tree, "right")))
-		xml_get_print_unit (child, &pi->margins.right);
-	if ((child = xml_search_child (tree, "header")))
-		xml_get_print_unit (child, &pi->margins.header);
-	if ((child = xml_search_child (tree, "footer")))
-		xml_get_print_unit (child, &pi->margins.footer);
+	tree = xml_search_child (tree, "PrintInformation");
+	if (tree == NULL)
+		return;
 
+	if ((child = xml_search_child (tree, "Margins"))) {
+		xml_read_print_margins (ctxt, child);
+	}
 	if ((child = xml_search_child (tree, "vcenter"))) {
 		xml_get_value_int  (child, "value", &b);
 		pi->center_vertically   = (b == 1);
@@ -1417,8 +1453,10 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 		pi->print_titles          = (b == 1);
 	}
 
-	xml_read_print_repeat_range (ctxt, tree, "repeat_top", &pi->repeat_top);
-	xml_read_print_repeat_range (ctxt, tree, "repeat_left", &pi->repeat_left);
+	xml_read_print_repeat_range (ctxt, tree, "repeat_top",
+				     &pi->repeat_top);
+	xml_read_print_repeat_range (ctxt, tree, "repeat_left",
+				     &pi->repeat_left);
 
 	if ((child = xml_search_child (tree, "order"))) {
 		char *txt;
@@ -1687,7 +1725,7 @@ xml_write_colrow_info (ColRowInfo *info, void *user_data)
 
 		if (cur != NULL) {
 			xml_set_value_int (cur, "No", prev->pos);
-			xml_set_value_double (cur, "Unit", prev->size_pts);
+			xml_set_value_points (cur, "Unit", prev->size_pts);
 			xml_set_value_int (cur, "MarginA", prev->margin_a);
 			xml_set_value_int (cur, "MarginB", prev->margin_b);
 			xml_set_value_int (cur, "HardSize", prev->hard_size);
@@ -2358,7 +2396,8 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 	 * Cols informations.
 	 */
 	cols = xmlNewChild (cur, ctxt->ns, "Cols", NULL);
-	xml_set_value_double (cols, "DefaultSizePts", sheet_col_get_default_size_pts (sheet));
+	xml_set_value_points (cols, "DefaultSizePts",
+			      sheet_col_get_default_size_pts (sheet));
 	{
 		closure_write_colrow closure;
 		closure.is_column = TRUE;
@@ -2376,7 +2415,8 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 	 * Rows informations.
 	 */
 	rows = xmlNewChild (cur, ctxt->ns, "Rows", NULL);
-	xml_set_value_double (rows, "DefaultSizePts", sheet_row_get_default_size_pts (sheet));
+	xml_set_value_points (rows, "DefaultSizePts",
+			      sheet_row_get_default_size_pts (sheet));
 	{
 		closure_write_colrow closure;
 		closure.is_column = FALSE;
