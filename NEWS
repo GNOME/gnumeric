@@ -32,6 +32,11 @@ Morten:
 	* Update mathfunc.c to R 1.5.1.
 	* Improve precision of HYPGEOMDIST and NEGBINOMDIST.
 
+Jon Kåre:
+	* Use GsfInput in the Python plugin loader
+	* Use GsfInput in the Nautilus component
+	* Open all probe-able file formats from the Nautilus component
+
 --------------------------------------------------------------------------
 Gnumeric 1.1.4
 
