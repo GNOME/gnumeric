@@ -1,3 +1,10 @@
+2001-10-31  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* advanced-filter.glade, dialog-advanced-filter.c: Added `Help'
+	button.
+
+	* autocorrect.glade, dialog-autocorrect.c: Added `Help' button.
+
 2001-10-31  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-formula-guru.c (dialog_formula_guru) : remove the debug spew.

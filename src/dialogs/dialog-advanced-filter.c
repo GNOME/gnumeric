@@ -4,12 +4,13 @@
  * Author:
  *        Jukka-Pekka Iivonen <iivonen@iki.fi>
  *
- * (C) Copyright 2000 by Jukka-Pekka Iivonen <iivonen@iki.fi>
+ * (C) Copyright 2000, 2001 by Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
  **/
 #include <config.h>
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-help.h>
 #include <glade/glade.h>
 #include "gnumeric.h"
 #include "sheet.h"
@@ -63,7 +64,6 @@ filter (data_analysis_output_t *dao,
 	        rows = rows->next;
 	}
 }
-
 
 /* Filter tool.
  */
@@ -147,6 +147,17 @@ new_workbook_toggled(GtkWidget *widget, filter_t *filter)
 	}
 }
 
+static void
+dialog_help_cb(GtkWidget *button, gchar *helpfile)
+{
+        if (helpfile != NULL) {
+	        GnomeHelpMenuEntry help_ref;
+		help_ref.name = "gnumeric";
+		help_ref.path = helpfile;
+		gnome_help_display (NULL, &help_ref);
+	}
+}
+
 
 void
 dialog_advanced_filter (WorkbookControlGUI *wbcg)
@@ -161,7 +172,9 @@ dialog_advanced_filter (WorkbookControlGUI *wbcg)
 	GtkWidget *copy_to;
 	GtkWidget *unique_only;
 	GtkWidget *radiobutton;
-	Sheet  *sheet;
+	GtkWidget *helpbutton;
+	Sheet     *sheet;
+	gchar     *helpfile = "filter.html";
 	gint      v, error_flag;
 	gint      list_col_b, list_col_e, list_row_b, list_row_e;
 	gint      crit_col_b, crit_col_e, crit_row_b, crit_row_e;
@@ -200,6 +213,9 @@ dialog_advanced_filter (WorkbookControlGUI *wbcg)
 	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
 			    GTK_SIGNAL_FUNC (new_workbook_toggled),
 			    &f);
+	helpbutton = glade_xml_get_widget(gui, "helpbutton");
+	gtk_signal_connect (GTK_OBJECT (helpbutton), "clicked",
+			    GTK_SIGNAL_FUNC (dialog_help_cb), helpfile);
 
         if (unique_only_flag)
 	        gtk_toggle_button_set_active ((GtkToggleButton *)
@@ -220,6 +236,9 @@ loop:
 	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dia));
 
 	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+
+	if (v == 2)
+	        goto loop;
 
 	if (v == -1 || v == 1){
 	        /* Canceled */

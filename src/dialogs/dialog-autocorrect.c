@@ -2,15 +2,16 @@
  * dialog-autocorrect.c:
  *
  * Author:
- *        Jukka-Pekka Iivonen <iivonen@iki.fi>
+ *        Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
  *
- * (C) Copyright 2000 by Jukka-Pekka Iivonen <iivonen@iki.fi>
+ * (C) Copyright 2000, 2001 by Jukka-Pekka Iivonen <iivonen@iki.fi>
  **/
 
 #include <config.h>
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-help.h>
 #include <glade/glade.h>
 #include <ctype.h>
 #include "gnumeric.h"
@@ -359,6 +360,17 @@ exceptions_callback (GtkWidget *widget, autocorrect_t *p)
 	gtk_widget_show (p->dia);
 }
 
+static void
+dialog_help_cb(GtkWidget *button, gchar *helpfile)
+{
+        if (helpfile != NULL) {
+	        GnomeHelpMenuEntry help_ref;
+                help_ref.name = "gnumeric";
+                help_ref.path = helpfile;
+                gnome_help_display (NULL, &help_ref);
+	}
+}
+
 /*
  *  Widgets for "replace text when typed" have been set insensitive in
  *  autocorrect.glade until the feature is implemented. The widgets are:
@@ -377,6 +389,8 @@ dialog_autocorrect (WorkbookControlGUI *wbcg)
 	GtkWidget *caps_lock;
 	GtkWidget *replace;
 	GtkWidget *entry;
+	GtkWidget *helpbutton;
+	gchar     *helpfile = "autocorrect.html";
 	autocorrect_t p;
 
 	gint      v;
@@ -450,6 +464,10 @@ dialog_autocorrect (WorkbookControlGUI *wbcg)
 	gtk_signal_connect (GTK_OBJECT (replace), "toggled",
 			    GTK_SIGNAL_FUNC (replace_toggled), NULL);
 
+        helpbutton = glade_xml_get_widget(gui, "helpbutton");
+        gtk_signal_connect (GTK_OBJECT (helpbutton), "clicked",
+                            GTK_SIGNAL_FUNC (dialog_help_cb), helpfile);
+
 	/* Make <Ret> in entry fields invoke default */
 	entry = glade_xml_get_widget (gui, "entry1");
 	gtk_widget_set_sensitive (entry, FALSE);
@@ -460,7 +478,11 @@ dialog_autocorrect (WorkbookControlGUI *wbcg)
 				      GTK_EDITABLE (entry));
 	gtk_widget_set_sensitive (entry, FALSE);
 
+ loop:
 	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dia));
+
+        if (v == 2)
+                goto loop;
 
 	if (v != 0) {
 	        autocorrect_init_caps = old_init_caps;
