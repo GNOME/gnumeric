@@ -1,3 +1,8 @@
+2005-01-09  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_type) : The arg should be a
+	  '?' not an 'E' which forces things to be scalar.
+
 2004-12-09  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.4.1

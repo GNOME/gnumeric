@@ -25,6 +25,7 @@ Jody:
 	* Don't crash when attempting to copy an un-copiable object [#162888]
 	* Fix crash deleting a shared view [#163452]
 	* Fix sax export of outlines
+	* Fix TYPE to allow non-scalar
 
 Morten:
 	* Improve accuracy of pgamma and thus pchisq, ppois, qgamma,

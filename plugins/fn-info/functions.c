@@ -1858,7 +1858,7 @@ const GnmFuncDescriptor info_functions[] = {
 	{ "na",		"",  "", &help_na,
 	  gnumeric_na, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "type",	"E", N_("value"), &help_type,
+	{ "type",	"?", N_("value"), &help_type,
 	  gnumeric_type, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 
