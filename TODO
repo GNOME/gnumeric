@@ -103,6 +103,10 @@ Gnumeric Spread Sheet task list
    double click on the magic little copy box fills the current
    column to the depth of the column to the left ??
 
+** Cell comments
+   Cell comments should be wrapped - at least so that they do not run
+   off the screen.
+   
 ** Headers for Columns and Rows
    The captions should be customizable, ie instead of "A1", it should
    be possible to display "Sales".  We can use this with Michael's
