@@ -434,15 +434,17 @@ stf_write_workbook (GnumFileSaver const *fs, IOContext *context, WorkbookView *w
 void
 stf_init (void)
 {
-	register_file_opener_as_importer_as_default (gnum_file_opener_new (
-	                      "Gnumeric_stf:stf_druid", _("Text File import (customizable)"),
-	                      NULL, stf_read_workbook), 50);
 	register_file_opener (gnum_file_opener_new (
-		"Gnumeric_stf:stf_csv", _("Text File import (default csv)"),
+		"Gnumeric_stf:stf_csv",
+		_("Text import (defaults to csv)"),
 		stf_read_default_probe, stf_read_workbook_default_csv), 0);
-			      
+	register_file_opener_as_importer_as_default (gnum_file_opener_new (
+		"Gnumeric_stf:stf_druid",
+		_("Text import (configurable)"),
+		NULL, stf_read_workbook), 50);
 	register_file_saver (gnum_file_saver_new (
-	                     "Gnumeric_stf:stf", "csv",
-	                     _("Text File Export (*.csv)"),
-	                     FILE_FL_MANUAL, stf_write_workbook));
+		"Gnumeric_stf:stf", "csv",
+		_("Text export (configurable)"),
+		FILE_FL_MANUAL, stf_write_workbook));
 }
+

@@ -1,5 +1,7 @@
 2002-02-11  Jody Goldberg <jody@gnome.org>
 
+	* src/stf.c (stf_init) : improve naming of the text exporter.
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=69328
 	* src/expr-name.c (expr_name_remove) : If nothing is using the name
 	  then the unlink unrefs it and it was deleted before we could clear
