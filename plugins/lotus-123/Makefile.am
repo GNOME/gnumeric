@@ -7,7 +7,6 @@ gnumeric_plugin_LTLIBRARIES = gnum_lotus.la
 gnum_lotus_la_LDFLAGS = -module -avoid-version
 gnum_lotus_la_SOURCES = \
 	boot.c			\
-	config.h		\
 	lotus-types.h		\
 	lotus.h			\
 	lotus.c			\
