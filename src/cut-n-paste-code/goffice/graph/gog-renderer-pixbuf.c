@@ -48,6 +48,7 @@ struct _GogRendererPixbuf {
 	int	   	 rowstride;
 
 	PangoContext 	*pango_context;
+	PangoLayout	*pango_layout;
 };
 
 typedef GogRendererClass GogRendererPixbufClass;
@@ -62,6 +63,11 @@ gog_renderer_pixbuf_finalize (GObject *obj)
 	if (prend->buffer != NULL) {
 		g_object_unref (prend->buffer);
 		prend->buffer = NULL;
+	}
+
+	if (prend->pango_layout != NULL) {
+		g_object_unref (prend->pango_layout);
+		prend->pango_layout = NULL;
 	}
 
 	if (prend->pango_context != NULL) {
@@ -404,32 +410,40 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
 	}
 }
 
-static PangoLayout *
-make_layout (GogRendererPixbuf *prend, char const *text)
+static PangoContext *
+gog_renderer_pixbuf_get_pango_context (GogRendererPixbuf *prend)
 {
-	PangoLayout *layout;
+	PangoFT2FontMap *font_map;
+	
+	if (prend->pango_context != NULL)
+		return prend->pango_context;
+
+	font_map = PANGO_FT2_FONT_MAP (pango_ft2_font_map_new ());
+	pango_ft2_font_map_set_resolution (font_map,
+					   gnm_app_display_dpi_get (TRUE),
+					   gnm_app_display_dpi_get (FALSE));
+	prend->pango_context = pango_ft2_font_map_create_context  (font_map);
+	g_object_unref (font_map);
+
+	return prend->pango_context;
+}
+
+static PangoLayout *
+gog_renderer_pixbuf_get_pango_layout (GogRendererPixbuf *prend)
+{
+	PangoContext *context;
 	PangoAttribute *attr;
 	PangoAttrList  *attrs = NULL;
 	PangoFontDescription const *fd = prend->base.cur_style->font.font->desc;
 
-	if (prend->pango_context == NULL) {
-		PangoFT2FontMap *font_map = PANGO_FT2_FONT_MAP (pango_ft2_font_map_new ());
-		pango_ft2_font_map_set_resolution (font_map,
-			gnm_app_display_dpi_get (TRUE),
-			gnm_app_display_dpi_get (FALSE));
-		prend->pango_context = pango_ft2_font_map_create_context  (font_map);
-		g_object_unref (font_map);
-	}
+	if (prend->pango_layout != NULL)
+		return prend->pango_layout;
+	
+	context = gog_renderer_pixbuf_get_pango_context (prend);
 
-	gog_debug (0, {
-		char *msg = pango_font_description_to_string (fd);
-		g_warning (msg);
-		g_free (msg);
-	});
-
-	layout = pango_layout_new (prend->pango_context);
-	pango_layout_set_text (layout, text, -1);
-	pango_layout_set_font_description (layout, fd);
+	prend->pango_layout = pango_layout_new (context);
+	
+	pango_layout_set_font_description (prend->pango_layout, fd);
 
 	/*
 	 * Manually scale the font size to compensate for
@@ -443,10 +457,10 @@ make_layout (GogRendererPixbuf *prend, char const *text)
 
 	attrs = pango_attr_list_new ();
 	pango_attr_list_insert (attrs, attr);
-	pango_layout_set_attributes (layout, attrs);
+	pango_layout_set_attributes (prend->pango_layout, attrs);
 	pango_attr_list_unref (attrs);
 
-	return layout;
+	return prend->pango_layout;
 }
 
 static void
@@ -457,11 +471,13 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 	FT_Bitmap ft_bitmap;
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
 	PangoRectangle rect;
-	PangoLayout   *layout = make_layout (prend, text);
+	PangoLayout   *layout;
 	guint8 r, g, b, a, alpha, *dst, *src;
 	int h, w, i, x, y;
 	GogStyle const *style = rend->cur_style;
 
+	layout = gog_renderer_pixbuf_get_pango_layout ((GogRendererPixbuf *) rend);
+	pango_layout_set_text (layout, text, -1);
 	pango_layout_get_extents (layout, NULL, &rect);
 	rect.x = PANGO_PIXELS (rect.x);
 	rect.y = PANGO_PIXELS (rect.y);
@@ -549,7 +565,6 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 		src += ft_bitmap.pitch - w;
 	}
 
-	g_object_unref (layout);
 	g_free (ft_bitmap.buffer);
 }
 
@@ -588,12 +603,38 @@ gog_renderer_pixbuf_measure_text (GogRenderer *rend,
 				  char const *text, GogViewRequisition *size)
 {
 	PangoRectangle  logical;
-	PangoLayout    *layout = make_layout ((GogRendererPixbuf *)rend, text);
+	PangoLayout    *layout;
+	
+	layout = gog_renderer_pixbuf_get_pango_layout ((GogRendererPixbuf *) rend);
+	pango_layout_set_text (layout, text, -1);
 	pango_layout_get_pixel_extents (layout, NULL, &logical);
-	g_object_unref (layout);
 
 	size->w = logical.width;
 	size->h = logical.height;
+}
+
+static void
+gog_renderer_pixbuf_pop_style (GogRenderer *rend)
+{
+	GogRendererPixbuf *prend = (GogRendererPixbuf *) rend;
+
+	if (prend->pango_layout != NULL)
+	{
+		g_object_unref (prend->pango_layout);
+		prend->pango_layout = NULL;
+	}
+}
+
+static void
+gog_renderer_pixbuf_push_style (GogRenderer *rend, GogStyle const *style)
+{
+	GogRendererPixbuf *prend = (GogRendererPixbuf *) rend;
+
+	if (prend->pango_layout != NULL)
+	{
+		g_object_unref (prend->pango_layout);
+		prend->pango_layout = NULL;
+	}
 }
 
 static void
@@ -603,6 +644,8 @@ gog_renderer_pixbuf_class_init (GogRendererClass *rend_klass)
 
 	parent_klass = g_type_class_peek_parent (rend_klass);
 	gobject_klass->finalize		= gog_renderer_pixbuf_finalize;
+	rend_klass->push_style		= gog_renderer_pixbuf_push_style;
+	rend_klass->pop_style		= gog_renderer_pixbuf_pop_style;
 	rend_klass->clip_push  		= gog_renderer_pixbuf_clip_push;
 	rend_klass->clip_pop     	= gog_renderer_pixbuf_clip_pop;
 	rend_klass->sharp_path		= gog_renderer_pixbuf_sharp_path;
@@ -619,6 +662,8 @@ gog_renderer_pixbuf_init (GogRendererPixbuf *prend)
 {
 	prend->buffer = NULL;
 	prend->w = prend->h = 1; /* just in case */
+	prend->pango_layout = NULL;
+	prend->pango_context = NULL;
 }
 
 GSF_CLASS (GogRendererPixbuf, gog_renderer_pixbuf,
@@ -695,7 +740,6 @@ gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h, double zoom)
 	gboolean redraw = TRUE;
 	GogView *view;
 	GogViewAllocation allocation;
-	PangoFT2FontMap *font_map;
 
 	g_return_val_if_fail (prend != NULL, FALSE);
 	g_return_val_if_fail (prend->base.view != NULL, FALSE);
@@ -722,17 +766,16 @@ gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h, double zoom)
 			g_object_unref (prend->buffer);
 			prend->buffer = NULL;
 		}
+
+		if (prend->pango_layout != NULL) {
+			g_object_unref (prend->pango_layout);
+			prend->pango_layout = NULL;
+		}
+
 		if (prend->pango_context != NULL) {
 			g_object_unref (prend->pango_context);
 			prend->pango_context = NULL;
 		}
-
-		font_map = PANGO_FT2_FONT_MAP (pango_ft2_font_map_new ());
-		pango_ft2_font_map_set_resolution (font_map,
-			gnm_app_display_dpi_get (TRUE),
-			gnm_app_display_dpi_get (FALSE));
-		prend->pango_context = pango_ft2_font_map_create_context  (font_map);
-		g_object_unref (font_map);
 
 		/* make sure we dont try to queue an update while updating */
 		prend->base.needs_update = TRUE;

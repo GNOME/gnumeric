@@ -1,3 +1,15 @@
+2004-09-10  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=152201
+	* graph/gog-axis.c (map_discrete_auto_bound): Set automatic maximum
+	number of major and lables to 100.
+	(gog_axis_view_render): don't draw axis + ticks in one path.
+	* graph/gog-renderer-pixbuf.c: cache pango layout.
+	(gog_renderer_pixbuf_get_pango_layout): new.
+	(gog_renderer_pixbuf_get_pango_context): new.
+	(gog_renderer_pixbuf_push_style): new. unref pango_layout.
+	(gog_renderer_pixbuf_push_style): ditto.
+				
 2004-09-09  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/gog-axis.c (map_discrete_auto_bound): Set automatic maximum
