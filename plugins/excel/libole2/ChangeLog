@@ -1,3 +1,10 @@
+1999-11-08  Arturo Tena  <arturo@directmail.org>
+
+	* ms-ole-summary.c, ms-ole.c: Commented all public functions with
+	gtk-doc comment style, in preparation to use gtk-doc.
+	* ms-ole-summary.h: Moved comments about functions to ms-ole-summary.c,
+	clean-up.
+
 1999-11-08  Michael Meeks  <mmeeks@gnu.org>
 
 	* ms-ole-summary.c (ms_ole_docsummary_open): quieten.

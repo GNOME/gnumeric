@@ -1425,12 +1425,11 @@ ms_ole_unref (MsOle *f)
 
 /**
  * ms_ole_open_vfs:
- * @name: name of OLE2 file to open
- * @try_mmap: TRUE if try to mmap the file to open
- * @wrappers: system functions wrappers, NULL if standard functions are used
+ * @name: name of OLE2 file to open.
+ * @try_mmap: TRUE if try to mmap the OLE2 file.
+ * @wrappers: system functions wrappers, NULL if standard functions are used.
  * 
- * Opens a pre-existing OLE2 file, use ms_ole_create ()
- * to create a new file
+ * Opens a pre-existing OLE2 file, use ms_ole_create() to create a new file.
  * 
  * Return value: a handle to the file or NULL on failure.
  **/
@@ -1540,11 +1539,11 @@ ms_ole_open_vfs (MsOle **f, const char *name, gboolean try_mmap,
 
 /**
  * ms_ole_create_vfs:
- * @name: filename of new OLE file
- * @try_mmap: TRUE if try to mmap the file to open
- * @wrappers: system functions wrappers, NULL if standard functions are used
+ * @name: filename of new OLE file.
+ * @try_mmap: TRUE if try to mmap the OLE2 file.
+ * @wrappers: system functions wrappers, NULL if standard functions are used.
  * 
- * Creates an OLE2 file: @name
+ * Creates an OLE2 file: @name.
  *
  * Return value: pointer to new file or NULL on failure.
  **/
@@ -1669,7 +1668,7 @@ destroy_pps (GList *l)
 
 /**
  * ms_ole_destroy:
- * @f: OLE file handle
+ * @f: OLE2 file handle.
  * 
  * Closes @f and truncates any free blocks.
  **/
@@ -2287,13 +2286,13 @@ ms_ole_write_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 /**
  * pps_create:
  * @p: returned pps.
- * @parent: parent pps
- * @name: its name
+ * @parent: parent pps.
+ * @name: its name.
  * @type: the type.
  * 
  * Creates a storage or stream.
  * 
- * Return value: error status
+ * Return value: error status.
  **/
 static MsOleErr
 pps_create (GList **p, GList *parent, const char *name, MsOleType type)
@@ -2526,14 +2525,16 @@ ms_ole_stat (MsOleStat *stat, MsOle *f, const char *path,
 	return MS_OLE_ERR_OK;
 }
 
-/* FIXME tenix next documentation needs update */
+
 /**
  * ms_ole_stream_open:
- * @d: directory entry handle
- * @mode: mode of opening stream
+ * @stream: FIXME
+ * @f: FIXME
+ * @path: FIXME
+ * @fname: FIXME
+ * @mode: mode of opening stream.
  * 
- * Opens the stream with directory handle @d
- * mode is 'r' for read only or 'w' for write only
+ * @mode is 'r' for read only or 'w' for write only.
  * 
  * Return value: handle to an stream.
  **/

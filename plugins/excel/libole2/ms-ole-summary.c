@@ -173,6 +173,15 @@ write_items (MsOleSummary *si)
 	}
 }
 
+/**
+ * ms_ole_summary_open_stream:
+ * @s: FIXME
+ * @psid: FIXME
+ * 
+ * Opens @s as SummaryInformation, returns NULL on failure.
+ * 
+ * Return value: FIXME
+ **/
 MsOleSummary *
 ms_ole_summary_open_stream (MsOleStream *s, const MsOlePropertySetID psid)
 {
@@ -271,10 +280,14 @@ ms_ole_summary_open_stream (MsOleStream *s, const MsOlePropertySetID psid)
 	return si;
 }
 
-/*
+/**
  * ms_ole_summary_open:
- * Opens the SummaryInformation stream.
- */
+ * @f: FIXME
+ * 
+ * Opens the SummaryInformation stream, returns NULL on failure.
+ * 
+ * Return value: FIXME
+ **/
 MsOleSummary *
 ms_ole_summary_open (MsOle *f)
 {
@@ -291,10 +304,14 @@ ms_ole_summary_open (MsOle *f)
 }
 
 
-/*
+/**
  * ms_ole_docsummary_open:
- * Opens the DocumentSummaryInformation stream.
- */
+ * @f: FIXME
+ * 
+ * Opens the DocumentSummaryInformation stream, returns NULL on failure.
+ * 
+ * Return value: FIXME
+ **/
 MsOleSummary *
 ms_ole_docsummary_open (MsOle *f)
 {
@@ -310,9 +327,19 @@ ms_ole_docsummary_open (MsOle *f)
 	return ms_ole_summary_open_stream (s, MS_OLE_PS_DOCUMENT_SUMMARY_INFO);
 }
 
+
 /*
  * Cheat by hard coding magic numbers and chaining on.
  */
+/**
+ * ms_ole_summary_create_stream:
+ * @s: FIXME
+ * @psid: FIXME
+ * 
+ * Creates @s as SummaryInformation stream, returns NULL on failure.
+ * 
+ * Return value: FIXME
+ **/
 MsOleSummary *
 ms_ole_summary_create_stream (MsOleStream *s, const MsOlePropertySetID psid)
 {
@@ -372,11 +399,13 @@ ms_ole_summary_create_stream (MsOleStream *s, const MsOlePropertySetID psid)
 
 
 /**
- *  ms_ole_summary_create
- *
- *  Create a MS SummaryInformation stream.
- *
-**/
+ * ms_ole_summary_create:
+ * @f: FIXME
+ * 
+ * Create a SummaryInformation stream, returns NULL on failure.
+ * 
+ * Return value: FIXME
+ **/
 MsOleSummary *
 ms_ole_summary_create (MsOle *f)
 {
@@ -397,11 +426,13 @@ ms_ole_summary_create (MsOle *f)
 
 
 /**
- *  ms_ole_docsummary_create
- *
- *  Create a MS DocumentSummaryInformation stream.
- *
-**/
+ * ms_ole_docsummary_create:
+ * @f: FIXME
+ * 
+ * Create a DocumentSummaryInformation stream, returns NULL on failure.
+ * 
+ * Return value: FIXME
+ **/
 MsOleSummary *
 ms_ole_docsummary_create (MsOle *f)
 {
@@ -421,6 +452,15 @@ ms_ole_docsummary_create (MsOle *f)
 }
 
 
+/* FIXME: without the helpful type */
+/**
+ * ms_ole_summary_get_properties:
+ * @si: FIXME
+ * 
+ * Returns an array of MsOleSummaryPID.
+ * 
+ * Return value: FIXME
+ **/
 GArray *
 ms_ole_summary_get_properties (MsOleSummary *si)
 {
@@ -439,7 +479,14 @@ ms_ole_summary_get_properties (MsOleSummary *si)
 	return ans;
 }
 
-void ms_ole_summary_close (MsOleSummary *si)
+/**
+ * ms_ole_summary_close:
+ * @si: FIXME
+ * 
+ * FIXME
+ **/
+void
+ms_ole_summary_close (MsOleSummary *si)
 {
 	g_return_if_fail (si != NULL);
 	g_return_if_fail (si->s != NULL);
@@ -490,7 +537,17 @@ seek_to_record (MsOleSummary *si, MsOleSummaryPID id)
 	return NULL;
 }
 
-/* Ensure that you free these pointers after use */
+/**
+ * ms_ole_summary_get_string:
+ * @si: FIXME
+ * @id: FIXME
+ * @available: FIXME
+ * 
+ * FIXME
+ * Note: Ensure that you free returned value after use.
+ * 
+ * Return value: FIXME
+ **/
 char *
 ms_ole_summary_get_string (MsOleSummary *si, MsOleSummaryPID id,
 			   gboolean *available)
@@ -534,6 +591,16 @@ ms_ole_summary_get_string (MsOleSummary *si, MsOleSummaryPID id,
 	return ans;
 }
 
+/**
+ * ms_ole_summary_get_short:
+ * @si: FIXME
+ * @id: FIXME
+ * @available: FIXME
+ * 
+ * FIXME
+ * 
+ * Return value: FIXME
+ **/
 guint16
 ms_ole_summary_get_short (MsOleSummary *si, MsOleSummaryPID id,
 			 gboolean *available)
@@ -570,6 +637,16 @@ ms_ole_summary_get_short (MsOleSummary *si, MsOleSummaryPID id,
 	return value;
 }
 
+/**
+ * ms_ole_summary_get_boolean:
+ * @si: FIXME
+ * @id: FIXME
+ * @available: FIXME
+ * 
+ * FIXME
+ * 
+ * Return value: FIXME
+ **/
 gboolean
 ms_ole_summary_get_boolean (MsOleSummary *si, MsOleSummaryPID id,
 			    gboolean *available)
@@ -606,6 +683,16 @@ ms_ole_summary_get_boolean (MsOleSummary *si, MsOleSummaryPID id,
 	return value;
 }
 
+/**
+ * ms_ole_summary_get_long:
+ * @si: FIXME
+ * @id: FIXME
+ * @available: FIXME
+ * 
+ * FIXME
+ * 
+ * Return value: FIXME
+ **/
 guint32
 ms_ole_summary_get_long (MsOleSummary *si, MsOleSummaryPID id,
 			 gboolean *available)
@@ -664,6 +751,17 @@ ms_ole_summary_get_long (MsOleSummary *si, MsOleSummaryPID id,
 #define MID16_DELTA	   54590
 #define LOW16_DELTA        32768
 
+/**
+ * filetime_to_unixtime:
+ * @low_time: FIXME
+ * @high_time: FIXME
+ * 
+ * Converts a FILETIME format to unixtime. FILETIME is the number of 100ns units
+ * since January 1, 1601. unixtime is the number of seconds since January 1,
+ * 1970.
+ * 
+ * Return value: FIXME
+ **/
 glong
 filetime_to_unixtime (guint32 low_time, guint32 high_time)
 {
@@ -732,6 +830,16 @@ filetime_to_unixtime (guint32 low_time, guint32 high_time)
 }
 
 
+/**
+ * unixtime_to_filetime:
+ * @unix_time: FIXME
+ * @time_high: FIXME
+ * @time_low: FIXME
+ * 
+ * Converts a unixtime format to FILETIME. FILETIME is the number of 100ns units
+ * since January 1, 1601. unixtime is the number of seconds since January 1,
+ * 1970.
+ **/
 void
 unixtime_to_filetime (time_t unix_time, unsigned int *time_high, unsigned int *time_low)
 {
@@ -797,6 +905,16 @@ unixtime_to_filetime (time_t unix_time, unsigned int *time_high, unsigned int *t
 }
 
 
+/**
+ * ms_ole_summary_get_time:
+ * @si: FIXME
+ * @id: FIXME
+ * @available: FIXME
+ * 
+ * FIXME
+ * 
+ * Return value: FIXME
+ **/
 GTimeVal
 ms_ole_summary_get_time (MsOleSummary *si, MsOleSummaryPID id,
 			 gboolean *available)
@@ -840,6 +958,12 @@ ms_ole_summary_get_time (MsOleSummary *si, MsOleSummaryPID id,
 	return time;
 }
 
+/**
+ * ms_ole_summary_preview_destroy:
+ * @d: FIXME
+ * 
+ * FIXME
+ **/
 void
 ms_ole_summary_preview_destroy (MsOleSummaryPreview d)
 {
@@ -848,6 +972,16 @@ ms_ole_summary_preview_destroy (MsOleSummaryPreview d)
 	d.data = NULL;
 }
 
+/**
+ * ms_ole_summary_get_preview:
+ * @si: FIXME
+ * @id: FIXME
+ * @available: FIXME
+ * 
+ * FIXME
+ * 
+ * Return value: FIXME
+ **/
 MsOleSummaryPreview
 ms_ole_summary_get_preview (MsOleSummary *si, MsOleSummaryPID id,
 			    gboolean *available)
@@ -908,6 +1042,14 @@ write_item_t_new (MsOleSummary *si, MsOleSummaryPID id)
 	return w;
 }
 
+/**
+ * ms_ole_summary_set_preview:
+ * @si: FIXME
+ * @id: FIXME
+ * @preview: FIXME
+ * 
+ * FIXME
+ **/
 void
 ms_ole_summary_set_preview (MsOleSummary *si, MsOleSummaryPID id,
 			    const MsOleSummaryPreview *preview)
@@ -930,6 +1072,14 @@ ms_ole_summary_set_preview (MsOleSummary *si, MsOleSummaryPID id,
 	w->len = preview->len + 8;
 }
 
+/**
+ * ms_ole_summary_set_time:
+ * @si: FIXME
+ * @id: FIXME
+ * @time: FIXME
+ * 
+ * FIXME
+ **/
 void
 ms_ole_summary_set_time (MsOleSummary *si, MsOleSummaryPID id,
 			 GTimeVal time)
@@ -954,6 +1104,14 @@ ms_ole_summary_set_time (MsOleSummary *si, MsOleSummaryPID id,
 	MS_OLE_SET_GUINT32 (w->data + 8, time_high);
 }
 
+/**
+ * ms_ole_summary_set_boolean:
+ * @si: FIXME
+ * @id: FIXME
+ * @bool: FIXME
+ * 
+ * FIXME
+ **/
 void
 ms_ole_summary_set_boolean (MsOleSummary *si, MsOleSummaryPID id,
 			    gboolean bool)
@@ -972,9 +1130,19 @@ ms_ole_summary_set_boolean (MsOleSummary *si, MsOleSummaryPID id,
 	MS_OLE_SET_GUINT16 (w->data + 4, bool);
 }
 
+
+
+/**
+ * ms_ole_summary_set_short:
+ * @si: FIXME
+ * @id: FIXME
+ * @i: FIXME
+ * 
+ * FIXME
+ **/
 void
 ms_ole_summary_set_short (MsOleSummary *si, MsOleSummaryPID id,
-			 guint16 i)
+			  guint16 i)
 {
 	write_item_t *w;
 
@@ -990,6 +1158,14 @@ ms_ole_summary_set_short (MsOleSummary *si, MsOleSummaryPID id,
 	MS_OLE_SET_GUINT16 (w->data + 4, i);
 }
 
+/**
+ * ms_ole_summary_set_long:
+ * @si: FIXME
+ * @id: FIXME
+ * @i: FIXME
+ * 
+ * FIXME
+ **/
 void
 ms_ole_summary_set_long (MsOleSummary *si, MsOleSummaryPID id,
 			 guint32 i)
@@ -1008,6 +1184,14 @@ ms_ole_summary_set_long (MsOleSummary *si, MsOleSummaryPID id,
 	MS_OLE_SET_GUINT32 (w->data + 4, i);
 }
 
+/**
+ * ms_ole_summary_set_string:
+ * @si: FIXME
+ * @id: FIXME
+ * @str: FIXME
+ * 
+ * FIXME
+ **/
 void
 ms_ole_summary_set_string (MsOleSummary *si, MsOleSummaryPID id,
 			   const gchar *str)
