@@ -14,7 +14,7 @@
   <class>GnomeDialog</class>
   <name>search_dialog</name>
   <visible>False</visible>
-  <title>Search</title>
+  <title>Search Center</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>
@@ -56,6 +56,7 @@
       <widget>
 	<class>GtkButton</class>
 	<name>prev_button</name>
+	<tooltip>Show previous match</tooltip>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
 	<stock_button>GNOME_STOCK_BUTTON_PREV</stock_button>
@@ -64,6 +65,7 @@
       <widget>
 	<class>GtkButton</class>
 	<name>next_button</name>
+	<tooltip>Show next match</tooltip>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
 	<stock_button>GNOME_STOCK_BUTTON_NEXT</stock_button>
@@ -72,6 +74,7 @@
       <widget>
 	<class>GtkButton</class>
 	<name>close_button</name>
+	<tooltip>Dismiss search center</tooltip>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
 	<stock_button>GNOME_STOCK_BUTTON_CLOSE</stock_button>
@@ -203,6 +206,7 @@
 	    <widget>
 	      <class>GtkButton</class>
 	      <name>search_button</name>
+	      <tooltip>Start search</tooltip>
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <label>Search</label>
