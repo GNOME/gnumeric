@@ -1,3 +1,7 @@
+1999-03-28  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Added large, median, pearson, and small. 
+	
 1999-03-26  Michael Meeks  <michael@imaginator.com>
 
 	* src/fn-eng.c (gnumeric_delta): Fix memory leak

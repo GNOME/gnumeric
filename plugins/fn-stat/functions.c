@@ -41,6 +41,17 @@ float_compare (const float_t *a, const float_t *b)
 	        return 1;
 }
 
+static gint
+float_compare_d (const float_t *a, const float_t *b)
+{
+        if (*a>*b)
+                return -1;
+	else if (*a==*b)
+	        return 0;
+	else
+	        return 1;
+}
+
 #if 0
 /* help template */
 static char *help_ = {
@@ -1847,6 +1858,293 @@ gnumeric_poisson (struct FunctionDefinition *i, Value *argv [], char **error_str
 		return value_float (exp(-mean)*pow(mean,x)/exp (lgamma (x + 1))) ;
 }
 
+static char *help_pearson = {
+	N_("@FUNCTION=PEARSON\n"
+	   "@SYNTAX=PEARSON(array1,array2)\n"
+
+	   "@DESCRIPTION="
+	   "PEARSON returns the Pearson correllation coefficient of two data "
+	   "sets. "
+	   "\n"
+	   "Strings and empty cells are simply ignored."
+	   "\n"
+	   "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX")
+};
+
+static Value *
+gnumeric_pearson (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	stat_correl_t pr;
+	Sheet *sheet = (Sheet *) tsheet;
+	float_t sum ;
+	int     count;
+	GSList  *list1, *list2;
+
+	pr.first   = TRUE ;
+	count = value_get_as_int(gnumeric_count
+	        (tsheet, expr_node_list, eval_col, eval_row, error_string));
+	if (count % 2 > 0) {
+		*error_string = _("#NUM!") ;
+		return NULL;
+	}
+	pr.count   = count / 2;
+	pr.num     = 0 ;
+	pr.sum1    = 0.0 ;
+	pr.sum2    = 0.0 ;
+	pr.sqrsum1 = 0.0 ;
+	pr.sqrsum2 = 0.0 ;
+	pr.array1  = NULL;
+	pr.array2  = NULL;
+
+	function_iterate_argument_values (sheet, callback_function_correl,
+					  &pr, expr_node_list,
+					  eval_col, eval_row, error_string);
+	list1 = pr.array1;
+	list2 = pr.array2;
+	sum = 0.0;
+
+	while (list1 != NULL && list2 != NULL) {
+	        gpointer x, y;
+		x = list1->data;
+		y = list2->data;
+	        sum += (*((float_t *) x)) * (*((float_t *) y));
+		g_free(x);
+		g_free(y);
+		list1 = list1->next;
+		list2 = list2->next;
+	}
+
+	g_slist_free(pr.array1);
+	g_slist_free(pr.array2);
+
+	return value_float (((pr.count*sum - pr.sum1*pr.sum2)) /
+			    sqrt((pr.count*pr.sqrsum1 - pr.sum1*pr.sum1) *
+				 (pr.count*pr.sqrsum2 - pr.sum2*pr.sum2)));
+}
+
+static char *help_median = {
+       N_("@FUNCTION=MEDIAN\n"
+          "@SYNTAX=MEDIAN(n1, n2, ...)\n"
+
+          "@DESCRIPTION="
+          "MEDIAN returns the median of the given data set. "
+          "\n"
+          "Strings and empty cells are simply ignored."
+	  "If even numbers are given MEDIAN returns the average of the two "
+	  "numbers in the middle. "
+          "\n"
+          "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM")
+};
+
+typedef struct {
+	int     first ;
+	guint32 num ;
+        GSList  *list;
+} stat_median_t;
+
+static int
+callback_function_median (Sheet *sheet, Value *value, char **error_string, void *closure)
+{
+	stat_median_t *mm = closure;
+	gpointer        p;
+
+	switch (value->type){
+	case VALUE_INTEGER:
+	        p = g_new(float_t, 1);
+		*((float_t *) p) = value->v.v_int;
+		mm->list = g_slist_append(mm->list, p);
+		mm->num++ ;
+		break ;
+	case VALUE_FLOAT:
+	        p = g_new(float_t, 1);
+		*((float_t *) p) = value->v.v_float;
+		mm->list = g_slist_append(mm->list, p);
+		mm->num++ ;
+		break ;
+	default:
+		/* ignore strings */
+		break;
+	}
+	mm->first = FALSE ;
+	return TRUE;
+}
+
+static Value *
+gnumeric_median (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	stat_median_t   p;
+	Sheet           *sheet = (Sheet *) tsheet;
+	GSList          *list;
+	int             median_ind, n;
+	float_t         median;
+
+	p.first = TRUE ;
+	p.num   = 0 ;
+	p.list  = NULL;
+
+	function_iterate_argument_values (sheet, callback_function_median,
+					  &p, expr_node_list,
+					  eval_col, eval_row, error_string);
+
+	median_ind = (p.num-1) / 2;
+	p.list = g_slist_sort (p.list, (GCompareFunc) float_compare);
+	list  = p.list;
+
+	/* Skip half of the list */
+	for (n=0; n<median_ind; n++) {
+	        g_free(list->data);
+		list = list->next;
+	}
+
+	if ((p.num-1) % 2 == 0)
+	        median = *((float_t *) list->data);
+	else
+	        median = (*((float_t *) list->data) +
+			  *((float_t *) list->next->data)) / 2.0;
+
+	while (list != NULL) {
+	        g_free(list->data);
+		list = list->next;
+	}
+
+	g_slist_free(p.list);
+
+	return value_float (median) ;
+}
+
+static char *help_large = {
+	N_("@FUNCTION=LARGE\n"
+	   "@SYNTAX=LARGE(n1, n2, ..., k)\n"
+
+	   "@DESCRIPTION="
+	   "LARGE returns the k-th largest value in a data set. "
+	   "\n"
+	   "If data set is empty LARGE returns #NUM! error. "
+	   "If k<=0 or k is greater than the number of data items given "
+	   "LARGE returns #NUM! error. "
+	   "\n"
+	   "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL")
+};
+
+static Value *
+gnumeric_large (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	stat_trimmean_t p;
+	Sheet           *sheet = (Sheet *) tsheet;
+	GSList          *list;
+	int             n, count, k;
+	float_t         r;
+
+	p.first = TRUE ;
+	p.num   = 0 ;
+	p.list  = NULL;
+
+	function_iterate_argument_values (sheet, callback_function_trimmean,
+					  &p, expr_node_list,
+					  eval_col, eval_row, error_string);
+
+	p.num--;
+	k = ((int) p.last);
+
+	if (p.num == 0 || k<=0 || k >= p.num) {
+		*error_string = _("#NUM!") ;
+		list  = p.list;
+		while (list != NULL) {
+		        g_free(list->data);
+			list = list->next;
+		}
+		g_slist_free(p.list);
+		return NULL;
+	} else {
+	        p.list = g_slist_sort (p.list, (GCompareFunc) float_compare_d);
+		list  = p.list;
+		--k;
+
+		/* Skip the k largest values */
+		for (n=0; n<k; n++) {
+		        g_free(list->data);
+			list = list->next;
+		}
+
+		r = *((float_t *) list->data);
+
+		while (list != NULL) {
+		        g_free(list->data);
+			list = list->next;
+		}
+
+		g_slist_free(p.list);
+	}
+	return value_float (r) ;
+}
+
+static char *help_small = {
+	N_("@FUNCTION=SMALL\n"
+	   "@SYNTAX=SMALL(n1, n2, ..., k)\n"
+
+	   "@DESCRIPTION="
+	   "SMALL returns the k-th smallest value in a data set. "
+	   "\n"
+	   "If data set is empty SMALL returns #NUM! error. "
+	   "If k<=0 or k is greater than the number of data items given "
+	   "SMALL returns #NUM! error. "
+	   "\n"
+	   "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE")
+};
+
+static Value *
+gnumeric_small (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	stat_trimmean_t p;
+	Sheet           *sheet = (Sheet *) tsheet;
+	GSList          *list;
+	int             n, count, k;
+	float_t         r;
+
+	p.first = TRUE ;
+	p.num   = 0 ;
+	p.list  = NULL;
+
+	function_iterate_argument_values (sheet, callback_function_trimmean,
+					  &p, expr_node_list,
+					  eval_col, eval_row, error_string);
+
+	p.num--;
+	k = ((int) p.last);
+
+	if (p.num == 0 || k<=0 || k >= p.num) {
+		*error_string = _("#NUM!") ;
+		list  = p.list;
+		while (list != NULL) {
+		        g_free(list->data);
+			list = list->next;
+		}
+		g_slist_free(p.list);
+		return NULL;
+	} else {
+	        p.list = g_slist_sort (p.list, (GCompareFunc) float_compare);
+		list  = p.list;
+		--k;
+
+		/* Skip the k largest values */
+		for (n=0; n<k; n++) {
+		        g_free(list->data);
+			list = list->next;
+		}
+
+		r = *((float_t *) list->data);
+
+		while (list != NULL) {
+		        g_free(list->data);
+			list = list->next;
+		}
+
+		g_slist_free(p.list);
+	}
+	return value_float (r) ;
+}
+
+
 FunctionDefinition stat_functions [] = {
         { "avedev",    0,      "",          &help_avedev,    gnumeric_avedev, NULL },
 	{ "binomdist", "fffb", "n,t,p,c",   &help_binomdist, NULL, gnumeric_binomdist },
@@ -1865,13 +2163,17 @@ FunctionDefinition stat_functions [] = {
 	{ "harmean",   0,      "",          &help_harmean,   gnumeric_harmean, NULL },
 	{ "hypgeomdist", "ffff", "x,n,M,N", &help_hypgeomdist, NULL, gnumeric_hypgeomdist },
         { "kurt",      0,      "",          &help_kurt,      gnumeric_kurt, NULL },
+	{ "large",  0,      "",             &help_large,  gnumeric_large, NULL },
 	{ "lognormdist",  "fff",  "",       &help_lognormdist, NULL, gnumeric_lognormdist },
+	{ "median",    0,      "",          &help_median,    gnumeric_median, NULL },
 	{ "mode",      0,      "",          &help_mode,   gnumeric_mode, NULL },
 	{ "negbinomdist", "fff", "f,t,p",   &help_negbinomdist, NULL, gnumeric_negbinomdist },
 	{ "normdist",   "fffb",  "",        &help_normdist,  NULL, gnumeric_normdist },
 	{ "normsdist",  "f",  "",           &help_normsdist,  NULL, gnumeric_normsdist },
+	{ "pearson",   0,      "",          &help_pearson,   gnumeric_pearson, NULL },
 	{ "rank",      0,      "",          &help_rank,      gnumeric_rank, NULL },
 	{ "skew",      0,      "",          &help_skew,      gnumeric_skew, NULL },
+	{ "small",  0,      "",             &help_small,  gnumeric_small, NULL },
 	{ "standardize", "fff",  "x,mean,stddev", &help_standardize, NULL, gnumeric_standardize },
 	{ "stdev",     0,      "",          &help_stdev,     gnumeric_stdev, NULL },
 	{ "stdevp",    0,      "",          &help_stdevp,    gnumeric_stdevp, NULL },
@@ -1881,9 +2183,3 @@ FunctionDefinition stat_functions [] = {
         { "weibull", "fffb",  "",           &help_weibull, NULL, gnumeric_weibull },
 	{ NULL, NULL },
 };
-
-
-/*
- * Mode, Median: Use large hash table :-)
- *
- */
