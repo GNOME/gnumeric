@@ -171,6 +171,7 @@ typedef struct _FormatState
 		GnomeCanvasItem *text;
 		int		 rot_width, rot_height;
 		int		 rotation;
+		gulong		 motion_handle;
 	} align;
 	struct {
 		FontSelector	*selector;
@@ -1330,6 +1331,51 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 }
 
 static void
+set_rot_from_point (FormatState *state, GnomeCanvas *canvas, double x, double y)
+{
+	gnome_canvas_window_to_world (canvas, x, y, &x, &y);
+	x -= 15.;	if (x < 0.) x = 0.;
+	y -= 100.;
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->align.rotate_spinner),
+		-gnumeric_fake_round (atan (y/x) * 180 / M_PIgnum));
+}
+
+static gboolean
+cb_rotate_motion_notify_event (GnomeCanvas *canvas, GdkEventMotion *event,
+			       FormatState *state)
+{
+	set_rot_from_point (state, canvas, event->x, event->y);
+	return TRUE;
+}
+
+static gboolean
+cb_rotate_canvas_button (GnomeCanvas *canvas, GdkEventButton *event,
+			 FormatState *state)
+{
+	if (event->type == GDK_BUTTON_PRESS) {
+		set_rot_from_point (state, canvas, event->x, event->y);
+		if (state->align.motion_handle == 0) {
+			gdk_pointer_grab (canvas->layout.bin_window, FALSE,
+					  GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
+					  NULL, NULL, event->time);
+
+			state->align.motion_handle = g_signal_connect (G_OBJECT (canvas),
+				"motion_notify_event",
+				G_CALLBACK (cb_rotate_motion_notify_event), state);
+		}
+		return TRUE;
+	} else if (event->type == GDK_BUTTON_RELEASE) {
+		if (state->align.motion_handle != 0) {
+			gdk_pointer_ungrab (event->time);
+			g_signal_handler_disconnect (canvas, state->align.motion_handle);
+			state->align.motion_handle = 0;
+		}
+		return TRUE;
+	} else
+		return FALSE;
+}
+
+static void
 fmt_dialog_init_align_page (FormatState *state)
 {
 	static struct {
@@ -1427,10 +1473,17 @@ fmt_dialog_init_align_page (FormatState *state)
 		"changed",
 		G_CALLBACK (cb_rotate_changed), state);
 
+	state->align.motion_handle = 0;
 	w = glade_xml_get_widget (state->gui, "rotate_canvas");
 	g_signal_connect (G_OBJECT (w),
 		"realize",
 		G_CALLBACK (cb_rotate_canvas_realize), state);
+	g_signal_connect (G_OBJECT (w),
+		"button_press_event",
+		G_CALLBACK (cb_rotate_canvas_button), state);
+	g_signal_connect (G_OBJECT (w),
+		"button_release_event",
+		G_CALLBACK (cb_rotate_canvas_button), state);
 	gtk_spin_button_set_value (state->align.rotate_spinner,
 				   state->align.rotation);
 }

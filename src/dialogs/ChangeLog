@@ -1,3 +1,10 @@
+2002-11-03  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c (set_rot_from_point) : new.
+	(cb_rotate_motion_notify_event) : new.
+	(cb_rotate_canvas_button) : new.
+	(fmt_dialog_init_align_page) : handle mouse based rotation too.
+
 2002-11-02  Jody Goldberg <jody@gnome.org>
 
 	* dialog-cell-format.c (cb_validation_error_action_deactivate) : use
