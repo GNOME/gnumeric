@@ -546,11 +546,13 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet, MSObj * 
 	}
 
 	/* The ftEnd record should have been the last */
-	if (data_len_left != 0) {
+	if (data_len_left > 0) {
 		printf("OBJ : unexpected extra data after Object End record;\n");
 		ms_ole_dump (data, data_len_left);
 		return TRUE;
 	}       
+
+	/* Catch underflow too */
 	g_return_val_if_fail (data_len_left == 0, TRUE);
 
 	/* FIXME : Throw away the IMDATA that may follow.

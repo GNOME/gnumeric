@@ -1,3 +1,9 @@
+2000-04-04  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-obj.c (ms_obj_read_biff8_obj) : Be more careful about when to
+	  dump debug info when the stated record size disagrees with the
+	  actual.
+
 2000-03-24  Jody Goldberg <jgoldberg@home.com>
 
 	* *.[ch] : Update copywrite years.
