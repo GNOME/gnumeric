@@ -30,7 +30,7 @@
 #include <bonobo.h>
 
 #include <gsf/gsf-input.h>
-#include <gsf/gsf-input-bonobo.h>
+#include <gsf-gnome/gsf-input-bonobo.h>
 
 #ifdef GNOME2_CONVERSION_COMPLETE
 static GnumFileOpener *gnumeric_bonobo_opener;
