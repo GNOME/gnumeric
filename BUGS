@@ -162,6 +162,8 @@ Pending Patches
 24) Plugins
     24.1) enhance gobject service to do delayed load		(DONE)
     24.2) pluginize paste types
+    24.3) plugin manager needs dependency tracking.  (Deactivate all
+          python plugins before the python loader, for example.)
 
 25) Audit all fixed-length buffers.  Most non-time-critical can be replaced
     by proper usage of g_strdup_printf.
