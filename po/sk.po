@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD.sk\n"
 "POT-Creation-Date: 2003-01-23 05:43+0100\n"
-"PO-Revision-Date: 2003-01-28 00:24+0100\n"
+"PO-Revision-Date: 2003-01-30 11:59+0100\n"
 "Last-Translator: Stanislav Visnovsky <visnovsky@kde.org>\n"
 "Language-Team: Slovak <sk-i18n@linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -833,6 +833,9 @@ msgid ""
 "We already wrote a length for a string that is being truncated due to "
 "encoding problems."
 msgstr ""
+"Toto je čiastočne poškodené.\n"
+"Už sme zapísali dĺžku reťazca, ktorý se skrátený kvôli "
+"problémom s kódovaním."
 
 #: plugins/excel/ms-excel-write.c:3677
 #, c-format
@@ -840,6 +843,8 @@ msgid ""
 "Some content will be lost when saving as excel 95.It only supports %d rows, "
 "and this workbook has %d"
 msgstr ""
+"Pri ukladaní ako excel 95 bude časť obsahu stratená. Podporuje "
+"iba %d riadkov a tento zošit ich má %d"
 
 #: plugins/excel/ms-excel-write.c:3684
 #, c-format
@@ -847,6 +852,8 @@ msgid ""
 "Some content will be lost when saving as excel.It only supports %d rows, and "
 "this workbook has %d"
 msgstr ""
+"Pri ukladaní ako excel bude časť obsahu stratená. Podporuje "
+"iba %d riadkov a tento zošit ich má %d"
 
 #: plugins/excel/ms-excel-write.c:4088
 msgid "Couldn't open stream 'Book' for writing\n"
@@ -890,7 +897,6 @@ msgid "MS Excel (tm) 97/2000/XP & 5.0/95"
 msgstr "MS Excel (tm) 97/2000/XP & 5.0/95"
 
 #: plugins/fn-complex/functions.c:80
-#, fuzzy
 msgid ""
 "@FUNCTION=COMPLEX\n"
 "@SYNTAX=COMPLEX(real,im[,suffix])\n"
@@ -910,18 +916,21 @@ msgid ""
 msgstr ""
 "@FUNCTION=COMPLEX\n"
 "@SYNTAX=COMPLEX(reálna,im[,prípona])\n"
-"@DESCRIPTION=COMPLEX vracia komplexné číslo vo formáte x + yi. @reálna je "
-"reálna a @im je imaginárna časť výsledku.  @prípona je prípona pre "
-"imaginárnu časť.  Ak nie je uvedená, COMPLEX použije 'i'.\n"
+"@DESCRIPTION=COMPLEX vracia komplexné číslo vo formáte x + yi.\n"
+"\n"
+"@reálna je reálna a @im je imaginárna časť výsledku. "
+"@prípona je prípona pre imaginárnu časť. Ak nie je uvedená, "
+"COMPLEX použije 'i'.\n"
+"\n"
 "Ak @prípona nie je 'i' ani 'j', COMPLEX vráti chybu #VALUE!.\n"
 "Táto funkcia je kompatibilná s Excelom. \n"
+"\n"
 "@EXAMPLES=\n"
 "COMPLEX(1,-1) sa rovná 1-i.\n"
 "\n"
 "@SEEALSO="
 
 #: plugins/fn-complex/functions.c:119
-#, fuzzy
 msgid ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
@@ -939,14 +948,16 @@ msgstr ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(komplex_číslo)\n"
 "@DESCRIPTION=IMAGINARY vracia imaginárnu časť komplexného čísla.\n"
+"\n"
+"Ak je @komplex_číslo neplatné, IMAGINARY vráti chybu #VALUE!.\n"
 "Táto funkcia je kompatibilná s Excelom. \n"
+"\n"
 "@EXAMPLES=\n"
 "IMAGINARY(\"132-j\") sa rovná -1.\n"
 "\n"
 "@SEEALSO=IMREAL"
 
 #: plugins/fn-complex/functions.c:152
-#, fuzzy
 msgid ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(inumber)\n"
@@ -963,14 +974,16 @@ msgstr ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(komplex_číslo)\n"
 "@DESCRIPTION=IMABS vracia absolútnu hodnotu komplexného čísla.\n"
+"\n"
+"Ak je @komplex_číslo neplatné, IMABS vráti chybu #VALUE!.\n"
 "Táto funkcia je kompatibilná s Excelom. \n"
+"\n"
 "@EXAMPLES=\n"
 "IMABS(\"2-j\") sa rovná 2.23606798.\n"
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 
 #: plugins/fn-complex/functions.c:185
-#, fuzzy
 msgid ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
@@ -987,14 +1000,16 @@ msgstr ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(komplex_číslo)\n"
 "@DESCRIPTION=IMREAL vracia reálnu časť komplexného čísla.\n"
+"\n"
+"Ak je @komplex_číslo neplatné, IMREAL vráti chybu #VALUE!.\n"
 "Táto funkcia je kompatibilná s Excelom.\n"
+"\n"
 "@EXAMPLES=\n"
-"imreal(\"132-j\") sa rovná 132.\n"
+"IMREAL(\"132-j\") sa rovná 132.\n"
 "\n"
 "@SEEALSO=IMAGINARY"
 
 #: plugins/fn-complex/functions.c:218
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(inumber)\n"
@@ -1012,14 +1027,16 @@ msgstr ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(komplex_číslo)\n"
 "@DESCRIPTION=IMCONJUGATE vracia komplexne združené číslo ku @komplex_číslo.\n"
+"\n"
+"Ak je @komplex_číslo neplatné, IMCONJUGATE vráti chybu #VALUE!.\n"
 "Táto funkcia je kompatibilná s Excelom. \n"
+"\n"
 "@EXAMPLES=\n"
 "IMCONJUGATE(\"1-j\") sa rovná 1+j.\n"
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 
 #: plugins/fn-complex/functions.c:252
-#, fuzzy
 msgid ""
 "@FUNCTION=IMINV\n"
 "@SYNTAX=IMINV(inumber)\n"
@@ -1037,8 +1054,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(komplex_číslo)\n"
-"@DESCRIPTION=IMSIN vracia sínus komplexného čísla.\n"
+"@DESCRIPTION=IMSIN vracia sínus komplexného čísla:\n"
+"\n"
+"\t1/z = (x - i y)/(x^2 + y^2).\n"
+"\n"
+"Ak je @komplex_číslo neplatné, IMSIN vráti chybu #VALUE!.\n"
 "Táto funkcia je kompatibilná s Excelom. \n"
+"\n"
 "@EXAMPLES=\n"
 "IMSIN(\"1+j\") sa rovná 1.29846+0.63496j.\n"
 "\n"
@@ -14836,7 +14858,7 @@ msgstr "Gnome Basic"
 
 #: plugins/gda/plugin-gda.c:56
 msgid "Too much data returned"
-msgstr ""
+msgstr "Vrátených príliš veľa dát"
 
 #: plugins/gda/plugin-gda.c:83
 #, fuzzy
@@ -14898,9 +14920,8 @@ msgid ""
 msgstr ""
 
 #: plugins/gda/plugin-gda.c:195
-#, fuzzy
 msgid "Format: readDBTable(dsn,user,password,table)"
-msgstr "Formát: execSQL(dsn,používateľ,heslo,sql)"
+msgstr "Formát: readDBTable(cieľ,používateľ,heslo,tabuľka)"
 
 #: plugins/gda/plugin.xml.in.h:2
 msgid "Database functions for allowing the retrieval of data from a database"
@@ -14945,9 +14966,8 @@ msgid "Is not an Gnumeric Workbook file"
 msgstr "Nie je súbor so zošitom Gnumeric"
 
 #: plugins/gnumeric_1_0/xml-io.c:3446 src/xml-io.c:3664
-#, fuzzy
 msgid "Failure saving file"
-msgstr "Chyba pri ukladaní súboru."
+msgstr "Chyba pri ukladaní súboru"
 
 #: plugins/guile/plugin.c:108
 msgid "Guile error"
@@ -15014,9 +15034,8 @@ msgid "TROFF (*.me)"
 msgstr "TROFF (*.me)"
 
 #: plugins/html/plugin.xml.in.h:9
-#, fuzzy
 msgid "XHTML (*.xhtml)"
-msgstr "HTML 3.2 (*.html)"
+msgstr "XHTML (*.xhtml)"
 
 #: plugins/lotus-123/boot.c:61
 msgid "Error while reading lotus workbook."
@@ -15130,7 +15149,6 @@ msgid "Reads LP programs stored in the MPS format (*.mps)"
 msgstr "Načíta programy LP uložené vo formáte MPS (*.mps)"
 
 #: plugins/numtheory/numtheory.c:212
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_PHI\n"
 "@SYNTAX=NT_PHI(n)\n"
@@ -15144,12 +15162,11 @@ msgstr ""
 "@SYNTAX=NT_PHI(n)\n"
 "@DESCRIPTION=Funkcia NT_PHI vracia počet celých čísel menších alebo rovných "
 "@n, ktoré sú relatívne prvočísla k @n.\n"
-"Táto funkcia má iba jeden argument.\n"
+"\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:246
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -15169,16 +15186,14 @@ msgstr ""
 "@SYNTAX=NT_MU(n)\n"
 "@DESCRIPTION=Funkcia NT_MU (Möbius mu) vracia \n"
 "0  ak je @n deliteľné druhou mocninou prvočísla.\n"
-"Inak vracia: \n"
+"\n"
 "-1 ak má @n nepárny počet rôznych prvočiniteľov .\n"
 "1 ak má @n párny počet rôznych prvočiniteľov .\n"
-"Ak @n=1, potom vracia 1\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
 #: plugins/numtheory/numtheory.c:285
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_D\n"
 "@SYNTAX=NT_D(n)\n"
@@ -15190,12 +15205,11 @@ msgstr ""
 "@FUNCTION=NT_D\n"
 "@SYNTAX=NT_D(n)\n"
 "@DESCRIPTION=Funkcia NT_D vracia počet deliteľov @n.\n"
-"Táto funkcia má iba jeden argument.\n"
+"\n"
 "@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:318
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_SIGMA\n"
 "@SYNTAX=NT_SIGMA(n)\n"
@@ -15207,12 +15221,11 @@ msgstr ""
 "@FUNCTION=NT_SIGMA\n"
 "@SYNTAX=NT_SIGMA(n)\n"
 "@DESCRIPTION=Funkcia NT_SIGMA počíta súčet deliteľov @n.\n"
-"Táto funkcia má iba jeden argument.\n"
+"\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
 #: plugins/numtheory/numtheory.c:352
-#, fuzzy
 msgid ""
 "@FUNCTION=ITHPRIME\n"
 "@SYNTAX=ITHPRIME(i)\n"
@@ -15224,12 +15237,11 @@ msgstr ""
 "@FUNCTION=ITHPRIME\n"
 "@SYNTAX=ITHPRIME(i)\n"
 "@DESCRIPTION=Funkcia ITHPRIME vracia @i-te prvočíslo.\n"
-"Táto funkcia má iba jeden argument.\n"
+"\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:379
-#, fuzzy
 msgid ""
 "@FUNCTION=ISPRIME\n"
 "@SYNTAX=ISPRIME(i)\n"
@@ -15241,11 +15253,10 @@ msgstr ""
 "@FUNCTION=ISPRIME\n"
 "@SYNTAX=ISPRIME(i)\n"
 "@DESCRIPTION=Funkcia ISPRIME vracia TRUE ak je @i prvočíslo a FALSE inak.\n"
-"Táto funkcia má iba jeden argument.\n"
+"\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:403
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_PI\n"
 "@SYNTAX=NT_PI(n)\n"
@@ -15257,11 +15268,10 @@ msgstr ""
 "@FUNCTION=NT_PI\n"
 "@SYNTAX=NT_PI(n)\n"
 "@DESCRIPTION=Funkcia NT_PI vracia počet prvočísel menších alebo rovných @n.\n"
-"Táto funkcia má iba jeden argument.\n"
+"\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:429
-#, fuzzy
 msgid ""
 "@FUNCTION=BITOR\n"
 "@SYNTAX=BITOR(a,b)\n"
@@ -15278,7 +15288,6 @@ msgstr ""
 "@SEEALSO=BITXOR,BITAND"
 
 #: plugins/numtheory/numtheory.c:448
-#, fuzzy
 msgid ""
 "@FUNCTION=BITXOR\n"
 "@SYNTAX=BITXOR(a,b)\n"
@@ -15297,7 +15306,6 @@ msgstr ""
 "@SEEALSO=BITOR,BITAND"
 
 #: plugins/numtheory/numtheory.c:468
-#, fuzzy
 msgid ""
 "@FUNCTION=BITAND\n"
 "@SYNTAX=BITAND(a,b)\n"
@@ -15309,11 +15317,11 @@ msgstr ""
 "@FUNCTION=BITAND\n"
 "@SYNTAX=BITAND(a,b)\n"
 "@DESCRIPTION=Funkcia BITAND vracia bitový súčin (and) argumentov.\n"
+"\n"
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITXOR"
 
 #: plugins/numtheory/numtheory.c:488
-#, fuzzy
 msgid ""
 "@FUNCTION=BITLSHIFT\n"
 "@SYNTAX=BITLSHIFT(x,n)\n"
@@ -15327,13 +15335,13 @@ msgstr ""
 "@FUNCTION=BITLSHIFT\n"
 "@SYNTAX=BITLSHIFT(x,n)\n"
 "@DESCRIPTION=Funkcia BITLSHIFT vracia @x bitovo posunuté doľava o @n bitov.\n"
+"\n"
 "Ak je @n záporné, bude posunutie doprava.\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=BITRSHIFT"
 
 #: plugins/numtheory/numtheory.c:515
-#, fuzzy
 msgid ""
 "@FUNCTION=BITRSHIFT\n"
 "@SYNTAX=BITRSHIFT(x,n)\n"
@@ -15348,6 +15356,7 @@ msgstr ""
 "@SYNTAX=BITRSHIFT(x,n)\n"
 "@DESCRIPTION=Funkcia BITRSHIFT vracia @x bitovo posunuté doprava o @n "
 "bitov.\n"
+"\n"
 "Ak je @n záporné, bude posun doľava.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -15382,41 +15391,42 @@ msgid "Imports GNU Oleo documents"
 msgstr "Importuje súbory GNU Oleo"
 
 #: plugins/openoffice/openoffice-read.c:386
-#, fuzzy
 msgid "Missing expression"
-msgstr "Neplatný výraz"
+msgstr "Chýbajúci výraz"
 
 #: plugins/openoffice/openoffice-read.c:391
-#, fuzzy, c-format
+#, c-format
 msgid "Expression '%s' does not start with a recognized character"
-msgstr "Výraz nezačína '=' ? '%s'"
+msgstr "Výraz '%s' nezačína známym znakom"
 
 #: plugins/openoffice/openoffice-read.c:404
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse '%s' because '%s'"
-msgstr "Súbor '%s' sa nedá otvoriť"
+msgstr "Nepodarilo sa spracovať '%s pretože '%s'"
 
 #: plugins/openoffice/openoffice-read.c:462
 msgid "Invalid array expression does no specify number of columns"
-msgstr ""
+msgstr "Neplatný výraz pre pole nezadáva počet stĺpcov"
 
 #: plugins/openoffice/openoffice-read.c:465
 msgid "Invalid array expression does no specify number of rows"
-msgstr ""
+msgstr "Neplatný výraz pre pole nezadáva počet riadkov"
 
 #: plugins/openoffice/openoffice-read.c:713
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
-msgstr "Súbor '%s' sa nedá otvoriť"
+msgstr "Nepodarilo sa spracovať pozíciu pre výraz '%s' @ '%s', pretože '%s'"
 
 #: plugins/openoffice/openoffice-read.c:726
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse position for expression '%s' with value '%s' because '%s'"
-msgstr "Súbor '%s' sa nedá otvoriť"
+msgstr ""
+"Nepodarilo sa spracovanie pozíciu pre výraz '%s' s hodnotou "
+"'%s' pretože '%s'"
 
 #: plugins/openoffice/openoffice-read.c:883
 msgid "No stream named content.xml found."
-msgstr ""
+msgstr "Nenájdený stream context.xml."
 
 #: plugins/openoffice/openoffice-read.c:923
 #: plugins/xml_sax/xml-sax-read.c:1468
@@ -15425,16 +15435,15 @@ msgstr "XML dokument nie je syntakticky správny!"
 
 #: plugins/openoffice/plugin.xml.in.h:1
 msgid "Open/Star Calc (*.sxc)"
-msgstr ""
+msgstr "Open/Star Calc (*.sxc)"
 
 #: plugins/openoffice/plugin.xml.in.h:2
-#, fuzzy
 msgid "Open/Star Office spreadsheet"
-msgstr "Otvorí zošit"
+msgstr "Tabuľka Open/Star Office"
 
 #: plugins/openoffice/plugin.xml.in.h:3
 msgid "OpenCalc/StarCalc"
-msgstr ""
+msgstr "OpenCalc/StarCalc"
 
 #: plugins/perl/plugin.xml.in.h:1
 msgid "Enables the creation of functions in Perl"
@@ -15452,11 +15461,15 @@ msgstr "PLN : Zošit je zašifrovaný heslom"
 #, c-format
 msgid "Ignoring data that claims to be in row %u which is > max row %u"
 msgstr ""
+"Ignorujem dáta, ktoré tvrdia, že sú v riadku %u, ktorý je väčší než "
+"maximálny riadok %u"
 
 #: plugins/plan-perfect/pln.c:575
 #, c-format
 msgid "Ignoring data that claims to be in column %u which is > max column %u"
 msgstr ""
+"Ignorujem dáta, ktoré tvrdia, že sú v stĺpci %u, ktorý je väčší než "
+"maximálny stĺpec %u"
 
 #: plugins/plan-perfect/pln.c:668
 msgid "PLN : Not a PlanPerfect File"
@@ -15508,7 +15521,7 @@ msgstr "Ukážkový modul Python poskytujúci nejaké (zbytočné) funkcie"
 
 #: plugins/python-loader/gnm-py-interpreter.c:205
 msgid "Default interpreter"
-msgstr ""
+msgstr "Štandardný interpret"
 
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
@@ -15521,22 +15534,19 @@ msgstr "Tento modul poskytuje podporu pre moduly Python"
 #: plugins/python-loader/py-console.c:71
 #, c-format
 msgid "*** Interpreter: %s\n"
-msgstr ""
+msgstr "*** Interpret: %s\n"
 
 #: plugins/python-loader/py-console.c:121
-#, fuzzy
 msgid "Gnumeric Python console"
-msgstr "Riešiteľ Gnumeric"
+msgstr "Konzola Gnumeric pre Python"
 
 #: plugins/python-loader/py-console.c:131
-#, fuzzy
 msgid "E_xecute in:"
-msgstr "_Akcia:"
+msgstr "_Spustiť v:"
 
 #: plugins/python-loader/py-console.c:168
-#, fuzzy
 msgid "C_ommand:"
-msgstr "_Komentáre:"
+msgstr "_Príkaz:"
 
 #: plugins/python-loader/py-gnumeric.c:223
 #: plugins/python-loader/py-gnumeric.c:263
@@ -15608,46 +15618,46 @@ msgstr "Objekt \"%s\" nie je slovník."
 
 #: plugins/python-loader/ui-console-menu.xml.h:1
 msgid "Open the Python console"
-msgstr ""
+msgstr "Otvoriť v konzoli Python"
 
 #: plugins/python-loader/ui-console-menu.xml.h:2
-#, fuzzy
 msgid "Python console"
-msgstr "Funkcie Python"
+msgstr "Konzola Python"
 
 #: plugins/qpro/qpro-read.c:150
 #, c-format
 msgid "Invalid '%s' record of length %hd instead of %d"
-msgstr ""
+msgstr "Neplatný záznam '%s' dĺžky %hd namiesto %d"
 
 #: plugins/qpro/qpro-read.c:774
 #, c-format
 msgid "Invalid zoom %hd %%"
-msgstr ""
+msgstr "Neplatné zväčšenie %hd %%"
 
 #: plugins/qpro/qpro-read.c:816
 #, c-format
 msgid "Invalid record %d of length %hd"
-msgstr ""
+msgstr "Neplatný záznam %d dĺžky %hd"
 
 #: plugins/qpro/qpro-read.c:847
 msgid ""
 "Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro "
 "file?"
 msgstr ""
+"Nepodarilo sa nájsť stream PerfectOffice_MAIN.  Je to naozaj "
+"súbor Quattro Pro?"
 
 #: plugins/qpro/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports Quatro Pro (tm) files"
-msgstr "Importuje súbory MultiPlan (SYLK)"
+msgstr "Importuje súbory Quattro Pro (tm)"
 
 #: plugins/qpro/plugin.xml.in.h:2
 msgid "Quatro Pro"
-msgstr ""
+msgstr "Quattro Pro"
 
 #: plugins/qpro/plugin.xml.in.h:3
 msgid "Quatro Pro(tm)"
-msgstr ""
+msgstr "Quattro Pro(tm)"
 
 #: plugins/sample_datasource/sample_datasource.c:253
 #, no-c-format
@@ -15718,12 +15728,12 @@ msgstr "Chyba pri čítaní listu."
 
 #: plugins/uihello/hello.xml.h:1
 msgid "Hello World"
-msgstr ""
+msgstr "Hello World"
 
 #: plugins/uihello/uihello.c:24
 #, c-format
 msgid "This is message from \"%s\" plugin."
-msgstr ""
+msgstr "Toto je správa od modulu \"%s\"."
 
 #: plugins/xbase/boot.c:167
 msgid "Error while opening xbase file."
@@ -15742,9 +15752,8 @@ msgid "Xbase (*.dbf) file format"
 msgstr "Formát súborov Xbase (*.dbf)"
 
 #: plugins/xml_sax/plugin.xml.in.h:1
-#, fuzzy
 msgid "EXPERIMENTAL Gnumeric XML (*.gnumeric)"
-msgstr "EXPERIMENTÁLNY Gnumeric založený na SAX (*.gnumeric)"
+msgstr "EXPERIMENTÁLNY zošit Gnumeric (*.gnumeric)"
 
 #: plugins/xml_sax/plugin.xml.in.h:2
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
@@ -15761,16 +15770,16 @@ msgstr "Nová generácia V/V XML subsystému založená na sax"
 #: plugins/xml_sax/xml-sax-read.c:267
 #, c-format
 msgid "Unexpected attribute '%s'='%s' for element of type %s."
-msgstr ""
+msgstr "Neočakávaný atribút '%s'='%s' pre element typu %s."
 
 #: plugins/xml_sax/xml-sax-read.c:299
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
-msgstr ""
+msgstr "Viacnásobné určenie verzie. Predpokladám %d"
 
 #: plugins/xml_sax/xml-sax-read.c:450
 msgid "File has inconsistent SheetNameIndex element."
-msgstr ""
+msgstr "Súbor obsahuje nekonzistentný element SheetNameIndex."
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "About this application"
@@ -15778,9 +15787,8 @@ msgstr "O tejto aplikácii"
 
 #: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:1356
 #: src/workbook-control-gui.c:3712
-#, fuzzy
 msgid "Add _Auto Filter"
-msgstr "Pokročilý filter"
+msgstr "Pridať _automatický filter"
 
 #: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3675
 msgid "Add an outline group"
@@ -15788,19 +15796,17 @@ msgstr "Pridá skupinu prehľadu"
 
 #: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3713
 msgid "Add or remove a filter"
-msgstr ""
+msgstr "Pridať alebo odstrániť filter"
 
 #: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3718
 msgid "Advanced _Filter..."
 msgstr "Pokročilý _filter..."
 
 #: src/GNOME_Gnumeric.xml.h:6 src/workbook-format-toolbar.c:473
-#, fuzzy
 msgid "Align the contents to the left and decrease the indent"
 msgstr "Zarovná obsah doľava a zmenší odsadenie"
 
 #: src/GNOME_Gnumeric.xml.h:7 src/workbook-format-toolbar.c:476
-#, fuzzy
 msgid "Align the contents to the left and increase the indent"
 msgstr "Zarovná obsah doľava a zväčší odsadenie"
 
@@ -15866,12 +15872,10 @@ msgid "Center"
 msgstr "Na stred"
 
 #: src/GNOME_Gnumeric.xml.h:22 src/workbook-format-toolbar.c:442
-#, fuzzy
 msgid "Center Across Selection"
 msgstr "Na stred výberu"
 
 #: src/GNOME_Gnumeric.xml.h:23 src/workbook-format-toolbar.c:442
-#, fuzzy
 msgid "Center across the selected cells"
 msgstr "Zarovná na stred vybraných buniek"
 
@@ -15986,7 +15990,6 @@ msgid "Copy the selection"
 msgstr "Skopíruje výber"
 
 #: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:3797
-#, fuzzy
 msgid "Copy the selection to the clipboard"
 msgstr "Skopíruje výber do schránky"
 
@@ -16017,7 +16020,6 @@ msgid "Create a label"
 msgstr "Vytvorí návestie"
 
 #: src/GNOME_Gnumeric.xml.h:55 src/workbook-object-toolbar.c:160
-#, fuzzy
 msgid "Create a line object"
 msgstr "Vytvorí objekt čiara"
 
@@ -16042,16 +16044,14 @@ msgid "Create a new workbook"
 msgstr "Vytvorí nový zošit"
 
 #: src/GNOME_Gnumeric.xml.h:61
-#, fuzzy
 msgid "Create a pivot table"
-msgstr "Vytvorí pivotovú tabuľku."
+msgstr "Vytvorí pivotovú tabuľku"
 
 #: src/GNOME_Gnumeric.xml.h:62 src/workbook-object-toolbar.c:150
 msgid "Create a radio button"
 msgstr "Vytvorí prepínač"
 
 #: src/GNOME_Gnumeric.xml.h:63 src/workbook-object-toolbar.c:166
-#, fuzzy
 msgid "Create a rectangle object"
 msgstr "Vytvorí objekt obdĺžnik"
 
@@ -16060,12 +16060,10 @@ msgid "Create a scrollbar"
 msgstr "Vytvorí posuvník"
 
 #: src/GNOME_Gnumeric.xml.h:65 src/workbook-object-toolbar.c:163
-#, fuzzy
 msgid "Create an arrow object"
 msgstr "Vytvorí objekt šípka"
 
 #: src/GNOME_Gnumeric.xml.h:66 src/workbook-object-toolbar.c:169
-#, fuzzy
 msgid "Create an ellipse object"
 msgstr "Vytvorí objekt elipsa"
 
@@ -16093,7 +16091,6 @@ msgid "Cut the selection"
 msgstr "Vystrihne výber"
 
 #: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3794
-#, fuzzy
 msgid "Cut the selection to the clipboard"
 msgstr "Vystrihne výber do schránky"
 
@@ -16107,7 +16104,6 @@ msgid "Decrease Precision"
 msgstr "Znížiť presnosť"
 
 #: src/GNOME_Gnumeric.xml.h:75 src/workbook-format-toolbar.c:467
-#, fuzzy
 msgid "Decrease the number of decimals displayed"
 msgstr "Zníži počet zobrazovaných desatinných miest"
 
@@ -16124,9 +16120,8 @@ msgid "Display the value of a formula or the formula itself"
 msgstr "Zobrazí hodnotu vzorca alebo vzorec samotný"
 
 #: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:3828
-#, fuzzy
 msgid "Edit a function in the current cell"
-msgstr "Upraví funkciu v aktuálnej bunke."
+msgstr "Upraví funkciu v aktuálnej bunke"
 
 #: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:3181
 msgid "Edit descriptive information"
@@ -16183,7 +16178,6 @@ msgid "Font selector"
 msgstr "Výber písma"
 
 #: src/GNOME_Gnumeric.xml.h:93 src/workbook-format-toolbar.c:869
-#, fuzzy
 msgid "Font size"
 msgstr "Veľkosť písma"
 
@@ -16221,9 +16215,8 @@ msgid "Generate random numbers of a selection of distributions"
 msgstr "Generuje náhodné počtý výberov distribúcií"
 
 #: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:3748
-#, fuzzy
 msgid "Get _External Data"
-msgstr "Interná CHYBA"
+msgstr "Získať _externé dáta"
 
 #: src/GNOME_Gnumeric.xml.h:102 src/dialogs/graph-guru.glade.h:2
 #: src/workbook-control-gui.c:3840
@@ -16259,24 +16252,20 @@ msgid "Hide the selected rows"
 msgstr "Skryje vybrané riadky"
 
 #: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3424
-#, fuzzy
 msgid "Hyper_link..."
-msgstr "Otvoriť..."
+msgstr "_Odkaz..."
 
 #: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3819
-#, fuzzy
 msgid "Hyperlink"
-msgstr "_Odstrániť aktuálny"
+msgstr "Odkaz"
 
 #: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3705
-#, fuzzy
 msgid "Import _Text File..."
-msgstr "Importuje súbor"
+msgstr "Importovať _textový súbor..."
 
 #: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3706
-#, fuzzy
 msgid "Import the text from a file"
-msgstr "Importuje súbor"
+msgstr "Importuje text zo súboru"
 
 #: src/GNOME_Gnumeric.xml.h:114 src/workbook-format-toolbar.c:372
 #: src/workbook-format-toolbar.c:476
@@ -16288,7 +16277,6 @@ msgid "Increase Precision"
 msgstr "Zvýšiť presnosť"
 
 #: src/GNOME_Gnumeric.xml.h:116 src/workbook-format-toolbar.c:464
-#, fuzzy
 msgid "Increase the number of decimals displayed"
 msgstr "Zvýši počet zobrazovaných desatinných miest"
 
@@ -16302,9 +16290,8 @@ msgstr "Vložiť tvarovaný komponent"
 
 #: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:3425
 #: src/workbook-control-gui.c:3820
-#, fuzzy
 msgid "Insert a Hyperlink"
-msgstr "_Odstrániť aktuálny"
+msgstr "Vloží odkaz"
 
 #: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:3415
 msgid "Insert a function into the selected cell"
@@ -16388,12 +16375,10 @@ msgstr "Návestie"
 
 #: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:3407
 #: src/workbook-control-gui.c:3841
-#, fuzzy
 msgid "Launch the Graph Guru"
-msgstr "Grafový Guru"
+msgstr "Spustí grafového guru"
 
 #: src/GNOME_Gnumeric.xml.h:140 src/workbook-format-toolbar.c:430
-#, fuzzy
 msgid "Left Align"
 msgstr "Zarovnať doľava"
 
@@ -16450,7 +16435,6 @@ msgid "Merge..."
 msgstr "Spojiť..."
 
 #: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3247
-#, fuzzy
 msgid "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 "Spojí stĺpcové dáta do listu vytvorením duplikovaných listov pre každý "
@@ -16514,14 +16498,12 @@ msgstr "Vložiť _inak..."
 
 #: src/GNOME_Gnumeric.xml.h:168 src/GNOME_Gnumeric_Component.xml.h:4
 #: src/workbook-control-gui.c:3167
-#, fuzzy
 msgid "Page Set_up..."
-msgstr "Nastavenie t_lače..."
+msgstr "Nastavenie st_ránky..."
 
 #: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3738
-#, fuzzy
 msgid "Parse the text in the selection into data"
-msgstr "Vystredí vybraný text "
+msgstr "Spracuje text vo vybraných bunkách do dát"
 
 #: src/GNOME_Gnumeric.xml.h:170 src/cmd-edit.c:344
 #: src/workbook-control-gui.c:3800
@@ -16533,9 +16515,8 @@ msgid "Paste the clipboard"
 msgstr "Vloží obsah schránky"
 
 #: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3800
-#, fuzzy
 msgid "Paste the contents of the clipboard"
-msgstr "Vloží obsah schránky alebo vystrihovacej pamäti"
+msgstr "Vloží obsah schránky"
 
 #: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3295
 msgid "Paste with optional filters and transformations"
@@ -16586,14 +16567,12 @@ msgstr "Vytlačí zošit"
 
 #: src/GNOME_Gnumeric.xml.h:184 src/GNOME_Gnumeric_Component.xml.h:8
 #: src/workbook-control-gui.c:3180
-#, fuzzy
 msgid "Proper_ties..."
 msgstr "_Vlastnosti..."
 
 #: src/GNOME_Gnumeric.xml.h:185
-#, fuzzy
 msgid "Quit the application"
-msgstr "O tejto aplikácii"
+msgstr "Ukončí aplikáciu"
 
 #: src/GNOME_Gnumeric.xml.h:186
 msgid "Radio Button"
@@ -16646,7 +16625,6 @@ msgid "Rename the current sheet"
 msgstr "Premenuje aktuálny list"
 
 #: src/GNOME_Gnumeric.xml.h:198 src/workbook-format-toolbar.c:438
-#, fuzzy
 msgid "Right Align"
 msgstr "Zarovnať doprava"
 
@@ -16744,17 +16722,14 @@ msgid "Select an entire row"
 msgstr "Vyberie celý riadok"
 
 #: src/GNOME_Gnumeric.xml.h:222 src/workbook-format-toolbar.c:461
-#, fuzzy
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr "Nastaví formát vybraných buniek, aby obsahovali oddeľovač tisícov"
 
 #: src/GNOME_Gnumeric.xml.h:223 src/workbook-format-toolbar.c:455
-#, fuzzy
 msgid "Set the format of the selected cells to monetary"
 msgstr "Formátuje vybrané bunky ako peňažné"
 
 #: src/GNOME_Gnumeric.xml.h:224 src/workbook-format-toolbar.c:458
-#, fuzzy
 msgid "Set the format of the selected cells to percentage"
 msgstr "Formátuje vybrané bunky ako percentá"
 
@@ -16765,7 +16740,7 @@ msgstr "Nastaví stránku pre aktuálnu tlačiareň"
 
 #: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:3716
 msgid "Show all filtered and hidden rows"
-msgstr ""
+msgstr "Zobrazí všetky filtrované a skryté riadky"
 
 #: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:3831
 #: schemas/gnumeric-general.schemas.in.h:28
@@ -16777,9 +16752,8 @@ msgid "Sort Descending"
 msgstr "Utriediť zostupne"
 
 #: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3728
-#, fuzzy
 msgid "Sort the selected region"
-msgstr "Utriedi vybrané bunky."
+msgstr "Utriedi vybrané bunky"
 
 #: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3832
 msgid ""
@@ -16820,9 +16794,10 @@ msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
 msgstr ""
+"Otestovať alternatívy rozhodnutia pomocou simulácie Monte Carlo "
+"pre zistenie možných výstupov a rizík pre ne"
 
 #: src/GNOME_Gnumeric.xml.h:238 src/workbook-format-toolbar.c:461
-#, fuzzy
 msgid "Thousands Separator"
 msgstr "Oddeľovač tisícov"
 
@@ -16904,7 +16879,6 @@ msgid "_ANOVA"
 msgstr "_ANOVA"
 
 #: src/GNOME_Gnumeric.xml.h:258
-#, fuzzy
 msgid "_About"
 msgstr "_O programe"
 
@@ -17133,7 +17107,6 @@ msgid "_Print..."
 msgstr "_Tlačiť..."
 
 #: src/GNOME_Gnumeric.xml.h:310
-#, fuzzy
 msgid "_Quit"
 msgstr "_Koniec"
 
@@ -17157,7 +17130,7 @@ msgstr "_Odstrániť"
 
 #: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3654
 msgid "_Risk Simulation..."
-msgstr ""
+msgstr "Simulácia _rizík..."
 
 #: src/GNOME_Gnumeric.xml.h:316 src/dialogs/pivottable.glade.h:13
 #: src/workbook-control-gui.c:3522
@@ -17197,9 +17170,8 @@ msgid "_Sheet"
 msgstr "_Zošit"
 
 #: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:3715
-#, fuzzy
 msgid "_Show All"
-msgstr "_Zobraziť detaily"
+msgstr "_Zobraziť všetky"
 
 #: src/GNOME_Gnumeric.xml.h:324 src/workbook-control-gui.c:3671
 msgid "_Show Detail"
@@ -17226,9 +17198,8 @@ msgid "_Tabulate Dependency..."
 msgstr "_Tabulovať závislosti..."
 
 #: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3737
-#, fuzzy
 msgid "_Text to Columns..."
-msgstr "_Automatická úprava šírky stĺpcov"
+msgstr "_Text do stĺpcov..."
 
 #: src/GNOME_Gnumeric.xml.h:331
 msgid "_Toolbars..."
@@ -17281,7 +17252,6 @@ msgid "_Zoom..."
 msgstr "_Lupa..."
 
 #: src/GNOME_Gnumeric_Component.xml.h:1
-#, fuzzy
 msgid "About the Gnumeric spreadsheet program"
 msgstr "O programe Tabuľkový procesor Gnumeric"
 
@@ -17294,9 +17264,8 @@ msgid "Cu_t Cells"
 msgstr "Vy_strihnúť bunky"
 
 #: src/GNOME_Gnumeric_Component.xml.h:5
-#, fuzzy
 msgid "Print Previe_w..."
-msgstr "U_kážka pred tlačou..."
+msgstr "_Náhľad tlače..."
 
 #: src/GNOME_Gnumeric_Component.xml.h:9
 msgid "Search Workbook"
@@ -17824,56 +17793,51 @@ msgstr ""
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:121
 msgid "A unique name for the action."
-msgstr ""
+msgstr "Jednoznačné meno akcie."
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:129
 msgid "The label used for menu items and buttons that activate this action."
 msgstr ""
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:135
-#, fuzzy
 msgid "Short label"
-msgstr "Vytvorí návestie"
+msgstr "Krátke návestie"
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:136
 msgid "A shorter label that may be used on toolbar buttons."
-msgstr ""
+msgstr "Kratšie návestie, ktoré sa dá použiť pre tlačidlá panelov nástrojov."
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:142
-#, fuzzy
 msgid "Tooltip"
-msgstr "_Nástroje"
+msgstr "Rada"
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:143
-#, fuzzy
 msgid "A tooltip for this action."
-msgstr "O tejto aplikácii"
+msgstr "Rada pre túto akciu."
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:149
 msgid "Stock Icon"
-msgstr ""
+msgstr "Štandardná ikona"
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:150
 msgid "The stock icon displayed in widgets representing this action."
-msgstr ""
+msgstr "Štandardná ikona zobrazená v prvkoch reprezentujúcich túto akciu."
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:156
-#, fuzzy
 msgid "Sensitive"
-msgstr "Rozlišovať veľkosť písmen"
+msgstr "Citlivá"
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:157
 msgid "Whether the action is enabled."
-msgstr ""
+msgstr "Či je akcia povolná."
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:164
-#, fuzzy
 msgid "Visible"
-msgstr "Rozumný"
+msgstr "Viditeľná"
 
 #: src/cut-n-paste-code/egg/menu/egg-action.c:165
 msgid "Whether the action is visible."
-msgstr ""
+msgstr "Či je akcia viditeľná."
 
 #: src/cut-n-paste-code/egg/menu/egg-markup.c:274
 #: src/cut-n-paste-code/egg/menu/egg-menu-merge.c:605
@@ -22442,12 +22406,11 @@ msgstr "Správy"
 #. Fill in the header titles.
 #: src/dialogs/simulation.glade.h:15 src/tools/simulation.c:349
 msgid "Risk Simulation"
-msgstr ""
+msgstr "Simulácia rizík"
 
 #: src/dialogs/simulation.glade.h:16
-#, fuzzy
 msgid "Simulation: "
-msgstr "Správa limitoch"
+msgstr "Simulácia: "
 
 #: src/dialogs/simulation.glade.h:17
 msgid "Summary of Results: "
@@ -22781,7 +22744,6 @@ msgid "V_ertical Scrollbar"
 msgstr "_Vertikálny posuvník"
 
 #: src/dialogs/workbook-attr.glade.h:14
-#, fuzzy
 msgid "View"
 msgstr "Zobraziť"
 
@@ -23029,57 +22991,48 @@ msgid "Botswana, Pulas"
 msgstr "Botswana, Pula"
 
 #: src/formats.c:341
-#, fuzzy
 msgid "Belarus, Rubles"
-msgstr "Beloruský rubeľ"
+msgstr "Bielorusko, Rubeľ"
 
 #: src/formats.c:342
-#, fuzzy
 msgid "Belize, Dollars"
-msgstr "Belizský dolár"
+msgstr "Belize, Dolár"
 
 #: src/formats.c:343
-#, fuzzy
 msgid "Canada, Dollars"
-msgstr "Kanadský dolár"
+msgstr "Kanada, Dolár"
 
 #: src/formats.c:344
 msgid "Congo/Kinshasa, Congolese Francs"
-msgstr ""
+msgstr "Kongo/Kinshasa, Konžský frank"
 
 #: src/formats.c:345
 msgid "Switzerland, Francs"
-msgstr ""
+msgstr "Švajčiarsko, Frank"
 
 #: src/formats.c:346
-#, fuzzy
 msgid "Chile, Pesos"
-msgstr "Chilské peso"
+msgstr "Chile, Peso"
 
 #: src/formats.c:347
-#, fuzzy
 msgid "China, Yuan Renminbi"
-msgstr "Čínsky yuan renminbi"
+msgstr "Čína, Juan renminbi"
 
 #: src/formats.c:348
-#, fuzzy
 msgid "Colombia, Pesos"
-msgstr "Kolumbíjske peso"
+msgstr "Kolumbia, Peso"
 
 #: src/formats.c:349
-#, fuzzy
 msgid "Costa Rica, Colones"
-msgstr "Kostarický colon"
+msgstr "Kostarika, Kolon"
 
 #: src/formats.c:350
-#, fuzzy
 msgid "Cuba, Pesos"
-msgstr "Kubánske peso"
+msgstr "Kuba, Peso"
 
 #: src/formats.c:351
-#, fuzzy
 msgid "Cape Verde, Escudos"
-msgstr "Escudo Cape Verde"
+msgstr "Cape Verde, Escudo"
 
 #: src/formats.c:352
 msgid "Cyprus, Pounds"
@@ -23098,14 +23051,12 @@ msgid "Denmark, Kroner"
 msgstr "Dánsko, Krone"
 
 #: src/formats.c:356
-#, fuzzy
 msgid "Dominican Republic, Pesos"
-msgstr "Dominikánske peso"
+msgstr "Dominikánska republika, Peso"
 
 #: src/formats.c:357
-#, fuzzy
 msgid "Algeria, Algeria Dinars"
-msgstr "Alžírsky dinár"
+msgstr "Alžírsko, Dinár"
 
 #: src/formats.c:358
 msgid "Estonia, Krooni"
@@ -23132,238 +23083,200 @@ msgid "Fiji, Dollars"
 msgstr "Fidži, Dolár"
 
 #: src/formats.c:364
-#, fuzzy
 msgid "Falkland Islands (Malvinas), Pounds"
-msgstr "Libra Falklandských ostrovov"
+msgstr "Falklandské ostrovy, Libra"
 
 #: src/formats.c:365
 msgid "United Kingdom, Pounds"
-msgstr ""
+msgstr "Anglicko, Libra"
 
 #: src/formats.c:366
 msgid "Georgia, Lari"
-msgstr ""
+msgstr "Gruzínsko, Lari"
 
 #: src/formats.c:367
-#, fuzzy
 msgid "Guernsey, Pounds"
-msgstr "Sudánska libra"
+msgstr "Guernsey, Libra"
 
 #: src/formats.c:368
-#, fuzzy
 msgid "Ghana, Cedis"
-msgstr "Ghanský cedi"
+msgstr "Ghana, Cedi"
 
 #: src/formats.c:369
-#, fuzzy
 msgid "Gibraltar, Pounds"
-msgstr "Gibraltarská libra"
+msgstr "Gibraltar, Libra"
 
 #: src/formats.c:370
-#, fuzzy
 msgid "Gambia, Dalasi"
-msgstr "Gambský dalasi"
+msgstr "Gambia Dalasi"
 
 #: src/formats.c:371
-#, fuzzy
 msgid "Guinea, Francs"
-msgstr "Guinejský frank"
+msgstr "Guinea, Frank"
 
 #: src/formats.c:372
-#, fuzzy
 msgid "Guatemala, Quetzales"
-msgstr "Guatemalský quetzal"
+msgstr "Guatemala, Quetzal"
 
 #: src/formats.c:373
-#, fuzzy
 msgid "Guyana, Dollars"
-msgstr "Guajanský dolár"
+msgstr "Guajana, Dolár"
 
 #: src/formats.c:374
-#, fuzzy
 msgid "Hong Kong, Dollars"
-msgstr "Hongkongský dolár"
+msgstr "Hongkong, Dolár"
 
 #: src/formats.c:375
-#, fuzzy
 msgid "Honduras, Lempiras"
-msgstr "Hondurasská lempira"
+msgstr "Honduras, Lempira"
 
 #: src/formats.c:376
-#, fuzzy
 msgid "Croatia, Kuna"
-msgstr "Chorvátska kuna"
+msgstr "Chorvátsko, Kuna"
 
 #: src/formats.c:377
-#, fuzzy
 msgid "Haiti, Gourdes"
-msgstr "Haitský gourde"
+msgstr "Haiti, Gourde"
 
 #: src/formats.c:378
-#, fuzzy
 msgid "Hungary, Forint"
-msgstr "Maďarský forint"
+msgstr "Maďarsko Forint"
 
 #: src/formats.c:379
-#, fuzzy
 msgid "Indonesia, Rupiahs"
-msgstr "Indonézska rupia"
+msgstr "Indonézi, Rupia"
 
 #: src/formats.c:380
-#, fuzzy
 msgid "Israel, New Shekels"
-msgstr "Izraelský šekel"
+msgstr "Izrael, Nový šekel"
 
 #: src/formats.c:381
 msgid "Isle of Man, Pounds"
-msgstr ""
+msgstr "Isle of Man, Libra"
 
 #: src/formats.c:382
-#, fuzzy
 msgid "India, Rupees"
-msgstr "Indická rupia"
+msgstr "India, Rupia"
 
 #: src/formats.c:383
-#, fuzzy
 msgid "Iraq, Dinars"
-msgstr "Irácky dinár"
+msgstr "Irák, Dinár"
 
 #: src/formats.c:384
-#, fuzzy
 msgid "Iran, Rials"
-msgstr "Iránsky rial"
+msgstr "Irán, Rial"
 
 #: src/formats.c:385
-#, fuzzy
 msgid "Iceland, Kronur"
-msgstr "Islandská koruna"
+msgstr "Island, Koruna"
 
 #: src/formats.c:386
 msgid "Jersey, Pounds"
-msgstr ""
+msgstr "Jersey, Libra"
 
 #: src/formats.c:387
-#, fuzzy
 msgid "Jamaica, Dollars"
-msgstr "Jamajský dolár"
+msgstr "Jamajka, Dolár"
 
 #: src/formats.c:388
-#, fuzzy
 msgid "Jordan, Dinars"
-msgstr "Jordánsky dinár"
+msgstr "Jordánsko, Dinár"
 
 #: src/formats.c:389
-#, fuzzy
 msgid "Japan, Yen"
-msgstr "Japonský jen"
+msgstr "Japonsko, Jen"
 
 #: src/formats.c:390
-#, fuzzy
 msgid "Kenya, Shillings"
-msgstr "Keňský šiling"
+msgstr "Keňa, Šiling"
 
 #: src/formats.c:391
 msgid "Kyrgyzstan, Soms"
-msgstr ""
+msgstr "Kyrgyzstán, Som"
 
 #: src/formats.c:392
 msgid "Cambodia, Riels"
-msgstr ""
+msgstr "Kambodža, Riel"
 
 #: src/formats.c:393
-#, fuzzy
 msgid "Comoros, Francs"
-msgstr "Komorský frank"
+msgstr "Komory, Frank"
 
 #: src/formats.c:394
 msgid "Korea (North), Won"
-msgstr ""
+msgstr "Korea (severná), Won"
 
 #: src/formats.c:395
 msgid "Korea (South), Won"
-msgstr ""
+msgstr "Korea (južná), Won"
 
 #: src/formats.c:396
-#, fuzzy
 msgid "Kuwait, Dinars"
-msgstr "Kuvajtský dinár"
+msgstr "Kuvajt, Dinár"
 
 #: src/formats.c:397
-#, fuzzy
 msgid "Cayman Islands, Dollars"
-msgstr "Dolár Kajmanských ostrovov"
+msgstr "Kajmanské ostrovy, Dolár"
 
 #: src/formats.c:398
-#, fuzzy
 msgid "Kazakstan, Tenge"
-msgstr "Pakistánska rupia"
+msgstr "Kazachstán, Tenge"
 
 #: src/formats.c:399
-#, fuzzy
 msgid "Laos, Kips"
-msgstr "Laoský kip"
+msgstr "Laos, Kip"
 
 #: src/formats.c:400
-#, fuzzy
 msgid "Lebanon, Pounds"
-msgstr "Libanonská libra"
+msgstr "Libanon, Libra"
 
 #: src/formats.c:401
-#, fuzzy
 msgid "Sri Lanka, Rupees"
-msgstr "Srílanská rupia"
+msgstr "Srí lanka, Rupia"
 
 #: src/formats.c:402
-#, fuzzy
 msgid "Liberia, Dollars"
-msgstr "Libériský dolár"
+msgstr "Libéria, Dolár"
 
 #: src/formats.c:403
-#, fuzzy
 msgid "Lesotho, Maloti"
-msgstr "Lesotský loti"
+msgstr "Lesotho, Maloti"
 
 #: src/formats.c:404
 msgid "Lithuania, Litai"
-msgstr ""
+msgstr "Litva, Litai"
 
 #: src/formats.c:405
 msgid "Latvia, Lati"
-msgstr ""
+msgstr "Lotyšsko, Lati"
 
 #: src/formats.c:406
-#, fuzzy
 msgid "Libya, Dinars"
-msgstr "Libyjský dinár"
+msgstr "Lýbia, Dinár"
 
 #: src/formats.c:407
-#, fuzzy
 msgid "Morocco, Dirhams"
-msgstr "Marocký dirham"
+msgstr "Maroko, Dirham"
 
 #: src/formats.c:408
-#, fuzzy
 msgid "Moldova, Lei"
-msgstr "Moldávsky leu"
+msgstr "Moldávsko, Lei"
 
 #: src/formats.c:409
-#, fuzzy
 msgid "Madagascar, Malagasy Francs"
-msgstr "Malagský frank"
+msgstr ""
 
 #: src/formats.c:410
 msgid "Macedonia, Denars"
-msgstr ""
+msgstr "Makedónia, Dinár"
 
 #: src/formats.c:411
-#, fuzzy
 msgid "Myanmar (Burma), Kyats"
-msgstr "Myanmarský kyat"
+msgstr "Burma, Kyat"
 
 #: src/formats.c:412
-#, fuzzy
 msgid "Mongolia, Tugriks"
-msgstr "Mongolský tugrik"
+msgstr "Mongolsko, Tugrik"
 
 #: src/formats.c:413
 #, fuzzy
@@ -24200,7 +24113,7 @@ msgstr "Číslo je mimo rozsah"
 
 #: src/parser.y:1123
 msgid "Improperly formatted error token"
-msgstr ""
+msgstr "Nesprávne formátovaný token chyby"
 
 #: src/parser.y:1285
 msgid "Multiple expressions are not supported in this context"
@@ -24606,9 +24519,8 @@ msgid "pages"
 msgstr "strán"
 
 #: src/print-info.c:517
-#, fuzzy
 msgid "file"
-msgstr "Súbor/"
+msgstr "súbor"
 
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:581
@@ -26043,13 +25955,12 @@ msgid "Add Filter"
 msgstr "Pridať filter"
 
 #: src/workbook-control-gui.c:2786
-#, fuzzy
 msgid "AutoFilter"
-msgstr "Pokročilý filter"
+msgstr "Automatický filter"
 
 #: src/workbook-control-gui.c:2786
 msgid "Requires more than 1 row"
-msgstr ""
+msgstr "Vyžaduje viac ako jeden riadok"
 
 #: src/workbook-control-gui.c:2843 src/workbook-control-gui.c:2862
 msgid "Show Detail"
@@ -26296,7 +26207,6 @@ msgid "You may not use this name twice"
 msgstr "Nemôžete použiť jedno meno dvakrát"
 
 #: src/xml-io.c:3627
-#, fuzzy
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Nie je súbor so zošitom Gnumeric"
 
