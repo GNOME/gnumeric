@@ -18,21 +18,11 @@
 #define PREVIEW_Y 200
 
 typedef struct {
-	enum UnitName unit;
-	double value;
+	UnitName   unit;
+	double     value;
+	GtkWidget *spin;
 } UnitInfo;
 
-static struct {
-	char *unit_name;
-	double factor;
-} units [] = {
-	{ N_("pts"),        1. },
-	{ N_("mm"),  2.8346457 },
-	{ N_("cm"),  28.346457 },
-	{ N_("In"),        72. },
-	{ NULL, 0.0 }
-};
-	
 typedef struct {
 	Workbook         *workbook;
 	GladeXML         *gui;
@@ -75,13 +65,54 @@ margin_preview_update (dialog_print_info_t *dpi)
 }
 
 static void
-convert_unit (GtkWidget *item, UnitInfo *target)
+do_convert (UnitInfo *target, UnitName new_unit)
 {
+	if (target->unit == new_unit)
+		return;
+
 	
 }
 
+static void
+convert_to_pt (GtkWidget *widget, UnitInfo *target)
+{
+	do_convert (target, UNIT_POINTS);
+}
+
+static void
+convert_to_mm (GtkWidget *widget, UnitInfo *target)
+{
+	do_convert (target, UNIT_MILLIMITER);
+}
+
+static void
+convert_to_cm (GtkWidget *widget, UnitInfo *target)
+{
+	do_convert (target, UNIT_CENTIMETER);
+}
+
+static void
+convert_to_in (GtkWidget *widget, UnitInfo *target)
+{
+	do_convert (target, UNIT_INCH);
+}
+
 static GtkWidget *
-unit_editor_new (UnitInfo *target, double init)
+add_unit (GtkWidget *menu, int i, (*convert)(GtkWidget *, UnitInfo *), void *data)
+{
+	GtkWidget *item;
+
+	item = gtk_menu_item_new_with_label (unit_name_get_string (i));
+	gtk_widget_show (item);
+	gtk_menu_append (GTK_MENU (menu), item);
+
+	gtk_signal_connect (
+		GTK_OBJECT (item), "activate",
+		GTK_SIGNAL_FUNC (convert), data);
+}
+
+static GtkWidget *
+unit_editor_new (UnitInfo *target, PrintUnit init)
 {
 	GtkWidget *box, *om, *menu;
 	GtkSpinButton *spin;
@@ -90,24 +121,19 @@ unit_editor_new (UnitInfo *target, double init)
 	box = gtk_hbox_new (0, 0);
 
 	spin = GTK_SPIN_BUTTON (gtk_spin_button_new (NULL, 1, 0));
-	gtk_spin_button_set_value (spin, init);
+	gtk_spin_button_set_value (spin, init.points);
 	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (spin), FALSE, FALSE, 0);
 	om = gtk_option_menu_new ();
 	gtk_box_pack_start (GTK_BOX (box), om, TRUE, TRUE, 0);
 	gtk_widget_show_all (box);
 
 	menu = gtk_menu_new ();
-	for (i = 0; units [i].unit_name != NULL; i++){
-		GtkWidget *item;
 
-		item = gtk_menu_item_new_with_label (_(units [i].unit_name));
-		gtk_widget_show (item);
-		gtk_menu_append (GTK_MENU (menu), item);
-		gtk_signal_connect (
-			GTK_OBJECT (item), "activate",
-			GTK_SIGNAL_FUNC (convert_unit), target);
+	add_unit (menu, UNIT_POINTS, convert_to_pt, target);
+	add_unit (menu, UNIT_MILLIMITER, convert_to_mm, target);
+	add_unit (menu, UNIT_CENTIMETER, convert_to_cm, target);
+	add_unit (menu, UNIT_INCH, convert_to_inch, target);
 
-	}
 	gtk_menu_set_active (GTK_MENU (menu), target->unit);
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (om), menu);
 	gtk_option_menu_set_history (GTK_OPTION_MENU (om), target->unit);
@@ -116,7 +142,7 @@ unit_editor_new (UnitInfo *target, double init)
 }
 
 static void
-tattach (GtkTable *table, int x, int y, double init, UnitInfo *target)
+tattach (GtkTable *table, int x, int y, PrintUnit init, UnitInfo *target)
 {
 	GtkWidget *w;
 	

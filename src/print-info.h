@@ -10,12 +10,14 @@ typedef enum {
 	PRINT_ORIENT_VERTICAL
 } PrintOrientation;
 
-enum UnitName {
+typedef enum {
 	UNIT_POINTS,
 	UNIT_MILLIMITER,
 	UNIT_CENTIMETER,
 	UNIT_INCH
-};
+} UnitName;
+
+#define UNIT_LAST (UNIT_INCH+1)
 
 /*
  * Scaling for the sheet: percentage or make it fit a number
@@ -34,16 +36,21 @@ typedef struct {
 	} dim;
 } PrintScaling;
 
+typedef struct {
+	double    points;
+	UnitName desired_display;
+} PrintUnit;
+
 /*
  * Margins.  In Points
  */
 typedef struct {
-	double top;
-	double bottom;
-	double left;
-	double right;
-	double header;
-	double footer;
+	PrintUnit top;
+	PrintUnit bottom;
+	PrintUnit left;
+	PrintUnit right;
+	PrintUnit header;
+	PrintUnit footer;
 } PrintMargins;
 
 /* Header/Footer definition */
@@ -80,6 +87,11 @@ PrintHF          *print_hf_new    (char *left_side_format,
 				   char *middle_format,
 				   char *right_side_format);
 void              print_hf_free   (PrintHF *print_hf);
+
+const char *unit_name_get_short_name (UnitName name);
+const char *unit_name_get_name       (UnitName name);
+double      print_unit_get_prefered  (PrintUnit *unit);
+double      unit_convert             (double value, UnitName source, UnitName target);
 
 #endif
 

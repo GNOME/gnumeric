@@ -50,6 +50,17 @@ print_info_free (PrintInformation *pi)
 	g_free (pi);
 }
 
+static PrintUnit
+print_unit_new (double points)
+{
+	PrintUnit u;
+
+	u.points = points;
+	u.desired_display = UNIT_POINTS;
+
+	return u;
+}
+
 /**
  * print_info_new:
  *
@@ -70,12 +81,12 @@ print_info_new (void)
 	pi->scaling.percentage = 100.0;
 
 	/* Margins */
-	pi->margins.top    = METERS_TO_POINTS (0.01);
-	pi->margins.bottom = METERS_TO_POINTS (0.01);
-	pi->margins.left   = METERS_TO_POINTS (0.01);
-	pi->margins.right  = METERS_TO_POINTS (0.01);
-	pi->margins.header = METERS_TO_POINTS (0.005);
-	pi->margins.footer = METERS_TO_POINTS (0.005);
+	pi->margins.top    = unit_new (METERS_TO_POINTS (0.01));
+	pi->margins.bottom = unit_new (METERS_TO_POINTS (0.01));
+	pi->margins.left   = unit_new (METERS_TO_POINTS (0.01));
+	pi->margins.right  = unit_new (METERS_TO_POINTS (0.01));
+	pi->margins.header = unit_new (METERS_TO_POINTS (0.005));
+	pi->margins.footer = unit_new (METERS_TO_POINTS (0.005));
 
 	pi->header = print_hf_new (NULL, _("Sheet &[NUM]"), NULL);
 	pi->footer = print_hf_new (NULL, _("Page &[NUM]"), NULL);
@@ -84,3 +95,53 @@ print_info_new (void)
 	
 	return pi;
 }
+
+static struct {
+	char   *short_name;
+	char   *full_name;
+	double factor;
+} units [] = {
+	{ N_("pts"), N_("points"),     1.0 },
+	{ N_("mm"),  N_("millimeter"), 2.8346457 },
+	{ N_("cm"),  N_("centimeter"), 28.346457 },
+	{ N_("In"),  N_("inch"),       72.0 },
+	{ NULL, NULL, 0.0 }
+};
+
+const char *
+unit_name_get_short_name (UnitName name)
+{
+	g_assert (name >= UNIT_POINTS && name < UNIT_LAST);
+
+	return _(units [name].short_name);
+}
+
+const char *
+unit_name_get_name (UnitName name)
+{
+	g_assert (name >= UNIT_POINTS && name < UNIT_LAST);
+
+	return _(units [name].full_name);
+}
+
+double
+print_unit_get_prefered (PrintUnit *unit)
+{
+	g_assert (unit != NULL);
+	g_assert (unit->desired_display >= UNIT_POINTS && unit->desired_display < UNIT_LAST);
+
+	return units [unit->desired_display].factor * unit->points;
+}
+
+double
+unit_convert (double value, UnitName source, UnitName target)
+{
+	g_assert (source >= UNIT_POINTS && source < UNIT_LAST);
+	g_assert (target >= UNIT_POINTS && target < UNIT_LAST);
+
+	if (source == target)
+		return value;
+
+	return (units [source].factor * value) / units [target].factor;
+}
+ 
