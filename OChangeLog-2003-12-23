@@ -1,3 +1,7 @@
+2002-07-09  Morten Welinder  <terra@diku.dk>
+
+	* src/mathfunc.c (random_poisson): Fix loop (by switching method).
+
 2002-07-09  Jody Goldberg <jody@gnome.org>
 
 	* plugins/Makefile.am : excel is no longer conditional

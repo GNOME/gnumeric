@@ -11,6 +11,7 @@ my @files =
      "plnorm.c",
      "qlnorm.c",
      "ppois.c",
+     "qpois.c",
      "stirlerr.c",
      "bd0.c",
      "dpois.c",
@@ -120,6 +121,10 @@ sub import_file {
 	    s/int give_log/gboolean give_log/g;
 	    s/int log_p/gboolean log_p/g;
 	    s/int lower_tail/gboolean lower_tail/g;
+
+	    if (/^.*char\s+\*vmax;\s*$/) {
+		$_ = "#ifndef MATHLIB_STANDALONE\n$_\n#endif";
+	    }
 
 	    $incomment = 1 if m|/\*$|;
 	}
