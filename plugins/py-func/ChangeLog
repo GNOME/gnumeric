@@ -1,0 +1,4 @@
+2001-03-05  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* Makefile.am, plugin.xml, py_func.py:
+	New plugin, sample Python functions.
