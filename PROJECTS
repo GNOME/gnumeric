@@ -3,7 +3,7 @@ appropriate for new developers.
 
 Description                                             Difficulty  Integration
 ------------------------------------------------------  ----------  -----------
-- Dialog to change the order of sheets.                 Easy        Low
+- Dialog to change the order of sheets.                 Low	    Low
 
 - Ability to Create a new sheet that is a copy          Medium      Medium
   of an existing sheet.
@@ -17,21 +17,18 @@ Description                                             Difficulty  Integration
   functions to samples/regress.gnumeric so we can be
   sure that we are returning the right error code.
 
-- Enhance plugin interface and manager to supply	Medium	    Medium
-  descriptive information about the plugin, and allow
-  browsing/listing the funtions & I/O routines it
-  provides.
+- Make the new combo boxes tear-off-able   		High	    Low
 
-- Make the new combo boxes tear-off-able   		High	    Low.
-
-- Add 'custom' button to color combo boxes. 		Low	    Low.
-
-- Save/Restore the values of the last selected colours	Low	    Low.
+- Save/Restore the values of the last selected colours	Low	    Low
   from the toolbar for background or font.
 
-- Intelligently handle setting the size of ALL		Low	    Medium.
+- Intelligently handle setting the size of ALL		Low	    Medium
   rows/cols.  We should change the default,
   not set the size of every ColInfo.
+
+- Add another selection type.  Which would be used	High	    High
+  to send formated cell contents between different
+  instances of gnumeric.
 
 Difficulty: an estimate of how hard the task would be for the average hacker.
   (This is not an estimate of project size; a project can be very big, but
