@@ -1200,7 +1200,7 @@ cellref_relocate (CellRef *ref, ExprRelocateInfo const *rinfo,
 	 * Abs	In	Out 	: Sheet
 	 * Abs	Out	In 	: Positive, Sheet, Range (b)
 	 * Abs	Out	Out 	: (a)
-	 * Rel	In	In 	: Sheet
+	 * Rel	In	In 	: Sheet, Range
 	 * Rel	In	Out 	: Negative, Sheet, Range (c)
 	 * Rel	Out	In 	: Positive, Sheet, Range (b)
 	 * Rel	Out	Out 	: (a)
@@ -1213,20 +1213,16 @@ cellref_relocate (CellRef *ref, ExprRelocateInfo const *rinfo,
 	 * An action in () is one which is done despite being useless
 	 * to simplify the logic.
 	 */
-	int col = cellref_get_abs_col (ref, &rinfo->pos);
-	int row = cellref_get_abs_row (ref, &rinfo->pos);
+ 	gboolean to_inside, from_inside;
+	int tmp;
+	int col = ref->col;
+	int row = ref->row;
+	Sheet const *ref_sheet = (ref->sheet != NULL) ? ref->sheet : rinfo->pos.sheet;
 
-	Sheet * ref_sheet = (ref->sheet != NULL) ? ref->sheet : rinfo->pos.sheet;
-
-	/* Inside is based on the current location of the reference.
-	 * Hence we need to use the ORIGIN_sheet rather than the target.
-	 */
-	gboolean const to_inside = force_to_inside ||
-		((rinfo->origin_sheet == ref_sheet) &&
-		range_contains (&rinfo->origin, col, row));
-	gboolean const from_inside = force_from_inside ||
-		((rinfo->origin_sheet == rinfo->pos.sheet) &&
-		range_contains (&rinfo->origin, rinfo->pos.eval.col, rinfo->pos.eval.row));
+	if (ref->col_relative) 
+		col += rinfo->pos.eval.col;
+	if (ref->row_relative) 
+		row += rinfo->pos.eval.row;
 
 	/* fprintf (stderr, "%s\n", cellref_name (ref, &rinfo->pos, FALSE)); */
 
@@ -1234,6 +1230,16 @@ cellref_relocate (CellRef *ref, ExprRelocateInfo const *rinfo,
 	if (col < 0 || col >= SHEET_MAX_COLS ||
 	    row < 0 || row >= SHEET_MAX_ROWS)
 		return CELLREF_RELOCATE_ERR;
+
+	/* Inside is based on the current location of the reference.
+	 * Hence we need to use the ORIGIN_sheet rather than the target.
+	 */
+	to_inside = force_to_inside ||
+		((rinfo->origin_sheet == ref_sheet) &&
+		range_contains (&rinfo->origin, col, row));
+	from_inside = force_from_inside ||
+		((rinfo->origin_sheet == rinfo->pos.sheet) &&
+		range_contains (&rinfo->origin, rinfo->pos.eval.col, rinfo->pos.eval.row));
 
 	/* Case (a) */
 	if (!from_inside && !to_inside)
@@ -1252,14 +1258,16 @@ cellref_relocate (CellRef *ref, ExprRelocateInfo const *rinfo,
 
 	if (to_inside) {
 		/* Case (b) */
+		tmp = col + rinfo->col_offset;
 		if (!from_inside || !ref->col_relative)
-			col += rinfo->col_offset;
+			col = tmp;
+		if (tmp < 0 || tmp >= SHEET_MAX_COLS)
+			return CELLREF_RELOCATE_ERR;
 
+		tmp = row + rinfo->row_offset;
 		if (!from_inside || !ref->row_relative)
-			row += rinfo->row_offset;
-
-		if (col < 0 || col >= SHEET_MAX_COLS ||
-		    row < 0 || row >= SHEET_MAX_ROWS)
+			row = tmp;
+		if (tmp < 0 || tmp >= SHEET_MAX_ROWS)
 			return CELLREF_RELOCATE_ERR;
 	} else if (from_inside) {
 		/* Case (c) */

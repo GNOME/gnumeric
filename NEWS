@@ -1,7 +1,10 @@
-Gnumeric 1.0.5
+Gnumeric 1.0.6
 
 Jody:
 	* Enable sheet object import from XL5/95
+	* Re-enable #REF generation for relocations.
+	* Fix inside -> inside relative ref relocations that go out of bounds
+	* remove warnings from underline combo in the cell format dialog.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.5
