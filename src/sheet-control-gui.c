@@ -302,10 +302,6 @@ scg_scrollbar_config (SheetControlGUI const *scg)
 		max_row = sheet->rows.max_used;
 	if (max_row < sheet->max_object_extent.row)
 		max_row = sheet->max_object_extent.row;
-	if (max_row < sheet->cursor.base_corner.row)
-		max_row = sheet->cursor.base_corner.row;
-	if (max_row < sheet->cursor.move_corner.row)
-		max_row = sheet->cursor.move_corner.row;
 	va->upper = max_row;
 	va->page_size = last_row - gsheet->row.first;
 	va->value = gsheet->row.first;
@@ -316,10 +312,6 @@ scg_scrollbar_config (SheetControlGUI const *scg)
 		max_col = sheet->cols.max_used;
 	if (max_col < sheet->max_object_extent.col)
 		max_col = sheet->max_object_extent.col;
-	if (max_col < sheet->cursor.base_corner.col)
-		max_col = sheet->cursor.base_corner.col;
-	if (max_col < sheet->cursor.move_corner.col)
-		max_col = sheet->cursor.move_corner.col;
 	ha->upper = max_col;
 	ha->page_size = last_col - gsheet->col.first;
 	ha->value = gsheet->col.first;

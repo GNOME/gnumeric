@@ -591,19 +591,20 @@ style_borders_row_draw (StyleBorder const * const * prev_vert,
 				       next_x + o[0][1] + 1, y);
 		}
 
-		if (draw_vertical) {
-			gc = style_border_get_gc (sr->vertical [col], drawable);
-			if (gc != NULL) {
-				int x1 = x;
-				if (style_border_vmargins (prev_vert, sr, next_sr, col, o)) {
-					gdk_draw_line (drawable, gc, x-1, y1 + o[1][0],
-						       x-1, y2 + o[1][1] + 1);
-					++x1;
-				}
-				/* See note in style_border_set_gc_dash about +1 */
-				gdk_draw_line (drawable, gc, x1, y1 + o[0][0],
-					       x1, y2 + o[0][1] + 1);
+		if (!draw_vertical)
+			continue;
+
+		gc = style_border_get_gc (sr->vertical [col], drawable);
+		if (gc != NULL) {
+			int x1 = x;
+			if (style_border_vmargins (prev_vert, sr, next_sr, col, o)) {
+				gdk_draw_line (drawable, gc, x-1, y1 + o[1][0],
+					       x-1, y2 + o[1][1] + 1);
+				++x1;
 			}
+			/* See note in style_border_set_gc_dash about +1 */
+			gdk_draw_line (drawable, gc, x1, y1 + o[0][0],
+				       x1, y2 + o[0][1] + 1);
 		}
 
 		/* FIXME : I am tired.  Do proper margins for these later */

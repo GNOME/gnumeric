@@ -1,3 +1,10 @@
+2001-02-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/style-border.c (style_borders_row_draw) : Don't draw the
+	  diagonals unless we are drawing the verticals.
+
+	* src/sheet-control-gui.c (scg_scrollbar_config) : simplify a bit.
+
 2001-02-16  Jody Goldberg <jgoldberg@home.com>
 
 	* src/dialogs/dialog-cell-format.c (fmt_dialog_init_align_page) :
