@@ -323,6 +323,8 @@ html_file_open (GnmFileOpener const *fo, IOContext *io_context,
 				bomlen = 3;
 			else if (buf[0] == 0x3c)
 				bomlen = 4;
+			else
+				bomlen = 0;
 			break;
 		default:
 			bomlen = 0;

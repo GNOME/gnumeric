@@ -1,3 +1,9 @@
+2003-05-07  Jody Goldberg <jody@gnome.org>
+
+	* html_read.c (html_file_open) : patch compiler warning.  Not really
+	  relevant now.  xmlDetectCharEncoding would never return utf8 without
+	  one of the cases being true.
+
 2003-04-28  Morten Welinder  <terra@gnome.org>
 
 	* latex.c (latex2e_print_vert_border): Sanity check.
