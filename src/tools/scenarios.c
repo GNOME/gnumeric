@@ -25,20 +25,15 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <gnumeric.h>
-#include "dialogs.h"
 
 #include <sheet.h>
 #include <sheet-filter.h>
 #include <cell.h>
 #include <ranges.h>
-#include <gui-util.h>
-#include <tool-dialogs.h>
-#include <dao-gui-utils.h>
 #include <value.h>
 #include <workbook.h>
+#include <workbook-control.h>
 
-#include <glade/glade.h>
-#include <widgets/gnumeric-expr-entry.h>
 #include "mathfunc.h"
 #include "scenarios.h"
 #include "dao.h"

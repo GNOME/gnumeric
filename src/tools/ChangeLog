@@ -1,3 +1,9 @@
+2004-09-20  Stepan Kasal  <kasal@ucw.cz>
+
+	* data-shuffling.c, fill-series.c, filter.c, scenarios.c:
+	* simulation.c, tabulate.c: Don't include unnecessary GUI gheaders.
+	* simulation.h: #include "dao.h"
+
 2004-09-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* analysis-tools.c (analysis_tool_ztest_engine_run): 
@@ -27,6 +33,10 @@
 2004-09-02  Stepan Kasal  <kasal@ucw.cz>
 
 	* Makefile.am: Set SUBDIRS = solver, only if ENABLE_SOLVER.
+
+2004-08-31  Jody Goldberg <jody@gnome.org>
+
+	* dao.c : Remove unnecessary include of gtk/gtk.h
 
 2004-08-29  Jody Goldberg <jody@gnome.org>
 

@@ -29,7 +29,7 @@
 #include "tools.h"
 #include "command-context.h"
 
-#include <workbook-edit.h>
+#include <workbook-control.h>
 #include "ranges.h"
 #include "value.h"
 #include "sheet.h"

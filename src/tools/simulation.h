@@ -3,6 +3,8 @@
 #ifndef __SIMULATION_H__
 #define __SIMULATION_H__
 
+#include "dao.h"
+
 typedef enum {
 	MedianErr = 1, ModeErr = 2, StddevErr = 4, VarErr = 8, SkewErr = 16,
 	KurtosisErr = 32
