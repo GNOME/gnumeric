@@ -30,6 +30,10 @@
 #include <glib/gi18n.h>
 #include "dialogs.h"
 #include "help.h"
+#include <application.h>
+#include <gnumeric-gconf.h>
+#include <gutils.h>
+#include <gui-util.h>
 
 #include <goffice/app/go-plugin.h>
 #include <goffice/app/go-plugin-service.h>
@@ -667,12 +671,13 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, PLUGIN_MANAGER_DIALOG_KEY))
 		return;
 
-	gui = gnm_glade_xml_new (cc, "plugin-manager.glade", NULL, NULL);
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg), "plugin-manager.glade", NULL, NULL);
 	if (gui == NULL)
 		return;
 
 	pm_gui = g_new (PluginManagerGUI, 1);
-	pm_gui->wbcg = wbcg;
+	pm_gui->cc = GO_CMD_CONTEXT (wbcg);
+	pm_gui->parent_window = wbcg_toplevel (wbcg);
 	pm_gui->gui = gui;
 	pm_gui->dialog_pm = GTK_DIALOG (glade_xml_get_widget (gui, "dialog_plugin_manager"));
 
