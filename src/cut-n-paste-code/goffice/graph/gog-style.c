@@ -491,7 +491,8 @@ cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 	page = gtk_option_menu_get_history (GTK_OPTION_MENU (menu));
 
 	if (page != style->fill.type &&
-	    GOG_FILL_STYLE_IMAGE == style->fill.type)
+	    GOG_FILL_STYLE_IMAGE == style->fill.type &&
+	    style->fill.u.image.image)
 		g_object_unref (style->fill.u.image.image);
 
 	switch (page) {
@@ -517,7 +518,7 @@ cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 
 	case GOG_FILL_STYLE_IMAGE:
 		w = glade_xml_get_widget (state->gui, "fill_image_sample");
-		style->fill.u.image.image =  gtk_image_get_pixbuf (GTK_IMAGE (w));
+		style->fill.u.image.image = gtk_image_get_pixbuf (GTK_IMAGE (w));
 		if (NULL != style->fill.u.image.image)
 			g_object_ref (style->fill.u.image.image);
 		style->fill.u.image.filename = g_object_get_data (G_OBJECT (w), "filename");
