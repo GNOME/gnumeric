@@ -268,6 +268,10 @@
 		    _label="_Tabulate Dependency..."
 		    _tip="Make a table of a cell's value as a function of other cells"/>
 
+	        <menuitem name="EditFillSeries" verb=""
+		    _label="_Series..."
+		    _tip="Fill according to a linear or exponential serie"/>
+
 		<menuitem name="RandomGenerator" verb=""
 		    _label="_Random Generator..."
 		    _tip="Generate random numbers of a selection of distributions"/>

@@ -2267,6 +2267,12 @@ cb_edit_fill_autofill (GtkWidget *unused, WorkbookControlGUI *wbcg)
 }
 
 static void
+cb_edit_fill_series (GtkWidget *unused, WorkbookControlGUI *wbcg)
+{
+	dialog_fill_series (wbcg);
+}
+
+static void
 cb_edit_goto (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	dialog_goto_cell (wbcg);
@@ -3266,6 +3272,9 @@ static GnomeUIInfo workbook_menu_edit_fill [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Tabulate Dependency..."),
 		N_("Make a table of a cell's value as a function of other cells"),
 		cb_tools_tabulate),
+	GNOMEUIINFO_ITEM_NONE (N_("Series..."),
+		N_("Fill according to a linear or exponential serie"),
+		cb_edit_fill_series),
 	GNOMEUIINFO_ITEM_NONE (N_("_Random Generator..."),
 		N_("Generate random numbers of a selection of distributions"),
 		cb_tools_random_generator),
@@ -3902,6 +3911,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditDelete", cb_edit_delete),
 	BONOBO_UI_UNSAFE_VERB ("EditDuplicateSheet", cb_edit_duplicate_sheet),
 	BONOBO_UI_UNSAFE_VERB ("EditFillAutofill", cb_edit_fill_autofill),
+	BONOBO_UI_UNSAFE_VERB ("EditFillSeries", cb_edit_fill_series),
 	BONOBO_UI_UNSAFE_VERB ("EditSearch", cb_edit_search),
 	BONOBO_UI_UNSAFE_VERB ("EditSearchReplace", cb_edit_search_replace),
 	BONOBO_UI_UNSAFE_VERB ("EditGoto", cb_edit_goto),
