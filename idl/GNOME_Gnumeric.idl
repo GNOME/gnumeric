@@ -62,7 +62,6 @@ module GNOME {
 			// 
 			// Selection
 			//
-			void    select_all ();
 			boolean is_all_selected ();
 			void    selection_append (in long col, in long row) 
 				raises (OutOfRange);
