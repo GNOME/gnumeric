@@ -58,6 +58,7 @@ extern BiffQuery  *ms_biff_query_copy        (const BiffQuery *p);
  * returns: 1 for succes, and 0 for EOS(tream) */
 extern int         ms_biff_query_next_merge (BiffQuery *, gboolean do_merge);
 #define            ms_biff_query_next(q)     ms_biff_query_next_merge ((q), TRUE)
+extern int         ms_biff_query_peek_next  (BiffQuery *, guint16 *opcode);
 /* Converts a merged query to the un-merged equivalent */
 extern void        ms_biff_query_unmerge    (BiffQuery *);
 extern void        ms_biff_query_destroy    (BiffQuery *);
@@ -85,7 +86,6 @@ typedef struct _BiffPut
 /* Sets up a record on a stream */
 extern BiffPut      *ms_biff_put_new        (MsOleStream *);
 extern void          ms_biff_put_destroy    (BiffPut *);
-extern void          ms_biff_put_set_quirk  (BiffPut *, BiffQuirkFn *);
 
 /**
  * If between the 'next' and 'commit' ls / ms_op are changed they will be

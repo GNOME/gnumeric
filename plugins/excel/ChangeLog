@@ -1,5 +1,16 @@
 1999-07-28  Michael Meeks  <michael@edenproject.org>
 
+	* ms-excel-write.c (biff_put_text): kill warnings.
+
+	* ms-escher.c (read_DgContainer, SpgrContainer_new): ditto.
+
+	* ms-biff.c (ms_biff_put_var_next): Remove padding, daft,
+	(ms_biff_put_set_quirk): ditto.
+	(ms_biff_query_peek_next): Implemented.
+
+
+1999-07-28  Michael Meeks  <michael@edenproject.org>
+
 	* ms-biff.c (no_quirks, ms_biff_query_new):
 	New quirk support :-)
 	(ms_bug_get_padding): Moved into ms-excel-read.c

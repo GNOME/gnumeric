@@ -47,7 +47,7 @@ biff_put_text (BiffPut *bp, char *txt, eBiff_version ver,
 #define BLK_LEN 16
 
 	guint8 data[BLK_LEN];
-	guint32 chunks, pos, lpc, lp, len, ans;
+	guint32 lp, len, ans;
 
 	gboolean sixteen_bit_len;
 	gboolean unicode;
@@ -73,7 +73,7 @@ biff_put_text (BiffPut *bp, char *txt, eBiff_version ver,
 		unicode = FALSE;
 
 	off = 0;
-	if (write_len)
+	if (write_len) {
 		if (sixteen_bit_len) {
 			MS_OLE_SET_GUINT16 (data, len);
 			off = 2;
@@ -82,6 +82,7 @@ biff_put_text (BiffPut *bp, char *txt, eBiff_version ver,
 			MS_OLE_SET_GUINT8  (data, len);
 			off = 1;
 		}
+	}
 
 	if (unicode) {
 		MS_OLE_SET_GUINT8  (data + off, 0x0);

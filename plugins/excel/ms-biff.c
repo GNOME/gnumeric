@@ -205,6 +205,24 @@ ms_biff_merge_continues (BiffQuery *bq, guint32 len)
 	return 1;
 }
 
+int
+ms_biff_query_peek_next (BiffQuery *bq, guint16 *opcode)
+{
+	guint8 data[4];
+	g_return_val_if_fail (opcode != NULL, 0);
+
+	if (!bq || (bq->pos->position + 4 > bq->pos->size))
+		return 0;
+
+	if (!bq->pos->read_copy (bq->pos, data, 4))
+		return 0;
+
+	bq->pos->lseek (bq->pos, -4, MsOleSeekCur); /* back back off */
+
+	*opcode = MS_OLE_GET_GUINT16 (data);
+	return 1;
+}
+
 /**
  * Returns 0 if has hit end
  **/
@@ -322,16 +340,6 @@ ms_biff_put_destroy (BiffPut *bp)
 	g_free (bp);
 }
 
-void
-ms_biff_put_set_quirk (BiffPut *bp, BiffQuirkFn *quirk)
-{
-	g_return_if_fail (bp != NULL);
-
-	bp->quirk = quirk;
-
-	g_warning ("You really don't want to do this");
-}
-
 guint8 *
 ms_biff_put_len_next   (BiffPut *bp, guint16 opcode, guint32 len)
 {
@@ -363,7 +371,7 @@ ms_biff_put_var_next   (BiffPut *bp, guint16 opcode)
 	bp->len_fixed  = 0;
 	bp->ms_op      = (opcode >>   8);
 	bp->ls_op      = (opcode & 0xff);
-	bp->padding    = bp->quirk (bp, opcode);
+	bp->padding    = 0;
 	bp->num_merges = 0;
 	bp->curpos     = 0;
 	bp->length     = 0;

@@ -13,8 +13,7 @@ Michael
 		* implement & test summary write,
 		* beef up the number of recognised tokens
 	* Cell borders...
-	* Sort out biff padding =>
-	* Sort out better versioning scheme & helper macros.
+	* write biff_peek_next_record_type for Jody.
 	* Rationalise Missing Argument stuff ... a new value ?
 	* Remove silly name record in writing ( after debugging is done )
 	* Split panes.

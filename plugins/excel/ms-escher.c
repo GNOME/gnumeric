@@ -459,6 +459,7 @@ SpgrContainer_new (ESH_HEADER *h)  /* See: S59FEA.HTM */
 			guint32 num_shapes = MS_OLE_GET_GUINT32(c->data+ESH_HEADER_LEN);
 			/* spid_cur = last SPID given to an SP in this DG :-)  */
 			guint32 spid_cur   = MS_OLE_GET_GUINT32(c->data+ESH_HEADER_LEN+4);
+			spid_cur = num_shapes; /* Duff: kill warning */
 			break;
 		}
 		case SpContainer:
@@ -494,6 +495,7 @@ read_DgContainer (ESH_HEADER *h) /* See S59FE7.HTM */
 			guint32 spid_cur   = MS_OLE_GET_GUINT32(c->data+ESH_HEADER_LEN+4);
 			guint32 drawing_id = c->instance;
 			/* This drawing has these num_shapes shapes, with a pointer to the last SPID given to it */
+			num_shapes = drawing_id + spid_cur; /* Duff: kill warning */
 			break;
 		}
 		case SpgrContainer: /* See: S59FEA.HTM */
