@@ -2,15 +2,29 @@
 
 	* src/commands.c (cmd_insert_cols) : Be kinder to translators.
 	(cmd_insert_rows) : Ditto.
+	(cmd_rename_sheet_{undo,redo,destroy}) : Implement.
 	(cmd_rename_sheet) : Implement.
 	(cmd_set_date_time_{undo,redo,destroy}) : Implement.
 	(cmd_set_date_time) : Implement.
+	(cmd_resize_row_col_{undo,redo,destroy}) : Implement.
+	(cmd_resize_row_col) : Implement.
 
-	* src/workbook.c (sheet_label_text_changed_signal) : Use
-	  cmd_rename_sheet.
-	(insert_at_cursor) : Delete.
+	* src/workbook.c (insert_at_cursor) : Delete.
 	(insert_current_time_cmd) : Use cmd_set_date_time.
-	(insert_current_date_cmd) : Use cmd_set_date_time.
+	(insert_current_date_cmd) : Ditto.
+	(sheet_label_text_changed_signal) : Use cmd_rename_sheet.
+	(sheet_action_rename_sheet) : Ditto.
+
+	* src/corba-workbook.c (Workbook_sheet_rename) : Use cmd_rename_sheet.
+	* src/workbook-cmd-format.c (workbook_cmd_format_sheet_change_name) : Ditto.
+	(workbook_format_toolbar_orient) : New function to hide font selector
+	  when vertical.
+	(workbook_create_format_toolbar) : Connect to workbook_format_toolbar_orient.
+
+	* src/workbook-view.c (workbook_view_set_undo_redo_state) : Enable
+	  Bonobo version.
+	(change_menu_label) : Ditto.
+	(workbook_view_set_paste_special_state) : Ditto.
 
 2000-01-08  Jody Goldberg <jgoldberg@home.com>
 

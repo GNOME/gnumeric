@@ -339,6 +339,26 @@ disable_focus (GtkWidget *base, void *closure)
 	GTK_WIDGET_UNSET_FLAGS (base, GTK_CAN_FOCUS);
 }
 
+/*
+ * Some toolbar items are too damn wide to put into the toolbar
+ * if it is vertical.
+ */
+static void
+workbook_format_toolbar_orient (GtkToolbar *toolbar,
+				GtkOrientation dir,
+				gpointer closure)
+{
+	Workbook *wb = closure;
+
+	if (dir == GTK_ORIENTATION_HORIZONTAL) {
+		gtk_widget_show (wb->priv->option_menu);
+		gtk_widget_show (wb->priv->size_widget);
+	} else {
+		gtk_widget_hide (wb->priv->option_menu);
+		gtk_widget_hide (wb->priv->size_widget);
+	}
+}
+
 GtkWidget *
 workbook_create_format_toolbar (Workbook *wb)
 {
@@ -386,6 +406,10 @@ workbook_create_format_toolbar (Workbook *wb)
 	gtk_toolbar_insert_widget (
 		GTK_TOOLBAR (toolbar), wb->priv->option_menu,
 		_("Font selector"), NULL, 0);
+
+	gtk_signal_connect (
+		GTK_OBJECT(toolbar), "orientation-changed",
+		GTK_SIGNAL_FUNC (&workbook_format_toolbar_orient), wb);
 
 	/*
 	 * Create the font size control

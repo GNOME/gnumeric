@@ -348,8 +348,10 @@ static void
 cmd_set_text_destroy (GtkObject *cmd)
 {
 	CmdSetText *me = CMD_SET_TEXT(cmd);
-	if (me->text != NULL)
+	if (me->text != NULL) {
 		g_free (me->text);
+		me->text = NULL;
+	}
 	gnumeric_command_destroy (cmd);
 }
 
@@ -391,7 +393,8 @@ cmd_set_text (CommandContext *context,
 	    g_strdup_printf (_("Typing \"%s%s\" in %s"), text, pad,
 			     cell_name(pos->col, pos->row));
 
-	if (*pad) g_free (text);
+	if (*pad)
+		g_free (text);
 
 	/* Register the command object */
 	return command_push_undo (sheet->workbook, obj, FALSE);
@@ -1024,8 +1027,10 @@ cmd_set_date_time_destroy (GtkObject *cmd)
 {
 	CmdSetDateTime *me = CMD_SET_DATE_TIME(cmd);
 
-	if (me->contents)
+	if (me->contents) {
 		g_free (me->contents);
+		me->contents = NULL;
+	}
 	gnumeric_command_destroy (cmd);
 }
 
@@ -1063,9 +1068,102 @@ cmd_set_date_time (CommandContext *context, gboolean is_date,
 
 /******************************************************************/
 
+#define CMD_RESIZE_ROW_COL_TYPE        (cmd_resize_row_col_get_type ())
+#define CMD_RESIZE_ROW_COL(o)          (GTK_CHECK_CAST ((o), CMD_RESIZE_ROW_COL_TYPE, CmdResizeRowCol))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	Sheet		*sheet;
+	gboolean	 is_col;
+	int		 index;
+	double		*sizes;
+} CmdResizeRowCol;
+
+GNUMERIC_MAKE_COMMAND (CmdResizeRowCol, cmd_resize_row_col);
+
+static gboolean
+cmd_resize_row_col_undo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdResizeRowCol *me = CMD_RESIZE_ROW_COL(cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->sizes != NULL, TRUE);
+
+	/* restore row/col sizes */
+	sheet_restore_row_col_sizes (me->sheet, me->is_col, me->index, 1,
+				     me->sizes);
+	me->sizes = NULL;
+
+	return FALSE;
+}
+
+static gboolean
+cmd_resize_row_col_redo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdResizeRowCol *me = CMD_RESIZE_ROW_COL(cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->sizes == NULL, TRUE);
+
+	me->sizes = sheet_save_row_col_sizes (me->sheet, me->is_col,
+					      me->index, 1);
+	return FALSE;
+}
+static void
+cmd_resize_row_col_destroy (GtkObject *cmd)
+{
+	CmdResizeRowCol *me = CMD_RESIZE_ROW_COL(cmd);
+
+	if (me->sizes) {
+		g_free (me->sizes);
+		me->sizes = NULL;
+	}
+	gnumeric_command_destroy (cmd);
+}
+
+gboolean
+cmd_resize_row_col (CommandContext *context, gboolean is_col,
+		   Sheet *sheet, int index)
+{
+	GtkObject *obj;
+	CmdResizeRowCol *me;
+	gboolean trouble;
+
+	g_return_val_if_fail (sheet != NULL, TRUE);
+
+	obj = gtk_type_new (CMD_RESIZE_ROW_COL_TYPE);
+	me = CMD_RESIZE_ROW_COL (obj);
+
+	/* Store the specs for the object */
+	me->sheet = sheet;
+	me->is_col = is_col;
+	me->index = index;
+	me->sizes = NULL;
+
+	me->parent.cmd_descriptor = is_col
+	    ? g_strdup_printf (_("Setting width of column %s"), col_name(index))
+	    : g_strdup_printf (_("Setting height of row %d"), index+1);
+
+	trouble = cmd_resize_row_col_redo (GNUMERIC_COMMAND(me), context);
+
+	/* TODO :
+	 * - Patch into manual and auto resizing 
+	 * - store the selected sized,
+	 *
+	 * There is something odd about the way row/col resize is handled currently.
+	 * The item-bar sends a signal to all the sheet-views each of which sets
+	 * the size for the sheet.
+	 */
+
+	/* Register the command object */
+	return command_push_undo (sheet->workbook, obj, trouble);
+}
+
+/******************************************************************/
 /* TODO : Make a list of commands that should have undo support that dont
  *        even have stubs
  * - Autofill
  * - Array formula creation.
- * - Row/Col size changes
  */

@@ -35,13 +35,7 @@ Gnumeric Spread Sheet task list
    * The mouse can select a range as the current argument while editing a
      formula without changing to a different cell.
 
-   * We do not support selecting a range on a different sheet.
-
-* Expressions
-
-    * Implicit iteration.  For an array expression that returns scalar results
-      which takes a range as a scalar argument, apply the expression to each element
-      of the input range.
+   * Support selecting a range on a different sheet.
 
 * Implement Even More Functions
 
@@ -204,10 +198,13 @@ Gnumeric Spread Sheet task list
 
 ** Notebook:
 
-   Clicking on it chooses it
-   Double clicking changes the name
+   Clicking on it chooses it		(DONE)
+   Double clicking changes the name	(DONE)
    Right clicking gets:
-     insert
+     insert				(DONE)
+     delete				(DONE)
+     rename				(DONE)
+     reorder/copy
 
  - Decrease flicker when paging between sheets.
  - Enable capability to select multiple sheets.
@@ -247,19 +244,65 @@ Office 2000 and 'explorer' compatibility.
 
 * Rendering
 
+  * Update the contents of the edit box at the top of the sheet
+    when the contents of the current cell are changed (ie expr is invalidated)
+
   * Sort out the cell span stuff
     * Have a 'merged cell' structure that can be overridden
     * have a 'user-set' feature for 'merge cells'
 
 * Calculation
   * Rework 'Name' dependencies so we can re-express names.
-  * Dependancies for - CELL functions.
+
+  * Dependancies for - CELL, INDIRECT functions.
 		     - Sheet objects
+
   * Teach dependencies about implicit intersections
     ( big speedup (assesed2.xls))
 
+  * Rethink 'generation' mechanism.  It currently forces all cells to
+    be recalculated when the value of any of them change.
+    ie
+	a1 : sum (b2:c3)
+	changing b2 bumps the generation of the workbook.
+	All 4 cells b2,b3,c2,c3 get recalculated even though
+	only b2 needed it.
+
+	Functions taking ranges as arguments are forced to do their own
+	recalc checking for elements of the range.  They cheat and use
+	the generation to test for recalc.  This is wrong!  It should be sufficent
+	to only manually recalc a cell that has its recalc flag set.  However,
+	in order to support that we need mark all cells that directly or indirectly
+	depend on a cell as requiring recalc when a cell changes.
+
+    * Implicit iteration.  For an array expression that returns scalar results
+      which takes a range as a scalar argument, apply the expression to each element
+      of the input range.
+
 * Drawing
   * Rework borders to agregate the lines and draw them after backgrounds
+
+* Undo 
+  * Commands to do
+      - paste_cut
+      - paste_copy
+      - clear
+      - format
+      - autofill
+      - insert array.
+  * Commands to link in
+      - Row/Col resize.  The current linkage between itembar and sheet is odd.
+        we seem to set the column size for the sheet several times.
+  * Commands to fix
+      - SetText.  The current scheme of popping the settext command produced
+        before entering a non-singleton region is a kludge around to problem
+	of why the top left cells value is changed in the first place.
+
+  * Test Bonobo version.
+
+* Make checks for inserting rows/cols more intelligent in the face of multiple
+  selections.  Currently it just checks the first selected range for
+  infiniteness we need to check all selected ranges.
 
 * Excel Import
   * Localise sheet/workbook Name import,
