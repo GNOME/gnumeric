@@ -1,3 +1,8 @@
+2001-11-29  Abel Cheung  <maddog@linux.org.hk>
+
+	* configure.in: Re-added zh_TW into ALL_LINGUAS, verified
+	  gnumeric with CJK fonts now.
+
 2001-11-27  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-grid.c (item_grid_draw) : minor tweaks.
