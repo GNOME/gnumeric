@@ -679,7 +679,7 @@ cmd_set_text (WorkbookControl *wbc,
 
 	if (text != corrected_text)
 		g_free (text);
-	else if (c != '\0')
+	if (c != '\0')
 		*tmp = c;
 
 	/* Register the command object */

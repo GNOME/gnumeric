@@ -1,3 +1,7 @@
+2002-02-10  Jody Goldberg <jody@gnome.org>
+
+	* src/commands.c (cmd_set_text) : doh!
+
 2002-02-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/analysis-tools.c (anova_single_factor_tool) : be more
