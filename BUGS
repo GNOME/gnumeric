@@ -24,7 +24,8 @@ Long term breakage
 - Fix "-geometry" handling:
   * When an anchor is specified (e.g., "+0+0"), the window manager should
     not be asked to place the window.  (Under twx, for example, the user
-    typically clicks to place the window.)
+    typically clicks to place the window.) This already works correctly
+    under many window managers.
 
 - "-display foo:0.0" needs to be handled, somehow.
 
@@ -184,8 +185,7 @@ Plugins
 - mps
     : has some fixed-length arrays that can be overrun.
 - latex
-    : multiline rows not handled properly.
-    : nor are spans
+    : borders of multiline rows or spans are not handled properly.
 - html export
     : multiline rows not handled properly.
     : nor are spans

@@ -3,7 +3,7 @@ Welcome to the Gnumeric HTML Plugin README.
 The HTML plugin supports export to HTML, LaTeX and roff formats. The 
 export PS/PDF/EPS functions have been deprecated.
 
-The plugin is published under the GNU GPL..
+The plugin is published under the GNU GPL.
 
 Note: None of these export functions supports graphics output!
 
@@ -45,14 +45,22 @@ Features of the export/import HTML functions:
 Features of the export LaTeX functions:
 --------------------------------------
 
-	- only the topmost sheet is exported.
-	- file can be run alone or embedded in another.
-	- uses the longtable package for multi-page tables.
-	- table can be set in portrait (default) or landscape mode.
-	- horizontal merges work.
-	- text colour works.
+	- only the topmost sheet is exported
+	- table can be set in portrait (default) or landscape mode
 	- left and right alignment
-	- bold, italic and sansserif (only in LaTeX2e)
+
+In LaTeX2e the following additional features are provided:
+---------------------------------------------------------
+
+	- file can be run alone or embedded in another
+	- uses the longtable package for multi-page tables
+	- merges
+	- text colour
+	- bold, italic and sansserif
+	- borders (except for merges, intersection of borders not ideal)
+	- math mode for math formats
+
+
 
 **********************************************************************
 

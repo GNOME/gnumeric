@@ -22,6 +22,9 @@ Andreas:
 	* Implement text wrap in LaTeX exporter (# 20898)
 	* Implement math mode in LaTeX exporter (# 63395)
 	* Use gnumeric column widths in LaTeX exporter
+	* Implement multirow merges in LaTeX exporter
+	* Remove default grid in LaTeX exporter
+	* Implement cell borders in LaTeX exporter
 
 Jody:
 	* Tricky corner cases for style applications.

@@ -1,3 +1,12 @@
+2001-12-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+	* latex.c : remove default grid
+	(latex2e_write_multicolumn_cell) : Handle merges over
+	  more than one row and handle vertical borders.
+	(latex2e_file_save) : handle horizontal borders.
+	(latex2e_print_vert_border) : new utility
+	(latex2e_find_hhlines) : new utility
+	(latex2e_print_hhline) : new utility
+	
 2001-12-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* latex.c (latex2e_write_multicolumn_cell) wrap text 

@@ -58,6 +58,8 @@
 #include <font.h>
 #include <cell.h>
 #include <formats.h>
+#include <style-border.h>
+#include <parse-util.h>
 
 #include <errno.h>
 
@@ -297,6 +299,8 @@ latex2e_write_file_header(FILE *fp)
         \\usepackage{array}
 	\\usepackage{longtable}
         \\usepackage{calc}
+        \\usepackage{multirow}
+        \\usepackage{hhline}
 
 	\\begin{document}
 
@@ -335,6 +339,9 @@ latex2e_write_file_header(FILE *fp)
 \\providecommand\\gnumbox{\\makebox[0pt]}
 %%\\providecommand\\gnumbox[1][]{\\makebox}
 
+%% to adjust positions in multirow situations                       %%
+\\setlength{\\bigstrutjot}{\\jot}
+
 %%  The \\setlongtables command keeps column widths the same across %%
 %%  pages. Simply comment out next line for varying column widths.  %%
 \\setlongtables
@@ -349,7 +356,7 @@ latex2e_write_file_header(FILE *fp)
  * @fp : a file pointer where the cell contents will be written.
  * @num_cols: The number of columns in the table
  *
- * A convinience function that also helps make nicer code.
+ * A convenience function that also helps make nicer code.
  */
 static void
 latex2e_write_table_header(FILE *fp, int num_cols)
@@ -361,42 +368,75 @@ latex2e_write_table_header(FILE *fp, int num_cols)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%  The longtable options. (Caption, headers... see Goosens, p.124) %%
 %\t\\caption{The Table Caption.}             \\\\	%
- \\hline	% Across the top of the table.
+% \\hline	% Across the top of the table.
 %%  The rest of these options are table rows which are placed on    %%
 %%  the first, last or every page. Use \\multicolumn if you want.    %%
 
 %%  Header for the first page.                                      %%
 ",fp);
 
-	fprintf (fp, "%%\t\\multicolumn{%d}{|c|}{The First Header} \\\\ \\hline \n", num_cols);
-	fprintf (fp, "%%\t\\multicolumn{1}{|c|}{colTag}\t%%Column 1\n");
+	fprintf (fp, "%%\t\\multicolumn{%d}{c}{The First Header} \\\\ \\hline \n", num_cols);
+	fprintf (fp, "%%\t\\multicolumn{1}{c}{colTag}\t%%Column 1\n");
 	for (col = 1 ; col < num_cols; col++)
-		fprintf (fp, "%%\t&\\multicolumn{1}{|c|}{colTag}\t%%Column %d\n",col);
-	fprintf (fp, "%%\t&\\multicolumn{1}{|c|}{colTag}\t\\\\ \\hline %%Last column\n");
+		fprintf (fp, "%%\t&\\multicolumn{1}{c}{colTag}\t%%Column %d\n",col);
+	fprintf (fp, "%%\t&\\multicolumn{1}{c}{colTag}\t\\\\ \\hline %%Last column\n");
 	fprintf (fp, "%%\t\\endfirsthead\n\n");
 
 	fprintf (fp, "%%%%  The running header definition.                                  %%%%\n");
 	fprintf (fp, "%%\t\\hline\n");
-	fprintf (fp, "%%\t\\multicolumn{%d}{|l|}{\\ldots\\small\\slshape continued} \\\\ \\hline\n", num_cols);
-	fprintf (fp, "%%\t\\multicolumn{1}{|c|}{colTag}\t%%Column 1\n");
+	fprintf (fp, "%%\t\\multicolumn{%d}{l}{\\ldots\\small\\slshape continued} \\\\ \\hline\n", num_cols);
+	fprintf (fp, "%%\t\\multicolumn{1}{c}{colTag}\t%%Column 1\n");
 	for (col = 1 ; col < num_cols; col++)
-				fprintf (fp, "%%\t&\\multicolumn{1}{|c|}{colTag}\t%%Column %d\n",col);
-	fprintf (fp, "%%\t&\\multicolumn{1}{|c|}{colTag}\t\\\\ \\hline %%Last column\n");
+				fprintf (fp, "%%\t&\\multicolumn{1}{c}{colTag}\t%%Column %d\n",col);
+	fprintf (fp, "%%\t&\\multicolumn{1}{c}{colTag}\t\\\\ \\hline %%Last column\n");
 	fprintf (fp, "%%\t\\endhead\n\n");
 
 	fprintf (fp, "%%%%  The running footer definition.                                  %%%%\n");
 	fprintf (fp, "%%\t\\hline\n");
-	fprintf (fp, "%%\t\\multicolumn{%d}{|r|}{\\small\\slshape continued\\ldots}", num_cols);
-	fprintf (fp, " \\\\\t\\hline \n");
+	fprintf (fp, "%%\t\\multicolumn{%d}{r}{\\small\\slshape continued\\ldots}", num_cols);
+	fprintf (fp, " \\\\\n");
 	fprintf (fp, "%%\t\\endfoot\n\n");
 
 	fprintf (fp, "%%%%  The ending footer definition.                                   %%%%\n");
-	fprintf (fp, "%%\t\\multicolumn{%d}{|c|}{That's all folks} \\\\ \\hline \n", num_cols);
+	fprintf (fp, "%%\t\\multicolumn{%d}{c}{That's all folks} \\\\ \\hline \n", num_cols);
 	fprintf (fp, "%%\t\\endlastfoot\n");
 	fputs ("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n\n",fp);
 
 }
 
+/**
+ * latex2e_print_vert_border:  
+ *
+ * @fp : a file pointer where the cell contents will be written.
+ * @clines: StyleBorderType indicating the type of border        
+ *
+ * Determine the border style
+ * 
+ */
+
+/* the index into the following array is StyleBorderType */
+static const char *vline_styles[] = {
+	"",
+	"|",
+	"|",
+	"|",
+	"|",
+	"||",
+	"||",
+	"|",
+	"|",
+	"|",
+	"|",
+	"|",
+	"|",
+	""
+};
+
+static void
+latex2e_print_vert_border (FILE *fp, StyleBorderType style)
+{
+	fprintf (fp, vline_styles[style]);	
+}
 
 /**
  * latex2e_write_multicolumn_cell:
@@ -404,6 +444,8 @@ latex2e_write_table_header(FILE *fp, int num_cols)
  * @fp : a file pointer where the cell contents will be written.
  * @cell : the cell whose contents are to be written.
  * @num_merged_cols : an integer value of the number of columns to merge.
+ * @num_merged_rows : an integer value of the number of rows to merge.
+ * @sheet : the current sheet.
  *
  * This function creates all the LaTeX code for the cell of a table (i.e. all
  * the code that might fall between two ampersands (&)). 
@@ -413,7 +455,8 @@ latex2e_write_table_header(FILE *fp, int num_cols)
  */
 static void
 latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged_cols, 
-				gboolean first_col, Sheet *sheet)
+				const int num_merged_rows,  gboolean first_column,
+				Sheet *sheet)
 {
 	char * rendered_string;
 	StyleColor *textColor;
@@ -422,38 +465,98 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 	char *cell_format_str;
 	FormatCharacteristics cell_format_characteristic;
 	FormatFamily cell_format_family;
+	int merge_width = 0;
+	StyleBorderType left_border = STYLE_BORDER_NONE;
+	StyleBorderType right_border = STYLE_BORDER_NONE;
+	StyleBorder	   *border;
 
 	/* Print the cell according to its style. */
 	MStyle *mstyle = cell_get_mstyle (cell);
 
 	g_return_if_fail (mstyle != NULL);
 
-	/* We only set up a multicolumn command if necessary */
-	if (num_merged_cols > 1) {
+	if (num_merged_cols > 1 || num_merged_rows > 1) {
 		ColRowInfo const * ci;
-		int merge_width = 0;
 		int i;
 
 		for (i = 0; i < num_merged_cols; i++) {
 			ci = sheet_col_get (sheet, cell->col_info->pos + i);
-			merge_width += ci->size_pixels;
+/* FIXME: How should we handle the cse that we don't get a valid ci? */
+			if (ci != NULL)
+				merge_width += ci->size_pixels;
 		}
-		
-		ci = cell->col_info;
+	}
+	
+	if (first_column) {
+		border = mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT);
+		left_border = style_border_is_blank (border) ? STYLE_BORDER_NONE :
+			border->line_type;
+	}
+	border = mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT);
+	right_border = style_border_is_blank (border) ? STYLE_BORDER_NONE :
+		border->line_type;
+	if (right_border == STYLE_BORDER_NONE) {
+		/* we need to look at the right neighbor */
+		MStyle *mstyle_next;
+		Cell *cell_next;
+
+		cell_next = sheet_cell_get (sheet, cell->pos.col + 1, cell->pos.row);
+		if (cell_next != NULL) {
+			mstyle_next = cell_get_mstyle (cell_next);
+			g_return_if_fail (mstyle_next != NULL);
+			border = mstyle_get_border (mstyle_next, MSTYLE_BORDER_LEFT);
+			right_border = style_border_is_blank (border) ? STYLE_BORDER_NONE :
+				border->line_type;
+		}
+	}
+
+	/* We only set up a multicolumn command if necessary */
+	if (num_merged_cols > 1) {
 		
 		/* Open the multicolumn statement. */
 		fprintf (fp, "\\multicolumn{%d}{", num_merged_cols);
+
+		if (left_border != STYLE_BORDER_NONE)
+			latex2e_print_vert_border (fp, left_border);
 		
-		if (first_col)
-			fprintf (fp, "|");
-/* FIXME: merge_width is a touch too small since it doesn't include the space betweeen the cols */
 		/* Drop in the left hand format delimiter. */
 		fprintf (fp, "p{%ipt+\\tabcolsep*%i}", 
 			 merge_width * 10 / 12, 2 * (num_merged_cols - 1));
 		
+		if (right_border != STYLE_BORDER_NONE)
+			latex2e_print_vert_border (fp, right_border);
+
 		/*Close the right delimiter, as above. Also open the text delimiter.*/
-		fprintf (fp,"|}%%\n\t{");
+		fprintf (fp,"}%%\n\t{");
+	} else if (left_border != STYLE_BORDER_NONE || right_border != STYLE_BORDER_NONE) {
+
+		/* Open the multicolumn statement. */
+		fprintf (fp, "\\multicolumn{1}{");
+
+		if (left_border != STYLE_BORDER_NONE)
+			latex2e_print_vert_border (fp, left_border);
+		
+		/* Drop in the left hand format delimiter. */
+		fprintf (fp, "p{\\gnumericCol%s}", col_name(cell->pos.col));
+		
+		if (right_border != STYLE_BORDER_NONE)
+			latex2e_print_vert_border (fp, right_border);
+
+		/*Close the right delimiter, as above. Also open the text delimiter.*/
+		fprintf (fp,"}%%\n\t{");
+		
 	}
+		
+	
+
+	if (num_merged_rows > 1) {
+		/* Open the multirow statement. */
+/* FIXME: this multirow width should not be hardcoded*/
+		fprintf (fp, "\\multirow{%d}[%i]{%ipt}{", 
+			 num_merged_rows, num_merged_rows/2, merge_width * 10 / 12
+			 + 10 * (num_merged_cols - 1));
+	}
+	
 
 	/* Send the alignment of the cell through a routine to deal with
 	 * HALIGN_GENERAL and then deal with the three cases. */
@@ -557,8 +660,13 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 	if (!wrap)
 		fprintf (fp, "}");
 
+	/* Close the multirowtext bracket. */
+	if (num_merged_rows > 1)
+		fprintf(fp, "}");
+
 	/* Close the multicolumn text bracket. */
-	if (num_merged_cols > 1)	
+	if (num_merged_cols > 1 || left_border != STYLE_BORDER_NONE 
+	    || right_border != STYLE_BORDER_NONE)	
 		fprintf(fp, "}");
 
 	/* And we are done. */
@@ -566,6 +674,88 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 
 }
 
+/**
+ * latex2e_find_hhlines :  
+ *
+ * @clines:  array of StyleBorderType* indicating the type of border
+ * @length:  (remaining) positions in clines        
+ * @col :    
+ * @row :
+ * @sheet :    
+ *
+ * Determine the border style
+ * 
+ */
+
+static gboolean
+latex2e_find_hhlines (StyleBorderType *clines, int length, int col, int row,
+		      Sheet *sheet, MStyleElementType type)
+{
+	MStyle *mstyle;
+	StyleBorder	   *border;
+	Cell *cell;
+ 	Range const *merge_range;
+
+	/* Get the cell. */
+	cell = sheet_cell_get (sheet, col, row);
+	if (cell == NULL)
+		return FALSE;
+	mstyle = cell_get_mstyle (cell);
+	border = mstyle_get_border (mstyle, type);
+	if (style_border_is_blank (border))
+		return FALSE;
+	clines[0] = border->line_type;
+	merge_range = sheet_merge_is_corner (sheet, &cell->pos);
+	if (merge_range != NULL) {
+		int i;
+
+		for (i = 1; i < MAX (merge_range->end.col - merge_range->start.col + 1, 
+				    length); i++)
+			     clines[i] = border->line_type;
+	}
+	return TRUE;
+}
+
+
+/**
+ * latex2e_print_hhline :  
+ *
+ * @fp : a file pointer where the cell contents will be written.
+ * @clines: an array of StyleBorderType* indicating the type of border        
+ * @n : the number of elements in clines    
+ *
+ * This procedure prints an hhline command according to the content 
+ * of clines.
+ * 
+ */
+
+/* the index into the following array is StyleBorderType */
+static const char *hhline_styles[] = {
+	"~",
+	"-",
+	"-",
+	"-",
+	"-",
+	"=",
+	"=",
+	"-",
+	"-",
+	"-",
+	"-",
+	"-",
+	"-",
+	"~"
+};
+
+static void
+latex2e_print_hhline (FILE *fp, StyleBorderType *clines, int n)
+{
+	int col;
+	fprintf (fp, "\\hhline{");
+	for (col = 0; col < n; col++)
+		fprintf (fp, hhline_styles[clines[col]]);
+	fprintf (fp, "}\n");
+}
 
 /**
  * latex2e_file_save :  The LaTeX2e exporter plugin function.
@@ -588,10 +778,12 @@ latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context,
 	Sheet *current_sheet;
 	Range total_range;
  	Range const *merge_range;
-	int row, col, num_cols;
+	int row, col, num_cols, length;
 	int num_merged_cols, num_merged_rows;
 	Workbook *wb = wb_view_workbook (wb_view);
 	ErrorInfo *open_error;
+	StyleBorderType *clines, *this_clines;
+	gboolean needs_hline;
 
 
 	/* Sanity check */
@@ -615,22 +807,67 @@ latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context,
 
 	num_cols = total_range.end.col - total_range.start.col + 1;
 
-	/* Start outputting the table. */
-	fprintf (fp, "\\begin{longtable}[c]{|");
+	fputs ("
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                                  %%
+%% The following are the widths of the various columns. We are      %%
+%% defining them here because then they are easier to change.       %%
+%% Depending on the cell formats we may use them more than once.    %%
+%%                                                                  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+", fp);
+	
 	for (col = total_range.start.col; col <=  total_range.end.col; col++) {
 		ColRowInfo const * ci;
 		ci = sheet_col_get_info (current_sheet, col);
-		/* The alignment is over-ridden later. */
-		fprintf (fp, "p{%ipt}|", ci->size_pixels * 10 / 12);
+		fprintf (fp, "\\def\\gnumericCol%s{%ipt}\n", col_name (col), 
+			 ci->size_pixels * 10 / 12);
 	}
-	fprintf (fp, "}\n\n");
+
+	/* Start outputting the table. */
+	fprintf (fp, "\n\\begin{longtable}[c]{%%\n");
+	for (col = total_range.start.col; col <=  total_range.end.col; col++) {
+		fprintf (fp, "\tp{\\gnumericCol%s}%%\n", col_name (col));
+	}
+	fprintf (fp, "\t}\n\n");
 
 	/* Output the table header. */
-	latex2e_write_table_header(fp,num_cols);
+	latex2e_write_table_header (fp, num_cols);
 
 
 	/* Step through the sheet, writing cells as appropriate. */
 	for (row = total_range.start.row; row <= total_range.end.row; row++) {
+
+		/* We need to check for horizontal borders at the top of this row */
+		length = num_cols;
+		clines = g_new0 (StyleBorderType, length);
+		needs_hline = FALSE;
+		this_clines = clines;
+		for (col = total_range.start.col; col <= total_range.end.col; col++) {
+			needs_hline = latex2e_find_hhlines (this_clines, length,  col, row,
+							    current_sheet, MSTYLE_BORDER_TOP) 
+				|| needs_hline;
+			this_clines ++;
+			length--;
+		}
+		/* or at the bottom of the previous */
+		if (row > total_range.start.row) {
+			length = num_cols;
+			this_clines = clines;
+			for (col = total_range.start.col; col <= total_range.end.col; col++) {
+				needs_hline = latex2e_find_hhlines (this_clines, length,  col, 
+								    row - 1, current_sheet, 
+								    MSTYLE_BORDER_BOTTOM) 
+					|| needs_hline;
+				this_clines ++;
+				length--;
+			}
+		}
+		if (needs_hline) 
+			latex2e_print_hhline (fp, clines, num_cols);
+		g_free (clines);
+
 		for (col = total_range.start.col; col <= total_range.end.col; col++) {
 
 			/* Get the cell. */
@@ -642,8 +879,9 @@ latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context,
 			else
 				fprintf (fp, "\t ");
 
-			/* A blank cell gets a newline. */
-			if (cell_is_blank(cell)) {
+/* FIXME: We may still have to worry about formatting borders or so */
+			/* A non-existing cell gets a newline. */
+			if (cell == NULL) {
 				fprintf (fp, "\n");
 				continue;
 			}
@@ -651,7 +889,7 @@ latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context,
 			/* Check a merge. */
 			merge_range = sheet_merge_is_corner (current_sheet, &cell->pos);
 			if (merge_range == NULL) {
-				latex2e_write_multicolumn_cell(fp, cell, 1, 
+				latex2e_write_multicolumn_cell(fp, cell, 1, 1,
 							       col == total_range.start.col,
 							       current_sheet);
 				continue;
@@ -661,32 +899,31 @@ latex2e_file_save (GnumFileSaver const *fs, IOContext *io_context,
 			num_merged_cols = merge_range->end.col - merge_range->start.col + 1;
 			num_merged_rows = merge_range->end.row - merge_range->start.row + 1;
 
-			/* Check for a 2-D merge (longtable can't handle).*/
-			if ( (num_merged_cols > 1) && (num_merged_rows > 1) ){
-				fprintf(fp,"\n\\typeout{ERROR: LaTeX's longtable can not handle 2-D merged regions!}\n");
-				fclose(fp);
-				/*FIXME: add an error message.*/
-				return;
-			}
-
-			/* Check for a single row, we can handle with \multicolumn. */
-			if (num_merged_cols > 1) {
-				latex2e_write_multicolumn_cell(fp, cell, num_merged_cols,
-							       col == total_range.start.col,
-							       current_sheet);
-				/* increment the columns by num_of_columns of merge region. */
-				col += (num_merged_cols - 1);
-				continue;
-			}
-
-			/* Else it's a single column which we can't handle. */
-			fprintf(fp,"\n\\tyepout{ERROR: We can not yet handle merged columns!}\n");
-			fclose(fp);
-			/*FIXME: add an error message.*/
-			return;
+			latex2e_write_multicolumn_cell(fp, cell, num_merged_cols,
+						       num_merged_rows,
+						       col == total_range.start.col,
+						       current_sheet);
+			col += (num_merged_cols - 1);
 		}
-		fprintf (fp, "\\\\ \\hline\n");
+		fprintf (fp, "\\\\\n");
 	}
+
+	/* We need to check for horizontal borders at the bottom  of  the last  row */
+	clines = g_new0 (StyleBorderType, total_range.end.row - total_range.start.row + 1);
+	needs_hline = FALSE;
+	length = num_cols;
+	this_clines = clines;
+	for (col = total_range.start.col; col <= total_range.end.col; col++) {
+		needs_hline = latex2e_find_hhlines (this_clines, length,  col, row - 1,
+						    current_sheet, MSTYLE_BORDER_BOTTOM) 
+			|| needs_hline;
+		this_clines ++;
+		length--;
+	}
+	if (needs_hline) 
+		latex2e_print_hhline (fp, clines, num_cols);
+	g_free (clines);
+
 	fprintf (fp, "\\end{longtable}\n\n");
 	fprintf (fp, "\\gnumericTableEnd\n");
 	fclose (fp);
