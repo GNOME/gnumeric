@@ -234,6 +234,28 @@ go_conf_get_value_as_str   (char const *key)
 	return value_string;
 }
 
+int
+go_conf_get_bool	(char const *key)
+{
+	GConfClient *gconf = gnm_app_get_gconf_client ();
+	return gconf_client_get_bool (gconf, key, NULL);
+}
+
+int
+go_conf_get_int	(char const *key)
+{
+	GConfClient *gconf = gnm_app_get_gconf_client ();
+	return gconf_client_get_int (gconf, key, NULL);
+}
+
+double
+go_conf_get_double (char const *key)
+{
+	GConfClient *gconf = gnm_app_get_gconf_client ();
+	return gconf_client_get_float (gconf, key, NULL);
+}
+
+
 gboolean
 go_conf_set_value_from_str (char const *key, char const *val_str)
 {
