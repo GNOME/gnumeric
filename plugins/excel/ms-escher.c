@@ -1722,7 +1722,10 @@ ms_escher_read_ClientTextbox (MSEscherState * state, MSEscherHeader * h)
 	g_return_val_if_fail (opcode == BIFF_TXO, TRUE);
 	g_return_val_if_fail (ms_biff_query_next (state->q), TRUE);
 
-	ms_read_TXO (state->q, state->wb);
+	/* FIXME : Leaking memory.  Get an object management framework into place
+	 * so that there is somewhere to put the comment text.
+	 */
+	(void)ms_read_TXO (state->q, state->wb);
 	return FALSE;
 }
 

@@ -1930,6 +1930,11 @@ ms_excel_sheet_new (ExcelWorkbook *wb, const char *name)
 	ExcelSheet *ans = (ExcelSheet *) g_malloc (sizeof (ExcelSheet));
 
 	ans->gnum_sheet = sheet_new (wb->gnum_wb, name);
+
+	/* HACK HACK HACK : default zoom to 1.4 for now.
+	 * See SCL for details.
+	 */
+	sheet_set_zoom_factor (ans->gnum_sheet, 1.4);
 	ans->wb         = wb;
 	ans->obj_queue  = NULL;
 
@@ -3284,7 +3289,13 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 				/* Zoom stored as an Egyptian fraction */
 				double const zoom = (double)MS_OLE_GET_GUINT16 (q->data) /
 					MS_OLE_GET_GUINT16 (q->data + 2);
-				sheet_set_zoom_factor (sheet->gnum_sheet, zoom);
+
+				/* FIXME : HACK HACK HACK
+				 * MS stores sizes in pts but seems to scale
+				 * the points -> pixels depending on the monitor size.
+				 * Pick a quick scale factor to avoid looking really ugly.
+				 */
+				sheet_set_zoom_factor (sheet->gnum_sheet, zoom*1.4);
 			} else
 				g_warning ("Duff BIFF_SCL record");
 			break;
@@ -3306,20 +3317,42 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 			case BIFF_CODENAME :
 				break;
 
-			case BIFF_WINDOW2: /* FIXME: see S59E18.HTM */
+			case BIFF_WINDOW2:
 			if (q->length >= 10) {
 				guint16 const options    = MS_OLE_GET_GUINT16(q->data + 0);
 				guint16 const top_row    = MS_OLE_GET_GUINT16(q->data + 2);
 				guint16 const left_col   = MS_OLE_GET_GUINT16(q->data + 4);
-				guint32 const grid_color = MS_OLE_GET_GUINT32(q->data + 6);
+
+				wb->gnum_wb->display_formulas = (options & 0x0001);
+
+				if (!(options & 0x0002))
+					printf ("Unsupported : no grid lines\n");
+				if (!(options & 0x0004))
+					printf ("Unsupported : hidden row & col headings\n");
+#if 0
+				if (!(options & 0x0008))
+					printf ("Unsupported : frozen panes\n");
+#endif
+				if (!(options & 0x0010))
+					printf ("Unsupported : we always display zeros\n");
+#if 0
+				if (!(options & 0x0020)) {
+					guint32 const grid_color = MS_OLE_GET_GUINT32(q->data + 6);
+					/* This is quicky fake code to express the idea */
+					set_grid_and_header_color (get_color_from_index(grid_color));
+#ifndef NO_DEBUG_EXCEL
+					if (ms_excel_color_debug > 2) {
+						printf ("Default grid & pattern color = 0x%hx\n",
+							grid_color);
+					}
+#endif
+				}
+#endif
+
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_read_debug > 0) {
-					if (options & 0x0001)
-						printf ("FIXME: Sheet display formulae\n");
 					if (options & 0x0200)
 						printf ("Sheet flag selected\n");
-					printf ("Default grid & pattern color = 0x%hx\n",
-						grid_color);
 				}
 #endif
 				if (options & 0x0400) {
@@ -3841,9 +3874,48 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 			break;
 
 		case BIFF_WINDOW1 : /* 0 NOT 1 */
-			break;
+			if (q->length >= 16) {
+				int const screen_width = gdk_screen_width ();
+				int const screen_height = gdk_screen_height ();
+#if 0
+				/* In 1/20ths of a point */
+				guint16 const xPos    = MS_OLE_GET_GUINT16(q->data + 0);
+				guint16 const yPos    = MS_OLE_GET_GUINT16(q->data + 2);
+#endif
+				guint16 const width   = MS_OLE_GET_GUINT16(q->data + 4);
+				guint16 const height  = MS_OLE_GET_GUINT32(q->data + 6);
+				guint16 const options = MS_OLE_GET_GUINT32(q->data + 8);
+#if 0
+				guint16 const selTab  = MS_OLE_GET_GUINT32(q->data + 10);
+				guint16 const firstTab= MS_OLE_GET_GUINT32(q->data + 12);
+				guint16 const tabsSel = MS_OLE_GET_GUINT32(q->data + 14);
 
-		case (BIFF_WINDOW2 & 0xff) :
+				/* (width of tab)/(width of horizontal scroll bar) / 1000 */
+				guint16 const ratio   = MS_OLE_GET_GUINT32(q->data + 16);
+#endif
+
+				/* FIXME : MS quotes its measurments in 'pts' but scales that
+				 * to the screen somehow.  This is a crude approximation
+				 * that assumes that it uses the resolution of the screen and
+				 * scales relative to an 800x600 screen.
+				 */
+				gtk_window_set_default_size (GTK_WINDOW (wb->gnum_wb->toplevel),
+							     MIN (screen_width - 64,
+								  (screen_width * width)/(800 * 20)),
+							     MIN (screen_height - 64,
+								  (screen_height*height)/(600 * 20)));
+
+				if (options & 0x0001)
+					printf ("Unsupported : Hidden sheet\n");
+				if (options & 0x0002)
+					printf ("Unsupported : Iconic sheet\n");
+				if (!(options & 0x0008))
+					printf ("Unsupported : Hidden horizonal scroll bar\n");
+				if (!(options & 0x0010))
+					printf ("Unsupported : Hidden horizonal scroll bar\n");
+				if (!(options & 0x0020))
+					printf ("Unsupported : Hidden notbook tabs\n");
+			}
 			break;
 
 		case BIFF_SELECTION : /* 0, NOT 10 */

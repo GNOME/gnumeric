@@ -103,6 +103,10 @@ ms_obj_realize (MSObj *obj, ExcelWorkbook *wb, ExcelSheet *sheet)
 	object_anchor_to_position (position, obj, sheet->gnum_sheet,
 				   wb->ver);
 
+	/* Handle Comments */
+	if (wb->ver >= eBiffV8 && obj->excel_type == 0x19) {
+	}
+
 	switch (obj->gnumeric_type) {
 	case SHEET_OBJECT_BUTTON :
 		sheet_object_create_button (sheet->gnum_sheet,
@@ -237,7 +241,7 @@ ms_parse_object_anchor (anchor_point anchor[4],
 /*
  * See: S59EOE.HTM
  */
-void
+char *
 ms_read_TXO (BiffQuery *q, ExcelWorkbook * wb)
 {
 	static char const * const orientations[] = {
@@ -266,9 +270,9 @@ ms_read_TXO (BiffQuery *q, ExcelWorkbook * wb)
 	guchar const * ptr;
 	int i, increment = 1;
 
-	g_return_if_fail (orient <= 3);
-	g_return_if_fail (1 <= halign && halign <= 4);
-	g_return_if_fail (1 <= valign && valign <= 4);
+	g_return_val_if_fail (orient <= 3, NULL);
+	g_return_val_if_fail (1 <= halign && halign <= 4, NULL);
+	g_return_val_if_fail (1 <= valign && valign <= 4, NULL);
 
 #if 0
 	/* TODO : figure this out.  There seem to be strings with 0 formats too.
@@ -310,6 +314,7 @@ ms_read_TXO (BiffQuery *q, ExcelWorkbook * wb)
 		printf ("}; /* TextObject */\n");
 	}
 #endif
+	return text;
 }
 
 static void
@@ -621,9 +626,13 @@ ms_read_OBJ (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet)
 		type = SHEET_OBJECT_BUTTON;
 		break;
 
+	case 0x19 : /* Comment */
+		type = -1; /* FIXME : Invalid */
+		break;
+
 	default :
-		g_warning ("EXCEL : unhandled excel object of type %s (0x%x) id = %d",
-			   type_name, obj->excel_type, obj->id);
+		printf ("EXCEL : unhandled excel object of type %s (0x%x) id = %d\n",
+			type_name, obj->excel_type, obj->id);
 		g_free(obj);
 		return NULL;
 	}

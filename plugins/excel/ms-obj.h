@@ -59,7 +59,6 @@ void     ms_excel_sheet_destroy_objs (ExcelSheet *sheet);
 MSObj   *ms_read_OBJ (BiffQuery *q,
 		      ExcelWorkbook * wb, Sheet * sheet);
 
-void     ms_read_TXO (BiffQuery *q, ExcelWorkbook * wb);
-
+char    *ms_read_TXO (BiffQuery *q, ExcelWorkbook * wb);
 
 #endif /* GNUMERIC_MS_OBJ_H */

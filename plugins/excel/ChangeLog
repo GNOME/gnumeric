@@ -1,3 +1,21 @@
+2000-01-10  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-obj.c (ms_read_TXO) : Return the string generated rather than
+	  leaking it.
+	(ms_read_OBJ) : Don't warn about comments, they are not sheet objects
+	  which breaks the whole function of this routine but they are not
+	  unexpected.  If we can figur eout how to store the string associated
+	  with the TXO nearby with this object and get that cleaned up on
+	  time and referencable by obj-ID then we can fix comment import.
+
+	* ms-excel-read.c (ms_excel_read_sheet) : Improve handling for
+	  WINDOW1 and warn about more unsupported cases.  Tweak zoom factor
+	  by 1.4 to be less ugly. (ICK !  HACK!)
+	(ms_excel_read_workbook) : WINDOW2 is a sheet level
+	  descriptor.  Add handle for WINDOW1.
+	(ms_excel_sheet_new) : ICK!  hard code a scale
+	  factor of 1.4 to get things to be less ugly.
+
 2000-01-05  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-write.c (write_colinfos): Fix off by one error.
