@@ -2143,12 +2143,12 @@ cb_validation_sensitivity (GtkMenuShell *ignored, FormatState *state)
 	}
 
 	gtk_label_set_text (state->validation.expr0.name, msg0);
-	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.expr0.name),  msg0 != '\0');
-	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.expr0.entry), msg0 != '\0');
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.expr0.name),  *msg0 != '\0');
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.expr0.entry), *msg0 != '\0');
 
 	gtk_label_set_text (state->validation.expr1.name, msg1);
-	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.expr1.name),  msg1 != '\0');
-	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.expr1.entry), msg1 != '\0');
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.expr1.name),  *msg1 != '\0');
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.expr1.entry), *msg1 != '\0');
 
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.op),
 		has_operators);

@@ -1,3 +1,8 @@
+2002-05-09  Almer S. Tigelaar  <almer@gnome.org>
+
+	* dialog-cell-format.c (cb_validation_sensitivity):
+	Actually disable/enable the validation entries.
+
 2002-04-13  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.6
@@ -164,7 +169,7 @@
 
 2002-01-09  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* histogram.glade : Redesign and add fields and buttons for 
+	* histogram.glade : Redesign and add fields and buttons for
 	  calculated bins
 	* tools.h : add histogram_calc_bin_info_t
 	* dialog-analysis-tools.c (histogram_tool_update_sensitivity_cb) :
@@ -213,9 +218,9 @@
 	* regression.glade : ditto
 	* sampling.glade : ditto
 	* variance-tests.glade : ditto
-	* src/dialogs/dialog-analysis-tools.c (parse_output) : add check 
+	* src/dialogs/dialog-analysis-tools.c (parse_output) : add check
 	  for autofit_button (default to autofit=true)
-	
+
 
 2002-01-06  Jody Goldberg <jody@gnome.org>
 
@@ -244,7 +249,7 @@
 
 2002-01-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
-        * dialog-graph-guru.c (graph_guru_get_plot) : Use explicit casts to 
+        * dialog-graph-guru.c (graph_guru_get_plot) : Use explicit casts to
           prevent non-problematic warnings when char is unsigned by default.
         * dialog-graph-guru.c (graph_guru_get_series) : ditto
         * dialog-graph-guru.c (graph_guru_get_spec) : ditto
@@ -275,7 +280,7 @@
 2001-12-15  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* autocorrect.glade : change position of help button
-	
+
 2001-12-24  Jody Goldberg <jody@gnome.org>
 
 	* Release 0.99.1
@@ -330,10 +335,10 @@
 
 2001-12-15  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* dialog-stf-main-page.c (stf_dialog_main_page_init) truncate 
+	* dialog-stf-main-page.c (stf_dialog_main_page_init) truncate
 	  preview to avoid wraps (# 66393)
 	* dialog-stf.h define maximal preview size
-	
+
 2001-12-14  Morten Welinder  <terra@diku.dk>
 
 	* dialog-cell-format.c (fmt_dialog_init_format_page): Sort
@@ -344,11 +349,11 @@
 
 2001-12-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* dialog-stf-fixed-page.c (fixed_page_autodiscover) : 
+	* dialog-stf-fixed-page.c (fixed_page_autodiscover) :
 	  first split is not the end of a column (Bug #66433)
-	* dialogs/dialog-analysis-tools.c : alphabetize 
+	* dialogs/dialog-analysis-tools.c : alphabetize
 	(dialog_ftest_tool_init) : fix typo (Bug #66880)
-	
+
 2001-12-13  Jody Goldberg <jody@gnome.org>
 
 	* dialog-cell-sort.c (dialog_cell_sort) : changes to range_has_header.
@@ -404,7 +409,7 @@
 	(anova_two_factor_tool_update_sensitivity_cb) : ditto
 	(tool_update_sensitivity_cb) : deleted
 	(tool_update_sensitivity_global_cb) : renamed tool_update_sensitivity_cb
-	(histogramr_tool_ok_clicked_cb) : add percentages checkbox 
+	(histogramr_tool_ok_clicked_cb) : add percentages checkbox
 	  (# 62164)
 	* tools.h : change arguments for anova_two_factor_without_r_tool,
 	  anova_two_factor_with_r_tool and histogram_tool
@@ -413,8 +418,8 @@
 
 	* tools.h : change argument list of ranking_tool
 	* rank.glade : add group by Areas
-	* dialog-analysis-tools.c (rank_tool_ok_clicked_cb) : use 
-	  gnumeric_expr_entry_parse_to_list rather than parse_range 
+	* dialog-analysis-tools.c (rank_tool_ok_clicked_cb) : use
+	  gnumeric_expr_entry_parse_to_list rather than parse_range
 	  (support references to other sheets)
 	(dialog_ranking_tool) : use tool_update_sensitivity_multiple_areas_cb
 
@@ -429,11 +434,11 @@
 
 	* dialog-analysis-tools.c (random_tool_update_sensitivity_cb) : Check for
 	  valid values in the netry fields
-	(random_tool_ok_clicked) : use gnumeric_expr_entry_parse_to_value rather 
-	  than parse_range (support references to other sheets), set-up checks for 
+	(random_tool_ok_clicked) : use gnumeric_expr_entry_parse_to_value rather
+	  than parse_range (support references to other sheets), set-up checks for
 	  errors in random_tool
-	(dialog_random_tool_init) : hook random_tool_update_sensitivity_cb to the 
-	  `changed' signal of the other entry fields 
+	(dialog_random_tool_init) : hook random_tool_update_sensitivity_cb to the
+	  `changed' signal of the other entry fields
 
 2001-11-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
@@ -444,7 +449,7 @@
 
 2001-11-20  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* dialog-analysis-tools.c (random_tool_ok_clicked_cb) : Don't use 
+	* dialog-analysis-tools.c (random_tool_ok_clicked_cb) : Don't use
 	  non-existing entry field.
 	  Bug: http://bugzilla.gnome.org/show_bug.cgi?id=64934
 
@@ -455,7 +460,7 @@
 	  gnumeric_expr_entry_parse_to_list. Fix code formatting.
 	(ttest_tool_ok_clicked_cb) : validate known variance entries
 	(ttest_update_sensitivity_cb) : new callback, validate mean_diff and alpha
-	
+
 2001-11-18  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-cell-format.c (cb_fmt_dialog_dialog_apply) : rebuild
@@ -493,7 +498,7 @@
 
 	* dialog-analysis-tools.c (tool_update_sensitivity_multiple_areas_cb)
 	  allow seconf input field
-	(histogram_tool_ok_clicked_cb) : allow labels and grouping for seceral 
+	(histogram_tool_ok_clicked_cb) : allow labels and grouping for seceral
 	  variables
 	(dialog_histogram_tool_init) : ditto
 	* histogram.glade : ditto
@@ -506,7 +511,7 @@
 
 2001-11-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-analysis-tools.c (exp_smoothing_*) : enable group-by and labels 
+	* dialog-analysis-tools.c (exp_smoothing_*) : enable group-by and labels
 	  as well as large selections, handle all tool returns
 	(average_tool_*) : enable group-by and labels as well as large selections
 	* moving-averages.glade : enable group-by and labels
@@ -539,7 +544,7 @@
 	(anova_single_tool_ok_clicked_cb) : ditto
 	(*_tool_ok_clicked_cb) : handle un-expected returns from the
 	  tool invocation
-	* mean-tests.glade : ask for the obvious (alpha) rather than the 
+	* mean-tests.glade : ask for the obvious (alpha) rather than the
 	  unusual (1 - alpha)
 	* variance-tests.glade : ditto
 	* anova-one.glade : ditto
@@ -549,7 +554,7 @@
 	(ttest_eq_var_tool) : ditto
 	(ttest_neq_var_tooll) : ditto
 	(ztest_tool) : ditto
-	
+
 2001-11-07  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* dialog-analysis-tools.c
@@ -571,10 +576,10 @@
 
 2001-11-2  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-solver.c (dialog_init) : Reload solver state (constraints, 
+	* dialog-solver.c (dialog_init) : Reload solver state (constraints,
 	  target cell, etc.) on invocation.
 	(get_constraint_type) : translate string type into numeric type
-	(revert_constraint_format) : translate solver engine constraint format 
+	(revert_constraint_format) : translate solver engine constraint format
 	  to dialog format
 	(cb_dialog_solve_clicked) : also store user visible strings describing
 	  the constraints
@@ -667,7 +672,7 @@
 	stylecondition instead of re-fetching it from the mstyle.
 	(fmt_dialog_init_validation_page): Correctly initialize everything
 	from the new, single mstyle_validation element.
-	
+
 2001-10-26  Wayne Schuller  <k_wayne@linuxpower.org>
 
 	* dialog-printer-setup.c: (display_hf_preview), (header_changed),
@@ -690,15 +695,15 @@
 	* dialog-analysis-tools.c (parse_output) : initialize all fields of dao
 	(dialog_tool_init) : add argument specifying the flags for the input
           expression entry widgets
-	(tool_update_sensitivity_multiple_areas_cb) : new routine, 
+	(tool_update_sensitivity_multiple_areas_cb) : new routine,
           tool_update_sensitivity_cb for multiple input ranges
 	(corr_tool_ok_clicked_cb) : use global_range_list_parse rather than parse_range,
           call tool with modified argument list
 	(cov_tool_ok_clicked_cb) : ditto
-	(desc_stats_tool_ok_clicked_cb) : ditto	
+	(desc_stats_tool_ok_clicked_cb) : ditto
 	(sampling_tool_ok_clicked_cb) : ditto, as well as support for group_by and multiple
           samples
-	* tools.h : changed arguments for correlation_tool, covariance_tool, 
+	* tools.h : changed arguments for correlation_tool, covariance_tool,
           descriptive_stat_tool, and sampling_tool
 
 2001-10-25  Morten Welinder  <terra@diku.dk>
@@ -722,7 +727,7 @@
 
 2001-10-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-analysis-tools.c : remove `strict' 
+	* dialog-analysis-tools.c : remove `strict'
 	  argument from all invocations of global_range_parse
 
 2001-10-23  Almer S. Tigelaar  <almer@gnome.org>
@@ -749,7 +754,7 @@
 	Criteria part of the dialog from an existing mstyle.
 	(fmt_dialog_init_validation_page): Connect new signal callbacks
 	and initialize the Error Alert part of the dialog.
-	
+
 2001-10-22  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-define-names.c (cb_name_guru_add) : actually display the
@@ -764,7 +769,7 @@
 2001-10-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* goalseek.glade : replace target value in goal frame with error
-	* dialog-goal-seek.c (cb_dialog_apply_clicked) : fix some leaks, check for 
+	* dialog-goal-seek.c (cb_dialog_apply_clicked) : fix some leaks, check for
 	  invalid data entry and display error rather than target value.
 
 2001-10-20  Jody Goldberg <jgoldberg@home.com>
@@ -830,7 +835,7 @@
 	* Makefile.am : Added goalseek.glade
 	* dialog-goal-seek.c (gnumeric_goal_seek) : changes in the argument list
 	(dialog_help_cb) : new callback supporting a help button
-	(dialog_destroy) : new callback to change dialog into non-modal form 
+	(dialog_destroy) : new callback to change dialog into non-modal form
 	  using expr-entry widget
 	(cb_dialog_cancel_clicked) : ditto
 	(cb_dialog_close_clicked) : ditto
@@ -887,13 +892,13 @@
 	* dialog-graph-guru.c (graph_guru_select_series) : fix leak.
 
 2001-10-14  Almer S. Tigelaar  <almer@gnome.org>
- 
+
  	* validate.glade: Burn.
- 
+
  	* dialog-validate.c: Burn.
- 
+
  	* Makefile.am: Cope for burning.
- 
+
  	* dialogs.h: Idem and add new dialog pages to
  	cell format dialog enum.
 
@@ -905,7 +910,7 @@
 
 	* cell-format.glade: Tidy and add new option to validation
 	error action selection menu.
-	
+
 	* dialog-cell-format.c (cb_validation_error_action_deactivate):
 	Cope for the addition of the added menu item.
 	(cb_validation_constraint_type_deactivate): Call
@@ -933,7 +938,7 @@
 	(range_output_toggled) : deleted
 	(output_range_selected) : deleted
 	(set_output_option_signals) : deleted
-	(dialog_tool_init_outputs) : new function, 
+	(dialog_tool_init_outputs) : new function,
 	  extracted existing code for reuse
 	(dialog_tool_init_buttons) : ditto
 	(dialog_tool_init) : parts split off into dialog_tool_init_outputs and
@@ -941,7 +946,7 @@
 	(random_tool_update_sensitivity) : new function
 	(random_tool_ok_clicked_cb) : new function
 	(dialog_random_tool_init) : new function
-	(distribution_parbox_config) : changed to port random 
+	(distribution_parbox_config) : changed to port random
 	  number generation tool to use expr-entry-widgets.
 	(combo_get_distribution) : ditto
 	(distribution_strs_find) : ditto
@@ -970,13 +975,13 @@
 	* mean-tests.glade : ditto
 	* moving-averages.glade : ditto
 	* rank.glade : ditto
-	* dialog-analysis-tools.c (tool_destroy) : enable accelerators for expr-entry 
+	* dialog-analysis-tools.c (tool_destroy) : enable accelerators for expr-entry
 	  widgets
-	(dialog_tool_init) : add forgotten gnumeric_editable_enters and 
+	(dialog_tool_init) : add forgotten gnumeric_editable_enters and
 	  enable accelerators for expr-entry widgets
 	(dialog_*_tool) : ditto
 	(dialog_*_tool_init) : ditto
-	
+
 2001-10-10  Jody Goldberg <jgoldberg@home.com>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=62109
@@ -997,7 +1002,7 @@
 	* histogram.glade : new file
 	* moving-averages.glade : new file
 	* regression.glade : new file
-	* dialog-analysis-tools.c (dialog_anova_two_factor_with_r_tool) : 
+	* dialog-analysis-tools.c (dialog_anova_two_factor_with_r_tool) :
 	  replaced by  dialog_anova_two_factor_tool, using gnumeric-expr-entry
 	  widget
 	(dialog_anova_two_factor_without_r_tool) : ditto
@@ -1013,7 +1018,7 @@
 	(new_frame) : removed
 	(add_check_buttons) : removed
 	(add_output_frame) : removed
-	(tool_update_sensitivity_cb) : some clarification 
+	(tool_update_sensitivity_cb) : some clarification
 	(regression_tool_ok_clicked_cb) : new function
 	(regression_tool_update_sensitivity_cb) : new function
 	(dialog_regression_tool_init) : new function
@@ -1033,8 +1038,8 @@
 	(anova_two_factor_tool_ok_clicked_cb) : new function
 	(anova_two_factor_tool_update_sensitivity_cb) : new function
 	(dialog_anova_two_factor_tool_init) : new function
-	(dialog_anova_two_factor_tool) : new function replacing 
-	  dialog_anova_two_factor_with_r_tool and 
+	(dialog_anova_two_factor_tool) : new function replacing
+	  dialog_anova_two_factor_with_r_tool and
 	  dialog_anova_two_factor_without_r_tool to implement them
 	  using the expr-entry widget
 
@@ -1055,7 +1060,7 @@
 
 	* cell-format.glade: Add validation and input msg tabs, largely
 	migrated from validate.glade.
-	
+
 	* dialog-cell-format.c (cb_validation_constraint_type_deactivate): New.
 	(cb_validation_operator_deactivate): New.
 	(cb_validation_error_action_deactivate): New.
@@ -1092,7 +1097,7 @@
 	(cb_graph_guru_focus) : use graph_guru_get_series.
 	(dialog_graph_guru) : init the combos to NULL in case we destroy
 	  before initializing them.
-	
+
 2001-10-06  Morten Welinder  <terra@diku.dk>
 
 	* dialog-search-replace.c (dialog_search, dialog_search_notify):
@@ -1166,7 +1171,7 @@
 	  rank.glade
 	* dialog-analysis-tools.c : rewrite dialog_correlation_tool,
 	  dialog_covariance_tool and dialog_ranking_tool to expr-entry widget,
-	  affecting a whole bunch of functions, 
+	  affecting a whole bunch of functions,
 	(tool_destroy) : new, replaces desc_stat_tool_destroy
 	(cb_tool_cancel_clicked) : new, replaces cb_desc_stat_tool_cancel_clicked
 	(tool_set_focus) : new, replaces desc_stat_tool_set_focus
@@ -1228,7 +1233,7 @@
 
 2001-09-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-analysis-tools.c (desc_stat_tool_set_focus_output_range) : 
+	* dialog-analysis-tools.c (desc_stat_tool_set_focus_output_range) :
 	  Switch output selection when output range is edited.
 	(cb_desc_stat_tool_ok_clicked) : ditto
 	(dialog_desc_stat_tool_init) : ditto
@@ -1345,7 +1350,7 @@
 
  	* function-select.glade: Put the description label inside
  	a scrollable viewport.
- 
+
  	* dialog-function-select.c (category_and_function_key_press): New,
  	handle the selection of a corresponding item when pressing a key
  	in the category or function clist.
@@ -1383,7 +1388,7 @@
 	the importlines for the scrollbar adjustment.
 
 	* dialog-stf-fixed-page.c (stf_dialog_fixed_page_prepare): Idem.
-	
+
 2001-07-07  Almer S. Tigelaar  <almer@gnome.org>
 
 	* dialog-autoformat.c (cb_get_row_height): Burn.
@@ -1413,7 +1418,7 @@
 
 	* dialog-autosave.c (prompt_on_off_toggled): Burn.
 	(dialog_autosave): Set status of prompt toggle button properly.
-	
+
 2001-06-28  Jody Goldberg <jgoldberg@home>
 
 	* Release 0.67
@@ -1496,7 +1501,7 @@
 	Set string customseparator instead of char.
 
 	* dialog-stf.h: Define X overflow limit.
-	
+
 	* dialog-stf-preview.c (stf_preview_render_row): Really
 	truncate strings if they are too long.
 
@@ -1509,7 +1514,7 @@
 2001-06-03  Almer S. Tigelaar  <almer@gnome.org>
 
 	* dialog-stf.c (stf_dialog_druid_page_next): Remove cacheoptions.
-	
+
 	* dialog-stf-preview.c (stf_preview_merge_with_hash): Remove.
 	(stf_preview_hash_item_remove): Idem.
 	(stf_preview_free_row): Idem.
@@ -1517,7 +1522,7 @@
 	(stf_preview_new): Idem.
 	(stf_preview_render): Free the list that is passed.
 	(stf_preview_render_row): Truncate strings if they are too long.
-	
+
 	* dialog-stf-csv-page.c (csv_page_global_change): Use
 	stf_parse_general.
 	(stf_dialog_csv_page_prepare): Remove cacheoptions.
@@ -1541,7 +1546,7 @@
 2001-06-02  Almer S. Tigelaar  <almer@gnome.org>
 
 	* colrow.glade: New simple dialog.
-	
+
 	* dialog-simple-input.c, dialogs.h
 	(dialog_choose_cols_vs_rows): New, let user choose
 	between columns or rows.
@@ -1549,7 +1554,7 @@
 2001-05-27  Almer S. Tigelaar  <almer@gnome.org>
 
 	* validate.glade: Make non-modal.
-	
+
 	* dialog-validate.c (setup_widgets): Use ExprEntry's instead
 	of normal entries.
 	(dialog_validate): Cope for non-modality of dialog.
@@ -1591,14 +1596,14 @@
 	  currency.  Not accounting.
 
 2001-05-15  Jon K Hellan  <hellan@acm.org>
- 
+
  	* dialog-define-names.c (dialog_define_names): Ensure only one
  	guru per workbook.
- 
+
  	* dialog-search-replace.c (dialog_search_replace): Ditto.
- 
+
  	* dialog-printer-setup.c (dialog_printer_setup): Ditto.
- 
+
 2001-05-14  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-cell-format.c (fmt_dialog_impl) : move the containment logic
@@ -1606,7 +1611,7 @@
 	(setup_color_pickers) : to here.  Adjust the aligment and add a frame.
 
 2001-05-14  Almer S. Tigelaar  <almer@gnome.org>
- 
+
  	* dialog-cell-format.c
 	(cb_custom_back_selected): Remove, We use colorcombo's now.
  	(cb_auto_color_selected): Idem.
@@ -1621,12 +1626,12 @@
  	code and update for the new situation.
  	(fmt_dialog_impl): Update for new situation in
  	case there's no back.
- 
+
 2001-05-10  Almer S. Tigelaar  <almer@gnome.org>
 
 	* dialog-advanced-filter.c : include dialogs.h
 	to supress warning.
-	
+
 	* dialog-cell-sort.c (string_pos_in_list): Cast pointer
 	from untyped to char *.
 
@@ -1736,27 +1741,27 @@
  	(do_fetch_page_info): top_entry and left_entry widgets are now
  	taken from state rather than glade_xml_get_widget.
  	(dialog_printer_setup): Eliminate recursive mainloop.
- 
+
 2001-05-04  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-workbook-attr.c (attr_dialog_impl): Back out change
 	below. Looks like <title> in glade file doesn't work for property
-	dialogs. 
+	dialogs.
 
 	* workbook-attr.glade: Don't set title here after all. It has no
-	effect. 
+	effect.
 
 2001-05-04  Almer S. Tigelaar  <almer@gnome.org>
 
 	* hf-config.glade: Set window title.
 	* search-replace.glade: Idem.
 	* workbook-attr.glade: Idem.
-	
+
 	* autoformat.glade: Correct window title.
 	* dialog-stf-export.glade: Idem.
 	* validate.glade: Idem.
 	* solver.glade: Idem and some minor polishing.
-	
+
 	* dialog-workbook-attr.c: Don't set the window title
 	with gtk_window_set_title, it's in the glade file anyway.
 
@@ -1800,7 +1805,7 @@
 
 	* dialog-define-names.c (name_guru_init): Remove commented out stuff.
 	(cb_name_guru_value_focus): Remove to eliminate warning.
-	
+
 2001-04-18  Morten Welinder  <terra@diku.dk>
 
 	* dialog-define-names.c (cb_name_guru_destroy): Leak fix from Jon
@@ -1880,7 +1885,7 @@
 2001-03-18  Almer S. Tigelaar  <almer@gnome.org>
 
 	* validate.glade : Polish.
-	
+
 	* dialog-validate.c :
 	(cb_set_constraint_type_deactive) : Also de-activate labels and clean-up a bit.
 	(cb_input_flag_toggled) : clean-up.
@@ -2085,7 +2090,7 @@
 
 2000-11-16  Michael Meeks  <michael@helixcode.com>
 
-	* dialog-cell-sort.c (dialog_cell_sort_header_toggled): 
+	* dialog-cell-sort.c (dialog_cell_sort_header_toggled):
 	remove redundant g_list_copies.
 	(string_pos_in_list): re-write, was horrendoulsy inefficient.
 	(col_row_name_list): upd.
@@ -2327,7 +2332,7 @@
 2000-06-19  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* print-glade.h: Add comment to please xgettext.
-	
+
 2000-06-19  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-function-wizard.c (formula_guru_init) : Move the expression
@@ -2349,7 +2354,7 @@
 
 	* function-select.glade: Change to browse select in the
 	lists. Move help button to the far right. Make it insensitive.
-	
+
 	* formula-guru.glade: Make help button insensitive.
 
 2000-06-18  Jody Goldberg <jgoldberg@home.com>
@@ -2365,7 +2370,7 @@
 	* dialog-function-wizard.c (formula_guru_arg_new): Use constant
 	MAX_ARGS_DISPLAYED for max # of args to display.
 	(formula_guru_init): Initialize
-	arg-requisition. 
+	arg-requisition.
 	(formula_guru_set_scrollwin_size): Better way to check if we have
 	already checked the table size.
 
@@ -2487,7 +2492,7 @@
 	(dialog_cell_sort_del_clause): ditto
 	(dialog_cell_sort_header_toggled): ditto
 	(dialog_cell_sort): ditto
-	
+
 2000-06-04  Miguel de Icaza  <miguel@helixcode.com>
 
 	* dialog-function-wizard.c (dialog_function_druid): Use

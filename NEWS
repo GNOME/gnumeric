@@ -4,6 +4,7 @@ Almer:
 	* Fix (possible) segfaults caused by the "mid", "left" and "right"
  	  right string functions and protect those functions and
 	  the "replace" function against invalid arguments.
+	* Fix validation entry sensitivity.
 
 Jody:
  	http://bugzilla.gnome.org/show_bug.cgi?id=79925

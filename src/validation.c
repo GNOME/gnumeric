@@ -3,6 +3,7 @@
  * validation.c: Implementation of validation.
  *
  * Copyright (C) Jody Goldberg <jody@gnome.org>
+ *               Almer S. Tigelaar <almer@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,7 +55,7 @@ validation_new (ValidationStyle style,
 
 	v = g_new0 (Validation, 1);
 	v->ref_count = 1;
-	
+
 	v->title = title ? string_get (title) : NULL;
 	v->msg   = msg ? string_get (msg) : NULL;
 	v->expr[0] = expr0;
@@ -83,7 +84,7 @@ validation_unref (Validation *v)
 	g_return_if_fail (v != NULL);
 
 	v->ref_count--;
-	
+
 	if (v->ref_count < 1) {
 		if (v->title != NULL) {
 			string_unref (v->title);
@@ -258,7 +259,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 				g_return_val_if_fail (v->expr[1] != NULL, VALIDATION_STATUS_VALID);
 
 				expr_tree_ref (v->expr[1]);
-				expr = expr_tree_new_binary (val_expr, 
+				expr = expr_tree_new_binary (val_expr,
 					(v->op == VALIDATION_OP_BETWEEN) ? OPER_LTE : OPER_GT,
 					v->expr[1]);
 				val = expr_eval (expr, &ep, EVAL_STRICT);
