@@ -839,6 +839,24 @@ item_grid_start_sliding (GnomeCanvasItem *item)
 		100, item_grid_sliding_callback, item);
 }
 
+static void
+drag_start (GtkWidget *widget, GdkEvent *event, Sheet *sheet)
+{
+        GtkTargetList *list;
+        GdkDragContext *context;
+	static GtkTargetEntry drag_types [] = {
+		{ "bonobo/moniker", 0, 1 },
+	};
+	
+        list = gtk_target_list_new (drag_types, 1);
+
+        context = gtk_drag_begin (widget, list,
+                                  (GDK_ACTION_COPY | GDK_ACTION_MOVE
+                                   | GDK_ACTION_LINK | GDK_ACTION_ASK),
+                                  event->button.button, event);
+        gtk_drag_set_icon_default (context);
+}
+
 /*
  * Handle the selection
  */
@@ -974,6 +992,11 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		case 1:
 			return item_grid_button_1 (sheet, event, item_grid, col, row, x, y);
 
+		case 2:
+			g_warning ("This is here just for demo purposes");
+			drag_start (GTK_WIDGET (item->canvas), event, sheet);
+			return 1;
+			
 		case 3:
 			item_grid_popup_menu (item_grid->sheet,
 					      event, col, row);

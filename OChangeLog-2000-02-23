@@ -1,3 +1,41 @@
+1999-08-19  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/workbook.c (workbook_container_get_object): Finish
+	implementing this routine for responding to monikers.
+	(create_graphic_cmd): temporarily bind this to
+	Generic Bonobo object insertion.
+	(cb_sheet_check_dirty): Make the dialog parent be the workbook
+	window. 
+
+	* src/workbook.h (Workbook): Include a GnomeUIHandler.
+	
+	* src/sheet.c (sheet_insert_object): Enable this function again
+	and update it to match the latest Bonobo developments.
+
+	* src/sheet.h (Sheet): Include a pointer to the active object
+	frame. 
+
+	* src/sheet-object.c (sheet_set_mode_type): Do deactivation of
+	Bonobo frames here.
+
+	*  src/gnumeric-sheet.c (gnumeric_drag_data_get): Beginning of
+	drag and drop support for Bonobo monikers.
+
+	* src/item-grid.c (drag_start): More DnD support for Gnumeric
+	selections using Monikers.
+
+	* src/sheet-object-container.c (user_activation_request_cb,
+	view_activated_cb, get_file_name): New routines for dealing with
+	the Bonobo object action in Gnumeric.
+
+	(sheet_object_container_land): Do object selection here for now.
+	Support both PersistStream and PersistFile
+
+	* src/sheet-object.c: 
+
+	* src/workbook.c (cb_sheet_check_dirty): Bind the dialog to the
+	main window.
+
 1999-08-20  Michael Meeks  <michael@imaginator.com>
 
 	* src/cell.c (cell_set_text_simple): Add checks for over/under

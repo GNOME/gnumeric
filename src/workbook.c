@@ -24,6 +24,7 @@
 #include "utils.h"
 #include "widget-editable-label.h"
 #include "print-info.h"
+#include "ranges.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/gnome-persist-file.h>
@@ -206,17 +207,10 @@ italic_cmd (GtkWidget *widget, Workbook *wb)
 static void
 create_graphic_cmd (GtkWidget *widget, Workbook *wb)
 {
-#if 0
 	Sheet *sheet;
 
-	if (graphic_wizard_hook){
-		printf ("Invoking graphic wizard...\n");
-		graphic_wizard_hook (wb);
-	} else {
-		sheet = workbook_get_current_sheet (wb);
-		sheet_set_mode_type (sheet, SHEET_MODE_CREATE_GRAPHIC);
-	}
-#endif
+	sheet = workbook_get_current_sheet (wb);
+	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_GRAPHIC);
 }
 #endif
 
@@ -280,7 +274,7 @@ workbook_do_destroy (Workbook *wb)
 	gtk_signal_disconnect_by_func (
 		GTK_OBJECT (wb->toplevel),
 		GTK_SIGNAL_FUNC (workbook_set_focus), wb);
-	
+
 	/*
 	 * Do all deletions that leave the workbook in a working
 	 * order.
@@ -465,6 +459,7 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 		GNOME_STOCK_BUTTON_NO,
 		GNOME_STOCK_BUTTON_CANCEL,
 		NULL);
+	gnome_dialog_set_parent (GNOME_DIALOG (d), GTK_WINDOW (sheet->workbook->toplevel));
 
 	if (sheet->workbook->filename)
 		s = g_strdup_printf (
@@ -900,12 +895,12 @@ filenames_dropped (GtkWidget * widget,
 static void
 insert_object_cmd (GtkWidget *widget, Workbook *wb)
 {
-#if 0
 	Sheet *sheet = workbook_get_current_sheet (wb);
-	char *repoid = "IDL:Sample/server:1.0";
+	char *repoid;
 
-	sheet_insert_object (sheet, repoid);
-#endif
+	repoid = gnome_bonobo_select_goad_id (_("Select an object"), NULL);
+	if (repoid != NULL)
+		sheet_insert_object (sheet, repoid);
 }
 #endif
 
@@ -1097,7 +1092,11 @@ static GnomeUIInfo workbook_menu [] = {
 	{ GNOME_APP_UI_SUBTREE, N_("_Insert"), NULL, workbook_menu_insert },
 	{ GNOME_APP_UI_SUBTREE, N_("F_ormat"), NULL, workbook_menu_format },
 	{ GNOME_APP_UI_SUBTREE, N_("_Tools"), NULL, workbook_menu_tools },
+#ifdef ENABLE_BONOBO
+#warning Should enable this when Bonobo gets menu help support
+#else
 	GNOMEUIINFO_MENU_HELP_TREE(workbook_menu_help),
+#endif
 	GNOMEUIINFO_END
 };
 
@@ -1823,6 +1822,11 @@ workbook_container_get_object (GnomeObject *container, CORBA_char *item_name,
 	char *p;
 	Value *range = NULL;
 	
+	sheet = workbook_sheet_lookup (wb, item_name);
+
+	if (!sheet)
+		return CORBA_OBJECT_NIL;
+
 	p = strchr (item_name, '!');
 	if (p){
 		*p++ = 0;
@@ -1843,11 +1847,6 @@ workbook_container_get_object (GnomeObject *container, CORBA_char *item_name,
 		}
 	}
 	
-	sheet = workbook_sheet_lookup (wb, item_name);
-
-	if (!sheet)
-		return CORBA_OBJECT_NIL;
-
 	eg = embeddable_grid_new (wb, sheet);
 	if (!eg)
 		return CORBA_OBJECT_NIL;
@@ -2022,8 +2021,20 @@ workbook_new (void)
 	workbook_setup_edit_area (wb);
 	workbook_setup_sheets (wb);
 	gnome_app_set_contents (GNOME_APP (wb->toplevel), wb->table);
+#ifndef ENABLE_BONOBO
 	gnome_app_create_menus_with_data (GNOME_APP (wb->toplevel), workbook_menu, wb);
 	gnome_app_install_menu_hints(GNOME_APP (wb->toplevel), workbook_menu);
+#else
+	{
+		GnomeUIHandlerMenuItem *list;
+		
+		wb->uih = gnome_ui_handler_new ();
+		gnome_ui_handler_set_app (wb->uih, GNOME_APP (wb->toplevel));
+		gnome_ui_handler_create_menubar (wb->uih);
+		list = gnome_ui_handler_menu_parse_uiinfo_list_with_data (workbook_menu, wb);
+		gnome_ui_handler_menu_add_list (wb->uih, "/", list);
+	}
+#endif
 
 	wb->toolbar = g_malloc (sizeof (workbook_toolbar));
 	memcpy (wb->toolbar, &workbook_toolbar, sizeof (workbook_toolbar));

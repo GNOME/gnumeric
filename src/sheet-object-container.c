@@ -75,13 +75,94 @@ sheet_object_container_destroy_views (SheetObject *so)
 	so->realized_list = NULL;
 }
 
+static gint
+user_activation_request_cb (GnomeViewFrame *view_frame, SheetObject *so)
+{
+	Sheet *sheet = so->sheet;
+
+	printf ("user activation rqeuest\n");
+	if (sheet->active_object_frame){
+		gnome_view_frame_view_deactivate (sheet->active_object_frame);
+		if (sheet->active_object_frame != NULL)
+                        gnome_view_frame_set_covered (sheet->active_object_frame, TRUE);
+		sheet->active_object_frame = NULL;
+	}
+
+	gnome_view_frame_view_activate (view_frame);
+	sheet_object_make_current (sheet, so);
+	
+	return FALSE;
+}
+
+static gint
+view_activated_cb (GnomeViewFrame *view_frame, gboolean activated, SheetObject *so)
+{
+	Sheet *sheet = so->sheet;
+	
+        if (activated) {
+                if (sheet->active_object_frame != NULL) {
+                        g_warning ("View requested to be activated but there is already "
+                                   "an active View!\n");
+                        return FALSE;
+                }
+
+                /*
+                 * Otherwise, uncover it so that it can receive
+                 * events, and set it as the active View.
+                 */
+                gnome_view_frame_set_covered (view_frame, FALSE);
+                sheet->active_object_frame = view_frame;
+        } else {
+                /*
+                 * If the View is asking to be deactivated, always
+                 * oblige.  We may have already deactivated it (see
+                 * user_activation_request_cb), but there's no harm in
+                 * doing it again.  There is always the possibility
+                 * that a View will ask to be deactivated when we have
+                 * not told it to deactivate itself, and that is
+                 * why we cover the view here.
+                 */
+                gnome_view_frame_set_covered (view_frame, TRUE);
+
+                if (view_frame == sheet->active_object_frame)
+			sheet->active_object_frame = NULL;
+	}
+	return FALSE;
+}
+
+static char *
+get_file_name (void)
+{
+	GtkFileSelection *fs;
+	gchar *filename;
+ 
+	fs = GTK_FILE_SELECTION (gtk_file_selection_new ("Select filename"));
+	
+        gtk_signal_connect (GTK_OBJECT (fs->ok_button),
+                            "clicked",
+                            GTK_SIGNAL_FUNC(gtk_main_quit), NULL);
+
+        gtk_signal_connect (GTK_OBJECT (fs->cancel_button),
+                            "clicked",
+                            GTK_SIGNAL_FUNC(gtk_main_quit), NULL);
+
+	gtk_widget_show (fs);
+	gtk_main ();
+	
+        filename = g_strdup (gtk_file_selection_get_filename (fs));
+
+	gtk_object_destroy (GTK_OBJECT (fs));
+
+	return filename;
+}
+
 void
 sheet_object_container_land (SheetObject *so)
 {
 	SheetObjectContainer *soc;
 	GnomeObjectClient *component;
 	GList *l;
-
+	
 	g_return_if_fail (so != NULL);
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
@@ -102,8 +183,71 @@ sheet_object_container_land (SheetObject *so)
 	/*
 	 * 3. Bind it to our object
 	 */
+	if (!soc->repoid)
+		soc->repoid = gnome_bonobo_select_goad_id (_("Select an object"), NULL);
+	if (!soc->repoid)
+		return;
+	
+	soc->object_server = gnome_object_activate_with_goad_id (NULL, soc->repoid, 0, NULL);
+	if (!soc->object_server)
+		return;
+	
 	if (!gnome_client_site_bind_embeddable (soc->client_site, soc->object_server))
 		return;
+
+	/*
+	 * 3.a
+	 */
+	{
+		CORBA_Environment ev;
+		GNOME_PersistFile ret;
+		
+		CORBA_exception_init (&ev);
+		ret = GNOME_Unknown_query_interface (
+			gnome_object_corba_objref (GNOME_OBJECT (soc->object_server)),
+			"IDL:GNOME/PersistFile:1.0", &ev);
+		if (ev._major == CORBA_NO_EXCEPTION && ret != CORBA_OBJECT_NIL){
+
+				char *file;
+				
+				file = get_file_name ();
+				if (file){
+					GNOME_PersistFile_load (ret, file, &ev);
+				}
+				GNOME_Unknown_unref ((GNOME_Unknown) ret, &ev);
+				CORBA_Object_release (ret, &ev);
+				g_free (file);
+		} else {
+			GNOME_PersistStream ret;
+			
+			ret = GNOME_Unknown_query_interface (
+				gnome_object_corba_objref (GNOME_OBJECT (soc->object_server)),
+				"IDL:GNOME/PersistStream:1.0", &ev);
+			if (ev._major == CORBA_NO_EXCEPTION){
+				if (ret != CORBA_OBJECT_NIL){
+					char *file;
+					
+					file = get_file_name ();
+					if (file){
+						GnomeStream *stream;
+						
+						stream = gnome_stream_fs_open (file, GNOME_Storage_READ);
+						if (stream){
+							GNOME_PersistStream_load (
+								ret,
+								(GNOME_Stream) gnome_object_corba_objref (
+									GNOME_OBJECT (stream)), &ev);
+						}
+					}
+					GNOME_Unknown_unref ((GNOME_Unknown) ret, &ev);
+					CORBA_Object_release (ret, &ev);
+					g_free (file);
+				}
+			}
+		}
+		
+		CORBA_exception_free (&ev);
+	}
 	
 	/*
 	 * 4. Instatiate the views of the object across the sheet views
@@ -116,6 +260,16 @@ sheet_object_container_land (SheetObject *so)
 
 		view_frame = gnome_client_site_new_view (
 			soc->client_site);
+
+		gnome_view_frame_set_ui_handler (
+			view_frame,
+			so->sheet->workbook->uih);
+		
+		gtk_signal_connect (GTK_OBJECT (view_frame), "user_activate",
+				    GTK_SIGNAL_FUNC (user_activation_request_cb), so);
+		gtk_signal_connect (GTK_OBJECT (view_frame), "view_activated",
+				    GTK_SIGNAL_FUNC (view_activated_cb), so);
+		
 		view_widget = gnome_view_frame_get_wrapper (view_frame);
 		item = make_container_item (so, sheet_view, view_widget);
 		so->realized_list = g_list_prepend (so->realized_list, item);
@@ -270,7 +424,7 @@ SheetObject *
 sheet_object_container_new (Sheet *sheet,
 			    double x1, double y1,
 			    double x2, double y2,
-			    char *repoid)
+			    const char *objref)
 {
 	SheetObjectContainer *c;
 	SheetObject *so;
@@ -281,7 +435,6 @@ sheet_object_container_new (Sheet *sheet,
 	g_return_val_if_fail (x1 <= x2, NULL);
 	g_return_val_if_fail (y1 <= y2, NULL);
 
-        object_server = gnome_object_activate_with_goad_id (NULL, repoid, 0, NULL);
 	if (!object_server)
 		return NULL;
 
@@ -313,8 +466,7 @@ sheet_object_container_new (Sheet *sheet,
 
 		vf = GNOME_Plot_PlotComponent_get_vector_factory (component, &ev);
 		if (vf == NULL){
-			printf ("it is null");
-			abort ();
+			printf ("it is null");			abort ();
 		}
 
 		printf ("11\n");
@@ -365,9 +517,8 @@ sheet_object_container_new (Sheet *sheet,
 	so->bbox_points->coords [2] = x2;
 	so->bbox_points->coords [3] = y2;
 
-	c->repoid = g_strdup (repoid);
-	c->object_server = object_server;
-
+	c->repoid = g_strdup (objref);
+	
 	return SHEET_OBJECT (c);
 }
 			  
@@ -376,5 +527,5 @@ sheet_object_graphic_new (Sheet *sheet,
 			  double x1, double y1,
 			  double x2, double y2)
 {
-	return sheet_object_container_new (sheet, x1, y1, x2, y2, "Guppi_component");
+	return sheet_object_container_new (sheet, x1, y1, x2, y2, NULL);
 }

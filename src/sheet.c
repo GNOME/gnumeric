@@ -4210,19 +4210,22 @@ sheet_lookup_by_name (Workbook *wb, const char *name)
 	return NULL;
 }
 
-#if 0
 void
 sheet_insert_object (Sheet *sheet, char *repoid)
 {
 	GnomeClientSite *client_site;
-	GnomeUnknown *object_server;
+	GnomeObjectClient *object_server;
 	GList *l;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (repoid != NULL);
 
-	object_server = gnome_object_activate_with_repo_id (NULL, repoid, 0, NULL);
+	if (strncmp (repoid, "moniker_url:", 12) == 0)
+		object_server = gnome_object_activate (repoid, 0);
+	else
+		object_server = gnome_object_activate_with_repo_id (NULL, repoid, 0, NULL);
+	
 	if (!object_server){
 		char *msg;
 
@@ -4236,7 +4239,7 @@ sheet_insert_object (Sheet *sheet, char *repoid)
 	client_site = gnome_client_site_new (sheet->workbook->gnome_container);
 	gnome_container_add (sheet->workbook->gnome_container, GNOME_OBJECT (client_site));
 
-	if (!gnome_client_site_bind_component (client_site, object_server)){
+	if (!gnome_client_site_bind_embeddable (client_site, object_server)){
 		gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR,
 				 _("I was unable to the bind object"));
 		gtk_object_unref (GTK_OBJECT (object_server));
@@ -4245,5 +4248,3 @@ sheet_insert_object (Sheet *sheet, char *repoid)
 	}
 
 }
-
-#endif

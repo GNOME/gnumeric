@@ -42,7 +42,7 @@ GtkType      sheet_object_container_get_type (void);
 SheetObject *sheet_object_container_new      (Sheet *sheet,
 					      double x1, double y1,
 					      double x2, double y2,
-					      char *repoid);
+					      const char *object_name);
 void         sheet_object_container_land     (SheetObject *so);
 
 /*

@@ -498,6 +498,14 @@ sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
 	}
 
 	if (mode == SHEET_MODE_SHEET){
+#ifdef ENABLE_BONOBO
+		if (sheet->active_object_frame){
+			gnome_view_frame_view_deactivate (sheet->active_object_frame);
+			if (sheet->active_object_frame != NULL)
+				gnome_view_frame_set_covered (sheet->active_object_frame, TRUE);
+			sheet->active_object_frame = NULL;
+		}
+#endif
 		sheet_show_cursor (sheet);
 		if (sheet->current_object){
 			sheet_object_stop_editing (sheet->current_object);

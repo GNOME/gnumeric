@@ -886,6 +886,37 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 	}
 }
 
+static void
+gnumeric_sheet_drag_data_get (GtkWidget *widget,
+			      GdkDragContext *context,
+			      GtkSelectionData *selection_data,
+			      guint info,
+			      guint time)
+{
+	GnomeMoniker *moniker;
+	Sheet *sheet = GNUMERIC_SHEET (widget)->sheet_view->sheet;
+	Workbook *wb = sheet->workbook;
+	char *s;
+	
+	if (wb->filename == NULL)
+		workbook_save (wb);
+	if (wb->filename == NULL)
+		return;
+	
+	moniker = gnome_moniker_new ();
+	gnome_moniker_set_server (
+		moniker,
+		"IDL:GNOME:Gnumeric:Workbook:1.0",
+		wb->filename);
+
+	gnome_moniker_append_item_name (
+		moniker, "Sheet1");
+	s = gnome_moniker_get_as_string (moniker);
+	gtk_object_destroy (GTK_OBJECT (moniker));
+
+	gtk_selection_data_set (selection_data, selection_data->target, 8, s, strlen (s)+1);
+}
+
 GtkWidget *
 gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 {
@@ -939,6 +970,10 @@ gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 
 	widget = GTK_WIDGET (gsheet);
 
+	gtk_signal_connect (
+		GTK_OBJECT (widget), "drag_data_get",
+		GTK_SIGNAL_FUNC (gnumeric_sheet_drag_data_get), NULL);
+	
 	return widget;
 }
 

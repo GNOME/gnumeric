@@ -41,6 +41,8 @@ struct _Workbook {
 	
 	/* A list of EmbeddableGrids exported to the world */
 	GList      *bonobo_regions;
+
+	GnomeUIHandler *uih;
 #else
 	GtkObject  gtk_object;
 #endif
