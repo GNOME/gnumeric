@@ -1,5 +1,3 @@
-/* File import from gal to gnumeric by import-gal.  Do not edit.  */
-
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * color-palette.h - A color selector palette
@@ -33,7 +31,6 @@
 #define GNUMERIC_COLOR_PALETTE_H
 
 #include <gtk/gtk.h>
-#include <libfoocanvas/foo-canvas.h>
 #include <libgnomeui/gnome-color-picker.h>
 #include <widgets/color-group.h>
 
