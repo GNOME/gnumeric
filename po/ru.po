@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.57+\n"
-"POT-Creation-Date: 2001-01-16 13:05+0300\n"
-"PO-Revision-Date: 2001-01-16 17:27+03:00\n"
+"POT-Creation-Date: 2001-01-16 17:32+0300\n"
+"PO-Revision-Date: 2001-01-16 18:06+03:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -772,7 +772,9 @@ msgstr "Суммарная статистика"
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample "
 "Variance/Kurtosis/Skewness/Range/Minimum/Maximum/Sum/Count"
-msgstr "/Среднее/Стандартная ошибка/Медиана/Мода/Стандартное отклонение/Выборочная дисперсия/Эксцесс/Ассиметрия/Диапазон/Минимум/Максимум/Сумма/Количество"
+msgstr ""
+"/Среднее/Стандартная ошибка/Медиана/Мода/Стандартное отклонение/Выборочная "
+"дисперсия/Эксцесс/Ассиметрия/Диапазон/Минимум/Максимум/Сумма/Количество"
 
 #: src/analysis-tools.c:899
 msgid "Confidence Level"
@@ -801,7 +803,7 @@ msgid "Smallest (%d)"
 msgstr "Наименьшее (%d)"
 
 #: src/analysis-tools.c:1037 src/analysis-tools.c:2825
-#: src/dialogs/cell-format.glade.h:56
+#: src/dialogs/cell-format.glade.h:61
 msgid "Sample"
 msgstr "Выборка"
 
@@ -825,7 +827,10 @@ msgstr "Переменная 2"
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/z/P (Z<=z) "
 "one-tail/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
-msgstr "/Среднее/Известная дисперсия/Наблюдения/Гипотетическое среднее отклонение/z/P (Z<=z) одностороннее/z критическое одностороннее/P (Z<=z) двухстороннее/z критическое двухстороннее"
+msgstr ""
+"/Среднее/Известная дисперсия/Наблюдения/Гипотетическое среднее "
+"отклонение/z/P (Z<=z) одностороннее/z критическое одностороннее/P (Z<=z) "
+"двухстороннее/z критическое двухстороннее"
 
 #: src/analysis-tools.c:1255 src/analysis-tools.c:1390
 #: src/analysis-tools.c:1507
@@ -837,20 +842,29 @@ msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) "
 "two-tail/t Critical two-tail"
-msgstr "Среднее/Дисперсия/Наблюдения/Корреляция Пирсона/Гипотетическое среднее отклонение/df/t Stat/P (T<=t) одностороннее/t критическое одностороннее/P (T<=t) двухстороннее/t критическое двухстороннее"
+msgstr ""
+"Среднее/Дисперсия/Наблюдения/Корреляция Пирсона/Гипотетическое среднее "
+"отклонение/df/t Stat/P (T<=t) одностороннее/t критическое одностороннее/P "
+"(T<=t) двухстороннее/t критическое двухстороннее"
 
 #: src/analysis-tools.c:1417
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) "
 "two-tail/t Critical two-tail"
-msgstr "/Среднее/Дисперсия/Наблюдения/Накопленная дисперсия/Гипотетическое среднее отклонение/df/t Stat/P (T<=t) одностороннее/t критическое одностороннее/P (T<=t) двухстороннее/t критическое двухстороннее"
+msgstr ""
+"/Среднее/Дисперсия/Наблюдения/Накопленная дисперсия/Гипотетическое среднее "
+"отклонение/df/t Stat/P (T<=t) одностороннее/t критическое одностороннее/P "
+"(T<=t) двухстороннее/t критическое двухстороннее"
 
 #: src/analysis-tools.c:1534
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/df/t Stat/P (T<=t) "
 "one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
-msgstr "/Среднее/Дисперсия/Наблюдения/Гипотетическое среднее отклонение/df/t Stat/P (T<=t) одностороннее/t критическое одностороннее/P (T<=t) двухстороннее/t критическое двухстороннее"
+msgstr ""
+"/Среднее/Дисперсия/Наблюдения/Гипотетическое среднее отклонение/df/t Stat/P "
+"(T<=t) одностороннее/t критическое одностороннее/P (T<=t) двухстороннее/t "
+"критическое двухстороннее"
 
 #: src/analysis-tools.c:1626
 msgid "F-Test"
@@ -858,7 +872,9 @@ msgstr "F-Тест"
 
 #: src/analysis-tools.c:1653
 msgid "/Mean/Variance/Observations/df/F/P (F<=f) one-tail/F Critical one-tail"
-msgstr "/Среднее/Дисперсия/Наблюдения/df/F/P (F<=f) одностороннее/F критическое одностороннее"
+msgstr ""
+"/Среднее/Дисперсия/Наблюдения/df/F/P (F<=f) одностороннее/F критическое "
+"одностороннее"
 
 #: src/analysis-tools.c:1733 src/dialogs/dialog-analysis-tools.c:411
 msgid "Random"
@@ -881,7 +897,11 @@ msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R "
 "Square/Standard "
 "Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
-msgstr "/Итоговый вывод//Регрессионные статистики/Множественная регрессия/Коэффициент определенности/Подобранный коэффициент определенности/Стандартная ошибка/Наблюдения//Дисперсионный анализ//Регрессия/Остатки/Всего///Пересечение"
+msgstr ""
+"/Итоговый вывод//Регрессионные статистики/Множественная "
+"регрессия/Коэффициент определенности/Подобранный коэффициент "
+"определенности/Стандартная ошибка/Наблюдения//Дисперсионный "
+"анализ//Регрессия/Остатки/Всего///Пересечение"
 
 #: src/analysis-tools.c:1984
 #, c-format
@@ -937,11 +957,13 @@ msgstr "/Группы/Количество/Сумма/Среднее/Дисперсия"
 
 #: src/analysis-tools.c:2464
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
-msgstr "/Дисперсионный анализ/Источник дисперсии/Между группами/В группах/Всего"
+msgstr ""
+"/Дисперсионный анализ/Источник дисперсии/Между группами/В группах/Всего"
 
 #: src/analysis-tools.c:2469 src/analysis-tools.c:2662
 msgid "/SS/df/MS/F/P-value/F critical"
-msgstr "/Сумма квадратов/степень свободы/Квадрат среднего/F/Значение P/F критическое"
+msgstr ""
+"/Сумма квадратов/степень свободы/Квадрат среднего/F/Значение P/F критическое"
 
 #: src/analysis-tools.c:2559 src/dialogs/analysis-tools.glade.h:5
 #: src/dialogs/dialog-analysis-tools.c:87
@@ -1827,118 +1849,123 @@ msgstr "минут"
 msgid "$"
 msgstr "$"
 
-#: src/dialogs/cell-format.glade.h:2
+#: src/dialogs/cell-format.glade.h:3
+#, no-c-format
 msgid "12.5% Grey"
 msgstr "12.5% серого"
 
-#: src/dialogs/cell-format.glade.h:3
+#: src/dialogs/cell-format.glade.h:5
+#, no-c-format
 msgid "25% Grey"
 msgstr "25% серого"
 
-#: src/dialogs/cell-format.glade.h:4
+#: src/dialogs/cell-format.glade.h:7
+#, no-c-format
 msgid "50% Grey"
 msgstr "50% серого"
 
-#: src/dialogs/cell-format.glade.h:5
+#: src/dialogs/cell-format.glade.h:9
+#, no-c-format
 msgid "6.25% Grey"
 msgstr "6.25% серого"
 
-#: src/dialogs/cell-format.glade.h:6
+#: src/dialogs/cell-format.glade.h:11
+#, no-c-format
 msgid "75% Grey"
 msgstr "75% серого"
 
-#: src/dialogs/cell-format.glade.h:7
+#: src/dialogs/cell-format.glade.h:12
 msgid "Alignment"
 msgstr "Выравнивание"
 
-#: src/dialogs/cell-format.glade.h:8 src/gnumeric.xml.h:9
+#: src/dialogs/cell-format.glade.h:13 src/gnumeric.xml.h:9
 #: src/workbook-format-toolbar.c:776 src/workbook-format-toolbar.c:808
 msgid "Background"
 msgstr "Фон"
 
-#: src/dialogs/cell-format.glade.h:9
+#: src/dialogs/cell-format.glade.h:14
 msgid "Background Color"
 msgstr "Цвет фона"
 
-#: src/dialogs/cell-format.glade.h:10
+#: src/dialogs/cell-format.glade.h:15
 msgid "Border"
 msgstr "Рамка"
 
-#: src/dialogs/cell-format.glade.h:11 src/workbook-format-toolbar.c:574
+#: src/dialogs/cell-format.glade.h:16 src/workbook-format-toolbar.c:574
 msgid "Bottom"
 msgstr "Вниз"
 
-#: src/dialogs/cell-format.glade.h:12
+#: src/dialogs/cell-format.glade.h:17
 msgid "Bricks"
 msgstr "Кирпичи"
 
-#: src/dialogs/cell-format.glade.h:13
+#: src/dialogs/cell-format.glade.h:18
 msgid "C_enter"
 msgstr "По центру"
 
-#: src/dialogs/cell-format.glade.h:14
+#: src/dialogs/cell-format.glade.h:19
 msgid "C_olor"
 msgstr "Цвет"
 
-#: src/dialogs/cell-format.glade.h:15
+#: src/dialogs/cell-format.glade.h:20
 msgid "Center _across selection"
 msgstr "Центрировать поперек выделения"
 
-#: src/dialogs/cell-format.glade.h:16
+#: src/dialogs/cell-format.glade.h:21
 msgid "Color"
 msgstr "Окрашивание"
 
-#: src/dialogs/cell-format.glade.h:17
+#: src/dialogs/cell-format.glade.h:22
 msgid "Control"
 msgstr "Управление"
 
-#: src/dialogs/cell-format.glade.h:18
+#: src/dialogs/cell-format.glade.h:23
 msgid "Cust_om"
 msgstr "Пользовательский"
 
-#: src/dialogs/cell-format.glade.h:19
+#: src/dialogs/cell-format.glade.h:24
 msgid "De_lete format"
 msgstr "Удалить формат"
 
-#: src/dialogs/cell-format.glade.h:20
+#: src/dialogs/cell-format.glade.h:25
 msgid "Deci_mal places:"
 msgstr "Десятичных позиций:"
 
-#: src/dialogs/cell-format.glade.h:21
+#: src/dialogs/cell-format.glade.h:26
 msgid "Diagonal"
 msgstr "Диагональные штрихи"
 
-#: src/dialogs/cell-format.glade.h:22
+#: src/dialogs/cell-format.glade.h:27
 msgid "Diagonal Crosshatch"
 msgstr "Диагональные крестики"
 
-#: src/dialogs/cell-format.glade.h:23
+#: src/dialogs/cell-format.glade.h:28
 msgid "Diagonal Stripe"
 msgstr "Диагональные штрихи"
 
-#: src/dialogs/cell-format.glade.h:24
+#: src/dialogs/cell-format.glade.h:29
 msgid "Display the value exactly as it was entered"
 msgstr "Показывать значение точно так как оно было введено"
 
-#: src/dialogs/cell-format.glade.h:25 src/dialogs/dialog-cell-format.c:1216
+#: src/dialogs/cell-format.glade.h:30 src/dialogs/dialog-cell-format.c:1216
 #: src/dialogs/dialog-cell-format.c:1282
 msgid "Double"
 msgstr "Двойной"
 
-#: src/dialogs/cell-format.glade.h:26
+#: src/dialogs/cell-format.glade.h:31
 msgid "Effects"
 msgstr "Эффекты"
 
-#: src/dialogs/cell-format.glade.h:27 src/gnumeric.xml.h:69
+#: src/dialogs/cell-format.glade.h:32 src/gnumeric.xml.h:69
 #: src/workbook-format-toolbar.c:713
 msgid "Font"
 msgstr "Шрифт"
 
-#: src/dialogs/cell-format.glade.h:28
+#: src/dialogs/cell-format.glade.h:33
 msgid "Foreground Solid"
 msgstr "Сплошной передний план"
 
-#: src/dialogs/cell-format.glade.h:29
+#: src/dialogs/cell-format.glade.h:34
 msgid ""
 "General format cells attempt to select an appropriate format depending on "
 "the value of the cell."
@@ -1946,314 +1973,314 @@ msgstr ""
 "Общий формат ячейки означает попытку выбора подходящего формата в "
 "зависимости от значения в ячейке."
 
-#: src/dialogs/cell-format.glade.h:30
+#: src/dialogs/cell-format.glade.h:35
 msgid "Horizontal"
 msgstr "По горизонтали"
 
-#: src/dialogs/cell-format.glade.h:31
+#: src/dialogs/cell-format.glade.h:36
 msgid "Horizontal Stripe"
 msgstr "Горизонтальные штрихи"
 
-#: src/dialogs/cell-format.glade.h:32
+#: src/dialogs/cell-format.glade.h:37
 msgid "Inside"
 msgstr "Внутри"
 
-#: src/dialogs/cell-format.glade.h:33
+#: src/dialogs/cell-format.glade.h:38
 msgid "Inside Horizontal"
 msgstr "Внутри горизонтальное"
 
-#: src/dialogs/cell-format.glade.h:34
+#: src/dialogs/cell-format.glade.h:39
 msgid "Inside Vertical"
 msgstr "Внутри вертикальное"
 
-#: src/dialogs/cell-format.glade.h:35
+#: src/dialogs/cell-format.glade.h:40
 msgid "J_ustify"
 msgstr "По формату"
 
-#: src/dialogs/cell-format.glade.h:36
+#: src/dialogs/cell-format.glade.h:41
 msgid "Large Circles"
 msgstr "Большие круги"
 
-#: src/dialogs/cell-format.glade.h:37 src/gnumeric.xml.h:108
+#: src/dialogs/cell-format.glade.h:42 src/gnumeric.xml.h:108
 #: src/workbook-format-toolbar.c:566
 msgid "Left"
 msgstr "Влево"
 
-#: src/dialogs/cell-format.glade.h:38
+#: src/dialogs/cell-format.glade.h:43
 msgid "Left _Indent"
 msgstr "Левый отступ"
 
-#: src/dialogs/cell-format.glade.h:39 src/gnumeric.xml.h:110
+#: src/dialogs/cell-format.glade.h:44 src/gnumeric.xml.h:110
 #: src/workbook-object-toolbar.c:150
 msgid "Line"
 msgstr "Линия"
 
-#: src/dialogs/cell-format.glade.h:40
+#: src/dialogs/cell-format.glade.h:45
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr ""
 "Защита ячеек или скрытие формул действуют только в защищенных таблицах."
 
-#: src/dialogs/cell-format.glade.h:41
+#: src/dialogs/cell-format.glade.h:46
 msgid "Negat_ive number:"
 msgstr "Отрицательное число:"
 
-#: src/dialogs/cell-format.glade.h:42 src/dialogs/dialog-cell-format.c:1218
+#: src/dialogs/cell-format.glade.h:47 src/dialogs/dialog-cell-format.c:1218
 #: src/dialogs/dialog-cell-format.c:1280 src/dialogs/dialog-paste-special.c:32
 msgid "None"
 msgstr "Нет"
 
-#: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-function-wizard.c:406
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-function-wizard.c:406
 msgid "Number"
 msgstr "Числовой"
 
-#: src/dialogs/cell-format.glade.h:44 src/dialogs/print.glade.h:14
+#: src/dialogs/cell-format.glade.h:49 src/dialogs/print.glade.h:15
 msgid "Orientation"
 msgstr "Ориентация"
 
-#: src/dialogs/cell-format.glade.h:45
+#: src/dialogs/cell-format.glade.h:50
 msgid "Outline"
 msgstr "Контур"
 
-#: src/dialogs/cell-format.glade.h:46
+#: src/dialogs/cell-format.glade.h:51
 msgid "Pattern"
 msgstr "Шаблон"
 
-#: src/dialogs/cell-format.glade.h:47
+#: src/dialogs/cell-format.glade.h:52
 msgid "Pick a Background color"
 msgstr "Указать цвет фона"
 
-#: src/dialogs/cell-format.glade.h:48
+#: src/dialogs/cell-format.glade.h:53
 msgid "Pick a Pattern color"
 msgstr "Указать цвет шаблона"
 
-#: src/dialogs/cell-format.glade.h:49
+#: src/dialogs/cell-format.glade.h:54
 msgid "Pick a border color"
 msgstr "Указать цвет рамки"
 
-#: src/dialogs/cell-format.glade.h:50
+#: src/dialogs/cell-format.glade.h:55
 msgid "Pick a font color"
 msgstr "Указать цвет шрифта"
 
-#: src/dialogs/cell-format.glade.h:51
+#: src/dialogs/cell-format.glade.h:56
 msgid "Protection"
 msgstr "Защита"
 
-#: src/dialogs/cell-format.glade.h:52
+#: src/dialogs/cell-format.glade.h:57
 msgid "Reverse Diagonal"
 msgstr "Обратные диагональные штрихи"
 
-#: src/dialogs/cell-format.glade.h:53
+#: src/dialogs/cell-format.glade.h:58
 msgid "Reverse Diagonal Stripe"
 msgstr "Обратные диагональные штрихи"
 
-#: src/dialogs/cell-format.glade.h:54 src/gnumeric.xml.h:154
+#: src/dialogs/cell-format.glade.h:59 src/gnumeric.xml.h:154
 #: src/workbook-format-toolbar.c:568
 msgid "Right"
 msgstr "Вправо"
 
-#: src/dialogs/cell-format.glade.h:55
+#: src/dialogs/cell-format.glade.h:60
 msgid "S_ymbol:"
 msgstr "Символ:"
 
-#: src/dialogs/cell-format.glade.h:57
+#: src/dialogs/cell-format.glade.h:62
 msgid "Semi Circles"
 msgstr "Полуокружности"
 
-#: src/dialogs/cell-format.glade.h:58
+#: src/dialogs/cell-format.glade.h:63
 msgid "Shrin_k to fit"
 msgstr "Растягивать по размеру"
 
 #. There must be a better way than this
-#: src/dialogs/cell-format.glade.h:59 src/dialogs/dialog-cell-format.c:1214
+#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:1214
 #: src/dialogs/dialog-cell-format.c:1281
 msgid "Single"
 msgstr "Одиночный"
 
-#: src/dialogs/cell-format.glade.h:60
+#: src/dialogs/cell-format.glade.h:65
 msgid "Small Circles"
 msgstr "Маленькие круги"
 
-#: src/dialogs/cell-format.glade.h:61
+#: src/dialogs/cell-format.glade.h:66
 msgid "Solid"
 msgstr "Сплошной"
 
-#: src/dialogs/cell-format.glade.h:62
+#: src/dialogs/cell-format.glade.h:67
 msgid "Sp_ecial"
 msgstr "Специальный"
 
-#: src/dialogs/cell-format.glade.h:63
+#: src/dialogs/cell-format.glade.h:68
 msgid "Stri_kethrough"
 msgstr "Перечеркнутое"
 
-#: src/dialogs/cell-format.glade.h:64
+#: src/dialogs/cell-format.glade.h:69
 msgid "Su_bscript"
 msgstr "Нижний индекс"
 
-#: src/dialogs/cell-format.glade.h:65
+#: src/dialogs/cell-format.glade.h:70
 msgid "Sup_erscript"
 msgstr "Верхний индекс"
 
-#: src/dialogs/cell-format.glade.h:66
+#: src/dialogs/cell-format.glade.h:71
 msgid "Te_xt"
 msgstr "Текстовый"
 
-#: src/dialogs/cell-format.glade.h:67
+#: src/dialogs/cell-format.glade.h:72
 msgid "Thatch"
 msgstr "Солома"
 
-#: src/dialogs/cell-format.glade.h:68
+#: src/dialogs/cell-format.glade.h:73
 msgid "Thick Diagonal Crosshatch"
 msgstr "Толстые диагональные крестики"
 
-#: src/dialogs/cell-format.glade.h:69
+#: src/dialogs/cell-format.glade.h:74
 msgid "Thin Diagonal Crosshatch"
 msgstr "Тонкие диагональные крестики"
 
-#: src/dialogs/cell-format.glade.h:70
+#: src/dialogs/cell-format.glade.h:75
 msgid "Thin Diagonal Stripe"
 msgstr "Тонкие диагональные штрихи"
 
-#: src/dialogs/cell-format.glade.h:71
+#: src/dialogs/cell-format.glade.h:76
 msgid "Thin Horizontal Crosshatch"
 msgstr "Тонкие горизонтальные крестики"
 
-#: src/dialogs/cell-format.glade.h:72
+#: src/dialogs/cell-format.glade.h:77
 msgid "Thin Horizontal Stripe"
 msgstr "Тонкие горизонтальные штрихи"
 
-#: src/dialogs/cell-format.glade.h:73
+#: src/dialogs/cell-format.glade.h:78
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "Тонкие обратные диагональные штрихи"
 
-#: src/dialogs/cell-format.glade.h:74
+#: src/dialogs/cell-format.glade.h:79
 msgid "Thin Vertical Stripe"
 msgstr "Тонкие вертикальные штрихи"
 
-#: src/dialogs/cell-format.glade.h:75
+#: src/dialogs/cell-format.glade.h:80
 msgid "Top"
 msgstr "Вверх"
 
-#: src/dialogs/cell-format.glade.h:76
+#: src/dialogs/cell-format.glade.h:81
 msgid "Unfinished"
 msgstr "Незаконченные"
 
-#: src/dialogs/cell-format.glade.h:77
+#: src/dialogs/cell-format.glade.h:82
 msgid "Vertical Alignment"
 msgstr "Вертикальное выравнивание"
 
-#: src/dialogs/cell-format.glade.h:78
+#: src/dialogs/cell-format.glade.h:83
 msgid "Vertical Stripe"
 msgstr "Вертикальные штрихи"
 
-#: src/dialogs/cell-format.glade.h:79
+#: src/dialogs/cell-format.glade.h:84
 msgid "Worksheet _protected"
 msgstr "Таблица защищена"
 
-#: src/dialogs/cell-format.glade.h:80
+#: src/dialogs/cell-format.glade.h:85
 msgid "_Accounting"
 msgstr "Бухгалтерский"
 
-#: src/dialogs/cell-format.glade.h:81
+#: src/dialogs/cell-format.glade.h:86
 msgid "_Automatic"
 msgstr "Автоматическое"
 
-#: src/dialogs/cell-format.glade.h:82
+#: src/dialogs/cell-format.glade.h:87
 msgid "_Bottom"
 msgstr "Вниз"
 
-#: src/dialogs/cell-format.glade.h:83
+#: src/dialogs/cell-format.glade.h:88
 msgid "_Center"
 msgstr "По центру"
 
-#: src/dialogs/cell-format.glade.h:84
+#: src/dialogs/cell-format.glade.h:89
 msgid "_Currency"
 msgstr "Денежный"
 
-#: src/dialogs/cell-format.glade.h:85 src/dialogs/dialog-zoom.glade.h:10
+#: src/dialogs/cell-format.glade.h:90 src/dialogs/dialog-zoom.glade.h:16
 msgid "_Custom"
 msgstr "Пользовательский"
 
-#: src/dialogs/cell-format.glade.h:86
+#: src/dialogs/cell-format.glade.h:91
 msgid "_Date"
 msgstr "Дата"
 
-#: src/dialogs/cell-format.glade.h:87
+#: src/dialogs/cell-format.glade.h:92
 msgid "_Fill"
 msgstr "Заполнение"
 
-#: src/dialogs/cell-format.glade.h:88
+#: src/dialogs/cell-format.glade.h:93
 msgid "_Fraction"
 msgstr "Дробный"
 
-#: src/dialogs/cell-format.glade.h:89
+#: src/dialogs/cell-format.glade.h:94
 msgid "_General"
 msgstr "Общий"
 
-#: src/dialogs/cell-format.glade.h:90
+#: src/dialogs/cell-format.glade.h:95
 msgid "_Hidden"
 msgstr "Скрытый"
 
-#: src/dialogs/cell-format.glade.h:91
+#: src/dialogs/cell-format.glade.h:96
 msgid "_Justify"
 msgstr "По формату"
 
-#: src/dialogs/cell-format.glade.h:92
+#: src/dialogs/cell-format.glade.h:97
 msgid "_Left"
 msgstr "Влево"
 
-#: src/dialogs/cell-format.glade.h:93
+#: src/dialogs/cell-format.glade.h:98
 msgid "_Locked"
 msgstr "Защищенный"
 
-#: src/dialogs/cell-format.glade.h:94
+#: src/dialogs/cell-format.glade.h:99
 msgid "_Merge Cells"
 msgstr "Объединить ячейки"
 
-#: src/dialogs/cell-format.glade.h:95
+#: src/dialogs/cell-format.glade.h:100
 msgid "_No Color"
 msgstr "Без цвета"
 
-#: src/dialogs/cell-format.glade.h:96
+#: src/dialogs/cell-format.glade.h:101
 msgid "_Number"
 msgstr "Числовой"
 
-#: src/dialogs/cell-format.glade.h:97
+#: src/dialogs/cell-format.glade.h:102
 msgid "_Percentage"
 msgstr "Проценты"
 
-#: src/dialogs/cell-format.glade.h:98
+#: src/dialogs/cell-format.glade.h:103
 msgid "_Right"
 msgstr "Вправо"
 
-#: src/dialogs/cell-format.glade.h:99
+#: src/dialogs/cell-format.glade.h:104
 msgid "_Scientific"
 msgstr "Научный"
 
-#: src/dialogs/cell-format.glade.h:100
+#: src/dialogs/cell-format.glade.h:105
 msgid "_Style"
 msgstr "Стиль"
 
-#: src/dialogs/cell-format.glade.h:101
+#: src/dialogs/cell-format.glade.h:106
 msgid "_Time"
 msgstr "Время"
 
-#: src/dialogs/cell-format.glade.h:102
+#: src/dialogs/cell-format.glade.h:107
 msgid "_Top"
 msgstr "Вверх"
 
-#: src/dialogs/cell-format.glade.h:103
+#: src/dialogs/cell-format.glade.h:108
 msgid "_Type"
 msgstr "Тип"
 
-#: src/dialogs/cell-format.glade.h:104
+#: src/dialogs/cell-format.glade.h:109
 msgid "_Underline:"
 msgstr "Подчеркивание:"
 
-#: src/dialogs/cell-format.glade.h:105
+#: src/dialogs/cell-format.glade.h:110
 msgid "_Use Separator for 1000's"
 msgstr "Использовать разделитель для тысяч"
 
-#: src/dialogs/cell-format.glade.h:106
+#: src/dialogs/cell-format.glade.h:111
 msgid "_Wrap text"
 msgstr "Переносить текст"
 
@@ -3628,44 +3655,51 @@ msgstr "До строки:"
 msgid "Workbook Attributes"
 msgstr "Атрибуты рабочей книги"
 
-#: src/dialogs/dialog-zoom.glade.h:1
+#: src/dialogs/dialog-zoom.glade.h:2
+#, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/dialogs/dialog-zoom.glade.h:2
+#: src/dialogs/dialog-zoom.glade.h:4
+#, no-c-format
 msgid "20_0 %"
 msgstr "200 %"
 
-#: src/dialogs/dialog-zoom.glade.h:3
+#: src/dialogs/dialog-zoom.glade.h:5
 msgid "Magnification"
 msgstr "Усиление"
 
-#: src/dialogs/dialog-zoom.glade.h:4
+#: src/dialogs/dialog-zoom.glade.h:6
 msgid "Sheets"
 msgstr "Листы"
 
-#: src/dialogs/dialog-zoom.glade.h:5 src/workbook-control-gui.c:2303
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:2303
 #: src/workbook-control-gui.c:2360
 msgid "Zoom"
 msgstr "Масштаб"
 
-#: src/dialogs/dialog-zoom.glade.h:6
+#: src/dialogs/dialog-zoom.glade.h:9
+#, no-c-format
 msgid "_100 %"
 msgstr "100 %"
 
-#: src/dialogs/dialog-zoom.glade.h:7
+#: src/dialogs/dialog-zoom.glade.h:11
+#, no-c-format
 msgid "_25 %"
 msgstr "25 %"
 
-#: src/dialogs/dialog-zoom.glade.h:8
+#: src/dialogs/dialog-zoom.glade.h:13
+#, no-c-format
 msgid "_50 %"
 msgstr "50 %"
 
-#: src/dialogs/dialog-zoom.glade.h:9
+#: src/dialogs/dialog-zoom.glade.h:15
+#, no-c-format
 msgid "_75 %"
 msgstr "75 %"
 
-#: src/dialogs/dialog-zoom.glade.h:11
+#: src/dialogs/dialog-zoom.glade.h:18
+#, no-c-format
 msgid "_Fit Selection %"
 msgstr "Заполнение выделения %"
 
@@ -3793,200 +3827,201 @@ msgstr "Описание"
 msgid "_File Details"
 msgstr "Подробности файла"
 
-#: src/dialogs/print.glade.h:1
+#: src/dialogs/print.glade.h:2
+#, no-c-format
 msgid "% of normal size"
 msgstr "% от нормального размера"
 
-#: src/dialogs/print.glade.h:2
+#: src/dialogs/print.glade.h:3
 msgid "Center on page"
 msgstr "По центру страницы"
 
-#: src/dialogs/print.glade.h:3 src/gnumeric.xml.h:31
+#: src/dialogs/print.glade.h:4 src/gnumeric.xml.h:31
 #: src/workbook-control-gui.c:1757
 msgid "Co_mments"
 msgstr "Комментарии"
 
-#: src/dialogs/print.glade.h:4
+#: src/dialogs/print.glade.h:5
 msgid "Customize _footer"
 msgstr "Настроить сноску"
 
-#: src/dialogs/print.glade.h:5
+#: src/dialogs/print.glade.h:6
 msgid "Customize _header"
 msgstr "Настроить заголовок"
 
-#: src/dialogs/print.glade.h:6
+#: src/dialogs/print.glade.h:7
 msgid "Fi_rst page number:"
 msgstr "Номер первой страницы:"
 
-#: src/dialogs/print.glade.h:7
+#: src/dialogs/print.glade.h:8
 msgid "Footer:"
 msgstr "Сноска:"
 
-#: src/dialogs/print.glade.h:8
+#: src/dialogs/print.glade.h:9
 msgid "He_ader:"
 msgstr "Заголовок:"
 
-#: src/dialogs/print.glade.h:9
+#: src/dialogs/print.glade.h:10
 msgid "Header"
 msgstr "Заголовок"
 
-#: src/dialogs/print.glade.h:10
+#: src/dialogs/print.glade.h:11
 msgid "Headers and footers"
 msgstr "Заголовки и сноски:"
 
-#: src/dialogs/print.glade.h:11 src/print-info.c:443
+#: src/dialogs/print.glade.h:12 src/print-info.c:443
 msgid "In"
 msgstr "Дю"
 
-#: src/dialogs/print.glade.h:12
+#: src/dialogs/print.glade.h:13
 msgid "Margins"
 msgstr "Отступы"
 
-#: src/dialogs/print.glade.h:13
+#: src/dialogs/print.glade.h:14
 msgid "Options"
 msgstr "Параметры"
 
-#: src/dialogs/print.glade.h:15
+#: src/dialogs/print.glade.h:16
 msgid "Page"
 msgstr "Страница"
 
-#: src/dialogs/print.glade.h:16
+#: src/dialogs/print.glade.h:17
 msgid "Page order"
 msgstr "Порядок страниц"
 
-#: src/dialogs/print.glade.h:17
+#: src/dialogs/print.glade.h:18
 msgid "Paper _size:"
 msgstr "Размер бумаги:"
 
-#: src/dialogs/print.glade.h:18
+#: src/dialogs/print.glade.h:19
 msgid "Por_trait"
 msgstr "Портрет"
 
-#: src/dialogs/print.glade.h:19 src/gnumeric.xml.h:137
+#: src/dialogs/print.glade.h:20 src/gnumeric.xml.h:137
 #: src/workbook-control-gui.c:2109
 msgid "Print"
 msgstr "Печать"
 
-#: src/dialogs/print.glade.h:20
+#: src/dialogs/print.glade.h:21
 msgid "Print _area:"
 msgstr "Область печати:"
 
-#: src/dialogs/print.glade.h:21 src/gnumeric.xml.h:141 src/print.c:1194
+#: src/dialogs/print.glade.h:22 src/gnumeric.xml.h:141 src/print.c:1194
 #: src/workbook-control-gui.c:1731 src/workbook-control-gui.c:2112
 msgid "Print preview"
 msgstr "Просмотр печати"
 
-#: src/dialogs/print.glade.h:22
+#: src/dialogs/print.glade.h:23
 msgid "Print setup"
 msgstr "Настройка печати"
 
-#: src/dialogs/print.glade.h:23
+#: src/dialogs/print.glade.h:24
 msgid "R_ight, then down"
 msgstr "Вправо, затем вниз"
 
-#: src/dialogs/print.glade.h:24
+#: src/dialogs/print.glade.h:25
 msgid "Row and co_lumn headings"
 msgstr "Озаглавливание строк и столбцов"
 
-#: src/dialogs/print.glade.h:25
+#: src/dialogs/print.glade.h:26
 msgid "Scale"
 msgstr "Масштаб"
 
-#: src/dialogs/print.glade.h:26 src/functions/fn-sheet.c:135
+#: src/dialogs/print.glade.h:27 src/functions/fn-sheet.c:135
 #: src/workbook.c:1026
 msgid "Sheet"
 msgstr "Табличные"
 
-#: src/dialogs/print.glade.h:27
+#: src/dialogs/print.glade.h:28
 msgid "Titles to print"
 msgstr "Заголовки для печати"
 
-#: src/dialogs/print.glade.h:28
+#: src/dialogs/print.glade.h:29
 msgid "_Adjust to:"
 msgstr "Выравнивать до:"
 
-#: src/dialogs/print.glade.h:29
+#: src/dialogs/print.glade.h:30
 msgid "_Black and white"
 msgstr "Черное и белое"
 
-#: src/dialogs/print.glade.h:30
+#: src/dialogs/print.glade.h:31
 msgid "_Bottom:"
 msgstr "Вниз:"
 
-#: src/dialogs/print.glade.h:31
+#: src/dialogs/print.glade.h:32
 msgid "_Columns to repeat on the left side:"
 msgstr "Столбцы повторяются на левой стороне:"
 
-#: src/dialogs/print.glade.h:32
+#: src/dialogs/print.glade.h:33
 msgid "_Down, then right"
 msgstr "Вниз, затем вправо"
 
-#: src/dialogs/print.glade.h:33
+#: src/dialogs/print.glade.h:34
 msgid "_Fit to:"
 msgstr "Заполнять до:"
 
-#: src/dialogs/print.glade.h:34
+#: src/dialogs/print.glade.h:35
 msgid "_Footer:"
 msgstr "Сноска:"
 
-#: src/dialogs/print.glade.h:35
+#: src/dialogs/print.glade.h:36
 msgid "_Grid lines"
 msgstr "Линии сетки"
 
-#: src/dialogs/print.glade.h:36
+#: src/dialogs/print.glade.h:37
 msgid "_Horizontally"
 msgstr "По горизонтали"
 
-#: src/dialogs/print.glade.h:37
+#: src/dialogs/print.glade.h:38
 msgid "_Landscape"
 msgstr "Альбом"
 
-#: src/dialogs/print.glade.h:38
+#: src/dialogs/print.glade.h:39
 msgid "_Left:"
 msgstr "Влево:"
 
-#: src/dialogs/print.glade.h:39
+#: src/dialogs/print.glade.h:40
 msgid "_Right:"
 msgstr "Вправо"
 
-#: src/dialogs/print.glade.h:40
+#: src/dialogs/print.glade.h:41
 msgid "_Rows to repeat on the upper region:"
 msgstr "Строки повторяются в верхней части:"
 
-#: src/dialogs/print.glade.h:41
+#: src/dialogs/print.glade.h:42
 msgid "_Top:"
 msgstr "Вверх:"
 
-#: src/dialogs/print.glade.h:42
+#: src/dialogs/print.glade.h:43
 msgid "_Units:"
 msgstr "Единицы:"
 
-#: src/dialogs/print.glade.h:43
+#: src/dialogs/print.glade.h:44
 msgid "_Vertically"
 msgstr "По вертикали"
 
 #. 1in = 25.4mm, exact
-#: src/dialogs/print.glade.h:44 src/print-info.c:442
+#: src/dialogs/print.glade.h:45 src/print-info.c:442
 msgid "cm"
 msgstr "см"
 
-#: src/dialogs/print.glade.h:45 src/print-info.c:441
+#: src/dialogs/print.glade.h:46 src/print-info.c:441
 msgid "mm"
 msgstr "мм"
 
-#: src/dialogs/print.glade.h:46
+#: src/dialogs/print.glade.h:47
 msgid "page(s) wide by"
 msgstr "страницы заполняются по"
 
-#: src/dialogs/print.glade.h:47 src/print-info.c:440
+#: src/dialogs/print.glade.h:48 src/print-info.c:440
 msgid "pts"
 msgstr "пнкт"
 
-#: src/dialogs/print.glade.h:48
+#: src/dialogs/print.glade.h:49
 msgid "sample goes here"
 msgstr "это образец"
 
-#: src/dialogs/print.glade.h:49
+#: src/dialogs/print.glade.h:50
 msgid "tall"
 msgstr "высокий"
 
@@ -4283,8 +4318,8 @@ msgid "Company"
 msgstr "Компания"
 
 #: src/dialogs/summary.glade.h:5
-msgid "Document Summary Information\n"
-msgstr "Итоговая информация о документе\n"
+msgid "Document Summary Information"
+msgstr "Итоговая информация о документе"
 
 #: src/dialogs/summary.glade.h:6
 msgid "Keywords"
@@ -4385,7 +4420,7 @@ msgstr "Сообщение об ошибке:"
 
 #: src/dialogs/validate.glade.h:22
 msgid "_In-cell dropdown"
-msgstr ""
+msgstr "Меню в ячейке"
 
 #: src/dialogs/validate.glade.h:23
 msgid "_Input Message"
@@ -6167,6 +6202,17 @@ msgid ""
 "\n"
 "@SEEALSO=DATE"
 msgstr ""
+"@FUNCTION=DATEDIF\n"
+"@SYNTAX=DATEDIF(date1,date2,interval)\n"
+"@DESCRIPTION=DATEDIF возвращает разницу между двумя датами. @interval может быть одним из шести возможных значений: \"y\", \"m\", \"d\", \"ym\", \"md\" и \"yd\".\n"
+"Выбор одного из первых трех параметров будет возвращать число полных лет, месяцев или дней соответственно между двумя указанными датами.\n"
+"\"ym\" будет возвращать число полных месяцев между датами, не включая разницу в годах.\n"
+"\"md\" будет возвращать число полных дней между двумя датами, не включая разницу в месяцах.\n"
+"\"yd\" будет возвращать число полных дней между двумя датами, не включая разницу в годах.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=DATE"
 
 #: src/functions/fn-date.c:262
 msgid ""
@@ -6394,7 +6440,8 @@ msgstr ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
 "@DESCRIPTION=Превращает серийный номер в день месяца.\n"
-"Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки в серийный номер, так что Вы можете вводить дату в виде строки.\n"
+"Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки в "
+"серийный номер, так что Вы можете вводить дату в виде строки.\n"
 "@EXAMPLES=\n"
 "day (\\\"10/24/1968\\\") равняется 24.\n"
 "@SEEALSO=NOW, MONTH, TIME, YEAR"
@@ -6419,9 +6466,11 @@ msgstr ""
 "@SYNTAX=WEEKDAY (serial_number)\n"
 "@DESCRIPTION=Превращает серийный номер в день недели.\n"
 "\n"
-"Эта функция возвращает целое в диапазоне от 0 до 6, причем суббота = 0, воскресенье = 1, и т.д.\n"
+"Эта функция возвращает целое в диапазоне от 0 до 6, причем суббота = 0, "
+"воскресенье = 1, и т.д.\n"
 "\n"
-"Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки в серийный номер, так что Вы можете вводить дату в виде строки\n"
+"Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки в "
+"серийный номер, так что Вы можете вводить дату в виде строки\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=NOW, MONTH, TIME, YEAR"
@@ -6461,7 +6510,6 @@ msgid "Unsupported method"
 msgstr "Неподдерживаемый метод"
 
 #: src/functions/fn-date.c:746
-#, fuzzy
 msgid ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
@@ -6476,11 +6524,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
-"@DESCRIPTION=Returns the last day of the month which is @months from the "
+"@DESCRIPTION=Возвращает последний день месяца отстоящего на @months месяцев от "
 "@start_date.\n"
-"Returns #NUM! if start_date or months are invalid.\n"
+"Возвращает ошибку #NUM!, если @start_date или @months некорректны.\n"
 "@EXAMPLES=\n"
-"\n"
+"Если A1 содержит 12/21/00, тогда EOMONTH(A1,0)=12/31/00, EOMONTH(A1,5)=5/31/01, "
+"and EOMONTH(A1,2)=2/28/01\n"
 "@SEEALSO=MONTH"
 
 #: src/functions/fn-date.c:795
