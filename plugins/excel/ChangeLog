@@ -1,5 +1,10 @@
 2002-12-16  Morten Welinder  <terra@diku.dk>
 
+	* ms-excel-write.c (excel_write_map_errcode): Base on
+	value_error_classify.
+
+2002-12-16  Morten Welinder  <terra@diku.dk>
+
 	* ms-excel-read.c (biff_get_error): Rename from
 	biff_get_error_text and return a full error instead.  Add evalpos
 	argument.  All callers changed.

@@ -1,3 +1,9 @@
+2002-12-16  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (database_float_range_function): Use type
+	GnmStdError for error flags.
+	(database_value_range_function): Ditto.
+
 2002-11-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.12

@@ -1,5 +1,22 @@
 2002-12-16  Morten Welinder  <terra@diku.dk>
 
+	* src/number-match.c (format_match_init): Don't setup error
+	variables any more.
+	(gnumeric_error_init): Delete.
+
+	* src/value.c (value_error_name): New function.
+
+	* src/parse-util.c (def_expr_name_handler): Use value_error_name
+	to get proper spelling of the REF error.
+
+	* src/collect.c (float_range_function, float_range_function2,
+	string_range_function): Take a GnmStdError, not a string.
+
+	* src/value.c (value_error_classify): New function.
+
+	* src/expr.c (gnm_expr_is_err): Take a GnmStdError, not a string.
+	All callers changed.
+
 	* src/value.c (value_init): Build table of translated error names.
 	(value_shutdown): Tear it down.
 	(value_new_error_NULL, value_new_error_DIV0,

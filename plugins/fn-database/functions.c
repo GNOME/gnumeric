@@ -154,8 +154,8 @@ database_float_range_function (FunctionEvalInfo *ei,
 			       Value *criteria,
 			       float_range_function_t func,
 			       CollectFlags flags,
-			       const char *zero_count_error,
-			       const char *func_error)
+			       GnmStdError zero_count_error,
+			       GnmStdError func_error)
 {
 	int fieldno;
 	GSList *criterias = NULL;
@@ -184,14 +184,14 @@ database_float_range_function (FunctionEvalInfo *ei,
 		goto out;
 	}
 
-	if (count == 0 && zero_count_error) {
-		res = value_new_error (ei->pos, zero_count_error);
+	if (count == 0 && zero_count_error != GNM_ERROR_UNKNOWN) {
+		res = value_new_error_std (ei->pos, zero_count_error);
 		goto out;
 	}
 
 	err = func (vals, count, &fres);
 	if (err)
-		res = value_new_error (ei->pos, func_error);
+		res = value_new_error_std (ei->pos, func_error);
 	else
 		res = value_new_float (fres);
 
@@ -213,8 +213,8 @@ database_value_range_function (FunctionEvalInfo *ei,
 			       Value *criteria,
 			       value_range_function_t func,
 			       CollectFlags flags,
-			       const char *zero_count_error,
-			       const char *func_error)
+			       GnmStdError zero_count_error,
+			       GnmStdError func_error)
 {
 	int fieldno;
 	GSList *criterias = NULL;
@@ -242,14 +242,14 @@ database_value_range_function (FunctionEvalInfo *ei,
 		goto out;
 	}
 
-	if (count == 0 && zero_count_error) {
-		res = value_new_error (ei->pos, zero_count_error);
+	if (count == 0 && zero_count_error != GNM_ERROR_UNKNOWN) {
+		res = value_new_error_std (ei->pos, zero_count_error);
 		goto out;
 	}
 
 	err = func (vals, count, &res);
 	if (err)
-		res = value_new_error (ei->pos, func_error);
+		res = value_new_error_std (ei->pos, func_error);
 
  out:
 	if (criterias)
@@ -327,8 +327,8 @@ gnumeric_daverage (FunctionEvalInfo *ei, Value **argv)
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
 					      COLLECT_IGNORE_BLANKS,
-					      gnumeric_err_NUM,
-					      gnumeric_err_NUM);
+					      GNM_ERROR_NUM,
+					      GNM_ERROR_NUM);
 }
 
 /***************************************************************************/
@@ -399,8 +399,8 @@ gnumeric_dcount (FunctionEvalInfo *ei, Value **argv)
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
 					      COLLECT_IGNORE_BLANKS,
-					      NULL,
-					      gnumeric_err_NUM);
+					      GNM_ERROR_UNKNOWN,
+					      GNM_ERROR_NUM);
 }
 
 /***************************************************************************/
@@ -469,8 +469,8 @@ gnumeric_dcounta (FunctionEvalInfo *ei, Value **argv)
 					      argv[2],
 					      range_count,
 					      COLLECT_IGNORE_BLANKS,
-					      NULL,
-					      gnumeric_err_NUM);
+					      GNM_ERROR_UNKNOWN,
+					      GNM_ERROR_NUM);
 }
 
 /***************************************************************************/
@@ -553,8 +553,8 @@ gnumeric_dget (FunctionEvalInfo *ei, Value **argv)
 					      argv[2],
 					      range_first,
 					      COLLECT_IGNORE_BLANKS,
-					      gnumeric_err_VALUE,
-					      gnumeric_err_NUM);
+					      GNM_ERROR_VALUE,
+					      GNM_ERROR_NUM);
 }
 
 static const char *help_dmax = {
@@ -625,8 +625,8 @@ gnumeric_dmax (FunctionEvalInfo *ei, Value **argv)
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
 					      COLLECT_IGNORE_BLANKS,
-					      gnumeric_err_NUM,
-					      gnumeric_err_NUM);
+					      GNM_ERROR_NUM,
+					      GNM_ERROR_NUM);
 }
 
 /***************************************************************************/
@@ -696,8 +696,8 @@ gnumeric_dmin (FunctionEvalInfo *ei, Value **argv)
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
 					      COLLECT_IGNORE_BLANKS,
-					      gnumeric_err_NUM,
-					      gnumeric_err_NUM);
+					      GNM_ERROR_NUM,
+					      GNM_ERROR_NUM);
 }
 
 /***************************************************************************/
@@ -767,8 +767,8 @@ gnumeric_dproduct (FunctionEvalInfo *ei, Value **argv)
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
 					      COLLECT_IGNORE_BLANKS,
-					      NULL,
-					      gnumeric_err_NUM);
+					      GNM_ERROR_UNKNOWN,
+					      GNM_ERROR_NUM);
 }
 
 /***************************************************************************/
@@ -839,8 +839,8 @@ gnumeric_dstdev (FunctionEvalInfo *ei, Value **argv)
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
 					      COLLECT_IGNORE_BLANKS,
-					      NULL,
-					      gnumeric_err_NUM);
+					      GNM_ERROR_UNKNOWN,
+					      GNM_ERROR_NUM);
 }
 
 /***************************************************************************/
@@ -911,8 +911,8 @@ gnumeric_dstdevp (FunctionEvalInfo *ei, Value **argv)
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
 					      COLLECT_IGNORE_BLANKS,
-					      NULL,
-					      gnumeric_err_NUM);
+					      GNM_ERROR_UNKNOWN,
+					      GNM_ERROR_NUM);
 }
 
 /***************************************************************************/
@@ -983,8 +983,8 @@ gnumeric_dsum (FunctionEvalInfo *ei, Value **argv)
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
 					      COLLECT_IGNORE_BLANKS,
-					      NULL,
-					      gnumeric_err_NUM);
+					      GNM_ERROR_UNKNOWN,
+					      GNM_ERROR_NUM);
 }
 
 /***************************************************************************/
@@ -1055,8 +1055,8 @@ gnumeric_dvar (FunctionEvalInfo *ei, Value **argv)
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
 					      COLLECT_IGNORE_BLANKS,
-					      NULL,
-					      gnumeric_err_NUM);
+					      GNM_ERROR_UNKNOWN,
+					      GNM_ERROR_NUM);
 }
 
 /***************************************************************************/
@@ -1127,8 +1127,8 @@ gnumeric_dvarp (FunctionEvalInfo *ei, Value **argv)
 					      COLLECT_IGNORE_STRINGS |
 					      COLLECT_IGNORE_BOOLS |
 					      COLLECT_IGNORE_BLANKS,
-					      NULL,
-					      gnumeric_err_NUM);
+					      GNM_ERROR_UNKNOWN,
+					      GNM_ERROR_NUM);
 }
 
 /***************************************************************************/

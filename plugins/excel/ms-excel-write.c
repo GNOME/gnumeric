@@ -2304,24 +2304,17 @@ excel_write_XFs (ExcelWriteState *ewb)
 int
 excel_write_map_errcode (Value const *v)
 {
-	char const * const mesg = v->v_err.mesg->str;
-	if (!strcmp (gnumeric_err_NULL, mesg))
-		return 0;
-	if (!strcmp (gnumeric_err_DIV0, mesg))
-		return 7;
-	if (!strcmp (gnumeric_err_VALUE, mesg))
-		return 15;
-	if (!strcmp (gnumeric_err_REF, mesg))
-		return 23;
-	if (!strcmp (gnumeric_err_NAME, mesg))
-		return 29;
-	if (!strcmp (gnumeric_err_NUM, mesg))
-		return 36;
-	if (!strcmp (gnumeric_err_NA, mesg))
-		return 42;
-
+	switch (value_error_classify (v)) {
+	case GNM_ERROR_NULL: return 0;
+	case GNM_ERROR_DIV0: return 7;
+	case GNM_ERROR_VALUE: return 15;
+	case GNM_ERROR_REF: return 23;
+	default:
 	/* Map non-excel errors to #!NAME */
-	return 29;
+	case GNM_ERROR_NAME: return 29;
+	case GNM_ERROR_NUM: return 36;
+	case GNM_ERROR_NA: return 42;
+	}
 }
 
 /**
