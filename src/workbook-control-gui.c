@@ -2414,13 +2414,13 @@ static GnomeUIInfo workbook_menu_data_outline [] = {
 		GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
 	},
 	{ GNOME_APP_UI_TOGGLEITEM,
-		N_("Oulines _Below"),
+		N_("Outlines _Below"),
 		N_("Toggle whether to display row outlines on top or bottom"),
 		cb_sheet_pref_outline_symbols_below, NULL, NULL,
 		GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
 	},
 	{ GNOME_APP_UI_TOGGLEITEM,
-		N_("Oulines _Right"),
+		N_("Outlines _Right"),
 		N_("Toggle whether to display column outlines on the left or right"),
 		cb_sheet_pref_outline_symbols_right, NULL, NULL,
 		GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL

@@ -1,3 +1,7 @@
+2001-05-26  Karl Eichwalder  <ke@suse.de>
+
+	* src/workbook-control-gui.c: Fix typo.
+
 2001-05-26  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell.c (cell_eval_content) : Use the iteration prefs.
