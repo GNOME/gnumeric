@@ -1,3 +1,9 @@
+2003-11-18  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/print-info.c (print_info_new): disable page setup continuity 
+	  again. The bug seems to be still in libgnomeprint 2.4.x (it is gone 
+	  from 2.5.x, at least so it seems).
+
 2003-11-17  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/print-info.c (print_info_new): re-enable page setup continuity
