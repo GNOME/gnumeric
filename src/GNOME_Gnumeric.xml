@@ -571,14 +571,14 @@
 	    _accel="*Control*b"
 	    verb="FontBold"/>
 
-	<toolitem name="FontItalic"
+	<toolitem type="toggle" name="FontItalic"
 	    pixtype="stock" pixname="Italic"
 	    _label="Italicize"
 	    _tip="Makes font italic"
 	    _accel="*Control*i"
 	    verb="FontItalic"/>
 
-	<toolitem name="FontUnderline"
+	<toolitem type="toggle" name="FontUnderline"
 	    pixtype="stock" pixname="Underline"
 	    _label="Underline"
 	    _tip="Underlines the text"

@@ -19,10 +19,6 @@ Release Critical
       intersection cases.
     - diagonals
 
-- The underline button does not show whether the current cells is
-  underlined.  (The bold button is depressed when the current cell
-  is bold, for comparison.)
-
 Long term breakage
 ------------------
 
