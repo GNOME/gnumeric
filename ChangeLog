@@ -1,5 +1,8 @@
 2004-09-29  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-file.c (go_file_is_writable): Make the file-exist dialog
+	use GTK_MESSAGE_WARNING and have buttons OK and Cancel.
+
 	* src/Makefile.am: Link in egg-recent.
 
 	* src/clipboard.c (clipboard_copy_range): Fix

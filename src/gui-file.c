@@ -374,7 +374,6 @@ static gboolean
 go_file_is_writable (char const *uri, GtkWindow *parent)
 {
 	gboolean result = TRUE;
-	gchar *msg;
 	char *filename;
 
 	if (uri == NULL || uri[0] == '\0')
@@ -385,25 +384,39 @@ go_file_is_writable (char const *uri, GtkWindow *parent)
 		return TRUE;  /* Just assume writable.  */
 
 	if (filename [strlen (filename) - 1] == G_DIR_SEPARATOR ||
-		 g_file_test (filename, G_FILE_TEST_IS_DIR)) {
-		msg = g_strdup_printf (_("%s\nis a directory name"), uri);
+	    g_file_test (filename, G_FILE_TEST_IS_DIR)) {
+		char *msg = g_strdup_printf (_("%s\nis a directory name"), uri);
 		gnumeric_notice (parent, GTK_MESSAGE_ERROR, msg);
 		g_free (msg);
 		result = FALSE;
 	} else if (access (filename, W_OK) != 0 && errno != ENOENT) {
-		msg = g_strdup_printf (
+		char *msg = g_strdup_printf (
 		      _("You do not have permission to save to\n%s"),
 		      uri);
 		gnumeric_notice (parent, GTK_MESSAGE_ERROR, msg);
 		g_free (msg);
 		result = FALSE;
 	} else if (g_file_test (filename, G_FILE_TEST_EXISTS)) {
-		msg = g_strdup_printf (
-		      _("%s already exists.\n"
-		      "Do you want to save over it?"), uri);
-		result = gnumeric_dialog_question_yes_no (
-			parent, msg, 
-			gnm_app_prefs->file_overwrite_default_answer);
+		char *dirname = g_path_get_dirname (uri);
+		char *basename = go_basename_from_uri (uri);
+		char *msg = g_markup_printf_escaped (
+			_("A file called <i>%s</i> already exists in %s.\n\n"
+			  "Do you want to save over it?"),
+			basename, dirname);
+		GtkWidget *dialog = gtk_message_dialog_new_with_markup
+			(parent,
+			 GTK_DIALOG_DESTROY_WITH_PARENT,
+			 GTK_MESSAGE_WARNING,
+			 GTK_BUTTONS_OK_CANCEL,
+			 msg);
+		gtk_dialog_set_default_response (GTK_DIALOG (dialog),
+						 gnm_app_prefs->file_overwrite_default_answer
+						 ? GTK_RESPONSE_OK
+						 : GTK_RESPONSE_CANCEL);
+		result = gnumeric_dialog_run (parent, GTK_DIALOG (dialog))
+			== GTK_RESPONSE_OK;
+		g_free (dirname);
+		g_free (basename);
 		g_free (msg);
 	}
 
