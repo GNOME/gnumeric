@@ -66,8 +66,7 @@ expr_name_unlink_deps (GnmNamedExpr *nexpr)
  * in the same sheet or workbook.
  */
 static void
-expr_name_link_deps (GSList *deps,
-		     GnmExprRewriteInfo const *rwinfo)
+expr_name_link_deps (GSList *deps, GnmExprRewriteInfo const *rwinfo)
 {
 	GSList *ptr = deps;
 
@@ -487,22 +486,39 @@ expr_name_set_scope (GnmNamedExpr *nexpr, Sheet *sheet)
 {
 	Workbook *wb;
 
-	g_return_val_if_fail (IS_SHEET (nexpr->pos.sheet), FALSE);
+	g_return_val_if_fail (nexpr != NULL, FALSE);
 
-	sheet = nexpr->pos.sheet;
-	wb = sheet->workbook;
+	if (sheet == NULL) {
+		g_return_val_if_fail (nexpr->pos.sheet != NULL, FALSE);
 
-	nexpr->pos.sheet = NULL;
-	nexpr->pos.wb = wb;
+		wb = nexpr->pos.sheet->workbook;
+		nexpr->pos.wb = wb;
+		nexpr->pos.sheet = NULL;
+		wb->names    = g_list_prepend (wb->names, nexpr);
+		sheet->names = g_list_remove (sheet->names, nexpr);
+	} else {
+		g_return_val_if_fail (nexpr->pos.sheet == NULL, FALSE);
+		g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
-	wb->names    = g_list_prepend (wb->names, nexpr);
-	sheet->names = g_list_remove (sheet->names, nexpr);
-
-	sheet_set_dirty (sheet, TRUE);
+		wb = sheet->workbook;
+		nexpr->pos.wb = NULL;
+		nexpr->pos.sheet = sheet;
+		wb->names    = g_list_remove (wb->names, nexpr);
+		sheet->names = g_list_prepend (sheet->names, nexpr);
+	}
+	workbook_set_dirty (wb, TRUE);
 
 	return TRUE;
 }
 
+/**
+ * expr_name_set_expr :
+ * @nexpr : the named expression
+ * @new_expr : the new content
+ * @rwinfo : optional.
+ *
+ * Unrefs the current content of @nexpr and absorbs a ref to @new_expr.
+ **/
 void
 expr_name_set_expr (GnmNamedExpr *nexpr, GnmExpr const *new_expr,
 		    GnmExprRewriteInfo const *rwinfo)
@@ -512,8 +528,8 @@ expr_name_set_expr (GnmNamedExpr *nexpr, GnmExpr const *new_expr,
 	g_return_if_fail (nexpr != NULL);
 	g_return_if_fail (!nexpr->builtin);
 
-	if (new_expr != NULL)
-		gnm_expr_ref (new_expr);
+	if (new_expr == nexpr->t.expr_tree)
+		return;
 	if (nexpr->t.expr_tree != NULL) {
 		deps = expr_name_unlink_deps (nexpr);
 		expr_name_handle_references (nexpr, FALSE);

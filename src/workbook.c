@@ -971,6 +971,9 @@ workbook_sheet_delete (Sheet *sheet)
 	wb = sheet->workbook;
 
 	if (!sheet->pristine) {
+		Sheet *new_focus = NULL;
+		int i;
+
 		/*
 		 * FIXME : Deleting a sheet plays havoc with our data structures.
 		 * Be safe for now and empty the undo/redo queues
@@ -979,6 +982,22 @@ workbook_sheet_delete (Sheet *sheet)
 		command_list_release (wb->redo_commands);
 		wb->undo_commands = NULL;
 		wb->redo_commands = NULL;
+		WORKBOOK_FOREACH_CONTROL (wb, view, control,
+			wb_control_undo_redo_clear (control, TRUE);
+			wb_control_undo_redo_clear (control, FALSE);
+			wb_control_undo_redo_labels (control, NULL, NULL);
+		);
+
+		i = sheet->index_in_wb - 1;
+		if (i < 0)
+			i = sheet->index_in_wb + 1;
+		if (i < workbook_sheet_count (wb))
+			new_focus = workbook_sheet_by_index (wb, i);
+
+		WORKBOOK_FOREACH_VIEW (wb, wbv,
+			if (sheet == wb_view_cur_sheet (wbv))
+				wb_view_sheet_focus (wbv, new_focus);
+		);
 		WORKBOOK_FOREACH_CONTROL (wb, view, control,
 			wb_control_undo_redo_clear (control, TRUE);
 			wb_control_undo_redo_clear (control, FALSE);

@@ -373,14 +373,15 @@ name_guru_add (NameGuruState *state)
 		if (!expr_name->builtin) {
 			/* This means that the expresion was updated.
 			 * FIXME: if the scope has been changed too, call scope
-			 * chaned first.
+			 * changed first.
 			 */
 			expr_name_set_expr (expr_name, expr, NULL);
 			dirty = TRUE;
-		} else
+		} else {
 			gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 					 _("You cannot redefine a builtin name."));
-		gnm_expr_unref (expr);
+			gnm_expr_unref (expr);
+		}
 	} else {
 		char const *error = NULL;
 		ParsePos pos;

@@ -84,7 +84,7 @@ wb_view_sheet_focus (WorkbookView *wbv, Sheet *sheet)
 {
 	if (wbv->current_sheet != sheet) {
 		/* Make sure the sheet has been attached */
-		g_return_if_fail (sheet->index_in_wb >= 0);
+		g_return_if_fail (sheet == NULL || sheet->index_in_wb >= 0);
 
 		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
 			wb_control_sheet_focus (control, sheet););
@@ -360,12 +360,16 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 	EvalPos		 ep;
 	GnmExprList	*selection = NULL;
 	Value		*v;
+	SheetView	*sv;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 	g_return_if_fail (wbv->auto_expr != NULL);
 
-	selection_apply (wb_view_cur_sheet_view (wbv), &accumulate_regions,
-		FALSE, &selection);
+	sv = wb_view_cur_sheet_view (wbv);
+	if (sv == NULL)
+		return;
+
+	selection_apply (sv, &accumulate_regions, FALSE, &selection);
 
 	ei.pos = eval_pos_init_sheet (&ep, wbv->current_sheet);
 	ei.func_call = (GnmExprFunction const *)wbv->auto_expr;

@@ -136,6 +136,10 @@ wbcg_sheet_to_page_index (WorkbookControlGUI *wbcg, Sheet *sheet,
 
 	if (res)
 		*res = NULL;
+
+	if (sheet == NULL)
+		return -1;
+
 	g_return_val_if_fail (IS_SHEET (sheet), -1);
 
 	for ( ; NULL != (w = gtk_notebook_get_nth_page (wbcg->notebook, i)) ; i++) {

@@ -1608,11 +1608,21 @@ cb_dep_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 #endif
 }
 
-
 static void
-cb_name_invalidate (gpointer nexpr, gpointer value, gpointer rwinfo)
+cb_name_invalidate (GnmNamedExpr *nexpr, gpointer value,
+		    GnmExprRewriteInfo const *rwinfo)
 {
-	expr_name_set_expr (nexpr, NULL, rwinfo);
+	GnmExpr const *new_expr = NULL;
+
+	if (!nexpr->builtin &&
+	    ((rwinfo->type == GNM_EXPR_REWRITE_SHEET &&
+	     rwinfo->u.sheet != nexpr->pos.sheet) ||
+	    (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK &&
+	     rwinfo->u.workbook == nexpr->pos.wb))) {
+		new_expr = gnm_expr_rewrite (nexpr->t.expr_tree, rwinfo);
+		g_return_if_fail (new_expr != NULL);
+	}
+	expr_name_set_expr (nexpr, new_expr, rwinfo);
 }
 
 /*
@@ -1671,7 +1681,7 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 
 	if (deps->names) {
 		g_hash_table_foreach (deps->names,
-			cb_name_invalidate, (gpointer)rwinfo);
+			(GHFunc)cb_name_invalidate, (gpointer)rwinfo);
 		g_hash_table_destroy (deps->names);
 		deps->names = NULL;
 	}

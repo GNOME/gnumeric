@@ -4063,6 +4063,9 @@ sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols)
 SheetView *
 sheet_get_view (Sheet const *sheet, WorkbookView const *wbv)
 {
+	if (sheet == NULL)
+		return NULL;
+
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
 	SHEET_FOREACH_VIEW (sheet, view, {

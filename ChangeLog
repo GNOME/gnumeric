@@ -1,3 +1,25 @@
+2002-08-04  Jody Goldberg <jody@gnome.org>
+
+	* src/expr-name.c (expr_name_set_scope) : handle the wb -> sheet
+	  transition too.
+	(expr_name_set_expr) : tweak the expr ref counting semantics to be
+	  more useful.  Just absorb it.
+
+	* src/dependent.c (cb_name_invalidate) : don't NULL the name's
+	  expression, rewrite it if necessary.
+
+2002-08-03  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-view.c (wb_view_auto_expr_recalc) : support NULL views.
+
+	* src/sheet.c (sheet_get_view) : support NULL.
+
+	* src/workbook-control-gui.c (wbcg_sheet_to_page_index) : allow
+	  unfocused controls.
+
+	* src/workbook.c (workbook_sheet_delete) : make sure nothing is
+	  focused on the deleted sheet.
+
 2002-08-03  Jon K Hellan  <hellan@acm.org>
 
 	* src/GNOME_Gnumeric.xml: Add Edit/Fill/Merge.

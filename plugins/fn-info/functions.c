@@ -379,7 +379,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		return value_new_int (rint (cellwidth / charwidth));
 	}
 
-	return value_new_error (ei->pos, _("Unknown info_type"));
+	return value_new_error (ei->pos, gnumeric_err_VALUE);
 }
 
 #warning implement this
