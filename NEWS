@@ -21,6 +21,7 @@ Jody
 	* Just in time rendering for clipboard
 	* Add 'require_explicit_enable' for plugins
 	* Support writing dual stream xls files
+	* http://bugzilla.gnome.org/show_bug.cgi?id=97672
 
 Morten:
 	* Spelling fixes all over.

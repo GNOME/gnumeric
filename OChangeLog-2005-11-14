@@ -1,3 +1,8 @@
+2002-11-08  Jody Goldberg <jody@gnome.org>
+
+	* src/stf.c (stf_preparse) : quicky fix for 97672.  Pending removal of
+	  this limitation.
+
 2002-11-07  Jody Goldberg <jody@gnome.org>
 
 	* src/item-edit.c (item_edit_draw) : fix bounding box.

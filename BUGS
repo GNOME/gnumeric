@@ -9,7 +9,6 @@ Release Critical
 
 - validate expression names to ensure that they are not simple values (eg TRUE)
 - height calculation in render value is hosed for embedded new lines
-- Add plugin and local SUPBOOKS for xl97 export to bring it up to par with xl95
 
 Pending Patches
 ---------------

@@ -119,10 +119,26 @@ stf_preparse (CommandContext *context, GsfInput *input)
 
 	if ((c = stf_parse_is_valid_data (data, len)) != NULL) {
 		if (context) {
-			char *message = g_strdup_printf (_("This file does not seem to be a valid text file.\nThe character '%c' (ASCII decimal %d) was encountered.\nMost likely your locale settings are wrong."),
-							 *c, (int) *c);
-			gnumeric_error_read (context, message);
-			g_free (message);
+			char *msg;
+			char *invalid_char = g_locale_to_utf8 (c, 1, NULL, NULL, NULL);
+
+			/* if locale conversion failed try 8859-1 as a fallback
+			 * its ok to do this for an error message */
+			if (invalid_char == NULL)
+				invalid_char = g_convert (c, 1, "UTF-8", "ISO-8859-1", NULL, NULL, NULL);
+			if (invalid_char != NULL) {
+				msg = g_strdup_printf (_("This file does not seem to be a valid text file.\n"
+							 "The character '%s' (ASCII decimal %d) was encountered.\n"
+							 "Most likely your locale settings are wrong."),
+						       invalid_char, (int)*c);
+				g_free (invalid_char);
+			} else
+				msg = g_strdup_printf (_("This file does not seem to be a valid text file.\n"
+							 "Byte 0x%d was encountered.\n"
+							 "Most likely your locale settings are wrong."),
+						       (int)*c);
+			gnumeric_error_read (context, msg);
+			g_free (msg);
 		}
 		g_free (data);
 		return NULL;
