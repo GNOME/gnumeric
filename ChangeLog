@@ -1,3 +1,7 @@
+2002-04-02  Morten Welinder  <terra@diku.dk>
+
+	* src/mathfunc.c (gnumeric_fake_trunc): Backport fix from head.
+
 2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/analysis-tools.c (set_cell_value) : plug leak

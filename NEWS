@@ -16,6 +16,9 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=75193
 	* DOM importer missed sheet scoped names.
 
+Morten:
+	* Fix gnumeric_fake_trunc and thus INT.
+
 --------------------------------------------------------------------------
 Gnumeric 1.0.5
 

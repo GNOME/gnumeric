@@ -88,55 +88,55 @@ d1mach (int i)
 double
 gnumeric_add_epsilon (double x)
 {
-  if (!FINITE (x) || x == 0)
-    return x;
-  else {
-    int exp;
-    double mant = frexp (fabs (x), &exp);
-    double absres = ldexp (mant + DBL_EPSILON, exp);
-    return (x < 0) ? -absres : absres;
-  }
+	if (!FINITE (x) || x == 0)
+		return x;
+	else {
+		int exp;
+		double mant = frexp (fabs (x), &exp);
+		double absres = ldexp (mant + DBL_EPSILON, exp);
+		return (x < 0) ? -absres : absres;
+	}
 }
 
 double
 gnumeric_sub_epsilon (double x)
 {
-  if (!FINITE (x) || x == 0)
-    return x;
-  else {
-    int exp;
-    double mant = frexp (fabs (x), &exp);
-    double absres = ldexp (mant - DBL_EPSILON, exp);
-    return (x < 0) ? -absres : absres;
-  }
+	if (!FINITE (x) || x == 0)
+		return x;
+	else {
+		int exp;
+		double mant = frexp (fabs (x), &exp);
+		double absres = ldexp (mant - DBL_EPSILON, exp);
+		return (x < 0) ? -absres : absres;
+	}
 }
 
 double
 gnumeric_fake_floor (double x)
 {
-  return floor (gnumeric_add_epsilon (x));
+	return floor (gnumeric_add_epsilon (x));
 }
 
 double
 gnumeric_fake_ceil (double x)
 {
-  return ceil (gnumeric_sub_epsilon (x));
+	return ceil (gnumeric_sub_epsilon (x));
 }
 
 double
 gnumeric_fake_round (double x)
 {
-  return (x >= 0)
-    ? gnumeric_fake_floor (x + 0.5)
-    : -gnumeric_fake_floor (-x + 0.5);
+	return (x >= 0)
+		? gnumeric_fake_floor (x + 0.5)
+		: -gnumeric_fake_floor (-x + 0.5);
 }
 
 double
 gnumeric_fake_trunc (double x)
 {
-  return (x >= 0)
-    ? gnumeric_fake_floor (x)
-    : gnumeric_fake_ceil (x);
+	return (x >= 0)
+		? gnumeric_fake_floor (x)
+		: -gnumeric_fake_floor (-x);
 }
 
 
