@@ -8,8 +8,8 @@ while (<>) {
 	    print "      </refsect1>\n";
 	    print "    </refentry>\n\n";
 	}
-	my $mod_func = &fixup_function_name ($1);
 	my $func = $1;
+	my $mod_func = &fixup_function_name ($1);
 	$state = 0;
 	print "\n\n";
 	print "  <refentry id=\"gnumeric-$mod_func\">\n";
@@ -21,22 +21,22 @@ while (<>) {
 	print "      <refpurpose></refpurpose>\n";
 	print "    </refnamediv>\n";
 	next;
-    }	
-    
+    }
+
     if (/^\@SYNTAX=(.*)/) {
 	print "    <refsynopsisdiv>\n";
 	print "      <synopsis>", &quote_stuff ($1), "</synopsis>\n";
 	print "    </refsynopsisdiv>\n";
 	next;
     }
-    
+
     if (/^\@DESCRIPTION=(.*)/) {
 	print "      <refsect1>\n";
 	print "        <title>Description</title>\n";
 	print "        <para>", &quote_stuff ($1), "</para>\n";
 	$state = 1;
 	next;
-    } 
+    }
 
     if (/^\@EXAMPLES=(.*)/) {
 	if ($state) {
@@ -47,7 +47,7 @@ while (<>) {
 	print "        <para>", &quote_stuff ($1), "</para>\n";
 	$state = 2;
 	next;
-    } 
+    }
 
     if (/^\@SEEALSO=(.*)/) {
 	my $linktxt = $1;
@@ -85,12 +85,15 @@ while (<>) {
 sub quote_stuff {
     my ($str) = @_;
 
+    # Let's do this one first...
+    $str =~ s/\&/\&amp;/g;
+
     $str =~ s/</\&lt;/g;
     $str =~ s/>/\&gt;/g;
-    $str =~ s/\&/\&amp;/g;
     return $str;
 }
 
+#Subroutine MUST agree with the subroutine in make-index.pl
 sub fixup_function_name {
     my ($name) = @_;
     $name =~ s/_/x/;

@@ -1,3 +1,10 @@
+2001-09-17  Morten Welinder  <terra@diku.dk>
+
+	* make-index.pl: Use LF line endings.
+
+	* make-docbook.pl: Ditto.
+	(quote_stuff): Fix case with "&" and "<"/">" on	the same line.
+
 2001-08-20  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.70
