@@ -10,7 +10,6 @@ Critical bugs:
   * fix all memory leaks
 
 Usability fixes:
-  * report generation checkbuttons should be persistent
   * add keep original values dialog
   * check that the program is properly defined (e.g. no #DIV0, #NUM!, ...)
 
