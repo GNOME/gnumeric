@@ -1,3 +1,7 @@
+2002-01-27  Christian Rose  <menthos@menthos.com>
+
+	* sv.po: Updated and converted to UTF-8.
+
 2002-01-26  Andreas Guelzow <aguelzow@taliesin.ca>
 
 	* POTFILES.in : removed src/dialogs/autosave-prompt.glade
