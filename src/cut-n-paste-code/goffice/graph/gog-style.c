@@ -862,6 +862,43 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 void
 gog_style_merge	(GogStyle *dst, GogStyle const *src)
 {
+	if (src == dst)
+		return;
+
+	g_return_if_fail (GOG_STYLE (src) != NULL);
+	g_return_if_fail (GOG_STYLE (dst) != NULL);
+
+	if (dst->fill.is_auto) {
+		if (GOG_FILL_STYLE_IMAGE == src->fill.type &&
+		    src->fill.u.image.image != NULL)
+			g_object_ref (src->fill.u.image.image);
+		if (GOG_FILL_STYLE_IMAGE == dst->fill.type) {
+			if (dst->fill.u.image.image != NULL)
+			g_object_unref (dst->fill.u.image.image);
+			g_free (dst->fill.u.image.filename);
+		}
+	}
+
+	if (src->font.font != NULL)
+		go_font_ref (src->font.font);
+	if (dst->font.font != NULL)
+		go_font_unref (dst->font.font);
+
+	if (dst->outline.auto_color)
+		dst->outline = src->outline;
+	if (dst->fill.is_auto)
+		dst->fill    = src->fill;
+	if (dst->line.auto_color)
+		dst->line    = src->line;
+	if (!dst->marker || go_marker_is_auto (dst->marker)) {
+		if (dst->marker)
+			g_object_unref (G_OBJECT (dst->marker));
+		dst->marker  = go_marker_dup (src->marker);
+	}
+	dst->font    = src->font; /* FIXME: No way to tell if this is auto */
+
+	if (GOG_FILL_STYLE_IMAGE == dst->fill.type)
+		dst->fill.u.image.filename = g_strdup (src->fill.u.image.filename);
 }
 
 static void
@@ -942,61 +979,6 @@ fill_style_as_str (GogFillStyle fstyle)
 	for (i = 0; i < sizeof fill_names / sizeof fill_names[0]; i++) {
 		if (fill_names[i].fstyle == fstyle) {
 			ret = fill_names[i].name;
-			break;
-		}
-	}
-	return ret;
-}
-
-static struct {
-	GOMarkerShape shape;
-	const gchar  *name;
-} marker_shape_names[] = {
-	GO_MARKER_NONE,           "none",
-	GO_MARKER_SQUARE,         "square",
-	GO_MARKER_DIAMOND,        "diamond",
-	GO_MARKER_TRIANGLE_DOWN,  "triangle-down",
-	GO_MARKER_TRIANGLE_UP,    "triangle-up",
-	GO_MARKER_TRIANGLE_RIGHT, "triangle-right",
-	GO_MARKER_TRIANGLE_LEFT,  "triangle-left",
-	GO_MARKER_CIRCLE,         "circle",
-	GO_MARKER_X,              "x",
-	GO_MARKER_CROSS,          "cross",
-	GO_MARKER_ASTERISK,       "asterisk",
-	GO_MARKER_BAR,            "bar",
-	GO_MARKER_HALF_BAR,       "half-bar",
-	GO_MARKER_BUTTERFLY,      "butterfly",
-	GO_MARKER_HOURGLASS,      "hourglass"
-};
-
-static GOMarkerShape
-str_as_marker_shape (const gchar *name)
-{
-	unsigned i;
-	GOMarkerShape ret = GO_MARKER_NONE;
-
-	for (i = 0; 
-	     i < sizeof marker_shape_names / sizeof marker_shape_names[0]; 
-	     i++) {
-		if (strcmp (marker_shape_names[i].name, name) == 0) {
-			ret = marker_shape_names[i].shape;
-			break;
-		}
-	}
-	return ret;
-}
-
-static const gchar *
-marker_shape_as_str (GOMarkerShape shape)
-{
-	unsigned i;
-	const gchar *ret = "pattern";
-
-	for (i = 0; 
-	     i < sizeof marker_shape_names / sizeof marker_shape_names[0]; 
-	     i++) {
-		if (marker_shape_names[i].shape == shape) {
-			ret = marker_shape_names[i].name;
 			break;
 		}
 	}
@@ -1190,7 +1172,7 @@ gog_style_marker_load (xmlNode *node, GogStyle *style)
 
 	str = xmlGetProp (node, "shape");
 	if (str != NULL) {
-		go_marker_set_shape (marker, str_as_marker_shape (str));
+		go_marker_set_shape (marker, go_marker_shape_from_str (str));
 		xmlFree (str);
 	}
 	str = xmlGetProp (node, "outline-color");
@@ -1218,7 +1200,7 @@ gog_style_marker_save (xmlNode *parent, GogStyle *style)
 	xmlNode *node = xmlNewDocNode (parent->doc, NULL, "marker", NULL);
 
 	xmlSetProp (node, (xmlChar const *) "shape", 
-		    marker_shape_as_str (go_marker_get_shape (style->marker)));
+		    go_marker_shape_as_str (go_marker_get_shape (style->marker)));
 	str = go_color_as_str (go_marker_get_outline_color (style->marker));
 	xmlSetProp (node, (xmlChar const *) "outline-color", str);
 	g_free (str);
@@ -1288,15 +1270,18 @@ gog_style_persist_dom_load (GogPersistDOM *gpd, xmlNode *node)
 	for (ptr = node->xmlChildrenNode ; ptr != NULL ; ptr = ptr->next) {
 		if (xmlIsBlankNode (ptr) || ptr->name == NULL)
 			continue;
-		if (strcmp (ptr->name, "outline") == 0)
+		if (strcmp (ptr->name, "outline") == 0) {
 			gog_style_line_load (ptr, &style->outline.width, 
 					     &style->outline.color);
-		else if (strcmp (ptr->name, "line") == 0)
+			style->outline.auto_color = FALSE;
+		} else if (strcmp (ptr->name, "line") == 0) {
 			gog_style_line_load (ptr, &style->line.width, 
 					     &style->line.color);
-		else if (strcmp (ptr->name, "fill") == 0)
+			style->line.auto_color = FALSE;
+		} else if (strcmp (ptr->name, "fill") == 0) {
 			gog_style_fill_load (ptr, style);
-		else if (strcmp (ptr->name, "marker") == 0)
+			style->fill.is_auto = FALSE;
+		} else if (strcmp (ptr->name, "marker") == 0)
 			gog_style_marker_load (ptr, style);
 		else if (strcmp (ptr->name, "font") == 0)
 			gog_style_font_load (ptr, style);

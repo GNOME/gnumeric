@@ -1,5 +1,26 @@
 2003-09-06  Jon K Hellan  <hellan@acm.org>
 
+	* graph/gog-theme.c (gog_theme_init_style): Merge styles instead
+	of assigning style from theme.
+	(map_area_series_solid_default): Only change elements which hold
+	auto values.
+
+	* utils/go-marker.[ch] (go_marker_shape_from_str,
+	go_marker_shape_as_str): Move from gog-style.c and rename.
+	(go_marker_is_auto): New. Tests if marker is different from
+	default. Should really test if user has chosen the marker
+	explicitly.
+
+	* graph/gog-style.c (gog_style_merge): Implement.
+	(str_as_marker_shape, marker_shape_as_str):Move to utils/go-marker
+	and rename.
+	(gog_style_marker_load, gog_style_marker_save): Use renamed
+	version of above functions.
+	(gog_style_persist_dom_load): Mark style elements read from file
+	as non-auto (for now).
+
+2003-09-06  Jon K Hellan  <hellan@acm.org>
+
 	* utils/go-pattern.[ch] (go_pattern_as_str, go_pattern_as_str): Move
 	from gog-style.c and rename.
 

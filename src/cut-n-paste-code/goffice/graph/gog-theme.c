@@ -190,7 +190,7 @@ gog_theme_init_style (GogTheme *theme, GogStyle *style,
 	/* no theme entry for this type */
 	g_return_if_fail (elem != NULL);
 
-	gog_style_assign (style, elem->style);
+	gog_style_merge (style, elem->style);
 	if (ind >= 0 && elem->map)
 		(elem->map) (style, ind);
 }
@@ -332,13 +332,15 @@ map_area_series_solid_default (GogStyle *style, unsigned ind)
 	unsigned palette_index = ind;
 	if (palette_index >= G_N_ELEMENTS (palette))
 		palette_index %= G_N_ELEMENTS (palette);
-	style->fill.u.pattern.pat.back = palette [palette_index];
+	if (style->fill.is_auto)
+		style->fill.u.pattern.pat.back = palette [palette_index];
 
 	palette_index += 8;
 	if (palette_index >= G_N_ELEMENTS (palette))
 		palette_index -= G_N_ELEMENTS (palette);
-	style->line.color = palette [palette_index];
-	if (style->marker != NULL)
+	if (style->line.auto_color)
+		style->line.color = palette [palette_index];
+	if (style->marker != NULL && go_marker_is_auto (style->marker))
 		map_marker (style->marker, ind, palette_index, palette);
 }
 
