@@ -377,7 +377,7 @@ map_linear_auto_bound (GogAxis *axis, double minimum, double maximum, double *bo
 	    (bound [AXIS_ELEM_MIN] - 10. * step) < 0)
 		bound [AXIS_ELEM_MIN] = 0;
 	else if (bound [AXIS_ELEM_MAX] < 0 &&
-	    (bound [AXIS_ELEM_MAX] + 10. * step) < 0)
+	    (bound [AXIS_ELEM_MAX] + 10. * step) > 0)
 		bound [AXIS_ELEM_MAX] = 0;
 
 	/* The epsilon shift can pull us away from a zero we want to
