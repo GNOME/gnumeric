@@ -117,24 +117,11 @@ sheet_selection_add_range (Sheet *sheet,
 
 	/* Create and prepend new selection */
 	ss = g_new0 (SheetSelection, 1);
-	ss->user.start.col = MIN (base_col, move_col);
-	ss->user.start.row = MIN (base_row, move_row);
-	ss->user.end.col   = MAX (base_col, move_col);
-	ss->user.end.row   = MAX (base_row, move_row);
 	sheet->selections = g_list_prepend (sheet->selections, ss);
 
-	/* Set the selection parameters, and redraw the old edit cursor */
-	sheet_cursor_set (sheet,
-			  edit_col, edit_row,
-			  base_col, base_row,
-			  move_col, move_row);
-
-	/* Redraw the newly added range so that it get shown as selected */
-	sheet_redraw_range (sheet, &ss->user);
-	sheet_redraw_headers (sheet, TRUE, TRUE, &ss->user);
-
-	/* Force update of the status area */
 	sheet_flag_status_update_range (sheet, NULL /* force update */);
+	sheet_selection_set (sheet, edit_col, edit_row,
+			     base_col, base_row, move_col, move_row);
 }
 
 void

@@ -1,3 +1,11 @@
+2000-12-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_draw_merged_range) : Draw borders too.
+	  This can easily be optimized.
+
+	* src/selection.c (sheet_selection_add_range) : Use
+	  sheet_selection_set.
+
 2000-12-05  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet-object.c (sheet_object_realize): Check that the sheet

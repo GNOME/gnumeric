@@ -2487,7 +2487,7 @@ sheet_cursor_set (Sheet *sheet,
 	for (l = sheet->s_controls; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_CONTROL_GUI (l->data);
 
-		gnumeric_sheet_set_cursor_bounds ( gsheet,
+		gnumeric_sheet_set_cursor_bounds (gsheet,
 			MIN (base_col, move_col),
 			MIN (base_row, move_row),
 			MAX (base_col, move_col),

@@ -245,31 +245,33 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 	/* Remember X excludes the far pixels */
 	gdk_draw_rectangle (drawable, gc, TRUE, l, t, r-l+1, b-t+1);
 
+	if (range->start.col < view->start.col) {
+		l -= sheet_col_get_distance_pixels (sheet,
+			range->start.col, view->start.col);
+	} else if (no_background)
+		l--;
+
+	if (view->end.col < range->end.col)
+		r += sheet_col_get_distance_pixels (sheet,
+			view->end.col+1, range->end.col+1);
+	else if (no_background)
+		r++;
+	if (range->start.row < view->start.row)
+		t -= sheet_row_get_distance_pixels (sheet,
+			range->start.row, view->start.row);
+	else if (no_background)
+		t--;
+	if (view->end.row < range->end.row)
+		b += sheet_row_get_distance_pixels (sheet,
+			view->end.row+1, range->end.row+1);
+	else if (no_background)
+		b++;
+
+	item_grid_draw_border (drawable, mstyle, l, t, r-l+1, b-t+1, FALSE);
+
 	if (cell != NULL) {
 		ColRowInfo const * const ri = cell->row_info;
 		ColRowInfo const * const ci = cell->col_info;
-
-		if (range->start.col < view->start.col) {
-			l -= sheet_col_get_distance_pixels (sheet,
-				range->start.col, view->start.col);
-		} else if (no_background)
-			l--;
-
-		if (view->end.col < range->end.col)
-			r += sheet_col_get_distance_pixels (sheet,
-				view->end.col+1, range->end.col+1);
-		else if (no_background)
-			r++;
-		if (range->start.row < view->start.row)
-			t -= sheet_row_get_distance_pixels (sheet,
-				range->start.row, view->start.row);
-		else if (no_background)
-			t--;
-		if (view->end.row < range->end.row)
-			b += sheet_row_get_distance_pixels (sheet,
-				view->end.row+1, range->end.row+1);
-		else if (no_background)
-			b++;
 
 		cell_draw (cell, mstyle, NULL, grid->gc, drawable,
 			   l, t,
