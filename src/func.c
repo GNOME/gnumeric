@@ -27,41 +27,6 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-/* These are not supported yet */
-typedef enum {
-	FUNCTION_RETURNS_ARRAY = 0x01, /* eg transpose(), mmult() */
-	FUNCTION_RECALC_ALWAYS = 0x02, /* eg now(), today() */
-
-	/* For functions that are not exactly compatible with various import
-	 * formats.  We need to recalc their results to avoid changing values
-	 * unexpectedly when we recalc later.  This probably needs to be done
-	 * on a per import format basis.  It may not belong here.
-	 */
-	FUNCTION_RECALC_ONLOAD = 0x04
-
-	/* TODO : Are there other forms or recalc we need to think about ? */
-} FunctionFlags;
-
-struct _FunctionDefinition {
-	FunctionGetFullInfoCallback get_full_info_callback;
-	FunctionFlags flags;
-	gchar   const *name;
-	gchar   const *named_arguments;
-	gchar   const **help;
-	FuncType       fn_type;
-	union {
-		FunctionNodes *fn_nodes;
-		struct {
-			const char *arg_spec;
-			FunctionArgs  *func;
-			int min_args, max_args;
-			char *arg_types;
-		} args;
-	} fn;
-	gpointer     user_data;
-	gint         ref_count;
-};
-
 static GList *categories = NULL;
 static SymbolTable *global_symbol_table = NULL;
 
@@ -115,7 +80,7 @@ func_def_cmp (gconstpointer a, gconstpointer b)
 }
 
 void
-function_dump_defs (const char *filename)
+function_dump_defs (char const *filename)
 {
 	FILE *output_file;
 	unsigned i;
@@ -288,9 +253,9 @@ static void
 function_def_get_full_info_if_needed (FunctionDefinition *fn_def)
 {
 	if (fn_def->fn_type == FUNCTION_NAMEONLY) {
-		const gchar *args;
-		const gchar *arg_names;
-		const gchar **help;
+		gchar const *args;
+		gchar const *arg_names;
+		gchar const **help;
 		FunctionArgs *fn_args;
 		FunctionNodes *fn_nodes;
 		gboolean success;
@@ -300,8 +265,7 @@ function_def_get_full_info_if_needed (FunctionDefinition *fn_def)
 		          &fn_args, &fn_nodes);
 		if (success) {
 			fn_def->named_arguments = arg_names;
-			/* FIXME: kill this cast.  */
-			fn_def->help = (const char **)help;
+			fn_def->help = help;
 			if (fn_args != NULL) {
 				fn_def->fn_type = FUNCTION_ARGS;
 				fn_def->fn.args.func = fn_args;
@@ -398,6 +362,7 @@ fn_def_new (FunctionCategory *category,
 	fn_def->name      = name;
 	fn_def->help      = help;
 	fn_def->named_arguments = arg_names;
+	fn_def->link = fn_def->unlink = NULL;
 	fn_def->user_data = NULL;
 	fn_def->ref_count = 0;
 
@@ -519,7 +484,7 @@ function_add_placeholder (char const *name, char const *type)
 }
 
 gpointer
-function_def_get_user_data (const FunctionDefinition *fn_def)
+function_def_get_user_data (FunctionDefinition const *fn_def)
 {
 	g_return_val_if_fail (fn_def != NULL, NULL);
 
@@ -535,7 +500,7 @@ function_def_set_user_data (FunctionDefinition *fn_def,
 	fn_def->user_data = user_data;
 }
 
-const char *
+char const *
 function_def_get_name (FunctionDefinition const *fn_def)
 {
 	g_return_val_if_fail (fn_def != NULL, NULL);
@@ -560,7 +525,7 @@ void
 function_def_count_args (FunctionDefinition const *fn_def,
                          int *min, int *max)
 {
-	const char *ptr;
+	char const *ptr;
 	int   i;
 	int   vararg;
 
@@ -604,7 +569,7 @@ char
 function_def_get_arg_type (FunctionDefinition const *fn_def,
                            int arg_idx)
 {
-	const char *ptr;
+	char const *ptr;
 
 	g_return_val_if_fail (arg_idx >= 0, '?');
 	g_return_val_if_fail (fn_def != NULL, '?');
@@ -839,7 +804,7 @@ function_call_with_list (FunctionEvalInfo *ei, ExprList *l)
  * you have to compute/expand all of the values to use this
  */
 Value *
-function_call_with_values (const EvalPos *ep, const char *fn_name,
+function_call_with_values (EvalPos const *ep, char const *fn_name,
 			   int argc, Value *values [])
 {
 	FunctionDefinition *fn_def;
@@ -858,8 +823,8 @@ function_call_with_values (const EvalPos *ep, const char *fn_name,
 Value *
 function_def_call_with_values (EvalPos const *ep,
                                FunctionDefinition const *fn_def,
-                               gint                argc,
-                               Value              *values [])
+                               gint    argc,
+                               Value  *values [])
 {
 	Value *retval;
 	FunctionEvalInfo fs;
@@ -950,12 +915,12 @@ cb_iterate_cellrange (Sheet *sheet, int col, int row,
  * Helper routine for function_iterate_argument_values.
  */
 Value *
-function_iterate_do_value (EvalPos      const *ep,
+function_iterate_do_value (EvalPos const *ep,
 			   FunctionIterateCB  callback,
-			   void                    *closure,
-			   Value                   *value,
-			   gboolean                 strict,
-			   gboolean		   ignore_blank)
+			   void		*closure,
+			   Value	*value,
+			   gboolean      strict,
+			   gboolean	 ignore_blank)
 {
 	Value *res = NULL;
 
@@ -1043,7 +1008,7 @@ function_iterate_argument_values (EvalPos const		*ep,
 
 	for (; result == NULL && expr_node_list;
 	     expr_node_list = expr_node_list->next) {
-		ExprTree const * tree = (ExprTree const *) expr_node_list->data;
+		ExprTree const * tree = expr_node_list->data;
 		Value *val;
 
 		/* Permit empties and non scalars. We don't know what form the
@@ -1128,8 +1093,8 @@ tokenized_help_new (FunctionDefinition const *fn_def)
 /**
  * Use to find a token eg. "FUNCTION"'s value.
  **/
-const char *
-tokenized_help_find (TokenizedHelp *tok, const char *token)
+char const *
+tokenized_help_find (TokenizedHelp *tok, char const *token)
 {
 	int lp;
 
@@ -1137,7 +1102,7 @@ tokenized_help_find (TokenizedHelp *tok, const char *token)
 		return "Incorrect Function Description.";
 
 	for (lp = 0; lp + 1 < (int)tok->sections->len; lp++) {
-		const char *cmp = g_ptr_array_index (tok->sections, lp);
+		char const *cmp = g_ptr_array_index (tok->sections, lp);
 
 		if (g_strcasecmp (cmp, token) == 0){
 			return g_ptr_array_index (tok->sections, lp + 1);
