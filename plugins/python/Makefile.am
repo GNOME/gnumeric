@@ -25,4 +25,4 @@ INCLUDES = 						\
 	$(PYTHON_CFLAGS)				\
 	$(GNOME_INCLUDEDIR)
 
-libpython_la_LIBADD = -l$(PYTHON_LIBS)
+libpython_la_LIBADD = -l$(PYTHON_LIBS) -lpthread
