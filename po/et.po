@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-12-26 00:56-0500\n"
-"PO-Revision-Date: 2001-12-07 00:40+0200\n"
+"POT-Creation-Date: 2001-12-25 01:46+0100\n"
+"PO-Revision-Date: 2001-12-25 21:12+0200\n"
 "Last-Translator: Ain Vagula <ain@riiska.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -18,31 +18,6 @@ msgstr ""
 #: plugins/applix/applix-read.c:79
 msgid "Parse error while reading Applix file."
 msgstr "Tuvastamise viga Applixi faili lugemisel."
-
-#: plugins/applix/plugin.xml.in.h:1
-msgid "Applix"
-msgstr ""
-
-#: plugins/applix/plugin.xml.in.h:2
-msgid "Applix (*.as)"
-msgstr ""
-
-#: plugins/applix/plugin.xml.in.h:3
-msgid "Imports version 4.[234] spreadsheets"
-msgstr ""
-
-#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3894
-msgid "Financial"
-msgstr "Finantsilised"
-
-#: plugins/derivatives/plugin.xml.in.h:2
-#, fuzzy
-msgid "Financial Derivatives"
-msgstr "Finantsilised"
-
-#: plugins/derivatives/plugin.xml.in.h:3
-msgid "Functions related to financial derivatives"
-msgstr ""
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4465
 #: plugins/mps/mps.c:571 src/xml-io.c:3448
@@ -69,8 +44,7 @@ msgstr "Tundmatu väärtuse tüüp %d real %d. Ignoreeritakse."
 msgid ""
 "DIF file has more than the maximum number of rows %d. Ignoring remaining "
 "rows."
-msgstr ""
-"DIF faili ridade arv ületab maksimaalset %d. Ülejäänud ridu ignoreeritakse."
+msgstr "DIF faili ridade arv ületab maksimaalset %d. Ülejäänud ridu ignoreeritakse."
 
 #: plugins/dif/dif.c:303
 #, c-format
@@ -102,19 +76,6 @@ msgstr "Vaikimisi lehte ei leita."
 #: plugins/dif/dif.c:398
 msgid "Error while saving DIF file."
 msgstr "Viga DIF faili salvestamisel."
-
-#: plugins/dif/plugin.xml.in.h:1
-msgid "Data Interchange Format (*.dif)"
-msgstr ""
-
-#: plugins/dif/plugin.xml.in.h:2
-msgid "Data Interchange Format (DIF) module"
-msgstr ""
-
-#: plugins/dif/plugin.xml.in.h:3
-msgid ""
-"Reads and writes information stored in the Data Interchange Format (*.dif)"
-msgstr ""
 
 #: plugins/excel/boot.c:104
 msgid ""
@@ -195,26 +156,6 @@ msgstr "Katkine funktsioon"
 msgid " Unknown formula"
 msgstr " Tundmatu valem"
 
-#: plugins/excel/plugin.xml.in.h:1
-msgid "Excel(R) 95 file format"
-msgstr ""
-
-#: plugins/excel/plugin.xml.in.h:2
-msgid "Excel(R) 97 file format"
-msgstr ""
-
-#: plugins/excel/plugin.xml.in.h:3
-msgid "Imports/Exports Microsoft(R) Excel files"
-msgstr ""
-
-#: plugins/excel/plugin.xml.in.h:4
-msgid "Microsoft(R) Excel"
-msgstr ""
-
-#: plugins/excel/plugin.xml.in.h:5
-msgid "Microsoft(R) Excel (*.xls)"
-msgstr ""
-
 #: plugins/gb/plugin.c:138
 msgid "Unknown GB error"
 msgstr "Tundmatu GB viga"
@@ -228,15 +169,6 @@ msgstr "Viga gb '%s' initsialiseerimisel"
 #, c-format
 msgid "Error in project '%s'"
 msgstr "Viga projektis '%s'"
-
-#: plugins/gb/plugin.xml.in.h:1
-msgid "Enables Gnome Basic support"
-msgstr ""
-
-#: plugins/gb/plugin.xml.in.h:2
-#, fuzzy
-msgid "Gnome Basic"
-msgstr "Gnumeric"
 
 #: plugins/gda/plugin-gda.c:109
 msgid ""
@@ -271,27 +203,6 @@ msgstr "Viga: Ei suuda initsialiseerida võimalike ühenduste hulka"
 msgid "Error: could not open connection to %s"
 msgstr "Viga: ei suuda luua ühendust %s"
 
-#: plugins/gda/plugin.xml.in.h:1 src/functions/fn-database.c:1364
-msgid "Database"
-msgstr "Andmebaas"
-
-#: plugins/gda/plugin.xml.in.h:2
-msgid "Database functions for allowing the retrieval of data from a database"
-msgstr ""
-
-#: plugins/gnome-glossary/plugin.xml.in.h:1
-msgid "Gnome Glossary"
-msgstr ""
-
-#: plugins/gnome-glossary/plugin.xml.in.h:2
-#, fuzzy
-msgid "Gnome Glossary PO file format"
-msgstr "Gnumericu XML failiformaat"
-
-#: plugins/gnome-glossary/plugin.xml.in.h:3
-msgid "It provides support for saving Gnome Glossary in .po files."
-msgstr ""
-
 #: plugins/guile/plugin.c:67 src/func.c:778 src/functions/fn-information.c:697
 #: src/functions/fn-information.c:768 src/functions/fn-information.c:796
 #: src/functions/fn-information.c:823 src/functions/fn-information.c:874
@@ -313,51 +224,6 @@ msgstr "Määramata Scheme funktsioon"
 msgid "Could not evaluate argument"
 msgstr "Ei suuda argumenti kasutada"
 
-#: plugins/guile/plugin.xml.in.h:1
-#, fuzzy
-msgid "Guile Plugin"
-msgstr "Aktiivsed pluginad"
-
-#: plugins/guile/plugin.xml.in.h:2
-msgid "This plugin enables Guile(scheme) support in Gnumeric"
-msgstr ""
-
-#: plugins/html/plugin.xml.in.h:1
-msgid "DVI TeX (via groff)"
-msgstr ""
-
-#: plugins/html/plugin.xml.in.h:2
-msgid "HTML & TeX"
-msgstr ""
-
-#: plugins/html/plugin.xml.in.h:3
-msgid "HTML (*.html) fragment"
-msgstr ""
-
-#: plugins/html/plugin.xml.in.h:4
-msgid "HTML 3.2 (*.html)"
-msgstr ""
-
-#: plugins/html/plugin.xml.in.h:5
-msgid "HTML 4.0 (*.html)"
-msgstr ""
-
-#: plugins/html/plugin.xml.in.h:6
-msgid "HTML file made by gnumeric"
-msgstr ""
-
-#: plugins/html/plugin.xml.in.h:7
-msgid "Import/Export of HTML, TeX, DVI, roff"
-msgstr ""
-
-#: plugins/html/plugin.xml.in.h:8
-msgid "LaTeX 2e (*.tex)"
-msgstr ""
-
-#: plugins/html/plugin.xml.in.h:9
-msgid "TROFF (*.me)"
-msgstr ""
-
 #: plugins/html/roff.c:200
 msgid "Error executing groff."
 msgstr "Viga groffi käivitamisel."
@@ -365,19 +231,6 @@ msgstr "Viga groffi käivitamisel."
 #: plugins/lotus-123/lotus.c:309
 msgid "Error while reading lotus workbook."
 msgstr "Viga Lotuse dokumendi lugemisel."
-
-#: plugins/lotus-123/plugin.xml.in.h:1
-#, fuzzy
-msgid "Imports Lotus 123 files"
-msgstr "Impordib faili"
-
-#: plugins/lotus-123/plugin.xml.in.h:2
-msgid "Lotus 123"
-msgstr ""
-
-#: plugins/lotus-123/plugin.xml.in.h:3
-msgid "Lotus 123 (*.wk1)"
-msgstr ""
 
 #: plugins/mps/mps.c:274
 msgid "Program Name"
@@ -465,18 +318,6 @@ msgstr "Vigane BOUNDS sektsioon failis."
 #: plugins/mps/mps.c:1142
 msgid "Error while reading MPS file."
 msgstr "Viga MPS faili lugemisel."
-
-#: plugins/mps/plugin.xml.in.h:1
-msgid "Linear and integer program (*.mps) file format"
-msgstr ""
-
-#: plugins/mps/plugin.xml.in.h:2
-msgid "Linear and integer program expression format (MPS) module"
-msgstr ""
-
-#: plugins/mps/plugin.xml.in.h:3
-msgid "Reads LP programs stored in the MPS format (*.mps)"
-msgstr ""
 
 #: plugins/numtheory/numtheory.c:198
 msgid ""
@@ -632,8 +473,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=BITXOR\n"
 "@SYNTAX=BITXOR(a;b)\n"
-"@DESCRIPTION=BITXOR funktsioon tagastab bitikaupa oma argumentide eitava OR-"
-"i tulemuse.\n"
+"@DESCRIPTION=BITXOR funktsioon tagastab bitikaupa oma argumentide eitava "
+"OR-i tulemuse.\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=BITOR,BITAND"
@@ -694,43 +535,6 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITRSHIFT"
 
-#: plugins/numtheory/plugin.xml.in.h:1
-#, fuzzy
-msgid "Bitwise Operations"
-msgstr "Tegevus"
-
-#: plugins/numtheory/plugin.xml.in.h:2
-#, fuzzy
-msgid "Number Theory"
-msgstr "Arv"
-
-#: plugins/numtheory/plugin.xml.in.h:3
-msgid ""
-"Several basic utilities for prime numbers, pi, phi, sigma. It also hold some "
-"simple bitwise operations"
-msgstr ""
-
-#: plugins/oleo/plugin.xml.in.h:1
-msgid "GNU Oleo"
-msgstr ""
-
-#: plugins/oleo/plugin.xml.in.h:2
-msgid "GNU Oleo (*.oleo)"
-msgstr ""
-
-#: plugins/oleo/plugin.xml.in.h:3
-msgid "Imports GNU Oleo documents"
-msgstr ""
-
-#: plugins/perl/plugin.xml.in.h:1
-#, fuzzy
-msgid "Enables the creation of functions in Perl"
-msgstr "Võimaldab mõnede kontrollfunktsioonide töö"
-
-#: plugins/perl/plugin.xml.in.h:2
-msgid "Perl"
-msgstr ""
-
 #: plugins/plan-perfect/pln.c:741
 msgid "PLN : Not a PlanPerfect File"
 msgstr "PLN : Ei ole PlanPerfect'i fail"
@@ -765,19 +569,6 @@ msgstr "Imporditud %s"
 msgid "Unable to mmap the file"
 msgstr "Ei suuda määrata faili"
 
-#: plugins/plan-perfect/plugin.xml.in.h:1
-msgid "Imports Plan Perfect Formatted Documents"
-msgstr ""
-
-#: plugins/plan-perfect/plugin.xml.in.h:2
-#, fuzzy
-msgid "Plan Perfect"
-msgstr "Puhas tekst"
-
-#: plugins/plan-perfect/plugin.xml.in.h:3
-msgid "Plan Perfect Format (PLN) import"
-msgstr ""
-
 #: plugins/psiconv/psiconv-read.c:573
 msgid "Error while reading psiconv file."
 msgstr "Viga psiconv faili lugemisel."
@@ -785,40 +576,6 @@ msgstr "Viga psiconv faili lugemisel."
 #: plugins/psiconv/psiconv-read.c:582
 msgid "Error while parsing psiconv file."
 msgstr "Viga psiconv faili töötlemisel."
-
-#: plugins/psiconv/plugin.xml.in.h:1
-msgid "Imports Psion 5 series Sheet files"
-msgstr ""
-
-#: plugins/psiconv/plugin.xml.in.h:2
-msgid "Psiconv"
-msgstr ""
-
-#: plugins/psiconv/plugin.xml.in.h:3
-msgid "Psion (*.psisheet)"
-msgstr ""
-
-#: plugins/py-func/plugin.xml.in.h:1
-msgid "Python"
-msgstr ""
-
-#: plugins/py-func/plugin.xml.in.h:2
-#, fuzzy
-msgid "Python functions"
-msgstr "Pythoni erand"
-
-#: plugins/py-func/plugin.xml.in.h:3
-msgid "Sample Python plugin providing some (useless) functions."
-msgstr ""
-
-#: plugins/python-loader/plugin.xml.in.h:1
-#, fuzzy
-msgid "Python plugin loader"
-msgstr "Ei suuda laadida plugina laadijat."
-
-#: plugins/python-loader/plugin.xml.in.h:2
-msgid "This plugin provides support for Python plugins"
-msgstr ""
 
 #: plugins/python-loader/py-gnumeric.c:273
 #: plugins/python-loader/py-gnumeric.c:313
@@ -897,15 +654,6 @@ msgstr "Fail ei sisalda sõnastikku \"%s\"."
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Objekt \"%s\" ei ole sõnastik."
 
-#: plugins/python/plugin.xml.in.h:1
-#, fuzzy
-msgid "Python Plugin"
-msgstr "Pythoni erand"
-
-#: plugins/python/plugin.xml.in.h:2
-msgid "This plugin provides Python language support in Gnumeric"
-msgstr ""
-
 #: plugins/python/python.c:52
 msgid "Python exception"
 msgstr "Pythoni erand"
@@ -927,19 +675,6 @@ msgstr "objekt peab olema väljakutsutav"
 msgid "Unhandled Python exception: %s"
 msgstr "Käsitlemata Pythoni erand: %s"
 
-#: plugins/sc/plugin.xml.in.h:1
-#, fuzzy
-msgid "Imports SC/XSpread files"
-msgstr "Impordib faili"
-
-#: plugins/sc/plugin.xml.in.h:2
-msgid "SC/XSpread"
-msgstr ""
-
-#: plugins/sc/plugin.xml.in.h:3
-msgid "SC/xspread"
-msgstr ""
-
 #: plugins/sc/sc.c:387
 msgid "Error parsing line"
 msgstr "Viga rea analüüsil"
@@ -947,19 +682,6 @@ msgstr "Viga rea analüüsil"
 #: plugins/sc/sc.c:433
 msgid "Error reading sheet."
 msgstr "Viga lehe lugemisel."
-
-#: plugins/sylk/plugin.xml.in.h:1
-#, fuzzy
-msgid "Imports MultiPlan (SYLK) files"
-msgstr "Impordib faili"
-
-#: plugins/sylk/plugin.xml.in.h:2
-msgid "MultiPlan (SYLK)"
-msgstr ""
-
-#: plugins/sylk/plugin.xml.in.h:3
-msgid "MultiPlan (SYLK) import"
-msgstr ""
 
 #: plugins/sylk/sylk.c:418
 msgid "Not SYLK file"
@@ -980,33 +702,6 @@ msgstr "Viga lehe lugemisel."
 #: plugins/xbase/boot.c:163
 msgid "Error while opening xbase file."
 msgstr "Viga xbase faili avamisel."
-
-#: plugins/xbase/plugin.xml.in.h:1
-#, fuzzy
-msgid "Imports XBase files"
-msgstr "Impordib faili"
-
-#: plugins/xbase/plugin.xml.in.h:2
-#, fuzzy
-msgid "XBase"
-msgstr "Aseta"
-
-#: plugins/xbase/plugin.xml.in.h:3
-#, fuzzy
-msgid "Xbase (*.dbf) file format"
-msgstr "Toetamata failiformaat."
-
-#: plugins/xml_sax/plugin.xml.in.h:1
-msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
-msgstr ""
-
-#: plugins/xml_sax/plugin.xml.in.h:2
-msgid "EXPERIMENTAL SAX based XML"
-msgstr ""
-
-#: plugins/xml_sax/plugin.xml.in.h:3
-msgid "The next generation sax based xml I/O subsystem"
-msgstr ""
 
 #: plugins/xml_sax/xml-sax-read.c:2228
 msgid "xmlCreateFileParserCtxt () failed."
@@ -2037,9 +1732,8 @@ msgid "_Goto cell..."
 msgstr "_Mine lahtrisse..."
 
 #: src/GNOME_Gnumeric.xml.h:244
-#, fuzzy
 msgid "_Graph"
-msgstr "_Grupp"
+msgstr "_Diagramm"
 
 #: src/GNOME_Gnumeric.xml.h:245
 msgid "_Group"
@@ -2246,18 +1940,17 @@ msgstr "Statistika kokkuvõte"
 #.
 #: src/analysis-tools.c:981
 msgid ""
-"/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
-"Skewness/Range/Minimum/Maximum/Sum/Count"
+"/Mean/Standard Error/Median/Mode/Standard Deviation/Sample "
+"Variance/Kurtosis/Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
-"/Keskmine/Standardhälve/Mediaan/Moodväärtus/Standardjaotus/Valimdispersioon/"
-"Järsakus/ Asümmeetria/Haare/Miinimum/Maksimum/Summa/Loend"
+"/Keskmine/Standardhälve/Mediaan/Moodväärtus/Standardjaotus/Valimdispersioon/J"
+"ärsakus/ Asümmeetria/Haare/Miinimum/Maksimum/Summa/Loend"
 
 #: src/analysis-tools.c:1066
 msgid "Confidence Interval for the Mean"
 msgstr "Usaldusvahemik keskmise jaoks"
 
 #: src/analysis-tools.c:1067
-#, c-format
 msgid "/%g%% CI for the Mean from/to"
 msgstr "/%g%% Usaldusvahemik keskmise jaoks alates/kuni"
 
@@ -2304,8 +1997,8 @@ msgid ""
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
 msgstr ""
-"/Keskmine/Tuntud dispersioon/Vaatlused/Hüpoteetiline keskmine hälve/"
-"Vaadeldud keskmine hälve/z/P (Z<=z) ühepoolne/z kriitiline ühepoolne/P "
+"/Keskmine/Tuntud dispersioon/Vaatlused/Hüpoteetiline keskmine "
+"hälve/Vaadeldud keskmine hälve/z/P (Z<=z) ühepoolne/z kriitiline ühepoolne/P "
 "(Z<=z) kahepoolne/z kriitiline kahepoolne"
 
 #: src/analysis-tools.c:1485 src/analysis-tools.c:1634
@@ -2315,9 +2008,9 @@ msgstr "t-Test"
 
 #: src/analysis-tools.c:1488
 msgid ""
-"/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
-"df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
-"two-tail"
+"/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean "
+"Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) "
+"two-tail/t Critical two-tail"
 msgstr ""
 "/Keskmine/Dispersioon/Vaatlused/Pearsoni korrelatsioon/Hüpoteetiline "
 "keskmine hälve/df/t Stat/P (T<=t) ühepoolne/t kriitiline ühepoolne/P (T<=t) "
@@ -2325,9 +2018,9 @@ msgstr ""
 
 #: src/analysis-tools.c:1637
 msgid ""
-"/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
-"Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
-"(T<=t) two-tail/t Critical two-tail"
+"/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean "
+"Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical "
+"one-tail/P (T<=t) two-tail/t Critical two-tail"
 msgstr ""
 "/Keskmine/Dispersioon/Vaatlused/Ühendatud dispersioon/Hüpoteetiline keskmine "
 "hälve/df/Vaadeldud keskmine hälve/df/t Stat/P (T<=t) ühepoolne/t kriitiline "
@@ -2336,8 +2029,8 @@ msgstr ""
 #: src/analysis-tools.c:1767
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
-"Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
-"t Critical two-tail"
+"Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) "
+"two-tail/t Critical two-tail"
 msgstr ""
 "/Keskmine/Dispersioon/Vaatlused/Hüpoteetiline keskmine hälve/Vaadeldud "
 "keskmine hälve/df/t Stat/P (T<=t) ühepoolne/t kriitiline ühepoolne/P (T<=t) "
@@ -2375,22 +2068,21 @@ msgstr "Regressioon"
 
 #: src/analysis-tools.c:2344
 msgid ""
-"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
-"Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
+"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R "
+"Square/Standard "
+"Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
 "/SUMMAARNE VÄLJUND//Regressiooni statistika/Mitu R/R ruut/Kohandatud R ruut/ "
-"Standardhälve/Vaatlused//Dispersioonianalüüs//Regressioon/Jääk/Kokku///"
-"Vabaliige"
+"Standardhälve/Vaatlused//Dispersioonianalüüs//Regressioon/Jääk/Kokku///Vabali"
+"ige"
 
 #: src/analysis-tools.c:2365
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/F Olulisus"
 
 #: src/analysis-tools.c:2372
-#, c-format
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
-msgstr ""
-"/Koefitsendid/Standardhälve/t Stat/P-väärtus/Alumine %0.0f%%/Ülemine %0.0f%%"
+msgstr "/Koefitsendid/Standardhälve/t Stat/P-väärtus/Alumine %0.0f%%/Ülemine %0.0f%%"
 
 #: src/analysis-tools.c:2541
 msgid "Moving Averages"
@@ -2433,8 +2125,8 @@ msgstr "/Grupid/Loend/Summa/Keskmine/Dispersioon"
 #: src/analysis-tools.c:2861
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
-"/Dispersioonianalüüs/Variatsiooni lähtehulk/Gruppide vahel/Gruppide seas/"
-"Kokku"
+"/Dispersioonianalüüs/Variatsiooni lähtehulk/Gruppide vahel/Gruppide "
+"seas/Kokku"
 
 #: src/analysis-tools.c:2866 src/analysis-tools.c:3062
 #: src/analysis-tools.c:3276
@@ -2548,8 +2240,8 @@ msgid ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"valitud sihtkoht ei sisalda lähteveergude paariskordset arvu veerge (%d vs %"
-"d)\n"
+"valitud sihtkoht ei sisalda lähteveergude paariskordset arvu veerge (%d vs "
+"%d)\n"
 "\n"
 "Proovi valida üksik lahter või sama kuju ja suurusega ala."
 
@@ -2877,7 +2569,6 @@ msgid "Consolidating to %s!%s"
 msgstr "Konsolideeritakse %s!%s"
 
 #: src/commands.c:3897
-#, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Suurendus %s kuni %.0f%%"
 
@@ -3577,8 +3268,7 @@ msgstr "Suured ringid"
 
 #: src/dialogs/cell-format.glade.h:58
 msgid "Locking cells or hiding formulas only affects protected worksheets."
-msgstr ""
-"Lahtrite lukustamine ja valemite peitmine mõjub ainult kaitstud tabelitele."
+msgstr "Lahtrite lukustamine ja valemite peitmine mõjub ainult kaitstud tabelitele."
 
 #: src/dialogs/cell-format.glade.h:59
 msgid "Message :"
@@ -3845,36 +3535,44 @@ msgid "_Wrap text"
 msgstr "_Murra rida"
 
 #: src/dialogs/cell-format.glade.h:128
+msgid "label62"
+msgstr "pealdis62"
+
+#: src/dialogs/cell-format.glade.h:129
+msgid "label63"
+msgstr "pealdis63"
+
+#: src/dialogs/cell-format.glade.h:130
 msgid "min <= val <= max         (between)"
 msgstr "min <= val <= max         (vahel)"
 
-#: src/dialogs/cell-format.glade.h:129
+#: src/dialogs/cell-format.glade.h:131
 msgid "val != bound                  (not equal to)"
 msgstr "val != bound                  (mittevõrdne)"
 
-#: src/dialogs/cell-format.glade.h:130
-msgid "val <  bound                  (less than)"
-msgstr "val <  bound                  (väiksem kui)"
-
-#: src/dialogs/cell-format.glade.h:131
-msgid "val <= min || max <= val (not between)"
-msgstr "val <= min || max <= val (vahemikust väljas)"
-
 #: src/dialogs/cell-format.glade.h:132
-msgid "val <=bound                  (less than or equal to)"
-msgstr "val <=bound                  (väiksem või võrdne kui)"
-
-#: src/dialogs/cell-format.glade.h:133
-msgid "val == bound                 (equal to)"
-msgstr "val == bound                 (võrdne)"
-
-#: src/dialogs/cell-format.glade.h:134
 msgid "val >  bound                  (greater than)"
 msgstr "val >  bound                  (suurem kui)"
 
-#: src/dialogs/cell-format.glade.h:135
+#: src/dialogs/cell-format.glade.h:133
 msgid "val >=bound                  (greater than or equal to)"
 msgstr "val >=bound                  (suurem või võrdne kui)"
+
+#: src/dialogs/cell-format.glade.h:134
+msgid "val <  bound                  (less than)"
+msgstr "val <  bound                  (väiksem kui)"
+
+#: src/dialogs/cell-format.glade.h:135
+msgid "val <= min || max <= val (not between)"
+msgstr "val <= min || max <= val (vahemikust väljas)"
+
+#: src/dialogs/cell-format.glade.h:136
+msgid "val <=bound                  (less than or equal to)"
+msgstr "val <=bound                  (väiksem või võrdne kui)"
+
+#: src/dialogs/cell-format.glade.h:137
+msgid "val == bound                 (equal to)"
+msgstr "val == bound                 (võrdne)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A header"
@@ -4489,8 +4187,7 @@ msgstr ""
 "proovi uuesti."
 
 #: src/dialogs/dialog-analysis-tools.c:3103
-msgid ""
-"There must be an equal number of entries for each variable in the regression."
+msgid "There must be an equal number of entries for each variable in the regression."
 msgstr "Iga regressiooni muutuja jaoks peab olema võrdne arv sisendeid."
 
 #: src/dialogs/dialog-analysis-tools.c:3203
@@ -4539,8 +4236,7 @@ msgstr "Ei suudetud luua histogrammi töövahendi dialoogi."
 
 #: src/dialogs/dialog-analysis-tools.c:4117
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr ""
-"Ei suudetud luua dispersioonianalüüsi (üksiku faktoriga) töövahendi dialoogi."
+msgstr "Ei suudetud luua dispersioonianalüüsi (üksiku faktoriga) töövahendi dialoogi."
 
 #: src/dialogs/dialog-analysis-tools.c:4181
 msgid "Each sample must contain the same number of rows."
@@ -4554,13 +4250,11 @@ msgstr "Antud sisendala sisaldab mittenumbrilisi andmeid."
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
-msgstr ""
-"Antud sisendala peab sisaldama vähemalt kaks veergu andmeid ja pealdisi"
+msgstr "Antud sisendala peab sisaldama vähemalt kaks veergu andmeid ja pealdisi"
 
 #: src/dialogs/dialog-analysis-tools.c:4321
 msgid "Could not create the ANOVA (two factor) tool dialog."
-msgstr ""
-"Ei suudetud luua dispersioonianalüüsi (kahe faktoriga) töövahendi dialoogi."
+msgstr "Ei suudetud luua dispersioonianalüüsi (kahe faktoriga) töövahendi dialoogi."
 
 #: src/dialogs/dialog-analysis-tools.c:4352
 msgid "Anova: Two-Factor With Or Without Replication"
@@ -4898,13 +4592,11 @@ msgstr "Väljal 'Määra lahter:' asuv lahter peab sisaldama valemit!"
 
 #: src/dialogs/dialog-goal-seek.c:369
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
-msgstr ""
-"Sa pead sisestama korrektse lahtri nime väljal 'Kui muudetakse lahtrit:'"
+msgstr "Sa pead sisestama korrektse lahtri nime väljal 'Kui muudetakse lahtrit:'"
 
 #: src/dialogs/dialog-goal-seek.c:378
 msgid "The cell named in 'By changing cell' must not contain a formula."
-msgstr ""
-"Väljal 'Kui muudetakse lahtri' määratud lahter ei tohi sisaldada valemit."
+msgstr "Väljal 'Kui muudetakse lahtri' määratud lahter ei tohi sisaldada valemit."
 
 #: src/dialogs/dialog-goal-seek.c:391
 msgid "The value given in 'To Value:' is not valid."
@@ -5137,15 +4829,15 @@ msgstr "Otsimiseks pead sa valima mõne lahtri tüübi."
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Tahad sa tõesti lehte nimega `%s' kustutada"
 
-#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:2
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:1
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
 msgid "="
 msgstr "="
 
@@ -5188,21 +4880,21 @@ msgstr "Sa pead valima vähemalt ühe lehe eksportimiseks"
 msgid "Are you sure you want to cancel?"
 msgstr "Oled kindel, et tahad loobuda?"
 
-#: src/dialogs/dialog-stf-export.glade.h:1 src/dialogs/dialog-stf.glade.h:1
-msgid "\""
-msgstr "\""
-
-#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
-msgid "'"
-msgstr "'"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
+#: src/dialogs/dialog-stf-export.glade.h:1
 msgid "<- Remove"
 msgstr "<- Eemalda"
 
-#: src/dialogs/dialog-stf-export.glade.h:4
+#: src/dialogs/dialog-stf-export.glade.h:2
 msgid "<- Remove all"
 msgstr "<- Eemalda kõik"
+
+#: src/dialogs/dialog-stf-export.glade.h:3 src/dialogs/dialog-stf.glade.h:1
+msgid "\""
+msgstr "\""
+
+#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+msgid "'"
+msgstr "'"
 
 #: src/dialogs/dialog-stf-export.glade.h:5
 msgid "Add ->"
@@ -5356,11 +5048,6 @@ msgstr "Andmed (%s -st)"
 msgid "fixed"
 msgstr "fikseeritud"
 
-#: src/dialogs/dialog-stf-preview.h:17
-#, fuzzy, c-format
-msgid "Column %d"
-msgstr "Veerg %i"
-
 #: src/dialogs/dialog-stf.glade.h:3
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
@@ -5447,8 +5134,7 @@ msgstr "Määra iga veeru laius käsitsi."
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
-msgstr ""
-"Iga veerg tekstis on eraldatud 'eraldussümboliga', näiteks semikooloniga."
+msgstr "Iga veerg tekstis on eraldatud 'eraldussümboliga', näiteks semikooloniga."
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
@@ -5553,10 +5239,8 @@ msgid "See two successive separators as one."
 msgstr "Käsitle kahte järgnevat eraldajat ühena"
 
 #: src/dialogs/dialog-stf.glade.h:48
-msgid ""
-"See two successive text indicators as one that does not terminate the cell."
-msgstr ""
-"Käsitle kahte järjestikust tekstiindikaatorit ühena, mis ei lõpeta lahtrit."
+msgid "See two successive text indicators as one that does not terminate the cell."
+msgstr "Käsitle kahte järjestikust tekstiindikaatorit ühena, mis ei lõpeta lahtrit."
 
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
@@ -5790,6 +5474,10 @@ msgstr "Lahendus:"
 #: src/dialogs/goalseek.glade.h:11
 msgid "To Value:"
 msgstr "Väärtuseni:"
+
+#: src/dialogs/goalseek.glade.h:12
+msgid "label10"
+msgstr "pealdis10"
 
 #: src/dialogs/hf-config.glade.h:1
 msgid "Enter the format strings for each section:"
@@ -6089,7 +5777,7 @@ msgid "Scale"
 msgstr "Mõõtkava"
 
 #: src/dialogs/print.glade.h:25 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3156
+#: src/workbook.c:1060 src/xml-io.c:3156
 msgid "Sheet"
 msgstr "Leht"
 
@@ -6758,28 +6446,28 @@ msgstr "_Rõhtne kerimisriba"
 msgid "_Vertical Scrollbar"
 msgstr "_Püstine kerimisriba"
 
-#: src/expr-name.c:241
+#: src/expr-name.c:222
 msgid "already defined in sheet"
 msgstr "juba defineeritud lehel"
 
-#: src/expr-name.c:245
+#: src/expr-name.c:226
 msgid "already defined in workbook"
 msgstr "juba defineeritud raamatus"
 
-#: src/expr-name.c:249
+#: src/expr-name.c:230
 msgid "already globally defined "
 msgstr "juba üldiselt defineeritud "
 
-#: src/expr-name.c:255
+#: src/expr-name.c:236
 #, c-format
 msgid "'%s' has a circular reference"
 msgstr "'%s' on ringseoses"
 
-#: src/expr-name.c:415
+#: src/expr-name.c:399
 msgid "Builtin"
 msgstr "Sisseehitatud"
 
-#: src/expr-name.c:515 src/expr-name.c:527
+#: src/expr-name.c:491 src/expr-name.c:503
 msgid "Error: no sheet"
 msgstr "Viga: lehte pole"
 
@@ -6826,22 +6514,18 @@ msgstr "Voona salvestades tekkis viga."
 
 #: src/file.c:495
 msgid "Saving over old files of this type is disabled for safety."
-msgstr ""
-"Seda tüüpi vanade failide ülekirjutamine ei ole ohutuskaalutlustel toetatud."
+msgstr "Seda tüüpi vanade failide ülekirjutamine ei ole ohutuskaalutlustel toetatud."
 
 #: src/file.c:497
-msgid ""
-"You can turn this safety feature off by editing appropriate plugin.xml file."
+msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Sa saad selle ettevaatusabinõu välja lülitada muutes vastavat plugin.xml "
 "faili."
 
 #: src/format-template.c:874
 #, c-format
-msgid ""
-"The target region is too small.  It should be at least %d rows by %d columns"
-msgstr ""
-"Sihtala on liiga väike.  See peaks olema vähemalt %d rida korda %d veergu"
+msgid "The target region is too small.  It should be at least %d rows by %d columns"
+msgstr "Sihtala on liiga väike.  See peaks olema vähemalt %d rida korda %d veergu"
 
 #: src/format-template.c:877
 #, c-format
@@ -8247,7 +7931,6 @@ msgstr "Tundmatu funktsioon"
 msgid "Function does not exist"
 msgstr "Funktsiooni pole olemas"
 
-#. *************************************************************************
 #: src/functions/fn-database.c:505
 msgid ""
 "@FUNCTION=DAVERAGE\n"
@@ -8259,18 +7942,6 @@ msgstr ""
 "@SYNTAX=DAVERAGE(database;field;criteria)\n"
 "@DESCRIPTION=Funktsioon DAVERAGE tagastab loendi või tingimustele vastava "
 "andmebaasi väärtuste keskmise. \n"
-
-#: src/functions/fn-database.c:513
-msgid ""
-"\n"
-"@EXAMPLES=\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
 
 #: src/functions/fn-database.c:575
 msgid ""
@@ -8284,17 +7955,6 @@ msgstr ""
 "@DESCRIPTION=Funktsioon DCOUNT loeb lahtreid, mis sisaldavad numbreid "
 "tingimustele vastavasse andmebaasi. \n"
 
-#: src/functions/fn-database.c:583
-msgid ""
-"\n"
-"@EXAMPLES=\n"
-"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
-"\n"
-"@SEEALSO=DAVERAGE"
-msgstr ""
-
 #: src/functions/fn-database.c:637
 msgid ""
 "@FUNCTION=DCOUNTA\n"
@@ -8306,17 +7966,6 @@ msgstr ""
 "@SYNTAX=DCOUNTA(database;field;criteria)\n"
 "@DESCRIPTION=Funktsioon DCOUNTA loeb lahtreid, mis sisaldavad andmeid "
 "tingimustele vastavasse andmebaasi. \n"
-
-#: src/functions/fn-database.c:645
-msgid ""
-"\n"
-"@EXAMPLES=\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
 
 #: src/functions/fn-database.c:696
 msgid ""
@@ -8330,18 +7979,6 @@ msgstr ""
 "@DESCRIPTION=Funktsioon DGET tagastab üksiku väärtuse veerust, mis vastab "
 "esitatud tingimustele. \n"
 
-#: src/functions/fn-database.c:704
-msgid ""
-"\n"
-"If none of the items match the conditions, DGET returns #VALUE! error. If "
-"more than one items match the conditions, DGET returns #NUM! error. "
-"@EXAMPLES=\n"
-"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:764
 msgid ""
 "@FUNCTION=DMAX\n"
@@ -8353,17 +7990,6 @@ msgstr ""
 "@SYNTAX=DMAX(database;field;criteria)\n"
 "@DESCRIPTION=Funktsioon DMAX tagastab suurima arvu veerus, mis vastab "
 "esitatud tingimustele. \n"
-
-#: src/functions/fn-database.c:772
-msgid ""
-"\n"
-"@EXAMPLES=\n"
-"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
-"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
-"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
-"\n"
-"@SEEALSO=DMIN"
-msgstr ""
 
 #: src/functions/fn-database.c:836
 msgid ""
@@ -8377,16 +8003,6 @@ msgstr ""
 "@DESCRIPTION=Funktsioon DMIN tagastab vähima arvu veerus, mis vastab "
 "esitatud tingimustele. \n"
 
-#: src/functions/fn-database.c:844
-msgid ""
-"\n"
-"@EXAMPLES=\n"
-"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
-"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
-"\n"
-"@SEEALSO=DMAX"
-msgstr ""
-
 #: src/functions/fn-database.c:907
 msgid ""
 "@FUNCTION=DPRODUCT\n"
@@ -8398,15 +8014,6 @@ msgstr ""
 "@SYNTAX=DPRODUCT(database;field;criteria)\n"
 "@DESCRIPTION=Funktsioon DPRODUCT tagastab määratud tingimustele vastava "
 "veeru arvude korrutise. \n"
-
-#: src/functions/fn-database.c:915
-msgid ""
-"\n"
-"@EXAMPLES=\n"
-"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
-"\n"
-"@SEEALSO=DSUM"
-msgstr ""
 
 #: src/functions/fn-database.c:975
 msgid ""
@@ -8422,16 +8029,6 @@ msgstr ""
 "liikmetestandardjaotuse. Hulgad koosnevad arvudest, mis vastavad määratud "
 "tingimustele. \n"
 
-#: src/functions/fn-database.c:984
-msgid ""
-"\n"
-"@EXAMPLES=\n"
-"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
-"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
-"\n"
-"@SEEALSO=DSTDEVP"
-msgstr ""
-
 #: src/functions/fn-database.c:1042
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -8445,16 +8042,6 @@ msgstr ""
 "@DESCRIPTION=Funktsioon DSTDEVP tagastab hulga liikmete standardjaotuse. "
 "Hulgad koosnevad arvudest, mis vastavad määratud tingimustele. \n"
 
-#: src/functions/fn-database.c:1051
-msgid ""
-"\n"
-"@EXAMPLES=\n"
-"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
-"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
-"\n"
-"@SEEALSO=DSTDEV"
-msgstr ""
-
 #: src/functions/fn-database.c:1111
 msgid ""
 "@FUNCTION=DSUM\n"
@@ -8467,16 +8054,6 @@ msgstr ""
 "@DESCRIPTION=Funktsioon DSUM tagastab arvude summa veerus, mis vastab "
 "määratud tingimustele. \n"
 
-#: src/functions/fn-database.c:1119
-msgid ""
-"\n"
-"@EXAMPLES=\n"
-"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
-"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
-"\n"
-"@SEEALSO=DPRODUCT"
-msgstr ""
-
 #: src/functions/fn-database.c:1179
 msgid ""
 "@FUNCTION=DVAR\n"
@@ -8488,18 +8065,8 @@ msgstr ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database;field;criteria)\n"
 "@DESCRIPTION=Funktsioon DVAR tagastab valikul baseeruva hulga liikmete "
-"dispersiooni. Hulgad koosnevad arvudest, mis vastavad määratud "
-"tingimustele. \n"
-
-#: src/functions/fn-database.c:1188
-msgid ""
+"dispersiooni. Hulgad koosnevad arvudest, mis vastavad määratud tingimustele. "
 "\n"
-"@EXAMPLES=\n"
-"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
-"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
-"\n"
-"@SEEALSO=DVARP"
-msgstr ""
 
 #: src/functions/fn-database.c:1248
 msgid ""
@@ -8513,16 +8080,6 @@ msgstr ""
 "@SYNTAX=DVARP(database;field;criteria)\n"
 "@DESCRIPTION=Funktsioon DVARP tagastab kogu hulga liikmete dispersiooni. "
 "Hulgad koosnevad arvudest, mis vastavad määratud tingimustele. \n"
-
-#: src/functions/fn-database.c:1257
-msgid ""
-"\n"
-"@EXAMPLES=\n"
-"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
-"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
-"\n"
-"@SEEALSO=DVAR"
-msgstr ""
 
 #: src/functions/fn-database.c:1318
 msgid ""
@@ -8546,13 +8103,16 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
+#: src/functions/fn-database.c:1364
+msgid "Database"
+msgstr "Andmebaas"
+
 #: src/functions/fn-date.c:27
-#, fuzzy
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
-"@DESCRIPTION=DATE returns the number of days since the 1st of january of 1900"
-"(the date serial number) for the given year, month and day.\n"
+"@DESCRIPTION=DATE returns the number of days since the 1st of january of "
+"1900(the date serial number) for the given year, month and day.\n"
 "\n"
 "If @month < 1 or @month > 12, the year will be corrected.  A similar "
 "correction takes place for days.\n"
@@ -8569,21 +8129,23 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (aasta;kuu;päev)\n"
-"@DESCRIPTION=Arvutab päevade arvu alates 1. jaanuarist 1900 (kuupäeva "
+"@DESCRIPTION=DATE arvutab päevade arvu alates 1. jaanuarist 1900 (kuupäeva "
 "seerianumber) vastavalt antud aastale, kuule ja päevale.\n"
-"@päev võib olla negatiivne (tagasi lugedes) ja on suhteline eelmise @kuu "
-"suhtes.  @aasta peab olema vähemalt 1900.  Kui @aasta <= 30, siis "
-"oletatakse, et see on 2000 + @aasta.  Kui 30 < @aasta < 100, siis "
+"\n"
+"Kui @kuu < 1 või @kuu > 12, siis parandatakse aastat.  Samasugune "
+"parandus tehakse päevade puhul.\n"
+"\n"
+"@aasta peab olema vähemalt 1900.  Kui @aasta <= 1900, siis "
 "oletatakse, et see on 1900 + @aasta.\n"
-"Kui sisestatud kuupäev on vigane, tagastab DATE #VALUE! vea.\n"
+"\n"
+"Kui sisestatud kuupäev on vigane, tagastab DATE #NUM! vea.\n"
 "See funktsioon on Exceliga ühilduv. \n"
 "@EXAMPLES=\n"
-"DATE(2001, 3, 30) TAGASTAB 'Mar 30, 2001'.\n"
+"DATE(2001, 3, 30) tagastab 'Mar 30, 2001'.\n"
 "\n"
 "@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-date.c:97
-#, fuzzy
 msgid ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
@@ -8596,11 +8158,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
-"@DESCRIPTION=Funktsioon DATEVALUE tagastab kuupäeva seerianumbri.  @date_str "
+"@DESCRIPTION=DATEVALUE tagastab kuupäeva seerianumbri.  @date_str "
 "on kuupäeva sisaldav string.\n"
 "See funktsioon on Exceliga ühilduv.\n"
 "@EXAMPLES=\n"
-"DATEVALUE(\"1/1/1999\") võrdub 36160. \n"
+"DATEVALUE(\"1/1/1999\") võrdub 36161. \n"
 "@SEEALSO=DATE"
 
 #: src/functions/fn-date.c:122
@@ -8608,8 +8170,8 @@ msgid ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(date1,date2,interval)\n"
 "@DESCRIPTION=DATEDIF returns the difference between two dates.  @interval is "
-"one of six possible values:  \"y\", \"m\", \"d\", \"ym\", \"md\", and \"yd"
-"\".\n"
+"one of six possible values:  \"y\", \"m\", \"d\", \"ym\", \"md\", and "
+"\"yd\".\n"
 "The first three options will return the number of complete years, months, or "
 "days, respectively, between the two dates specified.\n"
 "\"ym\" will return the number of full months between the two dates, not "
@@ -8628,8 +8190,8 @@ msgstr ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(kuupäev1;kuupäev2;intervall)\n"
 "@DESCRIPTION=Funktsioon DATEDIF tagastab erinevuse kahe kuupäeva vahel.  "
-"@intervall on üks kuuest võimalikust väärtusest:  \"y\", \"m\", \"d\", \"ym"
-"\", \"md\", and \"yd\".\n"
+"@intervall on üks kuuest võimalikust väärtusest:  \"y\", \"m\", \"d\", "
+"\"ym\", \"md\", and \"yd\".\n"
 "Esimesed kolm määrangut tagastavad vastavalt kas täisaastate, kuude või "
 "päevade arvu kahe antud kuupäeva vahel.\n"
 "\"ym\" tagastab täiskuude arvu kahe kuupäeva vahel, ilma aastaid "
@@ -8912,7 +8474,8 @@ msgstr ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (seerianumber)\n"
 "@DESCRIPTION=Teisendab seerianumbri kuupäevaks.\n"
-"Pane tähele, et Gnumeric oskab ise teisendada stringe seerianumbriteks, mistõttu võid sa kuupäevi sisestada stringidena.\n"
+"Pane tähele, et Gnumeric oskab ise teisendada stringe seerianumbriteks, mistõ"
+"ttu võid sa kuupäevi sisestada stringidena.\n"
 "See funktsioon on Exceliga ühilduv.\n"
 "@EXAMPLES=\n"
 "DAY (\"10/24/1968\") võrdub 24.\n"
@@ -8943,7 +8506,8 @@ msgstr ""
 "See funktsioon tagastab täisarvu vahemikus 0-6, kus laupäev on 0, pühapäev "
 "on 1, jne.\n"
 "\n"
-"Pane tähele, et Gnumeric oskab ise teisendada stringe seerianumbriteks, mistõttu võid sa kuupäevi sisestada stringidena.\n"
+"Pane tähele, et Gnumeric oskab ise teisendada stringe seerianumbriteks, mistõ"
+"ttu võid sa kuupäevi sisestada stringidena.\n"
 "See funktsioon on Exceliga ühilduv.\n"
 "@EXAMPLES=\n"
 "WEEKDAY(\"10/24/1968\") võrdub 5 (neljapäev).\n"
@@ -8977,7 +8541,8 @@ msgstr ""
 "on 31, võetakse ta 30.\n"
 "Kui @meetod on false või puudub, kasutatakse USA meetodit.  See on "
 "keerulisem, tööstusstandardiga määratud meetod.\n"
-"Pane tähele, et Gnumeric oskab ise teisendada stringe seerianumbriteks, mistõttu võid sa kuupäevi sisestada stringidena.\n"
+"Pane tähele, et Gnumeric oskab ise teisendada stringe seerianumbriteks, mistõ"
+"ttu võid sa kuupäevi sisestada stringidena.\n"
 "See funktsioon on Exceliga ühilduv.\n"
 "@EXAMPLES=\n"
 "DAYS360(DATE(2003, 2, 3), DATE(2007, 4, 2)) võrdub 1499.\n"
@@ -9138,9 +8703,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=BIN2HEX\n"
 "@SYNTAX=BIN2HEX(arv[;kohti])\n"
-"@DESCRIPTION=Funktsioon BIN2HEX teisendab kahendarvu "
-"kuueteistkümnendarvuks.  @kohti ei ole "
-"kohustuslik, määrates vastava arvuni tühikute nullidega asendamise.\n"
+"@DESCRIPTION=Funktsioon BIN2HEX teisendab kahendarvu kuueteistkümnendarvuks. "
+" @kohti ei ole kohustuslik, määrates vastava arvuni tühikute nullidega "
+"asendamise.\n"
 "Kui @kohti on liiga väike või negatiivne, tagastatakse #NUM! viga. \n"
 "See funktsioon on Exceliga ühilduv. \n"
 "@EXAMPLES=\n"
@@ -9315,8 +8880,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(arv[;kohti])\n"
-"@DESCRIPTION=Funktsioon HEX2BIN teisendab kuueteistkümnendarvu "
-"kahendarvuks.  @kohti ei ole kohustuslik, määrates vastava arvuni tühikute "
+"@DESCRIPTION=Funktsioon HEX2BIN teisendab kuueteistkümnendarvu kahendarvuks. "
+" @kohti ei ole kohustuslik, määrates vastava arvuni tühikute "
 "nullidega asendamise.\n"
 "Kui @kohti on liiga väike või negatiivne, tagastatakse #NUM! viga.\n"
 "See funktsioon on Exceliga ühilduv. \n"
@@ -9393,8 +8958,8 @@ msgstr ""
 "@DESCRIPTION=Funktsioon BESSELI tagastab Neumanni, Weberi või Besseli "
 "funktsiooni. @x on funktsiooni rakendamise koht. @y on besseli funktsiooni "
 "järjekord, mittetäisarvulist väärtust ei arvestata.\n"
-"Kui @x või @y ei ole arvud, tagastub #VALUE! viga. Kui @y < 0, siis "
-"tagastub  #NUM! viga.\n"
+"Kui @x või @y ei ole arvud, tagastub #VALUE! viga. Kui @y < 0, siis tagastub "
+" #NUM! viga.\n"
 "See funktsioon on Exceliga ühilduv. \n"
 "@EXAMPLES=\n"
 "BESSELI(0.7,3) võrdub 0.007367374.\n"
@@ -9421,8 +8986,8 @@ msgstr ""
 "@DESCRIPTION=Funktsioon BESSELK tagastab Neumanni, Weberi või Besseli "
 "funktsiooni. @x on funktsiooni rakendamise koht. @y on besseli funktsiooni "
 "järjekord, mittetäisarvulist väärtust ei arvestata.\n"
-"Kui @x või @y ei ole arvud, tagastub #VALUE! viga. Kui @y < 0, siis "
-"tagastub  #NUM! viga.\n"
+"Kui @x või @y ei ole arvud, tagastub #VALUE! viga. Kui @y < 0, siis tagastub "
+" #NUM! viga.\n"
 "See funktsioon on Exceliga ühilduv. \n"
 "@EXAMPLES=\n"
 "BESSELK(3,9) võrdub 397.95880.\n"
@@ -9434,8 +8999,8 @@ msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
 "@DESCRIPTION=BESSELJ function returns the bessel function with @x is where "
-"the function is evaluated. @y is the order of the bessel function, if non-"
-"integer it is truncated.\n"
+"the function is evaluated. @y is the order of the bessel function, if "
+"non-integer it is truncated.\n"
 "If @x or @y are not numeric a #VALUE! error is returned.  If @y < 0 a #NUM! "
 "error is returned.\n"
 "This function is Excel compatible. \n"
@@ -9449,8 +9014,8 @@ msgstr ""
 "@DESCRIPTION=Funktsioon BESSELJ tagastab Besseli funktsiooni. @x on "
 "funktsiooni rakendamise koht. @y on besseli funktsiooni järjekord, "
 "mittetäisarvulist väärtust ei arvestata.\n"
-"Kui @x või @y ei ole arvud, tagastub #VALUE! viga. Kui @y < 0, siis "
-"tagastub  #NUM! viga.\n"
+"Kui @x või @y ei ole arvud, tagastub #VALUE! viga. Kui @y < 0, siis tagastub "
+" #NUM! viga.\n"
 "See funktsioon on Exceliga ühilduv. \n"
 "@EXAMPLES=\n"
 "BESSELJ(0.89,3) võrdub 0.013974004.\n"
@@ -9477,8 +9042,8 @@ msgstr ""
 "@DESCRIPTION=Funktsioon BESSELY tagastab Besseli funktsiooni. @x on "
 "funktsiooni rakendamise koht. @y on besseli funktsiooni järjekord, "
 "mittetäisarvulist väärtust ei arvestata.\n"
-"Kui @x või @y ei ole arvud, tagastub #VALUE! viga. Kui @y < 0, siis "
-"tagastub  #NUM! viga.\n"
+"Kui @x või @y ei ole arvud, tagastub #VALUE! viga. Kui @y < 0, siis tagastub "
+" #NUM! viga.\n"
 "See funktsioon on Exceliga ühilduv. \n"
 "@EXAMPLES=\n"
 "BESSELY(4,2) võrdub 0.215903595.\n"
@@ -10110,9 +9675,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF([alaraja;]ülaraja)\n"
-"@DESCRIPTION=Ühe argumendiga ERF tagastab veafunktsiooni; määratud kui erf"
-"(x) = 2/sqrt(pi)* integraal 0 kuni x-ni exp(-t*t) dt-st. Kui kaks argumenti "
-"on antud, siis need on integraali rajad.\n"
+"@DESCRIPTION=Ühe argumendiga ERF tagastab veafunktsiooni; määratud kui "
+"erf(x) = 2/sqrt(pi)* integraal 0 kuni x-ni exp(-t*t) dt-st. Kui kaks "
+"argumenti on antud, siis need on integraali rajad.\n"
 "Kui kas @alaraja või @ülaraja ei ole arvud, tagastatakse #VALUE! viga.\n"
 "See funktsioon on edasiulatuvalt Exceliga ühilduv. (Kui on kaks argumenti "
 "antud, Excel ei luba kummalegi negatiivset väärtust.) \n"
@@ -10120,8 +9685,9 @@ msgstr ""
 "ERF(0.4) võrdub 0.428392355.\n"
 "ERF(1.6448536269515/SQRT(2)) võrdub 0.90.\n"
 "\n"
-"Teine näide näitab, et juhuarv normaalse jaotuskõveraga omab 90-"
-"protsendilist tõenäosust sattuda keskmise umbes 1.645 standardhälbe sisse.\n"
+"Teine näide näitab, et juhuarv normaalse jaotuskõveraga omab "
+"90-protsendilist tõenäosust sattuda keskmise umbes 1.645 standardhälbe "
+"sisse.\n"
 "@SEEALSO=ERFC"
 
 #: src/functions/fn-eng.c:1656
@@ -10306,8 +9872,8 @@ msgstr ""
 "4  Euroopa 30/360\n"
 "\n"
 "Kui @väljalaske või @tähtaja kuupäev ei ole korrektne, tagastab ACCRINTM "
-"#NUM! vea. Kui @kasvik <=0 või @nominaal <=0 , tagastab ACCRINTM #NUM! vea."
-"Kui @baas puudub, kasutatakse US 30/360. Kui @baas < 0 või @baas > 4, "
+"#NUM! vea. Kui @kasvik <=0 või @nominaal <=0 , tagastab ACCRINTM #NUM! "
+"vea.Kui @baas puudub, kasutatakse US 30/360. Kui @baas < 0 või @baas > 4, "
 "tagastab ACCRINTM #NUM! vea. Kui @väljalase on pärast @tähtaega või nad on "
 "samad, tagastab ACCRINTM #NUM! vea. \n"
 "@EXAMPLES=\n"
@@ -10558,7 +10124,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/functions/fn-financial.c:1414
-#, fuzzy
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -10588,7 +10153,8 @@ msgstr ""
 "nominaalintressile.\n"
 "Tegelik intress arvutatakse järgmiste valemite alusel:\n"
 "\n"
-"         @r( 1 + ------ ) ^ @nper - 1       @nper\n"
+"    (1 + @r / @nper) ^ @nper - 1\n"
+"\n"
 "kus:\n"
 "\n"
 "@r = intressi nominaalmäär (aastane)\n"
@@ -10727,8 +10293,8 @@ msgid ""
 "The formula used for straight line depriciation is:\n"
 "Depriciation expense = ( @cost - @salvage_value ) / @life\n"
 "\t@cost = cost of an asset when acquired (market value).\t@salvage_value = "
-"amount you get when asset sold at the end of the assets's useful life."
-"\t@life = anticipated life of an asset.\n"
+"amount you get when asset sold at the end of the assets's useful "
+"life.\t@life = anticipated life of an asset.\n"
 "@EXAMPLES=\n"
 "For example, lets suppose your company purchases a new machine for $10,000, "
 "which has a salvage value of $700 and will have a useful life of 10 years. "
@@ -10747,8 +10313,8 @@ msgstr ""
 "Valem, millega lineaarset amortisatsiooni arvutatakse, on:\n"
 "Amortisatsiooni kulud = ( @maksumus - @jääkväärtus ) / @eluiga\n"
 "\t@maksumus = põhivahendi soetusmaksumus (turuväärtus).\t@jääkväärtus = "
-"summa, mis on võimalik saada põhivahendi müügist peale tema kasutusea lõppu."
-"\t@eluiga = põhivahendi kasulik eluiga.\n"
+"summa, mis on võimalik saada põhivahendi müügist peale tema kasutusea "
+"lõppu.\t@eluiga = põhivahendi kasulik eluiga.\n"
 "@EXAMPLES=\n"
 "Oletame, et firma ostab uue masina hinnaga $10,000, mille jääkväärtuseks "
 "oletatakse $700 ja mis töötab 10 aastat. SLN aastane amortisatsioon "
@@ -10798,9 +10364,9 @@ msgstr ""
 "Amortisatsiooni kulud = ( @maksumus - @jääkväärtus ) * (@eluiga - @periood + "
 "1) * 2 / @eluiga * (@eluiga + 1).\n"
 "\t@maksumus = põhivahendi soetusmaksumus (turuväärtus).\t@jääkväärtus = "
-"summa, mis on võimalik saada põhivahendi müügist peale tema kasutusea lõppu."
-"\t@eluiga = põhivahendi kasulik eluiga.@periood = periood, mille jaoks me "
-"kulu arvutame.\n"
+"summa, mis on võimalik saada põhivahendi müügist peale tema kasutusea "
+"lõppu.\t@eluiga = põhivahendi kasulik eluiga.@periood = periood, mille jaoks "
+"me kulu arvutame.\n"
 "@EXAMPLES=\n"
 "Näiteks oletame, et firma ostis arvuti hinnaga $5000, mille jääkväärtuseks "
 "jääb $200, ja mille kasulik eluiga on 3 aastat. Järgnevalt arvutame teise "
@@ -10909,8 +10475,8 @@ msgid ""
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
 "@DESCRIPTION=TBILLPRICE function returns the price per $100 value for a "
 "treasury bill where @settlement is the settlement date and @maturity is the "
-"maturity date of the bill.  @discount is the treasury bill's discount "
-"rate. \n"
+"maturity date of the bill.  @discount is the treasury bill's discount rate. "
+"\n"
 "If @settlement is after @maturity or the @maturity is set to over one year "
 "later than the @settlement, TBILLPRICE returns #NUM! error. If @discount is "
 "negative, TBILLPRICE returns #NUM! error. \n"
@@ -11091,14 +10657,14 @@ msgid ""
 "@values contains the serie of cash flow generated by the investment.  @dates "
 "contains the dates of the payments.  The first date describes the payment "
 "day of the initial payment and thus all the other dates should be after this "
-"date. The optional @guess is the initial value used in calculating the "
-"XIRR.  You do not have to use that, it is only provided for the Excel "
+"date. The optional @guess is the initial value used in calculating the XIRR. "
+" You do not have to use that, it is only provided for the Excel "
 "compatibility. \n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1:A5 contain the numbers -6000, 2134, 1422, "
-"1933, and 1422, and the cells B1:B5 contain the dates \"1999-01-15\", \"1999-"
-"04-04\", \"1999-05-09\", \"2000-03-12\", and \"2000-05-1\". Then\n"
+"1933, and 1422, and the cells B1:B5 contain the dates \"1999-01-15\", "
+"\"1999-04-04\", \"1999-05-09\", \"2000-03-12\", and \"2000-05-1\". Then\n"
 "XIRR(A1:A5,B1:B5) returns 0.224838. \n"
 "@SEEALSO=IRR,XNPV"
 msgstr ""
@@ -11581,8 +11147,8 @@ msgstr ""
 #: src/functions/fn-financial.c:3253
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
-"@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
-"frequency[,basis])\n"
+"@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,f"
+"requency[,basis])\n"
 "@DESCRIPTION=ODDFYIELD calculates the yield of a security having an odd "
 "first period. @settlement is the settlement date of the security. @maturity "
 "is the maturity date of the security. @frequency is the number of coupon "
@@ -11603,8 +11169,8 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=ODDFYIELD\n"
-"@SYNTAX=ODDFYIELD(maksepäev;tähtaeg;väljalase;esimene_kupong;intress;hind;"
-"tagatis;sagedus[;baas])\n"
+"@SYNTAX=ODDFYIELD(maksepäev;tähtaeg;väljalase;esimene_kupong;intress;hind;tag"
+"atis;sagedus[;baas])\n"
 "@DESCRIPTION=ODDFYIELD arvutab lühikese esimese perioodiga väärtpaberi "
 "tulususe. @maksepäev on väärtpaberi ostupäev. @tähtaeg on väärtpaberi "
 "tagasiostupäev. @sagedus on kupongisagedus aastas. Lubatud sagedused on: 1 = "
@@ -11627,8 +11193,8 @@ msgstr ""
 #: src/functions/fn-financial.c:3290
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
-"@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
-"frequency[,basis])\n"
+"@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,frequ"
+"ency[,basis])\n"
 "@DESCRIPTION=ODDLPRICE calculates the price per $100 face value of a "
 "security that has an odd last coupon period. @settlement is the settlement "
 "date of the security. @maturity is the maturity date of the security. "
@@ -11650,8 +11216,8 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=ODDLPRICE\n"
-"@SYNTAX=ODDLPRICE(maksepäev;tähtaeg;viimane_intress;intress;tulusus;tagatis;"
-"sagedus[;baas])\n"
+"@SYNTAX=ODDLPRICE(maksepäev;tähtaeg;viimane_intress;intress;tulusus;tagatis;s"
+"agedus[;baas])\n"
 "@DESCRIPTION=ODDLPRICE arvutab erineva viimase perioodiga $100 "
 "nimiväärtusega väärtpaberi hinna. @maksepäev on väärtpaberi ostupäev. "
 "@tähtaeg on väärtpaberi tagasiostupäev. @sagedus on kupongisagedus aastas. "
@@ -11674,8 +11240,8 @@ msgstr ""
 #: src/functions/fn-financial.c:3327
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
-"@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
-"frequency[,basis])\n"
+"@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,freque"
+"ncy[,basis])\n"
 "@DESCRIPTION=ODDLYIELD calculates the yield of a security having an odd last "
 "period. @settlement is the settlement date of the security. @maturity is the "
 "maturity date of the security. @frequency is the number of coupon payments "
@@ -11696,8 +11262,8 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=ODDLYIELD\n"
-"@SYNTAX=ODDLYIELD(maksepäev;tähtaeg;viimane_intress;intress;hind;tagatis;"
-"sagedus[;baas])\n"
+"@SYNTAX=ODDLYIELD(maksepäev;tähtaeg;viimane_intress;intress;hind;tagatis;sage"
+"dus[;baas])\n"
 "@DESCRIPTION=ODDLYIELD arvutab erineva viimase perioodiga "
 "väärtpaberitulususe. @maksepäev on väärtpaberi ostupäev. @tähtaeg on "
 "väärtpaberi tagasiostupäev. @sagedus on kupongisagedus aastas. Lubatud "
@@ -11720,10 +11286,10 @@ msgstr ""
 #: src/functions/fn-financial.c:3364
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
-"@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
-"basis])\n"
-"@DESCRIPTION=AMORDEGRC returns the depreciation for each accounting period."
-"@settlement is the settlement date of the security. @maturity is the "
+"@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,basis]"
+")\n"
+"@DESCRIPTION=AMORDEGRC returns the depreciation for each accounting "
+"period.@settlement is the settlement date of the security. @maturity is the "
 "maturity date of the security. @basis is the type of day counting system you "
 "want to use:\n"
 "\n"
@@ -11763,10 +11329,10 @@ msgstr ""
 #: src/functions/fn-financial.c:3398
 msgid ""
 "@FUNCTION=AMORLINC\n"
-"@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
-"basis])\n"
-"@DESCRIPTION=AMORLINC returns the depreciation for each accounting period."
-"@settlement is the settlement date of the security. @maturity is the "
+"@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,basis])"
+"\n"
+"@DESCRIPTION=AMORLINC returns the depreciation for each accounting "
+"period.@settlement is the settlement date of the security. @maturity is the "
 "maturity date of the security. @basis is the type of day counting system you "
 "want to use:\n"
 "\n"
@@ -11784,8 +11350,8 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=AMORLINC\n"
-"@SYNTAX=AMORLINC(maksumus;ostuaeg;esimene_periood;jääkväärtus;periood;määr[;"
-"baas])\n"
+"@SYNTAX=AMORLINC(maksumus;ostuaeg;esimene_periood;jääkväärtus;periood;määr[;b"
+"aas])\n"
 "@DESCRIPTION=AMORLINC tagastab amortisatsiooni iga arveldusperioodi kohta. "
 "@maksepäev on väärtpaberi ostupäev. @tähtaeg on väärtpaberi tagasiostupäev. "
 "@baas on kasutatav päevade lugemise süsteem:\n"
@@ -11939,11 +11505,11 @@ msgstr ""
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
-"@DESCRIPTION=COUPNCD returns the coupon date following settlement."
-"@settlement is the settlement date of the security. @maturity is the "
-"maturity date of the security. @frequency is the number of coupon payments "
-"per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
-"@basis is the type of day counting system you want to use:\n"
+"@DESCRIPTION=COUPNCD returns the coupon date following "
+"settlement.@settlement is the settlement date of the security. @maturity is "
+"the maturity date of the security. @frequency is the number of coupon "
+"payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = "
+"quarterly. @basis is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -11982,11 +11548,11 @@ msgstr ""
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
-"@DESCRIPTION=COUPPCD returns the coupon date preceeding settlement."
-"@settlement is the settlement date of the security. @maturity is the "
-"maturity date of the security. @frequency is the number of coupon payments "
-"per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
-"@basis is the type of day counting system you want to use:\n"
+"@DESCRIPTION=COUPPCD returns the coupon date preceeding "
+"settlement.@settlement is the settlement date of the security. @maturity is "
+"the maturity date of the security. @frequency is the number of coupon "
+"payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = "
+"quarterly. @basis is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -12137,6 +11703,10 @@ msgstr ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DB"
+
+#: src/functions/fn-financial.c:3894
+msgid "Financial"
+msgstr "Finantsilised"
 
 #: src/functions/fn-information.c:83
 msgid ""
@@ -12329,8 +11899,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(value)\n"
-"@DESCRIPTION=ISERR returns TRUE if the value is any error value except #N/"
-"A.\n"
+"@DESCRIPTION=ISERR returns TRUE if the value is any error value except "
+"#N/A.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "ISERR(NA()) return FALSE.\n"
@@ -12838,8 +12408,8 @@ msgstr ""
 "puudub, tagastab ADDRESS A1-stiilis viida, nagu $D$4.  Vastasel juhul "
 "tagastab ADDRESS R1C1-stiilis viida, nagu R4C4. \n"
 "@tekst määrab välise viidana kasutatava lehe nime.  \n"
-"Kui @rea_num või @veeru_num on väiksem kui üks, tagastab ADDRESS #NUM! "
-"vea. \n"
+"Kui @rea_num või @veeru_num on väiksem kui üks, tagastab ADDRESS #NUM! vea. "
+"\n"
 "@EXAMPLES=\n"
 "ADDRESS(5,4) võrdub \"$D$5\".\n"
 "ADDRESS(5,4,4) võrdub \"D5\".\n"
@@ -13042,6 +12612,18 @@ msgid ""
 "17.3,21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25,9\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=INDEX\n"
+"@SYNTAX=INDEX(massiiv;[row; veerg; ala])\n"
+"@DESCRIPTION=INDEX annab lahtri aadressi @massiivis. Lahter "
+"osutatakse @rea ja @veeru abil, mis loendavad ridu ja veerge "
+"massiivis.\n"
+"Kui @rida ja @veerg, puuduvad, siis omistatakse neile väärtus 1.@ala peab olema 1; "
+"viited mitmele alale pole veel toetatud.Kui viide langeb "
+"@massiivi piiridest välja, tagastab INDEX #REF! vea.\n"
+"\n"
+"@EXAMPLES=Oletame, et lahtrid A1, A2, ..., A5 sisaldavad arve 11.4, "
+"17.3,21.3, 25.9, ja 40.1. Siis INDEX(A1:A5,4,1,1) võrdub 25,9\n"
+"@SEEALSO="
 
 #: src/functions/fn-lookup.c:835
 msgid ""
@@ -14401,8 +13983,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
-"@DESCRIPTION=FACTDOUBLE function returns the double factorial of a "
-"@number. \n"
+"@DESCRIPTION=FACTDOUBLE function returns the double factorial of a @number. "
+"\n"
 "If @number is not an integer, it is truncated.  If @number is negative "
 "FACTDOUBLE returns #NUM! error.\n"
 "This function is Excel compatible. \n"
@@ -14909,8 +14491,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
-"@DESCRIPTION=MINVERSE function returns the inverse matrix of a given "
-"matrix. \n"
+"@DESCRIPTION=MINVERSE function returns the inverse matrix of a given matrix. "
+"\n"
 "If the @matrix cannot be inverted, MINVERSE returns #NUM! error. If the "
 "@matrix does not contain equal number of columns and rows, MINVERSE returns "
 "#VALUE! error.\n"
@@ -15439,8 +15021,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=FISHERINV\n"
 "@SYNTAX=FISHERINV(x)\n"
-"@DESCRIPTION=Funktsioon FISHERINV tagastab Fisheri pöördteisenduse kohal "
-"@x. \n"
+"@DESCRIPTION=Funktsioon FISHERINV tagastab Fisheri pöördteisenduse kohal @x. "
+"\n"
 "Kui @x ei ole arv, tagastab FISHERINV #VALUE! vea.\n"
 "See funktsioon on Exceliga ühilduv.\n"
 "@EXAMPLES=\n"
@@ -15833,8 +15415,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
-"@DESCRIPTION=CHIDIST function returns the one-tailed probability of the chi-"
-"squared distribution. @dof is the number of degrees of freedom.\n"
+"@DESCRIPTION=CHIDIST function returns the one-tailed probability of the "
+"chi-squared distribution. @dof is the number of degrees of freedom.\n"
 "If @dof is non-integer it is truncated.  If @dof < 1 CHIDIST returns #NUM! "
 "error.\n"
 "This function is Excel compatible.\n"
@@ -15883,8 +15465,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
-"@DESCRIPTION=CHITEST function returns the test for independence of chi-"
-"squared distribution.\n"
+"@DESCRIPTION=CHITEST function returns the test for independence of "
+"chi-squared distribution.\n"
 "@actual_range is a range that contains the observed data points. "
 "@theoretical_range is a range that contains the expected values of the data "
 "points.\n"
@@ -15969,8 +15551,8 @@ msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
 "@DESCRIPTION=TDIST function returns the Student's t-distribution. @dof is "
-"the degree of freedom and @tails is 1 or 2 depending on whether you want one-"
-"tailed or two-tailed distribution.\n"
+"the degree of freedom and @tails is 1 or 2 depending on whether you want "
+"one-tailed or two-tailed distribution.\n"
 "If @dof < 1 TDIST returns #NUM! error.  If @tails is neither 1 or 2 TDIST "
 "returns #NUM! error.\n"
 "This function is Excel compatible.\n"
@@ -15996,8 +15578,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
-"@DESCRIPTION=TINV function returns the inverse of the two-tailed Student's t-"
-"distribution.\n"
+"@DESCRIPTION=TINV function returns the inverse of the two-tailed Student's "
+"t-distribution.\n"
 "If @p < 0 or @p > 1 or @dof < 1 TINV returns #NUM! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -16247,8 +15829,8 @@ msgid ""
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
 "@DESCRIPTION=WEIBULL function returns the Weibull distribution. If the "
 "@cumulative boolean is true it will return: 1 - exp (-(@x/@beta)^@alpha), "
-"otherwise it will return (@alpha/@beta^@alpha) * @x^(@alpha-1) * exp(-(@x/"
-"@beta^@alpha)). \n"
+"otherwise it will return (@alpha/@beta^@alpha) * @x^(@alpha-1) * "
+"exp(-(@x/@beta^@alpha)). \n"
 "If @x < 0 WEIBULL returns #NUM! error. If @alpha <= 0 or @beta <= 0 WEIBULL "
 "returns #NUM! error.\n"
 "This function is Excel compatible.\n"
@@ -16261,8 +15843,8 @@ msgstr ""
 "@SYNTAX=WEIBULL(x;alfa;beeta;kumulatiivne)\n"
 "@DESCRIPTION=Funktsioon WEIBULL tagastab Weibull'i jaotuse. Kui tõeväärtus "
 "@kumulatiivne on TRUE, tagastab ta: 1 - exp (-(@x/@beeta)^@alfa), vastasel "
-"juhul tagastab ta (@alfa/@beeta^@alfa) * @x^(@alfa-1) * exp(-(@x/"
-"@beeta^@alfa)). \n"
+"juhul tagastab ta (@alfa/@beeta^@alfa) * @x^(@alfa-1) * "
+"exp(-(@x/@beeta^@alfa)). \n"
 "Kui @x < 0, tagastab WEIBULL #NUM! vea. Kui @alfa <= 0 või @beeta <= 0, "
 "tagastab WEIBULL #NUM! vea.\n"
 "See funktsioon on Exceliga ühilduv.\n"
@@ -16661,8 +16243,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
-"@DESCRIPTION=STEYX function returns the standard error of the predicted y-"
-"value for each x in the regression.\n"
+"@DESCRIPTION=STEYX function returns the standard error of the predicted "
+"y-value for each x in the regression.\n"
 "If @known_y's and @known_x's are empty or have a different number of "
 "arguments then STEYX returns #N/A! error.\n"
 "This function is Excel compatible.\n"
@@ -17172,8 +16754,8 @@ msgid ""
 "in the result array.  Extra statistical information consists of four rows of "
 "data.  In the first row the standard error values for the coefficients m1, "
 "(m2, ...), b are represented.  The second row contains the square of R and "
-"the standard error for the y estimate.  The third row contains the F-"
-"observed value and the degrees of freedom.  The last row contains the "
+"the standard error for the y estimate.  The third row contains the "
+"F-observed value and the degrees of freedom.  The last row contains the "
 "regression sum of squares and the residual sum of squares. \n"
 "The default of @stat is FALSE.\n"
 "@EXAMPLES=\n"
@@ -17196,8 +16778,8 @@ msgstr ""
 "kirjutatakse regressioonijoone koefitsentide alla tulemuseks olevas "
 "massiivis.  Statistiline lisateave koosneb neljast andmereast.  Esimeses "
 "reas on standardvea väärtused koefitsendi m1, (m2, ...), b jaoks.  Teises "
-"reas on R ruut ja hinnangulise y standardviga.  Kolmas rida sisaldab F-"
-"uuritud väärtust ja vabadusastmeid.  Viimases reas on regressiooni ruutude "
+"reas on R ruut ja hinnangulise y standardviga.  Kolmas rida sisaldab "
+"F-uuritud väärtust ja vabadusastmeid.  Viimases reas on regressiooni ruutude "
 "summa ja jääkliigete ruutude summa. \n"
 "@stat vaikeväärtus on FALSE.\n"
 "@EXAMPLES=\n"
@@ -17210,9 +16792,9 @@ msgid ""
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
 "@DESCRIPTION=TREND function estimates future values of a given data set "
 "using the ``least squares'' line that best fit to your data. @known_y's is "
-"the y-values where y=mx+b and @known_x's contains the corresponding x-"
-"values.  @new_x's contains the x-values for which you want to estimate the y-"
-"values. \n"
+"the y-values where y=mx+b and @known_x's contains the corresponding "
+"x-values.  @new_x's contains the x-values for which you want to estimate the "
+"y-values. \n"
 "If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @new_x's is "
 "omitted, it is assumed to be the same as @known_x's. If @known_y's and "
 "@known_x's have unequal number of data points, TREND returns #NUM! error. \n"
@@ -17258,8 +16840,8 @@ msgid ""
 "in the result array.  Extra statistical information consists of four rows of "
 "data.  In the first row the standard error values for the coefficients m1, "
 "(m2, ...), b are represented.  The second row contains the square of R and "
-"the standard error for the y estimate.  The third row contains the F-"
-"observed value and the degrees of freedom.  The last row contains the "
+"the standard error for the y estimate.  The third row contains the "
+"F-observed value and the degrees of freedom.  The last row contains the "
 "regression sum of squares and the residual sum of squares. \n"
 "The default of @stat is FALSE.\n"
 "@EXAMPLES=\n"
@@ -17281,8 +16863,8 @@ msgstr ""
 "kirjutatakse regressioonijoone koefitsentide alla tulemuseks olevas "
 "massiivis.  Statistiline lisateave koosneb neljast andmereast.  Esimeses "
 "reas on standardvea väärtused koefitsendi m1, (m2, ...), b jaoks.  Teises "
-"reas on R ruut ja hinnangulise y standardviga.  Kolmas rida sisaldab F-"
-"uuritud väärtust ja vabadusastmeid.  Viimases reas on regressiooni ruutude "
+"reas on R ruut ja hinnangulise y standardviga.  Kolmas rida sisaldab "
+"F-uuritud väärtust ja vabadusastmeid.  Viimases reas on regressiooni ruutude "
 "summa ja jääkliigete ruutude summa. \n"
 "@stat vaikeväärtus on FALSE.\n"
 "@EXAMPLES=\n"
@@ -17984,7 +17566,7 @@ msgstr "Vorminda alternatiivse arvuna"
 msgid "File \"%s\" has unknown format."
 msgstr "Fail \"%s\" on tundmatu formaadiga."
 
-#: src/gnumeric-graph.c:1027
+#: src/gnumeric-graph.c:1026
 msgid "Data..."
 msgstr "Andmed..."
 
@@ -18094,9 +17676,8 @@ msgid "Unable to open file '%s'"
 msgstr "Ei saa avada faili '%s'"
 
 #: src/gui-validation.c:45
-#, fuzzy
 msgid "The value you entered :\n"
-msgstr "Sisestatav väärtus :\n"
+msgstr "Sisestatud väärtus :\n"
 
 #: src/gui-validation.c:78
 #, c-format
@@ -18174,9 +17755,8 @@ msgid "Can be blank\n"
 msgstr "Ei saa olla tühi\n"
 
 #: src/gui-validation.c:146
-#, fuzzy
 msgid "Re-Edit"
-msgstr "_Redigeerimine"
+msgstr "Muuda uuesti"
 
 #: src/gui-validation.c:146 src/gui-validation.c:151
 msgid "Discard"
@@ -18197,9 +17777,8 @@ msgstr "Ok"
 #. * 'File' menu
 #.
 #: src/history.c:128
-#, fuzzy
 msgid "File/Print Preview..."
-msgstr "Fail/Väljatrüki eelvaade"
+msgstr "Fail/Väljatrüki eelvaade..."
 
 #: src/history.c:141
 msgid "File/Print Preview"
@@ -19006,23 +18585,23 @@ msgstr "ei saa opereerida ühendatud lahtritega"
 msgid "cannot operate on array formulae"
 msgstr "ei saa opereerida massiivi valemitega"
 
-#: src/sheet.c:3051
+#: src/sheet.c:3052
 msgid "Clear"
 msgstr "Puhasta"
 
-#: src/sheet.c:3457
+#: src/sheet.c:3458
 msgid "Insert Columns"
 msgstr "Lisa veerud"
 
-#: src/sheet.c:3514
+#: src/sheet.c:3515
 msgid "Delete Columns"
 msgstr "Kustuta veerud"
 
-#: src/sheet.c:3568
+#: src/sheet.c:3569
 msgid "Insert Rows"
 msgstr "Lisa read"
 
-#: src/sheet.c:3625
+#: src/sheet.c:3626
 msgid "Delete Rows"
 msgstr "Kustuta read"
 
@@ -19126,16 +18705,6 @@ msgstr "Hind"
 #: src/solver-lp.c:1099
 msgid "R.H. Side"
 msgstr "R.H. pool"
-
-#: src/stf-parse.c:35
-#, fuzzy, c-format
-msgid "Too many rows in data to parse: %d"
-msgstr "Liiga palju ridu selle formaadi (%d > %d) jaoks"
-
-#: src/stf-parse.c:36
-#, c-format
-msgid "Too many columns in data to parse: %d"
-msgstr ""
 
 #: src/stf.c:116
 msgid "Error while trying to memory map file"
@@ -19256,26 +18825,24 @@ msgid "Remove borders"
 msgstr "Eemalda raamid"
 
 #: src/workbook-cmd-format.c:132
-#, fuzzy, c-format
+#, c-format
 msgid "You entered an invalid column width value.  It must be bigger than %d"
-msgstr ""
-"Sa sisestasid vigase veeru laiuse väärtuse.  See peab olema suurem kui 0"
+msgstr "Sa sisestasid vigase veeru laiuse väärtuse.  See peab olema suurem kui %d"
 
 #: src/workbook-cmd-format.c:195
-#, fuzzy, c-format
+#, c-format
 msgid "You entered an invalid row height value.  It must be bigger than %d"
-msgstr ""
-"Sa sisestasid vigase rea kõrguse väärtuse.  See peab olema suurem kui 0"
+msgstr "Sa sisestasid vigase rea kõrguse väärtuse.  See peab olema suurem kui %d"
 
 #: src/workbook-cmd-format.c:246
-#, fuzzy, c-format
+#, c-format
 msgid "The default column width must be > %d."
-msgstr "Muuda veergude laiuse vaikeväärtust"
+msgstr "Veerulaiuse vaikeväärtus peab olema > %d."
 
 #: src/workbook-cmd-format.c:276
-#, fuzzy, c-format
+#, c-format
 msgid "The default row height must be > %d."
-msgstr "Muuda rea kõrguse vaikeväärtust"
+msgstr "Rea kõrguse vaikeväärtus peab olema > %d."
 
 #: src/workbook-control-gui.c:291
 msgid " : Gnumeric"
@@ -19526,15 +19093,13 @@ msgstr "Muuda funktsiooni käesolevas lahtris."
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
-msgstr ""
-"Sorteerib valitud ala kasvavas järjekorras esimese valitud veeru alusel."
+msgstr "Sorteerib valitud ala kasvavas järjekorras esimese valitud veeru alusel."
 
 #: src/workbook-control-gui.c:3022
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
-msgstr ""
-"Sorteerib valitud ala kahanevas järjekorras esimese valitud veeru alusel."
+msgstr "Sorteerib valitud ala kahanevas järjekorras esimese valitud veeru alusel."
 
 #: src/workbook-control-gui.c:3944
 msgid "Send"
@@ -19557,15 +19122,16 @@ msgid "Discard Expression"
 msgstr "Tühista avaldis"
 
 #: src/workbook-edit.c:165
-#, fuzzy
 msgid "Gnumeric : Validation"
-msgstr "Variatsiooni lähtehulk"
+msgstr "Gnumeric : Valideerimine"
 
 #: src/workbook-edit.c:167
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
 msgstr ""
+"See väärtus on vigane.\n"
+"Selle lahtri sisule on kehtestatud piirangud."
 
 #: src/workbook-format-toolbar.c:86
 msgid "Set Horizontal Alignment"
@@ -19804,20 +19370,20 @@ msgstr "Raamatus pole lehti."
 msgid "Unsupported file format."
 msgstr "Toetamata failiformaat."
 
-#: src/workbook.c:448
+#: src/workbook.c:443
 #, c-format
 msgid "Book%d.%s"
 msgstr "Raamat%d.%s"
 
-#: src/workbook.c:1220
+#: src/workbook.c:1216
 msgid "Sheet name"
 msgstr "Lehe nimi"
 
-#: src/workbook.c:1221
+#: src/workbook.c:1217
 msgid "must have at least 1 letter"
 msgstr "vähemalt 1 täht peab olema"
 
-#: src/workbook.c:1234
+#: src/workbook.c:1230
 msgid "There is already a sheet named"
 msgstr "On juba leht nimega"
 
@@ -19834,14 +19400,12 @@ msgid "Error while trying to build tree from autoformat template file"
 msgstr "Viga automaatvorminduse mallist puu konstrueerimisel"
 
 #: src/xml-io.c:2871
-#, fuzzy
 msgid "Unparsable xml in clipboard"
-msgstr "Aseta lõikepuhvri sisu"
+msgstr "Lõikepuhvris asuv xml ei ole käsitletav"
 
 #: src/xml-io.c:2878
-#, fuzzy
 msgid "Clipboard is in unknown format"
-msgstr "Fail \"%s\" on tundmatu formaadiga."
+msgstr "Lõikepuhvri sisu on tundmatu formaadiga."
 
 #.
 #. * Pass 2: read the contents
@@ -19866,56 +19430,3 @@ msgstr "Gnumericu XML failiformaat"
 msgid "The GNOME Spreadsheet"
 msgstr "GNOME Tabelitöötlus"
 
-#, fuzzy
-#~ msgid "Finance"
-#~ msgstr "Finantsilised"
-
-#~ msgid ""
-#~ "@FUNCTION=INDEX\n"
-#~ "@SYNTAX=INDEX(reference,[row, col, area])\n"
-#~ "@DESCRIPTION=INDEX function returns a reference to the cell at a offset "
-#~ "into the reference specified by row, col.\n"
-#~ "If things go wrong returns #REF! \n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=INDEX\n"
-#~ "@SYNTAX=INDEX(viit[;rida;veerg;ala])\n"
-#~ "@DESCRIPTION=Funktsioon INDEX viida lahtrile, mis astub antud viidast "
-#~ "antud ridade ja veergude võrra alasse.\n"
-#~ "Kui asi ei õnnestu, tagastatakse #REF! \n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "You entered an invalid default column width value.  It must be bigger "
-#~ "than 0"
-#~ msgstr ""
-#~ "Sa sisestasid vigase veeru vaikimisi laiuse väärtuse.  See peab olema "
-#~ "suurem kui 0"
-
-#~ msgid ""
-#~ "You entered an invalid default row height value.  It must be bigger than 0"
-#~ msgstr ""
-#~ "Sa sisestasid vigase rea vaikimisi kõrguse väärtuse.  See peab olema "
-#~ "suurem kui 0"
-
-#~ msgid "Correct accidental use of _cAPS LOCK key"
-#~ msgstr "Paranda cAPS LOCK klahvi juhuslik väärkasutus"
-
-#~ msgid "Invalid day"
-#~ msgstr "Sobimatu päev"
-
-#~ msgid "Invalid xml clipboard data. Tree is empty ?"
-#~ msgstr "Vigane xml lõikepuhvri sisu. Äkki on puu tühi ?"
-
-#~ msgid "label62"
-#~ msgstr "pealdis62"
-
-#~ msgid "label63"
-#~ msgstr "pealdis63"
-
-#~ msgid "label10"
-#~ msgstr "pealdis10"
