@@ -28,6 +28,7 @@
 #include <libxml/globals.h>
 #include <gsf/gsf-impl-utils.h>
 
+#include <bonobo/bonobo-ui-node.h>
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
 #include <libgnome/gnome-i18n.h>
@@ -1201,6 +1202,170 @@ GSF_CLASS (PluginServicePluginLoader, plugin_service_plugin_loader,
            plugin_service_plugin_loader_class_init, plugin_service_plugin_loader_init,
            GNM_PLUGIN_SERVICE_TYPE)
 
+
+/*
+ * PluginServiceUI
+ */
+
+typedef struct{
+	PluginServiceClass plugin_service_class;
+} PluginServiceUIClass;
+
+struct _PluginServiceUI {
+	PluginService plugin_service;
+
+	char *file_name;
+	GSList *verbs;
+
+	CustomXmlUI *ui;
+	PluginServiceUICallbacks cbs;
+};
+
+static void
+plugin_service_ui_init (GObject *obj)
+{
+	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (obj);
+
+	GNM_PLUGIN_SERVICE (obj)->cbs_ptr = &service_ui->cbs;
+	service_ui->file_name = NULL;
+	service_ui->verbs = NULL;
+	service_ui->ui = NULL;
+	service_ui->cbs.plugin_func_exec_verb = NULL;
+}
+
+static void
+plugin_service_ui_finalize (GObject *obj)
+{
+	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (obj);
+	GObjectClass *parent_class;
+
+	g_free (service_ui->file_name);
+	service_ui->file_name = NULL;
+	g_slist_free_custom (service_ui->verbs, g_free);
+	service_ui->verbs = NULL;
+
+	parent_class = g_type_class_peek (GNM_PLUGIN_SERVICE_TYPE);
+	parent_class->finalize (obj);
+}
+
+static void
+plugin_service_ui_read_xml (PluginService *service, xmlNode *tree, ErrorInfo **ret_error)
+{
+	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
+	char *file_name;
+	xmlNode *verbs_node;
+	GSList *verbs = NULL;
+
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	file_name = e_xml_get_string_prop_by_name (tree, "file");
+	if (file_name == NULL) {
+		*ret_error = error_info_new_str (
+		             _("Missing file name."));
+		return;
+	}		
+	verbs_node = e_xml_get_child_by_name (tree, "verbs");
+	if (verbs_node != NULL) {
+		xmlNode *node;
+
+		for (node = verbs_node->xmlChildrenNode; node != NULL; node = node->next) {
+			char *name;
+
+			if (strcmp (node->name, "verb") == 0 &&
+			    (name = e_xml_get_string_prop_by_name (node, "name")) != NULL) {
+				GNM_SLIST_PREPEND (verbs, name);
+			}
+		}
+	}
+	GNM_SLIST_REVERSE (verbs);
+
+	service_ui->file_name = file_name;
+	service_ui->verbs = verbs;
+}
+
+static void
+ui_verb_fn (BonoboUIComponent *uic, gpointer user_data, const gchar *cname)
+{
+	PluginService *service = GNM_PLUGIN_SERVICE (user_data);
+	ErrorInfo *load_error;
+	
+	plugin_service_load (service, &load_error);
+	if (load_error == NULL) {
+		PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
+		WorkbookControlGUI *wbcg;
+		ErrorInfo *ignored_error;
+
+		g_return_if_fail (service_ui->cbs.plugin_func_exec_verb != NULL);
+		wbcg = g_object_get_data (
+			G_OBJECT (uic), "gnumeric-workbook-control-gui");
+		g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+		service_ui->cbs.plugin_func_exec_verb (
+			service, wbcg, uic, cname, &ignored_error);
+		if (ignored_error != NULL) {
+			error_info_print (ignored_error);
+			error_info_free (ignored_error);
+		}
+	} else {
+		error_info_print (load_error);
+		error_info_free (load_error);
+	}
+}
+
+static void
+plugin_service_ui_activate (PluginService *service, ErrorInfo **ret_error)
+{
+	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
+	char *full_file_name;
+	BonoboUINode *uinode;
+	char *xml_ui;
+	const char *textdomain;
+
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	full_file_name = g_build_path (
+		G_DIR_SEPARATOR_S, gnm_plugin_get_dir_name (service->plugin),
+		service_ui->file_name, NULL);
+	uinode = bonobo_ui_node_from_file (full_file_name);
+	if (uinode == NULL) {
+		*ret_error = error_info_new_printf (
+		             _("Cannot read UI description from XML file %s."),
+		             full_file_name);
+		g_free (full_file_name);
+		return;
+	}		             
+	g_free (full_file_name);
+
+	xml_ui = bonobo_ui_node_to_string (uinode, TRUE);
+	textdomain = gnm_plugin_get_textdomain (service->plugin);
+	service_ui->ui = register_xml_ui (
+		xml_ui, textdomain, service_ui->verbs, ui_verb_fn, service);
+	service->is_active = TRUE;
+}
+
+static void
+plugin_service_ui_deactivate (PluginService *service, ErrorInfo **ret_error)
+{
+	PluginServiceUI *service_ui = GNM_PLUGIN_SERVICE_UI (service);
+
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	unregister_xml_ui (service_ui->ui);
+	service->is_active = FALSE;
+}
+
+static void
+plugin_service_ui_class_init (GObjectClass *gobject_class)
+{
+	PluginServiceClass *plugin_service_class = GPS_CLASS (gobject_class);
+
+	gobject_class->finalize = plugin_service_ui_finalize;
+	plugin_service_class->read_xml = plugin_service_ui_read_xml;
+	plugin_service_class->activate = plugin_service_ui_activate;
+	plugin_service_class->deactivate = plugin_service_ui_deactivate;
+}
+
+GSF_CLASS (PluginServiceUI, plugin_service_ui,
+           plugin_service_ui_class_init, plugin_service_ui_init,
+           GNM_PLUGIN_SERVICE_TYPE)
+
+
 /* ---------------------------------------------------------------------- */
 
 static void
@@ -1246,6 +1411,7 @@ static struct {
 	{"file_saver", plugin_service_file_saver_get_type},
 	{"function_group", plugin_service_function_group_get_type},
 	{"plugin_loader", plugin_service_plugin_loader_get_type},
+	{"ui", plugin_service_ui_get_type}
 };
 
 PluginService *

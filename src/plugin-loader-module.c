@@ -50,6 +50,8 @@ static void gnumeric_plugin_loader_module_load_service_file_saver (GnumericPlugi
 static void gnumeric_plugin_loader_module_load_service_function_group (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 static void gnumeric_plugin_loader_module_unload_service_function_group (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 static void gnumeric_plugin_loader_module_load_service_plugin_loader (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
+static void gnumeric_plugin_loader_module_load_service_ui (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
+static void gnumeric_plugin_loader_module_unload_service_ui (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 
 
 static void
@@ -212,6 +214,8 @@ gnumeric_plugin_loader_module_class_init (GnumericPluginLoaderModuleClass *klass
 	gnumeric_plugin_loader_class->load_service_function_group = gnumeric_plugin_loader_module_load_service_function_group;
 	gnumeric_plugin_loader_class->unload_service_function_group = gnumeric_plugin_loader_module_unload_service_function_group;
 	gnumeric_plugin_loader_class->load_service_plugin_loader = gnumeric_plugin_loader_module_load_service_plugin_loader;
+	gnumeric_plugin_loader_class->load_service_ui = gnumeric_plugin_loader_module_load_service_ui;
+	gnumeric_plugin_loader_class->unload_service_ui = gnumeric_plugin_loader_module_unload_service_ui;
 	gnumeric_plugin_loader_class->get_extra_info_list = gnumeric_plugin_loader_module_info_get_extra_info_list;
 
 	gtk_object_class->destroy = gnumeric_plugin_loader_module_destroy;
@@ -611,4 +615,97 @@ gnumeric_plugin_loader_module_load_service_plugin_loader (GnumericPluginLoader *
 		}
 	}
 	g_free (func_name_get_loader_type);
+}
+
+/*
+ * Service - ui
+ */
+
+typedef struct {
+	ModulePluginUIVerbInfo *module_ui_verbs_array;
+	GHashTable *ui_verbs_hash;
+} ServiceLoaderDataUI;
+
+static void
+gnumeric_plugin_loader_module_func_exec_verb (PluginService *service,
+                                              WorkbookControlGUI *wbcg,
+                                              BonoboUIComponent *uic,
+                                              const gchar *cname,
+                                              ErrorInfo **ret_error)
+{
+	ServiceLoaderDataUI *loader_data;
+	gpointer verb_index_ptr;
+	int verb_index;
+
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_UI (service));
+
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
+	if (!g_hash_table_lookup_extended (loader_data->ui_verbs_hash, cname,
+	                                   NULL, &verb_index_ptr)) {
+		*ret_error = error_info_new_printf (_("Unknown verb: %s"), cname);
+		return;
+	}
+	verb_index = GPOINTER_TO_INT (verb_index_ptr);
+	loader_data->module_ui_verbs_array[verb_index].verb_func (wbcg);
+}
+
+static void
+gnumeric_plugin_loader_module_load_service_ui (GnumericPluginLoader *loader,
+                                               PluginService *service,
+                                               ErrorInfo **ret_error)
+{
+	GnumericPluginLoaderModule *loader_module = GNUMERIC_PLUGIN_LOADER_MODULE (loader);
+	char *ui_verbs_array_name;
+	ModulePluginUIVerbInfo *module_ui_verbs_array = NULL;
+	PluginServiceUICallbacks *cbs;
+	ServiceLoaderDataUI *loader_data;
+	gint i;
+
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_UI (service));
+
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	ui_verbs_array_name = g_strconcat (
+		plugin_service_get_id (service), "_ui_verbs", NULL);
+	g_module_symbol (loader_module->handle, ui_verbs_array_name, (gpointer) &module_ui_verbs_array);
+	if (module_ui_verbs_array == NULL) {
+		*ret_error = error_info_new_printf (
+			_("Module file \"%s\" has invalid format."),
+			loader_module->module_file_name);
+		error_info_add_details (*ret_error, error_info_new_printf (
+			_("File doesn't contain \"%s\" array."), ui_verbs_array_name));
+		g_free (ui_verbs_array_name);
+		return;
+	}
+	g_free (ui_verbs_array_name);
+
+	cbs = plugin_service_get_cbs (service);
+	cbs->plugin_func_exec_verb = gnumeric_plugin_loader_module_func_exec_verb;
+
+	loader_data = g_new (ServiceLoaderDataUI, 1);
+	loader_data->module_ui_verbs_array = module_ui_verbs_array;
+	loader_data->ui_verbs_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	for (i = 0; module_ui_verbs_array[i].verb_name != NULL; i++) {
+		g_hash_table_insert (
+			loader_data->ui_verbs_hash,
+			(gpointer) module_ui_verbs_array[i].verb_name,
+			GINT_TO_POINTER (i));
+	}
+	g_object_set_data (G_OBJECT (service), "loader_data", loader_data);
+}
+
+static void
+gnumeric_plugin_loader_module_unload_service_ui (GnumericPluginLoader *loader,
+                                                 PluginService *service,
+                                                 ErrorInfo **ret_error)
+{
+	ServiceLoaderDataUI *loader_data;
+
+	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_MODULE (loader));
+	g_return_if_fail (GNM_IS_PLUGIN_SERVICE_UI (service));
+
+	GNM_INIT_RET_ERROR_INFO (ret_error);
+	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
+	g_hash_table_destroy (loader_data->ui_verbs_hash);
+	parent_class->unload_service_ui (loader, service, ret_error);
 }

@@ -20,6 +20,7 @@ struct _WorkbookControlGUI {
 	GtkNotebook *notebook;
 
 #ifdef WITH_BONOBO
+	GHashTable *custom_ui_components;
 	BonoboUIComponent *uic;
 	GtkWidget *progress_bar;
 #else

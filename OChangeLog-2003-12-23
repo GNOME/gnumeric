@@ -1,3 +1,51 @@
+2002-08-05  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/plugin-service.h
+	(PluginServiceUICallbacks, GNM_PLUGIN_SERVICE_UI_TYPE,
+	GNM_PLUGIN_SERVICE_UI, GNM_IS_PLUGIN_SERVICE_UI): New
+
+	* src/plugin-service.c
+	(PluginServiceUIClass, struct _PluginServiceUI, plugin_service_ui_init,
+	plugin_service_ui_finalize, plugin_service_ui_read_xml, ui_verb_fn,
+	plugin_service_ui_activate, plugin_service_ui_deactivate,
+	plugin_service_ui_class_init): Implementation of the "ui" service.
+	(service_types): Added "ui".
+
+	* src/plugin-loader.h
+	(struct _GnumericPluginLoaderClass):
+	Added load_service_ui and load_service_ui methods.
+
+	* src/plugin-loader.c
+	(gnumeric_plugin_loader_unload_service_ui_real,
+	gnumeric_plugin_loader_class_init,
+	gnumeric_plugin_loader_load_service,
+	gnumeric_plugin_loader_unload_service): Added support for ui service
+
+	* plugin-loader-module.h
+	(ModulePluginUIVerbInfo): New
+
+	* src/plugin-loader-module.c
+	gnumeric_plugin_loader_module_class_init
+	ServiceLoaderDataUI
+	gnumeric_plugin_loader_module_func_exec_verb
+	gnumeric_plugin_loader_module_load_service_ui
+	gnumeric_plugin_loader_module_unload_service_ui
+
+	* src/workbook-control-gui-priv.h
+	(struct _WorkbookControlGUI): Added custom_ui_components field
+
+	* src/workbook-control-gui.h
+	(register_xml_ui, unregister_xml_ui): New
+
+	* src/workbook-control-gui.c
+	(struct _CustomXmlUI, registered_xml_uis,
+	wbcg_add_custom_ui, wbcg_remove_custom_ui,
+	add_ui_to_workbook_controls, remove_ui_from_workbook_controls,
+	register_xml_ui, unregister_xml_ui): New
+	(workbook_control_gui_init): Initialize wbcg->custom_ui_components
+	hash table, add all registered uis to the workbook control.
+	(wbcg_finalize): Destroy wbcg->custom_ui_components
+
 2002-08-06  Morten Welinder  <terra@diku.dk>
 
 	* src/gutils.c (gnumeric_strcase_equal): Make utf8 safe.

@@ -109,6 +109,16 @@ void wbcg_ ## func arglist				\
 #define WBCG_VIRTUAL(func, arglist, call) \
         WBCG_VIRTUAL_FULL(func, func, arglist, call)
 
+struct _CustomXmlUI {
+	char *xml_ui;
+	char *textdomain;
+	GSList *verb_list;
+	BonoboUIVerbFn verb_fn;
+	gpointer verb_fn_data;
+};
+
+static GSList *registered_xml_uis = NULL;
+
 gboolean
 wbcg_ui_update_begin (WorkbookControlGUI *wbcg)
 {
@@ -4016,6 +4026,10 @@ wbcg_finalize (GObject *obj)
 	wbcg_auto_complete_destroy (wbcg);
 	wbcg_edit_dtor (wbcg);
 
+#ifdef WITH_BONOBO
+	g_hash_table_destroy (wbcg->custom_ui_components);
+#endif
+
 	gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel), NULL);
 
 	if (wbcg->toplevel != NULL)
@@ -4493,6 +4507,41 @@ show_gui (WorkbookControlGUI *wbcg)
 	return FALSE;
 }
 
+static void
+wbcg_add_custom_ui (WorkbookControlGUI *wbcg, CustomXmlUI *ui)
+{
+#ifdef WITH_BONOBO
+	BonoboUIComponent *uic;
+
+	uic = bonobo_ui_component_new_default ();
+	bonobo_ui_component_set_container (
+		uic, bonobo_ui_component_get_container (wbcg->uic), NULL);
+	GNM_SLIST_FOREACH (ui->verb_list, char, name,
+		bonobo_ui_component_add_verb (uic, name, ui->verb_fn, ui->verb_fn_data);
+	);
+	if (ui->textdomain != NULL) {
+		char *old_textdomain;
+
+		old_textdomain = textdomain (NULL);
+		textdomain (ui->textdomain);
+		bonobo_ui_component_set_translate (uic, "/", ui->xml_ui, NULL);
+		textdomain (old_textdomain);
+	} else {
+		bonobo_ui_component_set_translate (uic, "/", ui->xml_ui, NULL);
+	}
+	g_object_set_data (G_OBJECT (uic), "gnumeric-workbook-control-gui", wbcg);
+	g_hash_table_insert (wbcg->custom_ui_components, ui, uic);
+#endif
+}
+
+static void
+wbcg_remove_custom_ui (WorkbookControlGUI *wbcg, const CustomXmlUI *ui)
+{
+#ifdef WITH_BONOBO
+	g_hash_table_remove (wbcg->custom_ui_components, ui);
+#endif
+}
+
 #if 0
 static void
 wbcg_drag_data_get (GtkWidget          *widget,
@@ -4569,6 +4618,15 @@ static gchar send_menu_item[] =
 static gchar *send_menu_item_i18n[] = {N_("Send"), N_("Send the current file in email")};
 #endif
 #endif
+
+static void
+custom_uic_destroy (gpointer data)
+{
+	BonoboUIComponent *uic = data;
+
+	bonobo_ui_component_unset_container (uic, NULL);
+	bonobo_object_unref (BONOBO_OBJECT (uic));
+}
 
 void
 workbook_control_gui_init (WorkbookControlGUI *wbcg,
@@ -4755,6 +4813,14 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 
 	wbcg->current_saver	= NULL;
 
+#ifdef WITH_BONOBO
+	wbcg->custom_ui_components =
+		g_hash_table_new_full (NULL, NULL, NULL, custom_uic_destroy);
+	GNM_SLIST_FOREACH (registered_xml_uis, CustomXmlUI, ui,
+		wbcg_add_custom_ui (wbcg, ui);
+	);
+#endif
+
 	/* Postpone showing the GUI, so that we may resize it freely. */
 	gtk_idle_add ((GtkFunction) show_gui, wbcg);
 }
@@ -4882,4 +4948,59 @@ workbook_control_gui_new (WorkbookView *optional_view, Workbook *wb)
 	workbook_control_init_state (wbc);
 
 	return wbc;
+}
+
+static gboolean
+add_ui_to_workbook_controls (Workbook *wb, gpointer ui)
+{
+	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc,
+		if (IS_WORKBOOK_CONTROL_GUI (wbc)) {
+			wbcg_add_custom_ui (WORKBOOK_CONTROL_GUI (wbc), ui);
+		}
+	);
+
+	return TRUE;
+}
+
+static gboolean
+remove_ui_from_workbook_controls (Workbook *wb, gpointer ui)
+{
+	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc,
+		if (IS_WORKBOOK_CONTROL_GUI (wbc)) {
+			wbcg_remove_custom_ui (WORKBOOK_CONTROL_GUI (wbc), ui);
+		}
+	);
+
+	return TRUE;
+}
+
+CustomXmlUI *
+register_xml_ui (const char *xml_ui, const char *textdomain, GSList *verb_list,
+                BonoboUIVerbFn verb_fn, gpointer verb_fn_data)
+{
+	CustomXmlUI *new_ui;
+
+	new_ui = g_new (CustomXmlUI, 1);
+	new_ui->xml_ui = g_strdup (xml_ui);
+	new_ui->textdomain = g_strdup (textdomain);
+	new_ui->verb_list = g_string_slist_copy (verb_list);
+	new_ui->verb_fn = verb_fn;
+	new_ui->verb_fn_data = verb_fn_data;
+
+	GNM_SLIST_APPEND (registered_xml_uis, new_ui);
+	application_workbook_foreach (add_ui_to_workbook_controls, new_ui);
+
+	return new_ui;
+}
+
+void
+unregister_xml_ui (CustomXmlUI *ui)
+{
+	application_workbook_foreach (remove_ui_from_workbook_controls, ui);
+	GNM_SLIST_REMOVE (registered_xml_uis, ui);
+	g_free (ui->xml_ui);
+	g_free (ui->textdomain);
+	g_slist_free_custom (ui->verb_list, g_free);
+	g_free (ui);
+
 }

@@ -40,6 +40,8 @@ struct _GnumericPluginLoaderClass {
 	void (*unload_service_function_group) (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 	void (*load_service_plugin_loader) (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 	void (*unload_service_plugin_loader) (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
+	void (*load_service_ui) (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
+	void (*unload_service_ui) (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 	gint (*get_extra_info_list) (GnumericPluginLoader *loader, GSList **ret_keys_list, GSList **ret_values_list);
 };
 

@@ -4,6 +4,7 @@
 #include <glib.h>
 #include <libxml/tree.h>
 #include "func.h"
+#include "workbook-control-gui.h"
 #include "error-info.h"
 #include "plugin.h"
 #include "plugin-loader.h"
@@ -39,5 +40,10 @@ typedef struct {
 	FuncLinkHandle	 link;
 	FuncUnlinkHandle unlink;
 } ModulePluginFunctionInfo;
+
+typedef struct {
+	char const *verb_name;
+	void (*verb_func) (WorkbookControlGUI *wbcg);
+} ModulePluginUIVerbInfo;
 
 #endif /* GNUMERIC_PLUGIN_LOADER_MODULE_H */
