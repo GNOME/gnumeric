@@ -2,6 +2,8 @@
 
 	* dialog-solver.c (cb_dialog_solve_clicked): Changes related to
 	the enumeration of the solver's status type.
+	(cb_dialog_solve_clicked): Fixed a crash when the specified target
+	cell was empty.
 
 2002-03-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 

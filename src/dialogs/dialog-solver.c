@@ -692,6 +692,17 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 		sheet_cell_fetch (state->sheet,
 				  target_range->v_range.cell.a.col,
 				  target_range->v_range.cell.a.row );
+
+	/* Check that the target cell type is number. */
+	if (! cell_is_number (state->sheet->solver_parameters->target_cell)) {
+		gnumeric_notice_nonmodal
+			((GtkWindow *) state->dialog,
+			 &(state->warning_dialog),
+			 GTK_MESSAGE_WARNING, _("Target cell should contain "
+						"a formula."));
+		return;
+	}
+
 	result = workbook_foreach_cell_in_range (
 		eval_pos_init_sheet (&pos, state->sheet),
 		input_range, FALSE, grab_cells, &input_cells);
