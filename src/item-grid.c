@@ -311,33 +311,10 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	 * allocate a single blob of memory for all 8 arrays of pointers.
 	 * 	- 6 arrays of n StyleBorder const *
 	 * 	- 2 arrays of n MStyle const *
-	 *
-	 * then alias the arrays for easy access so that array [col] is valid
-	 * for all elements start_col-1 .. end_col+1 inclusive.
-	 * Note that this means that in some cases array [-1] is legal.
 	 */
 	n = end_col - start_col + 3; /* 1 before, 1 after, 1 fencepost */
-	sr.vertical	 = g_alloca (n * 8 * sizeof (gpointer));
-	sr.vertical 	-= start_col-1;
-	sr.top		 = sr.vertical + n;
-	sr.bottom	 = sr.top + n;
-	next_sr.top	 = sr.bottom; /* yes they should share */
-	next_sr.bottom	 = next_sr.top + n;
-	next_sr.vertical = next_sr.bottom + n;
-	prev_vert	 = next_sr.vertical + n;
-	sr.styles	 = ((MStyle const **) (prev_vert + n));
-	next_sr.styles	 = sr.styles + n;
-	sr.start_col	 = next_sr.start_col	 = start_col;
-	sr.end_col	 = next_sr.end_col	 = end_col;
-	sr.show_grid = next_sr.show_grid = sheet->show_grid;
-
-	/* Init the areas that sheet_style_get_row will not */
-	for (col = start_col-1 ; col <= end_col+1; ++col)
-		prev_vert [col] = sr.top [col] = none;
-	sr.vertical	 [start_col-1] = sr.vertical	  [end_col+1] =
-	next_sr.vertical [start_col-1] = next_sr.vertical [end_col+1] =
-	next_sr.top	 [start_col-1] = next_sr.top	  [end_col+1] =
-	next_sr.bottom	 [start_col-1] = next_sr.bottom	  [end_col+1] = none;
+	style_row_init (&prev_vert, &sr, &next_sr, start_col, end_col,
+			g_alloca (n * 8 * sizeof (gpointer)), sheet->show_grid);
 
 	/* load up the styles for the first row */
 	next_sr.row = sr.row = row = start_row;

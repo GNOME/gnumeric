@@ -35,6 +35,10 @@ void	 sheet_style_get_uniform	(Sheet const *sheet, Range const *r,
 					 MStyle **style, StyleBorder **borders);
 void	 sheet_style_get_extent		(Sheet const *sheet, Range *r);
 gboolean sheet_style_has_visible_content(Sheet const *sheet, Range *src);
+void     style_row_init			(StyleBorder const * * *prev_vert,
+					 StyleRow *sr, StyleRow *next_sr,
+					 int start_col, int end_col,
+					 gpointer mem, gboolean show_grid);
 
 void sheet_style_init     (Sheet *sheet);
 void sheet_style_shutdown (Sheet *sheet);

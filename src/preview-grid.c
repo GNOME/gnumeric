@@ -189,27 +189,58 @@ preview_grid_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, i
  * Draw cell background
  **/
 static void
-preview_grid_draw_background (GdkDrawable *drawable, PreviewGrid *preview_grid, MStyle *mstyle,
+preview_grid_draw_background (GdkDrawable *drawable, PreviewGrid *pg,
+			      MStyle const *mstyle,
 			      int col, int row, int x, int y, int w, int h)
 {
-	GdkGC  * const gc = preview_grid->empty_gc;
-	gboolean is_selected;
-
-	g_return_if_fail (drawable != NULL);
-	g_return_if_fail (preview_grid != NULL);
-	g_return_if_fail (mstyle != NULL);
-
-	/*
-	 * Insert code here for selection drawing
-	 */
-	is_selected = FALSE;
-
-	if (gnumeric_background_set_gc (mstyle, gc, preview_grid->canvas_item.canvas, is_selected))
-		/* Fill the entire cell including the right & left grid line */
+	GdkGC *gc = pg->empty_gc;
+	if (gnumeric_background_set_gc (mstyle, gc, pg->canvas_item.canvas, FALSE))
+		/* Fill the entire cell (API excludes far pixel) */
 		gdk_draw_rectangle (drawable, gc, TRUE, x, y, w+1, h+1);
-	else if (is_selected)
-		/* Fill the entire cell excluding the right & left grid line */
-		gdk_draw_rectangle (drawable, gc, TRUE, x+1, y+1, w-1, h-1);
+}
+
+#define border_null(b)	((b) == none || (b) == NULL)
+static void
+pg_style_get_row (PreviewGrid const *pg, StyleRow *sr, MStyle const *def_style)
+{
+	StyleBorder const *top, *bottom, *none = style_border_none ();
+	StyleBorder const *left, *right;
+	int const end = sr->end_col, row = sr->row;
+	int col = sr->start_col;
+
+	sr->vertical [col] = none;
+	while (col <= end) {
+		MStyle const *style = pg->get_style_cb (row, col, pg->cb_data);
+		/*
+		 * If the mstyle is NULL we are probably out of range
+		 * In such cases we simply draw with the default style
+		 */
+		sr->styles [col] = (style != NULL) ? style : def_style;
+
+		top = mstyle_get_border (style, MSTYLE_BORDER_TOP);
+		bottom = mstyle_get_border (style, MSTYLE_BORDER_BOTTOM);
+		left = mstyle_get_border (style, MSTYLE_BORDER_LEFT);
+		right = mstyle_get_border (style, MSTYLE_BORDER_RIGHT);
+
+		/* Cancel grids if there is a background */
+		if (!sr->show_grid || mstyle_get_pattern (style) > 0) {
+			if (top == none)
+				top = NULL;
+			if (bottom == none)
+				bottom = NULL;
+			if (left == none)
+				left = NULL;
+			if (right == none)
+				right = NULL;
+		}
+		if (top != none && border_null (sr->top [col]))
+			sr->top [col] = top;
+		sr->bottom [col] = bottom;
+
+		if (left != none && border_null (sr->vertical [col]))
+			sr->vertical [col] = left;
+		sr->vertical [++col] = right;
+	}
 }
 
 /**
@@ -221,9 +252,10 @@ preview_grid_draw_background (GdkDrawable *drawable, PreviewGrid *preview_grid, 
  * The drawing routine does not support spanning.
  **/
 static void
-preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int draw_y, int width, int height)
+preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
+		   int draw_x, int draw_y, int width, int height)
 {
- 	PreviewGrid *preview_grid = PREVIEW_GRID (item);
+ 	PreviewGrid *pg = PREVIEW_GRID (item);
  
  	/* To ensure that far and near borders get drawn we pretend to draw +-2
  	 * pixels around the target area which would include the surrounding
@@ -232,58 +264,84 @@ preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int
  	 * painting the borders of the edges and not the content.
  	 * However, that feels like more hassle that it is worth.  Look into this someday.
  	 */
- 	int x, y, col, row;
- 	int const start_col = preview_grid->get_col_offset_cb (draw_x - 2, &x, preview_grid->cb_data);
- 	int end_col         = preview_grid->get_col_offset_cb (draw_x + width + 2, NULL, preview_grid->cb_data);
+ 	int x, y, col, row, n;
+ 	int const start_col = pg->get_col_offset_cb (draw_x - 2, &x, pg->cb_data);
+ 	int end_col         = pg->get_col_offset_cb (draw_x + width + 2, NULL, pg->cb_data);
  	int const diff_x    = draw_x - x;
- 	int start_row       = preview_grid->get_row_offset_cb (draw_y - 2, &y, preview_grid->cb_data);
- 	int end_row         = preview_grid->get_row_offset_cb (draw_y + height + 2, NULL, preview_grid->cb_data);
+ 	int start_row       = pg->get_row_offset_cb (draw_y - 2, &y, pg->cb_data);
+ 	int end_row         = pg->get_row_offset_cb (draw_y + height + 2, NULL, pg->cb_data);
  	int const diff_y    = draw_y - y;
 
+	StyleRow sr, next_sr;
+	MStyle const **styles;
+	StyleBorder const **borders, **prev_vert;
+	StyleBorder const *none = pg->gridlines ? style_border_none () : NULL;
+	MStyle *def_style = mstyle_new_default ();
+
+	int *colwidths = NULL;
+
  	/* Fill entire region with default background (even past far edge) */
- 	gdk_draw_rectangle (drawable, preview_grid->fill_gc, TRUE,
+ 	gdk_draw_rectangle (drawable, pg->fill_gc, TRUE,
  			    draw_x, draw_y, width, height);
- 
- 	for (row = start_row, y = -diff_y; row <= end_row; row++) {
- 		int row_height = preview_grid->get_row_height_cb (row, preview_grid->cb_data);
+
+	/*
+	 * allocate a single blob of memory for all 8 arrays of pointers.
+	 * 	- 6 arrays of n StyleBorder const *
+	 * 	- 2 arrays of n MStyle const *
+	 */
+	n = end_col - start_col + 3; /* 1 before, 1 after, 1 fencepost */
+	style_row_init (&prev_vert, &sr, &next_sr, start_col, end_col,
+			g_alloca (n * 8 * sizeof (gpointer)), pg->gridlines);
+
+	/* load up the styles for the first row */
+	next_sr.row = sr.row = row = start_row;
+	pg_style_get_row (pg, &sr, def_style);
+
+	/* Collect the column widths */	
+	colwidths = g_alloca (n * sizeof (int));
+	colwidths -= start_col;
+	for (col = start_col; col <= end_col; col++)
+		colwidths[col] = pg->get_col_width_cb (col, pg->cb_data);
+
+	for (y = -diff_y; row <= end_row; row = sr.row = next_sr.row) {
+ 		int row_height = pg->get_row_height_cb (row, pg->cb_data);
  			
- 		for (col = start_col, x = -diff_x; col <= end_col; col++) {
- 			MStyle       *style     = preview_grid->get_style_cb (row, col, preview_grid->cb_data);
- 			int           col_width = preview_grid->get_col_width_cb (col, preview_grid->cb_data);
- 			Cell         *cell      = preview_grid->get_cell_cb (row, col, preview_grid->cb_data);
- 
- 			/*
-                          * If the mstyle is NULL we are probably out of range
-                          * In such cases we simply draw with the default style
-                          */
-			if (style == NULL)
-				style = mstyle_new_default ();
-			else
-				mstyle_ref (style);
- 
- 			preview_grid_draw_background (drawable, preview_grid,
+		if (++next_sr.row > end_row) {
+			for (col = start_col ; col <= end_col; ++col)
+				next_sr.vertical [col] =
+				next_sr.bottom [col] = none;
+		} else
+			pg_style_get_row (pg, &next_sr, def_style);
+
+		for (col = start_col, x = -diff_x; col <= end_col; col++) {
+ 			Cell const *cell  = pg->get_cell_cb (row, col, pg->cb_data);
+			MStyle const *style = sr.styles [col];
+
+ 			preview_grid_draw_background (drawable, pg,
  						      style, col, row, x, y,
- 						      col_width, row_height);
+ 						      colwidths [col], row_height);
  
- 			/*
- 			 * Draw the cell contents if the cell is non null and
- 			 * not empty.
- 			 */
-			if (cell && !cell_is_blank (cell))
-				cell_draw (cell, style,
-					   preview_grid->gc, drawable,
+			if (!cell_is_blank (cell))
+				cell_draw (cell, style, pg->gc, drawable,
 					   x, y, -1, -1, 0);
 
-			mstyle_unref (style);
- 			x += col_width;
+ 			x += colwidths [col];
  		}
 
-		/*
-		 * FIXME: Draw Borders
-		 */
+		style_borders_row_draw (prev_vert, &sr, &next_sr,
+					drawable, -diff_x, y, y+row_height,
+					colwidths, TRUE);
+
+		/* roll the pointers */
+		borders = prev_vert; prev_vert = sr.vertical;
+		sr.vertical = next_sr.vertical; next_sr.vertical = borders;
+		borders = sr.top; sr.top = sr.bottom;
+		sr.bottom = next_sr.top = next_sr.bottom; next_sr.bottom = borders;
+		styles = sr.styles; sr.styles = next_sr.styles; next_sr.styles = styles;
 		 
 		y += row_height;
  	}
+	mstyle_unref (def_style);
 }
 
 /**

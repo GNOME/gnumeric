@@ -1007,6 +1007,48 @@ sheet_style_get_row (Sheet const *sheet, StyleRow *sr)
 }
 
 /**
+ * style_row_init :
+ *
+ * A small utility routine to initialize the grid drawing StyleRow data
+ * structure.
+ */
+void
+style_row_init (StyleBorder const * * *prev_vert,
+		StyleRow *sr, StyleRow *next_sr,
+		int start_col, int end_col, gpointer mem, gboolean show_grid)
+{
+	int n, col;
+	StyleBorder const *none = show_grid ? style_border_none () : NULL;
+
+	/* alias the arrays for easy access so that array [col] is valid
+	 * for all elements start_col-1 .. end_col+1 inclusive.
+	 * Note that this means that in some cases array [-1] is legal.
+	 */
+	n = end_col - start_col + 3; /* 1 before, 1 after, 1 fencepost */
+	sr->vertical	 = mem;
+	sr->vertical 	-= start_col-1;
+	sr->top		 = sr->vertical + n;
+	sr->bottom	 = sr->top + n;
+	next_sr->top	 = sr->bottom; /* yes they should share */
+	next_sr->bottom	 = next_sr->top + n;
+	next_sr->vertical = next_sr->bottom + n;
+	*prev_vert	 = next_sr->vertical + n;
+	sr->styles	 = ((MStyle const **) (*prev_vert + n));
+	next_sr->styles	 = sr->styles + n;
+	sr->start_col	 = next_sr->start_col = start_col;
+	sr->end_col	 = next_sr->end_col   = end_col;
+	sr->show_grid    = next_sr->show_grid = show_grid;
+
+	/* Init the areas that sheet_style_get_row will not */
+	for (col = start_col-1 ; col <= end_col+1; ++col)
+		(*prev_vert) [col] = sr->top [col] = none;
+	sr->vertical	  [start_col-1] = sr->vertical	    [end_col+1] =
+	next_sr->vertical [start_col-1] = next_sr->vertical [end_col+1] =
+	next_sr->top	  [start_col-1] = next_sr->top	    [end_col+1] =
+	next_sr->bottom	  [start_col-1] = next_sr->bottom   [end_col+1] = none;
+}
+
+/**
  * sheet_style_apply_range :
  * @sheet :
  * @range :

@@ -5,7 +5,7 @@ and longer term bugs.
 Release Critical
 ----------------
 
-- Autoformat draw borders!
+- Fix problem drawing the red selection box for the autoformat preview
 
 Long term breakage
 ------------------
