@@ -231,8 +231,12 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 		GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
 		int p = cell->style->pattern - 1;
 		
-		gdk_gc_set_stipple (gc, GNUMERIC_SHEET (item->canvas)->patterns [p]);
-		gdk_gc_set_fill (gc, GDK_STIPPLED);
+		/*
+		 * Next two lines are commented since the pattern display code of the cell
+		 * have not been tested (written?)
+		 */
+		/* gdk_gc_set_stipple (gc, GNUMERIC_SHEET (item->canvas)->patterns [p]); */
+		/* gdk_gc_set_fill (gc, GDK_STIPPLED); */
 		gdk_draw_rectangle (drawable, gc, TRUE,
 				    x1, y1,
 				    cell->col->pixels,

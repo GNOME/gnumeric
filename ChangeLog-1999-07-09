@@ -1,3 +1,20 @@
+1999-02-12  Bruno Unna  <bruno@iac.com.mx>
+
+	* src/cell.c (cell_draw): Now the function draws the cell
+	using the cell background color setting. Although it does
+	the job, I guess there must be a better way to do it. Thanks
+	to Michael for the hint.
+
+	* src/item-grid.c (item_grid_draw_cell): Commented out the lines
+	involved with patterns display in the cell, for that code is
+	not ready yet.
+
+	* src/dialog-cell-format (create_coloring_page): Reactivated
+	the background selection panel of the coloring page.
+
+	* src/dialog-cell-format (create_background_radio): Commented out
+	the addition of the pattern selection for a cell.
+
 1999-02-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/workbook.c (workbook_detach_sheet): Be less forgiving as to

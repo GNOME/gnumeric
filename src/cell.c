@@ -1473,8 +1473,20 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 		
 		/* Set the clip rectangle */
 		gdk_gc_set_clip_rectangle (gc, &rect);
-		gdk_draw_rectangle (drawable, white_gc, TRUE,
+
+		/*
+		 * In order to draw the background of the cell, we need to change the
+		 * gc's drawing color before calling the gdk_draw_rectangle function
+		 */
+		gdk_gc_set_foreground (gc, &(style->back_color->color));
+		gdk_draw_rectangle (drawable, gc, TRUE,
 				    rect.x, rect.y, rect.width, rect.height);
+
+		/*
+		 * And it is also of necessity to return the gc to its original
+		 * foreground setting
+		 */
+		gdk_gc_set_foreground (gc, &(style->fore_color->color));
 
 		len = 0;
 		switch (halign){

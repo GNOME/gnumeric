@@ -646,10 +646,10 @@ create_background_radio (GtkWidget *prop_win)
 	
 	gtk_table_attach (GTK_TABLE (table), r1, 0, 1, 0, 1, e, 0, 4, 2);
 	gtk_table_attach (GTK_TABLE (table), r2, 0, 1, 1, 2, e, 0, 4, 2);
-	gtk_table_attach (GTK_TABLE (table), r3, 0, 1, 2, 3, e, 0, 4, 2);
+	/* gtk_table_attach (GTK_TABLE (table), r3, 0, 1, 2, 3, e, 0, 4, 2); */
 
 	gtk_table_attach (GTK_TABLE (table), background_cs, 1, 2, 1, 2, 0, 0, 4, 2);
-	gtk_table_attach (GTK_TABLE (table), p, 0, 2, 3, 4, GTK_FILL | GTK_EXPAND, GTK_FILL|GTK_EXPAND, 0, 0);
+	/* gtk_table_attach (GTK_TABLE (table), p, 0, 2, 3, 4, GTK_FILL | GTK_EXPAND, GTK_FILL|GTK_EXPAND, 0, 0); */
 	return frame;
 }
 
@@ -768,7 +768,7 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 	make_radio_notify_change (background_radio_list, prop_win);
 	
 	gtk_table_attach (t, fore, 0, 1, 0, 1, e, 0, 4, 4);
-/*	gtk_table_attach (t, back, 0, 1, 1, 2, e, 0, 4, 4); */
+	gtk_table_attach (t, back, 0, 1, 1, 2, e, 0, 4, 4);
 
 	gtk_widget_show_all (GTK_WIDGET (t));
 
