@@ -20,6 +20,8 @@
 #include <gdk/gdk.h>
 #include <string.h>
 
+#undef QUANTIFYING
+
 static char const hashes[] =
 "################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################";
 
@@ -54,7 +56,6 @@ cell_draw (Cell const *cell, GdkGC *gc, GdkDrawable *drawable,
 {
 	GdkRectangle  rect;
 
-	Sheet const * const sheet = cell->base.sheet;
 	ColRowInfo const * const ci = cell->col_info; /* DEPRECATED */
 	ColRowInfo const * const ri = cell->row_info; /* DEPRECATED */
 	int text_base;
@@ -63,9 +64,13 @@ cell_draw (Cell const *cell, GdkGC *gc, GdkDrawable *drawable,
 	int indent;
 	int hoffset;
 
+#ifdef QUANTIFYING
+	quantify_start_recording_data ();
+#endif
+
 	if (rv == NULL) {
 		g_warning ("Serious cell error at '%s'.", cell_name (cell));
-		return;
+		goto out;
 	}
 
 	layout = rv->layout;
@@ -78,7 +83,7 @@ cell_draw (Cell const *cell, GdkGC *gc, GdkDrawable *drawable,
 	if (height < 0) /* DEPRECATED */
 		height = ri->size_pixels - (ri->margin_b + ri->margin_a + 1);
 	if (width <= 0 || height <= 0)
-		return;
+		goto out;
 
 	hoffset = rv->indent_left;
 
@@ -195,4 +200,9 @@ cell_draw (Cell const *cell, GdkGC *gc, GdkDrawable *drawable,
 	gdk_draw_layout (drawable, gc,
 			 rect.x + hoffset, text_base,
 			 layout);
+
+ out: ;
+#ifdef QUANTIFYING
+	quantify_stop_recording_data ();
+#endif
 }

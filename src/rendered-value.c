@@ -43,6 +43,8 @@
 
 #include <math.h>
 
+#undef QUANTIFYING
+
 #ifndef USE_RV_POOLS
 #define USE_RV_POOLS 1
 #endif
@@ -97,6 +99,15 @@ rendered_value_new (Cell *cell, MStyle const *mstyle,
 	PangoLayout     *layout;
 	PangoAttrList   *attrs;
 	gboolean        display_formula;
+
+#ifdef QUANTIFYING
+	static gboolean Q = FALSE;
+	if (!Q) {
+		quantify_clear_data ();
+		Q = TRUE;
+	}
+	quantify_start_recording_data ();
+#endif
 
 	g_return_val_if_fail (cell != NULL, NULL);
 	g_return_val_if_fail (cell->value != NULL, NULL);
@@ -181,9 +192,19 @@ rendered_value_new (Cell *cell, MStyle const *mstyle,
 	str = res->rendered_text->str;
 	pango_layout_set_text (layout, str, strlen (str));
 
-	attrs = mstyle_get_pango_attrs (mstyle, color);
-	if (color)
+	attrs = mstyle_get_pango_attrs (mstyle);
+	if (color) {
+		PangoAttrList *new_attrs = pango_attr_list_copy (attrs);
+		PangoAttribute *attr;
+
+		pango_attr_list_unref (attrs);
+		attrs = new_attrs;
+		attr = pango_attr_foreground_new (color->red, color->green, color->blue);
+		attr->start_index = 0;
+		attr->end_index = -1;
+		pango_attr_list_insert (attrs, attr);
 		style_color_unref (color);
+	}
 	pango_layout_set_attributes (res->layout, attrs);
 	pango_attr_list_unref (attrs);
 
@@ -229,6 +250,10 @@ rendered_value_new (Cell *cell, MStyle const *mstyle,
 				     &res->layout_natural_width,
 				     &res->layout_natural_height);
 
+
+#ifdef QUANTIFYING
+	quantify_stop_recording_data ();
+#endif
 	return res;
 }
 

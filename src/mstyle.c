@@ -83,6 +83,7 @@ struct _MStyle {
 	guint32        link_count;
 	Sheet	      *linked_sheet;
 	MStyleElement  elements[MSTYLE_ELEMENT_MAX];
+	PangoAttrList *pango_attrs;
 };
 
 #define MSTYLE_ANY_COLOR             MSTYLE_COLOR_FORE: \
@@ -550,6 +551,16 @@ mstyle_elements_copy (MStyle *new_style, const MStyle *old_style)
 	}
 }
 
+static inline void
+mstyle_pango_clear (MStyle *mstyle)
+{
+	if (mstyle->pango_attrs) {
+		pango_attr_list_unref (mstyle->pango_attrs);
+		mstyle->pango_attrs = NULL;
+	}
+}
+
+
 MStyle *
 mstyle_new (void)
 {
@@ -558,6 +569,7 @@ mstyle_new (void)
 	style->ref_count = 1;
 	style->link_count = 0;
 	style->linked_sheet = NULL;
+	style->pango_attrs = NULL;
 	d(("new %p\n", style));
 
 	return style;
@@ -572,6 +584,9 @@ mstyle_copy (const MStyle *style)
 	new_style->link_count = 0;
 	new_style->linked_sheet = NULL;
 	mstyle_elements_copy (new_style, style);
+
+	if ((new_style->pango_attrs = style->pango_attrs))
+		pango_attr_list_ref (new_style->pango_attrs);
 
 	d(("copy %p\n", new_style));
 	return new_style;
@@ -703,6 +718,7 @@ mstyle_unref (MStyle *style)
 
 		if (style->elements)
 			mstyle_elements_unref (style->elements);
+		mstyle_pango_clear (style);
 
 		g_free (style);
 	}
@@ -1065,6 +1081,7 @@ mstyle_set_color (MStyle *st, MStyleElementType t,
 		mstyle_element_unref (st->elements[t]);
 		st->elements[t].type = t;
 		st->elements[t].u.color.any = col;
+		mstyle_pango_clear (st);
 		break;
 	default:
 		g_warning ("Not a color element");
@@ -1184,6 +1201,7 @@ mstyle_set_font_name (MStyle *style, const char *name)
 	mstyle_element_unref (style->elements[MSTYLE_FONT_NAME]);
 	style->elements[MSTYLE_FONT_NAME].type = MSTYLE_FONT_NAME;
 	style->elements[MSTYLE_FONT_NAME].u.font.name = string_get (name);
+	mstyle_pango_clear (style);
 }
 
 const char *
@@ -1201,6 +1219,7 @@ mstyle_set_font_bold (MStyle *style, gboolean bold)
 
 	style->elements[MSTYLE_FONT_BOLD].type = MSTYLE_FONT_BOLD;
 	style->elements[MSTYLE_FONT_BOLD].u.font.bold = bold;
+	mstyle_pango_clear (style);
 }
 
 gboolean
@@ -1218,6 +1237,7 @@ mstyle_set_font_italic (MStyle *style, gboolean italic)
 
 	style->elements[MSTYLE_FONT_ITALIC].type = MSTYLE_FONT_ITALIC;
 	style->elements[MSTYLE_FONT_ITALIC].u.font.italic = italic;
+	mstyle_pango_clear (style);
 }
 
 gboolean
@@ -1235,6 +1255,7 @@ mstyle_set_font_uline (MStyle *style, StyleUnderlineType const underline)
 
 	style->elements[MSTYLE_FONT_UNDERLINE].type = MSTYLE_FONT_UNDERLINE;
 	style->elements[MSTYLE_FONT_UNDERLINE].u.font.underline = underline;
+	mstyle_pango_clear (style);
 }
 
 StyleUnderlineType
@@ -1252,6 +1273,7 @@ mstyle_set_font_strike (MStyle *style, gboolean const strikethrough)
 
 	style->elements[MSTYLE_FONT_STRIKETHROUGH].type = MSTYLE_FONT_STRIKETHROUGH;
 	style->elements[MSTYLE_FONT_STRIKETHROUGH].u.font.strikethrough = strikethrough;
+	mstyle_pango_clear (style);
 }
 
 gboolean
@@ -1269,6 +1291,7 @@ mstyle_set_font_size (MStyle *style, double size)
 
 	style->elements[MSTYLE_FONT_SIZE].type = MSTYLE_FONT_SIZE;
 	style->elements[MSTYLE_FONT_SIZE].u.font.size = size;
+	mstyle_pango_clear (style);
 }
 
 double
@@ -1539,18 +1562,26 @@ mstyle_visible_in_blank (const MStyle *st)
 }
 
 PangoAttrList *
-mstyle_get_pango_attrs (const MStyle *mstyle, const StyleColor *fore)
+mstyle_get_pango_attrs (const MStyle *mstyle)
 {
 	PangoAttribute *attr;
-	PangoAttrList *res = pango_attr_list_new ();
+	PangoAttrList *res;
 
-	/* Set the font colour */
-	if (fore == NULL)
-		fore = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
-	attr = pango_attr_foreground_new (fore->red, fore->green, fore->blue);
-	attr->start_index = 0;
-	attr->end_index = -1;
-	pango_attr_list_insert (res, attr);
+	if (mstyle->pango_attrs) {
+		pango_attr_list_ref (mstyle->pango_attrs);
+		return mstyle->pango_attrs;
+	}
+
+	mstyle->pango_attrs = res = pango_attr_list_new ();
+
+	/* Foreground colour.  */
+	{
+		const StyleColor *fore = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
+		attr = pango_attr_foreground_new (fore->red, fore->green, fore->blue);
+		attr->start_index = 0;
+		attr->end_index = -1;
+		pango_attr_list_insert (res, attr);
+	}
 
 	/* Handle underlining.  */
 	switch (mstyle_get_font_uline (mstyle)) {

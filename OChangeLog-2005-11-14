@@ -1,5 +1,21 @@
 2003-01-28  Morten Welinder  <terra@diku.dk>
 
+	* src/mstyle.c (mstyle_get_pango_attrs): Cache attributes.
+	(struct _MStyle): new member pango_attrs.
+	(mstyle_pango_clear): New function.
+	(mstyle_new): Set pango_attrs.
+	(mstyle_copy): Duplicate pango_attrs.
+	(mstyle_unref): Clear pango_attrs.
+	(mstyle_set_color): Ditto.
+	(mstyle_set_font_name): Ditto.
+	(mstyle_set_font_bold): Ditto.
+	(mstyle_set_font_italic): Ditto.
+	(mstyle_set_font_uline): Ditto.
+	(mstyle_set_font_strike): Ditto.
+	(mstyle_set_font_size): Ditto.
+
+2003-01-28  Morten Welinder  <terra@diku.dk>
+
 	* src/workbook-control-gui.c (cb_rerender_zeroes): Rerender cells
 	that are zero when toggling the hide-zeroes flag.
 
