@@ -262,7 +262,7 @@ static char const *help_abs = {
 	   "ABS(7) equals 7.\n"
 	   "ABS(-3.14) equals 3.14.\n"
 	   "\n"
-	   "@SEEALSO=CEIL, FLOOR")
+	   "@SEEALSO=CEIL, CEILING, FLOOR, INT, MOD")
 };
 
 static GnmValue *
@@ -489,14 +489,13 @@ static char const *help_ceil = {
 
 	   "@DESCRIPTION="
 	   "CEIL function rounds @x up to the next nearest integer.\n\n"
-	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "CEIL(0.4) equals 1.\n"
 	   "CEIL(-1.1) equals -1.\n"
 	   "CEIL(-2.9) equals -2.\n"
 	   "\n"
-	   "@SEEALSO=ABS, FLOOR, INT")
+	   "@SEEALSO=CEILING, FLOOR, ABS, INT, MOD")
 };
 
 static GnmValue *
@@ -741,7 +740,7 @@ static char const *help_ceiling = {
 	   "CEILING(2.43,1) equals 3.\n"
 	   "CEILING(123.123,3) equals 126.\n"
 	   "\n"
-	   "@SEEALSO=CEIL")
+	   "@SEEALSO=CEIL, FLOOR, ABS, INT, MOD")
 };
 
 static GnmValue *
@@ -1028,7 +1027,7 @@ static char const *help_floor = {
 	   "FLOOR(-5,-2) equals -4.\n"
 	   "FLOOR(-5,2) equals #NUM!.\n"
 	   "\n"
-	   "@SEEALSO=CEIL, ABS, INT")
+	   "@SEEALSO=CEIL, CEILING, ABS, INT, MOD")
 };
 
 static GnmValue *
@@ -1066,7 +1065,7 @@ static char const *help_int = {
 	   "INT(7.2) equals 7.\n"
 	   "INT(-5.5) equals -6.\n"
 	   "\n"
-	   "@SEEALSO=FLOOR, CEIL, ABS")
+	   "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD")
 };
 
 static GnmValue *
@@ -1275,7 +1274,7 @@ static char const *help_mod = {
 	   "@EXAMPLES=\n"
 	   "MOD(23,7) equals 2.\n"
 	   "\n"
-	   "@SEEALSO=INT,FLOOR,CEIL")
+	   "@SEEALSO=CEIL, CEILING, FLOOR, ABS, INT, ABS")
 };
 
 /*
@@ -3166,7 +3165,7 @@ GnmFuncDescriptor const math_functions[] = {
 	{ "ceil",    "f", N_("number"),    &help_ceil,
 	  gnumeric_ceil, NULL, NULL, NULL, NULL,	  
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
-	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+	  GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 	{ "ceiling", "ff", N_("number,significance"), &help_ceiling,
 	  gnumeric_ceiling, NULL, NULL, NULL, NULL,	  
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_FIRST,
