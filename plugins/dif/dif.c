@@ -21,6 +21,7 @@
 #include <module-plugin-defs.h>
 
 #include <gsf/gsf-input-textline.h>
+#include <gsf/gsf-utils.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -41,6 +42,8 @@ typedef struct {
 	gchar *line;
 
 	Sheet *sheet;
+
+	GIConv converter;
 } DifInputContext;
 
 
@@ -56,6 +59,7 @@ dif_input_context_new (IOContext *io_context, Workbook *wb, GsfInput *input)
 	ctxt->line_no        = 1;
 	ctxt->line           = NULL;
 	ctxt->sheet          = workbook_sheet_add (wb, NULL, FALSE);
+	ctxt->converter      = g_iconv_open ("UTF-8", "ISO-8859-1");
 
 	io_progress_message (io_context, _("Reading file..."));
 
@@ -67,13 +71,24 @@ dif_input_context_destroy (DifInputContext *ctxt)
 {
 	io_progress_unset (ctxt->io_context);
 	g_object_unref (G_OBJECT (ctxt->input)); ctxt->input = NULL;
+	gsf_iconv_close (ctxt->converter);
+	g_free (ctxt->line);
 	g_free (ctxt);
 }
 
 static gboolean
 dif_get_line (DifInputContext *ctxt)
 {
-	ctxt->line = gsf_input_textline_ascii_gets (ctxt->input);
+	char *raw;
+
+	raw = gsf_input_textline_ascii_gets (ctxt->input);
+	if (!raw)
+		return FALSE;
+
+	g_free (ctxt->line);
+	ctxt->line =
+		g_convert_with_iconv (raw, -1, ctxt->converter, NULL, NULL, NULL);
+
 	return ctxt->line != NULL;
 }
 

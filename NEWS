@@ -7,6 +7,7 @@ Morten:
 	* Improve qpro importer.
 	* Fix 98664 for bonobo.
 	* Fix sylk importer to do ISO-8859-1 -> UTF-8 conversion.
+	* Fix dif importer to do ISO-8859-1 -> UTF-8 conversion.
 
 Jon Kåre:
         * Separate GUI for showing progress and messages before first 
