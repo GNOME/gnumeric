@@ -1,7 +1,6 @@
 SUBDIRS = figures
 lang = C
 locale = C
-omffile = gnumeric-C.omf
 entities =  about-authors.xml \
      about-compiling.xml \
      about-get-involved.xml \
