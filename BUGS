@@ -6,6 +6,9 @@ Release Critical
 ----------------
     * Jump to Col IV, resize window horizontally by > 1cm
 
+    * Format toolbar is too wide.  (The foreground colour combo has falled
+      off the edge for me.)
+
 Long term breakage
 ------------------
 
