@@ -94,7 +94,6 @@ void		 colrow_set_visibility_list	(Sheet *sheet, gboolean is_col,
 /* Misc */
 int              colrow_find_adjacent_visible   (Sheet *sheet, gboolean const is_col,
 						 int const index, gboolean forward);
-void             rows_height_update	        (Sheet *sheet, Range const *range,
-						 gboolean allow_shrink);
+void             rows_height_update	(Sheet *sheet, Range const *range);
 
 #endif /* GNUMERIC_COLROW_H */
