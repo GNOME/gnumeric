@@ -16,6 +16,7 @@ Jody:
 	* Add scrollbars and import them from XL.
 	* Update the xml schema.
 	* Small optimization to shrink xml in .gnumeric files.
+	* Polish the sheet object editing.
 
 Morten:
 	* New tabulation tool.

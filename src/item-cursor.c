@@ -540,13 +540,13 @@ item_cursor_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 	*actual_item = NULL;
 
 	if (cx < item->x1-3)
-		return INT_MAX;
+		return DBL_MAX;
 	if (cx > item->x2+3)
-		return INT_MAX;
+		return DBL_MAX;
 	if (cy < item->y1-3)
-		return INT_MAX;
+		return DBL_MAX;
 	if (cy > item->y2+3)
-		return INT_MAX;
+		return DBL_MAX;
 
 	/* FIXME: the drag handle for ITEM_CURSOR_SELECTION needs work */
 	if ((cx < (item->x1 + 4)) || (cx > (item->x2 - 8)) ||

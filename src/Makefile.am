@@ -108,6 +108,8 @@ GNUMERIC_BASE =					\
 	gutils.h				\
 	history.c				\
 	history.h				\
+	item-acetate.c				\
+	item-acetate.h				\
 	item-bar.c				\
 	item-bar.h				\
 	item-cursor.c				\

@@ -1,5 +1,14 @@
 2002-01-21  Jody Goldberg <jody@gnome.org>
 
+	* src/item-acetate.c : trivial new object to provide a rectangle with
+	  clear interiors that still collects events.
+
+	* src/sheet-control-gui.c (set_item_x_y) : optionally hide a point.
+	(scg_object_update_bbox) : hide middle control points when the bounds
+	  are too close together.
+	(set_acetate_coords) : use new simpler item-acetate, and provide a
+	  cute stipple to make things clearer.
+
 	* src/application.c (application_init) : Add scrollbar.
 
 	* src/sheet-object-widget.c : Add scrollbars.

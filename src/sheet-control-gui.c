@@ -38,6 +38,7 @@
 #include "ranges.h"
 
 #include "gnumeric-canvas.h"
+#include "item-acetate.h"
 #include "item-bar.h"
 #include "item-cursor.h"
 #include "widgets/gnumeric-vscrollbar.h"
@@ -1826,7 +1827,12 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 	return TRUE;
 }
 
-/*
+#define CTRL_PT_SIZE		4
+#define CTRL_PT_OUTLINE		2
+/* space for 2 halves and a full */
+#define CTRL_PT_TOTAL_SIZE 	(CTRL_PT_SIZE*4 + CTRL_PT_OUTLINE*2)
+
+/**
  * new_control_point
  * @group:  The canvas group to which this control point belongs
  * @so_view: The sheet object view
@@ -1843,7 +1849,7 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
  *     3                     4
  *     |                     |
  *     5 -------- 6 -------- 7
- */
+ **/
 static GnomeCanvasItem *
 new_control_point (GtkObject *so_view, int idx, double x, double y,
 		   ECursorType ct)
@@ -1853,10 +1859,10 @@ new_control_point (GtkObject *so_view, int idx, double x, double y,
 
 	item = gnome_canvas_item_new (
 		gcanvas->object_group,
-		gnome_canvas_rect_get_type (),
+		GNOME_TYPE_CANVAS_RECT,
 		"outline_color", "black",
 		"fill_color",    "white",
-		"width_pixels",  2,
+		"width_pixels",  CTRL_PT_OUTLINE,
 		NULL);
 
 	gtk_signal_connect (GTK_OBJECT (item), "event",
@@ -1877,10 +1883,8 @@ new_control_point (GtkObject *so_view, int idx, double x, double y,
  */
 static void
 set_item_x_y (SheetControlGUI *scg, GtkObject *so_view, int idx,
-	      double x, double y, ECursorType ct)
+	      double x, double y, ECursorType ct, gboolean visible)
 {
-#define CTRL_PT_SIZE 4
-
 	if (scg->control_points [idx] == NULL)
 		scg->control_points [idx] = new_control_point (
 			so_view, idx, x, y, ct);
@@ -1890,7 +1894,11 @@ set_item_x_y (SheetControlGUI *scg, GtkObject *so_view, int idx,
 	       "y1", y - CTRL_PT_SIZE,
 	       "x2", x + CTRL_PT_SIZE,
 	       "y2", y + CTRL_PT_SIZE,
-		       NULL);
+	       NULL);
+	if (visible)
+		gnome_canvas_item_show (scg->control_points [idx]);
+	else
+		gnome_canvas_item_hide (scg->control_points [idx]);
 }
 
 #define normalize_high_low(d1,d2) if (d1<d2) { double tmp=d1; d1=d2; d2=tmp;}
@@ -1905,18 +1913,23 @@ set_acetate_coords (SheetControlGUI *scg, GtkObject *so_view,
 	normalize_high_low (r, l);
 	normalize_high_low (b, t);
 
-	t -= 10.; b += 10.;
-	l -= 10.; r += 10.;
-	
-	if (scg->control_points [8] == NULL) {
-		GnomeCanvasItem *item;
-		GtkWidget *event_box = gtk_event_box_new ();
+	l -= (CTRL_PT_SIZE + CTRL_PT_OUTLINE) / 2 - 1;
+	r += (CTRL_PT_SIZE + CTRL_PT_OUTLINE) / 2 - 1;
+	t -= (CTRL_PT_SIZE + CTRL_PT_OUTLINE) / 2 - 1;
+	b += (CTRL_PT_SIZE + CTRL_PT_OUTLINE) / 2 - 1;
 
-		item = gnome_canvas_item_new (
+	if (scg->control_points [8] == NULL) {
+		static char diagonal [] = { 0xcc, 0x66, 0x33, 0x99, 0xcc, 0x66, 0x33, 0x99 };
+		GdkBitmap *stipple = gdk_bitmap_create_from_data (NULL, diagonal, 8, 8);
+		GnomeCanvasItem *item = gnome_canvas_item_new (
 			gcanvas->object_group,
-			gnome_canvas_widget_get_type (),
-			"widget", event_box,
+			item_acetate_get_type (),
+			"fill_color",		NULL,
+			"width_pixels",		CTRL_PT_SIZE + CTRL_PT_OUTLINE,
+			"outline_color",	"black",
+			"outline_stipple",	stipple,
 			NULL);
+		gdk_bitmap_unref (stipple);
 		gtk_signal_connect (GTK_OBJECT (item), "event",
 				    GTK_SIGNAL_FUNC (cb_control_point_event),
 				    so_view);
@@ -1928,10 +1941,10 @@ set_acetate_coords (SheetControlGUI *scg, GtkObject *so_view,
 	}
 	gnome_canvas_item_set (
 	       scg->control_points [8],
-	       "x",      l,
-	       "y",      t,
-	       "width",  r - l + 1.,
-	       "height", b - t + 1.,
+	       "x1", l,
+	       "y1", t,
+	       "x2", r,
+	       "y2", b,
 	       NULL);
 }
 
@@ -1971,8 +1984,8 @@ scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
 	
 	l = scg->object_coords [0];
 	t = scg->object_coords [1];
-	r = scg->object_coords [2];
-	b = scg->object_coords [3];
+	r = scg->object_coords [2] + 1;
+	b = scg->object_coords [3] + 1;
 
 	/* set the acetate 1st so that the other points
 	 * will override it
@@ -1980,21 +1993,21 @@ scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
 	set_acetate_coords (scg, so_view_obj, l, t, r, b);
 
 	set_item_x_y (scg, so_view_obj, 0, l, t,
-		      E_CURSOR_SIZE_TL);
+		      E_CURSOR_SIZE_TL, TRUE);
 	set_item_x_y (scg, so_view_obj, 1, (l + r) / 2, t,
-		      E_CURSOR_SIZE_Y);
+		      E_CURSOR_SIZE_Y, (r-l) >= CTRL_PT_TOTAL_SIZE);
 	set_item_x_y (scg, so_view_obj, 2, r, t,
-		      E_CURSOR_SIZE_TR);
+		      E_CURSOR_SIZE_TR, TRUE);
 	set_item_x_y (scg, so_view_obj, 3, l, (t + b) / 2,
-		      E_CURSOR_SIZE_X);
+		      E_CURSOR_SIZE_X, (b-t) >= CTRL_PT_TOTAL_SIZE);
 	set_item_x_y (scg, so_view_obj, 4, r, (t + b) / 2,
-		      E_CURSOR_SIZE_X);
+		      E_CURSOR_SIZE_X, (b-t) >= CTRL_PT_TOTAL_SIZE);
 	set_item_x_y (scg, so_view_obj, 5, l, b,
-		      E_CURSOR_SIZE_TR);
+		      E_CURSOR_SIZE_TR, TRUE);
 	set_item_x_y (scg, so_view_obj, 6, (l + r) / 2, b,
-		      E_CURSOR_SIZE_Y);
+		      E_CURSOR_SIZE_Y, (r-l) >= CTRL_PT_TOTAL_SIZE);
 	set_item_x_y (scg, so_view_obj, 7, r, b,
-		      E_CURSOR_SIZE_TL);
+		      E_CURSOR_SIZE_TL, TRUE);
 }
 
 static int
