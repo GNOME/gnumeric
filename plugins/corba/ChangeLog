@@ -1,0 +1,6 @@
+2002-09-18  Jody Goldberg <jody@gnome.org>
+
+	* New module to re-enable a CORBA interface in a plugin now that it is
+	  possible to do it without making a mess in the core.  Untested and
+	  many methods are incomplete but the frame work is mostly in place.
+
