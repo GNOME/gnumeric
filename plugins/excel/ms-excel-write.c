@@ -1184,7 +1184,7 @@ formats_get_index (ExcelWorkbook *wb, StyleFormat const *format)
 static void
 put_format (MStyle *mstyle, gconstpointer dummy, ExcelWorkbook *wb)
 {
-	StyleFormat const *fmt = mstyle_get_format (mstyle);
+	StyleFormat *fmt = mstyle_get_format (mstyle);
 	style_format_ref (fmt);
 	two_way_table_put (wb->formats->two_way_table,
 			   (gpointer)fmt, TRUE,
