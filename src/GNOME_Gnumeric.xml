@@ -289,6 +289,9 @@
 	    <menuitem name="ViewNewUnshared" verb=""
 		_label="New _Unshared"
 		_tip="Create a new unshared view of the workbook"/>
+	    <menuitem name="ViewToolbars" verb="BonoboCustomize"
+		_label="_Toolbars..."
+		_tip="Configure toolbars"/>
 	</submenu>
 
 	<submenu name="Insert" _label="_Insert">
