@@ -182,10 +182,7 @@ typedef enum {
 	WORKBOOK_FEEDBACK_FONT      = 1 << 3,
 } WorkbookFeedbackType;
 
-void     workbook_feedback_set        (Workbook *,
-				       int feedback_flags,
-				       gboolean italic, gboolean bold,
-				       double size, GnomeFont *font);
+void     workbook_feedback_set        (Workbook *, MStyleElement *styles);
 
 extern   Workbook *current_workbook;
 
