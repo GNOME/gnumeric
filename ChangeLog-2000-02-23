@@ -1,3 +1,16 @@
+1999-11-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/expr.c (expr_tree_array_formula_corner) : If the corner is not
+	  set attempt to set it.  Add more sanity checking to ensure that the
+	  corner cell is really a corner cell.
+	(eval_expr_real, do_expr_decode_tree) : Adjust to interface change in
+	  expr_tree_array_formula_corner.
+
+	* src/eval.c (add_tree_deps) : do not depend on the array corner being
+	  set while calculating dependancies.  This eases the burden on insert
+	  row/col which is forced to insert the lower/right cells BEFORE the
+	  upper left and hence before the corner is set.
+
 1999-11-04  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/corba-workbook.c (Workbook_save_to): Update so it compiles!

@@ -271,13 +271,12 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 		if (tree->u.array.x != 0 || tree->u.array.y != 0){
 			/* Non-corner cells depend on the corner */
 			DependencyRange range;
-			Cell * corner = tree->u.array.corner.cell;
 			range.ref_count = 0;
 			range.sheet = cell->sheet;
 			range.range.start.col = range.range.end.col =
-			    corner->col->pos;
+			    cell->col->pos - tree->u.array.x;
 			range.range.start.row = range.range.end.row =
-			    corner->row->pos;
+			    cell->row->pos - tree->u.array.y;
 			add_cell_range_dep (cell, &range);
 		} else
 			/* Corner cell depends on the contents of the expr */

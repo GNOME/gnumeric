@@ -2312,8 +2312,8 @@ sheet_destroy (Sheet *sheet)
 
 struct sheet_clear_region_callback_data
 {
-	int start_col, start_row, end_col, end_row;
-	GList *l;
+	Range	 r;
+	GList	*l;
 };
 
 /*
@@ -2337,13 +2337,13 @@ assemble_clear_cell_list (Sheet *sheet, int col, int row, Cell *cell,
 	/* Flag an attempt to delete a subset of an array */
 	if (cell->parsed_node && cell->parsed_node->oper == OPER_ARRAY){
 		ArrayRef * ref = &cell->parsed_node->u.array;
-		if ((col - ref->x) < cb->start_col)
+		if ((col - ref->x) < cb->r.start.col)
 			return value_terminate();
-		if ((row - ref->y) < cb->start_row)
+		if ((row - ref->y) < cb->r.start.row)
 			return value_terminate();
-		if ((col - ref->x + ref->cols -1) > cb->end_col)
+		if ((col - ref->x + ref->cols -1) > cb->r.end.col)
 			return value_terminate();
-		if ((row - ref->y + ref->rows -1) > cb->end_row)
+		if ((row - ref->y + ref->rows -1) > cb->r.end.row)
 			return value_terminate();
 	}
 
@@ -2374,11 +2374,12 @@ sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int
 	/* Queue a redraw for the cells being removed */
 	sheet_redraw_cell_region (sheet, start_col, start_row, end_col, end_row);
 
-	cb.start_col = start_col;
-	cb.start_row = start_row;
-	cb.end_col = end_col;
-	cb.end_row = end_row;
+	cb.r.start.col = start_col;
+	cb.r.start.row = start_row;
+	cb.r.end.col = end_col;
+	cb.r.end.row = end_row;
 	cb.l = NULL;
+
 	if (sheet_cell_foreach_range (sheet, TRUE,
 				       start_col, start_row, end_col, end_row,
 				       assemble_clear_cell_list, &cb) == NULL) {

@@ -318,16 +318,29 @@ expr_tree_array_formula (int const x, int const y, int const rows, int const col
 
 
 static ExprTree *
-expr_tree_array_formula_corner (ExprTree const *expr)
+expr_tree_array_formula_corner (ExprTree const *expr, EvalPosition const *pos)
 {
-	Cell * const corner = expr->u.array.corner.cell;
+	Cell * corner = expr->u.array.corner.cell;
 
-	g_return_val_if_fail (corner, NULL);
+	/* Attempt to set the corner if it is not already set */
+	if (corner == NULL) {
+		g_return_val_if_fail (pos != NULL, NULL);
+		g_return_val_if_fail (pos->sheet != NULL, NULL);
+
+		corner = sheet_cell_get (pos->sheet,
+					 pos->eval_col - expr->u.array.x,
+					 pos->eval_row - expr->u.array.y);
+		((ExprTree *)expr)->u.array.corner.cell = corner;
+	}
+
+	g_return_val_if_fail (corner != NULL, NULL);
 	g_return_val_if_fail (corner->parsed_node != NULL, NULL);
 
 	/* Sanity check incase the corner gets removed for some reason */
 	g_return_val_if_fail (corner->parsed_node != (void *)0xdeadbeef, NULL);
 	g_return_val_if_fail (corner->parsed_node->oper == OPER_ARRAY, NULL);
+	g_return_val_if_fail (corner->parsed_node->u.array.x == 0, NULL);
+	g_return_val_if_fail (corner->parsed_node->u.array.y == 0, NULL);
 
 	return corner->parsed_node;
 }
@@ -1083,7 +1096,7 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 			*((Value **)&(tree->u.array.corner.func.value)) = a;
 		} else {
 			ExprTree const * const array =
-			    expr_tree_array_formula_corner (tree);
+			    expr_tree_array_formula_corner (tree, &s->pos);
 			if (array)
 				a = array->u.array.corner.func.value;
 			else
@@ -1372,7 +1385,8 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 		int const y = tree->u.array.y;
 		char *res;
 		if (x != 0 || y != 0) {
-			ExprTree *array = expr_tree_array_formula_corner (tree);
+			ExprTree *array =
+			    expr_tree_array_formula_corner (tree, NULL);
 			if (array) {
 				ParsePosition tmp_pos;
 				tmp_pos.wb  = pp->wb;
