@@ -102,8 +102,8 @@ init_embeddable_grid_corba_class (void)
 	/*
 	 * vepv
 	 */
-	embeddable_grid_vepv.GNOME_Unknown_epv = &gnome_object_epv;
-	embeddable_grid_vepv.GNOME_Embeddable_epv = &gnome_embeddable_epv;
+	embeddable_grid_vepv.GNOME_Unknown_epv = gnome_object_get_epv ();
+	embeddable_grid_vepv.GNOME_Embeddable_epv = gnome_embeddable_get_epv ();
 	embeddable_grid_vepv.GNOME_Gnumeric_Grid_epv = &embeddable_grid_epv;
 
 	/*

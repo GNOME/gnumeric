@@ -1,3 +1,10 @@
+1999-12-02  Nat Friedman  <nat@helixcode.com>
+
+	* src/corba-workbook.c (Workbook_corba_class_init): Use the new
+ 	epv-getting functions when filling the vepv.
+
+	* src/embeddable-grid.c (init_embeddable_grid_corba_class): Likewise.
+
 1999-12-01  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/dialogs/dialog-cell-format.c (fmt_dialog_init_font_page):
