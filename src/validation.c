@@ -200,10 +200,6 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 			break;
 		}
 
-		case VALIDATION_TYPE_IN_LIST :
-#warning TODO
-			return VALIDATION_STATUS_VALID;
-
 		case VALIDATION_TYPE_TEXT_LENGTH :
 			/* XL appears to use a very basic value -> string mapping that
 			 * ignores formatting.
@@ -214,6 +210,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 				value_new_int (strlen (value_peek_string (val))));
 			break;
 
+		case VALIDATION_TYPE_IN_LIST :
 		case VALIDATION_TYPE_CUSTOM :
 			expr = v->expr[0];
 			if (expr == NULL)

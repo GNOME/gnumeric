@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-17 00:44-0500\n"
+"POT-Creation-Date: 2005-03-08 10:08-0500\n"
 "PO-Revision-Date: 2005-1-5 18:34+0100\n"
 "Last-Translator: Softcatalà <tradgnome@softcatala.org>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
@@ -1443,7 +1443,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Les funcions relacionaven els subproductes financers"
 
 # fitxer: plugins.ca.po.2
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5837
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5833
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "S'està llegint el fitxer..."
@@ -1625,17 +1625,17 @@ msgstr ""
 
 #
 # fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-read.c:5145
+#: plugins/excel/ms-excel-read.c:5141
 msgid "external references"
 msgstr "Referències externes"
 
 # fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-read.c:5168
+#: plugins/excel/ms-excel-read.c:5164
 msgid "No password supplied"
 msgstr "No s'ha subministrat la contrasenya"
 
 # fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-read.c:6063
+#: plugins/excel/ms-excel-read.c:6059
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "No es pot trobar un llibre de treball de MS Excel vàlid"
 
@@ -1651,7 +1651,7 @@ msgstr ""
 "codificació."
 
 # fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-write.c:4195
+#: plugins/excel/ms-excel-write.c:4211
 #, fuzzy, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1661,7 +1661,7 @@ msgstr ""
 "suporta %d files, i aquesta fulla té %d"
 
 # fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-write.c:4202
+#: plugins/excel/ms-excel-write.c:4218
 #, fuzzy, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1671,12 +1671,12 @@ msgstr ""
 "d files, i aquesta fulla té %d"
 
 # fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-write.c:4967
+#: plugins/excel/ms-excel-write.c:4983
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "No es pot obrir el flux 'Book' per escriure\n"
 
 # fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-write.c:4987
+#: plugins/excel/ms-excel-write.c:5003
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "No es pot obrir el flux 'Korkbook' per escriure\n"
 
@@ -8826,7 +8826,7 @@ msgstr "cel la info_type"
 #: plugins/fn-info/functions.c:1843 plugins/fn-info/functions.c:1846
 #: plugins/fn-info/functions.c:1849 plugins/fn-info/functions.c:1852
 #: plugins/fn-info/functions.c:1855 plugins/fn-info/functions.c:1861
-#: plugins/fn-string/functions.c:1182
+#: plugins/fn-string/functions.c:1191
 msgid "value"
 msgstr "Valor"
 
@@ -8843,12 +8843,12 @@ msgid "range"
 msgstr "rang"
 
 # fitxer: plugins.ca.po.4
-#: plugins/fn-info/functions.c:1870 plugins/fn-string/functions.c:1125
-#: plugins/fn-string/functions.c:1128 plugins/fn-string/functions.c:1131
-#: plugins/fn-string/functions.c:1152 plugins/fn-string/functions.c:1155
-#: plugins/fn-string/functions.c:1158 plugins/fn-string/functions.c:1164
-#: plugins/fn-string/functions.c:1188 plugins/fn-string/functions.c:1191
-#: plugins/fn-string/functions.c:1194
+#: plugins/fn-info/functions.c:1870 plugins/fn-string/functions.c:1134
+#: plugins/fn-string/functions.c:1137 plugins/fn-string/functions.c:1140
+#: plugins/fn-string/functions.c:1161 plugins/fn-string/functions.c:1164
+#: plugins/fn-string/functions.c:1167 plugins/fn-string/functions.c:1173
+#: plugins/fn-string/functions.c:1197 plugins/fn-string/functions.c:1200
+#: plugins/fn-string/functions.c:1203
 msgid "text"
 msgstr "text"
 
@@ -9136,7 +9136,7 @@ msgstr ""
 
 # fitxer: plugins.ca.po.3
 #: plugins/fn-logical/functions.c:334 plugins/fn-logical/functions.c:338
-#: plugins/fn-logical/functions.c:358 plugins/fn-math/functions.c:3332
+#: plugins/fn-logical/functions.c:358 plugins/fn-math/functions.c:3260
 #: plugins/fn-stat/functions.c:5636 plugins/fn-stat/functions.c:5640
 #: plugins/fn-stat/functions.c:5644 plugins/fn-stat/functions.c:5682
 #: plugins/fn-stat/functions.c:5685 plugins/fn-stat/functions.c:5694
@@ -9156,27 +9156,27 @@ msgstr "número,número,"
 
 # fitxer: plugins.ca.po.3
 #. MS Excel puts this in the engineering functions
-#: plugins/fn-logical/functions.c:342 plugins/fn-math/functions.c:3164
-#: plugins/fn-math/functions.c:3168 plugins/fn-math/functions.c:3171
-#: plugins/fn-math/functions.c:3174 plugins/fn-math/functions.c:3177
-#: plugins/fn-math/functions.c:3180 plugins/fn-math/functions.c:3183
-#: plugins/fn-math/functions.c:3189 plugins/fn-math/functions.c:3198
-#: plugins/fn-math/functions.c:3207 plugins/fn-math/functions.c:3215
-#: plugins/fn-math/functions.c:3218 plugins/fn-math/functions.c:3221
-#: plugins/fn-math/functions.c:3224 plugins/fn-math/functions.c:3227
-#: plugins/fn-math/functions.c:3232 plugins/fn-math/functions.c:3236
-#: plugins/fn-math/functions.c:3242 plugins/fn-math/functions.c:3252
-#: plugins/fn-math/functions.c:3259 plugins/fn-math/functions.c:3262
-#: plugins/fn-math/functions.c:3268 plugins/fn-math/functions.c:3271
-#: plugins/fn-math/functions.c:3284 plugins/fn-math/functions.c:3290
-#: plugins/fn-math/functions.c:3296 plugins/fn-math/functions.c:3317
-#: plugins/fn-math/functions.c:3320 plugins/fn-math/functions.c:3323
-#: plugins/fn-math/functions.c:3326 plugins/fn-math/functions.c:3329
-#: plugins/fn-math/functions.c:3342 plugins/fn-math/functions.c:3354
-#: plugins/fn-math/functions.c:3357 plugins/fn-stat/functions.c:5706
+#: plugins/fn-logical/functions.c:342 plugins/fn-math/functions.c:3092
+#: plugins/fn-math/functions.c:3096 plugins/fn-math/functions.c:3099
+#: plugins/fn-math/functions.c:3102 plugins/fn-math/functions.c:3105
+#: plugins/fn-math/functions.c:3108 plugins/fn-math/functions.c:3111
+#: plugins/fn-math/functions.c:3117 plugins/fn-math/functions.c:3126
+#: plugins/fn-math/functions.c:3135 plugins/fn-math/functions.c:3143
+#: plugins/fn-math/functions.c:3146 plugins/fn-math/functions.c:3149
+#: plugins/fn-math/functions.c:3152 plugins/fn-math/functions.c:3155
+#: plugins/fn-math/functions.c:3160 plugins/fn-math/functions.c:3164
+#: plugins/fn-math/functions.c:3170 plugins/fn-math/functions.c:3180
+#: plugins/fn-math/functions.c:3187 plugins/fn-math/functions.c:3190
+#: plugins/fn-math/functions.c:3196 plugins/fn-math/functions.c:3199
+#: plugins/fn-math/functions.c:3212 plugins/fn-math/functions.c:3218
+#: plugins/fn-math/functions.c:3224 plugins/fn-math/functions.c:3245
+#: plugins/fn-math/functions.c:3248 plugins/fn-math/functions.c:3251
+#: plugins/fn-math/functions.c:3254 plugins/fn-math/functions.c:3257
+#: plugins/fn-math/functions.c:3270 plugins/fn-math/functions.c:3282
+#: plugins/fn-math/functions.c:3285 plugins/fn-stat/functions.c:5706
 #: plugins/fn-stat/functions.c:5709 plugins/fn-stat/functions.c:5727
-#: plugins/fn-stat/functions.c:5805 plugins/fn-string/functions.c:1119
-#: plugins/fn-string/functions.c:1122
+#: plugins/fn-stat/functions.c:5805 plugins/fn-string/functions.c:1128
+#: plugins/fn-string/functions.c:1131
 msgid "number"
 msgstr "número"
 
@@ -9817,7 +9817,7 @@ msgid "ref,row,col,height,width"
 msgstr "ref,fila,col,alt,ample"
 
 # fitxer: plugins.ca.po.3
-#: plugins/fn-lookup/functions.c:1261 plugins/fn-math/functions.c:3370
+#: plugins/fn-lookup/functions.c:1261 plugins/fn-math/functions.c:3298
 msgid "array"
 msgstr "llista"
 
@@ -9842,7 +9842,7 @@ msgstr "Funcions Lookup"
 # src/functions/fn-math.c:121
 #
 # fitxer: plugins.ca.po.3
-#: plugins/fn-math/functions.c:143
+#: plugins/fn-math/functions.c:93
 #, fuzzy
 msgid ""
 "@FUNCTION=GCD\n"
@@ -9874,7 +9874,7 @@ msgstr ""
 # src/functions/fn-math.c:172
 #
 # fitxer: plugins.ca.po.3
-#: plugins/fn-math/functions.c:195
+#: plugins/fn-math/functions.c:145
 #, fuzzy
 msgid ""
 "@FUNCTION=LCM\n"
@@ -9909,7 +9909,7 @@ msgstr ""
 # src/functions/fn-eng.c:1230
 #
 # fitxer: plugins.ca.po.3
-#: plugins/fn-math/functions.c:252
+#: plugins/fn-math/functions.c:202
 #, fuzzy
 msgid ""
 "@FUNCTION=HYPOT\n"
@@ -9934,7 +9934,7 @@ msgstr ""
 # src/functions/fn-math.c:230
 #
 # fitxer: plugins.ca.po.3
-#: plugins/fn-math/functions.c:279
+#: plugins/fn-math/functions.c:229
 #, fuzzy
 msgid ""
 "@FUNCTION=ABS\n"
@@ -9966,7 +9966,7 @@ msgstr ""
 # src/functions/fn-math.c:255
 #
 # fitxer: plugins.ca.po.3
-#: plugins/fn-math/functions.c:304
+#: plugins/fn-math/functions.c:254
 #, fuzzy
 msgid ""
 "@FUNCTION=ACOS\n"
@@ -9999,7 +9999,7 @@ msgstr ""
 # src/functions/fn-math.c:287
 #
 # fitxer: plugins.ca.po.3
-#: plugins/fn-math/functions.c:338
+#: plugins/fn-math/functions.c:288
 #, fuzzy
 msgid ""
 "@FUNCTION=ACOSH\n"
@@ -10031,7 +10031,7 @@ msgstr ""
 # src/functions/fn-math.c:318
 #
 # fitxer: plugins.ca.po.3
-#: plugins/fn-math/functions.c:371
+#: plugins/fn-math/functions.c:321
 #, fuzzy
 msgid ""
 "@FUNCTION=ASIN\n"
@@ -10063,7 +10063,7 @@ msgstr ""
 # src/functions/fn-math.c:349
 #
 # fitxer: plugins.ca.po.3
-#: plugins/fn-math/functions.c:404
+#: plugins/fn-math/functions.c:354
 #, fuzzy
 msgid ""
 "@FUNCTION=ASINH\n"
@@ -10093,7 +10093,7 @@ msgstr ""
 # src/functions/fn-math.c:373
 #
 # fitxer: plugins.ca.po.3
-#: plugins/fn-math/functions.c:428
+#: plugins/fn-math/functions.c:378
 #, fuzzy
 msgid ""
 "@FUNCTION=ATAN\n"
@@ -10124,7 +10124,7 @@ msgstr ""
 # src/functions/fn-math.c:396
 #
 # fitxer: plugins.ca.po.3
-#: plugins/fn-math/functions.c:453
+#: plugins/fn-math/functions.c:403
 #, fuzzy
 msgid ""
 "@FUNCTION=ATANH\n"
@@ -10157,7 +10157,7 @@ msgstr ""
 # src/functions/fn-math.c:428
 #
 # fitxer: plugins.ca.po.3
-#: plugins/fn-math/functions.c:486
+#: plugins/fn-math/functions.c:436
 #, fuzzy
 msgid ""
 "@FUNCTION=ATAN2\n"
@@ -10192,7 +10192,7 @@ msgstr ""
 
 # src/functions/fn-eng.c:1230
 # fitxer: plugins.ca.po.3
-#: plugins/fn-math/functions.c:514
+#: plugins/fn-math/functions.c:464
 #, fuzzy
 msgid ""
 "@FUNCTION=CEIL\n"
@@ -10221,7 +10221,7 @@ msgstr ""
 # src/functions/fn-math.c:480
 #
 # fitxer: plugins.ca.po.3
-#: plugins/fn-math/functions.c:538
+#: plugins/fn-math/functions.c:488
 #, fuzzy
 msgid ""
 "@FUNCTION=COUNTIF\n"
@@ -10259,7 +10259,7 @@ msgstr ""
 # src/functions/fn-math.c:558
 #
 # fitxer: plugins.ca.po.3
-#: plugins/fn-math/functions.c:609
+#: plugins/fn-math/functions.c:563
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMIF\n"
@@ -10303,7 +10303,7 @@ msgstr ""
 # src/functions/fn-math.c:718
 #
 # fitxer: plugins.ca.po.3
-#: plugins/fn-math/functions.c:753
+#: plugins/fn-math/functions.c:681
 #, fuzzy
 msgid ""
 "@FUNCTION=CEILING\n"
@@ -10338,7 +10338,7 @@ msgstr ""
 # src/functions/fn-math.c:759
 #
 # fitxer: plugins.ca.po.3
-#: plugins/fn-math/functions.c:800
+#: plugins/fn-math/functions.c:728
 #, fuzzy
 msgid ""
 "@FUNCTION=COS\n"
@@ -10367,7 +10367,7 @@ msgstr ""
 # src/functions/fn-math.c:783
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:824
+#: plugins/fn-math/functions.c:752
 #, fuzzy
 msgid ""
 "@FUNCTION=COSH\n"
@@ -10400,7 +10400,7 @@ msgstr ""
 # src/functions/fn-eng.c:1230
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:849
+#: plugins/fn-math/functions.c:777
 #, fuzzy
 msgid ""
 "@FUNCTION=DEGREES\n"
@@ -10427,7 +10427,7 @@ msgstr ""
 # src/functions/fn-information.c:333
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:873
+#: plugins/fn-math/functions.c:801
 #, fuzzy
 msgid ""
 "@FUNCTION=EXP\n"
@@ -10455,7 +10455,7 @@ msgstr ""
 # src/functions/fn-information.c:333
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:896
+#: plugins/fn-math/functions.c:824
 #, fuzzy
 msgid ""
 "@FUNCTION=EXPM1\n"
@@ -10481,7 +10481,7 @@ msgstr ""
 # src/functions/fn-eng.c:1160
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:917
+#: plugins/fn-math/functions.c:845
 #, fuzzy
 msgid ""
 "@FUNCTION=FACT\n"
@@ -10508,7 +10508,7 @@ msgstr ""
 
 # src/functions/fn-financial.c:670
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:954
+#: plugins/fn-math/functions.c:882
 #, fuzzy
 msgid ""
 "@FUNCTION=BETA\n"
@@ -10535,7 +10535,7 @@ msgstr ""
 
 # src/functions/fn-financial.c:670
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:984
+#: plugins/fn-math/functions.c:912
 #, fuzzy
 msgid ""
 "@FUNCTION=BETALN\n"
@@ -10561,7 +10561,7 @@ msgstr ""
 # src/functions/fn-math.c:902
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1013
+#: plugins/fn-math/functions.c:941
 #, fuzzy
 msgid ""
 "@FUNCTION=COMBIN\n"
@@ -10594,7 +10594,7 @@ msgstr ""
 # src/functions/fn-math.c:952
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1046
+#: plugins/fn-math/functions.c:974
 #, fuzzy
 msgid ""
 "@FUNCTION=FLOOR\n"
@@ -10627,7 +10627,7 @@ msgstr ""
 # src/functions/fn-math.c:988
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1090
+#: plugins/fn-math/functions.c:1018
 #, fuzzy
 msgid ""
 "@FUNCTION=INT\n"
@@ -10657,7 +10657,7 @@ msgstr ""
 # src/functions/fn-math.c:1014
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1115
+#: plugins/fn-math/functions.c:1043
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG\n"
@@ -10688,7 +10688,7 @@ msgstr ""
 # src/functions/fn-information.c:333
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1149
+#: plugins/fn-math/functions.c:1077
 #, fuzzy
 msgid ""
 "@FUNCTION=LN\n"
@@ -10715,7 +10715,7 @@ msgstr ""
 
 # src/functions/fn-math.c:1117
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1178
+#: plugins/fn-math/functions.c:1106
 #, fuzzy
 msgid ""
 "@FUNCTION=LN1P\n"
@@ -10742,7 +10742,7 @@ msgstr ""
 # src/functions/fn-eng.c:1230
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1207
+#: plugins/fn-math/functions.c:1135
 #, fuzzy
 msgid ""
 "@FUNCTION=POWER\n"
@@ -10773,7 +10773,7 @@ msgstr ""
 
 # src/functions/fn-math.c:1117
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1243
+#: plugins/fn-math/functions.c:1171
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG2\n"
@@ -10799,7 +10799,7 @@ msgstr ""
 # src/functions/fn-information.c:333
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1269
+#: plugins/fn-math/functions.c:1197
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG10\n"
@@ -10827,7 +10827,7 @@ msgstr ""
 # src/functions/fn-eng.c:1160
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1298
+#: plugins/fn-math/functions.c:1226
 #, fuzzy
 msgid ""
 "@FUNCTION=MOD\n"
@@ -10855,7 +10855,7 @@ msgstr ""
 # src/functions/fn-eng.c:1230
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1349
+#: plugins/fn-math/functions.c:1277
 #, fuzzy
 msgid ""
 "@FUNCTION=RADIANS\n"
@@ -10882,7 +10882,7 @@ msgstr ""
 # src/functions/fn-eng.c:1230
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1373
+#: plugins/fn-math/functions.c:1301
 #, fuzzy
 msgid ""
 "@FUNCTION=SIN\n"
@@ -10909,7 +10909,7 @@ msgstr ""
 # src/functions/fn-math.c:1428
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1396
+#: plugins/fn-math/functions.c:1324
 #, fuzzy
 msgid ""
 "@FUNCTION=SINH\n"
@@ -10940,7 +10940,7 @@ msgstr ""
 # src/functions/fn-eng.c:1230
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1420
+#: plugins/fn-math/functions.c:1348
 #, fuzzy
 msgid ""
 "@FUNCTION=SQRT\n"
@@ -10967,7 +10967,7 @@ msgstr ""
 
 # src/functions/fn-math.c:1508
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1448
+#: plugins/fn-math/functions.c:1376
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMA\n"
@@ -11002,7 +11002,7 @@ msgstr ""
 # src/functions/fn-math.c:1539
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1480
+#: plugins/fn-math/functions.c:1408
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMSQ\n"
@@ -11034,7 +11034,7 @@ msgstr ""
 # src/functions/fn-eng.c:1230
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1511
+#: plugins/fn-math/functions.c:1439
 #, fuzzy
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
@@ -11061,7 +11061,7 @@ msgstr ""
 
 # src/functions/fn-eng.c:1160
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1540
+#: plugins/fn-math/functions.c:1468
 #, fuzzy
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
@@ -11089,7 +11089,7 @@ msgstr ""
 # src/functions/fn-eng.c:1230
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1568
+#: plugins/fn-math/functions.c:1496
 #, fuzzy
 msgid ""
 "@FUNCTION=TAN\n"
@@ -11116,7 +11116,7 @@ msgstr ""
 # src/functions/fn-math.c:1716
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1591
+#: plugins/fn-math/functions.c:1519
 #, fuzzy
 msgid ""
 "@FUNCTION=TANH\n"
@@ -11147,7 +11147,7 @@ msgstr ""
 # src/functions/fn-eng.c:1230
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1614
+#: plugins/fn-math/functions.c:1542
 #, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
@@ -11176,7 +11176,7 @@ msgstr ""
 # src/functions/fn-eng.c:1160
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1639
+#: plugins/fn-math/functions.c:1567
 #, fuzzy
 msgid ""
 "@FUNCTION=TRUNC\n"
@@ -11208,7 +11208,7 @@ msgstr ""
 # src/functions/fn-eng.c:1230
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1675
+#: plugins/fn-math/functions.c:1603
 #, fuzzy
 msgid ""
 "@FUNCTION=EVEN\n"
@@ -11236,7 +11236,7 @@ msgstr ""
 # src/functions/fn-eng.c:1230
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1714
+#: plugins/fn-math/functions.c:1642
 #, fuzzy
 msgid ""
 "@FUNCTION=ODD\n"
@@ -11264,7 +11264,7 @@ msgstr ""
 # src/functions/fn-math.c:1878
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1753
+#: plugins/fn-math/functions.c:1681
 #, fuzzy
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
@@ -11297,7 +11297,7 @@ msgstr ""
 # src/functions/fn-math.c:1878
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1791
+#: plugins/fn-math/functions.c:1719
 #, fuzzy
 msgid ""
 "@FUNCTION=FIB\n"
@@ -11328,7 +11328,7 @@ msgstr ""
 # src/functions/fn-eng.c:1160
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1839
+#: plugins/fn-math/functions.c:1767
 #, fuzzy
 msgid ""
 "@FUNCTION=QUOTIENT\n"
@@ -11356,7 +11356,7 @@ msgstr ""
 # src/functions/fn-eng.c:1230
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1871
+#: plugins/fn-math/functions.c:1799
 #, fuzzy
 msgid ""
 "@FUNCTION=SIGN\n"
@@ -11388,7 +11388,7 @@ msgstr ""
 # src/functions/fn-eng.c:1230
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1905
+#: plugins/fn-math/functions.c:1833
 #, fuzzy
 msgid ""
 "@FUNCTION=SQRTPI\n"
@@ -11415,7 +11415,7 @@ msgstr ""
 # src/functions/fn-math.c:2044
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1934
+#: plugins/fn-math/functions.c:1862
 #, fuzzy
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
@@ -11462,7 +11462,7 @@ msgstr ""
 # src/functions/fn-math.c:2091
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:1978
+#: plugins/fn-math/functions.c:1906
 #, fuzzy
 msgid ""
 "@FUNCTION=ROUND\n"
@@ -11508,7 +11508,7 @@ msgstr ""
 # src/functions/fn-math.c:2135
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:2019
+#: plugins/fn-math/functions.c:1947
 #, fuzzy
 msgid ""
 "@FUNCTION=ROUNDUP\n"
@@ -11556,7 +11556,7 @@ msgstr ""
 # src/functions/fn-math.c:2182
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:2063
+#: plugins/fn-math/functions.c:1991
 #, fuzzy
 msgid ""
 "@FUNCTION=MROUND\n"
@@ -11591,7 +11591,7 @@ msgstr ""
 # src/functions/fn-math.c:2232
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:2117
+#: plugins/fn-math/functions.c:2045
 #, fuzzy
 msgid ""
 "@FUNCTION=ROMAN\n"
@@ -11637,7 +11637,7 @@ msgstr ""
 # src/functions/fn-math.c:2501
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:2383
+#: plugins/fn-math/functions.c:2311
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
@@ -11683,9 +11683,9 @@ msgstr ""
 # src/functions/fn-math.c:2749 src/functions/fn-math.c:2764
 # src/functions/fn-stat.c:2698 src/functions/fn-stat.c:2728
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:2439 plugins/fn-math/functions.c:2459
-#: plugins/fn-math/functions.c:2552 plugins/fn-math/functions.c:2572
-#: plugins/fn-math/functions.c:2663 plugins/fn-math/functions.c:2683
+#: plugins/fn-math/functions.c:2367 plugins/fn-math/functions.c:2387
+#: plugins/fn-math/functions.c:2480 plugins/fn-math/functions.c:2500
+#: plugins/fn-math/functions.c:2591 plugins/fn-math/functions.c:2611
 #: plugins/fn-stat/functions.c:2934 plugins/fn-stat/functions.c:2964
 msgid "Array version not implemented!"
 msgstr "La versió de la llista no està implementada!"
@@ -11693,7 +11693,7 @@ msgstr "La versió de la llista no està implementada!"
 # src/functions/fn-math.c:2600
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:2497
+#: plugins/fn-math/functions.c:2425
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
@@ -11736,7 +11736,7 @@ msgstr ""
 # src/functions/fn-math.c:2696
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:2608
+#: plugins/fn-math/functions.c:2536
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMXMY2\n"
@@ -11780,7 +11780,7 @@ msgstr ""
 # src/functions/fn-math.c:2886
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:2721
+#: plugins/fn-math/functions.c:2649
 #, fuzzy
 msgid ""
 "@FUNCTION=SERIESSUM\n"
@@ -11816,7 +11816,7 @@ msgstr ""
 # src/functions/fn-math.c:3009
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:2779
+#: plugins/fn-math/functions.c:2707
 #, fuzzy
 msgid ""
 "@FUNCTION=MINVERSE\n"
@@ -11846,7 +11846,7 @@ msgstr ""
 # src/functions/fn-math.c:3140
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:2922
+#: plugins/fn-math/functions.c:2850
 #, fuzzy
 msgid ""
 "@FUNCTION=MMULT\n"
@@ -11874,7 +11874,7 @@ msgstr ""
 # src/functions/fn-math.c:3220
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:2998
+#: plugins/fn-math/functions.c:2926
 #, fuzzy
 msgid ""
 "@FUNCTION=MDETERM\n"
@@ -11910,7 +11910,7 @@ msgstr ""
 # src/functions/fn-math.c:3278
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:3045
+#: plugins/fn-math/functions.c:2973
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
@@ -11947,12 +11947,12 @@ msgstr ""
 "@SEEALSO=SUM,PRODUCT"
 
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:3186
+#: plugins/fn-math/functions.c:3114
 msgid "xnum,ynum"
 msgstr "xnum,ynum"
 
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:3192 plugins/fn-math/functions.c:3195
+#: plugins/fn-math/functions.c:3120 plugins/fn-math/functions.c:3123
 #: plugins/fn-random/functions.c:1103 plugins/fn-random/functions.c:1124
 #: plugins/fn-random/functions.c:1130 plugins/fn-random/functions.c:1169
 #: plugins/fn-random/functions.c:1184 plugins/fn-random/functions.c:1187
@@ -11962,84 +11962,84 @@ msgstr "a,b"
 #
 # fitxer: plugins.ca.po.7
 #. MS Excel puts this in statistical
-#: plugins/fn-math/functions.c:3203
+#: plugins/fn-math/functions.c:3131
 msgid "range,criteria"
 msgstr "abast,criteri"
 
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:3211
+#: plugins/fn-math/functions.c:3139
 msgid "number,significance"
 msgstr "nombre,significat"
 
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:3239 plugins/fn-stat/functions.c:5820
+#: plugins/fn-math/functions.c:3167 plugins/fn-stat/functions.c:5820
 msgid "n,k"
 msgstr "n,k"
 
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:3246
+#: plugins/fn-math/functions.c:3174
 msgid "number,number"
 msgstr "número,número"
 
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:3265
+#: plugins/fn-math/functions.c:3193
 msgid "number,base"
 msgstr "número,base"
 
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:3274 plugins/fn-math/functions.c:3293
+#: plugins/fn-math/functions.c:3202 plugins/fn-math/functions.c:3221
 msgid "numerator,denominator"
 msgstr "numerador,denominador"
 
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:3277
+#: plugins/fn-math/functions.c:3205
 msgid "number,multiple"
 msgstr "número,múltiple"
 
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:3287
+#: plugins/fn-math/functions.c:3215
 msgid "base,exponent"
 msgstr "base,exponent"
 
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:3299
+#: plugins/fn-math/functions.c:3227
 msgid "number,type"
 msgstr "número,tipus"
 
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:3302 plugins/fn-math/functions.c:3306
-#: plugins/fn-math/functions.c:3310 plugins/fn-math/functions.c:3360
+#: plugins/fn-math/functions.c:3230 plugins/fn-math/functions.c:3234
+#: plugins/fn-math/functions.c:3238 plugins/fn-math/functions.c:3288
 msgid "number,digits"
 msgstr "número,dígits"
 
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:3314
+#: plugins/fn-math/functions.c:3242
 msgid "x,n,m,coefficients"
 msgstr "x,n,m,coeficients"
 
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:3336
+#: plugins/fn-math/functions.c:3264
 msgid "range,criteria,actual_range"
 msgstr "rang,criteri,rang_actual"
 
 #
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:3339
+#: plugins/fn-math/functions.c:3267
 msgid "range,range,"
 msgstr "rang,rang,"
 
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:3345 plugins/fn-math/functions.c:3348
-#: plugins/fn-math/functions.c:3351 plugins/fn-math/functions.c:3367
+#: plugins/fn-math/functions.c:3273 plugins/fn-math/functions.c:3276
+#: plugins/fn-math/functions.c:3279 plugins/fn-math/functions.c:3295
 #: plugins/fn-stat/functions.c:5679 plugins/fn-stat/functions.c:5688
 #: plugins/fn-stat/functions.c:5811 plugins/fn-stat/functions.c:5867
 msgid "array1,array2"
 msgstr "llista1,llista2"
 
 # fitxer: plugins.ca.po.7
-#: plugins/fn-math/functions.c:3373 plugins/fn-math/functions.c:3377
+#: plugins/fn-math/functions.c:3301 plugins/fn-math/functions.c:3305
 msgid "array,matrix_type,bandsize"
 msgstr "llista.tipus de _matriu,bandsize"
 
@@ -17260,7 +17260,7 @@ msgstr ""
 
 #
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:992
+#: plugins/fn-string/functions.c:1001
 #, fuzzy
 msgid ""
 "@FUNCTION=DOLLAR\n"
@@ -17285,7 +17285,7 @@ msgstr ""
 
 #
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1048
+#: plugins/fn-string/functions.c:1057
 #, fuzzy
 msgid ""
 "@FUNCTION=SEARCH\n"
@@ -17333,62 +17333,62 @@ msgstr ""
 "@SEEALSO=FIND"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1134
+#: plugins/fn-string/functions.c:1143
 msgid "text,text,"
 msgstr "text,text"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1137
+#: plugins/fn-string/functions.c:1146
 msgid "num,decimals"
 msgstr "num,decimals"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1140
+#: plugins/fn-string/functions.c:1149
 msgid "text1,text2"
 msgstr "text1,text2"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1143
+#: plugins/fn-string/functions.c:1152
 msgid "text1,text2,num"
 msgstr "text1,text2,num"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1146
+#: plugins/fn-string/functions.c:1155
 msgid "num,decs,no_commas"
 msgstr "num,decs,sense_decimals"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1149 plugins/fn-string/functions.c:1173
+#: plugins/fn-string/functions.c:1158 plugins/fn-string/functions.c:1182
 msgid "text,num_chars"
 msgstr "text,num_carac"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1161
+#: plugins/fn-string/functions.c:1170
 msgid "text,pos,num"
 msgstr "text,pos,num"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1167
+#: plugins/fn-string/functions.c:1176
 msgid "old,start,num,new"
 msgstr "vell,inici,num,nou"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1170
+#: plugins/fn-string/functions.c:1179
 msgid "text,num"
 msgstr "text,num"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1176
+#: plugins/fn-string/functions.c:1185
 msgid "search_string,text,start_num"
 msgstr ""
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1179
+#: plugins/fn-string/functions.c:1188
 msgid "text,old,new,num"
 msgstr "text,vell,nou,num"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1185
+#: plugins/fn-string/functions.c:1194
 msgid "value,format_text"
 msgstr "valor,format_text"
 
@@ -25564,23 +25564,23 @@ msgstr "Pantalla"
 
 #
 # fitxer: src.ca.po.13
-#: src/dialogs/dialog-printer-setup.c:873
+#: src/dialogs/dialog-printer-setup.c:876
 msgid "Customize header"
 msgstr "Personalitza la capçalera"
 
 #
 # fitxer: src.ca.po.13
-#: src/dialogs/dialog-printer-setup.c:875
+#: src/dialogs/dialog-printer-setup.c:878
 msgid "Customize footer"
 msgstr "Personalitza el peu de pàgina"
 
 # fitxer: src.ca.po.13
-#: src/dialogs/dialog-printer-setup.c:1022
+#: src/dialogs/dialog-printer-setup.c:1025
 msgid "Custom header configuration"
 msgstr "Configuració de la capçalera"
 
 # fitxer: src.ca.po.13
-#: src/dialogs/dialog-printer-setup.c:1027
+#: src/dialogs/dialog-printer-setup.c:1030
 msgid "Custom footer configuration"
 msgstr "Configuració del peu de pàgina"
 
@@ -29263,15 +29263,19 @@ msgstr "'%s' ja està definit al llibre de treball"
 msgid "Invalid template file: %s"
 msgstr "Fitxer de plantilla no vàlid: %s"
 
+#: src/file.c:519
+msgid "Not a valid UTF-8 filename."
+msgstr ""
+
 #
 # fitxer: src.ca.po.2
-#: src/file.c:522
+#: src/file.c:529
 msgid "Saving over old files of this type is disabled for safety."
 msgstr ""
 "S'ha deshabilitat l'opció per desar sobre fitxers antics per seguretat."
 
 # fitxer: src.ca.po.2
-#: src/file.c:524
+#: src/file.c:531
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -31523,22 +31527,22 @@ msgid "Save changes to workbook before logging out?"
 msgstr "Voleu desar canvis al llibre de treball abans de tancar?"
 
 # fitxer: src.ca.po.4
-#: src/session.c:121
+#: src/session.c:122
 msgid "If you do not save, changes may be discarded."
 msgstr "Si no ho deseu, els canvis es perdran."
 
 # fitxer: src.ca.po.4
-#: src/session.c:123
+#: src/session.c:124
 msgid "Do not save any"
 msgstr "No desis cap"
 
 # fitxer: src.ca.po.4
-#: src/session.c:125 src/session.c:128
+#: src/session.c:126 src/session.c:129
 msgid "Do not save"
 msgstr "No desis"
 
 # fitxer: src.ca.po.4
-#: src/session.c:130
+#: src/session.c:131
 msgid "Do not log out"
 msgstr "No surtis"
 
@@ -33316,13 +33320,13 @@ msgid "'%s' is not an integer"
 msgstr "'%s' no és un enter"
 
 # fitxer: src.ca.po.7
-#: src/validation.c:290
+#: src/validation.c:287
 #, c-format
 msgid "%s is not true."
 msgstr "%s no és veritat."
 
 # fitxer: src.ca.po.7
-#: src/validation.c:304
+#: src/validation.c:301
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's contents."
@@ -33332,7 +33336,7 @@ msgstr ""
 
 #
 # fitxer: src.ca.po.7
-#: src/validation.c:313
+#: src/validation.c:310
 msgid "Gnumeric: Validation"
 msgstr "Gnumeric: validació"
 

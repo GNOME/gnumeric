@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.3.9x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-17 00:44-0500\n"
+"POT-Creation-Date: 2005-03-08 10:08-0500\n"
 "PO-Revision-Date: 2004-12-14 22:30+0100\n"
 "Last-Translator: Luca Ferretti <elle.uca@infinito.it>\n"
 "Language-Team: Italian <tp@list.linux.it>\n"
@@ -935,7 +935,7 @@ msgstr "Derivate finanziarie"
 msgid "Functions related to financial derivatives"
 msgstr "Funzioni relative alle derivate finanziarie"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5837
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5833
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Lettura del file in corso..."
@@ -1081,15 +1081,15 @@ msgstr ""
 "I collegamenti OLE non sono supportati.\n"
 "Il nome «%s» sarà perduto.\n"
 
-#: plugins/excel/ms-excel-read.c:5145
+#: plugins/excel/ms-excel-read.c:5141
 msgid "external references"
 msgstr "riferimenti esterni"
 
-#: plugins/excel/ms-excel-read.c:5168
+#: plugins/excel/ms-excel-read.c:5164
 msgid "No password supplied"
 msgstr "Password non fornita"
 
-#: plugins/excel/ms-excel-read.c:6063
+#: plugins/excel/ms-excel-read.c:6059
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Impossibile localizzare una cartella di lavoro MS Excel"
 
@@ -1100,7 +1100,7 @@ msgid ""
 "encoding problems."
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:4195
+#: plugins/excel/ms-excel-write.c:4211
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1109,7 +1109,7 @@ msgstr ""
 "Parte del contenuto verrà perduta salvando come MS Excel (tm) 95. Tale "
 "formato supporta solo %d righe, mentre questa cartella di lavoro ne ha %d"
 
-#: plugins/excel/ms-excel-write.c:4202
+#: plugins/excel/ms-excel-write.c:4218
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1119,11 +1119,11 @@ msgstr ""
 "supporta solo %d righe, mentre questa cartella di lavoro ne ha %d"
 
 # verificare traduzione di Book - Excel-lismo
-#: plugins/excel/ms-excel-write.c:4967
+#: plugins/excel/ms-excel-write.c:4983
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Impossibile aprire lo stream «Cartella» in scrittura\n"
 
-#: plugins/excel/ms-excel-write.c:4987
+#: plugins/excel/ms-excel-write.c:5003
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Impossibile aprire lo stream «Cartella di lavoro» in scrittura\n"
 
@@ -6242,7 +6242,7 @@ msgstr ""
 #: plugins/fn-info/functions.c:1843 plugins/fn-info/functions.c:1846
 #: plugins/fn-info/functions.c:1849 plugins/fn-info/functions.c:1852
 #: plugins/fn-info/functions.c:1855 plugins/fn-info/functions.c:1861
-#: plugins/fn-string/functions.c:1182
+#: plugins/fn-string/functions.c:1191
 msgid "value"
 msgstr ""
 
@@ -6255,12 +6255,12 @@ msgstr ""
 msgid "range"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1870 plugins/fn-string/functions.c:1125
-#: plugins/fn-string/functions.c:1128 plugins/fn-string/functions.c:1131
-#: plugins/fn-string/functions.c:1152 plugins/fn-string/functions.c:1155
-#: plugins/fn-string/functions.c:1158 plugins/fn-string/functions.c:1164
-#: plugins/fn-string/functions.c:1188 plugins/fn-string/functions.c:1191
-#: plugins/fn-string/functions.c:1194
+#: plugins/fn-info/functions.c:1870 plugins/fn-string/functions.c:1134
+#: plugins/fn-string/functions.c:1137 plugins/fn-string/functions.c:1140
+#: plugins/fn-string/functions.c:1161 plugins/fn-string/functions.c:1164
+#: plugins/fn-string/functions.c:1167 plugins/fn-string/functions.c:1173
+#: plugins/fn-string/functions.c:1197 plugins/fn-string/functions.c:1200
+#: plugins/fn-string/functions.c:1203
 msgid "text"
 msgstr ""
 
@@ -6524,7 +6524,7 @@ msgstr ""
 "@SEEALSO=TRUE"
 
 #: plugins/fn-logical/functions.c:334 plugins/fn-logical/functions.c:338
-#: plugins/fn-logical/functions.c:358 plugins/fn-math/functions.c:3332
+#: plugins/fn-logical/functions.c:358 plugins/fn-math/functions.c:3260
 #: plugins/fn-stat/functions.c:5636 plugins/fn-stat/functions.c:5640
 #: plugins/fn-stat/functions.c:5644 plugins/fn-stat/functions.c:5682
 #: plugins/fn-stat/functions.c:5685 plugins/fn-stat/functions.c:5694
@@ -6543,27 +6543,27 @@ msgid "number,number,"
 msgstr "numero; numero;"
 
 #. MS Excel puts this in the engineering functions
-#: plugins/fn-logical/functions.c:342 plugins/fn-math/functions.c:3164
-#: plugins/fn-math/functions.c:3168 plugins/fn-math/functions.c:3171
-#: plugins/fn-math/functions.c:3174 plugins/fn-math/functions.c:3177
-#: plugins/fn-math/functions.c:3180 plugins/fn-math/functions.c:3183
-#: plugins/fn-math/functions.c:3189 plugins/fn-math/functions.c:3198
-#: plugins/fn-math/functions.c:3207 plugins/fn-math/functions.c:3215
-#: plugins/fn-math/functions.c:3218 plugins/fn-math/functions.c:3221
-#: plugins/fn-math/functions.c:3224 plugins/fn-math/functions.c:3227
-#: plugins/fn-math/functions.c:3232 plugins/fn-math/functions.c:3236
-#: plugins/fn-math/functions.c:3242 plugins/fn-math/functions.c:3252
-#: plugins/fn-math/functions.c:3259 plugins/fn-math/functions.c:3262
-#: plugins/fn-math/functions.c:3268 plugins/fn-math/functions.c:3271
-#: plugins/fn-math/functions.c:3284 plugins/fn-math/functions.c:3290
-#: plugins/fn-math/functions.c:3296 plugins/fn-math/functions.c:3317
-#: plugins/fn-math/functions.c:3320 plugins/fn-math/functions.c:3323
-#: plugins/fn-math/functions.c:3326 plugins/fn-math/functions.c:3329
-#: plugins/fn-math/functions.c:3342 plugins/fn-math/functions.c:3354
-#: plugins/fn-math/functions.c:3357 plugins/fn-stat/functions.c:5706
+#: plugins/fn-logical/functions.c:342 plugins/fn-math/functions.c:3092
+#: plugins/fn-math/functions.c:3096 plugins/fn-math/functions.c:3099
+#: plugins/fn-math/functions.c:3102 plugins/fn-math/functions.c:3105
+#: plugins/fn-math/functions.c:3108 plugins/fn-math/functions.c:3111
+#: plugins/fn-math/functions.c:3117 plugins/fn-math/functions.c:3126
+#: plugins/fn-math/functions.c:3135 plugins/fn-math/functions.c:3143
+#: plugins/fn-math/functions.c:3146 plugins/fn-math/functions.c:3149
+#: plugins/fn-math/functions.c:3152 plugins/fn-math/functions.c:3155
+#: plugins/fn-math/functions.c:3160 plugins/fn-math/functions.c:3164
+#: plugins/fn-math/functions.c:3170 plugins/fn-math/functions.c:3180
+#: plugins/fn-math/functions.c:3187 plugins/fn-math/functions.c:3190
+#: plugins/fn-math/functions.c:3196 plugins/fn-math/functions.c:3199
+#: plugins/fn-math/functions.c:3212 plugins/fn-math/functions.c:3218
+#: plugins/fn-math/functions.c:3224 plugins/fn-math/functions.c:3245
+#: plugins/fn-math/functions.c:3248 plugins/fn-math/functions.c:3251
+#: plugins/fn-math/functions.c:3254 plugins/fn-math/functions.c:3257
+#: plugins/fn-math/functions.c:3270 plugins/fn-math/functions.c:3282
+#: plugins/fn-math/functions.c:3285 plugins/fn-stat/functions.c:5706
 #: plugins/fn-stat/functions.c:5709 plugins/fn-stat/functions.c:5727
-#: plugins/fn-stat/functions.c:5805 plugins/fn-string/functions.c:1119
-#: plugins/fn-string/functions.c:1122
+#: plugins/fn-stat/functions.c:5805 plugins/fn-string/functions.c:1128
+#: plugins/fn-string/functions.c:1131
 msgid "number"
 msgstr "numero"
 
@@ -6924,7 +6924,7 @@ msgstr ""
 msgid "ref,row,col,height,width"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1261 plugins/fn-math/functions.c:3370
+#: plugins/fn-lookup/functions.c:1261 plugins/fn-math/functions.c:3298
 msgid "array"
 msgstr ""
 
@@ -6940,7 +6940,7 @@ msgstr "Ricerca"
 msgid "Lookup Functions"
 msgstr "Funzioni di ricerca"
 
-#: plugins/fn-math/functions.c:143
+#: plugins/fn-math/functions.c:93
 msgid ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
@@ -6973,7 +6973,7 @@ msgstr ""
 "\n"
 "@SEEALSO= LCM"
 
-#: plugins/fn-math/functions.c:195
+#: plugins/fn-math/functions.c:145
 msgid ""
 "@FUNCTION=LCM\n"
 "@SYNTAX=LCM(number1,number2,...)\n"
@@ -7008,7 +7008,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GCD"
 
-#: plugins/fn-math/functions.c:252
+#: plugins/fn-math/functions.c:202
 msgid ""
 "@FUNCTION=HYPOT\n"
 "@SYNTAX=HYPOT(number1,number2,...)\n"
@@ -7021,7 +7021,7 @@ msgid ""
 "@SEEALSO=MIN,MAX"
 msgstr ""
 
-#: plugins/fn-math/functions.c:279
+#: plugins/fn-math/functions.c:229
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -7051,7 +7051,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, CEILING, FLOOR, INT, MOD"
 
-#: plugins/fn-math/functions.c:304
+#: plugins/fn-math/functions.c:254
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -7084,7 +7084,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:338
+#: plugins/fn-math/functions.c:288
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -7114,7 +7114,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ACOS, ASINH, DEGREES, RADIANS "
 
-#: plugins/fn-math/functions.c:371
+#: plugins/fn-math/functions.c:321
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -7145,7 +7145,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:404
+#: plugins/fn-math/functions.c:354
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -7173,7 +7173,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:428
+#: plugins/fn-math/functions.c:378
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -7203,7 +7203,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:453
+#: plugins/fn-math/functions.c:403
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -7235,7 +7235,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:486
+#: plugins/fn-math/functions.c:436
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -7269,7 +7269,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:514
+#: plugins/fn-math/functions.c:464
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -7296,7 +7296,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEILING, FLOOR, ABS, INT, MOD"
 
-#: plugins/fn-math/functions.c:538
+#: plugins/fn-math/functions.c:488
 msgid ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(range,criteria)\n"
@@ -7332,7 +7332,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT, SUMIF"
 
-#: plugins/fn-math/functions.c:609
+#: plugins/fn-math/functions.c:563
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMIF\n"
@@ -7375,7 +7375,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNTIF, SUM"
 
-#: plugins/fn-math/functions.c:753
+#: plugins/fn-math/functions.c:681
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
@@ -7393,7 +7393,7 @@ msgid ""
 "@SEEALSO=CEIL, FLOOR, ABS, INT, MOD"
 msgstr ""
 
-#: plugins/fn-math/functions.c:800
+#: plugins/fn-math/functions.c:728
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -7421,7 +7421,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: plugins/fn-math/functions.c:824
+#: plugins/fn-math/functions.c:752
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -7455,7 +7455,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
-#: plugins/fn-math/functions.c:849
+#: plugins/fn-math/functions.c:777
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -7481,7 +7481,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RADIANS, PI"
 
-#: plugins/fn-math/functions.c:873
+#: plugins/fn-math/functions.c:801
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -7507,7 +7507,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
-#: plugins/fn-math/functions.c:896
+#: plugins/fn-math/functions.c:824
 msgid ""
 "@FUNCTION=EXPM1\n"
 "@SYNTAX=EXPM1(x)\n"
@@ -7520,7 +7520,7 @@ msgid ""
 "@SEEALSO=EXP, LN1P"
 msgstr ""
 
-#: plugins/fn-math/functions.c:917
+#: plugins/fn-math/functions.c:845
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -7535,7 +7535,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-math/functions.c:954
+#: plugins/fn-math/functions.c:882
 msgid ""
 "@FUNCTION=BETA\n"
 "@SYNTAX=BETA(a,b)\n"
@@ -7552,7 +7552,7 @@ msgid ""
 "@SEEALSO=BETALN,GAMMALN"
 msgstr ""
 
-#: plugins/fn-math/functions.c:984
+#: plugins/fn-math/functions.c:912
 msgid ""
 "@FUNCTION=BETALN\n"
 "@SYNTAX=BETALN(a,b)\n"
@@ -7567,7 +7567,7 @@ msgid ""
 "@SEEALSO=BETA,GAMMALN"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1013
+#: plugins/fn-math/functions.c:941
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -7585,7 +7585,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-math/functions.c:1046
+#: plugins/fn-math/functions.c:974
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x[,significance])\n"
@@ -7604,7 +7604,7 @@ msgid ""
 "@SEEALSO=CEIL, CEILING, ABS, INT, MOD"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1090
+#: plugins/fn-math/functions.c:1018
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
@@ -7620,7 +7620,7 @@ msgid ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1115
+#: plugins/fn-math/functions.c:1043
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -7637,7 +7637,7 @@ msgid ""
 "@SEEALSO=LN, LOG2, LOG10"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1149
+#: plugins/fn-math/functions.c:1077
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -7652,7 +7652,7 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1178
+#: plugins/fn-math/functions.c:1106
 msgid ""
 "@FUNCTION=LN1P\n"
 "@SYNTAX=LN1P(x)\n"
@@ -7667,7 +7667,7 @@ msgid ""
 "@SEEALSO=LN, EXPM1"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1207
+#: plugins/fn-math/functions.c:1135
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -7686,7 +7686,7 @@ msgid ""
 "@SEEALSO=EXP"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1243
+#: plugins/fn-math/functions.c:1171
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -7700,7 +7700,7 @@ msgid ""
 "@SEEALSO=EXP, LOG10, LOG"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1269
+#: plugins/fn-math/functions.c:1197
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -7715,7 +7715,7 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1298
+#: plugins/fn-math/functions.c:1226
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -7731,7 +7731,7 @@ msgid ""
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, INT, ABS"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1349
+#: plugins/fn-math/functions.c:1277
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -7746,7 +7746,7 @@ msgid ""
 "@SEEALSO=PI,DEGREES"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1373
+#: plugins/fn-math/functions.c:1301
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -7761,7 +7761,7 @@ msgid ""
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1396
+#: plugins/fn-math/functions.c:1324
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -7778,7 +7778,7 @@ msgid ""
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1420
+#: plugins/fn-math/functions.c:1348
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -7793,7 +7793,7 @@ msgid ""
 "@SEEALSO=POWER"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1448
+#: plugins/fn-math/functions.c:1376
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -7811,7 +7811,7 @@ msgid ""
 "@SEEALSO=AVERAGE, SUM, COUNT"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1480
+#: plugins/fn-math/functions.c:1408
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -7828,7 +7828,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1511
+#: plugins/fn-math/functions.c:1439
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -7843,7 +7843,7 @@ msgid ""
 "@SEEALSO=SUM"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1540
+#: plugins/fn-math/functions.c:1468
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -7858,7 +7858,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1568
+#: plugins/fn-math/functions.c:1496
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -7873,7 +7873,7 @@ msgid ""
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1591
+#: plugins/fn-math/functions.c:1519
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -7890,7 +7890,7 @@ msgid ""
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1614
+#: plugins/fn-math/functions.c:1542
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -7906,7 +7906,7 @@ msgid ""
 "@SEEALSO=SQRTPI"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1639
+#: plugins/fn-math/functions.c:1567
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -7924,7 +7924,7 @@ msgid ""
 "@SEEALSO=INT"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1675
+#: plugins/fn-math/functions.c:1603
 #, fuzzy
 msgid ""
 "@FUNCTION=EVEN\n"
@@ -7953,7 +7953,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AND, OR"
 
-#: plugins/fn-math/functions.c:1714
+#: plugins/fn-math/functions.c:1642
 #, fuzzy
 msgid ""
 "@FUNCTION=ODD\n"
@@ -7982,7 +7982,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: plugins/fn-math/functions.c:1753
+#: plugins/fn-math/functions.c:1681
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -7999,7 +7999,7 @@ msgid ""
 "@SEEALSO=FACT"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1791
+#: plugins/fn-math/functions.c:1719
 msgid ""
 "@FUNCTION=FIB\n"
 "@SYNTAX=FIB(number)\n"
@@ -8014,7 +8014,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-math/functions.c:1839
+#: plugins/fn-math/functions.c:1767
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(numerator,denominator)\n"
@@ -8029,7 +8029,7 @@ msgid ""
 "@SEEALSO=MOD"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1871
+#: plugins/fn-math/functions.c:1799
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -8046,7 +8046,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-math/functions.c:1905
+#: plugins/fn-math/functions.c:1833
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -8061,7 +8061,7 @@ msgid ""
 "@SEEALSO=PI"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1934
+#: plugins/fn-math/functions.c:1862
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -8086,7 +8086,7 @@ msgid ""
 "@SEEALSO=ROUND,ROUNDUP"
 msgstr ""
 
-#: plugins/fn-math/functions.c:1978
+#: plugins/fn-math/functions.c:1906
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -8111,7 +8111,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2019
+#: plugins/fn-math/functions.c:1947
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -8137,7 +8137,7 @@ msgid ""
 "@SEEALSO=ROUND,ROUNDDOWN"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2063
+#: plugins/fn-math/functions.c:1991
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -8156,7 +8156,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2117
+#: plugins/fn-math/functions.c:2045
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -8180,7 +8180,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-math/functions.c:2383
+#: plugins/fn-math/functions.c:2311
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -8203,14 +8203,14 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2PY2"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2439 plugins/fn-math/functions.c:2459
-#: plugins/fn-math/functions.c:2552 plugins/fn-math/functions.c:2572
-#: plugins/fn-math/functions.c:2663 plugins/fn-math/functions.c:2683
+#: plugins/fn-math/functions.c:2367 plugins/fn-math/functions.c:2387
+#: plugins/fn-math/functions.c:2480 plugins/fn-math/functions.c:2500
+#: plugins/fn-math/functions.c:2591 plugins/fn-math/functions.c:2611
 #: plugins/fn-stat/functions.c:2934 plugins/fn-stat/functions.c:2964
 msgid "Array version not implemented!"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2497
+#: plugins/fn-math/functions.c:2425
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -8233,7 +8233,7 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2MY2"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2608
+#: plugins/fn-math/functions.c:2536
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -8256,7 +8256,7 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2721
+#: plugins/fn-math/functions.c:2649
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -8275,7 +8275,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2779
+#: plugins/fn-math/functions.c:2707
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -8291,7 +8291,7 @@ msgid ""
 "@SEEALSO=MMULT, MDETERM"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2922
+#: plugins/fn-math/functions.c:2850
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -8306,7 +8306,7 @@ msgid ""
 "@SEEALSO=TRANSPOSE,MINVERSE"
 msgstr ""
 
-#: plugins/fn-math/functions.c:2998
+#: plugins/fn-math/functions.c:2926
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -8325,7 +8325,7 @@ msgid ""
 "@SEEALSO=MMULT, MINVERSE"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3045
+#: plugins/fn-math/functions.c:2973
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -8346,11 +8346,11 @@ msgid ""
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3186
+#: plugins/fn-math/functions.c:3114
 msgid "xnum,ynum"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3192 plugins/fn-math/functions.c:3195
+#: plugins/fn-math/functions.c:3120 plugins/fn-math/functions.c:3123
 #: plugins/fn-random/functions.c:1103 plugins/fn-random/functions.c:1124
 #: plugins/fn-random/functions.c:1130 plugins/fn-random/functions.c:1169
 #: plugins/fn-random/functions.c:1184 plugins/fn-random/functions.c:1187
@@ -8358,67 +8358,67 @@ msgid "a,b"
 msgstr "a;b"
 
 #. MS Excel puts this in statistical
-#: plugins/fn-math/functions.c:3203
+#: plugins/fn-math/functions.c:3131
 msgid "range,criteria"
 msgstr "intervallo;criterio"
 
-#: plugins/fn-math/functions.c:3211
+#: plugins/fn-math/functions.c:3139
 msgid "number,significance"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3239 plugins/fn-stat/functions.c:5820
+#: plugins/fn-math/functions.c:3167 plugins/fn-stat/functions.c:5820
 msgid "n,k"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3246
+#: plugins/fn-math/functions.c:3174
 msgid "number,number"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3265
+#: plugins/fn-math/functions.c:3193
 msgid "number,base"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3274 plugins/fn-math/functions.c:3293
+#: plugins/fn-math/functions.c:3202 plugins/fn-math/functions.c:3221
 msgid "numerator,denominator"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3277
+#: plugins/fn-math/functions.c:3205
 msgid "number,multiple"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3287
+#: plugins/fn-math/functions.c:3215
 msgid "base,exponent"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3299
+#: plugins/fn-math/functions.c:3227
 msgid "number,type"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3302 plugins/fn-math/functions.c:3306
-#: plugins/fn-math/functions.c:3310 plugins/fn-math/functions.c:3360
+#: plugins/fn-math/functions.c:3230 plugins/fn-math/functions.c:3234
+#: plugins/fn-math/functions.c:3238 plugins/fn-math/functions.c:3288
 msgid "number,digits"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3314
+#: plugins/fn-math/functions.c:3242
 msgid "x,n,m,coefficients"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3336
+#: plugins/fn-math/functions.c:3264
 msgid "range,criteria,actual_range"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3339
+#: plugins/fn-math/functions.c:3267
 msgid "range,range,"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3345 plugins/fn-math/functions.c:3348
-#: plugins/fn-math/functions.c:3351 plugins/fn-math/functions.c:3367
+#: plugins/fn-math/functions.c:3273 plugins/fn-math/functions.c:3276
+#: plugins/fn-math/functions.c:3279 plugins/fn-math/functions.c:3295
 #: plugins/fn-stat/functions.c:5679 plugins/fn-stat/functions.c:5688
 #: plugins/fn-stat/functions.c:5811 plugins/fn-stat/functions.c:5867
 msgid "array1,array2"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3373 plugins/fn-math/functions.c:3377
+#: plugins/fn-math/functions.c:3301 plugins/fn-math/functions.c:3305
 msgid "array,matrix_type,bandsize"
 msgstr ""
 
@@ -11412,7 +11412,7 @@ msgid ""
 "@SEEALSO=REPLACE, TRIM"
 msgstr ""
 
-#: plugins/fn-string/functions.c:992
+#: plugins/fn-string/functions.c:1001
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[,decimals])\n"
@@ -11426,7 +11426,7 @@ msgid ""
 "@SEEALSO=FIXED, TEXT, VALUE"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1048
+#: plugins/fn-string/functions.c:1057
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(search_string,text[,start_num])\n"
@@ -11452,51 +11452,51 @@ msgid ""
 "@SEEALSO=FIND"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1134
+#: plugins/fn-string/functions.c:1143
 msgid "text,text,"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1137
+#: plugins/fn-string/functions.c:1146
 msgid "num,decimals"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1140
+#: plugins/fn-string/functions.c:1149
 msgid "text1,text2"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1143
+#: plugins/fn-string/functions.c:1152
 msgid "text1,text2,num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1146
+#: plugins/fn-string/functions.c:1155
 msgid "num,decs,no_commas"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1149 plugins/fn-string/functions.c:1173
+#: plugins/fn-string/functions.c:1158 plugins/fn-string/functions.c:1182
 msgid "text,num_chars"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1161
+#: plugins/fn-string/functions.c:1170
 msgid "text,pos,num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1167
+#: plugins/fn-string/functions.c:1176
 msgid "old,start,num,new"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1170
+#: plugins/fn-string/functions.c:1179
 msgid "text,num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1176
+#: plugins/fn-string/functions.c:1185
 msgid "search_string,text,start_num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1179
+#: plugins/fn-string/functions.c:1188
 msgid "text,old,new,num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1185
+#: plugins/fn-string/functions.c:1194
 msgid "value,format_text"
 msgstr ""
 
@@ -18137,20 +18137,20 @@ msgstr "Intestazione/Piè di pagina"
 msgid "Screen"
 msgstr "Schermo"
 
-#: src/dialogs/dialog-printer-setup.c:873
+#: src/dialogs/dialog-printer-setup.c:876
 msgid "Customize header"
 msgstr "Personalizzazione intestazione"
 
-#: src/dialogs/dialog-printer-setup.c:875
+#: src/dialogs/dialog-printer-setup.c:878
 msgid "Customize footer"
 msgstr "Personalizzazione piè di pagina"
 
-#: src/dialogs/dialog-printer-setup.c:1022
+#: src/dialogs/dialog-printer-setup.c:1025
 msgid "Custom header configuration"
 msgstr "Configurazione personalizzata intestazione"
 
 # Non torna footer
-#: src/dialogs/dialog-printer-setup.c:1027
+#: src/dialogs/dialog-printer-setup.c:1030
 msgid "Custom footer configuration"
 msgstr "1Configurazione personalizzata piè di pagina"
 
@@ -20967,12 +20967,16 @@ msgstr "«%s» è già definito nella cartella di lavoro"
 msgid "Invalid template file: %s"
 msgstr "File modello non valido: %s"
 
-#: src/file.c:522
+#: src/file.c:519
+msgid "Not a valid UTF-8 filename."
+msgstr ""
+
+#: src/file.c:529
 msgid "Saving over old files of this type is disabled for safety."
 msgstr ""
 "Il salvataggio sopra vecchi file di questo tipo è disabilitato per sicurezza."
 
-#: src/file.c:524
+#: src/file.c:531
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -22968,19 +22972,19 @@ msgstr "Salvare le modifiche alla cartella di lavoro «%s» prima di escire?"
 msgid "Save changes to workbook before logging out?"
 msgstr "Salvare le modifiche alla cartella di lavoro prima di uscire?"
 
-#: src/session.c:121
+#: src/session.c:122
 msgid "If you do not save, changes may be discarded."
 msgstr "Se non si salva le modifiche possono essere scartate."
 
-#: src/session.c:123
+#: src/session.c:124
 msgid "Do not save any"
 msgstr "Non salvare nessuno"
 
-#: src/session.c:125 src/session.c:128
+#: src/session.c:126 src/session.c:129
 msgid "Do not save"
 msgstr "Non salvare"
 
-#: src/session.c:130
+#: src/session.c:131
 msgid "Do not log out"
 msgstr "Non uscire"
 
@@ -24404,12 +24408,12 @@ msgstr "«%s» non è un numero"
 msgid "'%s' is not an integer"
 msgstr "«%s» non è un intero"
 
-#: src/validation.c:290
+#: src/validation.c:287
 #, c-format
 msgid "%s is not true."
 msgstr "%s non è vero."
 
-#: src/validation.c:304
+#: src/validation.c:301
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's contents."
@@ -24417,7 +24421,7 @@ msgstr ""
 "Questo valore non è valido\n"
 "Sono state impostate alcune restrizioni sul contenuto di questa cella."
 
-#: src/validation.c:313
+#: src/validation.c:310
 msgid "Gnumeric: Validation"
 msgstr "Gnumeric - Convalida"
 

@@ -1,3 +1,12 @@
+2005-03-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.3
+
+2005-03-07  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c (validation_rebuild_validation) : for custom
+	  and in-list we don't care about the operator.
+
 2005-02-18  Morten Welinder  <terra@gnome.org>
 
 	* dialog-printer-setup.c (spin_button_adapt_to_unit): Fix

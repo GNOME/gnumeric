@@ -1,7 +1,16 @@
+2005-03-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.3
+
+2005-03-07  Jody Goldberg <jody@gnome.org>
+
+	* src/validation.c (validation_eval) : in terms of validation
+	  from-list is the same as custom.  The difference is in the ui.
+
 2005-03-03  Jon K Hellan  <hellan@acm.org>
 
-        * src/session.c (interaction_function): Deiconify toplevel before
-        displaying save/cancel dialog.
+	* src/session.c (interaction_function): Deiconify toplevel before
+	displaying save/cancel dialog.
 
 2005-02-09  Jody Goldberg <jody@gnome.org>
 

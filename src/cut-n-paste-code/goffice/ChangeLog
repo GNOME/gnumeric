@@ -1,3 +1,7 @@
+2005-03-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.3
+
 2005-02-03  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* graph/gog-axis.c: (map_linear_auto_bound): change < to >, fix #164593.
