@@ -3826,10 +3826,6 @@ sheet_menu_state_enable_insert (Sheet *sheet, gboolean col, gboolean row)
 	if (!col_change && !row_change && !cell_change)
 		return;
 
-	sheet->priv->enable_insert_cols = col;
-	sheet->priv->enable_insert_rows = row;
-	sheet->priv->enable_insert_cells = (col|row);
-
 	WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
 		if (sheet == wb_view_cur_sheet (view)) {
 			WORKBOOK_VIEW_FOREACH_CONTROL(view, wbc,

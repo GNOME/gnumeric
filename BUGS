@@ -71,10 +71,6 @@ Long term breakage
   PARTIAL : we need to merge the StyleFormat and the regexp.  Currently only
   	works for Text formats.
 
-- We should put the sensitization/desensitization of the toolbars
-  on a timer/idle hander so that it will not trigger until a second
-  or so after the edit starts/ends.  This will decrease the irritating
-  flashing when entering data quickly.
 - The currency list in the format dialog needs to be sorted for the locale
 - When applying a currency symbol we need to store the NON-localized id.
 - Inc/Dec precision should work.  Try "44", click $, then add/remove decimals.

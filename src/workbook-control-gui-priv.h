@@ -74,6 +74,7 @@ struct _WorkbookControlGUI {
 	GtkWidget *func_button;
 
 	gboolean    updating_ui;
+	gint        ui_timer;
 
 	/* Auto completion */
 	void            *auto_complete;         /* GtkType is (Complete *) */

@@ -1,3 +1,12 @@
+2001-05-02  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/workbook-edit.c (cb_thaw_ui_toolbar): Callback timer
+	routine, re-enables the toolbars.
+	(workbook_edit_set_sensitive): Add a ui timer to eliminate
+	toolbar flickering.
+
+	* src/sheet.c (sheet_menu_state_enable_insert): Clean-up.
+
 2001-05-01  Almer S. Tigelaar  <almer@gnome.org>
  
  	* src/parser.y (yylex): Seek for matching )'s for ('s and

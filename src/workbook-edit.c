@@ -54,6 +54,31 @@ workbook_auto_complete_destroy (WorkbookControlGUI *wbcg)
 
 }
 
+static gboolean
+cb_thaw_ui_toolbar (gpointer *data)
+{
+        WorkbookControlGUI *wbcg = (WorkbookControlGUI *)data;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
+#ifdef ENABLE_BONOBO
+#warning FIXME : how to quickly sensitize and desensitize a toolbar
+#else
+	gtk_widget_set_sensitive (wbcg->standard_toolbar, TRUE);
+	gtk_widget_set_sensitive (wbcg->format_toolbar, TRUE);
+	gtk_widget_set_sensitive (wbcg->object_toolbar, TRUE);
+#endif
+
+	if (wbcg->ui_timer != 0) {
+		gtk_timeout_remove (wbcg->ui_timer);
+		wbcg->ui_timer = 0;
+	}
+	
+	return TRUE;
+}
+
+/* In milliseconds */
+#define UI_THAW_DELAY 500
+
 static void
 workbook_edit_set_sensitive (WorkbookControlGUI *wbcg, gboolean flag1, gboolean flag2)
 {
@@ -61,15 +86,28 @@ workbook_edit_set_sensitive (WorkbookControlGUI *wbcg, gboolean flag1, gboolean 
 	gtk_widget_set_sensitive (wbcg->ok_button, flag1);
 	gtk_widget_set_sensitive (wbcg->cancel_button, flag1);
 
-	/* Toolbars are insensitive while editing */
 	gtk_widget_set_sensitive (wbcg->func_button, flag2);
+	
+	/* Remove previous ui timer */	
+	if (wbcg->ui_timer != 0) {
+		gtk_timeout_remove (wbcg->ui_timer);
+		wbcg->ui_timer = 0;
+	}
+	
+	/* Toolbars are insensitive while editing */
+	if (flag2) {
+		/* We put the re-enabling of the ui on a timer */
+		wbcg->ui_timer = gtk_timeout_add (UI_THAW_DELAY, (GtkFunction) cb_thaw_ui_toolbar,
+						  wbcg);
+	} else {
 #ifdef ENABLE_BONOBO
 #warning FIXME : how to quickly sensitize and desensitize a toolbar
 #else
-	gtk_widget_set_sensitive (wbcg->standard_toolbar, flag2);
-	gtk_widget_set_sensitive (wbcg->format_toolbar, flag2);
-	gtk_widget_set_sensitive (wbcg->object_toolbar, flag2);
+		gtk_widget_set_sensitive (wbcg->standard_toolbar, flag2);
+		gtk_widget_set_sensitive (wbcg->format_toolbar, flag2);
+		gtk_widget_set_sensitive (wbcg->object_toolbar, flag2);
 #endif
+	}
 }
 
 gboolean
