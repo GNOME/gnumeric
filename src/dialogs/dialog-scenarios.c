@@ -263,7 +263,6 @@ set_selection_state (ScenariosState *state, gboolean f)
 	/* Set the sensitivies to FALSE since no selections have been made */
 	gtk_widget_set_sensitive (state->scenario_buttons->show_button, f);
 	gtk_widget_set_sensitive (state->scenario_buttons->delete_button, f);
-	gtk_widget_set_sensitive (state->scenario_buttons->summary_button, f);
 
 	if (f) {
 		GtkTreeSelection        *selection;
@@ -412,18 +411,17 @@ scenarios_delete_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
 	scenario_delete (WORKBOOK_CONTROL (state->wbcg), value, &dao);
 	set_selection_state (state, FALSE);
+
+	if (state->sheet->scenarios == NULL)
+		gtk_widget_set_sensitive
+			(state->scenario_buttons->summary_button, FALSE);
 }
 
 static void
 scenarios_summary_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			      ScenariosState *state)
 {
-	data_analysis_output_t dao;
-
-	dao_init (&dao, NewSheetOutput);
-	dao.sheet = state->sheet;
-
-	scenario_summary (WORKBOOK_CONTROL (state->wbcg), &dao);
+	scenario_summary (WORKBOOK_CONTROL (state->wbcg), state->sheet);
 }
 
 static void
@@ -528,6 +526,9 @@ dialog_scenarios (WorkbookControlGUI *wbcg)
 	if (w == NULL)
 	        goto error_out;
 	gtk_widget_set_sensitive (w, FALSE);
+	if (state->sheet->scenarios == NULL)
+		gtk_widget_set_sensitive
+			(state->scenario_buttons->summary_button, FALSE);
 
 	update_scenarios_treeview (state->scenarios_treeview,
 				   sheet->scenarios);

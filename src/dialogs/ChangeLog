@@ -1,3 +1,9 @@
+2003-04-14  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* dialog-scenarios.c (set_selection_state, dialog_scenarios): Fix
+	the summary button sensitivity.
+	(scenarios_summary_clicked_cb): New API for scenario_summary.
+	
 2003-04-14  Morten Welinder  <terra@gnome.org>
 
 	* dialog-scenarios.c (check_name): Make UTF-8 safe.
