@@ -52,6 +52,8 @@ typedef struct {
 	void (*summary_changed)     (Workbook *wb);
 	void (*filename_changed)    (Workbook *wb);
 	void (*sheet_order_changed) (Workbook *wb);
+	void (*sheet_added)         (Workbook *wb);
+	void (*sheet_deleted)       (Workbook *wb);
 } WorkbookClass;
 
 GType       workbook_get_type            (void);

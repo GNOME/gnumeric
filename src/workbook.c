@@ -49,6 +49,8 @@ enum {
 	SUMMARY_CHANGED,
 	FILENAME_CHANGED,
 	SHEET_ORDER_CHANGED,
+	SHEET_ADDED,
+	SHEET_DELETED,
 	LAST_SIGNAL
 };
 
@@ -366,6 +368,24 @@ workbook_class_init (GObjectClass *object_class)
 		WORKBOOK_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (WorkbookClass, sheet_order_changed),
+		(GSignalAccumulator) NULL, NULL,
+		gnm__VOID__VOID,
+		G_TYPE_NONE,
+		0, G_TYPE_NONE);
+
+	signals [SHEET_ADDED] = g_signal_new ("sheet_added",
+		WORKBOOK_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (WorkbookClass, sheet_added),
+		(GSignalAccumulator) NULL, NULL,
+		gnm__VOID__VOID,
+		G_TYPE_NONE,
+		0, G_TYPE_NONE);
+
+	signals [SHEET_DELETED] = g_signal_new ("sheet_deleted",
+		WORKBOOK_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (WorkbookClass, sheet_deleted),
 		(GSignalAccumulator) NULL, NULL,
 		gnm__VOID__VOID,
 		G_TYPE_NONE,
@@ -974,6 +994,8 @@ workbook_sheet_add (Workbook *wb, Sheet const *insert_after, gboolean make_dirty
 	if (make_dirty)
 		sheet_set_dirty (new_sheet, TRUE);
 
+	g_signal_emit (G_OBJECT (wb), signals [SHEET_ADDED], 0);
+
 	return new_sheet;
 }
 
@@ -1033,6 +1055,8 @@ workbook_sheet_delete (Sheet *sheet)
 
 	/* All is fine, remove the sheet */
 	workbook_sheet_detach (wb, sheet);
+
+	g_signal_emit (G_OBJECT (wb), signals [SHEET_DELETED], 0);
 }
 
 /**
