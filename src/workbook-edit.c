@@ -368,6 +368,9 @@ cb_entry_cursor_pos (WorkbookControlGUI *wbcg)
 	GtkEditable *entry = GTK_EDITABLE (wbcg_get_entry (wbcg));
 	char const *str = gtk_entry_get_text (GTK_ENTRY (entry));
 
+	if (str[0] == 0)
+		return;
+
 	/* 1) Use first selected character if there is a selection
 	 * 2) Use the character just before the edit pos if it exists
 	 * 3) Use the first character */
@@ -402,7 +405,7 @@ cb_entry_cursor_pos (WorkbookControlGUI *wbcg)
 		for (ptr = attrs; ptr != NULL ; ptr = ptr->next) {
 			PangoAttribute *attr = ptr->data;
 			attr->start_index = 0;
-			attr->end_index = 1;
+			attr->end_index = INT_MAX;
 			pango_attr_list_change (new_list, attr);
 		}
 		g_slist_free (attrs);
@@ -489,7 +492,7 @@ wbcg_edit_init_markup (WorkbookControlGUI *wbcg, PangoAttrList *markup)
 	wbcg->edit_line.full_content = mstyle_generate_attrs_full (
 		sheet_style_get (sv->sheet, sv->edit_pos.col, sv->edit_pos.row));
 	pango_attr_list_splice (wbcg->edit_line.full_content, markup, 0, 0);
-	wbcg->edit_line.cur_fmt = pango_attr_list_copy (wbcg->edit_line.full_content);
+	wbcg->edit_line.cur_fmt = pango_attr_list_copy (markup);
 
 	wbcg->edit_line.signal_insert = g_signal_connect (
 		entry, "insert-text",
@@ -533,7 +536,7 @@ wbcg_edit_add_markup (WorkbookControlGUI *wbcg, PangoAttribute *attr)
 
 	/* the format to use when inserting text, we will resize it later */
 	attr->start_index = 0;
-	attr->end_index = 1;
+	attr->end_index = INT_MAX;
 	pango_attr_list_change (wbcg->edit_line.cur_fmt, attr);
 	g_signal_emit (G_OBJECT (wbcg), wbcg_signals [WBCG_MARKUP_CHANGED], 0);
 }

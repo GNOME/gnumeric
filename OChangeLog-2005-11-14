@@ -1,5 +1,14 @@
 2004-12-20  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-edit.c (wbcg_edit_add_markup): Use range 0-INT_MAX
+	so we don't split anything.
+	(cb_entry_cursor_pos): Ditto.
+	(wbcg_edit_init_markup): The .cur_fmt from markup, not
+	full_content, so we don't end up setting font sizes, etc.
+	(cb_entry_cursor_pos): Don't do anything if the entry is empty.
+
+2004-12-20  Morten Welinder  <terra@gnome.org>
+
 	* src/workbook-edit.c (cb_delete_filter): Be much more careful.
 	Things are unsigned.
 	(cb_entry_cursor_pos): Fix confusion between editline.markup and

@@ -31,6 +31,7 @@ Morten:
 	* Fix inserting new characters into a rich text string.
 	* Fix deleting more than one character at once from a rich text
 	  string.
+	* Fix rich text problem when starting from empty.  [#161723].
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.1
