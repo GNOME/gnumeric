@@ -1,3 +1,71 @@
+2002-11-29  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_menu_state_update) : add auto
+	  filter.
+	(cb_auto_filter) : initial quicky implementation.
+	(cb_data_pivottable) : ditto.
+	(workbook_control_gui_init) : init the autofilter.
+
+	* src/value.c (value_equal) : new util.
+	(value_cmp) : new.
+
+	* src/style-color.c (gnumeric_color_init) : add green.
+
+	* src/stf.c : quiet a few warnings.
+
+	* src/sheet.c (sheet_new) : init filters and pivots.
+	(sheet_destroy_contents) : free the filters and pivots.
+	(sheet_range_calc_spans) : no one sets NO_DRAW so don't check for it.
+	(sheet_cell_calc_span) : ditto.
+
+	* src/sheet-view.c (sv_edit_pos_in_filter) : new.
+
+	* src/sheet-object.c (sheet_object_print) : no warning if the object
+	  does not print.
+	(sheet_object_clone) : nor is it a problem if it can not be cloned.
+
+	* src/sheet-object-widget.c (sheet_widget_button_set_label) : new.
+	(sheet_widget_checkbox_set_label) : new.
+	(cb_checkbox_config_cancel_clicked) :use sheet_widget_checkbox_set_label
+	(cb_checkbox_label_changed) : ditto.
+	(sheet_widget_radio_button_finalize) : free the label.
+	(sheet_widget_radio_button_set_label) : new.
+
+	* src/ranges.c (setup_range_from_value) : remove ugly release argument.
+	(setup_range_from_range_ref) : ditto.
+	(value_to_global_range) : take a GlobalRange as an arg.  No need to
+	  allocate the result.
+
+	* src/item-bar.c (item_bar_realize) : create a GC for filtered regions
+	(item_bar_unrealize) : free it.
+
+	* src/io-context.c (workbook_io_progress_set) : const the workbook.
+
+	* src/gnumeric.h : Add GnmFilter.
+	  Remove unused SPANCALC_NO_DRAW.
+
+	* src/file.c (gnum_file_saver_save_real) : view is const not output.
+	(gnum_file_saver_save) : ditto.
+
+	* src/file-priv.h (save) : view is const not output.  delete save to
+	  stream.
+
+	* src/consolidate.c (consolidate_set_destination) : adjust to less
+	  silly interface to setup_range_from_value.
+	(consolidate_add_source) : ditto.
+
+	* src/pixmaps/Makefile.am : add the pivottable icons
+	* src/application.c (gnumeric_application_setup_icons) : ditto.
+
+	* src/Makefile.am : add pivot table stub and auto filter
+	  implementation
+
+2002-11-28  Jody Goldberg <jody@gnome.org>
+
+	* src/expr-name.c (sheet_names_get_available) : document.
+	(cb_get_names) honour is_hidden.
+	(expr_name_new) : init is_hidden.
+
 2002-11-28  Jon K Hellan  <hellan@acm.org>
 
 	* src/file-priv.h (struct _GnumFileSaverClass::save): Replace
@@ -68,6 +136,24 @@
 	(gnm_common_init): Init parse_util.
 
 	* src/func.c (gnm_func_placeholder_factory): New function.
+
+2002-11-25  Jody Goldberg <jody@gnome.org>
+
+	* src/main-application.c (main) : create io-context-gtk directly.
+
+	* src/io-context-gtk.c (icg_show_gui) : remove the label, the spash
+	  has enough text.  Make the window a popup to keep it at the top
+	  with no decoration rather than a toplevel that gets buried as we
+	  open new windows. renamed form icg_init_gui, and only call later.
+	(gnumeric_io_context_gtk_new) : delete empty method.
+	(icg_init) : init the timer here.
+
+	* src/workbook-view.c (wb_view_new_from_input) : move do the recalc
+	  here to be more central.
+	* src/gui-file.c (gui_file_read) : rather than here.
+
+	* src/expr.c (gnm_expr_rewrite) : fix handling of SET.
+	  Make smarter about 3d references.
 
 2002-11-25  Jody Goldberg <jody@gnome.org>
 

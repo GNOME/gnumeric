@@ -46,7 +46,7 @@
 #include "error-info.h"
 
 #include <string.h>
-#include <stdlib.h>
+#include <gsf/gsf-output.h>
 
 typedef struct {
 	GsfOutput     *sink;
@@ -83,7 +83,7 @@ applix_write_colormap (ApplixWriteState *state)
 }
 
 void
-applix_write (IOContext *io_context, WorkbookView *wb_view, GsfOutput *sink)
+applix_write (IOContext *io_context, WorkbookView const *wb_view, GsfOutput *sink)
 {
 	ApplixWriteState	state;
 

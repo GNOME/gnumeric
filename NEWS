@@ -15,7 +15,11 @@ Jody:
 	* Optional outline markers at the begining rather than end
 	* Make the label object more useful
 	* Fix XL import for h/v only freeze with non origin start
-	* More attributes for excel97 objects
+	* More attributes for excel95 objects
+	* Support pruning 3d references on sheet deletion.
+	* Clean up some workbook view life cycle issues
+	* Begin support for auto-filters
+	* Begin support for pivot tables
 
 Jon Kåre:
         * Separate GUI for showing progress and messages before first 

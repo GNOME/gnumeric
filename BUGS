@@ -6,10 +6,11 @@ release, and longer term bugs.
 
 Release Critical
 ----------------
-    - referencing freed sheet if a sheet in a 3d ref is deleted
     - XL crashes importing our xls95 exports with names
     - referencing freed named expr from undo clipboard
     - height calculation in render value is hosed for embedded new lines
+    - setup_range_from_value
+      setup_range_from_range_ref : rename to range_init_*
 
 Pending Patches
 ---------------
@@ -58,18 +59,25 @@ Pending Patches
 
 11) look into using the default gtk font rather than our own
 
-13) export plugins UTF-8 -> ??
+13) export plugins
+    13.1) UTF-8 -> ??
+    13.2) Use gsf
 
 14) Polish up Open and Save
     14.1) merge open and import dialogs				(DONE)
     14.2) Notice mismatch between suffix and saver		(DONE)
     14.3) sort the file types by precedence and recently used
     14.4) do we want to persist recently used ?
-17) 3D reference fixes on sheet deletion
 
 19) Session management
     http://bugzilla.gnome.org/show_bug.cgi?id=69799
 20) Change =IF back to a nodes function to handle the majority case
+21) AutoFilter
+    21.1) fix sizing and mouse for scrolled combos
+    21.2) Have the selected combos do something
+    21.3) Handle range changes (cut-n-paste or ins/del col/row)
+    21.4) xml import/export
+    21.5) xls export
 
 UTF-8:
     - Window titles.
@@ -77,18 +85,18 @@ UTF-8:
 
 Probably Post 1.2 Targets
 -------------------------
+- pivot tables
+- validation from list
+- clipboard handlers in plugins
 - eggmenu (would be nice to slide in to support merging from non-bonobo build)
 - finish corba plugin
 - conditional formats : could be done if someone wanted to work on the dialog
-- pivot tables
+- Put a pango layout in rendered value
 - scripting
 - undo/redo transaction file
 - load/save of external references
 - input message				(Stored)
-- validation from list
-- clipboard handlers in plugins
 - drawing rotated borders
-- Put a pango layout in rendered value
 
 Excel i/o
     - 'Forms' import.
@@ -251,4 +259,5 @@ Finished
     16.1) optionally put markers above/left			(DONE)
     16.2) smarter handling for groups at the edge of selection	(DONE)
     16.3) implement 'clicked' for numbers callbacks		(DONE)
+17) 3D reference fixes on sheet deletion			(DONE)
 18) 'discard' for invalid expressions enters text as string	(DONE)

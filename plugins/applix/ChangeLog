@@ -1,3 +1,8 @@
+2002-11-29  Jody Goldberg <jody@gnome.org>
+
+	* applix-write.c : Add include for gsf-output.h
+	(applix_write) : tidy up the constness.
+
 2002-11-28  Jon K Hellan  <hellan@acm.org>
 
 	* applix.h (applix_write): Port to gsf output.

@@ -64,7 +64,7 @@ applix_file_open (GnumFileOpener const *fo, IOContext *io_context,
 
 void
 applix_file_save (GnumFileSaver const *fs, IOContext *io_context,
-		  WorkbookView *wb_view, GsfOutput *output)
+		  WorkbookView const *wb_view, GsfOutput *output)
 {
 	applix_write (io_context, wb_view, output);
 }

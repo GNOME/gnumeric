@@ -274,9 +274,8 @@ dif_file_open (GnumFileOpener const *fo, IOContext *io_context,
  */
 void
 dif_file_save (GnumFileSaver const *fs, IOContext *io_context,
-               WorkbookView *wbv, GsfOutput *output)
+               WorkbookView const *wbv, GsfOutput *output)
 {
-	ErrorInfo *open_error;
 	Sheet *sheet;
 	Range r;
 	gint row, col;
