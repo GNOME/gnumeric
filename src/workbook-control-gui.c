@@ -48,6 +48,7 @@
 #include "history.h"
 #include "str.h"
 #include "cell.h"
+#include "gui-file.h"
 
 #ifdef ENABLE_BONOBO
 #include "sheet-object-container.h"
@@ -145,7 +146,7 @@ cb_autosave (gpointer *data)
 	if (wbcg->autosave && workbook_is_dirty (wb_view_workbook (wb_view))) {
 	        if (wbcg->autosave_prompt && !dialog_autosave_prompt (wbcg))
 			return TRUE;
-		workbook_save (wbcg, wb_view);
+		gui_file_save (wbcg, wb_view);
 	}
 	return TRUE;
 }
@@ -889,7 +890,8 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 
 		switch (button) {
 		case 0: /* YES */
-			done = workbook_save (wbcg, wb_view);
+			done = workbook_save (WORKBOOK_CONTROL (wbcg),
+					      wb_view);
 			break;
 
 		case 1: /* NO */
@@ -981,20 +983,20 @@ cb_file_import (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	if (!fname)
 		return;
 
-	(void) workbook_import (wbcg, fname);
+	(void) gui_file_import (wbcg, fname);
 	g_free (fname);
 }
 
 static void
 cb_file_save (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	workbook_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));
+	gui_file_save (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));
 }
 
 static void
 cb_file_save_as (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	workbook_save_as (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));
+	gui_file_save_as (wbcg, wb_control_view (WORKBOOK_CONTROL (wbcg)));
 }
 
 static void

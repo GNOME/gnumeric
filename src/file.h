@@ -28,6 +28,20 @@ typedef int       (*FileFormatSave) (IOContext *context,
 typedef struct _FileOpener FileOpener;
 typedef struct _FileSaver  FileSaver;
 
+struct _FileOpener {
+	int             priority;
+	char           *format_description;
+	FileFormatProbe probe;
+	FileFormatOpen  open;
+};
+
+struct _FileSaver {
+	char            *extension;
+	char            *format_description;
+	FileFormatLevel level;
+	FileFormatSave  save;
+};
+
 void file_format_unregister_open (FileFormatProbe probe, FileFormatOpen open);
 void file_format_register_open   (int             priority,
 				  const char     *format_description,
@@ -39,14 +53,17 @@ void file_format_register_save   (char           *extension,
 				  const char     *format_description,
 				  FileFormatLevel level,
 				  FileFormatSave save_fn);
+GList *file_format_get_savers (void);
+GList *file_format_get_openers (void);
 
-/* ICK ! FIXME : split the gui out */
-gboolean      workbook_save_as   (WorkbookControlGUI *wbcg, WorkbookView *);
-gboolean      workbook_save      (WorkbookControlGUI *wbcg, WorkbookView *);
+gboolean      workbook_save_as   (WorkbookControl *wbcg, WorkbookView *,
+				  const char *name, FileSaver *saver);
+gboolean      workbook_save      (WorkbookControl *wbc, WorkbookView *);
 WorkbookView *workbook_read      (WorkbookControl *context, const char *fname);
 WorkbookView *workbook_try_read  (WorkbookControl *context, const char *fname);
-WorkbookView *workbook_import    (WorkbookControlGUI *wbcg, const char *fname);
 int           workbook_load_from (WorkbookControl *context, WorkbookView *wbv,
 				  const char *fname);
+WorkbookView *file_finish_load (WorkbookControl *wbc, WorkbookView *new_wbv);
+
 
 #endif /* GNUMERIC_FILE_H */

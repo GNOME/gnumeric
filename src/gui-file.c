@@ -114,6 +114,9 @@ gui_file_import (WorkbookControlGUI *wbcg, const char *filename)
 	return file_finish_load (WORKBOOK_CONTROL (wbcg), new_view);
 }
 
+/*
+ * Check that a given file saver is present in the file saver list.
+ */
 static gboolean
 is_saver_registered (FileSaver *saver)
 {

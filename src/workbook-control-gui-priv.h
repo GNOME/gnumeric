@@ -7,6 +7,7 @@
 #ifdef ENABLE_BONOBO
 #include <bonobo.h>
 #endif
+#include "file.h"
 
 struct _WorkbookControlGUI {
 	WorkbookControl	wb_control;
@@ -87,6 +88,8 @@ struct _WorkbookControlGUI {
         gboolean   autosave_prompt;
         gint       autosave_minutes;
         gint       autosave_timer;
+
+	FileSaver *current_saver;
 };
 
 typedef struct {
