@@ -31,6 +31,7 @@ base_files =					\
 	dialog-cell-sort.c			\
 	dialog-col-width.c			\
 	dialog-col-row.c			\
+	dialog-conditional-fmt.c		\
 	dialog-consolidate.c			\
 	dialog-fill-series.c			\
 	dialog-function-select.c		\
@@ -90,6 +91,7 @@ glade_DATA = 				\
 	cell-sort.glade			\
 	col-width.glade			\
 	colrow.glade			\
+	conditional-fmt.glade		\
 	consolidate.glade		\
 	correlation.glade		\
 	covariance.glade		\

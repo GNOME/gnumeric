@@ -1,3 +1,13 @@
+2004-04-01  Christian Neumair  <chris@gnome-de.org>
+
+	* dialog-define-names.c: Slight widget naming cleanup.
+	* exp-smoothing.glade: Some initial HIGification.
+	* fill-series.glade: ditto.
+	* moving-averages.glade: ditto.
+	* names.glade: ditto.
+	* random-generation.glade: ditto.
+	* variance-tests.glade: ditto.
+
 2004-03-28  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.3.0

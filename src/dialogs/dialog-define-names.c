@@ -454,7 +454,7 @@ static gboolean
 name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 {
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	GtkTable *table2;
+	GtkTable *definition_table;
 	GtkTreeViewColumn *column;
 
 	state->wbcg  = wbcg;
@@ -471,11 +471,11 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 			state->sv->edit_pos.row);
 
 	state->dialog = glade_xml_get_widget (state->gui, "NameGuru");
-	table2 = GTK_TABLE (glade_xml_get_widget (state->gui, "table2"));
+	definition_table = GTK_TABLE (glade_xml_get_widget (state->gui, "definition_table"));
 	state->name  = GTK_ENTRY (glade_xml_get_widget (state->gui, "name"));
 	state->expr_entry = gnm_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_absolute (state->expr_entry);
-	gtk_table_attach (table2, GTK_WIDGET (state->expr_entry),
+	gtk_table_attach (definition_table, GTK_WIDGET (state->expr_entry),
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
@@ -537,7 +537,7 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 	name_guru_populate_list (state);
 
 	gnumeric_init_help_button (
-		glade_xml_get_widget (state->gui, "helpbutton"),
+		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_DEFINE_NAMES);
 
 	/* a candidate for merging into attach guru */
