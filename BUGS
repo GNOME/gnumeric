@@ -14,7 +14,6 @@ Release Critical
 - Finish support for named ranges in applix.
 - range sel for expressions that start with +
 - 'discard' for invalid expressions enters text as string
-- strings in arrays should be quoted for display
 
 1.2 Targets
 -----------
@@ -32,8 +31,6 @@ Release Critical
 
 Pending Patches
 ---------------
-
-- Nakai's IM support (broken in the context of gnome2)
 
 Long term breakage
 ------------------

@@ -21,10 +21,8 @@
 #include "gui-util.h"
 #include "mathfunc.h"
 
-#include <glib.h>
-#include <string.h>
-#include <libgnome/gnome-util.h>
 #include <gal/widgets/e-colors.h>
+#include <string.h>
 
 #undef DEBUG_REF_COUNT
 #undef DEBUG_FONTS

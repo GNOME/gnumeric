@@ -48,7 +48,6 @@
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-stdio.h>
 
-#include <libgnome/gnome-util.h>
 #include <gsf/gsf-impl-utils.h>
 #include <locale.h>
 #include <string.h>

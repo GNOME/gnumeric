@@ -17,8 +17,6 @@
 #include "workbook-private.h"
 #include "sheet-private.h"
 
-#include <libgnorba/gnome-factory.h>
-#include <gnome.h>
 #include <bonobo/bonobo-object.h>
 
 typedef struct {

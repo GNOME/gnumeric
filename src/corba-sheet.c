@@ -29,9 +29,6 @@
 #include "cell-comment.h"
 #include "cmd-edit.h"
 
-#include <libgnorba/gnome-factory.h>
-#include <gnome.h>
-
 #define verify(cond)          if (!(cond)){ out_of_range (ev); return; }
 #define verify_val(cond,val)  if (!(cond)){ out_of_range (ev); return (val); }
 #define verify_col(c)         verify (((c) >= 0 && (c < SHEET_MAX_COLS)))

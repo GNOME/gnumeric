@@ -42,7 +42,6 @@
 #include <workbook.h>
 #include <commands.h>
 
-#include <libgnome/gnome-help.h>
 #include <glade/glade.h>
 
 #define WORKBOOK_ATTRIBUTE_KEY "workbook-attribute-dialog"

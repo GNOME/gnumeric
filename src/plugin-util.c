@@ -24,7 +24,6 @@
 #include <errno.h>
 #include <string.h>
 #include <ctype.h>
-#include <libgnome/libgnome.h>
 
 #ifndef MAP_PRIVATE
 /* For the benefit of HPUX  */

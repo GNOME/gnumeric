@@ -11,13 +11,6 @@
 #include "gnumeric.h"
 #include "file.h"
 
-#ifdef WITH_BONOBO
-#include <bonobo.h>
-#include <bonobo/bonobo-stream.h>
-#include <libgnome/gnome-util.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#endif
 #include "file-priv.h"
 #include "io-context.h"
 #include "command-context.h"
@@ -244,6 +237,10 @@ gnum_file_saver_save_real (GnumFileSaver const *fs, IOContext *io_context,
 }
 
 #if defined(GNOME2_CONVERSION_COMPLETE) && defined(WITH_BONOBO)
+#include <bonobo.h>
+#include <bonobo/bonobo-stream.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #define FILE_COPY_CHUNK_SIZE  0x10000
 
 static void

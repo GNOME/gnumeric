@@ -4,7 +4,6 @@
 #include "dialog-stf-preview.h"
 #include "gui-util.h"
 #include <stf-parse.h>
-#include <libgnomeui/libgnomeui.h>
 
 #define LINE_DISPLAY_LIMIT 128
 #define RAW_LINE_DISPLAY_LIMIT 4096

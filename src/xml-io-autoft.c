@@ -36,7 +36,6 @@
 
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
-#include <libgnome/gnome-util.h>
 #include <gal/util/e-xml-utils.h>
 #include <unistd.h>
 #include <string.h>

@@ -649,12 +649,14 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	/* Fill category list */
 	state->category_groups = category_group_list_get ();
 	if (state->category_groups == NULL) {
-		GtkWidget *wdialog;
+		GtkWidget *dialog;
 
-		wdialog = gnome_warning_dialog_parented (
-		          _("An error occurred while reading the category list"),
-		          GTK_WINDOW (state->dialog));
-		gnome_dialog_run (GNOME_DIALOG (wdialog));
+		dialog = gtk_message_dialog_new (GTK_WINDOW (state->dialog),
+				GTK_DIALOG_DESTROY_WITH_PARENT,
+				GTK_MESSAGE_WARNING,
+				GTK_BUTTONS_CLOSE,
+				_("An error occurred while reading the category list"));
+		gtk_dialog_run (GTK_DIALOG (dialog));
 	} else {
 		GList *names_list, *general_category_group_link;
 

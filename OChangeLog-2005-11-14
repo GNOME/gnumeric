@@ -1,5 +1,7 @@
 2002-08-18  Jody Goldberg <jody@gnome.org>
 
+	* A pile of header cleanups.
+
 	* src/gui-clipboard.c (x_claim_clipboard) : fix warnings.
 
 2002-08-18  Jon K Hellan  <hellan@acm.org>

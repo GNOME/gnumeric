@@ -18,7 +18,6 @@
 #include <style-color.h>
 
 #include <gsf/gsf-impl-utils.h>
-#include <libgnomeui/libgnomeui.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

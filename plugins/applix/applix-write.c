@@ -25,7 +25,6 @@
  */
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include <libgnome/libgnome.h>
 #include "applix.h"
 #include "application.h"
 #include "expr.h"

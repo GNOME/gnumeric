@@ -6,12 +6,9 @@
  *
  * (C) 1998-2001 Michael Meeks
  **/
-#include <stdio.h>
-#include <sys/stat.h>
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
-#include <gnome.h>
 
 #include "file.h"
 #include "libgnumeric.h"

@@ -12,7 +12,6 @@
 #include "plugin.h"
 #include "plugin-service.h"
 
-#include <libgnome/libgnome.h>
 #include <gsf/gsf-impl-utils.h>
 
 #define PARENT_TYPE (gtk_object_get_type ())

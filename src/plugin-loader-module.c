@@ -15,7 +15,6 @@
 #include "plugin-service.h"
 #include "plugin-loader.h"
 
-#include <libgnome/libgnome.h>
 #include <gal/util/e-xml-utils.h>
 #include <gsf/gsf-impl-utils.h>
 #include <libxml/parser.h>

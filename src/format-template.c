@@ -34,7 +34,6 @@
 #include "plugin-util.h"	/* for gnumeric_fopen */
 #include <string.h>
 #include <libxml/parser.h>
-#include <libgnome/gnome-util.h>
 #include <gal/util/e-xml-utils.h>
 
 /******************************************************************************
@@ -600,7 +599,7 @@ format_template_new_from_file (char const *filename, CommandContext *cc)
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
-	if (!g_file_exists (filename))
+	if (!g_file_test (filename, G_FILE_TEST_EXISTS))
 		return NULL;
 
 	doc = xmlParseFile (filename);

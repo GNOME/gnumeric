@@ -51,9 +51,6 @@ extern gboolean EmbeddableGridFactory_init (void);
 #include <gal/widgets/e-cursors.h>
 #include <glade/glade.h>
 
-#include <libgnome/gnome-config.h>
-#include <libgnomeui/gnome-window-icon.h>
-
 #ifdef WITH_BONOBO
 #include <bonobo.h>
 #endif
@@ -183,7 +180,6 @@ gnm_shutdown (void)
 
 	global_gnome_font_shutdown ();
 
-	gnome_config_drop_all ();
 	application_release_gconf_client ();
 	
 	g_object_unref (gnumeric_application_get_app ());
