@@ -54,6 +54,8 @@ void  gog_renderer_draw_polygon   (GogRenderer *r, ArtVpath const *path,
 				   gboolean narrow, GogViewAllocation const *bound);
 void  gog_renderer_draw_rectangle (GogRenderer *r, GogViewAllocation const *rect,
 				   GogViewAllocation const *bound);
+void  gog_renderer_draw_bezier_path      (GogRenderer *r, ArtBpath const *path,
+				   GogViewAllocation const *bound);
 
 void  gog_renderer_draw_text	  (GogRenderer *rend, char const *text,
 				   GogViewAllocation const *pos, GtkAnchorType anchor,

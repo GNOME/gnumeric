@@ -32,6 +32,7 @@
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-math.h>
+#include <goffice/utils/go-line.h>
 
 #include <module-plugin-defs.h>
 #include <glib/gi18n.h>
@@ -261,7 +262,8 @@ GSF_CLASS (Gog2DPlot, gog_2d_plot,
 enum {
 	GOG_XY_PROP_0,
 	GOG_XY_PROP_DEFAULT_STYLE_HAS_MARKERS,
-	GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES
+	GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES,
+	GOG_XY_PROP_USE_SPLINES
 };
 
 static GogObjectClass *xy_parent_klass;
@@ -289,6 +291,9 @@ gog_xy_set_property (GObject *obj, guint param_id,
 	case GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES:
 		xy->default_style_has_lines = g_value_get_boolean (value);
 		break;
+	case GOG_XY_PROP_USE_SPLINES:
+		xy->use_splines = g_value_get_boolean (value);
+		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
 	}
@@ -304,6 +309,9 @@ gog_xy_get_property (GObject *obj, guint param_id,
 		break;
 	case GOG_XY_PROP_DEFAULT_STYLE_HAS_LINES:
 		g_value_set_boolean (value, xy->default_style_has_lines);
+		break;
+	case GOG_XY_PROP_USE_SPLINES:
+		g_value_set_boolean (value, xy->use_splines);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -329,6 +337,10 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 		g_param_spec_boolean ("default-style-has-lines", NULL,
 			"Should the default style of a series include lines",
 			TRUE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, GOG_XY_PROP_USE_SPLINES,
+		g_param_spec_boolean ("use-splines", NULL,
+			"Should the plot use splines instead of linear interpolation",
+			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	gog_klass->type_name	= gog_xy_plot_type_name;
 
@@ -635,6 +647,19 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				n = tmp;
 		}
 		style = GOG_STYLED_OBJECT (series)->style;
+
+		if (n <= 0)
+			continue;
+
+		show_marks = gog_style_is_marker_visible (style);
+		show_lines = gog_style_is_line_visible (style);
+		if (!show_marks && !show_lines)
+			continue;
+
+		if (model->base.vary_style_by_element)
+			style = gog_style_dup (style);
+		gog_renderer_push_style (view->renderer, style);
+
 		if (GOG_IS_BUBBLE_PLOT (model)) {
 			double zmin;
 			go_data_vector_get_minmax (GO_DATA_VECTOR (series->base.values[2].data), &zmin, &zmax);
@@ -652,8 +677,6 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				neg_style->fill.pattern.pattern = GO_PATTERN_SOLID;
 				neg_style->fill.pattern.back = RGBA_WHITE;
 			}
-			if (model->base.vary_style_by_element)
-				style = gog_style_dup (style);
 	
 			z_vals = go_data_vector_get_values (
 				GO_DATA_VECTOR (series->base.values[2].data));
@@ -661,21 +684,26 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 				GO_DATA_VECTOR (series->base.values[2].data));
 			if (n > tmp)
 				n = tmp;
+		} else if (GOG_XY_PLOT (view->model)->use_splines && show_lines) {
+			ArtBpath *path;
+			double *x_splines = g_new (double, n), *y_splines = g_new (double, n);
+			for (i = 0; i < n; i++) {
+				x = x_vals ? x_vals[i] : i;
+				x_splines[i] = gog_axis_map_to_canvas (x_map, x);
+				y_splines[i] = gog_axis_map_to_canvas (y_map, y_vals[i]);
+			}
+			path = go_line_build_bpath (x_splines, y_splines, n);
+			gog_renderer_draw_bezier_path (view->renderer, path, &view->residual);
+			art_free (path);
+			g_free (x_splines);
+			g_free (y_splines);
+			show_lines = FALSE;
 		}
-
-		if (n <= 0)
-			continue;
-
-		show_marks = gog_style_is_marker_visible (style);
-		show_lines = gog_style_is_line_visible (style);
-		if (!show_marks && !show_lines)
-			continue;
 
 		if (show_marks && !GOG_IS_BUBBLE_PLOT (model))
 			markers[j] = g_new (MarkerData, n);
 
 		prev_valid = FALSE;
-		gog_renderer_push_style (view->renderer, style);
 		margin = gog_renderer_line_size (view->renderer, 1);
 		x_margin_min = view->allocation.x - margin;
 		x_margin_max = view->allocation.x + view->allocation.w + margin;

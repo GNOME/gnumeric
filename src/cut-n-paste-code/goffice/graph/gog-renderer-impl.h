@@ -74,6 +74,8 @@ typedef struct {
 				 GogViewAllocation const *bound);
 	void (*draw_polygon)   	(GogRenderer *renderer, ArtVpath const *path, gboolean narrow,
 				 GogViewAllocation const *bound);
+	void (*draw_bezier_path)      	(GogRenderer *renderer, ArtBpath const *path,
+				 GogViewAllocation const *bound);
 	void (*draw_text)      	(GogRenderer *rend, char const *text,
 				 GogViewAllocation const *pos, GtkAnchorType anchor,
 				 GogViewAllocation *result);

@@ -21,6 +21,13 @@
 	  sample_image_file="chart_scatter_3_2.png">
 	  <property name="default-style-has-markers">FALSE</property>
     </Type>
+    <Type _name="XY Splines" row="2" col="3"
+	  engine="GogXYPlot" family="XY"
+	  _description="Interpolate between multi-dimensional points with Bezier splines."
+	  sample_image_file="chart_scatter_3_3.png">
+	  <property name="default-style-has-markers">FALSE</property>
+	  <property name="use-splines">TRUE</property>
+    </Type>
     <Type _name="Bubble" row="1" col="1"
 	  engine="GogBubblePlot" family="Bubble"
 	  _description="Multi-dimensional points with circle at each point."

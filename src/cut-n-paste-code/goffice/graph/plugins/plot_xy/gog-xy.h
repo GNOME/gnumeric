@@ -40,6 +40,7 @@ typedef struct {
 	Gog2DPlot	base;
 	gboolean	default_style_has_markers;
 	gboolean	default_style_has_lines;
+	gboolean	use_splines;
 } GogXYPlot;
 
 typedef struct {

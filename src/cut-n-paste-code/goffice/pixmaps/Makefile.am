@@ -26,7 +26,7 @@ icon_DATA = \
 	chart_ring_1_1.png 	chart_ring_1_2.png \
 	chart_scatter_1_1.png  \
 	chart_scatter_2_1.png	chart_scatter_2_2.png \
-	chart_scatter_3_1.png	chart_scatter_3_2.png \
+	chart_scatter_3_1.png	chart_scatter_3_2.png	chart_scatter_3_3.png \
 	chart_bubble_1_1.png \
 	chart_contour_1_1.png \
 	\

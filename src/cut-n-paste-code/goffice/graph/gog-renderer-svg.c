@@ -379,6 +379,66 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path,
 }
 
 static void
+gog_renderer_svg_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
+			       GogViewAllocation const *bound)
+{
+	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
+	GogStyle const *style = rend->cur_style;
+	xmlNodePtr node;
+	GString *string;
+	char *buf;
+	int opacity;
+	char *old_num_locale;
+
+	if (style->line.dash_type == GO_LINE_NONE)
+		return;
+	
+	node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
+	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+
+	setlocale (LC_NUMERIC, "C");
+	xmlAddChild (prend->current_node, node);
+	string = g_string_new ("");
+	for ( ; path->code != ART_END ; path++)
+		switch (path->code) {
+		case ART_MOVETO_OPEN :
+		case ART_MOVETO :
+			g_string_append_printf (string, "M%g %g", path->x3, path->y3);
+			break;
+		case ART_LINETO :
+			g_string_append_printf (string, "L%g %g", path->x3, path->y3);
+			break;
+		case ART_CURVETO :
+			g_string_append_printf (string, "C%g %g %g %g %g %g",
+									path->x1, path->y1,
+									path->x2, path->y2,
+									path->x3, path->y3);
+			break;
+		default :
+			break;
+		}
+
+	xmlNewProp (node, CC2XML ("d"), CC2XML (string->str));
+	g_string_free (string, TRUE);
+	xmlNewProp (node, CC2XML ("fill"), CC2XML ("none"));
+	buf = g_strdup_printf ("%g", gog_renderer_line_size (rend, style->line.width));
+	xmlNewProp (node, CC2XML ("stroke-width"), CC2XML (buf));
+	g_free (buf);
+	stroke_dasharray (node, rend->line_dash);
+	buf = g_strdup_printf ("#%06x", style->line.color >> 8);
+	xmlNewProp (node, CC2XML ("stroke"), CC2XML (buf));
+	g_free (buf);
+	opacity = style->line.color & 0xff;
+	if (opacity != 255) {
+		buf = g_strdup_printf ("%g", (double) opacity / 255.);
+		xmlNewProp (node, CC2XML ("stroke-opacity"), CC2XML (buf));
+		g_free (buf);
+	}
+	setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
+}
+
+static void
 gog_renderer_svg_draw_marker (GogRenderer *rend, double x, double y)
 {
 	GogRendererSvg *prend = GOG_RENDERER_SVG (rend);
@@ -595,6 +655,7 @@ gog_renderer_svg_class_init (GogRendererClass *rend_klass)
 	rend_klass->clip_pop	 	= gog_renderer_svg_clip_pop;
 	rend_klass->draw_path	  	= gog_renderer_svg_draw_path;
 	rend_klass->draw_polygon  	= gog_renderer_svg_draw_polygon;
+	rend_klass->draw_bezier_path = gog_renderer_svg_draw_bezier_path;
 	rend_klass->draw_text	  	= gog_renderer_svg_draw_text;
 	rend_klass->draw_marker	  	= gog_renderer_svg_draw_marker;
 	rend_klass->measure_text  	= gog_renderer_svg_measure_text;

@@ -260,6 +260,15 @@ gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path,
 			     prend->pixels, prend->rowstride);
 	art_svp_free (svp);
 }
+  
+static void
+gog_renderer_pixbuf_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
+			       GogViewAllocation const *bound)
+{
+	ArtVpath *vpath = art_bez_path_to_vec (path, .1);
+	gog_renderer_pixbuf_draw_path (rend, vpath, bound);
+	art_free (vpath);
+}
 
 static ArtRender *
 gog_art_renderer_new (GogRendererPixbuf *prend)
@@ -704,6 +713,7 @@ gog_renderer_pixbuf_class_init (GogRendererClass *rend_klass)
 	rend_klass->sharp_path		= gog_renderer_pixbuf_sharp_path;
 	rend_klass->draw_path	  	= gog_renderer_pixbuf_draw_path;
 	rend_klass->draw_polygon  	= gog_renderer_pixbuf_draw_polygon;
+	rend_klass->draw_bezier_path = gog_renderer_pixbuf_draw_bezier_path;
 	rend_klass->draw_text	  	= gog_renderer_pixbuf_draw_text;
 	rend_klass->draw_marker	  	= gog_renderer_pixbuf_draw_marker;
 	rend_klass->measure_text  	= gog_renderer_pixbuf_measure_text;

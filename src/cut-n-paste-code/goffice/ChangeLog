@@ -1,3 +1,26 @@
+2005-01-22  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* graph/gog-renderer-gnome-print.c:
+	(gog_renderer_gnome_print_draw_bezier_path),
+	(gog_renderer_gnome_print_class_init): add Bezier paths support.
+	* graph/gog-renderer-impl.h: ditto.
+	* graph/gog-renderer-pixbuf.c:
+	(gog_renderer_pixbuf_draw_bezier_path),
+	(gog_renderer_pixbuf_class_init): ditto.
+	* graph/gog-renderer-svg.c: (gog_renderer_svg_draw_bezier_path),
+	(gog_renderer_svg_class_init): ditto.
+	* graph/gog-renderer.c: (gog_renderer_draw_bezier_path): ditto.
+	* graph/gog-renderer.h: ditto.
+	* graph/plugins/plot_xy/gog-xy.c: (gog_xy_set_property),
+	(gog_xy_get_property), (gog_xy_plot_class_init),
+	(gog_xy_view_render): add spline interpolation support.
+	* graph/plugins/plot_xy/gog-xy.h: ditto.
+	* graph/plugins/plot_xy/plot-types.xml.in: ditto.
+	* pixmaps/Makefile.am: install chart_scatter_3_3.png.
+	* utils/go-line.c: (go_line_build_bpath): new function, builds a Bezier path
+	from an array of points.
+	* utils/go-line.h: add go_line_build_bpath.
+
 2005-01-17  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.4.2

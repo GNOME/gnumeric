@@ -1,5 +1,8 @@
 Gnumeric 1.5.0
 
+Jean Brefort:
+	* add scatter plots with spline interpolation.
+
 Jody:
 	* RTL support.
 

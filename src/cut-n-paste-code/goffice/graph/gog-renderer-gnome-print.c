@@ -439,6 +439,58 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath const *pa
 }
 
 static void
+gog_renderer_gnome_print_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
+			       GogViewAllocation const *bound)
+{
+	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
+	GogStyle const *style = rend->cur_style;
+
+	if (style->line.dash_type == GO_LINE_NONE)
+		return;
+
+	set_color (prend, style->line.color);
+	set_dash (prend, rend->line_dash);
+	gnome_print_setlinewidth (prend->gp_context,
+		gog_renderer_line_size (rend, style->line.width));
+
+	if (bound != NULL)
+		setup_clip (prend, bound);
+	
+	gnome_print_newpath (prend->gp_context);
+	for ( ; path->code != ART_END ; path++)
+		switch (path->code) {
+		case ART_MOVETO_OPEN :
+		case ART_MOVETO :
+			gnome_print_moveto (prend->gp_context,
+					    path->x3, -path->y3);
+			break;
+		case ART_LINETO :
+			gnome_print_lineto (prend->gp_context,
+					    path->x3, -path->y3);
+			break;
+		case ART_CURVETO :
+			gnome_print_curveto (prend->gp_context,
+					    path->x1, -path->y1,
+					    path->x2, -path->y2,
+					    path->x3, -path->y3);
+			break;
+		default :
+			break;
+		}
+/*	if (style->line.dash_type != GO_LINE_SOLID && renderer->cur_clip != NULL) {
+		ArtVpath *clipped = go_line_clip_vpath (path, &renderer->cur_clip->area);
+		draw_path (prend, clipped);
+		g_free (clipped);
+	} else
+		draw_path (prend, path);*/
+
+	gnome_print_stroke (prend->gp_context);
+	
+	if (bound != NULL)
+		gnome_print_grestore (prend->gp_context);
+}
+
+static void
 gog_renderer_gnome_print_draw_text (GogRenderer *rend, char const *text,
 				    GogViewAllocation const *pos, GtkAnchorType anchor,
 				    GogViewAllocation *result)
@@ -594,6 +646,7 @@ gog_renderer_gnome_print_class_init (GogRendererClass *rend_klass)
 	rend_klass->clip_pop		= gog_renderer_gnome_print_clip_pop;
 	rend_klass->draw_path	  	= gog_renderer_gnome_print_draw_path;
 	rend_klass->draw_polygon  	= gog_renderer_gnome_print_draw_polygon;
+	rend_klass->draw_bezier_path = gog_renderer_gnome_print_draw_bezier_path;
 	rend_klass->draw_text	  	= gog_renderer_gnome_print_draw_text;
 	rend_klass->draw_marker	  	= gog_renderer_gnome_print_draw_marker;
 	rend_klass->measure_text  	= gog_renderer_gnome_print_measure_text;

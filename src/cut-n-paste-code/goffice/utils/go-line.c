@@ -23,6 +23,7 @@
 
 #include "go-color.h"
 #include "go-line.h"
+#include "go-math.h"
 
 #ifdef WITH_GTK
 #include <goffice/gui-utils/go-combo-pixmaps.h>
@@ -311,5 +312,91 @@ go_line_dash_selector (GOLineDashType default_type)
 						      _(line_dashes[dash_type].label));
 	}
 	return w;
+}
+
+ArtBpath*
+go_line_build_bpath (double const *x, double const *y, int n)
+{
+	ArtBpath *path;
+	int i, j, start, cur, nb;
+	double *lengths, *angles, curx, cury, t, t0, a0, a1;
+
+	g_return_val_if_fail (n > 0, NULL);
+
+	path = art_new (ArtBpath, n + 1);
+	lengths = g_new (double, n - 1);
+	angles = g_new (double, n - 1);
+
+	j = -1;
+	for (start = nb = cur = i = 0; i <= n; i++) {
+		if ((i == n) || isnan (x[i]) || !go_finite (x[i]) || (fabs (x[i]) == DBL_MAX) ||
+			isnan (y[i]) || !go_finite (y[i]) || (fabs (y[i]) == DBL_MAX)) {
+			/* invalid or infinite points interrupt the curve; DBL_MAX is also filtered
+			because this value is returned when mapping an negative value to a logarithmic
+			axis. */
+			switch (nb) {
+			case 0: /* invalid point: don't draw anything */
+				break;
+			case 1: /* isolated point: don't draw anything */
+				j--;
+				break;
+			case 2: /* two points: draw a linear segment*/
+				path[start++].code = ART_MOVETO_OPEN;
+				path[start++].code = ART_LINETO;
+				cur = start;
+				break;
+			default: /* draw a bezier spline */
+				path[start].code = ART_MOVETO_OPEN;
+				while (start < j) {
+					curx = path[start + 1].x3 - path[start].x3;
+					cury = path[start + 1].y3 - path[start].y3;
+					lengths[start] = sqrt (curx * curx + cury * cury) / 4.;
+					angles[start] = atan2 (cury, curx);
+					start++ ;
+					path[start].code = ART_CURVETO;
+				}
+				start++;
+				a0 = angles[cur];
+				a1 = angles[cur + 1];
+				if (fabs (a1 - a0) > M_PI)
+					a1 -= (a1 > a0)? 2. * M_PI: -2. * M_PI;
+				t = (a0 * lengths[cur + 1] + a1 * lengths[cur])
+					/ (lengths[cur] + lengths[cur + 1]);
+				t0 = (a0 * 3. - t) / 2.;
+				cur++;
+				while (cur < j) {
+					path[cur].x1 = path[cur - 1].x3 + lengths[cur - 1] * cos (t0);
+					path[cur].y1 = path[cur - 1].y3 + lengths[cur - 1] * sin (t0);
+					path[cur].x2 = path[cur].x3 - lengths[cur - 1] * cos (t);
+					path[cur].y2 = path[cur].y3 - lengths[cur - 1] * sin (t);
+					t0 = t;
+					a0 = a1;
+					a1 = angles[cur + 1];
+					if (fabs (a1 - a0) > M_PI)
+						a1 -= (a1 > a0)? 2. * M_PI: -2. * M_PI;
+					t = (a0 * lengths[cur + 1] + a1 * lengths[cur])
+						/ (lengths[cur] + lengths[cur + 1]);
+					cur++;
+				}
+				path[cur].x1 = path[cur - 1].x3 + lengths[cur - 1] * cos (t0);
+				path[cur].y1 = path[cur - 1].y3 + lengths[cur - 1] * sin (t0);
+				t = (a0 * 3. - t0) / 2.;
+				path[cur].x2 = path[cur].x3 - lengths[cur - 1] * cos (t);
+				path[cur].y2 = path[cur].y3 - lengths[cur - 1] * sin (t);
+				cur++;
+			}
+			nb = 0;
+		} else if (!nb || ((path[j].x3 != x[i]) && (path[j].y3 != y[i]))) {
+			j++;
+			path[j].x3 = x[i];
+			path[j].y3 = y[i];
+			nb++;
+		}
+	}
+
+	path[start].code = ART_END;
+	g_free (lengths);
+	g_free (angles);
+	return path;
 }
 #endif /*WITH_GTK*/

@@ -285,7 +285,7 @@ gog_renderer_clip_pop (GogRenderer *rend)
 }
 
 /**
- * gog_renderer_draw_sharp_polygon :
+ * gog_renderer_draw_sharp_path :
  * @rend : #GogRenderer
  * @path  : #ArtVpath
  * @bound  : #GogViewAllocation optional clip
@@ -311,7 +311,7 @@ gog_renderer_draw_sharp_path (GogRenderer *rend, ArtVpath *path,
 }
 
 /**
- * gog_renderer_draw_polygon :
+ * gog_renderer_draw_path :
  * @rend : #GogRenderer
  * @path  : #ArtVpath
  * @bound  : #GogViewAllocation optional clip
@@ -378,6 +378,27 @@ gog_renderer_draw_polygon (GogRenderer *rend, ArtVpath const *path, gboolean nar
 	g_return_if_fail (rend->cur_style != NULL);
 
 	(klass->draw_polygon) (rend, path, narrow, bound);
+}
+
+
+/**
+ * gog_renderer_draw_bezier_path :
+ * @rend : #GogRenderer
+ * @path  : #ArtBpath
+ * @bound  : #GogViewAllocation optional clip
+ *
+ * Draws @path using the outline elements of the current style.
+ **/
+void
+gog_renderer_draw_bezier_path (GogRenderer *rend, ArtBpath const *path,
+				GogViewAllocation const *bound)
+{
+	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
+
+	g_return_if_fail (klass != NULL);
+	g_return_if_fail (rend->cur_style != NULL);
+
+	(klass->draw_bezier_path) (rend, path, bound);
 }
 
 /**
@@ -626,4 +647,3 @@ gog_renderer_pt2r (GogRenderer const *rend, double d)
 {
 	return d * rend->scale;
 }
-
