@@ -896,8 +896,8 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 		gnumeric_notice_nonmodal
 			((GtkWindow *) state->dialog,
 			  &(state->warning_dialog),
-			  GTK_MESSAGE_WARNING, _("You have not specified "
-						 "a problem to be solved"));
+			  GTK_MESSAGE_ERROR, _("You have not specified "
+					       "a problem to be solved"));
 		return;
 	}
 
@@ -915,8 +915,8 @@ cb_dialog_solve_clicked (G_GNUC_UNUSED GtkWidget *button,
 		gnumeric_notice_nonmodal
 			((GtkWindow *) state->dialog,
 			 &(state->warning_dialog),
-			 GTK_MESSAGE_WARNING, _("Target cell should contain "
-						"a formula."));
+			 GTK_MESSAGE_ERROR, _("Target cell should contain "
+					      "a formula."));
 		return;
 	}
 

@@ -518,6 +518,13 @@ scenarios_summary_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	results = gnm_expr_entry_parse_as_value (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 
+	if (results == NULL) {
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, 
+				 _("Results entry did not contain valid "
+				   "cell names."));
+		return;
+	}
+
 	scenario_summary (WORKBOOK_CONTROL (state->wbcg), state->sheet,
 			  results, &new_sheet);
 	
