@@ -44,21 +44,7 @@
       </child>
 
       <child>
-	<widget class="GtkHSeparator" id="hseparator1">
-	  <property name="visible">True</property>
-	</widget>
-	<packing>
-	  <property name="left_attach">0</property>
-	  <property name="right_attach">2</property>
-	  <property name="top_attach">3</property>
-	  <property name="bottom_attach">4</property>
-	  <property name="y_padding">6</property>
-	  <property name="y_options">fill</property>
-	</packing>
-      </child>
-
-      <child>
-	<widget class="GtkCheckButton" id="axis_invert">
+	<widget class="GtkCheckButton" id="invert-axis">
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="yes">_Invert</property>
@@ -153,7 +139,7 @@
       </child>
 
       <child>
-	<widget class="GtkCheckButton" id="major_tick_labeled">
+	<widget class="GtkCheckButton" id="major-tick-labeled">
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="yes">_Show Labels</property>
@@ -174,7 +160,7 @@
       </child>
 
       <child>
-	<widget class="GtkCheckButton" id="major_tick_outside">
+	<widget class="GtkCheckButton" id="major-tick-out">
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="yes">_Outside</property>
@@ -195,7 +181,7 @@
       </child>
 
       <child>
-	<widget class="GtkCheckButton" id="major_tick_inside">
+	<widget class="GtkCheckButton" id="major-tick-in">
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="yes">_Inside</property>
@@ -300,7 +286,7 @@
       </child>
 
       <child>
-	<widget class="GtkCheckButton" id="minor_tick_outside">
+	<widget class="GtkCheckButton" id="minor-tick-out">
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="yes">O_utside</property>
@@ -321,7 +307,7 @@
       </child>
 
       <child>
-	<widget class="GtkCheckButton" id="minor_tick_inside">
+	<widget class="GtkCheckButton" id="minor-tick-in">
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="label" translatable="yes">I_nside</property>
@@ -364,6 +350,21 @@
 	  <property name="bottom_attach">3</property>
 	  <property name="x_options">fill</property>
 	  <property name="y_options"></property>
+	</packing>
+      </child>
+
+      <child>
+	<widget class="GtkHSeparator" id="hseparator1">
+	  <property name="visible">True</property>
+	</widget>
+	<packing>
+	  <property name="left_attach">0</property>
+	  <property name="right_attach">2</property>
+	  <property name="top_attach">3</property>
+	  <property name="bottom_attach">4</property>
+	  <property name="y_padding">6</property>
+	  <property name="x_options">fill</property>
+	  <property name="y_options">fill</property>
 	</packing>
       </child>
     </widget>

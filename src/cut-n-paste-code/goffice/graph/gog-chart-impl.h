@@ -41,7 +41,8 @@ struct _GogChart {
 	/* use a simple grid layout to position charts within graph */
 	unsigned x, y, cols, rows;
 
-	GSList *axes;
+	GogObject *grid;
+	GSList  *axes;
 	GogAxisSet axis_set;
 };
 typedef GogStyledObjectClass GogChartClass;

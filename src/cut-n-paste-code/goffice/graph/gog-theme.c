@@ -410,6 +410,14 @@ gog_themes_init	(void)
 	style->fill.type = GOG_FILL_STYLE_NONE;
 	gog_theme_add_element (theme, style, NULL, "GogAxis", NULL);
 
+	/* Grid */
+	style = gog_style_new ();
+	style->line.width = 0.; /* hairline */
+	style->line.color = RGBA_GREY (0x20);
+	style->fill.type  = GOG_FILL_STYLE_PATTERN;
+	go_pattern_set_solid (&style->fill.u.pattern.pat, RGBA_GREY (0xd0));
+	gog_theme_add_element (theme, style, NULL, "GogGrid", NULL);
+
 	/* series */
 	style = gog_style_new ();
 	style->outline.color = RGBA_BLACK;
@@ -457,6 +465,14 @@ gog_themes_init	(void)
 	style->line.color = RGBA_GREY (0x20);
 	style->fill.type = GOG_FILL_STYLE_NONE;
 	gog_theme_add_element (theme, style, NULL, "GogAxis", NULL);
+
+	/* Grid */
+	style = gog_style_new ();
+	style->line.width = 0.; /* hairline */
+	style->line.color = RGBA_GREY (0x20);
+	style->fill.type  = GOG_FILL_STYLE_PATTERN;
+	go_pattern_set_solid (&style->fill.u.pattern.pat, RGBA_GREY (0xd0));
+	gog_theme_add_element (theme, style, NULL, "GogGrid", NULL);
 
 	/* series */
 	style = gog_style_new ();

@@ -26,6 +26,7 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-axis.h>
+#include <goffice/graph/gog-grid.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/utils/go-units.h>
 
@@ -132,6 +133,28 @@ role_plot_pre_remove (GogObject *parent, GogObject *plot)
 }
 
 static gboolean
+role_grid_can_add (GogObject const *parent)
+{
+	GogChart const *chart = GOG_CHART (parent);
+	return chart->grid == NULL && chart->axis_set == GOG_AXIS_SET_XY;
+}
+static void
+role_grid_post_add (GogObject *parent, GogObject *child)
+{
+	GogChart *chart = GOG_CHART (parent);
+	g_return_if_fail (chart->grid == NULL);
+	chart->grid = child;
+}
+
+static void
+role_grid_pre_remove (GogObject *parent, GogObject *grid)
+{
+	GogChart *chart = GOG_CHART (parent);
+	g_return_if_fail (chart->grid == grid);
+	chart->grid = NULL;
+}
+
+static gboolean
 axis_can_add (GogObject const *parent, GogAxisType t)
 {
 	GogChart *chart = GOG_CHART (parent);
@@ -175,19 +198,22 @@ static GogObjectRole const roles[] = {
 	{ N_("Title"), "GogLabel",	1,
 	  GOG_POSITION_COMPASS, GOG_POSITION_N|GOG_POSITION_ALIGN_CENTER, GOG_OBJECT_NAME_BY_ROLE,
 	  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } },
-	{ N_("X-Axis"), "GogAxis",	0,
+	{ N_("Grid"), "GogGrid",	0,
+	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+	  role_grid_can_add, NULL, NULL, role_grid_post_add, role_grid_pre_remove, NULL, { -1 } },
+	{ N_("X-Axis"), "GogAxis",	1,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  x_axis_can_add, axis_can_remove, NULL, x_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_X } },
-	{ N_("Y-Axis"), "GogAxis",	1,
+	{ N_("Y-Axis"), "GogAxis",	2,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  y_axis_can_add, axis_can_remove, NULL, y_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_Y } },
-	{ N_("Z-Axis"), "GogAxis",	2,
+	{ N_("Z-Axis"), "GogAxis",	3,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
 	  z_axis_can_add, axis_can_remove, NULL, z_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_Z } },
-	{ N_("Plot"), "GogPlot",	3,	/* keep the axis before the plots */
+	{ N_("Plot"), "GogPlot",	4,	/* keep the axis before the plots */
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_TYPE,
 	  NULL, NULL, NULL, role_plot_post_add, role_plot_pre_remove, NULL, { -1 } }
 };
@@ -366,6 +392,13 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 	if (chart->axis_set == axis_set)
 		return TRUE;
 	chart->axis_set = axis_set;
+
+	if (chart->grid != NULL && axis_set != GOG_AXIS_SET_XY) {
+		gog_object_clear_parent (GOG_OBJECT (chart->grid));
+		g_object_unref (chart->grid);
+		chart->grid = NULL;
+	} else if (chart->grid == NULL && axis_set == GOG_AXIS_SET_XY)
+		gog_object_add_by_name (GOG_OBJECT (chart), "Grid", NULL);
 
 	/* Add at least 1 instance of any required axis */
 	for (type = 0 ; type < GOG_AXIS_TYPES ; type++)
@@ -559,7 +592,7 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 	for (ptr = view->children; ptr != NULL ; ptr = ptr->next) {
 		child = ptr->data;
 		if (child->model->position == GOG_POSITION_SPECIAL &&
-		    IS_GOG_PLOT (child->model))
+		    (IS_GOG_PLOT (child->model) || child->model == chart->grid))
 			gog_view_size_allocate (child, &res);
 	}
 }

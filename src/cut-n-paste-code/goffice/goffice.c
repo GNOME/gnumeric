@@ -29,6 +29,7 @@
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-legend.h>
 #include <goffice/graph/gog-label.h>
+#include <goffice/graph/gog-grid.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/utils/go-font.h>
 
@@ -48,6 +49,7 @@ libgoffice_init (void)
 	(void) GOG_LEGEND_TYPE;
 	(void) GOG_AXIS_TYPE;
 	(void) GOG_LABEL_TYPE;
+	(void) GOG_GRID_TYPE;
 	gog_themes_init	();
 }
 

@@ -26,6 +26,8 @@ libgoffice_graph_la_SOURCES = \
 	gog-legend.h			\
 	gog-label.c			\
 	gog-label.h			\
+	gog-grid.c			\
+	gog-grid.h			\
 	\
 	gog-style.c			\
 	gog-style.h			\

@@ -1,3 +1,12 @@
+2003-09-12  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-axis.c (gog_axis_set_property) : fix typos.
+	(gog_axis_view_render) : actually support some of the tick options.
+	(gog_axis_editor) : hook up some of the controls.
+
+	* graph/gog-chart.c (gog_chart_axis_set_assign) : add or remove a grid
+	  depending on the axis set.
+
 2003-09-11  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-object-xml.c (gog_object_write_property) : don't bother

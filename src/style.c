@@ -380,26 +380,36 @@ font_init (void)
 					gdk_screen_get_default_colormap (screen));
 
 	if (gnumeric_default_font_name && gnumeric_default_font_size >= 1)
-		gnumeric_default_font =
-			style_font_new_simple (context,
-					       gnumeric_default_font_name,
-					       gnumeric_default_font_size,
-					       1., FALSE, FALSE);
-	if (!gnumeric_default_font) {
-		g_warning ("Configured default font not available, trying fallback...");
-		gnumeric_default_font =
-			style_font_new_simple (context,
-					       DEFAULT_FONT, DEFAULT_SIZE,
-					       1., FALSE, FALSE);
-		g_free (gnumeric_default_font_name);
-		gnumeric_default_font_name = g_strdup (DEFAULT_FONT);
-		gnumeric_default_font_size = DEFAULT_SIZE;
+		gnumeric_default_font = style_font_new_simple (context,
+			gnumeric_default_font_name, gnumeric_default_font_size,
+			1., FALSE, FALSE);
+	if (gnumeric_default_font == NULL) {
+		g_warning ("Configured default font '%s %d' not available, trying fallback...",
+			   gnumeric_default_font_name, gnumeric_default_font_size);
+		gnumeric_default_font = style_font_new_simple (context,
+			DEFAULT_FONT, DEFAULT_SIZE, 1., FALSE, FALSE);
+		if (gnumeric_default_font != NULL) {
+			g_free (gnumeric_default_font_name);
+			gnumeric_default_font_name = g_strdup (DEFAULT_FONT);
+			gnumeric_default_font_size = DEFAULT_SIZE;
+		} else {
+			g_warning ("Fallback font '%s %d' not available, trying 'fixed'...",
+				   DEFAULT_FONT, DEFAULT_SIZE);
+			gnumeric_default_font = style_font_new_simple (context,
+				"fixed", 10, 1., FALSE, FALSE);
+			if (gnumeric_default_font != NULL) {
+				g_free (gnumeric_default_font_name);
+				gnumeric_default_font_name = g_strdup ("fixed");
+				gnumeric_default_font_size = 10;
+			} else {
+				g_warning ("Even 'fixed 10' failed ??  We're going to exit now,"
+					   "there is something wrong with your font configuration");
+				exit (1);
+			}
+		}
 	}
 
 	g_object_unref (context);
-
-	if (!gnumeric_default_font)
-		exit (1);
 
 	gnumeric_default_font_width = gnumeric_default_font->approx_width.pts.digit;
 	style_font_unref (gnumeric_default_font);

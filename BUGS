@@ -7,6 +7,8 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+* Enable the 'your gnumeric is too old' test.
+
 * gnome print
     - font name selection
     - Print to file name always output.ps
@@ -84,7 +86,6 @@ Short Term Goals
 	1.5.3) Keep state::chart,plot safe for typeselector	(DONE)
 	       in case they get deleted
 	1.5.4) Allow going backwards if there is only chart
-
     1.6) data allocator in gnumeric				(DONE)
 	1.6.1) initial interface				(DONE)
 	1.6.2) generalize container to be a DataSet		(DONE)
@@ -236,6 +237,12 @@ Short Term Goals
 	whether the instance was autocreated or assigned.
     1.28) Rethink GraphItem lifecyle to simplify removal	(DONE)
     1.29) Extend GogObjectRole to include more handlers		(DONE)
+    1.30) Grid Object
+	1.30.1) Create						(DONE)
+	1.30.2) Theme it					(DONE)
+	1.30.3) Add or remove it depending on chart axis set	(DONE)
+	1.30.4) Render background				(DONE)
+	1.30.5) Draw grid lines when appropriate
 
     questions
 	- how to select a single point for formating ?

@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * lib.c
+ * gog-grid.h : 
  *
  * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
  *
@@ -18,37 +18,20 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
+#ifndef GOG_GRID_H
+#define GOG_GRID_H
 
-#include <gnumeric-config.h>
-#include <goffice/graph/lib.h>
-#include <goffice/graph/gog-series.h>
-#include <goffice/graph/gog-plot.h>
-#include <goffice/graph/gog-plot-engine.h>
-#include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-graph.h>
-#include <goffice/graph/gog-axis.h>
-#include <goffice/graph/gog-legend.h>
-#include <goffice/graph/gog-label.h>
-#include <goffice/graph/gog-theme.h>
+#include <goffice/graph/goffice-graph.h>
+#include <glib-object.h>
 
-int goffice_graph_debug_level = 0;
+G_BEGIN_DECLS
 
-void
-libgoffice_init (void)
-{
-	/* keep trigger happy linkers from leaving things out */
-	gog_plugin_services_init ();
-	(void) GOG_GRAPH_TYPE;
-	(void) GOG_CHART_TYPE;
-	(void) GOG_PLOT_TYPE;
-	(void) GOG_SERIES_TYPE;
-	(void) GOG_LEGEND_TYPE;
-	(void) GOG_AXIS_TYPE;
-	(void) GOG_LABEL_TYPE;
-	gog_themes_init	();
-}
+#define GOG_GRID_TYPE	(gog_grid_get_type ())
+#define GOG_GRID(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_GRID_TYPE, GogGrid))
+#define IS_GOG_GRID(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_GRID_TYPE))
 
-void
-libgoffice_shutdown (void)
-{
-}
+GType gog_grid_get_type (void);
+
+G_END_DECLS
+
+#endif /* GOG_GRID_H */
