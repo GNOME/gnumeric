@@ -1,3 +1,13 @@
+1999-07-31  Robert Meeks   <robert@imaginator.com>
+
+	* src/fn-information.c (translate_table): Populated.
+	
+1999-07-31  Michael Meeks  <michael@edenproject.org>
+
+	* src/fn-information.c (gnumeric_cell): Implemented col, row,
+	address, contents. Start of format.
+	(translate_cell_format): Start of format translation.
+
 1999-07-31  Morten Welinder  <terra@diku.dk>
 
 	* src/fn-logical.c (gnumeric_if): Fix case of first argument

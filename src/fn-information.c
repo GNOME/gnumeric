@@ -72,43 +72,103 @@ static char *help_cell = {
 	   "@SEEALSO=")
 };
 
+/* FIXME: Implement this...
+ * Text value corresponding to the number format of the cell.
+ * The text values for the various formats are shown in the
+ * following table. Returns "-" at the end of the text value if
+ * the cell is formatted in color for negative values. Returns
+ * "()" at the end of the text value if the cell is formatted
+ * with parentheses for positive or all values.  "parentheses"
+ * 1 if the cell is formatted with parentheses for positive or
+ * all values; otherwise returns 0.
+ */
+
+typedef struct {
+	char *format;
+	char *output;
+} translate_t;
+static translate_t translate_table[] = {
+	{ "general", "G" },
+	{ "0", "F0" },
+	{ "#,##0", ",0" },
+	{ "0.00", "F2" },
+	{ "#,##0.00", ",2" },
+	{ "$#,##0_);($#,##0)", "C0" },
+	{ "$#,##0_);[red]($#,##0)", "C0-" },
+	{ "$#,##0.00_);($#,##0.00)", "C2" },
+	{ "$#,##0.00_);[red]($#,##0.00)", "C2-" },
+	{ "0%", "P0" },
+	{ "0.00%", "P2" },
+	{ "0.00e+00", "S2" },
+	{ "# ?/?", "G" },
+	{ "# ??/??", "G" },
+	{ "m/d/yy", "D4" },
+	{ "m/d/yy h:mm", "D4" },
+	{ "mm/dd/yy", "D4" },
+	{ "d-mmm-yy", "D1" },
+	{ "dd-mmm-yy", "D1" },
+	{ "d-mmm", "D2" },
+	{ "dd-mmm", "D2" },
+	{ "mmm-yy", "D3" },
+	{ "mm/dd", "D5" },
+	{ "h:mm am/pm", "D7" },
+	{ "h:mm:ss am/pm", "D6" },
+	{ "h:mm", "D9" },
+	{ "h:mm:ss", "D8" }
+};
+
+static Value *
+translate_cell_format (StyleFormat *format)
+{
+	int i;
+
+	if (!format || !format->format)
+		return value_new_string ("G");
+
+	for (i = 0; i < sizeof (translate_table)/sizeof(translate_t); i++) {
+		const translate_t *t = &translate_table[i];
+		if (!g_strcasecmp (format->format, t->format))
+			return value_new_string (t->output);
+	}
+	return value_new_string ("G");
+}
+
 static Value *
 gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 {
 	char * info_type = argv [0]->v.str->str;
+	CellRef ref = argv [1]->v.cell_range.cell_a;
 
-	if (!strcasecmp(info_type, "address")) {
+	if (!g_strcasecmp(info_type, "address")) {
 		/* Reference of the first cell in reference, as text. */
-		return value_new_error (&ei->pos, _("Unimplemented"));
-	} else if (!strcasecmp (info_type, "col")) {
-		/* Column number of the cell in reference. */
-		return value_new_error (&ei->pos, _("Unimplemented"));
-	} else if (!strcasecmp (info_type, "color")) {
+		return value_new_string (cell_name (ref.col, ref.row));
+	} else if (!g_strcasecmp (info_type, "col")) {
+		return value_new_int (ref.col + 1);
+	} else if (!g_strcasecmp (info_type, "color")) {
 		/* 1 if the cell is formatted in color for negative values;
 		 * otherwise returns 0 (zero).
 		 */
 		return value_new_error (&ei->pos, _("Unimplemented"));
-	} else if (!strcasecmp (info_type, "contents")) {
-		/* Contents of the upper-left cell in reference. */
-		return value_new_error (&ei->pos, _("Unimplemented"));
-	} else if (!strcasecmp (info_type, "filename"))	{
+	} else if (!g_strcasecmp (info_type, "contents")) {
+		Cell *cell = sheet_cell_fetch (ei->pos.sheet, ref.col, ref.row);
+		if (cell && cell->value)
+			return value_duplicate (cell->value);
+		g_warning ("Untested / checked");
+		return value_new_int (0);
+	} else if (!g_strcasecmp (info_type, "filename"))	{
 		/* Filename (including full path) of the file that contains
 		 * reference, as text. Returns empty text ("") if the worksheet
 		 * that contains reference has not yet been saved.
 		 */
 		return value_new_error (&ei->pos, _("Unimplemented"));
-	} else if (!strcasecmp (info_type, "format")) {
-		/* Text value corresponding to the number format of the cell.
-		 * The text values for the various formats are shown in the
-		 * following table. Returns "-" at the end of the text value if
-		 * the cell is formatted in color for negative values. Returns
-		 * "()" at the end of the text value if the cell is formatted
-		 * with parentheses for positive or all values.  "parentheses"
-		 * 1 if the cell is formatted with parentheses for positive or
-		 * all values; otherwise returns 0.
-		 */
-		return value_new_error (&ei->pos, _("Unimplemented"));
-	} else if (!strcasecmp (info_type, "prefix")) {
+	} else if (!g_strcasecmp (info_type, "format")) {
+		Cell *cell = sheet_cell_fetch (ei->pos.sheet, ref.col, ref.row);
+
+		if (cell && CELL_IS_FORMAT_SET (cell))
+			return translate_cell_format (cell->style->format);
+		else
+			return value_new_string ("G");
+	} else if (!g_strcasecmp (info_type, "prefix")) {
 		/* Text value corresponding to the "label prefix" of the cell.
 		 * Returns single quotation mark (') if the cell contains
 		 * left-aligned text, double quotation mark (") if the cell
@@ -118,20 +178,23 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		 * anything else.  
 		 */
 		return value_new_error (&ei->pos, _("Unimplemented"));
-	} else if (!strcasecmp (info_type, "protect")) {
+	} else if (!g_strcasecmp (info_type, "protect")) {
 		/* 0 if the cell is not locked, and 1 if the cell is locked. */
 		return value_new_error (&ei->pos, _("Unimplemented"));
-	} else if (!strcasecmp (info_type, "row")) {
-		/* Row number of the cell in reference. */
-		return value_new_error (&ei->pos, _("Unimplemented"));
-	} else if (!strcasecmp (info_type, "type")) {
-		/* Text value corresponding to the type of data in the cell.
-		 * Returns "b" for blank if the cell is empty, "l" for label if
-		 * the cell contains a text constant, and "v" for value if the
-		 * cell contains anything else.
-		 */
-		return value_new_error (&ei->pos, _("Unimplemented"));
-	} else if (!strcasecmp (info_type, "width")) {
+	} else if (!g_strcasecmp (info_type, "row")) {
+		return value_new_int (ref.row + 1);
+	} else if (!g_strcasecmp (info_type, "type")) {
+		Cell *cell;
+
+		cell = sheet_cell_fetch (ei->pos.sheet, ref.col, ref.row);
+		if (cell && cell->value) {
+			if (cell->value->type == VALUE_STRING)
+				return value_new_string ("l");
+			else
+				return value_new_string ("v");
+		}
+		return value_new_string ("b");
+	} else if (!g_strcasecmp (info_type, "width")) {
 		/* Column width of the cell rounded off to an integer. Each
 		 * unit of column width is equal to the width of one character
 		 * in the default font size.

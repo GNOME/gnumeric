@@ -10,7 +10,7 @@ Michael:
 	* Added GUI for Names.
 	* Better Excel string importing.
 	* Fix for padded number insertion ( fixes CSV import )
-	* Implemented ISREF.
+	* Implemented ISREF, improved CELL.
 
 Jody:
 	* Enable Array formulas.
