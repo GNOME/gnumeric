@@ -113,7 +113,7 @@ style_font_new_simple (char *font_name, int units)
 	if (!font){
 		GdkFont *gdk_font;
 
-		gdk_font = gdk_font_load (font_name);
+		gdk_font = gdk_fontset_load (font_name);
 		
 		if (!gdk_font)
 			return NULL;
@@ -121,7 +121,7 @@ style_font_new_simple (char *font_name, int units)
 		font = g_new0 (StyleFont, 1);
 		font->font_name = g_strdup (font_name);
 		font->units    = units;
-		font->font     = gdk_font_load (font_name);
+		font->font     = gdk_font;
 
 		font_compute_hints (font);
 		

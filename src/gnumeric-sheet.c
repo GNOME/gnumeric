@@ -737,6 +737,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 				text = cell_get_text (cell);
 				sheet_fill_selection_with (sheet, text);
 				g_free (text);
+			} else {
+				gtk_widget_grab_focus (gsheet->entry);
 			}
 			return 1;
 		}

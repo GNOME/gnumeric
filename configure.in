@@ -129,6 +129,7 @@ plugins/perl/ext/Makefile.PL
 plugins/stat/Makefile
 plugins/guile/Makefile
 plugins/ff-csv/Makefile
+plugins/text/Makefile
 intl/Makefile
 po/Makefile.in
 macros/Makefile

@@ -7,6 +7,7 @@
 #include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
+#include "gnumeric-util.h"
 #include "dialogs.h"
 #include "xml-io.h"
 #include "file.h"
@@ -285,7 +286,7 @@ workbook_save_as (Workbook *wb)
 			
 			current_saver = insure_saver (current_saver);
 			if (!current_saver)
-				gnumeric_notice (_("Sorry, there are no file savers loaded, I can not save"));
+				gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR, _("Sorry, there are no file savers loaded, I can not save"));
 			else {
 				if (strchr (base, '.') == NULL){
 					name = g_strconcat (name, current_saver->extension, NULL);

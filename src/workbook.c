@@ -895,6 +895,7 @@ workbook_setup_sheets (Workbook *wb)
 				  GTK_SIGNAL_FUNC(do_focus_sheet), wb);
 				  
 	gtk_notebook_set_tab_pos (GTK_NOTEBOOK (wb->notebook), GTK_POS_BOTTOM);
+	gtk_notebook_set_tab_border (GTK_NOTEBOOK (wb->notebook), 0);
 		
 	gtk_table_attach (GTK_TABLE (wb->table), wb->notebook,
 			  0, WB_COLS, WB_EA_SHEETS, WB_EA_SHEETS+1,
@@ -1834,7 +1835,7 @@ workbook_feedback_set (Workbook *workbook, WorkbookFeedbackType type, void *data
  * Sets the toplelve window title of @wb to be @title
  */
 void
-workbook_set_title (Workbook *wb, char *title)
+workbook_set_title (Workbook *wb, const char *title)
 {
 	char *full_title;
 	
@@ -1857,7 +1858,7 @@ workbook_set_title (Workbook *wb, char *title)
  * of this file.
  */
 void
-workbook_set_filename (Workbook *wb, char *name)
+workbook_set_filename (Workbook *wb, const char *name)
 {
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (name != NULL);

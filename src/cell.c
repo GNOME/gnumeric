@@ -985,7 +985,7 @@ cell_get_horizontal_align (Cell *cell)
 {
 	g_return_val_if_fail (cell != NULL, HALIGN_LEFT);
 
-	if (cell->style->halign == HALIGN_GENERAL)
+	if (cell->style->halign == HALIGN_GENERAL){
 		if (cell->value){
 			if (cell->value->type== VALUE_FLOAT ||
 			    cell->value->type == VALUE_INTEGER)
@@ -994,7 +994,7 @@ cell_get_horizontal_align (Cell *cell)
 				return HALIGN_LEFT;
 		} else
 			return HALIGN_RIGHT;
-	else
+	} else
 		return cell->style->halign;
 }
 

@@ -791,7 +791,7 @@ static void
 apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 {
 	double rd, gd, bd, ad;
-	gushort fore_change, back_change;
+	gushort fore_change = FALSE, back_change = FALSE;
 	gushort fore_red=0, fore_green=0, fore_blue=0;
 	gushort back_red=0xff, back_green=0xff, back_blue=0xff;
 
