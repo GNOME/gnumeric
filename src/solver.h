@@ -102,6 +102,7 @@ struct _SolverOptions {
         int                   max_iter;
         SolverModelType       model_type;
         gboolean              assume_non_negative;
+        gboolean              assume_discrete;
         gboolean              automatic_scaling;
         gboolean              show_iter_results;
         gboolean              answer_report;

@@ -447,6 +447,13 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 				&(param->options.max_time_sec)))
 	        return NULL;
 
+	/* Assume Integer (Discrete) button. */
+	if (param->options.assume_discrete) {
+	        for (i = 0; i < param->n_variables; i++)
+		        alg->set_int_fn (program, i);
+		res->ilp_flag = TRUE;
+	}
+
 	alg->print_fn (program);
 
 	return program;

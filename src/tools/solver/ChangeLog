@@ -1,3 +1,8 @@
+2002-03-23  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.c (lp_qp_solver_init): Implemented `Assume Integer'
+	functionality.
+
 2002-03-22  Jody Goldberg <jody@gnome.org>
 
 	* solver.c (solver_param_new) : init input_cells, and constraints to
