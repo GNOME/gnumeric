@@ -291,7 +291,7 @@ cell_draw (Cell *cell, MStyle *mstyle,
 			break;
 
 		case HALIGN_RIGHT:
-			x1 += cell->col->size_pixels - 1 - cell->col->margin_b - cell->width_pixel;
+			x1 += cell->col->size_pixels - cell->col->margin_b - cell->width_pixel;
 			break;
 
 		case HALIGN_CENTER:

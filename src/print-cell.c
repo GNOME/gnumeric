@@ -281,7 +281,7 @@ print_cell_text (GnomePrintContext *context,
 			break;
 
 		case HALIGN_RIGHT:
-			x1 += cell->col->size_pts - 1 - cell->col->margin_b - text_width;
+			x1 += cell->col->size_pts - cell->col->margin_b - text_width;
 			break;
 
 		case HALIGN_CENTER:
