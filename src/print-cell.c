@@ -854,12 +854,8 @@ print_cell_range (GnomePrintContext *context,
 	style_borders_row_print (prev_vert, &sr,
 				 context, base_x, y, y, sheet, FALSE);
 
-	if (merged_used)	/* ranges whose bottoms are in the view */
-		g_slist_free (merged_used);
-	if (merged_active_seen) /* ranges whose bottoms are below the view */
-		g_slist_free (merged_active_seen);
-	if (merged_unused != NULL)	/* merges in hidden rows */
-		g_slist_free (merged_unused);
-
+	g_slist_free (merged_used);	   /* merges with bottom in view */
+	g_slist_free (merged_active_seen); /* merges with bottom the view */
+	g_slist_free (merged_unused);	   /* merges in hidden rows */
 	g_return_if_fail (merged_active == NULL);
 }
