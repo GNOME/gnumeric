@@ -14,6 +14,7 @@
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #define DEBUG_NEAR_SINGULAR
 
@@ -34,6 +35,15 @@
        g_free (var);					\
   } while (0)
 
+#define COPY_MATRIX(dst,src,dim1,dim2)		\
+  do { int _i, _j, _d1, _d2;			\
+       _d1 = (dim1);				\
+       _d2 = (dim2);				\
+       for (_i = 0; _i < _d1; _i++)		\
+	 for (_j = 0; _j < _d2; _j++)		\
+	   (dst)[_i][_j] = (src)[_i][_j];	\
+  } while (0)
+
 #define PRINT_MATRIX(var,dim1,dim2)					\
   do {									\
 	int _i, _j, _d1, _d2;						\
@@ -42,10 +52,24 @@
 	for (_i = 0; _i < _d1; _i++)					\
 	  {								\
 	    for (_j = 0; _j < _d2; _j++)				\
-	      fprintf (stderr, "%20.10" GNUM_FORMAT_f, var[_i][_j]);	\
+	      fprintf (stderr, " %19.10" GNUM_FORMAT_g, (var)[_i][_j]);	\
 	    fprintf (stderr, "\n");					\
 	  }								\
   } while (0)
+
+/*
+ *       ---> j
+ *
+ *  |    ********
+ *  |    ********
+ *  |    ********        A[i][j]
+ *  v    ********
+ *       ********
+ *  i    ********
+ *       ********
+ *       ********
+ *
+ */
 
 /* ------------------------------------------------------------------------- */
 
@@ -58,18 +82,18 @@
 static void
 backsolve (gnum_float **LU, int *P, gnum_float *b, int n, gnum_float *res)
 {
-	int i,j;
+	int i, j;
 
 	for (i = 0; i < n; i++) {
 		res[i] = b[P[i]];
 		for (j = 0; j < i; j++)
-			res[i] -= LU[j][i] * res[j];
+			res[i] -= LU[i][j] * res[j];
 	}
 
 	for (i = n - 1; i >= 0; i--) {
 		for (j = i + 1; j < n; j++)
-			res[i] -= LU[j][i] * res[j];
-		res[i] = res[i] / LU[i][i];
+			res[i] -= LU[i][j] * res[j];
+		res[i] /= LU[i][i];
 	}
 }
 
@@ -88,9 +112,7 @@ LUPDecomp (gnum_float **A, gnum_float **LU, int *P, int n)
 	gnum_float lowest = GNUM_MAX;
 	gnum_float cond;
 
-	for (j = 0; j < n; j++)
-		for (i = 0; i < n; i++)
-			LU[j][i] = A[j][i];
+	COPY_MATRIX (LU, A, n, n);
 	for (j = 0; j < n; j++)
 		P[j] = j;
 
@@ -99,10 +121,15 @@ LUPDecomp (gnum_float **A, gnum_float **LU, int *P, int n)
 		int mov = -1;
 
 		for (j = i; j < n; j++)
-			if (gnumabs (LU[i][j]) > max) {
-				max = gnumabs (LU[i][j]);
+			if (gnumabs (LU[j][i]) > max) {
+				max = gnumabs (LU[j][i]);
 				mov = j;
 			}
+#ifdef DEBUG_NEAR_SINGULAR
+		PRINT_MATRIX (LU, n, n);
+		printf ("max[%d]=%" GNUM_FORMAT_g " at %d\n",
+			i, max, mov);
+#endif
 		if (max == 0)
 			return REG_singular;
 		if (max > highest)
@@ -112,16 +139,16 @@ LUPDecomp (gnum_float **A, gnum_float **LU, int *P, int n)
 		tempint = P[i];
 		P[i] = P[mov];
 		P[mov] = tempint;
-		/* FIXME: there's some serious row/col confusion going on here.  */
-		for (j = 0; j < n; j++) {		/*swap the two rows */
-			gnum_float temp = LU[j][i];
-			LU[j][i] = LU[j][mov];
-			LU[j][mov] = temp;
+		/*swap the two rows */
+		for (j = 0; j < n; j++) {
+			gnum_float temp = LU[i][j];
+			LU[i][j] = LU[mov][j];
+			LU[mov][j] = temp;
 		}
 		for (j = i + 1; j < n; j++) {
-			LU[i][j] = LU[i][j] / LU[i][i];
+			LU[j][i] /= LU[i][i];
 			for (k = i + 1; k < n; k++)
-				LU[k][j] = LU[k][j] - LU[i][j] * LU[k][i];
+				LU[j][k] -= LU[j][i] * LU[i][k];
 		}
 	}
 
@@ -133,17 +160,52 @@ LUPDecomp (gnum_float **A, gnum_float **LU, int *P, int n)
 	/* FIXME: make some science out of this.  */
 	if (cond > GNUM_MANT_DIG * 0.75)
 		return REG_near_singular_bad;
-	else if (cond > GNUM_MANT_DIG * 0.50)
+	else if (1 || cond > GNUM_MANT_DIG * 0.50)
 		return REG_near_singular_good;
 	else
 		return REG_ok;
 }
 
 static RegressionResult
+rescale (gnum_float **A, gnum_float *b, int n)
+{
+	int i;
+
+	for (i = 0; i < n; i++) {
+		int j;
+		int expn;
+		gnum_float scale;
+		gnum_float max = gnumabs (b[i]);
+
+		for (j = 0; j < n; j++)
+			if (gnumabs (A[i][j]) > max)
+				max = gnumabs (A[i][j]);
+
+		if (max == 0)
+			return REG_singular;
+
+		/* Use a power of 2 near sqrt(max) as scale.  */
+		(void)frexpgnum (sqrtgnum (max), &expn);
+		scale = ldexpgnum (1, expn);
+#ifdef DEBUG_NEAR_SINGULAR
+		printf ("scale[%d]=%" GNUM_FORMAT_g "\n",
+			i, scale);
+#endif
+
+		b[i] /= scale;
+		for (j = 0; j < n; j++)
+			A[i][j] /= scale;
+	}
+	return REG_ok;
+}
+
+
+
+static RegressionResult
 linear_solve (gnum_float **A, gnum_float *b, int n, gnum_float *res)
 {
 	RegressionResult err;
-	gnum_float **LU;
+	gnum_float **LU, **A_copy, *b_copy;
 	int *P;
 
 	if (n < 1)
@@ -175,87 +237,26 @@ linear_solve (gnum_float **A, gnum_float *b, int n, gnum_float *res)
 	ALLOC_MATRIX (LU, n, n);
 	P = g_new (int, n);
 
-	err = LUPDecomp (A, LU, P, n);
+	ALLOC_MATRIX (A_copy, n, n);
+	COPY_MATRIX (A_copy, A, n, n);
+	b_copy = g_new (gnum_float, n);
+	memcpy (b_copy, b, n * sizeof (gnum_float));
 
-	if (err == REG_ok || err == REG_near_singular_good) {
-		backsolve (LU, P, b, n, res);
-
-		if (err == REG_near_singular_good) {
-			/*
-			 * Our foot is hurting, but the leg is still there...
-			 *
-			 * We tried to solve  A x = b  and we got instead
-			 * x0 = x + dx0.  Bummer.
-			 *
-			 * Let  r0 = A x0 - b = A (x + dx) - b = A dx0.
-			 * Since r0 and A are known, we can now solve this
-			 * for dx0.  The result, dx0', won't be accurate,
-			 * but we can form  x1 = x0 - dx0' and then
-			 * r1 = A x1 - b.
-			 *
-			 * If |r1| < |r0| (in, e.g., the 2-norm sense), then
-			 * x1 is better than x0.  And if it looks like we are
-			 * getting somewhere, we can form x2, x3, ...
-			 */
-
-			gnum_float last_norm = GNUM_MAX;
-			int loop;
-			gnum_float *dx = g_new (gnum_float, n);
-			gnum_float *r = g_new (gnum_float, n);
-			gnum_float *newres = g_new (gnum_float, n);
-			memcpy (newres, res, n * sizeof (gnum_float));
-
-			for (loop = 0; loop < 10; loop++) {
-				int i, j;
-				gnum_float this_norm;
-
-				for (i = 0; i < n; i++) {
-					gnum_float s = 0;
-					for (j = 0; j < n; j++)
-						s += A[i][j] * newres[j];
-					r[i] = s - b[i];
 #ifdef DEBUG_NEAR_SINGULAR
-					printf ("r[%d]=%" GNUM_FORMAT_g "\n",
-						i, r[i]);
+	PRINT_MATRIX (A_copy, n, n);
 #endif
-				}
-				(void)range_sumsq (r, n, &this_norm);
-#ifdef DEBUG_NEAR_SINGULAR
-				printf ("this_norm=%" GNUM_FORMAT_g "\n",
-					this_norm);
-#endif
-				if (!finitegnum (this_norm))
-					break;
+	err = rescale (A_copy, b_copy, n);
 
-				if (loop != 0) {
-					if (this_norm >= last_norm)
-						break;
-					memcpy (res, newres,
-						n * sizeof (gnum_float));
-					/* Did it help enough?  */
-					if (this_norm > 100 * last_norm)
-						break;
-				}
-				last_norm = this_norm;
+	if (err == REG_ok || err == REG_near_singular_good)
+		err = LUPDecomp (A_copy, LU, P, n);
 
-				backsolve (LU, P, r, n, dx);
-				for (i = 0; i < n; i++) {
-					newres[i] = res[i] - dx[i];
-#ifdef DEBUG_NEAR_SINGULAR
-                                        printf ("dx[%d]=%" GNUM_FORMAT_g "\n",
-                                                i, dx[i]);
-#endif
-
-				}
-			}
-			g_free (newres);
-			g_free (r);
-			g_free (dx);
-		}
-	}
+	if (err == REG_ok || err == REG_near_singular_good)
+		backsolve (LU, P, b_copy, n, res);
 
 	FREE_MATRIX (LU, n, n);
+	FREE_MATRIX (A_copy, n, n);
 	g_free (P);
+	g_free (b_copy);
 	return err;
 }
 
@@ -269,7 +270,7 @@ general_linear_regression (gnum_float **xss, int xdim,
 {
 	gnum_float *xTy, **xTx;
 	int i,j;
-	RegressionResult err;
+	RegressionResult regerr;
 
 	if (regression_stat)
 		memset (regression_stat, 0, sizeof (regression_stat_t));
@@ -318,10 +319,10 @@ general_linear_regression (gnum_float **xss, int xdim,
 		}
 	}
 
-	err = linear_solve (xTx, xTy, xdim, result);
+	regerr = linear_solve (xTx, xTy, xdim, result);
 
 	if (regression_stat &&
-	    (err == REG_ok || err == REG_near_singular_good)) {
+	    (regerr == REG_ok || regerr == REG_near_singular_good)) {
 		RegressionResult err2;
 		gnum_float *residuals = g_new (gnum_float, n);
 		gnum_float **LU;
@@ -376,13 +377,14 @@ general_linear_regression (gnum_float **xss, int xdim,
 		err2 = LUPDecomp (xTx, LU, P, xdim);
 		regression_stat->se = g_new (gnum_float, xdim);
 		if (err2 == REG_ok || err2 == REG_near_singular_good) {
-			gnum_float *e = g_new (gnum_float, xdim); /* Elmentary vector */
+			gnum_float *e = g_new (gnum_float, xdim); /* Elementary vector */
 			gnum_float *inv = g_new (gnum_float, xdim);
 			for (i = 0; i < xdim; i++)
 				e[i] = 0;
 			for (i = 0; i < xdim; i++) {
 				e[i] = 1;
 				backsolve (LU, P, e, xdim, inv);
+				if (inv[i] <= 0) regerr = REG_near_singular_bad;
 				regression_stat->se[i] = sqrtgnum (regression_stat->var * inv[i]);
 				e[i] = 0;
 			}
@@ -419,7 +421,7 @@ general_linear_regression (gnum_float **xss, int xdim,
 	FREE_MATRIX (xTx, xdim, xdim);
 	g_free (xTy);
 
-	return err;
+	return regerr;
 }
 
 /* ------------------------------------------------------------------------- */

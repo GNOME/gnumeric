@@ -2695,8 +2695,8 @@ regression_tool_ok_clicked_cb (GtkWidget *button, RegressionToolState *state)
 		gtk_widget_destroy (state->dialog);
 	        gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 				 _("Two or more of the independent variables "
-				   "are nearly linear dependent.\nTreat the "
-				   "regression result with great care."));
+				   "are nearly linear\ndependent.  Treat the "
+				   "regression result with great care!"));
 		break;
 
 	case REG_not_enough_data:
@@ -2707,11 +2707,17 @@ regression_tool_ok_clicked_cb (GtkWidget *button, RegressionToolState *state)
 		break;
 
 	case REG_near_singular_bad:
+	        gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
+				 _("Two or more of the independent variables "
+				   "are nearly linear\ndependent.  All numerical "
+				   "precision was lost in the computation."));
+                break;
+
 	case REG_singular:
 	        gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 			      _("Two or more of the independent variables "
-				"are linearly dependent,\nand the regression "
-				"cannot be calculated. Remove one of these\n"
+				"are linearly\ndependent, and the regression "
+				"cannot be calculated.\n\nRemove one of these\n"
 				"variables and try the regression again."));
                 break;
 

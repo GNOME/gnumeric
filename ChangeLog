@@ -1,3 +1,12 @@
+2002-02-28  Morten Welinder  <terra@diku.dk>
+
+	* src/regression.c (general_linear_regression): If the inverse has
+	negative elements in the diagonal, assume near singularity.
+	(linear_solve): Rescale matrix and target.  Rip out the error
+	correction attempt.
+	(rescale): New function.
+	(LUPDecomp, backsolve): Remove col/row confusion.
+
 2002-02-28  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (workbook_control_gui_init) : fix
