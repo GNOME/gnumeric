@@ -1,3 +1,9 @@
+2000-03-13  Jody Goldberg <jgoldberg@home.com>
+
+	* wizards/graphics/Makefile.am : Include the idl build dir rather than
+	  src dir.  We are interested in the resulting code not the original
+	  idl.
+
 2000-03-13  Jon K Hellan  <hellan@acm.org>
 
 	* src/main.c (main): Silence warning.
