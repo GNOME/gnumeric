@@ -1,3 +1,8 @@
+2001-01-30  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_set_server): 
+	add a ref to the server, we seem to have lost one somewhere.
+
 2001-01-30  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/selection.c, src/selection.h:

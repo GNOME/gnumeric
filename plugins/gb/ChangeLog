@@ -1,3 +1,7 @@
+2001-01-29  Michael Meeks  <michael@helixcode.com>
+
+	* plugin.c (init_plugin): upd.
+
 2001-01-27  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugin.c (init_plugin): Return (*err == NULL), not (*err != NULL).

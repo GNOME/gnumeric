@@ -357,6 +357,7 @@ init_plugin (PluginInfo *pd, ErrorInfo **err)
 	GBEvalContext *ec;
 	GBLexerStream *proj_stream;
 	char          *proj_name;
+	gboolean       success = TRUE;
 
 	g_return_val_if_fail (err != NULL, FALSE);
 
@@ -382,10 +383,12 @@ init_plugin (PluginInfo *pd, ErrorInfo **err)
 	proj_name = g_strdup_printf ("%s/gnumeric.gbp", g_get_home_dir ());
 	if (g_file_exists (proj_name)) {
 		proj_stream = file_to_stream (proj_name);
-		if (!read_gb (NULL, NULL, proj_stream, file_provider, NULL))
+		if (!read_gb (NULL, NULL, proj_stream, file_provider, NULL)) {
 			*err = error_info_new_printf (_("Error in project '%s'"), proj_name);
+			success = FALSE;
+		}
 	}
 	g_free (proj_name);
 
-	return *err == NULL;
+	return success;
 }

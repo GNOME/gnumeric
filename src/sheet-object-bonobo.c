@@ -225,8 +225,12 @@ static void
 sheet_object_bonobo_print (SheetObject const *so,
 			   SheetObjectPrintInfo const *pi)
 {
-	SheetObjectBonobo const *sob = SHEET_OBJECT_BONOBO (so);
+	SheetObjectBonobo const *sob;
 	BonoboPrintClient *bpc;
+
+	g_return_if_fail (IS_SHEET_OBJECT_BONOBO (so));
+
+	sob = SHEET_OBJECT_BONOBO (so);
 
 	bpc = bonobo_print_client_get (sob->object_server);
 	if (!bpc) {
@@ -375,6 +379,7 @@ sheet_object_bonobo_set_server (SheetObjectBonobo *sob,
 		gtk_object_destroy (GTK_OBJECT (sob));
 		return FALSE;
 	}
+	bonobo_object_ref (BONOBO_OBJECT (server));
 	sob->object_server = server;
 
 	return TRUE;

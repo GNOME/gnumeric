@@ -18,7 +18,7 @@ Sub color (r As Range, pattern As Integer, color As Long)
 	r.Interior.Pattern      = pattern
 End Sub
 
-Function demo () As Variant
+Function demo () As String
 	Dim WKS As Worksheet
 
 	WKS = Worksheets (1)
@@ -59,7 +59,16 @@ Function demo () As Variant
 
 	col = 0
 
-	For y = 11 To 19
+	With WKS
+		.Range ("B12").Value = "Red"
+		.Range ("C12").Value = "Orange"
+		.Range ("D12").Value = "Green"
+		.Range ("E12").Value = "Blue"
+		.Range ("F12").Value = "Indigo"
+		.Range ("G12").Value = "Violet"
+	End With
+
+	For y = 12 To 20
 		For x = 1 To 11
 			r = WKS.Cells (x, y)
 
@@ -74,7 +83,5 @@ Function demo () As Variant
 		Next x
 	Next y
 
-	demo = ActiveCell.Value
+	demo = "Executed"
 End Function
-
-
