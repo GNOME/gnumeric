@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-31 14:11-0400\n"
-"PO-Revision-Date: 2003-07-25 00:04+0200\n"
+"POT-Creation-Date: 2003-07-31 12:45+0200\n"
+"PO-Revision-Date: 2003-08-01 02:40+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -18868,9 +18868,8 @@ msgstr "Zarovnat doleva"
 msgid "Left align"
 msgstr "Zarovnat doleva"
 
-#: src/GNOME_Gnumeric.xml.h:146
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
-#: src/dialogs/dialog-stf-main-page.c:362 src/workbook-object-toolbar.c:174
+#: src/GNOME_Gnumeric.xml.h:146 src/dialogs/dialog-stf-main-page.c:362
+#: src/workbook-object-toolbar.c:174
 msgid "Line"
 msgstr "Čára"
 
@@ -20316,9 +20315,9 @@ msgid "Solver"
 msgstr "Řešitel"
 
 #: src/commands.c:6090
-#, fuzzy, c-format
+#, c-format
 msgid "Goal Seek (%s)"
-msgstr "Hledání cíle"
+msgstr "Hledání cíle (%s)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:135
 msgid "Plot"
@@ -20330,7 +20329,7 @@ msgstr "Legenda"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:141
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:159
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:132
 msgid "Title"
 msgstr "Titulek"
 
@@ -20454,11 +20453,11 @@ msgstr "_Text:"
 msgid "Plot Engine"
 msgstr "Kreslící engine"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:230
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:237
 msgid "Plot Type"
 msgstr "Typ grafu"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:312
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:319
 msgid "Chart Theme"
 msgstr "Téma grafu"
 
@@ -20639,13 +20638,21 @@ msgstr "_Mezera:"
 msgid "_Overlap:"
 msgstr "_Překrytí:"
 
-#. xgettext : the base for how to name bar/col plot objects
-#. * eg The 2nd bar/col plot in a chart will be called
-#. * 	PlotBarCol2
-#.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:97
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:129
 msgid "PlotBarCol"
 msgstr "SloupecSloucovéhoGrafu"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:287
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
+#: src/dialogs/consolidate.glade.h:10
+msgid "Labels"
+msgstr "Titulky"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:289
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:194
+#: src/dialogs/consolidate.glade.h:22
+msgid "Values"
+msgstr "Hodnoty"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "3D Adjacent Bars"
@@ -20700,38 +20707,14 @@ msgstr ""
 "Sousedící svislé sloupce seskupené podle hlavních a vedlejších kategorií."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
-#: src/func.c:687
-msgid "Area"
-msgstr "Oblast"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
-msgid "Area plot."
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
-#, fuzzy
-msgid "Areas"
-msgstr "Obl_asti"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:16
 msgid "Bar"
 msgstr "Pruh"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:17
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
 msgid "Column"
 msgstr "Sloupec"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:19
-#, fuzzy
-msgid "Line plot."
-msgstr "Řádky pro import"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
-#, fuzzy
-msgid "Lines"
-msgstr "Čára"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:21
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
 msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D horizontal "
 "bars, grouped by major category."
@@ -20739,7 +20722,7 @@ msgstr ""
 "Vedlejší kategorie rovnané jako procenta vedlejšího součtu, v 3D vodorovných "
 "pruzích, seskupené podle hlavní kategorie."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:22
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:16
 msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D vertical "
 "bars, grouped by major category."
@@ -20747,7 +20730,7 @@ msgstr ""
 "Vedlejší kategorie rovnané jako procenta vedlejšího součtu, v 3D svislých "
 "sloupcích, seskupené podle hlavní kategorie."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:23
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:17
 msgid ""
 "Minor categories stacked as percentages of the minor total, in horizontal "
 "bars, grouped by major category."
@@ -20755,7 +20738,7 @@ msgstr ""
 "Vedlejší kategorie rovnané jako procenta vedlejšího součtu, ve vodorovných "
 "pruzích, seskupené podle hlavní kategorie."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:24
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
 msgid ""
 "Minor categories stacked as percentages of the minor total, in vertical "
 "columns, grouped by major category."
@@ -20763,116 +20746,63 @@ msgstr ""
 "Vedlejší kategorie rovnané jako procenta vedlejšího součtu, ve svislých "
 "sloupcích, seskupené podle hlavní kategorie."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:25
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:19
 msgid ""
 "Minor categories stacked in horizontal 3D bars, grouped by major category."
 msgstr ""
 "Vedlejší kategorie rovnané jako vodorovné 3D pruhy, seskupené podle hlavní "
 "kategorie."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:26
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
 msgid "Minor categories stacked in horizontal bars grouped by major category."
 msgstr ""
 "Vedlejší kategorie rovnané jako vodorovné pruhy, seskupené podle hlavní "
 "kategorie."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:27
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:21
 msgid ""
 "Minor categories stacked in vertical 3D columns, grouped by major category."
 msgstr ""
 "Vedlejší kategorie rovnané jako svislé 3D sloupce, seskupené podle hlavní "
 "kategorie."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:28
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:22
 msgid "Minor categories stacked in vertical columns grouped by major category."
 msgstr ""
 "Vedlejší kategorie rovnané jako svislé sloupce, seskupené podle hlavní "
 "kategorie."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:29
-#, fuzzy
-msgid "Percentage Areas"
-msgstr "Pruhy procent"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:30
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:23
 msgid "Percentage Bars"
 msgstr "Pruhy procent"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:31
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:24
 msgid "Percentage Columns"
 msgstr "Sloupce procent"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:32
-#, fuzzy
-msgid "Percentage Lines"
-msgstr "Pro_centa"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:33
-#, fuzzy
-msgid "Percentage area plot."
-msgstr "Pruhy procent"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:34
-#, fuzzy
-msgid "Percentage line plot."
-msgstr "Sloupce procent"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:35
-#, fuzzy
-msgid "Stacked Areas"
-msgstr "Pruhy vedle sebe"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:36
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:25
 msgid "Stacked Bars"
 msgstr "Pruhy vedle sebe"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:37
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:26
 msgid "Stacked Columns"
 msgstr "Sloupce nad sebou"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:38
-#, fuzzy
-msgid "Stacked Lines"
-msgstr "Pruhy vedle sebe"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:39
-#, fuzzy
-msgid "Stacked area plot."
-msgstr "Pruhy vedle sebe"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:40
-#, fuzzy
-msgid "Stacked line plot."
-msgstr "Sloupce nad sebou"
-
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:1
-#, fuzzy
-msgid "1.5d Charts"
-msgstr "Koláčové grafy"
+msgid "Bar and Column charts"
+msgstr "Pruhové a sloupcové grafy"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:2
-#, fuzzy
-msgid "Area plotting engine"
-msgstr "Engine kreslení koláčů"
+msgid "Bar/Col Charts"
+msgstr "Pruhové/sloupcové grafy"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:3
 msgid "Bar/Col plotting engine"
 msgstr "Engine kreslení pruhů/sloupců"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:4
-#, fuzzy
-msgid "Default 1.5d plot types"
+msgid "Default Bar/Col plot types"
 msgstr "Implicitní typy kreslení pruhů/sloupců"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:5
-#, fuzzy
-msgid "Line plotting engine"
-msgstr "Engine kreslení koláčů"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:6
-#, fuzzy
-msgid "Line, Area, Bar and Column charts"
-msgstr "Pruhové a sloupcové grafy"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:3
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:4
@@ -20912,16 +20842,6 @@ msgstr "stupňů"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:103
 msgid "PlotPie"
 msgstr "KoláčovýGraf"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
-#: src/dialogs/consolidate.glade.h:10
-msgid "Labels"
-msgstr "Titulky"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:194
-#: src/dialogs/consolidate.glade.h:22
-msgid "Values"
-msgstr "Hodnoty"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:3
 msgid "Cen_ter size:"
@@ -23897,19 +23817,16 @@ msgid "Delete and Merge _Right"
 msgstr ""
 
 #: src/dialogs/dialog-stf-fixed-page.c:72
-#, fuzzy
 msgid "_Split"
-msgstr "Rozdělit"
+msgstr "Roz_dělit"
 
 #: src/dialogs/dialog-stf-fixed-page.c:75
-#, fuzzy
 msgid "_Widen"
-msgstr "_Skrýt"
+msgstr "_Rozšířit"
 
 #: src/dialogs/dialog-stf-fixed-page.c:77
-#, fuzzy
 msgid "_Narrow"
-msgstr "Šipka"
+msgstr "Z_úžit"
 
 #: src/dialogs/dialog-stf-format-page.c:126
 #, c-format
@@ -24185,7 +24102,6 @@ msgid "_Adjacent text indicators escaped"
 msgstr "_Indikátory textu vedle sebe jsou uvozené"
 
 #: src/dialogs/dialog-stf.glade.h:55
-#, fuzzy
 msgid "_Auto Column Discovery"
 msgstr "Automatické _nalezení sloupců"
 
@@ -25756,9 +25672,8 @@ msgid "Max Time (sec.):"
 msgstr "Max čas (sek.):"
 
 #: src/dialogs/solver.glade.h:17
-#, fuzzy
 msgid "Model"
-msgstr "Režim"
+msgstr "Model"
 
 #: src/dialogs/solver.glade.h:19
 msgid "P_rogram"
@@ -25769,14 +25684,12 @@ msgid "Parameters"
 msgstr "Parametry"
 
 #: src/dialogs/solver.glade.h:21
-#, fuzzy
 msgid "Reports"
-msgstr "Výkazy:"
+msgstr "Výkazy"
 
 #: src/dialogs/solver.glade.h:22
-#, fuzzy
 msgid "Scenarios"
-msgstr "Scénáře:"
+msgstr "Scénáře"
 
 #: src/dialogs/solver.glade.h:23
 msgid "Solve"
@@ -26948,6 +26861,10 @@ msgstr "Logická hodnota"
 #: src/func.c:685
 msgid "Cell Range"
 msgstr "Oblast buněk"
+
+#: src/func.c:687
+msgid "Area"
+msgstr "Oblast"
 
 #: src/func.c:689
 msgid "Scalar or Error"
@@ -30800,9 +30717,6 @@ msgstr "Chyba při ukládání souboru."
 msgid "Gnumeric XML file format"
 msgstr "Souborový formát Gnumeric XML"
 
-#~ msgid "Bar/Col Charts"
-#~ msgstr "Pruhové/sloupcové grafy"
-
 #~ msgid "You cannot have more than %d columns in this version of Gnumeric."
 #~ msgstr "V této verzi Gnumeric nemůžete mít více než %d sloupců."
 
@@ -31477,6 +31391,9 @@ msgstr "Souborový formát Gnumeric XML"
 
 #~ msgid "Separation customization"
 #~ msgstr "Přizpůsobení oddělování"
+
+#~ msgid "Per_centages"
+#~ msgstr "Pro_centa"
 
 #~ msgid "Ro_ws"
 #~ msgstr "Řád_ky"
