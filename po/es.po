@@ -14,8 +14,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.HEAD.es\n"
-"POT-Creation-Date: 2003-06-07 13:25-0400\n"
-"PO-Revision-Date: 2003-05-29 19:48+0000\n"
+"POT-Creation-Date: 2003-06-08 04:56+0200\n"
+"PO-Revision-Date: 2003-06-09 21:47+0000\n"
 "Last-Translator: Francisco Javier Fernández <serrador@arrakis.es>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +25,7 @@ msgstr ""
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
-msgstr "Libro de Cuentas de Gnumeric"
+msgstr "Libro de cuentas de Gnumeric"
 
 #: GNOME_Gnumeric.server.in.in.h:2
 msgid "Gnumeric Workbook Viewer"
@@ -130,7 +130,7 @@ msgstr ""
 "@SYNTAX=OPT_BS(call_put_flag,spot,strike,tiempo,tasa,volatilidad,"
 "cost_of_carry)\n"
 "@DESCRIPTION=OPT_BS usa el modelo Black-Scholes para calcular el precio de "
-"una opción Europea usando call_put_flag, @call_put_flag struck at @strike en "
+"una opción Europea usando call_put_flag, @call_put_flag fijado a @strike en "
 "una inversión con precio @spot.\n"
 "\n"
 "@volatilidad es la volatilidad anualizada, en porcentaje, de la inversión o "
@@ -147,7 +147,6 @@ msgstr ""
 "OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:259
-#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS_DELTA\n"
 "@SYNTAX=OPT_BS_DELTA(call_put_flag,spot,strike,time,rate,volatility,"
@@ -174,10 +173,10 @@ msgstr ""
 "@SYNTAX=OPT_BS_DELTA(call_put_flag,spot,strike,time,rate,volatility,"
 "cost_of_carry)\n"
 "@DESCRIPTION=OPT_BS_DELTA usa el modelo Black-Scholes para calcular la "
-"«delta» d una opción europea con call_put_flag, @call_put_flagstruck at "
+"«delta» de una opción europea con call_put_flag, @call_put_flagstruck at "
 "@strike en un asset con precio @spot.\n"
 "\n"
-"(La desta de una opción es la tasa de cambio de su precio respecto alprecio "
+"(La delta de una opción es la tasa de cambio de su precio respecto alprecio "
 "spot del underlying asset.)\n"
 "\n"
 "@volatility es la volatilidad anualizada, en porcentaje del asset para el "
@@ -192,6 +191,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:311
+#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS_GAMMA\n"
 "@SYNTAX=OPT_BS_GAMMA(spot,strike,time,rate,volatility,cost_of_carry)\n"
@@ -213,8 +213,27 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA"
 msgstr ""
+"@FUNCTION=OPT_BS_GAMMA\n"
+"@SYNTAX=OPT_BS_GAMMA(spot,strike,time,rate,volatility,cost_of_carry)\n"
+"@DESCRIPTION=OPT_BS_GAMMA usa el mdelo Black-Scholes para calcular la "
+"«gamma» de una opción europea fijada a @strike en un asiento con precio spot "
+"@spot.\n"
+"\n"
+"(La gama de una opcion es la derivada segunda de su precio respecto "
+"al precio del underlying asset, y es el mismo para calls y puts.)\n"
+"\n"
+"@volatility es la volatilidad anualizada, en porcentaje, de un asiente para el período "
+"hasta la fecha del ejecicio.  @days_to_maturity el número de días hasta el ejercicio, "
+" y @tasa es la tasa de interés libre de riesgos a fecha del ejercicio, en tanto por ciento.\n"
+"\n"
+"* El valor devuelto será expresado como la tasa de cambio de delta por unidad de "
+"cambio en @spot.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA"
 
 #: plugins/derivatives/options.c:376
+#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS_THETA\n"
 "@SYNTAX=OPT_BS_THETA(call_put_flag,spot,strike,time,rate,volatility,"
@@ -238,6 +257,26 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, "
 "OPT_BS_GAMMA"
 msgstr ""
+"@FUNCTION=OPT_BS_THETA\n"
+"@SYNTAX=OPT_BS_THETA(call_put_flag,spot,strike,time,rate,volatility,"
+"cost_of_carry)\n"
+"@DESCRIPTION=OPT_BS_THETA usa el modelo Black-Scholes para calcular la "
+"«teta» de una opción europeacon call_put_flag, @call_put_flag fijado a @strike "
+"en un asiento con precio spot @spot.\n"
+"\n"
+"(La teta de una opción es la tasa de cambio de su precio respeto al la fecha de "
+"expiración.)\n"
+"\n"
+"@volatility es la volatilidad anualizada, en porcentaje, de un asiento para el período "
+"a través de la fecha de ejercicio.  @days_to_maturity es el número de días para el "
+"ejercicio, y @tasa es la tasa de interés libre de riesgo a fecha del ejercicio, en porcentaje.\n"
+"\n"
+"* El valor devuelto será expresado como menos la tasa de cambio del valor de la opción, "
+"por 365,25 días.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_VEGA, "
+"OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:429
 #, no-c-format
@@ -291,6 +330,7 @@ msgstr ""
 
 #: plugins/derivatives/options.c:561
 #, no-c-format
+#, fuzzy
 msgid ""
 "@FUNCTION=OPT_BS_CARRYCOST\n"
 "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility,"
@@ -313,6 +353,24 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
+"@FUNCTION=OPT_BS_CARRYCOST\n"
+"@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility,"
+"coste_de_ejecución)\n"
+"@DESCRIPTION=OPT_BS_CARRYCOST usa el modelo Black-Scholes para calcular la"
+"«elasticidad» de una opción europea fijada a @strike en un asiento con precio spot @spot.\n"
+"\n"
+"(La elasticidad de una opción es la tasa de cambio de su precio respecto a su coste de ejecución.)\n"
+"\n"
+"@volatility el la volatilidad anual, en tanto por ciento, del asiento para el período "
+"a pravés de la fecha de ejercicio.  @days_to_maturity es el número de días hasta "
+"el ejercicio, y @tasa es la tasa de interés libre de riesgo a la fecha del ejercicio, "
+"en tanto por ciento.\n"
+"\n"
+"* El valor devuelto será expresado como la tasa de cambio del valor de la opción, por "
+" 100% de volatilidad.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:627
 #, no-c-format
@@ -360,7 +418,7 @@ msgid ""
 msgstr ""
 
 #: plugins/derivatives/options.c:757
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_JUMP_DIFF\n"
 "@SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,volatility,lambda,"
@@ -375,13 +433,13 @@ msgstr ""
 "@SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,volatility,lambda,"
 "gamma)\n"
 "@DESCRIPTION=OPT_JUMP_DIFF modela el precio teórico de una opción de acuerdo "
-"conel proceso Jump Diffussion (Merton).\n"
+"con el proceso Jump Diffussion (Merton).\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:842
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
 "@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_flag,p_t,f_t,x,t1,t2,v_s,v_e,v_f,"
@@ -402,7 +460,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:937
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_RGW\n"
 "@SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)\n"
@@ -417,7 +475,7 @@ msgstr ""
 "@SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)\n"
 "@DESCRIPTION=OPT_RGW modela el precio teórico de una opción de acuerdo con "
 "la aproximación Roll-Geske-Whaley donde t1 es el tiempo para el pago de "
-"dividendo y t2 es el tiempo para la expiración de la opción.\n"
+"dividendo y t2 es el tiempo para el vencimiento de la opción.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
@@ -434,6 +492,14 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
+"@FUNCTION=OPT_BAW_AMER\n"
+"@SYNTAX=OPT_BAW_AMER(call_put_flag,spot,strike,time,rate,cost_of_carry,"
+"volatility)\n"
+"@DESCRIPTION=OPT_BAW_AMER mdela el precio teórico de una opción de acuerdo con la "
+"aproximación Barone Adesie & Whaley.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1159
 #, no-c-format
@@ -447,6 +513,14 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
+"@FUNCTION=OPT_BJERSTENS\n"
+"@SYNTAX=OPT_BJERSTENS(call_put_flag,spot,strike,time,rate,cost_of_carry,"
+"volatility)\n"
+"@DESCRIPTION=OPT_BJERSTENS modela el precio teórico de una opción americana de "
+"aduerdo con la técnica de aproximación de Bjerksund & Stensland.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1236
 #, no-c-format
@@ -460,6 +534,14 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
+"@FUNCTION=OPT_EXEC\n"
+"@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,"
+"cost_of_carry,lambda)\n"
+"@DESCRIPTION=OPT_EXEC modela el precio teórico de una stock options ejecutivas dado "
+"lambda (tasa de salto para ejecutivas).\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1275
 #, no-c-format
@@ -525,6 +607,13 @@ msgid ""
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
+"@FUNCTION=OPT_ON_OPTIONS\n"
+"@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,rate,"
+"cost_of_carry,volatility)\n"
+"@DESCRIPTION=OPT_ON_OPTIONS modela el precio teórico de opciones sobre opciones\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1604
 #, no-c-format
@@ -562,8 +651,7 @@ msgid "a, b, rho"
 msgstr "a, b, rho"
 
 #: plugins/derivatives/options.c:1660
-msgid ""
-"call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
+msgid "call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
 msgstr ""
 
 #: plugins/derivatives/options.c:1665
@@ -575,8 +663,7 @@ msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
 msgstr ""
 
 #: plugins/derivatives/options.c:1675
-msgid ""
-"call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
+msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
 msgstr ""
 
 #: plugins/derivatives/options.c:1680 plugins/derivatives/options.c:1690
@@ -594,13 +681,11 @@ msgid "call_put_flag, spot, strike, t1, t2, rate, d, volatility"
 msgstr ""
 
 #: plugins/derivatives/options.c:1700
-msgid ""
-"call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
+msgid "call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
 msgstr ""
 
 #: plugins/derivatives/options.c:1705
-msgid ""
-"call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
+msgid "call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
 msgstr ""
 
 #: plugins/derivatives/options.c:1710
@@ -673,8 +758,7 @@ msgstr ""
 #: plugins/dif/dif.c:244
 #, c-format
 msgid "Unexpected end of file at line %d while reading header."
-msgstr ""
-"Fin de archivo inesperado mientras se procesaba el encabezado en la línea %d."
+msgstr "Fin de archivo inesperado mientras se procesaba el encabezado en la línea %d."
 
 #: plugins/dif/dif.c:248
 #, c-format
@@ -704,8 +788,7 @@ msgid "Data Interchange Format (DIF) module"
 msgstr "Módulo de formato de intercambio de datos (DIF)"
 
 #: plugins/dif/plugin.xml.in.h:3
-msgid ""
-"Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr ""
 "Lee y escribe información almacenada en formato de intercambio de datos (*."
 "dif)"
@@ -753,7 +836,7 @@ msgstr "Macro%d"
 #: plugins/excel/ms-excel-read.c:1101
 #, c-format
 msgid "Chart%d"
-msgstr "Gráfico-%d"
+msgstr "Diagrama-%d"
 
 #: plugins/excel/ms-excel-read.c:1104
 #, c-format
@@ -845,8 +928,7 @@ msgstr "Función rota"
 
 #: plugins/excel/ms-formula-write.c:435
 #, c-format
-msgid ""
-"Too many arguments for function, MS Excel expects exactly %d and we have more"
+msgid "Too many arguments for function, MS Excel expects exactly %d and we have more"
 msgstr ""
 "Demasiados argumentos para la función. MS Excel esperaba exactamente %d y "
 "hay más"
@@ -4230,7 +4312,7 @@ msgstr "fecha1,fecha2,método"
 
 #: plugins/fn-date/functions.c:1267
 msgid "serial_number,months"
-msgstr "númeroserie,meses"
+msgstr "número_serie,meses"
 
 #: plugins/fn-date/functions.c:1271
 msgid "start_date,months"
@@ -6473,7 +6555,6 @@ msgstr ""
 "@SEEALSO=PPMT,PV,FV"
 
 #: plugins/fn-financial/functions.c:2124
-#, fuzzy
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(settlement,maturity,coup,yield,freq[,basis])\n"
@@ -6504,7 +6585,7 @@ msgstr ""
 "@DESCRIPTION=DURATION calcula la duración de una acción.\n"
 "\n"
 "@liquidación es la fecha de liquidación de la acción. @vencimiento es la "
-"fecha de vencimiento de la acción. @base es el tipo de sistema de conteo  de "
+"fecha de vencimiento de la acción. @base es el tipo de sistema de conteo de "
 "días que quiere usar:\n"
 "\n"
 "  0  US 30/360\n"
@@ -6513,8 +6594,7 @@ msgstr ""
 "  3  días actuales/365\n"
 "  4  europeo 30/360\n"
 "\n"
-"* Si @frecuencia es distinta de 1, 2 o 4, YIELDDISC devuelve un error "
-"#NUM!.\n"
+"* Si @frecuencia es distinta de 1, 2 o 4, DURATION devuelve un error #NUM!.\n"
 "* Si se omite @base se usa US 30/360.\n"
 "* Si @base no está entre 0 y 4, se devuelve un error #NUM!.\n"
 "\n"
@@ -7676,7 +7756,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3435
-#, fuzzy
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -7722,7 +7801,7 @@ msgstr ""
 "  4  europeo 30/360\n"
 "  5  europeo+ 30/360\n"
 "\n"
-"(Vea el manual de gnumeric para una descripción detellada de estas bases).\n"
+"(Vea el manual de gnumeric para una descripción detallada de estas bases).\n"
 "\n"
 "* Si la @liquidación o el @vencimiento no son fechas válidas, MDURATION "
 "devuelve un error #NUM!\n"
@@ -17115,13 +17194,11 @@ msgstr "La expresión del array no indica el número de filas"
 #: plugins/openoffice/openoffice-read.c:747
 #, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
-msgstr ""
-"Imposible analizar la posición para la expresión «%s» @ «%s» porque «%s»"
+msgstr "Imposible analizar la posición para la expresión «%s» @ «%s» porque «%s»"
 
 #: plugins/openoffice/openoffice-read.c:760
 #, c-format
-msgid ""
-"Unable to parse position for expression '%s' with value '%s' because '%s'"
+msgid "Unable to parse position for expression '%s' with value '%s' because '%s'"
 msgstr ""
 "Imposible analizar la posición para la expresión «%s» con valor «%s» debido "
 "a «%s»"
@@ -17157,8 +17234,7 @@ msgstr "PLN: La planilla tiene contraseña encriptada"
 #: plugins/plan-perfect/pln.c:571
 #, c-format
 msgid "Ignoring data that claims to be in row %u which is > max row %u"
-msgstr ""
-"Ignorando dato que dice estar en fila %u que es > que la fila máxima %u"
+msgstr "Ignorando dato que dice estar en fila %u que es > que la fila máxima %u"
 
 #: plugins/plan-perfect/pln.c:575
 #, c-format
@@ -17458,9 +17534,8 @@ msgid "The next generation sax based xml I/O subsystem"
 msgstr "La próxima generación del subsistema de E/S de XML basada en SAX"
 
 #: plugins/xml_sax/plugin.xml.in.h:4
-#, fuzzy
 msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
-msgstr "Gnumeric XML EXPERIMENTAL (*.gnumeric)"
+msgstr "Gnumeric XML NOTERMINADO EXPERIMENTAL (*.gnumeric)"
 
 #: plugins/xml_sax/xml-sax-read.c:299
 #, c-format
@@ -17599,8 +17674,7 @@ msgid "This directory contains the pre-installed autoformat templates."
 msgstr "Este directorio contiene las plantillas de autoformato preinstaladas."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:27
-msgid ""
-"This list contains all extra directories containing autoformat templates."
+msgid "This list contains all extra directories containing autoformat templates."
 msgstr ""
 "Esta lista contiene todos los directorios extra que contienen plantillas de "
 "autoformato."
@@ -17636,10 +17710,8 @@ msgstr ""
 "de impresión se aplica a todas las hojas simultáneamente."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:33
-msgid ""
-"This variable determines whether to activate every new encountered plugin."
-msgstr ""
-"Esta variable determina si se debe activar cada extensión nueva encontrada."
+msgid "This variable determines whether to activate every new encountered plugin."
+msgstr "Esta variable determina si se debe activar cada extensión nueva encontrada."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:34
 msgid "User Directory for Autoformats"
@@ -17822,8 +17894,7 @@ msgid "The default font size for new workbooks."
 msgstr "El tamaño de tipografía inicial para los libros de trabajo nuevos."
 
 #: schemas/gnumeric-general.schemas.in.h:36
-msgid ""
-"The file menu shows a list of recently used functions. This is that list."
+msgid "The file menu shows a list of recently used functions. This is that list."
 msgstr ""
 "El menú de archivo muestra una lista de las funciones recientemente usadas. "
 "Esta es esa lista."
@@ -17890,22 +17961,19 @@ msgstr ""
 "configurable."
 
 #: schemas/gnumeric-general.schemas.in.h:45
-msgid ""
-"This value determines the maximum number of items in the undo/redo list."
+msgid "This value determines the maximum number of items in the undo/redo list."
 msgstr ""
 "Este valor determmina el máximo número de elementos en la lista hacer/"
 "deshacer."
 
 #: schemas/gnumeric-general.schemas.in.h:46
-msgid ""
-"This value determines whether the default font for a new workbook bold is."
+msgid "This value determines whether the default font for a new workbook bold is."
 msgstr ""
 "Este valor determina si la tipografía predeterminada para un libro de "
 "trabajo nuevo es negrita."
 
 #: schemas/gnumeric-general.schemas.in.h:47
-msgid ""
-"This value determines whether the default font for a new workbook italic is."
+msgid "This value determines whether the default font for a new workbook italic is."
 msgstr ""
 "Este valor determina si la tipografía predeterminada para un libro de "
 "cuentas nuevo es itálica."
@@ -18033,8 +18101,7 @@ msgstr "Efectuar una corrección ortográfica simple en forma automática"
 
 #: src/GNOME_Gnumeric.xml.h:14 src/workbook-control-gui.c:3860
 msgid "Automatically save the current document at regular intervals"
-msgstr ""
-"Guardar el documento en forma automática en intervalos de tiempo regulares"
+msgstr "Guardar el documento en forma automática en intervalos de tiempo regulares"
 
 #: src/GNOME_Gnumeric.xml.h:15 src/dialogs/cell-format.glade.h:16
 #: src/dialogs/dialog-cell-format.c:2896 src/workbook-format-toolbar.c:828
@@ -18062,9 +18129,8 @@ msgid "C_ells..."
 msgstr "_Celdas..."
 
 #: src/GNOME_Gnumeric.xml.h:20 src/workbook-control-gui.c:3615
-#, fuzzy
 msgid "C_hart..."
-msgstr "Gráfica"
+msgstr "_Diagrama"
 
 #: src/GNOME_Gnumeric.xml.h:21 src/workbook-control-gui.c:3515
 msgid "C_lear"
@@ -18125,8 +18191,7 @@ msgstr "Elimina los formatos de las celdas seleccionadas"
 
 #: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:3410
 msgid "Clear the selected cells' formats, comments, and contents"
-msgstr ""
-"Limpia los formatos, comentarios y contenidos de las celdas seleccionadas"
+msgstr "Limpia los formatos, comentarios y contenidos de las celdas seleccionadas"
 
 #: src/GNOME_Gnumeric.xml.h:36
 msgid "Close the current file"
@@ -18151,8 +18216,7 @@ msgstr "Combo Box"
 
 #: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3787
 msgid "Comparing two population means for two paired samples.: t-test"
-msgstr ""
-"Comparar dos medias de población para dos ejemplos con parida.: prueba t"
+msgstr "Comparar dos medias de población para dos ejemplos con parida.: prueba t"
 
 #: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3791
 msgid ""
@@ -18354,8 +18418,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3667
 msgid "Ensure rows are just tall enough to display content"
-msgstr ""
-"Asegura que las filas sean lo suficientemente altas para mostrar el contenido"
+msgstr "Asegura que las filas sean lo suficientemente altas para mostrar el contenido"
 
 #: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3774
 msgid "Exponential smoothing"
@@ -18430,7 +18493,7 @@ msgstr "Obtener datos _externos"
 
 #: src/GNOME_Gnumeric.xml.h:103
 msgid "Graph Guru"
-msgstr "Gurú de los gráficos"
+msgstr "Gurú de los diagramas"
 
 #: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:3663
 msgid "H_eight..."
@@ -18570,8 +18633,7 @@ msgstr "Recalcular iterativamente hasta encontrar el valor objetivo"
 
 #: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3870
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr ""
-"Recalcular iterativamente con restricciones para encontrar el valor objetivo"
+msgstr "Recalcular iterativamente con restricciones para encontrar el valor objetivo"
 
 #: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:3541
 msgid "Jump to a specified cell"
@@ -18585,13 +18647,12 @@ msgstr "Etiqueta"
 
 #: src/GNOME_Gnumeric.xml.h:140 src/workbook-control-gui.c:3616
 #: src/workbook-control-gui.c:4075
-#, fuzzy
 msgid "Launch the Chart Guru"
-msgstr "Llamar al gurú de los gráficos"
+msgstr "Llamar al asistente de los diagramas"
 
 #: src/GNOME_Gnumeric.xml.h:141
 msgid "Launch the Graph Guru"
-msgstr "Llamar al gurú de los gráficos"
+msgstr "Llamar al gurú de los diagramas"
 
 #: src/GNOME_Gnumeric.xml.h:142 src/workbook-format-toolbar.c:435
 msgid "Left Align"
@@ -18645,8 +18706,7 @@ msgid "Merge a range of cells"
 msgstr "Combinar un rango de celdas"
 
 #: src/GNOME_Gnumeric.xml.h:154 src/workbook-control-gui.c:3459
-msgid ""
-"Merges columnar data into a sheet creating duplicate sheets for each row"
+msgid "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 "Combina los datos de columnas en una hoja, creando hojas duplicadas para "
 "cada fila."
@@ -18865,7 +18925,7 @@ msgstr "Barra de desplazamiento"
 
 #: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3534
 msgid "Search and Replace..."
-msgstr "B_uscar y reemplazar..."
+msgstr "Buscar y reemplazar..."
 
 #: src/GNOME_Gnumeric.xml.h:207 src/GNOME_Gnumeric_Component.xml.h:10
 #: src/workbook-control-gui.c:3529
@@ -18894,7 +18954,7 @@ msgstr "Seleccionar _columna"
 
 #: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:3447
 msgid "Select _Depends"
-msgstr "Seleccionar dependientes"
+msgstr "Seleccionar _dependientes"
 
 #: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3437
 msgid "Select _Row"
@@ -19023,8 +19083,7 @@ msgstr "Mostrar los ceros como blancos"
 
 #: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3922
 msgid "Toggle whether to display column outlines on the left or right"
-msgstr ""
-"Cambia la visualización de los esquemas de columna entre izquieda y derecha"
+msgstr "Cambia la visualización de los esquemas de columna entre izquieda y derecha"
 
 #: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3916
 msgid "Toggle whether to display row outlines on top or bottom"
@@ -19268,9 +19327,8 @@ msgid "_Manage Sheets..."
 msgstr "_Gestionar las hojas..."
 
 #: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:3458
-#, fuzzy
 msgid "_Merge..."
-msgstr "Combinar..."
+msgstr "_Combinar..."
 
 #: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:3777
 msgid "_Moving Average"
@@ -19592,8 +19650,7 @@ msgstr "Debiera dividir un array"
 #: src/commands.c:253
 #, c-format
 msgid "%s is locked. Unprotect the workbook to enable editing."
-msgstr ""
-"%s está bloqueado. Desproteja el libro de cuentas para activar la edición."
+msgstr "%s está bloqueado. Desproteja el libro de cuentas para activar la edición."
 
 #: src/commands.c:254
 #, c-format
@@ -20005,9 +20062,8 @@ msgid "Page Setup For All Sheets"
 msgstr "Configurar impresión para todas las hojas"
 
 #: src/commands.c:5502
-#, fuzzy
 msgid "has a circular reference"
-msgstr "«%s» tiene una referencia circular"
+msgstr "tiene una referencia circular"
 
 #: src/commands.c:5525
 #, c-format
@@ -20225,8 +20281,7 @@ msgid "Homogeneous size"
 msgstr "Tamaño homogéneo"
 
 #: src/cut-n-paste-code/egg/toolbar/eggtoolitem.c:169
-msgid ""
-"Whether the toolbar item should be the same size as other homogeneous items."
+msgid "Whether the toolbar item should be the same size as other homogeneous items."
 msgstr ""
 "Indica si el eleento de la barra de tareas debería tener el mismo tamaño que "
 "otros elementos homogéneos."
@@ -20300,9 +20355,8 @@ msgid "Plot Engine"
 msgstr "Motor de dibujo"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:317
-#, fuzzy
 msgid "Chart Theme"
-msgstr "Gráfica"
+msgstr "Tema de diagrama"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot.c:121
 msgid "Series"
@@ -20325,27 +20379,24 @@ msgstr "Predeterminado"
 
 #. guppi theme
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:260
-#, fuzzy
 msgid "Guppi"
-msgstr "Agrupar"
+msgstr "Guppi"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:1
-#, fuzzy
 msgid "Bar and Column charts"
-msgstr "_Encabezados de las filas y columnas"
+msgstr "Diagramas de barras y columnas"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:2
 msgid "Bar/Col Charts"
-msgstr ""
+msgstr "Gráficas de Barras/Col"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:3
-#, fuzzy
 msgid "Bar/Col plotting engine"
-msgstr "Motro de dibujo de barras/columnas"
+msgstr "Motor de dibujo de barras/columnas"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:4
 msgid "Default Bar/Col plot types"
-msgstr ""
+msgstr "Tipos de dibujado preestablecidos para Barras/Columnas"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "3D Adjacent Bars"
@@ -20381,13 +20432,11 @@ msgstr "Columnas adyacentes"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:9
 msgid "Adjacent horizontal 3D bars grouped by major and minor categories."
-msgstr ""
-"Barras 3D horizontales adyacentes agrupadas por categorías mayores y menores"
+msgstr "Barras 3D horizontales adyacentes agrupadas por categorías mayores y menores"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:10
 msgid "Adjacent horizontal bars grouped by major and minor categories."
-msgstr ""
-"Barras horizontales adyacentes agrupadas por categorías mayores y menores"
+msgstr "Barras horizontales adyacentes agrupadas por categorías mayores y menores"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:11
 msgid "Adjacent vertical 3D columns grouped by major and minor categories."
@@ -20395,8 +20444,7 @@ msgstr "Columnas 3D adyacentes agrupadas por categorías mayores y menores."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:12
 msgid "Adjacent vertical columns grouped by major and minor categories."
-msgstr ""
-"Columnas verticales adyacentes agrupadas por categorías mayores y menores."
+msgstr "Columnas verticales adyacentes agrupadas por categorías mayores y menores."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
 msgid "Bar"
@@ -20440,8 +20488,7 @@ msgstr ""
 "verticales, agrupadas por categoría mayor."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:19
-msgid ""
-"Minor categories stacked in horizontal 3D bars, grouped by major category."
+msgid "Minor categories stacked in horizontal 3D bars, grouped by major category."
 msgstr ""
 "Categorías menores apiladas en barras 3D horizontales, agrupadas por "
 "categoría mayor."
@@ -20453,8 +20500,7 @@ msgstr ""
 "mayor."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:21
-msgid ""
-"Minor categories stacked in vertical 3D columns, grouped by major category."
+msgid "Minor categories stacked in vertical 3D columns, grouped by major category."
 msgstr ""
 "Categorías menores apiladas en columnas 3D verticales, agrupadas por "
 "categoría mayor."
@@ -20490,8 +20536,7 @@ msgstr "%"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:3
 msgid "How far the bars/cols overlap as a percentage of the width"
-msgstr ""
-"Hasta donde las barras/columnas se superponen como un porcentaje del ancho"
+msgstr "Hasta donde las barras/columnas se superponen como un porcentaje del ancho"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:4
 msgid "Separation between groups as a percentage of bar/col width"
@@ -20518,19 +20563,16 @@ msgid "Values"
 msgstr "Valores"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:1
-#, fuzzy
 msgid "Default pie types"
-msgstr "Intérprete predeterminado"
+msgstr "Tipos de tarta predeterminados"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:2
-#, fuzzy
 msgid "Pie Charts"
-msgstr "Dibujando gráficos de tartas"
+msgstr "Diagramas de tartas"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:3
-#, fuzzy
 msgid "Pie charts"
-msgstr "Dibujando gráficos de tartas"
+msgstr "Diagramas de tartas"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:4
 msgid "Pie plotting engine"
@@ -20545,8 +20587,7 @@ msgid "3D Split Pie"
 msgstr "Tarta partida 3D"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:3
-msgid ""
-"Major totals as percentages with each wedge subdivided into secondary pies."
+msgid "Major totals as percentages with each wedge subdivided into secondary pies."
 msgstr ""
 "Mayorar totales como porcentajes con cada porción subdividida en tartas "
 "secundarias."
@@ -20597,19 +20638,18 @@ msgstr "Dividir tarta"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:3
 msgid "Degrees counter clockwise from 3 O'Clock"
-msgstr ""
-"grados contando en el sentido de las agujas del reloj desde las 3 en punto"
+msgstr "grados contando en el sentido de las agujas del reloj desde las 3 en punto"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:4
 msgid "Slices start _at:"
-msgstr "Secciones empiezan _en"
+msgstr "Las porciones empiez_an en"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:5
 msgid ""
 "The default amount each slice is separated from the center measured as a "
 "percentage of the radius of the pie"
 msgstr ""
-"La cantidad preestablecida que cada trozo está separado del centro, medido "
+"La cantidad preestablecida que cada porción está separada del centro, medido "
 "como un porcentaje del radio de la tarta"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:6
@@ -20618,7 +20658,7 @@ msgstr "_Separación de porciones:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:7
 msgid "_Vary colours by slice"
-msgstr "_variar colores por porción"
+msgstr "_Variar colores por porción"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:8
 msgid "degrees"
@@ -20795,7 +20835,7 @@ msgstr "Filtro avanzado"
 #: src/dialogs/advanced-filter.glade.h:3
 #: src/dialogs/dialog-advanced-filter.c:196
 msgid "Criteria _Range:"
-msgstr "Rango de c_riterios:"
+msgstr "_Rango de criterios:"
 
 #: src/dialogs/advanced-filter.glade.h:4
 #: src/dialogs/fourier-analysis.glade.h:6 src/dialogs/histogram.glade.h:11
@@ -20828,7 +20868,7 @@ msgstr "Salida"
 
 #: src/dialogs/advanced-filter.glade.h:8
 msgid "_Filter In-Place"
-msgstr "_Filtrar en lugar"
+msgstr "_Filtro en el lugar"
 
 #: src/dialogs/advanced-filter.glade.h:9 src/dialogs/anova-one.glade.h:18
 #: src/dialogs/anova-two.glade.h:16 src/dialogs/correlation.glade.h:14
@@ -21853,7 +21893,7 @@ msgstr "En columna _izquierda"
 
 #: src/dialogs/consolidate.glade.h:11
 msgid "In _top row"
-msgstr "Insertar filas"
+msgstr "En la _fila superior"
 
 #: src/dialogs/consolidate.glade.h:13 src/dialogs/dialog-simulation.c:248
 #: src/tools/simulation.c:256 src/workbook-control-gui.c:4831
@@ -22209,18 +22249,15 @@ msgstr "No se puede crear el diálogo para la herramienta de covarianza."
 
 #: src/dialogs/dialog-analysis-tools.c:845
 msgid "Could not create the Rank and Percentile Tools dialog."
-msgstr ""
-"No se puede crear el diálogo para las herramientas de rangos y percentiles."
+msgstr "No se puede crear el diálogo para las herramientas de rangos y percentiles."
 
 #: src/dialogs/dialog-analysis-tools.c:935
 msgid "Could not create the Fourier Analysis Tool dialog."
-msgstr ""
-"No se puede crear el diálogo para la herramienta de análisis de Fourier."
+msgstr "No se puede crear el diálogo para la herramienta de análisis de Fourier."
 
 #: src/dialogs/dialog-analysis-tools.c:1097
 msgid "Could not create the Descriptive Statistics Tool dialog."
-msgstr ""
-"No se puede crear el diálogo para la herramienta de estadística descriptiva."
+msgstr "No se puede crear el diálogo para la herramienta de estadística descriptiva."
 
 #: src/dialogs/dialog-analysis-tools.c:1239
 msgid ""
@@ -22268,8 +22305,7 @@ msgstr "No se puede crear el diálogo para la herramienta de muestreo."
 
 #: src/dialogs/dialog-analysis-tools.c:1983 src/tools/analysis-tools.c:2158
 #: src/tools/analysis-tools.c:2233
-msgid ""
-"There must be an equal number of entries for each variable in the regression."
+msgid "There must be an equal number of entries for each variable in the regression."
 msgstr ""
 "Debe existir un número equivalente de registros por cada variable en la "
 "regresión."
@@ -22292,8 +22328,7 @@ msgstr "No se ha podido crear el diálogo de Suavizado exponencial."
 
 #: src/dialogs/dialog-analysis-tools.c:2364
 msgid "Could not create the Moving Average Tool dialog."
-msgstr ""
-"No se puede crear el diálogo para la herramienta de las medias móviles."
+msgstr "No se puede crear el diálogo para la herramienta de las medias móviles."
 
 #: src/dialogs/dialog-analysis-tools.c:2589 src/dialogs/histogram.glade.h:4
 msgid "Bin _Range:"
@@ -22351,8 +22386,7 @@ msgstr "El rango de entrada dado debe contener al menos dos filas de datos."
 
 #: src/dialogs/dialog-analysis-tools.c:2873
 msgid "The number of data rows must be a multiple of the replication number."
-msgstr ""
-"El número de filas de datos debe ser múltiplo del número de replicación."
+msgstr "El número de filas de datos debe ser múltiplo del número de replicación."
 
 #: src/dialogs/dialog-analysis-tools.c:2977
 msgid "Could not create the ANOVA (two factor) tool dialog."
@@ -22360,8 +22394,7 @@ msgstr "No se puede crear el diálogo para la herramienta ANOVA (dos factores)."
 
 #: src/dialogs/dialog-autocorrect.c:323
 msgid "Could not create the AutoCorrect dialog."
-msgstr ""
-"No se puede crear el diálogo para la herramienta de Corrección automática."
+msgstr "No se puede crear el diálogo para la herramienta de Corrección automática."
 
 #: src/dialogs/dialog-autoformat.c:69
 msgid "Jan"
@@ -22551,8 +22584,7 @@ msgstr "Cambiar el ancho estándar/predeterminado de columna"
 
 #: src/dialogs/dialog-col-width.c:233
 #, c-format
-msgid ""
-"Set column width of selection on <span style='italic' weight='bold'>%s</span>"
+msgid "Set column width of selection on <span style='italic' weight='bold'>%s</span>"
 msgstr ""
 "Fijar el ancho de columna de selección a <span style='italic' weight='bold'>%"
 "s</span>"
@@ -22843,8 +22875,7 @@ msgid ""
 "The following extra plugins must be activated in order to activate this "
 "one:\n"
 "\n"
-msgstr ""
-"Las siguientes extensiones deben ser activadas para poder activar esta:\n"
+msgstr "Las siguientes extensiones deben ser activadas para poder activar esta:\n"
 
 #: src/dialogs/dialog-plugin-manager.c:570
 #, c-format
@@ -23178,14 +23209,12 @@ msgstr "Fija la altura de fila estándar/predeterminada"
 
 #: src/dialogs/dialog-row-height.c:233
 #, c-format
-msgid ""
-"Set row height of selection on <span style='italic' weight='bold'>%s</span>"
-msgstr ""
-"Fija la altura de la selección a <span style='italic' weigth='bold'>%s</span>"
+msgid "Set row height of selection on <span style='italic' weight='bold'>%s</span>"
+msgstr "Fija la altura de la selección a <span style='italic' weigth='bold'>%s</span>"
 
 #: src/dialogs/dialog-scenarios.c:116
 msgid "Invalid changing cells"
-msgstr "Celdas de _variación inválidas"
+msgstr "Celdas de variación inválidas"
 
 #: src/dialogs/dialog-scenarios.c:124
 msgid "Changing cells should be on the current sheet only."
@@ -23396,10 +23425,8 @@ msgstr ""
 "informes."
 
 #: src/dialogs/dialog-solver.c:765
-msgid ""
-"The Target Cell value specified does not converge!  The program is unbounded."
-msgstr ""
-"El valor de la celda objetivo no converge.  El programa no tiene límites."
+msgid "The Target Cell value specified does not converge!  The program is unbounded."
+msgstr "El valor de la celda objetivo no converge.  El programa no tiene límites."
 
 #: src/dialogs/dialog-solver.c:779
 msgid ""
@@ -23630,7 +23657,7 @@ msgstr ""
 #: src/dialogs/dialog-stf-fixed-page.c:112
 #, c-format
 msgid "You cannot have more than %d columns in this version of Gnumeric."
-msgstr ""
+msgstr "No puede tener más de %d columnas en esta versión de Gnumeric."
 
 #: src/dialogs/dialog-stf-main-page.c:133
 #, c-format
@@ -23640,7 +23667,7 @@ msgstr "%d de %d líneas para importar"
 #: src/dialogs/dialog-stf-main-page.c:152
 #, c-format
 msgid "The data is not valid in encoding %s; please select another encoding."
-msgstr ""
+msgstr "El dato no es válido en la codificación %s, por favor, seleccione otra codificación."
 
 #: src/dialogs/dialog-stf-main-page.c:342
 #, c-format
@@ -23656,8 +23683,7 @@ msgstr "Columna %d"
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
-msgstr ""
-"El procesamiento comenzará en esta línea, las líneas previas serán ignoradas."
+msgstr "El procesamiento comenzará en esta línea, las líneas previas serán ignoradas."
 
 #: src/dialogs/dialog-stf.glade.h:5
 msgid "Add a new column"
@@ -23718,16 +23744,12 @@ msgstr "Personalizar separador (puede ser cualquier caracter)"
 
 # Mejorar traduccion
 #: src/dialogs/dialog-stf.glade.h:19
-#, fuzzy
 msgid "Customize the columns using the buttons or the mouse"
-msgstr ""
-"Personalice las columnas utilizando los botones o el mouse (colo el "
-"mousesobre el ejemplo para más instrucciones)"
+msgstr "Personalizar las columnas utilizando los botones o el ratón"
 
 #: src/dialogs/dialog-stf.glade.h:20
-#, fuzzy
 msgid "Data"
-msgstr "_Datos"
+msgstr "Datos"
 
 #: src/dialogs/dialog-stf.glade.h:21
 msgid "Data type and number of lines"
@@ -23746,9 +23768,8 @@ msgstr ""
 "coma."
 
 #: src/dialogs/dialog-stf.glade.h:24
-#, fuzzy
 msgid "Encoding:"
-msgstr "Enlazando"
+msgstr "Codificación:"
 
 #: src/dialogs/dialog-stf.glade.h:25
 msgid "End"
@@ -23760,7 +23781,7 @@ msgstr "_Ancho fijo"
 
 #: src/dialogs/dialog-stf.glade.h:27
 msgid "Fixed width customization"
-msgstr "_Personalizar ancho fijo"
+msgstr "Personalizar el ancho fijo"
 
 #: src/dialogs/dialog-stf.glade.h:28
 msgid "Formatting for the selected column"
@@ -23835,10 +23856,8 @@ msgid "See two successive separators as one."
 msgstr "Considerar separadores consecutivos como uno solo"
 
 #: src/dialogs/dialog-stf.glade.h:47
-msgid ""
-"See two successive text indicators as one that does not terminate the cell."
-msgstr ""
-"Ver dos indicadores de texto sucesivos como uno solo que no termina la celda."
+msgid "See two successive text indicators as one that does not terminate the cell."
+msgstr "Ver dos indicadores de texto sucesivos como uno solo que no termina la celda."
 
 #: src/dialogs/dialog-stf.glade.h:48
 msgid ""
@@ -23977,6 +23996,9 @@ msgid ""
 "in GTK+, libgnomeui, libgnomeprintui, libbonoboui, and Gnumeric at the time "
 "of writing, ultimo May 2003."
 msgstr ""
+"El soporte multi-monitor en Gnumeric se ha desactivado debido a múltiples fallos en "
+"GTK+, libgnomeui, libgnomeprintui,libbonoboui, y Gnumeric a tiempo de escribirse esto "
+"últimos de mayo de 2003"
 
 #: src/dialogs/dialog-view.c:92
 #, c-format
@@ -24211,7 +24233,7 @@ msgstr "Por_centaje acumulado"
 
 #: src/dialogs/histogram.glade.h:7
 msgid "Chart Output"
-msgstr "Gráfico de salida"
+msgstr "Diagrama de salida"
 
 #: src/dialogs/histogram.glade.h:10 src/tools/analysis-tools.c:4071
 #: src/tools/analysis-tools.c:4074
@@ -24376,18 +24398,16 @@ msgid "_Unequal"
 msgstr "D_istintas"
 
 #: src/dialogs/merge.glade.h:1
-#, fuzzy
 msgid "Merge _Range:"
-msgstr "Combinar rango:"
+msgstr "Combinar _rango:"
 
 #: src/dialogs/merge.glade.h:2
 msgid "Merge..."
 msgstr "Combinar..."
 
 #: src/dialogs/merge.glade.h:3
-#, fuzzy
 msgid "_Merge"
-msgstr "Combinar"
+msgstr "_Combinar"
 
 #: src/dialogs/moving-averages.glade.h:2
 msgid "3"
@@ -24492,7 +24512,7 @@ msgstr "Directorios"
 
 #: src/dialogs/plugin-manager.glade.h:4
 msgid "Do _not activate this plugin next time I start Gnumeric"
-msgstr "No activar esta extensión la próxima vez que inicia Gnumeric."
+msgstr "_No activar esta extensión la próxima vez que inicia Gnumeric."
 
 #: src/dialogs/plugin-manager.glade.h:5
 msgid "Plugin Details"
@@ -24762,7 +24782,7 @@ msgstr "Nombre del escenario:"
 
 #: src/dialogs/scenario-manager.glade.h:2
 msgid "Changing cells:"
-msgstr "Celdas de _variación:"
+msgstr "Celdas de variación:"
 
 #: src/dialogs/scenario-manager.glade.h:4
 msgid "Create _Report"
@@ -25090,7 +25110,7 @@ msgstr "Muestreo de datos"
 
 #: src/dialogs/shuffle.glade.h:2
 msgid "Input Range: "
-msgstr "Rango de _entrada:"
+msgstr "Rango de entrada:"
 
 #: src/dialogs/shuffle.glade.h:3
 msgid "Shuffle Method: "
@@ -25187,7 +25207,7 @@ msgstr "Rango de _salida: "
 
 #: src/dialogs/simulation.glade.h:24
 msgid "_Summary"
-msgstr "Resumen"
+msgstr "Re_sumen"
 
 #: src/dialogs/so-arrow.glade.h:1
 msgid "Arrow Length:"
@@ -25211,8 +25231,7 @@ msgstr "Distancia desde la punta de la cabeza de la flecha al punto central"
 
 #: src/dialogs/so-arrow.glade.h:7
 msgid "Distance from tip of arrowhead to trailing point, measured along shaft"
-msgstr ""
-"Distancia desde el inicio de la flecha al punto final, medido según astil"
+msgstr "Distancia desde el inicio de la flecha al punto final, medido según astil"
 
 #: src/dialogs/so-arrow.glade.h:8
 msgid "Distance of trailing point from outside edge of shaft"
@@ -25423,7 +25442,7 @@ msgstr "_Sensibilidad"
 
 #: src/dialogs/solver.glade.h:42
 msgid "_Set Target Cell:       "
-msgstr "Definir celda objetivo:   "
+msgstr "De_finir celda objetivo:   "
 
 #: src/dialogs/solver.glade.h:43
 msgid "_Type:"
@@ -25502,8 +25521,7 @@ msgid "Tabulate Dependency"
 msgstr "Dependencia tabular"
 
 #: src/dialogs/tabulate.glade.h:10
-msgid ""
-"Use down for first source, right for second, and multiple sheets for third"
+msgid "Use down for first source, right for second, and multiple sheets for third"
 msgstr ""
 "Use abajo para el primer origen, derecha para el segundo múltiples hojas "
 "para el tercero"
@@ -25582,7 +25600,7 @@ msgstr "Formatear libro de cuentas"
 
 #: src/dialogs/workbook-attr.glade.h:6
 msgid "Maximum c_hange:"
-msgstr "Cambio máximo:"
+msgstr "Ca_mbio máximo:"
 
 #: src/dialogs/workbook-attr.glade.h:7
 msgid "Maximum it_erations:"
@@ -25590,7 +25608,7 @@ msgstr "It_eraciones máx.:"
 
 #: src/dialogs/workbook-attr.glade.h:8
 msgid "Notebook _Tabs for Sheets"
-msgstr "Encuadernar pestañas para las hojas"
+msgstr "Encuadernar pes_tañas para las hojas"
 
 #: src/dialogs/workbook-attr.glade.h:9
 msgid "Pa_ssword:"
@@ -25691,8 +25709,7 @@ msgstr ""
 "antiguo de este tipo."
 
 #: src/file.c:551
-msgid ""
-"You can turn this safety feature off by editing appropriate plugin.xml file."
+msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Puede desactivar esta característica en forma segura, para la edición "
 "apropiada del archivo XML de la extensión."
@@ -25715,8 +25732,7 @@ msgstr "El archivo xml no es válido: ¿Está vacío el árbol?"
 
 #: src/format-template.c:972
 #, c-format
-msgid ""
-"The target region is too small.  It should be at least %d rows by %d columns"
+msgid "The target region is too small.  It should be at least %d rows by %d columns"
 msgstr ""
 "La región de destino es muy pequeña, debe tener al menos %d filas por %d "
 "columnas"
@@ -25724,14 +25740,12 @@ msgstr ""
 #: src/format-template.c:976
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
-msgstr ""
-"La región de destino es muy pequeña, debe tener al menos %d columnas de ancho"
+msgstr "La región de destino es muy pequeña, debe tener al menos %d columnas de ancho"
 
 #: src/format-template.c:980
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
-msgstr ""
-"La región de destino es muy pequeña, debe tener al menos %d filas de alto"
+msgstr "La región de destino es muy pequeña, debe tener al menos %d filas de alto"
 
 #: src/format.c:605
 msgid "Black"
@@ -26621,13 +26635,11 @@ msgstr "Formato numérico alternativo"
 
 #: src/gui-clipboard.c:62
 msgid "Error while trying to pre-convert clipboard data"
-msgstr ""
-"Ha ocurrido un error al intentar pre-convertir los datos del portapapeles."
+msgstr "Ha ocurrido un error al intentar pre-convertir los datos del portapapeles."
 
 #: src/gui-clipboard.c:97
 msgid "Parse error while trying to parse data into cellregion"
-msgstr ""
-"Error de análisis al intentar analizar los datos de la región de celdas"
+msgstr "Error de análisis al intentar analizar los datos de la región de celdas"
 
 #: src/gui-file.c:74
 msgid "Automatically detected"
@@ -26843,8 +26855,7 @@ msgstr "Activar algunas funciones de depuración relativas a dependencias"
 
 #: src/main-application.c:70
 msgid "Enables some debugging functions for expression sharing"
-msgstr ""
-"Activar algunas funciones de depuración para compartición de expresiones"
+msgstr "Activar algunas funciones de depuración para compartición de expresiones"
 
 #: src/main-application.c:72
 msgid "Enables some print debugging behavior"
@@ -26962,13 +26973,11 @@ msgstr "En en este contexto no es soportado disponer de múltiples expresiones"
 
 #: src/parser.y:1319
 msgid "Could not find matching opening parenthesis"
-msgstr ""
-"No coinciden los paréntesis abiertos y cerrados (faltan paréntesis abiertos)"
+msgstr "No coinciden los paréntesis abiertos y cerrados (faltan paréntesis abiertos)"
 
 #: src/parser.y:1323
 msgid "Could not find matching closing parenthesis"
-msgstr ""
-"No coinciden los paréntesis abiertos y cerrados (faltan paréntesis cerrados)"
+msgstr "No coinciden los paréntesis abiertos y cerrados (faltan paréntesis cerrados)"
 
 #: src/parser.y:1327
 msgid "Invalid expression"
@@ -27230,8 +27239,7 @@ msgstr ""
 #: src/plugin.c:826
 #, c-format
 msgid "No services defined for plugin with id=\"%s\"."
-msgstr ""
-"No hay servicios definidos para la extensión cuyo identificador es «%s»."
+msgstr "No hay servicios definidos para la extensión cuyo identificador es «%s»."
 
 #: src/plugin.c:836
 #, c-format
@@ -27462,7 +27470,7 @@ msgstr "_Insertar..."
 
 #: src/sheet-control-gui.c:1497
 msgid "_Insert Column(s)"
-msgstr "Insertar columna(s)"
+msgstr "_Insertar columna(s)"
 
 #: src/sheet-control-gui.c:1499
 msgid "_Delete Column(s)"
@@ -29151,18 +29159,17 @@ msgstr "Rehacer"
 #: src/workbook-control-gui.c:1727
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
-msgstr ""
+msgstr "¿Guardar los cambios al libro de cuentas «%s» antes de cerrar?"
 
 #: src/workbook-control-gui.c:1731
 msgid "Save changes to workbook before closing?"
-msgstr ""
+msgstr "¿Guardar los cambios al libro de cuentas antes de cerrar?"
 
 #: src/workbook-control-gui.c:1737
 msgid "If you close without saving, changes will be discarded."
-msgstr ""
+msgstr "Si cierra sin guardar, los cambios serán descartados."
 
 #: src/workbook-control-gui.c:1743
-#, fuzzy
 msgid "Discard all"
 msgstr "Descartar todo"
 
@@ -29172,17 +29179,14 @@ msgid "Discard"
 msgstr "Descartar"
 
 #: src/workbook-control-gui.c:1747
-#, fuzzy
 msgid "Save all"
 msgstr "Guardar todo"
 
 #: src/workbook-control-gui.c:1749 src/workbook-control-gui.c:1756
-#, fuzzy
 msgid "Don't quit"
 msgstr "No salir"
 
 #: src/workbook-control-gui.c:1764
-#, fuzzy
 msgid "Don't close"
 msgstr "No cerrar"
 
@@ -29316,9 +29320,8 @@ msgid "Redo the operation"
 msgstr "Rehacer la operación"
 
 #: src/workbook-control-gui.c:4074
-#, fuzzy
 msgid "Chart Guru"
-msgstr "Gráfico de salida"
+msgstr "Asistente (Gurú) de diagramas"
 
 #: src/workbook-control-gui.c:5124
 #, c-format
@@ -29334,19 +29337,16 @@ msgid "Send the current file in email"
 msgstr "Enviar el archivo por correo"
 
 #: src/workbook-control-gui.c:5416 src/workbook-control-gui.c:5431
-#, fuzzy
 msgid "_Re-Edit"
-msgstr "Re-editar"
+msgstr "_Re-editar"
 
 #: src/workbook-control-gui.c:5417 src/workbook-control-gui.c:5422
-#, fuzzy
 msgid "_Discard"
-msgstr "Descartar"
+msgstr "_Descartar"
 
 #: src/workbook-control-gui.c:5421 src/workbook-control-gui.c:5432
-#, fuzzy
 msgid "_Accept"
-msgstr "Aceptar"
+msgstr "_Aceptar"
 
 #: src/workbook-control.c:229
 msgid "Define Name"
@@ -29383,7 +29383,7 @@ msgstr "Establecer tipografía"
 
 #: src/workbook-format-toolbar.c:286
 msgid "Set Font Size"
-msgstr "Establecer tamaño tipográfico"
+msgstr "Establecer tamaño tipodiagrama"
 
 #: src/workbook-format-toolbar.c:308
 msgid "Format as Money"
@@ -29970,3 +29970,4 @@ msgstr "Formato de archivo XML de Gnumeric"
 
 #~ msgid "output.ps"
 #~ msgstr "salida.ps"
+
