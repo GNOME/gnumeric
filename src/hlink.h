@@ -10,16 +10,16 @@
 
 GnmHLink	*sheet_hlink_find   (Sheet const *sheet, CellPos const *pos);
 
-GType gnm_hlink_get_type ();
+GType gnm_hlink_get_type (void);
 gboolean         gnm_hlink_activate (GnmHLink *l, WorkbookControl *wbc);
 guchar const	*gnm_hlink_get_tip  (GnmHLink const *l);
 void		 gnm_hlink_set_tip  (GnmHLink *l, guchar const *tip);
 
-GType gnm_hlink_cur_wb_get_type ();
+GType gnm_hlink_cur_wb_get_type (void);
 guchar const *gnm_hlink_cur_wb_get_target (GnmHLink const *link);
 void	      gnm_hlink_cur_wb_set_target (GnmHLink *link, guchar const *target);
 
-GType gnm_hlink_url_get_type ();
+GType gnm_hlink_url_get_type (void);
 guchar const *gnm_hlink_url_get_target (GnmHLink const *link);
 void	      gnm_hlink_url_set_target (GnmHLink *link, guchar const *url);
 

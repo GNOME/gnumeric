@@ -47,6 +47,8 @@ struct _XmlParseContext {
 GnumFileOpener *gnumeric_xml_get_opener (void);
 GnumFileSaver  *gnumeric_xml_get_saver (void);
 
+void gnumeric_xml_read_workbook (GnumFileOpener const *fo, IOContext *context,
+				 WorkbookView *wb_view, GsfInput *input);
 void gnumeric_xml_write_workbook (GnumFileSaver const *fs, IOContext *context,
                                   WorkbookView *wbv, gchar const *filename);
 

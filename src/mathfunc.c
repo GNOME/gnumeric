@@ -4696,7 +4696,7 @@ random_gaussian (gnum_float sigma)
 	return sigma * random_normal ();
 }
 
-gnum_float
+static gnum_float
 random_gaussian_pdf (gnum_float x, gnum_float sigma)
 {
 	gnum_float u = x / gnumabs (sigma);

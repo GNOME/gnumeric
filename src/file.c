@@ -243,7 +243,7 @@ gnum_file_saver_save_real (GnumFileSaver const *fs, IOContext *io_context,
 	fs->save_func (fs, io_context, wbv, file_name);
 }
 
-#ifdef WITH_BONOBO
+#if defined(GNOME2_CONVERSION_COMPLETE) && defined(WITH_BONOBO)
 #define FILE_COPY_CHUNK_SIZE  0x10000
 
 static void
