@@ -185,7 +185,7 @@
 
 1999-07-06  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
-	* src/dialog-analysis-tools.c, src/analysis-tools.c: Added some
+	* src/dialog-analysis-tools.c, src/analysis-tools.c: Added some
  	error checks, not complete yet.
 	
 1999-07-06  Jukka-Pekka Iivonen  <iivonen@iki.fi>
