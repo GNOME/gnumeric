@@ -120,6 +120,25 @@ go_data_from_str (GOData *dat, char const *str)
 	return (*klass->from_str) (dat, str);
 }
 
+/**
+ * go_data_emit_changed :
+ * @dat : #GOData
+ *
+ * protected utility to emit a 'changed' signal
+ **/
+void
+go_data_emit_changed (GOData *dat)
+{
+	GODataClass const *klass = GO_DATA_GET_CLASS (dat);
+
+	g_return_if_fail (klass != NULL);
+
+	if (klass->emit_changed)
+		(*klass->emit_changed) (dat);
+
+	g_signal_emit (G_OBJECT (dat), go_data_signals [CHANGED], 0);
+}
+
 /*************************************************************************/
 
 #define GO_DATA_SCALAR_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GO_DATA_SCALAR_TYPE, GODataScalarClass))
@@ -146,22 +165,25 @@ go_data_scalar_get_str (GODataScalar *scalar)
 	return (*klass->get_str) (scalar);
 }
 
-void
-go_data_scalar_emit_changed (GODataScalar *data)
-{
-	g_return_if_fail (GO_DATA_SCALAR (data) != NULL);
-
-	g_signal_emit (G_OBJECT (data), go_data_signals [CHANGED], 0);
-}
-
 /*************************************************************************/
 
 #define GO_DATA_VECTOR_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST ((k), GO_DATA_VECTOR_TYPE, GODataVectorClass))
 #define IS_GO_DATA_VECTOR_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GO_DATA_VECTOR_TYPE))
 #define GO_DATA_VECTOR_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GO_DATA_VECTOR_TYPE, GODataVectorClass))
 
+static void
+go_data_vector_emit_changed (GOData *data)
+{
+	data->flags &= ~(GO_DATA_CACHE_IS_VALID | GO_DATA_VECTOR_LEN_CACHED);
+}
+static void
+go_data_vector_class_init (GODataClass *klass)
+{
+	klass->emit_changed = go_data_vector_emit_changed;
+}
+
 GSF_CLASS_ABSTRACT (GODataVector, go_data_vector,
-		    NULL, NULL,
+		    go_data_vector_class_init, NULL,
 		    GO_DATA_TYPE)
 
 int
@@ -234,13 +256,4 @@ go_data_vector_get_minmax (GODataVector *vec, double *min, double *max)
 		*min = vec->minimum;
 	if (max != NULL)
 		*max = vec->maximum;
-}
-
-void
-go_data_vector_emit_changed (GODataVector *data)
-{
-	g_return_if_fail (GO_DATA_VECTOR (data) != NULL);
-
-	data->base.flags &= ~(GO_DATA_CACHE_IS_VALID | GO_DATA_VECTOR_LEN_CACHED);
-	g_signal_emit (G_OBJECT (data), go_data_signals [CHANGED], 0);
 }

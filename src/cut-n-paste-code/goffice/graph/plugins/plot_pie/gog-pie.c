@@ -175,12 +175,12 @@ gog_pie_plot_class_init (GogPlotClass *plot_klass)
 		g_param_spec_float ("initial_angle", "initial_angle",
 			"Degrees counter-clockwise from 3 O'Clock.",
 			0, G_MAXFLOAT, 0.,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_DEFAULT_SEPARATION,
 		g_param_spec_float ("default_separation", "default_separation",
 			"Default amount a slice is extended as a percentage of the radius",
 			0, G_MAXFLOAT, 0.,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, PLOT_PROP_IN_3D,
 		g_param_spec_boolean ("in_3d", "in_3d",
 			"Draw 3d wedges",

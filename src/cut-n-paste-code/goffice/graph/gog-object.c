@@ -233,7 +233,7 @@ char const *
 gog_object_get_name (GogObject const *obj)
 {
 	g_return_val_if_fail (GOG_OBJECT (obj) != NULL, NULL);
-	return obj->user_name ? obj->user_name : obj->id;
+	return (obj->user_name != NULL && *obj->user_name != '\0') ? obj->user_name : obj->id;
 }
 
 /**

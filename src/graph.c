@@ -35,6 +35,7 @@
 #include <goffice/graph/go-data-impl.h>
 
 #include <gsf/gsf-impl-utils.h>
+#include <string.h>
 
 static  gboolean
 gnm_go_data_from_str (Dependent *dep, char const *str, GObject *dat)
@@ -62,7 +63,6 @@ gnm_go_data_from_str (Dependent *dep, char const *str, GObject *dat)
 static void
 gnm_go_data_set_sheet (Dependent *dep, Sheet *sheet, GObject *dat)
 {
-
 	if (sheet != NULL) {
 		/* no expression ?
 		 * Do we need to parse one now that we have more context ? */
@@ -70,8 +70,10 @@ gnm_go_data_set_sheet (Dependent *dep, Sheet *sheet, GObject *dat)
 			char const *str = g_object_get_data (dat, "from-str");
 			if (str != NULL) { /* bingo */
 				dep->sheet = sheet; /* cheat a bit */
-				gnm_go_data_from_str (dep, str, dat);
-				g_object_set_data (dat, "from-str", NULL); /* free it */
+				if (gnm_go_data_from_str (dep, str, dat)) {
+					g_object_set_data (dat, "from-str", NULL); /* free it */
+					go_data_emit_changed (GO_DATA (dat));
+				}
 			}
 		}
 
@@ -107,10 +109,13 @@ scalar_get_val (GnmGODataScalar *scalar)
 		scalar->val_str = NULL;
 	}
 	if (scalar->val == NULL) {
-		EvalPos pos;
-		scalar->val = gnm_expr_eval (scalar->dep.expression,
-			eval_pos_init_dep (&pos, &scalar->dep),
-			GNM_EXPR_EVAL_PERMIT_EMPTY);
+		if (scalar->dep.expression != NULL) {
+			EvalPos pos;
+			scalar->val = gnm_expr_eval (scalar->dep.expression,
+				eval_pos_init_dep (&pos, &scalar->dep),
+				GNM_EXPR_EVAL_PERMIT_EMPTY);
+		} else
+			scalar->val = value_new_empty ();
 	}
 	return scalar->val;
 }
@@ -119,7 +124,14 @@ static void
 gnm_go_data_scalar_eval (Dependent *dep)
 {
 	GnmGODataScalar *scalar = DEP_TO_SCALAR (dep);
-	go_data_scalar_emit_changed (GO_DATA_SCALAR (scalar));
+
+	if (scalar->val != NULL) {
+		value_release (scalar->val);
+		scalar->val = NULL;
+	}
+	g_free (scalar->val_str);
+	scalar->val_str = NULL;
+	go_data_emit_changed (GO_DATA (scalar));
 }
 
 static void
@@ -144,6 +156,15 @@ gnm_go_data_scalar_eq (GOData const *data_a, GOData const *data_b)
 {
 	GnmGODataScalar const *a = (GnmGODataScalar const *)data_a;
 	GnmGODataScalar const *b = (GnmGODataScalar const *)data_b;
+	if (a->dep.expression == NULL && b->dep.expression == NULL) {
+		char const *str_a = g_object_get_data (G_OBJECT (data_a), "from-str");
+		char const *str_b = g_object_get_data (G_OBJECT (data_b), "from-str");
+
+		if (str_a != NULL && str_b != NULL)
+			return 0 == strcmp (str_a, str_b);
+		return FALSE;
+	}
+
 	return gnm_expr_equal (a->dep.expression, b->dep.expression);
 }
 
@@ -152,6 +173,8 @@ gnm_go_data_scalar_as_str (GOData const *dat)
 {
 	ParsePos pp;
 	GnmGODataScalar const *scalar = (GnmGODataScalar const *)dat;
+	if (scalar->dep.sheet == NULL)
+		return g_strdup ("No sheet scalar");
 	return gnm_expr_as_string (scalar->dep.expression,
 		parse_pos_init_dep (&pp, &scalar->dep),
 		gnm_expr_conventions_default);
@@ -251,7 +274,7 @@ gnm_go_data_vector_eval (Dependent *dep)
 		value_release (vec->val);
 		vec->val = NULL;
 	}
-	go_data_vector_emit_changed (GO_DATA_VECTOR (vec));
+	go_data_emit_changed (GO_DATA (vec));
 }
 
 static void
@@ -278,6 +301,14 @@ gnm_go_data_vector_eq (GOData const *data_a, GOData const *data_b)
 {
 	GnmGODataVector const *a = (GnmGODataVector const *)data_a;
 	GnmGODataVector const *b = (GnmGODataVector const *)data_b;
+	if (a->dep.expression == NULL && b->dep.expression == NULL) {
+		char const *str_a = g_object_get_data (G_OBJECT (data_a), "from-str");
+		char const *str_b = g_object_get_data (G_OBJECT (data_b), "from-str");
+
+		if (str_a != NULL && str_b != NULL)
+			return 0 == strcmp (str_a, str_b);
+		return FALSE;
+	}
 	return gnm_expr_equal (a->dep.expression, b->dep.expression);
 }
 
@@ -286,6 +317,8 @@ gnm_go_data_vector_as_str (GOData const *dat)
 {
 	ParsePos pp;
 	GnmGODataVector const *vec = (GnmGODataVector const *)dat;
+	if (vec->dep.sheet == NULL)
+		return g_strdup ("No sheet vector");
 	return gnm_expr_as_string (vec->dep.expression,
 		parse_pos_init_dep (&pp, &vec->dep),
 		gnm_expr_conventions_default);

@@ -99,10 +99,13 @@ gog_barcol_plot_get_property (GObject *obj, guint param_id,
 		switch (barcol->type) {
 		case GOG_BARCOL_NORMAL:
 			g_value_set_static_string (value, "normal");
+			break;
 		case GOG_BARCOL_STACKED:
 			g_value_set_static_string (value, "stacked");
+			break;
 		case GOG_BARCOL_AS_PERCENTAGE:
 			g_value_set_static_string (value, "as_percentage");
+			break;
 		}
 		break;
 	case BARCOL_PROP_GAP_PERCENTAGE:
@@ -264,20 +267,20 @@ gog_barcol_plot_class_init (GogPlotClass *plot_klass)
 	g_object_class_install_property (gobject_klass, BARCOL_PROP_TYPE,
 		g_param_spec_string ("type", "type",
 			"How to group multiple series, normal, stacked, as_percentage",
-			"normal", G_PARAM_READWRITE));
+			"normal", G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BARCOL_PROP_GAP_PERCENTAGE,
 		g_param_spec_int ("gap_percentage", "gap percentage",
 			"The padding around each group as a percentage of their width",
-			0, 500, 150, G_PARAM_READWRITE));
+			0, 500, 150, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BARCOL_PROP_OVERLAP_PERCENTAGE,
 		g_param_spec_int ("overlap_percentage", "overlap percentage",
 			"The distance between series as a percentage of their width",
-			-100, 100, 100, G_PARAM_READWRITE));
+			-100, 100, 100, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BARCOL_PROP_HORIZONTAL,
 		g_param_spec_boolean ("horizontal", "horizontal",
 			"horizontal bars or vertical columns",
 			FALSE,
-			G_PARAM_READWRITE));
+			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	{
 		static GogSeriesDimDesc dimensions[] = {

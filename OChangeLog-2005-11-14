@@ -1,3 +1,13 @@
+2003-07-28  Jody Goldberg <jody@gnome.org>
+
+	* src/graph.c (gnm_go_data_scalar_eq) : handle the delayed connection
+	  to the sheet where the expression is still NULL because we have not
+	  parsed it yet.
+	(gnm_go_data_vector_eq) : ditto.
+
+	* src/func.c (function_call_with_list) : allow implicit iteration that
+	  does not start at the first argument.
+
 2003-07-27  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-object-graphic.c (sheet_object_filled_user_config,

@@ -124,6 +124,9 @@ gog_theme_init_style (GogTheme *theme, GogStyle *style,
 			g_hash_table_insert (theme->elem_hash_by_class, klass, elem);
 	}
 
+	/* no theme entry for this type */
+	g_return_if_fail (elem != NULL);
+
 	gog_style_copy (style, elem->style);
 	if (ind >= 0 && elem->map)
 		(elem->map) (style, ind);
@@ -176,7 +179,7 @@ gog_theme_add_element (GogTheme *theme, GogStyle *style,
 static void
 map_area_series_solid_default (GogStyle *style, unsigned ind)
 {
-	static GOColor palette [] = {
+	static GOColor const palette [] = {
 		0x9c9cffff, 0x9c3163ff, 0xffffceff, 0xceffffff, 0x630063ff,
 		0xff8484ff, 0x0063ceff, 0xceceffff, 0x000084ff, 0xff00ffff,
 		0xffff00ff, 0x00ffffff, 0x840084ff, 0x840000ff, 0x008484ff,
@@ -197,7 +200,7 @@ map_area_series_solid_default (GogStyle *style, unsigned ind)
 static void
 map_area_series_solid_guppi (GogStyle *style, unsigned ind)
 {
-	static GOColor palette[] = {
+	static GOColor const palette[] = {
 		0xff3000ff, 0x80ff00ff, 0x00ffcfff, 0x2000ffff,
 		0xff008fff, 0xffbf00ff, 0x00ff10ff, 0x009fffff,
 		0xaf00ffff, 0xff0000ff, 0xafff00ff, 0x00ff9fff,

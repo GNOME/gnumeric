@@ -105,6 +105,11 @@ gog_legend_parent_changed (GogObject *obj, gboolean was_set)
 				"notify::cardinality-valid",
 				G_CALLBACK (gog_object_request_update),
 				legend, G_CONNECT_SWAPPED);
+	else if (!was_set && legend->chart_cardinality_handle != 0) {
+		g_signal_handler_disconnect (G_OBJECT (obj->parent),
+			legend->chart_cardinality_handle);
+		legend->chart_cardinality_handle = 0;
+	}
 
 	gog_object_klass->parent_changed (obj, was_set);
 }

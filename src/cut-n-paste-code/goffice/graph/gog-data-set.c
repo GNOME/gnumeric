@@ -121,6 +121,7 @@ static void
 cb_dataset_dim_changed (GOData *data, GogDatasetElement *elem)
 {
 	GogDatasetClass *klass = GOG_DATASET_GET_CLASS (elem->set);
+
 	g_return_if_fail (klass != NULL);
 	if (klass->dim_changed)
 		(klass->dim_changed) (elem->set, elem->dim_i);
@@ -190,14 +191,14 @@ gog_dataset_parent_changed (GogDataset *set, gboolean was_set)
 		if (elem == NULL || elem->data == NULL)
 			continue;
 		dat = elem->data;
-		if (was_set) {
-			elem->data = NULL; /* disable the short circuit */
-			gog_dataset_set_dim_internal (set, i, dat, graph);
-			g_object_unref (dat);
-		} else {
+		if (!was_set) {
 			g_object_ref (dat);
 			gog_dataset_set_dim_internal (set, i, NULL, graph);
 			elem->data = dat;
+		} else if (elem->handler == 0) {
+			elem->data = NULL; /* disable the short circuit */
+			gog_dataset_set_dim_internal (set, i, dat, graph);
+			g_object_unref (dat);
 		}
 	}
 	if (was_set)

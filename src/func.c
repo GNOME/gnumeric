@@ -859,8 +859,10 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 				iter_width = value_area_get_width (tmp, ei->pos);
 				iter_height = value_area_get_height (tmp, ei->pos);
 			}
-			iter_item[iter_count] = iter_count;
-			iter_count++;
+			iter_item [iter_count++] = i;
+
+			/* no need to check type, we would fail comparing a range against a "b, f, or s" */
+			continue;
 		}
 
 		/* All of these argument types must be scalars */

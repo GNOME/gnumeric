@@ -40,13 +40,17 @@ struct _GOData {
 typedef struct {
 	GObjectClass base;
 
-	gboolean (*eq)       (GOData const *a, GOData const *b);
-	char    *(*as_str)   (GOData const *dat);
-	gboolean (*from_str) (GOData *dat, char const *str);
+	gboolean (*eq)		 (GOData const *a, GOData const *b);
+	char    *(*as_str)	 (GOData const *dat);
+	gboolean (*from_str)	 (GOData *dat, char const *str);
+	void	 (*emit_changed) (GOData *dat);
 
 	/* signals */
 	void (*changed)	(GOData *dat);
 } GODataClass;
+
+/* protected */
+void go_data_emit_changed (GOData *dat);
 
 struct _GODataScalar {
 	GOData base;
@@ -58,9 +62,6 @@ typedef struct {
 	char const  *(*get_str)	   (GODataScalar *scalar);
 /*	PangoLayout *(get_fmt_str) (GODataScalar *scalar); */
 } GODataScalarClass;
-
-/* protected */
-void go_data_scalar_emit_changed (GODataScalar *dat);
 
 struct _GODataVector {
 	GOData base;
@@ -78,9 +79,6 @@ typedef struct {
 	char const  *(*get_str)	    (GODataVector *vec, unsigned i);
 /*	PangoLayout *(get_fmt_str)  (GODataVector *vec, unsigned i); */
 } GODataVectorClass;
-
-/* protected */
-void go_data_vector_emit_changed (GODataVector *dat);
 
 G_END_DECLS
 
