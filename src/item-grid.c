@@ -126,7 +126,7 @@ item_grid_find_col (ItemGrid *item_grid, int x, int *col_origin)
 	 * as well to provide sliding when moving backwards (look
 	 * in item-cursor.c
 	 */
-	g_return_if_fail (x >= 0);
+	g_return_val_if_fail (x >= 0, 0);
 
 	do {
 		ColRowInfo *ci = sheet_col_get_info (item_grid->sheet, col);
@@ -155,7 +155,7 @@ item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 	 * as well to provide sliding when moving backwards (look
 	 * in item-cursor.c
 	 */
-	g_return_if_fail (y >= 0);
+	g_return_val_if_fail (y >= 0, 0);
 	
 	do {
 		ColRowInfo *ri = sheet_row_get_info (item_grid->sheet, row);
