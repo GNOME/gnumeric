@@ -1,5 +1,12 @@
 2003-05-31  Jody Goldberg <jody@gnome.org>
 
+	* src/parser.y (parser_sheet_by_name) : don't leak the arguments when
+	  attempting to parse an expression with an unknown function name.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=114144.
+	* src/workbook-control-gui.c (wbcg_validation_msg) : add accelerators
+	  for the buttons.
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=114097.
 	* src/sheet-object-widget.c : while we're in here clean up a bit.
 	(cb_checkbox_label_changed) : doh!

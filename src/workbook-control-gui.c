@@ -5247,13 +5247,13 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 
 	switch (v) {
 	case VALIDATION_STYLE_STOP :
-		res0 = VALIDATION_STATUS_INVALID_EDIT;		btn0 = _("Re-Edit");
-		res1 = VALIDATION_STATUS_INVALID_DISCARD;	btn1 = _("Discard");
+		res0 = VALIDATION_STATUS_INVALID_EDIT;		btn0 = _("_Re-Edit");
+		res1 = VALIDATION_STATUS_INVALID_DISCARD;	btn1 = _("_Discard");
 		type = GTK_MESSAGE_ERROR;
 		break;
 	case VALIDATION_STYLE_WARNING :
-		res0 = VALIDATION_STATUS_VALID;			btn0 = _("Accept");
-		res1 = VALIDATION_STATUS_INVALID_DISCARD;	btn1 = _("Discard");
+		res0 = VALIDATION_STATUS_VALID;			btn0 = _("_Accept");
+		res1 = VALIDATION_STATUS_INVALID_DISCARD;	btn1 = _("_Discard");
 		type = GTK_MESSAGE_WARNING;
 		break;
 	case VALIDATION_STYLE_INFO :
@@ -5262,8 +5262,8 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 		type = GTK_MESSAGE_INFO;
 		break;
 	case VALIDATION_STYLE_PARSE_ERROR:
-		res0 = VALIDATION_STATUS_INVALID_EDIT;		btn0 = _("Re-Edit");
-		res1 = VALIDATION_STATUS_VALID;			btn1 = _("Accept");
+		res0 = VALIDATION_STATUS_INVALID_EDIT;		btn0 = _("_Re-Edit");
+		res1 = VALIDATION_STATUS_VALID;			btn1 = _("_Accept");
 		type = GTK_MESSAGE_ERROR;
 		break;
 

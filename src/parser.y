@@ -636,11 +636,10 @@ function : STRING '(' arg_list ')' {
 				f_call = h (name, $3, state->convs);
 		}
 
-		/* We're done with the function name.  */
-		unregister_allocation ($1); gnm_expr_unref ($1);
-		unregister_allocation ($3);
-
 		if (f_call) {
+			/* We're done with the function name.  */
+			unregister_allocation ($1); gnm_expr_unref ($1);
+			unregister_allocation ($3);
 			$$ = register_expr_allocation (f_call);
 		} else {
 			YYERROR;
