@@ -184,5 +184,9 @@ main (int argc, char *argv [])
 
 	gnm_shutdown ();
 
+#ifdef WITH_BONOBO
+	bonobo_ui_debug_shutdown ();
+#endif
+
 	return 0;
 }

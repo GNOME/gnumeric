@@ -1,3 +1,10 @@
+2002-09-11  Morten Welinder  <terra@diku.dk>
+
+	* src/workbook-control-gui.c (wbcg_finalize): Plug leak.
+
+	* src/main-application.c (main): Shut down bonoboui for leak
+	hunting.
+
 2002-09-10  Jody Goldberg <jody@gnome.org>
 
 	* src/parser.y (yylex) : parse full col/row references.

@@ -4042,6 +4042,8 @@ wbcg_finalize (GObject *obj)
 
 #ifdef WITH_BONOBO
 	g_hash_table_destroy (wbcg->custom_ui_components);
+	bonobo_object_unref (BONOBO_OBJECT (wbcg->uic));
+	wbcg->uic = NULL;
 #endif
 
 	gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel), NULL);
