@@ -1,3 +1,8 @@
+1999-07-11  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* configure.in: Don't use `foo >& /dev/null' style redirection, 
+	use `foo > /dev/null 2>&1'.
+
 1999-07-11  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/widget-font-selector.c: New file.  A simplified and robust

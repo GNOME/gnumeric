@@ -123,7 +123,7 @@ dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
 AC_MSG_CHECKING(For Bonobo > 0.2)
-if gnome-config --libs bonobo >& /dev/null; then
+if gnome-config --libs bonobo > /dev/null 2>&1; then
 	vers=`gnome-config --modversion bonobo`
 	case $vers
 	in
@@ -152,7 +152,7 @@ dnl ******************************
 dnl GnomePrint checking
 dnl ******************************
 AC_MSG_CHECKING(For GnomePrint libraries)
-if gnome-config --libs print >& /dev/null; then 
+if gnome-config --libs print > /dev/null 2>&1; then 
     AC_MSG_RESULT(found)
 else
     AC_MSG_ERROR(Did not find GnomePrint installed)
@@ -162,7 +162,7 @@ dnl ******************************
 dnl LibGlade checking
 dnl ******************************
 AC_MSG_CHECKING(For Glade libraries)
-if gnome-config --libs libglade >& /dev/null; then 
+if gnome-config --libs libglade > /dev/null 2>&1; then 
     AC_MSG_RESULT(found)
 else
     AC_MSG_ERROR(Did not find libGlade installed)
