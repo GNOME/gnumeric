@@ -1,3 +1,7 @@
+2001-02-23  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.63
+
 2001-02-20  Jody Goldberg <jgoldberg@home.com>
 
 	* xml2.c (xml2ParseStyleRegionStyle) : restore indent.

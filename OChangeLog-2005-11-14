@@ -1,5 +1,9 @@
 2001-02-23  Jody Goldberg <jgoldberg@home.com>
 
+	* Release 0.63
+
+2001-02-23  Jody Goldberg <jgoldberg@home.com>
+
 	* src/item-grid.c (item_grid_draw_merged_range) : check for background
 	  before checking for selection.
 
@@ -221,7 +225,7 @@
 	  Shift-space does not work well.
 	(wbcg_close_control) : fix typo (bug 51058)
 
-	* src/workbook-edit.c (workbook_finish_editing) : Editig is local to
+	* src/workbook-edit.c (workbook_finish_editing) : Editing is local to
 	  the control.
 	(workbook_start_editing_at_cursor) : ditto.
 

@@ -1,3 +1,7 @@
+2001-02-23  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.63
+
 2001-02-19  Jon K Hellan  <hellan@acm.org>
 
 	* sylk.c (sylk_read_workbook): Change file format level to

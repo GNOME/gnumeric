@@ -1,3 +1,7 @@
+2001-02-23  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.63
+
 2001-02-18  Jon K Hellan  <hellan@acm.org>
 
 	* pln.c (pln_read_workbook): Fix typo: FILE_SAVER_ID_INVAID ->

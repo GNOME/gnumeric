@@ -1,3 +1,7 @@
+2001-02-23  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.63
+
 2001-02-19  Jon K Hellan  <hellan@acm.org>
 
 	* boot.c (xbase_load): Change file format level to
