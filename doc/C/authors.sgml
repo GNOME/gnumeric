@@ -9,7 +9,7 @@
         Michael Meeks <email>mmeeks@gnu.org</email>,
         Vladimir Vuksan <email>vuksan@veus.hr</email>,
         Takashii Matsuda <email>matsu@arch.comp.kyutech.ac.jp</email>,
-        Jukka-Pekka Iivonen <email>iivonen@iki.fi</email>,
+        Jukka-Pekka Iivonen <email>jiivonen@hutcs.cs.hut.fi</email>,
         Alan Cox <email>alan@redhat.com</email>,
         Vincent Renardias <email>vincent@ldsol.com</email>,
         Jody Goldberg <email>jgoldberg@home.com</email>,
@@ -31,7 +31,7 @@
    This manual was written by Thomas Canty
    (<email>tommydal@ihug.com.au</email>), Miguel deIcaza (<email>miguel@gnu.org</email>),
    Adrian Likins (<email>adrian@gimp.org</email>) and Jukka-Pekka Iivonen 
-  (<email>iivonen@iki.fi</email>. Please send all comments and
+  (<email>jiivonen@hutcs.cs.hut.fi</email>. Please send all comments and
    suggestions regarding this manual to the <ulink type="http"
    url="http://www.gnome.org/gdp">GNOME Documentation Project</ulink>
    by sending an email to <email>docs@gnome.org</email>. You can also

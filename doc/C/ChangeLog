@@ -1,3 +1,7 @@
+2001-10-25  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* analysis-tools.sgml: Extended with moving average description.
+
 2001-10-18  Eric Baudais <baudais@okstate.edu>
 
 	* gnumeric.xml : Validated to DocBook XML.

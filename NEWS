@@ -10,10 +10,14 @@ Jody:
 	* Fix autosizing of indented content.
 	* Fix jump to bound with end in hidden region.
 	* Hide objects in hidden regions for display and printing.
-	* LOG is valid with base > 0 && base != 1
+	* LOG() is valid with base > 0 && base != 1
 	* Clean out some unused code.
 	* Fix redo of unmerge to handle redraw spans.
 	* Improve Name Support.
+
+Jukka:
+	* Improved MPS plugin.
+	* Extended the data analysis documentation.
 
 Morten:
 	* Improve goal seek.
