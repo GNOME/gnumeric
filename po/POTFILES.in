@@ -149,7 +149,6 @@ src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c
-src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade
 src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plugin.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade

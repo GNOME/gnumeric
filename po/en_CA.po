@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-28 10:04-0400\n"
-"PO-Revision-Date: 2004-09-28 11:36-0400\n"
+"POT-Creation-Date: 2004-09-29 12:51-0400\n"
+"PO-Revision-Date: 2004-09-29 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -8789,8 +8789,8 @@ msgstr "%s version %s"
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:224
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:119
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:821
-#: src/dialogs/dialog-cell-format.c:2364 src/dialogs/dialog-cell-format.c:2369
-#: src/dialogs/dialog-cell-format.c:2379 src/wbc-gtk.c:535
+#: src/dialogs/dialog-cell-format.c:2370 src/dialogs/dialog-cell-format.c:2375
+#: src/dialogs/dialog-cell-format.c:2385 src/wbc-gtk.c:535
 msgid "Automatic"
 msgstr "Automatic"
 
@@ -17668,7 +17668,7 @@ msgstr "Objective function:"
 msgid "Constraints:"
 msgstr "Constraints:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6183
+#: plugins/mps/mps.c:245 src/commands.c:6167
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1052
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:373
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
@@ -18434,7 +18434,7 @@ msgstr "This is message from the \"%s\" plugin."
 msgid "Error while opening xbase file."
 msgstr "Error while opening xbase file."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4974
+#: plugins/xbase/boot.c:175 src/commands.c:4961
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:353 src/dialogs/print.glade.h:21
 #: src/print-info.c:391 src/workbook.c:1065 src/xml-io.c:3793
@@ -19380,454 +19380,458 @@ msgstr "%s is locked. Unprotect the sheet to enable editing."
 msgid "..."
 msgstr "..."
 
-#: src/commands.c:917 src/commands.c:1024 src/commands.c:1029
+#: src/commands.c:917 src/commands.c:1022 src/commands.c:1027
 msgid "Set Text"
 msgstr "Set Text"
 
-#: src/commands.c:943
+#: src/commands.c:942
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Typing \"%s%s\" in %s"
 
-#: src/commands.c:1148
+#: src/commands.c:1145
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Typing \"%s%s\""
 
-#: src/commands.c:1186
+#: src/commands.c:1182
 msgid "Ins/Del Column/Row"
 msgstr "Ins/Del Column/Row"
 
-#: src/commands.c:1293 src/commands.c:1298 src/sheet.c:3243
+#: src/commands.c:1289 src/commands.c:1294 src/sheet.c:3247
 msgid "Delete Columns"
 msgstr "Delete Columns"
 
-#: src/commands.c:1293 src/commands.c:1298 src/sheet.c:3361
+#: src/commands.c:1289 src/commands.c:1294 src/sheet.c:3365
 msgid "Delete Rows"
 msgstr "Delete Rows"
 
-#: src/commands.c:1448
+#: src/commands.c:1442
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Inserting %d columns before %s"
 
-#: src/commands.c:1449
+#: src/commands.c:1443
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Inserting %d column before %s"
 
-#: src/commands.c:1464
+#: src/commands.c:1458
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Inserting %d rows before %s"
 
-#: src/commands.c:1465
+#: src/commands.c:1459
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Inserting %d row before %s"
 
-#: src/commands.c:1476
+#: src/commands.c:1470
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Deleting columns %s"
 
-#: src/commands.c:1477
+#: src/commands.c:1471
 #, c-format
 msgid "Deleting column %s"
 msgstr "Deleting column %s"
 
-#: src/commands.c:1487
+#: src/commands.c:1481
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Deleting rows %s"
 
-#: src/commands.c:1488
+#: src/commands.c:1482
 #, c-format
 msgid "Deleting row %s"
 msgstr "Deleting row %s"
 
 #. Check for locked cells
-#: src/commands.c:1570 src/commands.c:1574 src/sheet.c:2857
+#: src/commands.c:1564 src/commands.c:1568 src/sheet.c:2861
 msgid "Clear"
 msgstr "Clear"
 
-#: src/commands.c:1646
+#: src/commands.c:1639
 msgid "contents"
 msgstr "contents"
 
-#: src/commands.c:1648
+#: src/commands.c:1641
 msgid "formats"
 msgstr "formats"
 
-#: src/commands.c:1650
+#: src/commands.c:1643
 msgid "comments"
 msgstr "comments"
 
-#: src/commands.c:1666
+#: src/commands.c:1659
 msgid "all"
 msgstr "all"
 
-#: src/commands.c:1673
+#: src/commands.c:1666
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Clearing %s in %s"
 
-#: src/commands.c:1757
+#: src/commands.c:1749
 msgid "Changing Format"
 msgstr "Changing Format"
 
-#: src/commands.c:1882
+#: src/commands.c:1874
 #, c-format
 msgid "Changing format of %s"
 msgstr "Changing format of %s"
 
-#: src/commands.c:1994
+#: src/commands.c:1984
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Autofitting column %s"
 
-#: src/commands.c:1995
+#: src/commands.c:1985
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Autofitting row %s"
 
-#: src/commands.c:1998
+#: src/commands.c:1988
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Setting width of column %s to %d pixels"
 
-#: src/commands.c:2000
+#: src/commands.c:1990
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Setting height of row %s to %d pixels"
 
-#: src/commands.c:2003
+#: src/commands.c:1993
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Setting width of column %s to default"
 
-#: src/commands.c:2006
+#: src/commands.c:1996
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Setting height of row %s to default"
 
-#: src/commands.c:2010
+#: src/commands.c:2000
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Autofitting columns %s"
 
-#: src/commands.c:2011
+#: src/commands.c:2001
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "Autofitting rows %s"
 
-#: src/commands.c:2014
+#: src/commands.c:2004
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Setting width of columns %s to %d pixels"
 
-#: src/commands.c:2016
+#: src/commands.c:2006
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Setting height of rows %s to %d pixels"
 
-#: src/commands.c:2020
+#: src/commands.c:2010
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Setting width of columns %s to default"
 
-#: src/commands.c:2022
+#: src/commands.c:2012
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Setting height of rows %s to default"
 
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:816
+#: src/commands.c:2078 src/dialogs/dialog-preferences.c:816
 msgid "Sorting"
 msgstr "Sorting"
 
-#: src/commands.c:2109
+#: src/commands.c:2098
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorting %s"
 
-#: src/commands.c:2253
+#: src/commands.c:2241
 msgid "Unhide columns"
 msgstr "Unhide columns"
 
-#: src/commands.c:2253
+#: src/commands.c:2241
 msgid "Hide columns"
 msgstr "Hide columns"
 
-#: src/commands.c:2254
+#: src/commands.c:2242
 msgid "Unhide rows"
 msgstr "Unhide rows"
 
-#: src/commands.c:2254
+#: src/commands.c:2242
 msgid "Hide rows"
 msgstr "Hide rows"
 
-#: src/commands.c:2337
+#: src/commands.c:2324
 msgid "Expand columns"
 msgstr "Expand columns"
 
-#: src/commands.c:2337
+#: src/commands.c:2324
 msgid "Collapse columns"
 msgstr "Collapse columns"
 
-#: src/commands.c:2338
+#: src/commands.c:2325
 msgid "Expand rows"
 msgstr "Expand rows"
 
-#: src/commands.c:2338
+#: src/commands.c:2325
 msgid "Collapse rows"
 msgstr "Collapse rows"
 
-#: src/commands.c:2365
+#: src/commands.c:2351
 #, c-format
 msgid "Show column outline %d"
 msgstr "Show column outline %d"
 
-#: src/commands.c:2365
+#: src/commands.c:2351
 #, c-format
 msgid "Show row outline %d"
 msgstr "Show row outline %d"
 
-#: src/commands.c:2436
+#: src/commands.c:2421
 msgid "Those columns are already grouped"
 msgstr "Those columns are already grouped"
 
-#: src/commands.c:2437
+#: src/commands.c:2422
 msgid "Those rows are already grouped"
 msgstr "Those rows are already grouped"
 
-#: src/commands.c:2460
+#: src/commands.c:2445
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Those columns are not grouped, you can't ungroup them"
 
-#: src/commands.c:2461
+#: src/commands.c:2446
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Those rows are not grouped, you can't ungroup them"
 
-#: src/commands.c:2475
+#: src/commands.c:2460
 #, c-format
 msgid "Group columns %s"
 msgstr "Group columns %s"
 
-#: src/commands.c:2475
+#: src/commands.c:2460
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Ungroup columns %s"
 
-#: src/commands.c:2477
+#: src/commands.c:2462
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Group rows %d:%d"
 
-#: src/commands.c:2477
+#: src/commands.c:2462
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Ungroup rows %d:%d"
 
-#: src/commands.c:2715
+#: src/commands.c:2699
 #, c-format
 msgid "Moving %s"
 msgstr "Moving %s"
 
-#: src/commands.c:2724 src/commands.c:2954
+#: src/commands.c:2708 src/commands.c:2935
 msgid "is beyond sheet boundaries"
 msgstr "is beyond sheet boundaries"
 
-#: src/commands.c:2789
+#: src/commands.c:2771
 msgid "Paste Copy"
 msgstr "Paste Copy"
 
 #. FIXME?
-#: src/commands.c:2895
+#: src/commands.c:2876
 #, c-format
 msgid "Pasting into %s"
 msgstr "Pasting into %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2992 src/commands.c:3149 src/commands.c:3150
+#: src/commands.c:2972 src/commands.c:3129 src/commands.c:3130
 #: src/wbcg-actions.c:425
 msgid "Autofill"
 msgstr "Autofill"
 
 #. Changed in initial redo.
-#: src/commands.c:3173
+#: src/commands.c:3152
 #, c-format
 msgid "Autofilling %s"
 msgstr "Autofilling %s"
 
-#: src/commands.c:3495
+#: src/commands.c:3470
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Autoformatting %s"
 
-#: src/commands.c:3613
+#: src/commands.c:3587
 #, c-format
 msgid "Unmerging %s"
 msgstr "Unmerging %s"
 
-#: src/commands.c:3778
+#: src/commands.c:3751
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Merge and Centre %s"
 
-#: src/commands.c:3778
+#: src/commands.c:3751
 #, c-format
 msgid "Merging %s"
 msgstr "Merging %s"
 
 #. Corrected below.
-#: src/commands.c:4160 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:4132 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Search and Replace"
 
-#: src/commands.c:4257
+#: src/commands.c:4227
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Setting default width of columns to %.2fpts"
 
-#: src/commands.c:4258
+#: src/commands.c:4228
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Setting default height of rows to %.2fpts"
 
-#: src/commands.c:4375
+#: src/commands.c:4343
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s to %.0f%%"
 
-#: src/commands.c:4437
-msgid "Insert object"
-msgstr "Insert object"
+#: src/commands.c:4413
+msgid "Insert Object"
+msgstr "Insert Object"
 
-#: src/commands.c:4497
+#: src/commands.c:4473
 msgid "Delete Object"
 msgstr "Delete Object"
 
-#: src/commands.c:4578
-msgid "Resize object"
-msgstr "Resize object"
+#: src/commands.c:4563
+msgid "Duplicate Object"
+msgstr "Duplicate Object"
 
-#: src/commands.c:4578
-msgid "Move object"
-msgstr "Move object"
+#: src/commands.c:4564
+msgid "Resize Object"
+msgstr "Resize Object"
 
-#: src/commands.c:4649
+#: src/commands.c:4565
+msgid "Move Object"
+msgstr "Move Object"
+
+#: src/commands.c:4636
 msgid "Format Object"
 msgstr "Format Object"
 
-#: src/commands.c:5248
+#: src/commands.c:5235
 msgid "Reordering Sheets"
 msgstr "Reordering Sheets"
 
-#: src/commands.c:5251
+#: src/commands.c:5238
 msgid "Renaming Sheets"
 msgstr "Renaming Sheets"
 
-#: src/commands.c:5254
+#: src/commands.c:5241
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Appending %i Sheets"
 
-#: src/commands.c:5258
+#: src/commands.c:5245
 msgid "Changing Tab Colors"
 msgstr "Changing Tab Colours"
 
-#: src/commands.c:5261
+#: src/commands.c:5248
 msgid "Changing Sheet Protection"
 msgstr "Changing Sheet Protection"
 
-#: src/commands.c:5264
+#: src/commands.c:5251
 msgid "Delete sheets"
 msgstr "Delete sheets"
 
-#: src/commands.c:5267
+#: src/commands.c:5254
 msgid "Delete a sheet"
 msgstr "Delete a sheet"
 
-#: src/commands.c:5270
+#: src/commands.c:5257
 msgid "Changing Sheet Visibility"
 msgstr "Changing Sheet Visibility"
 
-#: src/commands.c:5273
+#: src/commands.c:5260
 msgid "Reorganizing Sheets"
 msgstr "Reorganizing Sheets"
 
-#: src/commands.c:5424
+#: src/commands.c:5411
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Clearing comment of %s"
 
-#: src/commands.c:5425
+#: src/commands.c:5412
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Setting comment of %s"
 
-#: src/commands.c:5805
+#: src/commands.c:5792
 #, c-format
 msgid "Merging data into %s"
 msgstr "Merging data into %s"
 
-#: src/commands.c:5907
+#: src/commands.c:5894
 msgid "Changing summary info"
 msgstr "Changing summary info"
 
-#: src/commands.c:5998
-msgid "Pull object to the front"
-msgstr "Pull object to the front"
+#: src/commands.c:5983
+msgid "Pull Object to the Front"
+msgstr "Pull Object to the Front"
 
-#: src/commands.c:6001
-msgid "Pull object forward"
-msgstr "Pull object forward"
+#: src/commands.c:5986
+msgid "Pull Object Forward"
+msgstr "Pull Object Forward"
 
-#: src/commands.c:6004
-msgid "Push object backward"
-msgstr "Push object backward"
+#: src/commands.c:5989
+msgid "Push Object Backward"
+msgstr "Push Object Backward"
 
-#: src/commands.c:6007
-msgid "Push object to the back"
-msgstr "Push object to the back"
+#: src/commands.c:5992
+msgid "Push Object to the Back"
+msgstr "Push Object to the Back"
 
-#: src/commands.c:6122
+#: src/commands.c:6107
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Page Setup For %s"
 
-#: src/commands.c:6124
+#: src/commands.c:6109
 msgid "Page Setup For All Sheets"
 msgstr "Page Setup For All Sheets"
 
-#: src/commands.c:6240
+#: src/commands.c:6224
 msgid "has a circular reference"
 msgstr "has a circular reference"
 
-#: src/commands.c:6263
+#: src/commands.c:6247
 #, c-format
 msgid "Define Name %s"
 msgstr "Define Name %s"
 
-#: src/commands.c:6266
+#: src/commands.c:6250
 #, c-format
 msgid "Update Name %s"
 msgstr "Update Name %s"
 
-#: src/commands.c:6330
+#: src/commands.c:6314
 msgid "Add scenario"
 msgstr "Add scenario"
 
-#: src/commands.c:6405
+#: src/commands.c:6389
 msgid "Scenario Show"
 msgstr "Scenario Show"
 
-#: src/commands.c:6469
+#: src/commands.c:6453
 msgid "Shuffle Data"
 msgstr "Shuffle Data"
 
 #. FIXME?
-#: src/commands.c:6580
+#: src/commands.c:6563
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) to Columns (%s)"
@@ -19837,28 +19841,28 @@ msgstr "Text (%s) to Columns (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6727 src/dialogs/solver.glade.h:17
+#: src/commands.c:6707 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:904 src/tools/solver/reports-write.c:955
 msgid "Solver"
 msgstr "Solver"
 
-#: src/commands.c:6814
+#: src/commands.c:6791
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Goal Seek (%s)"
 
-#: src/commands.c:6960
+#: src/commands.c:6936
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplicating %s"
 
-#: src/commands.c:7040
+#: src/commands.c:7015
 msgid "Tabulating Dependencies"
 msgstr "Tabulating Dependencies"
 
-#: src/commands.c:7116
+#: src/commands.c:7090
 msgid "Reconfigure Graph"
 msgstr "Reconfigure Graph"
 
@@ -20211,7 +20215,7 @@ msgid "_Increase"
 msgstr "_Increase"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:7
-#: src/sheet-object.c:104
+#: src/sheet-object.c:105
 msgid "_Order"
 msgstr "_Order"
 
@@ -20407,14 +20411,14 @@ msgstr "Guppi"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:326
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:231
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:235
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:225
 #: src/dialogs/consolidate.glade.h:7
 msgid "Labels"
 msgstr "Labels"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:328
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:233
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:237
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:227
 msgid "Values"
 msgstr "Values"
 
@@ -20732,13 +20736,11 @@ msgstr "_Slice Separation:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:7
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:8
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade.h:3
 msgid "_Vary colors by slice"
 msgstr "_Vary colours by slice"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:8
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:9
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade.h:4
 #: src/dialogs/cell-format.glade.h:103
 msgid "degrees"
 msgstr "degrees"
@@ -20864,21 +20866,9 @@ msgstr "PlotRadar"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotRadarArea2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:286
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:276
 msgid "PlotRadarArea"
 msgstr "PlotRadarArea"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade.h:1
-msgid "Axes start _at:"
-msgstr "Axes start _at:"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade.h:2
-msgid "Axes start at:"
-msgstr "Axes start at:"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar-prefs.glade.h:5
-msgid "rotation_spinner"
-msgstr "rotation_spinner"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/plot-types.xml.in.h:1
 msgid "Area Radar"
@@ -22075,12 +22065,12 @@ msgstr ""
 "Text length\n"
 "Custom"
 
-#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:2374
+#: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:2380
 #: src/wbc-gtk.c:587 src/wbc-gtk.c:588 src/wbc-gtk.c:595
 msgid "Background"
 msgstr "Background"
 
-#: src/dialogs/cell-format.glade.h:37 src/dialogs/dialog-cell-format.c:2364
+#: src/dialogs/cell-format.glade.h:37 src/dialogs/dialog-cell-format.c:2370
 msgid "Border"
 msgstr "Border"
 
@@ -22112,7 +22102,7 @@ msgstr "Con_dition:"
 msgid "Diagonal"
 msgstr "Diagonal"
 
-#: src/dialogs/cell-format.glade.h:50 src/dialogs/dialog-cell-format.c:2301
+#: src/dialogs/cell-format.glade.h:50 src/dialogs/dialog-cell-format.c:2307
 msgid "Format Cells"
 msgstr "Format Cells"
 
@@ -22156,7 +22146,7 @@ msgstr "Left"
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr "Locking cells or hiding formulas only affects protected worksheets."
 
-#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:89
+#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:91
 #: src/tools/solver/reports-write.c:718
 msgid "None"
 msgstr "None"
@@ -23074,76 +23064,76 @@ msgstr "Do you want to save the workbook %s ?"
 msgid "Could not create the autosave dialog."
 msgstr "Could not create the autosave dialogue."
 
-#: src/dialogs/dialog-cell-format.c:90
+#: src/dialogs/dialog-cell-format.c:92
 msgid "Single"
 msgstr "Single"
 
-#: src/dialogs/dialog-cell-format.c:91
+#: src/dialogs/dialog-cell-format.c:93
 msgid "Double"
 msgstr "Double"
 
-#: src/dialogs/dialog-cell-format.c:468 src/dialogs/dialog-search.c:148
+#: src/dialogs/dialog-cell-format.c:470 src/dialogs/dialog-search.c:148
 #: src/func.c:671 src/wbcg-actions.c:1960
 #: src/widgets/widget-format-selector.c:76
 msgid "Number"
 msgstr "Number"
 
-#: src/dialogs/dialog-cell-format.c:674 src/dialogs/dialog-stf-main-page.c:382
+#: src/dialogs/dialog-cell-format.c:676 src/dialogs/dialog-stf-main-page.c:382
 #: src/widgets/widget-format-selector.c:84
 msgid "Text"
 msgstr "Text"
 
-#: src/dialogs/dialog-cell-format.c:1811
+#: src/dialogs/dialog-cell-format.c:1817
 msgid "Source"
 msgstr "Source"
 
-#: src/dialogs/dialog-cell-format.c:1812
+#: src/dialogs/dialog-cell-format.c:1818
 msgid "Criteria"
 msgstr "Criteria"
 
-#: src/dialogs/dialog-cell-format.c:1824 src/dialogs/dialog-cell-format.c:1831
+#: src/dialogs/dialog-cell-format.c:1830 src/dialogs/dialog-cell-format.c:1837
 msgid "Min :"
 msgstr "Min :"
 
-#: src/dialogs/dialog-cell-format.c:1825 src/dialogs/dialog-cell-format.c:1834
+#: src/dialogs/dialog-cell-format.c:1831 src/dialogs/dialog-cell-format.c:1840
 msgid "Max :"
 msgstr "Max :"
 
-#: src/dialogs/dialog-cell-format.c:1828
+#: src/dialogs/dialog-cell-format.c:1834
 msgid "Value :"
 msgstr "Value :"
 
-#: src/dialogs/dialog-cell-format.c:1918
+#: src/dialogs/dialog-cell-format.c:1924
 msgid "None          (silently accept invalid input)"
 msgstr "None          (silently accept invalid input)"
 
-#: src/dialogs/dialog-cell-format.c:1926
+#: src/dialogs/dialog-cell-format.c:1932
 msgid "Stop            (never allow invalid input)"
 msgstr "Stop            (never allow invalid input)"
 
-#: src/dialogs/dialog-cell-format.c:1934
+#: src/dialogs/dialog-cell-format.c:1940
 msgid "Warning     (accept/discard invalid input)"
 msgstr "Warning     (accept/discard invalid input)"
 
-#: src/dialogs/dialog-cell-format.c:1942
+#: src/dialogs/dialog-cell-format.c:1948
 msgid "Information (allow invalid input)"
 msgstr "Information (allow invalid input)"
 
-#: src/dialogs/dialog-cell-format.c:2115
+#: src/dialogs/dialog-cell-format.c:2121
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr "The validation criteria are unusable. Disable validation?"
 
-#: src/dialogs/dialog-cell-format.c:2369 src/wbc-gtk.c:178 src/wbc-gtk.c:311
+#: src/dialogs/dialog-cell-format.c:2375 src/wbc-gtk.c:178 src/wbc-gtk.c:311
 #: src/wbc-gtk.c:537 src/wbc-gtk.c:538 src/wbc-gtk.c:547 src/wbc-gtk.c:640
 #: src/wbc-gtk.c:691
 msgid "Foreground"
 msgstr "Foreground"
 
-#: src/dialogs/dialog-cell-format.c:2374 src/wbc-gtk.c:585
+#: src/dialogs/dialog-cell-format.c:2380 src/wbc-gtk.c:585
 msgid "Clear Background"
 msgstr "Clear Background"
 
-#: src/dialogs/dialog-cell-format.c:2379
+#: src/dialogs/dialog-cell-format.c:2385
 msgid "Pattern"
 msgstr "Pattern"
 
@@ -24023,16 +24013,16 @@ msgid "Variable"
 msgstr "Variable"
 
 #: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:247
-#: src/workbook-control-gui.c:1823
+#: src/workbook-control-gui.c:1824
 msgid "Min"
 msgstr "Min"
 
-#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1825
+#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1826
 msgid "Average"
 msgstr "Average"
 
 #: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:249
-#: src/workbook-control-gui.c:1824
+#: src/workbook-control-gui.c:1825
 msgid "Max"
 msgstr "Max"
 
@@ -28077,31 +28067,31 @@ msgid "Error while opening file \"%s\" for reading."
 msgstr "Error while opening file \"%s\" for reading."
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:605
+#: src/print.c:606
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1150
+#: src/print.c:1151
 msgid "Print Region"
 msgstr "Print Region"
 
-#: src/print.c:1283
+#: src/print.c:1284
 msgid "Print Sheets"
 msgstr "Print Sheets"
 
-#: src/print.c:1291
+#: src/print.c:1292
 msgid "Act_ive sheet"
 msgstr "Act_ive sheet"
 
-#: src/print.c:1291
+#: src/print.c:1292
 msgid "S_heets"
 msgstr "S_heets"
 
-#: src/print.c:1379 src/wbcg-actions.c:1513
+#: src/print.c:1380 src/wbcg-actions.c:1513
 msgid "Print preview"
 msgstr "Print preview"
 
-#: src/print.c:1392
+#: src/print.c:1393
 msgid "Printing failed"
 msgstr "Printing failed"
 
@@ -28209,23 +28199,23 @@ msgstr "Do not save"
 msgid "Do not log out"
 msgstr "Do not log out"
 
-#: src/sheet.c:2012
+#: src/sheet.c:2013
 msgid "Target region contains merged cells"
 msgstr "Target region contains merged cells"
 
-#: src/sheet.c:2073
+#: src/sheet.c:2074
 msgid "cannot operate on merged cells"
 msgstr "cannot operate on merged cells"
 
-#: src/sheet.c:2083
+#: src/sheet.c:2084
 msgid "cannot operate on array formulae"
 msgstr "cannot operate on array formulae"
 
-#: src/sheet.c:3184
+#: src/sheet.c:3188
 msgid "Insert Columns"
 msgstr "Insert Columns"
 
-#: src/sheet.c:3302
+#: src/sheet.c:3306
 msgid "Insert Rows"
 msgstr "Insert Rows"
 
@@ -28350,57 +28340,57 @@ msgstr ""
 "There is already a merged region that intersects\n"
 "%s!%s"
 
-#: src/sheet-object.c:105
+#: src/sheet-object.c:106
 msgid "Pul_l to Front"
 msgstr "Pul_l to Front"
 
-#: src/sheet-object.c:106
+#: src/sheet-object.c:107
 msgid "Pull _Forward"
 msgstr "Pull _Forward"
 
-#: src/sheet-object.c:107
+#: src/sheet-object.c:108
 msgid "Push _Backward"
 msgstr "Push _Backward"
 
-#: src/sheet-object.c:108
+#: src/sheet-object.c:109
 msgid "Pus_h to Back"
 msgstr "Pus_h to Back"
 
-#: src/sheet-object-container.c:173
+#: src/sheet-object-container.c:171
 #, c-format
 msgid "can't create object for '%s'"
 msgstr "can't create object for '%s'"
 
-#: src/sheet-object-container.c:182
+#: src/sheet-object-container.c:180
 #, c-format
 msgid "Could not load file: %s"
 msgstr "Could not load file: %s"
 
-#: src/sheet-object-graph.c:193 src/sheet-object-image.c:331
+#: src/sheet-object-graph.c:192 src/sheet-object-image.c:330
 msgid "SVG (vector graphics)"
 msgstr "SVG (vector graphics)"
 
-#: src/sheet-object-graph.c:194 src/sheet-object-image.c:327
+#: src/sheet-object-graph.c:193 src/sheet-object-image.c:326
 msgid "PNG (raster graphics)"
 msgstr "PNG (raster graphics)"
 
-#: src/sheet-object-graph.c:195 src/sheet-object-image.c:329
+#: src/sheet-object-graph.c:194 src/sheet-object-image.c:328
 msgid "JPEG (photograph)"
 msgstr "JPEG (photograph)"
 
-#: src/sheet-object-graph.c:237 src/sheet-object-image.c:457
+#: src/sheet-object-graph.c:236 src/sheet-object-image.c:456
 msgid "Unknown failure while saving image"
 msgstr "Unknown failure while saving image"
 
-#: src/sheet-object-graph.c:250 src/sheet-object-image.c:472
+#: src/sheet-object-graph.c:249 src/sheet-object-image.c:471
 msgid "_Save as image"
 msgstr "_Save as image"
 
-#: src/sheet-object-image.c:333
+#: src/sheet-object-image.c:332
 msgid "EMF (extended metafile)"
 msgstr "EMF (extended metafile)"
 
-#: src/sheet-object-image.c:335
+#: src/sheet-object-image.c:334
 msgid "WMF (windows metafile)"
 msgstr "WMF (windows metafile)"
 
@@ -29112,7 +29102,7 @@ msgstr "Kurtosis"
 msgid "Range"
 msgstr "Range"
 
-#: src/tools/simulation.c:257 src/workbook-control-gui.c:1826
+#: src/tools/simulation.c:257 src/workbook-control-gui.c:1827
 msgid "Count"
 msgstr "Count"
 
@@ -30720,7 +30710,7 @@ msgid "Import the text from a file"
 msgstr "Import the text from a file"
 
 #. Standard Toolbar
-#: src/wbcg-actions.c:1894 src/workbook-control-gui.c:1822
+#: src/wbcg-actions.c:1894 src/workbook-control-gui.c:1823
 #: src/workbook-view.c:544
 msgid "Sum"
 msgstr "Sum"
@@ -32465,15 +32455,15 @@ msgstr "Don't quit"
 msgid "Don't close"
 msgstr "Don't close"
 
-#: src/workbook-control-gui.c:2212 src/workbook-control-gui.c:2227
+#: src/workbook-control-gui.c:2213 src/workbook-control-gui.c:2228
 msgid "_Re-Edit"
 msgstr "_Re-Edit"
 
-#: src/workbook-control-gui.c:2213 src/workbook-control-gui.c:2218
+#: src/workbook-control-gui.c:2214 src/workbook-control-gui.c:2219
 msgid "_Discard"
 msgstr "_Discard"
 
-#: src/workbook-control-gui.c:2217 src/workbook-control-gui.c:2228
+#: src/workbook-control-gui.c:2218 src/workbook-control-gui.c:2229
 msgid "_Accept"
 msgstr "_Accept"
 
@@ -32519,7 +32509,7 @@ msgstr "Can't open '%s' for writing: %s"
 msgid "An unexplained error happened while saving %s"
 msgstr "An unexplained error happened while saving %s"
 
-#: src/workbook-view.c:679 src/workbook-view.c:856
+#: src/workbook-view.c:679 src/workbook-view.c:854
 msgid "Default file saver is not available."
 msgstr "Default file saver is not available."
 
@@ -32527,11 +32517,11 @@ msgstr "Default file saver is not available."
 msgid "Failed to create temporary file for sending."
 msgstr "Failed to create temporary file for sending."
 
-#: src/workbook-view.c:944
+#: src/workbook-view.c:942
 msgid "Unsupported file format."
 msgstr "Unsupported file format."
 
-#: src/workbook-view.c:992
+#: src/workbook-view.c:990
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "An unexplained error happened while opening %s"
