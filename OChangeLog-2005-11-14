@@ -1,5 +1,10 @@
 2002-03-08  Jon K Hellan  <hellan@acm.org>
 
+	* src/command-context.h (COMMAND_CONTEXT): Fix typo.
+
+	* src/command-context-stderr.c
+	(command_context_stderr_get_status): Fix typo.
+
 	* src/command-context-stderr.[ch]: Add.
 
 	* src/Makefile.am: Add command-context-stderr.[ch]

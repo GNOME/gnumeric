@@ -48,7 +48,7 @@ int
 command_context_stderr_get_status (CommandContextStderr *ccs)
 {
 	g_return_val_if_fail (ccs != NULL, -1);
-	g_return_if_fail (IS_COMMAND_CONTEXT_STDERR (ccs));
+	g_return_val_if_fail (IS_COMMAND_CONTEXT_STDERR (ccs), -1);
 
 	return ccs->status;
 }
