@@ -664,8 +664,8 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 				gtk_widget_grab_focus (GTK_WIDGET (as->entry));
 			g_free (str);
 		}
-		gtk_widget_show_all (state->arg_table);
 	}
+	gtk_widget_show_all (state->arg_table);
 
 	/* Lifecyle management */
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);

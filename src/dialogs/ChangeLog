@@ -1,3 +1,7 @@
+2002-01-18  Morten Welinder  <terra@diku.dk>
+
+	* dialog-formula-guru.c (formula_guru_init): Always show table.
+
 2002-01-13  Wayne Schuller  <k_wayne@linuxpower.org>
 
 	* cell-format.glade: Add missing accelerator keys and hints.
