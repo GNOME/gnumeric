@@ -1374,7 +1374,10 @@ workbook_new (void)
 		GTK_SIGNAL_FUNC (workbook_delete_event), wb);
 	
 	/* Set the default operation to be performed over selections */
-	workbook_set_auto_expr (wb, "SUM", "SUM(SELECTION())");
+	workbook_set_auto_expr (
+		wb,
+		_(quick_compute_routines [0].displayed_name),
+		quick_compute_routines [0].function);
 
 	workbook_count++;
 

@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 1999-04-06 22:11-0500\n"
+"POT-Creation-Date: 1999-04-06 22:47-0500\n"
 "PO-Revision-Date: 1999-04-01 14:42-0600\n"
 "Last-Translator: Valek Filippov <val@comptek.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -20,7 +20,7 @@ msgstr "Формат файла Microsoft(R) Excel"
 msgid "Argument must be a Guile expression"
 msgstr "Аргумент должен быть выражением Guile"
 
-#: plugins/guile/plugin.c:241 src/expr.c:513 src/fn-math.c:1329
+#: plugins/guile/plugin.c:241 src/expr.c:512 src/fn-math.c:1329
 #: src/fn-sheet.c:40 src/fn-sheet.c:92 src/fn-string.c:302
 msgid "Invalid number of arguments"
 msgstr "Неверное число аргументов"
@@ -361,7 +361,7 @@ msgid "Left"
 msgstr "Влево"
 
 #: src/dialog-cell-format.c:360 src/dialog-cell-format.c:369
-#: src/workbook.c:861
+#: src/workbook.c:862
 msgid "Center"
 msgstr "По центру"
 
@@ -608,27 +608,27 @@ msgstr "Ошибочная кавычка"
 msgid "Impossible!"
 msgstr ""
 
-#: src/expr.c:533 src/expr.c:538 src/expr.c:545 src/expr.c:830 src/expr.c:1025
+#: src/expr.c:535 src/expr.c:541 src/expr.c:549 src/expr.c:834 src/expr.c:1029
 #: src/fn-string.c:54 src/fn-string.c:76 src/fn-string.c:98
 #: src/fn-string.c:155 src/fn-string.c:192 src/fn-string.c:271
-#: src/fn-string.c:350 src/fn-string.c:390 src/fn-string.c:569
-#: src/fn-string.c:610 src/fn-string.c:665 src/fn-string.c:704
+#: src/fn-string.c:350 src/fn-string.c:390 src/fn-string.c:571
+#: src/fn-string.c:612 src/fn-string.c:681 src/fn-string.c:726
 msgid "Type mismatch"
 msgstr "Несоответствие типов"
 
-#: src/expr.c:771
+#: src/expr.c:775
 msgid "Type error"
 msgstr "Ошибка типа"
 
-#: src/expr.c:880 src/expr.c:917
+#: src/expr.c:884 src/expr.c:921
 msgid "Division by zero"
 msgstr "Деление на ноль"
 
-#: src/expr.c:1005
+#: src/expr.c:1009
 msgid "Reference to newborn cell"
 msgstr "Ссылка на новую ячейку"
 
-#: src/expr.c:1040
+#: src/expr.c:1044
 msgid "Unknown evaluation error"
 msgstr "Неизвестная ошибка в выражении"
 
@@ -1685,7 +1685,7 @@ msgstr ""
 "длиной @lenght символов.\n"
 "@SEEALSO=LEFT, RIGHT"
 
-#: src/fn-string.c:200 src/fn-string.c:617
+#: src/fn-string.c:200 src/fn-string.c:621
 msgid "Invalid arguments"
 msgstr "Неверные аргументы"
 
@@ -1767,7 +1767,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-string.c:554
+#: src/fn-string.c:556
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
@@ -1775,7 +1775,7 @@ msgid ""
 "@SEEALSO=LOWER, UPPER"
 msgstr ""
 
-#: src/fn-string.c:593
+#: src/fn-string.c:595
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -1783,7 +1783,7 @@ msgid ""
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 msgstr ""
 
-#: src/fn-string.c:634
+#: src/fn-string.c:644
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -1792,7 +1792,7 @@ msgid ""
 "@SEEALSO=CELL, N, VALUE"
 msgstr ""
 
-#: src/fn-string.c:651
+#: src/fn-string.c:667
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -1800,7 +1800,7 @@ msgid ""
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 msgstr ""
 
-#: src/fn-string.c:692
+#: src/fn-string.c:714
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -1808,7 +1808,7 @@ msgid ""
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 msgstr ""
 
-#: src/fn-string.c:748
+#: src/fn-string.c:775
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num]\n"
@@ -1817,7 +1817,7 @@ msgid ""
 "@SEEALSO=REPLACE, TRIM"
 msgstr ""
 
-#: src/fn-string.c:818
+#: src/fn-string.c:845
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num,[decimals])\n"
@@ -2115,7 +2115,7 @@ msgstr ""
 "в этом месте ячеек. Вы хотите заменить содержимое\n"
 "в этой области?"
 
-#: src/item-cursor.c:579 src/item-grid.c:527 src/workbook.c:849
+#: src/item-cursor.c:579 src/item-grid.c:527 src/workbook.c:850
 msgid "Copy"
 msgstr "Скопировать"
 
@@ -2147,11 +2147,11 @@ msgstr "Сдвинуть ячейки вниз и переместить"
 msgid "Shift cells right and move"
 msgstr "Сдвинуть ячейки вправо и переместить"
 
-#: src/item-grid.c:526 src/workbook.c:846
+#: src/item-grid.c:526 src/workbook.c:847
 msgid "Cut"
 msgstr "Вырезать"
 
-#: src/item-grid.c:528 src/sheet.c:2573 src/workbook.c:852
+#: src/item-grid.c:528 src/sheet.c:2577 src/workbook.c:853
 msgid "Paste"
 msgstr "Вставить"
 
@@ -2246,381 +2246,381 @@ msgstr "В книге есть не сохраненные изменения, сохранить их?"
 msgid "Insert rows"
 msgstr "Вставить строки"
 
-#: src/workbook.c:595
+#: src/workbook.c:596
 msgid ">mm/dd/yyyy"
 msgstr ">мм/дд/гггг"
 
-#: src/workbook.c:614
+#: src/workbook.c:615
 msgid ">hh:mm"
 msgstr ">чч:мм"
 
-#: src/workbook.c:670
+#: src/workbook.c:671
 msgid "_New"
 msgstr "Новый"
 
-#: src/workbook.c:670
+#: src/workbook.c:671
 msgid "Create a new spreadsheet"
 msgstr "Создать новую таблицу"
 
-#: src/workbook.c:681
+#: src/workbook.c:682
 msgid "Plu_g-ins..."
 msgstr "Дополнение..."
 
-#: src/workbook.c:681
+#: src/workbook.c:682
 msgid "Gnumeric plugins"
 msgstr "Дополнения Gnumeric"
 
-#: src/workbook.c:695
+#: src/workbook.c:696
 msgid "_All"
 msgstr "Все"
 
-#: src/workbook.c:696
+#: src/workbook.c:697
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Очистить в выделенных ячейках формат, комментарии и содержимое"
 
-#: src/workbook.c:698
+#: src/workbook.c:699
 msgid "_Formats"
 msgstr "Формат"
 
-#: src/workbook.c:699
+#: src/workbook.c:700
 msgid "Clear the selected cells' formats"
 msgstr "Очистить в выделенных ячейках формат"
 
-#: src/workbook.c:700
+#: src/workbook.c:701
 msgid "_Comments"
 msgstr "Комментарии"
 
-#: src/workbook.c:701
+#: src/workbook.c:702
 msgid "Clear the selected cells' comments"
 msgstr "Очистить в выделенных ячейках комментарии"
 
-#: src/workbook.c:702
+#: src/workbook.c:703
 msgid "_Content"
 msgstr "Содержимое"
 
-#: src/workbook.c:703
+#: src/workbook.c:704
 msgid "Clear the selected cells' contents"
 msgstr "Очистить в выделенных ячейках содержимое"
 
-#: src/workbook.c:711
+#: src/workbook.c:712
 msgid "P_aste special..."
 msgstr "Специальная вставка..."
 
-#: src/workbook.c:712
+#: src/workbook.c:713
 msgid "C_lear"
 msgstr "Очистить"
 
-#: src/workbook.c:713
+#: src/workbook.c:714
 msgid "Clear the selected cell(s)"
 msgstr "Очистить выделенную ячейку(и)"
 
-#: src/workbook.c:717
+#: src/workbook.c:718
 msgid "_Select All"
 msgstr "Выделить все"
 
-#: src/workbook.c:718
+#: src/workbook.c:719
 msgid "Select all cells in the spreadsheet"
 msgstr "Выделить все ячейки в таблице"
 
-#: src/workbook.c:720
+#: src/workbook.c:721
 msgid "_Goto cell.."
 msgstr "Перейти к ячейке.."
 
-#: src/workbook.c:721
+#: src/workbook.c:722
 msgid "Jump to a specified cell"
 msgstr "Перейти к указанной ячейке"
 
-#: src/workbook.c:727
+#: src/workbook.c:728
 msgid "_Define cell names"
 msgstr "Задать имя ячейки"
 
-#: src/workbook.c:731
+#: src/workbook.c:732
 msgid "_Recalculate"
 msgstr "Пересчитать"
 
-#: src/workbook.c:732
+#: src/workbook.c:733
 msgid "Recalculate the spreadsheet"
 msgstr "Пересчитать таблицу"
 
-#: src/workbook.c:740
+#: src/workbook.c:741
 msgid "_Zoom..."
 msgstr "Масштаб..."
 
-#: src/workbook.c:741
+#: src/workbook.c:742
 msgid "Zoom the spreadsheet in or out"
 msgstr "Увеличение и уменьшение масштаба таблицы"
 
-#: src/workbook.c:748
+#: src/workbook.c:749
 msgid "Current _date"
 msgstr "Текущая дата"
 
-#: src/workbook.c:749
+#: src/workbook.c:750
 msgid "Insert the current data into the selected cell(s)"
 msgstr "Вставить текущую дату в выделенные ячейки"
 
-#: src/workbook.c:752
+#: src/workbook.c:753
 msgid "Current _time"
 msgstr "Текущее время"
 
-#: src/workbook.c:753
+#: src/workbook.c:754
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Вставить текущее время в выделенные ячейки"
 
-#: src/workbook.c:760 src/workbook.c:808
+#: src/workbook.c:761 src/workbook.c:809
 msgid "_Sheet"
 msgstr "Таблица"
 
-#: src/workbook.c:760
+#: src/workbook.c:761
 msgid "Insert a new spreadsheet"
 msgstr "Вставить новую таблицу"
 
-#: src/workbook.c:762 src/workbook.c:800
+#: src/workbook.c:763 src/workbook.c:801
 msgid "_Cells..."
 msgstr "Ячейки..."
 
-#: src/workbook.c:762
+#: src/workbook.c:763
 msgid "Insert new cells"
 msgstr "Вставить новые ячейки"
 
-#: src/workbook.c:764
+#: src/workbook.c:765
 msgid "_Rows"
 msgstr "Строки"
 
-#: src/workbook.c:764
+#: src/workbook.c:765
 msgid "Insert new rows"
 msgstr "Вставить новые строки"
 
-#: src/workbook.c:766
+#: src/workbook.c:767
 msgid "C_olumns"
 msgstr "Столбцы"
 
-#: src/workbook.c:766
+#: src/workbook.c:767
 msgid "Insert new columns"
 msgstr "Вставить новые столбцы"
 
-#: src/workbook.c:771
+#: src/workbook.c:772
 msgid "_Add/modify comment"
 msgstr "Добавить/Изменить комментарий"
 
-#: src/workbook.c:772
+#: src/workbook.c:773
 msgid "Edit the selected cell's comment"
 msgstr "Правка комментариев для выделенных ячеек"
 
-#: src/workbook.c:773
+#: src/workbook.c:774
 msgid "_Special"
 msgstr "Специальный"
 
-#: src/workbook.c:782 src/workbook.c:788
+#: src/workbook.c:783 src/workbook.c:789
 msgid "_Autoadjust"
 msgstr "Авто-упорядочивание"
 
-#: src/workbook.c:783
+#: src/workbook.c:784
 msgid "_Width"
 msgstr "Ширина"
 
-#: src/workbook.c:789
+#: src/workbook.c:790
 msgid "_Height"
 msgstr "Высота"
 
-#: src/workbook.c:794
+#: src/workbook.c:795
 msgid "_Change name"
 msgstr "Изменить имя"
 
-#: src/workbook.c:801
+#: src/workbook.c:802
 msgid "Modify the formatting of the selected cells"
 msgstr "Изменить форматирование выделенных ячеек"
 
-#: src/workbook.c:803
+#: src/workbook.c:804
 msgid "_Sort"
 msgstr "Сортировка"
 
-#: src/workbook.c:804
+#: src/workbook.c:805
 msgid "Sort the selected cells"
 msgstr "Сортировать выделенные ячейки"
 
-#: src/workbook.c:806
+#: src/workbook.c:807
 msgid "C_olumn"
 msgstr "Столбец"
 
-#: src/workbook.c:807
+#: src/workbook.c:808
 msgid "_Row"
 msgstr "Строка"
 
-#: src/workbook.c:824
+#: src/workbook.c:825
 msgid "_Insert"
 msgstr "Вставить"
 
-#: src/workbook.c:825
+#: src/workbook.c:826
 msgid "F_ormat"
 msgstr "Формат"
 
-#: src/workbook.c:834
+#: src/workbook.c:835
 msgid "New"
 msgstr "Новая"
 
-#: src/workbook.c:834
+#: src/workbook.c:835
 msgid "Creates a new sheet"
 msgstr "Создать новую таблицу"
 
-#: src/workbook.c:837
+#: src/workbook.c:838
 msgid "Open"
 msgstr "Открыть"
 
-#: src/workbook.c:837
+#: src/workbook.c:838
 msgid "Opens an existing workbook"
 msgstr "Открыть существующую книгу"
 
-#: src/workbook.c:840
+#: src/workbook.c:841
 msgid "Save"
 msgstr "Сохранить"
 
-#: src/workbook.c:840
+#: src/workbook.c:841
 msgid "Saves the workbook"
 msgstr "Сохранить книгу"
 
-#: src/workbook.c:846
+#: src/workbook.c:847
 msgid "Cuts the selection to the clipboard"
 msgstr "Вырезать выделение в буфер обмена"
 
-#: src/workbook.c:849
+#: src/workbook.c:850
 msgid "Copies the selection to the clipboard"
 msgstr "Скопировать выделение в буфер обмена"
 
-#: src/workbook.c:852
+#: src/workbook.c:853
 msgid "Pastes the clipboard"
 msgstr "Вставить из буфера обмена"
 
-#: src/workbook.c:858
+#: src/workbook.c:859
 msgid "Left align"
 msgstr "Выровнять влево"
 
-#: src/workbook.c:858
+#: src/workbook.c:859
 msgid "Left justifies the cell contents"
 msgstr "Выравнивать содержимое ячеек влево"
 
-#: src/workbook.c:861
+#: src/workbook.c:862
 msgid "Centers the cell contents"
 msgstr "Центрировать содержимое ячеек"
 
-#: src/workbook.c:864
+#: src/workbook.c:865
 msgid "Right align"
 msgstr "Выровнять вправо"
 
-#: src/workbook.c:864
+#: src/workbook.c:865
 msgid "Right justifies the cell contents"
 msgstr "Выравнивать содержимое ячеек вправо"
 
-#: src/workbook.c:869
+#: src/workbook.c:870
 msgid "Bold"
 msgstr "Полужирный"
 
-#: src/workbook.c:869
+#: src/workbook.c:870
 msgid "Sets the bold font"
 msgstr "Использовать в ячейках шрифт полужирного начертания"
 
-#: src/workbook.c:872
+#: src/workbook.c:873
 msgid "Italic"
 msgstr "Курсив"
 
-#: src/workbook.c:872
+#: src/workbook.c:873
 msgid "Makes the font italic"
 msgstr "Использовать в ячейках шрифт наклонного начертания"
 
-#: src/workbook.c:878
+#: src/workbook.c:879
 msgid "Line"
 msgstr "Линия"
 
-#: src/workbook.c:878
+#: src/workbook.c:879
 msgid "Creates a line object"
 msgstr "Создать линию"
 
-#: src/workbook.c:881
+#: src/workbook.c:882
 msgid "Arrow"
 msgstr "Стрелка"
 
-#: src/workbook.c:881
+#: src/workbook.c:882
 msgid "Creates an arrow object"
 msgstr "Создать стрелку"
 
-#: src/workbook.c:884
+#: src/workbook.c:885
 msgid "Rectangle"
 msgstr "Прямоугольник"
 
-#: src/workbook.c:884
+#: src/workbook.c:885
 msgid "Creates a rectangle object"
 msgstr "Создать прямоугольник"
 
-#: src/workbook.c:887
+#: src/workbook.c:888
 msgid "Ellipse"
 msgstr "Овал"
 
-#: src/workbook.c:887
+#: src/workbook.c:888
 msgid "Creates an ellipse object"
 msgstr "Создать овал"
 
-#: src/workbook.c:968
+#: src/workbook.c:969
 msgid "You should introduce a valid cell name"
 msgstr "Вы должны ввести подходящее название для ячейки"
 
-#: src/workbook.c:975
+#: src/workbook.c:976
 msgid "Column out of range"
 msgstr "Номер столбца вне диапазона"
 
-#: src/workbook.c:981
+#: src/workbook.c:982
 msgid "Row number out of range"
 msgstr "Номер строки вне диапазона"
 
-#: src/workbook.c:1124
+#: src/workbook.c:1130
 msgid "Sum"
 msgstr "Сум"
 
-#: src/workbook.c:1125
+#: src/workbook.c:1131
 msgid "Min"
 msgstr "Мин"
 
-#: src/workbook.c:1126
+#: src/workbook.c:1132
 msgid "Max"
 msgstr "Макс"
 
-#: src/workbook.c:1127
+#: src/workbook.c:1133
 msgid "Average"
 msgstr "Среднее"
 
-#: src/workbook.c:1128
+#: src/workbook.c:1134
 msgid "Count"
 msgstr "Количество"
 
-#: src/workbook.c:1321
+#: src/workbook.c:1327
 msgid "Untitled.gnumeric"
 msgstr "Безымянный.gnumeric"
 
-#: src/workbook.c:1408
+#: src/workbook.c:1414
 msgid "Zoom out"
 msgstr "Уменьшить"
 
-#: src/workbook.c:1415
+#: src/workbook.c:1421
 msgid "Zoom in"
 msgstr "Увеличить"
 
-#: src/workbook.c:1500
+#: src/workbook.c:1506
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr "Вы действительно хотите удалить таблицу `%s' ?"
 
-#: src/workbook.c:1519
+#: src/workbook.c:1525
 msgid "Other sheets depend on the values on this sheet, I can not remove it"
 msgstr ""
 "Другие таблицы зависят от значений в этой таблице, поэтому ее нельзя удалить"
 
-#: src/workbook.c:1539
+#: src/workbook.c:1545
 msgid "Add another sheet"
 msgstr "Добавить другую таблицу"
 
-#: src/workbook.c:1540
+#: src/workbook.c:1546
 msgid "Remove this sheet"
 msgstr "Удалить эту таблицу"
 
-#: src/workbook.c:1801 src/workbook.c:1829
+#: src/workbook.c:1807 src/workbook.c:1835
 #, c-format
 msgid "Sheet %d"
 msgstr "Таблица %d"

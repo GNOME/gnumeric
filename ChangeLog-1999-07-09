@@ -1,8 +1,13 @@
+1999-04-06  Zbigniew Chyla <cyba@piast.t19.ds.pwr.wroc.pl>
+
+	* src/workbook.c (workbook_new): Use the translated version of the
+	function to display
+	
 1999-04-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/workbook.c: Enable the function wizard only if the --debug
 	flag was passed.
-	
+
 	* src/dialog-function-wizard.c, src/dialog-function-select.c:
 	Adapt to the rest of Gnumeric coding style.
 

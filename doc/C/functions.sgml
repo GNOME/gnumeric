@@ -103,7 +103,6 @@
 <listitem><para><link linkend="gnumeric-NOW">NOW</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NPER">NPER</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NPV">NPV</link></para></listitem>
-<listitem><para><link linkend="gnumeric-NVARIANCE">NVARIANCE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-OCT2BIN">OCT2BIN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-OCT2DEC">OCT2DEC</link></para></listitem>
 <listitem><para><link linkend="gnumeric-OCT2HEX">OCT2HEX</link></para></listitem>
@@ -118,6 +117,7 @@
 <listitem><para><link linkend="gnumeric-PROPER">PROPER</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PV">PV</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RADIANS">RADIANS</link></para></listitem>
+<listitem><para><link linkend="gnumeric-RAND">RAND</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RANK">RANK</link></para></listitem>
 <listitem><para><link linkend="gnumeric-REPLACE">REPLACE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-REPT">REPT</link></para></listitem>
@@ -151,7 +151,6 @@
 <listitem><para><link linkend="gnumeric-UPPER">UPPER</link></para></listitem>
 <listitem><para><link linkend="gnumeric-VALUE">VALUE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-VAR">VAR</link></para></listitem>
-<listitem><para><link linkend="gnumeric-VARIANCE">VARIANCE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-VARP">VARP</link></para></listitem>
 <listitem><para><link linkend="gnumeric-VLOOKUP">VLOOKUP</link></para></listitem>
 <listitem><para><link linkend="gnumeric-WEIBULL">WEIBULL</link></para></listitem>
@@ -251,10 +250,17 @@
       <refname>STDEV</refname>
       <refpurpose></refpurpose>
     </refnamediv>
-
+    <refsynopsisdiv>
+      <synopsis>STDEV(b1, b2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>STDEV returns standard deviation of a set of numbers treating these numbers as members of a population</para>
+        <para>Performing this function on a string or empty cell simply does nothing.</para>
     </refsect1>
     <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-VARIANCE">VARIANCE</link>
+      <para>        <link linkend="gnumeric-VAR">VAR</link>
+,         <link linkend="gnumeric-MEAN">MEAN</link>
       </para>
     </refsect1>
   </refentry>
@@ -2412,11 +2418,11 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>IF(condition,if-true,if-false)</synopsis>
+      <synopsis>IF(condition[,if-true,if-false])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Use the IF statement to evaluate conditionally other expressions IF evaluates @condition.  If @condition returns a non-zero value the result of the IF expression is the @if-true expression, otherwise IF evaluates to the value of @if-false</para>
+        <para>Use the IF statement to evaluate conditionally other expressions IF evaluates @condition.  If @condition returns a non-zero value the result of the IF expression is the @if-true expression, otherwise IF evaluates to the value of @if-false.If ommitted if-true defaults to TRUE and if-false to FALSE.</para>
 
     </refsect1>
     <refsect1><title>See also</title>
@@ -2691,7 +2697,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>STDEV returns standard deviation of a set of numbers treating these numbers as members of a complete population</para>
+        <para>STDEVP returns standard deviation of a set of numbers treating these numbers as members of a complete population</para>
         <para>Performing this function on a string or empty cell simply does nothing.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -2795,8 +2801,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>VARP calculates the variance of a set of numbers where each number is a member of a population and the set is the entire population</para>
-        <para>Performing this function on a string or empty cell simply does nothing.</para>
+        <para>VARP calculates the variance of a set of numbers where each number is a member of a population and the set is the entire population.</para>
+        <para>(VARP is also known as the N-variance.)</para>        <para>Performing this function on a string or empty cell simply does nothing.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-STDEV">STDEV</link>
@@ -2850,6 +2856,29 @@
         <title>Description</title>
         <para>Calculates the present value of an investment.@SEEALSO=PPMT,PV,FV</para>
         <para></para>
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-RAND">RAND</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>RAND</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>RAND()</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns a random number greater than or equal to 0 and less than 1.</para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
+    </refsect1>
+  </refentry>
+
+
 
   <refentry>
     <refmeta>
@@ -3626,16 +3655,6 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-NVARIANCE">NVARIANCE</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>NVARIANCE</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-
-
-  <refentry>
-    <refmeta>
       <refentrytitle><anchor id="gnumeric-OCT2DEC">OCT2DEC</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -3697,8 +3716,8 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>VAR estimates the variance of a sample of a population To get the true variance of a complete population use @VARP</para>
-        <para>Performing this function on a string or empty cell simply does nothing.</para>
+        <para>VAR estimates the variance of a sample of a population. To get the true variance of a complete population use @VARP</para>
+        <para>(VAR is also known as the N-1-variance.  Under reasonable conditions, it is the maximum-likelihood estimator for the true variance.)</para>        <para>Performing this function on a string or empty cell simply does nothing.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-VARP">VARP</link>
@@ -3824,14 +3843,4 @@
     </refsect1>
   </refentry>
 
-
-
-  <refentry>
-    <refmeta>
-      <refentrytitle><anchor id="gnumeric-VARIANCE">VARIANCE</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>VARIANCE</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
 </sect1>
