@@ -2501,11 +2501,11 @@ xml_write_solver (XmlParseContext *ctxt, SolverParameters *param)
  */
 
 static int
-natural_order_cmp( const void *a, const void *b )
+natural_order_cmp (const void *a, const void *b)
 {
-	const Cell *ca = *(void**)a ;
-	const Cell *cb = *(void**)b ;
-	int diff = (ca->pos.row != cb->pos.row);
+	const Cell *ca = *(const Cell **)a ;
+	const Cell *cb = *(const Cell **)b ;
+	int diff = (ca->pos.row - cb->pos.row);
 
 	if (diff != 0)
 		return diff;
@@ -2513,9 +2513,9 @@ natural_order_cmp( const void *a, const void *b )
 }
 
 static void
-copy_hash_table_to_ptr_array( gpointer key,gpointer value, gpointer user_data)
+copy_hash_table_to_ptr_array (gpointer key, gpointer value, gpointer user_data)
 {
-	g_ptr_array_add(user_data,value) ;
+	g_ptr_array_add (user_data,value) ;
 }
 
 
@@ -2546,7 +2546,7 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 		return NULL;
 	if (ctxt->ns == NULL) {
 	    gmr = xmlNewNs (cur, "http://www.gnome.org/gnumeric/", "gmr");
-	    xmlSetNs(cur, gmr);
+	    xmlSetNs (cur, gmr);
 	    ctxt->ns = gmr;
 	}
 	tstr = xmlEncodeEntitiesReentrant (ctxt->doc, sheet->name_unquoted);
@@ -2645,18 +2645,19 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 	/* save cells in natural order */
 	{
 		gint i ,n ;
-		n = g_hash_table_size(sheet->cell_hash) ;
-		if ( n > 0 )
-		{
-			GPtrArray *natural = g_ptr_array_new() ;
-			g_hash_table_foreach(sheet->cell_hash,copy_hash_table_to_ptr_array,natural) ;
-			qsort( &g_ptr_array_index(natural,0),n,sizeof(gpointer),natural_order_cmp) ;
-			for ( i = 0 ; i < n ; i++ )
-				xml_write_cell_to(NULL,g_ptr_array_index(natural,i),ctxt) ;
-			g_ptr_array_free(natural,TRUE) ;
+		n = g_hash_table_size (sheet->cell_hash);
+		if (n > 0) {
+			GPtrArray *natural = g_ptr_array_new ();
+			g_hash_table_foreach (sheet->cell_hash, copy_hash_table_to_ptr_array, natural);
+			qsort (&g_ptr_array_index (natural, 0),
+			       n,
+			       sizeof (gpointer),
+			       natural_order_cmp);
+			for (i = 0; i < n; i++)
+				xml_write_cell_to (NULL, g_ptr_array_index (natural, i), ctxt);
+			g_ptr_array_free (natural,TRUE);
 		}
 	}
-
 
 	/*
 	 * Solver informations
