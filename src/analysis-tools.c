@@ -42,20 +42,6 @@ typedef struct {
 
 /***** Some general routines ***********************************************/
 
-/*  static int */
-/*  int_compare (const void *px, const void *py) */
-/*  { */
-/*  	const int *x = px; */
-/*  	const int *y = py; */
-
-/*          if (*x < *y) */
-/*  	        return -1; */
-/*  	else if (*x == *y) */
-/*  	        return 0; */
-/*  	else */
-/*  	        return 1; */
-/*  } */
-
 static guint
 float_hash (const gnum_float *d)
 {
@@ -313,7 +299,7 @@ WriteData_ForeachCellCB_slow (Sheet *sheet, int col, int row,
 	if (cell == NULL)
 		cell = sheet_cell_new (sheet, col, row);
 	x = g_array_index (data, gnum_float, 0);
-	g_array_remove_index (data,0);
+	g_array_remove_index (data, 0);
 	sheet_cell_set_value (cell, value_new_float (x), NULL);
 	return NULL;
 }
@@ -328,7 +314,7 @@ WriteData_ForeachCellCB_fast (Sheet *sheet, int col, int row,
 	if (cell == NULL)
 		cell = sheet_cell_new (sheet, col, row);
 	x = g_array_index (data, gnum_float, data->len - 1);
-	g_array_remove_index_fast (data,data->len - 1);
+	g_array_remove_index_fast (data, data->len - 1);
 	sheet_cell_set_value (cell, value_new_float (x), NULL);
 	return NULL;
 }
@@ -336,7 +322,7 @@ WriteData_ForeachCellCB_fast (Sheet *sheet, int col, int row,
 static void
 write_data (WorkbookControl *wbc, data_analysis_output_t *dao, GArray *data, gboolean fast)
 {
-	gint st_row = 0, end_row = data->len-1, st_col = 0, end_col = 0;
+	gint st_row = 0, end_row = data->len - 1, st_col = 0, end_col = 0;
 
 	if (dao->type == RangeOutput) {
 		st_row = dao->start_row;
@@ -364,7 +350,7 @@ StoreData_ForeachCellCB (Sheet *sheet, int col, int row,
 {
 	gnum_float  x;
 
-	if (VALUE_IS_NUMBER (cell->value) ) {
+	if (VALUE_IS_NUMBER (cell->value)) {
 		x = value_get_as_float (cell->value);
 		g_array_append_val (data, x);
 	}
@@ -785,8 +771,8 @@ correlation_tool (WorkbookControl *wbc, Sheet *sheet,
 		}
 	}
 
-/* labels contains char* and data contains g_array of gnum_float, passing TRUE should */
-/* dispose that memory correctly                                                      */
+	/* labels contains char* and data contains g_array of gnum_float, passing TRUE should */
+	/* dispose that memory correctly                                                      */
 	g_ptr_array_free (labels, TRUE);
 	g_ptr_array_free (data, TRUE);
 
@@ -860,8 +846,8 @@ covariance_tool (WorkbookControl *wbc, Sheet *sheet,
 		}
 	}
 
-/* labels contains char* and data contains g_array of gnum_float, passing TRUE should */
-/* dispose that memory correctly                                                      */
+	/* labels contains char* and data contains g_array of gnum_float, passing TRUE should */
+	/* dispose that memory correctly                                                      */
 	g_ptr_array_free (labels, TRUE);
 	g_ptr_array_free (data, TRUE);
 
@@ -1163,8 +1149,8 @@ descriptive_stat_tool (WorkbookControl *wbc, Sheet *sheet,
         if (ds->kth_smallest)
                 kth_smallest (wbc, data, ds->k_smallest, labels, dao);
 
-/* labels contains char* and data contains g_array of gnum_float, passing TRUE should */
-/* dispose that memory correctly                                                      */
+	/* labels contains char* and data contains g_array of gnum_float, passing TRUE should */
+	/* dispose that memory correctly                                                      */
 	g_ptr_array_free (labels, TRUE);
 	g_ptr_array_free (data, TRUE);
 
@@ -2486,8 +2472,8 @@ int ranking_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
 			/* Percent */
 			set_cell_printf (dao, i * 4 + 3, n + 1,
 					 "%.2f%%",
-					 100.0- (100.0 * (rank[n].rank - 1)/
-						 (data_sets[i].n - 1)));
+					 100.0 - (100.0 * (rank[n].rank - 1)/
+						  (data_sets[i].n - 1)));
 		}
 		g_free (rank);
 	}
@@ -2517,8 +2503,8 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 {
         data_set_t *data_sets;
 	int        vars, cols, rows, col, i;
-	gnum_float    *mean, mean_total, sum_total, n_total, ssb, ssw, sst;
-	gnum_float    ms_b, ms_w, f, p, f_c;
+	gnum_float *mean, mean_total, sum_total, n_total, ssb, ssw, sst;
+	gnum_float ms_b, ms_w, f, p, f_c;
 	int        df_b, df_w, df_t;
 
 	prepare_output (wbc, dao, _("Anova"));
@@ -2844,12 +2830,12 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 			      int rows_per_sample, gnum_float alpha,
 			      data_analysis_output_t *dao)
 {
-	int        cols, rows, i, j, k, n, a, b;
-	int        count, gr_count, tot_count;
+	int           cols, rows, i, j, k, n, a, b;
+	int           count, gr_count, tot_count;
 	gnum_float    sum, sqrsum, x, v;
 	gnum_float    gr_sum, gr_sqrsum;
 	gnum_float    tot_sum, tot_sqrsum;
-	int        *col_count;
+	int           *col_count;
 	gnum_float    *col_sum, *col_sqrsum;
 	gnum_float    col_sum_sqrsum, gr_sum_sqrsum, sample_sum_sqrsum;
 	gnum_float    df_col, df_gr, df_inter, df_within;
@@ -2857,7 +2843,7 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 	gnum_float    ms_col, ms_gr, ms_inter, ms_within;
 	gnum_float    f_col, f_gr, f_inter;
 	gnum_float    p_col, p_gr, p_inter;
-	Cell       *cell;
+	Cell          *cell;
 
 	cols = range->end.col - range->start.col + 1;
 	rows = range->end.row - range->start.row + 1;
@@ -2878,7 +2864,7 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 		       cell = sheet_cell_get (sheet, range->start.col + j,
 						     range->start.row + i);
 			      if (cell == NULL
-				  || !VALUE_IS_NUMBER(cell->value))
+				  || !VALUE_IS_NUMBER (cell->value))
 				      return 2;
 	       }
 	}
@@ -2992,12 +2978,12 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 		col_sum_sqrsum +=  (col_sum[i - 1] * col_sum[i - 1]);
 	}
 
-	a = (rows - 1)/rows_per_sample;
+	a = (rows - 1) / rows_per_sample;
 	b = cols -1;
-	ss_gr = (gr_sum_sqrsum - (tot_sum*tot_sum)/a) / (b * rows_per_sample) ;
-	ss_col = (col_sum_sqrsum - (tot_sum*tot_sum)/b) / (a * rows_per_sample) ;
+	ss_gr = (gr_sum_sqrsum - (tot_sum * tot_sum) / a) / (b * rows_per_sample) ;
+	ss_col = (col_sum_sqrsum - (tot_sum * tot_sum) / b) / (a * rows_per_sample) ;
 	ss_within = tot_sqrsum - sample_sum_sqrsum / rows_per_sample;
-	ss_tot = tot_sqrsum - (tot_sum*tot_sum) / (a * b * rows_per_sample);
+	ss_tot = tot_sqrsum - (tot_sum * tot_sum) / (a * b * rows_per_sample);
 	ss_inter = ss_tot - ss_within - ss_col - ss_gr;
 
 	df_gr = a - 1;
@@ -3014,9 +3000,9 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 	f_col = ms_col / ms_within;
 	f_inter = ms_inter / ms_within;
 
-	p_gr = 1.0 - pf(f_gr,df_gr,df_within);
-	p_col = 1.0 - pf(f_col,df_col,df_within);
-	p_inter = 1.0 - pf(f_inter,df_inter,df_within);
+	p_gr = 1.0 - pf (f_gr, df_gr, df_within);
+	p_col = 1.0 - pf (f_col, df_col, df_within);
+	p_inter = 1.0 - pf (f_inter, df_inter, df_within);
 
 	set_cell (dao, 0, n * 6 + 10, _("ANOVA"));
 	set_cell (dao, 0, n * 6 + 11, _("Source of Variation"));
@@ -3061,18 +3047,18 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 	set_cell_float (dao, 5, n * 6 + 14, p_inter);
 
 	set_cell (dao, 6, n * 6 + 11, _("F crit"));
-	set_cell_float (dao, 6, n * 6 + 12, qf(alpha,df_gr,df_within));
-	set_cell_float (dao, 6, n * 6 + 13, qf(alpha,df_col,df_within));
-	set_cell_float (dao, 6, n * 6 + 14, qf(alpha,df_inter,df_within));
+	set_cell_float (dao, 6, n * 6 + 12, qf (alpha, df_gr, df_within));
+	set_cell_float (dao, 6, n * 6 + 13, qf (alpha, df_col, df_within));
+	set_cell_float (dao, 6, n * 6 + 14, qf (alpha, df_inter, df_within));
 
 	set_italic (dao, 0, n * 6 + 11, 6, n * 6 + 11);
 
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (sheet);
 
-	g_free(col_count);
-	g_free(col_sum);
-	g_free(col_sqrsum);
+	g_free (col_count);
+	g_free (col_sum);
+	g_free (col_sqrsum);
 
 	return 0;
 }
