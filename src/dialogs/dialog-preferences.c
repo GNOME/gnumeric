@@ -32,6 +32,7 @@
 
 #include "mstyle.h"
 #include "value.h"
+#include "format.h"
 #include "workbook.h"
 #include "number-match.h"
 #include "widgets/widget-font-selector.h"
@@ -406,11 +407,11 @@ pref_tree_set_model (GConfClient *gconf, GtkTreeModel *model, GtkTreeIter *iter)
 		value_string = g_strdup_printf ("%f", gconf_client_get_float (gconf, key,
 									    NULL));
 		break;
-	case GCONF_VALUE_BOOL:
-		value_string = gconf_client_get_bool (gconf, key, NULL) ?
-			g_strdup (_("TRUE")) :
-			g_strdup (_("FALSE"));
+	case GCONF_VALUE_BOOL: {
+		gboolean b = gconf_client_get_bool (gconf, key, NULL);
+		value_string = g_strdup (format_boolean (b));
 		break;
+	}
 	default:
 		value_string = g_strdup ("ERROR FIXME");
 	}
