@@ -1,5 +1,9 @@
 2001-12-31  Jody Goldberg <jody@gnome.org>
 
+	* html.c (write_cell) : warning suppression.
+
+2001-12-31  Jody Goldberg <jody@gnome.org>
+
 	* Release 1.0.0
 
 2001-12-27  Andreas J. Guelzow <aguelzow@taliesin.ca>

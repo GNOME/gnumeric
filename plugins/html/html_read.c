@@ -50,7 +50,7 @@
 /*
  * html_version_t:
  *
- * version selector 
+ * version selector
  *
  */
 typedef enum {
@@ -125,18 +125,18 @@ html_get_text_color (Cell *cell, MStyle *mstyle, int *r, int *g, int *b)
 	textColor= cell->rendered_value->render_color;
 	if (textColor == NULL)
 		textColor = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
-	
+
 	*r = textColor->color.red >> 8;
 	*g = textColor->color.green >> 8;
 	*b = textColor->color.blue >> 8;
 }
 static void
-html_get_color (MStyle *mstyle, MStyleElementType t, int *r, int *g, int *b)
+html_get_color (MStyle *mstyle, MStyleElementType t, guint *r, guint *g, guint *b)
 {
 	StyleColor *color;
 
 	color = mstyle_get_color (mstyle, t);
-	
+
 	*r = color->color.red >> 8;
 	*g = color->color.green >> 8;
 	*b = color->color.blue >> 8;
@@ -191,7 +191,7 @@ html_write_cell_content (FILE *fp, Cell *cell, MStyle *mstyle, html_version_t ve
  * @row: the row number
  * @col: the col number
  *
- * Output all cell info for the given cell 
+ * Output all cell info for the given cell
  *
  */
 
@@ -202,7 +202,6 @@ write_cell (FILE *fp, Sheet *sheet, gint row, gint col, html_version_t version)
 	MStyle *mstyle;
 	guint r, g, b;
 
-	
 	mstyle = sheet_style_get (sheet, col, row);
 	if (mstyle != NULL && version != HTML32 && version != HTML40) {
 		html_get_color (mstyle, MSTYLE_COLOR_BACK, &r, &g, &b);
@@ -264,7 +263,7 @@ write_cell (FILE *fp, Sheet *sheet, gint row, gint col, html_version_t version)
  *
  * Set up a TD node for each cell in the given row, witht eh  appropriate
  * colspan and rowspan.
- * Call write_cell for each cell. 
+ * Call write_cell for each cell.
  *
  */
 
@@ -273,9 +272,9 @@ write_row (FILE *fp, Sheet *sheet, gint row, Range *range, html_version_t versio
 {
 	gint col;
 	ColRowInfo const * ri;
-	
+
 	ri = sheet_row_get_info (sheet, row);
-	
+
 	for (col = range->start.col; col <= range->end.col; col++) {
 		CellSpanInfo const *the_span;
 		Range const *merge_range;
@@ -290,14 +289,14 @@ write_row (FILE *fp, Sheet *sheet, gint row, Range *range, html_version_t versio
 			col = the_span->right;
 			continue;
 		}
-		
+
                 /* is this covered by a merge */
 		merge_range = sheet_merge_contains_pos	(sheet, &pos);
 		if (merge_range != NULL) {
 			if (merge_range->start.col != col ||
 			    merge_range->start.row != row)
 				continue;
-			fprintf (fp, "<TD COLSPAN=%i ROWSPAN=%i ", 
+			fprintf (fp, "<TD COLSPAN=%i ROWSPAN=%i ",
 				 merge_range->end.col - merge_range->start.col + 1,
 				 merge_range->end.row - merge_range->start.row + 1);
 			write_cell (fp, sheet, row, col, version);
@@ -307,7 +306,7 @@ write_row (FILE *fp, Sheet *sheet, gint row, Range *range, html_version_t versio
 		fputs ("<TD ", fp);
 		write_cell (fp, sheet, row, col, version);
 	}
-} 
+}
 
 /*
  * write_sheet:
@@ -417,7 +416,7 @@ html_file_save (GnumFileSaver const *fs, IOContext *io_context,
 		write_sheet (fp, (Sheet *) ptr->data, version);
 	}
 	g_list_free (sheets);
-	if (version == HTML32 || version == HTML40) 
+	if (version == HTML32 || version == HTML40)
 		fputs ("</BODY>\n</HTML>\n", fp);
 	fclose (fp);
 }
