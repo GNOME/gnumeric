@@ -1,5 +1,8 @@
 2005-03-14  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-control-gui.c (wbcg_validation_msg): Fix arg order
+	of go_gtk_dialog_run call.
+
 	* src/gui-file.c (gui_file_save_as): Don't force local-only file
 	chooser.
 
