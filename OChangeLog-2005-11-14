@@ -17,7 +17,7 @@
 
 2005-03-07  Morten Welinder  <terra@gnome.org>
 
-	* configure.in: We no lonfer need the "finite" hackery.
+	* configure.in: We no longer need the "finite" hackery.
 
 	* src/mathfunc.c (mathfunc_init): Use goffice's nan etc.
 

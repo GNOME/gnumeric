@@ -7117,17 +7117,12 @@ gnm_yn (int n, gnm_float x)
 
 /* ------------------------------------------------------------------------- */
 
-#ifdef NEED_FAKE_LGAMMA_R
-gnm_float
-gnm_lgamma_r (gnm_float x, int *signp)
+#ifndef HAVE_LGAMMA_R
+double
+lgamma_r (double x, int *signp)
 {
-#ifdef HAVE_LGAMMA
-	gnm_float res = gnm_lgamma (x);
-	*signp = (x >= 0 || gnm_fmod (gnm_floor (-x), 2.0) != 0.0) ? +1 : -1;
-	return res;
-#else
-#error "I need to have lgamma for this to work."
-#endif
+	*signp = (x >= 0 || fmod (floor (-x), 2.0) != 0.0) ? +1 : -1;
+	return lgamma (x);
 }
 #endif
 

@@ -584,16 +584,14 @@ dnl check for complete locale implementation
 AC_CHECK_HEADERS(langinfo.h)
 
 dnl We supply our own lgamma_r (using lgamma) when missing.
-dnl We supply our own expm1 (using log1p) when missing.
-AC_CHECK_FUNCS(lgamma)
-if test $ac_cv_func_lgamma = no; then
-  AC_CHECK_LIB(m, lgamma,
-        [AC_DEFINE(HAVE_LGAMMA, 1,
-		[Define if the lgamma function is available]
+AC_CHECK_FUNCS(lgamma_r)
+if test $ac_cv_func_lgamma_r = no; then
+  AC_CHECK_LIB(m, lgamma_r,
+        [AC_DEFINE(HAVE_LGAMMA_R, 1,
+		[Define if the lgamma_r function is available]
 	 )
          LIBS="$LIBS -lm"])
 fi
-AC_CHECK_FUNCS(lgamma_r expm1 log1p asinh acosh atanh)
 
 AC_C_LONG_DOUBLE
 float_msg=double

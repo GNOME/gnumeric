@@ -11,23 +11,28 @@
 #include <ieee754.h>
 #endif
 
+#ifndef HAVE_LGAMMA_R
+/* Defined in mathfunc.c  */
+double lgamma_r (double x, int *signp);
+#endif
+
 #ifdef WITH_LONG_DOUBLE
 
 typedef long double gnm_float;
 
-#ifdef HAVE_ERF
+#ifdef HAVE_ERFL
 #define gnm_erf erfl
 #else
 #define NEED_FAKE_ERFGNUM
-/* Defined in gutils.c  */
+/* Defined in mathfunc.c  */
 gnm_float gnm_erf (gnm_float x);
 #endif
 
-#ifdef HAVE_ERFC
+#ifdef HAVE_ERFCL
 #define gnm_erfc erfcl
 #else
 #define NEED_FAKE_ERFCGNUM
-/* Defined in gutils.c  */
+/* Defined in mathfunc.c  */
 gnm_float gnm_erfc (gnm_float x);
 #endif
 
@@ -35,7 +40,7 @@ gnm_float gnm_erfc (gnm_float x);
 #define gnm_yn ynl
 #else
 #define NEED_FAKE_YNGNUM
-/* Defined in gutils.c  */
+/* Defined in mathfunc.c  */
 gnm_float gnm_yn (int n, gnm_float x);
 #endif
 
@@ -155,12 +160,6 @@ typedef double gnm_float;
 #define gnm_tan tan
 #define gnm_tanh tanh
 #define gnm_yn yn
-
-#ifndef HAVE_LGAMMA_R
-#define NEED_FAKE_LGAMMA_R
-/* Defined in gutils.c  */
-gnm_float gnm_lgamma_r (gnm_float x, int *signp);
-#endif
 
 #define GNM_FORMAT_e	"e"
 #define GNM_FORMAT_E	"E"
