@@ -115,7 +115,7 @@ fi
 if test "x$bonobo_msg" = "xyes"; then
 	bonobo_suffix=-bonobo
         gnumeric_bonobo_enabled=true
-	AC_DEFINE(WITH_BONOBO)
+	AC_DEFINE(WITH_BONOBO, 1, [Define if Bonobo is to be used])
 	gnumeric_reqs="$gnumeric_reqs
 libbonobo-2.0 >= 1.115.0
 libbonoboui-2.0
@@ -305,14 +305,17 @@ dnl
 ALL_LINGUAS="bg ca cs da de en_AU en_CA en_GB el es et fi fr ga gl hr hu it ja ko lv ms nl nn no pl pt pt_BR ro ru sk sv tr uk vi zh_CN zh_TW"
 GETTEXT_PACKAGE=gnumeric
 AC_SUBST(GETTEXT_PACKAGE)
-AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE")
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE",
+	[The package name, for gettext]
+)
 AM_GLIB_GNU_GETTEXT
 
 # AM_GNOME_GETTEXT above substs $DATADIRNAME
 # this is the directory where the *.{mo,gmo} files are installed
 AC_MSG_CHECKING(locale directory)
 GNUMERIC_LOCALE_DIR="${prefix}/${DATADIRNAME}/locale"
-AC_DEFINE_UNQUOTED(GNUMERIC_LOCALE_DIR,"$GNUMERIC_LOCALE_DIR")
+AC_DEFINE_UNQUOTED(GNUMERIC_LOCALE_DIR, "$GNUMERIC_LOCALE_DIR",
+	[The directory in which gnumeric's locale data will be stored])
 AC_MSG_RESULT("$GNUMERIC_LOCALE_DIR")
 
 #AC_PATH_PROG(TPUT_CMD,tput,no)
@@ -340,14 +343,20 @@ dnl FIXME: Does this really belong here?
 AC_CHECK_FUNC(bind_textdomain_codeset,,[AC_CHECK_LIB(intl,bind_textdomain_codeset)])
 
 dnl isfinite is a macro on HPUX
-AC_TRY_COMPILE([#include <math.h>], [int a = isfinite(0.0)], [AC_DEFINE(HAVE_ISFINITE)], [])
+AC_TRY_COMPILE([#include <math.h>], [int a = isfinite(0.0)],
+	[AC_DEFINE(HAVE_ISFINITE, 1,
+		[Define if the isfinite() macro is available]
+	 )
+	], [])
 
 dnl
 dnl On BSD, we seem to need -lm for finite
 dnl
 if test $ac_cv_func_finite = no; then
   AC_CHECK_LIB(m, finite,
-        [AC_DEFINE(HAVE_FINITE)
+        [AC_DEFINE(HAVE_FINITE, 1,
+		[Define if the finite() function is available]
+	 )
          LIBS="$LIBS -lm"])
 fi
 
@@ -409,7 +418,9 @@ AC_ARG_WITH(long_double,
 				}],
 				AC_MSG_RESULT(no),
 				[AC_MSG_RESULT(yes)
-				 AC_DEFINE(MUST_PROTOTYPE_STRTOLD)],
+				 AC_DEFINE(MUST_PROTOTYPE_STRTOLD, 1,
+					[Define if w e need to provide a prototype for strtold()]
+				 )],
 				AC_MSG_RESULT(assuming not));
 			true
 		elif test "x$ac_cv_func_string_to_decimal" = "xyes" -a \
@@ -461,7 +472,9 @@ AC_ARG_WITH(long_double,
 
 		float_msg="long double (EXPERIMENTAL)"
 		AC_MSG_WARN([Long double support is experimental -- expect problems])
-		AC_DEFINE(WITH_LONG_DOUBLE)
+		AC_DEFINE(WITH_LONG_DOUBLE, 1,
+			[Define if the long double type is to be used]
+		)
 	fi]
 )
 
@@ -550,7 +563,8 @@ else:
 			  AC_SUBST(PY_CFLAGS)
 			  AC_SUBST(PY_EXTRA_LIBS)
 			  if test "x$broken_py_initialize" = "xyes"; then
-			  	AC_DEFINE(BROKEN_PY_INITIALIZE)
+			  	AC_DEFINE(BROKEN_PY_INITIALIZE, 1,
+				[Define if the available python is so old as to have broken initialisation])
 			  fi
 		  else
 			  AC_MSG_RESULT(no)
@@ -595,7 +609,9 @@ if test "x$try_pygtk" = "xtrue"; then
 	AC_SUBST(PYGTK_CFLAGS)
 fi
 if test "x$pygtk_msg" = "xyes"; then
-	AC_DEFINE(WITH_PYGTK)
+	AC_DEFINE(WITH_PYGTK, 1,
+		[Define if the Python bindings for GTK+ and related libraries are available]
+	)
 fi
 
 dnl **************************************************
@@ -613,8 +629,12 @@ gnumeric_icondir="${datadir}/pixmaps/gnumeric"
 gnumeric_autoformatdir="${gnumeric_datadir}/autoformat-templates"
 
 dnl Export to gnumeric-config.h
-AC_DEFINE_UNQUOTED(GNUMERIC_VERSION, "$gnumeric_version")
-AC_DEFINE_UNQUOTED(GNUMERIC_PREFIX,  "$gnumeric_prefix")
+AC_DEFINE_UNQUOTED(GNUMERIC_VERSION, "$gnumeric_version",
+	[The version number of this Gnumeric release, possibly suffixed for bonobo]
+)
+AC_DEFINE_UNQUOTED(GNUMERIC_PREFIX,  "$gnumeric_prefix",
+	[The prefix under which gnumeric is to be installed]
+)
 
 AC_SUBST(gnumeric_prefix)
 AC_SUBST(gnumeric_exec_prefix)
@@ -663,7 +683,9 @@ else
 fi
 AM_CONDITIONAL(ENABLE_EVOLUTION, test x"$evolution" = "xyes")
 if test x"$evolution" = "xyes" ; then
-    AC_DEFINE(ENABLE_EVOLUTION)
+	AC_DEFINE(ENABLE_EVOLUTION, 1,
+		[Define if Evolution is to be used as a component to send mail]
+	)
 fi
 
 dnl *************

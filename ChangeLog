@@ -1,3 +1,9 @@
+2002-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* acconfig.h: obsoleted.
+	* configure.in: Added template descriptions to AC_DEFINE and 
+	  AC_DEFINE_UNQUOTED to obsolete acconfig.h .
+
 2002-11-01  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-io.c (xml_write_style) : simplify handling of validation.
