@@ -1,3 +1,19 @@
+2001-10-09  Almer S. Tigelaar  <almer@gnome.org>
+
+	* cell-format.glade: Add validation and input msg tabs, largely
+	migrated from validate.glade.
+	
+	* dialog-cell-format.c (cb_validation_constraint_type_deactivate): New.
+	(cb_validation_operator_deactivate): New.
+	(cb_validation_error_action_deactivate): New.
+	(fmt_dialog_init_validation_page): New, initialize new validation tab.
+	(cb_input_msg_flag_toggled): New.
+	(fmt_dialog_init_input_msg_page): New, initialize new input msg tab.
+	(cb_fmt_dialog_dialog_destroy): detach guru.
+	(cb_fmt_dialog_set_focus): Set focus for expr-entry's.
+	(fmt_dialog_impl): Call validation/input msg initialization routines,
+	connect set-focus handler, make notebook scrollable, attach guru.
+
 2001-10-07  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.71

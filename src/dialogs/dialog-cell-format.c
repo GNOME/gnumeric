@@ -12,6 +12,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-help.h>
+#include <libgnome/gnome-util.h>
 #include <glade/glade.h>
 #include "sheet.h"
 #include "sheet-merge.h"
@@ -31,8 +32,10 @@
 #include "mstyle.h"
 #include "application.h"
 #include "workbook.h"
+#include "workbook-edit.h"
 #include "commands.h"
 #include <gal/widgets/widget-color-combo.h>
+#include "widgets/gnumeric-expr-entry.h"
 
 /* The order corresponds to border_preset_buttons */
 typedef enum
@@ -145,11 +148,44 @@ typedef struct _FormatState
 		ColorPicker	 pattern_color;
 		PatternPicker	 pattern;
 	} back;
-
 	struct {
 		GtkCheckButton *hidden, *locked;
 	} protection;
+	struct {
+		GtkTable       *criteria_table;
+		GtkOptionMenu  *constraint_type;
+		GtkLabel       *operator_label;
+		GtkOptionMenu  *operator;
+		struct {
+			GtkLabel          *name;
+			GnumericExprEntry *entry;
+		} bound1;
+		struct {
+			GtkLabel          *name;
+			GnumericExprEntry *entry;
+		} bound2;
+		GtkCheckButton *ignore_blank;
+		GtkCheckButton *in_dropdown;
 
+		struct {
+			GtkLabel      *action_label;
+			GtkLabel      *title_label;
+			GtkLabel      *msg_label;
+			GtkOptionMenu *action;
+			GtkEntry      *title;
+			GtkText       *msg;
+			GnomePixmap   *image;
+		} error;
+	} validation;
+	struct {
+		GtkToggleButton *flag;
+
+		GtkLabel        *title_label;
+		GtkLabel        *msg_label;
+		GtkEntry        *title;
+		GtkText         *msg;
+	} input_msg;
+	
 	void (*dialog_changed) (gpointer user_data);
 	gpointer	dialog_changed_user_data;
 } FormatState;
@@ -1921,6 +1957,193 @@ fmt_dialog_init_protection_page (FormatState *state)
 
 /*****************************************************************************/
 
+static void
+cb_validation_constraint_type_deactivate (GtkMenuShell *shell, FormatState *state)
+{
+	gboolean flag = (gnumeric_option_menu_get_selected_index (state->validation.constraint_type) != 0);
+	
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.operator), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.bound1.entry), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.bound2.entry), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.ignore_blank), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.in_dropdown), flag);
+
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.operator_label), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.bound1.name), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.bound2.name), flag);
+
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.action_label), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.title_label), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.msg_label), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.action), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.title), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.msg), flag);
+
+	if (flag)
+		gtk_widget_show (GTK_WIDGET (state->validation.error.image));
+	else
+		gtk_widget_hide (GTK_WIDGET (state->validation.error.image));
+}
+
+static void
+cb_validation_operator_deactivate (GtkMenuShell *shell, FormatState *state)
+{
+	int index = gnumeric_option_menu_get_selected_index (state->validation.operator);
+	
+	if (index > 1) {
+		gtk_widget_hide (GTK_WIDGET (state->validation.bound2.name));
+		gtk_widget_hide (GTK_WIDGET (state->validation.bound2.entry));
+	} else {
+		gtk_widget_show (GTK_WIDGET (state->validation.bound2.name));
+		gtk_widget_show (GTK_WIDGET (state->validation.bound2.entry));
+	}
+
+	switch (index) {
+	case 0 : /* Fall through */
+	case 1 : {
+		gtk_label_set_text (state->validation.bound1.name, _("Minimum :"));
+		gtk_label_set_text (state->validation.bound2.name, _("Maximum :"));
+	} break;
+	case 2 : /* Fall through */
+	case 3 : {
+		gtk_label_set_text (state->validation.bound1.name, _("Value :"));
+	} break;
+	case 4 : /* Fall through */
+	case 6 : {
+		gtk_label_set_text (state->validation.bound1.name, _("Minimum :"));
+	} break;
+	case 5 : /* Fall through */
+	case 7 : {
+		gtk_label_set_text (state->validation.bound1.name, _("Maximum :"));
+	} break;
+	default :
+		g_warning ("Unknown operator index");
+	}
+}
+
+static void
+cb_validation_error_action_deactivate (GtkMenuShell *shell, FormatState *state)
+{
+	int   index = gnumeric_option_menu_get_selected_index (state->validation.error.action);
+	char *s     = NULL;
+
+	switch (index) {
+	case 0 :
+		s = gnome_pixmap_file ("gnome-error.png");
+		break;
+	case 1 :
+		s = gnome_pixmap_file ("gnome-warning.png");
+		break;
+	case 2 :
+		s = gnome_pixmap_file ("gnome-info.png");
+		break;
+	}
+	
+	if (s != NULL) {
+		gnome_pixmap_load_file (state->validation.error.image, s);
+		g_free (s);
+	}
+}
+
+static void
+fmt_dialog_init_validation_page (FormatState *state)
+{
+	g_return_if_fail (state != NULL);
+
+	/* Setup widgets */
+	state->validation.criteria_table  = GTK_TABLE           (glade_xml_get_widget (state->gui, "validation_criteria_table"));
+	state->validation.constraint_type = GTK_OPTION_MENU     (glade_xml_get_widget (state->gui, "validation_constraint_type"));
+	state->validation.operator_label  = GTK_LABEL           (glade_xml_get_widget (state->gui, "validation_operator_label"));
+	state->validation.operator        = GTK_OPTION_MENU     (glade_xml_get_widget (state->gui, "validation_operator"));
+	state->validation.bound1.name     = GTK_LABEL           (glade_xml_get_widget (state->gui, "validation_bound1_name"));
+	state->validation.bound2.name     = GTK_LABEL           (glade_xml_get_widget (state->gui, "validation_bound2_name"));
+	state->validation.bound1.entry    = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
+	state->validation.bound2.entry    = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
+	state->validation.ignore_blank    = GTK_CHECK_BUTTON    (glade_xml_get_widget (state->gui, "validation_ignore_blank"));
+	state->validation.in_dropdown     = GTK_CHECK_BUTTON    (glade_xml_get_widget (state->gui, "validation_in_dropdown"));
+
+	gtk_table_attach (state->validation.criteria_table, GTK_WIDGET (state->validation.bound1.entry),
+			  1, 2, 2, 3, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_widget_show (GTK_WIDGET (state->validation.bound1.entry));
+	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog), GTK_EDITABLE (state->validation.bound1.entry));
+	gnumeric_expr_entry_set_scg (state->validation.bound1.entry, wb_control_gui_cur_sheet (state->wbcg));
+
+	gtk_table_attach (state->validation.criteria_table, GTK_WIDGET (state->validation.bound2.entry),
+			  1, 2, 3, 4, GTK_EXPAND | GTK_FILL, 0, 0, 0);
+	gtk_widget_show (GTK_WIDGET (state->validation.bound2.entry));
+	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog), GTK_EDITABLE (state->validation.bound2.entry));
+	gnumeric_expr_entry_set_scg (state->validation.bound2.entry, wb_control_gui_cur_sheet (state->wbcg));
+
+	state->validation.error.action_label = GTK_LABEL       (glade_xml_get_widget (state->gui, "validation_error_action_label"));
+	state->validation.error.title_label  = GTK_LABEL       (glade_xml_get_widget (state->gui, "validation_error_title_label"));
+	state->validation.error.msg_label    = GTK_LABEL       (glade_xml_get_widget (state->gui, "validation_error_msg_label"));
+	state->validation.error.action       = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "validation_error_action"));
+	state->validation.error.title        = GTK_ENTRY       (glade_xml_get_widget (state->gui, "validation_error_title"));
+	state->validation.error.msg          = GTK_TEXT        (glade_xml_get_widget (state->gui, "validation_error_msg"));
+	state->validation.error.image        = GNOME_PIXMAP    (glade_xml_get_widget (state->gui, "validation_error_image"));
+
+	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog), GTK_EDITABLE (state->validation.error.title));
+	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog), GTK_EDITABLE (state->validation.error.msg));
+
+	gtk_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.constraint_type)), "deactivate",
+			    GTK_SIGNAL_FUNC (cb_validation_constraint_type_deactivate), state);
+	gtk_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.operator)), "deactivate",
+			    GTK_SIGNAL_FUNC (cb_validation_operator_deactivate), state);
+	gtk_signal_connect (GTK_OBJECT (gtk_option_menu_get_menu (state->validation.error.action)), "deactivate",
+			    GTK_SIGNAL_FUNC (cb_validation_error_action_deactivate), state);
+
+	/* Initialize */
+	cb_validation_constraint_type_deactivate (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->validation.constraint_type)), state);
+	cb_validation_operator_deactivate (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->validation.operator)), state);
+	cb_validation_error_action_deactivate (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->validation.error.action)), state);
+}
+
+/*****************************************************************************/
+
+static void
+cb_input_msg_flag_toggled (GtkToggleButton *button, FormatState *state)
+{
+	gboolean flag = gtk_toggle_button_get_active (button);
+	
+	gtk_widget_set_sensitive (GTK_WIDGET (state->input_msg.title_label), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->input_msg.msg_label), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->input_msg.title), flag);
+	gtk_widget_set_sensitive (GTK_WIDGET (state->input_msg.msg), flag);
+}
+
+static void
+fmt_dialog_init_input_msg_page (FormatState *state)
+{
+	g_return_if_fail (state != NULL);
+
+	/*
+	 * NOTE: This should be removed when the feature
+	 * is implemented.
+	 */
+#if 1
+	gtk_notebook_remove_page (GTK_NOTEBOOK (GNOME_PROPERTY_BOX (state->dialog)->notebook), 7);
+	return;
+#endif
+	
+	/* Setup widgets */
+	state->input_msg.flag        = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "input_msg_flag"));
+	state->input_msg.title_label = GTK_LABEL         (glade_xml_get_widget (state->gui, "input_msg_title_label"));
+	state->input_msg.msg_label   = GTK_LABEL         (glade_xml_get_widget (state->gui, "input_msg_msg_label"));
+	state->input_msg.title       = GTK_ENTRY         (glade_xml_get_widget (state->gui, "input_msg_title"));
+	state->input_msg.msg         = GTK_TEXT          (glade_xml_get_widget (state->gui, "input_msg_msg"));
+
+	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog), GTK_EDITABLE (state->input_msg.title));
+	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog), GTK_EDITABLE (state->input_msg.msg));
+
+	gtk_signal_connect (GTK_OBJECT (state->input_msg.flag), "toggled",
+			    GTK_SIGNAL_FUNC (cb_input_msg_flag_toggled), state);
+
+	/* Initialize */
+	cb_input_msg_flag_toggled (state->input_msg.flag, state);
+}
+
+/*****************************************************************************/
+
 /* Handler for the apply button */
 static void
 cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
@@ -1950,6 +2173,7 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 static gboolean
 cb_fmt_dialog_dialog_destroy (GtkObject *unused, FormatState *state)
 {
+	wbcg_edit_detach_guru (state->wbcg);
 	g_free ((char *)state->format.spec);
 	mstyle_unref (state->back.style);
 	mstyle_unref (state->style);
@@ -1957,6 +2181,28 @@ cb_fmt_dialog_dialog_destroy (GtkObject *unused, FormatState *state)
 	gtk_object_unref (GTK_OBJECT (state->gui));
 	g_free (state);
 	return FALSE;
+}
+
+/* Handler for expr-entry's focus.
+ *
+ * NOTE: This will only become useful once the
+ *       cell format dialog is made non-modal
+ */
+static void
+cb_fmt_dialog_set_focus (GtkWidget *window, GtkWidget *focus_widget,
+			 FormatState *state)
+{
+	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
+		GnumericExprEntryFlags flags;
+		
+		wbcg_set_entry (state->wbcg,
+				GNUMERIC_EXPR_ENTRY (focus_widget));
+				    
+		flags = GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL | GNUM_EE_SHEET_OPTIONAL;
+		gnumeric_expr_entry_set_flags (state->validation.bound1.entry, flags, flags);
+		gnumeric_expr_entry_set_flags (state->validation.bound2.entry, flags, flags);
+	} else
+		wbcg_set_entry (state->wbcg, NULL);
 }
 
 /* Set initial focus */
@@ -2119,7 +2365,9 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	fmt_dialog_init_font_page (state);
 	fmt_dialog_init_background_page (state);
 	fmt_dialog_init_protection_page (state);
-
+	fmt_dialog_init_validation_page (state);
+	fmt_dialog_init_input_msg_page (state);
+	
 	/* Setup border line pattern buttons & select the 1st button */
 	for (i = MSTYLE_BORDER_TOP; i < MSTYLE_BORDER_DIAGONAL; i++) {
 		StyleBorder const *border = mstyle_get_border (state->style, i);
@@ -2225,12 +2473,16 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 			    GTK_SIGNAL_FUNC (gnome_help_pbox_goto), &help_ref);
 	gtk_signal_connect (GTK_OBJECT (dialog), "apply",
 			    GTK_SIGNAL_FUNC (cb_fmt_dialog_dialog_apply), state);
-	gtk_signal_connect(GTK_OBJECT(dialog), "destroy",
-			   GTK_SIGNAL_FUNC(cb_fmt_dialog_dialog_destroy),
-			   state);
+	gtk_signal_connect (GTK_OBJECT(dialog), "destroy",
+			    GTK_SIGNAL_FUNC (cb_fmt_dialog_dialog_destroy),
+			    state);
+	gtk_signal_connect (GTK_OBJECT(dialog), "set-focus",
+			    GTK_SIGNAL_FUNC(cb_fmt_dialog_set_focus),
+			    state);
 
 	set_initial_focus (state);
-
+	gtk_notebook_set_scrollable (GTK_NOTEBOOK (GNOME_PROPERTY_BOX (dialog)->notebook), TRUE);
+	
 	/* Ok, edit events from now on are real */
 	state->enable_edit = TRUE;
 
@@ -2245,9 +2497,9 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	 *   cell is selected? May be, but then we can't first make a style,
 	 *   then move around and apply it to different cells.
 	 */
-
 	gtk_window_set_modal (GTK_WINDOW(dialog), TRUE);
-
+	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
+	
 	gnumeric_dialog_show (state->wbcg, GNOME_DIALOG (dialog), FALSE, TRUE);
 }
 
