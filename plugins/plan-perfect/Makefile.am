@@ -28,4 +28,4 @@ if WITH_PLAN_PERFECT
 	sh $(top_srcdir)/tools/fixup-plugin-xml $@ $(gnumeric_plugin_plan_perfect_LTLIBRARIES)
 endif
 
-EXTRA_DIST = $(xml_in_files) $(xml_DATA)
+EXTRA_DIST = $(xml_in_files)

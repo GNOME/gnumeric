@@ -22,4 +22,4 @@ XML_I18N_XML_KIND = --pass-through
 @XML_I18N_MERGE_XML_RULE@
 	sh $(top_srcdir)/tools/fixup-plugin-xml $@ $(gnumeric_plugin_python_loader_LTLIBRARIES)
 
-EXTRA_DIST = $(xml_in_files) $(xml_DATA)
+EXTRA_DIST = $(xml_in_files)
