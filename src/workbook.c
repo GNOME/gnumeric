@@ -2010,6 +2010,7 @@ workbook_new (void)
 		gnome_ui_handler_create_menubar (wb->uih);
 		list = gnome_ui_handler_menu_parse_uiinfo_list_with_data (workbook_menu, wb);
 		gnome_ui_handler_menu_add_list (wb->uih, "/", list);
+		gnome_ui_handler_menu_free_list (list);
 	}
 #endif
 

@@ -215,8 +215,8 @@ load_formats (void)
 		PrintHF *format;
 
 		format = load_hf (str, "", "", "");
-		g_free (str);
 		hf_formats = g_list_prepend (hf_formats, format);
+		g_free (str);
 	}
 	hf_formats = g_list_reverse (hf_formats);
 	

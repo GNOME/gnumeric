@@ -853,6 +853,7 @@ xml_read_summary (parse_xml_context_t *ctxt, xmlNodePtr tree, SummaryInfo *summa
 	child = tree->childs;
 	while (child) {
 		char *name = NULL;
+
 		if (child->name && !strcmp (child->name, "Item")) {
 			xmlNodePtr bits;
 
@@ -871,7 +872,7 @@ xml_read_summary (parse_xml_context_t *ctxt, xmlNodePtr tree, SummaryInfo *summa
 						if (!strcmp (bits->name, "val-string"))
 							sit = summary_item_new_string (name, txt);
 						else if (!strcmp (bits->name, "val-int"))
-							sit = summary_item_new_int    (name, atoi (txt));
+							sit = summary_item_new_int (name, atoi (txt));
 						
 						if (sit)
 							summary_info_add (summary_info, sit);
@@ -880,6 +881,10 @@ xml_read_summary (parse_xml_context_t *ctxt, xmlNodePtr tree, SummaryInfo *summa
 				}
 				bits = bits->next;
 			}
+		}
+		if (name){
+			free (name);
+			name = NULL;
 		}
 		child = child->next;
 	}

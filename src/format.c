@@ -38,7 +38,7 @@
 #include "utils.h"
 
 /* Points to the locale information for number display */
-static struct lconv *lc;
+static struct lconv *lc = NULL;
 
 #define DECIMAL_CHAR_OF_LC(lc) ((lc)->decimal_point[0] ? (lc)->decimal_point[0] : '.')
 #define THOUSAND_CHAR_OF_LC(lc) ((lc)->thousands_sep[0] ? (lc)->thousands_sep[0] : ',')
