@@ -149,9 +149,9 @@ autocorrect_tool (char const *command)
 
 		for (s = ucommand; *s; s = p+1) {
 		skip_first_letter:
-			for (p = s; s != '\0' && !ispunct (p) ; p++)
+			for (p = s; *p != '\0' && !ispunct (*p) ; p++)
 				;
-			if (p == '\0')
+			if (*p == '\0')
 				break;
 
 			while (isspace(*s))
