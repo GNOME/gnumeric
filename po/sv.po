@@ -21,8 +21,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2000-11-21 20:42+0100\n"
-"PO-Revision-Date: 2000-11-21 20:43+0100\n"
+"POT-Creation-Date: 2000-11-25 00:40+0100\n"
+"PO-Revision-Date: 2000-11-25 03:26+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -139,13 +139,48 @@ msgstr "Gnome Basic"
 msgid "Enables Gnome Basic support"
 msgstr "Aktiverar stöd för Gnome Basic"
 
-#: plugins/gda/plugin-gda.c:251
-msgid "Database Access"
-msgstr "Databaskoppling"
+#: plugins/gda/plugin-gda.c:105
+msgid ""
+"@FUNCTION=EXECSQL\n"
+"@SYNTAX=EXECSQL(i)\n"
+"@DESCRIPTION=The EXECSQL function lets you execute a command in a\n"
+" database server, and show the results returned in\n"
+" current sheet\n"
+"\n"
+"@EXAMPLES=\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=EXECSQL\n"
+"@SYNTAX=EXECSQL(i)\n"
+"@DESCRIPTION=Funktionen EXECSQL låter dig köra ett kommando i en\n"
+" databasserver, och visar resultaten returnerade i det aktuella\n"
+" bladet\n"
+"\n"
+"@EXAMPLES=\n"
+"@SEEALSO="
 
-#: plugins/gda/plugin-gda.c:252
-msgid "Enables database access"
-msgstr "Aktviterar databaskoppling"
+#: plugins/gda/plugin-gda.c:134
+msgid "Format: execSQL(dsn,user,password,sql)"
+msgstr "Format: execSQL(dsn,användare,lösenord,sql)"
+
+#: plugins/gda/plugin-gda.c:140
+msgid "Error: could not initialize connection pool"
+msgstr "Fel: kunde inte initiera anslutningspool"
+
+#: plugins/gda/plugin-gda.c:145
+#, c-format
+msgid "Error: could not open connection to %s"
+msgstr "Fel: kunde inte öppna anslutning till %s"
+
+#. register functions
+#: plugins/gda/plugin-gda.c:197 plugins/gda/plugin-gda.c:202
+#: src/functions/fn-database.c:1337
+msgid "Database"
+msgstr "Databas"
+
+#: plugins/gda/plugin-gda.c:203
+msgid "Database functions for allowing the retrieval of data from a database"
+msgstr "Databasfunktioner som tillåter hämtandet av data från en databas"
 
 #: plugins/guile/plugin.c:63 src/func.c:547 src/functions/fn-information.c:585
 #: src/functions/fn-information.c:653 src/functions/fn-information.c:680
@@ -268,6 +303,17 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 msgstr ""
+"@FUNCTION=NT_MU\n"
+"@SYNTAX=NT_MU(n)\n"
+"@DESCRIPTION=Funktionen NT_MU (Möbius µ-funktion) returnerar \n"
+"0  om @n är delbart med kvadraten av ett primtal.\n"
+"Annars returnerar det: \n"
+"-1 om @n har ett udda  antal olika primfaktorer.\n"
+"1  om @n jar ett jämnt antal olika primfaktorer.\n"
+"Om @n=1 returnerar det 1\n"
+"\n"
+"@EXAMPLES=\n"
+"@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
 #: plugins/numtheory/numtheory.c:267
 msgid ""
@@ -343,6 +389,12 @@ msgid ""
 "This function only takes one argument.\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 msgstr ""
+"@FUNCTION=NT_PI\n"
+"@SYNTAX=NT_PI(n)\n"
+"@DESCRIPTION=Funktionen NT_PI returnerar antalet primtal som är mindre än "
+"eller lika med @n.\n"
+"Den här funktionen tar endast ett argument.\n"
+"@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:417
 msgid ""
@@ -446,6 +498,8 @@ msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also hold some "
 "simple bitwise operations"
 msgstr ""
+"Flera grundläggande verktyg för primtal, pi, phi och sigma. Det innehåller "
+"även en del enkla bitoperationer"
 
 #: plugins/oleo/boot.c:90
 msgid "GNU Oleo (*.oleo) file format"
@@ -1146,7 +1200,7 @@ msgstr "Kumulativ %"
 #: src/bonobo-io.c:457
 #, c-format
 msgid "Error '%s' opening workbook stream"
-msgstr ""
+msgstr "\"%s\"-fel vid öppning av arbetsboksflöde"
 
 #: src/bonobo-io.c:476 src/xml-io-autoft.c:452 src/xml-io.c:3465
 msgid "Invalid xml file. Tree is empty ?"
@@ -1273,7 +1327,7 @@ msgstr "Ångra töm"
 
 #. FIXME?
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:1113 src/sheet.c:2460
+#: src/commands.c:1113 src/sheet.c:2459
 msgid "Clear"
 msgstr "Töm"
 
@@ -1779,7 +1833,7 @@ msgstr "_Ta bort"
 #.
 #: po/tmp/autocorrect.glade.h:7
 msgid "Auto Correct"
-msgstr "Autorätta"
+msgstr "Autokorrigering"
 
 #: po/tmp/autocorrect.glade.h:8
 msgid "Capitalize _first letter of sentence"
@@ -1791,11 +1845,11 @@ msgstr "Inför stor bokstav på veckodags_namn"
 
 #: po/tmp/autocorrect.glade.h:10
 msgid "Correct _TWo INitial CApitals                           "
-msgstr "Rätta _TVå STora bokstäver i början                     "
+msgstr "Korrigera _TVå STora bokstäver i början                     "
 
 #: po/tmp/autocorrect.glade.h:11
 msgid "Correct accidental use of _cAPS LOCK key"
-msgstr "Rätta felaktigt användande av _cAPS LOCK"
+msgstr "Korrigera felaktigt användande av _cAPS LOCK"
 
 #: po/tmp/autocorrect.glade.h:12
 msgid "Re_place:"
@@ -2212,7 +2266,7 @@ msgstr "Te_xt"
 
 #: po/tmp/cell-format.glade.h:72
 msgid "Thatch"
-msgstr ""
+msgstr "Halmtak"
 
 #: po/tmp/cell-format.glade.h:73
 msgid "Thick Diagonal Crosshatch"
@@ -2395,7 +2449,7 @@ msgstr "Avancerade sorteringsinställningar"
 
 #: po/tmp/cell-sort.glade.h:10
 msgid "Case sensitive"
-msgstr "Skilj på gemener och versaler"
+msgstr "Gör skillnad på gemener/VERSALER"
 
 #: po/tmp/cell-sort.glade.h:11
 msgid "Entries are"
@@ -2431,7 +2485,7 @@ msgstr "Text"
 
 #: po/tmp/cell-sort.glade.h:19
 msgid "Top-Bottom"
-msgstr ""
+msgstr "Uppifrån-ner"
 
 #: po/tmp/cell-sort.glade.h:20 src/solver-lp.c:1065 src/solver-lp.c:1114
 msgid "Value"
@@ -2511,20 +2565,20 @@ msgstr "Sampling"
 
 #: src/dialogs/dialog-analysis-tools.c:111
 msgid "t-Test: Paired Two Sample for Means"
-msgstr ""
+msgstr "t-Test: Parade två prov för medelvärde"
 
 #: src/dialogs/dialog-analysis-tools.c:113
 msgid "t-Test: Two-Sample Assuming Equal Variances"
-msgstr ""
+msgstr "t-Test: Två-prov med antagande av lika varianser"
 
 #: src/dialogs/dialog-analysis-tools.c:115
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
-msgstr ""
+msgstr "t-Test: Två-prov med antagande av olika varianser"
 
 #: src/dialogs/dialog-analysis-tools.c:117
 #: src/dialogs/dialog-analysis-tools.c:1019
 msgid "z-Test: Two Sample for Means"
-msgstr ""
+msgstr "z-Test: Två prov för medelvärde"
 
 #: src/dialogs/dialog-analysis-tools.c:125
 msgid "Discrete"
@@ -2607,7 +2661,7 @@ msgstr "Konfidensnivå för medelvärde"
 
 #: src/dialogs/dialog-analysis-tools.c:324
 msgid "0.95"
-msgstr "0.95"
+msgstr "0,95"
 
 #: src/dialogs/dialog-analysis-tools.c:325
 msgid "Kth Largest:"
@@ -2628,7 +2682,7 @@ msgstr "Rubriker för första raden"
 
 #: src/dialogs/dialog-analysis-tools.c:339
 msgid "Force Intercept to Be Zero"
-msgstr ""
+msgstr "Tvinga gräns att vara noll"
 
 #: src/dialogs/dialog-analysis-tools.c:410
 msgid "Periodic"
@@ -2780,6 +2834,8 @@ msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
 msgstr ""
+"Det finns för få datavärden för att genomföra denna regression.\n"
+"Det måste finnas minst lika många datapunkter som lediga variabler."
 
 #: src/dialogs/dialog-analysis-tools.c:2089
 msgid ""
@@ -2787,15 +2843,18 @@ msgid ""
 "and the regression cannot be calculated. Remove one of these\n"
 "variables and try the regression again."
 msgstr ""
+"Två eller fler av de oberoende variablerna är linjärt beroende och\n"
+"regressionen kan inte beräknas. Ta bort en av dessa variabler och\n"
+"prova regressionen igen."
 
 #: src/dialogs/dialog-analysis-tools.c:2096
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
-msgstr ""
+msgstr "Det måste finnas samma antal poster för varje variabel i regressionen."
 
 #: src/dialogs/dialog-analysis-tools.c:2324
 msgid "Fourier analysis is not implemented yet.  Sorry."
-msgstr ""
+msgstr "Fourieranalys är inte implementerat ännu. Tyvärr."
 
 # FIXME: Bin range måste översättas
 #: src/dialogs/dialog-analysis-tools.c:2432
@@ -2809,7 +2868,7 @@ msgstr "Angivet indataområde innehåller icke-numerisk data."
 
 #: src/dialogs/dialog-analysis-tools.c:2466
 msgid "Given bin range contains non-numeric data."
-msgstr ""
+msgstr "Angivet binärt område innehåller icke-numerisk data."
 
 #: src/dialogs/dialog-analysis-tools.c:2906
 msgid "Each sample should contain the same number of rows (`Rows per sample:')"
@@ -2821,6 +2880,8 @@ msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
+"Det angivna indataområdet bör innehålla åtminstone två kolumner med data och "
+"rubrikerna."
 
 #: src/dialogs/dialog-autoformat.c:868 src/dialogs/dialog-stf-export.c:380
 #: src/dialogs/dialog-stf.c:532
@@ -2886,15 +2947,15 @@ msgstr "Den första raden måste vara giltig"
 
 #: src/dialogs/dialog-cell-sort.c:370
 msgid "At least one clause is required."
-msgstr ""
+msgstr "Åtminstone en sats krävs."
 
 #: src/dialogs/dialog-cell-sort.c:379
 msgid "Can't add more than the selection length."
-msgstr ""
+msgstr "Kan inte lägga till mer än längden på markeringen."
 
 #: src/dialogs/dialog-cell-sort.c:382
 msgid "Maximum number of clauses has been reached."
-msgstr ""
+msgstr "Det maximala antalet satser har nåtts."
 
 #: src/dialogs/dialog-cell-sort.c:385 src/dialogs/dialog-cell-sort.c:388
 #: src/dialogs/dialog-cell-sort.c:572
@@ -3107,8 +3168,13 @@ msgstr "Storlek: %ld byte"
 msgid "Modified:"
 msgstr "Ändrad:"
 
-#. get rid of '\n'
+#. This is strftime format. Use custom one if "%c" prints only last 2 digits of year in your locale.
 #: src/dialogs/dialog-plugin-manager.c:112
+#, c-format
+msgid "%c"
+msgstr "%c"
+
+#: src/dialogs/dialog-plugin-manager.c:113
 #, c-format
 msgid "Modified: %s"
 msgstr "Ändrad: %s"
@@ -3147,10 +3213,12 @@ msgid ""
 "The constraints having cell ranges in LHS and RHS should have the same "
 "number of columns and rows in both sides."
 msgstr ""
+"Begränsningarna som har cellområde i LHS och RHS bör ha samma antal kolumner "
+"och rader på båda sidor."
 
 #: src/dialogs/dialog-solver.c:254 src/dialogs/dialog-solver.c:446
 msgid "The cell range in LHS or RHS should have only one column or row."
-msgstr ""
+msgstr "Cellområdet i LHS och RHS bör ha endast en kolumn eller rad."
 
 #: src/dialogs/dialog-solver.c:861
 msgid "You should introduce a valid cell name for 'Target cell'"
@@ -3163,11 +3231,11 @@ msgstr "Du måste ange ett giltigt cellnamn för \"Genom att ändra celler\""
 #: src/dialogs/dialog-solver.c:903
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
-msgstr ""
+msgstr "Begränsningen \"%s\" är för en cell som inte är en indatacell."
 
 #: src/dialogs/dialog-stf-export-sheet-page.c:356
 msgid "You need to select at least one sheet to export"
-msgstr ""
+msgstr "Du måste välja minst ett blad att exportera."
 
 #: src/dialogs/dialog-stf-export.c:49 src/dialogs/dialog-stf.c:103
 msgid "Are you sure you want to cancel?"
@@ -3932,7 +4000,7 @@ msgstr "Rad- och kolumnrubriker"
 msgid "Scale"
 msgstr "Skala"
 
-#: po/tmp/print.glade.h:32 src/functions/fn-sheet.c:135 src/workbook.c:1028
+#: po/tmp/print.glade.h:32 src/functions/fn-sheet.c:135 src/workbook.c:1024
 msgid "Sheet"
 msgstr "Blad"
 
@@ -4112,7 +4180,7 @@ msgstr "                         "
 
 #: po/tmp/solver.glade.h:8
 msgid "Add  "
-msgstr "Addera  "
+msgstr "Lägg till  "
 
 #: po/tmp/solver.glade.h:9
 msgid "Add Constraint"
@@ -4650,7 +4718,7 @@ msgstr "[$BYD]"
 
 #: src/formats.c:248
 msgid "Belarussian ruble"
-msgstr "Vitryska rubler"
+msgstr "Vitryska rubel"
 
 #: src/formats.c:249
 msgid "[$BZD]"
@@ -5266,7 +5334,7 @@ msgstr "[$MWK]"
 
 #: src/formats.c:325
 msgid "Malawi kwacha"
-msgstr ""
+msgstr "Malawiska kwacha"
 
 #: src/formats.c:326
 msgid "[$MXP]"
@@ -5274,7 +5342,7 @@ msgstr "[$MXP]"
 
 #: src/formats.c:326
 msgid "Mexican peso"
-msgstr "Mexicanska peso"
+msgstr "Mexikanska peso"
 
 #: src/formats.c:327
 msgid "[$MYR]"
@@ -5282,7 +5350,7 @@ msgstr "[$MYR]"
 
 #: src/formats.c:327
 msgid "Malaysian ringgit"
-msgstr ""
+msgstr "Malaysiska ringgit"
 
 #: src/formats.c:328
 msgid "[$MZM]"
@@ -5290,7 +5358,7 @@ msgstr "[$MZM]"
 
 #: src/formats.c:328
 msgid "Mozambique metical"
-msgstr ""
+msgstr "Moçambikiska metical"
 
 #: src/formats.c:329
 msgid "[$NGN]"
@@ -5298,7 +5366,7 @@ msgstr "[$NGN]"
 
 #: src/formats.c:329
 msgid "Nigerian naira"
-msgstr ""
+msgstr "Nigerianska naira"
 
 #: src/formats.c:330
 msgid "[$NIO]"
@@ -5306,7 +5374,7 @@ msgstr "[$NIO]"
 
 #: src/formats.c:330
 msgid "Nicaraguan cordoba oro"
-msgstr ""
+msgstr "Nicaraguanska cordoba oro"
 
 #: src/formats.c:331
 msgid "[$NLG]"
@@ -5314,7 +5382,7 @@ msgstr "[$NLG]"
 
 #: src/formats.c:331
 msgid "Netherlands guilder"
-msgstr ""
+msgstr "Nederländska guilder"
 
 #: src/formats.c:332
 msgid "[$NOK]"
@@ -5330,7 +5398,7 @@ msgstr "[$NPR]"
 
 #: src/formats.c:333
 msgid "Nepalese rupee"
-msgstr ""
+msgstr "Nepalesiska rupier"
 
 #: src/formats.c:334
 msgid "[$NZD]"
@@ -5338,7 +5406,7 @@ msgstr "[$NZD]"
 
 #: src/formats.c:334
 msgid "New Zealand dollar"
-msgstr "Nya Zeeländska dollar"
+msgstr "Nyzeeländska dollar"
 
 #: src/formats.c:335
 msgid "[$OMR]"
@@ -5346,7 +5414,7 @@ msgstr "[$OMR]"
 
 #: src/formats.c:335
 msgid "Rial Omani"
-msgstr ""
+msgstr "Rialesiska omani"
 
 #: src/formats.c:336
 msgid "[$PAB]"
@@ -5354,7 +5422,7 @@ msgstr "[$PAB]"
 
 #: src/formats.c:336
 msgid "Panamanian balboa"
-msgstr ""
+msgstr "Panamanska balboa"
 
 #: src/formats.c:337
 msgid "[$PEI]"
@@ -5362,7 +5430,7 @@ msgstr "[$PEI]"
 
 #: src/formats.c:337
 msgid "Peruvian inti"
-msgstr ""
+msgstr "Peruanska inti"
 
 #: src/formats.c:338
 msgid "[$PGK]"
@@ -5370,7 +5438,7 @@ msgstr "[$PGK]"
 
 #: src/formats.c:338
 msgid "Papua New Guinea kina"
-msgstr ""
+msgstr "Papuanska kina"
 
 #: src/formats.c:339
 msgid "[$PHP]"
@@ -5378,7 +5446,7 @@ msgstr "[$PHP]"
 
 #: src/formats.c:339
 msgid "Philippino peso"
-msgstr ""
+msgstr "Filippinska peso"
 
 #: src/formats.c:340
 msgid "[$PKR]"
@@ -5386,7 +5454,7 @@ msgstr "[$PKR]"
 
 #: src/formats.c:340
 msgid "Pakistan rupee"
-msgstr ""
+msgstr "Pakistanska rupier"
 
 #: src/formats.c:341
 msgid "[$PLZ]"
@@ -5402,7 +5470,7 @@ msgstr "[$PTE]"
 
 #: src/formats.c:342
 msgid "Portuguese escudo"
-msgstr ""
+msgstr "Portugisiska escudo"
 
 #: src/formats.c:343
 msgid "[$PYG]"
@@ -5410,7 +5478,7 @@ msgstr "[$PYG]"
 
 #: src/formats.c:343
 msgid "Paraguay guarani"
-msgstr ""
+msgstr "Paraguayanska guarani"
 
 #: src/formats.c:344
 msgid "[$QAR]"
@@ -5418,7 +5486,7 @@ msgstr "[$QAR]"
 
 #: src/formats.c:344
 msgid "Qatari rial"
-msgstr ""
+msgstr "Quatariska rial"
 
 #: src/formats.c:345
 msgid "[$ROL]"
@@ -5426,7 +5494,7 @@ msgstr "[$ROL]"
 
 #: src/formats.c:345
 msgid "Romanian leu"
-msgstr ""
+msgstr "Rumänska leu"
 
 #: src/formats.c:346
 msgid "[$RWF]"
@@ -5434,7 +5502,7 @@ msgstr "[$RWF]"
 
 #: src/formats.c:346
 msgid "Rwanda franc"
-msgstr ""
+msgstr "Rwandiska franc"
 
 #: src/formats.c:347
 msgid "[$SAR]"
@@ -5442,7 +5510,7 @@ msgstr "[$SAR]"
 
 #: src/formats.c:347
 msgid "Saudi Arabian riyal"
-msgstr ""
+msgstr "Saudiarabiska riyal"
 
 #: src/formats.c:348
 msgid "[$SBD]"
@@ -5450,7 +5518,7 @@ msgstr "[$SBD]"
 
 #: src/formats.c:348
 msgid "Solomon Islands dollar"
-msgstr ""
+msgstr "Solomonöarna-dollar"
 
 #: src/formats.c:349
 msgid "[$SCR]"
@@ -5458,7 +5526,7 @@ msgstr "[$SCR]"
 
 #: src/formats.c:349
 msgid "Seychelles rupee"
-msgstr ""
+msgstr "Seychelliska rupier"
 
 #: src/formats.c:350
 msgid "[$SDP]"
@@ -5466,7 +5534,7 @@ msgstr "[$SDP]"
 
 #: src/formats.c:350
 msgid "Sudanese pound"
-msgstr ""
+msgstr "Sudanesiska pund"
 
 #: src/formats.c:351
 msgid "[$SEK]"
@@ -5490,16 +5558,15 @@ msgstr "[$SHP]"
 
 #: src/formats.c:353
 msgid "St.Helena pound"
-msgstr ""
+msgstr "St. Helena-pund"
 
 #: src/formats.c:354
-#, fuzzy
 msgid "[$SIT]"
-msgstr "[$ITL]"
+msgstr "[$SIT]"
 
 #: src/formats.c:354
 msgid "Slovenia tolar"
-msgstr ""
+msgstr "Slovenska tolar"
 
 #: src/formats.c:355
 msgid "[$SLL]"
@@ -5507,7 +5574,7 @@ msgstr "[$SLL]"
 
 #: src/formats.c:355
 msgid "Sierra Leone leone"
-msgstr ""
+msgstr "Sierraleonska leone"
 
 #: src/formats.c:356
 msgid "[$SOS]"
@@ -5515,7 +5582,7 @@ msgstr "[$SOS]"
 
 #: src/formats.c:356
 msgid "Somali shilling"
-msgstr "Somalianska shilling"
+msgstr "Somaliska shilling"
 
 #: src/formats.c:357
 msgid "[$SRG]"
@@ -5531,7 +5598,7 @@ msgstr "[$STD]"
 
 #: src/formats.c:358
 msgid "Sao Tome and Principe dobra"
-msgstr "Sao Tome and Principe dobra"
+msgstr "Sao Tome och Principe-dobra"
 
 #: src/formats.c:359
 msgid "[$SUR]"
@@ -5539,7 +5606,7 @@ msgstr "[$SUR]"
 
 #: src/formats.c:359
 msgid "USSR rouble"
-msgstr ""
+msgstr "Ryska rubel"
 
 #: src/formats.c:360
 msgid "[$SVC]"
@@ -5547,7 +5614,7 @@ msgstr "[$SVC]"
 
 #: src/formats.c:360
 msgid "El Salvador colon"
-msgstr ""
+msgstr "Salvadoranska colon"
 
 #: src/formats.c:361
 msgid "[$SYP]"
@@ -5563,7 +5630,7 @@ msgstr "[$SZL]"
 
 #: src/formats.c:362
 msgid "Swaziland lilangeni"
-msgstr ""
+msgstr "Swaziländska lilangeni"
 
 #: src/formats.c:363
 msgid "[$THB]"
@@ -5571,7 +5638,7 @@ msgstr "[$THB]"
 
 #: src/formats.c:363
 msgid "Thai baht"
-msgstr ""
+msgstr "Thailändska baht"
 
 #: src/formats.c:364
 msgid "[$TND]"
@@ -5587,7 +5654,7 @@ msgstr "[$TOP]"
 
 #: src/formats.c:365
 msgid "Tongan pa'anga"
-msgstr ""
+msgstr "Tonganska pa'anga"
 
 #: src/formats.c:366
 msgid "[$TPE]"
@@ -5595,7 +5662,7 @@ msgstr "[$TPE]"
 
 #: src/formats.c:366
 msgid "East Timor escudo"
-msgstr "Östtimorianska escudo"
+msgstr "Östtimoranska escudo"
 
 #: src/formats.c:367
 msgid "[$TRL]"
@@ -5611,7 +5678,7 @@ msgstr "[$TTD]"
 
 #: src/formats.c:368
 msgid "Trinidad and Tobago dollar"
-msgstr "Trinidad Tobagoska dollar"
+msgstr "Trinidad och Tobago-dollar"
 
 #: src/formats.c:369
 msgid "[$TWD]"
@@ -5619,7 +5686,7 @@ msgstr "[$TWD]"
 
 #: src/formats.c:369
 msgid "New Taiwan dollar"
-msgstr ""
+msgstr "Nytaiwanesiska dollar"
 
 #: src/formats.c:370
 msgid "[$TZS]"
@@ -5627,7 +5694,7 @@ msgstr "[$TZS]"
 
 #: src/formats.c:370
 msgid "Tanzanian shilling"
-msgstr ""
+msgstr "Tanzaniska shilling"
 
 #: src/formats.c:371
 msgid "[$UAH]"
@@ -5643,7 +5710,7 @@ msgstr "[$UGX]"
 
 #: src/formats.c:372
 msgid "Ugandan shilling"
-msgstr "Ugandska shilling"
+msgstr "Ugandiska shilling"
 
 #: src/formats.c:373
 msgid "[$USD]"
@@ -5667,7 +5734,7 @@ msgstr "[$VEB]"
 
 #: src/formats.c:375
 msgid "Venezuelan bolivar"
-msgstr ""
+msgstr "Venezuelanska bolivar"
 
 #: src/formats.c:376
 msgid "[$VND]"
@@ -5675,7 +5742,7 @@ msgstr "[$VND]"
 
 #: src/formats.c:376
 msgid "Vietnamese dong"
-msgstr ""
+msgstr "Vietnamesiska dong"
 
 #: src/formats.c:377
 msgid "[$VUV]"
@@ -5683,7 +5750,7 @@ msgstr "[$VUV]"
 
 #: src/formats.c:377
 msgid "Vanuatu vatu"
-msgstr ""
+msgstr "Vanuatiska vatu"
 
 #: src/formats.c:378
 msgid "[$WST]"
@@ -5691,7 +5758,7 @@ msgstr "[$WST]"
 
 #: src/formats.c:378
 msgid "Samoan tala"
-msgstr ""
+msgstr "Samoanska tala"
 
 #: src/formats.c:379
 msgid "[$XCD]"
@@ -5699,7 +5766,7 @@ msgstr "[$XCD]"
 
 #: src/formats.c:379
 msgid "East Caribbean dollar"
-msgstr ""
+msgstr "Östkaribiska dollar"
 
 #: src/formats.c:380
 msgid "[$XEU]"
@@ -5707,7 +5774,7 @@ msgstr "[$XEU]"
 
 #: src/formats.c:380
 msgid "European currency unit"
-msgstr "Gemensamma europeiska valutan"
+msgstr "Europeiska valutaenheten"
 
 #: src/formats.c:381
 msgid "[$YDD]"
@@ -5715,7 +5782,7 @@ msgstr "[$YDD]"
 
 #: src/formats.c:381
 msgid "Democratic Yemeni dinar"
-msgstr ""
+msgstr "Demokratiska yemenitiska dinarer"
 
 #: src/formats.c:382
 msgid "[$YER]"
@@ -5723,7 +5790,7 @@ msgstr "[$YER]"
 
 #: src/formats.c:382
 msgid "Yemeni rial"
-msgstr ""
+msgstr "Yemenitiska rial"
 
 #: src/formats.c:383
 msgid "[$YUN]"
@@ -5731,7 +5798,7 @@ msgstr "[$YUN]"
 
 #: src/formats.c:383
 msgid "New Yugoslavia dinar"
-msgstr ""
+msgstr "Nya jugoslaviska dinarer"
 
 #: src/formats.c:384
 msgid "[$ZAL]"
@@ -5739,7 +5806,7 @@ msgstr "[$ZAL]"
 
 #: src/formats.c:384
 msgid "South African rand funds code"
-msgstr ""
+msgstr "Sydafrikanska randfonders kod"
 
 #: src/formats.c:385
 msgid "[$ZAR]"
@@ -5747,7 +5814,7 @@ msgstr "[$ZAR]"
 
 #: src/formats.c:385
 msgid "South African rand"
-msgstr ""
+msgstr "Sydafrikanska rand"
 
 #: src/formats.c:386
 msgid "[$ZMK]"
@@ -5755,7 +5822,7 @@ msgstr "[$ZMK]"
 
 #: src/formats.c:386
 msgid "Zambian kwacha"
-msgstr ""
+msgstr "Zambiska kwacha"
 
 #: src/formats.c:387
 msgid "[$ZRZ]"
@@ -5763,7 +5830,7 @@ msgstr "[$ZRZ]"
 
 #: src/formats.c:387
 msgid "Zaire Zaire"
-msgstr ""
+msgstr "Zairiska zaire"
 
 #: src/formats.c:388
 msgid "[$ZWD]"
@@ -5771,7 +5838,7 @@ msgstr "[$ZWD]"
 
 #: src/formats.c:388
 msgid "Zimbabwe dollar"
-msgstr ""
+msgstr "Zimbabwiska dollar"
 
 #: src/formats.c:520
 msgid "[Red]"
@@ -5788,7 +5855,7 @@ msgstr "Okänd funktion"
 
 #: src/func.c:590
 msgid "Function does not exist"
-msgstr "Funktionen existerar inte"
+msgstr "Funktionen finns inte"
 
 #: src/functions/fn-database.c:492
 msgid ""
@@ -5797,6 +5864,10 @@ msgid ""
 "@DESCRIPTION=DAVERAGE function returns the average of the values in a list "
 "or database that match conditions specified. \n"
 msgstr ""
+"@FUNCTION=DAVERAGE\n"
+"@SYNTAX=DAVERAGE(databas,fält,kriterium)\n"
+"@DESCRIPTION=Funktionen DAVERAGE returnerar medelvärdet av värdena i en "
+"lista eller databas som överensstämmer med de villkor som angivits.\n"
 
 #: src/functions/fn-database.c:561
 msgid ""
@@ -5805,6 +5876,10 @@ msgid ""
 "@DESCRIPTION=DCOUNT function counts the cells that contain numbers in a "
 "database that match conditions specified. \n"
 msgstr ""
+"@FUNCTION=DCOUNT\n"
+"@SYNTAX=DCOUNT(databas,fält,kriterium)\n"
+"@DESCRIPTION=Funktionen DCOUNT räknar antalet celler i en databas som "
+"innehåller tal som överensstämmer med de villkor som angivits.\n"
 
 #: src/functions/fn-database.c:622
 msgid ""
@@ -5813,6 +5888,10 @@ msgid ""
 "@DESCRIPTION=DCOUNTA function counts the cells that contain data in a "
 "database that match conditions specified. \n"
 msgstr ""
+"@FUNCTION=DCOUNTA\n"
+"@SYNTAX=DCOUNTA(databas,fält,kriterium)\n"
+"@DESCRIPTION=Funktionen DCOUNTA räknar antalet celler i en databas som "
+"innehåller data som överensstämmer med de villkor som angivits.\n"
 
 #: src/functions/fn-database.c:680
 msgid ""
@@ -5821,6 +5900,10 @@ msgid ""
 "@DESCRIPTION=DGET function returns a single value from a column that match "
 "conditions specified. \n"
 msgstr ""
+"@FUNCTION=DGET\n"
+"@SYNTAX=DGET(databas,fält,kriterium)\n"
+"@DESCRIPTION=Funktionen DGET returnerar ett ensamt värde från en kolumn som "
+"överensstämmer med de villkor osm angivits.\n"
 
 #: src/functions/fn-database.c:748
 msgid ""
@@ -5900,10 +5983,6 @@ msgid ""
 "If the summary data is unavailable, GETPIVOTDATA returns #REF! error. \n"
 "@SEEALSO="
 msgstr ""
-
-#: src/functions/fn-database.c:1337
-msgid "Database"
-msgstr "Databas"
 
 #: src/functions/fn-date.c:22
 msgid ""
@@ -10687,14 +10766,14 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ"
 
-#: src/functions/fn-math.c:2525 src/functions/fn-math.c:2540
-#: src/functions/fn-math.c:2623 src/functions/fn-math.c:2639
-#: src/functions/fn-math.c:2720 src/functions/fn-math.c:2736
+#: src/functions/fn-math.c:2527 src/functions/fn-math.c:2546
+#: src/functions/fn-math.c:2640 src/functions/fn-math.c:2660
+#: src/functions/fn-math.c:2752 src/functions/fn-math.c:2772
 #: src/functions/fn-stat.c:2711 src/functions/fn-stat.c:2741
 msgid "Array version not implemented!"
 msgstr "Fältversion inte implementerad!"
 
-#: src/functions/fn-math.c:2569
+#: src/functions/fn-math.c:2584
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
@@ -10723,7 +10802,7 @@ msgstr ""
 "Om @fält1 och @fält2 har olika antal värden, returneras felvärdet #N/A!.\n"
 "@SEEALSO=SUMSQ"
 
-#: src/functions/fn-math.c:2666
+#: src/functions/fn-math.c:2696
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -10758,7 +10837,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ"
 
-#: src/functions/fn-math.c:2765
+#: src/functions/fn-math.c:2810
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -10816,7 +10895,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: src/functions/fn-math.c:2858
+#: src/functions/fn-math.c:2903
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -10844,7 +10923,7 @@ msgstr ""
 "SERIESSUM(3,1,2.23,A1:A5) lika med 251416.43018.\n"
 "@SEEALSO=COUNT,SUM"
 
-#: src/functions/fn-math.c:2981
+#: src/functions/fn-math.c:3026
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -10867,11 +10946,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: src/functions/fn-math.c:3029
+#: src/functions/fn-math.c:3074
 msgid "#3D MULT?"
 msgstr "#3D MULT?"
 
-#: src/functions/fn-math.c:3108
+#: src/functions/fn-math.c:3153
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -10883,7 +10962,7 @@ msgid ""
 "@SEEALSO=TRANSPOSE,MINVERSE"
 msgstr ""
 
-#: src/functions/fn-math.c:3184
+#: src/functions/fn-math.c:3229
 #, fuzzy
 msgid ""
 "@FUNCTION=MDETERM\n"
@@ -10905,7 +10984,7 @@ msgstr ""
 "Om argumentet är en sträng eller tom cell, händer ingenting.\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
-#: src/functions/fn-math.c:3242
+#: src/functions/fn-math.c:3287
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
@@ -10932,7 +11011,7 @@ msgstr ""
 "Om @fält1 och @fält2 har olika antal värden, returneras felvärdet #N/A!.\n"
 "@SEEALSO=SUMSQ"
 
-#: src/functions/fn-math.c:3357
+#: src/functions/fn-math.c:3402
 msgid "Maths / Trig."
 msgstr "Matematik / Trig."
 
@@ -13221,6 +13300,7 @@ msgid "_Move"
 msgstr "_Flytta"
 
 #: po/tmp/gnumeric.xml.h:200 src/item-cursor.c:880
+#: src/sheet-control-gui.c:1193
 msgid "_Copy"
 msgstr "_Kopiera"
 
@@ -13531,6 +13611,67 @@ msgstr "kopiera"
 msgid "cut"
 msgstr "klipp ut"
 
+#: src/sheet-control-gui.c:460
+#, c-format
+msgid "Row: %d"
+msgstr "Rad: %d"
+
+#: src/sheet-control-gui.c:471
+#, c-format
+msgid "Column: %s"
+msgstr "Kolumn: %s"
+
+#: po/tmp/gnumeric.xml.h:53 src/sheet-control-gui.c:1191
+msgid "Cu_t"
+msgstr "Klipp _ut"
+
+#: po/tmp/gnumeric.xml.h:219 src/sheet-control-gui.c:1195
+msgid "_Paste"
+msgstr "Klistra i_n"
+
+#: src/sheet-control-gui.c:1197
+msgid "Paste _Special"
+msgstr "Klistra in _special"
+
+#: src/sheet-control-gui.c:1202
+msgid "_Insert..."
+msgstr "_Infoga..."
+
+#: po/tmp/gnumeric.xml.h:204 src/sheet-control-gui.c:1204
+#: src/workbook-control-gui.c:1767
+msgid "_Delete..."
+msgstr "_Ta bort..."
+
+#: src/sheet-control-gui.c:1206
+msgid "Clear Co_ntents"
+msgstr "Ta bort i_nnehåll"
+
+#: src/sheet-control-gui.c:1211
+msgid "_Format Cells..."
+msgstr "_Formatera celler..."
+
+#. Column specific (Note some labels duplicate row labels)
+#: src/sheet-control-gui.c:1215
+msgid "Column _Width..."
+msgstr "_Kolumnbredd..."
+
+#: po/tmp/gnumeric.xml.h:213 src/sheet-control-gui.c:1217
+#: src/sheet-control-gui.c:1225 src/workbook-control-gui.c:1877
+#: src/workbook-control-gui.c:1896
+msgid "_Hide"
+msgstr "_Göm"
+
+#: po/tmp/gnumeric.xml.h:234 src/sheet-control-gui.c:1219
+#: src/sheet-control-gui.c:1227 src/workbook-control-gui.c:1880
+#: src/workbook-control-gui.c:1899
+msgid "_Unhide"
+msgstr "_Visa"
+
+#. Row specific (Note some labels duplicate col labels)
+#: src/sheet-control-gui.c:1223
+msgid "_Row Height..."
+msgstr "_Radhöjd..."
+
 #: src/sheet-object-container.c:270
 #, c-format
 msgid "can't create object for '%s'"
@@ -13549,28 +13690,28 @@ msgstr "Kryssrutekonfiguration"
 msgid "Configure"
 msgstr "Konfigurera"
 
-#: src/sheet.c:2889 src/sheet.c:2899
+#: src/sheet.c:2888 src/sheet.c:2898
 msgid "Insert Columns"
 msgstr "Infoga kolumner"
 
-#: src/sheet.c:2969
+#: src/sheet.c:2968
 msgid "Delete Columns"
 msgstr "Ta bort kolumner"
 
-#: src/sheet.c:3038 src/sheet.c:3048
+#: src/sheet.c:3037 src/sheet.c:3047
 msgid "Insert Rows"
 msgstr "Infoga rader"
 
-#: src/sheet.c:3118
+#: src/sheet.c:3117
 msgid "Delete Rows"
 msgstr "Ta bort rader"
 
-#: src/sheet.c:3996
+#: src/sheet.c:3995
 #, fuzzy
 msgid "Merge"
 msgstr "Medelvärde"
 
-#: src/sheet.c:4003
+#: src/sheet.c:4002
 msgid "There is already a merged region that intersects"
 msgstr ""
 
@@ -14195,10 +14336,6 @@ msgstr "Klistra in med filter och transformationer"
 msgid "C_lear"
 msgstr "_Töm"
 
-#: po/tmp/gnumeric.xml.h:204 src/workbook-control-gui.c:1767
-msgid "_Delete..."
-msgstr "_Ta bort..."
-
 #: src/workbook-control-gui.c:1768
 msgid "Remove selected cells, shifting other into their place"
 msgstr "Ta bort markerade celler, och skifta in andra celler"
@@ -14348,16 +14485,6 @@ msgstr "_Anpassa till markeringen"
 #: po/tmp/gnumeric.xml.h:236 src/workbook-control-gui.c:1874
 msgid "_Width..."
 msgstr "_Bredd..."
-
-#: po/tmp/gnumeric.xml.h:213 src/workbook-control-gui.c:1877
-#: src/workbook-control-gui.c:1896
-msgid "_Hide"
-msgstr "_Göm"
-
-#: po/tmp/gnumeric.xml.h:234 src/workbook-control-gui.c:1880
-#: src/workbook-control-gui.c:1899
-msgid "_Unhide"
-msgstr "_Visa"
 
 #: po/tmp/gnumeric.xml.h:231 src/workbook-control-gui.c:1883
 msgid "_Standard Width"
@@ -14618,16 +14745,16 @@ msgstr "Max"
 msgid "Book%d.gnumeric"
 msgstr "Bok%d.gnumeric"
 
-#: src/workbook.c:1172
+#: src/workbook.c:1168
 msgid "Sheet name"
 msgstr "Bladnamn"
 
-#: src/workbook.c:1173
+#: src/workbook.c:1169
 msgid "must have at least 1 letter"
 msgstr "måste ha åtminstone 1 bokstav"
 
 # Duplicate som i att det redan finns
-#: src/workbook.c:1180
+#: src/workbook.c:1176
 msgid "Duplicate Sheet name"
 msgstr "Upptaget bladnamn"
 
@@ -14763,10 +14890,6 @@ msgstr "Skapa en ny arbetsbok"
 #: po/tmp/gnumeric.xml.h:52
 msgid "Create a radio button"
 msgstr "Skapa en radioknapp"
-
-#: po/tmp/gnumeric.xml.h:53
-msgid "Cu_t"
-msgstr "Klipp _ut"
 
 #: po/tmp/gnumeric.xml.h:57
 msgid "Cut the selection"
@@ -15088,10 +15211,6 @@ msgstr "_Objekt"
 msgid "_Open"
 msgstr "_Öppna"
 
-#: po/tmp/gnumeric.xml.h:219
-msgid "_Paste"
-msgstr "Klistra i_n"
-
 #: po/tmp/gnumeric.xml.h:221
 msgid "_Print"
 msgstr "Skriv _ut"
@@ -15108,23 +15227,11 @@ msgstr "_Ångra"
 msgid "_View"
 msgstr "_Visa"
 
-#~ msgid "Paste _Special"
-#~ msgstr "Klistra in _special"
+#~ msgid "Database Access"
+#~ msgstr "Databaskoppling"
 
-#~ msgid "_Insert..."
-#~ msgstr "_Infoga..."
-
-#~ msgid "Clear Co_ntents"
-#~ msgstr "Ta bort i_nnehåll"
-
-#~ msgid "_Format Cells..."
-#~ msgstr "_Formatera celler..."
-
-#~ msgid "Column _Width..."
-#~ msgstr "_Kolumnbredd..."
-
-#~ msgid "_Row Height..."
-#~ msgstr "_Radhöjd..."
+#~ msgid "Enables database access"
+#~ msgstr "Aktviterar databaskoppling"
 
 #, fuzzy
 #~ msgid "None\n"
@@ -15153,12 +15260,6 @@ msgstr "_Visa"
 #, fuzzy
 #~ msgid "cm\n"
 #~ msgstr "cm"
-
-#~ msgid "Row: %d"
-#~ msgstr "Rad: %d"
-
-#~ msgid "Column: %s"
-#~ msgstr "Kolumn: %s"
 
 #~ msgid "Formulas"
 #~ msgstr "Formler"
@@ -15213,9 +15314,6 @@ msgstr "_Visa"
 #~ "\"\n"
 #~ "'\n"
 #~ "'\n"
-
-#~ msgid "%"
-#~ msgstr "%"
 
 #~ msgid "window1"
 #~ msgstr "window1"
