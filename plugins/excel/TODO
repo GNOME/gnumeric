@@ -26,6 +26,7 @@ Michael
 	* Fix INDEX, AREAS, INDIRECT.
 	* Get scalability to large sheets sorted
 	* Fully clean ms-biff to remove duff padding stuff.
+	* Implement R1C1 style references.
 
 Jody
 	* Where do the anchor points for objects come from.

@@ -16,7 +16,7 @@ Michael:
 	* Added GUI for Names.
 	* Better Excel string importing.
 	* Fix for padded number insertion ( fixes CSV import )
-	* Implemented ISREF, improved CELL.
+	* Implemented ISREF, improved CELL & INDIRECT.
 	* Fixed several database functions.
 
 Jody:

@@ -496,7 +496,59 @@ gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
 	}
 }
 
+static char *help_indirect = {
+	N_("@FUNCTION=INDIRECT\n"
+	   "@SYNTAX=INDIRECT(ref_text, [format])\n"
 
+	   "@DESCRIPTION="
+	   "The INDIRECT function returns the contents of the cell pointed to "
+	   "by the ref_text string. The string specifices a single cell reference "
+	   "the format of which is either A1 or R1C1 style. The style is set by "
+	   "the format boolean, which defaults to the former."
+	   "\n"
+	   "If ref_text is not a valid reference returns #REF! "
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_indirect (FunctionEvalInfo *ei, Value **args) 
+{
+	const char*    text;
+	gboolean       a1_style;
+	ExprTree      *tree;
+	ParsePosition  pp;
+	Cell          *cell;
+	int            col, row;
+	gboolean       error = FALSE;
+
+	text = value_get_as_string (args[0]);
+	if (args[1])
+		a1_style = value_get_as_bool (args[1], &error);
+	else
+		a1_style = TRUE;
+
+	if (error) {/* || !a1_style) { This will be flagged by gnumeric_expr_parser.
+		       g_warning ("R1C1 style unimplemented");*/
+		return value_new_error (&ei->pos, gnumeric_err_REF);
+	}
+
+	pp.col = ei->pos.eval_col;
+	pp.row = ei->pos.eval_row;
+	pp.wb  = ei->pos.sheet->workbook;
+	if ((gnumeric_expr_parser (text, &pp, NULL, &tree) != PARSE_OK) ||
+	    !tree || (tree->oper != OPER_VAR))
+		return value_new_error (&ei->pos, gnumeric_err_REF);
+
+	cell_get_abs_col_row (&tree->u.ref, ei->pos.eval_col, ei->pos.eval_row,
+			      &col, &row);
+	cell = sheet_cell_get (ei->pos.sheet, col, row);
+
+	if (!cell)
+		return value_new_int (0);
+	else
+		return value_duplicate (cell->value);
+}
 
 static char *help_column = {
 	N_("@FUNCTION=COLUMN\n"
@@ -736,6 +788,8 @@ void lookup_functions_init()
 			    &help_columns, gnumeric_columns);
 	function_add_args  (cat, "hlookup",   "?Af|b","val,range,col_idx,approx",
 			    &help_hlookup, gnumeric_hlookup);
+	function_add_args  (cat, "indirect",  "s|b","ref_string,format",
+			    &help_indirect, gnumeric_indirect);
 	function_add_args  (cat, "lookup",    "?A|r", "val,range,range",
 			    &help_lookup,  gnumeric_lookup);
 	function_add_args  (cat, "offset",    "rff|ff","ref,row,col,hight,width",
