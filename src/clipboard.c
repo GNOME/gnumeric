@@ -157,7 +157,7 @@ do_clipboard_paste_cell_region (CellRegion *region, Sheet *dest_sheet,
 					  dest_row + paste_height - 1);
 	
 	/* Paste each element */
-	if (paste_flags & PASTE_TRANSPOSE){
+	if (paste_flags & PASTE_TRANSPOSE) {
 		col_inc = region->rows;
 		row_inc = region->cols;
 	} else {
@@ -234,7 +234,7 @@ new_node (GList *list, char *data, char *p, int col, int row)
 /**
  * x_selection_to_cell_region:
  * @data: points to an array of chars are received.
- * @len:  The lenght of the @data buffer as received. 
+ * @len:  The length of the @data buffer as received. 
  *
  * Creates a CellRegion based on the X selection
  *
@@ -269,7 +269,7 @@ x_selection_to_cell_region (char *data, int len)
 	}
 
 	/* Handle the remainings */
-	if (p != data){
+	if (p != data) {
 		list = new_node (list, data, p, cur_col, rows);
 		cur_col++;
 		if (cur_col > cols)
@@ -499,8 +499,8 @@ clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_d
 	copy->u.cell.cell = cell_copy (cell);
 	/* Horrific inefficiency */
 	copy->u.cell.mstyle = sheet_style_compute (sheet, col, row);
-	copy->col_offset  = col - c->base_col;
-	copy->row_offset  = row - c->base_row;
+	copy->col_offset    = col - c->base_col;
+	copy->row_offset    = row - c->base_row;
 	
 	c->r->list = g_list_prepend (c->r->list, copy);
 

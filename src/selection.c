@@ -635,26 +635,31 @@ sheet_selection_cut (Sheet *sheet)
 	return TRUE;
 }
 
-static gboolean
-selection_move_range_cb (Sheet *sheet,
-			 Range const *range,
-			 gpointer user_data)
+static void
+sheet_selection_move (struct expr_relocate_info *rinfo)
 {
-	struct expr_relocate_info *rinfo = user_data;
-	Range r = *range;
+	Sheet *sheet = rinfo->target_sheet;
+	SheetSelection sel;
 
-	range_translate (&r, rinfo->col_offset, rinfo->row_offset);
-	sheet_selection_append_range (rinfo->target_sheet, r.start.col, r.start.row,
-				      r.start.col, r.start.row, r.end.col, r.end.row);
+	sel.user = rinfo->origin;
+	range_translate (&sel.user, rinfo->col_offset, rinfo->row_offset);
 
-	return TRUE;
+	sheet_selection_free (sheet);
+	sheet_selection_append_range (sheet, sel.user.start.col,
+				      sel.user.start.row,
+				      sel.user.start.col, sel.user.start.row,
+				      sel.user.end.col, sel.user.end.row);
+	sheet_set_selection (sheet, &sel);
+	if (rinfo->origin_sheet != rinfo->target_sheet)
+		sheet_selection_reset (rinfo->origin_sheet);
 }
 
 void
 sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row,
 		       int paste_flags, guint32 time)
 {
-	CellRegion *content;
+	CellRegion  *content;
+	Sheet       *src_sheet = application_clipboard_sheet_get ();
 	Range const *area;
 
 	g_return_if_fail (sheet != NULL);
@@ -671,7 +676,6 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row,
 		struct expr_relocate_info rinfo;
 		Sheet * src_sheet = application_clipboard_sheet_get ();
 		Range const *sel = selection_first_range (sheet, FALSE);
-		int right, bottom;
 
 		g_return_if_fail (sel != NULL);
 		g_return_if_fail (area != NULL);
@@ -704,18 +708,12 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row,
 
 		sheet_move_range      (&rinfo);
 		sheet_selection_unant (src_sheet);
-
-		right  = dest_col + area->end.col - area->start.col;
-		bottom = dest_row + area->end.row - area->start.row;
-
-		if (right >= SHEET_MAX_COLS)
-			right = SHEET_MAX_COLS-1;
-		if (bottom >= SHEET_MAX_ROWS)
-			bottom = SHEET_MAX_ROWS-1;
-		sheet_selection_set (sheet, dest_col, dest_row, right, bottom);
-	} else
+		sheet_selection_move  (&rinfo);
+	} else {
 		clipboard_paste_region (content, sheet, dest_col, dest_row,
 					paste_flags, time);
+		sheet_selection_unant (src_sheet);
+	}
 }
 
 /* TODO TODO TODO : Remove these and just call the functions directly */

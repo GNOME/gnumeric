@@ -55,6 +55,7 @@ enum _MStyleElementType {
 MStyle     *mstyle_new           (void);
 MStyle     *mstyle_new_name      (const gchar *name);
 MStyle     *mstyle_new_default   (void);
+MStyle     *mstyle_copy          (const MStyle *st);
 void        mstyle_ref           (MStyle *st);
 void        mstyle_unref         (MStyle *st);
 void        mstyle_destroy       (MStyle *st);
@@ -99,7 +100,7 @@ StyleOrientation    mstyle_get_orientation (const MStyle *st);
 void                mstyle_set_fit_in_cell (MStyle *st, gboolean f);
 gboolean            mstyle_get_fit_in_cell (const MStyle *st);
 
-void        mstyle_merge       (MStyle *master, MStyle *slave);
+MStyle     *mstyle_merge       (MStyle *master, MStyle *slave);
 char       *mstyle_to_string   (const MStyle *st); /* Debug only ! leaks like a sieve */
 void        mstyle_dump        (const MStyle *st);
 

@@ -73,6 +73,7 @@ void           mstyle_element_unref    (MStyleElement e);
 gboolean       mstyle_elements_equal   (const MStyleElement *a, const MStyleElement *b);
 void           mstyle_elements_compare (MStyleElement *a, const MStyleElement *b);
 void           mstyle_elements_unref   (MStyleElement *e);
+MStyleElement *mstyle_elements_copy    (const MStyleElement *e);
 
 typedef struct {
 	guint32        ref_count;
@@ -395,6 +396,24 @@ mstyle_elements_unref (MStyleElement *e)
 		}
 }
 
+MStyleElement *
+mstyle_elements_copy (const MStyleElement *e)
+{
+	int i;
+	MStyleElement *ans;
+
+	g_return_val_if_fail (e != NULL, NULL);
+
+	ans = g_new (MStyleElement, MSTYLE_ELEMENT_MAX);
+
+	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
+		mstyle_element_ref (e[i]);
+		ans[i] = e[i];
+	}
+
+	return ans;
+}
+
 MStyle *
 mstyle_new (void)
 {
@@ -412,6 +431,22 @@ mstyle_new (void)
 }
 
 MStyle *
+mstyle_copy (const MStyle *st)
+{
+	PrivateStyle *pst = g_new (PrivateStyle, 1);
+	PrivateStyle *pcp = (PrivateStyle *)st;
+
+	pst->ref_count = 1;
+	if (pcp->name)
+		pst->name = g_strdup (pcp->name);
+	else
+		pst->name = NULL;
+	pst->elements  = mstyle_elements_copy (pcp->elements);
+
+	return (MStyle *)pst;
+}
+
+MStyle *
 mstyle_new_name (const gchar *name)
 {
 	PrivateStyle *pst = (PrivateStyle *)mstyle_new ();
@@ -424,24 +459,17 @@ mstyle_new_name (const gchar *name)
 	return (MStyle *)pst;
 }
 
+static MStyle *default_mstyle = NULL;
+
 MStyle *
 mstyle_new_default (void)
 {
 	MStyle *mstyle;
 
-#if 0
-/* Do not use a cached default style.
- * People will reference it.
- * When it is overridden by other styles the
- * merge operation will eviscerate the contents.
- */
-	static MStyle *default_mstyle = NULL;
-
 	if (default_mstyle) {
 		mstyle_ref (default_mstyle);
 		return default_mstyle;
 	}
-#endif
 	
 	mstyle = mstyle_new ();
 
@@ -479,9 +507,7 @@ mstyle_new_default (void)
 	/* This negates the back and pattern colors */
 	mstyle_set_pattern     (mstyle, 0);
 
-#if 0
 	default_mstyle = mstyle;
-#endif
 
 	return mstyle;
 }
@@ -547,26 +573,35 @@ mstyle_do_merge (const GList *list, MStyleElementType max)
  *   This function removes any style elements from the slave
  * that are masked by the master style. Thus eventualy the
  * slave style becomes redundant and can be removed.
+ * NB. if slave->ref_count == 1 we operate on it directly
+ * otherwise we must copy.
  * 
+ * Returns: the masked style.
  **/
-void
+MStyle *
 mstyle_merge (MStyle *master, MStyle *slave)
 {
 	PrivateStyle *pstm, *psts; /* Master, slave */
-	int i;
+	int           i;
 
-	g_return_if_fail (slave != NULL);
-	g_return_if_fail (master != NULL);
+	g_return_val_if_fail (slave != NULL, NULL);
+	g_return_val_if_fail (master != NULL, NULL);
 
 	psts = (PrivateStyle *)slave;
 	pstm = (PrivateStyle *)master;
 
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
 		if (pstm->elements[i].type && psts->elements[i].type) {
+			if (psts->ref_count > 1) {
+				psts = (PrivateStyle *)mstyle_copy (slave);
+				mstyle_unref (slave);
+			}
 			mstyle_element_unref (psts->elements[i]);
 			psts->elements[i].type = MSTYLE_ELEMENT_UNSET;
 		}
 	}
+
+	return (MStyle *)psts;
 }
 
 char *
@@ -601,7 +636,9 @@ mstyle_dump (const MStyle *st)
 	char *txt;
 	const PrivateStyle *pst = (PrivateStyle *)st;
 
-	printf ("Style '%s'\n", pst->name?pst->name:"unnamed");
+	printf ("Style '%s' Ref s%d\n",
+		pst->name?pst->name:"unnamed",
+		pst->ref_count);
 	txt = mstyle_to_string (st);
 	printf ("%s\n", txt);
 	g_free (txt);

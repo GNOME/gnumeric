@@ -617,6 +617,12 @@ range_fragment (const Range *a, const Range *b)
 GList *
 range_fragment_list (const GList *ra)
 {
+	return range_fragment_list_clip (ra, NULL);
+}
+
+GList *
+range_fragment_list_clip (const GList *ra, const Range *clip)
+{
 	GList *ranges = NULL;
 	GList *a; /* Order n*n: ugly */
 
@@ -629,11 +635,7 @@ range_fragment_list (const GList *ra)
 		while (b) {
 			GList *next = g_list_next (b);
 
-			/*
-			 * FIXME: we need to cull equal ranges to save time
-			 * and effort.
-			 */
-			if (!range_equal (a->data, b->data)
+			if (! range_equal   (a->data, b->data)
 			    & range_overlap (a->data, b->data)) {
 				GList *split;
 
@@ -646,6 +648,16 @@ range_fragment_list (const GList *ra)
 		}
 		if (!done_split)
 			ranges = g_list_append (ranges, range_copy (a->data));
+	}
+	if (ranges && clip) {
+		GList *l, *next;
+		for (l = ranges; l; l = next) {
+			next = l->next;
+			if (range_overlap (l->data, clip))
+				continue;
+			g_free (l->data);
+			ranges = g_list_remove (ranges, l->data);
+		}
 	}
 
 	return ranges;
@@ -726,6 +738,50 @@ range_translate (Range *range, int col_offset,
 	range->start.row += MIN (row_offset, SHEET_MAX_ROWS - 1);
 	range->end.row   += MIN (row_offset, SHEET_MAX_ROWS - 1);
 
+	return TRUE;
+}
+
+/**
+ * range_expand:
+ * @range: the range to expand
+ * @d_tlx: top left column delta
+ * @d_tly: top left row delta
+ * @d_brx: bottom right column delta
+ * @d_bry: bottom right row delta
+ * 
+ * Attempts to expand a ranges area
+ * 
+ * Return value: TRUE if we can expand, FALSE if not enough room.
+ **/
+gboolean
+range_expand (Range *range, int d_tlx, int d_tly, int d_brx, int d_bry)
+{
+	int t;
+
+	t = range->start.col + d_tlx;
+	if (t < 0 ||
+	    t >= SHEET_MAX_COLS)
+		return FALSE;
+	range->start.col = t;
+
+	t = range->start.row + d_tly;
+	if (t < 0 ||
+	    t >= SHEET_MAX_ROWS)
+		return FALSE;
+	range->start.row = t;
+
+	t = range->end.col + d_brx;
+	if (t < 0 ||
+	    t >= SHEET_MAX_COLS)
+		return FALSE;
+	range->end.col = t;
+
+	t = range->end.row + d_bry;
+	if (t < 0 ||
+	    t >= SHEET_MAX_ROWS)
+		return FALSE;
+	range->end.row = t;
+	
 	return TRUE;
 }
 

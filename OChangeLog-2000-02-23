@@ -1,3 +1,25 @@
+1999-11-11  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/mstyle.c (mstyle_new_default): Revert removal of
+	default_mstyle patch.
+
+	* src/selection.c (selection_move_range_cb): kill.
+	(sheet_selection_move): fixup. (sheet_selection_paste): unant cursor
+	on copy.
+
+	* src/mstyle.c (mstyle_merge): Change semantics again, was stomping
+	on other ref-counted copies. (mstyle_elements_copy): implement.
+	(mstyle_copy): Implement.
+
+1999-11-10  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/ranges.c (range_fragment_list_clip): implement clipping.
+
+	* src/sheet-style.c (sheet_mstyle_compute_from_list): split from
+	(sheet_style_compute): and call.
+
+	* src/ranges.c (range_expand): implement.
+
 1999-11-11  Jody Goldberg <jgoldberg@home.com>
 
 	* src/mstyle.c (mstyle_new_default) : Disable caching of default

@@ -54,6 +54,7 @@ Range       range_merge         (Range const *a, Range const *b);
 void        range_clip          (Range *clipped, Range const *master,
 				 Range const *slave);
 gboolean    range_translate     (Range *range, int col_offset, int row_offset);
+gboolean    range_expand        (Range *range, int d_tlx, int d_tly, int d_brx, int d_bry);
 void        range_dump          (Range const *src);
 Range      *range_copy          (Range const *src);
 
@@ -62,6 +63,7 @@ GList      *range_split_ranges  (const Range *hard, const Range *soft,
 				 RangeCopyFn copy_fn);
 GList      *range_fragment      (const Range *a, const Range *b);
 GList      *range_fragment_list (const GList *ranges);
+GList      *range_fragment_list_clip (const GList *ranges, const Range *clip);
 void        range_fragment_free (GList *fragments);
 
 #endif /* GNUMERIC_RANGES_H */

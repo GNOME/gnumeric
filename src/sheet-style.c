@@ -351,7 +351,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
 					slave  = sra;
 					a->data = NULL;
 				}
-				mstyle_merge (master->style, slave->style);
+				slave->style = mstyle_merge (master->style, slave->style);
 				if (mstyle_empty (slave->style))
 					sheet_style_region_unlink (sheet, slave);
 			}
@@ -469,6 +469,32 @@ sheet_style_attach (Sheet  *sheet, Range range,
 				  range.end.col,   range.end.row);
 }
 
+static inline MStyle *
+sheet_mstyle_compute_from_list (GList *list, int col, int row)
+{
+	GList  *l;
+	GList  *style_list = NULL;
+	MStyle *mstyle;
+
+	for (l = list; l; l = l->next) {
+		StyleRegion *sr = l->data;
+		if (range_contains (&sr->range, col, row)) {
+			if (style_debugging > 5) {
+				range_dump (&sr->range);
+				mstyle_dump (sr->style);
+			}
+			style_list = g_list_prepend (style_list,
+						     sr->style);
+		}
+	}
+	style_list = g_list_reverse (style_list);
+
+	mstyle = mstyle_do_merge (style_list, MSTYLE_ELEMENT_MAX);
+	g_list_free (style_list);
+
+	return mstyle;
+}
+
 /**
  * sheet_style_compute:
  * @sheet:	 Which sheet we are looking up
@@ -484,8 +510,6 @@ sheet_style_attach (Sheet  *sheet, Range range,
 MStyle *
 sheet_style_compute (Sheet const *sheet, int col, int row)
 {
-	GList  *l;
-	GList  *style_list;
 	MStyle *mstyle;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
@@ -499,23 +523,10 @@ sheet_style_compute (Sheet const *sheet, int col, int row)
 	if (!list_check_sorted (STYLE_LIST (sheet), TRUE))
 		g_warning ("Styles not sorted");
 
-	style_list = NULL;
 	/* Look in the styles applied to the sheet */
-	for (l = STYLE_LIST (sheet); l; l = l->next) {
-		StyleRegion *sr = l->data;
-		if (range_contains (&sr->range, col, row)) {
-			if (style_debugging > 5) {
-				range_dump (&sr->range);
-				mstyle_dump (sr->style);
-			}
-			style_list = g_list_prepend (style_list,
-						     sr->style);
-		}
-	}
-	style_list = g_list_reverse (style_list);
 
-	mstyle = mstyle_do_merge (style_list, MSTYLE_ELEMENT_MAX);
-	g_list_free (style_list);
+	mstyle = sheet_mstyle_compute_from_list (STYLE_LIST (sheet),
+						 col, row);
 
 	sheet_style_cache_add ((Sheet *)sheet, col, row, mstyle);
 
@@ -553,122 +564,6 @@ sheet_selection_apply_style (Sheet *sheet, MStyle *mstyle)
 				 mstyle);
 	sheet_set_dirty (sheet, TRUE);
 	mstyle_unref            (mstyle);
-}
-
-typedef struct {
-	MStyle *mstyle;
-} UniqueClosure;
-
-static gboolean
-sheet_unique_cb (Sheet *sheet, Range const *range,
-		 gpointer user_data)
-{
-	UniqueClosure *cl = (UniqueClosure *)user_data;
-	GList *l, *simple;
-	GList *overlap_list = NULL;
-
- 	/* Look in the styles applied to the sheet */
-	for (l = STYLE_LIST (sheet); l; l = l->next) {
-		StyleRegion *sr = l->data;
-		if (range_overlap (&sr->range, range)) {
-			if (style_debugging > 0) {
-				range_dump (&sr->range);
-				mstyle_dump (sr->style);
-			}
-			overlap_list = g_list_prepend (overlap_list, sr);
-		}
-	}
-
-	/* Fragment ranges into fully overlapping ones */
-	simple = range_fragment_list (overlap_list);
-	for (l = simple; l; l = g_list_next (l)) {
-		Range  *r = l->data;
-		GList  *b, *style_list = NULL;
-		MStyle *tmp;
-
-		/*
-		 * Some of the ranges are far bigger than our
-		 * selection & we arn't interested in them really.
-		 */
-		if (!range_overlap (r, range))
-			continue;
-
-		if (style_debugging > 0) {
-			printf ("Fragmented range: ");
-			range_dump (r);
-			printf ("\n");
-		}
-
-		/*
-		 * Build a list of styles here.
-		 */
-		for (b = overlap_list; b; b = g_list_next (b)) {
-			StyleRegion *sr = b->data;
-			if (range_contains (&sr->range, r->start.col,
-					    r->start.row)) {
-				if (STYLE_DEBUG) {
-					range_dump (&sr->range);
-					mstyle_dump (sr->style);
-				}
-				style_list = g_list_prepend (style_list,
-							     sr->style);
-			}
-		}
-
-		tmp = mstyle_do_merge (style_list, MSTYLE_ELEMENT_MAX);
-
-		mstyle_compare (cl->mstyle, tmp);
-
-		mstyle_unref (tmp);
-		g_list_free (style_list);
-	}
-
-/*	range_fragment_free (simple);*/
-	g_list_free (overlap_list);
-
-	return TRUE;
-}
-
-/**
- * sheet_selection_get_unique_style:
- * @sheet: the sheet.
- * @borders: An array [STYLE_BORDER_EDGE_MAX]
- *
- * Return a merged list of styles for the selection,
- * if a style is not unique then we get MSTYLE_ELEMENT_CONFLICT.
- * the borders array is used due to the rather intricate nature
- * of border setting. This causes a lot of the complexity in this
- * routine. Essentialy it is neccessary to check adjacent cells for
- * borders.
- *
- * Return value: the merged list; free this.
- **/
-MStyle *
-sheet_selection_get_unique_style (Sheet *sheet, MStyleBorder **borders)
-{
-	UniqueClosure cl;
-
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-
-	/*
-	 * For each non-overlapping selection the contained style regions
-	 * must be fragmented into totaly overlapping regions. These must
-	 * then be merged down to MStyleElement arrays and then these must
-	 * be compared + conflicts tagged.
-	 */
-
-	cl.mstyle = mstyle_new ();
-
-	selection_foreach_range (sheet, sheet_unique_cb, &cl);
- 
-	if (style_debugging > 0) {
-		printf ("Uniq style is\n");
-		mstyle_dump (cl.mstyle);
-		printf ("\n");
-	}
- 
-	return cl.mstyle;
 }
 
 void
@@ -1149,6 +1044,7 @@ sheet_selection_set_border (Sheet *sheet,
 	int     i;
 
 	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (borders != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	mstyle = mstyle_new ();
@@ -1161,3 +1057,197 @@ sheet_selection_set_border (Sheet *sheet,
 		style_border_unref (borders[i]);
 }
 
+/**
+ * sheet_get_region_list_for_range:
+ * @style_list: 
+ * @range: 
+ * 
+ * Returns a reversed order list of styles that overlap
+ * with range.
+ * 
+ * Return value: 
+ **/
+static inline GList *
+sheet_get_region_list_for_range (GList *style_list, const Range *range)
+{
+	GList *l, *overlap_list = NULL;
+
+	for (l = style_list; l; l = l->next) {
+		StyleRegion *sr = l->data;
+		if (range_overlap (&sr->range, range)) {
+			if (style_debugging > 0) {
+				range_dump (&sr->range);
+				mstyle_dump (sr->style);
+			}
+			overlap_list = g_list_prepend (overlap_list, sr);
+		}
+	}
+	return overlap_list;
+}
+
+typedef struct {
+	MStyle        *mstyle;
+	MStyleBorder **borders;
+	gboolean       border_valid[STYLE_BORDER_EDGE_MAX];
+} UniqueClosure;
+
+/*
+	top,left,right,bottom regions ( 2 thick )
+        for each of these regions do fragment;
+	then foreach compare inner vs. outer via. quick compute.
+	middle region ( 1 less thick than edges )
+        split code to check for homogoneity
+	We need a middle region to differentiate internal to external
+	borders.
+*/
+
+static gboolean
+sheet_unique_cb (Sheet *sheet, Range const *range,
+		 gpointer user_data)
+{
+	UniqueClosure *cl = (UniqueClosure *)user_data;
+	GList   *all_list, *middle_list, *frags;
+	GList   *edge_list[4], *l;
+	Range    edge[4], all, middle;
+	gboolean edge_valid[4], middle_valid;
+	int      i;
+
+ 	/*
+	 * 1. Create the super range including outer 
+	 *     + inner + ( unwanted corners )
+	 */
+	all = *range;
+	if (all.start.col > 0)
+		all.start.col--;
+	if (all.end.col < SHEET_MAX_COLS)
+		all.start.col++;
+ 	if (all.start.row > 0)
+		all.start.row--;
+	if (all.end.row < SHEET_MAX_ROWS)
+		all.start.row++;
+	all_list = sheet_get_region_list_for_range (STYLE_LIST (sheet), &all);
+
+	/* 2. Create the middle range */
+	if (range->end.col > range->start.col + 1 &&
+	    range->end.row > range->start.row + 1) {
+		middle_valid = TRUE;
+		middle = *range;
+		middle.start.col++;
+		middle.end.col--;
+		middle.start.row++;
+		middle.end.row--;
+	} else
+		middle_valid = FALSE;
+
+	/*
+	 * 3. Create border ranges around the sides,
+	 * each is two cells thick.
+	 */
+	
+	/* 3.1 Top */
+	i = STYLE_BORDER_TOP;
+	edge [i] = *range;
+	edge [i].end.row = edge [i].start.row;
+	edge_valid [i] = range_expand (&edge [i], 0, -1, 0, 0);
+
+	/* 3.2 Bottom */
+	i = STYLE_BORDER_BOTTOM;
+	edge [i] = *range;
+	edge [i].start.row = edge [i].end.row;
+	edge_valid [i] = range_expand (&edge [i], 0, 0, 0, +1);
+
+	/* 3.3 Left */
+	i = STYLE_BORDER_LEFT;
+	edge [i] = *range;
+	edge [i].end.col = edge [i].start.col;
+	edge_valid [i] = range_expand (&edge [i], -1, 0, 0, 0);
+
+	/* 3.4 Right */
+	i = STYLE_BORDER_RIGHT;
+	edge [i] = *range;
+	edge [i].start.col = edge [i].end.col;
+	edge_valid [i] = range_expand (&edge [i], 0, 0, +1, 0);
+
+	/* 4.1 Create Region list for edges */
+	for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; i++) {
+		if (edge_valid [i])
+			edge_list [i] = sheet_get_region_list_for_range (all_list,
+									 &edge [i]);
+		else
+			edge_list [i] = NULL;
+	}
+	/* 4.2 Create region list for middle */
+	middle_list = sheet_get_region_list_for_range (all_list, &middle);
+
+	/*
+	 * Fragment ranges into fully overlapping ones discarding
+	 * overlaps outside the selection.
+	 */
+	frags = range_fragment_list_clip (middle_list, &middle);
+	for (l = frags; l; l = g_list_next (l)) {
+		Range  *r   = l->data;
+		MStyle *tmp = sheet_mstyle_compute_from_list (middle_list,
+							      r->start.col,
+							      r->start.row);
+		mstyle_compare (cl->mstyle, tmp);
+		mstyle_unref (tmp);
+	}
+	range_fragment_free (frags);
+
+	g_list_free (middle_list);
+	g_list_free (all_list);
+	for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; i++)
+		if (edge_valid [i])
+			g_list_free (edge_list [i]);
+
+	return TRUE;
+}
+
+/**
+ * sheet_selection_get_unique_style:
+ * @sheet: the sheet.
+ * @borders: An array [STYLE_BORDER_EDGE_MAX]
+ *
+ * Return a merged list of styles for the selection,
+ * if a style is not unique then we get MSTYLE_ELEMENT_CONFLICT.
+ * the borders array is used due to the rather intricate nature
+ * of border setting. This causes a lot of the complexity in this
+ * routine. Essentialy it is neccessary to check adjacent cells for
+ * borders.
+ *
+ * Return value: the merged list; free this.
+ **/
+MStyle *
+sheet_selection_get_unique_style (Sheet *sheet, MStyleBorder **borders)
+{
+	int           i;
+	UniqueClosure cl;
+
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (borders != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	/*
+	 * For each non-overlapping selection the contained style regions
+	 * must be fragmented into totaly overlapping regions. These must
+	 * then be merged down to MStyleElement arrays and then these must
+	 * be compared + conflicts tagged.
+	 */
+
+	cl.mstyle  = mstyle_new ();
+	cl.borders = borders;
+	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++) {
+		cl.borders [i] = NULL;
+		cl.border_valid [i] = TRUE;
+	}
+
+	selection_foreach_range (sheet, sheet_unique_cb, &cl);
+ 
+	if (style_debugging > 0) {
+		printf ("Uniq style is\n");
+		mstyle_dump (cl.mstyle);
+		printf ("\n");
+	}
+ 
+	return cl.mstyle;
+}
