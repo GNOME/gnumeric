@@ -3,11 +3,11 @@ INCLUDES = \
     -I$(top_srcdir)/src	-I$(top_builddir)/src	\
     $(GNUMERIC_CFLAGS)
 
-gnumeric_plugin_fnstatdir = $(gnumeric_plugindir)/fn-r
-xmldir = $(gnumeric_plugin_fnstatdir)
-gnumeric_plugin_fnstat_LTLIBRARIES = plugin.la
-plugin_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
-plugin_la_SOURCES = functions.c
+gnumeric_plugin_fnrdir = $(gnumeric_plugindir)/fn-r
+xmldir = $(gnumeric_plugin_fnrdir)
+gnumeric_plugin_fnr_LTLIBRARIES = rstat.la
+rstat_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
+rstat_la_SOURCES = functions.c
 
 xml_in_files = plugin.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml)

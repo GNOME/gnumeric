@@ -97,9 +97,9 @@ my $emitted = "";
        "#include <gnumeric.h>\n" .
        "#include <goffice/app/go-plugin.h>\n" .
        "#include <gnm-plugin.h>\n" .
-       "#include <func.h>\n\n" .
-       "#include <gnm-i18n.h>\n\n" .
-       "#include <value.h>\n\n" .
+       "#include <func.h>\n" .
+       "#include <gnm-i18n.h>\n" .
+       "#include <value.h>\n" .
        "#include <mathfunc.h>\n\n" .
        "GNM_PLUGIN_MODULE_HEADER;\n\n");
 

@@ -5,11 +5,8 @@
 #include <goffice/app/go-plugin.h>
 #include <gnm-plugin.h>
 #include <func.h>
-
 #include <gnm-i18n.h>
-
 #include <value.h>
-
 #include <mathfunc.h>
 
 GNM_PLUGIN_MODULE_HEADER;
