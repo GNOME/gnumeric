@@ -25,7 +25,7 @@
 #include <stdlib.h>
 #include <float.h>
 
-#if defined (HAVE_IEEEFP_H) || defined (HAVE_IEEE754)
+#if defined (HAVE_IEEEFP_H) || defined (HAVE_IEEE754_H)
 /* Make sure we have this symbol defined, since the existance of wither
    header file implies it.  */
 #ifndef IEEE_754
