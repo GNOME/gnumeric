@@ -9,4 +9,5 @@ gnm-marshalers.c
 gnm-marshalers.h
 gnumeric-paths.h
 gnumeric-paths.sh
+ssconvert
 test-pango
