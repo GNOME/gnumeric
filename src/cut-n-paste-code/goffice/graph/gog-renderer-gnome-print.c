@@ -20,8 +20,6 @@
  */
 
 #include <goffice/goffice-config.h>
-/* <style-font.h> is only needed for gnm_font_find_closest_from_weight_slant */
-#include <style-font.h>
 #include <goffice/graph/gog-renderer-gnome-print.h>
 #include <goffice/graph/gog-renderer-impl.h>
 #include <goffice/graph/gog-style.h>
@@ -78,11 +76,10 @@ gog_renderer_gnome_print_finalize (GObject *obj)
 
 	if (prend->fonts != NULL) {
 		int i;
-		GnomeFont *font;
 		for (i = prend->fonts->len; i-- > 0 ; ) {
-			font = g_ptr_array_index (prend->fonts, i);
-			if (font != NULL)
-				gnome_font_unref (font);
+			PangoFontDescription *fd = g_ptr_array_index (prend->fonts, i);
+			if (fd != NULL)
+				pango_font_description_free (fd);
 		}
 
 		g_ptr_array_free (prend->fonts, TRUE);
@@ -118,23 +115,22 @@ print_make_rectangle_path (GnomePrintContext *pc,
         gnome_print_closepath (pc);
 }
 
-static GnomeFont *
+static PangoFontDescription *
 get_font (GogRendererGnomePrint *prend, GOFont const *gf)
 {
-	GnomeFont *res = NULL;
+	PangoFontDescription *res = NULL;
 
 	if (gf->font_index < (int)prend->fonts->len)
 		res = g_ptr_array_index (prend->fonts, gf->font_index);
 	else
-		g_ptr_array_set_size (prend->fonts, gf->font_index+1);
+		g_ptr_array_set_size (prend->fonts, gf->font_index + 1);
 
 	if (res == NULL) {
-		PangoFontDescription *desc = gf->desc;
-		res = gnm_font_find_closest_from_weight_slant (
-			pango_font_description_get_family (desc),
-			pango_font_description_get_weight (desc) >= PANGO_WEIGHT_BOLD ? GNOME_FONT_BOLD : GNOME_FONT_REGULAR,
-			pango_font_description_get_style (desc) != PANGO_STYLE_NORMAL,
-			prend->base.zoom * pango_font_description_get_size (desc) / PANGO_SCALE);
+		res = pango_font_description_copy (gf->desc);
+		/* FIXME: Why do we do this?  */
+		pango_font_description_set_size (res,
+						 prend->base.zoom *
+						 pango_font_description_get_size (res));
 		g_ptr_array_index (prend->fonts, gf->font_index) = res;
 	}
 
@@ -494,14 +490,11 @@ gog_renderer_gnome_print_draw_text (GogRenderer *rend, char const *text,
 				    GogViewAllocation *result)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
-	GnomeFont *gfont = get_font (prend,  rend->cur_style->font.font);
+	PangoFontDescription *pango_font = get_font (prend,  rend->cur_style->font.font);
 
 	if (text[0]) {
 		double x, y, w, h;
 		int iw, ih;
-		const double dummy_dpi = 300; /* FIXME: What exactly is this?  */
-		PangoFontDescription *pango_font =   /* FIXME: can i get the pango font directly ? */
-			gnome_font_get_pango_description (gfont, dummy_dpi);
 
 		pango_layout_set_font_description (prend->layout, pango_font);
 		pango_layout_set_text (prend->layout, text, -1);
@@ -538,7 +531,6 @@ gog_renderer_gnome_print_draw_text (GogRenderer *rend, char const *text,
 
 		gnome_print_moveto (prend->gp_context,x, -y);
 		gnome_print_pango_layout (prend->gp_context, prend->layout);
-		pango_font_description_free (pango_font);
 		if (result != NULL) {
 			result->x = x;
 			result->y = y;
@@ -553,11 +545,8 @@ gog_renderer_gnome_print_measure_text (GogRenderer *rend,
 				       char const *text, GogViewRequisition *size)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
-	GnomeFont *gfont = get_font (prend,  rend->cur_style->font.font);
+	PangoFontDescription *pango_font = get_font (prend,  rend->cur_style->font.font);
 	int iw, ih;
-	const double dummy_dpi = 300; /* FIXME: What exactly is this?  */
-	PangoFontDescription *pango_font =   /* FIXME: can i get the pango font directly ? */
-		gnome_font_get_pango_description (gfont, dummy_dpi);
 
 	pango_layout_set_font_description (prend->layout, pango_font);
 	pango_layout_set_text (prend->layout, text, -1);
