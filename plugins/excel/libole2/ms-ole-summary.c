@@ -121,6 +121,8 @@ ms_ole_summary_open_stream (MsOleStream *s)
 		/* We want to read the offsets of the items here into si->items */
 	}
 
+	si->items = g_array_new (FALSE, FALSE, sizeof (item_t));
+
 	if (!read_items (si)) {
 		g_warning ("Serious error reading items");
 		ms_ole_summary_destroy (si);
