@@ -703,7 +703,7 @@ cb_filter_expr (Sheet *sheet, int col, int row, Cell *cell,
 /*****************************************************************************/
 
 static Value *
-cb_filter_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
+cb_filter_non_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
 {
 	if (cell_is_blank (cell) ||
 	    (cell->value->type == VALUE_STRING && *(cell->value->v_str.val->str) == '\0'))
@@ -712,7 +712,7 @@ cb_filter_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
 }
 
 static Value *
-cb_filter_non_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
+cb_filter_blanks (Sheet *sheet, int col, int row, Cell *cell, gpointer data)
 {
 	if (!cell_is_blank (cell) &&
 	    !(cell->value->type == VALUE_STRING && *(cell->value->v_str.val->str) == '\0'))

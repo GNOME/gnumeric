@@ -33,6 +33,7 @@ Andreas:
 	* Make Edit->Sheet->Remove partly undoable
 	* Add standard output selector to consolidate tool
 	* Make Edit->Fill->Tabulate Dependency undoable
+	* Add simple session management
 
 Ben Liblit:
 	* Another attempt at configure time path generation.

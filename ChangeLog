@@ -1,5 +1,10 @@
 2003-08-08  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/sheet-filter.c (cb_filter_blanks): hide non-blanks
+	(cb_filter_non_blanks): hide blanks
+	
+2003-08-08  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/session.c: new
 	* src/session.h: new
 	* src/Makefile.am: add src/session.[ch]
