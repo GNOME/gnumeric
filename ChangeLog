@@ -1,5 +1,10 @@
 2003-07-10  Morten Welinder  <terra@gnome.org>
 
+	* src/formats.c (style_format_account): Do not discard old part of
+	result.
+	(currency_date_format_init): Add optional quotes around currency
+	symbol.
+
 	* src/workbook-view.c (wb_view_format_feedback): Take cell value's
 	format into account.
 

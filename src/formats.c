@@ -188,11 +188,12 @@ currency_date_format_init (void)
 	char const *curr = format_get_currency (&precedes, &space_sep);
 	char *pre, *post, *pre_rep, *post_rep;
 	int err;
+	static gboolean first_time = TRUE;
 
 	/* Compile the regexps for format classification */
 
 	/* This one is for simple numbers - it is an extended regexp */
-	char const * const simple_number_pattern = "^((\\$|£|¥|€|\\[\\$.{1,3}-?[0-9]{0,3}\\]) ?)?(#,##)?0(\\.0{1,30})?( ?(\\$|£|¥|€|\\[\\$.{1,3}-?[0-9]{0,3}\\]))?$";
+	char const * const simple_number_pattern = "^(\"?(\\$|£|¥|€|\\[\\$.{1,3}-?[0-9]{0,3}\\])\"? ?)?(#,##)?0(\\.0{1,30})?( ?(\\$|£|¥|€|\\[\\$.{1,3}-?[0-9]{0,3}\\]))?$";
 
 	/* This one is for matching formats like 0.00;[Red]0.00 */
 	char const * const red_number_pattern = "^(.*);\\[[Rr][Ee][Dd]\\]\\1$";
@@ -337,6 +338,31 @@ currency_date_format_init (void)
 		cell_format_date [21] = "m/d/yyyy h:mm";
 
 		cell_format_time [4]  = "m/d/yy h:mm";
+	}
+
+	if (first_time) {
+		int i;
+
+		for (i = 0; cell_formats[i] != NULL ; ++i) {
+			int j = 0;
+			char const * const * elem = cell_formats[i];
+			for (; elem[j] ; ++j) {
+				FormatCharacteristics info;
+				StyleFormat *sf =
+					style_format_new_XL (elem[j], FALSE);
+				FormatFamily fam =
+					cell_format_classify (sf, &info);
+
+				if (fam != (FormatFamily)i) {
+					g_print ("%d %d %s\n",
+						 i, fam,
+						 elem[j]);
+				}
+				style_format_unref (sf);
+			}
+		}
+
+		first_time = FALSE;
 	}
 }
 
@@ -828,15 +854,15 @@ style_format_account (GString *res, FormatCharacteristics const *fmt)
 
 	/* Finally build the correct string */
 	if (currency_symbols[symbol].precedes) {
-		g_string_printf (res, "_(%s%s_);_(%s(%s);_(%s\"-\"%s_);_(@_)",
-				sym->str, num->str,
-				sym->str, num->str,
-				sym->str, qmarks + NUM_ZEROS-fmt->num_decimals);
+		g_string_append_printf (res, "_(%s%s_);_(%s(%s);_(%s\"-\"%s_);_(@_)",
+					sym->str, num->str,
+					sym->str, num->str,
+					sym->str, qmarks + NUM_ZEROS-fmt->num_decimals);
 	} else {
-		g_string_printf (res, "_(%s%s_);_((%s)%s;_(\"-\"%s%s_);_(@_)",
-				num->str, sym->str,
-				num->str, sym->str,
-				qmarks + NUM_ZEROS-fmt->num_decimals, sym->str);
+		g_string_append_printf (res, "_(%s%s_);_((%s)%s;_(\"-\"%s%s_);_(@_)",
+					num->str, sym->str,
+					num->str, sym->str,
+					qmarks + NUM_ZEROS-fmt->num_decimals, sym->str);
 	}
 
 	g_string_free (num, TRUE);
