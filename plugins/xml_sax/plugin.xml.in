@@ -16,7 +16,7 @@
 		<service type="file_saver" id="xml_sax" file_extension="gnumeric"
 		         format_level="auto" overwrite_files="FALSE">
 			<information>
-				<_description>UNFINISHED Gnumeric XML (*.gnumeric)</_description>
+				<_description>EXPERIMENTAL SAX based Gnumeric (*.gnumeric)</_description>
 			</information>
 		</service>
 		<!-- disable so that people do not get screwed

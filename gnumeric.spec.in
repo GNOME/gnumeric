@@ -86,6 +86,7 @@ scrollkeeper-update
 export GCONF_CONFIG_SOURCE=`gconftool-2 --get-default-source`
 gconftool-2 --makefile-install-rule /etc/gconf/schemas/%{name}-dialogs.schemas >/dev/null
 gconftool-2 --makefile-install-rule /etc/gconf/schemas/%{name}-general.schemas >/dev/null
+gconftool-2 --makefile-install-rule /etc/gconf/schemas/%{name}-plugins.schemas >/dev/null
 
 %postun
 scrollkeeper-update
@@ -116,7 +117,10 @@ scrollkeeper-update
 #%{_datadir}/gnumeric/%{version}/idl/*.idl
 
 %changelog
-* Sun Nov  4 2001 Jody Goldberg <jgoldberg@home.com>
+* Fri Sep 12 2003 Jody Goldberg <jody@gnome.org>
+- install the plugin schema too.
+
+* Sun Nov  4 2001 Jody Goldberg <jody@gnome.org>
 - bump the libole req
 
 * Wed Oct  9 2001 John Gotts <jgotts@linuxsavvy.com>
@@ -128,7 +132,7 @@ scrollkeeper-update
   %dirs should be used sparingly, but no other package will use this directory
   structure, so it's okay here.
 
-* Thu Jun 28 2001 Jody Goldberg <jgoldberg@home.com>
+* Thu Jun 28 2001 Jody Goldberg <jody@gnome.org>
 - bump libxml1 req.
 
 * Wed Jun 27 2001 John Gotts <jgotts@linuxsavvy.com>
@@ -150,13 +154,13 @@ scrollkeeper-update
 - gnumericConf.sh shouldn't have its executable bit stripped.
 - The python plugin doesn't seem to be getting built by default anymore.
 
-* Tue Jun 26 2001 Jody Goldberg <jgoldberg@home.com>
+* Tue Jun 26 2001 Jody Goldberg <jody@gnome.org>
 - load the bonobo ui file from a version specific location
 
-* Sat May 19 2001 Jody Goldberg <jgoldberg@home.com>
+* Sat May 19 2001 Jody Goldberg <jody@gnome.org>
 - update the gal req
 
-* Tue Apr 01 2001 Jody Goldberg <jgoldberg@home.com>
+* Tue Apr 01 2001 Jody Goldberg <jody@gnome.org>
 - remove gnorba file
 - rename oaf file
 - include category files
@@ -166,13 +170,13 @@ scrollkeeper-update
   reordered the directories while I was at it.  Someone should figure out why
   we can't package the locale data.
 
-* Tue Feb 13 2001 Jody Goldberg <jgoldberg@home.com>
+* Tue Feb 13 2001 Jody Goldberg <jody@gnome.org>
 - Updated version requirements for libglade
 
-* Sat Feb 10 2001 Jody Goldberg <jgoldberg@home.com>
+* Sat Feb 10 2001 Jody Goldberg <jody@gnome.org>
 - Updated version requirements for GAL
 
-* Wed Dec 06 2000 Jody Goldberg <jgoldberg@home.com>
+* Wed Dec 06 2000 Jody Goldberg <jody@gnome.org>
 - Updated version requirements for GAL
 
 * Tue Nov 14 2000 John Gotts <jgotts@linuxsavvy.com>
@@ -184,10 +188,10 @@ scrollkeeper-update
 - Added the standard mechanism to build from either the tarball or CVS (and
   reindented things following the current practice).
 
-* Thu Nov 09 2000 Jody Goldberg <jgoldberg@home.com>
+* Thu Nov 09 2000 Jody Goldberg <jody@gnome.org>
 - Updated version requirements for GAL
 
-* Fri Nov 03 2000 Jody Goldberg <jgoldberg@home.com>
+* Fri Nov 03 2000 Jody Goldberg <jody@gnome.org>
 - Updated version requirements for GAL
 
 * Wed Oct 18 2000 John Gotts <jgotts@linuxsavvy.com>
@@ -199,10 +203,10 @@ scrollkeeper-update
 * Sun Oct 01 2000 Almer S. Tigelaar <almer1@dds.nl>
 - Make some minor adjustments for the autoformatter
 
-* Thu Sep 28 2000 Jody Goldberg <jgoldberg@home.com>
+* Thu Sep 28 2000 Jody Goldberg <jody@gnome.org>
 - Updated version requirements for gnome-print
 
-* Wed Sep 20 2000 Jody Goldberg <jgoldberg@home.com>
+* Wed Sep 20 2000 Jody Goldberg <jody@gnome.org>
 - Updated version requirements for glade
 - Looks like someone already added gal.
 
@@ -210,13 +214,13 @@ scrollkeeper-update
 - Made it work with the new autoformatter
 - Upped gnome-print to 0.22
 
-* Sat Aug 11 2000 Jody Goldberg <jgoldberg@home.com>
+* Sat Aug 11 2000 Jody Goldberg <jody@gnome.org>
 - Updated version requirements for gnome-print
 
-* Sat Jun 21 2000 Jody Goldberg <jgoldberg@home.com>
+* Sat Jun 21 2000 Jody Goldberg <jody@gnome.org>
 - Add libole2
 
-* Sat May 20 2000 Jody Goldberg <jgoldberg@home.com>
+* Sat May 20 2000 Jody Goldberg <jody@gnome.org>
 - Updated version requirements for gnome-print, and libglade.
 
 * Mon May 15 2000 Karl Eichwalder <ke@suse.de>
@@ -228,19 +232,19 @@ scrollkeeper-update
 - Added --without-bonobo and --without-gb.
 - Added %define for sysconfdir
 
-* Mon Feb 29 2000 Jody Goldberg <jgoldberg@home.com>
+* Mon Feb 29 2000 Jody Goldberg <jody@gnome.org>
 - Updated version requirements for gnome-print, and gnome-libs.
 
 * Sun Jan 30 2000 Gregory McLean <gregm@comstar.net>
 - Added in some auto-detect the language files logic (rpm 3.0.xx only)
 
-* Mon Jan 12 2000 Jody Goldberg <jgoldberg@home.com>
+* Mon Jan 12 2000 Jody Goldberg <jody@gnome.org>
 - Add depend on gtk+ >= 1.2.2 so that we can get gtk_object_get.
 
 * Mon Jan 03 2000 Gregory McLean <gregm@comstar.net>
 - Updated to 0.47
 
-* Mon Dec 20 1999 Jody Goldberg <jgoldberg@home.com>
+* Mon Dec 20 1999 Jody Goldberg <jody@gnome.org>
 - Updated the libglade dependancy.
 - Remove req for guile.  We can build without it.
 
