@@ -13,7 +13,8 @@
 			</file_patterns>
 			<save_info saver_id="dif" format_level="manual_remember"/>
 		</service>
-		<service type="file_saver" id="dif" file_extension="dif" format_level="manual_remember">
+		<service type="file_saver" id="dif" file_extension="dif" format_level="manual_remember"
+		 save_scope="sheet">
 			<information description="Data Interchange Format (*.dif)"/>
 		</service>
 	</services>
