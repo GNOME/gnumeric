@@ -57,7 +57,6 @@ typedef struct {
 
 /* for the format_page */
 typedef struct {
-	/*GtkCList*/ void          *format_collist;
 	GtkWidget         *format_data_container;
         GtkOptionMenu     *format_trim;
 	NumberFormatSelector *format_selector;

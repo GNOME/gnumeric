@@ -147,6 +147,27 @@ stf_preview_new (GtkWidget *data_container,
 			       (GTK_TREE_MODEL (renderdata->ll)));
 	renderdata->colcount = 0;
 
+	{
+		GtkWidget *w = GTK_WIDGET (renderdata->tree_view);
+		int width, height, vertical_separator;
+		PangoLayout *layout =
+			gtk_widget_create_pango_layout (w, "Mg19");
+
+		gtk_widget_style_get (w,
+				      "vertical_separator", &vertical_separator,
+				      NULL);
+
+		pango_layout_get_pixel_size (layout, &width, &height);
+		/*
+		 * Make room for about 80 characters and about 7 lines of data.
+		 * (The +2 allows room for the headers and the h-scrollbar.
+		 */
+		gtk_widget_set_size_request (renderdata->data_container,
+					     width * 20,  /* About 80 chars.  */
+					     (height + vertical_separator) * (7 + 2));
+		g_object_unref (layout);
+	}
+
 	gtk_container_add (GTK_CONTAINER (renderdata->data_container),
 			   GTK_WIDGET (renderdata->tree_view));
 	gtk_widget_show_all (GTK_WIDGET (renderdata->tree_view));

@@ -42,17 +42,25 @@
 
 #define SETUP_LOCALE_SWITCH char *oldlocale = NULL
 
-#define START_LOCALE_SWITCH if (nfs->locale) {\
-currency_date_format_shutdown(); \
-oldlocale = g_strdup(gnumeric_setlocale (LC_ALL, NULL)); \
-gnumeric_setlocale(LC_ALL, nfs->locale);\
-currency_date_format_init();}
+#define START_LOCALE_SWITCH						\
+  do {									\
+	if (nfs->locale) {						\
+		currency_date_format_shutdown ();			\
+		oldlocale = g_strdup (setlocale (LC_ALL, NULL));	\
+		gnumeric_setlocale (LC_ALL, nfs->locale);		\
+		currency_date_format_init ();				\
+	}								\
+  } while (0)
 
-#define END_LOCALE_SWITCH if (oldlocale) {\
-currency_date_format_shutdown(); \
-gnumeric_setlocale(LC_ALL, oldlocale);\
-g_free (oldlocale);\
-currency_date_format_init();}
+#define END_LOCALE_SWITCH						\
+  do {									\
+	if (oldlocale) {						\
+		currency_date_format_shutdown ();			\
+		gnumeric_setlocale (LC_ALL, oldlocale);			\
+		g_free (oldlocale);					\
+		currency_date_format_init ();				\
+	}								\
+  } while (0)
 
 /*Format Categories*/
 static char const *const format_category_names[] = {

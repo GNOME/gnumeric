@@ -1,3 +1,12 @@
+2003-06-26  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-format-page.c: Dump column clist.
+	(activate_column): New function, shading the currently selected
+	column.
+
+	* dialog-stf-preview.c (stf_preview_new): Set size in terms of
+	font size.
+
 2003-06-26  Jody Goldberg <jody@gnome.org>
 
 	* dialog-printer-setup.c (unit_editor_configure) : silence the warning.

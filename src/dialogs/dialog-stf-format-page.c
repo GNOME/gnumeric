@@ -19,8 +19,6 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED"
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
@@ -64,6 +62,39 @@ format_page_trim_menu_deactivate (G_GNUC_UNUSED GtkMenu *menu,
 	stf_parse_options_set_trim_spaces (data->parseoptions, trim);
 }
 
+static void
+activate_column (StfDialogData *pagedata, int i)
+{
+	StyleFormat *colformat;
+	GtkCellRenderer *cell;
+	RenderData_t *renderdata = pagedata->format.renderdata;
+
+	cell = stf_preview_get_cell_renderer (renderdata,
+					      pagedata->format.index);
+	if (cell) {
+		g_object_set (G_OBJECT (cell),
+			      "background", NULL,
+			      NULL);
+	}
+
+	pagedata->format.index = i;
+	cell = stf_preview_get_cell_renderer (renderdata,
+					      pagedata->format.index);
+	if (cell) {
+		g_object_set (G_OBJECT (cell),
+			      "background", "lightgrey",
+			      NULL);
+		gtk_widget_queue_draw (GTK_WIDGET (renderdata->tree_view));
+	}
+
+	/* FIXME: warp focus away from the header.  */
+
+	colformat = g_ptr_array_index (pagedata->format.formats, pagedata->format.index);
+	if (colformat)
+		number_format_selector_set_style_format (pagedata->format.format_selector,
+							 colformat);
+}
+
 
 static void
 cb_col_clicked (GtkTreeViewColumn *column, gpointer _i)
@@ -72,9 +103,7 @@ cb_col_clicked (GtkTreeViewColumn *column, gpointer _i)
 	StfDialogData *pagedata =
 		g_object_get_data (G_OBJECT (column), "pagedata");
 
-	gtk_clist_select_row (pagedata->format.format_collist, i, 0);
-
-	/* FIXME: warp focus away from the header.  */
+	activate_column (pagedata, i);
 }
 
 
@@ -135,42 +164,6 @@ locale_changed_cb (LocaleSelector *ls, char const *new_locale,
 
 
 /**
- * format_page_collist_select_row
- * @clist : GtkCList which emitted the signal
- * @row : row the user selected
- * @column : column the user selected
- * @event : some info on the button the user clicked (unused)
- * @data : Dialog "mother" record
- *
- * this will simply set the gtkentry data->format.format_format's text to the (char*) format associated
- * with @row (@row is actually the column in the @data->src->sheet *confusing*)
- *
- * returns : nothing
- **/
-static void
-format_page_collist_select_row (G_GNUC_UNUSED GtkCList *clist,
-				int row, G_GNUC_UNUSED int column,
-				G_GNUC_UNUSED GdkEventButton *event,
-				StfDialogData *data)
-{
-	StyleFormat *colformat = g_ptr_array_index (data->format.formats, row);
-
-	if (!colformat)
-		return;
-
-	gnumeric_clist_moveto (data->format.format_collist, row);
-
-	if (data->format.manual_change) {
-		data->format.manual_change = FALSE;
-		return;
-	}
-
-	data->format.index = row;
-	number_format_selector_set_style_format (data->format.format_selector,
-						 colformat);
-}
-
-/**
  * cb_number_format_changed
  * @widget : NumberFormatSelector which emitted the signal
  * @fmt : current selected format
@@ -182,28 +175,18 @@ format_page_collist_select_row (G_GNUC_UNUSED GtkCList *clist,
  * returns : nothing
  **/
 static void
-cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget, 
-			      char * fmt,
-			      StfDialogData *data)
+cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
+			  const char *fmt,
+			  StfDialogData *data)
 {
 	if (data->format.index >= 0) {
-
 		StyleFormat *sf;
 
 		sf = g_ptr_array_index (data->format.formats, data->format.index);
 		style_format_unref (sf);
 
-		g_ptr_array_index (data->format.formats, data->format.index) = 
+		g_ptr_array_index (data->format.formats, data->format.index) =
 			style_format_new_XL (fmt, FALSE);
-
-		gtk_clist_set_text (data->format.format_collist, 
-				    data->format.index, 
-				    1, fmt);
-
-		gtk_clist_set_column_width 
-			(data->format.format_collist,
-			 1,
-			 gtk_clist_optimal_column_width (data->format.format_collist, 1));
 	}
 
 	format_page_update_preview (data);
@@ -221,7 +204,6 @@ cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
 void
 stf_dialog_format_page_prepare (StfDialogData *data)
 {
-	int i;
 	StyleFormat *sf;
 
 	format_page_update_preview (data);
@@ -232,27 +214,8 @@ stf_dialog_format_page_prepare (StfDialogData *data)
 				 style_format_new_XL (cell_formats[0][0], FALSE));
 	}
 
-	/* Add new items visual */
-	gtk_clist_clear (data->format.format_collist);
-	for (i = 0; i < data->format.renderdata->colcount; i++) {
-		StyleFormat *sf = g_ptr_array_index (data->format.formats, i);
-		char *t[2];
-
-		t[0] = g_strdup_printf (_(COLUMN_CAPTION), i + 1);
-		t[1] = style_format_as_XL (sf, TRUE);
-		
-		gtk_clist_append (data->format.format_collist, t);
-		
-		g_free (t[1]);
-		g_free (t[0]);
-	}
-	gtk_clist_columns_autosize (data->format.format_collist);
-
 	data->format.manual_change = TRUE;
-	gtk_clist_select_row (data->format.format_collist, 0, 0);
-	gnumeric_clist_moveto (data->format.format_collist, 0);
-
-	data->format.index = 0;
+	activate_column (data, 0);
 
 	sf = g_ptr_array_index (data->format.formats, 0);
 	number_format_selector_set_style_format (data->format.format_selector,
@@ -289,7 +252,6 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 	g_return_if_fail (pagedata != NULL);
 
         /* Create/get object and fill information struct */
-	pagedata->format.format_collist       = GTK_CLIST (glade_xml_get_widget (gui, "format_collist"));
 	pagedata->format.format_selector      = NUMBER_FORMAT_SELECTOR( number_format_selector_new ());
 
 	pagedata->format.format_data_container = glade_xml_get_widget (gui, "format_data_container");
@@ -299,17 +261,17 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 	gtk_box_pack_end_defaults (GTK_BOX (format_hbox), GTK_WIDGET (pagedata->format.format_selector));
 	gtk_widget_show (GTK_WIDGET (pagedata->format.format_selector));
 
-	pagedata->format.locale_selector = 
+	pagedata->format.locale_selector =
 		LOCALE_SELECTOR (locale_selector_new ());
 	gtk_table_attach (
 		GTK_TABLE (glade_xml_get_widget (gui, "locale_table")),
 		GTK_WIDGET (pagedata->format.locale_selector),
 		3, 4, 0, 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_widget_show_all (GTK_WIDGET (pagedata->format.locale_selector));
-	gtk_widget_set_sensitive 
-		(GTK_WIDGET (pagedata->format.locale_selector), 
+	gtk_widget_set_sensitive
+		(GTK_WIDGET (pagedata->format.locale_selector),
 		 !pagedata->fixed_locale);
-	
+
 	/* Set properties */
 	pagedata->format.renderdata =
 		stf_preview_new (pagedata->format.format_data_container,
@@ -318,18 +280,11 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 	pagedata->format.index         = -1;
 	pagedata->format.manual_change = FALSE;
 
-	gtk_clist_set_column_justification (pagedata->format.format_collist,
-					    0, 
-					    GTK_JUSTIFY_RIGHT);
-
 	/* Connect signals */
 	g_signal_connect (G_OBJECT (pagedata->format.format_selector),
 			  "number_format_changed",
-			  G_CALLBACK (cb_number_format_changed), 
+			  G_CALLBACK (cb_number_format_changed),
 			  pagedata);
-	g_signal_connect (G_OBJECT (pagedata->format.format_collist),
-			  "select_row",
-			  G_CALLBACK (format_page_collist_select_row), pagedata);
 	g_signal_connect (G_OBJECT (pagedata->format.locale_selector),
 			  "locale_changed",
 			  G_CALLBACK (locale_changed_cb), pagedata);
