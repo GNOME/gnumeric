@@ -426,7 +426,7 @@ parser_simple_val_or_name (GnmExpr *str_expr)
 			}
 		} else
 			res = gnm_expr_new_name (nexpr, NULL, NULL);
-	} else 
+	} else
 		res = gnm_expr_new_constant (v);
 
 	unregister_allocation (str_expr);
@@ -659,7 +659,7 @@ workbookref : '[' string_opt_quote ']'  {
 			 * so subtract 1.
 			 */
 			report_err (state, g_error_new (1, PERR_UNKNOWN_WORKBOOK,
-				_("Unknown workbook '%s'"), wb_name), 
+				_("Unknown workbook '%s'"), wb_name),
 				state->ptr - 1, strlen (wb_name));
 			YYERROR;
 		}
@@ -785,23 +785,6 @@ array_cols: array_row {
 	;
 %%
 
-/**
- * find_char:
- * @str:
- * @c:
- *
- * Returns a pointer to character c in str.
- * Callers should check whether p is '\0'!
- **/
-static char const *
-find_char (char const *str, char c)
-{
-	for (; *str && *str != c; str = g_utf8_next_char (str))
-		if (*str == '\\' && str[1])
-			str = g_utf8_next_char (str+1);
-	return str;
-}
-
 static char const *
 find_matching_close (char const *str, char const **res)
 {
@@ -815,8 +798,15 @@ find_matching_close (char const *str, char const **res)
 			}
 		} else if (*str == ')')
 			return str;
-		else if (*str == '\'' || *str == '\"')
-			str = find_char (str + 1, *str);
+		else if (*str == '\'' || *str == '\"') {
+			GString *dummy = g_string_new ("");
+			const char *end = gnm_strunescape (dummy, str);
+			g_string_free (dummy, TRUE);
+			if (end)
+				str = end;
+			else
+				return str + strlen (str);
+		}
 	}
 
 	return str;
@@ -830,6 +820,7 @@ yylex (void)
 	RangeRef ref;
 	gboolean is_number = FALSE;
 	gboolean is_space = FALSE;
+	gboolean error_token = FALSE;
 
         while (g_unichar_isspace (g_utf8_get_char (state->ptr))) {
                 state->ptr = g_utf8_next_char (state->ptr);
@@ -898,7 +889,7 @@ yylex (void)
 			}
 			if (!strncmp (state->ptr + 6, quotes_end, 6)) {
 				state->ptr += 2 * 6;
-				goto double_quote_loop; 
+				goto double_quote_loop;
 			}
 
 			s = string = (char *) g_alloca (1 + state->ptr - p);
@@ -1103,39 +1094,61 @@ yylex (void)
 		return CONSTANT;
 	}
 
-	switch (c){
+	switch (c) {
+	case '#':
+		if (state->ptr[0] != '"') {
+			gunichar tmp;
+
+			while ((tmp = g_utf8_get_char (state->ptr)) != 0 &&
+			       !g_unichar_isspace (tmp)) {
+				state->ptr = g_utf8_next_char (state->ptr);
+				if (tmp == '!' || tmp == '?') {
+					String *name = string_get_nocopy (g_strndup (start, state->ptr - start));
+					yylval.expr = register_expr_allocation
+						(gnm_expr_new_constant (
+							value_new_error_str (NULL, name)));
+					string_unref (name);
+					return CONSTANT;
+				}
+			}
+
+			report_err (state, g_error_new
+				    (1, PERR_UNEXPECTED_TOKEN,
+				     _("Improperly formatted error token")),
+				    state->ptr, state->ptr - start);
+
+			return INVALID_TOKEN;
+		}
+		error_token = TRUE;
+		start++;
+		/* Fall through */
 	case '\'':
 	case '"': {
-		char const *p;
-		char *string, *s;
-		char quotes_end = c;
-		Value *v;
+		GString *s = g_string_new ("");
+		const char *end = gnm_strunescape (s, start);
 
- 		p = state->ptr;
- 		state->ptr = find_char (state->ptr, quotes_end);
-		if (!*state->ptr) {
-  			report_err (state, g_error_new (1, PERR_MISSING_CLOSING_QUOTE,
-				_("Could not find matching closing quote")),
-  				p, 1);
+		if (end == NULL) {
+			size_t len = strlen (start);
+			g_string_free (s, TRUE);
+  			report_err (state,
+				    g_error_new (1, PERR_MISSING_CLOSING_QUOTE,
+						 _("Could not find matching closing quote")),
+				    start + len, len);
 			return INVALID_TOKEN;
 		}
 
-		s = string = (char *) g_alloca (1 + state->ptr - p);
-		while (p != state->ptr)
-			if (*p == '\\') {
-				int n = g_utf8_skip [*(guchar *)(++p)];
-				strncpy (s, p, n);
-				s += n;
-				p += n;
-			} else
-				*s++ = *p++;
+		state->ptr = (char *)end;
 
-		*s = 0;
-		state->ptr++;
-
-		v = value_new_string (string);
-		yylval.expr = register_expr_allocation (gnm_expr_new_constant (v));
-		return QUOTED_STRING;
+		if (error_token) {
+			Value *v = value_new_error (NULL, s->str);
+			yylval.expr = register_expr_allocation (gnm_expr_new_constant (v));
+			g_string_free (s, TRUE);
+			return CONSTANT;
+		} else {
+			Value *v = value_new_string_nocopy (g_string_free (s, FALSE));
+			yylval.expr = register_expr_allocation (gnm_expr_new_constant (v));
+			return QUOTED_STRING;
+		}
 	}
 	}
 
@@ -1151,23 +1164,6 @@ yylex (void)
 			value_new_string_nocopy (g_strndup (start, state->ptr - start))));
 		return STRING;
 	}
-
-	/* Error constants.  */
-	if (c == '#') {
-		gunichar tmp;
-
-		while ((tmp = g_utf8_get_char (state->ptr)) != 0 &&
-		       !g_unichar_isspace (tmp)) {
-			state->ptr = g_utf8_next_char (state->ptr);
-			if (tmp == '!') {
-				yylval.expr = register_expr_allocation
-					(gnm_expr_new_constant (
-						value_new_string_nocopy (g_strndup (start, state->ptr - start))));
-				return STRING;
-			}
-		}
-	}
-
 
 	if (c == '\n' || c == 0)
 		return 0;

@@ -1,3 +1,16 @@
+2002-12-17  Morten Welinder  <terra@diku.dk>
+
+	* src/gutils.c (gnm_strunescape): New function.
+
+	* src/parser.y (yylex): Handle error constants that don't end in
+	"!", such as "#NAME?".  Catch unterminated error tokens.  Return
+	token CONSTANT for errors.
+	(find_matching_close): Use gnm_strunescape.
+	(find_char): Delete.
+
+	* src/value.c (value_get_as_gstring): Use untranslated error
+	messages when requested.
+
 2002-12-16  Morten Welinder  <terra@diku.dk>
 
 	* src/number-match.c (format_match_init): Don't setup error

@@ -87,6 +87,7 @@ char *    gnumeric_usr_dir        (const char *subdir);
 char *    gnumeric_usr_plugin_dir (void);
 
 void      gnm_strescape (GString *target, const char *string);
+const char *gnm_strunescape (GString *target, const char *string);
 
 char *    gnumeric_utf8_strcapital (const char *p, ssize_t len);
 

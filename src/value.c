@@ -435,7 +435,7 @@ value_new_from_string (ValueType t, char const *str, StyleFormat *sf)
 		res = value_new_string (str);
 		break;
 
-	/* Should not happend */
+	/* Should not happen.  */
 	case VALUE_ARRAY:
 	case VALUE_CELLRANGE:
 	default:
@@ -740,13 +740,18 @@ value_get_as_gstring (GString *target, Value const *v,
 	case VALUE_EMPTY:
 		return;
 
-	case VALUE_ERROR:
-		/* FIXME: conv  */
-		g_string_append (target, v->v_err.mesg->str);
+	case VALUE_ERROR: {
+		GnmStdError e = value_error_classify (v);
+		if (e == GNM_ERROR_UNKNOWN) {
+			g_string_append_c (target, '#');
+			gnm_strescape (target, v->v_err.mesg->str);
+		} else
+			g_string_append (target, value_error_name (e, conv->output_translated));
 		return;
+	}
 
 	case VALUE_BOOLEAN: {
-		const char *cval = v->v_bool.val ? "TRUE" : "FALSE";
+		const char *cval = v->v_bool.val ? N_("TRUE") : N_("FALSE");
 		g_string_append (target, conv->output_translated ? _(cval) : cval);
 		return;
 	}

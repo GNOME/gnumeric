@@ -399,6 +399,40 @@ gnm_strescape (GString *target, char const *string)
 	g_string_append_c (target, '"');
 }
 
+/*
+ * The reverse operation of gnm_strescape.  Returns a pointer to the
+ * first char after the string on success or NULL on failure.
+ *
+ * First character of the string should be an ASCII character used
+ * for quoting.
+ */
+const char *
+gnm_strunescape (GString *target, const char *string)
+{
+	char quote = *string++;
+	size_t oldlen = target->len;
+
+	/* This should be UTF-8 safe as long as quote is ASCII.  */
+	while (*string != quote) {
+		if (*string == 0)
+			goto error;
+		else if (*string == '\\') {
+			string++;
+			if (*string == 0)
+				goto error;
+		}
+
+		g_string_append_c (target, *string);
+		string++;
+	}
+
+	return ++string;
+
+ error:
+	g_string_truncate (target, oldlen);
+	return NULL;
+}
+
 /* ------------------------------------------------------------------------- */
 
 #ifdef NEED_FAKE_MODFGNUM
