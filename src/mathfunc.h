@@ -127,6 +127,7 @@ gnum_float random_hypergeometric (unsigned int n1, unsigned int n2,
 				  unsigned int t);
 gnum_float random_logarithmic    (gnum_float p);
 gnum_float random_chisq          (gnum_float nu);
+gnum_float random_tdist          (gnum_float nu);
 
 /* ------------------------------------------------------------------------- */
 

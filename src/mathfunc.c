@@ -4818,6 +4818,38 @@ random_logarithmic (gnum_float p)
 }
 
 /*
+ * Generate a T-distributed number. From the GNU Scientific library 1.1.1.
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
+ */
+gnum_float
+random_tdist (gnum_float nu)
+{
+        if (nu <= 2) {
+	        gnum_float Y1 = random_normal ();
+		gnum_float Y2 = random_chisq (nu);
+
+		gnum_float t = Y1 / sqrt (Y2 / nu);
+
+		return t;
+	} else {
+	        gnum_float Y1, Y2, Z, t;
+		do {
+		        Y1 = random_normal ();
+			Y2 = random_exponential (1 / (nu/2 - 1));
+
+			Z = Y1 * Y1 / (nu - 2);
+		} while (1 - Z < 0 || exp (-Y2 - Z) > (1 - Z));
+
+		/* Note that there is a typo in Knuth's formula, the line below
+		 * is taken from the original paper of Marsaglia, Mathematics
+		 * of Computation, 34 (1980), p 234-256. */
+
+		t = Y1 / sqrt ((1 - 2 / nu) * (1 - Z));
+		return t;
+	}
+}
+
+/*
  * Generate 2^n being careful not to overflow
  */
 gnum_float
