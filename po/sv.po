@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-12-05 21:40+0100\n"
-"PO-Revision-Date: 2002-12-05 21:38+0200\n"
+"POT-Creation-Date: 2002-12-07 14:02+0100\n"
+"PO-Revision-Date: 2002-12-07 14:00+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -8345,7 +8345,7 @@ msgstr "infotyp, cell"
 #: plugins/fn-info/functions.c:1855 plugins/fn-info/functions.c:1858
 #: plugins/fn-info/functions.c:1861 plugins/fn-info/functions.c:1864
 #: plugins/fn-info/functions.c:1867 plugins/fn-info/functions.c:1873
-#: plugins/fn-string/functions.c:1170
+#: plugins/fn-string/functions.c:1121
 msgid "value"
 msgstr "värde"
 
@@ -8358,11 +8358,11 @@ msgstr "infotyp"
 msgid "range"
 msgstr "område"
 
-#: plugins/fn-info/functions.c:1882 plugins/fn-string/functions.c:1119
-#: plugins/fn-string/functions.c:1122 plugins/fn-string/functions.c:1143
-#: plugins/fn-string/functions.c:1146 plugins/fn-string/functions.c:1152
-#: plugins/fn-string/functions.c:1176 plugins/fn-string/functions.c:1179
-#: plugins/fn-string/functions.c:1182
+#: plugins/fn-info/functions.c:1882 plugins/fn-string/functions.c:1070
+#: plugins/fn-string/functions.c:1073 plugins/fn-string/functions.c:1094
+#: plugins/fn-string/functions.c:1097 plugins/fn-string/functions.c:1103
+#: plugins/fn-string/functions.c:1127 plugins/fn-string/functions.c:1130
+#: plugins/fn-string/functions.c:1133
 msgid "text"
 msgstr "text"
 
@@ -8658,7 +8658,7 @@ msgstr "tal;tal;"
 #: plugins/fn-math/functions.c:3254 plugins/fn-math/functions.c:3266
 #: plugins/fn-math/functions.c:3269 plugins/fn-stat/functions.c:5644
 #: plugins/fn-stat/functions.c:5647 plugins/fn-stat/functions.c:5665
-#: plugins/fn-stat/functions.c:5743 plugins/fn-string/functions.c:1116
+#: plugins/fn-stat/functions.c:5743 plugins/fn-string/functions.c:1067
 msgid "number"
 msgstr "tal"
 
@@ -14848,7 +14848,7 @@ msgstr ""
 "kommer att vara noll. Standardvärdet är SANT.\n"
 "\n"
 "Om @stat är SANT kommer extra statistisk information att returneras som är "
-"applicerbara på tillståndet EFTER transormationen till z. Extra statistisk "
+"applicerbara på tillståndet EFTER transformationen till z. Extra statistisk "
 "information skrivs under regressionslinjens koefficienter i resultatvektorn. "
 "Extra statistisk information består av fyra rader med data. I den första "
 "raden visas standardfelvärdena för koefficienterna m1; b. Den andra raden "
@@ -14893,6 +14893,34 @@ msgid ""
 "\n"
 "@SEEALSO=LOGREG,LINEST,LOGEST"
 msgstr ""
+"@FUNCTION=LOGFIT\n"
+"@SYNTAX=LOGFIT(kända_y;kända_x)\n"
+"@DESCRIPTION=Funktionen LOGFIT tillämpar \"minsta kvadratmetoden\" för att "
+"passa den logaritmiska funktionen\n"
+"y = a + b * ln(tecken * (x - c)) ,   tecken = +1 eller -1 \n"
+"till dina data. Ekvationens graf är en logaritmisk kurva flyttad "
+"horisontellt av c och möjligen speglad i y-axeln (on tecken = -1).\n"
+"\n"
+"LOGFIT returnerar ett vält med fem kolumner och en rad. \"tecken\" ges i "
+"första kolumnen, \"a\", \"b\" och \"c\" ges i kolumnerna 2 till 4. Kolumn 5 "
+"innehåller summan av dom kvadrerade residualerna.\n"
+"\n"
+"Ett fel returneras när det finns mindre än tre x eller y, eller när "
+"punktmolnets form är för olik en \"logaritmisk\" form.\n"
+"\n"
+"Du kan använda det ovanstående uttrycket \n"
+"= a + b * ln(tecken * (x - c)) \n"
+"eller arrangera om det till \n"
+"= (exp((y - a) / b)) / tecken + c \n"
+"för att beräkna okända y eller x.\n"
+"\n"
+"Tekniskt sett är detta iterativ icke-linjär passning. Noggrannheten på \"c\" "
+"är: x-områdets bredd -> avrundat till närmaste mindre tiopotens gånger "
+"0,000001. Det kan finnas fall då den uppgivna passningen inte är den bästa "
+"möjliga.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=LOGREG,LINEST,LOGEST"
 
 #: plugins/fn-stat/functions.c:4448
 msgid ""
@@ -14967,6 +14995,33 @@ msgid ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
+"@FUNCTION=LOGEST\n"
+"@SYNTAX=LOGEST(kända_y[;kända_x;konstant;stat])\n"
+"@DESCRIPTION=Funktionen LOGEST tillämpar \"minsta kvadratmetoden\" för att "
+"passa en exponential funktion av formen\n"
+"\n"
+"\ty = b * m{1}^x{1} * m{2}^x{2}... till dina data.\n"
+"\n"
+"Om @stat är SANT kommer extra statistisk information att returneras. Extra "
+"statistisk information skrivs under regressionslinjens koefficienter i "
+"resultatvektorn. Extra statistisk information består av fyra rader med data. "
+"I den första raden visas standardfelvärdena för koefficienterna m1; "
+"(m2; ...); b. Den andra raden innehåller kvadraten av R och standardfelet "
+"för y-uppskattningen. Den tredje raden innehåller det observerade F-värdet "
+"och frihetsgraderna. Den sista raden innehåller regressionssumman av "
+"kvadraterna och den resterande summan av kvadraterna.\n"
+"\n"
+"* Om @kända_x utelämnas används en vektor {1; 2; 3; ...}. LOGEST returnerar "
+"en vektor { m{n};m{n-1}; ...;m{1};b }.\n"
+"* Om @kända_y och @kända_x har olika antal datapunkter returnerar LOGEST "
+"felvärdet #NUM!.\n"
+"* Om @konstant är FALSKT kommer linjen att tvingas gå igenom (0;1), dvs b "
+"kommer att vara ett. Standardvärdet är SANT.\n"
+"* Standardvärdet för @stat är FALSKT.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=LOGEST,GROWTH,TREND"
 
 #: plugins/fn-stat/functions.c:4814
 msgid ""
@@ -16167,51 +16222,51 @@ msgstr ""
 "\n"
 "@SEEALSO=FIND"
 
-#: plugins/fn-string/functions.c:1125
+#: plugins/fn-string/functions.c:1076
 msgid "text,text,"
 msgstr "text;text;"
 
-#: plugins/fn-string/functions.c:1128
+#: plugins/fn-string/functions.c:1079
 msgid "num,decimals"
 msgstr "tal;decimaler"
 
-#: plugins/fn-string/functions.c:1131
+#: plugins/fn-string/functions.c:1082
 msgid "text1,text2"
 msgstr "text1;text2"
 
-#: plugins/fn-string/functions.c:1134
+#: plugins/fn-string/functions.c:1085
 msgid "text1,text2,num"
 msgstr "text1;text2;tal"
 
-#: plugins/fn-string/functions.c:1137
+#: plugins/fn-string/functions.c:1088
 msgid "num,decs,no_commas"
 msgstr "tal;decimaler;antal_komman"
 
-#: plugins/fn-string/functions.c:1140 plugins/fn-string/functions.c:1161
+#: plugins/fn-string/functions.c:1091 plugins/fn-string/functions.c:1112
 msgid "text,num_chars"
 msgstr "text;antal_tecken"
 
-#: plugins/fn-string/functions.c:1149
+#: plugins/fn-string/functions.c:1100
 msgid "text,pos,num"
 msgstr "text;pos;tal"
 
-#: plugins/fn-string/functions.c:1155
+#: plugins/fn-string/functions.c:1106
 msgid "old,start,num,new"
 msgstr "gammal;start;tal;ny"
 
-#: plugins/fn-string/functions.c:1158
+#: plugins/fn-string/functions.c:1109
 msgid "text,num"
 msgstr "text;tal"
 
-#: plugins/fn-string/functions.c:1164
+#: plugins/fn-string/functions.c:1115
 msgid "find,within,start_num"
 msgstr "sök;inom;starttal"
 
-#: plugins/fn-string/functions.c:1167
+#: plugins/fn-string/functions.c:1118
 msgid "text,old,new,num"
 msgstr "text;gammal;ny;tal"
 
-#: plugins/fn-string/functions.c:1173
+#: plugins/fn-string/functions.c:1124
 msgid "value,format_text"
 msgstr "värde;formattext"
 
@@ -16335,9 +16390,8 @@ msgid "Is not an Gnumeric Workbook file"
 msgstr "Är inte en Gnumeric-arbetsboksfil"
 
 #: plugins/gnumeric_1_0/xml-io.c:3447 src/xml-io.c:3472
-#, fuzzy
 msgid "Failure saving file"
-msgstr "Fel vid sparande av fil."
+msgstr "Fel vid sparande av fil"
 
 #: plugins/guile/plugin.c:108
 msgid "Guile error"
@@ -16404,9 +16458,8 @@ msgid "TROFF (*.me)"
 msgstr "TROFF (*.me)"
 
 #: plugins/html/plugin.xml.in.h:9
-#, fuzzy
 msgid "XHTML (*.xhtml)"
-msgstr "HTML 3.2 (*.html)"
+msgstr "XHTML (*.xhtml)"
 
 #: plugins/lotus-123/boot.c:61
 msgid "Error while reading lotus workbook."
@@ -16520,7 +16573,6 @@ msgid "Reads LP programs stored in the MPS format (*.mps)"
 msgstr "Läser LP-program lagrade i MPS-formatet (*.mps)"
 
 #: plugins/numtheory/numtheory.c:212
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_PHI\n"
 "@SYNTAX=NT_PHI(n)\n"
@@ -16534,12 +16586,11 @@ msgstr ""
 "@SYNTAX=NT_PHI(n)\n"
 "@DESCRIPTION=Funktionen NT_PHI beräknar antalet heltal som är färre än eller "
 "lika med de @n som är relativt prima med @n.\n"
-"Denna funktion tar endast ett argument.\n"
+"\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:246
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -16560,15 +16611,16 @@ msgstr ""
 "@DESCRIPTION=Funktionen NT_MU (Möbius µ-funktion) returnerar \n"
 "0 om @n är delbart med kvadraten av ett primtal.\n"
 "Annars returnerar det: \n"
-"-1 om @n har ett udda  antal olika primfaktorer.\n"
-"1  om @n har ett jämnt antal olika primfaktorer.\n"
-"Om @n=1 returnerar det 1\n"
+"\n"
+"  -1 om @n har ett udda  antal olika primfaktorer.\n"
+"   1  om @n har ett jämnt antal olika primfaktorer.\n"
+"\n"
+"* Om @n=1 returnerar det 1\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
 #: plugins/numtheory/numtheory.c:285
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_D\n"
 "@SYNTAX=NT_D(n)\n"
@@ -16585,7 +16637,6 @@ msgstr ""
 "@SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:318
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_SIGMA\n"
 "@SYNTAX=NT_SIGMA(n)\n"
@@ -16597,12 +16648,11 @@ msgstr ""
 "@FUNCTION=NT_SIGMA\n"
 "@SYNTAX=NT_SIGMA(n)\n"
 "@DESCRIPTION=Funktionen NT_SIGMA beräknar summan av @n:s delare.\n"
-"Denna funktion tar endast ett argument.\n"
+"\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
 #: plugins/numtheory/numtheory.c:352
-#, fuzzy
 msgid ""
 "@FUNCTION=ITHPRIME\n"
 "@SYNTAX=ITHPRIME(i)\n"
@@ -16614,12 +16664,11 @@ msgstr ""
 "@FUNCTION=ITHPRIME\n"
 "@SYNTAX=ITHPRIME(i)\n"
 "@DESCRIPTION=Funktionen ITHPRIME returnerar det @i:e primtalet.\n"
-"Denna funktion tar endast ett argument.\n"
+"\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:379
-#, fuzzy
 msgid ""
 "@FUNCTION=ISPRIME\n"
 "@SYNTAX=ISPRIME(i)\n"
@@ -16632,11 +16681,10 @@ msgstr ""
 "@SYNTAX=ISPRIME(i)\n"
 "@DESCRIPTION=Funktionen ISPRIME returnerar SANT om @i är ett primtal och "
 "FALSKT annars.\n"
-"Denna funktion tar endast ett argument.\n"
+"\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:403
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_PI\n"
 "@SYNTAX=NT_PI(n)\n"
@@ -16649,11 +16697,10 @@ msgstr ""
 "@SYNTAX=NT_PI(n)\n"
 "@DESCRIPTION=Funktionen NT_PI returnerar antalet primtal som är mindre än "
 "eller lika med @n.\n"
-"Denna funktion tar endast ett argument.\n"
+"\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:429
-#, fuzzy
 msgid ""
 "@FUNCTION=BITOR\n"
 "@SYNTAX=BITOR(a,b)\n"
@@ -16670,7 +16717,6 @@ msgstr ""
 "@SEEALSO=BITXOR,BITAND"
 
 #: plugins/numtheory/numtheory.c:448
-#, fuzzy
 msgid ""
 "@FUNCTION=BITXOR\n"
 "@SYNTAX=BITXOR(a,b)\n"
@@ -16689,7 +16735,6 @@ msgstr ""
 "@SEEALSO=BITOR,BITAND"
 
 #: plugins/numtheory/numtheory.c:468
-#, fuzzy
 msgid ""
 "@FUNCTION=BITAND\n"
 "@SYNTAX=BITAND(a,b)\n"
@@ -16706,7 +16751,6 @@ msgstr ""
 "@SEEALSO=BITOR,BITXOR"
 
 #: plugins/numtheory/numtheory.c:488
-#, fuzzy
 msgid ""
 "@FUNCTION=BITLSHIFT\n"
 "@SYNTAX=BITLSHIFT(x,n)\n"
@@ -16721,13 +16765,13 @@ msgstr ""
 "@SYNTAX=BITLSHIFT(x;n)\n"
 "@DESCRIPTION=Funktionen BITLSHIFT returnerar @x bitskiftat till vänster med "
 "@n bitar.\n"
-"Om @n är negativt kommer ett högerskift att utföras.\n"
+"\n"
+"* Om @n är negativt kommer ett högerskift att utföras.\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=BITRSHIFT"
 
 #: plugins/numtheory/numtheory.c:515
-#, fuzzy
 msgid ""
 "@FUNCTION=BITRSHIFT\n"
 "@SYNTAX=BITRSHIFT(x,n)\n"
@@ -16742,7 +16786,8 @@ msgstr ""
 "@SYNTAX=BITRSHIFT(x;n)\n"
 "@DESCRIPTION=Funktionen BITRSHIFT returnerar @x bitskiftat till höger med @n "
 "bitar.\n"
-"Om @n är negativt kommer ett vänsterskift att utföras.\n"
+"\n"
+"* Om @n är negativt kommer ett vänsterskift att utföras.\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=BITLSHIFT"
@@ -16776,42 +16821,44 @@ msgid "Imports GNU Oleo documents"
 msgstr "Importerar GNU Oleo-dokument"
 
 #: plugins/openoffice/openoffice-read.c:375
-#, fuzzy
 msgid "Missing expression"
-msgstr "Förkasta uttryck"
+msgstr "Uttryck saknas"
 
 #: plugins/openoffice/openoffice-read.c:380
-#, fuzzy, c-format
+#, c-format
 msgid "Expression '%s' does not start with a recognized character"
-msgstr "Uttrycket började inte med \"=\" ? \"%s\""
+msgstr "Uttrycket \"%s\" börjar inte med ett känt tecken"
 
 #: plugins/openoffice/openoffice-read.c:393
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse '%s' because '%s'"
-msgstr "Kan inte öppna filen \"%s\""
+msgstr "Kan inte läsa \"%s\" på grund av \"%s\""
 
 #: plugins/openoffice/openoffice-read.c:450
 msgid "Invalid array expression does no specify number of columns"
-msgstr ""
+msgstr "Otillåtet fältuttryck anger inte antalet kolumner"
 
 #: plugins/openoffice/openoffice-read.c:453
 msgid "Invalid array expression does no specify number of rows"
-msgstr ""
+msgstr "Ogiltigt fältuttryck anger inte antalet rader"
 
 #: plugins/openoffice/openoffice-read.c:701
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse position for expression '%s' @ '%s' because '%s'"
-msgstr "Kan inte öppna filen \"%s\""
+msgstr ""
+"Kan inte läsa position för uttrycket \"%s\" @ \"%s\" på grund av \"%s\""
 
 #: plugins/openoffice/openoffice-read.c:714
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Unable to parse position for expression '%s' with value '%s' because '%s'"
-msgstr "Kan inte öppna filen \"%s\""
+msgstr ""
+"Kan inte läsa position för uttrycket \"%s\" med värde  \"%s\" på grund av \"%"
+"s\""
 
 #: plugins/openoffice/openoffice-read.c:865
 msgid "No stream named content.xml found."
-msgstr ""
+msgstr "Ingen ström med namn content.xml kan hittas."
 
 #: plugins/openoffice/openoffice-read.c:905
 #: plugins/xml_sax/xml-sax-read.c:1467
@@ -16820,16 +16867,15 @@ msgstr "XML-dokumentet är inte korrekt utformat!"
 
 #: plugins/openoffice/plugin.xml.in.h:1
 msgid "Open/Star Calc (*.sxc)"
-msgstr ""
+msgstr "Open/Star Calc (*.sxc)"
 
 #: plugins/openoffice/plugin.xml.in.h:2
-#, fuzzy
 msgid "Open/Star Office spreadsheet"
-msgstr "Öppna ett kalkylblad"
+msgstr "Open/Star Office kalkylblad"
 
 #: plugins/openoffice/plugin.xml.in.h:3
 msgid "OpenCalc/StarCalc"
-msgstr ""
+msgstr "OpenCalc/StarCalc"
 
 #: plugins/perl/plugin.xml.in.h:1
 msgid "Enables the creation of functions in Perl"
@@ -16846,12 +16892,13 @@ msgstr "PLN: Kalkylbladet är lösenordkrypterat"
 #: plugins/plan-perfect/pln.c:570
 #, c-format
 msgid "Ignoring data that claims to be in row %u which is > max row %u"
-msgstr ""
+msgstr "Ignorerar data som påstås vara på rad %u som är > största raden %u"
 
 #: plugins/plan-perfect/pln.c:574
 #, c-format
 msgid "Ignoring data that claims to be in column %u which is > max column %u"
 msgstr ""
+"Ignorerar data som påstås vara i kolumn %u som är > största kolumnen %u"
 
 #: plugins/plan-perfect/pln.c:667
 msgid "PLN : Not a PlanPerfect File"
@@ -16905,7 +16952,7 @@ msgstr ""
 
 #: plugins/python-loader/gnm-py-interpreter.c:205
 msgid "Default interpreter"
-msgstr ""
+msgstr "Standardtolk"
 
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
@@ -16918,22 +16965,19 @@ msgstr "Denna insticksmodul tillhandahåller stöd för Python-insticksmoduler"
 #: plugins/python-loader/py-console.c:71
 #, c-format
 msgid "*** Interpreter: %s\n"
-msgstr ""
+msgstr "*** Tolk: %s\n"
 
 #: plugins/python-loader/py-console.c:121
-#, fuzzy
 msgid "Gnumeric Python console"
-msgstr "Gnumeric-lösare"
+msgstr "Gnumeric Pythonkonsol"
 
 #: plugins/python-loader/py-console.c:131
-#, fuzzy
 msgid "E_xecute in:"
-msgstr "_Åtgärd:"
+msgstr "E_xekvera i:"
 
 #: plugins/python-loader/py-console.c:168
-#, fuzzy
 msgid "C_ommand:"
-msgstr "K_ommentarer:"
+msgstr "K_ommando:"
 
 #: plugins/python-loader/py-gnumeric.c:223
 #: plugins/python-loader/py-gnumeric.c:263
@@ -17005,33 +17049,34 @@ msgstr "Objektet \"%s\" är inte en ordbok."
 
 #: plugins/python-loader/ui-console-menu.xml.h:1
 msgid "Open the Python console"
-msgstr ""
+msgstr "Öppna Pythonkonsolen"
 
 #: plugins/python-loader/ui-console-menu.xml.h:2
-#, fuzzy
 msgid "Python console"
-msgstr "Python-funktioner"
+msgstr "Pythonkonsol"
 
 #: plugins/qpro/qpro-read.c:150
 #, c-format
 msgid "Invalid '%s' record of length %hd instead of %d"
-msgstr ""
+msgstr "Ogiltig \"%s\" post med längd %hd istället för %d"
 
 #: plugins/qpro/qpro-read.c:774
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid zoom %hd %%"
-msgstr "Ogiltig dag"
+msgstr "Ogiltig zoom %hd %%"
 
 #: plugins/qpro/qpro-read.c:816
 #, c-format
 msgid "Invalid record %d of length %hd"
-msgstr ""
+msgstr "Ogiltig post %d med längd %hd"
 
 #: plugins/qpro/qpro-read.c:847
 msgid ""
 "Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro "
 "file?"
 msgstr ""
+"Kan inte hitta PerfectOffice_MAIN-strömmen. Är detta verkligen en Quattro "
+"Pro-fil?"
 
 #: plugins/qpro/plugin.xml.in.h:1
 msgid "Imports Quatro Pro (tm) files"
@@ -17114,12 +17159,12 @@ msgstr "Fel vid läsning av blad."
 
 #: plugins/uihello/hello.xml.h:1
 msgid "Hello World"
-msgstr ""
+msgstr "Hej Världen"
 
 #: plugins/uihello/uihello.c:24
 #, c-format
 msgid "This is message from \"%s\" plugin."
-msgstr ""
+msgstr "Detta är ett meddelande från \"%s\" insticksmodulen."
 
 #: plugins/xbase/boot.c:166
 msgid "Error while opening xbase file."
@@ -17152,12 +17197,12 @@ msgstr "Nästa generationens xml-system, baserat på sax"
 #: plugins/xml_sax/xml-sax-read.c:267
 #, c-format
 msgid "Unexpected attribute '%s'='%s' for element of type %s."
-msgstr ""
+msgstr "Oväntat attribut \"%s\"=\"%s\" för element av typen %s."
 
 #: plugins/xml_sax/xml-sax-read.c:299
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
-msgstr ""
+msgstr "Flera versionsangivelser. Antar %d"
 
 #: plugins/xml_sax/xml-sax-read.c:450
 msgid "File has inconsistent SheetNameIndex element."
@@ -17169,32 +17214,28 @@ msgstr "Om detta program"
 
 #: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:1358
 #: src/workbook-control-gui.c:3732
-#, fuzzy
 msgid "Add _Auto Filter"
-msgstr "Avancerade filter"
+msgstr "Lägg till _autofilter"
 
 #: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3695
 msgid "Add an outline group"
 msgstr "Lägg till en konturgrupp"
 
 #: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3733
-#, fuzzy
 msgid "Add or remove a filter"
-msgstr "<- Ta bort alla"
+msgstr "Lägg till eller ta bort filter"
 
 #: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3738
 msgid "Advanced _Filter..."
 msgstr "Avancerat _filter..."
 
 #: src/GNOME_Gnumeric.xml.h:6 src/workbook-format-toolbar.c:473
-#, fuzzy
 msgid "Align the contents to the left and decrease the indent"
-msgstr "Justerar innehållet till vänster och minskar indragningen"
+msgstr "Justera innehållet till vänster och minska indragningen"
 
 #: src/GNOME_Gnumeric.xml.h:7 src/workbook-format-toolbar.c:476
-#, fuzzy
 msgid "Align the contents to the left and increase the indent"
-msgstr "Justerar innehållet till vänster och ökar indragningen"
+msgstr "Justera innehållet till vänster och öka indragningen"
 
 #: src/GNOME_Gnumeric.xml.h:8 src/workbook-object-toolbar.c:163
 msgid "Arrow"
@@ -17258,14 +17299,12 @@ msgid "Center"
 msgstr "Centrera"
 
 #: src/GNOME_Gnumeric.xml.h:22 src/workbook-format-toolbar.c:442
-#, fuzzy
 msgid "Center Across Selection"
-msgstr "CenterAcrossSelection"
+msgstr "Centrera över valda"
 
 #: src/GNOME_Gnumeric.xml.h:23 src/workbook-format-toolbar.c:442
-#, fuzzy
 msgid "Center across the selected cells"
-msgstr "Centrerar över de markerade cellerna"
+msgstr "Centrera över de markerade cellerna"
 
 #: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:3205
 msgid "Change Gnumeric Preferences"
@@ -17378,9 +17417,8 @@ msgid "Copy the selection"
 msgstr "Kopiera markeringen"
 
 #: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:3817
-#, fuzzy
 msgid "Copy the selection to the clipboard"
-msgstr "Kopierar markeringen till urklipp"
+msgstr "Kopiera markeringen till urklipp"
 
 #: src/GNOME_Gnumeric.xml.h:49 src/dialogs/covariance.glade.h:3
 #: src/tools/analysis-tools.c:891 src/tools/analysis-tools.c:894
@@ -17409,9 +17447,8 @@ msgid "Create a label"
 msgstr "Skapa en rubrik"
 
 #: src/GNOME_Gnumeric.xml.h:55 src/workbook-object-toolbar.c:160
-#, fuzzy
 msgid "Create a line object"
-msgstr "Skapar ett linjeobjekt"
+msgstr "Skapa ett linjeobjekt"
 
 #: src/GNOME_Gnumeric.xml.h:56 src/workbook-object-toolbar.c:154
 msgid "Create a list"
@@ -17438,23 +17475,20 @@ msgid "Create a radio button"
 msgstr "Skapa en radioknapp"
 
 #: src/GNOME_Gnumeric.xml.h:62 src/workbook-object-toolbar.c:166
-#, fuzzy
 msgid "Create a rectangle object"
-msgstr "Skapar ett rektangelobjekt"
+msgstr "Skapa ett rektangelobjekt"
 
 #: src/GNOME_Gnumeric.xml.h:63 src/workbook-object-toolbar.c:142
 msgid "Create a scrollbar"
 msgstr "Skapa en rullningslist"
 
 #: src/GNOME_Gnumeric.xml.h:64 src/workbook-object-toolbar.c:163
-#, fuzzy
 msgid "Create an arrow object"
-msgstr "Skapar ett pilobjekt"
+msgstr "Skapa ett pilobjekt"
 
 #: src/GNOME_Gnumeric.xml.h:65 src/workbook-object-toolbar.c:169
-#, fuzzy
 msgid "Create an ellipse object"
-msgstr "Skapar ett ellipsobjekt"
+msgstr "Skapa ett ellipsobjekt"
 
 #: src/GNOME_Gnumeric.xml.h:66 src/sheet-control-gui.c:1444
 msgid "Cu_t"
@@ -17480,9 +17514,8 @@ msgid "Cut the selection"
 msgstr "Klipp ut markeringen"
 
 #: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:3814
-#, fuzzy
 msgid "Cut the selection to the clipboard"
-msgstr "Klipper ut markeringen till urklipp"
+msgstr "Klipp ut markeringen till urklipp"
 
 #: src/GNOME_Gnumeric.xml.h:72 src/workbook-format-toolbar.c:393
 #: src/workbook-format-toolbar.c:473
@@ -17494,9 +17527,8 @@ msgid "Decrease Precision"
 msgstr "Minska noggrannhet"
 
 #: src/GNOME_Gnumeric.xml.h:74 src/workbook-format-toolbar.c:467
-#, fuzzy
 msgid "Decrease the number of decimals displayed"
-msgstr "Minskar antalet visade decimaler"
+msgstr "Minska antalet visade decimaler"
 
 #: src/GNOME_Gnumeric.xml.h:75 src/workbook-control-gui.c:3502
 msgid "Display _Formulas"
@@ -17511,7 +17543,6 @@ msgid "Display the value of a formula or the formula itself"
 msgstr "Visa värdet på ett uttryck eller själva uttycket"
 
 #: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:3848
-#, fuzzy
 msgid "Edit a function in the current cell"
 msgstr "Redigera en funktion i den aktuella cellen."
 
@@ -17571,7 +17602,6 @@ msgid "Font selector"
 msgstr "Typsnittsväljare"
 
 #: src/GNOME_Gnumeric.xml.h:92 src/workbook-format-toolbar.c:870
-#, fuzzy
 msgid "Font size"
 msgstr "Typsnittstorlek"
 
@@ -17608,9 +17638,8 @@ msgid "Generate random numbers of a selection of distributions"
 msgstr "Generera slumptal ur ett urval av distributioner"
 
 #: src/GNOME_Gnumeric.xml.h:100 src/workbook-control-gui.c:3768
-#, fuzzy
 msgid "Get _External Data"
-msgstr "Internt FEL"
+msgstr "Hämta _externa data"
 
 #: src/GNOME_Gnumeric.xml.h:101 src/dialogs/graph-guru.glade.h:2
 #: src/workbook-control-gui.c:3860
@@ -17646,24 +17675,20 @@ msgid "Hide the selected rows"
 msgstr "Dölj markerade rader"
 
 #: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3444
-#, fuzzy
 msgid "Hyper_link..."
-msgstr "Redigera uttryck"
+msgstr "Hyper_länk..."
 
 #: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3839
-#, fuzzy
 msgid "Hyperlink"
-msgstr "Redigera uttryck"
+msgstr "Hyperlänk"
 
 #: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3725
-#, fuzzy
 msgid "Import _Text File..."
-msgstr "Importerar en fil"
+msgstr "Importera _textfil..."
 
 #: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3726
-#, fuzzy
 msgid "Import the text from a file"
-msgstr "Importerar en fil"
+msgstr "Importera texten från en fil"
 
 #: src/GNOME_Gnumeric.xml.h:113 src/workbook-format-toolbar.c:372
 #: src/workbook-format-toolbar.c:476
@@ -17675,9 +17700,8 @@ msgid "Increase Precision"
 msgstr "Öka noggrannhet"
 
 #: src/GNOME_Gnumeric.xml.h:115 src/workbook-format-toolbar.c:464
-#, fuzzy
 msgid "Increase the number of decimals displayed"
-msgstr "Ökar antalet visade decimaler"
+msgstr "Öka antalet visade decimaler"
 
 #: src/GNOME_Gnumeric.xml.h:116
 msgid "Insert Component"
@@ -17689,9 +17713,8 @@ msgstr "Infoga ett format objekt"
 
 #: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:3445
 #: src/workbook-control-gui.c:3840
-#, fuzzy
 msgid "Insert a Hyperlink"
-msgstr "Redigera uttryck"
+msgstr "Lägg in en hyperlink"
 
 #: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:3435
 msgid "Insert a function into the selected cell"
@@ -17775,14 +17798,12 @@ msgstr "Rubrik"
 
 #: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:3427
 #: src/workbook-control-gui.c:3861
-#, fuzzy
 msgid "Launch the Graph Guru"
-msgstr "Grafguru"
+msgstr "Starta Grafgurun"
 
 #: src/GNOME_Gnumeric.xml.h:139 src/workbook-format-toolbar.c:430
-#, fuzzy
 msgid "Left Align"
-msgstr "Vänsterjusterat"
+msgstr "Vänsterjustera"
 
 #: src/GNOME_Gnumeric.xml.h:140 src/workbook-format-toolbar.c:430
 msgid "Left align"
@@ -17837,7 +17858,6 @@ msgid "Merge..."
 msgstr "Slå ihop..."
 
 #: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:3267
-#, fuzzy
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr "Slår ihop kolumndata i ett blad och skapar dubbla blad för varje rad."
@@ -17900,14 +17920,12 @@ msgstr "K_listra in special..."
 
 #: src/GNOME_Gnumeric.xml.h:167 src/GNOME_Gnumeric_Component.xml.h:4
 #: src/workbook-control-gui.c:3187
-#, fuzzy
 msgid "Page Set_up..."
-msgstr "U_tskriftsformat..."
+msgstr "Sid_egenskaper..."
 
 #: src/GNOME_Gnumeric.xml.h:168 src/workbook-control-gui.c:3758
-#, fuzzy
 msgid "Parse the text in the selection into data"
-msgstr "Centrerar texten i det markerade området"
+msgstr "Tolka texten i urvalet som data"
 
 #: src/GNOME_Gnumeric.xml.h:169 src/cmd-edit.c:344
 #: src/workbook-control-gui.c:3820
@@ -17919,9 +17937,8 @@ msgid "Paste the clipboard"
 msgstr "Klistrar in från urklipp"
 
 #: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:3820
-#, fuzzy
 msgid "Paste the contents of the clipboard"
-msgstr "Klistra in innehållet i urklipp eller urklippsbufferten"
+msgstr "Klistra in innehållet i urklipp"
 
 #: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3315
 msgid "Paste with optional filters and transformations"
@@ -17972,14 +17989,12 @@ msgstr "Skriv ut arbetsboken"
 
 #: src/GNOME_Gnumeric.xml.h:183 src/GNOME_Gnumeric_Component.xml.h:8
 #: src/workbook-control-gui.c:3200
-#, fuzzy
 msgid "Proper_ties..."
 msgstr "_Egenskaper..."
 
 #: src/GNOME_Gnumeric.xml.h:184
-#, fuzzy
 msgid "Quit the application"
-msgstr "Om detta program"
+msgstr "Avsluta programmet"
 
 #: src/GNOME_Gnumeric.xml.h:185
 msgid "Radio Button"
@@ -18032,7 +18047,6 @@ msgid "Rename the current sheet"
 msgstr "Byt namn på aktuellt blad"
 
 #: src/GNOME_Gnumeric.xml.h:197 src/workbook-format-toolbar.c:438
-#, fuzzy
 msgid "Right Align"
 msgstr "Högerjustera"
 
@@ -18130,18 +18144,15 @@ msgid "Select an entire row"
 msgstr "Markera en hel rad"
 
 #: src/GNOME_Gnumeric.xml.h:221 src/workbook-format-toolbar.c:461
-#, fuzzy
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr ""
 "Ändra formateringen på markerade celler till att använda tusentalsseparator"
 
 #: src/GNOME_Gnumeric.xml.h:222 src/workbook-format-toolbar.c:455
-#, fuzzy
 msgid "Set the format of the selected cells to monetary"
 msgstr "Ändra formateringen på markerade celler till valutaformat"
 
 #: src/GNOME_Gnumeric.xml.h:223 src/workbook-format-toolbar.c:458
-#, fuzzy
 msgid "Set the format of the selected cells to percentage"
 msgstr "Ändra formateringen på markerade celler till procentformat"
 
@@ -18164,9 +18175,8 @@ msgid "Sort Descending"
 msgstr "Sortera fallande"
 
 #: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3748
-#, fuzzy
 msgid "Sort the selected region"
-msgstr "Sortera det markerade området."
+msgstr "Sortera det markerade området"
 
 #: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3852
 msgid ""
@@ -19652,77 +19662,87 @@ msgid " "
 msgstr " "
 
 #: src/dialogs/autofilter-expression.glade.h:2
+#: src/dialogs/autocorrect.glade.h:1 src/dialogs/autoformat.glade.h:1
+#: src/dialogs/cell-format.glade.h:1 src/dialogs/dialog-stf-export.glade.h:3
+#: src/dialogs/dialog-stf.glade.h:3 src/dialogs/font-sel.glade.h:1
+#: src/dialogs/hyperlink.glade.h:1 src/dialogs/names.glade.h:1
+#: src/dialogs/plugin-manager.glade.h:1 src/dialogs/so-frame.glade.h:1
+#: src/dialogs/solver.glade.h:1 src/dialogs/workbook-attr.glade.h:1
+msgid "*"
+msgstr ""
+
+#: src/dialogs/autofilter-expression.glade.h:3
 #: src/dialogs/autofilter-top10.glade.h:2
 #, fuzzy
 msgid "Gnumeric : AutoFilter"
 msgstr "Ta bort kanter"
 
-#: src/dialogs/autofilter-expression.glade.h:3
+#: src/dialogs/autofilter-expression.glade.h:4
 #, fuzzy
 msgid "Show rows where:"
 msgstr "Pil"
 
-#: src/dialogs/autofilter-expression.glade.h:4
+#: src/dialogs/autofilter-expression.glade.h:5
 #, fuzzy
 msgid "_And"
 msgstr "_Lägg till"
 
-#: src/dialogs/autofilter-expression.glade.h:5
+#: src/dialogs/autofilter-expression.glade.h:6
 msgid "_Or"
 msgstr ""
 
-#: src/dialogs/autofilter-expression.glade.h:6
+#: src/dialogs/autofilter-expression.glade.h:7
 msgid "begins with"
 msgstr ""
 
-#: src/dialogs/autofilter-expression.glade.h:7
+#: src/dialogs/autofilter-expression.glade.h:8
 #, fuzzy
 msgid "contains"
 msgstr "innehåll"
 
-#: src/dialogs/autofilter-expression.glade.h:8
+#: src/dialogs/autofilter-expression.glade.h:9
 msgid "does not begin with"
 msgstr ""
 
-#: src/dialogs/autofilter-expression.glade.h:9
+#: src/dialogs/autofilter-expression.glade.h:10
 #, fuzzy
 msgid "does not contain"
 msgstr "Innehåller inte en arbetsboksfil"
 
-#: src/dialogs/autofilter-expression.glade.h:10
+#: src/dialogs/autofilter-expression.glade.h:11
 msgid "does not end with"
 msgstr ""
 
-#: src/dialogs/autofilter-expression.glade.h:11
+#: src/dialogs/autofilter-expression.glade.h:12
 msgid "does not equal"
 msgstr ""
 
-#: src/dialogs/autofilter-expression.glade.h:12
+#: src/dialogs/autofilter-expression.glade.h:13
 #, fuzzy
 msgid "ends with"
 msgstr "Fast _bredd"
 
-#: src/dialogs/autofilter-expression.glade.h:13
+#: src/dialogs/autofilter-expression.glade.h:14
 #, fuzzy
 msgid "equals"
 msgstr "_Olika"
 
-#: src/dialogs/autofilter-expression.glade.h:14
+#: src/dialogs/autofilter-expression.glade.h:15
 #, fuzzy
 msgid "is greater than"
 msgstr "Måste vara större än %s\n"
 
-#: src/dialogs/autofilter-expression.glade.h:15
+#: src/dialogs/autofilter-expression.glade.h:16
 #, fuzzy
 msgid "is greater than or equal to"
 msgstr "Måste vara större än eller lika med %s\n"
 
-#: src/dialogs/autofilter-expression.glade.h:16
+#: src/dialogs/autofilter-expression.glade.h:17
 #, fuzzy
 msgid "is less than"
 msgstr "Måste vara mindre än %s\n"
 
-#: src/dialogs/autofilter-expression.glade.h:17
+#: src/dialogs/autofilter-expression.glade.h:18
 #, fuzzy
 msgid "is less than or equal to"
 msgstr "Måste vara mindre än eller lika med %s\n"
@@ -19869,15 +19889,6 @@ msgstr "ANOVA - Dubbelfaktor"
 #: src/dialogs/anova-two.glade.h:8
 msgid "Number of Rows _Per Sample:"
 msgstr "Antal rader _per prov:"
-
-#: src/dialogs/autocorrect.glade.h:1 src/dialogs/autoformat.glade.h:1
-#: src/dialogs/cell-format.glade.h:1 src/dialogs/dialog-stf-export.glade.h:3
-#: src/dialogs/dialog-stf.glade.h:3 src/dialogs/font-sel.glade.h:1
-#: src/dialogs/hyperlink.glade.h:1 src/dialogs/names.glade.h:1
-#: src/dialogs/plugin-manager.glade.h:1 src/dialogs/so-frame.glade.h:1
-#: src/dialogs/solver.glade.h:1 src/dialogs/workbook-attr.glade.h:1
-msgid "*"
-msgstr ""
 
 #: src/dialogs/autocorrect.glade.h:2
 msgid "Auto Correct"
@@ -26243,25 +26254,25 @@ msgstr "Redigera uttryck"
 msgid "_Remove Hyperlink"
 msgstr "Ta bort aktuellt"
 
-#: src/sheet-filter.c:321
+#: src/sheet-filter.c:319
 #, fuzzy
 msgid "(All)"
 msgstr "Allt"
 
-#: src/sheet-filter.c:326
+#: src/sheet-filter.c:324
 msgid "(Top 10...)"
 msgstr ""
 
-#: src/sheet-filter.c:333
+#: src/sheet-filter.c:331
 #, fuzzy
 msgid "(Custom...)"
 msgstr "Anpassad"
 
-#: src/sheet-filter.c:376
+#: src/sheet-filter.c:374
 msgid "(Blanks...)"
 msgstr ""
 
-#: src/sheet-filter.c:382
+#: src/sheet-filter.c:380
 msgid "(Non Blanks...)"
 msgstr ""
 
