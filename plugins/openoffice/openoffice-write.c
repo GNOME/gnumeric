@@ -1,0 +1,262 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
+/*
+ * openoffice-write.c : export OpenOffice OASIS .sxc files
+ *
+ * Copyright (C) 2004 Jody Goldberg (jody@gnome.org)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
+ */
+
+/*****************************************************************************/
+
+#include <gnumeric-config.h>
+#include <gnumeric.h>
+#include <workbook-view.h>
+#include <file.h>
+#include <format.h>
+#include <workbook.h>
+#include <workbook-priv.h> /* Workbook::names */
+#include <cell.h>
+#include <sheet.h>
+#include <sheet-view.h>
+#include <sheet-style.h>
+#include <summary.h>
+#include <datetime.h>
+#include <style-color.h>
+#include <expr.h>
+#include <expr-impl.h>
+#include <expr-name.h>
+#include <value.h>
+#include <str.h>
+#include <ranges.h>
+#include <mstyle.h>
+#include <style-border.h>
+#include <validation.h>
+#include <hlink.h>
+#include <solver.h>
+#include <sheet-filter.h>
+#include <print-info.h>
+#include <print-info.h>
+#include <tools/scenarios.h>
+
+#include <gsf/gsf-libxml.h>
+#include <gsf/gsf-output.h>
+#include <gsf/gsf-outfile.h>
+#include <gsf/gsf-outfile-zip.h>
+#include <gsf/gsf-utils.h>
+#include <locale.h>
+
+#define MANIFEST "manifest:"
+#define OFFICE	 "office:"
+#define STYLE	 "style:"
+#define TABLE	 "table:"
+
+void	openoffice_file_save (GnmFileSaver const *fs, IOContext *ioc,
+			      WorkbookView const *wbv, GsfOutput *output);
+
+static void
+oo_write_mimetype (WorkbookView const *wbv, IOContext *ioc, GsfOutput *child)
+{
+	gsf_output_puts (child, "application/vnd.sun.xml.calc");
+}
+
+/*****************************************************************************/
+
+static void
+oo_start_style (GsfXMLOut *xml, char const *name, char const *family)
+{
+	gsf_xml_out_start_element (xml, STYLE "style");
+	gsf_xml_out_add_cstr_unchecked (xml, STYLE "name", name);
+	gsf_xml_out_add_cstr_unchecked (xml, STYLE "family", family);
+}
+static void
+oo_write_table_styles (GsfXMLOut *xml, Workbook const *wb)
+{
+	oo_start_style (xml, "ta1", "table");
+	gsf_xml_out_add_cstr_unchecked (xml, STYLE "master-page-name", "Default");
+
+	gsf_xml_out_start_element (xml, STYLE "properties");
+	gsf_xml_out_add_bool (xml, TABLE "display", TRUE);
+	gsf_xml_out_end_element (xml); /* </style:properties> */
+
+	gsf_xml_out_end_element (xml); /* </style:style> */
+}
+
+static void
+oo_write_content (WorkbookView const *wbv, IOContext *ioc, GsfOutput *child)
+{
+	static struct {
+		char const *key;
+		char const *url;
+	} const ns[] = {
+		{ "xmlns:office",	"http://openoffice.org/2000/office" },
+		{ "xmlns:style",	"http://openoffice.org/2000/style" },
+		{ "xmlns:text",		"http://openoffice.org/2000/text" },
+		{ "xmlns:table",	"http://openoffice.org/2000/table" },
+		{ "xmlns:draw",		"http://openoffice.org/2000/drawing" },
+		{ "xmlns:fo",		"http://www.w3.org/1999/XSL/Format" },
+		{ "xmlns:xlink",	"http://www.w3.org/1999/xlink" },
+		{ "xmlns:number",	"http://openoffice.org/2000/datastyle" },
+		{ "xmlns:svg",		"http://www.w3.org/2000/svg" },
+		{ "xmlns:chart",	"http://openoffice.org/2000/chart" },
+		{ "xmlns:dr3d",		"http://openoffice.org/2000/dr3d" },
+		{ "xmlns:math",		"http://www.w3.org/1998/Math/MathML" },
+		{ "xmlns:form",		"http://openoffice.org/2000/form" },
+		{ "xmlns:script",	"http://openoffice.org/2000/script" },
+	};
+	GsfXMLOut *xml = gsf_xml_out_new (child);
+	Workbook const *wb = wb_view_workbook (wbv);
+	int i;
+
+	gsf_xml_out_set_doc_type (xml, 
+		"<!DOCTYPE "
+		   "office:document-content "
+		   "PUBLIC "
+		   "\"-//OpenOffice.org//DTD "
+		   "OfficeDocument "
+		   "1.0//EN\" \"office.dtd\">");
+	gsf_xml_out_start_element (xml, OFFICE "document-content");
+
+	for (i = 0 ; i < (int)G_N_ELEMENTS (ns) ; i++)
+		gsf_xml_out_add_cstr_unchecked (xml, ns[i].key, ns[i].url);
+	gsf_xml_out_add_cstr_unchecked (xml, OFFICE "class", "spreadsheet");
+	gsf_xml_out_add_cstr_unchecked (xml, OFFICE "version", "1.0");
+
+	gsf_xml_out_simple_element (xml, OFFICE "script", NULL);
+
+	gsf_xml_out_start_element (xml, OFFICE "font-decls");
+	gsf_xml_out_end_element (xml); /* </office:font-decls> */
+
+	gsf_xml_out_start_element (xml, OFFICE "automatic-styles");
+	oo_write_table_styles (xml, wb);
+	gsf_xml_out_end_element (xml); /* </office:automatic-styles> */
+
+	gsf_xml_out_start_element (xml, OFFICE "body");
+	for (i = 0; i < workbook_sheet_count (wb); i++) {
+		Sheet *sheet = workbook_sheet_by_index (wb, i);
+#warning validate sheet name against OOo conventions
+		gsf_xml_out_start_element (xml, TABLE "table");
+		gsf_xml_out_add_cstr (xml, TABLE "name", sheet->name_unquoted);
+		gsf_xml_out_end_element (xml); /* </table:table> */
+	}
+	gsf_xml_out_end_element (xml); /* </office:automatic-styles> */
+
+	gsf_xml_out_end_element (xml); /* </office:document-content> */
+}
+
+/*****************************************************************************/
+
+static void
+oo_write_styles (WorkbookView const *wbv, IOContext *ioc, GsfOutput *child)
+{
+}
+
+/*****************************************************************************/
+
+static void
+oo_write_meta (WorkbookView const *wbv, IOContext *ioc, GsfOutput *child)
+{
+}
+
+/*****************************************************************************/
+
+static void
+oo_write_settings (WorkbookView const *wbv, IOContext *ioc, GsfOutput *child)
+{
+}
+
+/**********************************************************************************/
+
+static void
+oo_file_entry (GsfXMLOut *out, char const *type, char const *name)
+{
+	gsf_xml_out_start_element (out, MANIFEST "file-entry");
+	gsf_xml_out_add_cstr (out, MANIFEST "media-type", type);
+	gsf_xml_out_add_cstr (out, MANIFEST "full-path", name);
+	gsf_xml_out_end_element (out); /* </manifest:file-entry> */
+}
+
+static void
+oo_write_manifest (WorkbookView const *wbv, IOContext *ioc, GsfOutput *child)
+{
+	GsfXMLOut *xml = gsf_xml_out_new (child);
+	gsf_xml_out_set_doc_type (xml, 
+		"<!DOCTYPE "
+		   "manifest:manifest "
+		   "PUBLIC "
+		   "\"-//OpenOffice.org//DTD "
+		   "Manifest "
+		   "1.0//EN\" \"Manifest.dtd\">");
+	gsf_xml_out_start_element (xml, MANIFEST "manifest");
+	gsf_xml_out_add_cstr_unchecked (xml, "xmlns:manifest",
+		"http://openoffice.org/2001/manifest");
+	oo_file_entry (xml, "application/vnd.sun.xml.calc" ,"/");
+	oo_file_entry (xml, "", "Pictures/");
+	oo_file_entry (xml, "text/xml", "content.xml");
+	oo_file_entry (xml, "text/xml", "styles.xml");
+	oo_file_entry (xml, "text/xml", "meta.xml");
+	oo_file_entry (xml, "text/xml", "settings.xml");
+	gsf_xml_out_end_element (xml); /* </manifest:manifest> */
+}
+
+/**********************************************************************************/
+
+void
+openoffice_file_save (GnmFileSaver const *fs, IOContext *ioc,
+		      WorkbookView const *wbv, GsfOutput *output)
+{
+	static struct {
+		void (*func) (WorkbookView const *wbv, IOContext *ioc, GsfOutput *child);
+		char const *name;
+	} const streams[] = {
+		{ oo_write_mimetype,	"mimetype" },
+		{ oo_write_content,	"content.xml" },
+		{ oo_write_styles,	"styles.xml" },
+		{ oo_write_meta,	"meta.xml" },
+		{ oo_write_settings,	"settings.xml" },
+		{ oo_write_manifest,	"META-INF/manifest.xml" }
+	};
+
+	char *old_num_locale, *old_monetary_locale;
+	GsfOutfile *outfile = NULL;
+	GsfOutput  *child;
+	GError *err;
+	unsigned i;
+
+	old_num_locale = g_strdup (gnm_setlocale (LC_NUMERIC, NULL));
+	gnm_setlocale (LC_NUMERIC, "C");
+	old_monetary_locale = g_strdup (gnm_setlocale (LC_MONETARY, NULL));
+	gnm_setlocale (LC_MONETARY, "C");
+	gnm_set_untranslated_bools ();
+
+	outfile = GSF_OUTFILE (gsf_outfile_zip_new (output, &err));
+
+	for (i = 0 ; i < G_N_ELEMENTS (streams); i++) {
+		child = gsf_outfile_new_child  (outfile, streams[i].name, FALSE);
+		streams[i].func (wbv, ioc, child);
+		gsf_output_close (child);
+		g_object_unref (G_OBJECT (child));
+	}
+
+	gsf_output_close (GSF_OUTPUT (outfile));
+	g_object_unref (G_OBJECT (outfile));
+
+	/* gnm_setlocale restores bools to locale translation */
+	gnm_setlocale (LC_MONETARY, old_monetary_locale);
+	g_free (old_monetary_locale);
+	gnm_setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
+}
