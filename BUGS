@@ -12,12 +12,7 @@ Release Critical
 - change message generation for undo ins col to avoid g_lib problems
   during translations.
 - ins/del col/row undo with deleted objects (66666)
-
--   1.  Select b3:c4.
-    2. Type "=2" and hit ctrl-shift-enter.
-    3. Grab the selected area's edge and drag one column left.
-    4. Undo.
-    ==> error message.
+- ensure that minimum sizes for cols/rows are not violated
 
 - Fix help tokenizer
     : Tino's example of \n\n truncating.

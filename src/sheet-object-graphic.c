@@ -479,7 +479,7 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
 					   2, 3, 2, 5);
 	}
 
-	data->fill_color_combo = color_combo_new (NULL, _("Transparent"), NULL,
+	data->fill_color_combo = color_combo_new (NULL, NULL, NULL,
 					color_group_fetch ("color", so));
 	color_combo_set_color (COLOR_COMBO (data->fill_color_combo), 
 			       sog->fill_color ? &sog->fill_color->color : NULL);

@@ -1,5 +1,9 @@
 2001-12-19  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=67218
+	* src/sheet-object-graphic.c (sheet_object_graphic_user_config) :
+	  'Transparent' makes no sense for lines & arrows.
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=67217
 	* src/parser.y (expr_parse_str) : Do not assign bit masked values
 	  directly to bit masked elements.
