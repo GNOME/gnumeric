@@ -28,6 +28,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 
+#include "gui-util.h"
 #include <gtk/gtkimage.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkframe.h>
@@ -131,35 +132,6 @@ preview_file_selection_new (const gchar *title, gboolean do_preview)
 			      NULL));
 }
 
-GdkPixbuf*
-preview_file_selection_intelligent_scale (GdkPixbuf *buf, guint scale)
-{
-	GdkPixbuf *scaled;
-	int w, h;
-	guint ow = gdk_pixbuf_get_width (buf);
-	guint oh = gdk_pixbuf_get_height (buf);
-
-	if (ow <= scale && oh <= scale)
-		scaled = g_object_ref (buf);
-	else
-	{
-		if (ow > oh)
-		{
-			w = scale;
-			h = scale * (((double)oh)/(double)ow);
-		}
-		else
-		{
-			h = scale;
-			w = scale * (((double)ow)/(double)oh);
-		}
-			
-		scaled = gdk_pixbuf_scale_simple (buf, w, h, GDK_INTERP_BILINEAR);
-	}
-	
-	return scaled;
-}
-
 static void
 preview_file_selection_update (PreviewFileSelection *fsel, gpointer data)
 {
@@ -169,28 +141,39 @@ preview_file_selection_update (PreviewFileSelection *fsel, gpointer data)
 	g_return_if_fail (IS_PREVIEW_FILE_SELECTION (fsel));
 	
 	filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (fsel));
-	if (filename && (buf = gdk_pixbuf_new_from_file (filename, NULL)))
-	{
-		int w, h;
-		char *size;
-		GdkPixbuf *scaled = preview_file_selection_intelligent_scale (buf, SCALE); 
-		gtk_image_set_from_pixbuf (GTK_IMAGE (fsel->priv->preview),
-					   scaled);
-		g_object_unref (scaled);
 
-		w = gdk_pixbuf_get_width (buf);
-		h = gdk_pixbuf_get_height (buf);
+	if (filename) {
+		char const *name = gsf_extension_pointer (filename);
 
-		size = g_strdup_printf ("%d x %d", w, h);
-		gtk_label_set_text (GTK_LABEL (fsel->priv->label), size);
-		g_free (size);
-
-		g_object_unref (buf);
+		
+		if ((name == NULL 
+		     || g_ascii_strcasecmp (name, "gnumeric") != 0)
+		    && (buf = gdk_pixbuf_new_from_file (filename, NULL)))
+		{
+			int w, h;
+			char *size;
+			GdkPixbuf *scaled = gnm_pixbuf_intelligent_scale 
+				(buf, SCALE); 
+			gtk_image_set_from_pixbuf 
+				(GTK_IMAGE (fsel->priv->preview),
+				 scaled);
+			g_object_unref (scaled);
+			
+			w = gdk_pixbuf_get_width (buf);
+			h = gdk_pixbuf_get_height (buf);
+			
+			size = g_strdup_printf (_("%d x %d"), w, h);
+			gtk_label_set_text (GTK_LABEL (fsel->priv->label), 
+					    size);
+			g_free (size);
+			
+			g_object_unref (buf);
+			return;
+		}
 	}
-	else {
-		gtk_image_set_from_file (GTK_IMAGE (fsel->priv->preview), NULL);
-		gtk_label_set_text (GTK_LABEL (fsel->priv->label), " ");
-	}
+
+	gtk_image_set_from_file (GTK_IMAGE (fsel->priv->preview), NULL);
+	gtk_label_set_text (GTK_LABEL (fsel->priv->label), " ");
 }
 
 static void

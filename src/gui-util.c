@@ -1679,3 +1679,33 @@ gnumeric_message_dialog_new (GtkWindow * parent,
 
 	return dialog;
 }
+
+GdkPixbuf*
+gnm_pixbuf_intelligent_scale (GdkPixbuf *buf, guint scale)
+{
+	GdkPixbuf *scaled;
+	int w, h;
+	guint ow = gdk_pixbuf_get_width (buf);
+	guint oh = gdk_pixbuf_get_height (buf);
+
+	if (ow <= scale && oh <= scale)
+		scaled = g_object_ref (buf);
+	else
+	{
+		if (ow > oh)
+		{
+			w = scale;
+			h = scale * (((double)oh)/(double)ow);
+		}
+		else
+		{
+			h = scale;
+			w = scale * (((double)ow)/(double)oh);
+		}
+			
+		scaled = gdk_pixbuf_scale_simple (buf, w, h, GDK_INTERP_BILINEAR);
+	}
+	
+	return scaled;
+}
+

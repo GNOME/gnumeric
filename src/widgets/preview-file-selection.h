@@ -54,8 +54,6 @@ GType preview_file_selection_get_type (void);
 
 GtkWidget *preview_file_selection_new (const gchar *title, gboolean do_preview);
 
-GdkPixbuf* preview_file_selection_intelligent_scale (GdkPixbuf *pixbuf, guint scale);
-
 G_END_DECLS
 
 #endif /* __PREVIEW_FILE_SELECTION_H__ */

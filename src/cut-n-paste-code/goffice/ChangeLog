@@ -1,3 +1,13 @@
+2003-08-27  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* graph/gog-style.c (gog_style_set_image_preview): new
+	(cb_image_file_select): use gtk_image_set_from_pixbuf
+	(fill_image_init): initialize state->fill.image.image
+	(cb_fill_type_changed): store original size image
+	(gog_style_pref_state_free): free state->fill.image.image
+	* graph/gog-style-prefs.glade: add size label to image-fill 
+	  preview
+
 2003-08-26  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* graph/gog-style.c (cb_image_file_select): use 

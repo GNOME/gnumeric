@@ -1,3 +1,11 @@
+2003-08-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* preview-file-selection.c (preview_file_selection_intelligent_scale):
+	  moved to src/gui-util.h
+	(preview_file_selection_update): ignore .gnumeric files
+	* preview-file-selection.h (preview_file_selection_intelligent_scale):
+	  moved to src/gui-util.h
+
 2003-08-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* preview-file-selection.c: new (abbreviated version of the file

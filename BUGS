@@ -175,7 +175,7 @@ Pending Patches
 	    font
 	1.20.5) image selector
 	    1.20.5.1) drag destination for background images
-	    1.20.5.2) scale image preview
+	    1.20.5.2) scale image preview                       (DONE)
 	    1.20.5.3) Use file selector with image preview	(DONE)
     1.21) themes
 	1.21.1) Actually use the themes to initialize styles	(DONE)

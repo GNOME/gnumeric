@@ -62,6 +62,7 @@ typedef struct {
 			GtkWidget *start, *end, *combo;
 		} gradient;
 		struct {
+			GdkPixbuf *image;	
 		} image;
 	} fill;
 } StylePrefState;
@@ -125,6 +126,37 @@ gog_style_get_fill_color (GogStyle const *style, unsigned i)
 		break;
 	}
 	return (i == 1) ? first : second;
+}
+
+static void
+gog_style_set_image_preview (GdkPixbuf *pix, StylePrefState *state)
+{
+	GdkPixbuf *scaled;
+	int width, height;
+	char *size;
+	GtkWidget *w;
+
+	if (state->fill.image.image != NULL)
+		g_object_unref (state->fill.image.image);
+	state->fill.image.image = pix;
+	if (state->fill.image.image != NULL)
+		g_object_ref (state->fill.image.image);
+	
+
+	w = glade_xml_get_widget (state->gui, "fill_image_sample");
+	
+	scaled = gnm_pixbuf_intelligent_scale 
+				(pix, 100);
+	gtk_image_set_from_pixbuf (GTK_IMAGE (w), scaled);
+	g_object_unref (scaled);
+	
+	w = glade_xml_get_widget (state->gui, "image-size-label");
+	width = gdk_pixbuf_get_width (pix);
+	height = gdk_pixbuf_get_height (pix);
+	
+	size = g_strdup_printf (_("%d x %d"), width, height);
+	gtk_label_set_text (GTK_LABEL (w), size);
+	g_free (size);
 }
 
 /************************************************************************/
@@ -435,8 +467,10 @@ cb_image_file_select (GtkWidget *cc, StylePrefState *state)
 
 		w = glade_xml_get_widget (state->gui, "fill_image_sample");
 		g_object_set_data (G_OBJECT (w), "filename",
-			style->fill.u.image.filename);
-		gtk_image_set_from_pixbuf (GTK_IMAGE (w), style->fill.u.image.image);
+				   style->fill.u.image.filename);
+			
+		gog_style_set_image_preview (style->fill.u.image.image, state);
+
 		gog_object_set_style (state->obj, style);
 	}
 	gtk_widget_destroy (GTK_WIDGET (fs));
@@ -465,13 +499,17 @@ fill_image_init (StylePrefState *state, GogStyle const *style)
 	sample = glade_xml_get_widget (state->gui, "fill_image_sample");
 	type   = glade_xml_get_widget (state->gui, "fill_image_fit");
 
+	state->fill.image.image = NULL;
+
 	if (GOG_FILL_STYLE_IMAGE == style->fill.type) {
 		gtk_option_menu_set_history (GTK_OPTION_MENU (type),
 			style->fill.u.image.type);
-		gtk_image_set_from_pixbuf (GTK_IMAGE (sample),
-			style->fill.u.image.image);
+		gog_style_set_image_preview (style->fill.u.image.image, state);
+		state->fill.image.image = style->fill.u.image.image;
+		if (state->fill.image.image)
+			g_object_ref (state->fill.image.image);
 		g_object_set_data (G_OBJECT (sample), "filename",
-			style->fill.u.image.filename);
+				   style->fill.u.image.filename);
 	}
 	g_signal_connect (G_OBJECT (type),
 		"changed",
@@ -517,7 +555,7 @@ cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 
 	case GOG_FILL_STYLE_IMAGE:
 		w = glade_xml_get_widget (state->gui, "fill_image_sample");
-		style->fill.u.image.image = gtk_image_get_pixbuf (GTK_IMAGE (w));
+		style->fill.u.image.image = state->fill.image.image;
 		if (NULL != style->fill.u.image.image)
 			g_object_ref (style->fill.u.image.image);
 		style->fill.u.image.filename = g_object_get_data (G_OBJECT (w), "filename");
@@ -606,6 +644,7 @@ static void
 gog_style_pref_state_free (StylePrefState *state)
 {
 	g_object_unref (state->gui);
+	g_object_unref (state->fill.image.image);
 	g_free (state);
 }
 
