@@ -1,3 +1,8 @@
+2001-05-20  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-plugin-manager.c (pm_dialog_init) : Correct use of
+	  gnome_config_get_bool_with_default.
+
 2001-05-19  Jody Goldberg <jgoldberg@home.com>
 
 	* plugin-manager.glade : convert the vertical scrollbars to

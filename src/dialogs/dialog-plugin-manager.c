@@ -444,7 +444,7 @@ pm_dialog_init (PluginManagerGUI *pm_gui)
 	                    (GtkSignalFunc) cb_pm_checkbutton_install_new_toggled,
 	                    (gpointer) pm_gui);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pm_gui->checkbutton_install_new),
-	                              gnome_config_get_bool_with_default ("Gnumeric/Plugin/ActivateNewByDefault", FALSE));
+	                              gnome_config_get_bool_with_default ("Gnumeric/Plugin/ActivateNewByDefault=true", NULL));
 	update_plugin_manager_view (pm_gui);
 }
 
