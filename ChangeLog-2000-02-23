@@ -1,5 +1,7 @@
 1999-08-11  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* TODO: Updated the remaining work of build-in functions.
+
 	* src/fn-stat.c: Implemented FREQUENCY().
 
 1999-08-09  Miguel de Icaza  <miguel@gnu.org>

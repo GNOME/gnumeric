@@ -42,11 +42,21 @@ Gnumeric Spread Sheet task list
       or to create array result and apply function/operator to each input
       individually.  
 
-* Even More Functions
+* Implement Even More Functions
 
-   GROWTH, LINEST, LOGEST, PERCENTILE, QUARTILE, TREND.
+    * AREAS, INDEX, INDIRECT, MATCH, GETPIVOTDATA, GROWTH, LINEST,
+      LOGEST, PERCENTILE, QUARTILE, TREND.
+    * ACCRINT, ACCRINTM, AMORDEGRC, AMORLINC, COUPDAYBS, COUPDAYS,
+      COUPDAYSNC, COUPNCD, COUPNUM, COUPPCD, CUMIPMT, CUMPRINC, DB,
+      DDB, DISC, FVSCHEDULE, INTRATE, IRR, MDURATION, MIRR, ODDFPRICE,
+      ODDFYIELD, ODDLPRICE, ODDLYIELD, PRICE, PRICEDISC, PRICEMAT,
+      RECEIVED, TBILLEQ, TBILLPRICE, TBILLYIELD, VDB, XIRR, XNPV,
+      YIELD, YIELDDISC, YIELDMAT.
 
-   (This is not a claim that these are all.)
+* Fix the Following Functions
+
+    * CELL, DAVERAGE, DGET, DOLLAR, DOLLARDE, DOLLARFR, NPV,
+      PERCENTRANK, PROB, VLOOKUP
 
 * Printing
   * Save print information in workbook
