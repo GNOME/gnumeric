@@ -77,6 +77,12 @@ gnm_expr_constant_eq (GnmExprConstant const *a,
 {
 }
 #endif
+/**
+ * gnm_expr_new_constant :
+ * @v :
+ *
+ * Absorbs the value.
+ **/
 GnmExpr const *
 gnm_expr_new_constant (Value *v)
 {
@@ -483,13 +489,6 @@ gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
 	return FALSE;
 }
 
-static Value *
-cb_range_eval (Sheet *sheet, int col, int row, Cell *cell, void *ignore)
-{
-	cell_eval (cell);
-	return NULL;
-}
-
 static Cell *
 expr_array_corner (GnmExpr const *expr,
 			Sheet const *sheet, CellPos const *pos)
@@ -572,6 +571,91 @@ handle_empty (Value *res, GnmExprEvalFlags flags)
 }
 
 /**
+ * value_intersection :
+ * @v   : a VALUE_CELLRANGE
+ * @pos : 
+ *
+ * Handle the implicit union of a single row or column with the eval position.
+ *
+ * NOTE : We do not need to know if this is expression is being evaluated as an
+ * array or not because we can differentiate based on the required type for the
+ * argument.
+ *
+ * Always release the value passed in.
+ *
+ * Return value:
+ *     If the intersection succeeded return a duplicate of the value
+ *     at the intersection point.  This value needs to be freed.
+ *     NULL if there is no intersection
+ * Returns the upper left corner of an array.
+ **/
+static Value *
+value_intersection (Value *v, EvalPos const *pos)
+{
+	Value *res = NULL;
+	Range r;
+	Sheet *start_sheet, *end_sheet;
+	gboolean found = FALSE;
+
+	if (v->type == VALUE_ARRAY) {
+		res = value_duplicate (v->v_array.vals[0][0]);
+		value_release (v);
+		return res;
+	}
+
+	/* Handle the implicit union of a single row or
+	 * column with the eval position.
+	 * NOTE : We do not need to know if this is expression is
+	 * being evaluated as an array or not because we can differentiate
+	 * based on the required type for the argument.
+	 */
+
+	/* inverted ranges */
+	rangeref_normalize (&v->v_range.cell, pos, &start_sheet, &end_sheet, &r);
+	value_release (v);
+
+	if (start_sheet == end_sheet || end_sheet == NULL) {
+		int col = pos->eval.col;
+		int row = pos->eval.row;
+
+		if (r.start.row == r.end.row) {
+			if (r.start.col <= col && col <= r.end.col) {
+				row = r.start.row;
+				found = TRUE;
+			} else if (r.start.col == r.end.col) {
+				col = r.start.col;
+				row = r.start.row;
+				found = TRUE;
+			}
+		} else if (r.start.col == r.end.col) {
+			if (r.start.row <= row && row <= r.end.row) {
+				col = r.start.col;
+				found = TRUE;
+			}
+		}
+		if (found) {
+			Cell *cell = sheet_cell_get (
+				eval_sheet (start_sheet, pos->sheet),
+				col, row);
+			if (cell == NULL)
+				return value_new_empty ();
+			cell_eval (cell);
+			return value_duplicate (cell->value);
+		}
+	}
+
+	return value_new_error (pos, gnumeric_err_VALUE);
+}
+#if 0
+static Value *
+cb_range_eval (Sheet *sheet, int col, int row, Cell *cell, void *ignore)
+{
+	cell_eval (cell);
+	return NULL;
+}
+#endif
+
+/**
  * gnm_expr_eval :
  * @expr :
  * @ep   :
@@ -598,33 +682,17 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 	case GNM_EXPR_OP_LTE: {
 		ValueCompare comp;
 
-		a = gnm_expr_eval (expr->binary.value_a, pos,
-				   flags | GNM_EXPR_EVAL_PERMIT_EMPTY);
-		if (a != NULL) {
-			if (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY) {
-				a = value_intersection (a, pos);
-				if (a == NULL)
-					return value_new_error (pos, gnumeric_err_VALUE);
-			} else if (a->type == VALUE_ERROR)
-				return a;
-		}
+		flags = (flags | GNM_EXPR_EVAL_PERMIT_EMPTY) & ~GNM_EXPR_EVAL_PERMIT_NON_SCALAR;
 
-		b = gnm_expr_eval (expr->binary.value_b, pos,
-				   flags | GNM_EXPR_EVAL_PERMIT_EMPTY);
-		if (b != NULL) {
-			Value *res = NULL;
-			if (b->type == VALUE_CELLRANGE || b->type == VALUE_ARRAY) {
-				b = value_intersection (b, pos);
-				if (b == NULL)
-					res = value_new_error (pos, gnumeric_err_VALUE);
-			} else if (b->type == VALUE_ERROR)
-				res = b;
+		a = gnm_expr_eval (expr->binary.value_a, pos, flags);
+		if (a != NULL && a->type == VALUE_ERROR)
+			return a;
 
-			if (res != NULL) {
-				if (a != NULL)
-					value_release (a);
-				return handle_empty (res, flags);
-			}
+		b = gnm_expr_eval (expr->binary.value_b, pos, flags);
+		if (b != NULL && b->type == VALUE_ERROR) {
+			if (a != NULL)
+				value_release (a);
+			return b;
 		}
 
 		comp = value_compare (a, b, FALSE);
@@ -694,18 +762,11 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 		 * 5) result of operation, or error specific to the operation
 		 */
 
-	        /* Guarantees a != NULL */
-		a = gnm_expr_eval (expr->binary.value_a, pos,
-				   flags & (~GNM_EXPR_EVAL_PERMIT_EMPTY));
-
-		/* Handle implicit intersection */
-		if (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY) {
-			a = value_intersection (a, pos);
-			if (a == NULL)
-				return value_new_error (pos, gnumeric_err_VALUE);
-		}
+	        /* Guarantees value != NULL */
+		flags &= ~(GNM_EXPR_EVAL_PERMIT_EMPTY | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 
 		/* 1) Error from A */
+		a = gnm_expr_eval (expr->binary.value_a, pos, flags);
 		if (a->type == VALUE_ERROR)
 			return value_error_set_pos (&a->v_err, pos);
 
@@ -722,18 +783,8 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 			return value_new_error (pos, gnumeric_err_VALUE);
 		}
 
-	        /* Guarantees that b != NULL */
-		b = gnm_expr_eval (expr->binary.value_b, pos,
-				   flags & (~GNM_EXPR_EVAL_PERMIT_EMPTY));
-
-		/* Handle implicit intersection */
-		if (b->type == VALUE_CELLRANGE || b->type == VALUE_ARRAY) {
-			b = value_intersection (a, pos);
-			if (b == NULL)
-				return value_new_error (pos, gnumeric_err_VALUE);
-		}
-
 		/* 3) Error from B */
+		b = gnm_expr_eval (expr->binary.value_b, pos, flags);
 		if (b->type == VALUE_ERROR) {
 			value_release (a);
 			return value_error_set_pos (&b->v_err, pos);
@@ -845,17 +896,10 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 	case GNM_EXPR_OP_PERCENTAGE:
 	case GNM_EXPR_OP_UNARY_NEG:
 	case GNM_EXPR_OP_UNARY_PLUS:
-	        /* Garantees that a != NULL */
-		a = gnm_expr_eval (expr->unary.value, pos,
-				   flags & (~GNM_EXPR_EVAL_PERMIT_EMPTY));
+	        /* Guarantees value != NULL */
+		flags &= ~(GNM_EXPR_EVAL_PERMIT_EMPTY | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 
-		/* Handle implicit intersection */
-		if (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY) {
-			a = value_intersection (a, pos);
-			if (a == NULL)
-				return value_new_error (pos, gnumeric_err_VALUE);
-		}
-
+		a = gnm_expr_eval (expr->unary.value, pos, flags);
 		if (a->type == VALUE_ERROR)
 			return a;
 
@@ -886,13 +930,11 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 		return res;
 
 	case GNM_EXPR_OP_CAT:
-#warning BUG does not support intersection
-		a = gnm_expr_eval (expr->binary.value_a, pos,
-				   flags | GNM_EXPR_EVAL_PERMIT_EMPTY);
+		flags = (flags | GNM_EXPR_EVAL_PERMIT_EMPTY) & ~GNM_EXPR_EVAL_PERMIT_NON_SCALAR;
+		a = gnm_expr_eval (expr->binary.value_a, pos, flags);
 		if (a != NULL && a->type == VALUE_ERROR)
 			return a;
-		b = gnm_expr_eval (expr->binary.value_b, pos,
-				   flags | GNM_EXPR_EVAL_PERMIT_EMPTY);
+		b = gnm_expr_eval (expr->binary.value_b, pos, flags);
 		if (b != NULL && b->type == VALUE_ERROR) {
 			if (a != NULL)
 				value_release (a);
@@ -922,7 +964,18 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 		FunctionEvalInfo ei;
 		ei.pos = pos;
 		ei.func_call = (GnmExprFunction const *)expr;
-		return handle_empty (function_call_with_list (&ei, expr->func.arg_list, flags), flags);
+		res = function_call_with_list (&ei, expr->func.arg_list, flags);
+		if (res != NULL && res->type == VALUE_CELLRANGE) {
+			dependent_add_dynamic_dep (pos->dep, &res->v_range);
+			if (!(flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR)) {
+				res = value_intersection (res, pos);
+				return (res != NULL)
+					? handle_empty (res, flags)
+					: value_new_error (pos, gnumeric_err_VALUE);
+			}
+			return res;
+		}
+		return handle_empty (res, flags);
 	}
 
 	case GNM_EXPR_OP_NAME:
@@ -947,59 +1000,24 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 		return handle_empty (value_duplicate (cell->value), flags);
 	}
 
-	case GNM_EXPR_OP_CONSTANT: {
-		Value const *res = expr->constant.value;
+	case GNM_EXPR_OP_CONSTANT:
+		res = value_duplicate (expr->constant.value);
 		if (res->type != VALUE_CELLRANGE)
-			return handle_empty (value_duplicate (res), flags);
+			return handle_empty (res, flags);
+
 		if (flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR) {
+#if 0
 			workbook_foreach_cell_in_range (pos, res,
 				CELL_ITER_IGNORE_BLANK,
 				cb_range_eval, NULL);
-			return value_duplicate (res);
+#endif
+			return res;
 		} else {
-			/* Handle the implicit union of a single row or
-			 * column with the eval position.
-			 * NOTE : We do not need to know if this is expression is
-			 * being evaluated as an array or not because we can differentiate
-			 * based on the required type for the argument.
-			 */
-			CellRef const * const ref_a = & res->v_range.cell.a;
-			CellRef const * const ref_b = & res->v_range.cell.b;
-			gboolean found = FALSE;
-
-			if (ref_a->sheet == ref_b->sheet) {
-				CellPos a, b;
-				int c = pos->eval.col;
-				int r = pos->eval.row;
-
-				cellref_get_abs_pos (ref_a, &pos->eval, &a);
-				cellref_get_abs_pos (ref_b, &pos->eval, &b);
-				if (a.row == b.row) {
-					if (a.col <= c && c <= b.col) {
-						r = a.row;
-						found = TRUE;
-					}
-				} else if (a.col == b.col) {
-					if (a.row <= r && r <= b.row) {
-						c = a.col;
-						found = TRUE;
-					}
-				}
-				if (found) {
-					Cell * cell = sheet_cell_get (
-						eval_sheet (ref_a->sheet, pos->sheet),
-						c, r);
-					if (cell == NULL)
-						return handle_empty (NULL, flags);
-
-					cell_eval (cell);
-
-					return handle_empty (value_duplicate (cell->value), flags);
-				}
-			}
-			return value_new_error (pos, gnumeric_err_VALUE);
+			res = value_intersection (res, pos);
+			return (res != NULL)
+				? handle_empty (res, flags)
+				: value_new_error (pos, gnumeric_err_VALUE);
 		}
-	}
 
 	case GNM_EXPR_OP_ARRAY: {
 		/* The upper left corner manages the recalc of the expr */
@@ -1012,7 +1030,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 				value_release (a);
 
 			a = gnm_expr_eval (expr->array.corner.expr, pos,
-					   GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
+				flags | GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 
 			/* Store real result (cast away const)*/
 			*((Value **)&(expr->array.corner.value)) = a;
@@ -1028,8 +1046,8 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 
 		if (a != NULL &&
 		    (a->type == VALUE_CELLRANGE || a->type == VALUE_ARRAY)) {
-			int const num_x = value_area_get_width (pos, a);
-			int const num_y = value_area_get_height (pos, a);
+			int const num_x = value_area_get_width (a, pos);
+			int const num_y = value_area_get_height (a, pos);
 
 			/* Evaluate relative to the upper left corner */
 			EvalPos tmp_ep = *pos;
@@ -1044,7 +1062,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 			if (x >= num_x || y >= num_y)
 				return value_new_error (pos, gnumeric_err_NA);
 
-			a = (Value *)value_area_get_x_y (&tmp_ep, a, x, y);
+			a = (Value *)value_area_get_x_y (a, x, y, &tmp_ep);
 		}
 
 		return handle_empty ((a != NULL) ? value_duplicate (a) : NULL, flags);
@@ -1057,8 +1075,18 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 		if (gnm_expr_extract_ref (&a, expr->binary.value_a, pos, flags) ||
 		    gnm_expr_extract_ref (&b, expr->binary.value_b, pos, flags))
 			return value_new_error (pos, gnumeric_err_REF);
-		return value_new_cellrange (&a, &b, pos->eval.col, pos->eval.row);
+
+		res = value_new_cellrange (&a, &b, pos->eval.col, pos->eval.row);
+		dependent_add_dynamic_dep (pos->dep, &res->v_range);
+		if (!(flags & GNM_EXPR_EVAL_PERMIT_NON_SCALAR)) {
+			res = value_intersection (res, pos);
+			return (res != NULL)
+				? handle_empty (res, flags)
+				: value_new_error (pos, gnumeric_err_VALUE);
+		}
+		return res;
 	}
+
 	case GNM_EXPR_OP_INTERSECT: {
 		CellRef a, b;
 		if (gnm_expr_extract_ref (&a, expr->binary.value_a, pos, flags) ||

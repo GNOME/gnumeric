@@ -88,7 +88,7 @@ expr_name_link_deps (GSList *deps, GnmExprRewriteInfo const *rwinfo)
 			CellPos *pos = dependent_is_cell (dep)
 				? &(DEP_TO_CELL (dep)->pos) : NULL;
 			dependent_link (dep, pos);
-			cb_dependent_queue_recalc (dep, NULL);
+			dependent_queue_recalc (dep);
 		}
 	}
 
@@ -115,10 +115,10 @@ expr_name_handle_references (GnmNamedExpr *nexpr, gboolean add)
 		if (sheet->deps == NULL)
 			continue;
 
-		found = g_hash_table_lookup (sheet->deps->names, nexpr);
+		found = g_hash_table_lookup (sheet->deps->referencing_names, nexpr);
 		if (add) {
 			if (found == NULL)  {
-				g_hash_table_insert (sheet->deps->names, nexpr, nexpr);
+				g_hash_table_insert (sheet->deps->referencing_names, nexpr, nexpr);
 			} else {
 				g_warning ("Name being registered multiple times ?");
 			}
@@ -126,7 +126,7 @@ expr_name_handle_references (GnmNamedExpr *nexpr, gboolean add)
 			if (found == NULL)  {
 				g_warning ("Unregistered name being being removed ?");
 			} else {
-				g_hash_table_remove (sheet->deps->names, nexpr);
+				g_hash_table_remove (sheet->deps->referencing_names, nexpr);
 			}
 		}
 	}

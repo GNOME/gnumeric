@@ -33,6 +33,7 @@ Jody:
 	* More cleanup after the big parser rework
 	* Esoteric XL number formats #,,##0,,
 	* Simplify some dialog code
+	* Support Dynamic Depends (eg INDIRECT)
 
 Morten:
 	* Port search center from gal's e-table to gtk's treeview.

@@ -145,26 +145,23 @@ find_index_linear (FunctionEvalInfo *ei, Value *find, Value *data,
 	ValueCompare comp;
 	int length, lp, index = -1;
 
-	if (height) {
-		length = value_area_get_height (ei->pos, data);
-	} else {
-		length = value_area_get_width (ei->pos, data);
-	}
+	if (height)
+		length = value_area_get_height (data, ei->pos);
+	else
+		length = value_area_get_width (data, ei->pos);
 
 	for (lp = 0; lp < length; lp++){
 		const Value *v;
 
-		if (height) {
-			v = value_area_fetch_x_y (ei->pos, data, 0, lp);
-		} else {
-			v = value_area_fetch_x_y (ei->pos, data, lp, 0);
-		}
+		if (height)
+			v = value_area_fetch_x_y (data, 0, lp, ei->pos);
+		else
+			v = value_area_fetch_x_y (data, lp, 0, ei->pos);
 
 		g_return_val_if_fail (v != NULL, -1);
 
-		if (!find_compare_type_valid (find, v)) {
+		if (!find_compare_type_valid (find, v))
 			continue;
-		}
 
 		comp = value_compare (find, v, FALSE);
 
@@ -207,11 +204,10 @@ find_index_bisection (FunctionEvalInfo *ei, Value *find, Value *data,
 	ValueCompare comp = TYPE_MISMATCH;
 	int high, low = 0, prev = -1, mid = -1;
 
-	if (height) {
-		high = value_area_get_height (ei->pos, data);
-	} else {
-		high = value_area_get_width (ei->pos, data);
-	}
+	if (height)
+		high = value_area_get_height (data, ei->pos);
+	else
+		high = value_area_get_width (data, ei->pos);
 	high--;
 
 	if (high < low) {
@@ -241,17 +237,13 @@ find_index_bisection (FunctionEvalInfo *ei, Value *find, Value *data,
 		while (!find_compare_type_valid (find, v) && mid != -1) {
 			gboolean rev = FALSE;
 
-			if (height) {
-				v = value_area_get_x_y (ei->pos,
-							  data, 0, mid);
-			} else {
-				v = value_area_get_x_y (ei->pos,
-							  data, mid, 0);
-			}
+			if (height)
+				v = value_area_get_x_y (data, 0, mid, ei->pos);
+			else
+				v = value_area_get_x_y (data, mid, 0, ei->pos);
 
-			if (find_compare_type_valid (find, v)) {
+			if (find_compare_type_valid (find, v))
 				break;
-			}
 
 			mid = find_bound_walk (0, 0, 0, FALSE, FALSE);
 
@@ -301,26 +293,19 @@ find_index_bisection (FunctionEvalInfo *ei, Value *find, Value *data,
 					adj = mid - 1;
 				}
 
-				if (height) {
-					v = value_area_fetch_x_y (ei->pos,
-								  data,
-								  0, adj);
-				} else {
-					v = value_area_fetch_x_y (ei->pos,
-								  data,
-								  adj, 0);
-				}
+				if (height)
+					v = value_area_fetch_x_y (data, 0, adj, ei->pos);
+				else                                                    
+					v = value_area_fetch_x_y (data, adj, 0, ei->pos);
 
 				g_return_val_if_fail (v != NULL, -1);
 
-				if (!find_compare_type_valid (find, v)) {
+				if (!find_compare_type_valid (find, v))
 					break;
-				}
 
 				comp = value_compare (find, v, FALSE);
-				if (comp != IS_EQUAL) {
+				if (comp != IS_EQUAL)
 					break;
-				}
 
 				mid = adj;
 			}
@@ -472,7 +457,7 @@ gnumeric_choose (FunctionEvalInfo *ei, GnmExprList *l)
 	if (argc < 1 || !l->data)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 
-	v = gnm_expr_eval (l->data, ei->pos, 0);
+	v = gnm_expr_eval (l->data, ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	if (!v)
 		return NULL;
 
@@ -528,7 +513,7 @@ gnumeric_vlookup (FunctionEvalInfo *ei, Value **args)
 		return value_new_error (ei->pos, gnumeric_err_NA);
 	if (col_idx <= 0)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
-	if (col_idx > value_area_get_width (ei->pos, args [1]))
+	if (col_idx > value_area_get_width (args [1], ei->pos))
 		return value_new_error (ei->pos, gnumeric_err_REF);
 
 	approx = (args[3] != NULL)
@@ -542,7 +527,7 @@ gnumeric_vlookup (FunctionEvalInfo *ei, Value **args)
 	if (index >= 0) {
 	        const Value *v;
 
-		v = value_area_fetch_x_y (ei->pos, args [1], col_idx-1, index);
+		v = value_area_fetch_x_y (args [1], col_idx-1, index, ei->pos);
 		g_return_val_if_fail (v != NULL, NULL);
 		return value_duplicate (v);
 	}
@@ -586,7 +571,7 @@ gnumeric_hlookup (FunctionEvalInfo *ei, Value **args)
 		return value_new_error (ei->pos, gnumeric_err_NA);
 	if (row_idx <= 0)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
-	if (row_idx > value_area_get_height (ei->pos, args [1]))
+	if (row_idx > value_area_get_height (args [1], ei->pos))
 		return value_new_error (ei->pos, gnumeric_err_REF);
 
 	approx = (args[3] != NULL)
@@ -600,7 +585,7 @@ gnumeric_hlookup (FunctionEvalInfo *ei, Value **args)
 	if (index >= 0) {
 	        const Value *v;
 
-		v = value_area_fetch_x_y (ei->pos, args[1], index, row_idx-1);
+		v = value_area_fetch_x_y (args[1], index, row_idx-1, ei->pos);
 		g_return_val_if_fail (v != NULL, NULL);
 		return value_duplicate (v);
 	}
@@ -635,16 +620,15 @@ gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
 {
 	int index = -1;
 	Value *result = args[2];
-	int width = value_area_get_width (ei->pos, args[1]);
-	int height = value_area_get_height (ei->pos, args[1]);
+	int width = value_area_get_width (args[1], ei->pos);
+	int height = value_area_get_height (args[1], ei->pos);
 
-	if (!find_type_valid (args[0])) {
+	if (!find_type_valid (args[0]))
 		return value_new_error (ei->pos, gnumeric_err_NA);
-	}
 
 	if (result) {
-		int width = value_area_get_width (ei->pos, result);
-		int height = value_area_get_height (ei->pos, result);
+		int width = value_area_get_width (result, ei->pos);
+		int height = value_area_get_height (result, ei->pos);
 
 		if (width > 1 && height > 1) {
 			return value_new_error (ei->pos, gnumeric_err_NA);
@@ -658,16 +642,13 @@ gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
 
 	if (index >= 0) {
 	        const Value *v = NULL;
-		int width = value_area_get_width (ei->pos, result);
-		int height = value_area_get_height (ei->pos, result);
+		int width = value_area_get_width (result, ei->pos);
+		int height = value_area_get_height (result, ei->pos);
 
-		if (width > height) {
-			v = value_area_fetch_x_y (ei->pos, result,
-						  index, height - 1);
-		} else {
-			v = value_area_fetch_x_y (ei->pos, result,
-						  width - 1, index);
-		}
+		if (width > height)
+			v = value_area_fetch_x_y (result, index, height - 1, ei->pos);
+		else
+			v = value_area_fetch_x_y (result, width - 1, index, ei->pos);
 		return value_duplicate (v);
 	}
 
@@ -705,8 +686,8 @@ static Value *
 gnumeric_match (FunctionEvalInfo *ei, Value **args)
 {
 	int type, index = -1;
-	int width = value_area_get_width (ei->pos, args[1]);
-	int height = value_area_get_height (ei->pos, args[1]);
+	int width = value_area_get_width (args[1], ei->pos);
+	int height = value_area_get_height (args[1], ei->pos);
 
 	if (!find_type_valid (args[0])) {
 		return value_new_error (ei->pos, gnumeric_err_NA);
@@ -765,30 +746,13 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 	char const *text = value_peek_string (args[0]);
 	GnmExpr const *expr = gnm_expr_parse_str_simple (text,
 		parse_pos_init_evalpos (&pp, ei->pos));
+	Value *res = NULL;
 
-	/* We need to parse from the current cell then normalize just in case
-	 * the expression is in R[-1]C[-1] format.
-	 */
 	if (expr != NULL) {
-		if (expr->any.oper == GNM_EXPR_OP_NAME &&
-		    !expr->name.name->builtin) {
-			GnmExpr const *tmp = expr->name.name->t.expr_tree;
-			gnm_expr_ref (tmp);
-			gnm_expr_unref (expr);
-			expr = tmp;
-		}
-		if (expr->any.oper == GNM_EXPR_OP_CELLREF) {
-			Value *res = gnm_expr_eval (expr, ei->pos, 0);
-			gnm_expr_unref (expr);
-			return res;
-		} else if (expr->any.oper == GNM_EXPR_OP_CONSTANT) {
-			Value *res = value_duplicate (expr->constant.value);
-			gnm_expr_unref (expr);
-			return res;
-		}
+		res = gnm_expr_get_range (expr);
 		gnm_expr_unref (expr);
 	}
-	return value_new_error (ei->pos, gnumeric_err_REF);
+	return (res != NULL) ? res : value_new_error (ei->pos, gnumeric_err_REF);
 }
 
 /*****************************************************************************/
@@ -829,7 +793,7 @@ gnumeric_index (FunctionEvalInfo *ei, GnmExprList *l)
 
 	for (i = 0; l != NULL && i < G_N_ELEMENTS (elem) ; i++, l = l->next) {
 		v = value_coerce_to_number (
-			gnm_expr_eval (l->data, ei->pos, 0),
+			gnm_expr_eval (l->data, ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY),
 			&valid, ei->pos);
 		if (!valid)
 			return v;
@@ -847,14 +811,14 @@ gnumeric_index (FunctionEvalInfo *ei, GnmExprList *l)
 	v = gnm_expr_eval (source, ei->pos, GNM_EXPR_EVAL_PERMIT_NON_SCALAR);
 
 	if (elem[1] < 0 ||
-	    elem[1] >= value_area_get_width (ei->pos, v) ||
+	    elem[1] >= value_area_get_width (v, ei->pos) ||
 	    elem[0] < 0 ||
-	    elem[0] >= value_area_get_height (ei->pos, v)) {
+	    elem[0] >= value_area_get_height (v, ei->pos)) {
 		value_release (v);
 		return value_new_error (ei->pos, gnumeric_err_REF);
 	}
 
-	res = value_duplicate (value_area_fetch_x_y (ei->pos, v, elem[1], elem[0]));
+	res = value_duplicate (value_area_fetch_x_y (v, elem[1], elem[0], ei->pos));
 	value_release (v);
 	return res;
 }
@@ -888,8 +852,8 @@ gnumeric_column (FunctionEvalInfo *ei, Value **args)
 
 	switch (ref->type) {
 	case VALUE_CELLRANGE: {
-		int width = value_area_get_width (ei->pos, ref);
-		int height = value_area_get_height (ei->pos, ref);
+		int width = value_area_get_width (ref, ei->pos);
+		int height = value_area_get_height (ref, ei->pos);
 		CellRef const *const refa = &ref->v_range.cell.a;
 		int col = cellref_get_abs_col (refa, ei->pos) + 1;
 		int i, j;
@@ -930,11 +894,10 @@ static const char *help_columns = {
 	   "@SEEALSO=COLUMN,ROW,ROWS")
 };
 
-/* FIXME: Needs Array support to be even slightly meaningful */
 static Value *
 gnumeric_columns (FunctionEvalInfo *ei, Value **args)
 {
-	return value_new_int (value_area_get_width (ei->pos, args [0]));
+	return value_new_int (value_area_get_width (args [0], ei->pos));
 }
 
 /***************************************************************************/
@@ -974,10 +937,10 @@ gnumeric_offset (FunctionEvalInfo *ei, Value **args)
 
 	width = (args[3] != NULL)
 	    ? value_get_as_int (args[3])
-	    : value_area_get_width (ei->pos, args [0]);
+	    : value_area_get_width (args [0], ei->pos);
 	height = (args[4] != NULL)
 	    ? value_get_as_int (args[4])
-	    : value_area_get_height (ei->pos, args [0]);
+	    : value_area_get_height (args [0], ei->pos);
 
 	if (width < 1 || height < 1)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -1023,8 +986,8 @@ gnumeric_row (FunctionEvalInfo *ei, Value **args)
 
 	switch (ref->type) {
 	case VALUE_CELLRANGE: {
-		int width  = value_area_get_width (ei->pos, ref);
-		int height = value_area_get_height (ei->pos, ref);
+		int width  = value_area_get_width (ref, ei->pos);
+		int height = value_area_get_height (ref, ei->pos);
 		CellRef const *const refa = &ref->v_range.cell.a;
 		int row    = cellref_get_abs_row (refa, ei->pos) + 1;
 		int i, j;
@@ -1065,11 +1028,10 @@ static const char *help_rows = {
 	   "@SEEALSO=COLUMN,ROW,ROWS")
 };
 
-/* FIXME: Needs Array support to be enven slightly meaningful */
 static Value *
 gnumeric_rows (FunctionEvalInfo *ei, Value **args)
 {
-	return value_new_int (value_area_get_height (ei->pos, args [0]));
+	return value_new_int (value_area_get_height (args [0], ei->pos));
 }
 
 /***************************************************************************/
@@ -1121,12 +1083,12 @@ gnumeric_transpose (FunctionEvalInfo *ei, Value **argv)
 	int	r, c;
         Value *res;
 
-	int const cols = value_area_get_width (ep, matrix);
-	int const rows = value_area_get_height (ep, matrix);
+	int const cols = value_area_get_width (matrix, ep);
+	int const rows = value_area_get_height (matrix, ep);
 
 	/* Return the value directly for a singleton */
 	if (rows == 1 && cols == 1)
-		return value_duplicate(value_area_get_x_y (ep, matrix, 0, 0));
+		return value_duplicate (value_area_get_x_y (matrix, 0, 0, ep));
 
 	/* REMEMBER this is a transpose */
 	res = value_new_array_non_init (rows, cols);
@@ -1134,9 +1096,8 @@ gnumeric_transpose (FunctionEvalInfo *ei, Value **argv)
 	for (r = 0; r < rows; ++r){
 		res->v_array.vals [r] = g_new (Value *, cols);
 		for (c = 0; c < cols; ++c)
-			res->v_array.vals[r][c] =
-			    value_duplicate(value_area_get_x_y (ep, matrix,
-								c, r));
+			res->v_array.vals[r][c] = value_duplicate(
+				value_area_get_x_y (matrix, c, r, ep));
 	}
 
 	return res;

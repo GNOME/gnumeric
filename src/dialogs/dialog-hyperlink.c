@@ -46,10 +46,8 @@ typedef struct {
 static GType last_link_type = 0;
 
 static void
-dialog_hyperlink_close_destroy (HyperlinkState  *state)
+dialog_hyperlink_free (HyperlinkState *state)
 {
-	g_return_val_if_fail (state != NULL, FALSE);
-
 	wbcg_edit_detach_guru (state->wbcg);
 
 	if (state->gui != NULL) {
@@ -283,7 +281,7 @@ dialog_hyperlink (WorkbookControlGUI *wbcg, SheetControl *sc)
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       DIALOG_KEY);
 	g_object_set_data_full (G_OBJECT (state->dialog),
-		"state", state, (GDestroyNotify) dialog_hyperlink_close_destroy);
+		"state", state, (GDestroyNotify) dialog_hyperlink_free);
 	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_widget_show (state->dialog);

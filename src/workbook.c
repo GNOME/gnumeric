@@ -637,10 +637,10 @@ workbook_foreach_cell_in_range (EvalPos const *pos,
 
 	g_return_val_if_fail (pos != NULL, NULL);
 	g_return_val_if_fail (cell_range != NULL, NULL);
-
 	g_return_val_if_fail (cell_range->type == VALUE_CELLRANGE, NULL);
 
-	value_cellrange_normalize (pos, cell_range, &start_sheet, &end_sheet, &r);
+	rangeref_normalize (&cell_range->v_range.cell, pos,
+			    &start_sheet, &end_sheet, &r);
 
 	if (start_sheet != end_sheet) {
 		Value *res;

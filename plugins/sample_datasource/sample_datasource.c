@@ -97,7 +97,7 @@ static void
 cb_watcher_queue_recalc (gpointer key, gpointer value, gpointer closure)
 {
 	Watcher const *w = key;
-	cb_dependent_queue_recalc (w->dep, NULL);
+	dependent_queue_recalc (w->dep);
 }
 
 static gboolean

@@ -4761,7 +4761,7 @@ gnumeric_subtotal (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 	if (tree == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	val = gnm_expr_eval (tree, ei->pos, 0);
+	val = gnm_expr_eval (tree, ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	if (val->type == VALUE_ERROR)
 		return val;
 	fun_nbr = value_get_as_int (val);

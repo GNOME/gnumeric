@@ -119,7 +119,6 @@ gnum_float   value_diff		   (Value const *a, Value const *b);
 ValueCompare value_compare         (Value const *a, Value const *b,
 				    gboolean case_sensitive);
 guint        value_hash	           (Value const *v);
-Value	    *value_intersection	   (Value *v, EvalPos const *pos);
 
 gboolean    value_get_as_bool         (Value const *v, gboolean *err);
 gboolean    value_get_as_checked_bool (Value const *v);
@@ -132,31 +131,25 @@ Value	   *value_coerce_to_number    (Value *v, gboolean *valid,
 
 Value       *value_error_set_pos      (ValueErr *err, EvalPos const *pos);
 
-void  value_cellrange_normalize	      (EvalPos const *ep, Value const *v,
-				       Sheet **start_sheet,
-				       Sheet **end_sheet,
-				       Range *dest);
-
 /* Area functions ( works on VALUE_RANGE or VALUE_ARRAY */
 /* The EvalPos provides a Sheet context; this allows
    calculation of relative references. 'x','y' give the position */
-int          value_area_get_width  (EvalPos const *ep, Value const *v);
-int          value_area_get_height (EvalPos const *ep, Value const *v);
+typedef Value *(*ValueAreaFunc) (Value const *v, EvalPos const *ep, void *user);
+Value 	    *value_area_foreach	   (Value const *v, EvalPos const *ep,
+				    ValueAreaFunc func, void *user);
+int          value_area_get_width  (Value const *v, EvalPos const *ep);
+int          value_area_get_height (Value const *v, EvalPos const *ep);
+Value const *value_area_fetch_x_y  (Value const *v, int x, int y,
+				    EvalPos const *ep);
+Value const *value_area_get_x_y	   (Value const *v, int x, int y,
+				    EvalPos const *ep);
 
-Value const *value_area_fetch_x_y  (EvalPos const *ep, Value const *v,
-				    int x, int y);
-Value const *value_area_get_x_y	   (EvalPos const *ep, Value const *v,
-				    int x, int y);
 
-typedef Value *(*ValueAreaFunc) (EvalPos const *ep, Value const *v, void *user);
-Value *value_area_foreach  (EvalPos const *ep,  Value const *v,
-			    ValueAreaFunc func, void *user);
-
-extern const ValueErr value_terminate_err;
+extern ValueErr const value_terminate_err;
 #define VALUE_TERMINATE ((Value *)&value_terminate_err)
 
 /* A zero integer, not to be freed or changed.  */
-extern const Value *value_zero;
+extern Value const *value_zero;
 
 void value_array_set       (Value *array, int col, int row, Value *v);
 void value_array_resize    (Value *v, int width, int height);

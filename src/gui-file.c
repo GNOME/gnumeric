@@ -32,7 +32,7 @@
 static gint
 file_opener_description_cmp (gconstpointer a, gconstpointer b)
 {
-	const GnumFileOpener *fo_a = a, *fo_b = b;
+	GnumFileOpener const *fo_a = a, *fo_b = b;
 
 	return strcoll (gnum_file_opener_get_description (fo_a),
 	                gnum_file_opener_get_description (fo_b));
@@ -41,7 +41,7 @@ file_opener_description_cmp (gconstpointer a, gconstpointer b)
 static gint
 file_saver_description_cmp (gconstpointer a, gconstpointer b)
 {
-	const GnumFileSaver *fs_a = a, *fs_b = b;
+	GnumFileSaver const *fs_a = a, *fs_b = b;
 
 	return strcoll (gnum_file_saver_get_description (fs_a),
 	                gnum_file_saver_get_description (fs_b));
@@ -59,7 +59,7 @@ make_format_chooser (GList *list, GtkOptionMenu *omenu)
 	menu = GTK_MENU (gtk_menu_new ());
 	for (l = list; l != NULL; l = l->next) {
 		GtkWidget *item;
-		const gchar *descr;
+		gchar const *descr;
 
 		if (IS_GNUM_FILE_OPENER (l->data))
 			descr = gnum_file_opener_get_description (
@@ -177,7 +177,7 @@ gui_file_import (WorkbookControlGUI *wbcg)
  * not the workbook.
  */
 static gboolean
-can_try_save_to (WorkbookControlGUI *wbcg, const char *name)
+can_try_save_to (WorkbookControlGUI *wbcg, char const *name)
 {
 	gboolean result = TRUE;
 	gchar *msg;
@@ -236,7 +236,7 @@ check_multiple_sheet_support_if_needed (GnumFileSaver *fs,
 
 static gboolean
 do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
-            GnumFileSaver *fs, const char *name)
+            GnumFileSaver *fs, char const *name)
 {
 	char *filename;
 	gboolean success = FALSE;
@@ -276,7 +276,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	GtkWidget *format_chooser;
 	GnumFileSaver *fs;
 	gboolean success  = FALSE;
-	const gchar *wb_file_name;
+	gchar const *wb_file_name;
 
 	g_return_val_if_fail (wbcg != NULL, FALSE);
 
@@ -420,7 +420,7 @@ ask_for_file_saver (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 
 void
 gui_file_save_to_stream (BonoboStream *stream, WorkbookControlGUI *wbcg,
-			 WorkbookView *wb_view, const gchar *mime_type,
+			 WorkbookView *wb_view, gchar const *mime_type,
 			 CORBA_Environment *ev)
 {
 	GnumFileSaver *fs = NULL;

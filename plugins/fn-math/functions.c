@@ -2649,7 +2649,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GnmExprList *nodes)
 	if (tree == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	val = gnm_expr_eval (tree, ei->pos, 0);
+	val = gnm_expr_eval (tree, ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	if (!val) return NULL;
 	if (!VALUE_IS_NUMBER (val)) {
 		value_release (val);
@@ -2665,7 +2665,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GnmExprList *nodes)
 	if (tree == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	val = gnm_expr_eval (tree, ei->pos, 0);
+	val = gnm_expr_eval (tree, ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	if (!val) return NULL;
 	if (! VALUE_IS_NUMBER (val)) {
 		value_release (val);
@@ -2684,7 +2684,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GnmExprList *nodes)
 	if (tree == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	val = gnm_expr_eval (tree, ei->pos, 0);
+	val = gnm_expr_eval (tree, ei->pos, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	if (!val) return NULL;
 	if (! VALUE_IS_NUMBER (val)) {
 		value_release (val);
@@ -2751,8 +2751,8 @@ validate_range_numeric_matrix (const EvalPos *ep, Value * matrix,
 	Value *res;
 	int cell_count = 0;
 
-	*cols = value_area_get_width (ep, matrix);
-	*rows = value_area_get_height (ep, matrix);
+	*cols = value_area_get_width (matrix, ep);
+	*rows = value_area_get_height (matrix, ep);
 
 	/* No checking needed for arrays */
 	if (matrix->type == VALUE_ARRAY)
@@ -2810,7 +2810,7 @@ gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 	for (c = 0; c < cols; c++)
 	        for (r = 0; r < rows; r++) {
 		        Value const * a =
-			      value_area_get_x_y (ep, values, c, r);
+			      value_area_get_x_y (values, c, r, ep);
 		        *(matrix + r + c * cols) = value_get_as_float (a);
 		}
 
@@ -2887,14 +2887,14 @@ gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
 	for (c = 0; c < cols_a; c++)
 	        for (r = 0; r < rows_a; r++) {
 		        Value const * a =
-			     value_area_get_x_y (ep, values_a, c, r);
+			     value_area_get_x_y (values_a, c, r, ep);
 		        A[r + c * rows_a] = value_get_as_float (a);
 		}
 
 	for (c = 0; c < cols_b; c++)
 	        for (r = 0; r < rows_b; r++) {
 		        Value const * b =
-			     value_area_get_x_y (ep, values_b, c, r);
+			     value_area_get_x_y (values_b, c, r, ep);
 		        B[r + c * rows_b] = value_get_as_float (b);
 		}
 
@@ -2961,7 +2961,7 @@ gnumeric_mdeterm (FunctionEvalInfo *ei, Value **argv)
 	for (c = 0; c < cols; c++)
 	        for (r = 0; r < rows; r++) {
 		        Value const * a =
-			      value_area_get_x_y (ep, values, c, r);
+			      value_area_get_x_y (values, c, r, ep);
 		        *(matrix + r + c * cols) = value_get_as_float (a);
 		}
 
@@ -3018,8 +3018,8 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GnmExprList *args)
 					   GNM_EXPR_EVAL_PERMIT_NON_SCALAR |
 					   GNM_EXPR_EVAL_PERMIT_EMPTY);
 
-		thissizex = value_area_get_width (ei->pos, val);
-		thissizey = value_area_get_height (ei->pos, val);
+		thissizex = value_area_get_width (val, ei->pos);
+		thissizey = value_area_get_height (val, ei->pos);
 
 		if (i == 0) {
 			sizex = thissizex;
@@ -3031,8 +3031,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GnmExprList *args)
 		for (y = 0; y < thissizey; y++) {
 			for (x = 0; x < thissizex; x++) {
 				/* FIXME: efficiency worries?  */
-				const Value *v = value_area_fetch_x_y (ei->pos,
-								       val, x, y);
+				Value const *v = value_area_fetch_x_y (val, x, y, ei->pos);
 				if (v->type == VALUE_ERROR) {
 					/*
 					 * We carefully tranverse the argument

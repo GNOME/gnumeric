@@ -1101,6 +1101,10 @@ compute_value (char const *s, const regmatch_t *mp,
  * @s : A String to match against.
  *
  * Attempt to match the the supplied string as a simple value.
+ *
+ * WARNING WARNING WARNING : This routine should NEVER be changed to match
+ * 				VALUE_STRING that will break the parsers
+ * 				handling of named expressions.
  */
 Value *
 format_match_simple (char const *text)

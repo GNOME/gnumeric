@@ -37,6 +37,7 @@
 #include <parse-util.h>
 #include <cell.h>
 #include <str.h>
+#include <ranges.h>
 #include <sheet.h>
 #include <workbook.h>
 #include <format.h>
@@ -1214,11 +1215,15 @@ cb_countblank (Sheet *sheet, int col, int row,
 static Value *
 gnumeric_countblank (FunctionEvalInfo *ei, Value **args)
 {
-	/* FIXME : This does not handle 3D references */
-	int count =
-		value_area_get_height (ei->pos, args[0]) *
-		value_area_get_width (ei->pos, args[0]);
+	Sheet *start_sheet, *end_sheet;
+	Range r;
+	int count;
 
+	rangeref_normalize (&args[0]->v_range.cell, ei->pos,
+		&start_sheet, &end_sheet, &r);
+	count = range_width (&r) * range_height	(&r);
+	if (start_sheet != end_sheet && end_sheet != NULL)
+		count *= 1 + abs (end_sheet->index_in_wb - start_sheet->index_in_wb);
 	workbook_foreach_cell_in_range (ei->pos, args[0],
 					CELL_ITER_IGNORE_BLANK,
 					&cb_countblank, &count);

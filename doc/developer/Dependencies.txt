@@ -1,42 +1,35 @@
-A discussion of the new dependency code, version 0.2
-by Michael Meeks <mmeeks@gnu.org>
-
-
-The dependency code is a comparatively conceptualy simple part of the gnumeric
-code. The code is designed to determine which objects depend on which cells.
-The main use of this is triggering recomputation for things that depend on
-something that has changed.
+A discussion of the new dependency code, version 0.3
+by Michael Meeks <mmeeks@gnu.org> and Jody Goldberg <jody@gnome.org>
 
 1.     Overview of the Dependencies
 
-       The majority of the code related to dependencies can be found in module
-dependent.c, and this should be the first reference for functions.
+	The dependency code is designed to determine which objects depend on
+which cells, or regions.  The main use of this is triggering recomputation for
+things that depend on something that has changed.  The majority of the code
+related to dependencies can be found in module dependent.c.
 
 1.1    Data structures and their meaning
 
-       The main dependency data is anchored on a per-sheet basis using the
-structure GnmDepContainer. This stores all the dependencies for the sheet
-in two hash tables.  In the future other objects may also become containers,
-such as graphs in their own tab.
+       Dependency data is anchored on a per-sheet basis using GnmDepContainer.
+This stores all the dependencies for the sheet in two hash tables.  In the
+future other objects may also become containers, such as graphs in their own
+tab.
 
-       There are two types of dependencies, single and range. Loosely these
-describe single (ie. = A1 ) cell references vs. large ( ie. = SUM (A1:Z500) )
-range references. The two hash tables store DependencyRange structures in the
-'range_hash' member, and DependencySingle structures in the 'single_hash'
-member.
+       The two main types of dependencies, are single and range. Loosely
+these describe single cells (ie. = A1 ) vs. regions ( ie. = SUM (A1:Z500) )
+The range_hash and single_hash tables use DependencyRange and DependencySingle
+to store lists of Dependents (not necesssarilly in this container) that depend
+on things in the container.  The range_hash table is hashed on the normalized
+range, and the other hashes on the CellPos of the singleton.  Sheet does not
+come into play because it is implicit in the container.
 
-       The DependencyRange structure defines a range reference. This lists the
-Dependencies ( not neccessarily in this sheet ), that depend on the range
-specified.  Hence to find the dependents that rely on a cell you must search
-all the range structures in the range_hash for that container.
+       DependencySingle stores stores the dependents that rely on individual
+cells.  This makes lookup easy.  Only 1 DependencySingle will exist for a given
+cell.  We can find that quickly via the hash.
 
-       The DependencySingle structure mapping stores the degenerate case of
-a DependencyRange. Essentialy it stores the cells that depend on a unit range.
-This allows for extremely fast constant time hashed lookup. This contrasts with
-the Range hash, all of which has to be traversed per dependency calculation.
-NB. the DependencySingle has to use CellPos' since there is no garentee that
-a cell will exist at a given position in the sheet that is depended on.
-
+	DependencyRange can not be searched via the hash.  A target cell may be
+contained by several regions.  Finding which regions requires traversing the
+list of regions looking for intersections.  See below.
 
 2.     Dependent Evaluation
 
@@ -44,8 +37,8 @@ a cell will exist at a given position in the sheet that is depended on.
 changes it will queue cells that depend on it, these are obtained via
 cell_forech_dep, which looks up in the single_hash and tranverses the
 range_hash to obtain its result. Often cell recalculation happens through
-workbook_recalc which works through the workbook's eval_queue re-evaluating
-the cells there.
+workbook_recalc which works through each sheets dependents,  re-evaluating
+any that are marked for calculation.
 
 2.1    Evaluation queue vs. recursion
 
@@ -55,8 +48,6 @@ evaluated. Essentialy each dereference in the GnmExpr ( eg. =A1 ) will cause
 the re-calculation of A1's GnmExpr before we can continue ( recursively ).
 This is actually fairly expensive when the expression contains a reference like
     =sum(a1:a65535)
-Each dependent can be in two states
-
 
 3.     Dependencies the bottleneck
 
@@ -86,6 +77,19 @@ iterate over, which saves N iterations of search_cell_deps.
 in the sheet as a dependency ( eg. cutting and pasting = SUM($A$1:$A$100) ). In
 this case there is a single depedency range entry with many cells listed as its
 dependancies.
+
+3.1.1 bucketing range depends
+
+	Searching the list of range depends is still expensive if there are
+alot of them.  eg in the situation where an expression like
+    =sum(b1:d1)
+is duplicated for the entire 1st column.  We end up with a huge number of
+non-overlapping regions to search through.  That can be ameliorated by
+bucketing the range depends.  Giving only a few columns to each bucket.
+
+FUTURE : it would be useful to notice that a larger range contains a smaller
+one, and to build up a tree as necessary.  This would also decrease the size of
+the list.
 
 3.2    Inter-sheet dependencies
 
@@ -126,6 +130,31 @@ was replaced with a 'microHash'.  A simple hash table that looks like a list
 for small sizes.  It is derived from GHashTable in glib, but simplified to make
 it lighter wieght.
 
+3.4    3D dependencies
+
+	Some expressions depend on the order of the sheets in a workbook.
+When linking the expressions we notice this and flag the dependent before
+adding it to a collection in the workbook.  The workbook is reposnsible of
+linking and unlinking those dependents when the sheet order changes.
+
+3.5	Named expressions
+
+	Named expressions are special.  In the current implementation we do not
+differentiate between names that use relative references and those that don't.
+Names can not be dependents because relative references change value depending
+on where they are evaluated.  However, if a sheet is removed we need to know to
+invalidate a name that references it.  The 'referencing_names' member of the
+collection tracks that.
+
+3.6	Dynamic depends
+
+	Functions like INDEX, INDIRECT and some of the range operators produce
+new ranges at run time.  As a result these are not registed when an dependent
+is linked.  The DynamicDep structure is a special form of Dependent that is
+used to collect and remove the dependencies as they get generated.  When a
+dependent with dynamic depends is evaluated or unlinked the list is cleared.
+The process of evaluation then repopulates the set.
+
 4.     The lifecycle of dependency records
 
 	A Dependent is 'linked' if it's dependencies on other things have been
@@ -145,21 +174,15 @@ to an adjacent single reference under certain circumstances.
 stored is identical in each cell, the cells may all depend on the corner cell
 using a fast single mapping.
 
-4.3.3  The INDIRECT function and calculated depends
+5     Future Expansion
 
-       This is rather a special case; this function returns a value that
-references a different cell, hence the dependency has to be treated rather
-differently. This is yet to be implemented.
+       There are several avenues open for future expansion.
 
+5.1	DependencyRange trees or quadtrees
 
-5.1     Future Expansion
-
-       There are several avenues open for future expansion. Clearly further
-accelerating the range search will give big speedups on large sheets. This
-could be done by clipping the dependency ranges several times against smaller
-ranges homing in on the cell of interest, and storing the results for future
-reference. Clearly many of the MStyle range related optimizations would be
-useful here as well.
+	Accelerating the range search will give big speedups on large sheets.
+The current row based bucketing approach seems to work nicely, but could be
+augmented by using trees or quad trees to handle containment better.
 
 5.2    Multi-threading,
 

@@ -24,7 +24,8 @@ typedef enum {
 	DEPENDENT_NO_FLAG	   = 0,
 
 	/* Types */
-	DEPENDENT_CELL 		   = 0x00000001,
+	DEPENDENT_CELL 		   = 0x00000001,	/* builtin type */
+	DEPENDENT_DYNAMIC_DEP	   = 0x00000002,	/* builtin type */
 	DEPENDENT_TYPE_MASK	   = 0x00000fff,
 
 	/* Linked into the workbook wide expression list */
@@ -38,11 +39,12 @@ typedef enum {
 	DEPENDENT_GOES_INTERBOOK   = 0x00020000,
 	DEPENDENT_HAS_3D	   = 0x00040000,
 	DEPENDENT_ALWAYS_UNLINK    = 0x00080000,
-	DEPENDENT_LINK_FLAGS	   = 0x000ff000,
+	DEPENDENT_HAS_DYNAMIC_DEPS = 0x00100000,
+	DEPENDENT_LINK_FLAGS	   = 0x001ff000,
 
 	/* An internal utility flag */
-	DEPENDENT_FLAGGED	   = 0x00100000,
-	DEPENDENT_CAN_RELOCATE	   = 0x00200000
+	DEPENDENT_FLAGGED	   = 0x01000000,
+	DEPENDENT_CAN_RELOCATE	   = 0x02000000
 } DependentFlags;
 
 #define dependent_type(dep)		((dep)->flags & DEPENDENT_TYPE_MASK)
@@ -65,30 +67,34 @@ struct _GnmDepContainer {
 	GHashTable *single_hash;
 	gnm_mem_chunk *single_pool;
 
-	/* All of the ExprNames that refer to this sheet */
-	GHashTable *names;
+	/* All of the ExprNames that refer to this container */
+	GHashTable *referencing_names;
+
+	/* Dynamic Deps */
+	GHashTable *dynamic_deps;
 };
 
 typedef void (*DepFunc) (Dependent *dep, gpointer user);
 
-guint32	 dependent_type_register    (DependentClass const *klass);
-void	 dependent_types_init	    (void);
-void	 dependent_types_shutdown   (void);
+guint32	 dependent_type_register   (DependentClass const *klass);
+void	 dependent_types_init	   (void);
+void	 dependent_types_shutdown  (void);
 
-void	 dependent_set_expr	    (Dependent *dependent, GnmExpr const *new_expr);
-void	 dependent_set_sheet	    (Dependent *dependent, Sheet *sheet);
-void	 dependent_link		    (Dependent *dep, CellPos const *pos);
-void	 dependent_unlink	    (Dependent *dep, CellPos const *pos);
-gboolean dependent_eval		    (Dependent *dep);
-void	 cb_dependent_queue_recalc  (Dependent *dep, gpointer ignore);
+void	 dependent_set_expr	   (Dependent *dependent, GnmExpr const *new_expr);
+void	 dependent_set_sheet	   (Dependent *dependent, Sheet *sheet);
+void	 dependent_link		   (Dependent *dep, CellPos const *pos);
+void	 dependent_unlink	   (Dependent *dep, CellPos const *pos);
+gboolean dependent_eval		   (Dependent *dep);
+void	 dependent_queue_recalc	   (Dependent *dep);
+void	 dependent_add_dynamic_dep (Dependent *dep, ValueRange const *v);
 
 GSList  *dependents_relocate	    (GnmExprRelocateInfo const *info);
 void     dependents_unrelocate      (GSList *info);
 void     dependents_unrelocate_free (GSList *info);
 
-void cell_queue_recalc		 (Cell const *cell);
-void cell_foreach_dep		 (Cell const *cell, DepFunc func, gpointer user);
-gboolean cell_eval_content	 (Cell *cell);
+void	 cell_queue_recalc	    (Cell const *cell);
+void	 cell_foreach_dep	    (Cell const *cell, DepFunc func, gpointer user);
+gboolean cell_eval_content	    (Cell *cell);
 
 #define cell_eval(cell)							\
 {									\

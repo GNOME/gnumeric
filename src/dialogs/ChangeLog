@@ -1,3 +1,7 @@
+2002-10-09  Jody Goldberg <jody@gnome.org>
+
+	* dialog-define-names.c (cb_name_guru_destroy) : fix warning.
+
 2002-10-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-formula-guru.c (dialog_formula_guru_update_this_parent):

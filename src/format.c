@@ -1530,7 +1530,7 @@ format_value (StyleFormat const *format, Value const *value, StyleColor **color,
 	 * This wont work for ranges because we dont't have a location
 	 */
 	if (value->type == VALUE_ARRAY)
-		value = value_area_fetch_x_y (NULL, value, 0, 0);
+		value = value_area_fetch_x_y (value, 0, 0, NULL);
 
 	if (format) {
 		/* get format */

@@ -1066,8 +1066,8 @@ typedef struct
 } networkdays_holiday_closure;
 
 static Value *
-networkdays_holiday_callback(EvalPos const *ep,
-			     Value const *v, void *user_data)
+networkdays_holiday_callback (Value const *v, EvalPos const *ep,
+			      void *user_data)
 {
 	Value *res = NULL;
 	networkdays_holiday_closure * close =
@@ -1135,11 +1135,10 @@ gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 	res = end_serial - start_serial;
 	res -= ((res/7)*2);	/* Remove weekends */
 
-	if (argv[2] != NULL) {
-		value_area_foreach (ei->pos, argv[2],
+	if (argv[2] != NULL)
+		value_area_foreach (argv[2], ei->pos,
 				    &networkdays_holiday_callback,
 				    &close);
-	}
 
 	res = res - start_offset + end_offset - close.res;
 

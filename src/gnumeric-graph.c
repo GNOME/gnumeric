@@ -115,8 +115,8 @@ gnm_graph_vector_seq_scalar (GnmGraphVector *vector)
 
 	eval_pos_init_dep (&ep, &vector->dep);
 	len = (v == NULL) ? 1 : (vector->is_column
-		? value_area_get_height (&ep, v)
-		: value_area_get_width (&ep, v));
+		? value_area_get_height (v, &ep)
+		: value_area_get_width (v, &ep));
 
 	values = GNOME_Gnumeric_Scalar_Seq__alloc ();
 	values->_length = values->_maximum = len;
@@ -132,8 +132,8 @@ gnm_graph_vector_seq_scalar (GnmGraphVector *vector)
 	/* FIXME : This is dog slow */
 	for (i = 0; i < len ; ++i) {
 		Value const *elem = vector->is_column
-			? value_area_get_x_y (&ep, v, 0, i)
-			: value_area_get_x_y (&ep, v, i, 0);
+			? value_area_get_x_y (v, 0, i, &ep)
+			: value_area_get_x_y (v, i, 0, &ep);
 
 		if (elem == NULL) {
 			values->_buffer [i] = 0.;	/* TODO : handle blanks */
@@ -162,8 +162,8 @@ gnm_graph_vector_seq_string (GnmGraphVector *vector)
 
 	eval_pos_init_dep (&ep, &vector->dep);
 	len = (v == NULL) ? 1 : (vector->is_column
-		   ? value_area_get_height (&ep, v)
-		   : value_area_get_width (&ep, v));
+		   ? value_area_get_height (v, &ep)
+		   : value_area_get_width (v, &ep));
 	values = GNOME_Gnumeric_String_Seq__alloc ();
 	values->_length = values->_maximum = len;
 	values->_buffer = CORBA_sequence_CORBA_string_allocbuf (len);
@@ -178,8 +178,8 @@ gnm_graph_vector_seq_string (GnmGraphVector *vector)
 	/* FIXME : This is dog slow */
 	for (i = 0; i < len ; ++i) {
 		Value const *elem = vector->is_column
-			? value_area_get_x_y (&ep, v, 0, i)
-			: value_area_get_x_y (&ep, v, i, 0);
+			? value_area_get_x_y (v, 0, i, &ep)
+			: value_area_get_x_y (v, i, 0, &ep);
 		/* TODO : handle blanks */
 		char const *tmp = elem ? value_peek_string (elem) : "";
 		values->_buffer[i] = CORBA_string_dup (tmp);
@@ -348,7 +348,7 @@ gnm_graph_vector_debug_name (Dependent const *dep, FILE *out)
 static DEPENDENT_MAKE_TYPE (gnm_graph_vector, NULL)
 
 static Value *
-cb_check_range_for_pure_string (EvalPos const *ep, Value const *v, void *user)
+cb_check_range_for_pure_string (Value const *v, EvalPos const *ep, void *user)
 {
 	if (v == NULL || v->type != VALUE_STRING)
 		return VALUE_TERMINATE;
@@ -537,7 +537,8 @@ gnm_graph_add_vector (GnmGraph *graph, GnmExpr const *expr,
 	if (type == GNM_VECTOR_AUTO) {
 		type = GNM_VECTOR_SCALAR;
 		if (vector->value != NULL) {
-			if (value_area_foreach (&ep, vector->value, &cb_check_range_for_pure_string, NULL) != NULL &&
+			if (value_area_foreach (vector->value, &ep,
+						&cb_check_range_for_pure_string, NULL) != NULL &&
 			    vector->value->type == VALUE_CELLRANGE) {
 				Range  r;
 				Sheet *start_sheet, *end_sheet;
@@ -545,7 +546,8 @@ gnm_graph_add_vector (GnmGraph *graph, GnmExpr const *expr,
 				FormatCharacteristics info;
 				FormatFamily family;
 
-				value_cellrange_normalize (&ep, vector->value, &start_sheet, &end_sheet, &r);
+				rangeref_normalize (&vector->value->v_range.cell, &ep,
+						    &start_sheet, &end_sheet, &r);
 				fmt = cell_get_format (sheet_cell_get (start_sheet, r.start.col, r.start.row));
 				family = cell_format_classify (fmt, &info);
 				if (family == FMT_DATE)
@@ -556,7 +558,7 @@ gnm_graph_add_vector (GnmGraph *graph, GnmExpr const *expr,
 	}
 
 	vector->is_column = (vector->value != NULL &&
-			     value_area_get_width (&ep, vector->value) == 1);
+			     value_area_get_width (vector->value, &ep) == 1);
 	vector->type = type;
 	if ( /* !gnm_graph_vector_corba_init (vector) || */
 	    !gnm_graph_subscribe_vector (graph, vector)) {

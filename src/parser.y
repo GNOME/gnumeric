@@ -377,7 +377,7 @@ build_set (GnmExprList *list)
 static GnmExpr *
 parse_string_as_value (GnmExpr *str)
 {
-	Value *v = format_match_simple (value_peek_string (str->constant.value));
+	Value *v = format_match_simple (str->constant.value->v_str.val->str);
 
 	if (v != NULL) {
 		unregister_allocation (str);
@@ -388,34 +388,41 @@ parse_string_as_value (GnmExpr *str)
 }
 
 /**
- * parser_lookup_name :
+ * parser_simple_val_or_name :
  * @str : An expression with oper constant, whose value is a string.
  *
- * Check to see if a string is a name
- * if it is not create a placeholder for it.
+ * Check to see if a string is a simple value or failing that a named
+ * expression, if it is not create a placeholder name for it.
  */
 static GnmExpr *
-parser_lookup_name (GnmExpr *str)
+parser_simple_val_or_name (GnmExpr *str_expr)
 {
-	char const *name = str->constant.value->v_str.val->str;
-	GnmNamedExpr *nexpr;
+	GnmExpr const	*res;
+	char const	*str = str_expr->constant.value->v_str.val->str;
+	Value		*v   = format_match_simple (str);
 
-	nexpr = expr_name_lookup (state->pos, name);
-	if (nexpr == NULL) {
-		ParsePos pp = *state->pos;
-		pp.sheet = NULL;
-		nexpr = expr_name_add (&pp, name, NULL, NULL);
-	}
+	/* if it is not a simple value see if it is a name */
+	if (v == NULL) {
+		GnmNamedExpr *nexpr = expr_name_lookup (state->pos, str);
+		if (nexpr == NULL) {
+			ParsePos pp = *state->pos;
+			pp.sheet = NULL;
+			/* Create a place holder */
+			nexpr = expr_name_add (&pp, str, NULL, NULL);
+		}
+		res = gnm_expr_new_name (nexpr, NULL, NULL);
+	} else 
+		res = gnm_expr_new_constant (v);
 
-	unregister_allocation (str);
-	gnm_expr_unref (str);
-	return register_expr_allocation (gnm_expr_new_name (nexpr, NULL, NULL));
+	unregister_allocation (str_expr);
+	gnm_expr_unref (str_expr);
+	return register_expr_allocation (res);
 }
 
 static Sheet *
 parser_sheet_by_name (Workbook *wb, GnmExpr *name_expr)
 {
-	char  *name = name_expr->constant.value->v_str.val->str;
+	char const *name = name_expr->constant.value->v_str.val->str;
 	Sheet *sheet = NULL;
 	
 	if (wb == NULL)
@@ -493,7 +500,7 @@ opt_exp : opt_exp exp  SEPARATOR {
 
 exp:	  CONSTANT 	{ $$ = $1; }
 	| QUOTED_STRING { $$ = $1; }
-	| STRING        { $$ = parser_lookup_name ($1); }
+	| STRING        { $$ = parser_simple_val_or_name ($1); }
         | cellref       { $$ = $1; }
 	| exp '+' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_ADD,	$3); }
 	| exp '-' exp	{ $$ = build_binop ($1, GNM_EXPR_OP_SUB,	$3); }

@@ -47,7 +47,7 @@ style_condition_expr_dep_eval (Dependent *dep)
 	if (dep->expression != NULL) {
 		EvalPos ep;
 		sce->val = gnm_expr_eval (dep->expression,
-			eval_pos_init_dep (&ep, dep), 0);
+			eval_pos_init_dep (&ep, dep), GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	}
 }
 
@@ -156,14 +156,13 @@ style_condition_ref (StyleCondition *sc)
 void
 style_condition_link (StyleCondition *sc, Sheet *sheet)
 {
-	static CellPos const pos = { 0, 0 };
 	g_return_if_fail (sc != NULL);
 
 	do {
 		g_return_if_fail (sc->u.expr.dep.sheet == NULL);
 		sc->u.expr.dep.sheet = sheet;
 		if (sc->u.expr.dep.expression != NULL)
-			dependent_link (&sc->u.expr.dep, &pos);
+			dependent_link (&sc->u.expr.dep);
 		sc = sc->next;
 	} while (sc != NULL);
 }

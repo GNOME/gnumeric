@@ -426,9 +426,6 @@ name_guru_init_button (NameGuruState *state, char const *name)
 static void
 cb_name_guru_destroy (NameGuruState *state)
 {
-	g_return_val_if_fail (state != NULL, FALSE);
-
-	puts ("foo");
 	wbcg_edit_detach_guru (state->wbcg);
 
 	if (state->gui != NULL) {

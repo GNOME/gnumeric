@@ -86,9 +86,8 @@ value_dump (Value const *value)
 	}
 }
 
-
 int
-value_area_get_width (EvalPos const *ep, Value const *v)
+value_area_get_width (Value const *v, EvalPos const *ep)
 {
 	g_return_val_if_fail (v, 0);
 
@@ -110,7 +109,7 @@ value_area_get_width (EvalPos const *ep, Value const *v)
 }
 
 int
-value_area_get_height (EvalPos const *ep, Value const *v)
+value_area_get_height (Value const *v, EvalPos const *ep)
 {
 	g_return_val_if_fail (v, 0);
 
@@ -133,9 +132,9 @@ value_area_get_height (EvalPos const *ep, Value const *v)
 }
 
 Value const *
-value_area_fetch_x_y (EvalPos const *ep, Value const *v, int x, int y)
+value_area_fetch_x_y (Value const *v, int x, int y, EvalPos const *ep)
 {
-	Value const * const res = value_area_get_x_y (ep, v, x, y);
+	Value const * const res = value_area_get_x_y (v, x, y, ep);
 	if (res && res->type != VALUE_EMPTY)
 		return res;
 
@@ -147,7 +146,7 @@ value_area_fetch_x_y (EvalPos const *ep, Value const *v, int x, int y)
  * problems occur a NULL is returned.
  */
 Value const *
-value_area_get_x_y (EvalPos const *ep, Value const *v, int x, int y)
+value_area_get_x_y (Value const *v, int x, int y, EvalPos const *ep)
 {
 	g_return_val_if_fail (v, NULL);
 
@@ -209,9 +208,10 @@ value_area_get_x_y (EvalPos const *ep, Value const *v, int x, int y)
 			return NULL;
 
 		cell = sheet_cell_get (sheet, a_col, a_row);
-
-		if (cell && cell->value)
+		if (cell != NULL) {
+			cell_eval (cell);
 			return cell->value;
+		}
 	} else
 		return v;
 
@@ -234,7 +234,7 @@ cb_wrapper_foreach_cell_in_area (Sheet *sheet, int col, int row,
 	        return NULL;
 
        	wrap = (WrapperClosure *)user_data;
-       	return (*wrap->callback)(wrap->ep, cell->value, wrap->real_data);
+       	return (*wrap->callback) (cell->value, wrap->ep, wrap->real_data);
 }
 
 /**
@@ -249,7 +249,7 @@ cb_wrapper_foreach_cell_in_area (Sheet *sheet, int col, int row,
  *    to stop (by returning non-NULL).
  */
 Value *
-value_area_foreach (EvalPos const *ep, Value const *v,
+value_area_foreach (Value const *v, EvalPos const *ep,
 		    ValueAreaFunc callback,
 		    void *closure)
 {
@@ -271,27 +271,13 @@ value_area_foreach (EvalPos const *ep, Value const *v,
 
 	/* If not an array, apply callback to singleton */
         if (v->type != VALUE_ARRAY)
-		return (*callback)(ep, v, closure);
+		return (*callback) (v, ep, closure);
 
 	for (x = v->v_array.x; --x >= 0;)
 		for (y = v->v_array.y; --y >= 0;)
-			if ((tmp = (*callback)(ep, v->v_array.vals [x][y], closure)) != NULL)
+			if ((tmp = (*callback)(v->v_array.vals [x][y], ep, closure)) != NULL)
 				return tmp;
 
 	return NULL;
 }
 
-/**
- * range_ref_normalize :  Take a range_ref from a Value and normalize it
- *     by converting to absolute coords and handling inversions.
- */
-void
-value_cellrange_normalize (EvalPos const *ep, Value const *ref,
-			   Sheet **start_sheet, Sheet **end_sheet, Range *dest)
-{
-	g_return_if_fail (ref != NULL);
-	g_return_if_fail (ref->type == VALUE_CELLRANGE);
-
-	rangeref_normalize   (ep, &ref->v_range.cell,
-			      start_sheet, end_sheet, dest);
-}

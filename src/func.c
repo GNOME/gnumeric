@@ -772,7 +772,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 		arg_type = fn_def->fn.args.arg_types[i];
 		expr = l->data;
 
-		if (i > fn_def->fn.args.min_args) 
+		if (i >= fn_def->fn.args.min_args) 
 			optional = GNM_EXPR_EVAL_PERMIT_EMPTY;
 
 		if (arg_type == 'A' || arg_type == 'r') {
@@ -802,8 +802,9 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 
 		/* force scalars whenever we are certain */
 		tmp = args[i] = gnm_expr_eval (expr, ei->pos, optional |
-		       (iter_count >= 0 || arg_type == '?')
-			       ? GNM_EXPR_EVAL_PERMIT_NON_SCALAR : 0);
+		       ((iter_count >= 0 || arg_type == '?')
+			       ? GNM_EXPR_EVAL_PERMIT_NON_SCALAR
+			       : GNM_EXPR_EVAL_SCALAR_NON_EMPTY));
 
 		if (tmp == NULL ||	/* Optional arguments can be empty */
 		    arg_type == '?')	/* '?' arguments are unrestriced */
@@ -811,28 +812,24 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 
 		/* Handle implicit intersection or iteration depending on flags */
 		if (tmp->type == VALUE_CELLRANGE || tmp->type == VALUE_ARRAY) {
-			if (iter_count < 0) {
-				tmp = value_intersection (tmp, ei->pos);
-				if (tmp == NULL) {
-					free_values (args, i);
+			if (iter_count > 0) {
+				if (iter_width != value_area_get_width (tmp, ei->pos) ||
+				    iter_height != value_area_get_height (tmp, ei->pos)) {
+					/* no need to free inter_vals, there is nothing there yet */
+					free_values (args, i + 1);
 					return value_new_error (ei->pos, gnumeric_err_VALUE);
 				}
 			} else {
-				if (iter_count != 0) {
-					if (iter_width != value_area_get_width (ei->pos, tmp) ||
-					    iter_height != value_area_get_height (ei->pos, tmp)) {
-						/* no need to free inter_vals, there is nothing there yet */
-						free_values (args, i + 1);
-						return value_new_error (ei->pos, gnumeric_err_VALUE);
-					}
-				} else {
-					iter_item = g_alloca (sizeof (int) * argc);
-					iter_width = value_area_get_width (ei->pos, tmp);
-					iter_height = value_area_get_height (ei->pos, tmp);
+				if (iter_count < 0) {
+					g_warning ("Damn I though this was impossible");
+					iter_count = 0;
 				}
-				iter_item[iter_count] = iter_count;
-				iter_count++;
+				iter_item = g_alloca (sizeof (int) * argc);
+				iter_width = value_area_get_width (tmp, ei->pos);
+				iter_height = value_area_get_height (tmp, ei->pos);
 			}
+			iter_item[iter_count] = iter_count;
+			iter_count++;
 		}
 
 		/* All of these argument types must be scalars */
@@ -898,7 +895,7 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 				/* marshal the args */
 				err = NULL;
 				for (i = 0 ; i < iter_count; i++) {
-					elem = value_area_fetch_x_y (ei->pos, iter_vals[i], x, y);
+					elem = value_area_fetch_x_y (iter_vals[i], x, y, ei->pos);
 					arg_type = fn_def->fn.args.arg_types[iter_item[i]];
 					if  (arg_type == 'b' || arg_type == 'f') {
 						if (elem->type == VALUE_STRING) {

@@ -297,7 +297,7 @@ value_to_rangeref (Value *v, gboolean release)
  *     by converting to absolute coords and handling inversions.
  */
 void
-rangeref_normalize (EvalPos const *ep, RangeRef const *ref,
+rangeref_normalize (RangeRef const *ref, EvalPos const *ep,
 		    Sheet **start_sheet, Sheet **end_sheet, Range *dest)
 {
 	g_return_if_fail (ref != NULL);

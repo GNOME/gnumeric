@@ -2465,7 +2465,7 @@ sheet_cell_destroy (Sheet *sheet, Cell *cell, gboolean queue_recalc)
 	}
 
 	if (queue_recalc)
-		cell_foreach_dep (cell, cb_dependent_queue_recalc, NULL);
+		cell_foreach_dep (cell, (DepFunc)dependent_queue_recalc, NULL);
 
 	sheet_cell_remove_from_hash (sheet, cell);
 	cell_destroy (cell);

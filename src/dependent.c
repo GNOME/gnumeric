@@ -39,17 +39,32 @@
 
 #define BUCKET_SIZE	128
 
+static void dynamic_dep_eval 	   (Dependent *dep);
+static void dynamic_dep_debug_name (Dependent const *dep, FILE *out);
+
+static CellPos const dummy = { 0, 0 };
 static GPtrArray *dep_classes = NULL;
+static DependentClass dynamic_dep_class = {
+	dynamic_dep_eval,
+	NULL,
+	dynamic_dep_debug_name,
+};
+typedef struct {
+	Dependent  base;
+	Dependent *container;
+	GSList    *ranges;
+} DynamicDep;
 
 void
 dependent_types_init (void)
 {
 	g_return_if_fail (dep_classes == NULL);
 
-	/* Init with a pair of NULL classes so we can access directly */
+	/* Init with a trio of NULL classes so we can access directly */
 	dep_classes = g_ptr_array_new ();
-	g_ptr_array_add	(dep_classes, NULL);
-	g_ptr_array_add	(dep_classes, NULL);
+	g_ptr_array_add	(dep_classes, NULL); /* bogus filler */
+	g_ptr_array_add	(dep_classes, NULL); /* Cell */
+	g_ptr_array_add	(dep_classes, &dynamic_dep_class);
 }
 
 void
@@ -108,7 +123,7 @@ dependent_changed (Dependent *dep)
 	dependent_link (dep, &pos);
 
 	if (dep->sheet->workbook->recursive_dirty_enabled)
-		cb_dependent_queue_recalc (dep,  NULL);
+		dependent_queue_recalc (dep);
 	else
 		dependent_flag_recalc (dep);
 }
@@ -235,13 +250,14 @@ dependent_queue_recalc_list (GSList *list)
 
 	while (work) {
 		Dependent *dep = work->data;
+		int const t = dependent_type (dep);
 
 		/* Pop the top element.  */
 		list = work;
 		work = work->next;
 		g_slist_free_1 (list);
 
-		if (dependent_is_cell (dep)) {
+		if (t == DEPENDENT_CELL) {
 			GSList *deps = cell_list_deps (DEP_TO_CELL (dep));
 			GSList *waste = NULL;
 			GSList *next;
@@ -258,13 +274,16 @@ dependent_queue_recalc_list (GSList *list)
 				}
 			}
 			g_slist_free (waste);
+		} else if (t == DEPENDENT_DYNAMIC_DEP) {
+			DynamicDep const *dyn = (DynamicDep *)dep;
+			dependent_flag_recalc (dyn->container);
+			work = g_slist_prepend (work, dyn->container);
 		}
 	}
 }
 
-
 void
-cb_dependent_queue_recalc (Dependent *dep, gpointer ignore)
+dependent_queue_recalc (Dependent *dep)
 {
 	g_return_if_fail (dep != NULL);
 
@@ -900,6 +919,77 @@ workbook_unlink_3d_dep (Dependent *dep)
 	g_hash_table_remove (dep->sheet->workbook->sheet_order_dependents, dep);
 }
 
+/*****************************************************************************/
+
+static void dynamic_dep_eval (Dependent *dep) { }
+
+static void
+dynamic_dep_debug_name (Dependent const *dep, FILE *out)
+{
+	fprintf (out, "DynamicDep%p", dep);
+}
+void
+dependent_add_dynamic_dep (Dependent *dep, ValueRange const *v)
+{
+	DependentFlags   flags;
+	DynamicDep	*dyn;
+	CellPos const	*pos;
+	
+	g_return_if_fail (dep != NULL);
+
+	pos = (dependent_is_cell (dep))
+		? &DEP_TO_CELL(dep)->pos : &dummy;
+
+	if (dep->flags & DEPENDENT_HAS_DYNAMIC_DEPS)
+		dyn = g_hash_table_lookup (dep->sheet->deps->dynamic_deps, dep);
+	else {
+		dep->flags |= DEPENDENT_HAS_DYNAMIC_DEPS;
+		dyn = g_new (DynamicDep, 1);
+		dyn->base.flags		= DEPENDENT_DYNAMIC_DEP;
+		dyn->base.sheet		= dep->sheet;
+		dyn->base.expression	= NULL;
+		dyn->container		= dep;
+		dyn->ranges		= NULL;
+		g_hash_table_insert (dep->sheet->deps->dynamic_deps, dep, dyn);
+	}
+
+	flags = link_cellrange_dep (&dyn->base, pos, &v->cell.a, &v->cell.b);
+	dyn->ranges = g_slist_prepend (dyn->ranges, value_duplicate ((Value *)v));
+	if (flags & DEPENDENT_HAS_3D)
+		workbook_link_3d_dep (dep);
+}
+
+static void
+dynamic_dep_free (DynamicDep *dyn)
+{
+	Dependent *dep = dyn->container;
+	CellPos const *pos = (dependent_is_cell (dep))
+		? &DEP_TO_CELL(dep)->pos : &dummy;
+	ValueRange *v;
+	GSList *ptr = dyn->ranges;
+
+	for (ptr = dyn->ranges ; ptr != NULL ; ptr = ptr->next) {
+		v = ptr->data;
+		unlink_cellrange_dep (&dyn->base, pos, &v->cell.a, &v->cell.b);
+		value_release ((Value *)v);
+	}
+	g_slist_free (dyn->ranges);
+	dyn->ranges = NULL;
+
+	if (dyn->base.flags & DEPENDENT_HAS_3D)
+		workbook_unlink_3d_dep (&dyn->base);
+}
+
+static void
+dependent_clear_dynamic_deps (Dependent *dep)
+{
+	DynamicDep *dyn = g_hash_table_lookup (dep->sheet->deps->dynamic_deps, dep);
+	if (dyn != NULL)
+		dynamic_dep_free (dyn);
+}
+
+/*****************************************************************************/
+
 /**
  * dependent_link:
  * @dep : the dependent that changed
@@ -945,8 +1035,6 @@ dependent_link (Dependent *dep, CellPos const *pos)
 void
 dependent_unlink (Dependent *dep, CellPos const *pos)
 {
-	static CellPos const dummy = { 0, 0 };
-
 	g_return_if_fail (dep != NULL);
 	g_return_if_fail (dependent_is_linked (dep));
 	g_return_if_fail (dep->expression != NULL);
@@ -967,6 +1055,8 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 
 	if (dep->flags & DEPENDENT_HAS_3D)
 		workbook_unlink_3d_dep (dep);
+	if (dep->flags & DEPENDENT_HAS_DYNAMIC_DEPS)
+		dependent_clear_dynamic_deps (dep);
 	dep->flags &= ~DEPENDENT_LINK_FLAGS;
 }
 
@@ -988,6 +1078,15 @@ cell_eval_content (Cell *cell)
 
 	if (!cell_has_expr (cell))
 		return TRUE;
+
+	/* do this here rather than dependent_eval
+	 * because this routine is sometimes called
+	 * directly
+	 */
+	if (cell->base.flags & DEPENDENT_HAS_DYNAMIC_DEPS) {
+		dependent_clear_dynamic_deps (CELL_TO_DEP (cell));
+		cell->base.flags &= ~DEPENDENT_HAS_DYNAMIC_DEPS;
+	}
 
 #ifdef DEBUG_EVALUATION
 	{
@@ -1041,7 +1140,8 @@ cell_eval_content (Cell *cell)
 	max_iteration = cell->base.sheet->workbook->iteration.max_number;
 
 iterate :
-	v = gnm_expr_eval (cell->base.expression, &pos, 0);
+	v = gnm_expr_eval (cell->base.expression, &pos,
+		GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 	if (v == NULL)
 		v = value_new_error (&pos, "Internal error");
 
@@ -1120,8 +1220,17 @@ dependent_eval (Dependent *dep)
 			DependentClass *klass = g_ptr_array_index (dep_classes, t);
 
 			g_return_val_if_fail (klass, FALSE);
+
+			if (dep->flags & DEPENDENT_HAS_DYNAMIC_DEPS) {
+				dependent_clear_dynamic_deps (dep);
+				dep->flags &= ~DEPENDENT_HAS_DYNAMIC_DEPS;
+			}
+
 			(*klass->eval) (dep);
 		} else {
+			/* This will clear the dynamic deps too, see comment there
+			 * to explain asymetry.
+			 */
 			gboolean finished = cell_eval_content (DEP_TO_CELL (dep));
 
 			/* This should always be the top of the stack */
@@ -1510,7 +1619,7 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 			/* queue the things that depend on the changed dep
 			 * even if it is going to move.
 			 */
-			cb_dependent_queue_recalc (dep,  NULL);
+			dependent_queue_recalc (dep);
 
 			/* relink if it is not going to move, if it is moving
 			 * then the caller is responsible for relinking.
@@ -1637,7 +1746,6 @@ cb_name_invalidate (GnmNamedExpr *nexpr, gpointer value,
 static void
 do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 {
-	static CellPos const dummy = { 0, 0 };
 	DependentFlags filter = DEPENDENT_LINK_FLAGS; /* unlink everything */
 	GnmDepContainer *deps;
 
@@ -1683,11 +1791,16 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 		deps->single_pool = NULL;
 	}
 
-	if (deps->names) {
-		g_hash_table_foreach (deps->names,
+	if (deps->referencing_names) {
+		g_hash_table_foreach (deps->referencing_names,
 			(GHFunc)cb_name_invalidate, (gpointer)rwinfo);
-		g_hash_table_destroy (deps->names);
-		deps->names = NULL;
+		g_hash_table_destroy (deps->referencing_names);
+		deps->referencing_names = NULL;
+	}
+
+	if (deps->dynamic_deps) {
+		g_hash_table_destroy (deps->dynamic_deps);
+		deps->dynamic_deps = NULL;
 	}
 
 	/* TODO : when we support inter-app depends we'll need a new flag */
@@ -1819,8 +1932,11 @@ gnm_dep_container_new (void)
 	deps->single_pool = gnm_mem_chunk_new ("single pool",
 					       sizeof (DependencySingle),
 					       16 * 1024 - 100);
-	deps->names       = g_hash_table_new (g_direct_hash,
-					      g_direct_equal);
+	deps->referencing_names = g_hash_table_new (g_direct_hash,
+						    g_direct_equal);
+
+	deps->dynamic_deps = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+		NULL, (GDestroyNotify) dynamic_dep_free);
 
 	return deps;
 }
