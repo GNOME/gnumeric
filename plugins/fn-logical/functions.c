@@ -49,16 +49,16 @@ static const char *help_and = {
 	   "AND implements the logical AND function: the result is TRUE "
 	   "if all of the expressions evaluate to TRUE, otherwise it returns "
 	   "FALSE.\n"
-
+	   "\n"
 	   "@b1, trough @bN are expressions that should evaluate to TRUE "
 	   "or FALSE.  If an integer or floating point value is provided "
 	   "zero is considered FALSE and anything else is TRUE.\n"
-
-	   "If the values contain strings or empty cells those values are "
-	   "ignored. "
-	   "If no logical values are provided, then the error #VALUE! "
+	   "\n"
+	   "* If the values contain strings or empty cells those values are "
+	   "ignored.\n"
+	   "* If no logical values are provided, then the error #VALUE! "
 	   "is returned.\n"
-	   "This function is Excel compatible. "
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "AND(TRUE,TRUE) equals TRUE.\n"
@@ -110,7 +110,8 @@ static const char *help_not = {
 	   "@DESCRIPTION="
 	   "NOT implements the logical NOT function: the result is TRUE "
 	   "if the @number is zero;  otherwise the result is FALSE.\n"
-	   "This function is Excel compatible. "
+	   "\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "NOT(0) equals TRUE.\n"
@@ -137,13 +138,16 @@ static const char *help_or = {
 	   "@DESCRIPTION="
 	   "OR implements the logical OR function: the result is TRUE if "
 	   "any of the values evaluated to TRUE.\n"
+	   "\n"
 	   "@b1, trough @bN are expressions that should evaluate to TRUE "
 	   "or FALSE. If an integer or floating point value is provided "
 	   "zero is considered FALSE and anything else is TRUE.\n"
-	   "If the values contain strings or empty cells those values are "
-	   "ignored.  If no logical values are provided, then the error "
+	   "\n"
+	   "* If the values contain strings or empty cells those values are "
+	   "ignored.\n"
+	   "* If no logical values are provided, then the error "
 	   "#VALUE! is returned.\n"
-	   "This function is Excel compatible. "
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "OR(TRUE,FALSE) equals TRUE.\n"
@@ -191,13 +195,16 @@ static const char *help_xor = {
 	   "@SYNTAX=XOR(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
-	   "XOR implements the logical exclusive OR function: the result is TRUE if "
-	   "an odd number of the values evaluated to TRUE.\n"
+	   "XOR implements the logical exclusive OR function: the result is "
+	   "TRUE if an odd number of the values evaluated to TRUE.\n"
+	   "\n"
 	   "@b1, trough @bN are expressions that should evaluate to TRUE "
 	   "or FALSE. If an integer or floating point value is provided "
 	   "zero is considered FALSE and anything else is TRUE.\n"
-	   "If the values contain strings or empty cells those values are "
-	   "ignored.  If no logical values are provided, then the error "
+	   "\n"
+	   "* If the values contain strings or empty cells those values are "
+	   "ignored.\n"
+	   "* If no logical values are provided, then the error "
 	   "#VALUE! is returned.\n"
 	   "@EXAMPLES=\n"
 	   "XOR(TRUE,FALSE) equals TRUE.\n"
@@ -245,12 +252,13 @@ static const char *help_if = {
 	   "@SYNTAX=IF(condition[,if-true,if-false])\n"
 
 	   "@DESCRIPTION="
-	   "Use the IF statement to evaluate conditionally other expressions "
-	   "IF evaluates @condition.  If @condition returns a non-zero value "
-	   "the result of the IF expression is the @if-true expression, "
-	   "otherwise IF evaluates to the value of @if-false. "
-	   "If ommitted @if-true defaults to TRUE and @if-false to FALSE.\n"
-	   "This function is Excel compatible. "
+	   "IF function can be used to evaluate conditionally other "
+	   "expressions. IF evaluates @condition.  If @condition returns a "
+	   "non-zero value the result of the IF expression is the @if-true "
+	   "expression, otherwise IF evaluates to the value of @if-false.\n"
+	   "\n"
+	   "* If ommitted @if-true defaults to TRUE and @if-false to FALSE.\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "IF(FALSE,TRUE,FALSE) equals FALSE.\n"
@@ -273,7 +281,8 @@ gnumeric_if (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 					_("Invalid number of arguments"));
 
 	/* Compute the if part */
-	value = gnm_expr_eval (expr_node_list->data, ei->pos, GNM_EXPR_EVAL_STRICT);
+	value = gnm_expr_eval (expr_node_list->data, ei->pos,
+			       GNM_EXPR_EVAL_STRICT);
 	if (VALUE_IS_EMPTY_OR_ERROR(value))
 		return value;
 
@@ -308,8 +317,8 @@ static const char *help_true = {
 	   "@SYNTAX=TRUE()\n"
 
 	   "@DESCRIPTION="
-	   "TRUE returns boolean value true.\n"
-	   "This function is Excel compatible. "
+	   "TRUE returns boolean value true.\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "TRUE() equals TRUE.\n"
@@ -330,8 +339,8 @@ static const char *help_false = {
 	   "@SYNTAX=FALSE()\n"
 
 	   "@DESCRIPTION="
-	   "FALSE returns boolean value false.\n"
-	   "This function is Excel compatible."
+	   "FALSE returns boolean value false.\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "FALSE() equals FALSE.\n"
@@ -348,11 +357,15 @@ gnumeric_false (FunctionEvalInfo *ei, Value **args)
 /***************************************************************************/
 
 const ModulePluginFunctionInfo logical_functions[] = {
-	{ "and", 0, N_("number,number,"), &help_and, NULL, gnumeric_and, NULL, NULL },
-	{ "or", 0, N_("number,number,"), &help_or, NULL, gnumeric_or, NULL, NULL },
-	{ "xor", 0, N_("number,number,"), &help_xor, NULL, gnumeric_xor, NULL, NULL },
+	{ "and", 0, N_("number,number,"), &help_and, NULL,
+	  gnumeric_and, NULL, NULL },
+	{ "or", 0, N_("number,number,"), &help_or, NULL,
+	  gnumeric_or, NULL, NULL },
+	{ "xor", 0, N_("number,number,"), &help_xor, NULL,
+	  gnumeric_xor, NULL, NULL },
 	{ "not", "f", N_("number"), &help_not, gnumeric_not, NULL, NULL, NULL },
-	{ "if", 0, N_("condition,if true,if false"), &help_if, NULL, gnumeric_if, NULL, NULL },
+	{ "if", 0, N_("condition,if true,if false"), &help_if, NULL,
+	  gnumeric_if, NULL, NULL },
 	{ "true", "", "", &help_true, gnumeric_true, NULL, NULL, NULL },
 	{ "false", "", "", &help_false, gnumeric_false, NULL, NULL, NULL },
         {NULL}

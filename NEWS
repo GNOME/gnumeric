@@ -16,6 +16,7 @@ Jukka:
 	* Added `Filter->Show All'.
 	* Improved the function description layout in the
 	  `Insert->Function' dialog.
+	* Function documentation improvements.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.6

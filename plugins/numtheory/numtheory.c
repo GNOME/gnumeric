@@ -212,9 +212,8 @@ static const char *help_phi = {
 	N_("@FUNCTION=NT_PHI\n"
 	   "@SYNTAX=NT_PHI(n)\n"
 	   "@DESCRIPTION="
-	   "The NT_PHI function calculates the number of integers less "
+	   "NT_PHI function calculates the number of integers less "
 	   "than or equal to @n that are relatively prime to @n.\n"
-	   "This function only takes one argument."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA")
@@ -247,12 +246,12 @@ static const char *help_nt_mu = {
 	N_("@FUNCTION=NT_MU\n"
 	   "@SYNTAX=NT_MU(n)\n"
 	   "@DESCRIPTION="
-	   "The NT_MU function (Möbius mu function) returns \n"
+	   "NT_MU function (Möbius mu function) returns \n"
 	   "0  if @n is divisible by the square of a prime .\n"
-	   "Otherwise it returns: \n"
-	   "-1 if @n has an odd  number of different prime factors .\n"
-	   "1  if @n has an even number of different prime factors .\n"
-	   "If @n=1 it returns 1\n"
+	   "Otherwise it returns: \n\n"
+	   "  -1 if @n has an odd  number of different prime factors .\n"
+	   "   1  if @n has an even number of different prime factors .\n\n"
+	   "* If @n = 1 NT_MU returns 1.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=NT_D, ITHPRIME, NT_PHI")
@@ -286,8 +285,7 @@ static const char *help_d = {
 	N_("@FUNCTION=NT_D\n"
 	   "@SYNTAX=NT_D(n)\n"
 	   "@DESCRIPTION="
-	   "The NT_D function calculates the number of divisors of @n.\n"
-	   "This function only takes one argument."
+	   "NT_D function calculates the number of divisors of @n.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA")
@@ -320,8 +318,7 @@ static const char *help_sigma = {
 	N_("@FUNCTION=NT_SIGMA\n"
 	   "@SYNTAX=NT_SIGMA(n)\n"
 	   "@DESCRIPTION="
-	   "The NT_SIGMA function calculates the sum of the divisors of @n.\n"
-	   "This function only takes one argument."
+	   "NT_SIGMA function calculates the sum of the divisors of @n.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=NT_D, ITHPRIME, NT_PHI")
@@ -355,8 +352,7 @@ static const char *help_ithprime = {
 	N_("@FUNCTION=ITHPRIME\n"
 	   "@SYNTAX=ITHPRIME(i)\n"
 	   "@DESCRIPTION="
-	   "The ITHPRIME function returns the @ith prime.\n"
-	   "This function only takes one argument."
+	   "ITHPRIME function returns the @ith prime.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=NT_D, NT_SIGMA")
@@ -383,9 +379,7 @@ static const char *help_isprime = {
 	N_("@FUNCTION=ISPRIME\n"
 	   "@SYNTAX=ISPRIME(i)\n"
 	   "@DESCRIPTION="
-	   "The ISPRIME function returns TRUE if @i is prime "
-	   "and FALSE otherwise.\n"
-	   "This function only takes one argument."
+	   "ISPRIME function returns TRUE if @i is prime and FALSE otherwise.\n"
 	   "\n"
 	   "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA")
 };
@@ -409,9 +403,8 @@ static const char *help_nt_pi = {
 	N_("@FUNCTION=NT_PI\n"
 	   "@SYNTAX=NT_PI(n)\n"
 	   "@DESCRIPTION="
-	   "The NT_PI function returns the number of primes "
-	   "less than or equal to @n.\n"
-	   "This function only takes one argument."
+	   "NT_PI function returns the number of primes less than or equal "
+	   "to @n.\n"
 	   "\n"
 	   "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA")
 };
@@ -436,7 +429,7 @@ static const char *help_bitor = {
 	N_("@FUNCTION=BITOR\n"
 	   "@SYNTAX=BITOR(a,b)\n"
 	   "@DESCRIPTION="
-	   "The BITOR function returns bitwise or-ing of its arguments.\n"
+	   "BITOR function returns bitwise or-ing of its arguments.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=BITXOR,BITAND")
@@ -455,7 +448,8 @@ static const char *help_bitxor = {
 	N_("@FUNCTION=BITXOR\n"
 	   "@SYNTAX=BITXOR(a,b)\n"
 	   "@DESCRIPTION="
-	   "The BITXOR function returns bitwise exclusive or-ing of its arguments.\n"
+	   "BITXOR function returns bitwise exclusive or-ing of its "
+	   "arguments.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=BITOR,BITAND")
@@ -474,7 +468,7 @@ static const char *help_bitand = {
 	N_("@FUNCTION=BITAND\n"
 	   "@SYNTAX=BITAND(a,b)\n"
 	   "@DESCRIPTION="
-	   "The BITAND function returns bitwise and-ing of its arguments.\n"
+	   "BITAND function returns bitwise and-ing of its arguments.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=BITOR,BITXOR")
@@ -494,8 +488,8 @@ static const char *help_bitlshift = {
 	N_("@FUNCTION=BITLSHIFT\n"
 	   "@SYNTAX=BITLSHIFT(x,n)\n"
 	   "@DESCRIPTION="
-	   "The BITLSHIFT function returns @x bit-shifted left by @n bits.\n"
-	   "If @n is negative, a right shift will in effect be performed.\n"
+	   "BITLSHIFT function returns @x bit-shifted left by @n bits.\n\n"
+	   "* If @n is negative, a right shift will in effect be performed.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=BITRSHIFT")
@@ -521,8 +515,8 @@ static const char *help_bitrshift = {
 	N_("@FUNCTION=BITRSHIFT\n"
 	   "@SYNTAX=BITRSHIFT(x,n)\n"
 	   "@DESCRIPTION="
-	   "The BITRSHIFT function returns @x bit-shifted right by @n bits.\n"
-	   "If @n is negative, a left shift will in effect be performed.\n"
+	   "BITRSHIFT function returns @x bit-shifted right by @n bits.\n\n"
+	   "* If @n is negative, a left shift will in effect be performed.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "@SEEALSO=BITLSHIFT")
