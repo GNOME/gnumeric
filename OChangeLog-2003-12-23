@@ -1,3 +1,23 @@
+2001-05-03  Jon K Hellan  <hellan@acm.org>
+
+	* src/gnumeric-util.c (cb_remove_object_data): New callback
+	function. Removes object data from wbcg when dialog is destroyed.
+	(gnumeric_keyed_dialog): New function. Make dialog a transient
+	child of wbcg, attaching to wbcg object data to identify the
+	dialog.
+	(gnumeric_dialog_raise_if_exists): New function: Raise the dialog
+	identified by key if it is registered on the wbcg.
+
+	* src/gnumeric-util.h (gnumeric_dialog_make_unique,
+	gnumeric_dialog_raise_if_exists): Declare.
+
+ 	* src/about.c (dialog_about): Use gnumeric_keyed_dialog.
+	Use gnumeric_dialog_raise_if_exists to ensure that only one sheet
+	object config dialog at a time can be displayed for a wbcg.
+
+ 	* src/sheet-object-widget.c (sheet_widget_checkbox_user_config):
+	Ditto.
+ 
 2001-05-02  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/workbook-edit.c (cb_thaw_ui_toolbar): Callback timer

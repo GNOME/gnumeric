@@ -24,6 +24,7 @@
 #include "widgets/gnumeric-expr-entry.h"
 
 #define LIST_KEY "name_list_data"
+#define DEFINE_NAMES_KEY "define-names-dialog"
 
 typedef enum {
 	NAME_GURU_SCOPE_SHEET,
@@ -631,7 +632,8 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 				  GTK_EDITABLE (state->expr_text));
 	gnumeric_combo_enters (GTK_WINDOW (state->dialog),
 			       state->scope);
-	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       DEFINE_NAMES_KEY);
 
 	gnumeric_expr_entry_set_scg (state->expr_text,
 				     wb_control_gui_cur_sheet (wbcg));
@@ -652,6 +654,10 @@ dialog_define_names (WorkbookControlGUI *wbcg)
 	NameGuruState *state;
 
 	g_return_if_fail (wbcg != NULL);
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, DEFINE_NAMES_KEY))
+		return;
 
 	state = g_new (NameGuruState, 1);
 	if (name_guru_init (state, wbcg)) {

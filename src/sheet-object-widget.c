@@ -39,6 +39,9 @@
 #include "workbook-edit.h"
 #include "workbook.h"
 #include "gnumeric-expr-entry.h"
+#include "dialogs.h"
+
+#define SHEET_OBJECT_CONFIG_KEY "sheet-object-config-dialog"
 
 #define SHEET_OBJECT_WIDGET_TYPE     (sheet_object_widget_get_type ())
 #define SHEET_OBJECT_WIDGET(obj)     (GTK_CHECK_CAST((obj), SHEET_OBJECT_WIDGET_TYPE, SheetObjectWidget))
@@ -779,6 +782,11 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 
 	g_return_if_fail (swc != NULL);
 
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (scg->wbcg,
+					     SHEET_OBJECT_CONFIG_KEY))
+		return;
+	
 	state = g_new (CheckboxConfigState, 1);
 	state->swc = swc;
 	state->wbcg = scg->wbcg;
@@ -810,7 +818,9 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE(state->entry));
 
-	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       SHEET_OBJECT_CONFIG_KEY);
+
 	workbook_edit_attach_guru (state->wbcg, state->dialog);
 	gtk_window_set_position (GTK_WINDOW (state->dialog), GTK_WIN_POS_MOUSE);
 	gtk_window_set_focus (GTK_WINDOW (state->dialog),

@@ -14,16 +14,6 @@
 
 #define ABOUT_KEY          "about-dialog"
 
-/* Object data is to make sure we don't pop up more than one copy. When
-   closing, we remove the data */
-static void
-cb_closed (GtkWidget *button, WorkbookControlGUI *wbcg)
-{
-	g_return_if_fail (gtk_object_get_data (GTK_OBJECT (wbcg), ABOUT_KEY) != NULL);
-
-	gtk_object_remove_data (GTK_OBJECT (wbcg), ABOUT_KEY);
-}
-
 /*
  * We need to get rid of that so that we will be able
  * to list everybody.  Something like guname would be
@@ -76,11 +66,8 @@ dialog_about (WorkbookControlGUI *wbcg)
 	}
 #endif
 	/* Ensure we only pop up one copy per workbook */
-	about = gtk_object_get_data (GTK_OBJECT (wbcg), ABOUT_KEY);
-	if (about && GNOME_IS_ABOUT (about)) {
-		gdk_window_raise (about->window);
+	if (gnumeric_dialog_raise_if_exists (wbcg, ABOUT_KEY))
 		return;
-	}
 
         about = gnome_about_new (_("Gnumeric"), VERSION,
 				 _("(C) 1998-2001 Miguel de Icaza"),
@@ -99,11 +86,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 			    hbox, TRUE, FALSE, 0);
 	gtk_widget_show_all (hbox);
 
-	gtk_object_set_data (GTK_OBJECT (wbcg), ABOUT_KEY, about);
-
-	gtk_signal_connect (
-		GTK_OBJECT (about), "close",
-		GTK_SIGNAL_FUNC (cb_closed), wbcg);
+	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (about), ABOUT_KEY);
 
 	/* Close on click, close with parent */
 	gnumeric_dialog_show (wbcg, GNOME_DIALOG (about), TRUE, TRUE);

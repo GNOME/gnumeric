@@ -1,3 +1,11 @@
+2001-05-03  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-define-names.c (name_guru_init): Use
+	gnumeric_keyed_dialog rather than gnumeric_non_modal_dialog.
+	(dialog_define_names): Use (gnumeric_dialog_raise_if_exists to
+	ensure that only one instance at a time can be displayed for a
+	wbcg.
+
 2001-04-29  Almer S. Tigelaar  <almer@gnome.org>
 
 	* dialog-zoom.c (dialog_zoom_impl): Use cmd_zoom.

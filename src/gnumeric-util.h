@@ -11,12 +11,17 @@ void       gnumeric_notice (WorkbookControlGUI *wbcg, const char *type, const ch
 
 void       gnumeric_non_modal_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog);
 gint       gnumeric_dialog_run  (WorkbookControlGUI *wbcg, GnomeDialog *dialog);
-void       gnumeric_dialog_show (WorkbookControlGUI *wbcg, GnomeDialog *dialog,
+void       gnumeric_dialog_show (WorkbookControlGUI *wbcg,
+				 GnomeDialog *dialog,
                                  gboolean click_closes,
                                  gboolean close_with_parent);
 void       gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg,
                                             ErrorInfo *error);
 void       gnumeric_set_transient (WorkbookControlGUI *context, GtkWindow *window);
+void       gnumeric_keyed_dialog (WorkbookControlGUI *wbcg,
+				  GtkWindow *dialog, char *key);
+gboolean   gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg,
+					    char *key);
 void       gnumeric_editable_enters (GtkWindow *window, GtkEditable *editable);
 void       gnumeric_combo_enters (GtkWindow *window, GtkCombo *combo);
 void       gnumeric_toolbar_insert_with_eventbox (GtkToolbar *toolbar,
