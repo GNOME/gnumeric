@@ -39,9 +39,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
-"POT-Creation-Date: 2001-10-18 22:45-0400\n"
-"PO-Revision-Date: 2001-10-13 00:56+0200\n"
-"Last-Translator: Ole Laursen <olau@hardworking.dk>\n"
+"POT-Creation-Date: 2001-10-20 06:24-0400\n"
+"PO-Revision-Date: 2001-10-20 00:56+0200\n"
+"Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -183,9 +183,9 @@ msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunne ikke finde gyldig MS Excel-arbejdsbog"
 
 #: plugins/excel/ms-excel-write.c:3544
-#, fuzzy, c-format
+#, c-format
 msgid "Too many rows for this format (%d > %d)"
-msgstr "For mange rækker for dette format"
+msgstr "For mange rækker for dette format (%d > %d)"
 
 #: plugins/excel/ms-excel-write.c:3772
 msgid "Can't open stream for writing\n"
@@ -347,9 +347,8 @@ msgid "Import/Export of HTML, TeX, DVI, roff"
 msgstr "Import/eksport af HTML, TeX, DVI, roff"
 
 #: plugins/html/plugin.xml.in.h:7
-#, fuzzy
 msgid "LaTeX 2.09 (*.tex)"
-msgstr "LaTeX2e (*.tex)"
+msgstr "LaTeX 2.09 (*.tex)"
 
 #: plugins/html/plugin.xml.in.h:8
 msgid "LaTeX2e (*.tex)"
@@ -2240,7 +2239,7 @@ msgstr "Tilfældig"
 msgid "Not implemented yet.\n"
 msgstr "Ikke implementeret endnu.\n"
 
-#: src/analysis-tools.c:2028 src/dialogs/dialog-analysis-tools.c:3694
+#: src/analysis-tools.c:2028 src/dialogs/dialog-analysis-tools.c:3644
 #: src/dialogs/regression.glade.h:7
 msgid "Regression"
 msgstr "Regression"
@@ -2288,7 +2287,7 @@ msgid "Anova"
 msgstr "Anova"
 
 #: src/analysis-tools.c:2468 src/dialogs/analysis-tools.glade.h:2
-#: src/dialogs/dialog-analysis-tools.c:3672
+#: src/dialogs/dialog-analysis-tools.c:3622
 msgid "Anova: Single Factor"
 msgstr "Anova: enkelfaktor"
 
@@ -2391,7 +2390,7 @@ msgid "F crit"
 msgstr "F krit"
 
 #: src/analysis-tools.c:3055 src/dialogs/analysis-tools.glade.h:12
-#: src/dialogs/dialog-analysis-tools.c:3686 src/dialogs/histogram.glade.h:4
+#: src/dialogs/dialog-analysis-tools.c:3636 src/dialogs/histogram.glade.h:4
 msgid "Histogram"
 msgstr "Histogram"
 
@@ -3017,12 +3016,12 @@ msgid "C_umulative Percentages"
 msgstr "Akk_umuleret procent"
 
 #: src/dialogs/analysis-tools.glade.h:6 src/dialogs/correlation.glade.h:1
-#: src/dialogs/dialog-analysis-tools.c:3676
+#: src/dialogs/dialog-analysis-tools.c:3626
 msgid "Correlation"
 msgstr "Korrelation"
 
 #: src/dialogs/analysis-tools.glade.h:7 src/dialogs/covariance.glade.h:1
-#: src/dialogs/dialog-analysis-tools.c:3678
+#: src/dialogs/dialog-analysis-tools.c:3628
 msgid "Covariance"
 msgstr "Kovarians"
 
@@ -3031,12 +3030,12 @@ msgid "Data Analysis Tools"
 msgstr "Dataanalyseværktøjer"
 
 #: src/dialogs/analysis-tools.glade.h:9
-#: src/dialogs/dialog-analysis-tools.c:3682
+#: src/dialogs/dialog-analysis-tools.c:3632
 msgid "F-Test: Two-Sample for Variances"
 msgstr "F-Test: To-prøve for varianser"
 
 #: src/dialogs/analysis-tools.glade.h:10
-#: src/dialogs/dialog-analysis-tools.c:3684
+#: src/dialogs/dialog-analysis-tools.c:3634
 #: src/dialogs/fourier-analysis.glade.h:1
 msgid "Fourier Analysis"
 msgstr "Fourier-analyse"
@@ -3065,7 +3064,7 @@ msgid "Input"
 msgstr "Inddata"
 
 #: src/dialogs/analysis-tools.glade.h:16
-#: src/dialogs/dialog-analysis-tools.c:3688
+#: src/dialogs/dialog-analysis-tools.c:3638
 #: src/dialogs/moving-averages.glade.h:5
 msgid "Moving Average"
 msgstr "Rullende gennemsnit"
@@ -3098,13 +3097,13 @@ msgid "Output options"
 msgstr "Uddataindstillinger"
 
 #: src/dialogs/analysis-tools.glade.h:22
-#: src/dialogs/dialog-analysis-tools.c:3690
+#: src/dialogs/dialog-analysis-tools.c:3640
 #: src/dialogs/random-generation.glade.h:5
 msgid "Random Number Generation"
 msgstr "Generering af tilfældige tal"
 
 #: src/dialogs/analysis-tools.glade.h:23
-#: src/dialogs/dialog-analysis-tools.c:3692 src/dialogs/rank.glade.h:5
+#: src/dialogs/dialog-analysis-tools.c:3642 src/dialogs/rank.glade.h:5
 msgid "Rank and Percentile"
 msgstr "Grad og percentil"
 
@@ -3144,8 +3143,8 @@ msgstr "_Hypotetisk middelforskel:"
 #: src/dialogs/analysis-tools.glade.h:33 src/dialogs/anova-one.glade.h:9
 #: src/dialogs/anova-two.glade.h:9 src/dialogs/correlation.glade.h:7
 #: src/dialogs/covariance.glade.h:7 src/dialogs/descriptive-stats.glade.h:15
-#: src/dialogs/dialog-analysis-tools.c:781
-#: src/dialogs/dialog-analysis-tools.c:3251
+#: src/dialogs/dialog-analysis-tools.c:776
+#: src/dialogs/dialog-analysis-tools.c:3207
 #: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:8
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:7
 msgid "_Input Range:"
@@ -3470,9 +3469,8 @@ msgid "Allow :"
 msgstr "Tillad:"
 
 #: src/dialogs/cell-format.glade.h:15
-#, fuzzy
 msgid "Any Value                     (no validation)"
-msgstr "Enhver værdi (ingen kontrol)"
+msgstr "Enhver værdi                  (ingen kontrol)"
 
 #: src/dialogs/cell-format.glade.h:17
 msgid "Background Color"
@@ -3604,9 +3602,8 @@ msgid "In-cell dropdown"
 msgstr "Menuvalg i celle"
 
 #: src/dialogs/cell-format.glade.h:48
-#, fuzzy
 msgid "Information  (allows invalid input)"
-msgstr "Information (tillad ugyldige data)"
+msgstr "Information  (tillader ugyldige data)"
 
 #: src/dialogs/cell-format.glade.h:49
 msgid "Input Message"
@@ -3652,9 +3649,9 @@ msgstr "Ingen"
 
 #: src/dialogs/cell-format.glade.h:62
 msgid "None          (silently accept invalid input)"
-msgstr ""
+msgstr "Ingen         (acceptér stiltiende ugyldige inddata)"
 
-#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-formula-guru.c:415
+#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-formula-guru.c:435
 #: src/dialogs/dialog-search.c:135
 msgid "Number"
 msgstr "Tal"
@@ -3718,9 +3715,8 @@ msgid "Sp_ecial"
 msgstr "_Speciel"
 
 #: src/dialogs/cell-format.glade.h:80
-#, fuzzy
 msgid "Stop           (never allow invalid input)"
-msgstr "Stop (tillad aldrig ugyldige data)"
+msgstr "Stop           (tillad aldrig ugyldige data)"
 
 #: src/dialogs/cell-format.glade.h:81
 msgid "Stri_kethrough"
@@ -3803,9 +3799,8 @@ msgid "Vertical Stripe"
 msgstr "Lodret stribe"
 
 #: src/dialogs/cell-format.glade.h:101
-#, fuzzy
 msgid "Warning      (accept/discard invalid input)"
-msgstr "Advarsel (valg mellem at acceptere eller afvise ugyldige data)"
+msgstr "Advarsel     (valg mellem at acceptere eller afvise ugyldige data)"
 
 #: src/dialogs/cell-format.glade.h:102
 msgid "Whole numbers"
@@ -4157,7 +4152,7 @@ msgid "Confidence Interval for the _Mean"
 msgstr "Konfidensinterval for _middelværdi"
 
 #: src/dialogs/descriptive-stats.glade.h:5
-#: src/dialogs/dialog-analysis-tools.c:3680
+#: src/dialogs/dialog-analysis-tools.c:3630
 msgid "Descriptive Statistics"
 msgstr "Beskrivende statistikker"
 
@@ -4337,142 +4332,138 @@ msgstr ""
 "Du skal opgive det samme antal kolonner i \"Listeinterval\" som i "
 "\"Kriteriuminterval\""
 
-#: src/dialogs/dialog-analysis-tools.c:514
-msgid "You should introduce a valid cell range in 'Input Range:'"
-msgstr "Du skal angive et gyldigt celleinterval i \"Inddatainterval\""
-
 # celler virker bedre end data her
-#: src/dialogs/dialog-analysis-tools.c:942
-#: src/dialogs/dialog-analysis-tools.c:1049
+#: src/dialogs/dialog-analysis-tools.c:935
+#: src/dialogs/dialog-analysis-tools.c:1039
 msgid "Please do not include any non-numeric (or empty) data."
 msgstr "Inkluder venligst ikke nogen celler der ikke er tal (eller tomme)."
 
-#: src/dialogs/dialog-analysis-tools.c:987
+#: src/dialogs/dialog-analysis-tools.c:980
 msgid "Could not create the Correlation Tool dialog."
 msgstr "Kunne ikke oprette korrelationsværktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:1094
+#: src/dialogs/dialog-analysis-tools.c:1084
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Kunne ikke oprette kovariansværktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:1304
+#: src/dialogs/dialog-analysis-tools.c:1289
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Kunne ikke oprette vinduet for beskrivende statistik."
 
-#: src/dialogs/dialog-analysis-tools.c:1404
+#: src/dialogs/dialog-analysis-tools.c:1385
 msgid "Could not create the Rank and  Percentile Tools dialog."
 msgstr "Kunne ikke oprette grad- og percentilvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:1522
+#: src/dialogs/dialog-analysis-tools.c:1500
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "En uventet fejl opstod: %d."
 
-#: src/dialogs/dialog-analysis-tools.c:1746
+#: src/dialogs/dialog-analysis-tools.c:1724
 msgid "Var_iable 1 Range:"
 msgstr "_Interval for variabel 1:"
 
-#: src/dialogs/dialog-analysis-tools.c:1747
+#: src/dialogs/dialog-analysis-tools.c:1725
 msgid "_Variable 2 Range:"
 msgstr "I_nterval for variabel 2:"
 
-#: src/dialogs/dialog-analysis-tools.c:1751
+#: src/dialogs/dialog-analysis-tools.c:1729
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Kunne ikke oprette middeltestværktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:1934
+#: src/dialogs/dialog-analysis-tools.c:1908
 msgid "Var_iable 1 Range"
 msgstr "_Interval for variabel 1"
 
-#: src/dialogs/dialog-analysis-tools.c:1935
+#: src/dialogs/dialog-analysis-tools.c:1909
 msgid "_Variable 2 Range"
 msgstr "I_nterval for variabel 2"
 
-#: src/dialogs/dialog-analysis-tools.c:1939
+#: src/dialogs/dialog-analysis-tools.c:1913
 msgid "Could not create the FTest Tool dialog."
 msgstr "Kunne ikke oprette F-testværktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:2188
+#: src/dialogs/dialog-analysis-tools.c:2158
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Kunne ikke oprette prøvningsværktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:2225
+#: src/dialogs/dialog-analysis-tools.c:2195
 msgid "Discrete"
 msgstr "Diskret"
 
-#: src/dialogs/dialog-analysis-tools.c:2225
+#: src/dialogs/dialog-analysis-tools.c:2195
 msgid "_Value And Probability Input Range:"
 msgstr "Inddatainterval for _værdi og sandsynlighed:"
 
-#: src/dialogs/dialog-analysis-tools.c:2227
+#: src/dialogs/dialog-analysis-tools.c:2197
 #: src/dialogs/search-replace.glade.h:24
 #: src/widgets/widget-font-selector.c:112
 msgid "Normal"
 msgstr "Normal"
 
-#: src/dialogs/dialog-analysis-tools.c:2227
+#: src/dialogs/dialog-analysis-tools.c:2197
 msgid "_Mean:"
 msgstr "_Middel:"
 
-#: src/dialogs/dialog-analysis-tools.c:2227
+#: src/dialogs/dialog-analysis-tools.c:2197
 msgid "_Standard Deviation:"
 msgstr "_Standardafvigelse:"
 
-#: src/dialogs/dialog-analysis-tools.c:2229
+#: src/dialogs/dialog-analysis-tools.c:2199
 msgid "Poisson"
 msgstr "Poisson"
 
-#: src/dialogs/dialog-analysis-tools.c:2229
+#: src/dialogs/dialog-analysis-tools.c:2199
 msgid "_Lambda:"
 msgstr "_Lambda:"
 
-#: src/dialogs/dialog-analysis-tools.c:2231
+#: src/dialogs/dialog-analysis-tools.c:2201
 msgid "Exponential"
 msgstr "Eksponentiel"
 
-#: src/dialogs/dialog-analysis-tools.c:2231
+#: src/dialogs/dialog-analysis-tools.c:2201
 msgid "_b Value:"
 msgstr "_b-værdi:"
 
-#: src/dialogs/dialog-analysis-tools.c:2233
+#: src/dialogs/dialog-analysis-tools.c:2203
 msgid "Binomial"
 msgstr "Binominal"
 
-#: src/dialogs/dialog-analysis-tools.c:2233
-#: src/dialogs/dialog-analysis-tools.c:2235
-#: src/dialogs/dialog-analysis-tools.c:2238
+#: src/dialogs/dialog-analysis-tools.c:2203
+#: src/dialogs/dialog-analysis-tools.c:2205
+#: src/dialogs/dialog-analysis-tools.c:2208
 msgid "_p Value:"
 msgstr "_p-værdi:"
 
-#: src/dialogs/dialog-analysis-tools.c:2233
+#: src/dialogs/dialog-analysis-tools.c:2203
 msgid "N_umber of Trials:"
 msgstr "Antal _forsøg"
 
-#: src/dialogs/dialog-analysis-tools.c:2235
+#: src/dialogs/dialog-analysis-tools.c:2205
 msgid "Negative Binomial"
 msgstr "Negativ binominal"
 
-#: src/dialogs/dialog-analysis-tools.c:2236
+#: src/dialogs/dialog-analysis-tools.c:2206
 msgid "N_umber of Failures"
 msgstr "Antal _mislykkede"
 
-#: src/dialogs/dialog-analysis-tools.c:2238
+#: src/dialogs/dialog-analysis-tools.c:2208
 msgid "Bernoulli"
 msgstr "Bernoulli"
 
-#: src/dialogs/dialog-analysis-tools.c:2240
+#: src/dialogs/dialog-analysis-tools.c:2210
 msgid "Uniform"
 msgstr "Ensartet"
 
-#: src/dialogs/dialog-analysis-tools.c:2240
+#: src/dialogs/dialog-analysis-tools.c:2210
 msgid "_Lower Bound:"
 msgstr "_Nedre grænse"
 
-#: src/dialogs/dialog-analysis-tools.c:2240
+#: src/dialogs/dialog-analysis-tools.c:2210
 msgid "_Upper Bound:"
 msgstr "_Øvre grænse"
 
-#: src/dialogs/dialog-analysis-tools.c:2492
+#: src/dialogs/dialog-analysis-tools.c:2459
 msgid ""
 "You should introduce a valid cell range in 'Value and probability input "
 "Range:'"
@@ -4480,15 +4471,15 @@ msgstr ""
 "Du skal angive et gyldig celleinterval i \"Inddatainterval for værdi og "
 "sandsynlighed\""
 
-#: src/dialogs/dialog-analysis-tools.c:2668
+#: src/dialogs/dialog-analysis-tools.c:2637
 msgid "Could not create the Random Tool dialog."
 msgstr "Kunne ikke oprette tilfældighedsværktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:2709
+#: src/dialogs/dialog-analysis-tools.c:2678
 msgid "You should introduce a valid cell range in 'X Variables:'"
 msgstr "Du skal angive et gyldigt celleinterval under \"x-variabler\""
 
-#: src/dialogs/dialog-analysis-tools.c:2741
+#: src/dialogs/dialog-analysis-tools.c:2707
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
@@ -4496,7 +4487,7 @@ msgstr ""
 "Der er for få datapunkter til at gennemføre denne regression.\n"
 "Der skal være mindst lige så mange datapunkter som frie variable."
 
-#: src/dialogs/dialog-analysis-tools.c:2747
+#: src/dialogs/dialog-analysis-tools.c:2713
 msgid ""
 "Two or more of the independent variables are linearly dependent,\n"
 "and the regression cannot be calculated. Remove one of these\n"
@@ -4506,61 +4497,61 @@ msgstr ""
 "og regressionen kan ikke beregnes. Fjern en af disse\n"
 "variable og prøv at udføre regressionen igen."
 
-#: src/dialogs/dialog-analysis-tools.c:2754
+#: src/dialogs/dialog-analysis-tools.c:2720
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "Der skal være lige mange værdier for alle variable i regressionen."
 
-#: src/dialogs/dialog-analysis-tools.c:2865
+#: src/dialogs/dialog-analysis-tools.c:2831
 msgid "_X Variables:"
 msgstr "_x-variabler:"
 
-#: src/dialogs/dialog-analysis-tools.c:2866
+#: src/dialogs/dialog-analysis-tools.c:2832
 msgid "_Y Variables:"
 msgstr "_y-variabler:"
 
-#: src/dialogs/dialog-analysis-tools.c:2870
+#: src/dialogs/dialog-analysis-tools.c:2836
 msgid "Could not create the Regression Tool dialog."
 msgstr "Kunne ikke oprette regressionsværktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:3040
+#: src/dialogs/dialog-analysis-tools.c:3003
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Kunne ikke oprette rullende gennemsnit-værktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:3090
+#: src/dialogs/dialog-analysis-tools.c:3050
 msgid "Fourier analysis is not implemented yet.  Sorry."
 msgstr "Fourier-analyse ikke implementeret endnu. Vi beklager."
 
-#: src/dialogs/dialog-analysis-tools.c:3132
+#: src/dialogs/dialog-analysis-tools.c:3092
 msgid "Could not create the Fourier Analyis Tool dialog."
 msgstr "Kunne ikke oprette Fourier-analyse-værktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:3208
-#: src/dialogs/dialog-analysis-tools.c:3515
+#: src/dialogs/dialog-analysis-tools.c:3164
+#: src/dialogs/dialog-analysis-tools.c:3465
 msgid "Given input range contains non-numeric data."
 msgstr "Det givne inddatainterval indeholder data der ikke er tal."
 
-#: src/dialogs/dialog-analysis-tools.c:3213
+#: src/dialogs/dialog-analysis-tools.c:3169
 msgid "Given bin range contains non-numeric data."
 msgstr "Det givne bin-interval indeholder data der ikke er tal."
 
-#: src/dialogs/dialog-analysis-tools.c:3252 src/dialogs/histogram.glade.h:1
+#: src/dialogs/dialog-analysis-tools.c:3208 src/dialogs/histogram.glade.h:1
 msgid "Bin _Range:"
 msgstr "Bin-_interval:"
 
-#: src/dialogs/dialog-analysis-tools.c:3258
+#: src/dialogs/dialog-analysis-tools.c:3214
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Kunne ikke oprette histogramværktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:3434
+#: src/dialogs/dialog-analysis-tools.c:3387
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Kunne ikke oprette Anova (enkeltfaktor)-værktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:3510
+#: src/dialogs/dialog-analysis-tools.c:3460
 msgid "Each sample must contain the same number of rows."
 msgstr "Hver stikprøve skal indeholde samme antal rækker."
 
-#: src/dialogs/dialog-analysis-tools.c:3520
+#: src/dialogs/dialog-analysis-tools.c:3470
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
@@ -4568,31 +4559,31 @@ msgstr ""
 "Det givne inddatainterval skal indeholde mindst to kolonner med data og "
 "mærkater."
 
-#: src/dialogs/dialog-analysis-tools.c:3643
+#: src/dialogs/dialog-analysis-tools.c:3593
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Kunne ikke oprette Anova (tofaktor)-værktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:3674
+#: src/dialogs/dialog-analysis-tools.c:3624
 msgid "Anova: Two-Factor With Or Without Replication"
 msgstr "Anova: tofaktor med eller uden replikering"
 
-#: src/dialogs/dialog-analysis-tools.c:3696 src/dialogs/sampling.glade.h:6
+#: src/dialogs/dialog-analysis-tools.c:3646 src/dialogs/sampling.glade.h:6
 msgid "Sampling"
 msgstr "Stikprøveudtagning"
 
-#: src/dialogs/dialog-analysis-tools.c:3698
+#: src/dialogs/dialog-analysis-tools.c:3648
 msgid "t-Test: Paired Two Sample for Means"
 msgstr "t-Test: Parvis to-prøve for middel"
 
-#: src/dialogs/dialog-analysis-tools.c:3700
+#: src/dialogs/dialog-analysis-tools.c:3650
 msgid "t-Test: Two-Sample Assuming Equal Variances"
 msgstr "t-Test: To-prøve under antagelse af ens varians"
 
-#: src/dialogs/dialog-analysis-tools.c:3702
+#: src/dialogs/dialog-analysis-tools.c:3652
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr "t-Test: To-prøve under antagelse af uens varians"
 
-#: src/dialogs/dialog-analysis-tools.c:3704
+#: src/dialogs/dialog-analysis-tools.c:3654
 msgid "z-Test: Two Sample for Means"
 msgstr "z-Test: To-prøve for middel"
 
@@ -4847,73 +4838,69 @@ msgstr "Det er ikke muligt at omdefinere et indbygget navn."
 msgid "Could not create the Name Guru."
 msgstr "Kunne ikke fremmane navnehjælperen."
 
-#: src/dialogs/dialog-formula-guru.c:407
+#: src/dialogs/dialog-formula-guru.c:427
 #, c-format
 msgid "Value%d"
 msgstr "Værdi%d"
 
-#: src/dialogs/dialog-formula-guru.c:414 src/dialogs/dialog-search.c:131
+#: src/dialogs/dialog-formula-guru.c:434 src/dialogs/dialog-search.c:131
 #: src/functions/fn-string.c:1227
 msgid "String"
 msgstr "Tekst"
 
-#: src/dialogs/dialog-formula-guru.c:416
+#: src/dialogs/dialog-formula-guru.c:436
 msgid "Boolean"
 msgstr "Boolsk"
 
-#: src/dialogs/dialog-formula-guru.c:417 src/dialogs/search-replace.glade.h:36
+#: src/dialogs/dialog-formula-guru.c:437 src/dialogs/search-replace.glade.h:36
 msgid "Range"
 msgstr "Interval"
 
-#: src/dialogs/dialog-formula-guru.c:418
+#: src/dialogs/dialog-formula-guru.c:438
 msgid "Array"
 msgstr "Matrix"
 
-#: src/dialogs/dialog-formula-guru.c:419
+#: src/dialogs/dialog-formula-guru.c:439
 msgid "Range/Array"
 msgstr "Interval/matrix"
 
-#: src/dialogs/dialog-formula-guru.c:420
+#: src/dialogs/dialog-formula-guru.c:440
 msgid "Scalar"
 msgstr "Skalar"
 
-#: src/dialogs/dialog-formula-guru.c:422
+#: src/dialogs/dialog-formula-guru.c:442
 msgid "Any"
 msgstr "Enhver"
 
-#: src/dialogs/dialog-goal-seek.c:347
-#, fuzzy
+#: src/dialogs/dialog-goal-seek.c:364
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
-msgstr "Du skal angive et gyldig cellenavn i \"Sæt celle\""
-
-#: src/dialogs/dialog-goal-seek.c:355
-#, fuzzy
-msgid "The cell named in 'Set Cell:' must contain a formula!"
-msgstr "Cellen angivet i \"Sæt celle\" skal indeholde en formel"
-
-#: src/dialogs/dialog-goal-seek.c:363
-#, fuzzy
-msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
-msgstr "Du skal angive et gyldig cellenavn i \"Ved at ændre celle\""
+msgstr "Du skal angive et gyldig cellenavn i 'Sæt celle:'!"
 
 #: src/dialogs/dialog-goal-seek.c:372
+msgid "The cell named in 'Set Cell:' must contain a formula!"
+msgstr "Cellen angivet i 'Sæt celle:' skal indeholde en formel!"
+
+#: src/dialogs/dialog-goal-seek.c:380
+msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
+msgstr "Du skal angive et gyldigt cellenavn i 'Ved at ændre celle:'!"
+
+#: src/dialogs/dialog-goal-seek.c:389
 msgid "The cell named in 'By changing cell' must not contain a formula"
 msgstr "Cellen angivet i \"Ved at ændre celle\" må ikke indeholde en formel"
 
-#: src/dialogs/dialog-goal-seek.c:441
-#, fuzzy, c-format
+#: src/dialogs/dialog-goal-seek.c:459
+#, c-format
 msgid "Goal seeking with cell %s found a solution."
-msgstr "Målsøgning med celle %s fandt en løsning"
+msgstr "Målsøgning med celle %s fandt en løsning."
 
-#: src/dialogs/dialog-goal-seek.c:455
-#, fuzzy, c-format
+#: src/dialogs/dialog-goal-seek.c:475
+#, c-format
 msgid "Goal seeking with cell %s did not find a solution."
-msgstr "Målsøgning med celle %s fandt en løsning"
+msgstr "Målsøgning med celle %s fandt ikke en løsning."
 
-#: src/dialogs/dialog-goal-seek.c:622
-#, fuzzy
+#: src/dialogs/dialog-goal-seek.c:643
 msgid "Could not create the Goal-Seek dialog."
-msgstr "Kunne ikke oprette F-testværktøjsvinduet."
+msgstr "Kunne ikke oprette målsøgnings-dialogen."
 
 #: src/dialogs/dialog-goto-cell.c:48 src/solver-lp.c:896 src/solver-lp.c:920
 #: src/solver-lp.c:953 src/solver-lp.c:1047 src/solver-lp.c:1094
@@ -4942,9 +4929,8 @@ msgid "Step 3 of 3: Customize graph"
 msgstr "Trin 3 af 3: Tilpas grafen"
 
 #: src/dialogs/dialog-graph-guru.c:758
-#, fuzzy
 msgid "Format Graph"
-msgstr "Formelhjælper"
+msgstr "Formatér graf"
 
 #: src/dialogs/dialog-graph-guru.c:933
 msgid "Plot name"
@@ -5746,56 +5732,46 @@ msgid "_Series"
 msgstr "_Serier"
 
 #: src/dialogs/goalseek.glade.h:1
-#, fuzzy
 msgid "(Maximum):"
-msgstr "Maksimum: "
+msgstr "(Maksimum): "
 
 #: src/dialogs/goalseek.glade.h:2
-#, fuzzy
 msgid "(Minimum):"
-msgstr "Minimum: "
+msgstr "(Minimum): "
 
 #: src/dialogs/goalseek.glade.h:3
-#, fuzzy
 msgid "By Changing Cell:"
-msgstr "_Ved at ændre cellerne: "
+msgstr "Ved at ændre celle:"
 
 #: src/dialogs/goalseek.glade.h:4
-#, fuzzy
 msgid "Current Value:"
-msgstr "Dags _dato"
+msgstr "Aktuel værdi:"
 
 #: src/dialogs/goalseek.glade.h:5
-#, fuzzy
 msgid "Goal:"
-msgstr "Total"
+msgstr "Mål:"
 
 #: src/dialogs/goalseek.glade.h:6
-#, fuzzy
 msgid "GoalSeek"
-msgstr "Søg mål..."
+msgstr "Målsøgning"
 
 #: src/dialogs/goalseek.glade.h:7
 msgid "Last Result:"
-msgstr ""
+msgstr "Seneste resultat:"
 
 #: src/dialogs/goalseek.glade.h:8
-#, fuzzy
 msgid "Set Cell:"
 msgstr "Sæt celle:"
 
 #: src/dialogs/goalseek.glade.h:9
-#, fuzzy
 msgid "Solution:"
-msgstr "Løsningsindstillinger"
+msgstr "Løsning:"
 
 #: src/dialogs/goalseek.glade.h:10
-#, fuzzy
 msgid "Target Value:"
-msgstr "Målværdi:       %12.2f"
+msgstr "Målværdi:"
 
 #: src/dialogs/goalseek.glade.h:11
-#, fuzzy
 msgid "To Value:"
 msgstr "Til værdi:"
 
@@ -6253,7 +6229,7 @@ msgstr "_Hovedkolonne"
 
 #: src/dialogs/search.glade.h:2
 msgid "Dismiss search center"
-msgstr ""
+msgstr "Fjern søgecenter"
 
 #: src/dialogs/search-replace.glade.h:10 src/dialogs/search.glade.h:3
 msgid "Do not consider matches in the middle of words"
@@ -6288,9 +6264,8 @@ msgid "Search"
 msgstr "Søg"
 
 #: src/dialogs/search.glade.h:11
-#, fuzzy
 msgid "Search Center"
-msgstr "Søg efter"
+msgstr "Søgecenter"
 
 #: src/dialogs/search.glade.h:12
 msgid "Search cells containing"
@@ -6318,16 +6293,15 @@ msgstr "Søg linje for linje"
 
 #: src/dialogs/search.glade.h:18
 msgid "Show next match"
-msgstr ""
+msgstr "Vis næste træffer"
 
 #: src/dialogs/search.glade.h:19
 msgid "Show previous match"
-msgstr ""
+msgstr "Vis foregående træffer"
 
 #: src/dialogs/search.glade.h:20
-#, fuzzy
 msgid "Start search"
-msgstr "Søg"
+msgstr "Start søgning"
 
 #: src/dialogs/search-replace.glade.h:53 src/dialogs/search.glade.h:21
 msgid "The search text is a regular expression"
@@ -6907,12 +6881,12 @@ msgid "yellow"
 msgstr "gul"
 
 #. Is it a boolean?
-#: src/format.c:1609 src/number-match.c:992 src/value-sheet.c:34
+#: src/format.c:1609 src/number-match.c:1016 src/value-sheet.c:34
 #: src/value.c:247 src/value.c:480
 msgid "TRUE"
 msgstr "TRUE"
 
-#: src/format.c:1609 src/number-match.c:994 src/value-sheet.c:34
+#: src/format.c:1609 src/number-match.c:1018 src/value-sheet.c:34
 #: src/value.c:249 src/value.c:480
 msgid "FALSE"
 msgstr "FALSE"
@@ -17534,35 +17508,35 @@ msgstr "Kunne ikke opstarte arbejdsbogsfabrik"
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Kunne ikke opstarte EmbeddableGrid-fabrik"
 
-#: src/number-match.c:646
+#: src/number-match.c:647
 msgid "#NULL!"
 msgstr "#NUL!"
 
-#: src/number-match.c:647
+#: src/number-match.c:648
 msgid "#DIV/0!"
 msgstr "#DIV/0!"
 
-#: src/number-match.c:648
+#: src/number-match.c:649
 msgid "#VALUE!"
 msgstr "#VÆRDI!"
 
-#: src/number-match.c:649
+#: src/number-match.c:650
 msgid "#REF!"
 msgstr "#REF!"
 
-#: src/number-match.c:650
+#: src/number-match.c:651
 msgid "#NAME?"
 msgstr "#NAVN?"
 
-#: src/number-match.c:651
+#: src/number-match.c:652
 msgid "#NUM!"
 msgstr "#TAL!"
 
-#: src/number-match.c:652
+#: src/number-match.c:653
 msgid "#N/A"
 msgstr "#N/A"
 
-#: src/number-match.c:653
+#: src/number-match.c:654
 msgid "#RECALC!"
 msgstr "#OMBEREGN!"
 
@@ -18105,21 +18079,21 @@ msgstr "Kunne ikke åbne fil: %s"
 msgid "Configure line or arrow"
 msgstr "Konfigurationslinje eller -pil"
 
-#: src/sheet-object-graphic.c:456 src/sheet-object-graphic.c:847
-msgid "Border width"
-msgstr "Kantbredde"
+#: src/sheet-object-graphic.c:456
+msgid "Line Width"
+msgstr "Linjebredde"
 
 #: src/sheet-object-graphic.c:460
-msgid "Arrow shape a"
-msgstr "Pileform a"
+msgid "Arrow tip"
+msgstr "Pilespids"
 
 #: src/sheet-object-graphic.c:462
-msgid "Arrow shape b"
-msgstr "Pileform b"
+msgid "Arrow length"
+msgstr "Længde på pil"
 
 #: src/sheet-object-graphic.c:464
-msgid "Arrow shape c"
-msgstr "Pileform c"
+msgid "Arrow width"
+msgstr "Bredde på pil"
 
 #: src/sheet-object-graphic.c:477 src/sheet-object-graphic.c:853
 #: src/sheet-object-graphic.c:859
@@ -18151,6 +18125,10 @@ msgstr "Omridsfarve"
 msgid "Fill color"
 msgstr "Udfyldningsfarve"
 
+#: src/sheet-object-graphic.c:847
+msgid "Border width"
+msgstr "Kantbredde"
+
 #: src/sheet-object-widget.c:796
 msgid "Checkbox Configure"
 msgstr "Konfigurér afkrydsningsboks"
@@ -18167,35 +18145,35 @@ msgstr "Etiket:"
 msgid "Properties..."
 msgstr "Egenskaber..."
 
-#: src/sheet.c:2209
+#: src/sheet.c:2213
 msgid "Target region contains merged cells"
 msgstr "Målregion indeholder flettede celler"
 
-#: src/sheet.c:2271
+#: src/sheet.c:2275
 msgid "cannot operate on merged cells"
 msgstr "kan ikke behandle flettede celler"
 
-#: src/sheet.c:2282
+#: src/sheet.c:2286
 msgid "cannot operate on array formulae"
 msgstr "kan ikke behandle matrixformler"
 
-#: src/sheet.c:3083
+#: src/sheet.c:3087
 msgid "Clear"
 msgstr "Ryd"
 
-#: src/sheet.c:3452
+#: src/sheet.c:3456
 msgid "Insert Columns"
 msgstr "Indsæt kolonner"
 
-#: src/sheet.c:3520
+#: src/sheet.c:3524
 msgid "Delete Columns"
 msgstr "Slet kolonner"
 
-#: src/sheet.c:3584
+#: src/sheet.c:3588
 msgid "Insert Rows"
 msgstr "Indsæt rækker"
 
-#: src/sheet.c:3652
+#: src/sheet.c:3656
 msgid "Delete Rows"
 msgstr "Slet rækker"
 
@@ -19036,6 +19014,18 @@ msgstr "Gnumeric XML-filformat"
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "Regneark"
+
+#~ msgid "You should introduce a valid cell range in 'Input Range:'"
+#~ msgstr "Du skal angive et gyldigt celleinterval i \"Inddatainterval\""
+
+#~ msgid "Arrow shape a"
+#~ msgstr "Pileform a"
+
+#~ msgid "Arrow shape b"
+#~ msgstr "Pileform b"
+
+#~ msgid "Arrow shape c"
+#~ msgstr "Pileform c"
 
 #~ msgid "LaTeX (*.tex)"
 #~ msgstr "LaTeX (*.tex)"
