@@ -175,6 +175,28 @@
         <long>If this value is positive, auto expressions are recalculated within that many millesecond after a change. If it is negative they are recalculated with the magnitude many  milleseconds after the last change where 'last' is defined as the end of a  period of that size after a change with no changes.</long>
         </locale>
       </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/core/gui/window/x</key>
+        <applyto>/apps/gnumeric/core/gui/window/x</applyto>
+        <owner>Gnumeric</owner>
+        <type>float</type>
+	<default>0.75</default>
+        <locale name="C">
+        <short>Default Horizontal Window Size</short>
+        <long>This number (between 0.25 and 1.00) gives the horizontal fraction of the screen size covered by the default window.</long>
+        </locale>
+      </schema>
+      <schema>
+        <key>/schemas/apps/gnumeric/core/gui/window/y</key>
+        <applyto>/apps/gnumeric/core/gui/window/y</applyto>
+        <owner>Gnumeric</owner>
+        <type>float</type>
+	<default>0.75</default>
+        <locale name="C">
+        <short>Default Vertical Window Size</short>
+        <long>This number (between 0.25 and 1.00) gives the vertical fraction of the screen size covered by the default window.</long>
+        </locale>
+      </schema>
     </schemalist>
 </gconfschemafile>
   

@@ -56,11 +56,14 @@
 
 #define GNUMERIC_GCONF_WORKBOOK_NSHEETS "/apps/gnumeric/core/workbook/n-sheet"
 
-#define GNUMERIC_GCONF_GUI_RES_H "/apps/gnumeric/core/gui/screen/horizontaldpi"
-#define GNUMERIC_GCONF_GUI_RES_V "/apps/gnumeric/core/gui/screen/verticaldpi"
-#define GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE "/apps/gnumeric/core/gui/editing/autocomplete"
-#define GNUMERIC_GCONF_GUI_ED_LIVESCROLLING "/apps/gnumeric/core/gui/editing/livescrolling"
-#define GNUMERIC_GCONF_GUI_ED_RECALC_LAG "/apps/gnumeric/core/gui/editing/recalclag"
+#define GNUMERIC_GCONF_GUI_DIRECTORY "/apps/gnumeric/core/gui"
+#define GNUMERIC_GCONF_GUI_RES_H GNUMERIC_GCONF_GUI_DIRECTORY "/screen/horizontaldpi"
+#define GNUMERIC_GCONF_GUI_RES_V GNUMERIC_GCONF_GUI_DIRECTORY "/screen/verticaldpi"
+#define GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE GNUMERIC_GCONF_GUI_DIRECTORY "/editing/autocomplete"
+#define GNUMERIC_GCONF_GUI_ED_LIVESCROLLING GNUMERIC_GCONF_GUI_DIRECTORY "/editing/livescrolling"
+#define GNUMERIC_GCONF_GUI_ED_RECALC_LAG GNUMERIC_GCONF_GUI_DIRECTORY "/editing/recalclag"
+#define GNUMERIC_GCONF_GUI_WINDOW_X GNUMERIC_GCONF_GUI_DIRECTORY "/window/x"
+#define GNUMERIC_GCONF_GUI_WINDOW_Y GNUMERIC_GCONF_GUI_DIRECTORY "/window/y"
 
 
 

@@ -1,5 +1,10 @@
 2002-04-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-preferences.c : add window-size preference to 
+	  catch-all page
+
+2002-04-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-function-select.c : use get/set methods of gnumeric-gconf.h
 	* dialog-plugin-manager.c : switch from gnome-config to gconf
 	* dialog-preferences.c : add include

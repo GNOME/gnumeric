@@ -526,3 +526,40 @@ gnm_gconf_set_autoformat_usr_dirs (char const * string)
 			       string, NULL);
 }
 
+gnum_float
+gnm_gconf_get_horizontal_window_fraction (void)
+{
+	gnum_float val =  gconf_client_get_float (application_get_gconf_client (), 
+						  GNUMERIC_GCONF_GUI_WINDOW_X,
+						  NULL);
+	val = MIN (val, 1.0);
+	val = MAX (0.25, val);
+	return val;
+}
+
+void
+gnm_gconf_set_horizontal_window_fraction  (gnum_float val)
+{
+	gconf_client_set_float (application_get_gconf_client (), 
+			       GNUMERIC_GCONF_GUI_WINDOW_X,
+			       val, NULL);
+}
+
+gnum_float
+gnm_gconf_get_vertical_window_fraction (void)
+{
+	gnum_float val =  gconf_client_get_float (application_get_gconf_client (), 
+						  GNUMERIC_GCONF_GUI_WINDOW_Y,
+						  NULL);
+	val = MIN (val, 1.0);
+	val = MAX (0.25, val);
+	return val;
+}
+
+void
+gnm_gconf_set_vertical_window_fraction  (gnum_float val)
+{
+	gconf_client_set_float (application_get_gconf_client (), 
+			       GNUMERIC_GCONF_GUI_WINDOW_Y,
+			       val, NULL);
+}

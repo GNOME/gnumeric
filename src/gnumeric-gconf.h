@@ -96,7 +96,11 @@ void     gnm_gconf_set_autoformat_sys_dirs (char const * string);
 char *   gnm_gconf_get_autoformat_usr_dirs (void);
 void     gnm_gconf_set_autoformat_usr_dirs (char const * string);
 
+gnum_float gnm_gconf_get_horizontal_window_fraction (void);
+void     gnm_gconf_set_horizontal_window_fraction  (gnum_float val);
 
+gnum_float gnm_gconf_get_vertical_window_fraction (void);
+void     gnm_gconf_set_vertical_window_fraction  (gnum_float val);
 
 
 

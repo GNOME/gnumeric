@@ -83,7 +83,6 @@
 #include <gal/widgets/gtk-combo-stack.h>
 
 #include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-config.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
 
 #include <ctype.h>
@@ -4231,14 +4230,8 @@ show_gui (WorkbookControlGUI *wbcg)
 	GdkGeometry geometry;
 	GdkWindowHints size_hints = GDK_HINT_MAX_SIZE;
 
-	fx = gnome_config_get_float_with_default (
-		"Gnumeric/Placement/WindowRelativeSizeX=0.75", NULL);
-	fy = gnome_config_get_float_with_default (
-		"Gnumeric/Placement/WindowRelativeSizeY=0.75", NULL);
-	fx = MIN (fx, 1.0);
-	fx = MAX (0.25, fx);
-	fy = MIN (fy, 1.0);
-	fy = MAX (0.2, fy);
+	fx = gnm_gconf_get_horizontal_window_fraction ();
+	fy = gnm_gconf_get_vertical_window_fraction ();
 
 	if (x_geometry && wbv && wbcg->toplevel) {
 		gint result;
