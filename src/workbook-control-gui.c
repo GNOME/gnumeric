@@ -4176,9 +4176,9 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	wbcg->menu_item_search_replace =
 		workbook_menu_edit [13].widget;
 
-	wbcg->menu_item_insert_rows =
-		workbook_menu_insert [1].widget;
 	wbcg->menu_item_insert_cols =
+		workbook_menu_insert [1].widget;
+	wbcg->menu_item_insert_rows =
 		workbook_menu_insert [2].widget;
 	wbcg->menu_item_insert_cells =
 		workbook_menu_insert [3].widget;
