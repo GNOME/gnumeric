@@ -39,6 +39,15 @@
 
 static GnomeCanvasItemClass *item_grid_parent_class;
 
+#define gnome_canvas_item_grab(a,b,c,d)	{		 \
+	fprintf (stderr, "%d : grab GRID %p\n", __LINE__, a); \
+	gnome_canvas_item_grab (a, b, c,d);		 \
+}
+#define gnome_canvas_item_ungrab(a,b)	{		 \
+	fprintf (stderr, "%d : ungrab GRID %p\n", __LINE__, a); \
+	gnome_canvas_item_ungrab (a, b);		 \
+}
+
 /* The arguments we take */
 enum {
 	ARG_0,

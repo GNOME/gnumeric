@@ -30,6 +30,14 @@ static void   item_bar_marshal      (GtkObject *,
 typedef void (*ItemBarSignal1) (GtkObject *, gint arg1, gpointer data);
 typedef void (*ItemBarSignal2) (GtkObject *, gint arg1, gint arg2, gpointer data);
 
+#define gnome_canvas_item_grab(a,b,c,d)	{		 \
+	fprintf (stderr, "%d : grab BAR %p\n", __LINE__, a); \
+	gnome_canvas_item_grab (a, b, c,d);		 \
+}
+#define gnome_canvas_item_ungrab(a,b)	{		 \
+	fprintf (stderr, "%d : ungrab BAR %p\n", __LINE__, a); \
+	gnome_canvas_item_ungrab (a, b);		 \
+}
 /* The signals we emit */
 enum {
 	SELECTION_CHANGED,
@@ -717,10 +725,8 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (e->button.button > 3)
 			return FALSE;
 
-		if (e->button.button == 3)
-			break;
-
-		item_bar_end_resize (item_bar, -1);
+		if (e->button.button != 3)
+			item_bar_end_resize (item_bar, -1);
 		break;
 	}
 

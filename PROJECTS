@@ -3,17 +3,11 @@ appropriate for new developers.
 
 Description                                             Difficulty  Integration
 ------------------------------------------------------  ----------  -----------
-- Ability to Create a new sheet that is a copy          Low         Low
-  of an existing sheet.
 
 - Financial functions (src/functions/fn-financial.c)    Medium      Very low
 
 - Save/Restore the values of the last selected colours	Low	    Low
   from the toolbar for background or font.
-
-- Intelligently handle setting the size of ALL		Low	    Medium
-  rows/cols.  We should change the default,
-  not set the size of every ColInfo.
 
 - Have the pattern buttons in the format dialog		Medium	    Low
   reflect colour changes.

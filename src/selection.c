@@ -1266,7 +1266,6 @@ sheet_selection_walk_step (Sheet *sheet,
 ColRowSelectionType
 sheet_col_selection_type (Sheet const *sheet, int col)
 {
-	SheetSelection *ss;
 	GList *l;
 	int ret = COL_ROW_NO_SELECTION;
 
@@ -1276,7 +1275,7 @@ sheet_col_selection_type (Sheet const *sheet, int col)
 		return COL_ROW_NO_SELECTION;
 
 	for (l = sheet->selections; l != NULL; l = l->next){
-		ss = l->data;
+		SheetSelection *ss = l->data;
 
 		if (ss->user.start.col > col ||
 		    ss->user.end.col < col)
@@ -1295,7 +1294,6 @@ sheet_col_selection_type (Sheet const *sheet, int col)
 ColRowSelectionType
 sheet_row_selection_type (Sheet const *sheet, int row)
 {
-	SheetSelection *ss;
 	GList *l;
 	int ret = COL_ROW_NO_SELECTION;
 
@@ -1305,7 +1303,7 @@ sheet_row_selection_type (Sheet const *sheet, int row)
 		return COL_ROW_NO_SELECTION;
 
 	for (l = sheet->selections; l != NULL; l = l->next) {
-		ss = l->data;
+		SheetSelection *ss = l->data;
 
 		if (ss->user.start.row > row ||
 		    ss->user.end.row < row)
@@ -1321,12 +1319,13 @@ sheet_row_selection_type (Sheet const *sheet, int row)
 	return ret;
 }
 
-/*
+/**
  * sheet_selection_full_cols :
- *
  * @sheet :
+ * @col   :
  *
  * returns TRUE if all of the selected cols in the selection fully selected ?
+ *         and the selection contains the specified col.
  */
 gboolean
 sheet_selection_full_cols (Sheet const *sheet, int col)
@@ -1347,12 +1346,14 @@ sheet_selection_full_cols (Sheet const *sheet, int col)
 
 	return found;
 }
-/*
+
+/**
  * sheet_selection_full_rows :
- *
  * @sheet :
+ * @row   :
  *
- * returns TRUE if all of the selected rows in the selection fully selected ?
+ * returns TRUE if all of the selected rows in the selection are fully selected
+ *         and the selection contains the specified row.
  */
 gboolean
 sheet_selection_full_rows (Sheet const *sheet, int row)
@@ -1362,7 +1363,7 @@ sheet_selection_full_rows (Sheet const *sheet, int row)
 
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
-	for (l = sheet->selections; l != NULL; l = l->next){
+	for (l = sheet->selections; l != NULL; l = l->next) {
 		SheetSelection const *ss = l->data;
 		Range const *r = &ss->user;
 		if (r->start.col != 0 || r->end.col < SHEET_MAX_COLS - 1)
@@ -1373,4 +1374,3 @@ sheet_selection_full_rows (Sheet const *sheet, int row)
 
 	return found;
 }
-

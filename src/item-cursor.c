@@ -22,6 +22,15 @@
 
 static GnomeCanvasItem *item_cursor_parent_class;
 
+#define gnome_canvas_item_grab(a,b,c,d)	{		 \
+	fprintf (stderr, "%d : grab CURSOR %p\n", __LINE__, a); \
+	gnome_canvas_item_grab (a, b, c,d);		 \
+}
+#define gnome_canvas_item_ungrab(a,b)	{		 \
+	fprintf (stderr, "%d : ungrab CURSOR %p\n", __LINE__, a); \
+	gnome_canvas_item_ungrab (a, b);		 \
+}
+
 #define AUTO_HANDLE_SPACE	4
 #define CLIP_SAFETY_MARGIN      (AUTO_HANDLE_SPACE + 5)
 #define IS_LITTLE_SQUARE(item,x,y) \

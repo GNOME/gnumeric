@@ -503,15 +503,12 @@ gnumeric_vlookup (FunctionEvalInfo *ei, Value **args)
 
 	col_idx = value_get_as_int (args[2]);
 
-	if (!find_type_valid (args[0])) {
+	if (!find_type_valid (args[0]))
 		return value_new_error (ei->pos, gnumeric_err_NA);
-	}
-
-	if (col_idx <= 0) {
+	if (col_idx <= 0)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
-	} else if (col_idx > value_area_get_width (ei->pos, args [1])) {
+	if (col_idx > value_area_get_width (ei->pos, args [1]))
 		return value_new_error (ei->pos, gnumeric_err_REF);
-	}
 
 	if (!args[3]) {
 		approx = TRUE;
@@ -567,15 +564,12 @@ gnumeric_hlookup (FunctionEvalInfo *ei, Value **args)
 
 	row_idx = value_get_as_int (args[2]);
 
-	if (!find_type_valid (args[0])) {
+	if (!find_type_valid (args[0]))
 		return value_new_error (ei->pos, gnumeric_err_NA);
-	}
-
-	if (row_idx <= 0) {
+	if (row_idx <= 0)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
-	} else if (row_idx > value_area_get_width (ei->pos, args [1])) {
+	if (row_idx > value_area_get_height (ei->pos, args [1]))
 		return value_new_error (ei->pos, gnumeric_err_REF);
-	}
 
 	if (!args[3]) {
 		approx = TRUE;

@@ -1,3 +1,15 @@
+2000-12-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-bar.c : Add some debug macros to catch the magic helix
+	  cursor grab.
+	* src/item-cursor.c : Ditto.
+	* src/item-grid.c : Ditto.
+	* src/sheet-control-gui.c : Ditto.
+
+2000-12-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/functions/fn-lookup.c (gnumeric_hlookup) : fix cut-n-paste-o.
+
 2000-12-01  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-cursor.c (item_cursor_drag_event) : Ignore press events fro
