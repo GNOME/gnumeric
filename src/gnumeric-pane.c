@@ -270,6 +270,8 @@ gnm_pane_reposition_cursors (GnumericPane *pane)
 		item_cursor_reposition (pane->cursor.special);
 	for (l = pane->anted_cursors; l; l = l->next)
 		item_cursor_reposition (ITEM_CURSOR (l->data));
+	if (NULL != pane->editor && NULL != pane->editor->feedback_cursor)
+		item_cursor_reposition (ITEM_CURSOR (pane->editor->feedback_cursor));
 }
 
 gboolean
