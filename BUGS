@@ -7,6 +7,12 @@ Release Critical
 - Saving xml should not rely on changing the textdomain to disable translation
   of TRUE/FALSE in expressions.
 
+- Evaluate (i.e., eliminate) all instances of "foo == TRUE" in the code.
+  They're too error prone for comfort.
+
+- Re-check all isdigit/isalpha/toupper/... calls.  Arguments must be
+  unsigned chars, not chars.  (Will do this using gcc -- MW.)
+
 Post 0.57 Changes
 -----------------
 - Model View Controller
