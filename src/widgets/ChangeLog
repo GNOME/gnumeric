@@ -1,3 +1,9 @@
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c (gnumeric_expr_entry_new) : do not initialize
+	  this to single range.
+	(gnm_expr_entry_parse) : fill in the parse error if it is supplied.
+
 2002-05-21 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnumeric-cell-renderer-expr-entry.c 

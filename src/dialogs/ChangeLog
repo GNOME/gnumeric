@@ -1,3 +1,7 @@
+2002-05-29  Jody Goldberg <jody@gnome.org>
+
+	* dialog-define-names.c (name_guru_add) : init the parse error.
+
 2002-05-27  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* solver.glade: Added a few frames.

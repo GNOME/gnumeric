@@ -360,7 +360,7 @@ name_guru_add (NameGuruState *state)
 	expr_name = expr_name_lookup (&state->pp, name);
 
 	expr = gnm_expr_entry_parse (state->expr_entry,
-		&state->pp, &perr, FALSE);
+		&state->pp, parse_error_init (&perr), FALSE);
 	if (expr == NULL) {
 		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR, perr.message);
 		gtk_widget_grab_focus (GTK_WIDGET (state->expr_entry));

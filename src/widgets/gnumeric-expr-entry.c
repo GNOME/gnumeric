@@ -31,6 +31,7 @@
 #include <gtk/gtkcelleditable.h>
 #include <ctype.h>
 #include <stdio.h>
+#include <libgnome/gnome-i18n.h>
 
 typedef struct {
 	Range range;
@@ -762,7 +763,7 @@ gnumeric_expr_entry_new (WorkbookControlGUI *wbcg, gboolean with_icon)
 	}
 	gtk_widget_show (GTK_WIDGET (gee->entry));
 
-	gee->flags |= GNUM_EE_SINGLE_RANGE;
+	gee->flags = 0;
 	gee->wbcg = wbcg;
 	gee->freeze_count = 0;
 	gee->update_timeout_id = 0;
@@ -1104,13 +1105,18 @@ gnm_expr_entry_parse (GnumericExprEntry *gee, ParsePos const *pp,
 	if (!(gee->flags & GNUM_EE_SHEET_OPTIONAL))
 		flags |= GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
 
-	expr = gnm_expr_parse_str (text, pp, flags, NULL);
+	expr = gnm_expr_parse_str (text, pp, flags, perr);
 	if (expr == NULL)
 		return NULL;
 
 	if (gee->flags & GNUM_EE_SINGLE_RANGE) {
 		Value *range = gnm_expr_get_range (expr) ;
 		if (range == NULL) {
+			if (perr != NULL) {
+				perr->id         = PERR_SINGLE_RANGE;
+				perr->message    = g_strdup (_("Expecting a single range"));
+				perr->begin_char = perr->end_char   = 0;
+			}
 			gnm_expr_unref (expr);
 			return NULL;
 		}
