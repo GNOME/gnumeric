@@ -1093,6 +1093,10 @@ find_workbook (MS_OLE * ptr)
 	MS_OLE_DIRECTORY *d = ms_ole_directory_new (ptr);
 
 	/*
+	 * We do not release the resources associated with d */
+	g_warning ("Leaking memory here");
+	
+	/*
 	 * The thing to seek; first the kingdom of God, then this: 
 	 */
 	while (ms_ole_directory_next (d))

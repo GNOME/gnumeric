@@ -370,7 +370,7 @@ ms_ole_create (const char *name)
 		return 0 ;
 	}
 
-	f = g_new (MS_OLE, 1) ;
+	f = g_new0 (MS_OLE, 1) ;
 	f->file_descriptor = file ;
 	fstat(file, &st) ;
 	f->length = st.st_size ;
@@ -486,7 +486,7 @@ ms_ole_new (const char *name)
 	MS_OLE *f ;
 
 	printf ("New OLE file '%s'\n", name) ;
-	f = g_new (MS_OLE, 1) ;
+	f = g_new0 (MS_OLE, 1) ;
 
 	f->file_descriptor = file = open (name, O_RDWR) ;
 	if (file == -1 || fstat(file, &st))
@@ -535,6 +535,10 @@ ms_ole_destroy (MS_OLE *f)
 		munmap (f->mem, f->length) ;
 		close (f->file_descriptor) ;
 		free (f) ;
+
+		if (f->header.root_list)
+			g_free (f->header.root_list);
+		
 		printf ("Closing file\n") ;
 	}
 	else
@@ -1146,7 +1150,7 @@ ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode)
 	if (!d || !f)
 		return 0 ;
 
-	s         = g_new (MS_OLE_STREAM, 1) ;
+	s         = g_new0 (MS_OLE_STREAM, 1) ;
 	s->file   = f ;
 	s->pps    = p ;
 	s->block  = PPS_GET_STARTBLOCK(f,p) ;
@@ -1222,7 +1226,7 @@ ms_ole_stream_close (MS_OLE_STREAM *s)
 MS_OLE_DIRECTORY *
 ms_ole_directory_new (MS_OLE *f)
 {
-	MS_OLE_DIRECTORY *d = g_new (MS_OLE_DIRECTORY, 1) ;
+	MS_OLE_DIRECTORY *d = g_new0 (MS_OLE_DIRECTORY, 1) ;
 	d->file          = f;
 	d->pps           = PPS_ROOT_BLOCK ;
 	d->primary_entry = PPS_ROOT_BLOCK ;
@@ -1374,7 +1378,7 @@ ms_ole_directory_create (MS_OLE_DIRECTORY *d, char *name, PPS_TYPE type)
 	PPS_IDX p = next_free_pps(d->file) ;
 	PPS_IDX prim ;
 	MS_OLE *f =d->file ;
-	MS_OLE_DIRECTORY *nd = g_new (MS_OLE_DIRECTORY, 1) ;
+	MS_OLE_DIRECTORY *nd = g_new0 (MS_OLE_DIRECTORY, 1) ;
 	SBPtr  startblock ;
 	int lp=0 ;
 
@@ -1436,7 +1440,7 @@ ms_biff_collate_block (BIFF_QUERY *bq)
 {
 	if (!(bq->data = bq->pos->read_ptr(bq->pos, bq->length)))
 	{
-		bq->data = g_new (guint8, bq->length) ;
+		bq->data = g_new0 (guint8, bq->length) ;
 		bq->data_malloced = 1 ;
 		if (!bq->pos->read_copy(bq->pos, bq->data, bq->length))
 			return 0 ;
@@ -1452,7 +1456,7 @@ ms_biff_query_new (MS_OLE_STREAM *ptr)
 	BIFF_QUERY *bq    ;
 	if (!ptr)
 		return 0 ;
-	bq = g_new (BIFF_QUERY, 1) ;
+	bq = g_new0 (BIFF_QUERY, 1) ;
 	bq->opcode        = 0 ;
 	bq->length        =-4 ;
 	bq->data_malloced = 0 ;

@@ -1,3 +1,7 @@
+1999-01-13  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* ms-ole.c (ms_ole_destroy): Free f->header_root_list if set.
+
 1999-01-03  Jeff Garzik  <jgarzik@Pobox.com>
 
 	* ms-excel.c, ms-formula.c:

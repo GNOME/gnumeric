@@ -250,10 +250,12 @@ gnumeric_sheet_can_move_cursor (GnumericSheet *gsheet)
 
 	g_return_val_if_fail (gsheet != NULL, FALSE);
 	g_return_val_if_fail (GNUMERIC_IS_SHEET (gsheet), FALSE);
+
+	if (!gsheet->sheet_view->sheet->editing)
+		return FALSE;
 	
-	if (gsheet->item_editor)
-		if (gsheet->selecting_cell)
-			return TRUE;
+	if (gsheet->item_editor && gsheet->selecting_cell)
+		return TRUE;
 	
 	entry = GTK_ENTRY (gsheet->entry);
 	cursor_pos = GTK_EDITABLE (entry)->current_pos;
