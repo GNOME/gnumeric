@@ -2132,6 +2132,9 @@ cb_sheet_object_view_destroy (GObject *view, SheetObject *so)
 {
 	SheetControlGUI	*scg = sheet_object_view_control (view);
 
+	g_return_if_fail (IS_SHEET_OBJECT (so));
+	g_return_if_fail (view != NULL);
+
 	if (scg) {
 		if (scg->current_object == so)
 			scg_mode_edit ((SheetControl *) scg);

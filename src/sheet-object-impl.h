@@ -24,6 +24,9 @@ struct _SheetObject {
 typedef struct {
 	GObjectClass parent_class;
 
+	/* signals */
+	void (*unrealize) (SheetObject	*sheet_object);
+
 	/* Virtual methods */
 	gboolean (*remove_from_sheet) (SheetObject	*sheet_object);
 	gboolean   (*assign_to_sheet) (SheetObject	*sheet_object,

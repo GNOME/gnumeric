@@ -10,7 +10,7 @@
 #include <gnumeric.h>
 #include "widget-editable-label.h"
 #include <style-color.h>
-#include <gui-gtkmarshalers.h>
+#include <gnm-marshalers.h>
 
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkbutton.h>

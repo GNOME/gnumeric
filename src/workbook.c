@@ -32,7 +32,7 @@
 #include "file.h"
 #include "io-context.h"
 #include "gutils.h"
-#include "gui-gtkmarshalers.h"
+#include "gnm-marshalers.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/bonobo-persist-file.h>
@@ -100,7 +100,7 @@ workbook_history_update (GList *wl, gchar *filename)
 }
 
 static void
-cb_saver_finalize (GnumFileSaver *saver, Workbook *wb)
+cb_saver_finalize (Workbook *wb, GnumFileSaver *saver)
 {
 	g_return_if_fail (IS_GNUM_FILE_SAVER (saver));
 	g_return_if_fail (IS_WORKBOOK (wb));
@@ -118,7 +118,7 @@ workbook_finalize (GObject *wb_object)
 
 	if (wb->file_saver != NULL) {
 		g_object_weak_unref (G_OBJECT (wb->file_saver),
-				     (GWeakNotify) cb_saver_finalize, wb);
+			(GWeakNotify) cb_saver_finalize, wb);
 		wb->file_saver = NULL;
 	}
 
@@ -548,12 +548,12 @@ workbook_set_saveinfo (Workbook *wb, const gchar *file_name,
 	wb->file_format_level = level;
 	if (wb->file_saver != NULL)
 		g_object_weak_unref (G_OBJECT (wb->file_saver),
-				     (GWeakNotify) cb_saver_finalize, wb);
+			(GWeakNotify) cb_saver_finalize, wb);
 
 	wb->file_saver = fs;
 	if (fs != NULL)
 		g_object_weak_ref (G_OBJECT (fs),
-				   (GWeakNotify) cb_saver_finalize, wb);
+			(GWeakNotify) cb_saver_finalize, wb);
 
 	return TRUE;
 }

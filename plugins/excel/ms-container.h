@@ -35,12 +35,12 @@ void ms_container_init (MSContainer *container, MSContainerClass const *vtbl,
 			MSContainer *parent_container);
 void ms_container_finalize (MSContainer *container);
 
-void                ms_container_add_blip (MSContainer *c, MSEscherBlip *blip);
-MSEscherBlip const *ms_container_get_blip (MSContainer *c, int blip_id);
-void	  ms_container_set_blips    (MSContainer *c, GPtrArray *blips);
-void	  ms_container_add_obj	    (MSContainer *c, MSObj *obj);
-void	  ms_container_realize_objs (MSContainer *c);
-ExprTree *ms_container_parse_expr   (MSContainer *c,
+void             ms_container_add_blip	   (MSContainer *c, MSEscherBlip *blip);
+MSEscherBlip	*ms_container_get_blip	   (MSContainer *c, int blip_id);
+void		 ms_container_set_blips    (MSContainer *c, GPtrArray *blips);
+void		 ms_container_add_obj	   (MSContainer *c, MSObj *obj);
+void		 ms_container_realize_objs (MSContainer *c);
+ExprTree	*ms_container_parse_expr   (MSContainer *c,
 				     guint8 const *data, int length);
 Sheet       *ms_container_sheet	    (MSContainer const *c);
 StyleFormat *ms_container_get_fmt   (MSContainer const *container, guint16 indx);

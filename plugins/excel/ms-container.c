@@ -38,7 +38,7 @@ ms_container_finalize (MSContainer *container)
 		for (i = container->blips->len; i-- > 0 ; ) {
 			MSEscherBlip *blip = g_ptr_array_index (container->blips, i);
 			if (blip != NULL)
-				ms_escher_blip_destroy (blip);
+				ms_escher_blip_free (blip);
 		}
 
 		g_ptr_array_free (container->blips, TRUE);
@@ -63,7 +63,7 @@ ms_container_add_blip (MSContainer *container, MSEscherBlip *blip)
 	g_ptr_array_add (container->blips, blip);
 }
 
-MSEscherBlip const *
+MSEscherBlip *
 ms_container_get_blip (MSContainer *container, int blip_id)
 {
 	g_return_val_if_fail (container != NULL, NULL);

@@ -34,13 +34,6 @@
 #include "ms-excel-read.h"
 #include "ms-obj.h"
 
-#ifdef ENABLE_BONOBO
-#  include <bonobo/bonobo-stream.h>
-#  include <bonobo/bonobo-stream-memory.h>
-#  include "sheet-object-container.h"
-#  include "sheet-object-graphic.h"
-#endif
-
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "gnumeric:escher"
 
@@ -98,33 +91,32 @@ ms_escher_header_add_attr (MSEscherHeader *h, MSObjAttr *attr)
 }
 
 static MSEscherBlip *
-ms_escher_blip_new (guint8 const *data, guint32 len, char const *repoid)
+ms_escher_blip_new (guint8 *data, guint32 len, char const *type, gboolean copy)
 {
 	MSEscherBlip *blip = g_new (MSEscherBlip, 1);
 
-#ifdef ENABLE_BONOBO
-	blip->stream   = bonobo_stream_mem_create ((char *)data, len, TRUE, FALSE);
-#else
-	guint8 *mem = g_malloc (len);
-	memcpy (mem, data, len);
-	blip->raw_data = mem;
-#endif
-	blip->obj_id   = repoid;
+	blip->type = type;
+	blip->data_len = len;
+	blip->needs_free = TRUE;
+	if (copy) {
+		guint8 *mem = g_malloc (len);
+		memcpy (mem, data, len);
+		blip->data = mem;
+	} else
+		blip->data = data;
+
 	return blip;
 }
 
 void
-ms_escher_blip_destroy (MSEscherBlip *blip)
+ms_escher_blip_free (MSEscherBlip *blip)
 {
-	blip->obj_id = NULL;
-#ifdef ENABLE_BONOBO
-	if (blip->stream)
-		bonobo_object_unref (BONOBO_OBJECT (blip->stream));
-	blip->stream  = NULL;
-#else
-	g_free (blip->raw_data);
-	blip->raw_data = NULL;
-#endif
+	blip->type = NULL;
+	if (blip->needs_free) {
+		g_free (blip->data);
+		blip->needs_free = FALSE;
+	}
+	blip->data = NULL;
 	g_free (blip);
 }
 
@@ -324,32 +316,6 @@ bliptype_name (int const type)
 	}
 }
 
-#ifndef NO_DEBUG_EXCEL
-static void
-write_file (gchar const * const name, guint8 const * data,
-	    gint len, int stored_type)
-{
-	static int num = 0;
-	char const * suffix = bliptype_name (stored_type);
-	GString *file_name = g_string_new (name);
-	FILE *f;
-
-	g_string_sprintfa (file_name, "-%d.%s", num++, suffix);
-
-	f = fopen (file_name->str, "w");
-	if (f) {
-		fwrite (data, len, 1, f);
-		fclose (f);
-		if (ms_excel_escher_debug > 0)
-			printf ("written 0x%x bytes to '%s';\n",
-				len, file_name->str);
-	} else
-		printf ("Can't open '%s';\n",
-			file_name->str);
-	g_string_free (file_name, 1);
-}
-#endif
-
 static gboolean
 ms_escher_read_BSE (MSEscherState * state, MSEscherHeader * h)
 {
@@ -414,6 +380,8 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 	guint32 blip_instance = h->instance;
 	gboolean res = FALSE;
 	MSEscherBlip *blip = NULL;
+	char const   *type = NULL;
+
 
 	/*  This doesn't make alot of sense.
 	 *  Which is the normative indicator of what type the blip is ?
@@ -440,40 +408,40 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 
 	switch (blip_instance) {
 	case 0x216 : /* compressed WMF, with Metafile header */
+		type = "wmf";
 		break;
 	case 0x3d4 : /* compressed EMF, with Metafile header */
+		type = "emf";
 		break;
 	case 0x542 : /* compressed PICT, with Metafile header */
+		type = "pict";
 		break;
-
 	case 0x46a : /* JPEG data, with 1 byte header */
-	case 0x6e0 : /* PNG  data, with 1 byte header */
-	{
-		int const header = 17 + primary_uid_size + common_header_len;
-		gboolean needs_free;
-		char const *repoid;
-		guint8 const *data = ms_escher_get_data (state, h->offset,
-			    h->len, header, &needs_free);
-
-		repoid = "OAFIID:GNOME_EOG_Embeddable";
-		blip = ms_escher_blip_new (data, h->len - header, repoid);
-
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_escher_debug > 1)
-			write_file ("unknown", data, h->len - header, h->fbt - Blip_START);
-#endif
-		if (needs_free)
-			g_free ((guint8*)data);
+		type = "jpeg";
 		break;
-	}
-
+	case 0x6e0 : /* PNG  data, with 1 byte header */
+		type = "png";
+		break;
 	case 0x7a8 : /* DIB  data, with 1 byte header */
+		type = "dib";
 		break;
 
 	default:
-		g_warning ("Don't know what to do with this image %x\n", h->instance);
 		res = TRUE;
+		g_warning ("Don't know what to do with this image %x\n",
+			   h->instance);
 	};
+
+	if (type != NULL) {
+		int const header = 17 + primary_uid_size + common_header_len;
+		gboolean needs_free;
+		guint8 const *data = ms_escher_get_data (state, h->offset, h->len,
+			header, &needs_free);
+		blip = ms_escher_blip_new ((guint8 *)data, h->len - header, type,
+			!needs_free);
+	}
+
+	/* Always add a blip to keep the indicies in sync, even if its NULL */
 	ms_container_add_blip (state->container, blip);
 	return res;
 }

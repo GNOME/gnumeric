@@ -88,7 +88,7 @@
                     <child>
                       <widget class="GtkCList" id="category_list">
                         <property name="can_focus">yes</property>
-                        <property name="columns">1</property>
+                        <property name="n_columns">1</property>
                         <property name="column_widths">80</property>
                         <property name="selection_mode">GTK_SELECTION_BROWSE</property>
                         <property name="show_titles">yes</property>
@@ -142,7 +142,7 @@
                     <child>
                       <widget class="GtkCList" id="function_list">
                         <property name="can_focus">yes</property>
-                        <property name="columns">1</property>
+                        <property name="n_columns">1</property>
                         <property name="column_widths">80</property>
                         <property name="selection_mode">GTK_SELECTION_BROWSE</property>
                         <property name="show_titles">yes</property>

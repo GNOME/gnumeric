@@ -43,8 +43,8 @@
 #include <sheet-object-cell-comment.h>
 #include <sheet-object-widget.h>
 #include <sheet-object-graphic.h>
+#include <sheet-object-image.h>
 #ifdef ENABLE_BONOBO
-#  include <sheet-object-container.h>
 #  include <gnumeric-graph.h>
 #endif
 
@@ -2148,49 +2148,19 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	case 0x07: so = g_object_new (sheet_widget_button_get_type (), NULL);
 		   break;
 	case 0x08: { /* Picture */
-#ifdef ENABLE_BONOBO
 		MSObjAttr *blip_id = ms_object_attr_bag_lookup (obj->attrs,
 			MS_OBJ_ATTR_BLIP_ID);
 
 		if (blip_id != NULL) {
-			MSEscherBlip const *blip =
-				ms_container_get_blip (container, blip_id->v.v_uint - 1);
-
+			MSEscherBlip *blip = ms_container_get_blip (container,
+				blip_id->v.v_uint - 1);
 			if (blip != NULL) {
-				SheetObjectBonobo *sob;
-
-				so = sheet_object_container_new (wb);
-				sob = SHEET_OBJECT_BONOBO (so);
-
-				if (sheet_object_bonobo_set_object_iid (sob, blip->obj_id)) {
-					CORBA_Environment ev;
-
-					CORBA_exception_init (&ev);
-					sheet_object_bonobo_load_persist_stream (
-						sob, blip->stream, &ev);
-					if (ev._major != CORBA_NO_EXCEPTION) {
-						g_warning ("Failed to load '%s' from "
-							   "stream: %s", blip->obj_id,
-							   bonobo_exception_get_text (&ev));
-						g_object_unref (G_OBJECT (so));
-						so = NULL;
-					}
-					CORBA_exception_free (&ev);
-				} else {
-					g_warning ("Could not set object iid '%s'!",
-						   blip->obj_id);
-					g_object_unref (G_OBJECT (so));
-					so = NULL;
-				}
+				so = sheet_object_image_new (blip->type,
+					blip->data, blip->data_len, !blip->needs_free);
+				blip->needs_free = FALSE; /* image took over managing data */
 			}
 		}
-#else
-		if (esheet->wb->warn_unsupported_images) {
-			/* TODO : Use IOContext when available */
-			esheet->wb->warn_unsupported_images = FALSE;
-			g_warning ("Images are not supported in non-bonobo version");
-		}
-#endif
+
 		/* replace blips we don't know how to handle with rectangles */
 		if (so == NULL)
 			so = sheet_object_box_new (FALSE);  /* placeholder */

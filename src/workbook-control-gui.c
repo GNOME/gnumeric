@@ -3637,10 +3637,10 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 	}
 }
 
-static GtkObjectClass *parent_class;
 static void
-wbcg_destroy (GtkObject *obj)
+wbcg_finalize (GObject *obj)
 {
+	GObjectClass *parent_class;
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (obj);
 
 	/* Disconnect signals that would attempt to change things during
@@ -3662,7 +3662,9 @@ wbcg_destroy (GtkObject *obj)
 	if (wbcg->toplevel != NULL)
 		gtk_object_destroy (GTK_OBJECT (wbcg->toplevel));
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
+	parent_class = g_type_class_peek (WORKBOOK_CONTROL_TYPE);
+	if (parent_class != NULL && parent_class->finalize != NULL)
+		(parent_class)->finalize (obj);
 }
 
 static gboolean
@@ -4373,15 +4375,13 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 }
 
 static void
-workbook_control_gui_ctor_class (GtkObjectClass *object_class)
+workbook_control_gui_ctor_class (GObjectClass *object_class)
 {
 	WorkbookControlClass *wbc_class = WORKBOOK_CONTROL_CLASS (object_class);
 
 	g_return_if_fail (wbc_class != NULL);
 
-	parent_class = gtk_type_class (workbook_control_get_type ());
-
-	object_class->destroy = wbcg_destroy;
+	object_class->finalize = wbcg_finalize;
 
 	wbc_class->context_class.progress_set         = wbcg_progress_set;
 	wbc_class->context_class.progress_message_set = wbcg_progress_message_set;

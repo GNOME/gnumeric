@@ -4,5 +4,5 @@ Makefile
 .libs
 gnumeric
 parser.c
-gui-gtkmarshalers.c
-gui-gtkmarshalers.h
+gnm-marshalers.c
+gnm-marshalers.h

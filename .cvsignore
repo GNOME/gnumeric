@@ -27,3 +27,4 @@ intltool-extract*
 intltool-merge*
 intltool-update*
 GNOME_Gnumeric.oaf
+.intltool-cache*

@@ -35,7 +35,7 @@
 #include "style-border.h"
 #include "style-color.h"
 #include "value.h"
-#include "gui-gtkmarshalers.h"
+#include "gnm-marshalers.h"
 
 #include <gal/util/e-util.h>
 

@@ -22,8 +22,8 @@ INCLUDES = 								\
 	$(GNUMERIC_CFLAGS)
 
 BUILT_SOURCES =					\
-	gui-gtkmarshalers.h			\
-	gui-gtkmarshalers.c
+	gnm-marshalers.h			\
+	gnm-marshalers.c
 
 GNUMERIC_BASE =					\
 	$(BUILT_SOURCES)			\
@@ -187,6 +187,8 @@ GNUMERIC_BASE =					\
 	sheet-object-cell-comment.h		\
 	sheet-object-graphic.c			\
 	sheet-object-graphic.h			\
+	sheet-object-image.c			\
+	sheet-object-image.h			\
 	sheet-object-widget.c			\
 	sheet-object-widget.h			\
 	sheet-style.c				\
@@ -300,16 +302,14 @@ gnumeric_app_libs =				\
 	widgets/libwidgets.a			\
 	functions/libfunctions.a
 
-noinst_HEADERS = gui-gtkmarshalers.h
-
-gui-gtkmarshalers.h : gui-gtkmarshalers.list $(GLIB_GENMARSHAL)
+gnm-marshalers.h : gnm-marshalers.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $< --header --prefix=gnm_ > $@
-gui-gtkmarshalers.c : gui-gtkmarshalers.list $(GLIB_GENMARSHAL)
+gnm-marshalers.c : gnm-marshalers.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $< --body --prefix=gnm_ > $@
 
 # include conditional files to ensure everything gets distributed no matter
 # what the build
-EXTRA_DIST = GNOME_Gnumeric.xml gui-gtkmarshalers.list	\
+EXTRA_DIST = GNOME_Gnumeric.xml gnm-marshalers.list	\
 	    normal-args.c corba-args.c			\
 	    $(GNUMERIC_BONOBO)
 

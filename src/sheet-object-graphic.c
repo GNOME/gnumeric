@@ -32,7 +32,8 @@ typedef enum {
 	SHEET_OBJECT_OVAL	= 102,
 } SheetObjectGraphicType;
 
-#define SHEET_OBJECT_GRAPHIC_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_OBJECT_GRAPHIC_TYPE))
+#define SHEET_OBJECT_GRAPHIC(o)       (G_TYPE_CHECK_INSTANCE_CAST((o), SHEET_OBJECT_GRAPHIC_TYPE, SheetObjectGraphic))
+#define SHEET_OBJECT_GRAPHIC_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_OBJECT_GRAPHIC_TYPE, SheetObjectGraphicClass))
 
 typedef struct {
 	SheetObject  sheet_object;
@@ -109,14 +110,14 @@ sheet_object_line_new (gboolean is_arrow)
 }
 
 static void
-sheet_object_graphic_destroy (GtkObject *object)
+sheet_object_graphic_finalize (GObject *object)
 {
 	SheetObjectGraphic *sog;
 
 	sog = SHEET_OBJECT_GRAPHIC (object);
 	style_color_unref (sog->fill_color);
 
-	GTK_OBJECT_CLASS (sheet_object_graphic_parent_class)->destroy (object);
+	G_OBJECT_CLASS (sheet_object_graphic_parent_class)->finalize (object);
 }
 
 static GObject *
@@ -242,7 +243,7 @@ sheet_object_graphic_clone (SheetObject const *so, Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPHIC (so), NULL);
 	sog = SHEET_OBJECT_GRAPHIC (so);
 
-	new_sog = g_object_new (GTK_OBJECT_TYPE (sog), NULL);
+	new_sog = g_object_new (G_OBJECT_TYPE (so), NULL);
 
 	new_sog->type  = sog->type;
 	new_sog->width = sog->width;
@@ -562,14 +563,14 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
 }
 
 static void
-sheet_object_graphic_class_init (GtkObjectClass *object_class)
+sheet_object_graphic_class_init (GObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class;
 
 	sheet_object_graphic_parent_class = gtk_type_class (SHEET_OBJECT_TYPE);
 
 	/* Object class method overrides */
-	object_class->destroy = sheet_object_graphic_destroy;
+	object_class->finalize = sheet_object_graphic_finalize;
 
 	/* SheetObject class method overrides */
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
@@ -584,7 +585,7 @@ sheet_object_graphic_class_init (GtkObjectClass *object_class)
 }
 
 static void
-sheet_object_graphic_init (GtkObject *obj)
+sheet_object_graphic_init (GObject *obj)
 {
 	SheetObjectGraphic *sog;
 	SheetObject *so;
@@ -611,7 +612,8 @@ E_MAKE_TYPE (sheet_object_graphic, "SheetObjectGraphic", SheetObjectGraphic,
  *
  * Derivative of SheetObjectGraphic, with filled parameter
  */
-#define IS_SHEET_OBJECT_FILLED_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_OBJECT_FILLED_TYPE, SheetObjectFilledClass))
+#define SHEET_OBJECT_FILLED(o)       (G_TYPE_CHECK_INSTANCE_CAST((o), SHEET_OBJECT_FILLED_TYPE, SheetObjectFilled))
+#define SHEET_OBJECT_FILLED_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_OBJECT_FILLED_TYPE, SheetObjectFilledClass))
 
 typedef struct {
 	SheetObjectGraphic sheet_object_graphic;
@@ -656,14 +658,14 @@ sheet_object_box_new (gboolean is_oval)
 }
 
 static void
-sheet_object_filled_destroy (GtkObject *object)
+sheet_object_filled_finalize (GObject *object)
 {
 	SheetObjectFilled *sof;
 
 	sof = SHEET_OBJECT_FILLED (object);
 	style_color_unref (sof->outline_color);
 
-	GTK_OBJECT_CLASS (sheet_object_filled_parent_class)->destroy (object);
+	G_OBJECT_CLASS (sheet_object_filled_parent_class)->finalize (object);
 }
 
 static void
@@ -705,8 +707,7 @@ sheet_object_filled_new_view (SheetObject *so, SheetControlGUI *scg)
 	fill_color = (sog->fill_color != NULL) ? &sog->fill_color->color : NULL;
 	outline_color = (sof->outline_color != NULL) ? &sof->outline_color->color : NULL;
 
-	item = gnome_canvas_item_new (
-		gcanvas->object_group,
+	item = gnome_canvas_item_new (gcanvas->object_group,
 		(sog->type == SHEET_OBJECT_OVAL) ?
 					GNOME_TYPE_CANVAS_ELLIPSE :
 					GNOME_TYPE_CANVAS_RECT,
@@ -1031,13 +1032,13 @@ sheet_object_filled_print (SheetObject const *so, GnomePrintContext *ctx,
 }
 
 static void
-sheet_object_filled_class_init (GtkObjectClass *object_class)
+sheet_object_filled_class_init (GObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class;
 
 	sheet_object_filled_parent_class = gtk_type_class (SHEET_OBJECT_GRAPHIC_TYPE);
 
-	object_class->destroy		  = sheet_object_filled_destroy;
+	object_class->finalize		  = sheet_object_filled_finalize;
 
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
 	sheet_object_class->new_view	  = sheet_object_filled_new_view;
@@ -1051,7 +1052,7 @@ sheet_object_filled_class_init (GtkObjectClass *object_class)
 }
 
 static void
-sheet_object_filled_init (GtkObject *obj)
+sheet_object_filled_init (GObject *obj)
 {
 	SheetObjectFilled *sof;
 

@@ -109,7 +109,7 @@ sheet_object_unrealize (SheetObject *so)
 
 	/* The views remove themselves from the list */
 	while (so->realized_list != NULL)
-		g_object_unref (G_OBJECT (so->realized_list->data));
+		gtk_object_destroy (GTK_OBJECT (so->realized_list->data));
 }
 
 /**

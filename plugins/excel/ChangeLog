@@ -1,3 +1,13 @@
+2002-02-15  Jody Goldberg <jody@gnome.org>
+
+	* ms-escher.c (write_file) : delete.
+	(ms_escher_read_BSE) : remove the bonobo-ness from here it is none of
+	  excel's business.  Just use the new SheetObjectImage.  While we're
+	  at it avoid a few memory copies of the image.
+	* ms-excel-read.c (ms_sheet_create_obj) : ditto.
+
+	* ms-container.c (ms_container_get_blip) : return non-const.
+
 2002-02-08  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-read.c (ms_excel_read_window2): No need to unref

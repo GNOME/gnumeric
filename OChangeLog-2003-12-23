@@ -1,3 +1,14 @@
+2002-02-15  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-image.{ch} : new.
+
+	* src/sheet-object.c (sheet_object_new_view) : use a weak_ref.
+
+	* src/sheet-control-gui.c (scg_object_register) : more safety
+	  and use a weak_ref.
+
+	* src/sheet-object-graphic.c : More GObject-ification.
+
 2002-02-15  Morten Welinder  <terra@diku.dk>
 
 	* src/regression.c (LUPDecomp): Use fabs, not abs.

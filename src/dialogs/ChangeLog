@@ -1,3 +1,8 @@
+2002-02-15  Jody Goldberg <jody@gnome.org>
+
+	* function-select.glade : fix conversion breakage.  Still in bad
+	  shape.
+
 2002-02-10  Jody Goldberg <jody@gnome.org>
 
 	* dialog-formula-guru.c (formula_guru_arg_new) : labels don't need

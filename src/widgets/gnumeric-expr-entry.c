@@ -24,7 +24,7 @@
 #include <eval.h>
 #include <sheet.h>
 #include <commands.h>
-#include <gui-gtkmarshalers.h>
+#include <gnm-marshalers.h>
 
 #include <gal/util/e-util.h>
 #include <gtk/gtkentry.h>

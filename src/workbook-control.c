@@ -257,21 +257,22 @@ wb_control_parse_and_jump (WorkbookControl *wbc, const char *text)
 
 /*****************************************************************************/
 
-static GtkObjectClass *parent_class;
 static void
-wbc_destroy (GtkObject *obj)
+wbc_finalize (GObject *obj)
 {
+	GObjectClass *parent_class;
 	WorkbookControl *wbc = WORKBOOK_CONTROL (obj);
 	if (wbc->wb_view != NULL)
 		wb_view_detach_control (wbc);
-	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
+	parent_class = g_type_class_peek (COMMAND_CONTEXT_TYPE);
+	if (parent_class != NULL && parent_class->finalize != NULL)
+		(parent_class)->finalize (obj);
 }
 
 static void
-workbook_control_class_init (GtkObjectClass *object_class)
+workbook_control_class_init (GObjectClass *object_class)
 {
-	parent_class = gtk_type_class (gtk_object_get_type ());
-	object_class->destroy = wbc_destroy;
+	object_class->finalize = wbc_finalize;
 }
 
 E_MAKE_TYPE (workbook_control, "WorkbookControl", WorkbookControl,
