@@ -29,7 +29,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2001-12-30 23:23+0100\n"
+"POT-Creation-Date: 2001-12-31 03:07-0500\n"
 "PO-Revision-Date: 2001-12-30 23:23+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -4744,8 +4744,8 @@ msgstr "Ett fel uppstod vid läsning av kategorilistan"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:954 src/format.c:1665 src/format.c:1757
-#: src/format.c:1766 src/format.c:1835
+#: src/dialogs/dialog-autoformat.c:954 src/format.c:1644 src/format.c:1736
+#: src/format.c:1745 src/format.c:1814
 msgid "General"
 msgstr "Allmän"
 
@@ -6883,51 +6883,51 @@ msgstr "Målområdet är för litet. Det måste vara minst %d kolumner brett"
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "Målområdet är för litet. Det måste vara minst %d rader högt"
 
-#: src/format.c:606
+#: src/format.c:585
 msgid "black"
 msgstr "svart"
 
-#: src/format.c:607
+#: src/format.c:586
 msgid "blue"
 msgstr "blå"
 
-#: src/format.c:608
+#: src/format.c:587
 msgid "cyan"
 msgstr "cyan"
 
-#: src/format.c:609
+#: src/format.c:588
 msgid "green"
 msgstr "grön"
 
-#: src/format.c:610
+#: src/format.c:589
 msgid "magenta"
 msgstr "magenta"
 
-#: src/format.c:611
+#: src/format.c:590
 msgid "red"
 msgstr "röd"
 
-#: src/format.c:612
+#: src/format.c:591
 msgid "white"
 msgstr "vit"
 
-#: src/format.c:613
+#: src/format.c:592
 msgid "yellow"
 msgstr "gul"
 
 #. Is it a boolean?
-#: src/format.c:1572 src/number-match.c:1066 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1066 src/value-sheet.c:34
 #: src/value.c:255 src/value.c:494
 msgid "TRUE"
 msgstr "SANT"
 
-#: src/format.c:1572 src/number-match.c:1068 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1068 src/value-sheet.c:34
 #: src/value.c:257 src/value.c:494
 msgid "FALSE"
 msgstr "FALSKT"
 
 #. Array of arrays ??
-#: src/format.c:1600
+#: src/format.c:1579
 msgid "ARRAY"
 msgstr "VEKTOR"
 

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0\n"
-"POT-Creation-Date: 2001-12-26 00:56-0500\n"
+"POT-Creation-Date: 2001-12-31 03:07-0500\n"
 "PO-Revision-Date: 2001-12-31 08:21+0200\n"
 "Last-Translator: Dan Damian <dand@softhome.net>\n"
 "Language-Team: Romanian <gnomero-list@lists.sourceforge.net>\n"
@@ -43,7 +43,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funcþii referitoare la derivate financiare"
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4465
-#: plugins/mps/mps.c:571 src/xml-io.c:3448
+#: plugins/mps/mps.c:579 src/xml-io.c:3448
 msgid "Reading file..."
 msgstr "Citesc fiºierul..."
 
@@ -192,29 +192,33 @@ msgstr "Nu pot deschide fluxul pentru scriere\n"
 msgid "Broken function"
 msgstr "Funcþie defectuoasã"
 
-#: plugins/excel/ms-formula-read.c:1421
+#: plugins/excel/ms-formula-read.c:1438
 msgid " Unknown formula"
 msgstr "Formulã necunoscutã"
 
 #: plugins/excel/plugin.xml.in.h:1
-msgid "Excel(R) 95 file format"
-msgstr "Format fiºier Excel(R) 95"
-
-#: plugins/excel/plugin.xml.in.h:2
-msgid "Excel(R) 97 file format"
-msgstr "Format fiºier Excel(R) 97"
-
-#: plugins/excel/plugin.xml.in.h:3
-msgid "Imports/Exports Microsoft(R) Excel files"
+#, fuzzy
+msgid "Imports/Exports MS Excel (tm) files"
 msgstr "Importã/Exportã fiºiere Microsoft(R) Excel"
 
+#: plugins/excel/plugin.xml.in.h:2
+msgid "MS Excel (tm)"
+msgstr ""
+
+#: plugins/excel/plugin.xml.in.h:3
+#, fuzzy
+msgid "MS Excel (tm) (*.xls)"
+msgstr "Microsoft(R) Excel (*.xls)"
+
 #: plugins/excel/plugin.xml.in.h:4
-msgid "Microsoft(R) Excel"
-msgstr "Microsoft(R) Excel"
+#, fuzzy
+msgid "MS Excel (tm) 95 file format"
+msgstr "Format fiºier Excel(R) 95"
 
 #: plugins/excel/plugin.xml.in.h:5
-msgid "Microsoft(R) Excel (*.xls)"
-msgstr "Microsoft(R) Excel (*.xls)"
+#, fuzzy
+msgid "MS Excel (tm) 97 file format"
+msgstr "Format fiºier Excel(R) 97"
 
 #: plugins/gb/plugin.c:138
 msgid "Unknown GB error"
@@ -270,8 +274,8 @@ msgstr "Bazã de date"
 #: plugins/gda/plugin.xml.in.h:2
 msgid "Database functions for allowing the retrieval of data from a database"
 msgstr ""
-"Funcþii pentru baze de date ce permit obþinerea de informaþii dintr-o bazã de "
-"date"
+"Funcþii pentru baze de date ce permit obþinerea de informaþii dintr-o bazã "
+"de date"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:1
 msgid "Gnome Glossary"
@@ -370,16 +374,16 @@ msgstr "Lotus 123"
 msgid "Lotus 123 (*.wk1)"
 msgstr "Lotus 123 (*.wk1)"
 
-#: plugins/mps/mps.c:274
+#: plugins/mps/mps.c:276
 msgid "Program Name"
 msgstr "Nume program"
 
-#: plugins/mps/mps.c:279
+#: plugins/mps/mps.c:282
 msgid "Objective Value"
 msgstr "Valoare obiectiv"
 
 #. Print 'Status'.
-#: plugins/mps/mps.c:290
+#: plugins/mps/mps.c:293
 msgid "Feasible"
 msgstr "Fezabil"
 
@@ -387,12 +391,12 @@ msgstr "Fezabil"
 #. * Add objective function stuff into the sheet.
 #.
 #. Print 'Objective function:'
-#: plugins/mps/mps.c:305
+#: plugins/mps/mps.c:308
 msgid "Objective function:"
 msgstr "Funcþie obiectiv:"
 
 #. Print 'Current values'
-#: plugins/mps/mps.c:308
+#: plugins/mps/mps.c:311
 msgid "Current values"
 msgstr "Valori curente"
 
@@ -400,60 +404,60 @@ msgstr "Valori curente"
 #. * Add constraints into the sheet.
 #.
 #. Print 'Constraints:'.
-#: plugins/mps/mps.c:329
+#: plugins/mps/mps.c:332
 msgid "Constraints:"
 msgstr "Constrângeri:"
 
 #. Print constraint titles.
-#: plugins/mps/mps.c:332 src/dialogs/plugin-manager.glade.h:13
+#: plugins/mps/mps.c:335 src/dialogs/plugin-manager.glade.h:13
 #: src/format-template.c:510 src/solver-lp.c:898 src/solver-lp.c:922
 #: src/solver-lp.c:955 src/solver-lp.c:1049 src/solver-lp.c:1096
 msgid "Name"
 msgstr "Nume"
 
-#: plugins/mps/mps.c:336 src/dialogs/cell-sort.glade.h:14
+#: plugins/mps/mps.c:339 src/dialogs/cell-sort.glade.h:14
 #: src/dialogs/plugin-manager.glade.h:15 src/solver-lp.c:1050
 #: src/solver-lp.c:1097
 msgid "Value"
 msgstr "Valoare"
 
-#: plugins/mps/mps.c:337
+#: plugins/mps/mps.c:340
 msgid "Type"
 msgstr "Tip"
 
-#: plugins/mps/mps.c:338
+#: plugins/mps/mps.c:341
 msgid "RHS"
 msgstr "RHS"
 
-#: plugins/mps/mps.c:339 src/solver-lp.c:959
+#: plugins/mps/mps.c:342 src/solver-lp.c:959
 msgid "Slack"
 msgstr "Ajustare"
 
-#: plugins/mps/mps.c:340 src/solver-lp.c:958
+#: plugins/mps/mps.c:343 src/solver-lp.c:958
 msgid "Status"
 msgstr "Stare"
 
-#: plugins/mps/mps.c:1114
+#: plugins/mps/mps.c:1127
 msgid "Problem name was not defined in the file."
 msgstr "Numele problemei nu a fost definit în fiºier"
 
-#: plugins/mps/mps.c:1117
+#: plugins/mps/mps.c:1130
 msgid "Invalid ROWS section in the file."
 msgstr "Secþiune ROWS invalidã în fiºier."
 
-#: plugins/mps/mps.c:1120
+#: plugins/mps/mps.c:1133
 msgid "Invalid COLUMNS section in the file."
 msgstr "Secþiune COLUMNS invalidã în fiºier."
 
-#: plugins/mps/mps.c:1123
+#: plugins/mps/mps.c:1136
 msgid "Invalid RHS section in the file."
 msgstr "Secþiune RHS invalidã în fiºier."
 
-#: plugins/mps/mps.c:1126
+#: plugins/mps/mps.c:1139
 msgid "Invalid BOUNDS section in the file."
 msgstr "Secþiune ROWS invalidã în fiºier."
 
-#: plugins/mps/mps.c:1142
+#: plugins/mps/mps.c:1155
 msgid "Error while reading MPS file."
 msgstr "Eroare la citirea fiºierului MPS."
 
@@ -509,7 +513,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_SIGMA\n"
 "@SYNTAX=NT_SIGMA(n)\n"
-"@DESCRIPTION=The NT_SIGMA function calculates the sum of the divisors of @n.\n"
+"@DESCRIPTION=The NT_SIGMA function calculates the sum of the divisors of "
+"@n.\n"
 "This function only takes one argument.\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
@@ -591,7 +596,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=BITRSHIFT\n"
 "@SYNTAX=BITRSHIFT(x,n)\n"
-"@DESCRIPTION=The BITRSHIFT function returns @x bit-shifted right by @n bits.\n"
+"@DESCRIPTION=The BITRSHIFT function returns @x bit-shifted right by @n "
+"bits.\n"
 "If @n is negative, a left shift will in effect be performed.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -912,11 +918,11 @@ msgstr "Document XML în formã invalidã."
 msgid "About this application"
 msgstr "Despre aceastã aplicaþie"
 
-#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:2887
+#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:2875
 msgid "Add an outline group"
 msgstr "Adaugã un grup schematic"
 
-#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:2917
+#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:2905
 msgid "Advanced _Filter..."
 msgstr "_Filtrare avansatã..."
 
@@ -932,23 +938,23 @@ msgstr "Aliniazã conþinutul la stânga ºi creºte indentarea"
 msgid "Arrow"
 msgstr "Sãgeatã"
 
-#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:2854
+#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:2842
 msgid "Auto _Correct..."
 msgstr "Auto_Corecþie..."
 
-#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2565
+#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2553
 msgid "Auto_fill"
 msgstr "Auto_Umplere"
 
-#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2566
+#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2554
 msgid "Automatically fill the current selection"
 msgstr "Umple automat selecþia curentã"
 
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:2855
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:2843
 msgid "Automatically perform simple spell checking"
 msgstr "Efectueazã automat o verificare ortograficã simplã"
 
-#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:2858
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:2846
 msgid "Automatically save the current document at regular intervals"
 msgstr "Salveazã automat documentul curent la intervale regulate"
 
@@ -973,15 +979,15 @@ msgstr "Borduri"
 msgid "Button"
 msgstr "Buton"
 
-#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2728
+#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2716
 msgid "C_ells..."
 msgstr "C_elule..."
 
-#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2629
+#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2617
 msgid "C_lear"
 msgstr "_Golire"
 
-#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2832
+#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2820
 msgid "C_olumn"
 msgstr "C_oloanã"
 
@@ -1001,24 +1007,24 @@ msgstr "Centreazã peste celulele selectate"
 msgid "Centers the text in each selection"
 msgstr "Centreazã textul în fiecare selecþie"
 
-#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2766
+#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2754
 msgid "Change height of the selected rows"
 msgstr "Modificã înãlþimea rândurilor selectate"
 
-#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2759
+#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2747
 msgid "Change the default column width"
 msgstr "Modificã lãþimea implicitã a coloanelor"
 
-#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2778
+#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2766
 msgid "Change the default row height"
 msgstr "Modificã înãlþimea implicitã a rândurilor"
 
-#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2587
-#: src/workbook-control-gui.c:2788
+#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2575
+#: src/workbook-control-gui.c:2776
 msgid "Change the order the sheets are displayed"
 msgstr "Modificã ordinea de afiºare a foilor"
 
-#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2747
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2735
 msgid "Change width of the selected columns"
 msgstr "Modificã lãþimea coloanelor selectate"
 
@@ -1026,19 +1032,19 @@ msgstr "Modificã lãþimea coloanelor selectate"
 msgid "Checkbox"
 msgstr "Casetã de selecþie"
 
-#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2526
+#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2514
 msgid "Clear the selected cells' comments"
 msgstr "ªterge comentariile celulelor selectate"
 
-#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2529
+#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2517
 msgid "Clear the selected cells' contents"
 msgstr "ªterge conþinutul celulelor selectate"
 
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2523
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2511
 msgid "Clear the selected cells' formats"
 msgstr "ªterge formatarea celulelor selectate"
 
-#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2520
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2508
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "ªterge formatarea, comentariile ºi conþinutul celulelor selectate"
 
@@ -1047,11 +1053,11 @@ msgid "Close the current file"
 msgstr "Închide fiºierul curent"
 
 #: src/GNOME_Gnumeric.xml.h:34 src/dialogs/print.glade.h:4
-#: src/workbook-control-gui.c:2525
+#: src/workbook-control-gui.c:2513
 msgid "Co_mments"
 msgstr "Co_mentarii"
 
-#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2881
+#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2869
 msgid "Collapse an outline group"
 msgstr "Pliazã un grup schematic"
 
@@ -1063,12 +1069,12 @@ msgstr "Casetã combo"
 msgid "Configure toolbars"
 msgstr "Configureazã bãrile de unelte"
 
-#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:2935
+#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:2923
 msgid "Consolidate regions using a function"
 msgstr "Centralizeazã regiunile utilizând o funcþie"
 
 #: src/GNOME_Gnumeric.xml.h:39 src/selection.c:541
-#: src/workbook-control-gui.c:2989
+#: src/workbook-control-gui.c:2977
 msgid "Copy"
 msgstr "Copiazã"
 
@@ -1076,7 +1082,7 @@ msgstr "Copiazã"
 msgid "Copy the current selection to the clipboard"
 msgstr "Copiazã selecþia curentã în clipboard"
 
-#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:2615
+#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:2603
 msgid "Copy the selection"
 msgstr "Copiazã selecþia"
 
@@ -1108,15 +1114,15 @@ msgstr "Creeazã o linie"
 msgid "Create a list"
 msgstr "Creeazã o listã"
 
-#: src/GNOME_Gnumeric.xml.h:49 src/workbook-control-gui.c:2671
+#: src/GNOME_Gnumeric.xml.h:49 src/workbook-control-gui.c:2659
 msgid "Create a new shared view of the workbook"
 msgstr "Creeazã o nouã vizualizare partajatã a registrului"
 
-#: src/GNOME_Gnumeric.xml.h:50 src/workbook-control-gui.c:2482
+#: src/GNOME_Gnumeric.xml.h:50 src/workbook-control-gui.c:2470
 msgid "Create a new spreadsheet"
 msgstr "Creeazã o nouã foaie de calcul"
 
-#: src/GNOME_Gnumeric.xml.h:51 src/workbook-control-gui.c:2674
+#: src/GNOME_Gnumeric.xml.h:51 src/workbook-control-gui.c:2662
 msgid "Create a new unshared view of the workbook"
 msgstr "Creeazã o nouã vizualizare nepartajatã a registrului"
 
@@ -1133,26 +1139,26 @@ msgid "Create an arrow"
 msgstr "Creeazã o sãgeatã"
 
 #: src/GNOME_Gnumeric.xml.h:55 src/sheet-control-gui.c:1391
-#: src/workbook-control-gui.c:2610
+#: src/workbook-control-gui.c:2598
 msgid "Cu_t"
 msgstr "_Decupeazã"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2692
+#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2680
 msgid "Current _date"
 msgstr "_Data curentã"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:2698
+#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:2686
 msgid "Current _time"
 msgstr "_Timpul curent"
 
 #: src/GNOME_Gnumeric.xml.h:58 src/selection.c:567 src/selection.c:570
-#: src/workbook-control-gui.c:2986
+#: src/workbook-control-gui.c:2974
 msgid "Cut"
 msgstr "Decupeazã"
 
-#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:2611
+#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:2599
 msgid "Cut the selection"
 msgstr "Decupeazã selecþia"
 
@@ -1165,19 +1171,19 @@ msgstr "Micºoreazã indentarea"
 msgid "Decrease Precision"
 msgstr "Micºoreazã precizia"
 
-#: src/GNOME_Gnumeric.xml.h:62
-msgid "Decrease the precision of the selected cells"
-msgstr "Micºoreazã precizia celulelor selectate"
+#: src/GNOME_Gnumeric.xml.h:62 src/workbook-format-toolbar.c:472
+msgid "Decreases the number of decimals displayed"
+msgstr "Micºoreazã numãrul de zecimale afiºate"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/workbook-control-gui.c:2793
+#: src/GNOME_Gnumeric.xml.h:63 src/workbook-control-gui.c:2781
 msgid "Display _Formulas"
 msgstr "Afiºeazã _formulele"
 
-#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2896
+#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2884
 msgid "Display _Outlines"
 msgstr "Afiºeazã _schemele"
 
-#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2794
+#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2782
 msgid "Display the value of a formula or the formula itself"
 msgstr "Afiºeazã valoarea unei formule sau formula însãºi"
 
@@ -1197,24 +1203,24 @@ msgstr "_Ieºire"
 msgid "Edit a formula in the current cell"
 msgstr "Editeazã o formulã în celula curentã"
 
-#: src/GNOME_Gnumeric.xml.h:70 src/workbook-control-gui.c:2707
+#: src/GNOME_Gnumeric.xml.h:70 src/workbook-control-gui.c:2695
 msgid "Edit sheet and workbook names"
 msgstr "Editeazã numele de foi ºi registre"
 
-#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2785
+#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2773
 msgid "Edit the name of the current sheet"
 msgstr "Editeazã numele foii curente"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:2737
+#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:2725
 msgid "Edit the selected cell's comment"
 msgstr "Editeazã comentariul celulei selectate"
 
-#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2750
+#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2738
 msgid "Ensure columns are just wide enough to display content"
 msgstr ""
 "Ajusteazã lãþimea coloanelor la minumul necesar pentru a afiºa conþinutul"
 
-#: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:2769
+#: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:2757
 msgid "Ensure rows are just tall enough to display content"
 msgstr ""
 "Ajusteazã înãlþimea rândurilor la minumul necesar pentru a afiºa conþinutul"
@@ -1223,11 +1229,11 @@ msgstr ""
 msgid "Exit the program"
 msgstr "Ieºire din program"
 
-#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:2956
+#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:2944
 msgid "F_ormat"
 msgstr "F_ormatare"
 
-#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:2918
+#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:2906
 msgid "Filter data with given criteria"
 msgstr "Filtreazã datele dupã criteriile date"
 
@@ -1250,478 +1256,485 @@ msgstr "Selector font"
 msgid "Foreground"
 msgstr "Prim-plan"
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2837
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2825
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formateazã o regiune de celule dupã un ºablon predefinit"
 
-#: src/GNOME_Gnumeric.xml.h:83
-msgid "Format the selected cells as money"
-msgstr "Formateazã celulele selectate ca simbol monetar"
-
-#: src/GNOME_Gnumeric.xml.h:84
-msgid "Format the selected cells as percentages"
-msgstr "Formateazã celulele selectate ca procente"
-
-#: src/GNOME_Gnumeric.xml.h:85 src/sheet-object-widget.c:316
+#: src/GNOME_Gnumeric.xml.h:83 src/sheet-object-widget.c:316
 #: src/workbook-object-toolbar.c:150
 msgid "Frame"
 msgstr "Cadru"
 
-#: src/GNOME_Gnumeric.xml.h:86
+#: src/GNOME_Gnumeric.xml.h:84
 msgid "Function Guru"
 msgstr "Ghid funcþii"
 
-#: src/GNOME_Gnumeric.xml.h:87 src/dialogs/graph-guru.glade.h:2
+#: src/GNOME_Gnumeric.xml.h:85 src/dialogs/graph-guru.glade.h:2
 msgid "Graph Guru"
 msgstr "Ghid diagrame"
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:2765
+#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:2753
 msgid "H_eight..."
 msgstr "Î_nãlþime..."
 
-#: src/GNOME_Gnumeric.xml.h:89
+#: src/GNOME_Gnumeric.xml.h:87
 msgid "Hide _Column Headers"
 msgstr "Ascunde antetele de _coloanã"
 
-#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:2805
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:2793
 msgid "Hide _Gridlines"
 msgstr "Ascunde _grilajul"
 
-#: src/GNOME_Gnumeric.xml.h:91
+#: src/GNOME_Gnumeric.xml.h:89
 msgid "Hide _Row Headers"
 msgstr "Ascunde antetele de _rânduri"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/workbook-control-gui.c:2799
+#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:2787
 msgid "Hide _Zeros"
 msgstr "Ascunde _zerourile"
 
-#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2753
+#: src/GNOME_Gnumeric.xml.h:91 src/workbook-control-gui.c:2741
 msgid "Hide the selected columns"
 msgstr "Ascunde coloanele selectate"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:2772
+#: src/GNOME_Gnumeric.xml.h:92 src/workbook-control-gui.c:2760
 msgid "Hide the selected rows"
 msgstr "Ascunde rândurile selectate"
 
-#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:2486
+#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2474
 msgid "Imports a file"
 msgstr "Importã un fiºier"
 
-#: src/GNOME_Gnumeric.xml.h:96
-msgid "Includes a thousands separator in the selected cells"
-msgstr "Include separatorul de mii în celulele selectate"
-
-#: src/GNOME_Gnumeric.xml.h:97 src/workbook-format-toolbar.c:376
+#: src/GNOME_Gnumeric.xml.h:94 src/workbook-format-toolbar.c:376
 #: src/workbook-format-toolbar.c:481
 msgid "Increase Indent"
 msgstr "Mãreºte indentarea"
 
-#: src/GNOME_Gnumeric.xml.h:98
+#: src/GNOME_Gnumeric.xml.h:95
 msgid "Increase Precision"
 msgstr "Mãreºte precizia"
 
-#: src/GNOME_Gnumeric.xml.h:99
-msgid "Increase the precision of the selected cells"
-msgstr "Mãreºte precizia celulelor selectate"
+#: src/GNOME_Gnumeric.xml.h:96 src/workbook-format-toolbar.c:469
+msgid "Increases the number of decimals displayed"
+msgstr "Mãreºte numãrul de zecimale afiºate"
 
-#: src/GNOME_Gnumeric.xml.h:100
+#: src/GNOME_Gnumeric.xml.h:97
 msgid "Insert Component"
 msgstr "Insereazã componentã"
 
-#: src/GNOME_Gnumeric.xml.h:101
+#: src/GNOME_Gnumeric.xml.h:98
 msgid "Insert Shaped Component"
 msgstr "Insereazã componentã conturatã"
 
-#: src/GNOME_Gnumeric.xml.h:102 src/workbook-control-gui.c:2579
+#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:483
+#: src/workbook-control-gui.c:2567
 msgid "Insert a new sheet"
 msgstr "Insereazã o nouã foaie"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2720
+#: src/GNOME_Gnumeric.xml.h:100 src/workbook-control-gui.c:2708
 msgid "Insert a new spreadsheet"
 msgstr "Insereazã o nouã foaie de calcul"
 
-#: src/GNOME_Gnumeric.xml.h:104
+#: src/GNOME_Gnumeric.xml.h:101
 msgid "Insert a shaped component into the spreadsheet"
 msgstr "Insereazã o componentã conturatã în foaia de calcul"
 
-#: src/GNOME_Gnumeric.xml.h:105
+#: src/GNOME_Gnumeric.xml.h:102
 msgid "Insert an object into the spreadsheet"
 msgstr "Insereazã un obiect în foaia de calcul"
 
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2729
+#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2717
 msgid "Insert new cells"
 msgstr "Insereazã celule noi"
 
-#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:2726
+#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:2714
 msgid "Insert new columns"
 msgstr "Insereazã coloane noi"
 
-#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:2723
+#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:2711
 msgid "Insert new rows"
 msgstr "Insereazã rânduri noi"
 
-#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:2693
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2681
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Insereazã data curentã în celulele selectate"
 
-#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:2699
+#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:2687
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Insereazã timpul curent în celulele selectate"
 
-#: src/GNOME_Gnumeric.xml.h:111
+#: src/GNOME_Gnumeric.xml.h:108
 msgid "Inserts a Bonobo object"
 msgstr "Insereazã un obiect Bonobo"
 
-#: src/GNOME_Gnumeric.xml.h:112
+#: src/GNOME_Gnumeric.xml.h:109
+#, fuzzy
+msgid "Inserts a Shaped Bonobo object"
+msgstr "Insereazã un obiect Bonobo"
+
+#: src/GNOME_Gnumeric.xml.h:110
 msgid "Invoke the graph guru to create a graph"
 msgstr "Invocã ghidul de diagrame pentru a crea o diagramã"
 
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2591
+#: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:2579
 msgid "Irrevocably remove an entire sheet"
 msgstr "ªterge irevocabil o foaie întreagã"
 
-#: src/GNOME_Gnumeric.xml.h:114
+#: src/GNOME_Gnumeric.xml.h:112
 msgid "Italicize"
 msgstr "Cursivizeazã"
 
-#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:2864
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2852
 msgid "Iteratively recalculate to find a target value"
 msgstr "Recalculeazã iterativ pentru a gãsi o valoare þintã"
 
-#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2867
+#: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:2855
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 "Recalculeazã iterativ folosind constrângeri pentru a atinge o valoare þintã"
 
-#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2655
+#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:2643
 msgid "Jump to a specified cell"
 msgstr "Salt la o celulã specificã"
 
-#: src/GNOME_Gnumeric.xml.h:118 src/sheet-object-widget.c:219
+#: src/GNOME_Gnumeric.xml.h:116 src/sheet-object-widget.c:219
 #: src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Etichetã"
 
-#: src/GNOME_Gnumeric.xml.h:119 src/dialogs/cell-format.glade.h:55
+#: src/GNOME_Gnumeric.xml.h:117 src/dialogs/cell-format.glade.h:55
 #: src/workbook-format-toolbar.c:629
 msgid "Left"
 msgstr "Stânga"
 
-#: src/GNOME_Gnumeric.xml.h:120
+#: src/GNOME_Gnumeric.xml.h:118
 msgid "Left justifies the contents of each cell"
 msgstr "Aliniazã conþinutul fiecãrei celule la stânga"
 
-#: src/GNOME_Gnumeric.xml.h:121 src/dialogs/cell-format.glade.h:56
+#: src/GNOME_Gnumeric.xml.h:119 src/dialogs/cell-format.glade.h:56
 #: src/workbook-object-toolbar.c:174
 msgid "Line"
 msgstr "Linie"
 
-#: src/GNOME_Gnumeric.xml.h:122 src/dialogs/cell-format.glade.h:57
+#: src/GNOME_Gnumeric.xml.h:120 src/dialogs/cell-format.glade.h:57
 #: src/workbook-object-toolbar.c:168
 msgid "List"
 msgstr "Listã"
 
-#: src/GNOME_Gnumeric.xml.h:123
+#: src/GNOME_Gnumeric.xml.h:121
 msgid "Lock or unlock the top left cols/rows"
 msgstr "Blocheazã sau deblocheazã celulele/rândurile din stânga sus."
 
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2575
+#: src/GNOME_Gnumeric.xml.h:122 src/workbook-control-gui.c:2563
 msgid "Make a copy of the current sheet"
 msgstr "Creeazã o copie a foii curente"
 
-#: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:2756
+#: src/GNOME_Gnumeric.xml.h:123 src/workbook-control-gui.c:2744
 msgid "Make any hidden columns in the selection visible"
 msgstr "Afiºeazã orice coloane din selecþie ascunse"
 
-#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:2775
+#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2763
 msgid "Make any hidden rows in the selection visible"
 msgstr "Afiºeazã orice rânduri din selecþie ascunse"
 
-#: src/GNOME_Gnumeric.xml.h:127
+#: src/GNOME_Gnumeric.xml.h:125
 msgid "Make font bold"
 msgstr "Transformã fontul în aldin"
 
-#: src/GNOME_Gnumeric.xml.h:128
+#: src/GNOME_Gnumeric.xml.h:126
 msgid "Make font italic"
 msgstr "Transformã fontul în cursiv"
 
-#: src/GNOME_Gnumeric.xml.h:129
+#: src/GNOME_Gnumeric.xml.h:127
 msgid "Manage available plugin modules"
 msgstr "Gestioneazã modulele extensie disponibile"
 
-#: src/GNOME_Gnumeric.xml.h:130
+#: src/GNOME_Gnumeric.xml.h:128
 msgid "Mark the current selection for movement"
 msgstr "Marcheazã selecþia curentã pentru deplasare"
 
-#: src/GNOME_Gnumeric.xml.h:131 src/sheet-merge.c:75
+#: src/GNOME_Gnumeric.xml.h:129 src/sheet-merge.c:75
 #: src/workbook-format-toolbar.c:451
 msgid "Merge"
 msgstr "Combinã"
 
-#: src/GNOME_Gnumeric.xml.h:132 src/workbook-format-toolbar.c:451
+#: src/GNOME_Gnumeric.xml.h:130 src/workbook-format-toolbar.c:451
 msgid "Merge a range of cells"
 msgstr "Combinã o zonã de celule"
 
-#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:2829
+#: src/GNOME_Gnumeric.xml.h:131 src/workbook-control-gui.c:2817
 msgid "Modify the formatting of the selected cells"
 msgstr "Modificã formatarea celulelor selectate"
 
-#: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:2841
+#: src/GNOME_Gnumeric.xml.h:132 src/workbook-control-gui.c:2829
 msgid "Modify the workbook attributes"
 msgstr "Modificã atributele registrului"
 
-#: src/GNOME_Gnumeric.xml.h:135
+#: src/GNOME_Gnumeric.xml.h:133
 msgid "Money"
 msgstr "Monetar"
 
-#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2965
+#: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:2953
 msgid "New"
 msgstr "Nou"
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2670
+#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:2658
 msgid "New _Shared"
 msgstr "Nouã _partajatã"
 
-#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2673
+#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2661
 msgid "New _Unshared"
 msgstr "Nouã _nepartajatã"
 
-#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:2968
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2956
 msgid "Open"
 msgstr "Deschide"
 
-#: src/GNOME_Gnumeric.xml.h:140
+#: src/GNOME_Gnumeric.xml.h:138
 msgid "Open a spreadsheet"
 msgstr "Deschide o foaie de calcul"
 
-#: src/GNOME_Gnumeric.xml.h:141
+#: src/GNOME_Gnumeric.xml.h:139
 msgid "Open an existing workbook"
 msgstr "Deschide un registru existent"
 
-#: src/GNOME_Gnumeric.xml.h:142 src/workbook-control-gui.c:2902
+#: src/GNOME_Gnumeric.xml.h:140 src/workbook-control-gui.c:2890
 msgid "Outlines _Below"
 msgstr "Schemele _dedesubt"
 
-#: src/GNOME_Gnumeric.xml.h:143 src/workbook-control-gui.c:2908
+#: src/GNOME_Gnumeric.xml.h:141 src/workbook-control-gui.c:2896
 msgid "Outlines _Right"
 msgstr "Schemele la d_reapta"
 
-#: src/GNOME_Gnumeric.xml.h:144
+#: src/GNOME_Gnumeric.xml.h:142
 msgid "Oval"
 msgstr "Oval"
 
-#: src/GNOME_Gnumeric.xml.h:145
+#: src/GNOME_Gnumeric.xml.h:143
 msgid "P_aste Special..."
 msgstr "Lip_eºte special..."
 
-#: src/GNOME_Gnumeric.xml.h:146 src/cmd-edit.c:344
-#: src/workbook-control-gui.c:2992
+#: src/GNOME_Gnumeric.xml.h:144 src/cmd-edit.c:344
+#: src/workbook-control-gui.c:2980
 msgid "Paste"
 msgstr "Lipeºte"
 
-#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:2619
+#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:2607
 msgid "Paste the clipboard"
 msgstr "Lipeºte clipboard-ul"
 
-#: src/GNOME_Gnumeric.xml.h:148
+#: src/GNOME_Gnumeric.xml.h:146
 msgid "Paste the contents of the clipboard or cut buffer"
 msgstr "Lipeºte conþinutul clipboard-ului sau a zonei decupate"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:2624
+#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:2612
 msgid "Paste with optional filters and transformations"
 msgstr "Lipeºte cu filtre ºi transformãri opþionale"
 
-#: src/GNOME_Gnumeric.xml.h:150 src/analysis-tools.c:2710
+#: src/GNOME_Gnumeric.xml.h:148 src/analysis-tools.c:2710
 #: src/workbook-format-toolbar.c:463
 msgid "Percent"
 msgstr "Procent"
 
-#: src/GNOME_Gnumeric.xml.h:151 src/dialogs/print.glade.h:18
-#: src/workbook-control-gui.c:2977
+#: src/GNOME_Gnumeric.xml.h:149 src/dialogs/print.glade.h:18
+#: src/workbook-control-gui.c:2965
 msgid "Print"
 msgstr "Tipãreºte"
 
-#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2499
+#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:2487
 msgid "Print Pre_view..."
 msgstr "Pre_vizualizeazã"
 
-#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:2499
-#: src/workbook-control-gui.c:2980
+#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:2487
+#: src/workbook-control-gui.c:2968
 msgid "Print Preview"
 msgstr "Previzualizeazã"
 
-#: src/GNOME_Gnumeric.xml.h:154
+#: src/GNOME_Gnumeric.xml.h:152
 msgid "Print S_etup..."
 msgstr "S_eteazã tipãrirea"
 
-#: src/GNOME_Gnumeric.xml.h:155 src/dialogs/print.glade.h:20 src/print.c:1185
+#: src/GNOME_Gnumeric.xml.h:153 src/dialogs/print.glade.h:20 src/print.c:1185
 msgid "Print preview"
 msgstr "Previzualizeazã"
 
-#: src/GNOME_Gnumeric.xml.h:156
+#: src/GNOME_Gnumeric.xml.h:154
 msgid "Print the current file"
 msgstr "Tipãreºte fiºierul curent"
 
-#: src/GNOME_Gnumeric.xml.h:157
+#: src/GNOME_Gnumeric.xml.h:155
 msgid "Print the workbook"
 msgstr "Tipãreºte registrul"
 
-#: src/GNOME_Gnumeric.xml.h:158
+#: src/GNOME_Gnumeric.xml.h:156
 msgid "Radio Button"
 msgstr "Buton radio"
 
-#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:2586
-#: src/workbook-control-gui.c:2787
+#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:2574
+#: src/workbook-control-gui.c:2775
 msgid "Re-_Order Sheets..."
 msgstr "Re-_aranjeazã foile..."
 
-#: src/GNOME_Gnumeric.xml.h:160
+#: src/GNOME_Gnumeric.xml.h:158
 msgid "Re-_Order..."
 msgstr "Re-_aranjeazã..."
 
-#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:2582
+#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:2570
 msgid "Re_name..."
 msgstr "Re_denumeºte..."
 
-#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:2659
+#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:2647
 msgid "Recalculate"
 msgstr "Recalculeazã"
 
-#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:2660
+#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:2648
 msgid "Recalculate the spreadsheet"
 msgstr "Recalculeazã foaia"
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-object-toolbar.c:180
+#: src/GNOME_Gnumeric.xml.h:162 src/workbook-object-toolbar.c:180
 msgid "Rectangle"
 msgstr "Dreptunghi"
 
-#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:2604
+#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:2592
 msgid "Redo the undone action"
 msgstr "Refã acþiunea anulatã"
 
-#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:2890
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:2878
 msgid "Remove an outline group"
 msgstr "Eliminã un grup schematic"
 
-#: src/GNOME_Gnumeric.xml.h:167
+#: src/GNOME_Gnumeric.xml.h:165
 msgid "Remove selected cells, shifting others into their place"
 msgstr "Eliminã celulele selectate, deplasând altele în locul lor"
 
-#: src/GNOME_Gnumeric.xml.h:168 src/workbook-control-gui.c:2583
+#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:2571
 msgid "Rename the current sheet"
 msgstr "Redenumeºte foaia curentã"
 
-#: src/GNOME_Gnumeric.xml.h:169 src/dialogs/cell-format.glade.h:70
+#: src/GNOME_Gnumeric.xml.h:167 src/dialogs/cell-format.glade.h:70
 #: src/workbook-format-toolbar.c:631
 msgid "Right"
 msgstr "Dreapta"
 
-#: src/GNOME_Gnumeric.xml.h:170
+#: src/GNOME_Gnumeric.xml.h:168
 msgid "Right justifies the contents of each cell"
 msgstr "Aliniazã conþinutul fiecãrei celule la dreapta"
 
-#: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:2636
+#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:2624
 msgid "S_heet"
 msgstr "_Foaie"
 
-#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:2740
+#: src/GNOME_Gnumeric.xml.h:170 src/workbook-control-gui.c:2728
 msgid "S_pecial"
 msgstr "S_pecialã"
 
-#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:2488
-#: src/workbook-control-gui.c:2971
+#: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:2476
+#: src/workbook-control-gui.c:2959
 msgid "Save"
 msgstr "Salveazã"
 
-#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:2491
+#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:2479
 msgid "Save _As..."
 msgstr "Salveazã c_a..."
 
-#: src/GNOME_Gnumeric.xml.h:175
+#: src/GNOME_Gnumeric.xml.h:173
 msgid "Save the current file"
 msgstr "Salveazã fiºierul curent"
 
-#: src/GNOME_Gnumeric.xml.h:176
+#: src/GNOME_Gnumeric.xml.h:174
 msgid "Save the current file with a different name"
 msgstr "Salveazã fiºierul curent cu un nume diferit"
 
-#: src/GNOME_Gnumeric.xml.h:177
+#: src/GNOME_Gnumeric.xml.h:175
 msgid "Save the current workbook"
 msgstr "Salveazã registrul curent"
 
-#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2648
+#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:2636
 msgid "Search and Replace..."
 msgstr "Cautã ºi înlocuieºte..."
 
-#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2643
+#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:2631
 msgid "Search for some text"
 msgstr "Cautã un anumit text"
 
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2649
+#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2637
 msgid "Search for some text and replace it with something else"
 msgstr "Cautã un anumit text ºi înlocuieºte-l cu altul"
 
-#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2642
+#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2630
 msgid "Search..."
 msgstr "Cautã..."
 
-#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2552
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2540
 msgid "Select Arra_y"
 msgstr "Selecteazã º_irul"
 
-#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:2537
+#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2525
 msgid "Select _All"
 msgstr "Selecteazã _totul"
 
-#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2547
+#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2535
 msgid "Select _Column"
 msgstr "Selecteazã _coloana"
 
-#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:2557
+#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:2545
 msgid "Select _Depends"
 msgstr "Selecteazã _dependinþele"
 
-#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:2542
+#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2530
 msgid "Select _Row"
 msgstr "Selecteazã _rândul"
 
-#: src/GNOME_Gnumeric.xml.h:187 src/workbook-control-gui.c:2538
+#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:2526
 msgid "Select all cells in the spreadsheet"
 msgstr "Selecteazã toate celulele din foaia de calcul"
 
-#: src/GNOME_Gnumeric.xml.h:188
+#: src/GNOME_Gnumeric.xml.h:186
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Selecteazã toate celulele care depind de celula editatã în mod curent"
 
-#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2553
+#: src/GNOME_Gnumeric.xml.h:187 src/workbook-control-gui.c:2541
 msgid "Select an array of cells"
 msgstr "Selecteazã un ºir de celule"
 
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:2548
+#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:2536
 msgid "Select an entire column"
 msgstr "Selecteazã o coloanã întreagã"
 
-#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:2543
+#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2531
 msgid "Select an entire row"
 msgstr "Selecteazã un rând întreg"
 
-#: src/GNOME_Gnumeric.xml.h:192
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-format-toolbar.c:466
+msgid "Sets the format of the selected cells to include a thousands separator"
+msgstr ""
+"Seteazã formatul celulelor selectate pentru a include separatorul de mii"
+
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-format-toolbar.c:460
+msgid "Sets the format of the selected cells to monetary"
+msgstr "Seteazã formatul celulelor selectate la simbol monetar"
+
+#: src/GNOME_Gnumeric.xml.h:192 src/workbook-format-toolbar.c:463
+msgid "Sets the format of the selected cells to percentage"
+msgstr "Seteazã formatul celulelor selectate la procent"
+
+#: src/GNOME_Gnumeric.xml.h:193
 msgid "Setup the page settings for your current printer"
 msgstr "Seteazã opþiunile de paginare pentru imprimanta curentã"
 
-#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:3019
+#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3007
 msgid "Sort Ascending"
 msgstr "Sorteazã ascendent"
 
-#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3022
+#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3010
 msgid "Sort Descending"
 msgstr "Sorteazã descendent"
 
-#: src/GNOME_Gnumeric.xml.h:195
+#: src/GNOME_Gnumeric.xml.h:196
 msgid "Sort the selected cells"
 msgstr "Sorteazã celulele selectate"
 
-#: src/GNOME_Gnumeric.xml.h:196
+#: src/GNOME_Gnumeric.xml.h:197
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
@@ -1729,378 +1742,387 @@ msgstr ""
 "Sorteazã regiunea selectatã în ordine ascendentã în funcþie de prima coloanã "
 "selectatã"
 
-#: src/GNOME_Gnumeric.xml.h:197
+#: src/GNOME_Gnumeric.xml.h:198
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
 msgstr ""
-"Sorteazã regiunea selectatã în ordine descendentã în funcþie de prima coloanã "
-"selectatã"
+"Sorteazã regiunea selectatã în ordine descendentã în funcþie de prima "
+"coloanã selectatã"
 
-#: src/GNOME_Gnumeric.xml.h:198 src/workbook-format-toolbar.c:454
+#: src/GNOME_Gnumeric.xml.h:199 src/workbook-format-toolbar.c:454
 msgid "Split"
 msgstr "Scindeazã"
 
-#: src/GNOME_Gnumeric.xml.h:199 src/workbook-format-toolbar.c:454
+#: src/GNOME_Gnumeric.xml.h:200 src/workbook-format-toolbar.c:454
 msgid "Split merged ranges of cells"
 msgstr "Scindeazã zone de celule combinate"
 
-#: src/GNOME_Gnumeric.xml.h:200
+#: src/GNOME_Gnumeric.xml.h:201
 msgid "Statistical methods"
 msgstr "Metode statistice"
 
-#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2505
+#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:2493
 msgid "Su_mmary..."
 msgstr "Su_mar..."
 
-#: src/GNOME_Gnumeric.xml.h:202 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:3012 src/workbook-control-gui.c:3614
+#: src/GNOME_Gnumeric.xml.h:203 src/dialogs/consolidate.glade.h:19
+#: src/workbook-control-gui.c:3000 src/workbook-control-gui.c:3601
 #: src/workbook-view.c:518
 msgid "Sum"
 msgstr "Sum"
 
-#: src/GNOME_Gnumeric.xml.h:203
+#: src/GNOME_Gnumeric.xml.h:204
 msgid "Sum into the current cell"
 msgstr "Sum în celula curentã"
 
-#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2506
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2494
 msgid "Summary information"
 msgstr "Informaþii sumare"
 
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2812
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-format-toolbar.c:466
+msgid "Thousand separator"
+msgstr "Separator de mii"
+
+#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2800
 msgid "Toggle whether or not to display column headers"
 msgstr "Comutã între a afiºa sau nu antetele de coloanã"
 
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2806
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2794
 msgid "Toggle whether or not to display gridlines"
 msgstr "Comutã între a afiºa sau nu grilajul"
 
-#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2897
+#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2885
 msgid "Toggle whether or not to display outline groups"
 msgstr "Comutã între a afiºa sau nu grupurile schematice"
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2818
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2806
 msgid "Toggle whether or not to display row headers"
 msgstr "Comutã între a afiºa sau nu antetele de rând"
 
-#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2800
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2788
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Comutã între a afiºa sau nu zerourile ca spaþii"
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2909
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2897
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 "Comutã între a afiºa sau nu schemele pe coloanã de la stânga la dreapta"
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2903
+#: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:2891
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Comutã între a afiºa sau nu schemele pe rând de sus în jos"
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2884
+#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:2872
 msgid "Uncollapse an outline group"
 msgstr "Expandeazã un grup schematic"
 
-#: src/GNOME_Gnumeric.xml.h:213 src/workbook-format-toolbar.c:426
+#: src/GNOME_Gnumeric.xml.h:215 src/workbook-format-toolbar.c:426
 msgid "Underline"
 msgstr "Subliniazã"
 
-#: src/GNOME_Gnumeric.xml.h:214
+#: src/GNOME_Gnumeric.xml.h:216
 msgid "Underlines the text"
 msgstr "Subliniazã textul"
 
-#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:2600
+#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:2588
 msgid "Undo the last action"
 msgstr "Anuleazã ultima acþiune"
 
-#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:2932
+#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:2920
 msgid "Validate input with preset criteria"
 msgstr "Valideazã introducerea pe baza criteriilor prestabilite"
 
-#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:2680
+#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:2668
 msgid "Zoom the spreadsheet in or out"
 msgstr "Schimbã între diverse nivele de zoom"
 
-#: src/GNOME_Gnumeric.xml.h:218
+#: src/GNOME_Gnumeric.xml.h:220
 msgid "_About..."
 msgstr "_Despre..."
 
-#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:2736
+#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:2724
 msgid "_Add / Modify comment..."
 msgstr "_Adaugã / Modificã comentariu..."
 
-#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:2519
+#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:2507
 msgid "_All"
 msgstr "_Totul"
 
-#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:2857
+#: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:2845
 msgid "_Auto Save..."
 msgstr "_AutoSalvare..."
 
-#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:2749
-#: src/workbook-control-gui.c:2768
+#: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:2737
+#: src/workbook-control-gui.c:2756
 msgid "_Auto fit selection"
 msgstr "_Potriveºte automat  selecþia"
 
-#: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:2836
+#: src/GNOME_Gnumeric.xml.h:225 src/workbook-control-gui.c:2824
 msgid "_Autoformat..."
 msgstr "_AutoFormatare..."
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:2828
+#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:2816
 msgid "_Cells..."
 msgstr "_Celule..."
 
-#: src/GNOME_Gnumeric.xml.h:225
+#: src/GNOME_Gnumeric.xml.h:227
 msgid "_Change Name..."
 msgstr "_Modificã numele..."
 
-#: src/GNOME_Gnumeric.xml.h:226
+#: src/GNOME_Gnumeric.xml.h:228
 msgid "_Close"
 msgstr "Î_nchide"
 
-#: src/GNOME_Gnumeric.xml.h:227 src/dialogs/anova-one.glade.h:9
+#: src/GNOME_Gnumeric.xml.h:229 src/dialogs/anova-one.glade.h:9
 #: src/dialogs/correlation.glade.h:7 src/dialogs/covariance.glade.h:7
 #: src/dialogs/descriptive-stats.glade.h:15
 #: src/dialogs/fourier-analysis.glade.h:7 src/dialogs/histogram.glade.h:12
 #: src/dialogs/moving-averages.glade.h:8 src/dialogs/rank.glade.h:7
 #: src/dialogs/regression.glade.h:12 src/dialogs/sampling.glade.h:13
-#: src/workbook-control-gui.c:2725
+#: src/workbook-control-gui.c:2713
 msgid "_Columns"
 msgstr "_Coloane"
 
-#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:2934
+#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:2922
 msgid "_Consolidate..."
 msgstr "_Centralizeazã..."
 
-#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2528
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:2516
 msgid "_Content"
 msgstr "_Conþinut"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/item-cursor.c:1030
-#: src/sheet-control-gui.c:1393 src/workbook-control-gui.c:2614
+#: src/GNOME_Gnumeric.xml.h:232 src/item-cursor.c:1030
+#: src/sheet-control-gui.c:1393 src/workbook-control-gui.c:2602
 msgid "_Copy"
 msgstr "_Copiazã"
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:2958
+#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:2946
 msgid "_Data"
 msgstr "_Date"
 
-#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:2872
+#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:2860
 msgid "_Data Analysis..."
 msgstr "Analizã _date..."
 
-#: src/GNOME_Gnumeric.xml.h:233
+#: src/GNOME_Gnumeric.xml.h:235
 msgid "_Define"
 msgstr "_Defineºte"
 
-#: src/GNOME_Gnumeric.xml.h:234 src/sheet-control-gui.c:1411
-#: src/workbook-control-gui.c:2631
+#: src/GNOME_Gnumeric.xml.h:236 src/sheet-control-gui.c:1411
+#: src/workbook-control-gui.c:2619
 msgid "_Delete..."
 msgstr "ª_terge..."
 
-#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:2574
+#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:2562
 msgid "_Duplicate"
 msgstr "_Duplicã"
 
-#: src/GNOME_Gnumeric.xml.h:236
+#: src/GNOME_Gnumeric.xml.h:238
 msgid "_Edit"
 msgstr "_Editare"
 
-#: src/GNOME_Gnumeric.xml.h:237
+#: src/GNOME_Gnumeric.xml.h:239
 msgid "_File"
 msgstr "_Fiºier"
 
-#: src/GNOME_Gnumeric.xml.h:238 src/dialogs/cell-format.glade.h:109
-#: src/workbook-control-gui.c:2640
+#: src/GNOME_Gnumeric.xml.h:240 src/dialogs/cell-format.glade.h:109
+#: src/workbook-control-gui.c:2628
 msgid "_Fill"
 msgstr "_Umplere"
 
-#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:2930
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:2918
 msgid "_Filter"
 msgstr "_Filtrare"
 
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2522
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:2510
 msgid "_Formats"
 msgstr "_Formatãri"
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:968
-#: src/workbook-control-gui.c:2682
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:968
+#: src/workbook-control-gui.c:2670
 msgid "_Freeze Panes"
 msgstr "_Fixeazã panouri"
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:2863
+#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:2851
 msgid "_Goal Seek..."
 msgstr "_Cãutare rezultat..."
 
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:2654
+#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:2642
 msgid "_Goto cell..."
 msgstr "_Sari la celula..."
 
-#: src/GNOME_Gnumeric.xml.h:244
+#: src/GNOME_Gnumeric.xml.h:246
 msgid "_Graph"
 msgstr "_Diagramã"
 
-#: src/GNOME_Gnumeric.xml.h:245
+#: src/GNOME_Gnumeric.xml.h:247
 msgid "_Group"
 msgstr "_Grupeazã"
 
-#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:2940
+#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:2928
 msgid "_Group and Outline"
 msgstr "_Grupuri ºi scheme"
 
-#: src/GNOME_Gnumeric.xml.h:247
+#: src/GNOME_Gnumeric.xml.h:249
 msgid "_Help"
 msgstr "_Ajutor"
 
-#: src/GNOME_Gnumeric.xml.h:248 src/sheet-control-gui.c:1434
-#: src/sheet-control-gui.c:1442 src/workbook-control-gui.c:2752
-#: src/workbook-control-gui.c:2771
+#: src/GNOME_Gnumeric.xml.h:250 src/sheet-control-gui.c:1434
+#: src/sheet-control-gui.c:1442 src/workbook-control-gui.c:2740
+#: src/workbook-control-gui.c:2759
 msgid "_Hide"
 msgstr "_Ascunde"
 
-#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:2880
+#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:2868
 msgid "_Hide Detail"
 msgstr "A_scunde detaliile"
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2486
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2474
 msgid "_Import..."
 msgstr "Im_portã..."
 
-#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:2578
-#: src/workbook-control-gui.c:2955
+#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:2566
+#: src/workbook-control-gui.c:2943
 msgid "_Insert"
 msgstr "_Inserare"
 
-#: src/GNOME_Gnumeric.xml.h:252
+#: src/GNOME_Gnumeric.xml.h:254
 msgid "_Insert new"
 msgstr "_Insereazã nouã"
 
-#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:2734
+#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:2722
 msgid "_Name"
 msgstr "_Nume"
 
-#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:2482
+#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:2470
 msgid "_New"
 msgstr "_Nou"
 
-#: src/GNOME_Gnumeric.xml.h:255
+#: src/GNOME_Gnumeric.xml.h:257
 msgid "_Object"
 msgstr "_Obiect"
 
-#: src/GNOME_Gnumeric.xml.h:256
+#: src/GNOME_Gnumeric.xml.h:258
 msgid "_Open..."
 msgstr "_Deschide..."
 
-#: src/GNOME_Gnumeric.xml.h:257 src/sheet-control-gui.c:1395
-#: src/workbook-control-gui.c:2618
+#: src/GNOME_Gnumeric.xml.h:259 src/sheet-control-gui.c:1395
+#: src/workbook-control-gui.c:2606
 msgid "_Paste"
 msgstr "_Lipeºte"
 
-#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:2848
+#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:2836
 msgid "_Plug-ins..."
 msgstr "_Extensii..."
 
-#: src/GNOME_Gnumeric.xml.h:259
+#: src/GNOME_Gnumeric.xml.h:261
 msgid "_Print..."
 msgstr "_Tipãreºte..."
 
-#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:1034
-#: src/workbook-control-gui.c:2603
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:1034
+#: src/workbook-control-gui.c:2591
 msgid "_Redo"
 msgstr "_Refã"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/dialogs/autocorrect.glade.h:12
-#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2590
+#: src/GNOME_Gnumeric.xml.h:263 src/dialogs/autocorrect.glade.h:12
+#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2578
 msgid "_Remove"
 msgstr "_Eliminã"
 
-#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:2833
+#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:2821
 msgid "_Row"
 msgstr "_Rând"
 
-#: src/GNOME_Gnumeric.xml.h:263 src/dialogs/anova-one.glade.h:14
+#: src/GNOME_Gnumeric.xml.h:265 src/dialogs/anova-one.glade.h:14
 #: src/dialogs/correlation.glade.h:12 src/dialogs/covariance.glade.h:12
 #: src/dialogs/descriptive-stats.glade.h:20
 #: src/dialogs/fourier-analysis.glade.h:12 src/dialogs/histogram.glade.h:18
 #: src/dialogs/moving-averages.glade.h:13 src/dialogs/rank.glade.h:12
 #: src/dialogs/regression.glade.h:16 src/dialogs/sampling.glade.h:19
-#: src/workbook-control-gui.c:2722
+#: src/workbook-control-gui.c:2710
 msgid "_Rows"
 msgstr "_Rânduri"
 
-#: src/GNOME_Gnumeric.xml.h:264
+#: src/GNOME_Gnumeric.xml.h:266
 msgid "_Save"
 msgstr "_Salveazã"
 
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2638
+#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:2626
 msgid "_Select"
 msgstr "_Selectare"
 
-#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2719
-#: src/workbook-control-gui.c:2834
+#: src/GNOME_Gnumeric.xml.h:268
+#, fuzzy
+msgid "_Shaped Object"
+msgstr "_Obiect"
+
+#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2707
+#: src/workbook-control-gui.c:2822
 msgid "_Sheet"
 msgstr "_Foaie"
 
-#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:2883
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2871
 msgid "_Show Detail"
 msgstr "_Afiºeazã detaliile"
 
-#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:2866
+#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:2854
 msgid "_Solver..."
 msgstr "_Soluþionar..."
 
-#: src/GNOME_Gnumeric.xml.h:269
+#: src/GNOME_Gnumeric.xml.h:272
 msgid "_Sort..."
 msgstr "_Sorteazã..."
 
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2777
+#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:2765
 msgid "_Standard Height"
 msgstr "Înãlþime stan_dard"
 
-#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:2758
+#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:2746
 msgid "_Standard Width"
 msgstr "Lãþime _standard"
 
-#: src/GNOME_Gnumeric.xml.h:272
+#: src/GNOME_Gnumeric.xml.h:275
 msgid "_Toolbars..."
 msgstr "_Bare de unelte..."
 
-#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:2957
+#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:2945
 msgid "_Tools"
 msgstr "_Unelte"
 
-#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:1033
-#: src/workbook-control-gui.c:2599
+#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:1033
+#: src/workbook-control-gui.c:2587
 msgid "_Undo"
 msgstr "_Anuleazã"
 
-#: src/GNOME_Gnumeric.xml.h:275
+#: src/GNOME_Gnumeric.xml.h:278
 msgid "_Ungroup"
 msgstr "_Degrupeazã"
 
-#: src/GNOME_Gnumeric.xml.h:276 src/sheet-control-gui.c:1436
-#: src/sheet-control-gui.c:1444 src/workbook-control-gui.c:2755
-#: src/workbook-control-gui.c:2774
+#: src/GNOME_Gnumeric.xml.h:279 src/sheet-control-gui.c:1436
+#: src/sheet-control-gui.c:1444 src/workbook-control-gui.c:2743
+#: src/workbook-control-gui.c:2762
 msgid "_Unhide"
 msgstr "_Reafiºeazã"
 
-#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:2931
+#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:2919
 msgid "_Validate..."
 msgstr "_Valideazã..."
 
-#: src/GNOME_Gnumeric.xml.h:278
+#: src/GNOME_Gnumeric.xml.h:281
 msgid "_View"
 msgstr "_Vizualizare"
 
-#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:2746
+#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:2734
 msgid "_Width..."
 msgstr "_Lãþime..."
 
-#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:2840
+#: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:2828
 msgid "_Workbook..."
 msgstr "R_egistru..."
 
-#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:2679
+#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:2667
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
@@ -2145,8 +2167,8 @@ msgstr "Statistici sumare"
 #.
 #: src/analysis-tools.c:981
 msgid ""
-"/Mean/Standard Error/Median/Mode/Standard Deviation/Sample "
-"Variance/Kurtosis/Skewness/Range/Minimum/Maximum/Sum/Count"
+"/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
+"Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
 
 #: src/analysis-tools.c:1066
@@ -2209,23 +2231,23 @@ msgstr ""
 
 #: src/analysis-tools.c:1488
 msgid ""
-"/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean "
-"Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) "
-"two-tail/t Critical two-tail"
+"/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
+"df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
+"two-tail"
 msgstr ""
 
 #: src/analysis-tools.c:1637
 msgid ""
-"/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean "
-"Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical "
-"one-tail/P (T<=t) two-tail/t Critical two-tail"
+"/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
+"Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
+"(T<=t) two-tail/t Critical two-tail"
 msgstr ""
 
 #: src/analysis-tools.c:1767
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
-"Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) "
-"two-tail/t Critical two-tail"
+"Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
+"t Critical two-tail"
 msgstr ""
 
 #: src/analysis-tools.c:1907
@@ -2257,9 +2279,8 @@ msgstr ""
 
 #: src/analysis-tools.c:2344
 msgid ""
-"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R "
-"Square/Standard "
-"Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
+"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
+"Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
 
 #: src/analysis-tools.c:2365
@@ -2268,8 +2289,7 @@ msgstr ""
 
 #: src/analysis-tools.c:2372
 #, c-format
-msgid ""
-"/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
+msgid "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
 msgstr ""
 
 #: src/analysis-tools.c:2541
@@ -2492,288 +2512,288 @@ msgstr "Seteazã text"
 msgid "Typing \"%s%s\" in %s"
 msgstr "tastarea \"%s%s\" în %s"
 
-#: src/commands.c:834
+#: src/commands.c:835
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "tastarea \"%s%s\""
 
-#: src/commands.c:1083
+#: src/commands.c:1088
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "inserarea a %d coloane înainte de %d"
 
-#: src/commands.c:1084
+#: src/commands.c:1089
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "inserarea a %d coloanã înainte de %s"
 
-#: src/commands.c:1095
+#: src/commands.c:1104
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "inserarea a %d rânduri înainte de %s"
 
-#: src/commands.c:1096
+#: src/commands.c:1105
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "inserarea a %d rând înainte de %s"
 
-#: src/commands.c:1107
+#: src/commands.c:1116
 #, c-format
 msgid "Deleting columns %s"
 msgstr "ºtergerea coloanelor %s"
 
-#: src/commands.c:1108
+#: src/commands.c:1117
 #, c-format
 msgid "Deleting column %s"
 msgstr "ºtergerea coloanei %s"
 
-#: src/commands.c:1118
+#: src/commands.c:1127
 #, c-format
 msgid "Deleting rows %s"
 msgstr "ºtergerea rândurilor %s"
 
-#: src/commands.c:1119
+#: src/commands.c:1128
 #, c-format
 msgid "Deleting row %s"
 msgstr "ºtergerea rândului %s"
 
-#: src/commands.c:1194
+#: src/commands.c:1203
 msgid "Undo Clear"
 msgstr "Anuleazã golirea"
 
-#: src/commands.c:1273
+#: src/commands.c:1282
 msgid "contents"
 msgstr "conþinutului"
 
-#: src/commands.c:1275
+#: src/commands.c:1284
 msgid "formats"
 msgstr "formatãrilor"
 
-#: src/commands.c:1277
+#: src/commands.c:1286
 msgid "comments"
 msgstr "comentariilor"
 
-#: src/commands.c:1293
+#: src/commands.c:1302
 msgid "all"
 msgstr "tuturor datelor"
 
-#: src/commands.c:1300
+#: src/commands.c:1309
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "golirea %s în %s"
 
-#: src/commands.c:1495
+#: src/commands.c:1504
 #, c-format
 msgid "Changing format of %s"
 msgstr "modificarea formatãrii lui %s"
 
-#: src/commands.c:1571
+#: src/commands.c:1580
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "redenumirea foii '%s' în '%s'"
 
-#: src/commands.c:1681
+#: src/commands.c:1690
 msgid "Set Date/Time"
 msgstr "setarea datei/timpului"
 
-#: src/commands.c:1698
+#: src/commands.c:1707
 #, c-format
 msgid "Setting current date in %s"
 msgstr "setarea datei curente în %s"
 
-#: src/commands.c:1699
+#: src/commands.c:1708
 #, c-format
 msgid "Setting current time in %s"
 msgstr "setarea timpului curent în %s"
 
-#: src/commands.c:1806
+#: src/commands.c:1815
 #, c-format
 msgid "Autofitting column %s"
 msgstr "potrivirea automatã a coloanei %s"
 
-#: src/commands.c:1807
+#: src/commands.c:1816
 #, c-format
 msgid "Autofitting row %s"
 msgstr "potrivirea automatã a rândului %s"
 
-#: src/commands.c:1810
+#: src/commands.c:1819
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "setarea lãþimii coloanei %s la %d pixeli"
 
-#: src/commands.c:1812
+#: src/commands.c:1821
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "setarea înãlþimii rândului %s la %d pixeli"
 
-#: src/commands.c:1817 src/commands.c:1818
+#: src/commands.c:1826 src/commands.c:1827
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "potrivirea automatã a coloanelor %s"
 
-#: src/commands.c:1821
+#: src/commands.c:1830
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "setarea lãþimii coloanelor %s la %d pixeli"
 
-#: src/commands.c:1823
+#: src/commands.c:1832
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "setarea înãlþimii rândurilor %s la %d pixeli"
 
-#: src/commands.c:1907
+#: src/commands.c:1916
 #, c-format
 msgid "Sorting %s"
 msgstr "sortarea %s"
 
-#: src/commands.c:2035
+#: src/commands.c:2044
 msgid "Unhide columns"
 msgstr "afiºarea coloanelor"
 
-#: src/commands.c:2035
+#: src/commands.c:2044
 msgid "Hide columns"
 msgstr "ascunderea coloanelor"
 
-#: src/commands.c:2036
+#: src/commands.c:2045
 msgid "Unhide rows"
 msgstr "afiºarea rândurilor"
 
-#: src/commands.c:2036
+#: src/commands.c:2045
 msgid "Hide rows"
 msgstr "ascunderea rândurilor"
 
-#: src/commands.c:2117
+#: src/commands.c:2126
 msgid "Expand columns"
 msgstr "expandarea coloanelor"
 
-#: src/commands.c:2117
+#: src/commands.c:2126
 msgid "Collapse columns"
 msgstr "plierea coloanelor"
 
-#: src/commands.c:2118
+#: src/commands.c:2127
 msgid "Expand rows"
 msgstr "expandarea rândurilor"
 
-#: src/commands.c:2118
+#: src/commands.c:2127
 msgid "Collapse rows"
 msgstr "plierea rândurilor"
 
-#: src/commands.c:2187
+#: src/commands.c:2196
 msgid "Those columns are already grouped"
 msgstr "Aceste coloane sunt deja grupate"
 
-#: src/commands.c:2188
+#: src/commands.c:2197
 msgid "Those rows are already grouped"
 msgstr "Aceste rânduri sunt deja grupate"
 
-#: src/commands.c:2191
+#: src/commands.c:2200
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Aceste coloane nu sunt grupate, nu le puteþi degrupa"
 
-#: src/commands.c:2192
+#: src/commands.c:2201
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Aceste rânduri nu sunt grupate, nu le puteþi degrupa"
 
-#: src/commands.c:2203
+#: src/commands.c:2212
 #, c-format
 msgid "Group columns %s"
 msgstr "gruparea coloanelor %s"
 
-#: src/commands.c:2203
+#: src/commands.c:2212
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "degruparea coloanelor %s"
 
-#: src/commands.c:2205
+#: src/commands.c:2214
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "gruparea rândurilor %d:%d"
 
-#: src/commands.c:2205
+#: src/commands.c:2214
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "degruparea rândurilor %d:%d"
 
-#: src/commands.c:2405
+#: src/commands.c:2421
 #, c-format
 msgid "Moving %s"
 msgstr "mutarea %s"
 
-#: src/commands.c:2414 src/commands.c:2622
+#: src/commands.c:2430 src/commands.c:2638
 msgid "is beyond sheet boundaries"
 msgstr "este în afara marginilor foii"
 
 #. FIXME?
-#: src/commands.c:2566
+#: src/commands.c:2582
 #, c-format
 msgid "Pasting into %s"
 msgstr "lipirea în %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2795 src/commands.c:2796 src/workbook-control-gui.c:1836
+#: src/commands.c:2811 src/commands.c:2812 src/workbook-control-gui.c:1836
 msgid "Autofill"
 msgstr "autoumplerea"
 
 #. Changed in initial redo.
-#: src/commands.c:2819
+#: src/commands.c:2835
 #, c-format
 msgid "Autofilling %s"
 msgstr "autoumplerea %s"
 
-#: src/commands.c:2972
+#: src/commands.c:2988
 #, c-format
 msgid "Autoformatting %s"
 msgstr "autoformatarea %s"
 
-#: src/commands.c:3082
+#: src/commands.c:3098
 #, c-format
 msgid "Unmerging %s"
 msgstr "scindarea %s"
 
-#: src/commands.c:3220
+#: src/commands.c:3236
 #, c-format
 msgid "Merging %s"
 msgstr "combinarea %s"
 
 #. Corrected below.
-#: src/commands.c:3600 src/dialogs/search-replace.glade.h:43
+#: src/commands.c:3616 src/dialogs/search-replace.glade.h:43
 msgid "Search and Replace"
 msgstr "Cautã ºi înlocuieºte"
 
-#: src/commands.c:3696
+#: src/commands.c:3712
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "setarea lãþimii implicite a coloanelor la %.2fpts"
 
-#: src/commands.c:3697
+#: src/commands.c:3713
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "setarea înãlþimii implicite a coloanelor la %.2fpts"
 
 #. Changed in initial redo.
-#: src/commands.c:3782
+#: src/commands.c:3798
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "centralizarea cãtre %s!%s"
 
-#: src/commands.c:3897
+#: src/commands.c:3913
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "zoom-ul %s la %.0f%%"
 
-#: src/commands.c:3966
+#: src/commands.c:3982
 msgid "Insert object"
 msgstr "inserarea obiectului"
 
-#: src/commands.c:4024
+#: src/commands.c:4040
 msgid "Delete object"
 msgstr "ºtergerea obiectului"
 
-#: src/commands.c:4105
+#: src/commands.c:4121
 msgid "Resize object"
 msgstr "redimensionarea obiectului"
 
-#: src/commands.c:4105
+#: src/commands.c:4121
 msgid "Move object"
 msgstr "mutarea obiectului"
 
@@ -3405,8 +3425,8 @@ msgstr "Prim-plan solid"
 
 #: src/dialogs/cell-format.glade.h:43
 msgid ""
-"General format cells attempt to select an appropriate format depending on the "
-"value of the cell."
+"General format cells attempt to select an appropriate format depending on "
+"the value of the cell."
 msgstr ""
 "Celulele formatate general încearcã sã selecteze un format în funcþie de "
 "valoarea celulei."
@@ -3479,7 +3499,7 @@ msgid "None          (silently accept invalid input)"
 msgstr "Niciuna       (acceptã cu silenþiozitate intrãri invalide)"
 
 #: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-formula-guru.c:432
-#: src/dialogs/dialog-search.c:134
+#: src/dialogs/dialog-search.c:137
 msgid "Number"
 msgstr "Numãr"
 
@@ -3790,7 +3810,7 @@ msgid "Selection has"
 msgstr "Selecþia are"
 
 #: src/dialogs/cell-sort.glade.h:9 src/dialogs/dialog-cell-sort.c:503
-#: src/workbook-control-gui.c:2385
+#: src/workbook-control-gui.c:2350
 msgid "Sort"
 msgstr "Sorteazã"
 
@@ -3822,7 +3842,7 @@ msgstr "Lãþime _coloanã (pct):"
 msgid "Add the entered area to the list of source areas"
 msgstr "Adaugã zona introdusã la lista zonelor sursã"
 
-#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3617
+#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3604
 msgid "Average"
 msgstr "Medie"
 
@@ -3834,7 +3854,7 @@ msgstr "C_opiazã etichete"
 msgid "Clear the list of source areas"
 msgstr "ªterge lista zonelor sursã"
 
-#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3618
+#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3605
 msgid "Count"
 msgstr "Contor"
 
@@ -3866,11 +3886,11 @@ msgstr "În coloana de s_us"
 msgid "Labels"
 msgstr "Etichete"
 
-#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3616
+#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3603
 msgid "Max"
 msgstr "Max"
 
-#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3615
+#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3602
 msgid "Min"
 msgstr "Min"
 
@@ -3899,8 +3919,8 @@ msgid ""
 "The left column contains labels, these will not be consolidated, but used as "
 "key for comparison"
 msgstr ""
-"Coloana din stânga conþine etichete, acestea nu vor fi centralizate, însã vor "
-"fi utilizate ca ºi chei la comparare"
+"Coloana din stânga conþine etichete, acestea nu vor fi centralizate, însã "
+"vor fi utilizate ca ºi chei la comparare"
 
 #: src/dialogs/consolidate.glade.h:22
 msgid ""
@@ -4592,8 +4612,8 @@ msgstr "A apãrut o eroare la citirea listei de categorii"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:954 src/format.c:1665 src/format.c:1757
-#: src/format.c:1766 src/format.c:1835
+#: src/dialogs/dialog-autoformat.c:954 src/format.c:1644 src/format.c:1736
+#: src/format.c:1745 src/format.c:1814
 msgid "General"
 msgstr "General"
 
@@ -4730,7 +4750,7 @@ msgstr "Nu am putut crea Ghidul de denumire."
 msgid "Value%d"
 msgstr "Valoare %d"
 
-#: src/dialogs/dialog-formula-guru.c:431 src/dialogs/dialog-search.c:130
+#: src/dialogs/dialog-formula-guru.c:431 src/dialogs/dialog-search.c:133
 #: src/functions/fn-string.c:1217
 msgid "String"
 msgstr "ªiruri"
@@ -4985,23 +5005,23 @@ msgstr "Configurare antet personalizatã"
 msgid "Custom footer configuration"
 msgstr "Configurare subsol personalizatã"
 
-#: src/dialogs/dialog-search.c:128
+#: src/dialogs/dialog-search.c:131
 msgid "Expression"
 msgstr "Expresie"
 
-#: src/dialogs/dialog-search.c:132
+#: src/dialogs/dialog-search.c:135
 msgid "Integer"
 msgstr "Întreg"
 
-#: src/dialogs/dialog-search.c:136
+#: src/dialogs/dialog-search.c:139
 msgid "Other value"
 msgstr "Altã valoare"
 
-#: src/dialogs/dialog-search.c:138
+#: src/dialogs/dialog-search.c:141
 msgid "Comment"
 msgstr "Comentariu"
 
-#: src/dialogs/dialog-search-replace.c:141 src/dialogs/dialog-search.c:368
+#: src/dialogs/dialog-search-replace.c:141 src/dialogs/dialog-search.c:376
 msgid "You must select some cell types to search."
 msgstr "Trebuie sã selectaþi câteva celule pentru cãutare."
 
@@ -5124,8 +5144,9 @@ msgid ""
 "placed around cells depends on the value choosen for quoting."
 msgstr ""
 "Personalizaþi formatul exportului. Terminatorul de linie este secvenþa de "
-"caractere utilizatã pentru terminare unei linii într-un fiºier text. Plasarea "
-"ghilimelelor în jurul celulelor depinde de valoarea aleasã pentru citare."
+"caractere utilizatã pentru terminare unei linii într-un fiºier text. "
+"Plasarea ghilimelelor în jurul celulelor depinde de valoarea aleasã pentru "
+"citare."
 
 #: src/dialogs/dialog-stf-export.glade.h:17
 msgid "Exporting structured text"
@@ -5153,8 +5174,8 @@ msgstr "Barã (|)"
 
 #: src/dialogs/dialog-stf-export.glade.h:23
 msgid ""
-"Please select which sheets you want to export from the current workbook. They "
-"will be exported in the same order as in the export list."
+"Please select which sheets you want to export from the current workbook. "
+"They will be exported in the same order as in the export list."
 msgstr ""
 "Vã rog sã selectaþi foile din registrul curent pe care doriþi sã le "
 "exportaþi. Acestea vor fi exportate în ordinea specificatã în lista de "
@@ -5308,8 +5329,8 @@ msgid ""
 "Customize the columns using the buttons or the mouse (hover mouse above "
 "example for instructions)"
 msgstr ""
-"Personalizeazã coloanele utilizãnd butoanele sau mouse-ul (deplasaþi mouse-ul "
-"deasupra exemplului pentru instrucþiuni)"
+"Personalizeazã coloanele utilizãnd butoanele sau mouse-ul (deplasaþi mouse-"
+"ul deasupra exemplului pentru instrucþiuni)"
 
 #: src/dialogs/dialog-stf.glade.h:20
 msgid "Data type and number of lines"
@@ -5440,8 +5461,8 @@ msgstr ""
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
 "Select the format for each column. You can click in the column list on the "
-"left or in the example to select a column. You can then enter a custom format "
-"or select one from the list on the right."
+"left or in the example to select a column. You can then enter a custom "
+"format or select one from the list on the right."
 msgstr ""
 "Selectaþi fomatul fiecãrei coloane. Puteþi face clic pe lista de coloane din "
 "stânga sau în exemplu pentru a selecta o coloanã. Puteþi apoi introduce un "
@@ -5536,8 +5557,8 @@ msgstr "Zoom"
 msgid "Sheets"
 msgstr "Foi"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3165
-#: src/workbook-control-gui.c:3207
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3152
+#: src/workbook-control-gui.c:3194
 msgid "Zoom"
 msgstr "Zoom"
 
@@ -6712,8 +6733,8 @@ msgstr ""
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
-"Puteþi dezactiva aceastã mãsurã de precauþie prin editarea fiºierului "
-"plugin.xml corespunzãtor."
+"Puteþi dezactiva aceastã mãsurã de precauþie prin editarea fiºierului plugin."
+"xml corespunzãtor."
 
 #: src/format-template.c:874
 #, c-format
@@ -6736,51 +6757,51 @@ msgstr ""
 "Regiunea þintã este prea micã. Ar trebui sã aibe cel puþin %d rânduri "
 "înãlþime"
 
-#: src/format.c:606
+#: src/format.c:585
 msgid "black"
 msgstr "negru"
 
-#: src/format.c:607
+#: src/format.c:586
 msgid "blue"
 msgstr "albastru"
 
-#: src/format.c:608
+#: src/format.c:587
 msgid "cyan"
 msgstr "cyan"
 
-#: src/format.c:609
+#: src/format.c:588
 msgid "green"
 msgstr "verde"
 
-#: src/format.c:610
+#: src/format.c:589
 msgid "magenta"
 msgstr "magenta"
 
-#: src/format.c:611
+#: src/format.c:590
 msgid "red"
 msgstr "roºu"
 
-#: src/format.c:612
+#: src/format.c:591
 msgid "white"
 msgstr "alb"
 
-#: src/format.c:613
+#: src/format.c:592
 msgid "yellow"
 msgstr "galben"
 
 #. Is it a boolean?
-#: src/format.c:1572 src/number-match.c:1066 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1066 src/value-sheet.c:34
 #: src/value.c:255 src/value.c:494
 msgid "TRUE"
 msgstr "ADEVÃRAT"
 
-#: src/format.c:1572 src/number-match.c:1068 src/value-sheet.c:34
+#: src/format.c:1551 src/number-match.c:1068 src/value-sheet.c:34
 #: src/value.c:257 src/value.c:494
 msgid "FALSE"
 msgstr "FALS"
 
 #. Array of arrays ??
-#: src/format.c:1600
+#: src/format.c:1579
 msgid "ARRAY"
 msgstr "ªIR"
 
@@ -8135,8 +8156,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
-"@DESCRIPTION=DAVERAGE function returns the average of the values in a list or "
-"database that match conditions specified. \n"
+"@DESCRIPTION=DAVERAGE function returns the average of the values in a list "
+"or database that match conditions specified. \n"
 msgstr ""
 
 #: src/functions/fn-database.c:513
@@ -8232,8 +8253,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
-"@DESCRIPTION=DMIN function returns the smallest number in a column that match "
-"conditions specified. \n"
+"@DESCRIPTION=DMIN function returns the smallest number in a column that "
+"match conditions specified. \n"
 msgstr ""
 
 #: src/functions/fn-database.c:844
@@ -8342,9 +8363,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
-"@DESCRIPTION=DVARP function returns the variance of a population based on the "
-"entire populations. The populations consists of numbers that match conditions "
-"specified. \n"
+"@DESCRIPTION=DVARP function returns the variance of a population based on "
+"the entire populations. The populations consists of numbers that match "
+"conditions specified. \n"
 msgstr ""
 
 #: src/functions/fn-database.c:1257
@@ -8374,8 +8395,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
-"@DESCRIPTION=DATE returns the number of days since the 1st of january of "
-"1900(the date serial number) for the given year, month and day.\n"
+"@DESCRIPTION=DATE returns the number of days since the 1st of january of 1900"
+"(the date serial number) for the given year, month and day.\n"
 "\n"
 "If @month < 1 or @month > 12, the year will be corrected.  A similar "
 "correction takes place for days.\n"
@@ -8408,9 +8429,10 @@ msgid ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(date1,date2,interval)\n"
 "@DESCRIPTION=DATEDIF returns the difference between two dates.  @interval is "
-"one of six possible values:  \"y\", \"m\", \"d\", \"ym\", \"md\", and "
-"\"yd\".\nThe first three options will return the number of complete years, months, "
-"or days, respectively, between the two dates specified.\n"
+"one of six possible values:  \"y\", \"m\", \"d\", \"ym\", \"md\", and \"yd"
+"\".\n"
+"The first three options will return the number of complete years, months, or "
+"days, respectively, between the two dates specified.\n"
 "\"ym\" will return the number of full months between the two dates, not "
 "including the difference in years.\n"
 "\"md\" will return the number of full days between the two dates, not "
@@ -8430,8 +8452,8 @@ msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
 "@DESCRIPTION=EDATE returns the serial number of the date that is the "
-"specified number of months before or after a given date.  @date is the serial "
-"number of the initial date and @months is the number of months before "
+"specified number of months before or after a given date.  @date is the "
+"serial number of the initial date and @months is the number of months before "
 "(negative number) or after (positive number) the initial date.\n"
 "This function is Excel compatible. \n"
 "If @months is not an integer, it is truncated.\n"
@@ -8465,7 +8487,8 @@ msgid ""
 "represent the fraction of the day and is mapped into hour, minutes and "
 "seconds.\n"
 "For example: .0 represents the beginning of the day, and 0.5 represents "
-"noon.\nThis function is Excel compatible. \n"
+"noon.\n"
+"This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "NOW().\n"
 "\n"
@@ -8609,8 +8632,9 @@ msgid ""
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
 "@DESCRIPTION=DAYS360 returns the number of days from @date1 to @date2 "
 "following a 360-day calendar in which all months are assumed to have 30 "
-"days.\nIf @method is true, the European method will be used.  In this case, "
-"if the day of the month is 31 it will be considered as 30.\n"
+"days.\n"
+"If @method is true, the European method will be used.  In this case, if the "
+"day of the month is 31 it will be considered as 30.\n"
 "If @method is false or omitted, the US method will be used.  This is a "
 "somewhat complicated industry standard method.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
@@ -8685,8 +8709,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
-"@DESCRIPTION=BIN2DEC function converts a binary number in string or number to "
-"its decimal equivalent.\n"
+"@DESCRIPTION=BIN2DEC function converts a binary number in string or number "
+"to its decimal equivalent.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "BIN2DEC(101) equals 5.\n"
@@ -8878,8 +8902,8 @@ msgid ""
 "@DESCRIPTION=BESSELK function returns the Neumann, Weber or Bessel function. "
 "@x is where the function is evaluated. @y is the order of the bessel "
 "function, if non-integer it is truncated.\n"
-"If x or n are not numeric a #VALUE! error is returned. If y < 0 a #NUM! error "
-"is returned.\n"
+"If x or n are not numeric a #VALUE! error is returned. If y < 0 a #NUM! "
+"error is returned.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "BESSELK(3,9) equals 397.95880.\n"
@@ -8892,8 +8916,8 @@ msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
 "@DESCRIPTION=BESSELJ function returns the bessel function with @x is where "
-"the function is evaluated. @y is the order of the bessel function, if "
-"non-integer it is truncated.\n"
+"the function is evaluated. @y is the order of the bessel function, if non-"
+"integer it is truncated.\n"
 "If @x or @y are not numeric a #VALUE! error is returned.  If @y < 0 a #NUM! "
 "error is returned.\n"
 "This function is Excel compatible. \n"
@@ -8910,8 +8934,8 @@ msgid ""
 "@DESCRIPTION=BESSELY function returns the Neumann, Weber or Bessel function. "
 "@x is where the function is evaluated. @y is the order of the bessel "
 "function, if non-integer it is truncated.\n"
-"If x or n are not numeric a #VALUE! error is returned. If n < 0 a #NUM! error "
-"is returned.\n"
+"If x or n are not numeric a #VALUE! error is returned. If n < 0 a #NUM! "
+"error is returned.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "BESSELY(4,2) equals 0.215903595.\n"
@@ -8924,9 +8948,9 @@ msgid ""
 "@FUNCTION=COMPLEX\n"
 "@SYNTAX=COMPLEX(real,im[,suffix])\n"
 "@DESCRIPTION=COMPLEX returns a complex number of the form x + yi. @real is "
-"the real and @im is the imaginary coefficient of the complex number.  @suffix "
-"is the suffix for the imaginary coefficient.  If it is omitted, COMPLEX uses "
-"'i' by default.\n"
+"the real and @im is the imaginary coefficient of the complex number.  "
+"@suffix is the suffix for the imaginary coefficient.  If it is omitted, "
+"COMPLEX uses 'i' by default.\n"
 "If @suffix is neither 'i' nor 'j', COMPLEX returns #VALUE! error.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
@@ -8940,7 +8964,8 @@ msgid ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
 "@DESCRIPTION=IMAGINARY returns the imaginary coefficient of a complex "
-"number.\nThis function is Excel compatible. \n"
+"number.\n"
+"This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "IMAGINARY(\"132-j\") equals -1.\n"
 "\n"
@@ -9073,9 +9098,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber,number)\n"
-"@DESCRIPTION=IMPOWER returns a complex number raised to a power.  @inumber is "
-"the complex number to be raised to a power and @number is the power to which "
-"you want to raise the complex number.\n"
+"@DESCRIPTION=IMPOWER returns a complex number raised to a power.  @inumber "
+"is the complex number to be raised to a power and @number is the power to "
+"which you want to raise the complex number.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "IMPOWER(\"4-j\",2) equals 15-8j.\n"
@@ -9250,7 +9275,8 @@ msgid ""
 "'f'  femto  1E-15\n"
 "'a'  atto   1E-18\n"
 "\n"
-"If @from_unit and @to_unit are different types, CONVERT returns #NUM! error.\n"
+"If @from_unit and @to_unit are different types, CONVERT returns #NUM! "
+"error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "CONVERT(3,\"lbm\",\"g\") equals 1360.7769.\n"
@@ -9266,7 +9292,8 @@ msgid ""
 "@SYNTAX=ERF([lower limit,]upper_limit)\n"
 "@DESCRIPTION=With a single argument ERF returns the error function, defined "
 "as erf(x) = 2/sqrt(pi)* integral from 0 to x of exp(-t*t) dt. If two "
-"arguments are supplied, they are the lower and upper limits of the integral.\n"
+"arguments are supplied, they are the lower and upper limits of the "
+"integral.\n"
 "If either @lower_limit or @upper_limit is not numeric a #VALUE! error is "
 "returned.\n"
 "This function is upward-compatible with that in Excel. (If two arguments are "
@@ -9335,15 +9362,15 @@ msgstr ""
 msgid ""
 "@FUNCTION=ACCRINT\n"
 "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])\n"
-"@DESCRIPTION=ACCRINT calculates the accrued interest for a security that pays "
-"periodic interest.  @issue is the issue date of the security.  "
+"@DESCRIPTION=ACCRINT calculates the accrued interest for a security that "
+"pays periodic interest.  @issue is the issue date of the security.  "
 "@first_interest is the first interest date of the security.  @settlement is "
-"the settlement date of the sequrity.  The settlement date is always after the "
-"issue date (the date when the security is bought). @rate is the annual rate "
-"of the security and @par is the par value of the security. @frequency is the "
-"number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = "
-"semi, 4 = quarterly. @basis is the type of day counting system you want to "
-"use:\n"
+"the settlement date of the sequrity.  The settlement date is always after "
+"the issue date (the date when the security is bought). @rate is the annual "
+"rate of the security and @par is the par value of the security. @frequency "
+"is the number of coupon payments per year. Allowed frequencies are: 1 = "
+"annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system "
+"you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -9369,8 +9396,8 @@ msgid ""
 "@DESCRIPTION=ACCRINTM calculates and returns the accrued interest for a "
 "security from @issue to @maturity date.  @issue is the issue date of the "
 "security.  @maturity is the maturity date of the security.  @rate is the "
-"annual rate of the security and @par is the par value of the security. If you "
-"omit @par, ACCRINTM applies $1,000 instead.  @basis is the type of day "
+"annual rate of the security and @par is the par value of the security. If "
+"you omit @par, ACCRINTM applies $1,000 instead.  @basis is the type of day "
 "counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
@@ -9425,9 +9452,9 @@ msgid ""
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
 "@DESCRIPTION=RECEIVED calculates and returns the amount to be received at "
 "@maturity date for a security bond.  @settlement is the settlement date of "
-"the security.  @maturity is the maturity date of the security.  The amount of "
-"investement is specified in @investment.  @rate is the security's discount "
-"rate. @basis is the type of day counting system you want to use:\n"
+"the security.  @maturity is the maturity date of the security.  The amount "
+"of investement is specified in @investment.  @rate is the security's "
+"discount rate. @basis is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -9450,9 +9477,9 @@ msgid ""
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
 "@DESCRIPTION=PRICEDISC calculates and returns the price per $100 face value "
 "of a security bond.  The security does not pay interest at maturity.  "
-"@settlement is the settlement date of the security. @maturity is the maturity "
-"date of the security.  @discount is the rate for which the security is "
-"discounted.  @redemption is the amount to be received on @maturity date.  "
+"@settlement is the settlement date of the security. @maturity is the "
+"maturity date of the security.  @discount is the rate for which the security "
+"is discounted.  @redemption is the amount to be received on @maturity date.  "
 "@basis is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
@@ -9463,8 +9490,8 @@ msgid ""
 "\n"
 "If @settlement date or @maturity date is not valid, PRICEDISC returns #NUM! "
 "error. If @basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > "
-"4, PRICEDISC returns #NUM! error. If @settlement date is after @maturity date "
-"or they are the same, PRICEDISC returns #NUM! error. \n"
+"4, PRICEDISC returns #NUM! error. If @settlement date is after @maturity "
+"date or they are the same, PRICEDISC returns #NUM! error. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PRICEMAT"
@@ -9474,8 +9501,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
-"@DESCRIPTION=PRICEMAT calculates and returns the price per $100 face value of "
-"a security.  The security pays interest at maturity. @settlement is the "
+"@DESCRIPTION=PRICEMAT calculates and returns the price per $100 face value "
+"of a security.  The security pays interest at maturity. @settlement is the "
 "settlement date of the security.  @maturity is the maturity date of the "
 "security.  @issue is the issue date of the security.  @rate is the discount "
 "rate of the security. @yield is the annual yield of the security. @basis is "
@@ -9512,10 +9539,10 @@ msgid ""
 "3  actual days/365\n"
 "4  European 30/360\n"
 "\n"
-"If @settlement date or @maturity date is not valid, DISC returns #NUM! error. "
-"If @basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > 4, DISC "
-"returns #NUM! error. If @settlement date is after @maturity date or they are "
-"the same, DISC returns #NUM! error. \n"
+"If @settlement date or @maturity date is not valid, DISC returns #NUM! "
+"error. If @basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > "
+"4, DISC returns #NUM! error. If @settlement date is after @maturity date or "
+"they are the same, DISC returns #NUM! error. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -9536,8 +9563,8 @@ msgid ""
 "@r = nominal interest rate (stated in yearly terms)\n"
 "@nper = number of periods used for compounding\n"
 "@EXAMPLES=\n"
-"For example credit cards will list an APR (annual percentage rate) which is a "
-"nominal interest rate.\n"
+"For example credit cards will list an APR (annual percentage rate) which is "
+"a nominal interest rate.\n"
 "For example if you wanted to find out how much you are actually paying "
 "interest on your credit card that states an APR of 19% that is compounded "
 "monthly you would type in:\n"
@@ -9618,16 +9645,16 @@ msgstr ""
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
-"@DESCRIPTION=SLN function will determine the straight line depreciation of an "
-"asset for a single period. The amount you paid for the asset is the @cost, "
-"@salvage is the value of the asset at the end of its useful life, and @life "
-"is the number of periods over which an the asset is depreciated. This method "
-"of deprecition devides the cost evenly over the life of an asset.\n"
+"@DESCRIPTION=SLN function will determine the straight line depreciation of "
+"an asset for a single period. The amount you paid for the asset is the "
+"@cost, @salvage is the value of the asset at the end of its useful life, and "
+"@life is the number of periods over which an the asset is depreciated. This "
+"method of deprecition devides the cost evenly over the life of an asset.\n"
 "The formula used for straight line depriciation is:\n"
 "Depriciation expense = ( @cost - @salvage_value ) / @life\n"
 "\t@cost = cost of an asset when acquired (market value).\t@salvage_value = "
-"amount you get when asset sold at the end of the assets's useful life.\t@life "
-"= anticipated life of an asset.\n"
+"amount you get when asset sold at the end of the assets's useful life."
+"\t@life = anticipated life of an asset.\n"
 "@EXAMPLES=\n"
 "For example, lets suppose your company purchases a new machine for $10,000, "
 "which has a salvage value of $700 and will have a useful life of 10 years. "
@@ -9645,16 +9672,16 @@ msgstr ""
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
-"@DESCRIPTION=SYD function calculates the sum-of-years digits depriciation for "
-"an asset based on its cost, salvage value, anticipated life and a particular "
-"period. This method accelerates the rate of the depreciation, so that more "
-"depreciation expense occurs in earlier periods than in later ones. The "
-"depreciable cost is the actual cost minus the salvage value. The useful life "
-"is the number of periods (typically years) over with the asset is "
+"@DESCRIPTION=SYD function calculates the sum-of-years digits depriciation "
+"for an asset based on its cost, salvage value, anticipated life and a "
+"particular period. This method accelerates the rate of the depreciation, so "
+"that more depreciation expense occurs in earlier periods than in later ones. "
+"The depreciable cost is the actual cost minus the salvage value. The useful "
+"life is the number of periods (typically years) over with the asset is "
 "depreciated.\n"
 "The Formula used for sum-of-years digits depriciation is:\n"
-"Depriciation expense = ( @cost - @salvage_value ) * (@life - @period + 1) * 2 "
-"/ @life * (@life + 1).\n"
+"Depriciation expense = ( @cost - @salvage_value ) * (@life - @period + 1) * "
+"2 / @life * (@life + 1).\n"
 "\t@cost = cost of an asset when acquired (market value).\t@salvage_value = "
 "amount you get when asset sold at the end of its useful life.\t@life = "
 "anticipated life of an asset.\t@period = period for which we need the "
@@ -9703,8 +9730,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
-"@DESCRIPTION=MIRR function returns the modified internal rate of return for a "
-"given periodic cash flow. \n"
+"@DESCRIPTION=MIRR function returns the modified internal rate of return for "
+"a given periodic cash flow. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=NPV"
@@ -9715,8 +9742,8 @@ msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
 "@DESCRIPTION=TBILLEQ function returns the bond-yield equivalent (BEY) for a "
-"treasury bill.  TBILLEQ is equivalent to (365 * @discount) / (360 - @discount "
-"* DSM) where DSM is the days between @settlement and @maturity. \n"
+"treasury bill.  TBILLEQ is equivalent to (365 * @discount) / (360 - "
+"@discount * DSM) where DSM is the days between @settlement and @maturity. \n"
 "If @settlement is after @maturity or the @maturity is set to over one year "
 "later than the @settlement, TBILLEQ returns #NUM! error. If @discount is "
 "negative, TBILLEQ returns #NUM! error. \n"
@@ -9731,7 +9758,8 @@ msgid ""
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
 "@DESCRIPTION=TBILLPRICE function returns the price per $100 value for a "
 "treasury bill where @settlement is the settlement date and @maturity is the "
-"maturity date of the bill.  @discount is the treasury bill's discount rate. \n"
+"maturity date of the bill.  @discount is the treasury bill's discount "
+"rate. \n"
 "If @settlement is after @maturity or the @maturity is set to over one year "
 "later than the @settlement, TBILLPRICE returns #NUM! error. If @discount is "
 "negative, TBILLPRICE returns #NUM! error. \n"
@@ -9803,10 +9831,10 @@ msgstr ""
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
-"@DESCRIPTION=NPV calculates the net present value of an investment generating "
-"peridic payments.  @rate is the periodic interest rate and @v1, @v2, ... are "
-"the periodic payments.  If the schedule of the cash flows are not periodic "
-"use the XNPV function. \n"
+"@DESCRIPTION=NPV calculates the net present value of an investment "
+"generating peridic payments.  @rate is the periodic interest rate and @v1, "
+"@v2, ... are the periodic payments.  If the schedule of the cash flows are "
+"not periodic use the XNPV function. \n"
 "@EXAMPLES=\n"
 "NPV(0.17,-10000,3340,2941,2493,3233,1732,2932) equals 186.30673.\n"
 "\n"
@@ -9837,16 +9865,16 @@ msgid ""
 "closely related to the net present value function (NPV and XNPV).  The XIRR "
 "is the interest rate for a serie of cash flow where the XNPV is zero. \n"
 "@values contains the serie of cash flow generated by the investment.  @dates "
-"contains the dates of the payments.  The first date describes the payment day "
-"of the initial payment and thus all the other dates should be after this "
-"date. The optional @guess is the initial value used in calculating the XIRR.  "
-"You do not have to use that, it is only provided for the Excel compatibility. "
-"\n"
+"contains the dates of the payments.  The first date describes the payment "
+"day of the initial payment and thus all the other dates should be after this "
+"date. The optional @guess is the initial value used in calculating the "
+"XIRR.  You do not have to use that, it is only provided for the Excel "
+"compatibility. \n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1:A5 contain the numbers -6000, 2134, 1422, "
-"1933, and 1422, and the cells B1:B5 contain the dates \"1999-01-15\", "
-"\"1999-04-04\", \"1999-05-09\", \"2000-03-12\", and \"2000-05-1\". Then\n"
+"1933, and 1422, and the cells B1:B5 contain the dates \"1999-01-15\", \"1999-"
+"04-04\", \"1999-05-09\", \"2000-03-12\", and \"2000-05-1\". Then\n"
 "XIRR(A1:A5,B1:B5) returns 0.224838. \n"
 "@SEEALSO=IRR,XNPV"
 msgstr ""
@@ -9859,8 +9887,8 @@ msgid ""
 "periodic, constant payments and a constant interest rate. The interest rate "
 "per period is @rate, @term is the number of periods in an annuity, @pmt is "
 "the payment made each period, @pv is the present value and @type is when the "
-"payment is made. If @type = 1 then the payment is made at the begining of the "
-"period. If @type = 0 it is made at the end of each period.\n"
+"payment is made. If @type = 1 then the payment is made at the begining of "
+"the period. If @type = 0 it is made at the end of each period.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
@@ -9870,12 +9898,13 @@ msgstr ""
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
-"@DESCRIPTION=PMT returns the amount of payment for a loan based on a constant "
-"interest rate and constant payments (each payment is equal amount). @rate is "
-"the constant interest rate. @nper is the overall number of payments. @pv is "
-"the present value. @fv is the future value. @type is the type of the payment: "
-"0 means at the end of the period and 1 means at the beginning of the period. "
-"\nIf @fv is omitted, Gnumeric assumes it to be zero. If @type is omitted, "
+"@DESCRIPTION=PMT returns the amount of payment for a loan based on a "
+"constant interest rate and constant payments (each payment is equal amount). "
+"@rate is the constant interest rate. @nper is the overall number of "
+"payments. @pv is the present value. @fv is the future value. @type is the "
+"type of the payment: 0 means at the end of the period and 1 means at the "
+"beginning of the period. \n"
+"If @fv is omitted, Gnumeric assumes it to be zero. If @type is omitted, "
 "Gnumeric assumes it to be zero. \n"
 "@EXAMPLES=\n"
 "\n"
@@ -9920,14 +9949,14 @@ msgid ""
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
 "@DESCRIPTION=NPER calculates number of periods of an investment based on "
 "periodic constant payments and a constant interest rate. The interest rate "
-"per period is @rate, @pmt is the payment made each period, @pv is the present "
-"value, @fv is the future value and @type is when the payments are due. If "
-"@type = 1, payments are due at the begining of the period, if @type = 0, "
-"payments are due at the end of the period.\n"
+"per period is @rate, @pmt is the payment made each period, @pv is the "
+"present value, @fv is the future value and @type is when the payments are "
+"due. If @type = 1, payments are due at the begining of the period, if @type "
+"= 0, payments are due at the end of the period.\n"
 "@EXAMPLES=\n"
 "For example, if you deposit $10,000 in a savings account that earns an "
-"interest rate of 6%. To calculate home many years it will take to double your "
-"investment use NPER as follows:\n"
+"interest rate of 6%. To calculate home many years it will take to double "
+"your investment use NPER as follows:\n"
 "=NPER(0.06, 0, -10000, 20000,0)returns 11.895661046 which indicates that you "
 "can double your money just before the end of the 12th year.\n"
 "@SEEALSO=PPMT,PV,FV"
@@ -9939,8 +9968,8 @@ msgid ""
 "@SYNTAX=DURATION(rate,pv,fv)\n"
 "@DESCRIPTION=DURATION calculates number of periods needed for an investment "
 "to attain a desired value. This function is similar to FV and PV with a "
-"difference that we do not need give the direction of cash flows e.g. -100 for "
-"a cash outflow and +100 for a cash inflow.\n"
+"difference that we do not need give the direction of cash flows e.g. -100 "
+"for a cash outflow and +100 for a cash inflow.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PPMT,PV,FV"
@@ -9950,8 +9979,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
-"@DESCRIPTION=FVSCHEDULE returns the future value of given initial value after "
-"applying a series of compound periodic interest rates. The argument "
+"@DESCRIPTION=FVSCHEDULE returns the future value of given initial value "
+"after applying a series of compound periodic interest rates. The argument "
 "@principal is the present value; @schedule is an array of interest rates to "
 "apply. The @schedule argument must be a range of cells.\n"
 "@EXAMPLES=\n"
@@ -9991,10 +10020,10 @@ msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency[,basis])\n"
 "@DESCRIPTION=PRICE returns price per $100 face value of a security. This "
-"method can only be used if the security pays periodic interest. @frequency is "
-"the number of coupon payments per year. Allowed frequencies are: 1 = annual, "
-"2 = semi, 4 = quarterly. @basis is the type of day counting system you want "
-"to use:\n"
+"method can only be used if the security pays periodic interest. @frequency "
+"is the number of coupon payments per year. Allowed frequencies are: 1 = "
+"annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system "
+"you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -10038,10 +10067,10 @@ msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
 "@DESCRIPTION=YIELDDISC calculates the annual yield of a security that is "
-"discounted. @settlement is the settlement date of the security.  @maturity is "
-"the maturity date of the security. @pr is the price per $100 face value of "
-"the security. @redemption is the redemption value per $100 face value. @basis "
-"is the type of day counting system you want to use:\n"
+"discounted. @settlement is the settlement date of the security.  @maturity "
+"is the maturity date of the security. @pr is the price per $100 face value "
+"of the security. @redemption is the redemption value per $100 face value. "
+"@basis is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -10050,8 +10079,8 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, YIELDDISC returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
-"#NUM! error is returned. \n"
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
+"4, #NUM! error is returned. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -10061,12 +10090,12 @@ msgstr ""
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
-"@DESCRIPTION=YIELDMAT calculates the annual yield of a security for which the "
-"interest is payed at maturity date. @settlement is the settlement date of the "
-"security. @maturity is the maturity date of the security. @issue is the issue "
-"date of the security. @rate is the interest rate set to the security. @pr is "
-"the price per $100 face value of the security. @basis is the type of day "
-"counting system you want to use:\n"
+"@DESCRIPTION=YIELDMAT calculates the annual yield of a security for which "
+"the interest is payed at maturity date. @settlement is the settlement date "
+"of the security. @maturity is the maturity date of the security. @issue is "
+"the issue date of the security. @rate is the interest rate set to the "
+"security. @pr is the price per $100 face value of the security. @basis is "
+"the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -10075,8 +10104,8 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, YIELDMAT returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
-"#NUM! error is returned. \n"
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
+"4, #NUM! error is returned. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -10085,13 +10114,14 @@ msgstr ""
 #: src/functions/fn-financial.c:3151
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
-"@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,frequency[,basis])\n@DESCRIPTION=ODDFPRICE "
-"returns the price per $100 face value of a security. The security should have "
-"an odd short or long first period. @settlement is the settlement date of the "
-"security. @maturity is the maturity date of the security. @issue is the issue "
-"date of the security. @frequency is the number of coupon payments per year. "
-"Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the "
-"type of day counting system you want to use:\n"
+"@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
+"frequency[,basis])\n"
+"@DESCRIPTION=ODDFPRICE returns the price per $100 face value of a security. "
+"The security should have an odd short or long first period. @settlement is "
+"the settlement date of the security. @maturity is the maturity date of the "
+"security. @issue is the issue date of the security. @frequency is the number "
+"of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, "
+"4 = quarterly. @basis is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -10100,8 +10130,8 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, ODDFPRICE returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
-"#NUM! error is returned. \n"
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
+"4, #NUM! error is returned. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -10110,33 +10140,10 @@ msgstr ""
 #: src/functions/fn-financial.c:3253
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
-"@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,frequency[,basis])\n@DESCRIPTION=ODDFYIELD "
-"calculates the yield of a security having an odd first period. @settlement is "
-"the settlement date of the security. @maturity is the maturity date of the "
-"security. @frequency is the number of coupon payments per year. Allowed "
-"frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of "
-"day counting system you want to use:\n"
-"\n"
-"0  US 30/360\n"
-"1  actual days/actual days\n"
-"2  actual days/360\n"
-"3  actual days/365\n"
-"4  European 30/360\n"
-"\n"
-"If @frequency is other than 1, 2, or 4, ODDFYIELD returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
-"#NUM! error is returned. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
-msgstr ""
-
-#: src/functions/fn-financial.c:3290
-msgid ""
-"@FUNCTION=ODDLPRICE\n"
-"@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,frequency[,basis])\n@DESCRIPTION=ODDLPRICE "
-"calculates the price per $100 face value of a security that has an odd last "
-"coupon period. @settlement is the settlement date of the security. @maturity "
+"@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
+"frequency[,basis])\n"
+"@DESCRIPTION=ODDFYIELD calculates the yield of a security having an odd "
+"first period. @settlement is the settlement date of the security. @maturity "
 "is the maturity date of the security. @frequency is the number of coupon "
 "payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = "
 "quarterly. @basis is the type of day counting system you want to use:\n"
@@ -10148,8 +10155,34 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, ODDFYIELD returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
-"#NUM! error is returned. \n"
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
+"4, #NUM! error is returned. \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:3290
+msgid ""
+"@FUNCTION=ODDLPRICE\n"
+"@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
+"frequency[,basis])\n"
+"@DESCRIPTION=ODDLPRICE calculates the price per $100 face value of a "
+"security that has an odd last coupon period. @settlement is the settlement "
+"date of the security. @maturity is the maturity date of the security. "
+"@frequency is the number of coupon payments per year. Allowed frequencies "
+"are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting "
+"system you want to use:\n"
+"\n"
+"0  US 30/360\n"
+"1  actual days/actual days\n"
+"2  actual days/360\n"
+"3  actual days/365\n"
+"4  European 30/360\n"
+"\n"
+"If @frequency is other than 1, 2, or 4, ODDFYIELD returns #NUM! error. If "
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
+"4, #NUM! error is returned. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -10158,12 +10191,13 @@ msgstr ""
 #: src/functions/fn-financial.c:3327
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
-"@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,frequency[,basis])\n@DESCRIPTION=ODDLYIELD "
-"calculates the yield of a security having an odd last period. @settlement is "
-"the settlement date of the security. @maturity is the maturity date of the "
-"security. @frequency is the number of coupon payments per year. Allowed "
-"frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of "
-"day counting system you want to use:\n"
+"@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
+"frequency[,basis])\n"
+"@DESCRIPTION=ODDLYIELD calculates the yield of a security having an odd last "
+"period. @settlement is the settlement date of the security. @maturity is the "
+"maturity date of the security. @frequency is the number of coupon payments "
+"per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
+"@basis is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -10172,8 +10206,8 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, ODDLYIELD returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
-"#NUM! error is returned. \n"
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
+"4, #NUM! error is returned. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -10182,10 +10216,12 @@ msgstr ""
 #: src/functions/fn-financial.c:3364
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
-"@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,basis])\n@DESCRIPTION=AMORDEGRC "
-"returns the depreciation for each accounting period.@settlement is the "
-"settlement date of the security. @maturity is the maturity date of the "
-"security. @basis is the type of day counting system you want to use:\n"
+"@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
+"basis])\n"
+"@DESCRIPTION=AMORDEGRC returns the depreciation for each accounting period."
+"@settlement is the settlement date of the security. @maturity is the "
+"maturity date of the security. @basis is the type of day counting system you "
+"want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -10194,8 +10230,8 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, AMORDEGRC returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
-"#NUM! error is returned. \n"
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
+"4, #NUM! error is returned. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -10204,10 +10240,12 @@ msgstr ""
 #: src/functions/fn-financial.c:3398
 msgid ""
 "@FUNCTION=AMORLINC\n"
-"@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,basis])\n@DESCRIPTION=AMORLINC "
-"returns the depreciation for each accounting period.@settlement is the "
-"settlement date of the security. @maturity is the maturity date of the "
-"security. @basis is the type of day counting system you want to use:\n"
+"@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
+"basis])\n"
+"@DESCRIPTION=AMORLINC returns the depreciation for each accounting period."
+"@settlement is the settlement date of the security. @maturity is the "
+"maturity date of the security. @basis is the type of day counting system you "
+"want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -10216,8 +10254,8 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, AMORLINC returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
-"#NUM! error is returned. \n"
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
+"4, #NUM! error is returned. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -10241,8 +10279,8 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, COUPDAYBS returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
-"#NUM! error is returned. \n"
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
+"4, #NUM! error is returned. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -10253,9 +10291,9 @@ msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])\n"
 "@DESCRIPTION=COUPDAYS returns the number of days in the coupon period of the "
-"settlement date.@settlement is the settlement date of the security. @maturity "
-"is the maturity date of the security. @frequency is the number of coupon "
-"payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = "
+"settlement date.@settlement is the settlement date of the security. "
+"@maturity is the maturity date of the security. @frequency is the number of "
+"coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = "
 "quarterly. @basis is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
@@ -10265,8 +10303,8 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, COUPDAYS returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
-"#NUM! error is returned. \n"
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
+"4, #NUM! error is returned. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -10289,8 +10327,8 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, COUPDAYSNC returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
-"#NUM! error is returned. \n"
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
+"4, #NUM! error is returned. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -10300,11 +10338,11 @@ msgstr ""
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
-"@DESCRIPTION=COUPNCD returns the coupon date following settlement.@settlement "
-"is the settlement date of the security. @maturity is the maturity date of the "
-"security. @frequency is the number of coupon payments per year. Allowed "
-"frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of "
-"day counting system you want to use:\n"
+"@DESCRIPTION=COUPNCD returns the coupon date following settlement."
+"@settlement is the settlement date of the security. @maturity is the "
+"maturity date of the security. @frequency is the number of coupon payments "
+"per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
+"@basis is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -10313,8 +10351,8 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, COUPNCD returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
-"#NUM! error is returned. \n"
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
+"4, #NUM! error is returned. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -10324,11 +10362,11 @@ msgstr ""
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
-"@DESCRIPTION=COUPPCD returns the coupon date preceeding "
-"settlement.@settlement is the settlement date of the security. @maturity is "
-"the maturity date of the security. @frequency is the number of coupon "
-"payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = "
-"quarterly. @basis is the type of day counting system you want to use:\n"
+"@DESCRIPTION=COUPPCD returns the coupon date preceeding settlement."
+"@settlement is the settlement date of the security. @maturity is the "
+"maturity date of the security. @frequency is the number of coupon payments "
+"per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
+"@basis is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -10337,8 +10375,8 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, COUPPCD returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
-"#NUM! error is returned. \n"
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
+"4, #NUM! error is returned. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -10362,8 +10400,8 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, COUPNUM returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
-"#NUM! error is returned. \n"
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
+"4, #NUM! error is returned. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -10384,8 +10422,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
-"@DESCRIPTION=CUMPRINC returns the cumulative principal paid on a loan between "
-"@start_period and @end_period.\n"
+"@DESCRIPTION=CUMPRINC returns the cumulative principal paid on a loan "
+"between @start_period and @end_period.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -10481,8 +10519,8 @@ msgid ""
 "    system          Returns the name of the environment.\n"
 "    totmem          Returns the amount of total memory available.\n"
 "\n"
-"This function is Excel compatible, except that types directory and origin are "
-"not implemented. \n"
+"This function is Excel compatible, except that types directory and origin "
+"are not implemented. \n"
 "@EXAMPLES=\n"
 "INFO(\"system\") returns \"Linux\" on a Linux system.\n"
 "\n"
@@ -10534,7 +10572,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(value)\n"
-"@DESCRIPTION=ISERR returns TRUE if the value is any error value except #N/A.\n"
+"@DESCRIPTION=ISERR returns TRUE if the value is any error value except #N/"
+"A.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "ISERR(NA()) return FALSE.\n"
@@ -10717,8 +10756,8 @@ msgid ""
 "@SYNTAX=AND(b1, b2, ...)\n"
 "@DESCRIPTION=AND implements the logical AND function: the result is TRUE if "
 "all of the expressions evaluate to TRUE, otherwise it returns FALSE.\n"
-"@b1, trough @bN are expressions that should evaluate to TRUE or FALSE.  If an "
-"integer or floating point value is provided zero is considered FALSE and "
+"@b1, trough @bN are expressions that should evaluate to TRUE or FALSE.  If "
+"an integer or floating point value is provided zero is considered FALSE and "
 "anything else is TRUE.\n"
 "If the values contain strings or empty cells those values are ignored. If no "
 "logical values are provided, then the error #VALUE! is returned.\n"
@@ -10755,13 +10794,13 @@ msgstr ""
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
-"@DESCRIPTION=OR implements the logical OR function: the result is TRUE if any "
-"of the values evaluated to TRUE.\n"
+"@DESCRIPTION=OR implements the logical OR function: the result is TRUE if "
+"any of the values evaluated to TRUE.\n"
 "@b1, trough @bN are expressions that should evaluate to TRUE or FALSE. If an "
 "integer or floating point value is provided zero is considered FALSE and "
 "anything else is TRUE.\n"
-"If the values contain strings or empty cells those values are ignored.  If no "
-"logical values are provided, then the error #VALUE! is returned.\n"
+"If the values contain strings or empty cells those values are ignored.  If "
+"no logical values are provided, then the error #VALUE! is returned.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "OR(TRUE,FALSE) equals TRUE.\n"
@@ -10774,11 +10813,11 @@ msgstr ""
 msgid ""
 "@FUNCTION=IF\n"
 "@SYNTAX=IF(condition[,if-true,if-false])\n"
-"@DESCRIPTION=Use the IF statement to evaluate conditionally other expressions "
-"IF evaluates @condition.  If @condition returns a non-zero value the result "
-"of the IF expression is the @if-true expression, otherwise IF evaluates to "
-"the value of @if-false. If ommitted @if-true defaults to TRUE and @if-false "
-"to FALSE.\n"
+"@DESCRIPTION=Use the IF statement to evaluate conditionally other "
+"expressions IF evaluates @condition.  If @condition returns a non-zero value "
+"the result of the IF expression is the @if-true expression, otherwise IF "
+"evaluates to the value of @if-false. If ommitted @if-true defaults to TRUE "
+"and @if-false to FALSE.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "IF(FALSE,TRUE,FALSE) equals FALSE.\n"
@@ -10825,9 +10864,9 @@ msgid ""
 "ADDRESS returns relative row and absolute column. If @abs_num is 4 ADDRESS "
 "returns relative reference. If @abs_num is greater than 4 ADDRESS returns "
 "#NUM! error. \n"
-"@a1 is a logical value that specifies the reference style.  If @a1 is TRUE or "
-"omitted, ADDRESS returns an A1-style reference, i.e. $D$4.  Otherwise ADDRESS "
-"returns an R1C1-style reference, i.e. R4C4. \n"
+"@a1 is a logical value that specifies the reference style.  If @a1 is TRUE "
+"or omitted, ADDRESS returns an A1-style reference, i.e. $D$4.  Otherwise "
+"ADDRESS returns an R1C1-style reference, i.e. R4C4. \n"
 "@text specifies the name of the worksheet to be used as the external "
 "reference.  \n"
 "If @row_num or @col_num is less than one, ADDRESS returns #NUM! error. \n"
@@ -10861,12 +10900,13 @@ msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate])\n"
 "@DESCRIPTION=VLOOKUP function finds the row in range that has a first column "
-"similar to value.  If @approximate is not true it finds the row with an exact "
-"equivilance.  If @approximate is true, then the values must be sorted in "
-"order of ascending value for correct function; in this case it finds the row "
-"with value less than @value.  It returns the value in the row found at a 1 "
-"based offset in @column columns into the @range.\n"
-"Returns #NUM! if @column < 0. Returns #REF! if @column falls outside @range.\n"
+"similar to value.  If @approximate is not true it finds the row with an "
+"exact equivilance.  If @approximate is true, then the values must be sorted "
+"in order of ascending value for correct function; in this case it finds the "
+"row with value less than @value.  It returns the value in the row found at a "
+"1 based offset in @column columns into the @range.\n"
+"Returns #NUM! if @column < 0. Returns #REF! if @column falls outside "
+"@range.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=HLOOKUP"
@@ -10916,8 +10956,8 @@ msgid ""
 "If @type = 0,  finds first value == @seek.\n"
 "If @type = -1, finds smallest value >= @seek.\n"
 "\n"
-"For type 0, the data can be in any order.  For types -1 and +1, the data must "
-"be sorted.  (And in this case, MATCH uses a binary search to locate the "
+"For type 0, the data can be in any order.  For types -1 and +1, the data "
+"must be sorted.  (And in this case, MATCH uses a binary search to locate the "
 "index.)\n"
 "If @seek could not be found, #N/A is returned.\n"
 "@EXAMPLES=\n"
@@ -10929,10 +10969,10 @@ msgstr ""
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[format])\n"
-"@DESCRIPTION=INDIRECT function returns the contents of the cell pointed to by "
-"the ref_text string. The string specifices a single cell reference the format "
-"of which is either A1 or R1C1 style. The style is set by the format boolean, "
-"which defaults to the former.\n"
+"@DESCRIPTION=INDIRECT function returns the contents of the cell pointed to "
+"by the ref_text string. The string specifices a single cell reference the "
+"format of which is either A1 or R1C1 style. The style is set by the format "
+"boolean, which defaults to the former.\n"
 "If @ref_text is not a valid reference returns #REF! \n"
 "@EXAMPLES=\n"
 "If A1 contains 3.14 and A2 contains A1, then\n"
@@ -11058,8 +11098,8 @@ msgid ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
 "@DESCRIPTION=GCD returns the greatest common divisor of given numbers. \n"
-"If any of the arguments is less than zero, GCD returns #NUM! error. If any of "
-"the arguments is non-integer, it is truncated.\n"
+"If any of the arguments is less than zero, GCD returns #NUM! error. If any "
+"of the arguments is non-integer, it is truncated.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "GCD(470,770) equals to 10.\n"
@@ -11103,9 +11143,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
-"@DESCRIPTION=ACOS function calculates the arc cosine of @x; that is the value "
-"whose cosine is @x.  If @x  falls  outside  the range -1 to 1, ACOS fails and "
-"returns the NUM! error. The value it returns is in radians.\n"
+"@DESCRIPTION=ACOS function calculates the arc cosine of @x; that is the "
+"value whose cosine is @x.  If @x  falls  outside  the range -1 to 1, ACOS "
+"fails and returns the NUM! error. The value it returns is in radians.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "ACOS(0.1) equals 1.470629.\n"
@@ -11177,8 +11217,8 @@ msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
 "@DESCRIPTION=ATANH function calculates the inverse hyperbolic tangent of @x; "
-"that is the value whose hyperbolic tangent is @x. If the absolute value of @x "
-"is greater than 1.0, ATANH returns NUM! error.\n"
+"that is the value whose hyperbolic tangent is @x. If the absolute value of "
+"@x is greater than 1.0, ATANH returns NUM! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "ATANH(0.5) equals 0.549306.\n"
@@ -11193,8 +11233,8 @@ msgid ""
 "@SYNTAX=ATAN2(b1,b2)\n"
 "@DESCRIPTION=ATAN2 function calculates the arc tangent of the two variables "
 "@b1 and @b2.  It is similar to calculating the arc tangent of @b2 / @b1, "
-"except that the signs of both arguments are used to determine the quadrant of "
-"the result. The result is in radians.\n"
+"except that the signs of both arguments are used to determine the quadrant "
+"of the result. The result is in radians.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "ATAN2(0.5,1.0) equals 1.107149.\n"
@@ -11239,9 +11279,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
-"@DESCRIPTION=SUMIF function sums the values in the given @range that meet the "
-"given @criteria.  If @actual_range is given, SUMIF sums the values in the "
-"@actual_range whose corresponding components in @range meet the given "
+"@DESCRIPTION=SUMIF function sums the values in the given @range that meet "
+"the given @criteria.  If @actual_range is given, SUMIF sums the values in "
+"the @actual_range whose corresponding components in @range meet the given "
 "@criteria.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
@@ -11305,7 +11345,8 @@ msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
 "@DESCRIPTION=DEGREES computes the number of degrees equivalent to @x "
-"radians.\nThis function is Excel compatible. \n"
+"radians.\n"
+"This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "DEGREES(2.5) equals 143.2394.\n"
 "\n"
@@ -11373,8 +11414,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
-"@DESCRIPTION=INT function returns the largest integer that is not bigger than "
-"its argument.\n"
+"@DESCRIPTION=INT function returns the largest integer that is not bigger "
+"than its argument.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "INT(7.2) equals 7.\n"
@@ -11387,9 +11428,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
-"@DESCRIPTION=LOG computes the logarithm of @x in the given base @base.  If no "
-"@base is given LOG returns the logarithm in base 10. @base must be > 0. and "
-"can not equal 1.\n"
+"@DESCRIPTION=LOG computes the logarithm of @x in the given base @base.  If "
+"no @base is given LOG returns the logarithm in base 10. @base must be > 0. "
+"and can not equal 1.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "LOG(2) equals 0.30103.\n"
@@ -11454,8 +11495,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
-"@DESCRIPTION=MOD function returns the remainder when @divisor is divided into "
-"@number.\n"
+"@DESCRIPTION=MOD function returns the remainder when @divisor is divided "
+"into @number.\n"
 "This function is Excel compatible. \n"
 "MOD returns #DIV/0! if divisor is zero.\n"
 "\n"
@@ -11470,7 +11511,8 @@ msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
 "@DESCRIPTION=RADIANS computes the number of radians equivalent to @x "
-"degrees.\nThis function is Excel compatible. \n"
+"degrees.\n"
+"This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "RADIANS(180) equals 3.14159.\n"
 "\n"
@@ -11580,8 +11622,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
-"@DESCRIPTION=SQRT function returns the square root of @x.  If @x is negative, "
-"SQRT returns #NUM! error.\n"
+"@DESCRIPTION=SQRT function returns the square root of @x.  If @x is "
+"negative, SQRT returns #NUM! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "SQRT(2) equals 1.4142136.\n"
@@ -11611,8 +11653,8 @@ msgid ""
 "@DESCRIPTION=SUMA computes the sum of all the values and cells referenced in "
 "the argument list.  Numbers, text and logical values are included in the "
 "calculation too.  If the cell contains text or the argument evaluates to "
-"FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it "
-"is counted as one (1). \n"
+"FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, "
+"it is counted as one (1). \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
 "and 43.  Then\n"
@@ -11625,8 +11667,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
-"@DESCRIPTION=SUMSQ returns the sum of the squares of all the values and cells "
-"referenced in the argument list.\n"
+"@DESCRIPTION=SUMSQ returns the sum of the squares of all the values and "
+"cells referenced in the argument list.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
@@ -11760,7 +11802,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
-"@DESCRIPTION=FACTDOUBLE function returns the double factorial of a @number. \n"
+"@DESCRIPTION=FACTDOUBLE function returns the double factorial of a "
+"@number. \n"
 "If @number is not an integer, it is truncated.  If @number is negative "
 "FACTDOUBLE returns #NUM! error.\n"
 "This function is Excel compatible. \n"
@@ -11835,8 +11878,8 @@ msgid ""
 "digits to which you want to round that number. \n"
 "If @digits is greater than zero, @number is rounded down to the given number "
 "of digits. If @digits is zero or omitted, @number is rounded down to the "
-"nearest integer. If @digits is less than zero, @number is rounded down to the "
-"left of the decimal point.\n"
+"nearest integer. If @digits is less than zero, @number is rounded down to "
+"the left of the decimal point.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "ROUNDDOWN(5.5) equals 5.\n"
@@ -11873,12 +11916,12 @@ msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
 "@DESCRIPTION=ROUNDUP function rounds a given number up, away from zero. "
-"@number is the number you want rounded up and @digits is the number of digits "
-"to which you want to round that number. \n"
-"If @digits is greater than zero, @number is rounded up to the given number of "
-"digits. If @digits is zero or omitted, @number is rounded up to the nearest "
-"integer. If @digits is less than zero, @number is rounded up to the left of "
-"the decimal point.\n"
+"@number is the number you want rounded up and @digits is the number of "
+"digits to which you want to round that number. \n"
+"If @digits is greater than zero, @number is rounded up to the given number "
+"of digits. If @digits is zero or omitted, @number is rounded up to the "
+"nearest integer. If @digits is less than zero, @number is rounded up to the "
+"left of the decimal point.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "ROUNDUP(5.5) equals 6.\n"
@@ -11933,12 +11976,12 @@ msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
 "@DESCRIPTION=SUMX2MY2 function returns the sum of the difference of squares "
-"of corresponding values in two arrays. @array1 is the first array or range of "
-"data points and @array2 is the second array or range of data points. The "
+"of corresponding values in two arrays. @array1 is the first array or range "
+"of data points and @array2 is the second array or range of data points. The "
 "equation of SUMX2MY2 is SUM (x^2-y^2). \n"
 "Strings and empty cells are simply ignored.\n"
-"If @array1 and @array2 have different number of data points, SUMX2MY2 returns "
-"#N/A! error.\n"
+"If @array1 and @array2 have different number of data points, SUMX2MY2 "
+"returns #N/A! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
@@ -11965,8 +12008,8 @@ msgid ""
 "data points and @array2 is the second array or range of data points. The "
 "equation of SUMX2PY2 is SUM (x^2+y^2). \n"
 "Strings and empty cells are simply ignored.\n"
-"If @array1 and @array2 have different number of data points, SUMX2PY2 returns "
-"#N/A! error.\n"
+"If @array1 and @array2 have different number of data points, SUMX2PY2 "
+"returns #N/A! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
@@ -12002,9 +12045,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
-"@DESCRIPTION=SUBTOTAL function returns a subtotal of given list of arguments. "
-"@function_nbr is the number that specifies which function to use in "
-"calculating the subtotal. The following functions are available:\n"
+"@DESCRIPTION=SUBTOTAL function returns a subtotal of given list of "
+"arguments. @function_nbr is the number that specifies which function to use "
+"in calculating the subtotal. The following functions are available:\n"
 "1   AVERAGE\n"
 "2   COUNT\n"
 "3   COUNTA\n"
@@ -12033,8 +12076,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
-"@DESCRIPTION=SERIESSUM function returns the sum of a power series.  @x is the "
-"base of the power serie, @n is the initial power to raise @x, @m is the "
+"@DESCRIPTION=SERIESSUM function returns the sum of a power series.  @x is "
+"the base of the power serie, @n is the initial power to raise @x, @m is the "
 "increment to the power for each term in the series, and @coefficients is the "
 "coefficents by which each successive power of @x is multiplied.\n"
 "This function is Excel compatible.\n"
@@ -12050,8 +12093,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
-"@DESCRIPTION=MINVERSE function returns the inverse matrix of a given matrix. "
-"\nIf the @matrix cannot be inverted, MINVERSE returns #NUM! error. If the "
+"@DESCRIPTION=MINVERSE function returns the inverse matrix of a given "
+"matrix. \n"
+"If the @matrix cannot be inverted, MINVERSE returns #NUM! error. If the "
 "@matrix does not contain equal number of columns and rows, MINVERSE returns "
 "#VALUE! error.\n"
 "This function is Excel compatible.\n"
@@ -12086,9 +12130,10 @@ msgid ""
 "returns #VALUE! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
-"Let us assume that A1, ..., A4 contain numbers 2, 3, 7, and 3, B1, ..., B4 4, "
-"2, 4, and 1, C1, ..., C4 9, 4, 3, and 2, and D1, ..., D4 7, 3, 6, and 5. "
-"Then\nMDETERM(A1:D4) equals 148.\n"
+"Let us assume that A1, ..., A4 contain numbers 2, 3, 7, and 3, B1, ..., B4 "
+"4, 2, 4, and 1, C1, ..., C4 9, 4, 3, and 2, and D1, ..., D4 7, 3, 6, and 5. "
+"Then\n"
+"MDETERM(A1:D4) equals 148.\n"
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 msgstr ""
@@ -12097,9 +12142,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
-"@DESCRIPTION=SUMPRODUCT function multiplies corresponding data entries in the "
-"given arrays or ranges, and then returns the sum of those products.  If an "
-"array entry is not numeric, the value zero is used instead. \n"
+"@DESCRIPTION=SUMPRODUCT function multiplies corresponding data entries in "
+"the given arrays or ranges, and then returns the sum of those products.  If "
+"an array entry is not numeric, the value zero is used instead. \n"
 "If arrays or range arguments do not have the same dimentions, SUMPRODUCT "
 "returns #VALUE! error.\n"
 "This function is Excel compatible.\n"
@@ -12120,9 +12165,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=SELECTION\n"
 "@SYNTAX=SELECTION(permit_intersection)\n"
-"@DESCRIPTION=SELECTION function returns a list with the values in the current "
-"selection.  This is usually used to implement on-the-fly computation of "
-"values.\n"
+"@DESCRIPTION=SELECTION function returns a list with the values in the "
+"current selection.  This is usually used to implement on-the-fly computation "
+"of values.\n"
 "If @permit_intersection is TRUE the user specifed selection ranges are "
 "returned, EVEN IF THEY OVERLAP.  If @permit_intersection is FALSE a distict "
 "set of regions is returned, however, there may be more of them than the user "
@@ -12226,8 +12271,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=TRIMMEAN\n"
 "@SYNTAX=TRIMMEAN(ref,fraction)\n"
-"@DESCRIPTION=TRIMMEAN returns the mean of the interior of a data set. @ref is "
-"the list of numbers whose mean you want to calculate and @fraction is the "
+"@DESCRIPTION=TRIMMEAN returns the mean of the interior of a data set. @ref "
+"is the list of numbers whose mean you want to calculate and @fraction is the "
 "fraction of the data set excluded from the mean. For example, if "
 "@fraction=0.2 and the data set contains 40 numbers, 8 numbers are trimmed "
 "from the data set (40 x 0.2), 4 from the top and 4 from the bottom of the "
@@ -12340,8 +12385,8 @@ msgid ""
 "@SYNTAX=LOGINV(p,mean,stdev)\n"
 "@DESCRIPTION=LOGINV function returns the inverse of the lognormal cumulative "
 "distribution. @p is the given probability corresponding to the normal "
-"distribution, @mean is the arithmetic mean of the distribution, and @stdev is "
-"the standard deviation of the distribution.\n"
+"distribution, @mean is the arithmetic mean of the distribution, and @stdev "
+"is the standard deviation of the distribution.\n"
 "If @p < 0 or @p > 1 or @stdev <= 0 LOGINV returns #NUM! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -12368,8 +12413,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=MODE(n1, n2, ...)\n"
-"@DESCRIPTION=MODE returns the most common number of the data set. If the data "
-"set has many most common numbers MODE returns the first one of them. \n"
+"@DESCRIPTION=MODE returns the most common number of the data set. If the "
+"data set has many most common numbers MODE returns the first one of them. \n"
 "Strings and empty cells are simply ignored. If the data set does not contain "
 "any duplicates MODE returns #N/A! error.\n"
 "This function is Excel compatible.\n"
@@ -12385,8 +12430,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=HARMEAN\n"
 "@SYNTAX=HARMEAN(b1, b2, ...)\n"
-"@DESCRIPTION=HARMEAN returns the harmonic mean of the N data points (that is, "
-"N divided by the sum of the inverses of the data points).\n"
+"@DESCRIPTION=HARMEAN returns the harmonic mean of the N data points (that "
+"is, N divided by the sum of the inverses of the data points).\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
@@ -12478,8 +12523,8 @@ msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
 "@DESCRIPTION=MAX returns the value of the element of the values passed that "
-"has the largest value. With negative numbers considered smaller than positive "
-"numbers.\n"
+"has the largest value. With negative numbers considered smaller than "
+"positive numbers.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
@@ -12589,8 +12634,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
-"@DESCRIPTION=CHIDIST function returns the one-tailed probability of the "
-"chi-squared distribution. @dof is the number of degrees of freedom.\n"
+"@DESCRIPTION=CHIDIST function returns the one-tailed probability of the chi-"
+"squared distribution. @dof is the number of degrees of freedom.\n"
 "If @dof is non-integer it is truncated.  If @dof < 1 CHIDIST returns #NUM! "
 "error.\n"
 "This function is Excel compatible.\n"
@@ -12618,8 +12663,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
-"@DESCRIPTION=CHITEST function returns the test for independence of "
-"chi-squared distribution.\n"
+"@DESCRIPTION=CHITEST function returns the test for independence of chi-"
+"squared distribution.\n"
 "@actual_range is a range that contains the observed data points. "
 "@theoretical_range is a range that contains the expected values of the data "
 "points.\n"
@@ -12638,7 +12683,8 @@ msgid ""
 "If @a is not given, BETADIST uses 0.  If @b is not given, BETADIST uses 1.\n"
 "If @x < @a or @x > @b BETADIST returns #NUM! error. If @alpha <= 0 or @beta "
 "<= 0, BETADIST returns #NUM! error. If @a >= @b BETADIST returns #NUM! "
-"error.\nThis function is Excel compatible.\n"
+"error.\n"
+"This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "BETADIST(0.12,2,3) equals 0.07319808.\n"
 "\n"
@@ -12666,9 +12712,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
-"@DESCRIPTION=TDIST function returns the Student's t-distribution. @dof is the "
-"degree of freedom and @tails is 1 or 2 depending on whether you want "
-"one-tailed or two-tailed distribution.\n"
+"@DESCRIPTION=TDIST function returns the Student's t-distribution. @dof is "
+"the degree of freedom and @tails is 1 or 2 depending on whether you want one-"
+"tailed or two-tailed distribution.\n"
 "If @dof < 1 TDIST returns #NUM! error.  If @tails is neither 1 or 2 TDIST "
 "returns #NUM! error.\n"
 "This function is Excel compatible.\n"
@@ -12682,8 +12728,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
-"@DESCRIPTION=TINV function returns the inverse of the two-tailed Student's "
-"t-distribution.\n"
+"@DESCRIPTION=TINV function returns the inverse of the two-tailed Student's t-"
+"distribution.\n"
 "If @p < 0 or @p > 1 or @dof < 1 TINV returns #NUM! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -12728,12 +12774,12 @@ msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
 "@DESCRIPTION=BINOMDIST function returns the binomial distribution. @n is the "
-"number of successes, @trials is the total number of independent trials, @p is "
-"the probability of success in trials, and @cumulative describes whether to "
-"return the sum of thebinomial function from 0 to @n.\n"
-"If @n or @trials are non-integer they are truncated. If @n < 0 or @trials < 0 "
-"BINOMDIST returns #NUM! error. If @n > trials BINOMDIST returns #NUM! error. "
-"If @p < 0 or @p > 1 BINOMDIST returns #NUM! error.\n"
+"number of successes, @trials is the total number of independent trials, @p "
+"is the probability of success in trials, and @cumulative describes whether "
+"to return the sum of thebinomial function from 0 to @n.\n"
+"If @n or @trials are non-integer they are truncated. If @n < 0 or @trials < "
+"0 BINOMDIST returns #NUM! error. If @n > trials BINOMDIST returns #NUM! "
+"error. If @p < 0 or @p > 1 BINOMDIST returns #NUM! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "BINOMDIST(3,5,0.8,0) equals 0.2048.\n"
@@ -12749,9 +12795,9 @@ msgid ""
 "thecumulative is greater than or equal to a given value. @n is the number of "
 "trials, @p is the probability of success in trials, and @alpha is the "
 "criterion value. \n"
-"If @trials is a non-integer it is truncated. If @trials < 0 CRITBINOM returns "
-"#NUM! error. If @p < 0 or @p > 1 CRITBINOM returns #NUM! error. If @alpha < 0 "
-"or @alpha > 1 CRITBINOM returns #NUM! error.\n"
+"If @trials is a non-integer it is truncated. If @trials < 0 CRITBINOM "
+"returns #NUM! error. If @p < 0 or @p > 1 CRITBINOM returns #NUM! error. If "
+"@alpha < 0 or @alpha > 1 CRITBINOM returns #NUM! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "CRITBINOM(10,0.5,0.75) equals 6.\n"
@@ -12766,7 +12812,8 @@ msgid ""
 "@DESCRIPTION=PERMUT function returns the number of permutations. @n is the "
 "number of objects, @k is the number of objects in each permutation.\n"
 "If @n = 0 PERMUT returns #NUM! error.  If @n < @k PERMUT returns #NUM! "
-"error.\n This function is Excel compatible.\n"
+"error.\n"
+" This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "PERMUT(7,3) equals 210.\n"
 "\n"
@@ -12777,9 +12824,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
-"@DESCRIPTION=HYPGEOMDIST function returns the hypergeometric distribution. @x "
-"is the number of successes in the sample, @n is the number of trials, @M is "
-"the number of successes overall, and @N is thepopulation size.\n"
+"@DESCRIPTION=HYPGEOMDIST function returns the hypergeometric distribution. "
+"@x is the number of successes in the sample, @n is the number of trials, @M "
+"is the number of successes overall, and @N is thepopulation size.\n"
 "If @x,@n,@M or @N is a non-integer it is truncated.  If @x,@n,@M or @N < 0 "
 "HYPGEOMDIST returns #NUM! error.  If @x > @M or @n > @N HYPGEOMDIST returns "
 "#NUM! error.\n"
@@ -12811,8 +12858,8 @@ msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
 "@DESCRIPTION=STANDARDIZE function returns a normalized value. @x is the "
-"number to be normalized, @mean is the mean of the distribution, @stdev is the "
-"standard deviation of the distribution.\n"
+"number to be normalized, @mean is the mean of the distribution, @stdev is "
+"the standard deviation of the distribution.\n"
 "If @stddev is 0 STANDARDIZE returns #DIV/0! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -12827,8 +12874,8 @@ msgid ""
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
 "@DESCRIPTION=WEIBULL function returns the Weibull distribution. If the "
 "@cumulative boolean is true it will return: 1 - exp (-(@x/@beta)^@alpha), "
-"otherwise it will return (@alpha/@beta^@alpha) * @x^(@alpha-1) * "
-"exp(-(@x/@beta^@alpha)). \n"
+"otherwise it will return (@alpha/@beta^@alpha) * @x^(@alpha-1) * exp(-(@x/"
+"@beta^@alpha)). \n"
 "If @x < 0 WEIBULL returns #NUM! error. If @alpha <= 0 or @beta <= 0 WEIBULL "
 "returns #NUM! error.\n"
 "This function is Excel compatible.\n"
@@ -12842,9 +12889,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
-"@DESCRIPTION=NORMDIST function returns the normal cumulative distribution. @x "
-"is the value for which you want the distribution, @mean is the mean of the "
-"distribution, @stdev is the standard deviation. \n"
+"@DESCRIPTION=NORMDIST function returns the normal cumulative distribution. "
+"@x is the value for which you want the distribution, @mean is the mean of "
+"the distribution, @stdev is the standard deviation. \n"
 "If @stdev is 0 NORMDIST returns #DIV/0! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -12859,8 +12906,8 @@ msgid ""
 "@SYNTAX=NORMINV(p,mean,stdev)\n"
 "@DESCRIPTION=NORMINV function returns the inverse of the normal cumulative "
 "distribution. @p is the given probability corresponding to the normal "
-"distribution, @mean is the arithmetic mean of the distribution, and @stdev is "
-"the standard deviation of the distribution.\n"
+"distribution, @mean is the arithmetic mean of the distribution, and @stdev "
+"is the standard deviation of the distribution.\n"
 "If @p < 0 or @p > 1 or @stdev <= 0 NORMINV returns #NUM! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -12874,9 +12921,10 @@ msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
 "@DESCRIPTION=KURT returns an unbiased estimate of the kurtosis of a data "
-"set.\nNote, that this is only meaningful is the underlying distribution "
-"really has a fourth moment.  The kurtosis is offset by three such that a "
-"normal distribution will have zero kurtosis.\n"
+"set.\n"
+"Note, that this is only meaningful is the underlying distribution really has "
+"a fourth moment.  The kurtosis is offset by three such that a normal "
+"distribution will have zero kurtosis.\n"
 "Strings and empty cells are simply ignored.\n"
 "If fewer than four numbers are given or all of them are equal KURT returns "
 "#DIV/0! error.\n"
@@ -12983,8 +13031,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
-"@DESCRIPTION=RSQ returns the square of the Pearson correlation coefficient of "
-"two data sets.\n"
+"@DESCRIPTION=RSQ returns the square of the Pearson correlation coefficient "
+"of two data sets.\n"
 "Strings and empty cells are simply ignored.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -13049,9 +13097,9 @@ msgid ""
 "@DESCRIPTION=PROB function returns the probability that values in a range or "
 "an array are between two limits. If @upper_limit is not given, PROB returns "
 "the probability that values in @x_range are equal to @lower_limit.\n"
-"If the sum of the probabilities in @prob_range is not equal to 1 PROB returns "
-"#NUM! error. If any value in @prob_range is <=0 or > 1, PROB returns #NUM! "
-"error. If @x_range and @prob_range contain a different number of data "
+"If the sum of the probabilities in @prob_range is not equal to 1 PROB "
+"returns #NUM! error. If any value in @prob_range is <=0 or > 1, PROB returns "
+"#NUM! error. If @x_range and @prob_range contain a different number of data "
 "entries, PROB returns #N/A! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -13063,8 +13111,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
-"@DESCRIPTION=STEYX function returns the standard error of the predicted "
-"y-value for each x in the regression.\n"
+"@DESCRIPTION=STEYX function returns the standard error of the predicted y-"
+"value for each x in the regression.\n"
 "If @known_y's and @known_x's are empty or have a different number of "
 "arguments then STEYX returns #N/A! error.\n"
 "This function is Excel compatible.\n"
@@ -13099,9 +13147,9 @@ msgid ""
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
 "@DESCRIPTION=AVERAGEA returns the average of the given arguments.  Numbers, "
 "text and logical values are included in the calculation too. If the cell "
-"contains text or the argument evaluates to FALSE, it is counted as value zero "
-"(0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that "
-"empty cells are not counted.\n"
+"contains text or the argument evaluates to FALSE, it is counted as value "
+"zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  "
+"Note that empty cells are not counted.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -13115,11 +13163,11 @@ msgstr ""
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
-"@DESCRIPTION=MAXA returns the largest value of the given arguments.  Numbers, "
-"text and logical values are included in the calculation too. If the cell "
-"contains text or the argument evaluates to FALSE, it is counted as value zero "
-"(0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that "
-"empty cells are not counted.\n"
+"@DESCRIPTION=MAXA returns the largest value of the given arguments.  "
+"Numbers, text and logical values are included in the calculation too. If the "
+"cell contains text or the argument evaluates to FALSE, it is counted as "
+"value zero (0).  If the argument evaluates to TRUE, it is counted as one "
+"(1).  Note that empty cells are not counted.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -13134,10 +13182,10 @@ msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
 "@DESCRIPTION=MINA returns the smallest value of the given arguments.  "
-"Numbers, text and logical values are included in the calculation, blank cells "
-"are not.  If the cell contains text or the argument evaluates to FALSE, it is "
-"counted as value zero (0).  If the argument evaluates to TRUE, it is counted "
-"as one (1).  Note that empty cells are not counted.\n"
+"Numbers, text and logical values are included in the calculation, blank "
+"cells are not.  If the cell contains text or the argument evaluates to "
+"FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, "
+"it is counted as one (1).  Note that empty cells are not counted.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -13152,10 +13200,10 @@ msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
 "@DESCRIPTION=VARA returns the variance based on a sample.  Numbers, text and "
-"logical values are included in the calculation too. If the cell contains text "
-"or the argument evaluates to FALSE, it is counted as value zero (0).  If the "
-"argument evaluates to TRUE, it is counted as one (1).  Note that empty cells "
-"are not counted.\n"
+"logical values are included in the calculation too. If the cell contains "
+"text or the argument evaluates to FALSE, it is counted as value zero (0).  "
+"If the argument evaluates to TRUE, it is counted as one (1).  Note that "
+"empty cells are not counted.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -13170,10 +13218,10 @@ msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
 "@DESCRIPTION=VARPA returns the variance based on the entire population.  "
-"Numbers, text and logical values are included in the calculation too.  If the "
-"cell contains text or the argument evaluates to FALSE, it is counted as value "
-"zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note "
-"that empty cells are not counted.\n"
+"Numbers, text and logical values are included in the calculation too.  If "
+"the cell contains text or the argument evaluates to FALSE, it is counted as "
+"value zero (0).  If the argument evaluates to TRUE, it is counted as one "
+"(1).  Note that empty cells are not counted.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -13188,10 +13236,10 @@ msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
 "@DESCRIPTION=STDEVA returns the standard deviation based on a sample. "
-"Numbers, text and logical values are included in the calculation too.  If the "
-"cell contains text or the argument evaluates to FALSE, it is counted as value "
-"zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note "
-"that empty cells are not counted.\n"
+"Numbers, text and logical values are included in the calculation too.  If "
+"the cell contains text or the argument evaluates to FALSE, it is counted as "
+"value zero (0).  If the argument evaluates to TRUE, it is counted as one "
+"(1).  Note that empty cells are not counted.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -13206,10 +13254,10 @@ msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
 "@DESCRIPTION=STDEVPA returns the standard deviation based on the entire "
-"population.  Numbers, text and logical values are included in the calculation "
-"too.  If the cell contains text or the argument evaluates to FALSE, it is "
-"counted as value zero (0).  If the argument evaluates to TRUE, it is counted "
-"as one (1).  Note that empty cells are not counted.\n"
+"population.  Numbers, text and logical values are included in the "
+"calculation too.  If the cell contains text or the argument evaluates to "
+"FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, "
+"it is counted as one (1).  Note that empty cells are not counted.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -13259,8 +13307,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
-"@DESCRIPTION=QUARTILE function returns the quartile of the given data points. "
-" \n"
+"@DESCRIPTION=QUARTILE function returns the quartile of the given data "
+"points.  \n"
 "If @quart is equal to: QUARTILE returns:\n"
 "0                      the smallest value of @array.\n"
 "1                      the first quartile\n"
@@ -13354,16 +13402,16 @@ msgid ""
 "y=mx+b is given in the first column and the y-intercept (b) in the second.\n"
 "If @known_y's and @known_x's have unequal number of data points, LINEST "
 "returns #NUM! error.\n"
-"If @const is FALSE, the line will be forced to go through the origin, i.e., b "
-"will be zero. The default is TRUE.\n"
+"If @const is FALSE, the line will be forced to go through the origin, i.e., "
+"b will be zero. The default is TRUE.\n"
 "If @stat is TRUE, extra statistical information will be returned. Extra "
-"statistical information is written bellow the regression line coefficients in "
-"the result array.  Extra statistical information consists of four rows of "
+"statistical information is written bellow the regression line coefficients "
+"in the result array.  Extra statistical information consists of four rows of "
 "data.  In the first row the standard error values for the coefficients m1, "
 "(m2, ...), b are represented.  The second row contains the square of R and "
-"the standard error for the y estimate.  The third row contains the F-observed "
-"value and the degrees of freedom.  The last row contains the regression sum "
-"of squares and the residual sum of squares. \n"
+"the standard error for the y estimate.  The third row contains the F-"
+"observed value and the degrees of freedom.  The last row contains the "
+"regression sum of squares and the residual sum of squares. \n"
 "The default of @stat is FALSE.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -13374,10 +13422,11 @@ msgstr ""
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
-"@DESCRIPTION=TREND function estimates future values of a given data set using "
-"the ``least squares'' line that best fit to your data. @known_y's is the "
-"y-values where y=mx+b and @known_x's contains the corresponding x-values.  "
-"@new_x's contains the x-values for which you want to estimate the y-values. \n"
+"@DESCRIPTION=TREND function estimates future values of a given data set "
+"using the ``least squares'' line that best fit to your data. @known_y's is "
+"the y-values where y=mx+b and @known_x's contains the corresponding x-"
+"values.  @new_x's contains the x-values for which you want to estimate the y-"
+"values. \n"
 "If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @new_x's is "
 "omitted, it is assumed to be the same as @known_x's. If @known_y's and "
 "@known_x's have unequal number of data points, TREND returns #NUM! error. \n"
@@ -13404,13 +13453,13 @@ msgid ""
 "If @const is FALSE, the line will be forced to go through (0,1),i.e., b will "
 "be one.  The default is TRUE.\n"
 "If @stat is TRUE, extra statistical information will be returned. Extra "
-"statistical information is written bellow the regression line coefficients in "
-"the result array.  Extra statistical information consists of four rows of "
+"statistical information is written bellow the regression line coefficients "
+"in the result array.  Extra statistical information consists of four rows of "
 "data.  In the first row the standard error values for the coefficients m1, "
 "(m2, ...), b are represented.  The second row contains the square of R and "
-"the standard error for the y estimate.  The third row contains the F-observed "
-"value and the degrees of freedom.  The last row contains the regression sum "
-"of squares and the residual sum of squares. \n"
+"the standard error for the y estimate.  The third row contains the F-"
+"observed value and the degrees of freedom.  The last row contains the "
+"regression sum of squares and the residual sum of squares. \n"
 "The default of @stat is FALSE.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -13430,8 +13479,8 @@ msgid ""
 "@new_x.\n"
 "If @known_y's and @known_x's have unequal number of data points, GROWTH "
 "returns #NUM! error.\n"
-"If @const is FALSE, the line will be forced to go through the origin, i.e., b "
-"will be zero. The default is TRUE.\n"
+"If @const is FALSE, the line will be forced to go through the origin, i.e., "
+"b will be zero. The default is TRUE.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
@@ -13441,9 +13490,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
-"@DESCRIPTION=FORECAST function estimates a future value according to existing "
-"values using simple linear regression.  The estimated future value is a "
-"y-value for a given x-value (@x). \n"
+"@DESCRIPTION=FORECAST function estimates a future value according to "
+"existing values using simple linear regression.  The estimated future value "
+"is a y-value for a given x-value (@x). \n"
 "If @known_x or @known_y contains no data entries or different number of data "
 "entries, FORECAST returns #N/A! error. If the variance of the @known_x is "
 "zero, FORECAST returns #DIV/0 error.\n"
@@ -13790,11 +13839,11 @@ msgstr ""
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
-"@DESCRIPTION=SEARCH returns the location of a character or text string within "
-"another string.  @text is the string or character to be searched. @within is "
-"the string in which you want to search.  @start_num is the start position of "
-"the search in @within.  If @start_num is omitted, it is assumed to be one.  "
-"The search is not case sensitive. \n"
+"@DESCRIPTION=SEARCH returns the location of a character or text string "
+"within another string.  @text is the string or character to be searched. "
+"@within is the string in which you want to search.  @start_num is the start "
+"position of the search in @within.  If @start_num is omitted, it is assumed "
+"to be one.  The search is not case sensitive. \n"
 "@text can contain wildcard characters (*) and question marks (?) to control "
 "the search.  A question mark matches with any character and wildcard matches "
 "with any string including empty string.  If you want the actual wildcard or "
@@ -13838,7 +13887,7 @@ msgstr "Formateazã ca orã"
 msgid "Format as alternative Number"
 msgstr "Formateazã ca numãr alternativ"
 
-#: src/gnumeric-canvas.c:503
+#: src/gnumeric-canvas.c:504
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Fiºierul \"%s\" are format necunoscut."
@@ -14155,8 +14204,7 @@ msgid "Enables some print debugging behavior"
 msgstr "Activeazã facilitãþi de depanare a tipãririi"
 
 #: src/main.c:101
-msgid ""
-"Exit immediately after loading the selected books (useful for testing)."
+msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Ieºire imediatã dupa ce s-au încãrcat registrele selectate (util pentru "
 "testare)"
@@ -14471,8 +14519,8 @@ msgstr "Nu pot obþine dimensiunea fiºierului."
 #, c-format
 msgid "File contain plugin info with invalid id (%s), expected %s."
 msgstr ""
-"Fiºierul conþine informaþii despre extensie cu un id invalid (%s), aºteptam "
-"%s."
+"Fiºierul conþine informaþii despre extensie cu un id invalid (%s), aºteptam %"
+"s."
 
 #: src/plugin.c:243
 msgid "Couldn't read plugin info from file."
@@ -14846,15 +14894,15 @@ msgstr "Lãþime bordurã"
 msgid "Transparent"
 msgstr "Transparent"
 
-#: src/sheet-object-widget.c:826
+#: src/sheet-object-widget.c:791
 msgid "Checkbox Configure"
 msgstr "Configurare buton de bifare"
 
-#: src/sheet-object-widget.c:839
+#: src/sheet-object-widget.c:804
 msgid "Cell :"
 msgstr "Celula:"
 
-#: src/sheet-object-widget.c:842
+#: src/sheet-object-widget.c:807
 msgid "Label :"
 msgstr "Etichetã:"
 
@@ -14874,23 +14922,23 @@ msgstr "nu pot opera pe celule combinate"
 msgid "cannot operate on array formulae"
 msgstr "nu pot opera pe formule cu ºiruri"
 
-#: src/sheet.c:3051
+#: src/sheet.c:3048
 msgid "Clear"
 msgstr "Goleºte"
 
-#: src/sheet.c:3457
+#: src/sheet.c:3454
 msgid "Insert Columns"
 msgstr "Insereazã coloane"
 
-#: src/sheet.c:3514
+#: src/sheet.c:3511
 msgid "Delete Columns"
 msgstr "ªterge coloane"
 
-#: src/sheet.c:3568
+#: src/sheet.c:3565
 msgid "Insert Rows"
 msgstr "Insereazã rânduri"
 
-#: src/sheet.c:3625
+#: src/sheet.c:3622
 msgid "Delete Rows"
 msgstr "ªterge rânduri"
 
@@ -15134,8 +15182,8 @@ msgstr ""
 #, c-format
 msgid "You entered an invalid row height value.  It must be bigger than %d"
 msgstr ""
-"Aþi introdus o valoare invalidã pentru înãlþimea rândului. Trebuie sã fie mai "
-"mare decât %d"
+"Aþi introdus o valoare invalidã pentru înãlþimea rândului. Trebuie sã fie "
+"mai mare decât %d"
 
 #: src/workbook-cmd-format.c:246
 #, c-format
@@ -15152,24 +15200,20 @@ msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
 #: src/workbook-control-gui.c:482
-msgid "Add another sheet"
-msgstr "Adaugã altã foaie"
-
-#: src/workbook-control-gui.c:483
-msgid "Remove this sheet"
-msgstr "Eliminã aceastã foaie"
+msgid "Duplicate this sheet"
+msgstr "Duplicã aceastã foaie"
 
 #: src/workbook-control-gui.c:484
 msgid "Rename this sheet"
 msgstr "Redenumeºte aceastã foaie"
 
 #: src/workbook-control-gui.c:485
-msgid "Duplicate this sheet"
-msgstr "Duplicã aceastã foaie"
-
-#: src/workbook-control-gui.c:486
 msgid "Re-order sheets"
 msgstr "Re-aranjeazã foile"
+
+#: src/workbook-control-gui.c:486
+msgid "Remove this sheet"
+msgstr "Eliminã aceastã foaie"
 
 #: src/workbook-control-gui.c:818 src/workbook-control-gui.c:876
 msgid "Nothing"
@@ -15179,13 +15223,13 @@ msgstr "nimic"
 msgid "Un_freeze Panes"
 msgstr "De_fixeazã panourile"
 
-#: src/workbook-control-gui.c:1030 src/workbook-control-gui.c:2999
-#: src/workbook-control-gui.c:3177 src/workbook-control-gui.c:3201
+#: src/workbook-control-gui.c:1030 src/workbook-control-gui.c:2987
+#: src/workbook-control-gui.c:3164 src/workbook-control-gui.c:3188
 msgid "Undo"
 msgstr "Anuleazã"
 
-#: src/workbook-control-gui.c:1031 src/workbook-control-gui.c:3002
-#: src/workbook-control-gui.c:3185 src/workbook-control-gui.c:3204
+#: src/workbook-control-gui.c:1031 src/workbook-control-gui.c:2990
+#: src/workbook-control-gui.c:3172 src/workbook-control-gui.c:3191
 msgid "Redo"
 msgstr "Refã"
 
@@ -15243,156 +15287,156 @@ msgstr "Insereazã rânduri"
 msgid "Insert columns"
 msgstr "Insereazã coloane"
 
-#: src/workbook-control-gui.c:2029
+#: src/workbook-control-gui.c:2226
+msgid "Show"
+msgstr "Afiºeazã"
+
+#: src/workbook-control-gui.c:2226
+msgid "Hide"
+msgstr "Ascunde"
+
+#: src/workbook-control-gui.c:2243
+msgid "can only be performed on an existing group"
+msgstr "poate fi efectuatã doar pe un grup existent"
+
+#: src/workbook-control-gui.c:2267
+msgid "Group"
+msgstr "Grupeazã"
+
+#: src/workbook-control-gui.c:2267
+msgid "Ungroup"
+msgstr "Degrupeazã"
+
+#: src/workbook-control-gui.c:2412
 msgid "Select an object to add"
 msgstr "Selecteazã un obiect de adãugat"
 
-#: src/workbook-control-gui.c:2040
+#: src/workbook-control-gui.c:2423
 #, c-format
 msgid "Unable to create object of type '%s'"
 msgstr "Nu am putut crea un obiect de tipul '%s'"
 
-#: src/workbook-control-gui.c:2261
-msgid "Show"
-msgstr "Afiºeazã"
-
-#: src/workbook-control-gui.c:2261
-msgid "Hide"
-msgstr "Ascunde"
-
-#: src/workbook-control-gui.c:2278
-msgid "can only be performed on an existing group"
-msgstr "poate fi efectuatã doar pe un grup existent"
-
-#: src/workbook-control-gui.c:2302
-msgid "Group"
-msgstr "Grupeazã"
-
-#: src/workbook-control-gui.c:2302
-msgid "Ungroup"
-msgstr "Degrupeazã"
-
-#: src/workbook-control-gui.c:2488
+#: src/workbook-control-gui.c:2476
 msgid "_Save..."
 msgstr "_Salveazã..."
 
-#: src/workbook-control-gui.c:2491
+#: src/workbook-control-gui.c:2479
 msgid "Save with a new name or format"
 msgstr "Salveazã sub un nou nume sau format"
 
-#: src/workbook-control-gui.c:2558
+#: src/workbook-control-gui.c:2546
 msgid "Select all the cells that depend on the current edit cell."
 msgstr "Selecteazã toate celulele care depind de celula editatã în mod curent."
 
-#: src/workbook-control-gui.c:2623
+#: src/workbook-control-gui.c:2611
 msgid "P_aste special..."
 msgstr "_Lipire specialã..."
 
-#: src/workbook-control-gui.c:2632
+#: src/workbook-control-gui.c:2620
 msgid "Remove selected cells, shifting other into their place"
 msgstr "Eliminã celulele selectate, deplasând altele în locul lor"
 
-#: src/workbook-control-gui.c:2683
+#: src/workbook-control-gui.c:2671
 msgid "Freeze the top left of the sheet"
 msgstr "Fixeazã partea din stânga sus a foii"
 
-#: src/workbook-control-gui.c:2706
+#: src/workbook-control-gui.c:2694
 msgid "_Define..."
 msgstr "_Defineºte..."
 
-#: src/workbook-control-gui.c:2711
+#: src/workbook-control-gui.c:2699
 msgid "_Auto generate names..."
 msgstr "Genereazã nume _automat..."
 
-#: src/workbook-control-gui.c:2712
+#: src/workbook-control-gui.c:2700
 msgid "Use the current selection to create names"
 msgstr "Utilizeazã selecþia curentã pentru a crea nume"
 
-#: src/workbook-control-gui.c:2784
+#: src/workbook-control-gui.c:2772
 msgid "_Change name"
 msgstr "_Modificã nume"
 
-#: src/workbook-control-gui.c:2811
+#: src/workbook-control-gui.c:2799
 msgid "Hide _Column Header"
 msgstr "Ascunde antentul de _coloanã"
 
-#: src/workbook-control-gui.c:2817
+#: src/workbook-control-gui.c:2805
 msgid "Hide _Row Header"
 msgstr "Ascunde antetul de _rând"
 
-#: src/workbook-control-gui.c:2849
+#: src/workbook-control-gui.c:2837
 msgid "Manage available plugin modules."
 msgstr "Gestioneazã modulele extensie disponibile."
 
-#: src/workbook-control-gui.c:2873
+#: src/workbook-control-gui.c:2861
 msgid "Statistical methods."
 msgstr "Metode statistice."
 
-#: src/workbook-control-gui.c:2886
+#: src/workbook-control-gui.c:2874
 msgid "_Group..."
 msgstr "_Groupeazã..."
 
-#: src/workbook-control-gui.c:2889
+#: src/workbook-control-gui.c:2877
 msgid "_Ungroup..."
 msgstr "_Degrupeazã..."
 
-#: src/workbook-control-gui.c:2927
+#: src/workbook-control-gui.c:2915
 msgid "_Sort"
 msgstr "_Sorteazã"
 
-#: src/workbook-control-gui.c:2928
+#: src/workbook-control-gui.c:2916
 msgid "Sorts the selected region."
 msgstr "Sorteazã regiunea selectatã."
 
-#: src/workbook-control-gui.c:2965
+#: src/workbook-control-gui.c:2953
 msgid "Creates a new workbook"
 msgstr "Creeazã un nou registru"
 
-#: src/workbook-control-gui.c:2968
+#: src/workbook-control-gui.c:2956
 msgid "Opens an existing workbook"
 msgstr "Deschide un registru existent"
 
-#: src/workbook-control-gui.c:2971
+#: src/workbook-control-gui.c:2959
 msgid "Saves the workbook"
 msgstr "Salveazã registrul"
 
-#: src/workbook-control-gui.c:2977
+#: src/workbook-control-gui.c:2965
 msgid "Prints the workbook"
 msgstr "Tipãreºte registrul"
 
-#: src/workbook-control-gui.c:2986
+#: src/workbook-control-gui.c:2974
 msgid "Cuts the selection to the clipboard"
 msgstr "Decupeazã selecþia în clipboard"
 
-#: src/workbook-control-gui.c:2989
+#: src/workbook-control-gui.c:2977
 msgid "Copies the selection to the clipboard"
 msgstr "Copiazã selecþia în clipboard"
 
-#: src/workbook-control-gui.c:2992
+#: src/workbook-control-gui.c:2980
 msgid "Pastes the clipboard"
 msgstr "Lipeºte conþinutul clipboard-ului"
 
-#: src/workbook-control-gui.c:2999
+#: src/workbook-control-gui.c:2987
 msgid "Undo the operation"
 msgstr "Anuleazã operaþia"
 
-#: src/workbook-control-gui.c:3002
+#: src/workbook-control-gui.c:2990
 msgid "Redo the operation"
 msgstr "Reface operaþia"
 
-#: src/workbook-control-gui.c:3012
+#: src/workbook-control-gui.c:3000
 msgid "Sum into the current cell."
 msgstr "Însumeazã în celula curentã."
 
-#: src/workbook-control-gui.c:3015
+#: src/workbook-control-gui.c:3003
 msgid "Function"
 msgstr "Funþie"
 
-#: src/workbook-control-gui.c:3015
+#: src/workbook-control-gui.c:3003
 msgid "Edit a function in the current cell."
 msgstr "Editeazã o funcþie în celula curentã."
 
-#: src/workbook-control-gui.c:3019
+#: src/workbook-control-gui.c:3007
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
@@ -15400,7 +15444,7 @@ msgstr ""
 "Sorteazã regiunea selectatã în ordine ascendentã bazatã peprima coloanã "
 "selectatã."
 
-#: src/workbook-control-gui.c:3022
+#: src/workbook-control-gui.c:3010
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
@@ -15408,11 +15452,11 @@ msgstr ""
 "Sorteazã regiunea selectatã în ordine descendentã bazatã peprima coloanã "
 "selectatã."
 
-#: src/workbook-control-gui.c:3944
+#: src/workbook-control-gui.c:3931
 msgid "Send"
 msgstr "Trimite"
 
-#: src/workbook-control-gui.c:3944
+#: src/workbook-control-gui.c:3931
 msgid "Send the current file in email"
 msgstr "Trimite fiºierul curent prin email"
 
@@ -15514,38 +15558,13 @@ msgstr "Centreazã peste selecþie"
 msgid "Money format"
 msgstr "Simbol monetar"
 
-#: src/workbook-format-toolbar.c:460
-msgid "Sets the format of the selected cells to monetary"
-msgstr "Seteazã formatul celulelor selectate la simbol monetar"
-
-#: src/workbook-format-toolbar.c:463
-msgid "Sets the format of the selected cells to percentage"
-msgstr "Seteazã formatul celulelor selectate la procent"
-
-#: src/workbook-format-toolbar.c:466
-msgid "Thousand separator"
-msgstr "Separator de mii"
-
-#: src/workbook-format-toolbar.c:466
-msgid "Sets the format of the selected cells to include a thousands separator"
-msgstr ""
-"Seteazã formatul celulelor selectate pentru a include separatorul de mii"
-
 #: src/workbook-format-toolbar.c:469
 msgid "Add decimals"
 msgstr "Adaugã zecimale"
 
-#: src/workbook-format-toolbar.c:469
-msgid "Increases the number of decimals displayed"
-msgstr "Mãreºte numãrul de zecimale afiºate"
-
 #: src/workbook-format-toolbar.c:472
 msgid "Remove decimals"
 msgstr "Eliminã zecimale"
-
-#: src/workbook-format-toolbar.c:472
-msgid "Decreases the number of decimals displayed"
-msgstr "Micºoreazã numãrul de zecimale afiºate"
 
 #: src/workbook-format-toolbar.c:535
 msgid "Set Foreground Color"
@@ -15737,6 +15756,27 @@ msgstr "Format fiºier XML Gnumeric"
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "Aplicaþia GNOME de calcul tabelar"
+
+#~ msgid "Microsoft(R) Excel"
+#~ msgstr "Microsoft(R) Excel"
+
+#~ msgid "Decrease the precision of the selected cells"
+#~ msgstr "Micºoreazã precizia celulelor selectate"
+
+#~ msgid "Format the selected cells as money"
+#~ msgstr "Formateazã celulele selectate ca simbol monetar"
+
+#~ msgid "Format the selected cells as percentages"
+#~ msgstr "Formateazã celulele selectate ca procente"
+
+#~ msgid "Includes a thousands separator in the selected cells"
+#~ msgstr "Include separatorul de mii în celulele selectate"
+
+#~ msgid "Increase the precision of the selected cells"
+#~ msgstr "Mãreºte precizia celulelor selectate"
+
+#~ msgid "Add another sheet"
+#~ msgstr "Adaugã altã foaie"
 
 #~ msgid "Finance"
 #~ msgstr "Financiar"
