@@ -470,7 +470,7 @@ GtkWidget *pref_font_initializer (PrefState *state, gpointer data,
 /*******************************************************************************************/
 
 static page_info_t page_info[] = {
-	{NULL, GNOME_STOCK_PIXMAP_TEXT_ITALIC, pref_font_initializer, pref_font_page_open, NULL},
+	{NULL, GTK_STOCK_ITALIC, pref_font_initializer, pref_font_page_open, NULL},
 	{NULL, GTK_STOCK_PREFERENCES, pref_tree_initializer, pref_tree_page_open, pref_tree_data},
 	{NULL, NULL, NULL, NULL, NULL},
 };

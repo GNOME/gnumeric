@@ -409,21 +409,21 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Bold"), N_("Sets the bold font"),
 		&cb_font_bold, NULL, NULL,
-		GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_BOLD,
+		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_BOLD,
 		'b', GDK_CONTROL_MASK
 	},
 
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Italic"), N_("Makes the font italic"),
 		&cb_font_italic, NULL, NULL,
-		GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_ITALIC,
+		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_ITALIC,
 		'i', GDK_CONTROL_MASK
 	},
 
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Underline"), N_("Underlines the font"),
 		&cb_font_underline, NULL, NULL,
-		GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TEXT_UNDERLINE,
+		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_UNDERLINE,
 		'u', GDK_CONTROL_MASK
 	},
 
@@ -432,15 +432,15 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Left align"), N_("Left justifies the cell contents"),
 		&cb_align_left, NULL, NULL,
-		GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_ALIGN_LEFT },
+		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_JUSTIFY_LEFT },
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Center"), N_("Centers the cell contents"),
 		&cb_align_center, NULL, NULL,
-		GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_ALIGN_CENTER },
+		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_JUSTIFY_CENTER },
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Right align"), N_("Right justifies the cell contents"),
 		&cb_align_right, NULL, NULL,
-		GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_ALIGN_RIGHT },
+		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_JUSTIFY_RIGHT },
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Center across selection"), N_("Center across selection"),
 		&cb_center_across_selection, NULL, NULL,

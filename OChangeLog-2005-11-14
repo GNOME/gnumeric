@@ -1,5 +1,13 @@
 2002-04-12  Jon K Hellan  <hellan@acm.org>
 
+	* src/workbook-format-toolbar.c: Replace Gnome stock pixmap names
+	with gtk synonym.
+
+	* src/item-cursor.c (item_cursor_popup_menu): Replace Gnome stock
+	copy pixmap name with gtk synonym.
+
+2002-04-12  Jon K Hellan  <hellan@acm.org>
+
 	* src/GNOME_Gnumeric.xml: Update to current pixmap names. Add
 	'preferences' command.
 

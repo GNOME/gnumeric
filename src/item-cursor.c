@@ -1018,7 +1018,7 @@ item_cursor_popup_menu (ItemCursor *ic, GdkEventButton *event)
 		{ N_("_Move"),		NULL,
 		    0, 0, ACTION_MOVE_CELLS },
 
-		{ N_("_Copy"),		GNOME_STOCK_PIXMAP_COPY,
+		{ N_("_Copy"),		GTK_STOCK_COPY,
 		    0, 0, ACTION_COPY_CELLS },
 
 		{ N_("Copy _Formats"),		NULL,

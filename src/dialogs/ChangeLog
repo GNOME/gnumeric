@@ -1,5 +1,10 @@
 2002-04-12  Jon K Hellan  <hellan@acm.org>
 
+	* dialog-preferences.c: Replace Gnome stock text/italic pixmap
+	name with gtk synonym.
+
+2002-04-12  Jon K Hellan  <hellan@acm.org>
+
 	* dialog-graph-guru.c: #ifdef out the lot for now.
 
 2002-04-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
