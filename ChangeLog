@@ -1,5 +1,8 @@
 2000-03-23  Jody Goldberg <jgoldberg@home.com>
 
+	* src/gnumeric-sheet.c (gnumeric_sheet_set_{left_col, top_row}) :
+	  Replace scrolling.
+
 	* src/item-grid.c (item_grid_find_row) : Add some old fixes that went
 	  into find_col but not find_row ??
 

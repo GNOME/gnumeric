@@ -1170,6 +1170,7 @@ gnumeric_sheet_bar_set_top_row (GnumericSheet *gsheet, int new_first_row)
 	    sheet_row_get_distance_pixels (sheet, gsheet->row.first, new_first_row);
 	gsheet->row.first = new_first_row;
 
+	/* Scroll the row headers */
 	gnome_canvas_get_scroll_offsets (rowc, &x, NULL);
 	gnome_canvas_scroll_to (rowc, x, row_distance);
 
@@ -1183,8 +1184,17 @@ gnumeric_sheet_set_top_row (GnumericSheet *gsheet, int new_first_row)
 	g_return_if_fail (0 <= new_first_row && new_first_row < SHEET_MAX_ROWS);
 
 	if (gsheet->row.first != new_first_row) {
-		gnumeric_sheet_bar_set_top_row (gsheet, new_first_row);
+		int tmp;
+		GnomeCanvas * const canvas =
+		    GNOME_CANVAS(gsheet);
+		int const distance =
+		    gnumeric_sheet_bar_set_top_row (gsheet, new_first_row);
+
 		gnumeric_sheet_compute_visible_ranges (gsheet, FALSE);
+
+		/* Scroll the cell canvas */
+		gnome_canvas_get_scroll_offsets (canvas, &tmp, NULL);
+		gnome_canvas_scroll_to (canvas, tmp, distance);
 	}
 }
 
@@ -1207,6 +1217,7 @@ gnumeric_sheet_bar_set_left_col (GnumericSheet *gsheet, int new_first_col)
 	    sheet_col_get_distance_pixels (sheet, gsheet->col.first, new_first_col);
 	gsheet->col.first = new_first_col;
 
+	/* Scroll the column headers */
 	gnome_canvas_get_scroll_offsets (colc, NULL, &y);
 	gnome_canvas_scroll_to (colc, col_distance, y);
 
@@ -1220,8 +1231,17 @@ gnumeric_sheet_set_left_col (GnumericSheet *gsheet, int new_first_col)
 	g_return_if_fail (0 <= new_first_col && new_first_col < SHEET_MAX_COLS);
 
 	if (gsheet->col.first != new_first_col) {
-		gnumeric_sheet_bar_set_left_col (gsheet, new_first_col);
+		int tmp;
+		GnomeCanvas * const canvas =
+		    GNOME_CANVAS(gsheet);
+		int const distance =
+		    gnumeric_sheet_bar_set_top_row (gsheet, new_first_col);
+
 		gnumeric_sheet_compute_visible_ranges (gsheet, FALSE);
+
+		/* Scroll the cell canvas */
+		gnome_canvas_get_scroll_offsets (canvas, &tmp, NULL);
+		gnome_canvas_scroll_to (canvas, tmp, distance);
 	}
 }
 
