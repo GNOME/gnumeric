@@ -1,3 +1,7 @@
+2003-10-29  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/stf.c (stf_init): csv means "... values"
+
 2003-10-29  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric.desktop.in : Add a new String 'Spreadsheet' to conform to

@@ -455,7 +455,7 @@ stf_init (void)
 {
 	gnm_file_opener_register (gnm_file_opener_new_with_enc (
 		"Gnumeric_stf:stf_csvtab",
-		_("Comma or tab separated files (CSV/TSV)"),
+		_("Comma or tab separated values (CSV/TSV)"),
 		csv_tsv_probe, stf_read_workbook_auto_csvtab), 0);
 	gnm_file_opener_register (gnm_file_opener_new_with_enc (
 		"Gnumeric_stf:stf_assistant",
@@ -467,6 +467,6 @@ stf_init (void)
 		FILE_FL_WRITE_ONLY, stf_write_workbook));
 	gnm_file_saver_register (gnm_file_saver_new (
 		"Gnumeric_stf:stf_csv", "csv",
-		_("Comma separated files (CSV)"),
+		_("Comma separated values (CSV)"),
 		FILE_FL_WRITE_ONLY, stf_write_csv));
 }
