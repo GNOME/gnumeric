@@ -800,7 +800,7 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update)
 		Range       *r  = &so->anchor.cell_bound;
 
 		next = ptr->next;
-		if (!update || !so->move_with_cells)
+		if (update && !so->move_with_cells)
 			continue;
 		if (range_contains (&rinfo->origin,
 				    r->start.col, r->start.row)) {

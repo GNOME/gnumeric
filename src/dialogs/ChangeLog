@@ -1,6 +1,6 @@
 2003-06-03  Jody Goldberg <jody@gnome.org>
 
-	* dialog-define-names.c (name_guru_add) : don't freak out with emoty
+	* dialog-define-names.c (name_guru_add) : don't freak out with empty
 	  names.
 
 2003-06-03  Jody Goldberg <jody@gnome.org>
