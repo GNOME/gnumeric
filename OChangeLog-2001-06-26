@@ -1,5 +1,10 @@
 2001-04-23  Morten Welinder  <terra@diku.dk>
 
+	* src/parse-util.c (gnumeric_char_start_expr_p): Handle initial
+ 	dash.  Also handle initial plus better.
+
+2001-04-23  Morten Welinder  <terra@diku.dk>
+
 	* src/xml-io.c (xml_read_style): Compare against right version.
 
 2001-04-23  Morten Welinder  <terra@diku.dk>

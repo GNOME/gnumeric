@@ -31,6 +31,7 @@
 #include "expr.h"
 #include "number-match.h"
 
+#include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -240,8 +241,19 @@ cellref_get (CellRef *out, const char *in, CellPos const *pos)
 char const *
 gnumeric_char_start_expr_p (char const * c)
 {
-	if ((*c == '=') || (*c == '@') || (*c == '+'))
-		return c+1;
+	if (*c == '=' || *c == '@')
+		return c + 1;
+
+	if (*c == '-' || *c == '+') {
+		char *end;
+
+		/* Careful.  We don't want numbers to be formulae.  */
+		errno = 0;
+		(void) strtod (c, &end);
+		if (errno || *end != 0 || end == c)
+			return (*c == '+') ? c + 1 : c;
+		/* Otherwise, it's a number.  */
+	}
 	return NULL;
 }
 
