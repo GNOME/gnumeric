@@ -634,7 +634,7 @@ templates/Makefile
 templates/english/Makefile
 templates/autoformat/Makefile
 macros/Makefile
-gnumeric.desktop
+gnumeric.desktop.in
 stamp.h
 ])
 

@@ -20,6 +20,7 @@ xltmain.sh
 gnumeric.keys
 gnumeric.spec
 gnumeric.desktop
+gnumeric.desktop.in
 gnumericConf.sh
 ID
 tags

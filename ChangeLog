@@ -1,3 +1,8 @@
+2001-05-31  Karl Eichwalder  <ke@suse.de>
+
+	* configure.in: Write gnome.desktop.in.
+	* .cvsignore: Add gnome.desktop.in.
+
 2001-05-31  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* workbook-view (wb_view_open_custom): Handle opener errors without
