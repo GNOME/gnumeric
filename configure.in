@@ -710,6 +710,7 @@ plugins/applix/Makefile
 plugins/psiconv/Makefile
 plugins/mps/Makefile
 plugins/sample_datasource/Makefile
+plugins/uihello/Makefile
 po/Makefile.in
 schemas/Makefile
 templates/Makefile

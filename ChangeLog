@@ -1,5 +1,12 @@
 2002-08-05  Zbigniew Chyla  <cyba@gnome.pl>
 
+	* configure.in (AC_OUTPUT): added plugins/uihello/Makefile
+
+	* plugins/Makefile.am (SUBDIRS_EXAMPLES):
+	moved $(GNOME_GLOSSARY_DIR) and $(PYFUNC_DIR) here, added uihello
+
+2002-08-05  Zbigniew Chyla  <cyba@gnome.pl>
+
 	* src/plugin-service.h
 	(PluginServiceUICallbacks, GNM_PLUGIN_SERVICE_UI_TYPE,
 	GNM_PLUGIN_SERVICE_UI, GNM_IS_PLUGIN_SERVICE_UI): New

@@ -43,16 +43,18 @@ PSICONV_DIR=
 endif
 
 SUBDIRS_FILE_FORMATS = excel lotus-123 oleo sc sylk xbase html dif qpro \
-	xml_sax applix mps $(GNOME_GLOSSARY_DIR) $(PSICONV_DIR)
+	xml_sax applix mps $(PSICONV_DIR)
 
 SUBDIRS_FUNCTIONS = numtheory fn-database fn-date fn-eng fn-financial fn-info \
 	fn-logical fn-complex fn-lookup fn-math fn-stat fn-string fn-random \
 	derivatives \
 	$(PYTHON_DIR) $(PERL_DIR) $(GUILE_DIR) $(GB_DIR) \
-	$(GDA_DIR) $(PYFUNC_DIR)
+	$(GDA_DIR)
 
 SUBDIRS_LOADERS = $(PYTHON_LOADER_DIR)
 
 SUBDIRS_DATA_SOURCES = sample_datasource
 
-SUBDIRS = $(SUBDIRS_FILE_FORMATS) $(SUBDIRS_FUNCTIONS) $(SUBDIRS_LOADERS) $(SUBDIRS_DATA_SOURCES)
+SUBDIRS_EXAMPLES = $(GNOME_GLOSSARY_DIR) $(PYFUNC_DIR) uihello
+
+SUBDIRS = $(SUBDIRS_FILE_FORMATS) $(SUBDIRS_FUNCTIONS) $(SUBDIRS_LOADERS) $(SUBDIRS_DATA_SOURCES) $(SUBDIRS_EXAMPLES)
