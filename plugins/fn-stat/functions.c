@@ -2571,7 +2571,7 @@ static char const *help_median = {
 	   "11.4, 17.3, 21.3, 25.9, and 40.1.  Then\n"
 	   "MEDIAN(A1:A5) equals 21.3.\n"
 	   "\n"
-           "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM")
+           "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SSMEDIAN,SUM")
 };
 
 static Value *
@@ -2584,6 +2584,107 @@ gnumeric_median (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
 				     GNM_ERROR_NUM);
+}
+
+/***************************************************************************/
+
+static char const *help_ssmedian = {
+	N_("@FUNCTION=SSMEDIAN\n"
+	   "@SYNTAX=SSMEDIAN(array,interval)\n"
+
+	   "@DESCRIPTION="
+	   "The SSMEDIAN function returns the median "
+	   "for grouped data as commonly determined in "
+	   "the social sciences. "
+	   "The data points given in @array are assumed to be the result of "
+	   "grouping data "
+	   "into intervals of length @interval\n"
+	   "\n"
+	   "* If @array is empty, SSMEDIAN returns #NUM! error.\n"
+	   "* If @interval <= 0, SSMEDIAN returns #NUM! error.\n"
+	   "* SSMEDIAN does not check whether the data points are "
+	   "at least @interval apart.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, A3 contain numbers "
+	   "7, 8, 8.  Then\n"
+	   "SSMEDIAN(A1:A3, 1) equals 7.75.\n"
+	   "\n"
+	   "@SEEALSO=MEDIAN")
+};
+
+static gnm_float
+gnumeric_ssmedian_calc (gnm_float *sorted_data, int len, gnm_float mid_val, 
+			 gnm_float interval)
+{
+	gnm_float L_lower = mid_val - interval / 2;
+	gnm_float L_upper = mid_val + interval / 2;
+	int f_below = 0;
+	int f_within = 0;
+	int i;
+
+	for (i=0; i<len; i++) {
+		if (*sorted_data < L_lower)
+			f_below++;
+		else if (*sorted_data <= L_upper)
+			f_within++;
+		else
+			break;
+		sorted_data++;
+	}
+
+	return L_lower + (len / 2e0 - f_below) * interval / f_within;
+}
+
+static Value *
+gnumeric_ssmedian (FunctionEvalInfo *ei, Value **argv)
+{
+	gnm_float *data;
+	Value *result = NULL;
+	int n;
+
+	data = collect_floats_value (argv[0], ei->pos,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS |
+				     COLLECT_IGNORE_BLANKS,
+				     &n, &result);
+	if (!result) {
+		gnm_float interval = value_get_as_float (argv[1]);
+
+		if (interval <= 0 || n == 0)
+			result = value_new_error_NUM (ei->pos);
+		else {
+			switch (n) {
+			case (1):
+				result = value_new_float (*data);
+				break;
+			case (2):
+				result = value_new_float 
+					((*data + *(data+1))/2);
+				break;
+			default:
+				qsort (data, n, sizeof (data[0]), (int (*) (const void *, const void *))&float_compare);
+				if ((n%2) == 0) {
+					result = (*(data + n/2) == *(data + n/2 - 1)) ?
+						value_new_float 
+						(gnumeric_ssmedian_calc 
+						 (data, n, *(data + n/2), 
+						  interval)) :
+						value_new_float 
+						((*(data + n/2) + *(data + n/2 - 1))
+						 /2);
+				} else {
+					result = value_new_float 
+						(gnumeric_ssmedian_calc 
+						 (data, n, *(data + n/2), 
+						  interval));
+				}
+			}
+		}
+	}
+
+	g_free (data);
+	return result;
 }
 
 /***************************************************************************/
@@ -5773,6 +5874,9 @@ const GnmFuncDescriptor stat_functions[] = {
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "standardize",  "fff",  N_("x,mean,stddev"),
 	  &help_standardize, gnumeric_standardize, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "ssmedian",   "Af",  N_("array,interval"),
+	  &help_ssmedian, gnumeric_ssmedian, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "stdev",        0,      N_("number,number,"),
 	  &help_stdev, NULL, gnumeric_stdev, NULL, NULL, NULL,

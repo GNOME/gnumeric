@@ -87,6 +87,7 @@
 				<function name="skewp"/>
 				<function name="slope"/>
 				<function name="small"/>
+				<function name="ssmedian"/>
 				<function name="standardize"/>
 				<function name="stdev"/>
 				<function name="stdeva"/>

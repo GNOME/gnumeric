@@ -1,3 +1,8 @@
+2003-06-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao.c (dao_prepare_output): add space and parentheses around
+	  sheet number to sheet name
+
 2003-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* analysis-tools.c (analysis_tool_regression_engine_run): set the 

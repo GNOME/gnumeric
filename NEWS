@@ -6,6 +6,8 @@ Andreas:
 	* Fix latex export of non-ascii charaters
 	* Allow latex export to use utf-8 if required
 	* Avoid duplicate regression tool error messages
+	* Added new function SSMEDIAN (social science median, or 
+          median for grouped data)
 
 Jean Brefort:
 	* Support image files in chart areas (background, bar/col or pie)

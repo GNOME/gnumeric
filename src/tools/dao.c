@@ -183,8 +183,10 @@ dao_prepare_output (WorkbookControl *wbc, data_analysis_output_t *dao,
 
 	if (dao->type == NewSheetOutput) {
 		Workbook *wb = wb_control_workbook (dao->wbc);
-		unique_name = workbook_sheet_get_free_name (wb, name, FALSE,
-							    FALSE);
+		char *name_with_counter = g_strdup_printf ("%s (1)", name);
+		unique_name = workbook_sheet_get_free_name 
+			(wb, name_with_counter, FALSE, TRUE);
+		g_free (name_with_counter);
 	        dao->sheet = sheet_new (wb, unique_name);
 		g_free (unique_name);
 		dao->start_col = dao->start_row = 0;
