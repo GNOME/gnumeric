@@ -1,3 +1,14 @@
+2001-01-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.c (cmd_autofill_redo) : check for array violations.
+	  Clear the target range.  This will allow entire arrays to be filled.
+	(cmd_autofill) : Use the area that we will be filling rather.  Excude
+	  the area that will not change.
+
+	* src/sheet.c (sheet_{col,row}_get_info) : simplify.
+
+	* src/selection.c (walk_boundaries) : don't walk into hidden cols/rows.
+
 2001-01-02  Jody Goldberg <jgoldberg@home.com>
 
 	* src/Makefile.am : add the new file.

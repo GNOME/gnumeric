@@ -1164,6 +1164,7 @@ walk_boundaries (Sheet const *sheet, Range const * const bound,
 		 gboolean const forward, gboolean const horizontal,
 		 gboolean const smart_merge, CellPos * const res)
 {
+	ColRowInfo const *cri;
 	int const step = forward ? 1 : -1;
 	CellPos pos = sheet->edit_pos_real;
 	Range const *merge = sheet_merge_is_corner (sheet, &sheet->edit_pos);
@@ -1201,6 +1202,14 @@ loop :
 		} else
 			pos.row += step;
 	}
+
+	cri = sheet_col_get (sheet, pos.col);
+	if (cri != NULL && !cri->visible)
+		goto loop;
+	cri = sheet_row_get (sheet, pos.row);
+	if (cri != NULL && !cri->visible)
+		goto loop;
+
 	if (smart_merge) {
 		merge = sheet_merge_contains_pos (sheet, &pos);
 		if (merge != NULL) {

@@ -2155,7 +2155,18 @@ cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->content == NULL, TRUE);
 
+	/* Check for array subdivision */
+	if (sheet_range_splits_array (me->dst.sheet, &me->dst.range)) {
+		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc), _("Autofill"));
+		return TRUE;
+	}
+
 	me->content = clipboard_copy_range (me->dst.sheet, &me->dst.range);
+	sheet_clear_region (wbc, me->dst.sheet,
+			    me->dst.range.start.col, me->dst.range.start.row,
+			    me->dst.range.end.col,   me->dst.range.end.row,
+			    CLEAR_VALUES | CLEAR_NOCHECKARRAY);
+
 	if (me->parent.size == 1)
 		me->parent.size += (g_list_length (me->content->list) +
 				    g_list_length (me->content->styles) +
@@ -2214,8 +2225,13 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 	me->dst.sheet = sheet;
 	me->dst.paste_flags = PASTE_CONTENT | PASTE_FORMATS;
 
-	/* FIXME : We can copy less than this */
-	range_init (&me->dst.range, base_col, base_row, end_col, end_row);
+	if (end_col != base_col + w - 1)
+		range_init (&me->dst.range, base_col + w, base_row,
+			    end_col, end_row);
+	else
+		range_init (&me->dst.range, base_col, base_row + h,
+			    end_col, end_row);
+
 	me->base_col = base_col;
 	me->base_row = base_row,
 	me->w = w;

@@ -5,6 +5,14 @@ and longer term bugs.
 Release Critical
 ----------------
 
+- Merged Cells
+    - copy/paste (cut works)
+    - fix undo ins/del row/col to restore lost merged regions
+    - fill range should not put entries in
+    - autofill should not fill in the invisible areas.
+
+- the selection cursor is confused by making selection via the item-bars
+
 Long term breakage
 ------------------
 
@@ -95,10 +103,6 @@ STF - pasting a single line should not invoke the importer
 		  types that can be rubber banded directly.
 		: Add acetate_create virtual to handle shaped objects.
 - Other anchor types for sheet objects
-
-- Merged Cells
-    - copy/paste (cut works)
-    - fix undo ins/del row/col to restore lost merged regions
 
 Dialogs
 -------
