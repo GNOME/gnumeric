@@ -2,6 +2,8 @@ Gnumeric 1.0.3
 
 Andreas:
 	* Redo  COUP_ functions one more time, ignoring XL.
+	* Fix expression entry widget
+	* Preload selections in analysis tools
 
 Jody:
 	* Enable Add/Delete Series for Graph Guru.
