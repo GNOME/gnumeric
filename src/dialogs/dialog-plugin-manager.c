@@ -463,15 +463,25 @@ free_plugin_id (gpointer data)
 	g_free (data);
 }
 
+static gint
+plugin_compare_name (gconstpointer a, gconstpointer b)
+{
+	PluginInfo *plugin_a = (PluginInfo *) a, *plugin_b = (PluginInfo *) b;
+
+	return strcoll (plugin_info_peek_name (plugin_a),
+	                plugin_info_peek_name (plugin_b));
+}
+
 static void
 update_plugin_manager_view (PluginManagerGUI *pm_gui)
 {
-	GList *plugin_list, *l;
+	GList *plugin_list, *sorted_plugin_list, *l;
 	ErrorInfo *ignored_error;
 	gint n_active_plugins, n_inactive_plugins;
 
 	plugin_list = plugin_db_get_available_plugin_info_list (&ignored_error);
 	error_info_free (ignored_error);
+	sorted_plugin_list = g_list_sort (g_list_copy (plugin_list), &plugin_compare_name);
 
 	gtk_clist_freeze (pm_gui->clist_active);
 	gtk_clist_freeze (pm_gui->clist_inactive);
@@ -479,7 +489,7 @@ update_plugin_manager_view (PluginManagerGUI *pm_gui)
 	gtk_clist_clear (pm_gui->clist_inactive);
 	n_active_plugins = 0;
 	n_inactive_plugins = 0;
-	for (l = plugin_list; l != NULL; l = l->next) {
+	for (l = sorted_plugin_list; l != NULL; l = l->next) {
 		PluginInfo *pinfo;
 		GtkCList *clist;
 		gchar *cols[] = {NULL};
@@ -518,6 +528,8 @@ update_plugin_manager_view (PluginManagerGUI *pm_gui)
 	}
 	gtk_clist_thaw (pm_gui->clist_active);
 	gtk_clist_thaw (pm_gui->clist_inactive);
+
+	g_list_free (sorted_plugin_list);
 
 	g_free (pm_gui->current_plugin_id);
 	pm_gui->current_plugin_id = NULL;

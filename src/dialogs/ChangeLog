@@ -1,3 +1,9 @@
+2001-03-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* dialog-plugin-manager.c
+	(plugin_compare_name): New function
+	(update_plugin_manager_view): Sorting plugin list.
+
 2001-03-18  Almer S. Tigelaar  <almer@gnome.org>
 
 	* validate.glade : Polish.
