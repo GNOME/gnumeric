@@ -374,6 +374,7 @@ gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 	char *test;
 	Rangesel *rs;
 	gboolean single = (gee->flags & (GNUM_EE_SINGLE_RANGE != 0));
+	gboolean last_was_alnum = FALSE;
 
 	rs = &gee->rangesel;
 	text = gtk_entry_get_text (gee->entry);
@@ -385,13 +386,23 @@ gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 	if (text == NULL)
 		return;
 
-	for (start = 0; start <= cursor; start++) {
-		for (end = last; end >= cursor; end--) {
+	for (start = 0;
+	     start <= cursor;
+	     start = g_utf8_next_char (text + start) - text) {
+		gboolean is_alnum = g_unichar_isalnum (g_utf8_get_char (text + start));
+		if (last_was_alnum && is_alnum)
+			continue;
+		last_was_alnum = is_alnum;
+
+		for (end = last;
+		     end >= cursor;
+		     end = g_utf8_prev_char (text + end) - text) {
 			GSList *ranges;
 
 			test = g_strndup (text + start, end - start);
+			g_warning ("Parsing [%s]", test);
 			ranges = global_range_list_parse (gee->target_sheet, test);
-			g_free(test);
+			g_free (test);
 
 			if (ranges != NULL) {
 				if ((ranges->next == NULL) || single) {
