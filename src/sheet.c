@@ -2907,7 +2907,6 @@ sheet_destroy (Sheet *sheet)
 
 	sheet_deps_destroy (sheet);
 	sheet_destroy_contents (sheet);
-	sheet->names = expr_name_list_destroy (sheet->names);
 
 	if (sheet->list_merged != NULL) {
 		g_warning ("Merged list should be NULL");

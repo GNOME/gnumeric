@@ -12,14 +12,13 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include <glib.h>
-#include <libole2/ms-ole.h>
-#include <gsf/gsf-input.h>
 
 #include "ms-biff.h"
 #include "biff-types.h"
 
-#include <stdio.h>
+#include <libole2/ms-ole.h>
+#include <gsf/gsf-input.h>
+#include <gsf/gsf-utils.h>
 
 #define BIFF_DEBUG 0
 
@@ -36,7 +35,7 @@
 void
 dump_biff (BiffQuery *q)
 {
-	printf ("Opcode 0x%x length %d malloced? %d\nData:\n", q->opcode, q->length, q->data_malloced);
+	g_print ("Opcode 0x%x length %d malloced? %d\nData:\n", q->opcode, q->length, q->data_malloced);
 	if (q->length > 0)
 		ms_ole_dump (q->data, q->length);
 /*	dump_stream (q->pos); */
@@ -268,7 +267,7 @@ ms_biff_query_peek_next (BiffQuery *q, guint16 *opcode)
 	data = gsf_input_read (q->input, 2, NULL);
 	if (data == NULL)
 		return FALSE;
-	*opcode = MS_OLE_GET_GUINT16 (data);
+	*opcode = GSF_LE_GET_GUINT16 (data);
 
 	gsf_input_seek (q->input, -2, GSF_SEEK_CUR);
 
@@ -304,8 +303,8 @@ ms_biff_query_next (BiffQuery *q)
 	data = gsf_input_read (q->input, 4, NULL);
 	if (data == NULL)
 		return FALSE;
-	q->opcode = MS_OLE_GET_GUINT16 (data);
-	q->length = MS_OLE_GET_GUINT16 (data + 2);
+	q->opcode = GSF_LE_GET_GUINT16 (data);
+	q->length = GSF_LE_GET_GUINT16 (data + 2);
 	q->ms_op  = (q->opcode>>8);
 	q->ls_op  = (q->opcode&0xff);
 

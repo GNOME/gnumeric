@@ -288,7 +288,7 @@ gnum_file_saver_save_to_stream_real (GnumFileSaver const *fs,
 			value_io_progress_set (io_context, sbuf.st_size, FILE_COPY_CHUNK_SIZE);
 			offset = 0;
 			while (1) {
-				gchar buf[FILE_COPY_CHUNK_SIZE];
+				guchar buf[FILE_COPY_CHUNK_SIZE];
 				gint read_bytes;
 
 				value_io_progress_update (io_context, offset);

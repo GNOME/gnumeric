@@ -312,7 +312,7 @@ cb_format_as_percent (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 static void
 cb_format_with_thousands (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
-	apply_number_format (wbcg, cell_formats [FMT_NUMBER][2],
+	apply_number_format (wbcg, cell_formats [FMT_ACCOUNT][3],
 			     _("Format with thousands separator"));
 }
 

@@ -369,13 +369,13 @@ lookup_font_base_char_width_new (char const * const name, double size_pts,
 
 
 #ifdef HAVE_ICONV
-static char *
+static char const *
 get_locale_charset_name (void)
 {
 	const char *ccharset;
-	static char* charset = NULL;
+	static char const * charset = NULL;
 
-	if (charset)
+	if (charset != NULL)
 		return charset;
 
 #ifdef _NL_CTYPE_CODESET_NAME
@@ -384,16 +384,15 @@ get_locale_charset_name (void)
 	ccharset = nl_langinfo (CODESET);
 #else
 	{
-		const char *locale = setlocale (LC_CTYPE, NULL);
-		const char *tmp = strchr (locale, '.');
-		if (tmp)
-			ccharset = tmp + 1;
+		char const *locale = setlocale (LC_CTYPE, NULL);
+		if (locale != NULL) {
+			const char *tmp = strchr (locale, '.');
+			if (tmp != NULL)
+				ccharset = tmp + 1;
+		}
 	}
 #endif
-	if (!ccharset)
-		ccharset = "ISO-8859-1";
-	charset = g_strdup (ccharset);
-	return charset;
+	return (charset = (charset != NULL) ? g_strdup (charset) : "ISO-8859-1");
 }
 #endif
 
@@ -406,12 +405,40 @@ typedef struct
 /* here is a list of languages for which cp1251 is used on Windows*/
 static char const * const cyr_locales[] =
 {
-	"russian", "ru", "be", "uk", "ukrainian", NULL
+	"be", "be_BY", "bulgarian", "bg", "bg_BG", "mk", "mk_MK",
+	"russian", "ru", "ru_RU", "ru_UA", "sp", "sp_YU", "sr", "sr_YU",
+	"ukrainian", "uk", "uk_UA", NULL
 };
 
+
+/* here is a list of languages for which cp for cjk is used on Windows*/
+static char const * const jp_locales[] =
+{
+	"japan", "japanese", "ja", "ja_JP", NULL
+};
+
+static char const * const zhs_locales[] =
+{
+	"chinese-s", "zh", "zh_CN", NULL
+};
+
+static char const * const kr_locales[] =
+{
+	"korean", "ko", "ko_KR", NULL
+};
+
+static char const * const zht_locales[] =
+{
+	"chinese-t", "zh_HK", "zh_TW", NULL
+ };
+ 
 static s_hash_entry const win_codepages[]=
 {
 	{ cyr_locales , 1251 },
+	{ jp_locales  , 932 },
+	{ zhs_locales , 936 },
+	{ kr_locales  , 949 },
+	{ zht_locales , 950 },
 	{ NULL } /*terminator*/
 };
 
@@ -425,11 +452,13 @@ excel_iconv_win_codepage (void)
 
 		if ((lang = getenv("WINDOWS_LANGUAGE")) == NULL) {
 			char const *locale = setlocale (LC_CTYPE, NULL);
-			char const *lang_sep = strchr (locale, '_');
-			if (lang_sep)
-				lang = g_strndup (locale, lang_sep - locale);
-			else
-				lang = g_strdup (locale); /* simplifies exit */
+			if (locale != NULL) {
+				char const *lang_sep = strchr (locale, '.');
+				if (lang_sep)
+				    lang = g_strndup (locale, lang_sep - locale);
+				else
+				    lang = g_strdup (locale); /* simplifies exit */
+			}
 		}
 
 		if (lang != NULL) {

@@ -31,7 +31,9 @@ enum {
 	PASTE_IGNORE_COMMENTS   = 1 << 12,
 
 	/* Update the row height when pasting? (for large fonts, etc.) */
-	PASTE_UPDATE_ROW_HEIGHT = 1 << 13
+	PASTE_UPDATE_ROW_HEIGHT = 1 << 13,
+
+	PASTE_EXPR_LOCAL_RELOCATE = 1 << 14
 };
 
 #define PASTE_ALL_TYPES (PASTE_CONTENT | PASTE_FORMATS | PASTE_COMMENTS)

@@ -2125,23 +2125,25 @@ cb_view_new_unshared (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_insert_current_date (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	Value *v = value_new_int (datetime_timet_to_serial (time (NULL)));
-	char *txt = format_value (style_format_default_date (), v, NULL, -1);
-	value_release (v);
-	wbcg_edit_start (wbcg, FALSE, FALSE);
-	wbcg_edit_line_set (WORKBOOK_CONTROL (wbcg), txt);
-	g_free (txt);
+	if (wbcg_edit_start (wbcg, FALSE, FALSE)) {
+		Value *v = value_new_int (datetime_timet_to_serial (time (NULL)));
+		char *txt = format_value (style_format_default_date (), v, NULL, -1);
+		value_release (v);
+		wbcg_edit_line_set (WORKBOOK_CONTROL (wbcg), txt);
+		g_free (txt);
+	}
 }
 
 static void
 cb_insert_current_time (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	Value *v = value_new_float (datetime_timet_to_seconds (time (NULL)) / (24.0 * 60 * 60));
-	char *txt = format_value (style_format_default_time (), v, NULL, -1);
-	value_release (v);
-	wbcg_edit_start (wbcg, FALSE, FALSE);
-	wbcg_edit_line_set (WORKBOOK_CONTROL (wbcg), txt);
-	g_free (txt);
+	if (wbcg_edit_start (wbcg, FALSE, FALSE)) {
+		Value *v = value_new_float (datetime_timet_to_seconds (time (NULL)) / (24.0 * 60 * 60));
+		char *txt = format_value (style_format_default_time (), v, NULL, -1);
+		value_release (v);
+		wbcg_edit_line_set (WORKBOOK_CONTROL (wbcg), txt);
+		g_free (txt);
+	}
 }
 
 static void
@@ -2907,15 +2909,15 @@ static GnomeUIInfo workbook_menu_edit_select [] = {
 	  cb_edit_select_all, NULL,
 	  NULL, 0, 0, 'a', GDK_CONTROL_MASK },
 
-	{ GNOME_APP_UI_ITEM, N_("Select _Row"),
-	  N_("Select an entire row"),
-	  cb_edit_select_row, NULL,
-	  NULL, 0, 0, ' ', GDK_MOD1_MASK },
-
 	{ GNOME_APP_UI_ITEM, N_("Select _Column"),
 	  N_("Select an entire column"),
 	  cb_edit_select_col, NULL,
 	  NULL, 0, 0, ' ', GDK_CONTROL_MASK },
+
+	{ GNOME_APP_UI_ITEM, N_("Select _Row"),
+	  N_("Select an entire row"),
+	  cb_edit_select_row, NULL,
+	  NULL, 0, 0, ' ', GDK_MOD1_MASK },
 
 	{ GNOME_APP_UI_ITEM, N_("Select Arra_y"),
 	  N_("Select an array of cells"),
@@ -3259,7 +3261,7 @@ static GnomeUIInfo workbook_menu_tools_two_means [] = {
 		cb_tools_ttest_unequal_var),
 
 	GNOMEUIINFO_ITEM_NONE (N_("_Known Variances or Large Sample: Z-Test"),
-		N_("Comparing two population means from pop. with known varinces "
+		N_("Comparing two population means from pop. with known variances "
 		   "or using a large sample: z- test"),
 		cb_tools_ztest),
 

@@ -1608,13 +1608,9 @@ cb_dep_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 
 
 static void
-cb_name_invalidate_sheet (gpointer key, gpointer value, gpointer rwinfo)
+cb_name_invalidate (gpointer nexpr, gpointer value, gpointer rwinfo)
 {
-	GnmNamedExpr *nexpr = key;
-	GnmExpr const *new_expr = gnm_expr_rewrite (nexpr->t.expr_tree, rwinfo);
-	g_return_if_fail (new_expr != NULL);
-	expr_name_set_expr (nexpr, new_expr);
-	gnm_expr_unref (new_expr);
+	expr_name_set_expr (nexpr, NULL, rwinfo);
 }
 
 /*
@@ -1673,7 +1669,7 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 
 	if (deps->names) {
 		g_hash_table_foreach (deps->names,
-			cb_name_invalidate_sheet, (gpointer)rwinfo);
+			cb_name_invalidate, (gpointer)rwinfo);
 		g_hash_table_destroy (deps->names);
 		deps->names = NULL;
 	}

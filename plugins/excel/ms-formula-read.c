@@ -24,10 +24,8 @@
 #include <sheet.h>
 #include <workbook.h>
 
-#include <fcntl.h>
-#include <assert.h>
-#include <stdio.h>
 #include <libgnome/gnome-i18n.h>
+#include <gsf/gsf-utils.h>
 
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "gnumeric:read_expr"
@@ -746,7 +744,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 
 	while (len_left > 0 && !error) {
 		int ptg_length = 0;
-		int ptg = MS_OLE_GET_GUINT8 (cur-1);
+		int ptg = GSF_LE_GET_GUINT8 (cur-1);
 		int ptgbase = ((ptg & 0x40) ? (ptg | 0x20): ptg) & 0x3F;
 		if (ptg > FORMULA_PTG_MAX)
 			break;
@@ -765,8 +763,8 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			BiffSharedFormula *sf;
 			CellPos top_left;
 
-			top_left.row = MS_OLE_GET_GUINT16 (cur+0);
-			top_left.col = MS_OLE_GET_GUINT16 (cur+2);
+			top_left.row = GSF_LE_GET_GUINT16 (cur+0);
+			top_left.col = GSF_LE_GET_GUINT16 (cur+2);
 			sf = ms_excel_sheet_shared_formula (esheet, &top_left);
 
 			if (sf == NULL) {
@@ -841,8 +839,8 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			break;
 
 		case FORMULA_PTG_ATTR : { /* FIXME: not fully implemented */
-			guint8  grbit = MS_OLE_GET_GUINT8(cur);
-			guint16 w     = MS_OLE_GET_GUINT16(cur+1);
+			guint8  grbit = GSF_LE_GET_GUINT8(cur);
+			guint16 w     = GSF_LE_GET_GUINT16(cur+1);
 			ptg_length = 3;
 			if (grbit == 0x00) {
 				static gboolean warned_a = FALSE;
@@ -895,8 +893,8 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 				}
 #endif
 				for (lp=0;lp<w;lp++) { /* w = wCases */
-					offset= MS_OLE_GET_GUINT16(data);
-					len = MS_OLE_GET_GUINT16(data+2) - offset;
+					offset= GSF_LE_GET_GUINT16(data);
+					len = GSF_LE_GET_GUINT16(data+2) - offset;
 #ifndef NO_DEBUG_EXCEL
 					if (ms_excel_formula_debug > 1) {
 						printf ("Get from %d len %d [ = 0x%x ]\n",
@@ -909,7 +907,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 					data += 2;
 					parse_list_push (&stack, tr);
 				}
-				ptg_length+=MS_OLE_GET_GUINT16(data);
+				ptg_length+=GSF_LE_GET_GUINT16(data);
 			} else if (grbit & 0x08) { /* AttrGoto */
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_formula_debug > 2) {
@@ -926,8 +924,8 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 					puts ("Error in optimised SUM");
 				}
 			} else if (grbit & 0x40) { /* AttrSpace */
-				guint8 num_space = MS_OLE_GET_GUINT8(cur+2);
-				guint8 attrs     = MS_OLE_GET_GUINT8(cur+1);
+				guint8 num_space = GSF_LE_GET_GUINT8(cur+2);
+				guint8 attrs     = GSF_LE_GET_GUINT8(cur+1);
 				if (attrs == 00) /* bitFSpace : ignore it */
 				/* Could perhaps pop top arg & append space ? */;
 				else
@@ -950,7 +948,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			guint8 err_num;
 			const char *errtxt;
 
-			err_num = MS_OLE_GET_GUINT8 (cur);
+			err_num = GSF_LE_GET_GUINT8 (cur);
 			if (err_num == 0x17) { /* Magic 'Addin Name' error number */
 				parse_list_free (&stack);
 				return NULL;   /* To tell name stuff */
@@ -961,13 +959,13 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			break;
 		}
 		case FORMULA_PTG_INT: {
-			guint16 num = MS_OLE_GET_GUINT16(cur);
+			guint16 num = GSF_LE_GET_GUINT16(cur);
 			parse_list_push_raw (&stack, value_new_int (num));
 			ptg_length = 2;
 			break;
 		}
 		case FORMULA_PTG_BOOL:
-			parse_list_push_raw (&stack, value_new_bool (MS_OLE_GET_GUINT8(cur)));
+			parse_list_push_raw (&stack, value_new_bool (GSF_LE_GET_GUINT8(cur)));
 			ptg_length = 1;
 			break;
 
@@ -982,13 +980,13 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			guint32 len;
 /*			ms_ole_dump (mem, length);*/
 			if (ver >= MS_BIFF_V8) {
-				str = biff_get_text (cur+2, MS_OLE_GET_GUINT16(cur), &len);
+				str = biff_get_text (cur+2, GSF_LE_GET_GUINT16(cur), &len);
 				ptg_length = 2 + len;
 #if 0
 				printf ("v8+ PTG_STR '%s'\n", str);
 #endif
 			} else {
-				str = biff_get_text (cur+1, MS_OLE_GET_GUINT8(cur), &len);
+				str = biff_get_text (cur+1, GSF_LE_GET_GUINT8(cur), &len);
 				ptg_length = 1 + len;
 #if 0
 				printf ("<v7 PTG_STR '%s' len %d ptglen %d\n", str, len, ptg_length);
@@ -1042,7 +1040,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 				/* 0x1d */ 4,  /* eptgSxName, No, Value */
 				/* 0x1e */ 0   /* Reserved */
 			};
-			guint8 const eptg_type = MS_OLE_GET_GUINT8(cur);
+			guint8 const eptg_type = GSF_LE_GET_GUINT8(cur);
 			if (eptg_type >= sizeof(extended_ptg_size)/sizeof(int))
 			{
 				g_warning ("EXCEL : unknown ePtg type %02x",
@@ -1077,8 +1075,8 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 				CellRef ref;
 
 				getRefV8 (&ref,
-					  MS_OLE_GET_GUINT16(cur + 1),
-					  MS_OLE_GET_GUINT16(cur + 3),
+					  GSF_LE_GET_GUINT16(cur + 1),
+					  GSF_LE_GET_GUINT16(cur + 3),
 					  fn_col, fn_row, shared);
 
 				if (eptg_type == 0x07) { /* Column */
@@ -1105,8 +1103,8 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 
 		case FORMULA_PTG_ARRAY : {
 			/* NB. the spec. is wrong here, these are zero offset */
-			guint32 const cols=MS_OLE_GET_GUINT8(array_data)+1;
-			guint32 const rows=MS_OLE_GET_GUINT16(array_data+1)+1;
+			guint32 const cols=GSF_LE_GET_GUINT8(array_data)+1;
+			guint32 const rows=GSF_LE_GET_GUINT16(array_data+1)+1;
 			guint16 lpx,lpy;
 			Value *v = value_new_array (cols, rows);
 			ptg_length = 7;
@@ -1122,7 +1120,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			for (lpy = 0; lpy < rows; lpy++) {
 				for (lpx = 0; lpx < cols; lpx++) {
 					Value *set_val = 0;
-					guint8 opts = MS_OLE_GET_GUINT8(array_data);
+					guint8 opts = GSF_LE_GET_GUINT8(array_data);
 #ifndef NO_DEBUG_EXCEL
 					if (ms_excel_formula_debug > 0) {
 						printf ("Opts 0x%x\n", opts);
@@ -1138,12 +1136,12 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 
 						if (ver >= MS_BIFF_V8) { /* Cunningly not mentioned in spec. ! */
 							str = biff_get_text (array_data+3,
-									     MS_OLE_GET_GUINT16(array_data+1),
+									     GSF_LE_GET_GUINT16(array_data+1),
 									     &len);
 							array_data+=len+3;
 						} else {
 							str = biff_get_text (array_data+2,
-									     MS_OLE_GET_GUINT8(array_data+1),
+									     GSF_LE_GET_GUINT8(array_data+1),
 									     &len);
 							array_data+=len+2;
 						}
@@ -1174,7 +1172,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 		}
 
 		case FORMULA_PTG_FUNC:
-			if (!make_function (&stack, MS_OLE_GET_GUINT16(cur), -1)) {
+			if (!make_function (&stack, GSF_LE_GET_GUINT16(cur), -1)) {
 				error = TRUE;
 				puts ("error making func");
 			}
@@ -1182,14 +1180,14 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			break;
 
 		case FORMULA_PTG_FUNC_VAR: {
-			int const numargs = (MS_OLE_GET_GUINT8( cur ) & 0x7f);
+			int const numargs = (GSF_LE_GET_GUINT8( cur ) & 0x7f);
 			/* index into fn table */
-			int const iftab   = (MS_OLE_GET_GUINT16(cur+1) & 0x7fff);
+			int const iftab   = (GSF_LE_GET_GUINT16(cur+1) & 0x7fff);
 #if 0
 			/* Prompts the user ?  */
-			int const prompt  = (MS_OLE_GET_GUINT8( cur ) & 0x80);
+			int const prompt  = (GSF_LE_GET_GUINT8( cur ) & 0x80);
 			/* is a command equiv.?*/
-			int const cmdquiv = (MS_OLE_GET_GUINT16(cur+1) & 0x8000);
+			int const cmdquiv = (GSF_LE_GET_GUINT16(cur+1) & 0x8000);
 #endif
 
 			if (!make_function (&stack, iftab, numargs)) {
@@ -1204,10 +1202,10 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			gint32 name_idx; /* 1 based */
 
 			if (ver >= MS_BIFF_V8) {
-				name_idx = MS_OLE_GET_GUINT16 (cur) - 1;
+				name_idx = GSF_LE_GET_GUINT16 (cur) - 1;
 				ptg_length = 4;  /* Docs are wrong, no ixti */
 			} else {
-				name_idx = MS_OLE_GET_GUINT16 (cur) - 1;
+				name_idx = GSF_LE_GET_GUINT16 (cur) - 1;
 				ptg_length = 14;
 			}
 			if (name_idx < 0)
@@ -1223,7 +1221,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 #if 0
 		case FORMULA_PTG_MEM_FUNC:
 			/* Can I just ignore this ? */
-			ptg_length = 2 + MS_OLE_GET_GUINT16 (cur);
+			ptg_length = 2 + GSF_LE_GET_GUINT16 (cur);
 			break;
 #endif
 
@@ -1241,14 +1239,14 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			CellRef ref;
 			if (ver >= MS_BIFF_V8) {
 				getRefV8 (&ref,
-					  MS_OLE_GET_GUINT16(cur),
-					  MS_OLE_GET_GUINT16(cur + 2),
+					  GSF_LE_GET_GUINT16(cur),
+					  GSF_LE_GET_GUINT16(cur + 2),
 					  fn_col, fn_row, shared);
 				ptg_length = 4;
 			} else {
 				getRefV7 (&ref,
-					  MS_OLE_GET_GUINT8(cur+2),
-					  MS_OLE_GET_GUINT16(cur),
+					  GSF_LE_GET_GUINT8(cur+2),
+					  GSF_LE_GET_GUINT16(cur),
 					  fn_col, fn_row, shared);
 				ptg_length = 3;
 			}
@@ -1260,22 +1258,22 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			CellRef first, last;
 			if (ver >= MS_BIFF_V8) {
 				getRefV8 (&first,
-					  MS_OLE_GET_GUINT16(cur+0),
-					  MS_OLE_GET_GUINT16(cur+4),
+					  GSF_LE_GET_GUINT16(cur+0),
+					  GSF_LE_GET_GUINT16(cur+4),
 					  fn_col, fn_row, shared);
 				getRefV8 (&last,
-					  MS_OLE_GET_GUINT16(cur+2),
-					  MS_OLE_GET_GUINT16(cur+6),
+					  GSF_LE_GET_GUINT16(cur+2),
+					  GSF_LE_GET_GUINT16(cur+6),
 					  fn_col, fn_row, shared);
 				ptg_length = 8;
 			} else {
 				getRefV7 (&first,
-					  MS_OLE_GET_GUINT8(cur+4),
-					  MS_OLE_GET_GUINT16(cur+0),
+					  GSF_LE_GET_GUINT8(cur+4),
+					  GSF_LE_GET_GUINT16(cur+0),
 					  fn_col, fn_row, shared);
 				getRefV7 (&last,
-					  MS_OLE_GET_GUINT8(cur+5),
-					  MS_OLE_GET_GUINT16(cur+2),
+					  GSF_LE_GET_GUINT8(cur+5),
+					  GSF_LE_GET_GUINT16(cur+2),
 					  fn_col, fn_row, shared);
 				ptg_length = 6;
 			}
@@ -1290,13 +1288,13 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			guint16 extn_sheet_idx;
 
 			if (ver == MS_BIFF_V8) {
-				extn_sheet_idx = MS_OLE_GET_GUINT16(cur);
-				extn_name_idx  = MS_OLE_GET_GUINT16(cur+2);
+				extn_sheet_idx = GSF_LE_GET_GUINT16(cur);
+				extn_name_idx  = GSF_LE_GET_GUINT16(cur+2);
 /*				printf ("FIXME: v8 NameX : %d %d\n", extn_sheet_idx, extn_name_idx); */
 				ptg_length = 6;
 			} else {
-				extn_sheet_idx = MS_OLE_GET_GUINT16(cur);
-				extn_name_idx  = MS_OLE_GET_GUINT16(cur+10);
+				extn_sheet_idx = GSF_LE_GET_GUINT16(cur);
+				extn_name_idx  = GSF_LE_GET_GUINT16(cur+10);
 /*				printf ("FIXME: v7 NameX : %d %d\n", extn_sheet_idx, extn_name_idx); */
 				ptg_length = 24;
 			}
@@ -1310,11 +1308,11 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 
 			if (ver >= MS_BIFF_V8) {
 				XLExternSheetV8 const *es = ms_excel_workbook_get_externsheet_v8 (ewb,
-					MS_OLE_GET_GUINT16 (cur));
+					GSF_LE_GET_GUINT16 (cur));
 
 				getRefV8 (&first,
-					  MS_OLE_GET_GUINT16 (cur + 2),
-					  MS_OLE_GET_GUINT16 (cur + 4),
+					  GSF_LE_GET_GUINT16 (cur + 2),
+					  GSF_LE_GET_GUINT16 (cur + 4),
 					  fn_col, fn_row, 0);
 				last = first;
 
@@ -1327,17 +1325,17 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 
 				ptg_length = 6;
 			} else {
-				gint16 ixals = (gint16)MS_OLE_GET_GUINT16 (cur);
+				gint16 ixals = (gint16)GSF_LE_GET_GUINT16 (cur);
 				getRefV7 (&first,
-					  MS_OLE_GET_GUINT8  (cur + 16),
-					  MS_OLE_GET_GUINT16 (cur + 14),
+					  GSF_LE_GET_GUINT8  (cur + 16),
+					  GSF_LE_GET_GUINT16 (cur + 14),
 					  fn_col, fn_row, 0);
 
 				last = first;
 				first.sheet = ms_excel_workbook_get_externsheet_v7 (ewb,
-					ixals, MS_OLE_GET_GUINT16 (cur + 10));
+					ixals, GSF_LE_GET_GUINT16 (cur + 10));
 				last.sheet  = ms_excel_workbook_get_externsheet_v7 (ewb,
-					ixals, MS_OLE_GET_GUINT16 (cur + 12));
+					ixals, GSF_LE_GET_GUINT16 (cur + 12));
 
 				ptg_length = 17;
 			}
@@ -1360,15 +1358,15 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 
 			if (ver >= MS_BIFF_V8) {
 				XLExternSheetV8 const *es = ms_excel_workbook_get_externsheet_v8 (ewb,
-					MS_OLE_GET_GUINT16 (cur));
+					GSF_LE_GET_GUINT16 (cur));
 
 				getRefV8 (&first,
-					  MS_OLE_GET_GUINT16(cur+2),
-					  MS_OLE_GET_GUINT16(cur+6),
+					  GSF_LE_GET_GUINT16(cur+2),
+					  GSF_LE_GET_GUINT16(cur+6),
 					  fn_col, fn_row, 0);
 				getRefV8 (&last,
-					  MS_OLE_GET_GUINT16(cur+4),
-					  MS_OLE_GET_GUINT16(cur+8),
+					  GSF_LE_GET_GUINT16(cur+4),
+					  GSF_LE_GET_GUINT16(cur+8),
 					  fn_col, fn_row, 0);
 
 				/* Lose as little as possible on failure */
@@ -1380,21 +1378,21 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 
 				ptg_length = 10;
 			} else {
-				gint16 ixals = (gint16)MS_OLE_GET_GUINT16 (cur);
+				gint16 ixals = (gint16)GSF_LE_GET_GUINT16 (cur);
 
 				getRefV7 (&first,
-					  MS_OLE_GET_GUINT8(cur+18),
-					  MS_OLE_GET_GUINT16(cur+14),
+					  GSF_LE_GET_GUINT8(cur+18),
+					  GSF_LE_GET_GUINT16(cur+14),
 					  fn_col, fn_row, 0);
 				getRefV7 (&last,
-					  MS_OLE_GET_GUINT8(cur+19),
-					  MS_OLE_GET_GUINT16(cur+16),
+					  GSF_LE_GET_GUINT8(cur+19),
+					  GSF_LE_GET_GUINT16(cur+16),
 					  fn_col, fn_row, 0);
 
 				first.sheet = ms_excel_workbook_get_externsheet_v7 (ewb,
-					ixals, MS_OLE_GET_GUINT16 (cur + 10));
+					ixals, GSF_LE_GET_GUINT16 (cur + 10));
 				last.sheet  = ms_excel_workbook_get_externsheet_v7 (ewb,
-					ixals, MS_OLE_GET_GUINT16 (cur + 12));
+					ixals, GSF_LE_GET_GUINT16 (cur + 12));
 
 				ptg_length = 20;
 			}

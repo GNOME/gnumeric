@@ -1,3 +1,32 @@
+2002-06-18  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (cb_insert_current_date) : check for
+	  failure to start editing.
+	(cb_insert_current_time) : ditto.
+
+2002-06-18  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-graph.c (gnm_graph_vector_seq_scalar) : forward port a
+	  patch for keelyn.
+
+	* src/file.c (gnum_file_saver_save_to_stream_real) : forward port a
+	  warning suppression.
+
+	* src/clipboard.c (clipboard_paste_region) : restore the expr_relocate
+	  code in preparation for supporting the XL style heuristic.
+
+	* src/GNOME_Gnumeric.xml : forward port some fixes.
+	* src/sheet-object-widget.c (cb_scrollbar_value_changed) : ditto.
+	(sheet_widget_scrollbar_set_sheet) : ditto.
+
+2002-06-17  Jody Goldberg <jody@gnome.org>
+
+	* src/dependent.c (cb_name_invalidate) : renamed from
+	  cb_name_invalidate_sheet.  Just set the expression to NULL.
+	  no need to be polite.  It just confuses things during workbook
+	  destruction when the name references another sheet which has already
+	  been destroyed.
+
 2002-06-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/commands.c (cmd_cell_range_is_locked_effective) : use 

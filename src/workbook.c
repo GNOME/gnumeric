@@ -204,8 +204,6 @@ workbook_finalize (GObject *wb_object)
 	g_ptr_array_free (wb->sheets, TRUE);
 	wb->sheets = NULL;
 
-	wb->names = expr_name_list_destroy (wb->names);
-
 	workbook_private_delete (wb->priv);
 	wb->priv = NULL;
 

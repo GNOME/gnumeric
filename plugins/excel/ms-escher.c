@@ -34,6 +34,7 @@
 #include "ms-excel-read.h"
 #include "ms-obj.h"
 
+#include <gsf/gsf-utils.h>
 #include <zlib.h>
 
 #undef G_LOG_DOMAIN
@@ -273,10 +274,10 @@ ms_escher_read_SplitMenuColors (MSEscherState * state, MSEscherHeader * h)
 
 	if ((data = ms_escher_get_data (state, h->offset + COMMON_HEADER_LEN,
 					16, &needs_free))) {
-		guint32 const top_level_fill = MS_OLE_GET_GUINT32(data + 0);
-		guint32 const line	= MS_OLE_GET_GUINT32(data + 4);
-		guint32 const shadow	= MS_OLE_GET_GUINT32(data + 8);
-		guint32 const threeD	= MS_OLE_GET_GUINT32(data + 12);
+		guint32 const top_level_fill = GSF_LE_GET_GUINT32(data + 0);
+		guint32 const line	= GSF_LE_GET_GUINT32(data + 4);
+		guint32 const shadow	= GSF_LE_GET_GUINT32(data + 8);
+		guint32 const threeD	= GSF_LE_GET_GUINT32(data + 12);
 
 		d (0, printf ("top_level_fill = 0x%x;\nline = 0x%x;\nshadow = 0x%x;\nthreeD = 0x%x;\n",
 			      top_level_fill, line, shadow, threeD););
@@ -312,19 +313,19 @@ ms_escher_read_BSE (MSEscherState * state, MSEscherHeader * h)
 	gboolean needs_free;
 	guint8 const * data = ms_escher_get_data (state,
 		h->offset + COMMON_HEADER_LEN, 36, &needs_free);
-	guint8 const  win_type	= MS_OLE_GET_GUINT8  (data + 0);
-	guint8 const  mac_type	= MS_OLE_GET_GUINT8  (data + 1);
-	/*guint16 const tag	= MS_OLE_GET_GUINT16 (data + 18);*/
-	guint32 const size	= MS_OLE_GET_GUINT32 (data + 20);
-	guint32 const ref_count	= MS_OLE_GET_GUINT32 (data + 24);
-	gint32 const del_offset	= MS_OLE_GET_GUINT32 (data + 28);
-	guint8 const is_texture	= MS_OLE_GET_GUINT8  (data + 32);
-	guint8 const name_len	= MS_OLE_GET_GUINT8  (data + 33);
+	guint8 const  win_type	= GSF_LE_GET_GUINT8  (data + 0);
+	guint8 const  mac_type	= GSF_LE_GET_GUINT8  (data + 1);
+	/*guint16 const tag	= GSF_LE_GET_GUINT16 (data + 18);*/
+	guint32 const size	= GSF_LE_GET_GUINT32 (data + 20);
+	guint32 const ref_count	= GSF_LE_GET_GUINT32 (data + 24);
+	gint32 const del_offset	= GSF_LE_GET_GUINT32 (data + 28);
+	guint8 const is_texture	= GSF_LE_GET_GUINT8  (data + 32);
+	guint8 const name_len	= GSF_LE_GET_GUINT8  (data + 33);
 	guint8 checksum[16]; /* RSA Data Security, Inc. MD4 Message-Digest Algorithm */
 	const char *name = "unknown";
 	int i;
 	for (i = 16; i-- > 0;)
-		checksum[i] = MS_OLE_GET_GUINT8 (data + 2 + i);
+		checksum[i] = GSF_LE_GET_GUINT8 (data + 2 + i);
 
 	d (0 , {
 		printf ("Win type = %s;\n", bliptype_name (win_type));
@@ -394,8 +395,8 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 	if (inst == 0x216 || inst == 0x3d4 || inst == 0x542) {
 		guint8 const *tmp = ms_escher_get_data (state, h->offset + offset,
 			META_FILE_HEADER_LEN, &needs_free);
-		guint32 uncompressed_len = MS_OLE_GET_GUINT32 (tmp+0);
-		guint32 compressed_len = MS_OLE_GET_GUINT32 (tmp+28);
+		guint32 uncompressed_len = GSF_LE_GET_GUINT32 (tmp+0);
+		guint32 compressed_len = GSF_LE_GET_GUINT32 (tmp+28);
 		guint8  compress = tmp[32];
 		guint8  filter	 = tmp[33];
 
@@ -636,8 +637,8 @@ ms_escher_read_Sp (MSEscherState * state, MSEscherHeader * h)
 		h->offset + COMMON_HEADER_LEN, 8, &needs_free);
 
 	if (data != NULL) {
-		guint32 const spid  = MS_OLE_GET_GUINT32 (data+0);
-		guint32 const flags = MS_OLE_GET_GUINT32 (data+4);
+		guint32 const spid  = GSF_LE_GET_GUINT32 (data+0);
+		guint32 const flags = GSF_LE_GET_GUINT32 (data+4);
 		d (0, printf ("SPID %d, Type %d,%s%s%s%s%s%s%s%s%s%s%s;\n",
 			      spid, h->instance,
 				(flags&0x01) ? " Group": "",
@@ -766,9 +767,9 @@ ms_escher_read_Dg (MSEscherState *state, MSEscherHeader *h)
 {
 #if 0
 	guint8 const *data = h->data + COMMON_HEADER_LEN;
-	guint32 num_shapes = MS_OLE_GET_GUINT32(data);
+	guint32 num_shapes = GSF_LE_GET_GUINT32(data);
 	/* spid_cur = last SPID given to an SP in this DG :-)  */
-	guint32 spid_cur   = MS_OLE_GET_GUINT32(data+4);
+	guint32 spid_cur   = GSF_LE_GET_GUINT32(data+4);
 	guint32 drawing_id = h->instance;
 
 	/* This drawing has these num_shapes shapes, with a pointer to the last
@@ -797,10 +798,10 @@ ms_escher_read_Dgg (MSEscherState *state, MSEscherHeader *h)
 	guint32 lp;
 	guint8 const *data = h->data + COMMON_HEADER_LEN;
 	fd.id_clusts = g_array_new (1, 1, sizeof(ID_CLUST));
-	fd.max_spid           = MS_OLE_GET_GUINT32(data+ 0);
-	fd.num_id_clust       = MS_OLE_GET_GUINT32(data+ 4);
-	fd.num_shapes_saved   = MS_OLE_GET_GUINT32(data+ 8);
-	fd.num_drawings_saved = MS_OLE_GET_GUINT32(data+12);
+	fd.max_spid           = GSF_LE_GET_GUINT32(data+ 0);
+	fd.num_id_clust       = GSF_LE_GET_GUINT32(data+ 4);
+	fd.num_shapes_saved   = GSF_LE_GET_GUINT32(data+ 8);
+	fd.num_drawings_saved = GSF_LE_GET_GUINT32(data+12);
 
 	printf ("maxspid 0x%x clusts 0x%x shapes 0x%x drawings x%x\n",
 		fd.max_spid, fd.num_id_clust, fd.num_shapes_saved,
@@ -809,8 +810,8 @@ ms_escher_read_Dgg (MSEscherState *state, MSEscherHeader *h)
 	data+=16;
 	for (lp = 0; lp < fd.num_id_clust; lp++) {
 		ID_CLUST cl;
-		cl.DG_owning_spids   = MS_OLE_GET_GUINT32(data+0);
-		cl.spids_used_so_far = MS_OLE_GET_GUINT32(data+4);
+		cl.DG_owning_spids   = GSF_LE_GET_GUINT32(data+0);
+		cl.spids_used_so_far = GSF_LE_GET_GUINT32(data+4);
 		g_array_append_val (fd.id_clusts, cl);
 	}
 #endif
@@ -1078,11 +1079,11 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 	g_return_val_if_fail (6*num_properties + COMMON_HEADER_LEN <= h->len, TRUE);
 
 	for (i = 0; i < num_properties; ++i, fopte += 6) {
-		guint16 const tmp = MS_OLE_GET_GUINT32(fopte);
+		guint16 const tmp = GSF_LE_GET_GUINT32(fopte);
 		guint const pid = tmp & 0x3fff;
 		gboolean const is_blip = (tmp & 0x4000) != 0;
 		gboolean const is_complex = (tmp & 0x8000) != 0;
-		guint32 const val = MS_OLE_GET_GUINT32(fopte+2);
+		guint32 const val = GSF_LE_GET_GUINT32(fopte+2);
 		MSObjAttrID id = MS_OBJ_ATTR_NONE;
 
 		/* container is sorted by pid. Use this as sanity test */
@@ -1830,11 +1831,11 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 			return TRUE;
 		}
 
-		tmp	= MS_OLE_GET_GUINT16 (data + 0);
-		h.fbt	= MS_OLE_GET_GUINT16 (data + 2);
+		tmp	= GSF_LE_GET_GUINT16 (data + 0);
+		h.fbt	= GSF_LE_GET_GUINT16 (data + 2);
 
 		/* Include the length of this header in the record size */
-		h.len	   = MS_OLE_GET_GUINT32 (data + 4) + COMMON_HEADER_LEN;
+		h.len	   = GSF_LE_GET_GUINT32 (data + 4) + COMMON_HEADER_LEN;
 		h.ver      = tmp & 0x0f;
 		h.instance = (tmp >> 4) & 0xfff;
 

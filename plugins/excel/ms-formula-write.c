@@ -230,7 +230,8 @@ ms_formula_write_pre_data (BiffPut *bp, ExcelSheet *sheet,
 			while (l) {
 				FormulaCacheEntry *fce = l->data;
 				guint8  data[8];
-				char   *txt;
+				gint    len;
+				char   *txt, *buf;
 
 				if (DO_IT) {
 				ms_biff_put_var_next (bp, BIFF_EXTERNNAME);
@@ -239,9 +240,11 @@ ms_formula_write_pre_data (BiffPut *bp, ExcelSheet *sheet,
 				ms_biff_put_var_write (bp, data, 6);
 				txt = g_strdup (fce->u.ename_v7.name);
 				g_strup (txt); /* scraping the barrel here */
-				biff_put_text (bp, txt,
+				len = biff_convert_text(&buf, txt, MS_BIFF_V7);
+				biff_put_text (bp, buf, len,
 					       MS_BIFF_V7,
 					       TRUE, AS_PER_VER);
+				g_free (buf);
 				g_free (txt);
 				MS_OLE_SET_GUINT32 (data, 0x171c0002); /* Magic hey :-) */
 				ms_biff_put_var_write (bp, data, 4);
@@ -344,8 +347,12 @@ write_string (PolishData *pd, const gchar *txt)
 	if (txt == NULL)
 		push_guint8 (pd, FORMULA_PTG_MISSARG);
 	else {
+		gint len;
+		char *buf;
 		push_guint8 (pd, FORMULA_PTG_STR);
-		biff_put_text (pd->bp, txt, pd->ver, TRUE, AS_PER_VER);
+		len = biff_convert_text(&buf, txt, pd->ver);
+		biff_put_text (pd->bp, buf, len, pd->ver, TRUE, AS_PER_VER);
+		g_free(buf);
 	}
 }
 
@@ -744,10 +751,14 @@ write_arrays (PolishData *pd)
 				gnumeric_set_le_double (data, value_get_as_float (v));
 				ms_biff_put_var_write (pd->bp, data, 8);
 			} else { /* Can only be a string */
+				gint len;
+				gchar *buf;
 				gchar *txt = value_get_as_string (v);
 				push_guint8 (pd, 2);
-				biff_put_text (pd->bp, txt,
+				len = biff_convert_text(&buf, txt, pd->ver);
+				biff_put_text (pd->bp, buf, len,
 					       pd->ver, TRUE, AS_PER_VER);
+				g_free (buf);
 				g_free (txt);
 			}
 		}

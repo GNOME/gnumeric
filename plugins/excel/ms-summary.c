@@ -11,15 +11,17 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include <glib.h>
-#include <string.h>
-#include <libole2/ms-ole.h>
-#include <libole2/ms-ole-summary.h>
 
 #include "ms-biff.h"
 #include "ms-excel-util.h"
 #include "ms-summary.h"
 #include "summary.h"
+
+#include <gsf/gsf-utils.h>
+#include <libole2/ms-ole.h>
+#include <libole2/ms-ole-summary.h>
+
+#include <string.h>
 
 typedef struct _MsOleSummaryHeader MsOleSummaryHeader;
 typedef struct _MsOleSummaryRecord MsOleSummaryRecord;
@@ -163,7 +165,7 @@ read_summary_items (SummaryInfo *sin, MsOleSummary *si, MsOlePropertySetID psid)
 					ans = g_new (char, outbytes + 1);
 					outbufptr = ans;
 					for (lp = 0; lp < length; lp++) {
-						inbuf[lp] = MS_OLE_GET_GUINT8 (ptr);
+						inbuf[lp] = GSF_LE_GET_GUINT8 (ptr);
 						ptr++;
 					}
 

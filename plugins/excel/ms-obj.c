@@ -25,15 +25,18 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include <expr.h>
 
 #include "boot.h"
 #include "ms-obj.h"
 #include "ms-chart.h"
 #include "ms-escher.h"
-#include "parse-util.h"
-#include "sheet-object-widget.h"
-#include "sheet-object-graphic.h"
+
+#include <expr.h>
+#include <parse-util.h>
+#include <sheet-object-widget.h>
+#include <sheet-object-graphic.h>
+
+#include <gsf/gsf-utils.h>
 
 #define GR_END                0x00
 #define GR_MACRO              0x04
@@ -263,10 +266,10 @@ ms_read_TXO (BiffQuery *q)
 		"At bottom", "Verticaly justified"
 	};
 
-	guint16 const options     = MS_OLE_GET_GUINT16 (q->data);
-	guint16 const orient      = MS_OLE_GET_GUINT16 (q->data + 2);
-	guint16 const text_len    = MS_OLE_GET_GUINT16 (q->data + 10);
-/*	guint16 const num_formats = MS_OLE_GET_GUINT16 (q->data + 12);*/
+	guint16 const options     = GSF_LE_GET_GUINT16 (q->data);
+	guint16 const orient      = GSF_LE_GET_GUINT16 (q->data + 2);
+	guint16 const text_len    = GSF_LE_GET_GUINT16 (q->data + 10);
+/*	guint16 const num_formats = GSF_LE_GET_GUINT16 (q->data + 12);*/
 	int const halign = (options >> 1) & 0x7;
 	int const valign = (options >> 4) & 0x7;
 	char         *text = g_new (char, text_len + 1);
@@ -283,7 +286,7 @@ ms_read_TXO (BiffQuery *q)
 		int i, increment = 1;
 
 		ms_biff_query_next (q);
-		increment = (MS_OLE_GET_GUINT8 (q->data)) ? 2 : 1;
+		increment = (GSF_LE_GET_GUINT8 (q->data)) ? 2 : 1;
 		data = q->data + 1;
 
 		/*
@@ -347,8 +350,8 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 	/* TODO : Lots of docs for these things.  Write the parser. */
 
 #if 0
-	guint32 const numObjects = MS_OLE_GET_GUINT16(q->data);
-	guint16 const flags = MS_OLE_GET_GUINT16(q->data+8);
+	guint32 const numObjects = GSF_LE_GET_GUINT16(q->data);
+	guint16 const flags = GSF_LE_GET_GUINT16(q->data+8);
 #endif
 	guint8 *anchor = g_malloc (MS_ANCHOR_SIZE);
 	memcpy (anchor, q->data+8, MS_ANCHOR_SIZE);
@@ -357,8 +360,8 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 	ms_object_attr_bag_insert (obj->attrs,
 		ms_object_attr_new_ptr (MS_OBJ_ATTR_ANCHOR, anchor));
 
-	obj->excel_type = MS_OLE_GET_GUINT16(q->data + 4);
-	obj->id         = MS_OLE_GET_GUINT32(q->data + 6);
+	obj->excel_type = GSF_LE_GET_GUINT16(q->data + 4);
+	obj->id         = GSF_LE_GET_GUINT32(q->data + 6);
 
 	return FALSE;
 }
@@ -384,14 +387,14 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 
 	/* Scan through the pseudo BIFF substream */
 	while (data_len_left > 0 && !hit_end) {
-		guint16 const record_type = MS_OLE_GET_GUINT16(data);
+		guint16 const record_type = GSF_LE_GET_GUINT16(data);
 
 		/* All the sub-records seem to have this layout
 		 * 2001/Mar/29 JEG : liars.  Ok not all records have this
 		 * layout.  Create a list box.  It seems to do something
 		 * unique.  It acts like an end, and has no length specified.
 		 */
-		guint16 len = MS_OLE_GET_GUINT16(data+2);
+		guint16 len = GSF_LE_GET_GUINT16(data+2);
 
 		/* 1st record must be COMMON_OBJ*/
 		g_return_val_if_fail (obj->excel_type >= 0 ||
@@ -426,7 +429,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			guint16 pict_opt;
 			g_return_val_if_fail (len == 2, TRUE);
 
-			pict_opt = MS_OLE_GET_GUINT16(data+4);
+			pict_opt = GSF_LE_GET_GUINT16(data+4);
 
 #ifndef NO_DEBUG_EXCEL
 			if (ms_excel_object_debug >= 1) {
@@ -455,19 +458,19 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 		case GR_SCROLLBAR : {
 			ms_object_attr_bag_insert (obj->attrs,
 				ms_object_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_VALUE,
-					MS_OLE_GET_GUINT16 (data+8)));
+					GSF_LE_GET_GUINT16 (data+8)));
 			ms_object_attr_bag_insert (obj->attrs,
 				ms_object_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_MIN,
-					MS_OLE_GET_GUINT16 (data+10)));
+					GSF_LE_GET_GUINT16 (data+10)));
 			ms_object_attr_bag_insert (obj->attrs,
 				ms_object_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_MAX,
-					MS_OLE_GET_GUINT16 (data+12)));
+					GSF_LE_GET_GUINT16 (data+12)));
 			ms_object_attr_bag_insert (obj->attrs,
 				ms_object_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_INC,
-					MS_OLE_GET_GUINT16 (data+14)));
+					GSF_LE_GET_GUINT16 (data+14)));
 			ms_object_attr_bag_insert (obj->attrs,
 				ms_object_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_PAGE,
-					MS_OLE_GET_GUINT16 (data+16)));
+					GSF_LE_GET_GUINT16 (data+16)));
 			ms_obj_dump (data, len, data_len_left, "ScrollBar");
 			break;
 		}
@@ -477,7 +480,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			break;
 
 		case GR_SCROLLBAR_FORMULA : {
-			guint16 const expr_len = MS_OLE_GET_GUINT16 (data+4);
+			guint16 const expr_len = GSF_LE_GET_GUINT16 (data+4);
 			GnmExpr const *ref = ms_container_parse_expr (container, data+10, expr_len);
 			if (ref != NULL)
 				ms_object_attr_bag_insert (obj->attrs,
@@ -515,7 +518,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 		}
 
 		case GR_CHECKBOX_FORMULA : {
-			guint16 const expr_len = MS_OLE_GET_GUINT16 (data+4);
+			guint16 const expr_len = GSF_LE_GET_GUINT16 (data+4);
 			GnmExpr const *ref = ms_container_parse_expr (container, data+10, expr_len);
 			if (ref != NULL)
 				ms_object_attr_bag_insert (obj->attrs,
@@ -525,13 +528,13 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 		}
 
 		case GR_COMMON_OBJ_DATA : {
-			guint16 const options =MS_OLE_GET_GUINT16 (data+8);
+			guint16 const options =GSF_LE_GET_GUINT16 (data+8);
 
 			/* Multiple objects in 1 record ?? */
 			g_return_val_if_fail (obj->excel_type == -1, -1);
 
-			obj->excel_type = MS_OLE_GET_GUINT16(data+4);
-			obj->id = MS_OLE_GET_GUINT16(data+6);
+			obj->excel_type = GSF_LE_GET_GUINT16(data+4);
+			obj->id = GSF_LE_GET_GUINT16(data+6);
 
 			/* Undocumented.  It appears that combos for filters are marked
 			 * with flag 0x100
