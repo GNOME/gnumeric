@@ -95,4 +95,6 @@ void gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 				 int sensitive_filter,
 				 GdkEventButton *event);
 
+#define gnumeric_filter_modifiers(a) ((a) &(~(GDK_LOCK_MASK|GDK_MOD2_MASK|GDK_MOD5_MASK)))
+
 #endif /* GNUMERIC_GNUMERIC_UTIL_H */

@@ -54,6 +54,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	Sheet *sheet = gsheet->scg->sheet;
 	WorkbookControlGUI *wbcg = gsheet->scg->wbcg;
 	gboolean const jump_to_bounds = event->state & GDK_CONTROL_MASK;
+	int state = gnumeric_filter_modifiers (event->state);
 	void (*movefn) (SheetControlGUI *, int n,
 			gboolean jump, gboolean horiz);
 
@@ -151,8 +152,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	case GDK_KP_Enter:
 	case GDK_Return:
 		if (wbcg->editing &&
-		    (event->state == GDK_CONTROL_MASK ||
-		     event->state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK) ||
+		    (state == GDK_CONTROL_MASK ||
+		     state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK) ||
 		     event->state == GDK_MOD1_MASK))
 			/* Forward the keystroke to the input line */
 			return gtk_widget_event (

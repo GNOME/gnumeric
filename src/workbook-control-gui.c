@@ -2874,10 +2874,11 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event,
 	case GDK_KP_Enter:
 	case GDK_Return:
 		if (wbcg->editing) {
-			if (event->state == GDK_CONTROL_MASK ||
-			    event->state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK)) {
+			int state = gnumeric_filter_modifiers (event->state);
+			if (state == GDK_CONTROL_MASK ||
+			    state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK)) {
 				EvalPos pos;
-				gboolean const is_array = (event->state & GDK_SHIFT_MASK);
+				gboolean const is_array = (state & GDK_SHIFT_MASK);
 				char const *text = gtk_entry_get_text (
 					GTK_ENTRY (wbcg_get_entry (wbcg)));
 				Sheet *sheet = wbcg->editing_sheet;

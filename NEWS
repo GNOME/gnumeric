@@ -8,6 +8,10 @@ Jody:
 	* Reorganize the recalc queue.
 	* Support iteration.
 	* Fix FV arguments.
+	* Some format bugs.
+
+Juan Pablo Mendoza:
+	* Handle {caps,number,scroll}lock.
 
 Morten:
 	* Fix PV.
