@@ -259,7 +259,7 @@ days_monthly_basis (Value *issue_date, Value *maturity_date, int basis)
 /* Returns the number of coupons to be paid between the settlement
  * and maturity dates.
  */
-static gnum_float
+gnum_float
 coupnum (GDate *settlement, GDate *maturity, int freq, basis_t basis,
 	 gboolean eom)
 {
@@ -2117,10 +2117,70 @@ gnumeric_nper (FunctionEvalInfo *ei, Value **argv)
 
 static const char *help_duration = {
 	N_("@FUNCTION=DURATION\n"
-	   "@SYNTAX=DURATION(rate,pv,fv)\n"
+	   "@SYNTAX=DURATION(settlement,maturity,coup,yield,freq[,basis])\n"
 	   "@DESCRIPTION="
-	   "DURATION calculates number of periods needed for an investment to "
-	   "attain a desired value. This function is similar to FV and PV "
+	   "DURATION calucates ."
+	   "@settlement is the settlement date of the security. "
+	   "@maturity is the maturity date of the security. "
+	   "@issue is the issue date of the security. "
+	   "@rate is the interest rate set to the security. "
+	   "@pr is the price per $100 face value of the security. "
+	   "@basis is the type of day counting system you want to use:\n"
+	   "\n"
+	   "0  US 30/360\n"
+	   "1  actual days/actual days\n"
+	   "2  actual days/360\n"
+	   "3  actual days/365\n"
+	   "4  European 30/360\n"
+	   "\n"
+	   "If @frequency is other than 1, 2, or 4, DURATION returns #NUM! "
+	   "error. "
+	   "If @basis is omitted, US 30/360 is applied. "
+	   "If @basis is not in between 0 and 4, #NUM! error is returned. "
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_duration (FunctionEvalInfo *ei, Value **argv)
+{
+        GDate      *nSettle, *nMat;
+	gnum_float fCoup, fYield;
+	gint       nFreq, nBase;
+	Value      *result;
+
+        nSettle    = datetime_value_to_g (argv[0]);
+        nMat       = datetime_value_to_g (argv[1]);
+	fCoup      = value_get_as_float (argv[2]);
+	fYield     = value_get_as_float (argv[3]);
+	nFreq      = value_get_as_float (argv[4]);
+        nBase      = argv[5] ? value_get_as_int (argv[5]) : 0;
+
+        if ( nBase < 0 || nBase > 4 || nSettle == NULL || nMat == NULL
+	     || (nFreq != 1 && nFreq != 2 && nFreq != 4) ) {
+		result = value_new_error (ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
+
+	result = get_duration (nSettle, nMat, fCoup, fYield, nFreq, nBase);
+
+ out:
+	datetime_g_free (nSettle);
+	datetime_g_free (nMat);
+
+	return result;
+}
+
+/***************************************************************************/
+
+static const char *help_g_duration = {
+	N_("@FUNCTION=G_DURATION\n"
+	   "@SYNTAX=G_DURATION(rate,pv,fv)\n"
+	   "@DESCRIPTION="
+	   "G_DURATION calculates number of periods needed for an investment "
+	   "to attain a desired value. This function is similar to FV and PV "
 	   "with a difference that we do not need give the direction of "
 	   "cash flows e.g. -100 for a cash outflow and +100 for a cash "
 	   "inflow."
@@ -2131,7 +2191,7 @@ static const char *help_duration = {
 };
 
 static Value *
-gnumeric_duration (FunctionEvalInfo *ei, Value **argv)
+gnumeric_g_duration (FunctionEvalInfo *ei, Value **argv)
 {
 	gnum_float rate,pv,fv;
 
@@ -3347,7 +3407,7 @@ const ModulePluginFunctionInfo financial_functions[] = {
 	  &help_dollarde, gnumeric_dollarde, NULL, NULL, NULL },
 	{ "dollarfr", "ff", "decimal_dollar,fraction",
 	  &help_dollarfr, gnumeric_dollarfr, NULL, NULL, NULL },
-	{ "duration", "fff", "rate,pv,fv",
+	{ "duration", "??fff|f", "settlement,maturity,coup,yield,freq,basis",
 	  &help_duration, gnumeric_duration, NULL, NULL, NULL },
 	{ "effect", "ff", "rate,nper",
 	  &help_effect,	  gnumeric_effect, NULL, NULL, NULL },
@@ -3357,6 +3417,8 @@ const ModulePluginFunctionInfo financial_functions[] = {
 	  &help_fv,	  gnumeric_fv, NULL, NULL, NULL },
 	{ "fvschedule", "fA", "pv,schedule",
 	  &help_fvschedule, gnumeric_fvschedule, NULL, NULL },
+	{ "g_duration", "fff", "rate,pv,fv",
+	  &help_g_duration, gnumeric_g_duration, NULL, NULL, NULL },
 	{ "intrate", "??ff|f",
 	  "settlement,maturity,investment,redemption[,basis]",
 	  &help_intrate,  gnumeric_intrate, NULL, NULL, NULL },
