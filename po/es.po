@@ -602,7 +602,7 @@ msgstr "Operación"
 
 #: src/dialog-paste-special.c:104
 msgid "Transpose"
-msgstr ""
+msgstr "Transposar"
 
 #: src/dialog-zoom.c:47 src/dialog-zoom.c:50
 msgid "Zoom"
@@ -963,14 +963,27 @@ msgid ""
 "for you, so you can enter a date as a string.\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
+"@FUNCTION=DAYS360\n"
+"@SYNTAX=DAYS360 (fecha1,fecha2,método)\n"
+"@DESCRIPTION=Devuelve la cantidad de días entre @fecha1 y @fecha2 siguiendo "
+"un calendario de 360 días con meses de 30 días.\n"
+"Si @método is VERDAD, el método europeo es usado. En ese caso, si el día"
+" del mes es un 31, será considerado como un 30.\n"
+"Si @método es FALSO o se omite, el método estadounidense será usado. "
+"Que es un método más complicado usado como método estandardizado en "
+"la industria en EE.UU.\n"
+"Note que Gnumeric convertirá las fechas dadas como cadenas de texto al "
+"número de serie de la fecha usado de manera interna; es decir que puede "
+"si lo desea pasar las fechas como cadenas de texto.\n"
+"@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: src/fn-date.c:484
 msgid "Unsupported method"
-msgstr ""
+msgstr "Método no soportado"
 
 #: src/fn-date.c:545 src/fn-string.c:1080
 msgid "Date / Time"
-msgstr ""
+msgstr "Fecha / Hora"
 
 #: src/fn-math.c:19
 msgid ""
@@ -1474,7 +1487,6 @@ msgid "log10: domain error"
 msgstr "log10: error de dominio"
 
 #: src/fn-math.c:1039
-#, fuzzy
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -1486,7 +1498,7 @@ msgstr ""
 "@SYNTAX=MOD(número,divisor)\n"
 "@DESCRIPTION=Implementa el modulo aritmético. Devuelve el resto de la "
 "división de abs( @número ) por @divisor .\n"
-" Si el divisor es cero devuelve el error #DIV/0! .\n"
+"Si el divisor es cero devuelve el error #DIV/0! .\n"
 "@SEEALSO=INT,FLOOR,CEIL"
 
 #: src/fn-math.c:1076
@@ -1520,7 +1532,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/fn-math.c:1115
-#, fuzzy
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -1532,13 +1543,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
-"@DESCRIPTION=La función SIN devuelve el seno de x, con x en radianes. \n"
+"@DESCRIPTION=La función SIN devuelve el seno de @x, con @x en radianes. \n"
 "Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
 "simplemente no hace nada. Esta función solo admite un argumento.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
 #: src/fn-math.c:1135
-#, fuzzy
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -1550,14 +1560,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
-"@DESCRIPTION=La función SINH devuelve el seno hiperbólico de x, el cual es "
-"definido matemáticamente como (exp(x) - exp(-x)) / 2.   x en radianes. \n"
+"@DESCRIPTION=La función SINH devuelve el seno hiperbólico de @x, el cual es "
+"definido matemáticamente como (exp(x) - exp(-x)) / 2.   @x en radianes. \n"
 "Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
 "simplemente no hace nada. Esta función solo admite un argumento.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
 #: src/fn-math.c:1155
-#, fuzzy
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -1567,8 +1576,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
-"@DESCRIPTION=La función SQRT devuelve la raíz cuadrada de x,\n"
-"Si x es negativo devuelve #NUM!. Esta función accepta un solo argumento.\n"
+"@DESCRIPTION=La función SQRT devuelve la raíz cuadrada de @x,\n"
+"Si @x es negativo devuelve #NUM!. Esta función accepta un solo argumento.\n"
 "@SEEALSO=POW"
 
 #: src/fn-math.c:1178
@@ -1596,6 +1605,15 @@ msgid ""
 "it is counted as one (1). Note that empty cells are not counted.\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 msgstr ""
+"@FUNCTION=SUMA\n"
+"@SYNTAX=SUMA(valor1, valor2, ...)\n"
+"@DESCRIPTION=Calcula la suma de todos los valores y celdas referenciados en "
+"la lista de argumentos. Se incluye en el cálculo los números y también los"
+" textos y expresiones lógicas. Si la celda contiene texto o la expresión"
+" lógica FALSO, se contará como un cero (0). Si contiene un valór lógico"
+" VERDAD, se contará como un uno (1). Note que las celdas vacías no son"
+" contadas.\n"
+"@SEEALSO=AVERAGE, SUM, COUNT"
 
 #: src/fn-math.c:1224
 msgid ""
@@ -1640,7 +1658,6 @@ msgstr ""
 "@SEEALSO=SUM, COUNT"
 
 #: src/fn-math.c:1321
-#, fuzzy
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1652,7 +1669,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
-"@DESCRIPTION=La función TAN devuelve la tangente de x, con x en radianes. \n"
+"@DESCRIPTION=La función TAN devuelve la tangente de @x, con @x en radianes. \n"
 "Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
 "simplemente no hace nada. Esta función solo admite un argumento.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
@@ -1669,7 +1686,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
-"@DESCRIPTION=La función TANH devuelvel la tangente hiperbólica de x, la cual "
+"@DESCRIPTION=La función TANH devuelve la tangente hiperbólica de @x, la cual "
 "es definida matemáticamente como sinh(x) / cosh(x). \n"
 "Efectuar esta función sobre una cadena de texto o sobre una celda vacía "
 "simplemente no hace nada. Esta función solo admite un argumento.\n"
@@ -1690,7 +1707,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/fn-math.c:1380
-#, fuzzy
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -1702,8 +1718,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(número[,cifras])\n"
-"@DESCRIPTION=La función TRUNC devuelve el valor del número troncado a la "
-"cantidad de cifras especificada. Si la cantidad de cifras no se especifica "
+"@DESCRIPTION=La función TRUNC devuelve el valor de @número troncado a la "
+"cantidad de cifras especificada. Si @cifras no se especifica "
 "es cero por omisión.\n"
 "\n"
 "@SEEALSO="
@@ -1796,7 +1812,6 @@ msgstr ""
 "@SEEALSO=PI"
 
 #: src/fn-math.c:1574
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -1810,8 +1825,8 @@ msgstr ""
 "@SYNTAX=RANDBETWEEN(inferior,superior)\n"
 "@DESCRIPTION=La función RANDBETWEEN devuelve un entero aleatorio entre "
 "@inferior y @superior.\n"
-"Si @inferior o @superior no son enteros, serán troncados. Si @inferior > @ "
-"superior RANDBETWEEN devuelve el error #NUM! .\n"
+"Si @inferior o @superior no son enteros, serán troncados. "
+"Si @inferior > @superior, RANDBETWEEN devuelve el error #NUM! .\n"
 "@SEEALSO=RAND"
 
 #: src/fn-math.c:1600
@@ -2033,6 +2048,24 @@ msgid ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 msgstr ""
+"@FUNCTION=SUBTOTAL\n"
+"@SYNTAX=SUMIF(función_num,ref1,ref2,...)\n"
+"@DESCRIPTION=La función SUBTOTAL devuelve el subtotal de la lista de "
+"argumentos. @función_num es el número que especifica la función a usar para "
+"calcular el subtotal. Las siguientes funciones son disponibles:\n"
+"1   AVERAGE\n"
+"2   COUNT\n"
+"3   COUNTA\n"
+"4   MAX\n"
+"5   MIN\n"
+"6   PRODUCT\n"
+"7   STDEV\n"
+"8   STDEVP\n"
+"9   SUM\n"
+"10  VAR\n"
+"11  VARP\n"
+"\n"
+"@SEEALSO=COUNT,SUM"
 
 #: src/fn-math.c:2169
 msgid ""
@@ -2044,6 +2077,14 @@ msgid ""
 "coefficents by which each successive power of @x is multiplied. \n"
 "@SEEALSO=COUNT,SUM"
 msgstr ""
+"@FUNCTION=SERIESSUM\n"
+"@SYNTAX=SERIESSUM(x,n,m,coeficiente)\n"
+"@DESCRIPTION=La función SERIESSUM devuelve la suma de serie de potencias."
+" @x es la base de la serie, @n es la potencia inicial a la cual elevar @x, "
+"@m es el incremento de la potencia para cada término de la serie, y "
+"@coeficiente is el coeficiente por el cual se multiplica cada potencia"
+" succesiva de @x .\n"
+"@SEEALSO=COUNT,SUM"
 
 #: src/fn-math.c:2281
 msgid ""
@@ -2056,10 +2097,19 @@ msgid ""
 "returns #VALUE! error. \n"
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
+"@FUNCTION=SUMPRODUCT\n"
+"@SYNTAX=SUMPRODUCT(rango1,rango2,...)\n"
+"@DESCRIPTION=La función SUMPRODUCT multiplica las entradas correspondientes"
+" de los vectores o rangos especificados, y luego devuelve la suma de dichos"
+" productos. Si una entrada de un vector no es numérica e valor cero es usado"
+" en su lugar. \n"
+"Si los vectores o rangos en argumento no son de dimensiones iguales, "
+"SUMPRODUCT devuelve el error #VALOR! . \n"
+"@SEEALSO=SUM,PRODUCT"
 
 #: src/fn-math.c:2380
 msgid "Maths / Trig."
-msgstr ""
+msgstr "Matem. / Trigon."
 
 #: src/fn-misc.c:21
 msgid "Argument mismatch"
@@ -2080,21 +2130,18 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: src/fn-misc.c:62
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA()\n"
 "@DESCRIPTION=ISNA Returns TRUE if the value is the #N/A error value. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=ISERROR\n"
-"@SYNTAX=ISERROR(exp)\n"
-"@DESCRIPTION=Devuelve VERDAD si la expresión contiene un error\n"
-"\n"
-"@SEEALSO=ERROR"
+"@FUNCTION=ISNA\n"
+"@SYNTAX=ISNA()\n"
+"@DESCRIPTION=ISNA devuelve VERDAD si el valor es el valor de error #N/D. \n"
+"@SEEALSO="
 
 #: src/fn-misc.c:93
-#, fuzzy
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR()\n"
@@ -2102,41 +2149,37 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=ISERROR\n"
-"@SYNTAX=ISERROR(exp)\n"
-"@DESCRIPTION=Devuelve VERDAD si la expresión contiene un error\n"
-"\n"
+"@FUNCTION=ISERR\n"
+"@SYNTAX=ISERR()\n"
+"@DESCRIPTION=ISERR devuelve VERDAD si el valor es un valor de error, salvo #N/D.\n"
 "@SEEALSO=ERROR"
 
 #: src/fn-misc.c:121
-#, fuzzy
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(exp)\n"
 "@DESCRIPTION=FIXME\n"
 "@SEEALSO=ISERROR"
 msgstr ""
-"@FUNCTION=ERROR\n"
-"@SYNTAX=ERROR(texto)\n"
-"@DESCRIPTION=Devuelve el error especificado.\n"
+"@FUNCTION=ERROR.TYPE\n"
+"@SYNTAX=ERROR(exp)\n"
+"@DESCRIPTION=FIXME (aún en desarollo)\n"
 "\n"
-"@SEEALSO=ERROR"
+"@SEEALSO=ISERROR"
 
 #: src/fn-misc.c:159
-#, fuzzy
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
 "@DESCRIPTION=NA Returns the error value #N/A. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=LN\n"
-"@SYNTAX=LN(x)\n"
-"@DESCRIPTION=Calcula el logaritmo natural de x.\n"
-"@SEEALSO=EXP, LOG2, LOG10"
+"@FUNCTION=NA\n"
+"@SYNTAX=NA()\n"
+"@DESCRIPTION=NA devuelve el valor de error #N/D. \n"
+"@SEEALSO="
 
 #: src/fn-misc.c:175
-#, fuzzy
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -2148,11 +2191,11 @@ msgstr ""
 "@SYNTAX=ERROR(texto)\n"
 "@DESCRIPTION=Devuelve el error especificado.\n"
 "\n"
-"@SEEALSO=ERROR"
+"@SEEALSO=ISERROR"
 
 #: src/fn-misc.c:199
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Misceláneas"
 
 #: src/fn-sheet.c:15
 msgid ""
@@ -2171,9 +2214,8 @@ msgstr ""
 "@SEEALSO="
 
 #: src/fn-sheet.c:75
-#, fuzzy
 msgid "Sheet"
-msgstr "_Hoja"
+msgstr "Hoja"
 
 #: src/fn-string.c:17
 msgid ""
@@ -2296,7 +2338,6 @@ msgstr ""
 "@SEEALSO=LOWER"
 
 #: src/fn-string.c:276
-#, fuzzy
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -2310,7 +2351,6 @@ msgstr ""
 "@SEEALSO=LEFT, MID, RIGHT"
 
 #: src/fn-string.c:321
-#, fuzzy
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
@@ -2341,7 +2381,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/fn-string.c:392
-#, fuzzy
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
@@ -2353,11 +2392,10 @@ msgstr ""
 "@SYNTAX=FIND(string1,string2[,inicio])\n"
 "@DESCRIPTION=Devuelve la posición de @string1 en @string2 (distingue "
 "mayúsculas y minúsculas), la búsqueda se hace solo a partir de la posición "
-"@inicio (se asume 1 si no se indica)\n"
+"@inicio (se asume 1 si no se indica).\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 
 #: src/fn-string.c:426
-#, fuzzy
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num, [decimals, no_commas])\n"
@@ -2373,7 +2411,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/fn-string.c:530
-#, fuzzy
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
@@ -2387,7 +2424,6 @@ msgstr ""
 "@SEEALSO=LOWER, UPPER"
 
 #: src/fn-string.c:569
-#, fuzzy
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -2397,11 +2433,10 @@ msgstr ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(antiguo,inicio,num,nuevo)\n"
 "@DESCRIPTION=Devuelve la cadena @antiguo con @nuevo reemplazando @num "
-"carácteres a partir de la posición @inicio\n"
+"carácteres a partir de la posición @inicio .\n"
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 
 #: src/fn-string.c:615
-#, fuzzy
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -2412,11 +2447,10 @@ msgstr ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(valor)\n"
 "@DESCRIPTION=Devuelve @valor unicamente si se trata de una cadena de texto; "
-"sino devuelve una cadena vacía\n"
+"sino devuelve una cadena vacía.\n"
 "@SEEALSO=CELL, N, VALUE"
 
 #: src/fn-string.c:633
-#, fuzzy
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -2426,11 +2460,10 @@ msgstr ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(texto)\n"
 "@DESCRIPTION=Devuelve la cadena @texto con un solo espacio entre cada "
-"palabra\n"
+"palabra.\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
 #: src/fn-string.c:678
-#, fuzzy
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -2458,7 +2491,6 @@ msgstr ""
 "@SEEALSO=REPLACE, TRIM"
 
 #: src/fn-string.c:807
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num,[decimals])\n"
@@ -2488,6 +2520,24 @@ msgid ""
 "error. \n"
 "@SEEALSO=FIND"
 msgstr ""
+"@FUNCTION=SEARCH\n"
+"@SYNTAX=SEARCH(texto1,texto2[,inicio])\n"
+"@DESCRIPTION=Devuelve la posición del carácter o cadena de texto en "
+"otra cadena de texto. @texto1 es el carácter o texto a buscar. "
+"@texto2 es la cadena de texto en la cual buscar."
+" @inicio indica la posición en @texto2 a partir de la cual iniciar la "
+"búsqueda. Si @inicio se omite, se asume como igual a uno (1)."
+" La búsqueda considera de la misma manera mayúsculas y minúsculas.\n"
+"@texto1 puede incluir caracteres genéricos (*) y puntos de interrogación"
+" (?) para controlar la búsqueda. "
+"Un punto de interrogación corresponde a un carácter cualquiera; un asterisco "
+"corresponde a una cadena de texto cualquiera, incluida la cadena vacía."
+" Si desea buscar un punto de interrogación o un asterisco "
+"use la tilde (~) antes del carácter. \n"
+"Si @texto1 no se encuentra, SEARCH devuelve el error #VALOR! . Si @inicio"
+" es inferior a 1 o superior al tamaño de @texto2 , SEARCH devuelve"
+" el error #VALOR! .\n"
+"@SEEALSO=FIND"
 
 #: src/format.c:397
 msgid "black"
@@ -2523,7 +2573,7 @@ msgstr "amarillo"
 
 #: src/format.c:1023
 msgid "0.0########"
-msgstr ""
+msgstr "0,0########"
 
 #: src/format.c:1040
 msgid "CELLRANGE"
@@ -2856,9 +2906,8 @@ msgid "LEVEL"
 msgstr "NIVEL"
 
 #: src/number-match.c:150
-#, fuzzy
 msgid "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
-msgstr "(([-+]?[0-9\\.])?(,?[0-9]*)?([Ee][-+][0-9]+)?)"
+msgstr "(([-+]?[0-9\\.]+)?(,?[0-9]*)?([Ee][-+][0-9]+)?)"
 
 #: src/plugin-manager.c:95 src/plugin-manager.c:96
 msgid "Name"
@@ -2907,7 +2956,6 @@ msgid "The command `"
 msgstr "El comando '"
 
 #: src/sheet.c:2567
-#, fuzzy
 msgid "' cannot be performed with multiple selections"
 msgstr "' no puede ser ejecutado con selecciones múltiples"
 
@@ -3163,10 +3211,9 @@ msgstr "_Ordenar"
 msgid "Sort the selected cells"
 msgstr "Ordena las celdas seleccionadas"
 
-# fuzzy
 #: src/workbook.c:939
 msgid "_Goal Seek..."
-msgstr ""
+msgstr "_Objetivo..."
 
 #: src/workbook.c:941
 msgid "_Solver..."
@@ -3350,9 +3397,8 @@ msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr "¿ Está seguro que quiere borrar la hoja llamada `%s' ?"
 
 #: src/workbook.c:1799
-#, fuzzy
 msgid "Other sheets depend on the values on this sheet; I cannot remove it"
-msgstr "Otras hojas dependen de valores de esta hoja, no puedo borrarla"
+msgstr "Otras hojas dependen de los valores de esta hoja; no puedo borrarla"
 
 #: src/workbook.c:1819
 msgid "Add another sheet"
@@ -3375,66 +3421,3 @@ msgstr "Gnumeric: "
 msgid "Gnumeric XML file format"
 msgstr "Formato de archivo XML para Gnumeric"
 
-#~ msgid "Division by zero"
-#~ msgstr "División entre cero"
-
-#~ msgid "#NUM!"
-#~ msgstr "#NUM!"
-
-#~ msgid "#VALUE!"
-#~ msgstr "#VALOR!"
-
-#~ msgid "#DIV/0!"
-#~ msgstr "#DIV/0!"
-
-#~ msgid "#N/A!"
-#~ msgstr "#N/D!"
-
-#~ msgid "ERROR"
-#~ msgstr "ERROR"
-
-#~ msgid ""
-#~ "@FUNCTION=STDEV\n"
-#~ "@SYNTAX = STDEV(value1, value2, ...)@DESCRIPTION=Computes the standard "
-#~ "deviation of all the values and cells referenced in the argument list. This "
-#~ "is equivalent to the square root of the variance.\n"
-#~ "@SEEALSO=VARIANCE"
-#~ msgstr ""
-#~ "@FUNCTION=STDEV\n"
-#~ "@SYNTAX = STDEV(valor1, valor2, ...)\n"
-#~ "@DESCRIPTION=Calcula la desviación estándar de todos los valores y celdas "
-#~ "referenciados en la lista de argumentos. Es aquivalente a la raiz cuadrada "
-#~ "de la varianza.\n"
-#~ "@SEEALSO=VARIANCE"
-
-#~ msgid ""
-#~ "@FUNCTION=VARIANCE\n"
-#~ "@SYNTAX = VARIANCE(value1, value2, ...)@DESCRIPTION=Computes the variation "
-#~ "of all the values and cells referenced in the argument list. This "
-#~ "is\tequivalent to the sum of (value - average)^2, divided by the number of "
-#~ "values minus 1. If you want it divided by N instead of N - 1, use "
-#~ "NVARIANCE.@SEEALSO=AVERAGE, NVARIANCE"
-#~ msgstr ""
-#~ "@FUNCTION=VARIANCE\n"
-#~ "@SYNTAX = VARIANCE(valor1, valor2, ...)\n"
-#~ "@DESCRIPTION=Calcula la varianza de todos los valores y celdas referenciados "
-#~ "en la lista de argumentos. Es aquivalente a la suma de (valor - media)² , "
-#~ "dividido por la cantidad de valores menos 1. Si desea dividirlo por N en vez "
-#~ "de N - 1, use NVARIANCE.\n"
-#~ "@SEEALSO=AVERAGE, NVARIANCE"
-
-#~ msgid ""
-#~ "@FUNCTION=NVARIANCE\n"
-#~ "@SYNTAX = NVARIANVE(value1, value2, ...)@DESCRIPTION=Computes the variation "
-#~ "of all the values and cells references in the argument list. This is "
-#~ "equivalent to the sum of (value - average)^2, divided by the number of "
-#~ "values. If you want it divided by N - 1 instead of N, use "
-#~ "VARIANCE.@SEEALSO=AVERAGE, VARIANCE"
-#~ msgstr ""
-#~ "@FUNCTION=NVARIANCE\n"
-#~ "@SYNTAX = NVARIANVE(valor1, valor2, ...)\n"
-#~ "@DESCRIPTION=Calcula la varianza de todos los valores y celdas referenciados "
-#~ "en la lista de argumentos. Es aquivalente a la suma de (valor - media)² , "
-#~ "dividido por la cantidad de valores. Si desea dividirlo por N - 1 en vez de "
-#~ "N, use VARIANCE.\n"
-#~ "@SEEALSO=AVERAGE, VARIANCE"

@@ -1,7 +1,13 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: gnumeric 0.27\n"
+"PO-Revision-Date: 1998-11-25 18:01:18+0100\n"
+"Last-Translator: Pablo Saratxaga <srtxg@chanae.alphanet.ch>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 1999-06-24 17:01-0500\n"
-"Content-Type: text/plain; charset=\n"
 "Date: 1998-12-15 01:37:05-0600\n"
 "From: Miguel de Icaza,computo,622-4680 <miguel@metropolis.nuclecu.unam.mx>\n"
 "Xgettext-Options: --default-domain=gnumeric --directory=.. --add-comments "
@@ -1144,7 +1150,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-math.c:854
-#, fuzzy
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x,significance)\n"
@@ -1153,14 +1158,6 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=CEIL, ABS, INT"
 msgstr ""
-"@FUNCTION=ACOSH\n"
-"@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=La función ACOSH calcula el coseno hiperbólico inverso de x; o "
-"sea el valor cuyo coseno hiperbólico es x. Si x es inferior a 1.0, ACOSH "
-"devuelve el error 'acosh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
-"@SEEALSO=ACOS, DEGREES, RADIANS "
 
 #: src/fn-math.c:884
 msgid ""
@@ -1254,7 +1251,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-math.c:1115
-#, fuzzy
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -1264,17 +1260,8 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
-"@FUNCTION=ACOSH\n"
-"@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=La función ACOSH calcula el coseno hiperbólico inverso de x; o "
-"sea el valor cuyo coseno hiperbólico es x. Si x es inferior a 1.0, ACOSH "
-"devuelve el error 'acosh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
-"@SEEALSO=ACOS, DEGREES, RADIANS "
 
 #: src/fn-math.c:1135
-#, fuzzy
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -1284,14 +1271,6 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr ""
-"@FUNCTION=ACOSH\n"
-"@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=La función ACOSH calcula el coseno hiperbólico inverso de x; o "
-"sea el valor cuyo coseno hiperbólico es x. Si x es inferior a 1.0, ACOSH "
-"devuelve el error 'acosh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
-"@SEEALSO=ACOS, DEGREES, RADIANS "
 
 #: src/fn-math.c:1155
 msgid ""
@@ -1351,7 +1330,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-math.c:1321
-#, fuzzy
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1361,14 +1339,6 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=ATANH\n"
-"@SYNTAX=ATANH(x)\n"
-"@DESCRIPTION=La función ATANH calcula la tangente hiperbólica inversa de x; "
-"o sea el valor cuya tangente hiperbólica es x. Si el valor absoluto de x es "
-"superior a 1,0 ATANH devuelve el error 'atanh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
-"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
 #: src/fn-math.c:1341
 msgid ""
@@ -1828,7 +1798,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-string.c:426
-#, fuzzy
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num, [decimals, no_commas])\n"
@@ -1840,7 +1809,7 @@ msgstr ""
 "@SYNTAX=FIXED(num, [decimales, sin_separador])\n"
 "@DESCRIPTION=Devuelve @num como una cadena formateada con @decimales "
 "decimales después del punto de separación de las decimales. El separador de "
-"los miles (la coma) no se usará si se pide @sin_separador\n"
+"los miles (la coma) no se usará si se pide @sin_separador .\n"
 "@SEEALSO="
 
 #: src/fn-string.c:530
@@ -1954,7 +1923,7 @@ msgstr ""
 
 #: src/format.c:1023
 msgid "0.0########"
-msgstr ""
+msgstr "0.0########"
 
 #: src/format.c:1040
 msgid "CELLRANGE"
@@ -2284,9 +2253,8 @@ msgid "LEVEL"
 msgstr ""
 
 #: src/number-match.c:150
-#, fuzzy
 msgid "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
-msgstr "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
+msgstr "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 
 #: src/plugin-manager.c:95 src/plugin-manager.c:96
 msgid "Name"
