@@ -1,9 +1,12 @@
 SUBDIRS = intl po macros plugins src doc icons
 
+change_logs = \
+	OChangeLog
+
 EXTRA_DIST = \
 	gnumeric.desktop README HACKING gnumeric.spec.in 	\
 	gnumeric.keys.in gnumeric.mime $(appicon_DATA) 		\
-	gnumeric.gnorba
+	gnumeric.gnorba $(change_logs)
 
 appicondir = $(datadir)/pixmaps
 appicon_DATA = gnome-gnumeric.png gnome-gnumeric-xl.png

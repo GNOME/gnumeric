@@ -44,6 +44,11 @@ Gnumeric Spread Sheet task list
   * Add column/row title printing
   * Add color printing support.
 
+* Font dialog
+
+  * Get the list of *valid* fonts from GnomePrint
+  * Create a simplistic dialog (to map to font-bold yes/no).
+
 * Cell dimension computation is broken on font change for multilines.
 
 * Number formatting

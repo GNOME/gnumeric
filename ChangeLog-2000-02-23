@@ -1,3 +1,8 @@
+1999-07-11  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/widget-font-selector.c: New file.  A simplified and robust
+	font selector for Gnumeric.
+
 1999-07-11  Jody Goldberg  <jgoldberg@home.com>
 
 	* src/item-grid.c (context_cut_cmd, context_copy_cmd context_paste_cmd,

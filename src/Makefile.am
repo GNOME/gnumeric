@@ -166,6 +166,8 @@ GNUMERIC_BASE_SOURCES =				\
 	utils.h					\
 	widget-editable-label.c			\
 	widget-editable-label.h			\
+	widget-font-selector.c			\
+	widget-font-selector.h			\
 	workbook.c				\
 	xml-io.c				\
 	xml-io.h
@@ -246,11 +248,13 @@ idl_DATA = Gnumeric.idl
 
 gladedir   = $(datadir)/gnumeric/glade
 glade_DATA = 				\
+	font-sel.glade			\
 	hf-config.glade			\
 	import.glade			\
 	print.glade 
 
 glade_msgs = 				\
+	font-sel.glade.h		\
 	hf-config.glade.h		\
 	import.glade.h			\
 	print.glade.h

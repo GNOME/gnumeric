@@ -15,6 +15,7 @@
 #include "format.h"
 #include "formats.h"
 #include "pattern-selector.h"
+#include "widget-font-selector.h"
 
 /* The main dialog box */
 static GtkWidget *cell_format_prop_win = 0;
@@ -523,12 +524,10 @@ font_changed (GtkWidget *widget, GtkStyle *previous_style, GnomePropertyBox *pro
 static GtkWidget *
 create_font_page (GtkWidget *prop_win, CellList *cells)
 {
-	GtkWidget *font_widget;
-	
-	font_widget = gnome_font_selection_new ();
+	font_widget = font_selector_new ();
 	gtk_widget_show (font_widget);
 
-	gtk_signal_connect (GTK_OBJECT (GNOME_FONT_SELECTION (font_widget)->preview),
+	gtk_signal_connect (GTK_OBJECT (FONT_SELECTOR (font_widget)->font_preview),
 			    "style_set",
 			    GTK_SIGNAL_FUNC (font_changed), prop_win);
 	return font_widget;

@@ -37,3 +37,4 @@ src/xml-io.c
 src/print.glade.h
 src/import.glade.h
 src/hf-config.glade.h
+src/font-sel.glade.h
