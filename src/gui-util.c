@@ -101,71 +101,6 @@ gnumeric_notice_nonmodal (GtkWindow *parent, GtkWidget **ref, GtkMessageType typ
 	return;
 }
 
-
-static void
-fsel_dialog_finish (GtkWidget *widget)
-{
-	gtk_widget_hide (widget);
-	gtk_main_quit ();
-}
-
-static void
-fsel_handle_ok (GtkWidget *widget, gboolean *result)
-{
-	GtkFileSelection *fsel;
-	gchar const *file_name;
-
-	fsel = GTK_FILE_SELECTION (gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION));
-	file_name = gtk_file_selection_get_filename (fsel);
-
-	/* Change into directory if that's what user selected */
-	if (g_file_test (file_name, G_FILE_TEST_IS_DIR)) {
-		gint name_len;
-		gchar *dir_name;
-
-		name_len = strlen (file_name);
-		if (name_len < 1 || file_name [name_len - 1] != '/') {
-			/* The file selector needs a '/' at the end of a directory name */
-			dir_name = g_strconcat (file_name, "/", NULL);
-		} else {
-			dir_name = g_strdup (file_name);
-		}
-		gtk_file_selection_set_filename (fsel, dir_name);
-		g_free (dir_name);
-	} else {
-		fsel_dialog_finish (GTK_WIDGET (fsel));
-		*result = TRUE;
-	}
-}
-
-static void
-fsel_handle_cancel (GtkWidget *widget, gpointer user_data)
-{
-	GtkWidget *fsel;
-
-	fsel = gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION);
-	fsel_dialog_finish (fsel);
-}
-
-static gint
-fsel_delete_event (GtkWidget *widget, GdkEventAny *event)
-{
-	fsel_dialog_finish (widget);
-	return TRUE;
-}
-
-static gint
-fsel_key_event (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
-{
-	if (event->keyval == GDK_Escape) {
-		gtk_signal_emit_stop_by_name (GTK_OBJECT (widget), "key_press_event");
-		fsel_dialog_finish (widget);
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
 static void
 fsel_response_cb (GtkFileChooser *dialog,
 		  gint response_id,
@@ -188,7 +123,7 @@ gu_delete_handler (GtkDialog *dialog,
 		   GdkEventAny *event,
 		   gpointer data)
 {
-	gtk_dialog_response(dialog, GTK_RESPONSE_CANCEL);
+	gtk_dialog_response (dialog, GTK_RESPONSE_CANCEL);
 	return TRUE; /* Do not destroy */
 }
 
@@ -197,42 +132,27 @@ gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, GtkWidget *w)
 {
 	/* Note: wbcg will be NULL if called (indirectly) from gog-style.c  */
 	gboolean result = FALSE;
-	gulong delete_handler = 0;
+	gulong delete_handler;
+
+	g_return_val_if_fail (GTK_IS_FILE_CHOOSER (w), FALSE);
 
 	gtk_window_set_modal (GTK_WINDOW (w), TRUE);
 	if (wbcg)
 		gnumeric_set_transient (wbcg_toplevel (wbcg), 
 					GTK_WINDOW (w));
-	if (GTK_IS_FILE_SELECTION (w)) {
-		GtkFileSelection *fsel = GTK_FILE_SELECTION (w);
-		g_signal_connect (G_OBJECT (fsel->ok_button),
-				  "clicked",
-				  G_CALLBACK (fsel_handle_ok), &result);
-		g_signal_connect (G_OBJECT (fsel->cancel_button),
-				  "clicked",
-				  G_CALLBACK (fsel_handle_cancel), NULL);
-		g_signal_connect (G_OBJECT (fsel),
-				  "key_press_event",
-				  G_CALLBACK (fsel_key_event), NULL);
-		g_signal_connect (G_OBJECT (fsel),
+	g_signal_connect (w, "response",
+			  G_CALLBACK (fsel_response_cb), &result);
+	delete_handler =
+		g_signal_connect (w,
 				  "delete_event",
-				  G_CALLBACK (fsel_delete_event), NULL);
-	} else if (GTK_IS_FILE_CHOOSER (w)) {
-		g_signal_connect (w, "response",
-				  G_CALLBACK (fsel_response_cb), &result);
-		delete_handler =
-			g_signal_connect (w,
-					  "delete_event",
-					  G_CALLBACK (gu_delete_handler),
-					  NULL);
-	}
+				  G_CALLBACK (gu_delete_handler),
+				  NULL);
 
 	gtk_widget_show_all (w);
 	gtk_grab_add (w);
 	gtk_main ();
 
-	if (GTK_IS_FILE_CHOOSER (w) && delete_handler != 0)
-		g_signal_handler_disconnect (w, delete_handler);
+	g_signal_handler_disconnect (w, delete_handler);
 
 	return result;
 }

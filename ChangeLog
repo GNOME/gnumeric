@@ -1,3 +1,9 @@
+2004-02-26  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-util.c (fsel_key_event, fsel_delete_event,
+	fsel_handle_cancel, fsel_handle_ok, fsel_dialog_finish): Delete.
+	(gnumeric_dialog_file_selection): Remove GtkFileSelector version.
+
 2004-02-25  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-file.c (update_preview_cb): Keep the preview, possibly

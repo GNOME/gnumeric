@@ -65,6 +65,7 @@ sheet_object_bonobo_destroy (GtkObject *object)
 static char *
 get_file_name (void)
 {
+#if 0
 	GtkFileSelection *fs;
 	char *filename;
 	char *basename;
@@ -93,6 +94,10 @@ get_file_name (void)
 	g_free (basename);
 
 	return filename;
+#else
+#warning "Rewrite this in terms of GtkFileChooser"
+	return NULL;
+#endif
 }
 
 void

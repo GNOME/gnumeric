@@ -73,7 +73,7 @@ Michael Devine:
 Morten:
 	* Clean out work-arounds for old GTK+.
 	* Turn on multi-head support.
-	* Initiate switch to file chooser.
+	* Switch to file chooser.
 	* Eliminate use of GnomeEntry.
 	* Fit scale-fit problem.
 	* Fix FLOOR and CEILING error case.
