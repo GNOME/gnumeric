@@ -1,3 +1,7 @@
+2000-11-16  Morten Welinder  <terra@diku.dk>
+
+	* plugins/Makefile.am (GDA_DIR): Blank.
+
 2000-11-16  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/sheet-autofill.c: Added support for boolean values (just copy

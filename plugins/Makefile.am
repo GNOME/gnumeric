@@ -24,11 +24,14 @@ else
 GB_DIR =
 endif
 
-if WITH_GDA
-GDA_DIR=gda
-else
+# if WITH_GDA
+# GDA_DIR=gda
+# else
+# GDA_DIR=
+# endif
+
+# Don't put untested code in, please.  -- MW.
 GDA_DIR=
-endif
 
 SUBDIRS_FILE_FORMATS = excel lotus-123 oleo sc sylk xbase html dif plan-perfect \
 	xml2 applix
