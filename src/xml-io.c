@@ -1779,12 +1779,14 @@ xml_write_sheet_object (XmlParseContext *ctxt, SheetObject *object)
 			cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Bonobo", NULL);
 			ok = ctxt->write_fn (cur, object,
 					     ctxt->user_data);
-			xml_set_gnome_canvas_points (cur, "Points",
-						     object->bbox_points);
+			xml_set_gnome_canvas_points (
+				cur, "Points", object->bbox_points);
+
 			if (!ok) {
 				g_warning ("Error serializing bonobo sheet object");
 				xmlUnlinkNode (cur);
 				xmlFreeNode (cur);
+				cur = NULL;
 			}
 		} else
 			cur = NULL;
@@ -1868,14 +1870,18 @@ xml_read_sheet_object (XmlParseContext *ctxt, xmlNodePtr tree)
 		xml_get_coordinates (tree, "Points", &x1, &y1, &x2, &y2);
 
 		if (ctxt->read_fn) {
-			ret = ctxt->read_fn (tree, ctxt->sheet, x1, y1, x2, y2,
-					     ctxt->user_data);
+			ret = ctxt->read_fn (
+				tree, ctxt->sheet, x1, y1, x2, y2,
+				ctxt->user_data);
+
 			if (!ret)
 				g_warning ("Error hydrating sheet object");
 
 			return ret;
-		} else
+		} else {
+			g_warning ("Internal error, no read fn");
 			return NULL;
+		}
 #endif
 	} else {
 		fprintf (stderr,

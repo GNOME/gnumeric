@@ -70,8 +70,7 @@ write_stream_to_storage (xmlNodePtr           cur,
 	 */
 	Bonobo_PersistStream_save (persist, stream, "", ev);
 
-	Bonobo_Unknown_unref ((Bonobo_Unknown) stream, ev);
-	CORBA_Object_release (stream, ev);
+	bonobo_object_release_unref (stream, ev);
 }
 
 static gboolean
@@ -105,9 +104,7 @@ gnumeric_bonobo_obj_write (xmlNodePtr   cur,
 
 	if (!BONOBO_EX (&ev) && ps != CORBA_OBJECT_NIL) {
 		write_stream_to_storage (cur, ps, storage, &ev);
-
-		Bonobo_Unknown_unref ((Bonobo_Unknown) ps, &ev);
-		CORBA_Object_release (ps, &ev);
+		bonobo_object_release_unref (ps, &ev);
 	} else {
 		g_warning ("Component has data to save but no PersistStream interface");
 		ret = FALSE;
@@ -140,14 +137,17 @@ read_stream_from_storage (Bonobo_Unknown       object,
 	Bonobo_Stream        stream;
 	Bonobo_PersistStream ps;
 
-	ps = Bonobo_Unknown_queryInterface (object, "IDL:Bonobo/PersistStream:1.0", ev);
+	ps = Bonobo_Unknown_queryInterface (
+		object, "IDL:Bonobo/PersistStream:1.0", ev);
 
 	if (BONOBO_EX (ev) || ps == CORBA_OBJECT_NIL) {
 		g_warning ("Wierd, component used to have a PersistStream interface");
 		return;
 	}
 
-	stream = Bonobo_Storage_openStream (storage, sname, Bonobo_Storage_READ, ev);
+	stream = Bonobo_Storage_openStream (
+		storage, sname, Bonobo_Storage_READ, ev);
+
 	if (ev->_major != CORBA_NO_EXCEPTION) {
 		g_warning ("Can't open stream '%s'", sname);
 		return;
@@ -157,14 +157,14 @@ read_stream_from_storage (Bonobo_Unknown       object,
 	 * We need to restore the type too.
 	 */
 	Bonobo_PersistStream_load (ps, stream, "", ev);
-	if (ev->_major != CORBA_NO_EXCEPTION)
+	if (BONOBO_EX (ev)) {
+		g_warning ("Error '%s' loading stream",
+			   bonobo_exception_get_text (ev));
 		return;
+	}
 
-	Bonobo_Unknown_unref ((Bonobo_Unknown) stream, ev);
-	CORBA_Object_release (stream, ev);
-
-	Bonobo_Unknown_unref ((Bonobo_Unknown) ps, ev);
-	CORBA_Object_release (ps, ev);
+	bonobo_object_release_unref (stream, ev);
+	bonobo_object_release_unref (ps, ev);
 }
 
 static SheetObject *
@@ -206,30 +206,37 @@ gnumeric_bonobo_obj_read (xmlNodePtr   tree,
 	sname = xmlGetProp (tree, "Stream");
 	if (sname)
 		read_stream_from_storage (
-			bonobo_object_corba_objref (BONOBO_OBJECT (sob->object_server)),
+			bonobo_object_corba_objref (
+				BONOBO_OBJECT (sob->object_server)),
 			storage, sname, &ev);
+	else
+		g_warning ("No stream");
 
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		gtk_object_unref (GTK_OBJECT (sob));
 		CORBA_exception_free (&ev);
+		g_warning ("nasty error");
 		return NULL;
 	}
 
 	/*
-	 * If it is a complex object / container it will need to 
-	 * serialize to a Storage;
-	 * this needs implementing
+	 * FIXME: If it is a complex object / container it will need
+	 * to serialize to a Storage; this needs implementing
 	 * xml_set_value_string (cur, "Storage", ###);
 	 */
 	CORBA_exception_free (&ev);
+
+	sheet_object_set_bounds (SHEET_OBJECT (sob), x1, y1, x2, y2);
+
 	sheet_object_realize (SHEET_OBJECT (sob));
 
 	return SHEET_OBJECT (sob);
 }
 
 static int
-gnumeric_bonobo_write_workbook (IOContext *context, WorkbookView *wb_view,
-				const char *filename)
+gnumeric_bonobo_write_workbook (IOContext    *context,
+				WorkbookView *wb_view,
+				const char   *filename)
 {
 	int              size, ret;
 	xmlChar         *mem;
@@ -418,8 +425,9 @@ hack_xmlSAXParseFile (Bonobo_Stream stream)
 }
 
 static int
-gnumeric_bonobo_read_workbook (IOContext *context, WorkbookView *wb_view,
-			       const char *filename)
+gnumeric_bonobo_read_workbook (IOContext    *context,
+			       WorkbookView *wb_view,
+			       const char   *filename)
 {
 	CORBA_Environment   ev;
 	xmlDoc             *doc;
@@ -458,13 +466,14 @@ gnumeric_bonobo_read_workbook (IOContext *context, WorkbookView *wb_view,
 	 */
 	doc = hack_xmlSAXParseFile (stream);
 	if (!doc) {
-		gnumeric_io_error_read (context, "Failed to parse file");
+		gnumeric_io_error_read (
+			context, "Failed to parse file");
 		goto storage_err;
 	}
 	if (!doc->root) {
 		xmlFreeDoc (doc);
-		gnumeric_io_error_read (context,
-				     _("Invalid xml file. Tree is empty ?"));
+		gnumeric_io_error_read (
+			context, _("Invalid xml file. Tree is empty ?"));
 		goto storage_err;
 	}
 
@@ -474,7 +483,8 @@ gnumeric_bonobo_read_workbook (IOContext *context, WorkbookView *wb_view,
 	gmr = xml_check_version (doc, &version);
 	if (!gmr) {
 		xmlFreeDoc (doc);
-		gnumeric_io_error_read (context, _("Does not contain a Workbook file"));
+		gnumeric_io_error_read (
+			context, _("Does not contain a Workbook file"));
 		goto storage_err;
 	}
 
