@@ -1,3 +1,14 @@
+1999-08-28  Karl Eichwalder  <ke@suse.de>
+
+	* gnumeric.desktop: Sort entries.
+	(Name): Add `de'.
+	(Comment): Ditto.
+
+	* src/dialogs/dialog-zoom.c (dialog_zoom): Help xgettext to
+	recognize the strings as `no-c-format'.
+	* src/formats.c: Ditto.
+	* src/gnumeric-sheet.c: Ditto.
+
 1999-08-27  Karl Eichwalder  <ke@suse.de>
 
 	* src/workbook.c: Typo.

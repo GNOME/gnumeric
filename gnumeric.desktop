@@ -1,18 +1,20 @@
 [Desktop Entry]
 Name=Gnumeric spreadsheet
 Name[ja]=Gnumeric ¥¹¥×¥ì¥Ã¥É¥·¡¼¥È
+Name[de]=Gnumeric Tabellenkalkulation
 Name[es]=Gnumeric
 Name[fr]=Tableur Gnumeric
 Name[ko]=Gnumeric ½ºÇÁ·¹µå½¬Æ®
-Name[pt]=Gnumeric
 Name[no]=Gnumeric regneark
+Name[pt]=Gnumeric
 Comment=Spreadsheet
-Comment[ja]=É½·×»»¥×¥í¥°¥é¥à
+Comment[de]=Gnumeric Tabellenkalkulation
 Comment[es]=Hoja de cálculo
 Comment[fr]=Tableur Gnumeric
+Comment[ja]=É½·×»»¥×¥í¥°¥é¥à
 Comment[ko]=½ºÇÁ·¹µå½¬Æ®
-Comment[pt]=Folha de cálculo Gnumeric
 Comment[no]=Regnearkprogram
+Comment[pt]=Folha de cálculo Gnumeric
 Exec=gnumeric
 Icon=gnome-gnumeric.png
 Terminal=0
