@@ -32,7 +32,6 @@ typedef struct {
 } sc_file_state_t;
 
 
-
 static void
 sc_cellname_to_coords (const char *cellname, int *col, int *row)
 {
@@ -76,22 +75,20 @@ err_out:
 static void
 sc_parse_coord (const char **strdata, int *col, int *row)
 {
-	const char *s = *strdata, *space, *eq;
+	const char *s = *strdata, *eq;
 	size_t len = strlen (s);
 	char tmpstr [16];
 	
-	space = strchr (s, ' ');
 	eq = strstr (s, " = ");
-	if (!space || !eq || space == eq)
+	if (!eq)
 		return;
 
-	memcpy (tmpstr, space + 1, eq - space - 1);
-	tmpstr [eq - space - 1] = 0;
+	memcpy (tmpstr, s, eq - s);
+	tmpstr [eq - s] = 0;
 	
 	sc_cellname_to_coords (tmpstr, col, row);
 	if (*col == -1)
 		return;
-
 	if ((eq - s + 1 + 3) > len)
 		return;
 
@@ -114,7 +111,7 @@ sc_string_parse (sc_file_state_t *src, const char *str, int col, int row)
 	if (!s)
 		goto out;
 	
-	tmpstr = str;
+	tmpstr = str + 1; /* skip leading " */
 	while (*tmpstr) {
 		if (*tmpstr != '\\') {
 			*tmpout = *tmpstr;
@@ -288,6 +285,7 @@ init_plugin (PluginData * pd)
 	pd->can_unload     = sc_can_unload;
 	pd->cleanup_plugin = sc_cleanup_plugin;
 	pd->title = g_strdup (desc);
+
 	return 0;
 }
 
