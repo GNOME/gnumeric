@@ -3,7 +3,7 @@
 #
 # Where can we find the Gnumeric include files.
 #
-GNUMERIC_SRC_DIR = $(srcdir)/../../src
+GNUMERIC_SRC_DIR = $(top_srcdir)/src
 
 #
 # Where to install the plugin
