@@ -805,11 +805,13 @@ cmd_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdSetText *me = CMD_SET_TEXT (cmd);
 	const GnmExpr *expr;
-	Cell *cell = sheet_cell_fetch (me->pos.sheet,
-				       me->pos.eval.col,
-				       me->pos.eval.row);
+	Cell *cell;
 	Sheet *sheet = workbook_sheet_by_index (wb_control_workbook (wbc), 
 						cmd->sheet);
+
+	cell = sheet_cell_fetch (sheet,
+				 me->pos.eval.col,
+				 me->pos.eval.row);
 
 	sheet_cell_set_text (cell, me->text);
 	expr = cell->base.expression;

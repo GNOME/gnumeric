@@ -1,5 +1,10 @@
 2003-08-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/commands.c (cmd_set_text_redo): use cmd->sheet rather than
+	  pos.sheet
+
+2003-08-04  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/commands.c (cmd_analysis_tool_undo): call 
 	  dao_update_sheet_pointer before causing the sheet pointer to
 	  be used
