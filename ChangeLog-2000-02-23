@@ -1,3 +1,7 @@
+1999-05-31  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-lookup.c: Added ADDRESS().  Cleaned up too long lines.
+
 1999-05-28  Morten Welinder  <terra@diku.dk>
 
 	* src/file.c (workbook_read): Temporarily switch to "C" locale
