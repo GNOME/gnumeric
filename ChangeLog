@@ -1,5 +1,13 @@
 2000-12-17  Jody Goldberg <jgoldberg@home.com>
 
+	* src/ranges.c (parse_range) : support singletons.
+
+	* src/sheet-object.c (sheet_object_write_xml) : Store the anchor
+	  descriptor.
+	(sheet_object_read_xml) : restore the descriptor.
+
+2000-12-17  Jody Goldberg <jgoldberg@home.com>
+
 	* src/gnumeric-sheet.c (cursor_vertical_move) : fix cut-n-paste-o.
 	(rangesel_vertical_move) : Ditto.
 

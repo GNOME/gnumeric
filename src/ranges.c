@@ -88,8 +88,14 @@ parse_range (const char *text, int *start_col, int *start_row,
 {
 	int len;
 
-	return (parse_cell_name (text, start_col, start_row, FALSE, &len) &&
-		text[len] == ':' &&
+	if (!parse_cell_name (text, start_col, start_row, FALSE, &len))
+		return FALSE;
+	if (text [len] == '\0') {
+		*end_col = *start_col;
+		*end_row = *start_row;
+		return TRUE;
+	}
+	return (text[len] == ':' &&
 		parse_cell_name (text + len + 1, end_col, end_row, TRUE, NULL));
 }
 

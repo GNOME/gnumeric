@@ -323,6 +323,7 @@ SheetObject *
 sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 {
 	SheetObject *so;
+	char *tmp;
 
 	/* Old crufty IO */
 	if (!strcmp (tree->name, "Rectangle")){
@@ -339,21 +340,40 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 		so = SHEET_OBJECT (obj);
 	}
 
-	if (so != NULL &&
-	    SO_CLASS (so)->read_xml &&
+	if (so == NULL)
+		return NULL;
+
+	if (SO_CLASS (so)->read_xml &&
 	    SO_CLASS (so)->read_xml (so, ctxt, tree)) {
 		gtk_object_destroy (GTK_OBJECT (so));
 		return NULL;
 	}
 		
-#warning restore position
-#if 0
-	{
-	double x1, y1, x2, y2;
-	xml_get_coordinates (tree, "Points", &x1, &y1, &x2, &y2);
-	sheet_object_set_bounds (so, x1, y1, x2, y2);
+	tmp = xmlGetProp (tree, "ObjectBound");
+	if (tmp != NULL) {
+		Range r;
+		if (parse_range (tmp,
+				 &r.start.col, &r.start.row,
+				 &r.end.col, &r.end.row))
+			so->cell_bound = r;
+		xmlFree (tmp);
 	}
-#endif
+
+	tmp = xmlGetProp (tree, "ObjectOffset");
+	if (tmp != NULL) {
+		sscanf (tmp, "%g %g %g %g",
+			so->offset +0, so->offset +1,
+			so->offset +2, so->offset +3);
+	}
+
+	tmp = xmlGetProp (tree, "ObjectAnchorType");
+	if (tmp != NULL) {
+		int i[4], count;
+		sscanf (tmp, "%d %d %d %d", i+0, i+1, i+2, i+3);
+
+		for (count = 4; count-- > 0 ; )
+			so->anchor_type[count] = i[count];
+	}
 
 	sheet_object_set_sheet (so, ctxt->sheet);
 	return so;
@@ -364,6 +384,7 @@ sheet_object_write_xml (SheetObject const *so, XmlParseContext const *ctxt)
 {
 	GtkObject *obj;
 	xmlNodePtr tree;
+	char buffer[4*(DBL_DIG+10)];
 
 	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
 	obj = GTK_OBJECT (so);
@@ -374,12 +395,25 @@ sheet_object_write_xml (SheetObject const *so, XmlParseContext const *ctxt)
 	tree = xmlNewDocNode (ctxt->doc, ctxt->ns,
 			      gtk_type_name (GTK_OBJECT_TYPE (obj)), NULL);
 
+	if (tree == NULL)
+		return NULL;
+
 	if (SO_CLASS (so)->write_xml (so, ctxt, tree)) {
 		xmlUnlinkNode (tree);
 		xmlFreeNode (tree);
 		return NULL;
 	}
-#warning save position
+
+	xml_set_value_cstr (tree, "ObjectBound", range_name (&so->cell_bound));
+	snprintf (buffer, sizeof (buffer), "%.*g %.*g %.*g %.*g",
+		  DBL_DIG, so->offset [0], DBL_DIG, so->offset [1],
+		  DBL_DIG, so->offset [2], DBL_DIG, so->offset [3]);
+	xml_set_value_cstr (tree, "ObjectOffset", buffer);
+	snprintf (buffer, sizeof (buffer), "%d %d %d %d",
+		  so->anchor_type [0], so->anchor_type [1],
+		  so->anchor_type [2], so->anchor_type [3]);
+	xml_set_value_cstr (tree, "ObjectAnchorType", buffer);
+
 	return tree;
 }
 

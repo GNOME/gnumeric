@@ -5,8 +5,6 @@ and longer term bugs.
 Release Critical
 ----------------
 
-- Other anchor types for sheet objects
-
 Long term breakage
 ------------------
 
@@ -95,6 +93,7 @@ STF - pasting a single line should not invoke the importer
 - SheetObjects  : Add data member to Class to indicate 'simple' object
 		  types that can be rubber banded directly.
 		: Add acetate_create virtual to handle shaped objects.
+- Other anchor types for sheet objects
 
 Dialogs
 -------
