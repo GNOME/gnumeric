@@ -26389,9 +26389,9 @@ msgid "%d function in category \"%s\""
 msgstr "%d の関数がカテゴリ\"%s\"にあります"
 
 #: src/plugin-service.c:1126
-#, c-format
+#, fuzzy, c-format
 msgid "Group of %d functions in category \"%s\""
-msgstr "カテゴリ\"%s\"の%d関数グループ"
+msgstr "カテゴリ\"%2$s\"の%1$d関数グループ"
 
 #: src/plugin-service.c:1222
 msgid "Plugin loader"

@@ -1,3 +1,10 @@
+2004-02-08  Tomasz K³oczko <kloczek@pld.org.pl>
+
+	* ja.po: Fixed format specyfications (gettext 0.14.x is more strict
+	  on some kind of bugs) by s#%s#%2$s# and s#%d#%1$d#
+	  ja.po:26393: format specifications in 'msgid' and 'msgstr' for argument 1 are not the same
+	  Mark entry as fuzzy.	
+
 2004-02-05  Kostas Papadimas <pkst@gnome.org>
 
 	* el.po: Updated  Greek translation by Petros Velonis.
