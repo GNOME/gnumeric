@@ -5,5 +5,7 @@
  */
 
 gchar *s = N_("Function Selector");
-gchar *s = N_("Function _Category");
-gchar *s = N_("Function _Name");
+gchar *s = N_("Function _Categories");
+gchar *s = N_("Function _Names");
+gchar *s = N_("place holder no need to translate");
+gchar *s = N_("place holder no need to translate");

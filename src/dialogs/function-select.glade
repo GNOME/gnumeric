@@ -22,7 +22,7 @@
   <name>FunctionSelect</name>
   <visible>False</visible>
   <title>Function Selector</title>
-  <type>GTK_WINDOW_DIALOG</type>
+  <type>GTK_WINDOW_POPUP</type>
   <position>GTK_WIN_POS_MOUSE</position>
   <modal>True</modal>
   <allow_shrink>False</allow_shrink>
@@ -35,6 +35,7 @@
     <class>GtkAlignment</class>
     <child_name>GnomeDialog:vbox</child_name>
     <name>alignment1</name>
+    <width>480</width>
     <xalign>0.5</xalign>
     <yalign>0.5</yalign>
     <xscale>0</xscale>
@@ -48,7 +49,7 @@
     <widget>
       <class>GtkVBox</class>
       <child_name>GnomeDialog:vbox</child_name>
-      <name>dialog-vbox2</name>
+      <name>dialog-vbox1</name>
       <width>480</width>
       <homogeneous>False</homogeneous>
       <spacing>8</spacing>
@@ -56,7 +57,7 @@
       <widget>
 	<class>GtkHButtonBox</class>
 	<child_name>GnomeDialog:action_area</child_name>
-	<name>dialog-action_area2</name>
+	<name>dialog-action_area1</name>
 	<layout_style>GTK_BUTTONBOX_EDGE</layout_style>
 	<spacing>8</spacing>
 	<child_min_width>85</child_min_width>
@@ -72,7 +73,7 @@
 
 	<widget>
 	  <class>GtkButton</class>
-	  <name>button6</name>
+	  <name>button1</name>
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
 	  <stock_button>GNOME_STOCK_BUTTON_HELP</stock_button>
@@ -80,7 +81,7 @@
 
 	<widget>
 	  <class>GtkButton</class>
-	  <name>button7</name>
+	  <name>button2</name>
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
 	  <stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
@@ -88,7 +89,7 @@
 
 	<widget>
 	  <class>GtkButton</class>
-	  <name>button8</name>
+	  <name>button3</name>
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
 	  <stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
@@ -109,7 +110,7 @@
 	<widget>
 	  <class>GtkHBox</class>
 	  <name>hbox1</name>
-	  <height>200</height>
+	  <height>220</height>
 	  <homogeneous>False</homogeneous>
 	  <spacing>0</spacing>
 	  <child>
@@ -120,7 +121,8 @@
 
 	  <widget>
 	    <class>GtkScrolledWindow</class>
-	    <name>scrolledwindow2</name>
+	    <name>scrolledwindow1</name>
+	    <width>92</width>
 	    <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
 	    <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
 	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
@@ -144,11 +146,11 @@
 	      <widget>
 		<class>GtkLabel</class>
 		<child_name>CList:title</child_name>
-		<name>category</name>
-		<label>Function _Category</label>
-		<justify>GTK_JUSTIFY_LEFT</justify>
+		<name>label1</name>
+		<label>Function _Categories</label>
+		<justify>GTK_JUSTIFY_CENTER</justify>
 		<wrap>False</wrap>
-		<xalign>0</xalign>
+		<xalign>0.5</xalign>
 		<yalign>0.5</yalign>
 		<xpad>0</xpad>
 		<ypad>0</ypad>
@@ -158,7 +160,8 @@
 
 	  <widget>
 	    <class>GtkScrolledWindow</class>
-	    <name>scrolledwindow3</name>
+	    <name>scrolledwindow2</name>
+	    <width>170</width>
 	    <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
 	    <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
 	    <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
@@ -182,11 +185,11 @@
 	      <widget>
 		<class>GtkLabel</class>
 		<child_name>CList:title</child_name>
-		<name>function</name>
-		<label>Function _Name</label>
-		<justify>GTK_JUSTIFY_LEFT</justify>
+		<name>label2</name>
+		<label>Function _Names</label>
+		<justify>GTK_JUSTIFY_CENTER</justify>
 		<wrap>False</wrap>
-		<xalign>0</xalign>
+		<xalign>0.5</xalign>
 		<yalign>0.5</yalign>
 		<xpad>0</xpad>
 		<ypad>0</ypad>
@@ -198,7 +201,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>function_name</name>
-	  <label></label>
+	  <label>place holder no need to translate</label>
 	  <justify>GTK_JUSTIFY_LEFT</justify>
 	  <wrap>True</wrap>
 	  <xalign>0</xalign>
@@ -215,12 +218,12 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>function_description</name>
-	  <height>64</height>
-	  <label></label>
+	  <height>50</height>
+	  <label>place holder no need to translate</label>
 	  <justify>GTK_JUSTIFY_LEFT</justify>
 	  <wrap>True</wrap>
 	  <xalign>0</xalign>
-	  <yalign>0.5</yalign>
+	  <yalign>0</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
 	  <child>

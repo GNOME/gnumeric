@@ -116,7 +116,7 @@ dialog_function_select_impl (Workbook *wb, GladeXML *gui)
 {
 	int res;
 	FunctionSelectState state;
-	GtkWidget *dialog = glade_xml_get_widget (gui, "CellFormat");
+	GtkWidget *dialog;
 
 	g_return_val_if_fail (wb, NULL);
 

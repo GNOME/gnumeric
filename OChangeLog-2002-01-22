@@ -1,5 +1,14 @@
 2000-03-11  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook.c (workbook_setup_edit_area) : Use sensitize rather
+	  than show/hide for the ok/cancel buttons.  Return wizard back
+	  to end of list.
+	(workbook_new) : Revert last change, no longer necessary.
+	(workbook_start_editing_at_cursor) : Sensitize the ok/cancel edit buttons.
+	(workbook_finish_editing) : desensitize them.
+
+2000-03-11  Jody Goldberg <jgoldberg@home.com>
+
 	* src/workbook.c (cb_editline_focus_in) : When the edit lined receives
 	  focus start editing.
 	(accept_input) : No need to force edit mode we should already be in

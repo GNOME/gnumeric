@@ -1707,6 +1707,26 @@ workbook_setup_edit_area (Workbook *wb)
 
 	gtk_widget_set_usize (wb->priv->ea_status, 100, 0);
 
+	/* Ok */
+	pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_BUTTON_OK);
+	gtk_container_add (GTK_CONTAINER (wb->priv->ok_button), pix);
+	gtk_widget_set_sensitive (wb->priv->ok_button, FALSE);
+	GTK_WIDGET_UNSET_FLAGS (wb->priv->ok_button, GTK_CAN_FOCUS);
+	gtk_signal_connect (GTK_OBJECT (wb->priv->ok_button), "clicked",
+			    GTK_SIGNAL_FUNC (accept_input), wb);
+
+	/* Cancel */
+	pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_BUTTON_CANCEL);
+	gtk_container_add (GTK_CONTAINER (wb->priv->cancel_button), pix);
+	gtk_widget_set_sensitive (wb->priv->cancel_button, FALSE);
+	GTK_WIDGET_UNSET_FLAGS (wb->priv->cancel_button, GTK_CAN_FOCUS);
+	gtk_signal_connect (GTK_OBJECT (wb->priv->cancel_button), "clicked",
+			    GTK_SIGNAL_FUNC (cancel_input), wb);
+
+	gtk_box_pack_start (GTK_BOX (box2), wb->priv->ea_status, 0, 0, 0);
+	gtk_box_pack_start (GTK_BOX (box), wb->priv->ok_button, 0, 0, 0);
+	gtk_box_pack_start (GTK_BOX (box), wb->priv->cancel_button, 0, 0, 0);
+
 	/* Function Wizard */
 	if (gnumeric_debugging > 0) {
 		wizard_button = gtk_button_new ();
@@ -1717,24 +1737,6 @@ workbook_setup_edit_area (Workbook *wb)
 				    GTK_SIGNAL_FUNC (wizard_input), wb);
 		gtk_box_pack_start (GTK_BOX (box), wizard_button, 0, 0, 0);
 	}
-
-	/* Ok */
-	pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_BUTTON_OK);
-	gtk_container_add (GTK_CONTAINER (wb->priv->ok_button), pix);
-	GTK_WIDGET_UNSET_FLAGS (wb->priv->ok_button, GTK_CAN_FOCUS);
-	gtk_signal_connect (GTK_OBJECT (wb->priv->ok_button), "clicked",
-			    GTK_SIGNAL_FUNC (accept_input), wb);
-
-	/* Cancel */
-	pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_BUTTON_CANCEL);
-	gtk_container_add (GTK_CONTAINER (wb->priv->cancel_button), pix);
-	GTK_WIDGET_UNSET_FLAGS (wb->priv->cancel_button, GTK_CAN_FOCUS);
-	gtk_signal_connect (GTK_OBJECT (wb->priv->cancel_button), "clicked",
-			    GTK_SIGNAL_FUNC (cancel_input), wb);
-
-	gtk_box_pack_start (GTK_BOX (box2), wb->priv->ea_status, 0, 0, 0);
-	gtk_box_pack_start (GTK_BOX (box), wb->priv->ok_button, 0, 0, 0);
-	gtk_box_pack_start (GTK_BOX (box), wb->priv->cancel_button, 0, 0, 0);
 
 	/* Dependency + Style debugger */
 	if (gnumeric_debugging > 9 ||
@@ -2408,10 +2410,6 @@ workbook_new (void)
 			    wb);
 
 	gtk_widget_show_all (wb->priv->table);
-
-	/* Edit buttons are not visible initially */
-	gtk_widget_hide (wb->priv->cancel_button);
-	gtk_widget_hide (wb->priv->ok_button);
 
 	return wb;
 }
@@ -3243,8 +3241,9 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp, gboolean cursor
 					   sheet->cursor.edit_pos.col,
 					   sheet->cursor.edit_pos.row);
 
-	gtk_widget_show (wb->priv->cancel_button);
-	gtk_widget_show (wb->priv->ok_button);
+	/* These are only sensitive while editing */
+	gtk_widget_set_sensitive (wb->priv->ok_button, TRUE);
+	gtk_widget_set_sensitive (wb->priv->cancel_button, TRUE);
 }
 
 void
@@ -3266,9 +3265,9 @@ workbook_finish_editing (Workbook *wb, gboolean const accept)
 	wb->editing_sheet = NULL;
 	wb->editing_cell = NULL;
 
-	/* These are only visible while editing */
-	gtk_widget_hide (wb->priv->ok_button);
-	gtk_widget_hide (wb->priv->cancel_button);
+	/* These are only sensitive while editing */
+	gtk_widget_set_sensitive (wb->priv->ok_button, FALSE);
+	gtk_widget_set_sensitive (wb->priv->cancel_button, FALSE);
 
 	/* Save the results before changing focus */
 	if (accept) {
