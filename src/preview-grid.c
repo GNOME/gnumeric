@@ -323,7 +323,7 @@ preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
  
 			if (!cell_is_blank (cell))
 				cell_draw (cell, style, pg->gc, drawable,
-					   x, y, -1, -1, 0);
+					   x, y, -1, -1, colwidths [col] / 2);
 
  			x += colwidths [col];
  		}

@@ -142,7 +142,7 @@ cell_split_text (GdkFont *font, char const *text, int const width)
 void
 cell_draw (Cell const *cell, MStyle const *mstyle,
 	   GdkGC *gc, GdkDrawable *drawable,
-	   int x1, int y1, int width, int height, int left_offset)
+	   int x1, int y1, int width, int height, int h_center)
 {
 	StyleFont    *style_font;
 	GdkFont      *font;
@@ -290,7 +290,7 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 
 		case HALIGN_CENTER:
 		case HALIGN_CENTER_ACROSS_SELECTION:
-			x = rect.x + left_offset + (ci->size_pixels - cell_width_pixel) / 2;
+			x = rect.x + h_center - cell_width_pixel / 2;
 			break;
 
 		default:
@@ -373,7 +373,7 @@ cell_draw (Cell const *cell, MStyle const *mstyle,
 			case HALIGN_CENTER:
 			case HALIGN_CENTER_ACROSS_SELECTION:
 				len = gdk_string_width (font, str);
-				x = rect.x + left_offset + (ci->size_pixels - len) / 2;
+				x = rect.x + h_center - len / 2;
 			}
 
 			draw_text (drawable, font, gc,

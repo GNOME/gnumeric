@@ -168,7 +168,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 			     int start_x, int start_y,
 			     Range const *view, Range const *range)
 {
-	int l, r, t, b, last;
+	int l, r, t, b, last, w;
 	GdkGC *gc = grid->empty_gc;
 	Sheet const *sheet   = grid->scg->sheet;
 	Cell  const *cell    = sheet_cell_get (sheet, range->start.col, range->start.row);
@@ -195,7 +195,8 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 		last = range->end.row;
 	b += scg_colrow_distance_get (grid->scg, FALSE, view->start.row, last+1);
 
-	if (gnumeric_background_set_gc (mstyle, gc, grid->canvas_item.canvas, is_selected))
+	if (is_selected ||
+	    gnumeric_background_set_gc (mstyle, gc, grid->canvas_item.canvas, is_selected))
 		/* Remember X excludes the far pixels */
 		gdk_draw_rectangle (drawable, gc, TRUE, l, t, r-l+1, b-t+1);
 
@@ -217,10 +218,10 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 				view->end.row+1, range->end.row+1);
 
 		/* FIXME : get the margins from the far col/row too */
+		w = r - l - ci->margin_b - ci->margin_a;
 		cell_draw (cell, mstyle, grid->cell_gc, drawable,
-			   l, t,
-			   r - l - ci->margin_b - ci->margin_a,
-			   b - t - ri->margin_b - ri->margin_a, 0);
+			   l, t, w,
+			   b - t - ri->margin_b - ri->margin_a, w/2);
 	}
 }
 
@@ -458,7 +459,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				if (!cell_is_blank (cell) && cell != edit_cell)
 					cell_draw (cell, style,
 						   item_grid->cell_gc, drawable,
-						   x, y, -1, -1, 0);
+						   x, y, -1, -1, colwidths [col]/2);
 
 			/* Only draw spaning cells after all the backgrounds
 			 * that we are goign to draw have been drawn.  No need
@@ -470,7 +471,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				int const start_span_col = span->left;
 				int const end_span_col = span->right;
 				int real_x = x;
-				int left_offset = 0;
+				int center_offset = cell->col_info->size_pixels/2;
 				/* TODO : Use the spanning margins */
 				int tmp_width = ci->size_pixels -
 					ci->margin_b - ci->margin_a;
@@ -484,7 +485,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				 * justify or center justify) compute the pixel difference
 				 */
 				if (start_span_col != cell->pos.col)
-					left_offset = scg_colrow_distance_get (
+					center_offset += scg_colrow_distance_get (
 						gsheet->scg, TRUE,
 						start_span_col, cell->pos.col);
 
@@ -504,7 +505,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 				cell_draw (cell, style,
 					   item_grid->cell_gc, drawable,
-					   real_x, y, tmp_width, -1, left_offset);
+					   real_x, y, tmp_width, -1, center_offset);
 			} else if (col != span->left)
 				sr.vertical [col] = NULL;
 

@@ -1,5 +1,18 @@
 2001-02-17  Jody Goldberg <jgoldberg@home.com>
 
+	* src/cell-draw.c (cell_draw) : take the coords of the center of the
+	  region directly, rather than the left offset.
+
+	* src/preview-grid.c (preview_grid_draw) : change sematics of the
+	  centering arg to cell_draw.
+	* src/item-grid.c (item_grid_draw) : ditto.
+	(item_grid_draw_merged_range) : ditto. Fix drawing of selected cells.
+
+2001-02-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/clipboard.c (clipboard_paste_region) : Allow pasting just
+	  formats.
+
 	* src/print.c (print_page) : fix typo.
 
 	* src/xml-io.c (xml_read_style) : Before version 1 and after version 6
