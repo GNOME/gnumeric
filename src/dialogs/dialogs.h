@@ -68,6 +68,8 @@ void dialog_search (WorkbookControlGUI *wbcg);
 
 void dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet);
 
+void dialog_merge (WorkbookControlGUI *wbcg);
+
 FunctionDefinition *dialog_function_select (WorkbookControlGUI *wbcg);
 
 int dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet);

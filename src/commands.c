@@ -4202,14 +4202,13 @@ static void
 cmd_set_comment_finalize (GObject *cmd)
 {
 	CmdSetComment *me = CMD_SET_COMMENT (cmd);
-	if (me->new_text != NULL) {
-		g_free (me->new_text);
-		me->new_text = NULL;
-	}
-	if (me->old_text != NULL) {
-		g_free (me->old_text);
-		me->old_text = NULL;
-	}
+
+	g_free (me->new_text);
+	me->new_text = NULL;
+
+	g_free (me->old_text);
+	me->old_text = NULL;
+
 	gnumeric_command_finalize (cmd);
 }
 
@@ -4251,7 +4250,6 @@ cmd_set_comment (WorkbookControl *wbc,
 }
 
 /******************************************************************/
-/******************************************************************/
 
 #define CMD_ANALYSIS_TOOL_TYPE        (cmd_analysis_tool_get_type ())
 #define CMD_ANALYSIS_TOOL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_ANALYSIS_TOOL_TYPE, CmdAnalysis_Tool))
@@ -4281,11 +4279,6 @@ cmd_analysis_tool_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	switch (me->type) {
 	case NewSheetOutput:
-/*
- * Why only pristine? Suppose we undo this (and rebuild the sheet) the sheet pointer will
- * have changed therefore we would also need to fix all commands that may refer to that 
- * sheet pointer... 
- */
 		if (!command_undo_sheet_delete (me->dao->sheet))
 			return TRUE;
 		me->dao->sheet = NULL;
@@ -4396,6 +4389,162 @@ cmd_analysis_tool (WorkbookControl *wbc, Sheet *sheet,
 	me->type = dao->type;
 
 	me->parent.size = 1;  /* FIXME  */
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
+}
+
+/******************************************************************/
+
+#define CMD_MERGE_DATA_TYPE        (cmd_merge_data_get_type ())
+#define CMD_MERGE_DATA(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_MERGE_DATA_TYPE, CmdMergeData))
+
+typedef struct
+{
+	GnumericCommand parent;
+	Value *merge_zone;
+	GSList *merge_fields;
+	GSList *merge_data;
+	GSList *sheet_list;
+	WorkbookControl *wbc;
+	Sheet *sheet;
+	gint n;
+} CmdMergeData;
+
+GNUMERIC_MAKE_COMMAND (CmdMergeData, cmd_merge_data);
+
+static void
+cmd_merge_data_delete_sheets (gpointer data, gpointer success)
+{
+	Sheet *sheet = data;
+
+	if (!command_undo_sheet_delete (sheet))
+		*(gboolean *)success = FALSE;
+}
+
+static gboolean
+cmd_merge_data_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdMergeData *me = CMD_MERGE_DATA (cmd);
+	gboolean success = TRUE;
+
+	g_slist_foreach (me->sheet_list, cmd_merge_data_delete_sheets, &success);
+	g_slist_free (me->sheet_list);
+	me->sheet_list = NULL;
+
+	return FALSE;
+}
+
+static gboolean
+cmd_merge_data_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdMergeData *me = CMD_MERGE_DATA (cmd);
+	int i;
+	CellRegion *merge_content;
+	Range merge_range;
+	RangeRef *cell = &me->merge_zone->v_range.cell;
+	PasteTarget pt;
+	GSList *this_field = me->merge_fields;
+	GSList *this_data = me->merge_data;
+	
+	
+	range_init (&merge_range, cell->a.col, cell->a.row,
+		    cell->b.col, cell->b.row);
+	merge_content = clipboard_copy_range (cell->a.sheet, &merge_range);
+
+	for (i = 0; i < me->n; i++) {
+		Sheet *new_sheet;
+		new_sheet = workbook_sheet_add (me->sheet->workbook, NULL, FALSE);
+		me->sheet_list = g_slist_prepend (me->sheet_list, new_sheet);
+		clipboard_paste_region (me->wbc, paste_target_init (&pt, new_sheet, 
+								&merge_range, PASTE_ALL_TYPES),
+					merge_content);
+	}
+	me->sheet_list = g_slist_reverse (me->sheet_list);
+
+	while (this_field) {
+		Range target_range;
+		Range source_range;
+		Sheet *source_sheet;
+		GSList *target_sheet;
+
+		g_return_val_if_fail (this_data != NULL, TRUE);
+		cell = &((Value *)this_field->data)->v_range.cell;
+		range_init (&target_range, cell->a.col, cell->a.row,
+			    cell->a.col, cell->a.row);
+		cell = &((Value *)this_data->data)->v_range.cell;
+		range_init (&source_range, cell->a.col, cell->a.row,
+			    cell->a.col, cell->a.row);
+		source_sheet = cell->a.sheet;
+			
+		target_sheet = me->sheet_list;
+		while (target_sheet) {
+			merge_content = clipboard_copy_range (source_sheet, &source_range);
+			clipboard_paste_region 
+				(me->wbc, paste_target_init 
+				 (&pt, (Sheet *)target_sheet->data, 
+				  &target_range, PASTE_AS_VALUES | PASTE_IGNORE_COMMENTS),
+				 merge_content);	
+			target_sheet = target_sheet->next;
+			source_range.end.row++;
+			source_range.start.row++;
+		}
+
+		this_field = this_field->next;
+		this_data = this_data->next;
+	}
+
+	return FALSE;
+}
+
+static void
+cmd_merge_data_finalize (GObject *cmd)
+{
+	CmdMergeData *me = CMD_MERGE_DATA (cmd);
+	
+	value_release (me->merge_zone);
+	me->merge_zone = NULL;
+	range_list_destroy (me->merge_data);
+	me->merge_data = NULL;
+	range_list_destroy (me->merge_fields);
+	me->merge_fields = NULL;
+	g_slist_free (me->sheet_list);
+	me->sheet_list = NULL;
+	me->n = 0;
+
+	gnumeric_command_finalize (cmd);
+}
+
+gboolean
+cmd_merge_data (WorkbookControl *wbc, Sheet *sheet, 
+		Value *merge_zone, GSList *merge_fields, GSList *merge_data)
+{
+	GObject       *obj;
+	CmdMergeData *me;
+	RangeRef *cell;
+
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	g_return_val_if_fail (merge_zone != NULL, TRUE);
+	g_return_val_if_fail (merge_fields != NULL, TRUE);
+	g_return_val_if_fail (merge_data != NULL, TRUE);
+
+	obj = g_object_new (CMD_MERGE_DATA_TYPE, NULL);
+	me = CMD_MERGE_DATA (obj);
+
+	me->parent.sheet = sheet;
+	me->sheet = sheet;
+	me->wbc = wbc;
+	me->parent.size = 1 + g_slist_length (merge_fields);
+	me->parent.cmd_descriptor =
+		g_strdup_printf (_("Merging data into %s"), value_peek_string (merge_zone));
+
+	me->merge_zone = merge_zone;
+	me->merge_fields = merge_fields;
+	me->merge_data = merge_data;
+	me->sheet_list = 0;
+	
+	cell = &((Value *)merge_data->data)->v_range.cell;
+	me->n = cell->b.row - cell->a.row + 1;
+
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }

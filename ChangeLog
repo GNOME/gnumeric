@@ -1,3 +1,11 @@
+2002-03-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* workbook-control-gui.c : add Merge to the Edit/Fill menu
+	(cb_tools_merge) : new
+	* commands.h (cmd_merge_data) : new
+	* commands.c : implement the cmd_merge_data command
+	(cmd_set_comment_finalize) : simplify
+
 2002-03-12  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet.c (sheet_destroy_contents): Plug leak.

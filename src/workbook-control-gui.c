@@ -2159,6 +2159,13 @@ cb_tools_tabulate (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
+cb_tools_merge (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_merge (wbcg);
+}
+
+static void
 cb_tools_solver (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -2651,6 +2658,9 @@ static GnomeUIInfo workbook_menu_edit_fill [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("Auto_fill"),
 		N_("Automatically fill the current selection"),
 		cb_edit_fill_autofill),
+	GNOMEUIINFO_ITEM_NONE (N_("Merge..."),
+		N_("Merges columnar data into a sheet creating dupicate sheets for each row."),
+		cb_tools_merge),
 	GNOMEUIINFO_ITEM_NONE (N_("_Tabulate Dependency..."),
 		N_("Make a table of a cell's value as a function of other cells"),
 		cb_tools_tabulate),
@@ -3283,6 +3293,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ToolsAutoSave", cb_tools_auto_save),
 	BONOBO_UI_UNSAFE_VERB ("ToolsGoalSeek", cb_tools_goal_seek),
 	BONOBO_UI_UNSAFE_VERB ("ToolsTabulate", cb_tools_tabulate),
+	BONOBO_UI_UNSAFE_VERB ("ToolsMERGE", cb_tools_merge),
 	BONOBO_UI_UNSAFE_VERB ("ToolsSolver", cb_tools_solver),
 
 	BONOBO_UI_UNSAFE_VERB ("ToolsANOVAoneFactor", cb_tools_anova_one_factor),

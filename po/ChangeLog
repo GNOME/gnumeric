@@ -1,3 +1,9 @@
+2002-03-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* POTFILES.in : add src/dialogs/dao-gui-utils.c,
+	src/dialogs/dialog-merge.c, src/dialogs/merge.glade and
+	src/tools/dao.c
+
 2002-03-12  Duarte Loreto <happyguy_pt@hotmail.com>
 
         * pt.po: Updated Portuguese translation.

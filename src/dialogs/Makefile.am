@@ -41,6 +41,7 @@ base_files =					\
 	dialog-insert-cells.c			\
 	dialog-define-names.c			\
 	dialog-delete-cells.c			\
+	dialog-merge.c				\
 	dialog-paste-special.c			\
 	dialog-plugin-manager.c 		\
 	dialog-printer-setup.c			\
@@ -103,6 +104,7 @@ glade_DATA = 				\
 	histogram.glade			\
 	insert-cells.glade		\
 	mean-tests.glade		\
+	merge.glade			\
 	moving-averages.glade		\
 	names.glade			\
 	plugin-manager.glade		\
