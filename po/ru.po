@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.54+\n"
-"POT-Creation-Date: 2000-07-03 20:14+0000\n"
-"PO-Revision-Date: 2000-07-03 20:55+00:00\n"
+"POT-Creation-Date: 2000-07-04 12:36+0000\n"
+"PO-Revision-Date: 2000-07-04 12:40+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -104,7 +104,7 @@ msgid "#UNKNOWN!"
 msgstr "#НЕИЗВЕСТНОЕ!"
 
 #: plugins/excel/ms-excel-read.c:594 plugins/html/html.c:409
-#: plugins/lotus-123/lotus.c:224 plugins/oleo/oleo.c:44 src/workbook.c:3304
+#: plugins/lotus-123/lotus.c:224 plugins/oleo/oleo.c:44 src/workbook.c:3320
 #, c-format
 msgid "Sheet%d"
 msgstr "Лист%d"
@@ -585,432 +585,449 @@ msgstr "Домашняя страница Gnumeric"
 msgid "Gnumeric Support page"
 msgstr "Страница поддержки Gnumeric"
 
-#: src/analysis-tools.c:398
+#: src/analysis-tools.c:406
 msgid "Correlations"
 msgstr "Корреляции"
 
-#: src/analysis-tools.c:419 src/analysis-tools.c:420 src/analysis-tools.c:571
-#: src/analysis-tools.c:572 src/analysis-tools.c:727 src/analysis-tools.c:828
-#: src/analysis-tools.c:846 src/analysis-tools.c:868 src/analysis-tools.c:2197
-#: src/analysis-tools.c:2335 src/analysis-tools.c:2497
+#: src/analysis-tools.c:427 src/analysis-tools.c:428 src/analysis-tools.c:578
+#: src/analysis-tools.c:579 src/analysis-tools.c:734 src/analysis-tools.c:835
+#: src/analysis-tools.c:853 src/analysis-tools.c:875 src/analysis-tools.c:2198
+#: src/analysis-tools.c:2336 src/analysis-tools.c:2498
 #, c-format
 msgid "Column %d"
 msgstr "Столбец %d"
 
-#: src/analysis-tools.c:445 src/analysis-tools.c:446 src/analysis-tools.c:597
-#: src/analysis-tools.c:598 src/analysis-tools.c:2223
-#: src/analysis-tools.c:2357 src/analysis-tools.c:2514
+#: src/analysis-tools.c:453 src/analysis-tools.c:454 src/analysis-tools.c:604
+#: src/analysis-tools.c:605 src/analysis-tools.c:2224
+#: src/analysis-tools.c:2358 src/analysis-tools.c:2515
 #, c-format
 msgid "Row %d"
 msgstr "Строка %d"
 
-#: src/analysis-tools.c:547
+#: src/analysis-tools.c:554
 msgid "Covariances"
 msgstr "Ковариации"
 
-#: src/analysis-tools.c:723 src/dialogs/dialog-analysis-tools.c:311
+#: src/analysis-tools.c:730 src/dialogs/dialog-analysis-tools.c:317
 msgid "Summary Statistics"
 msgstr "Суммарная статистика"
 
-#: src/analysis-tools.c:729 src/analysis-tools.c:1092
-#: src/analysis-tools.c:1205 src/analysis-tools.c:1343
-#: src/analysis-tools.c:1460 src/analysis-tools.c:1579
+#: src/analysis-tools.c:736 src/analysis-tools.c:1097
+#: src/analysis-tools.c:1208 src/analysis-tools.c:1346
+#: src/analysis-tools.c:1463 src/analysis-tools.c:1582
 msgid "Mean"
 msgstr "Среднее"
 
-#: src/analysis-tools.c:730 src/analysis-tools.c:1899
-#: src/analysis-tools.c:1919
+#: src/analysis-tools.c:737 src/analysis-tools.c:1900
+#: src/analysis-tools.c:1920
 msgid "Standard Error"
 msgstr "Стандартная ошибка"
 
-#: src/analysis-tools.c:731
+#: src/analysis-tools.c:738
 msgid "Median"
 msgstr "Медиана"
 
-#: src/analysis-tools.c:732
+#: src/analysis-tools.c:739
 msgid "Mode"
 msgstr "Режим"
 
-#: src/analysis-tools.c:733
+#: src/analysis-tools.c:740
 msgid "Standard Deviation"
 msgstr "Стандартное отклонение"
 
-#: src/analysis-tools.c:734
+#: src/analysis-tools.c:741
 msgid "Sample Variance"
 msgstr "Дисперсия выборки"
 
-#: src/analysis-tools.c:735
+#: src/analysis-tools.c:742
 msgid "Kurtosis"
 msgstr "Эксцесс"
 
-#: src/analysis-tools.c:736
+#: src/analysis-tools.c:743
 msgid "Skewness"
 msgstr "Ассиметрия"
 
-#: src/analysis-tools.c:737 src/dialogs/dialog-function-wizard.c:397
+#: src/analysis-tools.c:744 src/dialogs/dialog-function-wizard.c:397
 msgid "Range"
 msgstr "Диапазон"
 
-#: src/analysis-tools.c:738
+#: src/analysis-tools.c:745
 msgid "Minimum"
 msgstr "Минимум"
 
-#: src/analysis-tools.c:739
+#: src/analysis-tools.c:746
 msgid "Maximum"
 msgstr "Максимум"
 
-#: src/analysis-tools.c:740 src/analysis-tools.c:2321
-#: src/analysis-tools.c:2487 src/analysis-tools.c:2733 src/workbook.c:1544
-#: src/workbook.c:2016
+#: src/analysis-tools.c:747 src/analysis-tools.c:2322
+#: src/analysis-tools.c:2488 src/analysis-tools.c:2735 src/workbook.c:1560
+#: src/workbook.c:2032
 msgid "Sum"
 msgstr "Сумма"
 
-#: src/analysis-tools.c:741 src/analysis-tools.c:2320
-#: src/analysis-tools.c:2486 src/analysis-tools.c:2732 src/workbook.c:2020
+#: src/analysis-tools.c:748 src/analysis-tools.c:2321
+#: src/analysis-tools.c:2487 src/analysis-tools.c:2734 src/workbook.c:2036
 msgid "Count"
 msgstr "Количество"
 
-#: src/analysis-tools.c:821
+#: src/analysis-tools.c:828
 msgid "Confidence Level"
 msgstr "Доверительный уровень"
 
-#: src/analysis-tools.c:833
+#: src/analysis-tools.c:840
 msgid "Confidence Level (%g%%)"
 msgstr "Доверительный уровень (%g%%)"
 
-#: src/analysis-tools.c:843
+#: src/analysis-tools.c:850
 msgid "Kth Largest"
 msgstr "К-ое наибольшее"
 
-#: src/analysis-tools.c:855
+#: src/analysis-tools.c:862
 #, c-format
 msgid "Largest (%d)"
 msgstr "Наибольшее (%d)"
 
-#: src/analysis-tools.c:865
+#: src/analysis-tools.c:872
 msgid "Kth Smallest"
 msgstr "К-ое наименьшее:"
 
-#: src/analysis-tools.c:877
+#: src/analysis-tools.c:884
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Наименьшее (%d)"
 
-#: src/analysis-tools.c:960 src/analysis-tools.c:2748
+#: src/analysis-tools.c:966 src/analysis-tools.c:2750
 #: src/dialogs/cell-format.glade.h:19 src/dialogs/cell-format.glade.h:123
 msgid "Sample"
 msgstr "Выборка"
 
-#: src/analysis-tools.c:1065
+#: src/analysis-tools.c:1070
 msgid "z-Test"
 msgstr "z-Тест"
 
-#: src/analysis-tools.c:1088 src/analysis-tools.c:1201
-#: src/analysis-tools.c:1339 src/analysis-tools.c:1456
-#: src/analysis-tools.c:1572
+#: src/analysis-tools.c:1093 src/analysis-tools.c:1204
+#: src/analysis-tools.c:1342 src/analysis-tools.c:1459
+#: src/analysis-tools.c:1575
 msgid "Variable 1"
 msgstr "Переменная 1"
 
-#: src/analysis-tools.c:1089 src/analysis-tools.c:1202
-#: src/analysis-tools.c:1340 src/analysis-tools.c:1457
-#: src/analysis-tools.c:1573
+#: src/analysis-tools.c:1094 src/analysis-tools.c:1205
+#: src/analysis-tools.c:1343 src/analysis-tools.c:1460
+#: src/analysis-tools.c:1576
 msgid "Variable 2"
 msgstr "Переменная 2"
 
-#: src/analysis-tools.c:1093
+#: src/analysis-tools.c:1098
 msgid "Known Variance"
 msgstr "Известная дисперсия"
 
-#: src/analysis-tools.c:1094 src/analysis-tools.c:1207
-#: src/analysis-tools.c:1345 src/analysis-tools.c:1462
-#: src/analysis-tools.c:1581 src/analysis-tools.c:1900
+#: src/analysis-tools.c:1099 src/analysis-tools.c:1210
+#: src/analysis-tools.c:1348 src/analysis-tools.c:1465
+#: src/analysis-tools.c:1584 src/analysis-tools.c:1901
 msgid "Observations"
 msgstr "Наблюдения"
 
-#: src/analysis-tools.c:1095 src/analysis-tools.c:1209
-#: src/analysis-tools.c:1347 src/analysis-tools.c:1463
+#: src/analysis-tools.c:1100 src/analysis-tools.c:1212
+#: src/analysis-tools.c:1350 src/analysis-tools.c:1466
 msgid "Hypothesized Mean Difference"
 msgstr "Гипотетическая разность средних"
 
-#: src/analysis-tools.c:1096
+#: src/analysis-tools.c:1101
 msgid "z"
 msgstr "z"
 
-#: src/analysis-tools.c:1097
+#: src/analysis-tools.c:1102
 msgid "P (Z<=z) one-tail"
 msgstr "P (Z<=z) одностороннее"
 
-#: src/analysis-tools.c:1098
+#: src/analysis-tools.c:1103
 msgid "z Critical one-tail"
 msgstr "z-критическое одностороннее"
 
-#: src/analysis-tools.c:1099
+#: src/analysis-tools.c:1104
 msgid "P (Z<=z) two-tail"
 msgstr "P (Z<=z) двухстороннее"
 
-#: src/analysis-tools.c:1100
+#: src/analysis-tools.c:1105
 msgid "z Critical two-tail"
 msgstr "z-критическое двухстороннее"
 
-#: src/analysis-tools.c:1181 src/analysis-tools.c:1316
-#: src/analysis-tools.c:1433
+#: src/analysis-tools.c:1184 src/analysis-tools.c:1319
+#: src/analysis-tools.c:1436
 msgid "t-Test"
 msgstr "t-Тест"
 
-#: src/analysis-tools.c:1206 src/analysis-tools.c:1344
-#: src/analysis-tools.c:1461 src/analysis-tools.c:1580
-#: src/analysis-tools.c:2323 src/analysis-tools.c:2489
-#: src/analysis-tools.c:2735
+#: src/analysis-tools.c:1209 src/analysis-tools.c:1347
+#: src/analysis-tools.c:1464 src/analysis-tools.c:1583
+#: src/analysis-tools.c:2324 src/analysis-tools.c:2490
+#: src/analysis-tools.c:2737
 msgid "Variance"
 msgstr "Дисперсия"
 
-#: src/analysis-tools.c:1208
+#: src/analysis-tools.c:1211
 msgid "Pearson Correlation"
 msgstr "Корреляция Пирсона"
 
-#: src/analysis-tools.c:1210 src/analysis-tools.c:1348
-#: src/analysis-tools.c:1464 src/analysis-tools.c:1582
-#: src/analysis-tools.c:1912 src/analysis-tools.c:2393
-#: src/analysis-tools.c:2584 src/analysis-tools.c:2755
+#: src/analysis-tools.c:1213 src/analysis-tools.c:1351
+#: src/analysis-tools.c:1467 src/analysis-tools.c:1585
+#: src/analysis-tools.c:1913 src/analysis-tools.c:2394
+#: src/analysis-tools.c:2585 src/analysis-tools.c:2757
 msgid "df"
 msgstr "ст. свободы"
 
-#: src/analysis-tools.c:1211 src/analysis-tools.c:1349
-#: src/analysis-tools.c:1465 src/analysis-tools.c:1920
+#: src/analysis-tools.c:1214 src/analysis-tools.c:1352
+#: src/analysis-tools.c:1468 src/analysis-tools.c:1921
 msgid "t Stat"
 msgstr "t-Статистика"
 
-#: src/analysis-tools.c:1212 src/analysis-tools.c:1350
-#: src/analysis-tools.c:1466
+#: src/analysis-tools.c:1215 src/analysis-tools.c:1353
+#: src/analysis-tools.c:1469
 msgid "P (T<=t) one-tail"
 msgstr "P (T<=t) одностороннее"
 
-#: src/analysis-tools.c:1213 src/analysis-tools.c:1351
-#: src/analysis-tools.c:1467
+#: src/analysis-tools.c:1216 src/analysis-tools.c:1354
+#: src/analysis-tools.c:1470
 msgid "t Critical one-tail"
 msgstr "t-Критическое одностороннее"
 
-#: src/analysis-tools.c:1214 src/analysis-tools.c:1352
-#: src/analysis-tools.c:1468
+#: src/analysis-tools.c:1217 src/analysis-tools.c:1355
+#: src/analysis-tools.c:1471
 msgid "P (T<=t) two-tail"
 msgstr "P (T<=t) двухстороннее"
 
-#: src/analysis-tools.c:1215 src/analysis-tools.c:1353
-#: src/analysis-tools.c:1469
+#: src/analysis-tools.c:1218 src/analysis-tools.c:1356
+#: src/analysis-tools.c:1472
 msgid "t Critical two-tail"
 msgstr "t-Критическое двухстороннее"
 
-#: src/analysis-tools.c:1346
+#: src/analysis-tools.c:1349
 msgid "Pooled Variance"
 msgstr "Накопленная дисперсия"
 
-#: src/analysis-tools.c:1552
+#: src/analysis-tools.c:1555
 msgid "F-Test"
 msgstr "F-Тест"
 
-#: src/analysis-tools.c:1583 src/analysis-tools.c:1915
-#: src/analysis-tools.c:2395 src/analysis-tools.c:2586
-#: src/analysis-tools.c:2757
+#: src/analysis-tools.c:1586 src/analysis-tools.c:1916
+#: src/analysis-tools.c:2396 src/analysis-tools.c:2587
+#: src/analysis-tools.c:2759
 msgid "F"
 msgstr "F"
 
-#: src/analysis-tools.c:1584
+#: src/analysis-tools.c:1587
 msgid "P (F<=f) one-tail"
 msgstr "P (F<=f) одностороннее"
 
-#: src/analysis-tools.c:1585
+#: src/analysis-tools.c:1588
 msgid "F Critical one-tail"
 msgstr "F-критическое одностроннее"
 
-#: src/analysis-tools.c:1660 src/dialogs/dialog-analysis-tools.c:401
+#: src/analysis-tools.c:1662 src/dialogs/dialog-analysis-tools.c:407
 msgid "Random"
 msgstr "Случайное"
 
-#: src/analysis-tools.c:1797
+#: src/analysis-tools.c:1799
 msgid "Not implemented yet.\n"
 msgstr "Еще не реализовано.\n"
 
 #. TODO This would be better using the
 #. value in the checkbox instead of this
 #. global, but I don't know GTK very well
-#: src/analysis-tools.c:1891 src/analysis-tools.c:1903
-#: src/dialogs/dialog-analysis-tools.c:97
-#: src/dialogs/dialog-analysis-tools.c:1981
+#: src/analysis-tools.c:1892 src/analysis-tools.c:1904
+#: src/dialogs/dialog-analysis-tools.c:103
+#: src/dialogs/dialog-analysis-tools.c:1993
 msgid "Regression"
 msgstr "Регрессия"
 
-#: src/analysis-tools.c:1893
+#: src/analysis-tools.c:1894
 msgid "SUMMARY OUTPUT"
 msgstr "ИТОГОВЫЙ ВЫВОД"
 
-#: src/analysis-tools.c:1895
+#: src/analysis-tools.c:1896
 msgid "Regression Statistics"
 msgstr "Регрессионные статистики"
 
-#: src/analysis-tools.c:1896
+#: src/analysis-tools.c:1897
 msgid "Multiple R"
 msgstr "Множественная регрессия"
 
-#: src/analysis-tools.c:1897
+#: src/analysis-tools.c:1898
 msgid "R Square"
 msgstr "Коэффициент детерминации"
 
-#: src/analysis-tools.c:1898
+#: src/analysis-tools.c:1899
 msgid "Adjusted R Square"
 msgstr "Подобранный коэффициент детерминации"
 
-#: src/analysis-tools.c:1902 src/analysis-tools.c:2390
-#: src/analysis-tools.c:2581 src/analysis-tools.c:2746
+#: src/analysis-tools.c:1903 src/analysis-tools.c:2391
+#: src/analysis-tools.c:2582 src/analysis-tools.c:2748
 msgid "ANOVA"
 msgstr "Дисперсионный анализ"
 
-#: src/analysis-tools.c:1904
+#: src/analysis-tools.c:1905
 msgid "Residual"
 msgstr "Остаток"
 
-#: src/analysis-tools.c:1905 src/analysis-tools.c:2400
-#: src/analysis-tools.c:2592 src/analysis-tools.c:2675
-#: src/analysis-tools.c:2730 src/analysis-tools.c:2752
+#: src/analysis-tools.c:1906 src/analysis-tools.c:2401
+#: src/analysis-tools.c:2593 src/analysis-tools.c:2677
+#: src/analysis-tools.c:2732 src/analysis-tools.c:2754
 msgid "Total"
 msgstr "Итого"
 
-#: src/analysis-tools.c:1907
+#: src/analysis-tools.c:1908
 msgid "Intercept"
 msgstr "Отрезок"
 
-#: src/analysis-tools.c:1910
+#: src/analysis-tools.c:1911
 #, c-format
 msgid "X Variable %d"
 msgstr "X переменная %d"
 
-#: src/analysis-tools.c:1913 src/analysis-tools.c:2392
-#: src/analysis-tools.c:2583 src/analysis-tools.c:2754
+#: src/analysis-tools.c:1914 src/analysis-tools.c:2393
+#: src/analysis-tools.c:2584 src/analysis-tools.c:2756
 msgid "SS"
 msgstr "Сумма квадратов"
 
-#: src/analysis-tools.c:1914 src/analysis-tools.c:2394
-#: src/analysis-tools.c:2585 src/analysis-tools.c:2756
+#: src/analysis-tools.c:1915 src/analysis-tools.c:2395
+#: src/analysis-tools.c:2586 src/analysis-tools.c:2758
 msgid "MS"
 msgstr "Квадрат среднего"
 
-#: src/analysis-tools.c:1916
+#: src/analysis-tools.c:1917
 msgid "Significance F"
 msgstr "Значение F"
 
-#: src/analysis-tools.c:1918
+#: src/analysis-tools.c:1919
 msgid "Coefficients"
 msgstr "Коэффициенты"
 
-#: src/analysis-tools.c:1921 src/analysis-tools.c:2396
-#: src/analysis-tools.c:2587 src/analysis-tools.c:2758
+#: src/analysis-tools.c:1922 src/analysis-tools.c:2397
+#: src/analysis-tools.c:2588 src/analysis-tools.c:2760
 msgid "P-value"
 msgstr "P-значения"
 
-#: src/analysis-tools.c:1923
+#: src/analysis-tools.c:1924
 #, c-format
 msgid "Lower 95%"
 msgstr "Ниже 95%"
 
-#: src/analysis-tools.c:1924
+#: src/analysis-tools.c:1925
 #, c-format
 msgid "Upper 95%"
 msgstr "Выше 95%"
 
-#: src/analysis-tools.c:2112
+#: src/analysis-tools.c:2113
 msgid "Moving Averages"
 msgstr "Скользящие средние"
 
-#: src/analysis-tools.c:2181
+#: src/analysis-tools.c:2182
 msgid "Ranks"
 msgstr "Ранги"
 
-#: src/analysis-tools.c:2189 src/analysis-tools.c:2214
+#: src/analysis-tools.c:2190 src/analysis-tools.c:2215
 msgid "Point"
 msgstr "Точки"
 
-#: src/analysis-tools.c:2199 src/analysis-tools.c:2225
+#: src/analysis-tools.c:2200 src/analysis-tools.c:2226
 msgid "Rank"
 msgstr "Ранг"
 
-#: src/analysis-tools.c:2200 src/analysis-tools.c:2226
+#: src/analysis-tools.c:2201 src/analysis-tools.c:2227
 #: src/workbook-format-toolbar.c:380
 msgid "Percent"
 msgstr "Процент"
 
-#: src/analysis-tools.c:2312 src/analysis-tools.c:2479
-#: src/analysis-tools.c:2656
+#: src/analysis-tools.c:2313 src/analysis-tools.c:2480
+#: src/analysis-tools.c:2658
 msgid "Anova"
 msgstr "Дисперсионный анализ"
 
-#: src/analysis-tools.c:2317 src/dialogs/analysis-tools.glade.h:52
-#: src/dialogs/dialog-analysis-tools.c:77
+#: src/analysis-tools.c:2318 src/dialogs/analysis-tools.glade.h:52
+#: src/dialogs/dialog-analysis-tools.c:79
 msgid "Anova: Single Factor"
 msgstr "Дисперсионный анализ: однофакторный"
 
-#: src/analysis-tools.c:2318 src/analysis-tools.c:2485
-#: src/analysis-tools.c:2659
+#: src/analysis-tools.c:2319 src/analysis-tools.c:2486
+#: src/analysis-tools.c:2661
 msgid "SUMMARY"
 msgstr "ИТОГО"
 
-#: src/analysis-tools.c:2319
+#: src/analysis-tools.c:2320
 msgid "Groups"
 msgstr "Группы"
 
-#: src/analysis-tools.c:2322 src/analysis-tools.c:2488
-#: src/analysis-tools.c:2734 src/workbook.c:2019
+#: src/analysis-tools.c:2323 src/analysis-tools.c:2489
+#: src/analysis-tools.c:2736 src/workbook.c:2035
 msgid "Average"
 msgstr "Среднее"
 
-#: src/analysis-tools.c:2391 src/analysis-tools.c:2582
-#: src/analysis-tools.c:2747
+#: src/analysis-tools.c:2392 src/analysis-tools.c:2583
+#: src/analysis-tools.c:2749
 msgid "Source of Variation"
 msgstr "Источник дисперсии"
 
-#: src/analysis-tools.c:2397 src/analysis-tools.c:2588
+#: src/analysis-tools.c:2398 src/analysis-tools.c:2589
 msgid "F critical"
 msgstr "F-критическое"
 
-#: src/analysis-tools.c:2398
+#: src/analysis-tools.c:2399
 msgid "Between Groups"
 msgstr "Между группами"
 
-#: src/analysis-tools.c:2399
+#: src/analysis-tools.c:2400
 msgid "Within Groups"
 msgstr "В группах"
 
-#: src/analysis-tools.c:2484 src/dialogs/analysis-tools.glade.h:64
-#: src/dialogs/dialog-analysis-tools.c:81
+#: src/analysis-tools.c:2485 src/dialogs/analysis-tools.glade.h:64
+#: src/dialogs/dialog-analysis-tools.c:83
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Дисперсионный анализ: двухфакторный без воспроизведения"
 
-#: src/analysis-tools.c:2589 src/dialogs/dialog-analysis-tools.c:395
+#: src/analysis-tools.c:2590 src/dialogs/dialog-analysis-tools.c:401
 msgid "Rows"
 msgstr "Строки"
 
-#: src/analysis-tools.c:2590 src/analysis-tools.c:2749
-#: src/dialogs/dialog-analysis-tools.c:394 src/dialogs/dialog-stf.glade.h:50
+#: src/analysis-tools.c:2591 src/analysis-tools.c:2751
+#: src/dialogs/dialog-analysis-tools.c:400 src/dialogs/dialog-stf.glade.h:50
 msgid "Columns"
 msgstr "Столбцы"
 
-#: src/analysis-tools.c:2591
+#: src/analysis-tools.c:2592
 msgid "Error"
 msgstr "Ошибка"
 
-#: src/analysis-tools.c:2658 src/dialogs/dialog-analysis-tools.c:79
+#: src/analysis-tools.c:2660 src/dialogs/dialog-analysis-tools.c:81
 msgid "Anova: Two-Factor With Replication"
 msgstr "Дисперсионный анализ: двухфакторный c воспроизведением"
 
-#: src/analysis-tools.c:2750
+#: src/analysis-tools.c:2752
 msgid "Interaction"
 msgstr "Взаимодействие"
 
-#: src/analysis-tools.c:2751
+#: src/analysis-tools.c:2753
 msgid "Within"
 msgstr "В"
 
-#: src/analysis-tools.c:2759
+#: src/analysis-tools.c:2761
 msgid "F crit"
 msgstr "F-критическое"
+
+#: src/analysis-tools.c:2805 src/dialogs/dialog-analysis-tools.c:95
+msgid "Histogram"
+msgstr "Гистограмма"
+
+#: src/analysis-tools.c:2808
+msgid "Bin"
+msgstr "Двоичное"
+
+#: src/analysis-tools.c:2809
+msgid "Frequency"
+msgstr "Частота"
+
+#: src/analysis-tools.c:2811
+#, c-format
+msgid "Cumulative %"
+msgstr "Кумулятивный %"
 
 #: src/clipboard.c:127
 #, c-format
@@ -1071,7 +1088,7 @@ msgstr ""
 msgid "Unable to paste into selection"
 msgstr "Невозможно вставить в выделение"
 
-#: src/cmd-edit.c:353 src/workbook.c:1524
+#: src/cmd-edit.c:353 src/workbook.c:1540
 msgid "Paste"
 msgstr "Вставить"
 
@@ -1139,7 +1156,7 @@ msgid "Undo Clear"
 msgstr "Откат очистки"
 
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:987 src/sheet.c:2366
+#: src/commands.c:987 src/sheet.c:2370
 msgid "Clear"
 msgstr "Очистить"
 
@@ -1443,7 +1460,7 @@ msgstr "Анализ данных"
 msgid "Analysis Tools"
 msgstr "Средства анализа"
 
-#: src/dialogs/analysis-tools.glade.h:9 src/dialogs/dialog-analysis-tools.c:89
+#: src/dialogs/analysis-tools.glade.h:9 src/dialogs/dialog-analysis-tools.c:91
 msgid "F-Test: Two-Sample for Variances"
 msgstr "F-тест: Two-Sample for Variances"
 
@@ -1543,14 +1560,14 @@ msgstr "Входной диапазон:"
 
 #: src/dialogs/analysis-tools.glade.h:55 src/dialogs/analysis-tools.glade.h:86
 #: src/dialogs/analysis-tools.glade.h:100
-#: src/dialogs/analysis-tools.glade.h:111 src/workbook.c:1301
+#: src/dialogs/analysis-tools.glade.h:111 src/workbook.c:1320
 #: wizards/graphics/graphics.glade.h:23
 msgid "_Columns"
 msgstr "Столбцы"
 
 #: src/dialogs/analysis-tools.glade.h:56 src/dialogs/analysis-tools.glade.h:87
 #: src/dialogs/analysis-tools.glade.h:99
-#: src/dialogs/analysis-tools.glade.h:110 src/workbook.c:1298
+#: src/dialogs/analysis-tools.glade.h:110 src/workbook.c:1317
 #: wizards/graphics/graphics.glade.h:22
 msgid "_Rows"
 msgstr "Строки"
@@ -1584,7 +1601,7 @@ msgid "_Input Range:"
 msgstr "Входной диапазон:"
 
 #: src/dialogs/analysis-tools.glade.h:73
-#: src/dialogs/dialog-analysis-tools.c:91
+#: src/dialogs/dialog-analysis-tools.c:97
 msgid "Moving Average"
 msgstr "Скользящее среднее"
 
@@ -1597,22 +1614,22 @@ msgid "_Standard Errors"
 msgstr "Стандартные ошибки"
 
 #: src/dialogs/analysis-tools.glade.h:83
-#: src/dialogs/dialog-analysis-tools.c:83
+#: src/dialogs/dialog-analysis-tools.c:85
 msgid "Correlation"
 msgstr "Корреляция"
 
 #: src/dialogs/analysis-tools.glade.h:94
-#: src/dialogs/dialog-analysis-tools.c:85
+#: src/dialogs/dialog-analysis-tools.c:87
 msgid "Covariance"
 msgstr "Ковариация"
 
 #: src/dialogs/analysis-tools.glade.h:105
-#: src/dialogs/dialog-analysis-tools.c:95
+#: src/dialogs/dialog-analysis-tools.c:101
 msgid "Rank and Percentile"
 msgstr "Ранг и Percentile"
 
 #: src/dialogs/analysis-tools.glade.h:116
-#: src/dialogs/dialog-analysis-tools.c:93
+#: src/dialogs/dialog-analysis-tools.c:99
 msgid "Random Number Generation"
 msgstr "Генерация случайных чисел"
 
@@ -2023,7 +2040,7 @@ msgstr "Внутри"
 msgid "Inside Horizontal"
 msgstr "Внутри горизонтальное"
 
-#: src/dialogs/cell-format.glade.h:79 src/workbook.c:1579
+#: src/dialogs/cell-format.glade.h:79 src/workbook.c:1595
 msgid "Line"
 msgstr "Линия"
 
@@ -2318,260 +2335,268 @@ msgstr ""
 "Вы должны ввести одинаковое число столбцов в 'Диапазон списка:' и в "
 "'Диапазон критерия:'"
 
-#: src/dialogs/dialog-analysis-tools.c:87
-#: src/dialogs/dialog-analysis-tools.c:907
+#: src/dialogs/dialog-analysis-tools.c:89
+#: src/dialogs/dialog-analysis-tools.c:914
 msgid "Descriptive Statistics"
 msgstr "Описательные статистики"
 
-#: src/dialogs/dialog-analysis-tools.c:99
-#: src/dialogs/dialog-analysis-tools.c:793
+#: src/dialogs/dialog-analysis-tools.c:93
+msgid "Fourier Analysis"
+msgstr "Анализ Фурье"
+
+#: src/dialogs/dialog-analysis-tools.c:105
+#: src/dialogs/dialog-analysis-tools.c:800
 msgid "Sampling"
 msgstr "Выборка"
 
-#: src/dialogs/dialog-analysis-tools.c:101
+#: src/dialogs/dialog-analysis-tools.c:107
 msgid "t-Test: Paired Two Sample for Means"
 msgstr "t-Тест: сравнение средних для двух выборок"
 
-#: src/dialogs/dialog-analysis-tools.c:103
+#: src/dialogs/dialog-analysis-tools.c:109
 msgid "t-Test: Two-Sample Assuming Equal Variances"
 msgstr "t-Тест: две выборки с предположительно равными дисперсиями"
 
-#: src/dialogs/dialog-analysis-tools.c:105
+#: src/dialogs/dialog-analysis-tools.c:111
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr "t-Тест: две выборки с предположительно неравными дисперсиями"
 
-#: src/dialogs/dialog-analysis-tools.c:107
-#: src/dialogs/dialog-analysis-tools.c:1006
+#: src/dialogs/dialog-analysis-tools.c:113
+#: src/dialogs/dialog-analysis-tools.c:1013
 msgid "z-Test: Two Sample for Means"
 msgstr "z-Тест: средние двух выборок"
 
-#: src/dialogs/dialog-analysis-tools.c:115
+#: src/dialogs/dialog-analysis-tools.c:121
 msgid "Discrete"
 msgstr "Дискретное"
 
-#: src/dialogs/dialog-analysis-tools.c:115
+#: src/dialogs/dialog-analysis-tools.c:121
 msgid "_Value and probability input range:"
 msgstr "Входной диапазон значений и вероятностей:"
 
-#: src/dialogs/dialog-analysis-tools.c:117
+#: src/dialogs/dialog-analysis-tools.c:123
 #: src/widgets/widget-font-selector.c:129
 msgid "Normal"
 msgstr "Нормальное"
 
-#: src/dialogs/dialog-analysis-tools.c:117
+#: src/dialogs/dialog-analysis-tools.c:123
 msgid "_Mean:"
 msgstr "Среднее:"
 
-#: src/dialogs/dialog-analysis-tools.c:117
+#: src/dialogs/dialog-analysis-tools.c:123
 msgid "_Standard deviation:"
 msgstr "Стандартное отклонение:"
 
-#: src/dialogs/dialog-analysis-tools.c:119
+#: src/dialogs/dialog-analysis-tools.c:125
 msgid "Poisson"
 msgstr "Пуассон"
 
-#: src/dialogs/dialog-analysis-tools.c:119
+#: src/dialogs/dialog-analysis-tools.c:125
 msgid "_Lambda:"
 msgstr "Лямбда:"
 
-#: src/dialogs/dialog-analysis-tools.c:121
+#: src/dialogs/dialog-analysis-tools.c:127
 msgid "Exponential"
 msgstr "Экспоненциальное"
 
-#: src/dialogs/dialog-analysis-tools.c:121
+#: src/dialogs/dialog-analysis-tools.c:127
 msgid "_b value:"
 msgstr "b значение:"
 
-#: src/dialogs/dialog-analysis-tools.c:123
+#: src/dialogs/dialog-analysis-tools.c:129
 msgid "Binomial"
 msgstr "Биномиальное"
 
-#: src/dialogs/dialog-analysis-tools.c:123
-#: src/dialogs/dialog-analysis-tools.c:125
-#: src/dialogs/dialog-analysis-tools.c:128
+#: src/dialogs/dialog-analysis-tools.c:129
+#: src/dialogs/dialog-analysis-tools.c:131
+#: src/dialogs/dialog-analysis-tools.c:134
 msgid "_p value:"
 msgstr "p значение:"
 
-#: src/dialogs/dialog-analysis-tools.c:123
+#: src/dialogs/dialog-analysis-tools.c:129
 msgid "N_umber of trials"
 msgstr "Число испытаний"
 
-#: src/dialogs/dialog-analysis-tools.c:125
+#: src/dialogs/dialog-analysis-tools.c:131
 msgid "Negative Binomial"
 msgstr "Отрицательное биномиальное"
 
-#: src/dialogs/dialog-analysis-tools.c:126
+#: src/dialogs/dialog-analysis-tools.c:132
 msgid "N_umber of failures"
 msgstr "Число неудач"
 
-#: src/dialogs/dialog-analysis-tools.c:128
+#: src/dialogs/dialog-analysis-tools.c:134
 msgid "Bernoulli"
 msgstr "Бернулли"
 
-#: src/dialogs/dialog-analysis-tools.c:130
+#: src/dialogs/dialog-analysis-tools.c:136
 msgid "Uniform"
 msgstr "Однородное"
 
-#: src/dialogs/dialog-analysis-tools.c:130
+#: src/dialogs/dialog-analysis-tools.c:136
 msgid "_Lower bound:"
 msgstr "Нижний предел:"
 
-#: src/dialogs/dialog-analysis-tools.c:130
+#: src/dialogs/dialog-analysis-tools.c:136
 msgid "_Upper bound:"
 msgstr "Верхний предел:"
 
-#: src/dialogs/dialog-analysis-tools.c:313
+#: src/dialogs/dialog-analysis-tools.c:319
 msgid "Confidence Level for Mean"
 msgstr "Доверительный уровень для значения"
 
-#: src/dialogs/dialog-analysis-tools.c:314
+#: src/dialogs/dialog-analysis-tools.c:320
 msgid "0.95"
 msgstr "0.95"
 
-#: src/dialogs/dialog-analysis-tools.c:315
+#: src/dialogs/dialog-analysis-tools.c:321
 msgid "Kth Largest:"
 msgstr "К-ое наибольшее:"
 
-#: src/dialogs/dialog-analysis-tools.c:316
-#: src/dialogs/dialog-analysis-tools.c:318
+#: src/dialogs/dialog-analysis-tools.c:322
+#: src/dialogs/dialog-analysis-tools.c:324
 msgid "1"
 msgstr "1"
 
-#: src/dialogs/dialog-analysis-tools.c:317
+#: src/dialogs/dialog-analysis-tools.c:323
 msgid "Kth Smallest:"
 msgstr "К-ое наименьшее:"
 
-#: src/dialogs/dialog-analysis-tools.c:323
+#: src/dialogs/dialog-analysis-tools.c:329
 msgid "Labels in First Row"
 msgstr "Метки в первой строке"
 
-#: src/dialogs/dialog-analysis-tools.c:329
+#: src/dialogs/dialog-analysis-tools.c:335
 msgid "Force Intercept to Be Zero"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:400
+#: src/dialogs/dialog-analysis-tools.c:406
 msgid "Periodic"
 msgstr "Периодически"
 
-#: src/dialogs/dialog-analysis-tools.c:489
-#: src/dialogs/dialog-analysis-tools.c:643
+#: src/dialogs/dialog-analysis-tools.c:495
+#: src/dialogs/dialog-analysis-tools.c:650
+#: src/dialogs/dialog-analysis-tools.c:2415
 msgid "You should introduce a valid cell range in 'Input Range:'"
 msgstr "Вы должны ввести подходящий диапазон ячеек в поле 'Входной диапазон:'"
 
-#: src/dialogs/dialog-analysis-tools.c:519
+#: src/dialogs/dialog-analysis-tools.c:525
 msgid "Output options:"
 msgstr "Параметры вывода:"
 
-#: src/dialogs/dialog-analysis-tools.c:521
+#: src/dialogs/dialog-analysis-tools.c:527
 msgid "New Sheet"
 msgstr "Новая таблица"
 
 #. hbox = gtk_hbox_new (FALSE, 0);
-#: src/dialogs/dialog-analysis-tools.c:525
+#: src/dialogs/dialog-analysis-tools.c:531
 msgid "New Workbook"
 msgstr "Новая книга"
 
-#: src/dialogs/dialog-analysis-tools.c:530
+#: src/dialogs/dialog-analysis-tools.c:536
 msgid "Output Range:"
 msgstr "Диапазон вывода:"
 
-#: src/dialogs/dialog-analysis-tools.c:554
+#: src/dialogs/dialog-analysis-tools.c:560
 msgid "Grouped By:"
 msgstr "Группировать по:"
 
-#: src/dialogs/dialog-analysis-tools.c:654
-#: src/dialogs/dialog-analysis-tools.c:754
-#: src/dialogs/dialog-analysis-tools.c:1213
-#: src/dialogs/dialog-analysis-tools.c:1346
-#: src/dialogs/dialog-analysis-tools.c:1480
-#: src/dialogs/dialog-analysis-tools.c:1606
-#: src/dialogs/dialog-analysis-tools.c:1932
-#: src/dialogs/dialog-analysis-tools.c:2180
-#: src/dialogs/dialog-analysis-tools.c:2286
-#: src/dialogs/dialog-analysis-tools.c:2395
-#: src/dialogs/dialog-analysis-tools.c:2505
-#: src/dialogs/dialog-analysis-tools.c:2612
+#: src/dialogs/dialog-analysis-tools.c:661
+#: src/dialogs/dialog-analysis-tools.c:761
+#: src/dialogs/dialog-analysis-tools.c:1221
+#: src/dialogs/dialog-analysis-tools.c:1355
+#: src/dialogs/dialog-analysis-tools.c:1490
+#: src/dialogs/dialog-analysis-tools.c:1617
+#: src/dialogs/dialog-analysis-tools.c:1944
+#: src/dialogs/dialog-analysis-tools.c:2192
+#: src/dialogs/dialog-analysis-tools.c:2303
+#: src/dialogs/dialog-analysis-tools.c:2435
+#: src/dialogs/dialog-analysis-tools.c:2550
+#: src/dialogs/dialog-analysis-tools.c:2660
+#: src/dialogs/dialog-analysis-tools.c:2771
+#: src/dialogs/dialog-analysis-tools.c:2878
 msgid "You should introduce a valid cell range in 'Output Range:'"
 msgstr "Вы должны ввести подходящий диапазон ячеек в 'Диапазон вывода:'"
 
-#: src/dialogs/dialog-analysis-tools.c:743
-#: src/dialogs/dialog-analysis-tools.c:865
-#: src/dialogs/dialog-analysis-tools.c:958
-#: src/dialogs/dialog-analysis-tools.c:2169
-#: src/dialogs/dialog-analysis-tools.c:2275
-#: src/dialogs/dialog-analysis-tools.c:2384
-#: src/dialogs/dialog-analysis-tools.c:2494
-#: src/dialogs/dialog-analysis-tools.c:2603
+#: src/dialogs/dialog-analysis-tools.c:750
+#: src/dialogs/dialog-analysis-tools.c:872
+#: src/dialogs/dialog-analysis-tools.c:965
+#: src/dialogs/dialog-analysis-tools.c:2181
+#: src/dialogs/dialog-analysis-tools.c:2292
+#: src/dialogs/dialog-analysis-tools.c:2539
+#: src/dialogs/dialog-analysis-tools.c:2649
+#: src/dialogs/dialog-analysis-tools.c:2760
+#: src/dialogs/dialog-analysis-tools.c:2869
 msgid "You should introduce a valid cell range in 'Range:'"
 msgstr "Вы должны ввести подходящий диапазон ячеек в 'Диапазон:'"
 
-#: src/dialogs/dialog-analysis-tools.c:800
-#: src/dialogs/dialog-analysis-tools.c:914
-#: src/dialogs/dialog-analysis-tools.c:1013
-#: src/dialogs/dialog-analysis-tools.c:1984
+#: src/dialogs/dialog-analysis-tools.c:807
+#: src/dialogs/dialog-analysis-tools.c:921
+#: src/dialogs/dialog-analysis-tools.c:1020
+#: src/dialogs/dialog-analysis-tools.c:1996
 msgid "Input:"
 msgstr "Ввод:"
 
-#: src/dialogs/dialog-analysis-tools.c:803
-#: src/dialogs/dialog-analysis-tools.c:917
+#: src/dialogs/dialog-analysis-tools.c:810
+#: src/dialogs/dialog-analysis-tools.c:924
 msgid "Input Range:"
 msgstr "Входной диапазон:"
 
-#: src/dialogs/dialog-analysis-tools.c:805
+#: src/dialogs/dialog-analysis-tools.c:812
 msgid "Sampling Method:"
 msgstr "Метод выборки:"
 
-#: src/dialogs/dialog-analysis-tools.c:817
+#: src/dialogs/dialog-analysis-tools.c:824
 msgid "Period:"
 msgstr "Период:"
 
-#: src/dialogs/dialog-analysis-tools.c:820
+#: src/dialogs/dialog-analysis-tools.c:827
 msgid "Number of Samples:"
 msgstr "Число испытаний:"
 
-#: src/dialogs/dialog-analysis-tools.c:1016
+#: src/dialogs/dialog-analysis-tools.c:1023
 msgid "Variable 1 Range:"
 msgstr "Диапазон переменной 1:"
 
-#: src/dialogs/dialog-analysis-tools.c:1019
+#: src/dialogs/dialog-analysis-tools.c:1026
 msgid "Variable 2 Range:"
 msgstr "Диапазон переменной 2:"
 
-#: src/dialogs/dialog-analysis-tools.c:1022
+#: src/dialogs/dialog-analysis-tools.c:1029
 msgid "Hypothesized Mean Difference:"
 msgstr "Гипотетическая разность средних:"
 
-#: src/dialogs/dialog-analysis-tools.c:1025
+#: src/dialogs/dialog-analysis-tools.c:1032
 msgid "Variable 1 Variance (known):"
 msgstr "Дисперсия переменной 1 (известная):"
 
-#: src/dialogs/dialog-analysis-tools.c:1028
+#: src/dialogs/dialog-analysis-tools.c:1035
 msgid "Variable 2 Variance (known):"
 msgstr "Дисперсия переменной 2 (известная):"
 
-#: src/dialogs/dialog-analysis-tools.c:1031
+#: src/dialogs/dialog-analysis-tools.c:1038
 msgid "Alpha:"
 msgstr "Альфа:"
 
-#: src/dialogs/dialog-analysis-tools.c:1063
-#: src/dialogs/dialog-analysis-tools.c:1187
-#: src/dialogs/dialog-analysis-tools.c:1320
-#: src/dialogs/dialog-analysis-tools.c:1454
-#: src/dialogs/dialog-analysis-tools.c:1583
-#: src/dialogs/dialog-analysis-tools.c:2030
+#: src/dialogs/dialog-analysis-tools.c:1070
+#: src/dialogs/dialog-analysis-tools.c:1195
+#: src/dialogs/dialog-analysis-tools.c:1329
+#: src/dialogs/dialog-analysis-tools.c:1464
+#: src/dialogs/dialog-analysis-tools.c:1594
+#: src/dialogs/dialog-analysis-tools.c:2042
 msgid "You should introduce a valid cell range in 'Variable 1:'"
 msgstr "Вы должны ввести подходящий диапазон ячеек в поле \"Переменная 1:\""
 
-#: src/dialogs/dialog-analysis-tools.c:1074
-#: src/dialogs/dialog-analysis-tools.c:1198
-#: src/dialogs/dialog-analysis-tools.c:1331
-#: src/dialogs/dialog-analysis-tools.c:1465
-#: src/dialogs/dialog-analysis-tools.c:1594
-#: src/dialogs/dialog-analysis-tools.c:2038
+#: src/dialogs/dialog-analysis-tools.c:1081
+#: src/dialogs/dialog-analysis-tools.c:1206
+#: src/dialogs/dialog-analysis-tools.c:1340
+#: src/dialogs/dialog-analysis-tools.c:1475
+#: src/dialogs/dialog-analysis-tools.c:1605
+#: src/dialogs/dialog-analysis-tools.c:2050
 msgid "You should introduce a valid cell range in 'Variable 2:'"
 msgstr "Вы должны ввести подходящий диапазон ячеек в поле \"Переменная 2:\""
 
-#: src/dialogs/dialog-analysis-tools.c:1913
+#: src/dialogs/dialog-analysis-tools.c:1925
 msgid ""
 "You should introduce a valid cell range in 'Value and probability input "
 "Range:'"
@@ -2579,19 +2604,19 @@ msgstr ""
 "Вы должны ввести подходящий диапазон ячейек для \"Входного диапазона "
 "значений и вероятностей\""
 
-#: src/dialogs/dialog-analysis-tools.c:1990
+#: src/dialogs/dialog-analysis-tools.c:2002
 msgid "Input Y Range:"
 msgstr "Входной диапазон Y:"
 
-#: src/dialogs/dialog-analysis-tools.c:1993
+#: src/dialogs/dialog-analysis-tools.c:2005
 msgid "Input X Range:"
 msgstr "Входной диапазон X:"
 
-#: src/dialogs/dialog-analysis-tools.c:1996
+#: src/dialogs/dialog-analysis-tools.c:2008
 msgid "Confidence Level:"
 msgstr "Доверительный уровень:"
 
-#: src/dialogs/dialog-analysis-tools.c:2062
+#: src/dialogs/dialog-analysis-tools.c:2074
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
@@ -2599,32 +2624,51 @@ msgstr ""
 "Слишком мало точек данных для проведения этой регрессии.\n"
 "Должно быть хотя бы столько же сколько свободных переменных."
 
-#: src/dialogs/dialog-analysis-tools.c:2068
+#: src/dialogs/dialog-analysis-tools.c:2080
 msgid ""
 "Two or more of the independent variables are linearly dependent,\n"
 "and the regression cannot be calculated. Remove one of these\n"
 "variables and try the regression again."
 msgstr " "
 
-#: src/dialogs/dialog-analysis-tools.c:2075
+#: src/dialogs/dialog-analysis-tools.c:2087
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
 "Число значений для каждой переменной в регрессии должно быть одинаковым."
 
-#: src/dialogs/dialog-analysis-tools.c:2634
-msgid "Each sample should contain the same number of rows (`Rows per sample:')"
-msgstr "Каждая выборка должна содержать равное число строк (\"Строк на выборку:\")"
+#: src/dialogs/dialog-analysis-tools.c:2317
+msgid "Fourier analysis is not implemented yet.  Sorry."
+msgstr "Извините, Фурье-анализ еще не реализован."
 
-#: src/dialogs/dialog-analysis-tools.c:2639
+#: src/dialogs/dialog-analysis-tools.c:2426
+msgid "You should introduce a valid cell range in 'Bin Range:'"
+msgstr "Вы должны ввести подходящий диапазон ячеек в \"Двоичный диапазон:\""
+
+#: src/dialogs/dialog-analysis-tools.c:2454
+msgid "Given input range contains non-numeric data. "
+msgstr "Заданный входной диапазон содержит нечисловые данные."
+
+#: src/dialogs/dialog-analysis-tools.c:2459
+msgid "Given bin range contains non-numeric data."
+msgstr "Заданный двоичный диапазон содержит нечисловые данные."
+
+#: src/dialogs/dialog-analysis-tools.c:2900
+msgid "Each sample should contain the same number of rows (`Rows per sample:')"
+msgstr ""
+"Каждая выборка должна содержать равное число строк (\"Строк на выборку:\")"
+
+#: src/dialogs/dialog-analysis-tools.c:2905
 msgid "Given input range contains non-numeric data."
 msgstr "Заданный входной диапазон содержит нечисловые данные."
 
-#: src/dialogs/dialog-analysis-tools.c:2644
+#: src/dialogs/dialog-analysis-tools.c:2910
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
-msgstr "Заданный входной диапазон должен содержать хотя бы два столбца данных и метки."
+msgstr ""
+"Заданный входной диапазон должен содержать хотя бы два столбца данных и "
+"метки."
 
 #: src/dialogs/dialog-autosave.c:136
 msgid "You should introduce a proper number of minutes in the entry."
@@ -2699,7 +2743,7 @@ msgstr "Невозможно добавить больше чем длина выделения."
 msgid "Maximum number of clauses has been reached."
 msgstr "Было достигнуто максимальное число пунктов."
 
-#: src/dialogs/dialog-cell-sort.c:533 src/workbook.c:1028
+#: src/dialogs/dialog-cell-sort.c:533 src/workbook.c:1035
 msgid "sort"
 msgstr "сортировать"
 
@@ -2707,7 +2751,7 @@ msgstr "сортировать"
 msgid "then by"
 msgstr "затем по"
 
-#: src/dialogs/dialog-define-names.c:168
+#: src/dialogs/dialog-define-names.c:148
 msgid "You can not redefine a builtin name."
 msgstr "Вы не можете переопределить встроенное имя."
 
@@ -2720,7 +2764,7 @@ msgstr "удалить ячейки"
 msgid "Value%d"
 msgstr "Значение%d"
 
-#: src/dialogs/dialog-function-wizard.c:394 src/functions/fn-string.c:1337
+#: src/dialogs/dialog-function-wizard.c:394 src/functions/fn-string.c:1335
 msgid "String"
 msgstr "Строка"
 
@@ -2907,7 +2951,7 @@ msgstr "Конфигурация пользовательского заголовка"
 msgid "Custom footer configuration"
 msgstr "Конфигурация пользовательской сноски"
 
-#: src/dialogs/dialog-sheet-order.c:142 src/workbook.c:2935
+#: src/dialogs/dialog-sheet-order.c:142 src/workbook.c:2951
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Вы действительно хотите удалить таблицу `%s' ?"
@@ -3102,8 +3146,8 @@ msgstr ""
 "Косая черта (/)\n"
 "Другое\n"
 
-#: src/dialogs/dialog-stf-format-page.c:169
-#: src/dialogs/dialog-stf-format-page.c:359
+#: src/dialogs/dialog-stf-format-page.c:167
+#: src/dialogs/dialog-stf-format-page.c:369
 msgid "Custom"
 msgstr "Другой"
 
@@ -3339,7 +3383,7 @@ msgstr "Аттрибуты рабочей книги"
 #. * Add this file to your project's POTFILES.in.
 #. * DO NOT compile it as part of your application.
 #.
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook.c:2527 src/workbook.c:2545
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook.c:2543 src/workbook.c:2561
 msgid "Zoom"
 msgstr "Масштаб"
 
@@ -3710,7 +3754,7 @@ msgid "_Rows to repeat on the upper region:"
 msgstr "Строки повторяются в верхней части:"
 
 #: src/dialogs/print.glade.h:48 src/dialogs/print.glade.h:57
-#: src/workbook.c:1509
+#: src/workbook.c:1525
 msgid "Print"
 msgstr "Печать"
 
@@ -3718,7 +3762,7 @@ msgstr "Печать"
 msgid "Row and co_lumn headings"
 msgstr "Озаглавливание строк и столбцов"
 
-#: src/dialogs/print.glade.h:50 src/workbook.c:1188
+#: src/dialogs/print.glade.h:50 src/workbook.c:1195
 msgid "Co_mments"
 msgstr "Комментарии"
 
@@ -3743,12 +3787,12 @@ msgid "R_ight, then down"
 msgstr "Вправо, затем вниз"
 
 #: src/dialogs/print.glade.h:56 src/functions/fn-sheet.c:126
-#: src/workbook.c:758
+#: src/workbook.c:765
 msgid "Sheet"
 msgstr "Табличные"
 
-#: src/dialogs/print.glade.h:58 src/print.c:987 src/workbook.c:1166
-#: src/workbook.c:1512
+#: src/dialogs/print.glade.h:58 src/print.c:987 src/workbook.c:1173
+#: src/workbook.c:1528
 msgid "Print preview"
 msgstr "Просмотр печати"
 
@@ -14167,7 +14211,7 @@ msgstr ""
 "в этом месте ячеек. Вы хотите заменить содержимое\n"
 "в этой области?"
 
-#: src/item-cursor.c:758 src/workbook.c:1521
+#: src/item-cursor.c:758 src/workbook.c:1537
 msgid "Copy"
 msgstr "Скопировать"
 
@@ -14219,7 +14263,7 @@ msgstr "Cпециальная вставка"
 msgid "_Insert..."
 msgstr "Вставка..."
 
-#: src/item-grid.c:504 src/workbook.c:1245
+#: src/item-grid.c:504 src/workbook.c:1252
 msgid "_Delete..."
 msgstr "Удаление..."
 
@@ -14236,13 +14280,13 @@ msgstr "Формат ячеек..."
 msgid "Column _Width..."
 msgstr "Ширина столбца..."
 
-#: src/item-grid.c:517 src/item-grid.c:525 src/workbook.c:1338
-#: src/workbook.c:1357
+#: src/item-grid.c:517 src/item-grid.c:525 src/workbook.c:1354
+#: src/workbook.c:1373
 msgid "_Hide"
 msgstr "Скрыть"
 
-#: src/item-grid.c:519 src/item-grid.c:527 src/workbook.c:1341
-#: src/workbook.c:1360
+#: src/item-grid.c:519 src/item-grid.c:527 src/workbook.c:1357
+#: src/workbook.c:1376
 msgid "_Unhide"
 msgstr "Показать"
 
@@ -14499,7 +14543,7 @@ msgstr "время"
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:793 src/workbook.c:1912
+#: src/print.c:793 src/workbook.c:1928
 msgid "Selection must be a single range"
 msgstr "Выделение должно быть единственным диапазоном"
 
@@ -14532,12 +14576,12 @@ msgstr "скопировать"
 msgid "cut"
 msgstr "вырезать"
 
-#: src/sheet-object.c:361 src/workbook.c:1572
+#: src/sheet-object.c:361 src/workbook.c:1588
 msgid "Button"
 msgstr "Кнопка"
 
-#: src/sheet-object.c:783 src/sheet-object.c:786 src/workbook.c:1134
-#: src/workbook.c:1137
+#: src/sheet-object.c:783 src/sheet-object.c:786 src/workbook.c:1141
+#: src/workbook.c:1144
 msgid "Select an object to add"
 msgstr "Выбрать объект для добавления"
 
@@ -14564,19 +14608,19 @@ msgstr "Столбец: %s"
 msgid "Internal ERROR"
 msgstr "Внутренняя ОШИБКА"
 
-#: src/sheet.c:2847 src/sheet.c:2856
+#: src/sheet.c:2851 src/sheet.c:2860
 msgid "Insert Columns"
 msgstr "Вставить столбцы"
 
-#: src/sheet.c:2926
+#: src/sheet.c:2930
 msgid "Delete Columns"
 msgstr "Удалить столбцы"
 
-#: src/sheet.c:2995 src/sheet.c:3004
+#: src/sheet.c:2999 src/sheet.c:3008
 msgid "Insert Rows"
 msgstr "Вставить строки"
 
-#: src/sheet.c:3074
+#: src/sheet.c:3078
 msgid "Delete Rows"
 msgstr "Удалить строки"
 
@@ -15085,13 +15129,13 @@ msgid "Nothing"
 msgstr "Ничего"
 
 #. FIXME : How to avoid hard coding the menu name here.
-#: src/workbook-view.c:80 src/workbook-view.c:84 src/workbook.c:1531
-#: src/workbook.c:2549 src/workbook.c:2567
+#: src/workbook-view.c:80 src/workbook-view.c:84 src/workbook.c:1547
+#: src/workbook.c:2565 src/workbook.c:2583
 msgid "Undo"
 msgstr "Откат"
 
-#: src/workbook-view.c:81 src/workbook-view.c:85 src/workbook.c:1534
-#: src/workbook.c:2558 src/workbook.c:2569
+#: src/workbook-view.c:81 src/workbook-view.c:85 src/workbook.c:1550
+#: src/workbook.c:2574 src/workbook.c:2585
 msgid "Redo"
 msgstr "Возврат"
 
@@ -15114,451 +15158,467 @@ msgstr "В книге есть несохраненные изменения, сохранить их?"
 
 #. TODO : No need to check simplicty.  XL applies for each
 #. * non-discrete selected region, (use selection_apply)
-#: src/workbook.c:782
+#: src/workbook.c:789
 msgid "Insert cols"
 msgstr "Вставить столбцы"
 
 #. TODO : No need to check simplicty.  XL applies for each
 #. * non-discrete selected region, (use selection_apply)
-#: src/workbook.c:806
+#: src/workbook.c:813
 msgid "Insert rows"
 msgstr "Вставить строки"
 
-#: src/workbook.c:1148
+#: src/workbook.c:1155
 msgid "_New"
 msgstr "Новый"
 
-#: src/workbook.c:1148
+#: src/workbook.c:1155
 msgid "Create a new spreadsheet"
 msgstr "Создать новую таблицу"
 
-#: src/workbook.c:1152
+#: src/workbook.c:1159
 msgid "_Import..."
 msgstr "Импорт..."
 
-#: src/workbook.c:1152
+#: src/workbook.c:1159
 msgid "Imports a file"
 msgstr "Импортировать файл"
 
-#: src/workbook.c:1158
+#: src/workbook.c:1165
 msgid "Su_mmary..."
 msgstr "Итого..."
 
-#: src/workbook.c:1159
+#: src/workbook.c:1166
 msgid "Summary information"
 msgstr "Суммарная информация"
 
-#: src/workbook.c:1166 src/workbook.c:1512
+#: src/workbook.c:1173 src/workbook.c:1528
 msgid "Print pre_view"
 msgstr "Просмотр печати"
 
-#: src/workbook.c:1182
+#: src/workbook.c:1189
 msgid "_All"
 msgstr "Все"
 
-#: src/workbook.c:1183
+#: src/workbook.c:1190
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Очистить в выделенных ячейках формат, комментарии и содержимое"
 
-#: src/workbook.c:1185
+#: src/workbook.c:1192
 msgid "_Formats"
 msgstr "Формат"
 
-#: src/workbook.c:1186
+#: src/workbook.c:1193
 msgid "Clear the selected cells' formats"
 msgstr "Очистить в выделенных ячейках формат"
 
-#: src/workbook.c:1189
+#: src/workbook.c:1196
 msgid "Clear the selected cells' comments"
 msgstr "Очистить в выделенных ячейках комментарии"
 
-#: src/workbook.c:1191
+#: src/workbook.c:1198
 msgid "_Content"
 msgstr "Содержимое"
 
-#: src/workbook.c:1192
+#: src/workbook.c:1199
 msgid "Clear the selected cells' contents"
 msgstr "Очистить в выделенных ячейках содержимое"
 
-#: src/workbook.c:1200
+#: src/workbook.c:1207
 msgid "Select _All"
 msgstr "Выделить все"
 
-#: src/workbook.c:1201
+#: src/workbook.c:1208
 msgid "Select all cells in the spreadsheet"
 msgstr "Выделить все ячейки в таблице"
 
-#: src/workbook.c:1205
+#: src/workbook.c:1212
 msgid "Select _Row"
 msgstr "Выделить строку"
 
-#: src/workbook.c:1206
+#: src/workbook.c:1213
 msgid "Select an entire row"
 msgstr "Выделить всю строку"
 
-#: src/workbook.c:1210
+#: src/workbook.c:1217
 msgid "Select _Column"
 msgstr "Выделить столбец"
 
-#: src/workbook.c:1211 src/workbook.c:1216
+#: src/workbook.c:1218 src/workbook.c:1223
 msgid "Select an entire column"
 msgstr "Выделить весь столбец"
 
-#: src/workbook.c:1215
+#: src/workbook.c:1222
 msgid "Select Arra_y"
 msgstr "Выделить область"
 
-#: src/workbook.c:1220
+#: src/workbook.c:1227
 msgid "Select _Depends"
 msgstr "Выделить зависимости"
 
-#: src/workbook.c:1221
+#: src/workbook.c:1228
 msgid "Select all the cells that depend on the current edit cell."
 msgstr "Выделить все ячейки, которые зависят от редактируемой ячейки."
 
-#: src/workbook.c:1239
+#: src/workbook.c:1246
 msgid "P_aste special..."
 msgstr "Cпециальная вставка..."
 
-#: src/workbook.c:1240
+#: src/workbook.c:1247
 msgid "Paste with optional filters and transformations"
 msgstr "Вставка с дополнительными фильтрами и преобразованиями"
 
-#: src/workbook.c:1243
+#: src/workbook.c:1250
 msgid "C_lear"
 msgstr "Очистить"
 
-#: src/workbook.c:1246
+#: src/workbook.c:1253
 msgid "Remove selected cells, shifting other into their place"
 msgstr "Удалить выделенные ячейки, сдвигая другие на их место"
 
-#: src/workbook.c:1248
+#: src/workbook.c:1255
 msgid "De_lete Sheet"
 msgstr "Удалить лист"
 
-#: src/workbook.c:1249
+#: src/workbook.c:1256
 msgid "Irrevocably remove an entire sheet"
 msgstr "Безвозвратное удаление целой таблицы"
 
-#: src/workbook.c:1254
+#: src/workbook.c:1261
 msgid "_Select..."
 msgstr "Выделение..."
 
 #. Default <Ctrl-I> to be goto
-#: src/workbook.c:1257
+#: src/workbook.c:1264
 msgid "_Goto cell..."
 msgstr "Перейти к ячейке..."
 
-#: src/workbook.c:1258
+#: src/workbook.c:1265
 msgid "Jump to a specified cell"
 msgstr "Перейти к указанной ячейке"
 
 #. Default <F9> to recalculate
-#: src/workbook.c:1262
+#: src/workbook.c:1269
 msgid "_Recalculate"
 msgstr "Пересчитать"
 
-#: src/workbook.c:1263
+#: src/workbook.c:1270
 msgid "Recalculate the spreadsheet"
 msgstr "Пересчитать таблицу"
 
-#: src/workbook.c:1271
+#: src/workbook.c:1278
 msgid "_Zoom..."
 msgstr "Масштаб..."
 
-#: src/workbook.c:1272
+#: src/workbook.c:1279
 msgid "Zoom the spreadsheet in or out"
 msgstr "Увеличение и уменьшение масштаба таблицы"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/workbook.c:1281
+#: src/workbook.c:1288
 msgid "Current _date"
 msgstr "Текущая дата"
 
-#: src/workbook.c:1282
+#: src/workbook.c:1289
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Вставить текущую дату в выделенные ячейки"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/workbook.c:1287
+#: src/workbook.c:1294
 msgid "Current _time"
 msgstr "Текущее время"
 
-#: src/workbook.c:1288
+#: src/workbook.c:1295
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Вставить текущее время в выделенные ячейки"
 
-#: src/workbook.c:1295 src/workbook.c:1418
+#: src/workbook.c:1302
+msgid "_Names..."
+msgstr "Имена..."
+
+#: src/workbook.c:1303
+msgid "Edit sheet and workbook names"
+msgstr "Правка имен таблицы и рабочей книги"
+
+#: src/workbook.c:1306
+msgid "_Auto generate names..."
+msgstr "Автогенерация имен..."
+
+#: src/workbook.c:1307
+msgid "Use the current selection to create names"
+msgstr "Использовать текущее выделение для создания имен"
+
+#: src/workbook.c:1314 src/workbook.c:1434
 msgid "_Sheet"
 msgstr "Таблица"
 
-#: src/workbook.c:1296
+#: src/workbook.c:1315
 msgid "Insert a new spreadsheet"
 msgstr "Вставить новую таблицу"
 
-#: src/workbook.c:1299
+#: src/workbook.c:1318
 msgid "Insert new rows"
 msgstr "Вставить новые строки"
 
-#: src/workbook.c:1302
+#: src/workbook.c:1321
 msgid "Insert new columns"
 msgstr "Вставить новые столбцы"
 
-#: src/workbook.c:1304
+#: src/workbook.c:1323
 msgid "C_ells..."
 msgstr "Ячейки..."
 
-#: src/workbook.c:1305
+#: src/workbook.c:1324
 msgid "Insert new cells"
 msgstr "Вставить новые ячейки"
 
-#: src/workbook.c:1309
+#: src/workbook.c:1328
 msgid "_Object..."
 msgstr "Объект..."
 
-#: src/workbook.c:1310
+#: src/workbook.c:1329
 msgid "Inserts a Bonobo object"
 msgstr "Вставить Bonobo-объект"
 
-#: src/workbook.c:1316
-msgid "Define _Name"
-msgstr "Определить имена"
+#: src/workbook.c:1335
+msgid "N_ames"
+msgstr "Имена"
 
-#: src/workbook.c:1319
+#: src/workbook.c:1337
 msgid "_Add/modify comment..."
 msgstr "Добавить/Изменить комментарий"
 
-#: src/workbook.c:1320
+#: src/workbook.c:1338
 msgid "Edit the selected cell's comment"
 msgstr "Правка комментариев для выделенных ячеек"
 
-#: src/workbook.c:1323
+#: src/workbook.c:1341
 msgid "S_pecial"
 msgstr "Специальный"
 
-#: src/workbook.c:1332 src/workbook.c:1351
+#: src/workbook.c:1348 src/workbook.c:1367
 msgid "_Auto fit selection"
 msgstr "Автозаполнение выделения"
 
-#: src/workbook.c:1335
+#: src/workbook.c:1351
 msgid "_Width"
 msgstr "Ширина"
 
-#: src/workbook.c:1344
+#: src/workbook.c:1360
 msgid "_Standard Width"
 msgstr "Стандартная ширина"
 
-#: src/workbook.c:1354
+#: src/workbook.c:1370
 msgid "_Height"
 msgstr "Высота"
 
-#: src/workbook.c:1363
+#: src/workbook.c:1379
 msgid "_Standard Height"
 msgstr "Стандартная высота"
 
-#: src/workbook.c:1370
+#: src/workbook.c:1386
 msgid "_Change name"
 msgstr "Изменить название"
 
-#: src/workbook.c:1373
+#: src/workbook.c:1389
 msgid "Re-_Order Sheets"
 msgstr "Упорядочить листы"
 
-#: src/workbook.c:1378
+#: src/workbook.c:1394
 msgid "Display _Formulas"
 msgstr "Показать формулы"
 
-#: src/workbook.c:1384
+#: src/workbook.c:1400
 msgid "Hide _Zeros"
 msgstr "Скрыть нули"
 
-#: src/workbook.c:1390
+#: src/workbook.c:1406
 msgid "Hide _Gridlines"
 msgstr "Скрыть линии сетки"
 
-#: src/workbook.c:1396
+#: src/workbook.c:1412
 msgid "Hide _Column Header"
 msgstr "Скрыть заголовок столбца"
 
-#: src/workbook.c:1402
+#: src/workbook.c:1418
 msgid "Hide _Row Header"
 msgstr "Скрыть заголовок строки"
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/workbook.c:1412
+#: src/workbook.c:1428
 msgid "_Cells..."
 msgstr "Ячейки..."
 
-#: src/workbook.c:1413
+#: src/workbook.c:1429
 msgid "Modify the formatting of the selected cells"
 msgstr "Изменить форматирование выделенных ячеек"
 
-#: src/workbook.c:1416
+#: src/workbook.c:1432
 msgid "C_olumn"
 msgstr "Столбец"
 
-#: src/workbook.c:1417
+#: src/workbook.c:1433
 msgid "_Row"
 msgstr "Строка"
 
-#: src/workbook.c:1420
+#: src/workbook.c:1436
 msgid "_Workbook..."
 msgstr "Рабочая книга..."
 
-#: src/workbook.c:1421
+#: src/workbook.c:1437
 msgid "Modify the workbook attributes"
 msgstr "Изменить аттрибуты рабочей книги"
 
-#: src/workbook.c:1428
+#: src/workbook.c:1444
 msgid "_Plug-ins..."
 msgstr "Дополнения..."
 
-#: src/workbook.c:1429
+#: src/workbook.c:1445
 msgid "Manage available plugin modules."
 msgstr "Управление доступными модулями дополнений."
 
-#: src/workbook.c:1434
+#: src/workbook.c:1450
 msgid "Auto _Correct..."
 msgstr "Автокоррекция..."
 
-#: src/workbook.c:1435
+#: src/workbook.c:1451
 msgid "Automaticly perform simple spell checking"
 msgstr "Автоматически выполнять простые проверки правописания"
 
-#: src/workbook.c:1437
+#: src/workbook.c:1453
 msgid "_Auto Save..."
 msgstr "Автосохранение..."
 
-#: src/workbook.c:1438
+#: src/workbook.c:1454
 msgid "Automaticly save the current document at regular intervals"
 msgstr "Автосохранять текущий документ через регулярные интервалы"
 
-#: src/workbook.c:1443
+#: src/workbook.c:1459
 msgid "_Goal Seek..."
 msgstr "Поиск цели..."
 
-#: src/workbook.c:1444
+#: src/workbook.c:1460
 msgid "Iteratively recalculate to find a target value"
 msgstr "Итеративное перевычисление для поиска целевого значения"
 
-#: src/workbook.c:1446
+#: src/workbook.c:1462
 msgid "_Solver..."
 msgstr "Решение..."
 
-#: src/workbook.c:1447
+#: src/workbook.c:1463
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 "Итеративное перевычисление с ограничениями для достижения целевого значения"
 
-#: src/workbook.c:1452
+#: src/workbook.c:1468
 msgid "_Data Analysis..."
 msgstr "Анализ данных..."
 
-#: src/workbook.c:1453
+#: src/workbook.c:1469
 msgid "Statistical methods."
 msgstr "Статистические методы."
 
-#: src/workbook.c:1461
+#: src/workbook.c:1477
 msgid "_Sort..."
 msgstr "Сортировка..."
 
-#: src/workbook.c:1462
+#: src/workbook.c:1478
 msgid "Sort the selected cells"
 msgstr "Сортировать выделенные ячейки"
 
-#: src/workbook.c:1464
+#: src/workbook.c:1480
 msgid "_Filter..."
 msgstr "Фильтр..."
 
-#: src/workbook.c:1465
+#: src/workbook.c:1481
 msgid "Filter date with given criterias"
 msgstr "Фильтрация данных по заданным критериям"
 
-#: src/workbook.c:1483
+#: src/workbook.c:1499
 msgid "_Insert"
 msgstr "Вставить"
 
-#: src/workbook.c:1484
+#: src/workbook.c:1500
 msgid "F_ormat"
 msgstr "Формат"
 
-#: src/workbook.c:1485
+#: src/workbook.c:1501
 msgid "_Tools"
 msgstr "Инструменты"
 
-#: src/workbook.c:1486
+#: src/workbook.c:1502
 msgid "_Data"
 msgstr "Данные"
 
-#: src/workbook.c:1497
+#: src/workbook.c:1513
 msgid "New"
 msgstr "Новая"
 
-#: src/workbook.c:1497
+#: src/workbook.c:1513
 msgid "Creates a new workbook"
 msgstr "Создать новую книгу"
 
-#: src/workbook.c:1500
+#: src/workbook.c:1516
 msgid "Open"
 msgstr "Открыть"
 
-#: src/workbook.c:1500
+#: src/workbook.c:1516
 msgid "Opens an existing workbook"
 msgstr "Открыть существующую книгу"
 
-#: src/workbook.c:1503
+#: src/workbook.c:1519
 msgid "Save"
 msgstr "Сохранить"
 
-#: src/workbook.c:1503
+#: src/workbook.c:1519
 msgid "Saves the workbook"
 msgstr "Сохранить книгу"
 
-#: src/workbook.c:1509
+#: src/workbook.c:1525
 msgid "Prints the workbook"
 msgstr "Напечатать книгу"
 
-#: src/workbook.c:1518
+#: src/workbook.c:1534
 msgid "Cut"
 msgstr "Вырезать"
 
-#: src/workbook.c:1518
+#: src/workbook.c:1534
 msgid "Cuts the selection to the clipboard"
 msgstr "Вырезать выделение в буфер обмена"
 
-#: src/workbook.c:1521
+#: src/workbook.c:1537
 msgid "Copies the selection to the clipboard"
 msgstr "Скопировать выделение в буфер обмена"
 
-#: src/workbook.c:1524
+#: src/workbook.c:1540
 msgid "Pastes the clipboard"
 msgstr "Вставить из буфера обмена"
 
-#: src/workbook.c:1531
+#: src/workbook.c:1547
 msgid "Undo the operation"
 msgstr "Откат операции"
 
-#: src/workbook.c:1534
+#: src/workbook.c:1550
 msgid "Redo the operation"
 msgstr "Повтор отмененной операции"
 
-#: src/workbook.c:1544
+#: src/workbook.c:1560
 msgid "Sum into the current cell."
 msgstr "Сумма в текущей ячейке."
 
-#: src/workbook.c:1547
+#: src/workbook.c:1563
 msgid "Function"
 msgstr "Функция"
 
-#: src/workbook.c:1547
+#: src/workbook.c:1563
 msgid "Edit a function in the current cell."
 msgstr "Правка функции в текущей ячейке."
 
-#: src/workbook.c:1551
+#: src/workbook.c:1567
 msgid "Sort Ascending"
 msgstr "Возрастающая сортировка"
 
-#: src/workbook.c:1551
+#: src/workbook.c:1567
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
@@ -15566,11 +15626,11 @@ msgstr ""
 "Отсортировать выделенный диапазон в возрастающем порядке значений первого "
 "столбца выделения."
 
-#: src/workbook.c:1554
+#: src/workbook.c:1570
 msgid "Sort Descending"
 msgstr "Убывающая сортировка"
 
-#: src/workbook.c:1554
+#: src/workbook.c:1570
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
@@ -15578,112 +15638,112 @@ msgstr ""
 "Отсортировать выделенный диапазон в убывающем порядке значений первого "
 "столбца выделения."
 
-#: src/workbook.c:1561
+#: src/workbook.c:1577
 msgid "Create a Graph"
 msgstr "Создать график"
 
-#: src/workbook.c:1561
+#: src/workbook.c:1577
 msgid "Invokes the graph guru to help create a graph"
 msgstr "Вызвать гуру графиков для помощи в создании графика"
 
-#: src/workbook.c:1564
+#: src/workbook.c:1580
 msgid "Insert Object"
 msgstr "Вставить объект"
 
-#: src/workbook.c:1564
+#: src/workbook.c:1580
 msgid "Inserts an object into the spreadsheet"
 msgstr "Вставить объект в таблицу"
 
-#: src/workbook.c:1567
+#: src/workbook.c:1583
 msgid "Insert shaped object"
 msgstr "Вставить shaped-объект"
 
-#: src/workbook.c:1567
+#: src/workbook.c:1583
 msgid "Inserts a shaped object into the spreadsheet"
 msgstr "Вставить shaped-объект в таблицу"
 
-#: src/workbook.c:1572
+#: src/workbook.c:1588
 msgid "Creates a button"
 msgstr "Создать кнопку"
 
-#: src/workbook.c:1575
+#: src/workbook.c:1591
 msgid "Checkbox"
 msgstr "Графа для отметки"
 
-#: src/workbook.c:1575
+#: src/workbook.c:1591
 msgid "Creates a checkbox"
 msgstr "Создать графу для отметки"
 
-#: src/workbook.c:1579
+#: src/workbook.c:1595
 msgid "Creates a line object"
 msgstr "Создать линию"
 
-#: src/workbook.c:1582
+#: src/workbook.c:1598
 msgid "Arrow"
 msgstr "Стрелка"
 
-#: src/workbook.c:1582
+#: src/workbook.c:1598
 msgid "Creates an arrow object"
 msgstr "Создать стрелку"
 
-#: src/workbook.c:1585
+#: src/workbook.c:1601
 msgid "Rectangle"
 msgstr "Прямоугольник"
 
-#: src/workbook.c:1585
+#: src/workbook.c:1601
 msgid "Creates a rectangle object"
 msgstr "Создать прямоугольник"
 
-#: src/workbook.c:1588
+#: src/workbook.c:1604
 msgid "Ellipse"
 msgstr "Овал"
 
-#: src/workbook.c:1588
+#: src/workbook.c:1604
 msgid "Creates an ellipse object"
 msgstr "Создать овал"
 
-#: src/workbook.c:1878
+#: src/workbook.c:1894
 msgid "You should introduce a valid cell name"
 msgstr "Вы должны ввести подходящее название для ячейки"
 
-#: src/workbook.c:2017
+#: src/workbook.c:2033
 msgid "Min"
 msgstr "Мин"
 
-#: src/workbook.c:2018
+#: src/workbook.c:2034
 msgid "Max"
 msgstr "Макс"
 
-#: src/workbook.c:2639
+#: src/workbook.c:2655
 #, c-format
 msgid "Book%d.gnumeric"
 msgstr "Книга%d.gnumeric"
 
-#: src/workbook.c:2836
+#: src/workbook.c:2852
 msgid "Sheet name"
 msgstr "Название листа"
 
-#: src/workbook.c:2837
+#: src/workbook.c:2853
 msgid "must have at least 1 letter"
 msgstr "должна быть хотя бы 1 буква"
 
-#: src/workbook.c:2844
+#: src/workbook.c:2860
 msgid "Duplicate Sheet name"
 msgstr "Скопировать название листа"
 
-#: src/workbook.c:2995
+#: src/workbook.c:3011
 msgid "Add another sheet"
 msgstr "Добавить другой лист"
 
-#: src/workbook.c:2996
+#: src/workbook.c:3012
 msgid "Remove this sheet"
 msgstr "Удалить этот лист"
 
-#: src/workbook.c:2997
+#: src/workbook.c:3013
 msgid "Rename this sheet"
 msgstr "Переименовать этот лист"
 
-#: src/workbook.c:2998
+#: src/workbook.c:3014
 msgid "Re-order sheets"
 msgstr "Переупорядочить листы"
 
