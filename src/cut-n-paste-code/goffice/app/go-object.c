@@ -35,11 +35,14 @@ struct _GOServiceObject {
 };
 typedef GOServiceClass GOServiceObjectClass;
 
+static GObjectClass *go_service_object_parent_class;
+
 static GHashTable *plugin_types = NULL;
 
 static void
 go_service_object_finalize (GObject *obj)
 {
+	go_service_object_finalize->finalize (obj);
 }
 
 static char *
@@ -52,6 +55,7 @@ static void
 go_service_object_class_init (GObjectClass *gobj_class)
 {
 	GOServiceClass *serv_class = (GOServiceClass *)gobj_class;
+	go_combo_box_parent_class = g_type_class_peek_parent (gobj_class);
 	gobj_class->finalize = go_service_object_finalize;
 	serv_class->description = go_service_object_description;
 	plugin_types = g_hash_table_new (g_str_hash, g_str_equal);
