@@ -139,7 +139,7 @@ static void
 cb_filter_bounds_changed (SheetObject *so, FooCanvasItem *view)
 {
 	double coords [4], tmp;
-	SheetControlGUI	*scg = GNM_SIMPLE_CANVAS (view)->scg;
+	SheetControlGUI	*scg = GNM_SIMPLE_CANVAS (view->canvas)->scg;
 
  	scg_object_view_position (scg, so, coords);
 
