@@ -8,6 +8,10 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    http://bugzilla.gnome.org/show_bug.cgi?id=62004	rand paste (replicate?)
+    http://bugzilla.gnome.org/show_bug.cgi?id=60678	dsum
+    http://bugzilla.gnome.org/show_bug.cgi?id=60468	oleo
+
     - Add an idle handler at start up to check for availablity of
       evo and guppi.  They should only be enabled if they are available.
     - config check for xml-i18n-tool version (or should it be

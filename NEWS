@@ -11,6 +11,10 @@ Jody:
 	* Fix color selectors for drawing objects.
 	* Re-enable support for row vectors in graphs.
 	* Allow string functions to accept numbers as strings.
+	* Font selector in cell format dialog
+	* Off by 1 error when undoing unhiding cols/rows
+	* Improve handling of Cancel during File -> Quit
+	* Autoscroll support during object creation
 
 Jukka:
 	* Improved COUPDAYS().

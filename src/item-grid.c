@@ -58,7 +58,8 @@ enum {
 typedef enum {
 	ITEM_GRID_NO_SELECTION,
 	ITEM_GRID_SELECTING_CELL_RANGE,
-	ITEM_GRID_SELECTING_FORMULA_RANGE
+	ITEM_GRID_SELECTING_FORMULA_RANGE,
+	ITEM_GRID_SELECTING_OBJECT_CREATION
 } ItemGridSelectionType;
 
 struct _ItemGrid {
@@ -76,6 +77,12 @@ struct _ItemGrid {
 	} gc;
 
 	Range bound;
+
+	struct {
+		double x, y;
+		gboolean has_been_sized;
+		GnomeCanvasItem *item;
+	} obj_create;
 };
 
 static void
@@ -580,87 +587,67 @@ item_grid_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 
 /***********************************************************************/
 
-typedef struct {
-	SheetControlGUI *scg;
-	double x, y;
-	gboolean has_been_sized;
-	GnomeCanvasItem *item;
-} SheetObjectCreationData;
-
-/*
- * cb_obj_create_motion:
- * @gcanvas :
- * @event :
- * @closure :
+/**
+ * ig_obj_create_motion:
+ * @ig : the grid
+ * @new_x :
+ * @new_y :
  *
  * Rubber band a rectangle to show where the object is going to go,
  * and support autoscroll.
- *
- * TODO : Finish autoscroll
  */
-static gboolean
-cb_obj_create_motion (GnumericCanvas *gcanvas, GdkEventMotion *event,
-		      SheetObjectCreationData *closure)
+static void
+ig_obj_create_motion (ItemGrid *ig, gdouble new_x, gdouble new_y)
 {
-	double tmp_x, tmp_y;
 	double x1, x2, y1, y2;
 
-	g_return_val_if_fail (gcanvas != NULL, TRUE);
-
-	gnome_canvas_window_to_world (GNOME_CANVAS (gcanvas),
-				      event->x, event->y,
-				      &tmp_x, &tmp_y);
-
-	if (tmp_x < closure->x) {
-		x1 = tmp_x;
-		x2 = closure->x;
+	if (new_x < ig->obj_create.x) {
+		x1 = new_x;
+		x2 = ig->obj_create.x;
 	} else {
-		x2 = tmp_x;
-		x1 = closure->x;
+		x2 = new_x;
+		x1 = ig->obj_create.x;
 	}
-	if (tmp_y < closure->y) {
-		y1 = tmp_y;
-		y2 = closure->y;
+	if (new_y < ig->obj_create.y) {
+		y1 = new_y;
+		y2 = ig->obj_create.y;
 	} else {
-		y2 = tmp_y;
-		y1 = closure->y;
+		y2 = new_y;
+		y1 = ig->obj_create.y;
 	}
 
-	if (!closure->has_been_sized) {
-		closure->has_been_sized =
-		    (fabs (tmp_x - closure->x) > 5.) ||
-		    (fabs (tmp_y - closure->y) > 5.);
+	if (!ig->obj_create.has_been_sized) {
+		ig->obj_create.has_been_sized =
+		    (fabs (new_x - ig->obj_create.x) > 5.) ||
+		    (fabs (new_y - ig->obj_create.y) > 5.);
 	}
 
-	if (closure->item) {
-		gnome_canvas_item_set (closure->item,
-				       "x1", x1, "y1", y1,
-				       "x2", x2, "y2", y2,
-				       NULL);
-	} else {
+	if (ig->obj_create.item == NULL) {
 		SheetObject *so;
 		double points [4];
 
-		points [0] = closure->x;
-		points [1] = closure->y;
-		points [2] = event->x;
-		points [3] = event->y;
+		points [0] = ig->obj_create.x;
+		points [1] = ig->obj_create.y;
+		points [2] = new_x;
+		points [3] = new_y;
 
-		so = closure->scg->new_object;
+		so = ig->scg->new_object;
 
 		if (so->anchor.direction != SO_DIR_UNKNOWN)
 		{
 			so->anchor.direction = SO_DIR_NONE_MASK;
-			if (event->x > closure->x)
+			if (new_x > ig->obj_create.x)
 				so->anchor.direction |= SO_DIR_RIGHT;
-			if (event->y > closure->y)
+			if (new_y > ig->obj_create.y)
 				so->anchor.direction |= SO_DIR_DOWN;
 		}
 
-		scg_object_calc_position (closure->scg, so, points);
-	}
-
-	return TRUE;
+		scg_object_calc_position (ig->scg, so, points);
+	} else
+		gnome_canvas_item_set (ig->obj_create.item,
+			"x1", x1, "y1", y1,
+			"x2", x2, "y2", y2,
+			NULL);
 }
 
 /**
@@ -668,100 +655,74 @@ cb_obj_create_motion (GnumericCanvas *gcanvas, GdkEventMotion *event,
  *
  * Invoked as the last step in object creation.
  */
-static gboolean
-cb_obj_create_button_release (GnumericCanvas *gcanvas, GdkEventButton *event,
-			      SheetObjectCreationData *closure)
+static void
+ig_obj_create_finish (ItemGrid *ig, GdkEventButton *event)
 {
 	double pts [4];
-	SheetObject *so;
-	SheetControlGUI *scg;
-	Sheet *sheet;
 
-	g_return_val_if_fail (gcanvas != NULL, 1);
-	g_return_val_if_fail (closure != NULL, -1);
-	g_return_val_if_fail (closure->scg != NULL, -1);
-	g_return_val_if_fail (closure->scg->new_object != NULL, -1);
+	SheetControlGUI *scg   = ig->scg;
+	SheetObject	*so    = scg->new_object;
+	Sheet		*sheet = ((SheetControl *) scg)->sheet;
 
-	scg = closure->scg;
-	so = scg->new_object;
-	sheet = ((SheetControl *) scg)->sheet;
 	sheet_set_dirty (sheet, TRUE);
 
 	/* If there has been some motion use the press and release coords */
-	if (closure->has_been_sized) {
-		pts [0] = closure->x;
-		pts [1] = closure->y;
-		gnome_canvas_window_to_world (GNOME_CANVAS (gcanvas),
-					      event->x, event->y,
-					      pts + 2, pts + 3);
+	if (ig->obj_create.has_been_sized) {
+		pts [0] = ig->obj_create.x;
+		pts [1] = ig->obj_create.y;
+		pts [2] = event->x;
+		pts [3] = event->y;
 	} else {
 		/* Otherwise translate default size to use release point as top left */
 		sheet_object_default_size (so, pts+2, pts+3);
-		pts [2] += (pts [0] = closure->x);
-		pts [3] += (pts [1] = closure->y);
+		pts [2] += (pts [0] = ig->obj_create.x);
+		pts [3] += (pts [1] = ig->obj_create.y);
 	}
-
-	gtk_signal_disconnect_by_func (
-		GTK_OBJECT (gcanvas),
-		GTK_SIGNAL_FUNC (cb_obj_create_motion), closure);
-	gtk_signal_disconnect_by_func (
-		GTK_OBJECT (gcanvas),
-		GTK_SIGNAL_FUNC (cb_obj_create_button_release), closure);
 
 	scg_object_calc_position (scg, so, pts);
 
 	if (!sheet_object_rubber_band_directly (so)) {
 		sheet_object_set_sheet (so, sheet);
-		gtk_object_destroy (GTK_OBJECT (closure->item));
-		closure->item = NULL;
+		gtk_object_destroy (GTK_OBJECT (ig->obj_create.item));
+		ig->obj_create.item = NULL;
 	}
-
-	g_free (closure);
 
 	/* move object from creation to edit mode */
 	scg->new_object = NULL;
 	scg_mode_edit_object (scg, so);
 
 	cmd_object_insert (WORKBOOK_CONTROL (scg_get_wbcg (scg)), so, sheet);
-
-	return TRUE;
 }
 
 /*
- * sheet_object_begin_creation :
+ * ig_obj_create_begin :
  *
  * Starts the process of creating a SheetObject.  Handles the initial
  * button press on the GnumericCanvas.
- *
- * TODO : when we being supporting panes this will need to move into the
- * sheet-control-gui layer.
  */
 static gboolean
-sheet_object_begin_creation (GnumericCanvas *gcanvas, GdkEventButton *event)
+ig_obj_create_begin (ItemGrid *ig, GdkEventButton *event)
 {
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ig);
+	GnumericCanvas  *gcanvas = GNUMERIC_CANVAS (item->canvas);
 	SheetControlGUI *scg;
 	SheetObject *so;
-	SheetObjectCreationData *closure;
 
-	g_return_val_if_fail (IS_GNUMERIC_CANVAS (gcanvas), TRUE);
-	g_return_val_if_fail (gcanvas->scg != NULL, TRUE);
-
-	scg = gcanvas->scg;
+	scg = ig->scg;
 
 	g_return_val_if_fail (scg != NULL, TRUE);
 	g_return_val_if_fail (scg->current_object == NULL, TRUE);
 	g_return_val_if_fail (scg->new_object != NULL, TRUE);
+	g_return_val_if_fail (ig->obj_create.item == NULL, TRUE);
+	g_return_val_if_fail (ig->selecting == ITEM_GRID_NO_SELECTION, TRUE);
+
+	ig->obj_create.has_been_sized = FALSE;
+	ig->obj_create.x = event->x;
+	ig->obj_create.y = event->y;
 
 	so = scg->new_object;
-
-	closure = g_new (SheetObjectCreationData, 1);
-	closure->scg = scg;
-	closure->has_been_sized = FALSE;
-	closure->x = event->x;
-	closure->y = event->y;
-
 	if (!sheet_object_rubber_band_directly (so)) {
-		closure->item = gnome_canvas_item_new (
+		ig->obj_create.item = gnome_canvas_item_new (
 			gcanvas->object_group,
 			gnome_canvas_rect_get_type (),
 			"outline_color", "black",
@@ -775,13 +736,14 @@ sheet_object_begin_creation (GnumericCanvas *gcanvas, GdkEventButton *event)
 
 		scg_object_calc_position (scg, so, points);
 		sheet_object_set_sheet (so, ((SheetControl *) scg)->sheet);
-		closure->item = NULL;
 	}
 
-	gtk_signal_connect (GTK_OBJECT (gcanvas), "button_release_event",
-			    GTK_SIGNAL_FUNC (cb_obj_create_button_release), closure);
-	gtk_signal_connect (GTK_OBJECT (gcanvas), "motion_notify_event",
-			    GTK_SIGNAL_FUNC (cb_obj_create_motion), closure);
+	ig->selecting = ITEM_GRID_SELECTING_OBJECT_CREATION;
+	gnm_canvas_slide_init (gcanvas);
+	gnome_canvas_item_grab (item,
+		GDK_POINTER_MOTION_MASK |
+		GDK_BUTTON_RELEASE_MASK,
+		NULL, event->time);
 
 	return TRUE;
 }
@@ -807,7 +769,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 
 	/* A new object is ready to be realized and inserted */
 	if (scg->new_object != NULL)
-		return sheet_object_begin_creation (gcanvas, event);
+		return ig_obj_create_begin (ig, event);
 
 	/* If we are not configuring an object then clicking on the sheet
 	 * ends the edit.
@@ -921,6 +883,23 @@ cb_extend_expr_range (GnumericCanvas *gcanvas, int col, int row, gpointer ignore
 	return TRUE;
 }
 
+static gboolean
+cb_extend_object_creation (GnumericCanvas *gcanvas, int col, int row, gpointer ignored)
+{
+	int x, y;
+	gdouble new_x, new_y;
+	SheetControlGUI *scg = gcanvas->scg;
+
+	x = scg_colrow_distance_get (scg, TRUE, gcanvas->first.col, col);
+	x += gcanvas->first_offset.col;
+	y = scg_colrow_distance_get (scg, FALSE, gcanvas->first.row, row);
+	y += gcanvas->first_offset.row;
+	gnome_canvas_c2w (GNOME_CANVAS (gcanvas), x, y, &new_x, &new_y);
+
+	ig_obj_create_motion (gcanvas->pane->grid, new_x, new_y);
+	return TRUE;
+}
+
 static gint
 item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 {
@@ -948,37 +927,65 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	}
 
 	case GDK_BUTTON_RELEASE:
-		switch (event->button.button) {
-		case 1 :
-			gnm_canvas_slide_stop (gcanvas);
+		if (event->button.button != 1)
+			return FALSE;
 
-			if (ig->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
-				sheet_make_cell_visible (sheet,
-							 sheet->edit_pos.col,
-							 sheet->edit_pos.row);
+		gnm_canvas_slide_stop (gcanvas);
 
+		switch (ig->selecting) {
+		case ITEM_GRID_NO_SELECTION: return TRUE;
+
+		case ITEM_GRID_SELECTING_FORMULA_RANGE :
+			sheet_make_cell_visible (sheet,
+				sheet->edit_pos.col, sheet->edit_pos.row);
+			/* Fall through */
+		case ITEM_GRID_SELECTING_CELL_RANGE :
 			wb_view_selection_desc (
 				wb_control_view (sc->wbc), TRUE, NULL);
+			break;
 
-			ig->selecting = ITEM_GRID_NO_SELECTION;
-			gnome_canvas_item_ungrab (item, event->button.time);
-			return 1;
-
+		case ITEM_GRID_SELECTING_OBJECT_CREATION:
+			ig_obj_create_finish (ig, &event->button);
+			break;
 		default:
-			return FALSE;
+			g_assert_not_reached ();
 		};
-		break;
+
+		ig->selecting = ITEM_GRID_NO_SELECTION;
+		gnome_canvas_item_ungrab (item, event->button.time);
+		return TRUE;
 
 	case GDK_MOTION_NOTIFY: {
 		GnumericCanvasSlideHandler slide_handler = NULL;
 
-		if (ig->selecting == ITEM_GRID_SELECTING_CELL_RANGE)
+		switch (ig->selecting) {
+		case ITEM_GRID_NO_SELECTION: return TRUE;
+		case ITEM_GRID_SELECTING_CELL_RANGE :
 			slide_handler = &cb_extend_cell_range;
-		else if (ig->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
+			break;
+		case ITEM_GRID_SELECTING_FORMULA_RANGE :
 			slide_handler = &cb_extend_expr_range;
+			break;
+		case ITEM_GRID_SELECTING_OBJECT_CREATION:
+			/* TODO : motion is still too granular along the internal axis
+			 * when the other axis is external.
+			 * eg  drag from middle of sheet down.  The x axis is still internal
+			 * onlt the y is external, however, since we are autoscrolling
+			 * we are limited to moving with col/row coords, not x,y.
+			 * Possible solution would be to change the EXTERIOR_ONLY flag
+			 * to something like USE_PIXELS_INSTEAD_OF_COLROW and change
+			 * the semantics of the col,row args in the callback.  However,
+			 * that is more work than I want to do right now.
+			 */
+			if (gnm_canvas_handle_motion (gcanvas, canvas, &event->motion,
+						      GNM_SLIDE_X | GNM_SLIDE_Y,
+						      &cb_extend_object_creation, NULL))
+				ig_obj_create_motion (ig, event->motion.x, event->motion.y);
 
-		if (ig->selecting == ITEM_GRID_NO_SELECTION)
 			return TRUE;
+		default:
+			g_assert_not_reached ();
+		};
 
 		gnm_canvas_handle_motion (gcanvas, canvas, &event->motion,
 			GNM_SLIDE_X | GNM_SLIDE_Y | GNM_SLIDE_AT_COLROW_BOUND,
@@ -1036,6 +1043,7 @@ item_grid_init (ItemGrid *ig)
 	ig->selecting = ITEM_GRID_NO_SELECTION;
 	ig->gc.fill = ig->gc.cell = ig->gc.empty = ig->gc.bound = NULL;
 	range_init_full_sheet (&ig->bound);
+	ig->obj_create.item = NULL;
 }
 
 static void

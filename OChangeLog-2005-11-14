@@ -1,3 +1,15 @@
+2001-10-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (ig_obj_create_motion) : renamed and restructured
+	  from cb_obj_create_motion.
+	(ig_obj_create_finish) : ditto from cb_obj_create_button_release.
+	(ig_obj_create_begin) : ditto from sheet_object_begin_creation.
+	  Grab to pointer and use the grid's event handler rather than
+	  attempting to apply local handlers for the canvas.
+	(cb_extend_object_creation) : new.
+	(item_grid_event) : use the new obj_create routines.
+	(item_grid_init) : init the obj_create data.
+
 2001-10-11  Morten Welinder  <terra@diku.dk>
 
 	* src/search.c (search_filter_matching,
