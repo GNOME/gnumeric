@@ -28,8 +28,6 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-#define PLUGIN (plugins_get_plugin_by_id ("Gnumeric_python"))
-
 /* Classes we define in Python code, and where we define them. */
 #define GNUMERIC_DEFS_MODULE "gnumeric_defs"
 #define BOOLEAN_CLASS    "Boolean"

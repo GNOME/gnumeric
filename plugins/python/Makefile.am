@@ -1,5 +1,6 @@
 gnumeric_pythondir = $(gnumeric_datadir)/python
 INCLUDES = \
+    -DPLUGIN_ID=\"Gnumeric_python\"		\
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
     -I$(top_srcdir)/src	-I$(top_builddir)/src	\
     $(PY_CFLAGS)				\
