@@ -1,5 +1,12 @@
 Gnumeric 1.2.0
 
+Christian Neumair:
+	* Start adding ATK relations to the dialogs.
+
+Jody:
+	* Make chart axis prettier.
+	* Fix crash freeing undo info for a deleted sheet with comments
+
 Jon Kåre:
         * Ensure that scrollbars always show up in font combo when
  	  needed (http://bugzilla.gnome.org/show_bug.cgi?id=121877).

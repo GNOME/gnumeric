@@ -64,8 +64,10 @@ cell_comment_finalize (GObject *object)
 	}
 
 	/* If this comment is being displayed we shut down nicely */
-	SHEET_FOREACH_CONTROL (cc->s_object.sheet, view, control,
-		scg_comment_unselect ((SheetControlGUI *) control, cc););
+	if (cc->s_object.sheet != NULL) {
+		SHEET_FOREACH_CONTROL (cc->s_object.sheet, view, control,
+			scg_comment_unselect ((SheetControlGUI *) control, cc););
+	}
 
 	if (parent_klass != NULL && parent_klass->finalize != NULL)
 		parent_klass->finalize (object);

@@ -4309,9 +4309,9 @@ cmd_reorganize_sheets_delete_get_this_sheet_info (Workbook *wb, guint pos)
 	}
 	data->sheet_objects = g_list_reverse (data->sheet_objects);
 	for (l = data->sheet_objects; l != NULL; l = l->next) {
-			SheetObject *so = l->data;
-			g_object_ref (G_OBJECT (so));
-			sheet_object_clear_sheet (so);
+		SheetObject *so = l->data;
+		g_object_ref (G_OBJECT (so));
+		sheet_object_clear_sheet (so);
 	}
 	return data;
 }

@@ -443,9 +443,9 @@ sheet_object_clear_sheet (SheetObject *so)
 	g_return_val_if_fail (ptr != NULL, TRUE);
 
 	if (SO_CLASS (so)->remove_from_sheet &&
-	    SO_CLASS (so)->remove_from_sheet (so)) {
+	    SO_CLASS (so)->remove_from_sheet (so))
 		return TRUE;
-	}
+
 	sheet_object_unrealize (so);
 	so->sheet->sheet_objects = g_list_remove_link (so->sheet->sheet_objects, ptr);
 	so->sheet = NULL;
