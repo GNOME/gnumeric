@@ -27,10 +27,9 @@
 # constraint -> begrænsning (fx "x < 10")
 # truncate -> afkorte (fx 2.79 -> 2)
 # validate -> gyldighedskontrol
-# array -> matrix
+# array -> matrix, vektor
 # custom -> selvvalgt, brugerdefineret (afhængig af sammenhæng)
 # paste special -> avanceret indsætning
-#
 #
 # Formater og formatér er med ét 't'. Eksemplerne under tekstrutinerne
 # er danskificerede. Den mærkelige mani med at sætte et mellemrum foran
@@ -39,13 +38,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
-"POT-Creation-Date: 2001-11-11 06:15-0500\n"
-"PO-Revision-Date: 2001-11-11 19:56+0100\n"
-"Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
+"POT-Creation-Date: 2001-11-13 06:21-0500\n"
+"PO-Revision-Date: 2001-11-14 17:38+0100\n"
+"Last-Translator: Keld Jørn Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 0.9.5\n"
 
 #: plugins/applix/applix-read.c:78
 msgid "Parse error while reading Applix file."
@@ -75,7 +75,7 @@ msgstr "Finansielle afledede"
 msgid "Functions related to financial derivatives"
 msgstr "Funktioner relaterede til finansielle afledede"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4362 src/xml-io.c:3450
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4362 src/xml-io.c:3433
 msgid "Reading file..."
 msgstr "Læser fil..."
 
@@ -143,8 +143,7 @@ msgid "Data Interchange Format (DIF) module"
 msgstr "Data Interchange Format-modul (DIF)"
 
 #: plugins/dif/plugin.xml.in.h:3
-msgid ""
-"Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr "Læser og skriver information gemt i Data Interchange Format'et (*.dif)"
 
 #: plugins/excel/boot.c:104
@@ -152,6 +151,8 @@ msgid ""
 "This file is not an 'OLE' file.  It may be too old for Gnumeric to read.\n"
 "Sorry, the management."
 msgstr ""
+"Denne fil er ikke en 'OLE'-fil. Den kan være for gammel til at Gnumeric kan læse den. "
+"Beklager, ledelsen."
 
 #: plugins/excel/boot.c:105
 msgid "Unexpected error reading the file"
@@ -541,7 +542,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=BITXOR\n"
 "@SYNTAX=BITXOR(a,b)\n"
-"@DESCRIPTION=BITXOR-funktionen returnerer bitvis ekslusiv ELLER af dens "
+"@DESCRIPTION=BITXOR-funktionen returnerer bitvis eksklusiv ELLER af dens "
 "parametre.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -799,8 +800,7 @@ msgstr "Python-udvidelsesmodul"
 
 #: plugins/python/plugin.xml.in.h:2
 msgid "This plugin provides Python language support in Gnumeric"
-msgstr ""
-"Dette udvidelsesmodul giver understøttelse for sproget Python i Gnumeric"
+msgstr "Dette udvidelsesmodul giver understøttelse for sproget Python i Gnumeric"
 
 #: plugins/python/python.c:52
 msgid "Python exception"
@@ -911,19 +911,19 @@ msgstr "XML-dokument er ikke korrekt udformet!"
 msgid "About this application"
 msgstr "Om dette program"
 
-#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:2850
+#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:2856
 msgid "Add an outline group"
 msgstr "Tilføj en omridsgruppe"
 
-#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:2880
+#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:2886
 msgid "Advanced _Filter..."
 msgstr "Avanceret _filtrering..."
 
-#: src/GNOME_Gnumeric.xml.h:4 src/workbook-format-toolbar.c:482
+#: src/GNOME_Gnumeric.xml.h:4 src/workbook-format-toolbar.c:479
 msgid "Aligns the contents to the left and decreases the indent"
 msgstr "Venstrejusterer indholdet og formindsker indrykningen"
 
-#: src/GNOME_Gnumeric.xml.h:5 src/workbook-format-toolbar.c:485
+#: src/GNOME_Gnumeric.xml.h:5 src/workbook-format-toolbar.c:482
 msgid "Aligns the contents to the left and increases the indent"
 msgstr "Venstrejusterer indholdet og forøger indrykningen"
 
@@ -931,40 +931,40 @@ msgstr "Venstrejusterer indholdet og forøger indrykningen"
 msgid "Arrow"
 msgstr "Pil"
 
-#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:2817
+#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:2823
 msgid "Auto _Correct..."
 msgstr "Auto_korrektion..."
 
-#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2528
+#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2534
 msgid "Auto_fill"
 msgstr "Automatisk ud_fyldning"
 
 # dækker så nogenlunde
-#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2529
+#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2535
 msgid "Automatically fill the current selection"
 msgstr "Udfyld automatisk de aktuelt markerede celler"
 
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:2818
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:2824
 msgid "Automatically perform simple spell checking"
 msgstr "Udfør automatisk simpel stavekontrol"
 
-#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:2821
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:2827
 msgid "Automatically save the current document at regular intervals"
 msgstr "Gem automatisk det aktuelle dokument med regelmæssige intervaller"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:16
-#: src/dialogs/dialog-cell-format.c:2665 src/workbook-format-toolbar.c:843
-#: src/workbook-format-toolbar.c:899
+#: src/dialogs/dialog-cell-format.c:2665 src/workbook-format-toolbar.c:840
+#: src/workbook-format-toolbar.c:896
 msgid "Background"
 msgstr "Baggrund"
 
 #: src/GNOME_Gnumeric.xml.h:13 src/widgets/widget-font-selector.c:114
-#: src/workbook-format-toolbar.c:416
+#: src/workbook-format-toolbar.c:413
 msgid "Bold"
 msgstr "Fed"
 
-#: src/GNOME_Gnumeric.xml.h:14 src/workbook-format-toolbar.c:831
-#: src/workbook-format-toolbar.c:896
+#: src/GNOME_Gnumeric.xml.h:14 src/workbook-format-toolbar.c:828
+#: src/workbook-format-toolbar.c:893
 msgid "Borders"
 msgstr "Kanter"
 
@@ -973,19 +973,19 @@ msgstr "Kanter"
 msgid "Button"
 msgstr "Knap"
 
-#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2691
+#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2697
 msgid "C_ells..."
 msgstr "C_eller..."
 
-#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2592
+#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2598
 msgid "C_lear"
 msgstr "_Ryd"
 
-#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2795
+#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2801
 msgid "C_olumn"
 msgstr "_Kolonne"
 
-#: src/GNOME_Gnumeric.xml.h:19 src/workbook-format-toolbar.c:443
+#: src/GNOME_Gnumeric.xml.h:19 src/workbook-format-toolbar.c:440
 msgid "Center"
 msgstr "Centrér"
 
@@ -1001,24 +1001,24 @@ msgstr "Centrerer hen over de markerede celler"
 msgid "Centers the text in each selection"
 msgstr "Centrerer teksten i hver markering"
 
-#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2729
+#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2735
 msgid "Change height of the selected rows"
 msgstr "Ændrer højden af de markerede rækker"
 
-#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2722
+#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2728
 msgid "Change the default column width"
 msgstr "Ændr standardbredden på kolonnerne"
 
-#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2741
+#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2747
 msgid "Change the default row height"
 msgstr "Ændr standardhøjden på rækkerne"
 
-#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2550
-#: src/workbook-control-gui.c:2751
+#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2556
+#: src/workbook-control-gui.c:2757
 msgid "Change the order the sheets are displayed"
 msgstr "Ændr arkenes rækkefølge"
 
-#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2710
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2716
 msgid "Change width of the selected columns"
 msgstr "Ændr bredden af de markerede kolonner"
 
@@ -1026,19 +1026,19 @@ msgstr "Ændr bredden af de markerede kolonner"
 msgid "Checkbox"
 msgstr "Afkrydsningsboks"
 
-#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2489
+#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2495
 msgid "Clear the selected cells' comments"
 msgstr "Ryd de markerede cellers kommentarer"
 
-#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2492
+#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2498
 msgid "Clear the selected cells' contents"
 msgstr "Ryd de markerede cellers indhold"
 
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2486
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2492
 msgid "Clear the selected cells' formats"
 msgstr "Ryd de markerede cellers formater"
 
-#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2483
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2489
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Ryd de markerede cellers formater, kommentarer og indhold"
 
@@ -1047,11 +1047,11 @@ msgid "Close the current file"
 msgstr "Luk den aktive fil"
 
 #: src/GNOME_Gnumeric.xml.h:34 src/dialogs/print.glade.h:4
-#: src/workbook-control-gui.c:2488
+#: src/workbook-control-gui.c:2494
 msgid "Co_mments"
 msgstr "_Kommentarer"
 
-#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2844
+#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2850
 msgid "Collapse an outline group"
 msgstr "Sammenfold en omridsgruppe"
 
@@ -1063,12 +1063,12 @@ msgstr "Menuvalg med indtastning"
 msgid "Configure toolbars"
 msgstr "Konfigurér værktøjslinjer"
 
-#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:2898
+#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:2904
 msgid "Consolidate regions using a function"
 msgstr "Foren områder vha. en funktion"
 
 #: src/GNOME_Gnumeric.xml.h:39 src/selection.c:540
-#: src/workbook-control-gui.c:2952
+#: src/workbook-control-gui.c:2958
 msgid "Copy"
 msgstr "Kopiér"
 
@@ -1076,7 +1076,7 @@ msgstr "Kopiér"
 msgid "Copy the current selection to the clipboard"
 msgstr "Kopiér det markerede til klippebordet"
 
-#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:2578
+#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:2584
 msgid "Copy the selection"
 msgstr "Kopiér det markerede"
 
@@ -1108,15 +1108,15 @@ msgstr "Opret linje"
 msgid "Create a list"
 msgstr "Opret liste"
 
-#: src/GNOME_Gnumeric.xml.h:49 src/workbook-control-gui.c:2634
+#: src/GNOME_Gnumeric.xml.h:49 src/workbook-control-gui.c:2640
 msgid "Create a new shared view of the workbook"
 msgstr "Opret en ny delt visning af arbejdsbogen"
 
-#: src/GNOME_Gnumeric.xml.h:50 src/workbook-control-gui.c:2445
+#: src/GNOME_Gnumeric.xml.h:50 src/workbook-control-gui.c:2451
 msgid "Create a new spreadsheet"
 msgstr "Opretter et nyt regneark"
 
-#: src/GNOME_Gnumeric.xml.h:51 src/workbook-control-gui.c:2637
+#: src/GNOME_Gnumeric.xml.h:51 src/workbook-control-gui.c:2643
 msgid "Create a new unshared view of the workbook"
 msgstr "Opret en ny udelt visning af arbejdsbogen"
 
@@ -1133,31 +1133,31 @@ msgid "Create an arrow"
 msgstr "Opret en pil"
 
 #: src/GNOME_Gnumeric.xml.h:55 src/sheet-control-gui.c:1316
-#: src/workbook-control-gui.c:2573
+#: src/workbook-control-gui.c:2579
 msgid "Cu_t"
 msgstr "K_lip"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2655
+#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2661
 msgid "Current _date"
 msgstr "Dags _dato"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:2661
+#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:2667
 msgid "Current _time"
 msgstr "_Tidspunkt"
 
 #: src/GNOME_Gnumeric.xml.h:58 src/selection.c:566 src/selection.c:569
-#: src/workbook-control-gui.c:2949
+#: src/workbook-control-gui.c:2955
 msgid "Cut"
 msgstr "Klip"
 
-#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:2574
+#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:2580
 msgid "Cut the selection"
 msgstr "Klip det markerede fra"
 
-#: src/GNOME_Gnumeric.xml.h:60 src/workbook-format-toolbar.c:402
-#: src/workbook-format-toolbar.c:482
+#: src/GNOME_Gnumeric.xml.h:60 src/workbook-format-toolbar.c:399
+#: src/workbook-format-toolbar.c:479
 msgid "Decrease Indent"
 msgstr "Formindsk indrykning"
 
@@ -1169,15 +1169,15 @@ msgstr "Formindsk præcision"
 msgid "Decrease the precision of the selected cells"
 msgstr "Formindsk præcisionen i de markerede celler"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/workbook-control-gui.c:2756
+#: src/GNOME_Gnumeric.xml.h:63 src/workbook-control-gui.c:2762
 msgid "Display _Formulas"
 msgstr "Vis _formler"
 
-#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2859
+#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2865
 msgid "Display _Outlines"
 msgstr "Vis _omridsgrupper"
 
-#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2757
+#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2763
 msgid "Display the value of a formula or the formula itself"
 msgstr "Vis værdien af en formel eller formlen selv"
 
@@ -1197,63 +1197,60 @@ msgstr "_Afslut"
 msgid "Edit a formula in the current cell"
 msgstr "Redigér en formel i den aktive celle"
 
-#: src/GNOME_Gnumeric.xml.h:70 src/workbook-control-gui.c:2670
+#: src/GNOME_Gnumeric.xml.h:70 src/workbook-control-gui.c:2676
 msgid "Edit sheet and workbook names"
 msgstr "Redigér navne i ark og arbejdsbog"
 
-#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2748
+#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2754
 msgid "Edit the name of the current sheet"
 msgstr "Ændr navnet på det aktive ark"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:2700
+#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:2706
 msgid "Edit the selected cell's comment"
 msgstr "Redigér den valgte celles kommentar"
 
-#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2713
+#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2719
 msgid "Ensure columns are just wide enough to display content"
-msgstr ""
-"Sørger for at de markerede kolonner er netop brede nok til at vise indholdet"
+msgstr "Sørger for at de markerede kolonner er netop brede nok til at vise indholdet"
 
-#: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:2732
+#: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:2738
 msgid "Ensure rows are just tall enough to display content"
-msgstr ""
-"Sørger for at de markerede rækker er netop høje nok til at vise indholdet"
+msgstr "Sørger for at de markerede rækker er netop høje nok til at vise indholdet"
 
 #: src/GNOME_Gnumeric.xml.h:75
 msgid "Exit the program"
 msgstr "Afslut programmet"
 
-#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:2919
+#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:2925
 msgid "F_ormat"
 msgstr "F_ormatér"
 
-#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:2881
+#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:2887
 msgid "Filter data with given criteria"
 msgstr "Filtrér data efter givne kriterier"
 
 #: src/GNOME_Gnumeric.xml.h:78 src/dialogs/cell-format.glade.h:41
-#: src/workbook-format-toolbar.c:782
+#: src/workbook-format-toolbar.c:779
 msgid "Font"
 msgstr "Skrifttype"
 
-#: src/GNOME_Gnumeric.xml.h:79 src/workbook-format-toolbar.c:893
+#: src/GNOME_Gnumeric.xml.h:79 src/workbook-format-toolbar.c:890
 msgid "Font Size"
 msgstr "Skriftstørrelse"
 
-#: src/GNOME_Gnumeric.xml.h:80 src/workbook-format-toolbar.c:413
-#: src/workbook-format-toolbar.c:891
+#: src/GNOME_Gnumeric.xml.h:80 src/workbook-format-toolbar.c:410
+#: src/workbook-format-toolbar.c:888
 msgid "Font selector"
 msgstr "Skrifttypevælger"
 
 #: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2660
-#: src/workbook-format-toolbar.c:868 src/workbook-format-toolbar.c:902
+#: src/workbook-format-toolbar.c:865 src/workbook-format-toolbar.c:899
 msgid "Foreground"
 msgstr "Forgrund"
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2800
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2806
 msgid "Format a region of cells according to a pre-defined template"
-msgstr ""
-"Formatér et celleområde som foreskrevet af en allerede defineret skabelon"
+msgstr "Formatér et celleområde som foreskrevet af en allerede defineret skabelon"
 
 #: src/GNOME_Gnumeric.xml.h:83
 msgid "Format the selected cells as money"
@@ -1276,7 +1273,7 @@ msgstr "Funktionshjælper"
 msgid "Graph Guru"
 msgstr "Grafhjælper"
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:2728
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:2734
 msgid "H_eight..."
 msgstr "Hø_jde..."
 
@@ -1284,7 +1281,7 @@ msgstr "Hø_jde..."
 msgid "Hide _Column Headers"
 msgstr "Skjul _kolonnehoveder"
 
-#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:2768
+#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:2774
 msgid "Hide _Gridlines"
 msgstr "Skjul _gitterlinjer"
 
@@ -1292,19 +1289,19 @@ msgstr "Skjul _gitterlinjer"
 msgid "Hide _Row Headers"
 msgstr "Skjul _rækkehoveder"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/workbook-control-gui.c:2762
+#: src/GNOME_Gnumeric.xml.h:92 src/workbook-control-gui.c:2768
 msgid "Hide _Zeros"
 msgstr "Skjul _nuller"
 
-#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2716
+#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2722
 msgid "Hide the selected columns"
 msgstr "Skjul de valgte kolonner"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:2735
+#: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:2741
 msgid "Hide the selected rows"
 msgstr "Skjul de valgte rækker"
 
-#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:2449
+#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:2455
 msgid "Imports a file"
 msgstr "Importerer en fil"
 
@@ -1312,8 +1309,8 @@ msgstr "Importerer en fil"
 msgid "Includes a thousands separator in the selected cells"
 msgstr "Inkluderer tusindadskillere i de markerede celler"
 
-#: src/GNOME_Gnumeric.xml.h:97 src/workbook-format-toolbar.c:380
-#: src/workbook-format-toolbar.c:485
+#: src/GNOME_Gnumeric.xml.h:97 src/workbook-format-toolbar.c:377
+#: src/workbook-format-toolbar.c:482
 msgid "Increase Indent"
 msgstr "Øg indrykning"
 
@@ -1333,11 +1330,11 @@ msgstr "Indsæt komponent"
 msgid "Insert Shaped Component"
 msgstr "Indsæt formet komponent"
 
-#: src/GNOME_Gnumeric.xml.h:102 src/workbook-control-gui.c:2542
+#: src/GNOME_Gnumeric.xml.h:102 src/workbook-control-gui.c:2548
 msgid "Insert a new sheet"
 msgstr "Indsæt et nyt ark"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2683
+#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2689
 msgid "Insert a new spreadsheet"
 msgstr "Indsæt et nyt regneark"
 
@@ -1349,24 +1346,24 @@ msgstr "Indsæt en formet komponent i regnearket"
 msgid "Insert an object into the spreadsheet"
 msgstr "Indsæt et objekt i regnearket"
 
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2692
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2698
 msgid "Insert new cells"
 msgstr "Indsæt nye celler"
 
-#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:2689
+#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:2695
 msgid "Insert new columns"
 msgstr "Indsæt nye kolonner"
 
-#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:2686
+#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:2692
 msgid "Insert new rows"
 msgstr "Indsæt nye rækker"
 
 # flertals-/entalsparanteserne forstyrrer mere end de hjælper
-#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:2656
+#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:2662
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Indsæt dags dato i de markerede celler"
 
-#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:2662
+#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:2668
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Indsæt det nuværende tidspunkt i de markerede celler"
 
@@ -1378,7 +1375,7 @@ msgstr "Indsætter et Bonobo-objekt"
 msgid "Invoke the graph guru to create a graph"
 msgstr "Kald på grafhjælperen for at oprette en graf"
 
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2554
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2560
 msgid "Irrevocably remove an entire sheet"
 msgstr "Fjern uigenkaldeligt et helt ark"
 
@@ -1386,17 +1383,17 @@ msgstr "Fjern uigenkaldeligt et helt ark"
 msgid "Italicize"
 msgstr "Kursivér"
 
-#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:2827
+#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:2833
 msgid "Iteratively recalculate to find a target value"
 msgstr "Udfører en beregning igen og igen for at opnå en bestemt målværdi"
 
-#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2830
+#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2836
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 "Udfører en beregning med begrænsninger igen og igen for at nærme sig en "
 "bestemt målværdi"
 
-#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2618
+#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2624
 msgid "Jump to a specified cell"
 msgstr "Spring til en angivet celle"
 
@@ -1406,7 +1403,7 @@ msgid "Label"
 msgstr "Etiket"
 
 #: src/GNOME_Gnumeric.xml.h:119 src/dialogs/cell-format.glade.h:55
-#: src/workbook-format-toolbar.c:633
+#: src/workbook-format-toolbar.c:630
 msgid "Left"
 msgstr "Venstre"
 
@@ -1428,15 +1425,15 @@ msgstr "Liste"
 msgid "Lock or unlock the top left cols/rows"
 msgstr "Lås eller fjern låsen på rækken/kolonnen øverst til venstre"
 
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2538
+#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2544
 msgid "Make a copy of the current sheet"
 msgstr "Lav en kopi af det aktive ark"
 
-#: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:2719
+#: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:2725
 msgid "Make any hidden columns in the selection visible"
 msgstr "Gør enhver skjult kolonne der er markeret, synlig"
 
-#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:2738
+#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:2744
 msgid "Make any hidden rows in the selection visible"
 msgstr "Gør enhver skjult række der er markeret, synlig"
 
@@ -1457,19 +1454,19 @@ msgid "Mark the current selection for movement"
 msgstr "Markér det valgte til flytning"
 
 #: src/GNOME_Gnumeric.xml.h:131 src/sheet-merge.c:74
-#: src/workbook-format-toolbar.c:455
+#: src/workbook-format-toolbar.c:452
 msgid "Merge"
 msgstr "Flet"
 
-#: src/GNOME_Gnumeric.xml.h:132 src/workbook-format-toolbar.c:455
+#: src/GNOME_Gnumeric.xml.h:132 src/workbook-format-toolbar.c:452
 msgid "Merge a range of cells"
 msgstr "Flet celleinterval"
 
-#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:2792
+#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:2798
 msgid "Modify the formatting of the selected cells"
 msgstr "Ændr de markerede cellers formatering"
 
-#: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:2804
+#: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:2810
 msgid "Modify the workbook attributes"
 msgstr "Ændr arbejdsbogens egenskaber"
 
@@ -1477,19 +1474,19 @@ msgstr "Ændr arbejdsbogens egenskaber"
 msgid "Money"
 msgstr "Penge"
 
-#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2928
+#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2934
 msgid "New"
 msgstr "Ny"
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2633
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2639
 msgid "New _Shared"
 msgstr "Ny _delt"
 
-#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2636
+#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2642
 msgid "New _Unshared"
 msgstr "Ny _udelt"
 
-#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:2931
+#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:2937
 msgid "Open"
 msgstr "Åbn"
 
@@ -1501,11 +1498,11 @@ msgstr "Åbn regneark"
 msgid "Open an existing workbook"
 msgstr "Åbn eksisterende arbejdsbog"
 
-#: src/GNOME_Gnumeric.xml.h:142 src/workbook-control-gui.c:2865
+#: src/GNOME_Gnumeric.xml.h:142 src/workbook-control-gui.c:2871
 msgid "Outlines _Below"
 msgstr "Omrids _under"
 
-#: src/GNOME_Gnumeric.xml.h:143 src/workbook-control-gui.c:2871
+#: src/GNOME_Gnumeric.xml.h:143 src/workbook-control-gui.c:2877
 msgid "Outlines _Right"
 msgstr "Omrids til _højre"
 
@@ -1518,11 +1515,11 @@ msgid "P_aste Special..."
 msgstr "_Avanceret indsætning..."
 
 #: src/GNOME_Gnumeric.xml.h:146 src/cmd-edit.c:344
-#: src/workbook-control-gui.c:2955
+#: src/workbook-control-gui.c:2961
 msgid "Paste"
 msgstr "Indsæt"
 
-#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:2582
+#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:2588
 msgid "Paste the clipboard"
 msgstr "Indsæt fra klippebordet"
 
@@ -1530,26 +1527,26 @@ msgstr "Indsæt fra klippebordet"
 msgid "Paste the contents of the clipboard or cut buffer"
 msgstr "Indsæt indholdet af klippebordet eller fraklipsmellemlager"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:2587
+#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:2593
 msgid "Paste with optional filters and transformations"
 msgstr "Indsæt med valgbare filtre og transformationer"
 
-#: src/GNOME_Gnumeric.xml.h:150 src/analysis-tools.c:2782
-#: src/analysis-tools.c:2808 src/workbook-format-toolbar.c:467
+#: src/GNOME_Gnumeric.xml.h:150 src/analysis-tools.c:2797
+#: src/analysis-tools.c:2823 src/workbook-format-toolbar.c:464
 msgid "Percent"
 msgstr "Procent"
 
 #: src/GNOME_Gnumeric.xml.h:151 src/dialogs/print.glade.h:18
-#: src/workbook-control-gui.c:2940
+#: src/workbook-control-gui.c:2946
 msgid "Print"
 msgstr "Udskriv"
 
-#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2462
+#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2468
 msgid "Print Pre_view"
 msgstr "_Vis udskrift"
 
-#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:2462
-#: src/workbook-control-gui.c:2943
+#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:2468
+#: src/workbook-control-gui.c:2949
 msgid "Print Preview"
 msgstr "Vis udskrift"
 
@@ -1557,7 +1554,7 @@ msgstr "Vis udskrift"
 msgid "Print S_etup"
 msgstr "Print_eropsætning"
 
-#: src/GNOME_Gnumeric.xml.h:155 src/dialogs/print.glade.h:20 src/print.c:1183
+#: src/GNOME_Gnumeric.xml.h:155 src/dialogs/print.glade.h:20 src/print.c:1185
 msgid "Print preview"
 msgstr "Vis udskrift"
 
@@ -1573,8 +1570,8 @@ msgstr "Udskriv arbejdsbogen"
 msgid "Radio Button"
 msgstr "Radioknap"
 
-#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:2549
-#: src/workbook-control-gui.c:2750
+#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:2555
+#: src/workbook-control-gui.c:2756
 msgid "Re-_Order Sheets..."
 msgstr "Om_rokér ark..."
 
@@ -1582,16 +1579,16 @@ msgstr "Om_rokér ark..."
 msgid "Re-_Order..."
 msgstr "_Omrokér..."
 
-#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:2545
+#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:2551
 msgid "Re_name..."
 msgstr "_Omdøb..."
 
-#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:2622
+#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:2628
 msgid "Recalculate"
 msgstr "Beregn igen"
 
 # statuslinjetip så masser af plads
-#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:2623
+#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:2629
 msgid "Recalculate the spreadsheet"
 msgstr "Beregner celleværdierne i regnearket igen"
 
@@ -1599,11 +1596,11 @@ msgstr "Beregner celleværdierne i regnearket igen"
 msgid "Rectangle"
 msgstr "Firkant"
 
-#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:2567
+#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:2573
 msgid "Redo the undone action"
 msgstr "Gentag den fortrudte handling"
 
-#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:2853
+#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:2859
 msgid "Remove an outline group"
 msgstr "Fjern en omridsgruppe"
 
@@ -1611,12 +1608,12 @@ msgstr "Fjern en omridsgruppe"
 msgid "Remove selected cells, shifting others into their place"
 msgstr "Fjern valgte celler idet andre celler rykker ind i stedet"
 
-#: src/GNOME_Gnumeric.xml.h:168 src/workbook-control-gui.c:2546
+#: src/GNOME_Gnumeric.xml.h:168 src/workbook-control-gui.c:2552
 msgid "Rename the current sheet"
 msgstr "Omdøb det aktive ark"
 
 #: src/GNOME_Gnumeric.xml.h:169 src/dialogs/cell-format.glade.h:70
-#: src/workbook-format-toolbar.c:635
+#: src/workbook-format-toolbar.c:632
 msgid "Right"
 msgstr "Højre"
 
@@ -1624,21 +1621,21 @@ msgstr "Højre"
 msgid "Right justifies the contents of each cell"
 msgstr "Højrejusterer indholdet af hver celle"
 
-#: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:2599
+#: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:2605
 msgid "S_heet"
 msgstr "_Ark"
 
 # specielle giver et forkert indtryk
-#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:2703
+#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:2709
 msgid "S_pecial"
 msgstr "_Andet"
 
-#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:2451
-#: src/workbook-control-gui.c:2934
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:2457
+#: src/workbook-control-gui.c:2940
 msgid "Save"
 msgstr "Gem"
 
-#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:2454
+#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:2460
 msgid "Save _As..."
 msgstr "Gem _som..."
 
@@ -1654,43 +1651,43 @@ msgstr "Gem den aktuelle fil under et andet navn"
 msgid "Save the current workbook"
 msgstr "Gem den aktuelle arbejdsbog"
 
-#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2611
+#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2617
 msgid "Search and Replace..."
 msgstr "Søg og erstat..."
 
-#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2606
+#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2612
 msgid "Search for some text"
 msgstr "Søg efter noget tekst"
 
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2612
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2618
 msgid "Search for some text and replace it with something else"
 msgstr "Søg efter en tekst og erstat den med noget andet"
 
-#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2605
+#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2611
 msgid "Search..."
 msgstr "Søg..."
 
-#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2515
+#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2521
 msgid "Select Arra_y"
 msgstr "Markér matrix"
 
-#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:2500
+#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:2506
 msgid "Select _All"
 msgstr "Markér _alt"
 
-#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2510
+#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2516
 msgid "Select _Column"
 msgstr "Markér _kolonne"
 
-#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:2520
+#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:2526
 msgid "Select _Depends"
 msgstr "Markér _afhængige"
 
-#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:2505
+#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:2511
 msgid "Select _Row"
 msgstr "Markér _række"
 
-#: src/GNOME_Gnumeric.xml.h:187 src/workbook-control-gui.c:2501
+#: src/GNOME_Gnumeric.xml.h:187 src/workbook-control-gui.c:2507
 msgid "Select all cells in the spreadsheet"
 msgstr "Markér alle celler i regnearket"
 
@@ -1699,15 +1696,15 @@ msgstr "Markér alle celler i regnearket"
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Markér alle cellerne som afhænger af den aktive celle"
 
-#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2516
+#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2522
 msgid "Select an array of cells"
 msgstr "Markér en matrix af celler"
 
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:2511
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:2517
 msgid "Select an entire column"
 msgstr "Markér en hel kolonne"
 
-#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:2506
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:2512
 msgid "Select an entire row"
 msgstr "Markér en hel række"
 
@@ -1715,11 +1712,11 @@ msgstr "Markér en hel række"
 msgid "Setup the page settings for your current printer"
 msgstr "Indstil sideopsætningen for den aktuelle printer"
 
-#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:2982
+#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:2988
 msgid "Sort Ascending"
 msgstr "Sortér stigende"
 
-#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:2985
+#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:2991
 msgid "Sort Descending"
 msgstr "Sortér faldende"
 
@@ -1731,21 +1728,19 @@ msgstr "Sorterer de markerede celler"
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
-msgstr ""
-"Sorterer det markerede område i stigende orden efter den første kolonne"
+msgstr "Sorterer det markerede område i stigende orden efter den første kolonne"
 
 #: src/GNOME_Gnumeric.xml.h:197
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
-msgstr ""
-"Sorterer det markerede område i faldende orden efter den første kolonne"
+msgstr "Sorterer det markerede område i faldende orden efter den første kolonne"
 
-#: src/GNOME_Gnumeric.xml.h:198 src/workbook-format-toolbar.c:458
+#: src/GNOME_Gnumeric.xml.h:198 src/workbook-format-toolbar.c:455
 msgid "Split"
 msgstr "Opsplit"
 
-#: src/GNOME_Gnumeric.xml.h:199 src/workbook-format-toolbar.c:458
+#: src/GNOME_Gnumeric.xml.h:199 src/workbook-format-toolbar.c:455
 msgid "Split merged ranges of cells"
 msgstr "Opsplit et celleinterval"
 
@@ -1754,13 +1749,13 @@ msgid "Statistical methods"
 msgstr "Statistiske metoder"
 
 # det er en oversigt over forfatter, kategori, kommentarer osv. til dokumentet
-#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2468
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2474
 msgid "Su_mmary..."
 msgstr "Oversi_gt..."
 
-#: src/GNOME_Gnumeric.xml.h:202 src/analysis-tools.c:3338
-#: src/dialogs/consolidate.glade.h:19 src/workbook-control-gui.c:2975
-#: src/workbook-control-gui.c:3597 src/workbook-view.c:520
+#: src/GNOME_Gnumeric.xml.h:202 src/analysis-tools.c:3353
+#: src/dialogs/consolidate.glade.h:19 src/workbook-control-gui.c:2981
+#: src/workbook-control-gui.c:3603 src/workbook-view.c:520
 msgid "Sum"
 msgstr "Sum"
 
@@ -1769,43 +1764,43 @@ msgid "Sum into the current cell"
 msgstr "Summér til den aktuelle celle."
 
 # statuslinjetip til ovenstående, original intetsigende
-#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2469
+#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2475
 msgid "Summary information"
 msgstr "Oversigt over forfatter, kategori osv."
 
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2775
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2781
 msgid "Toggle whether or not to display column headers"
 msgstr "Slå visning af kolonneoverskrifter til/fra"
 
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2769
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2775
 msgid "Toggle whether or not to display gridlines"
 msgstr "Slå visning af gitterlinjer til/fra"
 
-#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2860
+#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2866
 msgid "Toggle whether or not to display outline groups"
 msgstr "Slå visning af omridsgrupper til/fra"
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2781
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2787
 msgid "Toggle whether or not to display row headers"
 msgstr "Slå visning af rækkeoverskrifter til/fra"
 
-#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2763
+#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2769
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Slå visning af nuller som tomme celler til/fra"
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2872
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2878
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Skift mellem at vise rækkeomrids til højre eller til venstre"
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2866
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2872
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Skift mellem at vise rækkeomrids øverst eller nederst"
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2847
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2853
 msgid "Uncollapse an outline group"
 msgstr "Udfold en omridsgruppe"
 
-#: src/GNOME_Gnumeric.xml.h:213 src/workbook-format-toolbar.c:430
+#: src/GNOME_Gnumeric.xml.h:213 src/workbook-format-toolbar.c:427
 msgid "Underline"
 msgstr "Understregning"
 
@@ -1813,16 +1808,16 @@ msgstr "Understregning"
 msgid "Underlines the text"
 msgstr "Understreger teksten"
 
-#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:2563
+#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:2569
 msgid "Undo the last action"
 msgstr "Fortryd sidste handling"
 
 # RETMIG: måske indtastning i stedet for dataene
-#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:2895
+#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:2901
 msgid "Validate input with preset criteria"
 msgstr "Kontrollér gyldighed af dataene efter forudangivne kriterier"
 
-#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:2643
+#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:2649
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zoom ind og ud på regnearket"
 
@@ -1830,30 +1825,30 @@ msgstr "Zoom ind og ud på regnearket"
 msgid "_About..."
 msgstr "_Om..."
 
-#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:2699
+#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:2705
 msgid "_Add / Modify comment..."
 msgstr "_Tilføj/ændr kommentar..."
 
-#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:2482
+#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:2488
 msgid "_All"
 msgstr "_Alt"
 
-#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:2820
+#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:2826
 msgid "_Auto Save..."
 msgstr "_Autogem..."
 
 # auto unødvendig/forvirrende
-#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:2712
-#: src/workbook-control-gui.c:2731
+#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:2718
+#: src/workbook-control-gui.c:2737
 msgid "_Auto fit selection"
 msgstr "_Tilpas markerede"
 
-#: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:2799
+#: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:2805
 msgid "_Autoformat..."
 msgstr "A_utoformatér..."
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:2791
+#: src/GNOME_Gnumeric.xml.h:224 src/workbook-control-gui.c:2797
 msgid "_Cells..."
 msgstr "_Celler..."
 
@@ -1870,28 +1865,28 @@ msgstr "_Luk"
 #: src/dialogs/descriptive-stats.glade.h:15
 #: src/dialogs/fourier-analysis.glade.h:7
 #: src/dialogs/moving-averages.glade.h:8 src/dialogs/rank.glade.h:6
-#: src/dialogs/sampling.glade.h:13 src/workbook-control-gui.c:2688
+#: src/dialogs/sampling.glade.h:13 src/workbook-control-gui.c:2694
 msgid "_Columns"
 msgstr "_Kolonner"
 
-#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:2897
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:2903
 msgid "_Consolidate..."
 msgstr "_Foren data..."
 
-#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2491
+#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2497
 msgid "_Content"
 msgstr "_Indhold"
 
 #: src/GNOME_Gnumeric.xml.h:230 src/item-cursor.c:1028
-#: src/sheet-control-gui.c:1318 src/workbook-control-gui.c:2577
+#: src/sheet-control-gui.c:1318 src/workbook-control-gui.c:2583
 msgid "_Copy"
 msgstr "_Kopiér"
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:2921
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:2927
 msgid "_Data"
 msgstr "_Data"
 
-#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:2835
+#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:2841
 msgid "_Data Analysis..."
 msgstr "_Dataanalyse..."
 
@@ -1900,11 +1895,11 @@ msgid "_Define"
 msgstr "_Definér"
 
 #: src/GNOME_Gnumeric.xml.h:234 src/sheet-control-gui.c:1336
-#: src/workbook-control-gui.c:2594
+#: src/workbook-control-gui.c:2600
 msgid "_Delete..."
 msgstr "_Slet..."
 
-#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:2537
+#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:2543
 msgid "_Duplicate"
 msgstr "_Duplikér"
 
@@ -1917,29 +1912,29 @@ msgid "_File"
 msgstr "_Fil"
 
 #: src/GNOME_Gnumeric.xml.h:238 src/dialogs/cell-format.glade.h:109
-#: src/workbook-control-gui.c:2603
+#: src/workbook-control-gui.c:2609
 msgid "_Fill"
 msgstr "_Udfyld"
 
-#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:2893
+#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:2899
 msgid "_Filter"
 msgstr "_Filter"
 
 # navneord, er knyttet til næste tekst
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2485
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2491
 msgid "_Formats"
 msgstr "_Formater"
 
 #: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:961
-#: src/workbook-control-gui.c:2645
+#: src/workbook-control-gui.c:2651
 msgid "_Freeze Panes"
 msgstr "_Frys paneler..."
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:2826
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:2832
 msgid "_Goal Seek..."
 msgstr "_Målsøgning..."
 
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:2617
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:2623
 msgid "_Goto cell..."
 msgstr "_Gå til celle..."
 
@@ -1948,7 +1943,7 @@ msgstr "_Gå til celle..."
 msgid "_Group"
 msgstr "_Gruppér"
 
-#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:2903
+#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:2909
 msgid "_Group and Outline"
 msgstr "_Grupper og omrids"
 
@@ -1957,21 +1952,21 @@ msgid "_Help"
 msgstr "_Hjælp"
 
 #: src/GNOME_Gnumeric.xml.h:247 src/sheet-control-gui.c:1359
-#: src/sheet-control-gui.c:1367 src/workbook-control-gui.c:2715
-#: src/workbook-control-gui.c:2734
+#: src/sheet-control-gui.c:1367 src/workbook-control-gui.c:2721
+#: src/workbook-control-gui.c:2740
 msgid "_Hide"
 msgstr "_Skjul"
 
-#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:2843
+#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:2849
 msgid "_Hide Detail"
 msgstr "_Skjul detaljer"
 
-#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:2449
+#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:2455
 msgid "_Import..."
 msgstr "_Importér..."
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2541
-#: src/workbook-control-gui.c:2918
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2547
+#: src/workbook-control-gui.c:2924
 msgid "_Insert"
 msgstr "_Indsæt"
 
@@ -1979,11 +1974,11 @@ msgstr "_Indsæt"
 msgid "_Insert new"
 msgstr "_Indsæt ny"
 
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2697
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2703
 msgid "_Name"
 msgstr "_Navn"
 
-#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:2445
+#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:2451
 msgid "_New"
 msgstr "_Ny"
 
@@ -1996,11 +1991,11 @@ msgid "_Open"
 msgstr "_Åbn"
 
 #: src/GNOME_Gnumeric.xml.h:256 src/sheet-control-gui.c:1320
-#: src/workbook-control-gui.c:2581
+#: src/workbook-control-gui.c:2587
 msgid "_Paste"
 msgstr "_Indsæt"
 
-#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:2811
+#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:2817
 msgid "_Plug-ins..."
 msgstr "_Udvidelsesmoduler..."
 
@@ -2009,16 +2004,16 @@ msgid "_Print"
 msgstr "_Udskriv"
 
 #: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:1028
-#: src/workbook-control-gui.c:2566
+#: src/workbook-control-gui.c:2572
 msgid "_Redo"
 msgstr "_Gentag"
 
 #: src/GNOME_Gnumeric.xml.h:260 src/dialogs/autocorrect.glade.h:13
-#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2553
+#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2559
 msgid "_Remove"
 msgstr "Fj_ern"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:2796
+#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:2802
 msgid "_Row"
 msgstr "_Række"
 
@@ -2027,28 +2022,28 @@ msgstr "_Række"
 #: src/dialogs/descriptive-stats.glade.h:20
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:13 src/dialogs/rank.glade.h:11
-#: src/dialogs/sampling.glade.h:19 src/workbook-control-gui.c:2685
+#: src/dialogs/sampling.glade.h:19 src/workbook-control-gui.c:2691
 msgid "_Rows"
 msgstr "_Rækker"
 
-#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2451
+#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2457
 msgid "_Save"
 msgstr "_Gem"
 
-#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:2601
+#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:2607
 msgid "_Select"
 msgstr "_Markér"
 
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2682
-#: src/workbook-control-gui.c:2797
+#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2688
+#: src/workbook-control-gui.c:2803
 msgid "_Sheet"
 msgstr "_Ark"
 
-#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2846
+#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:2852
 msgid "_Show Detail"
 msgstr "_Vis detaljer"
 
-#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:2829
+#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:2835
 msgid "_Solver..."
 msgstr "_Optimeringsproblemløser..."
 
@@ -2056,11 +2051,11 @@ msgstr "_Optimeringsproblemløser..."
 msgid "_Sort..."
 msgstr "_Sortér..."
 
-#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2740
+#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2746
 msgid "_Standard Height"
 msgstr "_Standardhøjde"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2721
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2727
 msgid "_Standard Width"
 msgstr "_Standardbredde"
 
@@ -2068,12 +2063,12 @@ msgstr "_Standardbredde"
 msgid "_Toolbars..."
 msgstr "_Værktøjslinjer..."
 
-#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:2920
+#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:2926
 msgid "_Tools"
 msgstr "_Værktøj"
 
 #: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:1027
-#: src/workbook-control-gui.c:2562
+#: src/workbook-control-gui.c:2568
 msgid "_Undo"
 msgstr "_Fortryd"
 
@@ -2082,12 +2077,12 @@ msgid "_Ungroup"
 msgstr "_Afgruppér"
 
 #: src/GNOME_Gnumeric.xml.h:275 src/sheet-control-gui.c:1361
-#: src/sheet-control-gui.c:1369 src/workbook-control-gui.c:2718
-#: src/workbook-control-gui.c:2737
+#: src/sheet-control-gui.c:1369 src/workbook-control-gui.c:2724
+#: src/workbook-control-gui.c:2743
 msgid "_Unhide"
 msgstr "_Vis igen"
 
-#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:2894
+#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:2900
 msgid "_Validate..."
 msgstr "_Gyldighedskontrol..."
 
@@ -2095,15 +2090,15 @@ msgstr "_Gyldighedskontrol..."
 msgid "_View"
 msgstr "_Vis"
 
-#: src/GNOME_Gnumeric.xml.h:278 src/workbook-control-gui.c:2709
+#: src/GNOME_Gnumeric.xml.h:278 src/workbook-control-gui.c:2715
 msgid "_Width..."
 msgstr "_Bredde..."
 
-#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:2803
+#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:2809
 msgid "_Workbook..."
 msgstr "Arbejds_bog..."
 
-#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:2642
+#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:2648
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
@@ -2120,7 +2115,7 @@ msgstr "Kolonne: %i"
 #: src/analysis-tools.c:202
 #, c-format
 msgid "Area %i"
-msgstr ""
+msgstr "Areal %i"
 
 #: src/analysis-tools.c:914 src/analysis-tools.c:917
 msgid "Correlations"
@@ -2178,7 +2173,7 @@ msgid "Smallest (%d)"
 msgstr "Mindste (%d)"
 
 # stikprøve kolliderer med at det bruges i betydningen "et eksempel"
-#: src/analysis-tools.c:1367 src/analysis-tools.c:3382
+#: src/analysis-tools.c:1367 src/analysis-tools.c:3397
 #: src/dialogs/cell-format.glade.h:72
 msgid "Sample"
 msgstr "Prøve"
@@ -2197,13 +2192,12 @@ msgid "z-Test"
 msgstr "z-test"
 
 #: src/analysis-tools.c:1470
-#, fuzzy
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
 msgstr ""
-"/Middel/Kendt varians/Observationer/Hypotetisk middelforskel/z/P(Z<=z) "
+"/Middel/Kendt varians/Observationer/Hypotetisk middelforskel/Observeret middelforskel/z/P(Z<=z) "
 "ensidet/z kritisk værdi ensidet/P(Z<=z) tosidet/z kritisk værdi tosidet"
 
 #: src/analysis-tools.c:1595 src/analysis-tools.c:1741
@@ -2221,24 +2215,22 @@ msgstr ""
 "(T<=t) ensidet/t kritisk værdi ensidet/P(T<=t) tosidet/t kritisk tosidet"
 
 #: src/analysis-tools.c:1744
-#, fuzzy
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
 msgstr ""
-"/Middel/Varians/Observationer/Samlet varians/Hypotetisk middelforskel/fg/t "
+"/Middel/Varians/Observationer/Samlet varians/Hypotetisk middelforskel/Observeret middelforskel/fg/t "
 "værdi/P(T<=t) ensidet/t kritisk værdi ensidet/P(T<=t) tosidet/t kritisk "
 "tosidet"
 
 #: src/analysis-tools.c:1871
-#, fuzzy
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
 msgstr ""
-"/Middel/Varians/Observationer/Hypotetisk middelforskel/fg/t værdi/P(T<=t) "
+"/Middel/Varians/Observationer/Hypotetisk middelforskel/Observeret middelforskel/fg/t værdi/P(T<=t) "
 "ensidet/t kritisk værdi ensidet/P(T<=t) tosidet/t kritisk tosidet"
 
 #: src/analysis-tools.c:2007
@@ -2262,7 +2254,7 @@ msgstr "Tilfældig"
 msgid "Not implemented yet.\n"
 msgstr "Ikke implementeret endnu.\n"
 
-#: src/analysis-tools.c:2395 src/dialogs/dialog-analysis-tools.c:4020
+#: src/analysis-tools.c:2395 src/dialogs/dialog-analysis-tools.c:4025
 #: src/dialogs/regression.glade.h:7
 msgid "Regression"
 msgstr "Regression"
@@ -2288,160 +2280,160 @@ msgstr "/fg/SS/MS/F/Signifikans F"
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower 95%/Upper 95%"
 msgstr "/Koefficienter/Standardfejl/t-værdi/P-værdi/nedre 95%/Øvre 95%"
 
-#: src/analysis-tools.c:2622
+#: src/analysis-tools.c:2625
 msgid "Moving Averages"
 msgstr "Rullende gennemsnit"
 
-#: src/analysis-tools.c:2692 src/dialogs/dialog-analysis-tools.c:4008
+#: src/analysis-tools.c:2703 src/dialogs/dialog-analysis-tools.c:4013
 msgid "Exponential Smoothing"
 msgstr "Eksponentiel udjævning"
 
-#: src/analysis-tools.c:2763
+#: src/analysis-tools.c:2778
 msgid "Ranks"
 msgstr "Omfang"
 
-#: src/analysis-tools.c:2771 src/analysis-tools.c:2796
+#: src/analysis-tools.c:2786 src/analysis-tools.c:2811
 msgid "Point"
 msgstr "Point"
 
-#: src/analysis-tools.c:2779 src/analysis-tools.c:3072
+#: src/analysis-tools.c:2794 src/analysis-tools.c:3087
 #: src/dialogs/dialog-stf-preview.h:19
 #, c-format
 msgid "Column %d"
 msgstr "Kolonne: %d"
 
-#: src/analysis-tools.c:2781 src/analysis-tools.c:2807
+#: src/analysis-tools.c:2796 src/analysis-tools.c:2822
 msgid "Rank"
 msgstr "Omfang"
 
-#: src/analysis-tools.c:2805 src/analysis-tools.c:3089
+#: src/analysis-tools.c:2820 src/analysis-tools.c:3104
 #, c-format
 msgid "Row %d"
 msgstr "Række: %d"
 
-#: src/analysis-tools.c:2908 src/analysis-tools.c:3054
-#: src/analysis-tools.c:3245
+#: src/analysis-tools.c:2923 src/analysis-tools.c:3069
+#: src/analysis-tools.c:3260
 msgid "Anova"
 msgstr "Anova"
 
-#: src/analysis-tools.c:2910 src/dialogs/dialog-analysis-tools.c:3996
+#: src/analysis-tools.c:2925 src/dialogs/dialog-analysis-tools.c:4001
 msgid "Anova: Single Factor"
 msgstr "Anova: enkelfaktor"
 
-#: src/analysis-tools.c:2911 src/analysis-tools.c:3248
+#: src/analysis-tools.c:2926 src/analysis-tools.c:3263
 msgid "SUMMARY"
 msgstr "OVERSIGT"
 
-#: src/analysis-tools.c:2912
+#: src/analysis-tools.c:2927
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grupper/Antal/Sum/Gennemsnit/Varians"
 
-#: src/analysis-tools.c:2975
+#: src/analysis-tools.c:2990
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Kilde til variation/Mellem grupper/Indenfor grupper/Total"
 
-#: src/analysis-tools.c:2980 src/analysis-tools.c:3162
+#: src/analysis-tools.c:2995 src/analysis-tools.c:3177
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/fg/MS/F/P-værdi/F kritisk værdi"
 
-#: src/analysis-tools.c:3059
+#: src/analysis-tools.c:3074
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: tofaktor uden replikering"
 
-#: src/analysis-tools.c:3060
+#: src/analysis-tools.c:3075
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "OVERSIGT/Antal/Sum/Gennemsnit/Varians"
 
-#: src/analysis-tools.c:3156
+#: src/analysis-tools.c:3171
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Kilde til variation/Rækker/Kolonner/Fejl/Total"
 
-#: src/analysis-tools.c:3247
+#: src/analysis-tools.c:3262
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: tofaktor med replikering"
 
-#: src/analysis-tools.c:3264 src/analysis-tools.c:3335
-#: src/analysis-tools.c:3386 src/dialogs/dialog-autoformat.c:77
+#: src/analysis-tools.c:3279 src/analysis-tools.c:3350
+#: src/analysis-tools.c:3401 src/dialogs/dialog-autoformat.c:77
 #: src/dialogs/dialog-autoformat.c:81
 msgid "Total"
 msgstr "Total"
 
-#: src/analysis-tools.c:3337 src/dialogs/consolidate.glade.h:5
-#: src/workbook-control-gui.c:3601
+#: src/analysis-tools.c:3352 src/dialogs/consolidate.glade.h:5
+#: src/workbook-control-gui.c:3607
 msgid "Count"
 msgstr "Antal"
 
-#: src/analysis-tools.c:3339 src/dialogs/consolidate.glade.h:2
-#: src/workbook-control-gui.c:3600
+#: src/analysis-tools.c:3354 src/dialogs/consolidate.glade.h:2
+#: src/workbook-control-gui.c:3606
 msgid "Average"
 msgstr "Gennemsnit"
 
-#: src/analysis-tools.c:3340
+#: src/analysis-tools.c:3355
 msgid "Variance"
 msgstr "Varians"
 
-#: src/analysis-tools.c:3380
+#: src/analysis-tools.c:3395
 msgid "ANOVA"
 msgstr "ANOVA"
 
-#: src/analysis-tools.c:3381
+#: src/analysis-tools.c:3396
 msgid "Source of Variation"
 msgstr "Kilde til variation"
 
-#: src/analysis-tools.c:3383 src/dialogs/dialog-stf.glade.h:17
+#: src/analysis-tools.c:3398 src/dialogs/dialog-stf.glade.h:17
 msgid "Columns"
 msgstr "Kolonner"
 
-#: src/analysis-tools.c:3384
+#: src/analysis-tools.c:3399
 msgid "Interaction"
 msgstr "Interaktion"
 
-#: src/analysis-tools.c:3385
+#: src/analysis-tools.c:3400
 msgid "Within"
 msgstr "Indeni"
 
-#: src/analysis-tools.c:3388
+#: src/analysis-tools.c:3403
 msgid "SS"
 msgstr "SS"
 
 # degrees freedom, frihedsgrader
-#: src/analysis-tools.c:3395
+#: src/analysis-tools.c:3410
 msgid "df"
 msgstr "fg"
 
 #. Note: a * b * rows_per_sample, tot_count and df_gr+df_col+df_inter+df_within should all be the same
-#: src/analysis-tools.c:3404
+#: src/analysis-tools.c:3419
 msgid "MS"
 msgstr "MS"
 
-#: src/analysis-tools.c:3411
+#: src/analysis-tools.c:3426
 msgid "F"
 msgstr "F"
 
-#: src/analysis-tools.c:3417
+#: src/analysis-tools.c:3432
 msgid "P-value"
 msgstr "P-værdi"
 
-#: src/analysis-tools.c:3422
+#: src/analysis-tools.c:3437
 msgid "F crit"
 msgstr "F krit"
 
 #. { N_("Fourier Analysis"),
 #. dialog_fourier_tool },
-#: src/analysis-tools.c:3475 src/dialogs/dialog-analysis-tools.c:4012
+#: src/analysis-tools.c:3490 src/dialogs/dialog-analysis-tools.c:4017
 #: src/dialogs/histogram.glade.h:4
 msgid "Histogram"
 msgstr "Histogram"
 
-#: src/analysis-tools.c:3478
+#: src/analysis-tools.c:3493
 msgid "Bin"
 msgstr "Bin"
 
-#: src/analysis-tools.c:3479
+#: src/analysis-tools.c:3494
 msgid "Frequency"
 msgstr "Frekvens"
 
-#: src/analysis-tools.c:3482
+#: src/analysis-tools.c:3497
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Akkumuleret %"
@@ -2451,7 +2443,7 @@ msgstr "Akkumuleret %"
 msgid "Error '%s' opening workbook stream"
 msgstr "Fejl '%s' under åbning af arbejdsbogsstrøm"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3473
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3456
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ugyldig xml-fil. Er træet tomt?"
 
@@ -2461,7 +2453,7 @@ msgstr "Indeholder ikke en arbejdsbogsfil"
 
 #: src/bonobo-io.c:525
 msgid "EXPERIMENTAL Bonobo EFS format"
-msgstr "EXPERIMENTEL Bonobo EFS-format"
+msgstr "EKSPERIMENTEL Bonobo EFS-format"
 
 #: src/clipboard.c:297 src/clipboard.c:310 src/clipboard.c:322
 #: src/clipboard.c:330
@@ -2548,82 +2540,82 @@ msgstr "Sæt tekst"
 msgid "Typing \"%s%s\" in %s"
 msgstr "Indtastning af \"%s%s\" i %s"
 
-#: src/commands.c:836
+#: src/commands.c:832
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Indtastning af \"%s%s\""
 
-#: src/commands.c:1096
+#: src/commands.c:1092
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Indsættelse af %d kolonner før %s"
 
-#: src/commands.c:1097
+#: src/commands.c:1093
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Indsættelse af %d kolonne før %s"
 
-#: src/commands.c:1108
+#: src/commands.c:1104
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Indsættelse af %d rækker før %s"
 
-#: src/commands.c:1109
+#: src/commands.c:1105
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Indsættelse af %d række før %s"
 
-#: src/commands.c:1120
+#: src/commands.c:1116
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Sletning af kolonnerne %s"
 
-#: src/commands.c:1121
+#: src/commands.c:1117
 #, c-format
 msgid "Deleting column %s"
 msgstr "Sletning af kolonne %s"
 
-#: src/commands.c:1131
+#: src/commands.c:1127
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Sletning af rækkerne %s"
 
-#: src/commands.c:1132
+#: src/commands.c:1128
 #, c-format
 msgid "Deleting row %s"
 msgstr "Sletning af række %s"
 
-#: src/commands.c:1207
+#: src/commands.c:1203
 msgid "Undo Clear"
 msgstr "Fortryd rydning"
 
-#: src/commands.c:1290
+#: src/commands.c:1282
 msgid "contents"
 msgstr "indhold"
 
-#: src/commands.c:1292
+#: src/commands.c:1284
 msgid "formats"
 msgstr "formater"
 
-#: src/commands.c:1294
+#: src/commands.c:1286
 msgid "comments"
 msgstr "kommentarer"
 
-#: src/commands.c:1310
+#: src/commands.c:1302
 msgid "all"
 msgstr "alt"
 
-#: src/commands.c:1317
+#: src/commands.c:1309
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Rydning af %s i %s"
 
-#: src/commands.c:1516
+#: src/commands.c:1504
 #, c-format
 msgid "Changing format of %s"
 msgstr "Ændring af formatering af %s"
 
-#: src/commands.c:1592
+#: src/commands.c:1580
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Omdøbning af ark '%s' til '%s'"
@@ -2635,217 +2627,217 @@ msgstr "Omdøbning af ark '%s' til '%s'"
 #. * translators should be aware that the leading character of the
 #. * result will be ignored.
 #.
-#: src/commands.c:1666
+#: src/commands.c:1654
 msgid ">mm/dd/yyyy"
 msgstr ">dd/mm-yyyy"
 
 #. FIXME : See comment above
-#: src/commands.c:1671
+#: src/commands.c:1659
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/commands.c:1712
+#: src/commands.c:1700
 msgid "Set Date/Time"
 msgstr "Sætning af dato/klokkeslet"
 
-#: src/commands.c:1729
+#: src/commands.c:1717
 #, c-format
 msgid "Setting current date in %s"
 msgstr "Indsætning af dags dato i %s"
 
-#: src/commands.c:1730
+#: src/commands.c:1718
 #, c-format
 msgid "Setting current time in %s"
 msgstr "Indsætning af klokkeslet i %s"
 
-#: src/commands.c:1838
+#: src/commands.c:1826
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Automatisk tilpasning af kolonne %s"
 
-#: src/commands.c:1839
+#: src/commands.c:1827
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Automatisk tilpasning af række %s"
 
-#: src/commands.c:1842
+#: src/commands.c:1830
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Sætning af bredden af kolonnen %s til %d punkter"
 
-#: src/commands.c:1844
+#: src/commands.c:1832
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Sætning af højden af rækken %s til %d punkter"
 
-#: src/commands.c:1849 src/commands.c:1850
+#: src/commands.c:1837 src/commands.c:1838
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Automatisk tilpasning af kolonnerne %s"
 
-#: src/commands.c:1853
+#: src/commands.c:1841
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Sætning af bredden af kolonnerne %s til %d punkter"
 
-#: src/commands.c:1855
+#: src/commands.c:1843
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Sætning af højden af rækkerne %s til %d punkter"
 
-#: src/commands.c:1939
+#: src/commands.c:1927
 #, c-format
 msgid "Sorting %s"
 msgstr "Sortering af %s"
 
-#: src/commands.c:2067
+#: src/commands.c:2055
 msgid "Unhide columns"
 msgstr "Visning af kolonner igen"
 
-#: src/commands.c:2067
+#: src/commands.c:2055
 msgid "Hide columns"
 msgstr "Skjulning af kolonner"
 
-#: src/commands.c:2068
+#: src/commands.c:2056
 msgid "Unhide rows"
 msgstr "Visning af rækker igen"
 
-#: src/commands.c:2068
+#: src/commands.c:2056
 msgid "Hide rows"
 msgstr "Skjulning af rækker"
 
-#: src/commands.c:2152
+#: src/commands.c:2140
 msgid "Expand columns"
 msgstr "Udfoldelse af kolonner"
 
-#: src/commands.c:2152
+#: src/commands.c:2140
 msgid "Collapse columns"
-msgstr "Sammenfoldelse af kolonner"
+msgstr "Sammenfoldning af kolonner"
 
-#: src/commands.c:2153
+#: src/commands.c:2141
 msgid "Expand rows"
 msgstr "Udfoldelse af rækker"
 
-#: src/commands.c:2153
+#: src/commands.c:2141
 msgid "Collapse rows"
-msgstr "Sammenfoldelse af rækker"
+msgstr "Sammenfoldning af rækker"
 
-#: src/commands.c:2254
+#: src/commands.c:2242
 msgid "Those columns are already grouped"
 msgstr "Disse kolonner er allerede grupperet"
 
-#: src/commands.c:2255
+#: src/commands.c:2243
 msgid "Those rows are already grouped"
 msgstr "Disse rækker er allerede grupperet"
 
-#: src/commands.c:2258
+#: src/commands.c:2246
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Disse kolonner er ikke grupperet, du kan ikke afgruppere dem"
 
-#: src/commands.c:2259
+#: src/commands.c:2247
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Disse rækker er ikke grupperet, du kan ikke afgruppere dem"
 
-#: src/commands.c:2270
+#: src/commands.c:2258
 #, c-format
 msgid "Group columns %s"
 msgstr "Gruppering af kolonnerne %s"
 
-#: src/commands.c:2270
+#: src/commands.c:2258
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Afgruppering kolonnerne %s"
 
-#: src/commands.c:2272
+#: src/commands.c:2260
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Gruppering af rækkerne %d:%d"
 
-#: src/commands.c:2272
+#: src/commands.c:2260
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Afgruppering rækkerne %d:%d"
 
-#: src/commands.c:2475
+#: src/commands.c:2463
 #, c-format
 msgid "Moving %s"
 msgstr "Flytning af %s"
 
-#: src/commands.c:2484 src/commands.c:2668
+#: src/commands.c:2472 src/commands.c:2656
 msgid "is beyond sheet boundaries"
 msgstr "går ud over arkets kant"
 
 #. FIXME?
-#: src/commands.c:2639
+#: src/commands.c:2627
 #, c-format
 msgid "Pasting into %s"
 msgstr "Indsætning i %s"
 
 #. Check arrays or merged regions
-#: src/commands.c:2806 src/workbook-control-gui.c:1819
+#: src/commands.c:2794 src/workbook-control-gui.c:1825
 msgid "Autofill"
 msgstr "Automatisk udfyldning"
 
 #. Changed in initial redo.
-#: src/commands.c:2828
+#: src/commands.c:2816
 #, c-format
 msgid "Autofilling %s"
 msgstr "Automatisk udfyldning af %s"
 
-#: src/commands.c:2981
+#: src/commands.c:2969
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Automatisk formatering af %s"
 
-#: src/commands.c:3091
+#: src/commands.c:3079
 #, c-format
 msgid "Unmerging %s"
 msgstr "Affletning af %s"
 
-#: src/commands.c:3229
+#: src/commands.c:3217
 #, c-format
 msgid "Merging %s"
 msgstr "Fletning af %s"
 
 #. Corrected below.
-#: src/commands.c:3607 src/dialogs/search-replace.glade.h:43
+#: src/commands.c:3595 src/dialogs/search-replace.glade.h:43
 msgid "Search and Replace"
 msgstr "Søg og erstat"
 
-#: src/commands.c:3703
+#: src/commands.c:3691
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Sætning af den automatiske bredde af kolonnerne til %.2f punkter"
 
-#: src/commands.c:3704
+#: src/commands.c:3692
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Sætning af den automatiske højde af rækkerne til %.2f punkter"
 
 #. Changed in initial redo.
-#: src/commands.c:3789
+#: src/commands.c:3777
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "Forener til %s!%s"
 
-#: src/commands.c:3904
+#: src/commands.c:3892
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom ind på %s til %.0f%%"
 
-#: src/commands.c:3973
+#: src/commands.c:3961
 msgid "Insert object"
 msgstr "Indsætning af objekt"
 
-#: src/commands.c:4031
+#: src/commands.c:4019
 msgid "Delete object"
 msgstr "Sletning af objekt"
 
-#: src/commands.c:4112
+#: src/commands.c:4100
 msgid "Resize object"
 msgstr "Ændring af størrelse på objekt"
 
-#: src/commands.c:4112
+#: src/commands.c:4100
 msgid "Move object"
 msgstr "Flytning af objekt"
 
@@ -3113,7 +3105,7 @@ msgstr "_Arealer"
 #: src/dialogs/correlation.glade.h:8 src/dialogs/covariance.glade.h:8
 #: src/dialogs/descriptive-stats.glade.h:16
 #: src/dialogs/dialog-analysis-tools.c:790
-#: src/dialogs/dialog-analysis-tools.c:3560
+#: src/dialogs/dialog-analysis-tools.c:3565
 #: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:8
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:7
 msgid "_Input Range:"
@@ -3392,7 +3384,7 @@ msgstr "Baggrundsfarve"
 msgid "Border"
 msgstr "Kanter"
 
-#: src/dialogs/cell-format.glade.h:19 src/workbook-format-toolbar.c:641
+#: src/dialogs/cell-format.glade.h:19 src/workbook-format-toolbar.c:638
 msgid "Bottom"
 msgstr "Bund"
 
@@ -3543,8 +3535,7 @@ msgstr "Store cirkler"
 
 #: src/dialogs/cell-format.glade.h:58
 msgid "Locking cells or hiding formulas only affects protected worksheets."
-msgstr ""
-"Låsning af celler eller skjulning af formularer påvirker kun beskyttede ark."
+msgstr "Låsning af celler eller skjulning af formularer påvirker kun beskyttede ark."
 
 #: src/dialogs/cell-format.glade.h:59
 msgid "Message :"
@@ -3875,7 +3866,7 @@ msgid "Selection has"
 msgstr "Markering har"
 
 #: src/dialogs/cell-sort.glade.h:9 src/dialogs/dialog-cell-sort.c:503
-#: src/workbook-control-gui.c:2348
+#: src/workbook-control-gui.c:2354
 msgid "Sort"
 msgstr "Sortér"
 
@@ -3949,11 +3940,11 @@ msgstr "I _øverste række"
 msgid "Labels"
 msgstr "Etiketter"
 
-#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3599
+#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3605
 msgid "Max"
 msgstr "Maks"
 
-#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3598
+#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3604
 msgid "Min"
 msgstr "Min"
 
@@ -4022,11 +4013,11 @@ msgstr "_Funktion:"
 msgid "_Put :"
 msgstr "_Anbring:"
 
-#: src/dialogs/correlation.glade.h:1 src/dialogs/dialog-analysis-tools.c:4000
+#: src/dialogs/correlation.glade.h:1 src/dialogs/dialog-analysis-tools.c:4005
 msgid "Correlation"
 msgstr "Korrelation"
 
-#: src/dialogs/covariance.glade.h:1 src/dialogs/dialog-analysis-tools.c:4002
+#: src/dialogs/covariance.glade.h:1 src/dialogs/dialog-analysis-tools.c:4007
 msgid "Covariance"
 msgstr "Kovarians"
 
@@ -4068,7 +4059,7 @@ msgid "Confidence Interval for the _Mean"
 msgstr "Konfidensinterval for _middelværdi"
 
 #: src/dialogs/descriptive-stats.glade.h:5
-#: src/dialogs/dialog-analysis-tools.c:4004
+#: src/dialogs/dialog-analysis-tools.c:4009
 msgid "Descriptive Statistics"
 msgstr "Beskrivende statistikker"
 
@@ -4251,17 +4242,17 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1045
 #: src/dialogs/dialog-analysis-tools.c:1160
 msgid "The selected input rows must have equal size!"
-msgstr ""
+msgstr "De valgte inddatarækker skal have samme størrelse!"
 
 #: src/dialogs/dialog-analysis-tools.c:1049
 #: src/dialogs/dialog-analysis-tools.c:1164
 msgid "The selected input columns must have equal size!"
-msgstr ""
+msgstr "De valgte inddatarækker skal have samme størrelse!"
 
 #: src/dialogs/dialog-analysis-tools.c:1053
 #: src/dialogs/dialog-analysis-tools.c:1168
 msgid "The selected input areas must have equal size!"
-msgstr ""
+msgstr "De valgte inddataarealer skal have samme størrelse!"
 
 #: src/dialogs/dialog-analysis-tools.c:1056
 #: src/dialogs/dialog-analysis-tools.c:1171
@@ -4270,11 +4261,12 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1991
 #: src/dialogs/dialog-analysis-tools.c:2174
 #: src/dialogs/dialog-analysis-tools.c:2651
-#: src/dialogs/dialog-analysis-tools.c:3239
-#: src/dialogs/dialog-analysis-tools.c:3522
-#: src/dialogs/dialog-analysis-tools.c:3631
-#: src/dialogs/dialog-analysis-tools.c:3815
-#: src/dialogs/dialog-analysis-tools.c:3845
+#: src/dialogs/dialog-analysis-tools.c:3064
+#: src/dialogs/dialog-analysis-tools.c:3242
+#: src/dialogs/dialog-analysis-tools.c:3527
+#: src/dialogs/dialog-analysis-tools.c:3636
+#: src/dialogs/dialog-analysis-tools.c:3820
+#: src/dialogs/dialog-analysis-tools.c:3850
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "En uventet fejl opstod: %d."
@@ -4297,7 +4289,7 @@ msgstr "Kunne ikke oprette grad- og percentilvinduet."
 
 #: src/dialogs/dialog-analysis-tools.c:1634
 msgid "The two input ranges must have the same size."
-msgstr ""
+msgstr "De to inddata-områder skal have samme størrelse."
 
 #: src/dialogs/dialog-analysis-tools.c:1863
 msgid "Var_iable 1 Range:"
@@ -4314,7 +4306,7 @@ msgstr "Kunne ikke oprette middeltestværktøjsvinduet."
 #: src/dialogs/dialog-analysis-tools.c:1984
 #: src/dialogs/dialog-analysis-tools.c:1988
 msgid "Each variable should have at least 2 observations!"
-msgstr ""
+msgstr "Hver variabel bør have mindst 2 observationer!"
 
 #: src/dialogs/dialog-analysis-tools.c:2056
 msgid "Var_iable 1 Range"
@@ -4443,8 +4435,7 @@ msgstr ""
 "variable og prøv at udføre regressionen igen."
 
 #: src/dialogs/dialog-analysis-tools.c:2888
-msgid ""
-"There must be an equal number of entries for each variable in the regression."
+msgid "There must be an equal number of entries for each variable in the regression."
 msgstr "Der skal være lige mange værdier for alle variable i regressionen."
 
 #: src/dialogs/dialog-analysis-tools.c:3000
@@ -4459,48 +4450,48 @@ msgstr "_y-variabler:"
 msgid "Could not create the Regression Tool dialog."
 msgstr "Kunne ikke oprette regressionsværktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:3177
+#: src/dialogs/dialog-analysis-tools.c:3181
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Kunne ikke oprette prøvningsværktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:3351
+#: src/dialogs/dialog-analysis-tools.c:3356
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Kunne ikke oprette rullende gennemsnit-værktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:3398
+#: src/dialogs/dialog-analysis-tools.c:3403
 msgid "Fourier analysis is not implemented yet.  Sorry."
 msgstr "Fourier-analyse ikke implementeret endnu. Vi beklager."
 
-#: src/dialogs/dialog-analysis-tools.c:3441
+#: src/dialogs/dialog-analysis-tools.c:3446
 msgid "Could not create the Fourier Analyis Tool dialog."
 msgstr "Kunne ikke oprette Fourier-analyse-værktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:3514
-#: src/dialogs/dialog-analysis-tools.c:3835
+#: src/dialogs/dialog-analysis-tools.c:3519
+#: src/dialogs/dialog-analysis-tools.c:3840
 msgid "Given input range contains non-numeric data."
 msgstr "Det givne inddatainterval indeholder data der ikke er tal."
 
-#: src/dialogs/dialog-analysis-tools.c:3519
+#: src/dialogs/dialog-analysis-tools.c:3524
 msgid "Given bin range contains non-numeric data."
 msgstr "Det givne bin-interval indeholder data der ikke er tal."
 
-#: src/dialogs/dialog-analysis-tools.c:3561 src/dialogs/histogram.glade.h:1
+#: src/dialogs/dialog-analysis-tools.c:3566 src/dialogs/histogram.glade.h:1
 msgid "Bin _Range:"
 msgstr "Bin-_interval:"
 
-#: src/dialogs/dialog-analysis-tools.c:3568
+#: src/dialogs/dialog-analysis-tools.c:3573
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Kunne ikke oprette histogramværktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:3751
+#: src/dialogs/dialog-analysis-tools.c:3756
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Kunne ikke oprette Anova (enkeltfaktor)-værktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:3830
+#: src/dialogs/dialog-analysis-tools.c:3835
 msgid "Each sample must contain the same number of rows."
 msgstr "Hver stikprøve skal indeholde samme antal rækker."
 
-#: src/dialogs/dialog-analysis-tools.c:3840
+#: src/dialogs/dialog-analysis-tools.c:3845
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
@@ -4508,49 +4499,49 @@ msgstr ""
 "Det givne inddatainterval skal indeholde mindst to kolonner med data og "
 "mærkater."
 
-#: src/dialogs/dialog-analysis-tools.c:3967
+#: src/dialogs/dialog-analysis-tools.c:3972
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Kunne ikke oprette Anova (tofaktor)-værktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:3998
+#: src/dialogs/dialog-analysis-tools.c:4003
 msgid "Anova: Two-Factor With Or Without Replication"
 msgstr "Anova: tofaktor med eller uden replikering"
 
-#: src/dialogs/dialog-analysis-tools.c:4006
+#: src/dialogs/dialog-analysis-tools.c:4011
 msgid "F-Test: Two-Sample for Variances"
 msgstr "F-Test: To-prøve for varianser"
 
-#: src/dialogs/dialog-analysis-tools.c:4014
+#: src/dialogs/dialog-analysis-tools.c:4019
 #: src/dialogs/moving-averages.glade.h:5
 msgid "Moving Average"
 msgstr "Rullende gennemsnit"
 
-#: src/dialogs/dialog-analysis-tools.c:4016
+#: src/dialogs/dialog-analysis-tools.c:4021
 #: src/dialogs/random-generation.glade.h:5
 msgid "Random Number Generation"
 msgstr "Generering af tilfældige tal"
 
-#: src/dialogs/dialog-analysis-tools.c:4018 src/dialogs/rank.glade.h:5
+#: src/dialogs/dialog-analysis-tools.c:4023 src/dialogs/rank.glade.h:5
 msgid "Rank and Percentile"
 msgstr "Grad og percentil"
 
-#: src/dialogs/dialog-analysis-tools.c:4022 src/dialogs/sampling.glade.h:9
+#: src/dialogs/dialog-analysis-tools.c:4027 src/dialogs/sampling.glade.h:9
 msgid "Sampling"
 msgstr "Stikprøveudtagning"
 
-#: src/dialogs/dialog-analysis-tools.c:4024
+#: src/dialogs/dialog-analysis-tools.c:4029
 msgid "t-Test: Paired Two Sample for Means"
 msgstr "t-Test: Parvis to-prøve for middel"
 
-#: src/dialogs/dialog-analysis-tools.c:4026
+#: src/dialogs/dialog-analysis-tools.c:4031
 msgid "t-Test: Two-Sample Assuming Equal Variances"
 msgstr "t-Test: To-prøve under antagelse af ens varians"
 
-#: src/dialogs/dialog-analysis-tools.c:4028
+#: src/dialogs/dialog-analysis-tools.c:4033
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr "t-Test: To-prøve under antagelse af uens varians"
 
-#: src/dialogs/dialog-analysis-tools.c:4030
+#: src/dialogs/dialog-analysis-tools.c:4035
 msgid "z-Test: Two Sample for Means"
 msgstr "z-Test: To-prøve for middel"
 
@@ -4711,11 +4702,11 @@ msgstr "Formatér celler"
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: src/dialogs/dialog-cell-format.c:2655 src/dialogs/dialog-cell-format.c:2660
 #: src/dialogs/dialog-cell-format.c:2670 src/functions/fn-information.c:427
-#: src/workbook-format-toolbar.c:861
+#: src/workbook-format-toolbar.c:858
 msgid "Automatic"
 msgstr "Automatisk"
 
-#: src/dialogs/dialog-cell-format.c:2665 src/workbook-format-toolbar.c:836
+#: src/dialogs/dialog-cell-format.c:2665 src/workbook-format-toolbar.c:833
 msgid "Clear Background"
 msgstr "Ryd baggrund"
 
@@ -4990,8 +4981,7 @@ msgstr "Fejl ved aktivering af en udvidelsesmodulindlæser"
 #: src/dialogs/dialog-plugin-manager.c:233
 #, c-format
 msgid "Loader for selected plugin (type: \"%s\") is not available."
-msgstr ""
-"Indlæser til det valgte udvidelsesmodul (typen \"%s\") er ikke tilgængelig."
+msgstr "Indlæser til det valgte udvidelsesmodul (typen \"%s\") er ikke tilgængelig."
 
 #: src/dialogs/dialog-plugin-manager.c:246
 msgid "Error while activating plugin"
@@ -5024,19 +5014,19 @@ msgid "Errors while deactivating plugins"
 msgstr "Fejl ved deaktivering af udvidelsesmoduler"
 
 #: src/dialogs/dialog-plugin-manager.c:476
-#, fuzzy, c-format
+#, c-format
 msgid "%s[in memory, marked for deactivation]"
-msgstr "%s [i hukommelsen, mærket til deaktivering]"
+msgstr "%s[i hukommelsen, mærket til deaktivering]"
 
 #: src/dialogs/dialog-plugin-manager.c:479
-#, fuzzy, c-format
+#, c-format
 msgid "%s[in memory]"
-msgstr "%s [i hukommelsen]"
+msgstr "%s[i hukommelsen]"
 
 #: src/dialogs/dialog-plugin-manager.c:482
-#, fuzzy, c-format
+#, c-format
 msgid "%s[marked for deactivation]"
-msgstr "%s [mærket til deaktivering]"
+msgstr "%s[mærket til deaktivering]"
 
 #: src/dialogs/dialog-plugin-manager.c:621
 msgid "Plugin list"
@@ -5111,15 +5101,17 @@ msgid ""
 "Solver found an optimal solution. All constraints and optimality conditions "
 "are satisfied.\n"
 msgstr ""
+"Optimeringsløseren fandt en optimal løsning. Alle begrænsninger og "
+"optimeringsbetingelser er opfyldt.\n"
 
 #: src/dialogs/dialog-solver.c:836
 msgid "The Target Cell value does not converge!"
-msgstr ""
+msgstr "Værdien i målcellen konvergerer ikke!"
 
 #: src/dialogs/dialog-solver.c:840
 #, c-format
 msgid "Solver was not successful: %i"
-msgstr ""
+msgstr "Optimeringsløseren havde ikke heldet med sig: %i"
 
 #: src/dialogs/dialog-solver.c:862
 #, c-format
@@ -5127,7 +5119,6 @@ msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Begrænsningen '%s' lægges på en celle der ikke bruges til inddata."
 
 #: src/dialogs/dialog-solver.c:1113
-#, fuzzy
 msgid "Could not create the Solver dialog."
 msgstr "Kunne ikke oprette målsøgnings-dialogen."
 
@@ -5285,8 +5276,7 @@ msgstr "'"
 # genkendelse hænger sammen med senere tekst
 #: src/dialogs/dialog-stf-fixed-page.c:63
 msgid "Autodiscovery did not find any columns in the text. Try manually"
-msgstr ""
-"Den automatiske genkendelse fandt ikke nogen kolonner i teksten. Prøv manuelt"
+msgstr "Den automatiske genkendelse fandt ikke nogen kolonner i teksten. Prøv manuelt"
 
 #: src/dialogs/dialog-stf-main-page.c:85
 #, c-format
@@ -5503,12 +5493,10 @@ msgstr "_Mellemrum"
 # værktøjstip
 #: src/dialogs/dialog-stf.glade.h:47
 msgid "See two successive separators as one."
-msgstr ""
-"Betragt to adskillelsestegn der kommer umiddelbart efter hinanden, som ét."
+msgstr "Betragt to adskillelsestegn der kommer umiddelbart efter hinanden, som ét."
 
 #: src/dialogs/dialog-stf.glade.h:48
-msgid ""
-"See two successive text indicators as one that does not terminate the cell."
+msgid "See two successive text indicators as one that does not terminate the cell."
 msgstr ""
 "Betragt to tekstindikatorer der kommer umiddelbart efter hinanden, som én "
 "der ikke afslutter cellen."
@@ -5619,8 +5607,8 @@ msgstr "Forstørrelse"
 msgid "Sheets"
 msgstr "Ark"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3133
-#: src/workbook-control-gui.c:3189
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3139
+#: src/workbook-control-gui.c:3195
 msgid "Zoom"
 msgstr "Zoom"
 
@@ -5760,7 +5748,7 @@ msgstr "Indtast formatteksterne for hver del:"
 
 #: src/dialogs/hf-config.glade.h:2
 msgid "Header/Footer Config"
-msgstr ""
+msgstr "Opsæt af toplinje/fodlinje"
 
 #: src/dialogs/hf-config.glade.h:3
 msgid "Left section:"
@@ -5948,7 +5936,7 @@ msgstr "Beskrivelse"
 
 #: src/dialogs/plugin-manager.glade.h:9
 msgid "Directory"
-msgstr "Mappe"
+msgstr "Katalog"
 
 #: src/dialogs/plugin-manager.glade.h:10
 msgid "Extra information"
@@ -5962,7 +5950,7 @@ msgstr "Id"
 msgid "Install new plugin"
 msgstr "Installér nyt udvidelsesmodul"
 
-#: src/dialogs/plugin-manager.glade.h:13 src/format-template.c:514
+#: src/dialogs/plugin-manager.glade.h:13 src/format-template.c:509
 #: src/solver-lp.c:897 src/solver-lp.c:921 src/solver-lp.c:954
 #: src/solver-lp.c:1048 src/solver-lp.c:1095
 msgid "Name"
@@ -6051,7 +6039,7 @@ msgid "Scale"
 msgstr "Skalering"
 
 #: src/dialogs/print.glade.h:25 src/functions/fn-sheet.c:139
-#: src/workbook.c:1060 src/xml-io.c:3085
+#: src/workbook.c:1060 src/xml-io.c:3068
 msgid "Sheet"
 msgstr "Ark"
 
@@ -6701,7 +6689,7 @@ msgstr "Tester ensheden af to varianser (F-test)"
 
 #: src/dialogs/workbook-attr.glade.h:1
 msgid "Notebook _Tabs for Sheets"
-msgstr ""
+msgstr "Notesbogs_faner for ark"
 
 #: src/dialogs/workbook-attr.glade.h:2
 msgid "View"
@@ -6709,7 +6697,7 @@ msgstr "Vis"
 
 #: src/dialogs/workbook-attr.glade.h:3
 msgid "_Auto Complete Text in Cells"
-msgstr ""
+msgstr "_Fuldstændiggør automatisk tekst i celler"
 
 #: src/dialogs/workbook-attr.glade.h:4
 msgid "_Horizontal Scrollbar"
@@ -6792,25 +6780,22 @@ msgstr ""
 "sikkerhedsgrunde."
 
 #: src/file.c:495
-msgid ""
-"You can turn this safety feature off by editing appropriate plugin.xml file."
+msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Du kan slå denne sikkerhedsfacilitet fra ved at redigere de tilsvarende "
 "plugin.xml-filer"
 
-#: src/format-template.c:883
+#: src/format-template.c:873
 #, c-format
-msgid ""
-"The target region is too small.  It should be at least %d rows by %d columns"
-msgstr ""
-"Målområdet er for småt. Det skal bestå af mindst %d rækker gange %d kolonner"
+msgid "The target region is too small.  It should be at least %d rows by %d columns"
+msgstr "Målområdet er for småt. Det skal bestå af mindst %d rækker gange %d kolonner"
 
-#: src/format-template.c:886
+#: src/format-template.c:876
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
 msgstr "Målområdet er for småt. Det skal mindst være %d kolonner bredt"
 
-#: src/format-template.c:889
+#: src/format-template.c:879
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "Målområdet er for småt. Det skal mindst være %d rækker højt"
@@ -6922,7 +6907,7 @@ msgstr "[$AON]"
 
 #: src/formats.c:265
 msgid "Angolan new kwanza"
-msgstr "Angolske nye kwanza"
+msgstr "Angolanske nye kwanza"
 
 #: src/formats.c:266
 msgid "[$ARA]"
@@ -7042,7 +7027,7 @@ msgstr "[$BSD]"
 
 #: src/formats.c:280
 msgid "Bahamian dollar"
-msgstr "Bahamiske dollar"
+msgstr "Bahamanske dollar"
 
 #: src/formats.c:281
 msgid "[$BTN]"
@@ -7058,7 +7043,7 @@ msgstr "[$BWP]"
 
 #: src/formats.c:282
 msgid "Botswanian pula"
-msgstr "Botswananske pula"
+msgstr "Botswanske pula"
 
 #: src/formats.c:283
 msgid "[$BYB]"
@@ -7194,7 +7179,7 @@ msgstr "[$DZD]"
 
 #: src/formats.c:299
 msgid "Algerian dinar"
-msgstr "Algerianske dinar"
+msgstr "Algeriske dinar"
 
 #: src/formats.c:300
 msgid "[$ECS]"
@@ -7298,7 +7283,7 @@ msgstr "[$GMD]"
 
 #: src/formats.c:312
 msgid "Gambian dalasi"
-msgstr "Gambianske dalasi"
+msgstr "Gambiske dalasi"
 
 #: src/formats.c:313
 msgid "[$GNF]"
@@ -7418,7 +7403,7 @@ msgstr "[$INR]"
 
 #: src/formats.c:327
 msgid "Indian rupee"
-msgstr "Indiske rupee"
+msgstr "Indiske rupier"
 
 #: src/formats.c:328
 msgid "[$IQD]"
@@ -7666,7 +7651,7 @@ msgstr "[$MUR]"
 
 #: src/formats.c:358
 msgid "Mauritius rupee"
-msgstr "Mauritiske rupee"
+msgstr "Mauritiske rupier"
 
 #: src/formats.c:359
 msgid "[$MVR]"
@@ -7674,7 +7659,7 @@ msgstr "[$MVR]"
 
 #: src/formats.c:359
 msgid "Maldive rupee"
-msgstr "Maldiviske rupee"
+msgstr "Maldiviske rupier"
 
 #: src/formats.c:360
 msgid "[$MWK]"
@@ -7746,7 +7731,7 @@ msgstr "[$NPR]"
 
 #: src/formats.c:368
 msgid "Nepalese rupee"
-msgstr "Nepalesiske rupee"
+msgstr "Nepalesiske rupier"
 
 #: src/formats.c:369
 msgid "[$NZD]"
@@ -7802,7 +7787,7 @@ msgstr "[$PKR]"
 
 #: src/formats.c:375
 msgid "Pakistan rupee"
-msgstr "Pakistanske rupee"
+msgstr "Pakistanske rupier"
 
 #: src/formats.c:376
 msgid "[$PLZ]"
@@ -7874,7 +7859,7 @@ msgstr "[$SCR]"
 
 #: src/formats.c:384
 msgid "Seychelles rupee"
-msgstr "Seycheller rupee"
+msgstr "Seycheller rupier"
 
 #: src/formats.c:385
 msgid "[$SDP]"
@@ -8082,7 +8067,7 @@ msgstr "[$VEB]"
 
 #: src/formats.c:410
 msgid "Venezuelan bolivar"
-msgstr "Venezuelske bolivar"
+msgstr "Venezuelanske bolivar"
 
 #: src/formats.c:411
 msgid "[$VND]"
@@ -8584,8 +8569,8 @@ msgstr ""
 "@DESCRIPTION=DATE beregner antallet af dage siden 1. januar 1900 "
 "(datoserienummeret) for opgivet år, måned og dag.\n"
 "@dag kan være negativ (for at tælle bagud) og den er relativ til forudgående "
-"@måned. @år bør være mindst 1900. Hvis @år <= antages det at være 2000 + @år. "
-"Hvis 30 < @år < 100, antages det at være 1900 + @ år. \n"
+"@måned. @år bør være mindst 1900. Hvis @år <= antages det at være 2000 + "
+"@år. Hvis 30 < @år < 100, antages det at være 1900 + @ år. \n"
 "Hvis den givne dato ikke er gyldig, returnerer DATE en #VÆRDI!-fejl. Denne "
 "funktion er excel-kompatibel. \n"
 "@EXAMPLES=\n"
@@ -8610,7 +8595,7 @@ msgstr ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(datotekst)\n"
 "@DESCRIPTION=DATEVALUE returnerer datoens serienummer. @datotekst er "
-"strengen som indeholder datoen. Denne fuktion er Excel-kompatibel. \n"
+"strengen som indeholder datoen. Denne funktion er Excel-kompatibel. \n"
 "@EXAMPLES=\n"
 "DATEVALUE(\"1/1/1999\") lig 36160.\n"
 "@SEEALSO=DATE"
@@ -8657,7 +8642,6 @@ msgstr ""
 "@SEEALSO=DATE"
 
 #: src/functions/fn-date.c:278
-#, fuzzy
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
@@ -8678,13 +8662,14 @@ msgstr ""
 "måneder før eller efter en givet dato. @dato er serienummeret til den "
 "oprindelige dato og @måneder er antallet af måneder før (negativt tal) eller "
 "efter (positivt tal) den oprindelige dato.\n"
+"Denne funktion er Excel-kompatibel.\n"
 "Hvis @måneder ikke er et heltal, bliver det afkortet. \n"
 "@EXAMPLES=\n"
+"DATE(DATE(2001,12,30),2) er lig Feb 28, 2002.\n"
 "\n"
 "@SEEALSO=DATE"
 
 #: src/functions/fn-date.c:332
-#, fuzzy
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY()\n"
@@ -8698,14 +8683,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=Returnerer serienummeret for dagen i dag (antallet af dage "
-"siden 1. januar 1900).\n"
+"@DESCRIPTION=TODAY returnerer serienummeret for dagen i dag (antallet af dage "
+"siden 1. januar 1900). Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"TODAY, () returnerer Nov 6, 2001 på den dag.\n"
 "\n"
-"@SEEALSO=TODAY, NOW"
+"@SEEALSO=NOW"
 
 #: src/functions/fn-date.c:355
-#, fuzzy
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -8724,18 +8709,19 @@ msgid ""
 msgstr ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
-"@DESCRIPTION=Returnerer serienummeret for dato og tid på det tidspunkt hvor "
+"@DESCRIPTION=NOW returnerer serienummeret for dato og tid på det tidspunkt hvor "
 "funktionen bliver kaldt.\n"
 "Serienummeret i Gnumeric udgøres af en heltalsdel som er antallet af dage "
 "siden 1. januar 1900, og en decimaldel som repræsenterer brøkdelen af dagen "
 "og laves om til timer, minutter og sekunder.\n"
-"For eksempel betyder 0.0 begyndelsen af dagen, og 0.5 repræsenterer middag.\n"
+"For eksempel betyder 0.0 begyndelsen af dagen, og 0.5 repræsenterer middag. "
+"DENNE FUNKTION ER EXCEL-KOMPATIBEL.\n"
 "@EXAMPLES=\n"
+"NOW().\n"
 "\n"
-"@SEEALSO=TODAY, NOW"
+"@SEEALSO=TODAY"
 
 #: src/functions/fn-date.c:386
-#, fuzzy
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -8748,13 +8734,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (timer,minutter,sekunder)\n"
-"@DESCRIPTION=Returnerer et decimaltal som repræsenterer tiden på dagen.\n"
+"@DESCRIPTION=TIME returnerer et decimaltal som repræsenterer tiden på dagen. "
+"Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
-"\n"
+"TIME(3, 5, 23) er lig 3:05AM.\n"
+"\n\n"
 "@SEEALSO=HOUR"
 
 #: src/functions/fn-date.c:415
-#, fuzzy
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
@@ -8768,15 +8755,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timer,minutter,sekunder)\n"
-"@DESCRIPTION=Returnerer et decimaltal som repræsenterer tiden på dagen - et "
+"@DESCRIPTION=TIMEVALUE returnerer et decimaltal som repræsenterer tiden på dagen - et "
 "tal mellem 0 og 1.\n"
 "@EXAMPLES=\n"
+"TIMEVALUE(\"3:05\") er lig 0.128472.\n"
+"TIMEVALUE(\"2:24:53 PM\") er lig 0.600613.\n"
 "\n"
-"@SEEALSO=HOUR"
+"@SEEALSO=HOUR, MINUTE"
 
 # amerikanske AM og PM er meningsløse på dansk
 #: src/functions/fn-date.c:444
-#, fuzzy
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -8792,16 +8780,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serienummer)\n"
-"@DESCRIPTION=Omdanner et serienummer til en time. Timen repræsenteres af et "
+"@DESCRIPTION=HOUR omdanner et serienummer til en time. Timen repræsenteres af et "
 "heltal i intervallet 0 (midnat) til 23 (en time før midnat).\n"
 "Bemærk at Gnumeric vil udføre almindelig tekst til serienummer-konvertering "
 "for dig, så du kan opgive en dato som en tekst.\n"
+"Denne funktion er Excel.kompatibel.\n"
 "@EXAMPLES=\n"
+"HOUR(0.128472) er lig 3.\n"
 "\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
 #: src/functions/fn-date.c:473
-#, fuzzy
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -8817,16 +8806,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serienummer)\n"
-"@DESCRIPTION=Omdanner et serienummer til et minut. Minuttet returneres som "
+"@DESCRIPTION=MINUTE omdanner et serienummer til et minut. Minuttet returneres som "
 "et heltal i intervallet 0 til 59.\n"
 "Bemærk at Gnumeric vil udføre almindelig tekst til serienummer-konvertering "
-"for dig, så du kan opgive en dato som en tekst.\n"
+"for dig, så du kan opgive en dato som en tekst. Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"MINUTE(0.128472) er lig 5.\n"
 "\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
 #: src/functions/fn-date.c:503
-#, fuzzy
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -8842,16 +8831,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serienummer)\n"
-"@DESCRIPTION=Omdanner et serienummer til et sekund. Sekundet returneres som "
+"@DESCRIPTION=SECOND omdanner et serienummer til et sekund. Sekundet returneres som "
 "et heltal i området 0 til 59.\n"
 "Bemærk at Gnumeric vil udføre almindelig tekst til serienummer-konvertering "
-"for dig, så du kan opgive en dato som en tekst.\n"
+"for dig, så du kan opgive en dato som en tekst. Denne funktion er "
+"Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"SECOND(0.600613) er lig 53.\n"
 "\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
 #: src/functions/fn-date.c:533
-#, fuzzy
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -8866,15 +8856,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serienummer)\n"
-"@DESCRIPTION=Konverterer et serienummer til et år.\n"
+"@DESCRIPTION=YEAR konverterer et serienummer til et år.\n"
 "Bemærk at Gnumeric vil udføre regulær streng til serienummer konvertering "
-"for dig, så du kan opgive en dato som en streng.\n"
+"for dig, så du kan opgive en dato som en streng. Denne funktion er "
+"Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"YEAR(DATE(2003, 4, 30)) er lig 2003.\n"
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 
 #: src/functions/fn-date.c:570
-#, fuzzy
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -8889,15 +8880,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serienummer)\n"
-"@DESCRIPTION=Konverterer et serienummer til en måned.\n"
+"@DESCRIPTION=MONTH konverterer et serienummer til en måned.\n"
 "Bemærk at Gnumeric vil udføre regulær streng til serienummer konvertering "
-"for dig, så du kan opgive en dato som en streng.\n"
+"for dig, så du kan opgive en dato som en streng. Denne funktion er "
+"Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"MONTH(DATE(2003, 4, 30)) er lig 4.\n"
 "\n"
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 
 #: src/functions/fn-date.c:607
-#, fuzzy
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -8912,16 +8904,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serienummer)\n"
-"@DESCRIPTION=Omdanner et serienummer til en dag i måneden.\n"
+"@DESCRIPTION=DAY omdanner et serienummer til en dag i måneden.\n"
 "Bemærk at Gnumeric vil udføre almindelig tekst til serienummer-konvertering "
-"for dig, så du kan opgive en dato som en tekst.\n"
+"for dig, så du kan opgive en dato som en tekst. Denne funktion er "
+"Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "DAY (\"10/24/1968\") er lig med 24.\n"
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: src/functions/fn-date.c:644
-#, fuzzy
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (serial_number)\n"
@@ -8940,20 +8932,20 @@ msgid ""
 msgstr ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (serienummer)\n"
-"@DESCRIPTION=Konverterer et serienummer til en ugedag.\n"
+"@DESCRIPTION=WEEKDAY konverterer et serienummer til en ugedag.\n"
 "\n"
 "Denne funktion returnerer et heltal i intervallet 0-6, hvor lørdag er 0, "
 "søndag er 1, osv.\n"
 "\n"
 "Bemærk at Gnumeric vil udføre almindelig tekst til serienummer-konvertering "
-"for dig, så du kan opgive en dato som en tekst.\n"
+"for dig, så du kan opgive en dato som en tekst. Denne funktion er "
+"Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "WEEKDAY(\"10/24/1968\") er lig med 5 (torsdag).\n"
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: src/functions/fn-date.c:684
-#, fuzzy
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -8974,15 +8966,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=DAYS360\n"
 "@SYNTAX=DAYS360 (dato1,dato2,metode)\n"
-"@DESCRIPTION=Returnerer antal dage fra @dato1 til @dato2 efter en 360-"
+"@DESCRIPTION=DAYS360 returnerer antal dage fra @dato1 til @dato2 efter en 360-"
 "dagskalender hvor alle måneder tænkes at have 30 dage.\n"
 "Hvis @metode er sand, vil benyttes den europæiske metode. Hvis dagen i "
 "måneden så er 31, vil den blive betragtet som 30.\n"
 "Hvis @metode er usand eller udeladt, benyttes den amerikanske metode som er "
 "en noget kompliceret industristandard.\n"
 "Bemærk at Gnumeric vil udføre almindelig tekst til serienummer-konvertering "
-"for dig, så du kan opgive en dato som en tekst.\n"
+"for dig, så du kan opgive en dato som en tekst. Denne funktion er "
+"Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"DAYS360(DATE(2003, 2, 3), DATE(2007, 4, 2)) er lig 1499.\n"
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
@@ -8991,7 +8985,6 @@ msgid "Unsupported method"
 msgstr "Ikke-understøttet metode"
 
 #: src/functions/fn-date.c:787
-#, fuzzy
 msgid ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
@@ -9007,9 +9000,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (startdato,måneder)\n"
-"@DESCRIPTION=Returnerer sidste dag i måneden som er @måneder fra "
+"@DESCRIPTION=EOMONTH returnerer sidste dag i måneden som er @måneder fra "
 "@startdato.\n"
-"Returnerer #TAL! hvis @startdato eller @måneder er ugyldig.\n"
+"Returnerer #TAL! hvis @startdato eller @måneder er ugyldig. Denne funktion er "
+"Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "Hvis A1 indeholder 12/21/00 så er EOMONTH(A1,0)=12/31/00, EOMONTH(A1,5)"
 "=5/31/01 og EOMONTH(A1,2)=2/28/01.\n"
@@ -9017,7 +9011,6 @@ msgstr ""
 "@SEEALSO=MONTH"
 
 #: src/functions/fn-date.c:837
-#, fuzzy
 msgid ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
@@ -9033,10 +9026,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (startdato,dage,helligdage)\n"
-"@DESCRIPTION=Returnerer dagen som er @dage arbejdsdage fra @startdato. "
+"@DESCRIPTION=WORKDAY returnerer dagen som er @dage arbejdsdage fra @startdato. "
 "Weekender og helligdage angivet i @helligdage bliver taget i betragtning. "
-"Returnerer #TAL! hvis @startdato eller @dage er ugyldig.\n"
+"Returnerer #TAL! hvis @startdato eller @dage er ugyldig. Denne funktion "
+"er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"WORKDAY(DATE(2001,1,5),DATE(2001,2,15)) "
+"er lig 88609.\n"
 "\n"
 "@SEEALSO=NETWORKDAYS"
 
@@ -9047,7 +9043,6 @@ msgid "Unimplemented"
 msgstr "Ikke implementeret"
 
 #: src/functions/fn-date.c:908
-#, fuzzy
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
@@ -9063,10 +9058,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (startdato,slutdato,helligdage)\n"
-"@DESCRIPTION=Returnerer antal dage som ikke er weekend eller helligdage "
+"@DESCRIPTION=NETWORKDAYS returnerer antal dage som ikke er weekend eller helligdage "
 "mellem @startdato og @slutdato. Helligdage kan angives i @helligdage.\n"
-"Returnerer #TAL! hvis startdato eller slutdato er ugyldig.\n"
+"Returnerer #TAL! hvis startdato eller slutdato er ugyldig. Denne funktion er "
+"Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"NETWORKDAYS(DATE(2001,1,2),DATE(2001,2,15)) "
+"er lig 33.\n"
 "\n"
 "@SEEALSO=WORKDAY"
 
@@ -9245,7 +9243,6 @@ msgstr ""
 "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 
 #: src/functions/fn-eng.c:265
-#, fuzzy
 msgid ""
 "@FUNCTION=OCT2BIN\n"
 "@SYNTAX=OCT2BIN(number[,places])\n"
@@ -9270,7 +9267,6 @@ msgstr ""
 "@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX"
 
 #: src/functions/fn-eng.c:291
-#, fuzzy
 msgid ""
 "@FUNCTION=OCT2HEX\n"
 "@SYNTAX=OCT2HEX(number[,places])\n"
@@ -9295,7 +9291,6 @@ msgstr ""
 "@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC"
 
 #: src/functions/fn-eng.c:317
-#, fuzzy
 msgid ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(number[,places])\n"
@@ -9321,7 +9316,6 @@ msgstr ""
 "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC"
 
 #: src/functions/fn-eng.c:343
-#, fuzzy
 msgid ""
 "@FUNCTION=HEX2OCT\n"
 "@SYNTAX=HEX2OCT(number[,places])\n"
@@ -9347,7 +9341,6 @@ msgstr ""
 "@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC"
 
 #: src/functions/fn-eng.c:369
-#, fuzzy
 msgid ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
@@ -10115,7 +10108,6 @@ msgstr ""
 "@SEEALSO=ERFC"
 
 #: src/functions/fn-eng.c:1654
-#, fuzzy
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -10140,7 +10132,6 @@ msgstr ""
 "@SEEALSO=ERF"
 
 #: src/functions/fn-eng.c:1684
-#, fuzzy
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -10199,7 +10190,6 @@ msgid "Engineering"
 msgstr "Teknisk"
 
 #: src/functions/fn-financial.c:936
-#, fuzzy
 msgid ""
 "@FUNCTION=ACCRINT\n"
 "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])\n"
@@ -10233,9 +10223,14 @@ msgstr ""
 "@SYNTAX=ACCRINT(udstedelse,første_rente,anbringelse,rente,pari,frekvens[,"
 "basis])\n"
 "@DESCRIPTION=ACCRINT beregner den påløbne rente for et værdipapir som "
-"udbetaler periodisk rente. @rente er værdipapirets pålydende årlige rente, "
-"og @pari er værdipapirets pålydende værdi. @basis er den type "
-"rentedagsberegning du vil bruge:\n"
+"udbetaler periodisk rente. @udstedelse er udstedelsesdatoen  for værdipapiret. "
+"@første_rente er den første rentedato for værdipapiret. @anbringelse er "
+"anbringelsesdatoen for værdipapiret. Anbringelsesdatoen ligger altid efter "
+"udstedelsesdatoen (@anbringelse er datoen hvor værdipapiret blev købt). "
+"@rente er værdipapirets pålydende årlige rente, "
+"og @pari er værdipapirets pålydende værdi. @frekvens er antal udbetalinger "
+"om året. Tilladte værdier er: 1 = årligt, 2 = havårligt, 4 = kvartalsvis. "
+"@basis er den type rentedagsberegning du vil bruge:\n"
 "\n"
 "0  amerikansk 30/360\n"
 "1  faktiske dage/faktiske dage\n"
@@ -10243,8 +10238,10 @@ msgstr ""
 "3  faktiske dage/365\n"
 "4  europæisk 30/360\n"
 "\n"
-"Hvis dato for @udstedelse eller @anbringelse ikke er gyldig, returnerer "
-"ACCRINT en #TAL!-fejl. Hvis @rente eller @pari er nul eller negativ "
+"Hvis dato for @udstedelse, @første_rente eller @anbringelse ikke er gyldig, returnerer "
+"ACCRINT en #TAL!-fejl. Datoerne skal være @udstedelse < @første_rente < "
+"@anbringelse, ellers returnerer ACCRINT en #TAL!-fejl. "
+"Hvis @rente eller @pari er nul eller negativ "
 "returnerer ACCRINT en #TAL!-fejl. Hvis @basis udelades, anvendes amerikansk "
 "30/360. Hvis @basis < 0 eller @basis > 4, returnerer ACCRINT en #TAL!-fejl. "
 "Hvis dato for @udstedelse er efter dato for @anbringelse eller de er ens, "
@@ -10254,7 +10251,6 @@ msgstr ""
 "@SEEALSO=ACCRINTM"
 
 #: src/functions/fn-financial.c:1014
-#, fuzzy
 msgid ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
@@ -10283,8 +10279,9 @@ msgstr ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(udstedelse,forfald,rente,[pari,basis])\n"
 "@DESCRIPTION=ACCRINTM beregner og returnerer den påløbne rente for et "
-"værdipapir fra @udstedelse- til @forfald-datoerne. @rente er værdipapirets "
-"pålydende årlige rente, og pari er værdipapirets pålydende værdi. Hvis du "
+"værdipapir fra @udstedelse- til @forfald-datoerne. @udstedelse er udstedelsesdatoen "
+"for værdipapiret. @forfald er forfaldsdatoen for værdipapiret. @rente er værdipapirets "
+"pålydende årlige rente, og @pari er værdipapirets pålydende værdi. Hvis du "
 "udelader @pari, bruger ACCRINTM et beløb på 1000. @basis er den type "
 "rentedagsberegning som du vil bruge:\n"
 "\n"
@@ -10305,7 +10302,6 @@ msgstr ""
 "@SEEALSO=ACCRINT"
 
 #: src/functions/fn-financial.c:1066
-#, fuzzy
 msgid ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
@@ -10337,7 +10333,8 @@ msgstr ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(anbringelse,forfald,investering,indfrielse[,basis])\n"
 "@DESCRIPTION=INTRATE beregner og returnerer renten for et fuldt ud sikkert "
-"værdipapir. @investering er prisen på værdipapiret betalt på @anbringelse-"
+"værdipapir. @anbringelse er anbringelsesdatoen for værdipapiret. @forfald er "
+"forfaldsdatoen for værdipapiret. @investering er prisen på værdipapiret betalt på @anbringelse-"
 "datoen, og @indfrielse er beløbet der modtages på @forfald datoen. @basis er "
 "den type rentedagsberegning du vil bruge:\n"
 "\n"
@@ -10347,11 +10344,12 @@ msgstr ""
 "3  faktiske dage/365\n"
 "4  europæisk 30/360\n"
 "\n"
-"Hvis @basis udelades, anvendes amerikansk 30/360. Hvis dato for @anbringelse "
-"eller @forfald ikke er gyldig, returnerer INTRATE en #TAL!-fejl. Hvis @basis "
+"Hvis dato for @anbringelse eller @forfald ikke er gyldig, returnerer INTRATE "
+"en #TAL!-fejl."
+"Hvis @basis udelades, anvendes amerikansk 30/360. Hvis @basis "
 "< 0 eller @basis > 4, returnerer INTRATE en #TAL!-fejl. Hvis dato for "
 "@anbringelse er efter dato for @forfald eller de er ens, returnerer INTRATE "
-"også en #TAL!-fejl. \n"
+"en #TAL!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "Hvis du havde en obligation med en anbringelsesdato 15. april 2000, "
@@ -10362,7 +10360,6 @@ msgstr ""
 "@SEEALSO=RECEIVED, DATE"
 
 #: src/functions/fn-financial.c:1127
-#, fuzzy
 msgid ""
 "@FUNCTION=RECEIVED\n"
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
@@ -10387,10 +10384,12 @@ msgid ""
 "@SEEALSO=INTRATE"
 msgstr ""
 "@FUNCTION=RECEIVED\n"
-"@SYNTAX=RECEIVED((anbringelse,forfald,investering,diskonto,rate[,basis])\n"
+"@SYNTAX=RECEIVED(anbringelse,forfald,investering,diskonto,rate[,basis])\n"
 "@DESCRIPTION=RECEIVED beregner og returnerer beløbet der udbetales ved "
-"@forfald-datoen for en obligation. @basis er den type rentedagsberegning du "
-"vil bruge:\n"
+"@forfald-datoen for en obligation. @anbringelse er anbringelsesdatoen på værdipapiret. "
+"@forfald er forfaldsdatoen for værdipapiret. Investeringens størrelse er angivet i "
+"@investering. @diskonto er værdipapirets diskonteringsrente. "
+"@basis er den type rentedagsberegning du vil bruge:\n"
 "\n"
 "0  amerikansk 30/360\n"
 "1  faktiske dage/faktiske dage\n"
@@ -10398,8 +10397,8 @@ msgstr ""
 "3  faktiske dage/365\n"
 "4  europæisk 30/360\n"
 "\n"
-"Hvis @basis udelades, anvendes amerikansk 30/360. Hvis @anbringelse-dato "
-"eller @forfald-dato ikke er gyldig, returnerer RECEIVED en #TAL!-fejl. Hvis "
+"Hvis @anbringelse-dato eller @forfald-dato ikke er gyldig, returnerer RECEIVED en "
+"#TAL!-fejl. Hvis @basis udelades, anvendes amerikansk 30/360. Hvis "
 "@basis < 0 eller @basis > 4, returnerer RECEIVED en #TAL!-fejl. Hvis "
 "@anbringelse dato er efter @forfald-dato eller de er ens, returnerer "
 "RECEIVED en #TAL!-fejl. \n"
@@ -10408,7 +10407,6 @@ msgstr ""
 "@SEEALSO=INTRATE"
 
 #: src/functions/fn-financial.c:1182
-#, fuzzy
 msgid ""
 "@FUNCTION=PRICEDISC\n"
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
@@ -10437,7 +10435,8 @@ msgstr ""
 "@SYNTAX=PRICEDISC(anbringelse,forfald,diskonto,indfrielse[,basis])\n"
 "@DESCRIPTION=PRICEDISC beregner og returnerer prisen for en pålydende værdi "
 "på 100 af en obligation. Værdipapiret giver ikke rente ved forfald. "
-"@diskonto er raten som obligationen bliver diskonteret med. @indfrielse er "
+"@anbringelse er anbringelsesdatoen på værdipapiret. @forfald er forfaldsdato "
+"for værdipapiret. @diskonto er raten som obligationen bliver diskonteret med. @indfrielse er "
 "beløbet der udbetales på @forfald-datoen. @basis er den type "
 "rentedagsberegning du vil bruge:\n"
 "\n"
@@ -10447,17 +10446,16 @@ msgstr ""
 "3  faktiske dage/365\n"
 "4  europæisk 30/360\n"
 "\n"
-"Hvis @basis udelades, anvendes amerikansk 30/360. Hvis dato for @anbringelse "
-"eller @forfald ikke er gyldig, returnerer PRICEDISC en #TAL!-fejl. Hvis "
+"Hvis dato for @anbringelse eller @forfald ikke er gyldig, returnerer PRICEDISC "
+"en #TAL!-fejl. Hvis @basis udelades, anvendes amerikansk 30/360. Hvis "
 "@basis < 0 eller @basis > 4, returnerer PRICEDISC en #TAL!-fejl. Hvis dato "
 "for @anbringelse er efter dato for @forfald eller de er ens, returnerer "
-"PRICEDISC også en #TAL!-fejl. \n"
+"PRICEDISC en #TAL!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PRICEMAT"
 
 #: src/functions/fn-financial.c:1234
-#, fuzzy
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
@@ -10483,9 +10481,12 @@ msgid ""
 "@SEEALSO=PRICEDISC"
 msgstr ""
 "@FUNCTION=PRICEMAT\n"
-"@SYNTAX=PRICEMAT(anbringelse,forfald,udstedelse,rente,udbytte[,basis])\n"
+"@SYNTAX=PRICEMAT(anbringelse,forfald,udstedelse,rente,ydelse[,basis])\n"
 "@DESCRIPTION=PRICEMAT beregner og returnerer prisen for en pålydende værdi "
-"på 100 af en obligation. Obligationen giver rente ved forfald. @basis er den "
+"på 100 af en obligation. Obligationen giver rente ved forfald. @anbringelse er "
+"anbringelsesdagen på værdipairet. @forfald er forfaldsdatoen på værdipapiret. "
+"@idstedelse er udstedelsesdato på værdipapiret. @rente er den diskonterede "
+"rente på værdipapiret. @ydelse er den årlig ydelse fra værdipapiret. @basis er den "
 "type rentedagsberegning du vil bruge:\n"
 "\n"
 "0  amerikansk 30/360\n"
@@ -10494,17 +10495,16 @@ msgstr ""
 "3  faktiske dage/365\n"
 "4  europæisk 30/360\n"
 "\n"
-"Hvis @basis udelades, anvendes amerikansk 30/360. Hvis dato for @anbringelse "
-"eller @forfald ikke er gyldig, returnerer PRICEMAT en #TAL!-fejl. Hvis "
-"@basis < 0 eller @basis > 4, returnerer PRICEMAT en #TAL!-fejl. Hvis dato "
-"for @anbringelse er efter dato for @forfald eller de er ens, returnerer "
-"PRICEMAT også en #TAL!-fejl. \n"
+"Hvis dato for @anbringelse eller @forfald ikke er gyldig, returnerer "
+"PRICEMAT en #TAL!-fejl. Hvis @basis udelades, anvendes amerikansk 30/360. "
+"Hvis @basis < 0 eller @basis > 4, returnerer PRICEMAT en #TAL!-fejl. "
+"Hvis dato for @anbringelse er efter dato for @forfald eller de er ens, "
+"returnerer PRICEMAT en #TAL!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PRICEDISC"
 
 #: src/functions/fn-financial.c:1293
-#, fuzzy
 msgid ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
@@ -10529,9 +10529,12 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=DISC\n"
-"@SYNTAX=DISC(anbringelse,forfald,pari,reststol[,basis])\n"
+"@SYNTAX=DISC(anbringelse,forfald,pari,indfrielse[,basis])\n"
 "@DESCRIPTION=DISC beregner og returnerer diskonteringsrenten for et "
-"værdipapir. @basis er den type rentedagsberegning du vil bruge:\n"
+"værdipapir. @anbringelse er anbringelsesdagen på værdipairet. "
+"@forfald er forfaldsdatoen på værdipapiret. @pari er den pålydende værdi "
+"på værdipapiret. @indfrielse er kursen per 100 kr pålydende værdi der "
+"modtages ved indfrielse. @basis er den type rentedagsberegning du vil bruge:\n"
 "\n"
 "0  amerikansk 30/360\n"
 "1  faktiske dage/faktiske dage\n"
@@ -10539,11 +10542,11 @@ msgstr ""
 "3  faktiske dage/365\n"
 "4  europæisk 30/360\n"
 "\n"
-"Hvis @basis udelades, anvendes amerikansk 30/360. Hvis dato for @anbringelse "
-"eller @forfald ikke er gyldig, returnerer DISC en #TAL!-fejl. Hvis @basis < "
+"Hvis dato for @anbringelse eller @forfald ikke er gyldig, returnerer DISC "
+"en #TAL!-fejl. Hvis @basis udelades, anvendes amerikansk 30/360. Hvis @basis < "
 "0 eller @basis > 4, returnerer DISC en #TAL!-fejl. Hvis dato for "
 "@anbringelse er efter dato for @forfald eller de er ens, returnerer DISC "
-"også en #TAL!-fejl. \n"
+"en #TAL!-fejl. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -10706,7 +10709,6 @@ msgstr ""
 "@SEEALSO=SLN,SYD"
 
 #: src/functions/fn-financial.c:1570
-#, fuzzy
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -10730,7 +10732,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(kost,skrapværdi,levetid)\n"
-"@DESCRIPTION=SLN-funktionen bestemme den lineære afskrivning på et aktiv for "
+"@DESCRIPTION=SLN-funktionen bestemmer den lineære afskrivning på et aktiv for "
 "en enkelt periode. @kost er det beløb du oprindelig betalte for aktivet. "
 "@skrapværdi er værdien ved slutningen af aktivets nyttige levetid, og "
 "@levetid er antal perioder om aktivet afskrives over. Denne "
@@ -10754,7 +10756,6 @@ msgid "sln - domain error"
 msgstr "SLN - domænefejl"
 
 #: src/functions/fn-financial.c:1622
-#, fuzzy
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -10806,7 +10807,6 @@ msgid "syd - domain error"
 msgstr "SYD - domænefejl"
 
 #: src/functions/fn-financial.c:1678
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -10824,6 +10824,8 @@ msgstr ""
 "@SYNTAX=DOLLARDE(@delt_dollar, brøk)\n"
 "@DESCRIPTION=DOLLARDE konverterer en dollarpris udtrykt som en brøk til en "
 "dollarpris udtrykt som et decimaltal. \n"
+"@delt_dollar er tælleren af brøken, der skal konverteres. "
+"@brøk er tælleren af brøken."
 "Hvis @brøk ikke er et heltal, bliver det afkortet. Hvis @brøk<=0 returnerer "
 "DOLLARDE en #TAL!-fejl. \n"
 "@EXAMPLES=\n"
@@ -10949,7 +10951,6 @@ msgstr ""
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 
 #: src/functions/fn-financial.c:1951
-#, fuzzy
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -11603,7 +11604,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/functions/fn-financial.c:3159
-#, fuzzy
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -11615,8 +11615,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(anbringelse,forfald,sidste_rente,rente,ydelse,indfrielse,"
-"frekvens,basis)\n"
-"@DESCRIPTION=\n"
+"frekvens,[basis])\n"
+"@DESCRIPTION=ODDLPRICE skal rettes\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -12137,7 +12137,6 @@ msgstr ""
 "@SEEALSO=TEXT"
 
 #: src/functions/fn-information.c:322
-#, fuzzy
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
@@ -12154,7 +12153,8 @@ msgstr ""
 "@interval. Denne funktion er Excel-kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"\n"
+"COUNTBLANK(A1:A20) returnerer antallet af blanke "
+"celler i A1:A20.\n"
 "@SEEALSO=COUNT"
 
 #: src/functions/fn-information.c:361
@@ -12195,7 +12195,6 @@ msgid "Unknown system"
 msgstr "Ukendt system"
 
 #: src/functions/fn-information.c:452
-#, fuzzy
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(value)\n"
@@ -12211,6 +12210,7 @@ msgstr ""
 "@DESCRIPTION=ISERROR returnerer SAND hvis der er en fejl i udtrykket.\n"
 "Denne funktion er Excel-kompatibel. \n"
 "@EXAMPLES=\n"
+"ISERROR(NA()) er lig TRUE.\n"
 "\n"
 "@SEEALSO=ERROR"
 
@@ -12219,7 +12219,6 @@ msgid "Argument mismatch"
 msgstr "Parameterfejl"
 
 #: src/functions/fn-information.c:507
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA(value)\n"
@@ -12235,11 +12234,11 @@ msgstr ""
 "@DESCRIPTION=ISNA returnerer SAND hvis værdien er #N/A-fejlværdien. Denne "
 "funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"ISNA(NA()) er lig TRUE.\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-information.c:542
-#, fuzzy
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(value)\n"
@@ -12255,8 +12254,9 @@ msgstr ""
 "@DESCRIPTION=ISERR returnerer SAND hvis værdien er en fejlværdi forskellig "
 "fra #N/A-fejlværdien. Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"ISERR(NA()) returnerer FALSE.\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=ISERROR"
 
 #: src/functions/fn-information.c:573
 msgid ""
@@ -12293,7 +12293,6 @@ msgstr ""
 "@SEEALSO=ISERROR"
 
 #: src/functions/fn-information.c:632
-#, fuzzy
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -12307,11 +12306,11 @@ msgstr ""
 "@SYNTAX=NA()\n"
 "@DESCRIPTION=NA returnerer fejlværdien #N/A. Denne funktion er Excel-"
 "kompatibel. \n"
-"\n"
-"@SEEALSO="
+"@EXAMPLES=\n"
+"NA() er lig #N/A fejl.\n"
+"@SEEALSO=ISNA"
 
 #: src/functions/fn-information.c:653
-#, fuzzy
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -12327,11 +12326,11 @@ msgstr ""
 "@DESCRIPTION=Returnerer den angivne fejl.\n"
 "\n"
 "@EXAMPLES=\n"
+"ERROR(\"#OWN ERROR\").\n"
 "\n"
 "@SEEALSO=ISERROR"
 
 #: src/functions/fn-information.c:674
-#, fuzzy
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK(value)\n"
@@ -12347,11 +12346,11 @@ msgstr ""
 "@DESCRIPTION=ISBLANK returnerer SAND hvis værdien er blank. Denne funktion "
 "er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"ISBLANK(A1).\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-information.c:723
-#, fuzzy
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN(value)\n"
@@ -12367,11 +12366,11 @@ msgstr ""
 "@DESCRIPTION=ISEVEN returnerer SAND hvis tallet er lige. Denne funktion er "
 "Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"ISEVEN(4) er lig TRUE.\n"
 "\n"
 "@SEEALSO=ISODD"
 
 #: src/functions/fn-information.c:745
-#, fuzzy
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL(value)\n"
@@ -12387,11 +12386,11 @@ msgstr ""
 "@DESCRIPTION=ISLOGICAL returnerer SAND hvis værdien er en logisk værdi. "
 "Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"ISLOGICAL(A1).\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-information.c:775
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT(value)\n"
@@ -12407,11 +12406,11 @@ msgstr ""
 "@DESCRIPTION=ISNONTEXT returnerer SAND hvis værdien ikke er tekst. Denne "
 "funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"ISNONTEXT(\"text\") er lig FALSE.\n"
 "\n"
 "@SEEALSO=ISTEXT"
 
 #: src/functions/fn-information.c:802
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER(value)\n"
@@ -12427,11 +12426,11 @@ msgstr ""
 "@DESCRIPTION=ISNUMBER returnerer SAND hvis værdien er et tal. Denne funktion "
 "er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"ISNUMBER(\"text\") er lig FALSE.\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-information.c:829
-#, fuzzy
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD(value)\n"
@@ -12447,11 +12446,11 @@ msgstr ""
 "@DESCRIPTION=ISODD returnerer SAND hvis tallet er ulige. Denne funktion er "
 "Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"ISODD(3) er lig SAND.\n"
 "\n"
 "@SEEALSO=ISEVEN"
 
 #: src/functions/fn-information.c:851
-#, fuzzy
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF(value)\n"
@@ -12467,11 +12466,11 @@ msgstr ""
 "@DESCRIPTION=ISREF returnerer SAND hvis værdien er en reference. Denne "
 "funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"ISREF(A1) er lig SAND.\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-information.c:883
-#, fuzzy
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(value)\n"
@@ -12487,11 +12486,11 @@ msgstr ""
 "@DESCRIPTION=ISTEXT returnerer SAND hvis værdien er tekst. Denne funktion er "
 "Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"ISTEXT(\"text\") er lig TRUE.\n"
 "\n"
 "@SEEALSO=ISNONTEXT"
 
 #: src/functions/fn-information.c:910
-#, fuzzy
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N(value)\n"
@@ -12507,11 +12506,11 @@ msgstr ""
 "@DESCRIPTION=N returnerer en værdi omsat til et tal. Strenge der indeholder "
 "tekst, omsættes til nul. Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"N(\"42\") er lig 42.\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-information.c:949
-#, fuzzy
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE(value)\n"
@@ -12528,6 +12527,8 @@ msgstr ""
 "@DESCRIPTION=TYPE returnerer et tal der angiver værdiens datatype. Denne "
 "funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
+"TYPE(3) er lig 1.\n"
+"TYPE(\"text\") er lig 2.\n"
 "\n"
 "@SEEALSO="
 
@@ -12706,7 +12707,6 @@ msgid "Logical"
 msgstr "Logisk"
 
 #: src/functions/fn-lookup.c:314
-#, fuzzy
 msgid ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
@@ -12747,11 +12747,13 @@ msgstr ""
 "Hvis @rækkenum eller @kolnum er mindre end én, returnerer ADDRESS en #TAL!-"
 "fejl. \n"
 "@EXAMPLES=\n"
+"ADDRESS(5,4) er lig \"$D$5\".\n"
+"ADDRESS(5,4,4) er lig \"D5\".\n"
+"ADDRESS(5,4,3,FALSE) er lig \"R[5]C4\".\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-lookup.c:426
-#, fuzzy
 msgid ""
 "@FUNCTION=CHOOSE\n"
 "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
@@ -12769,6 +12771,7 @@ msgstr ""
 "af til et heltal hvis det ikke er det i forvejen.\n"
 "Hvis @indeks < 1 eller @indeks > antal værdier, returneres #VAL!.\n"
 "@EXAMPLES=\n"
+"CHOOSE(3,\"Apple\",\"Orange\",\"Grape\",\"Perry\") er lig \"Grape\".\n"
 "\n"
 "@SEEALSO=IF"
 
@@ -12835,7 +12838,6 @@ msgstr ""
 "@SEEALSO=VLOOKUP"
 
 #: src/functions/fn-lookup.c:600
-#, fuzzy
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1,vector2)\n"
@@ -12852,7 +12854,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(værdi,vektor1,vektor2)\n"
-"@DESCRIPTION=LOOKUP finder rækkeindekset for @værdi i @vektor1 og returnerer "
+"@DESCRIPTION=LOOKUP-funktionen finder rækkeindekset for @værdi i "
+"@vektor1 og returnerer "
 "indholdet af @vektor2 ved dette rækkeindeks. Hvis området er længere end det "
 "er bredt, så vendes søgningen. Alternativt kan en enkelt vektor bruges. Hvis "
 "LOOKUP ikke kan finde @værdi, bruger den det næststørste værdi mindre end "
@@ -12863,7 +12866,6 @@ msgstr ""
 "@SEEALSO=VLOOKUP,HLOOKUP"
 
 #: src/functions/fn-lookup.c:667
-#, fuzzy
 msgid ""
 "@FUNCTION=MATCH\n"
 "@SYNTAX=MATCH(seek,vector[,type])\n"
@@ -12900,7 +12902,6 @@ msgstr ""
 "@SEEALSO=LOOKUP"
 
 #: src/functions/fn-lookup.c:727
-#, fuzzy
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[format])\n"
@@ -12923,11 +12924,11 @@ msgstr ""
 "ved @format som benytter den første form som standard.\n"
 "Hvis @referencetekst ikke er en gyldig reference, returneres #REF!.\n"
 "@EXAMPLES=\n"
-"\n"
+"Hvis A1 indeholder 3.14 og A2 indeholder A1, så er\n"
+"INDIRECT(A2) lig med 3.14.\n"
 "@SEEALSO="
 
 #: src/functions/fn-lookup.c:788
-#, fuzzy
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(reference,[row, col, area])\n"
@@ -12948,7 +12949,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/functions/fn-lookup.c:834
-#, fuzzy
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -12968,11 +12968,11 @@ msgstr ""
 "Hvis @reference hverken er en matrix, en reference eller et interval, "
 "returnerer funktionen en #VÆRDI!-fejl.\n"
 "@EXAMPLES=\n"
+"COLUMN() i E1 er lig 5.\n"
 "\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
 
 #: src/functions/fn-lookup.c:887
-#, fuzzy
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -12992,11 +12992,11 @@ msgstr ""
 "Hvis @reference hverken er en tabel, en reference eller et interval, "
 "returnerer funktionen en #VÆRDI!-fejl.\n"
 "@EXAMPLES=\n"
+"COLUMNS(H2:J3) er lig 3.\n"
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS  "
 
 #: src/functions/fn-lookup.c:913
-#, fuzzy
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
@@ -13021,7 +13021,6 @@ msgstr ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
 #: src/functions/fn-lookup.c:976
-#, fuzzy
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -13036,16 +13035,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
-"@DESCRIPTION=ROW-funktionen returnerer en matrix med rækkenumre og tager den "
-"indeholdende cellepositionen som standardparameter.\n"
-"Hvis @reference hverken er en matrix, en reference eller et interval "
+"@DESCRIPTION=ROW-funktionen returnerer en vektor med rækkenumre, og tager den "
+"indeholdte celleposition som standardparameter.\n"
+"Hvis @reference hverken er en vektor, en reference eller et interval "
 "returneres en #VÆRDI!-fejl.\n"
 "@EXAMPLES=\n"
+"ROW() i G13 er lig 13.\n"
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS  "
 
 #: src/functions/fn-lookup.c:1029
-#, fuzzy
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -13061,15 +13060,15 @@ msgstr ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=COLUMNS(reference)\n"
 "@DESCRIPTION=ROWS-funktionen returnerer antal rækker i et interval eller "
-"matrixreference.\n"
-"Hvis @reference hverken er en matrix, en reference eller et interval "
+"en vektorreference.\n"
+"Hvis @reference hverken er en vektor, en reference eller et interval "
 "returneres en #VÆRDI!-fejl.\n"
 "@EXAMPLES=\n"
+"ROWS(H7:I13) er lig 7.\n"
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
 #: src/functions/fn-lookup.c:1055
-#, fuzzy
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location, optional_label)\n"
@@ -13086,6 +13085,7 @@ msgstr ""
 "@DESCRIPTION=HYPERLINK-funktionen returnerer sin anden parameter, eller hvis "
 "denne er udeladt, den første parameter.\n"
 "@EXAMPLES=\n"
+"HYPERLINK(\"www.gnome.org\",\"GNOME\").\n"
 "\n"
 "@SEEALSO="
 
@@ -13647,7 +13647,6 @@ msgstr ""
 "@SEEALSO=CEIL, ABS, INT"
 
 #: src/functions/fn-math.c:955
-#, fuzzy
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
@@ -13661,7 +13660,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
-"@DESCRIPTION=INT-funktionen returnere det største heltal som ikke er større "
+"@DESCRIPTION=INT-funktionen returnerer det største heltal som ikke er større "
 "dets parameter. Denne funktion er Excel-kompatibel. \n"
 "@EXAMPLES=\n"
 "INT(7.2) er lig med 7.\n"
@@ -13888,7 +13887,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=RandBinom\n"
 "@SYNTAX=RandBinom(p,forsøg)\n"
-"@DESCRIPTION=RandBinom returnerer et binominelt fordelt tilfældigt tal. \n"
+"@DESCRIPTION=RandBinom returnerer et binomialt fordelt tilfældigt tal. \n"
 "Hvis @p < 0 eller @p > 1 eller @forsøg < 0, returneres en #TAL!-fejl. \n"
 "@EXAMPLES=\n"
 "RandBinom(0.5,2).\n"
@@ -13910,7 +13909,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,fejl)\n"
-"@DESCRIPTION=RANDNEGBINOM returnerer et negativ binominelt fordelt "
+"@DESCRIPTION=RANDNEGBINOM returnerer et negativ binomialt fordelt "
 "tilfældigt tal.\n"
 "Hvis @p < 0 eller @p > 1, returnerer RANDNEGBINOM en #TAL!-fejl. Hvis @fejl "
 "< 0, returnerer RANDNEGBINOM en #TAL!-fejl. \n"
@@ -14046,7 +14045,7 @@ msgstr ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(værdi1, værdi2, ...)\n"
 "@DESCRIPTION=SUMA beregner summen af alle værdier og celler som angives i "
-"paramerlisten. Tal, tekst og logiske værdier inkluderes i også i "
+"parameterlisten Tal, tekst og logiske værdier inkluderes i også i "
 "beregningen. Hvis cellen indeholder tekst eller parameteren omsættes til "
 "FALSK, tælles værdien som 0. Hvis parameteren evalueres til SAND, tælles det "
 "som 1. \n"
@@ -14166,7 +14165,6 @@ msgstr ""
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:1656
-#, fuzzy
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -14881,7 +14879,6 @@ msgid "Maths / Trig."
 msgstr "Matematik/trigonometri"
 
 #: src/functions/fn-sheet.c:19
-#, fuzzy
 msgid ""
 "@FUNCTION=SELECTION\n"
 "@SYNTAX=SELECTION(permit_intersection)\n"
@@ -14900,7 +14897,8 @@ msgstr ""
 "@SYNTAX=SELECTION(tillad_overlap)\n"
 "@DESCRIPTION=SELECTION-funktionen returnerer en liste med værdierne i den "
 "nuværende markering. Dette bruges normalt til at implementere øjeblikkelig "
-"beregning af værdier. Hvis @tillad_overlap er SAND returneres de "
+"beregning af værdier.\n"
+"Hvis @tillad_overlap er SAND returneres de "
 "brugerangivne markerede intervaller, OGSÅ SELVOM DE OVERLAPPER. Hvis "
 "@tillad_overlap er FALSK returneres et adskilt sæt af regioner; imidlertid "
 "kan der være flere af dem end brugeren angav til at begynde med.\n"
@@ -14909,7 +14907,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/functions/fn-sheet.c:101
-#, fuzzy
 msgid ""
 "@FUNCTION=GNUMERIC_VERSION\n"
 "@SYNTAX=GNUMERIC_VERSION()\n"
@@ -14921,8 +14918,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=GNUMERIC_VERSION\n"
 "@SYNTAX=GNUMERIC_VERSION()\n"
-"@DESCRIPTION=Returnerer versionen for gnumeric som tekst.\n"
+"@DESCRIPTION=GNUMERIC_VERSION returnerer versionen for gnumeric som tekst.\n"
 "@EXAMPLES=\n"
+"GNUMERIC_VERSION().\n"
 "\n"
 "@SEEALSO="
 
@@ -15036,7 +15034,6 @@ msgstr ""
 "@SEEALSO=STDEV,STDEVA,STDEVPA"
 
 #: src/functions/fn-stat.c:283
-#, fuzzy
 msgid ""
 "@FUNCTION=RANK\n"
 "@SYNTAX=RANK(x,ref[,order])\n"
@@ -15060,11 +15057,13 @@ msgstr ""
 "faldende orden, ellers rangeres tallene i stigende orden. Denne funktion er "
 "Excel-kompatibel. \n"
 "@EXAMPLES=\n"
+"Lad os antage at cellerne A1, A2 ..., A5 indeholder tallene 11,4, 17,3, "
+"21,3, 25,9 og 40,1. Så vil\n"
+"RANK(17.3A1:A5) være lig med 4.\n"
 "\n"
 "@SEEALSO=PERCENTRANK"
 
 #: src/functions/fn-stat.c:375
-#, fuzzy
 msgid ""
 "@FUNCTION=TRIMMEAN\n"
 "@SYNTAX=TRIMMEAN(ref,fraction)\n"
@@ -15090,7 +15089,9 @@ msgstr ""
 "· 0.2 = 8), 4 fra toppen og 4 fra bunden af datamængden. Denne funktion er "
 "Excel-kompatibel. \n"
 "@EXAMPLES=\n"
-"\n"
+"Lad os antage at cellerne A1, A2 ..., A5 indeholder tallene 11,4, 17,3, "
+"21,3, 25,9 og 40,1. Så vil\n\n"
+"TRIMMEAN(A1:A5,0.2) være lig med 23,2.\n"
 "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
 
 #: src/functions/fn-stat.c:437
@@ -15303,7 +15304,6 @@ msgstr ""
 "@SEEALSO=FISHER"
 
 #: src/functions/fn-stat.c:706
-#, fuzzy
 msgid ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=MODE(n1, n2, ...)\n"
@@ -15328,7 +15328,9 @@ msgstr ""
 "gengangere, returnerer MODE en #N/A!-fejl. Denne funktion er Excel-"
 "kompatibel. \n"
 "@EXAMPLES=\n"
-"\n"
+"Lad os antage at cellerne A1, A2 ..., A5 indeholder tallene 11,4, 17,3, "
+"21,3, 25,9 og 40,1. Så vil\n"
+"MODE(A1:A5) være lig med 11,4.\n"
 "@SEEALSO=AVERAGE,MEDIAN"
 
 #: src/functions/fn-stat.c:742
@@ -15509,7 +15511,6 @@ msgstr ""
 "@SEEALSO=MIN,ABS"
 
 #: src/functions/fn-stat.c:1005
-#, fuzzy
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -15873,7 +15874,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "FDIST(2,5,5) er lig med 0.232511319.\n"
 "\n"
-"SEEALSO=FINV"
+"@SEEALSO=FINV"
 
 #: src/functions/fn-stat.c:1632
 msgid ""
@@ -16860,7 +16861,6 @@ msgstr ""
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 
 #: src/functions/fn-stat.c:3255
-#, fuzzy
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -16877,7 +16877,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(matrix1,matrix2)\n"
-"@DESCRIPTION=FTEST-funktionen returnerer den enkeltsidige sandsynlighed for "
+"@DESCRIPTION=FTEST-funktionen returnerer den dobbeltsidige sandsynlighed for "
 "at varianserne i de to datamængder ikke er signifikant forskellige. Denne "
 "funktion er Excel-kompatibel. \n"
 "@EXAMPLES=\n"
@@ -17266,7 +17266,6 @@ msgstr ""
 "@SEEALSO=CODE"
 
 #: src/functions/fn-string.c:53
-#, fuzzy
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
@@ -17279,14 +17278,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(tegn)\n"
-"@DESCRIPTION=CODE returnerer ASCII-nummeret for tegnet @tegn.\n"
+"@DESCRIPTION=CODE returnerer ASCII-nummeret for tegnet @tegn. Denne "
+"funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "CODE(\"A\") er lig med 65.\n"
 "\n"
 "@SEEALSO=CHAR"
 
 #: src/functions/fn-string.c:75
-#, fuzzy
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
@@ -17301,15 +17300,15 @@ msgstr ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(tekst1, tekst2)\n"
 "@DESCRIPTION=EXACT returnerer sand hvis @tekst1 er præcis lig med @tekst2 "
-"(der skelnes mellem store og små bogstaver).\n"
+"(der skelnes mellem store og små bogstaver). Denne funktion er "
+"Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "EXACT(\"tast\",\"tast\") er lig med TRUE.\n"
 "EXACT(\"tast\",\"Tast\") er lig med FALSE.\n"
 "\n"
-"@SEEALSO=LEN"
+"@SEEALSO=LEN, SEARCH, DELTA"
 
 #: src/functions/fn-string.c:100
-#, fuzzy
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
@@ -17322,14 +17321,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(tekst)\n"
-"@DESCRIPTION=LEN returnerer længden i tegn af teksten @tekst.\n"
+"@DESCRIPTION=LEN returnerer længden i tegn af teksten @tekst. Denne "
+"funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "len(\"Helsinki\") er lig med 8.\n"
 "\n"
 "@SEEALSO=CHAR, CODE"
 
 #: src/functions/fn-string.c:122
-#, fuzzy
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -17344,14 +17343,14 @@ msgstr ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(tekst[,antal])\n"
 "@DESCRIPTION=LEFT returnerer de @antal tegn længst til venstre i teksten "
-"eller blot tegnet længst til venstre hvis @antal ikke er angivet.\n"
+"eller blot tegnet længst til venstre hvis @antal ikke er angivet. "
+"Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "LEFT(\"Aalborg\",4) er lig med \"Aalb\".\n"
 "\n"
 "@SEEALSO=MID, RIGHT"
 
 #: src/functions/fn-string.c:158
-#, fuzzy
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -17364,14 +17363,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(tekst)\n"
-"@DESCRIPTION=LOWER returnerer teksten i @tekst med små bogstaver\n"
+"@DESCRIPTION=LOWER returnerer teksten i @tekst med små bogstaver. "
+"Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "LOWER(\"Bamses Billedbog\") er lig med \"bamses billedbog\".\n"
 "\n"
 "@SEEALSO=UPPER"
 
 #: src/functions/fn-string.c:188
-#, fuzzy
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
@@ -17385,7 +17384,8 @@ msgstr ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(tekst, position, længde)\n"
 "@DESCRIPTION=MID returnerer den del af teksten fra @tekst som begynder ved "
-"positionen @position og er @længde tegn lang.\n"
+"positionen @position og er @længde tegn lang. "
+"Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "MID(\"skoletaske\",3,3) er lig med \"ole\".\n"
 "\n"
@@ -17396,7 +17396,6 @@ msgid "Invalid arguments"
 msgstr "Ugyldige parametre"
 
 #: src/functions/fn-string.c:233
-#, fuzzy
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -17412,7 +17411,8 @@ msgstr ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(tekst[,antal])\n"
 "@DESCRIPTION=RIGHT returnerer @antal tegn fra højre eller tegnet helt til "
-"højre hvis @antal ikke er angivet.\n"
+"højre hvis @antal ikke er angivet."
+"Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "RIGHT(\"slut\") er lig med \"t\".\n"
 "RIGHT(\"slut\",2) er lig med \"ut\".\n"
@@ -17420,7 +17420,6 @@ msgstr ""
 "@SEEALSO=MID, LEFT"
 
 #: src/functions/fn-string.c:272
-#, fuzzy
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -17433,14 +17432,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(tekst)\n"
-"@DESCRIPTION=UPPER returnerer teksten @tekst med store bogstaver.\n"
+"@DESCRIPTION=UPPER returnerer teksten @tekst med store bogstaver. "
+"Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "UPPER(\"Lyt efter!\") er lig med \"LYT EFTER!\".\n"
 "\n"
 "@SEEALSO=LOWER"
 
 #: src/functions/fn-string.c:302
-#, fuzzy
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -17453,14 +17452,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(tekst1[,tekst2...])\n"
-"@DESCRIPTION=Føjer teksterne sammen og returnerer dem.\n"
+"@DESCRIPTION=Føjer teksterne sammen og returnerer dem. "
+"Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "CONCATENATE(\"navle\",\"streng\") er lig med \"navlestreng\".\n"
 "\n"
 "@SEEALSO=LEFT, MID, RIGHT"
 
 #: src/functions/fn-string.c:344
-#, fuzzy
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
@@ -17473,7 +17472,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(tekst,antal)\n"
-"@DESCRIPTION=Returnerer @antal gentagelser af @tekst.\n"
+"@DESCRIPTION=Returnerer @antal gentagelser af @tekst. "
+"Denne funktion er excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "REPT(\".\",3) er lig med \"...\".\n"
 "\n"
@@ -17486,7 +17486,6 @@ msgid "Out of memory"
 msgstr "Løbet tør for hukommelse"
 
 #: src/functions/fn-string.c:399
-#, fuzzy
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -17499,14 +17498,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(tekst)\n"
-"@DESCRIPTION=CLEAN fjerner ethvert ikke-skrivbart tegn fra teksten.\n"
+"@DESCRIPTION=CLEAN fjerner ethvert ikke-skrivbart tegn fra @tekst. "
+"Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "CLEAN(\"ups\"\\&char(7)) er lig med \"ups\".\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-string.c:431
-#, fuzzy
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
@@ -17522,14 +17521,14 @@ msgstr ""
 "@SYNTAX=FIND(søgetekst,tekst[,start])\n"
 "@DESCRIPTION=FIND returnerer positionen af @søgetekst i @tekst (der skelnes "
 "mellem små og store bogstaver). Funktionen søger kun fra positionen @start "
-"og fremad - hvis @start er udeladt, bruges værdien 1.\n"
+"og fremad - hvis @start er udeladt, bruges værdien 1. "
+"Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "FIND(\"er\",\"persillesovs\") er lig med 2.\n"
 "\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 
 #: src/functions/fn-string.c:473
-#, fuzzy
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
@@ -17545,14 +17544,14 @@ msgstr ""
 "@SYNTAX=FIXED(tal, [decimaler, uden_tusindadskiller])\n"
 "@DESCRIPTION=FIXED returnerer @tal som en formateret streng med @decimaler "
 "tal efter decimalkommaet. Adskillelsestegnet mellem tusinder udelades hvis "
-"det er angivet med @uden_tusindsadskiller.\n"
+"det er angivet med @uden_tusindsadskiller. "
+"Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "FIXED(1234.567,2) er lig med \"1,234.57\".\n"
 "\n"
 "@SEEALSO="
 
 #: src/functions/fn-string.c:578
-#, fuzzy
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
@@ -17566,14 +17565,14 @@ msgstr ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(tekst)\n"
 "@DESCRIPTION=PROPER returnerer @tekst med stort bogstav i begyndelsen af "
-"hvert ord.\n"
+"hvert ord. "
+"Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "PROPER(\"bamses billedbog\") er lig med \"Bamses Billedbog\".\n"
 "\n"
 "@SEEALSO=LOWER, UPPER"
 
 #: src/functions/fn-string.c:624
-#, fuzzy
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -17587,7 +17586,8 @@ msgstr ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(forrig,start,antal,ny)\n"
 "@DESCRIPTION=REPLACE returnerer teksten @forrig med teksten @ny som "
-"erstatning for @antal tegn fra positionen @start.\n"
+"erstatning for @antal tegn fra positionen @start. "
+"Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "REPLACE(\"de tre musketerer\",4,3,\"fyrretyve\") er lig med \"de fyrretyve "
 "musketerer\".\n"
@@ -17595,7 +17595,6 @@ msgstr ""
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 
 #: src/functions/fn-string.c:674
-#, fuzzy
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -17610,7 +17609,8 @@ msgstr ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(værdi)\n"
 "@DESCRIPTION=T returnerer @værdi hvis og kun hvis den er tekst, ellers "
-"returneres en tom tekst.\n"
+"returneres en tom tekst. "
+"Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "T(\"dette er tekst\") er lig med \"dette er tekst\".\n"
 "T(64) returnerer en tom celle.\n"
@@ -17618,7 +17618,6 @@ msgstr ""
 "@SEEALSO=CELL, N, VALUE"
 
 #: src/functions/fn-string.c:699
-#, fuzzy
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
@@ -17632,7 +17631,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(værdi,format)\n"
-"@DESCRIPTION=TEXT returnerer @værdi som en tekst med det angivne @format.\n"
+"@DESCRIPTION=TEXT returnerer @værdi som en tekst med det angivne @format. "
+"Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "TEXT(3.223,\"$0.00\") er lig med \"$3.22\".\n"
 "TEXT(date(1999,4,15),\"mmmm, dd, yy\") er lig med \"April, 15, 99\".\n"
@@ -17644,7 +17644,6 @@ msgid "Type mismatch"
 msgstr "Typefejl"
 
 #: src/functions/fn-string.c:747
-#, fuzzy
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -17658,14 +17657,14 @@ msgstr ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(tekst)\n"
 "@DESCRIPTION=TRIM returnerer @tekst med kun et enkelt mellemrum mellem "
-"ordene.\n"
+"ordene. "
+"Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "TRIM(\"  kaffen er  klar\") er lig med \"kaffen er klar\".\n"
 "\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
 #: src/functions/fn-string.c:793
-#, fuzzy
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -17678,14 +17677,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(tekst)\n"
-"@DESCRIPTION=VALUE returnerer talværdien af @tekst.\n"
+"@DESCRIPTION=VALUE returnerer talværdien af @tekst. "
+"Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "VALUE(\"$1,000\") er lig med 1000.\n"
 "\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 
 #: src/functions/fn-string.c:836
-#, fuzzy
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
@@ -17698,17 +17697,17 @@ msgid ""
 "@SEEALSO=REPLACE, TRIM"
 msgstr ""
 "@FUNCTION=SUBSTITUTE\n"
-"@SYNTAX=SUBSTITUTE(tekst, forrig, ny [,nummer])\n"
-"@DESCRIPTION=SUBSTITUTE erstatter teksten @forrig med teksten @ny i @tekst. "
+"@SYNTAX=SUBSTITUTE(tekst, forrige, ny [,nummer])\n"
+"@DESCRIPTION=SUBSTITUTE erstatter teksten @forrige med teksten @ny i @tekst. "
 "Hvis @nummer er angivet udføres udskiftningen kun på forekomsten nummer "
-"@nummer af @forrig i @tekst, ellers udskiftes alle forekomster.\n"
+"@nummer af @forrige i @tekst, ellers udskiftes alle forekomster. "
+"Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "SUBSTITUTE(\"trilleri\",\"tril\",\"tryl\") er lig med \"trylleri\".\n"
 "\n"
 "@SEEALSO=REPLACE, TRIM"
 
 #: src/functions/fn-string.c:952
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[,decimals])\n"
@@ -17721,14 +17720,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(tal,[decimaler])\n"
-"@DESCRIPTION=DOLLAR returnerer @tal formateret som en valuta.\n"
+"@DESCRIPTION=DOLLAR returnerer @tal formateret som en valuta."
+"Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "DOLLAR(12345) er lig med \"$12,345.00\".\n"
 "\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 
 #: src/functions/fn-string.c:1021
-#, fuzzy
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
@@ -17763,7 +17762,8 @@ msgstr ""
 "eller spørgsmålstegnene, må der anbringes en tilde (~) foran tegnet. \n"
 "Hvis @søgetekst ikke bliver fundet, returneres en #VÆRDI!-fejl. Hvis "
 "@startpos er mindre end 1 eller større end længden af @tekst, returneres en "
-"#VÆRDI!-fejl. \n"
+"#VÆRDI!-fejl. "
+"Denne funktion er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "SEARCH(\"r\",\"Regnvejr\") er lig med 1.\n"
 "SEARCH(\"r\",\"Regnvejr\",2) er lig med 8.\n"
@@ -17778,7 +17778,7 @@ msgstr "Formatér som tal"
 msgid "Format as Currency"
 msgstr "Formatér som valuta"
 
-#: src/gnumeric-canvas.c:95 src/workbook-format-toolbar.c:315
+#: src/gnumeric-canvas.c:95 src/workbook-format-toolbar.c:312
 msgid "Format as Percentage"
 msgstr "Formatér som procentdel"
 
@@ -17839,7 +17839,7 @@ msgid ""
 "is a directory name"
 msgstr ""
 "%s\n"
-"er navnet på en mappe"
+"er navnet på et katalog"
 
 #: src/gui-file.c:158
 #, c-format
@@ -17877,7 +17877,7 @@ msgid ""
 "not a directory"
 msgstr ""
 "Indtast venligst et\n"
-"filnavn, ikke en mappe"
+"filnavn, ikke et katalog"
 
 #. Pack it into file selector
 #: src/gui-file.c:255
@@ -17981,11 +17981,11 @@ msgstr "Vis Gnumerics versionsnummer"
 
 #: src/main.c:83
 msgid "Set the root library directory"
-msgstr "Sæt rodmappen for biblioteker"
+msgstr "Sæt rodkataloget for biblioteker"
 
 #: src/main.c:85
 msgid "Adjust the root data directory"
-msgstr "Ændr rodmappen for data"
+msgstr "Ændr rodkataloget for data"
 
 #: src/main.c:88
 msgid "Dumps the function definitions"
@@ -18013,8 +18013,7 @@ msgstr "Aktiverer udskriftsfejlsøgningsadfærd"
 
 #: src/main.c:99
 msgid "Exit immediately after loading the selected books (useful for testing)."
-msgstr ""
-"Afslut umiddelbart efter indlæsning af de valgte bøger (nyttigt ved test)"
+msgstr "Afslut umiddelbart efter indlæsning af de valgte bøger (nyttigt ved test)"
 
 #: src/main.c:103
 msgid "Enables extra consistency checking while reading ole files"
@@ -18052,8 +18051,8 @@ msgid ""
 "libdir := '%s'\n"
 msgstr ""
 "Gnumeric version %s.\n"
-"datamappe := %s\n"
-"bibmappe := %s\n"
+"datakatalog := %s\n"
+"bibkatalog := %s\n"
 
 #: src/main.c:238
 msgid "Could not initialize Workbook factory"
@@ -18096,24 +18095,23 @@ msgid "#RECALC!"
 msgstr "#OMBEREGN!"
 
 #: src/parser.y:360
-#, fuzzy
 msgid "Sheet name is required"
-msgstr "Mindst én klausul er nødvendig."
+msgstr "Navn på ark er nødvendigt."
 
 #: src/parser.y:463
-#, fuzzy, c-format
+#, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
-msgstr "Udtrykket '%s' eksisterer ikke på arket '%s'"
+msgstr "Navnet '%s' eksisterer ikke på arket '%s'"
 
 #: src/parser.y:485
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown workbook '%s'"
-msgstr "Ukendt ark '%s'"
+msgstr "Ukendt arbejdsbog '%s'"
 
 #: src/parser.y:497
-#, fuzzy, c-format
+#, c-format
 msgid "Name '%s' does not exist in workbook '%s'"
-msgstr "Udtrykket '%s' eksisterer ikke på arket '%s'"
+msgstr "Navnet '%s' eksisterer ikke i arbejdsbog '%s'"
 
 #: src/parser.y:522 src/parser.y:545
 #, c-format
@@ -18312,7 +18310,7 @@ msgstr "Fejl ved åbning af filen \"%s\" til læsning."
 msgid "Unable to mmap the file."
 msgstr "Kan ikke mmap'e filen."
 
-#: src/plugin-util.c:311 src/xml-io.c:3439
+#: src/plugin-util.c:311 src/xml-io.c:3422
 msgid "Cannot get file size."
 msgstr "Kan ikke finde filstørrelsen."
 
@@ -18396,8 +18394,7 @@ msgstr "Fejl ved klargøring af udvidelsesmodulindlæser (\"%s\")."
 #: src/plugin.c:1037
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which couldn't be activated."
-msgstr ""
-"Vi afhænger af udvidelsesmodulet med id=\"%s\" som ikke kunne aktiveres."
+msgstr "Vi afhænger af udvidelsesmodulet med id=\"%s\" som ikke kunne aktiveres."
 
 #: src/plugin.c:1044 src/plugin.c:1232
 #, c-format
@@ -18421,14 +18418,12 @@ msgstr "Kan ikke indlæse udvidelsesmodulindlæser."
 #: src/plugin.c:1225
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which couldn't be loaded."
-msgstr ""
-"Vi afhænger af udvidelsesmodulet med id=\"%s\" som ikke kunne indlæses."
+msgstr "Vi afhænger af udvidelsesmodulet med id=\"%s\" som ikke kunne indlæses."
 
 #: src/plugin.c:1308
 #, c-format
 msgid "Errors occurred while reading plugin informations from file \"%s\"."
-msgstr ""
-"Der opstod fejl ved læsning af udvidelsesmoduloplysninger fra filen \"%s\"."
+msgstr "Der opstod fejl ved læsning af udvidelsesmoduloplysninger fra filen \"%s\"."
 
 #: src/plugin.c:1470
 #, c-format
@@ -18511,27 +18506,27 @@ msgid "time"
 msgstr "tid"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:594
+#: src/print.c:596
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:989
+#: src/print.c:991
 msgid "Print Region"
 msgstr "Udskriv område"
 
-#: src/print.c:1097
+#: src/print.c:1099
 msgid "Print Sheets"
 msgstr "Udskriv ark"
 
-#: src/print.c:1107
+#: src/print.c:1109
 msgid "Act_ive sheet"
 msgstr "Akt_ivt ark"
 
-#: src/print.c:1107
+#: src/print.c:1109
 msgid "S_heets"
 msgstr "A_rk"
 
-#: src/print.c:1193
+#: src/print.c:1195
 msgid "Printing failed"
 msgstr "Udskrift mislykkedes"
 
@@ -18676,8 +18671,7 @@ msgstr "Afstanden fra spidsen af pilen til centrumspunktet"
 
 #: src/sheet-object-graphic.c:505
 msgid "Distance from tip of arrowhead to trailing point, measured along shaft"
-msgstr ""
-"Afstanden fra spidsen af pilen til det bagerste punkt, målt langs skaftet"
+msgstr "Afstanden fra spidsen af pilen til det bagerste punkt, målt langs skaftet"
 
 #: src/sheet-object-graphic.c:508
 msgid "Distance of trailing point from outside edge of shaft"
@@ -18976,7 +18970,7 @@ msgstr "Terminér"
 msgid "Bold italic"
 msgstr "Fed kursiv"
 
-#: src/widgets/widget-font-selector.c:116 src/workbook-format-toolbar.c:423
+#: src/widgets/widget-font-selector.c:116 src/workbook-format-toolbar.c:420
 msgid "Italic"
 msgstr "Kursiv"
 
@@ -18996,19 +18990,16 @@ msgstr ""
 
 #: src/workbook-cmd-format.c:189
 msgid "You entered an invalid row height value.  It must be bigger than 0"
-msgstr ""
-"Du indtastede en ugyldig værdi for rækkehøjden - den skal være større end 0."
+msgstr "Du indtastede en ugyldig værdi for rækkehøjden - den skal være større end 0."
 
 #: src/workbook-cmd-format.c:236
-msgid ""
-"You entered an invalid default column width value.  It must be bigger than 0"
+msgid "You entered an invalid default column width value.  It must be bigger than 0"
 msgstr ""
 "Du indtastede en ugyldig værdi for standardkolonnebredden - den skal være "
 "større end 0."
 
 #: src/workbook-cmd-format.c:264
-msgid ""
-"You entered an invalid default row height value.  It must be bigger than 0"
+msgid "You entered an invalid default row height value.  It must be bigger than 0"
 msgstr ""
 "Du indtastede en ugyldig værdi for standardrækkehøjden - den skal være "
 "større end 0."
@@ -19046,13 +19037,13 @@ msgstr "Ingenting"
 msgid "Un_freeze Panes"
 msgstr "Opt_ø paneler"
 
-#: src/workbook-control-gui.c:1024 src/workbook-control-gui.c:2962
-#: src/workbook-control-gui.c:3145 src/workbook-control-gui.c:3185
+#: src/workbook-control-gui.c:1024 src/workbook-control-gui.c:2968
+#: src/workbook-control-gui.c:3151 src/workbook-control-gui.c:3191
 msgid "Undo"
 msgstr "Fortryd"
 
-#: src/workbook-control-gui.c:1025 src/workbook-control-gui.c:2965
-#: src/workbook-control-gui.c:3153 src/workbook-control-gui.c:3187
+#: src/workbook-control-gui.c:1025 src/workbook-control-gui.c:2971
+#: src/workbook-control-gui.c:3159 src/workbook-control-gui.c:3193
 msgid "Redo"
 msgstr "Gentag"
 
@@ -19070,7 +19061,7 @@ msgstr "Arbejdsbogen %s har ugemte ændringer, gem dem?"
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Arbejdsbogen har ugemte ændringer, gem dem?"
 
-#: src/workbook-control-gui.c:1731
+#: src/workbook-control-gui.c:1737
 #, c-format
 msgid ""
 "In cell %s, the current contents\n"
@@ -19089,7 +19080,7 @@ msgstr ""
 "\n"
 "Erstatningen er afbrudt, og intet er blevet ændret."
 
-#: src/workbook-control-gui.c:1769
+#: src/workbook-control-gui.c:1775
 #, c-format
 msgid "Comment in cell %s!%s"
 msgstr "Kommentar i celle %s!%s"
@@ -19098,7 +19089,7 @@ msgstr "Kommentar i celle %s!%s"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:1951
+#: src/workbook-control-gui.c:1957
 msgid "Insert rows"
 msgstr "Indsæt rækker"
 
@@ -19106,177 +19097,175 @@ msgstr "Indsæt rækker"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:1969
+#: src/workbook-control-gui.c:1975
 msgid "Insert columns"
 msgstr "Indsæt kolonner"
 
-#: src/workbook-control-gui.c:1990
+#: src/workbook-control-gui.c:1996
 msgid "Select an object to add"
 msgstr "Vælg et objekt der skal tilføjes"
 
-#: src/workbook-control-gui.c:2001
+#: src/workbook-control-gui.c:2007
 #, c-format
 msgid "Unable to create object of type '%s'"
 msgstr "Kan ikke oprette et objekt af typen \"%s\""
 
-#: src/workbook-control-gui.c:2222
+#: src/workbook-control-gui.c:2228
 msgid "Show"
 msgstr "Vis"
 
-#: src/workbook-control-gui.c:2222
+#: src/workbook-control-gui.c:2228
 msgid "Hide"
 msgstr "Skjul"
 
-#: src/workbook-control-gui.c:2241
+#: src/workbook-control-gui.c:2247
 msgid "can only be performed on an existing group"
 msgstr "kan kun bruges på en eksisterende gruppe"
 
 # udsagnsord
-#: src/workbook-control-gui.c:2265
+#: src/workbook-control-gui.c:2271
 msgid "Group"
 msgstr "Gruppér"
 
-#: src/workbook-control-gui.c:2265
+#: src/workbook-control-gui.c:2271
 msgid "Ungroup"
 msgstr "Afgruppér"
 
-#: src/workbook-control-gui.c:2454
+#: src/workbook-control-gui.c:2460
 msgid "Save with a new name or format"
 msgstr "Gem med et nyt navn eller format"
 
-#: src/workbook-control-gui.c:2521
+#: src/workbook-control-gui.c:2527
 msgid "Select all the cells that depend on the current edit cell."
 msgstr "Markér alle celler som afhænger af den aktive celle."
 
-#: src/workbook-control-gui.c:2586
+#: src/workbook-control-gui.c:2592
 msgid "P_aste special..."
 msgstr "_Avanceret indsætning..."
 
-#: src/workbook-control-gui.c:2595
+#: src/workbook-control-gui.c:2601
 msgid "Remove selected cells, shifting other into their place"
-msgstr "Fjern markede celler idet andre rykker ind i stedet"
+msgstr "Fjern mærkede celler idet andre rykker ind i stedet"
 
-#: src/workbook-control-gui.c:2646
+#: src/workbook-control-gui.c:2652
 msgid "Freeze the top left of the sheet"
 msgstr "Frys den øverste venstre del af arket"
 
-#: src/workbook-control-gui.c:2669
+#: src/workbook-control-gui.c:2675
 msgid "_Define..."
 msgstr "_Definér..."
 
-#: src/workbook-control-gui.c:2674
+#: src/workbook-control-gui.c:2680
 msgid "_Auto generate names..."
 msgstr "_Autogenerér navne..."
 
-#: src/workbook-control-gui.c:2675
+#: src/workbook-control-gui.c:2681
 msgid "Use the current selection to create names"
 msgstr "Brug den nuværende markering til at generere navne"
 
-#: src/workbook-control-gui.c:2747
+#: src/workbook-control-gui.c:2753
 msgid "_Change name"
 msgstr "_Omdøb"
 
-#: src/workbook-control-gui.c:2774
+#: src/workbook-control-gui.c:2780
 msgid "Hide _Column Header"
 msgstr "Skjul _kolonnehoved"
 
-#: src/workbook-control-gui.c:2780
+#: src/workbook-control-gui.c:2786
 msgid "Hide _Row Header"
 msgstr "Skjul _rækkehoved"
 
-#: src/workbook-control-gui.c:2812
+#: src/workbook-control-gui.c:2818
 msgid "Manage available plugin modules."
 msgstr "Administrér de tilgængelige udvidelsesmoduler"
 
 # alle andre tips er uden punktum
-#: src/workbook-control-gui.c:2836
+#: src/workbook-control-gui.c:2842
 msgid "Statistical methods."
 msgstr "Statistiske metoder"
 
 # udsagnsord, bydemåde
-#: src/workbook-control-gui.c:2849
+#: src/workbook-control-gui.c:2855
 msgid "_Group..."
 msgstr "_Gruppér..."
 
-#: src/workbook-control-gui.c:2852
+#: src/workbook-control-gui.c:2858
 msgid "_Ungroup..."
 msgstr "_Afgruppér..."
 
-#: src/workbook-control-gui.c:2890
+#: src/workbook-control-gui.c:2896
 msgid "_Sort"
 msgstr "_Sortér"
 
-#: src/workbook-control-gui.c:2891
+#: src/workbook-control-gui.c:2897
 msgid "Sorts the selected region."
 msgstr "Sorterer det markerede område"
 
-#: src/workbook-control-gui.c:2928
+#: src/workbook-control-gui.c:2934
 msgid "Creates a new workbook"
 msgstr "Opret ny arbejdsbog"
 
-#: src/workbook-control-gui.c:2931
+#: src/workbook-control-gui.c:2937
 msgid "Opens an existing workbook"
 msgstr "Åbner en eksisterende arbejdsbog:"
 
-#: src/workbook-control-gui.c:2934
+#: src/workbook-control-gui.c:2940
 msgid "Saves the workbook"
 msgstr "Gemmer arbejdsbogen"
 
-#: src/workbook-control-gui.c:2940
+#: src/workbook-control-gui.c:2946
 msgid "Prints the workbook"
 msgstr "Udskriver arbejdsbogen"
 
-#: src/workbook-control-gui.c:2949
+#: src/workbook-control-gui.c:2955
 msgid "Cuts the selection to the clipboard"
 msgstr "Klipper det markerede til klippebordet"
 
-#: src/workbook-control-gui.c:2952
+#: src/workbook-control-gui.c:2958
 msgid "Copies the selection to the clipboard"
 msgstr "Kopierer det markerede til klippebordet"
 
-#: src/workbook-control-gui.c:2955
+#: src/workbook-control-gui.c:2961
 msgid "Pastes the clipboard"
 msgstr "Indsætter fra klippebordet"
 
-#: src/workbook-control-gui.c:2962
+#: src/workbook-control-gui.c:2968
 msgid "Undo the operation"
 msgstr "Fortryd den sidste handling"
 
-#: src/workbook-control-gui.c:2965
+#: src/workbook-control-gui.c:2971
 msgid "Redo the operation"
 msgstr "Gentag den fortrudte handling igen"
 
-#: src/workbook-control-gui.c:2975
+#: src/workbook-control-gui.c:2981
 msgid "Sum into the current cell."
 msgstr "Summér til den aktuelle celle."
 
-#: src/workbook-control-gui.c:2978
+#: src/workbook-control-gui.c:2984
 msgid "Function"
 msgstr "Funktion"
 
-#: src/workbook-control-gui.c:2978
+#: src/workbook-control-gui.c:2984
 msgid "Edit a function in the current cell."
 msgstr "Redigér en funktion i den aktuelle celle."
 
-#: src/workbook-control-gui.c:2982
+#: src/workbook-control-gui.c:2988
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
-msgstr ""
-"Sorterer det markerede område i stigende orden efter den første kolonne."
+msgstr "Sorterer det markerede område i stigende orden efter den første kolonne."
 
-#: src/workbook-control-gui.c:2985
+#: src/workbook-control-gui.c:2991
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
-msgstr ""
-"Sorterer det markerede område i faldende orden efter den første kolonne."
+msgstr "Sorterer det markerede område i faldende orden efter den første kolonne."
 
-#: src/workbook-control-gui.c:3749
+#: src/workbook-control-gui.c:3755
 msgid "Send"
 msgstr "Send"
 
-#: src/workbook-control-gui.c:3749
+#: src/workbook-control-gui.c:3755
 msgid "Send the current file in email"
 msgstr "Send den aktuelle fil med et ebrev"
 
@@ -19288,159 +19277,159 @@ msgstr "Adresse"
 msgid "Set Horizontal Alignment"
 msgstr "Angiv lodret justering"
 
-#: src/workbook-format-toolbar.c:187
+#: src/workbook-format-toolbar.c:184
 msgid "Set Font Style"
 msgstr "Angiv skriftstil"
 
-#: src/workbook-format-toolbar.c:254
+#: src/workbook-format-toolbar.c:251
 msgid "Set Font"
 msgstr "Angiv skrifttype"
 
-#: src/workbook-format-toolbar.c:287
+#: src/workbook-format-toolbar.c:284
 msgid "Set Font Size"
 msgstr "Angiv skriftstørrelse"
 
-#: src/workbook-format-toolbar.c:309
+#: src/workbook-format-toolbar.c:306
 msgid "Format as Money"
 msgstr "Formatér som valuta"
 
-#: src/workbook-format-toolbar.c:322
+#: src/workbook-format-toolbar.c:319
 msgid "Format with thousands separator"
 msgstr "Formatér med tusindadskillelse"
 
-#: src/workbook-format-toolbar.c:351
+#: src/workbook-format-toolbar.c:348
 msgid "Increase precision"
 msgstr "Øg præcision"
 
-#: src/workbook-format-toolbar.c:357
+#: src/workbook-format-toolbar.c:354
 msgid "Decrease precision"
 msgstr "Formindsk præcision"
 
-#: src/workbook-format-toolbar.c:413
+#: src/workbook-format-toolbar.c:410
 msgid "Select font"
 msgstr "Vælg skrifttype"
 
-#: src/workbook-format-toolbar.c:416
+#: src/workbook-format-toolbar.c:413
 msgid "Sets the bold font"
 msgstr "Gør skriften fed"
 
-#: src/workbook-format-toolbar.c:423
+#: src/workbook-format-toolbar.c:420
 msgid "Makes the font italic"
 msgstr "Gør skriften kursiv"
 
-#: src/workbook-format-toolbar.c:430
+#: src/workbook-format-toolbar.c:427
 msgid "Underlines the font"
 msgstr "Understreger skrifttypen"
 
-#: src/workbook-format-toolbar.c:439
+#: src/workbook-format-toolbar.c:436
 msgid "Left align"
 msgstr "Venstrejustér"
 
-#: src/workbook-format-toolbar.c:439
+#: src/workbook-format-toolbar.c:436
 msgid "Left justifies the cell contents"
 msgstr "Venstrejusterer cellens indhold"
 
-#: src/workbook-format-toolbar.c:443
+#: src/workbook-format-toolbar.c:440
 msgid "Centers the cell contents"
 msgstr "Centrerer cellens indhold"
 
-#: src/workbook-format-toolbar.c:447
+#: src/workbook-format-toolbar.c:444
 msgid "Right align"
 msgstr "Højrejustér"
 
-#: src/workbook-format-toolbar.c:447
+#: src/workbook-format-toolbar.c:444
 msgid "Right justifies the cell contents"
 msgstr "Højrejusterer cellens indhold"
 
-#: src/workbook-format-toolbar.c:451
+#: src/workbook-format-toolbar.c:448
 msgid "Center across selection"
 msgstr "Centrér hen over markering"
 
-#: src/workbook-format-toolbar.c:464
+#: src/workbook-format-toolbar.c:461
 msgid "Money format"
 msgstr "Valutaformat"
 
-#: src/workbook-format-toolbar.c:464
+#: src/workbook-format-toolbar.c:461
 msgid "Sets the format of the selected cells to monetary"
 msgstr "Bruger valutaformatet som de valgte cellers format"
 
-#: src/workbook-format-toolbar.c:467
+#: src/workbook-format-toolbar.c:464
 msgid "Sets the format of the selected cells to percentage"
 msgstr "Bruger procentdelsformatet som de valgte cellers format"
 
-#: src/workbook-format-toolbar.c:470
+#: src/workbook-format-toolbar.c:467
 msgid "Thousand separator"
 msgstr "Tusindadskillelse"
 
-#: src/workbook-format-toolbar.c:470
+#: src/workbook-format-toolbar.c:467
 msgid "Sets the format of the selected cells to include a thousands separator"
 msgstr "Brug tusindadskillelser i de valgte celler"
 
-#: src/workbook-format-toolbar.c:473
+#: src/workbook-format-toolbar.c:470
 msgid "Add decimals"
 msgstr "Tilføj decimaler"
 
-#: src/workbook-format-toolbar.c:473
+#: src/workbook-format-toolbar.c:470
 msgid "Increases the number of decimals displayed"
 msgstr "Hæver det antal decimaler som vises"
 
-#: src/workbook-format-toolbar.c:476
+#: src/workbook-format-toolbar.c:473
 msgid "Remove decimals"
 msgstr "Fjern decimaler"
 
-#: src/workbook-format-toolbar.c:476
+#: src/workbook-format-toolbar.c:473
 msgid "Decreases the number of decimals displayed"
 msgstr "Sænker det antal decimaler som vises"
 
-#: src/workbook-format-toolbar.c:539
+#: src/workbook-format-toolbar.c:536
 msgid "Set Foreground Color"
 msgstr "Angiv forgrundsfarve"
 
-#: src/workbook-format-toolbar.c:573
+#: src/workbook-format-toolbar.c:570
 msgid "Set Background Color"
 msgstr "Angiv baggrundsfarve"
 
-#: src/workbook-format-toolbar.c:634
+#: src/workbook-format-toolbar.c:631
 msgid "Clear Borders"
 msgstr "Ryd kanter"
 
-#: src/workbook-format-toolbar.c:637
+#: src/workbook-format-toolbar.c:634
 msgid "All Borders"
 msgstr "Alle kanter"
 
-#: src/workbook-format-toolbar.c:638
+#: src/workbook-format-toolbar.c:635
 msgid "Outside Borders"
 msgstr "Kanter udenom"
 
-#: src/workbook-format-toolbar.c:639
+#: src/workbook-format-toolbar.c:636
 msgid "Thick Outside Borders"
 msgstr "Tykke kanter udenom"
 
-#: src/workbook-format-toolbar.c:642
+#: src/workbook-format-toolbar.c:639
 msgid "Double Bottom"
 msgstr "Dobbelt bund"
 
-#: src/workbook-format-toolbar.c:643
+#: src/workbook-format-toolbar.c:640
 msgid "Thick Bottom"
 msgstr "Tyk bund"
 
-#: src/workbook-format-toolbar.c:645
+#: src/workbook-format-toolbar.c:642
 msgid "Top and Bottom"
 msgstr "Top og bund"
 
-#: src/workbook-format-toolbar.c:646
+#: src/workbook-format-toolbar.c:643
 msgid "Top and Double Bottom"
 msgstr "Top og dobbelt bund"
 
-#: src/workbook-format-toolbar.c:647
+#: src/workbook-format-toolbar.c:644
 msgid "Top and Thick Bottom"
 msgstr "Top og tyk bund"
 
-#: src/workbook-format-toolbar.c:732
+#: src/workbook-format-toolbar.c:729
 msgid "Set Borders"
 msgstr "Angiv kanter"
 
-#: src/workbook-format-toolbar.c:809
+#: src/workbook-format-toolbar.c:806
 msgid "Size"
 msgstr "Størrelse"
 
@@ -19553,23 +19542,23 @@ msgstr "Fejl ved forsøg på at bygge træ fra autoformateringsskabelonfil"
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3211
+#: src/xml-io.c:3194
 msgid "Processing file..."
 msgstr "Behandler fil..."
 
-#: src/xml-io.c:3387
+#: src/xml-io.c:3370
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Ugyldig xml-klippebordsdata. Er træet tomt?"
 
-#: src/xml-io.c:3447
+#: src/xml-io.c:3430
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Ikke tilstrækkeligt hukommelse til at skabe udpakket zlib-tilstand."
 
-#: src/xml-io.c:3482
+#: src/xml-io.c:3465
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Er ikke en Gnumeric-arbejdsbogsfil"
 
-#: src/xml-io.c:3531
+#: src/xml-io.c:3514
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
 
@@ -19577,987 +19566,3 @@ msgstr "Gnumeric XML-filformat"
 msgid "The GNOME Spreadsheet"
 msgstr "Regneark"
 
-#~ msgid "Variable 1"
-#~ msgstr "Variabel 1"
-
-#~ msgid ""
-#~ "/Mean/Variance/Observations/df/F/P (F<=f) one-tail/F Critical one-tail"
-#~ msgstr ""
-#~ "/Middel/Varians/Observationer/fg/P(F<=f) ensidet/F kritisk værdi ensidet"
-
-#~ msgid "Invalid month or year"
-#~ msgstr "Ugyldig måned eller år"
-
-#~ msgid ""
-#~ "@FUNCTION=NAME\n"
-#~ "@SYNTAX=(b1, b2, ...)\n"
-#~ "@DESCRIPTION\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=NAME\n"
-#~ "@SYNTAX=(b1, b2, ...)\n"
-#~ "@DESCRIPTION\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=CELL\n"
-#~ "@SYNTAX=CELL(ref)\n"
-#~ "@DESCRIPTION=CELL returns information about the formatting, location, or "
-#~ "contents of a cell. \n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=CELL\n"
-#~ "@SYNTAX=CELL(ref)\n"
-#~ "@DESCRIPTION=CELL returnerer information om formateringen, placeringen "
-#~ "eller indeholdet af en celle.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=INFO\n"
-#~ "@SYNTAX=INFO()\n"
-#~ "@DESCRIPTION=INFO returns information about the current operating "
-#~ "environment. This function is Excel compatible. \n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=INFO\n"
-#~ "@SYNTAX=INFO()\n"
-#~ "@DESCRIPTION=INFO returnerer information om det nuværende systemmiljø. "
-#~ "Denne funktion er Excel-kompatibel. \n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid "_Filter..."
-#~ msgstr "_Filtrér..."
-
-#~ msgid "1 - _Alpha:"
-#~ msgstr "1 - _Alfa:"
-
-#~ msgid "Grouped by:"
-#~ msgstr "Grupperet efter:"
-
-#~ msgid "N_ew sheet"
-#~ msgstr "Nyt _ark"
-
-#~ msgid "New _workbook"
-#~ msgstr "Ny arbejds_bog"
-
-#~ msgid "Numbe_r of samples:"
-#~ msgstr "Antal _stikprøver:"
-
-#~ msgid "Output options"
-#~ msgstr "Uddataindstillinger"
-
-#~ msgid "T-Test: Assuming Equal Variances"
-#~ msgstr "T-Test: forudsættende ens varians"
-
-#~ msgid "T-Test: Assuming Unequal Variances"
-#~ msgstr "T-Test: Forudsættende uens varians"
-
-#~ msgid "T-Test: Paired Two Sample for Means"
-#~ msgstr "T-Test: to stikprøver parret for gennemsnit"
-
-#~ msgid "Va_riable 2 Range:"
-#~ msgstr "I_nterval for variabel 2:"
-
-#~ msgid "_Bin Range:"
-#~ msgstr "_Bin-interval:"
-
-#~ msgid "_Chart Output"
-#~ msgstr "_Graf-uddata"
-
-#~ msgid "_Hypothesized Mean Difference:"
-#~ msgstr "_Hypotetisk middelforskel:"
-
-#~ msgid "_Labels in First Row"
-#~ msgstr "_Mærkater i første række"
-
-#~ msgid "_Number of variables:"
-#~ msgstr "_Antal variable:"
-
-#~ msgid "_Output range:"
-#~ msgstr "_Uddatainterval:"
-
-#~ msgid "_Rows per sample:"
-#~ msgstr "_Rækker pr. prøve:"
-
-#~ msgid "_Variable 1 Range:"
-#~ msgstr "_Interval for variabel 1:"
-
-#~ msgid "AutoCorrect Exceptions"
-#~ msgstr "Autorettelsesundtagelser"
-
-#~ msgid "_Exceptions..."
-#~ msgstr "_Undtagelser..."
-
-# LHS = venstrehåndssiden = venstre side af en relationsagtig dims
-#
-# Dette er en fejlmeddelelse som dukker op umiddelbart efter forkert
-# indtastning, så originalen er formel/kluntet.
-#~ msgid ""
-#~ "The constraints having cell ranges in LHS and RHS should have the same "
-#~ "number of columns and rows in both sides."
-#~ msgstr ""
-#~ "Når der er celleintervaller på begge sider, bør de have det samme antal "
-#~ "kolonner og rækker."
-
-#~ msgid "The cell range in LHS or RHS should have only one column or row."
-#~ msgstr ""
-#~ "Celleintervallet på venstre eller højre side bør have kun én kolonne "
-#~ "eller række."
-
-#~ msgid "You should introduce a valid cell name for 'Target cell'"
-#~ msgstr "Du skal angive et gyldigt cellenavn for 'Målcelle'"
-
-#~ msgid "You should introduce a valid cell names in 'By changing cells'"
-#~ msgstr "Du skal angive gyldige cellenavne i 'Ved at ændre cellerne'"
-
-#~ msgid "Solver Options"
-#~ msgstr "Løsningsindstillinger"
-
-#~ msgid "                         "
-#~ msgstr "                         "
-
-#~ msgid "Add  "
-#~ msgstr "Tilføj  "
-
-#~ msgid "Add Constraint"
-#~ msgstr "Tilføj begrænsning"
-
-#~ msgid "Change Constraint"
-#~ msgstr "Ændr begrænsning"
-
-#~ msgid "Options..."
-#~ msgstr "Indstillinger..."
-
-#~ msgid "Solver Result"
-#~ msgstr "Optimeringsresultater"
-
-#~ msgid "_Keep Solver Solution"
-#~ msgstr "_Gem de optimale løsninger"
-
-#~ msgid "_Restore Original Values"
-#~ msgstr "Gendan _originalværdier"
-
-#~ msgid "Notebook"
-#~ msgstr "Notesbog"
-
-#~ msgid "Scrollbars"
-#~ msgstr "Rullebjælker"
-
-#~ msgid "_Tabs"
-#~ msgstr "_Faneblade"
-
-# base bruges i betydningen grundtal her
-#~ msgid "Base error"
-#~ msgstr "Grundtalsfejl"
-
-#~ msgid "_Freeze..."
-#~ msgstr "_Frys..."
-
-# celler virker bedre end data her
-#~ msgid "Please do not include any non-numeric (or empty) data."
-#~ msgstr "Inkluder venligst ikke nogen celler der ikke er tal (eller tomme)."
-
-# sektion virker lidt malplaceret (det drejer sig om venstre, midter- og højre del af sidefor/-hoved)
-#~ msgid "Center section:"
-#~ msgstr "Midterdel:"
-
-#~ msgid "Customize header/footer"
-#~ msgstr "Tilpas sidefod/-hoved"
-
-#~ msgid "Define Name"
-#~ msgstr "Definér navn"
-
-#~ msgid ""
-#~ "@FUNCTION=PRICE\n"
-#~ "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency,basis)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=PRICE\n"
-#~ "@SYNTAX=PRICE(anbringelse,forfald,rente,ydelse,indfrielse,frekvens,"
-#~ "basis)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=YIELD\n"
-#~ "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency,basis)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=YIELD\n"
-#~ "@SYNTAX=YIELD(anbringelse,forfald,rente,pris,indfrielse,frekvens,basis)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=YIELDDISC\n"
-#~ "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption,basis)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=YIELDDISC\n"
-#~ "@SYNTAX=YIELDDISC(anbringelse,forfald,pris,indfrielse,basis)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=YIELDMAT\n"
-#~ "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr,basis)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=YIELDMAT\n"
-#~ "@SYNTAX=YIELDMAT(anbringelse,forfald,udstedelse,rente,pris,basis)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=ODDFPRICE\n"
-#~ "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,"
-#~ "redemption,frequency,basis)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=ODDFPRICE\n"
-#~ "@SYNTAX=ODDFPRICE(anbringelse,forfald,udstedelse,første_kupon,rente,"
-#~ "ydelse,indfrielse,frekvens,basis)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=ODDFYIELD\n"
-#~ "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,"
-#~ "redemption,frequency,basis)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=ODDFYIELD\n"
-#~ "@SYNTAX=ODDFYIELD(anbringelse,forfald,udstedelse,første_kupon,rente,pris,"
-#~ "indfrielse,frekvens,basis)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=ODDLYIELD\n"
-#~ "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
-#~ "frequency,basis)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=ODDLYIELD\n"
-#~ "@SYNTAX=ODDLYIELD(anbringelse,forfald,sidste_rente,rente,pris,indfrielse,"
-#~ "frekvens,basis)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=AMORDEGRC\n"
-#~ "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate,"
-#~ "basis)\n"
-#~ "@DESCRIPTION=Returns the depreciation for each accounting period.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=AMORDEGRC\n"
-#~ "@SYNTAX=AMORDEGRC(kost,købsdato,første_periode,skrapværdi,periode,rente,"
-#~ "basis)\n"
-#~ "@DESCRIPTION=Returnerer afskrivningen for hver regnskabsperiode.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=AMORLINC\n"
-#~ "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate,"
-#~ "basis)\n"
-#~ "@DESCRIPTION=Returns the depreciation for each accounting period.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=AMORLINC\n"
-#~ "@SYNTAX=AMORLINC(kost,købsdato,første_periode,skrapværdi,periode,rente,"
-#~ "basis)\n"
-#~ "@DESCRIPTION=Returnerer afskrivningen for hver regnskabsperiode.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=COUPDAYBS\n"
-#~ "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
-#~ "@DESCRIPTION=Returns the number of days from the beginning of the coupon "
-#~ "period to the settlement date.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=COUPDAYBS\n"
-#~ "@SYNTAX=COUPDAYBS(anbringelse,forfald,frekvens[,basis])\n"
-#~ "@DESCRIPTION=Returnerer antal dage fra begyndelsen for kuponperioden til "
-#~ "anbringelsesdatoen.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=COUPDAYS\n"
-#~ "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])\n"
-#~ "@DESCRIPTION=Returns the number of days in the coupon period of the "
-#~ "settlement date.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=COUPDAYS\n"
-#~ "@SYNTAX=COUPDAYS(anbringelse,forfald,frekvens[,basis])\n"
-#~ "@DESCRIPTION=Returnerer antal dage i kuponperioden af "
-#~ "anbringelsesdatoen.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=COUPDAYSNC\n"
-#~ "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])\n"
-#~ "@DESCRIPTION=Returns the number of days from the settlement date to the "
-#~ "next coupon date.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=COUPDAYSNC\n"
-#~ "@SYNTAX=COUPDAYSNC(anbringelse,forfald,frekvens[,basis])\n"
-#~ "@DESCRIPTION=Returnerer antal dage fra anbringelsesdatoen til den næste "
-#~ "kupondato.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=COUPNCD\n"
-#~ "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
-#~ "@DESCRIPTION=Returns the coupon date following settlement.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=COUPNCD\n"
-#~ "@SYNTAX=COUPNCD(anbringelse,forfald,frekvens[,basis])\n"
-#~ "@DESCRIPTION=Returnerer kupondatoen efter anbringelsesdatoen.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=COUPPCD\n"
-#~ "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
-#~ "@DESCRIPTION=Returns the coupon date preceeding settlement.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=COUPPCD\n"
-#~ "@SYNTAX=COUPPCD(anbringelse,forfald,frekvens[,basis])\n"
-#~ "@DESCRIPTION=Returnerer kupondatoen før anbringelsesdatoen.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "@FUNCTION=COUPNUM\n"
-#~ "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])\n"
-#~ "@DESCRIPTION=Returns the numbers of coupons to be paid between the "
-#~ "settlement and maturity dates, rounded up.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=COUPNUM\n"
-#~ "@SYNTAX=COUPNUM(anbringelse,forfald,frekvens[,basis])\n"
-#~ "@DESCRIPTION=Returnerer antal kuponer som skal betales mellem "
-#~ "anbringelsedatoen og forfaldsdatoen, rundet op.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid "Target Value:"
-#~ msgstr "Målværdi:"
-
-#~ msgid "You should introduce a valid cell range in 'Input Range:'"
-#~ msgstr "Du skal angive et gyldigt celleinterval i \"Inddatainterval\""
-
-#~ msgid "Arrow shape a"
-#~ msgstr "Pileform a"
-
-#~ msgid "Arrow shape b"
-#~ msgstr "Pileform b"
-
-#~ msgid "Arrow shape c"
-#~ msgstr "Pileform c"
-
-#~ msgid "LaTeX (*.tex)"
-#~ msgstr "LaTeX (*.tex)"
-
-#~ msgid "Current value:  %12.2f"
-#~ msgstr "Nuværende værdi: %12.2f"
-
-#~ msgid "Solution:       %12.2f"
-#~ msgstr "Løsning:        %12.2f"
-
-#~ msgid "Goal Seek Report"
-#~ msgstr "Målsøgningsrapport"
-
-#~ msgid "By changing cell:"
-#~ msgstr "Ved at ændre celle:"
-
-#~ msgid "To a value of at least [optional]:"
-#~ msgstr "Til en værdi på mindst [valgfri]:"
-
-#~ msgid "But no bigger than [optional]:"
-#~ msgstr "Men ikke større end [valgfri]:"
-
-#~ msgid "Goal seek did not find a solution!"
-#~ msgstr "Målsøgning fandt ikke nogen løsning!"
-
-#~ msgid "A blank cell will be seen as valid"
-#~ msgstr "En blank celle bliver betragtet som gyldig"
-
-#~ msgid "Ac_tion :"
-#~ msgstr "_Handling:"
-
-#~ msgid "Any Value"
-#~ msgstr "Enhver værdi"
-
-#~ msgid "Apply these changes to _other cells with the same settings"
-#~ msgstr "Overfør disse ændringer på _andre celler med de samme indstillinger"
-
-#~ msgid "Clear All"
-#~ msgstr "Ryd all"
-
-#~ msgid "Give the cell a dropdown combo with all possible valid values"
-#~ msgstr "Forsyn cellen med et menuvalg med alle de gyldige værdier"
-
-#~ msgid "Ignore _blank"
-#~ msgstr "Ignorér mellem_rum"
-
-#~ msgid "In-cell _dropdown"
-#~ msgstr "Menu_valg i celle"
-
-#~ msgid "Input Validation"
-#~ msgstr "Datagyldighedskontrol"
-
-#~ msgid "Input _Message :"
-#~ msgstr "Indtastnings_meddelelse:"
-
-#~ msgid "Messa_ge :"
-#~ msgstr "M_eddelelse:"
-
-#~ msgid "S_how error alert after invalid data is entered"
-#~ msgstr "Vis _fejlbesked når ugyldige data indtastes"
-
-#~ msgid "Show input _message when cell is selected"
-#~ msgstr "Vis indtastnings_meddelelse når cellen vælges"
-
-#~ msgid "Stop"
-#~ msgstr "Stop"
-
-#~ msgid "Tit_le :"
-#~ msgstr "Ti_tel:"
-
-#~ msgid "Validation criteria"
-#~ msgstr "Korrekthedskriterium"
-
-#~ msgid "Warning"
-#~ msgstr "Advarsel"
-
-#~ msgid "_Allow :"
-#~ msgstr "Till_ad:"
-
-#~ msgid "_Condition :"
-#~ msgstr "_Betingelse:"
-
-#~ msgid "_Error Alert"
-#~ msgstr "Fejl_besked"
-
-#~ msgid "_Input Message"
-#~ msgstr "_Indtastningsmeddelelse"
-
-#~ msgid "_Settings"
-#~ msgstr "In_dstillinger"
-
-#~ msgid "_Title :"
-#~ msgstr "_Titel:"
-
-#~ msgid "Labels in First Row"
-#~ msgstr "Mærkater i første række"
-
-#~ msgid "Output options:"
-#~ msgstr "Uddataindstillinger:"
-
-#~ msgid "New Sheet"
-#~ msgstr "Nyt ark"
-
-#~ msgid "New Workbook"
-#~ msgstr "Ny arbejdsbog"
-
-#~ msgid "Output Range:"
-#~ msgstr "Uddatainterval:"
-
-#~ msgid "You should introduce a valid cell range in 'Output Range:'"
-#~ msgstr "Du skal angive et gyldigt celleinterval i \"Uddatainterval\""
-
-#~ msgid "Input:"
-#~ msgstr "Inddata:"
-
-#~ msgid "Input Y Range:"
-#~ msgstr "Y-interval for inddata:"
-
-#~ msgid "Input X Range:"
-#~ msgstr "X-interval for inddata:"
-
-#~ msgid "You should introduce a valid cell range in 'Input X Range'"
-#~ msgstr "Du skal angive et gyldigt celleinterval i \"X-omfang for inddata\""
-
-#~ msgid "You should introduce a valid cell range in 'Range:'"
-#~ msgstr "Du skal angive et gyldigt celleinterval i \"Interval\""
-
-#~ msgid "You should introduce a valid cell range in 'Bin Range:'"
-#~ msgstr "Du skal angive et gyldigt celleinterval i \"Bin-interval\""
-
-#~ msgid "_random"
-#~ msgstr "_tilfældig"
-
-#~ msgid "You should introduce a valid cell range in 'Variable 2:'"
-#~ msgstr "Du skal angive et gyldigt celleinterval i \"Variabel 2\""
-
-#~ msgid "Confidence Level"
-#~ msgstr "Konfidensniveau"
-
-#~ msgid "Confidence Level (%g%%)"
-#~ msgstr "Konfidensniveau (%g%%)"
-
-#~ msgid "Data Analysis"
-#~ msgstr "Dataanalyse"
-
-#~ msgid "Kth Largest:"
-#~ msgstr "K-te største:"
-
-#~ msgid "Kth Smallest:"
-#~ msgstr "K-te mindste:"
-
-#~ msgid "Labels in First Column"
-#~ msgstr "Mærkater i første kolonne"
-
-#~ msgid "Rows"
-#~ msgstr "Rækker"
-
-#~ msgid " Location "
-#~ msgstr " Placering "
-
-#~ msgid " X axis "
-#~ msgstr " x-akse "
-
-#~ msgid " Y axis "
-#~ msgstr " y-akse "
-
-#~ msgid "Axis"
-#~ msgstr "Akser"
-
-#~ msgid "Data ranges"
-#~ msgstr "Dataområder"
-
-#~ msgid "Division lines"
-#~ msgstr "Opdelingslinjer"
-
-# RETMIG: tjek at dette passer
-#~ msgid "Legends"
-#~ msgstr "Akseforklaring"
-
-#~ msgid "M_ain line divisions"
-#~ msgstr "_Hovedlinjeopdelinger"
-
-#~ msgid "Principal Axis"
-#~ msgstr "Førsteakse"
-
-#~ msgid "S_econd Y axis values:"
-#~ msgstr "Værdier for a_nden y-akse:"
-
-#~ msgid "S_econdary line divisions"
-#~ msgstr "A_ndenlinjeopdelinger"
-
-#~ msgid "Series"
-#~ msgstr "Serier"
-
-#~ msgid "Series in:"
-#~ msgstr "Serier i:"
-
-#~ msgid "Titles"
-#~ msgstr "Titler"
-
-#~ msgid "_Automatic"
-#~ msgstr "_Automatisk"
-
-#~ msgid "_Corner"
-#~ msgstr "Hj_ørne"
-
-#~ msgid "_Data Range:"
-#~ msgstr "_Datainterval:"
-
-#~ msgid "_Main line divisions"
-#~ msgstr "H_ovedlinjeopdelinger"
-
-#~ msgid "_Name:"
-#~ msgstr "_Navn:"
-
-#~ msgid "_Plot title:"
-#~ msgstr "_Graftitel:"
-
-#~ msgid "_Scale"
-#~ msgstr "_Skala"
-
-#~ msgid "_Second X axis values:"
-#~ msgstr "Værdier for a_nden x-akse:"
-
-#~ msgid "_Secondary line divisions"
-#~ msgstr "An_denlinjeopdelinger"
-
-# RETMIG: tjek også denne
-#~ msgid "_Show legend"
-#~ msgstr "_Vis akseforklaring"
-
-#~ msgid "_Up"
-#~ msgstr "_Op"
-
-#~ msgid "_Value:"
-#~ msgstr "_Værdi: "
-
-#~ msgid "_X axis"
-#~ msgstr "_x-akse"
-
-#~ msgid "_X axis label:"
-#~ msgstr "_x-akse-etiket:"
-
-#~ msgid "_Y axis"
-#~ msgstr "_y-akse"
-
-#~ msgid "_Y axis label:"
-#~ msgstr "_y-akse-etiket:"
-
-#~ msgid "_Z axis"
-#~ msgstr "_z-akse"
-
-#~ msgid "Header"
-#~ msgstr "Sidehoved"
-
-#~ msgid "sample goes here"
-#~ msgstr "eksemplet er her"
-
-#~ msgid "Processing XML tree..."
-#~ msgstr "Tygger sig gennem XML-træ..."
-
-#~ msgid "series%d"
-#~ msgstr "serier%d"
-
-#~ msgid "_Cut"
-#~ msgstr "_Klip"
-
-#~ msgid "Gnumeric has not been compiled with support for guile."
-#~ msgstr "Gnumeric er ikke oversat med understøttelse af Guile."
-
-#~ msgid "AaBbCcDdEe12345"
-#~ msgstr "AaBbCcDdÆæØøÅå12345"
-
-#~ msgid ""
-#~ "Could not save to file %s\n"
-#~ "%%s"
-#~ msgstr ""
-#~ "Kunne ikke gemme som filen %s\n"
-#~ "%%s"
-
-#~ msgid "There are no file savers loaded"
-#~ msgstr "Der er ingen filgemmere indlæst"
-
-#~ msgid ""
-#~ "Could not import file %s\n"
-#~ "%%s"
-#~ msgstr ""
-#~ "Kunne ikke importere filen %s\n"
-#~ "%%s"
-
-#~ msgid "No sheets found"
-#~ msgstr "Ingen ark fundet"
-
-#~ msgid "C_olor"
-#~ msgstr "_Farver"
-
-#~ msgid "Pick a Background color"
-#~ msgstr "Vælg en baggrundsfarve"
-
-#~ msgid "Pick a Pattern color"
-#~ msgstr "Vælg en mønsterfarve"
-
-#~ msgid "Pick a border color"
-#~ msgstr "Vælg en kantfarve"
-
-#~ msgid "Pick a font color"
-#~ msgstr "Vælg en skriftfarve"
-
-#~ msgid "_No Color"
-#~ msgstr "_Ingen farve"
-
-#~ msgid "Can't read plugin #%d info."
-#~ msgstr "Kan ikke læse oplysninger om udvidelsesmodul nr. %d."
-
-#~ msgid "Gnumeric Support page"
-#~ msgstr "Gnumerics supportside"
-
-#~ msgid "Format cells"
-#~ msgstr "Formatér celler"
-
-#~ msgid "Merge Cells"
-#~ msgstr "Flet celler"
-
-#~ msgid "Gnumeric: Autoformat"
-#~ msgstr "Gnumeric: autoformatér"
-
-#~ msgid "Invalid argument"
-#~ msgstr "Ugyldig parameter"
-
-#~ msgid "Selection must be a single range"
-#~ msgstr "Markering skal være et enkelt interval"
-
-#~ msgid "Insert cols"
-#~ msgstr "Indsæt kolonner"
-
-#~ msgid "ERROR"
-#~ msgstr "FEJL"
-
-#~ msgid "Syntax error"
-#~ msgstr "Syntaksfejl"
-
-#~ msgid "Enables some style related debugging functions"
-#~ msgstr "Aktivérer nogle stil-relaterede fejlfindingsfunktioner"
-
-#~ msgid "Almer S. Tigelaar, text import."
-#~ msgstr "Almer S. Tigelaar, tekst-import."
-
-#~ msgid "Enables debugging mesgs while reading excel workbooks"
-#~ msgstr "Aktivérer fejlfindings besk. under læsning af excel arbejdsbøger"
-
-#~ msgid "Enables debugging mesgs while reading excel functions"
-#~ msgstr "Aktivérer fejlfindings besk. under læsning af excel funktioner"
-
-#~ msgid "Enables debugging mesgs while reading excel objects"
-#~ msgstr "Aktivérer fejlfindings besk. under læsning af excel objekter"
-
-#~ msgid "Enables debugging mesgs while reading excel charts"
-#~ msgstr "Aktivérer fejlfindings besk. under læsning af excel grafer"
-
-#~ msgid "Required information for plugin with id=\"%s\" not found in file."
-#~ msgstr "Krævet information for indstik med id='%s' ikke fundet i fil."
-
-#~ msgid "Unknown activation type."
-#~ msgstr "Ukendt aktiveringstype."
-
-#~ msgid "Couldn't deactivate plugin \"%s\" (ID: %s): it's still in use."
-#~ msgstr "Kunne ikke deaktivere indstik '%s' (ID: %s): det er stadig i brug."
-
-#~ msgid ""
-#~ "File doesn't contain version information (\"gnumeric_plugin_version\" "
-#~ "symbol)."
-#~ msgstr ""
-#~ "Fil indeholder ikke versioninformation ('gnumeric_plugin_version' symbol)."
-
-#~ msgid "Print pre_view"
-#~ msgstr "_Vis udskrift"
-
-#~ msgid "_Add\\modify comment..."
-#~ msgstr "_Tilføj/ændr kommentar..."
-
-#~ msgid "File name: %s"
-#~ msgstr "Filnavn: %s"
-
-#~ msgid "Size: %ld bytes"
-#~ msgstr "Størrelse: %ld byte"
-
-#~ msgid "Modified:"
-#~ msgstr "Ændret:"
-
-#~ msgid "%c"
-#~ msgstr "%c"
-
-#~ msgid "Modified: %s"
-#~ msgstr "Ændret: %s"
-
-#~ msgid "Couldn't determine size or modification date for plugin \"%s\"."
-#~ msgstr "Kunne ikke fastslå størrelse eller ændringstid for indstik '%s'."
-
-#~ msgid ""
-#~ "Unable to open plugin '%s'\n"
-#~ "The plugin did not check it's version.\n"
-#~ "It is probably for a different version of Gnumeric than '%s'."
-#~ msgstr ""
-#~ "Kan ikke åbne modulet '%s'\n"
-#~ "Modulet kontrollerede ikke sin version.\n"
-#~ "Der er nok fra en anden version af Gnumeric end '%s'."
-
-#~ msgid "_Merge Cells"
-#~ msgstr "_Flet celler"
-
-#~ msgid "Path:"
-#~ msgstr "Sti:"
-
-#~ msgid "Import..."
-#~ msgstr "Importér..."
-
-#~ msgid "_Cells"
-#~ msgstr "_Celler"
-
-#~ msgid "Mean"
-#~ msgstr "Gennemsnit"
-
-#~ msgid "Standard Error"
-#~ msgstr "Standardfejl"
-
-#~ msgid "Median"
-#~ msgstr "Median"
-
-#~ msgid "Mode"
-#~ msgstr "Tilstand"
-
-#~ msgid "Standard Deviation"
-#~ msgstr "Standardafvigelse"
-
-#~ msgid "Sample Variance"
-#~ msgstr "Stikprøvevarians"
-
-#~ msgid "Kurtosis"
-#~ msgstr "Kurtosis"
-
-#~ msgid "Skewness"
-#~ msgstr "Skævhed"
-
-#~ msgid "Known Variance"
-#~ msgstr "Kendt varians"
-
-#~ msgid "Observations"
-#~ msgstr "Observationer"
-
-#~ msgid "Hypothesized Mean Difference"
-#~ msgstr "Hypotetisk difference mellem middelværdi"
-
-#~ msgid "z"
-#~ msgstr "z"
-
-#~ msgid "P (Z<=z) one-tail"
-#~ msgstr "P (Z<=z) én-sidet"
-
-#~ msgid "z Critical one-tail"
-#~ msgstr "z kritisk værdi værdi én-sidet"
-
-#~ msgid "P (Z<=z) two-tail"
-#~ msgstr "P (Z<=z) to-sidet"
-
-#~ msgid "z Critical two-tail"
-#~ msgstr "z kritisk værdi værdi to-sidet"
-
-#~ msgid "Pearson Correlation"
-#~ msgstr "Pearson korrelation"
-
-#~ msgid "t Stat"
-#~ msgstr "t stat"
-
-#~ msgid "P (T<=t) one-tail"
-#~ msgstr "P (T<=t) én-sidet"
-
-#~ msgid "t Critical one-tail"
-#~ msgstr "t kritisk værdi én-sidet"
-
-#~ msgid "P (T<=t) two-tail"
-#~ msgstr "P (T<=t) to-sidet"
-
-#~ msgid "t Critical two-tail"
-#~ msgstr "t kritisk værdi to-sidet"
-
-#~ msgid "Pooled Variance"
-#~ msgstr "Samlet varians"
-
-#~ msgid "P (F<=f) one-tail"
-#~ msgstr "P (F<=f) én-sidet"
-
-#~ msgid "F Critical one-tail"
-#~ msgstr "F kritisk værdi én-sidet"
-
-#~ msgid "SUMMARY OUTPUT"
-#~ msgstr "OVERSIGTSUDDATA"
-
-#~ msgid "Regression Statistics"
-#~ msgstr "Regressions statistikker"
-
-#~ msgid "R Square"
-#~ msgstr "R kvadreret"
-
-#~ msgid "Adjusted R Square"
-#~ msgstr "Tilpasset R kvadreret"
-
-#~ msgid "Residual"
-#~ msgstr "Residual"
-
-#~ msgid "Coefficients"
-#~ msgstr "Koefficienter"
-
-#~ msgid "Lower 95%"
-#~ msgstr "Nedre 95%"
-
-#~ msgid "Upper 95%"
-#~ msgstr "Øvre 95%"
-
-#~ msgid "F critical"
-#~ msgstr "F kritisk værdi"
-
-#~ msgid "Between Groups"
-#~ msgstr "Mellem grupper"
-
-#~ msgid "Within Groups"
-#~ msgstr "Inden for grupper"
