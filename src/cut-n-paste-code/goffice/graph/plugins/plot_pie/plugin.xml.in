@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <plugin id="GOffice_plot_pie">
 	<information>
-		<_name>Plotting Pie Charts</_name>
-		<_description>Pie Chart handling</_description>
+		<_name>Pie Charts</_name>
+		<_description>Pie charts</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="pie.la"/>
@@ -16,7 +16,7 @@
 		<service type="plot_type" id="pie">
 			<file>plot-types.xml</file>
 			<information>
-				<_description>Pie plotting engine</_description>
+				<_description>Default pie types</_description>
 			</information>
 		</service>
 	</services>
