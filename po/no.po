@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: gnumeric 0.66\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-08-21 18:36-0400\n"
-"PO-Revision-Date: 2003-07-25 11:28+0200\n"
+"PO-Revision-Date: 2003-09-02 22:10+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -15419,7 +15419,7 @@ msgstr ""
 
 #: schemas/gnumeric-plugins.schemas.in.h:2
 msgid "Use UTF-8 in LaTeX Export"
-msgstr ""
+msgstr "Bruk UTF-8 ved eksport til LaTeX"
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "About this application"
@@ -15826,7 +15826,7 @@ msgstr "F_ormat"
 
 #: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:3371
 msgid "Fill according to a linear or exponential series"
-msgstr ""
+msgstr "Fyll ut i henhold til en lineær eller eksponensiell rekke"
 
 #: src/GNOME_Gnumeric.xml.h:96 src/workbook-control-gui.c:3864
 msgid "Filter data with given criteria"
@@ -16528,7 +16528,7 @@ msgstr "Forskjellig sammendragsstatistikk"
 
 #: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3668
 msgid "View, delete and report different scenarios"
-msgstr ""
+msgstr "Vis, slett og rapporter forskjellige scenario"
 
 #: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3482
 #: src/workbook-control-gui.c:4219
@@ -17463,7 +17463,7 @@ msgstr "Oppdater navn %s"
 
 #: src/commands.c:5878
 msgid "Add scenario"
-msgstr ""
+msgstr "Legg til scenario"
 
 #: src/commands.c:5954
 msgid "Scenario Show"
@@ -17471,13 +17471,13 @@ msgstr ""
 
 #: src/commands.c:6019
 msgid "Shuffle Data"
-msgstr ""
+msgstr "Bytt om på data"
 
 #. FIXME?
 #: src/commands.c:6131
-#, fuzzy, c-format
+#, c-format
 msgid "Text (%s) to Columns (%s)"
-msgstr "Tekst til kolonner"
+msgstr "Tekst (%s) til kolonner (%s)"
 
 #. Fill in the header titles.
 #: src/commands.c:6280 src/dialogs/solver.glade.h:24
@@ -17488,14 +17488,14 @@ msgid "Solver"
 msgstr "Problemløser"
 
 #: src/commands.c:6368
-#, fuzzy, c-format
+#, c-format
 msgid "Goal Seek (%s)"
-msgstr "Målsøk"
+msgstr "Målsøk (%s)"
 
 #: src/commands.c:6512
-#, fuzzy, c-format
+#, c-format
 msgid "Duplicating %s"
-msgstr "_Dupliser"
+msgstr "Dupliserer %s"
 
 #: src/commands.c:6593
 #, fuzzy
@@ -17508,9 +17508,8 @@ msgid "M_in"
 msgstr "M_in"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:189
-#, fuzzy
 msgid "M_ax"
-msgstr "Maks"
+msgstr "M_aks"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
 msgid "Ma_jor Ticks"
@@ -17521,14 +17520,12 @@ msgid "Mi_nor Ticks"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:214
-#, fuzzy
 msgid "Bounds"
-msgstr "Bakgrunn"
+msgstr "Grenser"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:218
-#, fuzzy
 msgid "Details"
-msgstr "Skjul detaljer"
+msgstr "Detaljer"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:221
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:135
@@ -17587,7 +17584,6 @@ msgid "Graph"
 msgstr "Graf"
 
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:169
-#, fuzzy
 msgid "Chart"
 msgstr "Plott"
 
@@ -17624,11 +17620,11 @@ msgstr "Beskrivelse"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:1
 msgid "GNOME Office Graph"
-msgstr ""
+msgstr "GNOME Office graf"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:2
 msgid "TODO : Unfinished"
-msgstr ""
+msgstr "TODO: Uferdig"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
 #: src/dialogs/autocorrect.glade.h:12 src/dialogs/names.glade.h:6
@@ -17689,14 +17685,12 @@ msgid "Data"
 msgstr "Data"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:1
-#, fuzzy
 msgid "2 Color"
-msgstr "Farge:"
+msgstr "2-farget"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:2
-#, fuzzy
 msgid "<b>Fill</b>"
-msgstr "<b>Linje</b>"
+msgstr "<b>Fyll</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:3
 #: src/dialogs/cell-format.glade.h:17
@@ -17704,32 +17698,28 @@ msgid "<b>Line</b>"
 msgstr "<b>Linje</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:4
-#, fuzzy
 msgid "<b>Marker</b>"
-msgstr "<b>Mønster</b>"
+msgstr "<b>Markør</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:5
-#, fuzzy
 msgid "<b>Outline</b>"
-msgstr "<b>Linje</b>"
+msgstr "<b>Omriss</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:6
-#, fuzzy
 msgid "Brightness"
-msgstr "lys oransje"
+msgstr "Lyststyrke"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
-#, fuzzy
 msgid "C_olor:"
-msgstr "Farge:"
+msgstr "_Farge:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
 msgid "Fill from start color to end color"
-msgstr ""
+msgstr "Fyll fra startfarge til sluttfarge"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
 msgid "Fill from start colour to a darker/lighter version of that color"
-msgstr ""
+msgstr "Fyll fra startfarge til en mørkere/lysere versjon av den fargen"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
 msgid "Gradient"
@@ -17751,64 +17741,52 @@ msgid "Pattern"
 msgstr "Mønster"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
-#, fuzzy
 msgid "S_ize:"
-msgstr "Størrelse:"
+msgstr "Størr_else:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
-#, fuzzy
 msgid "T_ype:"
-msgstr "Type:"
+msgstr "T_ype:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
-#, fuzzy
 msgid "_Background:"
-msgstr "Bakgrunn"
+msgstr "_Bakgrunn:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
-#, fuzzy
 msgid "_Direction:"
-msgstr "Retning:"
+msgstr "Re_tning:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
-#, fuzzy
 msgid "_End:"
-msgstr "Slutt"
+msgstr "Sl_utt:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
-#, fuzzy
 msgid "_Fit:"
-msgstr "_Tilpass til:"
+msgstr "_Tilpass:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
-#, fuzzy
 msgid "_Foreground:"
-msgstr "Forgrunn"
+msgstr "_Forgrunn:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
-#, fuzzy
 msgid "_Pattern:"
-msgstr "Mønster"
+msgstr "_Mønster:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
-#, fuzzy
 msgid "_Select..."
-msgstr "_Velg"
+msgstr "_Velg..."
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
-#, fuzzy
 msgid "_Size:"
-msgstr "Størrelse:"
+msgstr "_Størrelse:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
-#, fuzzy
 msgid "_Start:"
-msgstr "Status"
+msgstr "_Start:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
-#, fuzzy
 msgid "_Style:"
-msgstr "Stil:"
+msgstr "_Stil:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
 #: src/dialogs/solver.glade.h:42
@@ -17816,34 +17794,28 @@ msgid "_Type:"
 msgstr "_Type:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
-#, fuzzy
 msgid "_brighter"
-msgstr "lys blå"
+msgstr "_lysere"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
-#, fuzzy
 msgid "_darker"
-msgstr "mørk rød"
+msgstr "_mørkere"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
-#, fuzzy
 msgid "pts"
-msgstr "Rapporter:"
+msgstr "punkter"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
-#, fuzzy
 msgid "stretched"
-msgstr "Strukket"
+msgstr "strukket"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
-#, fuzzy
 msgid "wallpaper"
-msgstr "Bakgrunn"
+msgstr "bakgrunn"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:413
-#, fuzzy
 msgid "Select an image"
-msgstr "Velg en bildefil"
+msgstr "Velg et bilde"
 
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
@@ -17879,7 +17851,7 @@ msgstr "_Mellomrom:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:6
 msgid "_Overlap:"
-msgstr "_Overlapp:"
+msgstr "_Overlapping:"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
@@ -17947,9 +17919,8 @@ msgid "Area plot."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
-#, fuzzy
 msgid "Areas"
-msgstr "_Områder"
+msgstr "Områder"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:16
 msgid "Bar"
@@ -17960,14 +17931,12 @@ msgid "Column"
 msgstr "Kolonne"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:19
-#, fuzzy
 msgid "Line plot."
-msgstr "Linjer som skal importeres"
+msgstr "Linjeplott."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
-#, fuzzy
 msgid "Lines"
-msgstr "Linje"
+msgstr "Linjer"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:21
 msgid ""
@@ -18025,9 +17994,8 @@ msgid "Percentage Columns"
 msgstr "Prosentkolonner"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:32
-#, fuzzy
 msgid "Percentage Lines"
-msgstr "_Prosent"
+msgstr "Prosentlinjer"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:33
 #, fuzzy
@@ -18224,9 +18192,8 @@ msgid "Split Ring"
 msgstr "Delt sirkel"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:1
-#, fuzzy
 msgid "Default pie types"
-msgstr "Forvalgt fortolker"
+msgstr "Forvalgte kaketyper"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:2
 msgid "Pie Charts"
@@ -20694,9 +20661,8 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/dialog-scenarios.c:122
-#, fuzzy
 msgid "Invalid changing cells"
-msgstr "Ve_d å endre cellene: "
+msgstr "Ugyldig endring av celler"
 
 #: src/dialogs/dialog-scenarios.c:130
 #, fuzzy
@@ -21151,19 +21117,16 @@ msgid "Delete and Merge _Right"
 msgstr ""
 
 #: src/dialogs/dialog-stf-fixed-page.c:72
-#, fuzzy
 msgid "_Split"
-msgstr "Del opp"
+msgstr "_Del opp"
 
 #: src/dialogs/dialog-stf-fixed-page.c:75
-#, fuzzy
 msgid "_Widen"
-msgstr "_Skjul"
+msgstr "_Gjør bredere"
 
 #: src/dialogs/dialog-stf-fixed-page.c:77
-#, fuzzy
 msgid "_Narrow"
-msgstr "Pil"
+msgstr "G_jør smalere"
 
 #: src/dialogs/dialog-stf-format-page.c:126
 #, c-format
@@ -21230,7 +21193,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:5
 msgid "Always (Both Sides)"
-msgstr ""
+msgstr "Alltid (begge sider)"
 
 #: src/dialogs/dialog-stf.glade.h:6
 msgid "Attempt to recognize columns in the text automatically."
@@ -21242,7 +21205,7 @@ msgstr "Ban_g (!)"
 
 #: src/dialogs/dialog-stf.glade.h:8
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #: src/dialogs/dialog-stf.glade.h:9
 msgid "C_ustom"
@@ -23025,9 +22988,8 @@ msgid "Max Time (sec.):"
 msgstr "Maks tid (sek.):"
 
 #: src/dialogs/solver.glade.h:17
-#, fuzzy
 msgid "Model"
-msgstr "Modus"
+msgstr "Modell"
 
 #: src/dialogs/solver.glade.h:19
 msgid "P_rogram"
@@ -23038,14 +23000,12 @@ msgid "Parameters"
 msgstr "Parametere"
 
 #: src/dialogs/solver.glade.h:21
-#, fuzzy
 msgid "Reports"
-msgstr "Rapporter:"
+msgstr "Rapporter"
 
 #: src/dialogs/solver.glade.h:22
-#, fuzzy
 msgid "Scenarios"
-msgstr "Scenario:"
+msgstr "Scenario"
 
 #: src/dialogs/solver.glade.h:23
 msgid "Solve"
@@ -25031,29 +24991,27 @@ msgstr "kan ikke utføres på flere områder valgt"
 #: src/session.c:110
 #, c-format
 msgid "Save changes to workbook '%s' before logging out?"
-msgstr ""
+msgstr "Lagre endringer i arbeidsbok «%s» før du logger ut?"
 
 #: src/session.c:114
 msgid "Save changes to workbook before logging out?"
-msgstr ""
+msgstr "Lagre endringer i arbeidsboken før du logger ut?"
 
 #: src/session.c:119
 msgid "If you do not save, changes may be discarded."
-msgstr ""
+msgstr "Hvis du ikke lagrer vil endringene forkastes."
 
 #: src/session.c:121
 msgid "Do not save any"
-msgstr ""
+msgstr "Ikke lagre noen"
 
 #: src/session.c:123 src/session.c:126
-#, fuzzy
 msgid "Do not save"
-msgstr "Ikke lukk"
+msgstr "Ikke lagre"
 
 #: src/session.c:128
-#, fuzzy
 msgid "Do not log out"
-msgstr "I_kke korriger:"
+msgstr "Ikke logg ut"
 
 #: src/sheet-control-gui.c:1483
 msgid "Paste _Special"
@@ -27660,12 +27618,10 @@ msgid "Save all"
 msgstr "Lagre alle"
 
 #: src/workbook-control-gui.c:1757 src/workbook-control-gui.c:1764
-#, fuzzy
 msgid "Don't quit"
 msgstr "Ikke avslutt"
 
 #: src/workbook-control-gui.c:1772
-#, fuzzy
 msgid "Don't close"
 msgstr "Ikke lukk"
 
@@ -27755,9 +27711,8 @@ msgid "P_aste special..."
 msgstr "Lim inn spesi_al..."
 
 #: src/workbook-control-gui.c:3479
-#, fuzzy
 msgid "Create a new view of the workbook"
-msgstr "Lag en ny delt visning av arbeidsboken"
+msgstr "Lag en ny visning av arbeidsboken"
 
 #: src/workbook-control-gui.c:3513
 msgid "_Auto generate names..."
@@ -27768,34 +27723,28 @@ msgid "Use the current selection to create names"
 msgstr "Bruk aktivt utvalg til å opprette navn"
 
 #: src/workbook-control-gui.c:3671
-#, fuzzy
 msgid "Add a new scenario"
-msgstr "Legg til en ny kolonne"
+msgstr "Legg til en nytt scenario"
 
 #: src/workbook-control-gui.c:3679
-#, fuzzy
 msgid "One Factor Analysis of Variance..."
-msgstr "Enfaktor analyse av varians"
+msgstr "Enfaktor analyse av varians..."
 
 #: src/workbook-control-gui.c:3682
-#, fuzzy
 msgid "Two Factor Analysis of Variance..."
-msgstr "Tofaktor analyse av varians"
+msgstr "Tofaktor analyse av varians..."
 
 #: src/workbook-control-gui.c:3691
-#, fuzzy
 msgid "Exponential smoothing..."
-msgstr "Eksponentiell utjevning"
+msgstr "Eksponentiell utjevning..."
 
 #: src/workbook-control-gui.c:3695
-#, fuzzy
 msgid "Moving average..."
-msgstr "Bevegelig gjennomsnitt"
+msgstr "Bevegelig gjennomsnitt..."
 
 #: src/workbook-control-gui.c:3704
-#, fuzzy
 msgid "Comparing two population means for two paired samples: t-test..."
-msgstr "Sammenligner to populasjonsmedianer for toparutvalg.: t-test"
+msgstr "Sammenligner to populasjonsmedianer for toparutvalg.: t-test..."
 
 #: src/workbook-control-gui.c:3708
 #, fuzzy
@@ -27821,17 +27770,16 @@ msgstr ""
 "eller ved bruk av et større utvalg: z-test"
 
 #: src/workbook-control-gui.c:3748
-#, fuzzy
 msgid "Ranks And _Percentiles..."
-msgstr "Grader og _prosentiler"
+msgstr "Grader og _prosentiler..."
 
 #: src/workbook-control-gui.c:3875
 msgid "Sh_uffle..."
-msgstr ""
+msgstr "B_ytt om..."
 
 #: src/workbook-control-gui.c:3876
 msgid "Shuffle cells, rows or columns"
-msgstr ""
+msgstr "Bytt om celler, rader eller kolonner"
 
 #: src/workbook-control-gui.c:3960
 msgid "Undo the operation"
@@ -27855,19 +27803,16 @@ msgid "Send the current file in email"
 msgstr "Send aktiv fil i e-post"
 
 #: src/workbook-control-gui.c:5347 src/workbook-control-gui.c:5362
-#, fuzzy
 msgid "_Re-Edit"
-msgstr "Rediger på nytt"
+msgstr "_Rediger på nytt"
 
 #: src/workbook-control-gui.c:5348 src/workbook-control-gui.c:5353
-#, fuzzy
 msgid "_Discard"
-msgstr "Forkast"
+msgstr "_Forkast"
 
 #: src/workbook-control-gui.c:5352 src/workbook-control-gui.c:5363
-#, fuzzy
 msgid "_Accept"
-msgstr "Godta"
+msgstr "_Godta"
 
 #: src/workbook-control.c:229
 msgid "Define Name"
@@ -27979,12 +27924,12 @@ msgstr "Knapp"
 #: src/workbook-view.c:273
 #, c-format
 msgid "%dC"
-msgstr ""
+msgstr "%dC"
 
 #: src/workbook-view.c:275
 #, c-format
 msgid "%dR"
-msgstr ""
+msgstr "%dR"
 
 #: src/workbook-view.c:277
 #, c-format
@@ -27996,9 +27941,9 @@ msgid "Internal ERROR"
 msgstr "Intern FEIL"
 
 #: src/workbook-view.c:576
-#, fuzzy, c-format
+#, c-format
 msgid "Can't open '%s' for writing: %s"
-msgstr "Kan ikke åpne «%s» : %s"
+msgstr "Kan ikke åpne «%s» for skriving: %s"
 
 #: src/workbook-view.c:601
 #, c-format
@@ -28010,18 +27955,16 @@ msgstr "En uforklart feil oppsto under lagring av %s"
 #. * gnumeric `echo -e '\377\376'`
 #.
 #: src/workbook-view.c:608 src/workbook-view.c:967
-#, fuzzy
 msgid "The filename given is not valid in the current encoding."
-msgstr "Oppgitt filnavn er ikke gyldig."
+msgstr "Oppgitt filnavn er ikke gyldig med nåværende koding."
 
 #: src/workbook-view.c:693 src/workbook-view.c:809
 msgid "Default file saver is not available."
 msgstr "Forvalgt fillagrer ikke tilgjengelig."
 
 #: src/workbook-view.c:768
-#, fuzzy
 msgid "Failed to create temporary file for sending."
-msgstr "Kan ikke opprette midlertidig fil."
+msgstr "Kunne ikke opprette midlertidig fil for sending."
 
 #: src/workbook-view.c:902
 msgid "Unsupported file format."
@@ -28038,14 +27981,12 @@ msgid "Book%d.%s"
 msgstr "Bok%d.%s"
 
 #: src/workbook.c:1246
-#, fuzzy
 msgid "Sheet name is NULL"
-msgstr "Arknavn kreves"
+msgstr "Arknavnet er NULL"
 
 #: src/workbook.c:1257
-#, fuzzy
 msgid "Sheet name is not valid utf-8"
-msgstr "Arknavn kreves"
+msgstr "Arknavnet er ikke gyldig UTF-8"
 
 #: src/workbook.c:1266
 msgid "Sheet name must have at least 1 letter"
@@ -28085,76 +28026,3 @@ msgstr "Feil under lagring av fil"
 #: src/xml-io.c:4040
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
-
-#~ msgid "Consolidating to %s!%s"
-#~ msgstr "Konsoliderer til %s!%s"
-
-#~ msgid "Adding a sheet"
-#~ msgstr "Legger til et ark"
-
-#~ msgid "Adding sheet '%s'"
-#~ msgstr "Legger til ark «%s»"
-
-#~ msgid "Rename sheet '%s' '%s'"
-#~ msgstr "Endre navn på ark «%s» «%s»"
-
-#~ msgid "Fill _Color:"
-#~ msgstr "Fyll_farge:"
-
-#~ msgid "Gradient:"
-#~ msgstr "Gradient:"
-
-#~ msgid "Left to right"
-#~ msgstr "Venstre til høyre"
-
-#~ msgid "Not available..."
-#~ msgstr "Ikke tilgjengelig..."
-
-#~ msgid "S_tart Color:"
-#~ msgstr "S_tartfarge:"
-
-#~ msgid "Select an _image file:"
-#~ msgstr "Velg en b_ildefil:"
-
-#, fuzzy
-#~ msgid "Top left to bottom right"
-#~ msgstr "Senk objekt til bunns"
-
-#~ msgid "Top to bottom"
-#~ msgstr "Topp til bunn"
-
-#~ msgid "_End Color:"
-#~ msgstr "Sluttfarg_e:"
-
-#~ msgid "_Fill type:"
-#~ msgstr "_Fylltype:"
-
-#~ msgid "_Destination:"
-#~ msgstr "_Mål:"
-
-#~ msgid "Deletion of sheets is not undoable. Do you want to proceed?"
-#~ msgstr "Sletting av ark kan ikke angres. Vil du fortsette?"
-
-#~ msgid "_Alpha:"
-#~ msgstr "_Alpha:"
-
-#~ msgid "Are you sure you want to remove the sheet called `%s'?"
-#~ msgstr "Er du sikker på at du vil fjerne arket med navn «%s»?"
-
-#~ msgid "Add a new column"
-#~ msgstr "Legg til en ny kolonne"
-
-#~ msgid "Co_lumn end: "
-#~ msgstr "Ko_lonneslutt : "
-
-#~ msgid "Remove selected column"
-#~ msgstr "Fjern valgt kolonne"
-
-#~ msgid "Set the end of this column"
-#~ msgstr "Sett slutten for denne kolonnen"
-
-#~ msgid "Options:"
-#~ msgstr "Alternativer:"
-
-#~ msgid "Parse error while trying to parse data into cellregion"
-#~ msgstr "Fortolkningsfeil under forsøk på å lese data inn i celleregionen"
