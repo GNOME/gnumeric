@@ -1,3 +1,7 @@
+2001-08-31  Abel Cheung  <maddog@linux.org.hk>
+
+	* configure.in (ALL_LINGUAS): zh_TW.Big5 -> zh_TW
+
 2001-08-30  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_cell_destroy) : fix.  We need to check
