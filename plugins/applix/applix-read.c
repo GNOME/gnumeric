@@ -122,7 +122,7 @@ applix_read_colormap (ApplixReadState *state)
 	if (NULL == fgets (buffer, sizeof(buffer), state->file))
 		return TRUE;
 
-	if (strcmp (buffer, "COLORMAP\n"))
+	if (strncmp (buffer, "COLORMAP", 8))
 		return TRUE;
 
 	while (1) {
@@ -133,7 +133,7 @@ applix_read_colormap (ApplixReadState *state)
 		if (NULL == fgets (buffer, sizeof(buffer), state->file))
 			return TRUE;
 
-		if (!strcmp (buffer, "END COLORMAP\n"))
+		if (!strncmp (buffer, "END COLORMAP", 12))
 			return FALSE;
 
 		pos = buffer + strlen(buffer) - 2;
@@ -198,13 +198,13 @@ applix_read_typefaces (ApplixReadState *state)
 	if (NULL == fgets (buffer, sizeof(buffer), state->file))
 		return TRUE;
 
-	if (strcmp (buffer, "TYPEFACE TABLE\n"))
+	if (strncmp (buffer, "TYPEFACE TABLE", 14))
 		return TRUE;
 
 	do {
 		if (NULL == fgets (buffer, sizeof(buffer), state->file))
 			return TRUE;
-	} while (strcmp (buffer, "END TYPEFACE TABLE\n"));
+	} while (strncmp (buffer, "END TYPEFACE TABLE", 18));
 	return FALSE;
 }
 
@@ -576,7 +576,7 @@ applix_read_attributes (ApplixReadState *state)
 		if (NULL == fgets (buffer, sizeof(buffer), state->file))
 			return applix_parse_error (state, "Invalid attribute");
 
-		if (!strcmp (buffer, "Attr Table End\n"))
+		if (!strncmp (buffer, "Attr Table End", 14))
 			return 0;
 
 		if (buffer[0] != '<') 
@@ -639,69 +639,64 @@ applix_parse_cellref (ApplixReadState *state, char *buffer,
 	return NULL;
 }
 
+static int
+applix_height_to_pixels (int height)
+{
+	return height+4;
+}
+static int
+applix_width_to_pixels (int width)
+{
+	return width*8 + 3;
+}
 
 static int
-applix_read_view (ApplixReadState *state, char const *name)
+applix_read_view (ApplixReadState *state, char *name)
 {
 	char buffer[128];
-
-#if 0
-	View Start, Name: ~%s:~
-	View Unlocked
-	View Top Left: A:A1
-	View Open Cell: A:A1
-	View Default Column Width 10
-	View Default Row Height: 14
-	View Propagate widths: 1
-	View Propagate breaks: 1
-	View Propagate heights: 1
-
-	View Row Heights: 3:32822 4:32774 5:32811 6:32824 7:32795 
-	View Row Heights: 8:32795 9:32795 10:32801 11:32798 12:32792 
-	View Row Heights: 13:32805 14:32805 
-
-	View Rows Visible: A:1-A:32767
-	View Columns Visible: A:A-A:ZZ
-	View End, Name: ~A:~
-#endif
-
-	/* Ignore current view */
-	if (!strcmp (name, "Current"))
-		return 0;
+	Sheet *sheet;
 
 	do {
 		if (NULL == fgets (buffer, sizeof(buffer), state->file))
 			return TRUE;
 
 		if (!strncmp ("View Top Left: ", buffer, 15)) {
-			Sheet *sheet;
 			int col, row;
 			if (applix_parse_cellref (state, buffer+15, &sheet, &col, &row, ':'))
 				sheet_make_cell_visible (sheet, col, row);
-		}
-
-		if (!strncmp ("View Open Cell: ", buffer, 16)) {
-			Sheet *sheet;
+		} else if (!strncmp ("View Open Cell: ", buffer, 16)) {
 			int col, row;
 			if (applix_parse_cellref (state, buffer+16, &sheet, &col, &row, ':'))
 				sheet_selection_set (sheet, col, row, col, row, col, row);
-		}
-		if (!strncmp ("View Default Column Width ", buffer, 26)) {
-		}
-		if (!strncmp ("View Default Row Height: ", buffer, 25)) {
-		}
-		if (!strncmp (buffer, "View Row Heights: ", 18)) {
+		} else if (!strncmp ("View Default Column Width ", buffer, 26)) {
+			char *ptr, *tmp = buffer + 26;
+			int width = strtol (tmp, &ptr, 10);
+			if (tmp == ptr || width <= 0)
+				return applix_parse_error (state, "Invalid default column width");
+
+			sheet_col_set_default_size_pixels (sheet,
+							   applix_width_to_pixels (width));
+		} else if (!strncmp ("View Default Row Height: ", buffer, 25)) {
+			char *ptr, *tmp = buffer + 25;
+			int height = strtol (tmp, &ptr, 10);
+			if (tmp == ptr || height <= 0)
+				return applix_parse_error (state, "Invalid default row height");
+
+			/* height + one for the grid line */
+			sheet_row_set_default_size_pixels (sheet,
+							   applix_height_to_pixels (height),
+							   FALSE, FALSE);
+		} else if (!strncmp (buffer, "View Row Heights: ", 18)) {
 			char *ptr = buffer + 17;
 			do {
 				int row, height;
 				char *tmp;
 
-				row = strtol (++ptr, &tmp, 10) - 1;
-				if (tmp == ptr || row < 0 || tmp[0] != ':')
+				row = strtol (tmp = ++ptr, &ptr, 10) - 1;
+				if (tmp == ptr || row < 0 || *ptr != ':')
 					return applix_parse_error (state, "Invalid row size row number");
-				ptr = tmp;
-				height = strtol (++ptr, &tmp, 10) - 1;
-				if (tmp == ptr || height < 32768)
+				height = strtol (tmp = ++ptr, &ptr, 10);
+				if (tmp == ptr || height <= 32768)
 					return applix_parse_error (state, "Invalid row size");
 
 				/* These seem to assume
@@ -709,9 +704,32 @@ applix_read_view (ApplixReadState *state, char const *name)
 				 * bottom margin 1
 				 * size in pixels = val -32768
 				 */
-			} while (*ptr == ' ');
+				sheet_row_set_size_pixels (sheet, row,
+							  applix_height_to_pixels (height-32768),
+							  TRUE);
+			} while (ptr[0] == ' ' && isdigit ((unsigned char) ptr[1]));
+		} else if (!strncmp (buffer, "View Column Widths: ", 20)) {
+			char *ptr = buffer + 19;
+			do {
+				int col, width;
+				char *tmp;
+
+				col = parse_col_name (tmp = ++ptr, (char const **)&ptr);
+				if (tmp == ptr || col < 0 || *ptr != ':')
+					return applix_parse_error (state, "Invalid column");
+				width = strtol (tmp = ++ptr, &ptr, 10);
+				if (tmp == ptr || width <= 0)
+					return applix_parse_error (state, "Invalid column size");
+
+				/* These seem to assume
+				 * pixels = 8*width + 3 for the grid lines and margins
+				 */
+				sheet_col_set_size_pixels (sheet, col,
+							   applix_width_to_pixels (width),
+							   TRUE);
+			} while (ptr[0] == ' ' && isalpha ((unsigned char) ptr[1]));
 		}
-	} while (strncmp (buffer, "End View, Name: ~", 17));
+	} while (strncmp (buffer, "View End, Name: ~", 17));
 
 	return 0;
 }
@@ -721,19 +739,27 @@ applix_read_views (ApplixReadState *state)
 {
 	char buffer[128];
 
+	/* Ignore current view */
+	do {
+		if (NULL == fgets (buffer, sizeof(buffer), state->file))
+			return -1;
+	} while (strncmp (buffer, "End View, Name: ~Current~", 25));
+
+loop :
 	if (NULL == fgets (buffer, sizeof(buffer), state->file))
 		return TRUE;
 
-	while (strncmp (buffer, "View, Name: ~", 13)) {
-		char *name = buffer + 13;
+	if (!strncmp (buffer, "View Start, Name: ~", 19)) {
+		char *name = buffer + 19;
 		int len = strlen (name);
 
-		g_return_val_if_fail (name[len-1] != '\n', -1);
-		g_return_val_if_fail (name[len-2] != '~', -1);
-		g_return_val_if_fail (name[len-3] != ':', -1);
+		g_return_val_if_fail (name[len-1] == '\n', -1);
+		g_return_val_if_fail (name[len-2] == '~', -1);
+		g_return_val_if_fail (name[len-3] == ':', -1);
 
 		name[len-3] = '\0';
 		applix_read_view (state, name);
+		goto loop;
 	}
 	return 0;
 }

@@ -1,3 +1,9 @@
+2000-07-08  Jody Goldberg <jgoldberg@home.com>
+
+	* applix-read.c (applix_read_views) : Fix.  The Current view uses a
+	  different syntax than normal views.  Ignore it.
+	(applix_read_view) : Implement row/col sizes, custom and default.
+
 2000-07-07  Jody Goldberg <jgoldberg@home.com>
 
 	* applix-read.c (applix_read_cells) : Fix array formulas.
