@@ -2500,7 +2500,8 @@ scg_object_destroy_view	(SheetControl *sc, SheetObject *so)
 	GObject *view;
 	SCG_FOREACH_PANE (scg, pane, {
 		view = sheet_object_get_view (so, (gpointer)pane);
-		gtk_object_destroy (GTK_OBJECT (view));
+		if (view != NULL) /* may already be gone */
+			gtk_object_destroy (GTK_OBJECT (view));
 	});
 }
 

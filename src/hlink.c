@@ -160,7 +160,7 @@ gnm_hlink_cur_wb_activate (GnmHLink *lnk, WorkbookControl *wbc)
 	if (target == NULL) {
 		ParsePos pp;
 		GnmNamedExpr *nexpr = expr_name_lookup (
-			parse_pos_init (&pp, NULL, sheet, 0, 0), lnk->target);
+			parse_pos_init_sheet (&pp, sheet), lnk->target);
 
 		if (nexpr != NULL)
 			target = gnm_expr_get_range (nexpr->expr);

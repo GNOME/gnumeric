@@ -675,7 +675,7 @@ xml_write_style (XmlParseContext *ctxt,
 		if (v->msg != NULL && v->msg->str[0] != '\0')
 			xml_node_set_cstr (child, "Message", v->msg->str);
 
-		parse_pos_init (&pp, ctxt->wb, ctxt->sheet, 0, 0);
+		parse_pos_init_sheet (&pp, ctxt->sheet);
 		if (v->expr[0] != NULL &&
 		    (tmp = gnm_expr_as_string (v->expr[0], &pp, ctxt->exprconv)) != NULL) {
 			xmlNewChild (child, child->ns, CC2XML ("Expression0"), CC2XML (tmp));
@@ -774,7 +774,7 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 		expr_str = xml_node_get_cstr (expr_node, NULL);
 		g_return_if_fail (name_str != NULL && expr_str != NULL);
 
-		parse_pos_init (&pp, wb, sheet, 0, 0);
+		parse_pos_init_sheet (&pp, sheet);
 		if (position != NULL) {
 			xmlChar *pos_txt = xml_node_get_cstr (position, NULL);
 			if (pos_txt != NULL) {
@@ -1499,7 +1499,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 			title = xml_node_get_cstr (child, "Title");
 			msg = xml_node_get_cstr (child, "Message");
 
-			parse_pos_init (&pp, ctxt->wb, ctxt->sheet, 0, 0);
+			parse_pos_init_sheet (&pp, ctxt->sheet);
 			e_node = e_xml_get_child_by_name (child, CC2XML ("Expression0"));
 			if (e_node != NULL) {
 				xmlChar *content = xml_node_get_cstr (e_node, NULL);

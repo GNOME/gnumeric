@@ -111,6 +111,8 @@ GNUMERIC_BASE =					\
 	gnumeric-i18n.c				\
 	gnumeric-i18n.h				\
 	gnumeric.h				\
+	graph.c					\
+	graph.h					\
 	gui-clipboard.c				\
 	gui-clipboard.h				\
 	gui-file.c				\

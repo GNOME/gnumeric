@@ -5381,8 +5381,8 @@ cb_graph_dim_editor_update (G_GNUC_UNUSED GnmExprEntry *gee,
 	if (!gnm_expr_entry_is_blank (editor->entry)) {
 		ParsePos pos;
 		GnmExpr const *expr = gnm_expr_entry_parse (editor->entry,
-			parse_pos_init (&pos, NULL, sheet, 0, 0),
-			NULL, TRUE);
+			parse_pos_init_sheet (&pos, sheet),
+			NULL, TRUE, GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
 
 		/* TODO : add some error dialogs split out
 		 * the code in workbok_edit.  */

@@ -169,14 +169,14 @@ sheet_object_graph_update_bounds (SheetObject *so, GObject *view_obj)
 
 static gboolean
 sheet_object_graph_read_xml (SheetObject *so,
-			       XmlParseContext const *ctxt, xmlNodePtr tree)
+			     XmlParseContext const *ctxt, xmlNodePtr tree)
 {
 	return FALSE;
 }
 
 static gboolean
 sheet_object_graph_write_xml (SheetObject const *so,
-				XmlParseContext const *ctxt, xmlNodePtr tree)
+			      XmlParseContext const *ctxt, xmlNodePtr tree)
 {
 	return FALSE;
 }
@@ -243,6 +243,15 @@ sheet_object_graph_set_sheet (SheetObject *so, Sheet *sheet)
 }
 
 static void
+sheet_object_graph_default_size (SheetObject const *so, double *w, double *h)
+{
+	g_object_get (G_OBJECT (SHEET_OBJECT_GRAPH (so)->graph),
+		"width_pts", w,
+		"height_pts", h,
+		NULL);
+}
+
+static void
 sheet_object_graph_class_init (GObjectClass *klass)
 {
 	SheetObjectClass	*so_class  = SHEET_OBJECT_CLASS (klass);
@@ -262,10 +271,7 @@ sheet_object_graph_class_init (GObjectClass *klass)
 	so_class->assign_to_sheet = sheet_object_graph_set_sheet;
 	so_class->print         = sheet_object_graph_print;
 	so_class->rubber_band_directly = FALSE;
-
-	/* Provide some defaults (derived classes may want to override) */
-	so_class->default_width_pts = 72. * 3;	/* 3 inch */
-	so_class->default_height_pts = 72. * 3;	/* 3 inch */
+	so_class->default_size  = sheet_object_graph_default_size;
 }
 
 static void

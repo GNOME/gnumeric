@@ -987,7 +987,7 @@ xml_sax_validation_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob
 	g_return_if_fail (state->validation.expr [i] == NULL);
 
 	expr = gnm_expr_parse_str_simple (state->base.content->str,
-		parse_pos_init (&pos, state->wb, state->sheet, 0, 0));
+		parse_pos_init_sheet (&pos, state->sheet));
 
 	g_return_if_fail (expr != NULL);
 
@@ -1262,7 +1262,7 @@ xml_sax_named_expr_end (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_return_if_fail (state->name.name != NULL);
 	g_return_if_fail (state->name.value != NULL);
 
-	parse_pos_init (&pos, state->wb, state->sheet, 0, 0);
+	parse_pos_init_sheet (&pos, state->sheet);
 	if (state->name.position) {
 		CellRef tmp;
 		char const *res = cellref_parse (&tmp, state->name.position, &pos.eval);

@@ -497,7 +497,7 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 	Range    r;
 
 	range_init (&r, 0,0,0, SHEET_MAX_ROWS);
-	parse_pos_init (&pp, NULL, state->sheet, 0, 0);
+	parse_pos_init_sheet (&pp, state->sheet);
 
 	data = gsf_input_read (input, 6, NULL);
 	if (data == NULL || GSF_LE_GET_GUINT16 (data + 2) != 0)

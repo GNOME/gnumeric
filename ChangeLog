@@ -1,3 +1,12 @@
+2003-04-28  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : I'm a lazy bugger and will just commit the
+	  directories for the goffice work.
+
+	* src/sheet-object-graph.c (sheet_object_graph_default_size) : Use the
+	  graph's notion of its default size.
+	(sheet_object_graph_class_init) : init here.
+
 2003-04-28  Morten Welinder  <terra@gnome.org>
 
 	* src/commands.c (cmd_area_set_text_undo): Restore formats too.
@@ -10,6 +19,9 @@
 	format be the one using ()s and red negatives.
 
 2003-04-26  Jody Goldberg <jody@gnome.org>
+
+	* src/position.c (parse_pos_init_sheet) : new convenience routine.
+	  Use it all over the place.
 
 	* src/gui-util.c (gnm_setup_label_atk) : update.
 

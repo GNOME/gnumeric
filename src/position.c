@@ -177,6 +177,12 @@ parse_pos_init_editpos (ParsePos *pp, SheetView const *sv)
 		sv->edit_pos.col, sv->edit_pos.row);
 }
 
+ParsePos *
+parse_pos_init_sheet (ParsePos *pp, Sheet *sheet)
+{
+	return parse_pos_init (pp, NULL, sheet, 0, 0);
+}
+
 /********************************************************************************/
 
 gboolean

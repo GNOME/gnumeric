@@ -78,6 +78,9 @@ plot_icon_DATA = \
 	radar.xpm	\
 	scatter.xpm	\
 	stock.xpm	\
-	surface.xpm 
+	surface.xpm 	\
+	chart-rings-2d.svg \
+	chart-pie-2d.svg
+
 
 EXTRA_DIST = $(icons_DATA) $(plot_icon_DATA)

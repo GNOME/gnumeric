@@ -724,8 +724,8 @@ cb_scrollbar_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 		ParsePos  pp;
 		GnmExpr const *expr = gnm_expr_entry_parse (
 			GNM_EXPR_ENTRY (state->old_focus->parent),
-			parse_pos_init (&pp, NULL, state->sheet, 0, 0),
-			NULL, FALSE);
+			parse_pos_init_sheet (&pp, state->sheet),
+			NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
 		if (expr != NULL)
 			gnm_expr_unref (expr);
 	}
@@ -757,8 +757,8 @@ cb_scrollbar_config_ok_clicked (GtkWidget *button, ScrollbarConfigState *state)
 	SheetObject *so = SHEET_OBJECT (state->swb);
 	ParsePos  pp;
 	GnmExpr const *expr = gnm_expr_entry_parse (state->expression,
-						    parse_pos_init (&pp, NULL, so->sheet, 0, 0),
-						    NULL, FALSE);
+		parse_pos_init_sheet (&pp, so->sheet),
+		NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
 	if (expr != NULL) {
 		dependent_set_expr (&state->swb->dep, expr);
 		gnm_expr_unref (expr);
@@ -894,7 +894,7 @@ sheet_widget_scrollbar_write_xml (SheetObject const *so,
 	if (swb->dep.expression != NULL) {
 		ParsePos pos;
 		char *val = gnm_expr_as_string (swb->dep.expression,
-			parse_pos_init (&pos, NULL, so->sheet, 0, 0),
+			parse_pos_init_sheet (&pos, so->sheet),
 			gnm_expr_conventions_default);
 		xml_node_set_cstr (tree, "Input", val);
 	}
@@ -919,7 +919,7 @@ sheet_widget_scrollbar_read_xml (SheetObject *so,
 	if (input_txt != NULL && *input_txt != '\0') {
 		ParsePos pos;
 		GnmExpr const *expr = gnm_expr_parse_str_simple (input_txt,
-			parse_pos_init (&pos, NULL, context->sheet, 0, 0));
+			parse_pos_init_sheet (&pos, context->sheet));
 
 		if (expr == NULL) {
 			g_warning ("Could not read scrollbar widget object. Could not parse expr.");
@@ -1179,8 +1179,8 @@ cb_checkbox_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 		ParsePos  pp;
 		GnmExpr const *expr = gnm_expr_entry_parse (
 			GNM_EXPR_ENTRY (state->old_focus->parent),
-			parse_pos_init (&pp, NULL, state->sheet, 0, 0),
-			NULL, FALSE);
+			parse_pos_init_sheet (&pp, state->sheet),
+			NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
 		if (expr != NULL)
 			gnm_expr_unref (expr);
 	}
@@ -1214,8 +1214,8 @@ cb_checkbox_config_ok_clicked (GtkWidget *button, CheckboxConfigState *state)
 	SheetObject *so = SHEET_OBJECT (state->swc);
 	ParsePos  pp;
 	GnmExpr const *expr = gnm_expr_entry_parse (state->expression,
-						    parse_pos_init (&pp, NULL, so->sheet, 0, 0),
-						    NULL, FALSE);
+		parse_pos_init_sheet (&pp, so->sheet),
+		NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
 	if (expr != NULL) {
 		dependent_set_expr (&state->swc->dep, expr);
 		gnm_expr_unref (expr);
@@ -1345,7 +1345,7 @@ sheet_widget_checkbox_write_xml (SheetObject const *so,
 	if (swc->dep.expression != NULL) {
 		ParsePos pos;
 		char *val = gnm_expr_as_string (swc->dep.expression,
-			parse_pos_init (&pos, NULL, so->sheet, 0, 0),
+			parse_pos_init_sheet (&pos, so->sheet),
 			gnm_expr_conventions_default);
 		xml_node_set_cstr (tree, "Input", val);
 	}
@@ -1377,7 +1377,7 @@ sheet_widget_checkbox_read_xml (SheetObject *so,
 	if (input_txt != NULL && *input_txt != '\0') {
 		ParsePos pos;
 		GnmExpr const *expr = gnm_expr_parse_str_simple (input_txt,
-			parse_pos_init (&pos, NULL, context->sheet, 0, 0));
+			parse_pos_init_sheet (&pos, context->sheet));
 
 		if (expr == NULL) {
 			g_warning ("Could not read checkbox widget object. Could not parse expr.");

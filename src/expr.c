@@ -1641,8 +1641,8 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		    rwinfo->u.relocate.target_sheet != rwinfo->u.relocate.origin_sheet) {
 			GnmNamedExpr *new_nexpr;
 			ParsePos pos;
-			parse_pos_init (&pos,  NULL,
-				rwinfo->u.relocate.target_sheet, 0, 0);
+			parse_pos_init_sheet (&pos,
+				rwinfo->u.relocate.target_sheet);
 
 			/* If the name is not available in the new scope explicitly scope it */
 			new_nexpr = expr_name_lookup (&pos, nexpr->name->str);

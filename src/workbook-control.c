@@ -218,7 +218,7 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 	if (target == NULL) {
 		ParsePos pp;
 		GnmNamedExpr *nexpr = expr_name_lookup (
-			parse_pos_init (&pp, NULL, sheet, 0, 0), text);
+			parse_pos_init_sheet (&pp, sheet), text);
 
 		/* Not a name or a placeholder for a name, create one */
 		if (nexpr == NULL || expr_name_is_placeholder (nexpr)) {
