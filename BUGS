@@ -12,11 +12,18 @@ Release Critical
       evo and guppi.  They should only be enabled if they are available.
     - bonobo toolbar undo/redo sensitivity after edit
 
+    - Check version in xml_parse_ctx_new.
+
 Pending Patches
 ---------------
 
 Long term breakage
 ------------------
+
+- When *reading* xml files, why do we look up expression ids in a hash?
+  A g_ptr_array seems to fit the problem *much* better.
+
+- Why are there 3-4 places in xml-io.c that initialise a XmlParseContext?
 
 - We need to sort out 59141 which seems to be an interaction problem between
   autoformat-assigned formats and the cell format dialog.
