@@ -49,7 +49,6 @@ sort_data_length (const SortData *data)
 		return data->range->end.col - data->range->start.col + 1;
 }
 
-
 /* The routines to do the sorting */
 static int
 sort_compare_cells (const Cell *ca, const Cell *cb, SortClause *clause)

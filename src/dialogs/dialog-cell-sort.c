@@ -606,6 +606,11 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 			    GTK_SIGNAL_FUNC (dialog_cell_sort_cols_toggled),
 			    &sort_flow);
 
+	/* Set the header button and drop down boxes correctly */
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check),
+				      range_has_header (sort_flow.sheet, 
+							sort_flow.sel, TRUE));
+
 	gtk_widget_show_all (sort_flow.clause_box);
 	
 	/* Run the dialog */

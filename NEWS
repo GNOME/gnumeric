@@ -12,7 +12,8 @@ Jody:
 	* Some translation bugs.
 
 JPR:
-	* Improve sorting.
+	* Sorting now moves styles with the elements
+	* Sorting now detects headers when sorting
 
 Kenneth
 	* Added two perl scripts for translation help/maintainence. 

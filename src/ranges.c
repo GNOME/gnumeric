@@ -379,6 +379,86 @@ range_name (Range const *src)
 	return buffer;
 }
 
+/**
+ * range_has_header:
+ * @sheet: Sheet to check
+ * @src: Range to check
+ * @top: Flag
+ * 
+ * This routine takes a sheet and a range and checks for a header row
+ * in the range.  If top is true it looks for a header row from the top
+ * and if false it looks for a header col from the left
+ * 
+ * Return value: Whether or not the range has a header
+ **/
+gboolean
+range_has_header (const Sheet *sheet, const Range *src, gboolean top)
+{
+	Cell *ca, *cb;
+	Value *valuea, *valueb;
+	MStyle *stylea, *styleb;
+	int length, i;
+
+	/* There is only one row or col */
+	if (top) {
+		if (src->end.row <= src->start.row) {
+			return FALSE;
+		}
+		length = src->end.col - src->start.col + 1;
+	} else {
+		if (src->end.col <= src->start.col) {
+			return FALSE;
+		}
+		length = src->end.row - src->start.row + 1;
+	}
+
+	for (i = 0; i<length; i++) {
+		if (top) {
+			ca = sheet_cell_get (sheet, src->start.col + i, 
+					     src->start.row);
+			cb = sheet_cell_get (sheet, src->start.col + i, 
+					     src->start.row + 1);
+		} else {
+			ca = sheet_cell_get (sheet, src->start.col, 
+					     src->start.row + i);
+			cb = sheet_cell_get (sheet, src->start.col + 1, 
+					     src->start.row + i);
+		}
+		
+		
+		if (!ca || !cb) {
+			continue;
+		}
+
+		/* Look for value differences */
+		valuea = ca->value;
+		valueb = cb->value;
+
+		if (VALUE_IS_NUMBER (valuea)) {
+			if (!VALUE_IS_NUMBER (valueb)) {
+				return TRUE;
+			}
+		} else {
+			if (valuea->type != valueb->type) {
+				return TRUE;
+			}
+		}
+
+		/* Look for style differences */
+		stylea = cell_get_mstyle (ca);
+		styleb = cell_get_mstyle (cb);
+		
+		if (!mstyle_equal (stylea, styleb)) {
+			return TRUE;
+		}
+
+		mstyle_unref (stylea);
+		mstyle_unref (styleb);
+	}
+
+	return FALSE;
+}
+
 void
 range_dump (Range const *src)
 {

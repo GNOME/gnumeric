@@ -97,6 +97,8 @@ gboolean    range_expand        (Range *range,
 				 int d_tlx, int d_tly,
 				 int d_brx, int d_bry);
 
+gboolean    range_has_header    (const Sheet *sheet, const Range *src,
+				 gboolean top);
 const char *range_name          (const Range *src);
 void        range_dump          (const Range *src);
 Range      *range_copy          (const Range *src);

@@ -1061,6 +1061,10 @@ sort_cmd (Workbook *wb, int asc)
 	data->num_clause = numclause;
 	data->clauses = clause;
 	data->top = TRUE;
+
+	if (range_has_header (data->sheet, data->range, TRUE)) {
+		data->range->start.row += 1;
+	}
 	
 	cmd_sort (workbook_command_context_gui (wb), data);	
 }
