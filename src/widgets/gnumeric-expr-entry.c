@@ -167,6 +167,7 @@ gee_set_property (GObject      *object,
 
 	case PROP_TEXT:
 		gnm_expr_entry_load_from_text (gee, g_value_get_string (value));
+		gnm_expr_entry_signal_update (gee, FALSE);
 		break;
 
 	case PROP_SCG:

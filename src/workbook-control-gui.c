@@ -5499,7 +5499,7 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 
 	/* ignore changes while we are insensitive, usful for displaying
 	 * values, without storing then as Data  */
-	if (GTK_WIDGET_SENSITIVE (gee))
+	if (!GTK_WIDGET_SENSITIVE (gee))
 		return;
 
 	g_object_get (G_OBJECT (gee), "scg", &scg, NULL);
@@ -5544,15 +5544,13 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 static void
 cb_graph_dim_entry_unmap (GnmExprEntry *gee, GraphDimEditor *editor)
 {
-	if (GTK_WIDGET_SENSITIVE (gee))
-		cb_graph_dim_editor_update (gee, FALSE, editor);
+	cb_graph_dim_editor_update (gee, FALSE, editor);
 }
 
 static void
 cb_graph_dim_entry_unrealize (GnmExprEntry *gee, GraphDimEditor *editor)
 {
- 	if (GTK_WIDGET_SENSITIVE (gee))
-		cb_graph_dim_editor_update (gee, FALSE, editor);
+	cb_graph_dim_editor_update (gee, FALSE, editor);
 }
 
 static gpointer

@@ -401,6 +401,9 @@ cb_enable_dim (GtkToggleButton *toggle_button, ElemToggleData *closure)
 
 	gtk_widget_set_sensitive (closure->editor, !is_auto);
 
+	if (is_auto) /* clear the data */
+		gog_dataset_set_dim (closure->set, closure->dim, NULL, NULL);
+
 	if (finite (bound) && DBL_MAX > bound && bound > -DBL_MAX) {
 		char *str = g_strdup_printf ("%g", bound);
 		g_object_set (closure->editor, "text", str, NULL);
@@ -653,10 +656,26 @@ gog_axis_get_pos (GogAxis const *axis)
 gboolean
 gog_axis_get_bounds (GogAxis const *axis, double *min_bound, double *max_bound)
 {
+	GOData *dat;
+	double  tmp;
+
 	g_return_val_if_fail (GOG_AXIS (axis) != NULL, FALSE);
 
 	*min_bound = axis->auto_bound [AXIS_ELEM_MIN];
+	dat = axis->source [AXIS_ELEM_MIN].data;
+	if (dat != NULL && IS_GO_DATA_SCALAR (dat)) {
+		tmp = go_data_scalar_get_value (GO_DATA_SCALAR (dat));
+		if (finite (tmp))
+			*min_bound = tmp;
+	}
+
 	*max_bound = axis->auto_bound [AXIS_ELEM_MAX];
+	dat = axis->source [AXIS_ELEM_MAX].data;
+	if (dat != NULL && IS_GO_DATA_SCALAR (dat)) {
+		tmp = go_data_scalar_get_value (GO_DATA_SCALAR (dat));
+		if (finite (tmp))
+			*max_bound = tmp;
+	}
 
 	return TRUE;
 }

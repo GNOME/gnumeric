@@ -1,3 +1,8 @@
+2003-09-14  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c (gee_set_property) : fire an update when
+	  changing via "text" property.
+
 2003-09-13  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric-expr-entry.c (gee_class_init) : add a w/r 'text' property.
