@@ -9,22 +9,18 @@
  */
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include <sys/types.h>
-#include <sys/mman.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "cell.h"
-#include "sheet.h"
-#include "value.h"
-#include "file.h"
-#include "io-context.h"
-#include "workbook-view.h"
-#include "workbook.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
 
+#include <cell.h>
+#include <sheet.h>
+#include <value.h>
+#include <io-context.h>
+#include <workbook-view.h>
+#include <workbook.h>
+#include <plugin-util.h>
+#include <module-plugin-defs.h>
+
+#include <gsf/gsf-input-textline.h>
+#include <string.h>
 #include <libgnome/gnome-i18n.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
@@ -32,51 +28,35 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 #define N_INPUT_LINES_BETWEEN_UPDATES   50
 
 void dif_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                    WorkbookView *wbv, char const *filename);
+                    WorkbookView *wbv, GsfInput *input);
 void dif_file_save (GnumFileSaver const *fs, IOContext *io_context,
                     WorkbookView *wbv, const gchar *file_name);
 
 typedef struct {
 	IOContext *io_context;
 
-	gint   data_size;
-	guchar *data, *cur;
-
+	GsfInputTextline *input;
 	gint   line_no;
 	gchar *line;
-	gint   line_len, alloc_line_len;
 
 	Sheet *sheet;
 } DifInputContext;
 
 
 static DifInputContext *
-dif_input_context_new (IOContext *io_context, Workbook *wb, char const *file_name)
+dif_input_context_new (IOContext *io_context, Workbook *wb, GsfInput *input)
 {
 	DifInputContext *ctxt = NULL;
-	gint size;
-	guchar *data;
-	ErrorInfo *mmap_error;
-
-	data = gnumeric_mmap_error_info (file_name, &size, &mmap_error);
-	if (mmap_error != NULL) {
-		gnumeric_io_error_info_set (io_context, mmap_error);
-		return NULL;
-	}
 
 	ctxt = g_new (DifInputContext, 1);
 	ctxt->io_context     = io_context;
-	ctxt->data_size      = size;
-	ctxt->data           = data;
-	ctxt->cur            = data;
+
+	ctxt->input	     = gsf_input_textline_new (input);
 	ctxt->line_no        = 1;
-	ctxt->line           = g_malloc (1);
-	ctxt->line_len       = 0;
-	ctxt->alloc_line_len = 0;
+	ctxt->line           = NULL;
 	ctxt->sheet          = workbook_sheet_add (wb, NULL, FALSE);
 
 	io_progress_message (io_context, _("Reading file..."));
-	memory_io_progress_set (io_context, ctxt->data, ctxt->data_size);
 
 	return ctxt;
 }
@@ -85,76 +65,15 @@ static void
 dif_input_context_destroy (DifInputContext *ctxt)
 {
 	io_progress_unset (ctxt->io_context);
-	munmap (ctxt->data, ctxt->data_size);
-	g_free (ctxt->line);
+	g_object_unref (G_OBJECT (ctxt->input)); ctxt->input = NULL;
 	g_free (ctxt);
 }
 
 static gboolean
 dif_get_line (DifInputContext *ctxt)
 {
-	guchar *p, *p_limit;
-
-	p_limit = ctxt->data + ctxt->data_size;
-	if (ctxt->cur >= p_limit) {
-		ctxt->line[0] = '\0';
-		ctxt->line_len = 0;
-		return FALSE;
-	}
-
-	for (p = ctxt->cur; p < p_limit && p[0] != '\n' && p[0] != '\r'; p++);
-
-	ctxt->line_len = p - ctxt->cur;
-	if (ctxt->line_len > ctxt->alloc_line_len) {
-		g_free (ctxt->line);
-		ctxt->alloc_line_len = MAX (ctxt->alloc_line_len * 2, ctxt->line_len);
-		ctxt->line = g_malloc (ctxt->alloc_line_len + 1);
-	}
-	if (ctxt->line_len > 0) {
-		memcpy (ctxt->line, ctxt->cur, ctxt->line_len);
-	}
-	ctxt->line[ctxt->line_len] = '\0';
-
-	if (p == p_limit || (p == p_limit - 1 && (p[0] == '\n' || p[0] == '\r'))) {
-		ctxt->cur = p_limit;
-	} else if ((p[0] == '\n' && p[1] == '\r') || (p[0] == '\r' && p[1] == '\n')) {
-		ctxt->cur = p + 2;
-	} else {
-		ctxt->cur = p + 1;
-	}
-
-	if ((++ctxt->line_no % N_INPUT_LINES_BETWEEN_UPDATES) == 0) {
-		memory_io_progress_update (ctxt->io_context, ctxt->cur);
-	}
-
-	return TRUE;
-}
-
-static gboolean
-dif_eat_line (DifInputContext *ctxt)
-{
-	guchar *p, *p_limit;
-
-	p_limit = ctxt->data + ctxt->data_size;
-	if (ctxt->cur >= p_limit) {
-		return FALSE;
-	}
-
-	for (p = ctxt->cur; p < p_limit && p[0] != '\n' && p[0] != '\r'; p++);
-
-	if (p == p_limit || (p == p_limit - 1 && (p[0] == '\n' || p[0] == '\r'))) {
-		ctxt->cur = p;
-	} else if ((p[0] == '\n' && p[1] == '\r') || (p[0] == '\r' && p[1] == '\n')) {
-		ctxt->cur = p + 2;
-	} else {
-		ctxt->cur = p + 1;
-	}
-
-	if ((++ctxt->line_no % N_INPUT_LINES_BETWEEN_UPDATES) == 0) {
-		memory_io_progress_update (ctxt->io_context, ctxt->cur);
-	}
-
-	return TRUE;
+	ctxt->line = gsf_input_textline_ascii_gets (ctxt->input);
+	return ctxt->line != NULL;
 }
 
 /*
@@ -164,26 +83,24 @@ static gboolean
 dif_parse_header (DifInputContext *ctxt)
 {
 	while (1) {
-		gboolean lines_ok = TRUE;
 		gchar *topic, *num_line, *str_line;
-		gint str_line_len;
+		size_t str_line_len;
 
-		lines_ok = lines_ok && dif_get_line (ctxt);
-		topic = g_alloca (ctxt->line_len + 1);
+		if (!dif_get_line (ctxt))
+			return FALSE;
+		topic = g_alloca (strlen (ctxt->line) + 1);
 		strcpy (topic, ctxt->line);
 
-		lines_ok = lines_ok && dif_get_line (ctxt);
-		num_line = g_alloca (ctxt->line_len + 1);
+		if (!dif_get_line (ctxt))
+			return FALSE;
+		num_line = g_alloca (strlen (ctxt->line) + 1);
 		strcpy (num_line, ctxt->line);
 
-		lines_ok = lines_ok && dif_get_line (ctxt);
-		str_line_len = ctxt->line_len;
+		if (!dif_get_line (ctxt))
+			return FALSE;
+		str_line_len = strlen (ctxt->line);
 		str_line = g_alloca (str_line_len + 1);
 		strcpy (str_line, ctxt->line);
-
-		if (!lines_ok) {
-			return FALSE;
-		}
 
 		if (strcmp (topic, "TABLE") == 0) {
 			gchar *name;
@@ -233,7 +150,7 @@ dif_parse_data (DifInputContext *ctxt)
 		if (val_type == 0) {
 			gchar *comma;
 
-			(void) dif_eat_line (ctxt);
+			(void) dif_get_line (ctxt);
 			if (col > SHEET_MAX_COLS) {
 				too_many_columns = TRUE;
 				continue;
@@ -257,14 +174,8 @@ dif_parse_data (DifInputContext *ctxt)
 				too_many_columns = TRUE;
 				continue;
 			}
-			cell = sheet_cell_fetch (ctxt->sheet, col, row);
-			if (ctxt->line_len >= 2 && ctxt->line[0] == '"' &&
-			    ctxt->line[ctxt->line_len - 1] == '"') {
-				ctxt->line[ctxt->line_len - 1] = '\0';
-				cell_set_text (cell, ctxt->line + 1);
-			} else {
-				cell_set_text (cell, ctxt->line);
-			}
+			cell_set_text (sheet_cell_fetch (ctxt->sheet, col, row),
+				ctxt->line);
 			col++;
 		} else if (val_type == -1) {
 			if (!dif_get_line (ctxt)) {
@@ -292,7 +203,7 @@ dif_parse_data (DifInputContext *ctxt)
 			      val_type, ctxt->line_no);
 			g_warning (msg);
 			g_free (msg);
-			(void) dif_eat_line (ctxt);
+			(void) dif_get_line (ctxt);
 		}
 	}
 
@@ -324,11 +235,11 @@ dif_parse_sheet (DifInputContext *ctxt)
 
 void
 dif_file_open (GnumFileOpener const *fo, IOContext *io_context,
-               WorkbookView *wbv, char const *file_name)
+               WorkbookView *wbv, GsfInput *input)
 {
 	DifInputContext *ctxt;
 
-	ctxt = dif_input_context_new (io_context, wb_view_workbook (wbv), file_name);
+	ctxt = dif_input_context_new (io_context, wb_view_workbook (wbv), input);
 	if (ctxt != NULL) {
 		dif_parse_sheet (ctxt);
 		if (gnumeric_io_error_occurred (io_context)) {
