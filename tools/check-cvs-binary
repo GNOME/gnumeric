@@ -64,7 +64,7 @@ if (@files) {
 
     local (*CVS);
     open (*CVS, "cvs log -h -N '" . join ("' '", @files) . "' 2>/dev/null |")
-	or die "$0: cannot execute find: $!\n";
+	or die "$0: cannot execute cvs: $!\n";
     while (<CVS>) {
 	chomp;
 	if (/^Working file: (.+)$/i) {
