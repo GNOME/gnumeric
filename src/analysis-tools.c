@@ -87,6 +87,7 @@ void
 set_cell (data_analysis_output_t *dao, int col, int row, const char *text)
 {
 	if (text == NULL) {
+		/* FIXME: should we erase instead?  */
 		set_cell_value (dao, col, row, value_new_string (""));
 	} else {
 		set_cell_value (dao, col, row, value_new_string (text));
@@ -280,18 +281,20 @@ get_data_groupped_by_columns (Sheet *sheet, const Range *range, int col,
 	data->sum2 = data->sum * data->sum;
 }
 
+/* FIXME: why isn't this just static.  */
 /* Callback for get_data_grouped_by_cols and get_data_grouped_by_rows */
 Value * StoreData_ForeachCellCB(Sheet *sheet, int col, int row,
 			       Cell *cell, GArray* data);
 
-Value * StoreData_ForeachCellCB(Sheet *sheet, int col, int row,
-			       Cell *cell, GArray* data) 
+Value *
+StoreData_ForeachCellCB (Sheet *sheet, int col, int row,
+			 Cell *cell, GArray* data) 
 {
 	gnum_float  x;
 
 	if (VALUE_IS_NUMBER (cell->value) ) {
 		x = value_get_as_float (cell->value);
-		g_array_append_val(data,x);
+		g_array_append_val (data,x);
 	}
 	return NULL;
 }
@@ -306,8 +309,8 @@ get_data_grouped_by_cols (Sheet *sheet, const Range *range, GPtrArray *data)
 	GArray * this_col;
 	
 	for (col = range->start.col; col <= range->end.col;  col++) {
-		this_col = g_array_new(FALSE,FALSE,sizeof(gnum_float));
-		g_ptr_array_add(data, this_col);
+		this_col = g_array_new(FALSE, FALSE, sizeof (gnum_float));
+		g_ptr_array_add (data, this_col);
 
 /* Note: order of reading cells matters only in so   */
 /*       far that we should proceed from left top to */
@@ -345,17 +348,18 @@ get_data_grouped_by_rows (Sheet *sheet, const Range *range, GPtrArray *data)
 }
 
 /* Callback for get_text_col & get_text_row          */
-
+/* FIXME: why isn't this just static? */
 Value * StoreText_ForeachCellCB(Sheet *sheet, int col, int row,
 			       Cell *cell, GPtrArray* data);
 
-Value * StoreText_ForeachCellCB(Sheet *sheet, int col, int row,
-			       Cell *cell, GPtrArray* data) 
+Value *
+StoreText_ForeachCellCB (Sheet *sheet, int col, int row,
+			 Cell *cell, GPtrArray* data) 
 {
 	if (cell == NULL) {
-		g_ptr_array_add(data, NULL);
+		g_ptr_array_add (data, NULL);
 	} else {
-		g_ptr_array_add(data, value_get_as_string (cell->value));
+		g_ptr_array_add (data, value_get_as_string (cell->value));
 	}
 	return NULL;
 }
@@ -441,7 +445,7 @@ free_data_set (data_set_t *data)
 
 	while (current != NULL) {
 	        g_free (current->data);
-		current=current->next;
+		current = current->next;
 	}
 
 	g_slist_free (data->array);
@@ -514,7 +518,7 @@ set_italic (data_analysis_output_t *dao, int col1, int row1,
 /************* Correlation Tool *******************************************
  *
  * The correlation tool calculates the correlation coefficient of two
- * data sets.  The two data sets can be groupped by rows or by columns.
+ * data sets.  The two data sets can be grouped by rows or by columns.
  * The results are given in a table which can be printed out in a new
  * sheet, in a new workbook, or simply into an existing sheet.
  *
@@ -555,7 +559,7 @@ correl (data_set_t *set_one, data_set_t *set_two, int *error_flag)
 }
 
 
-/* If columns_flag is set, the data entries are groupped by columns
+/* If columns_flag is set, the data entries are grouped by columns
  * otherwise by rows.
  */
 int
@@ -669,7 +673,7 @@ correlation_tool (WorkbookControl *wbc, Sheet *sheet,
 /************* Covariance Tool ********************************************
  *
  * The covariance tool calculates the covariance of two data sets.
- * The two data sets can be groupped by rows or by columns.  The
+ * The two data sets can be grouped by rows or by columns.  The
  * results are given in a table which can be printed out in a new
  * sheet, in a new workbook, or simply into an existing sheet.
  *
@@ -706,7 +710,7 @@ covar (data_set_t *set_one, data_set_t *set_two, int *error_flag)
 	return c;
 }
 
-/* If columns_flag is set, the data entries are groupped by columns
+/* If columns_flag is set, the data entries are grouped by columns
  * otherwise by rows.
  */
 int
@@ -852,17 +856,13 @@ static void
 summary_statistics (WorkbookControl *wbc, GPtrArray *data, GPtrArray* labels,
 		    data_analysis_output_t *dao)
 {
-	gnum_float x, xmin, xmax;
 	guint     col;
-	int       error, error2;
-	gchar *label;
-	GArray *the_col;
 
 	prepare_output (wbc, dao, _("Summary Statistics"));
 
         set_cell (dao, 0, 0, NULL);
 	for (col = 0; col < labels->len; col++) {
-	        label = (gchar *) g_ptr_array_index(labels,col);
+	        const char *label = g_ptr_array_index (labels, col);
 		set_cell (dao, col + 1, 0, label);
 	}
 
@@ -888,23 +888,27 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data, GPtrArray* labels,
 					"/Count"));
 
 	for (col = 0; col < data->len; col++) {
-		the_col = g_ptr_array_index(data,col);
-		
+		GArray *the_col = g_ptr_array_index (data, col);
+		int the_col_len = the_col->len;
+		gnum_float *the_data = (gnum_float *)the_col->data;
+		gnum_float x, xmin, xmax;
+		int error, error2;
+
 	        /* Mean */
-		error = range_average ((gnum_float *)(the_col->data), the_col->len, &x);
+		error = range_average (the_data, the_col_len, &x);
 		if (error == 0) {
 			set_cell_float (dao, col + 1, 1, x);
 		} else {
 			set_cell_na (dao, col + 1, 1);
 		}
-		
-		error = range_var_est((gnum_float *)(the_col->data), the_col->len, &x);
+
+		error = range_var_est (the_data, the_col_len, &x);
 		if (error == 0) {
-		/* Standard Error */
-			set_cell_float (dao, col + 1, 2, sqrt(x / the_col->len));
-		/* Standard Deviation */
-			set_cell_float (dao, col + 1, 5, sqrt(x));
-		/* Sample Variance */
+			/* Standard Error */
+			set_cell_float (dao, col + 1, 2, sqrt (x / the_col_len));
+			/* Standard Deviation */
+			set_cell_float (dao, col + 1, 5, sqrt (x));
+			/* Sample Variance */
 			set_cell_float (dao, col + 1, 6, x);
 		} else {
 			set_cell_na (dao, col + 1, 2);
@@ -912,9 +916,8 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data, GPtrArray* labels,
 			set_cell_na (dao, col + 1, 6);
 		}
 
-
 		/* Median */
-		error = range_excel_median ((gnum_float *)(the_col->data), the_col->len, &x);
+		error = range_excel_median (the_data, the_col_len, &x);
 		if (error == 0) {
 			set_cell_float (dao, col + 1, 3, x);
 		} else {
@@ -924,6 +927,7 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data, GPtrArray* labels,
 		/* Mode */
 		/* TODO */
 		/* if we fix the Mode function using a range_* call, we can use that here! */
+		/* FIXME: I already did, but it needs to move -- MW.  */
 		error = 1;
 		if (error == 0) {
 			set_cell_float (dao, col + 1, 4, x);
@@ -932,7 +936,7 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data, GPtrArray* labels,
 		}
 
 		/* Kurtosis */
-		error = range_kurtosis_m3_est ((gnum_float *)(the_col->data), the_col->len, &x);
+		error = range_kurtosis_m3_est (the_data, the_col_len, &x);
 		if (error == 0) {
 			set_cell_float (dao, col + 1, 7, x);
 		} else {
@@ -940,7 +944,7 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data, GPtrArray* labels,
 		}
 
 		/* Skewness */
-		error = range_skew_est ((gnum_float *)(the_col->data), the_col->len, &x);
+		error = range_skew_est (the_data, the_col_len, &x);
 		if (error == 0) {
 			set_cell_float (dao, col + 1, 8, x);
 		} else {
@@ -948,7 +952,7 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data, GPtrArray* labels,
 		}
 
 		/* Minimum */
-		error = range_min ((gnum_float *)(the_col->data), the_col->len, &xmin);
+		error = range_min (the_data, the_col_len, &xmin);
 		if (error == 0) {
 			set_cell_float (dao, col + 1, 10, xmin);
 		} else {
@@ -956,7 +960,7 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data, GPtrArray* labels,
 		}
 
 		/* Maximum */
-		error2 = range_max ((gnum_float *)(the_col->data), the_col->len, &xmax);
+		error2 = range_max (the_data, the_col_len, &xmax);
 		if (error2 == 0) {
 			set_cell_float (dao, col + 1, 11, xmax);
 		} else {
@@ -965,14 +969,14 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data, GPtrArray* labels,
 
 
 		/* Range */
-		if ( (error+error2) == 0) {
+		if (error == 0 && error2 == 0) {
 			set_cell_float (dao, col + 1, 9, xmax - xmin);
 		} else {
 			set_cell_na (dao, col + 1, 9);
 		}
 
 		/* Sum */
-		error = range_sum ((gnum_float *)(the_col->data), the_col->len, &x);
+		error = range_sum (the_data, the_col_len, &x);
 		if (error == 0) {
 			set_cell_float (dao, col + 1, 12, x);
 		} else {
@@ -980,7 +984,7 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data, GPtrArray* labels,
 		}
 
 		/* Count */
-		set_cell_int (dao, col + 1, 13, the_col->len);
+		set_cell_int (dao, col + 1, 13, the_col_len);
 	}
 }
 

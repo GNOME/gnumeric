@@ -1,3 +1,8 @@
+2001-07-25  Morten Welinder  <terra@diku.dk>
+
+	* src/analysis-tools.c (summary_statistics): Cleanup a bit.  Fix
+ 	the min, max, and range items.  Avoid most casts.
+
 2001-07-25  Almer S. Tigelaar  <almer@gnome.org>
  
  	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Add
