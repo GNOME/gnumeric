@@ -1,5 +1,7 @@
 2000-03-24  Jody Goldberg <jgoldberg@home.com>
 
+	* src/expr.c (cellref_relocate) : Simply code to implement correct logic.
+
 	* src/main.c : Add debug_excel_objects.
 
 2000-03-24  Jody Goldberg <jgoldberg@home.com>

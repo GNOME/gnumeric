@@ -1409,7 +1409,7 @@ cellref_relocate (CellRef * const ref,
 	 *
 	 * Abs	In	In 	: Positive (Sheet) (b)
 	 * Abs	In	Out 	: Sheet
-	 * Abs	Out	In 	: Negative, Sheet, Range (b)
+	 * Abs	Out	In 	: Positive, Sheet, Range (b)
 	 * Abs	Out	Out 	: (a)
 	 * Rel	In	In 	: (Sheet)
 	 * Rel	In	Out 	: Negative, Sheet, Range (c)
@@ -1457,15 +1457,11 @@ cellref_relocate (CellRef * const ref,
 
 	if (to_inside) {
 		/* Case (b) */
-		if (ref->col_relative != from_inside)
+		if (!from_inside || !ref->col_relative)
 			col += rinfo->col_offset;
-		else if (!ref->col_relative && !from_inside)
-			col -= rinfo->col_offset;
 
-		if (ref->row_relative != from_inside)
+		if (!from_inside || !ref->row_relative)
 			row += rinfo->row_offset;
-		else if (!ref->row_relative && !from_inside)
-			row -= rinfo->row_offset;
 
 		if (col < 0 || col >= SHEET_MAX_COLS ||
 		    row < 0 || row >= SHEET_MAX_ROWS)
