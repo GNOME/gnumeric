@@ -64,30 +64,32 @@ StyleHAlignFlags cell_default_halign	(Cell const *v, MStyle const *mstyle);
 /**
  * Utilities to assign the contents of a cell
  */
-void        cell_set_text                (Cell *c, char const *text);
-void        cell_assign_value            (Cell *c, Value *v, StyleFormat *fmt);
-void        cell_set_value               (Cell *c, Value *v, StyleFormat *fmt);
-void        cell_set_expr_and_value      (Cell *c, ExprTree *expr, Value *v,
-					  StyleFormat *opt_fmt);
-void        cell_set_expr                (Cell *c, ExprTree *expr,
-					  StyleFormat *opt_fmt);
-void	    cell_set_expr_unsafe 	 (Cell *cell, ExprTree *expr,
-					  StyleFormat *opt_fmt);
-void        cell_set_array_formula       (Sheet *sheet, int rowa, int cola,
-					  int rowb, int colb,
-					  ExprTree *expr,
-					  gboolean queue_recalc);
+void cell_set_text		(Cell *c, char const *text);
+void cell_assign_value		(Cell *c, Value *v, StyleFormat *fmt);
+void cell_set_value		(Cell *c, Value *v, StyleFormat *fmt);
+void cell_set_expr_and_value	(Cell *c, ExprTree *expr, Value *v,
+				 StyleFormat *opt_fmt);
+void cell_set_expr		(Cell *c, ExprTree *expr,
+				 StyleFormat *opt_fmt);
+void cell_set_expr_unsafe 	(Cell *cell, ExprTree *expr,
+				 StyleFormat *opt_fmt);
+void cell_set_array_formula	(Sheet *sheet, int rowa, int cola,
+				 int rowb, int colb, ExprTree *expr,
+				 gboolean queue_recalc);
+void cell_convert_expr_to_value	(Cell *cell);
 
 /**
  * Manipulate Cell attributes
  */
-MStyle     *cell_get_mstyle              (Cell const *cell);
-void        cell_set_mstyle              (Cell const *cell, MStyle *mstyle);
+MStyle *cell_get_mstyle		(Cell const *cell);
+void	cell_set_mstyle		(Cell const *cell, MStyle *mstyle);
+char *	cell_get_format		(Cell const *cell);
+void	cell_set_format		(Cell *cell, char const *format);
 
-char *      cell_get_format              (Cell const *cell);
-void        cell_set_format              (Cell *cell, char const *format);
-
-void        cell_make_value              (Cell *cell);
-void        cell_render_value            (Cell *cell, gboolean dynamic_width);
+void	cell_render_value	(Cell *cell, gboolean dynamic_width);
+int	cell_rendered_width	(Cell const * cell);
+int	cell_rendered_height	(Cell const * cell);
+char *	cell_get_rendered_text	(Cell const * cell);
+char *	cell_get_entered_text	(Cell const * cell);
 
 #endif /* GNUMERIC_CELL_H */

@@ -3201,37 +3201,6 @@ sheet_col_row_default_init (Sheet *sheet, double units, int margin_a, int margin
  */
 
 /**
- * sheet_col_get_distance_pixels:
- *
- * Return the number of pixels between from_col to to_col
- * measured from the upper left corner.
- */
-int
-sheet_col_get_distance_pixels (Sheet const *sheet, int from, int to)
-{
-	int i, pixels = 0;
-	int sign = 1;
-
-	g_assert (sheet != NULL);
-
-	if (from > to) {
-		int const tmp = to;
-		to = from;
-		from = tmp;
-		sign = -1;
-	}
-
-	/* Do not use col_row_foreach, it ignores empties */
-	for (i = from ; i < to ; ++i) {
-		ColRowInfo const *ci = sheet_col_get_info (sheet, i);
-		if (ci->visible)
-			pixels += ci->size_pixels;
-	}
-
-	return pixels*sign;
-}
-
-/**
  * sheet_col_get_distance_pts:
  *
  * Return the number of points between from_col to to_col
@@ -3369,57 +3338,6 @@ sheet_col_set_default_size_pixels (Sheet *sheet, int width_pixels)
 /**************************************************************************/
 /* Row height support routines
  */
-
-/**
- * sheet_row_get_distance_pixels:
- *
- * Return the number of pixels between from_row to to_row
- * measured from the upper left corner.
- */
-int
-sheet_row_get_distance_pixels (Sheet const *sheet, int from, int to)
-{
-	int const default_size = sheet->rows.default_style.size_pixels;
-	int pixels = 0, sign = 1;
-	int i;
-
-	g_assert (sheet != NULL);
-
-	if (from > to) {
-		int const tmp = to;
-		to = from;
-		from = tmp;
-		sign = -1;
-	}
-
-	g_return_val_if_fail (from >= 0, 1.);
-	g_return_val_if_fail (to <= SHEET_MAX_ROWS, 1.);
-
-	/* Do not use col_row_foreach, it ignores empties.
-	 * Optimize this so that long jumps are not quite so horrific
-	 * for performance.
-	 */
-	for (i = from ; i < to ; ++i) {
-		ColRowSegment const *segment =
-			COLROW_GET_SEGMENT(&(sheet->rows), i);
-
-		if (segment != NULL) {
-			ColRowInfo const *ri = segment->info [COLROW_SUB_INDEX(i)];
-			if (ri == NULL)
-				pixels += default_size;
-			else if (ri->visible)
-				pixels += ri->size_pixels;
-		} else {
-			int segment_end = COLROW_SEGMENT_END(i)+1;
-			if (segment_end > to)
-				segment_end = to;
-			pixels += default_size * (segment_end - i);
-			i = segment_end-1;
-		}
-	}
-
-	return pixels*sign;
-}
 
 /**
  * sheet_row_get_distance_pts:

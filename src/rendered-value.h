@@ -39,9 +39,4 @@ void            rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle);
  */
 char * rendered_value_get_text (RenderedValue const * rv);
 
-char * cell_get_rendered_text (Cell const * cell);
-char * cell_get_entered_text (Cell const * cell);
-int    cell_rendered_width (Cell const * cell);
-int    cell_rendered_height (Cell const * cell);
-
 #endif /* GNUMERIC_RENDERED_VALUE_H */

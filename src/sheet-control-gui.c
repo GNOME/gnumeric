@@ -83,7 +83,6 @@ sheet_view_redraw_cell_region (SheetControlGUI *scg,
 {
 	GnumericSheet *gsheet;
 	GnomeCanvas *canvas;
-	Sheet *sheet = scg->sheet;
 	int x, y, w, h;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
@@ -104,10 +103,10 @@ sheet_view_redraw_cell_region (SheetControlGUI *scg,
 	end_col =  MIN (gsheet->col.last_visible, end_col);
 	end_row =  MIN (gsheet->row.last_visible, end_row);
 
-	x = sheet_col_get_distance_pixels (sheet, gsheet->col.first, start_col);
-	y = sheet_row_get_distance_pixels (sheet, gsheet->row.first, start_row);
-	w = sheet_col_get_distance_pixels (sheet, start_col, end_col+1);
-	h = sheet_row_get_distance_pixels (sheet, start_row, end_row+1);
+	x = scg_get_distance (scg, TRUE, gsheet->col.first, start_col);
+	y = scg_get_distance (scg, FALSE, gsheet->row.first, start_row);
+	w = scg_get_distance (scg, TRUE, start_col, end_col+1);
+	h = scg_get_distance (scg, FALSE, start_row, end_row+1);
 
 	x += canvas->layout.xoffset - canvas->zoom_xofs;
 	y += canvas->layout.yoffset - canvas->zoom_yofs;
@@ -145,11 +144,11 @@ sheet_view_redraw_headers (SheetControlGUI *scg,
 #define COL_HEURISTIC	20
 			if (-COL_HEURISTIC < size && size < COL_HEURISTIC) {
 				left = gsheet->col_offset.first +
-				    sheet_col_get_distance_pixels (scg->sheet,
-							    gsheet->col.first, r->start.col);
+					scg_get_distance (scg, TRUE,
+							  gsheet->col.first, r->start.col);
 				right = left +
-				    sheet_col_get_distance_pixels (scg->sheet,
-							    r->start.col, r->end.col+1);
+					scg_get_distance (scg, TRUE,
+							  r->start.col, r->end.col+1);
 			}
 		}
 		/* Request excludes the far coordinate.  Add 1 to include them */
@@ -168,11 +167,11 @@ sheet_view_redraw_headers (SheetControlGUI *scg,
 #define ROW_HEURISTIC	50
 			if (-ROW_HEURISTIC < size && size < ROW_HEURISTIC) {
 				top = gsheet->row_offset.first +
-				    sheet_row_get_distance_pixels (scg->sheet,
-							    gsheet->row.first, r->start.row);
+					scg_get_distance (scg, FALSE,
+							  gsheet->row.first, r->start.row);
 				bottom = top +
-				    sheet_row_get_distance_pixels (scg->sheet,
-							    r->start.row, r->end.row+1);
+					scg_get_distance (scg, FALSE,
+							  r->start.row, r->end.row+1);
 			}
 		}
 		/* Request excludes the far coordinate.  Add 1 to include them */
@@ -240,9 +239,9 @@ sheet_view_set_zoom_factor (SheetControlGUI *scg, double factor)
 
 	/* Recalibrate the starting offsets */
 	gsheet->col_offset.first =
-	    sheet_col_get_distance_pixels (scg->sheet, 0, gsheet->col.first);
+		scg_get_distance (scg, TRUE, 0, gsheet->col.first);
 	gsheet->row_offset.first =
-	    sheet_row_get_distance_pixels (scg->sheet, 0, gsheet->row.first);
+		scg_get_distance (scg, FALSE, 0, gsheet->row.first);
 
 	if (GTK_WIDGET_REALIZED (gsheet))
 		/* Ensure that the current cell remains visible when we zoom */
@@ -1740,7 +1739,7 @@ scg_object_view_position (SheetControlGUI *scg, SheetObject *so, double *coords)
 {
 	int pixels [4];
 
-	sheet_object_position_pixels (so, pixels);
+	sheet_object_position_pixels (so, scg, pixels);
 	gnome_canvas_c2w (GNOME_CANVAS (scg->canvas),
 			  pixels [0], pixels [1],
 			  coords +0, coords + 1);
@@ -1983,4 +1982,62 @@ scg_comment_unselect (SheetControlGUI *scg, CellComment *cc)
 			scg->comment.item = NULL;
 		}
 	}
+}
+
+/************************************************************************/
+/* Col/Row size support routines.  */
+
+int
+scg_get_distance (SheetControlGUI const *scg, gboolean is_cols,
+		  int from, int to)
+{
+	ColRowCollection const *collection;
+	int default_size;
+	int i, pixels = 0;
+	int sign = 1;
+
+	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), 1);
+
+	if (from > to) {
+		int const tmp = to;
+		to = from;
+		from = tmp;
+		sign = -1;
+	}
+
+	g_return_val_if_fail (from >= 0, 1);
+
+	if (is_cols) {
+		g_return_val_if_fail (to <= SHEET_MAX_COLS, 1);
+		collection = &scg->sheet->cols;
+	} else {
+		g_return_val_if_fail (to <= SHEET_MAX_ROWS, 1);
+		collection = &scg->sheet->rows;
+	}
+
+	/* Do not use col_row_foreach, it ignores empties.
+	 * Optimize this so that long jumps are not quite so horrific
+	 * for performance.
+	 */
+	default_size = collection->default_style.size_pixels;
+	for (i = from ; i < to ; ++i) {
+		ColRowSegment const *segment =
+			COLROW_GET_SEGMENT(collection, i);
+
+		if (segment != NULL) {
+			ColRowInfo const *cri = segment->info [COLROW_SUB_INDEX(i)];
+			if (cri == NULL)
+				pixels += default_size;
+			else if (cri->visible)
+				pixels += cri->size_pixels;
+		} else {
+			int segment_end = COLROW_SEGMENT_END(i)+1;
+			if (segment_end > to)
+				segment_end = to;
+			pixels += default_size * (segment_end - i);
+			i = segment_end-1;
+		}
+	}
+
+	return pixels*sign;
 }

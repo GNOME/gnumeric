@@ -168,7 +168,7 @@ item_cursor_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, in
 {
 	ItemCursor    *item_cursor = ITEM_CURSOR (item);
 	GnumericSheet *gsheet = GNUMERIC_SHEET (item->canvas);
-	Sheet         *sheet = item_cursor->scg->sheet;
+	SheetControlGUI const * const scg = item_cursor->scg;
 
 	int x, y, w, h, extra;
 
@@ -182,15 +182,13 @@ item_cursor_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, in
 	item_cursor_request_redraw (item_cursor);
 
 	item_cursor->cached_x = x =
-	    gsheet->col_offset.first +
-	    sheet_col_get_distance_pixels (sheet, gsheet->col.first, left);
+		gsheet->col_offset.first +
+		scg_get_distance (scg, TRUE, gsheet->col.first, left);
 	item_cursor->cached_y = y =
-	    gsheet->row_offset.first +
-	    sheet_row_get_distance_pixels (sheet, gsheet->row.first, top);
-	item_cursor->cached_w = w =
-	    sheet_col_get_distance_pixels (sheet, left, right+1);
-	item_cursor->cached_h = h =
-	    sheet_row_get_distance_pixels (sheet, top, bottom+1);
+		gsheet->row_offset.first +
+		scg_get_distance (scg, FALSE, gsheet->row.first, top);
+	item_cursor->cached_w = w = scg_get_distance (scg, TRUE, left, right+1);
+	item_cursor->cached_h = h = scg_get_distance (scg, FALSE,top, bottom+1);
 
 	item->x1 = x - 1;
 	item->y1 = y - 1;

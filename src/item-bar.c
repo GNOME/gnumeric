@@ -408,7 +408,8 @@ set_cursor (ItemBar *item_bar, int pos)
 static void
 item_bar_start_resize (ItemBar *bar)
 {
-	Sheet const * const sheet = bar->scg->sheet;
+	SheetControlGUI const * const scg = bar->scg;
+	Sheet const * const sheet = scg->sheet;
 #if 0
 	/*
 	 * handle the zoom from the item-grid canvas, the resolution scaling is
@@ -418,7 +419,7 @@ item_bar_start_resize (ItemBar *bar)
 							 GTK_ORIENTATION_VERTICAL);
 #endif
 	double const zoom = sheet->last_zoom_factor_used; /* * res / 72.; */
-	GnumericSheet const * const gsheet = GNUMERIC_SHEET (bar->scg->canvas);
+	GnumericSheet const * const gsheet = GNUMERIC_SHEET (scg->canvas);
 	GnomeCanvas const * const canvas = GNOME_CANVAS (gsheet);
 	GnomeCanvasGroup * const group = GNOME_CANVAS_GROUP (canvas->root);
 	GnomeCanvasPoints * const points =
@@ -435,23 +436,23 @@ item_bar_start_resize (ItemBar *bar)
 	 * Set the guide line later based on the motion coordinates.
 	 */
 	if (bar->orientation == GTK_ORIENTATION_VERTICAL) {
-		double const y =
-		    sheet_row_get_distance_pixels (sheet, 0, bar->resize_pos) / zoom;
-		points->coords [0] =
-		    sheet_col_get_distance_pixels (sheet, 0, gsheet->col.first) / zoom;
+		double const y = scg_get_distance (scg, FALSE,
+					0, bar->resize_pos) / zoom;
+		points->coords [0] = scg_get_distance (scg, TRUE,
+					0, gsheet->col.first) / zoom;
 		points->coords [1] = y;
-		points->coords [2] =
-		    sheet_col_get_distance_pixels (sheet, 0, gsheet->col.last_visible+1) / zoom;
+		points->coords [2] = scg_get_distance (scg, TRUE,
+					0, gsheet->col.last_visible+1) / zoom;
 		points->coords [3] = y;
 	} else {
-		double const x =
-		    sheet_col_get_distance_pixels (sheet, 0, bar->resize_pos) / zoom;
+		double const x = scg_get_distance (scg, TRUE,
+					0, bar->resize_pos) / zoom;
 		points->coords [0] = x;
-		points->coords [1] =
-		    sheet_row_get_distance_pixels (sheet, 0, gsheet->row.first) / zoom;
+		points->coords [1] = scg_get_distance (scg, FALSE,
+					0, gsheet->row.first) / zoom;
 		points->coords [2] = x;
-		points->coords [3] =
-		    sheet_row_get_distance_pixels (sheet, 0, gsheet->row.last_visible+1) / zoom;
+		points->coords [3] = scg_get_distance (scg, FALSE,
+					0, gsheet->row.last_visible+1) / zoom;
 	}
 
 	item = gnome_canvas_item_new ( group,

@@ -435,16 +435,17 @@ cell_offset_calc_pixel (Sheet const *sheet, int i, gboolean is_col,
  * in the object.
  */
 void
-sheet_object_position_pixels (SheetObject const *so, int *coords)
+sheet_object_position_pixels (SheetObject const *so,
+			      SheetControlGUI const *scg, int *coords)
 {
-	coords [0] = sheet_col_get_distance_pixels (so->sheet, 0,
+	coords [0] = scg_get_distance (scg, TRUE, 0,
 		so->cell_bound.start.col);
-	coords [1] = sheet_row_get_distance_pixels (so->sheet, 0,
+	coords [1] = scg_get_distance (scg, FALSE, 0,
 		so->cell_bound.start.row);
 
-	coords [2] = coords [0] + sheet_col_get_distance_pixels (so->sheet,
+	coords [2] = coords [0] + scg_get_distance (scg, TRUE,
 		so->cell_bound.start.col, so->cell_bound.end.col);
-	coords [3] = coords [1] + sheet_row_get_distance_pixels (so->sheet,
+	coords [3] = coords [1] + scg_get_distance (scg, FALSE,
 		so->cell_bound.start.row, so->cell_bound.end.row);
 
 	coords [0] += cell_offset_calc_pixel (so->sheet, so->cell_bound.start.col,

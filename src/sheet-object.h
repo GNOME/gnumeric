@@ -47,7 +47,9 @@ void         sheet_object_print       (SheetObject const *so,
 
 void	     sheet_object_realize	  (SheetObject *object);
 void         sheet_object_position	  (SheetObject *so, CellPos const *pos);
-void	     sheet_object_position_pixels (SheetObject const *so, int *pos);
+void	     sheet_object_position_pixels (SheetObject const *so,
+					   SheetControlGUI const *scg,
+					   int *pos);
 void	     sheet_object_position_pts    (SheetObject const *so, double *pos);
 Range const *sheet_object_range_get	  (SheetObject const *so);
 void         sheet_object_range_set	  (SheetObject *so, Range const *r,

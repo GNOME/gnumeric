@@ -156,25 +156,53 @@ cell_formats [] = {
 void
 currency_date_format_init (void)
 {
-	char const *curr = format_get_currency ();
+	gboolean precedes, space_sep;
+	char const *curr = format_get_currency (&precedes, &space_sep);
+	char *pre, *post, *pre_rep, *post_rep;
 
-	cell_format_currency [0] =
-		g_strdup_printf ("\"%s\"#,##0", curr);
-	cell_format_currency [1] =
-		g_strdup_printf ("\"%s\"#,##0_);(%s#,##0)", curr, curr);
-	cell_format_currency [2] =
-		g_strdup_printf ("\"%s\"#,##0_);[Red](%s#,##0)", curr, curr);
-	cell_format_currency [3] =
-		g_strdup_printf ("\"%s\"#,##0.00", curr);
-	cell_format_currency [4] =
-		g_strdup_printf ("\"%s\"#,##0.00_);(%s#,##0.00)", curr, curr);
-	cell_format_currency [5] =
-		g_strdup_printf ("\"%s\"#,##0.00_);[Red](%s#,##0.00)", curr, curr);
+	if (precedes) {
+		post_rep = post = "";
+		pre_rep = "* ";
+		pre = g_strconcat ("\"", curr,
+				   (space_sep) ? "\" " : "\"", NULL);
+	} else {
+		pre_rep = pre = "";
+		post_rep = "* ";
+		post = g_strconcat ((space_sep) ? " \"" : "\"",
+				    curr, "\"", NULL);
+	}
 
-	cell_format_account [0] =
-		g_strdup_printf ("_(\"%s\"* #,##0_);_(\"%s\"* (#,##0);_(\"%s\"* \"-\"_);_(@_)", curr, curr, curr);
-	cell_format_account [2] =
-		g_strdup_printf ("_(\"%s\"* #,##0.00_);_(\"%s\"* (#,##0.00);_(\"%s\"* \"-\"??_);_(@_)", curr, curr, curr);
+	cell_format_currency [0] = g_strdup_printf (
+		"%s#,##0%s",
+		pre, post);
+	cell_format_currency [1] = g_strdup_printf (
+		"%s#,##0%s_);(%s#,##0%s)",
+		pre, post, pre, post);
+	cell_format_currency [2] = g_strdup_printf (
+		"%s#,##0%s_);[Red](%s#,##0%s)",
+		pre, post, pre, post);
+	cell_format_currency [3] = g_strdup_printf (
+		"%s#,##0.00%s",
+		pre, post);
+	cell_format_currency [4] = g_strdup_printf (
+		"%s#,##0.00%s_);(%s#,##0.00%s)",
+		pre, post, pre, post);
+	cell_format_currency [5] = g_strdup_printf (
+		"%s#,##0.00%s_);[Red](%s#,##0.00%s)",
+		pre, post, pre, post);
+
+	cell_format_account [0] = g_strdup_printf (
+		"_(%s%s#,##0%s%s_);_(%s%s(#,##0)%s%s;_(%s%s\"-\"%s%s_);_(@_)",
+		pre, pre_rep, post_rep, post,
+		pre, pre_rep, post_rep, post,
+		pre, pre_rep, post_rep, post);
+	cell_format_account [2] = g_strdup_printf (
+		"_(%s%s#,##0.00%s%s_);_(%s%s(#,##0.00)%s%s;_(%s%s\"-\"??%s%s_);_(@_)",
+		pre, pre_rep, post_rep, post,
+		pre, pre_rep, post_rep, post,
+		pre, pre_rep, post_rep, post);
+
+	g_free (*pre ? pre : post);
 
 	if (!format_month_before_day ()) {
 		cell_format_date [0]  = "d/m/yy";

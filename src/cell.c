@@ -752,7 +752,7 @@ cell_set_format (Cell *cell, char const *format)
 }
 
 /**
- * cell_make_value : drops the expression keeps its value.  Then uses the formatted
+ * cell_convert_expr_to_value : drops the expression keeps its value.  Then uses the formatted
  *      result as if that had been entered.
  *
  * NOTE : the cell's expression cannot be linked into the expression * list.
@@ -766,7 +766,7 @@ cell_set_format (Cell *cell, char const *format)
  * NOTE : This DOES NOT check for array partitioning.
  */
 void
-cell_make_value (Cell *cell)
+cell_convert_expr_to_value (Cell *cell)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell_has_expr(cell));

@@ -69,8 +69,8 @@ comment_get_points (SheetControlGUI *scg, SheetObject const *so)
 	int x, y, i;
 
 	/* TODO : This could be optimized using the offsets associated with the visible region */
-	x = sheet_col_get_distance_pixels (scg->sheet, 0, so->cell_bound.start.col + 1) - 1;
-	y = sheet_row_get_distance_pixels (scg->sheet, 0, so->cell_bound.start.row) + 1;
+	x = scg_get_distance (scg, TRUE, 0, so->cell_bound.start.col + 1) - 1;
+	y = scg_get_distance (scg, FALSE, 0, so->cell_bound.start.row) + 1;
 
 	points = gnome_canvas_points_new (3);
 	points->coords [0] = x - TRIANGLE_WIDTH;

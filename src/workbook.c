@@ -1156,7 +1156,7 @@ workbook_sheet_rename (WorkbookControl *wbc,
 		       const char *old_name,
 		       const char *new_name)
 {
-	Sheet *sheet;
+	Sheet *tmp, *sheet;
 
 	g_return_val_if_fail (wb != NULL, TRUE);
 	g_return_val_if_fail (old_name != NULL, TRUE);
@@ -1172,17 +1172,19 @@ workbook_sheet_rename (WorkbookControl *wbc,
 		return TRUE;
 	}
 
-	/* Do not let two sheets in the workbook have the same name */
-	if (g_hash_table_lookup (wb->sheet_hash_private, new_name)) {
-		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
-					_("Duplicate Sheet name"), new_name);
-		return TRUE;
-	}
-
 	sheet = (Sheet *) g_hash_table_lookup (wb->sheet_hash_private,
 					       old_name);
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
+
+	/* Do not let two sheets in the workbook have the same name */
+	tmp = (Sheet *) g_hash_table_lookup (wb->sheet_hash_private, new_name);
+	if (tmp != NULL && tmp != sheet) {
+		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
+					_("There is already a sheet named '%s'"),
+					new_name);
+		return TRUE;
+	}
 
 	g_hash_table_remove (wb->sheet_hash_private, old_name);
 	sheet_rename (sheet, new_name);

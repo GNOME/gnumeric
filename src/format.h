@@ -29,7 +29,7 @@ char  *format_remove_decimal   (StyleFormat const *fmt);
 
 /* Locale support routines */
 char const *gnumeric_setlocale      (int category, char const *val);
-char const *format_get_currency     (void);
+char const *format_get_currency     (gboolean *precedes, gboolean *space_sep);
 gboolean    format_month_before_day (void);
 char        format_get_arg_sep      (void);
 char        format_get_col_sep      (void);

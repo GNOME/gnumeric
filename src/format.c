@@ -87,11 +87,23 @@ format_get_thousand (void)
 	return '.';
 }
 
+/**
+ * format_get_currency :
+ * @precedes : a pointer to a boolean which is set to TRUE if the currency
+ * 		should precede
+ * @space_sep: a pointer to a boolean which is set to TRUE if the currency
+ * 		should have a space separating it from the the value
+ */
 char const *
-format_get_currency (void)
+format_get_currency (gboolean *precedes, gboolean *space_sep)
 {
 	if (lc == NULL)
 		lc = localeconv ();
+
+	if (precedes)
+		*precedes = (lc->p_cs_precedes != 0);
+	if (space_sep)
+		*space_sep = (lc->p_sep_by_space != 0);
 
 	if (lc->currency_symbol == NULL || *lc->currency_symbol == '\0')
 		return "$";
@@ -1037,7 +1049,7 @@ format_add_decimal (StyleFormat const *fmt)
 /*********************************************************************/
 
 static gchar *
-format_number (gdouble number, const StyleFormatEntry *style_format_entry)
+format_number (gdouble number, int const col_width, const StyleFormatEntry *style_format_entry)
 {
 	GString *result = g_string_new ("");
 	const char *format = style_format_entry->format;
@@ -1309,6 +1321,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			quiet_warning = TRUE;
 			g_warning ("REPEAT FORMAT NOT YET SUPPORTED '%s' %g\n",
 				   style_format_entry->format, number);
+			format++;
 			break;
 		}
 
@@ -1618,13 +1631,13 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 			}
 			return fmt_general_float (val, col_width);
 		}
-		v = format_number (value->v_float.val, &entry);
+		v = format_number (value->v_float.val, (int)col_width, &entry);
 		break;
 
 	case VALUE_INTEGER:
 		if (is_general)
 			return fmt_general_int (value->v_int.val, col_width);
-		v = format_number (value->v_int.val, &entry);
+		v = format_number (value->v_int.val, (int)col_width, &entry);
 		break;
 
 	case VALUE_BOOLEAN:

@@ -225,7 +225,7 @@ paste_cell (Sheet *dest_sheet,
 			if (paste_flags & PASTE_CONTENT)
 				cell_relocate (new_cell, rwinfo);
 			else
-				cell_make_value (new_cell);
+				cell_convert_expr_to_value (new_cell);
 		}
 
 		sheet_cell_insert (dest_sheet, new_cell, target_col, target_row, TRUE);

@@ -139,7 +139,7 @@ cell_split_text (GdkFont *font, char const *text, int const width)
  *       of the gridlines (marked a).
  */
 void
-cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
+cell_draw (Cell const *cell, MStyle *mstyle,
 	   GdkGC *gc, GdkDrawable *drawable, int x1, int y1, int width, int height)
 {
 	StyleFont    *style_font;
@@ -192,26 +192,6 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	rect.y = y1 + 1 + ri->margin_a;
 	rect.width = width;
 	rect.height = height;
-
-	if (spaninfo != NULL && sheet != NULL) {
-		/* x1, y1 are relative to this cell origin, but the cell
-		 * might be using columns to the left (if it is set to right
-		 * justify or center justify) compute the pixel difference
-		 *
-		 * NOTE : If sheet is null than center across selection will not
-		 * work currently this is only applicable to the preview-grid
-		 * (preview-grid.c)
-		 */
-		if (spaninfo->left != cell->pos.col) {
-			int offset = sheet_col_get_distance_pixels (sheet,
-				spaninfo->left, cell->pos.col);
-			rect.x     -= offset;
-			rect.width += offset;
-		}
-		if (spaninfo->right != cell->pos.col)
-			rect.width += sheet_col_get_distance_pixels (sheet,
-				cell->pos.col+1, spaninfo->right+1);
-	}
 
 	style_font = sheet_view_get_style_font (sheet, mstyle);
 	font = style_font_gdk_font (style_font);

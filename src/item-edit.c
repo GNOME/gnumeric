@@ -343,14 +343,14 @@ recalc_spans (GnomeCanvasItem *item)
 		g_slist_free (item_edit->text_offsets);
 	item_edit->text_offsets = g_slist_reverse (text_offsets);
 
-	cri = sheet_row_get_info (sheet, item_edit->row);
-
 	/* The lower right is based on the span size excluding the grid lines
 	 * Recall that the bound excludes the far point
 	 */
 	item->x2 = 1 + item->x1 - 2 +
-		sheet_col_get_distance_pixels (sheet, item_edit->col,
-					       item_edit->col + item_edit->col_span);
+		scg_get_distance (item_edit->scg, TRUE, item_edit->col,
+				  item_edit->col + item_edit->col_span);
+
+	cri = sheet_row_get_info (sheet, item_edit->row);
 	item->y2 = 1 + item->y1 +
 		MAX (item_edit->lines * item_edit->font_height, cri->size_pixels - 2);
 
@@ -528,9 +528,11 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 		/* move inwards 1 pixel for the grid line */
 		item->x1 = 1 + gsheet->col_offset.first +
-			sheet_col_get_distance_pixels (sheet, gsheet->col.first, item_edit->col);
+			scg_get_distance (item_edit->scg, TRUE,
+					  gsheet->col.first, item_edit->col);
 		item->y1 = 1 + gsheet->row_offset.first +
-			sheet_row_get_distance_pixels (sheet, gsheet->row.first, item_edit->row);
+			scg_get_distance (item_edit->scg, FALSE,
+					  gsheet->row.first, item_edit->row);
 
 		item->x2 = item->x1 + 1;
 		item->y2 = item->y2 + 1;

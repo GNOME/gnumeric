@@ -289,8 +289,8 @@ print_make_rectangle_path (GnomePrintContext *pc,
  *      \------/
  */
 static void
-print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
-	    GnomePrintContext *context, double x1, double y1)
+print_cell (Cell const *cell, MStyle *mstyle,
+	    GnomePrintContext *context, double x1, double y1, double width, double height)
 {
 	StyleFont *style_font = mstyle_get_font (mstyle, 1.0);
 	GnomeFont *print_font = style_font->font;
@@ -301,7 +301,6 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 	Sheet const *sheet = cell->base.sheet;
 	ColRowInfo const *ci = cell->col_info;
 	ColRowInfo const *ri = cell->row_info;
-	double width, height;
 	double text_base;
 	double font_height;
 	StyleHAlignFlags halign;
@@ -330,9 +329,9 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 		text = cell->rendered_value->rendered_text->str;
 
 	/* Get the sizes exclusive of margins and grids */
-	/*if (width < 0) */
+	if (width < 0)
 		width  = ci->size_pts - (ci->margin_b + ci->margin_a + 1.);
-	/*if (height < 0)*/
+	if (height < 0)
 		height = ri->size_pts - (ri->margin_b + ri->margin_a + 1.);
 
 	/* This rectangle has the whole area used by this cell
@@ -341,22 +340,6 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 	rect_y = y1 - 1 - ri->margin_a;
 	rect_width = width;
 	rect_height = height;
-
-	if (spaninfo != NULL) {
-		/* x1, y1 are relative to this cell origin, but the cell might
-		 * be using columns to the left (if it is set to right justify
-		 * or center justify) compute the difference in pts.
-		 */
-		if (spaninfo->left != cell->pos.col) {
-			int offset = sheet_col_get_distance_pts (sheet,
-				spaninfo->left, cell->pos.col);
-			rect_x     -= offset;
-			rect_width += offset;
-		}
-		if (spaninfo->right != cell->pos.col)
-			rect_width += sheet_col_get_distance_pts (sheet,
-				cell->pos.col+1, spaninfo->right+1);
-	}
 
 	font_height = style_font->size;
 	valign = mstyle_get_align_v (mstyle);
@@ -742,8 +725,8 @@ print_cell_range (GnomePrintContext *context,
 				} else {
 					printed = TRUE;
 					if (output)
-						print_cell (cell, mstyle, NULL,
-							    context, x, y);
+						print_cell (cell, mstyle,
+							    context, x, y, -1., -1.);
 				}
 
 				mstyle_unref (mstyle);
@@ -796,9 +779,28 @@ print_cell_range (GnomePrintContext *context,
 										 col, cell->pos.col);
 				}
 
-				if (is_visible && output)
-					print_cell (cell, real_style, span,
-						    context, real_x, y);
+				if (is_visible && output) {
+					/* FIXME : use correct margins */
+					double width  = ci->size_pts - (ci->margin_b + ci->margin_a + 1);
+					double x = real_x;
+
+					/* x1, y1 are relative to this cell origin, but the cell might
+					 * be using columns to the left (if it is set to right justify
+					 * or center justify) compute the difference in pts.
+					 */
+					if (start_span_col != cell->pos.col) {
+						int offset = sheet_col_get_distance_pts (sheet,
+							start_span_col, cell->pos.col);
+						x     -= offset;
+						width += offset;
+					}
+					if (end_span_col != cell->pos.col)
+						width += sheet_col_get_distance_pts (sheet,
+							cell->pos.col+1, end_span_col+1);
+
+					print_cell (cell, real_style,
+						    context, real_x, y, width, -1.);
+				}
 
 				printed = TRUE;
 				mstyle_unref (real_style);

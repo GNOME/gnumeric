@@ -3,9 +3,8 @@
 
 #include <glib.h>
 #include "gnumeric.h"
-#include "cellspan.h"
 
-void cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
+void cell_draw (Cell const *cell, MStyle *mstyle,
 		GdkGC *gc, GdkDrawable *drawable, int x, int y, int height, int width);
 
 #endif /* GNUMERIC_CELL_DRAW_H */

@@ -206,7 +206,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 			     Range const *view, Range const *range)
 {
 	int l, r, t, b, tmp;
-	Sheet  *sheet  = grid->scg->sheet;
+	Sheet *sheet  = grid->scg->sheet;
 	GdkGC  * const gc = grid->empty_gc;
 	Cell const *cell = sheet_cell_get (sheet, range->start.col, range->start.row);
 	MStyle *mstyle = sheet_style_compute (sheet, range->start.col, range->start.row);
@@ -218,7 +218,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 
 	l = r = start_x;
 	if (view->start.col <= range->start.col) {
-		l += sheet_col_get_distance_pixels (sheet,
+		l += scg_get_distance (grid->scg, TRUE,
 			view->start.col, range->start.col);
 		if (no_background)
 			l++;
@@ -228,11 +228,11 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 		if (no_background)
 			r--;
 	}
-	r += sheet_col_get_distance_pixels (sheet, view->start.col, tmp+1);
+	r += scg_get_distance (grid->scg, TRUE, view->start.col, tmp+1);
 
 	t = b = start_y;
 	if (view->start.row <= range->start.row) {
-		t += sheet_row_get_distance_pixels (sheet,
+		t += scg_get_distance (grid->scg, FALSE,
 			view->start.row, range->start.row);
 		if (no_background)
 			t++;
@@ -242,29 +242,29 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 		if (no_background)
 			b--;
 	}
-	b += sheet_row_get_distance_pixels (sheet, view->start.row, tmp+1);
+	b += scg_get_distance (grid->scg, FALSE, view->start.row, tmp+1);
 
 	/* Remember X excludes the far pixels */
 	gdk_draw_rectangle (drawable, gc, TRUE, l, t, r-l+1, b-t+1);
 
 	if (range->start.col < view->start.col) {
-		l -= sheet_col_get_distance_pixels (sheet,
+		l -= scg_get_distance (grid->scg, TRUE,
 			range->start.col, view->start.col);
 	} else if (no_background)
 		l--;
 
 	if (view->end.col < range->end.col)
-		r += sheet_col_get_distance_pixels (sheet,
+		r += scg_get_distance (grid->scg, TRUE,
 			view->end.col+1, range->end.col+1);
 	else if (no_background)
 		r++;
 	if (range->start.row < view->start.row)
-		t -= sheet_row_get_distance_pixels (sheet,
+		t -= scg_get_distance (grid->scg, FALSE,
 			range->start.row, view->start.row);
 	else if (no_background)
 		t--;
 	if (view->end.row < range->end.row)
-		b += sheet_row_get_distance_pixels (sheet,
+		b += scg_get_distance (grid->scg, FALSE,
 			view->end.row+1, range->end.row+1);
 	else if (no_background)
 		b++;
@@ -275,7 +275,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 		ColRowInfo const * const ri = cell->row_info;
 		ColRowInfo const * const ci = cell->col_info;
 
-		cell_draw (cell, mstyle, NULL, grid->gc, drawable,
+		cell_draw (cell, mstyle, grid->gc, drawable,
 			   l, t,
 			   r - l - ci->margin_b - ci->margin_a,
 			   b - t - ri->margin_b - ri->margin_a);
@@ -458,8 +458,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 			if (merged_active) {
 				Range *r = merged_active->data;
 				if (r->start.col <= col) {
-					x_paint += sheet_col_get_distance_pixels (
-						sheet, col, r->end.col+1);
+					x_paint += scg_get_distance (
+						gsheet->scg, TRUE, col, r->end.col+1);
 					col = r->end.col + 1;
 
 					ptr = merged_active;
@@ -491,7 +491,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 					col, row, x_paint, y_paint, FALSE);
 
 				if (!cell_is_blank (cell) && cell != edit_cell)
-					cell_draw (cell, mstyle, NULL,
+					cell_draw (cell, mstyle,
 						   item_grid->gc, drawable,
 						   x_paint, y_paint, -1, -1);
 				mstyle_unref (mstyle);
@@ -533,13 +533,32 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 				if (real_style == NULL) {
 					real_style = sheet_style_compute (sheet, real_col, ri->pos);
 					real_x = x_paint +
-					    sheet_col_get_distance_pixels (sheet, col, cell->pos.col);
+					    scg_get_distance (gsheet->scg, TRUE, col, cell->pos.col);
 				}
 
-				if (is_visible && cell != edit_cell)
-					cell_draw (cell, real_style, span,
+				if (is_visible && cell != edit_cell) {
+					/* FIXME : use correct margins */
+					int width  = ci->size_pixels - (ci->margin_b + ci->margin_a + 1);
+					int x = real_x;
+
+					/* x1, y1 are relative to this cell origin, but the cell
+					 * might be using columns to the left (if it is set to right
+					 * justify or center justify) compute the pixel difference
+					 */
+					if (start_span_col != cell->pos.col) {
+						int offset = scg_get_distance (gsheet->scg, TRUE,
+							start_span_col, cell->pos.col);
+						x     -= offset;
+						width += offset;
+					}
+					if (end_span_col != cell->pos.col)
+						width += scg_get_distance (gsheet->scg, TRUE,
+							cell->pos.col+1, end_span_col + 1);
+
+					cell_draw (cell, real_style,
 						   item_grid->gc, drawable,
-						   real_x, y_paint, -1, -1);
+						   x, y_paint, width, -1);
+				}
 				mstyle_unref (real_style);
 			}
 		}

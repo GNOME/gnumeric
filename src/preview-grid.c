@@ -297,7 +297,7 @@ preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, i
 			 * Draw the cell contents, if "cell" is non-null
 			 */
 			if (cell)
-				cell_draw (cell, mstyle, NULL, preview_grid->gc, drawable,
+				cell_draw (cell, mstyle, preview_grid->gc, drawable,
 					   x_paint, y_paint, -1, -1);
 
 			mstyle_unref (mstyle);

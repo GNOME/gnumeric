@@ -1,5 +1,38 @@
 2000-12-14  Jody Goldberg <jgoldberg@home.com>
 
+	* src/item-grid.c (item_grid_draw) : Move the span handling here.
+	* src/cell-draw.c (cell_draw) : from here.
+
+	* src/print-cell.c (print_cell_range) : Move the span handling here.
+	(print_cell) : rather than here.
+
+	* src/sheet-control-gui.c (scg_get_distance) : merge
+	  sheet_{row,col}_distance_get_pixels and make the result sheet
+	  control specific.
+
+2000-12-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_convert_expr_to_value) : rename from cell_make_value.
+
+	* src/format.c (format_number) : adjust signature to take the
+	  colwidth in preparation for supporting 
+	(format_value) : pass in the width.
+
+2000-12-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/formats.c (currency_date_format_init) : correctly place currency
+	  before or after the value, and optionally include a space.
+
+	* src/format.c (format_get_currency) : include info on currency
+	  placement.
+
+2000-12-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (workbook_sheet_rename) : Handle renames that only
+	  change case more smoothly.
+
+2000-12-14  Jody Goldberg <jgoldberg@home.com>
+
 	* configure.in : Gussy up the reporting to improve readability
 
 2000-12-14  Jody Goldberg <jgoldberg@home.com>

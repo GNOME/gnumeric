@@ -165,7 +165,6 @@ void        sheet_row_add                 (Sheet *sheet, ColRowInfo *cp);
  * _default == The size of all cols/rows that do not have explicit sizes.
  */
 /* Col width */
-int     sheet_col_get_distance_pixels	  (Sheet const *sheet, int from_col, int to_col);
 double  sheet_col_get_distance_pts	  (Sheet const *sheet, int from_col, int to_col);
 void    sheet_col_set_size_pts		  (Sheet *sheet, int col, double width_pts,
 					   gboolean set_by_user);
@@ -177,7 +176,6 @@ void    sheet_col_set_default_size_pts	  (Sheet *sheet, double width_pts);
 void    sheet_col_set_default_size_pixels (Sheet *sheet, int width_pixels);
 
 /* Row height */
-int     sheet_row_get_distance_pixels	  (Sheet const *sheet, int from_row, int to_row);
 double  sheet_row_get_distance_pts	  (Sheet const *sheet, int from_row, int to_row);
 
 void    sheet_row_set_size_pts		  (Sheet *sheet, int row, double height_pts,
