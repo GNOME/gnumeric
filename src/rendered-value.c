@@ -222,9 +222,7 @@ rendered_value_new (Cell *cell, MStyle const *mstyle,
 #ifdef BUG_105322
 	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
 	fore = color ? color : mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
-	res->color.red = fore->red;
-	res->color.green = fore->green;
-	res->color.blue = fore->blue;
+	res->color = fore->color;
 	if (color) style_color_unref (color);
 #else
 	if (color) {
