@@ -1,4 +1,12 @@
-2001-05-18  Jody Goldberg <jgoldberg@home.com>
+2001-05-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/plugin.c (plugin_db_extend_saved_active_plugin_id_list) : Merge
+	  into plugin_db_init.
+	(plugin_db_init) : Find the unknown plugins not the known plugins.
+	  Remove the list of plugins that default to on.
+	  Fix the use of gnome_config.
+
+2001-05-19  Jody Goldberg <jgoldberg@home.com>
 
 	* gnumeric.spec.in : update GAL req.
 	* configure.in : ditto.
@@ -6,6 +14,8 @@
 
 	* src/GNOME_Gnumeric.xml : Fix the accelerators to use xkeysym names
 	  rather than the physical key for slash and space.
+
+	* src/plugin.c (plugin_db_init) : Enable new plugins by default.
 
 2001-05-17  Jody Goldberg <jgoldberg@home.com>
 

@@ -46,8 +46,6 @@
 
 #define PLUGIN_INFO_FILE_NAME          "plugin.xml"
 
-static gchar *plugins_active_by_default[] = {"Gnumeric_Excel", NULL};
-
 typedef struct _PluginLoaderStaticInfo PluginLoaderStaticInfo;
 struct _PluginLoaderStaticInfo {
 	gchar *loader_type_str;
@@ -1563,17 +1561,6 @@ plugin_db_update_saved_active_plugin_id_list (void)
 	                                 NULL);
 }
 
-static void
-plugin_db_extend_saved_active_plugin_id_list (GList *extra_ids)
-{
-	if (extra_ids == NULL) {
-		return;
-	} 
-	saved_active_plugin_id_list = g_list_concat (saved_active_plugin_id_list, extra_ids);
-	gnumeric_config_set_string_list (saved_active_plugin_id_list,
-	                                 "Gnumeric/Plugin/ActivePlugins",
-	                                 NULL);
-}
 
 void
 plugin_db_mark_plugin_for_deactivation (PluginInfo *pinfo, gboolean mark)
@@ -1624,42 +1611,40 @@ plugin_db_init (ErrorInfo **ret_error)
 	known_plugin_id_list = gnumeric_config_get_string_list (
 	                       "Gnumeric/Plugin/KnownPlugins",
 	                       NULL);
-	new_plugin_ids = NULL;
+
+	/* Make a hash of the known plugins */
 	known_plugin_id_hash = g_hash_table_new (&g_str_hash, &g_str_equal);
 	g_hash_table_freeze (known_plugin_id_hash);
 	for (l = known_plugin_id_list; l != NULL; l = l->next) {
 		g_hash_table_insert (known_plugin_id_hash, l->data, NULL);
 	}
 	g_hash_table_thaw (known_plugin_id_hash);
-	for (l = available_plugin_info_list; l != NULL; l = l->next) {
-		gchar *plugin_id;
 
-		plugin_id = ((PluginInfo *) l->data)->id;
-		if (g_hash_table_lookup (known_plugin_id_hash, plugin_id) != NULL) {
+	/* Find the new plugins by searching in the hash */
+	new_plugin_ids = NULL;
+	for (l = available_plugin_info_list; l != NULL; l = l->next) {
+		gchar *plugin_id = ((PluginInfo *) l->data)->id;
+		if (g_hash_table_lookup (known_plugin_id_hash, plugin_id) == NULL)
 			new_plugin_ids = g_list_prepend (new_plugin_ids, g_strdup (plugin_id));
-		}
 	}
 	g_hash_table_destroy (known_plugin_id_hash);
 
-	if (gnome_config_get_bool_with_default ("Gnumeric/Plugin/ActivateNewByDefault", FALSE)) {
-		plugin_db_extend_saved_active_plugin_id_list (g_string_list_copy (new_plugin_ids));
-	} else {
-		GList *new_active_plugin_ids = NULL;
-		gchar **id_ptr;
-
-		for (id_ptr = plugins_active_by_default; *id_ptr != NULL; id_ptr++) {
-			if (g_list_find_custom (new_plugin_ids, *id_ptr, &g_str_compare) != NULL) {
-				new_active_plugin_ids = g_list_prepend (new_active_plugin_ids, g_strdup (*id_ptr));
-			}
-		}
-		plugin_db_extend_saved_active_plugin_id_list (new_active_plugin_ids);
-	}
-
+	/* Store and potentially activate new plugins */
 	if (new_plugin_ids != NULL) {
-		known_plugin_id_list = g_list_concat (known_plugin_id_list, new_plugin_ids);
+		if (gnome_config_get_bool_with_default ("Gnumeric/Plugin/ActivateNewByDefault=true", NULL)) {
+			saved_active_plugin_id_list =
+				g_list_concat (saved_active_plugin_id_list,
+					       g_string_list_copy (new_plugin_ids));
+			gnumeric_config_set_string_list (saved_active_plugin_id_list,
+				"Gnumeric/Plugin/ActivePlugins",
+				NULL);
+		}
+
+		known_plugin_id_list = g_list_concat (known_plugin_id_list,
+				new_plugin_ids);
 		gnumeric_config_set_string_list (known_plugin_id_list,
-		                                 "Gnumeric/Plugin/KnownPlugins",
-		                                 NULL);
+				"Gnumeric/Plugin/KnownPlugins",
+				NULL);
 	}
 }
 

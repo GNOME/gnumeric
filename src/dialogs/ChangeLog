@@ -1,3 +1,8 @@
+2001-05-19  Jody Goldberg <jgoldberg@home.com>
+
+	* plugin-manager.glade : convert the vertical scrollbars to
+	  autoscroll.
+
 2001-05-18  Almer S. Tigelaar  <almer@gnome.org>
 
 	* dialog-goto-cell.c (dialog_goto_cell): Don't add duplicates
