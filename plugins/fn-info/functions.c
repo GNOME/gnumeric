@@ -126,8 +126,7 @@ translate_cell_format (GnmFormat const *format)
 {
 	int i;
 	char *fmt;
-	const int translate_table_count = sizeof (translate_table) /
-		sizeof(translate_t);
+	const int translate_table_count = G_N_ELEMENTS (translate_table);
 
 	if (format == NULL)
 		return value_new_string ("G");
@@ -145,6 +144,14 @@ translate_cell_format (GnmFormat const *format)
 			return value_new_string (t->output);
 		}
 	}
+
+#warning "FIXME: CELL('format',...) isn't right"
+	/*
+	 * 1. The above lookup should be done with respect to just the
+	 *    first of format alternatives.
+	 * 2. I don't think colour should count.
+	 * 3. We should add a dash if there are more alternatives.
+	 */
 
 	g_free (fmt);
 	return value_new_string ("G");
