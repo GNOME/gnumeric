@@ -1,3 +1,7 @@
+2001-02-20  Jody Goldberg <jgoldberg@home.com>
+
+	* xml2.c (xml2ParseStyleRegionStyle) : restore indent.
+
 2001-02-19  Jon K Hellan  <hellan@acm.org>
 
 	* xml2.c (xml2_open): Change file format level to

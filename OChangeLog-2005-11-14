@@ -1,3 +1,13 @@
+2001-02-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c (xml_write_style) : store indent.
+	(xml_read_style) : restore indent.
+
+2001-02-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-edit.c (item_edit_draw_text) : draw autocompletions of
+	  wrapped text nicely.
+
 2001-01-20  John Gotts  <jgotts@linuxsavvy.com>
 
 	* gnumeric.spec.in: Sync with new directory structure.

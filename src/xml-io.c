@@ -740,6 +740,8 @@ xml_write_style (XmlParseContext *ctxt,
 		xml_set_value_int (cur, "Orient", mstyle_get_orientation (style));
 	if (mstyle_is_element_set (style, MSTYLE_PATTERN))
 		xml_set_value_int (cur, "Shade", mstyle_get_pattern (style));
+	if (mstyle_is_element_set (style, MSTYLE_INDENT))
+		xml_set_value_int (cur, "Indent", mstyle_get_indent (style));
 
 	if (mstyle_is_element_set (style, MSTYLE_COLOR_FORE)) {
 /*		if (!style_is_default_fore (mstyle_get_color (style, MSTYLE_COLOR_FORE)))*/
@@ -1508,6 +1510,9 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	if (xml_get_value_int (tree, "Shade", &val))
 		mstyle_set_pattern (mstyle, val);
+
+	if (xml_get_value_int (tree, "Indent", &val))
+		mstyle_set_indent (mstyle, val);
 
 	if (xml_get_color_value (tree, "Fore", &c))
 		mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, c);

@@ -730,6 +730,8 @@ xml2ParseStyleRegionStyle (XML2ParseState *state, CHAR const **attrs)
 			mstyle_set_orientation (state->style, val);
 		else if (xml2ParseAttrInt (attrs, "Shade", &val))
 			mstyle_set_pattern (state->style, val);
+		else if (xml2ParseAttrInt (attrs, "Indent", &val))
+			mstyle_set_indent (state->style, val);
 		else if (xml2ParseAttrColour (attrs, "Fore", &colour))
 			mstyle_set_color (state->style, MSTYLE_COLOR_FORE, colour);
 		else if (xml2ParseAttrColour (attrs, "Back", &colour))

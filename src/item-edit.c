@@ -171,8 +171,8 @@ item_edit_draw_cursor (ItemEdit *item_edit, GdkDrawable *drawable, GtkStyle *sty
 
 static void
 item_edit_draw_text (ItemEdit *item_edit, GdkDrawable *drawable, GtkStyle *style,
-		     gint x, gint y, char const *text, int text_length,
-		     int cursor_pos)
+		     int x1, int y, int w,
+		     char const *text, int text_length, int cursor_pos)
 {
 	GdkFont *font = item_edit->font;
 
@@ -181,28 +181,28 @@ item_edit_draw_text (ItemEdit *item_edit, GdkDrawable *drawable, GtkStyle *style
 	/* If this segment contains the cursor draw it */
 	if (0 <= cursor_pos && cursor_pos <= text_length) {
 		if (cursor_pos > 0) {
-			gdk_draw_text (drawable, font, gc, x, y, text, cursor_pos);
-			x += gdk_text_width (font, text, cursor_pos);
+			gdk_draw_text (drawable, font, gc, x1, y, text, cursor_pos);
+			x1 += gdk_text_width (font, text, cursor_pos);
 			text += cursor_pos;
 			text_length -= cursor_pos;
 			cursor_pos = 0;
 		}
 
-		item_edit_draw_cursor (item_edit, drawable, style, x, y, font);
+		item_edit_draw_cursor (item_edit, drawable, style, x1, y, font);
 	}
 
-	if (text_length > 0){
+	if (text_length > 0) {
 		if (text_length > cursor_pos &&
-		    workbook_auto_completing (item_edit->scg->wbcg)){
-			gdk_draw_rectangle (
-				drawable, style->black_gc, TRUE,
-				x, y - font->ascent,
-				gdk_text_width (font, text, text_length),
-				font->ascent + font->descent);
+		    workbook_auto_completing (item_edit->scg->wbcg)) {
+			if (w < 0)
+				w = gdk_text_width (font, text, text_length);
+			gdk_draw_rectangle (drawable, style->black_gc, TRUE,
+					    x1, y - font->ascent, w,
+					    font->ascent + font->descent);
 			gc = style->white_gc;
 		}
 
-		gdk_draw_text (drawable, font, gc, x, y, text, text_length);
+		gdk_draw_text (drawable, font, gc, x1, y, text, text_length);
 	}
 }
 
@@ -212,8 +212,8 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 {
 	GtkWidget *canvas   = GTK_WIDGET (item->canvas);
 	ItemEdit *item_edit = ITEM_EDIT (item);
-	ColRowInfo const * const ci = sheet_col_get_info (item_edit->scg->sheet,
-							  item_edit->pos.col);
+	ColRowInfo const *ci = sheet_col_get_info (item_edit->scg->sheet,
+						   item_edit->pos.col);
 	int const left_pos = ((int)item->x1) + ci->margin_a - x;
 
 	/* NOTE : This does not handle vertical alignment yet so there may be some
@@ -244,17 +244,20 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		int const text_end = GPOINTER_TO_INT (ptr->data);
 
 		item_edit_draw_text (item_edit, drawable, canvas->style,
-				     left_pos, top_pos, text+text_offset, text_end-text_offset,
-				     cursor_pos-text_offset);
+				     left_pos, top_pos, width,
+				     text + text_offset,
+				     text_end - text_offset,
+				     cursor_pos - text_offset);
 		text_offset = text_end;
 		top_pos += item_edit->font_height;
 	}
 
 	/* draw the remainder */
 	item_edit_draw_text (item_edit, drawable, canvas->style,
-			     left_pos, top_pos, text+text_offset,
-			     strlen (text+text_offset),
-			     cursor_pos-text_offset);
+			     left_pos, top_pos, -1,
+			     text + text_offset,
+			     strlen (text + text_offset),
+			     cursor_pos - text_offset);
 }
 
 static double
