@@ -13,7 +13,6 @@ plugin_LTLIBRARIES = liblotus.la
 
 liblotus_la_SOURCES =		\
 	boot.c			\
-	boot.h			\
 	lotus.c			\
 	lotus.h			\
 	lotus-formula.c		\
