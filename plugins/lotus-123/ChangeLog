@@ -1,3 +1,8 @@
+2003-07-28  Jody Goldberg <jody@gnome.org>
+
+	* lotus-formula.c (wk1_std_func) : dup the name in case the plugin
+	  gets removed while we still have a reference to the symbol.
+
 2003-06-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.19

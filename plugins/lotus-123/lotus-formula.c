@@ -287,7 +287,7 @@ wk1_std_func (GnmExprList **stack, Wk1Func const *f,
 	}
 
 	if (func == NULL) {
-		func = gnm_func_add_placeholder (f->name, "Lotus ", FALSE);
+		func = gnm_func_add_placeholder (f->name, "Lotus ", TRUE);
 		puts (cell_coord_name (col, row));
 	}
 	parse_list_push_expr (stack, gnm_expr_new_funcall (func,

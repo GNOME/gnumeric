@@ -37,9 +37,9 @@ typedef struct {
 	char const *name;
 	int num_args ; /* -1 for multi-arg */
 		       /* -2 for unknown args */
-} FormulaFuncData;
+} MsFormulaFuncData;
 
-extern FormulaFuncData const formula_func_data[];
+extern MsFormulaFuncData const formula_func_data[];
 #define FORMULA_FUNC_DATA_LEN 368
 
 #define ROW_BLOCK_MAX_LEN 32

@@ -36,7 +36,7 @@
 #define FORMULA_DEBUG 0
 
 typedef struct {
-	FormulaFuncData const *fd;
+	MsFormulaFuncData const *fd;
 	int idx;
 } ExcelFunc;
 

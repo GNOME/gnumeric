@@ -47,8 +47,7 @@
  *     macrofun.hlp has info on them but supporting Excel4 macro sheets is not
  *     top priority.
  **/
-FormulaFuncData const formula_func_data[FORMULA_FUNC_DATA_LEN] =
-{
+MsFormulaFuncData const formula_func_data[FORMULA_FUNC_DATA_LEN] = {
 /* 0 */		{ "COUNT", -1 },
 /* 1 */		{ "IF", -1 },
 /* 2 */		{ "ISNA", 1 },
@@ -409,7 +408,7 @@ FormulaFuncData const formula_func_data[FORMULA_FUNC_DATA_LEN] =
 /* 357 */	{ "VIEWGET", -2 },
 /* 358 */	{ "GETPIVOTDATA", 2 },
 /* 359 */	{ "HYPERLINK", -1 },	/* cell_contents is optional */
-/* 360 */	{ "PHONETIC", -2 },
+/* 360 */	{ "PHONETIC", 1 },
 /* 361 */	{ "AVERAGEA", -1 },
 /* 362 */	{ "MAXA", -1 },
 /* 363 */	{ "MINA", -1 },
@@ -626,7 +625,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs)
 		parse_list_push (stack, gnm_expr_new_funcall (name, args));
 		return TRUE;
 	} else if (fn_idx >= 0 && fn_idx < FORMULA_FUNC_DATA_LEN) {
-		FormulaFuncData const *fd = &formula_func_data [fn_idx];
+		MsFormulaFuncData const *fd = &formula_func_data [fn_idx];
 		GnmExprList *args;
 
 		d (2, fprintf (stderr, "Function '%s', args %d, templ: %d\n",
@@ -652,7 +651,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs)
 		if (fd->name) {
 			name = gnm_func_lookup (fd->name, NULL);
 			if (name == NULL)
-				name = gnm_func_add_placeholder (fd->name, "Builtin ", FALSE);
+				name = gnm_func_add_placeholder (fd->name, "Builtin ", TRUE);
 		}
 		/* This should not happen */
 		if (!name) {

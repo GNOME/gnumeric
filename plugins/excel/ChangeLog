@@ -1,3 +1,10 @@
+2003-07-28  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c (make_function) : dup the name because plugins get
+	  removed before symbols do and we would crash referencing a static
+	  string from the plugin.
+	(PHONETIC) : appears to have 1 arg (optional ?)
+
 2003-07-24  Jody Goldberg <jody@gnome.org>
 
 	* ms-biff.c (ms_biff_pre_biff8_query_set_decrypt) : new placeholder.
