@@ -300,28 +300,24 @@ msgid "Unexpected end of file at line %d while reading data."
 msgstr ""
 
 #: plugins/dif/dif.c:334
-#, fuzzy
 msgid "Error while reading DIF file."
-msgstr "Errore scrivendo il file csv"
+msgstr "Errore scrivendo il file DIF."
 
 #: plugins/dif/dif.c:365
-#, fuzzy
 msgid "Cannot get default sheet."
-msgstr "Non posso creare il file %s\n"
+msgstr "Non posso caricare il foglio predefinito."
 
 #: plugins/dif/dif.c:397
-#, fuzzy
 msgid "Error while saving DIF file."
-msgstr "Errore scrivendo il file csv"
+msgstr "Errore scrivendo il file DIF."
 
 #: plugins/dif/plugin.xml.in.h:1
 msgid "Data Interchange Format (*.dif)"
 msgstr "Formato Data Interchange (*.dif)"
 
 #: plugins/dif/plugin.xml.in.h:2
-#, fuzzy
 msgid "Data Interchange Format (DIF) module"
-msgstr "Modulo Formato Data Interchange (CSV)"
+msgstr "Modulo Formato Data Interchange (DIF)"
 
 #: plugins/dif/plugin.xml.in.h:3
 msgid ""
@@ -333,24 +329,24 @@ msgid ""
 "This file is not an 'OLE' file.  It may be too old for Gnumeric to read.\n"
 "Sorry, the management."
 msgstr ""
+"Questo non un file di tipo 'OLE' e potrebbe essere troppo vecchio per essere letto da Gnumeric.\n"
+"Scuse a nome della gestione."
 
 #: plugins/excel/boot.c:105
-#, fuzzy
 msgid "Unexpected error reading the file"
-msgstr "Errore: nessun foglio"
+msgstr "Errore inaspettato leggendo il file"
 
 #: plugins/excel/boot.c:146
 msgid "Preparing for save..."
-msgstr ""
+msgstr "Preparando la scrittura..."
 
 #: plugins/excel/boot.c:160
 msgid "Can't open"
 msgstr "Non posso aprire"
 
 #: plugins/excel/boot.c:170
-#, fuzzy
 msgid "Saving file..."
-msgstr "Singolo"
+msgstr "Scrittura del file..."
 
 #: plugins/excel/ms-excel-read.c:430
 msgid "#UNKNOWN!"
@@ -365,17 +361,17 @@ msgstr "Foglio%d"
 #: plugins/excel/ms-excel-read.c:567
 #, c-format
 msgid "Macro%d"
-msgstr ""
+msgstr "Macro%d"
 
 #: plugins/excel/ms-excel-read.c:570
 #, c-format
 msgid "Chart%d"
-msgstr ""
+msgstr "Grafico%d"
 
 #: plugins/excel/ms-excel-read.c:573
-#, fuzzy, c-format
+#, c-format
 msgid "Module%d"
-msgstr "Modo"
+msgstr "Modulo%d"
 
 #: plugins/excel/ms-excel-read.c:4450
 msgid "No book or workbook streams found."
@@ -384,16 +380,16 @@ msgstr ""
 #. All records after this are encrypted
 #: plugins/excel/ms-excel-read.c:4614
 msgid "Password protected workbooks are not supported yet."
-msgstr "Cartelle di lavoro protette da password non ancora supportate"
+msgstr "Cartelle di lavoro protette da password non ancora supportate."
 
 #: plugins/excel/ms-excel-read.c:4727
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Non riesco a trovare una cartella di lavoro MS Excel"
 
 #: plugins/excel/ms-excel-write.c:3503
-#, fuzzy, c-format
+#, c-format
 msgid "Too many rows for this format (%d > %d)"
-msgstr "Troppe righe per questo formato"
+msgstr "Troppe righe per questo formato (%d > %d)"
 
 #: plugins/excel/ms-excel-write.c:3731
 msgid "Can't open stream for writing\n"
@@ -408,42 +404,38 @@ msgid " Unknown formula"
 msgstr "Formula sconosciuta"
 
 #: plugins/excel/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports/Exports MS Excel (tm) files"
-msgstr "File in formato Microsoft(R) Excel"
+msgstr "Import/Esporta file in formato MS Excel (tm)"
 
 #: plugins/excel/plugin.xml.in.h:2
 msgid "MS Excel (tm)"
-msgstr ""
+msgstr "MS Excel (tm)"
 
 #: plugins/excel/plugin.xml.in.h:3
-#, fuzzy
 msgid "MS Excel (tm) (*.xls)"
-msgstr "File in formato Microsoft(R) Excel"
+msgstr "MS Excel (tm) (*.xls)"
 
 #: plugins/excel/plugin.xml.in.h:4
-#, fuzzy
 msgid "MS Excel (tm) 95 file format"
-msgstr "File in formato Excel(R) 95"
+msgstr "File in formato MS Excel (tm) 95"
 
 #: plugins/excel/plugin.xml.in.h:5
-#, fuzzy
 msgid "MS Excel (tm) 97 file format"
-msgstr "File in formato Excel(R) 97"
+msgstr "File in formato MS Excel (tm) 97"
 
 #: plugins/gb/plugin.c:138
 msgid "Unknown GB error"
-msgstr "Errore di Gnome Basic sconosciuto"
+msgstr "Errore di GB sconosciuto"
 
 #: plugins/gb/plugin.c:373
 #, c-format
 msgid "Error initializing gb '%s'"
-msgstr ""
+msgstr "Errore avviando gb '%s'"
 
 #: plugins/gb/plugin.c:388
 #, c-format
 msgid "Error in project '%s'"
-msgstr ""
+msgstr "Errore nel progetto '%s'"
 
 #: plugins/gb/plugin.xml.in.h:1
 msgid "Enables Gnome Basic support"
@@ -493,16 +485,15 @@ msgstr "Funzioni di Database che permettono di ottenere dati da un database"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:1
 msgid "Gnome Glossary"
-msgstr ""
+msgstr "Glossario di Gnome"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:2
-#, fuzzy
 msgid "Gnome Glossary PO file format"
-msgstr "File Gnumeric in formato XML"
+msgstr "File in formato PO per il Glossario di Gnome"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:3
 msgid "It provides support for saving Gnome Glossary in .po files."
-msgstr ""
+msgstr "Fornisce il supporto per la scrittura di file po per il Glossario di Gnome."
 
 #: plugins/guile/plugin.c:67 src/func.c:804 src/functions/fn-information.c:695
 #: src/functions/fn-information.c:766 src/functions/fn-information.c:794
@@ -526,7 +517,6 @@ msgid "Could not evaluate argument"
 msgstr "Non riesco a calcolare l'argomento"
 
 #: plugins/guile/plugin.xml.in.h:1
-#, fuzzy
 msgid "Guile Plugin"
 msgstr "Plugin per Guile"
 
@@ -535,13 +525,12 @@ msgid "This plugin enables Guile(scheme) support in Gnumeric"
 msgstr "Questo plugin abilita il supporto di Guile (scheme) in Gnumeric"
 
 #: plugins/html/plugin.xml.in.h:1
-#, fuzzy
 msgid "DVI TeX (via groff)"
-msgstr "File in formato DVI TeX (con groff)"
+msgstr "DVI TeX (con groff)"
 
 #: plugins/html/plugin.xml.in.h:2
 msgid "HTML & TeX"
-msgstr ""
+msgstr "HTML & TeX"
 
 #: plugins/html/plugin.xml.in.h:3
 #, fuzzy
@@ -549,41 +538,36 @@ msgid "HTML (*.html) fragment"
 msgstr "File formato HTML 4.0 (*.html)"
 
 #: plugins/html/plugin.xml.in.h:4
-#, fuzzy
 msgid "HTML 3.2 (*.html)"
-msgstr "File formato HTML 3.2 (*.html)"
+msgstr "HTML 3.2 (*.html)"
 
 #: plugins/html/plugin.xml.in.h:5
-#, fuzzy
 msgid "HTML 4.0 (*.html)"
-msgstr "File formato HTML 4.0 (*.html)"
+msgstr "HTML 4.0 (*.html)"
 
 #: plugins/html/plugin.xml.in.h:6
 msgid "HTML file made by gnumeric"
 msgstr "HTML prodotto da gnumeric"
 
 #: plugins/html/plugin.xml.in.h:7
-#, fuzzy
 msgid "Import/Export of HTML, TeX, DVI, roff"
-msgstr "Importa ed esporta file HTML, TeX, DVI, roff e pdf"
+msgstr "Importa ed esporta file HTML, TeX, DVI e roff"
 
 #: plugins/html/plugin.xml.in.h:8
-#, fuzzy
 msgid "LaTeX 2e (*.tex)"
-msgstr "File in formato LaTeX2e (*.tex)"
+msgstr "LaTeX 2e (*.tex)"
 
 #: plugins/html/plugin.xml.in.h:9
-#, fuzzy
 msgid "TROFF (*.me)"
-msgstr "File formato TROFF (*.me)"
+msgstr "TROFF (*.me)"
 
 #: plugins/html/roff.c:200
 msgid "Error executing groff."
-msgstr ""
+msgstr "Errore avviando groff."
 
 #: plugins/lotus-123/lotus.c:310
 msgid "Error while reading lotus workbook."
-msgstr ""
+msgstr "Errore leggendo la cartella di lavoro lotus"
 
 #: plugins/lotus-123/plugin.xml.in.h:1
 msgid "Imports Lotus 123 files"
@@ -594,13 +578,12 @@ msgid "Lotus 123"
 msgstr "Lotus 123"
 
 #: plugins/lotus-123/plugin.xml.in.h:3
-#, fuzzy
 msgid "Lotus 123 (*.wk1)"
-msgstr "Lotus 123"
+msgstr "Lotus 123 (*.wk1)"
 
 #: plugins/mps/mps.c:275
 msgid "Program Name"
-msgstr ""
+msgstr "Nome del Programma"
 
 #: plugins/mps/mps.c:281
 #, fuzzy
@@ -633,7 +616,6 @@ msgstr "_Data attuale"
 #.
 #. Print 'Constraints:'.
 #: plugins/mps/mps.c:331
-#, fuzzy
 msgid "Constraints:"
 msgstr "Vincoli"
 
@@ -651,13 +633,12 @@ msgid "Value"
 msgstr "Valore"
 
 #: plugins/mps/mps.c:339
-#, fuzzy
 msgid "Type"
-msgstr "_Tipo"
+msgstr "Tipo"
 
 #: plugins/mps/mps.c:340
 msgid "RHS"
-msgstr ""
+msgstr "RHS"
 
 #: plugins/mps/mps.c:341 src/solver-lp.c:959
 #, fuzzy
@@ -726,7 +707,6 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:233
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -740,15 +720,6 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 msgstr ""
-"@DESCRIPTION=La funzione NT_MU (funzione mu di Möbius) restituisce\n"
-"0 se @n è divisibile per il quadrato di un numero primo.\n"
-"Altrimenti restituisce: \n"
-"-1 se @n ha un numero dispari di fattori primi diversi.\n"
-"1 se @n ha un numero pari di fattori primi diversi.\n"
-"Se @n=1 restituisce 1\n"
-"\n"
-"@EXAMPLES=\n"
-"@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
 #: plugins/numtheory/numtheory.c:272
 msgid ""
@@ -884,7 +855,6 @@ msgstr ""
 "@SEEALSO=BITOR,BITXOR"
 
 #: plugins/numtheory/numtheory.c:480
-#, fuzzy
 msgid ""
 "@FUNCTION=BITLSHIFT\n"
 "@SYNTAX=BITLSHIFT(x,n)\n"
@@ -894,17 +864,8 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITRSHIFT"
 msgstr ""
-"@FUNCTION=BITLSHIFT\n"
-"@SYNTAX=BITLSHIFT(x,n)\n"
-"@DESCRIPTION=La funzione BITLSHIFT restituisce il numero @x shiftato bit a "
-"bita a sinistra di @n bit.\n"
-"Se @n è negativo, verrà effettuato uno shiftamento a destra.\n"
-"\n"
-"@EXAMPLES=\n"
-"@SEEALSO=BITRSHIFT"
 
 #: plugins/numtheory/numtheory.c:507
-#, fuzzy
 msgid ""
 "@FUNCTION=BITRSHIFT\n"
 "@SYNTAX=BITRSHIFT(x,n)\n"
@@ -915,14 +876,6 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=BITRSHIFT"
 msgstr ""
-"@FUNCTION=BITLSHIFT\n"
-"@SYNTAX=BITLSHIFT(x,n)\n"
-"@DESCRIPTION=La funzione BITLSHIFT restituisce il numero @x shiftato bit a "
-"bita a destra di @n bit.\n"
-"Se @n è negativo, verrà effettuato uno shiftamento a sinistra.\n"
-"\n"
-"@EXAMPLES=\n"
-"@SEEALSO=BITLSHIFT"
 
 #: plugins/numtheory/plugin.xml.in.h:1
 msgid "Bitwise Operations"
@@ -945,18 +898,16 @@ msgid "GNU Oleo"
 msgstr "GNU Oleo"
 
 #: plugins/oleo/plugin.xml.in.h:2
-#, fuzzy
 msgid "GNU Oleo (*.oleo)"
-msgstr "File in formato Oleo di GNU (*.oleo)"
+msgstr "GNU Oleo (*.oleo)"
 
 #: plugins/oleo/plugin.xml.in.h:3
 msgid "Imports GNU Oleo documents"
 msgstr "Importa documenti di GNU Oleo"
 
 #: plugins/perl/plugin.xml.in.h:1
-#, fuzzy
 msgid "Enables the creation of functions in Perl"
-msgstr "Abilita la creazione di funzioni in PERL"
+msgstr "Abilita la creazione di funzioni in Perl"
 
 #: plugins/perl/plugin.xml.in.h:2
 msgid "Perl"
@@ -999,7 +950,6 @@ msgid "Imports Plan Perfect Formatted Documents"
 msgstr "Importa documenti in formato Plan Perfect"
 
 #: plugins/plan-perfect/plugin.xml.in.h:2
-#, fuzzy
 msgid "Plan Perfect"
 msgstr "Plan Perfect"
 
@@ -1008,40 +958,36 @@ msgid "Plan Perfect Format (PLN) import"
 msgstr "Importo il formato Pla Perfect (PLN)"
 
 #: plugins/psiconv/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports Psion 5 series Sheet files"
-msgstr "Importa fogli delle versioni 4.[234]"
+msgstr "Importa fogli da Psion serie 5"
 
 #: plugins/psiconv/plugin.xml.in.h:2
 msgid "Psiconv"
-msgstr ""
+msgstr "Psiconv"
 
 #: plugins/psiconv/plugin.xml.in.h:3
 msgid "Psion (*.psisheet)"
-msgstr ""
+msgstr "Psion (*.psisheet)"
 
 #: plugins/psiconv/psiconv-read.c:573
-#, fuzzy
 msgid "Error while reading psiconv file."
-msgstr "Errore scrivendo il file csv"
+msgstr "Errore scrivendo il file psiconv."
 
 #: plugins/psiconv/psiconv-read.c:582
-#, fuzzy
 msgid "Error while parsing psiconv file."
-msgstr "Errore scrivendo il file csv"
+msgstr "Errore esaminando il file psiconv."
 
 #: plugins/py-func/plugin.xml.in.h:1
 msgid "Python"
-msgstr ""
+msgstr "Python"
 
 #: plugins/py-func/plugin.xml.in.h:2
-#, fuzzy
 msgid "Python functions"
-msgstr "Eccezione Python"
+msgstr "Funzioni Python"
 
 #: plugins/py-func/plugin.xml.in.h:3
 msgid "Sample Python plugin providing some (useless) functions."
-msgstr ""
+msgstr "Plugin Python d'esempio che fornisce alcune (inutili) funzioni."
 
 #: plugins/python-loader/plugin.xml.in.h:1
 #, fuzzy
@@ -1050,7 +996,7 @@ msgstr "Errore di valutazione sconosciuto"
 
 #: plugins/python-loader/plugin.xml.in.h:2
 msgid "This plugin provides support for Python plugins"
-msgstr ""
+msgstr "Questo plugin fornisce supporto per i plugin di Python"
 
 #: plugins/python-loader/py-gnumeric.c:273
 #: plugins/python-loader/py-gnumeric.c:313
