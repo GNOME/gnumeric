@@ -100,7 +100,7 @@ border_hash (gconstpointer v)
 MStyleBorder *
 border_fetch (StyleBorderType const	 line_type,
 	      StyleColor 		*color,
-	      MStyleElementType const	 orientation)
+	      StyleBorderOrientation     orientation)
 {
 	MStyleBorder *border;
 	MStyleBorder key;
@@ -227,3 +227,19 @@ border_draw (GdkDrawable * drawable, const MStyleBorder* border,
 			       x1, y1, x2, y2);
 }
 
+StyleBorderOrientation
+border_get_orientation (MStyleElementType type)
+{
+	switch (type) {
+	case MSTYLE_BORDER_LEFT:
+	case MSTYLE_BORDER_RIGHT:
+		return BORDER_VERTICAL;
+	case MSTYLE_BORDER_DIAGONAL:
+	case MSTYLE_BORDER_REV_DIAGONAL:
+		return BORDER_DIAGONAL;
+	case MSTYLE_BORDER_TOP:
+	case MSTYLE_BORDER_BOTTOM:
+	default:
+		return BORDER_HORIZONTAL;
+	}
+}

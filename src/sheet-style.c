@@ -25,6 +25,7 @@
 #include "ranges.h"
 #include "mstyle.h"
 #include "main.h"
+#include "border.h"
 
 #define STYLE_DEBUG (style_debugging > 2)
 
@@ -971,3 +972,172 @@ sheet_style_relocate (const struct expr_relocate_info *rinfo)
 	if (rinfo->origin_sheet != rinfo->target_sheet)
 		sheet_style_cache_flush (rinfo->origin_sheet);
 }
+
+typedef struct {
+	MStyleBorder *top;
+	MStyleBorder *bottom;
+	MStyleBorder *left;
+	MStyleBorder *right;
+	MStyleBorder *rev_diag;
+	MStyleBorder *diag;
+} apply_border_closure_t;
+
+static void
+do_apply_border (Sheet *sheet, const Range *r,
+		MStyleElementType t, MStyleBorder *border)
+	     
+{
+	MStyle *mstyle;
+
+	if (border) {
+		mstyle = mstyle_new ();
+		border_ref (border);
+		mstyle_set_border (mstyle, t, border);
+		sheet_style_attach (sheet, *r, mstyle);
+	}
+}
+
+/*
+ * Apply borders round the edge of a range.
+ * ignore special corner cases; these are made by
+ * an implicit StyleRegion overlap at present.
+ */
+static void
+sheet_selection_apply_border_cb (Sheet *sheet,
+				 Range const *range,
+				 gpointer user_data)
+{
+	Range   r;
+	apply_border_closure_t *cl = user_data;
+
+	/* 1.1 The top outer */
+	r = *range;
+	r.start.row--;
+	r.end.row = r.start.row;
+	if (r.start.row >= 0)
+		do_apply_border (sheet, &r,
+				 MSTYLE_BORDER_BOTTOM, cl->top);
+	/* 1.2 The top inner */
+	r.start.row++;
+	r.end.row++;
+	if (r.start.row < SHEET_MAX_ROWS)
+		do_apply_border (sheet, &r,
+				 MSTYLE_BORDER_TOP, cl->top);
+
+
+	/* 2.1 The bottom outer */
+	r = *range;
+	r.end.row++;
+	r.start.row = r.end.row;
+	if (r.end.row < SHEET_MAX_ROWS)
+		do_apply_border (sheet, &r,
+				 MSTYLE_BORDER_TOP, cl->bottom);
+
+	/* 2.2 The bottom inner */
+	r.start.row--;
+	r.end.row--;
+	if (r.start.row >= 0)
+		do_apply_border (sheet, &r,
+				 MSTYLE_BORDER_BOTTOM, cl->bottom);
+
+
+	/* 3.1 The left outer */
+	r = *range;
+	r.start.col--;
+	r.end.col = r.start.col;
+	if (r.start.col >= 0)
+		do_apply_border (sheet, &r,
+				 MSTYLE_BORDER_RIGHT, cl->left);
+
+	/* 3.2 The left inner */
+	r.start.col++;
+	r.end.col++;
+	if (r.start.col < SHEET_MAX_COLS)
+		do_apply_border (sheet, &r,
+				 MSTYLE_BORDER_LEFT, cl->left);
+
+
+	/* 4.1 The right outer */
+	r = *range;
+	r.end.col++;
+	r.start.col = r.end.col;
+	if (r.start.col < SHEET_MAX_COLS)
+		do_apply_border (sheet, &r,
+				 MSTYLE_BORDER_LEFT, cl->right);
+
+	/* 4.2 The right inner */
+	r.start.col--;
+	r.end.col--;
+	if (r.start.col >= 0)
+		do_apply_border (sheet, &r,
+				 MSTYLE_BORDER_RIGHT, cl->right);
+
+	sheet_style_optimize (sheet, *range);
+	sheet_redraw_cell_region (sheet, range->start.col, range->start.row,
+				  range->end.col, range->end.row);
+}
+
+void
+sheet_selection_set_border (Sheet *sheet,
+			    MStyleBorder *top,
+			    MStyleBorder *bottom,
+			    MStyleBorder *left,
+			    MStyleBorder *right,
+			    MStyleBorder *rev_diag,
+			    MStyleBorder *diag,
+			    MStyleBorder *horiz,
+			    MStyleBorder *vert)
+{
+	MStyle *mstyle;
+	apply_border_closure_t cl;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	mstyle = mstyle_new ();
+
+	/* 1. The middle bits, inefficient but an optimize'll help */
+	if (horiz) {
+		border_ref (horiz);
+		mstyle_set_border (mstyle, MSTYLE_BORDER_TOP, horiz);
+		border_ref (horiz);
+		mstyle_set_border (mstyle, MSTYLE_BORDER_BOTTOM, horiz);
+	}
+	if (vert) {
+		border_ref (vert);
+		mstyle_set_border (mstyle, MSTYLE_BORDER_LEFT, vert);
+		border_ref (vert);
+		mstyle_set_border (mstyle, MSTYLE_BORDER_RIGHT, vert);
+	}
+	if (horiz || vert)
+		sheet_selection_apply_style (sheet, mstyle);
+
+	/* 2. For each range do the edges */
+	cl.top      = top;
+	cl.bottom   = bottom;
+	cl.left     = left;
+	cl.right    = right;
+	cl.rev_diag = rev_diag;
+	cl.diag     = diag;
+	selection_foreach_range (sheet,
+				 sheet_selection_apply_border_cb,
+				 &cl);
+	sheet_set_dirty (sheet, TRUE);
+	if (top)
+		border_unref (top);
+	if (bottom)
+		border_unref (bottom);
+	if (left)
+		border_unref (left);
+	if (right)
+		border_unref (right);
+	if (rev_diag)
+		border_unref (rev_diag);
+	if (diag)
+		border_unref (diag);
+	if (horiz)
+		border_unref (horiz);
+	if (vert)
+		border_unref (vert);
+}
+

@@ -933,7 +933,7 @@ ms_excel_get_stylefont (ExcelSheet *sheet, BiffXFData const *xf,
 static BiffXFData *
 ms_excel_get_xf (ExcelSheet *sheet, int const xfidx)
 {
-	BiffXFData const *xf;
+	BiffXFData *xf;
 	GPtrArray const * const p = sheet->wb->XF_cell_records;
 
 	g_return_val_if_fail (p && 0 <= xfidx && xfidx < p->len, NULL);
@@ -1009,7 +1009,8 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 					       ms_excel_palette_get (sheet->wb->palette,
 								     xf->border_color[i],
 								     NULL),
-					       MSTYLE_BORDER_TOP + i);
+					       border_get_orientation (
+						       MSTYLE_BORDER_TOP + i));
 			if (border)
 				mstyle_set_border (mstyle, MSTYLE_BORDER_TOP + i, border);
 		}

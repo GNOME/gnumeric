@@ -594,12 +594,14 @@ static char *BorderTypes[8] =
 	"hair"
 };
 
-static char *StyleSideNames[4] =
+static char *StyleSideNames[6] =
 {
  	"Top",
  	"Bottom",
  	"Left",
- 	"Right"
+ 	"Right",
+	"Diagonal",
+	"Rev-Diagonal"
 };
 
 static xmlNodePtr
@@ -619,7 +621,7 @@ xml_write_style_border (parse_xml_context_t *ctxt,
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "StyleBorder", NULL);
 	
-	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_RIGHT; i++) {
+	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_REV_DIAGONAL; i++) {
 		if (mstyle_is_element_set (style, i)) {
 			StyleBorderType t = mstyle_get_border (style, i)->line_type;
 			StyleColor *col   = mstyle_get_border (style, i)->color;
@@ -647,14 +649,14 @@ xml_read_style_border (parse_xml_context_t *ctxt, xmlNodePtr tree, MStyle *mstyl
 			 tree->name);
 	}
 
-	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_RIGHT; i++) {
+	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_REV_DIAGONAL; i++) {
  		if ((side = xml_search_child (tree,
 					      StyleSideNames [i - MSTYLE_BORDER_TOP])) != NULL) {
 			StyleColor   *color = NULL;
 			MStyleBorder *border;
  			xml_get_color_value (side, "Color", &color);
- 			/* FIXME: need to read the proper type */
-			border = border_fetch (BORDER_NONE, color, i);
+			border = border_fetch (BORDER_NONE, color, 
+					       border_get_orientation (i));
 			if (border)
 				mstyle_set_border (mstyle, i, border);
  		}

@@ -20,6 +20,7 @@
 #include "ranges.h"
 #include "formats.h"
 #include "pattern.h"
+#include "mstyle.h"
 
 #define GLADE_FILE "cell-format.glade"
 
@@ -1137,6 +1138,16 @@ static struct
 	{ { R, H, V, B }, FALSE, BORDER_DIAG }
 };
 
+static MStyleBorder *
+border_get_mstyle (FormatState *state, BorderLocations loc)
+{
+	StyleColor *color = style_color_new (0, 0, 0);
+	/* state->border.edge[loc].rgba; */ 
+		
+	return border_fetch (state->border.edge[loc].pattern_index, color,
+			     border_get_orientation (loc + MSTYLE_BORDER_TOP));
+}
+
 /* See if either the color or pattern for any segment has changed and
  * apply the change to all of the lines that make up the segment.
  */
@@ -1439,6 +1450,15 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 	cell_freeze_redraws ();
 	
 	sheet_selection_apply_style (state->sheet, state->result);
+	sheet_selection_set_border  (state->sheet,
+				     border_get_mstyle (state, BORDER_TOP),
+				     border_get_mstyle (state, BORDER_BOTTOM),
+				     border_get_mstyle (state, BORDER_LEFT),
+				     border_get_mstyle (state, BORDER_RIGHT),
+				     border_get_mstyle (state, BORDER_REV_DIAG),
+				     border_get_mstyle (state, BORDER_DIAG),
+				     border_get_mstyle (state, BORDER_HORIZ),
+				     border_get_mstyle (state, BORDER_VERT));
 
 	cell_thaw_redraws ();
 }

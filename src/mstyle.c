@@ -431,10 +431,19 @@ mstyle_new_name (const gchar *name)
 	return (MStyle *)pst;
 }
 
+static MStyle *default_mstyle = NULL;
+
 MStyle *
 mstyle_new_default (void)
 {
-	MStyle *mstyle = mstyle_new ();
+	MStyle *mstyle;
+
+	if (default_mstyle) {
+		mstyle_ref (default_mstyle);
+		return default_mstyle;
+	}
+	
+	mstyle = mstyle_new ();
 
 	mstyle_set_format      (mstyle, "General");
 	mstyle_set_align_v     (mstyle, VALIGN_CENTER);
@@ -451,6 +460,7 @@ mstyle_new_default (void)
 	mstyle_set_color       (mstyle, MSTYLE_COLOR_BACK,
 				style_color_new (0xffff, 0xffff, 0xffff));
 
+	default_mstyle = mstyle;
 	/* Do not set the pattern color */
 
 	return mstyle;

@@ -1,5 +1,18 @@
 1999-11-05  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/border.c (border_fetch): re-do orientation.
+
+	* src/xml-io.c (xml_read_style_border): update orientation +
+	IO the full set of borders. (xml_write_style_border): ditto.
+
+	* src/dialogs/dialog-cell-format.c (border_get_mstyle): Create.
+	(cb_fmt_dialog_dialog_apply): Add border bits.
+
+	* src/sheet-style.c (do_apply_border, sheet_selection_apply_border_cb),
+	(sheet_selection_set_border): Implement.
+
+1999-11-05  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/sheet.h: add sheet_selection_set_border.
 
 	* src/style.c (style_new, style_new_mstyle, style_new_empty),

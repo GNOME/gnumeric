@@ -1,5 +1,7 @@
 1999-11-05  Michael Meeks  <mmeeks@gnu.org>
 
+	* ms-excel-read.c (ms_excel_get_style_from_xf): update.
+
 	* ms-excel-write.c (write_xf_record): pass MStyle *.
 	(xf_lookup): ditto.
 

@@ -4,6 +4,12 @@
 #include "mstyle.h"
 
 typedef enum {
+	BORDER_HORIZONTAL,
+	BORDER_VERTICAL,
+	BORDER_DIAGONAL
+} StyleBorderOrientation;
+
+typedef enum {
  	BORDER_NONE			= 0x0,
  	BORDER_THIN			= 0x1,
  	BORDER_MEDIUM			= 0x2,
@@ -36,7 +42,8 @@ void	      border_unref (MStyleBorder *border);
 MStyleBorder *border_ref   (MStyleBorder *border);
 MStyleBorder *border_fetch (StyleBorderType const	 line_type,
 			    StyleColor 			*color,
-			    MStyleElementType const	 orientation);
+			    StyleBorderOrientation       orientation);
+StyleBorderOrientation border_get_orientation (MStyleElementType type);
 
 gint   border_get_width   (StyleBorderType const line_type);
 void   border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type);
