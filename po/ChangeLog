@@ -1,3 +1,7 @@
+2002-03-13  Valek Filippov  <frob@df.ru>
+
+	* ru.po: updated russian translation.
+
 2002-03-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* POTFILES.in : add src/dialogs/dao-gui-utils.c,
