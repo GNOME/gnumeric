@@ -177,6 +177,7 @@ sheet_new_special (Workbook *wb, char const *name, GnmSheetType type)
 		g_utf8_collate_key (sheet->name_unquoted, -1);
 	sheet->name_case_insensitive =
 		g_utf8_casefold (sheet->name_unquoted, -1);
+	sheet->sheet_type = type;
 	sheet_style_init (sheet);
 
 	sheet->sheet_objects = NULL;
@@ -216,11 +217,13 @@ sheet_new_special (Workbook *wb, char const *name, GnmSheetType type)
 
 	/* Init preferences */
 	sheet->r1c1_addresses = FALSE;
-	sheet->display_formulas = FALSE;
+	sheet->display_formulas = (type == GNM_SHEET_XLM);
 	sheet->hide_zero = FALSE;
-	sheet->hide_grid = FALSE;
-	sheet->hide_col_header = FALSE;
-	sheet->hide_row_header = FALSE;
+
+	sheet->hide_grid = 
+	sheet->hide_col_header = 
+	sheet->hide_row_header = (type == GNM_SHEET_OBJECT);
+
 	sheet->is_protected = FALSE;
 	sheet->is_visible = TRUE;
 	sheet->display_outlines = TRUE;
@@ -228,7 +231,6 @@ sheet_new_special (Workbook *wb, char const *name, GnmSheetType type)
 	sheet->outline_symbols_right = TRUE;
 	sheet->tab_color = NULL;
 	sheet->tab_text_color = NULL;
-	sheet->sheet_type = type;
 
 	/* FIXME: probably not here.  */
 	/* See also gtk_widget_create_pango_context ().  */
@@ -238,6 +240,11 @@ sheet_new_special (Workbook *wb, char const *name, GnmSheetType type)
 	sheet->priv->enable_showhide_detail = TRUE;
 
 	sheet->names = NULL;
+
+	if (type == GNM_SHEET_OBJECT) {
+		colrow_compute_pixels_from_pts (&sheet->rows.default_style, sheet, FALSE);
+		colrow_compute_pixels_from_pts (&sheet->cols.default_style, sheet, TRUE);
+	}
 
 	return sheet;
 }
@@ -427,6 +434,14 @@ sheet_apply_style (Sheet       *sheet,
 
 /****************************************************************************/
 
+static void
+cb_clear_rendered_cells (gpointer ignored, GnmCell *cell)
+{
+	if (cell->rendered_value != NULL) {
+		rendered_value_destroy (cell->rendered_value);
+		cell->rendered_value = NULL;
+	}
+}
 
 /**
  * sheet_set_zoom_factor : Change the zoom factor.
@@ -468,6 +483,7 @@ sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean update)
 	colrow_foreach (&sheet->rows, 0, SHEET_MAX_ROWS-1,
 			&cb_colrow_compute_pixels_from_pts, &closure);
 
+	g_hash_table_foreach (sheet->cell_hash, (GHFunc)&cb_clear_rendered_cells, NULL);
 	SHEET_FOREACH_CONTROL (sheet, view, control, sc_set_zoom_factor (control););
 
 	/*

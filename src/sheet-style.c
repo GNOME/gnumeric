@@ -43,8 +43,8 @@ typedef union _CellTile CellTile;
 struct _SheetStyleData {
 	GHashTable *style_hash;
 	CellTile   *styles;
-	GnmStyle	   *default_style;
-	GnmColor *auto_pattern_color;
+	GnmStyle   *default_style;
+	GnmColor   *auto_pattern_color;
 };
 
 /**
@@ -456,6 +456,8 @@ cell_tile_matrix_set (CellTile *t, GnmRange const *indic, ReplacementStyle *rs)
 void
 sheet_style_init (Sheet *sheet)
 {
+	GnmStyle *default_style;
+
 	/* some simple sanity checks */
 	g_assert (SHEET_MAX_COLS <= TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL * TILE_SIZE_COL);
 	g_assert (SHEET_MAX_ROWS <= TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW * TILE_SIZE_ROW);
@@ -503,8 +505,19 @@ sheet_style_init (Sheet *sheet)
 	memcpy (sheet->style_data->auto_pattern_color,
 		style_color_auto_pattern (), sizeof (GnmColor));
 	sheet->style_data->auto_pattern_color->ref_count = 1;
+
+	default_style =  mstyle_new_default ();
+#if 0
+	/* We can not do this, XL creates full page charts with background
+	 * 'none' by default.  Then displays that as white. */
+	if (sheet->sheet_type == GNM_SHEET_OBJECT) {
+		mstyle_set_color (default_style, MSTYLE_COLOR_BACK,
+			style_color_new_i8 (0x50, 0x50, 0x50));
+		kstyle_set_pattern (default_style, 1);
+	}
+#endif
 	sheet->style_data->default_style =
-		sheet_style_find (sheet, mstyle_new_default ());
+		sheet_style_find (sheet, default_style);
 	sheet->style_data->styles =
 		cell_tile_style_new (sheet->style_data->default_style,
 				     TILE_SIMPLE);

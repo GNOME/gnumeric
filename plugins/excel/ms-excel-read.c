@@ -81,6 +81,7 @@ typedef struct {
 	guint32		  streamStartPos;
 	unsigned 	  index;
 	MsBiffFileType	  type;
+	GnmSheetType	  gnm_type;
 	MSSheetVisibility visibility;
 } BiffBoundsheetData;
 
@@ -716,7 +717,7 @@ excel_data_table_free (XLDataTable *dt)
 }
 
 static ExcelReadSheet *
-excel_sheet_new (ExcelWorkbook *ewb, char const *sheet_name)
+excel_sheet_new (ExcelWorkbook *ewb, char const *sheet_name, GnmSheetType type)
 {
 	static MSContainerClass const vtbl = {
 		&ms_sheet_realize_obj,
@@ -732,7 +733,7 @@ excel_sheet_new (ExcelWorkbook *ewb, char const *sheet_name)
 
 	sheet = workbook_sheet_by_name (ewb->gnum_wb, sheet_name);
 	if (sheet == NULL) {
-		sheet = sheet_new (ewb->gnum_wb, sheet_name);
+		sheet = sheet_new_special (ewb->gnum_wb, sheet_name, type);
 		workbook_sheet_attach (ewb->gnum_wb, sheet, NULL);
 		d (1, fprintf (stderr,"Adding sheet '%s'\n", sheet_name););
 	}
@@ -1182,7 +1183,8 @@ excel_read_BOUNDSHEET (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 	BiffBoundsheetData *bs;
 	char const *default_name = "Unknown%d";
 
-	bs = g_new (BiffBoundsheetData, 1);
+	bs = g_new0 (BiffBoundsheetData, 1);
+	bs->gnm_type = GNM_SHEET_DATA;
 
 	if (ver <= MS_BIFF_V4) {
 		bs->streamStartPos = 0; /* Excel 4 doesn't tell us */
@@ -1202,9 +1204,11 @@ excel_read_BOUNDSHEET (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 			default_name = _("Sheet%d");
 			break;
 		case 1: bs->type = MS_BIFF_TYPE_Macrosheet;
+			bs->gnm_type = GNM_SHEET_XLM;
 			default_name = _("Macro%d");
 			break;
 		case 2: bs->type = MS_BIFF_TYPE_Chart;
+			bs->gnm_type = GNM_SHEET_OBJECT;
 			default_name = _("Chart%d");
 			break;
 		case 6: bs->type = MS_BIFF_TYPE_VBModule;
@@ -1248,14 +1252,7 @@ excel_read_BOUNDSHEET (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 	case MS_BIFF_TYPE_Worksheet :
 	case MS_BIFF_TYPE_Macrosheet :
 	case MS_BIFF_TYPE_Chart :
-		bs->esheet = excel_sheet_new (ewb, bs->name);
-		if (bs->type == MS_BIFF_TYPE_Chart) {
-			bs->esheet->sheet->hide_grid	   = 
-			bs->esheet->sheet->hide_col_header =
-			bs->esheet->sheet->hide_row_header = TRUE;
-		} else if (bs->type == MS_BIFF_TYPE_Macrosheet) {
-			bs->esheet->sheet->display_formulas = TRUE;
-		}
+		bs->esheet = excel_sheet_new (ewb, bs->name, bs->gnm_type);
 		break;
 	default :
 		bs->esheet = NULL;
@@ -5620,7 +5617,7 @@ excel_read_BOF (BiffQuery	 *q,
 		else if (ver->version >= MS_BIFF_V2)
 			fprintf (stderr, "Excel 2.x single worksheet\n");
 
-		esheet = excel_sheet_new (ewb, "Worksheet");
+		esheet = excel_sheet_new (ewb, "Worksheet", GNM_SHEET_DATA);
 		excel_read_sheet (q, ewb, wb_view, esheet);
 
 	} else if (ver->type == MS_BIFF_TYPE_Worksheet ||
