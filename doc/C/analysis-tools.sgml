@@ -74,6 +74,27 @@
      <para>This tool also calculates the count, sum, average,
      and the variance of each variable.</para>
 
+   <figure id="anova-one-factor-tool-ex1">
+    <title>1-factor ANOVA Dialog and Example Data</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-ANOVA1-ex1.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+<example id="usinganovaonefactortool">
+ <title>Using the single factor ANOVA</title>
+     <para>See <xref linkend="anova-one-factor-tool-ex1"> for an example 
+     of a completed dialog and <xref linkend="anova-one-factor-tool-ex2">
+     for the corresponding output.
+     </para>
+ </example>
+  <figure id="anova-one-factor-tool-ex2">
+    <title>Output From a 1-factor ANOVA</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-ANOVA1-ex2.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+     
+
   </sect2>
 
   <sect2 id="anova-two-factor-tool">
