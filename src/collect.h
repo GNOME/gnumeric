@@ -13,6 +13,7 @@ typedef enum {
 
 	COLLECT_IGNORE_ERRORS = 0x100,
 	COLLECT_ZERO_ERRORS = 0x200,
+	COLLECT_DATES = 0x1000,
 } CollectFlags;
 
 
@@ -22,10 +23,6 @@ typedef int (*float_range_function2_t) (const float_t *, const float_t *, int, f
 float_t *collect_floats_value (const Value *val, const EvalPosition *ep,
 			       CollectFlags flags,
 			       int *n, Value **error);
-
-float_t *collect_dates_value (const Value *val, const EvalPosition *ep,
-			      CollectFlags flags,
-			      int *n, Value **error);
 
 Value *float_range_function (GList *exprlist, FunctionEvalInfo *ei,
 			     float_range_function_t func,

@@ -641,8 +641,9 @@ gnumeric_xnpv (FunctionEvalInfo *ei, Value **argv)
 	if (result)
 		goto out;
 
-	dates = collect_dates_value (argv[2], &ei->pos, 0,
-				     &d_n, &result);
+	dates = collect_floats_value (argv[2], &ei->pos,
+				      COLLECT_DATES,
+				      &d_n, &result);
 	if (result)
 		goto out;
 

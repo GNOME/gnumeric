@@ -1,3 +1,9 @@
+1999-08-22  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/collect.[ch], src/functions/fn-financial.c: Removed
+ 	collect_dates.  Added a flag COLLECT_DATES to
+ 	callback_function_collect instead.
+	
 1999-08-22  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/main.c (gnumeric_main): New Bonobos need to issue the
