@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 1999-02-17 17:31-0600\n"
+"POT-Creation-Date: 1999-02-18 05:00+0100\n"
 "Content-Type: text/plain; charset=\n"
 "Date: 1998-12-15 01:37:05-0600\n"
 "From: Miguel de Icaza,computo,622-4680 <miguel@metropolis.nuclecu.unam.mx>\n"
@@ -581,15 +581,6 @@ msgid ""
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 
-# 
-# In México, Dominican Republic, Guatemala, Honduras, Panama, Peru
-# and El Salvador, Number formats are the same as in the US, so no
-# translation is required for them.
-# But the msgstr MUST be filled; otherwise it will default to es.po
-# which uses different, non US, format for numbers.
-# On the other hand, strings that are the same here and in es.po can
-# be left out.
-#
 #: src/fn-date.c:100
 msgid ""
 "@FUNCTION=NOW\n"
@@ -606,13 +597,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
-"@DESCRIPTION=Devuelve el número de serie para el día y la hora a la cual la "
-"función es ejecutada.\n"
-"El Número de Serie en Gnumeric es representado de la siguiente manera: La "
-"parte entera representa la cantidad de días pasados desde el 1º de enero de "
-"1900. La parte decimal representa la fracción del día y es convertido en "
-"horas, minutos y segundos\n"
-"Por ejemplo: .0 representa el principio del día, y 0.5 representa mediodía\n"
+"@DESCRIPTION=Devuelve el número de serie de la fecha y hora a la cual fué "
+"evaluada la función.\n"
+"Los números de serie de las fechas en Gnumeric son representados de la "
+"manera siguiente: La parte entera representa la cantidad de días "
+"transcurridos desde el 1º de enero de 1900. La parte decimal representa la "
+"fracción del día, y es convertida en horas, minutos y segundos\n"
+"Por ejemplo: .0 representa el inicio del día, mientras que 0.5 representa "
+"mediodía\n"
 "@SEEALSO=TODAY, NOW"
 
 #: src/fn-date.c:140
@@ -734,6 +726,14 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=ACOS, DEGREES, RADIANS "
 msgstr ""
+"@FUNCTION=ACOSH\n"
+"@SYNTAX=ACOSH(x)\n"
+"@DESCRIPTION=La función ACOSH calcula el coseno hiperbólico inverso de x; o "
+"sea el valor cuyo coseno hiperbólico es x. Si x es inferior a 1.0, ACOSH "
+"devuelve el error 'acosh - error de dominio'.\n"
+"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
+"nada. La función admite un solo argumento.\n"
+"@SEEALSO=ACOS, DEGREES, RADIANS "
 
 #: src/fn-math.c:118
 msgid "acosh - domain error"
@@ -807,6 +807,14 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 msgstr ""
+"@FUNCTION=ATANH\n"
+"@SYNTAX=ATANH(x)\n"
+"@DESCRIPTION=La función ATANH calcula la tangente hiperbólica inversa de x; "
+"o sea el valor cuya tangente hiperbólica es x. Si el valor absoluto de x es "
+"superior a 1,0 ATANH devuelve el error 'atanh - error de dominio'.\n"
+"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
+"nada. La función admite un solo argumento.\n"
+"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
 #: src/fn-math.c:290
 msgid "atanh: domain error"
@@ -1228,9 +1236,8 @@ msgid "yellow"
 msgstr ""
 
 #: src/formats.c:17
-#, fuzzy
 msgid "0"
-msgstr "0%"
+msgstr ""
 
 #: src/formats.c:18
 msgid "0.00"
@@ -1373,28 +1380,25 @@ msgid "h:mm"
 msgstr "h:mm"
 
 #: src/formats.c:65
-#, fuzzy
 msgid "h:mm:ss"
-msgstr "h:mm"
+msgstr "h:mm:ss"
 
 #: src/formats.c:67
-#, fuzzy
 msgid "mm:ss"
-msgstr "mm:ss.0"
+msgstr "mm:ss"
 
 #: src/formats.c:68
 msgid "mm:ss.0"
 msgstr "mm:ss.0"
 
 #: src/formats.c:69
-#, fuzzy
 msgid "[h]:mm:ss"
-msgstr "h:mm:ss AM/PM"
+msgstr "[h]:mm:ss"
 
 #: src/formats.c:74
 #, c-format
 msgid "0%"
-msgstr "0%"
+msgstr ""
 
 #: src/formats.c:75
 #, c-format
@@ -1439,9 +1443,9 @@ msgid "75%"
 msgstr ""
 
 #: src/gnumeric-sheet.c:890
-#, fuzzy, c-format
+#, c-format
 msgid "50%"
-msgstr "0%"
+msgstr ""
 
 #: src/gnumeric-sheet.c:893
 #, c-format
