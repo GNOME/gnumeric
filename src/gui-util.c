@@ -162,22 +162,13 @@ font_change_component (char *fontname, int idx, char *newvalue)
 char *
 font_get_bold_name (char *fontname)
 {
-  char *f;
+	char *f;
 	
-  f = font_change_component (fontname, 2, "bold");
-  /* Horrible hack to test the ms-excel importation stuff.
-   * f = font_change_component (fontname, 2, "bold");  */
-  f = "-Adobe-Helvetica-Bold-R-Normal--14-140-75-75-P-82-ISO8859-1";
-  
-  return f;
-}
+	f = font_change_component (fontname, 2, "bold");
 
-char *
-font_get_italic_name (char *fontname)
-{
-  char *f;
-   
-  f = "-Adobe-Helvetica-Medium-O-Normal--14-140-75-75-P-78-ISO8859-1";
-   
-  return f;
+	return f;
 }
+	
+
+
+

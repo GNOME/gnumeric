@@ -829,7 +829,6 @@ void
 cell_relocate (Cell *cell, int target_col, int target_row)
 {
 	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell->parsed_node);
 
 	/* 1. Tag the cell as modified */
 	cell_modified (cell);
