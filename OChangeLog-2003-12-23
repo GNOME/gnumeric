@@ -1,5 +1,19 @@
 2001-04-15  Almer S. Tigelaar  <almer@gnome.org>
 
+	* src/preview-grid.c
+	(preview_grid_realize) : Remove grid gc.
+	(preview_grid_unrealize) : Idem.
+
+	* src/item-grid.c
+	(item_grid_realize) : Use gc.fill, gc.cell
+	and gc.empty instead of fill_gc, etc.
+	(item_grid_unrealize) : Idem.
+	(item_grid_draw_merged_range) : Idem.
+	(item_grid_draw_background) : Idem.
+	(item_grid_draw) : Idem.
+
+2001-04-15  Almer S. Tigelaar  <almer@gnome.org>
+
 	* src/preview-grid-controller.c,
 	src/preview-grid-controller.h : Remove entirely, the
 	preview-grid-controller abstraction is no longer

@@ -43,7 +43,6 @@ struct _PreviewGrid {
 	GnomeCanvasItem canvas_item;
 
 	struct { /* Gc's */
-		GdkGC *grid;	/* Draw grid gc */
 		GdkGC *fill;	/* Default background fill gc */
 		GdkGC *cell;	/* Color used for the cell */
 		GdkGC *empty;	/* GC used for drawing empty cells */
@@ -315,7 +314,6 @@ preview_grid_realize (GnomeCanvasItem *item)
 	GdkWindow   *window;
 	GtkStyle    *style;
 	PreviewGrid *pg;
-	GdkGC       *gc;
 
 	if (GNOME_CANVAS_ITEM_CLASS (preview_grid_parent_class)->realize)
 		(*GNOME_CANVAS_ITEM_CLASS (preview_grid_parent_class)->realize)(item);
@@ -332,13 +330,9 @@ preview_grid_realize (GnomeCanvasItem *item)
 	gtk_style_unref (style);
 
 	/* Configure the default grid gc */
-	pg->gc.grid  = gc = gdk_gc_new (window);
 	pg->gc.fill  = gdk_gc_new (window);
 	pg->gc.cell  = gdk_gc_new (window);
 	pg->gc.empty = gdk_gc_new (window);
-
-	gdk_gc_set_foreground (gc, &gs_light_gray);
-	gdk_gc_set_background (gc, &gs_white);
 
 	gdk_gc_set_foreground (pg->gc.fill, &gs_white);
 	gdk_gc_set_background (pg->gc.fill, &gs_light_gray);
@@ -358,11 +352,9 @@ preview_grid_unrealize (GnomeCanvasItem *item)
 {
 	PreviewGrid *pg = PREVIEW_GRID (item);
 
-	gdk_gc_unref (pg->gc.grid);
 	gdk_gc_unref (pg->gc.fill);
 	gdk_gc_unref (pg->gc.cell);
 	gdk_gc_unref (pg->gc.empty);
-	pg->gc.grid  = 0;
 	pg->gc.fill  = 0;
 	pg->gc.cell  = 0;
 	pg->gc.empty = 0;

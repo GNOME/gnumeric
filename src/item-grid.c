@@ -64,9 +64,11 @@ struct _ItemGrid {
 
 	ItemGridSelectionType selecting;
 
-	GdkGC      *fill_gc;	/* Default background fill gc */
-	GdkGC      *cell_gc;	/* Color used for the cell */
-	GdkGC      *empty_gc;	/* GC used for drawing empty cells */
+	struct {
+		GdkGC      *fill;	/* Default background fill gc */
+		GdkGC      *cell;	/* Color used for the cell */
+		GdkGC      *empty;	/* GC used for drawing empty cells */
+	} gc;
 };
 
 
@@ -103,12 +105,12 @@ item_grid_realize (GnomeCanvasItem *item)
 	gtk_style_unref (style);
 
 	/* Configure the default grid gc */
-	item_grid->fill_gc = gdk_gc_new (window);
-	item_grid->cell_gc = gdk_gc_new (window);
-	item_grid->empty_gc = gdk_gc_new (window);
+	item_grid->gc.fill = gdk_gc_new (window);
+	item_grid->gc.cell = gdk_gc_new (window);
+	item_grid->gc.empty = gdk_gc_new (window);
 
-	gdk_gc_set_foreground (item_grid->fill_gc, &gs_white);
-	gdk_gc_set_background (item_grid->fill_gc, &gs_light_gray);
+	gdk_gc_set_foreground (item_grid->gc.fill, &gs_white);
+	gdk_gc_set_background (item_grid->gc.fill, &gs_light_gray);
 }
 
 static void
@@ -116,12 +118,12 @@ item_grid_unrealize (GnomeCanvasItem *item)
 {
 	ItemGrid *item_grid = ITEM_GRID (item);
 
-	gdk_gc_unref (item_grid->fill_gc);
-	gdk_gc_unref (item_grid->cell_gc);
-	gdk_gc_unref (item_grid->empty_gc);
-	item_grid->fill_gc = 0;
-	item_grid->cell_gc = 0;
-	item_grid->empty_gc = 0;
+	gdk_gc_unref (item_grid->gc.fill);
+	gdk_gc_unref (item_grid->gc.cell);
+	gdk_gc_unref (item_grid->gc.empty);
+	item_grid->gc.fill = 0;
+	item_grid->gc.cell = 0;
+	item_grid->gc.empty = 0;
 
 	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)
 		(*GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)(item);
@@ -154,7 +156,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 			     Range const *view, Range const *range)
 {
 	int l, r, t, b, last;
-	GdkGC *gc = grid->empty_gc;
+	GdkGC *gc = grid->gc.empty;
 	Sheet const *sheet   = grid->scg->sheet;
 	Cell  const *cell    = sheet_cell_get (sheet, range->start.col, range->start.row);
 
@@ -204,7 +206,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 				view->end.row+1, range->end.row+1);
 
 		/* FIXME : get the margins from the far col/row too */
-		cell_draw (cell, mstyle, grid->cell_gc, drawable,
+		cell_draw (cell, mstyle, grid->gc.cell, drawable,
 			   l, t,
 			   r - l - ci->margin_b - ci->margin_a,
 			   b - t - ri->margin_b - ri->margin_a, -1);
@@ -216,7 +218,7 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *ig,
 			   MStyle const *style,
 			   int col, int row, int x, int y, int w, int h)
 {
-	GdkGC                 *gc    = ig->empty_gc;
+	GdkGC                 *gc    = ig->gc.empty;
 	SheetControlGUI const *scg   = ig->scg;
 	Sheet const	      *sheet = scg->sheet;
 	gboolean const is_selected =
@@ -290,7 +292,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	}
 
 	/* Fill entire region with default background (even past far edge) */
-	gdk_draw_rectangle (drawable, item_grid->fill_gc, TRUE,
+	gdk_draw_rectangle (drawable, item_grid->gc.fill, TRUE,
 			    draw_x, draw_y, width, height);
 
 	/* Get ordered list of merged regions */
@@ -454,7 +456,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				Cell const *cell = sheet_cell_get (sheet, col, row);
 				if (!cell_is_blank (cell) && cell != edit_cell)
 					cell_draw (cell, style,
-						   item_grid->cell_gc, drawable,
+						   item_grid->gc.cell, drawable,
 						   x, y, -1, -1, -1);
 
 			/* Only draw spaning cells after all the backgrounds
@@ -500,7 +502,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				}
 
 				cell_draw (cell, style,
-					   item_grid->cell_gc, drawable,
+					   item_grid->gc.cell, drawable,
 					   real_x, y, tmp_width, -1, center_offset);
 			} else if (col != span->left)
 				sr.vertical [col] = NULL;
