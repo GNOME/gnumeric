@@ -21031,9 +21031,8 @@ msgid "Border"
 msgstr "罫線"
 
 #: src/dialogs/cell-format.glade.h:33
-#, fuzzy
 msgid "C_olor:"
-msgstr "色:"
+msgstr "色(_O):"
 
 #: src/dialogs/cell-format.glade.h:34
 msgid "Ce_nter"
@@ -21221,9 +21220,8 @@ msgid "_Show input message when cell is selected"
 msgstr "セルが選択されたら入力メッセージを表示する(_S)"
 
 #: src/dialogs/cell-format.glade.h:105
-#, fuzzy
 msgid "_Underline:"
-msgstr "下線(_U)"
+msgstr "下線(_U):"
 
 #: src/dialogs/cell-format.glade.h:106
 msgid "_Wrap text"
@@ -21472,9 +21470,8 @@ msgid "C_lear output range"
 msgstr "出力先範囲のクリア"
 
 #: src/dialogs/dao.glade.h:5 src/dialogs/dialog-advanced-filter.c:197
-#, fuzzy
 msgid "Filter _in-place"
-msgstr "フィルタ位置(_F)"
+msgstr "フィルタ位置(_I)"
 
 #: src/dialogs/dao.glade.h:6
 msgid "Formulas"
@@ -21938,7 +21935,7 @@ msgstr "データ列の数はコピーした複数の数にして下さい。"
 #: src/dialogs/dialog-analysis-tools.c:2920
 #, fuzzy
 msgid "The number of rows per sample should be a positive integer."
-msgstr "データ列の数はコピーした複数の数にして下さい。"
+msgstr "データ列の数は正数にしてください。"
 
 #: src/dialogs/dialog-analysis-tools.c:2966
 msgid "Could not create the ANOVA (two factor) tool dialog."
@@ -22117,9 +22114,8 @@ msgid "%s (%s)"
 msgstr "%s (%s)"
 
 #: src/dialogs/dialog-cell-sort.c:319
-#, fuzzy, c-format
 msgid "%s to %s"
-msgstr "%s (%s)"
+msgstr "%sから%s"
 
 #: src/dialogs/dialog-cell-sort.c:787
 msgid "no available row"
@@ -23729,9 +23725,8 @@ msgid "O_ptions"
 msgstr "オプション(_P)"
 
 #: src/dialogs/exp-smoothing.glade.h:7
-#, fuzzy
 msgid "_Damping factor:"
-msgstr "サンプリング方法:"
+msgstr "減衰係数（_D):"
 
 #: src/dialogs/exp-smoothing.glade.h:13 src/dialogs/moving-averages.glade.h:13
 msgid "_Standard errors"
@@ -23975,19 +23970,16 @@ msgid "_Right section:"
 msgstr "右側(_R):"
 
 #: src/dialogs/histogram.glade.h:2
-#, fuzzy
 msgid "Bin _labels"
-msgstr "貯蓄ラベル(_L)"
+msgstr "瓶のラベル(_L)"
 
 #: src/dialogs/histogram.glade.h:3
-#, fuzzy
 msgid "Bin _range:"
-msgstr "二次元範囲(_R):"
+msgstr "瓶の範囲(_R):"
 
 #: src/dialogs/histogram.glade.h:4
-#, fuzzy
 msgid "C_umulative percentages"
-msgstr "パーセンテージの累積(_U)"
+msgstr "累積パーセンテージ(_U)"
 
 #: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:4069
 #: src/tools/analysis-tools.c:4072
@@ -24008,14 +24000,12 @@ msgid "Pareto (_sorted)"
 msgstr "パレート(ソート済み)(_S)"
 
 #: src/dialogs/histogram.glade.h:13
-#, fuzzy
 msgid "_Bins"
-msgstr "貯蓄(_B)"
+msgstr "瓶(_B)"
 
 #: src/dialogs/histogram.glade.h:14
-#, fuzzy
 msgid "_Calculated bins"
-msgstr "貯蓄の計算(_C)"
+msgstr "計算した瓶(_C)"
 
 #: src/dialogs/histogram.glade.h:15
 msgid "_Chart output"
@@ -24030,9 +24020,8 @@ msgid "_Percentages"
 msgstr "パーセント(_P)"
 
 #: src/dialogs/histogram.glade.h:22
-#, fuzzy
 msgid "_Predetermined bins"
-msgstr "貯蓄の見積もり(_D)"
+msgstr "見積もり瓶(_P)"
 
 #: src/dialogs/hyperlink.glade.h:2
 msgid "<small>Optional</small>"
@@ -24099,32 +24088,28 @@ msgid "E_qual"
 msgstr "等号(_Q)"
 
 #: src/dialogs/mean-tests.glade.h:5
-#, fuzzy
 msgid "Hypothesized mean _difference:"
-msgstr "仮説平均差分(_H):"
+msgstr "仮説平均差(_D):"
 
 #: src/dialogs/mean-tests.glade.h:6
-#, fuzzy
 msgid "Population variances are:"
-msgstr "人口の変化:"
+msgstr "母分散は:"
 
 #: src/dialogs/mean-tests.glade.h:7
 msgid "Testing the Difference of 2 Means"
 msgstr "二つの意味の違いをテストします"
 
 #: src/dialogs/mean-tests.glade.h:8
-#, fuzzy
 msgid "Variable _1 population variance:"
-msgstr "変数 1 の分散の相違:"
+msgstr "変数 1 の母分散(_1):"
 
 #: src/dialogs/mean-tests.glade.h:9 src/dialogs/variance-tests.glade.h:4
 msgid "Variable _1 range:"
 msgstr "変数1の範囲(_1):"
 
 #: src/dialogs/mean-tests.glade.h:10
-#, fuzzy
 msgid "Variable _2 population variance:"
-msgstr "変数 2の分散の相違:"
+msgstr "変数 2の母分散(_2):"
 
 #: src/dialogs/mean-tests.glade.h:11 src/dialogs/variance-tests.glade.h:5
 msgid "Variable _2 range:"
