@@ -1,11 +1,12 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * fn-lookup.c:  Built in lookup functions and functions registration
+ * Range lookup functions
  *
  * Authors:
- *  Michael Meeks <michael@imaginator.com>
- *  Jukka-Pekka Iivonen <iivonen@iki.fi>
- *  JP Rosevear <jpr@arcavia.com>
+ *   Michael Meeks <michael@imaginator.com>
+ *   Jukka-Pekka Iivonen <iivonen@iki.fi>
+ *   JP Rosevear <jpr@arcavia.com>
+ *   Morten Welinder (terra@diku.dk)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,6 +41,13 @@
 #include <string.h>
 #include <stdlib.h>
 #include <libgnome/gnome-i18n.h>
+
+#include "plugin.h"
+#include "plugin-util.h"
+#include "module-plugin-defs.h"
+
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+
 
 /* Useful routines for multiple functions */
 static gboolean
@@ -1137,46 +1145,36 @@ gnumeric_transpose (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-void lookup_functions_init (void);
-void
-lookup_functions_init (void)
-{
-	FunctionCategory *cat = function_get_category_with_translation ("Data / Lookup", _("Data / Lookup"));
-
-	function_add_args  (cat, "address",   "ff|ffs",
-			    "row_num,col_num,abs_num,a1,text",
-			    &help_address,  gnumeric_address);
-        function_add_nodes (cat, "choose",     0,     "index,value...",
-			    &help_choose,   gnumeric_choose);
-	function_add_nodes (cat, "column",    NULL,    "ref",
-			    &help_column,   gnumeric_column);
-	function_add_args  (cat, "columns",   "A",    "ref",
-			    &help_columns, gnumeric_columns);
-	function_add_args  (cat, "hlookup",
-			    "?Af|bb","val,range,col_idx,approx,as_index",
-			    &help_hlookup, gnumeric_hlookup);
-	function_add_args  (cat, "hyperlink",
-			    "s|s","link_location, optional_label",
-			    &help_hyperlink, gnumeric_hyperlink);
-	function_add_args  (cat, "indirect",  "s|b","ref_string,format",
-			    &help_indirect, gnumeric_indirect),
-
-	function_add_args  (cat, "index",     "A|fff","reference,row,col,area",
-			    &help_index,    gnumeric_index);
-	function_add_args  (cat, "lookup",    "?A|r", "val,range,range",
-			    &help_lookup,   gnumeric_lookup);
-	function_add_args  (cat, "match",     "?A|f", "val,range,approx",
-			    &help_match,    gnumeric_match);
-	function_add_args  (cat, "offset",    "rff|ff","ref,row,col,hight,width",
-			    &help_offset,   gnumeric_offset);
-	function_add_nodes (cat, "row",       NULL,    "ref",
-			    &help_row,      gnumeric_row);
-	function_add_args  (cat, "rows",      "A",    "ref",
-			    &help_rows,    gnumeric_rows);
-	function_add_args  (cat, "transpose","A",
-			    "array",
-			    &help_transpose,   gnumeric_transpose);
-	function_add_args  (cat, "vlookup",
-			    "?Af|bb","val,range,col_idx,approx,as_index",
-			    &help_vlookup, gnumeric_vlookup);
-}
+const ModulePluginFunctionInfo lookup_functions[] = {
+	{ "address",   "ff|ffs", "row_num,col_num,abs_num,a1,text",
+	  &help_address,  gnumeric_address, NULL, NULL, NULL },
+        { "choose",     0,     "index,value...",
+	  &help_choose,   NULL, gnumeric_choose, NULL, NULL },
+	{ "column",     0,     "ref",
+	  &help_column,   NULL, gnumeric_column, NULL, NULL },
+	{ "columns",   "A",    "ref",
+	  &help_columns, gnumeric_columns, NULL, NULL, NULL },
+	{ "hlookup",   "?Af|bb", "val,range,col_idx,approx,as_index",
+	  &help_hlookup, gnumeric_hlookup, NULL, NULL, NULL },
+	{ "hyperlink", "s|s", "link_location, optional_label",
+	  &help_hyperlink, gnumeric_hyperlink, NULL, NULL, NULL },
+	{ "indirect",  "s|b","ref_string,format",
+	  &help_indirect, gnumeric_indirect, NULL, NULL, NULL },
+	{ "index",     "A|fff","reference,row,col,area",
+	  &help_index,    gnumeric_index, NULL, NULL, NULL },
+	{ "lookup",    "?A|r", "val,range,range",
+	  &help_lookup,   gnumeric_lookup, NULL, NULL, NULL },
+	{ "match",     "?A|f", "val,range,approx",
+	  &help_match,    gnumeric_match, NULL, NULL, NULL },
+	{ "offset",    "rff|ff","ref,row,col,hight,width",
+	  &help_offset,   gnumeric_offset, NULL, NULL, NULL },
+	{ "row",       0,      "ref",
+	  &help_row,      NULL, gnumeric_row, NULL, NULL },
+	{ "rows",      "A",    "ref",
+	  &help_rows,     gnumeric_rows, NULL, NULL, NULL },
+	{ "transpose", "A",    "array",
+	  &help_transpose, gnumeric_transpose, NULL, NULL, NULL },
+	{ "vlookup",   "?Af|bb", "val,range,col_idx,approx,as_index",
+	  &help_vlookup, gnumeric_vlookup, NULL, NULL, NULL },
+        {NULL}
+};
