@@ -1,6 +1,4 @@
-/* vim: set sw=8:
- * $Id$
- */
+/* vim: set sw=8: */
 
 /*
  * dialog-function-wizard.c:  The formula guru
@@ -34,6 +32,7 @@
 #include "cell.h"
 #include "expr.h"
 #include "func.h"
+#include <locale.h>
 
 #define MAX_ARGS_DISPLAYED 4
 
@@ -93,6 +92,8 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 	GtkEntry *entry;
 	GString *str;
 	int pos = 0, i;
+	char sep;
+	struct lconv *locinfo;
 
 	g_return_if_fail (state != NULL);
 	g_return_if_fail (state->fd != NULL);
@@ -106,13 +107,21 @@ formula_guru_set_expr (FormulaGuruState *state, int index, gboolean set_text)
 	g_string_append (str, function_def_get_name (state->fd));
 	g_string_append_c (str, '(');
 
+	/* Use comma as the arg seperator unless the decimal point is a
+	 * comma, in which case use a semi-colon
+	 */
+	sep = ',';
+	locinfo = localeconv ();
+	if (locinfo->decimal_point && !strcmp (locinfo->decimal_point, ","))
+	    sep = ';';
+
 	for (i = 0; i < state->args->len; i++) {
 		ArgumentState *as = g_ptr_array_index (state->args, i);
 		gchar *val = gtk_entry_get_text (as->entry);
 
 		if (!as->is_optional || i <= state->max_arg || i <= index || strlen (val)) {
 			if (i > 0)
-				g_string_append_c (str, ',');
+				g_string_append_c (str, sep);
 			if (i == index)
 				pos = str->len +
 					gtk_editable_get_position (GTK_EDITABLE (as->entry));
@@ -621,6 +630,8 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 		gtk_widget_show_all (state->arg_table);
 	}
 
+	/* Lifecyle management */
+	workbook_edit_attach_guru (state->wb, state->dialog);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (cb_formula_guru_destroy),
 			    state);
@@ -639,7 +650,6 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
 	gtk_window_set_transient_for (GTK_WINDOW (state->dialog),
 				      GTK_WINDOW (state->wb->toplevel));
 
-	workbook_edit_attach_guru (state->wb, state->dialog);
 	formula_guru_set_expr (state, 0, TRUE);
 	formula_guru_set_rolled_state (state, FALSE);
 

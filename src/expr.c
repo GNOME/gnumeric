@@ -1115,10 +1115,19 @@ do_expr_tree_to_string (ExprTree const *tree, ParsePos const *pp,
 		argc = g_list_length (arg_list);
 
 		if (argc) {
+			struct lconv *locinfo;
 			int i, len = 0;
-			args = g_malloc (sizeof (char *) * argc);
+
+			/* Use comma as the arg seperator unless the decimal point is a
+			 * comma, in which case use a semi-colon
+			 */
+			char *sep = ",";
+			locinfo = localeconv ();
+			if (locinfo->decimal_point && !strcmp (locinfo->decimal_point, ","))
+			    sep = ";";
 
 			i = 0;
+			args = g_malloc (sizeof (char *) * argc);
 			for (l = arg_list; l; l = l->next, i++) {
 				ExprTree *t = l->data;
 
@@ -1133,7 +1142,7 @@ do_expr_tree_to_string (ExprTree const *tree, ParsePos const *pp,
 			for (l = arg_list; l; l = l->next, i++) {
 				strcat (sum, args [i]);
 				if (l->next)
-					strcat (sum, ",");
+					strcat (sum, sep);
 			}
 
 			res = g_strconcat (function_def_get_name (fd),

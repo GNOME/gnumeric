@@ -1,7 +1,15 @@
+2000-08-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/expr.c (do_expr_tree_to_string) : Do not hard code the argument
+	  seperator, it needs to change depending on the locale.
+	* src/dialogs/dialog-function-wizard.c (formula_guru_set_expr) :
+	  Ditto.
+
 2000-08-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/functions/fn-stat.c : All callers to float_range_function ignore
 	  blanks.
+	* src/functions/fn-math.c : Ditto.
 
 	* src/functions/fn-database.c (find_column_of_field) : Use
 	  cell_get_rendered_text rather than entered_text.
