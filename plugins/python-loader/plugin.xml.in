@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <plugin id="Gnumeric_PythonLoader">
 	<information>
 		<_name>Python plugin loader</_name>

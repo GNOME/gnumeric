@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <gmr:FormatTemplate xmlns:gmr="http://www.gnome.org/gnumeric/format-template/v1">
   <gmr:Information author="Gnumeric Team" name="Blue" description="A colourful template with mainly blue and teal colours" category="Colourful"/>
   <gmr:Members>

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Types xmlns:graph="http://www.gnumeric.org/graph_v2.dtd">
     <Family _name="Pie"		sample_image_file="pie.xpm"/>
     <Family _name="Ring"	sample_image_file="doughnut.xpm"/>
