@@ -1410,7 +1410,7 @@ cb_font_size_changed (G_GNUC_UNUSED gpointer p,
 	if (wbcg->updating_ui)
 		return TRUE;
 
-#warning check what happens when user enters size < 1 (should check too large too)
+#warning "Check what happens when user enters size < 1 (should check too large too)"
 	/* Make 1pt a minimum size for fonts */
 	size = atof (sizetext);
 	if (size < 1.0) {
@@ -1612,11 +1612,11 @@ static GtkActionEntry actions[] = {
 	{ "EditSelectAll", NULL, N_("Select _All"),
 		"<control>A", N_("Select all cells in the spreadsheet"),
 		G_CALLBACK (cb_edit_select_all) },
-#warning check how to write space
+#warning "Check how to write space"
 	{ "EditSelectColumn", NULL, N_("Select _Column"),
 		"<control><space>", N_("Select an entire column"),
 		G_CALLBACK (cb_edit_select_col) },
-#warning check how to write meta
+#warning "Check how to write meta"
 	{ "EditSelectRow", NULL, N_("Select _Row"),
 		"<meta><space>", N_("Select an entire row"),
 		G_CALLBACK (cb_edit_select_row) },
@@ -2032,7 +2032,7 @@ static GtkActionEntry actions[] = {
 	{ "FormatDecreasePrecision", "Gnumeric_FormatRemovePrecision", N_("Decrease Precision"),
 		NULL, N_("Decrease the number of decimals displayed"),
 		G_CALLBACK (cb_format_dec_precision) },
-#warning restore these when the gtk patch lands
+#warning "Restore these when the gtk patch lands"
 #if 1
 	{ "FormatDecreaseIndent", GTK_STOCK_MISSING_IMAGE, N_("Decrease Indent"),
 		NULL, N_("Align the contents to the left and decrease the indent"),
@@ -2063,11 +2063,12 @@ static GtkToggleActionEntry toggle_actions[] = {
 	{ "FontUnderline", GTK_STOCK_UNDERLINE,
 		N_("_Underline"), "<control>U",
 		N_("Underline"), G_CALLBACK (cb_font_underline), FALSE },
-#warning Add double underline icon
+#warning "Add double underline icon"
+#warning "Add accelerator for double underline"
 	{ "FontDoubleUnderline", GTK_STOCK_UNDERLINE,
-		N_("_Underline"), "<control>U",
+		N_("_Underline"), NULL,
 		N_("Underline"), G_CALLBACK (cb_font_double_underline), FALSE },
-#warning should there be an accelerator for strikethrough
+#warning "Should there be an accelerator for strikethrough?"
 	{ "FontStrikeThrough", GTK_STOCK_UNDERLINE,
 		N_("_Strike Through"), NULL,
 		N_("Strike Through"), G_CALLBACK (cb_font_strikethrough), FALSE },
@@ -2084,10 +2085,10 @@ static GtkToggleActionEntry toggle_actions[] = {
 		N_("_Center Across Selection"), NULL,
 		N_("Center across the selected cells"),
 		G_CALLBACK (cb_center_across_selection), FALSE },
-#warning Add justify
-#warning h/v distributed ?
+#warning "Add justify"
+#warning "h/v distributed?"
 
-#warning get vertical alignment icons
+#warning "Get vertical alignment icons"
 	{ "AlignTop", NULL,
 		N_("Align _Top"), NULL,
 		N_("Align Top"), G_CALLBACK (cb_align_top), FALSE },

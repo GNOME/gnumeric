@@ -2,6 +2,8 @@
 
 	* src/wbcg-actions.c: Add invisible CopyDown and CopyRight
 	actions.  Stubbed so far.
+	Remove accelerator for double underline as it collided with
+	single underline.
 
 2004-01-08  Jody Goldberg <jody@gnome.org>
 
