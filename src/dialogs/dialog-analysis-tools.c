@@ -47,6 +47,7 @@
 #include <commands.h>
 #include "help.h"
 
+#include <widgets/gnm-dao.h>
 #include <widgets/gnumeric-expr-entry.h>
 
 #include <glade/glade.h>
@@ -457,6 +458,8 @@ tool_load_selection (GenericToolState *state, gboolean allow_multiple)
 		if (state->output_entry != NULL)
 		        gnm_expr_entry_load_from_range (state->output_entry,
 							state->sheet, first);
+		if (state->gdao != NULL)
+			gnm_dao_load_range (GNM_DAO (state->gdao), first);
 	}
 
 	gtk_widget_show (state->dialog);
@@ -488,13 +491,9 @@ tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 	gboolean input_2_ready  = FALSE;
 	gboolean output_ready  = FALSE;
 
-	int i;
-        GnmValue *output_range;
         GSList *input_range;
         GnmValue *input_range_2;
 
-        output_range = gnm_expr_entry_parse_as_value
-		(GNM_EXPR_ENTRY (state->output_entry), state->sheet);
         input_range = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->input_entry), state->sheet);
 
@@ -505,19 +504,33 @@ tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		input_range_2 = NULL;
 	}
 
-	i = gnumeric_glade_group_value (state->gui, output_group);
-
 	input_1_ready = (input_range != NULL);
-	input_2_ready = ((state->input_entry_2 == NULL) || (input_range_2 != NULL));
-	output_ready =  ((i != 2) || (output_range != NULL));
+	input_2_ready = ((state->input_entry_2 == NULL) || 
+			 (input_range_2 != NULL));
 
-	gtk_widget_set_sensitive (state->clear_outputrange_button, (i == 2));
-	gtk_widget_set_sensitive (state->retain_format_button, (i == 2));
-	gtk_widget_set_sensitive (state->retain_comments_button, (i == 2));
+	if (state->gdao == NULL) {
+		int i;
+		GnmValue *output_range;
 
+		output_range = gnm_expr_entry_parse_as_value
+			(GNM_EXPR_ENTRY (state->output_entry), state->sheet);
+		i = gnumeric_glade_group_value (state->gui, output_group);
+		
+		output_ready =  ((i != 2) || (output_range != NULL));
+		
+		gtk_widget_set_sensitive (state->clear_outputrange_button, 
+					  (i == 2));
+		gtk_widget_set_sensitive (state->retain_format_button, 
+					  (i == 2));
+		gtk_widget_set_sensitive (state->retain_comments_button, 
+					  (i == 2));
+		
+		if (output_range != NULL) value_release (output_range);
+	} else 
+		output_ready = gnm_dao_is_ready (GNM_DAO (state->gdao));
+	
         if (input_range != NULL) range_list_destroy (input_range);
         if (input_range_2 != NULL) value_release (input_range_2);
-        if (output_range != NULL) value_release (output_range);
 
 	ready = input_1_ready && input_2_ready && output_ready;
 	if (state->apply_button != NULL)
@@ -635,6 +648,7 @@ dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      0))
 		return 0;
 
+	gnm_dao_set_put (GNM_DAO (state->gdao), FALSE, FALSE);
 	tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 
@@ -753,6 +767,7 @@ dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      0))
 		return 0;
 
+	gnm_dao_set_put (GNM_DAO (state->gdao), FALSE, FALSE);
 	tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 
@@ -843,6 +858,7 @@ dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      0))
 		return 0;
 
+	gnm_dao_set_put (GNM_DAO (state->gdao), FALSE, FALSE);
 	tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 
@@ -933,6 +949,7 @@ dialog_fourier_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      0))
 		return 0;
 
+	gnm_dao_set_put (GNM_DAO (state->gdao), FALSE, FALSE);
 	tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 
@@ -1020,16 +1037,13 @@ desc_stat_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 				      DescriptiveStatState *state)
 {
 	gboolean ready  = FALSE;
-	int i, j, an_int;
+	int j, an_int;
 	gnm_float a_float;
-        GnmValue *output_range;
         GSList *input_range;
+	gboolean output_ready = gnm_dao_is_ready (GNM_DAO (state->base.gdao));
 
-        output_range = gnm_expr_entry_parse_as_value
-		(GNM_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
         input_range = gnm_expr_entry_parse_as_list (
 		GNM_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
-	i = gnumeric_glade_group_value (state->base.gui, output_group);
 	j = gnumeric_glade_group_value (state->base.gui, stats_group);
 
 	ready = ((input_range != NULL) &&
@@ -1046,14 +1060,9 @@ desc_stat_tool_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 			 GTK_TOGGLE_BUTTON (state->kth_smallest_button)) == 0 ||
 			 (0 == entry_to_int (GTK_ENTRY (state->s_entry), &an_int, FALSE) &&
 				 an_int > 0)) &&
-                 ((i != 2) || (output_range != NULL)));
-
-	gtk_widget_set_sensitive (state->base.clear_outputrange_button, (i == 2));
-	gtk_widget_set_sensitive (state->base.retain_format_button, (i == 2));
-	gtk_widget_set_sensitive (state->base.retain_comments_button, (i == 2));
+                 output_ready);
 
         if (input_range != NULL) range_list_destroy (input_range);
-        if (output_range != NULL) value_release (output_range);
 
 	gtk_widget_set_sensitive (state->base.ok_button, ready);
 }
@@ -1139,6 +1148,7 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->s_entry));
 
+	gnm_dao_set_put (GNM_DAO (state->base.gdao), FALSE, FALSE);
 	desc_stat_tool_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
 

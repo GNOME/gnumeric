@@ -1,3 +1,9 @@
+2003-12-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* gnm-dao.[hc]: new files, establishing the output page of the 
+	  statiscal analysis functions as its own widget.
+	* Makefile.am: add gnm-dao.[hc]
+
 2003-12-24  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-combo-text.c (cb_scroll_size_request): Remove

@@ -52,6 +52,8 @@ typedef struct {
 
 data_analysis_output_t *dao_init (data_analysis_output_t *dao, 
 				  data_analysis_output_type_t type);
+data_analysis_output_t *dao_load_from_value (data_analysis_output_t *dao,
+					     GnmValue *output_range);
 
 void dao_autofit_columns      (data_analysis_output_t *dao);
 void dao_autofit_these_columns (data_analysis_output_t *dao, int from_col,

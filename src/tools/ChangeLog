@@ -1,3 +1,8 @@
+2003-12-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao.h (dao_load_from_value): new
+	* dao.c (dao_load_from_value): new
+
 2003-12-23  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.3

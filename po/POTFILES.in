@@ -166,6 +166,7 @@ src/dialogs/colrow.glade
 src/dialogs/consolidate.glade
 src/dialogs/correlation.glade
 src/dialogs/covariance.glade
+src/dialogs/dao.glade
 src/dialogs/dao-gui-utils.c
 src/dialogs/delete-cells.glade
 src/dialogs/descriptive-stats.glade
@@ -336,6 +337,7 @@ src/validation.c
 src/value-sheet.c
 src/value.c
 src/widgets/color-palette.c
+src/widgets/gnm-dao.c
 src/widgets/gnumeric-cell-renderer-expr-entry.c
 src/widgets/gnumeric-cell-renderer-text.c
 src/widgets/gnumeric-cell-renderer-toggle.c

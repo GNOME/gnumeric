@@ -1,3 +1,7 @@
+2003-12-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* POTFILES.in: add src/dialogs/dao.glade and src/widgets/gnm-dao.c
+
 2003-12-27  Miloslav Trmac  <mitr@volny.cz>
 
 	* cs.po: Updated Czech translation.

@@ -37,6 +37,7 @@ struct _GenericToolState {
         GtkWidget *retain_format_button;
         GtkWidget *retain_comments_button;
         GtkWidget *put_menu;
+	GtkWidget *gdao;
 	GtkWidget *ok_button;
 	GtkWidget *cancel_button;
 	GtkWidget *apply_button;

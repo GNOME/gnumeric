@@ -96,6 +96,7 @@ glade_DATA = 				\
 	consolidate.glade		\
 	correlation.glade		\
 	covariance.glade		\
+	dao.glade			\
 	delete-cells.glade		\
 	descriptive-stats.glade		\
 	dialog-stf-export.glade		\

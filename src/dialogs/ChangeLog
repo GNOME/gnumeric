@@ -1,3 +1,24 @@
+2003-12-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao.glade: new
+	* Makefile.am: add dao.glade
+	* dao-gui-utils.c (dialog_tool_init_outputs): handle new dao widget
+	(parse_output): ditto
+	* dialog-analysis-tools.c (tool_load_selection): ditto
+	(tool_update_sensitivity_cb): ditto
+	(dialog_correlation_tool): disable `put' menu
+	(dialog_covariance_tool): ditto
+	(dialog_ranking_tool): ditto
+	(dialog_fourier_tool): ditto
+	(desc_stat_tool_update_sensitivity_cb): use new dao widget
+	(dialog_descriptive_stat_tool): disable `put' menu
+	* tool-dialogs.h (_GenericToolState): add gdao field
+	* correlation.glade: replace output page widgets with dao widget
+	* covariance.glade: ditto
+	* descriptive-stats.glade: ditto
+	* fourier-analysis.glade: ditto
+	* rank.glade: ditto
+
 2003-12-24  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* dialog-cell-sort.c: make various strings translatable and remove

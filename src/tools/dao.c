@@ -81,6 +81,25 @@ dao_init (data_analysis_output_t *dao,
 	return dao;
 }
 
+data_analysis_output_t *
+dao_load_from_value (data_analysis_output_t *dao,
+		     GnmValue *output_range)
+{
+	g_return_val_if_fail (output_range != NULL, dao);
+	g_return_val_if_fail 
+		(output_range->type == VALUE_CELLRANGE, dao);
+
+	dao->start_col = output_range->v_range.cell.a.col;
+	dao->start_row = output_range->v_range.cell.a.row;
+	dao->cols = output_range->v_range.cell.b.col
+		- output_range->v_range.cell.a.col + 1;
+	dao->rows = output_range->v_range.cell.b.row
+		- output_range->v_range.cell.a.row + 1;
+	dao->sheet = output_range->v_range.cell.a.sheet;
+	
+	return dao;
+}
+
 /**
  * dao_range_name:
  * @dao:

@@ -21,6 +21,8 @@ libwidgets_a_SOURCES =				\
 	gnm-combo-box.h				\
 	gnm-combo-stack.c			\
 	gnm-combo-stack.h			\
+	gnm-dao.c				\
+	gnm-dao.h				\
 	preview-file-selection.c		\
 	preview-file-selection.h		\
 	widget-charmap-selector.c		\
