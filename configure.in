@@ -768,7 +768,6 @@ src/tools/solver/lp_solve/Makefile
 src/cut-n-paste-code/Makefile
 src/cut-n-paste-code/foocanvas/Makefile
 src/cut-n-paste-code/foocanvas/libfoocanvas/Makefile
-src/cut-n-paste-code/pcre/Makefile
 src/cut-n-paste-code/goffice/Makefile
 src/cut-n-paste-code/goffice/app/Makefile
 src/cut-n-paste-code/goffice/pixmaps/Makefile
@@ -784,6 +783,8 @@ src/cut-n-paste-code/goffice/drawing/Makefile
 src/cut-n-paste-code/goffice/ms-compat/Makefile
 src/cut-n-paste-code/goffice/libpresent/Makefile
 src/cut-n-paste-code/goffice/test/Makefile
+src/cut-n-paste-code/goffice/cut-n-paste/Makefile
+src/cut-n-paste-code/goffice/cut-n-paste/pcre/Makefile
 doc/Makefile
 doc/C/Makefile
 doc/C/figures/Makefile

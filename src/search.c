@@ -40,7 +40,7 @@ search_replace_free (GnmSearchReplace *sr)
 	g_free (sr->replace_text);
 	g_free (sr->range_text);
 	if (sr->comp_search) {
-		gnumeric_regfree (sr->comp_search);
+		go_regfree (sr->comp_search);
 		g_free (sr->comp_search);
 	}
 	g_free (sr);
@@ -57,7 +57,7 @@ search_replace_compile (GnmSearchReplace *sr, gboolean repl)
 	int res;
 
 	if (sr->comp_search) {
-		gnumeric_regfree (sr->comp_search);
+		go_regfree (sr->comp_search);
 		g_free (sr->comp_search);
 	}
 
@@ -82,8 +82,8 @@ search_replace_compile (GnmSearchReplace *sr, gboolean repl)
 
 	if (sr->ignore_case) flags |= REG_ICASE;
 
-	sr->comp_search = g_new0 (gnumeric_regex_t, 1);
-	res = gnumeric_regcomp (sr->comp_search, pattern, flags);
+	sr->comp_search = g_new0 (go_regex_t, 1);
+	res = go_regcomp (sr->comp_search, pattern, flags);
 
 	g_free (tmp);
 
@@ -333,7 +333,7 @@ search_match_string (GnmSearchReplace *sr, const char *src)
 
 	while (1) {
 		regmatch_t match;
-		int ret = gnumeric_regexec (sr->comp_search, src, 1, &match, flags);
+		int ret = go_regexec (sr->comp_search, src, 1, &match, flags);
 
 		switch (ret) {
 		case 0:
@@ -380,7 +380,7 @@ search_replace_string (GnmSearchReplace *sr, const char *src)
 	nmatch = 1 + sr->comp_search->re_nsub;
 	pmatch = g_new (regmatch_t, nmatch);
 
-	while ((ret = gnumeric_regexec (sr->comp_search, src, nmatch, pmatch, flags)) == 0) {
+	while ((ret = go_regexec (sr->comp_search, src, nmatch, pmatch, flags)) == 0) {
 		if (!res) {
 			/* The size here is a bit arbitrary.  */
 			int size = strlen (src) +

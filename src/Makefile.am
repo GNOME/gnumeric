@@ -308,7 +308,7 @@ gnumeric_app_libs =				\
 	tools/solver/glpk/source/libglpk.a	\
 	tools/solver/lp_solve/liblp_solve.a	\
 	cut-n-paste-code/goffice/libgoffice.la	\
-	cut-n-paste-code/pcre/libpcre.a		\
+	cut-n-paste-code/goffice/cut-n-paste/pcre/libpcre.a		\
 	cut-n-paste-code/foocanvas/libfoocanvas/libfoocanvas.a	\
 	widgets/libwidgets.a
 

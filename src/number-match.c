@@ -561,7 +561,7 @@ format_match_release (GnmFormat *fmt)
 {
 	if (fmt->regexp_str != NULL) {
 		g_free (fmt->regexp_str);
-		gnumeric_regfree (&fmt->regexp);
+		go_regfree (&fmt->regexp);
 		g_byte_array_free (fmt->match_tags, TRUE);
 	}
 }
@@ -571,7 +571,7 @@ format_match_create (GnmFormat *fmt)
 {
 	GByteArray *match_tags;
 	char *regexp;
-	gnumeric_regex_t r;
+	go_regex_t r;
 	int ret;
 
 	g_return_val_if_fail (fmt != NULL, FALSE);
@@ -586,7 +586,7 @@ format_match_create (GnmFormat *fmt)
 		return FALSE;
 	}
 
-	ret = gnumeric_regcomp (&r, regexp, REG_EXTENDED | REG_ICASE);
+	ret = go_regcomp (&r, regexp, REG_EXTENDED | REG_ICASE);
 	if (ret != 0) {
 		g_warning ("expression [%s] produced [%s]", fmt->format, regexp);
 		print_regex_error (ret);
@@ -1190,7 +1190,7 @@ format_match (char const *text, GnmFormat *cur_fmt,
 
 		default:
 			if (cur_fmt->regexp_str != NULL &&
-			    gnumeric_regexec (&cur_fmt->regexp, text, NM, mp, 0) != REG_NOMATCH &&
+			    go_regexec (&cur_fmt->regexp, text, NM, mp, 0) != REG_NOMATCH &&
 			    NULL != (v = compute_value (text, mp, cur_fmt->match_tags,
 							date_conv))) {
 #ifdef DEBUG_NUMBER_MATCH
@@ -1230,7 +1230,7 @@ format_match (char const *text, GnmFormat *cur_fmt,
 #ifdef DEBUG_NUMBER_MATCH
 		printf ("test: %s \'%s\'\n", fmt->format, fmt->regexp_str);
 #endif
-		if (gnumeric_regexec (&fmt->regexp, text, NM, mp, 0) == REG_NOMATCH)
+		if (go_regexec (&fmt->regexp, text, NM, mp, 0) == REG_NOMATCH)
 			continue;
 
 #ifdef DEBUG_NUMBER_MATCH

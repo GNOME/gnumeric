@@ -1704,4 +1704,3 @@ plugin_service_define (char const *type_str, GnmPluginServiceCreate ctor)
 
 	g_hash_table_insert (services, (gpointer)type_str, ctor);
 }
-

@@ -1,3 +1,29 @@
+2004-06-23  Jean Brefort  <jean.brefort@ac-dijon.fr>
+
+	* configure.in:
+	* src/Makefile.am:
+	* src/cut-n-paste-code/Makefile.am: removed pcre subdir.
+	* src/graph.c: (cb_assign_val), (gnm_go_data_vector_load_values),
+	(gnm_go_data_vector_get_value): changed gnm_nan to go_nan.
+	* src/format.h:  replaced gnumeric_reg* by go_reg*
+	* src/formats.c: (my_regerror), (currency_date_format_init),
+	(currency_date_format_shutdown), (cell_format_simple_number),
+	(cell_format_is_number), (cell_format_is_fraction): ditto.
+	* src/number-match.c: (format_match_release),
+	(format_match_create), (format_match): ditto.
+	* src/plugin-service.c: (plugin_service_define): ditto.
+	* src/regutf8.c: (gnumeric_regcomp_XL): ditto.
+	* src/regutf8.h: ditto.
+	* src/search.c: (search_replace_free), (search_replace_compile),
+	(search_match_string), (search_replace_string): ditto.
+	* src/search.h: ditto.
+	* src/sheet-filter.c: (filter_expr_release), (filter_expr_eval): ditto.
+	* src/widgets/widget-format-selector.c: (populate_menu): ditto.
+	* src/workbook-control-gui.c: (wbcg_sheet_focus),
+	(cb_notebook_switch_page): Added missing spaces.
+	* src/cut-n-paste-code/pcre: Moved whole tree to goffice.
+	* tools/import-pcre: Updated to the new path and replaced gnumeric_ by go_.
+
 2004-06-22  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=134014

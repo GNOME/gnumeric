@@ -9,7 +9,7 @@
 #include <regutf8.h>
 
 int
-gnumeric_regcomp_XL (gnumeric_regex_t *preg, char const *pattern, int cflags)
+gnumeric_regcomp_XL (go_regex_t *preg, char const *pattern, int cflags)
 {
 	GString *res = g_string_new (NULL);
 	int retval;
@@ -40,7 +40,7 @@ gnumeric_regcomp_XL (gnumeric_regex_t *preg, char const *pattern, int cflags)
 		}
 	}
 
-	retval = gnumeric_regcomp (preg, res->str, cflags);
+	retval = go_regcomp (preg, res->str, cflags);
 	g_string_free (res, TRUE);
 	return retval;
 }

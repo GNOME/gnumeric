@@ -898,7 +898,6 @@ wbcg_sheet_focus (WorkbookControl *wbc, Sheet *sheet)
 	/* A sheet added in another view may not yet have a view */
 	if (i >= 0) {
 		gtk_notebook_set_current_page (wbcg->notebook, i);
-		wb_control_zoom_feedback (wbc);
 		if (wbcg->rangesel == NULL)
 			gnm_expr_entry_set_scg (wbcg->edit_line.entry, scg);
 	}
@@ -1507,6 +1506,7 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 		sheet_flag_status_update_range (sheet, NULL);
 		sheet_update (sheet);
 		wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
+		wb_control_zoom_feedback (WORKBOOK_CONTROL (wbcg));
 	}
 }
 

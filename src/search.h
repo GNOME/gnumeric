@@ -55,7 +55,7 @@ struct _GnmSearchReplace {
 	 */
 	gboolean by_row;
 
-	gnumeric_regex_t *comp_search;
+	go_regex_t *comp_search;
 	gboolean plain_replace;
 
 	/*

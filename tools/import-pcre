@@ -10,7 +10,7 @@ $myself =~ s|^.*/||;
 
 die "$0: must run from top-level gnumeric directory.\n"
     unless -r "gnumeric-config.h.in";
-my $dst = "src/cut-n-paste-code/pcre";
+my $dst = "src/cut-n-paste-code/goffice/cut-n-paste/pcre";
 
 my $srcdir = $ARGV[0];
 $srcdir = "../pcre" unless defined $srcdir;
@@ -64,7 +64,7 @@ for my $filename (@SRC_C, @EXTRA_C, @SRC_H) {
 	$where = 'below';
     }
 
-    print DST "/* File import from pcre to gnumeric by $myself.  Do not edit.  */\n\n";
+    print DST "/* File import from pcre to goffice by $myself.  Do not edit.  */\n\n";
     print DST "/* This file has been programatically changed.  */\n";
     print DST "/* This makes the following file fall under GPL license, see $where.  */\n\n";
 
@@ -84,7 +84,7 @@ for my $filename (@SRC_C, @EXTRA_C, @SRC_H) {
 	    }
 	}
 
-	s/"config\.h"/\<gnumeric-config.h\>/;
+	s/"config\.h"/\<goffice\/goffice-config.h\>/;
 	if (s{^(\s*\#\s*include\s*.ctype\.h.*)}{/* $1 */}) {
 	    print DST "/* Whatever the question is, ctype.h is not the answer.  */\n";
 	}
@@ -103,13 +103,13 @@ for my $filename (@SRC_C, @EXTRA_C, @SRC_H) {
 	s/pcre_default_tables/make_pcre_default_tables ()/;
 
 	if ($filename =~ /posix/i) {
-	    s/\bregex_t\b/gnumeric_regex_t/g;
-	    s/\bregoff_t\b/gnumeric_regoff_t/g;
+	    s/\bregex_t\b/go_regex_t/g;
+	    s/\bregoff_t\b/go_regoff_t/g;
 	    # Not regmatch_t, for now.
-	    s/\bregcomp\b/gnumeric_regcomp/g;
-	    s/\bregexec\b/gnumeric_regexec/g;
-	    s/\bregerror\b/gnumeric_regerror/g;
-	    s/\bregfree\b/gnumeric_regfree/g;
+	    s/\bregcomp\b/go_regcomp/g;
+	    s/\bregexec\b/go_regexec/g;
+	    s/\bregerror\b/go_regerror/g;
+	    s/\bregfree\b/go_regfree/g;
 
 	    if ($force_utf8) {
 		s/options/options | PCRE_UTF8 | PCRE_NO_UTF8_CHECK/ if /pcre_compile/;

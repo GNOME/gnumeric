@@ -1,1 +1,1 @@
-SUBDIRS = pcre foocanvas goffice # egg
+SUBDIRS = foocanvas goffice # egg

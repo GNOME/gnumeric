@@ -790,9 +790,9 @@ populate_menu (NumberFormatSelector *nfs)
 	GtkCellRenderer *renderer;
 	char const * const *categories = format_category_names;
 
-	nfs->format.menu_model = GTK_TREE_MODEL(gtk_list_store_new 
+	nfs->format.menu_model = GTK_TREE_MODEL (gtk_list_store_new 
 						(1, G_TYPE_STRING));
-	gtk_tree_view_set_model (GTK_TREE_VIEW(nfs->format.menu), 
+	gtk_tree_view_set_model (GTK_TREE_VIEW (nfs->format.menu), 
 				 nfs->format.menu_model);
 	selection = gtk_tree_view_get_selection 
 		(GTK_TREE_VIEW(nfs->format.menu));
@@ -800,8 +800,8 @@ populate_menu (NumberFormatSelector *nfs)
 	
 	while (*categories) {
 		gtk_list_store_append 
-			(GTK_LIST_STORE(nfs->format.menu_model), &iter);
-		gtk_list_store_set (GTK_LIST_STORE(nfs->format.menu_model),
+			(GTK_LIST_STORE (nfs->format.menu_model), &iter);
+		gtk_list_store_set (GTK_LIST_STORE (nfs->format.menu_model),
 				    &iter, 0, _(*categories), -1);
 		categories++;
 	}

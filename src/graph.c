@@ -36,6 +36,7 @@
 #include "ranges.h"
 #include "parse-util.h"
 #include <goffice/graph/go-data-impl.h>
+#include <goffice/utils/go-math.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
@@ -423,7 +424,7 @@ cb_assign_val (Sheet *sheet, int col, int row,
 		v = NULL;
 
 	if (VALUE_IS_EMPTY_OR_ERROR (v)) {
-		dat->vals[dat->i++] = gnm_nan;
+		dat->vals[dat->i++] = go_nan;
 		return NULL;
 	}
 
@@ -462,8 +463,8 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 
 	if (dat->len <= 0) {
 		dat->values = NULL;
-		dat->minimum = gnm_nan;
-		dat->maximum = gnm_nan;
+		dat->minimum = go_nan;
+		dat->maximum = go_nan;
 		dat->base.flags |= GO_DATA_CACHE_IS_VALID;
 		return;
 	}
@@ -503,7 +504,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 			minimum = closure.minimum;
 			maximum = closure.maximum;
 		} else
-			minimum = maximum = vals[0] = gnm_nan;
+			minimum = maximum = vals[0] = go_nan;
 		break;
 
 	case VALUE_ARRAY :
@@ -515,7 +516,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 				: vec->val->v_array.vals [len][0];
 
 			if (VALUE_IS_EMPTY_OR_ERROR (v)) {
-				vals[len] = gnm_nan;
+				vals[len] = go_nan;
 				continue;
 			} else if (v->type == VALUE_STRING) {
 				GnmValue *tmp = format_match_number (v->v_str.val->str, NULL,
@@ -546,7 +547,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 
 	case VALUE_EMPTY :
 	case VALUE_ERROR :
-		minimum = maximum = vals[0] = gnm_nan;
+		minimum = maximum = vals[0] = go_nan;
 		break;
 	default :
 		minimum = maximum = vals[0] = value_get_as_float (vec->val);
@@ -581,7 +582,7 @@ gnm_go_data_vector_get_value (GODataVector *dat, unsigned i)
 		value_release (v);
 		return res;
 	}
-	return gnm_nan;
+	return go_nan;
 }
 
 static char *

@@ -618,7 +618,7 @@ GSF_CLASS (GnmFilterField, filter_field,
 typedef struct  {
 	GnmFilterCondition const *cond;
 	GnmValue		 *val[2];
-	gnumeric_regex_t  regexp[2];
+	go_regex_t  regexp[2];
 	GnmDateConventions const *date_conv;
 } FilterExpr;
 
@@ -649,11 +649,11 @@ filter_expr_release (FilterExpr *fexpr, unsigned i)
 	if (fexpr->val[i] != NULL)
 		value_release (fexpr->val[i]);
 	else
-		gnumeric_regfree (fexpr->regexp + i);
+		go_regfree (fexpr->regexp + i);
 }
 
 static gboolean
-filter_expr_eval (GnmFilterOp op, GnmValue const *src, gnumeric_regex_t const *regexp,
+filter_expr_eval (GnmFilterOp op, GnmValue const *src, go_regex_t const *regexp,
 		  GnmValue *target)
 {
 	GnmValDiff cmp;
@@ -662,7 +662,7 @@ filter_expr_eval (GnmFilterOp op, GnmValue const *src, gnumeric_regex_t const *r
 		char const *str = value_peek_string (target);
 		regmatch_t rm;
 
-		switch (gnumeric_regexec (regexp, str, 1, &rm, 0)) {
+		switch (go_regexec (regexp, str, 1, &rm, 0)) {
 		case REG_NOMATCH: return op == GNM_FILTER_OP_NOT_EQUAL;
 		case REG_OK: return op == GNM_FILTER_OP_EQUAL;
 

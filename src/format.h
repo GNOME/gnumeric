@@ -49,7 +49,7 @@ struct _GnmFormat {
         GSList               *entries;  /* Of type StyleFormatEntry. */
 	char                 *regexp_str;
 	GByteArray           *match_tags;
-	gnumeric_regex_t      regexp;
+	go_regex_t      regexp;
 	FormatFamily          family;
 	FormatCharacteristics family_info;
 	PangoAttrList	     *markup; /* only for FMT_MARKUP */

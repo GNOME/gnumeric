@@ -170,18 +170,18 @@ cell_formats [] = {
 };
 
 /* The compiled regexp for cell_format_classify */
-static gnumeric_regex_t re_simple_number;
-static gnumeric_regex_t re_red_number;
-static gnumeric_regex_t re_brackets_number;
-static gnumeric_regex_t re_percent_science;
-static gnumeric_regex_t re_account;
-static gnumeric_regex_t re_fraction;
+static go_regex_t re_simple_number;
+static go_regex_t re_red_number;
+static go_regex_t re_brackets_number;
+static go_regex_t re_percent_science;
+static go_regex_t re_account;
+static go_regex_t re_fraction;
 
 static const char *
-my_regerror (int err, const gnumeric_regex_t *preg)
+my_regerror (int err, const go_regex_t *preg)
 {
 	static char buffer[1024];
-	gnumeric_regerror (err, preg, buffer, sizeof (buffer));
+	go_regerror (err, preg, buffer, sizeof (buffer));
 	return buffer;
 }
 
@@ -225,32 +225,32 @@ currency_date_format_init (void)
 	char const *pattern_account = "^_\\((((.*)\\*  ?)?)(#,##0(\\.0{1,30})?)((\\*  ?}(.*))?)_\\);_\\(\\1\\(\\4\\)\\6;_\\(\\1\"-\"\\?{0,30}\\6_\\);_\\(@_\\)$";
 
 
-	err = gnumeric_regcomp (&re_simple_number, simple_number_pattern, 0);
+	err = go_regcomp (&re_simple_number, simple_number_pattern, 0);
 	if (err)
 		g_warning ("Error in regcomp() for simple number, please report the bug [%s] [%s]",
 			   my_regerror (err, &re_simple_number), simple_number_pattern);
 
-	err = gnumeric_regcomp (&re_red_number, red_number_pattern, 0);
+	err = go_regcomp (&re_red_number, red_number_pattern, 0);
 	if (err)
 		g_warning ("Error in regcomp() for red number, please report the bug [%s] [%s]",
 			   my_regerror (err, &re_red_number), red_number_pattern);
 
-	err = gnumeric_regcomp (&re_brackets_number, brackets_number_pattern, 0);
+	err = go_regcomp (&re_brackets_number, brackets_number_pattern, 0);
 	if (err)
 		g_warning ("Error in regcomp() for brackets number, please report the bug [%s] [%s]",
 			   my_regerror (err, &re_brackets_number), brackets_number_pattern);
 
-	err = gnumeric_regcomp (&re_percent_science, pattern_percent_science, 0);
+	err = go_regcomp (&re_percent_science, pattern_percent_science, 0);
 	if (err)
 		g_warning ("Error in regcomp() for percent and science, please report the bug [%s] [%s]",
 			  my_regerror (err, &re_percent_science), pattern_percent_science);
 
-	err = gnumeric_regcomp (&re_fraction, pattern_fraction, 0);
+	err = go_regcomp (&re_fraction, pattern_fraction, 0);
 	if (err)
 		g_warning ("Error in regcomp() for fraction, please report the bug [%s] [%s]",
 			  my_regerror (err, &re_fraction), pattern_fraction);
 
-	err = gnumeric_regcomp (&re_account, pattern_account, 0);
+	err = go_regcomp (&re_account, pattern_account, 0);
 	if (err)
 		g_warning ("Error in regcomp() for account, please report the bug [%s] [%s]",
 			   my_regerror (err, &re_account), pattern_account);
@@ -363,12 +363,12 @@ currency_date_format_shutdown (void)
 	g_free ((char *)(cell_format_account [2]));
 	cell_format_account [3] = NULL;
 
-	gnumeric_regfree (&re_simple_number);
-	gnumeric_regfree (&re_red_number);
-	gnumeric_regfree (&re_brackets_number);
-	gnumeric_regfree (&re_percent_science);
-	gnumeric_regfree (&re_account);
-	gnumeric_regfree (&re_fraction);
+	go_regfree (&re_simple_number);
+	go_regfree (&re_red_number);
+	go_regfree (&re_brackets_number);
+	go_regfree (&re_percent_science);
+	go_regfree (&re_account);
+	go_regfree (&re_fraction);
 }
 
 CurrencySymbol const currency_symbols[] =
@@ -584,7 +584,7 @@ cell_format_simple_number (char const * const fmt, FormatCharacteristics *info)
 	int cur = -1;
 	regmatch_t match[7];
 
-	if (gnumeric_regexec (&re_simple_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
+	if (go_regexec (&re_simple_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
 
 		if (match[2].rm_eo == -1 && match[6].rm_eo == -1) {
 			result = FMT_NUMBER;
@@ -630,7 +630,7 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 	if ((result = cell_format_simple_number (fmt, info)) != FMT_UNKNOWN)
 		return result;
 
-	if (gnumeric_regexec (&re_red_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
+	if (go_regexec (&re_red_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
 		char *tmp = g_strndup(fmt+match[1].rm_so,
 				      match[1].rm_eo-match[1].rm_so);
 		result = cell_format_simple_number (tmp, info);
@@ -639,7 +639,7 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 		return result;
 	}
 
-	if (gnumeric_regexec (&re_brackets_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
+	if (go_regexec (&re_brackets_number, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
 		char *tmp = g_strndup(fmt+match[1].rm_so,
 				      match[1].rm_eo-match[1].rm_so);
 		result = cell_format_simple_number (tmp, info);
@@ -652,7 +652,7 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 	}
 
 	/* FMT_PERCENT or FMT_SCIENCE ? */
-	if (gnumeric_regexec (&re_percent_science, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
+	if (go_regexec (&re_percent_science, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
 		info->num_decimals = 0;
 		if (match[1].rm_eo != -1)
 			info->num_decimals = match[1].rm_eo -
@@ -665,7 +665,7 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 	}
 
 	/* FMT_ACCOUNT */
-	if (gnumeric_regexec (&re_account, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
+	if (go_regexec (&re_account, fmt, G_N_ELEMENTS (match), match, 0) == 0) {
 		info->num_decimals = 0;
 		if (match[5].rm_eo != -1)
 			info->num_decimals = match[5].rm_eo -
@@ -704,7 +704,7 @@ cell_format_is_fraction (char const *fmt, FormatCharacteristics *info)
 	regmatch_t match[3];
 	const char *denominator;
 
-	if (gnumeric_regexec (&re_fraction, fmt, G_N_ELEMENTS (match), match, 0) != 0)
+	if (go_regexec (&re_fraction, fmt, G_N_ELEMENTS (match), match, 0) != 0)
 		return FALSE;
 
 	denominator = fmt + match[2].rm_so;

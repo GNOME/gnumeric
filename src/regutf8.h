@@ -3,7 +3,7 @@
 
 #include <glib.h>
 #include <sys/types.h>
-#include "cut-n-paste-code/pcre/pcreposix.h"
+#include <goffice/cut-n-paste/pcre/pcreposix.h>
 
 /* -------------------------------------------------------------------------- */
 
@@ -27,7 +27,7 @@
 #define REG_OK REG_NOERROR
 #endif
 
-int gnumeric_regcomp_XL (gnumeric_regex_t *preg, char const *pattern, int cflags);
+int gnumeric_regcomp_XL (go_regex_t *preg, char const *pattern, int cflags);
 
 const char *gnumeric_regexp_quote1 (GString *target, const char *s);
 void gnumeric_regexp_quote (GString *target, const char *s);
