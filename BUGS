@@ -8,6 +8,9 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    - Performance regression: navigating and (say) selecting an area in,
+      for example, statfuns.xls takes an embarrassingly long time.
+
     - smarter support for unicode characters that do not convert to the
       current encoding during XL import.
 
