@@ -1080,7 +1080,7 @@ gnumeric_search (FunctionEvalInfo *ei, GnmValue **argv)
 	char const *haystack = value_peek_string (argv[1]);
 	int start = argv[2] ? value_get_as_int (argv[2]) : 1;
 	char const *hay2;
-	gnumeric_regex_t r;
+	go_regex_t r;
 	regmatch_t rm;
 	GnmValue *res = NULL;
 	int i;
@@ -1095,7 +1095,7 @@ gnumeric_search (FunctionEvalInfo *ei, GnmValue **argv)
 	}
 
 	if (gnumeric_regcomp_XL (&r, needle, REG_ICASE) == REG_OK) {
-		switch (gnumeric_regexec (&r, hay2, 1, &rm, 0)) {
+		switch (go_regexec (&r, hay2, 1, &rm, 0)) {
 		case REG_NOMATCH: break;
 		case REG_OK:
 			res = value_new_int (1 + start + rm.rm_so);
@@ -1103,7 +1103,7 @@ gnumeric_search (FunctionEvalInfo *ei, GnmValue **argv)
 		default:
 			g_warning ("Unexpected regexec result");
 		}
-		gnumeric_regfree (&r);
+		go_regfree (&r);
 	} else {
 		g_warning ("Unexpected regcomp result");
 	}
