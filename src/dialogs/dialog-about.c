@@ -147,6 +147,8 @@ static struct {
 		N_("Consolidation and Structured Text importer") },
 	{ N_("Bruno Unna"),			GNM_IMPORT_EXPORT,
 		N_("Pieces of MS Excel import") },
+	{ N_("Arief Mulya Utama"),              GNM_ANALYTICS,
+		N_("Telecommunications functions") },
 	{ N_("Daniel Veillard"),		GNM_IMPORT_EXPORT,
 		N_("Initial XML support") },
 	{ N_("Vladimir Vuksan"),		GNM_ANALYTICS,
