@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.2\n"
-"POT-Creation-Date: 2003-05-12 17:26-0400\n"
-"PO-Revision-Date: 2003-04-22 20:25+0000\n"
+"Project-Id-Version: 2.4\n"
+"POT-Creation-Date: 2003-05-21 23:50+0000\n"
+"PO-Revision-Date: 2003-05-22 01:10+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -523,7 +523,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:937
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_RGW\n"
 "@SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)\n"
@@ -832,7 +832,7 @@ msgstr "Derivadas Financeiras"
 msgid "Functions related to financial derivatives"
 msgstr "Funções relacionadas com derivadas financeiras"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5117
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5126
 #: plugins/gnumeric_1_0/xml-io.c:3369 plugins/mps/mps.c:549 src/xml-io.c:3749
 msgid "Reading file..."
 msgstr "A ler ficheiro..."
@@ -936,7 +936,7 @@ msgstr "#DESCONHECIDO!"
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1084 plugins/excel/ms-excel-read.c:1095
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
-#: src/dialogs/dialog-sheet-order.c:433 src/dialogs/dialog-sheet-order.c:437
+#: src/dialogs/dialog-sheet-order.c:434 src/dialogs/dialog-sheet-order.c:438
 #, c-format
 msgid "Sheet%d"
 msgstr "Folha%d"
@@ -983,19 +983,19 @@ msgstr ""
 msgid "Failure parsing AutoFilter."
 msgstr "Falha ao parsear AutoFiltro."
 
-#: plugins/excel/ms-excel-read.c:4529
+#: plugins/excel/ms-excel-read.c:4538
 msgid "external references"
 msgstr "referências externas"
 
-#: plugins/excel/ms-excel-read.c:5263
+#: plugins/excel/ms-excel-read.c:5272
 msgid "No password supplied"
 msgstr "Nenhuma senha indicada"
 
-#: plugins/excel/ms-excel-read.c:5267
+#: plugins/excel/ms-excel-read.c:5276
 msgid "Invalid password"
 msgstr "Senha inválida"
 
-#: plugins/excel/ms-excel-read.c:5368
+#: plugins/excel/ms-excel-read.c:5377
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Incapaz de localizar livro de trabalho MS Excel válido"
 
@@ -6450,7 +6450,6 @@ msgstr ""
 "@SEEALSO=IRR,XNPV"
 
 #: plugins/fn-financial/functions.c:1897
-#, fuzzy
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,nper,pmt[,pv,type])\n"
@@ -6470,7 +6469,7 @@ msgstr ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rácio,nper,pmt[,pv,tipo])\n"
 "@DESCRIPTION=FV calcula o valor futuro de um investimento. Isto é baseado em "
-"pagamentos periódicos e contantes e numa taxa de juro constante. A taxa de "
+"pagamentos periódicos e constantes e numa taxa de juro constante. A taxa de "
 "juro por período é @rácio, @nper é o número de períodos numa anuidade, @pmt "
 "é o pagamento efectuado em cada período, @pv é o valor actual e @tipo é "
 "quando o pagamento é efectuado.\n"
@@ -8097,9 +8096,9 @@ msgid "%s version %s"
 msgstr "%s versão %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: plugins/fn-info/functions.c:1313 src/dialogs/dialog-cell-format.c:2879
-#: src/dialogs/dialog-cell-format.c:2884 src/dialogs/dialog-cell-format.c:2894
-#: src/workbook-format-toolbar.c:836
+#: plugins/fn-info/functions.c:1313 src/dialogs/dialog-cell-format.c:2883
+#: src/dialogs/dialog-cell-format.c:2888 src/dialogs/dialog-cell-format.c:2898
+#: src/workbook-format-toolbar.c:842
 msgid "Automatic"
 msgstr "Automático"
 
@@ -8899,7 +8898,6 @@ msgid "Logical Functions"
 msgstr "Funções Lógicas"
 
 #: plugins/fn-lookup/functions.c:327
-#, fuzzy
 msgid ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
@@ -8932,7 +8930,7 @@ msgstr ""
 "@DESCRIPTION=ADDRESS devolve um endereço de célula como texto para um número "
 "de linha e coluna especificados.\n"
 "\n"
-"@a1 é um valor logico que especifica o estilo de referência.  Se @a1 for "
+"@a1 é um valor lógico que especifica o estilo de referência.  Se @a1 for "
 "VERDADE ou omitido, ADDRESS devolve uma referência estilo-A1, isto é, $D$4.  "
 "Caso contrário ADDRESS devolve uma referência estilo-R1C1, isto é, R4C4.\n"
 "\n"
@@ -8947,14 +8945,14 @@ msgstr ""
 "* Se @num_abs for 4, ADDRESS devolve uma referência relativa.\n"
 "* Se @num_abs for maior do que 4, ADDRESS devolve o erro #VALOR!.\n"
 "* Se @num_linha ou @num_coluna for menor do que um, ADDRESS devolve o erro "
-"#VALUE!.\n"
+"#VALOR!.\n"
 "\n"
 "@EXAMPLES=\n"
 "ADDRESS(5,4) igual a \"$D$5\".\n"
 "ADDRESS(5,4,4) igual a \"D5\".\n"
 "ADDRESS(5,4,3,FALSE) igual a \"R[5]C4\".\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=COLUMNNUMBER"
 
 #: plugins/fn-lookup/functions.c:431
 msgid ""
@@ -9244,7 +9242,6 @@ msgstr ""
 "@SEEALSO=COLUMNS,ROW,ROWS"
 
 #: plugins/fn-lookup/functions.c:956
-#, fuzzy
 msgid ""
 "@FUNCTION=COLUMNNUMBER\n"
 "@SYNTAX=COLUMNNUMBER(name)\n"
@@ -9258,18 +9255,17 @@ msgid ""
 "\n"
 "@SEEALSO=ADDRESS"
 msgstr ""
-"@FUNCTION=COLUMNS\n"
-"@SYNTAX=COLUMNS(referência)\n"
-"@DESCRIPTION=A função COLUMNS devolve o número de colunas numa área ou "
-"matriz de referência.\n"
+"@FUNCTION=COLUMNNUMBER\n"
+"@SYNTAX=COLUMNNUMBER(nome)\n"
+"@DESCRIPTION=A função COLUMNNUMBER devolve um inteiro correspondente à coluna "
+"cujo nome foi indicado como expressão.\n"
 "\n"
-"* Se @referência não for nem uma matriz nem uma referência nem uma área "
-"devolve o erro #VALOR!.\n"
+"* Se @nome for inválido, COLUMNNUMBER devolve o erro #VALOR!.\n"
 "\n"
 "@EXAMPLES=\n"
-"COLUMNS(H2:J3) igual a 3.\n"
+"COLUMNNUMBER(\"E\") igual a 5.\n"
 "\n"
-"@SEEALSO=COLUMN,ROW,ROWS"
+"@SEEALSO=ADDRESS"
 
 #: plugins/fn-lookup/functions.c:988
 msgid ""
@@ -9442,9 +9438,8 @@ msgid "ref"
 msgstr "ref"
 
 #: plugins/fn-lookup/functions.c:1229
-#, fuzzy
 msgid "colname"
-msgstr "Um nome"
+msgstr "nomecol"
 
 #: plugins/fn-lookup/functions.c:1235 plugins/fn-lookup/functions.c:1265
 msgid "val,range,col_idx,approx,as_index"
@@ -16649,7 +16644,7 @@ msgstr "valor,texto_formatação"
 msgid "Functions for manipulating strings"
 msgstr "Funções para manipular texto"
 
-#: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:471
+#: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:472
 #: src/func.c:677
 msgid "String"
 msgstr "Expressão"
@@ -16790,7 +16785,7 @@ msgid "Clipboard is in unknown format"
 msgstr "Área de transferência tem formato desconhecido"
 
 #: plugins/gnumeric_1_0/xml-io.c:3111 plugins/xbase/boot.c:175
-#: src/dialogs/dialog-goto-cell.c:283 src/dialogs/dialog-search.c:721
+#: src/dialogs/dialog-goto-cell.c:283 src/dialogs/dialog-search.c:722
 #: src/dialogs/print.glade.h:21 src/workbook.c:1048 src/workbook.c:1378
 #: src/xml-io.c:3497
 msgid "Sheet"
@@ -16916,21 +16911,22 @@ msgstr "Função objectiva:"
 msgid "Constraints:"
 msgstr "Restrições:"
 
-#: plugins/mps/mps.c:247 src/commands.c:5423
+#: plugins/mps/mps.c:247 src/commands.c:5424
 #: src/cut-n-paste-code/egg/menu/egg-action.c:120
-#: src/dialogs/dialog-define-names.c:501 src/dialogs/dialog-formula-guru.c:811
-#: src/dialogs/dialog-function-select.c:417
-#: src/dialogs/dialog-function-select.c:439 src/dialogs/dialog-scenarios.c:350
-#: src/dialogs/dialog-simulation.c:227 src/format-template.c:408
-#: src/tools/solver/reports-write.c:81 src/tools/solver/reports-write.c:103
-#: src/tools/solver/reports-write.c:130 src/tools/solver/reports-write.c:237
-#: src/tools/solver/reports-write.c:283 src/tools/solver/reports-write.c:395
-#: src/tools/solver/reports-write.c:402 src/tools/solver/reports-write.c:671
+#: src/dialogs/dialog-define-names.c:502 src/dialogs/dialog-formula-guru.c:811
+#: src/dialogs/dialog-function-select.c:418
+#: src/dialogs/dialog-function-select.c:440 src/dialogs/dialog-scenarios.c:351
+#: src/dialogs/dialog-simulation.c:228 src/dialogs/dialog-zoom.c:192
+#: src/format-template.c:408 src/tools/solver/reports-write.c:81
+#: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
+#: src/tools/solver/reports-write.c:237 src/tools/solver/reports-write.c:283
+#: src/tools/solver/reports-write.c:395 src/tools/solver/reports-write.c:402
+#: src/tools/solver/reports-write.c:671
 msgid "Name"
 msgstr "Nome"
 
-#: plugins/mps/mps.c:274 src/dialogs/dialog-preferences.c:516
-#: src/dialogs/dialog-simulation.c:232 src/tools/solver/reports-write.c:238
+#: plugins/mps/mps.c:274 src/dialogs/dialog-preferences.c:517
+#: src/dialogs/dialog-simulation.c:233 src/tools/solver/reports-write.c:238
 #: src/tools/solver/reports-write.c:284 src/tools/solver/reports-write.c:396
 #: src/tools/solver/reports-write.c:403
 msgid "Value"
@@ -16940,7 +16936,7 @@ msgstr "Valor"
 #. * Fill in the labels of `General Info' section.
 #.
 #: plugins/mps/mps.c:275 src/dialogs/dialog-formula-guru.c:815
-#: src/dialogs/dialog-search.c:723 src/dialogs/fill-series.glade.h:8
+#: src/dialogs/dialog-search.c:724 src/dialogs/fill-series.glade.h:8
 #: src/tools/solver/reports-write.c:518
 msgid "Type"
 msgstr "Tipo"
@@ -17841,14 +17837,10 @@ msgid "Default font name"
 msgstr "Nome fonte por omissão"
 
 #: schemas/gnumeric-general.schemas.in.h:12
-msgid "Helvetica"
-msgstr "Helvetica"
-
-#: schemas/gnumeric-general.schemas.in.h:13
 msgid "Horizontal DPI"
 msgstr "PPP Horizontal"
 
-#: schemas/gnumeric-general.schemas.in.h:14
+#: schemas/gnumeric-general.schemas.in.h:13
 msgid ""
 "If this value is positive, auto expressions are recalculated within that "
 "many millesecond after a change. If it is negative they are recalculated "
@@ -17861,37 +17853,41 @@ msgstr ""
 "onde 'última' é definido como o fim de um período dessa duração após uma "
 "alteração sem alterações."
 
-#: schemas/gnumeric-general.schemas.in.h:15
+#: schemas/gnumeric-general.schemas.in.h:14
 msgid "Length of File History"
 msgstr "Número Ficheiros Histórico"
 
-#: schemas/gnumeric-general.schemas.in.h:16
+#: schemas/gnumeric-general.schemas.in.h:15
 msgid "Length of the Undo Descriptors"
 msgstr "Número Descrições Desfazer"
 
-#: schemas/gnumeric-general.schemas.in.h:17
+#: schemas/gnumeric-general.schemas.in.h:16
 msgid "List of recently used files"
 msgstr "Lista de ficheiros utilizados recentemente"
 
-#: schemas/gnumeric-general.schemas.in.h:18
+#: schemas/gnumeric-general.schemas.in.h:17
 msgid "Live Scrolling"
 msgstr "Rolamento Vivo"
 
-#: schemas/gnumeric-general.schemas.in.h:19
+#: schemas/gnumeric-general.schemas.in.h:18
 msgid "Maximal Undo Size"
 msgstr "Número Máximo Desfazer"
 
-#: schemas/gnumeric-general.schemas.in.h:20
+#: schemas/gnumeric-general.schemas.in.h:19
 msgid "Number of Automatic Clauses"
 msgstr "Número de Cláusulas Automáticas"
 
-#: schemas/gnumeric-general.schemas.in.h:21
+#: schemas/gnumeric-general.schemas.in.h:20
 msgid "Number of Undo Items"
 msgstr "Número Itens Desfazer"
 
-#: schemas/gnumeric-general.schemas.in.h:22
+#: schemas/gnumeric-general.schemas.in.h:21
 msgid "Prefer CLIPBOARD over PRIMARY selection"
-msgstr ""
+msgstr "Preferir ÁREA DE TRANSFERÊNCIA em relação à selecção PRIMÁRIA"
+
+#: schemas/gnumeric-general.schemas.in.h:22
+msgid "Sans"
+msgstr "Sans"
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -17937,7 +17933,7 @@ msgstr ""
 "trabalho multi-folha está a ser gravada."
 
 #: schemas/gnumeric-general.schemas.in.h:29 src/GNOME_Gnumeric.xml.h:227
-#: src/workbook-control-gui.c:3926
+#: src/workbook-control-gui.c:3913
 msgid "Sort Ascending"
 msgstr "Ordenar Ascendentemente"
 
@@ -18103,6 +18099,10 @@ msgid ""
 "legacy PRIMARY selections. Set to FALSE if you have to deal with older "
 "applications, like Xterm or Emacs, which set only the PRIMARY selection."
 msgstr ""
+"Quando VERDADEIRO, Gnumeric irá preferir a mais recente selecção da ÁREA DE "
+"TRANSFERÊNCIA relativamente às selecções PRIMÁRIAS obsoletas. Definir como "
+"FALSO se tiver de gerir aplicações antigas, tais como Xterm ou Emacs, que "
+"apenas definem a slecção PRIMÁRIA."
 
 #: schemas/gnumeric-general.schemas.in.h:57
 msgid ""
@@ -18188,8 +18188,8 @@ msgstr "Linhas empilhadas"
 msgid "About this application"
 msgstr "Sobre esta aplicação"
 
-#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:1358
-#: src/workbook-control-gui.c:3802
+#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:1355
+#: src/workbook-control-gui.c:3789
 msgid "Add _Auto Filter"
 msgstr "Adicionar _Auto Filtro"
 
@@ -18197,15 +18197,15 @@ msgstr "Adicionar _Auto Filtro"
 msgid "Add a scenario"
 msgstr "Adicionar um cenário"
 
-#: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3765
+#: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3752
 msgid "Add an outline group"
 msgstr "Adicionar um grupo de tópicos"
 
-#: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3803
+#: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3790
 msgid "Add or remove a filter"
 msgstr "Adicionar ou remover um filtro"
 
-#: src/GNOME_Gnumeric.xml.h:6 src/workbook-control-gui.c:3808
+#: src/GNOME_Gnumeric.xml.h:6 src/workbook-control-gui.c:3795
 msgid "Advanced _Filter..."
 msgstr "_Filtro Avançado..."
 
@@ -18221,39 +18221,39 @@ msgstr "Alinhar os conteudos à esquerda e aumentar a indentação"
 msgid "Arrow"
 msgstr "Seta"
 
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3721
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3708
 msgid "Auto _Correct..."
 msgstr "Auto _Correcção..."
 
-#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3314
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3301
 msgid "Auto_fill"
 msgstr "Auto-enc_himento"
 
-#: src/GNOME_Gnumeric.xml.h:12 src/workbook-control-gui.c:3315
+#: src/GNOME_Gnumeric.xml.h:12 src/workbook-control-gui.c:3302
 msgid "Automatically fill the current selection"
 msgstr "Encher automaticamente a selecção actual"
 
-#: src/GNOME_Gnumeric.xml.h:13 src/workbook-control-gui.c:3722
+#: src/GNOME_Gnumeric.xml.h:13 src/workbook-control-gui.c:3709
 msgid "Automatically perform simple spell checking"
 msgstr "Efectuar verificação ortográfica simples automaticamente"
 
-#: src/GNOME_Gnumeric.xml.h:14 src/workbook-control-gui.c:3725
+#: src/GNOME_Gnumeric.xml.h:14 src/workbook-control-gui.c:3712
 msgid "Automatically save the current document at regular intervals"
 msgstr "Gravar o ficheiro actual altomaticamente a intrevalos regulares"
 
 #: src/GNOME_Gnumeric.xml.h:15 src/dialogs/cell-format.glade.h:16
-#: src/dialogs/dialog-cell-format.c:2889 src/workbook-format-toolbar.c:817
-#: src/workbook-format-toolbar.c:875
+#: src/dialogs/dialog-cell-format.c:2893 src/workbook-format-toolbar.c:823
+#: src/workbook-format-toolbar.c:881
 msgid "Background"
 msgstr "Fundo"
 
-#: src/GNOME_Gnumeric.xml.h:16 src/widgets/widget-font-selector.c:118
+#: src/GNOME_Gnumeric.xml.h:16 src/widgets/widget-font-selector.c:121
 #: src/workbook-format-toolbar.c:407
 msgid "Bold"
 msgstr "Negrito"
 
-#: src/GNOME_Gnumeric.xml.h:17 src/workbook-format-toolbar.c:803
-#: src/workbook-format-toolbar.c:872
+#: src/GNOME_Gnumeric.xml.h:17 src/workbook-format-toolbar.c:809
+#: src/workbook-format-toolbar.c:878
 msgid "Borders"
 msgstr "Margens"
 
@@ -18262,15 +18262,15 @@ msgstr "Margens"
 msgid "Button"
 msgstr "Botão"
 
-#: src/GNOME_Gnumeric.xml.h:19 src/workbook-control-gui.c:3465
+#: src/GNOME_Gnumeric.xml.h:19 src/workbook-control-gui.c:3452
 msgid "C_ells..."
 msgstr "C_élulas..."
 
-#: src/GNOME_Gnumeric.xml.h:20 src/workbook-control-gui.c:3374
+#: src/GNOME_Gnumeric.xml.h:20 src/workbook-control-gui.c:3361
 msgid "C_lear"
 msgstr "_Limpar"
 
-#: src/GNOME_Gnumeric.xml.h:21 src/workbook-control-gui.c:3595
+#: src/GNOME_Gnumeric.xml.h:21 src/workbook-control-gui.c:3582
 msgid "C_olumn"
 msgstr "C_oluna"
 
@@ -18286,23 +18286,23 @@ msgstr "Centrar Ao Longo Selecção"
 msgid "Center across the selected cells"
 msgstr "Centrar ao longo das células seleccionadas"
 
-#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:3256
+#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:3243
 msgid "Change Gnumeric Preferences"
 msgstr "Alterar Preferências Gnumeric"
 
-#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:3529
+#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:3516
 msgid "Change height of the selected rows"
 msgstr "Modifica altura das linhas seleccionadas"
 
-#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:3522
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:3509
 msgid "Change the default column width"
 msgstr "Modifica a largura de coluna por omissão"
 
-#: src/GNOME_Gnumeric.xml.h:28 src/workbook-control-gui.c:3541
+#: src/GNOME_Gnumeric.xml.h:28 src/workbook-control-gui.c:3528
 msgid "Change the default row height"
 msgstr "Modifica a altura de linha por omissão"
 
-#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:3510
+#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:3497
 msgid "Change width of the selected columns"
 msgstr "Modifica a largura das colunas seleccionadas"
 
@@ -18310,19 +18310,19 @@ msgstr "Modifica a largura das colunas seleccionadas"
 msgid "Checkbox"
 msgstr "Caixa Selecção"
 
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:3275
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:3262
 msgid "Clear the selected cells' comments"
 msgstr "Limpa o comentário das células seleccionadas"
 
-#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:3278
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:3265
 msgid "Clear the selected cells' contents"
 msgstr "Limpa o conteudo das células seleccionadas"
 
-#: src/GNOME_Gnumeric.xml.h:33 src/workbook-control-gui.c:3272
+#: src/GNOME_Gnumeric.xml.h:33 src/workbook-control-gui.c:3259
 msgid "Clear the selected cells' formats"
 msgstr "Limpa as formatações das células seleccionadas"
 
-#: src/GNOME_Gnumeric.xml.h:34 src/workbook-control-gui.c:3269
+#: src/GNOME_Gnumeric.xml.h:34 src/workbook-control-gui.c:3256
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Limpa a formatação, comentários e conteudo das células seleccionadas"
 
@@ -18331,15 +18331,15 @@ msgid "Close the current file"
 msgstr "Fechar o ficheiro actual"
 
 #: src/GNOME_Gnumeric.xml.h:36 src/dialogs/print.glade.h:7
-#: src/workbook-control-gui.c:3274
+#: src/workbook-control-gui.c:3261
 msgid "Co_mments"
 msgstr "Co_mentários"
 
-#: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:3680
+#: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:3667
 msgid "Co_variance"
 msgstr "Co_variância"
 
-#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:3759
+#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:3746
 msgid "Collapse an outline group"
 msgstr "Recolher um grupo de tópicos"
 
@@ -18347,12 +18347,12 @@ msgstr "Recolher um grupo de tópicos"
 msgid "Combo Box"
 msgstr "Caixa em Lista"
 
-#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3652
+#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3639
 msgid "Comparing two population means for two paired samples.: t-test"
 msgstr ""
 "Comparar a média de duas populações para duas amostras emparelhadas.: t-test"
 
-#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3656
+#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3643
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with equal "
 "var.: t-test"
@@ -18360,7 +18360,7 @@ msgstr ""
 "Comparar a média de duas populações para duas amostras não emparelhadas de "
 "populações com variância igual.: t-test"
 
-#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3661
+#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3648
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with "
 "unequal var.: t-test"
@@ -18368,7 +18368,7 @@ msgstr ""
 "Comparar a média de duas populações para duas amostras não emparelhadas de "
 "populações com variâncias diferentes.: t-test"
 
-#: src/GNOME_Gnumeric.xml.h:43 src/workbook-control-gui.c:3666
+#: src/GNOME_Gnumeric.xml.h:43 src/workbook-control-gui.c:3653
 msgid ""
 "Comparing two population means from pop. with known variances or using a "
 "large sample: z- test"
@@ -18376,7 +18376,7 @@ msgstr ""
 "Comparar a média de duas populações de populações com variâncias conhecidas "
 "ou utilizando uma amostra grande: z-test"
 
-#: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3708
+#: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3695
 msgid "Comparing two population variances"
 msgstr "Comparar a variância de duas populações"
 
@@ -18384,12 +18384,12 @@ msgstr "Comparar a variância de duas populações"
 msgid "Configure toolbars"
 msgstr "Configurar barras de ferramentas"
 
-#: src/GNOME_Gnumeric.xml.h:46 src/workbook-control-gui.c:3834
+#: src/GNOME_Gnumeric.xml.h:46 src/workbook-control-gui.c:3821
 msgid "Consolidate regions using a function"
 msgstr "Consolidar regiões utilizando uma função"
 
 #: src/GNOME_Gnumeric.xml.h:47 src/sheet-view.c:309
-#: src/workbook-control-gui.c:3892
+#: src/workbook-control-gui.c:3879
 msgid "Copy"
 msgstr "Copiar"
 
@@ -18397,13 +18397,13 @@ msgstr "Copiar"
 msgid "Copy the selection"
 msgstr "Copiar a selecção"
 
-#: src/GNOME_Gnumeric.xml.h:49 src/workbook-control-gui.c:3892
+#: src/GNOME_Gnumeric.xml.h:49 src/workbook-control-gui.c:3879
 msgid "Copy the selection to the clipboard"
 msgstr "Copiar a selecção para a área de transferência"
 
 #: src/GNOME_Gnumeric.xml.h:50 src/dialogs/covariance.glade.h:5
 #: src/tools/analysis-tools.c:894 src/tools/analysis-tools.c:897
-#: src/workbook-control-gui.c:3681
+#: src/workbook-control-gui.c:3668
 msgid "Covariance"
 msgstr "Covariância"
 
@@ -18435,16 +18435,16 @@ msgstr "Criar um objecto linha"
 msgid "Create a list"
 msgstr "Criar uma lista"
 
-#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:3417
+#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:3404
 msgid "Create a new shared view of the workbook"
 msgstr "Criar uma nova vista partilhada do livro de trabalho"
 
-#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:3420
+#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:3407
 msgid "Create a new unshared view of the workbook"
 msgstr "Criar uma nova vista não partilhada do livro de trabalho"
 
-#: src/GNOME_Gnumeric.xml.h:60 src/workbook-control-gui.c:3228
-#: src/workbook-control-gui.c:3868
+#: src/GNOME_Gnumeric.xml.h:60 src/workbook-control-gui.c:3215
+#: src/workbook-control-gui.c:3855
 msgid "Create a new workbook"
 msgstr "Criar um novo livro de trabalho"
 
@@ -18477,17 +18477,17 @@ msgid "Cu_t"
 msgstr "Cor_tar"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:68 src/workbook-control-gui.c:3438
+#: src/GNOME_Gnumeric.xml.h:68 src/workbook-control-gui.c:3425
 msgid "Current _date"
 msgstr "_Data actual"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:69 src/workbook-control-gui.c:3444
+#: src/GNOME_Gnumeric.xml.h:69 src/workbook-control-gui.c:3431
 msgid "Current _time"
 msgstr "Hora ac_tual"
 
 #: src/GNOME_Gnumeric.xml.h:70 src/sheet-view.c:334 src/sheet-view.c:337
-#: src/workbook-control-gui.c:3889
+#: src/workbook-control-gui.c:3876
 msgid "Cut"
 msgstr "Cortar"
 
@@ -18495,7 +18495,7 @@ msgstr "Cortar"
 msgid "Cut the selection"
 msgstr "Cortar a selecção"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3889
+#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3876
 msgid "Cut the selection to the clipboard"
 msgstr "Cortar a selecção para a área de transferência"
 
@@ -18512,35 +18512,35 @@ msgstr "Diminuir Precisão"
 msgid "Decrease the number of decimals displayed"
 msgstr "Diminuir o número de casas decimais apresentadas"
 
-#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:3556
+#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:3543
 msgid "Display _Formulas"
 msgstr "Mostrar _Fórmulas"
 
-#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:3774
+#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:3761
 msgid "Display _Outlines"
 msgstr "Mostrar T_ópicos"
 
-#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:3557
+#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:3544
 msgid "Display the value of a formula or the formula itself"
 msgstr "Mostrar o valor de uma fórmula ou a própria fórmula"
 
-#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:3923
+#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:3910
 msgid "Edit a function in the current cell"
 msgstr "Editar uma função na célula actual"
 
-#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:3252
+#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:3239
 msgid "Edit descriptive information"
 msgstr "Editar informação de descrição"
 
-#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3453
+#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3440
 msgid "Edit sheet and workbook names"
 msgstr "Editar os nomes da folha e livro de trabalho"
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3603
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3590
 msgid "Edit the Gnumeric Preferences"
 msgstr "Editar as Preferências Gnumeric"
 
-#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3495
+#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3482
 msgid "Edit the selected cell's comment"
 msgstr "Editar o comentário da célula seleccionada"
 
@@ -18548,33 +18548,33 @@ msgstr "Editar o comentário da célula seleccionada"
 msgid "Ellipse"
 msgstr "Elipse"
 
-#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3513
+#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3500
 msgid "Ensure columns are just wide enough to display content"
 msgstr ""
 "Certificar de que as colunas são largas o suficiente para mostrar conteudo"
 
-#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3532
+#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3519
 msgid "Ensure rows are just tall enough to display content"
 msgstr ""
 "Certificar de que as linha são altas o suficiente para mostrar conteudo"
 
-#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3639
+#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3626
 msgid "Exponential smoothing"
 msgstr "Alisamento Exponêncial"
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3687
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3674
 msgid "F_orecasting"
 msgstr "Previsã_o"
 
-#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:3859
+#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:3846
 msgid "F_ormat"
 msgstr "F_ormato"
 
-#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:3324
-msgid "Fill according to a linear or exponential serie"
+#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:3311
+msgid "Fill according to a linear or exponential series"
 msgstr "Preencher de acordo com uma série linear ou exponencial"
 
-#: src/GNOME_Gnumeric.xml.h:91 src/workbook-control-gui.c:3809
+#: src/GNOME_Gnumeric.xml.h:91 src/workbook-control-gui.c:3796
 msgid "Filter data with given criteria"
 msgstr "Filtrar dados com os critérios indicados"
 
@@ -18584,25 +18584,25 @@ msgid "Font"
 msgstr "Fonte"
 
 #: src/GNOME_Gnumeric.xml.h:93 src/workbook-format-toolbar.c:404
-#: src/workbook-format-toolbar.c:867
+#: src/workbook-format-toolbar.c:873
 msgid "Font selector"
 msgstr "Selector de fonte"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/workbook-format-toolbar.c:869
+#: src/GNOME_Gnumeric.xml.h:94 src/workbook-format-toolbar.c:875
 msgid "Font size"
 msgstr "Tamanho fonte"
 
-#: src/GNOME_Gnumeric.xml.h:95 src/dialogs/dialog-cell-format.c:2884
-#: src/workbook-format-toolbar.c:842 src/workbook-format-toolbar.c:878
+#: src/GNOME_Gnumeric.xml.h:95 src/dialogs/dialog-cell-format.c:2888
+#: src/workbook-format-toolbar.c:848 src/workbook-format-toolbar.c:884
 msgid "Foreground"
 msgstr "Texto"
 
-#: src/GNOME_Gnumeric.xml.h:96 src/workbook-control-gui.c:3607
+#: src/GNOME_Gnumeric.xml.h:96 src/workbook-control-gui.c:3594
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formatar uma região de células de acordo com um modelo pré-definido"
 
 #: src/GNOME_Gnumeric.xml.h:97 src/dialogs/fourier-analysis.glade.h:3
-#: src/workbook-control-gui.c:3690
+#: src/workbook-control-gui.c:3677
 msgid "Fourier Analysis"
 msgstr "Análise Fourier"
 
@@ -18611,69 +18611,69 @@ msgstr "Análise Fourier"
 msgid "Frame"
 msgstr "Moldura"
 
-#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:1343
-#: src/workbook-control-gui.c:3429
+#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:1340
+#: src/workbook-control-gui.c:3416
 msgid "Freeze the top left of the sheet"
 msgstr "Congelar o canto superior esquerdo da folha"
 
 #: src/GNOME_Gnumeric.xml.h:100 src/dialogs/function-select.glade.h:3
-#: src/workbook-control-gui.c:3922
+#: src/workbook-control-gui.c:3909
 msgid "Function"
 msgstr "Função"
 
-#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:3327
+#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:3314
 msgid "Generate random numbers of a selection of distributions"
 msgstr "Gera números aleatórios de uma selecção de distribuições"
 
-#: src/GNOME_Gnumeric.xml.h:102 src/workbook-control-gui.c:3843
+#: src/GNOME_Gnumeric.xml.h:102 src/workbook-control-gui.c:3830
 msgid "Get _External Data"
 msgstr "Obter Dados _Externos"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:3935
+#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:3922
 msgid "Graph Guru"
 msgstr "Guru de Gráficos"
 
-#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:3528
+#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:3515
 msgid "H_eight..."
 msgstr "_Altura..."
 
-#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:3574
+#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:3561
 msgid "Hide _Column Headers"
 msgstr "Esconder _Cabeçalhos de Colunas"
 
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3568
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3555
 msgid "Hide _Gridlines"
 msgstr "Esconhder _Grelha"
 
-#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:3580
+#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:3567
 msgid "Hide _Row Headers"
 msgstr "Esconder Cabeçalhos de _Linha"
 
-#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:3562
+#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:3549
 msgid "Hide _Zeros"
 msgstr "Esconder _Zeros"
 
-#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3516
+#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3503
 msgid "Hide the selected columns"
 msgstr "Esconder as colunas seleccionadas"
 
-#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3535
+#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3522
 msgid "Hide the selected rows"
 msgstr "Esconder as linhas seleccionadas"
 
-#: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3498
+#: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3485
 msgid "Hyper_link..."
 msgstr "Hiper _ligação..."
 
-#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3914
+#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3901
 msgid "Hyperlink"
 msgstr "Hiper ligação"
 
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3795
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3782
 msgid "Import _Text File..."
 msgstr "Importar Ficheiro _Texto..."
 
-#: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:3796
+#: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:3783
 msgid "Import the text from a file"
 msgstr "Importar o texto de um ficheiro"
 
@@ -18698,21 +18698,21 @@ msgstr "Inserir Componente"
 msgid "Insert Shaped Component"
 msgstr "Inserir Componente de Forma"
 
-#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:3499
-#: src/workbook-control-gui.c:3915
+#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:3486
+#: src/workbook-control-gui.c:3902
 msgid "Insert a Hyperlink"
 msgstr "Inserir uma Hiper Ligação"
 
-#: src/GNOME_Gnumeric.xml.h:121 src/workbook-control-gui.c:3489
+#: src/GNOME_Gnumeric.xml.h:121 src/workbook-control-gui.c:3476
 msgid "Insert a function into the selected cell"
 msgstr "Inserir uma função na célula seleccionada"
 
-#: src/GNOME_Gnumeric.xml.h:122 src/workbook-control-gui.c:611
-#: src/workbook-control-gui.c:3339
+#: src/GNOME_Gnumeric.xml.h:122 src/workbook-control-gui.c:608
+#: src/workbook-control-gui.c:3326
 msgid "Insert a new sheet"
 msgstr "Inserir uma folha nova"
 
-#: src/GNOME_Gnumeric.xml.h:123 src/workbook-control-gui.c:3475
+#: src/GNOME_Gnumeric.xml.h:123 src/workbook-control-gui.c:3462
 msgid "Insert a new spreadsheet"
 msgstr "Inserir uma folha de cálculo nova"
 
@@ -18720,7 +18720,7 @@ msgstr "Inserir uma folha de cálculo nova"
 msgid "Insert a shaped component into the spreadsheet"
 msgstr "Inserir um componende de forma na folha de cálculo"
 
-#: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:3485
+#: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:3472
 msgid "Insert an image"
 msgstr "Inserir como imagem"
 
@@ -18728,23 +18728,23 @@ msgstr "Inserir como imagem"
 msgid "Insert an object into the spreadsheet"
 msgstr "Inserir um objecto na folha de cálculo"
 
-#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3466
+#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3453
 msgid "Insert new cells"
 msgstr "Inserir células novas"
 
-#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:3469
+#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:3456
 msgid "Insert new columns"
 msgstr "Inserir colunas novas"
 
-#: src/GNOME_Gnumeric.xml.h:129 src/workbook-control-gui.c:3472
+#: src/GNOME_Gnumeric.xml.h:129 src/workbook-control-gui.c:3459
 msgid "Insert new rows"
 msgstr "Inserir linhas novas"
 
-#: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3439
+#: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3426
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Insere a data actual na(s) célula(s) seleccionada(s)"
 
-#: src/GNOME_Gnumeric.xml.h:131 src/workbook-control-gui.c:3445
+#: src/GNOME_Gnumeric.xml.h:131 src/workbook-control-gui.c:3432
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Insere a hora actual na(s) célula(s) seleccionada(s)"
 
@@ -18756,25 +18756,25 @@ msgstr "Insere um objecto Bonobo"
 msgid "Inserts a Shaped Bonobo object"
 msgstr "Insere um objecto Bonobo de Formato"
 
-#: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:3351
+#: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:3338
 msgid "Irrevocably remove an entire sheet"
 msgstr "Remover irremediavelmente uma folha inteira"
 
-#: src/GNOME_Gnumeric.xml.h:135 src/widgets/widget-font-selector.c:120
+#: src/GNOME_Gnumeric.xml.h:135 src/widgets/widget-font-selector.c:123
 #: src/workbook-format-toolbar.c:414
 msgid "Italic"
 msgstr "Itálico"
 
-#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:3731
+#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:3718
 msgid "Iteratively recalculate to find a target value"
 msgstr "Recalcular iterativamente para encontrar um valor alvo"
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3735
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3722
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 "Recalcular iterativamente com restrições para se aproximar de um valor alvo"
 
-#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:3400
+#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:3387
 msgid "Jump to a specified cell"
 msgstr "Ir para uma célula específica"
 
@@ -18784,8 +18784,8 @@ msgstr "Ir para uma célula específica"
 msgid "Label"
 msgstr "Etiqueta"
 
-#: src/GNOME_Gnumeric.xml.h:140 src/workbook-control-gui.c:3481
-#: src/workbook-control-gui.c:3936
+#: src/GNOME_Gnumeric.xml.h:140 src/workbook-control-gui.c:3468
+#: src/workbook-control-gui.c:3923
 msgid "Launch the Graph Guru"
 msgstr "Iniciar o Guru de Gráficos"
 
@@ -18801,29 +18801,29 @@ msgstr "Alinhar esquerda"
 msgid "List"
 msgstr "Lista"
 
-#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:3335
+#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:3322
 msgid "Make a copy of the current sheet"
 msgstr "Fazer uma cópia da folha actual"
 
-#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:3321
+#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:3308
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr ""
 "Faz uma tabela de um valor de uma célula ser uma função de outras células"
 
-#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:3519
+#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:3506
 msgid "Make any hidden columns in the selection visible"
 msgstr "Tornar quaisquer colunas escondidas na selecção visíveis"
 
-#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:3538
+#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:3525
 msgid "Make any hidden rows in the selection visible"
 msgstr "Tornar quaisquer linhas escondidas na selecção visíveis"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3716
+#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3703
 msgid "Manage available plugin modules"
 msgstr "Gerir módulos plugin disponíveis"
 
-#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:3347
-#: src/workbook-control-gui.c:3551
+#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:3334
+#: src/workbook-control-gui.c:3538
 msgid "Manage the sheets in this workbook"
 msgstr "Gerir as folhas neste livro de trabalho"
 
@@ -18837,21 +18837,21 @@ msgid "Merge a range of cells"
 msgstr "Juntar uma área de células"
 
 #: src/GNOME_Gnumeric.xml.h:153 src/dialogs/merge.glade.h:2
-#: src/workbook-control-gui.c:3317
+#: src/workbook-control-gui.c:3304
 msgid "Merge..."
 msgstr "Juntar..."
 
-#: src/GNOME_Gnumeric.xml.h:154 src/workbook-control-gui.c:3318
+#: src/GNOME_Gnumeric.xml.h:154 src/workbook-control-gui.c:3305
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 "Junta dados em coluna numa folha criando folhas duplicadas para cada linha"
 
-#: src/GNOME_Gnumeric.xml.h:155 src/workbook-control-gui.c:3592
+#: src/GNOME_Gnumeric.xml.h:155 src/workbook-control-gui.c:3579
 msgid "Modify the formatting of the selected cells"
 msgstr "Modificar a formatação das células seleccionadas"
 
-#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3600
+#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3587
 msgid "Modify the workbook attributes"
 msgstr "Modificar os atributos do livro de trabalho"
 
@@ -18859,40 +18859,39 @@ msgstr "Modificar os atributos do livro de trabalho"
 msgid "Money"
 msgstr "Dinheiro"
 
-#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:3643
+#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:3630
 msgid "Moving average"
 msgstr "Média móvel"
 
-#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:3868
+#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:3855
 msgid "New"
 msgstr "Novo"
 
-#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:3416
+#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:3403
 msgid "New _Shared"
 msgstr "Novo _Partilhado"
 
-#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:3419
+#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:3406
 msgid "New _Unshared"
 msgstr "Novo _Não Partilhado"
 
-#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:3627
+#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:3614
 msgid "One Factor Analysis of Variance"
 msgstr "Análise de Variância Factor Único"
 
-#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:3871
+#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:3858
 msgid "Open"
 msgstr "Abrir"
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3871
-#, fuzzy
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3858
 msgid "Open a file"
-msgstr "Importa um ficheiro"
+msgstr "Abrir um ficheiro"
 
-#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3780
+#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3767
 msgid "Outlines _Below"
 msgstr "Tópicos A_baixo"
 
-#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3786
+#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3773
 msgid "Outlines _Right"
 msgstr "Tópicos à Di_reita"
 
@@ -18901,16 +18900,16 @@ msgid "P_aste Special..."
 msgstr "Col_ar Especial..."
 
 #: src/GNOME_Gnumeric.xml.h:168 src/GNOME_Gnumeric_Component.xml.h:4
-#: src/workbook-control-gui.c:3238
+#: src/workbook-control-gui.c:3225
 msgid "Page Set_up..."
 msgstr "Config_uração Página..."
 
-#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3831
+#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3818
 msgid "Parse the text in the selection into data"
 msgstr "Parsear o texto na selecção para dados"
 
 #: src/GNOME_Gnumeric.xml.h:170 src/cmd-edit.c:344
-#: src/workbook-control-gui.c:3895
+#: src/workbook-control-gui.c:3882
 msgid "Paste"
 msgstr "Colar"
 
@@ -18918,15 +18917,15 @@ msgstr "Colar"
 msgid "Paste the clipboard"
 msgstr "Colar da área de transferência"
 
-#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3895
+#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3882
 msgid "Paste the contents of the clipboard"
 msgstr "Colar o conteudo da área de transferência"
 
-#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3369
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3356
 msgid "Paste with optional filters and transformations"
 msgstr "Colar com filtros e transformações opcionais"
 
-#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:3678
+#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:3665
 msgid "Pearson Correlation"
 msgstr "Correlação de Pearson"
 
@@ -18934,30 +18933,30 @@ msgstr "Correlação de Pearson"
 msgid "Percent"
 msgstr "Percentagem"
 
-#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:3702
+#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:3689
 msgid "Periodic and random samples"
 msgstr "Amostras periódicas e aleatórias"
 
-#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3255
+#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3242
 msgid "Preferen_ces..."
 msgstr "Preferên_cias..."
 
 #: src/GNOME_Gnumeric.xml.h:178 src/dialogs/print.glade.h:14
-#: src/workbook-control-gui.c:3880
+#: src/workbook-control-gui.c:3867
 msgid "Print"
 msgstr "Imprimir"
 
-#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:3241
+#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:3228
 msgid "Print Pre_view..."
 msgstr "Ante_ver Impressão..."
 
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:3883
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:3870
 msgid "Print Preview"
 msgstr "Antever Impressão"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
 #: src/dialogs/print.glade.h:16 src/print.c:1338
-#: src/workbook-control-gui.c:3242 src/workbook-control-gui.c:3883
+#: src/workbook-control-gui.c:3229 src/workbook-control-gui.c:3870
 msgid "Print preview"
 msgstr "Antever impressão"
 
@@ -18965,12 +18964,12 @@ msgstr "Antever impressão"
 msgid "Print the current file"
 msgstr "Imprimir o ficheiro actual"
 
-#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:3880
+#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:3867
 msgid "Print the workbook"
 msgstr "Imprimir o livro de trabalho"
 
 #: src/GNOME_Gnumeric.xml.h:184 src/GNOME_Gnumeric_Component.xml.h:8
-#: src/workbook-control-gui.c:3251
+#: src/workbook-control-gui.c:3238
 msgid "Proper_ties..."
 msgstr "P_ropriedades..."
 
@@ -18986,20 +18985,20 @@ msgstr "Botão de Selecção"
 msgid "Ranks and _Percentiles"
 msgstr "Nível e _Percentis"
 
-#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:3696
+#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:3683
 msgid "Ranks, placements and percentiles"
 msgstr "Níveis, colocações e percentis"
 
-#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3342
-#: src/workbook-control-gui.c:3547
+#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3329
+#: src/workbook-control-gui.c:3534
 msgid "Re_name..."
 msgstr "Re_nomear..."
 
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3405
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3392
 msgid "Recalculate"
 msgstr "Recalcular"
 
-#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3406
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3393
 msgid "Recalculate the spreadsheet"
 msgstr "Recalcular a folha de cálculo"
 
@@ -19007,15 +19006,15 @@ msgstr "Recalcular a folha de cálculo"
 msgid "Rectangle"
 msgstr "Rectângulo"
 
-#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:4152
+#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:4145
 msgid "Redo the undone action"
 msgstr "Refazer a acção desfeita"
 
-#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3699
+#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3686
 msgid "Regression Analysis"
 msgstr "Análise de Regressão"
 
-#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3768
+#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3755
 msgid "Remove an outline group"
 msgstr "Remover um grupo de tópicos"
 
@@ -19023,8 +19022,8 @@ msgstr "Remover um grupo de tópicos"
 msgid "Remove selected cells, shifting others into their place"
 msgstr "Remover células seleccionadas, movendo outras no seu lugar"
 
-#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:3343
-#: src/workbook-control-gui.c:3548
+#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:3330
+#: src/workbook-control-gui.c:3535
 msgid "Rename the current sheet"
 msgstr "Renomear a folha actual"
 
@@ -19036,15 +19035,15 @@ msgstr "Alinhar Direita"
 msgid "Right align"
 msgstr "Alinhar direita"
 
-#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:3381
+#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:3368
 msgid "S_heet"
 msgstr "Fol_ha"
 
-#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:3503
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:3490
 msgid "S_pecial"
 msgstr "Es_pecial"
 
-#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:3874
+#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:3861
 msgid "Save"
 msgstr "Gravar"
 
@@ -19052,16 +19051,15 @@ msgstr "Gravar"
 msgid "Save _As..."
 msgstr "Gr_avar Como..."
 
-#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:3874
+#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:3861
 msgid "Save the current workbook"
 msgstr "Gravar o livro de trabalho actual"
 
 #: src/GNOME_Gnumeric.xml.h:205
-#, fuzzy
 msgid "Save the current workbook with a different name"
-msgstr "Gravar o ficheiro actual com um nome diferente"
+msgstr "Gravar o livro de trabalho actual com um nome diferente"
 
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3745
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3732
 msgid "Sce_narios"
 msgstr "Ce_nários"
 
@@ -19069,60 +19067,60 @@ msgstr "Ce_nários"
 msgid "Scrollbar"
 msgstr "Barra de Rolamento"
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:3393
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:3380
 msgid "Search and Replace..."
 msgstr "Procurar e Substituir..."
 
 #: src/GNOME_Gnumeric.xml.h:209 src/GNOME_Gnumeric_Component.xml.h:10
-#: src/workbook-control-gui.c:3388
+#: src/workbook-control-gui.c:3375
 msgid "Search for some text"
 msgstr "Procurar algum texto"
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:3394
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:3381
 msgid "Search for some text and replace it with something else"
 msgstr "Procurar algum texto e substitui-lo por outro diferente"
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3387
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3374
 msgid "Search..."
 msgstr "Procurar..."
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:3301
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:3288
 msgid "Select Arra_y"
 msgstr "Seleccionar Matri_z"
 
-#: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:3286
+#: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:3273
 msgid "Select _All"
 msgstr "Seleccionar _Tudo"
 
-#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3291
+#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3278
 msgid "Select _Column"
 msgstr "Seleccionar _Coluna"
 
-#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3306
+#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3293
 msgid "Select _Depends"
 msgstr "Seleccionar _Dependentes"
 
-#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3296
+#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3283
 msgid "Select _Row"
 msgstr "Seleccionar _Linha"
 
-#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3287
+#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3274
 msgid "Select all cells in the spreadsheet"
 msgstr "Seleccionar todas as células na folha de cálculo"
 
-#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3307
+#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3294
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Seleccionar todas as células que dependem da célula actual em edição"
 
-#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:3302
+#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:3289
 msgid "Select an array of cells"
 msgstr "Seleccionar uma matriz de células"
 
-#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3292
+#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3279
 msgid "Select an entire column"
 msgstr "Seleccionar uma coluna inteira"
 
-#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3297
+#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3284
 msgid "Select an entire row"
 msgstr "Seleccionar uma linha inteira"
 
@@ -19141,23 +19139,23 @@ msgid "Set the format of the selected cells to percentage"
 msgstr "Definir o formato das células seleccionadas para percentagem"
 
 #: src/GNOME_Gnumeric.xml.h:225 src/GNOME_Gnumeric_Component.xml.h:11
-#: src/workbook-control-gui.c:3239
+#: src/workbook-control-gui.c:3226
 msgid "Setup the page settings for your current printer"
 msgstr "Configurar a página para a impressora actual"
 
-#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:3806
+#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:3793
 msgid "Show all filtered and hidden rows"
 msgstr "Mostrar todas as linhas filtradas e escondidas"
 
-#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3929
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3916
 msgid "Sort Descending"
 msgstr "Ordenar Descendentemente"
 
-#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3818
+#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3805
 msgid "Sort the selected region"
 msgstr "Ordenar a área seleccionada"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3927
+#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:3914
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
@@ -19165,7 +19163,7 @@ msgstr ""
 "Ordenar ascendentemente a região seleccionada baseada na primeira coluna "
 "seleccionada"
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:3930
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:3917
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
@@ -19181,21 +19179,21 @@ msgstr "Dividir"
 msgid "Split merged ranges of cells"
 msgstr "Dividir áreas de células juntas"
 
-#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3751
+#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3738
 msgid "Statistical Anal_ysis"
 msgstr "Anál_ise Estatística"
 
 #: src/GNOME_Gnumeric.xml.h:235 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:3919 src/workbook-control-gui.c:4672
+#: src/workbook-control-gui.c:3906 src/workbook-control-gui.c:4676
 #: src/workbook-view.c:512
 msgid "Sum"
 msgstr "Soma"
 
-#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3920
+#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3907
 msgid "Sum into the current cell"
 msgstr "Somar para a célula actual"
 
-#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3741
+#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3728
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
@@ -19207,43 +19205,43 @@ msgstr ""
 msgid "Thousands Separator"
 msgstr "Separador Milhares"
 
-#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:3575
+#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:3562
 msgid "Toggle whether or not to display column headers"
 msgstr "Alternar visualização dos cabeçalhos das colunas"
 
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3569
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3556
 msgid "Toggle whether or not to display gridlines"
 msgstr "Alternar visualização das grelhas"
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3775
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3762
 msgid "Toggle whether or not to display outline groups"
 msgstr "Alternar visualização dos grupos de tópicos"
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3581
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3568
 msgid "Toggle whether or not to display row headers"
 msgstr "Alternar visualização dos cabeçalhos de linhas"
 
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3563
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3550
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Alternar visualização dos zeros como vazio"
 
-#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3787
+#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3774
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Alternar visualização dos tópicos de coluna à esquerda ou direita"
 
-#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3781
+#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3768
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Alternar visualização dos tópicos de linha no topo ou fundo"
 
-#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3630
+#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3617
 msgid "Two Factor Analysis of Variance"
 msgstr "Análise de Variância Factor Duplo"
 
-#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3705
+#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3692
 msgid "Two _Means"
 msgstr "Duas _Médias"
 
-#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:3762
+#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:3749
 msgid "Uncollapse an outline group"
 msgstr "Expandir um grupo de tópicos"
 
@@ -19251,40 +19249,40 @@ msgstr "Expandir um grupo de tópicos"
 msgid "Underline"
 msgstr "Sublinhar"
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:4149
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:4142
 msgid "Undo the last action"
 msgstr "Desfazer a última acção"
 
-#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3655
+#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3642
 msgid "Unpaired Samples, _Equal Var.: T-Test"
 msgstr "Amostras Não-Emparelhadas, Variância I_gual: T-Teste"
 
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3660
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3647
 msgid "Unpaired Samples, _Unequal Var.: T-Test"
 msgstr "Amostras Não-Emparelhadas, Variância Di_ferente: T-Teste"
 
-#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:3825
+#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:3812
 msgid "Validate input with preset criteria"
 msgstr "Validar entrada com critérios pré-definidos"
 
-#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:3693
+#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:3680
 msgid "Various frequency tables"
 msgstr "Várias tabelas de frequências"
 
-#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3684
+#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3671
 msgid "Various summary statistics"
 msgstr "Várias estatísticas de resumo"
 
-#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:3616
+#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:3603
 msgid "View, delete and report different scenarios"
 msgstr "Ver, apagar e reportar diferentes cenários"
 
-#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:3426
-#: src/workbook-control-gui.c:4155
+#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:3413
+#: src/workbook-control-gui.c:4148
 msgid "Zoom the spreadsheet in or out"
 msgstr "Aumentar ou diminuir zoom da folha de cálculo"
 
-#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3675
+#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3662
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
@@ -19293,33 +19291,33 @@ msgid "_About"
 msgstr "_Sobre"
 
 #: src/GNOME_Gnumeric.xml.h:260 src/sheet-control-gui.c:1511
-#: src/workbook-control-gui.c:3494
+#: src/workbook-control-gui.c:3481
 msgid "_Add / Modify comment..."
 msgstr "_Adicionar / Modificar comentário..."
 
-#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3618
+#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3605
 msgid "_Add..."
 msgstr "_Adicionar..."
 
-#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3268
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3255
 msgid "_All"
 msgstr "_Tudo"
 
-#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3724
+#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3711
 msgid "_Auto Save..."
 msgstr "_Auto Gravação..."
 
-#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:3512
-#: src/workbook-control-gui.c:3531
+#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:3499
+#: src/workbook-control-gui.c:3518
 msgid "_Auto fit selection"
 msgstr "_Auto dimensionar selecção"
 
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:3606
+#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:3593
 msgid "_Autoformat..."
 msgstr "_Auto formatação..."
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:3591
+#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:3578
 msgid "_Cells..."
 msgstr "_Células..."
 
@@ -19334,47 +19332,47 @@ msgstr "Fe_char"
 #: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:27
 #: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:14
 #: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:18
-#: src/dialogs/shuffle.glade.h:5 src/workbook-control-gui.c:3468
+#: src/dialogs/shuffle.glade.h:5 src/workbook-control-gui.c:3455
 msgid "_Columns"
 msgstr "_Colunas"
 
-#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:3833
+#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:3820
 msgid "_Consolidate..."
 msgstr "_Consolidar..."
 
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3277
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3264
 msgid "_Contents"
 msgstr "_Conteudo"
 
-#: src/GNOME_Gnumeric.xml.h:271 src/item-cursor.c:998
+#: src/GNOME_Gnumeric.xml.h:271 src/item-cursor.c:1001
 #: src/sheet-control-gui.c:1480
 msgid "_Copy"
 msgstr "_Copiar"
 
-#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3677
+#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3664
 msgid "_Correlation"
 msgstr "_Correlação"
 
 #: src/GNOME_Gnumeric.xml.h:273 src/dialogs/pivottable.glade.h:8
-#: src/workbook-control-gui.c:3861
+#: src/workbook-control-gui.c:3848
 msgid "_Data"
 msgstr "_Dados"
 
-#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:3452
+#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:3439
 msgid "_Define..."
 msgstr "_Definir..."
 
 #: src/GNOME_Gnumeric.xml.h:275 src/sheet-control-gui.c:1498
-#: src/workbook-control-gui.c:3376
+#: src/workbook-control-gui.c:3363
 msgid "_Delete..."
 msgstr "_Apagar..."
 
-#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:3683
+#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:3670
 msgid "_Descriptive Statistics"
 msgstr "Estatística _Descritiva"
 
 #: src/GNOME_Gnumeric.xml.h:277 src/dialogs/sheet-order.glade.h:2
-#: src/workbook-control-gui.c:3334
+#: src/workbook-control-gui.c:3321
 msgid "_Duplicate"
 msgstr "_Duplicar"
 
@@ -19382,7 +19380,7 @@ msgstr "_Duplicar"
 msgid "_Edit"
 msgstr "_Editar"
 
-#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3638
+#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3625
 msgid "_Exponential Smoothing"
 msgstr "Alisamento _Exponêncial"
 
@@ -19391,52 +19389,52 @@ msgid "_File"
 msgstr "_Ficheiro"
 
 #: src/GNOME_Gnumeric.xml.h:281 src/dialogs/cell-format.glade.h:107
-#: src/workbook-control-gui.c:3385
+#: src/workbook-control-gui.c:3372
 msgid "_Fill"
 msgstr "_Encher"
 
-#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3823
+#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3810
 msgid "_Filter"
 msgstr "_Filtro"
 
-#: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:3271
+#: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:3258
 msgid "_Formats"
 msgstr "_Formatos"
 
-#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:3689
+#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:3676
 msgid "_Fourier Analysis"
 msgstr "Análise _Fourier"
 
-#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:1340
-#: src/workbook-control-gui.c:3428
+#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:1337
+#: src/workbook-control-gui.c:3415
 msgid "_Freeze Panes"
 msgstr "_Trancar Paineis"
 
-#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:3488
+#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:3475
 msgid "_Function..."
 msgstr "_Função..."
 
-#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3602
+#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3589
 msgid "_Gnumeric..."
 msgstr "_Gnumeric..."
 
-#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:3730
+#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:3717
 msgid "_Goal Seek..."
 msgstr "Procurar _Objectivo..."
 
-#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3399
+#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3386
 msgid "_Goto cell..."
 msgstr "_Ir Para célula..."
 
-#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:3480
+#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:3467
 msgid "_Graph..."
 msgstr "_Gráfico..."
 
-#: src/GNOME_Gnumeric.xml.h:291 src/workbook-control-gui.c:3837
+#: src/GNOME_Gnumeric.xml.h:291 src/workbook-control-gui.c:3824
 msgid "_Group and Outline"
 msgstr "_Grupo e Tópico"
 
-#: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:3764
+#: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:3751
 msgid "_Group..."
 msgstr "A_grupar..."
 
@@ -19446,45 +19444,45 @@ msgstr "A_juda"
 
 #: src/GNOME_Gnumeric.xml.h:294 src/dialogs/cell-format.glade.h:110
 #: src/sheet-control-gui.c:1523 src/sheet-control-gui.c:1531
-#: src/workbook-control-gui.c:3515 src/workbook-control-gui.c:3534
+#: src/workbook-control-gui.c:3502 src/workbook-control-gui.c:3521
 msgid "_Hide"
 msgstr "_Esconder"
 
-#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3758
+#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3745
 msgid "_Hide Detail"
 msgstr "_Esconder Detalhes"
 
-#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3692
+#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3679
 msgid "_Histogram"
 msgstr "_Histograma"
 
-#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3484
+#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3471
 msgid "_Image..."
 msgstr "_Imagem..."
 
-#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:3338
-#: src/workbook-control-gui.c:3858
+#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:3325
+#: src/workbook-control-gui.c:3845
 msgid "_Insert"
 msgstr "_Inserir"
 
-#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:3665
+#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:3652
 msgid "_Known Variances or Large Sample: Z-Test"
 msgstr "Vatiâncias Con_hecidas ou Amostras Grandes: Z-Teste"
 
-#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3346
-#: src/workbook-control-gui.c:3550
+#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3333
+#: src/workbook-control-gui.c:3537
 msgid "_Manage Sheets..."
 msgstr "_Gerir Folhas..."
 
-#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3642
+#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3629
 msgid "_Moving Average"
 msgstr "Média _Móvel"
 
-#: src/GNOME_Gnumeric.xml.h:302 src/workbook-control-gui.c:3492
+#: src/GNOME_Gnumeric.xml.h:302 src/workbook-control-gui.c:3479
 msgid "_Name"
 msgstr "_Nome"
 
-#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3228
+#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3215
 msgid "_New"
 msgstr "_Novo"
 
@@ -19492,7 +19490,7 @@ msgstr "_Novo"
 msgid "_Object..."
 msgstr "_Objecto..."
 
-#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3626
+#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3613
 msgid "_One Factor"
 msgstr "Factor Únic_o"
 
@@ -19500,7 +19498,7 @@ msgstr "Factor Únic_o"
 msgid "_Open..."
 msgstr "A_brir..."
 
-#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3651
+#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3638
 msgid "_Paired Samples: T-Test"
 msgstr "Amostras Em_parelhadas: T-Test"
 
@@ -19508,11 +19506,11 @@ msgstr "Amostras Em_parelhadas: T-Test"
 msgid "_Paste"
 msgstr "C_olar"
 
-#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3839
+#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3826
 msgid "_PivotTable..."
 msgstr "Tabela _Pivot..."
 
-#: src/GNOME_Gnumeric.xml.h:310 src/workbook-control-gui.c:3715
+#: src/GNOME_Gnumeric.xml.h:310 src/workbook-control-gui.c:3702
 msgid "_Plug-ins..."
 msgstr "_Plug-ins..."
 
@@ -19524,30 +19522,30 @@ msgstr "Im_primir..."
 msgid "_Quit"
 msgstr "_Sair"
 
-#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3326
+#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3313
 msgid "_Random Generator..."
 msgstr "Ge_ração de Aleatórios..."
 
-#: src/GNOME_Gnumeric.xml.h:314 src/workbook-control-gui.c:1384
+#: src/GNOME_Gnumeric.xml.h:314 src/workbook-control-gui.c:1381
 msgid "_Redo"
 msgstr "_Refazer"
 
-#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3698
+#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3685
 msgid "_Regression"
 msgstr "_Regressão"
 
 #: src/GNOME_Gnumeric.xml.h:316 src/dialogs/autocorrect.glade.h:13
-#: src/dialogs/dialog-stf.glade.h:66 src/dialogs/pivottable.glade.h:12
-#: src/workbook-control-gui.c:3350
+#: src/dialogs/dialog-stf.glade.h:69 src/dialogs/pivottable.glade.h:12
+#: src/workbook-control-gui.c:3337
 msgid "_Remove"
 msgstr "_Remover"
 
-#: src/GNOME_Gnumeric.xml.h:317 src/workbook-control-gui.c:3740
+#: src/GNOME_Gnumeric.xml.h:317 src/workbook-control-gui.c:3727
 msgid "_Risk Simulation..."
 msgstr "Simulação _Risco..."
 
 #: src/GNOME_Gnumeric.xml.h:318 src/dialogs/pivottable.glade.h:13
-#: src/workbook-control-gui.c:3596
+#: src/workbook-control-gui.c:3583
 msgid "_Row"
 msgstr "_Linha"
 
@@ -19558,11 +19556,11 @@ msgstr "_Linha"
 #: src/dialogs/fourier-analysis.glade.h:16
 #: src/dialogs/moving-averages.glade.h:19 src/dialogs/rank.glade.h:19
 #: src/dialogs/regression.glade.h:18 src/dialogs/sampling.glade.h:25
-#: src/dialogs/shuffle.glade.h:6 src/workbook-control-gui.c:3471
+#: src/dialogs/shuffle.glade.h:6 src/workbook-control-gui.c:3458
 msgid "_Rows"
 msgstr "_Linhas"
 
-#: src/GNOME_Gnumeric.xml.h:320 src/workbook-control-gui.c:3701
+#: src/GNOME_Gnumeric.xml.h:320 src/workbook-control-gui.c:3688
 msgid "_Sampling"
 msgstr "Amo_stragem"
 
@@ -19570,7 +19568,7 @@ msgstr "Amo_stragem"
 msgid "_Save"
 msgstr "_Gravar"
 
-#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:3383
+#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:3370
 msgid "_Select"
 msgstr "_Seleccionar"
 
@@ -19582,40 +19580,40 @@ msgstr "_Séries..."
 msgid "_Shaped Object"
 msgstr "Ob_jecto de Formato"
 
-#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:3474
-#: src/workbook-control-gui.c:3597
+#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:3461
+#: src/workbook-control-gui.c:3584
 msgid "_Sheet"
 msgstr "_Folha"
 
-#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:3805
+#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:3792
 msgid "_Show All"
 msgstr "Mo_strar Tudo"
 
-#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3761
+#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3748
 msgid "_Show Detail"
 msgstr "Mo_strar Detalhes"
 
-#: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3734
+#: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3721
 msgid "_Solver..."
 msgstr "_Solucionador..."
 
-#: src/GNOME_Gnumeric.xml.h:329 src/workbook-control-gui.c:3817
+#: src/GNOME_Gnumeric.xml.h:329 src/workbook-control-gui.c:3804
 msgid "_Sort..."
 msgstr "_Ordenar..."
 
-#: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3540
+#: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3527
 msgid "_Standard Height"
 msgstr "Altura _Standard"
 
-#: src/GNOME_Gnumeric.xml.h:331 src/workbook-control-gui.c:3521
+#: src/GNOME_Gnumeric.xml.h:331 src/workbook-control-gui.c:3508
 msgid "_Standard Width"
 msgstr "Largura _Standard"
 
-#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3320
+#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3307
 msgid "_Tabulate Dependency..."
 msgstr "_Tabular Dependência..."
 
-#: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3830
+#: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3817
 msgid "_Text to Columns..."
 msgstr "_Texto para Colunas..."
 
@@ -19623,33 +19621,33 @@ msgstr "_Texto para Colunas..."
 msgid "_Toolbars..."
 msgstr "Barras de Ferramen_tas..."
 
-#: src/GNOME_Gnumeric.xml.h:335 src/workbook-control-gui.c:3860
+#: src/GNOME_Gnumeric.xml.h:335 src/workbook-control-gui.c:3847
 msgid "_Tools"
 msgstr "Ferramen_tas"
 
-#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3629
+#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3616
 msgid "_Two Factor"
 msgstr "Fac_tor Duplo"
 
-#: src/GNOME_Gnumeric.xml.h:337 src/workbook-control-gui.c:3707
+#: src/GNOME_Gnumeric.xml.h:337 src/workbook-control-gui.c:3694
 msgid "_Two Variances: FTest"
 msgstr "Variância Dupla: F_Test"
 
-#: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:1383
+#: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:1380
 msgid "_Undo"
 msgstr "Desfa_zer"
 
-#: src/GNOME_Gnumeric.xml.h:339 src/workbook-control-gui.c:3767
+#: src/GNOME_Gnumeric.xml.h:339 src/workbook-control-gui.c:3754
 msgid "_Ungroup..."
 msgstr "Desagr_upar..."
 
 #: src/GNOME_Gnumeric.xml.h:340 src/sheet-control-gui.c:1525
-#: src/sheet-control-gui.c:1533 src/workbook-control-gui.c:3518
-#: src/workbook-control-gui.c:3537
+#: src/sheet-control-gui.c:1533 src/workbook-control-gui.c:3505
+#: src/workbook-control-gui.c:3524
 msgid "_Unhide"
 msgstr "_Mostrar"
 
-#: src/GNOME_Gnumeric.xml.h:341 src/workbook-control-gui.c:3824
+#: src/GNOME_Gnumeric.xml.h:341 src/workbook-control-gui.c:3811
 msgid "_Validate..."
 msgstr "_Validar..."
 
@@ -19657,19 +19655,19 @@ msgstr "_Validar..."
 msgid "_View"
 msgstr "_Ver"
 
-#: src/GNOME_Gnumeric.xml.h:343 src/workbook-control-gui.c:3615
+#: src/GNOME_Gnumeric.xml.h:343 src/workbook-control-gui.c:3602
 msgid "_View..."
 msgstr "_Ver..."
 
-#: src/GNOME_Gnumeric.xml.h:344 src/workbook-control-gui.c:3509
+#: src/GNOME_Gnumeric.xml.h:344 src/workbook-control-gui.c:3496
 msgid "_Width..."
 msgstr "_Largura..."
 
-#: src/GNOME_Gnumeric.xml.h:345 src/workbook-control-gui.c:3599
+#: src/GNOME_Gnumeric.xml.h:345 src/workbook-control-gui.c:3586
 msgid "_Workbook..."
 msgstr "Livro de _Trabalho..."
 
-#: src/GNOME_Gnumeric.xml.h:346 src/workbook-control-gui.c:3425
+#: src/GNOME_Gnumeric.xml.h:346 src/workbook-control-gui.c:3412
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
@@ -19788,439 +19786,439 @@ msgstr "Teria dividido a matriz %s"
 msgid "Would split an array"
 msgstr "Teria dividido uma matriz"
 
-#: src/commands.c:252
+#: src/commands.c:253
 #, c-format
 msgid "%s is locked. Unprotect the workbook to enable editing."
 msgstr "%s está trancado. Desproteja o livro de trabalho para permitir edição."
 
-#: src/commands.c:253
+#: src/commands.c:254
 #, c-format
 msgid "%s is locked. Unprotect the sheet to enable editing."
 msgstr "%s está trancado. Desproteja a folha para permitir edição."
 
-#: src/commands.c:424
+#: src/commands.c:425
 msgid "..."
 msgstr "..."
 
-#: src/commands.c:857 src/commands.c:952 src/commands.c:957
+#: src/commands.c:858 src/commands.c:953 src/commands.c:958
 msgid "Set Text"
 msgstr "Definir Texto"
 
-#: src/commands.c:881
+#: src/commands.c:882
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "A escrever \"%s%s\" em %s"
 
-#: src/commands.c:1075
+#: src/commands.c:1076
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "A escrever \"%s%s\""
 
-#: src/commands.c:1199 src/commands.c:1204 src/sheet.c:3171
+#: src/commands.c:1200 src/commands.c:1205 src/sheet.c:3171
 msgid "Delete Columns"
 msgstr "Apagar Colunas"
 
-#: src/commands.c:1199 src/commands.c:1204 src/sheet.c:3285
+#: src/commands.c:1200 src/commands.c:1205 src/sheet.c:3285
 msgid "Delete Rows"
 msgstr "Apagar Linhas"
 
-#: src/commands.c:1354
+#: src/commands.c:1355
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "A inserir %d colunas antes de %s"
 
-#: src/commands.c:1355
+#: src/commands.c:1356
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "A inserir %d coluna antes de %s"
 
-#: src/commands.c:1370
+#: src/commands.c:1371
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "A inserir %d linhas antes de %s"
 
-#: src/commands.c:1371
+#: src/commands.c:1372
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "A inserir %d linha antes de %s"
 
-#: src/commands.c:1382
+#: src/commands.c:1383
 #, c-format
 msgid "Deleting columns %s"
 msgstr "A apagar colunas %s"
 
-#: src/commands.c:1383
+#: src/commands.c:1384
 #, c-format
 msgid "Deleting column %s"
 msgstr "A apagar coluna %s"
 
-#: src/commands.c:1393
+#: src/commands.c:1394
 #, c-format
 msgid "Deleting rows %s"
 msgstr "A apagar linhas %s"
 
-#: src/commands.c:1394
+#: src/commands.c:1395
 #, c-format
 msgid "Deleting row %s"
 msgstr "A apagar linha %s"
 
 #. Check for locked cells
-#: src/commands.c:1471 src/commands.c:1475 src/sheet.c:2803
+#: src/commands.c:1472 src/commands.c:1476 src/sheet.c:2803
 msgid "Clear"
 msgstr "Limpar"
 
-#: src/commands.c:1547
+#: src/commands.c:1548
 msgid "contents"
 msgstr "conteudos"
 
-#: src/commands.c:1549
+#: src/commands.c:1550
 msgid "formats"
 msgstr "formatos"
 
-#: src/commands.c:1551
+#: src/commands.c:1552
 msgid "comments"
 msgstr "comentários"
 
-#: src/commands.c:1567
+#: src/commands.c:1568
 msgid "all"
 msgstr "tudo"
 
-#: src/commands.c:1574
+#: src/commands.c:1575
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "A limpar %s em %s"
 
-#: src/commands.c:1647
+#: src/commands.c:1648
 msgid "Changing Format"
 msgstr "A Alterar Formato"
 
-#: src/commands.c:1773
+#: src/commands.c:1774
 #, c-format
 msgid "Changing format of %s"
 msgstr "A alterar formato de %s"
 
-#: src/commands.c:1886
+#: src/commands.c:1887
 #, c-format
 msgid "Autofitting column %s"
 msgstr "A auto-dimensionar coluna %s"
 
-#: src/commands.c:1887
+#: src/commands.c:1888
 #, c-format
 msgid "Autofitting row %s"
 msgstr "A auto-dimensionar linha %s"
 
-#: src/commands.c:1890
+#: src/commands.c:1891
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "A definir largura da coluna %s para %d pixels"
 
-#: src/commands.c:1892
+#: src/commands.c:1893
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "A definir altura da linha %s para %d pixels"
 
-#: src/commands.c:1895
+#: src/commands.c:1896
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "A definir largura da coluna %s por omissão"
 
-#: src/commands.c:1898
+#: src/commands.c:1899
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "A definir altura da linha %s por omissão"
 
-#: src/commands.c:1902 src/commands.c:1903
+#: src/commands.c:1903 src/commands.c:1904
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "A auto-dimensionar colunas %s"
 
-#: src/commands.c:1906
+#: src/commands.c:1907
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "A definir largura das colunas %s para %d pixels"
 
-#: src/commands.c:1908
+#: src/commands.c:1909
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "A definir altura das linhas %s para %d pixels"
 
-#: src/commands.c:1912
+#: src/commands.c:1913
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "A definir largura das colunas %s por omissão"
 
-#: src/commands.c:1914
+#: src/commands.c:1915
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "A definir altura das linhas %s por omissão"
 
-#: src/commands.c:1982
+#: src/commands.c:1983
 msgid "Sorting"
 msgstr "A ordenar"
 
-#: src/commands.c:2002
+#: src/commands.c:2003
 #, c-format
 msgid "Sorting %s"
 msgstr "A ordenar %s"
 
-#: src/commands.c:2135
+#: src/commands.c:2136
 msgid "Unhide columns"
 msgstr "Mostrar colunas"
 
-#: src/commands.c:2135
+#: src/commands.c:2136
 msgid "Hide columns"
 msgstr "Esconder colunas"
 
-#: src/commands.c:2136
+#: src/commands.c:2137
 msgid "Unhide rows"
 msgstr "Mostrar linhas"
 
-#: src/commands.c:2136
+#: src/commands.c:2137
 msgid "Hide rows"
 msgstr "Esconder linhas"
 
-#: src/commands.c:2219
+#: src/commands.c:2220
 msgid "Expand columns"
 msgstr "Expandir colunas"
 
-#: src/commands.c:2219
+#: src/commands.c:2220
 msgid "Collapse columns"
 msgstr "Recolher colunas"
 
-#: src/commands.c:2220
+#: src/commands.c:2221
 msgid "Expand rows"
 msgstr "Expandir linhas"
 
-#: src/commands.c:2220
+#: src/commands.c:2221
 msgid "Collapse rows"
 msgstr "Recolher linhas"
 
-#: src/commands.c:2247
+#: src/commands.c:2248
 #, c-format
 msgid "Show column outline %d"
 msgstr "Mostrar resumo coluna %d"
 
-#: src/commands.c:2247
+#: src/commands.c:2248
 #, c-format
 msgid "Show row outline %d"
 msgstr "Mostrar resumo linha %d"
 
-#: src/commands.c:2314
+#: src/commands.c:2315
 msgid "Those columns are already grouped"
 msgstr "Essas colunas já se encontram agrupadas"
 
-#: src/commands.c:2315
+#: src/commands.c:2316
 msgid "Those rows are already grouped"
 msgstr "Essas linhas já se encontram agrupadas"
 
-#: src/commands.c:2338
+#: src/commands.c:2339
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Essas colunas não estão agrupadas, não as pode desagrupar"
 
-#: src/commands.c:2339
+#: src/commands.c:2340
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Essas linhas não estão agrupadas, não as pode desagrupar"
 
-#: src/commands.c:2353
+#: src/commands.c:2354
 #, c-format
 msgid "Group columns %s"
 msgstr "Agrupar colunas %s"
 
-#: src/commands.c:2353
+#: src/commands.c:2354
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Desagrupar colunas %s"
 
-#: src/commands.c:2355
+#: src/commands.c:2356
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Agrupar linhas %d:%d"
 
-#: src/commands.c:2355
+#: src/commands.c:2356
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Desagrupar linhas %d:%d"
 
-#: src/commands.c:2563
+#: src/commands.c:2564
 #, c-format
 msgid "Moving %s"
 msgstr "A mover %s"
 
-#: src/commands.c:2572 src/commands.c:2783
+#: src/commands.c:2573 src/commands.c:2784
 msgid "is beyond sheet boundaries"
 msgstr "está para além das fronteiras da folha"
 
 #. FIXME?
-#: src/commands.c:2727
+#: src/commands.c:2728
 #, c-format
 msgid "Pasting into %s"
 msgstr "A colar em %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2961 src/commands.c:2962 src/workbook-control-gui.c:2228
+#: src/commands.c:2962 src/commands.c:2963 src/workbook-control-gui.c:2225
 msgid "Autofill"
 msgstr "Auto-enchimento"
 
 #. Changed in initial redo.
-#: src/commands.c:2985
+#: src/commands.c:2986
 #, c-format
 msgid "Autofilling %s"
 msgstr "A auto-encher %s"
 
-#: src/commands.c:3135
+#: src/commands.c:3136
 #, c-format
 msgid "Autoformatting %s"
 msgstr "A auto-formatar %s"
 
-#: src/commands.c:3245
+#: src/commands.c:3246
 #, c-format
 msgid "Unmerging %s"
 msgstr "A separar %s"
 
-#: src/commands.c:3383
+#: src/commands.c:3384
 #, c-format
 msgid "Merging %s"
 msgstr "A juntar %s"
 
 #. Corrected below.
-#: src/commands.c:3766 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:3767 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Procurar e Substituir"
 
-#: src/commands.c:3864
+#: src/commands.c:3865
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "A definir largura por omissão das colunas para %.2fpts"
 
-#: src/commands.c:3865
+#: src/commands.c:3866
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "A definir altura por omissão das linhas para %.2fpts"
 
 #. Changed in initial redo.
-#: src/commands.c:3951
+#: src/commands.c:3952
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "A consolidar para %s!%s"
 
-#: src/commands.c:4070
+#: src/commands.c:4071
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s para %.0f%%"
 
-#: src/commands.c:4141
+#: src/commands.c:4142
 msgid "Insert object"
 msgstr "Inserir objecto"
 
-#: src/commands.c:4201
+#: src/commands.c:4202
 msgid "Delete object"
 msgstr "Apagar objecto"
 
-#: src/commands.c:4283
+#: src/commands.c:4284
 msgid "Resize object"
 msgstr "Redimensionar objecto"
 
-#: src/commands.c:4283
+#: src/commands.c:4284
 msgid "Move object"
 msgstr "Mover objecto"
 
-#: src/commands.c:4527
+#: src/commands.c:4528
 msgid "Renaming Sheets"
 msgstr "A Renomear Folhas"
 
-#: src/commands.c:4530
+#: src/commands.c:4531
 msgid "Reordering Sheets"
 msgstr "A Re-ordenar Folhas"
 
-#: src/commands.c:4535
+#: src/commands.c:4536
 msgid "Adding a sheet"
 msgstr "A Adicionar folha"
 
-#: src/commands.c:4538
+#: src/commands.c:4539
 #, c-format
 msgid "Adding sheet '%s'"
 msgstr "A adicionar folha '%s'"
 
-#: src/commands.c:4542
+#: src/commands.c:4543
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Renomear folha '%s' '%s'"
 
-#: src/commands.c:4547
+#: src/commands.c:4548
 msgid "Changing Tab Colors"
 msgstr "A Alterar Cores Separadores"
 
-#: src/commands.c:4550
+#: src/commands.c:4551
 msgid "Changing Sheet Protection"
 msgstr "A Alterar Protecção Folha"
 
-#: src/commands.c:4553
+#: src/commands.c:4554
 msgid "Reorganizing Sheets"
 msgstr "A Reorganizar Folhas"
 
-#: src/commands.c:4682
+#: src/commands.c:4683
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "A limpar comentário de %s"
 
-#: src/commands.c:4683
+#: src/commands.c:4684
 #, c-format
 msgid "Setting comment of %s"
 msgstr "A definir comentário de %s"
 
-#: src/commands.c:5046
+#: src/commands.c:5047
 #, c-format
 msgid "Merging data into %s"
 msgstr "A juntar dados em %s"
 
-#: src/commands.c:5148
+#: src/commands.c:5149
 msgid "Changing summary info"
 msgstr "A alterar info de resumo"
 
-#: src/commands.c:5240
+#: src/commands.c:5241
 msgid "Raise object"
 msgstr "Subir objecto"
 
-#: src/commands.c:5243
+#: src/commands.c:5244
 msgid "Lower object"
 msgstr "Descer objecto"
 
-#: src/commands.c:5246
+#: src/commands.c:5247
 msgid "Raise object to top"
 msgstr "Subir objecto para o topo"
 
-#: src/commands.c:5249
+#: src/commands.c:5250
 msgid "Lower object to bottom"
 msgstr "Descer objecto para o fundo"
 
-#: src/commands.c:5365
+#: src/commands.c:5366
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Configuração Página Para %s"
 
-#: src/commands.c:5367
+#: src/commands.c:5368
 msgid "Page Setup For All Sheets"
 msgstr "Configuração Página Para Todas As Folhas"
 
-#: src/commands.c:5495
+#: src/commands.c:5496
 #, c-format
 msgid "Define Name %s"
 msgstr "Definir Nome %s"
 
-#: src/commands.c:5498
+#: src/commands.c:5499
 #, c-format
 msgid "Update Name %s"
 msgstr "Actualizar Nome %s"
 
-#: src/commands.c:5563
+#: src/commands.c:5564
 msgid "Add scenario"
 msgstr "Adicionar cenário"
 
-#: src/commands.c:5639
+#: src/commands.c:5640
 msgid "Scenario Show"
 msgstr "Apresentação Cenário"
 
-#: src/commands.c:5704
+#: src/commands.c:5705
 msgid "Shuffle Data"
 msgstr "Misturar Dados"
 
@@ -20687,7 +20685,7 @@ msgstr "0.05"
 #: src/dialogs/rank.glade.h:1 src/dialogs/sampling.glade.h:3
 #: src/dialogs/variance-tests.glade.h:3
 msgid "<span weight=\"bold\">Input</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Entrada</span>"
 
 #: src/dialogs/anova-one.glade.h:4 src/dialogs/anova-two.glade.h:5
 #: src/dialogs/descriptive-stats.glade.h:6 src/dialogs/exp-smoothing.glade.h:4
@@ -20695,7 +20693,7 @@ msgstr ""
 #: src/dialogs/rank.glade.h:2 src/dialogs/sampling.glade.h:4
 #: src/dialogs/variance-tests.glade.h:4
 msgid "<span weight=\"bold\">Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Opções</span>"
 
 #: src/dialogs/anova-one.glade.h:5 src/dialogs/anova-two.glade.h:6
 #: src/dialogs/correlation.glade.h:2 src/dialogs/covariance.glade.h:2
@@ -20704,7 +20702,7 @@ msgstr ""
 #: src/dialogs/rank.glade.h:3 src/dialogs/sampling.glade.h:5
 #: src/dialogs/variance-tests.glade.h:5
 msgid "<span weight=\"bold\">Output</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Saida</span>"
 
 #: src/dialogs/anova-one.glade.h:6
 msgid "ANOVA - Single Factor"
@@ -20756,9 +20754,8 @@ msgstr "Reter Formatação de Área de Saida"
 
 #: src/dialogs/anova-one.glade.h:13 src/dialogs/anova-two.glade.h:13
 #: src/dialogs/mean-tests.glade.h:24 src/dialogs/variance-tests.glade.h:14
-#, fuzzy
 msgid "_Alpha:"
-msgstr "_alfa:"
+msgstr "_Alfa:"
 
 #: src/dialogs/anova-one.glade.h:14 src/dialogs/correlation.glade.h:10
 #: src/dialogs/covariance.glade.h:10 src/dialogs/descriptive-stats.glade.h:20
@@ -20799,9 +20796,8 @@ msgid "ANOVA - Two-Factor"
 msgstr "ANOVA - Factor Duplo"
 
 #: src/dialogs/anova-two.glade.h:18
-#, fuzzy
 msgid "_Rows Per Sample:"
-msgstr "Número de Linhas _Por Amostra:"
+msgstr "Linhas Po_r Amostra:"
 
 #: src/dialogs/autocorrect.glade.h:2
 msgid "Auto Correct"
@@ -20820,9 +20816,8 @@ msgid "Correct _TWo INitial CApitals                           "
 msgstr "Corrigir _DUas INiciais MAiúsculas"
 
 #: src/dialogs/autocorrect.glade.h:6
-#, fuzzy
 msgid "Do _not capitalize after:"
-msgstr "Não capitali_zar após:"
+msgstr "_Não capitalizar após:"
 
 #: src/dialogs/autocorrect.glade.h:7
 msgid "Do _not correct:"
@@ -20834,8 +20829,8 @@ msgstr "Primeira Letra"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:673
-#: src/format.c:1789 src/format.c:1873 src/format.c:1882 src/format.c:1949
+#: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:675
+#: src/format.c:1786 src/format.c:1870 src/format.c:1879 src/format.c:1946
 #: src/plugin-service.c:200
 msgid "General"
 msgstr "Geral"
@@ -20849,7 +20844,7 @@ msgid "Re_place:"
 msgstr "Su_bstituir:"
 
 #: src/dialogs/autocorrect.glade.h:12 src/dialogs/consolidate.glade.h:26
-#: src/dialogs/dialog-stf.glade.h:61 src/dialogs/names.glade.h:6
+#: src/dialogs/dialog-stf.glade.h:64 src/dialogs/names.glade.h:6
 #: src/dialogs/solver.glade.h:27
 msgid "_Add"
 msgstr "_Adicionar"
@@ -20863,7 +20858,7 @@ msgid "_With:"
 msgstr "Co_m:"
 
 #: src/dialogs/autofilter-expression.glade.h:1
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:69
 msgid " "
 msgstr " "
 
@@ -21054,9 +21049,8 @@ msgid "Auto Save"
 msgstr "Auto Gravar"
 
 #: src/dialogs/autosave.glade.h:3
-#, fuzzy
 msgid "_Automatically save every"
-msgstr "Gravar _Automaticamente Cada"
+msgstr "Gravar _automaticamente cada"
 
 #: src/dialogs/autosave.glade.h:4
 msgid "_Prompt Before Saving"
@@ -21097,12 +21091,11 @@ msgstr "75% Cinzento"
 
 #: src/dialogs/cell-format.glade.h:12
 msgid "<span weight=\"bold\">Criteria</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Critérios</span>"
 
 #: src/dialogs/cell-format.glade.h:13
-#, fuzzy
 msgid "Act_ion:"
-msgstr "A_cção:"
+msgstr "Ac_ção:"
 
 #: src/dialogs/cell-format.glade.h:14
 msgid "Alignment"
@@ -21113,11 +21106,10 @@ msgid "Any Value     (no validation)"
 msgstr "Qualquer Valor (sem validação)"
 
 #: src/dialogs/cell-format.glade.h:17
-#, fuzzy
 msgid "Background Color"
-msgstr "Cor de Fundo:"
+msgstr "Cor de Fundo"
 
-#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2879
+#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2883
 msgid "Border"
 msgstr "Margem"
 
@@ -21154,8 +21146,8 @@ msgid "Cust_om"
 msgstr "Cust_omizar"
 
 #: src/dialogs/cell-format.glade.h:28 src/dialogs/dialog-stf-export.glade.h:17
-#: src/dialogs/dialog-stf-format-page.c:190
-#: src/dialogs/dialog-stf-format-page.c:399
+#: src/dialogs/dialog-stf-format-page.c:215
+#: src/dialogs/dialog-stf-format-page.c:426
 msgid "Custom"
 msgstr "Costumizar"
 
@@ -21164,9 +21156,8 @@ msgid "Date"
 msgstr "Data"
 
 #: src/dialogs/cell-format.glade.h:30
-#, fuzzy
 msgid "De_lete Format"
-msgstr "Apagar _formatação"
+msgstr "Apa_gar Formatação"
 
 #: src/dialogs/cell-format.glade.h:31
 msgid "Deci_mal places:"
@@ -21200,7 +21191,7 @@ msgstr "Alerta de Erro"
 msgid "Foreground Solid"
 msgstr "Primeiro Plano Sólido"
 
-#: src/dialogs/cell-format.glade.h:40 src/dialogs/dialog-cell-format.c:2820
+#: src/dialogs/cell-format.glade.h:40 src/dialogs/dialog-cell-format.c:2822
 msgid "Format Cells"
 msgstr "Formatar Células"
 
@@ -21217,9 +21208,8 @@ msgstr ""
 "dependendo do valor da célula."
 
 #: src/dialogs/cell-format.glade.h:43
-#, fuzzy
 msgid "Horizontal Alignment"
-msgstr "Definir Alinhamento Horizontal"
+msgstr "Alinhamento Horizontal"
 
 #: src/dialogs/cell-format.glade.h:44
 msgid "Horizontal Stripe"
@@ -21230,9 +21220,8 @@ msgid "In a list"
 msgstr "Numa lista"
 
 #: src/dialogs/cell-format.glade.h:46
-#, fuzzy
 msgid "In-cell _dropdown"
-msgstr "Lista de selecção em _célula"
+msgstr "Lista _de selecção em célula"
 
 #: src/dialogs/cell-format.glade.h:47
 msgid "Information (allow invalid input)"
@@ -21286,7 +21275,7 @@ msgstr "Nenhum"
 msgid "None          (silently accept invalid input)"
 msgstr "Nenhum (aceita entrada inválida silenciosamente)"
 
-#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-search.c:475
+#: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-search.c:476
 #: src/func.c:675
 msgid "Number"
 msgstr "Número"
@@ -21299,7 +21288,7 @@ msgstr "Números"
 msgid "Outline"
 msgstr "Tópico"
 
-#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:2894
+#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:2898
 msgid "Pattern"
 msgstr "Padrão"
 
@@ -21477,18 +21466,16 @@ msgid "_Ignore blank cells"
 msgstr "_Ignorar células vazias"
 
 #: src/dialogs/cell-format.glade.h:112
-#, fuzzy
 msgid "_Indent:"
-msgstr "_Indentar"
+msgstr "_Indentar:"
 
 #: src/dialogs/cell-format.glade.h:113
 msgid "_Justify"
 msgstr "_Justificar"
 
 #: src/dialogs/cell-format.glade.h:115
-#, fuzzy
 msgid "_Lock"
-msgstr "_Trancado"
+msgstr "_Trancar"
 
 #: src/dialogs/cell-format.glade.h:116
 msgid "_Message:"
@@ -21503,9 +21490,8 @@ msgid "_Percentage"
 msgstr "_Percentagem"
 
 #: src/dialogs/cell-format.glade.h:119
-#, fuzzy
 msgid "_Protect worksheet"
-msgstr "Folha a_ctual"
+msgstr "_Proteger folha"
 
 #: src/dialogs/cell-format.glade.h:121
 msgid "_Scientific"
@@ -21569,25 +21555,23 @@ msgstr "val >=limite                       (maior ou igual a)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "<span weight=\"bold\">Sort Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Opções Ordenação</span>"
 
 #: src/dialogs/cell-sort.glade.h:2
 msgid "<span weight=\"bold\">Sort Specification</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Especificação Ordenação</span>"
 
 #: src/dialogs/cell-sort.glade.h:3
-#, fuzzy
 msgid "Direction:"
-msgstr "Directório"
+msgstr "Direcção:"
 
 #: src/dialogs/cell-sort.glade.h:4
-#, fuzzy
 msgid "Range:"
-msgstr "Área"
+msgstr "Área:"
 
 #: src/dialogs/cell-sort.glade.h:5
 msgid "Sort range has a _header"
-msgstr ""
+msgstr "Área a ordenar tem um cabeçal_ho"
 
 #: src/dialogs/cell-sort.glade.h:6
 msgid "Sort..."
@@ -21610,7 +21594,6 @@ msgid "Column Width"
 msgstr "Largura Coluna"
 
 #: src/dialogs/col-width.glade.h:2
-#, fuzzy
 msgid "_Column width (pt.):"
 msgstr "Largura _coluna (pts):"
 
@@ -21626,8 +21609,8 @@ msgstr "Agrupar/Desagrupar"
 msgid "Add the entered area to the list of source areas"
 msgstr "Adicionar a área introduzida à lista de áreas fonte"
 
-#: src/dialogs/consolidate.glade.h:2 src/dialogs/dialog-simulation.c:247
-#: src/workbook-control-gui.c:4675
+#: src/dialogs/consolidate.glade.h:2 src/dialogs/dialog-simulation.c:248
+#: src/workbook-control-gui.c:4679
 msgid "Average"
 msgstr "Média"
 
@@ -21640,7 +21623,7 @@ msgid "Clear the list of source areas"
 msgstr "Limpar a lista de áreas fonte"
 
 #: src/dialogs/consolidate.glade.h:5 src/tools/simulation.c:264
-#: src/workbook-control-gui.c:4676
+#: src/workbook-control-gui.c:4680
 msgid "Count"
 msgstr "Contagem"
 
@@ -21672,13 +21655,13 @@ msgstr "Na linha su_perior"
 msgid "Labels"
 msgstr "Etiquetas"
 
-#: src/dialogs/consolidate.glade.h:13 src/dialogs/dialog-simulation.c:247
-#: src/tools/simulation.c:256 src/workbook-control-gui.c:4674
+#: src/dialogs/consolidate.glade.h:13 src/dialogs/dialog-simulation.c:248
+#: src/tools/simulation.c:256 src/workbook-control-gui.c:4678
 msgid "Max"
 msgstr "Máx"
 
-#: src/dialogs/consolidate.glade.h:14 src/dialogs/dialog-simulation.c:247
-#: src/tools/simulation.c:254 src/workbook-control-gui.c:4673
+#: src/dialogs/consolidate.glade.h:14 src/dialogs/dialog-simulation.c:248
+#: src/tools/simulation.c:254 src/workbook-control-gui.c:4677
 msgid "Min"
 msgstr "Mín"
 
@@ -21730,7 +21713,7 @@ msgstr "Var (amostra)"
 msgid "Varp (population)"
 msgstr "Varp (população)"
 
-#: src/dialogs/consolidate.glade.h:27 src/dialogs/dialog-stf.glade.h:63
+#: src/dialogs/consolidate.glade.h:27 src/dialogs/dialog-stf.glade.h:66
 msgid "_Clear"
 msgstr "Lim_par"
 
@@ -21753,7 +21736,7 @@ msgstr "Correlação"
 
 #: src/dialogs/delete-cells.glade.h:1
 msgid "<span weight=\"bold\">Delete Method</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Método Apagar</span>"
 
 #: src/dialogs/delete-cells.glade.h:2
 msgid "Delete _column(s)"
@@ -21776,9 +21759,8 @@ msgid "Shift cells _up"
 msgstr "Mover cél_ulas acima"
 
 #: src/dialogs/descriptive-stats.glade.h:1
-#, fuzzy
 msgid "(1 - alpha):"
-msgstr "(1 - Alfa) = "
+msgstr "(1 - alfa):"
 
 #: src/dialogs/descriptive-stats.glade.h:3
 msgid ".95"
@@ -21795,7 +21777,7 @@ msgstr "Estatística Descritiva"
 
 #: src/dialogs/descriptive-stats.glade.h:13
 msgid "K:"
-msgstr ""
+msgstr "K:"
 
 #: src/dialogs/descriptive-stats.glade.h:14
 msgid "Kth Largest"
@@ -21973,7 +21955,7 @@ msgstr "A área de lista é inválida."
 msgid "The criteria range is invalid."
 msgstr "A área de critério é inválida."
 
-#: src/dialogs/dialog-advanced-filter.c:93 src/dialogs/dialog-simulation.c:93
+#: src/dialogs/dialog-advanced-filter.c:93 src/dialogs/dialog-simulation.c:94
 msgid "The output range is invalid."
 msgstr "A área de saída é inválida."
 
@@ -22171,105 +22153,105 @@ msgstr ""
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Incapaz de criar a janela de Ferramenta de ANOVA (factor duplo)."
 
-#: src/dialogs/dialog-autocorrect.c:322
+#: src/dialogs/dialog-autocorrect.c:323
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Incapaz de criar a janela de Auto Correcção."
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:69
 msgid "Jan"
 msgstr "Jan"
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:69
 msgid "Feb"
 msgstr "Fev"
 
-#: src/dialogs/dialog-autoformat.c:67
+#: src/dialogs/dialog-autoformat.c:69
 msgid "Mrt"
 msgstr "Mrt"
 
-#: src/dialogs/dialog-autoformat.c:67 src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:69 src/dialogs/dialog-autoformat.c:73
 #: src/tools/analysis-tools.c:3354 src/tools/analysis-tools.c:3364
 #: src/tools/analysis-tools.c:3372
 msgid "Total"
 msgstr "Total"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:70
 msgid "North"
 msgstr "Norte"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:70
 msgid "6"
 msgstr "6"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:70
 msgid "13"
 msgstr "13"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:70
 msgid "20"
 msgstr "20"
 
-#: src/dialogs/dialog-autoformat.c:68
+#: src/dialogs/dialog-autoformat.c:70
 msgid "39"
 msgstr "39"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:71
 msgid "South"
 msgstr "Sul"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:71
 msgid "12"
 msgstr "12"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:71
 msgid "4"
 msgstr "4"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:71
 msgid "17"
 msgstr "17"
 
-#: src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:71
 msgid "33"
 msgstr "33"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:72
 msgid "West"
 msgstr "Oeste"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:72
 msgid "8"
 msgstr "8"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:72
 msgid "2"
 msgstr "2"
 
-#: src/dialogs/dialog-autoformat.c:70 src/dialogs/mean-tests.glade.h:2
+#: src/dialogs/dialog-autoformat.c:72 src/dialogs/mean-tests.glade.h:2
 msgid "0"
 msgstr "0"
 
-#: src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:72
 msgid "10"
 msgstr "10"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:73
 msgid "26"
 msgstr "26"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:73
 msgid "19"
 msgstr "19"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:73
 msgid "37"
 msgstr "37"
 
-#: src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:73
 msgid "81"
 msgstr "81"
 
-#: src/dialogs/dialog-autoformat.c:664
+#: src/dialogs/dialog-autoformat.c:666
 msgid "An error occurred while reading the category list"
 msgstr "Ocorreu um erro ao ler a lista de categorias"
 
@@ -22305,31 +22287,31 @@ msgstr "Único"
 msgid "Double"
 msgstr "Duplo"
 
-#: src/dialogs/dialog-cell-format.c:2394
+#: src/dialogs/dialog-cell-format.c:2396
 msgid "Source"
 msgstr "Fonte"
 
-#: src/dialogs/dialog-cell-format.c:2395
+#: src/dialogs/dialog-cell-format.c:2397
 msgid "Criteria"
 msgstr "Critério"
 
-#: src/dialogs/dialog-cell-format.c:2407 src/dialogs/dialog-cell-format.c:2414
+#: src/dialogs/dialog-cell-format.c:2409 src/dialogs/dialog-cell-format.c:2416
 msgid "Min :"
 msgstr "Mín :"
 
-#: src/dialogs/dialog-cell-format.c:2408 src/dialogs/dialog-cell-format.c:2417
+#: src/dialogs/dialog-cell-format.c:2410 src/dialogs/dialog-cell-format.c:2419
 msgid "Max :"
 msgstr "Máx :"
 
-#: src/dialogs/dialog-cell-format.c:2411
+#: src/dialogs/dialog-cell-format.c:2413
 msgid "Value :"
 msgstr "Valor :"
 
-#: src/dialogs/dialog-cell-format.c:2636
+#: src/dialogs/dialog-cell-format.c:2638
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr "Os critérios de validação não são utilizáveis. Desabilitar validação?"
 
-#: src/dialogs/dialog-cell-format.c:2889 src/workbook-format-toolbar.c:809
+#: src/dialogs/dialog-cell-format.c:2893 src/workbook-format-toolbar.c:815
 msgid "Clear Background"
 msgstr "Limpar Fundo"
 
@@ -22343,19 +22325,19 @@ msgstr "Coluna %s"
 msgid "Row %s"
 msgstr "Linha %s"
 
-#: src/dialogs/dialog-cell-sort.c:707
+#: src/dialogs/dialog-cell-sort.c:700
 msgid "Row/Column"
 msgstr "Linha/Coluna"
 
-#: src/dialogs/dialog-cell-sort.c:727
+#: src/dialogs/dialog-cell-sort.c:720
 msgid "Case Sensitive"
 msgstr "Sensível à Capitalização"
 
-#: src/dialogs/dialog-cell-sort.c:740
+#: src/dialogs/dialog-cell-sort.c:733
 msgid "By Value"
 msgstr "Por Valor"
 
-#: src/dialogs/dialog-cell-sort.c:863
+#: src/dialogs/dialog-cell-sort.c:856
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Incapaz de criar o diálogo de Ordenação-Células."
 
@@ -22371,16 +22353,16 @@ msgstr ""
 "Definir largura da coluna na selecção em <span style='italic' weight='bold'>%"
 "s</span>"
 
-#: src/dialogs/dialog-consolidate.c:136
+#: src/dialogs/dialog-consolidate.c:141
 #, c-format
 msgid "Source region %s overlaps with the destination region"
 msgstr "Área de origem %s sobrepõe-se à área de destino"
 
-#: src/dialogs/dialog-define-names.c:356
+#: src/dialogs/dialog-define-names.c:357
 msgid "Why would you want to define a name to be #NAME?"
 msgstr "Porque deseja definir um nome como #NOME?"
 
-#: src/dialogs/dialog-define-names.c:587
+#: src/dialogs/dialog-define-names.c:588
 msgid "Could not create the Name Guru."
 msgstr "Incapaz de criar o Guru de Nomes."
 
@@ -22414,7 +22396,7 @@ msgstr "Função/Argumento"
 msgid "Could not create the formula guru."
 msgstr "Incapaz de criar o guru de fórmulas."
 
-#: src/dialogs/dialog-function-select.c:204
+#: src/dialogs/dialog-function-select.c:205
 msgid "Recently Used"
 msgstr "Utilizadas Recentemente"
 
@@ -22461,7 +22443,7 @@ msgstr "Nível Livro Trabalho"
 #.
 #. * Fill in the labels of `Target Cell' section.
 #.
-#: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:722
+#: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:723
 #: src/dialogs/tabulate.glade.h:1 src/tools/solver/reports-write.c:80
 #: src/tools/solver/reports-write.c:102 src/tools/solver/reports-write.c:129
 #: src/tools/solver/reports-write.c:236 src/tools/solver/reports-write.c:282
@@ -22473,56 +22455,56 @@ msgstr "Célula"
 msgid "Could not create the goto dialog."
 msgstr "Incapaz de criar o diálogo de ir para."
 
-#: src/dialogs/dialog-hyperlink.c:133
+#: src/dialogs/dialog-hyperlink.c:134
 msgid "Not a range or name"
 msgstr "Não é uma área ou nome"
 
-#: src/dialogs/dialog-hyperlink.c:185
+#: src/dialogs/dialog-hyperlink.c:186
 msgid "_Internal Link"
 msgstr "Atalho _Interno"
 
-#: src/dialogs/dialog-hyperlink.c:187
+#: src/dialogs/dialog-hyperlink.c:188
 msgid "Jump to specific cells or named range in the current workbook"
 msgstr ""
 "Ir para células ou áreas com nomes específicas no livro de trabalho actual"
 
-#: src/dialogs/dialog-hyperlink.c:191
+#: src/dialogs/dialog-hyperlink.c:192
 msgid "_External Link"
 msgstr "Atalho _Externo"
 
-#: src/dialogs/dialog-hyperlink.c:193
+#: src/dialogs/dialog-hyperlink.c:194
 msgid "Open an external file with the specified name"
 msgstr "Abrir um ficheiro externo com o nome especificado"
 
-#: src/dialogs/dialog-hyperlink.c:197
+#: src/dialogs/dialog-hyperlink.c:198
 msgid "Send _Email"
 msgstr "Enviar _Email"
 
-#: src/dialogs/dialog-hyperlink.c:199
+#: src/dialogs/dialog-hyperlink.c:200
 msgid "Prepare an email"
 msgstr "Preparar um email"
 
-#: src/dialogs/dialog-hyperlink.c:201
+#: src/dialogs/dialog-hyperlink.c:202
 msgid "_URL"
 msgstr "_URL"
 
-#: src/dialogs/dialog-hyperlink.c:203
+#: src/dialogs/dialog-hyperlink.c:204
 msgid "Browse to the specified URL"
 msgstr "Navegar para o URL especificado"
 
-#: src/dialogs/dialog-hyperlink.c:271
+#: src/dialogs/dialog-hyperlink.c:272
 msgid "Add Hyperlink"
 msgstr "Adicionar Hiperligação"
 
-#: src/dialogs/dialog-hyperlink.c:273
+#: src/dialogs/dialog-hyperlink.c:274
 msgid "Edit Hyperlink"
 msgstr "Editar Hiperligação"
 
-#: src/dialogs/dialog-hyperlink.c:279 src/sheet-control-gui.c:1448
+#: src/dialogs/dialog-hyperlink.c:280 src/sheet-control-gui.c:1448
 msgid "Remove Hyperlink"
 msgstr "Remover Hiperligação"
 
-#: src/dialogs/dialog-hyperlink.c:456
+#: src/dialogs/dialog-hyperlink.c:457
 msgid "Could not create the hyperlink dialog."
 msgstr "Incapaz de criar a janela de hiperligação."
 
@@ -22581,7 +22563,7 @@ msgstr "Senha :"
 msgid "All"
 msgstr "Tudo"
 
-#: src/dialogs/dialog-paste-special.c:40 src/dialogs/dialog-search.c:724
+#: src/dialogs/dialog-paste-special.c:40 src/dialogs/dialog-search.c:725
 msgid "Content"
 msgstr "Conteudo"
 
@@ -22695,7 +22677,7 @@ msgid "Plugin name"
 msgstr "Nome plugin"
 
 #: src/dialogs/dialog-plugin-manager.c:696
-#: src/dialogs/dialog-preferences.c:508 src/dialogs/function-select.glade.h:2
+#: src/dialogs/dialog-preferences.c:509 src/dialogs/function-select.glade.h:2
 msgid "Description"
 msgstr "Descrição"
 
@@ -22708,25 +22690,25 @@ msgid "Directory"
 msgstr "Directório"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:374 src/format.c:1675
+#: src/dialogs/dialog-preferences.c:375 src/format.c:1672
 #: src/number-match.c:1069 src/value-sheet.c:33 src/value.c:403
 #: src/value.c:773
 msgid "TRUE"
 msgstr "VERDADE"
 
-#: src/dialogs/dialog-preferences.c:375 src/format.c:1675
+#: src/dialogs/dialog-preferences.c:376 src/format.c:1672
 #: src/number-match.c:1071 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:773
 msgid "FALSE"
 msgstr "FALSO"
 
-#: src/dialogs/dialog-preferences.c:671
+#: src/dialogs/dialog-preferences.c:672
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
 "Os ítens nesta página costumizam o comportamento do sistema de desfazer/"
 "refazer."
 
-#: src/dialogs/dialog-preferences.c:821
+#: src/dialogs/dialog-preferences.c:822
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
@@ -22734,29 +22716,29 @@ msgstr ""
 "Os ítens nesta página costumizam as definições iniciais do diálogo de "
 "ordenação e o comportamento dos botões da barra de ordenação."
 
-#: src/dialogs/dialog-preferences.c:968
+#: src/dialogs/dialog-preferences.c:969
 msgid "The items on this page customize the new default workbook."
 msgstr "Os ítens nesta página costumizam o novo livro de trabalho por omissão."
 
-#: src/dialogs/dialog-preferences.c:1153
+#: src/dialogs/dialog-preferences.c:1154
 msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 "Os ítens nesta página estão relacionados com a gravação e abertura de "
 "ficheiros."
 
-#: src/dialogs/dialog-printer-setup.c:848
+#: src/dialogs/dialog-printer-setup.c:855
 msgid "Customize header"
 msgstr "Costumizar cabeçalho"
 
-#: src/dialogs/dialog-printer-setup.c:850
+#: src/dialogs/dialog-printer-setup.c:857
 msgid "Customize footer"
 msgstr "Costumizar rodapé"
 
-#: src/dialogs/dialog-printer-setup.c:1000
+#: src/dialogs/dialog-printer-setup.c:1007
 msgid "Custom header configuration"
 msgstr "Configuração de cabeçalho costumizado"
 
-#: src/dialogs/dialog-printer-setup.c:1005
+#: src/dialogs/dialog-printer-setup.c:1012
 msgid "Custom footer configuration"
 msgstr "Configuração de rodapé costumizado"
 
@@ -22780,7 +22762,7 @@ msgstr "Inteiro Uniforme"
 
 #: src/dialogs/dialog-random-generator.c:111
 #: src/dialogs/search-replace.glade.h:14 src/dialogs/search.glade.h:13
-#: src/widgets/widget-font-selector.c:117
+#: src/widgets/widget-font-selector.c:120
 msgid "Normal"
 msgstr "Normal"
 
@@ -22989,7 +22971,7 @@ msgstr "Valor nu:"
 msgid "Weibull"
 msgstr "Weibull"
 
-#: src/dialogs/dialog-random-generator.c:891
+#: src/dialogs/dialog-random-generator.c:887
 msgid "Could not create the Random Tool dialog."
 msgstr "Incapaz de criar a janela de Ferramenta Aleatória."
 
@@ -23005,23 +22987,23 @@ msgstr ""
 "Definir altura de linha da selecção em <span style='italic' weogth='bold'>%"
 "s</span>"
 
-#: src/dialogs/dialog-scenarios.c:115
+#: src/dialogs/dialog-scenarios.c:116
 msgid "Invalid changing cells"
 msgstr "Alteração células inválida"
 
-#: src/dialogs/dialog-scenarios.c:123
+#: src/dialogs/dialog-scenarios.c:124
 msgid "Changing cells should be on the current sheet only."
 msgstr "Alterar células deveria ser apenas na folha actual."
 
-#: src/dialogs/dialog-scenarios.c:134
+#: src/dialogs/dialog-scenarios.c:135
 msgid "Scenario name already used"
 msgstr "Nome de cenário já utilizado"
 
-#: src/dialogs/dialog-scenarios.c:139
+#: src/dialogs/dialog-scenarios.c:140
 msgid "Invalid scenario name"
 msgstr "Nome de cenário inválido"
 
-#: src/dialogs/dialog-scenarios.c:164
+#: src/dialogs/dialog-scenarios.c:165
 msgid ""
 "Changing cells contain at least one expression that is not just a value. "
 "Note that showing the scenario will overwrite the formula with it's current "
@@ -23030,88 +23012,88 @@ msgstr ""
 "Alterar células contém pelo menos uma expressão que não é apenas um valor. "
 "Note que apresentar o cenário irá sobrepor a fórmula com o seu valor actual."
 
-#: src/dialogs/dialog-scenarios.c:199
+#: src/dialogs/dialog-scenarios.c:200
 msgid "Could not create the Scenario Add dialog."
 msgstr "Incapaz de criar o diálogo de Adicionar Cenário."
 
-#: src/dialogs/dialog-scenarios.c:216 src/dialogs/scenario-add.glade.h:5
+#: src/dialogs/dialog-scenarios.c:217 src/dialogs/scenario-add.glade.h:5
 msgid "_Changing cells:"
 msgstr "A Alterar _células:"
 
-#: src/dialogs/dialog-scenarios.c:231
+#: src/dialogs/dialog-scenarios.c:232
 msgid "Created on "
 msgstr "Criado em "
 
-#: src/dialogs/dialog-scenarios.c:553
+#: src/dialogs/dialog-scenarios.c:554
 msgid "Results entry did not contain valid cell names."
 msgstr "Origem de resultados não continha nomes de células válidos."
 
-#: src/dialogs/dialog-scenarios.c:620
+#: src/dialogs/dialog-scenarios.c:621
 msgid "Could not create the Scenarios dialog."
 msgstr "Incapaz de criar o diálogo de Cenários."
 
-#: src/dialogs/dialog-scenarios.c:637 src/dialogs/scenario-manager.glade.h:6
+#: src/dialogs/dialog-scenarios.c:638 src/dialogs/scenario-manager.glade.h:6
 msgid "Results:"
 msgstr "Resultados:"
 
-#: src/dialogs/dialog-search-replace.c:151 src/dialogs/dialog-search.c:655
+#: src/dialogs/dialog-search-replace.c:152 src/dialogs/dialog-search.c:656
 msgid "You must select some cell types to search."
 msgstr "Tem de seleccionar um tipo de célula para procurar."
 
-#: src/dialogs/dialog-search-replace.c:328
+#: src/dialogs/dialog-search-replace.c:329
 msgid "Perform no more replacements"
 msgstr "Não efectuar mais substituições"
 
-#: src/dialogs/dialog-search-replace.c:332
+#: src/dialogs/dialog-search-replace.c:333
 msgid "Do not perform this replacement"
 msgstr "Não efectuar esta substituição"
 
-#: src/dialogs/dialog-search-replace.c:336
+#: src/dialogs/dialog-search-replace.c:337
 msgid "Perform this replacement"
 msgstr "Executar esta substituição"
 
-#: src/dialogs/dialog-search.c:456
+#: src/dialogs/dialog-search.c:457
 msgid "Comment"
 msgstr "Comentário"
 
-#: src/dialogs/dialog-search.c:459 src/tools/solver/reports-write.c:408
+#: src/dialogs/dialog-search.c:460 src/tools/solver/reports-write.c:408
 #: src/tools/solver/reports-write.c:413
 msgid "Result"
 msgstr "Resultado"
 
-#: src/dialogs/dialog-search.c:469
+#: src/dialogs/dialog-search.c:470
 msgid "Expression"
 msgstr "Expressão"
 
-#: src/dialogs/dialog-search.c:473
+#: src/dialogs/dialog-search.c:474
 msgid "Integer"
 msgstr "Inteiro"
 
-#: src/dialogs/dialog-search.c:477
+#: src/dialogs/dialog-search.c:478
 msgid "Other value"
 msgstr "Outro valor"
 
-#: src/dialogs/dialog-sheet-order.c:315
+#: src/dialogs/dialog-sheet-order.c:316
 msgid "Current Name"
 msgstr "Nome Actual"
 
-#: src/dialogs/dialog-sheet-order.c:325
+#: src/dialogs/dialog-sheet-order.c:326
 msgid "New Name"
 msgstr "Novo Nome"
 
-#: src/dialogs/dialog-sheet-order.c:628
+#: src/dialogs/dialog-sheet-order.c:629
 msgid "Deletion of sheets is not undoable. Do you want to proceed?"
 msgstr "Remoção de folhas não pode ser desfeita. Deseja prosseguir?"
 
-#: src/dialogs/dialog-sheet-order.c:632
+#: src/dialogs/dialog-sheet-order.c:633
 msgid "You may not delete all sheets in a workbook!"
 msgstr "Não pode apagar todas as folhas num livro de trabalho!"
 
-#: src/dialogs/dialog-sheet-order.c:867
+#: src/dialogs/dialog-sheet-order.c:868
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "A ordem de folhas foi alterada. Deseja actualizar a lista?"
 
-#: src/dialogs/dialog-sheet-order.c:926 src/dialogs/dialog-sheet-order.c:935
+#: src/dialogs/dialog-sheet-order.c:927 src/dialogs/dialog-sheet-order.c:936
 msgid "Default"
 msgstr "Omissão"
 
@@ -23123,78 +23105,78 @@ msgstr "A área de entrada é inválida."
 msgid "Could not create the Data Shuffling dialog."
 msgstr "Incapaz de criar o diálogo de Mistura de Dados."
 
-#: src/dialogs/dialog-simulation.c:70
+#: src/dialogs/dialog-simulation.c:71
 msgid "The input variable range is invalid."
 msgstr "A área de variáveis de entrada é inválida."
 
-#: src/dialogs/dialog-simulation.c:80
+#: src/dialogs/dialog-simulation.c:81
 msgid "The output variable range is invalid."
 msgstr "A área de variáveis de saida é inválida."
 
-#: src/dialogs/dialog-simulation.c:168
+#: src/dialogs/dialog-simulation.c:169
 msgid "Simulations"
 msgstr "Simulações"
 
-#: src/dialogs/dialog-simulation.c:168
+#: src/dialogs/dialog-simulation.c:169
 msgid "Iterations"
 msgstr "Iterações"
 
-#: src/dialogs/dialog-simulation.c:168
+#: src/dialogs/dialog-simulation.c:169
 msgid "# Input variables"
 msgstr "Nº Variáveis entrada"
 
-#: src/dialogs/dialog-simulation.c:169
+#: src/dialogs/dialog-simulation.c:170
 msgid "# Output variables"
 msgstr "Nº Variáveis saida"
 
-#: src/dialogs/dialog-simulation.c:169
+#: src/dialogs/dialog-simulation.c:170
 msgid "Runtime"
 msgstr "Execução"
 
-#: src/dialogs/dialog-simulation.c:169
+#: src/dialogs/dialog-simulation.c:170
 msgid "Run on"
 msgstr "Executar em"
 
-#: src/dialogs/dialog-simulation.c:246
+#: src/dialogs/dialog-simulation.c:247
 msgid "Variable"
 msgstr "Variável"
 
-#: src/dialogs/dialog-simulation.c:326
+#: src/dialogs/dialog-simulation.c:327
 msgid "Invalid variable range was given"
 msgstr "Foi dada uma área de variáveis inválida"
 
-#: src/dialogs/dialog-simulation.c:340
+#: src/dialogs/dialog-simulation.c:341
 msgid ""
 "First round number should be greater or equal than the number of the last "
 "round."
 msgstr ""
 "Número da primeira ronda deve ser maior ou igual ao número da última ronda."
 
-#: src/dialogs/dialog-simulation.c:431
+#: src/dialogs/dialog-simulation.c:432
 msgid "_Inputs:"
 msgstr "_Entradas:"
 
-#: src/dialogs/dialog-simulation.c:431
+#: src/dialogs/dialog-simulation.c:432
 msgid "_Outputs:"
 msgstr "_Saidas:"
 
-#: src/dialogs/dialog-simulation.c:432
+#: src/dialogs/dialog-simulation.c:433
 msgid "Could not create the Simulation dialog."
 msgstr "Incapaz de criar o diálogo de Simulação."
 
-#: src/dialogs/dialog-solver.c:89
+#: src/dialogs/dialog-solver.c:91
 msgid "Revised Simplex (GLPK 3.2)"
 msgstr "Simplex Revisto (GLPK 3.2)"
 
-#: src/dialogs/dialog-solver.c:90
+#: src/dialogs/dialog-solver.c:92
 msgid "Simplex (LP Solve 3.2)"
 msgstr "Simplex (LP Solve 3.2)"
 
-#: src/dialogs/dialog-solver.c:91
+#: src/dialogs/dialog-solver.c:93
 msgid "< Not available >"
 msgstr "< Indisponível >"
 
-#: src/dialogs/dialog-solver.c:419
+#: src/dialogs/dialog-solver.c:421
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a QP "
 "solver for Gnumeric?"
@@ -23202,7 +23184,7 @@ msgstr ""
 "Procura um assunto para a sua tese? Talvez queira escrever um solucionador "
 "QP para o Gnumeric?"
 
-#: src/dialogs/dialog-solver.c:736
+#: src/dialogs/dialog-solver.c:738
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
@@ -23210,7 +23192,7 @@ msgstr ""
 "O Solucionador encontrou uma solução óptima. Todas as restrições e condições "
 "de optimização são satisfeitas.\n"
 
-#: src/dialogs/dialog-solver.c:745
+#: src/dialogs/dialog-solver.c:747
 msgid ""
 "Sensitivity nor limits report are not meaningful if the program has integer "
 "constraints. These reports will thus not be created."
@@ -23218,14 +23200,14 @@ msgstr ""
 "Relatórios de limites e sensibilidade não têm significado se a aplicação "
 "tiver restrições de inteiros. Assim, estes relatórios não serão gerados."
 
-#: src/dialogs/dialog-solver.c:763
+#: src/dialogs/dialog-solver.c:765
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr ""
 "O valor de Célula Objectivo não converge! A aplicação não tem limites "
 "definidos."
 
-#: src/dialogs/dialog-solver.c:777
+#: src/dialogs/dialog-solver.c:779
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
@@ -23233,7 +23215,7 @@ msgstr ""
 "Não foi encontrada uma solução válida. As restrições definidas não podem ser "
 "cumpridas simultaneamente. "
 
-#: src/dialogs/dialog-solver.c:792
+#: src/dialogs/dialog-solver.c:794
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
@@ -23241,32 +23223,32 @@ msgstr ""
 "O número máximo de iterações foi excedido. Não foi possível encontrar o "
 "valor óptimo."
 
-#: src/dialogs/dialog-solver.c:832
+#: src/dialogs/dialog-solver.c:834
 msgid "Optimal solution created by solver.\n"
 msgstr "Solução óptima criada pelo solucionador.\n"
 
-#: src/dialogs/dialog-solver.c:866
+#: src/dialogs/dialog-solver.c:868
 msgid "Unknown error."
 msgstr "Erro desconhecido."
 
-#: src/dialogs/dialog-solver.c:883
+#: src/dialogs/dialog-solver.c:885
 msgid "You have not specified a problem to be solved"
 msgstr "Não especificou um problema a resolver"
 
-#: src/dialogs/dialog-solver.c:902 src/tools/solver/solver.c:377
+#: src/dialogs/dialog-solver.c:904 src/tools/solver/solver.c:377
 msgid "Target cell should contain a formula."
 msgstr "A célula alvo deveria conter uma fórmula."
 
-#: src/dialogs/dialog-solver.c:985
+#: src/dialogs/dialog-solver.c:987
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Restrição `%s' é para uma célula que não é de entrada."
 
-#: src/dialogs/dialog-solver.c:1007
+#: src/dialogs/dialog-solver.c:1009
 msgid "No constraints defined for the problem."
 msgstr "Nenhuma restrição definida para o problema."
 
-#: src/dialogs/dialog-solver.c:1057
+#: src/dialogs/dialog-solver.c:1059
 msgid ""
 "The maximum time exceeded. The optimal value could not be found in given "
 "time."
@@ -23274,15 +23256,15 @@ msgstr ""
 "O tempo limite foi excedido. Não foi possível encontrar o valor óptimo "
 "dentro do tempo limite."
 
-#: src/dialogs/dialog-solver.c:1352
+#: src/dialogs/dialog-solver.c:1354
 msgid "Could not create the Solver dialog."
 msgstr "Incapaz de criar a janela do Solucionador."
 
-#: src/dialogs/dialog-stf-export-sheet-page.c:379
+#: src/dialogs/dialog-stf-export-sheet-page.c:381
 msgid "You need to select at least one sheet to export"
 msgstr "Tem de seleccionar pelo menos uma folha para exportar"
 
-#: src/dialogs/dialog-stf-export.c:48 src/dialogs/dialog-stf.c:102
+#: src/dialogs/dialog-stf-export.c:50 src/dialogs/dialog-stf.c:102
 msgid "Are you sure you want to cancel?"
 msgstr "Tem a certeza que deseja cancelar?"
 
@@ -23326,9 +23308,9 @@ msgstr "Folhas disponíveis"
 msgid "Bang (!)"
 msgstr "Exclamação (!)"
 
-#: src/dialogs/dialog-stf-export.glade.h:12 src/gui-file.c:183
+#: src/dialogs/dialog-stf-export.glade.h:12
 msgid "Character encoding:"
-msgstr ""
+msgstr "Codificação caracteres:"
 
 #: src/dialogs/dialog-stf-export.glade.h:13
 msgid "Choose export formatting"
@@ -23358,9 +23340,8 @@ msgstr ""
 "valor seleccionado para comentar."
 
 #: src/dialogs/dialog-stf-export.glade.h:19
-#, fuzzy
 msgid "Escape"
-msgstr "Exemplo"
+msgstr "Escape"
 
 #: src/dialogs/dialog-stf-export.glade.h:20
 msgid "Exporting structured text"
@@ -23378,7 +23359,7 @@ msgstr "Terminador de linha:"
 msgid "Macintosh (carriage return)"
 msgstr "Macintosh (carriage return)"
 
-#: src/dialogs/dialog-stf-export.glade.h:24 src/dialogs/dialog-stf.glade.h:36
+#: src/dialogs/dialog-stf-export.glade.h:24 src/dialogs/dialog-stf.glade.h:37
 msgid "Never"
 msgstr "Nunca"
 
@@ -23428,41 +23409,40 @@ msgstr "Tabulador"
 
 #: src/dialogs/dialog-stf-export.glade.h:35
 msgid "Transliterate"
-msgstr ""
+msgstr "Transliteral"
 
 #: src/dialogs/dialog-stf-export.glade.h:36
 msgid "Unix (linefeed)"
 msgstr "Unix (linefeed)"
 
 #: src/dialogs/dialog-stf-export.glade.h:37
-#, fuzzy
 msgid "Unknown characters:"
-msgstr "Operador desconhecido"
+msgstr "Caracteres desconhecidos:"
 
 #: src/dialogs/dialog-stf-export.glade.h:38
 msgid "Windows (carriage return + linefeed)"
 msgstr "Windows (carriage return + linefeed)"
 
-#: src/dialogs/dialog-stf-export.glade.h:39 src/dialogs/dialog-stf.glade.h:69
+#: src/dialogs/dialog-stf-export.glade.h:39 src/dialogs/dialog-stf.glade.h:72
 msgid "`"
 msgstr "`"
 
-#: src/dialogs/dialog-stf-fixed-page.c:81
+#: src/dialogs/dialog-stf-fixed-page.c:83
 msgid "Autodiscovery did not find any columns in the text. Try manually"
 msgstr ""
 "Auto-reconhecimento não encontrou quaisquer colunas no texto. Tente "
 "manualmente"
 
-#: src/dialogs/dialog-stf-main-page.c:101
+#: src/dialogs/dialog-stf-main-page.c:112
 #, c-format
-msgid "%d lines to import"
-msgstr "%d linhas a importar"
+msgid "%d of %d lines to import"
+msgstr "%d de %d linhas a importar"
 
-#: src/dialogs/dialog-stf-main-page.c:247
+#: src/dialogs/dialog-stf-main-page.c:298
 msgid "LINES TOO LONG!"
 msgstr "LINHAS DEMASIADO LONGAS!"
 
-#: src/dialogs/dialog-stf-main-page.c:274
+#: src/dialogs/dialog-stf-main-page.c:325
 #, c-format
 msgid "Data (from %s)"
 msgstr "Dados (de %s)"
@@ -23506,11 +23486,11 @@ msgstr "C_ostumizar"
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid ""
-"Character interpreted as quote character. If the separation character is "
-"encountered within quotes it will be ignored."
+"Character interpreted as quote character. If a termination or separation "
+"character is encountered within quotes it will be ignored."
 msgstr ""
-"Caracter interpretado como caracter de aspa. Caso o caracter separador seja "
-"encontrado entre aspas, será ignorado."
+"Caracter interpretado como caracter de aspa. Caso um caracter terminador "
+"ou separador seja encontrado entre aspas, será ignorado."
 
 #: src/dialogs/dialog-stf.glade.h:12
 msgid "Clear list of columns"
@@ -23589,22 +23569,18 @@ msgid "Formatting for the selected column"
 msgstr "Formatação para a coluna seleccionada"
 
 #: src/dialogs/dialog-stf.glade.h:29
-msgid "Formatting options"
-msgstr "Opções de formatação"
-
-#: src/dialogs/dialog-stf.glade.h:30
 msgid "Fr_om line:"
 msgstr "Da _linha:"
 
-#: src/dialogs/dialog-stf.glade.h:31
+#: src/dialogs/dialog-stf.glade.h:30
 msgid "H_yphen (-)"
 msgstr "_Hífen (-)"
 
-#: src/dialogs/dialog-stf.glade.h:32
+#: src/dialogs/dialog-stf.glade.h:31
 msgid "Importing structured text"
 msgstr "A importar texto estruturado"
 
-#: src/dialogs/dialog-stf.glade.h:33
+#: src/dialogs/dialog-stf.glade.h:32
 msgid ""
 "Left click to create a new column, right click on a column border to delete "
 "an existing column or hold the left mouse button on a column border and drag "
@@ -23614,67 +23590,79 @@ msgstr ""
 "de coluna para apagar uma coluna existente ou manter primido o esquerdo numa "
 "margem de coluna e arrastar para redimensionar coluna."
 
+#: src/dialogs/dialog-stf.glade.h:33
+msgid "Line terminators"
+msgstr "Terminadores de linha"
+
 #: src/dialogs/dialog-stf.glade.h:34
 msgid "Lines to import"
 msgstr "Linhas a importar"
 
 #: src/dialogs/dialog-stf.glade.h:35
+msgid "List of characters that separate lines (unless quoted)."
+msgstr "Lista de caracteres que separam linhas (excepto se entre aspas)."
+
+#: src/dialogs/dialog-stf.glade.h:36
 msgid "Misc"
 msgstr "Misc"
 
-#: src/dialogs/dialog-stf.glade.h:37
+#: src/dialogs/dialog-stf.glade.h:38
 msgid "Number of lines to import"
 msgstr "Número de linhas a importar"
 
-#: src/dialogs/dialog-stf.glade.h:38
+#: src/dialogs/dialog-stf.glade.h:39
 msgid "On left side only"
 msgstr "Apenas no lado esquerdo"
 
-#: src/dialogs/dialog-stf.glade.h:39
+#: src/dialogs/dialog-stf.glade.h:40
 msgid "On right side only"
 msgstr "Apenas no lado direito"
 
-#: src/dialogs/dialog-stf.glade.h:40
+#: src/dialogs/dialog-stf.glade.h:41
 msgid "Original data type:"
 msgstr "Tipo de dados original:"
 
-#: src/dialogs/dialog-stf.glade.h:41
+#: src/dialogs/dialog-stf.glade.h:42
+msgid "Overall formatting"
+msgstr "Formatação global"
+
+#: src/dialogs/dialog-stf.glade.h:43
 msgid "P_ipe (|)"
 msgstr "Barra Vert_ical (|)"
 
-#: src/dialogs/dialog-stf.glade.h:42
+#: src/dialogs/dialog-stf.glade.h:44
 msgid "Per column formatting"
 msgstr "Formatação por coluna"
 
-#: src/dialogs/dialog-stf.glade.h:43
+#: src/dialogs/dialog-stf.glade.h:45
 msgid "Processing ends at this line, any subsequent lines will be ignored."
 msgstr ""
 "Processamento termina nesta linha, quaisquer linhas seguintes serão "
 "ignoradas."
 
-#: src/dialogs/dialog-stf.glade.h:44
+#: src/dialogs/dialog-stf.glade.h:46
 msgid "Remove selected column"
 msgstr "Remover coluna seleccionada"
 
-#: src/dialogs/dialog-stf.glade.h:45
+#: src/dialogs/dialog-stf.glade.h:47
 msgid "S_ee two separators as one"
 msgstr "V_er dois separadores como um"
 
-#: src/dialogs/dialog-stf.glade.h:46
+#: src/dialogs/dialog-stf.glade.h:48
 msgid "S_pace"
 msgstr "Es_paço"
 
-#: src/dialogs/dialog-stf.glade.h:47
+#: src/dialogs/dialog-stf.glade.h:49
 msgid "See two successive separators as one."
 msgstr "Ver dois separadores consecutivos como um."
 
-#: src/dialogs/dialog-stf.glade.h:48
+#: src/dialogs/dialog-stf.glade.h:50
 msgid ""
 "See two successive text indicators as one that does not terminate the cell."
 msgstr ""
 "Ver dois indicadores de texto consecutivos como um que não termina a célula."
 
-#: src/dialogs/dialog-stf.glade.h:49
+#: src/dialogs/dialog-stf.glade.h:51
 msgid ""
 "Select the format for each column. You can click in the column list on the "
 "left or in the example to select a column. You can then enter a custom "
@@ -23684,7 +23672,7 @@ msgstr ""
 "esquerda ou no exemplo para seleccionar uma coluna. Poderá então introduzir "
 "um formato costumizado ou seleccionar um da lista à direita."
 
-#: src/dialogs/dialog-stf.glade.h:50
+#: src/dialogs/dialog-stf.glade.h:52
 msgid ""
 "Select the separators that appear in the text (you can choose multiple "
 "separators if desired and also enter a custom one)"
@@ -23692,39 +23680,43 @@ msgstr ""
 "Seleccione os separadores que surgem no texto (pode seleccionar múltiplos "
 "separadores caso deseje ou introduzir um costumizado)"
 
-#: src/dialogs/dialog-stf.glade.h:51
+#: src/dialogs/dialog-stf.glade.h:53
 msgid "Select the structure of the text that most closely matches the data."
 msgstr "Seleccione a estrutura do texto que mais se assemelha aos dados."
 
-#: src/dialogs/dialog-stf.glade.h:52
+#: src/dialogs/dialog-stf.glade.h:54
 msgid "Semicolo_n (;)"
 msgstr "Po_nto e vírgula (;)"
 
-#: src/dialogs/dialog-stf.glade.h:53
+#: src/dialogs/dialog-stf.glade.h:55
 msgid "Separation customization"
 msgstr "Costumização de separação"
 
-#: src/dialogs/dialog-stf.glade.h:54
+#: src/dialogs/dialog-stf.glade.h:56
 msgid "Separators"
 msgstr "Separadores"
 
-#: src/dialogs/dialog-stf.glade.h:55
+#: src/dialogs/dialog-stf.glade.h:57
 msgid "Set the end of this column"
 msgstr "Definir o final desta coluna"
 
-#: src/dialogs/dialog-stf.glade.h:56
+#: src/dialogs/dialog-stf.glade.h:58
 msgid "Slas_h (/)"
 msgstr "Barr_a (/)"
 
-#: src/dialogs/dialog-stf.glade.h:57
+#: src/dialogs/dialog-stf.glade.h:59
+msgid "Source Format"
+msgstr "Formato Origem"
+
+#: src/dialogs/dialog-stf.glade.h:60
 msgid "Ta_b"
 msgstr "Ta_bulador"
 
-#: src/dialogs/dialog-stf.glade.h:58
+#: src/dialogs/dialog-stf.glade.h:61
 msgid "Te_xt indicator: "
 msgstr "Indicador de te_xto: "
 
-#: src/dialogs/dialog-stf.glade.h:59
+#: src/dialogs/dialog-stf.glade.h:62
 msgid ""
 "Trim leading and trailing spaces from each column, if you are unsure you "
 "should leave this at the default setting."
@@ -23732,71 +23724,71 @@ msgstr ""
 "Remover os espaços no início e fim de cada coluna, caso não tenha a certeza "
 "deverá deixar esta opção com a configuração por omissão."
 
-#: src/dialogs/dialog-stf.glade.h:60
+#: src/dialogs/dialog-stf.glade.h:63
 msgid "Trim:"
 msgstr "Tirar espaços:"
 
-#: src/dialogs/dialog-stf.glade.h:62
+#: src/dialogs/dialog-stf.glade.h:65
 msgid "_Adjacent text indicators escaped"
 msgstr "Indicadores de texto _adjacentes anulam-se"
 
-#: src/dialogs/dialog-stf.glade.h:64
+#: src/dialogs/dialog-stf.glade.h:67
 msgid "_Colon (:)"
 msgstr "Dois _pontos (:)"
 
-#: src/dialogs/dialog-stf.glade.h:65
+#: src/dialogs/dialog-stf.glade.h:68
 msgid "_Format:"
 msgstr "_Formato:"
 
-#: src/dialogs/dialog-stf.glade.h:67
+#: src/dialogs/dialog-stf.glade.h:70
 msgid "_Separated"
 msgstr "_Separado"
 
-#: src/dialogs/dialog-stf.glade.h:68
+#: src/dialogs/dialog-stf.glade.h:71
 msgid "_To line: "
 msgstr "A_té linha: "
 
-#: src/dialogs/dialog-tabulate.c:144
+#: src/dialogs/dialog-tabulate.c:146
 msgid "Tabulation"
 msgstr "Tabulação"
 
-#: src/dialogs/dialog-tabulate.c:406
+#: src/dialogs/dialog-tabulate.c:408
 msgid "You should introduce a single valid cell as dependency cell"
 msgstr "Deverá introduzir uma única célula válida como célula de dependência"
 
-#: src/dialogs/dialog-tabulate.c:412
+#: src/dialogs/dialog-tabulate.c:414
 msgid "The dependency cells should not contain an expression"
 msgstr "As células de dependência não podem conter expressões"
 
-#: src/dialogs/dialog-tabulate.c:420
+#: src/dialogs/dialog-tabulate.c:422
 msgid "You should introduce a valid number as minimum"
 msgstr "Deverá introduzir um valor válido como mínimo"
 
-#: src/dialogs/dialog-tabulate.c:428
+#: src/dialogs/dialog-tabulate.c:430
 msgid "You should introduce a valid number as maximum"
 msgstr "Deverá introduzir um valor válido como máximo"
 
-#: src/dialogs/dialog-tabulate.c:435
+#: src/dialogs/dialog-tabulate.c:437
 msgid "The maximum value should be bigger than the minimum"
 msgstr "O valor máximo deverá ser maior que o mínimo"
 
-#: src/dialogs/dialog-tabulate.c:443
+#: src/dialogs/dialog-tabulate.c:445
 msgid "You should introduce a valid number as step size"
 msgstr "Deverá introduzir um número válido como tamanho do incremento"
 
-#: src/dialogs/dialog-tabulate.c:450
+#: src/dialogs/dialog-tabulate.c:452
 msgid "The step size should be positive"
 msgstr "O tamanho do incremento deverá ser positivo"
 
-#: src/dialogs/dialog-tabulate.c:460
+#: src/dialogs/dialog-tabulate.c:462
 msgid "You should introduce one or more dependency cells"
 msgstr "Deverá introduzir uma ou mais células de dependência"
 
-#: src/dialogs/dialog-tabulate.c:469
+#: src/dialogs/dialog-tabulate.c:471
 msgid "You should introduce a single valid cell as result cell"
 msgstr "Deverá introduzir uma única célula como célula de resultado"
 
-#: src/dialogs/dialog-tabulate.c:476
+#: src/dialogs/dialog-tabulate.c:478
 msgid "The target cell should contain an expression"
 msgstr "A célula alvo deverá conter uma expressão"
 
@@ -23818,7 +23810,7 @@ msgstr "Ampliação"
 msgid "Sheets"
 msgstr "Folhas"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4115
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4105
 msgid "Zoom"
 msgstr "Zoom"
 
@@ -23950,11 +23942,11 @@ msgstr "(_Mínimo):"
 
 #: src/dialogs/goalseek.glade.h:4
 msgid "<span weight=\"bold\">Goal</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Objectivo</span>"
 
 #: src/dialogs/goalseek.glade.h:5
 msgid "<span weight=\"bold\">Last Result</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Último Resultado</span>"
 
 #: src/dialogs/goalseek.glade.h:6
 msgid "Current Value:"
@@ -24104,7 +24096,7 @@ msgstr "Endereço _Web:"
 
 #: src/dialogs/insert-cells.glade.h:1
 msgid "<span weight=\"bold\">Insert Method</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Método Inserção</span>"
 
 #: src/dialogs/insert-cells.glade.h:2
 msgid "Insert _row(s)"
@@ -24292,14 +24284,12 @@ msgid "Do _not activate this plugin next time I start Gnumeric"
 msgstr "_Não activar este plugin da próxima vez que o Gnumeric for iniciado"
 
 #: src/dialogs/plugin-manager.glade.h:5
-#, fuzzy
 msgid "Plugin Details"
-msgstr "Detalhes plugin"
+msgstr "Detalhes Plugin"
 
 #: src/dialogs/plugin-manager.glade.h:6
-#, fuzzy
 msgid "Plugin List"
-msgstr "Lista plugin"
+msgstr "Lista Plugin"
 
 #: src/dialogs/plugin-manager.glade.h:7
 msgid "Plugin Manager"
@@ -24320,14 +24310,12 @@ msgstr ""
 "após reiniciar o Gnumeric (excepto se for necessário por outro plugin)."
 
 #: src/dialogs/plugin-manager.glade.h:10
-#, fuzzy
 msgid "_Activate All"
-msgstr "_Activar todos"
+msgstr "_Activar Todos"
 
 #: src/dialogs/plugin-manager.glade.h:11
-#, fuzzy
 msgid "_Deactivate All"
-msgstr "D_esactivar todos"
+msgstr "D_esactivar Todos"
 
 #: src/dialogs/preferences.glade.h:1
 msgid "Gnumeric Preferences"
@@ -24513,13 +24501,12 @@ msgid "Row Height"
 msgstr "Altura Linha"
 
 #: src/dialogs/row-height.glade.h:2
-#, fuzzy
 msgid "_Row height (pt.):"
 msgstr "Altu_ra linha (pts):"
 
 #: src/dialogs/sampling.glade.h:10
 msgid "N_umber of Samples:"
-msgstr "N_úmero de Amostras:"
+msgstr "Nú_mero de Amostras:"
 
 #: src/dialogs/sampling.glade.h:11
 msgid "Per_iod:"
@@ -24587,15 +24574,15 @@ msgstr "Relatório Resumo:"
 
 #: src/dialogs/search-replace.glade.h:2
 msgid "<span weight=\"bold\">Change Cells Containing</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Alterar Células que Contenham</span>"
 
 #: src/dialogs/search-replace.glade.h:3
 msgid "<span weight=\"bold\">Miscellaneous</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Miscelânea</span>"
 
 #: src/dialogs/search-replace.glade.h:4
 msgid "<span weight=\"bold\">Search Text Type</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">Tipo Procura Texto</span>"
 
 #: src/dialogs/search-replace.glade.h:5 src/dialogs/search.glade.h:1
 msgid "Advanced"
@@ -24878,9 +24865,8 @@ msgid "_Results"
 msgstr "_Resultados"
 
 #: src/dialogs/search.glade.h:39
-#, fuzzy
 msgid "_Search for:"
-msgstr "Pr_ocurar por"
+msgstr "Pr_ocurar por:"
 
 #: src/dialogs/sheet-order.glade.h:1
 msgid "Manage Sheets..."
@@ -24992,24 +24978,20 @@ msgid "_Summary"
 msgstr "Re_sumo"
 
 #: src/dialogs/so-arrow.glade.h:1
-#, fuzzy
 msgid "Arrow Length:"
-msgstr "Comprimento da seta"
+msgstr "Comprimento da Seta:"
 
 #: src/dialogs/so-arrow.glade.h:2
-#, fuzzy
 msgid "Arrow Tip:"
-msgstr "Ponta da seta"
+msgstr "Ponta da Seta:"
 
 #: src/dialogs/so-arrow.glade.h:3
-#, fuzzy
 msgid "Arrow Width:"
-msgstr "Largura da seta"
+msgstr "Largura da Seta:"
 
 #: src/dialogs/so-arrow.glade.h:4
-#, fuzzy
 msgid "Arrow/Line Properties"
-msgstr "Propriedades Frame"
+msgstr "Propriedades Seta/Linha"
 
 #: src/dialogs/so-arrow.glade.h:6
 msgid "Distance from tip of arrowhead to the center point"
@@ -25025,23 +25007,20 @@ msgid "Distance of trailing point from outside edge of shaft"
 msgstr "Distância do ponto de cauda de fora do final da seta"
 
 #: src/dialogs/so-arrow.glade.h:9
-#, fuzzy
 msgid "Line Width:"
-msgstr "Largura de Linha"
+msgstr "Largura de Linha:"
 
 #: src/dialogs/so-checkbox.glade.h:2
-#, fuzzy
 msgid "Checkbox Properties"
-msgstr "Propriedades Frame"
+msgstr "Propriedades Caixa Selecção"
 
 #: src/dialogs/so-checkbox.glade.h:3 src/dialogs/so-frame.glade.h:3
 msgid "Label:"
 msgstr "Etiqueta:"
 
 #: src/dialogs/so-checkbox.glade.h:4 src/dialogs/so-scrollbar.glade.h:2
-#, fuzzy
 msgid "Link to:"
-msgstr "Alvo ligação"
+msgstr "Ligação para:"
 
 #: src/dialogs/so-fill.glade.h:1
 msgid "Border _Width:"
@@ -25056,8 +25035,8 @@ msgid "F_ill Color:"
 msgstr "Cor Ench_imento:"
 
 #: src/dialogs/so-fill.glade.h:4
-msgid "_Outline Color:"
-msgstr "C_or Delimitação:"
+msgid "O_utline Color:"
+msgstr "Cor _Delimitação:"
 
 #: src/dialogs/so-frame.glade.h:2
 msgid "Frame Properties"
@@ -25080,9 +25059,8 @@ msgid "Page:"
 msgstr "Página:"
 
 #: src/dialogs/so-scrollbar.glade.h:6
-#, fuzzy
 msgid "Scrollbar Properties"
-msgstr "Propriedades Frame"
+msgstr "Propriedades Barra Rolamento"
 
 #: src/dialogs/solver.glade.h:2
 msgid "<="
@@ -25240,9 +25218,8 @@ msgid "_Type:"
 msgstr "_Tipo:"
 
 #: src/dialogs/summary.glade.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Document Summary Information</span>"
-msgstr "Resumo de Informação do Documento"
+msgstr "<span weight=\"bold\">Resumo de Informação do Documento</span>"
 
 #: src/dialogs/summary.glade.h:3
 msgid "C_omments:"
@@ -25253,9 +25230,8 @@ msgid "Com_pany:"
 msgstr "Em_presa:"
 
 #: src/dialogs/summary.glade.h:5
-#, fuzzy
 msgid "File:"
-msgstr "_Ficheiro:"
+msgstr "Ficheiro:"
 
 #: src/dialogs/summary.glade.h:6
 msgid "Summary"
@@ -25353,9 +25329,8 @@ msgid "Calculation"
 msgstr "Cálculo"
 
 #: src/dialogs/workbook-attr.glade.h:5
-#, fuzzy
 msgid "Format Workbook"
-msgstr "Livro Trabalho"
+msgstr "Formatar Livro Trabalho"
 
 #: src/dialogs/workbook-attr.glade.h:6
 msgid "Maximum c_hange:"
@@ -25386,9 +25361,8 @@ msgid "View"
 msgstr "Ver"
 
 #: src/dialogs/workbook-attr.glade.h:14
-#, fuzzy
 msgid "_Horizontal Scrollbar"
-msgstr "Barras de Rolamento H_orizontais"
+msgstr "Barra de Rolamento _Horizontal"
 
 #: src/dialogs/workbook-attr.glade.h:15
 msgid "_Iteration"
@@ -25399,14 +25373,12 @@ msgid "_Manual"
 msgstr "_Manual"
 
 #: src/dialogs/workbook-attr.glade.h:17
-#, fuzzy
 msgid "_Protect Workbook"
-msgstr "Novo Livro d_e Trabalho"
+msgstr "_Proteger Livro de Trabalho"
 
 #: src/dialogs/workbook-attr.glade.h:18
-#, fuzzy
 msgid "_Vertical Scrollbar"
-msgstr "Barras de Rolamento V_erticais"
+msgstr "Barra de Rolamento _Vertical"
 
 #: src/expr-name.c:354
 #, c-format
@@ -25515,40 +25487,40 @@ msgid "The target region is too small.  It should be at least %d rows high"
 msgstr ""
 "A área alvo é demasiado pequena.  Deverá ter pelo menos %d linhas de altura"
 
-#: src/format.c:601
+#: src/format.c:598
 msgid "Black"
 msgstr "Preto"
 
-#: src/format.c:602
+#: src/format.c:599
 msgid "Blue"
 msgstr "Azul"
 
-#: src/format.c:603
+#: src/format.c:600
 msgid "Cyan"
 msgstr "Cian"
 
-#: src/format.c:604
+#: src/format.c:601
 msgid "Green"
 msgstr "Verde"
 
-#: src/format.c:605
+#: src/format.c:602
 msgid "Magenta"
 msgstr "Magenta"
 
-#: src/format.c:606
+#: src/format.c:603
 msgid "Red"
 msgstr "Vermelho"
 
-#: src/format.c:607
+#: src/format.c:604
 msgid "White"
 msgstr "Branco"
 
-#: src/format.c:608
+#: src/format.c:605
 msgid "Yellow"
 msgstr "Amarelo"
 
 #. Array of arrays ??
-#: src/format.c:1718
+#: src/format.c:1715
 msgid "ARRAY"
 msgstr "MATRIZ"
 
@@ -26402,7 +26374,7 @@ msgstr "Formatar como Hora"
 msgid "Format as alternative Number"
 msgstr "Formatar como Número alternativo"
 
-#: src/gnumeric-graph.c:716
+#: src/gnumeric-graph.c:710
 msgid "Data..."
 msgstr "Dados..."
 
@@ -26414,20 +26386,24 @@ msgstr "Erro ao tentar pré-converter dados da área de transferência"
 msgid "Parse error while trying to parse data into cellregion"
 msgstr "Erro de parseamento ao tentar parsear dados para a área de células"
 
-#: src/gui-file.c:73
+#: src/gui-file.c:74
 msgid "Automatically detected"
 msgstr "Detectado automaticamente"
 
+#: src/gui-file.c:169
+msgid "Character _encoding:"
+msgstr "Codificação caract_eres:"
+
 #. Pack it into file selector
-#: src/gui-file.c:169 src/workbook-control-gui.c:3029
+#: src/gui-file.c:172 src/workbook-control-gui.c:3028
 msgid "Load file"
 msgstr "Carregar ficheiro"
 
-#: src/gui-file.c:177
-msgid "File format:"
-msgstr "Formato de ficheiro:"
+#: src/gui-file.c:179
+msgid "File _type:"
+msgstr "_Tipo ficheiro:"
 
-#: src/gui-file.c:230
+#: src/gui-file.c:236
 #, c-format
 msgid ""
 "%s\n"
@@ -26436,7 +26412,7 @@ msgstr ""
 "%s\n"
 "é um nome de directório"
 
-#: src/gui-file.c:236
+#: src/gui-file.c:242
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -26445,7 +26421,7 @@ msgstr ""
 "Não tem permissões para gravar para\n"
 "%s"
 
-#: src/gui-file.c:243
+#: src/gui-file.c:249
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
@@ -26454,7 +26430,7 @@ msgstr ""
 "Livro de trabalho %s já existe.\n"
 "Deseja sobrepo-lo?"
 
-#: src/gui-file.c:263
+#: src/gui-file.c:269
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -26467,7 +26443,7 @@ msgstr ""
 "seleccione um formato de ficheiro diferente.\n"
 "Deseja gravar apenas a folha actualmente seleccionada?"
 
-#: src/gui-file.c:287
+#: src/gui-file.c:293
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -26475,7 +26451,7 @@ msgstr ""
 "Introduza um nome de ficheiro,\n"
 "não um directório"
 
-#: src/gui-file.c:293
+#: src/gui-file.c:299
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
@@ -26484,19 +26460,19 @@ msgstr ""
 "seleccionado. Ainda assim deseja utilizar este nome?"
 
 #. Pack it into file selector
-#: src/gui-file.c:340
+#: src/gui-file.c:346
 msgid "Save workbook as"
 msgstr "Gravar livro de trabalho como"
 
-#: src/gui-file.c:418
+#: src/gui-file.c:424
 msgid "Which file format would you like?"
 msgstr "Que formato de ficheiro deseja?"
 
-#: src/gui-util.c:267
+#: src/gui-util.c:270
 msgid "Multiple errors\n"
 msgstr "Múltiplos erros\n"
 
-#: src/gui-util.c:815
+#: src/gui-util.c:828
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Incapaz de abrir ficheiro '%s'"
@@ -26550,17 +26526,17 @@ msgstr "Incapaz de activar o url '%s'"
 msgid "Unable to open '%s'"
 msgstr "Incapaz de abrir '%s'"
 
-#: src/item-bar.c:719
+#: src/item-bar.c:723
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Largura: %.2f pts (%d pixels)"
 
-#: src/item-bar.c:722
+#: src/item-bar.c:726
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Altura: %.2f pts (%d pixels)"
 
-#: src/item-cursor.c:895
+#: src/item-cursor.c:898
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -26570,35 +26546,35 @@ msgstr ""
 "células existentes nessa área. Deseja que sejam substituidos\n"
 "os conteudos nesta área?"
 
-#: src/item-cursor.c:995
+#: src/item-cursor.c:998
 msgid "_Move"
 msgstr "_Mover"
 
-#: src/item-cursor.c:1001
+#: src/item-cursor.c:1004
 msgid "Copy _Formats"
 msgstr "Copiar _Formatos"
 
-#: src/item-cursor.c:1003
+#: src/item-cursor.c:1006
 msgid "Copy _Values"
 msgstr "Copiar _Valores"
 
-#: src/item-cursor.c:1008
+#: src/item-cursor.c:1011
 msgid "Shift _Down and Copy"
 msgstr "Seguir A_baixo e Copiar"
 
-#: src/item-cursor.c:1010
+#: src/item-cursor.c:1013
 msgid "Shift _Right and Copy"
 msgstr "Mover à Di_reita e Copiar"
 
-#: src/item-cursor.c:1012
+#: src/item-cursor.c:1015
 msgid "Shift Dow_n and Move"
 msgstr "Seguir Abai_xo e Mover"
 
-#: src/item-cursor.c:1014
+#: src/item-cursor.c:1017
 msgid "Shift Righ_t and Move"
 msgstr "Seguir à Direi_ta e Mover"
 
-#: src/item-cursor.c:1019
+#: src/item-cursor.c:1022
 msgid "C_ancel"
 msgstr "C_ancelar"
 
@@ -27394,6 +27370,10 @@ msgid ""
 "%s.\n"
 "The next two bytes have (hex) values %02X and %02X."
 msgstr ""
+"O ficheiro não aparenta utilizar a codificação %s.\n"
+"Após %i de %i bytes ocorreu um erro de conversão:\n"
+"%s.\n"
+"Os dois bytes seguintes têm os valores (hex) %02X e %02X."
 
 #: src/stf.c:155
 #, c-format
@@ -27402,6 +27382,9 @@ msgid ""
 "After %i of %i bytes a conversion error occurred:\n"
 "%s.\n"
 msgstr ""
+"O ficheiro não parece utilizar a codificação %s.\n"
+"Após %i de %i bytes ocorreu um erro de conversão:\n"
+"%s.\n"
 
 #: src/stf.c:183
 #, c-format
@@ -27425,39 +27408,42 @@ msgstr ""
 "Foi encontrado o byte 0x%d.\n"
 "Muito provavelmente as suas definições de local estão incorrectas."
 
-#: src/stf.c:328 src/stf.c:358
+#: src/stf.c:285
+msgid "Cancelled"
+msgstr "Cancelado"
+
+#: src/stf.c:336 src/stf.c:366
 msgid "Text to Columns"
 msgstr "Texto para Colunas"
 
-#: src/stf.c:333
+#: src/stf.c:341
 #, c-format
 msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
 msgstr ""
 "Apenas 1 uma coluna de dados de <b>entrada</b> pode ser parseada de cada "
 "vez, não %d"
 
-#: src/stf.c:364
+#: src/stf.c:372
 msgid "Error while trying to parse data into sheet"
 msgstr "Erro ao tentar parsear os dados para a folha"
 
-#: src/stf.c:457
+#: src/stf.c:465
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Erro de parseamento ao tentar parsear os dados para a folha"
 
-#: src/stf.c:523
+#: src/stf.c:531
 msgid "Error while trying to write csv file"
 msgstr "Erro ao tentar encontrar o ficheiro csv"
 
-#: src/stf.c:538
-#, fuzzy
+#: src/stf.c:546
 msgid "Comma or tab separated files (CSV/TSV)"
 msgstr "Ficheiros separados por vírgula ou tab (CSV/TSV)"
 
-#: src/stf.c:542
+#: src/stf.c:550
 msgid "Text import (configurable)"
 msgstr "Importação texto (configurável)"
 
-#: src/stf.c:546
+#: src/stf.c:554
 msgid "Text export (configurable)"
 msgstr "Exportação texto (configurável)"
 
@@ -28472,420 +28458,411 @@ msgstr "#N/A"
 msgid "#RECALC!"
 msgstr "#RECALC!"
 
-#: src/widgets/gnumeric-expr-entry.c:1229
+#: src/widgets/gnumeric-expr-entry.c:1233
 msgid "Expecting a single range"
 msgstr "Esperada uma única área"
 
-#: src/widgets/widget-charmap-selector.c:68
-#, fuzzy
-msgid "Arabic"
-msgstr "Área %i"
-
-#: src/widgets/widget-charmap-selector.c:69
-#, fuzzy
-msgid "Baltic"
-msgstr "Itálico"
-
-#: src/widgets/widget-charmap-selector.c:70
-#, fuzzy
-msgid "Central European"
-msgstr "Centrar na página"
-
 #: src/widgets/widget-charmap-selector.c:71
-#, fuzzy
-msgid "Chinese"
-msgstr "Chisq"
+msgid "Arabic"
+msgstr "Árabe"
 
 #: src/widgets/widget-charmap-selector.c:72
-msgid "Cyrillic"
-msgstr ""
+msgid "Baltic"
+msgstr "Báltico"
 
 #: src/widgets/widget-charmap-selector.c:73
-#, fuzzy
-msgid "Greek"
-msgstr "Verde"
+msgid "Central European"
+msgstr "Europa Central"
 
 #: src/widgets/widget-charmap-selector.c:74
-msgid "Hebrew"
-msgstr ""
+msgid "Chinese"
+msgstr "Chinês"
 
 #: src/widgets/widget-charmap-selector.c:75
-#, fuzzy
-msgid "Indian"
-msgstr "Mediana"
+msgid "Cyrillic"
+msgstr "Cirílico"
 
 #: src/widgets/widget-charmap-selector.c:76
-#, fuzzy
-msgid "Japanese"
-msgstr "Yen, Japão"
+msgid "Greek"
+msgstr "Grego"
 
 #: src/widgets/widget-charmap-selector.c:77
-#, fuzzy
-msgid "Korean"
-msgstr "Boleana"
+msgid "Hebrew"
+msgstr "Hebreu"
 
 #: src/widgets/widget-charmap-selector.c:78
-#, fuzzy
-msgid "Turkish"
-msgstr "Lira, Turquia"
+msgid "Indian"
+msgstr "Indiano"
 
 #: src/widgets/widget-charmap-selector.c:79
-#, fuzzy
-msgid "Unicode"
-msgstr "_Mostrar"
+msgid "Japanese"
+msgstr "Japonês"
 
 #: src/widgets/widget-charmap-selector.c:80
-#, fuzzy
-msgid "Vietnamese"
-msgstr "Renomear folha"
+msgid "Korean"
+msgstr "Coreano"
 
 #: src/widgets/widget-charmap-selector.c:81
-#, fuzzy
-msgid "Western"
-msgstr "Oeste"
+msgid "Turkish"
+msgstr "Turco"
 
 #: src/widgets/widget-charmap-selector.c:82
-#, fuzzy
+msgid "Unicode"
+msgstr "Unicode"
+
+#: src/widgets/widget-charmap-selector.c:83
+msgid "Vietnamese"
+msgstr "Vietnamita"
+
+#: src/widgets/widget-charmap-selector.c:84
+msgid "Western"
+msgstr "Ocidental"
+
+#: src/widgets/widget-charmap-selector.c:85
 msgid "Other"
-msgstr "Outubro"
-
-#: src/widgets/widget-charmap-selector.c:87
-msgid "Arabic (IBM-864)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:88
-msgid "Arabic (IBM-864-I)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:89
-msgid "Arabic (ISO-8859-6)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:90
-msgid "Arabic (ISO-8859-6-E)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:91
-msgid "Arabic (ISO-8859-6-I)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:92
-msgid "Arabic (MacArabic)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:93
-msgid "Arabic (Windows-1256)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:94
-msgid "Armenian (ARMSCII-8)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:95
-msgid "Baltic (ISO-8859-13)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:96
-msgid "Baltic (ISO-8859-4)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:97
-msgid "Baltic (Windows-1257)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:98
-msgid "Celtic (ISO-8859-14)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:99
-msgid "Central European (IBM-852)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:100
-msgid "Central European (ISO-8859-2)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:101
-msgid "Central European (MacCE)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:102
-msgid "Central European (Windows-1250)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:103
-msgid "Chinese Simplified (GB18030)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:104
-#, fuzzy
-msgid "Chinese Simplified (GB2312)"
-msgstr "Simplex Revisto (GLPK 3.2)"
-
-#: src/widgets/widget-charmap-selector.c:105
-#, fuzzy
-msgid "Chinese Simplified (GBK)"
-msgstr "Simplex Revisto (GLPK 3.2)"
-
-#: src/widgets/widget-charmap-selector.c:106
-msgid "Chinese Simplified (HZ)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:107
-msgid "Chinese Simplified (Windows-936)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:108
-msgid "Chinese Traditional (Big5)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:109
-msgid "Chinese Traditional (Big5-HKSCS)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:110
-msgid "Chinese Traditional (EUC-TW)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:111
-msgid "Croatian (MacCroatian)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:112
-msgid "Cyrillic (IBM-855)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:113
-msgid "Cyrillic (ISO-8859-5)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:114
-msgid "Cyrillic (ISO-IR-111)"
-msgstr ""
+msgstr "Outra"
 
 #: src/widgets/widget-charmap-selector.c:115
-msgid "Cyrillic (KOI8-R)"
-msgstr ""
+msgid "Arabic (IBM-864)"
+msgstr "Árabe (IBM-864)"
 
 #: src/widgets/widget-charmap-selector.c:116
-msgid "Cyrillic (MacCyrillic)"
-msgstr ""
+msgid "Arabic (IBM-864-I)"
+msgstr "Árabe (IBM-864-I)"
 
 #: src/widgets/widget-charmap-selector.c:117
-msgid "Cyrillic (Windows-1251)"
-msgstr ""
+msgid "Arabic (ISO-8859-6)"
+msgstr "Árabe (ISO-8859-6)"
 
 #: src/widgets/widget-charmap-selector.c:118
-msgid "Russian (CP-866)"
-msgstr ""
-
-#: src/widgets/widget-charmap-selector.c:119
-msgid "Ukrainian (KOI8-U)"
-msgstr ""
+msgid "Arabic (ISO-8859-6-E)"
+msgstr "Árabe (ISO-8859-6-E)"
 
 #: src/widgets/widget-charmap-selector.c:120
-msgid "Ukrainian (MacUkrainian)"
-msgstr ""
+msgid "Arabic (ISO-8859-6-I)"
+msgstr "Árabe (ISO-8859-6-I)"
 
 #: src/widgets/widget-charmap-selector.c:121
-msgid "English (US-ASCII)"
-msgstr ""
+msgid "Arabic (MacArabic)"
+msgstr "Árabe (MacArabic)"
 
 #: src/widgets/widget-charmap-selector.c:122
-msgid "Farsi (MacFarsi)"
-msgstr ""
+msgid "Arabic (Windows-1256)"
+msgstr "Árabe (Windows-1256)"
 
 #: src/widgets/widget-charmap-selector.c:123
-msgid "Georgian (GEOSTD8)"
-msgstr ""
+msgid "Armenian (ARMSCII-8)"
+msgstr "Arménio (ARMSCII-8)"
 
 #: src/widgets/widget-charmap-selector.c:124
-msgid "Greek (ISO-8859-7)"
-msgstr ""
+msgid "Baltic (ISO-8859-13)"
+msgstr "Báltico (ISO-8859-13)"
 
 #: src/widgets/widget-charmap-selector.c:125
-msgid "Greek (MacGreek)"
-msgstr ""
+msgid "Baltic (ISO-8859-4)"
+msgstr "Báltico (ISO-8859-4)"
 
 #: src/widgets/widget-charmap-selector.c:126
-msgid "Greek (Windows-1253)"
-msgstr ""
+msgid "Baltic (Windows-1257)"
+msgstr "Báltico (Windows-1257)"
 
 #: src/widgets/widget-charmap-selector.c:127
-msgid "Gujarati (MacGujarati)"
-msgstr ""
+msgid "Celtic (ISO-8859-14)"
+msgstr "Celta (ISO-8859-14)"
 
 #: src/widgets/widget-charmap-selector.c:128
-msgid "Gurmukhi (MacGurmukhi)"
-msgstr ""
+msgid "Central European (IBM-852)"
+msgstr "Europa Central (IBM-852)"
 
 #: src/widgets/widget-charmap-selector.c:129
-msgid "Hebrew (IBM-862)"
-msgstr ""
+msgid "Central European (ISO-8859-2)"
+msgstr "Europa Central (ISO-8859-2)"
 
 #: src/widgets/widget-charmap-selector.c:130
-msgid "Hebrew (ISO-8859-8-E)"
-msgstr ""
+msgid "Central European (MacCE)"
+msgstr "Europa Central (MacCE)"
 
 #: src/widgets/widget-charmap-selector.c:131
-msgid "Hebrew (ISO-8859-8-I)"
-msgstr ""
+msgid "Central European (Windows-1250)"
+msgstr "Europa Central (Windows-1250)"
 
 #: src/widgets/widget-charmap-selector.c:132
-msgid "Hebrew (MacHebrew)"
-msgstr ""
+msgid "Chinese Simplified (GB18030)"
+msgstr "Chinês Simplificado (GB18030)"
 
 #: src/widgets/widget-charmap-selector.c:133
-msgid "Hebrew (Windows-1255)"
-msgstr ""
+msgid "Chinese Simplified (GB2312)"
+msgstr "Chinês Simplificado (GB2312)"
 
 #: src/widgets/widget-charmap-selector.c:134
-msgid "Hindi (MacDevanagari)"
-msgstr ""
+msgid "Chinese Simplified (GBK)"
+msgstr "Chinês Simplificado (GBK)"
 
 #: src/widgets/widget-charmap-selector.c:135
-msgid "Icelandic (MacIcelandic)"
-msgstr ""
+msgid "Chinese Simplified (HZ)"
+msgstr "Chinês Simplificado (HZ)"
 
 #: src/widgets/widget-charmap-selector.c:136
-msgid "Japanese (EUC-JP)"
-msgstr ""
+msgid "Chinese Simplified (Windows-936)"
+msgstr "Chinês Simplificado (Windows-936)"
 
 #: src/widgets/widget-charmap-selector.c:137
-msgid "Japanese (ISO-2022-JP)"
-msgstr ""
+msgid "Chinese Traditional (Big5)"
+msgstr "Chinês Tradicional (Big5)"
 
 #: src/widgets/widget-charmap-selector.c:138
-msgid "Japanese (Shift_JIS)"
-msgstr ""
+msgid "Chinese Traditional (Big5-HKSCS)"
+msgstr "Chinês Tradicional (Big5-HKSCS)"
 
 #: src/widgets/widget-charmap-selector.c:139
-msgid "Korean (EUC-KR)"
-msgstr ""
+msgid "Chinese Traditional (EUC-TW)"
+msgstr "Chinês Tradicional (EUC-TW)"
 
 #: src/widgets/widget-charmap-selector.c:140
-msgid "Korean (ISO-2022-KR)"
-msgstr ""
+msgid "Croatian (MacCroatian)"
+msgstr "Croata (MacCroatian)"
 
 #: src/widgets/widget-charmap-selector.c:141
-msgid "Korean (JOHAB)"
-msgstr ""
+msgid "Cyrillic (IBM-855)"
+msgstr "Cirílico (IBM-855)"
 
 #: src/widgets/widget-charmap-selector.c:142
-msgid "Korean (UHC)"
-msgstr ""
+msgid "Cyrillic (ISO-8859-5)"
+msgstr "Cirílico (ISO-8859-5)"
 
 #: src/widgets/widget-charmap-selector.c:143
-msgid "Nordic (ISO-8859-10)"
-msgstr ""
+msgid "Cyrillic (ISO-IR-111)"
+msgstr "Cirílico (ISO-IR-111)"
 
 #: src/widgets/widget-charmap-selector.c:144
-msgid "Romanian (MacRomanian)"
-msgstr ""
+msgid "Cyrillic (KOI8-R)"
+msgstr "Cirílico (KOI8-R)"
 
 #: src/widgets/widget-charmap-selector.c:145
-msgid "Romanian (ISO-8859-16)"
-msgstr ""
+msgid "Cyrillic (MacCyrillic)"
+msgstr "Cirílico (MacCyrillic)"
 
 #: src/widgets/widget-charmap-selector.c:146
-msgid "South European (ISO-8859-3)"
-msgstr ""
+msgid "Cyrillic (Windows-1251)"
+msgstr "Cirílico (Windows-1251)"
 
 #: src/widgets/widget-charmap-selector.c:147
-msgid "Thai (TIS-620)"
-msgstr ""
+msgid "Russian (CP-866)"
+msgstr "Russo (CP-866)"
 
 #: src/widgets/widget-charmap-selector.c:148
-msgid "Turkisk (IBM-857)"
-msgstr ""
+msgid "Ukrainian (KOI8-U)"
+msgstr "Ucraniano (KOI8-U)"
 
 #: src/widgets/widget-charmap-selector.c:149
-msgid "Turkisk (ISO-8859-9)"
-msgstr ""
+msgid "Ukrainian (MacUkrainian)"
+msgstr "Ucraniano (MacUkrainian)"
 
 #: src/widgets/widget-charmap-selector.c:150
-msgid "Turkisk (MacTurkish)"
-msgstr ""
+msgid "English (ASCII)"
+msgstr "Inglês (ASCII)"
 
 #: src/widgets/widget-charmap-selector.c:151
-msgid "Turkisk (Windows-1254)"
-msgstr ""
+msgid "Farsi (MacFarsi)"
+msgstr "Farsi (MacFarsi)"
 
 #: src/widgets/widget-charmap-selector.c:152
-msgid "Unicode (UTF-7)"
-msgstr ""
+msgid "Georgian (GEOSTD8)"
+msgstr "Georgiano (GEOSTD8)"
 
 #: src/widgets/widget-charmap-selector.c:153
-msgid "Unicode (UTF-8)"
-msgstr ""
+msgid "Greek (ISO-8859-7)"
+msgstr "Grego (ISO-8859-7)"
 
 #: src/widgets/widget-charmap-selector.c:154
-msgid "Unicode (UTF-16BE)"
-msgstr ""
+msgid "Greek (MacGreek)"
+msgstr "Grego (MacGreek)"
 
 #: src/widgets/widget-charmap-selector.c:155
-msgid "Unicode (UTF-16LE)"
-msgstr ""
+msgid "Greek (Windows-1253)"
+msgstr "Grego (Windows-1253)"
 
 #: src/widgets/widget-charmap-selector.c:156
-msgid "Unicode (UTF-32BE)"
-msgstr ""
+msgid "Gujarati (MacGujarati)"
+msgstr "Gujarati (MacGujarati)"
 
 #: src/widgets/widget-charmap-selector.c:157
-msgid "Unicode (UTF-32LE)"
-msgstr ""
+msgid "Gurmukhi (MacGurmukhi)"
+msgstr "Gurmukhi (MacGurmukhi)"
 
 #: src/widgets/widget-charmap-selector.c:158
-#, fuzzy
-msgid "User Defined"
-msgstr "Utilizar sublinhado"
+msgid "Hebrew (IBM-862)"
+msgstr "Hebreu (IBM-862)"
 
 #: src/widgets/widget-charmap-selector.c:159
-msgid "Vietnamese (TCVN)"
-msgstr ""
+msgid "Hebrew (ISO-8859-8-E)"
+msgstr "Hebreu (ISO-8859-8-E)"
 
 #: src/widgets/widget-charmap-selector.c:160
-msgid "Vietnamese (VISCII)"
-msgstr ""
+msgid "Hebrew (ISO-8859-8-I)"
+msgstr "Hebreu (ISO-8859-8-I)"
 
 #: src/widgets/widget-charmap-selector.c:161
-msgid "Vietnamese (VPS)"
-msgstr ""
+msgid "Hebrew (MacHebrew)"
+msgstr "Hebreu (MacHebrew)"
 
 #: src/widgets/widget-charmap-selector.c:162
-msgid "Vietnamese (Windows-1258)"
-msgstr ""
+msgid "Hebrew (Windows-1255)"
+msgstr "Hebreu (Windows-1255)"
 
 #: src/widgets/widget-charmap-selector.c:163
-msgid "Visual Hebrew(ISO-8859-8)"
-msgstr ""
+msgid "Hindi (MacDevanagari)"
+msgstr "Hindi (MacDevanagari)"
 
 #: src/widgets/widget-charmap-selector.c:164
-msgid "Western (IBM-850)"
-msgstr ""
+msgid "Icelandic (MacIcelandic)"
+msgstr "Islandês (MacIcelandic)"
 
 #: src/widgets/widget-charmap-selector.c:165
-msgid "Western (ISO-8859-1)"
-msgstr ""
+msgid "Japanese (EUC-JP)"
+msgstr "Japonês (EUC-JP)"
 
 #: src/widgets/widget-charmap-selector.c:166
-msgid "Western (ISO-8859-15)"
-msgstr ""
+msgid "Japanese (ISO-2022-JP)"
+msgstr "Japonês (ISO-2022-JP)"
 
 #: src/widgets/widget-charmap-selector.c:167
-msgid "Western (MacRoman)"
-msgstr ""
+msgid "Japanese (Shift_JIS)"
+msgstr "Japonês (Shift_JIS)"
 
 #: src/widgets/widget-charmap-selector.c:168
+msgid "Korean (EUC-KR)"
+msgstr "Coreano (EUC-KR)"
+
+#: src/widgets/widget-charmap-selector.c:169
+msgid "Korean (ISO-2022-KR)"
+msgstr "Coreano (ISO-2022-KR)"
+
+#: src/widgets/widget-charmap-selector.c:170
+msgid "Korean (JOHAB)"
+msgstr "Coreano (JOHAB)"
+
+#: src/widgets/widget-charmap-selector.c:171
+msgid "Korean (UHC)"
+msgstr "Coreano (UHC)"
+
+#: src/widgets/widget-charmap-selector.c:172
+msgid "Nordic (ISO-8859-10)"
+msgstr "Nórdico (ISO-8859-10)"
+
+#: src/widgets/widget-charmap-selector.c:173
+msgid "Romanian (MacRomanian)"
+msgstr "Romeno (MacRomanian)"
+
+#: src/widgets/widget-charmap-selector.c:174
+msgid "Romanian (ISO-8859-16)"
+msgstr "Romeno (ISO-8859-16)"
+
+#: src/widgets/widget-charmap-selector.c:175
+msgid "South European (ISO-8859-3)"
+msgstr "Sul Europeu (ISO-8859-3)"
+
+#: src/widgets/widget-charmap-selector.c:176
+msgid "Thai (TIS-620)"
+msgstr "Tailandês (TIS-620)"
+
+#: src/widgets/widget-charmap-selector.c:177
+msgid "Turkish (IBM-857)"
+msgstr "Turco (IBM-857)"
+
+#: src/widgets/widget-charmap-selector.c:178
+msgid "Turkish (ISO-8859-9)"
+msgstr "Turco (ISO-8859-9)"
+
+#: src/widgets/widget-charmap-selector.c:179
+msgid "Turkish (MacTurkish)"
+msgstr "Turco (MacTurkish)"
+
+#: src/widgets/widget-charmap-selector.c:180
+msgid "Turkish (Windows-1254)"
+msgstr "Turco (Windows-1254)"
+
+#: src/widgets/widget-charmap-selector.c:181
+msgid "Unicode (UTF-7)"
+msgstr "Unicode (UTF-7)"
+
+#: src/widgets/widget-charmap-selector.c:182
+msgid "Unicode (UTF-8)"
+msgstr "Unicode (UTF-8)"
+
+#: src/widgets/widget-charmap-selector.c:183
+msgid "Unicode (UTF-16BE)"
+msgstr "Unicode (UTF-16BE)"
+
+#: src/widgets/widget-charmap-selector.c:184
+msgid "Unicode (UTF-16LE)"
+msgstr "Unicode (UTF-16LE)"
+
+#: src/widgets/widget-charmap-selector.c:185
+msgid "Unicode (UTF-32BE)"
+msgstr "Unicode (UTF-32BE)"
+
+#: src/widgets/widget-charmap-selector.c:186
+msgid "Unicode (UTF-32LE)"
+msgstr "Unicode (UTF-32LE)"
+
+#: src/widgets/widget-charmap-selector.c:187
+msgid "User Defined"
+msgstr "Definido Utilizador"
+
+#: src/widgets/widget-charmap-selector.c:188
+msgid "Vietnamese (TCVN)"
+msgstr "Vietnamita (TCVN)"
+
+#: src/widgets/widget-charmap-selector.c:189
+msgid "Vietnamese (VISCII)"
+msgstr "Vietnamita (VISCII)"
+
+#: src/widgets/widget-charmap-selector.c:190
+msgid "Vietnamese (VPS)"
+msgstr "Vietnamita (VPS)"
+
+#: src/widgets/widget-charmap-selector.c:191
+msgid "Vietnamese (Windows-1258)"
+msgstr "Vietnamita (Windows-1258)"
+
+#: src/widgets/widget-charmap-selector.c:192
+msgid "Visual Hebrew (ISO-8859-8)"
+msgstr "Hebreu Visual (ISO-8859-8)"
+
+#: src/widgets/widget-charmap-selector.c:193
+msgid "Western (IBM-850)"
+msgstr "Ocidental (IBM-850)"
+
+#: src/widgets/widget-charmap-selector.c:194
+msgid "Western (ISO-8859-1)"
+msgstr "Ocidental (ISO-8859-1)"
+
+#: src/widgets/widget-charmap-selector.c:195
+msgid "Western (ISO-8859-15)"
+msgstr "Ocidental (ISO-8859-15)"
+
+#: src/widgets/widget-charmap-selector.c:196
+msgid "Western (MacRoman)"
+msgstr "Ocidental (MacRoman)"
+
+#: src/widgets/widget-charmap-selector.c:197
 msgid "Western (Windows-1252)"
-msgstr ""
+msgstr "Ocidental (Windows-1252)"
 
-#: src/widgets/widget-charmap-selector.c:287
-#, fuzzy
+#: src/widgets/widget-charmap-selector.c:406
 msgid "Locale: "
-msgstr "Lógico"
+msgstr "Local: "
 
-#: src/widgets/widget-font-selector.c:119
+#: src/widgets/widget-charmap-selector.c:446
+msgid "Conversion Direction"
+msgstr "Direcção da Conversão"
+
+#: src/widgets/widget-charmap-selector.c:447
+msgid "This value determines which iconv test to perform."
+msgstr "Este valor determina que teste iconv realizar."
+
+#: src/widgets/widget-font-selector.c:122
 msgid "Bold italic"
 msgstr "Negrito itálico"
 
@@ -28897,97 +28874,97 @@ msgstr "Adicionar Margens"
 msgid "Remove borders"
 msgstr "Apagar margens"
 
-#: src/workbook-control-gui.c:352
+#: src/workbook-control-gui.c:351
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: src/workbook-control-gui.c:562
+#: src/workbook-control-gui.c:559
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Tem a certeza que deseja remover s folha seleccionada chamada `%s'?"
 
-#: src/workbook-control-gui.c:609
+#: src/workbook-control-gui.c:606
 msgid "Manage sheets..."
 msgstr "Gerir folhas..."
 
-#: src/workbook-control-gui.c:610
+#: src/workbook-control-gui.c:607
 msgid "Duplicate this sheet"
 msgstr "Duplicar esta folha"
 
-#: src/workbook-control-gui.c:612
+#: src/workbook-control-gui.c:609
 msgid "Rename this sheet"
 msgstr "Renomear esta folha"
 
-#: src/workbook-control-gui.c:613
+#: src/workbook-control-gui.c:610
 msgid "Remove this sheet"
 msgstr "Remover esta folha"
 
-#: src/workbook-control-gui.c:1164 src/workbook-control-gui.c:1227
+#: src/workbook-control-gui.c:1161 src/workbook-control-gui.c:1224
 msgid "Nothing"
 msgstr "Nada"
 
-#: src/workbook-control-gui.c:1339
+#: src/workbook-control-gui.c:1336
 msgid "Un_freeze Panes"
 msgstr "Desbloquear Paineis"
 
-#: src/workbook-control-gui.c:1342
+#: src/workbook-control-gui.c:1339
 msgid "Unfreeze the top left of the sheet"
 msgstr "Descongelar o canto superior esquerdo da folha"
 
-#: src/workbook-control-gui.c:1357
+#: src/workbook-control-gui.c:1354
 msgid "Remove _Auto Filter"
 msgstr "Remover _Auto Filtro"
 
-#: src/workbook-control-gui.c:1360
+#: src/workbook-control-gui.c:1357
 msgid "Remove a filter"
 msgstr "Remover um filtro"
 
-#: src/workbook-control-gui.c:1361
+#: src/workbook-control-gui.c:1358
 msgid "Add a filter"
 msgstr "Adicionar um filtro"
 
-#: src/workbook-control-gui.c:1380 src/workbook-control-gui.c:3902
-#: src/workbook-control-gui.c:4127
+#: src/workbook-control-gui.c:1377 src/workbook-control-gui.c:3889
+#: src/workbook-control-gui.c:4120
 msgid "Undo"
 msgstr "Desfazer"
 
-#: src/workbook-control-gui.c:1381 src/workbook-control-gui.c:3905
-#: src/workbook-control-gui.c:4134
+#: src/workbook-control-gui.c:1378 src/workbook-control-gui.c:3892
+#: src/workbook-control-gui.c:4127
 msgid "Redo"
 msgstr "Refazer"
 
-#: src/workbook-control-gui.c:1570
+#: src/workbook-control-gui.c:1567
 #, c-format
 msgid "Workbook '%s' has unsaved changes :"
 msgstr "Livro de Trabalho '%s' tem modificações por gravar :"
 
-#: src/workbook-control-gui.c:1574
+#: src/workbook-control-gui.c:1571
 msgid "Workbook has unsaved changes :"
 msgstr "Livro de Trabalho tem modificações por gravar :"
 
-#: src/workbook-control-gui.c:1585 src/workbook-control-gui.c:1593
+#: src/workbook-control-gui.c:1582 src/workbook-control-gui.c:1590
 msgid "Don't Quit"
 msgstr "Não Sair"
 
-#: src/workbook-control-gui.c:1586
+#: src/workbook-control-gui.c:1583
 msgid "Discard All"
 msgstr "Descartar Todos"
 
-#: src/workbook-control-gui.c:1587 src/workbook-control-gui.c:1594
-#: src/workbook-control-gui.c:1600 src/workbook-control-gui.c:5248
-#: src/workbook-control-gui.c:5253
+#: src/workbook-control-gui.c:1584 src/workbook-control-gui.c:1591
+#: src/workbook-control-gui.c:1597 src/workbook-control-gui.c:5255
+#: src/workbook-control-gui.c:5260
 msgid "Discard"
 msgstr "Descartar"
 
-#: src/workbook-control-gui.c:1588
+#: src/workbook-control-gui.c:1585
 msgid "Save All"
 msgstr "Gravar Todos"
 
-#: src/workbook-control-gui.c:1599
+#: src/workbook-control-gui.c:1596
 msgid "Don't Close"
 msgstr "Não Fechar"
 
-#: src/workbook-control-gui.c:2140
+#: src/workbook-control-gui.c:2137
 #, c-format
 msgid ""
 "In cell %s, the current contents\n"
@@ -29006,7 +28983,7 @@ msgstr ""
 "\n"
 "The replace has been aborted and nothing has been changed."
 
-#: src/workbook-control-gui.c:2177
+#: src/workbook-control-gui.c:2174
 #, c-format
 msgid "Comment in cell %s!%s"
 msgstr "Comentário na célula %s!%s"
@@ -29015,125 +28992,125 @@ msgstr "Comentário na célula %s!%s"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:2418
+#: src/workbook-control-gui.c:2415
 msgid "Insert rows"
 msgstr "Inserir linhas"
 
-#: src/workbook-control-gui.c:2438
+#: src/workbook-control-gui.c:2435
 msgid "Insert columns"
 msgstr "Inserir colunas"
 
-#: src/workbook-control-gui.c:2827
+#: src/workbook-control-gui.c:2824
 msgid "Add Filter"
 msgstr "Adicionar Filtro"
 
-#: src/workbook-control-gui.c:2830
+#: src/workbook-control-gui.c:2827
 msgid "AutoFilter"
 msgstr "Auto Filtro"
 
-#: src/workbook-control-gui.c:2830
+#: src/workbook-control-gui.c:2827
 msgid "Requires more than 1 row"
 msgstr "Requer mais do que 1 linha"
 
-#: src/workbook-control-gui.c:2887 src/workbook-control-gui.c:2906
+#: src/workbook-control-gui.c:2886 src/workbook-control-gui.c:2905
 msgid "Show Detail"
 msgstr "Mostrar Detalhes"
 
-#: src/workbook-control-gui.c:2887 src/workbook-control-gui.c:2906
+#: src/workbook-control-gui.c:2886 src/workbook-control-gui.c:2905
 msgid "Hide Detail"
 msgstr "Esconder Detalhes"
 
-#: src/workbook-control-gui.c:2894
+#: src/workbook-control-gui.c:2893
 msgid "can only be performed on an existing group"
 msgstr "apenas pode ser efectuado sobre um grupo existente"
 
-#: src/workbook-control-gui.c:2952
+#: src/workbook-control-gui.c:2951
 msgid "Group"
 msgstr "Agrupar"
 
-#: src/workbook-control-gui.c:2952
+#: src/workbook-control-gui.c:2951
 msgid "Ungroup"
 msgstr "Desagrupar"
 
-#: src/workbook-control-gui.c:3078
+#: src/workbook-control-gui.c:3077
 msgid "Sort"
 msgstr "Ordenar"
 
-#: src/workbook-control-gui.c:3169
+#: src/workbook-control-gui.c:3156
 msgid "Select an object to add"
 msgstr "Seleccione um objecto para brincar"
 
-#: src/workbook-control-gui.c:3180
+#: src/workbook-control-gui.c:3167
 #, c-format
 msgid "Unable to create object of type '%s'"
 msgstr "Incapaz de criar ojecto do tipo '%s'"
 
-#: src/workbook-control-gui.c:3323
+#: src/workbook-control-gui.c:3310
 msgid "Series..."
 msgstr "Séries..."
 
-#: src/workbook-control-gui.c:3368
+#: src/workbook-control-gui.c:3355
 msgid "P_aste special..."
 msgstr "Colar especi_al..."
 
-#: src/workbook-control-gui.c:3377
+#: src/workbook-control-gui.c:3364
 msgid "Remove selected cells, shifting other into their place"
 msgstr "Remover as células seleccionadas, movendo as outras em seu lugar"
 
-#: src/workbook-control-gui.c:3457
+#: src/workbook-control-gui.c:3444
 msgid "_Auto generate names..."
 msgstr "_Auto gerar nomes..."
 
-#: src/workbook-control-gui.c:3458
+#: src/workbook-control-gui.c:3445
 msgid "Use the current selection to create names"
 msgstr "Utilize a selecção actual para criar nomes"
 
-#: src/workbook-control-gui.c:3619
+#: src/workbook-control-gui.c:3606
 msgid "Add a new scenario"
 msgstr "Adicionar um novo cenário"
 
-#: src/workbook-control-gui.c:3695
+#: src/workbook-control-gui.c:3682
 msgid "Ranks And _Percentiles"
 msgstr "Níveis e _Percentis"
 
-#: src/workbook-control-gui.c:3820
+#: src/workbook-control-gui.c:3807
 msgid "Sh_uffle..."
 msgstr "Mist_urar..."
 
-#: src/workbook-control-gui.c:3821
+#: src/workbook-control-gui.c:3808
 msgid "Shuffle cells, rows or columns"
 msgstr "Misturar células, linhas ou colunas"
 
-#: src/workbook-control-gui.c:3840
+#: src/workbook-control-gui.c:3827
 msgid "Create a pivot table."
 msgstr "Criar uma tabela pivot."
 
-#: src/workbook-control-gui.c:3902
+#: src/workbook-control-gui.c:3889
 msgid "Undo the operation"
 msgstr "Desfazer a operação"
 
-#: src/workbook-control-gui.c:3905
+#: src/workbook-control-gui.c:3892
 msgid "Redo the operation"
 msgstr "Refazer a operação"
 
-#: src/workbook-control-gui.c:4964
+#: src/workbook-control-gui.c:4971
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Ficheiro \"%s\" tem formato desconhecido."
 
-#: src/workbook-control-gui.c:5015
+#: src/workbook-control-gui.c:5022
 msgid "Send"
 msgstr "Enviar"
 
-#: src/workbook-control-gui.c:5015
+#: src/workbook-control-gui.c:5022
 msgid "Send the current file in email"
 msgstr "Envia o ficheiro actual por email"
 
-#: src/workbook-control-gui.c:5247 src/workbook-control-gui.c:5262
+#: src/workbook-control-gui.c:5254 src/workbook-control-gui.c:5269
 msgid "Re-Edit"
 msgstr "Re-Editar"
 
-#: src/workbook-control-gui.c:5252 src/workbook-control-gui.c:5263
+#: src/workbook-control-gui.c:5259 src/workbook-control-gui.c:5270
 msgid "Accept"
 msgstr "Aceitar"
 
@@ -29238,7 +29215,7 @@ msgstr "Cimo e Rodapé Grosso"
 msgid "Set Borders"
 msgstr "Definir Margens"
 
-#: src/workbook-format-toolbar.c:784
+#: src/workbook-format-toolbar.c:786
 msgid "Size"
 msgstr "Tamanho"
 
@@ -29307,9 +29284,17 @@ msgstr "O ficheiro não é um ficheiro Livro de Trabalho Gnumeric"
 msgid "Gnumeric XML file format"
 msgstr "Formato de ficheiro XML Gnumeric"
 
-#, fuzzy
+#~ msgid "Helvetica"
+#~ msgstr "Helvetica"
+
+#~ msgid "Formatting options"
+#~ msgstr "Opções de formatação"
+
+#~ msgid "File format:"
+#~ msgstr "Formato de ficheiro:"
+
 #~ msgid "Charset:"
-#~ msgstr "Gráfico%d"
+#~ msgstr "Conjunto caracteres:"
 
 #~ msgid "Create a new spreadsheet"
 #~ msgstr "Criar uma nova folha de cálculo"
@@ -29855,7 +29840,7 @@ msgstr "Formato de ficheiro XML Gnumeric"
 #~ msgstr "Configuração Impr_essão..."
 
 #~ msgid "_Preview"
-#~ msgstr "_Prever"
+#~ msgstr "_Antever"
 
 #~ msgid "_File/Print Pre_view..."
 #~ msgstr "_Ficheiro/Ante_ver Impressão..."
