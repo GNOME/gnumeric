@@ -264,10 +264,6 @@ dump_dep (gpointer key, gpointer value, gpointer closure)
 static void
 workbook_do_destroy (Workbook *wb)
 {
-
-	if (!GTK_OBJECT_DESTROYED (wb->toplevel))
-		gtk_object_destroy (GTK_OBJECT (wb->toplevel));
-	
 	/*
 	 * Do all deletions that leave the workbook in a working
 	 * order.
@@ -359,8 +355,6 @@ workbook_do_destroy (Workbook *wb)
 	symbol_table_destroy (wb->symbol_names);
 
 	expr_name_clean (wb);
-
-	g_free (wb);
 
 	if (workbook_count == 0)
 		gtk_main_quit ();
