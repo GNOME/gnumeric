@@ -1,5 +1,16 @@
 2003-05-30  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-chart.c (gog_chart_view_render) : re-enable.
+
+	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_update) :
+	  When the scale changes size requests are invalidated.
+
+	* graph/gog-renderer.c (gog_renderer_invalidate_size_requests) : new.
+	* graph/gog-view.c (gog_view_invalidate_sizes) : new.
+
+	* graph/gog-legend.c (gog_legend_view_render) : typo.  pad is in Y
+	  coordinates.
+
 	* graph/gog-plot.c (role_series_post_add) : adding a series changes
 	  the carnality.
 	(role_series_pre_remove) : ditto.

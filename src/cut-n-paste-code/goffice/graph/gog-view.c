@@ -291,6 +291,25 @@ gog_view_queue_resize (GogView *view)
 }
 
 /**
+ * gog_view_invalidate_sizes:
+ * @view : #GogView
+ *
+ * forces a view to request a resize for all of its children
+ **/
+void
+gog_view_invalidate_sizes (GogView *view)
+{
+	GSList *ptr;
+
+	g_return_if_fail (GOG_VIEW (view) != NULL);
+	g_return_if_fail (view->renderer != NULL);
+
+	view->requisition_valid = FALSE;
+	for (ptr = view->children; ptr != NULL ; ptr = ptr->next)
+		gog_view_invalidate_sizes (ptr->data);
+}
+
+/**
  * gog_view_size_request :
  * @view : a #GogView
  * @requisition : a #GogViewRequisition.

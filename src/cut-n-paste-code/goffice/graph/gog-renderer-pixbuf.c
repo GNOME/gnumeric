@@ -243,15 +243,17 @@ gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h)
 	if (prend->w != w || prend->h != h) {
 		prend->w = w;
 		prend->h = h;
+		prend->base.scale_x = w / prend->base.logical_width_pts;
+		prend->base.scale_y = h / prend->base.logical_height_pts;
+		prend->base.scale = MIN (prend->base.scale_x, prend->base.scale_y);
+
+		/* scale just changed need to recalculate sizes */
+		gog_renderer_invalidate_size_requests (&prend->base);
 		gog_view_size_allocate (view, &allocation);
 		if (prend->buffer != NULL) {
 			g_object_unref (prend->buffer);
 			prend->buffer = NULL;
 		}
-
-		prend->base.scale_x = w / prend->base.logical_width_pts;
-		prend->base.scale_y = h / prend->base.logical_height_pts;
-		prend->base.scale = MIN (prend->base.scale_x, prend->base.scale_y);
 	} else if (w != view->allocation.w || h != view->allocation.h)
 		gog_view_size_allocate (view, &allocation);
 	else

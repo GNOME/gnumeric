@@ -63,6 +63,7 @@ typedef struct {
 #define IS_GOG_RENDERER_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_RENDERER_TYPE))
 
 /* protected */
+void gog_renderer_invalidate_size_requests (GogRenderer *rend);
 
 G_END_DECLS
 

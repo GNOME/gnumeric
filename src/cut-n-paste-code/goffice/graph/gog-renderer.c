@@ -144,6 +144,17 @@ gog_renderer_request_update (GogRenderer *renderer)
 }
 
 void
+gog_renderer_invalidate_size_requests (GogRenderer *rend)
+{
+	g_return_if_fail (GOG_RENDERER (rend) != NULL);
+
+	if (rend->view) {
+		gog_renderer_request_update (rend);
+		gog_view_invalidate_sizes (rend->view);
+	}
+}
+
+void
 gog_renderer_begin_drawing (GogRenderer *rend)
 {
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
@@ -334,3 +345,4 @@ gog_renderer_pt2r (GogRenderer *rend, double d)
 {
 	return d * rend->scale;
 }
+

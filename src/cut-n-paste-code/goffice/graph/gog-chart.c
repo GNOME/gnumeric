@@ -334,12 +334,10 @@ gog_chart_view_size_allocate (GogView *view, GogViewAllocation const *allocation
 static void
 gog_chart_view_render (GogView *view, GogViewAllocation const *bbox)
 {
-#if 0
 	GogChart *chart = GOG_CHART (view->model);
 	gog_renderer_push_style (view->renderer, chart->base.style);
 	gog_renderer_draw_rectangle (view->renderer, &view->allocation);
 	gog_renderer_pop_style (view->renderer);
-#endif
 	(cview_parent_klass->render) (view, bbox);
 }
 

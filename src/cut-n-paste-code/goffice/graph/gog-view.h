@@ -65,14 +65,15 @@ typedef struct {
 
 GType gog_view_get_type (void);
 
-GogObject *gog_view_get_model	  (GogView const *view);
-void	   gog_view_render	  (GogView *v, GogViewAllocation const *bbox);
-void       gog_view_queue_redraw  (GogView *v);
-void       gog_view_queue_resize  (GogView *v);
-void       gog_view_size_request  (GogView *v, GogViewRequisition *requisition);
-void       gog_view_size_allocate (GogView *v, GogViewAllocation const *allocation);
-gboolean   gog_view_update_sizes  (GogView *v);
-GogObject *gog_view_point  	  (GogView *container, double x, double y);
+GogObject *gog_view_get_model	     (GogView const *view);
+void	   gog_view_render	     (GogView *v, GogViewAllocation const *bbox);
+void       gog_view_queue_redraw     (GogView *v);
+void       gog_view_queue_resize     (GogView *v);
+void	   gog_view_invalidate_sizes (GogView *v);
+void       gog_view_size_request     (GogView *v, GogViewRequisition *req);
+void       gog_view_size_allocate    (GogView *v, GogViewAllocation const *a);
+gboolean   gog_view_update_sizes     (GogView *v);
+GogObject *gog_view_point  	     (GogView *container, double x, double y);
 
 G_END_DECLS
 

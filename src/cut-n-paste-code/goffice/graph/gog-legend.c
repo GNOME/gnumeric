@@ -154,16 +154,24 @@ static void
 gog_legend_view_size_request (GogView *view, GogViewRequisition *req)
 {
 	GogLegend *legend = GOG_LEGEND (view->model);
-	req->w = 50.;
-	req->h = gog_chart_get_carnality (GOG_CHART (view->model->parent)) *
-		gog_renderer_pt2r_y (view->renderer,
-			legend->swatch_size_pts + legend->swatch_padding_pts);
+	double outline = gog_renderer_outline_size (view->renderer,
+						    legend->base.style);
+	req->w = 2 * outline + gog_renderer_pt2r_x (view->renderer, GO_CM_TO_PT (2));
+	req->h = 2 * outline +
+		(gog_chart_get_carnality (GOG_CHART (view->model->parent)) *
+		 gog_renderer_pt2r_y (view->renderer,
+			legend->swatch_size_pts + legend->swatch_padding_pts));
+
+	g_warning ("legend req %g, %g\nwith outline == %g\nand height == %g", req->w, req->h,
+		   2 * outline,
+		 gog_renderer_pt2r_y (view->renderer,
+			legend->swatch_size_pts + legend->swatch_padding_pts));
 }
 
 typedef struct {
 	GogView const *view;
 	GogViewAllocation swatch;
-	double size;
+	double step;
 } render_closure;
 
 static void
@@ -180,7 +188,7 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 	} else
 		style = (GogStyle *)base_style;
 
-	swatch.y += i * data->size;
+	swatch.y += i * data->step;
 	gog_renderer_push_style (data->view->renderer, style);
 	gog_renderer_draw_rectangle (data->view->renderer, &swatch);
 	gog_renderer_pop_style (data->view->renderer);
@@ -196,7 +204,7 @@ gog_legend_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogLegend *legend = GOG_LEGEND (view->model);
 	double outline = gog_renderer_outline_size (view->renderer,
 						    legend->base.style);
-	double pad = gog_renderer_pt2r_x (view->renderer,
+	double pad = gog_renderer_pt2r_y (view->renderer,
 					  legend->swatch_padding_pts);
 
 	gog_renderer_push_style (view->renderer, legend->base.style);
@@ -208,7 +216,7 @@ gog_legend_view_render (GogView *view, GogViewAllocation const *bbox)
 	closure.swatch.y = view->allocation.y + outline + pad / 2.;
 	closure.swatch.w = gog_renderer_pt2r_x (view->renderer, legend->swatch_size_pts);
 	closure.swatch.h = gog_renderer_pt2r_y (view->renderer, legend->swatch_size_pts);
-	closure.size = closure.swatch.h + pad;
+	closure.step = closure.swatch.h + pad;
 	gog_chart_foreach_elem (GOG_CHART (view->model->parent),
 		(GogEnumFunc) cb_render_elements, &closure);
 
