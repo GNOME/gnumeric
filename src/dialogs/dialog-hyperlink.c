@@ -197,13 +197,13 @@ static struct {
 	void (*set_target) (HyperlinkState *state, const char* const target);
 	char const * (*get_target) (HyperlinkState *state, gboolean *success);
 } const type [] = {
-	{ N_("_Internal Link"), "Gnumeric_Link_Internal",
+	{ N_("Internal Link"), "Gnumeric_Link_Internal",
 	  "GnmHLinkCurWB",	"internal-link-box",
 	  N_("Jump to specific cells or named range in the current workbook"),
 	  dhl_set_target_cur_wb,
 	  dhl_get_target_cur_wb },
 
-	{ N_("_External Link"), "Gnumeric_Link_External",
+	{ N_("External Link"), "Gnumeric_Link_External",
 	  "GnmHLinkExternal",	"external-link-box" ,
 	  N_("Open an external file with the specified name"),
 	  dhl_set_target_external,
@@ -213,7 +213,7 @@ static struct {
 	  "GnmHLinkEMail",	"email-box" ,
 	  N_("Prepare an email"), NULL },
 #endif
-	{ N_("_Web Link"),		"Gnumeric_Link_URL",
+	{ N_("Web Link"),		"Gnumeric_Link_URL",
 	  "GnmHLinkURL",	"url-box" ,
 	  N_("Browse to the specified URL"),
 	  dhl_set_target_url,

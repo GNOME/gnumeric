@@ -267,14 +267,14 @@ gnumeric_sys_data_dir (char const *subdir)
 {
 	if (subdir == NULL)
 		return (char *)gnumeric_data_dir;
-	return g_build_path (G_DIR_SEPARATOR_S, gnumeric_data_dir, subdir, NULL);
+	return g_build_filename (gnumeric_data_dir, subdir, NULL);
 }
 
 extern char *gnumeric_lib_dir;
 char *
 gnumeric_sys_lib_dir (char const *subdir)
 {
-	return g_build_path (G_DIR_SEPARATOR_S, gnumeric_lib_dir, subdir, NULL);
+	return g_build_filename (gnumeric_lib_dir, subdir, NULL);
 }
 
 #define GLADE_SUFFIX	"glade"

@@ -1354,8 +1354,8 @@ plugin_service_ui_activate (GnmPluginService *service, ErrorInfo **ret_error)
 	char const *textdomain;
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	full_file_name = g_build_path (
-		G_DIR_SEPARATOR_S, gnm_plugin_get_dir_name (service->plugin),
+	full_file_name = g_build_filename (
+		gnm_plugin_get_dir_name (service->plugin),
 		service_ui->file_name, NULL);
 	uinode = bonobo_ui_node_from_file (full_file_name);
 	if (uinode == NULL) {

@@ -66,7 +66,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 
 	gboolean transition_keys = gnm_app_use_transition_keys();
 	gboolean end_mode = wbcg->last_key_was_end;
-	
+
 	/* Magic : Some of these are accelerators,
 	 * we need to catch them before entering because they appear to be printable
 	 */

@@ -35,6 +35,7 @@ Jody:
 	* Jump to lp_solve 5.0
 	* Jump to GLPK 4.5
 	* Add a View -> Windows menu
+	* Improve XL/OO compat for RANK()
 
 Jon Kåre:
 	* Export images to Excel

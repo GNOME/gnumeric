@@ -957,7 +957,7 @@ int_to_entry (GtkEntry *entry, gint the_int)
 char *
 gnumeric_icondir (char const *filename)
 {
-	return g_build_path (G_DIR_SEPARATOR_S, GNUMERIC_ICONDIR, filename, NULL);
+	return g_build_filename (GNUMERIC_ICONDIR, filename, NULL);
 }
 
 GtkWidget *

@@ -138,8 +138,8 @@ Pending Patches
     8.14) editing while zoomed
 
 -------------------------------------------------------------------------------
-1.3 Target Features
--------------------
+Target Features
+---------------
 - insert cut
 - pivot tables
 - validation from list (generalize filter combos)
@@ -227,7 +227,7 @@ Short Term Goals
 	1.6.3) editor to specify pref for vector or scalar	(DONE)
     1.7) Single point formating
 	1.7.1) Basic						(DONE)
-	1.7.2) Improve selection of single points
+	1.7.2) Improve selection of single points for pies	(DONE)
     1.8) data sources						(DONE)
 	1.8.1) vector and scalar data sources from gnumeric	(DONE)
 	1.8.2) Add min/max elements to vector			(DONE)
@@ -261,7 +261,7 @@ Short Term Goals
 	1.11.6) handle missing points in unstacked lines	(DONE)
     1.12) X/Y (Scatter) Plot
 	1.12.1) Add simple implementation			(DONE)
-	1.12.2) Take marker sizes into account at bounds
+	1.12.2) Take marker sizes into account at bounds	(DONE)
 	1.12.3) Bounds on 1 axis explicitly clip the other
 	1.12.4) Splined interpolation
 	1.12.5) Bubbles {Jean has patch}			(DONE)
@@ -471,7 +471,7 @@ Short Term Goals
 	6.11.4) export for XL97 (needs placement kludge)
     6.12) Set operand classes
 	6.12.1) calc and set the classes			(DONE)
-	6.12.2) check target_type of external func
+	6.12.2) check target_type of external func		(DONE)
 	6.12.3) check target type of range/intersect
     6.13) image export
 	6.13.1) Excel95
