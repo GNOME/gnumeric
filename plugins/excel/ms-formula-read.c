@@ -1122,10 +1122,10 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			/* FIXME : We need to revisit this when operator % is
 			 * available */
 			ExprTree * hundred =
-			    expr_tree_new_constant (value_new_int (100));
+			    expr_tree_new_constant (value_new_float (.01));
 			parse_list_push (&stack,
 					 expr_tree_new_binary (parse_list_pop (&stack),
-							       OPER_DIV,
+							       OPER_MULT,
 							       hundred));
 			break;
 		}
@@ -1135,8 +1135,8 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			ptg_length = 0 ;
 			break ;
 
-		case FORMULA_PTG_MISSARG: /* FIXME: Need Null Arg. type. */
-			parse_list_push_raw (&stack, value_new_string (""));
+		case FORMULA_PTG_MISSARG:
+			parse_list_push_raw (&stack, value_new_empty ());
 			ptg_length = 0 ;
 
 			break ;

@@ -261,7 +261,7 @@ function_category_compare(gconstpointer	a, gconstpointer b)
 }
 
 FunctionCategory *
-function_get_category (gchar *description)
+function_get_category (gchar const *description)
 {
 	FunctionCategory *cat;
 	FunctionCategory  tmp;
@@ -269,8 +269,8 @@ function_get_category (gchar *description)
 	g_return_val_if_fail(description != NULL, NULL);
 
 	tmp.name = description;
-       	cat = g_list_find_custom(categories, &tmp,
-				 &function_category_compare);
+       	cat = (FunctionCategory *)g_list_find_custom(categories, &tmp,
+						     &function_category_compare);
 	
 	if (cat != NULL)
 		return cat;
@@ -286,7 +286,7 @@ function_get_category (gchar *description)
 
 static void
 fn_def_init (FunctionDefinition *fd,
-	     char *name, char *args, char *arg_names, char **help)
+	     char const *name, char const *args, char const *arg_names, char **help)
 {
 	int lp, lp2;
 	char valid_tokens[] = "fsbraA?|";
@@ -316,9 +316,9 @@ fn_def_init (FunctionDefinition *fd,
 
 FunctionDefinition *
 function_add_nodes (FunctionCategory *parent,
-		    char *name,
-		    char *args,
-		    char *arg_names,
+		    char const *name,
+		    char const *args,
+		    char const *arg_names,
 		    char **help,
 		    FunctionNodes *fn)
 {
@@ -338,7 +338,10 @@ function_add_nodes (FunctionCategory *parent,
 
 FunctionDefinition *
 function_add_args (FunctionCategory *parent,
-		   char *name, char *args, char *arg_names, char **help,
+		   char const *name,
+		   char const *args,
+		   char const *arg_names,
+		   char **help,
 		   FunctionArgs *fn)
 {
 	FunctionDefinition *fd;

@@ -2417,7 +2417,7 @@ sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
 	sheet_cell_add_to_hash (sheet, cell);
 	if ((tmp = g_list_last (cell->col->data)) &&
 	    CRowSort (tmp->data, cell) < 0)
-		cell->col->data = g_list_append (cell->col->data, cell);
+		(void)g_list_append (tmp, cell);
 	else
 		cell->col->data = g_list_insert_sorted (cell->col->data, cell,
 							&CRowSort);
@@ -2992,7 +2992,7 @@ sheet_selection_copy (Sheet *sheet)
 	sheet->workbook->clipboard_contents = clipboard_copy_cell_range (
 		sheet,
 		ss->start_col, ss->start_row,
-		ss->end_col, ss->end_row);
+		ss->end_col, ss->end_row, FALSE);
 
 	return TRUE;
 }
@@ -3011,7 +3011,14 @@ sheet_selection_cut (Sheet *sheet)
 
 	ss = sheet->selections->data;
 
-	sheet_selection_copy (sheet);
+	if (sheet->workbook->clipboard_contents)
+		clipboard_release (sheet->workbook->clipboard_contents);
+
+	sheet->workbook->clipboard_contents = clipboard_copy_cell_range (
+		sheet,
+		ss->start_col, ss->start_row,
+		ss->end_col, ss->end_row, TRUE);
+
 	sheet_clear_region (sheet, ss->start_col, ss->start_row, ss->end_col, ss->end_row);
 
 	return TRUE;

@@ -37,12 +37,17 @@ typedef struct {
  * @target_col:  Column to put the cell into
  * @target_row:  Row to put the cell into.
  * @paste_flags: Bit mask that describes the paste options.
+ * @relocate: Should the cells references be relocated.
  *
  * Pastes a cell in the spreadsheet
  */
 static int
-paste_cell (Sheet *dest_sheet, Cell *new_cell, int target_col, int target_row, int paste_flags)
+paste_cell (Sheet *dest_sheet, Cell *new_cell,
+	    int target_col, int target_row,
+	    int paste_flags, gboolean relocate)
 {
+	int row_offset = new_cell->row->pos - target_row;
+	int col_offset = new_cell->col->pos - target_col;
 	sheet_cell_add (dest_sheet, new_cell, target_col, target_row);
 	
 	if (!(paste_flags & PASTE_FORMULAS)){
@@ -54,7 +59,9 @@ paste_cell (Sheet *dest_sheet, Cell *new_cell, int target_col, int target_row, i
 	
 	if (new_cell->parsed_node){
 		if (paste_flags & PASTE_FORMULAS){
-			cell_relocate (new_cell, 0, 0);
+			if (!relocate)
+				row_offset = col_offset = 0;
+			cell_relocate (new_cell, col_offset, row_offset);
 			cell_content_changed (new_cell);
 		}
 		else 
@@ -86,12 +93,13 @@ paste_cell_flags (Sheet *dest_sheet, int target_col, int target_row,
 	} else {
 		Cell *new_cell;
 		
-		if (c_copy->type == CELL_COPY_TYPE_CELL){
+		if (c_copy->type != CELL_COPY_TYPE_TEXT){
 			new_cell = cell_copy (c_copy->u.cell);
 			
 			return paste_cell (
 				dest_sheet, new_cell,
-				target_col, target_row, paste_flags);
+				target_col, target_row, paste_flags,
+				c_copy->type == CELL_COPY_TYPE_CELL_RELATIVE);
 		} else {
 			new_cell = sheet_cell_new (dest_sheet,
 						   target_col, target_row);
@@ -432,6 +440,7 @@ clipboard_export_cell_region (Workbook *wb)
 
 typedef struct {
 	int        base_col, base_row;
+	gboolean   relocate;
 	CellRegion *r;
 } append_cell_closure_t;
 
@@ -443,7 +452,7 @@ clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_d
 
 	copy = g_new (CellCopy, 1);
 
-	copy->type = CELL_COPY_TYPE_CELL;
+	copy->type = c->relocate ? CELL_COPY_TYPE_CELL_RELATIVE : CELL_COPY_TYPE_CELL_ABSOLUTE;
 	copy->u.cell = cell_copy (cell);
 	copy->col_offset  = col - c->base_col;
 	copy->row_offset  = row - c->base_row;
@@ -459,7 +468,10 @@ clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_d
  * Entry point to the clipboard copy code
  */
 CellRegion *
-clipboard_copy_cell_range (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
+clipboard_copy_cell_range (Sheet *sheet,
+			   int start_col, int start_row,
+			   int end_col, int end_row,
+			   gboolean relocate)
 {
 	append_cell_closure_t c;
 	
@@ -472,6 +484,7 @@ clipboard_copy_cell_range (Sheet *sheet, int start_col, int start_row, int end_c
 
 	c.base_col = start_col;
 	c.base_row = start_row;
+	c.relocate = relocate;
 	c.r->cols = end_col - start_col + 1;
 	c.r->rows = end_row - start_row + 1;
 	
@@ -591,9 +604,13 @@ clipboard_release (CellRegion *region)
 	for (l = region->list; l; l = l->next){
 		CellCopy *this_cell = l->data;
 		
-		if (this_cell->type == CELL_COPY_TYPE_CELL)
+		if (this_cell->type != CELL_COPY_TYPE_TEXT) {
+			/* The cell is not really in the rows or columns */
+			this_cell->u.cell->sheet = NULL;
+			this_cell->u.cell->row = NULL;
+			this_cell->u.cell->col = NULL;
 			cell_destroy (this_cell->u.cell);
-		else
+		} else
 			g_free (this_cell->u.text);
 		g_free (this_cell);
 	}

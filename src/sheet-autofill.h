@@ -8,8 +8,6 @@ typedef int (*AutofillFunction)     (Sheet *sheet,
 				     int w,        int h,
 				     int end_col,  int end_row);
 
-void    autofill_register_list      (const char *const *list);
-
 void    sheet_autofill              (Sheet *sheet,
 				     int base_col, int base_row,
 				     int w,        int h,

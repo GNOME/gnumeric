@@ -411,6 +411,31 @@ write_node (PolishData *pd, ExprTree *tree)
 			ms_biff_put_var_write (pd->bp, data, 9);
 			break;
 		}
+		case VALUE_BOOLEAN:
+		{
+			guint8 data[2];
+			MS_OLE_SET_GUINT8 (data, FORMULA_PTG_NUM);
+			MS_OLE_SET_GUINT8 (data+1, v->v.v_bool ? 1 : 0);
+			ms_biff_put_var_write (pd->bp, data, 2);
+			break;
+		}
+
+		case VALUE_ERROR:
+		{
+			guint8 data[2];
+			MS_OLE_SET_GUINT8 (data, FORMULA_PTG_ERR);
+			MS_OLE_SET_GUINT8 (data+1, ms_excel_write_map_errcode (v));
+			ms_biff_put_var_write (pd->bp, data, 2);
+			break;
+		}
+
+		case VALUE_EMPTY:
+		{
+			guint8 data = FORMULA_PTG_MISSARG;
+			ms_biff_put_var_write (pd->bp, &data, 1);
+			break;
+		}
+
 		case VALUE_STRING:
 			write_string (pd, v->v.str->str);
 			break;

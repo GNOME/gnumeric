@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.3\n"
-"POT-Creation-Date: 1999-08-16 00:59+0200\n"
+"POT-Creation-Date: 1999-08-16 02:38-0400\n"
 "PO-Revision-Date: 1998-12-05 07:00+09:00\n"
 "Last-Translator: Mitsuru Oka <95i44@is.kochi-u.ac.jp>\n"
 "Language-Team: \n"
@@ -620,7 +620,7 @@ msgid "Left"
 msgstr "左"
 
 #: src/dialog-cell-format.c:362 src/dialog-cell-format.c:371
-#: src/workbook.c:1118
+#: src/workbook.c:1120
 msgid "Center"
 msgstr "中心"
 
@@ -732,7 +732,7 @@ msgstr ""
 msgid "Need at least one clause"
 msgstr ""
 
-#: src/dialog-cell-sort.c:314 src/workbook.c:1393
+#: src/dialog-cell-sort.c:314 src/workbook.c:1477
 msgid "Selection must be a single range"
 msgstr ""
 
@@ -1029,11 +1029,11 @@ msgstr "パーセント"
 msgid "bool"
 msgstr ""
 
-#: src/dialog-solver.c:41 src/workbook.c:1503
+#: src/dialog-solver.c:41 src/workbook.c:1587
 msgid "Max"
 msgstr "最大"
 
-#: src/dialog-solver.c:42 src/workbook.c:1502
+#: src/dialog-solver.c:42 src/workbook.c:1586
 msgid "Min"
 msgstr "最小"
 
@@ -1193,7 +1193,7 @@ msgstr "型エラーです"
 msgid "Unknown operator"
 msgstr "未知の式評価エラーです"
 
-#: src/expr.c:1130
+#: src/expr.c:1132
 msgid "Unknown evaluation error"
 msgstr "未知の式評価エラーです"
 
@@ -5937,11 +5937,11 @@ msgstr ""
 msgid "$#,##0.00_);[Red]($#,##0.00)"
 msgstr "$#,##0.00_);[赤]($#,##0.00)"
 
-#: src/func.c:421
+#: src/func.c:424
 msgid "Function does not exist"
 msgstr ""
 
-#: src/func.c:423
+#: src/func.c:426
 msgid "Calling non-function"
 msgstr ""
 
@@ -6078,7 +6078,7 @@ msgid ""
 "the contents in this region?"
 msgstr ""
 
-#: src/item-cursor.c:580 src/item-grid.c:600 src/workbook.c:1106
+#: src/item-cursor.c:580 src/item-grid.c:600 src/workbook.c:1108
 msgid "Copy"
 msgstr "コピー"
 
@@ -6110,11 +6110,11 @@ msgstr "セルを下にずらして移動"
 msgid "Shift cells right and move"
 msgstr "セルを右にずらして移動"
 
-#: src/item-grid.c:599 src/workbook.c:1103
+#: src/item-grid.c:599 src/workbook.c:1105
 msgid "Cut"
 msgstr "カット"
 
-#: src/item-grid.c:601 src/workbook.c:1109
+#: src/item-grid.c:601 src/workbook.c:1111
 msgid "Paste"
 msgstr "貼付け"
 
@@ -6324,17 +6324,17 @@ msgstr "コピー"
 msgid "cut"
 msgstr "カット"
 
-#: src/sheet.c:3058
+#: src/sheet.c:3065
 #, fuzzy
 msgid "paste"
 msgstr "貼付け"
 
-#: src/sheet.c:4071
+#: src/sheet.c:4078
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr ""
 
-#: src/sheet.c:4083
+#: src/sheet.c:4090
 msgid "I was unable to the bind object"
 msgstr ""
 
@@ -6367,7 +6367,7 @@ msgstr ""
 msgid "#N/A"
 msgstr ""
 
-#: src/widget-font-selector.c:118 src/workbook.c:1126
+#: src/widget-font-selector.c:118 src/workbook.c:1128
 msgid "Bold"
 msgstr "太字"
 
@@ -6375,475 +6375,475 @@ msgstr "太字"
 msgid "Bold italic"
 msgstr ""
 
-#: src/widget-font-selector.c:120 src/workbook.c:1129
+#: src/widget-font-selector.c:120 src/workbook.c:1131
 msgid "Italic"
 msgstr "傾斜"
 
-#: src/workbook.c:443
+#: src/workbook.c:445
 msgid "Warning"
 msgstr "警告"
 
-#: src/workbook.c:451
+#: src/workbook.c:453
 #, fuzzy, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr " は変更されています、保存しますか?"
 
-#: src/workbook.c:454
+#: src/workbook.c:456
 #, fuzzy
 msgid "Workbook has unsaved changes, save them?"
 msgstr " は変更されています、保存しますか?"
 
-#: src/workbook.c:653
+#: src/workbook.c:655
 #, fuzzy
 msgid "Insert cols"
 msgstr "セルを挿入"
 
-#: src/workbook.c:672
+#: src/workbook.c:674
 msgid "Insert rows"
 msgstr "行を挿入"
 
-#: src/workbook.c:768
+#: src/workbook.c:770
 msgid ">mm/dd/yyyy"
 msgstr ""
 
-#: src/workbook.c:787
+#: src/workbook.c:789
 msgid ">hh:mm"
 msgstr ""
 
-#: src/workbook.c:895
+#: src/workbook.c:897
 msgid "_New"
 msgstr "新規(_N)"
 
-#: src/workbook.c:895
+#: src/workbook.c:897
 #, fuzzy
 msgid "Create a new spreadsheet"
 msgstr "新規にシートを作成"
 
-#: src/workbook.c:899
+#: src/workbook.c:901
 #, fuzzy
 msgid "_Import"
 msgstr "フォーマット(_O)"
 
-#: src/workbook.c:899
+#: src/workbook.c:901
 #, fuzzy
 msgid "Imports a file"
 msgstr "ファイルを読み込みます"
 
-#: src/workbook.c:905
+#: src/workbook.c:907
 msgid "Su_mmary..."
 msgstr ""
 
-#: src/workbook.c:905
+#: src/workbook.c:907
 msgid "Summary information"
 msgstr ""
 
-#: src/workbook.c:910
+#: src/workbook.c:912
 msgid "Plu_g-ins..."
 msgstr "プラグイン(_G)"
 
-#: src/workbook.c:910
+#: src/workbook.c:912
 #, fuzzy
 msgid "Gnumeric plugins"
 msgstr "垂直線"
 
-#: src/workbook.c:931
+#: src/workbook.c:933
 msgid "_All"
 msgstr "全て(_A)"
 
-#: src/workbook.c:932
+#: src/workbook.c:934
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr ""
 
-#: src/workbook.c:934
+#: src/workbook.c:936
 msgid "_Formats"
 msgstr "フォーマット(_F)"
 
-#: src/workbook.c:935
+#: src/workbook.c:937
 msgid "Clear the selected cells' formats"
 msgstr ""
 
-#: src/workbook.c:936
+#: src/workbook.c:938
 msgid "_Comments"
 msgstr "注釈(_C)"
 
-#: src/workbook.c:937
+#: src/workbook.c:939
 #, fuzzy
 msgid "Clear the selected cells' comments"
 msgstr "セルの内容を中央寄せ"
 
-#: src/workbook.c:938
+#: src/workbook.c:940
 msgid "_Content"
 msgstr "内容(_C)"
 
-#: src/workbook.c:939
+#: src/workbook.c:941
 #, fuzzy
 msgid "Clear the selected cells' contents"
 msgstr "セルの内容を中央寄せ"
 
-#: src/workbook.c:947
+#: src/workbook.c:949
 msgid "P_aste special..."
 msgstr "特別貼り付け(_A)..."
 
-#: src/workbook.c:948
+#: src/workbook.c:950
 msgid "C_lear"
 msgstr "消去(_L)"
 
-#: src/workbook.c:949
+#: src/workbook.c:951
 msgid "Clear the selected cell(s)"
 msgstr ""
 
-#: src/workbook.c:953
+#: src/workbook.c:955
 msgid "_Select All"
 msgstr "全てを選択(_S)"
 
-#: src/workbook.c:954
+#: src/workbook.c:956
 msgid "Select all cells in the spreadsheet"
 msgstr ""
 
-#: src/workbook.c:956
+#: src/workbook.c:958
 #, fuzzy
 msgid "_Goto cell..."
 msgstr "セルに移動(_G).."
 
-#: src/workbook.c:957
+#: src/workbook.c:959
 msgid "Jump to a specified cell"
 msgstr ""
 
-#: src/workbook.c:963
+#: src/workbook.c:965
 msgid "Insert object..."
 msgstr ""
 
-#: src/workbook.c:964
+#: src/workbook.c:966
 #, fuzzy
 msgid "Inserts a Bonobo object"
 msgstr "直線オブジェクトを作成"
 
-#: src/workbook.c:971
+#: src/workbook.c:973
 msgid "_Define cell names"
 msgstr "セル名を定義(_D)"
 
-#: src/workbook.c:975
+#: src/workbook.c:977
 msgid "_Recalculate"
 msgstr "再計算(_R)"
 
-#: src/workbook.c:976
+#: src/workbook.c:978
 msgid "Recalculate the spreadsheet"
 msgstr ""
 
-#: src/workbook.c:984
+#: src/workbook.c:986
 msgid "_Zoom..."
 msgstr "拡大(_Z)..."
 
-#: src/workbook.c:985
+#: src/workbook.c:987
 msgid "Zoom the spreadsheet in or out"
 msgstr ""
 
-#: src/workbook.c:992
+#: src/workbook.c:994
 msgid "Current _date"
 msgstr "現在の日付(_D)"
 
-#: src/workbook.c:993
+#: src/workbook.c:995
 msgid "Insert the current data into the selected cell(s)"
 msgstr ""
 
-#: src/workbook.c:996
+#: src/workbook.c:998
 msgid "Current _time"
 msgstr "現在の時間(_T)"
 
-#: src/workbook.c:997
+#: src/workbook.c:999
 msgid "Insert the current time into the selected cell(s)"
 msgstr ""
 
-#: src/workbook.c:1004 src/workbook.c:1050
+#: src/workbook.c:1006 src/workbook.c:1052
 msgid "_Sheet"
 msgstr "シート(_S)"
 
-#: src/workbook.c:1004
+#: src/workbook.c:1006
 #, fuzzy
 msgid "Insert a new spreadsheet"
 msgstr "新規にシートを作成"
 
-#: src/workbook.c:1006 src/workbook.c:1044
+#: src/workbook.c:1008 src/workbook.c:1046
 msgid "_Cells..."
 msgstr "セル(_C)..."
 
-#: src/workbook.c:1006
+#: src/workbook.c:1008
 #, fuzzy
 msgid "Insert new cells"
 msgstr "セルを挿入"
 
-#: src/workbook.c:1008
+#: src/workbook.c:1010
 msgid "_Rows"
 msgstr "行(_R)"
 
-#: src/workbook.c:1008
+#: src/workbook.c:1010
 #, fuzzy
 msgid "Insert new rows"
 msgstr "行を挿入"
 
-#: src/workbook.c:1010
+#: src/workbook.c:1012
 msgid "C_olumns"
 msgstr "列(_O)"
 
-#: src/workbook.c:1010
+#: src/workbook.c:1012
 #, fuzzy
 msgid "Insert new columns"
 msgstr "列を挿入"
 
-#: src/workbook.c:1015
+#: src/workbook.c:1017
 #, fuzzy
 msgid "_Add/modify comment..."
 msgstr "注釈を加える/修正(_A)"
 
-#: src/workbook.c:1016
+#: src/workbook.c:1018
 msgid "Edit the selected cell's comment"
 msgstr ""
 
-#: src/workbook.c:1017
+#: src/workbook.c:1019
 msgid "_Special"
 msgstr "特別(_S)"
 
-#: src/workbook.c:1026 src/workbook.c:1032
+#: src/workbook.c:1028 src/workbook.c:1034
 msgid "_Autoadjust"
 msgstr "自動調整(_A)"
 
-#: src/workbook.c:1027
+#: src/workbook.c:1029
 msgid "_Width"
 msgstr "幅(_W)"
 
-#: src/workbook.c:1033
+#: src/workbook.c:1035
 msgid "_Height"
 msgstr "高さ(_H)"
 
-#: src/workbook.c:1038
+#: src/workbook.c:1040
 msgid "_Change name"
 msgstr "名前を変更(_C)"
 
-#: src/workbook.c:1045
+#: src/workbook.c:1047
 msgid "Modify the formatting of the selected cells"
 msgstr ""
 
-#: src/workbook.c:1048
+#: src/workbook.c:1050
 msgid "C_olumn"
 msgstr "列(_O)"
 
-#: src/workbook.c:1049
+#: src/workbook.c:1051
 msgid "_Row"
 msgstr "行(_R)"
 
-#: src/workbook.c:1057
+#: src/workbook.c:1059
 #, fuzzy
 msgid "_Sort..."
 msgstr "フォーマット(_O)"
 
-#: src/workbook.c:1058
+#: src/workbook.c:1060
 #, fuzzy
 msgid "Sort the selected cells"
 msgstr "セルの内容を中央寄せ"
 
-#: src/workbook.c:1059
+#: src/workbook.c:1061
 msgid "_Goal Seek..."
 msgstr ""
 
-#: src/workbook.c:1061
+#: src/workbook.c:1063
 msgid "_Solver..."
 msgstr ""
 
-#: src/workbook.c:1063
+#: src/workbook.c:1065
 msgid "_Data Analysis..."
 msgstr ""
 
-#: src/workbook.c:1077
+#: src/workbook.c:1079
 msgid "_Insert"
 msgstr "挿入(_I)"
 
-#: src/workbook.c:1078
+#: src/workbook.c:1080
 msgid "F_ormat"
 msgstr "フォーマット(_O)"
 
-#: src/workbook.c:1079
+#: src/workbook.c:1081
 msgid "_Tools"
 msgstr ""
 
-#: src/workbook.c:1088
+#: src/workbook.c:1090
 msgid "New"
 msgstr "新規"
 
-#: src/workbook.c:1088
+#: src/workbook.c:1090
 #, fuzzy
 msgid "Creates a new sheet"
 msgstr "新規にシートを作成"
 
-#: src/workbook.c:1091
+#: src/workbook.c:1093
 msgid "Open"
 msgstr "開く"
 
-#: src/workbook.c:1091
+#: src/workbook.c:1093
 msgid "Opens an existing workbook"
 msgstr "既存のワークブックを開く"
 
-#: src/workbook.c:1094
+#: src/workbook.c:1096
 msgid "Save"
 msgstr "保存"
 
-#: src/workbook.c:1094
+#: src/workbook.c:1096
 msgid "Saves the workbook"
 msgstr "ワークブックを保存"
 
 #: src/print.glade.h:19 src/print.glade.h:32 src/print.glade.h:40
-#: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1097
+#: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1099
 #, fuzzy
 msgid "Print"
 msgstr "パーセント"
 
-#: src/workbook.c:1097
+#: src/workbook.c:1099
 #, fuzzy
 msgid "Prints the workbook"
 msgstr "ワークブックを保存"
 
-#: src/workbook.c:1103
+#: src/workbook.c:1105
 msgid "Cuts the selection to the clipboard"
 msgstr "選択部分をクリップボードにカット"
 
-#: src/workbook.c:1106
+#: src/workbook.c:1108
 msgid "Copies the selection to the clipboard"
 msgstr "選択部分をクリップボードにコピー"
 
-#: src/workbook.c:1109
+#: src/workbook.c:1111
 msgid "Pastes the clipboard"
 msgstr "クリップボードを貼付け"
 
-#: src/workbook.c:1115
+#: src/workbook.c:1117
 msgid "Left align"
 msgstr "左寄せ"
 
-#: src/workbook.c:1115
+#: src/workbook.c:1117
 #, fuzzy
 msgid "Left justifies the cell contents"
 msgstr "セルの内容を中央寄せ"
 
-#: src/workbook.c:1118
+#: src/workbook.c:1120
 msgid "Centers the cell contents"
 msgstr "セルの内容を中央寄せ"
 
-#: src/workbook.c:1121
+#: src/workbook.c:1123
 msgid "Right align"
 msgstr "右寄せ"
 
-#: src/workbook.c:1121
+#: src/workbook.c:1123
 #, fuzzy
 msgid "Right justifies the cell contents"
 msgstr "セルの内容を中央寄せ"
 
-#: src/workbook.c:1126
+#: src/workbook.c:1128
 #, fuzzy
 msgid "Sets the bold font"
 msgstr "このセルの属性を太字に設定"
 
-#: src/workbook.c:1129
+#: src/workbook.c:1131
 msgid "Makes the font italic"
 msgstr ""
 
-#: src/workbook.c:1136
+#: src/workbook.c:1138
 msgid "Graphic"
 msgstr ""
 
-#: src/workbook.c:1136
+#: src/workbook.c:1138
 #, fuzzy
 msgid "Creates a graphic in the spreadsheet"
 msgstr "新規にシートを作成"
 
-#: src/workbook.c:1140
+#: src/workbook.c:1142
 msgid "Line"
 msgstr "直線"
 
-#: src/workbook.c:1140
+#: src/workbook.c:1142
 msgid "Creates a line object"
 msgstr "直線オブジェクトを作成"
 
-#: src/workbook.c:1143
+#: src/workbook.c:1145
 msgid "Arrow"
 msgstr "矢印"
 
-#: src/workbook.c:1143
+#: src/workbook.c:1145
 msgid "Creates an arrow object"
 msgstr "矢印オブジェクトを作成"
 
-#: src/workbook.c:1146
+#: src/workbook.c:1148
 msgid "Rectangle"
 msgstr "矩形"
 
-#: src/workbook.c:1146
+#: src/workbook.c:1148
 msgid "Creates a rectangle object"
 msgstr "矩形オブジェクトを作成"
 
-#: src/workbook.c:1149
+#: src/workbook.c:1151
 msgid "Ellipse"
 msgstr "楕円"
 
-#: src/workbook.c:1149
+#: src/workbook.c:1151
 msgid "Creates an ellipse object"
 msgstr "楕円オブジェクトを作成"
 
-#: src/workbook.c:1286
+#: src/workbook.c:1370
 msgid "You should introduce a valid cell name"
 msgstr "正しいセル名を指定して下さい"
 
-#: src/workbook.c:1295
+#: src/workbook.c:1379
 msgid "Column out of range"
 msgstr "列が範囲外です"
 
-#: src/workbook.c:1301
+#: src/workbook.c:1385
 msgid "Row number out of range"
 msgstr "行数が範囲外です"
 
-#: src/workbook.c:1501
+#: src/workbook.c:1585
 msgid "Sum"
 msgstr "合計"
 
-#: src/workbook.c:1504
+#: src/workbook.c:1588
 msgid "Average"
 msgstr "平均"
 
-#: src/workbook.c:1505
+#: src/workbook.c:1589
 msgid "Count"
 msgstr "回数"
 
-#: src/workbook.c:1903
+#: src/workbook.c:1987
 msgid "Untitled.gnumeric"
 msgstr ""
 
-#: src/workbook.c:1992
+#: src/workbook.c:2076
 msgid "Zoom out"
 msgstr "拡大"
 
-#: src/workbook.c:1999
+#: src/workbook.c:2083
 msgid "Zoom in"
 msgstr "縮小"
 
-#: src/workbook.c:2094
+#: src/workbook.c:2178
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr ""
 
-#: src/workbook.c:2113
+#: src/workbook.c:2197
 msgid "Other sheets depend on the values on this sheet; I cannot remove it"
 msgstr ""
 
-#: src/workbook.c:2133
+#: src/workbook.c:2217
 msgid "Add another sheet"
 msgstr ""
 
-#: src/workbook.c:2134
+#: src/workbook.c:2218
 msgid "Remove this sheet"
 msgstr ""
 
-#: src/workbook.c:2400 src/workbook.c:2435
+#: src/workbook.c:2484 src/workbook.c:2519
 #, fuzzy, c-format
 msgid "Sheet%d"
 msgstr "シート %d"
 
-#: src/workbook.c:2508
+#: src/workbook.c:2592
 #, fuzzy
 msgid "Gnumeric: "
 msgstr "垂直線"

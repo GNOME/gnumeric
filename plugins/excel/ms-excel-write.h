@@ -71,4 +71,7 @@ extern int
 biff_put_text (BiffPut *bp, char *txt, eBiff_version ver,
 	       gboolean write_len, PutType how);
 
+extern int
+ms_excel_write_map_errcode (Value const * const v);
+
 #endif

@@ -35,10 +35,10 @@ cell_region_render_ascii (CellRegion *cr)
 		CellCopy *c_copy = l->data;
 		char *v;
 		
-		if (c_copy->type == CELL_COPY_TYPE_CELL)
-			v = cell_get_text (c_copy->u.cell);
-		else
+		if (c_copy->type != CELL_COPY_TYPE_TEXT)
 			v = g_strdup (c_copy->u.text);
+		else
+			v = cell_get_text (c_copy->u.cell);
 		
 		data [c_copy->row_offset][c_copy->col_offset] = v;
 	}

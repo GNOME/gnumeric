@@ -93,7 +93,8 @@ struct _Cell {
 #define CELL_IS_FORMAT_SET(cell) ((cell)->flags & CELL_FORMAT_SET)
 
 typedef enum {
-	CELL_COPY_TYPE_CELL,
+	CELL_COPY_TYPE_CELL_ABSOLUTE,
+	CELL_COPY_TYPE_CELL_RELATIVE,
 	CELL_COPY_TYPE_TEXT,
 } CellCopyType;
 

@@ -25,10 +25,15 @@ Jody:
 	* Added EOMONTH, WORKDAY, NETWORKDAYS.
 	* Work on functions : ROW, COLUMN, ISLOGICAL, ISERR, ISBLANK,
           DATEVALUE
-	* Support implict intersection 'feature' of XL for functions, not
-	  operators.
+	* Support implict intersection 'feature' of XL for functions,
+	  NOT operators.
 	* Support Ctrl-Arrow movement & selection.  Make moving corner of
 	  selection visible.
+	* Support F4 switching between absolute and relative addressing
+	  modes
+	* Reworked internal handling of absolute/relative addressing.
+	* Fixed cut/copy/paste to relocate relative references to only
+	  when copying not cuting.
 
 Jay:
 

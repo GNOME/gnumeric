@@ -1,3 +1,44 @@
+1999-08-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/expr.c (eval_expr_real) : Don't free empty cells
+	  in OPER_CONCAT.
+
+1999-08-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/clipboard.c (clipboard_release) : Use the original
+	  row/col to calculate offsets when pasting cells that relocate
+	  references.
+	(clipboard_copy_cell_range) : Handle relocation.
+
+	* src/expr.c (do_expr_decode_tree) : Duplicate the error message
+	  because someone is going to free it.
+	(expr_relocate) : New Function.
+
+	* src/cell.c (cell_relocate) : Use expr_relocate.
+	(cell_copy) : Don't NULL out the row/col/sheet
+	  in the copied cell.  It gets reset on entry and is useful
+	  information.
+	(paste_cell) : Handle relocate.
+	(clipboard_copy_cell_range) : Ditto.
+
+	* cell.h : Differentiate CELL_COPY_TYPE_CELL into
+	CELL_COPY_TYPE_CELL_ABSOLUTE or CELL_COPY_TYPE_CELL_RELATIVE,
+	to deal with cut vs paste.
+
+	* src/sheet-autofill.c : Use cell_relocate to test for out of bounds.
+
+1999-08-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (wb_edit_key_pressed) : Support F4 toggling
+	  abs/relative.
+
+	* src/expr.h : Constify FunctionDefinition.
+
+	* src/fn-information.c : Use 'Red' instead of 'red' to match XL.
+
+	* src/func.c (function_get_category, fn_def_init,
+		      function_add_nodes, function_add_args) : Constify.
+
 1999-08-15  Morten Welinder  <terra@diku.dk>
 
 	* src/fn-stat.c (gnumeric_frequency): Fix leak (bin_array).  Fix

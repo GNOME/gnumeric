@@ -756,12 +756,60 @@ xf_free (XF *xf)
 	}
 }
 
+int
+ms_excel_write_map_errcode (Value const * const v)
+{
+	char const * const mesg = v->v.error.mesg->str;
+	if (!strcmp (gnumeric_err_NULL, mesg))
+		return 0;
+	if (!strcmp (gnumeric_err_DIV0, mesg))
+		return 7;
+	if (!strcmp (gnumeric_err_VALUE, mesg))
+		return 15;
+	if (!strcmp (gnumeric_err_REF, mesg))
+		return 23;
+	if (!strcmp (gnumeric_err_NAME, mesg))
+		return 29;
+	if (!strcmp (gnumeric_err_NUM, mesg))
+		return 36;
+	if (!strcmp (gnumeric_err_NA, mesg))
+		return 42;
+
+	/* Map non-excel errors to #!NAME */
+	return 29;
+}
+
 static void
 write_value (BiffPut *bp, Value *v, eBiff_version ver,
 	     guint32 col, guint32 row, guint16 xf)
 {
 	switch (v->type) {
 
+	case VALUE_EMPTY:
+	{
+	    guint8 *data = ms_biff_put_len_next (bp, (0x200 | BIFF_BLANK), 6);
+	    EX_SETROW(data, row);
+	    EX_SETCOL(data, col);
+	    EX_SETXF (data, xf);
+	    break;
+	}
+	case VALUE_BOOLEAN:
+	case VALUE_ERROR:
+	{
+		guint8 *data = ms_biff_put_len_next (bp, (0x200 | BIFF_BOOLERR), 8);
+		EX_SETROW(data, row);
+		EX_SETCOL(data, col);
+		EX_SETXF (data, xf);
+		if (v->type == VALUE_ERROR) {
+			MS_OLE_SET_GUINT8 (data + 6, ms_excel_write_map_errcode (v));
+			MS_OLE_SET_GUINT8 (data + 7, 1); /* Mark as a err */
+		} else {
+			MS_OLE_SET_GUINT8 (data + 6, v->v.v_bool ? 1 : 0);
+			MS_OLE_SET_GUINT8 (data + 7, 0); /* Mark as a bool */
+		}
+		ms_biff_put_commit (bp);
+		break;
+	}
 	case VALUE_INTEGER:
 	{
 		int_t vint = v->v.v_int;
@@ -856,27 +904,56 @@ write_formula (BiffPut *bp, ExcelSheet *sheet, Cell *cell)
 	guint32  len;
 	gboolean string_result = FALSE;
 	gint     col, row;
+	Value   *v;
 	
 	g_return_if_fail (bp);
 	g_return_if_fail (cell);
 	g_return_if_fail (sheet);
 	g_return_if_fail (cell->parsed_node);
+	g_return_if_fail (cell->value);
 
 	col = cell->col->pos;
 	row = cell->row->pos;
+	v = cell->value;
 
 	/* See: S59D8F.HTM */
 	ms_biff_put_var_next (bp, BIFF_FORMULA);
 	EX_SETROW (data, row);
 	EX_SETCOL (data, col);
 	EX_SETXF  (data, XF_MAGIC);
-	if (cell->value && VALUE_IS_NUMBER (cell->value))
-		BIFF_SETDOUBLE (data + 6, value_get_as_float (cell->value));
-	else { /* FIXME: Need special cases for BOOLERR & BOOLEAN */
+	switch (v->type) {
+	case VALUE_INTEGER :
+	case VALUE_FLOAT :
+		BIFF_SETDOUBLE (data + 6, value_get_as_float (v));
+		break;
+
+	case VALUE_STRING :
 		MS_OLE_SET_GUINT32 (data +  6, 0x00000000);
 		MS_OLE_SET_GUINT32 (data + 10, 0xffff0000);
 		string_result = TRUE;
+		break;
+
+	case VALUE_BOOLEAN :
+		MS_OLE_SET_GUINT32 (data +  6,
+				    (v->v.v_bool ? 0x100 : 0x0) | 0x00000001);
+		MS_OLE_SET_GUINT32 (data + 10, 0xffff0000);
+		break;
+
+	case VALUE_ERROR :
+		MS_OLE_SET_GUINT32 (data +  6,
+				    0x00000002 | (ms_excel_write_map_errcode (v) << 8));
+		MS_OLE_SET_GUINT32 (data + 10, 0xffff0000);
+		break;
+
+	case VALUE_EMPTY :
+		MS_OLE_SET_GUINT32 (data +  6, 0x00000003);
+		MS_OLE_SET_GUINT32 (data + 10, 0xffff0000);
+		break;
+
+	default :
+		g_warning ("Unhandled value->type (%d) in excel::write_formula", v->type);
 	}
+
 	MS_OLE_SET_GUINT16 (data + 14, 0x0); /* Always calc & on load */
 	MS_OLE_SET_GUINT32 (data + 16, 0x0);
 	MS_OLE_SET_GUINT16 (data + 20, 0x0);
@@ -892,10 +969,9 @@ write_formula (BiffPut *bp, ExcelSheet *sheet, Cell *cell)
 
 	if (string_result) {
 		gchar *str;
-		g_return_if_fail (cell->value);
 
 		ms_biff_put_var_next (bp, 0x200|BIFF_STRING);
-		str = value_get_as_string (cell->value);
+		str = value_get_as_string (v);
 		biff_put_text (bp, str, eBiffV7, TRUE, SIXTEEN_BIT);
 		g_free (str);
 		ms_biff_put_commit (bp);

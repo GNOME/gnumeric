@@ -30,6 +30,8 @@
 #include "embeddable-grid.h"
 #endif
 
+#include <ctype.h>
+
 /* The locations within the main table in the workbook */
 #define WB_EA_LINE   0
 #define WB_EA_SHEETS 1
@@ -1258,6 +1260,88 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
 		sheet_cancel_pending_input (workbook_get_current_sheet (wb));
 		workbook_focus_current_sheet (wb);
 		return TRUE;
+
+	case GDK_F4:
+	{
+		int end_pos = GTK_EDITABLE (entry)->current_pos;
+		int start_pos;
+		int row_status_pos, col_status_pos;
+		gboolean abs_row = FALSE, abs_col = FALSE;
+
+		/* Ignore this character */
+		event->keyval = GDK_VoidSymbol;
+
+		/* Only apply do this for formulas */
+		if (entry->text [0] != '=')
+			return TRUE;
+
+		/*
+		 * Find the end of the current range
+		 * starting from the current position.
+		 * Don't bother validating.  The goal is the find the
+		 * end.  We'll validate on the way back.
+		 */
+		if (entry->text[end_pos] == '$')
+			++end_pos;
+		while (isalpha (entry->text[end_pos]))
+			++end_pos;
+		if (entry->text[end_pos] == '$')
+			++end_pos;
+		while (isdigit (entry->text[end_pos]))
+			++end_pos;
+
+		/*
+		 * Try to find the begining of the current range
+		 * starting from the end we just found
+		 */
+		start_pos = end_pos - 1;
+		while (start_pos >= 0 && isdigit (entry->text[start_pos]))
+			--start_pos;
+		if (start_pos == end_pos)
+			return TRUE;
+
+		row_status_pos = start_pos + 1;
+		if ((abs_row = (entry->text[start_pos] == '$')))
+			--start_pos;
+
+		while (start_pos >= 0 && isalpha (entry->text[start_pos]))
+			--start_pos;
+		if (start_pos == end_pos)
+			return TRUE;
+
+		col_status_pos = start_pos + 1;
+		if ((abs_col = (entry->text[start_pos] == '$')))
+			--start_pos;
+
+		/* Toggle the relative vs absolute flags */
+		if (abs_col) {
+			--end_pos;
+			--row_status_pos;
+			gtk_editable_delete_text (GTK_EDITABLE (entry),
+						  col_status_pos-1, col_status_pos);
+		} else {
+			++end_pos;
+			++row_status_pos;
+			gtk_editable_insert_text (GTK_EDITABLE (entry), "$", 1,
+						  &col_status_pos);
+		}
+
+		if (!abs_col) {
+			if (abs_row) {
+				--end_pos;
+				gtk_editable_delete_text (GTK_EDITABLE (entry),
+							  row_status_pos-1, row_status_pos);
+			} else {
+				++end_pos;
+				gtk_editable_insert_text (GTK_EDITABLE (entry), "$", 1,
+							  &row_status_pos);
+			}
+		}
+
+		/* Select the current range */
+		gtk_editable_select_region (GTK_EDITABLE (entry), start_pos+1, end_pos);
+		GTK_EDITABLE (entry)->current_pos = start_pos+1;
+	}
 
 	case GDK_KP_Up:
 	case GDK_Up:

@@ -144,9 +144,9 @@ FunctionEvalInfo *func_eval_info_pos  (FunctionEvalInfo *s, const EvalPosition *
  */
 
 struct _FunctionDefinition {
-	char  *name;
-	char  *args;
-	char  *named_arguments;
+	char  const *name;
+	char  const *args;
+	char  const *named_arguments;
 	char  **help;
 	FuncType fn_type;
 	union {
@@ -208,6 +208,10 @@ ExprTree   *expr_tree_invalidate_references (ExprTree *src, EvalPosition *src_fp
 ExprTree   *expr_tree_fixup_references (ExprTree *src, EvalPosition *src_fp,
 					const EvalPosition *fp,
 					int coldelta, int rowdelta);
+
+
+ExprTree * expr_relocate (ExprTree *expr, EvalPosition const *pos,
+			  int col_offset, int row_offset);
 
 int             expr_tree_get_const_int (ExprTree const *const expr);
 char const *	expr_tree_get_const_str (ExprTree const *const expr);

@@ -74,10 +74,10 @@ Value      *function_iterate_do_value (const EvalPosition      *fp,
  */
 typedef struct _FunctionCategory FunctionCategory;
 struct _FunctionCategory {
-	gchar *name;
+	gchar const *name;
 	GList *functions;
 };
-FunctionCategory   *function_get_category (gchar *description);
+FunctionCategory   *function_get_category (gchar const *description);
 
 /**
  *  Argument tokens passed in 'args'
@@ -94,15 +94,15 @@ FunctionCategory   *function_get_category (gchar *description);
  * "ff|ss" where the strings are optional
  **/
 FunctionDefinition *function_add_args  (FunctionCategory *parent,
-				        char *name,
-				        char *args,
-				        char *arg_names,
+				        char const *name,
+				        char const *args,
+				        char const *arg_names,
 				        char **help,
 				        FunctionArgs *fn);
 FunctionDefinition *function_add_nodes (FunctionCategory *parent,
-					char *name,
-					char *args,
-					char *arg_names,
+					char const *name,
+					char const *args,
+					char const *arg_names,
 					char **help,
 					FunctionNodes *fn);
 

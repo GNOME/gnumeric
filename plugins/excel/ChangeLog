@@ -1,3 +1,10 @@
+1999-08-15  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-write.c (write_value) : Add support for VALUE_BOOLEAN,
+	  VALUE_ERROR, VALUE_EMPTY.
+	(write_formula) : Ditto.
+	* ms-formula-write.c (write_node) : Ditto.
+
 1999-08-15  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel-read.c (ms_excel_read_workbook): First use, then

@@ -515,10 +515,14 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 		return;
 	}
 		
-	case FILL_FORMULA: {
-		/* FIXME: we should invalidate cell refs that are now outside
-		   the valid range.  */
-		cell_set_formula_tree (cell, fi->v.formula);
+	case FILL_FORMULA:
+	{
+		EvalPosition pos;
+		ExprTree * func = expr_relocate (fi->v.formula,
+						 eval_pos_cell (&pos, cell),
+						 0,0);
+		cell_set_formula_tree (cell,
+				       (func == NULL) ? fi->v.formula : func);
 		return;
 	}
 	

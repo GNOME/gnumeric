@@ -25,10 +25,6 @@ Gnumeric Spread Sheet task list
 
 * Cell editing
 
-   * Pressing F4 when editing a cell formula, should switch a cell
-     reference in the following cycle:
-       A4 -> $A$4 -> $A4 -> A$4 -> A4
-
    * Support for entering multiline cells, and <Alt-Enter> adding an
      embedded newline.
 

@@ -831,8 +831,7 @@ cell_set_formula_tree (Cell *cell, ExprTree *formula)
  *
  * Makes a copy of a Cell.
  *
- * Returns a copy of the cell.  Note that the col, row and sheet
- * fields are set to NULL.
+ * Returns a copy of the cell.
  */
 Cell *
 cell_copy (const Cell *cell)
@@ -846,9 +845,6 @@ cell_copy (const Cell *cell)
 	/* bitmap copy first */
 	*new_cell = *cell;
 
-	new_cell->col   = NULL;
-	new_cell->row   = NULL;
-	new_cell->sheet = NULL;
 	new_cell->flags &= ~CELL_QUEUED_FOR_RECALC;
 
 	/* now copy properly the rest */
@@ -1078,12 +1074,14 @@ cell_relocate (Cell *cell, int col_diff, int row_diff)
 
 	/* 2. If the cell contains a formula, relocate the formula */
 	if (cell->parsed_node){
+		EvalPosition pos;
+		ExprTree * newtree;
 		sheet_cell_formula_unlink (cell);
 
 		/*
 		 * WARNING WARNING WARNING
 		 *
-		 * This will will only work if the new array cell has already
+		 * This will only work if the new array cell has already
 		 * been inserted.
 		 *
 		 * WARNING WARNING WARNING
@@ -1097,6 +1095,16 @@ cell_relocate (Cell *cell, int col_diff, int row_diff)
 					sheet_cell_get (cell->sheet,
 							cell->col->pos - x,
 							cell->row->pos - y);
+		}
+
+		newtree = expr_relocate (cell->parsed_node,
+					 eval_pos_cell (&pos, cell),
+					 col_diff, row_diff);
+
+		if (newtree) {
+			expr_tree_ref (newtree);
+			expr_tree_unref (cell->parsed_node);
+			cell->parsed_node = newtree;
 		}
 
 		/* The following call also relinks the cell.  */

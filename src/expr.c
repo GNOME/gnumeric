@@ -1036,7 +1036,9 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 		g_free (sb);
 		g_free (tmp);
 
+		if (a != NULL)
 		value_release (a);
+		if (b != NULL)
 		value_release (b);
 		return res;
 	}
@@ -1313,9 +1315,7 @@ do_expr_decode_tree (ExprTree *tree, const ParsePosition *pp,
 		return g_strdup (tree->u.name->name->str);
 
 	case OPER_VAR: {
-		CellRef *cell_ref;
-
-		cell_ref = &tree->u.ref;
+		CellRef *cell_ref = &tree->u.ref;
 		return cellref_name (cell_ref, pp->col, pp->row);
 	}
 
@@ -1342,7 +1342,7 @@ do_expr_decode_tree (ExprTree *tree, const ParsePosition *pp,
 			return g_strconcat ("\"", v->v.str->str, "\"", NULL);
 
 		case VALUE_ERROR:
-			return v->v.error.mesg->str;
+			return g_strdup (v->v.error.mesg->str);
 
 		case VALUE_BOOLEAN:
 		case VALUE_INTEGER:
@@ -1877,6 +1877,194 @@ expr_tree_fixup_references (ExprTree *src, EvalPosition *src_fp,
 #endif
 
 	return dst;
+}
+
+enum CellRefRelocate {
+	CELLREF_NO_RELOCATE = 1,
+	CELLREF_RELOCATE = 2,
+	CELLREF_RELOCATE_ERR = 3,
+};
+
+static enum CellRefRelocate
+cellref_relocate (CellRef const * const ref,
+		  EvalPosition const *pos,
+		  int col_offset, int row_offset)
+{
+	/* Be sure to check overflow for row if moving both row & col */
+	enum CellRefRelocate res = CELLREF_NO_RELOCATE;
+	if (ref->col_relative)
+	{
+		int const tmp = pos->eval_col + ref->col + col_offset;
+	    printf ("res = %d\npos->eval_col = %d\nref->col = %d\ncol_offset = %d\n",
+		tmp, pos->eval_col, ref->col, col_offset);
+		if (tmp < 0 || SHEET_MAX_COLS <= tmp)
+			return CELLREF_RELOCATE_ERR;
+
+		if (col_offset != 0)
+			res = CELLREF_RELOCATE;
+	}
+	if (ref->row_relative)
+	{
+		int const tmp = pos->eval_row + ref->row + row_offset;
+		if (tmp < 0 || SHEET_MAX_ROWS <= tmp)
+			return CELLREF_RELOCATE_ERR;
+		if (row_offset != 0)
+			return CELLREF_RELOCATE;
+	}
+	return res;
+}
+
+/*
+ * expr_relocate :
+ * @expr : The express to check to relative references.
+ * @col_offset : The column shift.
+ * @row_offset : The row shift.
+ *
+ * Find any relative references and adjust them by the supplied
+ * deltas.  Check for out of bounds conditions.  Return NULL
+ * if no change is required.
+ */
+ExprTree *
+expr_relocate (ExprTree *expr,
+	       EvalPosition const *pos,
+	       int col_offset, int row_offset)
+{
+	g_return_val_if_fail (expr != NULL, NULL);
+
+	switch (expr->oper) {
+	case OPER_ANY_BINARY: {
+		ExprTree *a = expr_relocate (expr->u.binary.value_a, pos,
+					     col_offset, row_offset);
+		ExprTree *b = expr_relocate (expr->u.binary.value_b, pos,
+					     col_offset, row_offset);
+
+		if (a == NULL && b == NULL)
+			return NULL;
+
+		if (a == NULL)
+			expr_tree_ref ((a = expr->u.binary.value_a));
+		else if (b == NULL)
+			expr_tree_ref ((b = expr->u.binary.value_b));
+
+		return expr_tree_new_binary (a, expr->oper, b);
+	}
+
+	case OPER_ANY_UNARY: {
+		ExprTree *a = expr_relocate (expr->u.value, pos,
+					     col_offset, row_offset);
+		if (a == NULL)
+			return NULL;
+		return expr_tree_new_unary (expr->oper, a);
+	}
+
+	case OPER_FUNCALL: {
+		gboolean relocate = FALSE;
+		GList *new_args = NULL;
+		GList *l;
+
+		for (l = expr->u.function.arg_list; l; l = l->next) {
+			ExprTree *arg = expr_relocate (l->data, pos, col_offset, row_offset);
+			new_args = g_list_append (new_args, arg);
+			if (relocate)
+				relocate = TRUE;
+		}
+
+		if (relocate) {
+			GList *m;
+
+			for (l = expr->u.function.arg_list, m = new_args; l; l = l->next, m = m->next) {
+				if (m->data == NULL)
+					expr_tree_ref ((m->data = l->data));
+			}
+
+			symbol_ref (expr->u.function.symbol);
+			return expr_tree_new_funcall (expr->u.function.symbol, new_args);
+		}
+		g_list_free (new_args);
+		return NULL;
+	}
+
+	case OPER_NAME:
+		return NULL;
+
+	case OPER_VAR: {
+		CellRef const * const ref = & expr->u.ref;
+		switch (cellref_relocate (ref, pos, col_offset, row_offset)) {
+		case CELLREF_NO_RELOCATE : return NULL;
+		case CELLREF_RELOCATE :
+		{
+			ExprTree * res = expr_tree_new_var (ref);
+			if (res->u.ref.row_relative)
+				res->u.ref.row += row_offset;
+			if (res->u.ref.col_relative)
+				res->u.ref.col += col_offset;
+			return res;
+		}
+
+		default :
+			return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+		};
+	}
+
+	case OPER_CONSTANT:
+	{
+	       Value const * const v = expr->u.constant;
+	       if  (v->type == VALUE_CELLRANGE) {
+		       CellRef const * const ref_a =
+			       &v->v.cell_range.cell_a;
+		       CellRef const * const ref_b =
+			       &v->v.cell_range.cell_b;
+		       enum CellRefRelocate const res_a =
+			       cellref_relocate (ref_a, pos, col_offset, row_offset);
+		       enum CellRefRelocate const res_b =
+			       cellref_relocate (ref_b, pos, col_offset, row_offset);
+		       Value * res;
+
+			switch (res_a > res_b ? res_a : res_b) {
+			case CELLREF_NO_RELOCATE : return NULL;
+			case CELLREF_RELOCATE :
+				res = value_new_cellrange (ref_a, ref_b);
+				if (res->v.cell_range.cell_a.row_relative)
+					res->v.cell_range.cell_a.row += row_offset;
+				if (res->v.cell_range.cell_a.col_relative)
+					res->v.cell_range.cell_a.col += col_offset;
+				if (res->v.cell_range.cell_b.row_relative)
+					res->v.cell_range.cell_b.row += row_offset;
+				if (res->v.cell_range.cell_b.col_relative)
+					res->v.cell_range.cell_b.col += col_offset;
+				break;
+
+			default :
+				res = value_new_error (NULL, gnumeric_err_REF);
+			};
+			return expr_tree_new_constant (res);
+	       }
+	       return NULL;
+	}
+
+	case OPER_ARRAY:
+	{
+		ArrayRef * a = &expr->u.array;
+		if (a->x == 0 && a->y == 0) {
+			ExprTree *func =
+			    expr_relocate (a->corner.func.expr, pos,
+					   col_offset, row_offset);
+
+			if (func != NULL) {
+				ExprTree *res =
+				    expr_tree_array_formula (0, 0,
+							     a->rows, a->cols);
+				res->u.array.corner.func.value = NULL;
+				res->u.array.corner.func.expr = func;
+				return res;
+			}
+		}
+		return NULL;
+	}
+	}
+
+	g_assert_not_reached ();
+	return NULL;
 }
 
 /* Debugging utility to print an expression */
