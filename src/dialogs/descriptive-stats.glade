@@ -236,6 +236,7 @@
             <property name="n-rows">4</property>
             <property name="n-columns">3</property>
             <property name="visible">yes</property>
+	    <property name="border_width">5</property>
 
             <child>
               <widget class="GtkCheckButton" id="summary_stats_button">

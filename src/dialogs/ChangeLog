@@ -1,5 +1,12 @@
 2002-03-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* tools.h : change descriptive_stats_tool into 
+	  cmd_analysis_tools engine
+	* dialog-analysis-tools.c : make descriptive statistics tool
+	  undoable
+
+2002-03-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* tools.h : change covariance_tool into 
 	  cmd_analysis_tools engine
 	* dialog-analysis-tools.c : make covariance tool

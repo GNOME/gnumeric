@@ -548,18 +548,18 @@ corr_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
 			       dao, data, analysis_tool_correlation_engine)) {
 
-		switch (data->err) {
-		case 1:
+		switch (data->err - 1) {
+		case GROUPED_BY_ROW:
 			error_in_entry ((GenericToolState *) state, 
 					GTK_WIDGET (state->input_entry),
 					_("The selected input rows must have equal size!"));
 			break;
-		case 2:
+		case GROUPED_BY_COL:
 			error_in_entry ((GenericToolState *) state, 
 					GTK_WIDGET (state->input_entry),
 					_("The selected input columns must have equal size!"));
 			break;
-		case 3:
+		case GROUPED_BY_AREA:
 			error_in_entry ((GenericToolState *) state, 
 					GTK_WIDGET (state->input_entry),
 					_("The selected input areas must have equal size!"));
@@ -675,18 +675,18 @@ cov_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
 			       dao, data, analysis_tool_covariance_engine)) {
 
-		switch (data->err) {
-		case 1:
+		switch (data->err - 1) {
+		case GROUPED_BY_ROW:
 			error_in_entry ((GenericToolState *) state, 
 					GTK_WIDGET (state->input_entry),
 					_("The selected input rows must have equal size!"));
 			break;
-		case 2:
+		case GROUPED_BY_COL:
 			error_in_entry ((GenericToolState *) state, 
 					GTK_WIDGET (state->input_entry),
 					_("The selected input columns must have equal size!"));
 			break;
-		case 3:
+		case GROUPED_BY_AREA:
 			error_in_entry ((GenericToolState *) state, 
 					GTK_WIDGET (state->input_entry),
 					_("The selected input areas must have equal size!"));
@@ -788,50 +788,43 @@ static const char *stats_group[] = {
 static void
 cb_desc_stat_tool_ok_clicked (GtkWidget *button, DescriptiveStatState *state)
 {
-	data_analysis_output_t  dao;
-	descriptive_stat_tool_t dst;
-        char   *text;
+	data_analysis_output_t  *dao;
+	analysis_tools_data_descriptive_t  *data;
+
 	GtkWidget *w;
-	GSList *input;
-	int err;
+	gint err;
 
-	input = gnm_expr_entry_parse_as_list (
+	data = g_new0 (analysis_tools_data_descriptive_t, 1);
+	dao  = g_new0 (data_analysis_output_t, 1);
+
+	data->input = gnm_expr_entry_parse_as_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
-	dst.summary_statistics = gtk_toggle_button_get_active (
+	data->summary_statistics = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->summary_stats_button));
-	dst.confidence_level = gtk_toggle_button_get_active (
+	data->confidence_level = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->mean_stats_button));
-	dst.kth_largest = gtk_toggle_button_get_active (
+	data->kth_largest = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->kth_largest_button));
-	dst.kth_smallest = gtk_toggle_button_get_active (
+	data->kth_smallest = gtk_toggle_button_get_active (
 		GTK_TOGGLE_BUTTON (state->kth_smallest_button));
 
-	if (dst.confidence_level == 1)
-		err = entry_to_float (GTK_ENTRY (state->c_entry), &dst.c_level, TRUE);
-	if (dst.kth_largest == 1)
-		err = entry_to_int (GTK_ENTRY (state->l_entry), &dst.k_largest, TRUE);
-	if (dst.kth_smallest == 1)
-		err = entry_to_int (GTK_ENTRY (state->s_entry), &dst.k_smallest, TRUE);
+	if (data->confidence_level == 1)
+		err = entry_to_float (GTK_ENTRY (state->c_entry), &data->c_level, TRUE);
+	if (data->kth_largest == 1)
+		err = entry_to_int (GTK_ENTRY (state->l_entry), &data->k_largest, TRUE);
+	if (data->kth_smallest == 1)
+		err = entry_to_int (GTK_ENTRY (state->s_entry), &data->k_smallest, TRUE);
 
-        parse_output ((GenericToolState *)state, &dao);
+        parse_output ((GenericToolState *)state, dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = descriptive_stat_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, input,
-				   gnumeric_glade_group_value (state->gui, grouped_by_group),
-				     &dst, &dao);
-	switch (err) {
-	case 0:
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
+			       dao, data, analysis_tool_descriptive_engine)) 
 		gtk_widget_destroy (state->dialog);
-		break;
-	default:
-		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
-		g_free (text);
-		break;
-	}
 	return;
 }
 

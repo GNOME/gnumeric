@@ -20,8 +20,6 @@ typedef gboolean (* analysis_tool_engine) (data_analysis_output_t *dao, gpointer
 					   analysis_tool_engine_t selector, gpointer result);
 
 
-
-
 /* the following enum and char *[] must stay synchronized! */
 typedef enum {
 	GROUPED_BY_ROW = 0,
@@ -29,16 +27,6 @@ typedef enum {
 	GROUPED_BY_AREA = 2,
 	GROUPED_BY_BIN = 3
 } group_by_t;
-
-
-typedef struct {
-        gboolean summary_statistics;
-        gboolean confidence_level;
-        gboolean kth_largest;
-        gboolean kth_smallest;
-        int      k_smallest, k_largest;
-        gnum_float  c_level;
-} descriptive_stat_tool_t;
 
 typedef enum {
   DiscreteDistribution, UniformDistribution, NormalDistribution,

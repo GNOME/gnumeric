@@ -884,12 +884,10 @@ typedef struct {
 } desc_stats_t;
 
 static void
-summary_statistics (WorkbookControl *wbc, GPtrArray *data,
+summary_statistics (GPtrArray *data,
 		    data_analysis_output_t *dao, GArray *basic_stats)
 {
 	guint     col;
-
-	dao_prepare_output (wbc, dao, _("Summary Statistics"));
 
         dao_set_cell (dao, 0, 0, NULL);
 
@@ -977,7 +975,7 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data,
 }
 
 static void
-confidence_level (WorkbookControl *wbc, GPtrArray *data, gnum_float c_level,
+confidence_level (GPtrArray *data, gnum_float c_level,
 		  data_analysis_output_t *dao, GArray *basic_stats)
 {
         gnum_float x;
@@ -987,7 +985,6 @@ confidence_level (WorkbookControl *wbc, GPtrArray *data, gnum_float c_level,
 	desc_stats_t info;
 	data_set_t *the_col;
 
-	dao_prepare_output (wbc, dao, _("Confidence Interval for the Mean"));
 	format = g_strdup_printf (_("/%%%s%%%% CI for the Mean from"
 				    "/to"), GNUM_FORMAT_g);
 	buffer = g_strdup_printf (format, c_level * 100);
@@ -1014,12 +1011,11 @@ confidence_level (WorkbookControl *wbc, GPtrArray *data, gnum_float c_level,
 		}
 		dao_set_cell_na (dao, col + 1, 1);
 	}
-	dao_autofit_columns (dao);
 }
 
 
 static void
-kth_largest (WorkbookControl *wbc, GPtrArray *data, int k,
+kth_largest (GPtrArray *data, int k,
 	     data_analysis_output_t *dao)
 {
         gnum_float x;
@@ -1027,7 +1023,6 @@ kth_largest (WorkbookControl *wbc, GPtrArray *data, int k,
 	gint error;
 	data_set_t *the_col;
 
-	dao_prepare_output (wbc, dao, _("Kth Largest"));
         dao_set_cell_printf (dao, 0, 1, _("Largest (%d)"), k);
 
         dao_set_cell (dao, 0, 0, NULL);
@@ -1040,11 +1035,10 @@ kth_largest (WorkbookControl *wbc, GPtrArray *data, int k,
 					      the_col->data->len, &x, the_col->data->len - k);
 		dao_set_cell_float_na (dao, col + 1, 1, x, error == 0);
 	}
-	dao_autofit_columns (dao);
 }
 
 static void
-kth_smallest (WorkbookControl *wbc, GPtrArray  *data, int k,
+kth_smallest (GPtrArray  *data, int k,
 	      data_analysis_output_t *dao)
 {
         gnum_float x;
@@ -1052,7 +1046,6 @@ kth_smallest (WorkbookControl *wbc, GPtrArray  *data, int k,
 	gint error;
 	data_set_t *the_col;
 
-	dao_prepare_output (wbc, dao, _("Kth Smallest"));
         dao_set_cell_printf (dao, 0, 1, _("Smallest (%d)"), k);
 
         dao_set_cell (dao, 0, 0, NULL);
@@ -1065,82 +1058,102 @@ kth_smallest (WorkbookControl *wbc, GPtrArray  *data, int k,
 					      the_col->data->len, &x, k - 1);
 		dao_set_cell_float_na (dao, col + 1, 1, x, error == 0);
 	}
-	dao_autofit_columns (dao);
 }
 
 /* Descriptive Statistics
  */
-int
-descriptive_stat_tool (WorkbookControl *wbc, Sheet *sheet,
-		       GSList *input, group_by_t group_by,
-		       descriptive_stat_tool_t *ds,
-		       data_analysis_output_t *dao)
+static gboolean
+analysis_tool_descriptive_engine_run (data_analysis_output_t *dao, 
+				      analysis_tools_data_descriptive_t *info)
 {
-	GSList *input_range = input;
 	GPtrArray *data = NULL;
 
 	GArray        *basic_stats = NULL;
-	data_set_t        *the_col;
-        desc_stats_t  info;
+	data_set_t    *the_col;
+        desc_stats_t  local_info;
 	guint         col;
 	const gnum_float *the_data;
 
-	prepare_input_range (&input_range, group_by);
-	data = new_data_set_list (input_range, group_by,
-				  TRUE, dao->labels_flag, sheet);
+	data = new_data_set_list (info->input, info->group_by,
+				  TRUE, info->labels, dao->sheet);
 
-	if (ds->summary_statistics || ds->confidence_level) {
+	if (info->summary_statistics || info->confidence_level) {
 		basic_stats = g_array_new (FALSE, FALSE, sizeof (desc_stats_t));
 		for (col = 0; col < data->len; col++) {
 			the_col = g_ptr_array_index (data, col);
 			the_data = (gnum_float *)the_col->data->data;
-                        info.len = the_col->data->len;
-			info.error_mean = range_average (the_data, info.len, &(info.mean));
-			info.error_var = range_var_est (the_data, info.len, &(info.var));
-			g_array_append_val (basic_stats, info);
+                        local_info.len = the_col->data->len;
+			local_info.error_mean = range_average 
+				(the_data, local_info.len, &(local_info.mean));
+			local_info.error_var = range_var_est 
+				(the_data, local_info.len, &(local_info.var));
+			g_array_append_val (basic_stats, local_info);
 		}
 	}
 
-        if (ds->summary_statistics) {
-                summary_statistics (wbc, data, dao, basic_stats);
-		if (dao->type == RangeOutput) {
-		        dao->start_row += 16;
-			dao->rows -= 16;
-			if (dao->rows < 1)
-				return 0;
-		}
+        if (info->summary_statistics) {
+                summary_statistics (data, dao, basic_stats);
+		dao->offset_row += 16;
+		if (dao->rows <= dao->offset_row)
+			goto finish_descriptive_tool;
 	}
-        if (ds->confidence_level) {
-                confidence_level (wbc, data, ds->c_level,  dao, basic_stats);
-		if (dao->type == RangeOutput) {
-		        dao->start_row += 4;
-			dao->rows -= 4;
-			if (dao->rows < 1)
-				return 0;
-		}
+        if (info->confidence_level) {
+                confidence_level (data, info->c_level,  dao, basic_stats);
+		dao->offset_row += 4;
+		if (dao->rows <= dao->offset_row)
+			goto finish_descriptive_tool;
 	}
-        if (ds->kth_largest) {
-                kth_largest (wbc, data, ds->k_largest, dao);
-		if (dao->type == RangeOutput) {
-		        dao->start_row += 4;
-			dao->rows -= 4;
-			if (dao->rows < 1)
-				return 0;
-		}
+        if (info->kth_largest) {
+                kth_largest (data, info->k_largest, dao);
+		dao->offset_row += 4;
+		if (dao->rows <= dao->offset_row)
+			goto finish_descriptive_tool;
 	}
-        if (ds->kth_smallest)
-                kth_smallest (wbc, data, ds->k_smallest, dao);
+        if (info->kth_smallest)
+                kth_smallest (data, info->k_smallest, dao);
+
+	
+ finish_descriptive_tool:
 
 	destroy_data_set_list (data);
-	range_list_destroy (input_range);
 	if (basic_stats != NULL)
 		g_array_free (basic_stats, TRUE);
 
-	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (dao->sheet);
-
 	return 0;
 }
+
+gboolean 
+analysis_tool_descriptive_engine (data_analysis_output_t *dao, gpointer specs, 
+				   analysis_tool_engine_t selector, gpointer result)
+{
+	analysis_tools_data_descriptive_t *info = specs;
+
+	switch (selector) {
+	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
+		return (dao_command_descriptor (dao, _("Descriptive Statistics (%s)"), result) 
+			== NULL);
+	case TOOL_ENGINE_UPDATE_DAO: 
+		prepare_input_range (&info->input, info->group_by);
+		dao_adjust (dao, 1 + g_slist_length (info->input),
+			    (info->summary_statistics ? 16 : 0) +
+			    (info->confidence_level ? 4 : 0) +
+			    (info->kth_largest ? 4 : 0) +
+			    (info->kth_smallest ? 4 : 0 ) - 1);
+		return FALSE;
+	case TOOL_ENGINE_CLEAN_UP:
+		return analysis_tool_generic_clean (dao, specs);
+	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
+		dao_prepare_output (NULL, dao, _("Descriptive Statistics"));
+		return FALSE;
+	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
+		return dao_format_output (dao, _("Descriptive Statistics"));
+	case TOOL_ENGINE_PERFORM_CALC:
+	default:
+		return analysis_tool_descriptive_engine_run (dao, specs);
+	}
+	return TRUE;  /* We shouldn't get here */
+}
+
 
 
 /************* Sampling Tool *********************************************

@@ -52,7 +52,7 @@ Long term breakage
     - Duplicate sheet.
     - Remove sheet. This raises some serious design issues.
     - Freeze panes.
-    - D-T Analysis tools.
+    - F-T Analysis tools.
     - Goal seek.
     - Tabulate.
 

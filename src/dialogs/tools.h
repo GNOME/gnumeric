@@ -19,7 +19,8 @@
 #include "analysis-tools.h"
 #include "regression.h"
 
-/* Section 1: gui utility functions for the tools */
+/*******************************************************************/
+/* Section 1: gui utility functions for the tools                  */
 
 typedef enum {
 	TOOL_CORRELATION = 1,       /* use GenericToolState */
@@ -76,12 +77,9 @@ gboolean tool_destroy (GtkObject *w, GenericToolState  *state);
 void dialog_tool_init_buttons (GenericToolState *state, GCallback ok_function);
 void error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_str);
 
-/* Section 2: not undoable tools */
+/*******************************************************************/
+/* Section 2: not undoable tools                                   */
 
-int descriptive_stat_tool (WorkbookControl *context, Sheet *current_sheet,
-			   GSList *input, group_by_t group_by,
-			   descriptive_stat_tool_t *ds,
-			   data_analysis_output_t *dao);
 int sampling_tool         (WorkbookControl *context, Sheet *sheet,
 			   GSList *input, group_by_t group_by,
 			   gboolean periodic_flag, guint size, guint number,
@@ -138,7 +136,8 @@ int histogram_tool        (WorkbookControl *context, Sheet *sheet,
 			   histogram_calc_bin_info_t *bin_info,
 			   data_analysis_output_t *dao);
 
-/* Section 3: Undoable tools and their data structures */
+/*******************************************************************/
+/* Section 3: Undoable tools and their data structures             */
 
 typedef enum {
 	analysis_tools_noerr = 0,
@@ -154,8 +153,8 @@ typedef enum {
 	                                GSList     *input;              \
 	                                group_by_t group_by;            \
                                         gboolean   labels	
-
-
+/********************************************************************/
+/* Subsection 3a: Undoable Tools using a common generic data struct */
 
 typedef struct {
 	ANALYSIS_TOOLS_DATA_GENERIC;
@@ -173,6 +172,10 @@ gboolean analysis_tool_covariance_engine  (data_analysis_output_t *dao, gpointer
 					    analysis_tool_engine_t selector, gpointer result);
 
 
+/********************************************************************/
+/* Subsection 3b: Undoable Tools using a common generic data struct */
+/*                augmented with some simple fields                 */
+
 /************** Single Factor ANOVA  *************/
 
 typedef struct {
@@ -182,6 +185,26 @@ typedef struct {
 
 gboolean analysis_tool_anova_single_engine (data_analysis_output_t *dao, gpointer specs, 
 					   analysis_tool_engine_t selector, gpointer result);
+
+/********** Descriptive Statistics Tool **********/
+
+typedef struct {
+	ANALYSIS_TOOLS_DATA_GENERIC;
+        gboolean summary_statistics;
+        gboolean confidence_level;
+        gboolean kth_largest;
+        gboolean kth_smallest;
+        int      k_smallest;
+	int      k_largest;
+        gnum_float  c_level;
+} analysis_tools_data_descriptive_t;
+
+gboolean analysis_tool_descriptive_engine (data_analysis_output_t *dao, gpointer specs, 
+					   analysis_tool_engine_t selector, gpointer result);
+
+
+/********************************************************************/
+/* Subsection 3c: Undoable Tools using their own data struct        */
 
 /****************  2-Factor ANOVA  ***************/
 
@@ -202,5 +225,7 @@ typedef struct {
 
 gboolean analysis_tool_anova_two_factor_engine (data_analysis_output_t *dao, gpointer specs, 
 					   analysis_tool_engine_t selector, gpointer result);
+
+
 
 #endif
