@@ -7,6 +7,16 @@
 
 2002-10-08  Jody Goldberg <jody@gnome.org>
 
+	Patch from peninguy.nicolas@wanadoo.fr (Nicolas Peninguy)
+	* src/formats.c : regexp for accounting too.
+
+2002-10-08  Jody Goldberg <jody@gnome.org>
+
+	* src/parse-util.c (rangeref_parse) : handle relative full col/row
+	  references.
+
+2002-10-08  Jody Goldberg <jody@gnome.org>
+
 	* src/parser.y (parser_lookup_name) : default the placeholder to be at
 	  workbook scope.
 
@@ -47,9 +57,8 @@
 2002-10-06  Jody Goldberg <jody@gnome.org>
 
 	Patch from peninguy.nicolas@wanadoo.fr (Nicolas Peninguy)
-	* src/formats.c : replace the currency and accounting format
-	  classification engines with a cleaner, more accurate regexp based
-	  approach.
+	* src/formats.c : replace the currency format classification engines
+	  with a cleaner, more accurate regexp based approach.
 
 2002-10-04  Jody Goldberg <jody@gnome.org>
 

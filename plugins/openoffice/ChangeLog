@@ -1,5 +1,12 @@
 2002-10-08  Jody Goldberg <jody@gnome.org>
 
+	* openoffice-read.c (oo_style) : correctly layer parent styles but
+	  lose the relationship because we have no similar structure.
+	  Put the frame work in place to start supporting number formats but
+	  do not implement it yet.
+
+2002-10-08  Jody Goldberg <jody@gnome.org>
+
 	* openoffice-read.c (oo_named_expr) : support named expressions.
 	(oo_cell_start) : support merged ranges.
 

@@ -858,6 +858,10 @@ rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 			return start;
 		res->a.col_relative = res->b.col_relative = FALSE;
 		res->a.col = 0; res->b.col = SHEET_MAX_COLS-1;
+		if (res->a.row_relative)
+			res->a.row -= pp->eval.row;
+		if (res->b.row_relative)
+			res->b.row -= pp->eval.row;
 		return tmp2;
 	}
 
@@ -870,6 +874,10 @@ rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 			return start;
 		res->a.row_relative = res->b.row_relative = FALSE;
 		res->a.row = 0; res->b.row = SHEET_MAX_ROWS-1;
+		if (res->a.col_relative)
+			res->a.col -= pp->eval.col;
+		if (res->b.col_relative)
+			res->b.col -= pp->eval.col;
 		return tmp2;
 	}
 

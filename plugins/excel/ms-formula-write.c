@@ -705,19 +705,23 @@ write_node (PolishData *pd, GnmExpr const *tree, int paren_level)
 		break;
 
 	case GNM_EXPR_OP_NAME : {
+		GnmNamedExpr const *n = tree->name.name;
 		guint8 data[14];
-		guint16 idx;
-		for (idx = 0; idx <14; idx++) data[idx] = 0;
+		unsigned i;
 
-		for (idx = 0; idx < pd->sheet->wb->names->len; idx++)
-			if (!strcmp(tree->name.name->name->str,
-				    (char *) g_ptr_array_index (pd->sheet->wb->names, idx))) {
+		memset (data, 0, sizeof (data));
 
-			    GSF_LE_SET_GUINT8  (data + 0, FORMULA_PTG_NAME);
-			    GSF_LE_SET_GUINT16 (data + 1, idx + 1);
-			    ms_biff_put_var_write (pd->bp, data, 15);
-			    return;
-			}
+		for (i = 0; i < pd->sheet->wb->names->len; i++)
+			if (n == g_ptr_array_index (pd->sheet->wb->names, i))
+				break;
+
+		if (i < pd->sheet->wb->names->len) {
+			GSF_LE_SET_GUINT8  (data + 0, FORMULA_PTG_NAME);
+			GSF_LE_SET_GUINT16 (data + 1, i + 1);
+			ms_biff_put_var_write (pd->bp, data, 15);
+		} else {
+			g_warning ("This entire mechanism is bogus.  It does not handle sheet local names");
+		}
 		break;
 	}
 

@@ -49,15 +49,14 @@ UTF-8 :
 
 Pending Patches
 ---------------
-    - regexp bases format characterization
+    - regexp based accounting format characterization
     - ?? more work on D&D based sheet reorg ?
-    - New derivatives functions
 
 Probably Post 1.2 Targets
 -------------------------
 - conditional formats : could be done if someone wanted to work on the dialog
 - pivots and scripting
-- undo/redo transaction log
+- undo/redo transaction file
 - load/save of external references
 
 Misc stuff that should be fixed

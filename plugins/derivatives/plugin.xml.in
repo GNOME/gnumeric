@@ -11,16 +11,28 @@
 		<service type="function_group" id="derivatives">
 			<_category>Financial</_category>
 			<functions>
-				<function name="opt_bs_call"/>
-				<function name="opt_bs_call_delta"/>
-				<function name="opt_bs_call_rho"/>
-				<function name="opt_bs_call_theta"/>
-				<function name="opt_bs_put"/>
-				<function name="opt_bs_put_delta"/>
-				<function name="opt_bs_put_rho"/>
-				<function name="opt_bs_put_theta"/>
+				<function name="cum_biv_norm_dist"/>
+				<function name="opt_bs"/>
+				<function name="opt_bs_delta"/>
+				<function name="opt_bs_rho"/>
+				<function name="opt_bs_theta"/>
 				<function name="opt_bs_gamma"/>
 				<function name="opt_bs_vega"/>
+				<function name="opt_bs_carrycost"/>
+				<function name="opt_garman_kohlhagen"/>	
+				<function name="opt_french"/>
+				<function name="opt_jump_diff"/>
+				<function name="opt_bjerStens"/>
+				<function name="opt_BAW_amer"/>
+				<function name="opt_exec"/>
+				<function name="opt_miltersen_schwartz"/>
+				<function name="opt_rgw"/>
+				<function name="opt_forward_start"/>
+				<function name="opt_time_switch"/>
+				<function name="opt_simple_chooser"/>
+				<function name="opt_complex_chooser"/>
+				<function name="opt_on_options"/>
+				<function name="opt_extendible_writer"/>
 			</functions>
 		</service>
 	</services>

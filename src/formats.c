@@ -165,6 +165,7 @@ cell_formats [] = {
 /* The compiled regexp for cell_format_classify */
 static regex_t re_number_currency;
 static regex_t re_percent_science;
+static regex_t re_account;
 
 void
 currency_date_format_init (void)
@@ -201,12 +202,18 @@ currency_date_format_init (void)
 	/* This one is for FMT_PERCENT and FMT_SCIENCE */
 	char const *pattern_percent_science = "^0\\(.0\\{1,30\\}\\)\\?\\(%\\|E+00\\)$";
 
+	/* This one is for FMT_ACCOUNT */
+	char const *pattern_account = "^_(\\(\\(\\(\\$\\|£\\|¥\\|€\\|\\|\\[\\$[A-Z][A-Z][A-Z]\\]\\)\\*\\\\\\?  \\?\\)\\?\\)\\(#,##0\\(\\.0\\{1,30\\}\\)\\?\\)\\(\\(\\*\\\\\\?  \\?\\(\\$\\|£\\|¥\\|€\\|\\[\\$[A-Z][A-Z][A-Z]\\]\\)\\)\\?\\)_);_(\\1(\\4)\\6;_(\\1\"-\"?\\{0,30\\}\\6_);_(@_)$";
+	
 	if ((regcomp(&re_number_currency, pattern_number_currency, 0)) != 0)
 		fprintf(stderr, "Error in regcomp()\n");
 	
 	if ((regcomp(&re_percent_science, pattern_percent_science, 0)) != 0)
 		fprintf(stderr, "Error in regcomp()\n");
 
+	if ((regcomp(&re_account, pattern_account, 0)) != 0)
+		fprintf(stderr, "Error in regcomp()\n");
+	
 	if (precedes) {
 		post_rep = post = (char *)"";
 		pre_rep = (char *)"* ";
@@ -551,6 +558,37 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 			return FMT_PERCENT;
 		else
 			return FMT_SCIENCE;
+	}
+	
+	/* FMT_ACCOUNT */
+	if (regexec(&re_account, fmt, MATCH_SIZE, match, 0) == 0) {
+
+		info->num_decimals = 0;
+		if (match[5].rm_eo != -1)
+			info->num_decimals = match[5].rm_eo -
+				match[5].rm_so - 1;
+		
+		if (match[1].rm_eo == -1 && match[6].rm_eo == -1)
+			return FMT_UNKNOWN;
+		else {
+			if (match[8].rm_eo == -1)
+				cur = find_currency(ptr + match[3].rm_so,
+						    match[3].rm_eo
+						    - match[3].rm_so);
+			else if (match[3].rm_eo == -1)
+				cur = find_currency(ptr + match[8].rm_so,
+						    match[8].rm_eo
+						    - match[8].rm_so);
+			else
+				return FMT_UNKNOWN;
+			
+		}
+		
+		if (cur == -1)
+			return FMT_UNKNOWN;
+		info->currency_symbol_index = cur;
+
+		return FMT_ACCOUNT;
 	}
 	
 	return FMT_UNKNOWN;

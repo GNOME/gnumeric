@@ -39,6 +39,7 @@
 #include <style-color.h>
 #include <sheet-style.h>
 #include <mstyle.h>
+#include <format.h>
 #include <command-context.h>
 #include <io-context.h>
 
@@ -64,6 +65,7 @@ typedef struct {
 	gboolean 	 simple_content : 1;
 	gboolean 	 error_content : 1;
 	GHashTable	*styles;
+	GHashTable	*formats;
 	MStyle		*style;
 	MStyle		*col_default_styles[SHEET_MAX_COLS];
 	GSList		*sheet_order;
@@ -504,15 +506,34 @@ static void
 oo_style (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
 	OOParseState *state = (OOParseState *)gsf_state;
-	state->style = mstyle_new_default ();
+	xmlChar const *name = NULL;
+	MStyle *parent = NULL;
+	StyleFormat *fmt = NULL;
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
-		if (!strcmp (attrs[0], "style:name")) {
-			g_hash_table_replace (state->styles,
-				g_strdup (attrs[1]),
-				state->style = mstyle_new_default ());
-			return;
+		/* ignore  style:family the names seem unique enough */
+		if (!strcmp (attrs[0], "style:name"))
+			name = attrs[1];
+		else if (!strcmp (attrs[0], "style:parent-style-name")) {
+			MStyle *tmp = g_hash_table_lookup (state->styles, attrs[1]);
+			if (tmp != NULL)
+				parent = tmp;
+		} else if (!strcmp (attrs[0], "style:data-style-name")) {
+			StyleFormat *tmp = g_hash_table_lookup (state->formats, attrs[1]);
+			if (tmp != NULL)
+				fmt = tmp;
 		}
+
+	if (name != NULL) {
+		state->style = (parent != NULL)
+			? mstyle_copy (parent) : mstyle_new_default ();
+
+		if (fmt != NULL)
+			mstyle_set_format (state->style, fmt);
+
+		g_hash_table_replace (state->styles,
+			g_strdup (name), state->style);
+	}
 }
 
 static void
@@ -657,6 +678,7 @@ GSF_XML_SAX_NODE (START, OFFICE, "office:document-content", FALSE, NULL, NULL, 0
   GSF_XML_SAX_NODE (OFFICE, OFFICE_STYLES, "office:automatic-styles", FALSE, NULL, NULL, 0),
     GSF_XML_SAX_NODE (OFFICE_STYLES, STYLE, "style:style", FALSE, &oo_style, &oo_style_end, 0),
       GSF_XML_SAX_NODE (STYLE, STYLE_PROP, "style:properties", FALSE, &oo_style_prop, NULL, 0),
+
     GSF_XML_SAX_NODE (OFFICE_STYLES, NUMBER_STYLE, "number:number-style", FALSE, NULL, NULL, 0),
       GSF_XML_SAX_NODE (NUMBER_STYLE, NUMBER_STYLE_PROP, "number:number", FALSE, NULL, NULL, 0),
       GSF_XML_SAX_NODE (NUMBER_STYLE, NUMBER_STYLE_FRACTION, "number:fraction", FALSE, NULL, NULL, 0),
@@ -753,6 +775,9 @@ openoffice_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	state.styles = g_hash_table_new_full (g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) mstyle_unref);
+	state.formats = g_hash_table_new_full (g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) style_format_unref);
 	state.style 	  = NULL;
 	state.sheet_order = NULL;
 

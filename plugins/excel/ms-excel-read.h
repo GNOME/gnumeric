@@ -16,19 +16,20 @@
 #include "ms-container.h"
 #include <expr.h>
 
-typedef struct _ExcelSheet
-{
+typedef struct _ExcelWorkbook	ExcelWorkbook;
+typedef struct _ExcelSheet	ExcelSheet;
+
+struct _ExcelSheet {
 	MSContainer container;
 
-	Sheet *gnum_sheet;
-	struct _ExcelWorkbook *wb;
-	GHashTable *shared_formulae, *tables;
+	Sheet		*gnum_sheet;
+	ExcelWorkbook	*wb;
+	GHashTable	*shared_formulae, *tables;
 
 	gboolean freeze_panes : 1;
-} ExcelSheet;
+};
 
-typedef struct _BiffBoundsheetData
-{
+typedef struct _BiffBoundsheetData {
 	guint16 index;
 	guint32 streamStartPos;
 	MsBiffFileType type;
@@ -88,8 +89,7 @@ typedef struct _BiffFormatData {
 	char *name;
 } BiffFormatData;
 
-typedef struct _ExcelWorkbook
-{
+struct _ExcelWorkbook {
 	MSContainer	  container;
 	IOContext	 *context;
 	WorkbookView	 *wbv;
@@ -113,11 +113,8 @@ typedef struct _ExcelWorkbook
 
 	ExprTreeSharer   *expr_sharer;
 
-	/**
-	 * Gnumeric parallel workbook
-   	 **/
 	Workbook            *gnum_wb;
-} ExcelWorkbook;
+};
 
 char       *biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length);
 char const *biff_get_error_text (guint8 err);

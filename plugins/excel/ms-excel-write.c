@@ -610,17 +610,17 @@ write_names (BiffPut *bp, ExcelWorkbook *wb)
 		guint16 len, name_len;
 
 		char *text;
-		GnmNamedExpr const *expr_name = names->data;
+		GnmNamedExpr const *nexpr = names->data;
 
-		g_return_if_fail (expr_name != NULL);
+		g_return_if_fail (nexpr != NULL);
 
 		if (wb->ver >= MS_BIFF_V8)
 			ms_biff_put_var_next (bp, 0x200 | BIFF_NAME);
 		else
 			ms_biff_put_var_next (bp, BIFF_NAME);
 
-		text = expr_name->name->str;
-		name_len = strlen (expr_name->name->str);
+		text = nexpr->name->str;
+		name_len = strlen (nexpr->name->str);
 
 		memset (data0, 0, sizeof (data0));
 		GSF_LE_SET_GUINT8 (data0 + 3, name_len); /* name_len */
@@ -631,7 +631,7 @@ write_names (BiffPut *bp, ExcelWorkbook *wb)
 		g_free(text);
 		ms_biff_put_var_seekto (bp, 14 + name_len);
 		len = ms_excel_write_formula (bp, esheet,
-			expr_name->t.expr_tree, 0, 0, 0);
+			nexpr->t.expr_tree, 0, 0, 0);
 
 		g_return_if_fail (len <= 0xffff);
 
@@ -640,7 +640,7 @@ write_names (BiffPut *bp, ExcelWorkbook *wb)
 		ms_biff_put_var_write (bp, data1, 2);
 		ms_biff_put_commit (bp);
 
-		g_ptr_array_add (wb->names, g_strdup(text));
+		g_ptr_array_add (wb->names, (gpointer)nexpr);
 	}
 }
 

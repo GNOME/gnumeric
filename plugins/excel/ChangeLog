@@ -1,3 +1,10 @@
+2002-10-08  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (write_names) : Fix leak by not inserting copies of
+	  of the name string.
+	  1) no need to copy
+	  2) no need to do a string compare
+
 2002-10-07  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (ms_excel_read_workbook) : handle workbook protected

@@ -34,6 +34,7 @@ Jody:
 	* Handle encryption from 'Tools -> Protection -> Workbook Protected'
 	* Remove implicit conversion of unquoted strings that are not names
 	* Import named expressions, arrays and merged regions from OpenCalc
+	* More cleanup after the big parser rework
 
 Morten:
 	* Port search center from gal's e-table to gtk's treeview.
@@ -44,6 +45,12 @@ Morten:
 
 dorami@bu.iij4u.or.jp:
 	* Add InputMethod support for better international key support
+
+Hal Ashburner:
+	* Rework derivative valuation routines
+
+Nicolas Peninguy:
+	* Use regexps to classify currency and accounting formats
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.9

@@ -738,7 +738,8 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 	g_return_val_if_fail (ewb != NULL, NULL);
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_formula_debug > 0 && esheet != NULL) {
+	if (ms_excel_formula_debug > 0) {
+		printf ("len = %d\n", length);
 		ms_excel_dump_cellname (ewb, esheet, fn_col, fn_row);
 		if (ms_excel_formula_debug > 2)
 			gsf_mem_dump (mem, length);
