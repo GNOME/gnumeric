@@ -1,24 +1,5 @@
-Change between versions 0.28 and 0.29
 
-Miguel:
-	Added EmbeddableGrid Bonobo support for embedding graphics.
-	Added header/footer printing code.
-	Extended the CORBA interface for sheets
-	Added Grid corba interface
+Please do not use this file
+ 
+Use the file "NEWS" instead for logging your major changes.
 
-Rasca Gmelch:
-
-Jukka:
-	- Implemented Moving Average Tool
-	- Started implementation of Rank and Percentile Tool
-	- Documented Analysis tools
-
-Michael
-	* More improved Excel writing code 
-
-Nick Lamb
-
-Jody Goldberg
-Several translations updated: thanks to our translators
-
-And lots of bugs fixed.
