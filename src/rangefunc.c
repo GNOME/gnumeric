@@ -50,6 +50,7 @@ range_average (const gnum_float *xs, int n, gnum_float *res)
 	return 0;
 }
 
+/* Minimum element.  */
 int
 range_min (const gnum_float *xs, int n, gnum_float *res)
 {
@@ -66,6 +67,7 @@ range_min (const gnum_float *xs, int n, gnum_float *res)
 		return 1;
 }
 
+/* Maximum element.  */
 int
 range_max (const gnum_float *xs, int n, gnum_float *res)
 {
@@ -352,6 +354,7 @@ range_multinomial (const gnum_float *xs, int n, gnum_float *res)
 	return 0;
 }
 
+/* Co-variance.  */
 int
 range_covar (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
 {
@@ -367,6 +370,7 @@ range_covar (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
 	return 0;
 }
 
+/* Population correlation coefficient.  */
 int
 range_correl_pop (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
 {
@@ -381,6 +385,7 @@ range_correl_pop (const gnum_float *xs, const gnum_float *ys, int n, gnum_float 
 	return 0;
 }
 
+/* Maximum-likelyhood correlation coefficient.  */
 int
 range_correl_est (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
 {
@@ -395,6 +400,7 @@ range_correl_est (const gnum_float *xs, const gnum_float *ys, int n, gnum_float 
 	return 0;
 }
 
+/* Population R-squared.  */
 int
 range_rsq_pop (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
 {
@@ -405,7 +411,7 @@ range_rsq_pop (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *re
 	return 0;
 }
 
-
+/* Maximum-likelyhood R-squared.  */
 int
 range_rsq_est (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res)
 {
@@ -444,6 +450,7 @@ float_equal (const gnum_float *a, const gnum_float *b)
 	return 0;
 }
 
+/* Most-common element.  (First one, in case of several equally common.  */
 int
 range_mode (const gnum_float *xs, int n, gnum_float *res)
 {
@@ -494,20 +501,72 @@ float_compare (const gnum_float *a, const gnum_float *b)
 	        return 1;
 }
 
+static gnum_float *
+range_sort (const gnum_float *xs, int n)
+{
+	if (n <= 0)
+		return NULL;
+	else {
+		gnum_float *ys = g_new (gnum_float, n);
+		memcpy (ys, xs, n * sizeof (gnum_float));
+		qsort (ys, n, sizeof (ys[0]), (int (*) (const void *, const void *))&float_compare);
+		return ys;
+	}
+}
+
+
+/* This requires sorted data.  */
+static int
+range_fractile_inter_sorted (const gnum_float *xs, int n, gnum_float *res, gnum_float f)
+{
+	gnum_float fpos, residual;
+	int pos;
+
+	if (n <= 0 || f < 0.0 || f > 1.0)
+		return 1;
+
+	fpos = (n - 1) * f;
+	pos = (int)fpos;
+	residual = fpos - pos;
+
+	if (residual == 0.0 || pos + 1 >= n)
+		*res = xs[pos];
+	else
+		*res = (1 - residual) * xs[pos] + residual * xs[pos + 1];
+
+	return 0;
+}
+
+/* Interpolative fractile.  */
+int
+range_fractile_inter (const gnum_float *xs, int n, gnum_float *res, gnum_float f)
+{
+	gnum_float *ys = range_sort (xs, n);
+	int error = range_fractile_inter_sorted (ys, n, res, f);
+	g_free (ys);
+	return error;
+}
+
+/* Interpolative fractile.  */
+/* This version may reorder data points.  */
+int
+range_fractile_inter_nonconst (gnum_float *xs, int n, gnum_float *res, gnum_float f)
+{
+	qsort (xs, n, sizeof (xs[0]), (int (*) (const void *, const void *))&float_compare);
+	return range_fractile_inter_sorted (xs, n, res, f);
+}
+
 /* Interpolative median.  */
 int
 range_median_inter (const gnum_float *xs, int n, gnum_float *res)
 {
-	if (n > 0) {
-		/* OK, so we ignore the constness here.  Tough.  */
-		qsort ((gnum_float *) xs, n, sizeof (xs[0]),
-		       (void *) &float_compare);
-		if (n & 1)
-			*res = xs[n / 2];
-		else
-			*res = (xs[n / 2 - 1] + xs[n / 2]) / 2;
-		return 0;
-	} else
-		return 1;
+	return range_fractile_inter (xs, n, res, 0.5);
 }
 
+/* Interpolative median.  */
+/* This version may reorder data points.  */
+int
+range_median_inter_nonconst (gnum_float *xs, int n, gnum_float *res)
+{
+	return range_fractile_inter_nonconst (xs, n, res, 0.5);
+}

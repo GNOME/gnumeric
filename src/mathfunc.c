@@ -3586,7 +3586,8 @@ random_normal (void)
 /*
  * Generate a poisson distributed number.
  */
-double random_poisson (double lambda)
+double
+random_poisson (double lambda)
 {
         double x = exp (-1 * lambda);
 	double r = random_01 ();
@@ -3594,7 +3595,7 @@ double random_poisson (double lambda)
 	double i = 0;
 
 	while (r > t) {
-	      x *= lambda / (i+1);
+	      x *= lambda / (i + 1);
 	      i += 1;
 	      t += x;
 	}
@@ -3605,15 +3606,16 @@ double random_poisson (double lambda)
 /*
  * Generate a binomial distributed number.
  */
-double random_binomial (double p, int trials)
+double
+random_binomial (double p, int trials)
 {
-        double x = pow (1-p, trials);
+        double x = pow (1 - p, trials);
 	double r = random_01 ();
 	double t = x;
 	double i = 0;
 
 	while (r > t) {
-	      x *= (((trials-i) * p) / ((1+i) * (1-p)));
+	      x *= (((trials - i) * p) / ((1 + i) * (1 - p)));
 	      i += 1;
 	      t += x;
 	}
@@ -3624,7 +3626,8 @@ double random_binomial (double p, int trials)
 /*
  * Generate a negative binomial distributed number.
  */
-double random_negbinom (double p, int f)
+double
+random_negbinom (double p, int f)
 {
         double x = pow (p, f);
 	double r = random_01 ();
@@ -3632,7 +3635,7 @@ double random_negbinom (double p, int f)
 	double i = 0;
 
 	while (r > t) {
-	      x *= (((f+i) * (1-p)) / (1+i));
+	      x *= (((f + i) * (1 - p)) / (1 + i));
 	      i += 1;
 	      t += x;
 	}
@@ -3643,15 +3646,17 @@ double random_negbinom (double p, int f)
 /*
  * Generate an exponential distributed number.
  */
-double random_exponential (double b)
+double
+random_exponential (double b)
 {
-        return -1 * b * log(random_01 ());
+        return -1 * b * log (random_01 ());
 }
 
 /*
  * Generate a bernoulli distributed number.
  */
-double random_bernoulli (double p)
+double
+random_bernoulli (double p)
 {
         double r = random_01 ();
 

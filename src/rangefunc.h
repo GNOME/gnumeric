@@ -34,6 +34,10 @@ int range_rsq_pop (const gnum_float *xs, const gnum_float *ys, int n, gnum_float
 int range_rsq_est (const gnum_float *xs, const gnum_float *ys, int n, gnum_float *res);
 
 int range_mode (const gnum_float *xs, int n, gnum_float *res);
+
+int range_fractile_inter (const gnum_float *xs, int n, gnum_float *res, gnum_float f);
+int range_fractile_inter_nonconst (gnum_float *xs, int n, gnum_float *res, gnum_float f);
 int range_median_inter (const gnum_float *xs, int n, gnum_float *res);
+int range_median_inter_nonconst (gnum_float *xs, int n, gnum_float *res);
 
 #endif

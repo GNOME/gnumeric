@@ -2320,7 +2320,7 @@ gnumeric_median (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
 				     ei,
-				     range_median_inter,
+				     (float_range_function_t)range_median_inter_nonconst,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
@@ -3173,44 +3173,26 @@ static char *help_percentile = {
 static Value *
 gnumeric_percentile (FunctionEvalInfo *ei, Value **argv)
 {
-        gnum_float k, *data, fpos;
-	int     n, pos;
-	Value   *result = NULL;
-
-	k = value_get_as_float (argv[1]);
+	gnum_float *data;
+	Value *result = NULL;
+	int n;
 
 	data = collect_floats_value (argv[0], ei->pos,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
 				     &n, &result);
-	if (result)
-		goto out;
+	if (!result) {
+		gnum_float p = value_get_as_float (argv[1]);
+		gnum_float res;
 
-	if (n == 0 || k < 0 || k > 1) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
-		goto out;
+		if (range_fractile_inter_nonconst (data, n, &res, p))
+			result = value_new_error (ei->pos, gnumeric_err_NUM);
+		else
+			result = value_new_float (res);
 	}
 
-	/* OK, so we ignore the constness here.  Tough.  */
-	qsort ((gnum_float *) data, n, sizeof (data[0]), (void *) &float_compare);
-
-	fpos = k * (n - 1);
-	pos = (int)fpos;
-	if (pos + 1 > n - 1) {
-		/* MW: I am guessing here that we should just pick the
-		   last number.  FIXME: check.  */
-		result = value_new_float (data[pos]);
-	} else {
-		gnum_float a, b, des;
-		des = fpos - pos;
-		a = data[pos];
-		b = data[pos + 1];
-		result = value_new_float (b * des + a * (1.0 - des));
-	}
-out:
 	g_free (data);
-
 	return result;
 }
 
@@ -3247,35 +3229,23 @@ static char *help_quartile = {
 static Value *
 gnumeric_quartile (FunctionEvalInfo *ei, Value **argv)
 {
-	gnum_float *data = NULL;
-	Value   *result = NULL;
-	int     n;
+	gnum_float *data;
+	Value *result = NULL;
+	int n;
 
 	data = collect_floats_value (argv[0], ei->pos,
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
 				     &n, &result);
-	if (result) {
-		/* Nothing.  */
-	} else if (n == 0) {
-		result = value_new_error (ei->pos, gnumeric_err_NUM);
-	} else {
-		int quart, ind;
-		gnum_float test, index;
-		static const gnum_float q[] = { 0.00, 0.25, 0.50, 0.75, 1.00 };
+	if (!result) {
+		int q = value_get_as_int (argv[1]);
+		gnum_float res;
 
-		quart = value_get_as_int (argv[1]);
-		qsort ((gnum_float *) data, n, sizeof (data[0]), (void *) &float_compare);
-
-		index = q[quart] * (n - 1);
-		ind = (int)index;
-		test = index - ind;
-		if (index == n - 1)
-			result = value_new_float (data[n - 1]);
+		if (range_fractile_inter_nonconst (data, n, &res, q / 4.0))
+			result = value_new_error (ei->pos, gnumeric_err_NUM);
 		else
-			result = value_new_float ((1.0 - test) * data[ind] +
-						  test * data[ind + 1]);
+			result = value_new_float (res);
 	}
 
 	g_free (data);

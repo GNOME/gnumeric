@@ -43,19 +43,6 @@ typedef struct {
 
 /***** Some general routines ***********************************************/
 
-static guint
-float_hash (const gnum_float *d)
-{
-	guint h = 0;
-	size_t i;
-	const unsigned char *p = (const unsigned char *)d;
-
-	for (i = 0; i < sizeof (gnum_float); i++)
-		h ^= h / 3 + (h << 9) + p[i];
-
-        return h;
-}
-
 static gint
 float_compare (const gnum_float *a, const gnum_float *b)
 {
@@ -65,14 +52,6 @@ float_compare (const gnum_float *a, const gnum_float *b)
                 return 0;
         else
                 return 1;
-}
-
-static gint
-float_equal (const gnum_float *a, const gnum_float *b)
-{
-	if (*a == *b)
-	        return 1;
-	return 0;
 }
 
 void
@@ -859,7 +838,7 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data, GPtrArray* labels,
 	for (col = 0; col < data->len; col++) {
 		GArray *the_col = g_ptr_array_index (data, col);
 		int the_col_len = the_col->len;
-		gnum_float *the_data = (gnum_float *)the_col->data;
+		const gnum_float *the_data = (gnum_float *)the_col->data;
 		gnum_float x, xmin, xmax;
 		int error, error2;
 
@@ -1764,9 +1743,10 @@ ftest_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range1,
  *
  **/
 
-int random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
-		 random_distribution_t distribution,
-		 random_tool_t *param, data_analysis_output_t *dao)
+int
+random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
+	     random_distribution_t distribution,
+	     random_tool_t *param, data_analysis_output_t *dao)
 {
 	int        i, n, j;
 	gnum_float    range, p, tmp;
@@ -1785,8 +1765,8 @@ int random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
 
                 p = 0;
 		j = 0;
-	        for (i=param->discrete.start_row;
-		     i<=param->discrete.end_row; i++, j++) {
+	        for (i = param->discrete.start_row;
+		     i <= param->discrete.end_row; i++, j++) {
 		        cell = sheet_cell_get (sheet,
 					       param->discrete.start_col + 1, i);
 			if (cell != NULL && cell->value != NULL) {
@@ -1842,14 +1822,15 @@ int random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
 				set_cell_value (dao, i, n, value_duplicate (values[j]));
 			}
 		}
+
+		/* FIXME: Leak! */
+
 	        break;
 	case NormalDistribution:
 	        for (i = 0; i < vars; i++) {
 		        for (n = 0; n < count; n++) {
 				gnum_float v;
-			        v = qnorm (random_01 (),
-					   param->normal.mean,
-					   param->normal.stdev);
+			        v = param->normal.stdev * random_normal () + param->normal.mean;
 				set_cell_float (dao, i, n, v);
 			}
 		}
@@ -1951,9 +1932,10 @@ int random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
  *
  **/
 
-int regression_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range_y,
-		     Range *input_range_xs, gnum_float alpha,
-		     data_analysis_output_t *dao, int intercept, int xdim)
+int
+regression_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range_y,
+		 Range *input_range_xs, gnum_float alpha,
+		 data_analysis_output_t *dao, int intercept, int xdim)
 {
         data_set_t          set_y, *setxs;
 	gnum_float             mean_y, *mean_xs;
@@ -2218,8 +2200,9 @@ these values can be tiny.*/
  **/
 
 
-int average_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, int interval,
-		  int std_error_flag, data_analysis_output_t *dao)
+int
+average_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, int interval,
+	      int std_error_flag, data_analysis_output_t *dao)
 {
         data_set_t data_set;
 	GSList     *current;
@@ -2298,8 +2281,9 @@ rank_compare (const rank_t *a, const rank_t *b)
                 return -1;
 }
 
-int ranking_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
-		  int columns_flag, data_analysis_output_t *dao)
+int
+ranking_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
+	      int columns_flag, data_analysis_output_t *dao)
 {
         data_set_t *data_sets;
 	GSList     *current, *inner;

@@ -1,5 +1,10 @@
 2001-07-27  Morten Welinder  <terra@diku.dk>
 
+	* src/analysis-tools.c (summary_statistics): Constify data.
+
+	* src/rangefunc.c (range_median_inter): Respect const.
+	(range_median_inter_nonconst): New version.
+
 	* src/rangefunc.c, src/rangefunc.h: new files, contents taken from
  	mathfunc.c among other places.
 
