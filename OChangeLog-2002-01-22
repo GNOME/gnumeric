@@ -1,3 +1,9 @@
+2001-11-08  Morten Welinder  <terra@diku.dk>
+
+	* src/style.c (style_shutdown): Unref all the cached fonts.
+	(style_font_new_simple): Make the initial ref_count be 2, i.e.,
+	count the cached reference.
+
 2001-11-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/analysis-tools.c (cb_store_data) : fix leak

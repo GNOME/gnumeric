@@ -23,8 +23,6 @@
 #include <libgnome/gnome-util.h>
 #include <gal/widgets/e-colors.h>
 
-#define AGGRESSIVE_CACHING
-
 #undef DEBUG_REF_COUNT
 #undef DEBUG_FONTS
 
@@ -65,7 +63,8 @@ style_font_new_simple (const char *font_name, double size, double scale,
 		font->scale     = scale;
 		font->is_bold   = bold;
 		font->is_italic = italic;
-		font->ref_count = 1;
+		/* One reference for the cache, one for the caller. */
+		font->ref_count = 2;
 
 		font->dfont = gnome_get_display_font (
 			font_name,
@@ -206,16 +205,12 @@ style_font_unref (StyleFont *sf)
 	if (sf->ref_count != 0)
 		return;
 
-#ifdef AGGRESSIVE_CACHING
-	/* Leave font in cache with ref_count == 0.  */
-#else
 	gtk_object_unref (GTK_OBJECT (sf->font));
 	gdk_font_unref (sf->gdk_font);
 
 	g_hash_table_remove (style_font_hash, sf);
 	g_free (sf->font_name);
 	g_free (sf);
-#endif
 }
 
 /*
@@ -342,6 +337,15 @@ delete_neg_font (gpointer key, gpointer value, gpointer user_data)
 	g_free (font);
 }
 
+static void
+list_cached_fonts (gpointer key, gpointer value, gpointer user_data)
+{
+	StyleFont *font = key;
+	GSList **lp = (GSList **)user_data;
+
+	*lp = g_slist_prepend (*lp, font);
+}
+
 /*
  * Release all resources allocated by style_init.
  */
@@ -349,31 +353,39 @@ void
 style_shutdown (void)
 {
 	if (gnumeric_default_font != gnumeric_default_bold_font &&
-	    gnumeric_default_bold_font->ref_count != 1) {
-		g_warning ("Default bold font has %d references.  It should have only one.",
+	    gnumeric_default_bold_font->ref_count != 2) {
+		g_warning ("Default bold font has %d references.  It should have two.",
 			   gnumeric_default_bold_font->ref_count);
 	}
 	style_font_unref (gnumeric_default_bold_font);
 	gnumeric_default_bold_font = NULL;
 
 	if (gnumeric_default_font != gnumeric_default_italic_font &&
-	    gnumeric_default_italic_font->ref_count != 1) {
-		g_warning ("Default italic font has %d references.  It should have only one.",
+	    gnumeric_default_italic_font->ref_count != 2) {
+		g_warning ("Default italic font has %d references.  It should have two.",
 			   gnumeric_default_italic_font->ref_count);
 	}
 	style_font_unref (gnumeric_default_italic_font);
 	gnumeric_default_italic_font = NULL;
 
 	/* At this point, even if we had bold == normal (etc), we should
-	   have exactly one reference to default.  */
-	if (gnumeric_default_font->ref_count != 1) {
-		g_warning ("Default font has %d references.  It should have only one.",
+	   have exactly two references to default.  */
+	if (gnumeric_default_font->ref_count != 2) {
+		g_warning ("Default font has %d references.  It should have two.",
 			   gnumeric_default_font->ref_count);
 	}
 	style_font_unref (gnumeric_default_font);
 	gnumeric_default_font = NULL;
 
 	number_format_shutdown ();
+	{
+		/* Make a list of the fonts, then unref them.  */
+		GSList *fonts = NULL, *tmp;
+		g_hash_table_foreach (style_font_hash, list_cached_fonts, &fonts);
+		for (tmp = fonts; tmp; tmp = tmp->next)
+			style_font_unref (tmp->data);
+		g_slist_free (fonts);
+	}
 	g_hash_table_destroy (style_font_hash);
 	style_font_hash = NULL;
 
