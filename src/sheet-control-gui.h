@@ -28,7 +28,7 @@ typedef struct {
 	/*
 	 * Control points for the current item
 	 */
-	GList            *control_points;
+	GnomeCanvasItem  *control_points [8];
 	
 	/* Scrolling information */
 	GtkWidget  *vs, *hs;	/* The scrollbars */

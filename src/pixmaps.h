@@ -3,4 +3,5 @@
 #include "pixmaps/align-right.xpm"
 #include "pixmaps/rect.xpm"
 #include "pixmaps/line.xpm"
+#include "pixmaps/arrow.xpm"
 #include "pixmaps/oval.xpm"

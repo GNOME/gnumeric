@@ -1,3 +1,9 @@
+1998-09-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet-object.c (sheet_button_press): Lots of changes to
+	finish the editing facilities for objects: you can now resize the
+	objects and you can move them.
+
 1998-09-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/dialog-cell-format.c (apply_font_format): Optimization, walk

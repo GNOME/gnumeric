@@ -66,6 +66,7 @@ typedef enum {
 	SHEET_MODE_CREATE_LINE,
 	SHEET_MODE_CREATE_BOX,
 	SHEET_MODE_CREATE_OVAL,
+	SHEET_MODE_CREATE_ARROW
 } SheetModeType;
 
 typedef struct {

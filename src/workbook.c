@@ -103,6 +103,15 @@ create_line_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+create_arrow_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	sheet_set_mode_type (sheet, SHEET_MODE_CREATE_ARROW);
+}
+
+static void
 create_rectangle_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet;
@@ -358,6 +367,9 @@ static GnomeUIInfo workbook_toolbar [] = {
 	GNOMEUIINFO_ITEM_DATA (N_("Line"),
 			       N_("Creates a line object"),
 			       create_line_cmd, NULL, line_xpm),
+	GNOMEUIINFO_ITEM_DATA (N_("Arrow"),
+			       N_("Creates an arrow object"),
+			       create_arrow_cmd, NULL, arrow_xpm),
 	GNOMEUIINFO_ITEM_DATA (N_("Rectangle"),
 			       N_("Creates a rectangle object"),
 			       create_rectangle_cmd, NULL, rect_xpm),

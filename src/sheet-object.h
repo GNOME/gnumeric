@@ -30,7 +30,7 @@ typedef struct {
 #define SHEET_OBJECT_SIGNATURE (('S' << 24) | ('O' << 16) | ('b' << 8) | 'e')
 #define IS_SHEET_OBJECT(x) (x->signature == SHEET_OBJECT_SIGNATURE)
 
-SheetObject *sheet_object_create_line        (Sheet *sheet,
+SheetObject *sheet_object_create_line        (Sheet *sheet,   int is_arrow,
 					      double x1,      double y1,
 					      double x2,      double y2,
 					      char    *color, int width);
