@@ -89,6 +89,9 @@ Gnumeric Spread Sheet task list
 ** Cell data entry:
    double click on cell allows editing as in main editing box.
 
+   double click on the magic little copy box fills the current
+   column to the depth of the column to the left ??
+
 ** Headers for Columns and Rows
 
    The captions should be customizable, ie instaed of "A1", it should
@@ -120,6 +123,12 @@ Gnumeric Spread Sheet task list
    the object.
 
    Object properties.
+
+** Cut vs Paste
+
+  - A cut formula keeps relative cell references as absolute. They
+    should not shift relative to the destination as they would with
+    copy.
 
 ** Paste special 
 

@@ -1,3 +1,19 @@
+1999-08-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-sheet.c ( move_cursor_horizontal, move_cursor_vertical,
+	  move_horizontal_selection, move_vertical_selection,
+	  selection_cursor_move_horizontal, selection_cursor_move_vertical) :
+	  selection_expand_horizontal, selection_expand_vertical) :
+	  Support Ctrl-Arrow which jumps to the boundaries of non-blank
+	  ranges.
+
+	* src/sheet.c (sheet_find_boundary_vertical,
+	  sheet_find_boundary_horizontal) :  New functions, to find the start
+	  and end of ranges.  They also ensure that the corner which was moved
+	  stays visible.
+	(sheet_selection_extend_vertical) : Use sheet_find_boundary_vertical.
+	(sheet_selection_extend_horizontal) : Use sheet_find_boundary_horizontal.
+
 1999-08-11  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-string.c: Fixed the rounding of DOLLAR() function.

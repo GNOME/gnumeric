@@ -26,6 +26,8 @@ Jody:
           DATEVALUE
 	* Support implict intersection 'feature' of XL for functions, not
 	  operators.
+	* Support Ctrl-Arrow movement & selection.  Make moving corner of
+	  selection visible.
 
 Jay:
 

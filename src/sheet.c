@@ -1448,6 +1448,119 @@ sheet_col_check_bound (int col, int diff)
 	return new_val;
 }
 
+/*
+ * sheet_find_boundary_horizontal
+ *
+ * Calculate the column index for the column which is @n units
+ * from @start_col doing bounds checking.  If @jump_to_boundaries is
+ * TRUE @n must be 1 and the jump is to the edge of the logical range.
+ *
+ * @sheet:  The Sheet *
+ * @start_col	: The column from which to begin searching.
+ * @row		: The row in which to search for the edge of the range.
+ * @n:      units to extend the selection vertically
+ * @jump_to_boundaries : Jump to range boundaries.
+ */
+int
+sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
+				int count, gboolean jump_to_boundaries)
+{
+	gboolean find_first = cell_is_blank(sheet_cell_get (sheet, start_col, row));
+	int new_col = start_col, prev_col = start_col;
+	gboolean keep_looking = FALSE;
+	int iterations = 0;
+
+	g_return_val_if_fail (sheet != NULL, start_col);
+	/* Jumping to bounds requires steping cell by cell */
+	g_return_val_if_fail (count == 1 || count == -1 || !jump_to_boundaries, start_col);
+
+	do
+	{
+		new_col += count;
+		++iterations;
+		keep_looking = FALSE;
+
+		if (new_col < 0)
+			new_col = 0;
+		else if (new_col > SHEET_MAX_COLS-1)
+			new_col = SHEET_MAX_COLS-1;
+		else if (jump_to_boundaries) {
+			keep_looking = (cell_is_blank( sheet_cell_get (sheet, new_col, row)) == find_first);
+			if (keep_looking)
+				prev_col = new_col;
+			else if (!find_first) {
+				/*
+				 * Handle special case where we are on the last
+				 * non-null cell
+				 */
+				if (iterations == 1)
+					keep_looking = find_first = TRUE;
+				else
+					new_col = prev_col;
+			}
+		}
+	} while (keep_looking);
+
+	sheet_make_cell_visible (sheet, new_col, row);
+	return new_col;
+}
+
+/*
+ * sheet_find_boundary_vertical
+ *
+ * Calculate the row index for the row which is @n units
+ * from @start_row doing bounds checking.  If @jump_to_boundaries is
+ * TRUE @n must be 1 and the jump is to the edge of the logical range.
+ *
+ * @sheet:  The Sheet *
+ * @col		: The col in which to search for the edge of the range.
+ * @start_row	: The row from which to begin searching.
+ * @n:      units to extend the selection vertically
+ * @jump_to_boundaries : Jump to range boundaries.
+ */
+int
+sheet_find_boundary_vertical (Sheet *sheet, int col, int start_row,
+			      int count, gboolean jump_to_boundaries)
+{
+	gboolean find_first = cell_is_blank(sheet_cell_get (sheet, col, start_row));
+	int new_row = start_row, prev_row = start_row;
+	gboolean keep_looking = FALSE;
+	int iterations = 0;
+
+	/* Jumping to bounds requires steping cell by cell */
+	g_return_val_if_fail (count == 1 || count == -1 || !jump_to_boundaries, start_row);
+
+	do
+	{
+		new_row += count;
+		++iterations;
+		keep_looking = FALSE;
+
+		if (new_row < 0)
+			new_row = 0;
+		else if (new_row > SHEET_MAX_ROWS-1)
+			new_row = SHEET_MAX_ROWS-1;
+		else if (jump_to_boundaries) {
+			keep_looking = (cell_is_blank( sheet_cell_get (sheet, col, new_row)) == find_first);
+			if (keep_looking)
+				prev_row = new_row;
+			else if (!find_first) {
+				/*
+				 * Handle special case where we are on the last
+				 * non-null cell
+				 */ 
+				if (iterations == 1)
+					keep_looking = find_first = TRUE;
+				else
+					new_row = prev_row;
+			}
+		}
+	} while (keep_looking);
+
+	sheet_make_cell_visible (sheet, col, new_row);
+	return new_row;
+}
+
 static ArrayRef *
 sheet_is_cell_array (Sheet *sheet, int const col, int const row)
 {
@@ -1545,37 +1658,41 @@ sheet_selection_change (Sheet *sheet, SheetSelection *old, SheetSelection *new)
  *
  * @sheet:  The Sheet *
  * @count:  units to extend the selection horizontally
+ * @jump_to_boundaries : Jump to range boundaries.
  */
 void
-sheet_selection_extend_horizontal (Sheet *sheet, int n)
+sheet_selection_extend_horizontal (Sheet *sheet, int n, gboolean jump_to_boundaries)
 {
 	SheetSelection *ss;
 	SheetSelection old_selection;
 
-	/* FIXME: right now we only support units (1 or -1)
-	 * to fix this we need to account for the fact that
-	 * the selection boundary might change and adjust
-	 * appropiately
-	 */
-
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail ((n == 1 || n == -1));
 
 	ss = (SheetSelection *)sheet->selections->data;
 	old_selection = *ss;
 
 	if (ss->base_col < ss->end_col)
-		ss->end_col = sheet_col_check_bound (ss->end_col, n);
-	else if (ss->base_col > ss->start_col)
-		ss->start_col = sheet_col_check_bound (ss->start_col, n);
-	else {
-		if (n > 0)
-			ss->end_col = sheet_col_check_bound (ss->end_col, 1);
-		else
-			ss->start_col = sheet_col_check_bound (ss->start_col, -1);
-	}
+		ss->end_col =
+		    sheet_find_boundary_horizontal (sheet,
+						    ss->end_col, ss->end_row,
+						    n, jump_to_boundaries);
+	else if (ss->base_col > ss->start_col || n < 0)
+		ss->start_col =
+		    sheet_find_boundary_horizontal (sheet,
+						    ss->start_col, ss->start_row,
+						    n, jump_to_boundaries);
+	else
+		ss->end_col =
+		    sheet_find_boundary_horizontal (sheet,
+						    ss->end_col,  ss->end_row,
+						    n, jump_to_boundaries);
 
+	if (ss->end_col < ss->start_col) {
+		int const tmp = ss->start_col;
+		ss->start_col = ss->end_col;
+		ss->end_col = tmp;
+	}
 	sheet_selection_change (sheet, &old_selection, ss);
 }
 
@@ -1583,31 +1700,41 @@ sheet_selection_extend_horizontal (Sheet *sheet, int n)
  * sheet_selection_extend_vertical
  * @sheet:  The Sheet *
  * @n:      units to extend the selection vertically
+ * @jump_to_boundaries : Jump to range boundaries.
  */
 void
-sheet_selection_extend_vertical (Sheet *sheet, int n)
+sheet_selection_extend_vertical (Sheet *sheet, int n, gboolean jump_to_boundaries)
 {
 	SheetSelection *ss;
 	SheetSelection old_selection;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail ((n == 1 || n == -1));
 
 	ss = (SheetSelection *)sheet->selections->data;
 	old_selection = *ss;
 
 	if (ss->base_row < ss->end_row)
-		ss->end_row = sheet_row_check_bound (ss->end_row, n);
-	else if (ss->base_row > ss->start_row)
-		ss->start_row = sheet_row_check_bound (ss->start_row, n);
-	else {
-		if (n > 0)
-			ss->end_row = sheet_row_check_bound (ss->end_row, 1);
-		else
-			ss->start_row = sheet_row_check_bound (ss->start_row, -1);
-	}
+		ss->end_row =
+		    sheet_find_boundary_vertical (sheet,
+						  ss->end_col, ss->end_row,
+						  n, jump_to_boundaries);
+	else if (ss->base_row > ss->start_row || n < 0)
+		ss->start_row =
+		    sheet_find_boundary_vertical (sheet,
+						  ss->start_col, ss->start_row,
+						  n, jump_to_boundaries);
+	else
+		ss->end_row =
+		    sheet_find_boundary_vertical (sheet,
+						  ss->end_col, ss->end_row,
+						  n, jump_to_boundaries);
 
+	if (ss->end_row < ss->start_row) {
+		int const tmp = ss->start_row;
+		ss->start_row = ss->end_row;
+		ss->end_row = tmp;
+	}
 	sheet_selection_change (sheet, &old_selection, ss);
 }
 

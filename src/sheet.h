@@ -201,8 +201,8 @@ int         sheet_selection_walk_step         (Sheet *sheet,
 					       int   forward,     int horizontal,
 					       int   current_col, int current_row,
 					       int   *new_col,    int *new_row);
-void        sheet_selection_extend_horizontal (Sheet *sheet, int count);
-void        sheet_selection_extend_vertical   (Sheet *sheet, int count);
+void        sheet_selection_extend_horizontal (Sheet *sheet, int count, gboolean jump_to_boundaries);
+void        sheet_selection_extend_vertical   (Sheet *sheet, int count, gboolean jump_to_boundaries);
 int         sheet_selection_is_cell_selected  (Sheet *sheet, int col, int row);
 gboolean    sheet_verify_selection_simple     (Sheet *sheet, const char *command_name);
 
@@ -235,6 +235,10 @@ ColRowInfo *sheet_col_new                  (Sheet *sheet);
 ColRowInfo *sheet_row_new                  (Sheet *sheet);
 int         sheet_row_check_bound          (int row, int diff);
 int         sheet_col_check_bound          (int col, int diff);
+int	    sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
+					    int count, gboolean jump_to_boundaries);
+int	    sheet_find_boundary_vertical   (Sheet *sheet, int col, int start_row,
+					    int count, gboolean jump_to_boundaries);
 
 /* Duplicates the information of a col/row */
 ColRowInfo *sheet_duplicate_colrow        (ColRowInfo *original);
