@@ -1,3 +1,14 @@
+2002-06-23  Jody Goldberg <jody@gnome.org>
+
+	* src/func-builtin.c (func_builtin_init) : delete the 'selection'
+	  function.  It is no longer possible with a sheetview.
+
+	* src/workbook-control-gui.c (cb_select_auto_expr) : remove
+	  'selection(0)' argument and just pass function name.  The conversion
+	  to SheetView forces a different methodology.
+	* src/workbook-view.c (workbook_view_new) : ditto.
+	(wb_view_auto_expr_recalc) : Make the call manually.
+
 2002-06-22  Jody Goldberg <jody@gnome.org>
 
 	* src/expr.h : support constructed ranges.

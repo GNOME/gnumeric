@@ -4120,20 +4120,20 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, Workbook *wbcg)
 	 * locale C does.
 	 *
 	 * eg tolower ('I') != 'i'
-	 * Which would break function lookup when looking up for funtion 'selectIon'
+	 * Which would break function lookup when looking up for function 'selectIon'
 	 * when it was registered as 'selection'
 	 *
 	 * WARNING * WARNING * WARNING
 	 */
 	static struct {
-		const char *displayed_name;
-		const char *function;
+		char const * const displayed_name;
+		char const * const function;
 	} const quick_compute_routines [] = {
-		{ N_("Sum"),   	       "sum(selection(0))" },
-		{ N_("Min"),   	       "min(selection(0))" },
-		{ N_("Max"),   	       "max(selection(0))" },
-		{ N_("Average"),       "average(selection(0))" },
-		{ N_("Count"),         "count(selection(0))" },
+		{ N_("Sum"),   	       "sum" },
+		{ N_("Min"),   	       "min" },
+		{ N_("Max"),   	       "max" },
+		{ N_("Average"),       "average" },
+		{ N_("Count"),         "count" },
 		{ NULL, NULL }
 	};
 

@@ -1,5 +1,7 @@
 2002-06-22  Jody Goldberg <jody@gnome.org>
 
+	* ms-formula-write.c (operations) : export intersection.
+
 	* ms-formula-read.c (ms_excel_parse_formula) : enable mem_func
 	  support.
 	(binary_ops) : use range_ctor for RANGE.

@@ -10,7 +10,6 @@ Release Critical
 - We need to somehow add --export-dynamic to the gnumeric link line, or else
   plugins won't load on Solaris/gcc.  (This might just be my bastard libtool.)
 - 3D reference fixes on sheet deletion
-- Re-enable autoexpressions
 - Dependencies for constructed ranges
 - Figure out why the cursor is not on the edit pos when loading an xls fromthe
   cmd line.

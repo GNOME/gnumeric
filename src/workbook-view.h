@@ -74,7 +74,8 @@ void		 wb_view_edit_line_set	  (WorkbookView *wbv,
 					   WorkbookControl *optional_wbc);
 void		 wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display);
 void		 wb_view_auto_expr	  (WorkbookView *wbv,
-					   char const *name, char const *expr);
+					   char const *name,
+					   char const *func_name);
 
 /* I/O routines */
 gboolean wb_view_save_as     (WorkbookView *wbv, GnumFileSaver *fs,

@@ -33,14 +33,15 @@
 #include "sheet-style.h"
 #include "str.h"
 #include "format.h"
+#include "func.h"
 #include "expr.h"
 #include "expr-impl.h"
 #include "value.h"
 #include "ranges.h"
+#include "selection.h"
 #include "mstyle.h"
 #include "position.h"
 #include "cell.h"
-#include "parse-util.h"
 #include "io-context.h"
 
 #include <gsf/gsf-input-memory.h>
@@ -313,39 +314,16 @@ wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
 }
 
 void
-wb_view_auto_expr (WorkbookView *wbv, char const *descr, char const *expression)
+wb_view_auto_expr (WorkbookView *wbv, char const *descr, char const *func_name)
 {
-	char *old_num_locale, *old_monetary_locale, *old_msg_locale;
-	GnmExpr const *new_auto_expr;
-	ParsePos pp;
-
-	old_num_locale = g_strdup (gnumeric_setlocale (LC_NUMERIC, NULL));
-	gnumeric_setlocale (LC_NUMERIC, "C");
-	old_monetary_locale = g_strdup (gnumeric_setlocale (LC_MONETARY, NULL));
-	gnumeric_setlocale (LC_MONETARY, "C");
-	/* FIXME : Get rid of this */
-	old_msg_locale = g_strdup (textdomain (NULL));
-	textdomain ("C");
-
-	parse_pos_init (&pp, wb_view_workbook (wbv), NULL, 0, 0);
-	new_auto_expr = gnm_expr_parse_str_simple (expression, &pp);
-
-	g_return_if_fail (new_auto_expr != NULL);
-
-	textdomain (old_msg_locale);
-	g_free (old_msg_locale);
-	gnumeric_setlocale (LC_MONETARY, old_monetary_locale);
-	g_free (old_monetary_locale);
-	gnumeric_setlocale (LC_NUMERIC, old_num_locale);
-	g_free (old_num_locale);
-
 	if (wbv->auto_expr_desc)
 		g_free (wbv->auto_expr_desc);
 	if (wbv->auto_expr)
 		gnm_expr_unref (wbv->auto_expr);
 
 	wbv->auto_expr_desc = g_strdup (descr);
-	wbv->auto_expr = new_auto_expr;
+	wbv->auto_expr = gnm_expr_new_funcall (
+		func_lookup_by_name (func_name, NULL), NULL);
 
 	if (wbv->current_sheet != NULL)
 		wb_view_auto_expr_recalc (wbv, TRUE);
@@ -358,21 +336,46 @@ wb_view_auto_expr_value_display (WorkbookView *wbv)
 		wb_control_auto_expr_value (control););
 }
 
+static void
+accumulate_regions (SheetView *sv,  Range const *r, gpointer closure)
+{
+	GnmExprList	**selection = closure;
+	CellRef a, b;
+
+	a.sheet = b.sheet = sv_sheet (sv);
+	a.col_relative = a.row_relative = b.col_relative = b.row_relative = FALSE;
+	a.col = r->start.col;
+	a.row = r->start.row;
+	b.col = r->end.col;
+	b.row = r->end.row;
+
+	*selection = gnm_expr_list_prepend (*selection,
+		gnm_expr_new_constant (value_new_cellrange_unsafe (&a, &b)));
+}
+
 void
 wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 {
-	EvalPos	 ep;
-	Value	*v;
+	FunctionEvalInfo ei;
+	EvalPos		 ep;
+	GnmExprList	*selection = NULL;
+	Value		*v;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
 	g_return_if_fail (wbv->auto_expr != NULL);
 
-	v = gnm_expr_eval (wbv->auto_expr,
-		       eval_pos_init_sheet (&ep, wbv->current_sheet),
-		       GNM_EXPR_EVAL_STRICT);
+	selection_apply (wb_view_cur_sheet_view (wbv), &accumulate_regions,
+		FALSE, &selection);
+
+	ei.pos = eval_pos_init_sheet (&ep, wbv->current_sheet);
+	ei.func_call = (GnmExprFunction const *)wbv->auto_expr;
+
+	v = function_call_with_list (&ei, selection);
+	gnm_expr_list_unref (selection);
 
 	if (wbv->auto_expr_value_as_string)
 		g_free (wbv->auto_expr_value_as_string);
+
 	if (v) {
 		char const *val_str = value_peek_string (v);
 		wbv->auto_expr_value_as_string =
@@ -494,7 +497,7 @@ workbook_view_new (Workbook *wb)
 	wbv->auto_expr      = NULL;
 	wbv->auto_expr_desc = NULL;
 	wbv->auto_expr_value_as_string = NULL;
-	wb_view_auto_expr (wbv, _("Sum"), "sum(selection(0))");
+	wb_view_auto_expr (wbv, _("Sum"), "sum");
 
 	wbv->current_format = NULL;
 

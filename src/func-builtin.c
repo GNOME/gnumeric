@@ -122,90 +122,6 @@ gnumeric_version (FunctionEvalInfo *ei, Value *argv [])
 
 /***************************************************************************/
 
-static const char *help_selection = {
-	N_("@FUNCTION=SELECTION\n"
-	   "@SYNTAX=SELECTION(permit_intersection)\n"
-
-	   "@DESCRIPTION="
-	   "SELECTION function returns a list with the values in the current "
-	   "selection.  This is usually used to implement on-the-fly computation "
-	   "of values.\n"
-	   "If @permit_intersection is TRUE the user specifed selection "
-	   "ranges are returned, EVEN IF THEY OVERLAP.  "
-	   "If @permit_intersection is FALSE a distict set of regions is "
-	   "returned, however, there may be more of them than "
-	   "the user initially specified."
-
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "\n"
-	   "@SEEALSO=")
-};
-
-#if 0
-typedef struct
-{
-	GSList * res;
-	int	index;
-} selection_accumulator;
-
-static void
-accumulate_regions (SheetView *sv,  Range const *r, gpointer closure)
-{
-	selection_accumulator *accum = closure;
-	CellRef a, b;
-
-	/* Fill it in */
-	/* start */
-	a.sheet = sv->sheet;
-	a.col_relative = a.row_relative = FALSE;
-	a.col = r->start.col;
-	a.row = r->start.row;
-
-	/* end */
-	b.sheet = sv->sheet;
-	b.col_relative = b.row_relative = FALSE;
-	b.col = r->end.col;
-	b.row = r->end.row;
-
-	/* Dummy up the eval pos it does not matter */
-	accum->res = g_slist_prepend (accum->res,
-				      value_new_cellrange(&a, &b, 0, 0));
-	accum->index++;
-}
-
-/* This routine is used to implement the auto_expr functionality.  It is called
- * to provide the selection to the defined functions.
- */
-static Value *
-gnumeric_selection (FunctionEvalInfo *ei, Value *argv [])
-{
-	Sheet * const sheet = ei->pos->sheet;
-	gboolean const permit_intersection = argv [0]->v_bool.val;
-	Value * res;
-	int i;
-
-	selection_accumulator accum;
-	accum.res = NULL;
-	accum.index = 0;
-	selection_apply (sheet, &accumulate_regions,
-			 permit_intersection, &accum);
-
-	i = accum.index;
-	res = value_new_array_empty (i, 1);
-	while (i-- > 0) {
-		/* pop the 1st element off the list */
-		Value *range = accum.res->data;
-		accum.res = g_slist_remove (accum.res, range);
-
-		value_array_set (res, i, 0, range);
-	}
-	return res;
-}
-#endif
-
-#warning we can no longer ue this method, think of another way
-static Value *
 gnumeric_selection (FunctionEvalInfo *ei, Value *argv [])
 {
 	return value_new_float (12.34);
@@ -244,10 +160,6 @@ func_builtin_init (void)
 	def = function_add_args (gnumericcat, "gnumeric_version", "",  "",
 				 &help_gnumeric_version, gnumeric_version);
 	gnumericfuncs = g_slist_prepend (gnumericfuncs, def);
-
-	def = function_add_args (sheetcat, "selection", "b",  N_("permit_intersection"),
-				 &help_selection, gnumeric_selection);
-	sheetfuncs = g_slist_prepend (sheetfuncs, def);
 }
 
 static void

@@ -545,8 +545,9 @@ write_node (PolishData *pd, GnmExpr const *tree, int paren_level)
 		{ FORMULA_PTG_U_MINUS,	 5, 0, 0 }, /* Unary - */
 		{ FORMULA_PTG_U_PLUS,	 5, 0, 0 }, /* Unary + */
 		{ FORMULA_PTG_PERCENT,	 5, 0, 0 }, /* Percentage (NOT MODULO) */
-		{ 0, 0, 0, 0 }, /* Array    */
-		{ 0, 0, 0, 0 }  /* Set      */
+		{ 0, 0, 0, 0 },	/* Array    */
+		{ 0, 0, 0, 0 }, /* Set      */
+		{ FORMULA_PTG_RANGE,	10, 1, 0 }
 	};
 	int op;
 	g_return_if_fail (pd);
@@ -554,6 +555,7 @@ write_node (PolishData *pd, GnmExpr const *tree, int paren_level)
 
 	op = tree->any.oper;
 	switch (op) {
+	case GNM_EXPR_OP_RANGE_CTOR:
 	case GNM_EXPR_OP_ANY_BINARY : {
 		int const prec = operations[op].prec;
 
