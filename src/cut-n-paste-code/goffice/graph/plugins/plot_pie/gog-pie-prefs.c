@@ -102,7 +102,7 @@ GtkWidget *gog_ring_plot_pref   (GogRingPlot *ring, CommandContext *cc);
 static void
 cb_center_size_changed (GtkAdjustment *adj, GObject *ring)
 {
-	g_object_set (ring, "center_size", adj->value, NULL);
+	g_object_set (ring, "center_size", adj->value/100., NULL);
 }
 
 
@@ -122,7 +122,7 @@ gog_ring_plot_pref (GogRingPlot *ring, CommandContext *cc)
 	gog_pie_plot_pref_signal_connect (GOG_PIE_PLOT (ring), gui);
 
 	w = glade_xml_get_widget (gui, "center_size_spinner");
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), ring->center_size);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), ring->center_size * 100);
 	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
 		"value_changed",
 		G_CALLBACK (cb_center_size_changed), ring);

@@ -1,3 +1,11 @@
+2003-08-11  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* graph/plugins/plot_pie/gog-pie-prefs.c (cb_center_size_changed):
+	  scale between display and storage
+	(gog_ring_plot_pref): ditto
+	* graph/plugins/plot_pie/gog-ring-prefs.glade: center_size spin
+	  button should range from 0 to 95 in steps of 5
+
 2003-08-09  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* graph/gog-guru.c: add correct helpfile address

@@ -2,6 +2,7 @@
 <!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
+<requires lib="gnome"/>
 
 <widget class="GtkWindow" id="window1">
   <property name="title" translatable="yes">window1</property>
@@ -240,13 +241,13 @@
 	  <property name="visible">True</property>
 	  <property name="tooltip" translatable="yes">The default amount each slice is separated from the center measured as a percentage of the radius of the pie</property>
 	  <property name="can_focus">True</property>
-	  <property name="climb_rate">0.1</property>
-	  <property name="digits">2</property>
+	  <property name="climb_rate">1</property>
+	  <property name="digits">0</property>
 	  <property name="numeric">True</property>
 	  <property name="update_policy">GTK_UPDATE_ALWAYS</property>
 	  <property name="snap_to_ticks">True</property>
 	  <property name="wrap">False</property>
-	  <property name="adjustment">0 0 0.95 0.05 0.2 0.2</property>
+	  <property name="adjustment">0 0 95 5 0.2 0.2</property>
 	</widget>
 	<packing>
 	  <property name="left_attach">1</property>
