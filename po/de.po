@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.77\n"
 "POT-Creation-Date: 2001-12-21 01:11-0500\n"
-"PO-Revision-Date: 2001-12-20 22:29+0100\n"
+"PO-Revision-Date: 2001-12-21 01:25-0700\n"
 "Last-Translator: Christian Meyer <chrisime@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -155,7 +155,7 @@ msgstr ""
 msgid ""
 "This file is not an 'OLE' file.  It may be too old for Gnumeric to read.\n"
 "Sorry, the management."
-msgstr ""
+msgstr "Diese Datei ist keine 'OLE' Datei. Möglicherweise ist sie zu alt, um von Gnumeric gelesen zu werden."
 
 #: plugins/excel/boot.c:105
 msgid "Unexpected error reading the file"
@@ -966,7 +966,6 @@ msgid "Xbase (*.dbf) file format"
 msgstr "Xbase (*.dbf) Dateiformat"
 
 #: plugins/xml_sax/plugin.xml.in.h:1
-#, fuzzy
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
 msgstr "EXPERIMENTELLES Gnumeric-XML-Dateiformat (*.gnumeric)"
 
@@ -2399,9 +2398,9 @@ msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/Signifikanz F"
 
 #: src/analysis-tools.c:2372
-#, fuzzy, c-format
+#, c-format
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
-msgstr "/Koeffizienten/Standardfehler/t Stat/P-Wert/Unter 95%/Über 95%"
+msgstr "/Koeffizienten/Standardfehler/t Stat/P-Wert/Untere %0.0f%%/Obere %0.0f%%"
 
 #: src/analysis-tools.c:2541
 msgid "Moving Averages"
@@ -4405,7 +4404,6 @@ msgid "_Variable 2 Range:"
 msgstr "Bereich für _Variable 2:"
 
 #: src/dialogs/dialog-analysis-tools.c:2009
-#, fuzzy
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Es war nicht möglich, den Durchschnittstest-Druiden zu erzeugen."
 
@@ -4465,7 +4463,6 @@ msgid "Exponential"
 msgstr "Exponentiell"
 
 #: src/dialogs/dialog-analysis-tools.c:2549
-#, fuzzy
 msgid "_b Value:"
 msgstr "_b-Wert:"
 
@@ -4476,7 +4473,6 @@ msgstr "Binomial"
 #: src/dialogs/dialog-analysis-tools.c:2551
 #: src/dialogs/dialog-analysis-tools.c:2553
 #: src/dialogs/dialog-analysis-tools.c:2556
-#, fuzzy
 msgid "_p Value:"
 msgstr "_p-Wert:"
 
@@ -4490,7 +4486,6 @@ msgid "Negative Binomial"
 msgstr "Negatives Binomial"
 
 #: src/dialogs/dialog-analysis-tools.c:2554
-#, fuzzy
 msgid "N_umber of Failures"
 msgstr "An_zahl der Fehlschläge"
 
@@ -4503,12 +4498,10 @@ msgid "Uniform"
 msgstr "Gleichverteilt"
 
 #: src/dialogs/dialog-analysis-tools.c:2558
-#, fuzzy
 msgid "_Lower Bound:"
 msgstr "_Untere Grenze:"
 
 #: src/dialogs/dialog-analysis-tools.c:2558
-#, fuzzy
 msgid "_Upper Bound:"
 msgstr "_Obere Grenze:"
 
@@ -4614,7 +4607,6 @@ msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Es war nicht möglich, den Varianzanalyse-Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:4368
-#, fuzzy
 msgid "Anova: Two-Factor With Or Without Replication"
 msgstr "Varianzanalyse: 2 Faktoren"
 
@@ -4657,7 +4649,6 @@ msgid "z-Test: Two Sample for Means"
 msgstr "z-Test: 2 Stichproben"
 
 #: src/dialogs/dialog-autocorrect.c:292
-#, fuzzy
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Es war nicht möglich, den Korrigier-Druiden zu erzeugen."
 
@@ -4769,7 +4760,6 @@ msgid "Missing %s file"
 msgstr "Datei %s ist nicht vorhanden."
 
 #: src/dialogs/dialog-autoformat.c:948
-#, fuzzy
 msgid "An error occurred while reading the category list"
 msgstr "Beim Lesen der Kategorieenliste trat ein Fehler auf."
 
@@ -4953,12 +4943,10 @@ msgid "The cell named in 'Set Cell:' must contain a formula!"
 msgstr "Die in 'Setzen der Zelle' angegebene Zelle muss eine Formel enthalten."
 
 #: src/dialogs/dialog-goal-seek.c:384
-#, fuzzy
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
 msgstr "Einen gültigen Zellennamen in 'Durch Ändern von Zelle' eintragen."
 
 #: src/dialogs/dialog-goal-seek.c:393
-#, fuzzy
 msgid "The cell named in 'By changing cell' must not contain a formula."
 msgstr ""
 "Die in 'Durch Ändern von Zelle' angegebene Zelle darf keine Formel enthalten."
@@ -4968,14 +4956,14 @@ msgid "The value given in 'To Value:' is not valid."
 msgstr ""
 
 #: src/dialogs/dialog-goal-seek.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "Goal seeking with cell %s found a solution."
 msgstr "Zielsuche mit Zelle %s war erfolgreich."
 
 #: src/dialogs/dialog-goal-seek.c:499
-#, fuzzy, c-format
+#, c-format
 msgid "Goal seeking with cell %s did not find a solution."
-msgstr "Zielsuche mit Zelle %s war erfolgreich."
+msgstr "Zielsuche mit Zelle %s war nicht erfolgreich."
 
 #: src/dialogs/dialog-goal-seek.c:668
 #, fuzzy
@@ -5192,7 +5180,6 @@ msgid "Other value"
 msgstr "Andere Werte"
 
 #: src/dialogs/dialog-search.c:139
-#, fuzzy
 msgid "Comment"
 msgstr "Kommentare"
 
@@ -5255,6 +5242,14 @@ msgstr "Sie müssen wenigstens ein zu exportierendes Blatt auswählen."
 #: src/dialogs/dialog-stf-export.c:52 src/dialogs/dialog-stf.c:104
 msgid "Are you sure you want to cancel?"
 msgstr "Sind Sie sicher, dass Sie abbrechen wollen?"
+
+#: src/dialogs/dialog-stf-export.glade.h:1
+msgid "<- Remove"
+msgstr "<- Entfernen"
+
+#: src/dialogs/dialog-stf-export.glade.h:2
+msgid "<- Remove all"
+msgstr "<- Alle entfernen"
 
 #: src/dialogs/dialog-stf-export.glade.h:1 src/dialogs/dialog-stf.glade.h:1
 msgid "\""
@@ -5838,19 +5833,17 @@ msgid "_Series"
 msgstr "Blätter"
 
 #: src/dialogs/goalseek.glade.h:1
-#, fuzzy
 msgid "(Maximum):"
-msgstr "Maximum:"
+msgstr "(Maximum):"
 
 #: src/dialogs/goalseek.glade.h:2
 #, fuzzy
 msgid "(Minimum):"
-msgstr "Minimum:"
+msgstr "(Minimum):"
 
 #: src/dialogs/goalseek.glade.h:3
-#, fuzzy
 msgid "By Changing Cell:"
-msgstr "D_urch Ändern von Zellen:"
+msgstr "D_urch Ändern der Zelle:"
 
 #: src/dialogs/goalseek.glade.h:4
 #, fuzzy
@@ -5864,13 +5857,12 @@ msgid "Goal:"
 msgstr "Total"
 
 #: src/dialogs/goalseek.glade.h:6
-#, fuzzy
 msgid "GoalSeek"
 msgstr "Zielsuche..."
 
 #: src/dialogs/goalseek.glade.h:7
 msgid "Last Result:"
-msgstr ""
+msgstr "Letzte Antwort"
 
 #: src/dialogs/goalseek.glade.h:8
 msgid "Remaining Error:"
@@ -5983,9 +5975,8 @@ msgid "Testing the Difference of 2 Means"
 msgstr ""
 
 #: src/dialogs/mean-tests.glade.h:11
-#, fuzzy
 msgid "Unkno_wn"
-msgstr "Unbekannter Name."
+msgstr "Unbekannt"
 
 #: src/dialogs/mean-tests.glade.h:12
 #, fuzzy
@@ -5994,7 +5985,7 @@ msgstr "Unbekannter Operator"
 
 #: src/dialogs/mean-tests.glade.h:13
 msgid "Unpai_red"
-msgstr ""
+msgstr "Unabhängig"
 
 #: src/dialogs/mean-tests.glade.h:14
 #, fuzzy
@@ -6020,14 +6011,12 @@ msgid "Variables are:"
 msgstr "Bereich Variable 2:"
 
 #: src/dialogs/mean-tests.glade.h:19 src/dialogs/variance-tests.glade.h:9
-#, fuzzy
 msgid "_Alpha ="
-msgstr "1 - _Alpha:"
+msgstr "_Alpha:"
 
 #: src/dialogs/mean-tests.glade.h:20
-#, fuzzy
 msgid "_Known"
-msgstr "_Zeile"
+msgstr "_Bekannt"
 
 #: src/dialogs/mean-tests.glade.h:24
 #, fuzzy
@@ -6453,26 +6442,24 @@ msgstr "Zellen ändern, die beinhalten"
 
 #: src/dialogs/search-replace.glade.h:48 src/dialogs/search.glade.h:13
 msgid "Search column by column"
-msgstr ""
+msgstr "Spaltenweise suchen"
 
 #: src/dialogs/search.glade.h:14
-#, fuzzy
 msgid "Search in all cells in the workbook"
-msgstr "Suchen und ersetzen in allen Zellen des Arbeitsbuchs"
+msgstr "In allen Zellen des Arbeitsbuchs suchen"
 
 #: src/dialogs/search.glade.h:15
-#, fuzzy
 msgid "Search in current sheet only"
-msgstr "Suchen und ersetzen nur im aktuellen Blatt"
+msgstr "Nur im aktuellen Blatt suchen"
 
 #: src/dialogs/search.glade.h:16
 #, fuzzy
 msgid "Search in specified range only"
-msgstr "Suchen und ersetzen nur im angegebenen Bereich"
+msgstr "Nur im angegebenen Bereich suchen"
 
 #: src/dialogs/search-replace.glade.h:50 src/dialogs/search.glade.h:17
 msgid "Search line by line"
-msgstr ""
+msgstr "Zeilenweise suchen"
 
 #: src/dialogs/search.glade.h:18
 msgid "Show next match"
@@ -8137,7 +8124,7 @@ msgstr "St.-Helena-Pfund"
 
 #: src/formats.c:390
 msgid "[$SIT]"
-msgstr ""
+msgstr "[SIT]"
 
 #: src/formats.c:390
 msgid "Slovenia tolar"
@@ -15629,7 +15616,7 @@ msgstr ""
 
 #: src/gui-validation.c:81
 msgid "The expression must be true."
-msgstr ""
+msgstr "Der Ausdruck muß wahr sein."
 
 #: src/gui-validation.c:83
 #, c-format
@@ -15672,8 +15659,9 @@ msgid "<unknown>"
 msgstr "Unbekannter Name."
 
 #: src/gui-validation.c:114
+#, fuzzy
 msgid "Can be blank\n"
-msgstr ""
+msgstr "Kann leer sein\n"
 
 #: src/gui-validation.c:145 src/gui-validation.c:173
 msgid "Ok"
@@ -16478,7 +16466,7 @@ msgstr "Rand"
 
 #: src/sheet-object-graphic.c:503
 msgid "Distance from tip of arrowhead to the center point"
-msgstr ""
+msgstr "Länge von der Pfeilspitze zum Mittelpunkt"
 
 #: src/sheet-object-graphic.c:505
 msgid "Distance from tip of arrowhead to trailing point, measured along shaft"
@@ -16499,7 +16487,7 @@ msgstr "Umriss"
 
 #: src/sheet-object-graphic.c:855
 msgid "Fill color"
-msgstr ""
+msgstr "Füllfarbe"
 
 #: src/sheet-object-graphic.c:857
 #, fuzzy
