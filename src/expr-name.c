@@ -101,7 +101,8 @@ typedef struct {
 } CheckName;
 
 static void
-cb_check_name (gpointer key, GnmNamedExpr *nexpr, CheckName *user)
+cb_check_name (__attribute__((unused)) gpointer key, GnmNamedExpr *nexpr,
+	       CheckName *user)
 {
 	Value *v;
 
@@ -148,7 +149,8 @@ gnm_named_expr_collection_check (GnmNamedExprCollection *scope,
 /******************************************************************************/
 
 static void
-cb_collect_name_deps (gpointer key, gpointer value, gpointer user_data)
+cb_collect_name_deps (gpointer key, __attribute__((unused)) gpointer value,
+		      gpointer user_data)
 {
 	GSList **list = user_data;
 	*list = g_slist_prepend (*list, key);
@@ -620,7 +622,8 @@ expr_name_by_name (GnmNamedExpr const *a, GnmNamedExpr const *b)
  * Names in the list do NOT have additional references added.
  */
 static void
-cb_get_names (gpointer key, GnmExprName *nexpr, GList **accum)
+cb_get_names (__attribute__((unused)) gpointer key, GnmExprName *nexpr,
+	      GList **accum)
 {
 	*accum = g_list_prepend (*accum, nexpr);
 }

@@ -2193,7 +2193,8 @@ expr_tree_sharer_new (void)
 }
 
 static void
-cb_ets_unref_key (gpointer key, gpointer value, gpointer user_data)
+cb_ets_unref_key (gpointer key, __attribute__((unused)) gpointer value,
+		  __attribute__((unused)) gpointer user_data)
 {
 	GnmExpr *e = key;
 	gnm_expr_unref (e);
@@ -2314,7 +2315,7 @@ expr_init (void)
 
 #if USE_EXPR_POOLS
 static void
-cb_expression_pool_leak (gpointer data, gpointer user)
+cb_expression_pool_leak (gpointer data, __attribute__((unused)) gpointer user)
 {
 	const GnmExpr *expr = data;
 	ParsePos pp;

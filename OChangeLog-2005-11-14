@@ -4,8 +4,9 @@
 	src/colrow.c, src/command-context-stderr.c, src/command-context.c,
 	src/commands.c, src/complete.c, src/consolidate.c, src/io-context.c,
 	src/tools/analysis-tools.c, src/tools/auto-correct.c,
-	src/tools/random-generator.c, src/tools/simulation.c: Annotate unused
-	parameters.
+	src/tools/random-generator.c, src/tools/simulation.c,
+	src/dependent.c, src/expr.c, src/expr-name.c src/format-template.c:
+	Annotate unused parameters.
 
 2002-11-04  Morten Welinder  <terra@diku.dk>
 

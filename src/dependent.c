@@ -929,7 +929,7 @@ workbook_unlink_3d_dep (Dependent *dep)
 
 /*****************************************************************************/
 
-static void dynamic_dep_eval (Dependent *dep) { }
+static void dynamic_dep_eval (__attribute__((unused)) Dependent *dep) { }
 
 static void
 dynamic_dep_debug_name (Dependent const *dep, FILE *out)
@@ -1284,7 +1284,8 @@ typedef struct {
 } search_rangedeps_closure_t;
 
 static void
-cb_search_rangedeps (gpointer key, gpointer value, gpointer closure)
+cb_search_rangedeps (gpointer key, __attribute__((unused)) gpointer value,
+		     gpointer closure)
 {
 	search_rangedeps_closure_t const *c = closure;
 	DependencyRange const *deprange = key;
@@ -1352,7 +1353,8 @@ cell_foreach_dep (Cell const *cell, DepFunc func, gpointer user)
 }
 
 static void
-cb_recalc_all_depends (gpointer key, gpointer value, gpointer ignore)
+cb_recalc_all_depends (gpointer key, __attribute__((unused)) gpointer value,
+		       __attribute__((unused)) gpointer ignore)
 {
 	DependencyAny const *depany = key;
 	dep_collection_foreach_list (depany->deps, list,
@@ -1360,7 +1362,8 @@ cb_recalc_all_depends (gpointer key, gpointer value, gpointer ignore)
 }
 
 static void
-cb_range_contained_depend (gpointer key, gpointer value, gpointer user)
+cb_range_contained_depend (gpointer key, __attribute__((unused)) gpointer value,
+			   gpointer user)
 {
 	DependencyRange const *deprange  = key;
 	Range const *range = &deprange->range;
@@ -1372,7 +1375,9 @@ cb_range_contained_depend (gpointer key, gpointer value, gpointer user)
 }
 
 static void
-cb_single_contained_depend (gpointer key, gpointer value, gpointer user)
+cb_single_contained_depend (gpointer key,
+			    __attribute__((unused)) gpointer value,
+			    gpointer user)
 {
 	DependencySingle const *depsingle  = key;
 	Range const *target = user;
@@ -1541,7 +1546,8 @@ typedef struct {
 } CollectClosure;
 
 static void
-cb_range_contained_collect (DependencyRange const *deprange, gpointer ignored,
+cb_range_contained_collect (DependencyRange const *deprange,
+			    __attribute__((unused)) gpointer ignored,
 			    CollectClosure *user)
 {
 	Range const *range = &deprange->range;
@@ -1555,7 +1561,8 @@ cb_range_contained_collect (DependencyRange const *deprange, gpointer ignored,
 }
 
 static void
-cb_single_contained_collect (DependencySingle const *depsingle, gpointer ignored,
+cb_single_contained_collect (DependencySingle const *depsingle,
+			     __attribute__((unused)) gpointer ignored,
 			     CollectClosure *user)
 {
 	if (range_contains (user->target, depsingle->pos.col, depsingle->pos.row))
@@ -1711,7 +1718,8 @@ invalidate_refs (Dependent *dep, GnmExprRewriteInfo const *rwinfo)
  * This is tightly coupled with do_deps_destroy.
  */
 static void
-cb_dep_hash_invalidate (gpointer key, gpointer value, gpointer closure)
+cb_dep_hash_invalidate (__attribute__((unused)) gpointer key, gpointer value,
+			gpointer closure)
 {
 	GnmExprRewriteInfo const *rwinfo = closure;
 	DependencyAny *depany = value;
@@ -1765,7 +1773,7 @@ cb_dep_hash_invalidate (gpointer key, gpointer value, gpointer closure)
 }
 
 static void
-cb_name_invalidate (GnmNamedExpr *nexpr, gpointer value,
+cb_name_invalidate (GnmNamedExpr *nexpr, __attribute__((unused)) gpointer value,
 		    GnmExprRewriteInfo const *rwinfo)
 {
 	GnmExpr const *new_expr = NULL;
@@ -1784,7 +1792,7 @@ cb_name_invalidate (GnmNamedExpr *nexpr, gpointer value,
 }
 
 static void
-cb_collect_deps_of_name (Dependent *dep, gpointer value,
+cb_collect_deps_of_name (Dependent *dep, __attribute__((unused)) gpointer value,
 			 GSList **accum)
 {
 	/* grab unflagged linked depends */
@@ -1795,7 +1803,8 @@ cb_collect_deps_of_name (Dependent *dep, gpointer value,
 }
 
 static void
-cb_collect_deps_of_names (GnmNamedExpr *nexpr, gpointer value,
+cb_collect_deps_of_names (GnmNamedExpr *nexpr,
+			  __attribute__((unused)) gpointer value,
 			  GSList **accum)
 {
 	if (nexpr->dependents)
@@ -2044,7 +2053,8 @@ dump_dependent_list (GSList *l)
 }
 
 static void
-dump_range_dep (gpointer key, gpointer value, gpointer closure)
+dump_range_dep (gpointer key, __attribute__((unused)) gpointer value,
+		__attribute__((unused)) gpointer closure)
 {
 	DependencyRange const *deprange = key;
 	Range const *range = &(deprange->range);
@@ -2058,7 +2068,8 @@ dump_range_dep (gpointer key, gpointer value, gpointer closure)
 }
 
 static void
-dump_single_dep (gpointer key, gpointer value, gpointer closure)
+dump_single_dep (gpointer key, __attribute__((unused)) gpointer value,
+		 __attribute__((unused)) gpointer closure)
 {
 	DependencySingle *depsingle = key;
 
