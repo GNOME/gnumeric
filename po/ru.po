@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.47\n"
-"POT-Creation-Date: 1999-12-03 20:25-0600\n"
+"POT-Creation-Date: 2000-01-07 18:26-0500\n"
 "PO-Revision-Date: 2000-01-07 19:38+03:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -12,29 +12,38 @@ msgstr ""
 "Content-Type: text/plain; charset=koi8-r\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: plugins/excel/boot.c:92
+#: plugins/excel/boot.c:94
 msgid "Saving over old files disabled for safety"
 msgstr "Сохранение в старый файл отключено для безопасности"
 
-#: plugins/excel/boot.c:100
+#: plugins/excel/boot.c:102
 msgid "Can't open"
 msgstr "Не удалось открыть"
 
-#: plugins/excel/boot.c:141
+#: plugins/excel/boot.c:140
 msgid "Microsoft(R) Excel file format"
 msgstr "Формат файла Microsoft(R) Excel"
 
-#: plugins/excel/boot.c:142
+#: plugins/excel/boot.c:141
 msgid "Excel(R) 97 file format"
 msgstr "Формат файла Excel(R) 97"
 
-#: plugins/excel/boot.c:143
+#: plugins/excel/boot.c:142
 msgid "Excel(R) 95 file format"
 msgstr "Формат файла Excel(R) 95"
 
-#: plugins/excel/ms-excel-read.c:265
+#: plugins/excel/ms-excel-read.c:258
 msgid "#UNKNOWN!"
 msgstr "#НЕИЗВЕСТНОЕ!"
+
+#: plugins/excel/ms-excel-read.c:3449
+msgid "No book or workbook streams found."
+msgstr ""
+
+#. All records after this are encrypted
+#: plugins/excel/ms-excel-read.c:3787
+msgid "Password protected workbooks are not supported yet."
+msgstr "Защищенные паролем книги пока не поддерживаются."
 
 #: plugins/excel/ms-formula-read.c:648
 msgid "Unknown Function"
@@ -48,20 +57,39 @@ msgstr "Ошибочная функция"
 msgid " Unknown formula"
 msgstr " Неизвестная формула"
 
-#: plugins/ff-csv/csv-io.c:142 plugins/sylk/sylk.c:443
+#: plugins/ff-csv/csv-io.c:54
+#, c-format
+msgid "Invalid CSV file unexpected end of line at line %d"
+msgstr ""
+
+#: plugins/ff-csv/csv-io.c:98
+#, c-format
+msgid "Invalid CSV file has more than the maximum number of rows %d"
+msgstr ""
+
+#: plugins/ff-csv/csv-io.c:105
+#, c-format
+msgid "Invalid CSV file has more than the maximum number of columns %d"
+msgstr ""
+
+#: plugins/ff-csv/csv-io.c:144 plugins/sylk/sylk.c:440
 #, c-format
 msgid "Imported %s"
 msgstr "Импорт %s"
 
-#: plugins/ff-csv/csv-io.c:271
+#: plugins/ff-csv/csv-io.c:161
+msgid "Unable to mmap the file"
+msgstr "Невозможно mmap файл"
+
+#: plugins/ff-csv/csv-io.c:279
 msgid "Comma Separated Value (CSV) import"
 msgstr "Импорт разделенных запятыми значений (CSV)"
 
-#: plugins/ff-csv/csv-io.c:274
+#: plugins/ff-csv/csv-io.c:282
 msgid "Comma Separated Value format (*.csv)"
 msgstr "Формат с разделенными запятыми значениями (*.csv)"
 
-#: plugins/ff-csv/csv-io.c:277
+#: plugins/ff-csv/csv-io.c:285
 msgid "Comma Separated Value (CSV) module"
 msgstr "Модуль значений разделенных запятыми (CSV)"
 
@@ -105,7 +133,7 @@ msgstr "Файл в формате PDF (через groff/gs)"
 msgid "EPS file format (*.eps)"
 msgstr "Файл в формате EPS (*.eps)"
 
-#: plugins/html/boot.c:102
+#: plugins/html/boot.c:106
 msgid "HTML (simple html export/import plugin)"
 msgstr "HTML (простое дополнение экспорта/импорта html)"
 
@@ -113,7 +141,7 @@ msgstr "HTML (простое дополнение экспорта/импорта html)"
 msgid "Lotus (*.wk1) file format"
 msgstr "Файл в формате Lotus (*.wk1)"
 
-#: plugins/lotus-123/boot.c:95
+#: plugins/lotus-123/boot.c:98
 msgid "Lotus 123 file import/export plugin"
 msgstr "Дополнение экспорта/импорта файлов Lotus 123"
 
@@ -121,44 +149,36 @@ msgstr "Дополнение экспорта/импорта файлов Lotus 123"
 msgid "GNU Oleo (*.oleo) file format"
 msgstr "Файл в формате GNU Oleo (*.oleo)"
 
-#: plugins/oleo/boot.c:95
+#: plugins/oleo/boot.c:98
 msgid "GNU Oleo import plugin"
 msgstr "Дополнение импорта GNU Oleo"
 
-#: plugins/python/python.c:101
+#: plugins/python/python.c:103
 msgid "Unable to lookup Python code object."
 msgstr "Hе удалось найти обьект кода Python"
 
 #. XXX should popup window with exception info
-#: plugins/python/python.c:116
+#: plugins/python/python.c:118
 msgid "Python exception."
 msgstr "Исключение Python."
 
-#: plugins/python/python.c:137
+#: plugins/python/python.c:139
 msgid "object must be callable"
 msgstr "обьект должен быть вызываемым"
 
 #: plugins/python/python.c:143
-msgid "could not alloc FuncDef"
-msgstr ""
-
-#: plugins/python/python.c:147
 msgid "Perl"
 msgstr "Perl"
 
-#: plugins/python/python.c:173
-msgid "Gnumeric/Python module initialized\n"
-msgstr "Модуль Gnumeric/Python инициализирован\n"
-
-#: plugins/python/python.c:186
+#: plugins/python/python.c:184
 msgid "Python Plugin"
 msgstr "Дополнение Python"
 
-#: plugins/sample/plugin-sample.c:49
+#: plugins/sample/plugin-sample.c:48
 msgid "Sample Plugin"
 msgstr "Пример дополнения"
 
-#: plugins/stat/stat.c:27
+#: plugins/stat/stat.c:30
 msgid "OLD Statistics Plugin, not required anymore"
 msgstr "СТАРОЕ дополнение статистики, больше не требуется"
 
@@ -170,24 +190,27 @@ msgstr "Импорт MultiPlan (SYLK)"
 msgid "MultiPlan (SYLK) file import module"
 msgstr "Модуль импорта файлов MultiPlan (SYLK)"
 
-#: plugins/text/text-io.c:305
-#, c-format
-msgid ""
-"While opening %s\n"
-"%s"
-msgstr ""
-"При открытии %s\n"
-"%s"
+#: plugins/text/text-io.c:312
+msgid "Empty file"
+msgstr "Пустой файл"
 
-#: plugins/text/text-io.c:337
+#: plugins/text/text-io.c:315
+msgid "File is too large"
+msgstr ""
+
+#: plugins/text/text-io.c:321
+msgid "Can not mmap the file"
+msgstr "Невозможно mmap файл"
+
+#: plugins/text/text-io.c:326
 msgid "NoName"
 msgstr "Безымянный"
 
-#: plugins/text/text-io.c:428
+#: plugins/text/text-io.c:417
 msgid "Simple Text Format"
 msgstr "Формат простого текста"
 
-#: plugins/text/text-io.c:459
+#: plugins/text/text-io.c:451
 msgid "TXT (simple text import/export plugin)"
 msgstr "TXT (дополнение экспорта/импорта простого текста)"
 
@@ -195,7 +218,7 @@ msgstr "TXT (дополнение экспорта/импорта простого текста)"
 msgid "Xbase (*.dbf) file format"
 msgstr "Файл в формате Xbase (*.dbf)"
 
-#: plugins/xbase/boot.c:215
+#: plugins/xbase/boot.c:218
 msgid "XBase file import/export plugin"
 msgstr "Дополнение импорта/экспорта файлов XBase"
 
@@ -228,66 +251,74 @@ msgid "Jakub Jelinek, Gnumeric hacker."
 msgstr "Jakub Jelinek, программист."
 
 #: src/about.c:31
+msgid "Jon K Hellan, Excel hacker."
+msgstr "Jon K Hellan, код Excel."
+
+#: src/about.c:32
 msgid "Chris Lahey, Number format engine."
 msgstr "Chris Lahey, обработка числовых форматов."
 
-#: src/about.c:32
+#: src/about.c:33
 msgid "Adrian Likins, Documentation, debugging."
 msgstr "Adrian Likins, документация, отладка."
 
-#: src/about.c:33
+#: src/about.c:34
 msgid "Takashi Matsuda, simple text plugin."
 msgstr "Takashi Matsuda, дополнение простого текста."
 
-#: src/about.c:34
+#: src/about.c:35
 msgid "Federico Mena, Canvas support."
 msgstr "Federico Mena, поддержка канвы."
 
-#: src/about.c:35
+#: src/about.c:36
 msgid "Michael Meeks, Excel and OLE2 importing."
 msgstr "Michael Meeks, импорт Excel и OLE2."
 
-#: src/about.c:36
+#: src/about.c:37
 msgid "Mark Probst, Guile support."
 msgstr "Mark Probst, поддержка Guile."
 
-#: src/about.c:37
+#: src/about.c:38
 msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr "Rasca, экспорт HTML, troff, LaTeX"
 
-#: src/about.c:38
+#: src/about.c:39
 msgid "Vincent Renardias, CSV support, French localisation."
 msgstr "Vincent Renardias, поддержка CSV, адаптация для Франции."
 
-#: src/about.c:39
+#: src/about.c:40
+msgid "Ariel Rios, Guile support."
+msgstr "Ariel Rios, поддержка Guile."
+
+#: src/about.c:41
 msgid "Bruno Unna, Excel bits."
 msgstr "Bruno Unna, код Excel."
 
-#: src/about.c:40
+#: src/about.c:42
 msgid "Daniel Veillard, XML support."
 msgstr "Daniel Veillard, поддержка XML."
 
-#: src/about.c:41
+#: src/about.c:43
 msgid "Vladimir Vuksan, financial functions."
 msgstr "Vladimir Vuksan, финансовые функции."
 
-#: src/about.c:42
+#: src/about.c:44
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr "Morten Welinder, программист."
 
-#: src/about.c:56
+#: src/about.c:58
 msgid "Gnumeric"
 msgstr "Gnumeric"
 
-#: src/about.c:57
+#: src/about.c:59
 msgid "(C) 1998-1999 Miguel de Icaza"
 msgstr "(C) 1998-1999 Miguel de Icaza"
 
-#: src/about.c:64
+#: src/about.c:66
 msgid "Gnumeric Home Page"
 msgstr "Домашняя страница Gnumeric"
 
-#: src/about.c:66
+#: src/about.c:68
 msgid "Gnumeric Support page"
 msgstr "Страница поддержки Gnumeric"
 
@@ -296,18 +327,59 @@ msgid "ERROR"
 msgstr "ОШИБКА"
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:131
+#: src/cell.c:134
 msgid "Pending recomputation"
 msgstr "Проводится пересчет..."
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:583
+#: src/cell.c:603
 msgid "Circular reference"
 msgstr "Круговая ссылка"
 
+#: src/commands.c:387
+#, c-format
+msgid "Typing \"%s%s\" in %s"
+msgstr "Набрать \"%s%s\" в %s"
+
+#: src/commands.c:567
+#, c-format
+msgid "Inserting %d column%s at %s"
+msgstr "Вставить %d столб.%% в позицию %s"
+
+#: src/commands.c:577
+#, c-format
+msgid "Inserting %d row%s at %d"
+msgstr "Вставить %d строк.%% в позицию %s"
+
+#. col_name uses a static buffer
+#: src/commands.c:590
+#, c-format
+msgid "Deleting %d columns (%s:"
+msgstr "Удалить %d столб. (%s:"
+
+#: src/commands.c:595
+#, c-format
+msgid "Deleting column %s"
+msgstr "Вставить столбец %s"
+
+#: src/commands.c:605
+#, c-format
+msgid "Deleting %d rows (%d:%d"
+msgstr "Удалить %d строк. (%d:%d"
+
+#: src/commands.c:607
+#, c-format
+msgid "Deleting row %d"
+msgstr "Удалить строку %d"
+
+#. FIXME : improve on this
+#: src/commands.c:765
+msgid "Moving cells"
+msgstr "Перенос ячеек"
+
 #: src/corba-args.c:33
 msgid "Could not initialize the Gnumeric Workbook factory"
-msgstr ""
+msgstr "Невозможно инициализировать Gnumeric Workbook factory"
 
 #: src/dates.c:14
 msgid "*Sun"
@@ -461,329 +533,336 @@ msgstr "Ноябрь"
 msgid "December"
 msgstr "Декабрь"
 
-#: src/dialogs/dialog-analysis-tools.c:73
-#: src/dialogs/dialog-analysis-tools.c:1800
+#: src/dialogs/dialog-analysis-tools.c:74
+#: src/dialogs/dialog-analysis-tools.c:1897
 msgid "Anova: Single Factor"
 msgstr "Дисперсионный анализ: однофакторный"
 
-#: src/dialogs/dialog-analysis-tools.c:75
-#: src/dialogs/dialog-analysis-tools.c:1888
+#: src/dialogs/dialog-analysis-tools.c:76
+#: src/dialogs/dialog-analysis-tools.c:1985
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Дисперсионный анализ: двухфакторный без Replication (FIX)"
 
-#: src/dialogs/dialog-analysis-tools.c:77
-#: src/dialogs/dialog-analysis-tools.c:395
+#: src/dialogs/dialog-analysis-tools.c:78
+#: src/dialogs/dialog-analysis-tools.c:464
 msgid "Correlation"
 msgstr "Корреляция"
 
-#: src/dialogs/dialog-analysis-tools.c:79
-#: src/dialogs/dialog-analysis-tools.c:476
+#: src/dialogs/dialog-analysis-tools.c:80
+#: src/dialogs/dialog-analysis-tools.c:545
 msgid "Covariance"
 msgstr "Ковариация"
 
-#: src/dialogs/dialog-analysis-tools.c:81
-#: src/dialogs/dialog-analysis-tools.c:664
+#: src/dialogs/dialog-analysis-tools.c:82
+#: src/dialogs/dialog-analysis-tools.c:733
 msgid "Descriptive Statistics"
 msgstr "Описательные статистики"
 
-#: src/dialogs/dialog-analysis-tools.c:83
-#: src/dialogs/dialog-analysis-tools.c:1191
+#: src/dialogs/dialog-analysis-tools.c:84
+#: src/dialogs/dialog-analysis-tools.c:1260
 msgid "F-Test: Two-Sample for Variances"
 msgstr "F-тест: Two-Sample for Variances"
 
-#: src/dialogs/dialog-analysis-tools.c:85
-#: src/dialogs/dialog-analysis-tools.c:1627
+#: src/dialogs/dialog-analysis-tools.c:86
+#: src/dialogs/dialog-analysis-tools.c:1724
 msgid "Moving Average"
 msgstr "Скользящее среднее"
 
-#: src/dialogs/dialog-analysis-tools.c:87
-#: src/dialogs/dialog-analysis-tools.c:1336
+#: src/dialogs/dialog-analysis-tools.c:88
+#: src/dialogs/dialog-analysis-tools.c:1405
 msgid "Random Number Generation"
 msgstr "Генерация случайных чисел"
 
-#: src/dialogs/dialog-analysis-tools.c:89
-#: src/dialogs/dialog-analysis-tools.c:1717
+#: src/dialogs/dialog-analysis-tools.c:90
+#: src/dialogs/dialog-analysis-tools.c:1814
 msgid "Rank and Percentile"
 msgstr "Ранг и Percentile"
 
-#: src/dialogs/dialog-analysis-tools.c:91
-#: src/dialogs/dialog-analysis-tools.c:1527
+#. TODO This would be better using the
+#. value in the checkbox instead of this
+#. global, but I don't know GTK very well
+#: src/dialogs/dialog-analysis-tools.c:92
+#: src/dialogs/dialog-analysis-tools.c:1602
 msgid "Regression"
 msgstr "Регрессия"
 
-#: src/dialogs/dialog-analysis-tools.c:93
-#: src/dialogs/dialog-analysis-tools.c:553
+#: src/dialogs/dialog-analysis-tools.c:94
+#: src/dialogs/dialog-analysis-tools.c:622
 msgid "Sampling"
 msgstr "Выборка"
 
-#: src/dialogs/dialog-analysis-tools.c:95
-#: src/dialogs/dialog-analysis-tools.c:877
+#: src/dialogs/dialog-analysis-tools.c:96
+#: src/dialogs/dialog-analysis-tools.c:946
 msgid "t-Test: Paired Two Sample for Means"
 msgstr "t-Тест: сравнение средних для двух выборок"
 
-#: src/dialogs/dialog-analysis-tools.c:97
-#: src/dialogs/dialog-analysis-tools.c:982
+#: src/dialogs/dialog-analysis-tools.c:98
+#: src/dialogs/dialog-analysis-tools.c:1051
 msgid "t-Test: Two-Sample Assuming Equal Variances"
 msgstr "t-Тест: две выборки с предположительно равными дисперсиями"
 
-#: src/dialogs/dialog-analysis-tools.c:99
-#: src/dialogs/dialog-analysis-tools.c:1087
+#: src/dialogs/dialog-analysis-tools.c:100
+#: src/dialogs/dialog-analysis-tools.c:1156
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr "t-Тест: две выборки с предположительно неравными дисперсиями"
 
-#: src/dialogs/dialog-analysis-tools.c:101
-#: src/dialogs/dialog-analysis-tools.c:760
+#: src/dialogs/dialog-analysis-tools.c:102
+#: src/dialogs/dialog-analysis-tools.c:829
 msgid "z-Test: Two Sample for Means"
 msgstr "z-Тест: средние двух выборок"
 
-#: src/dialogs/dialog-analysis-tools.c:108
-#: src/dialogs/dialog-analysis-tools.c:1305
-#: src/dialogs/dialog-analysis-tools.c:1484
+#: src/dialogs/dialog-analysis-tools.c:109
+#: src/dialogs/dialog-analysis-tools.c:1374
+#: src/dialogs/dialog-analysis-tools.c:1553
 msgid "Discrete"
 msgstr "Дискретное"
 
-#: src/dialogs/dialog-analysis-tools.c:109
-#: src/dialogs/dialog-analysis-tools.c:1302
-#: src/dialogs/dialog-analysis-tools.c:1474
+#: src/dialogs/dialog-analysis-tools.c:110
+#: src/dialogs/dialog-analysis-tools.c:1371
+#: src/dialogs/dialog-analysis-tools.c:1543
 #: src/widgets/widget-font-selector.c:125
 msgid "Normal"
 msgstr "Нормальное"
 
-#: src/dialogs/dialog-analysis-tools.c:110
-#: src/dialogs/dialog-analysis-tools.c:1299
-#: src/dialogs/dialog-analysis-tools.c:1480
+#: src/dialogs/dialog-analysis-tools.c:111
+#: src/dialogs/dialog-analysis-tools.c:1368
+#: src/dialogs/dialog-analysis-tools.c:1549
 msgid "Bernoulli"
 msgstr "Бернулли"
 
-#: src/dialogs/dialog-analysis-tools.c:111
-#: src/dialogs/dialog-analysis-tools.c:1296
-#: src/dialogs/dialog-analysis-tools.c:1468
+#: src/dialogs/dialog-analysis-tools.c:112
+#: src/dialogs/dialog-analysis-tools.c:1365
+#: src/dialogs/dialog-analysis-tools.c:1537
 msgid "Uniform"
 msgstr "Однородное"
 
-#: src/dialogs/dialog-analysis-tools.c:152
+#: src/dialogs/dialog-analysis-tools.c:159
 msgid "Summary Statistics"
 msgstr "Суммарная статистика"
 
-#: src/dialogs/dialog-analysis-tools.c:154
+#: src/dialogs/dialog-analysis-tools.c:161
 msgid "Confidence Level for Mean"
 msgstr "Доверительный уровень для значения"
 
-#: src/dialogs/dialog-analysis-tools.c:155
+#: src/dialogs/dialog-analysis-tools.c:162
 msgid "0.95"
 msgstr "0.95"
 
-#: src/dialogs/dialog-analysis-tools.c:156
+#: src/dialogs/dialog-analysis-tools.c:163
 msgid "Kth Largest:"
 msgstr "К-ое наибольшее:"
 
-#: src/dialogs/dialog-analysis-tools.c:157
-#: src/dialogs/dialog-analysis-tools.c:159
+#: src/dialogs/dialog-analysis-tools.c:164
+#: src/dialogs/dialog-analysis-tools.c:166
 msgid "1"
 msgstr "1"
 
-#: src/dialogs/dialog-analysis-tools.c:158
+#: src/dialogs/dialog-analysis-tools.c:165
 msgid "Kth Smallest:"
 msgstr "К-ое наименьшее:"
 
-#: src/dialogs/dialog-analysis-tools.c:164
+#: src/dialogs/dialog-analysis-tools.c:171
 msgid "Labels in First Row"
 msgstr "Метки в первой строке"
 
-#: src/dialogs/dialog-analysis-tools.c:170
+#: src/dialogs/dialog-analysis-tools.c:177
 msgid "Labels"
 msgstr "Метки"
 
-#: src/dialogs/dialog-analysis-tools.c:176
+#: src/dialogs/dialog-analysis-tools.c:183
+msgid "Force Intercept to Be Zero"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:189
 msgid "Standard Errors"
 msgstr "Стандартное отклонение"
 
-#: src/dialogs/cell-sort.glade.h:12 src/dialogs/dialog-analysis-tools.c:203
+#: src/dialogs/cell-sort.glade.h:12 src/dialogs/dialog-analysis-tools.c:272
 msgid "Columns"
 msgstr "Столбцы"
 
-#: src/dialogs/cell-sort.glade.h:11 src/dialogs/dialog-analysis-tools.c:204
+#: src/dialogs/cell-sort.glade.h:11 src/dialogs/dialog-analysis-tools.c:273
 msgid "Rows"
 msgstr "Строки"
 
-#: src/dialogs/dialog-analysis-tools.c:209
+#: src/dialogs/dialog-analysis-tools.c:278
 msgid "Periodic"
 msgstr "Периодически"
 
-#: src/dialogs/dialog-analysis-tools.c:210
+#: src/dialogs/dialog-analysis-tools.c:279
 msgid "Random"
 msgstr "Случайно"
 
-#: src/dialogs/dialog-analysis-tools.c:220
-#: src/dialogs/dialog-analysis-tools.c:1977
-msgid "OK"
-msgstr "OK"
+#: src/dialogs/dialog-analysis-tools.c:368
+msgid "You should introduce a valid cell range in 'Into a Range:'"
+msgstr "Вы должны ввести подходящий диапазон ячеек в 'В диапазон:'"
 
-#: src/dialogs/dialog-analysis-tools.c:331
+#: src/dialogs/dialog-analysis-tools.c:400
 msgid "New Sheet"
 msgstr "Новая таблица"
 
 #. hbox = gtk_hbox_new (FALSE, 0);
-#: src/dialogs/dialog-analysis-tools.c:335
+#: src/dialogs/dialog-analysis-tools.c:404
 msgid "New Workbook"
 msgstr "Новая книга"
 
-#: src/dialogs/dialog-analysis-tools.c:340
+#: src/dialogs/dialog-analysis-tools.c:409
 msgid "Output Range:"
 msgstr "Диапазон вывода:"
 
-#: src/dialogs/dialog-analysis-tools.c:360
+#: src/dialogs/dialog-analysis-tools.c:429
 msgid "Grouped By:"
 msgstr "Группировать по:"
 
-#: src/dialogs/dialog-analysis-tools.c:405
-#: src/dialogs/dialog-analysis-tools.c:486
-#: src/dialogs/dialog-analysis-tools.c:563
-#: src/dialogs/dialog-analysis-tools.c:674
-#: src/dialogs/dialog-analysis-tools.c:1636
+#: src/dialogs/dialog-analysis-tools.c:471
+#: src/dialogs/dialog-analysis-tools.c:552
+#: src/dialogs/dialog-analysis-tools.c:629
+#: src/dialogs/dialog-analysis-tools.c:740
+#: src/dialogs/dialog-analysis-tools.c:837
+#: src/dialogs/dialog-analysis-tools.c:954
+#: src/dialogs/dialog-analysis-tools.c:1059
+#: src/dialogs/dialog-analysis-tools.c:1165
+#: src/dialogs/dialog-analysis-tools.c:1605
 #: src/dialogs/dialog-analysis-tools.c:1727
-#: src/dialogs/dialog-analysis-tools.c:1810
-#: src/dialogs/dialog-analysis-tools.c:1899
-msgid "Input Range:"
-msgstr "Входной диапазон:"
-
-#: src/dialogs/dialog-analysis-tools.c:440
-#: src/dialogs/dialog-analysis-tools.c:520
-#: src/dialogs/dialog-analysis-tools.c:624
-#: src/dialogs/dialog-analysis-tools.c:714
-#: src/dialogs/dialog-analysis-tools.c:1762
-#: src/dialogs/dialog-analysis-tools.c:1847
-#: src/dialogs/dialog-analysis-tools.c:1933
-msgid "You should introduce a valid cell range in 'Range:'"
-msgstr "Вы должны ввести подходящий диапазон ячеек в 'Диапазон:'"
-
-#: src/dialogs/dialog-analysis-tools.c:483
-#: src/dialogs/dialog-analysis-tools.c:560
-#: src/dialogs/dialog-analysis-tools.c:671
-#: src/dialogs/dialog-analysis-tools.c:768
-#: src/dialogs/dialog-analysis-tools.c:885
-#: src/dialogs/dialog-analysis-tools.c:990
-#: src/dialogs/dialog-analysis-tools.c:1096
-#: src/dialogs/dialog-analysis-tools.c:1530
-#: src/dialogs/dialog-analysis-tools.c:1630
-#: src/dialogs/dialog-analysis-tools.c:1724
-#: src/dialogs/dialog-analysis-tools.c:1807
-#: src/dialogs/dialog-analysis-tools.c:1896
+#: src/dialogs/dialog-analysis-tools.c:1821
+#: src/dialogs/dialog-analysis-tools.c:1904
+#: src/dialogs/dialog-analysis-tools.c:1993
 msgid "Input:"
 msgstr "Ввод:"
 
-#: src/dialogs/dialog-analysis-tools.c:565
+#: src/dialogs/dialog-analysis-tools.c:474
+#: src/dialogs/dialog-analysis-tools.c:555
+#: src/dialogs/dialog-analysis-tools.c:632
+#: src/dialogs/dialog-analysis-tools.c:743
+#: src/dialogs/dialog-analysis-tools.c:1733
+#: src/dialogs/dialog-analysis-tools.c:1824
+#: src/dialogs/dialog-analysis-tools.c:1907
+#: src/dialogs/dialog-analysis-tools.c:1996
+msgid "Input Range:"
+msgstr "Входной диапазон:"
+
+#: src/dialogs/dialog-analysis-tools.c:509
+#: src/dialogs/dialog-analysis-tools.c:589
+#: src/dialogs/dialog-analysis-tools.c:693
+#: src/dialogs/dialog-analysis-tools.c:783
+#: src/dialogs/dialog-analysis-tools.c:1859
+#: src/dialogs/dialog-analysis-tools.c:1944
+#: src/dialogs/dialog-analysis-tools.c:2030
+msgid "You should introduce a valid cell range in 'Range:'"
+msgstr "Вы должны ввести подходящий диапазон ячеек в 'Диапазон:'"
+
+#: src/dialogs/dialog-analysis-tools.c:634
 msgid "Sampling Method:"
 msgstr "Метод выборки:"
 
-#: src/dialogs/dialog-analysis-tools.c:577
+#: src/dialogs/dialog-analysis-tools.c:646
 msgid "Period:"
 msgstr "Период:"
 
-#: src/dialogs/dialog-analysis-tools.c:580
+#: src/dialogs/dialog-analysis-tools.c:649
 msgid "Number of Samples:"
 msgstr "Число испытаний:"
 
-#: src/dialogs/dialog-analysis-tools.c:771
-#: src/dialogs/dialog-analysis-tools.c:888
-#: src/dialogs/dialog-analysis-tools.c:993
-#: src/dialogs/dialog-analysis-tools.c:1099
-#: src/dialogs/dialog-analysis-tools.c:1201
+#: src/dialogs/dialog-analysis-tools.c:840
+#: src/dialogs/dialog-analysis-tools.c:957
+#: src/dialogs/dialog-analysis-tools.c:1062
+#: src/dialogs/dialog-analysis-tools.c:1168
+#: src/dialogs/dialog-analysis-tools.c:1270
 msgid "Variable 1 Range:"
 msgstr "Диапазон переменной 1:"
 
-#: src/dialogs/dialog-analysis-tools.c:774
-#: src/dialogs/dialog-analysis-tools.c:891
-#: src/dialogs/dialog-analysis-tools.c:996
-#: src/dialogs/dialog-analysis-tools.c:1102
-#: src/dialogs/dialog-analysis-tools.c:1204
+#: src/dialogs/dialog-analysis-tools.c:843
+#: src/dialogs/dialog-analysis-tools.c:960
+#: src/dialogs/dialog-analysis-tools.c:1065
+#: src/dialogs/dialog-analysis-tools.c:1171
+#: src/dialogs/dialog-analysis-tools.c:1273
 msgid "Variable 2 Range:"
 msgstr "Диапазон переменной 2:"
 
-#: src/dialogs/dialog-analysis-tools.c:777
-#: src/dialogs/dialog-analysis-tools.c:894
-#: src/dialogs/dialog-analysis-tools.c:999
-#: src/dialogs/dialog-analysis-tools.c:1105
+#: src/dialogs/dialog-analysis-tools.c:846
+#: src/dialogs/dialog-analysis-tools.c:963
+#: src/dialogs/dialog-analysis-tools.c:1068
+#: src/dialogs/dialog-analysis-tools.c:1174
 msgid "Hypothesized Mean Difference:"
 msgstr "Гипотетическая разность средних:"
 
-#: src/dialogs/dialog-analysis-tools.c:780
+#: src/dialogs/dialog-analysis-tools.c:849
 msgid "Variable 1 Variance (known):"
 msgstr "Дисперсия переменной 1 (известная):"
 
-#: src/dialogs/dialog-analysis-tools.c:783
+#: src/dialogs/dialog-analysis-tools.c:852
 msgid "Variable 2 Variance (known):"
 msgstr "Дисперсия переменной 2 (известная):"
 
-#: src/dialogs/dialog-analysis-tools.c:785
-#: src/dialogs/dialog-analysis-tools.c:896
-#: src/dialogs/dialog-analysis-tools.c:1001
-#: src/dialogs/dialog-analysis-tools.c:1107
-#: src/dialogs/dialog-analysis-tools.c:1206
-#: src/dialogs/dialog-analysis-tools.c:1814
-#: src/dialogs/dialog-analysis-tools.c:1901
+#: src/dialogs/dialog-analysis-tools.c:854
+#: src/dialogs/dialog-analysis-tools.c:965
+#: src/dialogs/dialog-analysis-tools.c:1070
+#: src/dialogs/dialog-analysis-tools.c:1176
+#: src/dialogs/dialog-analysis-tools.c:1275
+#: src/dialogs/dialog-analysis-tools.c:1911
+#: src/dialogs/dialog-analysis-tools.c:1998
 msgid "Alpha:"
 msgstr "Альфа:"
 
-#: src/dialogs/dialog-analysis-tools.c:817
-#: src/dialogs/dialog-analysis-tools.c:928
-#: src/dialogs/dialog-analysis-tools.c:1033
-#: src/dialogs/dialog-analysis-tools.c:1139
-#: src/dialogs/dialog-analysis-tools.c:1239
-#: src/dialogs/dialog-analysis-tools.c:1574
+#: src/dialogs/dialog-analysis-tools.c:886
+#: src/dialogs/dialog-analysis-tools.c:997
+#: src/dialogs/dialog-analysis-tools.c:1102
+#: src/dialogs/dialog-analysis-tools.c:1208
+#: src/dialogs/dialog-analysis-tools.c:1308
+#: src/dialogs/dialog-analysis-tools.c:1650
 msgid "You should introduce a valid cell range in 'Variable 1:'"
 msgstr "Вы должны ввести подходящий диапазон ячеек в поле \"Переменная 1:\""
 
-#: src/dialogs/dialog-analysis-tools.c:828
-#: src/dialogs/dialog-analysis-tools.c:939
-#: src/dialogs/dialog-analysis-tools.c:1044
-#: src/dialogs/dialog-analysis-tools.c:1150
-#: src/dialogs/dialog-analysis-tools.c:1250
-#: src/dialogs/dialog-analysis-tools.c:1585
+#: src/dialogs/dialog-analysis-tools.c:897
+#: src/dialogs/dialog-analysis-tools.c:1008
+#: src/dialogs/dialog-analysis-tools.c:1113
+#: src/dialogs/dialog-analysis-tools.c:1219
+#: src/dialogs/dialog-analysis-tools.c:1319
+#: src/dialogs/dialog-analysis-tools.c:1658
 msgid "You should introduce a valid cell range in 'Variable 2:'"
 msgstr "Вы должны ввести подходящий диапазон ячеек в поле \"Переменная 2:\""
 
-#: src/dialogs/dialog-analysis-tools.c:1347
+#: src/dialogs/dialog-analysis-tools.c:1416
 msgid "Number of Variables:"
 msgstr "Число переменных:"
 
-#: src/dialogs/dialog-analysis-tools.c:1350
+#: src/dialogs/dialog-analysis-tools.c:1419
 msgid "Number of Random Numbers:"
 msgstr "Число случайных чисел:"
 
-#: src/dialogs/dialog-analysis-tools.c:1361
+#: src/dialogs/dialog-analysis-tools.c:1430
 msgid "Parameters:"
 msgstr "Параметры:"
 
-#: src/dialogs/dialog-analysis-tools.c:1374
+#: src/dialogs/dialog-analysis-tools.c:1443
 msgid "Value and Probability Input Range:"
 msgstr "Входной диапазон значений и вероятностей:"
 
-#: src/dialogs/dialog-analysis-tools.c:1379
+#: src/dialogs/dialog-analysis-tools.c:1448
 msgid "Between:"
 msgstr "Между:"
 
-#: src/dialogs/dialog-analysis-tools.c:1382
+#: src/dialogs/dialog-analysis-tools.c:1451
 msgid "And:"
 msgstr "И:"
 
-#: src/dialogs/dialog-analysis-tools.c:1387
+#: src/dialogs/dialog-analysis-tools.c:1456
 msgid "Mean = "
 msgstr "Среднее = "
 
-#: src/dialogs/dialog-analysis-tools.c:1389
+#: src/dialogs/dialog-analysis-tools.c:1458
 msgid "Standard Deviation = "
 msgstr "Стандартное отклонение = "
 
-#: src/dialogs/dialog-analysis-tools.c:1393
+#: src/dialogs/dialog-analysis-tools.c:1462
 msgid "Lambda"
 msgstr "Лямбда"
 
-#: src/dialogs/dialog-analysis-tools.c:1397
+#: src/dialogs/dialog-analysis-tools.c:1466
 msgid "p Value"
 msgstr "p Значение"
 
-#: src/dialogs/dialog-analysis-tools.c:1492
+#: src/dialogs/dialog-analysis-tools.c:1561
 msgid ""
 "You should introduce a valid cell range in 'Value and Probability Input "
 "Range:'"
@@ -791,31 +870,49 @@ msgstr ""
 "Вы должны ввести подходящий диапазон ячейек для \"Входного диапазона "
 "значений и вероятностей\""
 
-#: src/dialogs/dialog-analysis-tools.c:1536
+#: src/dialogs/dialog-analysis-tools.c:1611
 msgid "Input Y Range:"
 msgstr "Входной диапазон Y:"
 
-#: src/dialogs/dialog-analysis-tools.c:1539
+#: src/dialogs/dialog-analysis-tools.c:1614
 msgid "Input X Range:"
 msgstr "Входной диапазон X:"
 
-#: src/dialogs/dialog-analysis-tools.c:1541
+#: src/dialogs/dialog-analysis-tools.c:1616
 msgid "Confidence Level:"
 msgstr "Доверительный уровень:"
 
-#: src/dialogs/dialog-analysis-tools.c:1638
+#: src/dialogs/dialog-analysis-tools.c:1682
+msgid ""
+"There are too few data points to conduct this regression.\n"
+"There must be at least as many data points as free variables."
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:1688
+msgid ""
+"Two or more of the independent variables are linearly dependent,\n"
+"and the regression cannot be calculated. Remove one of these\n"
+"variables and try the regression again."
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:1695
+msgid ""
+"There must be an equal number of entries for each variable in the regression."
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:1735
 msgid "Interval:"
 msgstr "Интервал:"
 
-#: src/dialogs/dialog-analysis-tools.c:1673
+#: src/dialogs/dialog-analysis-tools.c:1770
 msgid "You should introduce a valid cell range in 'Range Input:'"
 msgstr "Вы должны ввести подходящий диапазон ячейек в 'Входной диапазон':"
 
-#: src/dialogs/dialog-analysis-tools.c:1976
+#: src/dialogs/dialog-analysis-tools.c:2073
 msgid "Data Analysis"
 msgstr "Анализ данных"
 
-#: src/dialogs/dialog-analysis-tools.c:1984
+#: src/dialogs/dialog-analysis-tools.c:2081
 msgid "Analysis Tools"
 msgstr "Средства анализа"
 
@@ -839,59 +936,55 @@ msgstr "_);[Red]("
 msgid "Format Cells"
 msgstr "Формат ячеек"
 
-#: src/dialogs/dialog-cell-sort.c:133
+#: src/dialogs/dialog-cell-sort.c:138
 msgid "Ascending"
 msgstr "Возрастающий"
 
-#: src/dialogs/dialog-cell-sort.c:136
+#: src/dialogs/dialog-cell-sort.c:141
 msgid "Descending"
 msgstr "Убывающий"
 
-#: src/dialogs/dialog-cell-sort.c:444
+#: src/dialogs/dialog-cell-sort.c:454
 msgid "At least one clause is required."
 msgstr "Необходим хотя бы один пункт"
 
-#: src/dialogs/dialog-cell-sort.c:453
+#: src/dialogs/dialog-cell-sort.c:463
 msgid "Can't add more than the selection length."
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:456
+#: src/dialogs/dialog-cell-sort.c:466
 msgid "Maximum number of clauses has been reached."
 msgstr "Было достигнуто максимальное число пунктов."
 
-#: src/dialogs/dialog-cell-sort.c:588 src/print.c:508 src/workbook.c:1501
-msgid "Selection must be a single range"
-msgstr "Выделение должно быть единственным диапазоном"
+#: src/dialogs/dialog-cell-sort.c:595
+msgid "sort"
+msgstr "сортировать"
 
-#: src/dialogs/dialog-cell-sort.c:600
-msgid "Selection must be a finite range"
-msgstr "Выделение должно быть конечным диапазоном"
-
-#: src/dialogs/dialog-cell-sort.c:650
+#: src/dialogs/dialog-cell-sort.c:655
 msgid "then by"
 msgstr "затем по"
 
-#: src/dialogs/cell-sort.glade.h:16 src/dialogs/dialog-cell-sort.c:650
+#: src/dialogs/cell-sort.glade.h:16 src/dialogs/dialog-cell-sort.c:655
 msgid "Sort by"
 msgstr "Сортировать по"
 
-#: src/dialogs/dialog-cell-sort.c:685
+#: src/dialogs/dialog-cell-sort.c:690
 msgid "Column must be within range"
 msgstr "Столбец должен быть в диапазоне"
 
-#: src/dialogs/dialog-cell-sort.c:702
+#: src/dialogs/dialog-cell-sort.c:707
 msgid "Row must be within range"
 msgstr "Строка должна быть в диапазоне"
 
-#: src/dialogs/dialog-cell-sort.c:709
+#: src/dialogs/dialog-cell-sort.c:714
 msgid "First column must be valid"
 msgstr "Первый столбец должен быть допустимым"
 
-#: src/dialogs/dialog-cell-sort.c:709
+#: src/dialogs/dialog-cell-sort.c:714
 msgid "First row must be valid"
 msgstr "Первая строка должна быть допустимой"
 
-#: src/dialogs/dialog-delete-cells.c:79
+#: src/dialogs/dialog-delete-cells.c:85
 msgid "delete cells"
 msgstr "удалить ячейки"
 
@@ -899,39 +992,39 @@ msgstr "удалить ячейки"
 msgid "Formula Selection"
 msgstr "Выбор формулы"
 
-#: src/dialogs/dialog-function-wizard.c:206 src/functions/fn-string.c:1295
+#: src/dialogs/dialog-function-wizard.c:202 src/functions/fn-string.c:1295
 msgid "String"
 msgstr "Строка"
 
-#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:209
+#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:205
 msgid "Number"
 msgstr "Числовой"
 
-#: src/dialogs/dialog-function-wizard.c:212
+#: src/dialogs/dialog-function-wizard.c:208
 msgid "Boolean"
 msgstr "Булевый"
 
-#: src/dialogs/dialog-function-wizard.c:215
+#: src/dialogs/dialog-function-wizard.c:211
 msgid "Range"
 msgstr "Диапазон"
 
-#: src/dialogs/dialog-function-wizard.c:218
+#: src/dialogs/dialog-function-wizard.c:214
 msgid "Array"
 msgstr "Массив"
 
-#: src/dialogs/dialog-function-wizard.c:221
+#: src/dialogs/dialog-function-wizard.c:217
 msgid "Range/Array"
 msgstr "Диапазон/Массив"
 
-#: src/dialogs/dialog-function-wizard.c:224
+#: src/dialogs/dialog-function-wizard.c:220
 msgid "Any"
 msgstr "Любой"
 
-#: src/dialogs/dialog-function-wizard.c:227
+#: src/dialogs/dialog-function-wizard.c:223
 msgid "Unknown"
 msgstr "Неизвестный"
 
-#: src/dialogs/dialog-function-wizard.c:334
+#: src/dialogs/dialog-function-wizard.c:332
 msgid "Formula Wizard"
 msgstr "Помощник по формулам"
 
@@ -1015,7 +1108,7 @@ msgstr "Перейти к..."
 msgid "Special..."
 msgstr "Специальный..."
 
-#: src/dialogs/dialog-insert-cells.c:79
+#: src/dialogs/dialog-insert-cells.c:85
 msgid "insert cells"
 msgstr "вставить ячейки"
 
@@ -1089,15 +1182,15 @@ msgstr "выделение"
 msgid "Select Printer"
 msgstr "Выбрать принтер"
 
-#: src/dialogs/dialog-printer-setup.c:502
+#: src/dialogs/dialog-printer-setup.c:504
 msgid "Custom header configuration"
 msgstr "Конфигурация пользовательского заголовка"
 
-#: src/dialogs/dialog-printer-setup.c:513
+#: src/dialogs/dialog-printer-setup.c:515
 msgid "Custom footer configuration"
 msgstr "Конфигурация пользовательской сноски"
 
-#: src/dialogs/dialog-printer-setup.c:726
+#: src/dialogs/dialog-printer-setup.c:730
 msgid "Print setup"
 msgstr "Настройка печати"
 
@@ -1105,16 +1198,11 @@ msgstr "Настройка печати"
 msgid "<="
 msgstr "<="
 
-#. N_("="),
-#: src/dialogs/dialog-solver.c:24
-msgid ">="
-msgstr ">="
-
-#: src/dialogs/dialog-solver.c:44 src/workbook.c:1617
+#: src/dialogs/dialog-solver.c:44 src/workbook.c:1677
 msgid "Max"
 msgstr "Макс"
 
-#: src/dialogs/dialog-solver.c:45 src/workbook.c:1616
+#: src/dialogs/dialog-solver.c:45 src/workbook.c:1676
 msgid "Min"
 msgstr "Мин"
 
@@ -1158,29 +1246,29 @@ msgstr "Использовать автоматическое масштабирование"
 msgid "Show Iteration Results"
 msgstr "Показывать результаты итераций"
 
-#: src/dialogs/dialog-solver.c:132
+#: src/dialogs/dialog-solver.c:133
 msgid "Gnumeric Solver Options"
 msgstr "Параметры Gnumeric Solver"
 
-#: src/dialogs/dialog-solver.c:148
+#: src/dialogs/dialog-solver.c:149
 msgid "Estimates"
 msgstr "Оценки"
 
-#: src/dialogs/dialog-solver.c:150
+#: src/dialogs/dialog-solver.c:151
 msgid "Derivatives"
 msgstr "Производные"
 
-#: src/dialogs/dialog-solver.c:153
+#: src/dialogs/dialog-solver.c:154
 msgid "Search"
 msgstr "Поиск"
 
-#: src/dialogs/dialog-solver.c:232
+#: src/dialogs/dialog-solver.c:233
 msgid "Add Constraint"
 msgstr "Добавить ограничение"
 
 #. Constraint buttons
-#: src/dialogs/cell-sort.glade.h:13 src/dialogs/dialog-solver.c:235
-#: src/dialogs/dialog-solver.c:407 src/dialogs/names.glade.h:9
+#: src/dialogs/cell-sort.glade.h:13 src/dialogs/dialog-solver.c:236
+#: src/dialogs/dialog-solver.c:409 src/dialogs/names.glade.h:9
 msgid "Add"
 msgstr "Добавить"
 
@@ -1196,29 +1284,33 @@ msgstr "Решить"
 msgid "Options..."
 msgstr "Параметры..."
 
-#: src/dialogs/dialog-solver.c:375
+#: src/dialogs/dialog-solver.c:377
 msgid "Equal to:"
 msgstr "Равняется:"
 
-#: src/dialogs/dialog-solver.c:401
+#: src/dialogs/dialog-solver.c:403
 msgid "Subject to the Constraints:"
 msgstr "Предмет ограничений:"
 
-#: src/dialogs/dialog-solver.c:408
+#: src/dialogs/dialog-solver.c:410
 msgid "Change"
 msgstr "Изменить"
 
-#: src/dialogs/dialog-solver.c:409 src/dialogs/names.glade.h:10
+#: src/dialogs/dialog-solver.c:411 src/dialogs/names.glade.h:10
 msgid "Delete"
 msgstr "Удалить"
 
-#: src/dialogs/dialog-solver.c:482
+#: src/dialogs/dialog-solver.c:485
 msgid "You should introduce a valid cell name for 'Target cell'"
 msgstr "Вы должны ввести подходящее название ячейки для 'Целевой ячейки'"
 
-#: src/dialogs/dialog-solver.c:503
+#: src/dialogs/dialog-solver.c:506
 msgid "You should introduce a valid cell names in 'By changing cells'"
 msgstr "Вы должны ввести подходящее название для ячейки в \"Изменяя ячейки\""
+
+#: src/dialogs/dialog-solver.c:525
+msgid "The problem is unbounded and cannot be solved"
+msgstr ""
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1337,154 +1429,155 @@ msgstr "Выравнивать до:"
 msgid "_Fit to:"
 msgstr "Заполнять до:"
 
-#: src/dialogs/print.glade.h:14
+#: src/dialogs/print.glade.h:15
+#, no-c-format
 msgid "% of normal size"
 msgstr "% нормального размера"
 
-#: src/dialogs/print.glade.h:15
+#: src/dialogs/print.glade.h:16
 msgid "page(s) wide by"
 msgstr ""
 
-#: src/dialogs/print.glade.h:16
+#: src/dialogs/print.glade.h:17
 msgid "tall"
 msgstr "высокий"
 
-#: src/dialogs/print.glade.h:17
+#: src/dialogs/print.glade.h:18
 msgid "Fi_rst page number:"
 msgstr "Номер первой страницы:"
 
-#: src/dialogs/print.glade.h:18 src/dialogs/print.glade.h:32
-#: src/dialogs/print.glade.h:42 src/dialogs/print.glade.h:58
+#: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:33
+#: src/dialogs/print.glade.h:43 src/dialogs/print.glade.h:59
 msgid "_Print"
 msgstr "Печать"
 
-#: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:33
-#: src/dialogs/print.glade.h:43 src/dialogs/print.glade.h:59
+#: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:34
+#: src/dialogs/print.glade.h:44 src/dialogs/print.glade.h:60
 msgid "Print previe_w"
 msgstr "Просмотр печати:"
 
-#: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:34
-#: src/dialogs/print.glade.h:44 src/dialogs/print.glade.h:60
+#: src/dialogs/print.glade.h:21 src/dialogs/print.glade.h:35
+#: src/dialogs/print.glade.h:45 src/dialogs/print.glade.h:61
 msgid "_Options"
 msgstr "Параметры"
 
-#: src/dialogs/print.glade.h:21 src/dialogs/print.glade.h:61
+#: src/dialogs/print.glade.h:22 src/dialogs/print.glade.h:62
 msgid "Page"
 msgstr "Страница"
 
-#: src/dialogs/print.glade.h:22
+#: src/dialogs/print.glade.h:23
 msgid "_Top:"
 msgstr "Вверх:"
 
-#: src/dialogs/print.glade.h:23
+#: src/dialogs/print.glade.h:24
 msgid "He_ader:"
 msgstr "Заголовок:"
 
-#: src/dialogs/print.glade.h:24
+#: src/dialogs/print.glade.h:25
 msgid "_Bottom:"
 msgstr "Вниз:"
 
-#: src/dialogs/print.glade.h:25
+#: src/dialogs/print.glade.h:26
 msgid "_Footer"
 msgstr "Сноска"
 
-#: src/dialogs/print.glade.h:26
+#: src/dialogs/print.glade.h:27
 msgid "Center on page"
 msgstr "По центру страницы"
 
-#: src/dialogs/print.glade.h:27
+#: src/dialogs/print.glade.h:28
 msgid "_Horizontally"
 msgstr "По горизонтали"
 
-#: src/dialogs/print.glade.h:28
+#: src/dialogs/print.glade.h:29
 msgid "_Vertically"
 msgstr "По вертикали"
 
-#: src/dialogs/print.glade.h:29
+#: src/dialogs/print.glade.h:30
 msgid "_Left:"
 msgstr "Влево:"
 
-#: src/dialogs/cell-format.glade.h:34 src/dialogs/print.glade.h:30
+#: src/dialogs/cell-format.glade.h:34 src/dialogs/print.glade.h:31
 msgid "_Right"
 msgstr "Вправо"
 
-#: src/dialogs/print.glade.h:31
+#: src/dialogs/print.glade.h:32
 msgid "Paper _size:"
 msgstr "Размер бумаги:"
 
-#: src/dialogs/print.glade.h:35
+#: src/dialogs/print.glade.h:36
 msgid "Margins"
 msgstr "Отступы"
 
-#: src/dialogs/print.glade.h:36 src/dialogs/print.glade.h:41
+#: src/dialogs/print.glade.h:37 src/dialogs/print.glade.h:42
 msgid "sample goes here"
 msgstr ""
 
-#: src/dialogs/print.glade.h:37
+#: src/dialogs/print.glade.h:38
 msgid "Header"
 msgstr "Заголовок"
 
-#: src/dialogs/print.glade.h:38
+#: src/dialogs/print.glade.h:39
 msgid "Customize _header"
 msgstr "Настроить заголовок"
 
-#: src/dialogs/print.glade.h:39
+#: src/dialogs/print.glade.h:40
 msgid "Customize _footer"
 msgstr "Настроить сноску"
 
-#: src/dialogs/print.glade.h:40
+#: src/dialogs/print.glade.h:41
 msgid "Footer:"
 msgstr "Сноска:"
 
-#: src/dialogs/print.glade.h:45
+#: src/dialogs/print.glade.h:46
 msgid "Headers and footers"
 msgstr "Заголовки и сноски:"
 
-#: src/dialogs/print.glade.h:46
+#: src/dialogs/print.glade.h:47
 msgid "Print _area:"
 msgstr "Область печати:"
 
-#: src/dialogs/print.glade.h:47
+#: src/dialogs/print.glade.h:48
 msgid "Titles to print"
 msgstr "Заголовки для печати"
 
-#: src/dialogs/print.glade.h:48
+#: src/dialogs/print.glade.h:49
 msgid "_Columns to repeat on the left side:"
 msgstr "Столбцы повторяются на левой стороне:"
 
-#: src/dialogs/print.glade.h:49
+#: src/dialogs/print.glade.h:50
 msgid "_Rows to repeat on the upper region:"
 msgstr "Строки повторяются в верхней части:"
 
-#: src/dialogs/print.glade.h:50 src/workbook.c:1128
+#: src/dialogs/print.glade.h:51 src/workbook.c:1213
 msgid "Print"
 msgstr "Печать"
 
-#: src/dialogs/print.glade.h:51
+#: src/dialogs/print.glade.h:52
 msgid "Row and co_lumn headings"
 msgstr "Озаглавливание строк и столбцов"
 
-#: src/dialogs/print.glade.h:52 src/workbook.c:952
+#: src/dialogs/print.glade.h:53 src/workbook.c:1034
 msgid "Co_mments"
 msgstr "Комментарии"
 
-#: src/dialogs/print.glade.h:53
+#: src/dialogs/print.glade.h:54
 msgid "_Grid lines"
 msgstr "Линии сетки"
 
-#: src/dialogs/print.glade.h:54
+#: src/dialogs/print.glade.h:55
 msgid "_Black and white"
 msgstr "Черное и белое"
 
-#: src/dialogs/print.glade.h:55
+#: src/dialogs/print.glade.h:56
 msgid "Page order"
 msgstr "Порядок страниц"
 
-#: src/dialogs/print.glade.h:56
+#: src/dialogs/print.glade.h:57
 msgid "_Down, then right"
 msgstr "Вниз, затем вправо"
 
-#: src/dialogs/print.glade.h:57
+#: src/dialogs/print.glade.h:58
 msgid "R_ight, then down"
 msgstr "Вправо, затем вниз"
 
@@ -1621,7 +1714,9 @@ msgstr "Образцы"
 msgid ""
 "General format cells attempt to select an appropriate format depending on "
 "the value of the cell."
-msgstr "Общий формат ячейки означает попытку выбора подходящего формата в зависимости от значения в ячейке."
+msgstr ""
+"Общий формат ячейки означает попытку выбора подходящего формата в "
+"зависимости от значения в ячейке."
 
 #: src/dialogs/cell-format.glade.h:21
 msgid "Deci_mal places:"
@@ -1807,7 +1902,7 @@ msgstr ""
 msgid "Inside Horizontal"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:75 src/workbook.c:1168
+#: src/dialogs/cell-format.glade.h:75 src/workbook.c:1253
 msgid "Line"
 msgstr "Линия"
 
@@ -1848,22 +1943,27 @@ msgid "Pick a Pattern color"
 msgstr "Указать цвет шаблона"
 
 #: src/dialogs/cell-format.glade.h:90
+#, c-format
 msgid "75% grey"
 msgstr "75% серого"
 
 #: src/dialogs/cell-format.glade.h:91
+#, c-format
 msgid "50% Grey"
 msgstr "50% серого"
 
 #: src/dialogs/cell-format.glade.h:92
+#, c-format
 msgid "25% Grey"
 msgstr "25% серого"
 
 #: src/dialogs/cell-format.glade.h:93
+#, c-format
 msgid "12.5% Grey"
 msgstr "12.5% серого"
 
 #: src/dialogs/cell-format.glade.h:94
+#, c-format
 msgid "6.25% Grey"
 msgstr "6.25% серого"
 
@@ -1965,8 +2065,7 @@ msgstr "Заголовок"
 msgid "Sort"
 msgstr "Сортировать"
 
-#: src/dialogs/cell-sort.glade.h:14 src/plugin-manager.c:143
-#: src/sheet-object.c:978
+#: src/dialogs/cell-sort.glade.h:14 src/sheet-object.c:978
 msgid "Remove"
 msgstr "Удалить"
 
@@ -2042,11 +2141,6 @@ msgstr "%"
 msgid "Sheets"
 msgstr "Листы"
 
-#: src/dump.c:31
-#, c-format
-msgid "Can not create file %s\n"
-msgstr "Невозможно создать файл %s\n"
-
 #: src/embeddable-grid.c:153
 msgid "Embedded Sheet"
 msgstr "Встроенный лист"
@@ -2071,67 +2165,63 @@ msgstr "Встроенный"
 msgid "Error: no sheet"
 msgstr "Ошибка: нет листа"
 
-#: src/expr.c:219
+#: src/expr.c:218
 msgid "Syntax error"
 msgstr "Синтаксическая ошибка"
 
-#: src/expr.c:223
+#: src/expr.c:222
 msgid "Missing quote"
 msgstr "Ошибочная кавычка"
 
-#: src/expr.c:227
+#: src/expr.c:226
 msgid "Impossible!"
 msgstr "Невозможно!"
 
-#: src/expr.c:477
+#: src/expr.c:438
 msgid "Internal error"
 msgstr "Внутренняя ошибка"
 
-#: src/expr.c:504 src/functions/fn-information.c:572
-#: src/functions/fn-information.c:641 src/functions/fn-information.c:668
-#: src/functions/fn-information.c:694 src/functions/fn-information.c:743
-#: src/functions/fn-information.c:772 src/functions/fn-information.c:837
-#: src/functions/fn-logical.c:191 src/functions/fn-lookup.c:468
-#: src/functions/fn-lookup.c:579 src/functions/fn-string.c:342
-msgid "Invalid number of arguments"
-msgstr "Неверное число аргументов"
-
-#: src/expr.c:855
+#: src/expr.c:746
 msgid "Internal type error"
 msgstr "Ошибка встроенного типа"
 
-#: src/expr.c:993
+#: src/expr.c:899
 msgid "Unknown operator"
 msgstr "Неизвестный оператор"
 
-#: src/expr.c:1129
+#: src/expr.c:1063
 msgid "Unknown evaluation error"
 msgstr "Неизвестная ошибка в выражении"
 
-#: src/file.c:231
+#: src/file.c:263
 #, c-format
 msgid "Could not read file %s"
 msgstr "Невозможно прочесть файл %s"
 
-#: src/file.c:404
+#: src/file.c:346
+#, c-format
+msgid "Could not import file %s"
+msgstr "Импорт файла %s невозможен"
+
+#: src/file.c:443
 msgid "File format:"
 msgstr "Формат файла:"
 
-#: src/file.c:458
+#: src/file.c:498
 msgid "Save workbook as"
 msgstr "Сохранить книгу как..."
 
-#: src/file.c:502
+#: src/file.c:542
 msgid "Sorry, there are no file savers loaded, I cannot save"
 msgstr ""
 "К сожалению, модуль для сохранения файлов не загружен, сохранение невозможно"
 
-#: src/file.c:515 src/file.c:539
+#: src/file.c:556 src/file.c:581
 #, c-format
 msgid "Could not save to file %s"
 msgstr "Невозможно сохранить файл %s"
 
-#: src/file.c:550
+#: src/file.c:594
 msgid "Load file"
 msgstr "Загрузить файл"
 
@@ -2205,7 +2295,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
-"@DESCRIPTION=Функция DMIN возвращает наименьшее значение в столбце удовлетворяющем указанному условию. \n"
+"@DESCRIPTION=Функция DMIN возвращает наименьшее значение в столбце "
+"удовлетворяющем указанному условию. \n"
 
 #: src/functions/fn-database.c:776
 msgid ""
@@ -2216,7 +2307,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
-"@DESCRIPTION=Функция DPRODUCT возвращает произведение чисел в столбце удовлетворяющем указанному условию. \n"
+"@DESCRIPTION=Функция DPRODUCT возвращает произведение чисел в столбце "
+"удовлетворяющем указанному условию. \n"
 
 #: src/functions/fn-database.c:841
 msgid ""
@@ -2228,8 +2320,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
-"@DESCRIPTION=Функция DSTDEV возвращает оценку стандартного отклонения генеральной совокупности основанное на выборке. "
-"Генеральная совокупность состоит из чисел удовлетворяющих указанному условию. \n"
+"@DESCRIPTION=Функция DSTDEV возвращает оценку стандартного отклонения "
+"генеральной совокупности основанное на выборке. Генеральная совокупность "
+"состоит из чисел удовлетворяющих указанному условию. \n"
 
 #: src/functions/fn-database.c:904
 msgid ""
@@ -2241,8 +2334,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
-"@DESCRIPTION=Функция DSTDEVP возвращает стандартное отклонение генеральной совокупности на основе полной совокупности. "
-"Генеральная совокупность состоит из чисел удовлетворяющих указанным условиям. \n"
+"@DESCRIPTION=Функция DSTDEVP возвращает стандартное отклонение генеральной "
+"совокупности на основе полной совокупности. Генеральная совокупность состоит "
+"из чисел удовлетворяющих указанным условиям. \n"
 
 #: src/functions/fn-database.c:969
 msgid ""
@@ -2253,7 +2347,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
-"@DESCRIPTION=Функция DSUM возвращает сумму чисел в столбце удовлетворяющем указанному условию. \n"
+"@DESCRIPTION=Функция DSUM возвращает сумму чисел в столбце удовлетворяющем "
+"указанному условию. \n"
 
 #: src/functions/fn-database.c:1033
 msgid ""
@@ -2265,21 +2360,23 @@ msgid ""
 msgstr ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
-"@DESCRIPTION=Функция DVAR возвращает оценку дисперсии генеральной совокупности на основе выборки. "
-"Генеральная совокупность содержит числа удовлетворяющие указанному условию. \n"
+"@DESCRIPTION=Функция DVAR возвращает оценку дисперсии генеральной "
+"совокупности на основе выборки. Генеральная совокупность содержит числа "
+"удовлетворяющие указанному условию. \n"
 
 #: src/functions/fn-database.c:1098
 msgid ""
 "@FUNCTION=DVARP\n"
-"@SYNTAX=DVARP(database,field,criteria)\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
 "@DESCRIPTION=DVARP function returns the variance of a population based on "
 "the entire populations. The populations consists of numbers that match "
 "conditions specified. \n"
 msgstr ""
 "@FUNCTION=DVARP\n"
-"@DESCRIPTION=Функция DVARP возвращает дисперсию генеральной совокупности на основе полной совокупности. "
-"Генеральная совокупность состоит из чисел удовлетворяющих указанному условию. \n"
+"@SYNTAX=DVARP(database,field,criteria)\n"
+"@DESCRIPTION=Функция DVARP возвращает дисперсию генеральной "
+"совокупности на основе полной совокупности. Генеральная совокупность состоит "
+"из чисел удовлетворяющих указанным условиям. \n"
 
 #: src/functions/fn-database.c:1165
 msgid ""
@@ -2344,8 +2441,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
-"@DESCRIPTION=DATEVALUE возвращает серийный номер даты. @date_str - строка, которая "
-"содержит дату.  Например, DATEVALUE(\"1/1/1999\") равняется 36160. \n"
+"@DESCRIPTION=DATEVALUE возвращает серийный номер даты. @date_str - строка, "
+"которая содержит дату.  Например, DATEVALUE(\"1/1/1999\") равняется 36160. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DATE"
@@ -2365,9 +2462,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
-"@DESCRIPTION=EDATE возвращает серийный номер для даты, которая отстоит на указанное "
-"число месяцев до или после заданной даты.  @date - серийный номер исходной даты "
-"@months - число месяцев (отрицательное число) или после (положительное число) исходной даты.\n"
+"@DESCRIPTION=EDATE возвращает серийный номер для даты, которая отстоит на "
+"указанное число месяцев до или после заданной даты.  @date - серийный номер "
+"исходной даты @months - число месяцев (отрицательное число) или после "
+"(положительное число) исходной даты.\n"
 "Если @months не является целым числом, дробная часть отбрасывается.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -2447,7 +2545,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
-"@DESCRIPTION=Возвращает дробь представляющую время дня, как число между 0 и 1.\n"
+"@DESCRIPTION=Возвращает дробь представляющую время дня, как число между 0 и "
+"1.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=HOUR"
@@ -2741,8 +2840,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
-"@DESCRIPTION=Функция BIN2DEC преобразует двоичное число в виде строки или числа в десятичный эквивалент. "
-"Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция BIN2DEC преобразует двоичное число в виде строки или "
+"числа в десятичный эквивалент. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "BIN2DEC(101) равняется 5.\n"
 "\n"
@@ -2756,19 +2855,21 @@ msgid ""
 "@places is an optional field, specifying to zero pad to that number of "
 "spaces.\n"
 "If @places is too small or negative #NUM! error is returned.This function is "
-"Excel compatible. \n""@EXAMPLES=\n"
-"BIN2OCT(110111) равняется 67.\n"
+"Excel compatible. \n"
+"@EXAMPLES=\n"
+"BIN2OCT(110111) equals 67.\n"
 "\n"
 "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX"
 msgstr ""
 "@FUNCTION=BIN2OCT\n"
 "@SYNTAX=BIN2OCT(number[,places])\n"
-"@DESCRIPTION=Функция BIN2OCT преобразует двоичное число в восьмиричное число. "
-"@places - необязательное поле, указывающее дополнение нулями до нужного числа позиций.\n"
-"Если @places слишком маленькое или отрицательное возвращается ошибка #NUM!. Эта функция "
-"Excel-совместима. \n"
+"@DESCRIPTION=Функция BIN2OCT преобразует двоичное число в восьмиричное "
+"число. @places - необязательное поле, указывающее дополнение нулями до "
+"нужного числа позиций.\n"
+"Если @places слишком маленькое или отрицательное возвращается ошибка #NUM!. "
+"Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
-"BIN2OCT(110111) equals 67.\n"
+"BIN2OCT(110111) равняется 67.\n"
 "\n"
 "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX"
 
@@ -2789,9 +2890,10 @@ msgstr ""
 "@FUNCTION=BIN2HEX\n"
 "@SYNTAX=BIN2HEX(number[,places])\n"
 "@DESCRIPTION=Функция BIN2HEX преобразует двоичное число в шестнадцатиричное "
-"число.  @places - необязательное поле, указывающее заполнение нулями до необходимого числа позиций.\n"
-"Если @places слишком маленькое или отрицательное возвращается ошибка #NUM!. Эта функция "
-"Excel-совместима. \n"
+"число.  @places - необязательное поле, указывающее заполнение нулями до "
+"необходимого числа позиций.\n"
+"Если @places слишком маленькое или отрицательное возвращается ошибка #NUM!. "
+"Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "BIN2HEX(100111) равняется 27.\n"
 "\n"
@@ -2814,9 +2916,10 @@ msgstr ""
 "@FUNCTION=DEC2BIN\n"
 "@SYNTAX=DEC2BIN(number[,places])\n"
 "@DESCRIPTION=Функция DEC2BIN преобразует десятичное число в двоичное. "
-"@places - необязательное поле, указывающее дополнение нулями до нужного числа позиций.\n"
-"Если @places слишком маленькое или отрицательное возвращается ошибка #NUM!. Эта функция "
-"Excel-совместима. \n"
+"@places - необязательное поле, указывающее дополнение нулями до нужного "
+"числа позиций.\n"
+"Если @places слишком маленькое или отрицательное возвращается ошибка #NUM!. "
+"Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "DEC2BIN(42) равняется 101010.\n"
 "\n"
@@ -2839,9 +2942,10 @@ msgstr ""
 "@FUNCTION=DEC2OCT\n"
 "@SYNTAX=DEC2OCT(number[,places])\n"
 "@DESCRIPTION=Функция DEC2OCT преобразует десятичное число в восьмиричное. "
-"@places - необязательное поле указывающее дополнение нулями до нужного числа позиций.\n"
-"Если @places слишком маленькое или отрицательное возвращается ошибка #NUM!. Эта функция "
-"Excel-совместима. \n"
+"@places - необязательное поле указывающее дополнение нулями до нужного числа "
+"позиций.\n"
+"Если @places слишком маленькое или отрицательное возвращается ошибка #NUM!. "
+"Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "DEC2OCT(42) равняется 52.\n"
 "\n"
@@ -2863,10 +2967,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=DEC2HEX\n"
 "@SYNTAX=DEC2HEX(number[,places])\n"
-"@DESCRIPTION=Функция DEC2HEX преобразует десятичное число в шестнадцатиричное. "
-"@places необязательное поле указывающее дополнение нулями до нужного количества позиций.\n"
-"Если @places слишком мальнькое или отрицательное возвращается ошибка #NUM!. Эта функция "
-"Excel-совместима. \n"
+"@DESCRIPTION=Функция DEC2HEX преобразует десятичное число в "
+"шестнадцатиричное. @places необязательное поле указывающее дополнение нулями "
+"до нужного количества позиций.\n"
+"Если @places слишком мальнькое или отрицательное возвращается ошибка #NUM!. "
+"Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "DEC2HEX(42) равняется 2A.\n"
 "\n"
@@ -2908,9 +3013,10 @@ msgstr ""
 "@FUNCTION=OCT2BIN\n"
 "@SYNTAX=OCT2BIN(number[,places])\n"
 "@DESCRIPTION=Функция OCT2BIN преобразует восьмиричное число в двоичное. "
-"@places - необязательное поле, указывающее дополнение нулями до нужного числа позиций. "
-"Эта функция Excel-совместима.\n"
-"Если @places слишком мальнькое или отрицательное, возвращается ошибка #NUM!.\n"
+"@places - необязательное поле, указывающее дополнение нулями до нужного "
+"числа позиций. Эта функция Excel-совместима.\n"
+"Если @places слишком мальнькое или отрицательное, возвращается ошибка "
+"#NUM!.\n"
 "@EXAMPLES=\n"
 "OCT2BIN(\"213\") равняется 10001011.\n"
 "\n"
@@ -2931,10 +3037,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=OCT2HEX\n"
 "@SYNTAX=OCT2HEX(number[,places])\n"
-"@DESCRIPTION=Функция OCT2HEX преобразует восьмиричное число в шестнадцатиричное. "
-"@places - необязательное поле, указывающее дополнение нулями до нужного числа позиций. "
-"Эта функция Excel-совместима.\n"
-"Если @places слишком мальнькое или отрицательное, возвращается ошибка #NUM!.\n"
+"@DESCRIPTION=Функция OCT2HEX преобразует восьмиричное число в "
+"шестнадцатиричное. @places - необязательное поле, указывающее дополнение "
+"нулями до нужного числа позиций. Эта функция Excel-совместима.\n"
+"Если @places слишком мальнькое или отрицательное, возвращается ошибка "
+"#NUM!.\n"
 "@EXAMPLES=\n"
 "OCT2HEX(132) равняется 5A.\n"
 "\n"
@@ -2957,9 +3064,10 @@ msgstr ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(number[,places])\n"
 "@DESCRIPTION=Функция HEX2BIN преобразует шестнадцатиричное число в двоичное. "
-"@places - необязательное поле, указывающее дополнение нулями до нужного числа позиций. "
-"Эта функция Excel-совместима.\n"
-"Если @places слишком мальнькое или отрицательное, возвращается ошибка #NUM!.\n"
+"@places - необязательное поле, указывающее дополнение нулями до нужного "
+"числа позиций. Эта функция Excel-совместима.\n"
+"Если @places слишком мальнькое или отрицательное, возвращается ошибка "
+"#NUM!.\n"
 "@EXAMPLES=\n"
 "HEX2BIN(\"2A\") равняется 101010.\n"
 "\n"
@@ -2981,10 +3089,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=HEX2OCT\n"
 "@SYNTAX=HEX2OCT(number[,places])\n"
-"@DESCRIPTION=Функция HEX2OCT преобразует шестнадцатиричное число в восьмиричное. "
-"@places - необязательное поле, указывающее дополнение нулями до нужного числа позиций. "
-"Эта функция Excel-совместима.\n"
-"Если @places слишком мальнькое или отрицательное, возвращается ошибка #NUM!.\n"
+"@DESCRIPTION=Функция HEX2OCT преобразует шестнадцатиричное число в "
+"восьмиричное. @places - необязательное поле, указывающее дополнение нулями "
+"до нужного числа позиций. Эта функция Excel-совместима.\n"
+"Если @places слишком мальнькое или отрицательное, возвращается ошибка "
+"#NUM!.\n"
 "@EXAMPLES=\n"
 "HEX2OCT(\"2A\") равняется 52.\n"
 "\n"
@@ -3003,8 +3112,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
-"@DESCRIPTION=Функция HEX2DEC преобразует шестнадцатиричное число в десятичное. "
-"Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция HEX2DEC преобразует шестнадцатиричное число в "
+"десятичное. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
 "HEX2DEC(\"2A\") равняется 42.\n"
 "\n"
@@ -3087,8 +3196,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=COMPLEX\n"
 "@SYNTAX=COMPLEX(real,im[,suffix])\n"
-"@DESCRIPTION=COMPLEX возвращает комплексное число в форме x + yi. @real - действительный и @im - мнимый коэффициенты комплексного числа.  @suffix - суффикс для мнимого коэффициента.  Если он опущен, то COMPLEX по умолчанию использует 'i'.\n"
-"Если @suffix не 'i' и не 'j', COMPLEX возвращает ошибку #VALUE!. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=COMPLEX возвращает комплексное число в форме x + yi. @real - "
+"действительный и @im - мнимый коэффициенты комплексного числа.  @suffix - "
+"суффикс для мнимого коэффициента.  Если он опущен, то COMPLEX по умолчанию "
+"использует 'i'.\n"
+"Если @suffix не 'i' и не 'j', COMPLEX возвращает ошибку #VALUE!. Эта функция "
+"Excel-совместима. \n"
 "@EXAMPLES=\n"
 "COMPLEX(1,-1) равняется 1-i.\n"
 "\n"
@@ -3107,7 +3220,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
-"@DESCRIPTION=IMAGINARY возвращает мнимый коэффициент комплексного числа. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=IMAGINARY возвращает мнимый коэффициент комплексного числа. Эта "
+"функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "IMAGINARY(\"132-j\") равняется -1.\n"
 "\n"
@@ -3126,7 +3240,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
-"@DESCRIPTION=IMREAL возвращает действительный коэффициент комплексного числа. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=IMREAL возвращает действительный коэффициент комплексного "
+"числа. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "imreal(\"132-j\") равняется 132.\n"
 "\n"
@@ -3145,7 +3260,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(inumber)\n"
-"@DESCRIPTION=IMABS возвращает абсолютное значение комплексного числа. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=IMABS возвращает абсолютное значение комплексного числа. Эта "
+"функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "IMABS(\"2-j\") равняется 2.23606798.\n"
 "\n"
@@ -3164,7 +3280,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(inumber)\n"
-"@DESCRIPTION=IMCONJUGATE комплексносопряженное с аргументом число. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=IMCONJUGATE комплексносопряженное с аргументом число. Эта "
+"функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "IMCONJUGATE(\"1-j\") равняется 1+j.\n"
 "\n"
@@ -3183,7 +3300,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(inumber)\n"
-"@DESCRIPTION=IMCOS возвращает косинус комплексного числа. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=IMCOS возвращает косинус комплексного числа. Эта функция "
+"Excel-совместима. \n"
 "@EXAMPLES=\n"
 "IMCOS(\"1+j\") равняется 0.833730-0.988898j.\n"
 "\n"
@@ -3201,7 +3319,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(inumber)\n"
-"@DESCRIPTION=IMTAN возвращает тангенс комплексного числа. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=IMTAN возвращает тангенс комплексного числа. Эта функция "
+"Excel-совместима. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=IMSIN,IMCOS"
@@ -3219,7 +3338,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(inumber)\n"
-"@DESCRIPTION=IMEXP возвращает экспоненту комплексного числа. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=IMEXP возвращает экспоненту комплексного числа. Эта функция "
+"Excel-совместима. \n"
 "@EXAMPLES=\n"
 "IMEXP(\"2-j\") равняется 3.992324-6.217676j.\n"
 "\n"
@@ -3239,7 +3359,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
-"@DESCRIPTION=IMARGUMENT возвращает тета-аргумент комплексного числа. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=IMARGUMENT возвращает тета-аргумент комплексного числа. Эта "
+"функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "IMARGUMENT(\"2-j\") равняется -0.463647609.\n"
 "\n"
@@ -3261,7 +3382,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(inumber)\n"
-"@DESCRIPTION=IMLN возвращает натуральный логарифм комплексного числа. (Мнимая часть результата будет между -Пи и +Пи. Натуральный логарифм определен для комплексных чисел неоднозначно. Вам может потребоваться добавить или вычесть кратное Пи число из мнимой части.) Эта функция Excel-совместима. \n"
+"@DESCRIPTION=IMLN возвращает натуральный логарифм комплексного числа. "
+"(Мнимая часть результата будет между -Пи и +Пи. Натуральный логарифм "
+"определен для комплексных чисел неоднозначно. Вам может потребоваться "
+"добавить или вычесть кратное Пи число из мнимой части.) Эта функция "
+"Excel-совместима. \n"
 "@EXAMPLES=\n"
 "IMLN(\"3-j\") равняется 1.15129-0.32175j.\n"
 "\n"
@@ -3280,7 +3405,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(inumber)\n"
-"@DESCRIPTION=IMLOG2 возвращает двоичный логарифм комплексного числа. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=IMLOG2 возвращает двоичный логарифм комплексного числа. Эта "
+"функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "IMLOG2(\"3-j\") равняется 1.66096-0ю46419j.\n"
 "\n"
@@ -3299,7 +3425,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
-"@DESCRIPTION=IMLOG10 возвращает десятичный логарифм комплексного числа. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=IMLOG10 возвращает десятичный логарифм комплексного числа. Эта "
+"функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "IMLOG10(\"3-j\") равняется 0.5-0.13973j.\n"
 "\n"
@@ -3320,7 +3447,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber,number)\n"
-"@DESCRIPTION=IMPOWER возвращает комплексное число возведенное в степень. @inumber - комплексное число, @number - степень, в которую вы хотите его возвести. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=IMPOWER возвращает комплексное число возведенное в степень. "
+"@inumber - комплексное число, @number - степень, в которую вы хотите его "
+"возвести. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "IMPOWER(\"4-j\",2) равняется 15-8j.\n"
 "\n"
@@ -3339,7 +3468,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber,inumber)\n"
-"@DESCRIPTION=IMDIV возвращает частное от деления двух комплексных чисел. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=IMDIV возвращает частное от деления двух комплексных чисел. Эта "
+"функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "IMDIV(\"2-j\",\"2+j\") равняется 0.6-0.8j.\n"
 "\n"
@@ -3358,7 +3488,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
-"@DESCRIPTION=IMSIN возвращает синус комплексного числа. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=IMSIN возвращает синус комплексного числа. Эта функция "
+"Excel-совместима. \n"
 "@EXAMPLES=\n"
 "IMSIN(\"1+j\") равняется 1.29846+0.63496j.\n"
 "\n"
@@ -3377,8 +3508,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
-"@DESCRIPTION=Функция IMSQRT возвращает квадратный корень комплексного числа."
-"Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция IMSQRT возвращает квадратный корень комплексного "
+"числа.Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
 "IMSQRT(\"1+j\") равняется 1.09868+0.4550899j.\n"
 "\n"
@@ -3397,7 +3528,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber,inumber)\n"
-"@DESCRIPTION=IMSUB возвращает разность двух комплексных чисел. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=IMSUB возвращает разность двух комплексных чисел. Эта функция "
+"Excel-совместима. \n"
 "@EXAMPLES=\n"
 "IMSUB(\"3-j\",\"2+j\") равняется 1-2j.\n"
 "\n"
@@ -3416,7 +3548,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
-"@DESCRIPTION=IMPRODUCT возвращает произведение заданных комплексных чисел. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=IMPRODUCT возвращает произведение заданных комплексных чисел. "
+"Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "IMPRODUCT(\"2-j\",\"4-2j\") равняется 6-8j.\n"
 "\n"
@@ -3435,7 +3568,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber,inumber)\n"
-"@DESCRIPTION=IMSUM возвращает сумму двух комплексных чисел. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=IMSUM возвращает сумму двух комплексных чисел. Эта функция "
+"Excel-совместима. \n"
 "@EXAMPLES=\n"
 "IMSUM(\"2-4j\",\"9-j\") равняется 11-5j.\n"
 "\n"
@@ -3547,7 +3681,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
-"@DESCRIPTION=CONVERT осуществляет преобразование из одних единиц измерения в другие.  Например, вы можете преобразовать вес в фунтах в вес в граммах.  @number - значение, которое вы хотите преобразовать, @from_unit указывает единицы, в которых оно задано, а @to_unit единицы результата.\n"
+"@DESCRIPTION=CONVERT осуществляет преобразование из одних единиц измерения в "
+"другие.  Например, вы можете преобразовать вес в фунтах в вес в граммах.  "
+"@number - значение, которое вы хотите преобразовать, @from_unit указывает "
+"единицы, в которых оно задано, а @to_unit единицы результата.\n"
 "@from_unit и @to_unit могут быть одними из следующих:\n"
 "\n"
 "Вес и масса:\n"
@@ -3636,7 +3773,8 @@ msgstr ""
 "'f'  фемто  1E-15\n"
 "'a'  атто   1E-18\n"
 "\n"
-"Если @from_unit и @to_unit имеют различный тип, CONVERT возвращает ошибку #NUM!. Эта функция Excel-совместима. \n"
+"Если @from_unit и @to_unit имеют различный тип, CONVERT возвращает ошибку "
+"#NUM!. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "CONVERT(3,\"lbm\",\"g\") равняется 1360.7769.\n"
 "CONVERT(5.8,\"m\",\"in\") равняется 228.3465.\n"
@@ -4025,8 +4163,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
-"@DESCRIPTION=DOLLARDE преобразует долларовую цену выраженную дробью в долларовую цену выраженную десятичным числом. \n"
-"Если @fraction не целое, дробная часть отбрасывается . Если @fraction <= 0, DOLLARDE возвращает ошибку #NUM!. \n"
+"@DESCRIPTION=DOLLARDE преобразует долларовую цену выраженную дробью в "
+"долларовую цену выраженную десятичным числом. \n"
+"Если @fraction не целое, дробная часть отбрасывается . Если @fraction <= 0, "
+"DOLLARDE возвращает ошибку #NUM!. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DOLLARFR"
@@ -4060,8 +4200,8 @@ msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
 "@DESCRIPTION=TBILLEQ function returns the bond-yield equivalent (BEY) for a "
-"treasury bill.  TBILLEQ is equivalent to (365 x discount) / (360 - discount "
-"x DSM) where DSM is the days between @settlement and @maturity. \n"
+"treasury bill.  TBILLEQ is equivalent to (365 * discount) / (360 - discount "
+"* DSM) where DSM is the days between @settlement and @maturity. \n"
 "If @settlement is after @maturity or the @maturity is set to over one year "
 "later than the @settlement, TBILLEQ returns NUM! error. If @discount is "
 "negative, TBILLEQ returns NUM! error. \n"
@@ -4070,7 +4210,7 @@ msgid ""
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1072
+#: src/functions/fn-financial.c:1076
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -4086,7 +4226,7 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1113
+#: src/functions/fn-financial.c:1117
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -4101,7 +4241,7 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 msgstr ""
 
-#: src/functions/fn-financial.c:1154
+#: src/functions/fn-financial.c:1158
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -4111,7 +4251,7 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1258
+#: src/functions/fn-financial.c:1262
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -4131,7 +4271,7 @@ msgid ""
 "@SEEALSO=FV,NPV,PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1339
+#: src/functions/fn-financial.c:1343
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
@@ -4141,11 +4281,11 @@ msgid ""
 "@SEEALSO=FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1363
+#: src/functions/fn-financial.c:1367
 msgid "pv - domain error"
 msgstr ""
 
-#: src/functions/fn-financial.c:1376
+#: src/functions/fn-financial.c:1380
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -4159,7 +4299,7 @@ msgid ""
 "@SEEALSO=PV,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1430
+#: src/functions/fn-financial.c:1434
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -4174,7 +4314,7 @@ msgid ""
 "@SEEALSO=NPV,PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1487
+#: src/functions/fn-financial.c:1491
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -4197,7 +4337,7 @@ msgid ""
 "@SEEALSO=IRR,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1591
+#: src/functions/fn-financial.c:1595
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,nper,pmt,pv,type)\n"
@@ -4207,7 +4347,7 @@ msgid ""
 "@SEEALSO=PV,PMT,PPMT"
 msgstr ""
 
-#: src/functions/fn-financial.c:1624
+#: src/functions/fn-financial.c:1628
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -4217,7 +4357,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1658
+#: src/functions/fn-financial.c:1662
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -4234,7 +4374,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1712
+#: src/functions/fn-financial.c:1716
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -4250,7 +4390,7 @@ msgid ""
 "@SEEALSO=IPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1767
+#: src/functions/fn-financial.c:1771
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -4266,7 +4406,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:1803
+#: src/functions/fn-financial.c:1807
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -4279,7 +4419,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1840
+#: src/functions/fn-financial.c:1844
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(pv,schedule)\n"
@@ -4292,7 +4432,116 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:1883
+#: src/functions/fn-financial.c:1885
+msgid ""
+"@FUNCTION=EURO\n"
+"@SYNTAX=EURO(currency)\n"
+"@DESCRIPTION=EURO converts one Euro to a given national currency in the "
+"European monetary union.  Currency is one of the following:\n"
+"    ATS     (Austria)\n"
+"    BEF     (Belgium)\n"
+"    DEM     (Germany)\n"
+"    ESP     (Spain)\n"
+"    FIM     (Finland)\n"
+"    FRF     (France)\n"
+"    IEP     (Ireland)\n"
+"    ITL     (Italy)\n"
+"    LUF     (Luxemburg)\n"
+"    NLG     (Netherlands)\n"
+"    PTE     (Portugal)\n"
+"\n"
+"If the given currency is other than one of the above, EURO returns NUM! "
+"error. \n"
+"@EXAMPLES=\n"
+"EURO(\"DEM\") returns 1.95583.\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:1967
+msgid ""
+"@FUNCTION=PRICE\n"
+"@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:1991
+msgid ""
+"@FUNCTION=YIELD\n"
+"@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2009
+msgid ""
+"@FUNCTION=YIELDDISC\n"
+"@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2027
+msgid ""
+"@FUNCTION=YIELDMAT\n"
+"@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2045
+msgid ""
+"@FUNCTION=ODDFPRICE\n"
+"@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
+"frequency,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2063
+msgid ""
+"@FUNCTION=ODDFYIELD\n"
+"@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,f"
+"requency,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2081
+msgid ""
+"@FUNCTION=ODDLPRICE\n"
+"@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,frequ"
+"ency,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2099
+msgid ""
+"@FUNCTION=ODDLYIELD\n"
+"@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,freque"
+"ncy,basis)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2119
 msgid "Financial"
 msgstr "Финансовые"
 
@@ -4308,7 +4557,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=CELL\n"
 "@SYNTAX=CELL()\n"
-"@DESCRIPTION=CELL возвращает информацию о форматировании, положении или содержимом ячейки.\n"
+"@DESCRIPTION=CELL возвращает информацию о форматировании, положении или "
+"содержимом ячейки.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -4340,7 +4590,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO()\n"
-"@DESCRIPTION=Функция INFO() возвращает информацию о текущем действующем окружении. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция INFO() возвращает информацию о текущем действующем "
+"окружении. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -4397,7 +4648,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(exp)\n"
-"@DESCRIPTION=Возвращает TRUE(истина), если в значение является ошибкой типа #N/A. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Возвращает TRUE(истина), если в значение является ошибкой типа "
+"#N/A. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -4414,7 +4666,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(exp)\n"
-"@DESCRIPTION=Возвращает TRUE(истина), если значение является ошибкой любого типа кроме #N/A. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Возвращает TRUE(истина), если значение является ошибкой любого "
+"типа кроме #N/A. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -4450,7 +4703,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
-"@DESCRIPTION=Возвращает значение ошибки #N/A. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Возвращает значение ошибки #N/A. Эта функция Excel-совместима. "
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -4495,12 +4749,22 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK()\n"
-"@DESCRIPTION=Возвращает TRUE(истина) если значение выражения пусто. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Возвращает TRUE(истина) если значение выражения пусто. Эта "
+"функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:601
+#: src/func.c:443 src/functions/fn-information.c:572
+#: src/functions/fn-information.c:640 src/functions/fn-information.c:667
+#: src/functions/fn-information.c:693 src/functions/fn-information.c:742
+#: src/functions/fn-information.c:771 src/functions/fn-information.c:836
+#: src/functions/fn-logical.c:191 src/functions/fn-lookup.c:468
+#: src/functions/fn-lookup.c:579 src/functions/fn-string.c:342
+msgid "Invalid number of arguments"
+msgstr "Неверное число аргументов"
+
+#: src/functions/fn-information.c:600
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN()\n"
@@ -4512,12 +4776,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN()\n"
-"@DESCRIPTION=Возвращает TRUE(истина) если число - четное. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Возвращает TRUE(истина) если число - четное. Эта функция "
+"Excel-совместима. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ISODD"
 
-#: src/functions/fn-information.c:622
+#: src/functions/fn-information.c:621
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL()\n"
@@ -4529,12 +4794,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL()\n"
-"@DESCRIPTION=Возвращает TRUE(истина) если значение является логическим. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Возвращает TRUE(истина) если значение является логическим. Эта "
+"функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:651
+#: src/functions/fn-information.c:650
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT()\n"
@@ -4546,12 +4812,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT()\n"
-"@DESCRIPTION=ISNONTEXT Возвращает TRUE(истина) если значение не является текстом. Эта функция EXCEL-совместима.\n"
+"@DESCRIPTION=ISNONTEXT Возвращает TRUE(истина) если значение не является "
+"текстом. Эта функция EXCEL-совместима.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ISTEXT"
 
-#: src/functions/fn-information.c:677
+#: src/functions/fn-information.c:676
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER()\n"
@@ -4563,12 +4830,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER()\n"
-"@DESCRIPTION=ISNUMBER Возвращает TRUE(истина) если значение является числом. Эта функция EXCEL-совместима.\n"
+"@DESCRIPTION=ISNUMBER Возвращает TRUE(истина) если значение является числом. "
+"Эта функция EXCEL-совместима.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:703
+#: src/functions/fn-information.c:702
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD()\n"
@@ -4580,12 +4848,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD()\n"
-"@DESCRIPTION=ISODD Возвращает TRUE(истина) если число нечетное. Эта функция EXCEL-совместима. \n"
+"@DESCRIPTION=ISODD Возвращает TRUE(истина) если число нечетное. Эта функция "
+"EXCEL-совместима. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ISEVEN"
 
-#: src/functions/fn-information.c:724
+#: src/functions/fn-information.c:723
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF()\n"
@@ -4597,12 +4866,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF()\n"
-"@DESCRIPTION=Возвращает TRUE(истина) если значение является ссылкой. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Возвращает TRUE(истина) если значение является ссылкой. Эта "
+"функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:755
+#: src/functions/fn-information.c:754
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT()\n"
@@ -4614,12 +4884,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT()\n"
-"@DESCRIPTION=Возвращает TRUE(истина) если значение является текстом. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Возвращает TRUE(истина) если значение является текстом. Эта "
+"функция Excel-совместима.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=ISNONTEXT"
 
-#: src/functions/fn-information.c:781
+#: src/functions/fn-information.c:780
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N()\n"
@@ -4630,7 +4901,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-information.c:820
+#: src/functions/fn-information.c:819
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE()\n"
@@ -4642,12 +4913,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE()\n"
-"@DESCRIPTION=Функция TYPE() возвращает чиcло указывающее тип данных значения. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция TYPE() возвращает чиcло указывающее тип данных "
+"значения. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:847
+#: src/functions/fn-information.c:846
 msgid "Information"
 msgstr "Информационные"
 
@@ -4848,7 +5120,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:703
+#: src/functions/fn-lookup.c:708
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(reference, [row, col, area])\n"
@@ -4860,7 +5132,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:754
+#: src/functions/fn-lookup.c:759
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -4873,7 +5145,7 @@ msgid ""
 "@SEEALSO=COLUMNS,ROW,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:807
+#: src/functions/fn-lookup.c:812
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -4886,7 +5158,7 @@ msgid ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:832
+#: src/functions/fn-lookup.c:837
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
@@ -4900,7 +5172,7 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:895
+#: src/functions/fn-lookup.c:900
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -4913,7 +5185,7 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:948
+#: src/functions/fn-lookup.c:953
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -4926,7 +5198,7 @@ msgid ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
 
-#: src/functions/fn-lookup.c:973
+#: src/functions/fn-lookup.c:978
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(reference)\n"
@@ -4938,7 +5210,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-lookup.c:998
+#: src/functions/fn-lookup.c:1003
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -4949,12 +5221,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
-"@DESCRIPTION=Функция TRANSPOSE возвращает транспозицию входной матрицы @matrix.\n"
+"@DESCRIPTION=Функция TRANSPOSE возвращает транспозицию входной матрицы "
+"@matrix.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MMULT"
 
-#: src/functions/fn-lookup.c:1048
+#: src/functions/fn-lookup.c:1053
 msgid "Data / Lookup"
 msgstr "Данные / Поиск"
 
@@ -4974,8 +5247,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
-"@DESCRIPTION=Функция GCD возвращает наибольший общий делитель данных чисел. \n"
-"Если любой из аргументов меньше нуля, GCD возвращает ошибку #NUM!. Если любой из аргументов не целое, дробная часть отбрасывается. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция GCD возвращает наибольший общий делитель данных чисел. "
+"\n"
+"Если любой из аргументов меньше нуля, GCD возвращает ошибку #NUM!. Если "
+"любой из аргументов не целое, дробная часть отбрасывается. Эта функция "
+"Excel-совместима. \n"
 "@EXAMPLES=\n"
 "GCD(470,770) равняется 10.\n"
 "GCD(470,770,1495) равняется 5.\n"
@@ -5013,7 +5289,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
-"@DESCRIPTION=Функция ABS(b1) вычисляет абсолютное значение b1: у результата отбрасывается знак минуса (если он был). Она может быть выполнена для целых чисел и чисел с плавающей точкой. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция ABS(b1) вычисляет абсолютное значение b1: у результата "
+"отбрасывается знак минуса (если он был). Она может быть выполнена для целых "
+"чисел и чисел с плавающей точкой. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "ABS(7) равняется 7.\n"
 "ABS(-3.14) равняется 3.14.\n"
@@ -5036,7 +5314,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
-"@DESCRIPTION=Функция ACOS(х) вычисляет арккосинус @x; косинус этой величины равен @x. Значение результата возвращается в радианах. Если @x не принадлежит диапазону от -1 до 1, ACOS не вычисляется и возвращает ошибку 'acos - domain error'. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция ACOS(х) вычисляет арккосинус @x; косинус этой величины "
+"равен @x. Значение результата возвращается в радианах. Если @x не "
+"принадлежит диапазону от -1 до 1, ACOS не вычисляется и возвращает ошибку "
+"'acos - domain error'. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "ACOS(0.1) равняется 1.470629.\n"
 "ACOS(-0.1) равняется 1.670964.\n"
@@ -5058,7 +5339,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=Функция ACOSH(х) вычисляет обратный гиперболический косинус @x; гиперболический косинус этой величины равен @x. Если @x меньше чем 1.0, ACOSH() возвращает ошибку #NUM!.Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция ACOSH(х) вычисляет обратный гиперболический косинус @x; "
+"гиперболический косинус этой величины равен @x. Если @x меньше чем 1.0, "
+"ACOSH() возвращает ошибку #NUM!.Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "ACOSH(2) равняется 1.31696.\n"
 "ACOSH(5.3) равняется 2.35183.\n"
@@ -5080,7 +5363,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
-"@DESCRIPTION=Функция ASIN(х) вычисляет арксинус @x; синус ее результата равен @x. Если @x не принадлежит диапазону от -1 до 1, ASIN не вычисляется и возвращает ошибку #NUM!. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция ASIN(х) вычисляет арксинус @x; синус ее результата "
+"равен @x. Если @x не принадлежит диапазону от -1 до 1, ASIN не вычисляется и "
+"возвращает ошибку #NUM!. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "ASIN(0.5) равняется 0.523599.\n"
 "ASIN(1) равняется 1.570797.\n"
@@ -5100,7 +5385,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
-"@DESCRIPTION=Функция ASINH(х) вычисляет обратный гиперболический синус @x; гиперболический синус этой величины равен @x. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция ASINH(х) вычисляет обратный гиперболический синус @x; "
+"гиперболический синус этой величины равен @x. Эта функция Excel-совместима. "
+"\n"
 "@EXAMPLES=\n"
 "ASINH(0.5) равняется 0.481212. ASINH(1.0) равняется 0.881374.\n"
 "@SEEALSO=ASIN, ACOS, SIN, COS, DEGREES, RADIANS"
@@ -5118,7 +5405,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
-"@DESCRIPTION=Функция ATAN(х) вычисляет арктангенс @x; тангенс этой величины равен @x. Результат возвращается в радианах. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция ATAN(х) вычисляет арктангенс @x; тангенс этой величины "
+"равен @x. Результат возвращается в радианах. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
@@ -5137,7 +5425,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
-"@DESCRIPTION=Функция ATANH(х) вычисляет обратный гиперболический тангенс @x; гиперболический тангенс этой величины равен @x. Если абсолютное значение @x больше чем 1.0,  ATANH возвращает ошибку #NUM!. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция ATANH(х) вычисляет обратный гиперболический тангенс @x; "
+"гиперболический тангенс этой величины равен @x. Если абсолютное значение @x "
+"больше чем 1.0,  ATANH возвращает ошибку #NUM!. Эта функция "
+"Excel-совместима. \n"
 "@EXAMPLES=\n"
 "ATANH(0.5) равняется 0.549306. ATANH(0.8) равняется 1.098612.\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
@@ -5156,7 +5447,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
-"@DESCRIPTION=Функция ATAN2(b1,b2) вычисляет арктангенс двух переменных @b1 и @b2.  Это подобно вычислению арктангенса @b2 / @b1, кроме того, что знак обоих аргументов используется для определения квадранта результата. Результат возвращается в радианах. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция ATAN2(b1,b2) вычисляет арктангенс двух переменных @b1 и "
+"@b2.  Это подобно вычислению арктангенса @b2 / @b1, кроме того, что знак "
+"обоих аргументов используется для определения квадранта результата. "
+"Результат возвращается в радианах. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "ATAN2(0.5,1.0) равняется 1.107149. ATAN2(-0.5,2.0) равняется 1.815775.\n"
 "\n"
@@ -5174,7 +5468,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
-"@DESCRIPTION=Функция CEIL(х) округляет @x до ближайшего большего целого. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция CEIL(х) округляет @x до ближайшего большего целого. Эта "
+"функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "CEIL(0.4) равняется 1. CEIL(-1.1) равняется -1. CEIL(-2.9) равняется -2.\n"
 "@SEEALSO=ABS, FLOOR, INT"
@@ -5244,7 +5539,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
-"@DESCRIPTION=Функция COS(х) возвращает косинус @x, где@ x задается в радианах. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция COS(х) возвращает косинус @x, где@ x задается в "
+"радианах. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "COS(0.5) равняется 0.877583.\n"
 "COS(1) равняется 0.540302.\n"
@@ -5264,7 +5560,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
-"@DESCRIPTION=Функция COSH(х) возвращает гиперболический косинус @x, который определяется как (exp(@x) + exp(-@x)) / 2.  @x задается в радианах. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция COSH(х) возвращает гиперболический косинус @x, который "
+"определяется как (exp(@x) + exp(-@x)) / 2.  @x задается в радианах. Эта "
+"функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "COSH(0.5) равняется 1.127626. COS(1) равняется 1.543081.\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
@@ -5282,7 +5580,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
-"@DESCRIPTION=Функция DEGREES(x) вычисляет число градусов в @x радианах. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция DEGREES(x) вычисляет число градусов в @x радианах. Эта "
+"функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "DEGREES(2.5) равняется 143.2394.\n"
 "\n"
@@ -5301,7 +5600,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
-"@DESCRIPTION=Вычисляет значение e (основание натурального логарифма) возведенного в степень @x. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Вычисляет значение e (основание натурального логарифма) "
+"возведенного в степень @x. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "EXP(2) равняется 7.389056.\n"
 "\n"
@@ -5321,7 +5621,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=Вычисляет факториал @x. Т.е., @x! Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Вычисляет факториал @x. Т.е., @x! Эта функция Excel-совместима. "
+"\n"
 "@EXAMPLES=\n"
 "FACT(3) равняется 6.\n"
 "FACT(9) равняется 362880.\n"
@@ -5345,7 +5646,9 @@ msgstr ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
 "@DESCRIPTION=Вычисляет число комбинаций из @n по @k.\n"
-"Применение этой функции к нецелым или отрицательным числам вызывает ошибку. Ошибка возникает также если @n меньше чем @k. Эта функция Excel-совместима. \n"
+"Применение этой функции к нецелым или отрицательным числам вызывает ошибку. "
+"Ошибка возникает также если @n меньше чем @k. Эта функция Excel-совместима. "
+"\n"
 "@EXAMPLES=\n"
 "COMBIN(8,6) равняется 28.\n"
 "\n"
@@ -5394,7 +5697,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
-"@DESCRIPTION=Вычисляет логарифм от @x по основанию @base. Если основание не задано, вычисляется логарифм по основанию 10. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Вычисляет логарифм от @x по основанию @base. Если основание не "
+"задано, вычисляется логарифм по основанию 10. Эта функция Excel-совместима. "
+"\n"
 "@EXAMPLES=\n"
 "LOG(2) равняется 0.30103.\n"
 "LOG(8192,2) равняется 13.\n"
@@ -5414,7 +5719,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
-"@DESCRIPTION=Вычисляет натуральный логарифм от @x. Если @x <=0, LN возвращает ошибку #NUM!. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Вычисляет натуральный логарифм от @x. Если @x <=0, LN "
+"возвращает ошибку #NUM!. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "LN(7) равняется 1.94591.\n"
 "\n"
@@ -5434,7 +5740,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
-"@DESCRIPTION=Возвращает значение @x возведенного в степень @y. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Возвращает значение @x возведенного в степень @y. Эта функция "
+"Excel-совместима. \n"
 "@EXAMPLES=\n"
 "POWER(2,7) равняется 128.\n"
 "POWER(3,3.141) равняется 31.523749.\n"
@@ -5454,7 +5761,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
-"@DESCRIPTION=Вычисляет двоичный логарифм от @x. Если @x <= 0, LOG@ возвращает ошибку #NUM!. \n"
+"@DESCRIPTION=Вычисляет двоичный логарифм от @x. Если @x <= 0, LOG@ "
+"возвращает ошибку #NUM!. \n"
 "@EXAMPLES=\n"
 "LOG2(1024) равняется 10.\n"
 "\n"
@@ -5473,7 +5781,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
-"@DESCRIPTION=Вычисляет десятичный логарифм от @x. Если @x <= 0, LOG10 возвращает ошибку #NUM!. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Вычисляет десятичный логарифм от @x. Если @x <= 0, LOG10 "
+"возвращает ошибку #NUM!. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "LOG10(7) равняется 0.845098.\n"
 "\n"
@@ -5494,7 +5803,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
-"@DESCRIPTION=Функция MOD возвращает остаток от деления @number на @divisor. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция MOD возвращает остаток от деления @number на @divisor. "
+"Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "MOD(23,7) равняется 2.\n"
 "\n"
@@ -5513,7 +5823,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
-"@DESCRIPTION=Вычисляет число радиан в @x градусах. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Вычисляет число радиан в @x градусах. Эта функция "
+"Excel-совместима. \n"
 "@EXAMPLES=\n"
 "RADIANS(180) равняется 3.14159.\n"
 "\n"
@@ -5532,7 +5843,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
-"@DESCRIPTION=Возвращает случайное число между 0 и 1. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Возвращает случайное число между 0 и 1. Эта функция "
+"Excel-совместима. \n"
 "@EXAMPLES=\n"
 "RAND возвращает случайное число большее нуля, но меньшее единицы.\n"
 "\n"
@@ -5551,7 +5863,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
-"@DESCRIPTION=Функция SIN(х) возвращает значение синуса @x, где @x задается в радианах.\n"
+"@DESCRIPTION=Функция SIN(х) возвращает значение синуса @x, где @x задается в "
+"радианах.\n"
 "Эта функция EXCEL-совместима.\n"
 "@EXAMPLES=\n"
 "SIN(0.5) равняется 0.479426.\n"
@@ -5572,7 +5885,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
-"@DESCRIPTION=Функция SINH(х) возвращает значение гиперболического синуса @x, который определяется как (exp(@x) - exp(-@x)) / 2.  @x задается в радианах. Эта функция EXCEL-совместима.\n"
+"@DESCRIPTION=Функция SINH(х) возвращает значение гиперболического синуса @x, "
+"который определяется как (exp(@x) - exp(-@x)) / 2.  @x задается в радианах. "
+"Эта функция EXCEL-совместима.\n"
 "@EXAMPLES=\n"
 "SINH(0.5) равняется 0.521095.\n"
 "\n"
@@ -5592,7 +5907,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
-"@DESCRIPTION=Функция SQRT(x) возвращает квадратный корень @x. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция SQRT(x) возвращает квадратный корень @x. Эта функция "
+"Excel-совместима. \n"
 "Если @x отрицательное, SQRT возвращает ошибку #NUM!. \n"
 "@EXAMPLES=\n"
 "SQRT(2) равняется 1.4142136.\n"
@@ -5614,9 +5930,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
-"@DESCRIPTION=Вычисляет сумму всех значений и ячеек заданных в списке аргументов. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Вычисляет сумму всех значений и ячеек заданных в списке "
+"аргументов. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
-"Допустим, что ячейки A1, A2, ..., A5 содержат числа 11, 15, 17, 21 и 43. Тогда\n"
+"Допустим, что ячейки A1, A2, ..., A5 содержат числа 11, 15, 17, 21 и 43. "
+"Тогда\n"
 "SUM(A1:A5) равняется 107.\n"
 "\n"
 "@SEEALSO=AVERAGE, COUNT"
@@ -5677,7 +5995,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
-"@DESCRIPTION=Вычисляет произведение всех значений и ячеек заданных в списке аргументов. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Вычисляет произведение всех значений и ячеек заданных в списке "
+"аргументов. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "PRODUCT(2,5,9) равняется 90.\n"
 "\n"
@@ -5696,7 +6015,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
-"@DESCRIPTION=Функция TAN возвращает значение тангенса @x, где @x задается в радианах. Эта функця Excel-cовместима. \n"
+"@DESCRIPTION=Функция TAN возвращает значение тангенса @x, где @x задается в "
+"радианах. Эта функця Excel-cовместима. \n"
 "@EXAMPLES=\n"
 "TAN(3) равняется -0.1425465.\n"
 "\n"
@@ -5716,7 +6036,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
-"@DESCRIPTION=Функция TANH возвращает значение гиперболического тангенса @x, который определяется как sinh(@x) / cosh(@x). Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция TANH возвращает значение гиперболического тангенса @x, "
+"который определяется как sinh(@x) / cosh(@x). Эта функция Excel-совместима. "
+"\n"
 "@EXAMPLES=\n"
 "TANH(2) равняется 0.96402758.\n"
 "\n"
@@ -5736,7 +6058,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
-"@DESCRIPTION=Функция PI возвращает значение числа Пи. Эта функция вызывается без аргументов. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция PI возвращает значение числа Пи. Эта функция вызывается "
+"без аргументов. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "PI() равняется 3.141593.\n"
 "\n"
@@ -5757,7 +6080,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
-"@DESCRIPTION=Функция TRUNC возвращает значение @number укороченного до заданного числа цифр после запятой @digits. Если число цифр не задано, то подразумевается ноль. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция TRUNC возвращает значение @number укороченного до "
+"заданного числа цифр после запятой @digits. Если число цифр не задано, то "
+"подразумевается ноль. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
 "TRUNC(3.12) равняется 3.\n"
 "TRUNC(4.15,1) равняется 4.1.\n"
@@ -5777,7 +6102,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
-"@DESCRIPTION=Функция EVEN возвращает @number округленное до ближайшего четного целого. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция EVEN возвращает @number округленное до ближайшего "
+"четного целого. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "EVEN(5.4) равняется 6.\n"
 "\n"
@@ -5796,7 +6122,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
-"@DESCRIPTION=Функция ODD возвращает @number округленное до ближайшего нечетного целого. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция ODD возвращает @number округленное до ближайшего "
+"нечетного целого. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "ODD(4.4) равняется 5.\n"
 "\n"
@@ -5818,7 +6145,9 @@ msgstr ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
 "@DESCRIPTION=Функция FACTDOUBLE возвращает двойной факториал @number. \n"
-"Если число не целое, то дробная часть отбрасывается . Если число отрицательное, FACTDOUBLE возвращает ошибку #NUM!. Эта функция Excel-совместима. \n"
+"Если число не целое, то дробная часть отбрасывается . Если число "
+"отрицательное, FACTDOUBLE возвращает ошибку #NUM!. Эта функция "
+"Excel-совместима. \n"
 "@EXAMPLES=\n"
 "FACTDOUBLE(5) равняется 15.\n"
 "\n"
@@ -5838,7 +6167,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
-"@DESCRIPTION=Функция QUOTIENT возвращает целую часть частного от деления. @num - делимое, @dem - делитель. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция QUOTIENT возвращает целую часть частного от деления. "
+"@num - делимое, @dem - делитель. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "QUOITENT(23,5) равняется 4.\n"
 " \n"
@@ -5872,7 +6202,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRT(number)\n"
-"@DESCRIPTION=Функция SQRTPI возвращает квадратный корень @number умноженного на число Пи. Эта функция Excel-совместима. \n"
+"@DESCRIPTION=Функция SQRTPI возвращает квадратный корень @number умноженного "
+"на число Пи. Эта функция Excel-совместима. \n"
 "@EXAMPLES=\n"
 "SQRTPI(2) равняется 2.506628275.\n"
 "\n"
@@ -5894,8 +6225,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
-"@DESCRIPTION=Функция RANDBETWEEN возвращает случайное целое число в диапазоне между @bottom и @top. \n"
-"Если @bottom или @top не целые, дробная часть отбрасывается. Если @bottom > @top RANDBETWEEN возвращает ошибку #NUM!. Эта функция Excel-совместима.\n"
+"@DESCRIPTION=Функция RANDBETWEEN возвращает случайное целое число в "
+"диапазоне между @bottom и @top. \n"
+"Если @bottom или @top не целые, дробная часть отбрасывается. Если @bottom > "
+"@top RANDBETWEEN возвращает ошибку #NUM!. Эта функция Excel-совместима.\n"
 "@EXAMPLES=\n"
 "RANDBETWEEN(3,7).\n"
 "\n"
@@ -6836,7 +7169,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/functions/fn-stat.c:1848 src/value-sheet.c:353
+#: src/functions/fn-stat.c:1848 src/value-sheet.c:399
 msgid "#DIV/0!"
 msgstr "#Деление на 0!"
 
@@ -7392,7 +7725,7 @@ msgid ""
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:3923
+#: src/functions/fn-stat.c:4047
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -7413,7 +7746,7 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr ""
 
-#: src/functions/fn-stat.c:4035
+#: src/functions/fn-stat.c:4159
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -7439,7 +7772,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4165
+#: src/functions/fn-stat.c:4401
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -7459,7 +7792,7 @@ msgid ""
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4279
+#: src/functions/fn-stat.c:4515
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -7478,7 +7811,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4350
+#: src/functions/fn-stat.c:4586
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -7496,7 +7829,7 @@ msgid ""
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
 
-#: src/functions/fn-stat.c:4399
+#: src/functions/fn-stat.c:4635
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -7511,7 +7844,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: src/functions/fn-stat.c:4444
+#: src/functions/fn-stat.c:4680
 msgid "Statistics"
 msgstr "Статистические"
 
@@ -7565,7 +7898,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
-"@DESCRIPTION=Возвращает TRUE(истина), если @string1 совпадает со @string2 (эта функция учитывает регистр).\n"
+"@DESCRIPTION=Возвращает TRUE(истина), если @string1 совпадает со @string2 "
+"(эта функция учитывает регистр).\n"
 "@EXAMPLES=\n"
 "EXACT(\"KEY\",\"KEY\") равняется TRUE.\n"
 "EXACT(\"key\",\"Key\") равняется FALSE.\n"
@@ -7603,7 +7937,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
-"@DESCRIPTION=Возвращает @num_chars символов от начала строки или первый символ если @num_chars не указано.\n"
+"@DESCRIPTION=Возвращает @num_chars символов от начала строки или первый "
+"символ если @num_chars не указано.\n"
 "@EXAMPLES=\n"
 "LEFT(\"Голова\",3) равняется \"Гол\".\n"
 "\n"
@@ -7640,7 +7975,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
-"@DESCRIPTION=Возвращает подстроку из строки @string начинающуюся с @position длиной @lenght символов.\n"
+"@DESCRIPTION=Возвращает подстроку из строки @string начинающуюся с @position "
+"длиной @lenght символов.\n"
 "@EXAMPLES=\n"
 "MID(\"квартал\",4,3) равняется \"рта\".\n"
 "\n"
@@ -7664,7 +8000,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
-"@DESCRIPTION=Возвращает последние @num_chars символов или последний символ, если @num_chars не указано.\n"
+"@DESCRIPTION=Возвращает последние @num_chars символов или последний символ, "
+"если @num_chars не указано.\n"
 "@EXAMPLES=\n"
 "RIGHT(\"победа\") равняется \"а\".\n"
 "RIGHT(\"победа\",4) равняется \"беда\".\n"
@@ -7701,7 +8038,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
-"@DESCRIPTION=Возвращает конкатенированную строку из строк @string1, @string2...\n"
+"@DESCRIPTION=Возвращает конкатенированную строку из строк @string1, "
+"@string2...\n"
 "@EXAMPLES=\n"
 "CONCATENATE(\"бор\",\"ода\") равняется \"борода\".\n"
 "\n"
@@ -7762,7 +8100,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1, string2[,start])\n"
-"@DESCRIPTION=Возвращает положение строки @string1 в строке @string2 (с учетом регистра). Поиск производится с символа @start вперед (с первого если опущен).\n"
+"@DESCRIPTION=Возвращает положение строки @string1 в строке @string2 (с "
+"учетом регистра). Поиск производится с символа @start вперед (с первого если "
+"опущен).\n"
 "@EXAMPLES=\n"
 "FIND(\"ло\",\"голова\") равняется 3.\n"
 "\n"
@@ -7792,7 +8132,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
-"@DESCRIPTION=Возвращает строку @string с превращенными в заглавные первыми буквами каждого слова.\n"
+"@DESCRIPTION=Возвращает строку @string с превращенными в заглавные первыми "
+"буквами каждого слова.\n"
 "@EXAMPLES=\n"
 "PROPER(\"в.б.пупкин\") равняется В.Б.Пупкин.\n"
 "\n"
@@ -7811,7 +8152,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
-"@DESCRIPTION=REPLACE возвращает @old c @num символами замененными на @new начиная с @start.\n"
+"@DESCRIPTION=REPLACE возвращает @old c @num символами замененными на @new "
+"начиная с @start.\n"
 "@EXAMPLES=\n"
 "REPLACE(\"testing\",2,3,\"*****\") равняется \"t*****ing\".\n"
 "\n"
@@ -7831,14 +8173,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
-"@DESCRIPTION=T возвращает @value если и только если это текст, в противном случае "
-"возвращается пустая строка.\n"
+"@DESCRIPTION=T возвращает @value если и только если это текст, в противном "
+"случае возвращается пустая строка.\n"
 "@EXAMPLES=\n"
 "T(\"text\") возвращает \"text\".\n"
 "T(64) возвращает пустую ячейку.\n"
 "\n"
 "@SEEALSO=CELL, N, VALUE"
-
 
 #: src/functions/fn-string.c:728
 msgid ""
@@ -7878,7 +8219,6 @@ msgstr ""
 "\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
-
 #: src/functions/fn-string.c:835
 msgid ""
 "@FUNCTION=VALUE\n"
@@ -7915,7 +8255,8 @@ msgstr ""
 "применяется к @num-ому по счету вхождению @old в @text, если не указано, то "
 "заменяется каждое вхождение.\n"
 "@EXAMPLES=\n"
-"SUBSTITUTE(\"testing testing\",\"test\",\"wait\",2) equals \"testing waiting\".\n"
+"SUBSTITUTE(\"testing testing\",\"test\",\"wait\",2) equals \"testing "
+"waiting\".\n"
 "\n"
 "@SEEALSO=REPLACE, TRIM"
 
@@ -7961,17 +8302,18 @@ msgid ""
 msgstr ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
-"@DESCRIPTION=SEARCH возвращает позицию символа или строки "
-"в другой строке.  @text - искомая строка или символ. "
-"@within - строка, в которой вы хотите произвести поиск. @start_num - начальная позиция "
-"для поиска в @within.  Если @start_num пропущено, то оно принимается равным 1.  "
-"Поиск не чуствителен к регистру. \n"
-"@text может содержать символ звездочки (*) и знак вопроса (?) для управления поиском.  "
-"Знак вопроса совпадает с любым символом, а звездочка совпадает с любой (в том числе пустой) "
-"строкой.  Если вам надо найти символ звездочки или знак вопроса, используйте перед символом "
-"знак тильды (~). \n"
-"Если @text не найден, SEARCH возвращает ошибку #VALUE!. Если @start_num меньше "
-"чем 1 или больше чем длина @within, SEARCH возвращает ошибку #VALUE!. \n"
+"@DESCRIPTION=SEARCH возвращает позицию символа или строки в другой строке.  "
+"@text - искомая строка или символ. @within - строка, в которой вы хотите "
+"произвести поиск. @start_num - начальная позиция для поиска в @within.  Если "
+"@start_num пропущено, то оно принимается равным 1.  Поиск не чуствителен к "
+"регистру. \n"
+"@text может содержать символ звездочки (*) и знак вопроса (?) для управления "
+"поиском.  Знак вопроса совпадает с любым символом, а звездочка совпадает с "
+"любой (в том числе пустой) строкой.  Если вам надо найти символ звездочки "
+"или знак вопроса, используйте перед символом знак тильды (~). \n"
+"Если @text не найден, SEARCH возвращает ошибку #VALUE!. Если @start_num "
+"меньше чем 1 или больше чем длина @within, SEARCH возвращает ошибку #VALUE!. "
+"\n"
 "@EXAMPLES=\n"
 "SEARCH(\"c\",\"Cancel\") равняется 1.\n"
 "SEARCH(\"c\",\"Cancel\",2) равняется 4.\n"
@@ -8014,11 +8356,11 @@ msgstr "желтый"
 msgid "0.0########"
 msgstr "0.0########"
 
-#: src/format.c:1384 src/value-sheet.c:26 src/value.c:321
+#: src/format.c:1384 src/value-sheet.c:26 src/value.c:322
 msgid "TRUE"
 msgstr "ИСТИНА"
 
-#: src/format.c:1384 src/value-sheet.c:26 src/value.c:321
+#: src/format.c:1384 src/value-sheet.c:26 src/value.c:322
 msgid "FALSE"
 msgstr "ЛОЖЬ"
 
@@ -8286,29 +8628,39 @@ msgstr "##0.0E+0"
 msgid "[Red]"
 msgstr "[Red]"
 
-#: src/func.c:422
+#. TODO : Say which argument is empty to improve error messages
+#: src/func.c:153
+msgid "Missing argument"
+msgstr "Отвутствует параметер"
+
+#: src/func.c:730
 msgid "Function does not exist"
 msgstr "Функция не существует"
 
-#: src/func.c:424
+#: src/func.c:732
 msgid "Calling non-function"
 msgstr ""
+
+#: src/func.c:784
+#, c-format
+msgid "Can not create file %s\n"
+msgstr "Невозможно создать файл %s\n"
 
 #: src/gnumeric-util.c:20
 msgid "You cannot change part of an array."
 msgstr "Вы не можете изменить часть массива."
 
-#: src/item-bar.c:462
+#: src/item-bar.c:441
 #, c-format
 msgid "Height: %.2f"
 msgstr "Высота: %.2f"
 
-#: src/item-bar.c:465
+#: src/item-bar.c:444
 #, c-format
 msgid "Width: %.2f"
 msgstr "Ширина: %.2f"
 
-#: src/item-cursor.c:578
+#: src/item-cursor.c:579
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -8318,126 +8670,134 @@ msgstr ""
 "в этом месте ячеек. Вы хотите заменить содержимое\n"
 "в этой области?"
 
-#: src/item-cursor.c:659 src/workbook.c:1140
+#: src/item-cursor.c:665 src/workbook.c:1225
 msgid "Copy"
 msgstr "Скопировать"
 
-#: src/item-cursor.c:660 src/print-preview.c:538
+#: src/item-cursor.c:666 src/print-preview.c:538
 msgid "Move"
 msgstr "Переместить"
 
-#: src/item-cursor.c:661
+#: src/item-cursor.c:667
 msgid "Copy formats"
 msgstr "Скопировать формат"
 
-#: src/item-cursor.c:662
+#: src/item-cursor.c:668
 msgid "Copy values"
 msgstr "Скопировать значение"
 
-#: src/item-cursor.c:663
+#: src/item-cursor.c:669
 msgid "Shift cells down and copy"
 msgstr "Сдвинуть ячейки вниз и скопировать"
 
-#: src/item-cursor.c:664
+#: src/item-cursor.c:670
 msgid "Shift cells right and copy"
 msgstr "Сдвинуть ячейки вправо и скопировать"
 
-#: src/item-cursor.c:665
+#: src/item-cursor.c:671
 msgid "Shift cells down and move"
 msgstr "Сдвинуть ячейки вниз и переместить"
 
-#: src/item-cursor.c:666
+#: src/item-cursor.c:672
 msgid "Shift cells right and move"
 msgstr "Сдвинуть ячейки вправо и переместить"
 
-#: src/item-grid.c:640
+#: src/item-grid.c:641
 msgid "Cu_t"
 msgstr "Вырезать"
 
-#: src/item-grid.c:642
+#: src/item-grid.c:643
 msgid "_Copy"
 msgstr "Скопировать"
 
-#: src/item-grid.c:644
+#: src/item-grid.c:645
 msgid "_Paste"
 msgstr "Вставить"
 
-#: src/item-grid.c:646
+#: src/item-grid.c:647
 msgid "Paste _Special"
 msgstr "Cпециальная вставка"
 
-#: src/item-grid.c:651
+#: src/item-grid.c:652
 msgid "_Insert..."
 msgstr "Вставка..."
 
-#: src/item-grid.c:653 src/workbook.c:972
+#: src/item-grid.c:654 src/workbook.c:1057
 msgid "_Delete..."
 msgstr "Удаление..."
 
-#: src/item-grid.c:655
+#: src/item-grid.c:656
 msgid "Clear Co_ntents"
 msgstr "Очистить содержимое"
 
-#: src/item-grid.c:660
+#: src/item-grid.c:661
 msgid "_Format Cells..."
 msgstr "Формат ячеек..."
 
 #. Column specific functions
-#: src/item-grid.c:664
+#: src/item-grid.c:665
 msgid "Column _Width..."
 msgstr "Ширина столбца..."
 
-#: src/item-grid.c:666 src/item-grid.c:674
+#: src/item-grid.c:667 src/item-grid.c:675
 msgid "_Hide"
 msgstr "Скрыть"
 
-#: src/item-grid.c:668 src/item-grid.c:676
+#: src/item-grid.c:669 src/item-grid.c:677
 msgid "_Unhide"
 msgstr "Показать"
 
 #. Row specific functions (Note some of the labels are duplicated
-#: src/item-grid.c:672
+#: src/item-grid.c:673
 msgid "_Row Height..."
 msgstr "Высота строки..."
 
-#: src/main.c:48
+#: src/main.c:51
 msgid "Dumps the function definitions"
 msgstr "Выдать определения функций"
 
-#: src/main.c:48
+#: src/main.c:51
 msgid "FILE"
 msgstr "ФАЙЛ"
 
-#: src/main.c:50
+#: src/main.c:54
 msgid "Enables some debugging functions"
 msgstr "Разрешить некоторые отладочные функции"
 
-#: src/main.c:50 src/main.c:52 src/main.c:57 src/main.c:61 src/main.c:65
-#: src/main.c:69 src/main.c:73 src/main.c:77
+#: src/main.c:54 src/main.c:57 src/main.c:59 src/main.c:67 src/main.c:71
+#: src/main.c:75 src/main.c:79 src/main.c:83
 msgid "LEVEL"
 msgstr "УРОВЕНЬ"
 
-#: src/main.c:52
+#: src/main.c:57
 msgid "Enables some style related debugging functions"
 msgstr "Разрешить некоторые отладочные функции относящиеся к стилям"
 
-#: src/main.c:56 src/main.c:72
+#: src/main.c:59
+msgid "Enables some dependency related debugging functions"
+msgstr "Разрешить некоторые отладочные функции относящиеся к зависимостям"
+
+#: src/main.c:62
+msgid "Exit immediately after loading the selected books (useful for testing)."
+msgstr ""
+
+#: src/main.c:66 src/main.c:82
 msgid "Enables debugging mesgs while reading excel workbooks"
 msgstr "Разрешить отладочные сообщения при считывании рабочей книги Excel"
 
-#: src/main.c:60
+#: src/main.c:70
 msgid "Enables debugging mesgs while reading excel functions"
 msgstr "Разрешить отладочные сообщения при считывании функций Excel"
 
-#: src/main.c:64
+#: src/main.c:74
 msgid "Enables debugging mesgs while reading excel colours & patterns"
 msgstr "Разрешить отладочные сообщения при считывании цветов и шаблонов Excel"
 
-#: src/main.c:68
+#: src/main.c:78
 msgid "Enables debugging mesgs while reading excel charts"
 msgstr "Разрешить отладочные сообщения при считывании диаграмм Excel"
 
-#: src/main.c:76
+#: src/main.c:86
 msgid "Enables extra consistancy checking while reading ole files"
 msgstr ""
 
@@ -8453,32 +8813,31 @@ msgstr "Имя"
 msgid "File"
 msgstr "Файл"
 
-#: src/plugin-manager.c:137
-msgid "Close"
-msgstr "Закрыть"
+#: src/plugin.c:39
+#, c-format
+msgid ""
+"Unable to open plugin '%s'\n"
+"Plugin version '%s' is different from application '%s'."
+msgstr ""
 
-#: src/plugin-manager.c:140
-msgid "Add..."
-msgstr "Добавить..."
-
-#: src/plugin.c:41
+#: src/plugin.c:70
 msgid "unable to open module file: "
 msgstr "не удалось открыть файл модуля: "
 
-#: src/plugin.c:52
+#: src/plugin.c:80
 msgid "Plugin must contain init_plugin function."
 msgstr "Дополнение должно содержать функцию init_plugin"
 
-#: src/plugin.c:58
+#: src/plugin.c:89
 msgid "init_plugin returned error"
 msgstr "init_plugin возвратил ошибку"
 
-#: src/plugin.c:78
+#: src/plugin.c:110
 msgid "Plugin is still in use.\n"
 msgstr "Дополнение еще используется.\n"
 
 #: src/print-info.c:20 src/print-info.c:23 src/print-info.c:24
-#: src/print-info.c:269
+#: src/print-info.c:277
 msgid "Page &[PAGE]"
 msgstr "Страница &[PAGE]"
 
@@ -8495,63 +8854,63 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: src/print-info.c:268
+#: src/print-info.c:276
 msgid "Sheet &[PAGE]"
 msgstr "Лист &[PAGE]"
 
-#: src/print-info.c:419
+#: src/print-info.c:439
 msgid "pts"
 msgstr "пнкт"
 
-#: src/print-info.c:419
+#: src/print-info.c:439
 msgid "points"
 msgstr "пункты"
 
-#: src/print-info.c:420
+#: src/print-info.c:440
 msgid "mm"
 msgstr "мм"
 
-#: src/print-info.c:420
+#: src/print-info.c:440
 msgid "millimeter"
 msgstr "миллиметр"
 
-#: src/print-info.c:421
+#: src/print-info.c:441
 msgid "cm"
 msgstr "см"
 
-#: src/print-info.c:421
+#: src/print-info.c:441
 msgid "centimeter"
 msgstr "сантиметр"
 
-#: src/print-info.c:422
+#: src/print-info.c:442
 msgid "In"
 msgstr "Дю"
 
-#: src/print-info.c:422
+#: src/print-info.c:442
 msgid "inch"
 msgstr "дюйм"
 
-#: src/print-info.c:482
+#: src/print-info.c:502
 msgid "Sheet 1"
 msgstr "Лист 1"
 
-#: src/print-info.c:540
+#: src/print-info.c:560
 msgid "tab"
 msgstr "таб"
 
-#: src/print-info.c:541
+#: src/print-info.c:561
 msgid "page"
 msgstr "страница"
 
-#: src/print-info.c:542
+#: src/print-info.c:562
 msgid "pages"
 msgstr "страницы"
 
-#: src/print-info.c:543
+#: src/print-info.c:563
 msgid "date"
 msgstr "дата"
 
-#: src/print-info.c:544
+#: src/print-info.c:564
 msgid "time"
 msgstr "время"
 
@@ -8627,7 +8986,7 @@ msgstr "След."
 msgid "Last"
 msgstr "Последняя"
 
-#: src/print-preview.c:539 src/workbook.c:2180
+#: src/print-preview.c:539 src/workbook.c:2203
 msgid "Zoom in"
 msgstr "Увеличить"
 
@@ -8635,7 +8994,7 @@ msgstr "Увеличить"
 msgid "Zooms the page in"
 msgstr "Увеличить страницу"
 
-#: src/print-preview.c:540 src/workbook.c:2173
+#: src/print-preview.c:540 src/workbook.c:2196
 msgid "Zoom out"
 msgstr "Уменьшить"
 
@@ -8656,31 +9015,36 @@ msgstr "лист"
 msgid "the workbook"
 msgstr "книга"
 
-#: src/print.c:623
+#: src/print.c:515 src/workbook.c:1577
+msgid "Selection must be a single range"
+msgstr "Выделение должно быть единственным диапазоном"
+
+#: src/print.c:631
 msgid "Printing failed -- bad filename?"
 msgstr "Печать не удалась -- не правильное имя файла?"
 
-#: src/selection.c:144
+#: src/selection.c:151
 msgid "The command `"
 msgstr "Команда `"
 
-#: src/selection.c:146
+#: src/selection.c:153
 msgid "' cannot be performed with multiple selections"
 msgstr "' не может быть выполнена при множественных выделениях"
 
-#: src/selection.c:594
+#. FIXME FIXME : disable copying part of an array
+#: src/selection.c:603
 msgid "copy"
 msgstr "скопировать"
 
-#: src/selection.c:625
+#: src/selection.c:634
 msgid "cut"
 msgstr "вырезать"
 
-#: src/selection.c:665
+#: src/selection.c:681
 msgid "paste"
 msgstr "вставить"
 
-#: src/selection.c:688
+#: src/selection.c:703
 #, c-format
 msgid ""
 "The area can not be pasted into the selection because it\n"
@@ -8693,11 +9057,11 @@ msgstr ""
 "\n"
 "Попробуйте выделить одну ячейку или область такой же формы и размера."
 
-#: src/sheet-object.c:359 src/workbook.c:1158
+#: src/sheet-object.c:359 src/workbook.c:1243
 msgid "Button"
 msgstr "Кнопка"
 
-#: src/sheet-object.c:728 src/workbook.c:899
+#: src/sheet-object.c:728 src/workbook.c:981
 msgid "Select an object"
 msgstr "Выбрать объект"
 
@@ -8711,20 +9075,20 @@ msgstr "Строка: %d"
 msgid "Column: %s"
 msgstr "Столбец: %s"
 
-#: src/sheet.c:1005
+#: src/sheet.c:1214
 msgid "Internal ERROR"
 msgstr "Внутренняя ОШИБКА"
 
-#: src/sheet.c:3001
+#: src/sheet.c:3176
 #, c-format
 msgid "I was not able to activate object %s"
 msgstr "Не было возможности активировать объект %s"
 
-#: src/sheet.c:3013
+#: src/sheet.c:3188
 msgid "I was unable to the bind object"
 msgstr "Не было возможности связать объект"
 
-#: src/style.c:406
+#: src/style.c:428
 msgid ""
 "Gnumeric failed to find a suitable default font.\n"
 "\n"
@@ -8754,31 +9118,31 @@ msgstr ""
 "\n"
 "Спасибо -- Команда разработчиков Gnumeric\n"
 
-#: src/value-sheet.c:352
+#: src/value-sheet.c:398
 msgid "#NULL!"
 msgstr "#NULL!"
 
-#: src/value-sheet.c:354
+#: src/value-sheet.c:400
 msgid "#VALUE!"
 msgstr "#VALUE!"
 
-#: src/value-sheet.c:355
+#: src/value-sheet.c:401
 msgid "#REF!"
 msgstr "#REF!"
 
-#: src/value-sheet.c:356
+#: src/value-sheet.c:402
 msgid "#NAME?"
 msgstr "#NAME?"
 
-#: src/value-sheet.c:357
+#: src/value-sheet.c:403
 msgid "#NUM!"
 msgstr "#NUM!"
 
-#: src/value-sheet.c:358
+#: src/value-sheet.c:404
 msgid "#N/A"
 msgstr "#N/A"
 
-#: src/value.c:483
+#: src/value.c:484
 msgid "Terminate"
 msgstr "Закончить"
 
@@ -8890,434 +9254,486 @@ msgstr "Размер"
 msgid "Foreground"
 msgstr "Цвет"
 
-#: src/workbook.c:436
+#: src/workbook.c:518
 msgid "Warning"
 msgstr "Внимание"
 
-#: src/workbook.c:445
+#: src/workbook.c:527
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "В книге %s есть несохраненные изменения, сохранить их?"
 
-#: src/workbook.c:448
+#: src/workbook.c:530
 msgid "Workbook has unsaved changes, save them?"
 msgstr "В книге есть несохраненные изменения, сохранить их?"
 
-#: src/workbook.c:679
+#: src/workbook.c:738
 msgid "Insert cols"
 msgstr "Вставить столбцы"
 
-#: src/workbook.c:699
+#: src/workbook.c:763
 msgid "Insert rows"
 msgstr "Вставить строки"
 
-#: src/workbook.c:794
+#: src/workbook.c:878
 msgid ">mm/dd/yyyy"
 msgstr ">mm/dd/yyyy"
 
-#: src/workbook.c:813
+#: src/workbook.c:897
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/workbook.c:908
+#: src/workbook.c:990
 msgid "_New"
 msgstr "Новый"
 
-#: src/workbook.c:908
+#: src/workbook.c:990
 msgid "Create a new spreadsheet"
 msgstr "Создать новую таблицу"
 
-#: src/workbook.c:912
+#: src/workbook.c:994
 msgid "_Import..."
 msgstr "Импорт..."
 
-#: src/workbook.c:912
+#: src/workbook.c:994
 msgid "Imports a file"
 msgstr "Импортировать файл"
 
-#: src/workbook.c:918
+#: src/workbook.c:1000
 msgid "Su_mmary..."
 msgstr "Итого..."
 
-#: src/workbook.c:918
+#: src/workbook.c:1000
 msgid "Summary information"
 msgstr "Суммарная информация"
 
-#: src/workbook.c:923
+#: src/workbook.c:1005
 msgid "Plu_g-ins..."
 msgstr "Дополнения..."
 
-#: src/workbook.c:923
+#: src/workbook.c:1005
 msgid "Gnumeric plugins"
 msgstr "Дополнения Gnumeric"
 
-#: src/workbook.c:930 src/workbook.c:1131
+#: src/workbook.c:1012 src/workbook.c:1216
 msgid "Print pre_view"
 msgstr "Просмотр печати"
 
-#: src/workbook.c:930 src/workbook.c:1131
+#: src/workbook.c:1012 src/workbook.c:1216
 msgid "Print preview"
 msgstr "Просмотр печати"
 
-#: src/workbook.c:946
+#: src/workbook.c:1028
 msgid "_All"
 msgstr "Все"
 
-#: src/workbook.c:947
+#: src/workbook.c:1029
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Очистить в выделенных ячейках формат, комментарии и содержимое"
 
-#: src/workbook.c:949
+#: src/workbook.c:1031
 msgid "_Formats"
 msgstr "Формат"
 
-#: src/workbook.c:950
+#: src/workbook.c:1032
 msgid "Clear the selected cells' formats"
 msgstr "Очистить в выделенных ячейках формат"
 
-#: src/workbook.c:953
+#: src/workbook.c:1035
 msgid "Clear the selected cells' comments"
 msgstr "Очистить в выделенных ячейках комментарии"
 
-#: src/workbook.c:955
+#: src/workbook.c:1037
 msgid "_Content"
 msgstr "Содержимое"
 
-#: src/workbook.c:956
+#: src/workbook.c:1038
 msgid "Clear the selected cells' contents"
 msgstr "Очистить в выделенных ячейках содержимое"
 
-#: src/workbook.c:970
-msgid "P_aste special..."
-msgstr "Специальная вставка..."
-
-#: src/workbook.c:974
+#: src/workbook.c:1059
 msgid "C_lear"
 msgstr "Очистить"
 
-#: src/workbook.c:975
+#: src/workbook.c:1060
 msgid "Clear the selected cell(s)"
 msgstr "Очистить выделенную ячейку(и)"
 
-#: src/workbook.c:979
+#: src/workbook.c:1064
 msgid "_Select All"
 msgstr "Выделить все"
 
-#: src/workbook.c:980
+#: src/workbook.c:1065
 msgid "Select all cells in the spreadsheet"
 msgstr "Выделить все ячейки в таблице"
 
-#: src/workbook.c:982
+#: src/workbook.c:1067
 msgid "_Goto cell..."
 msgstr "Перейти к ячейке..."
 
-#: src/workbook.c:983
+#: src/workbook.c:1068
 msgid "Jump to a specified cell"
 msgstr "Перейти к указанной ячейке"
 
-#: src/workbook.c:989
-msgid "Insert object..."
-msgstr "Вставить об'ект..."
-
-#: src/workbook.c:990
-msgid "Inserts a Bonobo object"
-msgstr "Вставить об'ект Bonobo"
-
-#: src/workbook.c:994
+#: src/workbook.c:1073
 msgid "_Define cell names"
 msgstr "Задать имя ячейки"
 
-#: src/workbook.c:997
+#: src/workbook.c:1076
 msgid "_Recalculate"
 msgstr "Пересчитать"
 
-#: src/workbook.c:998
+#: src/workbook.c:1077
 msgid "Recalculate the spreadsheet"
 msgstr "Пересчитать таблицу"
 
-#: src/workbook.c:1006
+#: src/workbook.c:1085
 msgid "_Zoom..."
 msgstr "Масштаб..."
 
-#: src/workbook.c:1007
+#: src/workbook.c:1086
 msgid "Zoom the spreadsheet in or out"
 msgstr "Увеличение и уменьшение масштаба таблицы"
 
-#: src/workbook.c:1014
+#: src/workbook.c:1087
+msgid "Toggle _Formulas"
+msgstr "Переключить формулы"
+
+#: src/workbook.c:1088
+msgid "Toggle the display of formulas"
+msgstr "Переключить режим представления формул"
+
+#: src/workbook.c:1095
 msgid "Current _date"
 msgstr "Текущая дата"
 
-#: src/workbook.c:1015
+#: src/workbook.c:1096
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Вставить текущую дату в выделенные ячейки"
 
-#: src/workbook.c:1018
+#: src/workbook.c:1099
 msgid "Current _time"
 msgstr "Текущее время"
 
-#: src/workbook.c:1019
+#: src/workbook.c:1100
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Вставить текущее время в выделенные ячейки"
 
-#: src/workbook.c:1026 src/workbook.c:1074
+#: src/workbook.c:1107 src/workbook.c:1161
 msgid "_Sheet"
 msgstr "Таблица"
 
-#: src/workbook.c:1026
+#: src/workbook.c:1107
 msgid "Insert a new spreadsheet"
 msgstr "Вставить новую таблицу"
 
-#: src/workbook.c:1028 src/workbook.c:1069
-msgid "_Cells..."
-msgstr "Ячейки..."
-
-#: src/workbook.c:1028
-msgid "Insert new cells"
-msgstr "Вставить новые ячейки"
-
-#: src/workbook.c:1030
+#: src/workbook.c:1109
 msgid "_Rows"
 msgstr "Строки"
 
-#: src/workbook.c:1030
+#: src/workbook.c:1109
 msgid "Insert new rows"
 msgstr "Вставить новые строки"
 
-#: src/workbook.c:1032
-msgid "C_olumns"
+#: src/workbook.c:1111
+msgid "_Columns"
 msgstr "Столбцы"
 
-#: src/workbook.c:1032
+#: src/workbook.c:1111
 msgid "Insert new columns"
 msgstr "Вставить новые столбцы"
 
-#: src/workbook.c:1037
+#: src/workbook.c:1113
+msgid "C_ells..."
+msgstr "Ячейки..."
+
+#: src/workbook.c:1113
+msgid "Insert new cells"
+msgstr "Вставить новые ячейки"
+
+#: src/workbook.c:1117
+msgid "_Object..."
+msgstr "Объект..."
+
+#: src/workbook.c:1118
+msgid "Inserts a Bonobo object"
+msgstr "Вставить Bonobo-объект"
+
+#: src/workbook.c:1124
 msgid "_Add/modify comment..."
 msgstr "Добавить/Изменить комментарий"
 
-#: src/workbook.c:1038
+#: src/workbook.c:1125
 msgid "Edit the selected cell's comment"
 msgstr "Правка комментариев для выделенных ячеек"
 
-#: src/workbook.c:1039
+#: src/workbook.c:1126
 msgid "S_pecial"
 msgstr "Специальный"
 
-#: src/workbook.c:1047 src/workbook.c:1055
+#: src/workbook.c:1134 src/workbook.c:1142
 msgid "_Auto fit selection"
 msgstr "Автозаполнение выделения"
 
-#: src/workbook.c:1049
+#: src/workbook.c:1136
 msgid "_Width"
 msgstr "Ширина"
 
-#: src/workbook.c:1057
+#: src/workbook.c:1144
 msgid "_Height"
 msgstr "Высота"
 
-#: src/workbook.c:1063
+#: src/workbook.c:1150
 msgid "_Change name"
 msgstr "Изменить название"
 
-#: src/workbook.c:1070
+#: src/workbook.c:1156
+msgid "_Cells..."
+msgstr "Ячейки..."
+
+#: src/workbook.c:1157
 msgid "Modify the formatting of the selected cells"
 msgstr "Изменить форматирование выделенных ячеек"
 
-#: src/workbook.c:1072
+#: src/workbook.c:1159
 msgid "C_olumn"
 msgstr "Столбец"
 
-#: src/workbook.c:1073
+#: src/workbook.c:1160
 msgid "_Row"
 msgstr "Строка"
 
-#: src/workbook.c:1081
+#: src/workbook.c:1168
 msgid "_Sort..."
 msgstr "Сортировка..."
 
-#: src/workbook.c:1082
+#: src/workbook.c:1169
 msgid "Sort the selected cells"
 msgstr "Сортировать выделенные ячейки"
 
-#: src/workbook.c:1083
+#: src/workbook.c:1170
 msgid "_Goal Seek..."
 msgstr "Поиск цели..."
 
-#: src/workbook.c:1085
+#: src/workbook.c:1171
 msgid "_Solver..."
 msgstr "Решение..."
 
-#: src/workbook.c:1087
+#: src/workbook.c:1172
 msgid "_Data Analysis..."
 msgstr "Анализ данных..."
 
-#: src/workbook.c:1103
+#: src/workbook.c:1188
 msgid "_Insert"
 msgstr "Вставить"
 
-#: src/workbook.c:1104
+#: src/workbook.c:1189
 msgid "F_ormat"
 msgstr "Формат"
 
-#: src/workbook.c:1105
+#: src/workbook.c:1190
 msgid "_Tools"
 msgstr "Инструменты"
 
-#: src/workbook.c:1116
+#: src/workbook.c:1201
 msgid "New"
 msgstr "Новая"
 
-#: src/workbook.c:1116
+#: src/workbook.c:1201
 msgid "Creates a new sheet"
 msgstr "Создать новую таблицу"
 
-#: src/workbook.c:1119
+#: src/workbook.c:1204
 msgid "Open"
 msgstr "Открыть"
 
-#: src/workbook.c:1119
+#: src/workbook.c:1204
 msgid "Opens an existing workbook"
 msgstr "Открыть существующую книгу"
 
-#: src/workbook.c:1122
+#: src/workbook.c:1207
 msgid "Save"
 msgstr "Сохранить"
 
-#: src/workbook.c:1122
+#: src/workbook.c:1207
 msgid "Saves the workbook"
 msgstr "Сохранить книгу"
 
-#: src/workbook.c:1128
+#: src/workbook.c:1213
 msgid "Prints the workbook"
 msgstr "Напечатать книгу"
 
-#: src/workbook.c:1137
+#: src/workbook.c:1222
 msgid "Cut"
 msgstr "Вырезать"
 
-#: src/workbook.c:1137
+#: src/workbook.c:1222
 msgid "Cuts the selection to the clipboard"
 msgstr "Вырезать выделение в буфер обмена"
 
-#: src/workbook.c:1140
+#: src/workbook.c:1225
 msgid "Copies the selection to the clipboard"
 msgstr "Скопировать выделение в буфер обмена"
 
-#: src/workbook.c:1143
+#: src/workbook.c:1228
 msgid "Paste"
 msgstr "Вставить"
 
-#: src/workbook.c:1143
+#: src/workbook.c:1228
 msgid "Pastes the clipboard"
 msgstr "Вставить из буфера обмена"
 
-#: src/workbook.c:1150
+#: src/workbook.c:1235
 msgid "Graphic"
 msgstr "Изображения"
 
-#: src/workbook.c:1150
+#: src/workbook.c:1235
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Создать изображение в таблице"
 
-#: src/workbook.c:1153
+#: src/workbook.c:1238
 msgid "Bonobo Item"
 msgstr "Элемент Bonobo"
 
-#: src/workbook.c:1153
+#: src/workbook.c:1238
 msgid "Creates a Bonobo shaped item"
 msgstr "Создать новый элемент Bonobo"
 
-#: src/workbook.c:1158
+#: src/workbook.c:1243
 msgid "Creates a button"
 msgstr "Создать кнопку"
 
-#: src/workbook.c:1161
+#: src/workbook.c:1246
 msgid "Checkbox"
 msgstr ""
 
-#: src/workbook.c:1161
+#: src/workbook.c:1246
 msgid "Creates a checkbox"
 msgstr ""
 
-#: src/workbook.c:1168
+#: src/workbook.c:1253
 msgid "Creates a line object"
 msgstr "Создать линию"
 
-#: src/workbook.c:1171
+#: src/workbook.c:1256
 msgid "Arrow"
 msgstr "Стрелка"
 
-#: src/workbook.c:1171
+#: src/workbook.c:1256
 msgid "Creates an arrow object"
 msgstr "Создать стрелку"
 
-#: src/workbook.c:1174
+#: src/workbook.c:1259
 msgid "Rectangle"
 msgstr "Прямоугольник"
 
-#: src/workbook.c:1174
+#: src/workbook.c:1259
 msgid "Creates a rectangle object"
 msgstr "Создать прямоугольник"
 
-#: src/workbook.c:1177
+#: src/workbook.c:1262
 msgid "Ellipse"
 msgstr "Овал"
 
-#: src/workbook.c:1177
+#: src/workbook.c:1262
 msgid "Creates an ellipse object"
 msgstr "Создать овал"
 
-#: src/workbook.c:1395
+#: src/workbook.c:1473
 msgid "You should introduce a valid cell name"
 msgstr "Вы должны ввести подходящее название для ячейки"
 
-#: src/workbook.c:1404
+#: src/workbook.c:1482
 msgid "Column out of range"
 msgstr "Номер столбца вне диапазона"
 
-#: src/workbook.c:1410
+#: src/workbook.c:1488
 msgid "Row number out of range"
 msgstr "Номер строки вне диапазона"
 
-#: src/workbook.c:1615
+#: src/workbook.c:1675
 msgid "Sum"
 msgstr "Сумма"
 
-#: src/workbook.c:1618
+#: src/workbook.c:1678
 msgid "Average"
 msgstr "Среднее"
 
-#: src/workbook.c:1619
+#: src/workbook.c:1679
 msgid "Count"
 msgstr "Количество"
 
-#: src/workbook.c:2054
+#: src/workbook.c:2079
 #, c-format
 msgid "Book%d.gnumeric"
 msgstr "Книга%d.gnumeric"
 
-#: src/workbook.c:2304
+#: src/workbook.c:2327
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Вы действительно хотите удалить таблицу `%s' ?"
 
-#: src/workbook.c:2353
+#: src/workbook.c:2376
 msgid "Add another sheet"
 msgstr "Добавить другую таблицу"
 
-#: src/workbook.c:2354
+#: src/workbook.c:2377
 msgid "Remove this sheet"
 msgstr "Удалить эту таблицу"
 
-#: src/workbook.c:2622 src/workbook.c:2655
+#: src/workbook.c:2645 src/workbook.c:2678
 #, c-format
 msgid "Sheet%d"
 msgstr "Лист%d"
 
-#: src/workbook.c:2691
+#: src/workbook.c:2714
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
-#: src/xml-io.c:2344
+#: src/xml-io.c:2379
 msgid "Gnumeric XML file format"
 msgstr "Формат файла Gnumeric XML"
+
+#~ msgid "Gnumeric/Python module initialized\n"
+#~ msgstr "Модуль Gnumeric/Python инициализирован\n"
+
+#~ msgid ""
+#~ "While opening %s\n"
+#~ "%s"
+#~ msgstr ""
+#~ "При открытии %s\n"
+#~ "%s"
+
+#~ msgid "OK"
+#~ msgstr "OK"
+
+#~ msgid "Selection must be a finite range"
+#~ msgstr "Выделение должно быть конечным диапазоном"
+
+#~ msgid ">="
+#~ msgstr ">="
+
+#~ msgid ""
+#~ "@FUNCTION=DVARP\n"
+#~ "@SYNTAX=DVARP(database,field,criteria)\n"
+#~ "@SYNTAX=DVARP(database,field,criteria)\n"
+#~ "@DESCRIPTION=DVARP function returns the variance of a population based on "
+#~ "the entire populations. The populations consists of numbers that match "
+#~ "conditions specified. \n"
+#~ msgstr ""
+#~ "@FUNCTION=DVARP\n"
+#~ "@DESCRIPTION=Функция DVARP возвращает дисперсию генеральной совокупности на "
+#~ "основе полной совокупности. Генеральная совокупность состоит из чисел "
+#~ "удовлетворяющих указанному условию. \n"
+
+#~ msgid "Close"
+#~ msgstr "Закрыть"
+
+#~ msgid "Add..."
+#~ msgstr "Добавить..."
+
+#~ msgid "P_aste special..."
+#~ msgstr "Специальная вставка..."
+
+#~ msgid "C_olumns"
+#~ msgstr "Столбцы"
