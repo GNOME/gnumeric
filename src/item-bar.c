@@ -16,7 +16,7 @@
 #include "sheet-control-gui-priv.h"
 #include "application.h"
 #include "selection.h"
-#include "gnumeric-sheet.h"
+#include "gnumeric-canvas.h"
 #include "gnumeric-pane.h"
 #include "workbook-edit.h"
 #include "gnumeric-util.h"

@@ -13,7 +13,7 @@
 #include "item-grid.h"
 #define GNUMERIC_ITEM "GRID"
 #include "item-debug.h"
-#include "gnumeric-sheet.h"
+#include "gnumeric-canvas.h"
 #include "workbook-edit.h"
 #include "workbook-view.h"
 #include "workbook-control.h"

@@ -8,7 +8,7 @@
  */
 #include <config.h>
 #include <gnumeric-pane.h>
-#include <gnumeric-sheet.h>
+#include <gnumeric-canvas.h>
 #include <item-bar.h>
 #include <item-cursor.h>
 #include <item-edit.h>

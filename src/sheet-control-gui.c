@@ -12,7 +12,7 @@
 #include "item-bar.h"
 #define GNUMERIC_ITEM "SCG"
 #include "item-debug.h"
-#include "gnumeric-sheet.h"
+#include "gnumeric-canvas.h"
 #include "sheet.h"
 #include "sheet-merge.h"
 #include "workbook.h"

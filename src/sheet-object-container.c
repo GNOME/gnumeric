@@ -16,7 +16,7 @@
 #include "sheet.h"
 #include "gnumeric-util.h"
 #include "sheet-control-gui-priv.h" /* REMOVE when we localize the frame */
-#include "gnumeric-sheet.h"
+#include "gnumeric-canvas.h"
 #include "sheet-object-container.h"
 #include "sheet-object-widget.h"
 

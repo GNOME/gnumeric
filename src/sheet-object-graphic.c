@@ -12,7 +12,7 @@
 #include <libgnomeprint/gnome-print.h>
 #include "gnumeric.h"
 #include "sheet-control-gui.h"
-#include "gnumeric-sheet.h"
+#include "gnumeric-canvas.h"
 #include "str.h"
 #include "gnumeric-util.h"
 #include "sheet-object-graphic.h"

@@ -31,7 +31,7 @@
 #include "sheet.h"
 #include "sheet-private.h"
 #include "sheet-control-gui-priv.h"
-#include "gnumeric-sheet.h"
+#include "gnumeric-canvas.h"
 #include "sheet-object.h"
 #include "dialogs.h"
 #include "commands.h"

@@ -27,7 +27,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "eval.h"
-#include "gnumeric-sheet.h"
+#include "gnumeric-canvas.h"
 #include "sheet-control-gui.h"
 #include "sheet-object-widget.h"
 #include "sheet-object-impl.h"

@@ -21,7 +21,7 @@
 #include "item-grid.h"
 #define GNUMERIC_ITEM "EDIT"
 #include "item-debug.h"
-#include "gnumeric-sheet.h"
+#include "gnumeric-canvas.h"
 #include "sheet-control-gui-priv.h"
 #include "sheet.h"
 #include "sheet-style.h"

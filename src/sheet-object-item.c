@@ -10,7 +10,7 @@
 #include <bonobo/bonobo-ui-component.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
-#include "gnumeric-sheet.h"
+#include "gnumeric-canvas.h"
 #include "sheet-control-gui-priv.h"
 #include "workbook-control-gui-priv.h"
 #include "dialogs.h"
