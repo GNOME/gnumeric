@@ -40,20 +40,11 @@ print_hf_new (char const *left_side_format,
 	      char const *middle_format,
 	      char const *right_side_format)
 {
-	PrintHF *format;
-
-	format = g_new0 (PrintHF, 1);
-
-	if (left_side_format)
-		format->left_format = g_strdup (left_side_format);
-
-	if (middle_format)
-		format->middle_format = g_strdup (middle_format);
-
-	if (right_side_format)
-		format->right_format = g_strdup (right_side_format);
-
-	return format;
+	PrintHF *hf = g_new0 (PrintHF, 1);
+	hf->left_format   = g_strdup (left_side_format);
+	hf->middle_format = g_strdup (middle_format);
+	hf->right_format  = g_strdup (right_side_format);
+	return hf;
 }
 
 gboolean

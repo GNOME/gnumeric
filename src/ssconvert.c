@@ -30,6 +30,7 @@ static gboolean ssconvert_list_exporters = FALSE;
 static gboolean ssconvert_list_importers = FALSE;
 static gboolean ssconvert_one_file_per_sheet = FALSE;
 static char const *ssconvert_import_encoding = NULL;
+static char const *ssconvert_import_id = NULL;
 static char const *ssconvert_export_id = NULL;
 
 #ifdef WIN32
@@ -49,6 +50,8 @@ ssconvert_popt_options[] = {
 
 	{ "import-encoding", 'E', POPT_ARG_STRING, &ssconvert_import_encoding, 0,
 	  N_("Optionally specify an encoding for imported content"), N_("ENCODING")  },
+	{ "import-type", 'I', POPT_ARG_STRING, &ssconvert_import_id, 0,
+	  N_("Optionally specify which importer to use"), "ID"  },
 	{ "export-type", 'T', POPT_ARG_STRING, &ssconvert_export_id, 0,
 	  N_("Optionally specify which exporter to use"), "ID"  },
 	{ "list-exporters", '\0', POPT_ARG_NONE, &ssconvert_list_exporters, 0,
@@ -98,6 +101,7 @@ convert (char const **args, GOCmdContext *cc)
 {
 	int res = 0;
 	GnmFileSaver *fs = NULL;
+	GnmFileOpener *fo = NULL;
 	char *outfile = go_shell_arg_to_uri (args[1]);
 
 	if (ssconvert_export_id != NULL) {
@@ -137,11 +141,21 @@ convert (char const **args, GOCmdContext *cc)
 	if (outfile == NULL)
 		fprintf (stderr, _("An output file name or an explicit export type is required.\n"
 			 "Try --list-exporters to see a list of possibilities.\n"));
+	
+	if (ssconvert_import_id != NULL) {
+		fo = gnm_file_opener_for_id (ssconvert_import_id);
+		if (fo == NULL) {
+			res = 1;
+			fprintf (stderr, _("Unknown importer '%s'.\n"
+				 "Try --list-importers to see a list of possibilities.\n"),
+				 ssconvert_import_id);
+		} 
+	}
 
 	if (fs != NULL) {
 		IOContext *io_context = gnumeric_io_context_new (cc);
 		char *uri = go_shell_arg_to_uri (args[0]);
-		WorkbookView *wbv = wb_view_new_from_uri (uri, NULL,
+		WorkbookView *wbv = wb_view_new_from_uri (uri, fo,
 			io_context, ssconvert_import_encoding);
 		g_free (uri);
 		if (gnm_file_saver_get_save_scope (fs) !=
