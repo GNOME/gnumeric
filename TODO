@@ -34,7 +34,7 @@ to features that already work.
        ODDLPRICE, ODDLYIELD, VDB, YIELDDISC, and YIELDMAT.
 
    + Fix or finish the following functions :
-     - COUPDAYS, ODDFPRICE, YIELD, and DURATION
+     - ODDFPRICE, YIELD, and DURATION
 
 * Data Analysis Tools
   - Exponential smoothing

@@ -6,6 +6,8 @@ Andreas:
 	* Make the autosave dialog non-modal, port to gnome2
 	* Make the analysis tools warnings non-modal
 	* Make the autocorrect dialog non-modal, port to gnome2
+	* Fix gnome2 specific random tool crash 
+	* Destroy outadated dialogs
 
 Jody:
 	* Initial port to gnome2.

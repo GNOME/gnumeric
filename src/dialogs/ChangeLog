@@ -1,5 +1,14 @@
 2002-01-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-analysis-tools.c (sampling_tool_ok_clicked_cb) : 
+	  destroy outdated warnings dialog
+	(random_tool_ok_clicked_cb) : destroy outdated warnings dialog and 
+	  remove accel_group from window before unreferenceing it.
+	(histogram_tool_update_sensitivity_cb) : remove reference to apply 
+	  button
+	
+2002-01-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-goal-seek.c (cb_dialog_apply_clicked) : make sure
 	  cells exist (http://bugzilla.gnome.org/show_bug.cgi?id=69832)
 

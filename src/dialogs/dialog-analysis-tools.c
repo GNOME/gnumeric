@@ -1987,6 +1987,9 @@ sampling_tool_ok_clicked_cb (GtkWidget *button, SamplingState *state)
 	gint size, number;
 	gint periodic, err;
 
+	if (state->warning_dialog != NULL)
+		gtk_widget_destroy (state->warning_dialog);	
+
 	input = gnumeric_expr_entry_parse_to_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 
@@ -2464,6 +2467,9 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 	gint vars, count, err;
 	random_tool_t           param;
 
+	if (state->warning_dialog != NULL)
+		gtk_widget_destroy (state->warning_dialog);
+
         parse_output ((GenericToolState *)state, &dao);
 
 	err = entry_to_int (GTK_ENTRY (state->vars_entry), &vars, FALSE);
@@ -2511,6 +2517,8 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 	case 0:
 		if (button == state->ok_button) {
 			if (state->distribution_accel) {
+				gtk_window_remove_accel_group (GTK_WINDOW (state->dialog),
+							       state->distribution_accel);
 				gtk_accel_group_unref (state->distribution_accel);
 				state->distribution_accel = NULL;
 			}
@@ -3498,8 +3506,6 @@ histogram_tool_update_sensitivity_cb (GtkWidget *dummy, HistogramToolState *stat
         if (output_range != NULL) value_release (output_range);
 
 	ready = input_ready && bin_ready && output_ready;
-	if (state->apply_button != NULL)
-		gtk_widget_set_sensitive (state->apply_button, ready);
 	gtk_widget_set_sensitive (state->ok_button, ready);
 	return;
 }
