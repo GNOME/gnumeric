@@ -179,8 +179,9 @@ for ($i = 0; $src[$i] ne "@"; $i++) {
 	    # Use gnum_float instead of double
 	    while ($line =~s/double/gnum_float/) {}
 
-	    # Use sqrtgnum instead of sqrt
-	    while ($line =~s/sqrt\s*\(/sqrtgnum \(/) {}
+	    # Use sqrtgnum instead of sqrt, etc.
+	    $line =~ s/\b(sqrt|exp|log|pow|log1p|expm1|ceil|floor|sin|sinh|tan)(\s|$|\()/$1gnum$2/g;
+	    $line =~ s/\bfabs\b/gnumabs/g;
 
 	    # Use g_malloc instead of malloc
 	    while ($line =~s/[^u]malloc\s*\(/g_malloc \(/) {}

@@ -1,5 +1,9 @@
 2002-08-13  Morten Welinder  <terra@diku.dk>
 
+	* import-GLPK: Fix also floor, ceil, and fabs calls.
+
+2002-08-13  Morten Welinder  <terra@diku.dk>
+
 	* import-GLPK: Silence perl warnings.  Add #! line for Emacs'
 	sake.  Add gnumeric-config.h as header.  Allow white-space in a
 	lot of pattern matches.
