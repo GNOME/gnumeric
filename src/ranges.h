@@ -85,7 +85,7 @@ gboolean    range_transpose     (Range *range, CellPos const *origin);
 gboolean    range_trim		(Sheet const *sheet, Range *r,
 				 gboolean cols);
 gboolean    range_has_header    (Sheet const *sheet, Range const *src,
-				 gboolean top);
+				 gboolean top, gboolean ignore_styles);
 
 char const *range_name          (Range const *src);
 void        range_dump          (Range const *src, char const *suffix);

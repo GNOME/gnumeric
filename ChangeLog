@@ -1,3 +1,11 @@
+2001-12-13  Jody Goldberg <jody@gnome.org>
+
+	* src/ranges.c (range_has_header) : !$!%! XL uses styles to
+	  differentiate for sorting, but not for graph data guru.
+	* src/workbook-control-gui.c (sort_by_rows) : changes to
+	  range_has_header.
+	* src/gnumeric-graph.c (gnm_graph_range_to_vectors) : ditto.
+
 2001-12-12  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=66821

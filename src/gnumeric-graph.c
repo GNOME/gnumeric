@@ -812,8 +812,7 @@ gnm_graph_range_to_vectors (GnmGraph *graph,
 			    gboolean as_cols)
 {
 	int i, count;
-	gboolean const has_header =
-		range_has_header (sheet, src, as_cols);
+	gboolean has_header = range_has_header (sheet, src, as_cols, TRUE);
 	Range vector = *src;
 	CellRef header;
 

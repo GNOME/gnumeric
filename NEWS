@@ -52,7 +52,8 @@ Jody:
 	* Actually put the schema file where we say it is.
 	* More work on libxml2 compatibility.
 	* Some simple shared steps towards gnome2.
-	* Fix autofill crash ehwn shrinking regions.
+	* Fix autofill crash when shrinking regions.
+	* Make graph vector header recognition more like XL.
 
 Morten:
 	* Fix EXPRESSION crash.

@@ -2384,7 +2384,7 @@ sort_by_rows (WorkbookControlGUI *wbcg, int asc)
 	 */
 	data->top = TRUE;
 
-	if (range_has_header (data->sheet, data->range, data->top))
+	if (range_has_header (data->sheet, data->range, data->top, FALSE))
 		data->range->start.row += 1;
 
 	cmd_sort (WORKBOOK_CONTROL (wbcg), data);

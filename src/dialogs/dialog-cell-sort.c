@@ -590,8 +590,7 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	/* Set the header button and drop down boxes correctly */
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check),
-				      range_has_header (sort_flow.sheet,
-							sort_flow.sel, TRUE));
+		range_has_header (sort_flow.sheet, sort_flow.sel, TRUE, FALSE));
 
 	gtk_widget_show_all (sort_flow.clause_box);
 

@@ -250,7 +250,8 @@ range_name (Range const *src)
  * Return value: Whether or not the range has a header
  **/
 gboolean
-range_has_header (Sheet const *sheet, Range const *src, gboolean top)
+range_has_header (Sheet const *sheet, Range const *src,
+		  gboolean top, gboolean ignore_styles)
 {
 	Cell *ca, *cb;
 	Value *valuea, *valueb;
@@ -302,12 +303,14 @@ range_has_header (Sheet const *sheet, Range const *src, gboolean top)
 			}
 		}
 
-		/* Look for style differences */
-		stylea = cell_get_mstyle (ca);
-		styleb = cell_get_mstyle (cb);
+		if (!ignore_styles) {
+			/* Look for style differences */
+			stylea = cell_get_mstyle (ca);
+			styleb = cell_get_mstyle (cb);
 
-		if (!mstyle_equal (stylea, styleb))
-			return TRUE;
+			if (!mstyle_equal (stylea, styleb))
+				return TRUE;
+		}
 	}
 
 	return FALSE;

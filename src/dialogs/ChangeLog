@@ -1,3 +1,7 @@
+2001-12-13  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-sort.c (dialog_cell_sort) : changes to range_has_header.
+
 2001-12-12  Jody Goldberg <jody@gnome.org>
 
 	* dialog-cell-format.c (set_initial_focus) : const.
