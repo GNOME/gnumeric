@@ -15,6 +15,9 @@ Release Critical
 Long term breakage
 ------------------
 
+- We need some kind of style-optimizer.  (And perhaps an expression-sharing
+  optimizer.)
+
 - In selected regions the borders of cells that
   have their background color set are drawn incorrectly.
   An off-by-one pixel problem. For details see :
@@ -73,7 +76,7 @@ Long term breakage
   This would mirror the application of bold/italic/underline
 - Moreover, the above buttons ought to work.  Try "44", click $, then add
   and remove decimals.
-- While we're playing with those functions, lets add simple ones like inc/dec
+- While we're playing with those functions, let's add simple ones like inc/dec
   font size and things like that.
 
 - locale : Saving xml should not rely on changing the textdomain to
