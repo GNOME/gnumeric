@@ -73,6 +73,20 @@ color_combo_set_color_internal (ColorCombo *cc, GdkColor *color)
 }
 
 static void
+cb_screen_changed (ColorCombo *cc, GdkScreen *previous_screen)
+{
+	GtkWidget *w = GTK_WIDGET (cc);
+	GdkScreen *screen = gtk_widget_has_screen (w)
+		? gtk_widget_get_screen (w)
+		: NULL;
+
+	if (screen) {
+		GtkWidget *toplevel = gtk_widget_get_toplevel (GTK_WIDGET (cc->palette));
+		gtk_window_set_screen (GTK_WINDOW (toplevel), screen);
+	}
+}
+
+static void
 color_combo_class_init (GObjectClass *object_class)
 {
 	color_combo_parent_class = g_type_class_ref (PARENT_TYPE);
@@ -222,6 +236,7 @@ color_combo_construct (ColorCombo *cc, GdkPixbuf *icon,
 
 	gtk_container_add (GTK_CONTAINER (cc->preview_button), GTK_WIDGET (cc->preview_canvas));
 	gtk_widget_set_size_request (GTK_WIDGET (cc->preview_canvas), 24, 22);
+	g_signal_connect (G_OBJECT (cc), "screen-changed", G_CALLBACK (cb_screen_changed), NULL);
 	g_signal_connect (cc->preview_button, "clicked",
 			  G_CALLBACK (preview_clicked), cc);
 
@@ -266,7 +281,7 @@ color_combo_set_color (ColorCombo *cc, GdkColor *color)
 	 * changed
 	 */
 	if (color != NULL)
-		gdk_rgb_find_color (gtk_widget_get_colormap (GTK_WIDGET (cc)), color);
+		{ gdk_colormap_alloc_color (gtk_widget_get_colormap (GTK_WIDGET (cc)), color, FALSE, TRUE); gdk_colormap_query_color (gtk_widget_get_colormap (GTK_WIDGET (cc)), color->pixel, color); }
 	color_palette_set_current_color (cc->palette, color);
 }
 
@@ -292,14 +307,14 @@ color_combo_set_color_to_default (ColorCombo *cc)
  */
 GtkWidget *
 color_combo_new (GdkPixbuf *icon, char const *no_color_label,
-		 GdkColor *default_color,
+		 const GdkColor *default_color,
 		 ColorGroup *color_group)
 {
 	ColorCombo *cc;
 
 	cc = g_object_new (COLOR_COMBO_TYPE, NULL);
 
-        cc->default_color = default_color;
+        cc->default_color = default_color ? (cc->default_color_save = *default_color), &cc->default_color_save : NULL;
 
 	color_combo_construct (cc, icon, no_color_label, color_group);
 

@@ -50,6 +50,7 @@ typedef struct _ColorCombo {
 	GnomeCanvasItem *preview_color_item;
 	ColorPalette    *palette;
 
+	GdkColor  default_color_save;
         GdkColor *default_color;
 	gboolean  trigger;
 } ColorCombo;
@@ -70,7 +71,7 @@ typedef struct {
 GtkType    color_combo_get_type   (void);
 GtkWidget *color_combo_new        (GdkPixbuf   *icon,
 				   char  const *no_color_label,
-				   GdkColor    *default_color,
+				   const GdkColor    *default_color,
 				   ColorGroup  *color_group);
 void       color_combo_set_color  (ColorCombo  *cc,
 				   GdkColor    *color);

@@ -203,7 +203,8 @@ cust_color_set (GtkWidget  *color_picker, guint r, guint g, guint b, guint a,
 	c_color.green = (gushort)g;
 	c_color.blue  = (gushort)b;
 
-	gdk_rgb_find_color (gtk_widget_get_colormap (color_picker), &c_color);
+	gdk_colormap_alloc_color (gtk_widget_get_colormap (color_picker), &c_color, FALSE, TRUE);
+	gdk_colormap_query_color (gtk_widget_get_colormap (color_picker), c_color.pixel, &c_color);
 	emit_color_changed (P, &c_color, TRUE, TRUE, FALSE);
 }
 
