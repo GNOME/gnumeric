@@ -45,6 +45,7 @@ int ms_excel_write_debug   = 0;
 int ms_excel_formula_debug = 0;
 int ms_excel_color_debug   = 0;
 int ms_excel_chart_debug   = 0;
+extern int ms_excel_object_debug;
 extern int gnumeric_debugging;
 
 /* Forward references */
@@ -54,10 +55,11 @@ static void        ms_excel_workbook_attach (ExcelWorkbook *wb,
 					     ExcelSheet *ans);
 
 void
-ms_excel_unexpected_biff (BiffQuery *q, char const *const state)
+ms_excel_unexpected_biff (BiffQuery *q, char const *state,
+			  int debug_level)
 {
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 0) {
+	if (debug_level > 0) {
 		printf ("Unexpected Opcode in %s : 0x%x, length 0x%x\n",
 			state, q->opcode, q->length);
 		if (ms_excel_read_debug > 2)
@@ -191,7 +193,7 @@ biff_get_text (const guint8 *pos, guint32 length, guint32 *byte_length)
 	}
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 1) {
+	if (ms_excel_read_debug > 5) {
 		printf ("String :\n");
 		ms_ole_dump (pos, length+1);
 	}
@@ -1889,7 +1891,7 @@ biff_xf_data_destroy (BiffXFData *xf)
 static void
 ms_excel_sheet_set_version (ExcelSheet *sheet, MsBiffVersion ver)
 {
-	sheet->ver = ver;
+	sheet->container.ver = ver;
 }
 
 static void
@@ -2208,16 +2210,201 @@ ms_excel_sheet_shared_formula (ExcelSheet *sheet, int const col, int const row)
 	return g_hash_table_lookup (sheet->shared_formulae, &k);
 }
 
+/**
+ * ms_sheet_obj_anchor_to_pos:
+ * @points	Array which receives anchor coordinates in points
+ * @obj         The object
+ * @sheet	The sheet
+ *
+ * Converts anchor coordinates in Excel units to points. Anchor
+ * coordinates are x and y of upper left and lower right corner. Each
+ * is expressed as a pair: Row/cell number + position within cell as
+ * fraction of cell dimension.
+ *
+ * NOTE: According to docs, position within cell is expressed as
+ * 1/1024 of cell dimension. However, this doesn't seem to be true
+ * vertically, for Excel 97. We use 256 for >= XL97 and 1024 for
+ * preceding.
+  */
+static gboolean
+ms_sheet_obj_anchor_to_pos (double pixels[4], guint8 const *raw_anchor,
+			    Sheet const * sheet, MsBiffVersion const ver)
+
+{
+	float const row_denominator = (ver >= MS_BIFF_V8) ? 256. : 1024.;
+	int	i;
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_object_debug > 0)
+		printf ("%s\n", sheet->name_unquoted);
+#endif
+
+	/* Ignore the first 2 bytes.  What are they ? */
+	raw_anchor += 2;
+
+	/* Words 0, 4, 8, 12 : The row/col of the corners */
+	/* Words 2, 6, 10, 14 : distance from cell edge */
+
+	for (i = 0; i < 4; i++, raw_anchor += 4) {
+		int const pos  = MS_OLE_GET_GUINT16 (raw_anchor);
+		int const nths = MS_OLE_GET_GUINT16 (raw_anchor + 2);
+
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_object_debug > 1) {
+			printf ("%d/%d cell %s from ",
+				nths, (i & 1) ? 256 : 1024,
+				(i & 1) ? "heights" : "widths");
+			if (i & 1)
+				printf ("row %d;\n", pos + 1);
+			else
+				printf ("col %s (%d);\n", col_name(pos), pos);
+		}
+#endif
+
+		if (i & 1) { /* odds are rows */
+			ColRowInfo const *ri = sheet_row_get_info (sheet, pos);
+
+			/* warning logged elsewhere */
+			if (ri == NULL)
+				return TRUE;
+
+			pixels[i] = ri->size_pixels;
+			pixels[i] *= nths / row_denominator;
+			pixels[i] += sheet_row_get_distance_pixels (sheet, 0, pos);
+
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_object_debug > 0)
+				printf ("%d + %d\n", pos+1, nths);
+#endif
+		} else {
+			ColRowInfo const *ci = sheet_col_get_info (sheet, pos);
+
+			/* warning logged elsewhere */
+			if (ci == NULL)
+				return TRUE;
+
+			pixels[i] = ci->size_pixels;
+			pixels[i] *= nths / 1024.;
+			pixels[i] += sheet_col_get_distance_pixels (sheet, 0, pos);
+
+#ifndef NO_DEBUG_EXCEL
+			if (ms_excel_object_debug > 0)
+				printf ("%s + %d\n", col_name(pos), nths);
+#endif
+		}
+	}
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_object_debug > 0)
+		printf ("Anchor position in pixels"
+			" left = %g, top = %g, right = %g, bottom = %g;\n",
+			pixels[0], pixels[1], pixels[2], pixels[3]);
+#endif
+
+	return FALSE;
+}
+
+static gboolean
+ms_sheet_obj_realize (MSObj *obj, MSContainer *container)
+{
+	double   position[4];
+	ExcelSheet *sheet;
+
+	if (obj == NULL)
+		return TRUE;
+
+	g_return_val_if_fail (container != NULL, TRUE);
+	g_return_val_if_fail (obj->anchor_set, TRUE);
+
+	sheet = (ExcelSheet *)container; 
+
+	if (ms_sheet_obj_anchor_to_pos (position, obj->raw_anchor,
+					sheet->gnum_sheet,
+					container->ver))
+		return TRUE;
+
+	/* Handle Comments */
+	if (container->ver >= MS_BIFF_V8 && obj->excel_type == 0x19) {
+	}
+
+	switch (obj->gnumeric_type) {
+	case SHEET_OBJECT_BUTTON :
+		sheet_object_create_button (sheet->gnum_sheet,
+					    position[0], position[1],
+					    position[2], position[3]);
+		break;
+
+	case SHEET_OBJECT_CHECKBOX :
+		sheet_object_create_checkbox (sheet->gnum_sheet,
+					      position[0], position[1],
+					      position[2], position[3]);
+		break;
+
+	case SHEET_OBJECT_BOX :
+		sheet_object_realize (
+		sheet_object_create_filled (sheet->gnum_sheet,
+					    SHEET_OBJECT_BOX,
+					    position[0], position[1],
+					    position[2], position[3],
+					    "white", "black", 1));
+		break;
+
+	case SHEET_OBJECT_GRAPHIC : /* If this was a picture */
+	{
+		int blip_id;
+		GPtrArray const * blips = container->blips;
+		MSEscherBlip *blip = NULL;
+#ifdef ENABLE_BONOBO
+		SheetObject  *so;
+#endif
+
+		blip_id = obj->v.picture.blip_id;
+
+		g_return_val_if_fail (blip_id >= 0, FALSE);
+		g_return_val_if_fail (blips != NULL, FALSE);
+		g_return_val_if_fail (blip_id < blips->len, FALSE);
+
+		blip = g_ptr_array_index (blips, blip_id);
+
+		g_return_val_if_fail (blip != NULL, FALSE);
+
+#ifdef ENABLE_BONOBO
+		g_return_val_if_fail (blip->stream != NULL, FALSE);
+		g_return_val_if_fail (blip->repo_id != NULL, FALSE);
+		so = sheet_object_container_new_object (
+			sheet->gnum_sheet,
+			position[0], position[1],
+			position[2], position[3],
+			blip->repo_id);
+		if (!sheet_object_bonobo_load (SHEET_OBJECT_BONOBO (so), blip->stream))
+			g_warning ("Failed to load '%s' from stream",
+				   blip->repo_id);
+#endif
+	}
+	break;
+
+	default :
+	break;
+	};
+
+	return FALSE;
+}
+
 static ExcelSheet *
 ms_excel_sheet_new (ExcelWorkbook *wb, const char *name)
 {
+	static MSContainerClass const vtbl = {
+	    &ms_sheet_obj_realize
+	};
+
 	ExcelSheet *ans = (ExcelSheet *) g_malloc (sizeof (ExcelSheet));
 
 	ans->gnum_sheet = sheet_new (wb->gnum_wb, name);
-
 	sheet_set_zoom_factor (ans->gnum_sheet, 1.);
+
+	ms_container_init (&ans->container, &vtbl);
+
 	ans->wb         = wb;
-	ans->obj_queue  = NULL;
 
 	ans->shared_formulae =
 	    g_hash_table_new ((GHashFunc)biff_shared_formula_hash,
@@ -2291,16 +2478,19 @@ ms_excel_sheet_append_comment (ExcelSheet *sheet, const char *text)
 static void
 ms_excel_sheet_destroy (ExcelSheet *sheet)
 {
-	g_hash_table_foreach_remove (sheet->shared_formulae,
-				     (GHRFunc)biff_shared_formula_destroy,
-				     sheet);
-	g_hash_table_destroy (sheet->shared_formulae);
-	sheet->shared_formulae = NULL;
+	if (sheet->shared_formulae != NULL) {
+		g_hash_table_foreach_remove (sheet->shared_formulae,
+					     (GHRFunc)biff_shared_formula_destroy,
+					     sheet);
+		g_hash_table_destroy (sheet->shared_formulae);
+		sheet->shared_formulae = NULL;
+	}
 
-	if (sheet->gnum_sheet)
+	if (sheet->gnum_sheet) {
 		sheet_destroy (sheet->gnum_sheet);
-	sheet->gnum_sheet = NULL;
-	ms_excel_sheet_destroy_objs (sheet);
+		sheet->gnum_sheet = NULL;
+	}
+	ms_container_finalize (&sheet->container);
 
 	g_free (sheet);
 }
@@ -2308,7 +2498,13 @@ ms_excel_sheet_destroy (ExcelSheet *sheet)
 static ExcelWorkbook *
 ms_excel_workbook_new (MsBiffVersion ver)
 {
+	static MSContainerClass const vtbl = {
+	};
+
 	ExcelWorkbook *ans = (ExcelWorkbook *) g_malloc (sizeof (ExcelWorkbook));
+
+	ms_container_init (&ans->container, &vtbl);
+	ans->container.ver = ver;
 
 	ans->extern_sheets = NULL;
 	ans->gnum_wb = NULL;
@@ -2322,12 +2518,10 @@ ms_excel_workbook_new (MsBiffVersion ver)
 	ans->excel_sheets     = g_ptr_array_new ();
 	ans->XF_cell_records  = g_ptr_array_new ();
 	ans->name_data        = g_ptr_array_new ();
-	ans->blips            = g_ptr_array_new ();
 	ans->charts           = g_ptr_array_new ();
 	ans->format_data      = g_hash_table_new ((GHashFunc)biff_guint16_hash,
 						  (GCompareFunc)biff_guint16_equal);
 	ans->palette          = ms_excel_default_palette ();
-	ans->ver              = ver;
 	ans->global_strings   = NULL;
 	ans->global_string_max  = 0;
 	ans->read_drawing_group = 0;
@@ -2394,11 +2588,6 @@ ms_excel_workbook_destroy (ExcelWorkbook *wb)
 			biff_name_data_destroy (g_ptr_array_index (wb->name_data, lp));
 	g_ptr_array_free (wb->name_data, TRUE);
 
-	for (lp = 0; lp < wb->blips->len; lp++)
-		ms_escher_blip_destroy (g_ptr_array_index(wb->blips, lp));
-	g_ptr_array_free (wb->blips, TRUE);
-	wb->blips = NULL;
-
 	for (lp = 0; lp < wb->charts->len; lp++)
 		gnumeric_chart_destroy (g_ptr_array_index(wb->charts, lp));
 	g_ptr_array_free (wb->charts, TRUE);
@@ -2427,6 +2616,7 @@ ms_excel_workbook_destroy (ExcelWorkbook *wb)
 		g_free (wb->global_strings);
 	}
 
+	ms_container_finalize (&wb->container);
 	g_free (wb);
 }
 
@@ -2497,11 +2687,11 @@ ms_excel_read_name (BiffQuery *q, ExcelSheet *sheet)
 #endif
 	/* FIXME FIXME FIXME : Offsets have moved alot between versions.
 	 *                     track down the details */
-	if (sheet->ver >= MS_BIFF_V8) {
+	if (sheet->container.ver >= MS_BIFF_V8) {
 		name_def_len   = MS_OLE_GET_GUINT16 (q->data + 4);
 		name_def_data  = q->data + 15 + name_len;
 		ptr = q->data + 14;
-	} else if (sheet->ver >= MS_BIFF_V7) {
+	} else if (sheet->container.ver >= MS_BIFF_V7) {
 		name_def_len   = MS_OLE_GET_GUINT16 (q->data + 4);
 		name_def_data  = q->data + 14 + name_len;
 		ptr = q->data + 14;
@@ -2594,7 +2784,7 @@ ms_excel_externname (BiffQuery *q, ExcelSheet *sheet)
 	char const *name;
 	guint8 *defn;
 	guint16 defnlen;
-	if (sheet->ver >= MS_BIFF_V7) {
+	if (sheet->container.ver >= MS_BIFF_V7) {
 		guint16 flags = MS_OLE_GET_GUINT8(q->data);
 		guint32 namelen = MS_OLE_GET_GUINT8(q->data+6);
 
@@ -2837,7 +3027,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		}
 
 		default :
- 			ms_excel_unexpected_biff (q, "Cell");
+ 			ms_excel_unexpected_biff (q, "Cell", ms_excel_read_debug);
 		};
 		return;
 	}
@@ -3083,7 +3273,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 			break;
 		}
 		default:
- 			ms_excel_unexpected_biff (q, "Cell");
+ 			ms_excel_unexpected_biff (q, "Cell", ms_excel_read_debug);
 			break;
 		}
 	}
@@ -3309,8 +3499,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 			return TRUE;
 
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
-			sheet->obj_queue = g_list_append (sheet->obj_queue,
-							  ms_read_OBJ (q, wb, sheet));
+			ms_read_OBJ (q, &sheet->container);
 			break;
 
 		case BIFF_SELECTION:
@@ -3320,7 +3509,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 		case BIFF_MS_O_DRAWING:
 		case BIFF_MS_O_DRAWING_GROUP:
 		case BIFF_MS_O_DRAWING_SELECTION:
-			ms_escher_parse (q, wb, sheet);
+			ms_escher_parse (q, &sheet->container);
 			break;
 
 		case BIFF_NOTE: /* See: S59DAB.HTM */
@@ -3328,7 +3517,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 			/* FIXME : ick, need a somewhat less */
 			guint16 row = EX_GETROW(q);
 			guint16 col = EX_GETCOL(q);
-			if (sheet->ver >= MS_BIFF_V8) {
+			if (sheet->container.ver >= MS_BIFF_V8) {
 				guint16 options = MS_OLE_GET_GUINT16(q->data+4);
 				guint16 obj_id  = MS_OLE_GET_GUINT16(q->data+6);
 				guint16 author_len = MS_OLE_GET_GUINT16(q->data+8);
@@ -3772,7 +3961,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 				break;
 
 			default:
-				ms_excel_unexpected_biff (q,"Workbook");
+				ms_excel_unexpected_biff (q,"Workbook", ms_excel_read_debug);
 			}
 			continue;
 		}
@@ -3821,7 +4010,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 
 					ms_excel_sheet_set_version (sheet, ver->version);
 					if (ms_excel_read_sheet (sheet, q, wb)) {
-						ms_excel_sheet_realize_objs (sheet);
+						ms_container_realize_objs (&sheet->container);
 
 #if 0
 						/* DO NOT DO THIS.
@@ -3836,8 +4025,6 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 					} else
 						kill = TRUE;
 
-					ms_excel_sheet_destroy_objs (sheet);
-
 					if (kill) {
 #ifndef NO_DEBUG_EXCEL
 						if (ms_excel_read_debug > 1)
@@ -3850,7 +4037,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 					current_sheet++;
 				}
 			} else if (ver->type == MS_BIFF_TYPE_Chart)
-				ms_excel_chart (q, wb, NULL, ver);
+				ms_excel_chart (q, &wb->container, ver);
 			else if (ver->type == MS_BIFF_TYPE_VBModule ||
 				 ver->type == MS_BIFF_TYPE_Macrosheet) {
 				/* Skip contents of Module, or MacroSheet */
@@ -4038,7 +4225,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 			/* Create a pseudo-sheet */
 			ExcelSheet sheet;
 			sheet.wb = wb;
-			sheet.ver = ver->version;
+			sheet.container.ver = ver->version;
 			sheet.gnum_sheet = NULL;
 			sheet.shared_formulae = NULL;
 			if (q->ls_op == (BIFF_EXTERNNAME&0xff))
@@ -4132,10 +4319,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 			break;
 
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
-			/* FIXME : What does it mean to have an object
-			 * outside a sheet ???? */
-			ms_obj_realize(ms_read_OBJ (q, wb, NULL),
-				       wb, NULL);
+			ms_read_OBJ (q, &wb->container);
 			break;
 
 		case BIFF_SCL :
@@ -4144,7 +4328,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 		case BIFF_MS_O_DRAWING:
 		case BIFF_MS_O_DRAWING_GROUP:
 		case BIFF_MS_O_DRAWING_SELECTION:
-			ms_escher_parse (q, wb, NULL);
+			ms_escher_parse (q, &wb->container);
 			break;
 
 		case BIFF_ADDMENU :
@@ -4158,7 +4342,7 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 			break;
 
 		default:
-			ms_excel_unexpected_biff (q,"Workbook");
+			ms_excel_unexpected_biff (q,"Workbook", ms_excel_read_debug);
 			break;
 		}
 		/* NO Code here unless you modify the handling

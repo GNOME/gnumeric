@@ -11,14 +11,15 @@
 
 #include "ms-biff.h"
 #include "ms-excel-biff.h"
+#include "ms-container.h"
 
 typedef struct _ExcelSheet
 {
+	MSContainer container;
+
 	Sheet *gnum_sheet;
 	struct _ExcelWorkbook *wb;
-	MsBiffVersion ver;
 	GHashTable *shared_formulae;
-	GList *obj_queue;
 	Range  style_optimize;
 	double base_char_width;
 	double base_char_width_default;
@@ -86,6 +87,8 @@ typedef struct _BiffFormatData {
 
 typedef struct _ExcelWorkbook
 {
+	MSContainer container;
+
 	GPtrArray           *excel_sheets;
 	GHashTable          *boundsheet_data_by_stream;
 	GHashTable          *boundsheet_data_by_index;
@@ -99,10 +102,8 @@ typedef struct _ExcelWorkbook
 	ExcelPalette        *palette;
 	char               **global_strings;
 	int                  global_string_max;
-	MsBiffVersion        ver;
 
 	/* Indexed in the order they are read */
-	GPtrArray	    *blips;
 	GPtrArray           *charts;
 
 	/**
@@ -125,7 +126,8 @@ extern StyleColor * ms_excel_palette_get (ExcelPalette const *pal, gint idx);
 
 /* A utility routine to handle unexpected BIFF records */
 extern void          ms_excel_unexpected_biff (BiffQuery *q,
-					       char const * const state);
+					       char const *state,
+					       int debug_level);
 
 extern int ms_excel_read_debug;
 extern int ms_excel_formula_debug;

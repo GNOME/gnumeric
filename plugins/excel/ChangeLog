@@ -1,3 +1,15 @@
+2000-07-13  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-container.c : Beginings of a some support for workbooks, and charts holding objects.
+	  Blips should become objects.
+
+	* *.c : adjust to using the container abstraction.
+
+2000-07-08  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-formula-read.c (make_function) : Move the place holder handling
+	  into the core.
+
 2000-07-12  Michael Meeks  <michael@helixcode.com>
 
 	* ms-escher.c (ms_escher_blip_destroy): unref not destroy bonobo object.

@@ -22,16 +22,12 @@
 
 #include "ms-excel-read.h"
 
-typedef struct
-{
-	int pos;		/* Cell or row number */
-	int nths;		/* No of 1/1024th, 1/256th */
-} anchor_point;
+#define MS_ANCHOR_SIZE	18
 
-typedef struct
+struct _MSObj
 {
 	/* In pixels */
-	anchor_point anchor[4];
+	guint8	raw_anchor[MS_ANCHOR_SIZE];
 	gboolean anchor_set;
 
 	int id;
@@ -44,19 +40,10 @@ typedef struct
 			int blip_id;
 		} picture;
 	} v;
-} MSObj;
+};
 
-gboolean ms_parse_object_anchor (anchor_point pos[4],
-				 Sheet  const * sheet,
-				 guint8 const * data);
-
-gboolean ms_obj_realize(MSObj * obj,
-			ExcelWorkbook  *wb, ExcelSheet * sheet);
-
-void     ms_excel_sheet_realize_objs (ExcelSheet *sheet);
-void     ms_excel_sheet_destroy_objs (ExcelSheet *sheet);
-
-MSObj   *ms_read_OBJ (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet);
-char    *ms_read_TXO (BiffQuery *q, ExcelWorkbook * wb);
+MSObj *ms_read_OBJ    (BiffQuery *q, MSContainer *container);
+void   ms_destroy_OBJ (MSObj *obj);
+char  *ms_read_TXO    (BiffQuery *q);
 
 #endif /* GNUMERIC_MS_OBJ_H */

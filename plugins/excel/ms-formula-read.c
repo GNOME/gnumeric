@@ -632,40 +632,6 @@ make_inter_sheet_ref_v7 (ExcelWorkbook *wb, guint16 extn_idx,
 	}
 }
 
-/* Handle unknown functions on import without losing their names */
-static Value *
-unknownFunctionHandler (FunctionEvalInfo *ei, GList *expr_node_list)
-{
-	return value_new_error (ei->pos, gnumeric_err_NAME);
-}
-
-static FunctionDefinition *
-excel_formula_build_dummy_handler(char const * const name,
-				  char const * const type)
-{
-	FunctionCategory *cat;
-	FunctionDefinition *func = func_lookup_by_name (name, NULL);
-
-	g_return_val_if_fail (func == NULL, func);
-
-	cat = function_get_category (_("Unknown Function"));
-
-	/*
-	 * TODO TODO TODO : should add a
-	 *    function_add_{nodes,args}_fake
-	 * This will allow a user to load a missing
-	 * plugin to supply missing functions.
-	 */
-	func = function_add_nodes (cat, g_strdup (name),
-				   "", "...", NULL,
-				   &unknownFunctionHandler);
-
-	/* WISHLIST : it would be nice to have a log if these. */
-	g_warning ("EXCEL unknown %sfunction : %s", type, name);
-
-	return func;
-}
-
 static gboolean
 make_function (ParseList **stack, int fn_idx, int numargs)
 {
@@ -703,7 +669,7 @@ make_function (ParseList **stack, int fn_idx, int numargs)
 		/* FIXME : Add support for workbook local functions */
 		name = func_lookup_by_name (f_name, NULL);
 		if (name == NULL)
-			name = excel_formula_build_dummy_handler(f_name, "");
+			name = function_add_placeholder (f_name, "");
 
 		expr_tree_unref (tmp);
 		parse_list_push (stack, expr_tree_new_funcall (name, args));
@@ -738,8 +704,7 @@ make_function (ParseList **stack, int fn_idx, int numargs)
 		if (fd->prefix) {
 			name = func_lookup_by_name (fd->prefix, NULL);
 			if (name == NULL)
-				name = excel_formula_build_dummy_handler(fd->prefix,
-									 "Builtin ");
+				name = function_add_placeholder (fd->prefix, "Builtin ");
 		}
 		/* This should not happen */
 		if (!name) {
@@ -828,7 +793,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 		case FORMULA_PTG_REF:
 		{
 			CellRef *ref=0;
-			if (wb->ver >= MS_BIFF_V8)
+			if (wb->container.ver >= MS_BIFF_V8)
 			{
 				ref = getRefV8 (MS_OLE_GET_GUINT16(cur),
 						MS_OLE_GET_GUINT16(cur + 2),
@@ -851,7 +816,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			guint16 extn_name_idx; /* 1 based */
 			guint16 extn_sheet_idx;
 
-			if (wb->ver == MS_BIFF_V8) {
+			if (wb->container.ver == MS_BIFF_V8) {
 				extn_sheet_idx = MS_OLE_GET_GUINT16(cur) ;
 				extn_name_idx  = MS_OLE_GET_GUINT16(cur+2) ;
 /*				printf ("FIXME: v8 NameX : %d %d\n", extn_sheet_idx, extn_name_idx) ; */
@@ -870,7 +835,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 		case FORMULA_PTG_REF_3D: /* see S59E2B.HTM */
 		{
 			CellRef *ref=0;
-			if (wb->ver >= MS_BIFF_V8) {
+			if (wb->container.ver >= MS_BIFF_V8) {
 				guint16 extn_idx = MS_OLE_GET_GUINT16 (cur) ;
 				ref = getRefV8 (MS_OLE_GET_GUINT16 (cur + 2),
 						MS_OLE_GET_GUINT16 (cur + 4),
@@ -898,7 +863,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 		{
 			CellRef *first=0, *last=0 ;
 
-			if (wb->ver >= MS_BIFF_V8) {
+			if (wb->container.ver >= MS_BIFF_V8) {
 				guint16 extn_idx = MS_OLE_GET_GUINT16(cur) ;
 
 				first = getRefV8 (MS_OLE_GET_GUINT16(cur+2),
@@ -934,7 +899,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 		case FORMULA_PTG_AREA:
 		{
 			CellRef *first=0, *last=0 ;
-			if (wb->ver >= MS_BIFF_V8) {
+			if (wb->container.ver >= MS_BIFF_V8) {
 				first = getRefV8 (MS_OLE_GET_GUINT16(cur+0),
 						  MS_OLE_GET_GUINT16(cur+4),
 						  fn_col, fn_row, shared) ;
@@ -988,7 +953,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 						guint32 len;
 						char *str;
 
-						if (wb->ver >= MS_BIFF_V8) { /* Cunningly not mentioned in spec. ! */
+						if (wb->container.ver >= MS_BIFF_V8) { /* Cunningly not mentioned in spec. ! */
 							str = biff_get_text (array_data+3,
 									     MS_OLE_GET_GUINT16(array_data+1),
 									     &len);
@@ -1052,7 +1017,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 		{
 			gint32 name_idx ; /* 1 based */
 
-			if (wb->ver >= MS_BIFF_V8) {
+			if (wb->container.ver >= MS_BIFF_V8) {
 				name_idx = MS_OLE_GET_GUINT16 (cur) - 1;
 				ptg_length = 4;  /* Docs are wrong, no ixti */
 			} else {
@@ -1290,7 +1255,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 const *mem,
 			char *str;
 			guint32 len;
 /*			ms_ole_dump (mem, length) ;*/
-			if (wb->ver >= MS_BIFF_V8)
+			if (wb->container.ver >= MS_BIFF_V8)
 			{
 				str = biff_get_text (cur+2, MS_OLE_GET_GUINT16(cur), &len) ;
 				ptg_length = 2 + len ;

@@ -22,9 +22,8 @@
 /* A storage accumulator for common state information */
 typedef struct
 {
-	ExcelWorkbook  *wb;
-	ExcelSheet     *sheet;
-	BiffQuery      *q;
+	MSContainer	*container;
+	BiffQuery	*q;
 
 	guint32	segment_len;	/* number of bytes in current segment */
 
@@ -42,20 +41,20 @@ typedef struct _MSEscherHeader
 	guint32	len; /* Including the common header */
 
 	guint32	offset;
-	struct _MSEscherHeader * container;
+	struct _MSEscherHeader *container;
 
 	/* TODO : decide were to put these cause they dont belong here */
 	gboolean     anchor_set;
-	anchor_point anchor[4];
+	guint8	raw_anchor[MS_ANCHOR_SIZE];
 	int blip_id;
 } MSEscherHeader;
 #define common_header_len 8
 
 static void
 ms_escher_blip_new (const guint8 *data, guint32 len, char const *repoid,
-		    ExcelWorkbook * wb)
+		    MSContainer *container)
 {
-	EscherBlip *blip = g_new (EscherBlip, 1);
+	MSEscherBlip *blip = g_new (MSEscherBlip, 1);
 #ifndef ENABLE_BONOBO
 	guint8 *mem      = g_malloc (len);
 	memcpy (mem, data, len);
@@ -67,11 +66,11 @@ ms_escher_blip_new (const guint8 *data, guint32 len, char const *repoid,
 #else
 	blip->raw_data = mem;
 #endif
-	g_ptr_array_add (wb->blips, blip);
+	ms_container_add_blip (container, blip);
 }
 
 void
-ms_escher_blip_destroy (EscherBlip *blip)
+ms_escher_blip_destroy (MSEscherBlip *blip)
 {
 	blip->repo_id = NULL;
 #ifdef ENABLE_BONOBO
@@ -201,7 +200,7 @@ ms_escher_get_data (MSEscherState * state,
 }
 
 static gboolean
-ms_escher_read_container (MSEscherState * state, MSEscherHeader * container,
+ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 			  gint offset);
 
 /****************************************************************************/
@@ -405,7 +404,7 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 #else
 		repoid = "embeddable:image-generic";
 #endif
-		ms_escher_blip_new (data, h->len - header, repoid, state->wb);
+		ms_escher_blip_new (data, h->len - header, repoid, state->container);
 
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 1)
@@ -653,77 +652,78 @@ ms_escher_read_ChildAnchor (MSEscherState * state, MSEscherHeader * h)
  * WARNING : this is host specific and only works for Excel
  */
 static gboolean
-ms_escher_read_ClientAnchor (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_ClientAnchor (MSEscherState *state, MSEscherHeader *h)
 {
-	gboolean needs_free, res = TRUE;
+	gboolean needs_free;
 	const guint8 *data;
 
 	g_return_val_if_fail (!h->anchor_set, TRUE);
+	g_return_val_if_fail (state != NULL, TRUE);
+	g_return_val_if_fail (state->container != NULL, TRUE);
 
-	/* FIXME : What is the the word at offset 0 ?? Maybe a sheet index ? */
-	data = ms_escher_get_data (state, h->offset, 16,
-				   common_header_len+2, &needs_free);
+	data = ms_escher_get_data (state, h->offset, MS_ANCHOR_SIZE,
+				   common_header_len, &needs_free);
 	if (data) {
 		h->anchor_set = TRUE;
-		res = ms_parse_object_anchor (h->anchor,
-					      state->sheet->gnum_sheet, data);
+		memcpy (h->raw_anchor, data, MS_ANCHOR_SIZE);
 		if (needs_free)
 			g_free ((guint8 *)data);
+		return FALSE;
 	}
 
-	return res;
+	return TRUE;
 }
 
 static gboolean
-ms_escher_read_OleObject (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_OleObject (MSEscherState *state, MSEscherHeader *h)
 {
 	return FALSE;
 }
 static gboolean
-ms_escher_read_DeletedPspl (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_DeletedPspl (MSEscherState *state, MSEscherHeader *h)
 {
 	return FALSE;
 }
 static gboolean
-ms_escher_read_SolverContainer (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_SolverContainer (MSEscherState *state, MSEscherHeader *h)
 {
 	return FALSE;
 }
 static gboolean
-ms_escher_read_ConnectorRule (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_ConnectorRule (MSEscherState *state, MSEscherHeader *h)
 {
 	return FALSE;
 }
 static gboolean
-ms_escher_read_AlignRule (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_AlignRule (MSEscherState *state, MSEscherHeader *h)
 {
 	return FALSE;
 }
 static gboolean
-ms_escher_read_ArcRule (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_ArcRule (MSEscherState *state, MSEscherHeader *h)
 {
 	return FALSE;
 }
 static gboolean
-ms_escher_read_ClientRule (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_ClientRule (MSEscherState *state, MSEscherHeader *h)
 {
 	return FALSE;
 }
 static gboolean
-ms_escher_read_CalloutRule (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_CalloutRule (MSEscherState *state, MSEscherHeader *h)
 {
 	return FALSE;
 }
 static gboolean
-ms_escher_read_Selection (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_Selection (MSEscherState *state, MSEscherHeader *h)
 {
 	return FALSE;
 }
 static gboolean
-ms_escher_read_Dg (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_Dg (MSEscherState *state, MSEscherHeader *h)
 {
 #if 0
-	const guint8 * data = h->data + common_header_len;
+	guint8 const *data = h->data + common_header_len;
 	guint32 num_shapes = MS_OLE_GET_GUINT32(data);
 	/* spid_cur = last SPID given to an SP in this DG :-)  */
 	guint32 spid_cur   = MS_OLE_GET_GUINT32(data+4);
@@ -736,7 +736,7 @@ ms_escher_read_Dg (MSEscherState * state, MSEscherHeader * h)
 }
 
 static gboolean
-ms_escher_read_Dgg (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_Dgg (MSEscherState *state, MSEscherHeader *h)
 {
 #if 0
 	typedef struct {
@@ -782,11 +782,11 @@ typedef struct
 
 typedef enum
 {
-    shape_Lines = 0,        /*  straight line segments */
-    shape_LinesClosed = 1,  /*  closed polygonal shape */
-    shape_Curves = 2,       /*  Bezier curve segments */
-    shape_CurvesClosed = 3, /*  A closed shape with curved edges */
-    shape_Complex = 4,      /*  pSegmentInfo must be non-empty */
+    shape_Lines = 0,        /* straight line segments */
+    shape_LinesClosed = 1,  /* closed polygonal shape */
+    shape_Curves = 2,       /* Bezier curve segments */
+    shape_CurvesClosed = 3, /* A closed shape with curved edges */
+    shape_Complex = 4,      /* pSegmentInfo must be non-empty */
 } ShapePath;
 
 typedef enum
@@ -800,17 +800,17 @@ typedef enum
 
 typedef enum
 {
-    bw_Color = 0,          /*  only used for predefined shades */
-    bw_Automatic = 1,      /*  depends on object type */
-    bw_GrayScale = 2,      /*  shades of gray only */
-    bw_LightGrayScale = 3, /*  shades of light gray only */
-    bw_InverseGray = 4,    /*  dark gray mapped to light gray, etc. */
-    bw_GrayOutline = 5,    /*  pure gray and white */
-    bw_BlackTextLine = 6,  /*  black text and lines, all else grayscale */
-    bw_HighContrast = 7,   /*  pure black and white mode (no grays) */
-    bw_Black = 7,          /*  solid black */
-    bw_White = 8,          /*  solid white */
-    bw_DontShow = 9,       /*  object not drawn */
+    bw_Color = 0,          /* only used for predefined shades */
+    bw_Automatic = 1,      /* depends on object type */
+    bw_GrayScale = 2,      /* shades of gray only */
+    bw_LightGrayScale = 3, /* shades of light gray only */
+    bw_InverseGray = 4,    /* dark gray mapped to light gray, etc. */
+    bw_GrayOutline = 5,    /* pure gray and white */
+    bw_BlackTextLine = 6,  /* black text and lines, all else grayscale */
+    bw_HighContrast = 7,   /* pure black and white mode (no grays) */
+    bw_Black = 7,          /* solid black */
+    bw_White = 8,          /* solid white */
+    bw_DontShow = 9,       /* object not drawn */
 } BlackWhiteMode;
 
 typedef enum
@@ -829,10 +829,10 @@ typedef enum
 
 typedef enum
 {
-    rotate_0 = 0,	/*  Right */
-    rotate_90 = 1,	/*  Down */
-    rotate_180 = 2,	/*  Left */
-    rotate_270 = 3	/*  Up */
+    rotate_0 = 0,	/* Right */
+    rotate_90 = 1,	/* Down */
+    rotate_180 = 2,	/* Left */
+    rotate_270 = 3	/* Up */
 } RotationType;
 
 typedef enum
@@ -845,19 +845,19 @@ typedef enum
 
 typedef enum
 {
-    flow_HorzN = 0,	/*  Horizontal non-@ */
-    flow_TtoBA = 1,	/*  Top to Bottom @-font */
-    flow_BtoT = 2,	/*  Bottom to Top non-@ */
-    flow_TtoBN = 3,	/*  Top to Bottom non-@ */
-    flow_HorzA = 4,	/*  Horizontal @-font */
-    flow_VertN = 5,	/*  Vertical, non-@ */
+    flow_HorzN = 0,	/* Horizontal non-@ */
+    flow_TtoBA = 1,	/* Top to Bottom @-font */
+    flow_BtoT = 2,	/* Bottom to Top non-@ */
+    flow_TtoBN = 3,	/* Top to Bottom non-@ */
+    flow_HorzA = 4,	/* Horizontal @-font */
+    flow_VertN = 5,	/* Vertical, non-@ */
 } TextFlow;
 
 typedef enum
 {
     textdir_LtoR = 0,
     textdir_RtoL = 1,
-    textdir_Context = 2,	/*  depends on context */
+    textdir_Context = 2,	/* depends on context */
 } TextDirection;
 
 typedef enum
@@ -886,7 +886,7 @@ typedef enum
     callout_drop_Specified = 3,
 } CalloutDrop;
 
-/*  Alignment - WordArt only */
+/* Alignment - WordArt only */
 typedef enum
 {
     align_TextStretch,      /* Stretch each line of text to fit width. */
@@ -907,62 +907,62 @@ typedef enum
 
 typedef enum
 {
-    transform_Absolute,   /*  Apply in absolute space centered on shape */
-    transform_Shape,      /*  Apply to shape geometry */
-    transform_Drawing     /*  Apply in drawing space */
+    transform_Absolute,   /* Apply in absolute space centered on shape */
+    transform_Shape,      /* Apply to shape geometry */
+    transform_Drawing     /* Apply in drawing space */
 } Transform;
 
 typedef enum
 {
-    shadow_Offset,    /*  N pixel offset shadow */
-    shadow_Double,    /*  Use second offset too */
-    shadow_Rich,      /*  Rich perspective shadow (cast relative to shape) */
-    shadow_Shape,     /*  Rich perspective shadow (cast in shape space) */
-    shadow_Drawing,   /*  Perspective shadow cast in drawing space */
+    shadow_Offset,    /* N pixel offset shadow */
+    shadow_Double,    /* Use second offset too */
+    shadow_Rich,      /* Rich perspective shadow (cast relative to shape) */
+    shadow_Shape,     /* Rich perspective shadow (cast in shape space) */
+    shadow_Drawing,   /* Perspective shadow cast in drawing space */
     shadow_EmbossOrEngrave,
 } Shadow;
 
-/*  LengthMeasure - the type of a (length) measurement */
+/* LengthMeasure - the type of a (length) measurement */
 typedef enum
 {
-    measure_Default      = 0,  /*  Default size, ignore the values */
-    measure_A            = 1,  /*  Values are in EMUs */
-    measure_V            = 2,  /*  Values are in pixels */
-    measure_Shape        = 3,  /*  Values are 16.16 fractions of shape size */
-    measure_FixedAspect  = 4,  /*  Aspect ratio is fixed */
-    measure_AFixed       = 5,  /*  EMUs, fixed aspect ratio */
-    measure_VFixed       = 6,  /*  Pixels, fixed aspect ratio */
-    measure_ShapeFixed   = 7,  /*  Proportion of shape, fixed aspect ratio */
+    measure_Default      = 0,  /* Default size, ignore the values */
+    measure_A            = 1,  /* Values are in EMUs */
+    measure_V            = 2,  /* Values are in pixels */
+    measure_Shape        = 3,  /* Values are 16.16 fractions of shape size */
+    measure_FixedAspect  = 4,  /* Aspect ratio is fixed */
+    measure_AFixed       = 5,  /* EMUs, fixed aspect ratio */
+    measure_VFixed       = 6,  /* Pixels, fixed aspect ratio */
+    measure_ShapeFixed   = 7,  /* Proportion of shape, fixed aspect ratio */
     measure_FixedAspectEnlarge = 8,  /*  Aspect ratio is fixed, favor larger size */
-    measure_AFixedBig    = 9,  /*  EMUs, fixed aspect ratio */
-    measure_VFixedBig    = 10, /*  Pixels, fixed aspect ratio */
-    measure_ShapeFixedBig= 11, /*  Proportion of shape, fixed aspect ratio */
+    measure_AFixedBig    = 9,  /* EMUs, fixed aspect ratio */
+    measure_VFixedBig    = 10, /* Pixels, fixed aspect ratio */
+    measure_ShapeFixedBig= 11, /* Proportion of shape, fixed aspect ratio */
 } LengthMeasure;
 
 typedef enum
 {
     fill_Solid = 0,
-    fill_Pattern = 1,	/*  bitmap */
-    fill_Texture = 2,	/*  pattern with private Colour map) */
-    fill_Picture = 3,	/*  Center picture on the shape */
-    fill_Shade = 4,	/*  Shade from start to end points */
-    fill_ShadeCenter =5,/*  Shade from bounding rectangle to end point */
-    fill_ShadeShape = 6,/*  Shade from shape outline to end point */
-    fill_ShadeScale = 7,/*  Like fill_Shade, but fillAngle is also scaled by
-			    the aspect ratio of the shape. If shape is square,
-			    it is the same as fill_Shade. */
-    fill_ShadeTitle = 8,/*  shade to title  ?? what is this for */
-    fill_Background = 9	/*  Use background fill color/pattern */
+    fill_Pattern = 1,	/* bitmap */
+    fill_Texture = 2,	/* pattern with private Colour map) */
+    fill_Picture = 3,	/* Center picture on the shape */
+    fill_Shade = 4,	/* Shade from start to end points */
+    fill_ShadeCenter =5,/* Shade from bounding rectangle to end point */
+    fill_ShadeShape = 6,/* Shade from shape outline to end point */
+    fill_ShadeScale = 7,/* Like fill_Shade, but fillAngle is also scaled by
+			   the aspect ratio of the shape. If shape is square,
+			   it is the same as fill_Shade. */
+    fill_ShadeTitle = 8,/* shade to title  ?? what is this for */
+    fill_Background = 9	/* Use background fill color/pattern */
 } FillType;
 
 /* Colours in a shaded fill. */
 typedef enum
 {
-	shade_None  = 0,        /*  Interpolate without correction between RGBs */
-	shade_Gamma = 1,        /*  Apply gamma correction to colors */
-	shade_Sigma = 2,        /*  Apply a sigma transfer function to position */
-	shade_Band  = 4,        /*  Add a flat band at the start of the shade */
-	shade_OneColor = 8,     /*  This is a one color shade */
+	shade_None  = 0,        /* Interpolate without correction between RGBs */
+	shade_Gamma = 1,        /* Apply gamma correction to colors */
+	shade_Sigma = 2,        /* Apply a sigma transfer function to position */
+	shade_Band  = 4,        /* Add a flat band at the start of the shade */
+	shade_OneColor = 8,     /* This is a one color shade */
 
 	/* It looks like the top 16 bits of the val can be used as a parameter.
 	 * The Sigma shade style seems to hard code that to be 0x4000 ??
@@ -976,34 +976,34 @@ typedef enum
 /* LineStyle - compound line style */
 typedef enum
 {
-    line_Simple,            /*  Single line (of width lineWidth) */
-    line_Double,            /*  Double lines of equal width */
-    line_ThickThin,         /*  Double lines, one thick, one thin */
-    line_ThinThick,         /*  Double lines, reverse order */
-    line_Triple             /*  Three lines, thin, thick, thin */
+    line_Simple,            /* Single line (of width lineWidth) */
+    line_Double,            /* Double lines of equal width */
+    line_ThickThin,         /* Double lines, one thick, one thin */
+    line_ThinThick,         /* Double lines, reverse order */
+    line_Triple             /* Three lines, thin, thick, thin */
 } LineStyle;
 
 typedef enum
 {
-    line_fill_SolidType,         /*  Fill with a solid color */
-    line_fill_Pattern,           /*  Fill with a pattern (bitmap) */
-    line_fill_Texture,           /*  A texture (pattern with its own color map) */
-    line_fill_Picture            /*  Center a picture in the shape */
+    line_fill_SolidType,         /* Fill with a solid color */
+    line_fill_Pattern,           /* Fill with a pattern (bitmap) */
+    line_fill_Texture,           /* A texture (pattern with its own color map) */
+    line_fill_Picture            /* Center a picture in the shape */
 } LineFill;
 
 typedef enum
 {
-    dash_Solid,              /*  Solid (continuous) pen */
-    dash_DashSys,            /*  PS_DASH system   dash style */
-    dash_DotSys,             /*  PS_DOT system   dash style */
-    dash_DashDotSys,         /*  PS_DASHDOT system dash style */
-    dash_DashDotDotSys,      /*  PS_DASHDOTDOT system dash style */
-    dash_DotGEL,             /*  square dot style */
-    dash_DashGEL,            /*  dash style */
-    dash_LongDashGEL,        /*  long dash style */
-    dash_DashDotGEL,         /*  dash short dash */
-    dash_LongDashDotGEL,     /*  long dash short dash */
-    dash_LongDashDotDotGEL   /*  long dash short dash short dash */
+    dash_Solid,              /* Solid (continuous) pen */
+    dash_DashSys,            /* PS_DASH system   dash style */
+    dash_DotSys,             /* PS_DOT system   dash style */
+    dash_DashDotSys,         /* PS_DASHDOT system dash style */
+    dash_DashDotDotSys,      /* PS_DASHDOTDOT system dash style */
+    dash_DotGEL,             /* square dot style */
+    dash_DashGEL,            /* dash style */
+    dash_LongDashGEL,        /* long dash style */
+    dash_DashDotGEL,         /* dash short dash */
+    dash_LongDashDotGEL,     /* long dash short dash */
+    dash_LongDashDotDotGEL   /* long dash short dash short dash */
 } DashedLineStyle;
 
 typedef enum
@@ -1032,21 +1032,21 @@ typedef enum
 
 typedef enum
 {
-    line_join_Bevel,     /*  Join edges by a straight line */
-    line_join_Miter,     /*  Extend edges until they join */
-    line_join_Round      /*  Draw an arc between the two edges */
+    line_join_Bevel,     /* Join edges by a straight line */
+    line_join_Miter,     /* Extend edges until they join */
+    line_join_Round      /* Draw an arc between the two edges */
 } LineJoin;
 
 /* Line cap style (applies to ends of dash segments too). */
 typedef enum
 {
-    line_cap_Round,   /*  Rounded ends - the default */
-    line_cap_Square,  /*  Square protrudes by half line width */
-    line_cap_Flat     /*  Line ends at end point */
+    line_cap_Round,   /* Rounded ends - the default */
+    line_cap_Square,  /* Square protrudes by half line width */
+    line_cap_Flat     /* Line ends at end point */
 } LineCap;
 
 static gboolean
-ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 {
 	int const num_properties = h->instance;
 	gboolean needs_free;
@@ -1056,7 +1056,7 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 	const guint8 *fopte = data;
 	const guint8 *extra = fopte + 6*num_properties;
 	guint prev_pid = 0; /* A debug tool */
-	char const * name;
+	char const *name;
 	int i;
 
 	/* lets be really careful */
@@ -1702,22 +1702,22 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 }
 
 static gboolean
-ms_escher_read_SpgrContainer (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_SpgrContainer (MSEscherState *state, MSEscherHeader *h)
 {
 	return ms_escher_read_container (state, h, 0);
 }
 static gboolean
-ms_escher_read_DgContainer (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_DgContainer (MSEscherState *state, MSEscherHeader *h)
 {
 	return ms_escher_read_container (state, h, 0);
 }
 static gboolean
-ms_escher_read_DggContainer (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_DggContainer (MSEscherState *state, MSEscherHeader *h)
 {
 	return ms_escher_read_container (state, h, 0);
 }
 static gboolean
-ms_escher_read_ClientTextbox (MSEscherState * state, MSEscherHeader * h)
+ms_escher_read_ClientTextbox (MSEscherState *state, MSEscherHeader *h)
 {
 	guint16 opcode;
 
@@ -1732,18 +1732,16 @@ ms_escher_read_ClientTextbox (MSEscherState * state, MSEscherHeader * h)
 	/* FIXME : Leaking memory.  Get an object management framework into place
 	 * so that there is somewhere to put the comment text.
 	 */
-	(void)ms_read_TXO (state->q, state->wb);
+	(void)ms_read_TXO (state->q);
 	return FALSE;
 }
 
 static gboolean
 ms_escher_read_ClientData (MSEscherState *state, MSEscherHeader *h)
 {
-	int     i;
 	guint16 opcode;
 	MSObj  *obj;
 
-	g_return_val_if_fail (state->sheet != NULL, TRUE);
 	g_return_val_if_fail (h->len == common_header_len, TRUE);
 	g_return_val_if_fail (h->offset + h->len == state->end_offset, TRUE);
 
@@ -1752,7 +1750,7 @@ ms_escher_read_ClientData (MSEscherState *state, MSEscherHeader *h)
 	g_return_val_if_fail (opcode == BIFF_OBJ, TRUE);
 	g_return_val_if_fail (ms_biff_query_next (state->q), TRUE);
 
-	obj = ms_read_OBJ (state->q, state->wb, state->sheet);
+	obj = ms_read_OBJ (state->q, state->container);
 
 	if (obj == NULL)
 		return FALSE;
@@ -1761,8 +1759,7 @@ ms_escher_read_ClientData (MSEscherState *state, MSEscherHeader *h)
 	g_return_val_if_fail (h->anchor_set, FALSE);
 	g_return_val_if_fail (!obj->anchor_set, FALSE);
 
-	for (i = 4; --i >= 0 ; )
-		obj->anchor[i] = h->anchor[i];
+	memcpy (obj->raw_anchor, h->raw_anchor, MS_ANCHOR_SIZE);
 	obj->anchor_set = TRUE;
 
 	switch (obj->gnumeric_type) {
@@ -1773,7 +1770,6 @@ ms_escher_read_ClientData (MSEscherState *state, MSEscherHeader *h)
 		break;
 	};
 
-	state->sheet->obj_queue = g_list_append (state->sheet->obj_queue, obj);
 	return FALSE;
 }
 
@@ -1781,7 +1777,7 @@ ms_escher_read_ClientData (MSEscherState *state, MSEscherHeader *h)
 
 /* NOTE : this does not init h->container or h->offset */
 static void
-ms_escher_init_header(MSEscherHeader * h)
+ms_escher_init_header(MSEscherHeader *h)
 {
 	h->ver = h->instance = h->fbt = h->len = 0;
 	h->anchor_set = FALSE;
@@ -1789,7 +1785,7 @@ ms_escher_init_header(MSEscherHeader * h)
 }
 
 static gboolean
-ms_escher_read_container (MSEscherState * state, MSEscherHeader * container,
+ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 			  gint const prefix)
 {
 	MSEscherHeader h;
@@ -1803,8 +1799,8 @@ ms_escher_read_container (MSEscherState * state, MSEscherHeader * container,
 	do {
 		guint16 tmp;
 		char const *fbt_name = NULL;
-		gboolean (*handler)(MSEscherState * state,
-				    MSEscherHeader * container) = NULL;
+		gboolean (*handler)(MSEscherState *state,
+				    MSEscherHeader *container) = NULL;
 		gboolean needs_free;
 
 		const guint8 *data =
@@ -1889,7 +1885,7 @@ ms_escher_read_container (MSEscherState * state, MSEscherHeader * container,
 				printf ("}; /* %s */\n", fbt_name);
 #endif
 			if (res) {
-				printf ("ERROR;\n");
+				printf ("ERROR : %s;\n", fbt_name);
 				return TRUE;
 			}
 
@@ -1911,14 +1907,14 @@ ms_escher_read_container (MSEscherState * state, MSEscherHeader * container,
  * workbook.
  */
 void
-ms_escher_parse (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
+ms_escher_parse (BiffQuery *q, MSContainer *container)
 {
 	MSEscherState state;
 	MSEscherHeader fake_header;
 	char const *drawing_record_name = "Unknown";
 
 	g_return_if_fail (q != NULL);
-	g_return_if_fail (wb != NULL);
+
 	if (q->opcode != BIFF_MS_O_DRAWING)
 		drawing_record_name = "Drawing";
 	else if (q->opcode != BIFF_MS_O_DRAWING_GROUP)
@@ -1930,9 +1926,8 @@ ms_escher_parse (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 		return;
 	}
 
-	state.wb    = wb;
-	state.sheet = sheet;
-	state.q     = q;
+	state.container	   = container;
+	state.q		   = q;
 	state.segment_len  = q->length;
 	state.start_offset = 0;
 	state.end_offset   = q->length;
@@ -1946,8 +1941,7 @@ ms_escher_parse (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 		printf ("{  /* Escher '%s'*/\n", drawing_record_name);
 #endif
 
-	ms_escher_read_container (&state, &fake_header,
-				  -common_header_len);
+	ms_escher_read_container (&state, &fake_header, -common_header_len);
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 0)

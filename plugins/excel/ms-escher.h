@@ -11,24 +11,23 @@
  * (C) 1998, 1999, 2000 Jody Goldberg, Michael Meeks
  **/
 #include "ms-excel-read.h"
+#include "ms-container.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo.h>
 #endif
 
-typedef struct {
+struct _MSEscherBlip
+{
 	char const   *repo_id;
 #ifdef ENABLE_BONOBO
 	BonoboStream *stream;
 #else
 	guint8       *raw_data;
 #endif
-} EscherBlip;
+};
 
-extern void ms_escher_parse        (BiffQuery     *q,
-				    ExcelWorkbook *wb,
-				    ExcelSheet    *sheet);
-
-extern void ms_escher_blip_destroy (EscherBlip    *blip);
+void ms_escher_parse        (BiffQuery  *q, MSContainer *container);
+void ms_escher_blip_destroy (MSEscherBlip *blip);
 
 #endif /* GNUMERIC_MS_OFFICE_ESCHER_H */

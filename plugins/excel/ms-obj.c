@@ -37,243 +37,20 @@ int ms_excel_object_debug;
 #define GR_CHECKBOX_FORMULA   0x14
 #define GR_COMMON_OBJ_DATA    0x15
 
-/**
- * object_anchor_to_position:
- * @points	Array which receives anchor coordinates in points
- * @obj         The object
- * @sheet	The sheet
- *
- * Converts anchor coordinates in Excel units to points. Anchor
- * coordinates are x and y of upper left and lower right corner. Each
- * is expressed as a pair: Row/cell number + position within cell as
- * fraction of cell dimension.
- *
- * NOTE: According to docs, position within cell is expressed as
- * 1/1024 of cell dimension. However, this doesn't seem to be true
- * vertically, for Excel 97. We use 256 for >= XL97 and 1024 for
- * preceding.
-  */
-static gboolean
-object_anchor_to_position (double pixels[4], MSObj*obj, Sheet const * sheet,
-                           MsBiffVersion const ver)
 
+void
+ms_destroy_OBJ (MSObj *obj)
 {
-	float const row_denominator = (ver >= MS_BIFF_V8) ? 256. : 1024.;
-	int	i;
-
-	g_return_val_if_fail (obj->anchor_set, TRUE);
-
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_object_debug > 0)
-		printf ("%s\n", sheet->name_unquoted);
-#endif
-	for (i = 0; i < 4; i++) {
-		int const pos   = obj->anchor[i].pos;
-		int const nths  = obj->anchor[i].nths;
-
-		if (i & 1) { /* odds are rows */
-			ColRowInfo const *ri = sheet_row_get_info (sheet, pos);
-
-			/* warning logged elsewhere */
-			if (ri == NULL)
-				return TRUE;
-
-			pixels[i] = ri->size_pixels;
-			pixels[i] *= nths / row_denominator;
-			pixels[i] += sheet_row_get_distance_pixels (sheet, 0, pos);
-
-#ifndef NO_DEBUG_EXCEL
-			if (ms_excel_object_debug > 0)
-				printf ("%d + %d\n", pos+1, nths);
-#endif
-		} else {
-			ColRowInfo const *ci = sheet_col_get_info (sheet, pos);
-
-			/* warning logged elsewhere */
-			if (ci == NULL)
-				return TRUE;
-
-			pixels[i] = ci->size_pixels;
-			pixels[i] *= nths / 1024.;
-			pixels[i] += sheet_col_get_distance_pixels (sheet, 0, pos);
-
-#ifndef NO_DEBUG_EXCEL
-			if (ms_excel_object_debug > 0)
-				printf ("%s + %d\n", col_name(pos), nths);
-#endif
-		}
-	}
-
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_object_debug > 0)
-		printf ("Anchor position in pixels"
-			" left = %g, top = %g, right = %g, bottom = %g;\n",
-			pixels[0], pixels[1], pixels[2], pixels[3]);
-#endif
-
-	return FALSE;
-}
-
-/*
- * Attempt to install an object in supplied work book.
- *
- * Return TRUE on failure, FALSE on success.
- */
-gboolean
-ms_obj_realize (MSObj *obj, ExcelWorkbook *wb, ExcelSheet *sheet)
-{
-	double   position[4];
-
-	g_return_val_if_fail (sheet != NULL, TRUE);
-
-	if (obj == NULL)
-		return TRUE;
-
-	if (object_anchor_to_position (position, obj, sheet->gnum_sheet,
-				       wb->ver))
-		return TRUE;
-
-	/* Handle Comments */
-	if (wb->ver >= MS_BIFF_V8 && obj->excel_type == 0x19) {
-	}
-
-	switch (obj->gnumeric_type) {
-	case SHEET_OBJECT_BUTTON :
-		sheet_object_create_button (sheet->gnum_sheet,
-					    position[0], position[1],
-					    position[2], position[3]);
-		break;
-
-	case SHEET_OBJECT_CHECKBOX :
-		sheet_object_create_checkbox (sheet->gnum_sheet,
-					      position[0], position[1],
-					      position[2], position[3]);
-		break;
-
-	case SHEET_OBJECT_BOX :
-		sheet_object_realize (
-		sheet_object_create_filled (sheet->gnum_sheet,
-					    SHEET_OBJECT_BOX,
-					    position[0], position[1],
-					    position[2], position[3],
-					    "white", "black", 1));
-		break;
-
-	case SHEET_OBJECT_GRAPHIC : /* If this was a picture */
-	{
-		int blip_id;
-		GPtrArray const * blips = wb->blips;
-		EscherBlip *blip = NULL;
-#ifdef ENABLE_BONOBO
-		SheetObject  *so;
-#endif
-
-		blip_id = obj->v.picture.blip_id;
-
-		g_return_val_if_fail (blip_id >= 0, FALSE);
-		g_return_val_if_fail (blip_id < blips->len, FALSE);
-
-		blip = g_ptr_array_index (blips, blip_id);
-
-		g_return_val_if_fail (blip != NULL, FALSE);
-
-#ifdef ENABLE_BONOBO
-		g_return_val_if_fail (blip->stream != NULL, FALSE);
-		g_return_val_if_fail (blip->repo_id != NULL, FALSE);
-		so = sheet_object_container_new_object (
-			sheet->gnum_sheet,
-			position[0], position[1],
-			position[2], position[3],
-			blip->repo_id);
-		if (!sheet_object_bonobo_load (SHEET_OBJECT_BONOBO (so), blip->stream))
-			g_warning ("Failed to load '%s' from stream",
-				   blip->repo_id);
-#endif
-	}
-	break;
-
-	default :
-	break;
-	};
-
-	return FALSE;
-}
-
-static void
-ms_obj_destroy (MSObj *obj)
-{
-	if (obj) {
+	/* TODO : Fill in the blank */
+	if (obj)
 		g_free (obj);
-	}
-}
-
-/**
- * ms_excel_sheet_realize_objs:
- * @sheet:
- *
- *   This realizes the objects after the zoom factor has been
- * loaded.
- **/
-void
-ms_excel_sheet_realize_objs (ExcelSheet *sheet)
-{
-	GList *l;
-
-	g_return_if_fail (sheet != NULL);
-
-	for (l = sheet->obj_queue; l; l = g_list_next (l))
-		ms_obj_realize (l->data, sheet->wb, sheet);
-}
-
-void
-ms_excel_sheet_destroy_objs (ExcelSheet *sheet)
-{
-	GList *l;
-
-	g_return_if_fail (sheet != NULL);
-
-	for (l = sheet->obj_queue; l; l = g_list_next (l))
-		ms_obj_destroy (l->data);
-
-	g_list_free (sheet->obj_queue);
-	sheet->obj_queue = NULL;
-}
-
-gboolean
-ms_parse_object_anchor (anchor_point anchor[4],
-			const Sheet *sheet, const guint8 *data)
-{
-	/* Words 0, 4, 8, 12 : The row/col of the corners */
-	/* Words 2, 6, 10, 14 : distance from cell edge */
-
-	int	i;
-
-	for (i = 0; i < 4; ++i) {
-		anchor[i].pos = MS_OLE_GET_GUINT16 (data + 4 * i);
-		anchor[i].nths = MS_OLE_GET_GUINT16 (data + 4 * i + 2);
-
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_object_debug > 1) {
-			int pos  = anchor[i].pos;
-			printf ("%d/%d cell %s from ",
-				anchor[i].nths, (i & 1) ? 256 : 1024,
-				(i & 1) ? "heights" : "widths");
-			if (i & 1)
-				printf ("row %d;\n", pos + 1);
-			else
-				printf ("col %s (%d);\n", col_name(pos), pos);
-		}
-#endif
-	}
-
-	return FALSE;
 }
 
 /*
  * See: S59EOE.HTM
  */
 char *
-ms_read_TXO (BiffQuery *q, ExcelWorkbook *wb)
+ms_read_TXO (BiffQuery *q)
 {
 	static char const * const orientations [] = {
 	    "Left to right",
@@ -368,8 +145,7 @@ ms_obj_dump (guint8 const * const data, int const len, char const * const name)
  * See: S59DAD.HTM
  */
 static gboolean
-ms_obj_read_pre_biff8_obj (BiffQuery *q, ExcelWorkbook *wb,
-			   Sheet *sheet, MSObj *obj)
+ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 {
 	/* TODO : Lots of docs for these things.  Write the parser. */
 
@@ -380,15 +156,17 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, ExcelWorkbook *wb,
 	obj->excel_type = MS_OLE_GET_GUINT16(q->data + 4);
 	obj->id         = MS_OLE_GET_GUINT32(q->data + 6);
 
-	return ms_parse_object_anchor (obj->anchor, sheet, q->data+10);
+	memcpy (obj->raw_anchor, q->data+8, MS_ANCHOR_SIZE);
+	obj->anchor_set = TRUE;
+
+	return TRUE;
 }
 
 /*
  * See: S59DAD.HTM
  */
 static gboolean
-ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook *wb,
-		       Sheet *sheet, MSObj *obj)
+ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 {
 	guint8 *data;
 	gint32 data_len_left;
@@ -548,6 +326,22 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook *wb,
 		}
 		data += len+4,
 		data_len_left -= len+4;
+
+		/* FIXME : We need a structure akin to the escher code to do this properly */
+		while (data_len_left < 0) {
+			int const diff = data - q->data;
+			guint16 peek_op;
+
+			/* FIXME : what do we expect here ??
+			 * I've seen what seem to be embedded drawings
+			 * but I am not sure what is embedding what.
+			 */
+			g_return_val_if_fail (ms_biff_query_peek_next (q, &peek_op) &&
+					      peek_op == BIFF_CONTINUE, TRUE);
+			ms_biff_query_next (q);
+			data = q->data + diff;
+			data_len_left += q->length;
+		}
 	}
 
 	/* The ftEnd record should have been the last */
@@ -577,7 +371,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook *wb,
 }
 
 MSObj *
-ms_read_OBJ (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
+ms_read_OBJ (BiffQuery *q, MSContainer *container)
 {
 	static char * object_type_names[] =
 	{
@@ -620,9 +414,9 @@ ms_read_OBJ (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 	if (ms_excel_object_debug > 0)
 		printf ("{ /* OBJ start */\n");
 #endif
-	errors = (wb->ver >= MS_BIFF_V8)
-		? ms_obj_read_biff8_obj (q, wb, sheet->gnum_sheet, obj)
-		: ms_obj_read_pre_biff8_obj (q, wb, sheet->gnum_sheet, obj);
+	errors = (container->ver >= MS_BIFF_V8)
+		? ms_obj_read_biff8_obj (q, container, obj)
+		: ms_obj_read_pre_biff8_obj (q, container, obj);
 
 	if (errors) {
 		g_free (obj);
@@ -642,7 +436,7 @@ ms_read_OBJ (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 	case 0x05 : /* Chart */
 		type = SHEET_OBJECT_BOX;
 		/* There should be a BOF next */
-		ms_excel_read_chart (q, wb, sheet);
+		ms_excel_read_chart (q, container);
 		break;
 
 	case 0x01 : /* Line */
@@ -697,6 +491,8 @@ ms_read_OBJ (BiffQuery *q, ExcelWorkbook *wb, ExcelSheet *sheet)
 		printf ("}; /* OBJ end */\n");
 	}
 #endif
+
+	ms_container_add_obj (container, obj);
 
 	return obj;
 }

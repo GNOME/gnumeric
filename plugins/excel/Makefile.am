@@ -18,6 +18,8 @@ libexcel_a_SOURCES =		\
 	escher-types.h		\
 	gnumeric-chart.c	\
 	gnumeric-chart.h	\
+	ms-container.c		\
+	ms-container.h		\
 	ms-escher.c		\
 	ms-escher.h		\
 	ms-excel-util.c	        \
