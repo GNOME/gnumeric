@@ -139,13 +139,22 @@ typedef double gnum_float;
 #define erfcgnum erfc
 #define yngnum yn
 #define isnangnum isnan
-#define finitegnum finite
 #define sinhgnum sinh
 #define coshgnum cosh
 #define tanhgnum tanh
 #define asinhgnum asinh
 #define acoshgnum acosh
 #define atanhgnum atanh
+
+/* What a circus!  */
+#ifdef HAVE_FINITE
+#define finitegnum finite
+#elif defined(HAVE_ISFINITE)
+#define finitegnum isfinite
+#elif defined(FINITE)
+#define finitegnum FINITE
+#error "I don't know an equivalent of finite for your system; you lose"
+#endif
 
 #define GNUM_FORMAT_e "e"
 #define GNUM_FORMAT_E "E"

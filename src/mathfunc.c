@@ -5768,8 +5768,10 @@ random_landau (void)
 gnum_float
 gpow2 (int n)
 {
+#ifdef NEED_FAKE_LDEXPGNUM
 	g_assert (FLT_RADIX == 2);
 
+	/* gpow2 is used in our implementation of ldexpgnum.  */
 	if (n >= DBL_MIN_EXP && n <= DBL_MAX_EXP)
 		return (gnum_float) ldexp (1.0, n);
 	else if (n >= GNUM_MIN_EXP && n <= GNUM_MAX_EXP) {
@@ -5785,6 +5787,9 @@ gpow2 (int n)
 		return res;
 	} else
 		return (n > 0) ? ML_POSINF : ML_UNDERFLOW;
+#else
+	return ldexpgnum (1.0, n);
+#endif
 }
 
 

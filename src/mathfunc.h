@@ -5,19 +5,6 @@
 #include <math.h>
 #include <glib.h>
 
-#ifndef FINITE
-#  if defined(HAVE_FINITE)
-#    ifdef HAVE_IEEEFP_H
-#      include <ieeefp.h>
-#    endif
-#    define FINITE finite
-#  elif defined(HAVE_ISFINITE)
-#    define FINITE isfinite
-#  else
-#    error FINITE undefined
-#  endif
-#endif
-
 #ifdef qgamma
 /* It was reported that mips-sgi-irix6.5 has a weird and conflicting define
    for qgamma.  See bug 1689.  */
