@@ -547,7 +547,7 @@
 		      resulting graph may not include any plots or
 		      data but it can be modified subsequently using
 		      the context menu's
-		      <guimenuentry>Properties</guimenuentry> menu entry.
+		      <guimenuitem>Properties</guimenuitem> menu entry.
 		    </para>
 		  </listitem>
 		</varlistentry>
