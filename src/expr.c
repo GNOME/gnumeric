@@ -462,19 +462,8 @@ gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
 	case GNM_EXPR_OP_CELLREF:
 		return cellref_equal (&a->cellref.ref, &b->cellref.ref);
 
-	case GNM_EXPR_OP_CONSTANT: {
-		Value const *va = a->constant.value;
-		Value const *vb = b->constant.value;
-
-		if (va->type != vb->type)
-			return FALSE;
-
-		if (va->type == VALUE_CELLRANGE)
-			return	cellref_equal (&va->v_range.cell.a, &vb->v_range.cell.a) &&
-				cellref_equal (&va->v_range.cell.b, &vb->v_range.cell.b);
-
-		return value_compare (va, vb, TRUE) == IS_EQUAL;
-	}
+	case GNM_EXPR_OP_CONSTANT:
+		return value_equal (a->constant.value, b->constant.value);
 
 	case GNM_EXPR_OP_ARRAY: {
 		GnmExprArray const *aa = &a->array;

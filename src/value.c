@@ -640,7 +640,51 @@ value_cmp_reverse (void const *ptr_a, void const *ptr_b)
 gint
 value_equal (Value const *a, Value const *b)
 {
-	return IS_EQUAL == value_compare (a, b, TRUE);
+	if (a->type != b->type)
+		return FALSE;
+
+	switch (a->type) {
+	case VALUE_BOOLEAN:
+		return a->v_bool.val == b->v_bool.val;
+
+	case VALUE_STRING:
+		return a->v_str.val == b->v_str.val;
+
+	case VALUE_ERROR:
+		return a->v_err.mesg == b->v_err.mesg;
+
+	case VALUE_INTEGER:
+		return a->v_int.val == b->v_int.val;
+
+	case VALUE_FLOAT:
+		return a->v_float.val == b->v_float.val;
+
+	case VALUE_EMPTY:
+		return TRUE;
+
+	case VALUE_CELLRANGE:
+		return	cellref_equal (&a->v_range.cell.a, &b->v_range.cell.a) &&
+			cellref_equal (&a->v_range.cell.b, &b->v_range.cell.b);
+
+	case VALUE_ARRAY:
+		if (a->v_array.x == b->v_array.x && a->v_array.y == b->v_array.y) {
+			int x, y;
+
+			for (y = 0; y < a->v_array.y; y++)
+				for (x = 0; x < a->v_array.x; x++)
+					if (!value_equal (a->v_array.vals[x][y],
+							  b->v_array.vals[x][y]))
+						return FALSE;
+			return TRUE;
+		} else
+			return FALSE;
+
+#ifndef DEBUG_SWITCH_ENUM
+	default:
+		g_assert_not_reached ();
+		return 0;
+#endif
+	}
 }
 
 guint
