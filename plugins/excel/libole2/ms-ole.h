@@ -9,27 +9,23 @@
 
 #include <glib.h>
 
-typedef guint32 BBPtr ;
-typedef guint32 SBPtr ;
+/* Whether to use memory mapped IO */
+#define OLE_MMAP  1
+
+/* Block pointer */
+typedef guint32 BLP;
 
 /* Forward declarations of types */
 typedef struct _MS_OLE           MS_OLE;
-typedef struct _MS_OLE_HEADER    MS_OLE_HEADER;
 typedef struct _MS_OLE_STREAM    MS_OLE_STREAM;
 typedef struct _MS_OLE_DIRECTORY MS_OLE_DIRECTORY;
 
-struct _MS_OLE_HEADER
-{
-	/* sbd = Small Block Depot ( made up of BB's BTW ) */
-	BBPtr   sbd_startblock ;
-	GArray  *sbd_list;
-
-	BBPtr   sbf_startblock ; /* Identifies the stream containing all small blocks are in. */
-	GArray  *sbf_list;
-
-	BBPtr   root_startblock ;
-	GArray  *root_list;
-};
+typedef enum { MS_OLE_SEEK_SET, MS_OLE_SEEK_CUR } ms_ole_seek_t;
+#ifdef G_HAVE_GINT64
+        typedef guint32 ms_ole_pos_t;
+#else
+        typedef guint32 ms_ole_pos_t;
+#endif
 
 typedef guint32 PPS_IDX ;
 typedef enum _PPS_TYPE { MS_OLE_PPS_STORAGE = 1,
@@ -48,29 +44,34 @@ struct _MS_OLE
 	 * To be considered private
 	 **/
 	char mode;
-	MS_OLE_HEADER header ; /* For speed cut down dereferences */
 	int file_descriptor ;
+	GArray    *bb;     /* Big  blocks status  */
+#ifndef OLE_MMAP
+	GPtrArray *bbptr;  /* Pointers to blocks  NULL if not read in */
+#endif
+	GArray    *sb;     /* Small block status  */
+	GArray    *sbf;    /* The small block file */
+	GPtrArray *pps;    /* Property Storage -> struct _PPS */
 };
 
 /* Create new OLE file */
 extern MS_OLE           *ms_ole_create  (const char *name) ;
 /* Open existing OLE file */
-extern MS_OLE           *ms_ole_new     (const char *name) ;
+extern MS_OLE           *ms_ole_open    (const char *name) ;
 /* Get a root directory handle */
 extern MS_OLE_DIRECTORY *ms_ole_get_root (MS_OLE *);
 extern void              ms_ole_destroy (MS_OLE *ptr) ;
 
 struct _MS_OLE_DIRECTORY
 {
-	char      *name ;
-	PPS_TYPE  type ;
-	guint32   length ;
-	PPS_IDX   pps ;
+	char        *name;
+	ms_ole_pos_t length;
+	PPS_TYPE     type;
+	PPS_IDX      pps;
 	/* Brain damaged linked list workaround */
-	PPS_IDX   primary_entry ;
-
+	PPS_IDX      primary_entry ;
 	/* Private */
-	MS_OLE *file ;
+	MS_OLE      *file ;
 };
 
 extern MS_OLE_DIRECTORY *ms_ole_directory_new (MS_OLE *) ;
@@ -82,13 +83,6 @@ extern MS_OLE_DIRECTORY *ms_ole_directory_create (MS_OLE_DIRECTORY *d,
 						  PPS_TYPE type) ;
 extern void ms_ole_directory_unlink (MS_OLE_DIRECTORY *) ;
 extern void ms_ole_directory_destroy (MS_OLE_DIRECTORY *) ;
-
-typedef enum { MS_OLE_SEEK_SET, MS_OLE_SEEK_CUR } ms_ole_seek_t;
-#ifdef G_HAVE_GINT64
-        typedef guint32 ms_ole_pos_t;
-#else
-        typedef guint32 ms_ole_pos_t;
-#endif
 
 struct _MS_OLE_STREAM
 {
@@ -131,3 +125,5 @@ extern void ms_ole_stream_close  (MS_OLE_STREAM *) ;
 extern void dump (guint8 *ptr, guint32 len) ;
 
 #endif
+
+

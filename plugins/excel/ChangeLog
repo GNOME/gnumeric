@@ -1,4 +1,13 @@
+1999-05-20  Michael Meeks  <michael@imaginator.com>
+
+	* ole.c (main): Change ole_new to ole_open.
+	(list_files): Added assertion.
+
+	* boot.c (excel_load): Same.
+
 1999-05-19  Michael Meeks  <michael@imaginator.com>
+
+	* ole.c (main): Add New OLE file creation support.
 
 	* ms-excel-read.c (ms_excel_set_cell_xf): Cleaned silly
 	debug.

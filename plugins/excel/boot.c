@@ -30,7 +30,7 @@ excel_probe (const char *filename)
 	MS_OLE *f;
 	int res;
 	
-	f = ms_ole_new (filename);
+	f = ms_ole_open (filename);
 
 	res = f != NULL;
 
@@ -45,7 +45,7 @@ excel_load (const char *filename)
 	Workbook *wb;
 	MS_OLE *f;
 
-	f = ms_ole_new (filename);
+	f = ms_ole_open (filename);
 	if (!f)
 		return NULL;
 

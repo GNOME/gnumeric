@@ -129,6 +129,7 @@ static void
 list_files (MS_OLE *ole)
 {
 	MS_OLE_DIRECTORY *dir = ms_ole_directory_new (ole);
+	g_assert (dir);
 	while (ms_ole_directory_next(dir)) {
 		printf ("'%25s' : type %d, length %d bytes\n", dir->name, dir->type, dir->length);
 	}
@@ -510,9 +511,13 @@ int main (int argc, char **argv)
 		syntax_error(0);
 
 	printf ("Ole file '%s'\n", argv[1]);
-	ole = ms_ole_new (argv[1]);
+	ole = ms_ole_open (argv[1]);
+	if (!ole) {
+		printf ("Creating new file '%s'\n", argv[1]);
+		ole = ms_ole_create (argv[1]);
+	}
 	if (!ole)
-		syntax_error ("Can't open file");
+		syntax_error ("Can't open file or create new one");
 
 	if (argc<=2)
 		syntax_error ("Need command or -i");

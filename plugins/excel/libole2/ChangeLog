@@ -1,3 +1,15 @@
+1999-05-20  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c: Whole Block structure totaly re-written for the
+	third time ! Lots cleaner, and should support non-mmapped
+	architectures with time.
+
+1999-05-19  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (ms_ole_write_sb): Fix fatal bug with converting a
+	SB -> a BB file when mmap moves memory invalidating src ptr.
+	(ms_ole_create): Init header to UNUSED_BLOCK.
+
 1999-05-18  Michael Meeks  <michael@imaginator.com>
 
 	* ms-ole.c (init_pps): Constricted name writing further.
