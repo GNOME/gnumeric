@@ -18,7 +18,7 @@ struct _RenderedValue {
 
 	guint effective_halign : 8; /* 7 bits would be enough.  */
 	guint effective_valign : 8; /* 4 bits would be enough.  */
- 	guint dynamic_width : 1;
+ 	guint variable_width : 1;   /* result depends on the width of cell */
 	guint numeric_overflow : 1;
 	guint hfilled : 1;
 	guint vfilled : 1;
@@ -26,14 +26,8 @@ struct _RenderedValue {
 	guint display_formula : 1;
 };
 
-void
-rendered_value_render (GString *str,
-		       GnmCell *cell, PangoContext *context, GnmStyle const *mstyle,
-		       gboolean *dynamic_width, gboolean *display_formula,
-		       GnmColor **color);
-
 RenderedValue *rendered_value_new     (GnmCell *cell, GnmStyle const *mstyle,
-				       gboolean dynamic_width,
+				       gboolean variable_width,
 				       PangoContext *context);
 void           rendered_value_destroy (RenderedValue *rv);
 

@@ -1,3 +1,25 @@
+2004-03-06  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-graphic.c (sheet_object_text_finalize) : release
+	  the markup.
+	(sheet_object_text_new_view) : set the attributes.
+	(sheet_object_text_clone) : handle the attributes.
+	(gnm_so_text_set_font_color) : delete.
+	(gnm_so_text_set_markup) : new.
+
+2004-03-05  Jody Goldberg <jody@gnome.org>
+
+	* src/colrow.c (colrow_set_sizes) : force re-render of variable width cells
+	(colrow_restore_state_group) : ditto
+
+	* src/rendered-value.c (rendered_value_render) : privatize
+
+	* src/style.c (required_updates_for_style) : Now that rendered values
+	  contain size info too we can dispense with the distinction between
+	  rendering and sizing.  Without this changing the font size would not
+	  resize because the rendered value cached the size and was not
+	  re-rendered until draw, rather than at row-height calc.
+
 2004-03-05  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-file.c (gui_file_save_as): We no longer need to show

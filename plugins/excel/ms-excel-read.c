@@ -6,7 +6,7 @@
  *    Jody Goldberg (jody@gnome.org)
  *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998-2003 Michael Meeks, Jody Goldberg
+ * (C) 1998-2004 Michael Meeks, Jody Goldberg
  **/
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
@@ -124,10 +124,11 @@ excel_iconv_open_for_import (guint codepage)
 }
 
 static GnmFormat *
-excel_wb_get_fmt (ExcelWorkbook *ewb, guint16 idx)
+excel_wb_get_fmt (ExcelWorkbook *ewb, unsigned idx)
 {
 	char const *ans = NULL;
-	BiffFormatData const *d = g_hash_table_lookup (ewb->format_data, &idx);
+	BiffFormatData const *d = g_hash_table_lookup (ewb->format_data,
+		GINT_TO_POINTER (idx));
 
 	if (d)
 		ans = d->name;
@@ -183,7 +184,7 @@ ms_sheet_get_sheet (MSContainer const *container)
 }
 
 static GnmFormat *
-ms_sheet_get_fmt (MSContainer const *container, guint16 indx)
+ms_sheet_get_fmt (MSContainer const *container, unsigned indx)
 {
 	return excel_wb_get_fmt (container->ewb, indx);
 }
@@ -459,9 +460,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		break;
 
 	case 0x0E: /* Label */
-	case 0x06: { /* TextBox */
-		GnmColor *color = NULL;
-
+	case 0x06: /* TextBox */
 		so = g_object_new (sheet_object_text_get_type (), NULL);
 
 		if (ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FILLED))
@@ -474,13 +473,10 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		/* default is none */
 		gnm_so_filled_set_outline_color (so,
 			ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_OUTLINE_COLOR));
+		gnm_so_text_set_markup (so,
+			ms_obj_attr_get_markup (obj, MS_OBJ_ATTR_MARKUP, NULL));
 
-		color = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_FONT_COLOR);
-		if (color) /* gnumeric default is fine */
-			gnm_so_text_set_font_color (so, color);
 		break;
-	}
 
 	/* Button */
 	case 0x07: so = g_object_new (sheet_widget_button_get_type (), NULL);
@@ -616,7 +612,8 @@ excel_sheet_new (ExcelWorkbook *ewb, char const *sheet_name)
 		&ms_sheet_create_obj,
 		&ms_sheet_parse_expr,
 		&ms_sheet_get_sheet,
-		&ms_sheet_get_fmt
+		&ms_sheet_get_fmt,
+		NULL
 	};
 
 	ExcelReadSheet *esheet = g_new (ExcelReadSheet, 1);
@@ -662,38 +659,6 @@ excel_unexpected_biff (BiffQuery *q, char const *state,
 			gsf_mem_dump (q->data, q->length);
 	}
 #endif
-}
-
-
-/**
- * Generic 16 bit int index pointer functions.
- **/
-static guint
-biff_guint16_hash (guint16 const *d)
-{
-	return *d * 2;
-}
-
-static guint
-biff_guint32_hash (guint32 const *d)
-{
-	return *d * 2;
-}
-
-static gint
-biff_guint16_equal (guint16 const *a, guint16 const *b)
-{
-	if (*a == *b)
-		return 1;
-	return 0;
-}
-
-static gint
-biff_guint32_equal (guint32 const *a, guint32 const *b)
-{
-	if (*a == *b)
-		return 1;
-	return 0;
 }
 
 /**
@@ -1163,7 +1128,8 @@ excel_read_BOUNDSHEET (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 
 	ans->index = ewb->boundsheet_sheet_by_index->len;
 	g_ptr_array_add (ewb->boundsheet_sheet_by_index, ans->sheet ? ans->sheet->sheet : NULL);
-	g_hash_table_insert (ewb->boundsheet_data_by_stream, &ans->streamStartPos, ans);
+	g_hash_table_insert (ewb->boundsheet_data_by_stream,
+		GINT_TO_POINTER (ans->streamStartPos), ans);
 
 	d (1, fprintf (stderr,"Boundsheet: %d) '%s' %p, %d:%d\n", ans->index,
 		       ans->name, ans->sheet, ans->type, ans->hidden););
@@ -1196,7 +1162,7 @@ excel_read_FORMAT (BiffQuery *q, ExcelWorkbook *ewb)
 	}
 
 	d (2, printf ("Format data: 0x%x == '%s'\n", d->idx, d->name););
-	g_hash_table_insert (ewb->format_data, &d->idx, d);
+	g_hash_table_insert (ewb->format_data, GINT_TO_POINTER (d->idx), d);
 }
 
 static void
@@ -1279,20 +1245,25 @@ excel_read_FONT (BiffQuery *q, ExcelWorkbook *ewb)
 				      GSF_LE_GET_GUINT8 (q->data + 14), NULL);
 	}
 
+	fd->attrs = NULL;
+
         fd->index = g_hash_table_size (ewb->font_data);
 	if (fd->index >= 4) /* Weird: for backwards compatibility */
 		fd->index++;
-	g_hash_table_insert (ewb->font_data, &fd->index, fd);
+	g_hash_table_insert (ewb->font_data, GINT_TO_POINTER (fd->index), fd);
 
 	d (1, fprintf (stderr,"Insert font '%s' (%d) size %d pts color %d\n",
 		      fd->fontname, fd->index, fd->height / 20, fd->color_idx););
 	d (3, fprintf (stderr,"Font color = 0x%x\n", fd->color_idx););
-
 }
 
 static void
 biff_font_data_destroy (BiffFontData *fd)
 {
+	if (NULL != fd->attrs) {
+		pango_attr_list_unref (fd->attrs);
+		fd->attrs = NULL;
+	}
 	g_free (fd->fontname);
 	g_free (fd);
 }
@@ -1486,13 +1457,14 @@ excel_palette_destroy (ExcelPalette *pal)
  * Returns the font color if there is one.
  **/
 static BiffFontData const *
-excel_get_font (ExcelReadSheet *esheet, guint16 font_idx)
+excel_get_font (ExcelWorkbook const *ewb, unsigned font_idx)
 {
-	BiffFontData const *fd = g_hash_table_lookup (esheet->container.ewb->font_data,
-						      &font_idx);
+	BiffFontData const *fd = g_hash_table_lookup (
+		ewb->font_data, GINT_TO_POINTER (font_idx));
 
 	g_return_val_if_fail (fd != NULL, NULL); /* flag the problem */
 	g_return_val_if_fail (fd->index != 4, NULL); /* should not exist */
+
 	return fd;
 }
 
@@ -1558,13 +1530,9 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, guint16 xfidx)
 	mstyle_set_rotation  (mstyle, xf->rotation);
 
 	/* Font */
-	fd = excel_get_font (esheet, xf->font_idx);
+	fd = excel_get_font (esheet->container.ewb, xf->font_idx);
 	if (fd != NULL) {
 		StyleUnderlineType underline = UNDERLINE_NONE;
-		char const *subs_fontname = fd->fontname;
-		if (subs_fontname)
-			mstyle_set_font_name   (mstyle, subs_fontname);
-		else
 			mstyle_set_font_name   (mstyle, fd->fontname);
 		mstyle_set_font_size   (mstyle, fd->height / 20.0);
 		mstyle_set_font_bold   (mstyle, fd->boldness >= 0x2bc);
@@ -2605,9 +2573,70 @@ ms_wb_parse_expr (MSContainer *container, guint8 const *data, int length)
 }
 
 static GnmFormat *
-ms_wb_get_fmt (MSContainer const *container, guint16 indx)
+ms_wb_get_fmt (MSContainer const *container, unsigned indx)
 {
 	return excel_wb_get_fmt (((ExcelWorkbook *)container), indx);
+}
+
+static void
+add_attr (PangoAttrList  *attr_list, PangoAttribute *attr)
+{
+	attr->start_index = 0;
+	attr->end_index = 0;
+	pango_attr_list_insert (attr_list, attr);
+}
+static PangoAttrList *
+ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
+{
+	ExcelWorkbook const *ewb = (ExcelWorkbook const *)c;
+	BiffFontData const *fd = excel_get_font (ewb, indx);
+	GnmColor *color;
+
+	g_return_val_if_fail (fd != NULL, NULL);
+
+	if (fd->attrs == NULL) {
+		PangoAttrList *attrs;
+		PangoUnderline underline = PANGO_UNDERLINE_NONE;
+		int rise = 0;
+
+		switch (fd->underline) {
+		case MS_BIFF_F_U_SINGLE:
+		case MS_BIFF_F_U_SINGLE_ACC:
+			underline = PANGO_UNDERLINE_SINGLE;
+			break;
+
+		case MS_BIFF_F_U_DOUBLE:
+		case MS_BIFF_F_U_DOUBLE_ACC:
+			underline = PANGO_UNDERLINE_DOUBLE;
+			break;
+
+		default: break;
+		}
+		switch (fd->script) {
+		case MS_BIFF_F_S_SUPER: rise =  500; break;
+		case MS_BIFF_F_S_SUB:   rise = -500; break;
+		default: break;
+		}
+
+		attrs = pango_attr_list_new ();
+		add_attr (attrs, pango_attr_family_new (fd->fontname));
+		add_attr (attrs, pango_attr_size_new (fd->height * PANGO_SCALE / 20));
+		add_attr (attrs, pango_attr_weight_new (fd->boldness));
+		add_attr (attrs, pango_attr_style_new (fd->italic ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL));
+		add_attr (attrs, pango_attr_strikethrough_new (fd->struck_out));
+		add_attr (attrs, pango_attr_underline_new (underline));
+		add_attr (attrs, pango_attr_rise_new (rise));
+
+		color = (fd->color_idx == 127) ? style_color_black ()
+			: excel_palette_get (ewb->palette, fd->color_idx);
+		add_attr (attrs, pango_attr_foreground_new (
+			color->color.red, color->color.green, color->color.blue));
+		style_color_unref (color);
+
+		((BiffFontData *)fd)->attrs = attrs;
+	}
+
+	return fd->attrs;
 }
 
 static ExcelWorkbook *
@@ -2618,6 +2647,7 @@ excel_workbook_new (MsBiffVersion ver, IOContext *context, WorkbookView *wbv)
 		&ms_wb_parse_expr,
 		NULL,
 		&ms_wb_get_fmt,
+		&ms_wb_get_font_markup
 	};
 
 	ExcelWorkbook *ewb = g_new (ExcelWorkbook, 1);
@@ -2635,15 +2665,15 @@ excel_workbook_new (MsBiffVersion ver, IOContext *context, WorkbookView *wbv)
 	ewb->gnum_wb = NULL;
 	ewb->boundsheet_sheet_by_index = g_ptr_array_new ();
 	ewb->boundsheet_data_by_stream = g_hash_table_new_full (
-		(GHashFunc)biff_guint32_hash, (GCompareFunc)biff_guint32_equal,
+		g_direct_hash, g_direct_equal,
 		NULL, (GDestroyNotify) biff_boundsheet_data_destroy);
 	ewb->font_data        = g_hash_table_new_full (
-		(GHashFunc)biff_guint16_hash, (GCompareFunc)biff_guint16_equal,
+		g_direct_hash, g_direct_equal,
 		NULL, (GDestroyNotify)biff_font_data_destroy);
 	ewb->excel_sheets     = g_ptr_array_new ();
 	ewb->XF_cell_records  = g_ptr_array_new ();
 	ewb->format_data      = g_hash_table_new_full (
-		(GHashFunc)biff_guint16_hash, (GCompareFunc)biff_guint16_equal,
+		g_direct_hash, g_direct_equal,
 		NULL, (GDestroyNotify)biff_format_data_destroy);
 	ewb->palette          = excel_get_default_palette ();
 	ewb->global_strings   = NULL;
@@ -2668,7 +2698,7 @@ excel_workbook_reset_style (ExcelWorkbook *ewb)
 
 	g_hash_table_destroy (ewb->font_data);
         ewb->font_data        = g_hash_table_new_full (
-                (GHashFunc)biff_guint16_hash, (GCompareFunc)biff_guint16_equal,
+		g_direct_hash, g_direct_equal,
                 NULL, (GDestroyNotify)biff_font_data_destroy);
 
         for (i = 0; i < ewb->XF_cell_records->len; i++)
@@ -2678,7 +2708,7 @@ excel_workbook_reset_style (ExcelWorkbook *ewb)
 
 	g_hash_table_destroy (ewb->format_data);
         ewb->format_data      = g_hash_table_new_full (
-                (GHashFunc)biff_guint16_hash, (GCompareFunc)biff_guint16_equal,
+		g_direct_hash, g_direct_equal,
                 NULL, (GDestroyNotify)biff_format_data_destroy);
 }
 
@@ -3233,7 +3263,7 @@ base_char_width_for_read (ExcelReadSheet *esheet,
 {
 	BiffXFData const *xf = excel_get_xf (esheet, xf_index);
 	BiffFontData const *fd = (xf != NULL)
-		? excel_get_font (esheet, xf->font_idx)
+		? excel_get_font (esheet->container.ewb, xf->font_idx)
 		: NULL;
 	/* default to Arial 10 */
 	char const * name = (fd != NULL) ? fd->fontname : "Arial";
@@ -5351,8 +5381,8 @@ excel_read_BOF (BiffQuery	 *q,
 		excel_read_sheet (q, ewb, wb_view, esheet);
 
 	} else if (ver->type == MS_BIFF_TYPE_Worksheet) {
-		gboolean const found_it =
-			g_hash_table_lookup (ewb->boundsheet_data_by_stream, &q->streamPos) != NULL;
+		gboolean const found_it = NULL != g_hash_table_lookup (
+			ewb->boundsheet_data_by_stream, GINT_TO_POINTER (q->streamPos));
 		ExcelReadSheet *esheet = excel_workbook_get_sheet (ewb, *current_sheet);
 		esheet->container.ver = ver->version;
 		excel_read_sheet (q, ewb, wb_view, esheet);

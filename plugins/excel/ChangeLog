@@ -1,3 +1,40 @@
+2004-03-06  Jody Goldberg <jody@gnome.org>
+
+	* ms-obj.c (ms_obj_attr_new_markup) : new.
+	(ms_obj_attr_get_markup) : new.
+	(ms_obj_attr_destroy) : teach about PangoAttrList
+	(append_txorun) : new.
+	(ms_obj_read_pre_biff8_obj) : font colours come with the FONT info in
+	  txoruns.  The docs are wrong the colour in the record is useless.
+	  Remove some extra debug spew.
+
+	* ms-excel-read.c (excel_wb_get_fmt) : no point using pointers to
+	  ints.  Just use G_INT_TO_POINTER.
+	(ms_sheet_get_fmt) : ditto.
+	(excel_read_BOUNDSHEET) : ditto.
+	(excel_workbook_new) : ditto.
+	(excel_workbook_reset_style) : ditto.
+	(base_char_width_for_read) : ditto.
+	(excel_read_FORMAT) : ditto.
+	(excel_read_FONT) : ditto.
+	(excel_get_font) : ditto.
+	  Also no need for this to take a sheet, take a workbook.
+	(biff_font_data_destroy) : free the new optional attr lists.
+	(ms_sheet_create_obj) : Use markup rather than a single colour.
+	(biff_guint16_hash (guint16 const *d)
+	(biff_guint32_hash (guint32 const *d)
+	(biff_guint16_equal) : delete.
+	(biff_guint32_equal) : delete.
+	(excel_get_style_from_xf) : remove some useless code now that font
+	  substitution is handled at the app level.
+	(add_attr) : new.
+	(ms_wb_get_font_markup) : new.  build a PangoAttrList from a FONT record.
+
+	* ms-container.c (ms_container_get_fmt) : automatically chain up
+	(ms_container_get_markup) : new.
+
+	* ms-chart.c (chart_get_fmt) : delete.
+
 2004-03-03  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-read.c (excel_formula_parses_ref_sheets) : extend to

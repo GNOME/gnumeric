@@ -8,11 +8,8 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=131588	[-O0 vs -O2 for rangesum]
-    http://bugzilla.gnome.org/show_bug.cgi?id=97216	[sheet for graph creation]
     http://bugzilla.gnome.org/show_bug.cgi?id=127203	[x axis child pos]
     : X axis label seperation
-    : text in boxes for text-xls/pivot.xls is white 	[xl95 pallette id=9]
     : box colors and warnings in christ95.xls
 
     The Insert menu has an "Insert" entry.  (Which is named thusly because it

@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
  * dialog-col-width.c:  Sets the magnification factor
  *
@@ -204,8 +205,7 @@ cb_dialog_col_width_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 			size_pixels = 0;
 
 		workbook_cmd_resize_selected_colrow (WORKBOOK_CONTROL (state->wbcg),
-						     TRUE, state->sheet,
-						     size_pixels);
+			state->sheet, TRUE, size_pixels);
 		dialog_col_width_load_value (state);
 	}
 

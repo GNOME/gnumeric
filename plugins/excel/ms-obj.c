@@ -3,7 +3,7 @@
 /*
  * ms-obj.c: MS Excel Object support for Gnumeric
  *
- * Copyright (C) 2000-2002
+ * Copyright (C) 2000-2004
  *	Jody Goldberg (jody@gnome.org)
  *	Michael Meeks (mmeeks@gnu.org)
  *
@@ -122,6 +122,20 @@ ms_obj_attr_new_expr (MSObjAttrID id, GnmExpr const *expr)
 	return res;
 }
 
+MSObjAttr *
+ms_obj_attr_new_markup (MSObjAttrID id, PangoAttrList *markup)
+{
+	MSObjAttr *res = g_new (MSObjAttr, 1);
+
+	g_return_val_if_fail ((id & MS_OBJ_ATTR_MASK) == MS_OBJ_ATTR_IS_PANGO_ATTR_LIST_MASK, NULL);
+
+	/* be anal about constness */
+	*((MSObjAttrID *)&(res->id)) = id;
+	res->v.v_markup = markup;
+	pango_attr_list_ref (markup);
+	return res;
+}
+
 guint32
 ms_obj_attr_get_uint (MSObj *obj, MSObjAttrID id, guint32 default_value)
 {
@@ -192,6 +206,20 @@ ms_obj_attr_get_expr (MSObj *obj, MSObjAttrID id, GnmExpr const *default_value)
 	return attr->v.v_expr;
 }
 
+PangoAttrList *
+ms_obj_attr_get_markup (MSObj *obj, MSObjAttrID id, PangoAttrList *default_value)
+{
+	MSObjAttr *attr;
+
+	g_return_val_if_fail (obj != NULL, default_value);
+	g_return_val_if_fail (id & MS_OBJ_ATTR_IS_PANGO_ATTR_LIST_MASK, default_value);
+
+	attr = ms_obj_attr_bag_lookup (obj->attrs, id);
+	if (attr == NULL)
+		return default_value;
+	return attr->v.v_markup;
+}
+
 static void
 ms_obj_attr_destroy (MSObjAttr *attr)
 {
@@ -208,6 +236,10 @@ ms_obj_attr_destroy (MSObjAttr *attr)
 			   attr->v.v_expr != NULL) {
 			gnm_expr_unref (attr->v.v_expr);
 			attr->v.v_expr = NULL;
+		} else if ((attr->id & MS_OBJ_ATTR_IS_PANGO_ATTR_LIST_MASK) &&
+			   attr->v.v_markup != NULL) {
+			pango_attr_list_unref (attr->v.v_markup);
+			attr->v.v_markup = NULL;
 		}
 		g_free (attr);
 	}
@@ -389,11 +421,27 @@ ms_obj_dump_impl (guint8 const *data, int len, int data_left, char const *name)
 #define ms_obj_dump (data, len, data_left, name)
 #endif
 
+typedef struct {
+	unsigned first, last;
+	PangoAttrList *accum;
+} TXORun;
+
+static gboolean
+append_txorun (PangoAttribute *src, TXORun *run)
+{
+	PangoAttribute *dst = pango_attribute_copy (src);
+	dst->start_index = run->first;
+	dst->end_index = run->last;
+	pango_attr_list_change (run->accum, dst);
+	return FALSE;
+}
+
 /* S59DAD.HTM */
 static gboolean
 ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 {
 	guint16 peek_op, tmp, len;
+	int txo_len;
 	guint8 const *data;
 	gboolean const has_fmla = GSF_LE_GET_GUINT16 (q->data+26) != 0;
 
@@ -416,10 +464,6 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 		break;
 	case 1: /* line */
 		tmp = GSF_LE_GET_GUINT8 (q->data+40);
-		if (GSF_LE_GET_GUINT16 (q->data + 10) == 0 &&
-		    GSF_LE_GET_GUINT16 (q->data + 14) < 20) {
-			g_warning("%hhu", tmp);
-		}
 		if (GSF_LE_GET_GUINT8 (q->data+38) & 0x0F)
 			ms_obj_attr_bag_insert (obj->attrs,
 				ms_obj_attr_new_flag (MS_OBJ_ATTR_ARROW_END));
@@ -453,30 +497,53 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 					0x80000000 | GSF_LE_GET_GUINT8 (q->data+35)));
 		}
 		ms_obj_attr_bag_insert (obj->attrs,
-			ms_obj_attr_new_uint (MS_OBJ_ATTR_FONT_COLOR,
-				0x80000000 | GSF_LE_GET_GUINT8 (q->data+34)));
-		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_OUTLINE_COLOR,
 				0x80000000 | GSF_LE_GET_GUINT8 (q->data+38)));
 
 		/* only pull in the text if it exists */
 		len = GSF_LE_GET_GUINT16 (q->data + 44);
-		if (len > 0) {
+		txo_len = GSF_LE_GET_GUINT16 (q->data + 48);
+		tmp = GSF_LE_GET_GUINT16 (q->data + 50);
+
 			data = q->data + 70;
 			g_return_val_if_fail ((unsigned)(data - q->data) < q->length, TRUE);
-
 			g_return_val_if_fail (!has_fmla, TRUE); /* how would this happen */
 
 			/* skip the obj name if defined */
 			if (has_name) {
 				data += *data + ((*data & 0x1) ? 1 : 2); /* padding byte */
-				g_return_val_if_fail ((unsigned)(data - q->data) < q->length, TRUE);
+			g_return_val_if_fail ((unsigned)(data - q->data) <= q->length, TRUE);
 			}
 
+		if (len > 0)
 			ms_obj_attr_bag_insert (obj->attrs,
 				ms_obj_attr_new_ptr (MS_OBJ_ATTR_TEXT,
 					g_strndup (data, len)));
+
+		data += (len & 1) ? (len+1) : len; /* padding byte */
+
+		if (txo_len > 0) {
+			TXORun txo_run;
+
+			g_return_val_if_fail (txo_len >= 16, TRUE); /* min two records */
+			g_return_val_if_fail ((unsigned)(data+txo_len-q->data) == q->length, TRUE);
+
+			txo_run.last = G_MAXINT;
+			txo_run.accum = pango_attr_list_new ();
+			for (txo_len -= 16 ; txo_len >= 0 ; txo_len -= 8) {
+				txo_run.first = GSF_LE_GET_GUINT16 (data + txo_len);
+				pango_attr_list_filter (ms_container_get_markup (
+					container, GSF_LE_GET_GUINT16 (data + txo_len + 2)),
+					(PangoAttrFilterFunc) append_txorun, &txo_run);
+				txo_run.last = txo_run.first - 1;
 		}
+			ms_obj_attr_bag_insert (obj->attrs,
+				ms_obj_attr_new_markup (MS_OBJ_ATTR_MARKUP, txo_run.accum));
+			pango_attr_list_unref (txo_run.accum);
+		} else
+			ms_obj_attr_bag_insert (obj->attrs,
+				ms_obj_attr_new_markup (MS_OBJ_ATTR_MARKUP,
+					ms_container_get_markup (container, tmp)));
 		break;
 
 	case 7: /* button */

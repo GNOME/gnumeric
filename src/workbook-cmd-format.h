@@ -6,8 +6,8 @@
 
 void workbook_cmd_mutate_borders	   (WorkbookControl *wbc,
 					    Sheet *sheet, gboolean add);
-void workbook_cmd_resize_selected_colrow   (WorkbookControl *wbc, gboolean is_cols,
-					    Sheet *sheet, int new_size_pixels);
+void workbook_cmd_resize_selected_colrow   (WorkbookControl *wbc, Sheet *sheet,
+					    gboolean is_cols, int new_size_pixels);
 
 void workbook_cmd_format_column_auto_fit   (GtkWidget *widget, WorkbookControl *wbc);
 void sheet_dialog_set_column_width         (GtkWidget *widget, WorkbookControlGUI *wbcg);

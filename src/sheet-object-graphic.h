@@ -2,6 +2,7 @@
 #define GNUMERIC_SHEET_OBJECT_GRAPHIC_H
 
 #include "sheet-object.h"
+#include <pango/pango-attributes.h>
 
 #define SHEET_OBJECT_GRAPHIC_TYPE  (sheet_object_graphic_get_type ())
 GType sheet_object_graphic_get_type (void);
@@ -28,6 +29,6 @@ void  gnm_so_polygon_set_outline_color (SheetObject *so, GnmColor *color);
 
 GType sheet_object_text_get_type (void);
 void  gnm_so_text_set_text	 (SheetObject *so, char const *str);
-void  gnm_so_text_set_font_color (SheetObject *so, GnmColor *color);
+void  gnm_so_text_set_markup	 (SheetObject *so, PangoAttrList *markup);
 
 #endif /* GNUMERIC_SHEET_OBJECT_GRAPHIC_H */

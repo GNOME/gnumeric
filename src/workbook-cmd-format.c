@@ -73,8 +73,8 @@ cb_colrow_collect (SheetView *sv, GnmRange const *r, gpointer user_data)
 }
 
 void
-workbook_cmd_resize_selected_colrow (WorkbookControl *wbc, gboolean is_cols,
-				     Sheet *sheet, int new_size_pixels)
+workbook_cmd_resize_selected_colrow (WorkbookControl *wbc, Sheet *sheet,
+				     gboolean is_cols, int new_size_pixels)
 {
 	struct closure_colrow_resize closure;
 	closure.is_cols = is_cols;
@@ -87,8 +87,8 @@ workbook_cmd_resize_selected_colrow (WorkbookControl *wbc, gboolean is_cols,
 void
 workbook_cmd_format_column_auto_fit (GtkWidget *widget, WorkbookControl *wbc)
 {
-	Sheet *sheet = wb_control_cur_sheet (wbc);
-	workbook_cmd_resize_selected_colrow (wbc, TRUE, sheet, -1);
+	workbook_cmd_resize_selected_colrow (wbc,
+		wb_control_cur_sheet (wbc), TRUE, -1);
 }
 
 void
@@ -100,8 +100,8 @@ sheet_dialog_set_column_width (GtkWidget *ignored, WorkbookControlGUI *wbcg)
 void
 workbook_cmd_format_row_auto_fit (GtkWidget *widget, WorkbookControl *wbc)
 {
-	Sheet *sheet = wb_control_cur_sheet (wbc);
-	workbook_cmd_resize_selected_colrow (wbc, FALSE, sheet, -1);
+	workbook_cmd_resize_selected_colrow (wbc, 
+		wb_control_cur_sheet (wbc), FALSE, -1);
 }
 
 void

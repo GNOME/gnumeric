@@ -7,7 +7,7 @@
  * Author:
  *    Jody Goldberg (jody@gnome.org)
  *
- * (C) 2000-2003 Jody Goldberg
+ * (C) 2000-2004 Jody Goldberg
  **/
 
 #include <gnumeric-config.h>
@@ -202,11 +202,32 @@ ms_container_sheet (MSContainer const *c)
 }
 
 GnmFormat *
-ms_container_get_fmt (MSContainer const *c, guint16 indx)
+ms_container_get_fmt (MSContainer const *c, unsigned indx)
 {
+	for ( ; TRUE ; c = c->parent) {
 	g_return_val_if_fail (c != NULL, NULL);
 	g_return_val_if_fail (c->vtbl != NULL, NULL);
-	g_return_val_if_fail (c->vtbl->get_fmt != NULL, NULL);
+		if (c->vtbl->get_fmt != NULL)
+			break;
+	}
 	return (*c->vtbl->get_fmt) (c, indx);
 }
 
+/**
+ * ms_container_get_markup :
+ * @c : #MSContainer
+ * @indx :
+ *
+ * Return a #PangoAttrList the caller should not modify or free the list.
+ **/
+PangoAttrList *
+ms_container_get_markup (MSContainer const *c, unsigned indx)
+{
+	for ( ; TRUE ; c = c->parent) {
+		g_return_val_if_fail (c != NULL, NULL);
+		g_return_val_if_fail (c->vtbl != NULL, NULL);
+		if (c->vtbl->get_markup != NULL)
+			break;
+	}
+	return (*c->vtbl->get_markup) (c, indx);
+}

@@ -33,6 +33,7 @@
 #include "sheet-merge.h"
 #include "cell.h"
 #include "cellspan.h"
+#include "rendered-value.h"
 
 void
 colrow_compute_pixels_from_pts (ColRowInfo *cri,
@@ -410,6 +411,17 @@ cb_set_colrow_size (ColRowInfo *info, void *userdata)
 	return FALSE;
 }
 
+static GnmValue *
+cb_clear_variable_width_content (Sheet *sheet, int col, int row, GnmCell *cell)
+{
+	if (cell->rendered_value != NULL &&
+	    cell->rendered_value->variable_width) {
+		rendered_value_destroy (cell->rendered_value);
+		cell->rendered_value = NULL;
+	}
+	return NULL;
+}
+
 ColRowStateGroup *
 colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 		  ColRowIndexList *src, int new_size)
@@ -457,6 +469,12 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 			/* Result is a magic 'default' record + >= 1 normal */
 			return g_slist_prepend (res, g_slist_append (NULL, rles));
 		}
+
+		/* force a re-render of cells with expanding formats */
+		if (is_cols)
+			sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
+				index->first, 0, index->last, SHEET_MAX_ROWS-1,
+				(CellIterFunc) &cb_clear_variable_width_content, 0);
 
 		for (i = index->first ; i <= index->last ; ++i) {
 			int tmp = new_size;
@@ -578,6 +596,11 @@ colrow_restore_state_group (Sheet *sheet, gboolean is_cols,
 		}
 
 		colrow_set_states (sheet, is_cols, index->first, ptr->data);
+		/* force a re-render of cells with expanding formats */
+		if (is_cols)
+			sheet_foreach_cell_in_range (sheet, CELL_ITER_IGNORE_BLANK,
+				index->first, 0, index->last, SHEET_MAX_ROWS-1,
+				(CellIterFunc) &cb_clear_variable_width_content, 0);
 		colrow_state_list_destroy (ptr->data);
 		selection = selection->prev;
 	}

@@ -78,13 +78,22 @@ calc_indent (PangoContext *context, const GnmStyle *mstyle, Sheet *sheet)
 	return MIN (indent, 65535);
 }
 
-void
+/**
+ * rendered_value_render :
+ *
+ * returns TRUE if the result depends on the width of the cell
+ **/
+static gboolean
 rendered_value_render (GString *str,
 		       GnmCell *cell, PangoContext *context, GnmStyle const *mstyle,
-		       gboolean *dynamic_width, gboolean *display_formula,
+		       gboolean allow_variable_width, gboolean *display_formula,
 		       GnmColor **color)
 {
 	Sheet *sheet = cell->base.sheet;
+
+	/* Is the format variable,  we may ignore it, but we still need to know
+	 * if it is possible */
+	gboolean is_variable_width = FALSE;
 
 	*display_formula = cell_has_expr (cell) && sheet && sheet->display_formulas;
 
@@ -95,10 +104,8 @@ rendered_value_render (GString *str,
 				     parse_pos_init_cell (&pp, cell),
 				     gnm_expr_conventions_default);
 		*color = NULL;
-		*dynamic_width = FALSE;
 	} else if (sheet && sheet->hide_zero && cell_is_zero (cell)) {
 		*color = NULL;
-		*dynamic_width = FALSE;
 	} else if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
 		double col_width = -1.;
 		/* entered text CAN be null if called by set_value */
@@ -106,9 +113,9 @@ rendered_value_render (GString *str,
 
 		/* For format general approximate the cell width in characters */
 		if (style_format_is_general (format)) {
-			if (*dynamic_width &&
-			    (VALUE_FMT (cell->value) == NULL ||
-			     style_format_is_general (VALUE_FMT (cell->value)))) {
+			is_variable_width = (VALUE_FMT (cell->value) == NULL ||
+					     style_format_is_general (VALUE_FMT (cell->value)));
+			if (is_variable_width && allow_variable_width) {
 				GnmFont *style_font =
 					scg_get_style_font (context, sheet, mstyle);
 				double wdigit = style_font->approx_width.pts.digit;
@@ -138,18 +145,16 @@ rendered_value_render (GString *str,
 					col_width = cell_width / wdigit;
 				}
 				style_font_unref (style_font);
-			} else {
+			} else
 				format = VALUE_FMT (cell->value);
-				*dynamic_width = FALSE;
-			}
-		} else
-			*dynamic_width = FALSE;
+		}
 		format_value_gstring (str, format, cell->value, color,
 				      col_width,
 				      sheet ? workbook_date_conv (sheet->workbook) : NULL);
 	} else {
 		g_warning ("No format: serious error");
 	}
+	return is_variable_width;
 }
 
 
@@ -158,7 +163,7 @@ rendered_value_render (GString *str,
  * rendered_value_new:
  * @cell:   The cell
  * @mstyle: The mstyle associated with the cell
- * @dynamic_width : Allow format to depend on column width.
+ * @allow_variable_width : Allow format to depend on column width.
  * @context: A pango context for layout.
  *
  * Formats the value of the cell according to the format style given in @mstyle
@@ -167,7 +172,7 @@ rendered_value_render (GString *str,
  **/
 RenderedValue *
 rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
-		    gboolean dynamic_width,
+		    gboolean allow_variable_width,
 		    PangoContext *context)
 {
 	RenderedValue	*res;
@@ -209,11 +214,9 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	else
 		str = g_string_sized_new (100);
 
-	rendered_value_render (str, cell, context, mstyle,
-			       &dynamic_width, &display_formula, &color);
-
 	res = CHUNK_ALLOC (RenderedValue, rendered_value_pool);
-	res->dynamic_width = dynamic_width;
+	res->variable_width = rendered_value_render (str, cell, context, mstyle,
+		allow_variable_width, &display_formula, &color);
 	res->indent_left = res->indent_right = 0;
 	res->numeric_overflow = FALSE;
 	res->hfilled = FALSE;

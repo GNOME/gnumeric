@@ -1852,7 +1852,7 @@ cmd_resize_colrow_redo (GnmCommand *cmd,
 					    me->selection, me->new_size);
 	if (me->cmd.size == 1)
 		me->cmd.size += (g_slist_length (me->saved_sizes) +
-				    g_list_length (me->selection));
+				 g_list_length (me->selection));
 
 	return FALSE;
 }

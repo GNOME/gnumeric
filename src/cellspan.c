@@ -409,12 +409,8 @@ row_calc_spans (ColRowInfo *rinfo, Sheet const *sheet)
 			continue;
 		}
 
-#if 0
-		/* NOTE : we can't do this just yet.  Col size changes don't
-		 * clear the rendered values for dynamic cells */
 		/* render as necessary */
 		if (cell->rendered_value == NULL)
-#endif
 			cell_render_value ((GnmCell *)cell, TRUE);
 
 		if (cell_is_merged (cell)) {

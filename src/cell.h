@@ -86,7 +86,7 @@ GnmStyle *cell_get_mstyle		(GnmCell const *cell);
 GnmFormat *cell_get_format	(GnmCell const *cell);
 void	cell_set_format		(GnmCell *cell, char const *format);
 
-void	cell_render_value	(GnmCell *cell, gboolean dynamic_width);
+void	cell_render_value	(GnmCell *cell, gboolean allow_variable_width);
 int	cell_rendered_height	(GnmCell const * cell);
 int	cell_rendered_width	(GnmCell const * cell);	/* excludes offset */
 int	cell_rendered_offset	(GnmCell const * cell);

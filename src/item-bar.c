@@ -950,8 +950,7 @@ item_bar_event (FooCanvasItem *item, GdkEvent *e)
 		}
 		break;
 
-	case GDK_2BUTTON_PRESS:
-	{
+	case GDK_2BUTTON_PRESS: {
 		/* Ignore scroll wheel events */
 		if (e->button.button > 3)
 			return FALSE;
