@@ -143,6 +143,7 @@ GtkWidget * gnumeric_message_dialog_new (GtkWindow * parent,
 					 gchar const * primary_message,
 					 gchar const * secondary_message);
 
-GdkPixbuf* gnm_pixbuf_intelligent_scale (GdkPixbuf *pixbuf, guint scale);
+GdkPixbuf* gnm_pixbuf_intelligent_scale (GdkPixbuf *pixbuf, 
+					 guint width, guint height);
 
 #endif /* GNUMERIC_GUI_UTIL_H */

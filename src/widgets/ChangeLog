@@ -1,5 +1,13 @@
 2003-08-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* preview-file-selection.c: use  HSCALE and VSCALE rather than SCALE
+	  throughout
+	(preview_file_selection_set_filename): new
+	* preview-file-selection.h
+	(preview_file_selection_set_filename): new
+
+2003-08-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* preview-file-selection.c (preview_file_selection_intelligent_scale):
 	  moved to src/gui-util.h
 	(preview_file_selection_update): ignore .gnumeric files

@@ -1681,26 +1681,26 @@ gnumeric_message_dialog_new (GtkWindow * parent,
 }
 
 GdkPixbuf*
-gnm_pixbuf_intelligent_scale (GdkPixbuf *buf, guint scale)
+gnm_pixbuf_intelligent_scale (GdkPixbuf *buf, guint width, guint height)
 {
 	GdkPixbuf *scaled;
 	int w, h;
-	guint ow = gdk_pixbuf_get_width (buf);
-	guint oh = gdk_pixbuf_get_height (buf);
+	unsigned long int ow = gdk_pixbuf_get_width (buf);
+	unsigned long int oh = gdk_pixbuf_get_height (buf);
 
-	if (ow <= scale && oh <= scale)
+	if (ow <= width && oh <= height)
 		scaled = g_object_ref (buf);
 	else
 	{
-		if (ow > oh)
+		if (ow * height > oh * width)
 		{
-			w = scale;
-			h = scale * (((double)oh)/(double)ow);
+			w = width;
+			h = width * (((double)oh)/(double)ow);
 		}
 		else
 		{
-			h = scale;
-			w = scale * (((double)ow)/(double)oh);
+			h = height;
+			w = height * (((double)ow)/(double)oh);
 		}
 			
 		scaled = gdk_pixbuf_scale_simple (buf, w, h, GDK_INTERP_BILINEAR);

@@ -37,6 +37,9 @@
 #include <src/gnumeric-i18n.h>
 #include <string.h>
 
+#define HSCALE 100
+#define VSCALE 120
+
 typedef GObjectClass GogStyleClass;
 
 static GObjectClass *parent_klass;
@@ -146,7 +149,7 @@ gog_style_set_image_preview (GdkPixbuf *pix, StylePrefState *state)
 	w = glade_xml_get_widget (state->gui, "fill_image_sample");
 	
 	scaled = gnm_pixbuf_intelligent_scale 
-				(pix, 100);
+				(pix, HSCALE, VSCALE);
 	gtk_image_set_from_pixbuf (GTK_IMAGE (w), scaled);
 	g_object_unref (scaled);
 	
@@ -447,7 +450,7 @@ cb_image_file_select (GtkWidget *cc, StylePrefState *state)
 	gtk_file_selection_hide_fileop_buttons (fs);
 
 	if (style->fill.u.image.filename != NULL)
-		gtk_file_selection_set_filename (fs, style->fill.u.image.filename);
+		preview_file_selection_set_filename (fs, style->fill.u.image.filename);
 
 	/* 
 	 * should not be modal
@@ -497,6 +500,7 @@ fill_image_init (StylePrefState *state, GogStyle const *style)
 		G_CALLBACK (cb_image_file_select), state);
 
 	sample = glade_xml_get_widget (state->gui, "fill_image_sample");
+	gtk_widget_set_size_request (sample, HSCALE + 10, VSCALE + 10);
 	type   = glade_xml_get_widget (state->gui, "fill_image_fit");
 
 	state->fill.image.image = NULL;

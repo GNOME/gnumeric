@@ -36,8 +36,10 @@
 #include <gtk/gtktreeview.h>
 #include <gtk/gtkmain.h>
 #include "preview-file-selection.h"
+#include <gsf/gsf-utils.h>
 
-#define SCALE 100
+#define HSCALE 100
+#define VSCALE 120
 
 struct _PreviewFileSelectionPrivate
 {
@@ -153,7 +155,7 @@ preview_file_selection_update (PreviewFileSelection *fsel, gpointer data)
 			int w, h;
 			char *size;
 			GdkPixbuf *scaled = gnm_pixbuf_intelligent_scale 
-				(buf, SCALE); 
+				(buf, HSCALE, VSCALE); 
 			gtk_image_set_from_pixbuf 
 				(GTK_IMAGE (fsel->priv->preview),
 				 scaled);
@@ -195,7 +197,7 @@ preview_file_selection_add_preview (PreviewFileSelection *fsel)
 	} while (!GTK_IS_HBOX (hbox));
 	
 	frame = gtk_frame_new (_("Preview"));
-	gtk_widget_set_size_request (frame, SCALE + 10, SCALE + 10);
+	gtk_widget_set_size_request (frame, HSCALE + 10, VSCALE + 10);
 	gtk_widget_show (frame);
 	gtk_box_pack_end (GTK_BOX (hbox), frame, FALSE, FALSE, 0);
 
@@ -242,3 +244,10 @@ static void preview_file_selection_get_property (GObject *object, guint arg_id, 
 	}
 }
 
+void 
+preview_file_selection_set_filename (GtkFileSelection *filesel,
+				     const gchar      *filename)
+{
+	gtk_file_selection_set_filename (filesel, filename);
+	preview_file_selection_update (filesel, NULL);
+}

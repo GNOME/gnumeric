@@ -1,5 +1,13 @@
 2003-08-27  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* graph/gog-style.c (gog_style_set_image_preview): add 
+	  argument to gnm_pixbuf_intelligent_scale call
+	(cb_image_file_select) use preview_file_selection_set_filename
+	  rather than gtk_file_selection_set_filename
+	(fill_image_init): set minimum preview size
+
+2003-08-27  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* graph/gog-style.c (gog_style_set_image_preview): new
 	(cb_image_file_select): use gtk_image_set_from_pixbuf
 	(fill_image_init): initialize state->fill.image.image

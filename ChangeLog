@@ -1,3 +1,10 @@
+2003-08-27  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/gui-util.c (gnm_pixbuf_intelligent_scale): use height and 
+	  width arguments
+	* src/gui-util.h (gnm_pixbuf_intelligent_scale): ditto
+	* src/workbook-control-gui.c: add #include
+
 2003-08-27  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-control-gui.c (scg_mode_edit) : reset the menu/toolbar.

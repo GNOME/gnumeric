@@ -53,6 +53,8 @@ struct _PreviewFileSelectionClass
 GType preview_file_selection_get_type (void);
 
 GtkWidget *preview_file_selection_new (const gchar *title, gboolean do_preview);
+void preview_file_selection_set_filename (GtkFileSelection *filesel,
+					  const gchar      *filename);
 
 G_END_DECLS
 
