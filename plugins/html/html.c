@@ -43,10 +43,11 @@
 #include "error-info.h"
 #include "style-border.h"
 #include <rendered-value.h>
-
+#include "mstyle.h"
 #include <errno.h>
 #include <ctype.h>
 #include <string.h>
+
 
 /*
  * html_version_t:
@@ -154,9 +155,18 @@ html_write_cell_content (FILE *fp, Cell *cell, MStyle *mstyle, html_version_t ve
 	guint g = 0;
 	guint b = 0;
 	char *rendered_string;
+	gboolean hidden = mstyle_get_content_hidden (mstyle);
+	
+
+	if (version ==HTML32 && hidden)
+	  fputs ("<!-- 'HIDDEN DATA' -->",fp);
+	else
+	  {
 
 	if (mstyle != NULL) {
-		if (mstyle_get_font_italic (mstyle))
+	        
+	       
+	        if (mstyle_get_font_italic (mstyle))
 			fputs ("<i>", fp);
 		if (mstyle_get_font_bold (mstyle))
 			fputs ("<b>", fp);
@@ -170,6 +180,7 @@ html_write_cell_content (FILE *fp, Cell *cell, MStyle *mstyle, html_version_t ve
 			if (r > 0 || g > 0 || b > 0)
 				fprintf (fp, "<font color=\"#%02X%02X%02X\">", r, g, b);
 		}
+		
 		rendered_string = cell_get_rendered_text (cell);
 		html_print_encoded (fp, rendered_string);
 		g_free (rendered_string);
@@ -184,7 +195,7 @@ html_write_cell_content (FILE *fp, Cell *cell, MStyle *mstyle, html_version_t ve
 			fputs ("</b>", fp);
 		if (mstyle_get_font_italic (mstyle))
 			fputs ("</i>", fp);
-	}
+	}}
 }
 
 
@@ -324,7 +335,7 @@ write_cell (FILE *fp, Sheet *sheet, gint row, gint col, html_version_t version)
 	Cell *cell;
 	MStyle *mstyle;
 	guint r, g, b;
-
+	
 	mstyle = sheet_style_get (sheet, col, row);
 	if (mstyle != NULL && version != HTML32 && version != HTML40 && 
 	    mstyle_get_pattern (mstyle) != 0 &&
@@ -344,7 +355,7 @@ write_cell (FILE *fp, Sheet *sheet, gint row, gint col, html_version_t version)
 			fputs(" valign=\"bottom\" ", fp);
 			break;
 		case VALIGN_CENTER:
-			fputs(" valign=\"middle\" ", fp);
+			fputs(" valign=\"center\" ", fp);
 			break;
 		case VALIGN_JUSTIFY:
 			fputs(" valign=\"baseline\" ", fp);
@@ -371,7 +382,7 @@ write_cell (FILE *fp, Sheet *sheet, gint row, gint col, html_version_t version)
 		}
 
 	}
-	if (version == HTML40) {
+	if (version == HTML40 || version == HTML40F) {
 		if (mstyle != NULL) {
 			fprintf (fp, " style=\"");
 			if (mstyle_get_pattern (mstyle) != 0 &&
@@ -385,7 +396,10 @@ write_cell (FILE *fp, Sheet *sheet, gint row, gint col, html_version_t version)
 				html_get_text_color (cell, mstyle, &r, &g, &b);
 				if (r > 0 || g > 0 || b > 0)
 					fprintf (fp, " color:#%02X%02X%02X;", r, g, b);
+				if(mstyle_get_content_hidden(mstyle))
+				  fputs(" visibility:hidden;",fp);
 			}
+			
 			html_write_border_style_40 (fp, mstyle);
 			fprintf (fp, "\"");
 		}

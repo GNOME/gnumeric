@@ -1,3 +1,10 @@
+2002-10-09  Tim A. Garner <garnertim@hotmail.com>
+
+	* html.c (html_write_cell_content): modified to exclude hidden 
+	  cells in HTML32
+	(write_cell): modified to exclude hidden cells in HTML40, XHTML
+	  and HTML40F
+
 2002-10-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* html.c : new XHTML version

@@ -49,6 +49,9 @@ Hal Ashburner:
 Nicolas Peninguy:
 	* Use regexps to classify currency and accounting formats
 
+Tim A. Garner:
+	* Hide hidden data in html export
+
 --------------------------------------------------------------------------
 Gnumeric 1.1.9
 
