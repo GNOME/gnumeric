@@ -1,5 +1,10 @@
 2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* analysis-tools.c : adjust includes
+	* random-generator.c : ditto
+
+2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* Makefile.am : added tools.h
 	* analysis-tools.c : use inheritance over #define
 	* analysis-tools.h : use inheritance over #define

@@ -31,7 +31,6 @@
 #include "mathfunc.h"
 #include "complex.h"
 #include "rangefunc.h"
-#include "dialogs.h"
 #include "parse-util.h"
 #include "tools.h"
 #include "value.h"
@@ -44,6 +43,7 @@
 #include "workbook.h"
 #include "format.h"
 #include "sheet-object-cell-comment.h"
+#include "workbook-control.h"
 #include "gui-util.h"
 
 #include <libgnome/gnome-i18n.h>
