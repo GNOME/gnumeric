@@ -119,14 +119,33 @@ symbol_unref (Symbol *sym)
 	}
 }
 
-gint
+static gint
 g_strcase_equal (gconstpointer v1, gconstpointer v2)
 {
 	return strcasecmp ((const gchar*) v1, (const gchar*) v2) == 0;
 }
 
+
+static gint
+g_strcase_hash (gconstpointer v)
+{
+	const char *s = (char *) v;
+	const char *p;
+	guint h = 0, g;
+	
+	for (p = s; *p != '\0'; p += 1){
+		h = (h << 4) + toupper (*p);
+		if ((g = h & 0xf0000000)){
+			h = h ^ (g >> 24);
+			h = h ^ g;
+		}
+	}
+	
+	return h /* % M */;
+}
+
 void
 symbol_init (void)
 {
-	symbol_hash_table = g_hash_table_new (g_str_hash, g_strcase_equal);
+	symbol_hash_table = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 }

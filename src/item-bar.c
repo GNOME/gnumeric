@@ -61,7 +61,10 @@ item_bar_realize (GnomeCanvasItem *item)
 	GdkWindow *window;
 	GdkGC *gc;
 	GdkColor c;
-	
+
+	if (GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->realize)
+		(*GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->realize)(item);
+
 	item_bar = ITEM_BAR (item);
 	window = GTK_WIDGET (item->canvas)->window;
 	
@@ -85,6 +88,9 @@ item_bar_unrealize (GnomeCanvasItem *item)
 	gdk_gc_unref (item_bar->gc);
 	gdk_cursor_destroy (item_bar->change_cursor);
 	gdk_cursor_destroy (item_bar->normal_cursor);
+
+	if (GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->unrealize)
+		(*GNOME_CANVAS_ITEM_CLASS (item_bar_parent_class)->unrealize)(item);
 }
 
 static void

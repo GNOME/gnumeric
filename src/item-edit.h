@@ -11,6 +11,7 @@ typedef struct {
 	/* The editor which status we reflect on the spreadsheet */
 	GtkWidget  *editor;
 	guint      signal;	/* the signal we connect */
+	guint      signal2;	/* the other signal we connect */
 	
 	ItemGrid   *item_grid;
 	Sheet      *sheet;

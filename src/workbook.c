@@ -8,6 +8,7 @@
 /* The locations within the main table in the workbook */
 #define WB_EA_LINE   0
 #define WB_EA_SHEETS 1
+#define WB_EA_STATUS 2
 
 #define WB_COLS      1
 
@@ -155,6 +156,70 @@ workbook_setup_edit_area (Workbook *wb)
 			    wb);
 }
 
+static void
+workbook_setup_status_area (Workbook *wb)
+{
+	GtkWidget *canvas;
+	GnomeCanvasGroup *root;
+	GtkWidget *t;
+	
+	t = gtk_table_new (0, 0, 0);
+	gtk_table_attach (GTK_TABLE (wb->table), t,
+			  0, WB_COLS, WB_EA_STATUS, WB_EA_STATUS+1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+
+	canvas = gnome_canvas_new ();
+	gtk_widget_set_usize (canvas, 1, 1);
+	
+	root = GNOME_CANVAS_GROUP (GNOME_CANVAS (canvas)->root);
+	wb->auto_expr_label = GNOME_CANVAS_ITEM (gnome_canvas_item_new (
+		root, gnome_canvas_text_get_type (),
+		"text",   "x",
+		"x",      (double) 0,
+		"y",      (double) 10,	/* FIXME :-) */
+		"font",   "fixed", /* FIXME :-) */
+		"anchor", GTK_ANCHOR_W,
+		"fill_color", "black",
+		NULL));
+	
+	gtk_table_attach (GTK_TABLE (t), canvas, 1, 2, 0, 1,
+			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
+	gtk_table_attach (GTK_TABLE (t), gtk_label_new ("SUM="), 0, 1, 0, 1,
+			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_widget_show_all (t);
+}
+
+/*
+ * Sets the expression that gets evaluated whenever the
+ * selection in the sheet changes
+ */
+static char *
+workbook_set_auto_expr (Workbook *wb, char *expression)
+{
+	char *error = NULL;
+	
+	if (wb->auto_expr){
+		g_assert (wb->auto_expr->ref_count == 1);
+		expr_tree_unref (wb->auto_expr);
+		wb->auto_expr = NULL;
+	}
+	wb->auto_expr = expr_parse_string (expression, 0, 0, &error);
+
+	return error;
+}
+
+struct {
+	char *displayed_name;
+	char *function;
+} quick_compute_routines [] = {
+	{ N_("Sum"),   	       "SUM(SELECTION())" },
+	{ N_("Min"),   	       "MIN(SELECTION())" },
+	{ N_("Max"),   	       "MAX(SELECTION())" },
+	{ N_("Average"),       "AVERAGE(SELECTION())" },
+	{ N_("Count"),         "COUNT(SELECTION())" },
+	{ N_("Count numbers"), "COUNTNUMBERS(SELECTION())" },
+	{ NULL, NULL }
+};
+
 /*
  * Sets up the workbook.
  * Right now it is adding some decorations to the window,
@@ -166,15 +231,19 @@ workbook_new (void)
 	Workbook *wb;
 
 	wb = g_new0 (Workbook, 1);
-	wb->toplevel = gnome_app_new ("Gnumeric", "Gnumeric");
-	wb->sheets   = g_hash_table_new (g_str_hash, g_str_equal);
-	wb->table    = gtk_table_new (0, 0, 0);
+	wb->toplevel  = gnome_app_new ("Gnumeric", "Gnumeric");
+	wb->sheets    = g_hash_table_new (g_str_hash, g_str_equal);
+	wb->table     = gtk_table_new (0, 0, 0);
 
+	workbook_setup_status_area (wb);
 	workbook_setup_edit_area (wb);
 	workbook_setup_sheets (wb);
 	gnome_app_set_contents (GNOME_APP (wb->toplevel), wb->table);
 	gnome_app_create_menus (GNOME_APP (wb->toplevel), workbook_menu);
-	
+
+	/* Set the default operation to be performed over selections */
+	workbook_set_auto_expr (wb, "SUM(SELECTION())");
+
 	gtk_widget_show_all (wb->table);
 	return wb;
 }

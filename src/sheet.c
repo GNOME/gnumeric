@@ -595,6 +595,33 @@ sheet_selection_equal (SheetSelection *a, SheetSelection *b)
 	return 1;
 }
 
+static void
+workbook_label_set (Workbook *wb, char *text)
+{
+	gnome_canvas_item_set (wb->auto_expr_label,
+			       "text", text,
+			       NULL);
+}
+
+static void
+sheet_selection_changed_hook (Sheet *sheet)
+{
+	Workbook *wb = sheet->parent_workbook;
+	Value *v;
+	char  *error;
+	
+	v = eval_expr (sheet, wb->auto_expr, 0, 0, &error);
+	if (v){
+		char *s;
+
+		s = value_string (v);
+		workbook_label_set (wb, s);
+		g_free (s);
+		value_release (v);
+	} else
+		workbook_label_set (wb, error);
+}
+
 void
 sheet_selection_append_range (Sheet *sheet,
 			      int base_col,  int base_row,
@@ -623,6 +650,8 @@ sheet_selection_append_range (Sheet *sheet,
 	
 	gnumeric_sheet_set_selection (GNUMERIC_SHEET (sheet->sheet_view), ss);
 	sheet_redraw_selection (sheet, ss);
+
+	sheet_selection_changed_hook (sheet);
 }
 
 void
@@ -670,7 +699,8 @@ sheet_selection_extend_to (Sheet *sheet, int col, int row)
 	}
 
 	gnumeric_sheet_set_selection (GNUMERIC_SHEET (sheet->sheet_view), ss);
-
+	sheet_selection_changed_hook (sheet);
+	
 	sheet_redraw_selection (sheet, &old_selection);
 	sheet_redraw_selection (sheet, ss);
 }
@@ -719,6 +749,7 @@ sheet_selection_col_extend_to (Sheet *sheet, int col)
 			state = 1;
 		sheet_col_set_selection (sheet, ci, state);
 	}
+	sheet_selection_changed_hook (sheet);
 }
 
 /*
@@ -766,6 +797,7 @@ sheet_selection_row_extend_to (Sheet *sheet, int row)
 
 		sheet_row_set_selection (sheet, ri, state);
 	}
+	sheet_selection_changed_hook (sheet);
 }
 
 void
@@ -895,11 +927,11 @@ sheet_selection_change (Sheet *sheet, SheetSelection *old, SheetSelection *new)
 	
 	if (sheet_selection_equal (old, new))
 		return;
-	
 		
 	gnumeric_sheet_accept_pending_output (gsheet);
 	sheet_redraw_selection (sheet, old);
 	sheet_redraw_selection (sheet, new);
+	sheet_selection_changed_hook (sheet);
 	
 	gnumeric_sheet_set_selection (gsheet, new);
 }

@@ -40,7 +40,7 @@ expr_parse_string (char *expr, int col, int row, char **error_msg)
  * This releases all of the resources used by a tree.  
  * It is only used internally by eval_expr_unref
  */
-static void
+void
 eval_expr_release (ExprTree *tree)
 {
 	g_return_if_fail (tree != NULL);
@@ -113,9 +113,21 @@ value_release (Value *value)
 		mpf_clear (value->v.v_float);
 		break;
 
+	case VALUE_ARRAY: {
+		GList *l;
+
+		for (l = value->v.array; l; l = l->next)
+			value_release (l->data);
+		g_list_free (l);
+	}
+	
+	case VALUE_CELLRANGE:
+		break;
+		
 	default:
 		g_warning ("Unknown value type passed to value_release\n");
 	}
+	g_free (value);
 }
 
 /*
@@ -140,6 +152,33 @@ value_cast_to_float (Value *v)
 	return newv;
 }
 
+int
+value_get_bool (Value *v, int *err)
+{
+	*err = 0;
+
+	if (v->type == VALUE_STRING)
+		return atoi (v->v.str->str);
+
+	if (v->type == VALUE_CELLRANGE){
+		*err = 1;
+		return 0;
+	}
+
+	if (v->type == VALUE_INTEGER)
+		return v->v.v_int != 0;
+
+	if (v->type == VALUE_FLOAT)
+		return v->v.v_float != 0.0;
+
+	if (v->type == VALUE_ARRAY)
+		return 0;
+	
+	g_warning ("Unhandled value in value_get_boolean");
+
+	return 0;
+}
+
 float_t
 value_get_as_double (Value *v)
 {
@@ -155,6 +194,9 @@ value_get_as_double (Value *v)
 	if (v->type == VALUE_INTEGER)
 		return (float_t) v->v.v_int;
 
+	if (v->type == VALUE_ARRAY)
+		return 0.0;
+	
 	return (float_t) v->v.v_float;
 }
 
@@ -181,7 +223,13 @@ eval_cell_value (Sheet *sheet, Value *value)
 		mpf_init (res->v.v_float);
 		mpf_set (res->v.v_float, value->v.v_float);
 		break;
-		
+
+	case VALUE_ARRAY:
+		g_warning ("VALUE_ARRAY not handled in eval_cell_value\n");
+		res->type = VALUE_INTEGER;
+		res->v.v_int = 0;
+		break;
+			
 	case VALUE_CELLRANGE:
 		res->v.cell_range = value->v.cell_range;
 		break;
@@ -243,6 +291,19 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 	return v;
 }
 
+enum {
+	IS_EQUAL,
+	IS_LESS,
+	IS_BIGGER,
+};
+
+static int
+compare (Value *a, Value *b)
+{
+	g_warning ("Value comparission is not yet implemented\n");
+	return IS_EQUAL;
+}
+
 Value *
 eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **error_string)
 {
@@ -250,6 +311,63 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 	Sheet *sheet = asheet;
 	
 	switch (tree->oper){
+	case OP_EQUAL:
+	case OP_NOT_EQUAL:
+	case OP_GT:
+	case OP_GTE:
+	case OP_LT:
+	case OP_LTE: {
+		int comp;
+		
+		a = eval_expr (sheet, tree->u.binary.value_a,
+			       eval_col, eval_row, error_string);
+		b = eval_expr (sheet, tree->u.binary.value_b,
+			       eval_col, eval_row, error_string);
+		if (!(a && b)){
+			if (a)
+				value_release (a);
+			if (b)
+				value_release (b);
+			return NULL;
+		}
+		res = g_new (Value, 1);
+		res->type = VALUE_INTEGER;
+
+		comp = compare (a, b);
+
+		switch (tree->oper){
+		case OP_EQUAL:
+			res->v.v_int = comp == IS_EQUAL;
+			break;
+
+		case OP_GT:
+			res->v.v_int = comp == IS_BIGGER;
+			break;
+
+		case OP_LT:
+			res->v.v_int = comp == IS_LESS;
+			break;
+
+		case OP_LTE:
+			res->v.v_int = (comp == IS_EQUAL || comp == IS_LESS);
+			break;
+
+		case OP_GTE:
+			res->v.v_int = (comp == IS_EQUAL || comp == IS_BIGGER);
+			break;
+
+		case OP_NOT_EQUAL:
+			res->v.v_int = comp != IS_EQUAL;
+			break;
+			
+		default:
+			g_warning ("This should never be reached: comparission ops\n");
+		}
+		value_release (a);
+		value_release (b);
+		return res;
+	}
+	
 	case OP_ADD:
 	case OP_SUB:
 	case OP_MULT:
@@ -292,7 +410,7 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 			case OP_MULT:
 				mpz_mul (res->v.v_int, a->v.v_int, b->v.v_int);
 				break;
-				
+
 			case OP_DIV:
 				if (mpz_cmp_si (b->v.v_int, 0)){
 					value_release (a);

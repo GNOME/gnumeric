@@ -18,6 +18,8 @@ GNUMERIC_BASE_SOURCES =		\
 	expr.c			\
 	expr.h			\
 	func.c			\
+	func.h			\
+	fn-sheet.c		\
 	gnumeric-sheet.c	\
 	gnumeric-sheet.h	\
 	gnumeric.h		\

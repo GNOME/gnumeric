@@ -1,3 +1,36 @@
+1998-08-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet.c (sheet_selection_changed_hook): Autocomputation
+	routine.  Whenever selection changes this routine will execute an
+	arbitrary expression (kept in the workbook) and display the
+	result. 
+
+1998-08-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/expr.c (value_release): Release the value.
+	(value_release): Add support for arrays.
+
+	* src/symbol.c (g_strcase_hash): Use case insensitive hash tables.
+
+	* src/item-bar.c (item_bar_unrealize): Call parent unrealize
+	(item_bar_realize): Call parent realize
+
+	* src/item-grid.c (item_bar_unrealize): Call parent unrealize
+	(item_bar_realize): Call parent realize
+	
+	* src/item-cursor.c (item_bar_unrealize): Call parent unrealize
+	(item_bar_realize): Call parent realize.
+	(item_cursor_point): Implement correctly.
+
+	* src/expr.c, parser.y (eval_expr): Added comparission operators.
+
+	* src/fn-sheet.c (gnumeric_if): 
+	Implemented IF function.
+	Implemented SELECTION function.
+
+	* src/func.c (gnumeric_sum): 
+	Implement SUM function.
+	
 1998-08-05    <miguel@nuclecu.unam.mx>
 
 	* src/expr.c (eval_funcall): No need for the the extra argc

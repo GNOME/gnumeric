@@ -40,6 +40,9 @@ item_grid_realize (GnomeCanvasItem *item)
 	GdkWindow *window;
 	GdkGC *gc;
 	
+	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)
+		(*GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)(item);
+	
 	item_grid = ITEM_GRID (item);
 	window = GTK_WIDGET (item->canvas)->window;
 	
@@ -72,6 +75,9 @@ item_grid_unrealize (GnomeCanvasItem *item)
 	
 	gdk_gc_unref (item_grid->grid_gc);
 	item_grid->grid_gc = 0;
+	
+	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)
+		(*GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)(item);
 }
 
 static void
@@ -445,15 +451,15 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		gnumeric_sheet_cursor_set (gsheet, col, row);
 		if (!(event->button.state & GDK_SHIFT_MASK))
-			sheet_selection_clear (sheet);
+			sheet_selection_clear_only (sheet);
 
 		item_grid->selecting = 1;
 		sheet_selection_append (sheet, col, row);
-		printf ("ItemGrab:%d\n", gnome_canvas_item_grab (item,
+		gnome_canvas_item_grab (item,
 					GDK_POINTER_MOTION_MASK |
 					GDK_BUTTON_RELEASE_MASK,
 					NULL,
-					event->button.time));
+					event->button.time);
 		return 1;
 		
 	default:

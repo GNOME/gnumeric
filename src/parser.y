@@ -20,10 +20,10 @@
 /* Allocation with disposal-on-error */ 
 static void *alloc_buffer    (int size);
 static void register_symbol  (Symbol *sym);
-static void register_string  (String *sym);
 static void alloc_clean      (void);
 static void alloc_glist      (GList *l); 
 static void forget_glist     (GList *list);
+static void forget_tree      (ExprTree *tree);
 static void alloc_list_free  (void); 
 static void *v_new (void);
 	
@@ -34,7 +34,6 @@ typedef enum {
 	ALLOC_SYMBOL,
 	ALLOC_VALUE,
 	ALLOC_BUFFER,
-	ALLOC_STRING,
 	ALLOC_LIST
 } AllocType;
 
@@ -66,7 +65,9 @@ static int  yyerror (char *s);
 }
 %type  <tree>  exp
 %type  <list>  arg_list
-%token <tree>  NUMBER STRING FUNCALL CELLREF
+%token <tree>  NUMBER STRING FUNCALL CELLREF GTE LTE NE
+
+%left '<' '>' '=' GTE LTE NE
 %left '-' '+' '&'
 %left '*' '/'
 %left NEG
@@ -114,6 +115,46 @@ exp:	  NUMBER 	{ $$ = $1 }
 		$$->u.binary.value_b = $3;
 	}
 
+	| exp '=' exp {
+		$$ = p_new (ExprTree);
+		$$->oper = OP_EQUAL;
+		$$->u.binary.value_a = $1;
+		$$->u.binary.value_b = $3;
+	}
+	| exp '<' exp {
+		$$ = p_new (ExprTree);
+		$$->oper = OP_LT;
+		$$->u.binary.value_a = $1;
+		$$->u.binary.value_b = $3;
+	}
+	| exp '>' exp {
+		$$ = p_new (ExprTree);
+		$$->oper = OP_GT;
+		$$->u.binary.value_a = $1;
+		$$->u.binary.value_b = $3;
+	}
+
+        | exp GTE exp {
+		$$ = p_new (ExprTree);
+		$$->oper = OP_GTE;
+		$$->u.binary.value_a = $1;
+		$$->u.binary.value_b = $3;
+	}
+
+        | exp NE exp {
+		$$ = p_new (ExprTree);
+		$$->oper = OP_NOT_EQUAL;
+		$$->u.binary.value_a = $1;
+		$$->u.binary.value_b = $3;
+	}
+
+        | exp LTE exp {
+		$$ = p_new (ExprTree);
+		$$->oper = OP_LTE;
+		$$->u.binary.value_a = $1;
+		$$->u.binary.value_b = $3;
+	}
+
 	| '(' exp ')'  {
 		$$ = p_new (ExprTree);
 		$$ = $2;
@@ -132,7 +173,22 @@ exp:	  NUMBER 	{ $$ = $1 }
 	}
 	;
 
-        | CELLREF ':' CELLREF {}
+        | CELLREF ':' CELLREF {
+		CellRef a, b;
+
+		a = $1->u.constant->v.cell;
+		b = $3->u.constant->v.cell;
+
+		$$ = p_new (ExprTree);
+		$$->oper = OP_CONSTANT;
+		$$->u.constant = v_new ();
+		$$->u.constant->type = VALUE_CELLRANGE;
+		$$->u.constant->v.cell_range.cell_a = a;
+		$$->u.constant->v.cell_range.cell_b = b;
+
+		forget_tree ($1);
+		forget_tree ($3);
+	}
 
 	| FUNCALL '(' arg_list ')' {
 		$$ = $1;
@@ -164,7 +220,7 @@ return_cellref (char *p)
 	ExprTree *e;
 	Value    *v;
 	CellRef  *ref;
-	
+
 	/* Try to parse a column */
 	if (*p == '$'){
 		col_relative = FALSE;
@@ -215,6 +271,7 @@ return_cellref (char *p)
 	e->u.constant = v;
 	
 	yylval.tree = e;
+
 	return CELLREF;
 }
 
@@ -232,8 +289,6 @@ return_symbol (char *string)
 		
 		v->v.str = string_get (string);
 		v->type = VALUE_STRING;
-
-		register_string (v->v.str);
 
 		e->oper = OP_CONSTANT;
 		e->u.constant = v;
@@ -368,6 +423,26 @@ int yylex (void)
 	
 	if (c == EOF)
 		return 0;
+
+	if (c == '<'){
+		if (*parser_expr == '='){
+			parser_expr++;
+			return LTE;
+		}
+		if (*parser_expr == '>'){
+			parser_expr++;
+			return NE;
+		}
+		return c;
+	}
+	
+	if (c == '>'){
+		if (*parser_expr == '='){
+			parser_expr++;
+			return GTE;
+		}
+		return c;
+	}
 	
 	return c;
 }
@@ -380,23 +455,19 @@ yyerror (char *s)
 }
 
 static void
+alloc_register (void *a_info)
+{
+	alloc_list = g_list_prepend (alloc_list, a_info);
+}
+
+static void
 register_symbol (Symbol *sym)
 {
 	AllocRec *a_info = g_new (AllocRec, 1);
 
 	a_info->type = ALLOC_SYMBOL;
 	a_info->data = sym;
-	alloc_list = g_list_prepend (alloc_list, a_info);
-}
-
-static void
-register_string (String *string)
-{
-	AllocRec *a_info = g_new (AllocRec, 1);
-
-	a_info->type = ALLOC_STRING;
-	a_info->data = string;
-	alloc_list = g_list_prepend (alloc_list, a_info);
+	alloc_register (a_info);
 }
 
 void *
@@ -407,7 +478,7 @@ alloc_buffer (int size)
 
 	a_info->type = ALLOC_BUFFER;
 	a_info->data = res;
-	alloc_list = g_list_prepend (alloc_list, a_info);
+	alloc_register (a_info);
 
 	return res;
 }
@@ -420,28 +491,9 @@ v_new (void)
 
 	a_info->type = ALLOC_VALUE;
 	a_info->data = res;
-	alloc_list = g_list_prepend (alloc_list, a_info);
+	alloc_register (a_info);
 
 	return res;
-	
-}
-
-static void
-clean_value (Value *v)
-{
-	switch (v->type){
-	case VALUE_FLOAT:
-		mpf_clear (v->v.v_float);
-		break;
-
-	case VALUE_INTEGER:
-	        mpz_clear (v->v.v_int);
-		break;
-
-	default:
-		g_warning ("Unknown value passed to clean_value\n");
-		break;
-	}
 }
 
 static void
@@ -461,15 +513,13 @@ alloc_clean (void)
 			symbol_unref ((Symbol *)rec->data);
 			break;
 
-		case ALLOC_STRING:
-			string_unref ((String *)rec->data);
+		case ALLOC_VALUE:
+			value_release ((Value *)rec->data);
 			break;
 			
-		case ALLOC_VALUE:
-			clean_value ((Value *)rec->data);
-
 		case ALLOC_LIST:
 			g_list_free ((GList *) rec->data);
+			break;
 		}
 		g_free (rec);
 	}
@@ -497,22 +547,35 @@ alloc_glist (GList *list)
 
 	a_info->type = ALLOC_LIST;
 	a_info->data = list;
-	alloc_list = g_list_prepend (alloc_list, a_info);
+	alloc_register (a_info);
 }
 
 static void
-forget_glist (GList *list)
+forget (int type, void *data)
 {
 	GList *l;
 
 	for (l = alloc_list; l; l = l->next){
 		AllocRec *a_info = (AllocRec *) l->data;
 
-		if (a_info->type == ALLOC_LIST && a_info->data == list){
+		if (a_info->type == type && a_info->data == data){
 			alloc_list = g_list_remove_link (alloc_list, l);
 			return;
 		}
 	}
+}
+
+static void
+forget_glist (GList *list)
+{
+	forget (ALLOC_LIST, list);
+}
+
+static void
+forget_tree (ExprTree *tree)
+{
+	forget (ALLOC_BUFFER, tree);
+	eval_expr_release (tree);
 }
 
 /*
@@ -538,6 +601,11 @@ value_string (Value *value)
 	case VALUE_FLOAT:
 		snprintf (buffer, sizeof (buffer)-1, "%g", value->v.v_float);
 		break;
+
+	case VALUE_ARRAY:
+		snprintf (buffer, sizeof (buffer)-1, "ARRAY");
+		break;
+		
 	case VALUE_CELLRANGE:
 		g_warning ("Cellrange on a value!");
 		return g_strdup ("Internal problem");
@@ -560,7 +628,16 @@ value_dump (Value *value)
 	case VALUE_FLOAT:
 		printf ("Float: %f\n", value->v.v_float);
 		break;
-		
+
+	case VALUE_ARRAY: {
+		GList *l;
+
+		printf ("Array: { ");
+		for (l = value->v.array; l; l = l->next){
+			value_dump (l->data);
+		}
+		printf ("}\n");
+	}
 	default:
 		printf ("Unhandled item type\n");
 	}
@@ -590,7 +667,13 @@ dump_tree (ExprTree *tree)
 		s = symbol_lookup (tree->u.function.symbol->str);
 		printf ("Function call: %s\n", s->str);
 		break;
-		
+
+	case OP_EQUAL:
+	case OP_NOT_EQUAL:
+	case OP_LT:
+	case OP_LTE:
+	case OP_GT:
+	case OP_GTE:
 	case OP_ADD:
 	case OP_SUB:
 	case OP_MULT:
@@ -605,6 +688,12 @@ dump_tree (ExprTree *tree)
 		case OP_MULT: printf ("MULT\n"); break;
 		case OP_DIV: printf ("DIV\n"); break;
 		case OP_CONCAT: printf ("CONCAT\n"); break;
+		case OP_EQUAL: printf ("==\n"); break;
+		case OP_NOT_EQUAL: printf ("!=\n"); break;
+		case OP_LT: printf ("<\n"); break;
+		case OP_GT: printf (">\n"); break;
+		case OP_GTE: printf (">=\n"); break;
+		case OP_LTE: printf ("<=\n"); break;
 		case OP_EXP: printf ("EXP\n"); break;
 		default:
 			printf ("Error\n");

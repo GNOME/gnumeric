@@ -175,6 +175,7 @@ item_edit_destroy (GtkObject *o)
 	gnome_canvas_request_redraw (GNOME_CANVAS_ITEM (item_edit)->canvas, x, y, x+w, y+h);
 	
 	gtk_signal_disconnect (GTK_OBJECT (item_edit->editor), item_edit->signal);
+	gtk_signal_disconnect (GTK_OBJECT (item_edit->editor), item_edit->signal2);
 	
 	if (GTK_OBJECT_CLASS (item_edit_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (item_edit_parent_class)->destroy)(o);
@@ -197,11 +198,11 @@ entry_event (GtkEntry *entry, GdkEvent *event, ItemEdit *item_edit)
 static void
 item_edit_set_editor (ItemEdit *item_edit, void *data)
 {
-	item_edit->editor = GTK_ENTRY (data);
+	item_edit->editor = GTK_WIDGET (data);
 	item_edit->signal = gtk_signal_connect (
 		GTK_OBJECT (item_edit->editor), "changed",
 		GTK_SIGNAL_FUNC(entry_changed), item_edit);
-	gtk_signal_connect_after (
+	item_edit->signal2 = gtk_signal_connect_after (
 		GTK_OBJECT (item_edit->editor), "event",
 		GTK_SIGNAL_FUNC(entry_event), item_edit);
 }

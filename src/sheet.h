@@ -17,7 +17,12 @@ typedef struct {
 	GtkWidget  *ea_status;
 	GtkWidget  *ea_button_box;
 	GtkWidget  *ea_input;
+
+	/* The auto-expression */
+	ExprTree   *auto_expr;
+	GnomeCanvasItem  *auto_expr_label;
 	
+	/* Styles */
 	Style      style;
 	GHashTable *sheets;	/* keeps a list of the Sheets on this workbook */
 } Workbook;

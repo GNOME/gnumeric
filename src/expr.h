@@ -2,6 +2,13 @@
 #define EXPR_H
 
 typedef enum {
+	OP_EQUAL,
+	OP_GT,
+	OP_LT,
+	OP_GTE,
+	OP_LTE,
+	OP_NOT_EQUAL,
+	
 	OP_ADD,
 	OP_SUB,
 	OP_MULT,
@@ -20,7 +27,8 @@ typedef enum {
 	VALUE_STRING,
 	VALUE_INTEGER,
 	VALUE_FLOAT,
-	VALUE_CELLRANGE
+	VALUE_CELLRANGE,
+	VALUE_ARRAY
 } ValueType;
 
 /*
@@ -48,6 +56,7 @@ typedef struct {
 			CellRef cell_b;
 		} cell_range;
 
+		GList  *array;	        /* a list of Values */
 		String *str;
 		Symbol *sym;
 		float_t v_float;	/* floating point */
@@ -112,7 +121,7 @@ typedef struct {
 	 * b for boolean
 	 */
 	char  *args;
-	ValueType ret_type;
+	char  *named_arguments;
 	
 	Value *(*expr_fn)(void *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string);
 	
@@ -129,16 +138,20 @@ ExprTree   *expr_parse_string   (char *expr, int col, int row, char **error_msg)
 void        expr_tree_ref       (ExprTree *tree);
 void        expr_tree_unref     (ExprTree *tree);
 
+/* Do not use this routine, it is intended to be used internally */
+void        eval_expr_release   (ExprTree *tree);
+
 Value      *eval_expr           (void *asheet, ExprTree *tree,
 				 int  col, int row,
 				 char **error_string);
 
 void        value_release       (Value *value);
 Value      *value_cast_to_float (Value *v);
+int         value_get_bool      (Value *v, int *err);
+float_t     value_get_as_double (Value *v);
 
 void        value_dump          (Value *value);
 char       *value_string        (Value *value);
-float_t     value_get_as_double (Value *v);
 
 int         yyparse             (void);
 void        functions_init      (void);

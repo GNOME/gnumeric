@@ -71,6 +71,9 @@ item_cursor_realize (GnomeCanvasItem *item)
 	GdkWindow  *window;
 	GdkGC      *gc;
 	
+	if (GNOME_CANVAS_ITEM_CLASS (item_cursor_parent_class)->realize)
+		(*GNOME_CANVAS_ITEM_CLASS (item_cursor_parent_class)->realize)(item);
+	
 	item_cursor = ITEM_CURSOR (item);
 	window = GTK_WIDGET (item->canvas)->window;
 
@@ -89,6 +92,9 @@ item_cursor_unrealize (GnomeCanvasItem *item)
 
 	gdk_gc_unref (item_cursor->gc);
 	item_cursor->gc = 0;
+	
+	if (GNOME_CANVAS_ITEM_CLASS (item_cursor_parent_class)->unrealize)
+		(*GNOME_CANVAS_ITEM_CLASS (item_cursor_parent_class)->unrealize)(item);
 }
 
 static void
@@ -242,6 +248,7 @@ item_cursor_set_bounds (ItemCursor *item_cursor, int start_col, int start_row, i
 {
 	GnomeCanvasItem *item;
 	int x, y, w, h;
+	int extra = 0;
 	
 	g_return_if_fail (start_col <= end_col);
 	g_return_if_fail (start_row <= end_row);
@@ -260,8 +267,12 @@ item_cursor_set_bounds (ItemCursor *item_cursor, int start_col, int start_row, i
 	item_cursor_get_pixel_coords (item_cursor, &x, &y, &w, &h);
 	item->x1 = x - 1;
 	item->y1 = y - 1;
-	item->x2 = x + w + 1;
-	item->y2 = y + h + 1;
+
+	if (item_cursor->style == ITEM_CURSOR_SELECTION)
+		extra = 1;
+	
+	item->x2 = x + w + 1 + extra;
+	item->y2 = y + h + 1 + extra;
 
 	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
 }
@@ -270,8 +281,29 @@ static double
 item_cursor_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 		   GnomeCanvasItem **actual_item)
 {
-	*actual_item = item;
-	return 0.0;
+	int extra;
+	
+	*actual_item = NULL;
+
+	if (cx < item->x1)
+		return INT_MAX;
+	if (cx > item->x2)
+		return INT_MAX;
+	if (cy < item->y1)
+		return INT_MAX;
+	if (cy > item->y2)
+		return INT_MAX;
+
+	/* FIXME: this needs to handle better the small little square case
+	 * for ITEM_CURSOR_SELECTION style
+	 */
+	if ((cx < (item->x1 + 3)) ||
+	    (cx > (item->x2 - 3)) ||
+	    (cy < (item->y1 + 3)) ||
+	    (cy > (item->y2 - 3))){
+		*actual_item = item;
+		return 0.0;
+	}
 }
 
 static void
