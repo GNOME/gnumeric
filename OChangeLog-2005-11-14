@@ -1,3 +1,8 @@
+2002-03-18  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=75193
+	* src/xml-io.c (xml_sheet_read) : look at the right node.
+
 2002-03-15  Jody Goldberg <jody@gnome.org>
 
 	* src/expr.c (cellref_relocate) : don't use the ultra safe reference

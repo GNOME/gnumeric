@@ -6,6 +6,9 @@ Jody:
 	* Fix inside -> inside relative ref relocations that go out of bounds
 	* remove warnings from underline combo in the cell format dialog.
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=75193
+	* DOM importer missed sheet scoped names.
+
 --------------------------------------------------------------------------
 Gnumeric 1.0.5
 

@@ -2594,7 +2594,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	xml_read_merged_regions (ctxt, tree);
 	xml_read_selection_info (ctxt, tree);
 
-	xml_read_names (ctxt, child, NULL, sheet);
+	xml_read_names (ctxt, tree, NULL, sheet);
 
 	child = e_xml_get_child_by_name (tree, (xmlChar *)"Objects");
 	if (child != NULL) {
