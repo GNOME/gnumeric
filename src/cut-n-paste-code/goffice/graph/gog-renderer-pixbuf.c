@@ -243,7 +243,7 @@ gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path,
 					short_path[1].y = path [i].y;
 					svp = art_svp_vpath_stroke ((ArtVpath *) short_path,
 									ART_PATH_STROKE_JOIN_MITER, 
-									ART_PATH_STROKE_CAP_BUTT,
+									ART_PATH_STROKE_CAP_ROUND,
 									width, 4, 0.5);
 					if (bound != NULL) {
 						ArtSVP *orig = svp;
@@ -285,7 +285,7 @@ gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path,
 					if (dashed_path != NULL) {
 						svp = art_svp_vpath_stroke (dashed_path,
 										ART_PATH_STROKE_JOIN_MITER, 
-										ART_PATH_STROKE_CAP_BUTT,
+										ART_PATH_STROKE_CAP_ROUND,
 										width, 4, 0.5);
 						g_free (dashed_path);
 					if (bound != NULL) {

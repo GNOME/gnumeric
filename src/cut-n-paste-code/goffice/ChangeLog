@@ -2,7 +2,8 @@
 
 	* graph/gog-renderer-pixbuf.c: (gog_renderer_pixbuf_draw_path): rewrite to
 	use large paths at once and have better dashes support
-	* graph/plugins/plot_xy/gog-xy.c: (gog_xy_view_render): render path at once.
+	* graph/plugins/plot_xy/gog-xy.c: (gog_xy_view_render): render path at once
+	and use ART_PATH_STROKE_CAP_ROUND for better rendering of large lines.
 	* utils/go-line.c: (go_line_build_vpath): new function, builds a vpath from
 	a set of points.
 	* utils/go-line.h: ditto.
