@@ -1,5 +1,10 @@
 2003-05-30  Morten Welinder  <terra@gnome.org>
 
+	* src/mstyle.c (mstyle_link_sheet): Avoid referring to
+	possibly-freed pointer.
+
+2003-05-30  Morten Welinder  <terra@gnome.org>
+
 	* src/mstyle.c (mstyle_init, mstyle_shutdown): New functions.
 	(mstyle_new, mstyle_copy, mstyle_copy_merge, mstyle_unref): Use
 	mstyle pool.

@@ -861,11 +861,13 @@ MStyle *
 mstyle_link_sheet (MStyle *style, Sheet *sheet)
 {
 	StyleColor *auto_color;
-	MStyle *orig = style;
+	gboolean style_is_orig = TRUE;
 
 	if (style->linked_sheet != NULL) {
+		MStyle *orig = style;
 		style = mstyle_copy (style);
 		mstyle_unref (orig);
+		style_is_orig = FALSE;
 
 		/* safety test */
 		g_return_val_if_fail (style->linked_sheet != sheet, style);
@@ -876,8 +878,8 @@ mstyle_link_sheet (MStyle *style, Sheet *sheet)
 
 	auto_color = sheet_style_get_auto_pattern_color (sheet);
 	if (mstyle_is_element_set (style, MSTYLE_COLOR_PATTERN))
-		style = link_pattern_color (style, auto_color, style == orig);
-	style = link_border_colors (style, auto_color, style == orig);
+		style = link_pattern_color (style, auto_color, style_is_orig);
+	style = link_border_colors (style, auto_color, style_is_orig);
 	style_color_unref (auto_color);
 
 	style->linked_sheet = sheet;
