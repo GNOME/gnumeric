@@ -1,5 +1,9 @@
 2004-03-16  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.2.8
+
+2004-03-16  Jody Goldberg <jody@gnome.org>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=137377
 	* ms-obj.c (ms_read_TXO) : init markup even if there is no string.
 

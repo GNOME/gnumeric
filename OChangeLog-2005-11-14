@@ -1,5 +1,9 @@
 2004-03-16  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.2.8
+
+2004-03-16  Jody Goldberg <jody@gnome.org>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=137357
 	* src/item-bar.c : Use a custom detail 'GnmItemBarCell' rather than
 	  the more generic 'button' to keep some themes 'industrial and gorilla'
