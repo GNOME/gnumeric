@@ -1,5 +1,7 @@
 2005-03-12  Morten Welinder  <terra@gnome.org>
 
+	* src/wbcg-actions.c: Backport control-p accel.
+
 	* src/format.c (render_number): Fix two trailing-zeros bugs.
 	(render_number): Backport fix for 170000.
 
