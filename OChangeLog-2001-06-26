@@ -1,5 +1,9 @@
 2001-02-01  Jody Goldberg <jgoldberg@home.com>
 
+	* src/item-grid.c (item_grid_draw) : Init the extra top.
+
+2001-02-01  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet.c (sheet_get_extent) : don't call style_extent.  The
 	  caller can do that if desired.
 
