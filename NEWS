@@ -30,7 +30,7 @@ Jody:
 	* Fix deleting a graph object with expr entries.
 
 John Gill:
-	* Even more heuristics for autofill range selection.
+	* Heuristics to improve finger feel of autofilter range selection
 
 Nick Lamb:
 	* Improve import of ancient xls.
