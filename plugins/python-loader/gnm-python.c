@@ -122,8 +122,10 @@ extern char **environ;
 static void
 gnm_init_pygobject (void)
 {
+	PyObject *gobject;
+
 	_PyGObject_API = NULL;
-	PyObject *gobject = PyImport_ImportModule("gobject");
+	gobject = PyImport_ImportModule("gobject");
 	if (gobject != NULL) {
 		PyObject *mdict = PyModule_GetDict(gobject);
 		PyObject *cobject = PyDict_GetItemString(mdict,
