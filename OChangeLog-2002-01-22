@@ -1,3 +1,8 @@
+2001-04-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-edit.c (workbook_finish_editing) : fix.  We need to
+	  ignore the leading '=' or '@'.
+
 2001-04-17  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Fix typo

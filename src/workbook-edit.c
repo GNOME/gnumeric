@@ -70,7 +70,7 @@ workbook_edit_set_sensitive (WorkbookControlGUI *wbcg, gboolean flag1, gboolean 
 }
 
 gboolean
-workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean const accept)
+workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean accept)
 {
 	Sheet *sheet;
 	WorkbookControl *wbc;
@@ -97,9 +97,10 @@ workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean const accept)
 	
 	/* Save the results before changing focus */
 	if (accept) {
-		const char *txt = workbook_edit_get_display_text (wbcg);
+		char const *txt = workbook_edit_get_display_text (wbcg);
+		char const *expr_txt = gnumeric_char_start_expr_p (txt);
 
-		if (gnumeric_char_start_expr_p (txt) != NULL) {
+		if (expr_txt != NULL) {
 			ParsePos    pp;
 			ParseError  perr;
 
@@ -107,7 +108,7 @@ workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean const accept)
 					sheet->edit_pos.col, sheet->edit_pos.row);
 			parse_error_init (&perr);
 			
-			gnumeric_expr_parser (txt, &pp, TRUE, FALSE, NULL, &perr);
+			gnumeric_expr_parser (expr_txt, &pp, TRUE, FALSE, NULL, &perr);
 
 			/*
 			 * We check to see if any error has occured by querying
@@ -162,7 +163,7 @@ workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean const accept)
 }
 
 static void
-workbook_edit_complete_notify (const char *text, void *closure)
+workbook_edit_complete_notify (char const *text, void *closure)
 {
 	WorkbookControlGUI *wbcg = closure;
 
@@ -439,7 +440,7 @@ auto_complete_matches (WorkbookControlGUI *wbcg)
  * Returns the text that must be shown by the editing entry, takes
  * into account the auto-completion text.
  */
-const char *
+char const *
 workbook_edit_get_display_text (WorkbookControlGUI *wbcg)
 {
 	if (auto_complete_matches (wbcg))
