@@ -428,7 +428,10 @@ dialog_search (WorkbookControlGUI *wbcg)
 	GnomeDialog *dialog;
 	DialogState *dd;
 	const char *spec = "\
-<ETableSpecification cursor-mode=\"line\" selection-mode=\"single\" draw-focus=\"true\">\n\
+<ETableSpecification cursor-mode=\"line\"\
+                     selection-mode=\"single\"\
+                     allow_grouping=\"false\"\
+                     draw-focus=\"true\">\
   <ETableColumn model_col=\"0\" _title=\"Sheet\" minimum_width=\"50\" resizable=\"true\" cell=\"string\" compare=\"string\"/>\n\
   <ETableColumn model_col=\"1\" _title=\"Cell\" minimum_width=\"40\" resizable=\"true\" cell=\"string\" compare=\"string\"/>\n\
   <ETableColumn model_col=\"2\" _title=\"Type\" minimum_width=\"70\" resizable=\"true\" cell=\"string\" compare=\"string\"/>\n\
