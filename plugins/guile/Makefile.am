@@ -8,7 +8,7 @@ GNUMERIC_SRC_DIR = $(srcdir)/../../src
 #
 # Where to install the plugin
 #
-plugindir = $(libdir)/gnumeric/plugins
+plugindir = $(libdir)/gnumeric/plugins/$(VERSION)
 
 plugin_LTLIBRARIES = libgnum_guile.la
 

@@ -385,8 +385,8 @@ typedef struct
 	GnumericCommand parent;
 
 	Sheet		*sheet;
-	gboolean	 is_cols;
 	gboolean	 is_insert;
+	gboolean	 is_cols;
 	int		index;
 	int		count;
 } CmdInsDelRowCol;
@@ -400,7 +400,21 @@ cmd_ins_del_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	/* FIXME : Fill in */
+	/* TODO : 1) Restore the values of the deleted cells */
+	/* TODO : 2) Restore the styles in the cleared range */
+	/* TODO : 3) Restore the sizes of the deleted rows/cols */
+	if (!me->is_insert) {
+		if (me->is_cols)
+			sheet_insert_cols (context, me->sheet, me->index, me->count);
+		else
+			sheet_insert_rows (context, me->sheet, me->index, me->count);
+	} else {
+		if (me->is_cols)
+			sheet_delete_cols (context, me->sheet, me->index, me->count);
+		else
+			sheet_delete_rows (context, me->sheet, me->index, me->count);
+	}
+
 	return FALSE;
 }
 
@@ -411,7 +425,21 @@ cmd_ins_del_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	/* FIXME : Fill in */
+	/* TODO : 1) Save the values of the deleted cells */
+	/* TODO : 2) Save the styles in the cleared range */
+	/* TODO : 3) Save the sizes of the deleted rows/cols */
+	if (me->is_insert) {
+		if (me->is_cols)
+			sheet_insert_cols (context, me->sheet, me->index, me->count);
+		else
+			sheet_insert_rows (context, me->sheet, me->index, me->count);
+	} else {
+		if (me->is_cols)
+			sheet_delete_cols (context, me->sheet, me->index, me->count);
+		else
+			sheet_delete_rows (context, me->sheet, me->index, me->count);
+	}
+
 	return FALSE;
 }
 static void
@@ -450,8 +478,7 @@ cmd_ins_del_row_col (CommandContext *context,
 	/* Register the command object */
 	command_push_undo (sheet->workbook, obj);
 
-	/* FIXME : Fill in */
-	return FALSE;
+	return cmd_ins_del_row_col_redo (GNUMERIC_COMMAND(me), context);
 }
 
 gboolean
@@ -460,10 +487,8 @@ cmd_insert_cols (CommandContext *context,
 {
 	char *mesg = g_strdup_printf (_("Inserting %d column%s at %s"), count,
 				      (count > 1) ? "s" : "", col_name(start_col));
-	gboolean const res = cmd_ins_del_row_col (context, sheet, TRUE, TRUE,
-						  mesg, start_col, count);
-	sheet_insert_cols (context, sheet, start_col, count);
-	return res;
+	return cmd_ins_del_row_col (context, sheet, TRUE, TRUE, mesg,
+				    start_col, count);
 }
 
 gboolean
@@ -472,17 +497,14 @@ cmd_insert_rows (CommandContext *context,
 {
 	char *mesg = g_strdup_printf (_("Inserting %d row%s at %d"), count,
 				      (count > 1) ? "s" : "", start_row+1);
-	gboolean const res = cmd_ins_del_row_col (context, sheet, FALSE, TRUE,
-						  mesg, start_row, count);
-	sheet_insert_rows (context, sheet, start_row, count);
-	return res;
+	return cmd_ins_del_row_col (context, sheet, FALSE, TRUE, mesg,
+				    start_row, count);
 }
 
 gboolean
 cmd_delete_cols (CommandContext *context,
 		 Sheet *sheet, int start_col, int count)
 {
-	gboolean res;
 	char *mesg;
 	if (count > 1) {
 		/* col_name uses a static buffer */
@@ -493,24 +515,19 @@ cmd_delete_cols (CommandContext *context,
 	} else
 		mesg = g_strdup_printf (_("Deleting column %s"), col_name(start_col));
 
-	res = cmd_ins_del_row_col (context, sheet, TRUE, FALSE, mesg, start_col, count);
-	sheet_delete_cols (context, sheet, start_col, count);
-	return res;
+	return cmd_ins_del_row_col (context, sheet, TRUE, FALSE, mesg, start_col, count);
 }
 
 gboolean
 cmd_delete_rows (CommandContext *context,
 		 Sheet *sheet, int start_row, int count)
 {
-	gboolean res;
 	char *mesg = (count > 1)
 	    ? g_strdup_printf (_("Deleting %d rows (%d:%d"), count, start_row,
 			       start_row+count-1)
 	    : g_strdup_printf (_("Deleting row %d"), start_row);
 
-	res = cmd_ins_del_row_col (context, sheet, FALSE, FALSE, mesg, start_row, count);
-	sheet_delete_rows (context, sheet, start_row, count);
-	return res;
+	return cmd_ins_del_row_col (context, sheet, FALSE, FALSE, mesg, start_row, count);
 }
 
 /******************************************************************/

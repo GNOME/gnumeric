@@ -16,6 +16,10 @@
 
 	* src/commands.c (cmd_delete_cols) : Fix typo.
 	(command_list_pop_top_undo) : New command.
+	(cmd_ins_del_row_col) : Call redo.
+	(cmd_ins_del_row_col_redo) : Handle the insertion and deletion.
+	(cmd_ins_del_row_col_undo) : Ditto. Still need to handle, values,
+	  styles, and sizes.
 
 	* src/command-context-corba.c (ccc_error_splits_array) : Suppress
 	  warning.

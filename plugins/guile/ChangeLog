@@ -1,3 +1,7 @@
+2000-01-05  Jody Goldberg <jgoldberg@home.com>
+
+	* Makefile.am : Install into the versioned directory.
+
 2000-01-02  Michael Meeks  <mmeeks@gnu.org>
 
 	* plugin.c (expr_to_scm): Fix using wrong member of expr.
