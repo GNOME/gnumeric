@@ -230,7 +230,7 @@ init_plugin (PluginData *pd)
 
 	pd->can_unload = csv_can_unload;
 	pd->cleanup_plugin = csv_cleanup_plugin;
-	pd->title = g_strdup (_("CSV (comma separated value file import/export plugin"));
+	pd->title = g_strdup (_("CSV (comma separated value file import/export plugin)"));
 	
 	return 0;
 }

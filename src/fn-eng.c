@@ -665,7 +665,7 @@ gnumeric_imaginary (struct FunctionDefinition *fd,
 }
 
 static char *help_imreal = {
-	N_("@FUNCTION=IMAGINARY\n"
+	N_("@FUNCTION=IMREAL\n"
 	   "@SYNTAX=IMREAL(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMREAL returns the real coefficient of a complex number. "
