@@ -4,7 +4,7 @@ change_logs = \
 	OChangeLog
 
 EXTRA_DIST = \
-	gnumeric.desktop README HACKING gnumeric.spec.in 	\
+	gnumeric.desktop.in README HACKING gnumeric.spec.in 	\
 	gnumeric.keys.in gnumeric.mime $(appicon_DATA) 		\
 	gnumeric.gnorba $(change_logs)
 

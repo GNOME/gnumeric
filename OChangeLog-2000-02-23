@@ -1,3 +1,13 @@
+1999-10-06  Miguel de Icaza  <miguel@gnu.org>
+
+	* configure.in: Generate gnumeric.desktop
+
+	* gnumeric.desktop.in: New file, used to choose the correct
+	gnumeric/gnumeric-bonobo executable name.
+
+	* src/sheet-object-item.c: Updated to fit with the new Bonobo
+	changes. 
+
 1999-10-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/dialogs/dialog-zoom.c (dialog_zoom_impl) : Have the custom zoom
