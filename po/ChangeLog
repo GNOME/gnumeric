@@ -1,3 +1,9 @@
+2005-01-10  Jody Goldberg <jody@gnome.org>
+
+	* pt.po : restore the change to the TREND example
+	* ru.po : ditto
+	* tr.po : looks like I missed this one somehow
+
 2005-01-10  Valek Filippov  <frob@df.ru>
 
 	* ru.po: Updated russian translation.
