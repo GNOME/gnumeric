@@ -2786,8 +2786,8 @@ sheet_cursor_set (Sheet *sheet, int base_col, int base_row, int start_col, int s
  * an array-formula.
  */
 void
-sheet_fill_selection_with (Sheet *sheet, const char *str,
-			   gboolean const is_array)
+sheet_fill_selection_with (CommandContext *context, Sheet *sheet,
+			   const char *str, gboolean const is_array)
 {
 	GList *l;
 
@@ -2802,11 +2802,7 @@ sheet_fill_selection_with (Sheet *sheet, const char *str,
 		if (!sheet_check_for_partial_array (sheet,
 						    ss->user.start.row,ss->user.start.col,
 						    ss->user.end.row, ss->user.end.col)) {
-#if 0
 			gnumeric_error_splits_array (context);
-#else
-			gnumeric_no_modify_array_notice (sheet->workbook);
-#endif
 			return;
 		}
 	}

@@ -763,16 +763,20 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	case GDK_Page_Up:
 		if ((event->state & GDK_CONTROL_MASK) != 0)
 			gtk_notebook_prev_page (GTK_NOTEBOOK (wb->notebook));
-		else
+		else if ((event->state & GDK_MOD1_MASK) == 0)
 			(*movefn_vertical)(gsheet, -(gsheet->last_visible_row-gsheet->top_row), FALSE);
+		else
+			(*movefn_horizontal)(gsheet, -(gsheet->last_visible_col-gsheet->left_col), FALSE);
 		break;
 
 	case GDK_KP_Page_Down:
 	case GDK_Page_Down:
 		if ((event->state & GDK_CONTROL_MASK) != 0)
 			gtk_notebook_next_page (GTK_NOTEBOOK (wb->notebook));
-		else
+		else if ((event->state & GDK_MOD1_MASK) == 0)
 			(*movefn_vertical)(gsheet, gsheet->last_visible_row-gsheet->top_row, FALSE);
+		else
+			(*movefn_horizontal)(gsheet, gsheet->last_visible_col-gsheet->left_col, FALSE);
 		break;
 
 	case GDK_KP_Home:
@@ -818,8 +822,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 				 */
 				g_return_val_if_fail (cell != NULL, 1);
 				text = cell_get_text (cell);
-				sheet_fill_selection_with (sheet, text,
-							   is_array);
+				sheet_fill_selection_with (workbook_command_context_gui (wb),
+							   sheet, text, is_array);
 				g_free (text);
 			} else {
 				gtk_widget_grab_focus (gsheet->entry);

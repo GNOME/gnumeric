@@ -306,6 +306,7 @@ sheet_selection_extend_horizontal (Sheet *sheet, int n, gboolean jump_to_boundar
 {
 	SheetSelection *ss;
 	SheetSelection old_selection;
+	int row, col;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -314,19 +315,19 @@ sheet_selection_extend_horizontal (Sheet *sheet, int n, gboolean jump_to_boundar
 	old_selection = *ss;
 
 	if (ss->base.col < ss->user.end.col)
-		ss->user.end.col =
+		col = ss->user.end.col =
 		    sheet_find_boundary_horizontal (sheet,
-						    ss->user.end.col, ss->user.end.row,
+						    ss->user.end.col, row = ss->user.end.row,
 						    n, jump_to_boundaries);
 	else if (ss->base.col > ss->user.start.col || n < 0)
-		ss->user.start.col =
+		col = ss->user.start.col =
 		    sheet_find_boundary_horizontal (sheet,
-						    ss->user.start.col, ss->user.start.row,
+						    ss->user.start.col, row = ss->user.start.row,
 						    n, jump_to_boundaries);
 	else
-		ss->user.end.col =
+		col = ss->user.end.col =
 		    sheet_find_boundary_horizontal (sheet,
-						    ss->user.end.col,  ss->user.end.row,
+						    ss->user.end.col,  row = ss->user.end.row,
 						    n, jump_to_boundaries);
 
 	if (ss->user.end.col < ss->user.start.col) {
@@ -335,6 +336,7 @@ sheet_selection_extend_horizontal (Sheet *sheet, int n, gboolean jump_to_boundar
 		ss->user.end.col = tmp;
 	}
 	sheet_selection_change (sheet, &old_selection, ss);
+	sheet_make_cell_visible (sheet, col, row);
 }
 
 /*
@@ -348,6 +350,7 @@ sheet_selection_extend_vertical (Sheet *sheet, int n, gboolean jump_to_boundarie
 {
 	SheetSelection *ss;
 	SheetSelection old_selection;
+	int row, col;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -356,19 +359,19 @@ sheet_selection_extend_vertical (Sheet *sheet, int n, gboolean jump_to_boundarie
 	old_selection = *ss;
 
 	if (ss->base.row < ss->user.end.row)
-		ss->user.end.row =
+		row = ss->user.end.row =
 		    sheet_find_boundary_vertical (sheet,
-						  ss->user.end.col, ss->user.end.row,
+						  col = ss->user.end.col, ss->user.end.row,
 						  n, jump_to_boundaries);
 	else if (ss->base.row > ss->user.start.row || n < 0)
-		ss->user.start.row =
+		row = ss->user.start.row =
 		    sheet_find_boundary_vertical (sheet,
-						  ss->user.start.col, ss->user.start.row,
+						  col = ss->user.start.col, ss->user.start.row,
 						  n, jump_to_boundaries);
 	else
-		ss->user.end.row =
+		row = ss->user.end.row =
 		    sheet_find_boundary_vertical (sheet,
-						  ss->user.end.col, ss->user.end.row,
+						  col = ss->user.end.col, ss->user.end.row,
 						  n, jump_to_boundaries);
 
 	if (ss->user.end.row < ss->user.start.row) {
@@ -377,6 +380,7 @@ sheet_selection_extend_vertical (Sheet *sheet, int n, gboolean jump_to_boundarie
 		ss->user.end.row = tmp;
 	}
 	sheet_selection_change (sheet, &old_selection, ss);
+	sheet_make_cell_visible (sheet, col, row);
 }
 
 void
@@ -807,10 +811,14 @@ selection_get_ranges (Sheet * sheet, gboolean const allow_intersection)
 						    b->start.col, b->end.col);
 
 #ifdef DEBUG_SELECTION
-			fprintf (stderr, "col = %d\na = %d -> %d\nb = %d -> %d\n",
-				col_intersect,
-				a->start.col, a->end.col,
-				b->start.col, b->end.col);
+			fprintf (stderr, "col = %d\na = %s", col_intersect, col_name(a->start.col));
+			if (a->start.col != a->end.col)
+				fprintf (stderr, " -> %s", col_name(a->end.col));
+			fprintf (stderr, "\nb = %s", col_name(b->start.col));
+			if (b->start.col != b->end.col)
+				fprintf (stderr, " -> %s\n", col_name(b->end.col));
+			else
+				fputc ('\n', stderr);
 #endif
 
 			/* No intersection */
@@ -823,10 +831,14 @@ selection_get_ranges (Sheet * sheet, gboolean const allow_intersection)
 				segments_intersect (a->start.row, a->end.row,
 						    b->start.row, b->end.row);
 #ifdef DEBUG_SELECTION
-			fprintf (stderr, "row = %d\na = %d -> %d\nb = %d -> %d\n",
-				row_intersect,
-				a->start.row, a->end.row,
-				b->start.row, b->end.row);
+			fprintf (stderr, "row = %d\na = %d", row_intersect, a->start.row +1);
+			if (a->start.row != a->end.row)
+				fprintf (stderr, " -> %d", a->end.row +1);
+			fprintf (stderr, "\nb = %d", b->start.row +1);
+			if (b->start.row != b->end.row)
+				fprintf (stderr, " -> %d\n", b->end.row +1);
+			else
+				fputc ('\n', stderr);
 #endif
 
 			/* No intersection */
@@ -841,9 +853,13 @@ selection_get_ranges (Sheet * sheet, gboolean const allow_intersection)
 					row_intersect = 4;
 				if (row_intersect == 4 || row_intersect == 2)
 					col_intersect = row_intersect;
+				else
+					col_intersect = 4;
 			} else if (row_intersect == 5) {
 				if (col_intersect == 4 || col_intersect == 2)
 					row_intersect = col_intersect;
+				else
+					row_intersect = 4;
 			}
 
 			/* Cross product of intersection cases */
@@ -860,7 +876,7 @@ selection_get_ranges (Sheet * sheet, gboolean const allow_intersection)
 
 				case 3 : /* overlap top */
 					/* Shrink existing range */
-					b->end.row = a->start.row - 1;
+					b->start.row = a->end.row + 1;
 					break;
 
 				case 2 : /* b contains a */
@@ -868,19 +884,20 @@ selection_get_ranges (Sheet * sheet, gboolean const allow_intersection)
 						/* Shrink existing range */
 						a->end.col = b->start.col - 1;
 						break;
-					} else if (a->start.col != b->start.col &&
-						   b->start.col > 0) {
+					}
+					if (a->start.col != b->start.col) {
 						/* Split existing range */
 						tmp = range_copy (a);
 						tmp->end.col = b->start.col - 1;
-						clear = g_slist_prepend (clear,
-									 tmp);
+						clear = g_slist_prepend (clear, tmp);
 					}
-					/* Fall through to do bottom segment */
+					/* Shrink existing range */
+					a->start.col = b->end.col + 1;
+					break;
 
 				case 1 : /* overlap bottom */
 					/* Shrink existing range */
-					a->start.col = b->end.col + 1;
+					a->start.row = b->end.row + 1;
 					break;
 
 				default :
@@ -901,8 +918,7 @@ selection_get_ranges (Sheet * sheet, gboolean const allow_intersection)
 						tmp = range_copy (a);
 						tmp->start.col = b->start.col;
 						tmp->end.row = b->start.row - 1;
-						clear = g_slist_prepend (clear,
-									 tmp);
+						clear = g_slist_prepend (clear, tmp);
 					}
 					/* fall through */
 
@@ -917,8 +933,7 @@ selection_get_ranges (Sheet * sheet, gboolean const allow_intersection)
 						tmp = range_copy (a);
 						tmp->start.col = b->start.col;
 						tmp->start.row = b->end.row + 1;
-						clear = g_slist_prepend (clear,
-									 tmp);
+						clear = g_slist_prepend (clear, tmp);
 					}
 
 					/* shrink the left segment */
@@ -953,8 +968,8 @@ selection_get_ranges (Sheet * sheet, gboolean const allow_intersection)
 						/* Shrink existing range */
 						a->end.row = b->start.row - 1;
 						break;
-					} else if (a->start.row != b->start.row &&
-						   b->start.row > 0) {
+					}
+					if (a->start.row != b->start.row) {
 						/* Split region */
 						tmp = range_copy (a);
 						tmp->end.row = b->start.row - 1;
@@ -984,6 +999,7 @@ selection_get_ranges (Sheet * sheet, gboolean const allow_intersection)
 					tmp = range_copy (a);
 					tmp->end.col = b->end.col;
 					tmp->end.row = b->start.row - 1;
+					clear = g_slist_prepend (clear, tmp);
 					/* fall through */
 
 				case 2 : /* b contains a */
@@ -1220,50 +1236,3 @@ sheet_selection_height_update (Sheet *sheet)
 				      &cb_set_row_height, NULL);
 	}
 }
-
-struct row_col_visiblity
-{
-	gboolean is_col, visible;
-};
-
-static void
-cb_row_col_visibility (Sheet *sheet,
-		       int start_col, int start_row,
-		       int end_col,   int end_row,
-		       void *closure)
-{
-	struct row_col_visiblity const * dat = closure;
-
-	if (dat->is_col)
-		sheet_row_col_visible (sheet, TRUE, dat->visible,
-				       start_col, end_col-start_col+1);
-	else
-		sheet_row_col_visible (sheet, FALSE, dat->visible,
-				       start_row, end_row-start_row+1);
-}
-
-/*
- * selection_row_col_visible :
- * @sheet : The sheet whose selection we are interested in.
- * @is_col: A flag indicating whether this it is a column or a row.
- * @is_visible: Should we unhide or hide the cols/rows.
- *
- * Searches the selection list and hides/unhides the rows/cols in the
- * selection.  the entire row/col does not need to be selected.
- * ie
- * if A2 is selected the then Col A or row 2 would be hidden.
- */
-void
-selection_row_col_visible (Sheet *sheet, gboolean const is_col,
-			   gboolean const is_visible)
-{
-	struct row_col_visiblity closure;
-	closure.is_col = is_col;
-	closure.visible = is_visible;
-
-	selection_apply (sheet, &cb_row_col_visibility, FALSE, &closure);
-	sheet_redraw_all (sheet);
-	sheet_redraw_cols (sheet);
-	sheet_redraw_rows (sheet);
-}
-

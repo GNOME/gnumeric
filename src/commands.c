@@ -17,6 +17,7 @@
 #include "clipboard.h"
 #include "selection.h"
 #include "datetime.h"
+#include "colrow.h"
 
 /*
  * NOTE : This is a work in progress
@@ -57,6 +58,9 @@
  *
  * TODO : Reqs for selective undo
  * TODO : Add Repeat last command
+ *
+ * Future thoughts
+ * - undoable preference setting ?  XL does not have this.  Do we want it ?
  */
 /******************************************************************/
 
@@ -1079,9 +1083,11 @@ cmd_set_date_time_redo (GnumericCommand *cmd, CommandContext *context)
 		v = value_new_int (datetime_timet_to_serial (time (NULL)));
 
 		/* FIXME : the '>' prefix is intended to give the translators
-		 * a change to provide a locale specific date format.
+		 * a chance to provide a locale specific date format.
 		 * This is ugly because the format may not show up in the
-		 * list of date formats, and will be marked custom
+		 * list of date formats, and will be marked custom.  In addition
+		 * translators should be aware that the leading character of the
+		 * result will be ignored.
 		 */
 		prefered_format = _(">mm/dd/yyyy");
 	} else {
@@ -1346,18 +1352,95 @@ cmd_sort (CommandContext *context, Sheet *sheet,
 	me->parent.cmd_descriptor =
 		g_strdup_printf (_("Sorting %s"), range_name(me->range));
 
-	cmd_sort_redo (me, context);
+	cmd_sort_redo (GNUMERIC_COMMAND(me), context);
 	
 	/* Register the command object */
 	return command_push_undo (sheet->workbook, obj, FALSE);
 }
 
 /******************************************************************/
-/* TODO : Make a list of commands that should have undo support that dont
- *        even have stubs
+
+#define CMD_HIDE_ROW_COL_TYPE        (cmd_hide_row_col_get_type ())
+#define CMD_HIDE_ROW_COL(o)          (GTK_CHECK_CAST ((o), CMD_HIDE_ROW_COL_TYPE, CmdHideRowCol))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	Sheet         *sheet;
+	gboolean       is_cols;
+	gboolean       visible;
+	ColRowVisList  elements;
+} CmdHideRowCol;
+
+GNUMERIC_MAKE_COMMAND (CmdHideRowCol, cmd_hide_row_col);
+
+static gboolean
+cmd_hide_row_col_undo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdHideRowCol *me = CMD_HIDE_ROW_COL(cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	col_row_set_visiblity (me->sheet, me->is_cols,
+			       !me->visible, me->elements);
+
+	return FALSE;
+}
+
+static gboolean
+cmd_hide_row_col_redo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdHideRowCol *me = CMD_HIDE_ROW_COL(cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	col_row_set_visiblity (me->sheet, me->is_cols,
+			       me->visible, me->elements);
+
+	return FALSE;
+}
+
+static void
+cmd_hide_row_col_destroy (GtkObject *cmd)
+{
+	CmdHideRowCol *me = CMD_HIDE_ROW_COL (cmd);
+	me->elements = col_row_vis_list_destroy (me->elements);
+	gnumeric_command_destroy (cmd);
+}
+
+gboolean
+cmd_hide_selection_rows_cols (CommandContext *context, Sheet *sheet,
+			      gboolean const is_cols, gboolean const visible)
+{
+	GtkObject *obj;
+	CmdHideRowCol *me;
+	
+	g_return_val_if_fail (sheet != NULL, TRUE);
+
+	obj = gtk_type_new (CMD_HIDE_ROW_COL_TYPE);
+	me = CMD_HIDE_ROW_COL (obj);
+	
+	me->sheet = sheet;
+	me->is_cols = is_cols;
+	me->visible = visible;
+	me->elements = col_row_get_visiblity_toggle (sheet, is_cols, visible);
+	
+	me->parent.cmd_descriptor = g_strdup (is_cols
+		? (visible ? _("Unhide columns") : _("Hide columns"))
+		: (visible ? _("Unhide rows") : _("Hide rows")));
+
+	cmd_hide_row_col_redo (GNUMERIC_COMMAND(me), context);
+	
+	/* Register the command object */
+	return command_push_undo (sheet->workbook, obj, FALSE);
+}
+
+/******************************************************************/
+/* TODO : Make a list of commands that should have undo support
+ *        that do not even have stubs
+ *
  * - Autofill
  * - Array formula creation.
- * - Row/Col hide/unhide
+ * - SheetObject creation & manipulation.
  */
-
-

@@ -43,4 +43,7 @@ gboolean cmd_sort (CommandContext *context, Sheet *sheet,
 
 gboolean cmd_clear_selection (CommandContext *context, Sheet *sheet, int const clear_flags);
 
+gboolean cmd_hide_selection_rows_cols (CommandContext *context, Sheet *sheet,
+				       gboolean const is_cols, gboolean const visible);
+
 #endif /* GNUMERIC_COMMAND_CONTEXT_H */

@@ -66,6 +66,8 @@ GNUMERIC_BASE_SOURCES =				\
 	collect.c				\
 	color.c					\
 	color.h					\
+	colrow.c				\
+	colrow.h				\
 	commands.h				\
 	commands.c				\
 	command-context.h			\

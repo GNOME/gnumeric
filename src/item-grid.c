@@ -623,25 +623,29 @@ context_row_height (GtkWidget *widget, Sheet *sheet)
 static void
 context_col_hide (GtkWidget *widget, Sheet *sheet)
 {
-	selection_row_col_visible (sheet, TRUE, FALSE);
+	cmd_hide_selection_rows_cols (workbook_command_context_gui (sheet->workbook),
+				      sheet, TRUE, FALSE);
 	context_destroy_menu (widget);
 }
 static void
 context_col_unhide (GtkWidget *widget, Sheet *sheet)
 {
-	selection_row_col_visible (sheet, TRUE, TRUE);
+	cmd_hide_selection_rows_cols (workbook_command_context_gui (sheet->workbook),
+				      sheet, TRUE, TRUE);
 	context_destroy_menu (widget);
 }
 static void
 context_row_hide (GtkWidget *widget, Sheet *sheet)
 {
-	selection_row_col_visible (sheet, FALSE, FALSE);
+	cmd_hide_selection_rows_cols (workbook_command_context_gui (sheet->workbook),
+				      sheet, FALSE, FALSE);
 	context_destroy_menu (widget);
 }
 static void
 context_row_unhide (GtkWidget *widget, Sheet *sheet)
 {
-	selection_row_col_visible (sheet, FALSE, TRUE);
+	cmd_hide_selection_rows_cols (workbook_command_context_gui (sheet->workbook),
+				      sheet, FALSE, TRUE);
 	context_destroy_menu (widget);
 }
 

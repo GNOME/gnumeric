@@ -357,13 +357,6 @@ int         sheet_row_selection_type      (Sheet const *sheet, int row);
  */
 void        sheet_set_mode_type           (Sheet *sheet, SheetModeType type);
 
-
-/*
- * Callback routines.
- */
-void        sheet_fill_selection_with     (Sheet *sheet, const char *text,
-					   gboolean const is_array);
-
 /*
  * Hiding/showing the cursor
  */
@@ -409,6 +402,9 @@ gboolean  sheet_delete_rows (CommandContext *context, Sheet *sheet,
 void  sheet_shift_rows  (CommandContext *context, Sheet *sheet,
 			 int col,
 			 int start_row, int end_row, int count);
+
+void  sheet_fill_selection_with (CommandContext *context, Sheet *sheet,
+				 const char *text, gboolean const is_array);
 
 void sheet_adjust_preferences (Sheet const *sheet);
 

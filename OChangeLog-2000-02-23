@@ -1,3 +1,23 @@
+2000-01-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-cmd-format.c (workbook_cmd_format_{col,row}_{hide,unhide}) :
+	  Use the undo framework.
+
+	* src/sheet.c (sheet_fill_selection_with) : Take a context.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : Add
+	  Alt-Pg{Up,Down}.  sheet_fill_selection_with now takes a context.
+
+	* src/commands.c (cmd_hide_selection_rows_cols) : Implement undo for
+	  row/col hiding.
+	(cmd_hide_row_col_{undo,redo,destroy}) : Ditto.
+
+	* src/item-grid.c (context_{col,row}_{hide,unhide}) : Use undo support.
+
+	* src/selection.c (selection_get_ranges) : Improve heuristics.
+	(sheet_selection_extend_{horizontal,vertical}) : Ensure that the cell
+	  being moved stays visible.
+
 2000-01-20  Jon K Hellan  <hellan@acm.org>
 
 	* src/dialogs/dialog-autosave.c (dialog_autosave): Re-enable
