@@ -19,12 +19,15 @@ libexcel_a_SOURCES =	\
 	ms-ole.c	\
 	ms-ole.h
 
-#bin_PROGRAMS =		\
-#	ole
-#
-#ole_SOURCES =		\
-#	ole.c
-#
-#ole_LDADD =		\
-#	libexcel.a	\
-#	
+bin_PROGRAMS =		\
+	ole
+
+ole_SOURCES =		\
+	ole.c
+
+ole_LDADD =		\
+	ms-ole.o	\
+        $(GNOME_LIBDIR)	\
+        $(GNOME_LIBS)	\
+        $(INTLLIBS)
+

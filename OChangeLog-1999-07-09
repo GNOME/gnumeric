@@ -1,3 +1,18 @@
+1999-04-09 Michael Meeks  <michael@imaginator.com>
+
+	* src/sheet.c (sheet_destroy): Move destruction of cell_hash to
+	after destroy_styles.columns_and_rows that use it.
+	NULL various pointers.
+	(sheet_col_destroy): Added g_return_if_fail (ci)
+	(sheet_duplicate_colrow): Merged into (sheet_row_new, sheet_col_new)
+	and removed: nasty function.
+	(sheet_destroy_columns_and_rows): Fix nasty bug using freed 'l'
+	pointer ( freed by sheet_col_destroy / sheet_row_destroy ).
+	NULL the pointers for safety.
+	(sheet_col_destroy): NULL various pointers.
+
+	* src/sheet.h (sheet_duplicate_colrow): Removed.
+	
 1999-04-08  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/dialog-solver.c, src/dialog-goal-seek.c, src/solver.h:

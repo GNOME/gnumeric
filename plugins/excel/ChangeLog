@@ -1,3 +1,26 @@
+1999-04-09  Michael Meeks <michael@imaginator.com>
+
+	* ms-excel.c (ms_excel_workbook_detach): Paranoid NULLing
+	of pointers.
+	Fixed _silly_ bug with g_list_remove !
+	(ms_excel_workbook_attach): Paranoia checking.
+	(biff_get_text): Converted int lp to guint32 lp.
+	(ms_excelReadWorkBook): BIFF_SST: Added overrun check,
+	some idiot splits the SST table for seemingly no good reason.
+	Cleaned debug.
+	(ms_excel_read_cell): Cleaned debug.
+	(ms_excel_palette_get): Added magic multiplying factor to get
+	colors to work...
+	(ms_excel_set_cell_font): Now returns font color
+	(ms_excel_set_cell_xf): Updated to pass on foregnd col to:
+	(ms_excel_set_cell_colors): Added priority foregnd col.
+	BIFF_XF_DATA: Updated colours to pattern colours, and updated
+	names throughout adding pal_ prefix.
+
+	* ole.c: Added, basic OLE2/BIFF helper program
+
+	* Makefile.am: Updated to include ole.c
+	
 1999-04-06  Michael Meeks <michael@imaginator.com>
 
 	* ms-formula.h: Add PTG_AREAN, PTG_REFN.

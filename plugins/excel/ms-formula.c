@@ -735,7 +735,7 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 		{
 		case FORMULA_PTG_REFN:
 			printf ("REFN\n") ;
-			dump(mem, length) ;
+			error = 1 ;
 			break ;
 		case FORMULA_PTG_REF:
 		{
@@ -863,7 +863,7 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 		break ;
 		case FORMULA_PTG_AREAN:
 			printf ("REFN\n") ;
-			dump(mem, length) ;			
+			error = 1 ;
 			break ;
 		case FORMULA_PTG_AREA:
 		{
@@ -966,6 +966,7 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 								      w) ;
 				else
 					txt = g_strdup(" ") ;
+				g_assert (strlen(txt)>0) ;
 				txt[0] = ' ' ; /* Kill the = */
 				parse_list_push_raw (stack, txt, NO_PRECEDENCE) ;
 				ptg_length += w ;

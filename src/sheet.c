@@ -253,28 +253,15 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 	}
 }
 
-/*
- * Duplicates a column or row
- */
-ColRowInfo *
-sheet_duplicate_colrow (ColRowInfo *original)
-{
-	ColRowInfo *info = g_new (ColRowInfo, 1);
-
-	*info = *original;
-	
-	return info;
-}
-
 ColRowInfo *
 sheet_row_new (Sheet *sheet)
 {
-	ColRowInfo *ri;
+	ColRowInfo *ri = g_new (ColRowInfo, 1);
 
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	ri = sheet_duplicate_colrow (&sheet->default_row_style);
+	*ri = sheet->default_row_style;
 	row_init_span (ri);
 
 	return ri;
@@ -283,12 +270,12 @@ sheet_row_new (Sheet *sheet)
 ColRowInfo *
 sheet_col_new (Sheet *sheet)
 {
-	ColRowInfo *ci;
+	ColRowInfo *ci = g_new (ColRowInfo, 1);
 	
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	
-	ci = sheet_duplicate_colrow (&sheet->default_col_style);
+	*ci = sheet->default_col_style;
 	ci->data = NULL;
 	
 	return ci;
@@ -1029,7 +1016,7 @@ sheet_selection_first_range (Sheet *sheet,
 	if (!sheet->selections)
 		return 0;
 
-	l = g_list_first (sheet->selections) ;
+	l = g_list_first (sheet->selections);
 	if (!l || !l->data)
 		return 0;
 
@@ -1918,7 +1905,7 @@ fail_if_not_selected (Sheet *sheet, int col, int row, Cell *cell, void *user_dat
  	if (!sheet_selection_is_cell_selected (sheet, col, row))
   		return FALSE;
  	else
- 		return TRUE ;
+ 		return TRUE;
 }
 
 /**
@@ -2047,7 +2034,7 @@ sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 		g_free (original_key);
 	}
 	else
-		g_warning ("Cell not in hash table |\n") ;
+		g_warning ("Cell not in hash table |\n");
 }
 
 static void
@@ -2168,16 +2155,18 @@ static void
 sheet_col_destroy (Sheet *sheet, ColRowInfo *ci)
 {
 	GList *l;
+	g_return_if_fail (ci);
 
 	for (l = ci->data; l; l = l->next){
 		Cell *cell = l->data;
-
+		l->data = NULL;
 		sheet_cell_remove_internal (sheet, cell);
 		cell_destroy (cell);
 	}
 	
 	sheet->cols_info = g_list_remove (sheet->cols_info, ci);
 	g_list_free (ci->data);
+	ci->data = NULL;
 	g_free (ci);
 }
 
@@ -2210,13 +2199,13 @@ sheet_destroy_styles (Sheet *sheet)
 static void
 sheet_destroy_columns_and_rows (Sheet *sheet)
 {
-	GList *l;
+	while (sheet->cols_info)
+		sheet_col_destroy (sheet, sheet->cols_info->data);
+	sheet->cols_info = NULL;
 
-	for (l = sheet->cols_info; l; l = l->next)
-		sheet_col_destroy (sheet, l->data);
-
-	for (l = sheet->rows_info; l; l = l->next)
-		sheet_row_destroy (sheet, l->data);
+	while (sheet->rows_info)
+		sheet_row_destroy (sheet, sheet->rows_info->data);
+	sheet->rows_info = NULL;
 }
 
 /**
@@ -2246,13 +2235,15 @@ sheet_destroy (Sheet *sheet)
 		gtk_object_unref (GTK_OBJECT (sheet_view));
 	}
 	g_list_free (sheet->sheet_views);
+	sheet->sheet_views = NULL;
 	g_list_free (sheet->comment_list);
+	sheet->comment_list = NULL;
 	
-	g_hash_table_foreach (sheet->cell_hash, cell_hash_free_key, NULL);
-	g_hash_table_destroy (sheet->cell_hash);
-
 	sheet_destroy_columns_and_rows (sheet);
 	sheet_destroy_styles (sheet);
+
+	g_hash_table_foreach (sheet->cell_hash, cell_hash_free_key, NULL);
+	g_hash_table_destroy (sheet->cell_hash);
 
 	sheet->signature = 0;
 	g_free (sheet);
