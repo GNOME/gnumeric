@@ -524,10 +524,8 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, char const *text,
 		result->h = h;
 	}
 
-	if (w <= 0 || h <= 0) {
-		g_object_unref (layout);
+	if (w <= 0 || h <= 0) 
 		return;
-	}
 
 	ft_bitmap.rows         = h;
 	ft_bitmap.width        = w;
