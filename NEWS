@@ -11,6 +11,12 @@ Jody:
 	* More work on function druid.
 	* Some translation bugs.
 
+Jon Kåre:
+	* Tooltips for combo boxes.        
+	* Synchronize list selection with entry field in combo boxes.
+	* Make  units in print setup dialog user selectable.
+	* More dialog polishing.
+	
 JPR:
 	* Sorting now moves styles with the elements
 	* Sorting now detects headers when sorting
