@@ -3,6 +3,8 @@ Gnumeric 1.1.6
 Andreas:
 	* Fix and improve html import
 	* Make the analysis tools honour the lock state of cells.
+	* Poperly handle output range preparation for analysis tools
+	  even if the user did not want it cleared. 
 
 Jody:
 	* Have the stf dialog use the default font.

@@ -215,9 +215,6 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
 	int clear_flags = 0;
 	Range range;
 
-	if (!dao->clear_outputrange)
-		return FALSE;
-
 	range_init (&range, dao->start_col, dao->start_row,
 		    dao->start_col + dao->cols - 1, 
 		    dao->start_row + dao->rows - 1);
@@ -227,16 +224,18 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
 					  dao->wbc, cmd))
 		return TRUE;
 
+	if (dao->clear_outputrange)
+		clear_flags = CLEAR_VALUES | CLEAR_RECALC_DEPS;
 	if (!dao->retain_format)
 		clear_flags |= CLEAR_FORMATS;
 	if (!dao->retain_comments)
 		clear_flags |= CLEAR_COMMENTS;
-	
+
 	sheet_clear_region (dao->wbc, dao->sheet,
 			    range.start.col, range.start.row,
 			    range.end.col, range.end.row,
-			    clear_flags | CLEAR_NOCHECKARRAY | CLEAR_RECALC_DEPS |
-			    CLEAR_VALUES | CLEAR_MERGES);
+			    clear_flags |
+			    CLEAR_NOCHECKARRAY | CLEAR_MERGES);
 	return FALSE;
 }
 

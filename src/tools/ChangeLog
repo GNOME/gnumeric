@@ -1,3 +1,8 @@
+2002-06-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dao.c (dao_format_output) : don't just bail out when clear_outputrange
+	is false
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4
