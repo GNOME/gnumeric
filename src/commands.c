@@ -551,6 +551,29 @@ command_push_undo (WorkbookControl *wbc, GObject *obj)
 	return trouble;
 }
 
+/*
+ * command_undo_sheet_delete deletes the sheet without deleting the current cmd.
+ * returns true if is indeed deleted the sheet.
+ * Note: only call this for a sheet of your current workbook from the undo procedure
+ */
+
+static gboolean
+command_undo_sheet_delete (Sheet* sheet)
+{
+	Workbook *wb = sheet->workbook;
+
+        g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+
+	if (wb->redo_commands != NULL) {
+		command_list_release (wb->redo_commands);
+		wb->redo_commands = NULL;
+	}
+	sheet_deps_destroy (sheet);
+	workbook_sheet_detach (wb, sheet);
+
+	return (TRUE);
+}
+
 /******************************************************************/
 
 #define CMD_SET_TEXT_TYPE        (cmd_set_text_get_type ())
@@ -4228,6 +4251,159 @@ cmd_set_comment (WorkbookControl *wbc,
 	if (comment)
 		me->old_text = g_strdup (cell_comment_text_get (comment));
 
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
+}
+
+/******************************************************************/
+/******************************************************************/
+
+#define CMD_ANALYSIS_TOOL_TYPE        (cmd_analysis_tool_get_type ())
+#define CMD_ANALYSIS_TOOL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_ANALYSIS_TOOL_TYPE, CmdAnalysis_Tool))
+
+typedef struct
+{
+	GnumericCommand         parent;
+
+	data_analysis_output_t  *dao;
+	gpointer                specs;
+	analysis_tool_engine    engine;
+	data_analysis_output_type_t type;
+
+	Range                   old_range;
+	CellRegion              *old_content;
+} CmdAnalysis_Tool;
+
+GNUMERIC_MAKE_COMMAND (CmdAnalysis_Tool, cmd_analysis_tool);
+
+static gboolean
+cmd_analysis_tool_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdAnalysis_Tool *me = CMD_ANALYSIS_TOOL (cmd);
+	PasteTarget pt;
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	switch (me->type) {
+	case NewSheetOutput:
+/*
+ * Why only pristine? Suppose we undo this (and rebuild the sheet) the sheet pointer will
+ * have changed therefore we would also need to fix all commands that may refer to that 
+ * sheet pointer... 
+ */
+		if (!command_undo_sheet_delete (me->dao->sheet))
+			return TRUE;
+		me->dao->sheet = NULL;
+		break;
+	case NewWorkbookOutput:
+		g_warning ("How did we get here?");
+		return TRUE;
+		break;
+	case RangeOutput:
+	default:
+		clipboard_paste_region (wbc, paste_target_init (&pt, me->dao->sheet, 
+								&me->old_range, PASTE_ALL_TYPES),
+					me->old_content);
+		cellregion_free (me->old_content);
+		me->old_content = NULL;
+	}
+
+	return FALSE;
+}
+
+static gboolean
+cmd_analysis_tool_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdAnalysis_Tool *me = CMD_ANALYSIS_TOOL (cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	if (me->engine (me->dao, me->specs, TOOL_ENGINE_PREPARE_OUTPUT_RANGE, NULL))
+		return TRUE;
+	if (me->engine (me->dao, me->specs, TOOL_ENGINE_UPDATE_DESCRIPTOR, 
+			&me->parent.cmd_descriptor))
+		return TRUE;
+	
+	switch (me->type) {
+	case NewSheetOutput:
+		me->old_content = NULL;
+		break;
+	case NewWorkbookOutput:
+		/* No undo in this case (see below) */
+		me->old_content = NULL;
+		break;
+	case RangeOutput:
+	default:
+		range_init (&me->old_range, me->dao->start_col, me->dao->start_row,
+			    me->dao->start_col + me->dao->cols - 1, 
+			    me->dao->start_row + me->dao->rows - 1);
+		me->old_content = clipboard_copy_range (me->dao->sheet, &me->old_range);
+		break;
+	}
+		
+	if (me->engine (me->dao, me->specs, TOOL_ENGINE_FORMAT_OUTPUT_RANGE, NULL))
+		return TRUE;
+		
+	if (me->engine (me->dao, me->specs, TOOL_ENGINE_PERFORM_CALC, NULL))
+		return TRUE;
+	
+	sheet_set_dirty (me->dao->sheet, TRUE);
+	sheet_update (me->dao->sheet);
+
+	/* The concept of an undo if we create a new worksheet is extremely strange,
+	 * since we have separate undo/redo queues per worksheet.
+	 * Users can simply delete the worksheet if they so desire.
+	 */
+
+	return (me->type == NewWorkbookOutput);
+}
+static void
+cmd_analysis_tool_finalize (GObject *cmd)
+{
+	CmdAnalysis_Tool *me = CMD_ANALYSIS_TOOL (cmd);
+
+	me->engine (me->dao, me->specs, TOOL_ENGINE_CLEAN_UP, NULL);
+
+	if (me->specs)
+		g_free (me->specs);
+	if (me->dao)
+		g_free (me->dao);
+
+	if (me->old_content)
+		cellregion_free (me->old_content);
+
+	gnumeric_command_finalize (cmd);
+}
+
+gboolean
+cmd_analysis_tool (WorkbookControl *wbc, Sheet *sheet, 
+				data_analysis_output_t *dao, gpointer specs, 
+				analysis_tool_engine engine)
+{
+	GObject *obj;
+	CmdAnalysis_Tool *me;
+
+	g_return_val_if_fail (dao != NULL, TRUE);
+	g_return_val_if_fail (specs != NULL, TRUE);
+	g_return_val_if_fail (engine != NULL, TRUE);
+
+	obj = g_object_new (CMD_ANALYSIS_TOOL_TYPE, NULL);
+	me = CMD_ANALYSIS_TOOL (obj);
+
+	dao->wbc = wbc;
+
+	/* Store the specs for the object */
+	me->specs = specs;
+	me->dao = dao;
+	me->engine = engine;
+	me->parent.cmd_descriptor = NULL;
+	if (me->engine (me->dao, me->specs, TOOL_ENGINE_UPDATE_DAO, NULL))
+		return TRUE;
+	me->engine (me->dao, me->specs, TOOL_ENGINE_UPDATE_DESCRIPTOR, &me->parent.cmd_descriptor);
+	me->parent.sheet = NULL;
+	me->type = dao->type;
+
+	me->parent.size = 1;  /* FIXME  */
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }

@@ -5,6 +5,7 @@
 #include "consolidate.h"
 #include "gnumeric.h"
 #include "sort.h"
+#include "tools/analysis-tools.h"
 
 void command_undo (WorkbookControl *wbc);
 void command_redo (WorkbookControl *wbc);
@@ -91,5 +92,9 @@ gboolean cmd_rename_sheet      (WorkbookControl *wbc, Sheet *sheet,
 
 gboolean cmd_set_comment       (WorkbookControl *wbc, Sheet *sheet,
 				 CellPos const *pos, const char *new_text);
+
+gboolean cmd_analysis_tool     (WorkbookControl *wbc, Sheet *sheet, 
+				data_analysis_output_t *dao, gpointer specs, 
+				analysis_tool_engine engine);
 
 #endif /* GNUMERIC_COMMANDS_H */

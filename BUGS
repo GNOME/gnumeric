@@ -76,10 +76,10 @@ Long term breakage
 
 - Missing undo/redo for
     - Duplicate sheet.
-    - Remove sheet.
+    - Remove sheet. This raises some serious design issues.)
     - Freeze panes.
     - Changing summary info.
-    - Analysis tools.
+    - Analysis tools (except singel factor ANOVA).
     - Goal seek.
     - Tabulate.
 

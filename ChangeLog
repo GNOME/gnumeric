@@ -1,3 +1,10 @@
+2002-03-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/commands.c (command_undo_sheet_delete) new utility function (for 
+	  CMD_ANALYSIS_TOOL_TYPE and CMD_SHEET_REORGANIZE_TYPE)
+	(CMD_ANALYSIS_TOOL) : undo/redo command for data analysis tools.
+	* src/commands.h (cmd_analysis_tool) : new
+
 2002-03-10  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : bump gal version req.
