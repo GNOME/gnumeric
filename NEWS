@@ -3,6 +3,10 @@ Gnumeric 1.0.11
 Morten:
 	* Fix GAMMAINV.
 
+J.H.M. Dassen (Ray):
+	* Corrected the OMF file so the docs show up in yelp's help
+	  contents.
+
 --------------------------------------------------------------------------
 Gnumeric 1.0.10
 
