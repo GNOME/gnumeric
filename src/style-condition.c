@@ -263,7 +263,6 @@ style_condition_constraint_eval (StyleConditionConstraint scc, Value *val, Style
 static gboolean
 style_condition_flags_eval (StyleConditionFlags scf, Value *val, StyleFormat *format)
 {
-	g_message ("Type %d", val->type);
 	if (val->type == VALUE_EMPTY && (scf & SCF_ALLOW_BLANK))
 		return TRUE;
 	else

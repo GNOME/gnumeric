@@ -9,6 +9,9 @@
 
 	* src/gui-validation.[ch]: New, gui parts of validation.
 	Used by wbcg_edit_validate and also in dialog-cell-format.c
+
+	* src/style-condition.c (style_condition_flags_eval): Remove
+	debug message.
 	
 2001-10-22  Almer S. Tigelaar  <almer@gnome.org>
 
