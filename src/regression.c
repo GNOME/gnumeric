@@ -169,7 +169,7 @@ linear_solve (gnum_float **A, gnum_float *b, int n, gnum_float *res)
 static int
 general_linear_regression (gnum_float **xss, int xdim,
 			   const gnum_float *ys, int n,
-			   gnum_float *res,
+			   gnum_float *result,
 			   regression_stat_t *regression_stat, int affine)
 {
 	gnum_float *xTy, **xTx;
@@ -223,7 +223,7 @@ general_linear_regression (gnum_float **xss, int xdim,
 		}
 	}
 
-	err = linear_solve (xTx, xTy, xdim, res);
+	err = linear_solve (xTx, xTy, xdim, result);
 
 	if (regression_stat && err == 0) {
 		int err2;
@@ -258,9 +258,9 @@ general_linear_regression (gnum_float **xss, int xdim,
 			residuals[i] = 0;
 			for (j = 0; j < xdim; j++) {
 				if (xss[j])
-					residuals[i] += xss[j][i] * res[j];
+					residuals[i] += xss[j][i] * result[j];
 				else
-					residuals[i] += res[j]; /* If NULL, constant factor */
+					residuals[i] += result[j]; /* If NULL, constant factor */
 			}
 			residuals[i] = ys[i] - residuals[i];
 		}
@@ -303,7 +303,7 @@ general_linear_regression (gnum_float **xss, int xdim,
 		regression_stat->t = g_new (gnum_float, xdim);
 
 		for (i = 0; i < xdim; i++)
-			regression_stat->t[i] = res[i] / regression_stat->se[i];
+			regression_stat->t[i] = result[i] / regression_stat->se[i];
 
 		regression_stat->df_resid = n - xdim;
 		regression_stat->df_reg = xdim - (affine ? 1 : 0);
