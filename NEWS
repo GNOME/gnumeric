@@ -10,6 +10,7 @@ Jody:
 	* Name and Graph gurus support range selection.
 	* Improve internation keyboard support.
 	* Fix XIRR and friends.
+	* A few more bugs in printing multiline text.
 
 John Gill:
 	* Double click fill support.

@@ -140,7 +140,9 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	GdkFont      *font;
 	GdkRectangle  rect;
 	
-	Sheet        *sheet = cell->sheet;
+	Sheet const * const sheet = cell->sheet;
+	ColRowInfo const * const ci = cell->col_info;
+	ColRowInfo const * const ri = cell->row_info;
 	int start_col, end_col;
 	int width, height;
 	int text_base;
@@ -180,8 +182,8 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 		start_col = end_col = cell->pos.col;
 
 	/* Get the sizes exclusive of margins and grids */
-	width  = COL_INTERNAL_WIDTH (cell->col_info);
-	height = ROW_INTERNAL_HEIGHT (cell->row_info);
+	width  = ci->size_pixels - (ci->margin_b + ci->margin_a + 1);
+	height = ri->size_pixels - (ri->margin_b + ri->margin_a + 1);
 
 	style_font = sheet_view_get_style_font (sheet, mstyle);
 	font = style_font_gdk_font (style_font);
@@ -199,21 +201,21 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 		 * add top margin
 		 * add font ascent
 		 */
-		text_base = y1 + font->ascent + cell->row_info->margin_a;
+		text_base = y1 + font->ascent + ri->margin_a;
 		break;
 		
 	case VALIGN_CENTER:
-		text_base = y1 + font->ascent + cell->row_info->margin_a +
+		text_base = y1 + font->ascent + ri->margin_a +
 		    (height - font_height) / 2;
 		break;
 		
 	case VALIGN_BOTTOM:
 		/*
-		 * y1+row_info->size_pixels == bottom grid line.
+		 * y1 + ri->size_pixels == bottom grid line.
 		 * subtract bottom margin
 		 * subtract font descent
 		 */
-		text_base = y1 + cell->row_info->size_pixels - font->descent - cell->row_info->margin_b;
+		text_base = y1 + ri->size_pixels - font->descent - ri->margin_b;
 		break;
 	}
 	
@@ -227,8 +229,8 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	 * including the surrounding grid lines */
 	rect.x = x1;
 	rect.y = y1;
-	rect.width  = cell->col_info->size_pixels + 1;
-	rect.height = cell->row_info->size_pixels + 1;
+	rect.width  = ci->size_pixels + 1;
+	rect.height = ri->size_pixels + 1;
 
 	/*
 	 * x1, y1 are relative to this cell origin, but the cell might be using
@@ -252,10 +254,10 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	/* Do not allow text to impinge upon the grid lines or margins
 	 * FIXME : Should use margins from start_col and end_col
 	 */
-	rect.x += 1 + cell->col_info->margin_a;
-	rect.y += 1 + cell->row_info->margin_a;
-	rect.width -= 2 + cell->col_info->margin_a + cell->col_info->margin_b;
-	rect.height -= 2 + cell->row_info->margin_a + cell->row_info->margin_b;
+	rect.x += 1 + ci->margin_a;
+	rect.y += 1 + ri->margin_a;
+	rect.width -= 2 + ci->margin_a + ci->margin_b;
+	rect.height -= 2 + ri->margin_a + ri->margin_b;
 	gdk_gc_set_clip_rectangle (gc, &rect);
 
 	/* Set the font colour */
@@ -287,7 +289,7 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	/* if a number overflows, do special drawing */
 	if (width < cell_width_pixel && cell_is_number (cell)) {
 		draw_overflow (drawable, gc, font,
-			       x1 + cell->col_info->margin_a + 1,
+			       x1 + ci->margin_a + 1,
 			       text_base, width, line_offset, num_lines);
 		style_font_unref (style_font);
 		return;
@@ -302,15 +304,15 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 			/* fall through */
 			
 		case HALIGN_LEFT:
-			x1 += 1 + cell->col_info->margin_a;
+			x1 += 1 + ci->margin_a;
 			break;
 
 		case HALIGN_RIGHT:
-			x1 += cell->col_info->size_pixels - cell->col_info->margin_b - cell_width_pixel;
+			x1 += ci->size_pixels - ci->margin_b - cell_width_pixel;
 			break;
 
 		case HALIGN_CENTER:
-			x1 += 1 + cell->col_info->margin_a + (width - cell_width_pixel) / 2; 
+			x1 += 1 + ci->margin_a + (width - cell_width_pixel) / 2; 
 			break;
 			
 		case HALIGN_CENTER_ACROSS_SELECTION:
@@ -319,7 +321,7 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 
 		default:
 			g_warning ("Single-line justification style not supported\n");
-			x1 += 1 + cell->col_info->margin_a;
+			x1 += 1 + ci->margin_a;
 		}
 
 		total = 0;
@@ -330,9 +332,12 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 			total += len;
 		} while (halign == HALIGN_FILL && total < rect.width && len > 0);
 	} else {
-		GList *l, *lines = cell_split_text (font, text, width);
-		int line_count = g_list_length (lines);
+		GList *lines, *l;
+		int line_count;
 		int x_offset, y_offset, inter_space;
+
+	       	lines = cell_split_text (font, text, width);
+	       	line_count = g_list_length (lines);
 
 		switch (valign) {
 		case VALIGN_TOP:
@@ -383,20 +388,20 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 
 			case HALIGN_LEFT:
 			case HALIGN_JUSTIFY:
-				x_offset = cell->col_info->margin_a;
+				x_offset = ci->margin_a;
 				if (num_lines > 0)
 					len = gdk_string_width (font, text);
 				break;
 				
 			case HALIGN_RIGHT:
 				len = gdk_string_width (font, str);
-				x_offset = cell->col_info->size_pixels - cell->col_info->margin_b - len;
+				x_offset = ci->size_pixels - ci->margin_b - len;
 				break;
 
 			case HALIGN_CENTER:
 			case HALIGN_CENTER_ACROSS_SELECTION:
 				len = gdk_string_width (font, str);
-				x_offset = (cell->col_info->size_pixels - len) / 2;
+				x_offset = (ci->size_pixels - len) / 2;
 			}
 
 			/* Advance one pixel for the border */
@@ -409,7 +414,6 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 			g_free (l->data);
 		}
 		g_list_free (lines);
-		
 	}
 
 	style_font_unref (style_font);

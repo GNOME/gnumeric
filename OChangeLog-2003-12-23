@@ -1,5 +1,9 @@
 2000-08-14  Jody Goldberg <jgoldberg@home.com>
 
+	* src/print-cell.c (print_cell) : Sync with 
+	* src/cell-draw.c (cell_draw) : and clear out a few usages of
+	  Cell:{row,col})_info.
+
 	* src/workbook.c (workbook_menu_edit) : Fix typo that made goto C-I
 	  instead of C-G.
 
