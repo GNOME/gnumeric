@@ -1,5 +1,5 @@
 /**
- * ms-excel.c: MS Excel support for Gnumeric
+ * boot.c: MS Excel support for Gnumeric
  *
  * Author:
  *    Michael Meeks (michael@imaginator.com)
@@ -14,6 +14,7 @@
 #include "main.h"
 
 #include "excel.h"
+#include "ms-summary.h"
 #include "boot.h"
 
 static gboolean
@@ -45,6 +46,7 @@ excel_load (const char *filename)
 	wb = ms_excel_read_workbook (f);
 	if (wb) {
 		char *name = g_strconcat (filename, ".gnumeric", NULL);
+/*		ms_summary_read (f, wb->sin); */
 		workbook_set_filename (wb, name);
 		g_free(name);
 	}

@@ -1986,6 +1986,39 @@ ms_ole_stream_open (MsOleDirectory *d, char mode)
 }
 
 MsOleStream *
+ms_ole_stream_open_name (MsOleDirectory *d, char *name, char mode)
+{
+	MsOleDirectory *dir;
+
+	g_return_val_if_fail (d != NULL, NULL);
+	g_return_val_if_fail (d->type == MsOlePPSStorage ||
+			      d->type == MsOlePPSRoot, NULL);
+     
+	if (!name)
+		return NULL;
+	dir = ms_ole_directory_copy (d);
+	ms_ole_directory_enter (dir);
+
+	while (ms_ole_directory_next(dir)) {
+		if (!dir->name) {
+#if OLE_DEBUG > 0
+			printf ("Odd: NULL dirctory name\n");
+#endif
+			continue;
+		}
+		if (g_strcasecmp(dir->name, name)==0) {
+			return ms_ole_stream_open (dir, mode);
+			ms_ole_directory_destroy (dir);
+		}
+	}
+#if OLE_DEBUG > 0
+	printf ("Stream '%s' not found\n", name);
+#endif
+	ms_ole_directory_destroy (dir);
+	return NULL;
+}
+
+MsOleStream *
 ms_ole_stream_copy (MsOleStream *s)
 {
 	MsOleStream *ans = g_new (MsOleStream, 1);
@@ -2070,6 +2103,14 @@ ms_ole_directory_next (MsOleDirectory *d)
 	printf ("Forward next '%s' %d %d\n", d->name, d->type, d->length);
 #endif
 	return 1;
+}
+
+MsOleDirectory *
+ms_ole_directory_copy (const MsOleDirectory *d)
+{
+	g_return_val_if_fail (d != NULL, NULL);
+
+	return pps_to_dir (d->file, d->pps, NULL);
 }
 
 void

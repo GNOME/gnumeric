@@ -31,7 +31,9 @@ libexcel_a_SOURCES =		\
 	ms-obj.c		\
 	ms-obj.h		\
 	ms-chart.h		\
-	ms-chart.c
+	ms-chart.c		\
+	ms-summary.c		\
+	ms-summary.h
 
 noinst_PROGRAMS =		\
 	ole

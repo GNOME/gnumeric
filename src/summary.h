@@ -7,6 +7,9 @@
  * (C) 1999 Michael Meeks
  */
 
+#ifndef GNUMERIC_SUMMARY_H
+#define GNUMERIC_SUMMARY_H
+
 typedef struct _SummaryItem SummaryItem;
 typedef struct _SummaryInfo SummaryInfo;
 
@@ -52,3 +55,5 @@ void         summary_info_add     (SummaryInfo *sin, SummaryItem *sit);
 void         summary_info_default (SummaryInfo *sin);
 void         summary_info_dump    (SummaryInfo *sin);
 void         summary_info_free    (SummaryInfo *sin);
+
+#endif

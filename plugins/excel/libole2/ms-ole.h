@@ -61,8 +61,8 @@ extern MsOle           *ms_ole_create  (const char *name) ;
 /* Open existing OLE file */
 extern MsOle           *ms_ole_open    (const char *name) ;
 /* Get a root directory handle */
-extern MsOleDirectory *ms_ole_get_root (MsOle *);
-extern void              ms_ole_destroy (MsOle *ptr) ;
+extern MsOleDirectory  *ms_ole_get_root (MsOle *);
+extern void             ms_ole_destroy (MsOle *ptr) ;
 
 struct _MsOleDirectory
 {
@@ -75,15 +75,16 @@ struct _MsOleDirectory
 	MsOle    *file ;
 };
 
-extern MsOleDirectory *ms_ole_directory_new (MsOle *) ;
-extern int  ms_ole_directory_next (MsOleDirectory *) ;
-extern void ms_ole_directory_enter (MsOleDirectory *) ;
+extern MsOleDirectory *ms_ole_directory_new     (MsOle *) ;
+extern int             ms_ole_directory_next    (MsOleDirectory *) ;
+extern void            ms_ole_directory_enter   (MsOleDirectory *) ;
 /* Pointer to the directory in which to create a new stream / storage object */
-extern MsOleDirectory *ms_ole_directory_create (MsOleDirectory *d,
-						  char *name,
-						  PPSType type) ;
-extern void ms_ole_directory_unlink (MsOleDirectory *) ;
-extern void ms_ole_directory_destroy (MsOleDirectory *) ;
+extern MsOleDirectory *ms_ole_directory_create  (MsOleDirectory *d,
+						 char *name,
+						 PPSType type) ;
+extern MsOleDirectory *ms_ole_directory_copy    (const MsOleDirectory *);
+extern void            ms_ole_directory_unlink  (MsOleDirectory *) ;
+extern void            ms_ole_directory_destroy (MsOleDirectory *) ;
 
 struct _MsOleStream
 {
@@ -119,9 +120,10 @@ struct _MsOleStream
 };
 
 /* Mode = 'r' or 'w' */
-extern MsOleStream *ms_ole_stream_open (MsOleDirectory *d, char mode) ;
-extern MsOleStream *ms_ole_stream_copy (MsOleStream *);
-extern void ms_ole_stream_close  (MsOleStream *) ;
+extern MsOleStream *ms_ole_stream_open      (MsOleDirectory *d, char mode) ;
+extern MsOleStream *ms_ole_stream_open_name (MsOleDirectory *d, char *name, char mode) ;
+extern MsOleStream *ms_ole_stream_copy      (MsOleStream *);
+extern void ms_ole_stream_close             (MsOleStream *) ;
 
 extern void dump (guint8 const *ptr, guint32 len) ;
 
