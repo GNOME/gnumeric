@@ -128,6 +128,8 @@ GNUMERIC_BASE_SOURCES =				\
 	pixmaps.h				\
 	plugin.c				\
 	plugin.h				\
+	plugin-util.c				\
+	plugin-util.h				\
 	portability.h				\
 	print.c					\
 	print.h					\

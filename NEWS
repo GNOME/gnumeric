@@ -70,7 +70,8 @@ Almer :
 	  - Merged with Gnumeric main source (no longer plug-in) and completely revised.
 	  - Pops-up when pasting from external applications.
 	  - Preview is drawn faster and is interactive.
-	  - More separators to choose from when doing a CSV import
+	  - More separators to choose from when doing a CSV import.
+	* Copying cells between different instantances of gnumeric.
 
 Morten:
 	* Fixed display of pre-1900 dates.

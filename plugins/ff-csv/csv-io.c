@@ -17,6 +17,7 @@
 #include <errno.h>
 #include <gnome.h>
 #include "plugin.h"
+#include "plugin-util.h"
 #include "gnumeric.h"
 #include "workbook.h"
 #include "cell.h"
@@ -159,24 +160,10 @@ csv_read_workbook (CommandContext *context, Workbook *book,
 {
 	int result = 0;
 	int len;
-	struct stat sbuf;
 	char const *data;
-	int const   fd = open(filename, O_RDONLY);
-
-	if (fd < 0) {
-		gnumeric_error_read (context, g_strerror (errno));
-		return -1;
-	}
-
-	if (fstat(fd, &sbuf) < 0) {
-		close (fd);
-		gnumeric_error_read (context, g_strerror (errno));
-		return -1;
-	}
-
-	len = sbuf.st_size;
-	if ((caddr_t)MAP_FAILED != (data = (caddr_t) (mmap(0, len, PROT_READ,
-							   MAP_PRIVATE, fd, 0)))) {
+	int fd;
+	
+	if ((data = gnumeric_mmap_open (context, filename, &fd, &len)) != NULL) {
 		FileSource_t src;
 		char *name = g_strdup_printf (_("Imported %s"), g_basename (filename));
 
@@ -196,13 +183,10 @@ csv_read_workbook (CommandContext *context, Workbook *book,
 			workbook_set_saveinfo (book, filename, FILE_FL_MANUAL,
 					       csv_write_workbook);
 
-		munmap((char *)data, len);
+		gnumeric_mmap_close (context, data, fd, len);
 	} else {
-		gnumeric_error_read (context, _("Unable to mmap the file"));
 		result = -1;
 	}
-
-	close(fd);
 
 	return result;
 }
@@ -260,12 +244,10 @@ csv_write_workbook (CommandContext *context, Workbook *wb,
 	Sheet *sheet;
 	Cell *cell;
 	int row, col, rc=0;
-	FILE *f = fopen (filename, "w");
+	FILE *f = gnumeric_fopen (context, filename, "w");
 
-	if (!f) {
-		gnumeric_error_save (context, g_strerror (errno));
+	if (!f)
 		return -1;
-	}
 
 	setvbuf (f, NULL, _IOFBF, PAGE_SIZE);
 
