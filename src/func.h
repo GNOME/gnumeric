@@ -86,6 +86,7 @@ typedef struct {
 typedef struct {
 	int N;
 	float_t M, Q;
+        gboolean afun_flag;
 } stat_closure_t;
 
 TokenizedHelp *tokenized_help_new     (FunctionDefinition *fd) ;
@@ -109,6 +110,39 @@ Value *gnumeric_count       (Sheet *sheet, GList *expr_node_list,
 Value *gnumeric_sum         (Sheet *sheet, GList *expr_node_list,
 			     int eval_col, int eval_row,
 			     char **error_string);
+
+Value *gnumeric_stdev         (Sheet *sheet, GList *expr_node_list,
+			       int eval_col, int eval_row,
+			       char **error_string);
+
+Value *gnumeric_stdevp         (Sheet *sheet, GList *expr_node_list,
+				int eval_col, int eval_row,
+				char **error_string);
+
+Value *gnumeric_var         (Sheet *sheet, GList *expr_node_list,
+			     int eval_col, int eval_row,
+			     char **error_string);
+
+Value *gnumeric_varp         (Sheet *sheet, GList *expr_node_list,
+			      int eval_col, int eval_row,
+			      char **error_string);
+
+Value *gnumeric_counta         (Sheet *sheet, GList *expr_node_list,
+				int eval_col, int eval_row,
+				char **error_string);
+
+Value *gnumeric_min         (Sheet *sheet, GList *expr_node_list,
+			     int eval_col, int eval_row,
+			     char **error_string);
+
+Value *gnumeric_max         (Sheet *sheet, GList *expr_node_list,
+			     int eval_col, int eval_row,
+			     char **error_string);
+
+Value *
+gnumeric_suma (Sheet *sheet, GList *expr_node_list,
+	       int eval_col, int eval_row, char **error_string);
+
 
 /* Type definitions and function prototypes for criteria functions.
  * This includes the database functions and some mathematical functions

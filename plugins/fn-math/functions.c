@@ -208,7 +208,7 @@ callback_function_lcm (Sheet *sheet, Value *value,
 }
 
 static Value *
-gnumeric_lcm (void *tsheet, GList *expr_node_list,
+gnumeric_lcm (Sheet *tsheet, GList *expr_node_list,
 	      int eval_col, int eval_row, char **error_string)
 {
 	Value *result;
@@ -1249,6 +1249,39 @@ gnumeric_sum (Sheet *sheet, GList *expr_node_list,
 	result->v.v_int = 0;
 	
 	function_iterate_argument_values (sheet, callback_function_sum, result, expr_node_list,
+					  eval_col, eval_row, error_string);
+
+	return result;
+}
+
+static char *help_suma = {
+	N_("@FUNCTION=SUMA\n"
+	   "@SYNTAX=SUMA(value1, value2, ...)\n"
+
+	   "@DESCRIPTION="
+	   "Computes the sum of all the values and cells referenced in the "
+	   "argument list.  Numbers, text and logical values are included "
+	   "in the calculation too.  If the cell contains text or the "
+	   "argument evaluates to FALSE, it is counted as value zero (0). "
+	   "If the argument evaluates to TRUE, it is counted as one (1). "
+	   "Note that empty cells are not counted." 
+	   "\n"
+
+	   "@SEEALSO=AVERAGE, SUM, COUNT")
+};
+
+Value *
+gnumeric_suma (Sheet *sheet, GList *expr_node_list,
+	       int eval_col, int eval_row, char **error_string)
+{
+	Value *result;
+
+	result = g_new (Value, 1);
+	result->type = VALUE_INTEGER;
+	result->v.v_int = 0;
+	
+	function_iterate_argument_values (sheet, callback_function_sum, 
+					  result, expr_node_list,
 					  eval_col, eval_row, error_string);
 
 	return result;
@@ -2307,6 +2340,220 @@ gnumeric_sumxmy2 (struct FunctionDefinition *i,
 	return value_new_float (sum);
 }
 
+static char *help_subtotal = {
+	N_("@FUNCTION=SUBTOTAL\n"
+	   "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
+
+	   "@DESCRIPTION="
+	   "SUBTOTAL function returns a subtotal of given list of arguments. "
+	   "@function_nbr is the number that specifies which function to use "
+	   "in calculating the subtotal. "
+	   "The following functions are available:\n"
+	   "1   AVERAGE\n"
+	   "2   COUNT\n"
+	   "3   COUNTA\n"
+	   "4   MAX\n"
+	   "5   MIN\n"
+	   "6   PRODUCT\n"
+	   "7   STDEV\n"
+	   "8   STDEVP\n"
+	   "9   SUM\n"
+	   "10   VAR\n"
+	   "11   VARP\n"
+	   "\n"	   
+	   "@SEEALSO=COUNT,SUM")
+};
+
+static Value *
+gnumeric_subtotal (Sheet *tsheet, GList *expr_node_list,
+		   int eval_col, int eval_row, char **error_string)
+{
+        ExprTree *tree;
+	Value    *val;
+	int      fun_nbr;
+
+	if (expr_node_list == NULL) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	
+	tree = (ExprTree *) expr_node_list->data;
+	if (tree == NULL) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	val = eval_expr (tsheet, tree, eval_col, eval_row, error_string);
+	if (! VALUE_IS_NUMBER(val)) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	}
+
+	fun_nbr = value_get_as_int(val);
+	if (fun_nbr < 1 || fun_nbr > 11) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	switch (fun_nbr) {
+	case 1:
+	        return gnumeric_average(tsheet, expr_node_list->next,
+					eval_col, eval_row, error_string);
+	case 2:
+	        return gnumeric_count(tsheet, expr_node_list->next,
+				      eval_col, eval_row, error_string);
+	case 3:
+	        return gnumeric_counta(tsheet, expr_node_list->next,
+				       eval_col, eval_row, error_string);
+	case 4:
+	        return gnumeric_max(tsheet, expr_node_list->next,
+				    eval_col, eval_row, error_string);
+	case 5:
+	        return gnumeric_min(tsheet, expr_node_list->next,
+				    eval_col, eval_row, error_string);
+	case 6:
+	        return gnumeric_product(tsheet, expr_node_list->next,
+					eval_col, eval_row, error_string);
+	case 7:
+	        return gnumeric_stdev(tsheet, expr_node_list->next,
+				      eval_col, eval_row, error_string);
+	case 8:
+	        return gnumeric_stdevp(tsheet, expr_node_list->next,
+				       eval_col, eval_row, error_string);
+	case 9:
+	        return gnumeric_sum(tsheet, expr_node_list->next,
+				    eval_col, eval_row, error_string);
+	case 10:
+	        return gnumeric_var(tsheet, expr_node_list->next,
+				    eval_col, eval_row, error_string);
+	case 11:
+	        return gnumeric_varp(tsheet, expr_node_list->next,
+				     eval_col, eval_row, error_string);
+	}
+
+	return NULL;
+}
+
+static char *help_seriessum = {
+	N_("@FUNCTION=SERIESSUM\n"
+	   "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
+
+	   "@DESCRIPTION="
+	   "SERIESSUM function returns the sum of a power series.  @x is "
+	   "the base of the power serie, @n is the initial power to raise @x, "
+	   "@m is the increment to the power for each term in the series, and "
+	   "@coefficients is the coefficents by which each successive power "
+	   "of @x is multiplied. "
+	   "\n"	   
+	   "@SEEALSO=COUNT,SUM")
+};
+
+
+typedef struct {
+        float_t sum;
+        float_t x;
+        float_t n;
+        float_t m;
+} math_seriessum_t;
+
+static int
+callback_function_seriessum (Sheet *sheet, Value *value,
+			     char **error_string, void *closure)
+{
+	math_seriessum_t *mm = closure;
+	float_t          coefficient=0;
+
+	switch (value->type){
+	case VALUE_INTEGER:
+	        coefficient = value->v.v_int;
+		break;
+	case VALUE_FLOAT:
+	        coefficient = value->v.v_float;
+		break;
+	default:
+	        return FALSE;
+	}
+
+	mm->sum += coefficient * pow(mm->x, mm->n);
+	mm->n += mm->m;
+
+	return TRUE;
+}
+
+static Value *
+gnumeric_seriessum (Sheet *sheet, GList *expr_node_list,
+		    int eval_col, int eval_row, char **error_string)
+{
+        math_seriessum_t p;
+        ExprTree         *tree;
+	Value            *val;
+	float_t          x, n, m;
+
+	if (expr_node_list == NULL) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	/* Get x */
+	tree = (ExprTree *) expr_node_list->data;
+	if (tree == NULL) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	val = eval_expr (sheet, tree, eval_col, eval_row, error_string);
+	if (! VALUE_IS_NUMBER(val)) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	}
+	x = value_get_as_int(val);
+	expr_node_list = expr_node_list->next;
+
+	/* Get n */
+	tree = (ExprTree *) expr_node_list->data;
+	if (tree == NULL) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	val = eval_expr (sheet, tree, eval_col, eval_row, error_string);
+	if (! VALUE_IS_NUMBER(val)) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	}
+	n = value_get_as_int(val);
+	expr_node_list = expr_node_list->next;
+
+	/* Get m */
+	tree = (ExprTree *) expr_node_list->data;
+	if (tree == NULL) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	val = eval_expr (sheet, tree, eval_col, eval_row, error_string);
+	if (! VALUE_IS_NUMBER(val)) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	}
+	m = value_get_as_int(val);
+	expr_node_list = expr_node_list->next;
+
+	p.n = n;
+	p.m = m;
+	p.x = x;
+	p.sum = 0;
+
+	if (function_iterate_argument_values (sheet,
+					      callback_function_seriessum,
+					      &p, expr_node_list,
+					      eval_col, eval_row,
+					      error_string) == FALSE) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	}
+
+	return value_new_float (p.sum);
+}
+
+
 FunctionDefinition math_functions [] = {
 	{ "abs",     "f",    "number",    &help_abs,   NULL, gnumeric_abs },
 	{ "acos",    "f",    "number",    &help_acos,  NULL, gnumeric_acos },
@@ -2369,13 +2616,20 @@ FunctionDefinition math_functions [] = {
 	  NULL, gnumeric_rounddown },
 	{ "roundup",    "f|f", "number,digits", &help_roundup,
 	  NULL, gnumeric_roundup },
+	{ "seriessum", 0,    "x,n,m,coefficients",   &help_seriessum,
+	  gnumeric_seriessum, NULL },
 	{ "sign",    "f",    "number",    &help_sign,    NULL, gnumeric_sign },
 	{ "sin",     "f",    "number",    &help_sin,     NULL, gnumeric_sin },
 	{ "sinh",    "f",    "number",    &help_sinh,    NULL, gnumeric_sinh },
 	{ "sqrt",    "f",    "number",    &help_sqrt,    NULL, gnumeric_sqrt },
 	{ "sqrtpi",  "f",    "number",    &help_sqrtpi,
 	  NULL, gnumeric_sqrtpi},
-	{ "sum",     0,      "number",    &help_sum,     gnumeric_sum, NULL },
+	{ "subtotal", 0,     "function_nbr,ref1,ref2,...",  &help_subtotal,
+	  gnumeric_subtotal, NULL },
+	{ "sum",     0,      "number1,number2,...",    &help_sum,
+	  gnumeric_sum, NULL },
+	{ "suma",    0,      "number1,number2,...",    &help_suma,
+	  gnumeric_suma, NULL },
 	{ "sumif",   "r?",   "range,criteria", &help_sumif,
 	  NULL, gnumeric_sumif },
 	{ "sumsq",   0,      "number",    &help_sumsq,

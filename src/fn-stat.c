@@ -597,6 +597,7 @@ setup_stat_closure (stat_closure_t *cl)
 	cl->N = 0;
 	cl->M = 0.0;
 	cl->Q = 0.0;
+	cl->afun_flag = 0;
 }
 
 int
@@ -616,8 +617,10 @@ callback_function_stat (Sheet *sheet, Value *value, char **error_string,
 		break;
 
 	default:
-		/* ignore strings */
-		return TRUE;
+	        if (mm->afun_flag)
+		        x = 0;
+		else
+		        return TRUE;
 	}
 
 	dx = x - mm->M;
@@ -645,7 +648,7 @@ static char *help_varp = {
 	   "@SEEALSO=STDEV,VAR,MEAN")
 };
 
-static Value *
+Value *
 gnumeric_varp (Sheet *sheet, GList *expr_node_list, int eval_col,
 	       int eval_row, char **error_string)
 {
@@ -682,7 +685,7 @@ static char *help_var = {
 	   "@SEEALSO=VARP,STDEV")
 };
 
-static Value *
+Value *
 gnumeric_var (Sheet *sheet, GList *expr_node_list, int eval_col,
 	      int eval_row, char **error_string)
 {
@@ -715,7 +718,7 @@ static char *help_stdev = {
 	   "@SEEALSO=VAR,MEAN")
 };
 
-static Value *
+Value *
 gnumeric_stdev (Sheet *sheet, GList *expr_node_list, int eval_col,
 		int eval_row, char **error_string)
 {
@@ -740,7 +743,7 @@ static char *help_stdevp = {
 	   "@SEEALSO=STDEV,VAR,MEAN")
 };
 
-static Value *
+Value *
 gnumeric_stdevp (Sheet *sheet, GList *expr_node_list, int eval_col,
 		 int eval_row, char **error_string)
 {
@@ -1646,10 +1649,11 @@ static char *help_geomean = {
 	   "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
-	   "GEOMEAN returns the geometric mean of the N data"
+	   "GEOMEAN returns the geometric mean of the given arguments. "
 	   "This is equal to the Nth root of the product of the terms"
 	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing."
+	   "Performing this function on a string or empty cell simply "
+	   "does nothing."
 	   "\n"
 	   "@SEEALSO=HARMEAN,MEDIAN,MEAN,MODE")
 };
@@ -1669,12 +1673,14 @@ callback_function_stat_prod (Sheet *sheet, Value *value,
 	switch (value->type){
 	case VALUE_INTEGER:
 		mm->num++;
-		mm->product = mm->first?value->v.v_int:mm->product*value->v.v_int;
+		mm->product = mm->first ? 
+		  value->v.v_int:mm->product*value->v.v_int;
 		break;
 
 	case VALUE_FLOAT:
 		mm->num++;
-		mm->product = mm->first?value->v.v_float:mm->product*value->v.v_float;
+		mm->product = mm->first ? 
+		  value->v.v_float:mm->product*value->v.v_float;
 		break;
 	default:
 		/* ignore strings */
@@ -1786,7 +1792,7 @@ closure)
         return TRUE;
 }
 
-static Value *
+Value *
 gnumeric_counta (Sheet *sheet, GList *expr_node_list,
 		 int eval_col, int eval_row, char **error_string)
 {
@@ -1929,6 +1935,7 @@ callback_function_min_max (Sheet *sheet, Value *value,
 			mm->found = 1;
 			mm->result->v.v_float = value->v.v_float;
 		}
+		break;
 
 	default:
 		/* ignore strings */
@@ -1938,7 +1945,7 @@ callback_function_min_max (Sheet *sheet, Value *value,
 	return TRUE;
 }
 
-static Value *
+Value *
 gnumeric_min (Sheet *sheet, GList *expr_node_list,
 	      int eval_col, int eval_row, char **error_string)
 {
@@ -1957,7 +1964,7 @@ gnumeric_min (Sheet *sheet, GList *expr_node_list,
 	return 	closure.result;
 }
 
-static Value *
+Value *
 gnumeric_max (Sheet *sheet, GList *expr_node_list,
 	      int eval_col, int eval_row, char **error_string)
 {
@@ -2058,12 +2065,13 @@ static char *help_expondist = {
 	   "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
 
 	   "@DESCRIPTION="
-	   "The EXPONDIST function returns the exponential distribution "
+	   "The EXPONDIST function returns the exponential distribution. "
 	   "If the cumulative boolean is false it will return: "
 	   "y * exp (-y*x), otherwise it will return 1 - exp (-y*x). "
 	   "\n"
 	   "If x<0 or y<=0 this will return an error"
-	   "Performing this function on a string or empty cell simply does nothing. "
+	   "Performing this function on a string or empty cell simply "
+	   "does nothing. "
 	   "\n"
 	   "@SEEALSO=POISSON")
 };
@@ -2099,9 +2107,11 @@ static char *help_gammaln = {
 	   "@SYNTAX=GAMMALN(x)\n"
 
 	   "@DESCRIPTION="
-	   "The GAMMALN function returns the ln of the gamma function"
+	   "The GAMMALN function returns the natural logarithm of the "
+	   "gamma function. "
 	   "\n"
-	   "Performing this function on a string or empty cell returns an error. "
+	   "If @x is non-number then GAMMALN returns #VALUE! error. "
+	   "If @x <= 0 then GAMMALN returns #NUM! error. "
 	   "\n"
 	   "@SEEALSO=POISSON")
 };
@@ -2531,7 +2541,7 @@ static char *help_binomdist = {
 	   "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
 
 	   "@DESCRIPTION="
-	   "The BINOMDIST function returns the binomial distribution "
+	   "The BINOMDIST function returns the binomial distribution. "
 	   "@n is the number of successes, @trials is the total number of "
            "independent trials, @p is the probability of success in trials, "
            "and @cumulative describes whether to return the sum of the"
@@ -2590,7 +2600,6 @@ static char *help_critbinom = {
           "cumulative is creater than or equal to a given value. "
           "@n is the number of trials, @p is the probability of success in "
           "trials, and @alpha is the criterion value. "
-	  "Performing this function on a string or empty cell simply does nothing. "
           "\n"
           "if trials is a non-integer it is truncated. "
           "if trials < 0 CRITBINOM returns #NUM! error. "
@@ -2638,7 +2647,6 @@ static char *help_permut = {
            "@n is the number of objects, @k is the number of objects in each "
            "permutation. "
 	   "\n"
-	   "Performing this function on a string or empty cell returns an error."
 	   "if n or k is non-integer PERMUT returns #VALUE! error. "
 	   "if n = 0 PERMUT returns #NUM! error. "
 	   "if n < k PERMUT returns #NUM! error. "
@@ -2678,7 +2686,6 @@ static char *help_hypgeomdist = {
            "of trials, @M is the number of successes overall, and @N is the"
            "population size."
 	   "\n"
-	   "Performing this function on a string or empty cell returns an error."
 	   "if x,n,M or N is a non-integer it is truncated. "
 	   "if x,n,M or N < 0 HYPGEOMDIST returns #NUM! error. "
 	   "if x > M or n > N HYPGEOMDIST returns #NUM! error. "
@@ -2720,7 +2727,6 @@ static char *help_confidence = {
 	   "@x is the significance level, @stddev is the standard deviation, "
 	   "and @size is the size of the sample."
 	   "\n"
-	   "Performing this function on a string or empty cell returns an error."
 	   "if size is non-integer it is truncated. "
 	   "if size < 0 CONFIDENCE returns #NUM! error. "
 	   "if size is 0 CONFIDENCE returns #DIV/0! error. "
@@ -2765,8 +2771,7 @@ static char *help_standardize = {
 	   "@x is the number to be normalized, @mean is the mean of the "
 	   "distribution, @stdev is the standard deviation of the distribution."
 	   "\n"
-	   "Performing this function on a string or empty cell returns an error."
-	   "if stddev is 0 STANDARDIZE returns #DIV/0! error. "
+	   "If stddev is 0 STANDARDIZE returns #DIV/0! error. "
 	   "\n"
 	   "@SEEALSO=AVERAGE")
 };
@@ -2804,7 +2809,6 @@ static char *help_weibull = {
            "1 - exp (-(x/beta)^alpha), otherwise it will return "
            "(alpha/beta^alpha) * x^(alpha-1) * exp(-(x/beta^alpha)). "
            "\n"
-           "Performing this function on a string or empty cell simply does nothing. "
            "if x < 0 WEIBULL returns #NUM! error. "
            "if alpha <= 0 or beta <= 0 WEIBULL returns #NUM! error. "
            "\n"
@@ -2847,8 +2851,7 @@ static char *help_normdist = {
 	   "@x is the value for which you want the distribution, @mean is "
 	   "the mean of the distribution, @stdev is the standard deviation. "
            "\n"
-           "Performing this function on a string or empty cell simply does nothing. "
-           "if stdev=0 NORMDIST returns #DIV/0! error. "
+           "If stdev is 0 NORMDIST returns #DIV/0! error. "
            "\n"
            "@SEEALSO=POISSON")
 };
@@ -3088,7 +3091,8 @@ gnumeric_avedev (Sheet *sheet, GList *expr_node_list,
 	 			       (sheet, expr_node_list,
 				        eval_col, eval_row, error_string));
 
-	function_iterate_argument_values (sheet, callback_function_stat_avedev_sum,
+	function_iterate_argument_values (sheet,
+					  callback_function_stat_avedev_sum,
 					  &pr, expr_node_list,
 					  eval_col, eval_row, error_string);
 
@@ -3200,9 +3204,9 @@ static char *help_poisson = {
 	   "@DESCRIPTION="
 	   "The POISSON function returns the Poisson distribution "
 	   "@x is the number of events, @mean is the expected numeric value "
-	   "@cumulative describes whether to return the sum of the poisson function from 0 to x."
+	   "@cumulative describes whether to return the sum of the "
+	   "poisson function from 0 to x."
 	   "\n"
-	   "Performing this function on a string or empty cell returns an error."
 	   "if x is a non-integer it is truncated. "
 	   "if x <= 0 POISSON returns #NUM! error. "
 	   "if mean <= 0 POISSON returns the #NUM! error. "
@@ -4033,65 +4037,585 @@ gnumeric_ztest (Sheet *sheet, GList *expr_node_list,
 				     (stdev / sqrt(p.num))));
 }
 
+static char *help_averagea = {
+	N_("@FUNCTION=AVERAGEA\n"
+	   "@SYNTAX=AVERAGEA(number1,number2,...)\n"
+
+	   "@DESCRIPTION="
+	   "AVERAGEA returns the average of the given arguments.  Numbers, "
+	   "text and logical values are included in the calculation too. "
+	   "If the cell contains text or the argument evaluates to FALSE, "
+	   "it is counted as value zero (0).  If the argument evaluates to "
+	   "TRUE, it is counted as one (1).  Note that empty cells are not "
+	   "counted. "
+	   "\n"
+	   "@SEEALSO=AVERAGE")
+};
+
+Value *
+gnumeric_averagea (Sheet *sheet, GList *expr_node_list,
+		   int eval_col, int eval_row, char **error_string)
+{
+	Value *result;
+	Value *sum, *count;
+	double c;
+	
+	sum = gnumeric_suma (sheet, expr_node_list,
+			     eval_col, eval_row, error_string);
+	if (!sum)
+		return NULL;
+	
+	count = gnumeric_counta (sheet, expr_node_list,
+				 eval_col, eval_row, error_string);
+	if (!count){
+		value_release (sum);
+		return NULL;
+	}
+
+	c = value_get_as_float (count);
+	
+	if (c == 0.0){
+		*error_string = _("#DIV/0!");
+		value_release (sum);
+		return NULL;
+	}
+	
+	result = value_new_float (value_get_as_float (sum) / c);
+
+	value_release (count);
+	value_release (sum);
+	
+	return result;
+}
+
+static char *help_maxa = {
+	N_("@FUNCTION=MAXA\n"
+	   "@SYNTAX=MAXA(number1,number2,...)\n"
+
+	   "@DESCRIPTION="
+	   "MAXA returns the largest value of the given arguments.  Numbers, "
+	   "text and logical values are included in the calculation too. "
+	   "If the cell contains text or the argument evaluates to FALSE, "
+	   "it is counted as value zero (0).  If the argument evaluates to "
+	   "TRUE, it is counted as one (1).  Note that empty cells are not "
+	   "counted. "
+	   "\n"
+	   "@SEEALSO=MAX,MINA")
+};
+
+static int
+callback_function_mina_maxa (Sheet *sheet, Value *value,
+			     char **error_string, void *closure)
+{
+	min_max_closure_t *mm = closure;
+	
+	switch (value->type){
+	case VALUE_INTEGER:
+		if (mm->found){
+			if (mm->operation == OPER_MIN){
+				if (value->v.v_int < mm->result->v.v_float)
+					mm->result->v.v_float = value->v.v_int;
+			} else {
+				if (value->v.v_int > mm->result->v.v_float)
+					mm->result->v.v_float = value->v.v_int;
+			}
+		} else {
+			mm->found = 1;
+			mm->result->v.v_float = value->v.v_int;
+		}
+		break;
+
+	case VALUE_FLOAT:
+		if (mm->found){
+			if (mm->operation == OPER_MIN){
+				if (value->v.v_float < mm->result->v.v_float)
+					mm->result->v.v_float =
+					  value->v.v_float;
+			} else {
+				if (value->v.v_float > mm->result->v.v_float)
+					mm->result->v.v_float =
+					  value->v.v_float;
+			}
+		} else {
+			mm->found = 1;
+			mm->result->v.v_float = value->v.v_float;
+		}
+		break;
+
+	default:
+		if (mm->found){
+			if (mm->operation == OPER_MIN){
+				if (0 < mm->result->v.v_float)
+					mm->result->v.v_float = 0;
+			} else {
+				if (0 > mm->result->v.v_float)
+					mm->result->v.v_float = 0;
+			}
+		} else {
+			mm->found = 1;
+			mm->result->v.v_float = 0;
+		}
+		break;
+	}
+	
+	return TRUE;
+}
+
+Value *
+gnumeric_maxa (Sheet *sheet, GList *expr_node_list,
+	       int eval_col, int eval_row, char **error_string)
+{
+	min_max_closure_t closure;
+
+	closure.operation = OPER_MAX;
+	closure.found  = 0;
+	closure.result = g_new (Value, 1);
+	closure.result->type = VALUE_FLOAT;
+	closure.result->v.v_float = 0;
+
+	function_iterate_argument_values (sheet, callback_function_mina_maxa,
+					  &closure, expr_node_list,
+					  eval_col, eval_row, error_string);
+	return 	closure.result;
+}
+
+static char *help_mina = {
+	N_("@FUNCTION=MINA\n"
+	   "@SYNTAX=MINA(number1,number2,...)\n"
+
+	   "@DESCRIPTION="
+	   "MINA returns the smallest value of the given arguments.  Numbers, "
+	   "text and logical values are included in the calculation too. "
+	   "If the cell contains text or the argument evaluates to FALSE, "
+	   "it is counted as value zero (0).  If the argument evaluates to "
+	   "TRUE, it is counted as one (1).  Note that empty cells are not "
+	   "counted. "
+	   "\n"
+	   "@SEEALSO=MIN,MAXA")
+};
+
+Value *
+gnumeric_mina (Sheet *sheet, GList *expr_node_list,
+	       int eval_col, int eval_row, char **error_string)
+{
+	min_max_closure_t closure;
+
+	closure.operation = OPER_MIN;
+	closure.found  = 0;
+	closure.result = g_new (Value, 1);
+	closure.result->type = VALUE_FLOAT;
+	closure.result->v.v_float = 0;
+
+	function_iterate_argument_values (sheet, callback_function_mina_maxa,
+					  &closure, expr_node_list,
+					  eval_col, eval_row, error_string);
+	return 	closure.result;
+}
+
+static char *help_vara = {
+	N_("@FUNCTION=VARA\n"
+	   "@SYNTAX=VARA(number1,number2,...)\n"
+
+	   "@DESCRIPTION="
+	   "VARA returns the variance based on a sample.  Numbers, text "
+	   "and logical values are included in the calculation too. "
+	   "If the cell contains text or the argument evaluates"
+	   "to FALSE, it is counted as value zero (0).  If the "
+	   "argument evaluates to TRUE, it is counted as one (1).  Note "
+	   "that empty cells are not counted. "
+	   "\n"
+	   "@SEEALSO=VAR,VARPA")
+};
+
+static Value *
+gnumeric_vara (Sheet *sheet, GList *expr_node_list, int eval_col,
+	       int eval_row, char **error_string)
+{
+	stat_closure_t cl;
+
+	setup_stat_closure (&cl);
+	cl.afun_flag = 1;
+
+	function_iterate_argument_values (sheet, callback_function_stat,
+					  &cl, expr_node_list,
+					  eval_col, eval_row, error_string);
+
+	if (cl.N <= 1) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	return value_new_float (cl.Q / (cl.N - 1));
+}
+
+static char *help_varpa = {
+	N_("@FUNCTION=VARPA\n"
+	   "@SYNTAX=VARPA(number1,number2,...)\n"
+
+	   "@DESCRIPTION="
+	   "VARPA returns the variance based on the entire population.  "
+	   "Numbers, text and logical values are included in the "
+	   "calculation too.  If the cell contains text or the argument "
+	   "evaluates to FALSE, it is counted as value zero (0).  If the "
+	   "argument evaluates to TRUE, it is counted as one (1).  Note "
+	   "that empty cells are not counted. "
+	   "\n"
+	   "@SEEALSO=VARP,VARP")
+};
+
+Value *
+gnumeric_varpa (Sheet *sheet, GList *expr_node_list, int eval_col,
+		int eval_row, char **error_string)
+{
+	stat_closure_t cl;
+
+	setup_stat_closure (&cl);
+	cl.afun_flag = 1;
+
+	function_iterate_argument_values (sheet, callback_function_stat,
+					  &cl, expr_node_list,
+					  eval_col, eval_row, error_string);
+
+	if (cl.N <= 0) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+
+	return value_new_float (cl.Q / cl.N);
+}
+
+static char *help_stdeva = {
+	N_("@FUNCTION=STDEVA\n"
+	   "@SYNTAX=STDEVA(number1,number2,...)\n"
+
+	   "@DESCRIPTION="
+	   "STDEVA returns the standard deviation based on a sample. "
+	   "Numbers, text and logical values are included in the calculation "
+	   "too.  If the cell contains text or the argument evaluates to "
+	   "FALSE, it is counted as value zero (0).  If the argument "
+	   "evaluates to TRUE, it is counted as one (1).  Note that empty "
+	   "cells are not counted. "
+	   "\n"
+	   "@SEEALSO=STDEV,STDEVPA")
+};
+
+Value *
+gnumeric_stdeva (Sheet *sheet, GList *expr_node_list, int eval_col,
+		 int eval_row, char **error_string)
+{
+	Value *ans = gnumeric_vara (sheet, expr_node_list, eval_col,
+				    eval_row, error_string);
+
+	if (ans && (ans->type == VALUE_FLOAT))
+		ans->v.v_float = sqrt (ans->v.v_float);
+	return ans;
+}
+
+static char *help_stdevpa = {
+	N_("@FUNCTION=STDEVPA\n"
+	   "@SYNTAX=STDEVPA(number1,number2,...)\n"
+
+	   "@DESCRIPTION="
+	   "STDEVPA returns the standard deviation based on the entire "
+	   "population.  Numbers, text and logical values are included in "
+	   "the calculation too.  If the cell contains text or the argument "
+	   "evaluates to FALSE, it is counted as value zero (0).  If the "
+	   "argument evaluates to TRUE, it is counted as one (1).  Note "
+	   "that empty cells are not counted. "
+	   "\n"
+	   "@SEEALSO=STDEVA,STDEVP")
+};
+
+Value *
+gnumeric_stdevpa (Sheet *sheet, GList *expr_node_list, int eval_col,
+		  int eval_row, char **error_string)
+{
+	Value *ans = gnumeric_varpa (sheet, expr_node_list,
+				     eval_col, eval_row, error_string);
+
+	if (ans && (ans->type == VALUE_FLOAT))
+		ans->v.v_float = sqrt (ans->v.v_float);
+
+	return ans;
+}
+
+static char *help_slope = {
+	N_("@FUNCTION=SLOPE\n"
+	   "@SYNTAX=SLOPE(known_y's,known_x's)\n"
+
+	   "@DESCRIPTION="
+	   "SLOPE returns the slope of the linear regression line.  "
+	   "\n"
+	   "@SEEALSO=STDEV,STDEVPA")
+};
+
+static Value *
+gnumeric_slope (struct FunctionDefinition *i,
+		Value *argv [], char **error_string)
+{
+        Value       *known_y = argv[0];
+        Value       *known_x = argv[1];
+	stat_list_t items_x, items_y;
+	float_t     sum_x, sum_y, sum_xy, sqrsum_x, sqrsum_y;
+	float_t     num, den, n;
+	GSList      *list1, *list2;
+	int         ret;
+
+	items_x.num  = 0;
+	items_x.list = NULL;
+	items_y.num  = 0;
+	items_y.list = NULL;
+
+        if (known_x->type == VALUE_CELLRANGE) {
+		ret = sheet_cell_foreach_range (
+		  known_x->v.cell_range.cell_a.sheet, TRUE,
+		  known_x->v.cell_range.cell_a.col, 
+		  known_x->v.cell_range.cell_a.row,
+		  known_x->v.cell_range.cell_b.col,
+		  known_x->v.cell_range.cell_b.row,
+		  callback_function_list,
+		  &items_x);
+		if (ret == FALSE) {
+		        *error_string = _("#VALUE!");
+
+			list1 = items_x.list;
+			list2 = items_y.list;
+			while (list1 != NULL) {
+			        g_free(list1->data);
+				list1 = list1->next;
+			}
+			while (list2 != NULL) {
+			        g_free(list2->data);
+				list2 = list2->next;
+			}
+			g_slist_free(items_x.list);
+			g_slist_free(items_y.list);
+
+			return NULL;
+		}
+	} else {
+		*error_string = _("Array version not implemented!");
+		return NULL;
+	}
+	
+        if (known_y->type == VALUE_CELLRANGE) {
+		ret = sheet_cell_foreach_range (
+		  known_y->v.cell_range.cell_a.sheet, TRUE,
+		  known_y->v.cell_range.cell_a.col, 
+		  known_y->v.cell_range.cell_a.row,
+		  known_y->v.cell_range.cell_b.col,
+		  known_y->v.cell_range.cell_b.row,
+		  callback_function_list,
+		  &items_y);
+		if (ret == FALSE) {
+		        *error_string = _("#VALUE!");
+
+			list1 = items_x.list;
+			list2 = items_y.list;
+			while (list1 != NULL) {
+			        g_free(list1->data);
+				list1 = list1->next;
+			}
+			while (list2 != NULL) {
+			        g_free(list2->data);
+				list2 = list2->next;
+			}
+			g_slist_free(items_x.list);
+			g_slist_free(items_y.list);
+
+			return NULL;
+		}
+	} else {
+		*error_string = _("Array version not implemented!");
+		return NULL;
+	}
+
+	if (items_x.num != items_y.num) {
+	        *error_string = _("#N/A!");
+
+		list1 = items_x.list;
+		list2 = items_y.list;
+		while (list1 != NULL) {
+		        g_free(list1->data);
+			list1 = list1->next;
+		}
+		while (list2 != NULL) {
+		        g_free(list2->data);
+			list2 = list2->next;
+		}
+		g_slist_free(items_x.list);
+		g_slist_free(items_y.list);
+
+		return NULL;
+	}
+
+	list1 = items_x.list;
+	list2 = items_y.list;
+	sum_x = sum_y = 0;
+	sqrsum_x = sqrsum_y = 0;
+	sum_xy = 0;
+
+	while (list1 != NULL) {
+	        float_t  x, y;
+
+		x = *((float_t *) list1->data);
+		y = *((float_t *) list2->data);
+
+		sum_x += x;
+		sum_y += y;
+		sqrsum_x += x*x;
+		sqrsum_y += y*y;
+		sum_xy += x*y;
+
+		g_free(list1->data);
+		g_free(list2->data);
+		list1 = list1->next;
+		list2 = list2->next;
+	}
+
+	g_slist_free(items_x.list);
+	g_slist_free(items_y.list);
+
+	n = items_x.num;
+	num = n*sum_xy - sum_x*sum_y;
+	den = n*sqrsum_x - sum_x*sum_x;
+
+	if (den == 0) {
+	        *error_string = _("#NUM!");
+		return NULL;
+	}
+
+	return value_new_float (num / den);
+}
 
 FunctionDefinition stat_functions [] = {
-        { "avedev",    0,      "",          &help_avedev,    gnumeric_avedev, NULL },
-	{ "average", 0,      "",            &help_average, gnumeric_average, NULL },
-	{ "betadist", "fff", "",            &help_betadist, NULL, gnumeric_betadist },
-	{ "binomdist", "fffb", "n,t,p,c",   &help_binomdist, NULL, gnumeric_binomdist },
-	{ "chidist",   "ff",  "",           &help_chidist, NULL, gnumeric_chidist },
-	{ "chiinv",    "ff",  "",           &help_chiinv, NULL, gnumeric_chiinv },
-	{ "confidence", "fff",  "x,stddev,size", &help_confidence, NULL, gnumeric_confidence },
-	{ "count",     0,      "",          &help_count,   gnumeric_count, NULL },
-	{ "counta",    0,      "",          &help_counta,    gnumeric_counta, NULL },
-	{ "critbinom",  "fff",  "trials,p,alpha", &help_critbinom, NULL, gnumeric_critbinom },
-        { "correl",     0,      "",         &help_correl,    gnumeric_correl, NULL },
-        { "covar",      0,      "",         &help_covar,     gnumeric_covar, NULL },
-        { "devsq",      0,      "",         &help_devsq,     gnumeric_devsq, NULL },
-	{ "permut",    "ff",  "n,k",        &help_permut,    NULL, gnumeric_permut },
-	{ "poisson",   "ffb",  "",          &help_poisson,   NULL, gnumeric_poisson },
-	{ "expondist", "ffb",  "",          &help_expondist, NULL, gnumeric_expondist },
-	{ "fdist",   "fff",  "",            &help_fdist,  NULL, gnumeric_fdist },
-	{ "finv",   "fff",  "",             &help_finv,  NULL, gnumeric_finv },
-        { "fisher",    "f",    "",          &help_fisher,    NULL, gnumeric_fisher },
-        { "fisherinv", "f",    "",          &help_fisherinv, NULL, gnumeric_fisherinv },
-	{ "gammaln",   "f",    "number",    &help_gammaln,   NULL, gnumeric_gammaln },
-	{ "gammadist", "fffb", "number,alpha,beta,cum",    &help_gammadist,   NULL, gnumeric_gammadist },
-	{ "gammainv", "fff",   "number,alpha,beta",        &help_gammainv,   NULL, gnumeric_gammainv },
-	{ "geomean",   0,      "",          &help_geomean,   gnumeric_geomean, NULL },
-	{ "harmean",   0,      "",          &help_harmean,   gnumeric_harmean, NULL },
-	{ "hypgeomdist", "ffff", "x,n,M,N", &help_hypgeomdist, NULL, gnumeric_hypgeomdist },
-        { "kurt",      0,      "",          &help_kurt,      gnumeric_kurt, NULL },
-	{ "large",  0,      "",             &help_large,  gnumeric_large, NULL },
-	{ "loginv",  "fff",  "",            &help_loginv, NULL, gnumeric_loginv },
-	{ "lognormdist",  "fff",  "",       &help_lognormdist, NULL, gnumeric_lognormdist },
-	{ "max",     0,      "",            &help_max,     gnumeric_max, NULL },
-	{ "median",    0,      "",          &help_median,    gnumeric_median, NULL },
-	{ "min",     0,      "",            &help_min,     gnumeric_min, NULL },
-	{ "mode",      0,      "",          &help_mode,   gnumeric_mode, NULL },
-	{ "negbinomdist", "fff", "f,t,p",   &help_negbinomdist, NULL, gnumeric_negbinomdist },
-	{ "normdist",   "fffb",  "",        &help_normdist,  NULL, gnumeric_normdist },
-	{ "norminv",    "fff",  "",         &help_norminv,  NULL, gnumeric_norminv },
-	{ "normsdist",  "f",  "",           &help_normsdist,  NULL, gnumeric_normsdist },
-	{ "normsinv",  "f",  "",            &help_normsinv,  NULL, gnumeric_normsinv },
-	{ "pearson",   0,      "",          &help_pearson,   gnumeric_pearson, NULL },
+        { "avedev",    0,      "",          &help_avedev,
+	  gnumeric_avedev, NULL },
+	{ "average", 0,      "",            &help_average,
+	  gnumeric_average, NULL },
+	{ "averagea", 0,      "",           &help_averagea,
+	  gnumeric_averagea, NULL },
+	{ "betadist", "fff", "",            &help_betadist,
+	  NULL, gnumeric_betadist },
+	{ "binomdist", "fffb", "n,t,p,c",   &help_binomdist,
+	  NULL, gnumeric_binomdist },
+	{ "chidist",   "ff",  "",           &help_chidist,
+	  NULL, gnumeric_chidist },
+	{ "chiinv",    "ff",  "",           &help_chiinv,
+	  NULL, gnumeric_chiinv },
+	{ "confidence", "fff",  "x,stddev,size", &help_confidence,
+	  NULL, gnumeric_confidence },
+	{ "count",     0,      "",          &help_count,
+	  gnumeric_count, NULL },
+	{ "counta",    0,      "",          &help_counta,
+	  gnumeric_counta, NULL },
+	{ "critbinom",  "fff",  "trials,p,alpha", &help_critbinom,
+	  NULL, gnumeric_critbinom },
+        { "correl",     0,      "",         &help_correl,
+	  gnumeric_correl, NULL },
+        { "covar",      0,      "",         &help_covar,
+	  gnumeric_covar, NULL },
+        { "devsq",      0,      "",         &help_devsq,
+	  gnumeric_devsq, NULL },
+	{ "permut",    "ff",  "n,k",        &help_permut,
+	  NULL, gnumeric_permut },
+	{ "poisson",   "ffb",  "",          &help_poisson,
+	  NULL, gnumeric_poisson },
+	{ "expondist", "ffb",  "",          &help_expondist,
+	  NULL, gnumeric_expondist },
+	{ "fdist",   "fff",  "",            &help_fdist,
+	  NULL, gnumeric_fdist },
+	{ "finv",   "fff",  "",             &help_finv,
+	  NULL, gnumeric_finv },
+        { "fisher",    "f",    "",          &help_fisher,
+	  NULL, gnumeric_fisher },
+        { "fisherinv", "f",    "",          &help_fisherinv,
+	  NULL, gnumeric_fisherinv },
+	{ "gammaln",   "f",    "number",    &help_gammaln,
+	  NULL, gnumeric_gammaln },
+	{ "gammadist", "fffb", "number,alpha,beta,cum",    &help_gammadist,
+	  NULL, gnumeric_gammadist },
+	{ "gammainv", "fff",   "number,alpha,beta",        &help_gammainv,
+	  NULL, gnumeric_gammainv },
+	{ "geomean",   0,      "",          &help_geomean,
+	  gnumeric_geomean, NULL },
+	{ "harmean",   0,      "",          &help_harmean,
+	  gnumeric_harmean, NULL },
+	{ "hypgeomdist", "ffff", "x,n,M,N", &help_hypgeomdist,
+	  NULL, gnumeric_hypgeomdist },
+        { "kurt",      0,      "",          &help_kurt,
+	  gnumeric_kurt, NULL },
+	{ "large",  0,      "",             &help_large,
+	  gnumeric_large, NULL },
+	{ "loginv",  "fff",  "",            &help_loginv,
+	  NULL, gnumeric_loginv },
+	{ "lognormdist",  "fff",  "",       &help_lognormdist,
+	  NULL, gnumeric_lognormdist },
+	{ "max",     0,      "",            &help_max,
+	  gnumeric_max, NULL },
+	{ "maxa",    0,      "",            &help_maxa,
+	  gnumeric_maxa, NULL },
+	{ "median",    0,      "",          &help_median,
+	  gnumeric_median, NULL },
+	{ "min",     0,      "",            &help_min,
+	  gnumeric_min, NULL },
+	{ "mina",    0,      "",            &help_mina,
+	  gnumeric_mina, NULL },
+	{ "mode",      0,      "",          &help_mode,
+	  gnumeric_mode, NULL },
+	{ "negbinomdist", "fff", "f,t,p",   &help_negbinomdist,
+	  NULL, gnumeric_negbinomdist },
+	{ "normdist",   "fffb",  "",        &help_normdist,
+	  NULL, gnumeric_normdist },
+	{ "norminv",    "fff",  "",         &help_norminv,
+	  NULL, gnumeric_norminv },
+	{ "normsdist",  "f",  "",           &help_normsdist,
+	  NULL, gnumeric_normsdist },
+	{ "normsinv",  "f",  "",            &help_normsinv,
+	  NULL, gnumeric_normsinv },
+	{ "pearson",   0,      "",          &help_pearson,
+	  gnumeric_pearson, NULL },
 	{ "prob", "AAf|f", "x_range,prob_range,lower_limit,upper_limit",
 	  &help_prob,   NULL, gnumeric_prob },
-	{ "rank",      0,      "",          &help_rank,      gnumeric_rank, NULL },
-	{ "rsq",       0,      "",          &help_rsq,      gnumeric_rsq, NULL },
-	{ "skew",      0,      "",          &help_skew,      gnumeric_skew, NULL },
-	{ "small",  0,      "",             &help_small,  gnumeric_small, NULL },
-	{ "standardize", "fff",  "x,mean,stddev", &help_standardize, NULL, gnumeric_standardize },
-	{ "stdev",     0,      "",          &help_stdev,     gnumeric_stdev, NULL },
-	{ "stdevp",    0,      "",          &help_stdevp,    gnumeric_stdevp, NULL },
+	{ "rank",      0,      "",          &help_rank,
+	  gnumeric_rank, NULL },
+	{ "rsq",       0,      "",          &help_rsq,
+	  gnumeric_rsq, NULL },
+	{ "skew",      0,      "",          &help_skew,
+	  gnumeric_skew, NULL },
+	{ "slope", "AA", "known_y's,known_x's",
+	  &help_slope,   NULL, gnumeric_slope },
+	{ "small",  0,      "",             &help_small,
+	  gnumeric_small, NULL },
+	{ "standardize", "fff",  "x,mean,stddev", &help_standardize,
+	  NULL, gnumeric_standardize },
+	{ "stdev",     0,      "",          &help_stdev,
+	  gnumeric_stdev, NULL },
+	{ "stdeva",    0,      "",          &help_stdeva,
+	  gnumeric_stdeva, NULL },
+	{ "stdevp",    0,      "",          &help_stdevp,
+	  gnumeric_stdevp, NULL },
+	{ "stdevpa",   0,      "",          &help_stdevpa,
+	  gnumeric_stdevpa, NULL },
 	{ "steyx", "AA", "known_y's,known_x's",
 	  &help_steyx,   NULL, gnumeric_steyx },
-	{ "tdist",   "fff",  "",            &help_tdist,  NULL, gnumeric_tdist },
-	{ "tinv",    "ff",  "",             &help_tinv,  NULL, gnumeric_tinv },
-	{ "trimmean",  0,      "",          &help_trimmean,  gnumeric_trimmean, NULL },
-	{ "var",       0,      "",          &help_var,       gnumeric_var, NULL },
-	{ "varp",      0,      "",          &help_varp,      gnumeric_varp, NULL },
-        { "weibull", "fffb",  "",           &help_weibull, NULL, gnumeric_weibull },
-	{ "ztest",  0,      "",             &help_ztest,  gnumeric_ztest, NULL },
+	{ "tdist",   "fff",  "",            &help_tdist,
+	  NULL, gnumeric_tdist },
+	{ "tinv",    "ff",  "",             &help_tinv,
+	  NULL, gnumeric_tinv },
+	{ "trimmean",  0,      "",          &help_trimmean,
+	  gnumeric_trimmean, NULL },
+	{ "var",       0,      "",          &help_var,
+	  gnumeric_var, NULL },
+	{ "vara",      0,      "",          &help_vara,
+	  gnumeric_vara, NULL },
+	{ "varp",      0,      "",          &help_varp,
+	  gnumeric_varp, NULL },
+	{ "varpa",     0,      "",          &help_varpa,
+	  gnumeric_varpa, NULL },
+        { "weibull", "fffb",  "",           &help_weibull,
+	  NULL, gnumeric_weibull },
+	{ "ztest",  0,      "",             &help_ztest,
+	  gnumeric_ztest, NULL },
 	{ NULL, NULL },
 };
