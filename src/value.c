@@ -71,6 +71,16 @@ value_new_error_str (EvalPos const *ep, String *mesg)
 }
 
 Value *
+value_new_error_err (EvalPos const *pos, ValueErr *err)
+{
+    g_return_val_if_fail (err != NULL, NULL);
+    g_return_val_if_fail (err->type == VALUE_ERROR, NULL);
+
+    err->src = *pos;
+    return (Value *)err;
+}
+
+Value *
 value_new_string (const char *str)
 {
 	ValueStr *v = g_new (ValueStr, 1);

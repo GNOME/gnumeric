@@ -47,7 +47,7 @@ eval_pos_init_cell (EvalPos *eval_pos, Cell const *cell)
 	g_return_val_if_fail (cell != NULL, NULL);
 
 	pos = cell->pos;
-	return eval_pos_init (eval_pos, cell->sheet, &pos);
+	return eval_pos_init (eval_pos, cell->base.sheet, &pos);
 }
 
 EvalPos *
@@ -88,11 +88,11 @@ parse_pos_init_cell (ParsePos *pp, Cell const *cell)
 {
 	g_return_val_if_fail (pp != NULL, NULL);
 	g_return_val_if_fail (cell != NULL, NULL);
-	g_return_val_if_fail (cell->sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (cell->sheet), NULL);
-	g_return_val_if_fail (cell->sheet->workbook != NULL, NULL);
+	g_return_val_if_fail (cell->base.sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (cell->base.sheet), NULL);
+	g_return_val_if_fail (cell->base.sheet->workbook != NULL, NULL);
 
-	return parse_pos_init (pp, NULL, cell->sheet,
+	return parse_pos_init (pp, NULL, cell->base.sheet,
 			       cell->pos.col, cell->pos.row);
 }
 

@@ -3,32 +3,28 @@
 
 #include <glib.h>
 #include "gnumeric.h"
-
-#include "style.h"
-#include "str.h"
+#include "dependent.h"
 
 typedef enum {
     /* Cell has an expression rather than entered_text */
     CELL_HAS_EXPRESSION	   = 0x1,
 
-    /* Cell has been queued for recalc */
-    CELL_QUEUED_FOR_RECALC = 0x2,
-
     /* Cell has be linked into the workbook wide expression list */
-    CELL_IN_EXPR_LIST	   = 0x4,
+    CELL_IN_EXPR_LIST	   = 0x2,
 
     /* Cell is linked into the sheet */
-    CELL_IN_SHEET_LIST	   = 0x8
+    CELL_IN_SHEET_LIST	   = 0x4
+
+    /* MUST BE <= 0xffff */
 } CellFlags;
 
 typedef struct _CellComment CellComment;
 
 /* Definition of a Gnumeric Cell */
 struct _Cell {
+	Dependent base;
 	/* Mandatory state information */
 	CellPos	     pos;
-	CellFlags    cell_flags;
-	Sheet       *sheet;
 	ColRowInfo  *col_info;
 	ColRowInfo  *row_info;
 
@@ -64,10 +60,10 @@ gboolean    cell_is_number  		(Cell const * cell);
 gboolean    cell_is_zero		(Cell const * cell);
 ExprArray const * cell_is_array         (Cell const * cell);
 gboolean    cell_is_partial_array       (Cell const * cell);
-#define	    cell_needs_recalc(cell)	((cell)->cell_flags & CELL_QUEUED_FOR_RECALC)
-#define	    cell_has_expr(cell)		((cell)->cell_flags & CELL_HAS_EXPRESSION)
-#define	    cell_is_linked(cell)	((cell)->cell_flags & CELL_IN_SHEET_LIST)
-#define	    cell_expr_is_linked(cell)	((cell)->cell_flags & CELL_IN_EXPR_LIST)
+#define	    cell_needs_recalc(cell)	((cell)->base.flags & DEPENDENT_QUEUED_FOR_RECALC)
+#define	    cell_has_expr(cell)		((cell)->base.flags & CELL_HAS_EXPRESSION)
+#define	    cell_is_linked(cell)	((cell)->base.flags & CELL_IN_SHEET_LIST)
+#define	    cell_expr_is_linked(cell)	((cell)->base.flags & CELL_IN_EXPR_LIST)
 #define	    cell_has_comment(cell)	((cell)->comment != NULL)
 
 /**

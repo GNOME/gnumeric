@@ -85,15 +85,15 @@ sheet_redraw_headers (Sheet const *sheet,
 static guint
 cell_hash (gconstpointer key)
 {
-	Cell const *cell = key;
+	CellPos const *pos = key;
 
-	return (cell->pos.row << 8) | cell->pos.col;
+	return (pos->row << 8) | pos->col;
 }
 
 static gint
-cell_compare (Cell const * a, Cell const * b)
+cell_compare (CellPos const * a, CellPos const * b)
 {
-	return (a->pos.row == b->pos.row && a->pos.col == b->pos.col);
+	return (a->row == b->row && a->col == b->col);
 }
 
 void
@@ -197,7 +197,7 @@ sheet_new (Workbook *wb, const char *name)
 			      COLROW_SEGMENT_INDEX (SHEET_MAX_ROWS-1)+1);
 	sheet->print_info = print_info_new ();
 
-	sheet->cell_hash  = g_hash_table_new (cell_hash,
+	sheet->cell_hash  = g_hash_table_new (&cell_hash,
 					      (GCompareFunc)&cell_compare);
 	sheet->deps       = dependency_data_new ();
 
@@ -272,7 +272,7 @@ cb_colrow_compute_pixels_from_pts (ColRowInfo *info, void *data)
 /****************************************************************************/
 
 static void
-cb_recalc_span0 (gpointer key, gpointer value, gpointer flags)
+cb_recalc_span0 (gpointer ignored, gpointer value, gpointer flags)
 {
 	sheet_cell_calc_span (value, GPOINTER_TO_INT (flags));
 }
@@ -365,7 +365,7 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 				cell_unregister_span (cell);
 				cell_register_span (cell, left, right);
 			}
-			sheet_redraw_partial_row (cell->sheet, cell->pos.row,
+			sheet_redraw_partial_row (cell->base.sheet, cell->pos.row,
 						  left, right);
 			return;
 		}
@@ -392,7 +392,7 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 	if (left != right)
 		cell_register_span (cell, left, right);
 
-	sheet_redraw_partial_row (cell->sheet, cell->pos.row,
+	sheet_redraw_partial_row (cell->base.sheet, cell->pos.row,
 				  min_col, max_col);
 }
 
@@ -779,14 +779,14 @@ Cell *
 sheet_cell_get (Sheet const *sheet, int col, int row)
 {
 	Cell *cell;
-	Cell cellpos;
+	CellPos pos;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	cellpos.pos.col = col;
-	cellpos.pos.row = row;
-	cell = g_hash_table_lookup (sheet->cell_hash, &cellpos);
+	pos.col = col;
+	pos.row = row;
+	cell = g_hash_table_lookup (sheet->cell_hash, &pos);
 
 	return cell;
 }
@@ -821,7 +821,7 @@ sheet_cell_fetch (Sheet *sheet, int col, int row)
  * checks the cell to see if should be used to calculate sheet extent
  **/
 static void
-sheet_get_extent_cb (gpointer key, gpointer value, gpointer data)
+sheet_get_extent_cb (gpointer ignored, gpointer value, gpointer data)
 {
 	Cell *cell = (Cell *) value;
 
@@ -1183,7 +1183,7 @@ sheet_cell_set_text (Cell *cell, char const *str)
 	}
 	if (format)
 		style_format_unref (format);
-	sheet_flag_status_update_cell (cell->sheet, &cell->pos);
+	sheet_flag_status_update_cell (cell->base.sheet, &cell->pos);
 }
 
 void
@@ -1191,7 +1191,7 @@ sheet_cell_set_expr (Cell *cell, ExprTree *expr)
 {
 	/* No need to do anything until recalc */
 	cell_set_expr (cell, expr, NULL);
-	sheet_flag_status_update_cell (cell->sheet, &cell->pos);
+	sheet_flag_status_update_cell (cell->base.sheet, &cell->pos);
 }
 
 /*
@@ -1212,7 +1212,7 @@ sheet_cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
 	cell_set_value (cell, v, opt_fmt);
 	sheet_cell_calc_span (cell, SPANCALC_RESIZE);
 	cell_content_changed (cell);
-	sheet_flag_status_update_cell (cell->sheet, &cell->pos);
+	sheet_flag_status_update_cell (cell->base.sheet, &cell->pos);
 }
 
 /**
@@ -1397,7 +1397,7 @@ sheet_redraw_cell (Cell const *cell)
 		end_col = span->right;
 	}
 
-	sheet_redraw_partial_row (cell->sheet, cell->pos.row,
+	sheet_redraw_partial_row (cell->base.sheet, cell->pos.row,
 				  start_col, end_col);
 }
 
@@ -1899,17 +1899,17 @@ sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 	g_return_if_fail (cell->pos.row < SHEET_MAX_ROWS);
 	g_return_if_fail (!cell_is_linked (cell));
 
-	cell->cell_flags |= CELL_IN_SHEET_LIST;
+	cell->base.flags |= CELL_IN_SHEET_LIST;
 	cell->col_info   = sheet_col_fetch (sheet, cell->pos.col);
 	cell->row_info   = sheet_row_fetch (sheet, cell->pos.row);
 
-	g_hash_table_insert (sheet->cell_hash, cell, cell);
+	g_hash_table_insert (sheet->cell_hash, &cell->pos, cell);
 }
 
 void
 sheet_cell_insert (Sheet *sheet, Cell *cell, int col, int row, gboolean recalc_span)
 {
-	cell->sheet = sheet;
+	cell->base.sheet = sheet;
 	cell->pos.col = col;
 	cell->pos.row = row;
 
@@ -1931,7 +1931,8 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 
 	cell = g_new0 (Cell, 1);
 
-	cell->sheet   = sheet;
+	cell->base.sheet   = sheet;
+	cell->base.flags = DEPENDENT_CELL;
 	cell->pos.col = col;
 	cell->pos.row = row;
 	cell->value   = value_new_empty ();
@@ -1948,8 +1949,8 @@ sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 	cell_unregister_span   (cell);
 	cell_drop_dependencies (cell);
 
-	g_hash_table_remove (sheet->cell_hash, cell);
-	cell->cell_flags &= ~CELL_IN_SHEET_LIST;
+	g_hash_table_remove (sheet->cell_hash, &cell->pos);
+	cell->base.flags &= ~CELL_IN_SHEET_LIST;
 }
 
 /**
@@ -2005,9 +2006,9 @@ sheet_cell_comment_link (Cell *cell)
 	Sheet *sheet;
 
 	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell->sheet != NULL);
+	g_return_if_fail (cell->base.sheet != NULL);
 
-	sheet = cell->sheet;
+	sheet = cell->base.sheet;
 
 	sheet->comment_list = g_list_prepend (sheet->comment_list, cell);
 }
@@ -2018,10 +2019,10 @@ sheet_cell_comment_unlink (Cell *cell)
 	Sheet *sheet;
 
 	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell->sheet != NULL);
+	g_return_if_fail (cell->base.sheet != NULL);
 	g_return_if_fail (cell->comment != NULL);
 
-	sheet = cell->sheet;
+	sheet = cell->base.sheet;
 	sheet->comment_list = g_list_remove (sheet->comment_list, cell);
 }
 
@@ -2034,7 +2035,7 @@ sheet_cell_expr_link (Cell *cell)
 	g_return_if_fail (cell_has_expr (cell));
 	g_return_if_fail (!cell_expr_is_linked (cell));
 
-	sheet = cell->sheet;
+	sheet = cell->base.sheet;
 
 #ifdef DEBUG_CELL_FORMULA_LIST
 	if (g_list_find (sheet->workbook->formula_cell_list, cell)) {
@@ -2047,7 +2048,7 @@ sheet_cell_expr_link (Cell *cell)
 	sheet->workbook->formula_cell_list =
 		g_list_prepend (sheet->workbook->formula_cell_list, cell);
 	cell_add_dependencies (cell);
-	cell->cell_flags |= CELL_IN_EXPR_LIST;
+	cell->base.flags |= CELL_IN_EXPR_LIST;
 }
 
 void
@@ -2059,9 +2060,9 @@ sheet_cell_expr_unlink (Cell *cell)
 	g_return_if_fail (cell_has_expr (cell));
 	g_return_if_fail (cell_expr_is_linked (cell));
 
-	cell->cell_flags &= ~CELL_IN_EXPR_LIST;
+	cell->base.flags &= ~CELL_IN_EXPR_LIST;
 
-	sheet = cell->sheet;
+	sheet = cell->base.sheet;
 	if (sheet == NULL)
 		return;
 
@@ -2069,7 +2070,7 @@ sheet_cell_expr_unlink (Cell *cell)
 	sheet->workbook->formula_cell_list = g_list_remove (sheet->workbook->formula_cell_list, cell);
 
 	/* Just an optimization to avoid an expensive list lookup */
-	if (cell->cell_flags & CELL_QUEUED_FOR_RECALC)
+	if (cell->base.flags & DEPENDENT_QUEUED_FOR_RECALC)
 		eval_unqueue_cell (cell);
 }
 
@@ -2095,8 +2096,8 @@ sheet_expr_unlink (Sheet *sheet)
 		Cell *cell = ptr->data;
 		next = ptr->next;
 
-		if (cell->sheet == sheet) {
-			cell->cell_flags &= ~CELL_IN_EXPR_LIST;
+		if (cell->base.sheet == sheet) {
+			cell->base.flags &= ~CELL_IN_EXPR_LIST;
 			queue = g_list_remove_link (queue, ptr);
 			g_list_free_1 (ptr);
 		}
@@ -2188,13 +2189,13 @@ sheet_row_destroy (Sheet *sheet, int const row, gboolean free_cells)
 }
 
 static gboolean
-cb_remove_allcells (gpointer key, gpointer value, gpointer flags)
+cb_remove_allcells (gpointer ignored, gpointer value, gpointer flags)
 {
 	Cell *cell = value;
 	cell_drop_dependencies (cell);
 
-	cell->cell_flags &= ~CELL_IN_SHEET_LIST;
-	cell->sheet = NULL;
+	cell->base.flags &= ~CELL_IN_SHEET_LIST;
+	cell->base.sheet = NULL;
 	cell_destroy (cell);
 	return TRUE;
 }
@@ -3239,7 +3240,7 @@ sheet_move_range (CommandContext *context,
 		}
 
 		/* Inter sheet movement requires the moving the expression too */
-		inter_sheet_expr  = (cell->sheet != rinfo->target_sheet &&
+		inter_sheet_expr  = (cell->base.sheet != rinfo->target_sheet &&
 				     cell_has_expr (cell));
 		if (inter_sheet_expr)
 			sheet_cell_expr_unlink (cell);
@@ -3831,9 +3832,9 @@ sheet_clone_objects (Sheet const *src, Sheet *dst)
 }
 
 static void
-cb_sheet_cell_copy (gpointer unused, gpointer cell_param, gpointer new_sheet_param)
+cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 {
-	Cell const *cell = (Cell const *) cell_param;
+	Cell const *cell = key;
 	Sheet *dst = (Sheet *) new_sheet_param;
 	Cell  *new_cell;
 	gboolean is_expr;

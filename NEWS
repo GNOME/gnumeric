@@ -6,6 +6,7 @@ Almer:
 
 Chema:
 	* Copy sheet.
+
 Jody:
 	* Applix support mostly functional.
 	* Improve support for named expressions.
@@ -13,6 +14,7 @@ Jody:
 	* Improve internation keyboard support.
 	* Fix XIRR and friends.
 	* A few more bugs in printing multiline text.
+	* Correct handling of number formating in intl locales.
 
 John Gill:
 	* Double click fill support.
@@ -23,6 +25,7 @@ Jon Kåre:
 JPR:
 	* Put more effort into reverse engineering MATCH (and friends)
 	  than you want to know about.
+	* Fixed sort to ignore hidden rows/cols.
 
 Jukka:
 	* Implementation of `Anova: Two-Factor With Replication'
@@ -50,6 +53,9 @@ Morten:
 
 Pablo De Napoli:
 	* New NT_MU function in numtheory.
+
+Thomas Canty:
+	* Updated and improved documentation.
 
 Translations:
 	* Updated: da (Kenneth/Keld?), de (Karl), en_GB (Robert), ko

@@ -334,7 +334,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 				if (real_style == NULL) {
 					real_style = sheet_style_compute (sheet, real_col, ri->pos);
 					real_x = x_paint +
-					    sheet_col_get_distance_pixels (cell->sheet,
+					    sheet_col_get_distance_pixels (cell->base.sheet,
 									   col, cell->pos.col);
 				}
 

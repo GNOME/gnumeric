@@ -25,6 +25,7 @@
 #include "rendered-value.h"
 #include "expr.h"
 #include "cell.h"
+#include "style.h"
 #include "sheet.h"
 #include "format.h"
 #include "value.h"
@@ -50,7 +51,7 @@ rendered_value_new (Cell *cell, GList *styles)
 	g_return_val_if_fail (cell->value != NULL, NULL);
 
 	if (cell_has_expr (cell) &&
-	    cell->sheet != NULL && cell->sheet->display_formulas) {
+	    cell->base.sheet != NULL && cell->base.sheet->display_formulas) {
 		ParsePos pp;
 		char *tmpstr = expr_tree_as_string (cell->u.expression,
 			parse_pos_init_cell (&pp, cell));
@@ -127,7 +128,7 @@ rendered_value_calc_size (Cell const *cell)
 	RenderedValue *rv = cell->rendered_value;
 	MStyle *mstyle = cell_get_mstyle (cell);
 	StyleFont * const style_font =
-	    sheet_view_get_style_font (cell->sheet, mstyle);
+	    sheet_view_get_style_font (cell->base.sheet, mstyle);
 	GdkFont * const gdk_font = style_font_gdk_font (style_font);
 	int const font_height    = style_font_get_height (style_font);
 	int const cell_w = COL_INTERNAL_WIDTH (cell->col_info);

@@ -140,7 +140,7 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	GdkFont      *font;
 	GdkRectangle  rect;
 	
-	Sheet const * const sheet = cell->sheet;
+	Sheet const * const sheet = cell->base.sheet;
 	ColRowInfo const * const ci = cell->col_info;
 	ColRowInfo const * const ri = cell->row_info;
 	int start_col, end_col;

@@ -13,6 +13,7 @@
 #include <string.h>
 #include "sheet.h"
 #include "cell.h"
+#include "str.h"
 #include "complete-sheet.h"
 #include "gnumeric-type-util.h"
 

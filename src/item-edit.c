@@ -3,6 +3,7 @@
  *
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
+ *  Jody Goldberg (jgoldberg@home.org)
  *
  * This module provides:
  *   * Integration of an in-sheet text editor (GtkEntry) with the Workbook
@@ -17,6 +18,7 @@
 
 #include <gnome.h>
 #include <ctype.h>
+#include <string.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "item-edit.h"

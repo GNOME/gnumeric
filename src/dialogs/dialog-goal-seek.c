@@ -50,7 +50,7 @@ goal_seek_eval (float_t x, float_t *y, void *vevaldata)
 
 	cell_set_value (evaldata->xcell, value_new_float (x), NULL);
 	cell_content_changed (evaldata->xcell);
-	workbook_recalc (evaldata->xcell->sheet->workbook);
+	workbook_recalc (evaldata->xcell->base.sheet->workbook);
 
 	if (evaldata->ycell->value) {
 	        *y = value_get_as_float (evaldata->ycell->value) - evaldata->ytarget;
@@ -238,7 +238,7 @@ dialog_found_solution (Cell *set_cell, Cell *change_cell, float_t target_value)
 					      (dialog)->vbox), label_box);
 
 	gtk_widget_show_all (GNOME_DIALOG (dialog)->vbox);
-        selection = gnumeric_dialog_run (set_cell->sheet->workbook, GNOME_DIALOG (dialog));
+        selection = gnumeric_dialog_run (set_cell->base.sheet->workbook, GNOME_DIALOG (dialog));
 
 	if (selection >= 0)
 		gnome_dialog_close (GNOME_DIALOG (dialog));
@@ -426,7 +426,7 @@ dialog_loop:
 			        /* Goal seek cancelled */
 				if (old_value) {
 					sheet_cell_set_value (change_cell, old_value, NULL);
-					workbook_recalc (set_cell->sheet->workbook);
+					workbook_recalc (set_cell->base.sheet->workbook);
 				}
 				return;
 			}

@@ -59,7 +59,7 @@ dialog_cell_comment (Workbook *wb, Cell *cell)
 		if (comment){
 			cell_set_comment (cell, comment);
 			g_free (comment);
-			sheet_set_dirty (cell->sheet, TRUE);
+			sheet_set_dirty (cell->base.sheet, TRUE);
 		}
 	}
 

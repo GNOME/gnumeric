@@ -735,8 +735,8 @@ cmd_ins_del_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 			trouble = sheet_delete_cols (context, me->sheet, me->index,
 						     me->count, &me->reloc_storage);
 		else
-			trouble =sheet_delete_rows (context, me->sheet, me->index,
-						    me->count, &me->reloc_storage);
+			trouble = sheet_delete_rows (context, me->sheet, me->index,
+						     me->count, &me->reloc_storage);
 	}
 
 	sheet_set_dirty (me->sheet, TRUE);

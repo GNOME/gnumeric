@@ -421,6 +421,10 @@ function_marshal_arg (FunctionEvalInfo *ei,
 			v = expr_implicit_intersection (ei->pos, v);
 			if (v == NULL)
 				break;
+		} else if (v->type == VALUE_ARRAY) {
+			v = expr_array_intersection (v);
+			if (v == NULL)
+				break;
 		}
 
 		if (v->type != VALUE_INTEGER &&
@@ -432,6 +436,10 @@ function_marshal_arg (FunctionEvalInfo *ei,
 	case 's':
 		if (v->type == VALUE_CELLRANGE) {
 			v = expr_implicit_intersection (ei->pos, v);
+			if (v == NULL)
+				break;
+		} else if (v->type == VALUE_ARRAY) {
+			v = expr_array_intersection (v);
 			if (v == NULL)
 				break;
 		}
@@ -476,6 +484,10 @@ function_marshal_arg (FunctionEvalInfo *ei,
 	case 'S':
 		if (v->type == VALUE_CELLRANGE) {
 			v = expr_implicit_intersection (ei->pos, v);
+			if (v == NULL)
+				break;
+		} else if (v->type == VALUE_ARRAY) {
+			v = expr_array_intersection (v);
 			if (v == NULL)
 				break;
 		}

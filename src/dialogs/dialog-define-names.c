@@ -12,6 +12,7 @@
 #include <glade/glade.h>
 #include "dialogs.h"
 #include "expr.h"
+#include "str.h"
 #include "expr-name.h"
 #include "sheet.h"
 #include "workbook.h"

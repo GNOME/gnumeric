@@ -209,7 +209,7 @@ print_cell (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninf
 	double const font_ascent = gnome_font_get_ascender (print_font);
 	double clip_x, clip_width, clip_y, clip_height;
 
-	Sheet const *sheet = cell->sheet;
+	Sheet const *sheet = cell->base.sheet;
 	ColRowInfo const *ci = cell->col_info;
 	ColRowInfo const *ri = cell->row_info;
 	int start_col, end_col;
@@ -717,7 +717,7 @@ print_cell_range (GnomePrintContext *context,
 				 */
 				if (real_style == NULL) {
 					real_style = sheet_style_compute (sheet, real_col, ri->pos);
-					real_x = x + sheet_col_get_distance_pts (cell->sheet,
+					real_x = x + sheet_col_get_distance_pts (cell->base.sheet,
 										 col, cell->pos.col);
 				}
 

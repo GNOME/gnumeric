@@ -16,6 +16,7 @@
 #include "func.h"
 #include "parse-util.h"
 #include "ranges.h"
+#include "number-match.h"
 #include "workbook.h"
 
 /***************************************************************************/
@@ -397,6 +398,28 @@ expr_implicit_intersection (EvalPos const *pos,
 	return res;
 }
 
+/**
+ * expr_array_intersection :
+ * @v: a VALUE_ARRAY
+ *
+ * Returns the upper left corner of an array.
+ *
+ * Always release the value passed in.
+ *
+ * FIXME FIXME FIXME : This will need to be reworked
+ * cellrange for array expressions
+ *
+ * Return value:
+ *     duplicate of the value in the upper left of the array
+ **/
+Value *
+expr_array_intersection (Value *a)
+{
+	Value *tmp = value_duplicate (a->v_array.vals [0][0]);
+	value_release (a);
+	return tmp;
+}
+
 /*
  * Utility routine to ensure that all elements of a range are recalced as
  * necessary.
@@ -454,6 +477,10 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 				a = expr_implicit_intersection (pos, a);
 				if (a == NULL)
 					return value_new_error (pos, gnumeric_err_VALUE);
+			} else if (a->type == VALUE_ARRAY) {
+				a = expr_array_intersection (a);
+				if (a == NULL)
+					return value_new_error (pos, gnumeric_err_VALUE);
 			} else if (a->type == VALUE_ERROR)
 				return a;
 		}
@@ -465,6 +492,10 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 				b = expr_implicit_intersection (pos, b);
 				if (b == NULL)
 					res = value_new_error (pos, gnumeric_err_VALUE);
+			} else if (b->type == VALUE_ARRAY) {
+				b = expr_array_intersection (b);
+				if (b == NULL)
+					return value_new_error (pos, gnumeric_err_VALUE);
 			} else if (b->type == VALUE_ERROR)
 				res = b;
 
@@ -551,14 +582,25 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 			a = expr_implicit_intersection (pos, a);
 			if (a == NULL)
 				return value_new_error (pos, gnumeric_err_VALUE);
+		} else if (a->type == VALUE_ARRAY) {
+			a = expr_array_intersection (a);
+			if (a == NULL)
+				return value_new_error (pos, gnumeric_err_VALUE);
 		}
 
 		/* 1) Error from A */
 		if (a->type == VALUE_ERROR)
-			return a;
+			return value_new_error_err (pos, &a->v_err);
 
 		/* 2) #!VALUE error if A is not a number */
-		if (!VALUE_IS_NUMBER (a)) {
+		if (a->type == VALUE_STRING) {
+			Value *tmp = format_match (a->v_str.val->str, NULL);
+
+			value_release (a);
+			if (tmp == NULL)
+				return value_new_error (pos, gnumeric_err_VALUE);
+			a = tmp;
+		} else if (!VALUE_IS_NUMBER (a)) {
 			value_release (a);
 			return value_new_error (pos, gnumeric_err_VALUE);
 		}
@@ -572,16 +614,29 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 			b = expr_implicit_intersection (pos, a);
 			if (b == NULL)
 				return value_new_error (pos, gnumeric_err_VALUE);
+		} else if (b->type == VALUE_ARRAY) {
+			b = expr_array_intersection (b);
+			if (b == NULL)
+				return value_new_error (pos, gnumeric_err_VALUE);
 		}
 
 		/* 3) Error from B */
 		if (b->type == VALUE_ERROR) {
 			value_release (a);
-			return b;
+			return value_new_error_err (pos, &b->v_err);
 		}
 
 		/* 4) #!VALUE error if B is not a number */
-		if (!VALUE_IS_NUMBER (b)) {
+		if (b->type == VALUE_STRING) {
+			Value *tmp = format_match (b->v_str.val->str, NULL);
+
+			value_release (b);
+			if (tmp == NULL) {
+				value_release (a);
+				return value_new_error (pos, gnumeric_err_VALUE);
+			}
+			b = tmp;
+		} else if (!VALUE_IS_NUMBER (b)) {
 			value_release (a);
 			value_release (b);
 			return value_new_error (pos, gnumeric_err_VALUE);
@@ -689,6 +744,10 @@ eval_expr_real (EvalPos const *pos, ExprTree const *tree,
 		/* Handle implicit intersection */
 		if (a->type == VALUE_CELLRANGE) {
 			a = expr_implicit_intersection (pos, a);
+			if (a == NULL)
+				return value_new_error (pos, gnumeric_err_VALUE);
+		} else if (a->type == VALUE_CELLRANGE) {
+			a = expr_array_intersection (a);
 			if (a == NULL)
 				return value_new_error (pos, gnumeric_err_VALUE);
 		}

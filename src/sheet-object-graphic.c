@@ -9,6 +9,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <libgnomeprint/gnome-print.h>
 #include "gnumeric.h"
+#include "str.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "sheet-object-graphic.h"

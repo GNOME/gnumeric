@@ -511,7 +511,7 @@ static void
 autofill_cell (Cell *cell, int idx, FillItem *fi)
 {
 	MStyle *mstyle = cell_get_mstyle (fi->reference);
-	sheet_style_attach_single (cell->sheet,
+	sheet_style_attach_single (cell->base.sheet,
 				   cell->pos.col,
 				   cell->pos.row, mstyle);
 

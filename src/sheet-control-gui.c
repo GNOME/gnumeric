@@ -16,6 +16,7 @@
 #include "workbook.h"
 #include "cell.h"
 #include "selection.h"
+#include "style.h"
 #include "sheet-object.h"
 #include "item-cursor.h"
 #include "gnumeric-util.h"

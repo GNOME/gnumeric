@@ -11,6 +11,7 @@
 #include "cell-comment.h"
 #include "expr.h"
 #include "eval.h"
+#include "style.h"
 #include "sheet.h"
 #include "value.h"
 #include "rendered-value.h"
@@ -27,7 +28,7 @@
 static inline void
 cell_dirty (Cell *cell)
 {
-	Sheet *sheet = cell->sheet;
+	Sheet *sheet = cell->base.sheet;
 
 	/* Cells from the clipboard do not have a sheet attached */
 	if (sheet)
@@ -96,7 +97,7 @@ cell_cleanout (Cell *cell)
 		cell->format = NULL;
 	}
 
-	cell->cell_flags &= ~(CELL_HAS_EXPRESSION|CELL_QUEUED_FOR_RECALC);
+	cell->base.flags &= ~(CELL_HAS_EXPRESSION|DEPENDENT_QUEUED_FOR_RECALC);
 }
 
 /**
@@ -120,8 +121,8 @@ cell_copy (Cell const *cell)
 	*new_cell = *cell;
 
 	/* The new cell is not linked into any of the major management structures */
-	new_cell->sheet = NULL;
-	new_cell->cell_flags &= ~(CELL_QUEUED_FOR_RECALC|CELL_IN_SHEET_LIST|CELL_IN_EXPR_LIST);
+	new_cell->base.sheet = NULL;
+	new_cell->base.flags &= ~(DEPENDENT_QUEUED_FOR_RECALC|CELL_IN_SHEET_LIST|CELL_IN_EXPR_LIST);
 
 	/* now copy properly the rest */
 	if (cell_has_expr (new_cell))
@@ -218,7 +219,7 @@ cell_relocate (Cell *cell, ExprRewriteInfo *rwinfo)
 			int const y = expr->array.y;
 			if (x != 0 || y != 0)
 				expr->array.corner.cell =
-					sheet_cell_get (cell->sheet,
+					sheet_cell_get (cell->base.sheet,
 							cell->pos.col - x,
 							cell->pos.row - y);
 		}
@@ -278,7 +279,7 @@ cell_set_text (Cell *cell, char const *text)
 	if (val != NULL) {	/* String was a value */
 		cell_cleanout (cell);
 
-		cell->cell_flags &= ~CELL_HAS_EXPRESSION;
+		cell->base.flags &= ~CELL_HAS_EXPRESSION;
 		cell->value = val;
 		cell->u.entered_text = string_get (text);
 		cell->format = format;
@@ -439,7 +440,7 @@ cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v)
 	cell_cleanout (cell);
 
 	cell->u.expression = expr;
-	cell->cell_flags |= CELL_HAS_EXPRESSION;
+	cell->base.flags |= CELL_HAS_EXPRESSION;
 	sheet_cell_expr_link (cell);
 #if 0
 	/* TODO : Should we add this for consistancy ? */
@@ -478,7 +479,7 @@ cell_set_expr_internal (Cell *cell, ExprTree *expr, StyleFormat *opt_fmt)
 
 	cell->format = opt_fmt;
 	cell->u.expression = expr;
-	cell->cell_flags |= CELL_HAS_EXPRESSION;
+	cell->base.flags |= CELL_HAS_EXPRESSION;
 
 	/* Until the value is recomputed, we put in this value.  */
 	cell->value = value_new_error (NULL, gnumeric_err_RECALC);
@@ -679,7 +680,7 @@ cell_render_value (Cell *cell)
 MStyle *
 cell_get_mstyle (Cell const *cell)
 {
-	return sheet_style_compute (cell->sheet,
+	return sheet_style_compute (cell->base.sheet,
 				    cell->pos.col,
 				    cell->pos.row);
 }
@@ -692,7 +693,7 @@ cell_set_mstyle (Cell const *cell, MStyle *mstyle)
 	range.start = cell->pos;
 	range.end   = range.start;
 
-	sheet_style_attach (cell->sheet, range, mstyle);
+	sheet_style_attach (cell->base.sheet, range, mstyle);
 }
 
 char *
@@ -771,7 +772,7 @@ cell_make_value (Cell *cell)
 
 	expr_tree_unref (cell->u.expression);
 	cell->u.expression = NULL;
-	cell->cell_flags &= ~CELL_HAS_EXPRESSION;
+	cell->base.flags &= ~CELL_HAS_EXPRESSION;
 
 	if (cell->rendered_value == NULL)
 		cell_render_value (cell);

@@ -17,6 +17,7 @@
 #include <config.h>
 #include "cellspan.h"
 #include "cell.h"
+#include "style.h"
 #include "colrow.h"
 #include "value.h"
 #include "rendered-value.h"
@@ -175,7 +176,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 		return;
 	}
 
-	sheet = cell->sheet;
+	sheet = cell->base.sheet;
 	mstyle = cell_get_mstyle (cell);
 	align = value_get_default_halign (cell->value, mstyle);
 	row   = cell->pos.row;
@@ -317,7 +318,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 			    cell_is_blank (sheet_cell_get (sheet, tmp, row)) &&
 			    NULL == row_span_get (ri, tmp)) {
 				MStyle * const mstyle =
-				    sheet_style_compute (cell->sheet, tmp, row);
+				    sheet_style_compute (cell->base.sheet, tmp, row);
 				gboolean const res =
 				    (mstyle_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION);
 				mstyle_unref (mstyle);
@@ -332,7 +333,7 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 			if (tmp < SHEET_MAX_COLS &&
 			    cell_is_blank (sheet_cell_get (sheet, tmp, row))) {
 				MStyle * const mstyle =
-				    sheet_style_compute (cell->sheet, tmp, row);
+				    sheet_style_compute (cell->base.sheet, tmp, row);
 				gboolean const res =
 				    (mstyle_get_align_h (mstyle) == HALIGN_CENTER_ACROSS_SELECTION);
 				mstyle_unref (mstyle);

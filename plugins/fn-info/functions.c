@@ -13,9 +13,9 @@
 #include "cell.h"
 #include "workbook.h"
 #include "format.h"
+#include "style.h"
 #include "number-match.h"
 #include <sys/utsname.h>
-
 
 enum Value_Class {
 	VALUE_CLASS_NUMBER  = 1,
@@ -864,7 +864,7 @@ information_functions_init (void)
 			    &help_error,   gnumeric_error);
 	function_add_nodes (cat, "error.type", "", "",
 			    &help_error_type, gnumeric_error_type);
-	function_add_args  (cat, "info", "?", "info_type",
+	function_add_args  (cat, "info", "s", "info_type",
 			    &help_info, gnumeric_info);
 	function_add_nodes (cat, "isblank", "?", "value",
 			    &help_isblank, gnumeric_isblank);

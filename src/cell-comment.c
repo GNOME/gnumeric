@@ -117,7 +117,7 @@ cell_comment_realize (Cell *cell)
 	g_return_if_fail (cell->comment != NULL);
 
 	sheet_cell_comment_link (cell);
-	for (l = cell->sheet->sheet_views; l; l = l->next){
+	for (l = cell->base.sheet->sheet_views; l; l = l->next){
 		SheetView *sheet_view = SHEET_VIEW (l->data);
 		GnomeCanvasItem *o;
 
@@ -149,7 +149,7 @@ cell_set_comment (Cell *cell, const char *str)
 
 	cell->comment->comment = string_get (str);
 
-	if (cell->sheet)
+	if (cell->base.sheet)
 		cell_comment_realize (cell);
 }
 

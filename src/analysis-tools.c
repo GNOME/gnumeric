@@ -19,6 +19,7 @@
 #include "parse-util.h"
 #include "tools.h"
 #include "value.h"
+#include "style.h"
 #include "regression.h"
 #include "workbook.h"
 

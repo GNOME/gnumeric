@@ -87,6 +87,8 @@ GNUMERIC_BASE_SOURCES =				\
 	dates.h					\
 	datetime.c				\
 	datetime.h				\
+	dependent.c				\
+	dependent.h				\
 	eval.h					\
 	eval.c					\
 	expr.c					\
@@ -99,7 +101,7 @@ GNUMERIC_BASE_SOURCES =				\
 	formats.c				\
 	func.c					\
 	func.h					\
-	func-utils.h				\
+	func-util.h				\
 	format.c				\
 	format.h				\
 	global-gnome-font.c			\
@@ -226,8 +228,7 @@ GNUMERIC_BONOBO_SOURCES = 			\
 	sheet-object-container.h		\
 	sheet-object-item.c			\
 	sheet-object-item.h			\
-	sheet-vector.c				\
-	sheet-vector.h
+	graph-series.c
 
 gnumeric_SOURCES =					\
 	main.c						\

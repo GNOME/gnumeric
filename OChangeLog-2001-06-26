@@ -1,3 +1,22 @@
+2000-08-30  Jody Goldberg <jgoldberg@home.com>
+
+	* dependent.[ch] : New base class for Cells.
+	  Convert everything to access the elements that are now
+	  in the cell's base.
+	s/Cell::sheet/Cell::Dependent::sheet/
+	s/Cell::cell_flags/Cell::Dependent::flags/
+
+	* Makefile.am : Because of XL we need to build plugins before src.
+	  That will need changing.
+
+	* src/func.c (function_marshal_arg) : Use expr_array_intersection.
+
+	* src/expr.c (eval_expr_real) : Do implicit conversions from strings
+	  to numbers if possible.
+	  Access the first element of an array.  NOTE : This is WRONG
+	  We need to implement array expression behavior some day.
+	(expr_array_intersection) : New routine.
+
 2000-08-30  Morten Welinder  <terra@diku.dk>
 
 	* src/print-cell.c (print_show_iso8859_1): Fix a few type errors.

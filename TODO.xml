@@ -28,65 +28,10 @@
   <section>
     <title>Graphics Component</title>
 
-    <entry size="small" status="0%" target="1.0">
-      <title>Fix scaling in scatter plots</title>
-      <description>
-	Scatter plots are not scaling correctly currently: they are
-	not scaling to the dimensions of the allocated size for the
-	graph inside the layout.
-      </description>
-      <contact>miguel@helixcode.com</contact>
-    </entry>
-
-      <entry size="small" status="0%" target="1.0">
-      <title>Stacked and Stacked 100% are not implemented for line plots</title>
-      <description>
-	The stacked and stacked 100% code paths for line plots have
-	not been implemented yet.  They should be fairly simple to
-	implement. 
-      </description>
-      <contact>miguel@helixcode.com</contact>
-    </entry>
-
     <entry size="medium" status="0%" target="1.0">
       <title>Need to support captions</title>
       <description>
 	We currently do not support any kind of captions.
-      </description>
-      <contact>miguel@helixcode.com</contact>
-    </entry>
-
-    <entry size="medium" status="0%" target="1.0">
-      <title>Add axis object</title>
-      <description>
-	Axis are supposed to be independent objects that are handled
-	by the Layout object.  The Axis object does not yet exist and
-	needs to be implemented
-      </description>
-      <contact>miguel@helixcode.com</contact>
-    </entry>
-
-    <entry size="medium" status="0%" target="1.0">
-      <title>Pie Charts</title>
-      <description>
-	There is no pie support in the Graphics component yet.
-      </description>
-      <contact>miguel@helixcode.com</contact>
-    </entry>
-
-    <entry size="medium" status="0%" target="1.0">
-      <title>Add 3d plotting</title>
-      <description>
-	There is no 3d plotting right now.
-      </description>
-      <contact>miguel@helixcode.com</contact>
-    </entry>
-
-    <entry size="medium" status="0%" target="1.0">
-      <title>Add editing facilities</title>
-      <description>
-	No graph item supports any form of editing right now, and we
-	need to implement it.
       </description>
       <contact>miguel@helixcode.com</contact>
     </entry>

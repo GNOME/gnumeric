@@ -86,7 +86,7 @@ Value       *value_new_int              (int i);
 Value       *value_new_float            (float_t f);
 Value       *value_new_error            (EvalPos const *pos, char const *mesg);
 Value       *value_new_error_str        (EvalPos const *pos, String *mesg);
-Value       *value_new_error_err        (EvalPos const *pos, ValueErr const *err);
+Value       *value_new_error_err        (EvalPos const *pos, ValueErr *err);
 Value       *value_new_string           (const char *str);
 Value       *value_new_string_str       (String *str);
 Value       *value_new_cellrange_unsafe (const CellRef *a, const CellRef *b);

@@ -1,0 +1,20 @@
+#ifndef GNUMERIC_DEPENDENT_H
+#define GNUMERIC_DEPENDENT_H
+
+#include "gnumeric.h"
+
+struct _Dependent
+{
+	guint	 flags;
+	Sheet	*sheet;
+};
+
+typedef enum {
+    /* Cell has been queued for recalc */
+    DEPENDENT_QUEUED_FOR_RECALC = 0x0010000,
+    /* Types */
+    DEPENDENT_CELL 		= 0x01000000,
+} DependentFlags;
+
+#endif /* GNUMERIC_DEPENDENT_H */
+

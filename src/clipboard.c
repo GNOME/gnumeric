@@ -142,7 +142,7 @@ paste_cell_with_operation (Sheet *dest_sheet,
 		return;
 	
 	new_cell          = cell_copy (c_copy->u.cell);
-	new_cell->sheet   = dest_sheet;
+	new_cell->base.sheet   = dest_sheet;
 	new_cell->pos.col = target_col;
 	new_cell->pos.row = target_row;
 	
@@ -230,7 +230,7 @@ paste_cell (Sheet *dest_sheet,
 			Cell *new_cell = cell_copy (c_copy->u.cell);
 
 			/* Cell can not be linked in yet, but it needs an accurate location */
-			new_cell->sheet	  = dest_sheet;
+			new_cell->base.sheet	  = dest_sheet;
 			new_cell->pos.col = target_col;
 			new_cell->pos.row = target_row;
 
@@ -545,7 +545,7 @@ clipboard_release (CellRegion *content)
 
 		if (this_cell->type == CELL_COPY_TYPE_CELL) {
 			/* The cell is not really in the rows or columns */
-			this_cell->u.cell->sheet = NULL;
+			this_cell->u.cell->base.sheet = NULL;
 			this_cell->u.cell->row_info = NULL;
 			this_cell->u.cell->col_info = NULL;
 			cell_destroy (this_cell->u.cell);

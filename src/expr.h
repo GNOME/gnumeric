@@ -207,6 +207,7 @@ Value       *eval_expr (EvalPos const *pos,
 			ExprTree const *tree,
 			ExprEvalFlags flags);
 
+Value	    *expr_array_intersection (Value *v);
 Value       *expr_implicit_intersection (EvalPos const *pos,
 					 Value *v);
 

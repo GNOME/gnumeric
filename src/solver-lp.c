@@ -1232,7 +1232,7 @@ solver_lp_copy (SolverParameters const *src_param, Sheet *new_sheet)
 		Cell *cell = (Cell *) inputs->data;
 		Cell *new_cell;
 		new_cell = cell_copy (cell);
-		new_cell->sheet = new_sheet;
+		new_cell->base.sheet = new_sheet;
 		dst_param->input_cells = (CellList *)
 			g_slist_append ((GSList *)dst_param->input_cells,
 					(gpointer) new_cell);
