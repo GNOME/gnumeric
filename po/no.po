@@ -5,13 +5,22 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.66\n"
-"POT-Creation-Date: 2002-01-12 09:51+0100\n"
+"POT-Creation-Date: 2002-01-15 02:17-0500\n"
 "PO-Revision-Date: 2002-01-12 10:03+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
+
+#: gnumeric.desktop.in.h:1 src/dialogs/dialog-about.c:81
+#: src/functions/fn-sheet.c:143
+msgid "Gnumeric"
+msgstr "Gnumeric"
+
+#: gnumeric.desktop.in.h:2
+msgid "The GNOME Spreadsheet"
+msgstr "Regnearkprogram"
 
 #: plugins/applix/applix-read.c:79
 msgid "Parse error while reading Applix file."
@@ -29,7 +38,7 @@ msgstr "Applix (*.as)"
 msgid "Imports version 4.[234] spreadsheets"
 msgstr "Importerer versjon 4.[234] regneark"
 
-#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3894
+#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3216
 msgid "Financial"
 msgstr "Finans"
 
@@ -41,8 +50,8 @@ msgstr "Finansielle derivater"
 msgid "Functions related to financial derivatives"
 msgstr "Funksjoner relatert til finansielle derivater"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4520
-#: plugins/mps/mps.c:579 src/xml-io.c:3343
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4523
+#: plugins/mps/mps.c:579 src/xml-io.c:3374
 msgid "Reading file..."
 msgstr "Leser fil..."
 
@@ -163,16 +172,16 @@ msgstr "Plott%d"
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:4515
+#: plugins/excel/ms-excel-read.c:4518
 msgid "No book or workbook streams found."
 msgstr "Ingen bok- eller arbeidsbokdata funnet."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4679
+#: plugins/excel/ms-excel-read.c:4682
 msgid "Password protected workbooks are not supported yet."
 msgstr "Passordbeskyttede arbeidsbøker er ikke støttet ennå."
 
-#: plugins/excel/ms-excel-read.c:4792
+#: plugins/excel/ms-excel-read.c:4795
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunne ikke finne en gyldig MS Excel arbeidsbok"
 
@@ -411,6 +420,7 @@ msgstr "Begrensninger:"
 #: plugins/mps/mps.c:335 src/dialogs/plugin-manager.glade.h:13
 #: src/format-template.c:510 src/solver-lp.c:898 src/solver-lp.c:922
 #: src/solver-lp.c:955 src/solver-lp.c:1049 src/solver-lp.c:1096
+#: src/workbook-control.c:233
 msgid "Name"
 msgstr "Navn"
 
@@ -773,14 +783,6 @@ msgstr "Plan Perfect"
 msgid "Plan Perfect Format (PLN) import"
 msgstr "Plan Perfect Format (PLN) import"
 
-#: plugins/psiconv/psiconv-read.c:573
-msgid "Error while reading psiconv file."
-msgstr "Feil under lesing av psiconv-fil."
-
-#: plugins/psiconv/psiconv-read.c:582
-msgid "Error while parsing psiconv file."
-msgstr "Feil under tolking av psiconv-fil."
-
 #: plugins/psiconv/plugin.xml.in.h:1
 msgid "Imports Psion 5 series Sheet files"
 msgstr "Importerer Psion 5 ark"
@@ -792,6 +794,14 @@ msgstr "Psiconv"
 #: plugins/psiconv/plugin.xml.in.h:3
 msgid "Psion (*.psisheet)"
 msgstr "Psion (*.psisheet)"
+
+#: plugins/psiconv/psiconv-read.c:573
+msgid "Error while reading psiconv file."
+msgstr "Feil under lesing av psiconv-fil."
+
+#: plugins/psiconv/psiconv-read.c:582
+msgid "Error while parsing psiconv file."
+msgstr "Feil under tolking av psiconv-fil."
 
 #: plugins/py-func/plugin.xml.in.h:1
 msgid "Python"
@@ -995,11 +1005,11 @@ msgstr "EKSPERIMENTELL SAX-basert XML"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "Neste generasjon SAX-basert xml IO-subsystem"
 
-#: plugins/xml_sax/xml-sax-read.c:2167
+#: plugins/xml_sax/xml-sax-read.c:2173
 msgid "xmlCreateFileParserCtxt () failed."
 msgstr "xmlCreateFileParserCtxt() feilet."
 
-#: plugins/xml_sax/xml-sax-read.c:2176
+#: plugins/xml_sax/xml-sax-read.c:2182
 msgid "XML document not well formed!"
 msgstr "XML-dokumentet er ikke riktig utformet!"
 
@@ -2517,7 +2527,7 @@ msgstr "Imaginær"
 msgid "Error '%s' opening workbook stream"
 msgstr "Feil «%s» under åpning av arbeidsbok-strøm"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3366
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3397
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ugyldig xml fil. Treet er tomt?"
 
@@ -2599,297 +2609,297 @@ msgstr "Flytt kolonner %s"
 msgid "Shift column %s"
 msgstr "Flytt kolonne %s"
 
-#: src/commands.c:639 src/commands.c:733
+#: src/commands.c:640 src/commands.c:748
 msgid "Set Text"
 msgstr "Sett tekst"
 
-#: src/commands.c:664
+#: src/commands.c:677
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Skriver «%s%s» i %s"
 
-#: src/commands.c:835
+#: src/commands.c:850
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Skriver «%s%s»"
 
-#: src/commands.c:1088
+#: src/commands.c:1103
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Setter inn %d kolonner før %s"
 
-#: src/commands.c:1089
+#: src/commands.c:1104
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Setter inn %d kolonne før %s"
 
-#: src/commands.c:1104
+#: src/commands.c:1119
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Setter inn %d rader før %s"
 
-#: src/commands.c:1105
+#: src/commands.c:1120
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Setter inn %d rad før %s"
 
-#: src/commands.c:1116
+#: src/commands.c:1131
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Sletter kolonner %s"
 
-#: src/commands.c:1117
+#: src/commands.c:1132
 #, c-format
 msgid "Deleting column %s"
 msgstr "Sletter kolonne %s"
 
-#: src/commands.c:1127
+#: src/commands.c:1142
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Sletter rader %s"
 
-#: src/commands.c:1128
+#: src/commands.c:1143
 #, c-format
 msgid "Deleting row %s"
 msgstr "Sletter rad %s"
 
-#: src/commands.c:1203
+#: src/commands.c:1218
 msgid "Undo Clear"
 msgstr "Angre tøm"
 
-#: src/commands.c:1282
+#: src/commands.c:1297
 msgid "contents"
 msgstr "innhold"
 
-#: src/commands.c:1284
+#: src/commands.c:1299
 msgid "formats"
 msgstr "formater"
 
-#: src/commands.c:1286
+#: src/commands.c:1301
 msgid "comments"
 msgstr "kommentarer"
 
-#: src/commands.c:1302
+#: src/commands.c:1317
 msgid "all"
 msgstr "alle"
 
-#: src/commands.c:1309
+#: src/commands.c:1324
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Fjerner %s i %s"
 
-#: src/commands.c:1504
+#: src/commands.c:1519
 #, c-format
 msgid "Changing format of %s"
 msgstr "Endrer format for %s"
 
-#: src/commands.c:1580
+#: src/commands.c:1595
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Endre navn på ark «%s» «%s»"
 
-#: src/commands.c:1690
+#: src/commands.c:1705
 msgid "Set Date/Time"
 msgstr "Sett dato/klokkeslett"
 
-#: src/commands.c:1707
+#: src/commands.c:1722
 #, c-format
 msgid "Setting current date in %s"
 msgstr "Setter aktiv dato i %s"
 
-#: src/commands.c:1708
+#: src/commands.c:1723
 #, c-format
 msgid "Setting current time in %s"
 msgstr "Setter aktiv tid i %s"
 
-#: src/commands.c:1815
+#: src/commands.c:1830
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Tilpasser kolonne %s automatisk"
 
-#: src/commands.c:1816
+#: src/commands.c:1831
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Tilpasser rad %s automatisk"
 
-#: src/commands.c:1819
+#: src/commands.c:1834
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Setter bredden for rad %s til %d piksler"
 
-#: src/commands.c:1821
+#: src/commands.c:1836
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Setter høyden for rad %s til %d piksler"
 
-#: src/commands.c:1826 src/commands.c:1827
+#: src/commands.c:1841 src/commands.c:1842
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Tilpasser kolonner %s automatisk"
 
-#: src/commands.c:1830
+#: src/commands.c:1845
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Setter bredden for kolonner %s til %d piksler"
 
-#: src/commands.c:1832
+#: src/commands.c:1847
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Setter høyden for rader %s til %d piksler"
 
-#: src/commands.c:1916
+#: src/commands.c:1931
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorterer %s"
 
-#: src/commands.c:2044
+#: src/commands.c:2059
 msgid "Unhide columns"
 msgstr "Ta frem kolonner"
 
-#: src/commands.c:2044
+#: src/commands.c:2059
 msgid "Hide columns"
 msgstr "Skjul kolonner"
 
-#: src/commands.c:2045
+#: src/commands.c:2060
 msgid "Unhide rows"
 msgstr "Ta frem rader"
 
-#: src/commands.c:2045
+#: src/commands.c:2060
 msgid "Hide rows"
 msgstr "Skjul rader"
 
-#: src/commands.c:2126
+#: src/commands.c:2141
 msgid "Expand columns"
 msgstr "Utvid kolonner"
 
-#: src/commands.c:2126
+#: src/commands.c:2141
 msgid "Collapse columns"
 msgstr "Slå sammen kolonnene"
 
-#: src/commands.c:2127
+#: src/commands.c:2142
 msgid "Expand rows"
 msgstr "Utvid rader"
 
-#: src/commands.c:2127
+#: src/commands.c:2142
 msgid "Collapse rows"
 msgstr "Slå sammen rader"
 
-#: src/commands.c:2196
+#: src/commands.c:2211
 msgid "Those columns are already grouped"
 msgstr "Kolonnene er allerede gruppert"
 
-#: src/commands.c:2197
+#: src/commands.c:2212
 msgid "Those rows are already grouped"
 msgstr "Radene er allerede gruppert"
 
-#: src/commands.c:2200
+#: src/commands.c:2215
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Kolonnene er ikke gruppert, du kan ikke fjerne gruppering"
 
-#: src/commands.c:2201
+#: src/commands.c:2216
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Radene er ikke gruppert, du kan ikke fjerne gruppering"
 
-#: src/commands.c:2212
+#: src/commands.c:2227
 #, c-format
 msgid "Group columns %s"
 msgstr "Grupper kolonner %s"
 
-#: src/commands.c:2212
+#: src/commands.c:2227
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Fjern gruppering for kolonne %s"
 
-#: src/commands.c:2214
+#: src/commands.c:2229
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Grupper rader %d:%d"
 
-#: src/commands.c:2214
+#: src/commands.c:2229
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Fjern gruppering for rader %d:%d"
 
-#: src/commands.c:2421
+#: src/commands.c:2436
 #, c-format
 msgid "Moving %s"
 msgstr "Flytter %s"
 
-#: src/commands.c:2430 src/commands.c:2638
+#: src/commands.c:2445 src/commands.c:2653
 msgid "is beyond sheet boundaries"
 msgstr "er utenfor arkgrensen"
 
 #. FIXME?
-#: src/commands.c:2582
+#: src/commands.c:2597
 #, c-format
 msgid "Pasting into %s"
 msgstr "Limer inn i %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2811 src/commands.c:2812 src/workbook-control-gui.c:1841
+#: src/commands.c:2826 src/commands.c:2827 src/workbook-control-gui.c:1841
 msgid "Autofill"
 msgstr "Autofyll"
 
 #. Changed in initial redo.
-#: src/commands.c:2835
+#: src/commands.c:2850
 #, c-format
 msgid "Autofilling %s"
 msgstr "Autofyller %s"
 
-#: src/commands.c:2988
+#: src/commands.c:3003
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Autoformaterer %s"
 
-#: src/commands.c:3098
+#: src/commands.c:3113
 #, c-format
 msgid "Unmerging %s"
 msgstr "Separerer %s"
 
-#: src/commands.c:3236
+#: src/commands.c:3251
 #, c-format
 msgid "Merging %s"
 msgstr "Fletter %s"
 
 #. Corrected below.
-#: src/commands.c:3616 src/dialogs/search-replace.glade.h:43
+#: src/commands.c:3631 src/dialogs/search-replace.glade.h:43
 msgid "Search and Replace"
 msgstr "Søk og erstatt"
 
-#: src/commands.c:3712
+#: src/commands.c:3727
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Setter standard bredde for kolonnene til %.2fpkt"
 
-#: src/commands.c:3713
+#: src/commands.c:3728
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Setter standard høyde for radene til %.2fpkt"
 
 #. Changed in initial redo.
-#: src/commands.c:3798
+#: src/commands.c:3813
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "Konsoliderer til %s!%s"
 
-#: src/commands.c:3913
+#: src/commands.c:3928
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s til %.0f%%"
 
-#: src/commands.c:3982
+#: src/commands.c:3997
 msgid "Insert object"
 msgstr "Sett inn objekt"
 
-#: src/commands.c:4040
+#: src/commands.c:4055
 msgid "Delete object"
 msgstr "Slett objekt"
 
-#: src/commands.c:4121
+#: src/commands.c:4136
 msgid "Resize object"
 msgstr "Endre størrelse på objekt"
 
-#: src/commands.c:4121
+#: src/commands.c:4136
 msgid "Move object"
 msgstr "Flytt objekt"
 
@@ -4257,11 +4267,6 @@ msgstr "Vladimir Vuksan, finansielle funksjoner."
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr "Morten Welinder, Gnumeric hacker."
 
-#: gnumeric.desktop.in.h:1 src/dialogs/dialog-about.c:81
-#: src/functions/fn-sheet.c:143
-msgid "Gnumeric"
-msgstr "Gnumeric"
-
 #: src/dialogs/dialog-about.c:82
 msgid "(C) 1998-2001 Miguel de Icaza"
 msgstr "© 1998-2001 Miguel de Icaza"
@@ -4924,37 +4929,37 @@ msgstr "Skalar"
 msgid "Any"
 msgstr "Enhver"
 
-#: src/dialogs/dialog-goal-seek.c:353
+#: src/dialogs/dialog-goal-seek.c:354
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
 msgstr "Du må oppgi et gyldig cellenavn i «Sett celle:»!"
 
-#: src/dialogs/dialog-goal-seek.c:361
+#: src/dialogs/dialog-goal-seek.c:363
 msgid "The cell named in 'Set Cell:' must contain a formula!"
 msgstr "Cellen oppgitt i «Sett celle:» må inneholde en formel!"
 
-#: src/dialogs/dialog-goal-seek.c:369
+#: src/dialogs/dialog-goal-seek.c:373
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
 msgstr "Du må oppgi et gyldig cellenavn i «Ved å endre celle:»!"
 
-#: src/dialogs/dialog-goal-seek.c:378
+#: src/dialogs/dialog-goal-seek.c:384
 msgid "The cell named in 'By changing cell' must not contain a formula."
 msgstr "Cellen oppgitt i «Ved å endre celle:» må ikke inneholde en formel."
 
-#: src/dialogs/dialog-goal-seek.c:391
+#: src/dialogs/dialog-goal-seek.c:397
 msgid "The value given in 'To Value:' is not valid."
 msgstr "Verdien gitt i «Til-verdi:» er ikke gyldig."
 
-#: src/dialogs/dialog-goal-seek.c:468
+#: src/dialogs/dialog-goal-seek.c:474
 #, c-format
 msgid "Goal seeking with cell %s found a solution."
 msgstr "Målsøking med celle %s fant en løsning."
 
-#: src/dialogs/dialog-goal-seek.c:484
+#: src/dialogs/dialog-goal-seek.c:490
 #, c-format
 msgid "Goal seeking with cell %s did not find a solution."
 msgstr "Målsøking med celle %s fant ikke en løsning."
 
-#: src/dialogs/dialog-goal-seek.c:652
+#: src/dialogs/dialog-goal-seek.c:658
 msgid "Could not create the Goal-Seek dialog."
 msgstr "Kunne ikke opprette dialogen målsøk."
 
@@ -5146,6 +5151,10 @@ msgstr "Egendefinert konfigurasjon av topptekst"
 msgid "Custom footer configuration"
 msgstr "Egendefinert konfigurasjon av bunntekst"
 
+#: src/dialogs/dialog-search-replace.c:141 src/dialogs/dialog-search.c:368
+msgid "You must select some cell types to search."
+msgstr "Du må velge noen celletyper som skal søkes."
+
 #: src/dialogs/dialog-search.c:131
 msgid "Expression"
 msgstr "Uttrykk"
@@ -5161,10 +5170,6 @@ msgstr "Annen verdi"
 #: src/dialogs/dialog-search.c:141
 msgid "Comment"
 msgstr "Kommentar"
-
-#: src/dialogs/dialog-search-replace.c:141 src/dialogs/dialog-search.c:368
-msgid "You must select some cell types to search."
-msgstr "Du må velge noen celletyper som skal søkes."
 
 #: src/dialogs/dialog-sheet-order.c:147 src/workbook-control-gui.c:417
 #, c-format
@@ -5774,18 +5779,6 @@ msgid "place holder no need to translate"
 msgstr ""
 "plassholder som ikke trengs oversettes, untatt for statistiske hensyn :)"
 
-#: src/dialogs/graph-guru.glade.h:4
-msgid "_Finish"
-msgstr "_Fullfør"
-
-#: src/dialogs/graph-guru.glade.h:5
-msgid "_Plot"
-msgstr "_Plott"
-
-#: src/dialogs/graph-guru.glade.h:6
-msgid "_Series"
-msgstr "_Rekker"
-
 #: src/dialogs/goalseek.glade.h:1
 msgid "(Maximum):"
 msgstr "(Maksimum):"
@@ -5829,6 +5822,18 @@ msgstr "Løsning:"
 #: src/dialogs/goalseek.glade.h:11
 msgid "To Value:"
 msgstr "Til verdi:"
+
+#: src/dialogs/graph-guru.glade.h:4
+msgid "_Finish"
+msgstr "_Fullfør"
+
+#: src/dialogs/graph-guru.glade.h:5
+msgid "_Plot"
+msgstr "_Plott"
+
+#: src/dialogs/graph-guru.glade.h:6
+msgid "_Series"
+msgstr "_Rekker"
 
 #: src/dialogs/hf-config.glade.h:1
 msgid "Enter the format strings for each section:"
@@ -6177,7 +6182,7 @@ msgid "Scale"
 msgstr "Skaler"
 
 #: src/dialogs/print.glade.h:25 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3051
+#: src/workbook.c:1065 src/xml-io.c:3082
 msgid "Sheet"
 msgstr "Ark"
 
@@ -6274,18 +6279,6 @@ msgstr "pkt"
 msgid "tall"
 msgstr "høy"
 
-#: src/dialogs/rank.glade.h:2
-msgid "Average _Rank"
-msgstr "Gjennomsnittlig _rangering"
-
-#: src/dialogs/rank.glade.h:8
-msgid "Ties:"
-msgstr "Knytninger:"
-
-#: src/dialogs/rank.glade.h:16
-msgid "_Top Rank"
-msgstr "_Topprangering"
-
 #: src/dialogs/random-generation.glade.h:4
 msgid "Number of _Variables:"
 msgstr "Antall variabler:"
@@ -6301,6 +6294,18 @@ msgstr "_Størrelse på utvalg:"
 #: src/dialogs/random-generation.glade.h:9
 msgid "_Distribution:"
 msgstr "Spre_dning:"
+
+#: src/dialogs/rank.glade.h:2
+msgid "Average _Rank"
+msgstr "Gjennomsnittlig _rangering"
+
+#: src/dialogs/rank.glade.h:8
+msgid "Ties:"
+msgstr "Knytninger:"
+
+#: src/dialogs/rank.glade.h:16
+msgid "_Top Rank"
+msgstr "_Topprangering"
 
 #: src/dialogs/regression.glade.h:1
 msgid "0.95"
@@ -6358,159 +6363,6 @@ msgstr "_Periodisk"
 msgid "_Random"
 msgstr "_Tilfeldig"
 
-#: src/dialogs/search.glade.h:1
-msgid "C_olumn major"
-msgstr ""
-
-#: src/dialogs/search.glade.h:2
-msgid "Dismiss search center"
-msgstr "Ta bort søkesenter"
-
-#: src/dialogs/search-replace.glade.h:10 src/dialogs/search.glade.h:3
-msgid "Do not consider matches in the middle of words"
-msgstr "Ikke regn med treff midt i ord"
-
-#: src/dialogs/search.glade.h:4
-msgid "Find text within cell comments"
-msgstr "Finn tekst i cellekommentarene"
-
-#: src/dialogs/search.glade.h:5
-msgid "Find text within expressions"
-msgstr "Finn tekst i uttrykk"
-
-#: src/dialogs/search.glade.h:6
-msgid "Find text within non-string values"
-msgstr "Finn tekst i ikke-streng verdier"
-
-#: src/dialogs/search.glade.h:7
-msgid "Find text within string values"
-msgstr "Finn tekst i strengverdier"
-
-#: src/dialogs/search.glade.h:8
-msgid "Match _whole words only"
-msgstr "Treff kun på _hele ord"
-
-#: src/dialogs/search-replace.glade.h:23 src/dialogs/search.glade.h:9
-msgid "Miscellanea"
-msgstr "Forskjellig"
-
-#: src/dialogs/search-replace.glade.h:42 src/dialogs/search.glade.h:10
-msgid "Search"
-msgstr "Søk"
-
-#: src/dialogs/search.glade.h:11
-msgid "Search Center"
-msgstr "Søkesenter"
-
-#: src/dialogs/search.glade.h:12
-msgid "Search cells containing"
-msgstr "Søk i celler som inneholder"
-
-#: src/dialogs/search-replace.glade.h:48 src/dialogs/search.glade.h:13
-msgid "Search column by column"
-msgstr "Søk kolonne etter kolonne"
-
-#: src/dialogs/search.glade.h:14
-msgid "Search in all cells in the workbook"
-msgstr "Søk i alle celler i arbeidsboken"
-
-#: src/dialogs/search.glade.h:15
-msgid "Search in current sheet only"
-msgstr "Søk kun i aktivt ark"
-
-#: src/dialogs/search.glade.h:16
-msgid "Search in specified range only"
-msgstr "Søk kun i spesifisert område"
-
-#: src/dialogs/search-replace.glade.h:50 src/dialogs/search.glade.h:17
-msgid "Search line by line"
-msgstr "Søk linje etter linje"
-
-#: src/dialogs/search.glade.h:18
-msgid "Show next match"
-msgstr "Vis neste treff"
-
-#: src/dialogs/search.glade.h:19
-msgid "Show previous match"
-msgstr "Vis forrige treff"
-
-#: src/dialogs/search.glade.h:20
-msgid "Start search"
-msgstr "Start søk"
-
-#: src/dialogs/search-replace.glade.h:53 src/dialogs/search.glade.h:21
-msgid "The search text is a regular expression"
-msgstr "Søketeksten er et vanlig uttrykk"
-
-#: src/dialogs/search-replace.glade.h:54 src/dialogs/search.glade.h:22
-msgid "The search text is taken literal"
-msgstr "Søketeksten er tatt bokstavelig"
-
-#: src/dialogs/search-replace.glade.h:56 src/dialogs/search.glade.h:23
-msgid "When set, do not distinguish between upper and lower case letters"
-msgstr "Ikke skill mellom store/små bokstaver hvis dette er satt"
-
-#: src/dialogs/search.glade.h:24
-msgid "_Advanced"
-msgstr "_Avansert"
-
-#: src/dialogs/search.glade.h:25
-msgid "_Comments"
-msgstr "_Kommentarer"
-
-#: src/dialogs/search.glade.h:26
-msgid "_Current sheet"
-msgstr "_Aktivt ark"
-
-#: src/dialogs/search.glade.h:27
-msgid "_Entire workbook"
-msgstr "H_ele arbeidsboken"
-
-#: src/dialogs/search.glade.h:28
-msgid "_Expressions"
-msgstr "_Uttrykk"
-
-#: src/dialogs/search.glade.h:29
-msgid "_Ignore case"
-msgstr "_Overse store/små bokstaver"
-
-#: src/dialogs/search.glade.h:30
-msgid "_Matches"
-msgstr "_Treff"
-
-#: src/dialogs/search.glade.h:31
-msgid "_Normal"
-msgstr "_Normal"
-
-#: src/dialogs/search.glade.h:32
-msgid "_Other values"
-msgstr "_Andre verdier"
-
-#: src/dialogs/search.glade.h:33
-msgid "_Plain text"
-msgstr "_Vanlig tekst"
-
-#: src/dialogs/search.glade.h:34
-msgid "_Range"
-msgstr "Om_råde"
-
-#: src/dialogs/search.glade.h:35
-msgid "_Regular expression"
-msgstr "_Vanlig uttrykk"
-
-#: src/dialogs/search.glade.h:36
-#, fuzzy
-msgid "_Row major"
-msgstr "Kolonne"
-
-#: src/dialogs/search.glade.h:37
-msgid "_Search for"
-msgstr "_Søk etter"
-
-#: src/dialogs/search.glade.h:38
-msgid "_Strings"
-msgstr "_Strenger"
-
 #: src/dialogs/search-replace.glade.h:1
 msgid "Advanced"
 msgstr "Avansert"
@@ -6547,6 +6399,10 @@ msgstr "Opprett =FEIL(\"...\")"
 #: src/dialogs/search-replace.glade.h:9
 msgid "Current sheet"
 msgstr "Aktivt ark"
+
+#: src/dialogs/search-replace.glade.h:10 src/dialogs/search.glade.h:3
+msgid "Do not consider matches in the middle of words"
+msgstr "Ikke regn med treff midt i ord"
 
 #: src/dialogs/search-replace.glade.h:11
 msgid "Do not perform this replacement"
@@ -6595,6 +6451,10 @@ msgstr "Lag strengverdi"
 #: src/dialogs/search-replace.glade.h:22
 msgid "Match whole words only"
 msgstr "Treff på hele ord"
+
+#: src/dialogs/search-replace.glade.h:23 src/dialogs/search.glade.h:9
+msgid "Miscellanea"
+msgstr "Forskjellig"
 
 #: src/dialogs/search-replace.glade.h:25
 msgid "Other values"
@@ -6660,6 +6520,10 @@ msgstr ""
 msgid "Scope"
 msgstr "Område"
 
+#: src/dialogs/search-replace.glade.h:42 src/dialogs/search.glade.h:10
+msgid "Search"
+msgstr "Søk"
+
 #: src/dialogs/search-replace.glade.h:44
 msgid "Search and Replace Query"
 msgstr "Søk og erstatt spørring"
@@ -6676,9 +6540,17 @@ msgstr "Søk og erstatt kun i aktivt ark"
 msgid "Search and replace in specified range only"
 msgstr "Søk og erstatt kun i spesifisert område"
 
+#: src/dialogs/search-replace.glade.h:48 src/dialogs/search.glade.h:13
+msgid "Search column by column"
+msgstr "Søk kolonne etter kolonne"
+
 #: src/dialogs/search-replace.glade.h:49
 msgid "Search for"
 msgstr "Søk etter"
+
+#: src/dialogs/search-replace.glade.h:50 src/dialogs/search.glade.h:17
+msgid "Search line by line"
+msgstr "Søk linje etter linje"
 
 #: src/dialogs/search-replace.glade.h:51
 msgid "Skip cells that that would result in errors"
@@ -6688,9 +6560,142 @@ msgstr "Hopp over celler som vil resultere i feil"
 msgid "Strings"
 msgstr "Strenger"
 
+#: src/dialogs/search-replace.glade.h:53 src/dialogs/search.glade.h:21
+msgid "The search text is a regular expression"
+msgstr "Søketeksten er et vanlig uttrykk"
+
+#: src/dialogs/search-replace.glade.h:54 src/dialogs/search.glade.h:22
+msgid "The search text is taken literal"
+msgstr "Søketeksten er tatt bokstavelig"
+
 #: src/dialogs/search-replace.glade.h:55
 msgid "Turn unparseable entries into string values"
 msgstr "Omgjør ikke-lesbare oppføringer til strengverdier"
+
+#: src/dialogs/search-replace.glade.h:56 src/dialogs/search.glade.h:23
+msgid "When set, do not distinguish between upper and lower case letters"
+msgstr "Ikke skill mellom store/små bokstaver hvis dette er satt"
+
+#: src/dialogs/search.glade.h:1
+msgid "C_olumn major"
+msgstr ""
+
+#: src/dialogs/search.glade.h:2
+msgid "Dismiss search center"
+msgstr "Ta bort søkesenter"
+
+#: src/dialogs/search.glade.h:4
+msgid "Find text within cell comments"
+msgstr "Finn tekst i cellekommentarene"
+
+#: src/dialogs/search.glade.h:5
+msgid "Find text within expressions"
+msgstr "Finn tekst i uttrykk"
+
+#: src/dialogs/search.glade.h:6
+msgid "Find text within non-string values"
+msgstr "Finn tekst i ikke-streng verdier"
+
+#: src/dialogs/search.glade.h:7
+msgid "Find text within string values"
+msgstr "Finn tekst i strengverdier"
+
+#: src/dialogs/search.glade.h:8
+msgid "Match _whole words only"
+msgstr "Treff kun på _hele ord"
+
+#: src/dialogs/search.glade.h:11
+msgid "Search Center"
+msgstr "Søkesenter"
+
+#: src/dialogs/search.glade.h:12
+msgid "Search cells containing"
+msgstr "Søk i celler som inneholder"
+
+#: src/dialogs/search.glade.h:14
+msgid "Search in all cells in the workbook"
+msgstr "Søk i alle celler i arbeidsboken"
+
+#: src/dialogs/search.glade.h:15
+msgid "Search in current sheet only"
+msgstr "Søk kun i aktivt ark"
+
+#: src/dialogs/search.glade.h:16
+msgid "Search in specified range only"
+msgstr "Søk kun i spesifisert område"
+
+#: src/dialogs/search.glade.h:18
+msgid "Show next match"
+msgstr "Vis neste treff"
+
+#: src/dialogs/search.glade.h:19
+msgid "Show previous match"
+msgstr "Vis forrige treff"
+
+#: src/dialogs/search.glade.h:20
+msgid "Start search"
+msgstr "Start søk"
+
+#: src/dialogs/search.glade.h:24
+msgid "_Advanced"
+msgstr "_Avansert"
+
+#: src/dialogs/search.glade.h:25
+msgid "_Comments"
+msgstr "_Kommentarer"
+
+#: src/dialogs/search.glade.h:26
+msgid "_Current sheet"
+msgstr "_Aktivt ark"
+
+#: src/dialogs/search.glade.h:27
+msgid "_Entire workbook"
+msgstr "H_ele arbeidsboken"
+
+#: src/dialogs/search.glade.h:28
+msgid "_Expressions"
+msgstr "_Uttrykk"
+
+#: src/dialogs/search.glade.h:29
+msgid "_Ignore case"
+msgstr "_Overse store/små bokstaver"
+
+#: src/dialogs/search.glade.h:30
+msgid "_Matches"
+msgstr "_Treff"
+
+#: src/dialogs/search.glade.h:31
+msgid "_Normal"
+msgstr "_Normal"
+
+#: src/dialogs/search.glade.h:32
+msgid "_Other values"
+msgstr "_Andre verdier"
+
+#: src/dialogs/search.glade.h:33
+msgid "_Plain text"
+msgstr "_Vanlig tekst"
+
+#: src/dialogs/search.glade.h:34
+msgid "_Range"
+msgstr "Om_råde"
+
+#: src/dialogs/search.glade.h:35
+msgid "_Regular expression"
+msgstr "_Vanlig uttrykk"
+
+#: src/dialogs/search.glade.h:36
+#, fuzzy
+msgid "_Row major"
+msgstr "Kolonne"
+
+#: src/dialogs/search.glade.h:37
+msgid "_Search for"
+msgstr "_Søk etter"
+
+#: src/dialogs/search.glade.h:38
+msgid "_Strings"
+msgstr "_Strenger"
 
 #: src/dialogs/sheet-order.glade.h:1
 msgid "Close this dialog"
@@ -10441,7 +10446,7 @@ msgstr ""
 msgid "Engineering"
 msgstr "Teknisk"
 
-#: src/functions/fn-financial.c:992
+#: src/functions/fn-financial.c:352
 msgid ""
 "@FUNCTION=ACCRINT\n"
 "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])\n"
@@ -10472,7 +10477,7 @@ msgid ""
 "@SEEALSO=ACCRINTM"
 msgstr ""
 
-#: src/functions/fn-financial.c:1084
+#: src/functions/fn-financial.c:444
 msgid ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
@@ -10499,7 +10504,7 @@ msgid ""
 "@SEEALSO=ACCRINT"
 msgstr ""
 
-#: src/functions/fn-financial.c:1136
+#: src/functions/fn-financial.c:496
 msgid ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
@@ -10529,7 +10534,7 @@ msgid ""
 "@SEEALSO=RECEIVED, DATE"
 msgstr ""
 
-#: src/functions/fn-financial.c:1197
+#: src/functions/fn-financial.c:557
 msgid ""
 "@FUNCTION=RECEIVED\n"
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
@@ -10554,7 +10559,7 @@ msgid ""
 "@SEEALSO=INTRATE"
 msgstr ""
 
-#: src/functions/fn-financial.c:1252
+#: src/functions/fn-financial.c:612
 msgid ""
 "@FUNCTION=PRICEDISC\n"
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
@@ -10580,7 +10585,7 @@ msgid ""
 "@SEEALSO=PRICEMAT"
 msgstr ""
 
-#: src/functions/fn-financial.c:1304
+#: src/functions/fn-financial.c:664
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
@@ -10606,7 +10611,7 @@ msgid ""
 "@SEEALSO=PRICEDISC"
 msgstr ""
 
-#: src/functions/fn-financial.c:1363
+#: src/functions/fn-financial.c:723
 msgid ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
@@ -10631,7 +10636,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:1414
+#: src/functions/fn-financial.c:774
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -10656,11 +10661,11 @@ msgid ""
 "@SEEALSO=NOMINAL"
 msgstr ""
 
-#: src/functions/fn-financial.c:1453
+#: src/functions/fn-financial.c:813
 msgid "effect - domain error"
 msgstr "effekt - domenefeil"
 
-#: src/functions/fn-financial.c:1461
+#: src/functions/fn-financial.c:821
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -10692,11 +10697,11 @@ msgstr ""
 "\n"
 "@SEEALSO=EFFECT"
 
-#: src/functions/fn-financial.c:1491
+#: src/functions/fn-financial.c:851
 msgid "nominal - domain error"
 msgstr "nominal - domenefeil"
 
-#: src/functions/fn-financial.c:1500
+#: src/functions/fn-financial.c:860
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -10714,7 +10719,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV"
 
-#: src/functions/fn-financial.c:1534
+#: src/functions/fn-financial.c:894
 msgid ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -10740,7 +10745,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DDB,SLN,SYD"
 
-#: src/functions/fn-financial.c:1590
+#: src/functions/fn-financial.c:950
 msgid ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
@@ -10756,7 +10761,7 @@ msgid ""
 "@SEEALSO=SLN,SYD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1638
+#: src/functions/fn-financial.c:998
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -10779,11 +10784,11 @@ msgid ""
 "@SEEALSO=SYD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1682
+#: src/functions/fn-financial.c:1042
 msgid "sln - domain error"
 msgstr "sln - domenefeil"
 
-#: src/functions/fn-financial.c:1690
+#: src/functions/fn-financial.c:1050
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -10809,11 +10814,11 @@ msgid ""
 "@SEEALSO=SLN"
 msgstr ""
 
-#: src/functions/fn-financial.c:1736
+#: src/functions/fn-financial.c:1096
 msgid "syd - domain error"
 msgstr "syd - domenefeil"
 
-#: src/functions/fn-financial.c:1746
+#: src/functions/fn-financial.c:1106
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -10838,7 +10843,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARFR"
 
-#: src/functions/fn-financial.c:1790
+#: src/functions/fn-financial.c:1150
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -10860,7 +10865,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARDE"
 
-#: src/functions/fn-financial.c:1832
+#: src/functions/fn-financial.c:1192
 msgid ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
@@ -10878,7 +10883,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV"
 
-#: src/functions/fn-financial.c:1892
+#: src/functions/fn-financial.c:1252
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -10893,7 +10898,7 @@ msgid ""
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1937
+#: src/functions/fn-financial.c:1297
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -10909,7 +10914,7 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 msgstr ""
 
-#: src/functions/fn-financial.c:1978
+#: src/functions/fn-financial.c:1338
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -10924,7 +10929,7 @@ msgid ""
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 msgstr ""
 
-#: src/functions/fn-financial.c:2019
+#: src/functions/fn-financial.c:1379
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -10940,7 +10945,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,FV"
 
-#: src/functions/fn-financial.c:2127
+#: src/functions/fn-financial.c:1487
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -10960,7 +10965,7 @@ msgid ""
 "@SEEALSO=FV,NPV,PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2250
+#: src/functions/fn-financial.c:1610
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
@@ -10974,7 +10979,7 @@ msgid ""
 "@SEEALSO=FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2297
+#: src/functions/fn-financial.c:1657
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -10988,7 +10993,7 @@ msgid ""
 "@SEEALSO=PV,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2351
+#: src/functions/fn-financial.c:1711
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -11003,7 +11008,7 @@ msgid ""
 "@SEEALSO=NPV,PV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2411
+#: src/functions/fn-financial.c:1771
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -11026,7 +11031,7 @@ msgid ""
 "@SEEALSO=IRR,XNPV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2515
+#: src/functions/fn-financial.c:1875
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,term,pmt,pv,type)\n"
@@ -11041,7 +11046,7 @@ msgid ""
 "@SEEALSO=PV,PMT,PPMT"
 msgstr ""
 
-#: src/functions/fn-financial.c:2554
+#: src/functions/fn-financial.c:1914
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -11058,7 +11063,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2592
+#: src/functions/fn-financial.c:1952
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -11074,7 +11079,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2639
+#: src/functions/fn-financial.c:1999
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -11090,7 +11095,7 @@ msgid ""
 "@SEEALSO=IPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2688
+#: src/functions/fn-financial.c:2048
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -11109,7 +11114,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2737
+#: src/functions/fn-financial.c:2097
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -11122,7 +11127,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/functions/fn-financial.c:2774
+#: src/functions/fn-financial.c:2134
 #, fuzzy
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
@@ -11149,7 +11154,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: src/functions/fn-financial.c:2818
+#: src/functions/fn-financial.c:2178
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -11174,7 +11179,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2900
+#: src/functions/fn-financial.c:2260
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency[,basis])\n"
@@ -11198,7 +11203,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:2989
+#: src/functions/fn-financial.c:2349
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency[,basis])\n"
@@ -11221,7 +11226,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3078
+#: src/functions/fn-financial.c:2438
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
@@ -11245,7 +11250,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3114
+#: src/functions/fn-financial.c:2474
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
@@ -11270,7 +11275,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3151
+#: src/functions/fn-financial.c:2511
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -11296,7 +11301,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3253
+#: src/functions/fn-financial.c:2613
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
@@ -11321,7 +11326,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3290
+#: src/functions/fn-financial.c:2650
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -11347,7 +11352,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3327
+#: src/functions/fn-financial.c:2687
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
@@ -11372,7 +11377,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3364
+#: src/functions/fn-financial.c:2724
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -11396,7 +11401,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3398
+#: src/functions/fn-financial.c:2758
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -11420,7 +11425,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3432
+#: src/functions/fn-financial.c:2792
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -11445,7 +11450,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3501
+#: src/functions/fn-financial.c:2859
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])\n"
@@ -11469,7 +11474,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3572
+#: src/functions/fn-financial.c:2926
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])\n"
@@ -11493,7 +11498,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3641
+#: src/functions/fn-financial.c:2993
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
@@ -11517,7 +11522,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3706
+#: src/functions/fn-financial.c:3028
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
@@ -11541,7 +11546,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3741
+#: src/functions/fn-financial.c:3063
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])\n"
@@ -11566,7 +11571,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-financial.c:3807
+#: src/functions/fn-financial.c:3129
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -11584,7 +11589,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3827
+#: src/functions/fn-financial.c:3149
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -11602,7 +11607,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3847
+#: src/functions/fn-financial.c:3169
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -11620,7 +11625,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3868
+#: src/functions/fn-financial.c:3190
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -17682,7 +17687,7 @@ msgstr "Feil under åpning av filen «%s» for lesing."
 msgid "Unable to mmap the file."
 msgstr "Kunne ikke kjøre mmap på filen."
 
-#: src/plugin-util.c:318 src/xml-io.c:3332
+#: src/plugin-util.c:318 src/xml-io.c:3363
 msgid "Cannot get file size."
 msgstr "Kan ikke finne filstørrelse."
 
@@ -18326,6 +18331,43 @@ msgstr "Din fontmap2-fil har ikke en gyldig oppføring for Helvetica."
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "Din fontmap2-fil kunne ikke finnes på forventet lokasjon."
 
+#: src/validation.c:138
+#, c-format
+msgid "Cell %s is not permitted to be blank"
+msgstr ""
+
+#: src/validation.c:158
+#, c-format
+msgid "'%f' is not an integer"
+msgstr ""
+
+#: src/validation.c:168
+#, fuzzy, c-format
+msgid "'%f' is not a number"
+msgstr "Fø_rste sidenummer:"
+
+#: src/validation.c:175
+#, fuzzy, c-format
+msgid "'%s' is not a number"
+msgstr "Fø_rste sidenummer:"
+
+#: src/validation.c:259
+#, c-format
+msgid "%s is not true."
+msgstr ""
+
+#: src/validation.c:272
+msgid ""
+"That value is invalid.\n"
+"Restrictions have been placed on this cell's content."
+msgstr ""
+"Denne verdien er ugyldig.\n"
+"Restriksjoner er satt for denne cellens innhold."
+
+#: src/validation.c:279
+msgid "Gnumeric : Validation"
+msgstr "Gnumeric: Validering"
+
 #: src/value.c:678
 msgid "Terminate"
 msgstr "Terminer"
@@ -18647,7 +18689,11 @@ msgstr "Godta"
 msgid "Ok"
 msgstr "Ok"
 
-#: src/workbook-control.c:215
+#: src/workbook-control.c:218
+msgid "Define Name"
+msgstr "Definer navn"
+
+#: src/workbook-control.c:240
 msgid "Address"
 msgstr "Adresse"
 
@@ -18901,36 +18947,32 @@ msgstr "Er ikke en autoformat mal"
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Feil under forsøk på å bygge tre fra autoformat malfil"
 
-#: src/xml-io.c:2766
+#: src/xml-io.c:2797
 msgid "Unparsable xml in clipboard"
 msgstr "Ugyldig xml på utklippstavlen"
 
-#: src/xml-io.c:2773
+#: src/xml-io.c:2804
 msgid "Clipboard is in unknown format"
 msgstr "Utklippstavlen har ukjent format"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3177
+#: src/xml-io.c:3208
 msgid "Processing file..."
 msgstr "Prossesserer fil..."
 
-#: src/xml-io.c:3340
+#: src/xml-io.c:3371
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Ikke nok minne til å opprette zlib dekomprimeringstilstand."
 
-#: src/xml-io.c:3375
+#: src/xml-io.c:3406
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Er ikke en Gnumeric arbeidsbok"
 
-#: src/xml-io.c:3432
+#: src/xml-io.c:3463
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
-
-#: gnumeric.desktop.in.h:2
-msgid "The GNOME Spreadsheet"
-msgstr "Regnearkprogram"
 
 #~ msgid "Su_mmary..."
 #~ msgstr "Sa_mmendrag..."
@@ -19021,16 +19063,6 @@ msgstr "Regnearkprogram"
 
 #~ msgid "Can be blank\n"
 #~ msgstr "Kan være tom\n"
-
-#~ msgid "Gnumeric : Validation"
-#~ msgstr "Gnumeric: Validering"
-
-#~ msgid ""
-#~ "That value is invalid.\n"
-#~ "Restrictions have been placed on this cell's content."
-#~ msgstr ""
-#~ "Denne verdien er ugyldig.\n"
-#~ "Restriksjoner er satt for denne cellens innhold."
 
 #~ msgid "Microsoft(R) Excel"
 #~ msgstr "Microsoft® Excel"
@@ -19347,9 +19379,6 @@ msgstr "Regnearkprogram"
 
 #~ msgid "Customize header/footer"
 #~ msgstr "Tilpass topp-/bunntekst"
-
-#~ msgid "Define Name"
-#~ msgstr "Definer navn"
 
 #~ msgid ""
 #~ "@FUNCTION=AMORDEGRC\n"

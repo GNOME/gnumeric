@@ -28,7 +28,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-01-12 14:34+0100\n"
+"POT-Creation-Date: 2002-01-15 02:17-0500\n"
 "PO-Revision-Date: 2002-01-12 14:36+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -61,7 +61,7 @@ msgstr "Applix (*.as)"
 msgid "Imports version 4.[234] spreadsheets"
 msgstr "Importerar kalkylblad från version 4.[234]"
 
-#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3894
+#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3216
 msgid "Financial"
 msgstr "Finansiella"
 
@@ -73,8 +73,8 @@ msgstr "Finansiella derivat"
 msgid "Functions related to financial derivatives"
 msgstr "Funktioner relaterade till finansiella derivat"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4520
-#: plugins/mps/mps.c:579 src/xml-io.c:3343
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4523
+#: plugins/mps/mps.c:579 src/xml-io.c:3374
 msgid "Reading file..."
 msgstr "Läser fil..."
 
@@ -196,16 +196,16 @@ msgstr "Diagram%d"
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:4515
+#: plugins/excel/ms-excel-read.c:4518
 msgid "No book or workbook streams found."
 msgstr "Kunde inte hitta ström med bok eller arbetsbok."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4679
+#: plugins/excel/ms-excel-read.c:4682
 msgid "Password protected workbooks are not supported yet."
 msgstr "Lösenordsskyddade arbetsböcker stöds ännu inte."
 
-#: plugins/excel/ms-excel-read.c:4792
+#: plugins/excel/ms-excel-read.c:4795
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunde inte hitta en giltig MS Excel-arbetsbok"
 
@@ -443,6 +443,7 @@ msgstr "Bivillkor:"
 #: plugins/mps/mps.c:335 src/dialogs/plugin-manager.glade.h:13
 #: src/format-template.c:510 src/solver-lp.c:898 src/solver-lp.c:922
 #: src/solver-lp.c:955 src/solver-lp.c:1049 src/solver-lp.c:1096
+#: src/workbook-control.c:233
 msgid "Name"
 msgstr "Namn"
 
@@ -1024,11 +1025,11 @@ msgstr "EXPERIMENTELL SAX-baserad XML"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "Nästa generationens xml-system, baserat på sax"
 
-#: plugins/xml_sax/xml-sax-read.c:2167
+#: plugins/xml_sax/xml-sax-read.c:2173
 msgid "xmlCreateFileParserCtxt () failed."
 msgstr "xmlCreateFileParserCtxt () misslyckades."
 
-#: plugins/xml_sax/xml-sax-read.c:2176
+#: plugins/xml_sax/xml-sax-read.c:2182
 msgid "XML document not well formed!"
 msgstr "XML-dokumentet är inte korrekt utformat!"
 
@@ -2565,7 +2566,7 @@ msgstr "Imaginärdel"
 msgid "Error '%s' opening workbook stream"
 msgstr "\"%s\"-fel vid öppning av arbetsboksflöde"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3366
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3397
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ogiltig xml-fil, trädet är tomt?"
 
@@ -2647,300 +2648,300 @@ msgstr "Skifta kolumner %s"
 msgid "Shift column %s"
 msgstr "Skifta kolumner %s"
 
-#: src/commands.c:639 src/commands.c:733
+#: src/commands.c:640 src/commands.c:748
 msgid "Set Text"
 msgstr "Ställ in text"
 
 # detta står i sammanhanget Ångra: "blabla"
-#: src/commands.c:664
+#: src/commands.c:677
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Inmatning av \"%s%s\" i %s"
 
 # detta står i sammanhanget Ångra: "blabla"
-#: src/commands.c:835
+#: src/commands.c:850
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Inmatning av \"%s%s\""
 
-#: src/commands.c:1088
+#: src/commands.c:1103
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Infogning av %d kolumner före %s"
 
-#: src/commands.c:1089
+#: src/commands.c:1104
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Infogning av %d kolumner före %s"
 
-#: src/commands.c:1104
+#: src/commands.c:1119
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Infogning av %d rader före %s"
 
-#: src/commands.c:1105
+#: src/commands.c:1120
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Infogning av %d rad före %s"
 
-#: src/commands.c:1116
+#: src/commands.c:1131
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Borttagning av kolumnerna %s"
 
-#: src/commands.c:1117
+#: src/commands.c:1132
 #, c-format
 msgid "Deleting column %s"
 msgstr "Borttagning av kolumn %s"
 
-#: src/commands.c:1127
+#: src/commands.c:1142
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Borttagning av raderna %s"
 
-#: src/commands.c:1128
+#: src/commands.c:1143
 #, c-format
 msgid "Deleting row %s"
 msgstr "Borttagning av rad %s"
 
-#: src/commands.c:1203
+#: src/commands.c:1218
 msgid "Undo Clear"
 msgstr "Ångra töm"
 
-#: src/commands.c:1282
+#: src/commands.c:1297
 msgid "contents"
 msgstr "innehåll"
 
-#: src/commands.c:1284
+#: src/commands.c:1299
 msgid "formats"
 msgstr "format"
 
-#: src/commands.c:1286
+#: src/commands.c:1301
 msgid "comments"
 msgstr "kommentarer"
 
-#: src/commands.c:1302
+#: src/commands.c:1317
 msgid "all"
 msgstr "alla"
 
 # detta står i sammanhanget Ångra: "blabla"
-#: src/commands.c:1309
+#: src/commands.c:1324
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Tömmande av %s i %s"
 
-#: src/commands.c:1504
+#: src/commands.c:1519
 #, c-format
 msgid "Changing format of %s"
 msgstr "Byter format på %s"
 
-#: src/commands.c:1580
+#: src/commands.c:1595
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Byt namn på blad \"%s\" till \"%s\""
 
-#: src/commands.c:1690
+#: src/commands.c:1705
 msgid "Set Date/Time"
 msgstr "Ställ datum/tid"
 
-#: src/commands.c:1707
+#: src/commands.c:1722
 #, c-format
 msgid "Setting current date in %s"
 msgstr "Ställer nuvarande datum i %s"
 
-#: src/commands.c:1708
+#: src/commands.c:1723
 #, c-format
 msgid "Setting current time in %s"
 msgstr "Ställer nuvarande tid i %s"
 
-#: src/commands.c:1815
+#: src/commands.c:1830
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Autopassar kolumn %s"
 
-#: src/commands.c:1816
+#: src/commands.c:1831
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Autopassar rad %s"
 
-#: src/commands.c:1819
+#: src/commands.c:1834
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Ställer in bredden på kolumn %s till %d bildpunkter"
 
-#: src/commands.c:1821
+#: src/commands.c:1836
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Ställer in höjd på rad %s till %d bildpunkter"
 
-#: src/commands.c:1826 src/commands.c:1827
+#: src/commands.c:1841 src/commands.c:1842
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Autopassar kolumner %s"
 
-#: src/commands.c:1830
+#: src/commands.c:1845
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Ställer in bredd på kolumner %s till %d bildpunkter"
 
-#: src/commands.c:1832
+#: src/commands.c:1847
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Ställer in höjd på rader %s till %d bildpunkter"
 
-#: src/commands.c:1916
+#: src/commands.c:1931
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorterar %s"
 
-#: src/commands.c:2044
+#: src/commands.c:2059
 msgid "Unhide columns"
 msgstr "Visa kolumner"
 
-#: src/commands.c:2044
+#: src/commands.c:2059
 msgid "Hide columns"
 msgstr "Göm kolumner"
 
-#: src/commands.c:2045
+#: src/commands.c:2060
 msgid "Unhide rows"
 msgstr "Visa rader"
 
-#: src/commands.c:2045
+#: src/commands.c:2060
 msgid "Hide rows"
 msgstr "Göm rader"
 
-#: src/commands.c:2126
+#: src/commands.c:2141
 msgid "Expand columns"
 msgstr "Fäll ut kolumner"
 
-#: src/commands.c:2126
+#: src/commands.c:2141
 msgid "Collapse columns"
 msgstr "Fäll ihop kolumner"
 
-#: src/commands.c:2127
+#: src/commands.c:2142
 msgid "Expand rows"
 msgstr "Fäll ut rader"
 
-#: src/commands.c:2127
+#: src/commands.c:2142
 msgid "Collapse rows"
 msgstr "Fäll ihop rader"
 
-#: src/commands.c:2196
+#: src/commands.c:2211
 msgid "Those columns are already grouped"
 msgstr "Dessa kolumner är redan grupperade"
 
-#: src/commands.c:2197
+#: src/commands.c:2212
 msgid "Those rows are already grouped"
 msgstr "Dessa rader är redan grupperade"
 
-#: src/commands.c:2200
+#: src/commands.c:2215
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "De kolumnerna är inte grupperade, du kan inte ogruppera dem"
 
-#: src/commands.c:2201
+#: src/commands.c:2216
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "De raderna är inte grupperade, du kan inte ogruppera dem"
 
-#: src/commands.c:2212
+#: src/commands.c:2227
 #, c-format
 msgid "Group columns %s"
 msgstr "Gruppera kolumner %s"
 
-#: src/commands.c:2212
+#: src/commands.c:2227
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Ogruppera kolumner %s"
 
-#: src/commands.c:2214
+#: src/commands.c:2229
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Gruppera rader %d:%d"
 
-#: src/commands.c:2214
+#: src/commands.c:2229
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Ogruppera rader %d:%d"
 
-#: src/commands.c:2421
+#: src/commands.c:2436
 #, c-format
 msgid "Moving %s"
 msgstr "Flyttar %s"
 
-#: src/commands.c:2430 src/commands.c:2638
+#: src/commands.c:2445 src/commands.c:2653
 msgid "is beyond sheet boundaries"
 msgstr "är utanför bladets gränser"
 
 #. FIXME?
-#: src/commands.c:2582
+#: src/commands.c:2597
 #, c-format
 msgid "Pasting into %s"
 msgstr "Klistrar in i %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2811 src/commands.c:2812 src/workbook-control-gui.c:1841
+#: src/commands.c:2826 src/commands.c:2827 src/workbook-control-gui.c:1841
 msgid "Autofill"
 msgstr "Autofyllning"
 
 #. Changed in initial redo.
-#: src/commands.c:2835
+#: src/commands.c:2850
 #, c-format
 msgid "Autofilling %s"
 msgstr "Autofyllning av %s"
 
-#: src/commands.c:2988
+#: src/commands.c:3003
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Autoformatering av %s"
 
-#: src/commands.c:3098
+#: src/commands.c:3113
 #, c-format
 msgid "Unmerging %s"
 msgstr "Splittring av %s"
 
-#: src/commands.c:3236
+#: src/commands.c:3251
 #, c-format
 msgid "Merging %s"
 msgstr "Sammanslagning av %s"
 
 #. Corrected below.
-#: src/commands.c:3616 src/dialogs/search-replace.glade.h:43
+#: src/commands.c:3631 src/dialogs/search-replace.glade.h:43
 msgid "Search and Replace"
 msgstr "Sök och ersätt"
 
-#: src/commands.c:3712
+#: src/commands.c:3727
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Inställning av standardbredd på kolumner till %.2f punkter"
 
-#: src/commands.c:3713
+#: src/commands.c:3728
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Inställning av standardhöjd på rader till %.2f punkter"
 
 #. Changed in initial redo.
-#: src/commands.c:3798
+#: src/commands.c:3813
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "Konsolidation till %s!%s"
 
-#: src/commands.c:3913
+#: src/commands.c:3928
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Inzoomning av %s till %.0f%%"
 
-#: src/commands.c:3982
+#: src/commands.c:3997
 msgid "Insert object"
 msgstr "Infogning av objekt"
 
-#: src/commands.c:4040
+#: src/commands.c:4055
 msgid "Delete object"
 msgstr "Borttagning av objekt"
 
-#: src/commands.c:4121
+#: src/commands.c:4136
 msgid "Resize object"
 msgstr "Storleksändring av objekt"
 
-#: src/commands.c:4121
+#: src/commands.c:4136
 msgid "Move object"
 msgstr "Flyttning av objekt"
 
@@ -4969,37 +4970,37 @@ msgstr "Skalär"
 msgid "Any"
 msgstr "Vilken som helst"
 
-#: src/dialogs/dialog-goal-seek.c:353
+#: src/dialogs/dialog-goal-seek.c:354
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
 msgstr "Du måste ange ett giltigt cellnamn i \"Ställ in cell:\"!"
 
-#: src/dialogs/dialog-goal-seek.c:361
+#: src/dialogs/dialog-goal-seek.c:363
 msgid "The cell named in 'Set Cell:' must contain a formula!"
 msgstr "Cellen i \"Ställ in cell:\" måste innehålla en formel!"
 
-#: src/dialogs/dialog-goal-seek.c:369
+#: src/dialogs/dialog-goal-seek.c:373
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
 msgstr "Du måste ange ett giltigt cellnamn i \"Genom att ändra cell:\"!"
 
-#: src/dialogs/dialog-goal-seek.c:378
+#: src/dialogs/dialog-goal-seek.c:384
 msgid "The cell named in 'By changing cell' must not contain a formula."
 msgstr "Cellen i \"Genom att ändra cell\" får inte innehålla en formel."
 
-#: src/dialogs/dialog-goal-seek.c:391
+#: src/dialogs/dialog-goal-seek.c:397
 msgid "The value given in 'To Value:' is not valid."
 msgstr "Värdet som är angivet i \"Till värde:\" är inte giltigt."
 
-#: src/dialogs/dialog-goal-seek.c:468
+#: src/dialogs/dialog-goal-seek.c:474
 #, c-format
 msgid "Goal seeking with cell %s found a solution."
 msgstr "Målsökning med cell %s hittade en lösning."
 
-#: src/dialogs/dialog-goal-seek.c:484
+#: src/dialogs/dialog-goal-seek.c:490
 #, c-format
 msgid "Goal seeking with cell %s did not find a solution."
 msgstr "Målsökning med cell %s hittade inte en lösning."
 
-#: src/dialogs/dialog-goal-seek.c:652
+#: src/dialogs/dialog-goal-seek.c:658
 msgid "Could not create the Goal-Seek dialog."
 msgstr "Kunde inte skapa målsökningsdialogen."
 
@@ -6222,7 +6223,7 @@ msgid "Scale"
 msgstr "Skala"
 
 #: src/dialogs/print.glade.h:25 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3051
+#: src/workbook.c:1065 src/xml-io.c:3082
 msgid "Sheet"
 msgstr "Blad"
 
@@ -10579,7 +10580,7 @@ msgstr "Tekniska"
 
 # FIXME: rate!=hastighet här. Vad är par?
 #
-#: src/functions/fn-financial.c:992
+#: src/functions/fn-financial.c:352
 msgid ""
 "@FUNCTION=ACCRINT\n"
 "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])\n"
@@ -10638,7 +10639,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ACCRINTM"
 
-#: src/functions/fn-financial.c:1084
+#: src/functions/fn-financial.c:444
 msgid ""
 "@FUNCTION=ACCRINTM\n"
 "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
@@ -10688,7 +10689,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ACCRINT"
 
-#: src/functions/fn-financial.c:1136
+#: src/functions/fn-financial.c:496
 msgid ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
@@ -10745,7 +10746,7 @@ msgstr ""
 "7,68%\n"
 "@SEEALSO=RECEIVED, DATE"
 
-#: src/functions/fn-financial.c:1197
+#: src/functions/fn-financial.c:557
 msgid ""
 "@FUNCTION=RECEIVED\n"
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
@@ -10792,7 +10793,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTRATE"
 
-#: src/functions/fn-financial.c:1252
+#: src/functions/fn-financial.c:612
 msgid ""
 "@FUNCTION=PRICEDISC\n"
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
@@ -10841,7 +10842,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PRICEMAT"
 
-#: src/functions/fn-financial.c:1304
+#: src/functions/fn-financial.c:664
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
@@ -10890,7 +10891,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PRICEDISC"
 
-#: src/functions/fn-financial.c:1363
+#: src/functions/fn-financial.c:723
 msgid ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
@@ -10936,7 +10937,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:1414
+#: src/functions/fn-financial.c:774
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -10980,11 +10981,11 @@ msgstr ""
 "effektiva räntan som du kommer att betala på ditt lån.\n"
 "@SEEALSO=NOMINAL"
 
-#: src/functions/fn-financial.c:1453
+#: src/functions/fn-financial.c:813
 msgid "effect - domain error"
 msgstr "effect - domänfel"
 
-#: src/functions/fn-financial.c:1461
+#: src/functions/fn-financial.c:821
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -11016,11 +11017,11 @@ msgstr ""
 "\n"
 "@SEEALSO=EFFECT"
 
-#: src/functions/fn-financial.c:1491
+#: src/functions/fn-financial.c:851
 msgid "nominal - domain error"
 msgstr "nominal - domänfel"
 
-#: src/functions/fn-financial.c:1500
+#: src/functions/fn-financial.c:860
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -11038,7 +11039,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV"
 
-#: src/functions/fn-financial.c:1534
+#: src/functions/fn-financial.c:894
 msgid ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -11064,7 +11065,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DDB,SLN,SYD"
 
-#: src/functions/fn-financial.c:1590
+#: src/functions/fn-financial.c:950
 msgid ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
@@ -11092,7 +11093,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SLN,SYD"
 
-#: src/functions/fn-financial.c:1638
+#: src/functions/fn-financial.c:998
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -11136,11 +11137,11 @@ msgstr ""
 "Detta kommer att returnera det årliga värdeminskningsvärdet 9300 kr.\n"
 "@SEEALSO=SYD"
 
-#: src/functions/fn-financial.c:1682
+#: src/functions/fn-financial.c:1042
 msgid "sln - domain error"
 msgstr "sln - domänfel"
 
-#: src/functions/fn-financial.c:1690
+#: src/functions/fn-financial.c:1050
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -11187,11 +11188,11 @@ msgstr ""
 "=SYD(50000; 2000; 3; 2), vilket resulterar i 16000.\n"
 "@SEEALSO=SLN"
 
-#: src/functions/fn-financial.c:1736
+#: src/functions/fn-financial.c:1096
 msgid "syd - domain error"
 msgstr "syd - domänfel"
 
-#: src/functions/fn-financial.c:1746
+#: src/functions/fn-financial.c:1106
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -11216,7 +11217,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARFR"
 
-#: src/functions/fn-financial.c:1790
+#: src/functions/fn-financial.c:1150
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -11238,7 +11239,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARDE"
 
-#: src/functions/fn-financial.c:1832
+#: src/functions/fn-financial.c:1192
 msgid ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
@@ -11256,7 +11257,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV"
 
-#: src/functions/fn-financial.c:1892
+#: src/functions/fn-financial.c:1252
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -11282,7 +11283,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 
-#: src/functions/fn-financial.c:1937
+#: src/functions/fn-financial.c:1297
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -11310,7 +11311,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 
-#: src/functions/fn-financial.c:1978
+#: src/functions/fn-financial.c:1338
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -11337,7 +11338,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 
-#: src/functions/fn-financial.c:2019
+#: src/functions/fn-financial.c:1379
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -11353,7 +11354,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,FV"
 
-#: src/functions/fn-financial.c:2127
+#: src/functions/fn-financial.c:1487
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -11389,7 +11390,7 @@ msgstr ""
 "IRR(A1:A8) lika med 0,04375. \n"
 "@SEEALSO=FV,NPV,PV"
 
-#: src/functions/fn-financial.c:2250
+#: src/functions/fn-financial.c:1610
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
@@ -11413,7 +11414,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FV"
 
-#: src/functions/fn-financial.c:2297
+#: src/functions/fn-financial.c:1657
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -11437,7 +11438,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,XNPV"
 
-#: src/functions/fn-financial.c:2351
+#: src/functions/fn-financial.c:1711
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -11463,7 +11464,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV,PV"
 
-#: src/functions/fn-financial.c:2411
+#: src/functions/fn-financial.c:1771
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -11506,7 +11507,7 @@ msgstr ""
 "XIRR(A1:A5;B1:B5) lika med 0,224838. \n"
 "@SEEALSO=IRR,XNPV"
 
-#: src/functions/fn-financial.c:2515
+#: src/functions/fn-financial.c:1875
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,term,pmt,pv,type)\n"
@@ -11531,7 +11532,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
 
-#: src/functions/fn-financial.c:2554
+#: src/functions/fn-financial.c:1914
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
@@ -11560,7 +11561,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2592
+#: src/functions/fn-financial.c:1952
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -11588,7 +11589,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2639
+#: src/functions/fn-financial.c:1999
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -11616,7 +11617,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2688
+#: src/functions/fn-financial.c:2048
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -11649,7 +11650,7 @@ msgstr ""
 "motsvarar alltså att pengarna har fördubblats precis för det 12:e året.\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2737
+#: src/functions/fn-financial.c:2097
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -11671,7 +11672,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2774
+#: src/functions/fn-financial.c:2134
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -11698,7 +11699,7 @@ msgstr ""
 "FVSCHEDULE(3000;A1:A5) lika med 4942,7911611.\n"
 "@SEEALSO=PV,FV"
 
-#: src/functions/fn-financial.c:2818
+#: src/functions/fn-financial.c:2178
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -11744,7 +11745,7 @@ msgstr ""
 "EURO(\"DEM\") returnerar 1,95583.\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2900
+#: src/functions/fn-financial.c:2260
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency[,basis])\n"
@@ -11788,7 +11789,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2989
+#: src/functions/fn-financial.c:2349
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency[,basis])\n"
@@ -11831,7 +11832,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3078
+#: src/functions/fn-financial.c:2438
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
@@ -11875,7 +11876,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3114
+#: src/functions/fn-financial.c:2474
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
@@ -11921,7 +11922,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3151
+#: src/functions/fn-financial.c:2511
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -11969,7 +11970,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3253
+#: src/functions/fn-financial.c:2613
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
@@ -12015,7 +12016,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3290
+#: src/functions/fn-financial.c:2650
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -12062,7 +12063,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3327
+#: src/functions/fn-financial.c:2687
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
@@ -12108,7 +12109,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3364
+#: src/functions/fn-financial.c:2724
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -12150,7 +12151,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3398
+#: src/functions/fn-financial.c:2758
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -12193,7 +12194,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3432
+#: src/functions/fn-financial.c:2792
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -12239,7 +12240,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3501
+#: src/functions/fn-financial.c:2859
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])\n"
@@ -12283,7 +12284,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3572
+#: src/functions/fn-financial.c:2926
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])\n"
@@ -12327,7 +12328,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3641
+#: src/functions/fn-financial.c:2993
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
@@ -12371,7 +12372,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3706
+#: src/functions/fn-financial.c:3028
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
@@ -12415,7 +12416,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3741
+#: src/functions/fn-financial.c:3063
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis])\n"
@@ -12461,7 +12462,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3807
+#: src/functions/fn-financial.c:3129
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -12479,7 +12480,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3827
+#: src/functions/fn-financial.c:3149
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -12497,7 +12498,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3847
+#: src/functions/fn-financial.c:3169
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -12515,7 +12516,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3868
+#: src/functions/fn-financial.c:3190
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -18989,7 +18990,7 @@ msgstr "Fel vid öppnande av filen \"%s\" för läsning."
 msgid "Unable to mmap the file."
 msgstr "Kan inte minnesmappa filen."
 
-#: src/plugin-util.c:318 src/xml-io.c:3332
+#: src/plugin-util.c:318 src/xml-io.c:3363
 msgid "Cannot get file size."
 msgstr "Kan inte få tag i filstorleken."
 
@@ -20000,7 +20001,11 @@ msgstr "Acceptera"
 msgid "Ok"
 msgstr "Ok"
 
-#: src/workbook-control.c:215
+#: src/workbook-control.c:218
+msgid "Define Name"
+msgstr "Definiera namn"
+
+#: src/workbook-control.c:240
 msgid "Address"
 msgstr "Adress"
 
@@ -20254,31 +20259,31 @@ msgstr "Är inte en autoformatmallfil"
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Fel uppstod när träd skulle byggas från autoformatmallfil"
 
-#: src/xml-io.c:2766
+#: src/xml-io.c:2797
 msgid "Unparsable xml in clipboard"
 msgstr "Otolkningsbar xml i urklipp"
 
-#: src/xml-io.c:2773
+#: src/xml-io.c:2804
 msgid "Clipboard is in unknown format"
 msgstr "Urklipp är i ett okänt format"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3177
+#: src/xml-io.c:3208
 msgid "Processing file..."
 msgstr "Bearbetar fil..."
 
-#: src/xml-io.c:3340
+#: src/xml-io.c:3371
 msgid "Not enough memory to create zlib decompression state."
 msgstr ""
 "Inte tillräckligt med minne för att skapa zlib-dekomprimeringstillstånd."
 
-#: src/xml-io.c:3375
+#: src/xml-io.c:3406
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Är inte en Gnumeric-arbetsboksfil"
 
-#: src/xml-io.c:3432
+#: src/xml-io.c:3463
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
 
@@ -20725,9 +20730,6 @@ msgstr "Gnumeric XML-filformat"
 
 #~ msgid "Customize header/footer"
 #~ msgstr "Anpassa sidhuvud/sidfot"
-
-#~ msgid "Define Name"
-#~ msgstr "Definiera namn"
 
 #~ msgid ""
 #~ "@FUNCTION=AMORDEGRC\n"

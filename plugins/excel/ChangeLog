@@ -1,3 +1,7 @@
+2002-01-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.2
+
 2002-01-13  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (ms_excel_read_tab_color) : turn down the debug

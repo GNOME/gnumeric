@@ -1,3 +1,7 @@
+2002-01-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.0.2
+
 2002-01-14  Jody Goldberg <jody@gnome.org>
 
 	* xml-sax-read.c (xml_sax_attr_color) : rename from xml_sax_color for
