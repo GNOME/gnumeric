@@ -1,5 +1,8 @@
 2001-12-31  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-autofill.c (in_list) : remove pointless checking for lists
+	  in english and another language.
+
 	* src/sheet-object-widget.c (sheet_widget_checkbox_read_xml) : do not
 	  set the sheet here.  That happens latter.  Handle no input smoothly.
 	(sheet_widget_checkbox_write_xml) : handle no input smoothly.

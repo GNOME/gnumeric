@@ -156,22 +156,9 @@ in_list (AutoFillList const *afl, char const *s, int *n, int *is_i18n)
 	int i;
 
 	for (i = 0; i < afl->count; i++) {
-		const char *english_text, *translated_text;
-
-		english_text = afl->items [i];
-		if (english_text [0] == '*')
-			english_text++;
-
-		if ((g_strcasecmp (english_text, s) == 0)) {
-			*is_i18n = FALSE;
-			*n = i;
-			return TRUE;
-		}
-
-		translated_text = _(afl->items [i]);
+		char const *translated_text = _(afl->items [i]);
 		if (*translated_text == '*')
 			translated_text++;
-
 		if (g_strcasecmp (translated_text, s) == 0) {
 			*is_i18n = TRUE;
 			*n = i;
