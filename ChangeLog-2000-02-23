@@ -1,3 +1,12 @@
+1999-08-10  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* samples/statfuns.xls: Updated the tests of functions returning
+	array values.
+
+	* samples/dbfuns.xls: Added a test for GETPIVOTDATA function.
+	Also added a very simple pivot table.  Happy hacking if you want
+	to make it work.
+	
 1999-08-10  Michael Meeks  <michael@imaginator.com>
 
 	* TODO, DEPENDS, doc/Future-Roadmap, doc/Design: Updated,
