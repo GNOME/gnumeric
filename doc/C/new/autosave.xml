@@ -1,0 +1,35 @@
+<sect1 id="usage-autosave">
+  <title>AutoSave Tool</title>
+
+  <para>The AutoSave tool can save your workbook automatically at
+  specific intervals.  You can specify how often you want your work to
+  be saved by entering a number in the ``Minutes'' box.  If you check
+  the ``Prompt before saving'' button on, Gnumeric asks a confirmation
+  before each automatic save.</para>
+
+  <figure id="usage-autosave-figure">
+    <title>The Auto Save Tool dialog</title>
+    <mediaobject>
+      <imageobject>
+	<imagedata fileref="figures/auto-save.png" format="PNG" />
+      </imageobject>
+    </mediaobject>
+  </figure>
+
+</sect1>
+
+  <!-- Keep this comment at the end of the file
+  Local variables:
+  mode: sgml
+  sgml-omittag:t
+  sgml-shorttag:t
+  sgml-minimize-attributes:nil
+  sgml-always-quote-attributes:t
+  sgml-indent-step:2
+  sgml-indent-data:t
+  sgml-parent-document:nil
+  sgml-exposed-tags:nil
+  sgml-local-catalogs:nil
+  sgml-local-ecat-files:nil
+  End:
+  -->             

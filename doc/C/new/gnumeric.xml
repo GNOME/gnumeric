@@ -21,10 +21,8 @@ GNU oleo">
 <!ENTITY introduction	SYSTEM "introduction.xml">
 -->
 <!ENTITY files		SYSTEM "files.xml">
-<!--
-<!ENTITY autosave	SYSTEM "autosave.sgml">
-<!ENTITY functions	SYSTEM "functions.sgml">
--->
+<!ENTITY autosave	SYSTEM "autosave.xml">
+<!ENTITY functions	SYSTEM "functions.xml">
 <!ENTITY analysis-tools	SYSTEM "analysis-tools.xml">
 <!ENTITY solver		SYSTEM "solver.xml">
 <!ENTITY autocorrect	SYSTEM "autocorrect.xml">
@@ -124,12 +122,12 @@ GNU oleo">
     <title>Working with files</title>
     &files;
   </chapter>
-<!--
+
   <chapter id="autosave">
     <title>Autosave</title>
     &autosave;
   </chapter>
-  -->
+
   <chapter id="printing">
     <title>Printing</title>
     &printing;
@@ -192,12 +190,11 @@ GNU oleo">
     &license;
   </chapter>
 
-<!--
   <chapter id="function-reference">
     <title>Gnumeric Function Reference</title>
     &functions;
   </chapter>
--->
+
 <!-- appendix: free documentation license -->
 
 &fdl;

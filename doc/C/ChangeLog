@@ -1,5 +1,12 @@
 2002-01-27  Kevin Breit  <mrproper@ximian.com>
 
+	* new/functions.xml: This appears to already be XMLized.  No changes needed.
+
+	* new/autosave.xml: Made XMLized.  I had to make id=autosave be id=usage-autosave because autosave appears to already exist.  I will fix this at a later date.
+
+	* new/gnumeric.xml: Enabled autosave.xml
+	Enabled functions.xml
+
 	* new/autofill.xml: This is good to go!  XMLized content, away
 
 	* new/number-format.xml: I fixed this.  This was kind of ugly.  I made it work nicely now!
