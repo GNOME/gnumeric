@@ -34,7 +34,9 @@
 #include "gutils.h"
 #include "gnumeric-gconf.h"
 #include <gsf/gsf-impl-utils.h>
-
+#if WITH_GNOME
+#include <gconf/gconf-client.h>
+#endif
 #include <string.h>
 
 static struct {
