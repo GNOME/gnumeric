@@ -288,7 +288,7 @@ ib_draw_cell (ItemBar const * const ib, GdkDrawable *drawable,
 	gdk_draw_rectangle (drawable, gc, TRUE,
 			    rect->x + 1, rect->y + 1, rect->width-2, rect->height-2);
 	gtk_paint_shadow (canvas->style, drawable, GTK_STATE_NORMAL, shadow,
-			  NULL, NULL, "button",
+			  NULL, NULL, "GnmItemBarCell",
 			  rect->x, rect->y, rect->width, rect->height);
 	gdk_gc_set_clip_rectangle (text_gc, rect);
 
@@ -418,7 +418,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 								(canvas->style, drawable,
 								 GTK_STATE_NORMAL,
 								 prev_visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
-								 NULL, NULL, "button",
+								 NULL, NULL, "GnmItemBarCell",
 								 left, top+safety, size, size);
 							if (size > 9) {
 								if (!prev_visible) {
@@ -454,7 +454,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 								(canvas->style, drawable,
 								 GTK_STATE_NORMAL,
 								 next->visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
-								 NULL, NULL, "button",
+								 NULL, NULL, "GnmItemBarCell",
 								 right, top+safety, size, size);
 							if (size > 9) {
 								if (!next->visible) {
@@ -580,7 +580,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 								(canvas->style, drawable,
 								 GTK_STATE_NORMAL,
 								 prev_visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
-								 NULL, NULL, "button",
+								 NULL, NULL, "GnmItemBarCell",
 								 left+safety, top, size, size);
 							if (size > 9) {
 								if (!prev_visible) {
@@ -616,7 +616,7 @@ item_bar_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expos
 								(canvas->style, drawable,
 								 GTK_STATE_NORMAL,
 								 next->visible ? GTK_SHADOW_OUT : GTK_SHADOW_IN,
-								 NULL, NULL, "button",
+								 NULL, NULL, "GnmItemBarCell",
 								 left+safety, bottom, size, size);
 							if (size > 9) {
 								if (!next->visible) {

@@ -391,6 +391,7 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 	char         *text;
 	guint16       op;
 
+	*markup = NULL;
 	if (text_len == 0)
 		return NULL;
 
@@ -398,7 +399,6 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 	g_return_val_if_fail (1 <= halign && halign <= 4, NULL);
 	g_return_val_if_fail (1 <= valign && valign <= 4, NULL);
 
-	*markup = NULL;
 	if (ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
 		ms_biff_query_next (q);
 

@@ -1,7 +1,18 @@
+2004-03-16  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=137357
+	* src/item-bar.c : Use a custom detail 'GnmItemBarCell' rather than
+	  the more generic 'button' to keep some themes 'industrial and gorilla'
+	  from freaking out at the lack of button.
+
 2004-03-16  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-autofill.c (autofill_cell): Kill some read-only
 	warnings.
+
+2004-03-15  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : post release bump
 
 2004-03-15  Jody Goldberg <jody@gnome.org>
 

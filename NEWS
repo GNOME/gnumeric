@@ -1,5 +1,16 @@
 Gnumeric 1.2.7
 
+Jody:
+	http://bugzilla.gnome.org/show_bug.cgi?id=137377
+	* Handle markedup zero sized text boxes in xls files
+
+Morten:
+	http://bugzilla.gnome.org/show_bug.cgi?id=137357
+	* Keep Industrial and Gorilla themes from crashing
+
+--------------------------------------------------------------------------
+Gnumeric 1.2.7
+
 Jean Brefort:
 	* Added bubble plots options.
 
