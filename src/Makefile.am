@@ -18,15 +18,6 @@
 # 
 
 
-idldir   = $(datadir)/idl
-idl_DATA = Gnumeric.idl
-
-gladedir   = $(datadir)/gnumeric/glade
-glade_DATA = print.glade import.glade
-
-EXTRA_DIST = $(idl_DATA) $(glade_DATA)
-
-
 if BONOBO
 bin_PROGRAMS = gnumeric-bonobo
 else
@@ -251,4 +242,17 @@ dist-hook:
 #	$(GNOMEUI_LIBS)			\
 #	$(GNOME_XML_LIB) 		\
 #	$(INTLLIBS)
+
+idldir   = $(datadir)/idl
+idl_DATA = Gnumeric.idl
+
+gladedir   = $(datadir)/gnumeric/glade
+glade_DATA = print.glade import.glade
+
+glade_msgs = 				\
+	print.glade.h			\
+	import.glade.h
+
+EXTRA_DIST = $(idl_DATA) $(glade_DATA) $(glade_msgs)
+
 
