@@ -3148,56 +3148,51 @@ msgstr "Página &[PAGE] de &[PAGES]"
 #: src/print-info.c:22 src/print-info.c:23 src/print-info.c:24
 #: src/print-info.c:26
 msgid "&[TAB]"
-msgstr ""
+msgstr "&[TAB]"
 
 #: src/print-info.c:24 src/print-info.c:25 src/print-info.c:26
 msgid "&[DATE]"
-msgstr ""
+msgstr "&[DATE]"
 
 #: src/print-info.c:267
 msgid "Sheet &[NUM]"
 msgstr "Hoja &[NUM]"
 
 #: src/print-info.c:268
-#, fuzzy
 msgid "Page &[NUM]"
-msgstr "Hoja &[NUM]"
+msgstr "Página &[NUM]"
 
 #: src/print-info.c:418
-#, fuzzy
 msgid "pts"
-msgstr "Opciones"
+msgstr "pnts"
 
 #: src/print-info.c:418
-#, fuzzy
 msgid "points"
-msgstr "Opciones"
+msgstr "puntos"
 
 #: src/print-info.c:419
-#, fuzzy
 msgid "mm"
-msgstr "d-mm"
+msgstr "mm"
 
 #: src/print-info.c:419
 msgid "millimeter"
-msgstr ""
+msgstr "milímetros"
 
 #: src/print-info.c:420
 msgid "cm"
-msgstr ""
+msgstr "cm"
 
 #: src/print-info.c:420
-#, fuzzy
 msgid "centimeter"
-msgstr "Centro"
+msgstr "centímetros"
 
 #: src/print-info.c:421
 msgid "In"
-msgstr ""
+msgstr "In"
 
 #: src/print-info.c:421
 msgid "inch"
-msgstr ""
+msgstr "pulgadas"
 
 #: src/print-info.c:481
 msgid "Sheet 1"
@@ -3205,27 +3200,23 @@ msgstr "Hoja 1"
 
 #: src/print-info.c:539
 msgid "tab"
-msgstr ""
+msgstr "tabulación"
 
 #: src/print-info.c:540
-#, fuzzy
 msgid "page"
-msgstr "Página"
+msgstr "página"
 
 #: src/print-info.c:541
-#, fuzzy
 msgid "pages"
-msgstr "Página"
+msgstr "páginas"
 
 #: src/print-info.c:542
-#, fuzzy
 msgid "date"
-msgstr "Fecha"
+msgstr "fecha"
 
 #: src/print-info.c:543
-#, fuzzy
 msgid "time"
-msgstr "Hora"
+msgstr "hora"
 
 #: src/sheet-view.c:337 src/sheet-view.c:411
 #, c-format
@@ -3979,17 +3970,3 @@ msgstr "etiqueta8"
 msgid "label9"
 msgstr "etiqueta9"
 
-#~ msgid "Portrait"
-#~ msgstr "Vertical"
-
-#~ msgid "Landscape"
-#~ msgstr "Apaisado"
-
-#~ msgid "Columns to repeat on the left side:"
-#~ msgstr "Columnas a repetir en el lado izquierdo:"
-
-#~ msgid "Sheets"
-#~ msgstr "Hojas"
-
-#~ msgid "Left section"
-#~ msgstr "Sección a la izquierda:"
