@@ -103,9 +103,12 @@
 # workbook                werkmap
 # worksheet               werkblad
 # encrypted               beveiligd
-# chart			diagram (staaf-diagram, taartdiagram cirkeldiagram)
-# graph			grafiek  (of net andersom?)
+# --------------------------------------------
+# chart			grafiek (staaf-grafiek, taartgrafiek cirkelgrafiek)
+# graph			diagram  (of net andersom?)
 # plot			plot-tekening?
+# Een graph kan uit meerdere gedeelten bestaan. Elk gedeelte is een chart.
+# Elke chart kan een of meerdere plots bevatten.
 #
 # locked			beveiligd-geblokkeerd?
 #
@@ -115,7 +118,7 @@ msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-09-06 20:24+0200\n"
-"PO-Revision-Date: 2003-09-07 02:58+0200\n"
+"PO-Revision-Date: 2003-09-09 04:35+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
@@ -1094,7 +1097,7 @@ msgstr "Functies gerelateerd aan financieel afgeleiden"
 #: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5151
 #: plugins/mps/mps.c:549 src/xml-io.c:3927
 msgid "Reading file..."
-msgstr "Bezig bestand te lezen..."
+msgstr "Bezig met lezen bestand..."
 
 #: plugins/dif/dif.c:181
 #, c-format
@@ -1104,20 +1107,21 @@ msgstr "Syntactische fout in regel %d wordt genegeerd."
 #: plugins/dif/dif.c:212
 #, c-format
 msgid "Unknown data value \"%s\" at line %d. Ignoring."
-msgstr "Onbekende data waarde \"%s\" in regel %d wordt genegeerd."
+msgstr "Onbekende datawaarde \"%s\" in regel %d wordt genegeerd."
 
 #: plugins/dif/dif.c:219
 #, c-format
 msgid "Unknown value type %d at line %d. Ignoring."
-msgstr "Onbekend waarde type %d in regel %d wordt genegeerd."
+msgstr "Onbekend waardetype %d in regel %d wordt genegeerd."
 
+# DIF =? csf
 #: plugins/dif/dif.c:228
 #, c-format
 msgid ""
 "DIF file has more than the maximum number of rows %d. Ignoring remaining "
 "rows."
 msgstr ""
-"csv bestand heeft meer dan het maximale aantal rijen %d. De overige rijen "
+"DIF bestand heeft meer dan het maximale aantal rijen %d. De overige rijen "
 "zullen worden genegeerd."
 
 #: plugins/dif/dif.c:232
@@ -1208,7 +1212,7 @@ msgstr "Macro%d"
 #: plugins/excel/ms-excel-read.c:1107
 #, c-format
 msgid "Chart%d"
-msgstr "Kaart%d"
+msgstr "Grafiek%d"
 
 #: plugins/excel/ms-excel-read.c:1110
 #, c-format
@@ -1256,7 +1260,7 @@ msgstr "Ongeldig wachtwoord"
 
 #: plugins/excel/ms-excel-read.c:5402
 msgid "Unable to locate valid MS Excel workbook"
-msgstr "Niet in staat om een geldig MS Excel werkmap te vinden"
+msgstr "Niet in staat om een geldige MS Excel werkmap te vinden"
 
 #: plugins/excel/ms-excel-write.c:151
 msgid ""
@@ -2638,6 +2642,10 @@ msgstr "Complexe Functies"
 msgid "Functions for complex numbers"
 msgstr "Functies voor complexe getallen"
 
+# Alle database functies moeten in principe dezelfde beschrijving van de argumenten bevatten.
+# Soms staat er in het Engels alleen: 'a value from a column'.
+# Hier wordt wel degelijk ook gewoon bedoeld: aan waarde uit een lijst of uit een database'
+# Mogelijk moet hier een Bugrapport voor geschreven worden.
 #: plugins/fn-database/functions.c:264
 msgid ""
 "@FUNCTION=DAVERAGE\n"
@@ -2691,14 +2699,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database;veld;criteria)\n"
-"@DESCRIPTION=DAVERAGE geeft het gemiddelde van de waarden in een lijst of "
-"uit een database die aan de opgegeven criteria voldoen.\n"
+"@DESCRIPTION=DAVERAGE geeft het gemiddelde van die waarden uit een lijst of "
+"uit een database, die aan de opgegeven criteria voldoen.\n"
 "\n"
 "@database is een celbereik waarin rijen met gerelateerde informatie records "
 "zijn, en kolommen met data velden. De eerste rij van een database bevat "
 "labels for elke kolom. \n"
 "\n"
-"@veld specificeert welke kolom in de functie wordt gebruikt.  Als @veld een "
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
 "geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
 "ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
 "de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
@@ -2727,11 +2735,10 @@ msgstr ""
 "Jill    45       45324\n"
 "\n"
 "Daarbij bevatten de cellen A9:B11 de volgende waarden:\n"
-"Leeftijd Salary\n"
+"Leeftijd Salaris\n"
 "<30\n"
 ">40      >46000\n"
 "\n"
-"@EXAMPLES=\n"
 "DAVERAGE(A1:C7; \"Salaris\"; A9:A11) is 42296,3333\n"
 "DAVERAGE(A1:C7; \"Leeftijd\"; A9:A11) is 39\n"
 "DAVERAGE(A1:C7; \"Salaris\"; A9:B11) is 40782,5\n"
@@ -2798,7 +2805,7 @@ msgstr ""
 "zijn, en kolommen met data velden. De eerste rij van een database bevat "
 "labels for elke kolom. \n"
 "\n"
-"@veld specificeert welke kolom in de functie wordt gebruikt.  Als @veld een "
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
 "geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
 "ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
 "de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
@@ -2827,11 +2834,10 @@ msgstr ""
 "Jill    45       45324\n"
 "\n"
 "Daarbij bevatten de cellen A9:B11 de volgende waarden:\n"
-"Leeftijd Salary\n"
+"Leeftijd Salaris\n"
 "<30\n"
 ">40      >46000\n"
 "\n"
-"@EXAMPLES=\n"
 "DCOUNT(A1:C7; \"Salaris\"; A9:A11) is 3\n"
 "DCOUNT(A1:C7; \"Salaris\"; A9:B11) is 2\n"
 "DCOUNT(A1:C7; \"Naam\"; A9:B11) is 0\n"
@@ -2890,14 +2896,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(database;veld;criteria)\n"
-"@DESCRIPTION=DCOUNTA telt het aantal cellen met gegevens uit een database "
-"die aan de opgegeven criteria voldoen.\n"
+"@DESCRIPTION=DCOUNTA telt het aantal cellen met gegevens uit een lijst of "
+"uit een database die aan de opgegeven criteria voldoen.\n"
 "\n"
 "@database is een celbereik waarin rijen met gerelateerde informatie records "
 "zijn, en kolommen met data velden. De eerste rij van een database bevat "
 "labels for elke kolom.\n"
 "\n"
-"@veld specificeert welke kolom in de functie wordt gebruikt.  Als @veld een "
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
 "geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
 "ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
 "de kolom met het label ``Leeftijd'' in het @database-bereik.\n"
@@ -2926,11 +2932,10 @@ msgstr ""
 "Jill    45       45324\n"
 "\n"
 "Daarbij bevatten de cellen A9:B11 de volgende waarden:\n"
-"Leeftijd Salary\n"
+"Leeftijd Salaris\n"
 "<30\n"
 ">40      >46000\n"
 "\n"
-"EXAMPLES=\n"
 "DCOUNTA(A1:C7; \"Salaris\"; A9:A11) is 3\n"
 "DCOUNTA(A1:C7; \"Salaris\"; A9:B11) is 2\n"
 "DCOUNTA(A1:C7; \"Naam\"; A9:B11) is 2\n"
@@ -2938,7 +2943,6 @@ msgstr ""
 "@SEEALSO=DCOUNT\""
 
 #: plugins/fn-database/functions.c:482
-#, fuzzy
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
@@ -2990,21 +2994,21 @@ msgid ""
 "\n"
 "@SEEALSO=DCOUNT"
 msgstr ""
-"@FUNCTION=DAVERAGE\n"
-"@SYNTAX=DAVERAGE(databas;veld;criteria)\n"
-"@DESCRIPTION=DAVERAGE geeft het gemiddelde van de waarden in een lijst of "
-"database die aan de opgegeven criteria voldoen.\n"
+"@FUNCTION=DGET\n"
+"@SYNTAX=DGET(database;veld;criteria)\n"
+"@DESCRIPTION=DGET geeft een enkele waarde uit een lijst of uit een database, "
+"die aan de opgegeven criteria voldoet.\n"
 "\n"
 "@database is een celbereik waarin rijen met gerelateerde informatie records "
-"zijn en kolommen met data velden. De eerste rij van een database bevat "
-"labels for elke kolom. \n"
+"zijn, en kolommen met data velden. De eerste rij van een database bevat "
+"labels for elke kolom.\n"
 "\n"
-"@veld specificeert welke kolom in de functie wordt gebruikt.  Als @veld een "
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
 "geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
 "ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
 "de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
 "\n"
-"@criteria is het celbereik wat de gegeven condities bevat.  De eerste rij "
+"@criteria is het celbereik dat de gegeven condities bevat.  De eerste rij "
 "van @criteria moet de labels bevatten van de velden waarvoor de criteria "
 "bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, "
 "``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het "
@@ -3015,7 +3019,8 @@ msgstr ""
 "Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom "
 "waarvan er een overeenkomst is met een rij in @database, waar zijn. "
 "(wederom, technisch gesproken een  boolese AND tussen de kolommen en elke "
-"rij in @criteria). \n"
+"rij in @criteria).\n"
+"\n"
 "@EXAMPLES=\n"
 "Als we aannemen dat het bereik A1:C7 de volgende waarden bevat:\n"
 "Naam    Leeftijd Salaris\n"
@@ -3027,20 +3032,21 @@ msgstr ""
 "Jill    45       45324\n"
 "\n"
 "Daarbij bevatten de cellen A9:B11 de volgende waarden:\n"
-"Leeftijd Salary\n"
+"Leeftijd Salaris\n"
 "<30\n"
 ">40      >46000\n"
 "\n"
-"@EXAMPLES=\n"
-"DAVERAGE(A1:C7; \"Salaris\", A9:A11) is 42296,3333\n"
-"DAVERAGE(A1:C7; \"Leeftijd\", A9:A11) is 39,\n"
-"DAVERAGE(A1:C7; \"Salaris\", A9:B11) is 40782,5\n"
-"DAVERAGE(A1:C7; \"Leeftijd\", A9:B11) is 36,\n"
+"* Als geen van de items aan de criteria voldoet, geeft DGET  een #WAARDE! "
+"foutmelding.\n"
+"* Als meer dan een van de items aan de criteria voldoen, geeft DGET  een "
+"#GETAL! foutmelding.\n"
+"\n"
+"DGET(A1:C7; \"Salaris\"; A9:A10) is 34323\n"
+"DGET(A1:C7; \"Naam\"; A9:A10) is \"Clark\"\n"
 "\n"
 "@SEEALSO=DCOUNT"
 
 #: plugins/fn-database/functions.c:565
-#, fuzzy
 msgid ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,field,criteria)\n"
@@ -3090,21 +3096,21 @@ msgid ""
 "\n"
 "@SEEALSO=DMIN"
 msgstr ""
-"@FUNCTION=DAVERAGE\n"
-"@SYNTAX=DAVERAGE(databas;veld;criteria)\n"
-"@DESCRIPTION=DAVERAGE geeft het gemiddelde van de waarden in een lijst of "
-"database die aan de opgegeven criteria voldoen.\n"
+"@FUNCTION=DMAX  \n"
+"@SYNTAX=DMAX(database;veld;criteria)\n"
+"@DESCRIPTION=DMAX geeft het grootste getal uit een lijst of uit een database "
+"die aan de opgegeven criteria voldoet.\n"
 "\n"
 "@database is een celbereik waarin rijen met gerelateerde informatie records "
-"zijn en kolommen met data velden. De eerste rij van een database bevat "
+"zijn, en kolommen met data velden. De eerste rij van een database bevat "
 "labels for elke kolom. \n"
 "\n"
-"@veld specificeert welke kolom in de functie wordt gebruikt.  Als @veld een "
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
 "geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
 "ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
 "de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
 "\n"
-"@criteria is het celbereik wat de gegeven condities bevat.  De eerste rij "
+"@criteria is het celbereik dat de gegeven condities bevat.  De eerste rij "
 "van @criteria moet de labels bevatten van de velden waarvoor de criteria "
 "bedoeld zijn.  Cellen onder de labels geven de condities aan, bijvoorbeeld, "
 "``>3'' or ``<9''.  Gelijkheidsvoorwaarden kunnen worden gegeven door het "
@@ -3115,7 +3121,8 @@ msgstr ""
 "Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom "
 "waarvan er een overeenkomst is met een rij in @database, waar zijn. "
 "(wederom, technisch gesproken een  boolese AND tussen de kolommen en elke "
-"rij in @criteria). \n"
+"rij in @criteria).\n"
+"\n"
 "@EXAMPLES=\n"
 "Als we aannemen dat het bereik A1:C7 de volgende waarden bevat:\n"
 "Naam    Leeftijd Salaris\n"
@@ -3127,20 +3134,17 @@ msgstr ""
 "Jill    45       45324\n"
 "\n"
 "Daarbij bevatten de cellen A9:B11 de volgende waarden:\n"
-"Leeftijd Salary\n"
+"Leeftijd Salaris\n"
 "<30\n"
 ">40      >46000\n"
 "\n"
-"@EXAMPLES=\n"
-"DAVERAGE(A1:C7; \"Salaris\", A9:A11) is 42296,3333\n"
-"DAVERAGE(A1:C7; \"Leeftijd\", A9:A11) is 39,\n"
-"DAVERAGE(A1:C7; \"Salaris\", A9:B11) is 40782,5\n"
-"DAVERAGE(A1:C7; \"Leeftijd\", A9:B11) is 36,\n"
+"DMAX(A1:C7; \"Salaris\"; A9:A11) is 47242\n"
+"DMAX(A1:C7; \"Leeftijd\"; A9:A11) is 45\n"
+"DMAX(A1:C7; \"Leeftijd\"; A9:B11) is 43\n"
 "\n"
-"@SEEALSO=DCOUNT"
+"@SEEALSO=DMIN"
 
 #: plugins/fn-database/functions.c:640
-#, fuzzy
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
@@ -3189,16 +3193,16 @@ msgid ""
 "\n"
 "@SEEALSO=DMAX"
 msgstr ""
-"@FUNCTION=DAVERAGE\n"
-"@SYNTAX=DAVERAGE(databas;veld;criteria)\n"
-"@DESCRIPTION=DAVERAGE geeft het gemiddelde van de waarden in een lijst of "
-"database die aan de opgegeven criteria voldoen.\n"
+"@FUNCTION=DMIN  \n"
+"@SYNTAX=DMIN(database;veld;criteria)\n"
+"@DESCRIPTION=DMIN geeft het kleinste getal uit een lijst of database die aan "
+"de opgegeven criteria voldoet.\n"
 "\n"
 "@database is een celbereik waarin rijen met gerelateerde informatie records "
-"zijn en kolommen met data velden. De eerste rij van een database bevat "
-"labels for elke kolom. \n"
+"zijn, en kolommen met data velden. De eerste rij van een database bevat "
+"labels for elke kolom.\n"
 "\n"
-"@veld specificeert welke kolom in de functie wordt gebruikt.  Als @veld een "
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
 "geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
 "ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
 "de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
@@ -3215,6 +3219,7 @@ msgstr ""
 "waarvan er een overeenkomst is met een rij in @database, waar zijn. "
 "(wederom, technisch gesproken een  boolese AND tussen de kolommen en elke "
 "rij in @criteria). \n"
+"\n"
 "@EXAMPLES=\n"
 "Als we aannemen dat het bereik A1:C7 de volgende waarden bevat:\n"
 "Naam    Leeftijd Salaris\n"
@@ -3226,20 +3231,16 @@ msgstr ""
 "Jill    45       45324\n"
 "\n"
 "Daarbij bevatten de cellen A9:B11 de volgende waarden:\n"
-"Leeftijd Salary\n"
+"Leeftijd Salaris\n"
 "<30\n"
 ">40      >46000\n"
 "\n"
-"@EXAMPLES=\n"
-"DAVERAGE(A1:C7; \"Salaris\", A9:A11) is 42296,3333\n"
-"DAVERAGE(A1:C7; \"Leeftijd\", A9:A11) is 39,\n"
-"DAVERAGE(A1:C7; \"Salaris\", A9:B11) is 40782,5\n"
-"DAVERAGE(A1:C7; \"Leeftijd\", A9:B11) is 36,\n"
+"DMIN(A1:C7; \"Salaris\", A9:B11) is 34323\n"
+"DMIN(A1:C7; \"Leeftijd\", A9:B11) is 29\n"
 "\n"
-"@SEEALSO=DCOUNT"
+"@SEEALSO=DMAX"
 
 #: plugins/fn-database/functions.c:712
-#, fuzzy
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
@@ -3287,16 +3288,16 @@ msgid ""
 "\n"
 "@SEEALSO=DSUM"
 msgstr ""
-"@FUNCTION=DAVERAGE\n"
-"@SYNTAX=DAVERAGE(databas;veld;criteria)\n"
-"@DESCRIPTION=DAVERAGE geeft het gemiddelde van de waarden in een lijst of "
-"database die aan de opgegeven criteria voldoen.\n"
+"@FUNCTION=DPRODUCT\n"
+"@SYNTAX=DPRODUCT(database;veld;criteria)\n"
+"@DESCRIPTION=DPRODUCT geeft het product van de getallen uit een lijst of "
+"database, die aan de opgegeven criteria voldoen.\n"
 "\n"
 "@database is een celbereik waarin rijen met gerelateerde informatie records "
-"zijn en kolommen met data velden. De eerste rij van een database bevat "
-"labels for elke kolom. \n"
+"zijn, en kolommen met data velden. De eerste rij van een database bevat "
+"labels for elke kolom.\n"
 "\n"
-"@veld specificeert welke kolom in de functie wordt gebruikt.  Als @veld een "
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
 "geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
 "ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
 "de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
@@ -3311,8 +3312,9 @@ msgstr ""
 "(technisch gesproken is er een boolese OR tussen de rijen in @criteria).  "
 "Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom "
 "waarvan er een overeenkomst is met een rij in @database, waar zijn. "
-"(wederom, technisch gesproken een  boolese AND tussen de kolommen en elke "
-"rij in @criteria). \n"
+"(wederom, technisch gesproken een boolese AND tussen de kolommen en elke rij "
+"in @criteria).\n"
+"\n"
 "@EXAMPLES=\n"
 "Als we aannemen dat het bereik A1:C7 de volgende waarden bevat:\n"
 "Naam    Leeftijd Salaris\n"
@@ -3324,20 +3326,14 @@ msgstr ""
 "Jill    45       45324\n"
 "\n"
 "Daarbij bevatten de cellen A9:B11 de volgende waarden:\n"
-"Leeftijd Salary\n"
+"Leeftijd Salaris\n"
 "<30\n"
 ">40      >46000\n"
 "\n"
-"@EXAMPLES=\n"
-"DAVERAGE(A1:C7; \"Salaris\", A9:A11) is 42296,3333\n"
-"DAVERAGE(A1:C7; \"Leeftijd\", A9:A11) is 39,\n"
-"DAVERAGE(A1:C7; \"Salaris\", A9:B11) is 40782,5\n"
-"DAVERAGE(A1:C7; \"Leeftijd\", A9:B11) is 36,\n"
-"\n"
-"@SEEALSO=DCOUNT"
+"DPRODUCT(A1:C7; \"Leeftijd\"; A9:B11) is 1247 (dit is 29 * 43) \n"
+"@SEEALSO=DSUM"
 
 #: plugins/fn-database/functions.c:784
-#, fuzzy
 msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
@@ -3387,16 +3383,17 @@ msgid ""
 "\n"
 "@SEEALSO=DSTDEVP"
 msgstr ""
-"@FUNCTION=DAVERAGE\n"
-"@SYNTAX=DAVERAGE(databas;veld;criteria)\n"
-"@DESCRIPTION=DAVERAGE geeft het gemiddelde van de waarden in een lijst of "
-"database die aan de opgegeven criteria voldoen.\n"
+"@FUNCTION=DSTDEV\n"
+"@SYNTAX=DSTDEV(database;veld;criteria)\n"
+"@DESCRIPTION=DSTDEV geeft de schatting van de standaarddeviatie van een "
+"populatie gebaseerd op een steekproef. De populaties bestaan uit getallen "
+"die aan de opgegeven criteria voldoen.\n"
 "\n"
 "@database is een celbereik waarin rijen met gerelateerde informatie records "
-"zijn en kolommen met data velden. De eerste rij van een database bevat "
+"zijn, en kolommen met data velden. De eerste rij van een database bevat "
 "labels for elke kolom. \n"
 "\n"
-"@veld specificeert welke kolom in de functie wordt gebruikt.  Als @veld een "
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
 "geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
 "ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
 "de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
@@ -3413,6 +3410,7 @@ msgstr ""
 "waarvan er een overeenkomst is met een rij in @database, waar zijn. "
 "(wederom, technisch gesproken een  boolese AND tussen de kolommen en elke "
 "rij in @criteria). \n"
+"\n"
 "@EXAMPLES=\n"
 "Als we aannemen dat het bereik A1:C7 de volgende waarden bevat:\n"
 "Naam    Leeftijd Salaris\n"
@@ -3424,20 +3422,16 @@ msgstr ""
 "Jill    45       45324\n"
 "\n"
 "Daarbij bevatten de cellen A9:B11 de volgende waarden:\n"
-"Leeftijd Salary\n"
+"Leeftijd Salaris\n"
 "<30\n"
 ">40      >46000\n"
 "\n"
-"@EXAMPLES=\n"
-"DAVERAGE(A1:C7; \"Salaris\", A9:A11) is 42296,3333\n"
-"DAVERAGE(A1:C7; \"Leeftijd\", A9:A11) is 39,\n"
-"DAVERAGE(A1:C7; \"Salaris\", A9:B11) is 40782,5\n"
-"DAVERAGE(A1:C7; \"Leeftijd\", A9:B11) is 36,\n"
+"DSTDEV(A1:C7; \"Leeftijd\"; A9:B11) is 9,89949\n"
+"DSTDEV(A1:C7; \"Salaris\"; A9:B11) is 9135,112506\n"
 "\n"
-"@SEEALSO=DCOUNT"
+"@SEEALSO=DSTDEVP"
 
 #: plugins/fn-database/functions.c:857
-#, fuzzy
 msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
@@ -3487,16 +3481,17 @@ msgid ""
 "\n"
 "@SEEALSO=DSTDEV"
 msgstr ""
-"@FUNCTION=DAVERAGE\n"
-"@SYNTAX=DAVERAGE(databas;veld;criteria)\n"
-"@DESCRIPTION=DAVERAGE geeft het gemiddelde van de waarden in een lijst of "
-"database die aan de opgegeven criteria voldoen.\n"
+"@FUNCTION=DSTDEVP\n"
+"@SYNTAX=DSTDEVP(database;veld;criteria)\n"
+"@DESCRIPTION=DSTDEVP geeft de standaarddeviatie van een populatie gebaseerd "
+"op de gehele populatie. De populaties bestaan uit getallen die aan de "
+"opgegeven criteria voldoen.\n"
 "\n"
 "@database is een celbereik waarin rijen met gerelateerde informatie records "
-"zijn en kolommen met data velden. De eerste rij van een database bevat "
+"zijn, en kolommen met data velden. De eerste rij van een database bevat "
 "labels for elke kolom. \n"
 "\n"
-"@veld specificeert welke kolom in de functie wordt gebruikt.  Als @veld een "
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
 "geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
 "ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
 "de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
@@ -3512,7 +3507,8 @@ msgstr ""
 "Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom "
 "waarvan er een overeenkomst is met een rij in @database, waar zijn. "
 "(wederom, technisch gesproken een  boolese AND tussen de kolommen en elke "
-"rij in @criteria). \n"
+"rij in @criteria).\n"
+"\n"
 "@EXAMPLES=\n"
 "Als we aannemen dat het bereik A1:C7 de volgende waarden bevat:\n"
 "Naam    Leeftijd Salaris\n"
@@ -3524,20 +3520,16 @@ msgstr ""
 "Jill    45       45324\n"
 "\n"
 "Daarbij bevatten de cellen A9:B11 de volgende waarden:\n"
-"Leeftijd Salary\n"
+"Leeftijd Salaris\n"
 "<30\n"
 ">40      >46000\n"
 "\n"
-"@EXAMPLES=\n"
-"DAVERAGE(A1:C7; \"Salaris\", A9:A11) is 42296,3333\n"
-"DAVERAGE(A1:C7; \"Leeftijd\", A9:A11) is 39,\n"
-"DAVERAGE(A1:C7; \"Salaris\", A9:B11) is 40782,5\n"
-"DAVERAGE(A1:C7; \"Leeftijd\", A9:B11) is 36,\n"
+"DSTDEVP(A1:C7; \"Leeftijd\"; A9:B11) is 7\n"
+"DSTDEVP(A1:C7; \"Salaris\"; A9:B11) is 6459,5\n"
 "\n"
-"@SEEALSO=DCOUNT"
+"@SEEALSO=DSTDEV"
 
 #: plugins/fn-database/functions.c:930
-#, fuzzy
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
@@ -3586,16 +3578,16 @@ msgid ""
 "\n"
 "@SEEALSO=DPRODUCT"
 msgstr ""
-"@FUNCTION=DAVERAGE\n"
-"@SYNTAX=DAVERAGE(databas;veld;criteria)\n"
-"@DESCRIPTION=DAVERAGE geeft het gemiddelde van de waarden in een lijst of "
-"database die aan de opgegeven criteria voldoen.\n"
+"@FUNCTION=DSUM\n"
+"@SYNTAX=DSUM(database;veld;criteria)\n"
+"@DESCRIPTION=DSUM geeft de som van getallen uit een lijst of database, die "
+"aan de opgegeven criteria voldoen.\n"
 "\n"
 "@database is een celbereik waarin rijen met gerelateerde informatie records "
-"zijn en kolommen met data velden. De eerste rij van een database bevat "
+"zijn, en kolommen met data velden. De eerste rij van een database bevat "
 "labels for elke kolom. \n"
 "\n"
-"@veld specificeert welke kolom in de functie wordt gebruikt.  Als @veld een "
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
 "geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
 "ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
 "de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
@@ -3612,6 +3604,7 @@ msgstr ""
 "waarvan er een overeenkomst is met een rij in @database, waar zijn. "
 "(wederom, technisch gesproken een  boolese AND tussen de kolommen en elke "
 "rij in @criteria). \n"
+"\n"
 "@EXAMPLES=\n"
 "Als we aannemen dat het bereik A1:C7 de volgende waarden bevat:\n"
 "Naam    Leeftijd Salaris\n"
@@ -3623,20 +3616,16 @@ msgstr ""
 "Jill    45       45324\n"
 "\n"
 "Daarbij bevatten de cellen A9:B11 de volgende waarden:\n"
-"Leeftijd Salary\n"
+"Leeftijd Salaris\n"
 "<30\n"
 ">40      >46000\n"
 "\n"
-"@EXAMPLES=\n"
-"DAVERAGE(A1:C7; \"Salaris\", A9:A11) is 42296,3333\n"
-"DAVERAGE(A1:C7; \"Leeftijd\", A9:A11) is 39,\n"
-"DAVERAGE(A1:C7; \"Salaris\", A9:B11) is 40782,5\n"
-"DAVERAGE(A1:C7; \"Leeftijd\", A9:B11) is 36,\n"
+"DAVERAGE(A1:C7; \"Leeftijd\", A9:B11) is 72\n"
+"DAVERAGE(A1:C7; \"Salaris\", A9:B11) is 81565\n"
 "\n"
-"@SEEALSO=DCOUNT"
+"@SEEALSO=DPRODUCT"
 
 #: plugins/fn-database/functions.c:1003
-#, fuzzy
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
@@ -3686,16 +3675,17 @@ msgid ""
 "\n"
 "@SEEALSO=DVARP"
 msgstr ""
-"@FUNCTION=DAVERAGE\n"
-"@SYNTAX=DAVERAGE(databas;veld;criteria)\n"
-"@DESCRIPTION=DAVERAGE geeft het gemiddelde van de waarden in een lijst of "
-"database die aan de opgegeven criteria voldoen.\n"
+"@FUNCTION=DVAR\n"
+"@SYNTAX=DVAR(database;veld;criteria)\n"
+"@DESCRIPTION=DVAR geeft een schatting van de variantie van een populatie "
+"gebaseerd op een steekproef. De populaties bestaan uit getallen die aan de "
+"opgegeven voorwaarden voldoen..\n"
 "\n"
 "@database is een celbereik waarin rijen met gerelateerde informatie records "
-"zijn en kolommen met data velden. De eerste rij van een database bevat "
+"zijn, en kolommen met data, velden. De eerste rij van een database bevat "
 "labels for elke kolom. \n"
 "\n"
-"@veld specificeert welke kolom in de functie wordt gebruikt.  Als @veld een "
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
 "geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
 "ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
 "de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
@@ -3712,6 +3702,7 @@ msgstr ""
 "waarvan er een overeenkomst is met een rij in @database, waar zijn. "
 "(wederom, technisch gesproken een  boolese AND tussen de kolommen en elke "
 "rij in @criteria). \n"
+"\n"
 "@EXAMPLES=\n"
 "Als we aannemen dat het bereik A1:C7 de volgende waarden bevat:\n"
 "Naam    Leeftijd Salaris\n"
@@ -3723,20 +3714,16 @@ msgstr ""
 "Jill    45       45324\n"
 "\n"
 "Daarbij bevatten de cellen A9:B11 de volgende waarden:\n"
-"Leeftijd Salary\n"
+"Leeftijd Salaris\n"
 "<30\n"
 ">40      >46000\n"
 "\n"
-"@EXAMPLES=\n"
-"DAVERAGE(A1:C7; \"Salaris\", A9:A11) is 42296,3333\n"
-"DAVERAGE(A1:C7; \"Leeftijd\", A9:A11) is 39,\n"
-"DAVERAGE(A1:C7; \"Salaris\", A9:B11) is 40782,5\n"
-"DAVERAGE(A1:C7; \"Leeftijd\", A9:B11) is 36,\n"
+"DVAR(A1:C7; \"Leeftijd\", A9:B11) is 98\n"
+"DVAR(A1:C7; \"Salaris\", A9:B11) is 83450280,5\n"
 "\n"
-"@SEEALSO=DCOUNT"
+"@SEEALSO=DVARP"
 
 #: plugins/fn-database/functions.c:1076
-#, fuzzy
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
@@ -3786,16 +3773,17 @@ msgid ""
 "\n"
 "@SEEALSO=DVAR"
 msgstr ""
-"@FUNCTION=DAVERAGE\n"
-"@SYNTAX=DAVERAGE(databas;veld;criteria)\n"
-"@DESCRIPTION=DAVERAGE geeft het gemiddelde van de waarden in een lijst of "
-"database die aan de opgegeven criteria voldoen.\n"
+"@FUNCTION=DVARP\n"
+"@SYNTAX=DVARP(database;veld;criteria)\n"
+"@DESCRIPTION=DVARP geeft de variantie van een populatie gebaseerd op de "
+"gehele populatie. De populaties bestaan uit getallen die aan de opgegeven "
+"voorwaarden voldoen.\n"
 "\n"
 "@database is een celbereik waarin rijen met gerelateerde informatie records "
-"zijn en kolommen met data velden. De eerste rij van een database bevat "
+"zijn, en kolommen met data, velden. De eerste rij van een database bevat "
 "labels for elke kolom. \n"
 "\n"
-"@veld specificeert welke kolom in de functie wordt gebruikt.  Als @veld een "
+"@veld specificeert welke kolom in de functie gebruikt wordt.  Als @veld een "
 "geheel getal is, bijvoorbeeld 2, wordt de tweede kolom gebruikt. Veld kan "
 "ook het label van een kolom zijn, bijvoorbeeld  ``Leeftijd'' verwijst naar "
 "de kolom met het label ``Leeftijd'' in het @database-bereik. \n"
@@ -3811,7 +3799,8 @@ msgstr ""
 "Als @criteria meer dan een kolom bevat, moet elke voorwaarde in deze kolom "
 "waarvan er een overeenkomst is met een rij in @database, waar zijn. "
 "(wederom, technisch gesproken een  boolese AND tussen de kolommen en elke "
-"rij in @criteria). \n"
+"rij in @criteria).\n"
+"\n"
 "@EXAMPLES=\n"
 "Als we aannemen dat het bereik A1:C7 de volgende waarden bevat:\n"
 "Naam    Leeftijd Salaris\n"
@@ -3823,17 +3812,14 @@ msgstr ""
 "Jill    45       45324\n"
 "\n"
 "Daarbij bevatten de cellen A9:B11 de volgende waarden:\n"
-"Leeftijd Salary\n"
+"Leeftijd Salaris\n"
 "<30\n"
 ">40      >46000\n"
 "\n"
-"@EXAMPLES=\n"
-"DAVERAGE(A1:C7; \"Salaris\", A9:A11) is 42296,3333\n"
-"DAVERAGE(A1:C7; \"Leeftijd\", A9:A11) is 39,\n"
-"DAVERAGE(A1:C7; \"Salaris\", A9:B11) is 40782,5\n"
-"DAVERAGE(A1:C7; \"Leeftijd\", A9:B11) is 36,\n"
+"DVARP(A1:C7; \"Leeftijd\"; A9:B11) is 49\n"
+"DVARP(A1:C7; \"Salaris\"; A9:B11) is 41725140,25\n"
 "\n"
-"@SEEALSO=DCOUNT"
+"@SEEALSO=DVAR"
 
 #: plugins/fn-database/functions.c:1149
 msgid ""
@@ -9456,7 +9442,6 @@ msgstr ""
 "@SEEALSO=IF"
 
 #: plugins/fn-lookup/functions.c:557
-#, fuzzy
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate,as_index])\n"
@@ -9493,7 +9478,6 @@ msgstr ""
 "@SEEALSO=HLOOKUP"
 
 #: plugins/fn-lookup/functions.c:615
-#, fuzzy
 msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row[,approximate,as_index])\n"
@@ -9513,14 +9497,14 @@ msgid ""
 "@SEEALSO=VLOOKUP"
 msgstr ""
 "@FUNCTION=HLOOKUP\n"
-"@SYNTAX=HLOOKUP(zoekwaarde;bereik;rij[;benaderen])\n"
+"@SYNTAX=HLOOKUP(zoekwaarde;bereik;rij[;benaderen;als_index])\n"
 "@DESCRIPTION=HLOOKUP vindt de kolom waarvan de eerste rij-cel dezelfde "
 "waarde heeft als de @zoekwaarde. Het zoeken vindt plaats in het opgegeven "
 "@bereik. Als @benaderen ONWAAR is wordt gezocht naar een exacte "
 "overeenkomst. Als @benaderen WAAR is, moeten de waarden in de eerste rij van "
 "het @bereik gesorteerd zijn in oplopende volgorde. In dat geval vindt het de "
-"kolomwaarde die kleiner is dan de @zoekwaarde. @als_index geeft de offset in "
-"plaats van de waarde.\n"
+"kolomwaarde die kleiner is dan de @zoekwaarde. @als_index geeft de "
+"verschijving van de overeenkomst in plaats van de waarde.\n"
 "\n"
 "* HLOOKUP geeft een #GETAL! foutmelding als @rij < 0.\n"
 "* HLOOKUP geeft een #VERW! als @rij buiten het @bereik valt.\n"
@@ -9610,7 +9594,6 @@ msgstr ""
 "@SEEALSO=LOOKUP"
 
 #: plugins/fn-lookup/functions.c:797
-#, fuzzy
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text[,format])\n"
@@ -9627,11 +9610,11 @@ msgid ""
 "@SEEALSO=AREAS,INDEX,"
 msgstr ""
 "@FUNCTION=INDIRECT\n"
-"@SYNTAX=INDIRECT(verw_tekst;[formaat])\n"
-"@DESCRIPTION=INDIRECT geeft de inhoud van de cel waarnaar wordt verwezen "
-"door de @vew_tekst string. De string geeft een enkele celverwijzing in de A1 "
-"vorm of R1K1 stijl. De stijl wordt door de formaat booleaan bepaald welke "
-"standaard op A1 stijl staat. \n"
+"@SYNTAX=INDIRECT(verw_tekst[;formaat])\n"
+"@DESCRIPTION=INDIRECT geeft de inhoud van de cel waarnaar verwezen wordt "
+"door de tekenreeks: @vew_tekst. De tekenreeks geeft een enkele celverwijzing "
+"in de A1-stijl of R1K1-stijl. De stijl wordt bepaald door de formaat-boolese "
+"welke standaard de A1-stijl is.\n"
 "\n"
 "* Als @verw_tekst geen geldige verwijzing is geeft de functie een #VERW! "
 "foutmelding.\n"
@@ -9643,7 +9626,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-lookup/functions.c:840
-#, fuzzy
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(array[,row, col, area])\n"
@@ -9661,14 +9643,12 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=INDEX\n"
-"@SYNTAX=INDEX(array;[rij; kol; gebied])\n"
+"@SYNTAX=INDEX(array[;rij; kol; gebied])\n"
 "@DESCRIPTION=INDEX geeft een verwijzing naar een cel in de gegeven @array.\n"
 "De cel wordt aangewezen door @rij en @kol die de rijen en kolommen van de "
 "@array tellen.\n"
 "\n"
-"* Als @rij en @kol zijn weggelaten, wordt aangenomen dat ze 1 zijn. @gebied "
-"moet 1 zijn; verwijzingen naar meerdere gebieden is nog niet "
-"geïmplementeerd.\n"
+"* Als @rij en @kol zijn weggelaten, wordt aangenomen dat ze 1 zijn.\n"
 "* Als de verwijzing buiten het gebied van de @array valt, geeft INDEX een "
 "#VERW! foutmelding.\n"
 "\n"
@@ -12079,6 +12059,25 @@ msgid ""
 "\n"
 "@SEEALSO=RANDBETWEEN,RAND"
 msgstr ""
+"@FUNCTION=RANDDISCRETE\n"
+"@SYNTAX=RANDDISCRETE(waarden_bereik[;waarschijnlijkheids_bereik])\n"
+"@DESCRIPTION=RANDDISCRETE geeft een van de waarden uit @waarden_bereik. De "
+"waarschijnlijkheid voor elke waarde wordt gegeven door "
+"@waarschijnlijkheids_bereik.\n"
+"\n"
+"* Als @waarschijnlijkheids_bereik weggelaten is, wordt een uniforme discrete "
+"distributie aangenomen.\n"
+"* Als de som van alle waarden in @waarschijnlijkheids_bereik anders is dan "
+"1, geeft RANDDISCRETE een #GETAL! foutmelding.\n"
+"* Als @waarden_bereik en @waarschijnlijkheids_bereik niet dezelfde "
+"afmetingen hebben, geeft RANDDISCRETE een #GETAL! foutmelding.\n"
+"* Als @waarden_bereik of @waarschijnlijkheids_bereik geen bereiken zijn, "
+"geeft RANDDISCRETE een #WAARDE! foutmelding.\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDDISCRETE(A1:A6) geeft een van de waarden uit het bereik A1:A6.\n"
+"\n"
+"@SEEALSO=RANDBETWEEN,RAND"
 
 #: plugins/fn-random/functions.c:236
 msgid ""
@@ -12813,6 +12812,27 @@ msgid ""
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
+"@FUNCTION=RANDNORMTAIL\n"
+"@SYNTAX=RANDNORMTAIL(a;sigma)\n"
+"@DESCRIPTION=RANDNORMTAIL geeft een willekeurige variant uit de bovenstaart "
+"van een normale distributie met standaarddeviatie @sigma. De resulterende "
+"waarden zijn groter dan de onderlimiet @a, die positief moet zijn. De "
+"methode is gebaseerd op het beroemde 'rectangle-wedge-tail' algoritme van "
+"Marsaglia (Ann Math Stat 32, 894-899 (1961)). Dit aspect wordt uitgelegd in "
+"Knuth, v2, 3rd ed, p139, 586 (oefening 11).\n"
+"\n"
+"De waarschijnlijkheidsdistributie voor de willekeurige varianten van de "
+"normale staart is,\n"
+"\n"
+"\tp(x) dx = {1 over N(a;sigma)} exp (- x^2/(2 sigma^2)) dx,\n"
+"\n"
+"voor x > a waarbij N(a;sigma) de normalisatieconstante is, N(a;sigma) = "
+"(1/2) erfc(a / sqrt(2 sigma^2)).\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDNORMTAIL(0,5;0,1)\n"
+"\n"
+"@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:1022
 msgid ""
@@ -15674,6 +15694,39 @@ msgid ""
 "\n"
 "@SEEALSO=LOGREG,LINEST,LOGEST"
 msgstr ""
+"@FUNCTION=LOGFIT\n"
+"@SYNTAX=LOGFIT(y_bekend;x_bekend)\n"
+"@DESCRIPTION=LOGFIT gebruikt de ``kleinste kwadraten'' methode om een "
+"logarithmische functie\n"
+"y = a + b * ln(sign * (x - c)) ,   teken = +1 or -1 \n"
+"aan uw gegevens te fitten. De grafiek van de functie is een logarithmische "
+"kromme die horizontaal verschoven is over c en die mogelijk gespiegels is in "
+"de y-as (als teken = -1).\n"
+"\n"
+"LOGFIT heeft als resultaat een array met vijf kolommen en één rij. `Teken' "
+"wordt in de eerste kolom gegeven, `a', `b', en `c' worden gegeven in "
+"kolommen 2 tot en met 4. Kolom 5 bevat de som van de gekwadrateerde "
+"residuen.\n"
+"\n"
+"* Als er minder dan drie verschillende x,y waarden zijn wordt er een "
+"foutmelding gegeven.\n"
+"* Als de puntenwolk te afwijkend is van de logaritmische vorm wordt er een "
+"foutmelding gegeven.\n"
+"\n"
+"U kunt bovenstaande formule: y = a + b * ln(sign * (x - c)) gebruiken of "
+"deze herschikken tot \n"
+" x = (exp((y - a) / b)) / sign + c om onbekende waarden van respectievelijk "
+"y of x te vinden.\n"
+"to compute unknown y's or x's, respectively. \n"
+"\n"
+"Technisch gesproken is dit non-lineair fitten door middel van 'trial-and-"
+"error' (proefondervindelijk). De nauwkeurigheid van `c' is: breedte van het "
+"x-bereik -> afgerond naar het eerst kleinere (10^geheel getal), keer "
+"0,000001. Er kunnen situaties zijn waarin de resultante kromme niet de best "
+"mogelijke is.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=LOGREG,LINEST,LOGEST"
 
 #: plugins/fn-stat/functions.c:4549
 #, fuzzy
@@ -17402,7 +17455,7 @@ msgstr "Ongeldige BEREIKEN-sectie in bestand."
 
 #: plugins/mps/parser.c:574
 msgid "Invalid BOUNDS section in the file."
-msgstr "Ongeldige RANDEN-sectie in bestand."
+msgstr "Ongeldige GRENZEN-sectie in bestand."
 
 #: plugins/mps/plugin.xml.in.h:1
 msgid "Linear and integer program (*.mps) file format"
@@ -18562,7 +18615,7 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:52
 msgid "This variable determines whether transition keys are set on."
-msgstr ""
+msgstr "Deze variabele bepaalt of overgangstoetsen gebruikt worden."
 
 #: schemas/gnumeric-general.schemas.in.h:53
 msgid "Toolbar Style"
@@ -18574,9 +18627,10 @@ msgstr "Werkbalkstijl"
 msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
 msgstr "Werkbalk-stijl. Geldige waarden zijn both, both_horiz, icon en text"
 
+# geen idee wat deze toetsen doen
 #: schemas/gnumeric-general.schemas.in.h:55
 msgid "Transition Keys"
-msgstr ""
+msgstr "Overgangstoetsen"
 
 #: schemas/gnumeric-general.schemas.in.h:56
 msgid "Vertical DPI"
@@ -18592,6 +18646,10 @@ msgid ""
 "legacy PRIMARY selections. Set to FALSE if you have to deal with older "
 "applications, like Xterm or Emacs, which set only the PRIMARY selection."
 msgstr ""
+"Indien WAAR, zal Gnumeric de modernere CLIPBOARD-selectie verkiezen boven de "
+"verouderde PRIMARY-selecties. Zet deze variabele op ONWAAR als u met oudere "
+"toepassingen te maken heeft, zoals Xterm of Emacs, die alleen de PRIMARY-"
+"selectie gebruiken."
 
 #: schemas/gnumeric-general.schemas.in.h:59
 msgid ""
@@ -18599,6 +18657,9 @@ msgid ""
 "automatically added. This number determines the maximum number of clauses to "
 "be added automatically."
 msgstr ""
+"Bij het selecteren van een sorteringsbereik in het dialoogvenster "
+"'Sorteren', worden automatisch zoekclausules bijgevoegd. Dit getal bepaalt "
+"het maximum aantal clausules dat automatisch toegevoegd zal worden."
 
 #: schemas/gnumeric-plugins.schemas.in.h:1
 msgid ""
@@ -18704,7 +18765,7 @@ msgstr "_Cellen..."
 
 #: src/GNOME_Gnumeric.xml.h:21 src/workbook-control-gui.c:3551
 msgid "C_hart..."
-msgstr ""
+msgstr "_Grafiek..."
 
 #: src/GNOME_Gnumeric.xml.h:22 src/workbook-control-gui.c:3443
 msgid "C_lear"
@@ -18904,19 +18965,19 @@ msgstr "Een radioknop aanmaken"
 
 #: src/GNOME_Gnumeric.xml.h:66 src/workbook-object-toolbar.c:180
 msgid "Create a rectangle object"
-msgstr "Een rechthoek-object maken"
+msgstr "Een rechthoek-object aanmaken"
 
 #: src/GNOME_Gnumeric.xml.h:67 src/workbook-object-toolbar.c:187
 msgid "Create a scrollbar"
-msgstr "Een schuifbalk maken"
+msgstr "Een schuifbalk aanmaken"
 
 #: src/GNOME_Gnumeric.xml.h:68 src/workbook-object-toolbar.c:193
 msgid "Create a slider"
-msgstr ""
+msgstr "Een schuifknop aanmaken"
 
 #: src/GNOME_Gnumeric.xml.h:69 src/workbook-object-toolbar.c:190
 msgid "Create a spin button"
-msgstr ""
+msgstr "Een spinknop aanmaken"
 
 #: src/GNOME_Gnumeric.xml.h:70 src/workbook-object-toolbar.c:177
 msgid "Create an arrow object"
@@ -19235,7 +19296,7 @@ msgstr "Label"
 #: src/GNOME_Gnumeric.xml.h:143 src/workbook-control-gui.c:3552
 #: src/workbook-control-gui.c:4005
 msgid "Launch the Chart Guru"
-msgstr "De Grafiek Goeroe opstarten"
+msgstr "De grafiekgoeroe opstarten"
 
 #: src/GNOME_Gnumeric.xml.h:144 src/workbook-format-toolbar.c:437
 msgid "Left Align"
@@ -19462,7 +19523,7 @@ msgstr "Regressie-analyse"
 
 #: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3836
 msgid "Remove an outline group"
-msgstr "Een outline groep verwijderen"
+msgstr "Een outline-groep verwijderen"
 
 #: src/GNOME_Gnumeric.xml.h:196 src/workbook-control-gui.c:3446
 msgid "Remove selected cells, shifting others into their place"
@@ -19580,18 +19641,19 @@ msgstr "Versturen aan..."
 msgid "Send the current file via email"
 msgstr "Het huidige bestand per e-mail versturen"
 
+# Was eerst:
+# De geselecteerde cellen gebruiken een scheidingsteken voor duizendtallen
 #: src/GNOME_Gnumeric.xml.h:224 src/workbook-format-toolbar.c:468
 msgid "Set the format of the selected cells to include a thousands separator"
-msgstr ""
-"De geselecteerde cellen gebruiken een scheidingsteken voor duizendtallen"
+msgstr "Duizendtallen scheiden"
 
 #: src/GNOME_Gnumeric.xml.h:225 src/workbook-format-toolbar.c:462
 msgid "Set the format of the selected cells to monetary"
-msgstr "De geselecteerde cellen gebruiken een monetair opmaakformaat"
+msgstr "De geselecteerde cellen als geldbedragen weergeven"
 
 #: src/GNOME_Gnumeric.xml.h:226 src/workbook-format-toolbar.c:465
 msgid "Set the format of the selected cells to percentage"
-msgstr "De geselecteerde cellen gebruiken een percentage opmaakformaat"
+msgstr "De geselecteerde cellen als percentages weergeven"
 
 #: src/GNOME_Gnumeric.xml.h:227 src/GNOME_Gnumeric_Component.xml.h:11
 #: src/workbook-control-gui.c:3298
@@ -19608,7 +19670,7 @@ msgstr "Si_mulatie..."
 
 #: src/GNOME_Gnumeric.xml.h:230 src/workbook-object-toolbar.c:193
 msgid "Slider"
-msgstr ""
+msgstr "Schuifknop"
 
 #: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:3998
 msgid "Sort Descending"
@@ -19636,7 +19698,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:236
 msgid "Spin Button"
-msgstr ""
+msgstr "Spinknop"
 
 #: src/GNOME_Gnumeric.xml.h:237 src/workbook-format-toolbar.c:456
 msgid "Split"
@@ -20210,7 +20272,7 @@ msgstr ""
 
 #: src/clipboard.c:332
 msgid "result passes the sheet boundary"
-msgstr "resultaat overschreidt de rand van het blad"
+msgstr "resultaat overschreidt de bladgrens"
 
 #: src/cmd-edit.c:301
 #, c-format
@@ -20524,7 +20586,7 @@ msgstr "Verplaatsen cellen %s"
 
 #: src/commands.c:2609 src/commands.c:2820
 msgid "is beyond sheet boundaries"
-msgstr "is voorbij de werkblad grenzen"
+msgstr "is voorbij de werkbladgrenzen"
 
 #. FIXME?
 #: src/commands.c:2764
@@ -20726,9 +20788,8 @@ msgid "Tabulating Dependencies"
 msgstr "Afhankelijkhedeb tabuleren"
 
 #: src/commands.c:6667
-#, fuzzy
 msgid "Reconfigure Graph"
-msgstr "Configureer knoppenbalken"
+msgstr "Diagram opnieuw configureren"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
 #: src/dialogs/solver.glade.h:14
@@ -20741,11 +20802,11 @@ msgstr "M_ax"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:191
 msgid "Ma_jor Ticks"
-msgstr ""
+msgstr "_Hoofdverdeling"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:192
 msgid "Mi_nor Ticks"
-msgstr ""
+msgstr "_Onderverdeling"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:215
 msgid "Bounds"
@@ -20808,25 +20869,25 @@ msgstr "Grafiek"
 
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:169
 msgid "Chart"
-msgstr "Diagram"
+msgstr "Grafiek"
 
 # Dit zijn titels van de dialoogvensters, vandaar gebiedende wijs
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1000
 msgid "Step 1 of 2: Select Chart Type"
-msgstr "Stap 1 van 2: Kies het soort diagram"
+msgstr "Stap 1 van 2: Kies het soort grafiek"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1008
 msgid "Step 2 of 2: Customize Chart"
-msgstr "Stap 2 van 2: Pas het diagram aan"
+msgstr "Stap 2 van 2: Pas de grafiek aan"
 
 # Venstertitel
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1013
 msgid "Customize Chart"
-msgstr "Diagram aanpassen"
+msgstr "Grafiek aanpassen"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1108
 msgid "_Plot Type"
-msgstr ""
+msgstr "_Plot type"
 
 #. Set up sample button
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1198
@@ -20901,15 +20962,15 @@ msgstr "Gegevens"
 # grafiekmotor
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:52
 msgid "Plot Engine"
-msgstr ""
+msgstr "Plotmotor"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:230
 msgid "Plot Type"
-msgstr "Soort diagram"
+msgstr "Plot-type"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:312
 msgid "Chart Theme"
-msgstr ""
+msgstr "Grafiekthema"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot.c:164
 msgid "Series"
@@ -21168,13 +21229,14 @@ msgstr "_Scheiding:"
 msgid "_Overlap:"
 msgstr "_Overlap:"
 
+# besloten om overal 'plot' weg te laten in de vertaling
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
 #. * 	PlotBarCol2
 #.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:96
 msgid "PlotBarCol"
-msgstr "PlotBarCol"
+msgstr "BalkKolom"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "3D Adjacent Bars"
@@ -21182,7 +21244,7 @@ msgstr "3D Aanliggende balken"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:2
 msgid "3D Adjacent Columns"
-msgstr "3D Aanliggende Kolommen"
+msgstr "3D Aanliggende kolommen"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:3
 msgid "3D Percentage Bars"
@@ -21212,22 +21274,20 @@ msgstr "Aanliggende kolommen"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:9
 msgid "Adjacent horizontal 3D bars grouped by major and minor categories."
 msgstr ""
-"Aanliggende horizontale 3D-balken gegroepeerd per hoofd- en onder-categorie."
+"Aanliggende horizontale 3D-balken gegroepeerd per hoofd- en subcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:10
 msgid "Adjacent horizontal bars grouped by major and minor categories."
-msgstr ""
-"Aanliggende horizontale balken gegroepeerd per hoofd- en onder-categorie."
+msgstr "Aanliggende horizontale balken gegroepeerd per hoofd- en subcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:11
 msgid "Adjacent vertical 3D columns grouped by major and minor categories."
 msgstr ""
-"Aanliggende vertikale 3D-kolommen gegroepeerd per hoofd- en onder-categorie."
+"Aanliggende vertikale 3D-kolommen gegroepeerd per hoofd- en subcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:12
 msgid "Adjacent vertical columns grouped by major and minor categories."
-msgstr ""
-"Aanliggende vertikale kolommen gegroepeerd per hoofd- en onder-categorie."
+msgstr "Aanliggende vertikale kolommen gegroepeerd per hoofd- en subcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:13
 #: src/func.c:687
@@ -21236,7 +21296,7 @@ msgstr "Gebied"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
 msgid "Area plot."
-msgstr "Gebiedgrafiek"
+msgstr "Gebiedgrafiek."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
 msgid "Areas"
@@ -21252,7 +21312,7 @@ msgstr "Kolom"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:19
 msgid "Line plot."
-msgstr "Lijngrafiek"
+msgstr "Lijngrafiek."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
 msgid "Lines"
@@ -21263,42 +21323,58 @@ msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D horizontal "
 "bars, grouped by major category."
 msgstr ""
+"Subcategorien gestapeld als percentages van het subtotaal, in horizontale 3D-"
+"balken, gegroepeerd door hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:22
 msgid ""
 "Minor categories stacked as percentages of the minor total, in 3D vertical "
 "bars, grouped by major category."
 msgstr ""
+"Subcategorien gestapeld als percentages van het subtotaal, in vertikale 3D-"
+"balken, gegroepeerd door hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:23
 msgid ""
 "Minor categories stacked as percentages of the minor total, in horizontal "
 "bars, grouped by major category."
 msgstr ""
+"Subcategorien gestapeld als percentages van het subtotaal, in horizontale "
+"balken, gegroepeerd door hoofdcategorie.\""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:24
 msgid ""
 "Minor categories stacked as percentages of the minor total, in vertical "
 "columns, grouped by major category."
 msgstr ""
+"Subcategorien gestapeld als percentages van het subtotaal, in vertikale "
+"balken, gegroepeerd door hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:25
 msgid ""
 "Minor categories stacked in horizontal 3D bars, grouped by major category."
 msgstr ""
+"Subcategorien gestapeld in horizontale 3D-balken, gegroepeerd door "
+"hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:26
 msgid "Minor categories stacked in horizontal bars grouped by major category."
 msgstr ""
+"Subcategorien gestapeld in horizontale balken, gegroepeerd door "
+"hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:27
 msgid ""
 "Minor categories stacked in vertical 3D columns, grouped by major category."
 msgstr ""
+"Subcategorien gestapeld in vertikale 3D-kolommen, gegroepeerd door "
+"hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:28
 msgid "Minor categories stacked in vertical columns grouped by major category."
 msgstr ""
+"Subcategorien gestapeld in vertikale kolommen, gegroepeerd door "
+"hoofdcategorie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:29
 msgid "Percentage Areas"
@@ -21349,9 +21425,8 @@ msgid "Stacked line plot."
 msgstr "Gestapelde lijngrafiek."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:1
-#, fuzzy
 msgid "1.5d Charts"
-msgstr "Cirkeldiagrammen"
+msgstr "1.5d diagrammen"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:2
 msgid "Area plotting engine"
@@ -21362,9 +21437,8 @@ msgid "Bar/Col plotting engine"
 msgstr "Balk/Kolom plot-motor"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:4
-#, fuzzy
 msgid "Default 1.5d plot types"
-msgstr "Standaard Balk/Kolom plot-types"
+msgstr "Standaard 1.5d plot-types"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:5
 msgid "Line plotting engine"
@@ -21377,7 +21451,7 @@ msgstr "Lijn, gebied, balk en kolom-diagrammen"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:3
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:4
 msgid "Degrees counter clockwise from 3 O'Clock"
-msgstr "Aantal graden kloksgewijs vanaf 3 uur."
+msgstr "Aantal graden kloksgewijs vanaf 3 uur"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:4
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:5
@@ -21393,15 +21467,16 @@ msgstr ""
 "De standaardafstand die punten van het centrum zijn verwijderd gemeten als "
 "een percentage van de straal van de cirkel."
 
+# de schijf van vijf!
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:6
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:7
 msgid "_Slice Separation:"
-msgstr "_Schijf-scheiding:"
+msgstr "_Scheiding punten:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:7
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:8
 msgid "_Vary colors by slice"
-msgstr "Elke schijf een andere _kleur"
+msgstr "Elke punt een andere _kleur"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:8
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:9
@@ -21409,10 +21484,12 @@ msgstr "Elke schijf een andere _kleur"
 msgid "degrees"
 msgstr "graden"
 
+# dit is het basiswoord waar getallen achter komen.
+# het is mooier om plot weg te laten bij deze dingen:
+# dus ipv Taartplot1 enz.: Taart1
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:103
-#, fuzzy
 msgid "PlotPie"
-msgstr "Cirkeldiagram"
+msgstr "Taart"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
 #: src/dialogs/consolidate.glade.h:12
@@ -21426,45 +21503,51 @@ msgstr "Waarden"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:263
 msgid "PlotRing"
-msgstr "Ringdiagram"
+msgstr "Ring"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:3
-#, fuzzy
 msgid "Cen_ter size:"
-msgstr "Ca_tegorieën:"
+msgstr "Grootte cen_trum"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:1
 msgid "3D Pie"
-msgstr "3D Cirkeldiagram"
+msgstr "3D Taart"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:2
 msgid "3D Split Pie"
-msgstr "3D Gespleten cirkeldiagram"
+msgstr "3D Taart gesplitst"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:3
 msgid ""
 "Major totals as percentages with each wedge subdivided into secondary pies."
 msgstr ""
+"Hoofdtotalen als percentages met elke punt onderverdeeld in secundaire "
+"taarten."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:4
 msgid ""
 "Major totals as percentages with each wedge subdivided into secondary "
 "stacked bars."
 msgstr ""
+"Hoofdtotalen als percentages met elke punt onderverdeeld in secundaire "
+"gestapelde balken."
 
+# wat is dit nu weer?
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:5
 msgid "Multi-Pie"
-msgstr ""
+msgstr "Multi-taart"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:6
 msgid "Multi-pie-bars"
-msgstr ""
+msgstr "Multi-taart-balken"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:7
 msgid ""
 "Percentage of each contributor displayed in ring for each serie with wedges "
 "of the last ring split apart."
 msgstr ""
+"Percentage van elk deel in de ring voor elke serie met de delen van de "
+"laatste ring gesplitst."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:8
 msgid "Percentage of each contributor displayed in ring for each serie."
@@ -21472,11 +21555,11 @@ msgstr "Percentage van elk deel behorend bij de ring van de serie."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:9
 msgid "Percentage of each contributor in 3D pie."
-msgstr "Percentage van elk deel in een 3D cirkel."
+msgstr "Percentage van elk deel in een 3D-cirkel."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:10
 msgid "Percentage of each contributor with 3D wedges split apart."
-msgstr "Percentage van elk deel met de 3D punten van elkaar gescheiden."
+msgstr "Percentage van elk deel met de 3D-punten van elkaar gescheiden."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:11
 msgid "Percentage of each contributor with wedges split apart."
@@ -21488,7 +21571,7 @@ msgstr "Percentage van elk deel."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:13
 msgid "Pie"
-msgstr "Cirkel"
+msgstr "Taart"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:14
 msgid "Ring"
@@ -21496,7 +21579,7 @@ msgstr "Ring"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:15
 msgid "Split Pie"
-msgstr "Cirkel gesplitst"
+msgstr "Taart gesplitst"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in.h:16
 msgid "Split Ring"
@@ -21504,19 +21587,19 @@ msgstr "Ring gesplitst"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:1
 msgid "Default pie types"
-msgstr "Standaard cirkeltypes"
+msgstr "Standaard taarttypen"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:2
 msgid "Pie Charts"
-msgstr "Cirkeldiagrammen"
+msgstr "Taartgrafieken"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:3
 msgid "Pie charts"
-msgstr "Cirkeldiagrammen"
+msgstr "Taartgrafieken"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:4
 msgid "Pie plotting engine"
-msgstr "Cirkel plot-motor"
+msgstr "Taart plot-motor"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:5
 msgid "Ring plotting engine"
@@ -21524,7 +21607,7 @@ msgstr "Ring plot-motor"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:53
 msgid "PlotXY"
-msgstr "XY-plot"
+msgstr "XY"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:130
 msgid "Y"
@@ -21553,10 +21636,12 @@ msgid ""
 "Linearly interpolate between multi-dimensional points,with markers at each "
 "point."
 msgstr ""
+"Lineair interpoleren tussen multi-dimensionale punten, met markeringen bij "
+"elk punt."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
 msgid "Linearly interpolate between multi-dimensional points."
-msgstr ""
+msgstr "Lineair interpoleren tussen multi-dimensionale punten."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
 msgid "Linearly interpolated points"
@@ -21570,6 +21655,7 @@ msgstr "Gemarkeerde geïnterpoleerde punten"
 msgid "Marked linearly interpolated points"
 msgstr "Gemarkeerde lineair geïnterpoleerde punten"
 
+# ballonnen ipv bellen
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:10
 msgid "Plot X, Y and bubble size."
 msgstr "X, Y en belgrootte tekenen."
@@ -21584,20 +21670,19 @@ msgstr "XY"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:1
 msgid "2D Scatter charts"
-msgstr "2D puntdiagrammen"
+msgstr "2D punten grafieken"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:2
-#, fuzzy
 msgid "2D scatter plotting engine"
-msgstr "Cirkel plot-motor"
+msgstr "2D punten plot-motor"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:3
 msgid "Stock Scatter plot types"
-msgstr ""
+msgstr "Standaar punten-grafiektypen"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:4
 msgid "XY Charts"
-msgstr "XY-diagrammen"
+msgstr "XY-grafieken"
 
 #: src/dates.c:16
 msgid "*Sun"
@@ -22210,11 +22295,11 @@ msgstr "_Rechts"
 
 #: src/dialogs/autoformat.glade.h:23
 msgid "_Show Gridlines"
-msgstr "_Rasterlijnen Weergeven"
+msgstr "_Rasterlijnen weergeven"
 
 #: src/dialogs/autosave.glade.h:2
 msgid "Auto Save"
-msgstr "Automatisch Opslaan"
+msgstr "Automatisch opslaan"
 
 #: src/dialogs/autosave.glade.h:3
 msgid "_Automatically save every"
@@ -22456,15 +22541,15 @@ msgstr "Omtrek"
 
 #: src/dialogs/cell-format.glade.h:64 src/dialogs/workbook-attr.glade.h:10
 msgid "Protection"
-msgstr "Bescherming"
+msgstr "Beveiliging"
 
 #: src/dialogs/cell-format.glade.h:65
 msgid "Reverse Diagonal"
-msgstr "Omgekeerd Diagonaal"
+msgstr "Omgekeerd diagonaal"
 
 #: src/dialogs/cell-format.glade.h:66
 msgid "Reverse Diagonal Stripe"
-msgstr "Omgekeerd Diagonaal Gestreept"
+msgstr "Omgekeerd diagonaal gestreept"
 
 #: src/dialogs/cell-format.glade.h:67 src/workbook-format-toolbar.c:631
 msgid "Right"
@@ -22480,7 +22565,7 @@ msgstr "Passend ma_ken"
 
 #: src/dialogs/cell-format.glade.h:70
 msgid "Small Circles"
-msgstr "Kleine Cirkels"
+msgstr "Kleine cirkels"
 
 # was eerst: effen
 #: src/dialogs/cell-format.glade.h:71
@@ -22521,31 +22606,31 @@ msgstr "Riet"
 
 #: src/dialogs/cell-format.glade.h:80
 msgid "Thick Diagonal Crosshatch"
-msgstr "Dik Diagonaal Gearceerd"
+msgstr "Dik diagonaal gearceerd"
 
 #: src/dialogs/cell-format.glade.h:81
 msgid "Thin Diagonal Crosshatch"
-msgstr "Dun Diagonaal Gearceerd"
+msgstr "Dun diagonaal gearceerd"
 
 #: src/dialogs/cell-format.glade.h:82
 msgid "Thin Diagonal Stripe"
-msgstr "Dun Diagonaal Gestreept"
+msgstr "Dun diagonaal gestreept"
 
 #: src/dialogs/cell-format.glade.h:83
 msgid "Thin Horizontal Crosshatch"
-msgstr "Dun Horizontaal Gearceerd"
+msgstr "Dun horizontaal gearceerd"
 
 #: src/dialogs/cell-format.glade.h:84
 msgid "Thin Horizontal Stripe"
-msgstr "Dun Horizontaal Gestreept"
+msgstr "Dun horizontaal gestreept"
 
 #: src/dialogs/cell-format.glade.h:85
 msgid "Thin Reverse Diagonal Stripe"
-msgstr "Dun Omgekeerd Diagonaal Gestreept"
+msgstr "Dun omgekeerd diagonaal gestreept"
 
 #: src/dialogs/cell-format.glade.h:86
 msgid "Thin Vertical Stripe"
-msgstr "Dun Verticaal Gestreept"
+msgstr "Dun verticaal gestreept"
 
 #: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:73
 msgid "Time"
@@ -23439,15 +23524,15 @@ msgstr "Het uitvoerbereik overlapt met de invoerbereiken."
 
 #: src/dialogs/dialog-consolidate.c:558
 msgid "Could not create the Consolidate dialog."
-msgstr "Kon het dialoogvenster Consolideren niet aanmaken."
+msgstr "Kon het dialoogvenster 'Consolideren' niet aanmaken."
 
 #: src/dialogs/dialog-define-names.c:351
 msgid "Why would you want to define a name to be #NAME?"
-msgstr "Waarom zou je een naam willen definiëren als #NAAM?"
+msgstr "Waarom zou je een naam als #NAAM willen definiëren?"
 
 #: src/dialogs/dialog-define-names.c:570
 msgid "Could not create the Name Guru."
-msgstr "Kon de Naam Goeroe niet opstarten."
+msgstr "Kon de Naamgoeroe niet opstarten."
 
 #: src/dialogs/dialog-delete-cells.c:135
 #: src/dialogs/scenario-manager.glade.h:5
@@ -23456,11 +23541,11 @@ msgstr "Verwijderen"
 
 #: src/dialogs/dialog-delete-cells.c:165
 msgid "Could not create the Delete Cell dialog."
-msgstr "Kon het dialoogvenster Verwijder Cel niet aanmaken."
+msgstr "Kon het dialoogvenster 'Verwijder cel' niet aanmaken."
 
 #: src/dialogs/dialog-fill-series.c:265
 msgid "Could not create the Fill Series dialog."
-msgstr "Kon het dialoogvenster Vul-series niet maken."
+msgstr "Kon het dialoogvenster 'Vul-series' niet maken."
 
 #: src/dialogs/dialog-formula-guru.c:297
 #, c-format
@@ -23817,9 +23902,11 @@ msgstr "Bestanden"
 msgid "Undo"
 msgstr "Ongedaan maken"
 
+# Verscheidene is een betere vertaling, maar het staat heel stom
+# in het dialoogvenster.
 #: src/dialogs/dialog-preferences.c:1400
 msgid "Various"
-msgstr "Verscheidene"
+msgstr "Overige"
 
 #: src/dialogs/dialog-preferences.c:1401
 msgid "Internal"
@@ -24108,14 +24195,17 @@ msgid ""
 "Note that showing the scenario will overwrite the formula with it's current "
 "value."
 msgstr ""
+"'Cellen veranderen' bevat tenminste één uitdrukking die niet slechts een "
+"waarde is. Let op dat het tonen van het scenario de formule zal "
+"overschrijven met de huidige waarde."
 
 #: src/dialogs/dialog-scenarios.c:206
 msgid "Could not create the Scenario Add dialog."
-msgstr "Kon het Scenario toevoegen dialoogvenster niet maken."
+msgstr "Kon het dialoogvenster 'Scenario toevoegen' niet maken."
 
 #: src/dialogs/dialog-scenarios.c:223 src/dialogs/scenario-add.glade.h:5
 msgid "_Changing cells:"
-msgstr "Door Cellen te _Veranderen:"
+msgstr "Cellen _veranderen:"
 
 #: src/dialogs/dialog-scenarios.c:238
 msgid "Created on "
@@ -24127,7 +24217,7 @@ msgstr "Resultaatveld bevatte geen geldige celnamen."
 
 #: src/dialogs/dialog-scenarios.c:628
 msgid "Could not create the Scenarios dialog."
-msgstr "Kon het Scenarios dialoogvenster niet maken."
+msgstr "Kon het dialoogvenster 'Scenarios' niet maken."
 
 #: src/dialogs/dialog-scenarios.c:645 src/dialogs/scenario-manager.glade.h:6
 msgid "Results:"
@@ -24199,9 +24289,8 @@ msgid "The input range is invalid."
 msgstr "Het invoerbereik is ongeldig."
 
 #: src/dialogs/dialog-shuffle.c:150
-#, fuzzy
 msgid "Could not create the Data Shuffling dialog."
-msgstr "Kon het Simulatie-dialoogvenster niet maken."
+msgstr "Kon het dialoogvenster 'Gegevens verschuiven' niet maken."
 
 #: src/dialogs/dialog-simulation.c:72
 msgid "The input variable range is invalid."
@@ -24305,6 +24394,7 @@ msgstr ""
 "Oplosser heeft een optimale oplossing gevonden. Aan alle rand, en "
 "optimaliserings voorwaarden is voldaan.\n"
 
+# Getallen-voorwaarden?
 #: src/dialogs/dialog-solver.c:762
 msgid ""
 "Neither sensitivity nor limits report are meaningful if the program has "
@@ -24529,7 +24619,7 @@ msgstr "Overzetten"
 
 #: src/dialogs/dialog-stf-export.glade.h:36
 msgid "Unix (linefeed)"
-msgstr "Unix (nieuwe  regel)"
+msgstr "Unix (nieuwe regel)"
 
 #: src/dialogs/dialog-stf-export.glade.h:37
 msgid "Unknown characters:"
@@ -25100,11 +25190,11 @@ msgstr "Grootte:"
 
 #: src/dialogs/format-selector.glade.h:1
 msgid "Ca_tegories:"
-msgstr "Ca_tegorieën:"
+msgstr "_Categorieën:"
 
 #: src/dialogs/format-selector.glade.h:2
 msgid "Deci_mal places:"
-msgstr "Deci_malen:"
+msgstr "_Decimalen:"
 
 #: src/dialogs/format-selector.glade.h:3
 msgid "Display amounts in traditional accounting styles."
@@ -25173,7 +25263,7 @@ msgstr "_Formaat:"
 
 #: src/dialogs/format-selector.glade.h:19
 msgid "_Use Separator for 1000's"
-msgstr "Gebr_uik Scheidingstekens voor duizendtallen"
+msgstr "Dui_zentallen scheiden door punten"
 
 #: src/dialogs/formula-guru.glade.h:1
 msgid "Formula Guru"
@@ -25315,10 +25405,10 @@ msgstr "Uitvoerbereik-_commentaar behouden"
 msgid "Retain Output Range _Formatting"
 msgstr "Uitvoerbereik-_opmaak behouden"
 
+# was: Automatisch kolommen passend maken
 #: src/dialogs/histogram.glade.h:19
-#, fuzzy
 msgid "_Autofit Columns"
-msgstr "Automatisch kolommen passend maken "
+msgstr "Kolommen _automatisch passen"
 
 #: src/dialogs/histogram.glade.h:20
 msgid "_Bins"
@@ -26187,7 +26277,7 @@ msgstr "Bladen Beheren..."
 # Gegevens verschuiven
 #: src/dialogs/shuffle.glade.h:1
 msgid "Data Shuffling"
-msgstr ""
+msgstr "Gegevens verschuiven"
 
 #: src/dialogs/shuffle.glade.h:2
 msgid "Input Range: "
@@ -26197,7 +26287,7 @@ msgstr "_Invoerbereik: "
 # verschuiven
 #: src/dialogs/shuffle.glade.h:3
 msgid "Shuffle Method: "
-msgstr ""
+msgstr "Verschuifmethode: "
 
 #: src/dialogs/shuffle.glade.h:4
 msgid "_Area"
@@ -26342,7 +26432,7 @@ msgstr "Linkdoel:"
 
 #: src/dialogs/so-fill.glade.h:1
 msgid "Border _Width:"
-msgstr "Rand _breedte:"
+msgstr "Omtrek _breedte:"
 
 #: src/dialogs/so-fill.glade.h:2
 msgid "Configure Filled Object"
@@ -26355,7 +26445,7 @@ msgstr "_Vulkleur:"
 
 #: src/dialogs/so-fill.glade.h:4
 msgid "O_utline Color:"
-msgstr "O_utlines-kleur:"
+msgstr "_Omtrek kleur:"
 
 #: src/dialogs/so-frame.glade.h:2
 msgid "Frame Properties"
@@ -26414,6 +26504,8 @@ msgstr "Automatisch _Schalen"
 msgid "B_y Changing Cells: "
 msgstr "Door Cellen te _Veranderen: "
 
+# BUG:
+# Bolese? (boolean?)
 #: src/dialogs/solver.glade.h:10
 msgid "Bool"
 msgstr "Bool"
@@ -26496,7 +26588,7 @@ msgstr "_Limieten"
 
 #: src/dialogs/solver.glade.h:34
 msgid "_Linear Model (LP/MILP)"
-msgstr "_Linear Model (LP/MILP)"
+msgstr "_Lineair model (LP/MILP)"
 
 #: src/dialogs/solver.glade.h:35
 msgid "_Max"
@@ -26742,7 +26834,7 @@ msgstr "Onbekende operator"
 
 #: src/expr.c:1100
 msgid "Unknown evaluation error"
-msgstr "Onbekende evaluatie fout"
+msgstr "Onbekende evaluatiefout"
 
 #: src/file-autoft.c:92
 #, c-format
@@ -27058,7 +27150,7 @@ msgstr "Guatemala, Quetzal"
 
 #: src/formats.c:444
 msgid "Guyana, Dollars"
-msgstr "Guyana, Dollars"
+msgstr "Guyana, Dollar"
 
 #: src/formats.c:445
 msgid "Hong Kong, Dollars"
@@ -27254,7 +27346,7 @@ msgstr "Mozambique, Metical"
 
 #: src/formats.c:493
 msgid "Namibia, Dollars"
-msgstr "Namibië, Dollars"
+msgstr "Namibië, Dollar"
 
 #: src/formats.c:494
 msgid "Nigeria, Nairas"
@@ -27274,7 +27366,7 @@ msgstr "Nepal, Nepalese Roepie"
 
 #: src/formats.c:498
 msgid "New Zealand, Dollars"
-msgstr "Nieuw Zeeland, Dollars"
+msgstr "Nieuw Zeeland, Dollar"
 
 #: src/formats.c:499
 msgid "Oman, Rials"
@@ -27330,7 +27422,7 @@ msgstr "Saudi-Arabië, Riyal"
 
 #: src/formats.c:512
 msgid "Solomon Islands, Dollars"
-msgstr "Solomon Eilanden, Dollars"
+msgstr "Solomon Eilanden, Dollar"
 
 #: src/formats.c:513
 msgid "Seychelles, Rupees"
@@ -27422,11 +27514,11 @@ msgstr "Trinidad en Tobago, Dollar"
 
 #: src/formats.c:535
 msgid "Tuvalu, Tuvalu Dollars"
-msgstr "Tuvalu, Tuvalu Dollars"
+msgstr "Tuvalu, Tuvalu Dollar"
 
 #: src/formats.c:536
 msgid "Taiwan, New Dollars"
-msgstr "Taiwan, Nieuwe Dollars"
+msgstr "Taiwan, Nieuwe Dollar"
 
 #: src/formats.c:537
 msgid "Tanzania, Shillings"
@@ -29223,12 +29315,19 @@ msgid ""
 "Input variable did not yield to a numeric value. Check the model (maybe your "
 "last round # is too high)."
 msgstr ""
+"Invoervariabele resulteerde niet in een numerieke waarde. Controleer het "
+"model (misschien is uw laatste rondenummer te hoog)."
 
 #: src/tools/simulation.c:126
 msgid ""
 "Output variable did not yield to a numeric value. Check the output variables "
 "in your model (maybe your last round # is too high)."
 msgstr ""
+"Uivoervariabele resulteerde niet in een numerieke waarde. Controleer de "
+"uitvoervariabelen in uw model (misschien is uw laatste rondenummer te hoog)."
+"\"\n"
+"\n"
+"#: src/tools/simulation.c:126"
 
 #: src/tools/simulation.c:242
 msgid "Simulation Report"
@@ -29489,7 +29588,7 @@ msgstr "Variabelen"
 
 #: src/tools/solver/reports-write.c:573
 msgid "Integer Constraints"
-msgstr ""
+msgstr "Getallen-voorwaarden"
 
 #: src/tools/solver/reports-write.c:574
 msgid "Boolean Constraints"
@@ -29962,9 +30061,8 @@ msgid "Size of dropdown indicator"
 msgstr "Grootte van de dropdown-indicator"
 
 #: src/widgets/gnumeric-optionmenu.c:212
-#, fuzzy
 msgid "Indicator Spacing"
-msgstr "Interne opvulling"
+msgstr "Indicator opvulling"
 
 #: src/widgets/gnumeric-optionmenu.c:213
 msgid "Spacing around indicator"
@@ -30999,9 +31097,8 @@ msgstr "Oezbekistan (uz_UZ)"
 
 # trema?
 #: src/widgets/widget-locale-selector.c:240
-#, fuzzy
 msgid "Vietnam (vi_VN)"
-msgstr "Vietnamees (TCVN)"
+msgstr "Vietnamees (vi_VN)"
 
 #: src/widgets/widget-locale-selector.c:241
 msgid "Belgium/Walloon (wa_BE)"
@@ -31350,11 +31447,11 @@ msgstr "%s!%s is beveiligd"
 
 #: src/workbook-edit.c:346
 msgid "Unprotect the workbook to enable editing."
-msgstr "Bescherming van de werkmap opheffen om bewerken mogelijk te maken."
+msgstr "Beveiliging van de werkmap opheffen om bewerken mogelijk te maken."
 
 #: src/workbook-edit.c:347
 msgid "Unprotect the sheet to enable editing."
-msgstr "Bescherming werkblad opheffen om bewerken mogelijk te maken."
+msgstr "Beveiliging werkblad opheffen om bewerken mogelijk te maken."
 
 #: src/workbook-format-toolbar.c:88
 msgid "Set Horizontal Alignment"
@@ -31436,10 +31533,10 @@ msgstr "Boven en Dikke Bodem"
 msgid "Set Borders"
 msgstr "Randen instellen"
 
+# Een teller?
 #: src/workbook-object-toolbar.c:190
-#, fuzzy
 msgid "SpinButton"
-msgstr "Knop"
+msgstr "Spinknop"
 
 #: src/workbook-view.c:273
 #, c-format
@@ -31657,10 +31754,6 @@ msgstr "Gnumeric XML bestandsformaat"
 #~ msgid "Axis"
 #~ msgstr "As"
 
-#, fuzzy
-#~ msgid "GraphLabel"
-#~ msgstr "Label"
-
 #~ msgid ""
 #~ "@FUNCTION=AMORDEGRC\n"
 #~ "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -31841,10 +31934,6 @@ msgstr "Gnumeric XML bestandsformaat"
 #~ msgid "Varp (population)"
 #~ msgstr "Varp (populatie)"
 
-#, fuzzy
-#~ msgid "FillSeries"
-#~ msgstr "_Series"
-
 #~ msgid "Error saving to temporary file."
 #~ msgstr "Fout tijdens schrijven naar tijdelijk bestand."
 
@@ -31865,10 +31954,6 @@ msgstr "Gnumeric XML bestandsformaat"
 
 #~ msgid "Too many columns in data to parse: %d"
 #~ msgstr "Gegevens bevatten te veel kolommen om te verwerken: %d"
-
-#, fuzzy
-#~ msgid "Cancelled"
-#~ msgstr "_Afbreken"
 
 #~ msgid "Duplicate this sheet"
 #~ msgstr "Dit werkblad dupliceren"
@@ -32102,12 +32187,6 @@ msgstr "Gnumeric XML bestandsformaat"
 
 #~ msgid "Column formatting"
 #~ msgstr "Kolom formateren"
-
-#, fuzzy
-#~ msgid "Customize the columns using the buttons or the mouse"
-#~ msgstr ""
-#~ "Gebruik de knoppen of de muis om de kolommen in te stellen (plaats de "
-#~ "muis boven het voorbeeld voor instructies)"
 
 #~ msgid "Data type and number of lines"
 #~ msgstr "Gegevenstype en aantal regels"
