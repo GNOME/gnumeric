@@ -1,5 +1,12 @@
 2001-04-15  Almer S. Tigelaar  <almer@gnome.org>
 
+	* src/preview-grid-controller.c,
+	src/preview-grid-controller.h : Remove entirely, the
+	preview-grid-controller abstraction is no longer
+	needed.
+
+2001-04-15  Almer S. Tigelaar  <almer@gnome.org>
+
 	* src/preview-grid.c (pgrid_get_style) : Calls upon
 	cb_cell_get_style, if NULL use default.
 	(pg_get_row_height) : Retrieve row height.
