@@ -176,6 +176,8 @@ Value *callback_function_make_list (const EvalPosition *ep,
 				    Value *value, void *closure);
 void init_make_list_closure(make_list_t *p);
 
+float_t get_serial_date (const Value *v);
+
 int  solver_simplex                 (Workbook *wb, Sheet *sheet);
 
 #endif /* GNUMERIC_FUNC_H */

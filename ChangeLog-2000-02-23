@@ -1,3 +1,21 @@
+1999-08-20  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* po/de.po: Removed the last bogus msgid to make it compile again.
+
+	* src/sheet.c (sheet_insert_object): Added #if ENABLE_BONOBO to
+ 	make it compile without BONOBO.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_drag_data_get): Ditto.
+
+	* src/collect.[ch]: Wrote collect_dates and collect_dates_value.
+
+	* src/fn-financial.c: DB() and XNPV() implemented.  DOLLARDE() and
+ 	DOLLARFR() fixed.
+
+	* src/fn-date.c, src/func.h: get_serial_date made public.
+
+	* TODO: Killed the four functions above from the todo list.
+	
 1999-08-19  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/workbook.c (workbook_container_get_object): Finish

@@ -13,6 +13,7 @@
 #include "utils.h"
 #include "func.h"
 #include "goal-seek.h"
+#include "collect.h"
 
 /*
 
@@ -182,8 +183,49 @@ gnumeric_nominal (FunctionEvalInfo *ei, Value **argv)
 
 }
 
+static char *help_db = {
+	N_("@FUNCTION=DB\n"
+	   "@SYNTAX=DB(r,nper)\n"
+	   "@DESCRIPTION="
+	   "DB returns the "
+	   "\n"
+	   "@SEEALSO=")
+};
 
+static Value *
+gnumeric_db (FunctionEvalInfo *ei, Value **argv)
+{
+	float_t rate;
+	float_t cost, salvage, life, period, month;
+	float_t total;
+	int     i;
 
+	cost = value_get_as_float (argv[0]);
+	salvage = value_get_as_float (argv[1]);
+	life = value_get_as_float (argv[2]);
+	period = value_get_as_float (argv[3]);
+	if (argv[4] == NULL)
+	        month = 12;
+	else
+	        month = value_get_as_float (argv[4]);
+
+	rate = 1 - pow((salvage / cost), (1 / life));
+	rate *= 1000;
+	rate = floor(rate+0.5) / 1000;
+
+	total = cost * rate * month / 12;
+
+        if (period == 1)
+	       return value_new_float (total);
+
+	for (i=1; i<life; i++)
+	       if (i == period-1)
+		       return value_new_float ((cost - total) * rate);
+	       else
+		       total += (cost - total) * rate;
+
+	return value_new_float (((cost - total) * rate * (12 - month)) / 12);
+}
 
 static char *help_sln = {
 	N_("@FUNCTION=SLN\n"
@@ -224,13 +266,15 @@ static char *help_syd = {
 	N_("@FUNCTION=SYD\n"
 	   "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
 
-	   "@DESCRIPTION=Calculates the sum-of-years digits depriciation for an "
+	   "@DESCRIPTION="
+	   "Calculates the sum-of-years digits depriciation for an "
 	   "asset based on its cost, salvage value, anticipated life and a "
 	   "particular period."
 	   "\n"
 	   "Formula for sum-of-years digits depriciation is:"
 	   "\n"
-	   "Depriciation expense = ( cost - salvage_value ) * (life - period + 1) * 2 / life * (life + 1)"
+	   "Depriciation expense = ( cost - salvage_value ) * (life - period "
+	   "+ 1) * 2 / life * (life + 1)."
 	   "\n"
 	   "\t@cost = cost of an asset when acquired (market value)"
 	   "\t@salvage_value = amount you get when asset sold at the end of life"
@@ -290,9 +334,9 @@ gnumeric_dollarde (FunctionEvalInfo *ei, Value **argv)
 
 	floored = floor (fractional_dollar);
 	rest = fractional_dollar - floored;
-	tmp = (int) (rest * pow(10, n));
 
-	return value_new_float (floored + ((float_t) tmp / fraction));
+	return value_new_float (floored + ((float_t) rest * pow(10,n) /
+					   fraction));
 }
 
 static char *help_dollarfr = {
@@ -321,16 +365,16 @@ gnumeric_dollarfr (FunctionEvalInfo *ei, Value **argv)
 	if (fraction <= 0)
                 return value_new_error (&ei->pos, gnumeric_err_NUM);
 
-	tmp = fraction;
 	/* Count digits in fraction */
+	tmp = fraction;
 	for (n=0; tmp; n++)
 	        tmp /= 10;
 
 	floored = floor (fractional_dollar);
 	rest = fractional_dollar - floored;
-	tmp = (int) (rest * fraction);
 
-	return value_new_float (floored + ((float_t) tmp / pow(10, n)));
+	return value_new_float (floored + ((float_t) (rest*fraction) /
+					   pow(10, n)));
 }
 
 
@@ -403,7 +447,8 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 			return value_new_error (&ei->pos, gnumeric_err_NUM);
 		else {
 			/* Exact case.  */
-			return value_new_float (pow (-udata.fv / udata.pv, -1.0 / udata.nper) - 1);
+			return value_new_float (pow (-udata.fv / udata.pv,
+						     -1.0 / udata.nper) - 1);
 		}
 	}
 
@@ -412,7 +457,8 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 	else {
 		/* Root finding case.  The following was derived by setting
 		   type==0 and estimating (1+r)^n ~= 1+rn.  */
-		rate0 = -((udata.pmt * udata.nper + udata.fv) / udata.pv + 1) / udata.nper;
+		rate0 = -((udata.pmt * udata.nper + udata.fv) /
+			  udata.pv + 1) / udata.nper;
 	}
 
 #if 0
@@ -459,15 +505,20 @@ gnumeric_pv (FunctionEvalInfo *ei, Value **argv)
 	pvif = calculate_pvif (rate, nper);
 	fvifa = calculate_fvifa (rate, nper);
 
-        return value_new_float ( ( (-1.0) * fv - pmt * ( 1.0 + rate * type ) * fvifa ) / pvif );
+        return value_new_float ( ( (-1.0) * fv - pmt *
+				   ( 1.0 + rate * type ) * fvifa ) / pvif );
 }
 
 static char *help_npv = {
 	N_("@FUNCTION=NPV\n"
 	   "@SYNTAX=NPV(rate,v1,v2,...)\n"
-	   "@DESCRIPTION=Calculates the net present value of an investment."
+	   "@DESCRIPTION="
+	   "NPV calculates the net present value of an investment generating "
+	   "peridic payments.  @rate is the periodic interest rate and "
+	   "@v1, @v2, ... are the periodic payments. If the schedule of the "
+	   "cash flows are not periodic use the XNPV function. "
 	   "\n"
-	   "@SEEALSO=PV")
+	   "@SEEALSO=PV,XNPV")
 };
 
 typedef struct {
@@ -505,6 +556,58 @@ gnumeric_npv (FunctionEvalInfo *ei, GList *nodes)
 					      &p, nodes, TRUE);
 
 	return (v != NULL) ? v : value_new_float (p.sum);
+}
+
+static char *help_xnpv = {
+	N_("@FUNCTION=XNPV\n"
+	   "@SYNTAX=XNPV(rate,values,dates)\n"
+	   "@DESCRIPTION="
+	   "XNPV calculates the net present value of an investment.  The "
+	   "schedule of the cash flows is given in @dates array.  The first "
+	   "date indicates the beginning of the payment schedule.  @rate "
+	   "is the interest rate and @values are the payments. "
+	   "\n"
+	   "If @values and @dates contain unequal number of values, XNPV "
+	   "returns the #NUM error. "
+	   "\n"
+	   "@SEEALSO=NPV,PV")
+};
+
+static Value *
+gnumeric_xnpv (FunctionEvalInfo *ei, Value **argv)
+{
+	float_t rate, *payments = NULL, *dates = NULL;
+	float_t sum;
+	int     p_n, d_n, i;
+	Value   *result = NULL;
+
+	rate = value_get_as_float (argv[0]);
+	sum = 0;
+
+	payments = collect_floats_value (argv[1], &ei->pos,
+					 COLLECT_IGNORE_STRINGS |
+					 COLLECT_IGNORE_BOOLS,
+					 &p_n, &result);
+	if (result)
+		goto out;
+
+	dates = collect_dates_value (argv[2], &ei->pos, 0,
+				     &d_n, &result);
+	if (result)
+		goto out;
+
+	if (p_n != d_n)
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
+
+	for (i=0; i<p_n; i++)
+	        sum += payments[i] / pow(1+rate, (dates[i]-dates[0])/365.0);
+
+	result = value_new_float (sum);
+ out:
+	g_free (payments);
+	g_free (dates);
+
+	return result;
 }
 
 
@@ -713,6 +816,9 @@ void finance_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Financial"));
 
+	function_add_args  (cat, "db", "ffff|f",
+			    "cost,salvage,life,period[,month]",
+			    &help_db, gnumeric_db);
 	function_add_args  (cat, "dollarde", "ff", 
 			    "fractional_dollar,fraction",
 			    &help_dollarde, gnumeric_dollarde);
@@ -747,4 +853,6 @@ void finance_functions_init()
 	function_add_args  (cat, "syd", "ffff",
 			    "cost,salvagevalue,life,period",
 			    &help_syd,      gnumeric_syd);
+        function_add_args  (cat, "xnpv", "fAA", "rate,values,dates",
+			    &help_xnpv,     gnumeric_xnpv);
 }

@@ -893,6 +893,7 @@ gnumeric_sheet_drag_data_get (GtkWidget *widget,
 			      guint info,
 			      guint time)
 {
+#ifdef ENABLE_BONOBO
 	GnomeMoniker *moniker;
 	Sheet *sheet = GNUMERIC_SHEET (widget)->sheet_view->sheet;
 	Workbook *wb = sheet->workbook;
@@ -915,6 +916,7 @@ gnumeric_sheet_drag_data_get (GtkWidget *widget,
 	gtk_object_destroy (GTK_OBJECT (moniker));
 
 	gtk_selection_data_set (selection_data, selection_data->target, 8, s, strlen (s)+1);
+#endif
 }
 
 GtkWidget *

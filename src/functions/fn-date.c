@@ -14,7 +14,7 @@
 
 #define DAY_SECONDS (3600*24)
 
-static float_t
+float_t
 get_serial_date (const Value *v)
 {
 	float_t serial;

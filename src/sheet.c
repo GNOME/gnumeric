@@ -4213,6 +4213,7 @@ sheet_lookup_by_name (Workbook *wb, const char *name)
 void
 sheet_insert_object (Sheet *sheet, char *repoid)
 {
+#ifdef ENABLE_BONOBO
 	GnomeClientSite *client_site;
 	GnomeObjectClient *object_server;
 	GList *l;
@@ -4247,4 +4248,5 @@ sheet_insert_object (Sheet *sheet, char *repoid)
 		return;
 	}
 
+#endif
 }

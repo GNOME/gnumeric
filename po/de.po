@@ -3048,8 +3048,3 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-lookup.c:554
-msgid ""
-"@FUNCTION=COLUMN\n"
-"@SYNTAX=COLUMN([reference])\n"
-"@DESCRIPTION=The COLUMN fun

@@ -1,8 +1,9 @@
 /*
  * collect.c: Helpers to collect ranges of data.
  *
- * Author:
+ * Authors:
  *   Morten Welinder <terra@diku.dk>
+ *   Jukka-Pekka Iivonen <iivonen@iki.fi>
  */
 
 #include "collect.h"
@@ -138,6 +139,128 @@ collect_floats_value (const Value *val, const EvalPosition *ep,
 	exprlist = g_list_prepend (NULL, expr_val);
 
 	res = collect_floats (exprlist, ep, flags, n, error);
+
+	expr_tree_unref (expr_val);
+	g_list_free (exprlist);
+
+	return res;
+}
+
+/* ------------------------------------------------------------------------- */
+
+static Value *
+callback_function_dates_collect (const EvalPosition *ep,
+				 Value *value, void *closure)
+{
+	float_t x;
+	collect_floats_t *cl = (collect_floats_t *)closure;
+
+	switch (value->type) {
+	case VALUE_EMPTY:
+		return NULL;
+
+	case VALUE_BOOLEAN:
+		if (cl->flags & COLLECT_IGNORE_BOOLS)
+			return NULL;
+		else
+			return value_new_error (ep, gnumeric_err_VALUE);
+		break;
+
+	case VALUE_ERROR:
+		if (cl->flags & COLLECT_IGNORE_ERRORS)
+			return NULL;
+		else
+			return value_new_error (ep, gnumeric_err_VALUE);
+		break;
+
+	case VALUE_INTEGER:
+	case VALUE_FLOAT:
+		x = value_get_as_float (value);
+		break;
+
+	case VALUE_STRING:
+	        x = get_serial_date (value);
+		break;
+
+	default:
+		g_warning ("Trouble in callback_function_dates_collect. (%d)",
+			   value->type);
+		return NULL;
+	}
+
+	if (cl->count == cl->alloc_count) {
+		cl->alloc_count *= 2;
+		cl->data = g_realloc (cl->data, cl->alloc_count *
+				      sizeof (float_t));
+	}
+
+	cl->data[cl->count++] = x;
+	return NULL;
+}
+
+/* ------------------------------------------------------------------------- */
+/*
+ * collect_dates:
+ *
+ * exprlist:       List of expressions to evaluate.
+ * cr:             Current location (for resolving relative cells).
+ * flags:          COLLECT_IGNORE_BOOLS: silently ignore bools.
+ *                 COLLECT_ZEROONE_BOOLS: count FALSE as 0, TRUE as 1.
+ *                   (Alternative: return #VALUE!.)
+ * n:              Output parameter for number of floats.
+ *
+ * Return value:
+ *   NULL in case of strict and a blank.
+ *   A copy of the error in the case of strict and an error.
+ *   Non-NULL in case of success.  Then n will be set.
+ *
+ * Evaluate a list of expressions and return the result as an array of
+ * float_t.
+ */
+static float_t *
+collect_dates (GList *exprlist, const EvalPosition *ep, CollectFlags flags,
+	       int *n, Value **error)
+{
+	Value * err;
+	collect_floats_t cl;
+
+	cl.alloc_count = 20;
+	cl.data = g_new (float_t, cl.alloc_count);
+	cl.count = 0;
+	cl.flags = flags;
+
+	err = function_iterate_argument_values(ep, 
+					       &callback_function_dates_collect,
+					       &cl, exprlist, TRUE);
+
+	if (err) {
+		g_assert (err->type == VALUE_ERROR);
+		g_free (cl.data);
+		/* Be careful not to make value_terminate into a real value */
+		*error = (err != value_terminate())? value_duplicate(err) : err;
+		return NULL;
+	}
+
+	*n = cl.count;
+	return cl.data;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Like collect_dates, but takes a value instead of an expression list.
+   Presumably most useful when the value is an array.  */
+
+float_t *
+collect_dates_value (const Value *val, const EvalPosition *ep,
+		     CollectFlags flags, int *n, Value **error)
+{
+	GList *exprlist;
+	ExprTree *expr_val;
+	float_t *res;
+
+	expr_val = expr_tree_new_constant (value_duplicate (val));
+	exprlist = g_list_prepend (NULL, expr_val);
+
+	res = collect_dates (exprlist, ep, flags, n, error);
 
 	expr_tree_unref (expr_val);
 	g_list_free (exprlist);
