@@ -28,7 +28,7 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-void sc_file_open (FileOpener const *fo, IOContext *io_context,
+void sc_file_open (GnumFileOpener const *fo, IOContext *io_context,
                    WorkbookView *wb_view, const char *filename);
 
 typedef struct {
@@ -396,7 +396,7 @@ sc_parse_sheet (sc_file_state_t *src, ErrorInfo **ret_error)
 }
 
 void
-sc_file_open (FileOpener const *fo, IOContext *io_context,
+sc_file_open (GnumFileOpener const *fo, IOContext *io_context,
               WorkbookView *wb_view, const char *filename)
 {
 	/*

@@ -5,7 +5,8 @@
 		<attribute name="module_file" value="sc.so"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="sc" priority="1" probe="FALSE">
+		<service type="file_opener" id="sc" priority="1" probe="FALSE"
+		         open="FALSE" import="TRUE">
 			<information description="SC/xspread file import"/>
 			<save_info saver_id="" format_level="manual"/>
 		</service>
