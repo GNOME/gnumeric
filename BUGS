@@ -11,7 +11,6 @@ Release Critical
     : Use GNOME Recent for the gnome build
     : tie the custom ui into action sensitivity pools
     : kasal's popt patch
-    : JHM's 2nd paper size patch
     : emmanuel's legend resize patch
     : emmanuel's disable theme patch for xy plots with only lines
     : support array evaluation for =LARGE and friends

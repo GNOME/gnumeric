@@ -121,6 +121,8 @@ print_info_free (PrintInformation *pi)
 	print_hf_free (pi->footer);
 
 	g_free (pi->paper);
+	g_free (pi->paper_width);
+	g_free (pi->paper_height);
 	g_free (pi->gp_config_str);
 	g_free (pi);
 }
@@ -267,6 +269,8 @@ print_info_new (void)
 	pi->n_copies	  = 1;
 	pi->gp_config_str = NULL;
 	pi->paper	  = NULL;
+	pi->paper_width	  = NULL;
+	pi->paper_height  = NULL;
 	return pi;
 }
 
@@ -629,6 +633,10 @@ print_info_dup (PrintInformation const *src_pi)
 	dst_pi->gp_config_str = g_strdup (src_pi->gp_config_str);
 	g_free (dst_pi->paper);
 	dst_pi->paper = g_strdup (src_pi->paper);
+	g_free (dst_pi->paper_width);
+	dst_pi->paper_width = g_strdup (src_pi->paper_width);
+	g_free (dst_pi->paper_height);
+	dst_pi->paper_height = g_strdup (src_pi->paper_height);
 
 	return dst_pi;
 }
@@ -703,11 +711,37 @@ print_info_set_paper (PrintInformation *pi, char const *paper)
 	g_free (pi->paper);
 	pi->paper = g_strdup (paper);
 }
+void
+print_info_set_paper_width (PrintInformation *pi, char const *paper_width)
+{
+	g_return_if_fail (pi != NULL);
+	g_free (pi->paper_width);
+	pi->paper_width = g_strdup (paper_width);
+}
+void
+print_info_set_paper_height (PrintInformation *pi, char const *paper_height)
+{
+	g_return_if_fail (pi != NULL);
+	g_free (pi->paper_height);
+	pi->paper_height = g_strdup (paper_height);
+}
 char const *
 print_info_get_paper (PrintInformation const *pi)
 {
 	g_return_val_if_fail (pi != NULL, "A4");
 	return pi->paper;
+}
+char const *
+print_info_get_paper_width (PrintInformation const *pi)
+{
+	g_return_val_if_fail (pi != NULL, "210mm");
+	return pi->paper_width;
+}
+char const *
+print_info_get_paper_height (PrintInformation const *pi)
+{
+	g_return_val_if_fail (pi != NULL, "297mm");
+	return pi->paper_height;
 }
 
 void        
@@ -732,8 +766,15 @@ print_info_make_config (PrintInformation const *pi)
 			? gnome_print_config_from_string (gnm_app_prefs->printer_config, 0)
 			: gnome_print_config_default ());
 
-	if (NULL != pi->paper)
+	if (NULL != pi->paper) {
 		gnome_print_config_set (res, GNOME_PRINT_KEY_PAPER_SIZE, pi->paper);
+	} else {
+		if ((NULL != pi->paper_width) && (NULL != pi->paper_height)) {
+			gnome_print_config_set (res, GNOME_PRINT_KEY_PAPER_SIZE, "Custom");
+			gnome_print_config_set (res, GNOME_PRINT_KEY_PAPER_WIDTH, pi->paper_width);
+			gnome_print_config_set (res, GNOME_PRINT_KEY_PAPER_HEIGHT, pi->paper_height);
+		}
+	}
 	gnome_print_config_set_length (res, GNOME_PRINT_KEY_PAGE_MARGIN_TOP,
 		pi->margins.header, GNOME_PRINT_PS_UNIT);
 	gnome_print_config_set_length (res, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM,

@@ -90,6 +90,7 @@ struct _PrintInformation {
 	int		  n_copies;
 	char		 *gp_config_str;
 	char		 *paper;
+	char		 *paper_width, *paper_height;
 };
 
 typedef enum {
@@ -135,7 +136,11 @@ void        print_shutdown           (void);
 void        print_info_set_n_copies  (PrintInformation *pi, int copies);
 guint	    print_info_get_n_copies  (PrintInformation const *pi);
 void	    print_info_set_paper     (PrintInformation *pi, char const *paper);
+void	    print_info_set_paper_width     (PrintInformation *pi, char const *paper_width);
+void	    print_info_set_paper_height    (PrintInformation *pi, char const *paper_height);
 char const *print_info_get_paper     (PrintInformation const *pi);
+char const *print_info_get_paper_width     (PrintInformation const *pi);
+char const *print_info_get_paper_height    (PrintInformation const *pi);
 void        print_info_get_margins   (PrintInformation const *pi,
 				      double *header, double *footer, double *left, double *right);
 void        print_info_set_margins   (PrintInformation *pi,

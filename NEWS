@@ -1,3 +1,9 @@
+Gnumeric 1.4.2
+
+J.H.M. Dassen (Ray):
+	* XLS import for paper sizes for which gnome-print doesn't have a
+	  name.
+
 Gnumeric 1.4.1
 
 Jody:

@@ -3969,11 +3969,12 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 		if (papersize < PAPER_NAMES_LEN) {
 			guchar *paper_name = (guchar *)paper_size_table[papersize].gp_name;
 			guchar *paper_width = (guchar *)paper_size_table[papersize].gp_width;
-			guchar *paper_height = (guchar *)paper_size_table[papersize].gp_width;
+			guchar *paper_height = (guchar *)paper_size_table[papersize].gp_height;
 			if (paper_name != NULL) {
 				print_info_set_paper (pi, paper_name);
 			} else if ((paper_width != NULL) && (paper_height != NULL)) {
-				g_warning ("No gnome-print name for paper size %s x %s - ignoring", paper_width, paper_height);
+				print_info_set_paper_width(pi, paper_width);
+				print_info_set_paper_height(pi, paper_height);
 			}
 		}
 	}
