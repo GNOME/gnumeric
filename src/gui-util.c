@@ -244,72 +244,34 @@ gnumeric_dialog_show (WorkbookControlGUI *wbcg, GtkDialog *dialog,
 		gtk_widget_show (GTK_WIDGET (dialog));
 }
 
-static GtkCTreeNode *
-ctree_insert_error_info (GtkCTree *ctree, GtkCTreeNode *parent,
-                         GtkCTreeNode *sibling, ErrorInfo *error,
-                         gboolean expand)
+#define ERROR_INFO_MAX_LEVEL 9
+#define ERROR_INFO_TAG_NAME "errorinfotag%i"
+
+static void
+insert_error_info (GtkTextBuffer* text, ErrorInfo *error, gint level)
 {
-	GtkCTreeNode *my_node, *last_child_node;
-	gchar *message;
-	gboolean child_expand;
+	gchar *message = (gchar *) error_info_peek_message (error);
 	GSList *details_list, *l;
-
-	message = (gchar *) error_info_peek_message (error);
-	if (message == NULL) {
-		message = _("Multiple errors");
-	}
+	GtkTextIter start, last;
+	gchar *tag_name = g_strdup_printf (ERROR_INFO_TAG_NAME, 
+					   MIN (level, ERROR_INFO_MAX_LEVEL)); 
+	if (message == NULL)
+		message = g_strdup (_("Multiple errors\n"));
+	else 
+		message = g_strdup_printf ("%s\n", message);
+	gtk_text_buffer_get_bounds (text, &start, &last);
+	gtk_text_buffer_insert_with_tags_by_name (text, &last,
+						  message, -1,
+						  tag_name, NULL);
+	g_free (tag_name);
+	g_free (message);
 	details_list = error_info_peek_details (error);
-	my_node = gtk_ctree_insert_node (ctree, parent, sibling, &message, 0, NULL, NULL, NULL, NULL, details_list == NULL, expand);
-
-	child_expand = details_list == NULL || details_list->next == NULL;
-	last_child_node = NULL;
 	for (l = details_list; l != NULL; l = l->next) {
 		ErrorInfo *detail_error = l->data;
-
-		last_child_node = ctree_insert_error_info (ctree, my_node, last_child_node,
-		                                           detail_error, child_expand);
+		insert_error_info (text, detail_error, level + 1);
 	}
-
-	return my_node;
+	return;
 }
-
-/**
- * gnumeric_error_info_dialog_show_full
- *
- */
-static void
-gnumeric_error_info_dialog_show_full (WorkbookControlGUI *wbcg, ErrorInfo *error)
-{
-	GtkWidget *dialog;
-	GtkWidget *scrolled_window, *ctree;
-	GtkCTreeNode *main_ctree_node;
-
-	g_return_if_fail (error != NULL);
-
-	dialog = gtk_dialog_new_with_buttons (_("Detailed error message"), 
-					      wbcg_toplevel (wbcg),
-					      GTK_DIALOG_DESTROY_WITH_PARENT,
-					      GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
-					      NULL);
-	gtk_widget_set_usize (dialog, 600, 300);
-	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
-
-	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	ctree = gtk_ctree_new (1, 0);
-	gtk_ctree_set_line_style (GTK_CTREE (ctree), GTK_CTREE_LINES_NONE);
-	gtk_ctree_set_expander_style (GTK_CTREE (ctree), GTK_CTREE_EXPANDER_TRIANGLE);
-	main_ctree_node = ctree_insert_error_info (GTK_CTREE (ctree), NULL, NULL, error, TRUE);
-	gtk_clist_set_column_auto_resize (GTK_CLIST (ctree), 0, TRUE);
-	gtk_container_add (GTK_CONTAINER (scrolled_window), ctree);
-	gtk_widget_show_all (GTK_WIDGET (scrolled_window));
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), scrolled_window, TRUE, TRUE, 0);
-
-	gnumeric_set_transient (wbcg, GTK_WINDOW (dialog));
-	gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog));
-}
-
-#define GNUMERIC_RESPONSE_DETAILS	1
 
 /**
  * gnumeric_error_info_dialog_show
@@ -318,44 +280,54 @@ gnumeric_error_info_dialog_show_full (WorkbookControlGUI *wbcg, ErrorInfo *error
 void
 gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
 {
-	GString *str;
-	GSList *details;
-	gboolean has_extra_details;
 	GtkWidget *dialog;
+	GtkWidget *scrolled_window;
+	GtkTextView *view;
+	gint i;
+	GtkTextBuffer *text;
+	gchar *message;
+	gint bf_lim = 1;
 
-	str = g_string_new (error_info_peek_message (error));
-	details = error_info_peek_details (error);
-	if (g_slist_length (details) == 1) {
-		ErrorInfo *details_error = details->data;
-		gchar const *s;
+	g_return_if_fail (error != NULL);
 
-		s = error_info_peek_message (details_error);
-		if (s != NULL) {
-			g_string_append (str, "\n\n");
-			g_string_append (str, s);
-		}
-		has_extra_details = error_info_peek_details (details_error) != NULL;
-	} else
-		has_extra_details = details != NULL;
+	message = (gchar *) error_info_peek_message (error);
+	if (message == NULL)
+		bf_lim++;
 
 	dialog = gtk_message_dialog_new (wbcg_toplevel (wbcg),
-			GTK_DIALOG_DESTROY_WITH_PARENT,
-			GTK_MESSAGE_ERROR,
-			GTK_BUTTONS_NONE,
-			str->str);
-	g_string_free (str, TRUE);
+                                  GTK_DIALOG_DESTROY_WITH_PARENT,
+                                  GTK_MESSAGE_ERROR,
+                                  GTK_BUTTONS_CLOSE,
+                                  " ");
+	gtk_widget_set_usize (dialog, 450, 250);
+	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), 
+					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window),
+					     GTK_SHADOW_ETCHED_IN);
+	view = GTK_TEXT_VIEW (gtk_text_view_new ());
+	gtk_text_view_set_wrap_mode (view, GTK_WRAP_WORD);
+	gtk_text_view_set_editable (view, FALSE);
+	gtk_text_view_set_pixels_below_lines (view,
+					      gtk_text_view_get_pixels_inside_wrap (view) + 3);
+	text = gtk_text_view_get_buffer (view);
+	for (i = ERROR_INFO_MAX_LEVEL; i-- > 0;) {
+		gchar *tag_name = g_strdup_printf (ERROR_INFO_TAG_NAME, i);
+		gtk_text_buffer_create_tag (text, tag_name,
+					    "left_margin", i * 12,
+					    "right_margin", i * 12,
+					    "weight", (i < bf_lim) ? PANGO_WEIGHT_BOLD 
+					    : PANGO_WEIGHT_NORMAL,
+                                            NULL);
+	}
+	insert_error_info (text, error, 0);
 
-	if (has_extra_details)
-		gtk_dialog_add_button (GTK_DIALOG (dialog),
-			_("Show details"), GNUMERIC_RESPONSE_DETAILS);
-	gtk_dialog_add_button (GTK_DIALOG (dialog),
-		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
-	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_CLOSE);
+	gtk_container_add (GTK_CONTAINER (scrolled_window), GTK_WIDGET (view));
+	gtk_widget_show_all (GTK_WIDGET (scrolled_window));
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), scrolled_window, TRUE, TRUE, 0);
 
 	gnumeric_set_transient (wbcg, GTK_WINDOW (dialog));
-
-	if (gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog)) == GNUMERIC_RESPONSE_DETAILS)
-		gnumeric_error_info_dialog_show_full (wbcg, error);
+	gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog));
 }
 
 /**
