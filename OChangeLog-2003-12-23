@@ -1,4 +1,23 @@
-2000-11-17  root  <chema@celorio.com>
+2000-11-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.59
+
+2000-11-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/command-context-corba.c (command_context_corba_new) : warning
+	  suppression.
+
+	* src/workbook-control-gui.c (workbook_control_gui_ctor_class) : Init
+	  progress_set in CommandContextClass, and add support for
+	  splits_array at this level.
+
+	* src/command-context.c (gnumeric_error_splits_array) : The decision
+	  to use invalid should be done in the implementation.
+
+	* src/workbook-control.c (wb_control_progress_set) : delete replicated
+	  function.
+
+2000-11-17  Chema Celoria  <chema@celorio.com>
 
 	* src/print.c (sheet_print): change to a g_return_val_if_fail
 	by gmorten's request

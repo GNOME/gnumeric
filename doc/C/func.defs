@@ -2619,7 +2619,7 @@ IMLOG10("3-j") equals 0.5-0.13973j.
 
 @FUNCTION=AND
 @SYNTAX=AND(b1, b2, ...)
-@DESCRIPTION=AND implements the logical AND function: the result is TRUE if all of the expression evaluates to TRUE, otherwise it returns FALSE.
+@DESCRIPTION=AND implements the logical AND function: the result is TRUE if all of the expressions evaluate to TRUE, otherwise it returns FALSE.
 @b1, trough @bN are expressions that should evaluate to TRUE or FALSE.  If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.
 If the values contain strings or empty cells those values are ignored. If no logical values are provided, then the error #VALUE! is returned. This function is Excel compatible. 
 @EXAMPLES=

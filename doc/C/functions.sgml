@@ -8080,7 +8080,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>AND implements the logical AND function: the result is TRUE if all of the expression evaluates to TRUE, otherwise it returns FALSE.</para>
+        <para>AND implements the logical AND function: the result is TRUE if all of the expressions evaluate to TRUE, otherwise it returns FALSE.</para>
         <para>@b1, trough @bN are expressions that should evaluate to TRUE or FALSE.  If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.</para>        <para>If the values contain strings or empty cells those values are ignored. If no logical values are provided, then the error #VALUE! is returned. This function is Excel compatible. </para>
     </refsect1>      <refsect1>
         <title>Examples</title>
