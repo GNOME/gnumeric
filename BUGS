@@ -19,6 +19,8 @@ Release Critical
 * Charts
     - Index axis labels (1.14.12)
     - connect up or disable axis editor (1.14.{10,11,13})
+    - Get 'auto' working for fills so that we don't wipe a users selection when
+      merging the theme.
 
 * When we release 1.1.18, we should ask people to nominate certain foreign
   encodings as major.

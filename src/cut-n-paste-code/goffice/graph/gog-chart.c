@@ -394,9 +394,9 @@ gog_chart_axis_set_assign (GogChart *chart, GogAxisSet axis_set)
 	chart->axis_set = axis_set;
 
 	if (chart->grid != NULL && axis_set != GOG_AXIS_SET_XY) {
-		gog_object_clear_parent (GOG_OBJECT (chart->grid));
-		g_object_unref (chart->grid);
-		chart->grid = NULL;
+		GogObject *grid = chart->grid; /* clear_parent clears ::grid */
+		gog_object_clear_parent (GOG_OBJECT (grid));
+		g_object_unref (grid);
 	} else if (chart->grid == NULL && axis_set == GOG_AXIS_SET_XY)
 		gog_object_add_by_name (GOG_OBJECT (chart), "Grid", NULL);
 

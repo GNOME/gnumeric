@@ -184,12 +184,13 @@ cb_outline_size_changed (GtkAdjustment *adj, StylePrefState *state)
 static void
 cb_outline_color_changed (GtkWidget *cc,
 			  G_GNUC_UNUSED GdkColor *color,	gboolean  is_custom,
-			  G_GNUC_UNUSED gboolean  by_user,	G_GNUC_UNUSED gboolean  is_default,
+			  G_GNUC_UNUSED gboolean  by_user,	gboolean  is_default,
 			  StylePrefState *state)
 {
 	GogStyle *style = gog_object_dup_style (state->obj);
 	g_return_if_fail (style != NULL);
 	style->outline.color = color_combo_get_gocolor (cc, is_custom);
+	style->outline.auto_color = is_default;
 	gog_object_set_style (state->obj, style);
 }
 
@@ -232,12 +233,13 @@ cb_line_size_changed (GtkAdjustment *adj, StylePrefState const *state)
 static void
 cb_line_color_changed (GtkWidget *cc,
 		       G_GNUC_UNUSED GdkColor *color,	gboolean  is_custom,
-		       G_GNUC_UNUSED gboolean  by_user,	G_GNUC_UNUSED gboolean  is_default,
+		       G_GNUC_UNUSED gboolean  by_user,	gboolean  is_default,
 		       StylePrefState *state)
 {
 	GogStyle *style = gog_object_dup_style (state->obj);
 	g_return_if_fail (style != NULL);
 	style->line.color = color_combo_get_gocolor (cc, is_custom);
+	style->line.auto_color = is_default;
 	gog_object_set_style (state->obj, style);
 }
 

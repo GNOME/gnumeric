@@ -1,5 +1,10 @@
 2003-09-13  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-style.c (cb_line_color_changed) : set auto_color.
+	(cb_outline_color_changed) : ditto.
+
+2003-09-13  Jody Goldberg <jody@gnome.org>
+
 	* graph/gog-chart.c (gog_chart_axis_set_assign) : clear_parent clears
 	  ::grid, store the pointer for a moment so that we can free it.
 
