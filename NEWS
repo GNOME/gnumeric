@@ -41,6 +41,7 @@ Nick Lamb:
 Morten:
 	* Invalid memory read in marker combo.
 	* Speed up number match by caching localized TRUE and FALSE.
+	* Speed up number match of batches of partial dates (like "Jun-21").
 
 Thomas Miesbauer:
 	* Redo screenshots

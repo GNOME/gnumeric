@@ -964,8 +964,20 @@ compute_value (char const *s, const regmatch_t *mp,
 
 	if (!(year == -1 && month == -1 && day == -1)) {
 		time_t t = time (NULL);
+		static time_t lastt;
+		static struct tm tm;
 		GDate *date;
-		struct tm *tm = localtime (&t);
+
+		if (t != lastt) {
+			/*
+			 * Since localtime is moderately expensive, do
+			 * at most one call per second.  One per day
+			 * would be enough but is harder to check for.
+			 */
+			lastt = t;
+			tm = *localtime (&t);
+		}
+
 		if (year == -1) {
 			if (year_short != -1) {
 				/* Window of -75 thru +24 years. */
@@ -974,7 +986,7 @@ compute_value (char const *s, const regmatch_t *mp,
 				/* Earliest allowable interpretation
 				 * is 75 years ago. */
 				int earliest_ccyy
-					= tm->tm_year + 1900 - 75;
+					= tm.tm_year + 1900 - 75;
 				int earliest_cc = earliest_ccyy / 100;
 
 				g_return_val_if_fail (year_short >= 0 &&
@@ -1001,8 +1013,8 @@ compute_value (char const *s, const regmatch_t *mp,
 				/* (TODO: See what current
 				 * version of MS Excel uses.) */
 				int earliest_yyymm
-					= (tm->tm_year * 12 +
-					   tm->tm_mon - 6);
+					= (tm.tm_year * 12 +
+					   tm.tm_mon - 6);
 				year = earliest_yyymm / 12;
 				/* First estimate of yyy (i.e. years
 				 * since 1900) is the yyy part of
@@ -1024,12 +1036,12 @@ compute_value (char const *s, const regmatch_t *mp,
 				 * year.
 				 */
 			} else
-				year = 1900 + tm->tm_year;
+				year = 1900 + tm.tm_year;
 		}
 		if (month == -1)
-			month = tm->tm_mon + 1;
+			month = tm.tm_mon + 1;
 		if (day == -1)
-			day = tm->tm_mday;
+			day = tm.tm_mday;
 
 		if (year < 1900 || !g_date_valid_dmy (day, month, year))
 			return NULL;
