@@ -1,5 +1,10 @@
 2003-09-07  Adrian Custer <acuster@gnome.org>
 
+	* xmldocs.make added a symbolic link for non-bonobo build.
+	* xmldocs.make added a removal method for the link.
+
+2003-09-07  Adrian Custer <acuster@gnome.org>
+
 	* xmldocs.make added a /share/ because gnueric-bonobo looks there.
 
 2003-08-21  Jody Goldberg <jody@gnome.org>

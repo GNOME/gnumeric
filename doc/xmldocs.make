@@ -72,6 +72,7 @@ install-data-am: omf
 	  basefile=`echo $$file | sed -e  's,^.*/,,'`; \
 	  $(INSTALL_DATA) $$file $(DESTDIR)$(docdir)/figures/$$basefile; \
 	done
+	ln -s share/gnome/ $(gnumeric_datadir)/gnome
 	-if [ -e $(srcdir)/topic.dat ]; then \
 		$(INSTALL_DATA) $(srcdir)/topic.dat $(DESTDIR)$(docdir); \
 	 fi
@@ -84,5 +85,6 @@ uninstall-local:
 	-for file in $(xml_files); do \
 	  rm -f $(DESTDIR)$(docdir)/$$file; \
 	done
+	rm $(gnumeric_datadir)/gnome
 	-rmdir $(DESTDIR)$(docdir)/figures
 	-rmdir $(DESTDIR)$(docdir)
