@@ -921,11 +921,13 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 	gboolean ignore_further_elapsed = FALSE;
 	struct tm *time_split = 0;
 	char *res;
+	gdouble signed_number;
 
 	if (!lc)
 		lc = localeconv ();
 
 	memset (&info, 0, sizeof (info));
+	signed_number = number;
 	if (number < 0.0){
 		info.negative = TRUE;
 		number = -number;
@@ -1097,7 +1099,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			int n;
 
 			if (!time_split)
-				time_split = split_time (number);
+				time_split = split_time (signed_number);
 
 			/* FIXME : Yuck
 			 * This is a problem waiting to happen.
@@ -1122,14 +1124,14 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 		case 'D':
 		case 'd':
 			if (!time_split)
-				time_split = split_time (number);
+				time_split = split_time (signed_number);
 			format += append_day (result, format, time_split) -1;
 			break;
 
 		case 'Y':
 		case 'y':
 			if (!time_split)
-				time_split = split_time (number);
+				time_split = split_time (signed_number);
 			format += append_year (result, format, time_split) - 1;
 			break;
 
@@ -1138,7 +1140,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			int n;
 
 			if (!time_split)
-				time_split = split_time (number);
+				time_split = split_time (signed_number);
 
 			for (n = 1; format [1] == 's' || format [1] == 'S'; format++)
 				n++;
@@ -1175,7 +1177,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			int n;
 
 			if (!time_split)
-				time_split = split_time (number);
+				time_split = split_time (signed_number);
 
 			for (n = 1; format [1] == 'h' || format [1] == 'H'; format++)
 				n++;
@@ -1194,7 +1196,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 		case 'A':
 		case 'a':
 			if (!time_split)
-				time_split = split_time (number);
+				time_split = split_time (signed_number);
 			if (time_split->tm_hour < 12){
 				g_string_append_c (result, *format);
 				format++;
@@ -1213,7 +1215,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 
 		case 'P': case 'p':
 			if (!time_split)
-				time_split = split_time (number);
+				time_split = split_time (signed_number);
 			if (time_split->tm_hour >= 12){
 				g_string_append_c (result, *format);
 				if (*(format+1) == 'm' || *(format+1) == 'M'){

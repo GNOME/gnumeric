@@ -10,6 +10,7 @@
 #include <config.h>
 #include "datetime.h"
 #include "number-match.h"
+#include <math.h>
 
 #define SECS_PER_DAY (24 * 60 * 60)
 #define HALF_SEC (0.5 / SECS_PER_DAY)
@@ -108,7 +109,7 @@ datetime_timet_to_serial_raw (time_t t)
 inline int
 datetime_serial_raw_to_serial (float_t raw)
 {
-	return (int)(raw + HALF_SEC);
+	return (int) floor (raw + HALF_SEC);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -145,7 +146,7 @@ inline int
 datetime_serial_raw_to_seconds (float_t raw)
 {
 	raw += HALF_SEC;
-	return (raw - (int)raw) * SECS_PER_DAY;
+	return (raw - floor (raw)) * SECS_PER_DAY;
 }
 
 /* ------------------------------------------------------------------------- */

@@ -1,5 +1,11 @@
 2000-02-28  Morten Welinder  <terra@diku.dk>
 
+	* src/datetime.c (datetime_serial_raw_to_serial): Use floor.
+	(datetime_serial_raw_to_seconds): Ditto.
+
+	* src/format.c (format_number): Keep the sign when considering
+ 	dates.
+
 	* src/parser.y (unregister_allocation): Handle special error
  	situation without issueing a bogus message.
 
