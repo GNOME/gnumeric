@@ -30,7 +30,9 @@
 #include <goffice/graph/gog-object.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-libxml.h>
+#include <gsf/gsf-output-stdio.h>
 #include <string.h>
+#include <stdio.h>
 
 static gboolean ssindex_show_version = FALSE;
 static gboolean ssindex_list_mime_types = FALSE;
@@ -75,9 +77,12 @@ static void
 cb_index_cell (G_GNUC_UNUSED gpointer ignore,
 	       GnmCell const *cell, IndexerState *state)
 {
-	if (cell->value != NULL && VALUE_IS_STRING (cell->value))
-		gsf_xml_out_simple_element (state->output,
-			"data", value_peek_string (cell->value));
+	if (cell->value != NULL && VALUE_IS_STRING (cell->value)) {
+		char const *str = value_peek_string (cell->value);
+		if (str != NULL && *str)
+			gsf_xml_out_simple_element (state->output,
+				"data", value_peek_string (cell->value));
+	}
 }
 
 static void
@@ -86,10 +91,12 @@ cb_index_styles (GnmStyle *style, gconstpointer dummy, IndexerState *state)
 	if (mstyle_is_element_set (style, MSTYLE_HLINK)) {
 		guchar const *str;
 		GnmHLink const *lnk = mstyle_get_hlink (style);
-		if (NULL != (str = gnm_hlink_get_target (lnk)))
-			gsf_xml_out_simple_element (state->output, "data", str);
-		if (NULL != (str = gnm_hlink_get_tip (lnk)))
-			gsf_xml_out_simple_element (state->output, "data", str);
+		if (lnk != NULL) {
+			if (NULL != (str = gnm_hlink_get_target (lnk)))
+				gsf_xml_out_simple_element (state->output, "data", str);
+			if (NULL != (str = gnm_hlink_get_tip (lnk)))
+				gsf_xml_out_simple_element (state->output, "data", str);
+		}
 	}
 }
 
@@ -117,6 +124,7 @@ ssindex (char const *file, IOContext *ioc)
 	GSList	   *objs, *ptr;
 	char	   *str = go_shell_arg_to_uri (file);
 	IndexerState state;
+	GsfOutput  *gsf_stdout;
 
 	state.wb_view = wb_view_new_from_uri (str, NULL,
 		ioc, ssindex_import_encoding);
@@ -124,6 +132,10 @@ ssindex (char const *file, IOContext *ioc)
 
 	if (state.wb_view == NULL)
 		return 1;
+
+	gsf_stdout = gsf_output_stdio_new_FILE ("<stdout>", stdout, TRUE);
+	state.output = gsf_xml_out_new (gsf_stdout);
+	gsf_xml_out_start_element (state.output, "gnumeric");
 	state.wb = wb_view_workbook (state.wb_view);
 	for (i = 0 ; i < workbook_sheet_count (state.wb); i++) {
 		state.sheet = workbook_sheet_by_index (state.wb, i);
@@ -155,6 +167,10 @@ ssindex (char const *file, IOContext *ioc)
 		sheet_style_foreach (state.sheet,
 			(GHFunc)&cb_index_styles, &state);
 	}
+
+	gsf_xml_out_end_element (state.output); /* </gnumeric> */
+	gsf_output_close (gsf_stdout);
+	g_object_unref (gsf_stdout);
 
 	g_object_unref ((gpointer)state.wb);
 
