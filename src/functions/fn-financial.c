@@ -196,6 +196,36 @@ gnumeric_nominal (FunctionEvalInfo *ei, Value **argv)
 
 }
 
+static char *help_ispmt = {
+	N_("@FUNCTION=ISPMT\n"
+	   "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
+	   "@DESCRIPTION="
+	   "ISPMT function returns the interest payed on a given period. "
+	   "\n"
+	   "If @per < 1 or @per > @nper, ISPMT returns #NUM! error. "
+	   "\n"
+	   "@SEEALSO=PV")
+};
+
+static Value *
+gnumeric_ispmt (FunctionEvalInfo *ei, Value **argv)
+{
+	float_t rate, pv, tmp;
+	int     nper, per;
+
+	rate = value_get_as_float (argv[0]);
+	per = value_get_as_int (argv[1]);
+	nper = value_get_as_int (argv[2]);
+	pv = value_get_as_float (argv[3]);
+
+	if (per < 1 || per > nper)
+                return value_new_error (&ei->pos, gnumeric_err_NUM);
+
+	tmp = - pv * rate;
+
+	return value_new_float (tmp - (tmp / nper * per));
+}
+
 static char *help_db = {
 	N_("@FUNCTION=DB\n"
 	   "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -1117,6 +1147,8 @@ void finance_functions_init()
 			    &help_fvschedule, gnumeric_fvschedule);
 	function_add_args  (cat, "ipmt", "ffff|ff", "rate,per,nper,pv,fv,type",
 			    &help_ipmt,     gnumeric_ipmt);
+	function_add_args  (cat, "ispmt", "ffff",    "rate,per,nper,pv",
+			    &help_ispmt,  gnumeric_ispmt);
 	function_add_args  (cat, "mirr", "Aff",
 			    "values,finance_rate,reinvest_rate",
 			    &help_mirr,     gnumeric_mirr);

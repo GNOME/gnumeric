@@ -1,3 +1,7 @@
+1999-08-26  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/functions/fn-financial.c: Implemented ISPMT().
+	
 1999-08-25  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* samples/finfuns.xls: Fixed the test of MIRR.
