@@ -105,7 +105,7 @@ if test "x$bonobo_msg" = "xyes"; then
 		libbonobo-2.0 >= 2.0.0
 		libbonoboui-2.0 >= 2.0.0
 		bonobo-activation-2.0 >= 1.0.2
-		libgsf-gnome-1 >= 1.4.0
+		libgsf-gnome-1 >= 1.5.0
 		],	
 		[bonobo_msg="yes"],
 		[bonobo_msg="NO"])
@@ -119,7 +119,7 @@ if test "x$bonobo_msg" = "xyes"; then
 libbonobo-2.0 >= 1.115.0
 libbonoboui-2.0
 bonobo-activation-2.0
-libgsf-gnome-1 >= 1.3.0"
+libgsf-gnome-1 >= 1.5.0"
 else
         gnumeric_bonobo_enabled=false
 fi

@@ -6,6 +6,7 @@
 	  Removed AC_ARG_PROGRAM as AM_INIT_AUTOMAKE already calls it on our 
 	  behalf.
 	  Actually honour --enable-compile-warnings=... .
+	  Upped libgsf(-gnome) checks to consistently require 1.5.0 or newer.
 	* src/parse-util.h, src/regutf8.c, src/regutf8.h: Don't use // comments.
 	* src/func.c (gnm_func_group_remove_func),
 	  src/parse-util.c (wbref_parse),
