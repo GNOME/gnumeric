@@ -10,7 +10,7 @@ Release Critical
 - We need to somehow add --export-dynamic to the gnumeric link line, or else
   plugins won't load on Solaris/gcc.  (This might just be my bastard libtool.)
 - 3D reference fixes on sheet deletion
-- iconv utf8 password -> usc4 before hashing
+- iconv utf8 password -> ucs4 before hashing
 
 http://bugzilla.gnome.org/show_bug.cgi?id=77682
 
@@ -66,6 +66,7 @@ Long term breakage
       evo and guppi.  They should only be enabled if they are available.
     - config check for xml-i18n-tool version (or should it be
       intltool ?)
+    - config check for bonobo libraries in 1.2 when --with-bonobo is chosen.
 
 - Names
     : references in names do not get changed with cut/paste or ins/del row/col.
