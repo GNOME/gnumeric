@@ -18,6 +18,10 @@
 #define REG_EESCAPE REG_BADPAT
 #endif
 
+#ifndef REG_NOERROR
+#define REG_NOERROR 0
+#endif
+
 #ifndef REG_OK
 #define REG_OK REG_NOERROR
 #endif
