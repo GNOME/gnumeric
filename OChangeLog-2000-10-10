@@ -1,3 +1,15 @@
+2000-03-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_move_range) : Move the styles before the contents
+	  so that spans are calculated correctly.
+
+	* src/workbook.c (workbook_start_editing_at_cursor) : Redraw the
+	  edit cell so that we handle spans correctly.
+	(workbook_finish_editing) : Ditto.
+
+	* src/item-grid.c (item_grid_draw) : Ignore spans while editing a
+	  cell.
+
 2000-03-16  Nick Lamb  <njl195@zepler.org.uk>
 
 	* configure.in: Fix typo (we need 0.13, not 0.11 of gnome-print)

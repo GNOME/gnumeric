@@ -294,6 +294,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	GnomeCanvas *canvas = item->canvas;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
 	Sheet *sheet = gsheet->sheet_view->sheet;
+	Cell const * const edit_cell = sheet->workbook->editing_cell;
 	ItemGrid *item_grid = ITEM_GRID (item);
 	GdkGC *grid_gc = item_grid->grid_gc;
 	int col, row;
@@ -372,7 +373,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 			 *    there is a span descriptor.
 			 */
 			if (ri->pos == -1 ||
-			    NULL == (span = row_span_get (ri, col))) {
+			    NULL == (span = row_span_get (ri, col)) ||
+			    edit_cell == span->cell) {
 				Cell *cell = sheet_cell_get (sheet, col, row);
 				MStyle *mstyle = item_grid_draw_background (
 					drawable, item_grid, ci, ri,

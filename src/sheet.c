@@ -2908,7 +2908,10 @@ sheet_move_range (CommandContext *context,
 			    rinfo->origin.end.row + rinfo->row_offset,
 			    CLEAR_VALUES|CLEAR_COMMENTS); /* Do not to clear styles */
 
-	/* Insert the cells back */
+	/* 5. Slide styles BEFORE the cells so that spans get computed properly */
+	sheet_style_relocate (rinfo);
+
+	/* 6. Insert the cells back */
 	for (; cells != NULL ; cells = g_list_remove (cells, cell)) {
 		cell = cells->data;
 
@@ -2940,13 +2943,10 @@ sheet_move_range (CommandContext *context,
 		cell_relocate (cell, FALSE);
 	}
 
-	/* 5. Slide styles */
-	sheet_style_relocate (rinfo);
-
-	/* 6. Recompute dependencies */
+	/* 7. Recompute dependencies */
 	sheet_recalc_dependencies (rinfo->target_sheet);
 
-	/* 7. Recalc & Redraw */
+	/* 8. Recalc & Redraw */
 	workbook_recalc (rinfo->target_sheet->workbook);
 	sheet_redraw_all (rinfo->target_sheet);
 }

@@ -3282,8 +3282,13 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp, gboolean cursor
 		gtk_entry_set_text (GTK_ENTRY (wb->ea_input), "");
 
 	sheet = wb->current_sheet;
-	if (cursorp)
+	if (cursorp) {
+		/* Redraw the cell contents in case there was a span */
+		int const c = sheet->cursor.edit_pos.col;
+		int const r = sheet->cursor.edit_pos.row;
 		sheet_create_edit_cursor (sheet);
+		sheet_redraw_cell_region (sheet, c, r, c, r);
+	}
 
 	/* TODO : Should we reset like this ? probably */
 	wb->use_absolute_cols = wb->use_absolute_rows = FALSE;
@@ -3331,6 +3336,11 @@ workbook_finish_editing (Workbook *wb, gboolean const accept)
 		r.start = r.end = sheet->cursor.edit_pos;
 		if (!cmd_set_text (NULL, sheet, &r.start, txt))
 			sheet_set_text (sheet, txt, &r);
+	} else {
+		/* Redraw the cell contents in case there was a span */
+		int const c = sheet->cursor.edit_pos.col;
+		int const r = sheet->cursor.edit_pos.row;
+		sheet_redraw_cell_region (sheet, c, r, c, r);
 	}
 
 	/* restore focus to original sheet in case things were being selected
