@@ -47,9 +47,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
-"POT-Creation-Date: 2002-01-06 14:06-0500\n"
-"PO-Revision-Date: 2001-12-29 11:31+0100\n"
-"Last-Translator: Ole Laursen <olau@hardworking.dk>\n"
+"POT-Creation-Date: 2002-01-09 06:16-0500\n"
+"PO-Revision-Date: 2002-01-09 11:31+0100\n"
+"Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -237,28 +237,24 @@ msgid " Unknown formula"
 msgstr " Ukendt formel"
 
 #: plugins/excel/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports/Exports MS Excel (tm) files"
-msgstr "Importerer/eksporterer Microsoft(R) Excel-filer"
+msgstr "Importerer/eksporterer MS Excel(tm)-filer"
 
 #: plugins/excel/plugin.xml.in.h:2
 msgid "MS Excel (tm)"
-msgstr ""
+msgstr "MS Excel (tm)"
 
 #: plugins/excel/plugin.xml.in.h:3
-#, fuzzy
 msgid "MS Excel (tm) (*.xls)"
-msgstr "Microsoft(R) Excel (*.xls)"
+msgstr "MS Excel (tm) (*.xls)"
 
 #: plugins/excel/plugin.xml.in.h:4
-#, fuzzy
 msgid "MS Excel (tm) 95 file format"
-msgstr "Excel(R) 95-filformat"
+msgstr "MS Excel (tm) 95-filformat"
 
 #: plugins/excel/plugin.xml.in.h:5
-#, fuzzy
 msgid "MS Excel (tm) 97 file format"
-msgstr "Excel(R) 97-filformat"
+msgstr "MS Excel (tm) 97-filformat"
 
 #: plugins/gb/plugin.c:138
 msgid "Unknown GB error"
@@ -334,7 +330,7 @@ msgstr "Gnome-ordlistens PO-filformat"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Giver understøttelse for gemning af Gnome-ordlisten i .po-filer."
 
-#: plugins/guile/plugin.c:67 src/func.c:778 src/functions/fn-information.c:697
+#: plugins/guile/plugin.c:67 src/func.c:806 src/functions/fn-information.c:697
 #: src/functions/fn-information.c:768 src/functions/fn-information.c:796
 #: src/functions/fn-information.c:823 src/functions/fn-information.c:874
 #: src/functions/fn-information.c:904 src/functions/fn-information.c:971
@@ -1337,9 +1333,8 @@ msgid "Edit a formula in the current cell"
 msgstr "Redigér en formel i den aktive celle"
 
 #: src/GNOME_Gnumeric.xml.h:70 src/workbook-control-gui.c:2494
-#, fuzzy
 msgid "Edit descriptive information"
-msgstr "Ekstra oplysninger"
+msgstr "Redigér beskrivende oplysninger"
 
 #: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2695
 msgid "Edit sheet and workbook names"
@@ -1508,9 +1503,8 @@ msgid "Inserts a Bonobo object"
 msgstr "Indsætter et Bonobo-objekt"
 
 #: src/GNOME_Gnumeric.xml.h:110
-#, fuzzy
 msgid "Inserts a Shaped Bonobo object"
-msgstr "Indsætter et Bonobo-objekt"
+msgstr "Indsætter et formet Bonobo-objekt"
 
 #: src/GNOME_Gnumeric.xml.h:111
 msgid "Invoke the graph guru to create a graph"
@@ -1656,9 +1650,8 @@ msgid "P_aste Special..."
 msgstr "_Avanceret indsætning..."
 
 #: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:2493
-#, fuzzy
 msgid "P_roperties..."
-msgstr "Egenskaber..."
+msgstr "_Egenskaber..."
 
 #: src/GNOME_Gnumeric.xml.h:146 src/cmd-edit.c:344
 #: src/workbook-control-gui.c:2980
@@ -1677,7 +1670,7 @@ msgstr "Indsæt indholdet af klippebordet eller fraklipsmellemlager"
 msgid "Paste with optional filters and transformations"
 msgstr "Indsæt med valgbare filtre og transformationer"
 
-#: src/GNOME_Gnumeric.xml.h:150 src/analysis-tools.c:2710
+#: src/GNOME_Gnumeric.xml.h:150 src/analysis-tools.c:2740
 #: src/workbook-format-toolbar.c:463
 msgid "Percent"
 msgstr "Procent"
@@ -2014,12 +2007,12 @@ msgstr "_Skift navn..."
 msgid "_Close"
 msgstr "_Luk"
 
-#: src/GNOME_Gnumeric.xml.h:229 src/dialogs/anova-one.glade.h:9
-#: src/dialogs/correlation.glade.h:7 src/dialogs/covariance.glade.h:7
-#: src/dialogs/descriptive-stats.glade.h:15
-#: src/dialogs/fourier-analysis.glade.h:7 src/dialogs/histogram.glade.h:13
-#: src/dialogs/moving-averages.glade.h:8 src/dialogs/rank.glade.h:7
-#: src/dialogs/regression.glade.h:12 src/dialogs/sampling.glade.h:13
+#: src/GNOME_Gnumeric.xml.h:229 src/dialogs/anova-one.glade.h:10
+#: src/dialogs/correlation.glade.h:8 src/dialogs/covariance.glade.h:8
+#: src/dialogs/descriptive-stats.glade.h:16
+#: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:14
+#: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:10
+#: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:14
 #: src/workbook-control-gui.c:2713
 msgid "_Columns"
 msgstr "_Kolonner"
@@ -2094,9 +2087,8 @@ msgid "_Goto cell..."
 msgstr "_Gå til celle..."
 
 #: src/GNOME_Gnumeric.xml.h:246
-#, fuzzy
 msgid "_Graph..."
-msgstr "_Graf"
+msgstr "_Graf..."
 
 # udsagnsord
 #: src/GNOME_Gnumeric.xml.h:247
@@ -2143,9 +2135,8 @@ msgid "_New"
 msgstr "_Ny"
 
 #: src/GNOME_Gnumeric.xml.h:257
-#, fuzzy
 msgid "_Object..."
-msgstr "_Objekt"
+msgstr "_Objekt..."
 
 #: src/GNOME_Gnumeric.xml.h:258
 msgid "_Open..."
@@ -2178,12 +2169,12 @@ msgstr "Fj_ern"
 msgid "_Row"
 msgstr "_Række"
 
-#: src/GNOME_Gnumeric.xml.h:265 src/dialogs/anova-one.glade.h:14
-#: src/dialogs/correlation.glade.h:12 src/dialogs/covariance.glade.h:12
-#: src/dialogs/descriptive-stats.glade.h:20
-#: src/dialogs/fourier-analysis.glade.h:12 src/dialogs/histogram.glade.h:18
-#: src/dialogs/moving-averages.glade.h:13 src/dialogs/rank.glade.h:12
-#: src/dialogs/regression.glade.h:16 src/dialogs/sampling.glade.h:19
+#: src/GNOME_Gnumeric.xml.h:265 src/dialogs/anova-one.glade.h:15
+#: src/dialogs/correlation.glade.h:13 src/dialogs/covariance.glade.h:13
+#: src/dialogs/descriptive-stats.glade.h:21
+#: src/dialogs/fourier-analysis.glade.h:13 src/dialogs/histogram.glade.h:19
+#: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:15
+#: src/dialogs/regression.glade.h:17 src/dialogs/sampling.glade.h:20
 #: src/workbook-control-gui.c:2710
 msgid "_Rows"
 msgstr "_Rækker"
@@ -2197,9 +2188,8 @@ msgid "_Select"
 msgstr "_Markér"
 
 #: src/GNOME_Gnumeric.xml.h:268
-#, fuzzy
 msgid "_Shaped Object"
-msgstr "_Objekt"
+msgstr "_Formet objekt"
 
 #: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2707
 #: src/workbook-control-gui.c:2822
@@ -2269,12 +2259,12 @@ msgstr "Arbejds_bog..."
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
-#: src/analysis-tools.c:194 src/analysis-tools.c:3188
+#: src/analysis-tools.c:194 src/analysis-tools.c:3217
 #, c-format
 msgid "Row %i"
 msgstr "Række: %i"
 
-#: src/analysis-tools.c:197 src/analysis-tools.c:3180
+#: src/analysis-tools.c:197 src/analysis-tools.c:3209
 #, c-format
 msgid "Column %i"
 msgstr "Kolonne: %i"
@@ -2289,15 +2279,15 @@ msgstr "Bin %i"
 msgid "Area %i"
 msgstr "Areal %i"
 
-#: src/analysis-tools.c:798 src/analysis-tools.c:801
+#: src/analysis-tools.c:809 src/analysis-tools.c:812
 msgid "Correlations"
 msgstr "Korrelationer"
 
-#: src/analysis-tools.c:889 src/analysis-tools.c:892
+#: src/analysis-tools.c:901 src/analysis-tools.c:904
 msgid "Covariances"
 msgstr "Kovarianser"
 
-#: src/analysis-tools.c:970
+#: src/analysis-tools.c:983
 msgid "Summary Statistics"
 msgstr "Sammendragsstatistikker"
 
@@ -2308,61 +2298,61 @@ msgstr "Sammendragsstatistikker"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: src/analysis-tools.c:981
+#: src/analysis-tools.c:994
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
-"/Gennemsnit/Standardfejl/Median/Modus/Standardafvigelse/Stikprøvevarians/"
+"/Gennemsnit/Standardafvigelse/Median/Modus/Standardafvigelse/Stikprøvevarians/"
 "Kurtosis/Skævhed/Område/Minimum/Maksimum/Sum/Antal"
 
-#: src/analysis-tools.c:1066
+#: src/analysis-tools.c:1080
 msgid "Confidence Interval for the Mean"
 msgstr "Konfidensinterval for middelværdi"
 
 # RETMIG: CI?
-#: src/analysis-tools.c:1067
+#: src/analysis-tools.c:1081
 #, c-format
 msgid "/%g%% CI for the Mean from/to"
 msgstr "/%g%% CI for middelværdien fra/til"
 
-#: src/analysis-tools.c:1103 src/dialogs/descriptive-stats.glade.h:9
+#: src/analysis-tools.c:1118 src/dialogs/descriptive-stats.glade.h:10
 msgid "Kth Largest"
 msgstr "K-te største"
 
-#: src/analysis-tools.c:1104
+#: src/analysis-tools.c:1119
 #, c-format
 msgid "Largest (%d)"
 msgstr "Største (%d)"
 
-#: src/analysis-tools.c:1127 src/dialogs/descriptive-stats.glade.h:10
+#: src/analysis-tools.c:1143 src/dialogs/descriptive-stats.glade.h:11
 msgid "Kth Smallest"
 msgstr "K'te mindste"
 
-#: src/analysis-tools.c:1128
+#: src/analysis-tools.c:1144
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Mindste (%d)"
 
 # stikprøve kolliderer med at det bruges i betydningen "et eksempel"
-#: src/analysis-tools.c:1252 src/dialogs/cell-format.glade.h:72
+#: src/analysis-tools.c:1265 src/dialogs/cell-format.glade.h:72
 msgid "Sample"
 msgstr "Prøve"
 
-#: src/analysis-tools.c:1348 src/analysis-tools.c:1350
-#: src/analysis-tools.c:1469 src/analysis-tools.c:1471
-#: src/analysis-tools.c:1630 src/analysis-tools.c:1632
-#: src/analysis-tools.c:1760 src/analysis-tools.c:1762
-#: src/analysis-tools.c:1898 src/analysis-tools.c:1900
+#: src/analysis-tools.c:1362 src/analysis-tools.c:1364
+#: src/analysis-tools.c:1481 src/analysis-tools.c:1483
+#: src/analysis-tools.c:1640 src/analysis-tools.c:1642
+#: src/analysis-tools.c:1768 src/analysis-tools.c:1770
+#: src/analysis-tools.c:1904 src/analysis-tools.c:1906
 #, c-format
 msgid "Variable %i"
 msgstr "Variabel %i"
 
-#: src/analysis-tools.c:1352
+#: src/analysis-tools.c:1366
 msgid "z-Test"
 msgstr "z-test"
 
-#: src/analysis-tools.c:1355
+#: src/analysis-tools.c:1369
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -2372,12 +2362,12 @@ msgstr ""
 "middelforskel/z/P(Z<=z) ensidet/z kritisk værdi ensidet/P(Z<=z) tosidet/z "
 "kritisk værdi tosidet"
 
-#: src/analysis-tools.c:1485 src/analysis-tools.c:1634
-#: src/analysis-tools.c:1764
+#: src/analysis-tools.c:1497 src/analysis-tools.c:1644
+#: src/analysis-tools.c:1772
 msgid "t-Test"
 msgstr "t-test"
 
-#: src/analysis-tools.c:1488
+#: src/analysis-tools.c:1500
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
@@ -2386,7 +2376,7 @@ msgstr ""
 "/Middel/Varians/Pearson korrelation/Hypotetisk middelforskel/fg/t værdi/P"
 "(T<=t) ensidet/t kritisk værdi ensidet/P(T<=t) tosidet/t kritisk tosidet"
 
-#: src/analysis-tools.c:1637
+#: src/analysis-tools.c:1647
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -2396,7 +2386,7 @@ msgstr ""
 "Observeret middelforskel/fg/t værdi/P(T<=t) ensidet/t kritisk værdi ensidet/P"
 "(T<=t) tosidet/t kritisk tosidet"
 
-#: src/analysis-tools.c:1767
+#: src/analysis-tools.c:1775
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -2406,11 +2396,11 @@ msgstr ""
 "middelforskel/fg/t værdi/P(T<=t) ensidet/t kritisk værdi ensidet/P(T<=t) "
 "tosidet/t kritisk tosidet"
 
-#: src/analysis-tools.c:1907
+#: src/analysis-tools.c:1913
 msgid "F-Test"
 msgstr "F-test"
 
-#: src/analysis-tools.c:1913
+#: src/analysis-tools.c:1919
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -2418,144 +2408,146 @@ msgstr ""
 "/Middel/Varians/Observationer/fg/F/P(F<=f) højresidet/F kritisk højresidet/P"
 "(F<=f) venstresidet/F kritisk venstresidet/P tosidet/F kritisk tosidet"
 
-#: src/analysis-tools.c:2033 src/analysis-tools.c:2091
+#: src/analysis-tools.c:2037 src/analysis-tools.c:2095
 msgid "Random"
 msgstr "Tilfældig"
 
-#: src/analysis-tools.c:2207
+#: src/analysis-tools.c:2211
 msgid "Not implemented yet.\n"
 msgstr "Ikke implementeret endnu.\n"
 
-#: src/analysis-tools.c:2283
+#: src/analysis-tools.c:2288
 msgid "Y Variable"
 msgstr "Y-variabel"
 
-#: src/analysis-tools.c:2342 src/dialogs/dialog-analysis-tools.c:4371
-#: src/dialogs/regression.glade.h:8
+#: src/analysis-tools.c:2347 src/dialogs/dialog-analysis-tools.c:4385
+#: src/dialogs/regression.glade.h:9
 msgid "Regression"
 msgstr "Regression"
 
-#: src/analysis-tools.c:2344
+#: src/analysis-tools.c:2349
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
 "/SUMMARISK UDDATA//Regression statistik/Multipel R/R²/Justeret R²/"
-"Standardfejl/Observationer//ANOVA//Regression/Residual/Total///Sammenfald"
+"Standardafvigelse/Observationer//ANOVA//Regression/Residual/Total///Sammenfald"
 
-#: src/analysis-tools.c:2365
+#: src/analysis-tools.c:2370
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/fg/SS/MS/F/Signifikans for F"
 
-#: src/analysis-tools.c:2372
+#: src/analysis-tools.c:2377
 #, c-format
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
-msgstr "/Koefficienter/Standardfejl/t-værdi/P-værdi/nedre %0.0f%%/Øvre %0.0f%%"
+msgstr "/Koefficienter/Standardafvigelse/t-værdi/P-værdi/nedre %0.0f%%/Øvre %0.0f%%"
 
-#: src/analysis-tools.c:2541
+#: src/analysis-tools.c:2545
 msgid "Moving Averages"
 msgstr "Rullende gennemsnit"
 
-#: src/analysis-tools.c:2619 src/dialogs/dialog-analysis-tools.c:4357
+#: src/analysis-tools.c:2560
+msgid "Standard Error"
+msgstr "Standardafvigelse"
+
+#: src/analysis-tools.c:2648 src/dialogs/dialog-analysis-tools.c:4371
 msgid "Exponential Smoothing"
 msgstr "Eksponentiel udjævning"
 
-#: src/analysis-tools.c:2698
+#: src/analysis-tools.c:2728
 msgid "Ranks"
 msgstr "Omfang"
 
-#: src/analysis-tools.c:2707
+#: src/analysis-tools.c:2737
 msgid "Point"
 msgstr "Point"
 
-#: src/analysis-tools.c:2709
+#: src/analysis-tools.c:2739
 msgid "Rank"
 msgstr "Omfang"
 
 #. We are ready to create the summary table
-#: src/analysis-tools.c:2794 src/analysis-tools.c:2980
-#: src/analysis-tools.c:3240
+#: src/analysis-tools.c:2827 src/analysis-tools.c:3007
+#: src/analysis-tools.c:3269
 msgid "Anova"
 msgstr "Anova"
 
-#: src/analysis-tools.c:2796 src/dialogs/dialog-analysis-tools.c:4347
+#: src/analysis-tools.c:2829 src/dialogs/dialog-analysis-tools.c:4361
 msgid "Anova: Single Factor"
 msgstr "Anova: enkelfaktor"
 
-#: src/analysis-tools.c:2797 src/analysis-tools.c:3243
+#: src/analysis-tools.c:2830 src/analysis-tools.c:3272
 msgid "SUMMARY"
 msgstr "OVERSIGT"
 
-#: src/analysis-tools.c:2798
+#: src/analysis-tools.c:2831
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grupper/Antal/Sum/Gennemsnit/Varians"
 
-#: src/analysis-tools.c:2861
+#: src/analysis-tools.c:2894
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Kilde til variation/Mellem grupper/Indenfor grupper/Total"
 
-#: src/analysis-tools.c:2866 src/analysis-tools.c:3062
-#: src/analysis-tools.c:3267
+#: src/analysis-tools.c:2899 src/analysis-tools.c:3089
+#: src/analysis-tools.c:3296
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/fg/MS/F/P-værdi/F kritisk værdi"
 
-#: src/analysis-tools.c:2986
+#: src/analysis-tools.c:3013
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: tofaktor uden replikering"
 
-#: src/analysis-tools.c:2987
+#: src/analysis-tools.c:3014
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "OVERSIGT/Antal/Sum/Gennemsnit/Varians"
 
-#: src/analysis-tools.c:3056
+#: src/analysis-tools.c:3083
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Kilde til variation/Rækker/Kolonner/Fejl/Total"
 
-#: src/analysis-tools.c:3242
+#: src/analysis-tools.c:3271
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: tofaktor med replikering"
 
-#: src/analysis-tools.c:3247 src/analysis-tools.c:3257
-#: src/analysis-tools.c:3265 src/dialogs/dialog-autoformat.c:73
+#: src/analysis-tools.c:3276 src/analysis-tools.c:3286
+#: src/analysis-tools.c:3294 src/dialogs/dialog-autoformat.c:73
 #: src/dialogs/dialog-autoformat.c:77
 msgid "Total"
 msgstr "Total"
 
-#: src/analysis-tools.c:3249
-#, fuzzy
+#: src/analysis-tools.c:3278
 msgid "/Count/Sum/Average/Variance"
-msgstr "/Grupper/Antal/Sum/Gennemsnit/Varians"
+msgstr "/Grupper/Sum/Gennemsnit/Varians"
 
-#: src/analysis-tools.c:3259
-#, fuzzy
+#: src/analysis-tools.c:3288
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
-msgstr "/ANOVA/Kilde til variation/Rækker/Kolonner/Fejl/Total"
+msgstr "/ANOVA/Kilde til variation/Rækker/Kolonner/Sammenhæng/Indre"
 
-#: src/analysis-tools.c:3649
+#: src/analysis-tools.c:3681
 msgid "More"
 msgstr "Mere"
 
 #. { N_("Fourier Analysis"),
 #. dialog_fourier_tool },
-#: src/analysis-tools.c:3683 src/dialogs/dialog-analysis-tools.c:4363
-#: src/dialogs/histogram.glade.h:5
+#: src/analysis-tools.c:3715 src/dialogs/dialog-analysis-tools.c:4377
+#: src/dialogs/histogram.glade.h:6
 msgid "Histogram"
 msgstr "Histogram"
 
-#: src/analysis-tools.c:3688
+#: src/analysis-tools.c:3720
 msgid "Bin"
 msgstr "Bin"
 
-#: src/analysis-tools.c:3713
+#: src/analysis-tools.c:3745
 msgid "Frequency"
 msgstr "Frekvens"
 
-#: src/analysis-tools.c:3715 src/dialogs/dialog-zoom.glade.h:2
+#: src/analysis-tools.c:3747 src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/analysis-tools.c:3718
+#: src/analysis-tools.c:3750
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Akkumuleret %"
@@ -3157,97 +3149,108 @@ msgstr "0,05"
 msgid "ANOVA - Single Factor"
 msgstr "Anova - enkeltfaktor"
 
-#: src/dialogs/anova-one.glade.h:3 src/dialogs/correlation.glade.h:2
-#: src/dialogs/covariance.glade.h:2 src/dialogs/descriptive-stats.glade.h:6
-#: src/dialogs/fourier-analysis.glade.h:2 src/dialogs/histogram.glade.h:4
-#: src/dialogs/moving-averages.glade.h:2 src/dialogs/rank.glade.h:1
-#: src/dialogs/regression.glade.h:4 src/dialogs/sampling.glade.h:2
+#: src/dialogs/anova-one.glade.h:3 src/dialogs/anova-two.glade.h:4
+#: src/dialogs/correlation.glade.h:1 src/dialogs/covariance.glade.h:1
+#: src/dialogs/descriptive-stats.glade.h:4
+#: src/dialogs/fourier-analysis.glade.h:1 src/dialogs/histogram.glade.h:1
+#: src/dialogs/mean-tests.glade.h:3 src/dialogs/moving-averages.glade.h:2
+#: src/dialogs/random-generation.glade.h:2 src/dialogs/rank.glade.h:1
+#: src/dialogs/regression.glade.h:2 src/dialogs/sampling.glade.h:2
+#: src/dialogs/variance-tests.glade.h:2
+msgid "A_utofit Columns"
+msgstr "Automatisk tilpasning af kolonner"
+
+#: src/dialogs/anova-one.glade.h:4 src/dialogs/correlation.glade.h:3
+#: src/dialogs/covariance.glade.h:3 src/dialogs/descriptive-stats.glade.h:7
+#: src/dialogs/fourier-analysis.glade.h:3 src/dialogs/histogram.glade.h:5
+#: src/dialogs/moving-averages.glade.h:3 src/dialogs/rank.glade.h:3
+#: src/dialogs/regression.glade.h:5 src/dialogs/sampling.glade.h:3
 msgid "Grouped By:"
 msgstr "Grupperet efter:"
 
-#: src/dialogs/anova-one.glade.h:4 src/dialogs/anova-two.glade.h:4
-#: src/dialogs/correlation.glade.h:3 src/dialogs/covariance.glade.h:3
-#: src/dialogs/descriptive-stats.glade.h:7
-#: src/dialogs/fourier-analysis.glade.h:4 src/dialogs/histogram.glade.h:6
-#: src/dialogs/mean-tests.glade.h:5 src/dialogs/moving-averages.glade.h:4
-#: src/dialogs/rank.glade.h:2 src/dialogs/regression.glade.h:5
-#: src/dialogs/sampling.glade.h:3 src/dialogs/variance-tests.glade.h:2
+#: src/dialogs/anova-one.glade.h:5 src/dialogs/anova-two.glade.h:5
+#: src/dialogs/correlation.glade.h:4 src/dialogs/covariance.glade.h:4
+#: src/dialogs/descriptive-stats.glade.h:8
+#: src/dialogs/fourier-analysis.glade.h:5 src/dialogs/histogram.glade.h:7
+#: src/dialogs/mean-tests.glade.h:6 src/dialogs/moving-averages.glade.h:5
+#: src/dialogs/rank.glade.h:4 src/dialogs/regression.glade.h:6
+#: src/dialogs/sampling.glade.h:4 src/dialogs/variance-tests.glade.h:3
 msgid "Input"
 msgstr "Inddata"
 
-#: src/dialogs/anova-one.glade.h:5 src/dialogs/anova-two.glade.h:5
-#: src/dialogs/correlation.glade.h:4 src/dialogs/covariance.glade.h:4
-#: src/dialogs/descriptive-stats.glade.h:11
-#: src/dialogs/fourier-analysis.glade.h:5 src/dialogs/histogram.glade.h:8
-#: src/dialogs/mean-tests.glade.h:6 src/dialogs/moving-averages.glade.h:6
-#: src/dialogs/random-generation.glade.h:2 src/dialogs/rank.glade.h:3
-#: src/dialogs/regression.glade.h:6 src/dialogs/sampling.glade.h:5
-#: src/dialogs/variance-tests.glade.h:3
-msgid "N_ew Workbook"
-msgstr "Ny _arbejdsbog"
-
-#: src/dialogs/anova-one.glade.h:6 src/dialogs/anova-two.glade.h:7
+#: src/dialogs/anova-one.glade.h:6 src/dialogs/anova-two.glade.h:6
 #: src/dialogs/correlation.glade.h:5 src/dialogs/covariance.glade.h:5
 #: src/dialogs/descriptive-stats.glade.h:12
 #: src/dialogs/fourier-analysis.glade.h:6 src/dialogs/histogram.glade.h:9
 #: src/dialogs/mean-tests.glade.h:7 src/dialogs/moving-averages.glade.h:7
-#: src/dialogs/random-generation.glade.h:4 src/dialogs/rank.glade.h:4
-#: src/dialogs/regression.glade.h:7 src/dialogs/sampling.glade.h:7
+#: src/dialogs/random-generation.glade.h:3 src/dialogs/rank.glade.h:5
+#: src/dialogs/regression.glade.h:7 src/dialogs/sampling.glade.h:6
 #: src/dialogs/variance-tests.glade.h:4
+msgid "N_ew Workbook"
+msgstr "Ny _arbejdsbog"
+
+#: src/dialogs/anova-one.glade.h:7 src/dialogs/anova-two.glade.h:8
+#: src/dialogs/correlation.glade.h:6 src/dialogs/covariance.glade.h:6
+#: src/dialogs/descriptive-stats.glade.h:13
+#: src/dialogs/fourier-analysis.glade.h:7 src/dialogs/histogram.glade.h:10
+#: src/dialogs/mean-tests.glade.h:8 src/dialogs/moving-averages.glade.h:8
+#: src/dialogs/random-generation.glade.h:5 src/dialogs/rank.glade.h:6
+#: src/dialogs/regression.glade.h:8 src/dialogs/sampling.glade.h:8
+#: src/dialogs/variance-tests.glade.h:5
 msgid "Output"
 msgstr "Uddata"
 
-#: src/dialogs/anova-one.glade.h:7 src/dialogs/anova-two.glade.h:8
+#: src/dialogs/anova-one.glade.h:8 src/dialogs/anova-two.glade.h:9
 msgid "_Alpha = "
 msgstr "_Alfa = "
 
-#: src/dialogs/anova-one.glade.h:8 src/dialogs/correlation.glade.h:6
-#: src/dialogs/covariance.glade.h:6 src/dialogs/descriptive-stats.glade.h:14
-#: src/dialogs/histogram.glade.h:11 src/dialogs/rank.glade.h:6
-#: src/dialogs/regression.glade.h:11 src/dialogs/sampling.glade.h:12
+#: src/dialogs/anova-one.glade.h:9 src/dialogs/correlation.glade.h:7
+#: src/dialogs/covariance.glade.h:7 src/dialogs/descriptive-stats.glade.h:15
+#: src/dialogs/histogram.glade.h:12 src/dialogs/rank.glade.h:9
+#: src/dialogs/regression.glade.h:12 src/dialogs/sampling.glade.h:13
 msgid "_Areas"
 msgstr "_Arealer"
-
-#: src/dialogs/anova-one.glade.h:10 src/dialogs/anova-two.glade.h:9
-#: src/dialogs/correlation.glade.h:8 src/dialogs/covariance.glade.h:8
-#: src/dialogs/descriptive-stats.glade.h:16
-#: src/dialogs/dialog-analysis-tools.c:879
-#: src/dialogs/dialog-analysis-tools.c:3855
-#: src/dialogs/dialog-analysis-tools.c:3931
-#: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:14
-#: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:8
-msgid "_Input Range:"
-msgstr "_Inddatainterval:"
 
 #: src/dialogs/anova-one.glade.h:11 src/dialogs/anova-two.glade.h:10
 #: src/dialogs/correlation.glade.h:9 src/dialogs/covariance.glade.h:9
 #: src/dialogs/descriptive-stats.glade.h:17
-#: src/dialogs/fourier-analysis.glade.h:9 src/dialogs/mean-tests.glade.h:21
-#: src/dialogs/moving-averages.glade.h:10 src/dialogs/rank.glade.h:9
-#: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:14
-#: src/dialogs/variance-tests.glade.h:10
-msgid "_Labels"
-msgstr "_Mærkater"
+#: src/dialogs/dialog-analysis-tools.c:889
+#: src/dialogs/dialog-analysis-tools.c:3869
+#: src/dialogs/dialog-analysis-tools.c:3945
+#: src/dialogs/fourier-analysis.glade.h:9 src/dialogs/histogram.glade.h:15
+#: src/dialogs/moving-averages.glade.h:10 src/dialogs/rank.glade.h:11
+msgid "_Input Range:"
+msgstr "_Inddatainterval:"
 
 #: src/dialogs/anova-one.glade.h:12 src/dialogs/anova-two.glade.h:11
 #: src/dialogs/correlation.glade.h:10 src/dialogs/covariance.glade.h:10
 #: src/dialogs/descriptive-stats.glade.h:18
-#: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:15
-#: src/dialogs/mean-tests.glade.h:22 src/dialogs/moving-averages.glade.h:11
-#: src/dialogs/random-generation.glade.h:9 src/dialogs/rank.glade.h:10
+#: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/mean-tests.glade.h:22
+#: src/dialogs/moving-averages.glade.h:11 src/dialogs/rank.glade.h:12
 #: src/dialogs/regression.glade.h:14 src/dialogs/sampling.glade.h:15
 #: src/dialogs/variance-tests.glade.h:11
-msgid "_New Sheet"
-msgstr "_Nyt ark"
+msgid "_Labels"
+msgstr "_Mærkater"
 
 #: src/dialogs/anova-one.glade.h:13 src/dialogs/anova-two.glade.h:12
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:19
 #: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:16
 #: src/dialogs/mean-tests.glade.h:23 src/dialogs/moving-averages.glade.h:12
-#: src/dialogs/random-generation.glade.h:10 src/dialogs/rank.glade.h:11
+#: src/dialogs/random-generation.glade.h:10 src/dialogs/rank.glade.h:13
 #: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:16
 #: src/dialogs/variance-tests.glade.h:12
+msgid "_New Sheet"
+msgstr "_Nyt ark"
+
+#: src/dialogs/anova-one.glade.h:14 src/dialogs/anova-two.glade.h:13
+#: src/dialogs/correlation.glade.h:12 src/dialogs/covariance.glade.h:12
+#: src/dialogs/descriptive-stats.glade.h:20
+#: src/dialogs/fourier-analysis.glade.h:12 src/dialogs/histogram.glade.h:17
+#: src/dialogs/mean-tests.glade.h:24 src/dialogs/moving-averages.glade.h:13
+#: src/dialogs/random-generation.glade.h:11 src/dialogs/rank.glade.h:14
+#: src/dialogs/regression.glade.h:16 src/dialogs/sampling.glade.h:17
+#: src/dialogs/variance-tests.glade.h:13
 msgid "_Output Range:"
 msgstr "_Uddatainterval:"
 
@@ -3260,7 +3263,7 @@ msgstr "1"
 msgid "ANOVA - Two-Factor"
 msgstr "Anova - tofaktor"
 
-#: src/dialogs/anova-two.glade.h:6
+#: src/dialogs/anova-two.glade.h:7
 msgid "Number of Rows _Per Sample:"
 msgstr "Antal af rækker pr. _stikprøve:"
 
@@ -4113,11 +4116,11 @@ msgstr "_Funktion:"
 msgid "_Put :"
 msgstr "_Anbring:"
 
-#: src/dialogs/correlation.glade.h:1 src/dialogs/dialog-analysis-tools.c:4351
+#: src/dialogs/correlation.glade.h:2 src/dialogs/dialog-analysis-tools.c:4365
 msgid "Correlation"
 msgstr "Korrelation"
 
-#: src/dialogs/covariance.glade.h:1 src/dialogs/dialog-analysis-tools.c:4353
+#: src/dialogs/covariance.glade.h:2 src/dialogs/dialog-analysis-tools.c:4367
 msgid "Covariance"
 msgstr "Kovarians"
 
@@ -4156,20 +4159,20 @@ msgstr "(1 - alfa) = "
 msgid ".95"
 msgstr "0.95"
 
-#: src/dialogs/descriptive-stats.glade.h:4
+#: src/dialogs/descriptive-stats.glade.h:5
 msgid "Confidence Interval for the _Mean"
 msgstr "Konfidensinterval for _middelværdi"
 
-#: src/dialogs/descriptive-stats.glade.h:5
-#: src/dialogs/dialog-analysis-tools.c:4355
+#: src/dialogs/descriptive-stats.glade.h:6
+#: src/dialogs/dialog-analysis-tools.c:4369
 msgid "Descriptive Statistics"
 msgstr "Beskrivende statistikker"
 
-#: src/dialogs/descriptive-stats.glade.h:8
+#: src/dialogs/descriptive-stats.glade.h:9
 msgid "K = "
 msgstr "K = "
 
-#: src/dialogs/descriptive-stats.glade.h:13
+#: src/dialogs/descriptive-stats.glade.h:14
 msgid "S_ummary Statistics"
 msgstr "S_ammendragsstatistikker"
 
@@ -4341,55 +4344,55 @@ msgstr ""
 "Du skal opgive det samme antal kolonner i \"Listeinterval\" som i "
 "\"Kriteriuminterval\""
 
-#: src/dialogs/dialog-analysis-tools.c:1085
-#: src/dialogs/dialog-analysis-tools.c:1200
+#: src/dialogs/dialog-analysis-tools.c:1095
+#: src/dialogs/dialog-analysis-tools.c:1210
 msgid "The selected input rows must have equal size!"
 msgstr "De valgte inddatarækker skal have samme størrelse!"
 
-#: src/dialogs/dialog-analysis-tools.c:1089
-#: src/dialogs/dialog-analysis-tools.c:1204
+#: src/dialogs/dialog-analysis-tools.c:1099
+#: src/dialogs/dialog-analysis-tools.c:1214
 msgid "The selected input columns must have equal size!"
 msgstr "De valgte inddatarækker skal have samme størrelse!"
 
-#: src/dialogs/dialog-analysis-tools.c:1093
-#: src/dialogs/dialog-analysis-tools.c:1208
+#: src/dialogs/dialog-analysis-tools.c:1103
+#: src/dialogs/dialog-analysis-tools.c:1218
 msgid "The selected input areas must have equal size!"
 msgstr "De valgte inddataarealer skal have samme størrelse!"
 
-#: src/dialogs/dialog-analysis-tools.c:1096
-#: src/dialogs/dialog-analysis-tools.c:1211
-#: src/dialogs/dialog-analysis-tools.c:1338
-#: src/dialogs/dialog-analysis-tools.c:1538
-#: src/dialogs/dialog-analysis-tools.c:1708
-#: src/dialogs/dialog-analysis-tools.c:2116
-#: src/dialogs/dialog-analysis-tools.c:2341
-#: src/dialogs/dialog-analysis-tools.c:2863
-#: src/dialogs/dialog-analysis-tools.c:3351
-#: src/dialogs/dialog-analysis-tools.c:3525
-#: src/dialogs/dialog-analysis-tools.c:3805
-#: src/dialogs/dialog-analysis-tools.c:3998
-#: src/dialogs/dialog-analysis-tools.c:4198
+#: src/dialogs/dialog-analysis-tools.c:1106
+#: src/dialogs/dialog-analysis-tools.c:1221
+#: src/dialogs/dialog-analysis-tools.c:1348
+#: src/dialogs/dialog-analysis-tools.c:1552
+#: src/dialogs/dialog-analysis-tools.c:1722
+#: src/dialogs/dialog-analysis-tools.c:2130
+#: src/dialogs/dialog-analysis-tools.c:2355
+#: src/dialogs/dialog-analysis-tools.c:2877
+#: src/dialogs/dialog-analysis-tools.c:3365
+#: src/dialogs/dialog-analysis-tools.c:3539
+#: src/dialogs/dialog-analysis-tools.c:3819
+#: src/dialogs/dialog-analysis-tools.c:4012
+#: src/dialogs/dialog-analysis-tools.c:4212
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "En uventet fejl opstod: %d."
 
-#: src/dialogs/dialog-analysis-tools.c:1142
+#: src/dialogs/dialog-analysis-tools.c:1152
 msgid "Could not create the Correlation Tool dialog."
 msgstr "Kunne ikke oprette korrelationsværktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:1257
+#: src/dialogs/dialog-analysis-tools.c:1267
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Kunne ikke oprette kovariansværktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:1485
+#: src/dialogs/dialog-analysis-tools.c:1495
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Kunne ikke oprette vinduet for beskrivende statistik."
 
-#: src/dialogs/dialog-analysis-tools.c:1584
+#: src/dialogs/dialog-analysis-tools.c:1598
 msgid "Could not create the Rank and  Percentile Tools dialog."
 msgstr "Kunne ikke oprette grad- og percentilvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:1677
+#: src/dialogs/dialog-analysis-tools.c:1691
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -4397,7 +4400,7 @@ msgstr ""
 "Indtast venligst en gyldig\n"
 "populationsvarianse for variabel 1."
 
-#: src/dialogs/dialog-analysis-tools.c:1684
+#: src/dialogs/dialog-analysis-tools.c:1698
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -4405,144 +4408,148 @@ msgstr ""
 "Indtast venligst en gyldig\n"
 "populationsvarianse for variabel 2."
 
-#: src/dialogs/dialog-analysis-tools.c:1704
+#: src/dialogs/dialog-analysis-tools.c:1718
 msgid "The two input ranges must have the same size."
 msgstr "De to inddata-områder skal have samme størrelse."
 
-#: src/dialogs/dialog-analysis-tools.c:1988
+#: src/dialogs/dialog-analysis-tools.c:2002
 msgid "Var_iable 1 Range:"
 msgstr "_Interval for variabel 1:"
 
-#: src/dialogs/dialog-analysis-tools.c:1989
+#: src/dialogs/dialog-analysis-tools.c:2003
 msgid "_Variable 2 Range:"
 msgstr "I_nterval for variabel 2:"
 
-#: src/dialogs/dialog-analysis-tools.c:1993
+#: src/dialogs/dialog-analysis-tools.c:2007
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Kunne ikke oprette middeltestværktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:2109
-#: src/dialogs/dialog-analysis-tools.c:2113
+#: src/dialogs/dialog-analysis-tools.c:2123
+#: src/dialogs/dialog-analysis-tools.c:2127
 msgid "Each variable should have at least 2 observations!"
 msgstr "Hver variabel bør have mindst 2 observationer!"
 
-#: src/dialogs/dialog-analysis-tools.c:2230
+#: src/dialogs/dialog-analysis-tools.c:2244
 msgid "Var_iable 1 Range"
 msgstr "_Interval for variabel 1"
 
-#: src/dialogs/dialog-analysis-tools.c:2231
+#: src/dialogs/dialog-analysis-tools.c:2245
 msgid "_Variable 2 Range"
 msgstr "I_nterval for variabel 2"
 
-#: src/dialogs/dialog-analysis-tools.c:2235
+#: src/dialogs/dialog-analysis-tools.c:2249
 msgid "Could not create the FTest Tool dialog."
 msgstr "Kunne ikke oprette F-testværktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:2490
+#: src/dialogs/dialog-analysis-tools.c:2504
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Kunne ikke oprette prøvningsværktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:2527
+#: src/dialogs/dialog-analysis-tools.c:2541
 msgid "Discrete"
 msgstr "Diskret"
 
-#: src/dialogs/dialog-analysis-tools.c:2527
+#: src/dialogs/dialog-analysis-tools.c:2541
 msgid "_Value And Probability Input Range:"
 msgstr "Inddatainterval for _værdi og sandsynlighed:"
 
-#: src/dialogs/dialog-analysis-tools.c:2529
+#: src/dialogs/dialog-analysis-tools.c:2543
 #: src/dialogs/search-replace.glade.h:24
 #: src/widgets/widget-font-selector.c:113
 msgid "Normal"
 msgstr "Normal"
 
-#: src/dialogs/dialog-analysis-tools.c:2529
+#: src/dialogs/dialog-analysis-tools.c:2543
 msgid "_Mean:"
 msgstr "_Middel:"
 
-#: src/dialogs/dialog-analysis-tools.c:2529
+#: src/dialogs/dialog-analysis-tools.c:2543
 msgid "_Standard Deviation:"
 msgstr "_Standardafvigelse:"
 
-#: src/dialogs/dialog-analysis-tools.c:2531
+#: src/dialogs/dialog-analysis-tools.c:2545
 msgid "Poisson"
 msgstr "Poisson"
 
-#: src/dialogs/dialog-analysis-tools.c:2531
+#: src/dialogs/dialog-analysis-tools.c:2545
 msgid "_Lambda:"
 msgstr "_Lambda:"
 
-#: src/dialogs/dialog-analysis-tools.c:2533
+#: src/dialogs/dialog-analysis-tools.c:2547
 msgid "Exponential"
 msgstr "Eksponentiel"
 
-#: src/dialogs/dialog-analysis-tools.c:2533
+#: src/dialogs/dialog-analysis-tools.c:2547
 msgid "_b Value:"
 msgstr "_b-værdi:"
 
-#: src/dialogs/dialog-analysis-tools.c:2535
+#: src/dialogs/dialog-analysis-tools.c:2549
 msgid "Binomial"
 msgstr "Binominal"
 
-#: src/dialogs/dialog-analysis-tools.c:2535
-#: src/dialogs/dialog-analysis-tools.c:2537
-#: src/dialogs/dialog-analysis-tools.c:2540
+#: src/dialogs/dialog-analysis-tools.c:2549
+#: src/dialogs/dialog-analysis-tools.c:2551
+#: src/dialogs/dialog-analysis-tools.c:2554
 msgid "_p Value:"
 msgstr "_p-værdi:"
 
-#: src/dialogs/dialog-analysis-tools.c:2535
+#: src/dialogs/dialog-analysis-tools.c:2549
 msgid "N_umber of Trials:"
 msgstr "Antal _forsøg"
 
-#: src/dialogs/dialog-analysis-tools.c:2537
+#: src/dialogs/dialog-analysis-tools.c:2551
 msgid "Negative Binomial"
 msgstr "Negativ binominal"
 
-#: src/dialogs/dialog-analysis-tools.c:2538
+#: src/dialogs/dialog-analysis-tools.c:2552
 msgid "N_umber of Failures"
 msgstr "Antal _mislykkede"
 
-#: src/dialogs/dialog-analysis-tools.c:2540
+#: src/dialogs/dialog-analysis-tools.c:2554
 msgid "Bernoulli"
 msgstr "Bernoulli"
 
-#: src/dialogs/dialog-analysis-tools.c:2542
+#: src/dialogs/dialog-analysis-tools.c:2556
 msgid "Uniform"
 msgstr "Ensartet"
 
-#: src/dialogs/dialog-analysis-tools.c:2542
+#: src/dialogs/dialog-analysis-tools.c:2556
 msgid "_Lower Bound:"
-msgstr "_Nedre grænse"
+msgstr "_Nedre grænse:"
 
-#: src/dialogs/dialog-analysis-tools.c:2542
+#: src/dialogs/dialog-analysis-tools.c:2556
 msgid "_Upper Bound:"
-msgstr "_Øvre grænse"
+msgstr "_Øvre grænse:"
 
-#: src/dialogs/dialog-analysis-tools.c:2846
+#: src/dialogs/dialog-analysis-tools.c:2860
 msgid ""
 "The probability input range contains a non-numeric value.\n"
 "All probabilities must be non-negative numbers."
 msgstr ""
+"Inddataområdet for sandsynligheder indeholder en ikke-numerisk værdi.\n"
+"Alle sandsynligheder skal være ikke-negative tal."
 
-#: src/dialogs/dialog-analysis-tools.c:2851
+#: src/dialogs/dialog-analysis-tools.c:2865
 msgid "The probabilities may not all be 0!"
-msgstr ""
+msgstr "Sandsynlighederne kan ikke alle være 0!"
 
-#: src/dialogs/dialog-analysis-tools.c:2855
+#: src/dialogs/dialog-analysis-tools.c:2869
 msgid ""
 "The probability input range contains a negative number.\n"
 "All probabilities must be non-negative!"
 msgstr ""
+"Inddataområdet for sandsynligheder indeholder et negativt tal.\n"
+"Alle sandsynligheder skal være ikke-negative!"
 
-#: src/dialogs/dialog-analysis-tools.c:2860
+#: src/dialogs/dialog-analysis-tools.c:2874
 msgid "None of the values in the value range may be empty!"
-msgstr ""
+msgstr "Ingen af værdierne i værdiområdet må være tomme!"
 
-#: src/dialogs/dialog-analysis-tools.c:3026
+#: src/dialogs/dialog-analysis-tools.c:3040
 msgid "Could not create the Random Tool dialog."
 msgstr "Kunne ikke oprette tilfældighedsværktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:3088
+#: src/dialogs/dialog-analysis-tools.c:3102
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
@@ -4550,7 +4557,7 @@ msgstr ""
 "Der er for få datapunkter til at gennemføre denne regression.\n"
 "Der skal være mindst lige så mange datapunkter som frie variable."
 
-#: src/dialogs/dialog-analysis-tools.c:3094
+#: src/dialogs/dialog-analysis-tools.c:3108
 msgid ""
 "Two or more of the independent variables are linearly dependent,\n"
 "and the regression cannot be calculated. Remove one of these\n"
@@ -4560,40 +4567,40 @@ msgstr ""
 "og regressionen kan ikke beregnes. Fjern en af disse\n"
 "variable og prøv at udføre regressionen igen."
 
-#: src/dialogs/dialog-analysis-tools.c:3101
+#: src/dialogs/dialog-analysis-tools.c:3115
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "Der skal være lige mange værdier for alle variable i regressionen."
 
-#: src/dialogs/dialog-analysis-tools.c:3201
+#: src/dialogs/dialog-analysis-tools.c:3215
 msgid "_X Variables:"
 msgstr "_X-variabler:"
 
-#: src/dialogs/dialog-analysis-tools.c:3225
+#: src/dialogs/dialog-analysis-tools.c:3239
 msgid "_Y Variable:"
 msgstr "_Y-variabel:"
 
-#: src/dialogs/dialog-analysis-tools.c:3292
+#: src/dialogs/dialog-analysis-tools.c:3306
 msgid "Could not create the Regression Tool dialog."
 msgstr "Kunne ikke oprette regressionsværktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:3464
+#: src/dialogs/dialog-analysis-tools.c:3478
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Kunne ikke oprette prøvningsværktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:3635
+#: src/dialogs/dialog-analysis-tools.c:3649
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Kunne ikke oprette rullende gennemsnit-værktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:3685
+#: src/dialogs/dialog-analysis-tools.c:3699
 msgid "Fourier analysis is not implemented yet.  Sorry."
 msgstr "Fourier-analyse ikke implementeret endnu. Vi beklager."
 
-#: src/dialogs/dialog-analysis-tools.c:3728
+#: src/dialogs/dialog-analysis-tools.c:3742
 msgid "Could not create the Fourier Analyis Tool dialog."
 msgstr "Kunne ikke oprette Fourier-analyse-værktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:3801
+#: src/dialogs/dialog-analysis-tools.c:3815
 msgid ""
 "Each row of the bin range should contain one numeric value\n"
 "(ignoring the label if applicable)."
@@ -4601,27 +4608,27 @@ msgstr ""
 "Hver række i bin-intervallet bør indeholde én numerisk værdi\n"
 "(idet etiketten ignoreres om nødvendigt)"
 
-#: src/dialogs/dialog-analysis-tools.c:3932 src/dialogs/histogram.glade.h:1
+#: src/dialogs/dialog-analysis-tools.c:3946 src/dialogs/histogram.glade.h:2
 msgid "Bin _Range:"
 msgstr "Bin-_interval:"
 
-#: src/dialogs/dialog-analysis-tools.c:3936
+#: src/dialogs/dialog-analysis-tools.c:3950
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Kunne ikke oprette histogramværktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:4114
+#: src/dialogs/dialog-analysis-tools.c:4128
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Kunne ikke oprette Anova (enkeltfaktor)-værktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:4178
+#: src/dialogs/dialog-analysis-tools.c:4192
 msgid "Each sample must contain the same number of rows."
 msgstr "Hver stikprøve skal indeholde samme antal rækker."
 
-#: src/dialogs/dialog-analysis-tools.c:4183
+#: src/dialogs/dialog-analysis-tools.c:4197
 msgid "Given input range contains non-numeric data."
 msgstr "Det givne inddatainterval indeholder data der ikke er tal."
 
-#: src/dialogs/dialog-analysis-tools.c:4188
+#: src/dialogs/dialog-analysis-tools.c:4202
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
@@ -4629,55 +4636,56 @@ msgstr ""
 "Det givne inddatainterval skal indeholde mindst to kolonner med data og "
 "mærkater."
 
-#: src/dialogs/dialog-analysis-tools.c:4194
+#: src/dialogs/dialog-analysis-tools.c:4208
 msgid ""
 "One of the factor combinations does not contain\n"
 "any observations!"
 msgstr ""
+"En af faktorkombinationerne indeholder ikke nogen observationer!"
 
-#: src/dialogs/dialog-analysis-tools.c:4318
+#: src/dialogs/dialog-analysis-tools.c:4332
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Kunne ikke oprette Anova (tofaktor)-værktøjsvinduet."
 
-#: src/dialogs/dialog-analysis-tools.c:4349
+#: src/dialogs/dialog-analysis-tools.c:4363
 msgid "Anova: Two-Factor With Or Without Replication"
 msgstr "Anova: tofaktor med eller uden replikering"
 
-#: src/dialogs/dialog-analysis-tools.c:4359
+#: src/dialogs/dialog-analysis-tools.c:4373
 msgid "F-Test: Two-Sample for Variances"
 msgstr "F-Test: To-prøve for varianser"
 
-#: src/dialogs/dialog-analysis-tools.c:4365
-#: src/dialogs/moving-averages.glade.h:5
+#: src/dialogs/dialog-analysis-tools.c:4379
+#: src/dialogs/moving-averages.glade.h:6
 msgid "Moving Average"
 msgstr "Rullende gennemsnit"
 
-#: src/dialogs/dialog-analysis-tools.c:4367
-#: src/dialogs/random-generation.glade.h:5
+#: src/dialogs/dialog-analysis-tools.c:4381
+#: src/dialogs/random-generation.glade.h:6
 msgid "Random Number Generation"
 msgstr "Generering af tilfældige tal"
 
-#: src/dialogs/dialog-analysis-tools.c:4369 src/dialogs/rank.glade.h:5
+#: src/dialogs/dialog-analysis-tools.c:4383 src/dialogs/rank.glade.h:7
 msgid "Rank and Percentile"
 msgstr "Grad og percentil"
 
-#: src/dialogs/dialog-analysis-tools.c:4373 src/dialogs/sampling.glade.h:9
+#: src/dialogs/dialog-analysis-tools.c:4387 src/dialogs/sampling.glade.h:10
 msgid "Sampling"
 msgstr "Stikprøveudtagning"
 
-#: src/dialogs/dialog-analysis-tools.c:4375
+#: src/dialogs/dialog-analysis-tools.c:4389
 msgid "t-Test: Paired Two Sample for Means"
 msgstr "t-Test: Parvis to-prøve for middel"
 
-#: src/dialogs/dialog-analysis-tools.c:4377
+#: src/dialogs/dialog-analysis-tools.c:4391
 msgid "t-Test: Two-Sample Assuming Equal Variances"
 msgstr "t-Test: To-prøve under antagelse af ens varians"
 
-#: src/dialogs/dialog-analysis-tools.c:4379
+#: src/dialogs/dialog-analysis-tools.c:4393
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr "t-Test: To-prøve under antagelse af uens varians"
 
-#: src/dialogs/dialog-analysis-tools.c:4381
+#: src/dialogs/dialog-analysis-tools.c:4395
 msgid "z-Test: Two Sample for Means"
 msgstr "z-Test: To-prøve for middel"
 
@@ -5211,7 +5219,7 @@ msgstr "Anden værdi"
 msgid "Comment"
 msgstr "Kommentar"
 
-#: src/dialogs/dialog-search-replace.c:141 src/dialogs/dialog-search.c:376
+#: src/dialogs/dialog-search-replace.c:141 src/dialogs/dialog-search.c:368
 msgid "You must select some cell types to search."
 msgstr "Du skal vælge nogle celletyper at søge efter"
 
@@ -5810,11 +5818,11 @@ msgstr "Størrelse:"
 msgid "Formula Guru"
 msgstr "Formelhjælper"
 
-#: src/dialogs/fourier-analysis.glade.h:1
+#: src/dialogs/fourier-analysis.glade.h:2
 msgid "Fourier Analysis"
 msgstr "Fourier-analyse"
 
-#: src/dialogs/fourier-analysis.glade.h:3
+#: src/dialogs/fourier-analysis.glade.h:4
 msgid "I_nverse"
 msgstr "I_nvertér"
 
@@ -5910,28 +5918,27 @@ msgstr "Midterdel:"
 msgid "Right section:"
 msgstr "Højre del:"
 
-#: src/dialogs/histogram.glade.h:2
+#: src/dialogs/histogram.glade.h:3
 msgid "C_umulative Percentages"
 msgstr "Akk_umuleret procent"
 
-#: src/dialogs/histogram.glade.h:3
+#: src/dialogs/histogram.glade.h:4
 msgid "Chart Output"
 msgstr "Graf-uddata"
 
-#: src/dialogs/histogram.glade.h:7
+#: src/dialogs/histogram.glade.h:8
 msgid "Input _Labels"
 msgstr "Inddata-_mærkater"
 
-#: src/dialogs/histogram.glade.h:10
-#, fuzzy
+#: src/dialogs/histogram.glade.h:11
 msgid "Per_centages"
-msgstr "_Procentdel"
+msgstr "_Procentdele"
 
-#: src/dialogs/histogram.glade.h:12
+#: src/dialogs/histogram.glade.h:13
 msgid "_Bin Labels"
 msgstr "_Bin-mærkater"
 
-#: src/dialogs/histogram.glade.h:17
+#: src/dialogs/histogram.glade.h:18
 msgid "_Pareto (Sorted)"
 msgstr "_Pareto (sorteret)"
 
@@ -5955,71 +5962,71 @@ msgstr "Flyt celler _ned"
 msgid "_Shift cells right"
 msgstr "Flyt celler til _højre"
 
-#: src/dialogs/mean-tests.glade.h:3
+#: src/dialogs/mean-tests.glade.h:4
 msgid "E_qual"
 msgstr "_Ens"
 
-#: src/dialogs/mean-tests.glade.h:4
+#: src/dialogs/mean-tests.glade.h:5
 msgid "H_ypothesized Mean Difference:"
 msgstr "H_ypotetisk middelforskel:"
 
-#: src/dialogs/mean-tests.glade.h:8
+#: src/dialogs/mean-tests.glade.h:9
 msgid "Population Variances are:"
 msgstr "Populationsvarianser er:"
 
-#: src/dialogs/mean-tests.glade.h:9 src/dialogs/variance-tests.glade.h:5
+#: src/dialogs/mean-tests.glade.h:10 src/dialogs/variance-tests.glade.h:6
 msgid "Test"
 msgstr "Test"
 
-#: src/dialogs/mean-tests.glade.h:10
+#: src/dialogs/mean-tests.glade.h:11
 msgid "Testing the Difference of 2 Means"
 msgstr "Tester forskellen mellem 2 middelværdier"
 
-#: src/dialogs/mean-tests.glade.h:11
+#: src/dialogs/mean-tests.glade.h:12
 msgid "Unkno_wn"
 msgstr "_Ukendt"
 
-#: src/dialogs/mean-tests.glade.h:12
+#: src/dialogs/mean-tests.glade.h:13
 msgid "Unknown Pop. Var. are:"
 msgstr "Ukendt populationsvariabel er:"
 
-#: src/dialogs/mean-tests.glade.h:13
+#: src/dialogs/mean-tests.glade.h:14
 msgid "Unpai_red"
 msgstr "Upa_rret"
 
-#: src/dialogs/mean-tests.glade.h:14
+#: src/dialogs/mean-tests.glade.h:15
 msgid "Variable 1 Pop. Variance:"
 msgstr "Varians for populationsvariabel 1:"
 
-#: src/dialogs/mean-tests.glade.h:15 src/dialogs/variance-tests.glade.h:7
+#: src/dialogs/mean-tests.glade.h:16 src/dialogs/variance-tests.glade.h:8
 msgid "Variable 1 Range:"
 msgstr "Interval for variabel 1:"
 
-#: src/dialogs/mean-tests.glade.h:16
+#: src/dialogs/mean-tests.glade.h:17
 msgid "Variable 2 Pop. Variance:"
 msgstr "Varians for populationsvariabel 2:"
 
-#: src/dialogs/mean-tests.glade.h:17 src/dialogs/variance-tests.glade.h:8
+#: src/dialogs/mean-tests.glade.h:18 src/dialogs/variance-tests.glade.h:9
 msgid "Variable 2 Range:"
 msgstr "Interval for variabel 2:"
 
-#: src/dialogs/mean-tests.glade.h:18
+#: src/dialogs/mean-tests.glade.h:19
 msgid "Variables are:"
 msgstr "Variabler er:"
 
-#: src/dialogs/mean-tests.glade.h:19 src/dialogs/variance-tests.glade.h:9
+#: src/dialogs/mean-tests.glade.h:20 src/dialogs/variance-tests.glade.h:10
 msgid "_Alpha ="
 msgstr "_Alfa ="
 
-#: src/dialogs/mean-tests.glade.h:20
+#: src/dialogs/mean-tests.glade.h:21
 msgid "_Known"
 msgstr "_Kendt"
 
-#: src/dialogs/mean-tests.glade.h:24
+#: src/dialogs/mean-tests.glade.h:25
 msgid "_Paired"
 msgstr "_Parret"
 
-#: src/dialogs/mean-tests.glade.h:25
+#: src/dialogs/mean-tests.glade.h:26
 msgid "_Unequal"
 msgstr "_Forskellig"
 
@@ -6027,13 +6034,13 @@ msgstr "_Forskellig"
 msgid "3"
 msgstr "3"
 
-#: src/dialogs/moving-averages.glade.h:3
+#: src/dialogs/moving-averages.glade.h:4
 msgid "In_terval:"
 msgstr "In_terval:"
 
-#: src/dialogs/moving-averages.glade.h:14
+#: src/dialogs/moving-averages.glade.h:15
 msgid "_Standard Errors"
-msgstr "_Standardfejl"
+msgstr "_Standardafvigelser"
 
 #: src/dialogs/names.glade.h:1
 msgid "Define names"
@@ -6282,7 +6289,7 @@ msgstr "mm"
 
 #: src/dialogs/print.glade.h:46
 msgid "page(s) wide by"
-msgstr "side(r) bred gange"
+msgstr "sider bred gange"
 
 #: src/dialogs/print.glade.h:47 src/print-info.c:425
 msgid "pts"
@@ -6292,19 +6299,31 @@ msgstr "pkt"
 msgid "tall"
 msgstr "høj"
 
-#: src/dialogs/random-generation.glade.h:3
+#: src/dialogs/rank.glade.h:2
+msgid "Average _Rank"
+msgstr "Rang for gennemsnit"
+
+#: src/dialogs/rank.glade.h:8
+msgid "Ties:"
+msgstr "Bindinger:"
+
+#: src/dialogs/rank.glade.h:16
+msgid "_Top Rank"
+msgstr "_Toprang"
+
+#: src/dialogs/random-generation.glade.h:4
 msgid "Number of _Variables:"
 msgstr "Antal _variable:"
 
-#: src/dialogs/random-generation.glade.h:6
+#: src/dialogs/random-generation.glade.h:7
 msgid "Random Numbers"
 msgstr "Tilfældige tal"
 
-#: src/dialogs/random-generation.glade.h:7
-msgid "Size of _Sample:"
-msgstr "Prøvnings_størrelse:"
-
 #: src/dialogs/random-generation.glade.h:8
+msgid "Size of _Sample:"
+msgstr "Stikprøve_størrelse:"
+
+#: src/dialogs/random-generation.glade.h:9
 msgid "_Distribution:"
 msgstr "_Fordeling:"
 
@@ -6312,19 +6331,19 @@ msgstr "_Fordeling:"
 msgid "0.95"
 msgstr "0.95"
 
-#: src/dialogs/regression.glade.h:2
+#: src/dialogs/regression.glade.h:3
 msgid "Confidence Level:"
 msgstr "Konfidensniveau:"
 
-#: src/dialogs/regression.glade.h:3
+#: src/dialogs/regression.glade.h:4
 msgid "Force Intercept To Be Zero"
 msgstr "Tving skæring til at være nul"
 
-#: src/dialogs/regression.glade.h:9
+#: src/dialogs/regression.glade.h:10
 msgid "X Variables:"
 msgstr "x-variabler:"
 
-#: src/dialogs/regression.glade.h:10
+#: src/dialogs/regression.glade.h:11
 msgid "Y Variable:"
 msgstr "y-variabel:"
 
@@ -6336,31 +6355,31 @@ msgstr "Rækkehøjde"
 msgid "_Row height (pts):"
 msgstr "_Rækkehøjde (pts):"
 
-#: src/dialogs/sampling.glade.h:4
+#: src/dialogs/sampling.glade.h:5
 msgid "Input Range: "
 msgstr "Inddatainterval: "
 
-#: src/dialogs/sampling.glade.h:6
+#: src/dialogs/sampling.glade.h:7
 msgid "N_umber of Samples:"
 msgstr "Antal _stikprøver:"
 
-#: src/dialogs/sampling.glade.h:8
+#: src/dialogs/sampling.glade.h:9
 msgid "Period:"
 msgstr "Periode:"
 
-#: src/dialogs/sampling.glade.h:10
+#: src/dialogs/sampling.glade.h:11
 msgid "Sampling Method:"
 msgstr "Dataindsamlingmetode:"
 
-#: src/dialogs/sampling.glade.h:11
+#: src/dialogs/sampling.glade.h:12
 msgid "Size of Sample:"
 msgstr "Prøvningsstørrelse:"
 
-#: src/dialogs/sampling.glade.h:17
+#: src/dialogs/sampling.glade.h:18
 msgid "_Periodic"
 msgstr "_Periodisk"
 
-#: src/dialogs/sampling.glade.h:18
+#: src/dialogs/sampling.glade.h:19
 msgid "_Random"
 msgstr "_Tilfældig"
 
@@ -6842,7 +6861,7 @@ msgstr "Sammendrag"
 msgid "Title"
 msgstr "Titel"
 
-#: src/dialogs/variance-tests.glade.h:6
+#: src/dialogs/variance-tests.glade.h:7
 msgid "Testing Equality of 2 Variances (F-Test)"
 msgstr "Tester ensheden af to varianser (F-test)"
 
@@ -6891,15 +6910,15 @@ msgstr "Indbygget"
 msgid "Error: no sheet"
 msgstr "Fejl: intet ark"
 
-#: src/expr.c:568
+#: src/expr.c:548
 msgid "Internal type error"
 msgstr "Intern typefejl"
 
-#: src/expr.c:747
+#: src/expr.c:727
 msgid "Unknown operator"
 msgstr "Ukendt operator"
 
-#: src/expr.c:970
+#: src/expr.c:956
 msgid "Unknown evaluation error"
 msgstr "Ukendt evalueringsfejl"
 
@@ -7992,367 +8011,375 @@ msgid "Romanian leu"
 msgstr "Rumænske leu"
 
 #: src/formats.c:382
+msgid "[$RUR]"
+msgstr "[$RUR]"
+
+#: src/formats.c:382
+msgid "Russian ruble"
+msgstr "Russiske rubler"
+
+#: src/formats.c:383
 msgid "[$RWF]"
 msgstr "[$RWF]"
 
-#: src/formats.c:382
+#: src/formats.c:383
 msgid "Rwanda franc"
 msgstr "Rwanda-franc"
 
-#: src/formats.c:383
+#: src/formats.c:384
 msgid "[$SAR]"
 msgstr "[$SAR]"
 
-#: src/formats.c:383
+#: src/formats.c:384
 msgid "Saudi Arabian riyal"
 msgstr "Saudi Arabiske riyal"
 
-#: src/formats.c:384
+#: src/formats.c:385
 msgid "[$SBD]"
 msgstr "[$SBD]"
 
-#: src/formats.c:384
+#: src/formats.c:385
 msgid "Solomon Islands dollar"
 msgstr "Solomon-øernes dollar"
 
-#: src/formats.c:385
+#: src/formats.c:386
 msgid "[$SCR]"
 msgstr "[$SCR]"
 
-#: src/formats.c:385
+#: src/formats.c:386
 msgid "Seychelles rupee"
 msgstr "Seycheller rupier"
 
-#: src/formats.c:386
+#: src/formats.c:387
 msgid "[$SDP]"
 msgstr "[$SDP]"
 
-#: src/formats.c:386
+#: src/formats.c:387
 msgid "Sudanese pound"
 msgstr "Sudanesiske pund"
 
-#: src/formats.c:387
+#: src/formats.c:388
 msgid "[$SEK]"
 msgstr "[$SEK]"
 
-#: src/formats.c:387
+#: src/formats.c:388
 msgid "Swedish krona"
 msgstr "Svenske kroner"
 
-#: src/formats.c:388
+#: src/formats.c:389
 msgid "[$SGD]"
 msgstr "[$SGD]"
 
-#: src/formats.c:388
+#: src/formats.c:389
 msgid "Singapore dollar"
 msgstr "Singapore-dollar"
 
-#: src/formats.c:389
+#: src/formats.c:390
 msgid "[$SHP]"
 msgstr "[$SHP]"
 
-#: src/formats.c:389
+#: src/formats.c:390
 msgid "St.Helena pound"
 msgstr "St. Helena-pund"
 
-#: src/formats.c:390
+#: src/formats.c:391
 msgid "[$SIT]"
 msgstr "[$SIT]"
 
-#: src/formats.c:390
+#: src/formats.c:391
 msgid "Slovenia tolar"
 msgstr "Slovenske tolar"
 
-#: src/formats.c:391
+#: src/formats.c:392
 msgid "[$SLL]"
 msgstr "[$SLL]"
 
-#: src/formats.c:391
+#: src/formats.c:392
 msgid "Sierra Leone leone"
 msgstr "Sierra Leone leone"
 
-#: src/formats.c:392
+#: src/formats.c:393
 msgid "[$SOS]"
 msgstr "[$SOS]"
 
-#: src/formats.c:392
+#: src/formats.c:393
 msgid "Somali shilling"
 msgstr "Somaliske shilling"
 
-#: src/formats.c:393
+#: src/formats.c:394
 msgid "[$SRG]"
 msgstr "[$SRG]"
 
-#: src/formats.c:393
+#: src/formats.c:394
 msgid "Suriname guilder"
 msgstr "Surinamske gylden"
 
-#: src/formats.c:394
+#: src/formats.c:395
 msgid "[$STD]"
 msgstr "[$STD]"
 
-#: src/formats.c:394
+#: src/formats.c:395
 msgid "Sao Tome and Principe dobra"
 msgstr "Sao Tome og Principe dobra"
 
-#: src/formats.c:395
+#: src/formats.c:396
 msgid "[$SUR]"
 msgstr "[$SUR]"
 
-#: src/formats.c:395
+#: src/formats.c:396
 msgid "USSR rouble"
 msgstr "USSR rubler"
 
-#: src/formats.c:396
+#: src/formats.c:397
 msgid "[$SVC]"
 msgstr "[$SVC]"
 
-#: src/formats.c:396
+#: src/formats.c:397
 msgid "El Salvador colon"
 msgstr "El Salvadoranske colon"
 
-#: src/formats.c:397
+#: src/formats.c:398
 msgid "[$SYP]"
 msgstr "[$SYP]"
 
-#: src/formats.c:397
+#: src/formats.c:398
 msgid "Syrian pound"
 msgstr "Syriske pund"
 
-#: src/formats.c:398
+#: src/formats.c:399
 msgid "[$SZL]"
 msgstr "[$SZL]"
 
-#: src/formats.c:398
+#: src/formats.c:399
 msgid "Swaziland lilangeni"
 msgstr "Swazilandske lilangeni"
 
-#: src/formats.c:399
+#: src/formats.c:400
 msgid "[$THB]"
 msgstr "[$THB]"
 
-#: src/formats.c:399
+#: src/formats.c:400
 msgid "Thai baht"
 msgstr "Thailandske baht"
 
-#: src/formats.c:400
+#: src/formats.c:401
 msgid "[$TND]"
 msgstr "[$TND]"
 
-#: src/formats.c:400
+#: src/formats.c:401
 msgid "Tunisian dinar"
 msgstr "Tunesiske dinarer"
 
-#: src/formats.c:401
+#: src/formats.c:402
 msgid "[$TOP]"
 msgstr "[$TOP]"
 
-#: src/formats.c:401
+#: src/formats.c:402
 msgid "Tongan pa'anga"
 msgstr "Tonganske pa'anga"
 
-#: src/formats.c:402
+#: src/formats.c:403
 msgid "[$TPE]"
 msgstr "[$TPE]"
 
-#: src/formats.c:402
+#: src/formats.c:403
 msgid "East Timor escudo"
 msgstr "Øst Timor-escudo"
 
-#: src/formats.c:403
+#: src/formats.c:404
 msgid "[$TRL]"
 msgstr "[$TRL]"
 
-#: src/formats.c:403
+#: src/formats.c:404
 msgid "Turkish lira"
 msgstr "Tyrkiske lire"
 
-#: src/formats.c:404
+#: src/formats.c:405
 msgid "[$TTD]"
 msgstr "[$TTD]"
 
-#: src/formats.c:404
+#: src/formats.c:405
 msgid "Trinidad and Tobago dollar"
 msgstr "Trinidad og Tobago-dollar"
 
-#: src/formats.c:405
+#: src/formats.c:406
 msgid "[$TWD]"
 msgstr "[$TWD]"
 
-#: src/formats.c:405
+#: src/formats.c:406
 msgid "New Taiwan dollar"
 msgstr "Nye Taiwan-dollar"
 
-#: src/formats.c:406
+#: src/formats.c:407
 msgid "[$TZS]"
 msgstr "[$TZS]"
 
-#: src/formats.c:406
+#: src/formats.c:407
 msgid "Tanzanian shilling"
 msgstr "Tanzanianske shilling"
 
-#: src/formats.c:407
+#: src/formats.c:408
 msgid "[$UAH]"
 msgstr "[$UAH]"
 
-#: src/formats.c:407
+#: src/formats.c:408
 msgid "Ukrainian hryvnia"
 msgstr "Ukrainske hryvnia"
 
-#: src/formats.c:408
+#: src/formats.c:409
 msgid "[$UGX]"
 msgstr "[$UGX]"
 
-#: src/formats.c:408
+#: src/formats.c:409
 msgid "Ugandan shilling"
 msgstr "Ugandiske shilling"
 
-#: src/formats.c:409
+#: src/formats.c:410
 msgid "[$USD]"
 msgstr "[$USD]"
 
-#: src/formats.c:409
+#: src/formats.c:410
 msgid "US dollar"
 msgstr "US-dollar"
 
-#: src/formats.c:410
+#: src/formats.c:411
 msgid "[$UYP]"
 msgstr "[$UYP]"
 
-#: src/formats.c:410
+#: src/formats.c:411
 msgid "Uruguayan peso"
 msgstr "Uruguayanske peso"
 
-#: src/formats.c:411
+#: src/formats.c:412
 msgid "[$VEB]"
 msgstr "[$VEB]"
 
-#: src/formats.c:411
+#: src/formats.c:412
 msgid "Venezuelan bolivar"
 msgstr "Venezuelanske bolivar"
 
-#: src/formats.c:412
+#: src/formats.c:413
 msgid "[$VND]"
 msgstr "[$VND]"
 
-#: src/formats.c:412
+#: src/formats.c:413
 msgid "Vietnamese dong"
 msgstr "Vietnamesiske dong"
 
-#: src/formats.c:413
+#: src/formats.c:414
 msgid "[$VUV]"
 msgstr "[$VUV]"
 
-#: src/formats.c:413
+#: src/formats.c:414
 msgid "Vanuatu vatu"
 msgstr "Vanuatu vatu"
 
-#: src/formats.c:414
+#: src/formats.c:415
 msgid "[$WST]"
 msgstr "[$WST]"
 
-#: src/formats.c:414
+#: src/formats.c:415
 msgid "Samoan tala"
 msgstr "Samoanske tala"
 
-#: src/formats.c:415
+#: src/formats.c:416
 msgid "[$XCD]"
 msgstr "[$XCD]"
 
-#: src/formats.c:415
+#: src/formats.c:416
 msgid "East Caribbean dollar"
 msgstr "Østkaribiske dollar"
 
-#: src/formats.c:416
+#: src/formats.c:417
 msgid "[$XEU]"
 msgstr "[$XEU]"
 
-#: src/formats.c:416
+#: src/formats.c:417
 msgid "European currency unit"
 msgstr "Europæisk valutaenhed"
 
-#: src/formats.c:417
+#: src/formats.c:418
 msgid "[$YDD]"
 msgstr "[$YDD]"
 
-#: src/formats.c:417
+#: src/formats.c:418
 msgid "Democratic Yemeni dinar"
 msgstr "Demokratisk Yemen-dinarer"
 
-#: src/formats.c:418
+#: src/formats.c:419
 msgid "[$YER]"
 msgstr "[$YER]"
 
-#: src/formats.c:418
+#: src/formats.c:419
 msgid "Yemeni rial"
 msgstr "Yemenske rial"
 
-#: src/formats.c:419
+#: src/formats.c:420
 msgid "[$YUN]"
 msgstr "[$YUN]"
 
-#: src/formats.c:419
+#: src/formats.c:420
 msgid "New Yugoslavia dinar"
 msgstr "Ny jugoslaviske dinarer"
 
-#: src/formats.c:420
+#: src/formats.c:421
 msgid "[$ZAL]"
 msgstr "[$ZAL]"
 
-#: src/formats.c:420
+#: src/formats.c:421
 msgid "South African rand funds code"
 msgstr "Sydafrikanske rand fondkode"
 
-#: src/formats.c:421
+#: src/formats.c:422
 msgid "[$ZAR]"
 msgstr "[$ZAR]"
 
-#: src/formats.c:421
+#: src/formats.c:422
 msgid "South African rand"
 msgstr "Sydafrikanske rand"
 
-#: src/formats.c:422
+#: src/formats.c:423
 msgid "[$ZMK]"
 msgstr "[$ZMK]"
 
-#: src/formats.c:422
+#: src/formats.c:423
 msgid "Zambian kwacha"
 msgstr "Zambiske kwacha"
 
-#: src/formats.c:423
+#: src/formats.c:424
 msgid "[$ZRZ]"
 msgstr "[$ZRZ]"
 
-#: src/formats.c:423
+#: src/formats.c:424
 msgid "Zaire Zaire"
 msgstr "Zaire Zaire"
 
-#: src/formats.c:424
+#: src/formats.c:425
 msgid "[$ZWD]"
 msgstr "[$ZWD]"
 
-#: src/formats.c:424
+#: src/formats.c:425
 msgid "Zimbabwe dollar"
 msgstr "Zimbabwianske dollar"
 
-#: src/formats.c:556
+#: src/formats.c:557
 msgid "[Red]"
 msgstr "[Red]"
 
-#: src/func.c:126
+#: src/func.c:127
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Kan ikke oprette filen %s\n"
 
-#: src/func.c:283
+#: src/func.c:284
 msgid "Function implementation not available."
 msgstr "Funktionsimplementeringen er ikke tilgængelig."
 
-#: src/func.c:499
+#: src/func.c:500
 msgid "Unknown Function"
 msgstr "Ukendt funktion"
 
-#: src/func.c:822
+#: src/func.c:853
 msgid "Function does not exist"
 msgstr "Funktionen eksisterer ikke"
 
@@ -8787,6 +8814,16 @@ msgid ""
 "\n"
 "@SEEALSO=NOW, DATE, DATE2UNIX"
 msgstr ""
+"@FUNCTION=UNIX2DATE\n"
+"@SYNTAX=UNIX2DATE(unixtid)\n"
+"@DESCRIPTION=UNIX2DATE konverterer et unix-tidspunkt til et "
+"tidspunkt i regnearket.\n"
+"\n"
+"Et unix-tidspunkt er givet som antal sekunder siden midnat 1. januar 1970.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=NOW, DATE, DATE2UNIX"
 
 #: src/functions/fn-date.c:127
 msgid ""
@@ -8801,6 +8838,16 @@ msgid ""
 "\n"
 "@SEEALSO=NOW, DATE, UNIX2DATE"
 msgstr ""
+"@FUNCTION=DATE2UNIX\n"
+"@SYNTAX=DATE2UNIX(arkdato)\n"
+"@DESCRIPTION=DATE2UNIX konverterer et tidspunkt i regnearket"
+"til et unix-tidspunkt.\n"
+"\n"
+"Et unix-tidspunkt er givet som antal sekunder siden midnat 1. januar 1970.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=NOW, DATE, UNIX2DATE"
 
 #: src/functions/fn-date.c:158
 msgid ""
@@ -9141,7 +9188,6 @@ msgstr ""
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: src/functions/fn-date.c:716
-#, fuzzy
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (serial_number[, method])\n"
@@ -9163,11 +9209,15 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=WEEKDAY\n"
-"@SYNTAX=WEEKDAY (serienummer)\n"
+"@SYNTAX=WEEKDAY (serienummer,metode)\n"
 "@DESCRIPTION=WEEKDAY konverterer et serienummer til en ugedag.\n"
 "\n"
 "Denne funktion returnerer et heltal i intervallet 0-6, hvor lørdag er 0, "
 "søndag er 1, osv.\n"
+"\n"
+"For @metode=1: søndag er 1, mandag er 2, osv.\n"
+"For @metode=2: mandag er 1, tirsdag er 2, osv.\n"
+"For @metode=3: mandag er 0, tirsdag er 1, osv.\n"
 "\n"
 "Bemærk at Gnumeric vil udføre almindelig tekst til serienummer-konvertering "
 "for dig, så du kan opgive en dato som en tekst.\n"
@@ -11632,6 +11682,32 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=PRICE\n"
+"@SYNTAX=PRICE(anbringelse,forfald,rente,indfrielse,frekvens[,basis])\n"
+"@DESCRIPTION=PRICE beregner og returnerer prisen for en pålydende værdi "
+"på 100 af et værdipapir. "
+"Metoden kan kun bruges hvis papiret udbetaler rente med et fast interval. "
+"@anbringelse er datoen for købet af papiret. "
+"@forfald er forfaldsdatoen for værdipapiret. "
+"@rente er den pålydende rente på værdipapiret. "
+"@indfrielse er indfrielsesværdien per 100 kr pålydende værdi. "
+"@frekvens er antal kuponbetalinger per år. "
+"Tilladte frekvenser er: 1 = årlig, 2 = halvårlig, 4 = kvartalsvist. "
+"@basis er den type rentedagsberegning du vil bruge:\n"
+"\n"
+"0  amerikansk 30/360\n"
+"1  faktiske dage/faktiske dage\n"
+"2  faktiske dage/360\n"
+"3  faktiske dage/365\n"
+"4  europæisk 30/360\n"
+"\n"
+"Hvis @frekvens er andet end 1, 2 eller 4, returnerer YIELD en #NUM!-fejl. "
+"Hvis @basis udelades, anvendes amerikansk 30/360. "
+"Hvis @basis ikke er mellem 0 og 4, returnerer YIELD en #TAL!-fejl. "
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+
 
 #: src/functions/fn-financial.c:2989
 msgid ""
@@ -11655,6 +11731,31 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=YIELD\n"
+"@SYNTAX=YIELD(anbringelse,forfald,rente,pris,indfrielse,frekvens,[,basis])\n"
+"@DESCRIPTION=Brug YIELD til at beregne ydelsen på et værdipapir, som "
+"udbetaler udbytte periodisk. "
+"@anbringelse er anbringelsesdatoen for værdipapiret. "
+"@forfald er forfaldsdatoen for værdipapiret. "
+"@rente er den pålydende rente på værdipapiret. "
+"@pris er prisen for 100 kr pålydende værdi for værdipapiret. "
+"@indfrielse er indfrielsesværdien per 100 kr pålydende værdi. "
+"@frekvens er antal kuponbetalinger per år. "
+"Tilladte frekvenser er: 1 = årlig, 2 = halvårlig, 4 = kvartalsvist. "
+"@basis er den type rentedagsberegning du vil bruge:\n"
+"\n"
+"0  amerikansk 30/360\n"
+"1  faktiske dage/faktiske dage\n"
+"2  faktiske dage/360\n"
+"3  faktiske dage/365\n"
+"4  europæisk 30/360\n"
+"\n"
+"Hvis @frekvens er andet end 1, 2 eller 4, returnerer YIELD en #NUM!-fejl. "
+"Hvis @basis udelades, anvendes amerikansk 30/360. "
+"Hvis @basis ikke er mellem 0 og 4, returnerer YIELD en #TAL!-fejl. "
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-financial.c:3078
 msgid ""
@@ -11679,6 +11780,27 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=YIELDDISC\n"
+"@SYNTAX=YIELDDISC(anbringelse,forfald,pris,indfrielse[,basis])\n"
+"@DESCRIPTION=YIELDDISC beregner den årlige ydelse på et værdipapir, som "
+"er tilbageskrevet. "
+"@anbringelse er anbringelsesdatoen for værdipapiret. "
+"@forfald er forfaldsdatoen for værdipapiret. "
+"@pris er prisen for 100 kr pålydende værdi for værdipapiret. "
+"@indfrielse er indfrielsesværdien per 100 kr pålydende værdi. "
+"@basis er den type rentedagsberegning du vil bruge:\n"
+"\n"
+"0  amerikansk 30/360\n"
+"1  faktiske dage/faktiske dage\n"
+"2  faktiske dage/360\n"
+"3  faktiske dage/365\n"
+"4  europæisk 30/360\n"
+"\n"
+"Hvis @basis udelades, anvendes amerikansk 30/360. "
+"Hvis @basis ikke er mellem 0 og 4, returnerer YIELDDISC en #TAL!-fejl. "
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-financial.c:3114
 msgid ""
@@ -12723,13 +12845,13 @@ msgid ""
 "is 2 ADDRESS returns absolute row and relative column.  If @abs_num is 3 "
 "ADDRESS returns relative row and absolute column. If @abs_num is 4 ADDRESS "
 "returns relative reference. If @abs_num is greater than 4 ADDRESS returns "
-"#NUM! error. \n"
+"#VALUE! error. \n"
 "@a1 is a logical value that specifies the reference style.  If @a1 is TRUE "
 "or omitted, ADDRESS returns an A1-style reference, i.e. $D$4.  Otherwise "
 "ADDRESS returns an R1C1-style reference, i.e. R4C4. \n"
 "@text specifies the name of the worksheet to be used as the external "
 "reference.  \n"
-"If @row_num or @col_num is less than one, ADDRESS returns #NUM! error. \n"
+"If @row_num or @col_num is less than one, ADDRESS returns #VALUE! error. \n"
 "@EXAMPLES=\n"
 "ADDRESS(5,4) equals \"$D$5\".\n"
 "ADDRESS(5,4,4) equals \"D5\".\n"
@@ -12949,6 +13071,18 @@ msgid ""
 "17.3,21.3, 25.9, and 40.1. Then INDEX(A1:A5,4,1,1) equals 25,9\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=INDEX\n"
+"@SYNTAX=INDEX(matrix, [række, kolonne, område])\n"
+"@DESCRIPTION=INDEX giver en reference til en celle i den givne matrix. Cellen "
+"udpeges med @række og @kolonne, som tæller rækker og kolonner i matricen.\n"
+"Hvis @række eller @kolonne er udeladt, antages de at være 1. @område skal "
+"være 1; referencer til flere områder er endnu ikke implementeret. Hvis "
+"referencen falder uden for området i @matrix, returnerer INDEX en #REF!-fejl.\n"
+"\n"
+"Lad os antage at cellerne A1, A2, ..., A5 indeholder tallene 11.4, 17.3, "
+"21.3, 25.9 og 40.1. Da får vi at at "
+"INDEX(A1:A5,4,1,1) er lig med 25,9\n"
+"@SEEALSO="
 
 #: src/functions/fn-lookup.c:835
 msgid ""
@@ -14227,7 +14361,6 @@ msgstr ""
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
 #: src/functions/fn-math.c:1680
-#, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -14242,9 +14375,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
-"@DESCRIPTION=PI-funktionen returnerer værdien af pi. \n"
+"@DESCRIPTION=PI-funktionen returnerer værdien af phi. \n"
 "Denne funktion kaldes uden parametre.\n"
-"Denne funktion er Excel-kompatibel.\n"
+"Denne funktion er Excel-kompatibel, bortset fra at den returnerer phi "
+"med en større præcision.\n"
 "\n"
 "@EXAMPLES=\n"
 "PI() er lig med 3.141593\n"
@@ -16625,7 +16759,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(kendte_y_værdier,kendte_x_værdier)\n"
-"@DESCRIPTION=STEYX-funktionen returnerer standardfejlen på den forudsagte y-"
+"@DESCRIPTION=STEYX-funktionen returnerer standardafvigelsen på den forudsagte y-"
 "værdi for hvert x i regressionen.\n"
 "Hvis @kendte_y_værdier og @kendte_x_værdier er tomme eller har et "
 "forskelligt antal parametre, returneres en #N/A!-fejl.\n"
@@ -16893,7 +17027,6 @@ msgstr ""
 "@SEEALSO=STDEVA,STDEVP"
 
 #: src/functions/fn-stat.c:3036
-#, fuzzy
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -17160,8 +17293,8 @@ msgstr ""
 "Hvis @stat er SAND, vil ekstra statistisk information blive returneret. "
 "Ekstra statistisk information skrives under regressionslinjens koefficienter "
 "i resultatmatrixen og består af fire rækker af data. I den første række er "
-"standardfejlværdierne for koefficienterne a1, (a2, ...), og b "
-"repræsenteret.  Den anden række indeholder kvadratet på R og standardfejlen "
+"standardafvigelsesværdierne for koefficienterne a1, (a2, ...), og b "
+"repræsenteret.  Den anden række indeholder kvadratet på R og standardafvigelsen "
 "for y-estimatet.  Den tredje række indeholder den F-observerede værdi og "
 "frihedsgraderne. Den sidste række indeholder regressionens kvadratsum og "
 "residual-kvadratsummen. Hvis @stat ikke er givet, benyttes FALSK.\n"
@@ -17249,8 +17382,8 @@ msgstr ""
 "Hvis @stat er SAND, vil ekstra statistisk information blive returneret. "
 "Ekstra statistisk information skrives under regressionslinjens koefficienter "
 "i resultatmatrixen og består af fire rækker af data. I den første række er "
-"standardfejlværdierne for koefficienterne m1, (m2, ...), og b repræsenteret. "
-"Den anden række indeholder kvadratet på R og standardfejlen for y-estimatet. "
+"standardafvigelsesværdierne for koefficienterne m1, (m2, ...), og b repræsenteret. "
+"Den anden række indeholder kvadratet på R og standardafvigelsen for y-estimatet. "
 "Den tredje række indeholder den F-observerede værdi og frihedsgraderne. Den "
 "sidste række indeholder regressionens kvadratsum og residual-kvadratsummen. "
 "Hvis @stat ikke angivet, benyttes værdien FALSK.\n"
@@ -18274,11 +18407,11 @@ msgstr "Aktiverer ekstra tjek ved læsning af OLE-filer"
 
 #: src/main.c:106
 msgid "Specify the size and location of the initial window"
-msgstr ""
+msgstr "Angiv størrelse og placering for det første vindue"
 
 #: src/main.c:106
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
-msgstr ""
+msgstr "BREDDExHØJDE+X+Y"
 
 #: src/main.c:110
 msgid "Exit immediately after loading the selected books (useful for testing)."
@@ -18967,9 +19100,9 @@ msgid "Transparent"
 msgstr "Gennemsigtig"
 
 #: src/sheet-object-widget.c:560
-#, fuzzy, c-format
+#, c-format
 msgid "CheckBox %d"
-msgstr "Afkrydsningsboks"
+msgstr "Afkrydsningsboks %d"
 
 #: src/sheet-object-widget.c:791
 msgid "Checkbox Configure"
@@ -19231,7 +19364,7 @@ msgstr "Din fontmap2-fil har ikke et gyldigt element for Helvetica."
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "Din fontmap2-fil blev ikke fundet det forventede sted."
 
-#: src/value.c:680
+#: src/value.c:678
 msgid "Terminate"
 msgstr "Terminér"
 
@@ -19528,11 +19661,11 @@ msgid ""
 msgstr ""
 "Sorterer det markerede område i faldende orden efter den første kolonne."
 
-#: src/workbook-control-gui.c:3929
+#: src/workbook-control-gui.c:3931
 msgid "Send"
 msgstr "Send"
 
-#: src/workbook-control-gui.c:3929
+#: src/workbook-control-gui.c:3931
 msgid "Send the current file in email"
 msgstr "Send den aktuelle fil med et ebrev"
 
@@ -19550,7 +19683,7 @@ msgstr "Forkast udtryk"
 
 #: src/workbook-edit.c:165
 msgid "Gnumeric : Validation"
-msgstr "Gnumeric: validering"
+msgstr "Gnumeric: Datagyldighedskontrol"
 
 #: src/workbook-edit.c:167
 msgid ""
@@ -20079,7 +20212,6 @@ msgstr "Regneark til Gnome"
 #~ "\n"
 #~ "@SEEALSO="
 
-#, fuzzy
 #~ msgid ""
 #~ "@FUNCTION=ODDLYIELD\n"
 #~ "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
