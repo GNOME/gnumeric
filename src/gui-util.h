@@ -126,4 +126,6 @@ void	 int_to_entry	(GtkEntry *entry, gint the_int);
 GtkWidget *gnumeric_load_image  (char const *name);
 GdkPixbuf *gnumeric_load_pixbuf (char const *name);
 
+void gnm_setup_label_atk (GtkLabel *label, GtkWidget *target);
+
 #endif /* GNUMERIC_GUI_UTIL_H */
