@@ -24,6 +24,7 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-gradient.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <src/gnumeric-i18n.h>
@@ -271,7 +272,7 @@ gog_themes_init	(void)
 	style = gog_style_new ();
 	style->outline.width = -1;
 	style->fill.type = GOG_FILL_STYLE_GRADIENT;
-	style->fill.u.gradient.dir   = GOG_GRADIENT_N_TO_S;
+	style->fill.u.gradient.dir   = GO_GRADIENT_N_TO_S;
 	style->fill.u.gradient.start = RGBA_BLUE;
 	style->fill.u.gradient.end   = RGBA_BLACK;
 	gog_theme_add_element (theme, style, NULL, "GogGraph", NULL);

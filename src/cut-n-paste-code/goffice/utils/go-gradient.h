@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-chart-impl.h : implementation details for charts
+ * go-gradient.h : 
  *
  * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
  *
@@ -18,37 +18,35 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
+#ifndef GO_GRADIENT_H
+#define GO_GRADIENT_H
 
-#ifndef GOG_CHART_IMPL_H
-#define GOG_CHART_IMPL_H
-
-#include <goffice/graph/goffice-graph.h>
-#include <goffice/graph/gog-chart.h>
-#include <goffice/graph/gog-styled-object.h>
-#include <glib-object.h>
+#include <glib.h>
+#include <goffice/utils/go-color.h>
 
 G_BEGIN_DECLS
 
-struct _GogChart {
-	GogStyledObject	 base;
+typedef enum {
+	GO_GRADIENT_N_TO_S,
+	GO_GRADIENT_S_TO_N,
+	GO_GRADIENT_N_TO_S_MIRRORED,
+	GO_GRADIENT_S_TO_N_MIRRORED,
+	GO_GRADIENT_W_TO_E,
+	GO_GRADIENT_E_TO_W,
+	GO_GRADIENT_W_TO_E_MIRRORED,
+	GO_GRADIENT_E_TO_W_MIRRORED,
+	GO_GRADIENT_NW_TO_SE,
+	GO_GRADIENT_SE_TO_NW,
+	GO_GRADIENT_NW_TO_SE_MIRRORED,
+	GO_GRADIENT_SE_TO_NW_MIRRORED,
+	GO_GRADIENT_NE_TO_SW,
+	GO_GRADIENT_SW_TO_NE,
+	GO_GRADIENT_SW_TO_NE_MIRRORED,
+	GO_GRADIENT_NE_TO_SW_MIRRORED	
+} GOGradientDirection;
 
-	GSList  *plots;
-	unsigned cardinality;
-	gboolean cardinality_valid;
-
-	/* use a simple grid layout to position charts within graph */
-	unsigned x, y, cols, rows;
-
-	GSList *axes;
-	GogAxisSet axis_set;
-};
-typedef GogStyledObjectClass GogChartClass;
-
-#define GOG_CHART_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOG_CHART_TYPE, GogChartClass))
-#define IS_GOG_CHART_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_CHART_TYPE))
-
-/* protected */
+gpointer   go_gradient_selector (GOColor fore, GOColor back);
 
 G_END_DECLS
 
-#endif /* GOG_CHART_IMPL_H */
+#endif /* GO_GRADIENT_H */

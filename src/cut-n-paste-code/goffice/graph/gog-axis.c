@@ -42,7 +42,7 @@ struct _GogAxis {
 
 	GogAxisType	 type;
 	GogAxisPosition	 pos;
-	GSList		*i_cross, *crosses_me, *plots;
+	GSList		*i_cross, *crosses_me, *contributors;
 
 	GogDatasetElement source [AXIS_ELEM_LAST_ENTRY];
 	GogAxisTickLevel  tick_level;
@@ -92,13 +92,25 @@ gog_axis_finalize (GObject *obj)
 {
 	GogAxis *axis = GOG_AXIS (obj);
 
-	g_slist_free (axis->i_cross);	 axis->i_cross = NULL;
-	g_slist_free (axis->crosses_me); axis->crosses_me = NULL;
-	g_slist_free (axis->plots);	 axis->plots = NULL;
+	g_slist_free (axis->i_cross);	 	axis->i_cross = NULL;
+	g_slist_free (axis->crosses_me); 	axis->crosses_me = NULL;
+	g_slist_free (axis->contributors);	axis->contributors = NULL;
 
 	gog_dataset_finalize (GOG_DATASET (axis));
 	if (parent_klass != NULL && parent_klass->finalize != NULL)
 		(parent_klass->finalize) (obj);
+}
+
+static void
+gog_axis_update (GogObject *obj)
+{
+	GSList *ptr;
+	GogAxis *axis = GOG_AXIS (obj);
+
+	g_warning ("axis::update");
+
+	for (ptr = axis->contributors ; ptr != NULL ; ptr = ptr->next) {
+	}
 }
 
 static void
@@ -123,6 +135,7 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 			GOG_AXIS_X, GOG_AXIS_TYPES, GOG_AXIS_TYPES, G_PARAM_READWRITE));
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
+	gog_klass->update = gog_axis_update;
 }
 
 static void
@@ -131,7 +144,7 @@ gog_axis_init (GogAxis *axis)
 	axis->type	 = GOG_AXIS_UNKNOWN;
 	axis->pos	 = GOG_AXIS_AT_LOW;
 	axis->tick_level = AXIS_ELEM_MINOR_TICK,
-	axis->i_cross =	axis->crosses_me = axis->plots = NULL;
+	axis->i_cross =	axis->crosses_me = axis->contributors = NULL;
 }
 
 static void
@@ -167,4 +180,23 @@ gog_axis_type (GogAxis const *axis)
 {
 	g_return_val_if_fail (GOG_AXIS (axis) != NULL, FALSE);
 	return axis->type;
+}
+
+void
+gog_axis_add_contributor (GogAxis *axis, GogObject *contrib)
+{
+	g_return_if_fail (GOG_AXIS (axis) != NULL);
+	g_return_if_fail (g_slist_find (axis->contributors, contrib) == NULL);
+
+	axis->contributors = g_slist_prepend (axis->contributors, contrib);
+}
+
+
+void
+gog_axis_del_contributor (GogAxis *axis, GogObject *contrib)
+{
+	g_return_if_fail (GOG_AXIS (axis) != NULL);
+	g_return_if_fail (g_slist_find (axis->contributors, contrib) != NULL);
+
+	axis->contributors = g_slist_remove (axis->contributors, contrib);
 }

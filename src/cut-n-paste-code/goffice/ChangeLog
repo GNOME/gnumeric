@@ -1,3 +1,10 @@
+2003-08-12  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-style.c (fill_image_init) : store the filename
+	(cb_image_file_select) : ditto.
+	(cb_fill_type_changed) : use it here to support restoring the image
+	  filaname even though all we have is the image.
+
 2003-08-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* graph/gog-style-prefs.glade: shuffle fill-image widgets

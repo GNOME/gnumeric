@@ -5,7 +5,9 @@ libgoffice_utils_la_SOURCES =	\
 	go-color.c		\
 	go-color.h		\
 	go-pattern.c		\
-	go-pattern.h
+	go-pattern.h		\
+	go-gradient.c		\
+	go-gradient.h
 
 # prune this when the code moves
 INCLUDES = -I$(top_srcdir) 					\

@@ -54,6 +54,33 @@ gog_chart_update (GogObject *chart)
 }
 
 static void
+gog_chart_finalize (GObject *obj)
+{
+	GogChart *chart = GOG_CHART (obj);
+
+	/* on exit the role remove routines are not called */
+	g_slist_free (chart->plots);
+	g_slist_free (chart->axes);
+
+	(chart_parent_klass->finalize) (obj);
+}
+
+static void
+gog_chart_get_property (GObject *obj, guint param_id,
+			GValue *value, GParamSpec *pspec)
+{
+	GogChart *chart = GOG_CHART (obj);
+	switch (param_id) {
+	case CHART_PROP_CARDINALITY_VALID:
+		g_value_set_boolean (value, chart->cardinality_valid);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static void
 role_plot_post_add (GogObject *parent, GogObject *plot)
 {
 	GogChart *chart = GOG_CHART (parent);
@@ -76,32 +103,6 @@ role_plot_pre_remove (GogObject *parent, GogObject *plot)
 	gog_chart_request_cardinality_update (chart);
 }
 
-static void
-gog_chart_finalize (GObject *obj)
-{
-	GogChart *chart = GOG_CHART (obj);
-
-	/* on exit the role remove routines are not called */
-	g_slist_free (chart->plots);
-
-	(chart_parent_klass->finalize) (obj);
-}
-
-static void
-gog_chart_get_property (GObject *obj, guint param_id,
-			GValue *value, GParamSpec *pspec)
-{
-	GogChart *chart = GOG_CHART (obj);
-	switch (param_id) {
-	case CHART_PROP_CARDINALITY_VALID:
-		g_value_set_boolean (value, chart->cardinality_valid);
-		break;
-
-	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
-		 break;
-	}
-}
-
 static gboolean
 axis_can_add (GogObject const *parent, GogAxisType t)
 {
@@ -112,15 +113,20 @@ axis_can_add (GogObject const *parent, GogAxisType t)
 }
 
 static void
-axis_post_add (GogObject *child, GogAxisType t)
+axis_post_add (GogObject *axis, GogAxisType t)
 {
-	g_object_set (G_OBJECT (child), "type", (int)t, NULL);
+	GogChart *chart = GOG_CHART (axis->parent);
+	g_object_set (G_OBJECT (axis), "type", (int)t, NULL);
+	chart->axes = g_slist_prepend (chart->axes, axis);
 }
 
 static void
-axis_pre_remove (GogObject *child, GogAxisType t)
+axis_pre_remove (GogObject *axis, GogAxisType t)
 {
+	GogChart *chart = GOG_CHART (axis->parent);
+	chart->axes = g_slist_remove (chart->axes, axis);
 }
+
 static gboolean x_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_X); }
 static void x_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_X); }
 static void x_axis_pre_remove  (GogObject *parent, GogObject *child)  { axis_pre_remove (child, GOG_AXIS_X); }

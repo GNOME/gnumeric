@@ -24,6 +24,7 @@
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-pattern.h>
+#include <goffice/utils/go-gradient.h>
 #include <glib-object.h>
 #include <gtk/gtkwidget.h>
 #include <command-context.h>	/* for CommandContext */
@@ -51,25 +52,6 @@ typedef enum {
 } GogFillStyle;
 
 typedef enum {
-	GOG_GRADIENT_N_TO_S,
-	GOG_GRADIENT_S_TO_N,
-	GOG_GRADIENT_N_TO_S_MIRRORED,
-	GOG_GRADIENT_S_TO_N_MIRRORED,
-	GOG_GRADIENT_W_TO_E,
-	GOG_GRADIENT_E_TO_W,
-	GOG_GRADIENT_W_TO_E_MIRRORED,
-	GOG_GRADIENT_E_TO_W_MIRRORED,
-	GOG_GRADIENT_NW_TO_SE,
-	GOG_GRADIENT_SE_TO_NW,
-	GOG_GRADIENT_NW_TO_SE_MIRRORED,
-	GOG_GRADIENT_SE_TO_NW_MIRRORED,
-	GOG_GRADIENT_NE_TO_SW,
-	GOG_GRADIENT_SW_TO_NE,
-	GOG_GRADIENT_SW_TO_NE_MIRRORED,
-	GOG_GRADIENT_NE_TO_SW_MIRRORED	
-} GogGradientDirection;
-
-typedef enum {
 	GOG_IMAGE_STRETCHED,
 	GOG_IMAGE_WALLPAPER,
 } GogImageType;
@@ -95,7 +77,7 @@ struct _GogStyle {
 				GOPattern pat;
 			} pattern;
 			struct {
-				GogGradientDirection dir;
+				GOGradientDirection dir;
 				GOColor	start;
 				GOColor end;
 				float   brightness; /* < 0 => 2 color */

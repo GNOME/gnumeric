@@ -365,14 +365,27 @@ gboolean
 gog_plot_axis_set_assign (GogPlot *plot, GogAxisSet axis_set)
 {
 	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
+	GogChart const *chart;
 	GogAxisType type;
 
 	g_return_val_if_fail (klass != NULL, FALSE);
 
-	for (type = 0 ; type < GOG_AXIS_TYPES ; type++)
-		if ((axis_set & (1 << type))) {
-		} else {
+	chart = gog_plot_get_chart (plot);
+	for (type = 0 ; type < GOG_AXIS_TYPES ; type++) {
+		if (plot->axis[type] != NULL) {
+			if (!(axis_set & (1 << type))) {
+				gog_axis_del_contributor (plot->axis[type], GOG_OBJECT (plot));
+				plot->axis[type] = NULL;
+			}
+		} else if (axis_set & (1 << type)) {
+			GSList *axes = gog_chart_get_axis (chart, type);
+			if (axes != NULL) {
+				gog_axis_add_contributor (axes->data, GOG_OBJECT (plot));
+				plot->axis[GOG_AXIS_TYPES] = axes->data;
+				g_slist_free (axes);
+			}
 		}
+	}
 
 	if (klass->axis_set_assign == NULL)
 		return axis_set == GOG_AXIS_SET_NONE;

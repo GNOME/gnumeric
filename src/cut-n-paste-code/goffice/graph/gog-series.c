@@ -137,6 +137,13 @@ gog_series_editor (GogObject *gobj,
 }
 
 static void
+gog_series_update (GogObject *obj)
+{
+	GogSeries *series = GOG_SERIES (obj);
+	series->needs_recalc = FALSE;
+}
+
+static void
 gog_series_class_init (GogSeriesClass *klass)
 {
 	GObjectClass *gobject_klass = (GObjectClass *) klass;
@@ -145,6 +152,7 @@ gog_series_class_init (GogSeriesClass *klass)
 	parent_klass = g_type_class_peek_parent (klass);
 	gobject_klass->finalize		= gog_series_finalize;
 	gog_klass->editor		= gog_series_editor;
+	gog_klass->update		= gog_series_update;
 }
 
 static void

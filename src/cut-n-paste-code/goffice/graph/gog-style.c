@@ -31,7 +31,6 @@
 #include <widgets/color-palette.h>
 #include <widgets/widget-pixmap-combo.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
-#include <libart_lgpl/art_render_gradient.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <src/gnumeric-i18n.h>
@@ -325,135 +324,28 @@ cb_gradient_type_changed (GtkWidget *cc, int dir, StylePrefState const *state)
 	gog_object_set_style (state->obj, style);
 }
 
-/*PixmapComboElement data for the graident combo, inline_gdkpixbuf initially set to NULL*/
-static PixmapComboElement gog_gradient_elts[] = {
-	{ NULL, NULL, GOG_GRADIENT_N_TO_S },
-	{ NULL, NULL, GOG_GRADIENT_S_TO_N },
-	{ NULL, NULL, GOG_GRADIENT_N_TO_S_MIRRORED },
-	{ NULL, NULL, GOG_GRADIENT_S_TO_N_MIRRORED },
-	{ NULL, NULL, GOG_GRADIENT_W_TO_E },
-	{ NULL, NULL, GOG_GRADIENT_E_TO_W },
-	{ NULL, NULL, GOG_GRADIENT_W_TO_E_MIRRORED },
-	{ NULL, NULL, GOG_GRADIENT_E_TO_W_MIRRORED },
-	{ NULL, NULL, GOG_GRADIENT_NW_TO_SE },
-	{ NULL, NULL, GOG_GRADIENT_SE_TO_NW },
-	{ NULL, NULL, GOG_GRADIENT_NW_TO_SE_MIRRORED },
-	{ NULL, NULL, GOG_GRADIENT_SE_TO_NW_MIRRORED },
-	{ NULL, NULL, GOG_GRADIENT_NE_TO_SW },
-	{ NULL, NULL, GOG_GRADIENT_SW_TO_NE },
-	{ NULL, NULL, GOG_GRADIENT_SW_TO_NE_MIRRORED },
-	{ NULL, NULL, GOG_GRADIENT_NE_TO_SW_MIRRORED }	
-};
-
 static void
 populate_gradient_combo (StylePrefState *state, GogStyle const *style)
 {
-	GtkWidget *w, *table;
-	guint i, length;
-	GdkPixbuf *pixbuf;
-	GdkPixdata pixdata;
-	gpointer data;
-	ArtRender *render;
-	ArtGradientLinear gradient;
-	ArtGradientStop stops[] = {
-		{ 0., { 0, 0, 0, 0 }},
-		{ 1., { 0, 0, 0, 0 }}
-	};
+	GtkWidget *combo, *table;
 
 	if (state->fill.gradient.combo != NULL)
 		gtk_widget_destroy (state->fill.gradient.combo);
 
-	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 20, 20);
-	for (i = 0; i < G_N_ELEMENTS (gog_gradient_elts); i++) {
-		memset (gdk_pixbuf_get_pixels (pixbuf), 0, gdk_pixbuf_get_rowstride (pixbuf) * 20);
-		render = art_render_new (0, 0, 20, 20,
-			gdk_pixbuf_get_pixels (pixbuf),
-			gdk_pixbuf_get_rowstride (pixbuf),
-			gdk_pixbuf_get_n_channels (pixbuf) - 1,
-			8, ART_ALPHA_SEPARATE, NULL);
-		if (gog_gradient_elts[i].inline_gdkpixbuf != NULL)
-			g_free ((gpointer) gog_gradient_elts[i].inline_gdkpixbuf);
-		if (i < 4) {
-			gradient.a = 0.;
-			/*The values used in the two lines below might seem strange
-			but using the more natural 1./19. and 0. give very strange results*/
-			gradient.b = .998 / 19.;
-			gradient.c =  0.001;
-		} else if (i < 8) {
-			gradient.a = 1. / 19.;
-			gradient.b = 0.;
-			gradient.c = 0.;
-		} else if (i < 12) {
-			gradient.a = 1. / 39.;
-			gradient.b = 1. / 39.;
-			gradient.c = 0;
-		} else {
-			gradient.a = -1. / 39.;
-			gradient.b = 1. / 39.;
-			/* Note: this gradient is anchored at (x1,y0).  */
-			gradient.c = 0.5;
-		}
-
-		switch (i % 4) {
-		case 0:
-			gradient.spread = ART_GRADIENT_REPEAT;
-			gradient.n_stops = G_N_ELEMENTS (stops);
-			gradient.stops = stops;
-			go_color_to_artpix (stops[0].color, style->fill.u.gradient.start);
-			go_color_to_artpix (stops[1].color, style->fill.u.gradient.end);
-			break;
-		case 1:
-			gradient.spread = ART_GRADIENT_REPEAT;
-			gradient.n_stops = G_N_ELEMENTS (stops);
-			gradient.stops = stops;
-			go_color_to_artpix (stops[0].color, style->fill.u.gradient.end);
-			go_color_to_artpix (stops[1].color, style->fill.u.gradient.start);
-			break;
-		case 2:
-			gradient.spread = ART_GRADIENT_REFLECT;
-			gradient.n_stops = G_N_ELEMENTS (stops);
-			gradient.stops = stops;
-			go_color_to_artpix (stops[0].color, style->fill.u.gradient.start);
-			go_color_to_artpix (stops[1].color, style->fill.u.gradient.end);
-			gradient.a *= 39. / 19.;
-			gradient.b *= 39. / 19.;
-			gradient.c *= 39. / 19.;
-			break;
-		case 3:
-			gradient.spread = ART_GRADIENT_REFLECT;
-			gradient.n_stops = G_N_ELEMENTS (stops);
-			gradient.stops = stops;
-			go_color_to_artpix (stops[0].color, style->fill.u.gradient.end);
-			go_color_to_artpix (stops[1].color, style->fill.u.gradient.start);
-			gradient.a *= 2.;
-			gradient.b *= 2.;
-			gradient.c *= 2.;
-			break;
-		}
-		art_render_gradient_linear (render,
-			&gradient, ART_FILTER_NEAREST);
-		art_render_invoke (render);
-
-		data = gdk_pixdata_from_pixbuf (&pixdata, pixbuf, FALSE);
-		gog_gradient_elts[i].inline_gdkpixbuf = gdk_pixdata_serialize (&pixdata, &length);
-		g_free (data);
-	}
-	g_object_unref (pixbuf);
-
-	state->fill.gradient.combo = w =
-		pixmap_combo_new (gog_gradient_elts, 4, 4);
-	gtk_combo_box_set_tearable (GTK_COMBO_BOX (w), FALSE);
+	state->fill.gradient.combo = combo = go_gradient_selector (
+		gog_style_get_fill_color (style, 1),
+		gog_style_get_fill_color (style, 2));
 	gtk_label_set_mnemonic_widget (
-		GTK_LABEL (glade_xml_get_widget (state->gui, "fill_gradient_direction_label")), w);
+		GTK_LABEL (glade_xml_get_widget (state->gui, "fill_gradient_direction_label")), combo);
 
 	table = glade_xml_get_widget (state->gui, "fill_gradient_table");
-	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 0, 1, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), combo, 1, 2, 0, 1, 0, 0, 0, 0);
 	if (style->fill.type == GOG_FILL_STYLE_GRADIENT)
-		pixmap_combo_select_pixmap (PIXMAP_COMBO (w), style->fill.u.gradient.dir);
-	g_signal_connect (G_OBJECT (w),
+		pixmap_combo_select_pixmap (PIXMAP_COMBO (combo), style->fill.u.gradient.dir);
+	g_signal_connect (G_OBJECT (combo),
 		"changed",
 		G_CALLBACK (cb_gradient_type_changed), state);
-	gtk_widget_show (w);
+	gtk_widget_show (combo);
 }
 
 static void
@@ -543,6 +435,8 @@ cb_image_file_select (GtkWidget *cc, StylePrefState *state)
 			: NULL;
 
 		w = glade_xml_get_widget (state->gui, "fill_image_sample");
+		g_object_set_data (G_OBJECT (w), "filename",
+			style->fill.u.image.filename);
 		gtk_image_set_from_pixbuf (GTK_IMAGE (w), style->fill.u.image.image);
 		gog_object_set_style (state->obj, style);
 	}
@@ -577,6 +471,8 @@ fill_image_init (StylePrefState *state, GogStyle const *style)
 			style->fill.u.image.type);
 		gtk_image_set_from_pixbuf (GTK_IMAGE (sample),
 			style->fill.u.image.image);
+		g_object_set_data (G_OBJECT (sample), "filename",
+			style->fill.u.image.filename);
 	}
 	g_signal_connect (G_OBJECT (type),
 		"changed",
@@ -624,6 +520,7 @@ cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 		style->fill.u.image.image =  gtk_image_get_pixbuf (GTK_IMAGE (w));
 		if (NULL != style->fill.u.image.image)
 			g_object_ref (style->fill.u.image.image);
+		style->fill.u.image.filename = g_object_get_data (G_OBJECT (w), "filename");
 		w = glade_xml_get_widget (state->gui, "fill_image_fit");
 		style->fill.u.image.type = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
 		break;
@@ -668,7 +565,6 @@ marker_init (StylePrefState *state, GogStyle const *style, gboolean enable)
 {
 	GtkWidget *w, *table =
 		glade_xml_get_widget (state->gui, "marker_table");
-
 
 	if (!enable) {
 		gtk_widget_hide (glade_xml_get_widget (state->gui, "marker_outer_table"));
