@@ -603,7 +603,11 @@ stf_preview_new (GnomeCanvas *canvas, gboolean formatted)
 	renderdata->group        = NULL;
 	renderdata->gridgroup    = NULL;
 
-	renderdata->font       = gdk_font_load ("fixed");
+	/* xgettext:
+	 * The name of the default font for this locale.
+	 * Preferably something with the correct encoding.
+	 */
+	renderdata->font       = gdk_font_set_load (_("fixed"));
 	renderdata->charwidth  = gdk_string_width (renderdata->font, "W");
 	renderdata->charheight = gdk_string_height (renderdata->font, "W");
 

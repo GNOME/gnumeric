@@ -82,7 +82,11 @@ style_font_new_simple (const char *font_name, double size, double scale,
 		/* Worst case scenario */
 		font->gdk_font = gnome_display_font_get_gdk_font (font->dfont);
 		if (font->gdk_font == NULL)
-			font->gdk_font = gdk_font_load ("fixed");
+			/* xgettext:
+			 * The name of the default font for this locale.
+			 * Preferably something with the correct encoding.
+			 */
+			font->gdk_font = gdk_font_set_load (_("fixed"));
 		else
 			gdk_font_ref (font->gdk_font);
 
