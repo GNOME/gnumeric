@@ -13,12 +13,11 @@ GType gnm_python_get_type (void);
 typedef struct _GnmPython GnmPython;
 
 GnmPython        *gnm_python_object_get (void);
-void              gnm_python_object_shutdown (void);
-GnmPyInterpreter *gnm_python_new_interpreter (GnmPlugin *plugin);
-void              gnm_python_destroy_interpreter (GnmPyInterpreter *interpreter);
-GnmPyInterpreter *gnm_python_get_current_interpreter (void);
-GnmPyInterpreter *gnm_python_get_default_interpreter (void);
-GSList           *gnm_python_get_interpreters (void);
-void              gnm_python_clear_error_if_needed (void);
+GnmPyInterpreter *gnm_python_new_interpreter (GnmPython *gpy, GnmPlugin *plugin);
+void              gnm_python_destroy_interpreter (GnmPython *gpy, GnmPyInterpreter *interpreter);
+GnmPyInterpreter *gnm_python_get_current_interpreter (GnmPython *gpy);
+GnmPyInterpreter *gnm_python_get_default_interpreter (GnmPython *gpy);
+GSList           *gnm_python_get_interpreters (GnmPython *gpy);
+void              gnm_python_clear_error_if_needed (GnmPython *gpy);
 
 #endif /* PLUGIN_GNM_PYTHON_H */

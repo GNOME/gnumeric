@@ -9,7 +9,7 @@ INCLUDES = \
 gnumeric_plugin_python_loaderdir = $(gnumeric_plugindir)/python-loader
 xmldir = $(gnumeric_plugin_python_loaderdir)
 gnumeric_plugin_python_loader_LTLIBRARIES = python_loader.la
-gnumeric_plugin_python_loader_DATA = ui-console-menu.xml py-console-ui.xml
+gnumeric_plugin_python_loader_DATA = ui-console-menu.xml
 
 python_loader_la_LDFLAGS = -module -avoid-version $(PY_LIB_LOC)  
 python_loader_la_LIBADD = -l$(PY_LIBS) $(PY_EXTRA_LIBS)

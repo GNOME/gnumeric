@@ -56,7 +56,7 @@ gnm_py_command_line_keypress (GnmPyCommandLine *cline, GdkEventKey *event, gpoin
 		if (cline->history_tail == NULL) {
 			cline->history = g_list_append (NULL, g_strdup (text));
 			cline->history_tail = cline->history;
-		} else if (strcmp (text, cline->history_tail->data) != 0) {
+		} else if (text[0] != '\0' && strcmp (text, cline->history_tail->data) != 0) {
 			g_list_append (cline->history_tail, g_strdup (text));
 			cline->history_tail = cline->history_tail->next;
 		}

@@ -1,3 +1,33 @@
+2002-08-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* Makefile.am (gnumeric_plugin_python_loader_DATA):
+	Removed py-console-ui.xml
+
+	* py-console-ui.xml: Removed
+
+	* py-console.c (show_python_console): Don't use bonobo-ui, build
+	UI manually (fixes crash at exit)
+
+	* gnm-python.[ch]: Cleaner memory management - gnm_python_object_get()
+	always returns new reference, all functions get GnmPython argument.
+
+	* python-loader.c
+	Cleaned up includes
+	(gnumeric_plugin_loader_python_load_base,
+	gnumeric_plugin_loader_python_unload_base):
+	Don't keep the number of loaded plugins, GnmPython takes care of this.
+	ref/unref GnmPython object where needed
+
+	* py-interpreter-selector.c: Keep reference to GnmPython, not to the
+	default interpreter, unref on finalization
+
+	* gnm-py-interpreter.c: Cleaned up includes
+
+	* py-command-line.c (gnm_py_command_line_keypress):
+	Don't store empty lines in the history
+
+	* py-gnumeric.c: Don't use gnm_python*, only Python API
+
 2002-08-20  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* py-console.c

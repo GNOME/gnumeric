@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <glib.h>
 #include <Python.h>
-#include <gsf/gsf-impl-utils.h>
 #include <gnumeric.h>
 #include <plugin.h>
 #include <gutils.h>

@@ -13,12 +13,6 @@
 #endif
 #include <stdlib.h>
 #include <glib.h>
-#include <libgnome/libgnome.h>
-#include <gal/util/e-xml-utils.h>
-#include <gsf/gsf-impl-utils.h>
-#include <libxml/parser.h>
-#include <libxml/parserInternals.h>
-#include <libxml/xmlmemory.h>
 #include "application.h"
 #include "workbook.h"
 #include "sheet.h"
@@ -45,6 +39,7 @@ struct _GnumericPluginLoaderPython {
 
 	gchar *module_name;
 
+	GnmPython *py_object;
 	GnmPyInterpreter *py_interpreter_info;
 	PyObject *main_module;
 	PyObject *main_module_dict;
@@ -64,10 +59,13 @@ static void gnumeric_plugin_loader_python_load_service_file_saver (GnumericPlugi
 static void gnumeric_plugin_loader_python_load_service_function_group (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 static void gnumeric_plugin_loader_python_unload_service_function_group (GnumericPluginLoader *loader, PluginService *service, ErrorInfo **ret_error);
 
+#define PLUGIN_GET_LOADER(plugin) \
+	GNUMERIC_PLUGIN_LOADER_PYTHON (g_object_get_data (G_OBJECT (plugin), "python-loader"))
+#define SERVICE_GET_LOADER(service) \
+	PLUGIN_GET_LOADER (plugin_service_get_plugin (service))
 #define SWITCH_TO_PLUGIN(plugin) \
-gnm_py_interpreter_switch_to (GNUMERIC_PLUGIN_LOADER_PYTHON (g_object_get_data (G_OBJECT (plugin), "python-loader"))->py_interpreter_info)
+	gnm_py_interpreter_switch_to (PLUGIN_GET_LOADER (plugin)->py_interpreter_info)
 
-int n_loaded_plugins = 0;
 
 static void
 gnumeric_plugin_loader_python_set_attributes (GnumericPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_error)
@@ -91,6 +89,7 @@ gnumeric_plugin_loader_python_load_base (GnumericPluginLoader *loader, ErrorInfo
 	GnumericPluginLoaderPython *loader_python = GNUMERIC_PLUGIN_LOADER_PYTHON (loader);
 	const gchar *python_file_extensions[]
 		= {"py", "pyc", "pyo", NULL}, **file_ext;
+	GnmPython *py_object;
 	GnmPyInterpreter *py_interpreter_info;
 	gchar *full_module_file_name = NULL;
 	FILE *f;
@@ -100,10 +99,12 @@ gnumeric_plugin_loader_python_load_base (GnumericPluginLoader *loader, ErrorInfo
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	g_object_set_data (G_OBJECT (loader->plugin), "python-loader", loader);
 
-	py_interpreter_info = gnm_python_new_interpreter (loader->plugin);
+	py_object = gnm_python_object_get ();
+	py_interpreter_info = gnm_python_new_interpreter (py_object, loader->plugin);
 	if (py_interpreter_info == NULL) {
-		gnm_python_clear_error_if_needed ();
 		*ret_error = error_info_new_str ("Cannot create new Python interpreter.");
+		gnm_python_clear_error_if_needed (py_object);
+		g_object_unref (py_object);
 		return;
 	}
 
@@ -124,21 +125,26 @@ gnumeric_plugin_loader_python_load_base (GnumericPluginLoader *loader, ErrorInfo
 		*ret_error = error_info_new_printf (
 		             _("Module \"%s\" doesn't exist."),
 		             loader_python->module_name);
+		gnm_python_destroy_interpreter (py_object, py_interpreter_info);
+		g_object_unref (py_object);
 		return;
 	}
 	f = gnumeric_fopen_error_info (full_module_file_name, "r", &open_error);
 	g_free (full_module_file_name);
 	if (f == NULL) {
 		*ret_error = open_error;
+		gnm_python_destroy_interpreter (py_object, py_interpreter_info);
+		g_object_unref (py_object);
 		return;
 	}
 
 	if (PyRun_SimpleFile (f, loader_python->module_name) != 0) {
 		(void) fclose (f);
-		gnm_python_destroy_interpreter (py_interpreter_info);
 		*ret_error = error_info_new_printf (
 		             _("Execution of module \"%s\" failed."),
 		             loader_python->module_name);
+		gnm_python_destroy_interpreter (py_object, py_interpreter_info);
+		g_object_unref (py_object);
 		return;
 	}
 	(void) fclose (f);
@@ -149,11 +155,10 @@ gnumeric_plugin_loader_python_load_base (GnumericPluginLoader *loader, ErrorInfo
 	g_return_if_fail (main_module != NULL);
 	main_module_dict = PyModule_GetDict (main_module);
 	g_return_if_fail (main_module_dict != NULL);
+	loader_python->py_object = py_object;
 	loader_python->py_interpreter_info = py_interpreter_info;
 	loader_python->main_module = main_module;
 	loader_python->main_module_dict = main_module_dict;
-
-	n_loaded_plugins++;
 }
 
 static void
@@ -163,12 +168,9 @@ gnumeric_plugin_loader_python_unload_base (GnumericPluginLoader *loader, ErrorIn
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	g_object_steal_data (G_OBJECT (loader->plugin), "python-loader");
-	gnm_python_destroy_interpreter (loader_python->py_interpreter_info);
-
-	n_loaded_plugins--;
-	if (n_loaded_plugins == 0) {
-		gnm_python_object_shutdown ();
-	}
+	gnm_python_destroy_interpreter (
+		loader_python->py_object, loader_python->py_interpreter_info);
+	g_object_unref (loader_python->py_object);
 }
 
 static void
@@ -177,6 +179,7 @@ gnumeric_plugin_loader_python_init (GnumericPluginLoaderPython *loader_python)
 	g_return_if_fail (IS_GNUMERIC_PLUGIN_LOADER_PYTHON (loader_python));
 
 	loader_python->module_name = NULL;
+	loader_python->py_object = NULL;
 	loader_python->py_interpreter_info = NULL;
 }
 
@@ -246,7 +249,7 @@ gnumeric_plugin_loader_python_func_file_probe (
 	input_wrapper = pygobject_new (G_OBJECT (input));
 	if (input_wrapper == NULL) {
 		g_warning (convert_python_exception_to_string ());
-		gnm_python_clear_error_if_needed ();
+		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
 	}
 	if (input_wrapper != NULL) {
 		probe_result = PyObject_CallFunction
@@ -303,7 +306,7 @@ gnumeric_plugin_loader_python_func_file_open (GnumFileOpener const *fo,
 		workbook_sheet_attach (wb_view_workbook (wb_view), sheet, NULL);
 	} else {
 		gnumeric_io_error_string (io_context, convert_python_exception_to_string ());
-		gnm_python_clear_error_if_needed ();
+		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
 		sheet_destroy (sheet);
 	}
 #endif
@@ -326,12 +329,12 @@ gnumeric_plugin_loader_python_load_service_file_opener (GnumericPluginLoader *lo
 		plugin_service_get_id (service), "_file_probe", NULL);
 	python_func_file_probe = PyDict_GetItemString (loader_python->main_module_dict,
 	                                               func_name_file_probe);
-	gnm_python_clear_error_if_needed ();
+	gnm_python_clear_error_if_needed (loader_python->py_object);
 	func_name_file_open = g_strconcat (
 		plugin_service_get_id (service), "_file_open", NULL);
 	python_func_file_open = PyDict_GetItemString (loader_python->main_module_dict,
 	                                              func_name_file_open);
-	gnm_python_clear_error_if_needed ();
+	gnm_python_clear_error_if_needed (loader_python->py_object);
 	if (python_func_file_open != NULL) {
 		PluginServiceFileOpenerCallbacks *cbs;
 		ServiceLoaderDataFileOpener *loader_data;
@@ -387,7 +390,7 @@ gnumeric_plugin_loader_python_func_file_save (GnumFileSaver const *fs, PluginSer
 		Py_DECREF (save_result);
 	} else {
 		gnumeric_io_error_string (io_context, convert_python_exception_to_string ());
-		gnm_python_clear_error_if_needed ();
+		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
 	}
 }
 
@@ -408,7 +411,7 @@ gnumeric_plugin_loader_python_load_service_file_saver (GnumericPluginLoader *loa
 		plugin_service_get_id (service), "_file_save", NULL);
 	python_func_file_save = PyDict_GetItemString (loader_python->main_module_dict,
 	                                              func_name_file_save);
-	gnm_python_clear_error_if_needed ();
+	gnm_python_clear_error_if_needed (loader_python->py_object);
 	if (python_func_file_save != NULL) {
 		PluginServiceFileSaverCallbacks *cbs;
 		ServiceLoaderDataFileSaver *saver_data;
@@ -559,7 +562,7 @@ gnumeric_plugin_loader_python_func_get_full_function_info (PluginService *servic
 	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
 	fn_info_obj = PyDict_GetItemString (loader_data->python_fn_info_dict, (gchar *) fn_name);
 	if (fn_info_obj == NULL) {
-		gnm_python_clear_error_if_needed ();
+		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
 		return FALSE;
 	} else if (PyTuple_Check (fn_info_obj)) {
 		PyObject *python_args, *python_arg_names;
@@ -582,7 +585,7 @@ gnumeric_plugin_loader_python_func_get_full_function_info (PluginService *servic
 			*unlink = NULL;
 			return TRUE;
 		} else {
-			gnm_python_clear_error_if_needed ();
+			gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
 			return FALSE;
 		}
 	} else if (PyFunction_Check (fn_info_obj)) {
@@ -596,7 +599,7 @@ gnumeric_plugin_loader_python_func_get_full_function_info (PluginService *servic
 		*unlink = NULL;
 		return TRUE;
 	} else {
-		gnm_python_clear_error_if_needed ();
+		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
 		return FALSE;
 	}
 }
@@ -618,7 +621,7 @@ gnumeric_plugin_loader_python_load_service_function_group (GnumericPluginLoader 
 		plugin_service_get_id (service), "_functions", NULL);
 	python_fn_info_dict = PyDict_GetItemString (loader_python->main_module_dict,
 	                                             fn_info_dict_name);
-	gnm_python_clear_error_if_needed ();
+	gnm_python_clear_error_if_needed (loader_python->py_object);
 	if (python_fn_info_dict != NULL && PyDict_Check (python_fn_info_dict)) {
 		PluginServiceFunctionGroupCallbacks *cbs;
 		ServiceLoaderDataFunctionGroup *loader_data;

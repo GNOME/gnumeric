@@ -9,7 +9,6 @@
 #include <gnumeric.h>
 #include <Python.h>
 #include <glib.h>
-#include <libgnome/libgnome.h>
 #include "application.h"
 #include "workbook.h"
 #include "cell.h"
@@ -22,7 +21,6 @@
 #include "func.h"
 #include "str.h"
 #include "plugin.h"
-#include "gnm-python.h"
 #include "gnm-py-interpreter.h"
 #include "py-gnumeric.h"
 
@@ -114,16 +112,17 @@ Module Gnumeric:
 
 */
 
-#define INTERPRETER \
-	(gnm_python_get_current_interpreter ())
 #define GNUMERIC_MODULE \
-	(g_object_get_data (G_OBJECT (INTERPRETER), "Gnumeric_module"))
+	(PyImport_AddModule ((char *) "Gnumeric"))
 #define GNUMERIC_MODULE_GET(key) \
-	(PyDict_GetItemString (PyModule_GetDict (GNUMERIC_MODULE), (char *) (key)))
+	PyDict_GetItemString (PyModule_GetDict (GNUMERIC_MODULE), (char *) (key))
+#define GNUMERIC_MODULE_SET(key, val) \
+	PyDict_SetItemString (PyModule_GetDict (GNUMERIC_MODULE), (char *) (key), val)
 #define SET_EVAL_POS(val) \
-	(g_object_set_data (G_OBJECT (INTERPRETER), "eval_pos", val))
+	GNUMERIC_MODULE_SET ("Gnumeric_eval_pos", PyCObject_FromVoidPtr (val, NULL))
 #define EVAL_POS \
-	(g_object_get_data (G_OBJECT (INTERPRETER), "eval_pos"))
+	(printf ("%p\n", PyCObject_AsVoidPtr (GNUMERIC_MODULE_GET ("Gnumeric_eval_pos"))), \
+	PyCObject_AsVoidPtr (GNUMERIC_MODULE_GET ("Gnumeric_eval_pos")))
 
 PyObject *
 python_call_gnumeric_function (FunctionDefinition *fn_def, const EvalPos *opt_eval_pos, PyObject *args)
@@ -196,7 +195,7 @@ call_python_function (PyObject *python_fn, const EvalPos *eval_pos, gint n_args,
 		ret_value = convert_python_to_gnumeric_value (eval_pos, python_ret_value);
 	} else {
 		ret_value = convert_python_exception_to_gnumeric_value (eval_pos);
-		gnm_python_clear_error_if_needed ();
+		PyErr_Clear ();;
 	}
 	if (eval_pos_set) {
 		SET_EVAL_POS (NULL);
@@ -356,7 +355,7 @@ convert_python_to_gnumeric_value (const EvalPos *eval_pos, PyObject *py_val)
 
 	py_val_type = PyObject_Type (py_val);
 	if (py_val_type == NULL) {
-		gnm_python_clear_error_if_needed ();
+		PyErr_Clear ();
 		ret_val = value_new_empty ();
 	} else if (py_val == Py_None) {
 		ret_val = value_new_empty ();
@@ -2032,7 +2031,6 @@ py_initgnumeric (GnmPyInterpreter *interpreter)
 	PyImport_AddModule ((char *) "Gnumeric");
 	module = Py_InitModule ((char *) "Gnumeric", GnumericMethods);
 	module_dict = PyModule_GetDict (module);
-	g_object_set_data (G_OBJECT (interpreter), "Gnumeric_module", module);
 
 	(void) PyDict_SetItemString
 		(module_dict, (char *) "TRUE", py_new_Boolean_object (TRUE));

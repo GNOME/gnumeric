@@ -8,13 +8,10 @@
 #include <Python.h>
 #include <glib.h>
 #include <gutils.h>
-#include <gsf/gsf-impl-utils.h>
 #include <plugin.h>
 #include <module-plugin-defs.h>
 #include "gnm-py-interpreter.h"
 #include "gnm-python.h"
-
-#define BROKEN_PY_INITIALIZE
 
 
 struct _GnmPython {
@@ -40,12 +37,17 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 static GObjectClass *parent_class = NULL;
 
+static GnmPython *gnm_python_obj = NULL;
+
+
 static void
 gnm_python_init (GnmPython *gpy)
 {
 	gpy->default_interpreter = gnm_py_interpreter_new (NULL);
 	gpy->current_interpreter = gpy->default_interpreter;
 	gpy->interpreters = g_slist_append (NULL, gpy->default_interpreter);
+	g_return_if_fail (gnm_python_obj == NULL);
+	gnm_python_obj = gpy;
 }
 
 static void
@@ -63,6 +65,7 @@ gnm_python_finalize (GObject *obj)
 		g_object_unref (gpy->default_interpreter);
 		gpy->default_interpreter = NULL;
 	}
+	gnm_python_obj = NULL;
 
 	parent_class->finalize (obj);
 }
@@ -108,8 +111,6 @@ extern char **environ;
 #endif
 
 
-static GnmPython *gnm_python_obj = NULL;
-
 GnmPython *
 gnm_python_object_get (void)
 {
@@ -135,85 +136,85 @@ gnm_python_object_get (void)
 	}
 
 	if (gnm_python_obj == NULL) {
-		gnm_python_obj = g_object_new (GNM_PYTHON_TYPE, NULL);
+		(void) g_object_new (GNM_PYTHON_TYPE, NULL);
+	} else {
+		g_object_ref (gnm_python_obj);
 	}
 
 	return gnm_python_obj;
 }
 
-void
-gnm_python_object_shutdown (void)
-{
-	if (gnm_python_obj != NULL) {
-		g_object_unref (gnm_python_obj);
-		gnm_python_obj = NULL;
-	}
-}
-
 static void
-cb_interpreter_switched (GnmPyInterpreter *interpreter)
+cb_interpreter_switched (GnmPyInterpreter *interpreter, GnmPython *gpy)
 {
 	g_return_if_fail (GNM_IS_PY_INTERPRETER (interpreter));
+	g_return_if_fail (GNM_IS_PYTHON (gpy));
 
-	(void) gnm_python_object_get ();
-	gnm_python_obj->current_interpreter = interpreter;
+	gpy->current_interpreter = interpreter;
 	g_signal_emit (
-		gnm_python_obj, signals[SWITCHED_INTERPRETER_SIGNAL], 0,
-		interpreter);
+		gpy, signals[SWITCHED_INTERPRETER_SIGNAL], 0, interpreter);
 }
 
 GnmPyInterpreter *
-gnm_python_new_interpreter (GnmPlugin *plugin)
+gnm_python_new_interpreter (GnmPython *gpy, GnmPlugin *plugin)
 {
 	GnmPyInterpreter *interpreter;
 
+	g_return_if_fail (GNM_IS_PYTHON (gpy));
 	g_return_val_if_fail (GNM_IS_PLUGIN (plugin), NULL);
 
-	(void) gnm_python_object_get ();
 	interpreter = gnm_py_interpreter_new (plugin);
-	GNM_SLIST_PREPEND (gnm_python_obj->interpreters, interpreter);
-	gnm_python_obj->current_interpreter = interpreter;
+	GNM_SLIST_PREPEND (gpy->interpreters, interpreter);
+	gpy->current_interpreter = interpreter;
 	g_signal_connect (
-		interpreter, "set_current",
-		G_CALLBACK (cb_interpreter_switched), NULL);
-	g_signal_emit (
-		gnm_python_obj, signals[CREATED_INTERPRETER_SIGNAL], 0, interpreter);
+		interpreter, "set_current", G_CALLBACK (cb_interpreter_switched), gpy);
+	g_signal_emit (gpy, signals[CREATED_INTERPRETER_SIGNAL], 0, interpreter);
+	g_object_ref (gpy);
 
 	return interpreter;
 }
 
 void
-gnm_python_destroy_interpreter (GnmPyInterpreter *interpreter)
+gnm_python_destroy_interpreter (GnmPython *gpy, GnmPyInterpreter *interpreter)
 {
+	g_return_if_fail (GNM_IS_PYTHON (gpy));
 	g_return_if_fail (GNM_IS_PY_INTERPRETER (interpreter));
+	g_return_if_fail (interpreter != gpy->default_interpreter);
 
-	(void) gnm_python_object_get ();
-	g_return_if_fail (interpreter != gnm_python_obj->default_interpreter);
-	GNM_SLIST_REMOVE (gnm_python_obj->interpreters, interpreter);
-	gnm_py_interpreter_destroy (interpreter, gnm_python_obj->default_interpreter);
+	GNM_SLIST_REMOVE (gpy->interpreters, interpreter);
+	gnm_py_interpreter_destroy (interpreter, gpy->default_interpreter);
+	g_object_unref (gpy);
 }
 
 GnmPyInterpreter *
-gnm_python_get_current_interpreter (void)
+gnm_python_get_current_interpreter (GnmPython *gpy)
 {
-	return gnm_python_object_get ()->current_interpreter;
+	g_return_if_fail (GNM_IS_PYTHON (gpy));
+
+	return gpy->current_interpreter;
 }
 
 GnmPyInterpreter *
-gnm_python_get_default_interpreter (void)
+gnm_python_get_default_interpreter (GnmPython *gpy)
 {
-	return gnm_python_object_get ()->default_interpreter;
+	g_return_if_fail (GNM_IS_PYTHON (gpy));
+
+	return gpy->default_interpreter;
 }
 
 GSList *
-gnm_python_get_interpreters (void)
+gnm_python_get_interpreters (GnmPython *gpy)
 {
-	return gnm_python_object_get ()->interpreters;
+	g_return_if_fail (GNM_IS_PYTHON (gpy));
+
+	return gpy->interpreters;
 }
 
 void
-gnm_python_clear_error_if_needed (void)
+gnm_python_clear_error_if_needed (GnmPython *gpy)
 {
+	g_return_if_fail (GNM_IS_PYTHON (gpy));
+
 	if (PyErr_Occurred () != NULL) {
 		PyErr_Clear ();
 	}
