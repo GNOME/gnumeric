@@ -1299,7 +1299,7 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 		N_("Percent"), N_("Sets the format of the selected cells to percentage"),
 		workbook_cmd_format_as_percent, NULL, percent_xpm),
 	GNOMEUIINFO_ITEM_DATA (
-		N_("Thousand separator"), N_("Sets the format of the selected cells to percentage"),
+		N_("Thousand separator"), N_("Sets the format of the selected cells to include a thousands separator"),
 		workbook_cmd_format_add_thousands, NULL, thousands_xpm),
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Add decimals"), N_("Increases the number of decimal numbers displayed"),
