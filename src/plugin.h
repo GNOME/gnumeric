@@ -16,7 +16,7 @@ struct _PluginData
 	gchar   *title;
 	
 	/* filled in by plugin */
-	void    *private;
+	void    *private_data;
 };
 
 extern GList *plugin_list;
