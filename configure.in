@@ -571,35 +571,14 @@ AC_CHECK_FUNCS(mkfifo)
 LIBS="$SAVE_LIBS"
 unset SAVE_LIBS
 
-dnl
-dnl On Solaris finite() needs ieeefp.h
 dnl Either of these seem to signal IEEE754 math, see mathfunc.c
-dnl
 AC_CHECK_HEADERS(ieeefp.h ieee754.h)
 
 dnl Check for some functions
-AC_CHECK_FUNCS(random drand48 finite memmove mkdtemp uname times sysconf)
+AC_CHECK_FUNCS(random drand48 memmove mkdtemp uname times sysconf)
 
 dnl FIXME: Does this really belong here?
 AC_CHECK_FUNC(bind_textdomain_codeset,,[AC_CHECK_LIB(intl,bind_textdomain_codeset)])
-
-dnl isfinite is a macro on HPUX
-AC_TRY_COMPILE([#include <math.h>], [int a = isfinite(0.0)],
-	[AC_DEFINE(HAVE_ISFINITE, 1,
-		[Define if the isfinite() macro is available]
-	 )
-	], [])
-
-dnl
-dnl On BSD, we seem to need -lm for finite
-dnl
-if test $ac_cv_func_finite = no; then
-  AC_CHECK_LIB(m, finite,
-        [AC_DEFINE(HAVE_FINITE, 1,
-		[Define if the finite function is available]
-	 )
-         LIBS="$LIBS -lm"])
-fi
 
 dnl check for complete locale implementation
 AC_CHECK_HEADERS(langinfo.h)
