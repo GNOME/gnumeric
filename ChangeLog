@@ -1,4 +1,20 @@
 2004-07-19  Jody Goldberg <jody@gnome.org>
+	win32 portability patch from Mark Gilbert
+
+	* src/io-context.c (io_progress_update) : use g_get_current_time
+	  instead of gettimeofday.
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* src/dialogs/dialog-about.c : Update a bit.  Add
+	* doc/C/about-authors.xml  : ditto
+	    - Emmanual
+	    - Jean
+	    - Hal
+	    - Uwe
+	    - Michael Devine
+
+2004-07-19  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-io.c (xml_init) : make the dom exporter a lower priority
 	  than the sax exporter so that we can start phasing it out.

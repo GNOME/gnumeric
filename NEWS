@@ -1,5 +1,8 @@
 Gnumeric 1.3.2
 
+Harald Ashburner:
+	* Updates for the option pricers.
+
 Jody:
 	* Use SAX exporter by default.
 

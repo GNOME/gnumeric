@@ -22,8 +22,8 @@
 				<function name="opt_garman_kohlhagen"/>	
 				<function name="opt_french"/>
 				<function name="opt_jump_diff"/>
-				<function name="opt_bjerStens"/>
-				<function name="opt_BAW_amer"/>
+				<function name="opt_bjer_stens"/>
+				<function name="opt_baw_amer"/>
 				<function name="opt_exec"/>
 				<function name="opt_miltersen_schwartz"/>
 				<function name="opt_rgw"/>

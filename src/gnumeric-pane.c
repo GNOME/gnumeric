@@ -47,12 +47,12 @@ cb_pane_popup_menu (GnumericPane *pane)
 static void
 cb_pane_col_header_popup_menu (GnumericPane *pane)
 {
-	g_warning ("pane col header_popup");
+	g_warning ("This should not happen, the sheet should always have focus. pane col header_popup");
 }
 static void
 cb_pane_row_header_popup_menu (GnumericPane *pane)
 {
-	g_warning ("pane row header_popup");
+	g_warning ("This should not happen, the sheet should always have focus. pane row header_popup");
 }
 
 static void

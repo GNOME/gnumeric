@@ -47,6 +47,28 @@
 	<entry>Kenneth Christiansen</entry>
 	<entry>i18n, misc stuff</entry>
       </row>
+
+      <row>
+	<entry>Jean Brefort</entry>
+	<entry>Core charting engine</entry>
+      </row>
+      <row>
+	<entry>Emmanuel Pacaud</entry>
+	<entry>Many plot types for charting engine.</entry>
+      </row>
+      <row>
+	<entry>Harald Ashburner</entry>
+	<entry>Options pricers</entry>
+      </row>
+      <row>
+	<entry>Michael Devine</entry>
+	<entry>Radar/Polar plots</entry>
+      </row>
+      <row>
+	<entry>Uwe Steinmann</entry>
+	<entry>Paradox importer</entry>
+      </row>
+
       <row>
 	<entry>Zbigniew Chyla</entry>
 	<entry>Plugin system, i18n, python</entry>

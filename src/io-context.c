@@ -22,10 +22,6 @@
 
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkmain.h>
-#include <limits.h>
-#include <sys/time.h>
-#include <sys/stat.h>
-#include <unistd.h>
 
 #define PROGRESS_UPDATE_STEP        0.01
 #define PROGRESS_UPDATE_STEP_END    (1.0 / 400)
@@ -225,10 +221,10 @@ io_progress_update (IOContext *ioc, gdouble f)
 	at_end = (f - ioc->last_progress > PROGRESS_UPDATE_STEP_END &&
 		  f + PROGRESS_UPDATE_STEP > 1);
 	if (at_end || f - ioc->last_progress >= PROGRESS_UPDATE_STEP) {
-		struct timeval tv;
+		GTimeVal tv;
 		double t;
 
-		(void) gettimeofday (&tv, NULL);
+		(void) g_get_current_time (&tv);
 		t = tv.tv_sec + tv.tv_usec / 1000000.0;
 		if (at_end || t - ioc->last_time >= PROGRESS_UPDATE_PERIOD_SEC) {
 			GnmCmdContext *cc;
