@@ -90,6 +90,20 @@ Gnumeric Spread Sheet task list
    - '*' does not work
    - 'General' is rather stupid.  It needs to take the size of the cell into account.
 
+    FIXME : The formating is still incomplete.
+	  - It does not support seconds fractions.
+	  - It incorrectly accepts mmm:ss as some sort of minute spec.
+	  - Add/remove decimal buttons on the toolbar are screwed for
+	    items with different formats formegatives.
+	  - There is too much replicated code for generating formats
+	    and recognizing them in the format dialog.
+
+    TODO :
+	  - Too much parsing is taking place when formating.  We should
+	    have set all that up before hand when the format was parsed.
+	    A methodology similar to that used by the regexp compiler should
+	    be used.
+
 * Sheet
 
    Should be possible to bind a name by typing the name on the
@@ -251,6 +265,8 @@ Office 2000 and 'explorer' compatibility.
   * Rework dependencies to only supply one level of indirection.
   * Think about allowing a formula to specify that it does not depend on the
     contents of a reference, only the adress (ie the AREAS function)
+  * Dependancies for - INDIRECT and CELL functions.
+		     - Sheet objects.
 
 * Drawing
   * Rework borders to agregate the lines and draw them after backgrounds
@@ -258,18 +274,3 @@ Office 2000 and 'explorer' compatibility.
 * Excel Import
   * Localise sheet/workbook Name import,
   * Import names even if they arn't referenced.
-
-* Formating
-    FIXME : The formating is still incomplete.
-	  - It does not support seconds fractions.
-	  - It incorrectly accepts mmm:ss as some sort of minute spec.
-	  - Add/remove decimal buttons on the toolbar are screwed for
-	    items with different formats formegatives.
-	  - There is too much replicated code for generating formats
-	    and recognizing them in the format dialog.
-
-    TODO :
-	  - Too much parsing is taking place when formating.  We should
-	    have set all that up before hand when the format was parsed.
-	    A methodology similar to that used by the regexp compiler should
-	    be used.

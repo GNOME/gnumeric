@@ -2860,6 +2860,13 @@ ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
 	}
 	sheet_cursor_set (sheet->gnum_sheet,
 			  act_col, act_row, act_col, act_row, act_col, act_row);
+
+	/* FIXME FIXME FIXME : For now make the current cell visible.
+	 * We know the real cell to put in the upper left corner but can not use that
+	 * until we also use the saved size.
+	 */
+	sheet_make_cell_visible (sheet->gnum_sheet, act_col, act_row);
+
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {
 		printf ("Done selection\n");

@@ -1,3 +1,8 @@
+1999-11-21  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_selection) : Bug 3609.
+	  Make sure the current cell is visible.
+
 1999-11-19  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-read.c (ms_excel_read_row): New funtion: Process a BIFF
