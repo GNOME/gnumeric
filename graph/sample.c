@@ -213,7 +213,7 @@ static GnomeUIInfo sample_menu [] = {
 	GNOMEUIINFO_END
 };
 
-static void
+static BonoboUIHandler *
 create_gui (GtkWidget *content)
 {
 	BonoboUIHandlerMenuItem *list;
@@ -235,10 +235,12 @@ create_gui (GtkWidget *content)
 	list = bonobo_ui_handler_menu_parse_uiinfo_list_with_data (sample_menu, NULL);
 	bonobo_ui_handler_menu_add_list (uih, "/", list);
 	bonobo_ui_handler_menu_free_list (list);
+
+	return uih;
 }
 
 static GtkWidget *
-create_test ()
+create_test (BonoboUIHandler *uih)
 {
 	GtkWidget *view_widget;
 	BonoboClientSite *client_site;
@@ -278,7 +280,7 @@ create_test ()
 	 */
 	bonobo_client_site_bind_embeddable (client_site, object);
 
-	view_frame = bonobo_client_site_new_view (client_site);
+	view_frame = bonobo_client_site_new_view (client_site, uih->top_level_uih);
 	view_widget = bonobo_view_frame_get_wrapper (view_frame);
 
 	return view_widget;
@@ -287,6 +289,7 @@ create_test ()
 int
 main (int argc, char *argv [])
 {
+	BonoboUIHandler *uih;
 	GtkWidget *graph_widget;
 	
 	CORBA_exception_init (&ev);
@@ -306,8 +309,8 @@ main (int argc, char *argv [])
 	 * Program setup.
 	 */
 	create_vectors ();
-	graph_widget = create_test ();
-	create_gui (graph_widget);
+	uih = create_gui (graph_widget);
+	graph_widget = create_test (uih);
 
 	/*
 	 * Process user requests

@@ -11,6 +11,7 @@
 #include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
+#include "workbook.h"
 #include <libgnorba/gnorba.h>
 #include <glade/glade.h>
 #include "gnumeric-util.h"
@@ -41,7 +42,8 @@ customize (GladeXML *gui, WizardGraphicContext *gc)
 		container = GTK_CONTAINER (glade_xml_get_widget (gui, name));
 		g_free (name);
 		
-		view_frame = bonobo_client_site_new_view (gc->client_site);
+		view_frame = bonobo_client_site_new_view (
+			gc->client_site, gc->workbook->uih->top_level_uih);
 		view = bonobo_view_frame_get_wrapper (view_frame);
 		
 		/*
