@@ -1,3 +1,22 @@
+2000-02-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-bar.c (item_bar_event) : Handle rename from
+	  sheet_{col,row}_size_fit -> sheet_{col,row}_size_fit_pixels
+	* src/selection.c (cb_set_row_height) : Ditto.
+	* src/workbook-cmd-format.c
+	(workbook_cmd_format_{column,row}_auto_fit) : Ditto.
+
+	* src/cell.c (cell_calc_dimensions) : Use sheet_row_set_size_pixels
+	  rather than sheet_row_set_internal_size_pts.
+
+	* src/sheet.c (sheet_{col,row}_set_size_{pixels,pts}) :
+	  Use sheet_row_fetch to avoid manually adding rows/col.
+	  Syncronize implementations and move the 'set_internal' code
+	  here.
+	(sheet_{col,row}_set_internal_size_pts) : Delete.
+	(sheet_{col,row}_size_fit) : Rename sheet_{col,row}_size_fit_pixels
+	(colrow_compute_pts_from_pixels) : Typo.
+
 2000-02-14  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/dialogs/dialog-solver.c (constr_add_click): Fix handling

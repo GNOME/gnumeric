@@ -1256,8 +1256,8 @@ cb_set_row_height (Sheet *sheet, ColRowInfo *info, void *dummy)
 {
 	/* If the size was not set by the user then auto resize */
 	if (!info->hard_size) {
-		int const new_size = sheet_row_size_fit (sheet, info->pos);
-		sheet_row_set_internal_size_pts (sheet, info, new_size);
+		int const new_size = sheet_row_size_fit_pixels (sheet, info->pos);
+		sheet_row_set_size_pixels (sheet, info->pos, new_size, FALSE);
 	}
 	return FALSE;
 }

@@ -682,9 +682,9 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 
 		sheet = item_bar->sheet_view->sheet;
 		if (is_vertical)
-			new_size = sheet_row_size_fit (sheet, item_bar->resize_pos);
+			new_size = sheet_row_size_fit_pixels (sheet, item_bar->resize_pos);
 		else
-			new_size = sheet_col_size_fit (sheet, item_bar->resize_pos);
+			new_size = sheet_col_size_fit_pixels (sheet, item_bar->resize_pos);
 
 		item_bar_end_resize (item_bar, new_size);
 		}

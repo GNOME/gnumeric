@@ -18,7 +18,6 @@
 #include "cursors.h"
 #include "utils.h"
 #include "gnumeric-util.h"
-#include "application.h"
 
 static int         redraws_frozen           = 0;
 static int         redraws_deep_frozen      = 0;
@@ -1308,12 +1307,12 @@ cell_calc_dimensions (Cell *cell)
 		cell->height_pixel = h;
 
 		if (!cell->row->hard_size) {
-			/* Text was measured in pixels.  convert to points */
-			double const scale =
-			    cell->sheet->last_zoom_factor_used *
-			    application_display_dpi_get (FALSE) / 72.;
-			if (cell->height_pixel > ROW_INTERNAL_HEIGHT (cell->row))
-				sheet_row_set_internal_size_pts (cell->sheet, cell->row, h/scale);
+			/* Text measurements do not include margins or grid line */
+			int const height_pixels =
+			    h + cell->row->margin_a + cell->row->margin_b + 1;
+			if (height_pixels > cell->row->size_pixels)
+				sheet_row_set_size_pixels (cell->sheet, cell->row->pos,
+							   height_pixels, FALSE);
 		}
 
 		mstyle_unref (mstyle);

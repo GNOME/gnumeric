@@ -276,7 +276,7 @@ colrow_compute_pts_from_pixels (Sheet *sheet, ColRowInfo *info, gboolean const h
 	/* XL appears to scale including the margins & grid lines
 	 * but not the scale them.  So the size of the cell changes ???
 	 */
-	info->size_pts = info->size_pts / scale;
+	info->size_pts = info->size_pixels / scale;
 }
 
 void
@@ -620,7 +620,7 @@ cb_max_cell_width (Sheet *sheet, int col, int row, Cell *cell,
 }
 
 /**
- * sheet_col_size_fit:
+ * sheet_col_size_fit_pixels:
  * @sheet: The sheet
  * @col: the column that we want to query
  *
@@ -628,7 +628,7 @@ cb_max_cell_width (Sheet *sheet, int col, int row, Cell *cell,
  * properly.  Return value is in size_pixels
  */
 int
-sheet_col_size_fit (Sheet *sheet, int col)
+sheet_col_size_fit_pixels (Sheet *sheet, int col)
 {
 	ColRowInfo *ci;
 	int max = -1;
@@ -677,15 +677,17 @@ cb_max_cell_height (Sheet *sheet, int col, int row, Cell *cell,
 }
 
 /**
- * sheet_row_size_fit:
+ * sheet_row_size_fit_pixels:
  * @sheet: The sheet
  * @col: the row that we want to query
  *
  * This routine computes the ideal size for the row to make all data fit
- * properly.  Return value is in pixels
+ * properly.
+ *
+ * Return : Size in pixels INCLUDING the margins and grid lines.
  */
 int
-sheet_row_size_fit (Sheet *sheet, int row)
+sheet_row_size_fit_pixels (Sheet *sheet, int row)
 {
 	ColRowInfo *ri;
 	int max = -1;
@@ -3430,58 +3432,48 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 }
 
 void
-sheet_col_set_size_pts (Sheet *sheet, int col, double width,
+sheet_col_set_size_pts (Sheet *sheet, int col, double width_pts,
 			 gboolean set_by_user)
 {
 	ColRowInfo *ci;
 	
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (width > 0.0);
+	g_return_if_fail (width_pts > 0.0);
 
-	ci = sheet_col_get_info (sheet, col);
-	if (ci == &sheet->cols.default_style){
-		ci = sheet_col_new (sheet);
-		ci->pos = col;
-		sheet_col_add (sheet, ci);
-	}
+	ci = sheet_col_fetch (sheet, col);
+	if (ci->size_pts == width_pts)
+		return;
 
-	if (set_by_user)
-		ci->hard_size = TRUE;
-	sheet_col_set_internal_size_pts (sheet, ci, width);
+	ci->hard_size |= set_by_user;
+	ci->size_pts = width_pts;
+	colrow_compute_pixels_from_pts (sheet, ci, (void*)TRUE);
+
+	sheet_recompute_spans_for_col (sheet, col);
+	sheet_compute_visible_ranges (sheet);
+	sheet_reposition_comments_from_col (sheet, ci->pos);
+	sheet_redraw_all (sheet);
 }
 
 void
-sheet_col_set_size_pixels (Sheet *sheet, int col, int width,
+sheet_col_set_size_pixels (Sheet *sheet, int col, int width_pixels,
 			   gboolean set_by_user)
 {
 	ColRowInfo *ci;
-	int add = 0;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (width_pixels > 0.0);
 
-	ci = sheet_col_get_info (sheet, col);
-	if (ci == NULL)
+	ci = sheet_col_fetch (sheet, col);
+	if (ci->size_pixels == width_pixels)
 		return;
 
-	if (ci == &sheet->cols.default_style){
-		ci = sheet_col_new (sheet);
-		ci->pos = col;
-		add = 1;
-	}
+	ci->hard_size |= set_by_user;
+	ci->size_pixels = width_pixels;
+	colrow_compute_pts_from_pixels (sheet, ci, TRUE);
 
-	g_return_if_fail (ci != NULL);
-
-	ci->size_pixels = width;
-	colrow_compute_pts_from_pixels (sheet, ci, FALSE);
-
-	if (add)
-		sheet_col_add (sheet, ci);
-
-	/* Compute the spans */
 	sheet_recompute_spans_for_col (sheet, col);
-
 	sheet_reposition_comments_from_col (sheet, col);
 	sheet_compute_visible_ranges (sheet);
 	sheet_redraw_all (sheet);
@@ -3509,35 +3501,6 @@ sheet_col_set_default_size_pts (Sheet *sheet, double width_pts,
 				gboolean thick_a, gboolean thick_b)
 {
 	col_row_info_init (sheet, width_pts, 2, 2, TRUE);
-}
-
-/**
- * sheet_col_set_internal_size_pts:
- * @sheet:	sheet
- * @ci:		col info.  
- * @width:	desired width in points
- *
- * Sets the width of a column in terms of the internal required space (the total
- * size of the column will include the margins.
- */
-void
-sheet_col_set_internal_size_pts (Sheet *sheet, ColRowInfo *ci, double width_pts)
-{
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (ci != NULL);
-
-	/* Add margins add far grid line */
-	width_pts += ci->margin_a + ci->margin_b + 1;
-	if (ci->size_pts == width_pts)
-		return;
-
-	ci->size_pts = width_pts;
-	colrow_compute_pixels_from_pts (sheet, ci, (void*)TRUE);
-
-	sheet_compute_visible_ranges (sheet);
-	sheet_reposition_comments_from_col (sheet, ci->pos);
-	sheet_redraw_all (sheet);
 }
 
 /**************************************************************************/
@@ -3592,7 +3555,6 @@ sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
 	/* Do not use sheet_foreach_colrow, it ignores empties */
 	for (i = from ; i < to ; ++i) {
 		ColRowInfo const *ri = sheet_row_get_info (sheet, i);
-		/* Add 1 for the grid line */
 		if (ri->visible)
 			units += ri->size_pts;
 	}
@@ -3621,17 +3583,17 @@ sheet_row_set_size_pts (Sheet *sheet, int row, double height_pts,
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (height_pts > 0.0);
 
-	ri = sheet_row_get_info (sheet, row);
-	if (ri == &sheet->rows.default_style){
-		ri = sheet_row_new (sheet);
-		ri->pos = row;
-		sheet_row_add (sheet, ri);
-	}
+	ri = sheet_row_fetch (sheet, row);
+	if (ri->size_pts == height_pts)
+		return;
 
-	if (set_by_user)
-		ri->hard_size = TRUE;
-	
-	sheet_col_set_internal_size_pts (sheet, ri, height_pts);
+	ri->hard_size |= set_by_user;
+	ri->size_pts = height_pts;
+	colrow_compute_pixels_from_pts (sheet, ri, (void*)FALSE);
+
+	sheet_compute_visible_ranges (sheet);
+	sheet_reposition_comments_from_row (sheet, ri->pos);
+	sheet_redraw_all (sheet);
 }
 
 /**
@@ -3650,26 +3612,18 @@ sheet_row_set_size_pixels (Sheet *sheet, int row, int height_pixels,
 			   gboolean set_by_user)
 {
 	ColRowInfo *ri;
-	gboolean add = FALSE;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (height_pixels > 0);
 
-	ri = sheet_row_get_info (sheet, row);
-	if (ri == &sheet->rows.default_style){
-		ri = sheet_row_new (sheet);
-		ri->pos = row;
-		add = TRUE;
-	}
-	g_return_if_fail (ri != NULL);
+	ri = sheet_row_fetch (sheet, row);
+	if (ri->size_pixels == height_pixels)
+		return;
 
+	ri->hard_size |= set_by_user;
 	ri->size_pixels = height_pixels;
 	colrow_compute_pts_from_pixels (sheet, ri, FALSE);
-
-	if (set_by_user)
-		ri->hard_size = TRUE;
-	if (add)
-		sheet_row_add (sheet, ri);
 
 	sheet_compute_visible_ranges (sheet);
 	sheet_reposition_comments_from_row (sheet, ri->pos);
@@ -3705,33 +3659,4 @@ sheet_row_set_default_size_pts (Sheet *sheet, double height_pts,
 	if (thick_b) ++b;
 
 	col_row_info_init (sheet, height_pts, a, b, FALSE);
-}
-
-/**
- * sheet_row_set_internal_size_pts:
- * @sheet:		sheet
- * @ri:			row info.  
- * @height:		desired height in points
- *
- * Sets the height of a row in terms of the internal required space (the total
- * size of the row will include the margins.
- */
-void
-sheet_row_set_internal_size_pts (Sheet *sheet, ColRowInfo *ri, double height_pts)
-{
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (ri != NULL);
-
-	/* Add margins add far grid line */
-	height_pts += ri->margin_a + ri->margin_b + 1;
-	if (ri->size_pts == height_pts)
-		return;
-
-	ri->size_pts = height_pts;
-	colrow_compute_pixels_from_pts (sheet, ri, (void*)FALSE);
-
-	sheet_compute_visible_ranges (sheet);
-	sheet_reposition_comments_from_row (sheet, ri->pos);
-	sheet_redraw_all (sheet);
 }

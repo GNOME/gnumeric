@@ -248,7 +248,6 @@ void    sheet_col_set_size_pixels       (Sheet *sheet, int col, int height_pixel
 double  sheet_col_get_default_size_pts  (Sheet const *sheet);
 void    sheet_col_set_default_size_pts  (Sheet *sheet, double width_pts,
 					 gboolean thick_a, gboolean thick_b);
-void    sheet_col_set_internal_size_pts (Sheet *sheet, ColRowInfo *ri, double height_pts);
 
 /* Row height */
 int     sheet_row_get_distance_pixels   (Sheet const *sheet, int from_row, int to_row);
@@ -261,11 +260,10 @@ void    sheet_row_set_size_pixels       (Sheet *sheet, int row, int height_pixel
 double  sheet_row_get_default_size_pts  (Sheet const *sheet);
 void    sheet_row_set_default_size_pts  (Sheet *sheet, double height_pts,
 					 gboolean thick_a, gboolean thick_b);
-void    sheet_row_set_internal_size_pts (Sheet *sheet, ColRowInfo *ri, double height_pts);
 
-/* Find minimum pixel size to display contents */
-int     sheet_col_size_fit            (Sheet *sheet, int col);
-int     sheet_row_size_fit            (Sheet *sheet, int row);
+/* Find minimum pixel size to display contents (including margins and far grid line) */
+int     sheet_col_size_fit_pixels     (Sheet *sheet, int col);
+int     sheet_row_size_fit_pixels     (Sheet *sheet, int row);
 
 void        sheet_col_set_selection       (Sheet *sheet,
 					   ColRowInfo *ci, int value);

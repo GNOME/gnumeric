@@ -33,7 +33,7 @@ workbook_cmd_format_column_auto_fit (GtkWidget *widget, Workbook *wb)
 		for (col = ss->user.start.col; col <= ss->user.end.col; col++){
 			int ideal_size;
 
-			ideal_size = sheet_col_size_fit (sheet, col);
+			ideal_size = sheet_col_size_fit_pixels (sheet, col);
 			if (ideal_size == 0)
 				continue;
 
@@ -118,7 +118,7 @@ workbook_cmd_format_row_auto_fit (GtkWidget *widget, Workbook *wb)
 		for (row = ss->user.start.row; row <= ss->user.end.row; row++){
 			int ideal_size;
 
-			ideal_size = sheet_row_size_fit (sheet, row);
+			ideal_size = sheet_row_size_fit_pixels (sheet, row);
 			if (ideal_size == 0)
 				continue;
 
