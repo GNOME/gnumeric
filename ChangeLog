@@ -1,5 +1,9 @@
 2003-06-08  Jody Goldberg <jody@gnome.org>
 
+	* src/style.h : DEFAULT size in the schemas is 10, use it here too.
+
+	* schemas/gnumeric-general.schemas.in : Use valid english.
+
 	* Makefile.am : do not include the .server or .server.in files in the
 	  distribution.
 	* src/Makefile.am (ui_DATA) : be absolutely anal about

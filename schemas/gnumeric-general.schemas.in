@@ -87,7 +87,7 @@
 	<default>FALSE</default>
         <locale name="C">
         <short>The default font is bold.</short>
-        <long>This value determines whether the default font for a new workbook bold is.</long>
+        <long>This value determines whether the default font for a new workbook is bold.</long>
         </locale>
       </schema>
       <schema>
@@ -98,7 +98,7 @@
 	<default>FALSE</default>
         <locale name="C">
         <short>The default font is italic.</short>
-        <long>This value determines whether the default font for a new workbook italic is.</long>
+        <long>This value determines whether the default font for a new workbook is italic.</long>
         </locale>
       </schema>
       <schema>
