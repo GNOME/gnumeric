@@ -355,8 +355,8 @@ const ModulePluginFunctionInfo logical_functions[] = {
 	{ "xor", 0, N_("number,number,"), &help_xor, NULL, gnumeric_xor, NULL, NULL },
 	{ "not", "f", N_("number"), &help_not, gnumeric_not, NULL, NULL, NULL },
 	{ "if", 0, N_("condition,if true,if false"), &help_if, NULL, gnumeric_if, NULL, NULL },
-	{ "true", "f", N_("number"), &help_true, gnumeric_true, NULL, NULL, NULL },
-	{ "false", "f", N_("number"), &help_false, gnumeric_false, NULL, NULL, NULL },
+	{ "true", "", "", &help_true, gnumeric_true, NULL, NULL, NULL },
+	{ "false", "", "", &help_false, gnumeric_false, NULL, NULL, NULL },
         {NULL}
 };
 

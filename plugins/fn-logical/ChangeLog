@@ -1,3 +1,8 @@
+2002-07-07  Jon K Hellan  <hellan@acm.org>
+
+	* functions.c: Fix bug in registration of TRUE and FALSE
+	functions. They require no arguments, not one.
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4
