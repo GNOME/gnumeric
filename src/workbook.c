@@ -919,7 +919,10 @@ workbook_new (void)
 	gtk_signal_connect (
 		GTK_OBJECT (wb->toplevel), "destroy",
 		GTK_SIGNAL_FUNC (workbook_close), wb);
-		
+
+	/* clipboard setup */
+	x_clipboard_bind_workbook (wb);
+	
 	/* Set the default operation to be performed over selections */
 	workbook_set_auto_expr (wb, "SUM", "SUM(SELECTION())");
 

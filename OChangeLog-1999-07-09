@@ -1,5 +1,19 @@
 1998-09-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/render-ascii.c (cell_region_render_ascii): new routine that
+	renders a cell selection into a an ascii string.  IT HAS PILES OF
+	LEAKS.  I have to go to the movies, will fix later tonight.
+
+	* src/clipboard.c (x_clipboard_bind_workbook): New function used
+	to connect the selection signals for a workbook.
+	(x_selection_handler): New function: X selection handler.
+	(clipboard_export_cell_region): New function: Export our clipboard
+	to the X selection.
+	(clipboard_copy_cell_range): call clipboard_export_cell_region
+
+	* src/plugin-manager.c (plugin_manager_new), plugin.c: Add
+	internationalization support.
+
 	* src/sheet.c (sheet_selection_row_extend_to,
 	sheet_selection_col_extend_to): New version that makes sure the
 	column information has been allocated.

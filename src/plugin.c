@@ -33,7 +33,7 @@ plugin_load (gchar *modfile)
 	data->handle = g_module_open (modfile, 0);
 	if (!data->handle) {
 		char *str;
-		str = g_copy_strings("unable to open module file: ", g_module_error(), NULL);
+		str = g_copy_strings(_("unable to open module file: "), g_module_error(), NULL);
 		gnumeric_notice(str);
 		g_free(str);
 		g_free(data);
@@ -41,12 +41,12 @@ plugin_load (gchar *modfile)
 	}
 	
 	if (!g_module_symbol (data->handle, "init_plugin", (gpointer *) &data->init_plugin)){
-		gnumeric_notice ("Plugin must contain init_plugin function.");
+		gnumeric_notice (_("Plugin must contain init_plugin function."));
 		goto error;
 	}
 	
 	if (data->init_plugin (data) < 0){
-		gnumeric_notice ("init_plugin returned error");
+		gnumeric_notice (_("init_plugin returned error"));
 		goto error;
 	}
 
@@ -65,7 +65,7 @@ plugin_unload (PluginData *pd)
 	g_return_if_fail (pd != NULL);
 	
 	if (pd->can_unload && !pd->can_unload(pd)) {
-		gnumeric_notice("Plugin is still in use.\n");
+		gnumeric_notice(_("Plugin is still in use.\n"));
 		return;
 	}
 	

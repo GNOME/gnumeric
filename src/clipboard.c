@@ -11,6 +11,59 @@
 #include "gnumeric-util.h"
 #include "clipboard.h"
 #include "eval.h"
+#include "render-ascii.h"
+
+static gint
+x_selection_clear (GtkWidget *widget, GdkEventSelection *event, Workbook *wb)
+{
+	wb->have_x_selection = FALSE;
+
+	return TRUE;
+}
+
+static void
+x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, gpointer data)
+{
+	Workbook *wb = data;
+	char *rendered_selection;
+	
+	g_assert (wb->clipboard_contents);
+
+	rendered_selection = cell_region_render_ascii (wb->clipboard_contents);
+	
+	gtk_selection_data_set (
+		selection_data, GDK_SELECTION_TYPE_STRING, 8,
+		rendered_selection, strlen (rendered_selection));
+}
+
+void
+x_clipboard_bind_workbook (Workbook *wb)
+{
+	wb->have_x_selection = FALSE;
+	
+	gtk_signal_connect (
+		GTK_OBJECT (wb->toplevel), "selection_clear_event",
+		GTK_SIGNAL_FUNC(x_selection_clear), wb);
+
+	gtk_selection_add_handler (
+		wb->toplevel,
+		GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING,
+		x_selection_handler, wb);
+}
+
+/*
+ * clipboard_export_cell_region:
+ *
+ * This routine exports a CellRegion to the X selection
+ */
+static void
+clipboard_export_cell_region (Workbook *wb, CellRegion *region)
+{
+	wb->have_x_selection = gtk_selection_owner_set (
+		current_workbook->toplevel,
+		GDK_SELECTION_PRIMARY,
+		GDK_CURRENT_TIME);
+}
 
 typedef struct {
 	int        base_col, base_row;
@@ -39,6 +92,11 @@ clipboard_append_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_da
 	return TRUE;
 }
 
+/*
+ * clipboard_copy_cell_range:
+ *
+ * Entry point to the clipboard copy code
+ */
 CellRegion *
 clipboard_copy_cell_range (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
 {
@@ -60,6 +118,8 @@ clipboard_copy_cell_range (Sheet *sheet, int start_col, int start_row, int end_c
 		sheet, 1, start_col, start_row, end_col, end_row,
 		clipboard_append_cell, &c);
 
+	clipboard_export_cell_region (sheet->workbook, c.r);
+	
 	return c.r;
 }
 

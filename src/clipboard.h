@@ -31,4 +31,6 @@ void        clipboard_paste_region       (CellRegion *region,
 
 void        clipboard_release            (CellRegion *region);
 
+void        x_clipboard_bind_workbook    (Workbook *wb);
+	
 #endif

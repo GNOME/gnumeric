@@ -50,9 +50,11 @@ typedef struct {
 	int        max_iterations;
 
 	int        generation;
-	
+
 	/* The clipboard for this workbook */
 	CellRegion *clipboard_contents;
+
+	gboolean   have_x_selection;
 } Workbook;
 
 typedef struct {

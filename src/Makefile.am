@@ -66,6 +66,8 @@ GNUMERIC_BASE_SOURCES =			\
 	plugin.c			\
 	plugin.h			\
 	plugin-manager.c		\
+	render-ascii.c			\
+	render-ascii.h			\
 	sheet.c				\
 	sheet.h				\
 	sheet-autofill.c		\

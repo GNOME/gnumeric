@@ -89,7 +89,8 @@ GtkWidget *
 plugin_manager_new (void)
 {
 	PluginManager *pm;
-	gchar *titles[2] = { "Name", "File" };
+	gchar *n_titles[2] = { N_("Name"), N_("File") };
+	gchar *titles[2] = { N_("Name"), N_("File") };
 	
 	pm = g_new0 (PluginManager, 1);
 	if (!pm)
@@ -99,6 +100,9 @@ plugin_manager_new (void)
 	
 	pm->hbox = gtk_hbox_new (0, 0);
 	gtk_container_add (GTK_CONTAINER (pm->dialog), pm->hbox);
+
+	titles [0] = _(n_titles [0]);
+	titles [1] = _(n_titles [1]);
 	
 	pm->clist = gtk_clist_new_with_titles (2, titles);
 	gtk_widget_set_usize (pm->clist, 300, 120);
@@ -108,13 +112,13 @@ plugin_manager_new (void)
 	gtk_button_box_set_layout (GTK_BUTTON_BOX (pm->vbbox), GTK_BUTTONBOX_START);
 	gtk_box_pack_start (GTK_BOX (pm->hbox), pm->vbbox, 0, 0, 5);
 	
-	pm->button_close = gtk_button_new_with_label ("Close");
+	pm->button_close = gtk_button_new_with_label (_("Close"));
 	gtk_container_add (GTK_CONTAINER(pm->vbbox), pm->button_close);
 	
-	pm->button_add = gtk_button_new_with_label ("Add...");
+	pm->button_add = gtk_button_new_with_label (_("Add..."));
 	gtk_container_add (GTK_CONTAINER (pm->vbbox), pm->button_add);
 	
-	pm->button_remove = gtk_button_new_with_label ("Remove");
+	pm->button_remove = gtk_button_new_with_label (_("Remove"));
 	gtk_container_add (GTK_CONTAINER (pm->vbbox), pm->button_remove);
 	
 	gtk_widget_realize (pm->clist);
