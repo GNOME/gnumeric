@@ -12706,10 +12706,6 @@ msgstr " Áit "
 msgid "_Down"
 msgstr "S_íos"
 
-#: wizards/graphics/graphics.glade.h:59
-msgid ""
-msgstr ""
-
 #: wizards/graphics/graphics.glade.h:60
 msgid "_Up"
 msgstr "_Suas"
