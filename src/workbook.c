@@ -861,13 +861,13 @@ zoom_cmd (GtkWidget *widget, Workbook *wb)
 /* Sheet preferences */
 
 static void
-static void
 cb_cell_rerender (gpointer cell, gpointer data)
 {
         cell_render_value (cell);
         sheet_redraw_cell (cell);
 }
 
+static void
 cb_sheet_pref_display_formulas (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
