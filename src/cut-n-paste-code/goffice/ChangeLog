@@ -1,6 +1,6 @@
 2004-03-15  Morten Welinder  <terra@gnome.org>
 
-	* gui-utils/go-combo-box.c (go_combo_box_destroy): Plug leak.
+	* gui-utils/go-combo-box.c (go_combo_box_destroy): Plug leaks.
 
 2004-03-15  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 

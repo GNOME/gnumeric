@@ -123,12 +123,13 @@ go_combo_box_destroy (GtkObject *object)
 
 	if (combo_box->priv->toplevel) {
 		gtk_widget_destroy (combo_box->priv->toplevel);
-		gtk_object_unref (GTK_OBJECT (combo_box->priv->toplevel));
+		g_object_unref (combo_box->priv->toplevel);
 		combo_box->priv->toplevel = NULL;
 	}
 
 	if (combo_box->priv->tearoff_window) {
-		gtk_object_destroy (GTK_OBJECT (combo_box->priv->tearoff_window));
+		gtk_widget_destroy (combo_box->priv->tearoff_window);
+		g_object_unref (combo_box->priv->tearoff_window);
 		combo_box->priv->tearoff_window = NULL;
 	}
 
