@@ -134,12 +134,14 @@ format_find (const char *format)
  * Invoked when the user has selected a new format category
  */
 static void
-format_number_select_row (GtkCList *clist, gint row, gint col, GdkEvent *event, GtkWidget *prop_win)
+format_number_select_row (GtkCList *clist, gint row, gint col,
+			  GdkEvent *event, GtkWidget *prop_win)
 {
 	format_list_fill (row);
 	gtk_clist_select_row (GTK_CLIST (number_format_list), 0, 0);
 
-	gnome_property_box_changed (GNOME_PROPERTY_BOX (prop_win));
+	if (cell_format_prop_win)
+		gnome_property_box_changed (GNOME_PROPERTY_BOX (prop_win));
 }
 
 static void
@@ -488,27 +490,27 @@ create_font_page (GtkWidget *prop_win, MStyle *style,
 	gtk_signal_connect (GTK_OBJECT (FONT_SELECTOR (font_widget)->font_preview),
 			    "style_set",
 			    GTK_SIGNAL_FUNC (font_changed), prop_win);
- 	gnome_dialog_editable_enters
- 	  (GNOME_DIALOG(prop_win), 
- 	   GTK_EDITABLE(FONT_SELECTOR (font_widget)->font_name_entry));
- 	gnome_dialog_editable_enters
- 	  (GNOME_DIALOG(prop_win), 
- 	   GTK_EDITABLE(FONT_SELECTOR (font_widget)->font_style_entry));
- 	gnome_dialog_editable_enters
- 	  (GNOME_DIALOG(prop_win), 
- 	   GTK_EDITABLE(FONT_SELECTOR (font_widget)->font_size_entry));
- 	gnome_dialog_editable_enters
- 	  (GNOME_DIALOG(prop_win), 
- 	   GTK_EDITABLE(FONT_SELECTOR (font_widget)->font_preview));
- 
- 	/* Focus alternatives: */
- 	/*     Size entry  (font_widget->font_size_entry) */
- 	/* or  Font listbox (font_widget->font_name_list). */
- 	/* Font entry is not editable. */
 
- 	*focus_widget = 
- 		GTK_WIDGET (FONT_SELECTOR (font_widget)->font_size_entry);
- 	return font_widget;
+	gnome_dialog_editable_enters
+	  (GNOME_DIALOG(prop_win), 
+	   GTK_EDITABLE(FONT_SELECTOR (font_widget)->font_name_entry));
+	gnome_dialog_editable_enters
+	  (GNOME_DIALOG(prop_win), 
+	   GTK_EDITABLE(FONT_SELECTOR (font_widget)->font_style_entry));
+	gnome_dialog_editable_enters
+	  (GNOME_DIALOG(prop_win), 
+	   GTK_EDITABLE(FONT_SELECTOR (font_widget)->font_size_entry));
+	gnome_dialog_editable_enters
+	  (GNOME_DIALOG(prop_win), 
+	   GTK_EDITABLE(FONT_SELECTOR (font_widget)->font_preview));
+
+	/* Focus alternatives: */
+	/*     Size entry  (font_widget->font_size_entry) */
+	/* or  Font listbox (font_widget->font_name_list). */
+	/* Font entry is not editable. */
+	*focus_widget = 
+		GTK_WIDGET (FONT_SELECTOR (font_widget)->font_size_entry);
+	return font_widget;
 }
 
 static void
@@ -517,7 +519,6 @@ apply_font_format (Sheet *sheet, MStyle *style)
 	FontSelector *font_sel = FONT_SELECTOR (font_widget);
 	GnomeDisplayFont *gnome_display_font;
 	GnomeFont *gnome_font;
-
 	char *family_name;
 	double height;
 
@@ -527,17 +528,16 @@ apply_font_format (Sheet *sheet, MStyle *style)
 
 	gnome_font = gnome_display_font->gnome_font;
 	family_name = gnome_font->fontmap_entry->familyname;
+	height = gnome_display_font->gnome_font->size;
 
-	height = font_sel->size;
+	mstyle_set_font_name   (style, family_name);
+	mstyle_set_font_size   (style, gnome_font->size);
+	mstyle_set_font_bold   (style,
+				gnome_font->fontmap_entry->weight_code >=
+				GNOME_FONT_BOLD);
+	mstyle_set_font_italic (style, gnome_font->fontmap_entry->italic);
 
- 	mstyle_set_font_name   (style, family_name);
- 	mstyle_set_font_size   (style, height);
- 	mstyle_set_font_bold   (style,
- 				gnome_font->fontmap_entry->weight_code >=
- 				GNOME_FONT_BOLD);
- 	mstyle_set_font_italic (style, gnome_font->fontmap_entry->italic);
-
- 	sheet_selection_height_update (sheet, height);
+	sheet_selection_height_update (sheet, height);
 }
 
 
@@ -675,28 +675,18 @@ create_coloring_page (GtkWidget *prop_win,
 	back = create_background_radio (prop_win);
 
 	if (!mstyle_is_element_conflict (style, MSTYLE_COLOR_FORE)) {
-		if (mstyle_is_element_set (style, MSTYLE_COLOR_FORE)) {
-			gtk_radio_button_select (foreground_radio_list, 0);
-			gnome_color_picker_set_d (GNOME_COLOR_PICKER (foreground_cs), 0, 0, 0, 0);
-		} else {
-			gtk_radio_button_select (foreground_radio_list, 1);
-			set_color_picker_from_style (GNOME_COLOR_PICKER (foreground_cs),
-						     mstyle_get_color (style, MSTYLE_COLOR_FORE));
-		}
+		gtk_radio_button_select (foreground_radio_list, 1);
+		set_color_picker_from_style (GNOME_COLOR_PICKER (foreground_cs),
+					     mstyle_get_color (style, MSTYLE_COLOR_FORE));
 	} else
 		gtk_radio_button_select (foreground_radio_list, 2);
 
 	if (!mstyle_is_element_conflict (style, MSTYLE_COLOR_BACK)) {
-		if (mstyle_is_element_set (style, MSTYLE_COLOR_BACK)) {
-			gtk_radio_button_select (background_radio_list, 0);
-			gnome_color_picker_set_d (GNOME_COLOR_PICKER (background_cs), 0, 0, 0, 0);
-		} else {
-			gtk_radio_button_select (background_radio_list, 1);
-			set_color_picker_from_style (GNOME_COLOR_PICKER (background_cs),
-						     mstyle_get_color (style, MSTYLE_COLOR_FORE));
-		}
+		gtk_radio_button_select (background_radio_list, 1);
+		set_color_picker_from_style (GNOME_COLOR_PICKER (background_cs),
+					     mstyle_get_color (style, MSTYLE_COLOR_BACK));
 	} else
-		gtk_radio_button_select (foreground_radio_list, 2);
+		gtk_radio_button_select (background_radio_list, 3);
 
 	make_radio_notify_change (foreground_radio_list, prop_win);
 	make_radio_notify_change (background_radio_list, prop_win);
@@ -757,7 +747,7 @@ apply_coloring_format (Sheet *sheet, MStyle *style)
 	 * case 0 means no background
 	 */
 	case 0:
-		mstyle_unset_element (style, MSTYLE_COLOR_FORE);
+		mstyle_unset_element (style, MSTYLE_COLOR_BACK);
 		back_change = FALSE;
 		break;
 
@@ -871,8 +861,6 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	prop_win = gnome_property_box_new ();
 	gnome_dialog_set_parent (GNOME_DIALOG (prop_win),
 				 GTK_WINDOW (wb->toplevel));
-	
-	g_warning ("First cell should be setup");
 	
 	for (i = 0; cell_format_pages [i].title; i++){
 		GtkWidget *page;

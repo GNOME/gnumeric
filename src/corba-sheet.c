@@ -616,7 +616,14 @@ Sheet_cell_set_pattern (PortableServer_Servant servant,
 			const CORBA_long col, const CORBA_long row,
 			const CORBA_long pattern, CORBA_Environment *ev)
 {
-	g_warning ("Deprecated cell set pattern");
+	MStyle *mstyle = mstyle_new ();
+
+	verify_col (col);
+	verify_row (row);
+	
+	mstyle_set_pattern (mstyle, pattern);
+	sheet_style_attach_single (sheet_from_servant (servant),
+				   col, row, mstyle);
 }
 
 static CORBA_long
@@ -624,8 +631,18 @@ Sheet_cell_get_pattern (PortableServer_Servant servant,
 			const CORBA_long col, const CORBA_long row,
 			CORBA_Environment *ev)
 {
-	g_warning ("Deprecated cell get pattern");
-	return 0;
+	CORBA_long ans;
+	Sheet *sheet = sheet_from_servant (servant);
+	MStyle *mstyle;
+
+	verify_col_val (col, NULL);
+	verify_row_val (row, NULL);
+
+	mstyle = sheet_style_compute (sheet, col, row);
+	ans = mstyle_get_pattern (mstyle);
+	mstyle_unref (mstyle);
+
+	return ans;
 }
 
 static void

@@ -1,9 +1,11 @@
+1999-10-22  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-excel-read.c (ms_excel_palette_get): fix leak.
+
 1999-10-18  Morten Welinder  <terra@diku.dk>
 
 	* ms-formula-read.c (ms_excel_parse_formula): Fix for non-shared
  	references to cells below row 256.
-	
-1999-10-20  Michael Meeks  <mmeeks@gnu.org>
 
 	* ms-excel-read.c (ms_excel_sheet_insert): Set XF before sheet_cell_fetch
 	for big speedup. (ms_excel_read_formula): ditto.
@@ -33,6 +35,81 @@
 1999-10-08  Morten Welinder  <terra@diku.dk>
 
 	* ms-formula-read.c (ms_excel_parse_formula): Plug leaks.
+
+1999-10-03  Jody Goldberg <jgoldberg@home.com>
+
+	* boot.c (excel_probe) : Only free the MsOle object if it
+	  was created successfully.
+
+1999-10-02  Jody Goldberg <jgoldberg@home.com>
+
+	* *.c : Ensure that we include config.h first.
+
+	* *.[ch] : Update and add Copyright notices.
+
+1999-09-29  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_cell:MULBLANK) : Insert blanks in
+	  reverse order, to decrease the load on the insert routines.
+
+1999-09-26  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_cell:COLINFO) : Seems like
+	  XL periodically sends column widths for phantom columns.
+
+1999-10-19  Morten Welinder <terra@diku.dk>
+
+	* ms-formula-read.c (ms_excel_parse_formula): Get row as 16 bit value,
+	for both AREA_3D and AREA[N].
+
+1999-10-18  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-excel-read.c (ms_excel_set_xf): Ref count colors correctly.
+
+1999-10-16  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-excel-read.c (ms_excel_set_cell_font): renamed + kill Cell.
+	(style_optimize): kill Cell argument.
+	(ms_excel_set_cell_xf): use style_attach + kill Cell arg. + renamed.
+	(ms_excel_sheet_insert, ms_excel_read_formula),
+	(ms_excel_sheet_insert_val): update removing Cell argument.
+	(ms_excel_sheet_insert_blank): Create.
+	(ms_excel_read_cell): use insert_blank.
+
+1999-10-15  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-excel-read.c (ms_excel_set_cell_xf): Update style creation +
+	only setup border if it non NULL, fixup optimization regions.
+	(ms_excel_set_cell_font): update + add array argument.
+	(style_optimize): split out. (ms_excel_read_sheet): Add post-optimize.
+
+1999-10-13  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-excel-read.c (ms_excel_set_cell_font): New String in style.
+
+1999-10-11  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-excel-read.c (ms_excel_set_cell_xf): better optimize region
+	generation.
+
+1999-10-10  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-excel-read.c (ms_excel_sheet_new): Initialize range.
+	(ms_excel_set_cell_xf): Add range optimization.
+	(ms_bug_get_padding): Kill.
+
+	* ms-excel-read.h (ExcelSheet): Add style_optimize field.
+
+1999-10-09  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_set_cell_xf): Adapt to new Border support.
+
+1999-10-07  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-excel-read.c (ms_excel_set_cell_xf): Large hack to new style
+	code. (biff_font_data_get_style_font): kill it.
+	(biff_font_data_new): remove setting up fd->style_font.
+	(biff_font_data_destroy): kill style_font bits.
 
 1999-10-03  Jody Goldberg <jgoldberg@home.com>
 

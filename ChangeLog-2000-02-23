@@ -1,3 +1,25 @@
+1999-10-23  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/corba-sheet.c (Sheet_cell_get_pattern, Sheet_cell_set_pattern): 
+	implement.
+
+	* src/sheet-style.c (sheet_unique_cb): Re-clip against selection
+	after fragment and use all ranges.
+
+	* src/dialogs/dialog-cell-format.c (format_number_select_row): Add
+	check to kill debug; odd.
+
+1999-10-22  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/mstyle.c (mstyle_elements_compare): fix.
+
+	* src/ranges.c (range_fragment): Silly logic error + only 1 range
+	case.
+
+	* src/dialogs/dialog-cell-format.c (create_coloring_page): fixup.
+
+	* src/sheet-style.c (sheet_selection_get_unique_style): add debug.
+
 1999-10-22  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/Makefile.am (Gnumeric-impl.o): Do not use BUILT_SOURCES as
@@ -45,6 +67,1023 @@
 1999-10-20  Martin Norbäck  <norpan@bigfoot.com>
 
 	* gnumeric.desktop.in: Added Swedish translation
+
+1999-10-22  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/mstyle.c (mstyle_destroy): update.
+
+1999-10-21  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/border.c (border_draw): Constify.
+
+	* src/sheet-autofill.c (autofill_cell): Fix.
+
+	* src/corba-sheet.c (Sheet_cell_get_alignment, Sheet_cell_set_alignment),
+	(Sheet_cell_set_background, Sheet_cell_set_foreground): implement.
+
+	* src/sheet-style.c (sheet_style_attach_single): implement.
+
+	* src/workbook-format-toolbar.c (workbook_feedback_set): Add
+	cache back in to save scanning huge font lists.
+
+	* src/sheet-style.c (sheet_unique_cb): fix leak.
+
+1999-10-20  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/render-ascii.c (cell_region_render_ascii): Update; perhaps
+	cell_get_text will need to be passed an MStyle...
+
+	* src/clipboard.c (paste_cell_flags, clipboard_prepend_cell),
+	(clipboard_release): handle styles to some extent.
+	(sheet_paste_selection): Add an optimize pass.
+
+	* src/cell.h (CellCopy): Add style.
+
+	* src/sheet.c (sheet_new): setup color correctly.
+	(range_is_homogeneous): Kill ( done in sheet-style.c nowadays ).
+
+	* src/workbook-format-toolbar.c (modify_cell_format): Use an MStyle.
+	(change_selection_font): set italic as well as bold.
+	(change_font_size_in_selection_cmd): Update sheet after style set.
+
+	* src/sheet.h (range_equal): Add macro.
+
+	* src/ranges.c (range_equal): kill; too slow.
+
+	* src/mstyle.c (mstyle_elements_equal): simplify lots.
+
+	* src/cell.c (cell_get_span): Optimise by hoisting simple checks over
+	slow style ones. (cell_is_number): make inline
+
+	* src/workbook-format-toolbar.c (workbook_feedback_set): remove redundant
+	checks on each style element to see if set + add preconditions.
+
+	* src/mstyle.c (mstyle_get_font): implement.
+
+	* src/cell.c (cell_get_span): pass init. align in to save redundant
+	style_compute. (cell_get_horizontal_align): optimise.
+	(calc_text_dimensions): take an MStyle. (cell_calc_dimensions): use mstyle.
+
+	* src/print-cell.c (print_cell_text): new horizontal_align bits.
+
+	* src/cell-draw.c (cell_draw): ditto.
+
+	* src/sheet-style.c (sheet_style_compute): Update cache API.
+	(sheet_style_cache_lookup, sheet_style_cache_add): ditto.
+
+	* src/mstyle.c (mstyle_get_color): unconstify.
+
+	* Update floating mstyle vars. to 'mstyle'
+
+1999-10-20  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/corba-sheet.c (Sheet_cell_get_format): remove check.
+
+	* src/cell.c (cell_get_horizontal_align): add check.
+	(cell_get_span): remove checks on alignment set.
+
+	* src/functions/fn-information.c (gnumeric_cell): kill leak;
+
+	* src/workbook-format-toolbar.c (modify_cell_format): kill leak.
+
+	* src/print-cell.c (print_cell_text): fix leaks.
+	(print_cell): ditto.
+
+	* src/cell.c (cell_get_formatted_val): return error case.
+
+	* src/sheet.c (sheet_new): Attach default format.
+
+	* src/style.c (style_mstyle_new): update.
+
+	* src/print-cell.c (print_empty_cell): update.
+
+	* src/xml-io.c (xml_write_style, xml_write_style_region): update.
+	(xml_write_style_border, xml_read_style, xml_read_style_border): fix.
+
+1999-10-19  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/item-grid.c (item_grid_paint_empty_cell): update.
+
+	* src/item-edit.c (item_edit_update): fix.
+
+	* src/cell.c (cell_get_formatted_val, cell_set_format_simple),
+	(cell_get_horizontal_align, cell_get_style, cell_get_span): fixups.
+
+	* src/workbook-format-toolbar.c (set_selection_halign, change_selection_font),
+	(change_font_in_selection_cmd, change_font_size_in_selection_cmd),
+	(fore_color_changed, back_color_changed, workbook_feedback_set): fixups.
+
+	* src/corba-sheet.c (Sheet_cell_get_format, Sheet_range_set_format): update.
+
+	* src/sheet.c (sheet_update_controls): update.
+
+	* src/dialogs/dialog-cell-format.c (create_number_format_page), 
+	(apply_number_formats, create_align_page, apply_align_format),
+	(create_font_page, apply_font_format, set_color_picker_from_style),
+	(create_coloring_page, apply_coloring_format, cell_properties_apply):
+	hack to new 'helper' functions.
+
+	* src/sheet-style.c (sheet_style_cache_lookup), 
+	(sheet_style_cache_add, sheet_style_compute): Update.
+	(sheet_selection_get_uniq_style, sheet_uniq_cb): Break badly.
+
+	* src/mstyle.c: Totaly re-hash API for Miguel, biggish re-write.
+	(mstyle_is_element_set, mstyle_unset_element, mstyle_set_color),
+	(mstyle_get_color, mstyle_set_border, mstyle_set_pattern),
+	(mstyle_get_pattern, mstyle_set_font_name, mstyle_get_font_name),
+	(mstyle_set_font_bold, mstyle_get_font_bold, mstyle_set_font_italic),
+	(mstyle_get_font_italic, mstyle_set_font_size, mstyle_get_font_size),
+	(mstyle_set_format, mstyle_get_format, mstyle_set_align_h),
+	(mstyle_get_align_h, mstyle_set_align_v, mstyle_get_align_v),
+	(mstyle_set_orientation, mstyle_get_orientation),
+	(mstyle_set_fit_in_cell, mstyle_get_fit_in_cell): Implemented ( boring ).
+	(mstyle_compare): implement
+
+1999-10-19  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/cell.c (cell_get_horizontal_align): fiddle. (cell_get_span): Fixup.
+
+	* src/xml-io.c (xml_sheet_write): Actually attach the saved
+	style tree. (xml_write_style): Fix silly bug in color writing.
+
+1999-10-19  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/mstyle.c (mstyle_destroy): Fix leak.
+
+	* src/item-grid.c (item_grid_draw_cell): ditto.
+
+1999-10-16  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/dialogs/dialog-cell-format.c (apply_coloring_format): Fixup.
+
+	* src/selection.c (sheet_selection_height_update): create.
+
+	* src/dialogs/dialog-cell-format.c (cell_properties_apply):
+	update. (apply_number_formats, apply_align_format),
+	(apply_font_format): Don't set the selection's properties yet,
+	setup the selections height.
+
+	* src/sheet-style.c (sheet_selection_get_uniq_style):
+	update docs.
+
+1999-10-16  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/style.c (style_mstyle_new): Add format ( oops ).
+
+	* src/cell.c (cell_get_formatted_val): Create.
+	(cell_get_text, cell_render_value): use it.
+	(cell_get_horizontal_align): Update.
+
+	* src/ranges.c (range_merge): comment out sluggish pre-condition.
+
+	* src/workbook-format-toolbar.c (do_sheet_selection_apply_style): Fixup.
+
+	* src/ranges.c (range_split_ranges): Kill 1/2 the range_contains calls,
+	fix bug + optimize. (range_overlap): kill comment + inline.
+
+	* src/workbook.c (deps_output): renamed to (misc_output) + update.
+	(workbook_setup_edit_area): show if style_debugging.
+
+	* src/main.c: Add 'style_debugging' integer.
+
+	* src/cell.c (cell_set_font_from_style, cell_set_halign, cell_set_border),
+	(cell_set_alignment, cell_set_foreground, cell_set_background),
+	(cell_set_color_from_style, cell_set_pattern, cell_set_format_from_style):
+	kill the stubs for the old style API.
+	(cell_set_format_simple): fix silly bug.
+
+1999-10-15  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/ranges.c (range_equal): compare rows then cols + inline.
+
+	* src/sheet-style.c (sheet_styles_dump): implement.
+
+	* src/workbook.c (deps_output): dump styles.
+
+	* src/mstyle.c (mstyle_elements_init): create.
+	(mstyle_elements_equal): Add quick type sum check.
+
+	* src/sheet-style.c (sheet_selection_get_uniq_style): use it.
+
+1999-10-14  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/workbook-format-toolbar.c (workbook_feedback_set): kill old
+	conflict resoltion.
+
+	* src/sheet-style.c (sheet_style_cache_add): fixup cache flush on huge
+	caches.
+
+	* src/print-cell.c (print_empty_cell): 
+
+	* src/mstyle.c (render_merge): kill. (mstyle_list_check_sorted): rename.
+
+	* src/sheet-style.c (sheet_style_compute, sheet_uniq_cb): Add checks for
+	sortedness  kill redundant return.
+
+	* src/item-grid.c (item_grid_paint_empty_cell): 
+
+	* src/cell.c (cell_get_style): zoom.
+
+	* src/item-edit.c (item_edit_update): ditto.
+
+	* src/style.c (style_mstyle_new): Update to take a zoom argument.
+
+	* src/sheet.c (zoom_cell_style): kill: redundant (sheet_set_zoom_factor):
+	use new render side zoom, allows different zoom per view.
+
+	* src/mstyle.c (mstyle_do_merge): optimise by dropping out if we
+	have all attributes set + kill redundant copy.
+	(render_merge_blank): Kill.
+
+	* src/ranges.c (range_contains): re-order for speed & inline.
+
+	* src/sheet.c (sheet_update_controls): update.
+
+1999-10-13  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/cell.c (cell_get_style): pass elements around.
+
+	* src/item-edit.c (item_edit_update): ditto.
+
+	* src/corba-sheet.c (Sheet_cell_get_format): ditto..
+
+	* src/item-grid.c (item_grid_paint_empty_cell): ditto.
+
+	* src/print-cell.c (print_empty_cell): ditto.
+
+	* src/sheet-style.c (sheet_style_compute_blank): axe.
+	(sheet_style_compute): update to new API.
+
+	* src/xml-io.c (xml_sheet_write): use sheet_get_style_list.
+
+	* src/sheet-style.c (sheet_style_compute): Unroll render_merge in here
+	to allow caching.
+
+	* src/sheet.c (sheet_set_zoom_factor): calm font scaling down.
+
+	* src/sheet-style.c: Re-write each style list lookup adding dereference.
+	(sheet_create_styles): create, (sheet_destroy_styles): update.
+	(sheet_style_cache_lookup, sheet_style_cache_add),
+	(sheet_style_cache_flush): stub for now + add various flushes.
+	(scache_remove): create.
+
+	* src/sheet.h: Hide style_data in sheet-style.c + add cell lookup
+	hash on advice of profiler.
+
+	* src/sheet.c (sheet_new): use sheet_create_styles.
+
+	* src/ranges.c (range_fragment): fix: was very broken.
+
+	* src/dialogs/dialog-cell-format.c (apply_font_format): use String.
+
+	* src/xml-io.c (xml_write_style, xml_read_style): use String
+
+	* src/workbook-format-toolbar.c (change_font_in_selection_cmd),
+	(workbook_feedback_set): ditto.
+
+	* src/style.c (style_mstyle_new): ditto.
+
+	* doc/Styles.txt: Update bit about strings.
+
+	* src/mstyle.c (mstyle_element_equal, mstyle_element_dump),
+	(mstyle_element_copy, mstyle_element_destroy): Use String not
+	char * for font name.
+
+	* src/mstyle.h: Change font.name to a ref counted String.
+
+	* src/style.h (style_unref): Add.
+
+	* src/cell.c (cell_render_value, cell_get_horizontal_align),
+	(cell_get_text, cell_calc_dimensions): use style_unref.
+
+	* src/item-edit.c (item_edit_update): use style_unref not destroy.
+
+	* src/item-grid.c (item_grid_paint_empty_cell): ditto.
+
+	* src/print-cell.c (print_empty_cell): ditto.
+
+	* src/cell-draw.c (sheet_view_font, cell_draw): ditto.
+
+	* src/corba-sheet.c (Sheet_cell_get_format): unref style.
+
+	* src/mstyle.c (mstyle_do_merge): Remove redundant uniq thing.
+	(render_merge, render_merge_blank): ditto.
+	(mstyle_destroy): nail huge leak, destroy style elements.
+	(mstyle_elements_compare, mstyle_elements_destroy): implement.
+
+	* src/ranges.c (range_fragment): Don't operate on the original list.
+
+	* src/sheet-style.c (sheet_uniq_cb): Implement fully.
+
+1999-10-12  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/ranges.c (range_fragment): Only remove region if it is valid.
+
+	* src/sheet.c (sheet_new): NULL style_list.
+
+	* src/mstyle.c (mstyle_destroy): Add safe catch for NULL pointers.
+
+	* src/sheet-style.c (sheet_destroy_styles): moved & made global,
+	unref mstyles not destroy + precondition on ref_count.
+
+	* src/sheet.c (sheet_destroy_styles): Moved.
+
+1999-10-11  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/style.c (style_mstyle_new): Re-initialize background color
+	so it doesn't crash !!!
+
+	* src/item-grid.c (item_grid_draw_cell): add check on back_color.
+
+	* src/sheet-style.c (sheet_uniq_cb): update.
+
+	* src/ranges.c (range_fragment_free): implement.
+	(range_clip, range_fragment): Implement - grief.
+
+	* src/cell.c (cell_get_span): print the unknown type.
+	(cell_get_horizontal_align): fixup.
+
+	* src/sheet-style.c (sheet_selection_get_uniq_style): quiten.
+	(sheet_uniq_cb): Add, (sheet_selection_get_uniq_style): check all
+	selection ranges; fix leak.
+
+1999-10-11  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/Gnumeric.idl: Add a variable name for datanotify so it compiles!
+	kill redundant (void) on count.
+
+1999-10-11  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/mstyle.c (mstyle_equal): add quick initial pointer equality test.
+	(mstyle_element_equal): add precondition + debug.
+	(mstyle_elements_equal): add debug.
+
+	* src/sheet-style.c (sheet_style_optimize): Actualy remove culled
+	regions from the sheet style list as well as the temporary one.
+
+1999-10-10  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet-style.c (sheet_style_optimize): fix big leak.
+	(sheet_style_optimize): fix _stupid_ bug killing the optimizer.
+	re-hash order things are done in + add failed merge case.
+	(sheet_selection_apply_style_cb): add optimize.
+	(sheet_style_optimize): fix mamouth drop-through bug.
+
+	* src/mstyle.c (mstyle_elements_equal): update.
+
+	* src/sheet-style.c (sheet_style_attach): make debug look nice.
+
+1999-10-10  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/mstyle.c (mstyle_element_dump): dump the default name instead.
+	(check_sorted): quieten.
+
+	* src/sheet-style.c (sheet_style_attach): remove n*n equality
+	check + move into sheet_style_optimize.
+	(sheet_style_optimize): Add equal range merging.
+	(sheet_style_compute_blank): kill debug.
+	Add new debugging macro throught.
+
+	* src/ranges.c (range_adjacent): add pre-conditions.
+	(range_merge): implement.
+
+	* src/mstyle.c (mstyle_element_equal): Implement.
+	(mstyle_elements_equal, mstyle_equal): ditto.
+	(mstyle_new_elems, dump_style_list): add casts.
+
+1999-10-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/style.c (style_mstyle_new) : Init background color to NULL for
+	  now.
+
+	* src/dialogs/dialog-cell-format.c (set_color_picker_from_style) :
+	  Don't warn about unset colours.
+
+	* src/item-grid.c (item_grid_draw_cell) : Draw borders.
+
+	* src/border.[ch] : Since stipples won't work, we don't need
+	  is_vertical.
+	(border_draw) : new function.
+
+	* src/mstyle.c (mstyle_element_dump) : Add borders.
+
+	* src/sheet-style.c : Kill some warnings and make it compile.
+
+	* src/style.c (style_new) : Support borders.
+	(style_mstyle_new) : Ditto.
+
+1999-10-09  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet-style.c (sheet_style_optimize): hack.
+
+	* src/ranges.c (range_adjacent): implement.
+
+	* src/sheet.c (sheet_cell_add): Kill complexity: sorted.
+
+	* src/cell.c (cell_get_span): Fixup.
+
+	* src/xml-io.c (xml_write_style_region): use mstyle_get_elements.
+	(xml_write_style_border, xml_write_style): constify.
+
+	* src/mstyle.c (mstyle_new): update + init array.
+	(mstyle_new_array, mstyle_add_array): kill.
+	(mstyle_merge): implement. (mstyle_add): add preconditions + implement.
+	(mstyle_set): update. (mstyle_to_string): update.
+	(mstyle_new_elems, mstyle_get_elements): implement.
+
+	* src/sheet.h (MStyle): kill GArray + move all into mstyle:PrivateStyle.
+
+1999-10-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/border.[ch] : Add a reasonable approximation of the XL border styles.
+
+	* src/mstyle.[ch] : Add more border line styles.
+	  Add placeholders for diagonal and reverse diagonal borders.
+	  Add placeholder for 'pattern' colour vs background colour.
+	  Moved COLOR_FORE into the section not visibile in a blank cell.
+
+	* src/xml-io.c : Switch to new border scheme.
+
+1999-10-09  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/mstyle.c (mstyle_element_copy): implement.
+	(mstyle_element_destroy): ditto.
+
+	* src/sheet-style.c (sheet_style_attach): Complicate :-)
+
+	* src/mstyle.h (MSTYLE_ANY_COLOR, MSTYLE_ANY_BORDER): add to help.
+
+1999-10-08  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet-style.c (sheet_selection_apply_style_cb): add.
+	(sheet_selection_apply_style): fix.
+
+	* src/selection.c (selection_foreach_range): Implement.
+
+1999-10-08  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet.c (sheet_delete_col): hack up.
+
+	* src/item-grid.c (item_grid_paint_empty_cell): cull stuff.
+
+	* src/corba-sheet.c (Sheet_cell_get_format, Sheet_cell_get_font): fix.
+
+	* configure.in: Fixup bonobo check.
+
+1999-10-07  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/mstyle.c (check_sorted): update check & add comment.
+
+	* src/ranges.c (range_overlap): implement.
+	(range_fragment): stubbed.
+
+	* src/sheet-style.c (sheet_selection_get_uniq_style): Use range_overlap.
+
+	* src/style.h (DEFAULT_SIZE, DEFAULT_SIZE): move here from style.c
+
+	* src/workbook-format-toolbar.c (workbook_feedback_set): Set
+	non bold / italic as the default + kill warning + add default size.
+
+	* src/xml-io.c (xml_read_style_border, xml_write_style_border):
+	in-line border structure.
+
+	* src/style.c (style_hash, style_compare): kill
+	(style_new, style_mstyle_new, style_destroy, style_duplicate): 
+	remove old border (style_merge_to): cull.
+	(border_hash, style_init, style_shutdown): kill border bits.
+	(border_equal): ditto.
+
+	* src/sheet-autofill.c (autofill_cell): comment out style bits.
+
+	* src/item-grid.c (item_grid_draw_cell): Kill debug border rendering.
+
+	* src/print-cell.c (print_border, print_cell_border): #ifdef out.
+	(print_cell): comment out border call.
+
+	* src/mstyle.h: Make borders in-line structures.
+
+	* src/style.c (style_border_new_plain, style_border_new),
+	(style_border_ref, style_border_unref): kill.
+
+	* src/style.h: Kill StyleBorderOrient + StyleBorder in favor
+	of MStyleBorder.
+
+	* src/corba-sheet.c (cb_range_set_format): kill.
+	(Sheet_range_set_format): fixup.
+
+	* src/mstyle.c (mstyle_unref, mstyle_ref): Implemented.
+
+	* src/sheet.h: Add ref-count to MStyle.
+
+	* src/ranges.c (range_list_foreach_full): typo.
+	(range_style_apply_cb, range_set_style): Add.
+
+	* src/corba-sheet.c (Sheet_cell_set_font): cut.
+	(Sheet_cell_set_comment): re-enable.
+	(Sheet_cell_get_font): implement.
+	(Sheet_cell_get_font, Sheet_cell_set_background),
+	(Sheet_cell_get_background, Sheet_cell_get_pattern),
+	(Sheet_cell_set_pattern, Sheet_cell_set_alignment),
+	(Sheet_cell_get_alignment): deprecated.
+	(Sheet_range_set_format): Implemented.
+
+	* src/cell.h: Comment out the old cell_set_* API except for
+	cell_set_format*.
+
+	* src/cell.c (cell_get_horizontal_align): Fixup.
+	(cell_set_formula): hack format setting.
+	(cell_set_format_simple): fixup.
+
+1999-10-07  Jon K Hellan  <Jon.K.Hellan@item.ntnu.no>
+
+        * dialog-cell-format.c 
+        (create_number_format_page, create_font_page): 
+        Make <Enter> in entry fields invoke default button
+
+        * dialog-cell-format.c 
+        (format_find): Select line in categorylist.     
+        (format_number_select_row): Initial list selection happens before
+        property box is created, so check before notifying it.
+
+        * dialog-cell-format.c 
+        (dialog_cell_format): Initial focus.
+        (dialog_cell_format, struct cell_format_pages): 
+        New signature for create_page.
+        (create_number_format_page, create_align_page, create_font_page,
+        create_coloring_page): New out parameter focus_widget: The widget
+        to receive initial focus if page is current when notebook pops up.
+
+1999-10-07  Jon K Hellan <Jon.K.Hellan@item.ntnu.no>
+
+	* src/dialogs/dialog-analysis-tools.c (hbox_pack_label_and_entry):
+	moved.
+
+	* src/dialogs/dialog-solver.c (add_strings_to_glist): moved.
+	
+	* src/dialogs/utils-dialog.[ch]: Added.
+
+	* src/dialogs/Makefile.am: ditto.
+
+1999-10-07  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/xml-io.c (xml_write_styles): create; untested.
+	(font_component): kill.
+
+1999-10-06  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/xml-io.c (parse_xml_context_t): Remove hash table of styles +
+	style count: redundant now. (xml_write_style): majorly hacked.
+	(xml_write_style_border): ditto. (xml_read_style_region): ditto.
+	(xml_read_style): huge mangle. (xml_read_style_border): ditto.
+	(xml_write_cell): kill style write per cell, (xml_read_cell): ditto, lots.
+	(xml_cell_styles_init): remove; sluggish style hash (add_style): ditto.
+	(xml_sheet_write): kill  (xml_cell_styles_shutdown): die.
+	(xml_sheet_write): kill call.
+	(xml_read_cell_styles): kill (xml_sheet_read): + call.
+	(xml_dispose_read_cell_styles): kill (xml_sheet_read): + call.
+	(destroy_style): die. (style_font_new_from_x11): remove: unused.
+	(xml_sheet_write): add xml_write_styles call.
+
+	* src/mstyle.c: Add array of style names.
+
+1999-10-05  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet.c (sheet_update_controls): Use new workbook_feedback_set.
+
+	* src/workbook-format-toolbar.c (workbook_feedback_set): Pass the style
+	element array instead + hack to use this.
+
+1999-10-04  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet-style.c (sheet_selection_apply_style): renamed.
+
+	* src/dialogs/dialog-cell-format.c (set_color_picker_from_style): created.
+	(create_coloring_page): simplify & update.
+	(apply_coloring_format): 
+
+1999-10-04  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/dialogs/dialog-cell-format.c (dialog_cell_format): Update style
+	stuff. (cells_get_format): remove (create_number_format_page): update.
+	(create_align_page): update. (apply_align_format): update.
+	(apply_number_formats): ditto. (apply_font_format): re-implemented &
+	commented out large chunks of stuff.
+	(create_font_page): update: needs work. (create_coloring_page): update.
+
+1999-09-29  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/mstyle.c (mstyle_do_merge): Updated API & stuff.
+	(render_merge, render_merge_blank): change slightly.
+
+	* src/workbook-format-toolbar.c: use sheet_apply_style_to_selection.
+
+	* src/sheet-style.c: Create,
+	(sheet_style_attach_old): Remove.
+	(sheet_apply_style_to_selection): Add.
+
+	* src/ranges.c (range_set_style): Remove.
+
+	* src/corba-sheet.c (Sheet_range_set_format): comment out.
+
+	* src/workbook.c (workbook_init): initialise clipboard.
+
+1999-09-28  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/workbook-format-toolbar.c (set_selection_halign): fixup.
+
+	* src/style.h: New expandable border setup.
+
+	* src/mstyle.h: Expand to full set of types.
+
+1999-09-28  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/workbook-format-toolbar.c (change_selection_font): re-implement.
+
+	* src/mstyle.c (dump_style_list): Add. (check_sorted): use it.
+
+	* src/xml-io.c (xml_write_names): remove unused 'm'
+	(xml_write_cell, xml_read_style_region): hacked.
+	(xml_read_cell, add_style): ditto.
+
+	* src/ranges.c (range_set_style): use attach_old.
+
+	* src/sheet.c (sheet_style_attach): Use a Range.
+	(sheet_style_attach_old): Deprecated copy.
+
+	* src/workbook-format-toolbar.c (change_selection_font, set_new_font),
+	(set_font_size, modify_cell_format, set_cell_fore_color),
+	(set_cell_back_color): use cell_get_style.
+	(apply_style_to_selection): update to MStyle.
+	(apply_style_to_range): Update.
+	Seriously hack style apply code.
+
+	* src/sheet-autofill.c (autofill_cell): cell_get_style.
+
+	* src/print-cell.c (print_cell): cell_get_style.
+
+	* src/corba-sheet.c: style API dummied out.
+
+	* src/functions/fn-information.c (gnumeric_cell): cell_get_style.
+
+	* src/sheet.c (zoom_cell_style): kill for now. (sheet_cell_add): 
+	hack more.
+
+	* src/cell.h: kill public style element.
+
+	* src/cell.c (cell_destroy): ditto.
+
+	* src/dialogs/dialog-cell-format.c (cells_get_format),
+	(create_align_page, create_coloring_page): use cell_get_style.
+
+	* src/item-grid.c (item_grid_paint_empty_cell): Kill default style
+	check.
+
+	* src/sheet.c (sheet_cell_add): comment out style bits.
+	(sheet_destroy_styles): mstyle_destroy.
+	(sheet_set_zoom_factor): add warning.
+
+	* src/print-cell.c (print_empty_cell): fix style_compute.
+	(print_cell_text): use cell_get_style.
+
+	* src/workbook.h: Remove old inline 'style' in Workbook.
+
+	* src/xml-io.c (xml_workbook_write, xml_workbook_read): ditto.
+
+	* src/sheet.h: move range dependant Style bits here + include glib.h
+	
+	* src/style.h: Split typedefs from enum's & structs 
+
+1999-09-27  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/style.c (mstyle_style_new): add. (style_new): deprecate.
+
+	* src/mstyle.[ch]: Created.
+
+	* src/item-edit.c (item_edit_update): fix style_compute.
+
+	* src/item-grid.c (item_grid_paint_empty_cell): ditto.
+
+	* src/clipboard.c (paste_cell_flags): Hack.
+
+	* src/cell-draw.c (sheet_view_font, cell_draw): use cell_get_style
+
+	* src/sheet.c (sheet_style_compute): remove non_default_style_flags
+	argument.
+
+	* src/cell.c (cell_render_value, cell_get_text): Use cell_get_style
+	(cell_set_formula, cell_calc_dimensions): ditto.
+	(cell_get_style): implement.
+
+1999-10-07  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_compute_visible_ranges):
+	Fix typo here.
+
+1999-10-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_find_row,
+	item_grid_find_col) : Return a value in the overflow case.
+
+	From : Jon K Hellan  <Jon.K.Hellan@item.ntnu.no>
+
+	* src/dialogs/dialog-zoom.glade: Place sheet list inside frame. 
+	  Use frame label, not list column label.
+	  Add padding.
+	  Use 0 height drawing area to set minimum width of spin button.
+
+1999-10-06  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/workbook-format-toolbar.c (change_selection_font): Remove
+	ants when we change the font.
+	(set_selection_halign): And when we change the alignment.
+
+	Many more left to be removed.  Left as an excercise to Jody :-)
+
+	* src/sheet.c (sheet_start_editing_at_cursor): remove ants when we
+	start entering new text.
+
+	* src/sheet-view.c (sheet_view_selection_unant): Destroys the
+	anted cursors from the sheet view.
+	(sheet_view_selection_ant): Adds cursors to the sheetview.
+	(sheet_view_construct): New group that is used to hold the
+	selection-ant items.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Kill ants
+	on escape.
+	(gnumeric_sheet_key_mode_object): ditto.
+
+	* src/selection.c (sheet_selection_unant): New function, kills the
+	selection ants.
+	(sheet_selection_ant): New function, adds an anted selection to
+	all the selected regions.
+
+	* src/clipboard.c (do_clipboard_paste_cell_region): Do not paste
+	beyond sheet boundaries.
+
+	* src/item-grid.c (item_grid_find_row): Do not go beyond sheet boundaries.
+	(item_grid_find_col): ditto.
+
+	* configure.in: Generate gnumeric.desktop
+
+	* gnumeric.desktop.in: New file, used to choose the correct
+	gnumeric/gnumeric-bonobo executable name.
+
+	* src/sheet-object-item.c: Updated to fit with the new Bonobo
+	changes. 
+
+1999-10-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-zoom.c (dialog_zoom_impl) : Have the custom zoom
+	  spinbox call 'Ok' when enter is pressed.
+
+	* src/sheet.c (sheet_destroy_contents) : Fix typo causing memory
+	  corruption.
+
+	* src/sheet.h : Decrease SHEET_MAX_ROWS to 16k until we can tune
+	  memory usage.
+
+	From : Jon K Hellan  <Jon.K.Hellan@item.ntnu.no>
+
+	* src/dialogs/dialog-printer.c (gnumeric_printer_dialog_run): 
+	  Workbook: New parameter
+	  Set initial focus.
+	  Make <Enter> in entry fields invoke default button.
+	  Specify the app as the parent.
+
+	* src/dialogs/dialog-printer.h (gnumeric_printer_dialog_run): 
+	  Change signature
+
+	* src/print.c (sheet_print): 
+	  gnumeric_printer_dialog_run has new signature
+
+	* src/dialogs/dialog-sovler.c (add_strings_to_glist): Remove
+	(add_radio_buttons): Remove unnecessary "_()"
+	(dialog_solver_options, dialog_solver): Add missing "_()"
+
+	* src/dialogs/utils-dialog.c: New file
+	(ut_dia_entry_new_with_max_length, ut_dia_entry_new): 
+	  Create entry fields where <Enter> activates the default button
+	(hbox_pack_label_and_entry): Move from dialog-analysis-tools.c
+	(add_strings_to_glist): Move from dialog-solver.c
+
+	* src/dialogs/utils-dialog.h: New file
+	(hbox_pack_label_and_entry, add_strings_to_glist): Move from tools.h
+
+	* src/dialogs/dialog-cell-comment.c (dialog_cell_comment): 
+	  Make OK button the default.
+
+	* src/dialogs/dialog-cell-sort.c (order_box_new):  
+	  Make <Enter> in entry field invoke default button.
+
+	* src/dialogs/dialog-define-names.c (dialog_define_names): 
+	  Make <Enter> in entry field invoke default button.
+	  Specify the app as the parent.
+
+	* src/dialogs/names.glade: ok button needs "can_default".
+
+	* src/dialogs/dialog-summary.c (dialog_summary_update): 
+	  Make <Enter> in entry fields invoke default button.
+
+	* src/dialogs/summary.glade: Make OK button the default.
+	  Change widget names used by program to avoid inadvertent
+	  translation. 
+
+	* src/dialogs/dialog-analysis-tools.c 
+	(new_dialog): Make OK button the default
+	(dialog_data_analysis): Initial focus and selection, Make OK button
+	  the default.
+	(add_check_buttons, add_output_frame, dialog_sampling_tool): Make
+	  <Enter> in entry field invoke default button
+	(hbox_pack_label_and_entry): Move to utils-dialog.c
+	(dialog_random_tool): Replace pack_label_and_entry with
+	  hbox_pack_label_and_entry  
+	(pack_label_and_entry): Remove
+
+	* src/dialogs/dialog-goal-seek.c (dialog_found_solution, 
+	dialog_goal_seek): Make OK button the default
+	(dialog_goal_seek): Make <Enter> in entry field invoke default button.
+
+	* src/dialogs/dialog-paste-special.c (dialog_paste_special): 
+	  Initial focus
+
+1999-10-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_destroy_contents) : Mark freed segments with
+	  NULL.
+
+	* src/selection.c (selection_contains_colrow) : New function.
+	* src/item-bar.c (item_bar_event) : Use it.
+
+	From : Jon K Hellan  <Jon.K.Hellan@item.ntnu.no>
+
+	* src/dialogs/{insert,delete}-cells.glade : New files.
+	* src/dialogs/dialog-{insert,delete}-cells.c : Switch from using
+	  Cauldron to using libglade.
+
+	* src/plugin-manager.c (plugin_manager_new): 
+	  Go away on <Esc>, set initial focus.
+
+	* src/dialogs/sheet-rename.glade: Made OK button default.
+
+	* dialog-simple-input.c (dialog_get_number): gnome_dialog_run instead
+	  of run_and_close - otherwise entry widget is destroyed before it is
+	  read.  Make <Enter> in entry field activate default button.
+	(dialog_get_sheet_name) : Ditto.
+
+	* src/workbook.c (workbook_rename_sheet): Update notebook label
+
+	* src/workbook-cmd-format.c 
+	(workbook_cmd_format_column_width,
+	 workbook_cmd_format_row_height): Off by one error.
+
+1999-10-04  Jody Goldberg <jgoldberg@home.com>
+	From: Nick Lamb <njl98r@ecs.soton.ac.uk>
+
+	* src/cursors.c (cursors_init, create_bitmap_and_mask_from_xpm) :
+	  A small patch to invert the logic when handling black vs white in
+	  cursors.  This works around a problem with some Xservers.
+	  Bug 808.
+
+1999-09-30  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/Gnumeric-value.idl: New file, move the value structure
+	definition here. 
+
+	* src/Gnumeric.idl: Add new interface for data access.
+	
+	* src/value-sheet.c: New file.  Moved here the value code that
+	uses a Sheet directly.
+	(value_dump): moved here.
+	(value_cellrange_get_as_string): ditto.
+	(encode_cellref): ditto.
+	(value_area_get_width): ditto.
+	(value_area_get_height): ditto.
+	(value_area_get_x_y): ditto.
+	(constants_init): ditto.
+	(value_area_foreach): ditto
+	(wrapper_foreach_cell_in_area_callback): ditto.
+	(value_area_fetch_x_y): ditto.
+
+1999-10-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (sheet_action_delete_sheet) : Use a
+	  workbook_expr_relocate to invalidate references to the contents of
+	  the deleted sheet.
+	(cb_sheet_erase) : Renamed to cb_sheet_destroy_contents.
+
+	* src/sheet.c (sheet_destroy_contents) : Renamed from
+	  sheet_destroy_columns_and_rows.  Delete the cells directly
+	  from the hash.  Don't use a range.
+
+	* src/cellspan.c (row_destroy_span) : Set deleted span hash to NULL.
+
+	* src/sheet.c (sheet_destroy_columns_and_rows) : Wipe all row spans
+	  in one stage to avoid looking them up one by one.
+
+1999-10-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-delete-cells.c (dialog_delete_cells) :
+	  Specify the app as the parent.
+	* src/dialogs/dialog-insert-cells.c (dialog_insert_cells) :
+	  Ditto.
+
+	* src/expr.[ch]  : (cell_ref_restore_absolute,
+	  cell_in_range, do_expr_tree_invalidate_references,
+	  expr_tree_invalidate_references, fixup_calc_new_cellref,
+	  do_expr_tree_fixup_references, expr_tree_fixup_references) : Delete.
+
+	  (cellref_relocate) : Rewrite to support intersheet,
+	    moves, invalidation, and references to and from moving cells.
+	  (expr_relocate) : Use new cellref_relocate.
+
+	 * src/workbook.[ch] (workbook_fixup_references,
+	   workbook_invalidate_references) : Delete.
+	 (workbook_expr_relocate) : Replace with.
+
+1999-10-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/{selection.c, collect.c, complex.c } : Add include config.h.
+	  So that we get the right #defines when including Workbook
+	  in a bonobo envirnoment.
+
+	From : Jon K Hellan <Jon.K.Hellan@item.ntnu.no>
+	* src/dialogs/{col-width, dialog-zoom, names,
+		     row-height, sheet-rename, summary}.glade :
+	  Dialogs made with glade pop up for a moment in one position before
+	  being moved to the proper place. This is fixed by setting "Visible" to
+	  False in Glade.
+
+	* src/print.c (print_page) : Make func pointer match new signature
+	  for sheet_col_get_info.
+
+1999-10-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.h : Add ColRowCollection, a structure to store
+	  a segmented array of ColRowInfo *, and some of the other
+	  useful information, like max_element, and default_style.
+
+	  Rename data to 'spans' to facilitate removing dependancies
+	  on old name.
+
+	  Renumbered the CELL_ flags now that CELL_ERROR is gone.
+
+	* plugins/* : Switch to ColRowCollection.
+	* src/print.c : Ditto.
+	* src/value.c : Ditto.
+	* src/xml-io.c : Ditto.
+	* src/dialogs/dialog-cell-format.c : Ditto, and use sheet_foreach_colrow.
+	* src/sheet-view.c : Ditto.  Use sheet_{row,col}_fetch and document
+	  why they are called.
+	(sheet_view_scrollbar_display) : ifdef out untill some one wants it.
+
+	src/dialogs/dialog-solver.c : Add include "tools.h"
+
+	* src/sheet.[ch] : Massive reorg.
+	  Rows and Cols are no longer in lists they are in segmented arrays.
+	  Cols don't have lists of cells in them.
+	  All the insert/delete row/col code was redone and simplified.
+	  The Shift row/col is broken pending the merge with the new copy
+	  code.
+
+	* src/cellspan.c : Switch from 'data' to 'spans'
+
+	* src/clipboard.c : Use boolean, not integer '1'
+
+	* src/corba-sheet.c : Switch to ColRowcollection.
+	(Sheet_cell_get_background) : #ifdef until this is implemented.
+
+	* src/embeddable-grid.c (grid_view_new) : Add a cast to silent
+	  warning.
+
+	* src/item-grid.c (item_grid_draw_cell) : Paint the borders After
+	  contents.  They still don't work, but this is slightly better.
+
+	* src/expr.c (do_expr_tree_fixup_references) : Partial patch that fixes
+	  the common case and probably breaks the uncommon.  Refs to
+	  cells/ranges on the current sheet have sheet == NULL.  The
+	  destination specifies the sheet, so only references on a different
+	  sheet were fixed.  When I rework this code for use by the 'move'
+	  operation I'll fix it.
+
+	* src/gnumeric-sheet.c (move_cursor) : Move the cursor before making
+	  the area visible, Reset the selection after the motion.
+
+1999-09-27  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_draw) : Don't attempt to paint past
+	  SHEET_MAX_{ROWS,COLS}.
+	* src/gnumeric-sheet.c (gnumeric_sheet_compute_visible_ranges) :
+	  Ditto.
+	(move_cursor) : Set the cursor before making the area visible so that
+	  the scrollbars know the real position.
+
+1999-09-26  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/print-preview.c (print_preview_new): Removed warning/
+
+1999-09-26  Morten Welinder  <terra@diku.dk>
+
+	* src/cell.c (cell_relocate): Plug leak.
 
 1999-10-18  Morten Welinder  <terra@diku.dk>
 

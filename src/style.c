@@ -360,7 +360,8 @@ style_new (void)
 }
 
 Style *
-style_new_mstyle (MStyle *st, guint len, gdouble zoom)
+style_new_mstyle (MStyle *st, guint len,
+		  gdouble zoom)
 {
 	Style *style;
 

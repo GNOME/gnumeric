@@ -1114,13 +1114,9 @@ selection_foreach_range (Sheet *sheet,
 }
 
 static gboolean
-cb_set_row_height(Sheet *sheet, ColRowInfo *info, void *_height)
+cb_set_row_height(Sheet *sheet, ColRowInfo *info, void *height)
 {
-	double height = *(double *) _height;
-	
-	if (height > info->units)
-		sheet_row_set_internal_height (sheet, info, height);
-	
+	sheet_row_set_internal_height (sheet, info, *((double *)height));
 	return FALSE;
 }
 

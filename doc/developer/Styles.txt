@@ -1,0 +1,80 @@
+A discussion of the new Style code
+
+  Michael Meeks <mmeeks@gnu.org>
+
+
+1.
+
+	In order to solve several of the problems associated with blank cells
+and to simplify the way styles are handled the following approach has been
+adopted:
+
+1.1	How to use the new code:
+
+	A new style element array is used see: sheet.h:MStyle,
+mstyle.h: MStyleElement.
+
+	In order to apply a Style to a region the following steps are needed
+
+	a) Create the style:
+
+	   MStyle *style = mstyle_new (NULL);
+
+		The NULL pointer is for future expansion with named styles,
+	and should always be NULL for now.
+
+	b) Add elements:
+
+	   MStyleElement e;
+	   e.type = MSTYLE_FONT_NAME;
+	   e.u.font.name = string_get ("My font name");
+	   mstyle_add (style, e);
+
+		So, a new style element is created, and ( this being a pointer
+	case ) it is neccessary to duplicate the pointer you pass. NB. this
+	also applies to things such as StyleColors, these need to be re -
+	referenced if you plan to put _the same_ style color pointer into
+	lots of different style elements ( this would be an odd thing to do )
+
+	c) Specify the range:
+
+	   Range range
+
+	   range.start.col = 0;
+	   range.start.row = 0;
+	   range.end.col   = 5;
+	   range.end.row   = 5;
+
+		This specifies A1:F6.
+
+	d) Attach it to the sheet:
+
+	   sheet_style_attach (sheet, range, style);
+	
+	Alternatively, if you are feeling evil and want to make life difficult
+	then use:
+
+	   cell_set_style (cell, style);
+	
+	be aware that this _drasticaly_ fragments the style space, so every
+	now and then you need to do a:
+
+	   sheet_style_optimize (sheet, Range);
+
+	where Range covers a small range that you have set styles in that
+	overlaps with the last range you called optimize on by 1 col/row.
+	This will auto-coalesce your ranges, but is of order 3*n*n where n
+	is the number of styles in the range. Be warned.
+
+1.2	Discussion of how it works
+
+		At the moment the short answer is read the code, you will
+	need to see:
+
+	     sheet-style.c ( all ), mstyle.c ( all )
+	     style.c:style_mstyle_new.
+
+	        style_mstyle_new is a function to ease transition to the new
+	style architecture, and will in due course be phased out I think,
+	for now it is used to map an MStyleElement array to an old fashion
+	'Style *'.

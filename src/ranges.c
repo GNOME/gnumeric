@@ -537,6 +537,14 @@ range_split_ranges (const Range *hard, const Range *soft)
 	return g_list_prepend (split, middle);
 }
 
+static Range *
+range_copy (const Range *a)
+{
+	Range *r = g_new (Range, 1);
+	memcpy (r, a, sizeof (Range));
+	return r;
+}
+
 /**
  * range_fragment:
  * @ranges: A list of possibly overlapping ranges.
@@ -551,6 +559,9 @@ range_fragment (const GList *ra)
 	GList *ranges = NULL;
 	GList *a; /* Order n*n: ugly */
 
+	if (!g_list_next (ra)) /* Only 1 element */
+		return g_list_append (NULL, range_copy (ra->data));
+
 	for (a = (GList *)ra; a; a = g_list_next (a)) {
 		GList *b;
 		b = g_list_next (a);
@@ -561,7 +572,7 @@ range_fragment (const GList *ra)
 			 * FIXME: we need to cull equal ranges to save time
 			 * and effort.
 			 */
-			if (range_equal (a->data, b->data)
+			if (!range_equal (a->data, b->data)
 			    & range_overlap (a->data, b->data)) {
 				GList *split;
 

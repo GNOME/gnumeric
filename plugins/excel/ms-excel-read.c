@@ -827,11 +827,9 @@ ms_excel_palette_get (ExcelPalette *pal, guint idx, StyleColor *contrast)
 		printf ("Color Index %d\n", idx);
 	}
 #endif
-	if (idx == 0 || idx == 64 || idx ==127)
-	{
+	if (idx == 0 || idx == 64 || idx == 127) {
 		/* These seem to be some sort of automatic contract colors */
-		if (contrast)
-		{
+		if (contrast) {
 			/* FIXME FIXME FIXME : This is a BIG guess */
 			/* Is the contrast colour closer to black or white based
 			 * on this VERY loose metric.
@@ -889,6 +887,7 @@ ms_excel_palette_get (ExcelPalette *pal, guint idx, StyleColor *contrast)
 			pal->gnum_cols[idx] = style_color_new (r, g, b);
 			g_return_val_if_fail (pal->gnum_cols[idx], NULL);
 		}
+		style_color_ref (pal->gnum_cols[idx]);
 		return pal->gnum_cols[idx];
 	}
 	return NULL;
@@ -1091,10 +1090,7 @@ ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 	g_return_if_fail (back && fore);
 
 	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, fore);
-	style_color_ref (fore);
-
 	mstyle_set_color (mstyle, MSTYLE_COLOR_BACK, back);
-	style_color_ref (back);
 
 	range.start.col = col;
 	range.start.row = row;
