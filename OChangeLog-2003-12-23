@@ -1,3 +1,20 @@
+2000-05-08  Jon K Hellan  <hellan@acm.org>
+
+	* src/file.c (cb_select): New callback: Make double click on list
+	in import filter chooser works like "OK".
+	(workbook_import): Back when we first started using glade, we used
+	a hack to avoid flicker when popping up the filter chooser. We now
+	know how to do it right, and remove the hack.
+	(workbook_import): Connect callback to handle double click.
+	(workbook_import): Fix bug: return value from import would clobber
+	return value from dialog_run. We now close dialog after retrieving
+	selection, but before importing.  We really should keep the dialog
+	up until user either succeeds with import or explicitly
+	cancels. But we let that wait. This behaviour should be
+	implemented in a lot of places in a coordinated way.
+	(workbook_import): Do not destroy workbook after WM close - it is
+	already destroyed.
+
 2000-05-08  Morten Welinder  <terra@diku.dk>
 
 	* configure.in (gnome-print): Survive version "0.19cvs".

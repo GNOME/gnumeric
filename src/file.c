@@ -285,6 +285,16 @@ workbook_read (CommandContext *context, const char *filename)
 	return wb;
 }
 
+static void
+cb_select (GtkWidget *clist, gint row, gint column,
+	   GdkEventButton *event, GtkWidget *dialog)
+{
+	/* If the filter is double-clicked we proceed with importing and
+           dismiss chooser. */
+	if (event && event->type == GDK_2BUTTON_PRESS)
+		gtk_signal_emit_by_name (GTK_OBJECT (dialog), "clicked", 0);
+}
+
 /*
  * Lets the user choose an import filter for @filename, and
  * uses that to load the file
@@ -295,8 +305,9 @@ workbook_import (CommandContext *context, Workbook *parent,
 {
 	Workbook *wb = NULL;
 	GladeXML *gui;
-	GtkWidget *dialog, *contents, *hack_dialog;
+	GtkWidget *dialog;
 	GtkCList *clist;
+	FileOpener *fo = NULL;
 	int ret, row;
 	GList *l;
 	
@@ -304,20 +315,7 @@ workbook_import (CommandContext *context, Workbook *parent,
 	if (gui == NULL)
 		return NULL;
 
-	/* Hack to get round libglade's bad handling of gnome-dialogs */
-	contents = glade_xml_get_widget (gui, "contents");
-	hack_dialog = glade_xml_get_widget (gui, "import-dialog");
-
-	gtk_widget_hide (GTK_WIDGET (hack_dialog));
-
-	dialog = gnome_dialog_new ("Import File", GNOME_STOCK_BUTTON_OK,
-				   GNOME_STOCK_BUTTON_CANCEL, NULL);
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog),
-				 GTK_WINDOW (parent->toplevel));
-
-	gtk_widget_reparent (contents, GTK_WIDGET (GNOME_DIALOG (dialog)->vbox));
-	gtk_widget_show (contents);
-	/* End of hack */
+	dialog = glade_xml_get_widget (gui, "import-dialog");
 
 	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
 
@@ -339,20 +337,26 @@ workbook_import (CommandContext *context, Workbook *parent,
 
 		row++;
 	}
-
+	gtk_signal_connect (GTK_OBJECT(clist), "select_row",
+			    GTK_SIGNAL_FUNC(cb_select), (gpointer) dialog);
+		
 	gtk_widget_grab_focus (GTK_WIDGET (clist));
 
 	ret = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 
 	if (ret == 0 && clist->selection) {
-		FileOpener *fo;
 		int sel_row;
-		char * template;
 		
 		sel_row = GPOINTER_TO_INT (clist->selection->data);
-		
 		fo = gtk_clist_get_row_data (clist, sel_row);
+	}
+	
+	if (ret != -1)
+		gnome_dialog_close (GNOME_DIALOG (dialog));
 		
+	if (fo) {
+		char * template;
+
 		wb = workbook_new ();
 		template = g_strdup_printf (_("Could not import file %s\n%%s"),
 					    filename);
@@ -371,11 +375,6 @@ workbook_import (CommandContext *context, Workbook *parent,
 			workbook_set_dirty (wb, FALSE);
 	}
 
-	if (ret != -1)
-		gnome_dialog_close (GNOME_DIALOG (dialog));
-	else
-		gtk_widget_destroy (GTK_WIDGET (dialog));
-		
 	gtk_object_unref (GTK_OBJECT (gui));
 
 	return wb;
