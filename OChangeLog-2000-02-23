@@ -1,3 +1,7 @@
+1999-08-11  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Implemented FREQUENCY().
+
 1999-08-09  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/xml-io.c (xml_workbook_write): Handle locale switching here.
@@ -39,8 +43,7 @@
 	array values.
 
 	* samples/dbfuns.xls: Added a test for GETPIVOTDATA function.
-	Also added a very simple pivot table.  Happy hacking if you want
-	to make it work.
+	Also added a very simple pivot table.
 	
 1999-08-10  Michael Meeks  <michael@imaginator.com>
 

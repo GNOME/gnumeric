@@ -5,6 +5,7 @@ Jukka:
 	* Implemented MDETERM and MINVERSE matrix functions.
 	* Finished the ROMAN function completing the mathematical
           functions.
+	* Implemented FREQUENCY function.
 
 Michael:
 	* Added GUI for Summary Info.
