@@ -10,6 +10,7 @@ Jody:
 Morten:
 	* Clean up SERIESSUM.
 	* Fix crash during xml save.
+	* Fix elusive dependency leak.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.10
