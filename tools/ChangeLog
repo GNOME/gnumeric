@@ -1,3 +1,7 @@
+2002-06-20  Morten Welinder  <terra@diku.dk>
+
+	* check-config-h.pl (guess_config_file): New function.
+
 2002-06-19  Morten Welinder  <terra@diku.dk>
 
 	* import-R (import_file): Remove some old hacks that are no longer

@@ -33,7 +33,7 @@ use strict;
 use Getopt::Long;
 
 my $exitcode = 0;
-my $configfile = "gnumeric-config.h";
+my $configfile = &guess_config_file ();
 my $configfileregexp = '[' . join ('][', split (//, $configfile)) . ']';
 
 my $edit = 0;
@@ -89,3 +89,20 @@ if (@missing_files) {
 }
 
 exit $exitcode;
+
+# -----------------------------------------------------------------------------
+
+sub guess_config_file {
+    local (*FIL);
+    $configfile = "config.h";
+    open (*FIL, "<configure.in") || return $configfile;
+    while (<FIL>) {
+        if (/^AM_CONFIG_HEADER\((.*)\)/) {
+            $configfile = $1;
+        }
+    }
+    close (FIL);
+    return $configfile;
+}
+
+# -----------------------------------------------------------------------------
