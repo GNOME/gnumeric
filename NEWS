@@ -3,8 +3,9 @@ Gnumeric 1.2.7
 Jean Brefort:
 	* Added bubble plots options.
 
-  Emmanuel Pacaud:
- 	* Fix rounding issue for markers in xy plots (partly fix 135621)
+Emmanuel Pacaud:
+ 	http://bugzilla.gnome.org/show_bug.cgi?id=135621
+ 	* Fix rounding issue for markers in xy plots and for axis ticks.
 	
 Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=97216
