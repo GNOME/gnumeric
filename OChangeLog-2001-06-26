@@ -1,3 +1,7 @@
+2000-10-28  Michael Meeks  <michael@helixcode.com>
+
+	* configure.in (Configuration): add scary message about Gnome Basic.
+
 2000-10-28  Jon K Hellan  <hellan@acm.org>
 
 	* src/bonobo-io.c (gnumeric_bonobo_{read|write}_workbook): 

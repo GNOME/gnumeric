@@ -520,3 +520,12 @@ release it may not compile or depend on unreleased packages.
 	Please do not file bonobo related bug reports.
 "
 fi
+
+if $have_gb; then
+	echo "
+	Gnome Basic is extremely API unstable, it is likely
+that gnumeric will only build with the single version
+mentioned in configure.in, if at all. It is possible, but
+unlikely, that Gnome Basic contains security vulnerabilities.
+"
+fi
