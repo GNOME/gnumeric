@@ -1,3 +1,10 @@
+Gnumeric 1.1.10
+
+Jody:
+	* Decrease GAL dependence.
+	* More work on opencalc importer.
+
+--------------------------------------------------------------------------
 Gnumeric 1.1.9
 
 Andreas:

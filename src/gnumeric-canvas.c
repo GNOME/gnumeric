@@ -637,9 +637,6 @@ gnm_canvas_init (GnumericCanvas *gcanvas)
 		G_CALLBACK (gnm_canvas_commit_cb), gcanvas);
 	g_signal_connect (G_OBJECT (gcanvas->im_context), "preedit_changed",
 		G_CALLBACK (gnm_canvas_preedit_changed_cb), gcanvas);
-	g_signal_connect (G_OBJECT (gcanvas->im_context), "retrieve_surrounding",
-		G_CALLBACK (gnm_canvas_retrieve_surrounding_cb), gcanvas);
-
 
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_FOCUS);
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_DEFAULT);
