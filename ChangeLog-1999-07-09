@@ -1,4 +1,11 @@
 1998-10-02  Richard Hestilow <hestgray@ionet.net>
+	
+	* plugins/stat/stat.c: added new function NVARIANCE
+	for division by N instead of N - 1, fixed div by 0 error if
+	variance of a single value was taken, free'd up some mem leaks.
+	(Thanks to Morten Welinder for noticing these)
+
+1998-10-02  Richard Hestilow <hestgray@ionet.net>
 
 	* Added new statistics plugin
 	

@@ -23,14 +23,27 @@ static char *help_stat_variance = {
 	"@DESCRIPTION="
 	"Computes the variation of all the values and cells referenced in the "
 	"argument list. This is	equivalent to the sum of (value - average)^2, "
-	"divided by the number of values minus 1."
-	"@SEEALSO=AVERAGE")
+	"divided by the number of values minus 1. If you want it divided by "
+	"N instead of N - 1, use NVARIANCE."
+	"@SEEALSO=AVERAGE, NVARIANCE")
 };
 
+static char *help_stat_nvariance = {
+	N_("@FUNCTION=NVARIANCE\n"
+	"@SYNTAX = NVARIANVE(value1, value2, ...)"
+	"@DESCRIPTION="
+	"Computes the variation of all the values and cells references in the "
+	"argument list. This is equivalent to the sum of (value - average)^2, "
+	"divided by the number of values. If you want it divided by N - 1 "
+	"instead of N, use VARIANCE."
+	"@SEEALSO=AVERAGE, VARIANCE")
+};
+	
 static FunctionDefinition plugin_functions[] = {
-	{"stdev", "", "", &help_stat_stdev, stat_stdev, NULL },
-	{"variance", "", "", &help_stat_variance, stat_variance, NULL },
-	{ NULL, NULL },};
+{"stdev", "", "", &help_stat_stdev, stat_stdev, NULL },
+{"variance", "", "", &help_stat_variance, stat_variance, NULL },
+{"nvariance", "", "", &help_stat_nvariance, stat_nvariance, NULL },
+{ NULL, NULL },};
 
 
 static int can_unload(PluginData *pd) {
@@ -60,33 +73,82 @@ static void cleanup_plugin (PluginData *pd) {
 	}
 }
 
-static Value *stat_variance(void *sheet, GList *expr_node_list, int eval_col,
-				int eval_row, char **error_string) {
-	Value *result, *avg, *tmpval;
-	GPtrArray *values;
-	gpointer *pdata;	
-	float tmp;
-	unsigned int i;
+static Value *stat_variance(void *sheet, GList *expr_node_list, int eval_col, 
+			int eval_row, char **error_string) {
+	Value *result;
+	float undiv;
+	unsigned int len;
 	
-	values = g_ptr_array_new();
+	result = g_new(Value *, 1);
+	result->type = VALUE_FLOAT;
+	result->v.v_float = 0.0;
+	
+	undiv = stat_undivided_variance(sheet, expr_node_list, eval_col,
+					eval_row, error_string);
+	len = g_list_length(expr_node_list);
+	if (len == 1) {
+		*error_string = _("variance - division by 0");
+		g_free(result);
+		return NULL;
+	}
+
+	result->v.v_float = undiv / (len - 1);
+	
+	return result;
+}
+
+static Value *stat_nvariance(void *sheet, GList *expr_node_list, int eval_col,
+			int eval_row, char **error_string) {
+	Value *result;
+	float undiv;
+	unsigned int len;
+	
 	result = g_new(Value, 1);
 	result->type = VALUE_FLOAT;
 	result->v.v_float = 0.0;
+	
+	undiv = stat_undivided_variance(sheet, expr_node_list, eval_col,
+					eval_row, error_string);
+	
+	len = g_list_length(expr_node_list);
+	
+	result->v.v_float = undiv / len;
+
+	return result;
+}
+	
+float stat_undivided_variance(void *sheet, GList *expr_node_list, 
+				int eval_col, int eval_row, 
+				char **error_string) {
+	
+	Value *avgV, *tmpval;
+	GPtrArray *values;
+	float tmp, result;
+	unsigned int i;
+	float avg;
+	
+	avgV = g_new(Value *, 1);
+	tmpval = g_new(Value *, 1);
+
+	values = g_ptr_array_new();
 	
 	
 	function_iterate_argument_values(sheet, callback_var, values,
 					expr_node_list, eval_col, eval_row,
 					error_string);
-	avg = function_call_with_values(sheet, "average", values->len, 
+	avgV = function_call_with_values(sheet, "average", values->len, 
 			values->pdata, error_string);
+	
+	avg = value_get_as_double(avgV);
 	
 	for(i=0;i<(values->len); i++) {
 		tmpval = g_ptr_array_index(values, i);
-		tmp = tmpval->v.v_float - value_get_as_double(avg);
+		tmp = tmpval->v.v_float - avg;
 		tmp *= tmp;
-		result->v.v_float += tmp;
+		result += tmp;
 	}
-	result->v.v_float /= values->len - 1;
+	
+	g_free(avgV);	
 	
 	return result;
 }
@@ -103,6 +165,8 @@ static Value *stat_stdev(void *sheet, GList *expr_node_list, int eval_col,      
 
 	result->v.v_float = sqrt(var->v.v_float);
 
+	g_free(var);
+
 	return result;
 }
 	
@@ -116,6 +180,7 @@ int callback_var ( Sheet *sheet, Value *value, char **error_string,
 	value->v.v_float = tmp;
 	value->type = VALUE_FLOAT;
 	g_ptr_array_add(values, g_memdup(value, sizeof(*value)));
+	
 	return TRUE;
 }
 

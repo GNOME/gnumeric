@@ -7,10 +7,17 @@
 #include "../../src/func.h"
 #include "../../src/plugin.h"
 
+float stat_undivided_variance(void *sheet, GList *expr_node_list,
+				int eval_col, int eval_row, 
+				char **error_string);
+
 static Value *stat_stdev (void *sheet, GList *expr_node_list, int eval_col,
 				int eval_row, char **error_string);
 
 static Value *stat_variance(void *sheet, GList *expr_node_list, int eval_col,
+				int eval_row, char **error_string);
+
+static Value *stat_nvariance(void *sheet, GList *expr_node_list, int eval_col,
 				int eval_row, char **error_string);
 
 int callback_var(Sheet *sheet, Value *value, 
