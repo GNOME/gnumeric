@@ -1174,7 +1174,7 @@ typedef enum {
 
 typedef struct {
 	complex_t         res;
-        char              imunit;;
+        char              imunit;
         eng_imoper_type_t type;
 } eng_imoper_t;
 
