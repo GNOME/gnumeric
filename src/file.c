@@ -55,7 +55,7 @@ file_format_register_open (int priority, const char *desc,
 	static FileOpenerId last_opener_id = 0;
 	FileOpener *fo = g_new (FileOpener, 1);
 
-	g_return_val_if_fail (open_fn != NULL, FILE_OPENER_ID_INVAID);
+	g_return_val_if_fail (open_fn != NULL, FILE_OPENER_ID_INVALID);
 
 	last_opener_id++;
 	fo->priority = priority;
@@ -113,7 +113,7 @@ file_format_register_save (char *extension, const char *format_description,
 	static FileSaverId last_saver_id = 0;
 	FileSaver *fs = g_new (FileSaver, 1);
 
-	g_return_val_if_fail (save_fn != NULL, FILE_OPENER_ID_INVAID);
+	g_return_val_if_fail (save_fn != NULL, FILE_SAVER_ID_INVALID);
 
 	last_saver_id++;
 	fs->extension = extension;
@@ -141,7 +141,7 @@ cb_unregister_save (Workbook *wb, FileSaverId *file_saver_id)
 {
 	if (wb->file_saver_id == *file_saver_id) {
 		wb->file_format_level = FILE_FL_MANUAL;
-		wb->file_saver_id = FILE_SAVER_ID_INVAID;
+		wb->file_saver_id = FILE_SAVER_ID_INVALID;
 	}
 }
 
@@ -447,7 +447,7 @@ workbook_save (WorkbookControl *wbc, WorkbookView *wb_view)
 	template = g_strdup_printf (_("Could not save to file %s\n%%s"),
 				    wb->filename);
 	command_context_push_err_template (COMMAND_CONTEXT (wbc), template);
-	if (wb->file_saver_id != FILE_SAVER_ID_INVAID) {
+	if (wb->file_saver_id != FILE_SAVER_ID_INVALID) {
 		file_saver = get_file_saver_by_id (wb->file_saver_id);
 	} else {
 		file_saver = get_file_saver_by_id (gnumeric_xml_get_saver_id ());

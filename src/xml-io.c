@@ -44,8 +44,8 @@
 /* Precision to use when saving point measures. */
 #define POINT_SIZE_PRECISION 3
 
-static FileOpenerId xml_opener_id = FILE_OPENER_ID_INVAID;
-static FileSaverId xml_saver_id = FILE_SAVER_ID_INVAID;
+static FileOpenerId xml_opener_id = FILE_OPENER_ID_INVALID;
+static FileSaverId xml_saver_id = FILE_SAVER_ID_INVALID;
 
 FileOpenerId
 gnumeric_xml_get_opener_id (void)

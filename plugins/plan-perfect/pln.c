@@ -922,7 +922,7 @@ pln_read_workbook (IOContext *context, WorkbookView *view,
 		if (result != 0)
 			workbook_sheet_detach (book, src.sheet);
 		else
-			workbook_set_saveinfo (book, filename, FILE_FL_MANUAL, FILE_SAVER_ID_INVAID);
+			workbook_set_saveinfo (book, filename, FILE_FL_MANUAL, FILE_SAVER_ID_INVALID);
 
 		munmap((char *)data, len);
 	} else {

@@ -76,7 +76,8 @@ applix_load (IOContext *context, WorkbookView *wb_view,
 
 	if (res == 0)
 		workbook_set_saveinfo (wb_view_workbook (wb_view),
-                               filename, FILE_FL_MANUAL, FILE_SAVER_ID_INVAID);
+				       filename, FILE_FL_MANUAL_REMEMBER,
+				       FILE_SAVER_ID_INVALID);
 
 	return res;
 }

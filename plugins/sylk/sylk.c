@@ -457,7 +457,8 @@ sylk_read_workbook (IOContext *context, WorkbookView *wb_view,
 
 	workbook_sheet_attach (book, src.sheet, NULL);
 	g_free (name);
-	workbook_set_saveinfo (book, filename, FILE_FL_MANUAL, FILE_SAVER_ID_INVAID);
+	workbook_set_saveinfo (book, filename, FILE_FL_MANUAL_REMEMBER,
+			       FILE_SAVER_ID_INVALID);
 
 	result = sylk_parse_sheet (context, &src);
 

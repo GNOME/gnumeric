@@ -185,7 +185,7 @@ workbook_destroy (GtkObject *wb_object)
 
 	workbook_private_delete (wb->priv);
 
-	if (wb->file_format_level > FILE_FL_NEW)
+	if (wb->file_format_level >= FILE_FL_MANUAL_REMEMBER)
 		workbook_history_update (application_workbook_list (), wb->filename);
 
 	if (wb->filename)
@@ -499,7 +499,7 @@ workbook_new (void)
 		g_free (name);
 	} while (!is_unique);
 	wb->file_format_level = FILE_FL_NEW;
-	wb->file_saver_id     = FILE_SAVER_ID_INVAID;
+	wb->file_saver_id     = FILE_SAVER_ID_INVALID;
 
 	wb->priv->during_destruction = FALSE;
 
@@ -617,7 +617,7 @@ workbook_set_saveinfo (Workbook *wb, const gchar *name,
 	if (!workbook_set_filename (wb, name))
 		return FALSE;
 	wb->file_format_level = level;
-	if (file_saver_id != FILE_SAVER_ID_INVAID) {
+	if (file_saver_id != FILE_SAVER_ID_INVALID) {
 		wb->file_saver_id = file_saver_id;
 	} else {
 		wb->file_saver_id = gnumeric_xml_get_saver_id ();

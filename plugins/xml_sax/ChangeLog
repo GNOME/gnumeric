@@ -1,3 +1,9 @@
+2001-02-19  Jon K Hellan  <hellan@acm.org>
+
+	* xml2.c (xml2_open): Change file format level to
+	FILE_FL_MANUAL_REMEMBER. Fix typo: FILE_SAVER_ID_INVAID ->
+	FILE_SAVER_ID_INVALID.
+
 2001-02-17  Jody Goldberg <jgoldberg@home.com>
 
 	* xml2.c (xml2ParseSheet) : Support the new sheet attributes.

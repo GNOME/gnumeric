@@ -1569,7 +1569,8 @@ xml2_open (IOContext *context, WorkbookView *wb_view,
 	int res = xml2_read (context, wb_view, filename);
 	if (res == 0) {
 		workbook_set_saveinfo (wb_view_workbook (wb_view), filename,
-		                       FILE_FL_MANUAL, FILE_SAVER_ID_INVAID);
+		                       FILE_FL_MANUAL_REMEMBER,
+				       FILE_SAVER_ID_INVALID);
 	}
 	return res;
 }

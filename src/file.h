@@ -13,6 +13,7 @@ typedef enum {
 	FILE_FL_WRITE_ONLY,	/* Postscript etc, won't be remembered */
 	FILE_FL_NEW,		/* Wb just created */
 	FILE_FL_MANUAL,		/* Save gets punted to save as */
+	FILE_FL_MANUAL_REMEMBER, /* Ditto, but remember in history */
 	FILE_FL_AUTO		/* Save will save to this filename */
 } FileFormatLevel;
 
@@ -34,8 +35,8 @@ typedef gint       (*FileFormatSave) (IOContext *context,
 	typedef gulong FileSaverId;
 #endif
 
-#define FILE_OPENER_ID_INVAID  0
-#define FILE_SAVER_ID_INVAID   0
+#define FILE_OPENER_ID_INVALID  0
+#define FILE_SAVER_ID_INVALID   0
 
 typedef struct _FileOpener FileOpener;
 typedef struct _FileSaver  FileSaver;

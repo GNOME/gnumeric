@@ -1,3 +1,8 @@
+2001-02-18  Jon K Hellan  <hellan@acm.org>
+
+	* pln.c (pln_read_workbook): Fix typo: FILE_SAVER_ID_INVAID ->
+	FILE_SAVER_ID_INVALID.
+
 2001-02-16  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.62

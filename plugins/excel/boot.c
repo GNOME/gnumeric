@@ -100,7 +100,8 @@ excel_load (IOContext *context, WorkbookView *new_wb_view,
 				g_warning ("Failed to read Basic scripts");
 		}
 
-		workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL, excel95_saver_id);
+		workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL_REMEMBER,
+				       excel95_saver_id);
 	}
 
 	ms_ole_destroy (&f);
@@ -187,11 +188,12 @@ excel_init (void)
 	if (gnumeric_debugging > 0) {
 		excel98_saver_id = file_format_register_save (
 		                   ".xls", _("Excel(R) 97 file format"),
-		                   FILE_FL_MANUAL, &excel_save_98, NULL);
+		                   FILE_FL_MANUAL_REMEMBER, &excel_save_98,
+				   NULL);
 	}
 	excel95_saver_id = file_format_register_save (
 	                   ".xls", _("Excel(R) 95 file format"),
-	                   FILE_FL_MANUAL, &excel_save_95, NULL);
+	                   FILE_FL_MANUAL_REMEMBER, &excel_save_95, NULL);
 }
 
 void

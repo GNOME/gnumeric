@@ -1,3 +1,8 @@
+2001-02-19  Jon K Hellan  <hellan@acm.org>
+
+	* boot.c (excel_load, excel_init): Change file format level to
+	FILE_FL_MANUAL_REMEMBER.
+
 2001-02-16  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-formula-write.c (write_node) : Use some code from expr.c

@@ -75,7 +75,8 @@ lotus_load (IOContext *context, WorkbookView *wb_view,
 	ret = lotus_read (context, wb, filename);
 
 	if (ret == 0)
-		workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL, FILE_SAVER_ID_INVAID);
+		workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL_REMEMBER,
+				       FILE_SAVER_ID_INVALID);
 
 	return ret;
 }

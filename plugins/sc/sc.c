@@ -422,7 +422,7 @@ sc_read_workbook (IOContext *context, WorkbookView *wb_view,
 	src.sheet = sheet_new (book, name);
 
 	workbook_sheet_attach (book, src.sheet, NULL);
-	workbook_set_saveinfo (book, filename, FILE_FL_MANUAL, FILE_SAVER_ID_INVAID);
+	workbook_set_saveinfo (book, filename, FILE_FL_MANUAL, FILE_SAVER_ID_INVALID);
 	g_free (name);
 
 	result = sc_parse_sheet (context, &src);

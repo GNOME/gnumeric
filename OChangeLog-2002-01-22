@@ -1,3 +1,25 @@
+2001-02-19  Jon K Hellan  <hellan@acm.org>
+
+	* src/file.h: Add level FILE_FL_MANUAL_REMEMBER. Fix typos:
+	FILE_SAVER_ID_INVAID -> FILE_SAVER_ID_INVALID,
+	FILE_OPENER_ID_INVAID -> FILE_OPENER_ID_INVALID.
+
+	* src/file.c (file_format_register_open): Fix typo:
+	FILE_OPENER_ID_INVAID -> FILE_OPENER_ID_INVALID.
+	(file_format_register_save): Fix typo: FILE_OPENER_ID_INVAID ->
+	FILE_SAVER_ID_INVALID.
+	(cb_unregister_save, workbook_save): Fix
+	typo: FILE_SAVER_ID_INVAID -> FILE_SAVER_ID_INVALID.
+
+	* src/workbook.c (workbook_destroy): Only include in history is
+	file_format_level >= FILE_FL_MANUAL_REMEMBER.
+	(workbook_new, workbook_set_saveinfo): Fix typo:
+	FILE_SAVER_ID_INVAID -> FILE_SAVER_ID_INVALID.
+
+	* src/xml-io.c: Fix typos: FILE_SAVER_ID_INVAID ->
+	FILE_SAVER_ID_INVALID, FILE_OPENER_ID_INVAID ->
+	FILE_OPENER_ID_INVALID.
+
 2001-02-19  Jody Goldberg <jgoldberg@home.com>
 
 	* src/commands.c (cmd_format) : Optionally supply a name.

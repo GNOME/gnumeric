@@ -172,7 +172,8 @@ xbase_load (IOContext *context, WorkbookView *wb_view,
 	sheet = sheet_new (wb, g_basename (name));
 	g_free (name);
 	workbook_sheet_attach (wb, sheet, NULL);
-	workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL, FILE_SAVER_ID_INVAID);
+	workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL_REMEMBER,
+			       FILE_SAVER_ID_INVALID);
 
 	field = 0;
 	while (field < file->fields) {
