@@ -1,5 +1,12 @@
 2002-02-25  Morten Welinder  <terra@diku.dk>
 
+	* src/mathfunc.c (random_01): Reduce the number of system calls
+	and get more precision for the general gnum_float case.
+
+	* src/mathfunc.c (random_*): use gnum_float, not double.  (Since
+	many underlying functions are still double-based, not all these
+	will have precision beyond double.)
+
 	* src/solver-lp.c: Constify.  Plug a few leaks.
 
 	* src/sheet.h (struct _Sheet): Make solver_parameters a pointer.

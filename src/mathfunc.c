@@ -3567,22 +3567,29 @@ double bessel_k(double x, double alpha, double expo)
  * and between 0 and 1.  (0 possible, 1 not.)  The result should have about
  * 64 bits randomness.
  */
-double
+gnum_float
 random_01 (void)
 {
 	static int device_fd = -2;
 
-	if (device_fd == -2)
+	if (device_fd == -2) {
 		device_fd = open (RANDOM_DEVICE, O_RDONLY);
+		/*
+		 * We could check that we really have a device, but it hard
+		 * to come up with a non-paranoid reason to.
+		 */
+	}
 
 	if (device_fd >= 0) {
-		int r1, r2;
+		unsigned data[sizeof (gnum_float)];
 
-		if (fullread (device_fd, &r1, sizeof (r1)) == sizeof (r1) &&
-		    fullread (device_fd, &r2, sizeof (r2)) == sizeof (r2)) {
-			r1 &= 2147483647;
-			r2 &= 2147483647;
-			return (r1 + (r2 / 2147483648.0)) / 2147483648.0;
+		if (fullread (device_fd, &data, sizeof (gnum_float)) == sizeof (gnum_float)) {
+			gnum_float res = 0;
+			size_t i;
+
+			for (i = 0; i < sizeof (gnum_float); i++)
+				res = (res + data[i]) / 256;
+			return res;
 		}
 
 		/* It failed when it shouldn't.  Disable.  */
@@ -3627,7 +3634,7 @@ random_01 (void)
 /*
  * Generate a N(0,1) distributed number.
  */
-double
+gnum_float
 random_normal (void)
 {
 	return qnorm (random_01 (), 0, 1);
@@ -3636,14 +3643,15 @@ random_normal (void)
 /*
  * Generate a poisson distributed number.
  */
-double
-random_poisson (double lambda)
+gnum_float
+random_poisson (gnum_float lambda)
 {
-        double x = exp (-1 * lambda);
-	double r = random_01 ();
-	double t = x;
-	double i = 0;
+        gnum_float x = expgnum (-lambda);
+	gnum_float r = random_01 ();
+	gnum_float t = x;
+	gnum_float i = 0;
 
+	/* FIXME: Looks dubious, performanc-wise.  */
 	while (r > t) {
 	      x *= lambda / (i + 1);
 	      i += 1;
@@ -3656,13 +3664,13 @@ random_poisson (double lambda)
 /*
  * Generate a binomial distributed number.
  */
-double
-random_binomial (double p, int trials)
+gnum_float
+random_binomial (gnum_float p, int trials)
 {
-        double x = pow (1 - p, trials);
-	double r = random_01 ();
-	double t = x;
-	double i = 0;
+        gnum_float x = powgnum (1 - p, trials);
+	gnum_float r = random_01 ();
+	gnum_float t = x;
+	gnum_float i = 0;
 
 	while (r > t) {
 	      x *= (((trials - i) * p) / ((1 + i) * (1 - p)));
@@ -3676,13 +3684,13 @@ random_binomial (double p, int trials)
 /*
  * Generate a negative binomial distributed number.
  */
-double
-random_negbinom (double p, int f)
+gnum_float
+random_negbinom (gnum_float p, int f)
 {
-        double x = pow (p, f);
-	double r = random_01 ();
-	double t = x;
-	double i = 0;
+        gnum_float x = powgnum (p, f);
+	gnum_float r = random_01 ();
+	gnum_float t = x;
+	gnum_float i = 0;
 
 	while (r > t) {
 	      x *= (((f + i) * (1 - p)) / (1 + i));
@@ -3696,19 +3704,19 @@ random_negbinom (double p, int f)
 /*
  * Generate an exponential distributed number.
  */
-double
-random_exponential (double b)
+gnum_float
+random_exponential (gnum_float b)
 {
-        return -1 * b * log (random_01 ());
+        return -1 * b * loggnum (random_01 ());
 }
 
 /*
  * Generate a bernoulli distributed number.
  */
-double
-random_bernoulli (double p)
+gnum_float
+random_bernoulli (gnum_float p)
 {
-        double r = random_01 ();
+        gnum_float r = random_01 ();
 
 	return (r <= p) ? 1.0 : 0.0;
 }

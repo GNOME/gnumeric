@@ -99,13 +99,13 @@ double pbinom (double x, double n, double p);
 double qbinom (double x, double n, double p);
 
 /* Random number generation. */
-double random_01          (void);
-double random_poisson     (double lambda);
-double random_binomial    (double p, int trials);
-double random_negbinom    (double p, int f);
-double random_exponential (double b);
-double random_bernoulli   (double p);
-double random_normal      (void);
+gnum_float random_01          (void);
+gnum_float random_poisson     (gnum_float lambda);
+gnum_float random_binomial    (gnum_float p, int trials);
+gnum_float random_negbinom    (gnum_float p, int f);
+gnum_float random_exponential (gnum_float b);
+gnum_float random_bernoulli   (gnum_float p);
+gnum_float random_normal      (void);
 
 /* ------------------------------------------------------------------------- */
 
