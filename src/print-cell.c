@@ -3,6 +3,9 @@
  *
  * Author:
  *    Miguel de Icaza 1999 (miguel@kernel.org)
+ *
+ * g_unichar_to_utf8: Copyright Red Hat, Inc
+ *
  */
 #include <config.h>
 #include <gnome.h>
@@ -41,6 +44,65 @@ print_hline (GnomePrintContext *context,
 }
 
 /*
+ * This is cut & pasted from glib 1.3
+ *
+ * We need it only for iso-8859-1 converter and it will be
+ * abandoned, if glib 2.0 or any other unicode library will
+ * be introduced.
+ */
+
+static int
+g_unichar_to_utf8 (gint c, gchar *outbuf)
+{
+  size_t len = 0;
+  int first;
+  int i;
+
+  if (c < 0x80)
+    {
+      first = 0;
+      len = 1;
+    }
+  else if (c < 0x800)
+    {
+      first = 0xc0;
+      len = 2;
+    }
+  else if (c < 0x10000)
+    {
+      first = 0xe0;
+      len = 3;
+    }
+   else if (c < 0x200000)
+    {
+      first = 0xf0;
+      len = 4;
+    }
+  else if (c < 0x4000000)
+    {
+      first = 0xf8;
+      len = 5;
+    }
+  else
+    {
+      first = 0xfc;
+      len = 6;
+    }
+
+  if (outbuf)
+    {
+      for (i = len - 1; i > 0; --i)
+	{
+	  outbuf[i] = (c & 0x3f) | 0x80;
+	  c >>= 6;
+	}
+      outbuf[0] = c | first;
+    }
+
+  return len;
+}
+
+/*
  * print_show_iso8859_1
  *
  * Like gnome_print_show, but expects an ISO 8859.1 string.
@@ -52,41 +114,35 @@ print_hline (GnomePrintContext *context,
 int
 print_show_iso8859_1 (GnomePrintContext *pc, char const *text)
 {
-	return gnome_print_show (pc, text);
-#if 0
-	guint32 u4text[128], *u4p;
-	guint32 *dynp = NULL;
-	size_t len;
-	int ret;
-	char const *p;
-	char *outp;
+	gchar *p, *utf, *udyn, ubuf[128];
+	gint len, ret, i;
 
 	g_return_val_if_fail (pc && text, -1);
 
 	if (!*text)
 		return 0;
 
-	/* Dynamic allocation for long strings */
-	if ((len = strlen (text)) > sizeof u4text / sizeof u4text[0]) {
-		dynp = g_new0 (guint32, len);
-		u4p  = dynp;
+	/* We need only length * 2, because iso-8859-1 is encoded in 1-2 bytes */
+	len = strlen (text);
+	if (len * 2 > sizeof (ubuf)) {
+		udyn = g_new (gchar, len * 2);
+		utf = udyn;
 	} else {
-		memset (u4text, '\0', sizeof u4text);
-		u4p  = u4text;
+		udyn = NULL;
+		utf = ubuf;
 	}
-	outp =  (char *) u4p; 	/* Munging types on purpose */
+	p = utf;
 
-	/* Convert to big endian UCS-4 */
-	for (p = text, outp += 3; *p; p++, outp += 4)
-		*outp = *p;
+	for (i = 0; i < len; i++) {
+		p += g_unichar_to_utf8 (((guchar *) text)[i], p);
+	}
 
-	ret = gnome_print_show_ucs4 (pc, u4p, (gint) len);
+	ret = gnome_print_show_sized (pc, utf, p - utf);
 
-	if (dynp)
-		g_free (dynp);
+	if (udyn)
+		g_free (udyn);
 
 	return ret;
-#endif
 }
 
 /***********************************************************/

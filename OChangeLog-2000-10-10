@@ -1,3 +1,10 @@
+2000-09-21  Lauris Kaplinski <lauris@helixcode.com>
+
+	* print-cell.c (print_show_iso8859_1): Transcode to UTF-8 instead
+	of UCS4, use gnome_print_show_sized.
+	(g_unichar_to_utf8): Function copied from glib 1.3 (and will go away,
+	if gnumeric will be ported to glib 2.0)
+
 2000-09-21  Jody Goldberg <jgoldberg@home.com>
 
 	* src/format.c (format_month_before_day) : implement.
