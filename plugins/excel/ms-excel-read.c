@@ -3491,7 +3491,7 @@ ms_excel_read_wsbool (BiffQuery *q, ExcelSheet *sheet)
 }
 
 static void
-ms_excel_read_calcount (BiffQuery *q, ExcelWorkbook *wb)
+ms_excel_read_calccount (BiffQuery *q, ExcelWorkbook *wb)
 {
 	guint16 count;
 
