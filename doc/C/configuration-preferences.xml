@@ -124,22 +124,26 @@
 
   </sect2>
 
+
+
+
+
   <sect2 id="sect-configuration-preferences-windows">
-    <title>Windows Preferences</title>
+    <title>Copy and Paste Preferences</title>
 
 
     <para>
-      The <interface>Windows Tab</interface> includes various settings
-      related to new workbooks, such as the window size and the number
-      of initial sheets.
+      The <interface>Copy and Paste</interface> element allows the
+      user to determine how copied items are integrated into the
+      clipboard mechanism.
     </para>
 
     <figure id="fig-configuration-preferences-windows">
-      <title><interface>Windows Tab</interface></title>
+      <title><interface>Copy and Paste</interface></title>
       <mediaobject>
         <imageobject>
 	  <imagedata format="PNG"
-		   fileref="figures/preferences-windows.png"
+		   fileref="figures/preferences-copypaste.png"
                    srccredit="Sebastian Klost" 
                    width="550px" />
         </imageobject>
@@ -183,37 +187,31 @@
 
   </sect2>
 
-  <sect2 id="sect-configuration-preferences-undo">
-    <title>Undo history preferences</title>
+
+
+
+
+  <sect2 id="sect-configuration-preferences-tools">
+    <title>Tools Preferences</title>
+
 
     <para>
-      The <interface>Undo </interface> element permits to customize the
-      undo feature. You would normally like the number of undo items
-      to be in the 10 to 25 range and the maximal undo size to be
-      10000 to 100000, unless you only have little memory available.
+      The <interface>Tools</interface> element allows to determine the
+      settings for the recently used function list, for autocompletion
+      of data entry in cells and for range selections.
     </para>
 
-    <figure id="configuration-preferences-undo">
-      <title><interface>Undo</interface></title>
+    <figure id="configuration-preferences-tools">
+      <title><interface>Tools</interface></title>
       <mediaobject>
         <imageobject>
 	  <imagedata format="PNG"
-		   fileref="figures/preferences-undo.png"
+		   fileref="figures/preferences-tools.png"
                    srccredit="Sebastian Klost" 
                    width="550px" />
         </imageobject>
       </mediaobject>
     </figure>
-
-  </sect2>
-
-
-
-
-
-  <sect2 id="sect-configuration-preferences-sorting">
-    <title>Sorting preferences</title>
-
 
     <para>
       The <interface>Sorting</interface> element allows to determine the
@@ -238,8 +236,36 @@
 
 
 
+  <sect2 id="sect-configuration-preferences-undo">
+    <title>Undo History Preferences</title>
+
+    <para>
+      The <interface>Undo</interface> element permits to customize the
+      undo feature. You would normally like the number of undo items
+      to be in the 10 to 25 range and the maximal undo size to be
+      10000 to 100000, unless you only have little memory available.
+    </para>
+
+    <figure id="configuration-preferences-undo">
+      <title><interface>Undo</interface></title>
+      <mediaobject>
+        <imageobject>
+	  <imagedata format="PNG"
+		   fileref="figures/preferences-undo.png"
+                   srccredit="Sebastian Klost" 
+                   width="550px" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+  </sect2>
+
+
+
+
+
   <sect2 id="sect-configuration-preferences-windows">
-    <title>Windows preferences</title>
+    <title>Windows Preferences</title>
 
     <para>
       The windows preferences include options to set the default
@@ -257,7 +283,7 @@
       <mediaobject>
         <imageobject>
 	  <imagedata format="PNG"
-		   fileref="figures/preferences-various.png"
+		   fileref="figures/preferences-windows.png"
                    srccredit="Sebastian Klost" 
                    width="550px" />
         </imageobject>
@@ -271,6 +297,18 @@
       should be set correctly by default. 
     </para>
 
+    <figure id="configuration-preferences-various-internal">
+      <title><interface>Screen</interface></title>
+        <mediaobject>
+          <imageobject>
+	    <imagedata format="PNG"
+		   fileref="figures/preferences-screen.png"
+                   srccredit="Sebastian Klost" 
+                   width="550px" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+
     <warning>
       <title>The pixel pitch is fundamental</title>
 
@@ -281,24 +319,13 @@
         screens and when the appearance of &gnum; and its contents are
         clearly incorrect.
       </para>
-
     </warning>
-
-    <figure id="configuration-preferences-various-internal">
-      <title><interface>Screen</interface></title>
-        <mediaobject>
-          <imageobject>
-	    <imagedata format="PNG"
-		   fileref="figures/preferences-various-internal.png"
-                   srccredit="Sebastian Klost" 
-                   width="550px" />
-        </imageobject>
-      </mediaobject>
-    </figure>
-
-
 
   </sect2>
 
+
 </sect1>
+
+
+
 
