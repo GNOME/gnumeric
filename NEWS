@@ -58,6 +58,7 @@ Dom Lachowicz :
 
 Mike Kestner:
 	* Add file menu file history.
+	* Style preserving column/row insertion(configurable, defaults on)
 
 Almer :
 	* "Structured" Text Format Importer (STF) (Customizable CSV/Fixed Width importer)
