@@ -3397,6 +3397,224 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv [])
 	}
 }
 
+static char *help_forecast = {
+	N_("@FUNCTION=FORECAST\n"
+	   "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
+
+	   "@DESCRIPTION="
+	   "FORECAST function estimates a future value according to "
+	   "existing values using simple linear regression.  The estimated "
+	   "future value is a y-value for a given x-value (@x). "
+	   "\n"
+	   "If known_x or known_y contains no data entries or different "
+	   "number of data entries, FORECAST returns #N/A! error. "
+	   "If the variance of the known_x is zero, FORECAST returns #DIV/0 "
+	   "error. "
+	   "\n"
+	   "@SEEALSO=INTERCEPT,TREND")
+};
+
+typedef struct {
+        float_t   sum_x;
+        float_t   sum_y;
+        float_t   sqrsum_x;
+        float_t   sqrsum_y;
+        float_t   sum_xy;
+        gboolean  first;      /* Is this the first variable */
+        GSList    *entries;
+        GSList    *current;
+        int       n;
+} stat_lrstat_t;
+
+static int
+callback_function_lrstat (const EvalPosition *ep, Value *value,
+			  ErrorMessage *error, void *closure)
+{
+	stat_lrstat_t *mm = closure;
+	float_t       x;
+
+	if (VALUE_IS_NUMBER (value))
+		x = value_get_as_float (value);
+	else
+	        x = 0;
+
+	if (mm->first) {
+	        gpointer p = g_new(float_t, 1);
+		*((float_t *) p) = x;
+		mm->entries = g_slist_append(mm->entries, p);
+		mm->sum_x += x;
+		mm->sqrsum_x += x*x;
+		mm->n++;
+	} else {
+	        if (mm->current == NULL) {
+			error_message_set (error, gnumeric_err_VALUE);
+		        return FALSE;
+		}
+		mm->sum_y += x;
+		mm->sqrsum_y += x*x;
+		mm->sum_xy += *((float_t *) mm->current->data) * x;
+		g_free(mm->current->data);
+		mm->current = mm->current->next;
+	}
+
+	return TRUE;
+}
+
+static void
+init_lrstat_closure(stat_lrstat_t *cl)
+{
+        cl->first = TRUE;
+	cl->entries = NULL;
+	cl->sum_x = cl->sum_y = cl->sum_xy = cl->sqrsum_x = cl->sqrsum_y = 0;
+	cl->n = 0;
+}
+
+static Value *
+gnumeric_forecast (FunctionEvalInfo *ei, Value *argv [])
+{
+        GSList        *current;
+	ExprTree      *tree;
+	GList         *expr_node_list;
+	stat_lrstat_t cl;
+	EvalPosition  ep;
+        float_t       x, a, b, mean_x, mean_y, tmp;
+
+	x = value_get_as_float(argv[0]);
+
+	init_lrstat_closure(&cl);
+
+	tree = g_new(ExprTree, 1);
+	tree->u.constant = argv[1];
+	tree->oper = OPER_CONSTANT;
+	expr_node_list = g_list_append(NULL, tree);
+
+	if (!function_iterate_argument_values
+	    (eval_pos_init (&ep, argv[1]->v.cell_range.cell_a.sheet,
+			    argv[1]->v.cell_range.cell_a.col,
+			    argv[1]->v.cell_range.cell_a.row),
+	     callback_function_lrstat, &cl, expr_node_list,
+	     ei->error, TRUE))
+	        return function_error (ei, gnumeric_err_NA);
+
+	g_free(tree);
+	g_list_free(expr_node_list);
+
+	cl.first = FALSE;
+	cl.current = cl.entries;
+
+	tree = g_new(ExprTree, 1);
+	tree->u.constant = argv[2];
+	tree->oper = OPER_CONSTANT;
+	expr_node_list = g_list_append(NULL, tree);
+
+	if (!function_iterate_argument_values
+	    (eval_pos_init (&ep, argv[2]->v.cell_range.cell_a.sheet,
+			    argv[2]->v.cell_range.cell_a.col,
+			    argv[2]->v.cell_range.cell_a.row),
+	     callback_function_lrstat, &cl, expr_node_list,
+	     ei->error, TRUE))
+	        return function_error (ei, gnumeric_err_NA);
+
+	g_free(tree);
+	g_list_free(expr_node_list);
+
+	if (cl.n < 1)
+	        return function_error (ei, gnumeric_err_NA);
+
+	mean_x = cl.sum_x / cl.n;
+	mean_y = cl.sum_y / cl.n;
+
+	tmp = cl.n*cl.sqrsum_y - cl.sum_y*cl.sum_y;
+	if (tmp == 0)
+	        return function_error (ei, gnumeric_err_DIV0);
+
+	b = (cl.n*cl.sum_xy - cl.sum_x*cl.sum_y) / tmp;
+
+	a = mean_x - b * mean_y;
+
+	return value_new_float (a + b*x);
+}
+
+static char *help_intercept = {
+	N_("@FUNCTION=INTERCEPT\n"
+	   "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
+
+	   "@DESCRIPTION="
+	   "INTERCEPT function calculates the point where the linear "
+	   "regression line intersects the y-axis.  "
+	   "\n"
+	   "If known_x or known_y contains no data entries or different "
+	   "number of data entries, INTERCEPT returns #N/A! error. "
+	   "If the variance of the known_x is zero, INTERCEPT returns #DIV/0 "
+	   "error. "
+	   "\n"
+	   "@SEEALSO=FORECAST,TREND")
+};
+
+static Value *
+gnumeric_intercept (FunctionEvalInfo *ei, Value *argv [])
+{
+        GSList        *current;
+	ExprTree      *tree;
+	GList         *expr_node_list;
+	stat_lrstat_t cl;
+	EvalPosition  ep;
+        float_t       a, b, mean_x, mean_y, tmp;
+
+	init_lrstat_closure(&cl);
+
+	tree = g_new(ExprTree, 1);
+	tree->u.constant = argv[0];
+	tree->oper = OPER_CONSTANT;
+	expr_node_list = g_list_append(NULL, tree);
+
+	if (!function_iterate_argument_values
+	    (eval_pos_init (&ep, argv[0]->v.cell_range.cell_a.sheet,
+			    argv[0]->v.cell_range.cell_a.col,
+			    argv[0]->v.cell_range.cell_a.row),
+	     callback_function_lrstat, &cl, expr_node_list,
+	     ei->error, TRUE))
+	        return function_error (ei, gnumeric_err_NA);
+
+	g_free(tree);
+	g_list_free(expr_node_list);
+
+	cl.first = FALSE;
+	cl.current = cl.entries;
+
+	tree = g_new(ExprTree, 1);
+	tree->u.constant = argv[1];
+	tree->oper = OPER_CONSTANT;
+	expr_node_list = g_list_append(NULL, tree);
+
+	if (!function_iterate_argument_values
+	    (eval_pos_init (&ep, argv[1]->v.cell_range.cell_a.sheet,
+			    argv[1]->v.cell_range.cell_a.col,
+			    argv[1]->v.cell_range.cell_a.row),
+	     callback_function_lrstat, &cl, expr_node_list,
+	     ei->error, TRUE))
+	        return function_error (ei, gnumeric_err_NA);
+
+	g_free(tree);
+	g_list_free(expr_node_list);
+
+	if (cl.n < 1)
+	        return function_error (ei, gnumeric_err_NA);
+
+	mean_x = cl.sum_x / cl.n;
+	mean_y = cl.sum_y / cl.n;
+
+	tmp = cl.n*cl.sqrsum_y - cl.sum_y*cl.sum_y;
+	if (tmp == 0)
+	        return function_error (ei, gnumeric_err_DIV0);
+
+	b = (cl.n*cl.sum_xy - cl.sum_x*cl.sum_y) / tmp;
+
+	a = mean_x - b * mean_y;
+
+	return value_new_float (a);
+}
+
 void stat_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Statistics"));
@@ -3447,6 +3665,8 @@ void stat_functions_init()
 			    gnumeric_fisher);
         function_add_args  (cat, "fisherinv", "f",    "",          &help_fisherinv,
 			    gnumeric_fisherinv);
+        function_add_args  (cat, "forecast", "frr",   "",          &help_forecast,
+			    gnumeric_forecast);
 	function_add_args  (cat, "ftest",     "rr",   "arr1,arr2", &help_ftest,
 			    gnumeric_ftest);
 	function_add_args  (cat, "gammaln",   "f",    "number",    &help_gammaln,
@@ -3461,6 +3681,8 @@ void stat_functions_init()
 			    gnumeric_harmean);
 	function_add_args  (cat, "hypgeomdist", "ffff", "x,n,M,N", &help_hypgeomdist,
 			    gnumeric_hypgeomdist);
+        function_add_args  (cat, "intercept", "rr",   "",          &help_intercept,
+			    gnumeric_intercept);
         function_add_nodes (cat, "kurt",      0,      "",          &help_kurt,
 			    gnumeric_kurt);
         function_add_nodes (cat, "kurtp",     0,      "",          &help_kurtp,

@@ -1,3 +1,13 @@
+1999-06-29  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-stat.c: Added FORECAST() and INTERCEPT().
+
+	* src/fn-math.c: SUMIF() can now take an optional argument
+ 	(actual_range).
+
+	* src/fn-information.c: Made N() return 0 if the given string is
+	non-number, not an error.
+
 1999-06-28  Michael Meeks  <michael@edenproject.org>
 
 	* src/main.c (gnumeric_main): removed xbase_init.

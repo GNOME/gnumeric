@@ -6,7 +6,10 @@ Miguel:
 
 Jukka:
 	* Added the following functions:
+	- FORECAST() and INTERCEPT().
+
         * And fixed these functions:
+	- SUMIF() and N().
 
 Morten:
 

@@ -418,7 +418,8 @@ static char *help_n = {
 	   "@SYNTAX=N()\n"
 
 	   "@DESCRIPTION="
-	   "N Returns a value converted to a number. "
+	   "N Returns a value converted to a number.  Strings containing "
+	   "text are converted to the zero value. "
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -440,7 +441,7 @@ gnumeric_n (FunctionEvalInfo *ei, Value **argv)
 	if (format_match (str, &v, &format))
 		return value_new_float (v);
 	else
-		return function_error (ei, gnumeric_err_NUM);
+		return value_new_float (0);
 }
 
 

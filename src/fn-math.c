@@ -116,6 +116,10 @@ typedef struct {
         criteria_test_fun_t fun;
         Value               *test_value;
         int                 num;
+        int                 total_num;
+        gboolean            actual_range;
+        float_t             sum;
+        GSList              *current;
 } math_criteria_t;
 
 static int
@@ -124,7 +128,9 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 {
         math_criteria_t *mm = user_data;
 	Value           *v;
+	gpointer        n;
 
+	mm->total_num++;
 	if (cell == NULL || cell->value == NULL)
 	        return TRUE;
 
@@ -143,7 +149,12 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 	}
 
 	if (mm->fun(v, mm->test_value)) {
-		mm->list = g_slist_append (mm->list, v);
+	        if (mm->actual_range) {
+			n = g_new (int, 1);
+			*((int *) n) = mm->total_num;
+		        mm->list = g_slist_append (mm->list, n);
+		} else
+		        mm->list = g_slist_append (mm->list, v);
 		mm->num++;
 	} else
 	        value_release(v);
@@ -489,6 +500,7 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 
 	items.num  = 0;
 	items.list = NULL;
+	items.actual_range = FALSE;
 
 	if ((!VALUE_IS_NUMBER(argv[1]) && argv[1]->type != VALUE_STRING)
 	    || (range->type != VALUE_CELLRANGE))
@@ -531,21 +543,63 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_sumif = {
 	N_("@FUNCTION=SUMIF\n"
-	   "@SYNTAX=SUMIF(range,criteria)\n"
+	   "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
 
 	   "@DESCRIPTION="
 	   "SUMIF function sums the values in the given range that meet "
-	   "the given criteria. "
-
+	   "the given criteria.  If @actual_range is given, SUMIF sums "
+	   "the values in the @actual_range whose corresponding components "
+	   "in @range meet the given criteria. "
 	   "\n"
-
 	   "@SEEALSO=COUNTIF,SUM")
 };
+
+static int
+callback_function_sumif (Sheet *sheet, int col, int row,
+			 Cell *cell, void *user_data)
+{
+        math_criteria_t *mm = user_data;
+	float_t         v;
+	int             num;
+
+	mm->total_num++;
+	if (cell == NULL || cell->value == NULL)
+	        return TRUE;
+
+        switch (cell->value->type) {
+	case VALUE_INTEGER:
+	        v = cell->value->v.v_int;
+		break;
+	case VALUE_FLOAT:
+	        v = cell->value->v.v_float;
+		break;
+	case VALUE_STRING:
+	        v = 0;
+		break;
+	default:
+	        return TRUE;
+	}
+
+	if (mm->current == NULL)
+	        return TRUE;
+
+	num = *((int*) mm->current->data);
+
+	if (mm->total_num == num) {
+	        mm->sum += v;
+		g_free(mm->current->data);
+		mm->current=mm->current->next;
+	}
+
+	return TRUE;
+}
+
 
 static Value *
 gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 {
         Value           *range = argv[0];
+	Value           *actual_range = argv[2];
 	Value           *tmpvalue = NULL;
 
 	math_criteria_t items;
@@ -554,6 +608,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	GSList          *list;
 
 	items.num  = 0;
+	items.total_num = 0;
 	items.list = NULL;
 
 	if ((!VALUE_IS_NUMBER(argv[1]) && argv[1]->type != VALUE_STRING)
@@ -568,6 +623,11 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 			       &items.fun, &items.test_value);
 		tmpvalue = items.test_value;
 	}
+
+	if (actual_range != NULL)
+	        items.actual_range = TRUE;
+	else
+	        items.actual_range = FALSE;
 
 	ret = sheet_cell_foreach_range (
 	  range->v.cell_range.cell_a.sheet, TRUE,
@@ -584,19 +644,34 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	if (ret == FALSE)
 	        return function_error (ei, gnumeric_err_VALUE);
 
-        list = items.list;
-	sum = 0;
+	if (actual_range == NULL) {
+	        list = items.list;
+		sum = 0;
 
-	while (list != NULL) {
-	        Value *v = list->data;
+		while (list != NULL) {
+		        Value *v = list->data;
 
-		if (v != NULL)
-		       sum += value_get_as_float (v);
-		value_release (v);
-		list = list->next;
+			if (v != NULL)
+			        sum += value_get_as_float (v);
+			value_release (v);
+			list = list->next;
+		}
+	} else {
+	      items.current = items.list;
+	      items.sum = items.total_num = 0;
+ 	      ret = sheet_cell_foreach_range (
+		actual_range->v.cell_range.cell_a.sheet, TRUE,
+		actual_range->v.cell_range.cell_a.col,
+		actual_range->v.cell_range.cell_a.row,
+		actual_range->v.cell_range.cell_b.col,
+		actual_range->v.cell_range.cell_b.row,
+		callback_function_sumif,
+		&items);
+	      sum = items.sum;
 	}
-	g_slist_free(items.list);
 
+	g_slist_free(items.list);
+		
 	return value_new_float (sum);
 }
 
@@ -2406,7 +2481,7 @@ void math_functions_init()
 			    gnumeric_sum);
 	function_add_nodes (cat, "suma",    0,      "number1,number2,...",    &help_suma,
 			    gnumeric_suma);
-	function_add_args  (cat, "sumif",   "r?",   "range,criteria", &help_sumif, gnumeric_sumif);
+	function_add_args  (cat, "sumif",   "r?|r", "range,criteria[,actual_range]", &help_sumif, gnumeric_sumif);
 	function_add_nodes (cat, "sumproduct",   0, "range1,range2,...",
 			    &help_sumproduct, gnumeric_sumproduct);
 	function_add_nodes (cat, "sumsq",   0,      "number",    &help_sumsq,
