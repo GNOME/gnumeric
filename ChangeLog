@@ -1,6 +1,13 @@
 2003-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/workbook-control-gui.c: Improve the description of the mean test. 
+	* src/workbook-control-gui.c: Correct  the description of the mean
+	  test.
+	* src/GNOME_Gnumeric.xml: ditto
+	
+2003-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/workbook-control-gui.c: Improve the description of the mean 
+	  test. 
 
 2003-06-11  Jody Goldberg <jody@gnome.org>
 

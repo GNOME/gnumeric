@@ -582,16 +582,16 @@
 	    <submenu name="ToolTTest" _label="Two _Means">
 	        <menuitem name="ToolTTestPaired" verb=""
 		    _label="_Paired Samples: T-Test"
-		    _tip="Comparing two population means for two paired samples.: t-test"/>
+		    _tip="Comparing two population means for two paired samples: t-test"/>
 	        <menuitem name="ToolTTestEqualVar" verb=""
-		    _label="Unpaired Samples, _Equal Var.: T-Test"
-		    _tip="Comparing two population means for two unpaired samples from pop. with equal var.: t-test"/>
+		    _label="Unpaired Samples, _Equal Variances: T-Test"
+		    _tip="Comparing two population means for two unpaired samples from populations with equal variances: t-test"/>
 	        <menuitem name="ToolTTestUnequalVar" verb=""
-		    _label="Unpaired Samples, _Unequal Var.: T-Test"
-		    _tip="Comparing two population means for two unpaired samples from pop. with unequal var.: t-test"/>
+		    _label="Unpaired Samples, _Unequal Variances: T-Test"
+		    _tip="Comparing two population means for two unpaired samples from populations with unequal variances: t-test"/>
 	        <menuitem name="ToolZTest" verb=""
 		    _label="_Known Variances or Large Sample: Z-Test"
-		    _tip="Comparing two population means from pop. with known variances or using a large sample: z- test"/>
+		    _tip="Comparing two population means from populations with known variances or using a large sample: z-test"/>
 	    </submenu>
 	        <menuitem name="ToolsFTest" verb=""
 		    _label="_Two Variances: FTest"

@@ -3786,15 +3786,15 @@ static GnomeUIInfo workbook_menu_tools_forecasting [] = {
 static GnomeUIInfo workbook_menu_tools_two_means [] = {
 
 	GNOMEUIINFO_ITEM_NONE (N_("_Paired Samples: T-Test"),
-		N_("Comparing two population means for two paired samples.: t-test"),
+		N_("Comparing two population means for two paired samples: t-test"),
 		cb_tools_ttest_paired),
 
-	GNOMEUIINFO_ITEM_NONE (N_("Unpaired Samples, _Equal Var.: T-Test"),
+	GNOMEUIINFO_ITEM_NONE (N_("Unpaired Samples, _Equal Variances: T-Test"),
 		N_("Comparing two population means for two unpaired samples "
 		   "from populations with equal variances: t-test"),
 		cb_tools_ttest_equal_var),
 
-	GNOMEUIINFO_ITEM_NONE (N_("Unpaired Samples, _Unequal Var.: T-Test"),
+	GNOMEUIINFO_ITEM_NONE (N_("Unpaired Samples, _Unequal Variances: T-Test"),
 		N_("Comparing two population means for two unpaired samples "
 		   "from populations with unequal variances: t-test"),
 		cb_tools_ttest_unequal_var),
@@ -3802,7 +3802,7 @@ static GnomeUIInfo workbook_menu_tools_two_means [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Known Variances or Large Sample: Z-Test"),
 		N_("Comparing two population means from populations "
 		   "with known variances "
-		   "or using a large sample: z- test"),
+		   "or using a large sample: z-test"),
 		cb_tools_ztest),
 
 	GNOMEUIINFO_END
