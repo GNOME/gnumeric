@@ -1,3 +1,14 @@
+1999-07-13  Jody Goldberg  <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_formula): Improve handling of failure
+	  cases to ensure that we set the values and formats even if formulas
+	  get confused.
+	(ms_excel_formula_shared): Back out change to set value on error.
+	(ms_excel_get_xf) : 0 and 15 may be defaults but we now have their
+	  records so no need to treat them specially.
+	(ms_excel_set_cell_xf) : It may be the default but we have the XF data
+	  for it now so USE IT.
+
 1999-07-13  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel-read.c (ms_excel_formula_shared): Fixup previous patch.
@@ -14,7 +25,8 @@
 
 	* ms-excel-read.c (ms_excel_read_workbook SST) : Zero sized strings use
 	  3 bytes (length + header) not 2.
-	(ms_excel_read_cell LABELSST) : Blank strings should have value wrappers.
+	(ms_excel_read_cell LABELSST) : Blank strings should have value
+	  wrappers.
 	(ms_excel_parse_formula) : Support missing trailing args for
 	  builtin functions.
 

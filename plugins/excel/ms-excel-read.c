@@ -929,14 +929,6 @@ ms_excel_get_xf (ExcelSheet *sheet, int const xfidx)
 	BiffXFData const *xf;
 	GPtrArray const * const p = sheet->wb->XF_cell_records;
 
-	/* Normal cell formatting */
-	if (xfidx == 0)
-		return NULL;
-
-	/* Default cell formatting */
-	if (xfidx == 15)
-    		return NULL;
-
 	g_return_val_if_fail (p && 0 <= xfidx && xfidx < p->len, NULL);
 	xf = g_ptr_array_index (p, xfidx);
 
@@ -953,12 +945,6 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 	int back_index;
 	
 	g_return_if_fail (xf);
-	
-	if (xfidx == 0) {
-/*		printf ("Normal cell formatting\n"); */
-		return;
-	}
-
 	g_return_if_fail (cell->value);
 
 	/*
@@ -1350,9 +1336,6 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 {
 	g_return_val_if_fail (ms_biff_query_next (q), FALSE);
 	if (q->ls_op != BIFF_SHRFMLA && q->ls_op != BIFF_ARRAY) {
-		/* There must be _no_ path through this function that does
-		   not set either the cell value or the formula */
-		cell_set_text (cell, "Broken expr b");
 		printf ("EXCEL : unexpected record after a formula %x in '%s'\n",
 			q->opcode, cell_name (cell->col->pos, cell->row->pos));
 		return FALSE;
@@ -1412,7 +1395,6 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 		    cell_set_formula_tree_simple (cell, expr);
 
 		expr_tree_unref (expr);
-		sheet->blank = FALSE;
 	}
 	return TRUE;
 }
@@ -1421,6 +1403,11 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 static void
 ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 {
+	/*
+	 * NOTE : There must be _no_ path through this function that does
+	 *        not set the cell value. 
+	 */
+
 	/* Pre-retrieve incase this is a string */
 	gboolean array_elem, is_string = FALSE;
 	guint16 const xf_index = EX_GETXF (q);
@@ -1515,19 +1502,18 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 		 *                     when the flag is set.
 		 */
 		cell_set_formula_tree_simple (cell, expr);
-	} else if (!array_elem) {
-		if (!ms_excel_formula_shared (q, sheet, cell)) {
-			cell_set_text (cell, "Broken expr a");
-			g_warning ("NULL expr a");
-			return;
-		} /* else has been set properly */
-	} else { /* Expr is NULL */
-		g_warning ("NULL expr b");
-		cell_set_text (cell, "Broken expr b");
+		expr_tree_unref (expr);
+	} else if (!array_elem && !ms_excel_formula_shared (q, sheet, cell))
+	{
+		/* 
+		 * NOTE : Only the expression is screwed.
+		 * The value and format can still be set.
+		 */
+		g_warning ("EXCEL : Shared formula problems");
 	}
 
-	if (is_string)
-	{
+	if (is_string) {
+		char *v = NULL;
 		if (ms_biff_query_next (q) && q->opcode == BIFF_STRING) {
 			/*
 			 * NOTE : the Excel developers kit docs are
@@ -1536,14 +1522,13 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 			 *        unicode format rather than the pure
 			 *        length version the docs describe.
 			 */
-			char *v =
-				biff_get_text (q->data + 2,
-					       BIFF_GET_GUINT16(q->data),
-					       NULL);
-			if (v) {
-				val = value_new_string (v);
-				g_free (v);
-			}
+			v = biff_get_text (q->data + 2,
+						 BIFF_GET_GUINT16(q->data),
+						 NULL);
+		}
+		if (v) {
+			val = value_new_string (v);
+			g_free (v);
 		} else {
 			/*
 			 * Docs say that there should be a STRING
@@ -1551,20 +1536,25 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 			 */
 			g_warning ("Excel import error, "
 				   "missing STRING record");
+			val = value_new_string ("MISSING STRING");
 		}
 	}
 
-	if (val) {
-		if (cell->value)
-			printf ("ERROR : How does cell already have value?\n");
-		else
-			cell->value = val;
-		ms_excel_set_cell_xf (sheet, cell, xf_index);
-	} else
-		printf ("Unable to set format for cell with no value.\n");
+	if (val == NULL) {
+		g_warning ("EXCEL : Invalid state.  Missing Value?");
+		val = value_new_string ("MISSING Value");
+	}
+	if (cell->value != NULL) {
+		g_warning ("EXCEL : How does cell already have value?\n");
+		value_release (cell->value);
+	}
 
-	if (expr != NULL)
-		expr_tree_unref (expr);
+	/* Set value */
+	cell->value = val;
+
+	/* Set format */
+	ms_excel_set_cell_xf (sheet, cell, xf_index);
+
 	sheet->blank = FALSE;
 }
 
