@@ -36,6 +36,8 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
  */
 /* Enables debugging mesgs while reading excel workbooks */
 gint ms_excel_read_debug = 0;
+/* Enables debugging mesgs while reading parsing escher streams */
+gint ms_excel_escher_debug = 0;
 /* Enables debugging mesgs while reading excel functions */
 gint ms_excel_formula_debug = 0;
 /* Enables debugging mesgs while reading excel colors & patterns */
@@ -140,7 +142,7 @@ excel_save (IOContext *context, WorkbookView *wb_view, const char *filename,
 
 	if (g_file_exists (filename)) {
 		gnumeric_io_error_save (context,
-			 _("Saving over old files disabled for safety"));
+			 _("Saving over old Excel files disabled for safety"));
 		return;
 	}
 
@@ -171,7 +173,7 @@ excel_save (IOContext *context, WorkbookView *wb_view, const char *filename,
 }
 
 void
-excel98_file_save (FileSaver const *fs, IOContext *context,
+excel97_file_save (FileSaver const *fs, IOContext *context,
                    WorkbookView *wb_view, const char *filename)
 {
 	excel_save (context, wb_view, filename, MS_BIFF_V8);

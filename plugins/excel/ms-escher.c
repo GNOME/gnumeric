@@ -128,7 +128,7 @@ ms_escher_get_data (MSEscherState * state,
 		state->segment_len = q->length;
 
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 1)
+		if (ms_excel_escher_debug > 1)
 			printf ("Target is 0x%x bytes at 0x%x, current = 0x%x..0x%x;\n"
 				"Adding biff-0x%x of length 0x%x;\n",
 				num_bytes, offset,
@@ -148,14 +148,14 @@ ms_escher_get_data (MSEscherState * state,
 		int counter = 0;
 
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 1)
+		if (ms_excel_escher_debug > 1)
 			printf ("MERGE needed (%d+%d) >= %d;\n",
 				offset, num_bytes, state->end_offset);
 #endif
 
 		do {
 #ifndef NO_DEBUG_EXCEL
-			if (ms_excel_read_debug > 1)
+			if (ms_excel_escher_debug > 1)
 				printf ("record %d) add %d bytes;\n", ++counter, len);
 #endif
 			/* copy necessary portion of current record */
@@ -189,7 +189,7 @@ ms_escher_get_data (MSEscherState * state,
 		/* Copy back stub */
 		memcpy (tmp, res, num_bytes - (tmp-buffer));
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 1)
+		if (ms_excel_escher_debug > 1)
 			printf ("record %d) add %d bytes;\n", ++counter, num_bytes - (tmp-buffer));
 #endif
 		return buffer;
@@ -246,7 +246,7 @@ ms_escher_read_SplitMenuColors (MSEscherState * state, MSEscherHeader * h)
 		guint32 const threeD	= MS_OLE_GET_GUINT32(data + 12);
 
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 0)
+		if (ms_excel_escher_debug > 0)
 			printf ("top_level_fill = 0x%x;\nline = 0x%x;\nshadow = 0x%x;\nthreeD = 0x%x;\n",
 				top_level_fill, line, shadow, threeD);
 #endif
@@ -291,7 +291,7 @@ write_file (gchar const * const name, const guint8 * data,
 	if (f) {
 		fwrite (data, len, 1, f);
 		fclose (f);
-		if (ms_excel_read_debug > 0)
+		if (ms_excel_escher_debug > 0)
 			printf ("written 0x%x bytes to '%s';\n",
 				len, file_name->str);
 	} else
@@ -307,15 +307,16 @@ ms_escher_read_BSE (MSEscherState * state, MSEscherHeader * h)
 	/* read the header */
 	gboolean needs_free;
 	const guint8 * data =
-		ms_escher_get_data (state, h->offset, 34,
+		ms_escher_get_data (state, h->offset, 36,
 				    common_header_len, &needs_free);
-	const guint8 win_type	= MS_OLE_GET_GUINT8 (data + 0);
-	const guint8 mac_type	= MS_OLE_GET_GUINT8 (data + 1);
-	guint32 const size	= MS_OLE_GET_GUINT32(data + 20);
-	guint32 const ref_count	= MS_OLE_GET_GUINT32(data + 24);
-	gint32 const del_offset	= MS_OLE_GET_GUINT32(data + 28);
-	const guint8 is_texture	= MS_OLE_GET_GUINT8 (data + 32);
-	const guint8 name_len	= MS_OLE_GET_GUINT8 (data + 33);
+	guint8 const  win_type	= MS_OLE_GET_GUINT8  (data + 0);
+	guint8 const  mac_type	= MS_OLE_GET_GUINT8  (data + 1);
+	/*guint16 const tag	= MS_OLE_GET_GUINT16 (data + 18);*/
+	guint32 const size	= MS_OLE_GET_GUINT32 (data + 20);
+	guint32 const ref_count	= MS_OLE_GET_GUINT32 (data + 24);
+	gint32 const del_offset	= MS_OLE_GET_GUINT32 (data + 28);
+	const guint8 is_texture	= MS_OLE_GET_GUINT8  (data + 32);
+	const guint8 name_len	= MS_OLE_GET_GUINT8  (data + 33);
 	guint8 checksum[16]; /* RSA Data Security, Inc. MD4 Message-Digest Algorithm */
 	char *name = "unknown";
 	int i;
@@ -323,7 +324,7 @@ ms_escher_read_BSE (MSEscherState * state, MSEscherHeader * h)
 		checksum[i] = MS_OLE_GET_GUINT8 (data + 2 + i);
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 0) {
+	if (ms_excel_escher_debug > 0) {
 		printf ("Win type = %s;\n", bliptype_name (win_type));
 		printf ("Mac type = %s;\n", bliptype_name (mac_type));
 		printf ("Size = 0x%x(=%d) RefCount = 0x%x DelayOffset = 0x%x '%s';\n",
@@ -348,7 +349,10 @@ ms_escher_read_BSE (MSEscherState * state, MSEscherHeader * h)
 		/* name = biff_get_text (data+36, name_len, &txt_byte_len); */
 	}
 
-	return ms_escher_read_container (state, h, 36);
+	/* Ignore empties */
+	if (h->len > 36 + common_header_len)
+		return ms_escher_read_container (state, h, 36);
+	return FALSE;
 }
 
 static gboolean
@@ -393,19 +397,19 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 	{
 		int const header = 17 + primary_uid_size + common_header_len;
 		gboolean needs_free;
-		const char *repoid;
-		const guint8 *data =
-			ms_escher_get_data (state, h->offset, h->len,
-					    header, &needs_free);
+		char const *repoid;
+		guint8 const *data = ms_escher_get_data (state, h->offset,
+			    h->len, header, &needs_free);
 
 		repoid = "OAFIID:GNOME_EOG_Embeddable";
 		ms_escher_blip_new (data, h->len - header, repoid, state->container);
 
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 1)
+		if (ms_excel_escher_debug > 1)
 			write_file ("unknown", data, h->len - header, h->fbt - Blip_START);
 #endif
-		g_free (data);
+		if (needs_free)
+			g_free ((guint8*)data);
 		break;
 	}
 
@@ -581,7 +585,7 @@ ms_escher_read_Spgr (MSEscherState * state, MSEscherHeader * h)
 	g_return_val_if_fail (h->instance <= 202, TRUE);
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 0)
+	if (ms_excel_escher_debug > 0)
 		printf ("%s (0x%x);\n", shape_names[h->instance],
 			h->instance);
 #endif
@@ -600,7 +604,7 @@ ms_escher_read_Sp (MSEscherState * state, MSEscherHeader * h)
 	    guint32 const spid  = MS_OLE_GET_GUINT32 (data+0);
 	    guint32 const flags = MS_OLE_GET_GUINT32 (data+4);
 #ifndef NO_DEBUG_EXCEL
-	    if (ms_excel_read_debug > 0)
+	    if (ms_excel_escher_debug > 0)
 		    printf ("SPID %d, Type %d,%s%s%s%s%s%s%s%s%s%s%s;\n",
 			    spid, h->instance,
 			    (flags&0x01) ? " Group": "",
@@ -1075,9 +1079,31 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		prev_pid = pid;
 
 		switch (pid) {
+	/* Transofrmation */
 		/* 0 : fixed point: 16.16 degrees */
 		case 4 : name = "long rotation"; break;
 
+	/* Protection */
+		/* FALSE : */
+		case 119 : name = "bool LockRotation"; break;
+		/* FALSE : */
+		case 120 : name = "bool LockAspectRatio"; break;
+		/* FALSE : */
+		case 121 : name = "bool LockPosition"; break;
+		/* FALSE : */
+		case 122 : name = "bool LockAgainstSelect"; break;
+		/* FALSE : */
+		case 123 : name = "bool LockCropping"; break;
+		/* FALSE : */
+		case 124 : name = "bool LockVertices"; break;
+		/* FALSE : */
+		case 125 : name = "bool LockText"; break;
+		/* FALSE : */
+		case 126 : name = "bool LockAdjustHandles"; break;
+		/* FALSE : */
+		case 127 : name = "bool LockAgainstGrouping"; break;
+
+	/* Text */
 		/* 0 : id for the text, value determined by the host */
 		case 128 : name = "long Txid"; break;
 		/* 1/10" : margins relative to shape's inscribed text rectangle (in EMUs) */
@@ -1113,6 +1139,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* FALSE : Size text to fit shape size */
 		case 191 : name = "bool fFitTextToShape"; break;
 
+	/* GeoText */
 		/* NULL : UNICODE text string */
 		case 192 : name = "wchar* gtextUNICODE"; break;
 		/* NULL : RTF text string */
@@ -1158,69 +1185,53 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* FALSE : Strike through font */
 		case 255 : name = "bool gtextFStrikethrough"; break;
 
+	/* Blip */
 		/* 0 : 16.16 fraction times total image width or height, as appropriate. */
 		case 256 : name = "fixed16_16 cropFromTop"; break;
 		case 257 : name = "fixed16_16 cropFromBottom"; break;
 		case 258 : name = "fixed16_16 cropFromLeft"; break;
 		case 259 : name = "fixed16_16 cropFromRight"; break;
-
 		/* NULL : Blip to display */
 		case 260 : name = "Blip * pib";
 			   h->blip_id = (int)val - 1;
 			   break;
-
 		/* NULL : Blip file name */
 		case 261 : name = "wchar * pibName"; break;
-
 		/* What are BlipFlags ? */
 		/* Comment Blip flags */
 		case 262 : name = "BlipType pibFlags"; break;
-
 		/* ~0 : transparent color (none if ~0UL)  */
 		case 263 : name = "long pictureTransparent"; break;
-
 		/* 1<<16 : contrast setting */
 		case 264 : name = "long pictureContrast"; break;
-
 		/* 0 : brightness setting */
 		case 265 : name = "long pictureBrightness"; break;
-
 		/* 0 : 16.16 gamma */
 		case 266 : name = "fixed16_16 pictureGamma"; break;
-
 		/* 0 : Host-defined ID for OLE objects (usually a pointer) */
 		case 267 : name = "Long pictureId"; break;
-
 		/* undefined : Double shadow Colour */
 		case 268 : name = "Colour pictureDblCrMod"; break;
-
 		/* undefined : */
 		case 269 : name = "Colour pictureFillCrMod"; break;
-
 		/* undefined : */
 		case 270 : name = "Colour pictureLineCrMod"; break;
-
 		/* NULL : Blip to display when printing */
 		case 271 : name = "Blip * pibPrint"; break;
-
 		/* NULL : Blip file name */
 		case 272 : name = "wchar * pibPrintName"; break;
-
 		/* Comment Blip flags */
 		case 273 : name = "BlipType pibPrintFlags"; break;
-
 		/* FALSE : Do not hit test the picture */
 		case 316 : name = "bool fNoHitTestPicture"; break;
-
 		/* FALSE : grayscale display */
 		case 317 : name = "bool pictureGray"; break;
-
 		/* FALSE : bi-level display */
 		case 318 : name = "bool pictureBiLevel"; break;
-
 		/* FALSE : Server is active (OLE objects only) */
 		case 319 : name = "bool pictureActive"; break;
 
+	/* Geometry */
 	        /* 0 : Defines the G (geometry) coordinate space. */
 		case 320 : name = "long geoLeft"; break;
 		/* 0 :  */
@@ -1271,6 +1282,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* TRUE : OK to fill the shape through the UI or VBA? */
 		case 383 : name = "bool fFillOK"; break;
 
+	/* FillStyle */
 		/* Solid : Type of fill */
 		case 384 : name = "FillType fillType"; break;
 		/* white : Foreground color */
@@ -1342,6 +1354,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* FALSE : Hit test a shape as though filled */
 		case 447 : name = "bool fNoFillHitTest"; break;
 
+	/* LineStyle */
 		/* black : Color of line */
 		case 448 : name = "Colour lineColor"; break;
 		/* 1<<16 : Not implemented */
@@ -1401,6 +1414,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* FALSE : Draw a dashed line if no line */
 		case 511 : name = "bool fNoLineDrawDash"; break;
 
+	/* ShadowStyle */
 		/* Offset : Type of effect */
 		case 512 : name = "Shadow shadowType"; break;
 		/* 0x808080 : Foreground color */
@@ -1442,6 +1456,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* FALSE : Excel5-style shadow */
 		case 575 : name = "bool fshadowObscured"; break;
 
+	/* PerspectiveStyle */
 		/* Shape : Where transform applies */
 		case 576 : name = "Transform perspectiveType"; break;
 		/* 0 : The long values define a transformation matrix,
@@ -1471,6 +1486,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* FALSE : On/off */
 		case 639 : name = "bool fPerspective"; break;
 
+	/* 3D Object */
 		/* 0 : Fixed-point 16.16 */
 		case 640 : name = "long DSpecularAmt"; break;
 		/* 65536 : Fixed-point 16.16 */
@@ -1500,6 +1516,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* TRUE :  */
 		case 703 : name = "bool fc3DLightFace"; break;
 
+	/* 3D Style */
 		/* 0 : degrees (16.16) about y axis */
 		case 704 : name = "long c3DYRotationAngle"; break;
 		/* 0 : degrees (16.16) about x axis */
@@ -1565,6 +1582,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* 0 : Is fill lighting harsh?` */
 		case 767 : name = "bool fc3DFillHarsh"; break;
 
+	/* Shape */
 		/* NULL : master shape */
 		case 769 : name = "MSOHSP pMaster"; break;
 		/* None : Type of connector */
@@ -1587,91 +1605,66 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* FALSE : If TRUE, this is the background shape. */
 		case 831 : name = "bool fBackground"; break;
 
+	/* CallOut */
 		/* TwoSegment : CalloutType */
 		case 832 : name = "CalloutType spcot"; break;
-
 		/* 1/12" : Distance from box to first point.(EMUs) */
 		case 833 : name = "long dxyCalloutGap"; break;
-
 		/* Any : Callout angle */
 		case 834 : name = "CallOutAngle spcoa"; break;
-
 		/* Specified : Callout drop type */
 		case 835 : name = "CalloutDrop spcod"; break;
-
 		/* 9 points : if msospcodSpecified, the actual drop distance */
 		case 836 : name = "long dxyCalloutDropSpecified"; break;
-
 		/* 0 : if fCalloutLengthSpecified, the actual distance */
 		case 837 : name = "long dxyCalloutLengthSpecified"; break;
-
 		/* FALSE : Is the shape a callout? */
 		case 889 : name = "bool fCallout"; break;
-
 		/* FALSE : does callout have accent bar */
 		case 890 : name = "bool fCalloutAccentBar"; break;
-
 		/* TRUE : does callout have a text border */
 		case 891 : name = "bool fCalloutTextBorder"; break;
-
 		/* FALSE :  */
 		case 892 : name = "bool fCalloutMinusX"; break;
-
 		/* FALSE :  */
 		case 893 : name = "bool fCalloutMinusY"; break;
-
 		/* FALSE : If true, then we occasionally invert the drop distance */
 		case 894 : name = "bool fCalloutDropAuto"; break;
 
+	/* GroupShape */
 		/* FALSE : if true, we look at dxyCalloutLengthSpecified */
 		case 895 : name = "bool fCalloutLengthSpecified"; break;
-
 		/* NULL : Shape Name (present only if explicitly set) */
 		case 896 : name = "wchar* wzName"; break;
-
 		/* NULL : alternate text */
 		case 897 : name = "wchar* wzDescription"; break;
-
 		/* NULL : The hyperlink in the shape. */
 		case 898 : name = "IHlink* pihlShape"; break;
-
 		/* NULL : The polygon that text will be wrapped around (Word) */
 		case 899 : name = "IMsoArray pWrapPolygonVertices"; break;
-
 		/* 1/8" : Left wrapping distance from text (Word) */
 		case 900 : name = "long dxWrapDistLeft"; break;
-
 		/* 0 : Top wrapping distance from text (Word) */
 		case 901 : name = "long dyWrapDistTop"; break;
-
 		/* 1/8" : Right wrapping distance from text (Word) */
 		case 902 : name = "long dxWrapDistRight"; break;
-
 		/* 0 : Bottom wrapping distance from text (Word) */
 		case 903 : name = "long dyWrapDistBottom"; break;
-
 		/* 0 : Regroup ID  */
 		case 904 : name = "long lidRegroup"; break;
-
 		/* FALSE : Has the wrap polygon been edited? */
 		case 953 : name = "bool fEditedWrap"; break;
-
 		/* FALSE : Word-only (shape is behind text) */
 		case 954 : name = "bool fBehindDocument"; break;
-
 		/* FALSE : Notify client on a double click */
 		case 955 : name = "bool fOnDblClickNotify"; break;
-
 		/* FALSE : A button shape (i.e., clicking performs an action).
 		 * Set for shapes with attached hyperlinks or macros. */
 		case 956 : name = "bool fIsButton"; break;
-
 		/* FALSE : 1D adjustment */
 		case 957 : name = "bool fOneD"; break;
-
 		/* FALSE : Do not display */
 		case 958 : name = "bool fHidden"; break;
-
 		/* TRUE : Print this shape */
 		case 959 : name = "bool fPrint"; break;
 
@@ -1679,7 +1672,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		};
 
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 0)
+		if (ms_excel_escher_debug > 0)
 			printf ("%s %d = 0x%x (=%d) %s%s;\n", name, pid, val, val,
 				is_blip ? " is blip" : "",
 				is_complex ? " is complex" : "");
@@ -1827,9 +1820,9 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 		h.instance = (tmp >> 4) & 0xfff;
 
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 0) {
-			printf ("length 0x%x(=%d), ver 0x%x, instance 0x%x, offset = 0x%x;\n",
-				h.len, h.len, h.ver, h.instance, h.offset);
+		if (ms_excel_escher_debug > 0) {
+			printf ("length 0x%x(=%d), ver 0x%x, instance 0x%x, offset = 0x%x(=%d);\n",
+				h.len, h.len, h.ver, h.instance, h.offset, h.offset);
 		}
 #endif
 		/*
@@ -1837,7 +1830,7 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 		 * If problems arise in the next tests it probably indicates that
 		 * the PRECEDING record length was invalid.  Check that it included the header */
 		if ((h.fbt & (~0x1ff)) != 0xf000) {
-			printf ("WARNING EXCEL : Invalid fbt = %x\n", h.fbt);
+			printf ("EXCEL : Invalid fbt = 0x%x\n", h.fbt);
 			return TRUE;
 		}
 
@@ -1883,13 +1876,13 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 			g_return_val_if_fail (handler != NULL, TRUE);
 
 #ifndef NO_DEBUG_EXCEL
-			if (ms_excel_read_debug > 0)
+			if (ms_excel_escher_debug > 0)
 				printf ("{ /* %s */\n", fbt_name);
 #endif
 			res = (*handler)(state, &h);
 
 #ifndef NO_DEBUG_EXCEL
-			if (ms_excel_read_debug > 0)
+			if (ms_excel_escher_debug > 0)
 				printf ("}; /* %s */\n", fbt_name);
 #endif
 			if (res) {
@@ -1934,6 +1927,7 @@ ms_escher_parse (BiffQuery *q, MSContainer *container)
 		return;
 	}
 
+	/*ms_excel_escher_debug = 2; */
 	state.container	   = container;
 	state.q		   = q;
 	state.segment_len  = q->length;
@@ -1945,14 +1939,14 @@ ms_escher_parse (BiffQuery *q, MSContainer *container)
 	fake_header.offset = 0;
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 0)
+	if (ms_excel_escher_debug > 0)
 		printf ("{  /* Escher '%s'*/\n", drawing_record_name);
 #endif
 
 	ms_escher_read_container (&state, &fake_header, -common_header_len);
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 0)
+	if (ms_excel_escher_debug > 0)
 		printf ("}; /* Escher '%s'*/\n", drawing_record_name);
 #endif
 }

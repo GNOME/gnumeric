@@ -444,47 +444,6 @@ expr_tree_string (const char *str)
 {
 	return expr_tree_new_constant (value_new_string (str));
 }
-#if 0
-{
-const UINT16 ExcelToSc::nRowMask = 0x3FFF;
-	if( bName )
-	{
-		if( nRow & 0x4000 ) {
-			rSRD.SetColRel( TRUE );
-			rSRD.nRelCol = *( ( sal_Char * ) &nCol );
-		} else
-		{
-			rSRD.SetColRel( FALSE );
-			rSRD.nCol = nCol;
-		}
-
-		if( nRow & 0x8000 )
-		{
-			rSRD.SetRowRel( TRUE );
-			if( nRow & 0x2000 )	// Bit 13 gesetzt?
-				rSRD.nRelRow = *( ( INT16 * ) &nRow ) | 0xC000;
-			else
-				rSRD.nRelRow = nRow & nRowMask;
-		} else
-		{
-			rSRD.SetRowRel( FALSE );
-			rSRD.nRow = nRow & nRowMask;
-		}
-	} else
-	{
-		rSRD.SetColRel( ( nRow & 0x4000 ) > 0 );
-		rSRD.nCol = nCol;
-
-		rSRD.SetRowRel( ( nRow & 0x8000 ) > 0 );
-		rSRD.nRow = nRow & nRowMask;
-
-		if ( rSRD.IsColRel() )
-			rSRD.nRelCol = rSRD.nCol - aEingPos.Col();
-		if ( rSRD.IsRowRel() )
-			rSRD.nRelRow = rSRD.nRow - aEingPos.Row();
-	}
-}
-#endif
 
 /**
  *  A useful routine for extracting data from a common

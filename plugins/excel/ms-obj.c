@@ -53,18 +53,18 @@ char *
 ms_read_TXO (BiffQuery *q)
 {
 	static char const * const orientations [] = {
-	    "Left to right",
-	    "Top to Bottom",
-	    "Bottom to Top on Side",
-	    "Top to Bottom on Side"
+		"Left to right",
+		"Top to Bottom",
+		"Bottom to Top on Side",
+		"Top to Bottom on Side"
 	};
 	static char const * const haligns [] = {
-	    "At left", "Horizontaly centered",
-	    "At right", "Horizontaly justified"
+		"At left", "Horizontaly centered",
+		"At right", "Horizontaly justified"
 	};
 	static char const * const valigns [] = {
-	    "At top", "Verticaly centered",
-	    "At bottom", "Verticaly justified"
+		"At top", "Verticaly centered",
+		"At bottom", "Verticaly justified"
 	};
 
 	guint16 const options     = MS_OLE_GET_GUINT16 (q->data);
@@ -74,7 +74,6 @@ ms_read_TXO (BiffQuery *q)
 	int const halign = (options >> 1) & 0x7;
 	int const valign = (options >> 4) & 0x7;
 	char         *text = g_new (char, text_len + 1);
-	guint8  const unicode_flag = MS_OLE_GET_GUINT8 (q->data + 18);
 	guint16       peek_op;
 
 	g_return_val_if_fail (orient <= 3, NULL);
@@ -88,12 +87,8 @@ ms_read_TXO (BiffQuery *q)
 		int i, increment = 1;
 
 		ms_biff_query_next (q);
-		data = q->data;
-
-		if (unicode_flag) {
-			increment = 2;
-			data++;
-		}
+		increment = (MS_OLE_GET_GUINT8 (q->data)) ? 2 : 1;
+		data = q->data + 1;
 
 		/*
 		 * FIXME: Use biff_get_text or something ?
@@ -128,14 +123,19 @@ ms_read_TXO (BiffQuery *q)
 }
 
 static void
-ms_obj_dump (guint8 const * const data, int const len, char const * const name)
+ms_obj_dump (guint8 const *data, int len, int data_left, char const *name)
 {
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_object_debug < 2)
 		return;
 
 	printf ("{ %s \n", name);
-	ms_ole_dump (data+4, len);
+	if (len+4 > data_left) {
+		printf ("/* invalid length %d (0x%x) > %d(0x%x)*/\n",
+			len+4, len+4, data_left, data_left);
+		len = data_left - 4;
+	}
+	ms_ole_dump (data, len+4);
 	printf ("}; /* %s */\n", name);
 #endif
 }
@@ -179,12 +179,20 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 	data = q->data;
 	data_len_left = q->length;
 
+#if 0
+	dump_biff (q);
+#endif
+
 	/* Scan through the pseudo BIFF substream */
 	while (data_len_left > 0 && !hit_end) {
 		guint16 const record_type = MS_OLE_GET_GUINT16(data);
 
-		/* All the sub-records seem to have this layout */
-		guint16 const len = MS_OLE_GET_GUINT16(data+2);
+		/* All the sub-records seem to have this layout
+		 * 2001/Mar/29 JEG : liars.  Ok not all records have this
+		 * layout.  Create a list box.  It seems to do something
+		 * unique.  It acts like an end, and has no length specified.
+		 */
+		guint16 len = MS_OLE_GET_GUINT16(data+2);
 
 		/* 1st record must be COMMON_OBJ*/
 		g_return_val_if_fail (obj->excel_type >= 0 ||
@@ -194,24 +202,24 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 		switch (record_type) {
 		case GR_END:
 			g_return_val_if_fail (len == 0, TRUE);
-			ms_obj_dump (data, len, "ObjEnd");
+			ms_obj_dump (data, len, data_len_left, "ObjEnd");
 			hit_end = TRUE;
 			break;
 
 		case GR_MACRO :
-			ms_obj_dump (data, len, "MacroObject");
+			ms_obj_dump (data, len, data_len_left, "MacroObject");
 			break;
 
 		case GR_COMMAND_BUTTON :
-			ms_obj_dump (data, len, "CommandButton");
+			ms_obj_dump (data, len, data_len_left, "CommandButton");
 			break;
 
 		case GR_GROUP_BUTTON :
-			ms_obj_dump (data, len, "GroupButton");
+			ms_obj_dump (data, len, data_len_left, "GroupButton");
 			break;
 
 		case GR_CLIPBOARD_FORMAT:
-			ms_obj_dump (data, len, "ClipboardFmt");
+			ms_obj_dump (data, len, data_len_left, "ClipboardFmt");
 			break;
 
 		case GR_PICTURE_OPTIONS:
@@ -234,23 +242,23 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 		}
 
 		case GR_PICTURE_FORMULA:
-			ms_obj_dump (data, len, "PictFormula");
+			ms_obj_dump (data, len, data_len_left, "PictFormula");
 			break;
 
 		case GR_CHECKBOX_LINK :
-			ms_obj_dump (data, len, "CheckboxLink");
+			ms_obj_dump (data, len, data_len_left, "CheckboxLink");
 			break;
 
 		case GR_RADIO_BUTTON :
-			ms_obj_dump (data, len, "RadioButton");
+			ms_obj_dump (data, len, data_len_left, "RadioButton");
 			break;
 
 		case GR_SCROLLBAR :
-			ms_obj_dump (data, len, "ScrollBar");
+			ms_obj_dump (data, len, data_len_left, "ScrollBar");
 			break;
 
 		case GR_NOTE_STRUCTURE :
-			ms_obj_dump (data, len, "Note");
+			ms_obj_dump (data, len, data_len_left, "Note");
 			break;
 
 		case GR_SCROLLBAR_FORMULA :
@@ -259,28 +267,35 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			 * 0x12 uint16 == number of elements
 			 * 0x14 uint16 == current element (1 based)
 			 */
-			ms_obj_dump (data, len, "ScrollbarFmla");
+			ms_obj_dump (data, len, data_len_left, "ScrollbarFmla");
 			break;
 
 		case GR_GROUP_BOX_DATA :
-			ms_obj_dump (data, len, "GroupBoxData");
+			ms_obj_dump (data, len, data_len_left, "GroupBoxData");
 			break;
 
 		case GR_EDIT_CONTROL_DATA :
-			ms_obj_dump (data, len, "EditCtrlData");
+			ms_obj_dump (data, len, data_len_left, "EditCtrlData");
 			break;
 
 		case GR_RADIO_BUTTON_DATA :
-			ms_obj_dump (data, len, "RadioData");
+			ms_obj_dump (data, len, data_len_left, "RadioData");
 			break;
 
 		case GR_CHECKBOX_DATA :
-			ms_obj_dump (data, len, "CheckBoxData");
+			ms_obj_dump (data, len, data_len_left, "CheckBoxData");
 			break;
 
 		case GR_LISTBOX_DATA :
 		{
-			ms_obj_dump (data, len, "ListBoxData");
+			/* FIXME : find some docs for this
+			 * It seems as if list box data does not conform to
+			 * the docs.  It acts like an end and has no size.
+			 */
+			hit_end = TRUE;
+			len = data_len_left - 4;
+
+			ms_obj_dump (data, len, data_len_left, "ListBoxData");
 			break;
 		}
 
@@ -291,14 +306,14 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 #ifndef NO_DEBUG_EXCEL
 			if (ms_excel_object_debug > 0)
 				printf ("Checkbox linked to : %s%d\n", col_name(col), row+1);
-			ms_obj_dump (data, len, "CheckBoxFmla");
+			ms_obj_dump (data, len, data_len_left, "CheckBoxFmla");
 #endif
 			break;
 		}
 
 		case GR_COMMON_OBJ_DATA:
 		{
-			guint16 const options =MS_OLE_GET_GUINT16(data+8);
+			guint16 const options =MS_OLE_GET_GUINT16 (data+8);
 
 			/* Multiple objects in 1 record ?? */
 			g_return_val_if_fail (obj->excel_type == -1, -1);
@@ -306,11 +321,11 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			obj->excel_type = MS_OLE_GET_GUINT16(data+4);
 			obj->id = MS_OLE_GET_GUINT16(data+6);
 
+#ifndef NO_DEBUG_EXCEL
 			/* only print when debug is enabled */
 			if (ms_excel_object_debug == 0)
 				break;
 
-#ifndef NO_DEBUG_EXCEL
 			if (options&0x0001)
 				printf ("Locked;\n");
 			if (options&0x0010)
@@ -331,24 +346,34 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			printf ("ERROR : Unknown Obj record 0x%x len 0x%x dll %d;\n",
 				record_type, len, data_len_left);
 		}
-		data += len+4,
-		data_len_left -= len+4;
+
+		if (data_len_left < len+4)
+			printf ("record len %d (0x%x) > %d\n", len+4, len+4, data_len_left);
 
 		/* FIXME : We need a structure akin to the escher code to do this properly */
-		while (data_len_left < 0) {
-			int const diff = data - q->data;
+		for (data_len_left -= len+4; data_len_left < 0; ) {
 			guint16 peek_op;
+
+			printf ("deficit of %d\n", data_len_left);
 
 			/* FIXME : what do we expect here ??
 			 * I've seen what seem to be embedded drawings
 			 * but I am not sure what is embedding what.
 			 */
-			g_return_val_if_fail (ms_biff_query_peek_next (q, &peek_op) &&
-					      peek_op == BIFF_CONTINUE, TRUE);
+			if (!ms_biff_query_peek_next (q, &peek_op) ||
+			    (peek_op != BIFF_CONTINUE &&
+			     peek_op != BIFF_MS_O_DRAWING &&
+			     peek_op != BIFF_TXO &&
+			     peek_op != BIFF_OBJ)) {
+				printf ("0x%x vs 0x%x\n", q->opcode, peek_op);
+				return TRUE;
+			}
+
 			ms_biff_query_next (q);
-			data = q->data + diff;
 			data_len_left += q->length;
+			printf ("merged in 0x%x with len %d\n", q->opcode, q->length);
 		}
+		data = q->data + q->length - data_len_left;
 	}
 
 	/* The ftEnd record should have been the last */

@@ -1,3 +1,31 @@
+2001-03-30  Jody Goldberg <jgoldberg@home.com>
+
+	* boot.c (excel_save) : clarify message.
+
+2001-03-29  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-escher.c (ms_escher_read_Blip) : Fix leak plug.
+
+2001-03-29  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-obj.c (ms_obj_read_biff8_obj) : It seems certain that the MS docs
+	  are wrong about list boxes.  I hope they don't do the same thing for
+	  other records too.
+
+	* ms-escher.c : s/ms_excel_read_debug/ms_excel_escher_debug/
+	(ms_escher_read_OPT) : Add missing OPT records and cleanup docs.
+	(ms_escher_read_BSE) : Document the record size and don't attempt to
+	  treat this as a container if its content is of size 0.
+
+2001-03-28  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-obj.c (ms_read_TXO) : Fix the minor memory overrun morton found.
+
+2001-03-18  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-util.c (init_xl_font_widths) : recalculate the size of Geneva
+	  for the default case of Geneva not being available.
+
 2001-03-27  Morten Welinder  <terra@diku.dk>
 
 	* ms-escher.c (ms_escher_read_Blip): Plug leak.
