@@ -1,3 +1,14 @@
+2003-12-20  Jon K Hellan  <hellan@acm.org>
+
+	* widget-format-selector.c (struct _NumberFormatSelector): Add
+	entry_change_id.
+	(generate_format, fmt_dialog_enable_widgets)
+	(fmt_dialog_enable_widgets, cb_format_list_select): Use it.
+	(nfs_init): Remember entry_change_id.
+	(format_entry_set_text): New. Wrap gtk_entry_set_text, blocking
+	the "changed" signal and invoking cb_format_entry_changed
+	explicitly.
+
 2003-11-26  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.2

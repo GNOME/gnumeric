@@ -145,6 +145,7 @@ struct  _NumberFormatSelector {
 			GtkTreeSelection *selection;
 		} formats;
 
+		gulong          entry_changed_id;
 		GnmFormat	*spec;
 		gint		current_type;
 		int		num_decimals;
@@ -170,6 +171,8 @@ enum {
 
 static guint nfs_signals[LAST_SIGNAL] = { 0 };
 
+static void format_entry_set_text (NumberFormatSelector *nfs, gchar *text);
+
 static void
 generate_format (NumberFormatSelector *nfs)
 {
@@ -189,8 +192,7 @@ generate_format (NumberFormatSelector *nfs)
 	new_format = style_format_build (page, &format);
 	if (new_format) {
 		char *tmp = style_format_as_XL (new_format, TRUE);
-		gtk_entry_set_text (GTK_ENTRY (nfs->format.widget[F_ENTRY]),
-				    tmp);
+		format_entry_set_text (nfs, tmp);
 		g_free (tmp);
 	}
 
@@ -515,7 +517,7 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 			list_elem = nfs->format.spec->family_info.list_element;
 
 		tmp = style_format_str_as_XL (cell_formats[page][list_elem], TRUE);
-		gtk_entry_set_text (GTK_ENTRY (nfs->format.widget[F_ENTRY]), tmp);
+		format_entry_set_text (nfs, tmp);
 		g_free (tmp);
 	}
 
@@ -557,7 +559,7 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 			 */
 			if  (page == FMT_CUSTOM && select.stamp == 0) {
 				char *tmp = style_format_as_XL (nfs->format.spec, TRUE);
-				gtk_entry_set_text (GTK_ENTRY (nfs->format.widget[F_ENTRY]), tmp);
+				format_entry_set_text (nfs, tmp);
 				g_free (tmp);
 			} else if (select.stamp == 0)
 				gtk_tree_model_get_iter_first (
@@ -650,6 +652,24 @@ cb_format_entry_changed (GtkEditable *w, NumberFormatSelector *nfs)
 	g_free (fmt);
 }
 
+/*
+ * We only want to emit the number format changed signal once for each
+ * format change. When not blocking signals when calling
+ * gtk_entry_set_text, one would be emitted for deleting the old text
+ * and one for inserting the new. That's why we block the signal and
+ * invoke cb_format_entry_changed explicitly.
+ */
+static void
+format_entry_set_text (NumberFormatSelector *nfs, gchar *text)
+{
+	GtkEntry *entry = GTK_ENTRY (nfs->format.widget[F_ENTRY]);
+
+	g_signal_handler_block (entry, nfs->format.entry_changed_id);
+	gtk_entry_set_text (entry, text);
+	g_signal_handler_unblock (entry, nfs->format.entry_changed_id);
+	cb_format_entry_changed (GTK_EDITABLE (entry), nfs);
+}
+
 static void
 cb_format_list_select (GtkTreeSelection *selection, NumberFormatSelector *nfs)
 {
@@ -661,7 +681,7 @@ cb_format_list_select (GtkTreeSelection *selection, NumberFormatSelector *nfs)
 
 	gtk_tree_model_get (GTK_TREE_MODEL (nfs->format.formats.model),
 		&iter, 0, &text, -1);
-	gtk_entry_set_text (GTK_ENTRY (nfs->format.widget[F_ENTRY]), text);
+	format_entry_set_text (nfs, text);
 }
 
 static gboolean
@@ -997,9 +1017,10 @@ nfs_init (NumberFormatSelector *nfs)
 	}
 
 	/* Setup special handler for Custom */
-	g_signal_connect (G_OBJECT (nfs->format.widget[F_ENTRY]),
-			  "changed",
-			  G_CALLBACK (cb_format_entry_changed), nfs);
+	nfs->format.entry_changed_id 
+		= g_signal_connect (G_OBJECT (nfs->format.widget[F_ENTRY]),
+				    "changed",
+				    G_CALLBACK (cb_format_entry_changed), nfs);
 
 	/* Connect signal for format menu */
 	set_format_category_menu_from_style (nfs);
