@@ -102,10 +102,7 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 	ArtSVP *fill, *outline = NULL;
 	ArtDRect bbox;
 	ArtGradientLinear gradient;
-	ArtGradientStop stops[] = {
-		{ 0., { 0, 0, 0, 0 }},
-		{ 1., { 0, 0, 0, 0 }}
-	};
+	ArtGradientStop stops[2];
 	GdkPixbuf *image;
 	gint i, j, imax, jmax, w, h, x, y;
 
@@ -132,81 +129,16 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *renderer, ArtVpath *path, gboolea
 			break;
 
 		case GOG_FILL_STYLE_GRADIENT: {
-			double dx, dy;
 
 			art_vpath_bbox_drect (path, &bbox);
-			dx = bbox.x1 - bbox.x0;
-			dy = bbox.y1 - bbox.y0;
-
 			render = gog_art_renderer_new (prend);
 			art_render_svp (render, fill);
-			if (style->fill.u.gradient.dir < 4) {
-				gradient.a = 0.;
-				gradient.b = 1. / (dy ? dy : 1);
-				gradient.c = -(gradient.a * bbox.x0 + gradient.b * bbox.y0);
-			} else if (style->fill.u.gradient.dir < 8) {
-				gradient.a = 1. / (dx ? dx : 1);
-				gradient.b = 0.;
-				gradient.c = -(gradient.a * bbox.x0 + gradient.b * bbox.y0);
-			} else if (style->fill.u.gradient.dir < 12) {
-				double d = dx * dx + dy * dy;
-				if (!d) d = 1;
-				gradient.a = dx / d;
-				gradient.b = dy / d;
-				gradient.c = -(gradient.a * bbox.x0 + gradient.b * bbox.y0);
-			} else {
-				double d = dx * dx + dy * dy;
-				if (!d) d = 1;
-				gradient.a = -dx / d;
-				gradient.b = dy / d;
-				/* Note: this gradient is anchored at (x1,y0).  */
-				gradient.c = -(gradient.a * bbox.x1 + gradient.b * bbox.y0);
-			}
-
-			switch (style->fill.u.gradient.dir % 4) {
-			case 0:
-				gradient.spread = ART_GRADIENT_REPEAT;
-				gradient.n_stops = G_N_ELEMENTS (stops);
-				gradient.stops = stops;
-				go_color_to_artpix (stops[0].color,
-							style->fill.u.gradient.start);
-				go_color_to_artpix (stops[1].color,
-							style->fill.u.gradient.end);
-				break;
-			case 1:
-				gradient.spread = ART_GRADIENT_REPEAT;
-				gradient.n_stops = G_N_ELEMENTS (stops);
-				gradient.stops = stops;
-				go_color_to_artpix (stops[0].color,
-							style->fill.u.gradient.end);
-				go_color_to_artpix (stops[1].color,
-							style->fill.u.gradient.start);
-				break;
-			case 2:
-				gradient.spread = ART_GRADIENT_REFLECT;
-				gradient.n_stops = G_N_ELEMENTS (stops);
-				gradient.stops = stops;
-				go_color_to_artpix (stops[0].color,
-							style->fill.u.gradient.start);
-				go_color_to_artpix (stops[1].color,
-							style->fill.u.gradient.end);
-				gradient.a *= 2;
-				gradient.b *= 2;
-				gradient.c *= 2;
-				break;
-			case 3:
-				gradient.spread = ART_GRADIENT_REFLECT;
-				gradient.n_stops = G_N_ELEMENTS (stops);
-				gradient.stops = stops;
-				go_color_to_artpix (stops[0].color,
-							style->fill.u.gradient.end);
-				go_color_to_artpix (stops[1].color,
-							style->fill.u.gradient.start);
-				gradient.a *= 2;
-				gradient.b *= 2;
-				gradient.c *= 2;
-				break;
-			}
+			
+			go_gradient_setup (&gradient,
+					   style->fill.u.gradient.dir,
+					   style->fill.u.gradient.start, style->fill.u.gradient.end,
+					   bbox.x0, bbox.y0, bbox.x1, bbox.y1,
+					   stops);
 
 			art_render_gradient_linear (render,
 				&gradient, ART_FILTER_NEAREST);

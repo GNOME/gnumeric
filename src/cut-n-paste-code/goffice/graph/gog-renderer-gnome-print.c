@@ -136,10 +136,7 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gb
 	gint i, j, imax, jmax, w, h, x, y;
 	GOColor color;
 	ArtGradientLinear gradient;
-	ArtGradientStop stops[] = {
-		{ 0., { 0, 0, 0, 0 }},
-		{ 1., { 0, 0, 0, 0 }}
-	};
+	ArtGradientStop stops[2];
 
 	if (style->fill.type != GOG_FILL_STYLE_NONE || with_outline) {
 		draw_path (prend, path);
@@ -188,68 +185,12 @@ gog_renderer_gnome_print_draw_polygon (GogRenderer *renderer, ArtVpath *path, gb
 				gdk_pixbuf_get_rowstride (image),
 				gdk_pixbuf_get_n_channels (image) - 1,
 				8, ART_ALPHA_SEPARATE, NULL);
-			if (style->fill.u.gradient.dir < 4) {
-				gradient. a = 0.;
-				gradient. b = 1. / (PIXBUF_SIZE - 1);
-				gradient. c = 0.;
-			} else if (style->fill.u.gradient.dir < 8) {
-				gradient. a = 1. / (PIXBUF_SIZE - 1);
-				gradient. b = 0.;
-				gradient. c = 0.;
-			} else if (style->fill.u.gradient.dir < 12) {
-				gradient. a = 1. / (2 * PIXBUF_SIZE - 1);
-				gradient. b = 1. / (2 * PIXBUF_SIZE - 1);
-				gradient. c = 0.;
-			} else {
-				gradient. a = 1. / (2 * PIXBUF_SIZE - 1);
-				gradient. b = -1. / (2 * PIXBUF_SIZE - 1);
-				gradient. c = .5;
-			}
 
-			switch (style->fill.u.gradient.dir % 4) {
-			case 0:
-				gradient.spread = ART_GRADIENT_REPEAT;
-				gradient.n_stops = G_N_ELEMENTS (stops);
-				gradient.stops = stops;
-				go_color_to_artpix (stops[0].color,
-							style->fill.u.gradient.start);
-				go_color_to_artpix (stops[1].color,
-							style->fill.u.gradient.end);
-				break;
-			case 1:
-				gradient.spread = ART_GRADIENT_REPEAT;
-				gradient.n_stops = G_N_ELEMENTS (stops);
-				gradient.stops = stops;
-				go_color_to_artpix (stops[0].color,
-							style->fill.u.gradient.end);
-				go_color_to_artpix (stops[1].color,
-							style->fill.u.gradient.start);
-				break;
-			case 2:
-				gradient.spread = ART_GRADIENT_REFLECT;
-				gradient.n_stops = G_N_ELEMENTS (stops);
-				gradient.stops = stops;
-				go_color_to_artpix (stops[0].color,
-							style->fill.u.gradient.start);
-				go_color_to_artpix (stops[1].color,
-							style->fill.u.gradient.end);
-				gradient.a *= 2;
-				gradient.b *= 2;
-				gradient.c *= 2;
-				break;
-			case 3:
-				gradient.spread = ART_GRADIENT_REFLECT;
-				gradient.n_stops = G_N_ELEMENTS (stops);
-				gradient.stops = stops;
-				go_color_to_artpix (stops[0].color,
-							style->fill.u.gradient.end);
-				go_color_to_artpix (stops[1].color,
-							style->fill.u.gradient.start);
-				gradient.a *= 2;
-				gradient.b *= 2;
-				gradient.c *= 2;
-				break;
-			}
+			go_gradient_setup (&gradient,
+					   style->fill.u.gradient.dir,
+					   style->fill.u.gradient.start, style->fill.u.gradient.end,
+					   0, 0, PIXBUF_SIZE, PIXBUF_SIZE,
+					   stops);
 			art_render_gradient_linear (render,
 				&gradient, ART_FILTER_NEAREST);
 			art_render_invoke (render);
@@ -350,6 +291,8 @@ static void
 gog_renderer_gnome_print_measure_text (GogRenderer *rend,
 				       char const *text, GogViewRequisition *size)
 {
+	size->w = 10; /* gnome_font_get_width_utf8 (font, text); */
+	size->h = 10;
 }
 
 static void

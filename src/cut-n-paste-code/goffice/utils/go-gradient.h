@@ -23,6 +23,9 @@
 
 #include <glib.h>
 #include <goffice/utils/go-color.h>
+#include <gtk/gtkwidget.h>
+#include <libart_lgpl/libart.h>
+#include <libart_lgpl/art_render_gradient.h>
 
 G_BEGIN_DECLS
 
@@ -45,7 +48,11 @@ typedef enum {
 	GO_GRADIENT_NE_TO_SW_MIRRORED	
 } GOGradientDirection;
 
-gpointer   go_gradient_selector (GOColor fore, GOColor back);
+GtkWidget *go_gradient_selector (GOColor fore, GOColor back);
+void go_gradient_setup (ArtGradientLinear *gradient,
+			GOGradientDirection dir, GOColor col0, GOColor col1,
+			double x0, double y0, double x1, double y1,
+			ArtGradientStop *stops);
 
 G_END_DECLS
 

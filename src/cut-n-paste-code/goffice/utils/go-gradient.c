@@ -22,14 +22,12 @@
 #include <gnumeric-config.h>
 #include <goffice/utils/go-gradient.h>
 
-#include <libart_lgpl/libart.h>
-#include <libart_lgpl/art_render_gradient.h>
 #include <src/gnumeric-i18n.h>
 #include <widgets/widget-pixmap-combo.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
 #include <string.h>
 
-gpointer
+GtkWidget *
 go_gradient_selector (GOColor start, GOColor end)
 {
 	/*PixmapComboElement data for the graident combo, inline_gdkpixbuf initially set to NULL*/
@@ -58,10 +56,7 @@ go_gradient_selector (GOColor start, GOColor end)
 	gpointer    data;
 	ArtRender *render;
 	ArtGradientLinear gradient;
-	ArtGradientStop stops[] = {
-		{ 0., { 0, 0, 0, 0 }},
-		{ 1., { 0, 0, 0, 0 }}
-	};
+	ArtGradientStop stops[2];
 
 	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 20, 20);
 	for (i = 0; i < G_N_ELEMENTS (elements); i++) {
@@ -73,62 +68,13 @@ go_gradient_selector (GOColor start, GOColor end)
 			8, ART_ALPHA_SEPARATE, NULL);
 		if (elements[i].inline_gdkpixbuf != NULL)
 			g_free ((gpointer) elements[i].inline_gdkpixbuf);
-		if (i < 4) {
-			gradient.a = 0.;
-			/*The values used in the two lines below might seem strange
-			but using the more natural 1./19. and 0. give very strange results*/
-			gradient.b = .998 / 19.;
-			gradient.c =  0.001;
-		} else if (i < 8) {
-			gradient.a = 1. / 19.;
-			gradient.b = 0.;
-			gradient.c = 0.;
-		} else if (i < 12) {
-			gradient.a = 1. / 39.;
-			gradient.b = 1. / 39.;
-			gradient.c = 0;
-		} else {
-			gradient.a = -1. / 39.;
-			gradient.b = 1. / 39.;
-			/* Note: this gradient is anchored at (x1,y0).  */
-			gradient.c = 0.5;
-		}
 
-		if (i & 1) {
-			go_color_to_artpix (stops[0].color, end);
-			go_color_to_artpix (stops[1].color, start);
-		} else {
-			go_color_to_artpix (stops[0].color, start);
-			go_color_to_artpix (stops[1].color, end);
-		}
-		switch (i % 4) {
-		case 0:
-			gradient.spread = ART_GRADIENT_REPEAT;
-			gradient.n_stops = G_N_ELEMENTS (stops);
-			gradient.stops = stops;
-			break;
-		case 1:
-			gradient.spread = ART_GRADIENT_REPEAT;
-			gradient.n_stops = G_N_ELEMENTS (stops);
-			gradient.stops = stops;
-			break;
-		case 2:
-			gradient.spread = ART_GRADIENT_REFLECT;
-			gradient.n_stops = G_N_ELEMENTS (stops);
-			gradient.stops = stops;
-			gradient.a *= 39. / 19.;
-			gradient.b *= 39. / 19.;
-			gradient.c *= 39. / 19.;
-			break;
-		case 3:
-			gradient.spread = ART_GRADIENT_REFLECT;
-			gradient.n_stops = G_N_ELEMENTS (stops);
-			gradient.stops = stops;
-			gradient.a *= 2.;
-			gradient.b *= 2.;
-			gradient.c *= 2.;
-			break;
-		}
+		go_gradient_setup (&gradient,
+				   i, start, end,
+				   0, 0,
+				   20, 20,
+				   stops);
+
 		art_render_gradient_linear (render,
 			&gradient, ART_FILTER_NEAREST);
 		art_render_invoke (render);
@@ -141,4 +87,71 @@ go_gradient_selector (GOColor start, GOColor end)
 	w = pixmap_combo_new (elements, 4, 4);
 	gtk_combo_box_set_tearable (GTK_COMBO_BOX (w), FALSE);
 	return w;
+}
+
+void
+go_gradient_setup (ArtGradientLinear *gradient,
+		   GOGradientDirection dir, GOColor col0, GOColor col1,
+		   double x0, double y0, double x1, double y1,
+		   ArtGradientStop *stops)
+{
+	double dx = x1 - x0;
+	double dy = y1 - y0;
+
+	if (dir < 4) {
+		gradient->a = 0.;
+		gradient->b = 1. / (dy ? dy : 1);
+		gradient->c = -(gradient->a * x0 + gradient->b * y0);
+	} else if (dir < 8) {
+		gradient->a = 1. / (dx ? dx : 1);
+		gradient->b = 0.;
+		gradient->c = -(gradient->a * x0 + gradient->b * y0);
+	} else if (dir < 12) {
+		double d = dx * dx + dy * dy;
+		if (!d) d = 1;
+		gradient->a = dx / d;
+		gradient->b = dy / d;
+		gradient->c = -(gradient->a * x0 + gradient->b * y0);
+	} else {
+		double d = dx * dx + dy * dy;
+		if (!d) d = 1;
+		gradient->a = -dx / d;
+		gradient->b = dy / d;
+		/* Note: this gradient is anchored at (x1,y0).  */
+		gradient->c = -(gradient->a * x1 + gradient->b * y0);
+	}
+
+	gradient->stops = stops;
+	gradient->n_stops = 2;
+	stops[0].offset = 0;
+	stops[1].offset = 1;
+
+	switch (dir % 4) {
+	case 0:
+		gradient->spread = ART_GRADIENT_REPEAT;
+		go_color_to_artpix (stops[0].color, col0);
+		go_color_to_artpix (stops[1].color, col1);
+		break;
+	case 1:
+		gradient->spread = ART_GRADIENT_REPEAT;
+		go_color_to_artpix (stops[0].color, col1);
+		go_color_to_artpix (stops[1].color, col0);
+		break;
+	case 2:
+		gradient->spread = ART_GRADIENT_REFLECT;
+		go_color_to_artpix (stops[0].color, col0);
+		go_color_to_artpix (stops[1].color, col1);
+		gradient->a *= 2;
+		gradient->b *= 2;
+		gradient->c *= 2;
+		break;
+	case 3:
+		gradient->spread = ART_GRADIENT_REFLECT;
+		go_color_to_artpix (stops[0].color, col1);
+		go_color_to_artpix (stops[1].color, col0);
+		gradient->a *= 2;
+		gradient->b *= 2;
+		gradient->c *= 2;
+		break;
+	}
 }

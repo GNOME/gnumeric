@@ -1,3 +1,15 @@
+2003-08-26  Morten Welinder  <terra@gnome.org>
+
+	* utils/go-gradient.c (go_gradient_setup): New function.
+	(go_gradient_selector): Use go_gradient_setup.  Make return type
+	sane.
+
+	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_draw_polygon):
+	Use go_gradient_setup.
+
+	* graph/gog-renderer-gnome-print.c
+	(gog_renderer_gnome_print_draw_polygon): Use go_gradient_setup.
+
 2003-08-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* graph/gog-style.c (cb_image_file_select): use
