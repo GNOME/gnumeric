@@ -1460,36 +1460,6 @@ gnumeric_sqrt (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_sum = {
-	N_("@FUNCTION=SUM\n"
-	   "@SYNTAX=SUM(value1, value2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "SUM computes the sum of all the values and cells referenced "
-	   "in the argument list.\n"
-	   "This function is Excel compatible."
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "11, 15, 17, 21, and 43.  Then\n"
-	   "SUM(A1:A5) equals 107.\n"
-	   "\n"
-	   "@SEEALSO=AVERAGE, COUNT")
-};
-
-static Value *
-gnumeric_sum (FunctionEvalInfo *ei, GnmExprList *nodes)
-{
-	return float_range_function (nodes, ei,
-				     range_sum,
-				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS |
-				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_VALUE);
-}
-
-/***************************************************************************/
-
 static const char *help_suma = {
 	N_("@FUNCTION=SUMA\n"
 	   "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -1581,44 +1551,6 @@ gnumeric_multinomial (FunctionEvalInfo *ei, GnmExprList *nodes)
 }
 
 /***************************************************************************/
-
-static const char *help_product = {
-	N_("@FUNCTION=PRODUCT\n"
-	   "@SYNTAX=PRODUCT(value1, value2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "PRODUCT returns the product of all the values and cells "
-	   "referenced in the argument list.\n"
-	   "This function is Excel compatible.  In particular, this means "
-	   "that if all cells are empty, the result will be 0."
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "PRODUCT(2,5,9) equals 90.\n"
-	   "\n"
-	   "@SEEALSO=SUM, COUNT, G_PRODUCT")
-};
-
-static int
-range_bogusproduct (const gnum_float *xs, int n, gnum_float *res)
-{
-	if (n == 0) {
-		*res = 0;  /* Severe Excel brain damange.  */
-		return 0;
-	} else
-		return range_product (xs, n, res);
-}
-
-static Value *
-gnumeric_product (FunctionEvalInfo *ei, GnmExprList *nodes)
-{
-	return float_range_function (nodes, ei,
-				     range_bogusproduct,
-				     COLLECT_IGNORE_STRINGS |
-				     COLLECT_IGNORE_BOOLS |
-				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_VALUE);
-}
-
 
 static const char *help_g_product = {
 	N_("@FUNCTION=G_PRODUCT\n"
@@ -2781,81 +2713,6 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static const char *help_subtotal = {
-	N_("@FUNCTION=SUBTOTAL\n"
-	   "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
-
-	   "@DESCRIPTION="
-	   "SUBTOTAL function returns a subtotal of given list of arguments. "
-	   "@function_nbr is the number that specifies which function to use "
-	   "in calculating the subtotal. "
-	   "The following functions are available:\n"
-	   "1   AVERAGE\n"
-	   "2   COUNT\n"
-	   "3   COUNTA\n"
-	   "4   MAX\n"
-	   "5   MIN\n"
-	   "6   PRODUCT\n"
-	   "7   STDEV\n"
-	   "8   STDEVP\n"
-	   "9   SUM\n"
-	   "10   VAR\n"
-	   "11   VARP\n"
-	   "This function is Excel compatible. "
-	   "\n"
-	   "@EXAMPLES=\n"
-	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
-	   "23, 27, 28, 33, and 39.  Then\n"
-	   "SUBTOTAL(1,A1:A5) equals 30.\n"
-	   "SUBTOTAL(6,A1:A5) equals 22378356.\n"
-	   "SUBTOTAL(7,A1:A5) equals 6.164414003.\n"
-	   "SUBTOTAL(9,A1:A5) equals 150.\n"
-	   "SUBTOTAL(11,A1:A5) equals 30.4.\n"
-	   "\n"
-	   "@SEEALSO=COUNT,SUM")
-};
-
-static Value *
-gnumeric_subtotal (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
-{
-        const GnmExpr *tree;
-	Value *val;
-	int   fun_nbr;
-
-	if (expr_node_list == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	tree = expr_node_list->data;
-	if (tree == NULL)
-		return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	val = gnm_expr_eval (tree, ei->pos, GNM_EXPR_EVAL_STRICT);
-	if (val->type == VALUE_ERROR)
-		return val;
-	fun_nbr = value_get_as_int (val);
-	value_release (val);
-
-	/* Skip the first node */
-	expr_node_list = expr_node_list->next;
-
-	switch (fun_nbr) {
-	case 1:  return gnumeric_average (ei, expr_node_list);
-	case 2:  return gnumeric_count (ei, expr_node_list);
-	case 3:  return gnumeric_counta (ei, expr_node_list);
-	case 4:  return gnumeric_max (ei, expr_node_list);
-	case 5:  return gnumeric_min (ei, expr_node_list);
-	case 6:  return gnumeric_product (ei, expr_node_list);
-	case 7:  return gnumeric_stdev (ei, expr_node_list);
-	case 8:  return gnumeric_stdevp (ei, expr_node_list);
-	case 9:  return gnumeric_sum (ei, expr_node_list);
-	case 10: return gnumeric_var (ei, expr_node_list);
-	case 11: return gnumeric_varp (ei, expr_node_list);
-	default: return value_new_error (ei->pos, gnumeric_err_NUM);
-	}
-}
-
-/***************************************************************************/
-
 static const char *help_seriessum = {
 	N_("@FUNCTION=SERIESSUM\n"
 	   "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -3448,8 +3305,6 @@ math_functions_init (void)
 			    "number",    &help_odd,      gnumeric_odd);
 	function_add_args  (cat, "power",   "ff",
 			    "x,y",       &help_power,    gnumeric_power);
-	function_add_nodes (cat, "product", 0,
-			    "number",    &help_product,  gnumeric_product);
 	function_add_nodes (cat, "g_product", 0,
 			    "number",    &help_g_product,  gnumeric_g_product);
 	function_add_args  (cat, "quotient" , "ff",
@@ -3509,14 +3364,6 @@ math_functions_init (void)
 			    "number",    &help_sqrt,     gnumeric_sqrt);
 	function_add_args  (cat, "sqrtpi",  "f",
 			    "number",    &help_sqrtpi,   gnumeric_sqrtpi);
-	function_add_nodes (cat, "subtotal", 0,
-			    "function_nbr,ref1,ref2,...",
-			    &help_subtotal,    gnumeric_subtotal);
-
-	def = function_add_nodes (cat, "sum",     0,
-				  "number1,number2,...",
-				  &help_sum,	       gnumeric_sum);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
 
 	def = function_add_nodes (cat, "suma",    0,
 				  "number1,number2,...",

@@ -177,6 +177,7 @@ src/format-template.c
 src/format.c
 src/formats.c
 src/func.c
+src/func-builtin.c
 src/functions/fn-database.c
 src/functions/fn-information.c
 src/functions/fn-lookup.c

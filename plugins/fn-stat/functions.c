@@ -37,6 +37,7 @@
 #include <expr.h>
 #include <expr-impl.h>
 #include <auto-format.h>
+#include <func-builtin.h>
 
 #include <math.h>
 #include <stdlib.h>
@@ -106,7 +107,7 @@ callback_function_stat (EvalPos const *ep, Value *value, void *closure)
 		        return NULL;
 	}
 
-	/* i'm paranoid - if mm->N == -1, mm->N + 1 is 0 and the next line blows out */
+	/* I'm paranoid - if mm->N == -1, mm->N + 1 is 0 and the next line blows out */
 	if (mm->N == - 1)
 	        return value_new_error (ep, gnumeric_err_NUM);
 
@@ -191,7 +192,7 @@ static const char *help_varp = {
 	   "@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR")
 };
 
-Value *
+static Value *
 gnumeric_varp (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list, ei,
@@ -225,7 +226,7 @@ static const char *help_var = {
 	   "@SEEALSO=VARP,STDEV")
 };
 
-Value *
+static Value *
 gnumeric_var (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list, ei,
@@ -255,7 +256,7 @@ static const char *help_stdev = {
 	   "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR")
 };
 
-Value *
+static Value *
 gnumeric_stdev (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list, ei,
@@ -285,7 +286,7 @@ static const char *help_stdevp = {
 	   "@SEEALSO=STDEV,STDEVA,STDEVPA")
 };
 
-Value *
+static Value *
 gnumeric_stdevp (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list, ei,
@@ -846,7 +847,7 @@ callback_function_count (EvalPos const *ep, Value *value, void *closure)
 	return NULL;
 }
 
-Value *
+static Value *
 gnumeric_count (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	Value *result = value_new_int (0);
@@ -888,7 +889,7 @@ callback_function_counta (EvalPos const *ep, Value *value, void *closure)
 	return NULL;
 }
 
-Value *
+static Value *
 gnumeric_counta (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
         Value *result = value_new_int (0);
@@ -921,7 +922,7 @@ static const char *help_average = {
 	   "@SEEALSO=SUM, COUNT")
 };
 
-Value *
+static Value *
 gnumeric_average (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -963,7 +964,7 @@ range_min0 (const gnum_float *xs, int n, gnum_float *res)
 		return range_min (xs, n, res);
 }
 
-Value *
+static Value *
 gnumeric_min (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -1005,7 +1006,7 @@ range_max0 (const gnum_float *xs, int n, gnum_float *res)
 		return range_max (xs, n, res);
 }
 
-Value *
+static Value *
 gnumeric_max (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 {
 	return float_range_function (expr_node_list,
@@ -4472,6 +4473,81 @@ gnumeric_slope (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static const char *help_subtotal = {
+	N_("@FUNCTION=SUBTOTAL\n"
+	   "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
+
+	   "@DESCRIPTION="
+	   "SUBTOTAL function returns a subtotal of given list of arguments. "
+	   "@function_nbr is the number that specifies which function to use "
+	   "in calculating the subtotal. "
+	   "The following functions are available:\n"
+	   "1   AVERAGE\n"
+	   "2   COUNT\n"
+	   "3   COUNTA\n"
+	   "4   MAX\n"
+	   "5   MIN\n"
+	   "6   PRODUCT\n"
+	   "7   STDEV\n"
+	   "8   STDEVP\n"
+	   "9   SUM\n"
+	   "10   VAR\n"
+	   "11   VARP\n"
+	   "This function is Excel compatible. "
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
+	   "23, 27, 28, 33, and 39.  Then\n"
+	   "SUBTOTAL(1,A1:A5) equals 30.\n"
+	   "SUBTOTAL(6,A1:A5) equals 22378356.\n"
+	   "SUBTOTAL(7,A1:A5) equals 6.164414003.\n"
+	   "SUBTOTAL(9,A1:A5) equals 150.\n"
+	   "SUBTOTAL(11,A1:A5) equals 30.4.\n"
+	   "\n"
+	   "@SEEALSO=COUNT,SUM")
+};
+
+static Value *
+gnumeric_subtotal (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
+{
+        const GnmExpr *tree;
+	Value *val;
+	int   fun_nbr;
+
+	if (expr_node_list == NULL)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+	tree = expr_node_list->data;
+	if (tree == NULL)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+	val = gnm_expr_eval (tree, ei->pos, GNM_EXPR_EVAL_STRICT);
+	if (val->type == VALUE_ERROR)
+		return val;
+	fun_nbr = value_get_as_int (val);
+	value_release (val);
+
+	/* Skip the first node */
+	expr_node_list = expr_node_list->next;
+
+	switch (fun_nbr) {
+	case 1:  return gnumeric_average (ei, expr_node_list);
+	case 2:  return gnumeric_count (ei, expr_node_list);
+	case 3:  return gnumeric_counta (ei, expr_node_list);
+	case 4:  return gnumeric_max (ei, expr_node_list);
+	case 5:  return gnumeric_min (ei, expr_node_list);
+	case 6:  return gnumeric_product (ei, expr_node_list);
+	case 7:  return gnumeric_stdev (ei, expr_node_list);
+	case 8:  return gnumeric_stdevp (ei, expr_node_list);
+	case 9:  return gnumeric_sum (ei, expr_node_list);
+	case 10: return gnumeric_var (ei, expr_node_list);
+	case 11: return gnumeric_varp (ei, expr_node_list);
+	default: return value_new_error (ei->pos, gnumeric_err_NUM);
+	}
+}
+
+/***************************************************************************/
+
 void stat_functions_init (void);
 void
 stat_functions_init (void)
@@ -4711,6 +4787,10 @@ stat_functions_init (void)
 
 	def = function_add_args  (cat, "steyx", "AA", "known_y's,known_x's",
 				  &help_steyx, gnumeric_steyx);
+
+	function_add_nodes (cat, "subtotal", 0,
+			    "function_nbr,ref1,ref2,...",
+			    &help_subtotal,    gnumeric_subtotal);
 
 	def = function_add_args  (cat, "tdist",   "fff",    "",
 				  &help_tdist, gnumeric_tdist);

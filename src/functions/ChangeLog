@@ -1,3 +1,7 @@
+2002-04-18  Morten Welinder  <terra@diku.dk>
+
+	* fn-stat.c (gnumeric_subtotal): Move from fn-math.c.
+
 2002-04-15  Morten Welinder  <terra@diku.dk>
 
 	* fn-math.c (gnumeric_subtotal): Fix error handling, I hope.

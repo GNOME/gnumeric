@@ -171,6 +171,7 @@ gnm_shutdown ()
 	autocorrect_shutdown ();
 	plugins_shutdown ();
 	print_shutdown ();
+	functions_shutdown ();
 	auto_format_shutdown ();
 	e_cursors_shutdown ();
 	format_match_finish ();

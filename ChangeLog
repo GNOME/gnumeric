@@ -1,3 +1,16 @@
+2002-04-18  Morten Welinder  <terra@diku.dk>
+
+	* src/gnumeric-graph.c: Resurrect enough so that the excel plugin
+	will load.  This doens't mean things will work!
+
+	* src/func-builtin.c (func_builtin_init): New file.  Some stuff
+	from src/functions/fn-math.c imported.
+
+	* src/libgnumeric.c (gnm_shutdown): Shutdown functions also.
+
+	* src/func.c (functions_init): Init builtins.
+	(functions_shutdown): New function.
+
 2002-04-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gui-util.c (gnumeric_error_info_dialog_show) : hide cursor

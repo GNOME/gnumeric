@@ -25,6 +25,7 @@
 #include "value.h"
 #include "number-match.h"
 #include "format.h"
+#include "func-builtin.h"
 
 #include <string.h>
 #include <glib.h>
@@ -53,6 +54,13 @@ functions_init (void)
 	lookup_functions_init ();
 	database_functions_init ();
 	information_functions_init ();
+	func_builtin_init ();
+}
+
+void
+functions_shutdown (void)
+{
+	func_builtin_shutdown ();
 }
 
 static void

@@ -92,6 +92,8 @@ GNUMERIC_BASE =					\
 	formats.c				\
 	func.c					\
 	func.h					\
+	func-builtin.c				\
+	func-builtin.h				\
 	func-util.h				\
 	format.c				\
 	format.h				\

@@ -342,9 +342,9 @@ static Value *
 gnumeric_concatenate (FunctionEvalInfo *ei, GnmExprList *nodes)
 {
 	return string_range_function (nodes, ei,
-				     range_concatenate,
-				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_VALUE);
+				      range_concatenate,
+				      COLLECT_IGNORE_BLANKS,
+				      gnumeric_err_VALUE);
 
 }
 

@@ -112,7 +112,6 @@ typedef struct {
 #define SERVANT_TO_GRAPH_VECTOR(ptr)	\
 	(GnmGraphVector *)(((char *)ptr) - GTK_STRUCT_OFFSET(GnmGraphVector, servant))
 
-#ifdef GNOME2_CONVERSION_COMPLETE
 char const *const gnm_graph_vector_type_name [] =
 {
     "Unknown", "scalars", "dates (unimplemented)", "strings",
@@ -712,6 +711,7 @@ gnm_graph_add_vector (GnmGraph *graph, GnmExpr *expr,
 static gboolean
 gnm_graph_setup (GnmGraph *graph, Workbook *wb)
 {
+#ifdef GNOME2_CONVERSION_COMPLETE
 	CORBA_Environment  ev;
 	Bonobo_Unknown	   o;
 
@@ -744,6 +744,7 @@ gnm_graph_setup (GnmGraph *graph, Workbook *wb)
 
 	CORBA_exception_free (&ev);
 
+#endif
 	return graph == NULL;
 }
 
@@ -758,10 +759,12 @@ gnm_graph_new (Workbook *wb)
 
 	d(printf ("gnumeric : graph new %p\n", graph));
 
+#ifdef GNOME2_CONVERSION_COMPLETE
 	if (gnm_graph_setup (GNM_GRAPH (graph), wb)) {
 		g_object_unref (graph);
 		return NULL;
 	}
+#endif
 	return graph;
 }
 
@@ -1027,7 +1030,9 @@ cb_graph_assign_data (GtkWidget *ignored, GtkObject *obj_view)
 {
 	SheetControlGUI *scg = sheet_object_view_control (obj_view);
 	SheetObject     *so  = sheet_object_view_obj     (obj_view);
+#ifdef GNOME2_CONVERSION_COMPLETE
 	dialog_graph_guru (scg_get_wbcg (scg), GNUMERIC_GRAPH (so), 1);
+#endif
 }
 
 static void
@@ -1054,7 +1059,9 @@ gnm_graph_populate_menu (SheetObject *so,
 static void
 gnm_graph_user_config (SheetObject *so, SheetControlGUI	*scg)
 {
+#ifdef GNOME2_CONVERSION_COMPLETE
 	dialog_graph_guru (scg_get_wbcg (scg), GNUMERIC_GRAPH (so), 2);
+#endif
 }
 
 static gboolean
@@ -1079,8 +1086,12 @@ gnm_graph_read_xml (SheetObject *so,
 			continue;
 
 		content = xmlNodeGetContent (tmp);
+#ifdef GNOME2_CONVERSION_COMPLETE
 		expr = gnm_expr_parse_str_simple ((gchar *)content,
 			parse_pos_init (&pos, NULL, ctxt->sheet, 0, 0));
+#else
+		expr = NULL;
+#endif
 		xmlFree (content);
 
 		g_return_val_if_fail (expr != NULL, TRUE);
@@ -1143,7 +1154,11 @@ gnm_graph_class_init (GtkObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class;
 
+#ifdef GNOME2_CONVERSION_COMPLETE
 	gnm_graph_parent_class = gtk_type_class (SHEET_OBJECT_CONTAINER_TYPE);
+#else
+	abort ();
+#endif
 
 	object_class->destroy = &gnm_graph_destroy;
 
@@ -1154,8 +1169,13 @@ gnm_graph_class_init (GtkObjectClass *object_class)
 	sheet_object_class->write_xml	  = gnm_graph_write_xml;
 }
 
+#ifdef GNOME2_CONVERSION_COMPLETE
 E_MAKE_TYPE (gnm_graph, "GnmGraph", GnmGraph,
 	     gnm_graph_class_init, gnm_graph_init, SHEET_OBJECT_CONTAINER_TYPE)
+#else
+E_MAKE_TYPE (gnm_graph, "GnmGraph", GnmGraph,
+	     gnm_graph_class_init, gnm_graph_init, 42)
+#endif
 
 /*****************************************************************************/
 
@@ -1213,6 +1233,7 @@ gnm_graph_series_add_dimension (xmlNode *series, char const *dim_name)
 char *
 gnm_graph_exception (CORBA_Environment *ev)
 {
+#ifdef GNOME2_CONVERSION_COMPLETE
         if (ev->_major == CORBA_USER_EXCEPTION) {
 		if (!strcmp (ev->_id, "IDL:GNOME/Gnumeric/Error:1.0")) {
                         GNOME_Gnumeric_Error *err = ev->_params;
@@ -1227,5 +1248,8 @@ gnm_graph_exception (CORBA_Environment *ev)
                 }
         } else
                 return CORBA_exception_id (ev);
-}
+#else
+	g_warning ("FIXME");
+	return NULL;
 #endif
+}
