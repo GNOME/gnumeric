@@ -4,9 +4,10 @@
  * DO NOT compile it as part of your application.
  */
 
-gchar *s = N_("Name Guru");
-gchar *s = N_("Add");
-gchar *s = N_("Delete");
+gchar *s = N_("_Add");
+gchar *s = N_("_Delete");
+gchar *s = N_("_Update");
 gchar *s = N_("Define Name");
-gchar *s = N_("\n"
-              "");
+gchar *s = N_("Name : ");
+gchar *s = N_("Scope :");
+gchar *s = N_("Expression : ");

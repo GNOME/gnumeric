@@ -38,4 +38,8 @@ Value    *eval_expr_name       (EvalPos const * const pos, const NamedExpression
 
 char     *expr_name_value      (const NamedExpression *expr_name);
 
+/* Change the scope of a NamedExpression */
+gboolean expr_name_sheet2wb (NamedExpression *expression);
+gboolean expr_name_wb2sheet (NamedExpression *expression, Sheet *sheet);
+
 #endif /* GNUMERIC_EXPR_NAME_H */

@@ -227,6 +227,8 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->show_col_header = TRUE;
 	sheet->show_row_header = TRUE;
 
+	sheet->names = NULL;
+
 	return sheet;
 }
 
@@ -3723,11 +3725,18 @@ sheet_clone_selection (Sheet const *src, Sheet *dst)
 static void
 sheet_clone_names (Sheet const *src, Sheet *dst)
 {
-	GList *names = g_list_copy (src->names);;
+	static gboolean warned = FALSE;
+	GList *names;
 
 	if (src->names == NULL)
 		return;
 
+	if (!warned) {
+		g_warning ("We are not duplicating names yet. Function ont implemented\n");
+		warned = TRUE;
+	}
+	
+	names = g_list_copy (src->names);
 #if 0	/* Feature not implemented, not cloning it yet. */
 	for (; names; names = names->next) {
 		NamedExpression *expresion = names->data;
@@ -3740,7 +3749,7 @@ sheet_clone_names (Sheet const *src, Sheet *dst)
 				   __LINE__, error);
 	}
 #endif
-	g_free (names);
+	g_list_free (names);
 }
 
 static void

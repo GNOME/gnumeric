@@ -1,3 +1,24 @@
+2000-12-09  Chema Celorio  <chema@celorio.com>
+
+	* src/sheet.c (sheet_new): make sheet->names NULL.
+	(sheet_clone_names): free the list with g_list_free not g_free
+	(sheet_clone_names): add a warning about not duplicating
+	names yet.
+
+	* src/expr-name.h (expr_name_wb2sheet): add prototypes for
+	wb2sheet & sheet2wb
+
+	* src/expr-name.c (expr_name_unlink): new funct. Code form
+	expr_name_remove 
+	(expr_name_remove): call expr_name_unlink
+	(expr_name_invalidate_refs_name): add a warning about this function
+	not beeing implemented
+	(expr_name_invalidate_refs_sheet): ditto
+	(expr_name_invalidate_refs_wb): ditto
+	(expr_name_sheet2wb): new funct. changed the scope of a NamedExpression
+	from sheet to workbook.
+	(expr_name_wb2sheet): not implemented yet. Workbook to sheet scope change
+
 2000-12-09  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-control-gui.c (scg_comment_display) : Always clear the

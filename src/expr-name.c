@@ -231,15 +231,13 @@ expr_name_destroy (NamedExpression *expr_name)
 	g_free (expr_name);
 }
 
-void
-expr_name_remove (NamedExpression *expr_name)
+static void
+expr_name_unlink (NamedExpression *expr_name)
 {
 	Workbook *wb = NULL;
 	Sheet    *sheet = NULL;
 
-	g_return_if_fail (expr_name != NULL);
-
-/*	printf ("Removing : '%s'\n", expr_name->name->str);*/
+     /*	printf ("Removing : '%s'\n", expr_name->name->str);*/
 	if (expr_name->sheet) {
 		sheet = expr_name->sheet;
 		g_return_if_fail (g_list_find (sheet->names, expr_name) != NULL);
@@ -252,7 +250,14 @@ expr_name_remove (NamedExpression *expr_name)
 		g_return_if_fail (g_list_find (global_names, expr_name) != NULL);
 		global_names = g_list_remove (global_names, expr_name);
 	}
+}
 
+void
+expr_name_remove (NamedExpression *expr_name)
+{
+	g_return_if_fail (expr_name != NULL);
+
+	expr_name_unlink (expr_name);
 	expr_name_invalidate_refs_name (expr_name);
 	expr_name_destroy (expr_name);
 }
@@ -344,18 +349,80 @@ eval_expr_name (EvalPos const * const pos, const NamedExpression *expr_name,
 void
 expr_name_invalidate_refs_name (NamedExpression *exprn)
 {
+	static gboolean warned = FALSE;
+	if (!warned)
+		g_warning ("Implement Me !. expr_name_invalidate_refs_name\n");
+	warned = TRUE;
 }
 
 void
 expr_name_invalidate_refs_sheet (const Sheet *sheet)
 {
+	static gboolean warned = FALSE;
+	if (!warned)
+		g_warning ("Implement Me !. expr_name_invalidate_refs_sheet\n");
+	warned = TRUE;
 }
 
 void
 expr_name_invalidate_refs_wb (const Workbook *wb)
 {
+	static gboolean warned = FALSE;
+	if (!warned)
+		g_warning ("Implement Me !. expr_name_invalidate_refs_wb\n");
+	warned = TRUE;
 }
 
+
+/**
+ * expr_name_sheet2wb:
+ * @expression: 
+ * 
+ * Change the scope of a NamedExpression from Sheet to Workbook
+ * 
+ * Return Value: FALSE on error, TRUE otherwise
+ **/
+gboolean
+expr_name_sheet2wb (NamedExpression *expression)
+{
+	Sheet *sheet;
+	Workbook *wb;
+
+	g_return_val_if_fail (expression->sheet != NULL, FALSE);
+	
+	sheet = expression->sheet;
+	wb = sheet->workbook;
+	
+	expression->sheet = NULL;
+	expression->wb = wb;
+
+	wb->names    = g_list_prepend (wb->names, expression);
+	sheet->names = g_list_remove (sheet->names, expression);
+
+	return TRUE;
+}
+
+/**
+ * expr_name_wb2sheet:
+ * @expression: 
+ * @sheet: 
+ * 
+ * Change the scope of a NamedExpression from Workbook to Sheet
+ * this function does not invalidate the references that are using
+ * this NamedExpression
+ * 
+ * Return Value: FALSE or error, TRUE otherwise
+ **/
+gboolean
+expr_name_wb2sheet (NamedExpression *expression, Sheet *sheet)
+{
+	static gboolean warned = FALSE;
+	if (!warned)
+		g_warning ("Implement Me !. expr_name_wb2sheet\n");
+	warned = TRUE;
+	return FALSE;
+}
+	
 /* ------------------------------------------------------------- */
 
 static Value *

@@ -798,8 +798,13 @@ xml_write_names (XmlParseContext *ctxt, GList *names)
 	xmlNodePtr  cur;
 	char       *tstr;
 
+#if 0  /* Don't return, We need to have a names node in the worksheet
+	   * all the time becasue xml_search_child looks for a node down the
+	   * tree and it will find the first "Names" node in the sheet #1
+	   */
 	if (!names)
 		return NULL;
+#endif	
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Names", NULL);
 
