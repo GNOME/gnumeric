@@ -1,5 +1,15 @@
 2000-11-01  Jody Goldberg <jgoldberg@home.com>
 
+	* src/xml-io.c (xml_read_cell) : Default the parse format to General.
+	  Eventually we can simply cell_set_value to not guess that the
+	  display format == the parse format.  However, that will require
+	  changing all of the importers.  For now we can cheat, and supply
+	  General as the format.
+
+	* src/functions/fn-string.c (gnumeric_dollar) : use string_get_nocopy.
+
+2000-11-01  Jody Goldberg <jgoldberg@home.com>
+
 	* src/expr.c (cellref_relocate) : inside is always calculatd based on
 	  the source sheet.  eg  Sheet1:A1 = '=A2' and we are moving A1:A2
 	  from Sheet1 -> Sheet2.  The reference to A2 should be considered

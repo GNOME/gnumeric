@@ -1047,7 +1047,6 @@ static char *help_dollar = {
 	   "@SEEALSO=FIXED, TEXT, VALUE")
 };
 
-/* FIXME: should use lc->[pn]_sign_posn, mon_thousands_sep, negative_sign */
 static Value *
 gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 {
@@ -1096,8 +1095,7 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 	/* FIXME: should use *lc->currency_symbol */
 	s[neg] = '$';
 	s[len + 1 + neg] = '\0';
-	v->v_str.val = string_get (s);
-	g_free (s);
+	v->v_str.val = string_get_nocopy (s);
 	value_release(ag[0]);
 
 	return v;

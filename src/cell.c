@@ -411,6 +411,10 @@ cell_assign_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
  * user has assigned a non-std format.  We need to improve the parser to handle
  * all formats that exist within the workbook.
  *
+ * FIXME FIXME FIXME : This is being called from other locales.  however, we
+ * may be in the C locale while importing.  Hence the rendered version of the
+ * entered_text is in C rather than the used selected locale.
+ *
  * NOTE : This DOES check for array partitioning.
  */
 void
@@ -430,6 +434,7 @@ cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
 	cell->value = v;
 	cell_render_value (cell);
 
+#if 1
 	/* Be careful that a value passes as a string stays a string */
 	if (v->type == VALUE_STRING) {
 		/* TODO : add new string routine to avoid the extra copy */
@@ -451,6 +456,19 @@ cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
 			format_value (format, v, NULL, NULL, -1));
 		mstyle_unref (mstyle);
 	}
+#else
+	/* TODO : use this version when we have converted all callers to pass
+	 * in a parse format.
+	 * Gnumeric's xml format is smart enough to store the parse format
+	 * that generated the value.  Other file formats (XL) are not as smart.
+	 * as a result we need to guess.
+	 */
+	/* Be careful that a value passes as a string stays a string */
+	cell->entered_text = string_get_nocopy ((v->type == VALUE_STRING)
+		? g_strconcat ("\'", v->v_str.val->str, NULL)
+		/* If available use the supplied format, else use General */
+		: format_value (opt_fmt?opt_fmt:"General", v, NULL, NULL, -1));
+#endif
 }
 
 /*

@@ -2052,7 +2052,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 	gboolean is_new_cell;
 	gboolean is_value = FALSE;
 	ValueType value_type = VALUE_EMPTY; /* Make compiler shut up */
-	StyleFormat *value_fmt = NULL;
+	StyleFormat *value_fmt = style_format_new_XL ("General", FALSE);
 
 	if (strcmp (tree->name, "Cell")) {
 		fprintf (stderr,

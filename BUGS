@@ -37,6 +37,11 @@ Release Critical
 
 - New xml importer does not support the run length encoding of rows/cols
 
+- cell_set_value is being called from the C locale rather than the selected
+  locale during xml restore.  This is broken because it attempts to render the
+  entered_text using a format.  This is done in the wrong locale.
+  We should get rid of 'entered_text' soon and just generate it as necessary.
+
 - Fix Borders
 
 Long term breakage
