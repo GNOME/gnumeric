@@ -57,6 +57,7 @@ Morten:
 	* Fix rich text re-edit problem.  [#163415].
 	* Fix rich-text insertion problem.  [#163413].
 	* Fixed font/size/zoom selection problem.  [#163412].
+	* Implement OOo's BASE and DECIMAL.
 
 Uwe Steinmann:
 	* Extend paradox importer to support additional types.

@@ -1,3 +1,13 @@
+2005-01-12  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (gnumeric_base): New function.
+	(gnumeric_decimal): New function.
+
+2004-12-10  Morten Welinder  <terra@gnome.org>
+
+	* functions.c (val_to_base): New arg "relaxed" to ignore hex
+	prefix "0x" and suffix "h".
+
 2004-12-09  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.4.1

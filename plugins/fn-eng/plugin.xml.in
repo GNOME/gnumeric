@@ -11,6 +11,7 @@
 		<service type="function_group" id="engineering">
 			<_category>Engineering</_category>
 			<functions>
+				<function name="base"/>
 				<function name="besseli"/>
 				<function name="besselk"/>
 				<function name="besselj"/>
@@ -22,6 +23,7 @@
 				<function name="dec2bin"/>
 				<function name="dec2oct"/>
 				<function name="dec2hex"/>
+				<function name="decimal"/>
 				<function name="delta"/>
 				<function name="erf"/>
 				<function name="erfc"/>

@@ -49,15 +49,18 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
  * FIXME: In the long term this needs optimising.
  **/
 static GnmValue *
-val_to_base (FunctionEvalInfo *ei, GnmValue **argv, int num_argv,
-	     int src_base, int dest_base)
+val_to_base (FunctionEvalInfo *ei,
+	     GnmValue **argv, int num_argv,
+	     int src_base, int dest_base,
+	     gboolean relaxed)
 {
 	GnmValue *value;
-	int max, places;
-	char *err, buffer[80];
+	int digit, max, places;
+	char *err;
 	char const *str;
 	gnm_float v, b10;
-	int digit;
+	gboolean ok, had_hex_prefix = FALSE;
+	GString *buffer;
 
 	g_return_val_if_fail (src_base > 1 && src_base <= 36,
 			      value_new_error_VALUE (ei->pos));
@@ -71,10 +74,30 @@ val_to_base (FunctionEvalInfo *ei, GnmValue **argv, int num_argv,
 		return value_dup (value);
 
 	places = (num_argv >= 2 && argv[1]) ? value_get_as_int (argv[1]) : 0;
-	str = value_peek_string (value);
 
+	str = value_peek_string (value);
+	if (relaxed) {
+		while (*str == ' ' || *str == '\t')
+			str++;
+		if (src_base == 16 &&
+		    str[0] == '0' &&
+		    (str[1] == 'x' || str[1] == 'X')) {
+			str += 2;
+			had_hex_prefix = TRUE;
+		}
+	}
 	v = strtol (str, &err, src_base);
-	if (*err)
+
+	ok = (err != str && *err == 0);
+	if (!ok && relaxed && err != str) {
+		if (src_base == 16 &&
+		    !had_hex_prefix &&
+		    (err[0] == 'h' || err[0] == 'H') &&
+		    err[1] == 0)
+			ok = TRUE;
+	}
+
+	if (!ok)
 		return value_new_error_NUM (ei->pos);
 
 	b10 = powgnum (src_base, 10);
@@ -97,17 +120,53 @@ val_to_base (FunctionEvalInfo *ei, GnmValue **argv, int num_argv,
 
 	if (places > max)
 		max = places;
-	if (max >= (int)sizeof (buffer))
-		return value_new_error (ei->pos, _("Unimplemented"));
+
+	buffer = g_string_sized_new (max);
+	g_string_set_size (buffer, max);
 
 	for (digit = max - 1; digit >= 0; digit--) {
 		int thisdigit = fmodgnum (v + 0.5, dest_base);
 		v = floorgnum ((v + 0.5) / dest_base);
-		buffer[digit] = 
+		buffer->str[digit] = 
 			thisdigit["0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 	}
-	buffer[max] = 0;
-	return value_new_string (buffer);
+
+	return value_new_string_nocopy (g_string_free (buffer, FALSE));
+}
+
+/***************************************************************************/
+
+static char const *help_base = {
+	N_("@FUNCTION=BASE\n"
+	   "@SYNTAX=BASE(number,base[,length])\n"
+
+	   "@DESCRIPTION="
+	   "BASE function converts a number to a string representing that number "
+	   "in base @base.\n"
+	   "\n"
+	   "* @base must be an integer between 2 and 36.\n"
+	   "* This function is OpenOffice.Org compatible.\n"
+	   "* Optional argument @length specifies the minimum result length.  Leading "
+	   " zeroes will be added to reach this length.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "BASE(255,16,4) equals \"00FF\".\n"
+	   "\n"
+	   "@SEEALSO=DECIMAL")
+};
+
+static GnmValue *
+gnumeric_base (FunctionEvalInfo *ei, GnmValue **argv)
+{
+	GnmValue *argv2[2];
+	int base = value_get_as_int (argv[1]);
+
+	if (base < 2 || base > 36)
+		return value_new_error_NUM (ei->pos);
+
+	argv2[0] = argv[0];
+	argv2[1] = argv[2];
+	return val_to_base (ei, argv2, 2, 10, base, FALSE);
 }
 
 /***************************************************************************/
@@ -130,7 +189,7 @@ static char const *help_bin2dec = {
 static GnmValue *
 gnumeric_bin2dec (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return val_to_base (ei, argv, 1, 2, 10);
+	return val_to_base (ei, argv, 1, 2, 10, FALSE);
 }
 
 /***************************************************************************/
@@ -156,7 +215,7 @@ static char const *help_bin2oct = {
 static GnmValue *
 gnumeric_bin2oct (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return val_to_base (ei, argv, 2, 2, 8);
+	return val_to_base (ei, argv, 2, 2, 8, FALSE);
 }
 
 /***************************************************************************/
@@ -182,7 +241,7 @@ static char const *help_bin2hex = {
 static GnmValue *
 gnumeric_bin2hex (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return val_to_base (ei, argv, 2, 2, 16);
+	return val_to_base (ei, argv, 2, 2, 16, FALSE);
 }
 
 /***************************************************************************/
@@ -208,7 +267,7 @@ static char const *help_dec2bin = {
 static GnmValue *
 gnumeric_dec2bin (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return val_to_base (ei, argv, 2, 10, 2);
+	return val_to_base (ei, argv, 2, 10, 2, FALSE);
 }
 
 /***************************************************************************/
@@ -234,7 +293,7 @@ static char const *help_dec2oct = {
 static GnmValue *
 gnumeric_dec2oct (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return val_to_base (ei, argv, 2, 10, 8);
+	return val_to_base (ei, argv, 2, 10, 8, FALSE);
 }
 
 /***************************************************************************/
@@ -260,7 +319,36 @@ static char const *help_dec2hex = {
 static GnmValue *
 gnumeric_dec2hex (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return val_to_base (ei, argv, 2, 10, 16);
+	return val_to_base (ei, argv, 2, 10, 16, FALSE);
+}
+
+/***************************************************************************/
+
+static char const *help_decimal = {
+	N_("@FUNCTION=DECIMAL\n"
+	   "@SYNTAX=DECIMAL(text,base)\n"
+
+	   "@DESCRIPTION="
+	   "DECIMAL function converts a number in base @base to decimal.\n"
+	   "\n"
+	   "* @base must be an integer between 2 and 36.\n"
+	   "* This function is OpenOffice.Org compatible.\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "DECIMAL(\"A1\",16) equals 161.\n"
+	   "\n"
+	   "@SEEALSO=BASE")
+};
+
+static GnmValue *
+gnumeric_decimal (FunctionEvalInfo *ei, GnmValue **argv)
+{
+	int base = value_get_as_int (argv[1]);
+
+	if (base < 2 || base > 36)
+		return value_new_error_NUM (ei->pos);
+
+	return value_new_error_NUM (ei->pos);
 }
 
 /***************************************************************************/
@@ -283,7 +371,7 @@ static char const *help_oct2dec = {
 static GnmValue *
 gnumeric_oct2dec (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return val_to_base (ei, argv, 1, 8, 10);
+	return val_to_base (ei, argv, 1, 8, 10, FALSE);
 }
 
 /***************************************************************************/
@@ -309,7 +397,7 @@ static char const *help_oct2bin = {
 static GnmValue *
 gnumeric_oct2bin (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return val_to_base (ei, argv, 2, 8, 2);
+	return val_to_base (ei, argv, 2, 8, 2, FALSE);
 }
 
 /***************************************************************************/
@@ -335,7 +423,7 @@ static char const *help_oct2hex = {
 static GnmValue *
 gnumeric_oct2hex (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return val_to_base (ei, argv, 2, 8, 16);
+	return val_to_base (ei, argv, 2, 8, 16, FALSE);
 }
 
 /***************************************************************************/
@@ -361,7 +449,7 @@ static char const *help_hex2bin = {
 static GnmValue *
 gnumeric_hex2bin (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return val_to_base (ei, argv, 2, 16, 2);
+	return val_to_base (ei, argv, 2, 16, 2, FALSE);
 }
 
 /***************************************************************************/
@@ -387,7 +475,7 @@ static char const *help_hex2oct = {
 static GnmValue *
 gnumeric_hex2oct (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return val_to_base (ei, argv, 2, 16, 8);
+	return val_to_base (ei, argv, 2, 16, 8, FALSE);
 }
 
 /***************************************************************************/
@@ -410,7 +498,7 @@ static char const *help_hex2dec = {
 static GnmValue *
 gnumeric_hex2dec (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return val_to_base (ei, argv, 1, 16, 10);
+	return val_to_base (ei, argv, 1, 16, 10, FALSE);
 }
 
 /***************************************************************************/
@@ -1224,6 +1312,10 @@ gnumeric_invsuminv (FunctionEvalInfo *ei, GnmExprList *nodes)
 /***************************************************************************/
 
 const GnmFuncDescriptor engineering_functions[] = {
+        { "base",     "Sf|f",   "text,base,length", &help_base,
+	  gnumeric_base, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
+
         { "besseli",     "ff",   "xnum,ynum", &help_besseli,
 	  gnumeric_besseli, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -1259,6 +1351,9 @@ const GnmFuncDescriptor engineering_functions[] = {
         { "dec2hex",     "S|f",  "xnum,ynum", &help_dec2hex,
 	  gnumeric_dec2hex, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "decimal",     "Sf",   "text,base", &help_decimal,
+	  gnumeric_decimal, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_NO_TESTSUITE },
 
         { "delta",       "f|f",  "xnum,ynum", &help_delta,
 	  gnumeric_delta, NULL, NULL, NULL, NULL,
