@@ -1,5 +1,9 @@
 1999-12-10  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/ranges.c (range_clip): kill. (range_intersection): implement.
+
+1999-12-10  Michael Meeks  <mmeeks@gnu.org>
+
 	* src/mstyle.c (mstyle_hash): initialise hash!
 
 1999-12-10  Andrew Chatham  <andrew.chatham@duke.edu>

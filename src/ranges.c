@@ -715,16 +715,43 @@ range_fragment_free (GList *fragments)
 	g_list_free (fragments);
 }
 
-void
-range_clip (Range *clipped, Range const *master,
-	    Range const *slave)
+/**
+ * range_intersection:
+ * @a: range a
+ * @b: range b
+ * 
+ * This computes the intersection; on a Venn
+ * diagram this would be A (upside down U) B
+ * NB. totally commutative.
+ * 
+ * Return value: the intersection.
+ **/
+Range
+range_intersection (Range const *a, Range const *b)
 {
-	g_return_if_fail (slave != NULL);
-	g_return_if_fail (master != NULL);
-	g_return_if_fail (clipped != NULL);
+	Range ans;
 
-	*clipped = *slave;
-	g_warning ("Unimplemented");
+	if (a->start.col > b->start.col)
+		ans.start.col = a->start.col;
+	else
+		ans.start.col = b->start.col;
+
+	if (a->end.col < b->end.col)
+		ans.end.col   = a->end.col;
+	else
+		ans.end.col   = b->end.col;
+
+	if (a->start.row > b->start.row)
+		ans.start.row = a->start.row;
+	else
+		ans.start.row = b->start.row;
+
+	if (a->end.row < b->end.row)
+		ans.end.row   = a->end.row;
+	else
+		ans.end.row   = b->end.row;
+
+	return ans;
 }
 
 gboolean

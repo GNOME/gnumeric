@@ -54,8 +54,7 @@ gboolean    range_overlap       (Range const *a, Range const *b);
 gboolean    range_contained     (Range const *a, Range const *b);
 gboolean    range_adjacent      (Range const *a, Range const *b);
 Range       range_merge         (Range const *a, Range const *b);
-void        range_clip          (Range *clipped, Range const *master,
-				 Range const *slave);
+Range       range_intersection  (Range const *a, Range const *b);
 gboolean    range_translate     (Range *range, int col_offset, int row_offset);
 gboolean    range_expand        (Range *range, int d_tlx, int d_tly, int d_brx, int d_bry);
 void        range_dump          (Range const *src);
