@@ -771,10 +771,8 @@ sheet_update (Sheet const *sheet)
 		p->edit_pos.content_changed = FALSE;
 		WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
 		{
-			if (wb_view_cur_sheet (view) == sheet) {
-				WORKBOOK_VIEW_FOREACH_CONTROL(view, control,
-					workbook_edit_load_value (control, sheet););
-			}
+			if (wb_view_cur_sheet (view) == sheet)
+				wb_view_edit_line_set (view, NULL);
 		});
 	}
 

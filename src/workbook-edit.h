@@ -23,8 +23,6 @@ void        workbook_auto_complete_destroy   (WorkbookControlGUI *wbcg);
 const char *workbook_edit_get_display_text   (WorkbookControlGUI *wbcg);
 gboolean    workbook_auto_completing         (WorkbookControlGUI *wbcg);
 
-void        workbook_edit_load_value	     (WorkbookControl *wbc,
-					      Sheet const *sheet);
 void        workbook_edit_init               (WorkbookControlGUI *wbcg);
 
 #endif /* GNUMERIC_WORKBOOK_EDIT_H */

@@ -1,8 +1,23 @@
+/* vim: set sw=8: */
 /*
  * workbook-view.c: View functions for the workbook
  *
- * Authors:
- *   Jody Goldberg
+ * Copyright (C) 2000 Jody Goldberg (jgoldberg@home.com)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
  */
 #include <config.h>
 #include "workbook-control-priv.h"
@@ -19,6 +34,8 @@
 #include "value.h"
 #include "mstyle.h"
 #include "position.h"
+#include "rendered-value.h"
+#include "cell.h"
 #include "parse-util.h"
 #include "gnumeric-type-util.h"
 
@@ -72,6 +89,8 @@ wb_view_sheet_focus (WorkbookView *wbv, Sheet *sheet)
 			wb_control_sheet_focus (control, sheet););
 
 		wbv->current_sheet = sheet;
+		wb_view_edit_line_set (wbv, NULL);
+		wb_view_auto_expr_recalc (wbv, TRUE);
 	}
 }
 
@@ -166,6 +185,70 @@ wb_view_format_feedback (WorkbookView *wbv, gboolean display)
 			WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control,
 				wb_control_format_feedback (control););
 		}
+	}
+}
+
+/**
+ * Load the edit line with the value of the cell in @sheet's edit_pos.
+ *
+ * @wbv : The view
+ * @wbc : An Optional control
+ *
+ * Calculate what to display on the edit line then display it either in the
+ * control @wbc,  or if that is NULL, in all controls.
+ */
+void
+wb_view_edit_line_set (WorkbookView *wbv, WorkbookControl *optional_wbc)
+{
+	Sheet *sheet;
+
+	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+
+	sheet = wbv->current_sheet;
+	if (sheet != NULL) {
+		Cell     *cell;
+		char     *text;
+		ExprArray const* ar;
+
+		cell = sheet_cell_get (sheet,
+				       sheet->cursor.edit_pos.col,
+				       sheet->cursor.edit_pos.row);
+
+		if (cell) {
+			text = cell_get_entered_text (cell);
+			/* If this is part of an array we add '{' '}' and size
+			 * information to the display.  That is not actually
+			 * part of the parsable expression, but it is a useful
+			 * extension to the simple '{' '}' that MS excel(tm)
+			 * uses.
+			 */
+			if (NULL != (ar = cell_is_array(cell))) {
+				/* No need to worry about locale for the comma
+				 * this syntax is not parsed
+				 */
+				char *tmp = g_strdup_printf (
+					"{%s}(%d,%d)[%d][%d]", text,
+					ar->rows, ar->cols, ar->y, ar->x);
+				g_free (text);
+				text = tmp;
+			}
+		} else
+			text = g_strdup ("");
+
+		/* FIXME : This does not belong here.  */
+		/* This is intended for screen reading software etc. */
+		gtk_signal_emit_by_name (GTK_OBJECT (sheet->workbook), "cell_changed",
+					 sheet, text,
+					 sheet->cursor.edit_pos.col,
+					 sheet->cursor.edit_pos.row);
+
+		if (optional_wbc == NULL) {
+			WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
+				wb_control_edit_line_set (control, text););
+		} else
+			wb_control_edit_line_set (optional_wbc, text);
+
+		g_free (text);
 	}
 }
 

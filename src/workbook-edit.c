@@ -74,8 +74,13 @@ void
 workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean const accept)
 {
 	Sheet *sheet;
+	WorkbookControl *wbc;
+	WorkbookView	*wbv;
 
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+
+	wbc = WORKBOOK_CONTROL (wbcg);
+	wbv = wb_control_view (wbc);
 
 	/* Restore the focus */
 	wb_control_gui_focus_cur_sheet (wbcg);
@@ -106,8 +111,7 @@ workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean const accept)
 		 * TODO: What should we do in case of failure ?
 		 * maybe another parameter that will force an end ?
 		 */
-		cmd_set_text (WORKBOOK_CONTROL (wbcg),
-			      sheet, &sheet->cursor.edit_pos, txt);
+		cmd_set_text (wbc, sheet, &sheet->cursor.edit_pos, txt);
 	} else {
 		/* Redraw the cell contents in case there was a span */
 		int const c = sheet->cursor.edit_pos.col;
@@ -115,14 +119,14 @@ workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean const accept)
 		sheet_redraw_cell_region (sheet, c, r, c, r);
 
 		/* Reload the entry widget with the original contents */
-		workbook_edit_load_value (WORKBOOK_CONTROL (wbcg), sheet);
+		wb_view_edit_line_set (wbv, wbc);
 	}
 
 	/*
 	 * restore focus to original sheet in case things were being selected
 	 * on a different page
 	 */
-	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
+	wb_view_sheet_focus (wbv, sheet);
 
 	/* Only the edit sheet has an edit cursor */
 	sheet_stop_editing (sheet);
@@ -418,57 +422,6 @@ workbook_edit_get_display_text (WorkbookControlGUI *wbcg)
 		return wbcg->auto_complete_text;
 	else
 		return gtk_entry_get_text (workbook_get_entry (wbcg));
-}
-
-/**
- * Load the edit line with the value of the cell in @sheet's edit_pos.
- *
- * FIXME : when ready move to workbook-view
- */
-void
-workbook_edit_load_value (WorkbookControl *wbc, Sheet const *sheet)
-{
-	Cell     *cell;
-	char     *text;
-	ExprArray const* ar;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	cell = sheet_cell_get (sheet,
-			       sheet->cursor.edit_pos.col,
-			       sheet->cursor.edit_pos.row);
-
-	if (cell) {
-		text = cell_get_entered_text (cell);
-		/*
-		 * If this is part of an array we add '{' '}' and size
-		 * information to the display.  That is not actually part of
-		 * the parsable expression, but it is a useful extension to the
-		 * simple '{' '}' that MS excel(tm) uses.
-		 */
-		if (NULL != (ar = cell_is_array(cell))) {
-			/* No need to worry about locale for the comma this
-			 * syntax is not parsed
-			 */
-			char *tmp = g_strdup_printf ("{%s}(%d,%d)[%d][%d]", text,
-						     ar->rows, ar->cols,
-						     ar->y, ar->x);
-			g_free (text);
-			text = tmp;
-		}
-	} else
-		text = g_strdup ("");
-
-	/* FIXME : This does not belong here.  */
-	/* This is intended for screen reading software etc. */
-	gtk_signal_emit_by_name (GTK_OBJECT (sheet->workbook), "cell_changed",
-				 sheet, text,
-				 sheet->cursor.edit_pos.col,
-				 sheet->cursor.edit_pos.row);
-
-	wb_control_edit_line_set (wbc, text);
-	g_free (text);
 }
 
 /* Initializes the Workbook entry */

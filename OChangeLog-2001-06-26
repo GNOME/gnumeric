@@ -1,3 +1,15 @@
+2000-12-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-view.c (wb_view_edit_line_set) : renamed from
+	  workbook_edit_load_value and tweaked to operate on the view level.
+
+	* src/workbook-edit.c (workbook_finish_editing) : Adjust to changes in
+	  edit-line update api.
+
+	* src/sheet.c (sheet_update) : Use wb_view_edit_line_set.
+
+	* src/workbook-view.c (wb_view_sheet_focus) : bug 34185.
+
 2000-12-04  Morten Welinder  <terra@diku.dk>
 
 	* src/mstyle.c (mstyle_hash): Don't shift all the hash information
