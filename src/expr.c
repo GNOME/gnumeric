@@ -253,7 +253,7 @@ value_int (int i)
 }
 
 Value *
-value_str (char *str)
+value_str (const char *str)
 {
 	Value *v = g_new (Value, 1);
 
@@ -514,7 +514,7 @@ cell_ref_make_absolute (CellRef *cell_ref, int eval_col, int eval_row)
 	g_return_if_fail (cell_ref != NULL);
 
 	if (cell_ref->col_relative)
-		cell_ref-> col = eval_col + cell_ref->col;
+		cell_ref->col = eval_col + cell_ref->col;
 
 	if (cell_ref->row_relative)
 		cell_ref->row = eval_row + cell_ref->row;
@@ -1216,9 +1216,10 @@ bigger_prec (Operation parent, Operation this)
 static char *
 do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, Operation parent_op)
 {
-	static const char *binary_operation_names [] = {
+	static const char *operation_names [] = {
 		"=", ">", "<", ">=", "<=", "<>",
-		"+", "-", "*", "/",  "^",  "&"
+		"+", "-", "*", "/",  "^",  "&",
+		NULL, NULL, NULL, "-"
 	};
 
 	switch (tree->oper){
@@ -1228,7 +1229,7 @@ do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, Operation p
 		
 		a = do_expr_decode_tree (tree->u.binary.value_a, sheet, col, row, tree->oper);
 		b = do_expr_decode_tree (tree->u.binary.value_b, sheet, col, row, tree->oper);
-		op = binary_operation_names [tree->oper];
+		op = operation_names [tree->oper];
 
 		if (bigger_prec (parent_op, tree->oper))
 			res = g_strconcat ("(", a, op, b, ")", NULL);
@@ -1244,7 +1245,7 @@ do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, Operation p
 		char *res, *a;
 
 		a = do_expr_decode_tree (tree->u.value, sheet, col, row, tree->oper);
-		res = g_strconcat ("-", a, NULL);
+		res = g_strconcat (operation_names[tree->oper], a, NULL);
 		g_free (a);
 		return res;
 	}
@@ -1365,9 +1366,6 @@ do_expr_tree_relocate (ExprTree *tree, int coldiff, int rowdiff)
 	case OPER_FUNCALL: {
 		GList *l, *arg_list;
 
-		/* Why this?  */
-		tree->ref_count++;
-
 		symbol_ref (tree->u.function.symbol);
 		new_tree->u.function.arg_list = NULL;
 
@@ -1419,20 +1417,235 @@ expr_tree_relocate (ExprTree *tree, int coldiff, int rowdiff)
 	return do_expr_tree_relocate (tree, coldiff, rowdiff);
 }
 
+
+static ExprTree *
+build_error_string (const char *txt)
+{
+	ExprTree *val, *call;
+	Symbol *func;
+
+	val = g_new (ExprTree, 1);
+	val->oper = OPER_CONSTANT;
+	val->ref_count = 1;
+	val->u.constant = value_str (txt);
+
+	func = symbol_lookup (global_symbol_table, "ERROR");
+	if (func == NULL) {
+		g_assert_not_reached ();
+		return val;
+	}
+
+	call = g_new (ExprTree, 1);
+	call->oper = OPER_FUNCALL;
+	call->ref_count = 1;
+	symbol_ref ((call->u.function.symbol = func));
+	call->u.function.arg_list = g_list_prepend (NULL, val);
+
+	return call;
+}
+
+
+struct expr_tree_invalidate_references {
+	Sheet *sheet;
+	int src_col, src_row;
+
+	gboolean invalidating_columns;
+
+	/* Columns being invalidated.  */
+	int col, colcount;
+
+	/* Rows being invalidated.  */
+	int row, rowcount;
+};
+
+
+static ExprTree *
+do_expr_tree_invalidate_references (ExprTree *src, const struct expr_tree_invalidate_references *info)
+{
+	switch (src->oper) {
+	case OPER_ANY_BINARY: {
+		ExprTree *a =
+			do_expr_tree_invalidate_references (src->u.binary.value_a, info);
+		ExprTree *b =
+			do_expr_tree_invalidate_references (src->u.binary.value_b, info);
+		if (a == NULL && b == NULL)
+			return NULL;
+		else {
+			ExprTree *dst;
+
+			if (a == NULL)
+				expr_tree_ref ((a = src->u.binary.value_a));
+			if (b == NULL)
+				expr_tree_ref ((b = src->u.binary.value_b));
+
+			dst = g_new (ExprTree, 1);
+			dst->oper = src->oper;
+			dst->ref_count = 1;
+			dst->u.binary.value_a = a;
+			dst->u.binary.value_b = b;
+			return dst;
+		}
+	}
+
+	case OPER_ANY_UNARY: {
+		ExprTree *a =
+			do_expr_tree_invalidate_references (src->u.value, info);
+		if (a == NULL)
+			return NULL;
+		else {
+			ExprTree *dst;
+
+			dst = g_new (ExprTree, 1);
+			dst->oper = src->oper;
+			dst->ref_count = 1;
+			dst->u.value = a;
+			return dst;
+		}
+	}
+
+	case OPER_FUNCALL: {
+		gboolean any = FALSE;
+		GList *new_args = NULL;
+		GList *l;
+
+		for (l = src->u.function.arg_list; l; l = l->next) {
+			ExprTree *arg = do_expr_tree_invalidate_references (l->data, info);
+			new_args = g_list_append (new_args, arg);
+			if (arg) any = TRUE;
+		}
+
+		if (any) {
+			ExprTree *dst;
+			GList *m;
+
+			for (l = src->u.function.arg_list, m = new_args; l; l = l->next, m = m->next) {
+				if (m->data == NULL)
+					expr_tree_ref ((m->data = l->data));
+			}
+
+			dst = g_new (ExprTree, 1);
+			dst->oper = OPER_FUNCALL;
+			dst->ref_count = 1;
+			symbol_ref ((dst->u.function.symbol = src->u.function.symbol));
+			dst->u.function.arg_list = new_args;
+
+			return dst;
+		} else {
+			g_list_free (new_args);
+			return NULL;
+		}
+	}
+
+	case OPER_VAR: {
+		CellRef cr = src->u.ref; /* Copy a structure, not a pointer.  */
+		cell_ref_make_absolute (&cr, info->src_col, info->src_row);
+
+		if (info->invalidating_columns
+		    ? (cr.col >= info->col && cr.col < info->col + info->colcount)
+		    : (cr.row >= info->row && cr.row < info->row + info->rowcount)) {
+			return build_error_string ("#Reference to deleted cell!");
+		} else
+			return NULL;
+	}
+
+	case OPER_CONSTANT: {
+		Value *v = src->u.constant;
+
+		switch (v->type) {
+		case VALUE_STRING:
+		case VALUE_INTEGER:
+		case VALUE_FLOAT:
+			return NULL;
+		case VALUE_CELLRANGE:
+		case VALUE_ARRAY:
+			fprintf (stderr, "Reminder: FIXME in do_expr_tree_invalidate_references\n");
+			/* ??? */
+			return NULL;
+		}
+		g_assert_not_reached ();
+		return NULL;
+	}
+	}
+
+	g_assert_not_reached ();
+	return NULL;
+}
+
+
 ExprTree *
 expr_tree_invalidate_references (ExprTree *src, Sheet *sheet,
+				 int src_col, int src_row,
 				 int col, int row,
 				 int colcount, int rowcount)
+{
+	struct expr_tree_invalidate_references info;
+	ExprTree *dst;
+	char *str;
+
+	g_return_val_if_fail (src != NULL, NULL);
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	info.sheet = sheet;
+	info.src_col = src_col;
+	info.src_row = src_row;
+	info.invalidating_columns = (colcount > 0);
+	info.col = col;
+	info.colcount = colcount;
+	info.row = row;
+	info.rowcount = rowcount;
+
+	str = expr_decode_tree (src, sheet, src_col, src_row);
+	printf ("%s: [%s]\n", cell_name (src_col, src_row), str);
+	g_free (str);
+
+	dst = do_expr_tree_invalidate_references (src, &info);
+
+	str = dst ? expr_decode_tree (dst, sheet, src_col, src_row) : g_strdup ("*");
+	printf ("%s: [%s]\n\n", cell_name (src_col, src_row), str);
+	g_free (str);
+
+	return dst;
+}
+
+
+struct expr_tree_fixup_references {
+	Sheet *sheet;
+	int src_col, src_row;
+
+	/* Starting point of fixup.  */
+	int col, row;
+
+	/* Relative move.  */
+	int coldelta, rowdelta;
+};
+
+static ExprTree *
+do_expr_tree_fixup_references (ExprTree *src, const struct expr_tree_fixup_references *info)
 {
 	/* FIXME  */
 	return NULL;
 }
 
+
 ExprTree *
 expr_tree_fixup_references (ExprTree *src, Sheet *sheet,
-			    int col, int row,
+			    int src_col, int src_row, int col, int row,
 			    int coldelta, int rowdelta)
 {
-	/* FIXME  */
-	return NULL;
+	struct expr_tree_fixup_references info;
+
+	g_return_val_if_fail (src != NULL, NULL);
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	info.sheet = sheet;
+	info.src_col = src_col;
+	info.src_row = src_row;
+	info.col = col;
+	info.row = row;
+	info.coldelta = coldelta;
+	info.rowdelta = rowdelta;
+
+	return do_expr_tree_fixup_references (src, &info);
 }

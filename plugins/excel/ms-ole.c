@@ -549,6 +549,7 @@ MS_OLE *
 ms_ole_new (const char *name)
 {
 	struct stat st;
+	int prot = PROT_READ | PROT_WRITE;
 	int file;
 	MS_OLE *f;
 
@@ -557,6 +558,10 @@ ms_ole_new (const char *name)
 	f = g_new0 (MS_OLE, 1);
 
 	f->file_descriptor = file = open (name, O_RDWR);
+	if (file == -1) {
+		f->file_descriptor = file = open (name, O_RDONLY);
+		prot &= ~PROT_WRITE;
+	}
 	if (file == -1 || fstat(file, &st))
 	{
 		printf ("No such file '%s'\n", name);
@@ -572,7 +577,7 @@ ms_ole_new (const char *name)
 		return 0;
 	}
 
-	f->mem = mmap (0, f->length, PROT_READ|PROT_WRITE, MAP_SHARED, file, 0);
+	f->mem = mmap (0, f->length, prot, MAP_SHARED, file, 0);
 
 	if (GET_GUINT32(f->mem    ) != 0xe011cfd0 ||
 	    GET_GUINT32(f->mem + 4) != 0xe11ab1a1)

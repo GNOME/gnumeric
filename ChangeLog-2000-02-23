@@ -1,5 +1,19 @@
 1999-04-29  Morten Welinder  <terra@diku.dk>
 
+	* src/expr.c (do_expr_tree_relocate): Remove strange and incorrect
+ 	refcount fiddling.
+
+	* src/workbook.c (workbook_fixup_references,
+ 	workbook_invalidate_references): Fix cell walking.
+
+	* src/expr.c (do_expr_decode_tree): rename binary_operation_names
+	to operation_names and fill in the rest.
+
+	* src/fn-misc.c (gnumeric_error): New function.
+
+	* src/expr.c (value_str): Constify.
+	(expr_tree_invalidate_references): Mostly implement.
+
 	* src/fn-math.c (gnumeric_multinomial, gnumeric_product,
  	gnumeric_sumsq): Fix type.
 

@@ -2950,6 +2950,8 @@ sheet_insert_row (Sheet *sheet, int row, int count)
 
 	g_list_free (cell_store);
 
+	workbook_fixup_references (sheet->workbook, 0, row, 0, count);
+
 	/* 4. Recompute any changes required */
 	deps = region_get_dependencies (sheet, 0, row, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 	cell_queue_recalc_list (deps);

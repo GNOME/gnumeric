@@ -963,14 +963,13 @@ cell_relocate (Cell *cell, int col_diff, int row_diff)
 		sheet_cell_formula_unlink (cell);
 		if (col_diff != 0 || row_diff != 0){
 			ExprTree *new_tree;
-			char *text, *formula;
-			
+
 			new_tree = expr_tree_relocate (cell->parsed_node, col_diff, row_diff);
 
 			expr_tree_unref (cell->parsed_node);
 			cell->parsed_node = new_tree;
 		}
-		/* The follwing call also relinks the cell.  */
+		/* The following call also relinks the cell.  */
 		cell_formula_changed (cell);
 	}
 	

@@ -1,3 +1,8 @@
+1999-04-29  Michael Meeks  <michael@edenproject.org>
+
+	* ms-ole.c (ms_ole_new): Revert to read-only mapping on failure.
+	(MW: there has got to be a reason why we don't start that way.)
+
 1999-04-29  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel.c (ms_excel_workbook_detach): Add new extra parameter

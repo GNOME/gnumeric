@@ -162,11 +162,11 @@ void        expr_tree_ref        (ExprTree *tree);
 void        expr_tree_unref      (ExprTree *tree);
 
 ExprTree   *expr_tree_invalidate_references (ExprTree *src, struct _Sheet *sheet,
-					     int col, int row,
+					     int src_col, int src_row, int col, int row,
 					     int colcount, int rowcount);
 
 ExprTree   *expr_tree_fixup_references (ExprTree *src, struct _Sheet *sheet,
-					int col, int row,
+					int src_col, int src_row, int col, int row,
 					int coldelta, int rowdelta);
 
 Value      *eval_expr            (struct _Sheet *sheet, ExprTree *tree,
@@ -197,7 +197,7 @@ Value      *value_duplicate      (const Value *value);
 
 Value      *value_float          (float_t f);
 Value      *value_int            (int i);
-Value      *value_str            (char *str);
+Value      *value_str            (const char *str);
 	
 /* Setup of the symbol table */
 void        functions_init       (void);

@@ -22,7 +22,7 @@ static char *help_iserror = {
 	   "Returns a TRUE value if the expression has an error\n"
 	   "\n"
 	   
-	   "@SEEALSO=")
+	   "@SEEALSO=ERROR")
 };
 
 static Value *
@@ -45,7 +45,35 @@ gnumeric_iserror (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_ro
 	return retval;
 }
 
+static char *help_error = {
+	N_("@FUNCTION=ERROR\n"
+	   "@SYNTAX=ERROR(text)\n"
+
+	   "@DESCRIPTION="
+	   "Return the specified error\n"
+	   "\n"
+	   
+	   "@SEEALSO=ISERROR")
+};
+
+static Value *
+gnumeric_error (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	if (argv [0]->type != VALUE_STRING){
+		*error_string = _("Type mismatch");
+		return NULL;
+	}
+
+	/* The error signaling system is broken.  We really cannot allocate a
+	   dynamic error string.  Let's hope the string stays around for long
+	   enough...  */
+	*error_string = argv [0]->v.str->str;
+	return NULL;
+}
+
+
 FunctionDefinition misc_functions [] = {
-	{ "iserror", "",   "",                 &help_iserror, gnumeric_iserror, NULL },
+	{ "error",   "s",  "text",             &help_error,   NULL,             gnumeric_error },
+	{ "iserror", "",   "",                 &help_iserror, gnumeric_iserror, NULL           },
 	{ NULL, NULL }
 };

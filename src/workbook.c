@@ -2085,7 +2085,6 @@ workbook_fixup_references (Workbook *wb, int col, int row,
 			   int coldelta, int rowdelta)
 {
 	GList *cells, *l;
-	gboolean debug = TRUE;
 
 	g_return_if_fail (wb != NULL);
 
@@ -2094,7 +2093,7 @@ workbook_fixup_references (Workbook *wb, int col, int row,
 	/* Copy the list since it will change underneath us.  */
 	cells = g_list_copy (wb->formula_cell_list);
 
-	for (l = wb->formula_cell_list; l; l = l->next)	{
+	for (l = cells; l; l = l->next)	{
 		Cell *cell = l->data;
 		ExprTree *newtree;
 		int thiscol, thisrow;
@@ -2102,14 +2101,8 @@ workbook_fixup_references (Workbook *wb, int col, int row,
 		thiscol = cell->col->pos;
 		thisrow = cell->row->pos;
 
-		if (debug) {
-			char *str = cell_get_content (cell);
-			const char *cellname = cell_name (thiscol, thisrow);
-			printf ("Before %s: [%s]\n", cellname, str);
-			g_free (str);
-		}
-
 		newtree = expr_tree_fixup_references (cell->parsed_node, cell->sheet,
+						      thiscol, thisrow,
 						      col, row, coldelta, rowdelta);
 		if (newtree) {
 			char *exprtxt, *eqexprtxt;
@@ -2121,15 +2114,6 @@ workbook_fixup_references (Workbook *wb, int col, int row,
 			g_free (exprtxt);
 			g_free (eqexprtxt);
 			expr_tree_unref (newtree);
-
-			if (debug) {
-				char *str = cell_get_content (cell);
-				const char *cellname = cell_name (thiscol, thisrow);
-				printf ("After  %s: [%s]\n", cellname, str);
-				g_free (str);
-			}
-		} else {
-			printf ("Unchanged.\n");
 		}
 	}
 
@@ -2152,7 +2136,6 @@ workbook_invalidate_references (Workbook *wb, int col, int row,
 				int colcount, int rowcount)
 {
 	GList *cells, *l;
-	gboolean debug = TRUE;
 
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (colcount == 0 || rowcount == 0);
@@ -2163,7 +2146,7 @@ workbook_invalidate_references (Workbook *wb, int col, int row,
 	/* Copy the list since it will change underneath us.  */
 	cells = g_list_copy (wb->formula_cell_list);
 
-	for (l = wb->formula_cell_list; l; l = l->next)	{
+	for (l = cells; l; l = l->next)	{
 		Cell *cell = l->data;
 		ExprTree *newtree;
 		int thiscol, thisrow;
@@ -2171,14 +2154,8 @@ workbook_invalidate_references (Workbook *wb, int col, int row,
 		thiscol = cell->col->pos;
 		thisrow = cell->row->pos;
 
-		if (debug) {
-			char *str = cell_get_content (cell);
-			const char *cellname = cell_name (thiscol, thisrow);
-			printf ("Before %s: [%s]\n", cellname, str);
-			g_free (str);
-		}
-
 		newtree = expr_tree_invalidate_references (cell->parsed_node, cell->sheet,
+							   thiscol, thisrow,
 							   col, row, colcount, rowcount);
 		if (newtree) {
 			char *exprtxt, *eqexprtxt;
@@ -2190,15 +2167,6 @@ workbook_invalidate_references (Workbook *wb, int col, int row,
 			g_free (exprtxt);
 			g_free (eqexprtxt);
 			expr_tree_unref (newtree);
-
-			if (debug) {
-				char *str = cell_get_content (cell);
-				const char *cellname = cell_name (thiscol, thisrow);
-				printf ("After  %s: [%s]\n", cellname, str);
-				g_free (str);
-			}
-		} else {
-			printf ("Unchanged.\n");
 		}
 	}
 
