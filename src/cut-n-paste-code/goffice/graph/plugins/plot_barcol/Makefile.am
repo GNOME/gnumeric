@@ -11,10 +11,13 @@ gladedir = $(goffice_graph_barcoldir)
 
 goffice_graph_barcol_LTLIBRARIES = barcol.la
 barcol_la_LDFLAGS = -module -avoid-version
-barcol_la_SOURCES = \
-	gog-barcol.c		\
-	gog-barcol.h		\
-	gog-barcol-prefs.c
+barcol_la_SOURCES = gog-1.5d.c 		\
+		    gog-1.5d.h		\
+		    gog-line.c		\
+		    gog-line.h		\
+		    gog-barcol.c 	\
+		    gog-barcol.h	\
+		    gog-barcol-prefs.c
 
 xml_in_files = plugin.xml.in plot-types.xml.in
 xml_DATA = $(xml_in_files:.xml.in=.xml) gog-barcol-prefs.glade

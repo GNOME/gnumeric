@@ -3765,8 +3765,8 @@ maybe_gunzip (GsfInput *input)
 static GsfInput *
 maybe_convert (GsfInput *input, gboolean quiet)
 {
-	const char *noencheader = "<?xml version=\"1.0\"?>";
-	const char *encheader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+	static char const *noencheader = "<?xml version=\"1.0\"?>";
+	static char const *encheader = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 	guint8 const *buf;
 	gsf_off_t input_size;
 	GString *buffer;

@@ -27,6 +27,8 @@
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <libfoocanvas/foo-canvas-polygon.h>
 #include <libfoocanvas/foo-canvas-text.h>
+
+#include <libart_lgpl/art_affine.h>
 #include <math.h>
 
 #define SHEET_OBJECT_CONFIG_KEY "sheet-object-arrow-key"

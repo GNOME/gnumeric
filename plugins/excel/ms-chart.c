@@ -312,26 +312,24 @@ BC_R(area)(XLChartHandler const *handle,
 	   XLChartReadState *s, BiffQuery *q)
 {
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data);
-	gboolean const stacked = (flags & 0x01) ? TRUE : FALSE;
-	gboolean const as_percentage = (flags & 0x02) ? TRUE : FALSE;
+	char const *type = "normal";
+	/* gboolean in_3d = (s->container.ver >= MS_BIFF_V8 && (flags & 0x04)); */
 
-	d (0, {
-	if (as_percentage)
-		/* TODO : test theory that percentage implies stacked */
-		fprintf (stderr, "Stacked Percentage. (%d should be TRUE)\n", stacked);
-	else if (stacked)
-		fprintf (stderr, "Stacked Percentage values\n");
-	else
-		fprintf (stderr, "Overlayed values\n");
-	});
+	g_return_val_if_fail (s->plot == NULL, TRUE);
+	s->plot = gog_plot_new_by_name ("GogAreaPlot");
+	g_return_val_if_fail (s->plot != NULL, TRUE);
 
-	if (s->container.ver >= MS_BIFF_V8) {
-		d (0, {
-		gboolean const has_shadow = (flags & 0x04) ? TRUE : FALSE;
-		if (has_shadow)
-			fputs ("in 3D", stderr);
-		});
-	}
+	if (flags & 0x02)
+		type = "as_percentage";
+	else if (flags & 0x01)
+		type = "stacked";
+
+	g_object_set (G_OBJECT (s->plot),
+		"type",			type,
+		/* "in_3d",		in_3d, */
+		NULL);
+
+	d(1, fprintf (stderr, "%s area;", type););
 	return FALSE;
 }
 
@@ -908,7 +906,7 @@ BC_R(line)(XLChartHandler const *handle,
 {
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data);
 	char const *type = "normal";
-	gboolean in_3d;
+	/* gboolean in_3d = (s->container.ver >= MS_BIFF_V8 && (flags & 0x04)); */
 
 	g_return_val_if_fail (s->plot == NULL, TRUE);
 	s->plot = gog_plot_new_by_name ("GogLinePlot");
@@ -918,12 +916,13 @@ BC_R(line)(XLChartHandler const *handle,
 		type = "as_percentage";
 	else if (flags & 0x01)
 		type = "stacked";
-	in_3d = (s->container.ver >= MS_BIFF_V8 && (flags & 0x04));
 
 	g_object_set (G_OBJECT (s->plot),
 		"type",			type,
-		"in_3d",		in_3d,
+		/* "in_3d",		in_3d, */
 		NULL);
+
+	d(1, fprintf (stderr, "%s line;", type););
 	return FALSE;
 }
 

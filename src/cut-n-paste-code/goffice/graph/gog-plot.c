@@ -182,8 +182,10 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 }
 
 static void
-gog_plot_init (GogPlot *plot)
+gog_plot_init (GogPlot *plot, GogPlotClass const *derived_plot_klass)
 {
+	/* keep a local copy so that we can over-ride things if desired */
+	plot->desc = derived_plot_klass->desc;
 	/* start as true so that we can queue an update when it changes */
 	plot->cardinality_valid = TRUE;
 }

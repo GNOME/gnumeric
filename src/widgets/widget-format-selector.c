@@ -700,7 +700,6 @@ funny_currency_order (gconstpointer _a, gconstpointer _b)
 {
 	char const *a = (char const *)_a;
 	char const *b = (char const *)_b;
-	gunichar a_char, b_char;
 
 	/* Keep the special 1 char versions, and both euro forms at the top */
 	gboolean a1 = a[0] && (*(g_utf8_next_char (a)) == '\0' ||

@@ -71,7 +71,6 @@ GogPlot *
 gog_plot_new_by_name (char const *id)
 {
 	GType type = g_type_from_name (id);
-	GogPlot *plot;
 
 	if (type == 0) {
 		ErrorInfo *err = NULL;
@@ -91,13 +90,7 @@ gog_plot_new_by_name (char const *id)
 
 	g_return_val_if_fail (type != 0, NULL);
 
-	plot = g_object_new (type, NULL);
-	if (plot != NULL) {
-		GogPlotClass const *klass = GOG_PLOT_ITEM_GET_CLASS(plot);
-		plot->desc = klass->desc;
-	}
-
-	return plot;
+	return g_object_new (type, NULL);
 }
 
 /***************************************************************************/

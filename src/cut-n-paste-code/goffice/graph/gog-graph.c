@@ -454,8 +454,10 @@ gog_graph_unref_data (GogGraph *graph, GOData *dat)
 static gboolean
 cb_graph_idle (GogGraph *graph)
 {
-	gog_object_update (GOG_OBJECT (graph));
+	/* an update may queue an update in a different object,
+	 * clear the handler early */
 	graph->idle_handler = 0;
+	gog_object_update (GOG_OBJECT (graph));
 	return FALSE;
 }
 

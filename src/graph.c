@@ -30,6 +30,7 @@
 #include "sheet.h"
 #include "workbook.h"
 #include "str.h"
+#include "format.h"
 #include "ranges.h"
 #include "parse-util.h"
 #include <goffice/graph/go-data-impl.h>
@@ -530,15 +531,78 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 }
 
 static double
-gnm_go_data_vector_get_value (GODataVector *vec, unsigned i)
+gnm_go_data_vector_get_value (GODataVector *dat, unsigned i)
 {
-	return 0.;
+	GnmGODataVector *vec = (GnmGODataVector *)dat;
+	Value *v;
+	EvalPos ep;
+	gboolean valid;
+
+	if (vec->val == NULL)
+		gnm_go_data_vector_load_len (dat);
+
+	eval_pos_init_dep (&ep, &vec->dep);
+	v = value_duplicate (vec->as_col
+		? value_area_get_x_y (vec->val, 0, i, &ep)
+		: value_area_get_x_y (vec->val, i, 0, &ep));
+	v = value_coerce_to_number (v, &valid, &ep);
+
+	if (valid) {
+		gnm_float res = value_get_as_float (v);
+		value_release (v);
+		return res;
+	}
+	return gnm_nan;
 }
 
-static char const *
-gnm_go_data_vector_get_str (GODataVector *vec, unsigned i)
+static char *
+gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 {
-	return "";
+	GnmGODataVector *vec = (GnmGODataVector *)dat;
+	Value const *v;
+	EvalPos ep;
+	StyleFormat const *format = NULL;
+	GnmDateConventions const *date_conv = NULL;
+
+	if (vec->val == NULL)
+		gnm_go_data_vector_load_len (dat);
+
+	g_return_val_if_fail (vec->val != NULL, NULL);
+
+	v = vec->val;
+	eval_pos_init_dep (&ep, &vec->dep);
+	if (v->type == VALUE_CELLRANGE) {
+		Sheet *start_sheet, *end_sheet;
+		Cell  *cell;
+		Range  r;
+
+		rangeref_normalize (&v->v_range.cell, &ep,
+				    &start_sheet, &end_sheet, &r);
+		if (vec->as_col)
+			r.start.row += i;
+		else
+			r.start.col += i;
+		cell = sheet_cell_get (start_sheet, r.start.col, r.start.row);
+		if (cell == NULL)
+			return NULL;
+		cell_eval (cell);
+		v = cell->value;
+		format = cell_get_format (cell);
+		date_conv = workbook_date_conv (start_sheet->workbook);
+	} else if (v->type == VALUE_ARRAY)
+		v = vec->as_col
+			? value_area_get_x_y (v, 0, i, &ep)
+			: value_area_get_x_y (v, i, 0, &ep);
+
+	switch (v->type){
+	case VALUE_ARRAY:
+	case VALUE_CELLRANGE:
+		g_warning ("nested non-scalar types ?");
+		return NULL;
+
+	default :
+		return format_value (format, v, NULL, 8, date_conv);
+	}
 }
 
 static void

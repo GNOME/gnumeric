@@ -73,10 +73,10 @@ struct _GODataVector {
 typedef struct {
 	GODataClass base;
 
-	void	     (*load_len)    (GODataVector *vec);
-	void	     (*load_values) (GODataVector *vec);
-	double       (*get_value)   (GODataVector *vec, unsigned i);
-	char const  *(*get_str)	    (GODataVector *vec, unsigned i);
+	void	 (*load_len)    (GODataVector *vec);
+	void	 (*load_values) (GODataVector *vec);
+	double	 (*get_value)   (GODataVector *vec, unsigned i);
+	char	*(*get_str)	(GODataVector *vec, unsigned i);
 /*	PangoLayout *(get_fmt_str)  (GODataVector *vec, unsigned i); */
 } GODataVectorClass;
 

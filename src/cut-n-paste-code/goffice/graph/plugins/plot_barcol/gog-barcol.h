@@ -22,44 +22,25 @@
 #ifndef GOG_BARCOL_H
 #define GOG_BARCOL_H
 
-#include <goffice/graph/gog-plot-impl.h>
-#include <goffice/graph/gog-series-impl.h>
+#include "gog-1.5d.h"
 
 G_BEGIN_DECLS
+
+typedef struct {
+	GogPlot1_5d	base;
+
+	gboolean horizontal;
+	int	 overlap_percentage;
+	int	 gap_percentage;
+
+} GogBarColPlot;
+typedef GogPlot1_5dClass GogBarColPlotClass;
 
 #define GOG_BARCOL_PLOT_TYPE	(gog_barcol_plot_get_type ())
 #define GOG_BARCOL_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_BARCOL_PLOT_TYPE, GogBarColPlot))
 #define GOG_IS_PLOT_BARCOL(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_BARCOL_PLOT_TYPE))
 
-typedef enum {
-	GOG_BARCOL_NORMAL,
-	GOG_BARCOL_STACKED,
-	GOG_BARCOL_AS_PERCENTAGE
-} GogBarColType;
-
-typedef struct {
-	GogPlot	base;
-	GogBarColType type;
-	gboolean horizontal;
-	int	 overlap_percentage;
-	int	 gap_percentage;
-
-	/* cached content */
-	unsigned num_series, num_elements;
-	double   minimum, maximum; /* meaning varies depending on type */
-} GogBarColPlot;
-
 GType gog_barcol_plot_get_type (void);
-
-typedef struct {
-	GogSeries base;
-	unsigned num_elements;
-} GogBarColSeries;
-
-#define GOG_BARCOL_SERIES_TYPE	(gog_barcol_series_get_type ())
-#define GOG_BARCOL_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_BARCOL_SERIES_TYPE, GogBarColSeries))
-#define GOG_IS_BARCOL_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_BARCOL_SERIES_TYPE))
-GType gog_barcol_series_get_type (void);
 
 G_END_DECLS
 

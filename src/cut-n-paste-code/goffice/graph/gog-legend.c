@@ -37,10 +37,12 @@ static GType gog_legend_view_get_type (void);
 struct _GogLegend {
 	GogStyledObject	base;
 
-	double swatch_size_pts;
-	double swatch_padding_pts;
-	guint32 chart_cardinality_handle;
-	int    cached_count;
+	double	 swatch_size_pts;
+	double	 swatch_padding_pts;
+	gulong	 chart_cardinality_handle;
+	gulong	 chart_child_name_changed_handle;
+	int	 cached_count;
+	gboolean names_changed;
 };
 
 typedef struct {
@@ -94,21 +96,44 @@ gog_legend_get_property (GObject *obj, guint param_id,
 }
 
 static void
+cb_chart_names_changed (GogLegend *legend)
+{
+	if (legend->names_changed)
+		return;
+	legend->names_changed = TRUE;
+	gog_object_request_update (GOG_OBJECT (legend));
+}
+
+static void
 gog_legend_parent_changed (GogObject *obj, gboolean was_set)
 {
 	GogObjectClass *gog_object_klass = GOG_OBJECT_CLASS (parent_klass);
 	GogLegend *legend = GOG_LEGEND (obj);
 
-	if (was_set && legend->chart_cardinality_handle == 0)
-		legend->chart_cardinality_handle =
-			g_signal_connect_object (G_OBJECT (obj->parent),
-				"notify::cardinality-valid",
-				G_CALLBACK (gog_object_request_update),
-				legend, G_CONNECT_SWAPPED);
-	else if (!was_set && legend->chart_cardinality_handle != 0) {
-		g_signal_handler_disconnect (G_OBJECT (obj->parent),
-			legend->chart_cardinality_handle);
-		legend->chart_cardinality_handle = 0;
+	if (was_set) {
+		if (legend->chart_cardinality_handle == 0)
+			legend->chart_cardinality_handle =
+				g_signal_connect_object (G_OBJECT (obj->parent),
+					"notify::cardinality-valid",
+					G_CALLBACK (gog_object_request_update),
+					legend, G_CONNECT_SWAPPED);
+		if (legend->chart_child_name_changed_handle == 0)
+			legend->chart_child_name_changed_handle =
+				g_signal_connect_object (G_OBJECT (obj->parent),
+					"child-name-changed",
+					G_CALLBACK (cb_chart_names_changed),
+					legend, G_CONNECT_SWAPPED);
+	} else {
+		if (legend->chart_cardinality_handle != 0) {
+			g_signal_handler_disconnect (G_OBJECT (obj->parent),
+				legend->chart_cardinality_handle);
+			legend->chart_cardinality_handle = 0;
+		}
+		if (legend->chart_child_name_changed_handle != 0) {
+			g_signal_handler_disconnect (G_OBJECT (obj->parent),
+				legend->chart_child_name_changed_handle);
+			legend->chart_child_name_changed_handle = 0;
+		}
 	}
 
 	gog_object_klass->parent_changed (obj, was_set);
@@ -119,10 +144,12 @@ gog_legend_update (GogObject *obj)
 {
 	GogLegend *legend = GOG_LEGEND (obj);
 	int i = gog_chart_get_cardinality (GOG_CHART (obj->parent));
-	if (legend->cached_count != i) {
+	if (legend->cached_count != i)
 		legend->cached_count = i;
-		gog_object_emit_changed	(obj, TRUE);
-	}
+	else if (!legend->names_changed)
+		return;
+	legend->names_changed = FALSE;
+	gog_object_emit_changed	(obj, TRUE);
 }
 
 static void

@@ -50,6 +50,7 @@ cb_remove_child (GogObject *parent, GogObject *child,
 		 GogView *view)
 {
 	GSList *ptr = view->children;
+	GogObjectClass const *klass;
 	GogView *tmp;
 
 	g_return_if_fail (view->model == parent);
@@ -65,10 +66,14 @@ cb_remove_child (GogObject *parent, GogObject *child,
 			return;
 		}
 	}
-	g_warning ("%s (%p) saw %s(%p) being removed from %s(%p) which wasn't my child",
-		   G_OBJECT_TYPE_NAME (view), view,
-		   G_OBJECT_TYPE_NAME (child), child,
-		   G_OBJECT_TYPE_NAME (parent), parent);
+
+	/* The object may not create a view */
+	klass = GOG_OBJECT_CLASS(child);
+	if (klass->view_type != 0)
+		g_warning ("%s (%p) saw %s(%p) being removed from %s(%p) for which I didn't have a child",
+			   G_OBJECT_TYPE_NAME (view), view,
+			   G_OBJECT_TYPE_NAME (child), child,
+			   G_OBJECT_TYPE_NAME (parent), parent);
 }
 
 static void

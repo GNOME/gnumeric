@@ -32,6 +32,7 @@
 enum {
 	CHILD_ADDED,
 	CHILD_REMOVED,
+	CHILD_NAME_CHANGED,
 	NAME_CHANGED,
 	CHANGED,
 	LAST_SIGNAL
@@ -92,6 +93,15 @@ gog_object_class_init (GObjectClass *klass)
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE,
 		1, G_TYPE_OBJECT);
+	gog_object_signals [CHILD_NAME_CHANGED] = g_signal_new ("child-name-changed",
+		G_TYPE_FROM_CLASS (gog_klass),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GogObjectClass, child_name_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE,
+		1, G_TYPE_OBJECT);
+
 	gog_object_signals [NAME_CHANGED] = g_signal_new ("name_changed",
 		G_TYPE_FROM_CLASS (klass),
 		G_SIGNAL_RUN_LAST,
@@ -135,6 +145,7 @@ gog_object_generate_name (GogObject *obj)
 	g_return_val_if_fail (obj->role != NULL, NULL);
 
 	switch (obj->role->naming_conv) {
+	default :
 	case GOG_OBJECT_NAME_MANUALLY :
 		g_warning ("Role %s should not be autogenerating names",
 			   obj->role->id);
@@ -249,6 +260,8 @@ gog_object_get_name (GogObject const *obj)
 void
 gog_object_set_name (GogObject *obj, char *name, GError **err)
 {
+	GogObject *tmp;
+
 	g_return_if_fail (GOG_OBJECT (obj) != NULL);
 
 	if (obj->user_name == name)
@@ -258,6 +271,10 @@ gog_object_set_name (GogObject *obj, char *name, GError **err)
 
 	g_signal_emit (G_OBJECT (obj),
 		gog_object_signals [NAME_CHANGED], 0);
+
+	for (tmp = obj; tmp != NULL ; tmp = tmp->parent)
+		g_signal_emit (G_OBJECT (tmp),
+			gog_object_signals [CHILD_NAME_CHANGED], 0, obj);
 }
 
 /**

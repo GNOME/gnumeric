@@ -371,7 +371,7 @@ currency_date_format_shutdown (void)
 
 CurrencySymbol const currency_symbols[] =
 {
- 	{ "", "None", TRUE, FALSE },	/* These first five elements */
+ 	{ "", "None", TRUE, FALSE },	/* These first six elements */
  	{ "$", "$", TRUE, FALSE },	/* Must stay in this order */
  	{ "£", "£", TRUE, FALSE },	/* GBP */
  	{ "¥", "¥", TRUE, FALSE },	/* JPY */

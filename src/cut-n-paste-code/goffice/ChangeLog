@@ -1,3 +1,33 @@
+2003-07-31  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-series.c (gog_series_set_index) : always init the style,
+	  don't be cheap.  When loading index is initialized to 0, so the
+	  first series would not get styled because it did not look like
+	  anything changed.
+
+	* graph/plugins/plot_pie/gog-pie.c (gog_pie_view_render) : fix
+	  interpretation of the center_size parameter.  Thanks tino.
+
+	* graph/gog-plot.c (gog_plot_init) : copy the plot descriptor from the
+	  class to the plot here for use cases that use g_object_new.
+	* graph/gog-plot-engine.c (gog_plot_new_by_name) : rather than here
+	  where it gets missed.
+
+	* graph/gog-legend.c (gog_legend_parent_changed) : catch object name
+	  changes in the chart and trigger an update.
+
+	* graph/gog-graph.c (cb_graph_idle) : clear the handler before doing
+	  the update so that a handler can queue an update for another object.
+
+2003-07-30  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/plugins/plot_barcol/gog-line.[ch]: new. Line and Area support.
+	* graph/plugins/plot_barcol/gog-1.d.[ch]: new. Defines base class for
+	gog-line and gog-barcol.
+	* graph/plugins/plot_barcol/plot-types.xml.in: add support for are and
+	line plots.
+	* graph/plugins/plot_barcol/plugin.xml.in: add are and line engines.
+
 2003-07-19  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-chart.c (gog_chart_get_axis) : new.

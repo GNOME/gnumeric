@@ -1,3 +1,8 @@
+2003-07-31  Jody Goldberg <jody@gnome.org>
+
+	* ms-chart.c (BC_R(line)) : connect to the new line plot.
+	(BC_R(area)) : connect to the new area plot.
+
 2003-07-28  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-read.c (make_function) : dup the name because plugins get

@@ -1,22 +1,32 @@
 <?xml version="1.0"?>
 <plugin id="GOffice_plot_barcol">
 	<information>
-		<_name>Bar/Col Charts</_name>
-		<_description>Bar and Column charts</_description>
+		<_name>1.5d Charts</_name>
+		<_description>Line, Area, Bar and Column charts</_description>
 	</information>
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="barcol.la"/>
 	</loader>
 	<services>
+		<service type="plot_engine" id="GogLinePlot">
+			<information>
+				<_description>Line plotting engine</_description>
+			</information>
+		</service>
+		<service type="plot_engine" id="GogAreaPlot">
+			<information>
+				<_description>Area plotting engine</_description>
+			</information>
+		</service>
 		<service type="plot_engine" id="GogBarColPlot">
 			<information>
 				<_description>Bar/Col plotting engine</_description>
 			</information>
 		</service>
-		<service type="plot_type" id="barcol">
+		<service type="plot_type" id="1.5d">
 			<file>plot-types.xml</file>
 			<information>
-				<_description>Default Bar/Col plot types</_description>
+				<_description>Default 1.5d plot types</_description>
 			</information>
 		</service>
 	</services>

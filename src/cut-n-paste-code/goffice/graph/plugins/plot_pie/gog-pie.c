@@ -121,8 +121,7 @@ gog_pie_plot_foreach_elem (GogPlot *plot, GogEnumFunc handler, gpointer data)
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
 	GogStyle *style;
 	GODataVector *labels;
-	char const *label;
-	gboolean free_it;
+	char *label;
 
 	if (!model->base.vary_style_by_element)
 		return FALSE;
@@ -138,12 +137,10 @@ gog_pie_plot_foreach_elem (GogPlot *plot, GogEnumFunc handler, gpointer data)
 			model->base.index_num + i);
 		label = (labels != NULL)
 			? go_data_vector_get_str (labels, i) : NULL;
-		if ((free_it = (label == NULL)))
+		if (label == NULL)
 			label = g_strdup_printf ("%d", i);
 		(handler) (i, style, label, data);
-		if (free_it)
-			g_free ((char *)label);
-
+		g_free (label);
 	}
 	g_object_unref (style);
 
@@ -220,10 +217,7 @@ enum {
 	RING_PLOT_PROP_CENTER_SIZE,
 };
 
-typedef struct {
-	GogPiePlotClass	base;
-} GogRingPlotClass;
-
+typedef GogPiePlotClass	GogRingPlotClass;
 static GObjectClass *ring_parent_klass;
 
 static void
@@ -329,10 +323,11 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogStyle *style;
 	GSList *ptr;
 	unsigned num_series = 0;
-	unsigned index, mirror;
+	unsigned index, mirror = 0; /* init mirror because gcc is silly */
 	double center_radius;
 	double center_size = 0.0;
 	double r_ext, r_int;
+	gboolean has_hole;
 
 	/* compute number of valid series */
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
@@ -367,6 +362,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
 
+		has_hole = center_radius > 0.;
 		r_int = center_radius + r * ((double)index - 1.0) / (double)num_series;
 		r_ext = center_radius + r * (double)index / (double)num_series;
 
@@ -402,7 +398,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 			path[0].code = ART_MOVETO;
 			path[0].x = separated_cx;
 			path[0].y = separated_cy;
-			if (index > 1) {
+			if (has_hole) {
 				path[0].x += r_int * cos (theta);
 				path[0].y += r_int * sin (theta);
 				mirror = 2*n + 3;
@@ -417,7 +413,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 				path[j].code = ART_LINETO;
 				path[j].x = separated_cx + r_ext * cos (tmp);
 				path[j].y = separated_cy + r_ext * sin (tmp);
-				if (index > 1) {
+				if (has_hole) {
 					path[mirror - j].code = ART_LINETO;
 					path[mirror - j].x = separated_cx + r_int * cos (tmp);
 					path[mirror - j].y = separated_cy + r_int * sin (tmp);
@@ -516,7 +512,7 @@ gog_pie_series_get_property (GObject *obj, guint param_id,
 static void
 gog_pie_series_update (GogObject *obj)
 {
-	double *vals, total;
+	double *vals = NULL, total;
 	int len = 0;
 	GogPieSeries *series = GOG_PIE_SERIES (obj);
 	unsigned old_num = series->base.num_elements;

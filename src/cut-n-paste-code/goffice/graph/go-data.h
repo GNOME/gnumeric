@@ -55,10 +55,10 @@ char const *go_data_scalar_get_str    (GODataScalar *val);
 
 GType go_data_vector_get_type (void);
 
-int	    go_data_vector_get_len    (GODataVector *vec);
-double	   *go_data_vector_get_values (GODataVector *vec);
-double      go_data_vector_get_value  (GODataVector *vec, unsigned i);
-char const *go_data_vector_get_str    (GODataVector *vec, unsigned i);
+int	 go_data_vector_get_len    (GODataVector *vec);
+double	*go_data_vector_get_values (GODataVector *vec);
+double	 go_data_vector_get_value  (GODataVector *vec, unsigned i);
+char	*go_data_vector_get_str    (GODataVector *vec, unsigned i);
 void	    go_data_vector_get_minmax (GODataVector *vec, double *min, double *max);
 
 G_END_DECLS

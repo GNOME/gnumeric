@@ -156,6 +156,7 @@ gog_series_init (GogSeries *series)
 	series->is_valid = FALSE;
 	series->plot = NULL;
 	series->values = NULL;
+	series->index = -1;
 }
 
 static void
@@ -320,10 +321,7 @@ gog_series_set_index (GogSeries *series, int ind, gboolean is_manual)
 	else if (series->manual_index)
 		return;
 
-	if (series->index == (unsigned)ind)
-		return;
 	series->index = ind;
-
 	gog_theme_init_style (gog_object_get_theme (GOG_OBJECT (series)),
 		series->base.style, GOG_OBJECT (series), ind);
 }

@@ -89,11 +89,12 @@ typedef struct {
 					 GogDataAllocator *dalloc, CommandContext *cc);
 
 	/* signals */
-	void (*child_added)   (GogObject *parent, GogObject *child);
-	void (*child_removed) (GogObject *parent, GogObject *child);
-	void (*name_changed)  (GogObject *obj);
-	void (*changed)	      (GogObject *obj, gboolean size);
+	void (*changed)		(GogObject *obj, gboolean size);
+	void (*name_changed)	(GogObject *obj);
 	void (*possible_additions_changed) (GogObject const *obj);
+	void (*child_added)	   (GogObject *parent, GogObject *child);
+	void (*child_removed)	   (GogObject *parent, GogObject *child);
+	void (*child_name_changed) (GogObject const *obj, GogObject const *child);
 } GogObjectClass;
 
 #define GOG_OBJECT_TYPE		(gog_object_get_type ())

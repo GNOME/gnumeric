@@ -42,10 +42,7 @@ struct _GogChart {
 	GList *axes;
 	GogAxisSet axis_set;
 };
-
-typedef struct {
-	GogStyledObjectClass  base;
-} GogChartClass;
+typedef GogStyledObjectClass GogChartClass;
 
 #define GOG_CHART_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GOG_CHART_TYPE, GogChartClass))
 #define IS_GOG_CHART_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GOG_CHART_TYPE))

@@ -231,12 +231,18 @@ go_data_vector_get_value (GODataVector *vec, unsigned i)
 	return vec->values [i];
 }
 
-char const *
+char *
 go_data_vector_get_str (GODataVector *vec, unsigned i)
 {
 	GODataVectorClass const *klass = GO_DATA_VECTOR_GET_CLASS (vec);
+	char *res;
+
 	g_return_val_if_fail (klass != NULL, NULL);
-	return (*klass->get_str) (vec, i);
+
+	res = (*klass->get_str) (vec, i);
+	if (res == NULL)
+		return g_strdup ("");
+	return res;
 }
 
 void

@@ -28,26 +28,18 @@
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-color.h>
 
-#include <src/module-plugin-defs.h>
 #include <src/gnumeric-i18n.h>
 #include <src/mathfunc.h>
 #include <gsf/gsf-impl-utils.h>
 
-typedef struct {
-	GogPlotClass	base;
-} GogBarColPlotClass;
-
 enum {
 	BARCOL_PROP_0,
-	BARCOL_PROP_TYPE,
 	BARCOL_PROP_GAP_PERCENTAGE,
 	BARCOL_PROP_OVERLAP_PERCENTAGE,
 	BARCOL_PROP_HORIZONTAL
 };
 
-GNUMERIC_MODULE_PLUGIN_INFO_DECL;
-
-static GogObjectClass *parent_klass;
+static GogObjectClass *barcol_parent_klass;
 static GType gog_barcol_view_get_type (void);
 
 static void
@@ -57,20 +49,6 @@ gog_barcol_plot_set_property (GObject *obj, guint param_id,
 	GogBarColPlot *barcol = GOG_BARCOL_PLOT (obj);
 
 	switch (param_id) {
-	case BARCOL_PROP_TYPE: {
-		char const *str = g_value_get_string (value);
-		if (str == NULL)
-			return;
-		else if (!g_ascii_strcasecmp (str, "normal"))
-			barcol->type = GOG_BARCOL_NORMAL;
-		else if (!g_ascii_strcasecmp (str, "stacked"))
-			barcol->type = GOG_BARCOL_STACKED;
-		else if (!g_ascii_strcasecmp (str, "as_percentage"))
-			barcol->type = GOG_BARCOL_AS_PERCENTAGE;
-		else
-			return;
-		break;
-	}
 	case BARCOL_PROP_GAP_PERCENTAGE:
 		barcol->gap_percentage = g_value_get_int (value);
 		break;
@@ -95,23 +73,9 @@ gog_barcol_plot_get_property (GObject *obj, guint param_id,
 	GogBarColPlot *barcol = GOG_BARCOL_PLOT (obj);
 
 	switch (param_id) {
-	case BARCOL_PROP_TYPE:
-		switch (barcol->type) {
-		case GOG_BARCOL_NORMAL:
-			g_value_set_static_string (value, "normal");
-			break;
-		case GOG_BARCOL_STACKED:
-			g_value_set_static_string (value, "stacked");
-			break;
-		case GOG_BARCOL_AS_PERCENTAGE:
-			g_value_set_static_string (value, "as_percentage");
-			break;
-		}
-		break;
 	case BARCOL_PROP_GAP_PERCENTAGE:
 		g_value_set_int (value, barcol->gap_percentage);
 		break;
-
 	case BARCOL_PROP_OVERLAP_PERCENTAGE:
 		g_value_set_int (value, barcol->overlap_percentage);
 		break;
@@ -126,6 +90,10 @@ gog_barcol_plot_get_property (GObject *obj, guint param_id,
 static char const *
 gog_barcol_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 {
+	/* xgettext : the base for how to name bar/col plot objects
+	 * eg The 2nd bar/col plot in a chart will be called
+	 * 	PlotBarCol2
+	 */
 	return N_("PlotBarCol");
 }
 
@@ -139,135 +107,57 @@ gog_barcol_plot_editor (GogObject *item,
 }
 
 static void
-gog_barcol_plot_update (GogObject *obj)
+gog_barcol_update_stacked_and_percentage (GogPlot1_5d *model,
+					  double **vals, unsigned const *lengths)
 {
-	GogBarColPlot *model = GOG_BARCOL_PLOT (obj);
-	GogBarColSeries const *series;
-	unsigned i, j, num_elements, num_series;
-	double **vals, neg_sum, pos_sum, tmp, minimum, maximum;
-	unsigned *lengths;
-	GSList *ptr;
+	unsigned i, j;
+	double neg_sum, pos_sum, tmp;
 
-	model->minimum = model->maximum = 0.;
-	num_elements = num_series = 0;
-	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
-		series = ptr->data;
-		if (!gog_series_is_valid (GOG_SERIES (series)))
-			continue;
-		num_series++;
-
-		if (num_elements < series->num_elements)
-			num_elements = series->num_elements;
-		if (GOG_BARCOL_NORMAL == model->type) {
-			go_data_vector_get_minmax (GO_DATA_VECTOR (
-				series->base.values[1].data), &minimum, &maximum);
-			if (model->minimum > minimum)
-				model->minimum = minimum;
-			if (model->maximum < maximum)
-				model->maximum = maximum;
-		}
-	}
-	model->num_elements = num_elements;
-	model->num_series = num_series;
-
-	if (num_elements <= 0 || num_series <= 0)
+	if (GOG_1_5D_NORMAL == model->type)
 		return;
 
-	vals = g_alloca (num_series * sizeof (double *));
-	lengths = g_alloca (num_series * sizeof (unsigned));
-	i = 0;
-	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, i++) {
-		series = ptr->data;
-		if (!gog_series_is_valid (GOG_SERIES (series)))
-			continue;
-		vals[i] = go_data_vector_get_values (
-			GO_DATA_VECTOR (series->base.values[1].data));
-		lengths[i] = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->base.values[1].data));
-	}
+	for (i = model->num_elements ; i-- > 0 ; ) {
+		neg_sum = pos_sum = 0.;
+		for (j = model->num_series ; j-- > 0 ; ) {
+			if (i >= lengths[j])
+				continue;
+			tmp = vals[j][i];
+			if (!finite (tmp))
+				continue;
+			if (tmp > 0.)
+				pos_sum += tmp;
+			else
+				neg_sum += tmp;
+		}
 
-	if (GOG_BARCOL_NORMAL != model->type) {
-		for (i = num_elements ; i-- > 0 ; ) {
-			neg_sum = pos_sum = 0.;
-			for (j = num_series ; j-- > 0 ; ) {
-				if (i >= lengths[j])
-					continue;
-				tmp = vals[j][i];
-				if (!finite (tmp))
-					continue;
-				if (tmp > 0.)
-					pos_sum += tmp;
-				else
-					neg_sum += tmp;
-			}
-
-			if (GOG_BARCOL_STACKED == model->type) {
-				if (model->minimum > neg_sum)
-					model->minimum = neg_sum;
-				if (model->maximum < pos_sum)
-					model->maximum = pos_sum;
-			} else {
-				if (neg_sum < 0) {
-					tmp = pos_sum / (pos_sum - neg_sum);
-					if (model->minimum > (tmp - 1.))
-						model->minimum = tmp - 1.;
-					if (model->maximum < tmp)
-						model->maximum = tmp;
-				} else
-					model->maximum = 1.;
-			}
+		if (GOG_1_5D_STACKED == model->type) {
+			if (model->minimum > neg_sum)
+				model->minimum = neg_sum;
+			if (model->maximum < pos_sum)
+				model->maximum = pos_sum;
+		} else {
+			if (neg_sum < 0) {
+				tmp = pos_sum / (pos_sum - neg_sum);
+				if (model->minimum > (tmp - 1.))
+					model->minimum = tmp - 1.;
+				if (model->maximum < tmp)
+					model->maximum = tmp;
+			} else
+				model->maximum = 1.;
 		}
 	}
-
-	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
-	if (parent_klass->update)
-		parent_klass->update (obj);
-}
-
-static GogAxisSet
-gog_barcol_plot_axis_set_pref (GogPlot const *plot)
-{
-	return GOG_AXIS_SET_XY; /* do some magic later for 3d */
-}
-
-static gboolean
-gog_barcol_plot_axis_set_is_valid (GogPlot const *plot, GogAxisSet type)
-{
-	return type == GOG_AXIS_SET_XY; /* do some magic later for 3d */
-}
-
-static gboolean
-gog_barcol_plot_axis_set_assign (GogPlot *plot, GogAxisSet type)
-{
-	return type == GOG_AXIS_SET_XY; /* do some magic later for 3d */
-}
-
-static gboolean
-gog_barcol_supports_vary_style_by_element (GogPlot const *plot)
-{
-	GogBarColPlot *barcol = GOG_BARCOL_PLOT (plot);
-	return barcol->type == GOG_BARCOL_NORMAL;
 }
 
 static void
-gog_barcol_plot_class_init (GogPlotClass *plot_klass)
+gog_barcol_plot_class_init (GogPlot1_5dClass *gog_plot_1_5d_klass)
 {
-	GObjectClass *gobject_klass = (GObjectClass *) plot_klass;
-	GogObjectClass *gog_klass = (GogObjectClass *) plot_klass;
+	GObjectClass *gobject_klass = (GObjectClass *) gog_plot_1_5d_klass;
+	GogObjectClass *gog_object_klass = (GogObjectClass *) gog_plot_1_5d_klass;
 
-	parent_klass = g_type_class_peek_parent (plot_klass);
+	barcol_parent_klass = g_type_class_peek_parent (gog_plot_1_5d_klass);
 	gobject_klass->set_property = gog_barcol_plot_set_property;
 	gobject_klass->get_property = gog_barcol_plot_get_property;
 
-	gog_klass->update	= gog_barcol_plot_update;
-	gog_klass->type_name	= gog_barcol_plot_type_name;
-	gog_klass->editor	= gog_barcol_plot_editor;
-	gog_klass->view_type	= gog_barcol_view_get_type ();
-
-	g_object_class_install_property (gobject_klass, BARCOL_PROP_TYPE,
-		g_param_spec_string ("type", "type",
-			"How to group multiple series, normal, stacked, as_percentage",
-			"normal", G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, BARCOL_PROP_GAP_PERCENTAGE,
 		g_param_spec_int ("gap_percentage", "gap percentage",
 			"The padding around each group as a percentage of their width",
@@ -282,23 +172,11 @@ gog_barcol_plot_class_init (GogPlotClass *plot_klass)
 			FALSE,
 			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
-	{
-		static GogSeriesDimDesc dimensions[] = {
-			{ N_("Labels"), GOG_SERIES_SUGGESTED, TRUE,
-			  GOG_DIM_LABEL, GOG_MS_DIM_CATEGORIES },
-			{ N_("Values"), GOG_SERIES_REQUIRED, FALSE,
-			  GOG_DIM_VALUE, GOG_MS_DIM_VALUES }
-		};
-		plot_klass->desc.series.dim = dimensions;
-		plot_klass->desc.series.num_dim = G_N_ELEMENTS(dimensions);
-	}
-	plot_klass->desc.num_series_min = 1;
-	plot_klass->desc.num_series_max = G_MAXINT;
-	plot_klass->series_type	      = gog_barcol_series_get_type ();
-	plot_klass->axis_set_pref     = gog_barcol_plot_axis_set_pref;
-	plot_klass->axis_set_is_valid = gog_barcol_plot_axis_set_is_valid;
-	plot_klass->axis_set_assign   = gog_barcol_plot_axis_set_assign;
-	plot_klass->supports_vary_style_by_element = gog_barcol_supports_vary_style_by_element;
+	gog_object_klass->type_name	= gog_barcol_plot_type_name;
+	gog_object_klass->editor	= gog_barcol_plot_editor;
+	gog_object_klass->view_type	= gog_barcol_view_get_type ();
+	gog_plot_1_5d_klass->update_stacked_and_percentage =
+		gog_barcol_update_stacked_and_percentage;
 }
 
 static void
@@ -309,7 +187,7 @@ gog_barcol_plot_init (GogBarColPlot *model)
 
 GSF_CLASS (GogBarColPlot, gog_barcol_plot,
 	   gog_barcol_plot_class_init, gog_barcol_plot_init,
-	   GOG_PLOT_TYPE)
+	   GOG_PLOT1_5D_TYPE)
 
 /*****************************************************************************/
 typedef GogPlotView		GogBarColView;
@@ -373,30 +251,31 @@ static void
 gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogBarColPlot const *model = GOG_BARCOL_PLOT (view->model);
-	GogBarColSeries const *series;
+	GogPlot1_5d const *gog_1_5d_model = GOG_PLOT1_5D (view->model);
+	GogSeries1_5d const *series;
 	GogViewAllocation base, work;
 	GogRenderer *rend = view->renderer;
 	gboolean is_vertical = ! (model->horizontal);
 	double **vals, sum, neg_base, pos_base, tmp;
 	double col_step, group_step, scale, data_scale;
 	unsigned i, j;
-	unsigned num_elements = model->num_elements;
-	unsigned num_series = model->num_series;
-	GogBarColType const type = model->type;
+	unsigned num_elements = gog_1_5d_model->num_elements;
+	unsigned num_series = gog_1_5d_model->num_series;
+	GogPlot1_5dType const type = gog_1_5d_model->type;
 	GogStyle **styles;
 	GSList *ptr;
 	unsigned *lengths;
 
 	if (num_elements <= 0 || num_series <= 0 ||
-	    (gnumeric_sub_epsilon (-model->minimum) < 0. &&
-	     gnumeric_sub_epsilon (model->maximum) < 0.))
+	    (gnumeric_sub_epsilon (-gog_1_5d_model->minimum) < 0. &&
+	     gnumeric_sub_epsilon (gog_1_5d_model->maximum) < 0.))
 		return;
 
 	vals = g_alloca (num_series * sizeof (double *));
 	lengths = g_alloca (num_series * sizeof (unsigned));
 	styles = g_alloca (num_series * sizeof (GogStyle *));
 	i = 0;
-	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next, i++) {
+	for (ptr = gog_1_5d_model->base.series ; ptr != NULL ; ptr = ptr->next, i++) {
 		series = ptr->data;
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
@@ -423,12 +302,12 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	col_step *= work.h;
 	group_step *= work.h;
 	work.y = base.h - group_step / 2.; /* indent by half a group step */
-	scale = data_scale = base.w / (model->maximum - model->minimum);
+	scale = data_scale = base.w / (gog_1_5d_model->maximum - gog_1_5d_model->minimum);
 
 	group_step -= col_step; /* inner loop increments 1 extra time */
 	for (i = 0 ; i < num_elements ; i++, work.y -= group_step) {
-		pos_base = neg_base = -model->minimum * scale;
-		if (type == GOG_BARCOL_AS_PERCENTAGE) {
+		pos_base = neg_base = -gog_1_5d_model->minimum * scale;
+		if (type == GOG_1_5D_AS_PERCENTAGE) {
 			sum = 0.;
 			for (j = num_series ; j-- > 0 ; ) {
 				if (i >= lengths[j])
@@ -455,13 +334,13 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (tmp >= 0.) {
 				work.x = pos_base;
 				work.w = tmp;
-				if (GOG_BARCOL_NORMAL != type)
+				if (GOG_1_5D_NORMAL != type)
 					pos_base += tmp;
 #warning clip
 			} else {
 				work.x = neg_base + tmp;
 				work.w = -tmp;
-				if (GOG_BARCOL_NORMAL != type)
+				if (GOG_1_5D_NORMAL != type)
 					neg_base += tmp;
 #warning clip
 			}
@@ -482,54 +361,3 @@ gog_barcol_view_class_init (GogViewClass *view_klass)
 static GSF_CLASS (GogBarColView, gog_barcol_view,
 		  gog_barcol_view_class_init, NULL,
 		  GOG_PLOT_VIEW_TYPE)
-
-/*****************************************************************************/
-
-typedef GogSeriesClass GogBarColSeriesClass;
-static GogObjectClass *series_parent_klass;
-
-static void
-gog_barcol_series_update (GogObject *obj)
-{
-	double *vals;
-	int len = 0;
-	GogBarColSeries *series = GOG_BARCOL_SERIES (obj);
-	unsigned old_num = series->num_elements;
-
-	if (series->base.values[1].data != NULL) {
-		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
-		len = go_data_vector_get_len (
-			GO_DATA_VECTOR (series->base.values[1].data));
-	}
-	series->num_elements = len;
-
-	/* queue plot for redraw */
-	gog_object_request_update (GOG_OBJECT (series->base.plot));
-	if (old_num != series->num_elements)
-		gog_plot_request_cardinality_update (series->base.plot);
-
-	if (series_parent_klass->update)
-		series_parent_klass->update (obj);
-}
-
-static void
-gog_barcol_series_class_init (GogObjectClass *obj_klass)
-{
-	series_parent_klass = g_type_class_peek_parent (obj_klass);
-	obj_klass->update = gog_barcol_series_update;
-}
-
-GSF_CLASS (GogBarColSeries, gog_barcol_series,
-	   gog_barcol_series_class_init, NULL,
-	   GOG_SERIES_TYPE)
-
-void
-plugin_init (void)
-{
-	gog_barcol_plot_get_type ();
-}
-
-void
-plugin_cleanup (void)
-{
-}
