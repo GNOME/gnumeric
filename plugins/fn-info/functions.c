@@ -109,19 +109,19 @@ static const char *help_cell = {
 
 	   "@DESCRIPTION="
 	   "CELL returns information about the formatting, location, or "
-	   "contents of a cell. "
+	   "contents of a cell.\n"
 	   "\n"
-	   "@type specifies the type of information you want to obtain:\n "
-	   "     address       Returns the given cell reference as text.\n"
-	   "     col           Returns the number of the column in @ref.\n"
-	   "     contents      Returns the contents of the cell in @ref.\n"
-	   "     format        Returns the code of the format of the cell.\n"
-	   "     parentheses   Returns 1 if @ref contains a negative value\n"
-	   "                   and it's format displays it with parentheses.\n"
-	   "     row           Returns the number of the row in @ref.\n"
-	   "     width         Returns the column width.\n"
+	   "@type specifies the type of information you want to obtain:\n\n"
+	   "  address    \tReturns the given cell reference as text.\n"
+	   "  col        \t\tReturns the number of the column in @ref.\n"
+	   "  contents   \tReturns the contents of the cell in @ref.\n"
+	   "  format     \t\tReturns the code of the format of the cell.\n"
+	   "  parentheses\tReturns 1 if @ref contains a negative value\n"
+	   "             \t\tand it's format displays it with parentheses.\n"
+	   "  row        \t\tReturns the number of the row in @ref.\n"
+	   "  width      \t\tReturns the column width.\n"
 	   "\n"
-           "This function is Excel compatible. "
+           "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "CEll(\"format\",A1) returns the code of the format of the cell A1.\n"
@@ -147,7 +147,7 @@ static const translate_t translate_table[] = {
 	{ "0.00%", "P2" },
 	{ "0.00e+00", "S2" },
 	{ "# ?/?", "G" },
-	{ "# ?" "?/?" "?", "G" },   /* Don't accidentally use trigraphs here.  */
+	{ "# ?" "?/?" "?", "G" },   /* Don't accidentally use trigraphs here. */
 	{ "m/d/yy", "D4" },
 	{ "m/d/yy h:mm", "D4" },
 	{ "mm/dd/yy", "D4" },
@@ -168,7 +168,8 @@ translate_cell_format (StyleFormat const *format)
 {
 	int i;
 	char *fmt;
-	const int translate_table_count = sizeof (translate_table) / sizeof(translate_t);
+	const int translate_table_count = sizeof (translate_table) /
+		sizeof(translate_t);
 
 	if (format == NULL)
 		return value_new_string ("G");
@@ -282,7 +283,8 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		}
 		return value_new_string ("b");
 	} else if (!g_strcasecmp (info_type, "width")) {
-		ColRowInfo const *info = sheet_col_get_info (ei->pos->sheet, ref.col);
+		ColRowInfo const *info = sheet_col_get_info (ei->pos->sheet,
+							     ref.col);
 		double charwidth;
 		int    cellwidth;
 
@@ -1389,8 +1391,8 @@ static const char *help_countblank = {
            "@SYNTAX=COUNTBLANK(range)\n"
 
            "@DESCRIPTION="
-           "COUNTBLANK returns the number of blank cells in a @range.\n"
-	   "This function is Excel compatible. "
+           "COUNTBLANK returns the number of blank cells in a @range.\n\n"
+	   "* This function is Excel compatible.\n"
            "\n"
 	   "@EXAMPLES=\n"
 	   "COUNTBLANK(A1:A20) returns the number of blank cell in A1:A20.\n"
@@ -1415,7 +1417,8 @@ gnumeric_countblank (FunctionEvalInfo *ei, Value **args)
 		value_area_get_height (ei->pos, args[0]) *
 		value_area_get_width (ei->pos, args[0]);
 
-	workbook_foreach_cell_in_range (ei->pos, args[0], CELL_ITER_IGNORE_BLANK,
+	workbook_foreach_cell_in_range (ei->pos, args[0],
+					CELL_ITER_IGNORE_BLANK,
 					&cb_countblank, &count);
 
 	return value_new_int (count);
@@ -1429,19 +1432,19 @@ static const char *help_info = {
 
 	   "@DESCRIPTION="
 	   "INFO returns information about the current operating environment. "
+	   "\n\n"
+	   "@type is the type of information you want to obtain:\n\n"
+	   "  memavail \tReturns the amount of memory available, bytes.\n"
+	   "  memused  \tReturns the amount of memory used (bytes).\n"
+	   "  numfile  \t\tReturns the number of active worksheets.\n"
+	   "  osversion\t\tReturns the operating system version.\n"
+	   "  recalc   \t\tReturns the recalculation mode (automatic).\n"
+	   "  release  \t\tReturns the version of Gnumeric as text.\n"
+	   "  system   \t\tReturns the name of the environment.\n"
+	   "  totmem   \t\tReturns the amount of total memory available.\n"
 	   "\n"
-	   "@type is the type of information you want to obtain:\n"
-	   "    memavail        Returns the amount of memory available (bytes).\n"
-	   "    memused         Returns the amount of memory used (bytes).\n"
-	   "    numfile         Returns the number of active worksheets.\n"
-	   "    osversion       Returns the operating system version.\n"
-	   "    recalc          Returns the recalculation mode (automatic).\n"
-	   "    release         Returns the version of Gnumeric as text.\n"
-	   "    system          Returns the name of the environment.\n"
-	   "    totmem          Returns the amount of total memory available.\n"
-	   "\n"
-	   "This function is Excel compatible, except that types directory "
-	   "and origin are not implemented. "
+	   "* This function is Excel compatible, except that types directory "
+	   "and origin are not implemented.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "INFO(\"system\") returns \"Linux\" on a Linux system.\n"
@@ -1519,8 +1522,8 @@ static const char *help_iserror = {
 	   "@SYNTAX=ISERROR(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISERROR returns a TRUE value if the expression has an error.\n"
-	   "This function is Excel compatible. "
+	   "ISERROR returns a TRUE value if the expression has an error.\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ISERROR(NA()) equals TRUE.\n"
@@ -1542,7 +1545,8 @@ gnumeric_check_for_err (FunctionEvalInfo *ei, GnmExprList *expr_node_list,
 				       _("Argument mismatch"));
 		return NULL;
 	}
-	tmp = gnm_expr_eval (expr_node_list->data, ei->pos, GNM_EXPR_EVAL_STRICT);
+	tmp = gnm_expr_eval (expr_node_list->data, ei->pos,
+			     GNM_EXPR_EVAL_STRICT);
 
 	if (tmp != NULL) {
 		if (tmp->type == VALUE_ERROR)
@@ -1574,8 +1578,8 @@ static const char *help_isna = {
 	   "@SYNTAX=ISNA(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISNA returns TRUE if the value is the #N/A error value.\n"
-	   "This function is Excel compatible. "
+	   "ISNA returns TRUE if the value is the #N/A error value.\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ISNA(NA()) equals TRUE.\n"
@@ -1609,8 +1613,8 @@ static const char *help_iserr = {
 	   "@SYNTAX=ISERR(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISERR returns TRUE if the value is any error value except #N/A.\n"
-	   "This function is Excel compatible. "
+	   "ISERR returns TRUE if the value is any error value except #N/A.\n\n"
+	   "* This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ISERR(NA()) return FALSE.\n"
@@ -1641,14 +1645,14 @@ static const char *help_error_type = {
 
 	   "@DESCRIPTION="
 	   "ERROR.TYPE returns an error number corresponding to the given "
-	   "error value.  The error numbers for error values are\n"
-	   "#DIV/0!    2\n"
-	   "#VALUE!    3\n"
-	   "#REF!      4\n"
-	   "#NAME?     5\n"
-	   "#NUM!      6\n"
-	   "#N/A       7\n"
-	   "This function is Excel compatible. "
+	   "error value.  The error numbers for error values are:\n\n"
+	   "\t#DIV/0!  \t\t2\n"
+	   "\t#VALUE!  \t\t3\n"
+	   "\t#REF!    \t\t4\n"
+	   "\t#NAME?   \t5\n"
+	   "\t#NUM!    \t\t6\n"
+	   "\t#N/A     \t\t7\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ERROR.TYPE(NA()) equals 7.\n"
@@ -1699,8 +1703,8 @@ static const char *help_na = {
 	   "@SYNTAX=NA()\n"
 
 	   "@DESCRIPTION="
-	   "NA returns the error value #N/A.\n"
-	   "This function is Excel compatible. "
+	   "NA returns the error value #N/A.\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "NA() equals #N/A error.\n"
@@ -1742,8 +1746,8 @@ static const char *help_isblank = {
 	   "@SYNTAX=ISBLANK(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISBLANK returns TRUE if the value is blank.\n"
-	   "This function is Excel compatible. "
+	   "ISBLANK returns TRUE if the value is blank.\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ISBLANK(A1).\n"
@@ -1779,7 +1783,8 @@ gnumeric_isblank (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 		CellPos pos;
 
 		cellref_get_abs_pos (ref, &ei->pos->eval, &pos);
-		result = cell_is_blank (sheet_cell_get (sheet, pos.col, pos.row));
+		result = cell_is_blank (sheet_cell_get (sheet, pos.col,
+							pos.row));
 	}
 	return value_new_bool (result);
 }
@@ -1791,8 +1796,8 @@ static const char *help_iseven = {
 	   "@SYNTAX=ISEVEN(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISEVEN returns TRUE if the number is even.\n"
-	   "This function is Excel compatible. "
+	   "ISEVEN returns TRUE if the number is even.\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ISEVEN(4) equals TRUE.\n"
@@ -1813,8 +1818,8 @@ static const char *help_islogical = {
 	   "@SYNTAX=ISLOGICAL(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISLOGICAL returns TRUE if the value is a logical value.\n"
-	   "This function is Excel compatible. "
+	   "ISLOGICAL returns TRUE if the value is a logical value.\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ISLOGICAL(A1).\n"
@@ -1843,8 +1848,8 @@ static const char *help_isnontext = {
 	   "@SYNTAX=ISNONTEXT(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISNONTEXT Returns TRUE if the value is not text.\n"
-	   "This function is Excel compatible. "
+	   "ISNONTEXT Returns TRUE if the value is not text.\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ISNONTEXT(\"text\") equals FALSE.\n"
@@ -1870,8 +1875,8 @@ static const char *help_isnumber = {
 	   "@SYNTAX=ISNUMBER(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISNUMBER returns TRUE if the value is a number.\n"
-	   "This function is Excel compatible. "
+	   "ISNUMBER returns TRUE if the value is a number.\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ISNUMBER(\"text\") equals FALSE.\n"
@@ -1897,8 +1902,8 @@ static const char *help_isodd = {
 	   "@SYNTAX=ISODD(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISODD returns TRUE if the number is odd.\n"
-	   "This function is Excel compatible. "
+	   "ISODD returns TRUE if the number is odd.\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ISODD(3) equals TRUE.\n"
@@ -1919,8 +1924,8 @@ static const char *help_isref = {
 	   "@SYNTAX=ISREF(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISREF returns TRUE if the value is a reference.\n"
-	   "This function is Excel compatible. "
+	   "ISREF returns TRUE if the value is a reference.\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ISREF(A1) equals TRUE.\n"
@@ -1951,8 +1956,8 @@ static const char *help_istext = {
 	   "@SYNTAX=ISTEXT(value)\n"
 
 	   "@DESCRIPTION="
-	   "ISTEXT returns TRUE if the value is text.\n"
-	   "This function is Excel compatible. "
+	   "ISTEXT returns TRUE if the value is text.\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "ISTEXT(\"text\") equals TRUE.\n"
@@ -1979,8 +1984,8 @@ static const char *help_n = {
 
 	   "@DESCRIPTION="
 	   "N returns a value converted to a number.  Strings containing "
-	   "text are converted to the zero value.\n"
-	   "This function is Excel compatible. "
+	   "text are converted to the zero value.\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "N(\"42\") equals 42.\n"
@@ -2017,8 +2022,8 @@ static const char *help_type = {
 	   "@SYNTAX=TYPE(value)\n"
 
 	   "@DESCRIPTION="
-	   "TYPE returns a number indicating the data type of a value.\n"
-	   "This function is Excel compatible. "
+	   "TYPE returns a number indicating the data type of a value.\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "TYPE(3) equals 1.\n"
@@ -2046,7 +2051,7 @@ static const char *help_getenv = {
 	   "@DESCRIPTION="
 	   "GETENV retrieves a value from the execution environment.\n"
 	   "\n"
-	   "If the variable specified by @STRING does not exist, #N/A! will "
+	   "* If the variable specified by @STRING does not exist, #N/A! will "
 	   "be returned.  Note, that variable names are case sensitive.\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2068,26 +2073,47 @@ gnumeric_getenv (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 const ModulePluginFunctionInfo info_functions[] = {
-	{ "cell", "sr", N_("info_type, cell"), &help_cell, gnumeric_cell, NULL, NULL, NULL },
-        { "countblank", "r",  N_("range"), &help_countblank, gnumeric_countblank, NULL, NULL, NULL },
-	{ "error",   "s",  N_("text"), &help_error,   gnumeric_error, NULL, NULL, NULL },
-	{ "error.type", NULL, N_("value"), &help_error_type, NULL, gnumeric_error_type, NULL, NULL },
-	{ "expression", "r",   N_("cell"), &help_expression, gnumeric_expression, NULL, NULL, NULL },
-	{ "info", "s", N_("info_type"), &help_info, gnumeric_info, NULL, NULL, NULL },
-	{ "isblank", NULL, N_("value"), &help_isblank, NULL, gnumeric_isblank, NULL, NULL },
-	{ "iserr", NULL,   N_("value"), &help_iserr,   NULL, gnumeric_iserr, NULL, NULL },
-	{ "iserror", NULL,   N_("value"), &help_iserror, NULL, gnumeric_iserror, NULL, NULL },
-	{ "iseven", "?", N_("value"), &help_iseven, gnumeric_iseven, NULL, NULL, NULL },
-	{ "islogical", NULL, N_("value"), &help_islogical, NULL, gnumeric_islogical, NULL, NULL },
-	{ "isna", NULL,   N_("value"), &help_isna,    NULL, gnumeric_isna, NULL, NULL },
-	{ "isnontext", NULL, N_("value"), &help_isnontext, NULL, gnumeric_isnontext, NULL, NULL },
-	{ "isnumber", NULL, N_("value"), &help_isnumber, NULL, gnumeric_isnumber, NULL, NULL },
-	{ "isodd", "?", N_("value"), &help_isodd, gnumeric_isodd, NULL, NULL, NULL },
-	{ "isref", NULL, N_("value"), &help_isref, NULL, gnumeric_isref, NULL, NULL },
-	{ "istext", NULL, N_("value"), &help_istext, NULL, gnumeric_istext, NULL, NULL },
-	{ "n", "?", N_("value"), &help_n, gnumeric_n, NULL, NULL, NULL },
-	{ "na",      "",  "", &help_na,      gnumeric_na, NULL, NULL, NULL },
-	{ "type",   NULL, N_("value"), &help_type, NULL, gnumeric_type, NULL, NULL },
-	{ "getenv", "s", N_("string"), &help_getenv, gnumeric_getenv, NULL, NULL, NULL },
+	{ "cell", "sr", N_("info_type, cell"), &help_cell,
+	  gnumeric_cell, NULL, NULL, NULL },
+        { "countblank", "r",  N_("range"), &help_countblank,
+	  gnumeric_countblank, NULL, NULL, NULL },
+	{ "error",   "s",  N_("text"), &help_error,
+	  gnumeric_error, NULL, NULL, NULL },
+	{ "error.type", NULL, N_("value"), &help_error_type,
+	  NULL, gnumeric_error_type, NULL, NULL },
+	{ "expression", "r",   N_("cell"), &help_expression,
+	  gnumeric_expression, NULL, NULL, NULL },
+	{ "info", "s", N_("info_type"), &help_info,
+	  gnumeric_info, NULL, NULL, NULL },
+	{ "isblank", NULL, N_("value"), &help_isblank,
+	  NULL, gnumeric_isblank, NULL, NULL },
+	{ "iserr", NULL,   N_("value"), &help_iserr,
+	  NULL, gnumeric_iserr, NULL, NULL },
+	{ "iserror", NULL,   N_("value"), &help_iserror,
+	  NULL, gnumeric_iserror, NULL, NULL },
+	{ "iseven", "?", N_("value"), &help_iseven,
+	  gnumeric_iseven, NULL, NULL, NULL },
+	{ "islogical", NULL, N_("value"), &help_islogical,
+	  NULL, gnumeric_islogical, NULL, NULL },
+	{ "isna", NULL,   N_("value"), &help_isna,
+	  NULL, gnumeric_isna, NULL, NULL },
+	{ "isnontext", NULL, N_("value"), &help_isnontext,
+	  NULL, gnumeric_isnontext, NULL, NULL },
+	{ "isnumber", NULL, N_("value"), &help_isnumber,
+	  NULL, gnumeric_isnumber, NULL, NULL },
+	{ "isodd", "?", N_("value"), &help_isodd,
+	  gnumeric_isodd, NULL, NULL, NULL },
+	{ "isref", NULL, N_("value"), &help_isref,
+	  NULL, gnumeric_isref, NULL, NULL },
+	{ "istext", NULL, N_("value"), &help_istext,
+	  NULL, gnumeric_istext, NULL, NULL },
+	{ "n", "?", N_("value"), &help_n,
+	  gnumeric_n, NULL, NULL, NULL },
+	{ "na",      "",  "", &help_na,
+	  gnumeric_na, NULL, NULL, NULL },
+	{ "type",   NULL, N_("value"), &help_type,
+	  NULL, gnumeric_type, NULL, NULL },
+	{ "getenv", "s", N_("string"), &help_getenv,
+	  gnumeric_getenv, NULL, NULL, NULL },
         {NULL}
 };

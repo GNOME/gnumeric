@@ -56,14 +56,12 @@ static const char *help_date = {
 	   "DATE returns the number of days since the 1st of january of 1900"
 	   "(the date serial number) for the given year, month and day.\n"
 	   "\n"
-	   "If @month < 1 or @month > 12, the year will be corrected.  A "
+	   "* If @month < 1 or @month > 12, the year will be corrected.  A "
 	   "similar correction takes place for days.\n"
-	   "\n"
-	   "The @years should be at least 1900.  If "
+	   "* The @years should be at least 1900.  If "
 	   "@years < 1900, it is assumed to be 1900 + @years.\n"
-	   "\n"
-	   "If the given date is not valid, DATE returns #NUM! error.\n"
-	   "This function is Excel compatible."
+	   "* If the given date is not valid, DATE returns #NUM! error.\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "DATE(2001, 3, 30) returns 'Mar 30, 2001'.\n "
@@ -125,7 +123,8 @@ static const char *help_unix2date = {
 	   "@DESCRIPTION="
 	   "UNIX2DATE converts a unix time into a spreadsheet date and time.\n"
 	   "\n"
-	   "A unix time is the number of seconds since midnight January 1, 1970.\n"
+	   "A unix time is the number of seconds since midnight January 1, "
+	   "1970.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -136,7 +135,7 @@ static Value *
 gnumeric_unix2date (FunctionEvalInfo *ei, Value **argv)
 {
 	gnum_float futime = value_get_as_float (argv [0]);
-	time_t utime = (time_t)futime;
+	time_t     utime  = (time_t)futime;
 
 	/* Check for overflow.  */
 	if (gnumabs (futime - utime) >= 1.0)
@@ -156,7 +155,8 @@ static const char *help_date2unix = {
 	   "DATE2UNIX converts a spreadsheet date and time serial number "
 	   "into a unix time.\n"
 	   "\n"
-	   "A unix time is the number of seconds since midnight January 1, 1970.\n"
+	   "A unix time is the number of seconds since midnight January 1, "
+	   "1970.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -167,8 +167,8 @@ static Value *
 gnumeric_date2unix (FunctionEvalInfo *ei, Value **argv)
 {
 	gnum_float fserial = value_get_as_float (argv [0]);
-	int serial = (int)fserial;
-	time_t utime = datetime_serial_to_timet (serial);
+	int        serial  = (int)fserial;
+	time_t     utime   = datetime_serial_to_timet (serial);
 
 	/* Check for overflow.  */
 	if (gnumabs (fserial - serial) >= 1.0 || utime == (time_t)-1)
@@ -186,8 +186,8 @@ static const char *help_datevalue = {
 
 	   "@DESCRIPTION="
 	   "DATEVALUE returns the serial number of the date.  @date_str is "
-	   "the string that contains the date.\n"
-	   "This function is Excel compatible. "
+	   "the string that contains the date.\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "DATEVALUE(\"1/1/1999\") equals 36161."
@@ -212,17 +212,17 @@ static const char *help_datedif = {
 	   "@DESCRIPTION="
 	   "DATEDIF returns the difference between two dates.  @interval is "
 	   "one of six possible values:  \"y\", \"m\", \"d\", \"ym\", "
-	   "\"md\", and \"yd\".\n"
+	   "\"md\", and \"yd\".\n\n"
 	   "The first three options will return the "
 	   "number of complete years, months, or days, respectively, between "
-	   "the two dates specified.\n"
-	   "\"ym\" will return the number of full months between the two "
+	   "the two dates specified.\n\n"
+	   "  \"ym\" will return the number of full months between the two "
 	   "dates, not including the difference in years.\n"
-	   "\"md\" will return the number of full days between the two "
+	   "  \"md\" will return the number of full days between the two "
 	   "dates, not including the difference in months.\n"
-	   "\"yd\" will return the number of full days between the two "
-	   "dates, not including the difference in years.\n"
-	   "This function is Excel compatible. "
+	   "  \"yd\" will return the number of full days between the two "
+	   "dates, not including the difference in years.\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "DATEDIF(DATE(2000,4,30),DATE(2003,8,4),\"d\") equals 1191.\n"
@@ -269,8 +269,8 @@ datedif_opt_yd (GDate *gdate1, GDate *gdate2, int excel_compat)
 		{
 			static gboolean need_warning = TRUE;
 			if (need_warning) {
-				g_warning("datedif is known to differ from Excel "
-					  "for some values.");
+				g_warning("datedif is known to differ from "
+					  "Excel for some values.");
 				need_warning = FALSE;
 			}
 		}
@@ -382,9 +382,9 @@ static const char *help_edate = {
 	   "@date is the serial number of the initial date and @months "
 	   "is the number of months before (negative number) or after "
 	   "(positive number) the initial date.\n"
-	   "This function is Excel compatible. "
 	   "\n"
-	   "If @months is not an integer, it is truncated."
+	   "* If @months is not an integer, it is truncated.\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "EDATE(DATE(2001,12,30),2) returns 'Feb 28, 2002'.\n"
@@ -432,8 +432,8 @@ static const char *help_today = {
 
 	   "@DESCRIPTION="
 	   "TODAY returns the serial number for today (the number of days "
-	   "elapsed since the 1st of January of 1900).\n"
-	   "This function is Excel compatible. "
+	   "elapsed since the 1st of January of 1900).\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "TODAY() returns 'Nov 6, 2001' on that particular day.\n "
@@ -456,15 +456,15 @@ static const char *help_now = {
 	   "@DESCRIPTION="
 	   "NOW returns the serial number for the date and time at the time "
 	   "it is evaluated.\n"
-	   ""
+	   "\n"
 	   "Serial Numbers in Gnumeric are represented as follows:"
 	   "The integral part is the number of days since the 1st of "
 	   "January of 1900.  The decimal part represent the fraction "
 	   "of the day and is mapped into hour, minutes and seconds.\n"
-	   ""
+	   "\n"
 	   "For example: .0 represents the beginning of the day, and 0.5 "
-	   "represents noon.\n"
-	   "This function is Excel compatible. "
+	   "represents noon.\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "NOW().\n"
@@ -485,8 +485,8 @@ static const char *help_time = {
 	   "@SYNTAX=TIME (hours,minutes,seconds)\n"
 
 	   "@DESCRIPTION="
-	   "TIME returns a fraction representing the time of day.\n"
-	   "This function is Excel compatible. "
+	   "TIME returns a fraction representing the time of day.\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "TIME(3, 5, 23) equals 3:05AM.\n"
@@ -514,9 +514,9 @@ static const char *help_timevalue = {
 	   "@SYNTAX=TIMEVALUE (timetext)\n"
 
 	   "@DESCRIPTION="
-	   "TIMEVALUE returns a fraction representing the time of day, a number "
-	   "between 0 and 1.\n"
-	   "This function is Excel compatible. "
+	   "TIMEVALUE returns a fraction representing the time of day, a "
+	   "number between 0 and 1.\n\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "TIMEVALUE(\"3:05\") equals 0.128472.\n"
@@ -544,12 +544,12 @@ static const char *help_hour = {
 
 	   "@DESCRIPTION="
 	   "HOUR converts a serial number to an hour.  The hour is returned as "
-	   "an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.)."
+	   "an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.).\n"
 	   "\n"
-	   "Note that Gnumeric will perform regular string to serial "
+	   "* Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string.\n"
-	   "This function is Excel compatible. "
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "HOUR(0.128472) equals 3.\n"
@@ -572,13 +572,13 @@ static const char *help_minute = {
 	   "@SYNTAX=MINUTE (serial_number)\n"
 
 	   "@DESCRIPTION="
-	   "MINUTE converts a serial number to a minute.  The minute is returned "
-	   "as an integer in the range 0 to 59."
+	   "MINUTE converts a serial number to a minute.  The minute is "
+	   "returned as an integer in the range 0 to 59.\n"
 	   "\n"
-	   "Note that Gnumeric will perform regular string to serial "
+	   "* Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string.\n"
-	   "This function is Excel compatible. "
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "MINUTE(0.128472) equals 5.\n"
@@ -602,13 +602,13 @@ static const char *help_second = {
 	   "@SYNTAX=SECOND (serial_number)\n"
 
 	   "@DESCRIPTION="
-	   "SECOND converts a serial number to a second.  The second is returned "
-	   "as an integer in the range 0 to 59."
+	   "SECOND converts a serial number to a second.  The second is "
+	   "returned as an integer in the range 0 to 59.\n"
 	   "\n"
-	   "Note that Gnumeric will perform regular string to serial "
+	   "* Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string.\n"
-	   "This function is Excel compatible. "
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "SECOND(0.600613) equals 53.\n"
@@ -632,12 +632,12 @@ static const char *help_year = {
 	   "@SYNTAX=YEAR (serial_number)\n"
 
 	   "@DESCRIPTION="
-	   "YEAR converts a serial number to a year."
+	   "YEAR converts a serial number to a year.\n"
 	   "\n"
-	   "Note that Gnumeric will perform regular string to serial "
+	   "* Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string.\n"
-	   "This function is Excel compatible. "
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "YEAR(DATE(2003, 4, 30)) equals 2003.\n"
@@ -669,12 +669,12 @@ static const char *help_month = {
 	   "@SYNTAX=MONTH (serial_number)\n"
 
 	   "@DESCRIPTION="
-	   "MONTH converts a serial number to a month."
+	   "MONTH converts a serial number to a month.\n"
 	   "\n"
-	   "Note that Gnumeric will perform regular string to serial "
+	   "* Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string.\n"
-	   "This function is Excel compatible. "
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "MONTH(DATE(2003, 4, 30)) equals 4.\n"
@@ -706,12 +706,12 @@ static const char *help_day = {
 	   "@SYNTAX=DAY (serial_number)\n"
 
 	   "@DESCRIPTION="
-	   "DAY converts a serial number to a day of month."
+	   "DAY converts a serial number to a day of month.\n"
 	   "\n"
-	   "Note that Gnumeric will perform regular string to serial "
+	   "* Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string.\n"
-	   "This function is Excel compatible. "
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "DAY(\"10/24/1968\") equals 24.\n"
@@ -748,14 +748,14 @@ static const char *help_weekday = {
 	   "This function returns an integer indicating the day of week.\n"
 	   "@METHOD indicates the numbering system.  It defaults to 1.\n"
 	   "\n"
-	   "For @METHOD=1: Sunday is 1, Monday is 2, etc.\n"
-	   "For @METHOD=2: Monday is 1, Tuesday is 2, etc.\n"
-	   "For @METHOD=3: Monday is 0, Tuesday is 1, etc.\n"
+	   "  For @METHOD=1: Sunday is 1, Monday is 2, etc.\n"
+	   "  For @METHOD=2: Monday is 1, Tuesday is 2, etc.\n"
+	   "  For @METHOD=3: Monday is 0, Tuesday is 1, etc.\n"
 	   "\n"
-	   "Note that Gnumeric will perform regular string to serial "
+	   "* Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string.\n"
-	   "This function is Excel compatible. "
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "WEEKDAY(\"10/24/1968\") equals 5 (Thursday).\n"
@@ -796,19 +796,18 @@ static const char *help_days360 = {
 	   "@SYNTAX=DAYS360 (date1,date2,method)\n"
 
 	   "@DESCRIPTION="
-	   "DAYS360 returns the number of days from @date1 to @date2 following a "
-	   "360-day calendar in which all months are assumed to have 30 days."
-	   "\n"
-	   "If @method is true, the European method will be used.  In this "
+	   "DAYS360 returns the number of days from @date1 to @date2 following "
+	   "a 360-day calendar in which all months are assumed to have 30 days."
+	   "\n\n"
+	   "* If @method is true, the European method will be used.  In this "
 	   "case, if the day of the month is 31 it will be considered as 30."
 	   "\n"
-	   "If @method is false or omitted, the US method will be used.  "
-	   "This is a somewhat complicated industry standard method."
-	   "\n"
-	   "Note that Gnumeric will perform regular string to serial "
+	   "* If @method is false or omitted, the US method will be used.  "
+	   "This is a somewhat complicated industry standard method.\n"
+	   "* Note that Gnumeric will perform regular string to serial "
 	   "number conversion for you, so you can enter a date as a "
 	   "string.\n"
-	   "This function is Excel compatible. "
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "DAYS360(DATE(2003, 2, 3), DATE(2007, 4, 2)) equals 1499.\n"
@@ -830,7 +829,8 @@ gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 		method = value_get_as_bool (argv[2], &err) ? METHOD_EUROPE :
 		  METHOD_US;
 		if (err)
-			return value_new_error (ei->pos, _("Unsupported method"));
+			return value_new_error (ei->pos,
+						_("Unsupported method"));
 	} else
 		method = METHOD_US;
 
@@ -846,14 +846,14 @@ gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 		serial2 = tmp;
 	}
 
-	date1 = datetime_serial_to_g (serial1);
-	date2 = datetime_serial_to_g (serial2);
-	day1 = g_date_get_day (date1);
-	day2 = g_date_get_day (date2);
+	date1  = datetime_serial_to_g (serial1);
+	date2  = datetime_serial_to_g (serial2);
+	day1   = g_date_get_day (date1);
+	day2   = g_date_get_day (date2);
 	month1 = g_date_get_month (date1);
 	month2 = g_date_get_month (date2);
-	year1 = g_date_get_year (date1);
-	year2 = g_date_get_year (date2);
+	year1  = g_date_get_year (date1);
+	year2  = g_date_get_year (date2);
 
 	switch (method) {
 	case METHOD_US:
@@ -900,10 +900,10 @@ static const char *help_eomonth = {
 
 	   "@DESCRIPTION="
 	   "EOMONTH returns the last day of the month which is @months "
-	   "from the @start_date."
+	   "from the @start_date.\n"
 	   "\n"
-	   "Returns #NUM! if start_date or months are invalid.\n"
-	   "This function is Excel compatible. "
+	   "* EOMONTH returns #NUM! if start_date or months are invalid.\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "If A1 contains 12/21/00 then EOMONTH(A1,0)=12/31/00, "
@@ -951,10 +951,10 @@ static const char *help_workday = {
 	   "@DESCRIPTION="
 	   "WORKDAY returns the date which is @days working days "
 	   "from the @start_date.  Weekends and holidays optionally "
-	   "supplied in @holidays are respected."
+	   "supplied in @holidays are respected.\n"
 	   "\n"
-	   "Returns #NUM! if @start_date or @days are invalid.\n"
-	   "This function is Excel compatible. "
+	   "* WORKDAY returns #NUM! if @start_date or @days are invalid.\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "DAY(WORKDAY(DATE(2001,1,5),30)) equals 16 and\n"
@@ -1024,10 +1024,11 @@ static const char *help_networkdays = {
 	   "@DESCRIPTION="
 	   "NETWORKDAYS returns the number of non-weekend non-holidays between "
 	   "@start_date and @end_date including these dates. " 
-	   "Holidays are optionally supplied in @holidays."
+	   "Holidays are optionally supplied in @holidays.\n"
 	   "\n"
-	   "Returns #NUM! if start_date or end_date are invalid.\n"
-	   "This function is Excel compatible. "
+	   "* NETWORKDAYS returns #NUM! if start_date or end_date are "
+	   "invalid.\n"
+	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "NETWORKDAYS(DATE(2001,1,2),DATE(2001,2,15)) equals 33.\n"
@@ -1156,16 +1157,16 @@ static const char *help_isoweeknum = {
 	   "@SYNTAX=ISOWEEKNUM (date)\n"
 
 	   "@DESCRIPTION="
-	   "ISOWEEKNUM returns the ISO 8601 week number of @date."
-	   "\n"
-	   "Returns #NUM! if date is invalid."
+	   "ISOWEEKNUM returns the ISO 8601 week number of @date.\n"
 	   "\n"
 	   "An ISO 8601 week starts on Monday. Weeks are numbered from 1. A "
 	   "week including days from two different years is assigned to the "
 	   "year which includes the most days. This means that Dec 31 could "
 	   "be in week 1 of the following year, and Jan 1 could be in week 52 "
 	   "or 53 of the previous year. ISOWEEKNUM returns the week number, "
-	   "while ISOYEAR returns the year the week is assigned to."
+	   "while ISOYEAR returns the year the week is assigned to.\n"
+	   "\n"
+	   "* ISOWEEKNUM returns #NUM! if date is invalid.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "If A1 contains 12/21/00 then ISOWEEKNUM(A1)=51"
@@ -1202,15 +1203,15 @@ static const char *help_isoyear = {
 
 	   "@DESCRIPTION="
 	   "ISOYEAR returns the year of the ISO 8601 week number of @date."
-	   "\n"
-	   "Returns #NUM! if date is invalid."
-	   "\n"
+	   "\n\n"
 	   "An ISO 8601 week starts on Monday. Weeks are numbered from 1. A "
 	   "week including days from two different years is assigned to the "
 	   "year which includes the most days. This means that Dec 31 could "
 	   "be in week 1 of the following year, and Jan 1 could be in week 52 "
 	   "or 53 of the previous year. ISOYEAR returns the year the week is "
-	   "assigned to, while ISOWEEKNUM returns the week number."
+	   "assigned to, while ISOWEEKNUM returns the week number.\n"
+	   "\n"
+	   "* ISOYEAR returns #NUM! if date is invalid."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "If A1 contains 12/31/2001 then ISOYEAR(A1)=2002"
@@ -1258,17 +1259,16 @@ static const char *help_weeknum = {
 	   "WEEKNUM returns the week number of @date according to the given "
 	   "@method.\n"
 	   "\n"
-	   "@method defaults to 1.\n"
-	   "For method=1, week starts on Sunday, and days before first Sunday "
-	   "are in week 0.\n"
-	   "For method=2, week starts on Monday, and days before first Monday "
-	   "are in week 0.\n"
-	   "For method=150, the ISO 8601 week number is returned.\n"
+	   "@method defaults to 1.\n\n"
+	   "  For method=1, week starts on Sunday, and days before first "
+	   "Sunday are in week 0.\n"
+	   "  For method=2, week starts on Monday, and days before first "
+	   "Monday are in week 0.\n"
+	   "  For method=150, the ISO 8601 week number is returned.\n"
 	   "\n"
-	   "Returns #NUM! if date or method is invalid."
-	   "\n"
-	   "This function is Excel compatible, except that Excel does not "
-	   "support ISO 8601 week numbers."
+	   "* WEEKNUM returns #NUM! if date or method is invalid.\n"
+	   "* This function is Excel compatible, except that Excel does not "
+	   "support ISO 8601 week numbers.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "If A1 contains 12/21/00 then WEEKNUM(A1,2)=51"
@@ -1306,30 +1306,54 @@ gnumeric_weeknum (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 const ModulePluginFunctionInfo datetime_functions[] = {
-	{ "date",        "fff",  "year,month,day", &help_date, gnumeric_date, NULL, NULL, NULL },
-	{ "unix2date",   "f",    "unixtime", &help_unix2date, gnumeric_unix2date, NULL, NULL, NULL },
-	{ "date2unix",   "f",    "serial", &help_date2unix, gnumeric_date2unix, NULL, NULL, NULL },
-	{ "datevalue",   "S",    "date_str", &help_datevalue, gnumeric_datevalue, NULL, NULL, NULL },
-	{ "datedif",     "SSs",  "date1,date2,Interval", &help_datedif, gnumeric_datedif, NULL, NULL, NULL },
-	{ "day",         "S",    "date", &help_day, gnumeric_day, NULL, NULL, NULL },
-	{ "days360",     "SS|f", "date1,date2,method", &help_days360, gnumeric_days360, NULL, NULL, NULL },
-	{ "edate",       "ff",   "serial_number,months", &help_edate, gnumeric_edate, NULL, NULL, NULL },
-	{ "eomonth",     "S|f",  "start_date,months", &help_eomonth, gnumeric_eomonth, NULL, NULL, NULL },
-	{ "hour",        "S",    "time", &help_hour, gnumeric_hour, NULL, NULL, NULL },
-	{ "minute",      "S",    "time", &help_minute, gnumeric_minute, NULL, NULL, NULL },
-	{ "month",       "S",    "date", &help_month, gnumeric_month, NULL, NULL, NULL },
-	{ "networkdays", "SS|?", "start_date,end_date,holidays", &help_networkdays, gnumeric_networkdays, NULL, NULL, NULL },
-	{ "now",         "",     "", &help_now, gnumeric_now, NULL, NULL, NULL },
-	{ "second",      "S",    "time", &help_second, gnumeric_second, NULL, NULL, NULL },
-	{ "time",        "fff",  "hours,minutes,seconds", &help_time, gnumeric_time, NULL, NULL, NULL },
-	{ "timevalue",   "S",    "", &help_timevalue, gnumeric_timevalue, NULL, NULL, NULL },
-	{ "today",       "",     "", &help_today, gnumeric_today, NULL, NULL, NULL },
-	{ "weekday",     "S|f",  "date", &help_weekday, gnumeric_weekday, NULL, NULL, NULL },
-	{ "workday",     "Sf|?", "date,days,holidays", &help_workday, gnumeric_workday, NULL, NULL, NULL },
-	{ "year",        "S",    "date", &help_year, gnumeric_year, NULL, NULL, NULL },
-	{ "isoweeknum",  "S",    "date", &help_isoweeknum, gnumeric_isoweeknum, NULL, NULL, NULL },
-	{ "isoyear",     "S",    "date", &help_isoyear, gnumeric_isoyear, NULL, NULL, NULL },
-	{ "weeknum",     "S|f",  "date", &help_weeknum, gnumeric_weeknum, NULL, NULL, NULL },
+	{ "date",        "fff",  "year,month,day", &help_date,
+	  gnumeric_date, NULL, NULL, NULL },
+	{ "unix2date",   "f",    "unixtime", &help_unix2date,
+	  gnumeric_unix2date, NULL, NULL, NULL },
+	{ "date2unix",   "f",    "serial", &help_date2unix,
+	  gnumeric_date2unix, NULL, NULL, NULL },
+	{ "datevalue",   "S",    "date_str", &help_datevalue,
+	  gnumeric_datevalue, NULL, NULL, NULL },
+	{ "datedif",     "SSs",  "date1,date2,Interval", &help_datedif,
+	  gnumeric_datedif, NULL, NULL, NULL },
+	{ "day",         "S",    "date", &help_day,
+	  gnumeric_day, NULL, NULL, NULL },
+	{ "days360",     "SS|f", "date1,date2,method", &help_days360,
+	  gnumeric_days360, NULL, NULL, NULL },
+	{ "edate",       "ff",   "serial_number,months", &help_edate,
+	  gnumeric_edate, NULL, NULL, NULL },
+	{ "eomonth",     "S|f",  "start_date,months", &help_eomonth,
+	  gnumeric_eomonth, NULL, NULL, NULL },
+	{ "hour",        "S",    "time", &help_hour,
+	  gnumeric_hour, NULL, NULL, NULL },
+	{ "minute",      "S",    "time", &help_minute,
+	  gnumeric_minute, NULL, NULL, NULL },
+	{ "month",       "S",    "date", &help_month,
+	  gnumeric_month, NULL, NULL, NULL },
+	{ "networkdays", "SS|?", "start_date,end_date,holidays",
+	  &help_networkdays, gnumeric_networkdays, NULL, NULL, NULL },
+	{ "now",         "",     "", &help_now,
+	  gnumeric_now, NULL, NULL, NULL },
+	{ "second",      "S",    "time", &help_second,
+	  gnumeric_second, NULL, NULL, NULL },
+	{ "time",        "fff",  "hours,minutes,seconds", &help_time,
+	  gnumeric_time, NULL, NULL, NULL },
+	{ "timevalue",   "S",    "", &help_timevalue,
+	  gnumeric_timevalue, NULL, NULL, NULL },
+	{ "today",       "",     "", &help_today,
+	  gnumeric_today, NULL, NULL, NULL },
+	{ "weekday",     "S|f",  "date", &help_weekday,
+	  gnumeric_weekday, NULL, NULL, NULL },
+	{ "workday",     "Sf|?", "date,days,holidays", &help_workday,
+	  gnumeric_workday, NULL, NULL, NULL },
+	{ "year",        "S",    "date", &help_year,
+	  gnumeric_year, NULL, NULL, NULL },
+	{ "isoweeknum",  "S",    "date", &help_isoweeknum,
+	  gnumeric_isoweeknum, NULL, NULL, NULL },
+	{ "isoyear",     "S",    "date", &help_isoyear,
+	  gnumeric_isoyear, NULL, NULL, NULL },
+	{ "weeknum",     "S|f",  "date", &help_weeknum,
+	  gnumeric_weeknum, NULL, NULL, NULL },
         {NULL}
 };
 

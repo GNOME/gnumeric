@@ -258,12 +258,12 @@ database_value_range_function (FunctionEvalInfo *ei,
 	   "@database is a range of cells in which rows of related " \
 	   "information are records and columns of data are fields. " \
 	   "The first row of a database contains labels for each column. " \
-	   "\n" \
+	   "\n\n" \
 	   "@field specifies which column is used in the function.  If " \
 	   "@field is an integer, for example. 2, the second column is used. " \
 	   "Field can also be the label of a column.  For example, ``Age'' " \
 	   "refers to the column with the label ``Age'' in @database range. " \
-	   "\n" \
+	   "\n\n" \
 	   "@criteria is the range of cells which contains the specified " \
 	   "conditions.  The first row of a @criteria should contain the " \
 	   "labels of the fields for which the criterias are for.  Cells " \
@@ -303,7 +303,7 @@ static const char *help_daverage = {
 
            "@DESCRIPTION="
            "DAVERAGE function returns the average of the values in a list "
-	   "or database that match conditions specified. "
+	   "or database that match conditions specified.\n"
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
@@ -339,7 +339,7 @@ static const char *help_dcount = {
 
            "@DESCRIPTION="
            "DCOUNT function counts the cells that contain numbers in a "
-	   "database that match conditions specified. "
+	   "database that match conditions specified.\n"
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
@@ -374,7 +374,7 @@ static const char *help_dcounta = {
 
            "@DESCRIPTION="
            "DCOUNTA function counts the cells that contain data in a "
-	   "database that match conditions specified. "
+	   "database that match conditions specified.\n"
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
@@ -407,14 +407,14 @@ static const char *help_dget = {
 
            "@DESCRIPTION="
            "DGET function returns a single value from a column that "
-	   "match conditions specified. "
+	   "match conditions specified.\n"
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
-	   "If none of the items match the conditions, DGET returns #VALUE! "
-	   "error. "
-	   "If more than one items match the conditions, DGET returns #NUM! "
-	   "error. "
+	   "* If none of the items match the conditions, DGET returns #VALUE! "
+	   "error.\n"
+	   "* If more than one items match the conditions, DGET returns #NUM! "
+	   "error.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
            "DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
@@ -452,7 +452,7 @@ static const char *help_dmax = {
 
            "@DESCRIPTION="
            "DMAX function returns the largest number in a column that "
-	   "match conditions specified. "
+	   "match conditions specified.\n"
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
@@ -489,7 +489,7 @@ static const char *help_dmin = {
 
            "@DESCRIPTION="
            "DMIN function returns the smallest number in a column that "
-	   "match conditions specified. "
+	   "match conditions specified.\n"
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
@@ -523,7 +523,7 @@ static const char *help_dproduct = {
 
            "@DESCRIPTION="
            "DPRODUCT function returns the product of numbers in a column "
-	   "that match conditions specified. "
+	   "that match conditions specified.\n"
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
@@ -558,7 +558,7 @@ static const char *help_dstdev = {
            "@DESCRIPTION="
            "DSTDEV function returns the estimate of the standard deviation "
 	   "of a population based on a sample. The populations consists of "
-	   "numbers that match conditions specified. "
+	   "numbers that match conditions specified.\n"
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
@@ -593,7 +593,7 @@ static const char *help_dstdevp = {
            "@DESCRIPTION="
            "DSTDEVP function returns the standard deviation of a population "
 	   "based on the entire populations. The populations consists of "
-	   "numbers that match conditions specified. "
+	   "numbers that match conditions specified.\n"
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
@@ -627,7 +627,7 @@ static const char *help_dsum = {
 
            "@DESCRIPTION="
            "DSUM function returns the sum of numbers in a column "
-	   "that match conditions specified. "
+	   "that match conditions specified.\n"
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
@@ -663,7 +663,7 @@ static const char *help_dvar = {
            "@DESCRIPTION="
            "DVAR function returns the estimate of variance of a population "
 	   "based on a sample. The populations consists of numbers "
-	   "that match conditions specified. "
+	   "that match conditions specified.\n"
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
@@ -698,7 +698,7 @@ static const char *help_dvarp = {
            "@DESCRIPTION="
            "DVARP function returns the variance of a population based "
 	   "on the entire populations. The populations consists of numbers "
-	   "that match conditions specified. "
+	   "that match conditions specified.\n"
 	   "\n"
 	   DB_ARGUMENT_HELP
 	   "\n"
@@ -734,10 +734,10 @@ static const char *help_getpivotdata = {
            "GETPIVOTDATA function fetches summary data from a pivot table. "
 	   "@pivot_table is a cell range containing the pivot table. "
 	   "@field_name is the name of the field of which you want the "
-	   "summary data. "
+	   "summary data.\n"
 	   "\n"
-	   "If the summary data is unavailable, GETPIVOTDATA returns #REF! "
-	   "error. "
+	   "* If the summary data is unavailable, GETPIVOTDATA returns #REF! "
+	   "error.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
