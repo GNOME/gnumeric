@@ -109,6 +109,7 @@ lp_solve_make_lp (int rows, int columns)
 
 	newlp->iter = 0;
 	newlp->total_iter = 0;
+	newlp->max_total_iter = 1000; /* Default */
 
 	newlp->solution = g_new0 (gnum_float, sum + 1);
 	newlp->best_solution = g_new0 (gnum_float, sum + 1);
@@ -192,6 +193,12 @@ inc_mat_space (lprec *lp, int maxextra)
 		lp->mat = g_renew (matrec, lp->mat, lp->mat_alloc);
 		lp->col_no = g_renew (int, lp->col_no, lp->mat_alloc + 1);
 	}
+}
+
+void
+lp_solve_set_max_iter (lprec *lp, int max)
+{
+        lp->max_total_iter = max;
 }
  
 void

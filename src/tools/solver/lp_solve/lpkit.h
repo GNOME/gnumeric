@@ -221,6 +221,8 @@ typedef struct _lprec
 				       * simplex solver (LP) */
         int        total_iter;        /* The total number of iterations (B&B)
 				       * (ILP) */
+        int        max_total_iter;    /* The total number of iterations (B&B)
+				       * (ILP) */
         int        max_level;         /* The Deepest B&B level of the last
 				       * solution */
         int	   total_nodes;       /* total number of nodes processed in
@@ -295,6 +297,9 @@ lprec      *read_lp_file (FILE *input, gboolean verbose, nstring lp_name);
 
 void       lp_solve_delete_lp (lprec *lp);
 /* Remove problem from memory */
+
+void lp_solve_set_max_iter (lprec *lp, int max);
+/* Set the maximum number of iterations. */
 
 lprec      *copy_lp (lprec *lp);
 /* copy a lp structure */

@@ -832,7 +832,7 @@ coldual (lprec      *lp,
 	return((*colnr) > 0);
 } /* coldual */
 
-static void
+static gboolean
 iteration (lprec      *lp,
 	   int        row_nr,
 	   int        varin,
@@ -847,7 +847,10 @@ iteration (lprec      *lp,
 	gnum_float pivot;
   
 	lp->iter++;
-  
+
+	if (lp->iter + lp->total_iter > lp->max_total_iter)
+	        return TRUE;
+
 	if (((*minit) = (*theta) > (up + lp->epsb))) {
 	        (*theta) = up;
 		(*low) = !(*low);
@@ -920,6 +923,8 @@ iteration (lprec      *lp,
 				"basis: %g\n",
 				(double)lp->rhs[0]);
 	}
+
+	return FALSE;
 } /* iteration */
 
 
@@ -1062,8 +1067,9 @@ solvelp (lprec *lp)
 		}
 
 		if (Doiter)
-		        iteration(lp, row_nr, colnr, &theta, lp->upbo[colnr],
-				  &minit, &lp->lower[colnr], primal);
+		        if (iteration (lp, row_nr, colnr, &theta, lp->upbo[colnr],
+				       &minit, &lp->lower[colnr], primal))
+			        Status = SolverMaxIterExc;
 		
 		if (lp->num_inv >= lp->max_num_inv)
 		        DoInvert = TRUE;
@@ -1591,10 +1597,11 @@ milpsolve (lprec      *lp,
 					lp_solve_debug_print_bounds(lp, upbo,
 								    new_lowbo);
 					lp->eta_valid = FALSE;
-					restwo = milpsolve(lp, upbo, new_lowbo,
-							   new_basis,
-							   new_lower,
-							   new_bas, TRUE);
+					if (resone != SolverMaxIterExc)
+					  restwo = milpsolve(lp, upbo, new_lowbo,
+							     new_basis,
+							     new_lower,
+							     new_bas, TRUE);
 					lp->eta_valid = FALSE;
 				}
 			}
@@ -1651,16 +1658,21 @@ milpsolve (lprec      *lp,
 								    new_upbo,
 								    lowbo);
 					lp->eta_valid = FALSE;
-					restwo = milpsolve(lp, new_upbo, lowbo,
-							   new_basis,
-							   new_lower,
-							   new_bas, TRUE);
+					if (resone != SolverMaxIterExc)
+					  restwo = milpsolve(lp, new_upbo, lowbo,
+							     new_basis,
+							     new_lower,
+							     new_bas, TRUE);
 					lp->eta_valid = FALSE;
 				}
 			}
-			if ((resone != SolverOptimal && resone != SolverMilpFailure)
-			    || /* both failed and must have been infeasible */
-			    (restwo != SolverOptimal && restwo != SolverMilpFailure))
+			if (resone == SolverMaxIterExc || restwo == SolverMaxIterExc)
+			        failure = SolverMaxIterExc;
+			else if ((resone != SolverOptimal &&
+				  resone != SolverMilpFailure)
+				 || /* both failed and must have been infeasible */
+				 (restwo != SolverOptimal && 
+				  restwo != SolverMilpFailure))
 			        failure = SolverInfeasible;
 			else
 			        failure = SolverOptimal;
