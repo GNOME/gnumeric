@@ -3041,12 +3041,12 @@ void
 ms_excel_read_imdata (BiffQuery *q)
 {
 	guint16 op;
-	guint32 image_len = GSF_LE_GET_GUINT32 (q->data + 4);
+	guint32 image_len = MS_OLE_GET_GUINT32 (q->data + 4);
 
 	d (1,{
 		char const *from_name;
 		char const *format_name;
-		guint16 const format   = GSF_LE_GET_GUINT16 (q->data);
+		guint16 const format   = MS_OLE_GET_GUINT16 (q->data);
 		guint16 const from_env = MS_OLE_GET_GUINT16 (q->data + 2);
 
 		switch (from_env) {
@@ -3807,91 +3807,6 @@ ms_excel_read_dval (BiffQuery *q, ExcelSheet *esheet)
 }
 
 static void
-ms_excel_read_hlink (BiffQuery *q, ExcelSheet *esheet)
-{
-	static guint8 const stdlink_guid[] = {
-		0xd0, 0xc9, 0xea, 0x79, 0xf9, 0xba, 0xce, 0x11,
-		0x8c, 0x82, 0x00, 0xaa, 0x00, 0x4b, 0xa9, 0x0b,
-		/* unknown */
-		0x02, 0x00, 0x00, 0x00
-	};
-	static guint8 const url_guid[] = {
-		0xe0, 0xc9, 0xea, 0x79, 0xf9, 0xba, 0xce, 0x11,
-		0x8c, 0x82, 0x00, 0xaa, 0x00, 0x4b, 0xa9, 0x0b,
-	};
-	static guint8 const file_guid[] = {
-		0x03, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-		0xc0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46,
-	};
-	Range	r;
-	guint32 options, len, i;
-	guint8 const *data = q->data;
-	guint8 *txt;
-
-	g_return_if_fail (q->length > 32);
-
-	r.start.row = GSF_LE_GET_GUINT16 (data +  0);
-	r.end.row   = GSF_LE_GET_GUINT16 (data +  2);
-	r.start.col = GSF_LE_GET_GUINT16 (data +  4);
-	r.end.col   = GSF_LE_GET_GUINT16 (data +  6);
-	options     = GSF_LE_GET_GUINT32 (data + 28);
-
-	g_return_if_fail (!memcmp (data + 8, stdlink_guid, sizeof (stdlink_guid)));
-
-	data += 32;
-	/* description */
-	if (options & 0x14) {
-		gunichar2 *uni_text;
-
-		len = GSF_LE_GET_GUINT32 (data);
-		data += 4;
-		g_return_if_fail (data+len-q->data <= (int)q->length);
-
-		/* be wary about endianness */
-		uni_text = g_new (gunichar2, len);
-		for (i = 0 ; i < len ; i++)
-			uni_text [i] = GSF_LE_GET_GUINT16 (data + i*2);
-
-		txt = g_utf16_to_utf8 (uni_text, len, NULL, NULL, NULL);
-		printf ("desc %d = '%s'\n", len, txt);
-		g_free (uni_text);
-		data += len*2;
-	}
-
-	/* target frame */
-	if (options & 0x8) {
-		gunichar2 *uni_text;
-
-		len = GSF_LE_GET_GUINT32 (data);
-		data += 4;
-		g_return_if_fail (data+len-q->data <= (int)q->length);
-
-		/* be wary about endianness */
-		uni_text = g_new (gunichar2, len);
-		for (i = 0 ; i < len ; i++)
-			uni_text [i] = GSF_LE_GET_GUINT16 (data + i*2);
-
-		txt = g_utf16_to_utf8 (uni_text, -1, NULL, NULL, NULL);
-		printf ("frame %d = '%s'\n", len, txt);
-		g_free (uni_text);
-		data += len*2;
-	}
-
-	/* file with UNC */
-	if ((options & 0x1e3) == 0x003 && !memcmp (data, url_guid, sizeof (url_guid))) {
-		range_dump (&r, " <-- url\n");
-	} else if ((options & 0x1e1) == 0x001 && !memcmp (data, file_guid, sizeof (file_guid))) {
-		range_dump (&r, " <-- local file\n");
-	} else if ((options & 0x1e3) == 0x103) {
-		range_dump (&r, " <-- unc file\n");
-	} else if ((options & 0x1eb) == 0x008) {
-		range_dump (&r, " <-- current workbook\n");
-	} else {
-		g_warning ("Unknown hlink type");
-	}
-}
-
-static void
 ms_excel_read_bg_pic (BiffQuery *q, ExcelSheet *esheet)
 {
 	/* Looks like a bmp.  OpenCalc has a basic parser for 24 bit files */
@@ -3954,7 +3869,6 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb,
 				ms_excel_read_dval (q, esheet);
 				break;
 			case BIFF_HLINK:
-				ms_excel_read_hlink (q, esheet);
 				break;
 			case BIFF_CODENAME:
 				break;

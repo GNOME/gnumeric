@@ -132,7 +132,7 @@ record_new (FILE *f)
 static guint16
 record_peek_next (record_t *r)
 {
-	guint8 const header[2];
+	guint8 header[2];
 	guint16 type;
 
 	g_return_val_if_fail (r != NULL, FALSE);
@@ -232,9 +232,6 @@ read_workbook (Workbook *wb, FILE *f)
 	r = record_new (f);
 
 	while (record_next (r)) {
-		Cell    *cell;
-		guint16  fmt;	/* Format code of Lotus Cell */
-
 		if (sheetidx == 0 && r->type != 0) {
 			result = FALSE;
 			break;
@@ -294,14 +291,11 @@ read_workbook (Workbook *wb, FILE *f)
 			if (r->len >= 15) {
 				int col = gnumeric_get_le_uint16 (r->data + 1);
 				int row = gnumeric_get_le_uint16 (r->data + 3);
-				guint16 const magic = gnumeric_get_le_uint16 (r->data + 11) & 0x7ff8;
 				int len = gnumeric_get_le_int16 (r->data + 13);
-				GnmExpr const *expr;
+				ExprTree *expr;
 
 				fmt = r->data[0];
 
-				puts (cell_coord_name (col, row));
-				gsf_mem_dump (r->data+5,8);
 				if (r->len < (15+len))
 					break;
 
@@ -315,8 +309,8 @@ read_workbook (Workbook *wb, FILE *f)
 				} else
 					v = value_new_float (gnumeric_get_le_double (r->data + 5));
 				cell = sheet_cell_fetch (sheet, col, row),
-				cell_set_expr_and_value (cell, expr, v, TRUE);
-				gnm_expr_unref (expr);
+				cell_set_expr_and_value (cell, expr, v, NULL, TRUE);
+				expr_tree_unref (expr);
 				cell_set_format_from_lotus_format (cell, fmt);
 			}
 			break;
