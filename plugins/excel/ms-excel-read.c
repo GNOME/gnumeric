@@ -1161,7 +1161,7 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 			? black_or_white_contrast (back_color)
 			: ms_excel_palette_get (sheet->wb->palette,
 						color_index);
-		if (xf->border_type [i] != BORDER_NONE) {
+		if (xf->border_type [i] != STYLE_BORDER_NONE) {
 			mstyle_set_border (mstyle, MSTYLE_BORDER_TOP + i,
 					   style_border_fetch (xf->border_type [i], color,
 							       MSTYLE_BORDER_TOP + i));
@@ -1213,36 +1213,36 @@ biff_xf_map_border (int b)
 {
 	switch (b) {
  	case 0: /* None */
- 		return BORDER_NONE;
+ 		return STYLE_BORDER_NONE;
  	case 1: /* Thin */
- 		return BORDER_THIN;
+ 		return STYLE_BORDER_THIN;
  	case 2: /* Medium */
- 		return BORDER_MEDIUM;
+ 		return STYLE_BORDER_MEDIUM;
  	case 3: /* Dashed */
- 		return BORDER_DASHED;
+ 		return STYLE_BORDER_DASHED;
  	case 4: /* Dotted */
- 		return BORDER_DOTTED;
+ 		return STYLE_BORDER_DOTTED;
  	case 5: /* Thick */
- 		return BORDER_THICK;
+ 		return STYLE_BORDER_THICK;
  	case 6: /* Double */
- 		return BORDER_DOUBLE;
+ 		return STYLE_BORDER_DOUBLE;
  	case 7: /* Hair */
- 		return BORDER_HAIR;
+ 		return STYLE_BORDER_HAIR;
  	case 8: /* Medium Dashed */
- 		return BORDER_MEDIUM_DASH;
+ 		return STYLE_BORDER_MEDIUM_DASH;
  	case 9: /* Dash Dot */
- 		return BORDER_DASH_DOT;
+ 		return STYLE_BORDER_DASH_DOT;
  	case 10: /* Medium Dash Dot */
- 		return BORDER_MEDIUM_DASH_DOT;
+ 		return STYLE_BORDER_MEDIUM_DASH_DOT;
  	case 11: /* Dash Dot Dot */
- 		return BORDER_DASH_DOT_DOT;
+ 		return STYLE_BORDER_DASH_DOT_DOT;
  	case 12: /* Medium Dash Dot Dot */
- 		return BORDER_MEDIUM_DASH_DOT_DOT;
+ 		return STYLE_BORDER_MEDIUM_DASH_DOT_DOT;
  	case 13: /* Slanted Dash Dot*/
- 		return BORDER_SLANTED_DASH_DOT;
+ 		return STYLE_BORDER_SLANTED_DASH_DOT;
  	}
   	printf ("Unknown border style %d\n", b);
- 	return BORDER_NONE;
+ 	return STYLE_BORDER_NONE;
 }
 
 static int
@@ -1422,9 +1422,9 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 		/* Ok.  Now use the flag from above to assign borders */
 		diagonal_style = biff_xf_map_border (((data & 0x01e00000) >> 21) & 0xf);
 		xf->border_type[STYLE_DIAGONAL] = (has_diagonals & 0x2)
-			?  diagonal_style : BORDER_NONE;
+			?  diagonal_style : STYLE_BORDER_NONE;
 		xf->border_type[STYLE_REV_DIAGONAL] = (has_diagonals & 0x1)
-			?  diagonal_style : BORDER_NONE;
+			?  diagonal_style : STYLE_BORDER_NONE;
 
 		xf->fill_pattern_idx =
 			excel_map_pattern_index_from_excel ((data>>26) & 0x3f);

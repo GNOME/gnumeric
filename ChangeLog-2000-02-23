@@ -1,3 +1,16 @@
+1999-11-09  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/xml-io.c (xml_read_style_border): update to STYLE_BORDER_NONE.
+
+	* src/sheet-style.c (do_apply_border): update.
+	(sheet_selection_apply_border_cb): update + add diagonals here.
+	(sheet_selection_set_border): simplify + update.
+
+	* src/dialogs/dialog-cell-format.c (cb_fmt_dialog_dialog_apply):
+	update to new sheet_selection_set_border API.
+
+	* src/border.h: s/BORDER_/STYLE_BORDER_/
+
 1999-11-09  Jody Goldberg <jgoldberg@home.com>
 
 	* src/dialogs/dialog-cell-format.c (init_border_button) : Use

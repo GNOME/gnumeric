@@ -639,7 +639,7 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
  * Return value: the merged list; free this.
  **/
 MStyle *
-sheet_selection_get_unique_style (Sheet *sheet)
+sheet_selection_get_unique_style (Sheet *sheet, MStyleBorder **borders)
 {
 	UniqueClosure cl;
 
@@ -976,26 +976,17 @@ sheet_style_relocate (const struct expr_relocate_info *rinfo)
 		sheet_style_cache_flush (rinfo->origin_sheet);
 }
 
-typedef struct {
-	MStyleBorder *top;
-	MStyleBorder *bottom;
-	MStyleBorder *left;
-	MStyleBorder *right;
-	MStyleBorder *horiz;
-	MStyleBorder *vert;
-} apply_border_closure_t;
-
 static void
 do_apply_border (Sheet *sheet, const Range *r,
-		MStyleElementType t, MStyleBorder *border)
+		 MStyleElementType t, int idx, MStyleBorder **borders)
 {
 	MStyle *mstyle;
 
-	if (border) {
-		style_border_ref (border);
+	if (borders && borders [idx]) {
+		style_border_ref (borders [idx]);
 
 		mstyle = mstyle_new ();
-		mstyle_set_border (mstyle, t, border);
+		mstyle_set_border (mstyle, t, borders [idx]);
 		sheet_style_attach (sheet, *r, mstyle);
 	}
 }
@@ -1011,47 +1002,54 @@ sheet_selection_apply_border_cb (Sheet *sheet,
 				 Range const *range,
 				 gpointer user_data)
 {
-	Range   r;
-	apply_border_closure_t *cl = user_data;
+	Range          r;
+	MStyleBorder **borders = user_data;
+	MStyle        *mstyle;
 
 	/* 1.1 The top inner */
 	r = *range;
 	r.end.row = r.start.row;
 	do_apply_border (sheet, &r,
-			 MSTYLE_BORDER_TOP, cl->top);
+			 MSTYLE_BORDER_TOP,
+			 STYLE_BORDER_TOP, borders);
 
 	/* 2.1 The bottom inner */
 	r = *range;
 	r.start.row = r.end.row;
 	do_apply_border (sheet, &r,
-			 MSTYLE_BORDER_BOTTOM, cl->bottom);
+			 MSTYLE_BORDER_BOTTOM,
+			 STYLE_BORDER_BOTTOM, borders);
 
 	/* 3.1 The left inner */
 	r = *range;
 	r.end.col = r.start.col;
 	do_apply_border (sheet, &r,
-			 MSTYLE_BORDER_LEFT, cl->left);
+			 MSTYLE_BORDER_LEFT,
+			 STYLE_BORDER_LEFT, borders);
 
 
 	/* 4.1 The right inner */
 	r = *range;
 	r.start.col = r.end.col;
 	do_apply_border (sheet, &r,
-			 MSTYLE_BORDER_RIGHT, cl->right);
+			 MSTYLE_BORDER_RIGHT,
+			 STYLE_BORDER_RIGHT, borders);
 
 	/* 5.1 The horizontal interior top */
 	r = *range;
 	if (r.start.row != r.end.row) {
 		++r.start.row;
 		do_apply_border (sheet, &r,
-				 MSTYLE_BORDER_TOP, cl->horiz);
+				 MSTYLE_BORDER_TOP,
+				 STYLE_BORDER_HORIZ, borders);
 	}
 	/* 5.2 The horizontal interior bottom */
 	r = *range;
 	if (r.start.row != r.end.row) {
 		--r.end.row;
 		do_apply_border (sheet, &r,
-				 MSTYLE_BORDER_BOTTOM, cl->horiz);
+				 MSTYLE_BORDER_BOTTOM,
+				 STYLE_BORDER_HORIZ, borders);
 	}
 
 	/* 6.1 The vertical interior left */
@@ -1059,7 +1057,8 @@ sheet_selection_apply_border_cb (Sheet *sheet,
 	if (r.start.col != r.end.col) {
 		++r.start.col;
 		do_apply_border (sheet, &r,
-				 MSTYLE_BORDER_LEFT, cl->vert);
+				 MSTYLE_BORDER_LEFT,
+				 STYLE_BORDER_VERT, borders);
 	}
 
 	/* 6.2 The vertical interior right */
@@ -1067,8 +1066,26 @@ sheet_selection_apply_border_cb (Sheet *sheet,
 	if (r.start.col != r.end.col) {
 		--r.end.col;
 		do_apply_border (sheet, &r,
-				 MSTYLE_BORDER_RIGHT, cl->vert);
+				 MSTYLE_BORDER_RIGHT,
+				 STYLE_BORDER_VERT, borders);
 	}
+
+	/* 7. Diagonals */
+	mstyle = mstyle_new ();
+	if (borders [STYLE_BORDER_DIAG]) {
+		style_border_ref (borders [STYLE_BORDER_DIAG]);
+		mstyle_set_border (mstyle, MSTYLE_BORDER_DIAGONAL,
+				   borders [STYLE_BORDER_DIAG]);
+	}
+	if (borders [STYLE_BORDER_REV_DIAG]) {
+		style_border_ref (borders [STYLE_BORDER_REV_DIAG]);
+		mstyle_set_border (mstyle, MSTYLE_BORDER_REV_DIAGONAL,
+				   borders [STYLE_BORDER_REV_DIAG]);
+	}
+	if (mstyle_empty (mstyle))
+		mstyle_unref (mstyle);
+	else
+		sheet_style_attach (sheet, *range, mstyle);
 
 	sheet_style_optimize (sheet, *range);
 	sheet_redraw_cell_region (sheet, range->start.col, range->start.row,
@@ -1079,61 +1096,21 @@ sheet_selection_apply_border_cb (Sheet *sheet,
 
 void
 sheet_selection_set_border (Sheet *sheet,
-			    MStyleBorder *top,
-			    MStyleBorder *bottom,
-			    MStyleBorder *left,
-			    MStyleBorder *right,
-			    MStyleBorder *rev_diag,
-			    MStyleBorder *diag,
-			    MStyleBorder *horiz,
-			    MStyleBorder *vert)
+			    MStyleBorder **borders)
 {
 	MStyle *mstyle;
-	apply_border_closure_t cl;
+	int     i;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	mstyle = mstyle_new ();
 
-	/* 1. Diagonals apply to all ranges */
-	if (diag) {
-		style_border_ref (diag);
-		mstyle_set_border (mstyle, MSTYLE_BORDER_DIAGONAL, diag);
-	}
-	if (rev_diag) {
-		style_border_ref (rev_diag);
-		mstyle_set_border (mstyle, MSTYLE_BORDER_REV_DIAGONAL, rev_diag);
-	}
-	if (diag || rev_diag)
-		sheet_selection_apply_style (sheet, mstyle);
-
-	/* 2. For each range do the edges */
-	cl.top      = top;
-	cl.bottom   = bottom;
-	cl.left     = left;
-	cl.right    = right;
-	cl.horiz    = horiz;
-	cl.vert     = vert;
 	selection_foreach_range (sheet,
 				 sheet_selection_apply_border_cb,
-				 &cl);
+				 borders);
 	sheet_set_dirty (sheet, TRUE);
-	if (top)
-		style_border_unref (top);
-	if (bottom)
-		style_border_unref (bottom);
-	if (left)
-		style_border_unref (left);
-	if (right)
-		style_border_unref (right);
-	if (rev_diag)
-		style_border_unref (rev_diag);
-	if (diag)
-		style_border_unref (diag);
-	if (horiz)
-		style_border_unref (horiz);
-	if (vert)
-		style_border_unref (vert);
+	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
+		style_border_unref (borders[i]);
 }
 

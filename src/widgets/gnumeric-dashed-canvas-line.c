@@ -52,7 +52,7 @@ gnumeric_dashed_canvas_line_class_init (GnumericDashedCanvasLineClass *klass)
 static void
 gnumeric_dashed_canvas_line_init (GnumericDashedCanvasLine *line)
 {
-	line->dash_style_index = BORDER_THIN;
+	line->dash_style_index = STYLE_BORDER_THIN;
 }
 
 static void

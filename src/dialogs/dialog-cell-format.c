@@ -25,23 +25,6 @@
 
 #define GLADE_FILE "cell-format.glade"
 
-/* The order corresponds to the border_buttons name list
- * in dialog_cell_format_impl */
-typedef enum
-{
-	BORDER_TOP,	BORDER_BOTTOM,
-	BORDER_LEFT,	BORDER_RIGHT,
-	BORDER_REV_DIAG,BORDER_DIAG,
-
-	/* These are special.
-	 * They are logical rather than actual borders, however, they
-	 * require extra lines to be drawn so they need to be here.
-	 */
-	BORDER_HORIZ, BORDER_VERT,
-
-	BORDER_EDGE_MAX
-} BorderLocations;
-
 /* The order corresponds to border_preset_buttons */
 typedef enum
 {
@@ -91,7 +74,7 @@ typedef struct
 	GtkToggleButton  *button;
 	StyleBorderType	  pattern_index;
 	gboolean	  is_selected;	/* Is it selected */
-	BorderLocations   index;
+	StyleBorderLocation   index;
 	guint		  rgba;
 	gboolean	  is_set;	/* Has the element been changed */
 } BorderPicker;
@@ -136,7 +119,7 @@ typedef struct _FormatState
 		GnomeCanvasItem	*back;
 		GnomeCanvasItem *lines[12];
 
-		BorderPicker	 edge[BORDER_EDGE_MAX];
+		BorderPicker	 edge[STYLE_BORDER_EDGE_MAX];
 		ColorPicker	 color;
 		PatternPicker	 pattern;
 	} border;
@@ -1150,27 +1133,27 @@ static struct
 {
 	double const		points[4];
 	gboolean const		is_single;
-	BorderLocations	const	location;
+	StyleBorderLocation	const	location;
 } const line_info[12] =
 {
-	{ { L, T, R, T }, TRUE, BORDER_TOP },
-	{ { L, B, R, B }, TRUE, BORDER_BOTTOM },
-	{ { L, T, L, B }, TRUE, BORDER_LEFT },
-	{ { R, T, R, B }, TRUE, BORDER_RIGHT },
-	{ { L, T, R, B }, TRUE, BORDER_REV_DIAG },
-	{ { L, B, R, T }, TRUE, BORDER_DIAG},
+	{ { L, T, R, T }, TRUE, STYLE_BORDER_TOP },
+	{ { L, B, R, B }, TRUE, STYLE_BORDER_BOTTOM },
+	{ { L, T, L, B }, TRUE, STYLE_BORDER_LEFT },
+	{ { R, T, R, B }, TRUE, STYLE_BORDER_RIGHT },
+	{ { L, T, R, B }, TRUE, STYLE_BORDER_REV_DIAG },
+	{ { L, B, R, T }, TRUE, STYLE_BORDER_DIAG},
 
-	{ { L, H, R, H }, FALSE, BORDER_HORIZ },
-	{ { L, H, V, B }, FALSE, BORDER_REV_DIAG },
-	{ { V, T, R, H }, FALSE, BORDER_REV_DIAG },
+	{ { L, H, R, H }, FALSE, STYLE_BORDER_HORIZ },
+	{ { L, H, V, B }, FALSE, STYLE_BORDER_REV_DIAG },
+	{ { V, T, R, H }, FALSE, STYLE_BORDER_REV_DIAG },
 
-	{ { V, T, V, B }, FALSE, BORDER_VERT },
-	{ { V, T, L, H }, FALSE, BORDER_DIAG },
-	{ { R, H, V, B }, FALSE, BORDER_DIAG }
+	{ { V, T, V, B }, FALSE, STYLE_BORDER_VERT },
+	{ { V, T, L, H }, FALSE, STYLE_BORDER_DIAG },
+	{ { R, H, V, B }, FALSE, STYLE_BORDER_DIAG }
 };
 
 static MStyleBorder *
-border_get_mstyle (FormatState const *state, BorderLocations const loc)
+border_get_mstyle (FormatState const *state, StyleBorderLocation const loc)
 {
 	BorderPicker const * edge = & state->border.edge[loc];
 	int const r = (edge->rgba >> 24) & 0xff;
@@ -1236,7 +1219,7 @@ border_event (GtkWidget *widget, GdkEventButton *event, FormatState *state)
 {
 	double x = event->x;
 	double y = event->y;
-	BorderLocations	which;
+	StyleBorderLocation	which;
 
 	if (event->button != 1)
 		return FALSE;
@@ -1252,31 +1235,31 @@ border_event (GtkWidget *widget, GdkEventButton *event, FormatState *state)
 		event->type = type;
 	}
 
-	if (x <= L+5.)		which = BORDER_LEFT;
-	else if (y <= T+5.)	which = BORDER_TOP;
-	else if (y >= B-5.)	which = BORDER_BOTTOM;
-	else if (x >= R-5.)	which = BORDER_RIGHT;
+	if (x <= L+5.)		which = STYLE_BORDER_LEFT;
+	else if (y <= T+5.)	which = STYLE_BORDER_TOP;
+	else if (y >= B-5.)	which = STYLE_BORDER_BOTTOM;
+	else if (x >= R-5.)	which = STYLE_BORDER_RIGHT;
 	else if (state->is_multi) {
 		if (V-5. < x  && x < V+5.)
-			which = BORDER_VERT;
+			which = STYLE_BORDER_VERT;
 		else if (H-5. < y  && y < H+5.)
-			which = BORDER_HORIZ;
+			which = STYLE_BORDER_HORIZ;
 		else {
 			/* Map everything back to the 1sr quadrant */
 			if (x > V) x -= V-10.;
 			if (y > H) y -= H-10.;
 
 			if ((x < V/2.) == (y < H/2.))
-				which = BORDER_REV_DIAG;
+				which = STYLE_BORDER_REV_DIAG;
 			else
-				which = BORDER_DIAG;
+				which = STYLE_BORDER_DIAG;
 		}
 	} else
 	{
 		if ((x < V) == (y < H))
-			which = BORDER_REV_DIAG;
+			which = STYLE_BORDER_REV_DIAG;
 		else
-			which = BORDER_DIAG;
+			which = STYLE_BORDER_DIAG;
 	}
 
 	{
@@ -1374,7 +1357,7 @@ draw_border_preview (FormatState *state)
 		gnome_canvas_points_free (points);
 	}
 
-	for (i = 0; i < BORDER_EDGE_MAX; ++i) {
+	for (i = 0; i < STYLE_BORDER_EDGE_MAX; ++i) {
 		BorderPicker *border = &state->border.edge[i];
 		void (*func)(GnomeCanvasItem *item) = border->is_selected
 			? &gnome_canvas_item_show : &gnome_canvas_item_hide;
@@ -1393,19 +1376,19 @@ static void
 cb_border_preset_clicked (GtkButton *btn, FormatState *state)
 {
 	gboolean target_state;
-	BorderLocations i, last;
+	StyleBorderLocation i, last;
 
 	if (state->border.preset[BORDER_PRESET_NONE] == btn) {
-		i = BORDER_TOP;
-		last = BORDER_VERT;
+		i = STYLE_BORDER_TOP;
+		last = STYLE_BORDER_VERT;
 		target_state = FALSE;
 	} else if (state->border.preset[BORDER_PRESET_OUTLINE] == btn) {
-		i = BORDER_TOP;
-		last = BORDER_RIGHT;
+		i = STYLE_BORDER_TOP;
+		last = STYLE_BORDER_RIGHT;
 		target_state = TRUE;
 	} else if (state->border.preset[BORDER_PRESET_INSIDE] == btn) {
-		i = BORDER_HORIZ;
-		last = BORDER_VERT;
+		i = STYLE_BORDER_HORIZ;
+		last = STYLE_BORDER_VERT;
 		target_state = TRUE;
 	} else {
 		g_warning ("Unknown border preset button");
@@ -1470,7 +1453,7 @@ cb_border_color (GtkObject *obj, guint r, guint g, guint b, guint a,
 
 typedef struct
 {
-	BorderLocations     t;
+	StyleBorderLocation     t;
 	MStyleBorder const *res;
 } check_border_closure_t;
 
@@ -1503,7 +1486,7 @@ do_check_border (Sheet *sheet, Range const *r,
 		    g_return_val_if_fail (border != NULL, NULL);
 
 		    if ((x_dual_offset != 0 || y_dual_offset != 0) &&
-			border->line_type == BORDER_NONE)
+			border->line_type == STYLE_BORDER_NONE)
 			    border = sheet_cell_get_border (sheet,
 							    x + x_dual_offset,
 							    y + y_dual_offset,
@@ -1535,14 +1518,14 @@ cb_check_border (Sheet *sheet,
 	MStyleElementType t2 = MSTYLE_ELEMENT_UNSET;
 
 	switch (cl->t) {
-	case BORDER_TOP :
+	case STYLE_BORDER_TOP :
 		t1 = MSTYLE_BORDER_TOP;
 		t2 = MSTYLE_BORDER_BOTTOM;
 		r.end.row = r.start.row;
 		y_offset = -1;
 		break;
 
-	case BORDER_BOTTOM :
+	case STYLE_BORDER_BOTTOM :
 		/* Look for Top 1st */
 		t1 = MSTYLE_BORDER_TOP;
 		t2 = MSTYLE_BORDER_BOTTOM;
@@ -1550,14 +1533,14 @@ cb_check_border (Sheet *sheet,
 		y_offset = -1;
 		break;
 
-	case BORDER_LEFT :
+	case STYLE_BORDER_LEFT :
 		t1 = MSTYLE_BORDER_LEFT;
 		t2 = MSTYLE_BORDER_RIGHT;
 		r.end.col = r.start.col;
 		x_offset = -1;
 		break;
 
-	case BORDER_RIGHT :
+	case STYLE_BORDER_RIGHT :
 		/* Look for Left 1st */
 		t1 = MSTYLE_BORDER_LEFT;
 		t2 = MSTYLE_BORDER_RIGHT;
@@ -1565,22 +1548,22 @@ cb_check_border (Sheet *sheet,
 		x_offset = -1;
 		break;
 
-	case BORDER_REV_DIAG :
+	case STYLE_BORDER_REV_DIAG :
 		t1 = MSTYLE_BORDER_REV_DIAGONAL;
 		break;
 
-	case BORDER_DIAG :
+	case STYLE_BORDER_DIAG :
 		t1 = MSTYLE_BORDER_DIAGONAL;
 		break;
 
-	case BORDER_HORIZ :
+	case STYLE_BORDER_HORIZ :
 		t1 = MSTYLE_BORDER_TOP;
 		t2 = MSTYLE_BORDER_BOTTOM;
 		++r.start.row;
 		y_offset = -1;
 		break;
 
-	case BORDER_VERT :
+	case STYLE_BORDER_VERT :
 		t1 = MSTYLE_BORDER_LEFT;
 		t2 = MSTYLE_BORDER_RIGHT;
 		++r.start.col;
@@ -1596,7 +1579,7 @@ cb_check_border (Sheet *sheet,
 }
 
 static MStyleBorder const *
-check_border (Sheet *sheet, BorderLocations const t)
+check_border (Sheet *sheet, StyleBorderLocation const t)
 {
 	check_border_closure_t cl;
 
@@ -1613,21 +1596,21 @@ check_border (Sheet *sheet, BorderLocations const t)
  * hide if needed.
  */
 static void
-init_border_button (FormatState *state, BorderLocations const i,
+init_border_button (FormatState *state, StyleBorderLocation const i,
 		    GtkWidget *button, gboolean const hide)
 {
 	MStyleBorder const * border = check_border (state->sheet, i);
 
 	if (border == NULL) {
 		state->border.edge[i].rgba = 0;
-		state->border.edge[i].pattern_index = BORDER_INCONSISTENT;
+		state->border.edge[i].pattern_index = STYLE_BORDER_INCONSISTENT;
 		state->border.edge[i].is_selected = TRUE;
 	} else {
 		StyleColor const * c = border->color;
 		state->border.edge[i].rgba =
 		    GNOME_CANVAS_COLOR_A (c->red>>8, c->green>>8, c->blue>>8, 0xff);
 		state->border.edge[i].pattern_index = border->line_type;
-		state->border.edge[i].is_selected = (border->line_type != BORDER_NONE);
+		state->border.edge[i].is_selected = (border->line_type != STYLE_BORDER_NONE);
 	}
 
 	state->border.edge[i].state = state;
@@ -1654,6 +1637,9 @@ init_border_button (FormatState *state, BorderLocations const i,
 static void
 cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 {
+	MStyleBorder *borders[STYLE_BORDER_EDGE_MAX];
+	int i;
+
 	if (page != -1)
 		return;
 
@@ -1664,15 +1650,10 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 	if (mstyle_is_element_set (state->result, MSTYLE_FONT_SIZE))        
 		sheet_selection_height_update (state->sheet);     
 
-	sheet_selection_set_border  (state->sheet,
-				     border_get_mstyle (state, BORDER_TOP),
-				     border_get_mstyle (state, BORDER_BOTTOM),
-				     border_get_mstyle (state, BORDER_LEFT),
-				     border_get_mstyle (state, BORDER_RIGHT),
-				     border_get_mstyle (state, BORDER_REV_DIAG),
-				     border_get_mstyle (state, BORDER_DIAG),
-				     border_get_mstyle (state, BORDER_HORIZ),
-				     border_get_mstyle (state, BORDER_VERT));
+	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
+		borders [i] = border_get_mstyle (state, i);
+
+	sheet_selection_set_border (state->sheet, borders);
 
 	cell_thaw_redraws ();
 
@@ -1690,29 +1671,29 @@ fmt_dialog_impl (Sheet *sheet, MStyle *mstyle, GladeXML  *gui, gboolean is_multi
 		char const * const name;
 		StyleBorderType const pattern;
 	} const line_pattern_buttons[] = {
-	    { "line_pattern_thin", BORDER_THIN },
+	    { "line_pattern_thin", STYLE_BORDER_THIN },
 
-	    { "line_pattern_none", BORDER_NONE },
-	    { "line_pattern_medium_dash_dot_dot", BORDER_MEDIUM_DASH_DOT_DOT },
+	    { "line_pattern_none", STYLE_BORDER_NONE },
+	    { "line_pattern_medium_dash_dot_dot", STYLE_BORDER_MEDIUM_DASH_DOT_DOT },
 
-	    { "line_pattern_hair", BORDER_HAIR },
-	    { "line_pattern_slant", BORDER_SLANTED_DASH_DOT },
+	    { "line_pattern_hair", STYLE_BORDER_HAIR },
+	    { "line_pattern_slant", STYLE_BORDER_SLANTED_DASH_DOT },
 
-	    { "line_pattern_dotted", BORDER_DOTTED },
-	    { "line_pattern_medium_dash_dot", BORDER_MEDIUM_DASH_DOT },
+	    { "line_pattern_dotted", STYLE_BORDER_DOTTED },
+	    { "line_pattern_medium_dash_dot", STYLE_BORDER_MEDIUM_DASH_DOT },
 
-	    { "line_pattern_dash_dot_dot", BORDER_DASH_DOT_DOT },
-	    { "line_pattern_medium_dash", BORDER_MEDIUM_DASH },
+	    { "line_pattern_dash_dot_dot", STYLE_BORDER_DASH_DOT_DOT },
+	    { "line_pattern_medium_dash", STYLE_BORDER_MEDIUM_DASH },
 
-	    { "line_pattern_dash_dot", BORDER_DASH_DOT },
-	    { "line_pattern_medium", BORDER_MEDIUM },
+	    { "line_pattern_dash_dot", STYLE_BORDER_DASH_DOT },
+	    { "line_pattern_medium", STYLE_BORDER_MEDIUM },
 
-	    { "line_pattern_dashed", BORDER_DASHED },
-	    { "line_pattern_thick", BORDER_THICK },
+	    { "line_pattern_dashed", STYLE_BORDER_DASHED },
+	    { "line_pattern_thick", STYLE_BORDER_THICK },
 
 	    /* Thin will display here, but we need to put it first to make it
 	     * the default */
-	    { "line_pattern_double", BORDER_DOUBLE },
+	    { "line_pattern_double", STYLE_BORDER_DOUBLE },
 
 	    { NULL },
 	};
@@ -1836,7 +1817,7 @@ fmt_dialog_impl (Sheet *sheet, MStyle *mstyle, GladeXML  *gui, gboolean is_multi
 	for (i = 0; (name = border_buttons[i]) != NULL; ++i) {
 		GtkWidget * tmp = init_button_image (gui, name);
 		if (tmp != NULL)
-			init_border_button (&state, i, tmp, i >= BORDER_HORIZ);
+			init_border_button (&state, i, tmp, i >= STYLE_BORDER_HORIZ);
 	}
 
 	/* Get the current background

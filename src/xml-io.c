@@ -663,7 +663,7 @@ xml_read_style_border (parse_xml_context_t *ctxt, xmlNodePtr tree, MStyle *mstyl
 			StyleColor   *color = NULL;
 			MStyleBorder *border;
  			xml_get_color_value (side, "Color", &color);
-			border = style_border_fetch (BORDER_NONE, color, 
+			border = style_border_fetch (STYLE_BORDER_NONE, color, 
 						     style_border_get_orientation (i));
 			if (border)
 				mstyle_set_border (mstyle, i, border);

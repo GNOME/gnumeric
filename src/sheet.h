@@ -300,16 +300,10 @@ void           sheet_style_delete_colrow        (Sheet *sheet, int pos, int coun
 						 gboolean is_col);
 void           sheet_style_relocate             (const struct expr_relocate_info *rinfo);
 void           sheet_selection_apply_style      (Sheet *sheet, MStyle *style);
-MStyle        *sheet_selection_get_unique_style (Sheet *sheet);
+MStyle        *sheet_selection_get_unique_style (Sheet *sheet,
+						 MStyleBorder **borders);
 void           sheet_selection_set_border       (Sheet *sheet,
-						 MStyleBorder *top,
-						 MStyleBorder *bottom,
-						 MStyleBorder *left,
-						 MStyleBorder *right,
-						 MStyleBorder *rev_diag,
-						 MStyleBorder *diag,
-						 MStyleBorder *horiz,
-						 MStyleBorder *vert);
+						 MStyleBorder **borders);
 void           sheet_create_styles              (Sheet *sheet);
 void           sheet_destroy_styles             (Sheet *sheet);
 GList         *sheet_get_style_list             (Sheet *sheet);
