@@ -324,11 +324,12 @@ static gboolean
 gnm_canvas_key_mode_object (GnumericCanvas *gcanvas, GdkEventKey *event)
 {
 	SheetControlGUI *scg = gcanvas->simple.scg;
+	SheetControl    *sc = SHEET_CONTROL (scg);
 	int size = (event->state & GDK_CONTROL_MASK) ? 1 : 10;
 
 	switch (event->keyval) {
 	case GDK_Escape:
-		scg_mode_edit ((SheetControl *) scg);
+		scg_mode_edit (sc);
 		application_clipboard_unant ();
 		return TRUE;;
 
@@ -340,22 +341,22 @@ gnm_canvas_key_mode_object (GnumericCanvas *gcanvas, GdkEventKey *event)
 			return TRUE;
 		}
 		if (scg->current_object != NULL) {
-			gtk_object_destroy (GTK_OBJECT (scg->current_object));
+			cmd_object_delete (sc->wbc, scg->current_object);
 			return TRUE;
 		}
 		break;
 
 	case GDK_KP_Left: case GDK_Left:
-		scg_object_nudge (gcanvas->simple.scg, -size, 0);
+		scg_object_nudge (scg, -size, 0);
 		return TRUE;
 	case GDK_KP_Right: case GDK_Right:
-		scg_object_nudge (gcanvas->simple.scg,  size, 0);
+		scg_object_nudge (scg,  size, 0);
 		return TRUE;
 	case GDK_KP_Up: case GDK_Up:
-		scg_object_nudge (gcanvas->simple.scg, 0, -size);
+		scg_object_nudge (scg, 0, -size);
 		return TRUE;
 	case GDK_KP_Down: case GDK_Down:
-		scg_object_nudge (gcanvas->simple.scg, 0,  size);
+		scg_object_nudge (scg, 0,  size);
 		return TRUE;
 
 	default:

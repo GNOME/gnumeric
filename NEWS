@@ -12,6 +12,7 @@ Jody:
 	* Fix cloning checkboxes.
 	* Make all openers available on the import menu, just in case.
 	* Fix sheet objects as inter-sheet dependents.
+	* Fix undo from keyboard for sheet object deletion.
 
 --------------------------------------------------------------------------
 Gnumeric 0.99.1

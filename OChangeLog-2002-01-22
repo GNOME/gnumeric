@@ -1,3 +1,15 @@
+2001-12-29  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object) : Use
+	  cmd_object_delete so that deleting an object with the keyboard is
+	  undoable.
+
+	* src/sheet-object-widget.c (sheet_widget_checkbox_clear_sheet) :
+	  clear the sheet after unlinking.
+	(sheet_widget_radio_button_clear_sheet) : ditto.
+	(sheet_widget_list_clear_sheet) : ditto.
+	(sheet_widget_combo_clear_sheet) : ditto.
+
 2001-12-29  Abel Cheung  <maddog@linux.org.hk>
 
 	* configure.in: Added "ko" to ALL_LINGUAS.
