@@ -707,9 +707,9 @@ do_setup_margin (PrinterSetupState *state)
 			  G_CALLBACK (cb_unit_selector_changed), state);
 	gtk_widget_show (state->unit_selector);
 
-	unit_editor_configure (&state->margins.top, state, "spin-header",
+	unit_editor_configure (&state->margins.header, state, "spin-header",
 			       MAX (pm->top.points - header, 0.0));
-	unit_editor_configure (&state->margins.bottom, state, "spin-footer",
+	unit_editor_configure (&state->margins.footer, state, "spin-footer",
 			       MAX (pm->bottom.points - footer, 0.0));
 
 	container = GTK_BOX (glade_xml_get_widget (state->gui,
@@ -1739,8 +1739,8 @@ do_fetch_margins (PrinterSetupState *state)
 
 	print_info_get_margins   (state->pi, &header, &footer, &left, &right);
 
-	m->top = unit_info_to_print_unit (&state->margins.top, state);
-	m->bottom = unit_info_to_print_unit (&state->margins.bottom, state);
+	m->top = unit_info_to_print_unit (&state->margins.header, state);
+	m->bottom = unit_info_to_print_unit (&state->margins.footer, state);
 
 	m->top.points += header;
 	m->bottom.points += footer;
