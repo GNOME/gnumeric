@@ -2866,9 +2866,33 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, Cell *cell,
 					g_free (new_text);
 					return TRUE;
 				} else {
-					/* FIXME?  */
+					char *tmp;
+
+					switch (sr->error_behaviour) {
+					case SRE_error:
+						/* FIXME: quoting.  */
+						tmp = g_strconcat ("=ERROR(\"", new_text, "\")", NULL);
+						g_free (new_text);
+						new_text = tmp;
+						err = FALSE;
+						break;
+					case SRE_string:
+						/* FIXME: quoting.  */
+						tmp = g_strconcat ("\"", new_text, "\"", NULL);
+						g_free (new_text);
+						new_text = tmp;
+						err = FALSE;
+						break;
+					case SRE_fail:
+						g_assert_not_reached ();
+					case SRE_skip:
+					default:
+						; /* Nothing */
+					}
 				}
-			} else {
+			}
+
+			if (!err) {
 				if (!test_run) {
 					SearchReplaceItem *sri = g_new (SearchReplaceItem, 1);
 
@@ -3083,6 +3107,7 @@ cmd_search_replace_destroy (GtkObject *cmd)
 			g_free (sri->new.comment);
 			break;
 		}
+		g_free (sri);
 	}
 	g_list_free (me->cells);
 	search_replace_free (me->sr);

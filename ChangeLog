@@ -1,3 +1,9 @@
+2001-02-06  Morten Welinder  <terra@diku.dk>
+
+	* src/commands.c (cmd_search_replace_destroy): Plug leak.
+	(cmd_search_replace_do_cell): Implement string and error failure
+ 	modes (apart from a FIXME in the code).
+
 2001-02-06  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in, README: Depend on bonobo >= 0.35.
