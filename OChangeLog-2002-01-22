@@ -1,5 +1,11 @@
 2000-05-28  Jody Goldberg <jgoldberg@home.com>
 
+	* src/commands.c (cmd_paste_copy_undo) : The first time through we
+	  transpose.  After that we are jsut replace the old content.  no
+	  transpose needed.
+
+2000-05-28  Jody Goldberg <jgoldberg@home.com>
+
 	* src/commands.c (cmd_paste_copy_undo) : handle paste errors.
 	(cmd_paste_copy_destroy) : do not release unless we are permitted to.
 	(cmd_paste_copy) : When pasting a transpose we are more lenient about

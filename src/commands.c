@@ -1817,7 +1817,7 @@ typedef struct
 
 	CellRegion *content;
 	PasteTarget dst;
-	gboolean    release_content;
+	gboolean    has_been_through_cycle;
 } CmdPasteCopy;
 
 GNUMERIC_MAKE_COMMAND (CmdPasteCopy, cmd_paste_copy);
@@ -1838,10 +1838,13 @@ cmd_paste_copy_undo (GnumericCommand *cmd, CommandContext *context)
 		return TRUE;
 	}
 
-	if (me->release_content)
+	if (me->has_been_through_cycle)
 		clipboard_release (me->content);
+	else
+		me->dst.paste_flags &= ~PASTE_TRANSPOSE;
+
 	me->content = content;
-	me->release_content = TRUE;
+	me->has_been_through_cycle = TRUE;
 
 	/* Make the newly pasted content the selection (this queues a redraw) */
 	sheet_selection_reset_only (me->dst.sheet);
@@ -1868,7 +1871,7 @@ cmd_paste_copy_destroy (GtkObject *cmd)
 	CmdPasteCopy *me = CMD_PASTE_COPY(cmd);
 
 	if (me->content) {
-		if (me->release_content)
+		if (me->has_been_through_cycle)
 			clipboard_release (me->content);
 		me->content = NULL;
 	}
@@ -1891,7 +1894,7 @@ cmd_paste_copy (CommandContext *context,
 	/* Store the specs for the object */
 	me->dst = *pt;
 	me->content = content;
-	me->release_content = FALSE;
+	me->has_been_through_cycle = FALSE;
 
 	/* If the destination is a singleton paste the entire content */
 	if (range_is_singleton (&me->dst.range)) {
