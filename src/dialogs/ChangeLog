@@ -1,5 +1,12 @@
 2002-01-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* plugin-manager.glade : first port to gnome2
+	* dialog-plugin-manager.c : ditto
+	  Note: this is far from finished, but at least it 
+	  doesn't crash.
+
+2002-01-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* Makefile.am : add dialog-sheet-name.c
 	* dialog-sheet-name.c : extracted from dialog-simple-input.c
 	* dialog-advanced-filter.c : clean-up
