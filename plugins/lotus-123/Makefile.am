@@ -1,4 +1,14 @@
-GNUMERIC_SRC_DIR = $(top_srcdir)/src
+# Where to install the plugin
+#
+if BONOBO
+gnumeric_version="$(VERSION)-bonobo"
+else
+gnumeric_version="$(VERSION)"
+endif
+gnumeric_libdir  = $(libdir)/gnumeric/$(gnumeric_version)
+gnumeric_datadir = $(datadir)/gnumeric/$(gnumeric_version)
+plugindir = $(gnumeric_libdir)/plugins
+gladedir  = $(gnumeric_datadir)/glade
 
 INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
@@ -7,11 +17,9 @@ INCLUDES = 						\
 	-I$(top_srcdir)/src				\
 	$(GNOME_INCLUDEDIR)
 
-plugindir = $(libdir)/gnumeric/plugins/$(VERSION)
-
 plugin_LTLIBRARIES = libgnum_lotus.la
 
-libgnum_lotus_la_SOURCES =		\
+libgnum_lotus_la_SOURCES =	\
 	boot.c			\
 	config.h		\
 	lotus.c			\
