@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-18 22:59-0400\n"
-"PO-Revision-Date: 2004-03-18 19:33+0100\n"
+"POT-Creation-Date: 2004-04-21 04:12+0200\n"
+"PO-Revision-Date: 2004-04-21 13:58+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17113,7 +17113,6 @@ msgstr ""
 
 #. xgettext: you can translate the funny character as an 'o' if unicode is not available.
 #: plugins/numtheory/numtheory.c:247
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -17138,7 +17137,7 @@ msgstr ""
 "  -1 pokud má @n lichý počet různých prvočinitelů.\n"
 "   1 pokud má @n sudý počet různých prvočinitelů.\n"
 "\n"
-"* Pokud @n=1, pak funkce vrací 1.\n"
+"* Pokud @n = 1, pak funkce vrací 1.\n"
 "\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
@@ -21285,7 +21284,7 @@ msgstr "% normální velikosti"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:3
 msgid "3_d"
-msgstr ""
+msgstr "3_d"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:4
 msgid "Dia_meter"
@@ -21304,7 +21303,6 @@ msgid "_Bubbles scaled to"
 msgstr "Měřítko _bublin změněno na"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-bubble-prefs.glade.h:8
-#, fuzzy
 msgid "_Size represented by:"
 msgstr "_Velikost je reprezentována:"
 
