@@ -15,6 +15,7 @@ icon_DATA = \
 	chart_pyramid_1_1.png	chart_pyramid_1_2.png	chart_pyramid_1_3.png	\
 	chart_pyramid_2_1.png	chart_pyramid_2_2.png	chart_pyramid_2_3.png	\
 	chart_pyramid_3_1.png \
+	chart_radar_1_1.png chart_radar_1_2.png chart_radar_1_3.png \
 	chart_stock_1_1.png	chart_stock_1_2.png \
 	chart_stock_2_1.png	chart_stock_2_2.png \
 	chart_line_1_1.png	chart_line_1_2.png	chart_line_1_3.png	\

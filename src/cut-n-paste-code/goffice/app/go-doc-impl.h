@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-radar.h
+ * go-doc-impl.h : Implementation details of a GOffice Document
  *
- * Copyright (C) 2004 Michael Devine (mdevine@cs.stanford.edu)
+ * Copyright (C) 2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -18,34 +18,25 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
+#ifndef GO_DOC_IMPL_H
+#define GO_DOC_IMPL_H
 
-#ifndef GOG_RADAR_H
-#define GOG_RADAR_H
-
-#include <goffice/graph/gog-plot-impl.h>
+#include <goffice/app/go-doc.h>
 
 G_BEGIN_DECLS
 
-/*-----------------------------------------------------------------------------
- *
- * GogRadarPlot
- *
- *-----------------------------------------------------------------------------
- */
+struct _GODoc {
+	GObject		 base;
+};
 
 typedef struct {
-	GogPlot	base;
-	gboolean default_style_has_markers;
-	unsigned num_elements;
-	double minima, maxima;
-} GogRadarPlot;
+	GObjectClass	base;
+} GODocClass;
 
-#define GOG_RADAR_PLOT_TYPE	(gog_radar_plot_get_type ())
-#define GOG_RADAR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RADAR_PLOT_TYPE, GogRadarPlot))
-#define GOG_IS_PLOT_RADAR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RADAR_PLOT_TYPE))
-
-GType gog_radar_plot_get_type (void);
+#define GO_DOC_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST ((k), GO_DOC_TYPE, GODocClass))
+#define IS_GO_DOC_CLASS(k)  (G_TYPE_CHECK_CLASS_TYPE ((k), GO_DOC_TYPE))
+#define GO_DOC_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), GO_DOC_TYPE, GODocClass))
 
 G_END_DECLS
 
-#endif /* GOG_RADAR_H */
+#endif /* GO_DOC_IMPL_H */

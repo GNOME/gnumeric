@@ -41,8 +41,7 @@ typedef struct {
 
 enum {
 	PLOT_PROP_0,
-	PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS,
-	PLOT_PROP_INITIAL_ANGLE
+	PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS
 };
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
@@ -69,6 +68,8 @@ static GType gog_radar_view_get_type (void);
 
 /*
  *  Accessor for setting GOGRadarPlot member variables.
+ *
+ *  \param obj The radar plot as a GObject.  Must not be NULL.
  */
 static void
 gog_radar_plot_set_property (GObject *obj, guint param_id,
@@ -79,9 +80,6 @@ gog_radar_plot_set_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS:
 		radar->default_style_has_markers = g_value_get_boolean (value);
-		break;
-	case PLOT_PROP_INITIAL_ANGLE:
-		radar->initial_angle = g_value_get_float(value);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -101,9 +99,6 @@ gog_radar_plot_get_property (GObject *obj, guint param_id,
 	switch (param_id) {
 	case PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS:
 		g_value_set_boolean (value, radar->default_style_has_markers);
-		break;
-	case PLOT_PROP_INITIAL_ANGLE:
-		g_value_set_float(value, radar->initial_angle);
 		break;
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -230,17 +225,11 @@ gog_radar_plot_class_init (GogPlotClass *gog_plot_klass)
 	gog_object_klass->editor	= gog_radar_plot_editor;
 	gog_object_klass->view_type	= gog_radar_view_get_type ();
 
-	g_object_class_install_property (gobject_klass, PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS,
+	g_object_class_install_property (gobject_klass, 
+					 PLOT_PROP_DEFAULT_STYLE_HAS_MARKERS,
 		g_param_spec_boolean ("default-style-has-markers", NULL,
 			"Should the default style of a series include markers",
 			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
-
-	g_object_class_install_property (gobject_klass, 
-					 PLOT_PROP_INITIAL_ANGLE,
-		g_param_spec_float ("initial_angle", "initial_angle",
-			"Degrees clockwise from 12 O'Clock.",
-			0, G_MAXFLOAT, 0.,
-			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	{
 		static GogSeriesDimDesc dimensions[] = {
@@ -251,7 +240,8 @@ gog_radar_plot_class_init (GogPlotClass *gog_plot_klass)
 		};
 		gog_plot_klass->desc.series.dim = dimensions;
 		gog_plot_klass->desc.series.num_dim = G_N_ELEMENTS (dimensions);
-		gog_plot_klass->desc.series.style_fields = GOG_STYLE_LINE | GOG_STYLE_MARKER;
+		gog_plot_klass->desc.series.style_fields = (GOG_STYLE_LINE 
+							    | GOG_STYLE_MARKER);
 	}
 
 	/* Fill in GogPlotClass methods */
@@ -315,15 +305,6 @@ GSF_CLASS (GogRadarAreaPlot, gog_radar_area_plot,
 typedef GogPlotView		GogRadarView;
 typedef GogPlotViewClass	GogRadarViewClass;
 
-static void gog_radar_view_render_series (GogView *view, 
-					  GogViewAllocation const *bbox);
-
-static void
-gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
-{
-	gog_radar_view_render_series(view, bbox);
-}
-
 static double
 fmin (double a, double b)
 {
@@ -331,7 +312,7 @@ fmin (double a, double b)
 }
 
 static void
-gog_radar_view_render_series(GogView *view, GogViewAllocation const *bbox)
+gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogRadarPlot const *model = GOG_RADAR_PLOT (view->model);
 	unsigned  center_x, center_y;
@@ -363,8 +344,7 @@ gog_radar_view_render_series(GogView *view, GogViewAllocation const *bbox)
 		closed_shape = (series->num_elements == model->num_elements);
 		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
 		for (count = 0; count < series->num_elements; count++) {
-			double angle_rad = count * 2.0 * M_PI / model->num_elements +
-				(model->initial_angle * 2.0 * M_PI/360);
+			double angle_rad = count * 2.0 * M_PI / model->num_elements;
 			double x, y, scale;
 
 			if (!finite (vals [count])) {
@@ -474,6 +454,7 @@ gog_radar_series_init_style (GogStyledObject *gso, GogStyle *style)
 		gog_style_set_marker (style, m);
 		style->marker.auto_shape = FALSE;
 	}
+
 	style->needs_obj_defaults = FALSE;
 }
 static void

@@ -1,8 +1,8 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-radar.h
+ * goffice-app.h: 
  *
- * Copyright (C) 2004 Michael Devine (mdevine@cs.stanford.edu)
+ * Copyright (C) 2004 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -19,33 +19,17 @@
  * USA
  */
 
-#ifndef GOG_RADAR_H
-#define GOG_RADAR_H
+#ifndef GOFFICE_APP_H
+#define GOFFICE_APP_H
 
-#include <goffice/graph/gog-plot-impl.h>
+#include <glib/gmacros.h>
 
 G_BEGIN_DECLS
 
-/*-----------------------------------------------------------------------------
- *
- * GogRadarPlot
- *
- *-----------------------------------------------------------------------------
- */
-
-typedef struct {
-	GogPlot	base;
-	gboolean default_style_has_markers;
-	unsigned num_elements;
-	double minima, maxima;
-} GogRadarPlot;
-
-#define GOG_RADAR_PLOT_TYPE	(gog_radar_plot_get_type ())
-#define GOG_RADAR_PLOT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RADAR_PLOT_TYPE, GogRadarPlot))
-#define GOG_IS_PLOT_RADAR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RADAR_PLOT_TYPE))
-
-GType gog_radar_plot_get_type (void);
+typedef struct _GOApp		GOApp;
+typedef struct _GODoc		GODoc;
+typedef struct _GODocControl	GODocControl;
 
 G_END_DECLS
 
-#endif /* GOG_RADAR_H */
+#endif /* GOFFICE_GRAPH_H */
