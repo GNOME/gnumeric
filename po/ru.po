@@ -3,8 +3,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.66\n"
-"POT-Creation-Date: 2001-08-20 21:35-0400\n"
-"PO-Revision-Date: 2001-08-14 11:14+0400\n"
+"POT-Creation-Date: 2001-08-21 14:09+0400\n"
+"PO-Revision-Date: 2001-08-29 18:02+0400\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2518,7 +2518,7 @@ msgstr "Zbigniew Chyla, система дополнений, i18n."
 
 #: src/dialogs/dialog-about.c:35
 msgid "J.H.M. Dassen (Ray), debian packaging."
-msgstr ""
+msgstr "J.H.M. Dassen (Ray), пакеты для debian."
 
 #: src/dialogs/dialog-about.c:36
 msgid "Tom Dyas, plugin support."
@@ -2533,7 +2533,7 @@ msgstr "GergУ иrdi, Gnumeric программист."
 
 #: src/dialogs/dialog-about.c:41
 msgid "John Gotts, rpm packaging."
-msgstr ""
+msgstr "John Gotts, rpm-пакеты."
 
 #: src/dialogs/dialog-about.c:42
 msgid "Andreas J. Guelzow, statistics stuff."
@@ -2573,7 +2573,7 @@ msgstr "Michael Meeks, импорт Excel и OLE2."
 
 #: src/dialogs/dialog-about.c:51
 msgid "Lutz Muller, SheetObject improvements"
-msgstr ""
+msgstr "Lutz Muller, улучшения SheetObject"
 
 #: src/dialogs/dialog-about.c:52
 msgid "Federico M. Quintero, canvas support."
@@ -3360,7 +3360,6 @@ msgid "Go to..."
 msgstr "Перейти к..."
 
 #: src/dialogs/dialog-graph-guru.c:141
-#, fuzzy
 msgid "Step 1 of 3: Select graph type"
 msgstr "Шаг 1 из 3: Выбор типа графика"
 
@@ -3369,7 +3368,6 @@ msgid "Step 2 of 3: Select data ranges"
 msgstr "Шаг 2 из 3: Выбор диапазона данных"
 
 #: src/dialogs/dialog-graph-guru.c:146
-#, fuzzy
 msgid "Step 3 of 3: Customize graph"
 msgstr "Шаг 3 из 3: Настройка графика"
 
@@ -4271,6 +4269,10 @@ msgstr "Метка осей Y:"
 msgid "_Z axis"
 msgstr "Оси Z"
 
+#: src/dialogs/graph-guru.glade.h:43
+msgid "label27"
+msgstr "Метка"
+
 #: src/dialogs/hf-config.glade.h:1
 msgid "Center section:"
 msgstr "Отцентрировать:"
@@ -5100,34 +5102,42 @@ msgid "_Title :"
 msgstr "Заглавие:"
 
 #: src/dialogs/validate.glade.h:32
+msgid "label11"
+msgstr "Метка"
+
+#: src/dialogs/validate.glade.h:33
+msgid "label12"
+msgstr "Метка"
+
+#: src/dialogs/validate.glade.h:34
 msgid "min <= val <= max         (between)"
 msgstr "мин. <= значение <= макс.  (между)"
 
-#: src/dialogs/validate.glade.h:33
+#: src/dialogs/validate.glade.h:35
 msgid "val != bound                  (not equal to)"
 msgstr "значение != bound  (не равно)                         "
 
-#: src/dialogs/validate.glade.h:34
+#: src/dialogs/validate.glade.h:36
 msgid "val >  bound                  (greater than)"
 msgstr "значение > bound  (больше чем)"
 
-#: src/dialogs/validate.glade.h:35
+#: src/dialogs/validate.glade.h:37
 msgid "val >=bound                  (greater than or equal to)"
 msgstr "значение >= bound  (больше чем или равно)"
 
-#: src/dialogs/validate.glade.h:36
+#: src/dialogs/validate.glade.h:38
 msgid "val <  bound                  (less than)"
 msgstr "значение < bound  (меньше чем)                         "
 
-#: src/dialogs/validate.glade.h:37
+#: src/dialogs/validate.glade.h:39
 msgid "val <= min || max <= val (not between)"
 msgstr "значение <= мин. || макс. <= значение (не между)"
 
-#: src/dialogs/validate.glade.h:38
+#: src/dialogs/validate.glade.h:40
 msgid "val <=bound                  (less than or equal to)"
 msgstr "значение <= bound  (меньше чем или равно)"
 
-#: src/dialogs/validate.glade.h:39
+#: src/dialogs/validate.glade.h:41
 msgid "val == bound                 (equal to)"
 msgstr "значение == bound  (равно)                         "
 
@@ -17557,7 +17567,6 @@ msgid "Nothing"
 msgstr "Ничего"
 
 #: src/workbook-control-gui.c:944
-#, fuzzy
 msgid "Un_freeze Panes"
 msgstr "Расфиксировать панели"
 
@@ -18080,27 +18089,3 @@ msgstr "Формат файла Gnumeric XML"
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "Электронная таблица GNOME"
-
-#~ msgid "Gnumeric has not been compiled with support for guile."
-#~ msgstr "Gnumeric был скомпилирован без поддержки guile."
-
-#~ msgid "series%d"
-#~ msgstr "серии%d"
-
-#~ msgid "label27"
-#~ msgstr "Метка"
-
-#~ msgid "label11"
-#~ msgstr "Метка"
-
-#~ msgid "label12"
-#~ msgstr "Метка"
-
-#~ msgid "*Control*b"
-#~ msgstr "*Control*b"
-
-#~ msgid "*Control*i"
-#~ msgstr "*Control*i"
-
-#~ msgid "*Control*u"
-#~ msgstr "*Control*u"
