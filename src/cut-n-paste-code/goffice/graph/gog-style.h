@@ -38,6 +38,7 @@ typedef enum {
 	GOG_STYLE_OUTLINE	= 1 << 0,
 	GOG_STYLE_FILL		= 1 << 1,
 	GOG_STYLE_MARKER	= 1 << 2,
+	GOG_STYLE_FONT		= 1 << 3
 } GogStyleFlag;
 typedef enum {
 	GOG_FILL_STYLE_NONE,

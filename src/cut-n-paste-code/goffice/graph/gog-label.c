@@ -21,14 +21,12 @@
 
 #include <gnumeric-config.h>
 #include <goffice/graph/gog-label.h>
-#include <goffice/graph/gog-object.h>
+#include <goffice/graph/gog-styled-object.h>
+#include <goffice/graph/gog-style.h>
 
 #include <src/gui-util.h>
 #include <src/gnumeric-i18n.h>
 
-#include <glade/glade-xml.h>
-#include <gtk/gtkspinbutton.h>
-#include <widgets/widget-color-combo.h>
 #include <gsf/gsf-impl-utils.h>
 
 struct _GogLabel {
@@ -88,6 +86,11 @@ gog_label_type_name (GogObject const *item)
 {
 	return "GraphLabel";
 }
+static gpointer
+gog_label_editor (GogObject *gobj, GogDataAllocator *dalloc, CommandContext *cc)
+{
+	return gog_style_editor	(gobj, cc, GOG_STYLE_OUTLINE | GOG_STYLE_FILL | GOG_STYLE_FONT);
+}
 
 static void
 gog_label_class_init (GogLabelClass *klass)
@@ -107,10 +110,3 @@ gog_label_class_init (GogLabelClass *klass)
 GSF_CLASS (GogLabel, gog_label,
 	   gog_label_class_init, NULL,
 	   GOG_OBJECT_TYPE)
-
-float
-go_fraph_label_border_width (GogLabel const *label)
-{
-	g_return_val_if_fail (IS_GOG_LABEL (label), 0.);
-	return label->border_width;
-}

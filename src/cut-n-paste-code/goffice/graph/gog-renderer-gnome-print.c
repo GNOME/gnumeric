@@ -41,7 +41,6 @@ struct _GogRendererGnomePrint {
 	GogRenderer base;
 
 	GnomePrintContext *gp_context;
-	int last_alpha;
 };
 
 typedef GogRendererClass GogRendererGnomePrintClass;
@@ -67,16 +66,12 @@ gog_renderer_gnome_print_finalize (GObject *obj)
 static void
 set_color (GogRendererGnomePrint *prend, GOColor color)
 {
-	int alpha = UINT_RGBA_A (color);
 	double r = ((double) UINT_RGBA_R (color)) / 255.;
 	double g = ((double) UINT_RGBA_G (color)) / 255.;
 	double b = ((double) UINT_RGBA_B (color)) / 255.;
 	double a = ((double) UINT_RGBA_A (color)) / 255.;
 	gnome_print_setrgbcolor (prend->gp_context, r, g, b);
-	if (prend->last_alpha != alpha) {
-		gnome_print_setopacity (prend->gp_context, alpha / (double) 0xff);
-		prend->last_alpha = alpha;
-	}
+	gnome_print_setopacity (prend->gp_context, a);
 }
 
 static void
@@ -162,6 +157,9 @@ gog_renderer_gnome_print_draw_text (GogRenderer *rend, ArtPoint *pos,
 				    char const *text, GogViewRequisition *size)
 {
 	GogRendererGnomePrint *prend = GOG_RENDERER_GNOME_PRINT (rend);
+#warning FIXME need to take descent into account
+	gnome_print_moveto (prend->gp_context, pos->x, -pos->y);
+	gnome_print_show (prend->gp_context, text);
 }
 
 static void
@@ -187,7 +185,6 @@ static void
 gog_renderer_gnome_print_init (GogRendererGnomePrint *prend)
 {
 	prend->gp_context = NULL;
-	prend->last_alpha = -1;
 }
 
 static GSF_CLASS (GogRendererGnomePrint, gog_renderer_gnome_print,

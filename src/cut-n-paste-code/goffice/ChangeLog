@@ -1,5 +1,10 @@
 2003-06-10  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-renderer-gnome-print.c * (gog_renderer_gnome_print_draw_text) :
+	  implement trivial version.  Need to decide how to handle fonts.
+
+2003-06-10  Jody Goldberg <jody@gnome.org>
+
 	* graph/plugins/plot_pie/gog-pie.c (gog_pie_series_update) :
 	  handle series before they are valid.
 	* graph/plugins/plot_barcol/gog-barcol.c (gog_barcol_series_update) : ditto.
