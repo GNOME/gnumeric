@@ -35,7 +35,7 @@
   <allow_shrink>False</allow_shrink>
   <allow_grow>False</allow_grow>
   <auto_shrink>False</auto_shrink>
-  <auto_close>True</auto_close>
+  <auto_close>False</auto_close>
   <hide_on_close>False</hide_on_close>
 
   <widget>

@@ -61,7 +61,7 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 	GtkSpinButton *zoom;
 	GList *l, *sheets;
 	gboolean is_custom = TRUE;
-	int i;
+	int i, res;
 
 	list = GTK_CLIST (glade_xml_get_widget (gui, "sheet_list"));
 	g_return_if_fail (list);
@@ -104,6 +104,8 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 
 		if (sheet == cur_sheet) {
 			gtk_clist_select_row (list, row, 0);
+
+			/* FIXME : Why is this not working */
 			gtk_clist_moveto (list, row, 0, .5, 0.);
 		}
 	}
@@ -116,15 +118,17 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 		return;
 	}
 
-	/* TODO : Apply vs Ok ?  do we need both ? */
-	if (gnome_dialog_run (GNOME_DIALOG (dialog)) > 0)
+	res = gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (gnome_dialog_run (GNOME_DIALOG (dialog)) == 0) {
+		float const new_zoom = gtk_spin_button_get_value_as_int(zoom) / 100.;
 		for (l = list->selection; l != NULL ; l = l->next) {
 			Sheet * s = gtk_clist_get_row_data (list, GPOINTER_TO_INT(l->data));
-			printf ("%s\n", s->name);
-#if 0
-			sheet_set_zoom_factor (sheet, zoom);
-#endif
+			sheet_set_zoom_factor (s, new_zoom);
 		}
+	}
+
+	if (res >= 0)
+		gnome_dialog_close (GNOME_DIALOG (dialog));
 }
 
 /* Wrapper to ensure the libglade object gets removed on error */
