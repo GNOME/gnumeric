@@ -310,17 +310,17 @@ else
 	AM_CONDITIONAL(WITH_PYTHON, false)
 fi
 
-enable_bonobo=true
+enable_bonobo=false
 bonobo_msg='temporarily disabled in gnome2'
 AC_ARG_WITH(bonobo,
 	[--{with,without}-bonobo   Use the bonobo UI routines],
-	if test "x$withval" = xno; then
-		enable_bonobo=false
-		bonobo_msg=disabled
+	if test "x$withval" = xyes; then
+		enable_bonobo=true
+		bonobo_msg=yes
 	fi
 )
 dnl gnumeric_bonobo_enabled=$enable_bonobo
-gnumeric_bonobo_enabled=false
+gnumeric_bonobo_enabled=$enable_bonobo
 AM_CONDITIONAL(WITH_BONOBO, $enable_bonobo)
 
 dnl **************************************************
