@@ -21,7 +21,7 @@ dialog_about (void)
         GtkWidget *about;
         const gchar *authors[] = {
 		"Miguel de Icaza, main programmer.",
-		"Daniel Viellard, XML support.",
+		"Daniel Veillard, XML support.",
 		"Chris Lahey, Number format engine.",
 		"Tom Dyas, Plugin support.",
 		"Federico Mena, Canvas support.",

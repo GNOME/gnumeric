@@ -103,6 +103,16 @@ center_cmd (GtkWidget *widget, Workbook *wb)
 	set_selection_halign (wb, HALIGN_CENTER);
 }
 
+/*
+ * change_selection_font
+ * @wb:  The workbook to operate on
+ * @idx: the index in the X Logical font description to try to replace with
+ * @new: list of possible values we want to substitute with.
+ *
+ * Changes the font for the selection for the range: it does this by replacing
+ * the idxth component (counting from zero) of the X logical font description
+ * with the values listed (in order of preference) in the new array.
+ */
 static void
 change_selection_font (Workbook *wb, int idx, char *new[])
 {
@@ -147,6 +157,19 @@ bold_cmd (GtkWidget *widget, Workbook *wb)
 		change_selection_font (wb, 2, normal_names);
 	else
 		change_selection_font (wb, 2, bold_names);
+}
+
+static void
+italic_cmd (GtkWidget *widget, Workbook *wb)
+{
+	GtkToggleButton *t = GTK_TOGGLE_BUTTON (widget);
+	char *italic_names   [] = { "i", "o", NULL };
+	char *normal_names [] = { "r", NULL };
+
+	if (!t->active)
+		change_selection_font (wb, 3, normal_names);
+	else
+		change_selection_font (wb, 3, italic_names);
 }
 
 static void
@@ -443,6 +466,7 @@ static GnomeUIInfo workbook_menu [] = {
 };
 
 #define TOOLBAR_BOLD_BUTTON_INDEX 12
+#define TOOLBAR_ITALIC_BUTTON_INDEX 13
 static GnomeUIInfo workbook_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("New"), N_("Create a new sheet"),
@@ -483,6 +507,10 @@ static GnomeUIInfo workbook_toolbar [] = {
 	GNOMEUIINFO_TOGGLEITEM_DATA (
 		N_("Bold"), N_("Sets the bold attribute on the cell"),
 		bold_cmd, NULL, bold_xpm),
+
+	GNOMEUIINFO_TOGGLEITEM_DATA (
+		N_("Italic"), N_("Sets the italic attribute on the cell"),
+		italic_cmd, NULL, italic_xpm),
 	
 	GNOMEUIINFO_SEPARATOR,
 
@@ -1004,6 +1032,11 @@ workbook_feedback_set (Workbook *workbook, WorkbookFeedbackType type, void *data
 		break;
 		
 	case WORKBOOK_FEEDBACK_ITALIC:
+		t = GTK_TOGGLE_BUTTON (
+			workbook_toolbar [TOOLBAR_ITALIC_BUTTON_INDEX].widget);
+		set = data != NULL;
+
+		gtk_toggle_button_set_state (t, set);
 	}
 }
 

@@ -6,3 +6,4 @@
 #include "pixmaps/arrow.xpm"
 #include "pixmaps/oval.xpm"
 #include "pixmaps/bold.xpm"
+#include "pixmaps/italic.xpm"

@@ -1,5 +1,14 @@
 1998-09-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/workbook.c (workbook_feedback_set): Add italic font setting support.
+
+	* src/cell.c (cell_set_style): Render the value after copying a style.
+
+	* src/clipboard.c (clipboard_paste_region): Add support for
+	pasting the formats only.
+
+	* src/xml-io.c: Destroy the extra style.
+
 	* src/main.c (main): No need to init colors as they are auto-inited.
 
 	* src/style.c (font_compute_hints): At font creation time store a

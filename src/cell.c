@@ -135,6 +135,8 @@ cell_set_style (Cell *cell, Style *reference_style)
 	cell_queue_redraw (cell);
 	style_destroy (cell->style);
 	cell->style = style_duplicate (reference_style);
+	if (cell->value)
+		cell_render_value (cell);
 	cell_calc_dimensions (cell);
 	cell_queue_redraw (cell);
 }

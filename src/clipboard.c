@@ -112,10 +112,11 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet,
 	g_return_if_fail (IS_SHEET (dest_sheet));
 
 	/* Clear the region where we will paste */
-	sheet_clear_region (dest_sheet,
-			    dest_col, dest_row,
-			    dest_col + paste_width - 1,
-			    dest_row + paste_height - 1);
+	if (paste_flags & (PASTE_VALUES | PASTE_FORMULAS))
+		sheet_clear_region (dest_sheet,
+				    dest_col, dest_row,
+				    dest_col + paste_width - 1,
+				    dest_row + paste_height - 1);
 
 	/* If no operations are defined, we clear the area */
 	if (!(paste_flags & PASTE_OP_MASK))
@@ -141,14 +142,22 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet,
 				if (target_row > dest_row + paste_height - 1)
 					continue;
 
-				new_cell = cell_copy (c_copy->cell);
+				if (!(paste_flags & (PASTE_FORMULAS | PASTE_VALUES))){
+					Cell *cell;
+					
+					cell = sheet_cell_get (dest_sheet,
+							       target_col,
+							       target_row);
+					if (cell && c_copy->cell)
+						cell_set_style (cell, c_copy->cell->style);
+				} else {
+					new_cell = cell_copy (c_copy->cell);
 				
-				formulas |= paste_cell (
-					dest_sheet, new_cell,
-					target_col, target_row, paste_flags);
+					formulas |= paste_cell (
+						dest_sheet, new_cell,
+						target_col, target_row, paste_flags);
+				}
 			}
-
-			
 		}
 	}
 	
