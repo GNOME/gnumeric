@@ -1,3 +1,11 @@
+2001-03-31  Zbigniew Chyla  <cyba@gnome.pl>
+
+	Patch from drk@sgi.com
+
+	* py-gnumeric.c: Added function declarations for object methods
+	to avoid declaring forward references for an unsized PyMethodDef
+	arrays.
+
 2001-03-17  Jody Goldberg <jgoldberg@home.com>
 
 	* Makefile.am (SOURCES) : Add missing header.

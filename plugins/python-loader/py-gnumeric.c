@@ -544,7 +544,13 @@ struct _py_CellPos_object {
 	CellPos cell_pos;
 };
 
-static struct PyMethodDef py_CellPos_object_methods[];
+static PyObject *
+py_CellPos_get_tuple_method (py_CellPos_object *self, PyObject *args);
+
+static struct PyMethodDef py_CellPos_object_methods[] = {
+	{"get_tuple", (PyCFunction) py_CellPos_get_tuple_method,   METH_VARARGS},
+	{NULL, NULL}
+};
 
 CellPos *
 py_CellPos_as_CellPos (py_CellPos_object *self)
@@ -605,11 +611,6 @@ py_new_CellPos_object_from_col_row (gint col, gint row)
 	return py_new_CellPos_object (&cell_pos);
 }
 
-static struct PyMethodDef py_CellPos_object_methods[] = {
-	{"get_tuple", (PyCFunction) py_CellPos_get_tuple_method,   METH_VARARGS},
-	{NULL, NULL}
-};
-
 PyTypeObject py_CellPos_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
@@ -644,7 +645,13 @@ struct _py_Range_object {
 	Range range;
 };
 
-static struct PyMethodDef py_Range_object_methods[];
+static PyObject *
+py_Range_get_tuple_method (py_Range_object *self, PyObject *args);
+
+static struct PyMethodDef py_Range_object_methods[] = {
+	{"get_tuple", (PyCFunction) py_Range_get_tuple_method,   METH_VARARGS},
+	{NULL, NULL}
+};
 
 Range *
 py_Range_as_Range (py_Range_object *self)
@@ -707,11 +714,6 @@ py_new_Range_object_from_start_end (const CellPos *start, const CellPos *end)
 	return py_new_Range_object (&range);
 }
 
-static struct PyMethodDef py_Range_object_methods[] = {
-	{"get_tuple", (PyCFunction) py_Range_get_tuple_method,   METH_VARARGS},
-	{NULL, NULL}
-};
-
 PyTypeObject py_Range_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
@@ -746,7 +748,10 @@ struct _py_CellRef_object {
 	CellRef cell_ref;
 };
 
-static struct PyMethodDef py_CellRef_object_methods[];
+static struct PyMethodDef py_CellRef_object_methods[] = {
+/*	{"get_tuple", (PyCFunction) py_CellPos_get_tuple_method,   METH_VARARGS},*/
+	{NULL, NULL}
+};
 
 CellRef *
 py_CellRef_as_CellRef (py_CellRef_object *self)
@@ -779,11 +784,6 @@ py_new_CellRef_object (const CellRef *cell_ref)
 
 	return (PyObject *) self;
 }
-
-static struct PyMethodDef py_CellRef_object_methods[] = {
-/*	{"get_tuple", (PyCFunction) py_CellPos_get_tuple_method,   METH_VARARGS},*/
-	{NULL, NULL}
-};
 
 PyTypeObject py_CellRef_object_type = {
 	PyObject_HEAD_INIT(0)
@@ -819,7 +819,10 @@ struct _py_RangeRef_object {
 	RangeRef range_ref;
 };
 
-static struct PyMethodDef py_RangeRef_object_methods[];
+static struct PyMethodDef py_RangeRef_object_methods[] = {
+/*	{"get_tuple", (PyCFunction) py_RangePos_get_tuple_method,   METH_VARARGS},*/
+	{NULL, NULL}
+};
 
 RangeRef *
 py_RangeRef_as_RangeRef (py_RangeRef_object *self)
@@ -852,11 +855,6 @@ py_new_RangeRef_object (const RangeRef *range_ref)
 
 	return (PyObject *) self;
 }
-
-static struct PyMethodDef py_RangeRef_object_methods[] = {
-/*	{"get_tuple", (PyCFunction) py_RangePos_get_tuple_method,   METH_VARARGS},*/
-	{NULL, NULL}
-};
 
 PyTypeObject py_RangeRef_object_type = {
 	PyObject_HEAD_INIT(0)
@@ -892,7 +890,43 @@ struct _py_MStyle_object {
 	MStyle *mstyle;
 };
 
-static struct PyMethodDef py_MStyle_object_methods[];
+static PyObject *
+py_mstyle_set_font_bold_method (py_MStyle_object *self, PyObject *args);
+static PyObject *
+py_mstyle_get_font_bold_method (py_MStyle_object *self, PyObject *args);
+static PyObject *
+py_mstyle_set_font_italic_method (py_MStyle_object *self, PyObject *args);
+static PyObject *
+py_mstyle_get_font_italic_method (py_MStyle_object *self, PyObject *args);
+static PyObject *
+py_mstyle_set_font_strike_method (py_MStyle_object *self, PyObject *args);
+static PyObject *
+py_mstyle_get_font_strike_method (py_MStyle_object *self, PyObject *args);
+static PyObject *
+py_mstyle_set_font_size_method (py_MStyle_object *self, PyObject *args);
+static PyObject *
+py_mstyle_get_font_size_method (py_MStyle_object *self, PyObject *args);
+static PyObject *
+py_mstyle_set_wrap_text_method (py_MStyle_object *self, PyObject *args);
+static PyObject *
+py_mstyle_get_wrap_text_method (py_MStyle_object *self, PyObject *args);
+static PyObject *
+py_mstyle_merge_method (py_MStyle_object *self, PyObject *args);
+
+static struct PyMethodDef py_MStyle_object_methods[] = {
+	{"set_font_bold",   (PyCFunction) py_mstyle_set_font_bold_method,   METH_VARARGS},
+	{"get_font_bold",   (PyCFunction) py_mstyle_get_font_bold_method,   METH_VARARGS},
+	{"set_font_italic", (PyCFunction) py_mstyle_set_font_italic_method, METH_VARARGS},
+	{"get_font_italic", (PyCFunction) py_mstyle_get_font_italic_method, METH_VARARGS},
+	{"set_font_strike", (PyCFunction) py_mstyle_set_font_strike_method, METH_VARARGS},
+	{"get_font_strike", (PyCFunction) py_mstyle_get_font_strike_method, METH_VARARGS},
+	{"set_font_size",   (PyCFunction) py_mstyle_set_font_size_method,   METH_VARARGS},
+	{"get_font_size",   (PyCFunction) py_mstyle_get_font_size_method,   METH_VARARGS},
+	{"set_wrap_text",   (PyCFunction) py_mstyle_set_wrap_text_method,   METH_VARARGS},
+	{"get_wrap_text",   (PyCFunction) py_mstyle_get_wrap_text_method,   METH_VARARGS},
+	{"merge",           (PyCFunction) py_mstyle_merge_method,           METH_VARARGS},
+	{NULL, NULL}
+};
 
 MStyle *
 py_mstyle_as_MStyle (py_MStyle_object *self)
@@ -1068,21 +1102,6 @@ py_new_MStyle_object (MStyle *mstyle)
 	return (PyObject *) self;
 }
 
-static struct PyMethodDef py_MStyle_object_methods[] = {
-	{"set_font_bold",   (PyCFunction) py_mstyle_set_font_bold_method,   METH_VARARGS},
-	{"get_font_bold",   (PyCFunction) py_mstyle_get_font_bold_method,   METH_VARARGS},
-	{"set_font_italic", (PyCFunction) py_mstyle_set_font_italic_method, METH_VARARGS},
-	{"get_font_italic", (PyCFunction) py_mstyle_get_font_italic_method, METH_VARARGS},
-	{"set_font_strike", (PyCFunction) py_mstyle_set_font_strike_method, METH_VARARGS},
-	{"get_font_strike", (PyCFunction) py_mstyle_get_font_strike_method, METH_VARARGS},
-	{"set_font_size",   (PyCFunction) py_mstyle_set_font_size_method,   METH_VARARGS},
-	{"get_font_size",   (PyCFunction) py_mstyle_get_font_size_method,   METH_VARARGS},
-	{"set_wrap_text",   (PyCFunction) py_mstyle_set_wrap_text_method,   METH_VARARGS},
-	{"get_wrap_text",   (PyCFunction) py_mstyle_get_wrap_text_method,   METH_VARARGS},
-	{"merge",           (PyCFunction) py_mstyle_merge_method,           METH_VARARGS},
-	{NULL, NULL}
-};
-
 PyTypeObject py_MStyle_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
@@ -1117,7 +1136,31 @@ struct _py_Cell_object {
 	Cell *cell;
 };
 
-static struct PyMethodDef py_Cell_object_methods[];
+static PyObject *
+py_Cell_set_text_method (py_Cell_object *self, PyObject *args);
+static PyObject *
+py_Cell_get_mstyle_method (py_Cell_object *self, PyObject *args);
+static PyObject *
+py_Cell_get_value_method (py_Cell_object *self, PyObject *args);
+static PyObject *
+py_Cell_get_value_as_string_method (py_Cell_object *self, PyObject *args);
+static PyObject *
+py_Cell_render_value_method (py_Cell_object *self, PyObject *args);
+static PyObject *
+py_Cell_get_rendered_text_method (py_Cell_object *self, PyObject *args);
+static PyObject *
+py_Cell_get_entered_text_method (py_Cell_object *self, PyObject *args);
+
+static struct PyMethodDef py_Cell_object_methods[] = {
+	{"set_text",            (PyCFunction) py_Cell_set_text_method,            METH_VARARGS},
+	{"get_mstyle",          (PyCFunction) py_Cell_get_mstyle_method,          METH_VARARGS},
+	{"get_value",           (PyCFunction) py_Cell_get_value_method,           METH_VARARGS},
+	{"get_value_as_string", (PyCFunction) py_Cell_get_value_as_string_method, METH_VARARGS},
+	{"render_value",        (PyCFunction) py_Cell_render_value_method,        METH_VARARGS},
+	{"get_rendered_text",   (PyCFunction) py_Cell_get_rendered_text_method,   METH_VARARGS},
+	{"get_entered_text",    (PyCFunction) py_Cell_get_entered_text_method,    METH_VARARGS},
+	{NULL, NULL}
+};
 
 Cell *
 py_Cell_as_Cell (py_Cell_object *self)
@@ -1259,17 +1302,6 @@ py_new_Cell_object (Cell *cell)
 	return (PyObject *) self;
 }
 
-static struct PyMethodDef py_Cell_object_methods[] = {
-	{"set_text",            (PyCFunction) py_Cell_set_text_method,            METH_VARARGS},
-	{"get_mstyle",          (PyCFunction) py_Cell_get_mstyle_method,          METH_VARARGS},
-	{"get_value",           (PyCFunction) py_Cell_get_value_method,           METH_VARARGS},
-	{"get_value_as_string", (PyCFunction) py_Cell_get_value_as_string_method, METH_VARARGS},
-	{"render_value",        (PyCFunction) py_Cell_render_value_method,        METH_VARARGS},
-	{"get_rendered_text",   (PyCFunction) py_Cell_get_rendered_text_method,   METH_VARARGS},
-	{"get_entered_text",    (PyCFunction) py_Cell_get_entered_text_method,    METH_VARARGS},
-	{NULL, NULL}
-};
-
 PyTypeObject py_Cell_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
@@ -1304,7 +1336,34 @@ struct _py_Sheet_object {
 	Sheet *sheet;
 };
 
-static struct PyMethodDef py_Sheet_object_methods[];
+static PyObject *
+py_sheet_cell_fetch_method (py_Sheet_object *self, PyObject *args);
+static PyObject *
+py_sheet_style_get_method (py_Sheet_object *self, PyObject *args);
+static PyObject *
+py_sheet_style_apply_range_method (py_Sheet_object *self, PyObject *args);
+static PyObject *
+py_sheet_style_set_range_method (py_Sheet_object *self, PyObject *args);
+static PyObject *
+py_sheet_style_set_pos_method (py_Sheet_object *self, PyObject *args);
+static PyObject *
+py_sheet_get_extent_method (py_Sheet_object *self, PyObject *args);
+static PyObject *
+py_sheet_rename_method (py_Sheet_object *self, PyObject *args);
+static PyObject *
+py_sheet_get_name_unquoted_method (py_Sheet_object *self, PyObject *args);
+
+static struct PyMethodDef py_Sheet_object_methods[] = {
+	{"cell_fetch",         (PyCFunction) py_sheet_cell_fetch_method,        METH_VARARGS},
+	{"style_get",          (PyCFunction) py_sheet_style_get_method,         METH_VARARGS},
+	{"style_apply_range",  (PyCFunction) py_sheet_style_apply_range_method, METH_VARARGS},
+	{"style_set_range",    (PyCFunction) py_sheet_style_set_range_method,   METH_VARARGS},
+	{"style_set_pos",      (PyCFunction) py_sheet_style_set_pos_method,     METH_VARARGS},
+	{"get_extent",         (PyCFunction) py_sheet_get_extent_method,        METH_VARARGS},
+	{"rename",             (PyCFunction) py_sheet_rename_method,            METH_VARARGS},
+	{"get_name_unquoted",  (PyCFunction) py_sheet_get_name_unquoted_method, METH_VARARGS},
+	{NULL, NULL}
+};
 
 Sheet *
 py_sheet_as_Sheet (py_Sheet_object *self)
@@ -1491,18 +1550,6 @@ py_new_Sheet_object (Sheet *sheet)
 	return (PyObject *) self;
 }
 
-static struct PyMethodDef py_Sheet_object_methods[] = {
-	{"cell_fetch",         (PyCFunction) py_sheet_cell_fetch_method,        METH_VARARGS},
-	{"style_get",          (PyCFunction) py_sheet_style_get_method,         METH_VARARGS},
-	{"style_apply_range",  (PyCFunction) py_sheet_style_apply_range_method, METH_VARARGS},
-	{"style_set_range",    (PyCFunction) py_sheet_style_set_range_method,   METH_VARARGS},
-	{"style_set_pos",      (PyCFunction) py_sheet_style_set_pos_method,     METH_VARARGS},
-	{"get_extent",         (PyCFunction) py_sheet_get_extent_method,        METH_VARARGS},
-	{"rename",             (PyCFunction) py_sheet_rename_method,            METH_VARARGS},
-	{"get_name_unquoted",  (PyCFunction) py_sheet_get_name_unquoted_method, METH_VARARGS},
-	{NULL, NULL}
-};
-
 static PyMappingMethods py_sheet_as_mapping = {
 	0, /* mp_length */
 	(binaryfunc) &py_sheet_subscript,       /* mp_subscript */
@@ -1543,7 +1590,13 @@ struct _py_Workbook_object {
 	Workbook *wb;
 };
 
-static struct PyMethodDef py_Workbook_object_methods[];
+static PyObject *
+py_Workbook_get_sheets_method (py_Workbook_object *self, PyObject *args);
+
+static struct PyMethodDef py_Workbook_object_methods[] = {
+	{"get_sheets", (PyCFunction) py_Workbook_get_sheets_method, METH_VARARGS},
+	{NULL, NULL}
+};
 
 Workbook *
 py_Workbook_as_Workbook (py_Workbook_object *self)
@@ -1603,11 +1656,6 @@ py_new_Workbook_object (Workbook *wb)
 
 	return (PyObject *) self;
 }
-
-static struct PyMethodDef py_Workbook_object_methods[] = {
-	{"get_sheets", (PyCFunction) py_Workbook_get_sheets_method, METH_VARARGS},
-	{NULL, NULL}
-};
 
 PyTypeObject py_Workbook_object_type = {
 	PyObject_HEAD_INIT(0)
@@ -1801,7 +1849,22 @@ struct _py_PluginInfo_object {
 	PluginInfo *pinfo;
 };
 
-static struct PyMethodDef py_PluginInfo_object_methods[];
+static PyObject *
+py_PluginInfo_get_dir_name_method (py_PluginInfo_object *self, PyObject *args);
+static PyObject *
+py_PluginInfo_get_id_method (py_PluginInfo_object *self, PyObject *args);
+static PyObject *
+py_PluginInfo_get_name_method (py_PluginInfo_object *self, PyObject *args);
+static PyObject *
+py_PluginInfo_get_description_method (py_PluginInfo_object *self, PyObject *args);
+
+static struct PyMethodDef py_PluginInfo_object_methods[] = {
+	{"get_dir_name",    (PyCFunction) py_PluginInfo_get_dir_name_method,    METH_VARARGS},
+	{"get_id",          (PyCFunction) py_PluginInfo_get_id_method,          METH_VARARGS},
+	{"get_name",        (PyCFunction) py_PluginInfo_get_name_method,        METH_VARARGS},
+	{"get_description", (PyCFunction) py_PluginInfo_get_description_method, METH_VARARGS},
+	{NULL, NULL}
+};
 
 static PyObject *
 py_PluginInfo_get_dir_name_method (py_PluginInfo_object *self, PyObject *args)
@@ -1875,14 +1938,6 @@ py_new_PluginInfo_object (PluginInfo *pinfo)
 	return (PyObject *) self;
 }
 
-static struct PyMethodDef py_PluginInfo_object_methods[] = {
-	{"get_dir_name",    (PyCFunction) py_PluginInfo_get_dir_name_method,    METH_VARARGS},
-	{"get_id",          (PyCFunction) py_PluginInfo_get_id_method,          METH_VARARGS},
-	{"get_name",        (PyCFunction) py_PluginInfo_get_name_method,        METH_VARARGS},
-	{"get_description", (PyCFunction) py_PluginInfo_get_description_method, METH_VARARGS},
-	{NULL, NULL}
-};
-
 PyTypeObject py_PluginInfo_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
@@ -1946,7 +2001,9 @@ py_gnumeric_Range_method (PyObject *self, PyObject *args)
 
 	if (PyArg_ParseTuple (args, "iiii:Range",
 	                      &start_col, &start_row, &end_col, &end_row)) {
-		CellPos start = {start_col, start_row}, end = {end_col, end_row};
+		CellPos start, end;
+		start.col = start_col; start.row = start_row;
+		end.col = end_col; end.row = end_row;
 		result = py_new_Range_object_from_start_end (&start, &end);
 	} else {
 		PyErr_Clear ();
