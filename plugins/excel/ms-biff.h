@@ -101,10 +101,10 @@ extern void           ms_biff_put_destroy    (BIFF_PUT *);
  **/
 /* For known length records shorter than 0x2000 bytes. */
 extern guint8        *ms_biff_put_len_next   (BIFF_PUT *, guint16 opcode, guint32 len);
-extern void           ms_biff_put_len_commit (BIFF_PUT *);
 /* For unknown length records */
 extern void           ms_biff_put_var_next   (BIFF_PUT *, guint16 opcode);
 extern void           ms_biff_put_var_write  (BIFF_PUT *, guint8 *, guint32 len);
-extern void           ms_biff_put_var_commit (BIFF_PUT *);
+/* Must commit after each record */
+extern void           ms_biff_put_commit     (BIFF_PUT *);
 
 #endif

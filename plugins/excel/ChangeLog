@@ -1,3 +1,16 @@
+1999-05-30  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-write.c: Changed to biff_put_commit
+	throught.
+	(write_fonts): Added more magic numbers.
+
+	* ms-biff.c (ms_biff_put_commit): Added, and made
+	other commits static.
+
+	* ms-excel-write.c: Indenting fixes.
+	(write_constants): CODEPAGE support.
+	(write_workbook): Added missing write_xf call.
+
 1999-05-30  Nick Lamb <njl98r@ecs.soton.ac.uk>
 
 	* ms-formula-read.c (getRefV8, getRefV7): Fix shared

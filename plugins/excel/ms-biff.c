@@ -354,31 +354,6 @@ ms_biff_put_len_next   (BIFF_PUT *bp, guint16 opcode, guint32 len)
 	return bp->data;
 }
 void
-ms_biff_put_len_commit (BIFF_PUT *bp)
-{
-	guint8  tmp[4];
-
-	g_return_if_fail (bp);
-	g_return_if_fail (bp->pos);
-	g_return_if_fail (bp->len_fixed);
-	g_return_if_fail (bp->length == 0 || bp->data);
-	g_return_if_fail (bp->length < MAX_LIKED_BIFF_LEN);
-
-
-/*	if (!bp->data_malloced) Unimplemented optimisation
-		bp->pos->lseek (bp->pos, bp->length, MS_OLE_SEEK_CUR);
-		else */
-	BIFF_SET_GUINT16 (tmp, (bp->ms_op<<8) + bp->ls_op);
-	BIFF_SET_GUINT16 (tmp+2, bp->length);
-	bp->pos->write (bp->pos, tmp, 4);
-	bp->pos->write (bp->pos, bp->data, bp->length);
-
-	g_free (bp->data);
-	bp->data      = 0 ;
-	bp->streamPos  = bp->pos->tell (bp->pos);
-}
-
-void
 ms_biff_put_var_next   (BIFF_PUT *bp, guint16 opcode)
 {
 	guint8 data[4];
@@ -413,7 +388,7 @@ ms_biff_put_var_write  (BIFF_PUT *bp, guint8 *data, guint32 len)
 	bp->pos->write (bp->pos, data, len);
 	bp->length+= len;
 }
-void
+static void
 ms_biff_put_var_commit (BIFF_PUT *bp)
 {
 	guint8       tmp[4];
@@ -434,3 +409,36 @@ ms_biff_put_var_commit (BIFF_PUT *bp)
 	bp->pos->lseek (bp->pos, curpos, MS_OLE_SEEK_SET);
 	bp->streamPos  = curpos;
 }
+static void
+ms_biff_put_len_commit (BIFF_PUT *bp)
+{
+	guint8  tmp[4];
+
+	g_return_if_fail (bp);
+	g_return_if_fail (bp->pos);
+	g_return_if_fail (bp->len_fixed);
+	g_return_if_fail (bp->length == 0 || bp->data);
+	g_return_if_fail (bp->length < MAX_LIKED_BIFF_LEN);
+
+
+/*	if (!bp->data_malloced) Unimplemented optimisation
+		bp->pos->lseek (bp->pos, bp->length, MS_OLE_SEEK_CUR);
+		else */
+	BIFF_SET_GUINT16 (tmp, (bp->ms_op<<8) + bp->ls_op);
+	BIFF_SET_GUINT16 (tmp+2, bp->length);
+	bp->pos->write (bp->pos, tmp, 4);
+	bp->pos->write (bp->pos, bp->data, bp->length);
+
+	g_free (bp->data);
+	bp->data      = 0 ;
+	bp->streamPos  = bp->pos->tell (bp->pos);
+}
+void ms_biff_put_commit (BIFF_PUT *bp)
+{
+	if (bp->len_fixed)
+		ms_biff_put_len_commit (bp);
+	else
+		ms_biff_put_var_commit (bp);
+}
+
+

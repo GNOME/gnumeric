@@ -171,42 +171,49 @@ biff_bof_write (BIFF_PUT *bp, eBiff_version ver,
 		g_warning ("Unknown type\n");
 		break;
 	}
-	ms_biff_put_len_commit (bp);
+	ms_biff_put_commit (bp);
 }
 
 static void
 biff_eof_write (BIFF_PUT *bp)
 {
 	ms_biff_put_len_next (bp, BIFF_EOF, 0);
-	ms_biff_put_len_commit (bp);
+	ms_biff_put_commit (bp);
 }
 
 static void
 write_magic_interface (BIFF_PUT *bp, eBiff_version ver)
 {
-  guint8 *data;
-  if (ver >= eBiffV8) {
-    ms_biff_put_len_next (bp, BIFF_INTERFACEHDR, 0);
-    ms_biff_put_len_commit (bp);
-    data = ms_biff_put_len_next (bp, BIFF_MMS, 2);
-    BIFF_SET_GUINT16(data, 0);
-    ms_biff_put_len_commit (bp);
-    ms_biff_put_len_next (bp, 0xbf, 0);
-    ms_biff_put_len_commit (bp);
-    ms_biff_put_len_next (bp, 0xc0, 0);
-    ms_biff_put_len_commit (bp);
-    ms_biff_put_len_next (bp, BIFF_INTERFACEEND, 0);
-    ms_biff_put_len_commit (bp);
-  }
+	guint8 *data;
+	if (ver >= eBiffV8) {
+		ms_biff_put_len_next (bp, BIFF_INTERFACEHDR, 0);
+		ms_biff_put_commit (bp);
+		data = ms_biff_put_len_next (bp, BIFF_MMS, 2);
+		BIFF_SET_GUINT16(data, 0);
+		ms_biff_put_commit (bp);
+		ms_biff_put_len_next (bp, 0xbf, 0);
+		ms_biff_put_commit (bp);
+		ms_biff_put_len_next (bp, 0xc0, 0);
+		ms_biff_put_commit (bp);
+		ms_biff_put_len_next (bp, BIFF_INTERFACEEND, 0);
+		ms_biff_put_commit (bp);
+	}
 }
 
-/* See: S59E1A.HTM */
 static void
 write_constants (BIFF_PUT *bp, eBiff_version ver)
 {
-  ms_biff_put_var_next (bp, BIFF_WRITEACCESS);
-  biff_put_text (bp, "the Free Software Foundation", ver, TRUE);
-  ms_biff_put_var_commit (bp);
+	guint8 *data;
+
+	/* See: S59E1A.HTM */
+	ms_biff_put_var_next (bp, BIFF_WRITEACCESS);
+	biff_put_text (bp, "the Free Software Foundation", ver, TRUE);
+	ms_biff_put_commit (bp);
+
+	/* See: S59D66.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_CODEPAGE, 2);
+	BIFF_SET_GUINT16 (data, 0x04e4); /* ANSI */
+	ms_biff_put_commit (bp);
 }
 
 /**
@@ -246,7 +253,7 @@ biff_boundsheet_write_first (BIFF_PUT *bp, eBiff_filetype type,
 
 	biff_put_text (bp, name, ver, TRUE);
 
-	ms_biff_put_var_commit (bp);
+	ms_biff_put_commit (bp);
 	return pos;
 }
 
@@ -299,7 +306,7 @@ write_palette (BIFF_PUT *bp, WORKBOOK *wb)
 
 	ms_biff_put_var_write  (bp, data, 10);
 
-	ms_biff_put_var_commit (bp);
+	ms_biff_put_commit (bp);
 
 	return pal;
 }
@@ -331,24 +338,29 @@ write_fonts (BIFF_PUT *bp, WORKBOOK *wb)
 {
 	FONTS *fonts = g_new (FONTS, 1);
 	guint8 data[64];
-
-	fonts->StyleFont_to_idx = g_hash_table_new (g_direct_hash,
-						    g_direct_equal);
-	/* Kludge for now ... */
-	ms_biff_put_var_next (bp, BIFF_FONT);
-
-	BIFF_SET_GUINT16(data + 0, 12*20); /* 12 point */
-	BIFF_SET_GUINT16(data + 2, (0<<1) + (0<<3)); /* italic, struck */
-	BIFF_SET_GUINT16(data + 4, PALETTE_BLACK);
-	BIFF_SET_GUINT16(data + 6, 0x190); /* Normal boldness */
-	BIFF_SET_GUINT16(data + 8, 0); /* 0: Normal, 1; Super, 2: Sub script*/
-	BIFF_SET_GUINT16(data +10, 0); /* No underline */
-	BIFF_SET_GUINT16(data +12, 0); /* ? */
-	ms_biff_put_var_write (bp, data, 14);
-
-	biff_put_text (bp, "Arial", eBiffV7, TRUE);
-
-	ms_biff_put_var_commit (bp);
+	int lp;
+	
+	for (lp=0;lp<8;lp++) { /* FIXME: Magic minimum fonts */
+		fonts->StyleFont_to_idx = g_hash_table_new (g_direct_hash,
+							    g_direct_equal);
+		/* Kludge for now ... */
+		ms_biff_put_var_next (bp, BIFF_FONT);
+		
+		BIFF_SET_GUINT16(data + 0, 12*20); /* 12 point */
+		BIFF_SET_GUINT16(data + 2, (0<<1) + (0<<3)); /* italic, struck */
+/*		BIFF_SET_GUINT16(data + 4, PALETTE_BLACK); */
+		BIFF_SET_GUINT16(data + 4, 0x7fff); /* Magic ! */
+		BIFF_SET_GUINT16(data + 6, 0x190); /* Normal boldness */
+		BIFF_SET_GUINT16(data + 8, 0); /* 0: Normal, 1; Super, 2: Sub script*/
+		BIFF_SET_GUINT16(data +10, 0); /* No underline */
+		BIFF_SET_GUINT16(data +12, 0); /* ? */
+		BIFF_SET_GUINT8 (data +13, 0xa5); /* Magic from StarOffice should be 0 ! */
+		ms_biff_put_var_write (bp, data, 14);
+		
+		biff_put_text (bp, "Arial", eBiffV7, TRUE);
+		
+		ms_biff_put_commit (bp);
+	}
 
 	return fonts;
 }
@@ -392,7 +404,7 @@ write_xf_record (BIFF_PUT *bp, Style *style, eBiff_version ver)
 		BIFF_SET_GUINT16(data+8,  (PALETTE_WHITE<<7) + PALETTE_WHITE);
 		ms_biff_put_var_write (bp, data, 20);
 	}
-	ms_biff_put_var_commit (bp);
+	ms_biff_put_commit (bp);
 }
 
 struct _XF {
@@ -456,7 +468,7 @@ write_value (BIFF_PUT *bp, Value *v, eBiff_version ver,
 		EX_SETCOL(data, col);
 		EX_SETXF (data, xf);
 		BIFF_SET_GUINT32 (data + 6, (vint<<2) + head);
-		ms_biff_put_len_commit (bp);
+		ms_biff_put_commit (bp);
 		break;
 	}
 	case VALUE_FLOAT:
@@ -467,7 +479,7 @@ write_value (BIFF_PUT *bp, Value *v, eBiff_version ver,
 			EX_SETCOL(data, col);
 			EX_SETXF (data, xf);
 			BIFF_SETDOUBLE (data + 6, v->v.v_float);
-			ms_biff_put_len_commit (bp);
+			ms_biff_put_commit (bp);
 		} else { /* Nasty RK thing S59DDA.HTM */
 			guint8 data[16];
 
@@ -478,7 +490,7 @@ write_value (BIFF_PUT *bp, Value *v, eBiff_version ver,
 			EX_SETXF (data, xf);
 			data[6] &= 0xfc;
 			ms_biff_put_var_write  (bp, data, 10); /* Yes loose it. */
-			ms_biff_put_var_commit (bp);
+			ms_biff_put_commit (bp);
 		}
 		break;
 	}
@@ -497,7 +509,7 @@ write_value (BIFF_PUT *bp, Value *v, eBiff_version ver,
 		EX_SETSTRLEN (data, strlen(v->v.str->str));
 		ms_biff_put_var_write  (bp, data, 8);
 		biff_put_text (bp, v->v.str->str, eBiffV7, FALSE);
-		ms_biff_put_var_commit (bp);
+		ms_biff_put_commit (bp);
 		break;
 	}
 	default:
@@ -590,8 +602,9 @@ write_workbook (BIFF_PUT *bp, Workbook *gwb, eBiff_version ver)
 
 	write_magic_interface (bp, ver);
 	write_constants (bp, ver);
-	wb->pal   = write_palette (bp, wb);
 	wb->fonts = write_fonts (bp, wb);
+	write_xf (bp, wb);
+	wb->pal   = write_palette (bp, wb);
 
 	for (lp=0;lp<wb->sheets->len;lp++) {
 		s = g_ptr_array_index (wb->sheets, lp);
@@ -661,7 +674,7 @@ ms_excel_write_workbook (MS_OLE *file, Workbook *wb,
 
 	/* Kludge to make sure the file is a Big Block file */
 	ms_biff_put_len_next   (bp, 0,0x1000);
-	ms_biff_put_len_commit (bp);
+	ms_biff_put_commit (bp);
 
 	ms_biff_put_destroy    (bp);
 
