@@ -237,35 +237,6 @@ g_slist_map (GSList *list, GnmMapFunc map_func)
 }
 
 /**
- * g_strsplit_to_list:
- * @string: String to split
- * @delimiter: Token delimiter
- *
- * Splits up string into tokens at delim and returns a string list.
- *
- * Return value: string list which you should free after use using function
- * e_free_string_list().
- *
- */
-GList *
-g_strsplit_to_list (gchar const *string, gchar const *delimiter)
-{
-	gchar **token_v;
-	GList *string_list = NULL;
-	gint i;
-
-	token_v = g_strsplit (string, delimiter, 0);
-	if (token_v != NULL) {
-		for (i = 0; token_v[i] != NULL; i++) {
-			string_list = g_list_prepend (string_list, token_v[i]);
-		}
-		string_list = g_list_reverse (string_list);
-		g_free (token_v);
-	}
-
-	return string_list;
-}
-/**
  * g_strsplit_to_slist:
  * @string: String to split
  * @delimiter: Token delimiter

@@ -677,7 +677,8 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 		} else
 			g_warning ("General category not found");
 
-		e_free_string_list (names_list);
+		g_list_foreach (names_list, (GFunc)g_free, NULL);
+		g_list_free (names_list);
 
 		cb_category_popwin_hide (GTK_WIDGET (state->category), state);
 	}

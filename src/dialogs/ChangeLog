@@ -1,3 +1,8 @@
+2002-10-11  Morten Welinder  <terra@diku.dk>
+
+	* dialog-autoformat.c (dialog_autoformat): Elminate
+	e_free_string_list usage.
+
 2002-10-09  Jody Goldberg <jody@gnome.org>
 
 	* dialog-define-names.c (cb_name_guru_destroy) : fix warning.

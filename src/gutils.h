@@ -20,7 +20,6 @@ int	  g_str_compare	     (void const *x, void const *y);
 GList    *g_create_list	     (gpointer item1, ...);
 gint      g_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func);
 void      g_list_free_custom (GList *list, GFreeFunc free_func);
-GList    *g_strsplit_to_list (const gchar *string, const gchar *delimiter);
 #define GNM_LIST_FOREACH(list,valtype,val,stmnt) \
 G_STMT_START { \
 	GList *gnm_l; \

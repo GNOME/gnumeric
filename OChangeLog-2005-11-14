@@ -1,3 +1,7 @@
+2002-10-11  Morten Welinder  <terra@diku.dk>
+
+	* src/gutils.c (g_strsplit_to_list): Delete.
+
 2002-10-11  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Remove plugins/python/Makefile
