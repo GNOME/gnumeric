@@ -671,16 +671,19 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 	return solver_run (wbc, sheet, alg, errmsg);
 }
 
-/* FIXME */
+
 SolverParameters *
 solver_lp_copy (const SolverParameters *src_param, Sheet *new_sheet)
 {
 	SolverParameters *dst_param = solver_param_new ();
-	GSList   *constraints;
-	GSList   *inputs;
+	GSList           *constraints;
+	GSList           *inputs;
 
 	if (src_param->target_cell != NULL)
-	        dst_param->target_cell = solver_get_target_cell (new_sheet);
+	        dst_param->target_cell =
+		        sheet_cell_fetch (new_sheet,
+					  src_param->target_cell->pos.col,
+					  src_param->target_cell->pos.row);
 
 	dst_param->problem_type = src_param->problem_type;
 	g_free (dst_param->input_entry_str);
@@ -716,6 +719,12 @@ solver_lp_copy (const SolverParameters *src_param, Sheet *new_sheet)
 					 (gpointer) new_cell);
 	}
 	dst_param->input_cells = g_slist_reverse (dst_param->input_cells);
+
+	dst_param->n_constraints       = src_param->n_constraints;
+	dst_param->n_variables         = src_param->n_variables;
+	dst_param->n_int_constraints   = src_param->n_int_constraints;
+	dst_param->n_bool_constraints  = src_param->n_bool_constraints;
+	dst_param->n_total_constraints = src_param->n_total_constraints;
 
 	return dst_param;
 }

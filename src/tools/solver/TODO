@@ -2,7 +2,6 @@
 
 1.1 For Gnumeric 1.2
 
-	* Fix bug: solver parameters when the sheet is duplicated.
 	* Add `keep original values dialog'.
 	  - Add show iteration results list into it.
 	* Clean up dialog-solver.c.
