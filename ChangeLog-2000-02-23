@@ -1,3 +1,10 @@
+2000-01-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-util.c (gnumeric_dialog_run) : Handle the setting of
+	  the parent here rather than scattering it throughout the system.
+
+	* src/item-grid.c (item_grid_event) : Support mouse-wheel scrolling.
+
 2000-01-26  Jon K Hellan  <hellan@acm.org>
 
 	* src/item-cursor.c (item_cursor_draw): Clip to bounds of

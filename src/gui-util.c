@@ -27,10 +27,6 @@ gnumeric_notice (Workbook *wb, const char *type, const char *str)
 
 	dialog = gnome_message_box_new (str, type, GNOME_STOCK_BUTTON_OK, NULL);
 
-	if (wb)
-		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
-					 GTK_WINDOW (wb->toplevel));
-
 	gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 }
 
@@ -41,9 +37,12 @@ gnumeric_notice (Workbook *wb, const char *type, const char *str)
 gint
 gnumeric_dialog_run (Workbook *wb, GnomeDialog *dialog)
 {
-#if 0
 	gint res;
 	GtkObject * const app = GTK_OBJECT (wb->toplevel);
+
+	if (wb)
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
+					 GTK_WINDOW (wb->toplevel));
 
 	gtk_object_ref (app);
 	res = gnome_dialog_run (dialog);
@@ -52,18 +51,13 @@ gnumeric_dialog_run (Workbook *wb, GnomeDialog *dialog)
 	if (res < 0 && GTK_OBJECT_DESTROYED (app))
 		gnome_dialog_close (dialog);
 
-	gtk_object_unref (app);
-	return res;
-#else
-	/* FIXME : For now we are just a simple wrapper.
-	 * After the release of .48 we should :
-	 * 1) Move the set_parent call into here.
+	/* TODO :
 	 * 2) Handle destruction of the dialog 
 	 * 3) Handle the more interesting case of exiting of the
 	 *    main window.
 	 */
-	return gnome_dialog_run (dialog);
-#endif
+	gtk_object_unref (app);
+	return res;
 }
 
 int

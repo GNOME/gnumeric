@@ -581,8 +581,6 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 		sort_flow.clauses[lp] = NULL;
 
 	/* Build the rest of the dialog */
-	gnome_dialog_set_parent (GNOME_DIALOG (sort_flow.dialog), 
-				 GTK_WINDOW (sort_flow.wb->toplevel));
 	gnome_dialog_close_hides(GNOME_DIALOG (sort_flow.dialog), TRUE);
 	
 	sort_flow.clause_box = gtk_vbox_new (FALSE, FALSE);
@@ -640,21 +638,3 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 	
 	gtk_object_unref (GTK_OBJECT (gui));
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -297,9 +297,6 @@ workbook_import (Workbook *parent, const char *filename)
 	gtk_widget_show (contents);
 	/* End of hack */
 
-	if (parent != NULL)
-		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
-					 GTK_WINDOW (parent->toplevel));
 	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
 
 	clist = GTK_CLIST (glade_xml_get_widget (gui, "import-clist"));

@@ -180,7 +180,6 @@ gnumeric_printer_dialog_run (PrintRange *range, Workbook *wb)
 				     GTK_EDITABLE(pw->entry_filename));
 
 	gtk_window_set_modal (GTK_WINDOW (printer_dialog), TRUE);
-	gnome_dialog_set_parent (GNOME_DIALOG (printer_dialog), GTK_WINDOW(wb->toplevel));
 	bn = gnumeric_dialog_run (wb, GNOME_DIALOG (printer_dialog));
 	
 	if (bn < 0)

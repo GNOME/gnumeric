@@ -264,8 +264,6 @@ dialog_define_names (Workbook *wb)
 		printf ("Corrupt file names.glade\n");
 		return;
 	}
-	gnome_dialog_set_parent (GNOME_DIALOG (state.dia), 
-				 GTK_WINDOW (wb->toplevel));
  	gnome_dialog_editable_enters(GNOME_DIALOG(state.dia), 
 				     GTK_EDITABLE(state.name));
  	gnome_dialog_editable_enters(GNOME_DIALOG(state.dia), 

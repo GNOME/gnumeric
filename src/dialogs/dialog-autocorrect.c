@@ -285,8 +285,6 @@ exceptions_callback (GtkWidget *widget, autocorrect_t *p)
 	}
 
 	gtk_widget_hide (p->dia);
-	gnome_dialog_set_parent (GNOME_DIALOG (dia),
-				 GTK_WINDOW (p->wb->toplevel));
 
 	e1.entry = glade_xml_get_widget (gui, "entry1");
 	e1.list = glade_xml_get_widget (gui, "clist1");
@@ -396,9 +394,6 @@ dialog_autocorrect (Workbook *wb)
 		printf ("Corrupt file autocorrect.glade\n");
 		return;
 	}
-
-	gnome_dialog_set_parent (GNOME_DIALOG (dia),
-				 GTK_WINDOW (wb->toplevel));
 
 	p.wb = wb;
 	p.dia = dia;

@@ -1071,14 +1071,36 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_BUTTON_RELEASE:
 		item_grid_stop_sliding (item_grid);
 
-		if (event->button.button == 1){
+		switch (event->button.button) {
+		case 1 :
 			if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
 				sheet_make_cell_visible (sheet, sheet->cursor_col, sheet->cursor_row);
 
 			item_grid->selecting = ITEM_GRID_NO_SELECTION;
 			gnome_canvas_item_ungrab (item, event->button.time);
 			return 1;
-		}
+
+		case 4 : /* Roll Up or Left */
+		case 5 : /* Roll Down or Right */
+			if ((event->button.state & GDK_MOD1_MASK)) {
+				col = gsheet->col.last_full - gsheet->col.first;
+				if (event->button.button == 4)
+					col = MAX (gsheet->col.first - col, 0);
+				else
+					col = MIN (gsheet->col.last_full , SHEET_MAX_COLS-1);
+				gnumeric_sheet_set_left_col (gsheet, col);
+			} else {
+				row = gsheet->row.last_full - gsheet->row.first;
+				if (event->button.button == 4)
+					row = MAX (gsheet->row.first - row, 0);
+				else
+					row = MIN (gsheet->row.last_full , SHEET_MAX_ROWS-1);
+				gnumeric_sheet_set_top_row (gsheet, row);
+			}
+			return 1;
+		default:
+			return 0;
+		};
 		break;
 
 	case GDK_MOTION_NOTIFY:

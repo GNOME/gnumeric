@@ -44,7 +44,6 @@ dialog_get_number (Workbook *wb, const char *glade_file, double *init_and_return
 	}
 	gnome_dialog_editable_enters (dialog, GTK_EDITABLE (entry));
 
-	gnome_dialog_set_parent (dialog, GTK_WINDOW (wb->toplevel));
 	switch (gnumeric_dialog_run (wb, dialog)){
 	case 1:			/* cancel */
 		res = FALSE;
@@ -87,7 +86,6 @@ dialog_get_sheet_name (Workbook *wb, const char *current)
 
 	gnome_dialog_editable_enters (dialog, GTK_EDITABLE (entry));	
 
-	gnome_dialog_set_parent (dialog, GTK_WINDOW (wb->toplevel));
 	switch (gnumeric_dialog_run (wb, dialog)){
 	case 1:			/* cancel */
 		break;

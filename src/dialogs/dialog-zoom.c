@@ -122,9 +122,6 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 		return;
 	}
 
-	/* Make the dialog a child of the application so that it will iconify */
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (wb->toplevel));
-
 	/* Hitting enter in the spin box should Press 'Ok' */
 	gnome_dialog_editable_enters (GNOME_DIALOG(dialog),
 				      GTK_EDITABLE(zoom));

@@ -109,9 +109,6 @@ dialog_solver_options (Workbook *wb, Sheet *sheet)
 		return;
 	}
 
-	gnome_dialog_set_parent (GNOME_DIALOG (dia),
-				 GTK_WINDOW (wb->toplevel));
-
 	linearmodel = glade_xml_get_widget (gui, "linearmodel");
         if (old_lm)
 	        gtk_toggle_button_set_active ((GtkToggleButton *)
@@ -220,9 +217,6 @@ constr_add_click (gpointer data)
 					   NULL);
 
 		gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
-		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
-					 GTK_WINDOW 
-					 (constraint_dialog->wb->toplevel));
 		box = gtk_hbox_new (FALSE, 0);
 
 		lhs_entry = hbox_pack_label_and_entry

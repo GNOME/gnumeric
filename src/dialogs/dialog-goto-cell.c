@@ -45,8 +45,6 @@ dialog_goto_cell (Workbook *wb)
 					   NULL);
 		gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
 		gnome_dialog_set_default(GNOME_DIALOG(dialog), GNOME_OK);
-		gnome_dialog_set_parent (GNOME_DIALOG (dialog), 
-					    GTK_WINDOW(wb->toplevel));
 
 		swin = gtk_scrolled_window_new (NULL, NULL);
 		clist = gtk_clist_new_with_titles (1, titles);

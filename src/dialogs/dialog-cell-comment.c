@@ -28,7 +28,6 @@ dialog_cell_comment (Workbook *wb, Cell *cell)
 		NULL);
 	
 	gnome_dialog_set_default (GNOME_DIALOG(dialog), GNOME_OK);
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (wb->toplevel));
 
 	text = gtk_text_new (NULL, NULL);
 	gtk_text_set_editable (GTK_TEXT (text), TRUE);

@@ -283,7 +283,7 @@ static char *sample_method_ops [] = {
 };
 
 static GtkWidget *
-new_dialog(char *name, GtkWidget *win)
+new_dialog(char *name)
 {
         GtkWidget *dialog;
 
@@ -294,7 +294,6 @@ new_dialog(char *name, GtkWidget *win)
 
 	gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
 	gnome_dialog_set_default (GNOME_DIALOG(dialog), GNOME_OK);
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (win));
 
 	return dialog;
 }
@@ -463,7 +462,7 @@ dialog_correlation_tool (Workbook *wb, Sheet *sheet)
 	label_row_flag = labels;
 
 	if (!dialog) {
-	        dialog = new_dialog(_("Correlation"), wb->toplevel);
+	        dialog = new_dialog(_("Correlation"));
 
 		box = gtk_vbox_new (FALSE, 0);
 
@@ -544,7 +543,7 @@ dialog_covariance_tool (Workbook *wb, Sheet *sheet)
 	label_row_flag = labels;
 
 	if (!dialog) {
-	        dialog = new_dialog(_("Covariance"), wb->toplevel);
+	        dialog = new_dialog(_("Covariance"));
 
 		box = gtk_vbox_new (FALSE, 0);
 
@@ -621,7 +620,7 @@ dialog_sampling_tool (Workbook *wb, Sheet *sheet)
 	int   i=0, size;
 
 	if (!dialog) {
-	        dialog = new_dialog(_("Sampling"), wb->toplevel);
+	        dialog = new_dialog(_("Sampling"));
 
 		box = gtk_vbox_new (FALSE, 0);
 
@@ -732,7 +731,7 @@ dialog_descriptive_stat_tool (Workbook *wb, Sheet *sheet)
 	label_row_flag = labels;
 
 	if (!dialog) {
-	        dialog = new_dialog(_("Descriptive Statistics"), wb->toplevel);
+	        dialog = new_dialog(_("Descriptive Statistics"));
 
 		box = gtk_vbox_new (FALSE, 0);
 
@@ -828,8 +827,7 @@ dialog_ztest_tool (Workbook *wb, Sheet *sheet)
 	label_row_flag = labels;
 
 	if (!dialog) {
-	        dialog = new_dialog(_("z-Test: Two Sample for Means"),
-				    wb->toplevel);
+	        dialog = new_dialog(_("z-Test: Two Sample for Means"));
 
 		box = gtk_vbox_new (FALSE, 0);
 
@@ -945,8 +943,7 @@ dialog_ttest_paired_tool (Workbook *wb, Sheet *sheet)
 	label_row_flag = labels;
 
 	if (!dialog) {
-	        dialog = new_dialog(_("t-Test: Paired Two Sample for Means"),
-				    wb->toplevel);
+	        dialog = new_dialog(_("t-Test: Paired Two Sample for Means"));
 
 		box = gtk_vbox_new (FALSE, 0);
 
@@ -1050,8 +1047,7 @@ dialog_ttest_eq_tool (Workbook *wb, Sheet *sheet)
 	label_row_flag = labels;
 
 	if (!dialog) {
-	        dialog = new_dialog(_("t-Test: Two-Sample Assuming Equal Variances"),
-				    wb->toplevel);
+	        dialog = new_dialog(_("t-Test: Two-Sample Assuming Equal Variances"));
 
 		box = gtk_vbox_new (FALSE, 0);
 
@@ -1156,8 +1152,7 @@ dialog_ttest_neq_tool (Workbook *wb, Sheet *sheet)
 
 	if (!dialog) {
 	        dialog = new_dialog(_("t-Test: Two-Sample Assuming "
-				    "Unequal Variances"),
-				    wb->toplevel);
+				    "Unequal Variances"));
 
 		box = gtk_vbox_new (FALSE, 0);
 
@@ -1259,8 +1254,7 @@ dialog_ftest_tool (Workbook *wb, Sheet *sheet)
 	static Range range_input1, range_input2;
 
 	if (!dialog) {
-	        dialog = new_dialog(_("F-Test: Two-Sample for Variances"),
-				    wb->toplevel);
+	        dialog = new_dialog(_("F-Test: Two-Sample for Variances"));
 
 		box = gtk_vbox_new (FALSE, 0);
 		vbox = new_frame("Input:", box);
@@ -1410,7 +1404,7 @@ dialog_random_tool (Workbook *wb, Sheet *sheet)
 	int   output;
 
 	if (!dialog) {
-	        dialog = new_dialog(_("Random Number Generation"), wb->toplevel);
+	        dialog = new_dialog(_("Random Number Generation"));
 
 	        distribution_type_strs =
 		  add_strings_to_glist (distribution_strs);
@@ -1625,7 +1619,7 @@ dialog_regression_tool (Workbook *wb, Sheet *sheet)
 				       value in the checkbox instead of this 
 				       global, but I don't know GTK very well*/
 
-	        dialog = new_dialog(_("Regression"), wb->toplevel);
+	        dialog = new_dialog(_("Regression"));
 
 		box = gtk_vbox_new (FALSE, 0);
 		vbox = new_frame(_("Input:"), box);
@@ -1747,7 +1741,7 @@ dialog_average_tool (Workbook *wb, Sheet *sheet)
 	static Range range;
 
 	if (!dialog) {
-	        dialog = new_dialog(_("Moving Average"), wb->toplevel);
+	        dialog = new_dialog(_("Moving Average"));
 
 		box = gtk_vbox_new (FALSE, 0);
 		vbox = new_frame(_("Input:"), box);
@@ -1837,7 +1831,7 @@ dialog_ranking_tool (Workbook *wb, Sheet *sheet)
 	label_row_flag = labels;
 
 	if (!dialog) {
-	        dialog = new_dialog(_("Rank and Percentile"), wb->toplevel);
+	        dialog = new_dialog(_("Rank and Percentile"));
 
 		box = gtk_vbox_new (FALSE, 0);
 
@@ -1920,7 +1914,7 @@ dialog_anova_single_factor_tool (Workbook *wb, Sheet *sheet)
 	label_row_flag = labels;
 
 	if (!dialog) {
-	        dialog = new_dialog(_("Anova: Single Factor"), wb->toplevel);
+	        dialog = new_dialog(_("Anova: Single Factor"));
 
 		box = gtk_vbox_new (FALSE, 0);
 
@@ -2008,8 +2002,7 @@ dialog_anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet)
 	label_row_flag = labels;
 
 	if (!dialog) {
-	        dialog = new_dialog(_("Anova: Two-Factor Without Replication"),
-				    wb->toplevel);
+	        dialog = new_dialog(_("Anova: Two-Factor Without Replication"));
 
 		box = gtk_vbox_new (FALSE, 0);
 
@@ -2104,9 +2097,6 @@ dialog_data_analysis (Workbook *wb, Sheet *sheet)
                 printf ("Corrupt file analysis-tools.glade\n");
                 return;
         }
-
-        gnome_dialog_set_parent (GNOME_DIALOG (dialog),
-                                 GTK_WINDOW (wb->toplevel));
 
         tool_list = glade_xml_get_widget (gui, "clist1");
 	gtk_signal_connect (GTK_OBJECT(tool_list), "select_row",

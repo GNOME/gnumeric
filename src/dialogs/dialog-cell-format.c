@@ -1949,9 +1949,6 @@ fmt_dialog_impl (FormatState *state, MStyleBorder **borders)
 	GtkWidget *dialog = glade_xml_get_widget (state->gui, "CellFormat");
 	g_return_if_fail (dialog != NULL);
 
-	/* Make the dialog a child of the application so that it will iconify */
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog),
-				 GTK_WINDOW (state->sheet->workbook->toplevel));
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Format Cells"));
 
 	/* Initialize */

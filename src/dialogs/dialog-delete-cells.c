@@ -34,10 +34,6 @@ dialog_delete_cells_impl (Workbook *wb, Sheet *sheet, GladeXML  *gui)
 	radio_0 = glade_xml_get_widget (gui, "radio_0");
 	g_return_if_fail (radio_0 != NULL);
 
-	/* Make dialog a child of the application so that it will iconify */
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog), 
-				    GTK_WINDOW (wb->toplevel));
-
 	/* Bring up the dialog */
 	res = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
 	if (res == GNOME_OK) {

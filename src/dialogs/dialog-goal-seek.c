@@ -278,8 +278,6 @@ dialog_goal_seek (Workbook *wb, Sheet *sheet)
                                            GNOME_STOCK_BUTTON_CANCEL,
                                            NULL);
                 gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
-		gnome_dialog_set_parent (GNOME_DIALOG (dialog),
-					 GTK_WINDOW (wb->toplevel));
 		gnome_dialog_set_default (GNOME_DIALOG(dialog), GNOME_OK);
 
                 set_entry = gnumeric_dialog_entry_new_with_max_length 

@@ -26,6 +26,7 @@ typedef struct _CellRef		CellRef;
 typedef struct _Range		Range;
 
 typedef struct _MStyle		MStyle;
+typedef enum   _MStyleElementType MStyleElementType;
 typedef struct _SheetStyleData	SheetStyleData;
 typedef struct _StyleRegion	StyleRegion;
 typedef struct _SheetSelection	SheetSelection;

@@ -111,8 +111,6 @@ dialog_summary_update (Workbook *wb, SummaryInfo *sin)
 					     GTK_EDITABLE(entry));
 	}
 	
-	gnome_dialog_set_parent (GNOME_DIALOG (dia),
-				 GTK_WINDOW (wb->toplevel));
 	summary_put (gui, sin);
 
 	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));

@@ -633,7 +633,6 @@ item_cursor_target_region_ok (ItemCursor *item_cursor)
 		GNOME_STOCK_BUTTON_NO,
 		NULL);
 	window = gtk_widget_get_toplevel (GTK_WIDGET (canvas));
-	gnome_dialog_set_parent (GNOME_DIALOG (message), GTK_WINDOW (window));
 	v = gnumeric_dialog_run (item_cursor->sheet->workbook, GNOME_DIALOG (message));
 
 	if (v == 0)

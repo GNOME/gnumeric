@@ -63,9 +63,6 @@ dialog_advanced_filter (Workbook *wb)
 		return;
 	}
 
-	gnome_dialog_set_parent (GNOME_DIALOG (dia),
-				 GTK_WINDOW (wb->toplevel));
-
 	list_range = glade_xml_get_widget (gui, "entry1");
 	criteria_range = glade_xml_get_widget (gui, "entry2");
 	copy_to = glade_xml_get_widget (gui, "entry3");

@@ -44,8 +44,6 @@ dialog_autosave_callback (gpointer *data)
 			        printf("Corrupt file autosave-prompt.glade\n");
 				return 0;
 			}
-			gnome_dialog_set_parent (GNOME_DIALOG (dia),
-						 GTK_WINDOW (wb->toplevel));
 
 			v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
 			if (v != -1)
@@ -93,9 +91,6 @@ dialog_autosave (Workbook *wb)
 		printf ("Corrupt file autosave.glade\n");
 		return;
 	}
-
-	gnome_dialog_set_parent (GNOME_DIALOG (dia),
-				 GTK_WINDOW (wb->toplevel));
 
 	autosave_on_off = glade_xml_get_widget (gui, "autosave_on_off");
 

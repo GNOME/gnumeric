@@ -732,8 +732,6 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 		GNOME_STOCK_BUTTON_OK,
 		GNOME_STOCK_BUTTON_CANCEL,
 		NULL);
-	gnome_dialog_set_parent (GNOME_DIALOG (dpi->dialog),
-				 GTK_WINDOW (dpi->sheet->workbook->toplevel));
 	gtk_window_set_policy (GTK_WINDOW (dpi->dialog), FALSE, TRUE, TRUE);
 
 	notebook = glade_xml_get_widget (dpi->gui, "print-setup-notebook");
@@ -941,8 +939,6 @@ dialog_printer_setup (Workbook *wb, Sheet *sheet)
 	if (!dpi)
 		return;
 
-	gnome_dialog_set_parent (GNOME_DIALOG (dpi->dialog), GTK_WINDOW (wb->toplevel));
-	
 	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dpi->dialog));
 	
 	if (v == 0) {

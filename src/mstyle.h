@@ -1,10 +1,7 @@
 #ifndef GNUMERIC_MSTYLE_H
 #define GNUMERIC_MSTYLE_H
 
-#include <gdk/gdk.h>
-#include <libgnomeprint/gnome-font.h>
-
-typedef enum   _MStyleElementType MStyleElementType;
+#include "gnumeric.h"
 
 /*
  * Keep element_size up to date.
