@@ -85,13 +85,20 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet, int dest_col, int
 		Cell *new_cell;
 
 		/* FIXME: create a cell_copy_flags that uses
-		 * the bits more or less like paste_flags
+		 * the bits more or less like paste_flags.
+		 *
+		 * In the case of cells with expressions,
+		 * we need to "generate" cell->entered_text
+		 * from the formula (to get the relative references
+		 * correctly).
 		 */
 		new_cell = cell_copy (c_copy->cell);
 		
 		sheet_cell_add (dest_sheet, new_cell,
 				dest_col + c_copy->col_offset,
 				dest_row + c_copy->row_offset);
+		if (new_cell->parsed_node)
+			cell_queue_recalc (new_cell);
 	}
 }
 
