@@ -329,6 +329,7 @@ stf_read_default_probe (GnumFileOpener const *fo, const gchar *file_name, FilePr
 	int fd = open (file_name, O_RDONLY);
 	gboolean res;
 	char *data;
+	int len;
 
 	if (fd < 0)
 		return FALSE;
@@ -338,12 +339,14 @@ stf_read_default_probe (GnumFileOpener const *fo, const gchar *file_name, FilePr
 		close (fd);
 		return FALSE;
 	}
-		
-	if (read (fd, data, STF_PROBE_SIZE) < 1) {
+
+	len = read (fd, data, STF_PROBE_SIZE-1);
+	if (len < 1) {
 		g_free (data);
 		close (fd);
 		return FALSE;
 	}
+	data[len] = '\0';
 
 	res = (stf_parse_is_valid_data (data) == NULL);
 	g_free (data);

@@ -7,6 +7,10 @@ J.H.M. Dassen (Ray):
 	* Corrected the OMF file so the docs show up in yelp's help
 	  contents.
 
+Andrew Moise:
+	* Fixed string termination issue in detection of structured text
+	  files.
+
 --------------------------------------------------------------------------
 Gnumeric 1.0.10
 
