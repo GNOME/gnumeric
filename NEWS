@@ -7,6 +7,9 @@ Almer:
 	* Fix validation entry sensitivity.
 
 Jody:
+ 	http://bugzilla.gnome.org/show_bug.cgi?id=83794
+	* Simple autodetection of tab delimited vs csv
+
  	http://bugzilla.gnome.org/show_bug.cgi?id=79735
 	* Avoid mistranslated font names.
 
