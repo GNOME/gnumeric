@@ -93,15 +93,15 @@ sheet_redraw_headers (Sheet const *sheet,
 static guint
 cell_hash (gconstpointer key)
 {
-	const CellPos *ca = (const CellPos *) key;
+	Cell const *cell = key;
 
-	return (ca->row << 8) | ca->col;
+	return (cell->pos.row << 8) | cell->pos.col;
 }
 
 static gint
-cell_compare (CellPos const * a, CellPos const * b)
+cell_compare (Cell const * a, Cell const * b)
 {
-	return (a->row == b->row && a->col == b->col);
+	return (a->pos.row == b->pos.row && a->pos.col == b->pos.col);
 }
 
 void
@@ -784,13 +784,13 @@ inline Cell *
 sheet_cell_get (Sheet const *sheet, int col, int row)
 {
 	Cell *cell;
-	CellPos cellpos;
+	Cell cellpos;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	cellpos.col = col;
-	cellpos.row = row;
+	cellpos.pos.col = col;
+	cellpos.pos.row = row;
 	cell = g_hash_table_lookup (sheet->cell_hash, &cellpos);
 
 	return cell;
@@ -873,7 +873,7 @@ sheet_get_extent (Sheet const *sheet)
 	g_return_val_if_fail (sheet != NULL, r);
 	g_return_val_if_fail (IS_SHEET (sheet), r);
 
-	g_hash_table_foreach(sheet->cell_hash, sheet_get_extent_cb, &r);
+	g_hash_table_foreach(sheet->cell_hash, &sheet_get_extent_cb, &r);
 
 	if (r.start.col >= SHEET_MAX_COLS - 2)
 		r.start.col = 0;
@@ -1865,18 +1865,15 @@ sheet_is_region_empty_or_selected (Sheet *sheet, int start_col, int start_row, i
 static void
 sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 {
-	CellPos *cellpos;
-
 	g_return_if_fail (cell->col_info != NULL);
 	g_return_if_fail (cell->col_info->pos < SHEET_MAX_COLS);
 	g_return_if_fail (cell->row_info != NULL);
 	g_return_if_fail (cell->row_info->pos < SHEET_MAX_ROWS);
 
-	cellpos = g_new (CellPos, 1);
-	cellpos->col = cell->col_info->pos;
-	cellpos->row = cell->row_info->pos;
+	cell->pos.col = cell->col_info->pos;
+	cell->pos.row = cell->row_info->pos;
 
-	g_hash_table_insert (sheet->cell_hash, cellpos, cell);
+	g_hash_table_insert (sheet->cell_hash, cell, cell);
 }
 
 void
@@ -1916,19 +1913,17 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 static void
 sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 {
-	CellPos  cellpos;
-	gpointer original_key;
+	Cell  cellpos;
 
-	cellpos.col = cell->col_info->pos;
-	cellpos.row = cell->row_info->pos;
+	cellpos.pos.col = cell->col_info->pos;
+	cellpos.pos.row = cell->row_info->pos;
 
 	cell_unregister_span   (cell);
 	cell_drop_dependencies (cell);
 
-	if (g_hash_table_lookup_extended (sheet->cell_hash, &cellpos, &original_key, NULL)) {
+	if (g_hash_table_lookup (sheet->cell_hash, &cellpos))
 		g_hash_table_remove (sheet->cell_hash, &cellpos);
-		g_free (original_key);
-	} else
+	else
 		g_warning ("Cell not in hash table |\n");
 }
 

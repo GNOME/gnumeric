@@ -9,10 +9,18 @@
 
 typedef enum {
     /* Cell has an expression rather than entered_text */
-    CELL_HAS_EXPRESSION	   = 1,
+    CELL_HAS_EXPRESSION	   = 0x1,
 
     /* Cell has been queued for recalc */
-    CELL_QUEUED_FOR_RECALC = 2
+    CELL_QUEUED_FOR_RECALC = 0x2,
+
+#if TODO
+    /* Cell has be linked into the workbook wide expression list */
+    CELL_IN_EXPR_LIST	   = 0x4,
+
+    /* Cell is linked into the sheet */
+    CELL_IN_SHEET_LIST	   = 0x8
+#endif
 } CellFlags;
 
 typedef struct _CellComment CellComment;
@@ -20,6 +28,7 @@ typedef struct _CellComment CellComment;
 /* Definition of a Gnumeric Cell */
 struct _Cell {
 	/* Mandatory state information */
+	CellPos	     pos;
 	CellFlags    cell_flags;
 	Sheet       *sheet;
 	ColRowInfo  *col_info;

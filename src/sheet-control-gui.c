@@ -23,6 +23,7 @@
 #include "selection.h"
 #include "application.h"
 #include "cellspan.h"
+#include "cmd-edit.h"
 
 static GtkTableClass *sheet_view_parent_class;
 
@@ -467,8 +468,7 @@ sheet_view_row_size_changed (ItemBar *item_bar, int row, int height, SheetView *
 static void
 button_select_all (GtkWidget *the_button, SheetView *sheet_view)
 {
-	sheet_select_all (sheet_view->sheet);
-	sheet_redraw_all (sheet_view->sheet);
+	cmd_select_all (sheet_view->sheet);
 }
 
 static void

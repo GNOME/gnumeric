@@ -28,6 +28,7 @@
 #include "sheet-private.h"
 #include "cell-comment.h"
 #include "rendered-value.h"
+#include "cmd-edit.h"
 
 #define verify(cond)          if (!(cond)){ out_of_range (ev); return; }
 #define verify_val(cond,val)  if (!(cond)){ out_of_range (ev); return (val); }
@@ -138,8 +139,7 @@ static void
 Sheet_select_all (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
-       
-	sheet_select_all (sheet);
+	cmd_select_all (sheet);
 }
 
 static CORBA_boolean

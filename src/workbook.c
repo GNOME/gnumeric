@@ -40,6 +40,7 @@
 #include "wizard.h"
 #include "gutils.h"
 #include "rendered-value.h"
+#include "cmd-edit.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/bonobo-persist-file.h>
@@ -709,13 +710,31 @@ delete_sheet_cmd (GtkWidget *widget, Workbook *wb)
 	sheet_action_delete_sheet (widget, wb->current_sheet);
 }
 
+/* Callbacjs for the selection commands */
 static void
-select_all_cmd (GtkWidget *widget, Workbook *wb)
+cb_edit_select_all (GtkWidget *widget, Workbook *wb)
 {
-	Sheet *sheet = wb->current_sheet;
-
-	sheet_select_all (sheet);
-	sheet_redraw_all (sheet);
+	cmd_select_all (wb->current_sheet);
+}
+static void
+cb_edit_select_row (GtkWidget *widget, Workbook *wb)
+{
+	cmd_select_cur_row (wb->current_sheet);
+}
+static void
+cb_edit_select_col (GtkWidget *widget, Workbook *wb)
+{
+	cmd_select_cur_col (wb->current_sheet);
+}
+static void
+cb_edit_select_array (GtkWidget *widget, Workbook *wb)
+{
+	cmd_select_cur_array (wb->current_sheet);
+}
+static void
+cb_edit_select_depends (GtkWidget *widget, Workbook *wb)
+{
+	cmd_select_cur_depends (wb->current_sheet);
 }
 
 static void
@@ -838,6 +857,10 @@ zoom_cmd (GtkWidget *widget, Workbook *wb)
 	dialog_zoom (wb, sheet);
 }
 
+/***********************************************************************/
+/* Sheet preferences */
+
+static void
 static void
 cb_cell_rerender (gpointer cell, gpointer data)
 {
@@ -845,10 +868,6 @@ cb_cell_rerender (gpointer cell, gpointer data)
         sheet_redraw_cell (cell);
 }
 
-/***********************************************************************/
-/* Sheet preferences */
-
-static void
 cb_sheet_pref_display_formulas (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
@@ -1168,6 +1187,34 @@ static GnomeUIInfo workbook_menu_edit_clear [] = {
 
 #define GNOME_MENU_EDIT_PATH D_("_Edit/")
 
+static GnomeUIInfo workbook_menu_edit_select [] = {
+	{ GNOME_APP_UI_ITEM, N_("Select _All"),
+	  N_("Select all cells in the spreadsheet"),
+	  &cb_edit_select_all, NULL,
+	  NULL, 0, 0, 'a', GDK_CONTROL_MASK },
+
+	{ GNOME_APP_UI_ITEM, N_("Select _Row"),
+	  N_("Select an entire row"),
+	  &cb_edit_select_row, NULL,
+	  NULL, 0, 0, ' ', GDK_SHIFT_MASK },
+
+	{ GNOME_APP_UI_ITEM, N_("Select _Column"),
+	  N_("Select an entire column"),
+	  &cb_edit_select_col, NULL,
+	  NULL, 0, 0, ' ', GDK_CONTROL_MASK },
+
+	{ GNOME_APP_UI_ITEM, N_("Select Arra_y"),
+	  N_("Select an entire column"),
+	  &cb_edit_select_array, NULL,
+	  NULL, 0, 0, '/', GDK_CONTROL_MASK },
+
+	{ GNOME_APP_UI_ITEM, N_("Select _Depends"),
+	  N_("Select all the cells that depend on the current edit cell."),
+	  & cb_edit_select_depends, NULL,
+	  NULL, 0, 0, 0, 0 },
+	GNOMEUIINFO_END
+};
+
 static GnomeUIInfo workbook_menu_edit [] = {
 	GNOMEUIINFO_MENU_UNDO_ITEM(undo_cmd, NULL),
 	GNOMEUIINFO_MENU_REDO_ITEM(redo_cmd, NULL),
@@ -1195,10 +1242,7 @@ static GnomeUIInfo workbook_menu_edit [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	/* Default <Ctrl-A> to be select all */
-	{ GNOME_APP_UI_ITEM, N_("_Select All"),
-	  N_("Select all cells in the spreadsheet"), select_all_cmd, NULL,
-	  NULL, 0, 0, 'a', GDK_CONTROL_MASK },
+	GNOMEUIINFO_SUBTREE(N_("_Select..."), &workbook_menu_edit_select),
 
 	/* Default <Ctrl-I> to be goto */
 	{ GNOME_APP_UI_ITEM, N_("_Goto cell..."),

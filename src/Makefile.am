@@ -58,6 +58,8 @@ GNUMERIC_BASE_SOURCES =				\
 	cellspan.h				\
 	clipboard.c				\
 	clipboard.h				\
+	cmd-edit.h				\
+	cmd-edit.c				\
 	collect.h				\
 	collect.c				\
 	color.c					\

@@ -630,31 +630,12 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		}
 	}
 
-	/* If not editing {Ctrl,Shift}space select a full col/row */
-	if (!wb->editing && event->keyval == GDK_space) {
-
-		/* select full column */
-		if ((event->state & GDK_CONTROL_MASK) != 0) {
-			sheet_selection_reset_only (sheet);
-			sheet_selection_add_range (sheet,
-				sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row,
-				sheet->cursor.edit_pos.col, 0,
-				sheet->cursor.edit_pos.col, SHEET_MAX_ROWS-1);
-			sheet_redraw_all (sheet);
-			return 1;
-		}
-
-		/* select full row */
-		if ((event->state & GDK_SHIFT_MASK) != 0){
-			sheet_selection_reset_only (sheet);
-			sheet_selection_add_range (sheet,
-				sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row,
-				0, sheet->cursor.edit_pos.row,
-				SHEET_MAX_COLS-1, sheet->cursor.edit_pos.row);
-			sheet_redraw_all (sheet);
-			return 1;
-		}
-	}
+	/*
+	 * Magic : Some of these are accelerators,
+	 * we need to catch them before entering because they appear to be printable
+	 */
+	if (event->keyval == GDK_space && (event->state & (GDK_SHIFT_MASK|GDK_CONTROL_MASK)) )
+		return FALSE;
 
 	switch (event->keyval){
 	case GDK_KP_Left:

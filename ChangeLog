@@ -1,3 +1,18 @@
+2000-05-21  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cmd-edit.[ch] : New files.
+
+	* src/workbook.c (cb_edit_select_*) : Use the cmd-edit utilities.
+	Make a 'select' sub menu of edit.
+
+	* src/sheet.c : Use the newly added CellPos in each Cell rather than
+	  mallocing a seperate struct.
+
+	* src/selection.c (sheet_select_all) : Move.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : Make the
+	  selection commands accelerators.
+
 2000-05-21  Jon K Hellan  <hellan@acm.org>
 
 	* src/gnumeric-util.[ch] (gnumeric_toolbar_insert_with_eventbox):

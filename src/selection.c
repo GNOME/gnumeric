@@ -229,26 +229,6 @@ sheet_selection_extend (Sheet *sheet, int n, gboolean jump_to_boundaries,
 	sheet_make_cell_visible (sheet, tmp.col, tmp.row);
 }
 
-/**
- * sheet_select_all:
- * Sheet: The sheet
- *
- * Selects all of the cells in the sheet
- */
-void
-sheet_select_all (Sheet *sheet)
-{
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	sheet_selection_reset_only (sheet);
-	sheet_selection_add_range (sheet, 0, 0, 0, 0,
-				   SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
-
-	/* Queue redraws for columns and rows */
-	sheet_redraw_headers (sheet, TRUE, TRUE, NULL);
-}
-
 gboolean
 sheet_is_all_selected (Sheet const * const sheet)
 {

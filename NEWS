@@ -1,5 +1,8 @@
 Gnumeric 0.55
 
+Jody:
+	* Speedup workbook exit, copy/paste.
+
 Translations:
 	* Updated: de (Karl), ja (Oka), no (Kjartan), and more.
 
@@ -12,7 +15,6 @@ Jacob:
 Jody:
 	* Bug fixes.
 	* Initial applix import.
-	* Speedup workbook exit, copy/paste.
 	* Improve row/col insert/del.
 
 JonKare:

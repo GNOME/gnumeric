@@ -90,7 +90,7 @@ struct _ExprArray {
 	int       ref_count;
 
 	int   x, y;
-	int   rows, cols;
+	int   cols, rows;
 	union {
 		/* Upper left corner */
 		struct {
