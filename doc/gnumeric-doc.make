@@ -13,19 +13,19 @@ sgml_ents = functions.xml
 EXTRA_DIST +=					\
 	topic.dat				\
 	func.defs				\
-	func-header.sgml func-footer.sgml	\
-	func-list.sgml
+	func-header.sgml func-footer.xml	\
+	func-list.xml
 
-$(srcdir)/functions.sgml: $(srcdir)/func-list.sgml $(srcdir)/func-header.sgml $(srcdir)/func-footer.sgml
-	cd $(srcdir) && cat func-header.sgml func-list.sgml func-footer.sgml > "$@"
+$(srcdir)/functions.xml: $(srcdir)/func-list.xml $(srcdir)/func-header.xml $(srcdir)/func-footer.xml
+	cd $(srcdir) && cat func-header.xml func-list.xml func-footer.xml > "$@"
 
-$(srcdir)/func-list.sgml: $(srcdir)/func.defs $(gnumeric_docdir)/make-func-list.pl
+$(srcdir)/func-list.xml: $(srcdir)/func.defs $(gnumeric_docdir)/make-func-list.pl
 	cd $(srcdir) && perl $(gnumeric_docdir)/make-func-list.pl func.defs > "$@"
 
 $(srcdir)/func.defs: 
 	LC_ALL="$(locale)" ; export LC_ALL ; $(top_builddir)/src/gnumeric --dump-func-defs="$@"
 
-include $(gnumeric_docdir)/sgmldocs.make
+include $(gnumeric_docdir)/xmldocs.make
 
 dist-hook: app-dist-hook
 
