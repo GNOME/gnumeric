@@ -1165,9 +1165,11 @@ static GnomeUIInfo workbook_toolbar [] = {
 		N_("Graphic"), N_("Creates a graphic in the spreadsheet"),
 		create_graphic_cmd, NULL, graphic_xpm),
 #endif
+#if 0
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Button"), N_("Creates a button object"),
 		create_button_cmd, NULL, button_xpm),
+#endif
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Line"), N_("Creates a line object"),
 		create_line_cmd, NULL, line_xpm),

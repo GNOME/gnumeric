@@ -1,5 +1,7 @@
 1999-09-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/workbook.c: Remove sample button from the toolbar.
+
 	* src/item-bar.c (item_bar_event): Use the item_bar->resize_pos
 	computed during button press. #2090 fixed
 
