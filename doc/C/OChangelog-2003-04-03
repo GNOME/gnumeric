@@ -1,3 +1,9 @@
+2001-12-28  Alexander Kirillov  <kirillov@math.sunysb.edu>
+
+	* gnumeric.sgml: changed license to FDL, added FDL as an appendix
+	* fdl-appendix.sgml: added
+	* authors.sgml: updated, added link to gnome-feedback. 
+
 2001-12-28  Aaron Weber  <aaron@ximian.com>
 
 	* editing.sgml: revised and clarified. polish.

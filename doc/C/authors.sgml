@@ -13,32 +13,33 @@
         Alan Cox <email>alan@redhat.com</email>,
         Vincent Renardias <email>vincent@ldsol.com</email>,
         Jody Goldberg <email>jgoldberg@home.com</email>,
-        Morten Welinder <email>terra@diku.dk</email>
-
-   . To find more information about
+        Morten Welinder <email>terra@diku.dk</email>. 
+  To find more information about
    <application>Gnumeric</application>, please visit the <ulink
    url="http://www.gnome.org/gnumeric" type="http">Gnumeric Web
-   page</ulink>.  Please send all comments, suggestions, and bug
-   reports to the <ulink url="http://bugzilla.gnome.org" type="http">GNOME
-   bug tracking database</ulink>.  If you are using
-   GNOME 1.1 or later, you can also use <application>Bug Report
-   Tool</application> (<command>bug-buddy</command>), available in the
-   <guisubmenu>Utilities</guisubmenu> submenu of <guimenu>Main
-   Menu</guimenu>, for submitting bug reports.
+   page</ulink>.  
   </para>
 
   <para>
    This manual was written by Thomas Canty
-   (<email>tommydal@ihug.com.au</email>), Miguel deIcaza (<email>miguel@gnu.org</email>),
-   Adrian Likins (<email>adrian@gimp.org</email>) and Jukka-Pekka Iivonen 
-  (<email>jiivonen@hutcs.cs.hut.fi</email>. Please send all comments and
-   suggestions regarding this manual to the <ulink type="http"
-   url="http://www.gnome.org/gdp">GNOME Documentation Project</ulink>
-   by sending an email to <email>docs@gnome.org</email>. You can also
-   add your comments online by using the <ulink type="http"
-   url="http://www.gnome.org/gdp/doctable/">GNOME Documentation Status
-   Table</ulink>.
+   (<email>tommydal@ihug.com.au</email>), Miguel de Icaza
+   (<email>miguel@gnu.org</email>), Adrian Likins
+   (<email>adrian@gimp.org</email>), Jukka-Pekka Iivonen
+   (<email>jiivonen@hutcs.cs.hut.fi</email>), Andreas J. Guelzow, and
+   Adrian Custer. 
   </para>
+
+  <para>
+    If you have some comments or suggestions regarding this
+   application or documentation, need help, or want to report a bug,
+   plese contact us!  Instructions for doing so are given in <ulink
+   type="help" url="ghelp:gnome-feedback"><citetitle>Reporting GNOME
+   bugs and other feedback</citetitle></ulink> document, which you can
+   find in the <guilabel>Help</guilabel> tab of
+   <application>Nautilus</application> file manager.
+  </para>
+
+
 
   <!-- For translations: uncomment this:
 
