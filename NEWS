@@ -38,6 +38,7 @@ Morten:
 	* Vastly improve sorting speed for large ranges with formulas.
 	  [#161909]
 	* Fix Help->Contents accelerator.  [#162865]
+	* Make general format use "E", not "e", as appropriate.
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.1

@@ -1966,8 +1966,7 @@ fmt_general_float (GString *result, gnm_float val, double col_width)
 	else if (prec > GNUM_DIG)
 		prec = GNUM_DIG;
 
-	/* FIXME : glib bug.  it does not handle G, use g (fixed in 1.2.9) */
-	g_string_append_printf (result, "%.*" GNUM_FORMAT_g, prec, val);
+	g_string_append_printf (result, "%.*" GNUM_FORMAT_G, prec, val);
 }
 
 /**
@@ -1991,9 +1990,8 @@ fmt_general_int (GString *result, int val, int col_width)
 
 		/* Switch to scientific notation if things are too wide */
 		if (log_val > col_width) {
-			/* FIXME : glib bug.  it does not handle G, use g */
 			/* Decrease available width by 5 to account for .+E00 */
-			g_string_append_printf (result, "%.*g", col_width - 5, (double)val);
+			g_string_append_printf (result, "%.*G", col_width - 5, (double)val);
 			return;
 		}
 	}

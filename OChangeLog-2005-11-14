@@ -1,5 +1,11 @@
 2005-01-04  Morten Welinder  <terra@gnome.org>
 
+	* src/format.c (fmt_general_float): Use GNUM_FORMAT_G.  The days
+	of glib <1.2.9 are over.
+	(fmt_general_int): Ditto.
+
+	* src/numbers.h (GNUM_FORMAT_G): Add.
+
 	* src/wbcg-actions.c: Fix Help->Contents and Edit->Clear->Contents
 	accelerators.
 

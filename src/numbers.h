@@ -109,6 +109,7 @@ gnm_float yngnum (int n, gnm_float x);
 #define GNUM_FORMAT_E "LE"
 #define GNUM_FORMAT_f "Lf"
 #define GNUM_FORMAT_g "Lg"
+#define GNUM_FORMAT_G "LG"
 #define GNUM_DIG LDBL_DIG
 #define GNUM_MANT_DIG LDBL_MANT_DIG
 #define GNUM_MIN_EXP LDBL_MIN_EXP
@@ -202,6 +203,7 @@ gnm_float atanh (gnm_float x);
 #define GNUM_FORMAT_E "E"
 #define GNUM_FORMAT_f "f"
 #define GNUM_FORMAT_g "g"
+#define GNUM_FORMAT_G "G"
 #define GNUM_DIG DBL_DIG
 #define GNUM_MANT_DIG DBL_MANT_DIG
 #define GNUM_MIN_EXP DBL_MIN_EXP
