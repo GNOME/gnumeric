@@ -1,3 +1,10 @@
+1999-05-25  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c: Really large overhaul of directory stuff, now
+	all chaining is stored in a tree in memory and the read /
+	write side is cleanly separate. All functions touched.
+	Breaks directory writing.
+
 1999-05-24  Michael Meeks  <michael@imaginator.com>
 
 	* ms-ole.c (write_sb): Fixed up sbf chain.

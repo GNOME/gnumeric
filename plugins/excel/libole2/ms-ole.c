@@ -72,7 +72,8 @@ typedef struct _PPS PPS;
 
 struct _PPS {
 	char    *name;
-	PPS_IDX  next, prev, dir, pps;
+	GList   *children;
+	PPS     *parent;
 	guint32  size;
 	BLP      start;
 	PPS_TYPE type;
@@ -175,9 +176,9 @@ dump_header (MS_OLE *f)
 {
 	int lp;
 	printf ("--------------------------MS_OLE HEADER-------------------------\n");
-	printf ("Num BBD Blocks : %d Root %d, SB blocks %d\n",
+	printf ("Num BBD Blocks : %d Root %%d, SB blocks %d\n",
 		f->bb?f->bb->len:-1,
-		f->pps?f->pps->len:-1,
+/*		f->pps?f->pps->len:-1, */
 		f->sb?f->sb->len:-1);
 	printf ("-------------------------------------------------------------\n");
 }
@@ -200,7 +201,7 @@ characterise_block (MS_OLE *f, BLP blk, char **ans)
 	g_return_if_fail (f->bb);
 	g_return_if_fail (f->pps);
 
-	for (lp=0;lp<f->pps->len;lp++) {
+/*	for (lp=0;lp<f->pps->len;lp++) {
 		PPS *p = g_ptr_array_index (f->pps, lp);
 		BLP cur = p->start;
 		while (cur != END_OF_CHAIN) {
@@ -215,6 +216,31 @@ characterise_block (MS_OLE *f, BLP blk, char **ans)
 			}
 			cur = NEXT_BB(f, cur);
 		}
+		}*/
+}
+
+static void
+dump_tree (GList *list, int indent)
+{
+	PPS *p;
+	int lp;
+	char indentstr[64];
+	g_return_if_fail (indent<60);
+
+	for (lp=0;lp<indent;lp++)
+		indentstr[lp]= '-';
+	indentstr[lp]=0;
+
+	while (list) {
+		p = list->data;
+		if (p) {
+			printf ("%s '%s' - %d\n",
+				indentstr, p->name, p->size);
+			if (p->children)
+				dump_tree (p->children, indent+1);
+		} else
+			printf ("%s NULL!\n", indentstr);
+		list = g_list_next (list);
 	}
 }
 
@@ -224,12 +250,6 @@ dump_allocation (MS_OLE *f)
 	int lp;
 	char *blktype;
 
-	printf ("--------------------------MS_OLE HEADER-------------------------\n");
-	printf ("Num BBD Blocks : %d Root %d, SB blocks %d\n",
-		f->bb?f->bb->len:-1,
-		f->pps?f->pps->len:-1,
-		f->sb?f->sb->len:-1);
-
 	for (lp=0;lp<f->bb->len;lp++) {
 		characterise_block (f, lp, &blktype);
 		printf ("Block %d -> block %d ( '%s' )\n", lp,
@@ -238,13 +258,8 @@ dump_allocation (MS_OLE *f)
 	}
 	
 	if (f->pps) {
-		printf ("Root blocks : %d\n", f->pps->len);
-		for (lp=0;lp<f->pps->len;lp++) {
-			PPS *p = g_ptr_array_index (f->pps, lp);
-			printf ("root_list[%d] = '%s' "
-				" ( <-%d, V %d, %d->)\n", lp, p->name?p->name:"Null",
-				p->prev, p->dir, p->next);
-		}
+		printf ("Root blocks : %d\n", f->num_pps); 
+		dump_tree (f->pps, 0);
 	} else
 		printf ("No root yet\n");
 /*	
@@ -462,42 +477,151 @@ next_free_sb (MS_OLE *f)
 	return blk;
 }
 
-static PPS *
-pps_decode (guint8 *mem)
+static guint8 *
+get_pps_ptr (MS_OLE *f, PPS_IDX i)
 {
-	PPS *pps     = g_new (PPS, 1);
-	pps->name    = pps_get_text  (mem, PPS_GET_NAME_LEN(mem));
-	pps->type    = PPS_GET_TYPE  (mem);
-	pps->size    = PPS_GET_SIZE  (mem);
-	if (pps->name) {
-		pps->next    = PPS_GET_NEXT  (mem);
-		pps->prev    = PPS_GET_PREV  (mem);
-		pps->dir     = PPS_GET_DIR   (mem);
-		pps->start   = PPS_GET_STARTBLOCK (mem);
-	} else { /* Make safe */
-		pps->next    = PPS_END_OF_CHAIN;
-		pps->prev    = PPS_END_OF_CHAIN;
-		pps->dir     = PPS_END_OF_CHAIN;
-		pps->start   = PPS_END_OF_CHAIN;
+	int lp;
+	BLP blk = GET_ROOT_STARTBLOCK (f);
+	lp = i/(BB_BLOCK_SIZE/PPS_BLOCK_SIZE);
+	while (lp && blk != END_OF_CHAIN) {
+		if (blk == SPECIAL_BLOCK ||
+		    blk == UNUSED_BLOCK) {
+			printf ("Duff block in root chain\n");
+			return 0;
+		}
+		lp--;
+		blk = NEXT_BB(f, blk);
 	}
+	if (blk == END_OF_CHAIN) {
+		printf ("Serious error finding pps %d\n", i);
+		return 0;
+	}
+	return BBPTR(f, blk) + (i%(BB_BLOCK_SIZE/PPS_BLOCK_SIZE))*PPS_BLOCK_SIZE;
+}
+
+static gint
+pps_compare_func (PPS *a, PPS *b)
+{
+	g_return_val_if_fail (a, 0);
+	g_return_val_if_fail (b, 0);
+	g_return_val_if_fail (a->name, 0);
+	g_return_val_if_fail (b->name, 0);
+	
+	return (g_strcasecmp (a->name, b->name) == 0);
+}
+
+static void
+pps_decode_tree (MS_OLE *f, PPS_IDX p, PPS *parent)
+{
+	PPS    *pps, *tpps;
+	guint8 *mem;
+	GList  *tmp;
+       
+	if (p == PPS_END_OF_CHAIN)
+		return;
+
+	pps           = g_new (PPS, 1);
+	mem           = get_pps_ptr (f, p);
+	pps->name     = pps_get_text  (mem, PPS_GET_NAME_LEN(mem));
+	pps->type     = PPS_GET_TYPE  (mem);
+	pps->size     = PPS_GET_SIZE  (mem);
+	pps->children = NULL;
+	pps->parent   = parent;
+	if (!pps->name) { /* Make safe */
+		printf ("how odd: blank named file in directory\n");
+		g_free (pps);
+		return;
+	}
+
+	f->num_pps++;
+	
+	if (parent) {
+#if OLE_DEBUG > 0
+		printf ("Inserting '%s' into '%s'\n", pps->name, parent->name);
+#endif
+		parent->children = g_list_insert_sorted (parent->children, pps,
+							 (GCompareFunc)pps_compare_func);
+	}
+	else {
+#if OLE_DEBUG > 0
+		printf ("Setting root to '%s'\n", pps->name);
+#endif
+		f->pps = g_list_append (0, pps);
+	}
+
+	if (PPS_GET_NEXT(mem) != PPS_END_OF_CHAIN)
+		pps_decode_tree (f, PPS_GET_NEXT(mem), parent);
+		
+	if (PPS_GET_PREV(mem) != PPS_END_OF_CHAIN)
+		pps_decode_tree (f, PPS_GET_PREV(mem), parent);
+
+	if (PPS_GET_DIR (mem) != PPS_END_OF_CHAIN)
+		pps_decode_tree (f, PPS_GET_DIR(mem), pps);
+
+	pps->start   = PPS_GET_STARTBLOCK (mem);
+	
 #if OLE_DEBUG > 1
 	printf ("PPS decode : '%s'\n", pps->name?pps->name:"Null");
 	dump (mem, PPS_BLOCK_SIZE);
 #endif
-	return pps;
+	return;
+}
+
+static int
+read_pps (MS_OLE *f)
+{
+	GPtrArray *ans = g_ptr_array_new ();
+
+	g_return_val_if_fail (f, 0);
+
+	f->num_pps = 0;
+	pps_decode_tree (f, PPS_ROOT_BLOCK, NULL);
+
+	if (g_list_length (f->pps) < 1 ||
+	    g_list_length (f->pps) > 1) {
+		printf ("Invalid root chain\n");
+		return 0;
+	} else if (!f->pps->data) {
+		printf ("No root entry\n");
+		return 0;
+	}
+
+	{ /* Free up the root chain */
+		BLP blk, last;
+		last = blk = GET_ROOT_STARTBLOCK (f);
+		while (blk != END_OF_CHAIN) {
+			last = blk;
+			blk = NEXT_BB(f, blk);
+			g_array_index (f->bb, BLP, last) = UNUSED_BLOCK;
+		}
+	}
+	
+	if (!f->pps) {
+		printf ("Root directory too small\n");
+		return 0;
+	}
+	return 1;
 }
 
 static void
-pps_encode (guint8 *mem, PPS *pps)
+pps_encode_tree (MS_OLE *f, GList *list, PPS_IDX *p, PPS_IDX next, PPS_IDX prev)
 {
 	int lp, max;
+	guint8 *mem;
+	PPS    *pps;
 
-	g_return_if_fail (pps);
+	g_return_if_fail (list);
+	g_return_if_fail (list->data);
+	
+	pps = list->data;
+	mem = get_pps_ptr (f, *p);
+	(*p)++;
+
+	printf ("pre pre alpha code...\n");
 	
 	/* Blank stuff I don't understand */
 	for (lp=0;lp<PPS_BLOCK_SIZE;lp++)
 		SET_GUINT8(mem+lp, 0);
-
 	if (pps->name) {
 		max = strlen (pps->name);
 		if (max >= (PPS_BLOCK_SIZE/4))
@@ -505,10 +629,9 @@ pps_encode (guint8 *mem, PPS *pps)
 		for (lp=0;lp<max;lp++)
 			SET_GUINT16(mem + lp*2, pps->name[lp]);
 	} else {
-		printf ("No name %d\n", pps->pps);
+		printf ("No name %d\n", *p);
 		max = -1;
 	}
-	
 	PPS_SET_NAME_LEN(mem, (max+1)*2);
 	
 	/* Magic numbers */
@@ -519,85 +642,45 @@ pps_encode (guint8 *mem, PPS *pps)
 
 	PPS_SET_TYPE (mem, pps->type);
 	PPS_SET_SIZE (mem, pps->size);
-	PPS_SET_NEXT (mem, pps->next);
-	PPS_SET_PREV (mem, pps->prev);
-	PPS_SET_DIR  (mem, pps->dir);
         PPS_SET_STARTBLOCK(mem, pps->start);
-}
+	PPS_SET_NEXT (mem, next);
+	PPS_SET_PREV (mem, prev);
 
-static int
-read_pps (MS_OLE *f)
-{
-	BLP blk;
-	GPtrArray *ans = g_ptr_array_new ();
+/*	if (pps->dir) {
+		PPS_SET_DIR  (mem, pps->dir);
+		}*/
 
-	g_return_val_if_fail (f, 0);
-
-	blk = GET_ROOT_STARTBLOCK (f);
-#if OLE_DEBUG > 0
-	printf ("Root start block %d\n", blk);
-#endif
-	while (blk != END_OF_CHAIN) {
-		int lp;
-		BLP last;
-
-		if (blk == SPECIAL_BLOCK ||
-		    blk == UNUSED_BLOCK) {
-			printf ("Duff block in root chain\n");
-			return 0;
-		}
-
-		for (lp=0;lp<BB_BLOCK_SIZE/PPS_BLOCK_SIZE;lp++) {
-			PPS *p  = pps_decode(BBPTR(f,blk) + lp*PPS_BLOCK_SIZE);
-			p->pps  = lp;
-			g_ptr_array_add (ans, p);
-		}
-		last = blk;
-		blk = NEXT_BB(f, blk);
-		g_array_index (f->bb, BLP, last) = UNUSED_BLOCK;
-	}
-	
-	f->pps = ans;
-	if (f->pps->len < 1) {
-		printf ("Root directory too small\n");
-		return 0;
-	}
-	return 1;
+	g_free      (pps->name);
+	g_free      (pps);
+/*	g_list_free (pps); */
 }
 
 static int
 write_pps (MS_OLE *f)
 {
-	int ppslp;
+	int lp;
+	PPS_IDX idx;
 	BLP blk  = END_OF_CHAIN;
 	BLP last = END_OF_CHAIN;
 
-	for (ppslp=0;ppslp<f->pps->len;ppslp++) {
-		PPS *cur;
-		if (ppslp%(BB_BLOCK_SIZE/PPS_BLOCK_SIZE)==0) {
-			last  = blk;
-			blk   = next_free_bb (f);
-			g_assert (g_array_index (f->bb, BLP, blk) == UNUSED_BLOCK);
-			if (last != END_OF_CHAIN)
-				g_array_index (f->bb, BLP, last) = blk;
-		        else {
+	/* Build the root chain */
+	for (lp=0;lp<(f->num_pps+(BB_BLOCK_SIZE/PPS_BLOCK_SIZE)-1)/(BB_BLOCK_SIZE/PPS_BLOCK_SIZE);lp++) {
+		last  = blk;
+		blk   = next_free_bb (f);
+		g_assert (g_array_index (f->bb, BLP, blk) == UNUSED_BLOCK);
+		if (last != END_OF_CHAIN)
+			g_array_index (f->bb, BLP, last) = blk;
+		else {
 #if OLE_DEBUG > 0
-				printf ("Set root block to %d\n", blk);
+			printf ("Set root block to %d\n", blk);
 #endif
-				SET_ROOT_STARTBLOCK (f, blk);
-			}
-
-			g_array_index (f->bb, BLP, blk) = END_OF_CHAIN;
+			SET_ROOT_STARTBLOCK (f, blk);
 		}
-		cur = g_ptr_array_index (f->pps, ppslp);
-
-		pps_encode (BBPTR(f,blk) + (ppslp%(BB_BLOCK_SIZE/PPS_BLOCK_SIZE))*PPS_BLOCK_SIZE,
-			    cur);
-		if (cur->name)
-			g_free (cur->name);
-		cur->name = 0;
+		g_array_index (f->bb, BLP, blk) = END_OF_CHAIN;
 	}
-	g_ptr_array_free (f->pps, TRUE);
+
+	idx    = 0;
+	pps_encode_tree (f, f->pps, &idx, PPS_END_OF_CHAIN, PPS_END_OF_CHAIN);
 	f->pps = 0;
 	return 1;
 }
@@ -612,7 +695,7 @@ read_sb (MS_OLE *f)
 	g_return_val_if_fail (f, 0);
 	g_return_val_if_fail (f->pps, 0);
 
-	root = g_ptr_array_index (f->pps, 0);
+	root = f->pps->data;
 	g_return_val_if_fail (root, 0);
 
 	f->sbf = g_array_new (FALSE, FALSE, sizeof(BLP));
@@ -684,7 +767,7 @@ write_sb (MS_OLE *f)
 	g_return_val_if_fail (f, 0);
 	g_return_val_if_fail (f->pps, 0);
 
-	root        = g_ptr_array_index (f->pps, PPS_ROOT_BLOCK);
+	root = f->pps->data;
 
 	if (f->sbf->len * BB_BLOCK_SIZE < f->sb->len*SB_BLOCK_SIZE) {
 		printf ("Not enough descriptor / blocks being written %d %d\n",
@@ -931,15 +1014,13 @@ ms_ole_create (const char *name)
 		f->bb  = g_array_new (FALSE, FALSE, sizeof(BLP));
 		f->sb  = g_array_new (FALSE, FALSE, sizeof(BLP));
 		f->sbf = g_array_new (FALSE, FALSE, sizeof(BLP));
-		f->pps = g_ptr_array_new ();
-		p = g_new(PPS, 1);
-		p->name  = g_strdup ("Root Entry");
-		p->prev  = p->dir = p->next = PPS_END_OF_CHAIN;
-		p->pps   = PPS_ROOT_BLOCK;
-		p->start = END_OF_CHAIN;
-		p->type  = MS_OLE_PPS_ROOT;
-		p->size  = 0;
-		g_ptr_array_add (f->pps, p);
+		p           = g_new(PPS, 1);
+		p->name     = g_strdup ("Root Entry");
+		p->start    = END_OF_CHAIN;
+		p->type     = MS_OLE_PPS_ROOT;
+		p->size     = 0;
+		p->children = 0;
+		f->pps = g_list_append (0, p);
 	}
 	return f;
 }
@@ -1017,7 +1098,7 @@ check_stream (MS_OLE_STREAM *s)
 	g_return_if_fail (s->file);
 
 	f = s->file;
-	p = g_ptr_array_index (f->pps, s->pps);
+	p = s->pps;
 
 	g_return_if_fail (p);
 	blk = p->start;
@@ -1335,7 +1416,7 @@ ms_ole_append_block (MS_OLE_STREAM *s)
 			printf ("Chained Small block %d to previous block %d\n", block, lastblk);
 #endif
 		} else { /* First block in a file */
-			PPS *p = g_ptr_array_index (s->file->pps, s->pps);
+			PPS *p = s->pps;
 #if OLE_DEBUG > 0
 			printf ("Set first Small block to %d\n", block);
 #endif
@@ -1366,7 +1447,7 @@ ms_ole_append_block (MS_OLE_STREAM *s)
 			printf ("Chained Big block %d to block %d\n", block, lastblk);
 #endif
 		} else { /* First block in a file */
-			PPS *p = g_ptr_array_index (s->file->pps, s->pps);
+			PPS *p = s->pps;
 #if OLE_DEBUG > 0
 			printf ("Set first Big block to %d\n", block);
 #endif
@@ -1465,7 +1546,7 @@ ms_ole_write_sb (MS_OLE_STREAM *s, guint8 *ptr, guint32 length)
 		/* Must be exactly filling the block */
 		if (s->size >= BB_THRESHOLD)
 		{
-			PPS         *p = g_ptr_array_index (s->file->pps, s->pps);
+			PPS         *p = s->pps;
 			ms_ole_pos_t oldlen;
 			guint8      *buffer;
 
@@ -1531,10 +1612,11 @@ ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode)
 		return NULL;
 	}
 
-	p           = g_ptr_array_index (f->pps, d->pps);
+	p           = d->pps->data;
+
 	s           = g_new0 (MS_OLE_STREAM, 1);
 	s->file     = f;
-	s->pps      = d->pps;
+	s->pps      = p;
 	s->position = 0;
 	s->size     = p->size;
 	s->blocks   = NULL;
@@ -1622,10 +1704,8 @@ void
 ms_ole_stream_close (MS_OLE_STREAM *s)
 {
 	if (s) {
-		if (s->file && s->file->mode == 'w') {
-			PPS *p  = g_ptr_array_index (s->file->pps, s->pps);
-			p->size = s->size;
-		}
+		if (s->file && s->file->mode == 'w')
+			((PPS *)s->pps)->size = s->size;
 
 		if (s->blocks)
 			g_array_free (s->blocks, TRUE);
@@ -1634,31 +1714,34 @@ ms_ole_stream_close (MS_OLE_STREAM *s)
 }
 
 static MS_OLE_DIRECTORY *
-pps_to_dir (MS_OLE *f, PPS_IDX i, MS_OLE_DIRECTORY *d)
+pps_to_dir (MS_OLE *f, GList *l, MS_OLE_DIRECTORY *d)
 {
 	PPS *p;
 	MS_OLE_DIRECTORY *dir;
 
 	g_return_val_if_fail (f, 0);
+	g_return_val_if_fail (l, 0);
 	g_return_val_if_fail (f->pps, 0);
+	g_return_val_if_fail (l->data, 0);
 	
-	p = g_ptr_array_index (f->pps, i);
+	p = l->data;
 	if (d)
 		dir = d;
 	else
 		dir = g_new (MS_OLE_DIRECTORY, 1);
 	dir->name   = p->name;
 	dir->type   = p->type;
-	dir->pps    = i;
+	dir->pps    = l;
 	dir->length = p->size;
 	dir->file   = f;
+	dir->first  = 0;
 	return dir;
 }
 
 MS_OLE_DIRECTORY *
 ms_ole_get_root (MS_OLE *f)
 {
-	return pps_to_dir (f, PPS_ROOT_BLOCK, NULL);
+	return pps_to_dir (f, f->pps, NULL);
 }
 
 /* You probably arn't too interested in the root directory anyway
@@ -1677,61 +1760,22 @@ ms_ole_directory_new (MS_OLE *f)
 int
 ms_ole_directory_next (MS_OLE_DIRECTORY *d)
 {
-	int offset;
-	PPS_IDX tmp;
-	MS_OLE *f;
-	PPS *p;
-
-	if (!d || !d->file)
+	if (!d || !d->file || !d->pps)
 		return 0;
 
-	f = d->file;
-	
-	/* If its primary just go ahead */
-	if (d->pps != d->primary_entry)
-	{
-		/* Checking back up the chain */
-		offset = 0;
-		tmp = d->primary_entry;
-		while (tmp != PPS_END_OF_CHAIN &&
-		       tmp != d->pps) {
-			p = g_ptr_array_index (f->pps, tmp);
-			tmp = p->prev;
-			offset++;
-		}
-		if (d->pps == PPS_END_OF_CHAIN ||
-		    tmp != PPS_END_OF_CHAIN) {
-			offset--;
-#if OLE_DEBUG > 0
-			printf ("Back trace by %d\n", offset);
-#endif
-			tmp = d->primary_entry;
-			while (offset > 0) {
-				p = g_ptr_array_index (f->pps, tmp);
-				tmp = p->prev;
-				offset--;
-			}
-			pps_to_dir (d->file, tmp, d);
-			if (!d->name) /* Recurse */
-				return ms_ole_directory_next (d);
-			return 1;
-		}
-	}
+	if (d->first) /* Hack for now */
+		d->first = 0;
+	else
+		d->pps = g_list_next (d->pps);
 
-	/* Go down the chain, ignoring the primary entry */
-	p = g_ptr_array_index (f->pps, d->pps);
-	tmp = p->next;
-	if (tmp == PPS_END_OF_CHAIN)
-		return 0;
-	
-	pps_to_dir (d->file, tmp, d);
+	if (!d->pps || !d->pps->data ||
+	    !((PPS *)d->pps->data)->name)
+		return ms_ole_directory_next (d);
+	pps_to_dir (d->file, d->pps, d);
 	
 #if OLE_DEBUG > 0
 	printf ("Forward next '%s' %d %d\n", d->name, d->type, d->length);
 #endif
-	if (!d->name) /* Recurse */
-		return ms_ole_directory_next (d);
-
 	return 1;
 }
 
@@ -1740,11 +1784,13 @@ ms_ole_directory_enter (MS_OLE_DIRECTORY *d)
 {
 	MS_OLE *f;
 	PPS    *p;
-	if (!d || !d->file || d->pps==PPS_END_OF_CHAIN)
+	if (!d || !d->file || !d->pps)
 		return;
 
 	f = d->file;
-	p = g_ptr_array_index (f->pps, d->pps);
+	p = d->pps->data;
+
+	d->first = 1;
 
 	if (d->type != MS_OLE_PPS_STORAGE &&
 	    d->type != MS_OLE_PPS_ROOT) {
@@ -1752,11 +1798,10 @@ ms_ole_directory_enter (MS_OLE_DIRECTORY *d)
 		return;
 	}
 
-	if (p->dir != PPS_END_OF_CHAIN) {
-		d->primary_entry = p->dir;
-		/* So it will wind in from the start on 'next' */
-		d->pps = PPS_END_OF_CHAIN;
-	}
+	if (p->children)
+		d->pps = p->children;
+        else
+		printf ("Can't enter '%s'\n", p->name);
 	return;
 }
 
@@ -1764,51 +1809,24 @@ void
 ms_ole_directory_unlink (MS_OLE_DIRECTORY *d)
 {
 	MS_OLE *f;
-	if (!d || !d->file || d->pps==PPS_END_OF_CHAIN)
+	if (!d || !d->file || !d->pps)
 		return;
 	
 	f = d->file;
 
 	d->file->dirty = 1;
-	if (d->pps != d->primary_entry) {
+
+/* Only problem is: have to find its parent in the tree. */
+/*	if (d->pps != d->primary_entry) {
 		PPS *p = g_ptr_array_index (f->pps, d->pps);
 		if (p->next == PPS_END_OF_CHAIN &&
-		    p->prev == PPS_END_OF_CHAIN) { /* Little, lost & loosely attached */
+		    p->prev == PPS_END_OF_CHAIN) {  Little, lost & loosely attached
 			g_free (p->name);
 			p->name = 0;
 		}
 	}
-	else
-		printf ("Unlink failed\n");
-}
-
-static PPS *
-next_free_pps (MS_OLE *f)
-{
-	PPS_IDX pps = PPS_ROOT_BLOCK;
-	PPS_IDX max_pps = f->pps->len;
-	guint8 mem[PPS_BLOCK_SIZE];
-	int lp;
-	PPS *ans;
-
-	while (pps<max_pps) {
-		PPS *p = g_ptr_array_index (f->pps, pps);
-		if (!p->name || strlen (p->name)==0) {
-			printf ("Blank PPS at %d\n", p->pps);
-			return p;
-		}
-		pps++;
-	}
-
-	for (lp=0;lp<PPS_BLOCK_SIZE;lp++)
-		mem[lp] = 0;
-	
-	ans      = pps_decode (mem);
-	ans->pps = max_pps;
-	g_ptr_array_add (f->pps, ans);
-	g_assert (g_ptr_array_index (f->pps, max_pps) == ans);
-
-	return ans;
+	else */
+	printf ("FIXME: Unlink unimplemented\n");
 }
 
 /**
@@ -1819,62 +1837,38 @@ MS_OLE_DIRECTORY *
 ms_ole_directory_create (MS_OLE_DIRECTORY *d, char *name, PPS_TYPE type)
 {
 	/* Find a free PPS */
-	PPS *p = next_free_pps (d->file);
-	PPS *dp, *prim;
+	PPS *p;
+	PPS *dp;
 	MS_OLE *f = d->file;
-	MS_OLE_DIRECTORY *nd = g_new0 (MS_OLE_DIRECTORY, 1);
 	BLP  startblock;
 	guint8 *mem;
 	int lp=0;
 
-	if (!d || !d->file || d->file->mode != 'w') {
+	if (!d || !d->pps || !d->pps->data ||
+	    !d->file || d->file->mode != 'w') {
 		printf ("Trying to write to readonly file\n");
-		g_free (nd);
 		return NULL;
 	}
 
 	if (!name) {
 		printf ("No name!\n");
-		g_free (nd);
 		return NULL;
 	}
 
 	d->file->dirty = 1;
-	dp = g_ptr_array_index (f->pps, d->pps);
-	
+
+	dp = d->pps->data;
+	p  = g_new (PPS, 1);
 	p->name = g_strdup (name);
-
-	/* Chain into the directory */
-	if (dp->dir == PPS_END_OF_CHAIN) {
-#if OLE_DEBUG > 0
-		printf ("First directory entry\n");
-#endif
-		prim    = p;
-		dp->dir = p->pps;
-		p->dir  = PPS_END_OF_CHAIN;
-		p->next = PPS_END_OF_CHAIN;
-		p->prev = PPS_END_OF_CHAIN;
-	} else { /* FIXME: this should insert in alphabetic order */
-		PPS_IDX oldnext;
-		prim       = g_ptr_array_index (f->pps, dp->dir);
-		oldnext    = prim->next;
-		prim->next = p->pps;
-		p->next    = oldnext;
-		p->prev    = PPS_END_OF_CHAIN;
-		p->dir     = PPS_END_OF_CHAIN;
-#if OLE_DEBUG > 0
-		printf ("New directory entry after %d\n", dp->dir);
-#endif
-	}
-
 	p->type  = type;
 	p->size  = 0;
 	p->start = END_OF_CHAIN;
+	
+	dp->children = g_list_insert_sorted (dp->children, p,
+					     (GCompareFunc)pps_compare_func);
 
 	printf ("Created file with name '%s'\n", name);
-	d->primary_entry = p->pps;
-
-	return pps_to_dir (d->file, p->pps, d);
+	return pps_to_dir (d->file, g_list_find (dp->children, p), 0);
 }
 
 void

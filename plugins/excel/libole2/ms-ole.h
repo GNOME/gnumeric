@@ -52,7 +52,8 @@ struct _MS_OLE
 #endif
 	GArray    *sb;     /* Small block status  */
 	GArray    *sbf;    /* The small block file */
-	GPtrArray *pps;    /* Property Storage -> struct _PPS */
+	guint32    num_pps;/* Count of number of property sets */
+	GList     *pps;    /* Property Storage -> struct _PPS, always 1 valid entry or NULL */
 };
 
 /* Create new OLE file */
@@ -68,9 +69,8 @@ struct _MS_OLE_DIRECTORY
 	char        *name;
 	ms_ole_pos_t length;
 	PPS_TYPE     type;
-	PPS_IDX      pps;
-	/* Brain damaged linked list workaround */
-	PPS_IDX      primary_entry ;
+	GList       *pps;
+	int          first;
 	/* Private */
 	MS_OLE      *file ;
 };
@@ -115,7 +115,7 @@ struct _MS_OLE_STREAM
 	 * PRIVATE
 	 **/
 	MS_OLE *file ;
-	PPS_IDX pps ;  
+	void   *pps ;   /* Straight PPS * */
 };
 
 /* Mode = 'r' or 'w' */
