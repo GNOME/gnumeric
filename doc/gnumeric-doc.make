@@ -36,10 +36,10 @@ EXTRA_DIST +=		\
 .PHONY : html
 html :
 	-mkdir -p html
-	xsltproc -o html/gnumeric.html			\
+	xsltproc -o html/index.html			\
 	    --param db.chunk.chunk_top 0 		\
-	    --param db.chunk.max_depth 4 		\
+	    --param db.chunk.max_depth 3 		\
 	    --stringparam db.chunk.basename gnumeric 	\
-	    --stringparam db2html.admon.graphics_path $(datadir)/yelp/icons/ \
+	    --stringparam db2html.admon.graphics_path stylesheet/ \
 	    $(datadir)/xml/gnome/xslt/docbook/html/db2html.xsl	\
 	    $(srcdir)/gnumeric.xml

@@ -817,33 +817,8 @@
 
 <!-- ============= Appendices ================================ -->
 
-
-  <appendix id="function-reference">
-    <title>Function Reference</title>
-
-    <para>
-      This appendix provides a list of all the functions which are
-      currently defined in <application>Gnumeric</application>.
-    </para>
-
-    &function-ref;
-
-  </appendix>
-
-
-
-  <appendix id="keybinding">
-    <title>Keybinding Reference</title>
-
-    <para>
-      This appendix lists the keyboard shortcuts which are defined by
-      default in <application>Gnumeric</application>.
-    </para>
-
-    &appendix-keybindings;
-
-  </appendix>
-
+  &function-ref;
+  &appendix-keybindings;
 
 
 <!--

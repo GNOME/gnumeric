@@ -9,13 +9,13 @@ while (<>) {
     if (/^\@CATEGORY=(.*)/) {
 	if ($cat ne $1) {
 	    if ($cat ne "") {
-		print "</sect2>\n";
+		print "</sect1>\n";
 	    }
 	    $cat = $1;
 	    my $cat_id = "CATEGORY_" . $cat;
 	    $cat_id =~ s/\s+/_/g;
 	    $cat_id =~ s/[^A-Za-z_]//g;
-	    print "<sect2 id=\"$cat_id\">\n";
+	    print "<sect1 id=\"$cat_id\">\n";
 	    print "  <title>", &quote_stuff ($cat), "</title>\n";
 	}
 	$state = 0;
@@ -120,7 +120,7 @@ while (<>) {
     }
 }
 
-print "</sect2>\n";
+print "</sect1>\n";
 
 sub markup_stuff {
     my ($str) = @_;

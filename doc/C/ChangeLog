@@ -1,3 +1,14 @@
+2004-12-02  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric.xml : Don't put appendix wrappers here, then have extra
+	  wrappers in the entity files.
+
+	* functions.xml : regenerate with the appendix as a wrapper and
+	sect2 -> sect1, makes the grouping more natural
+
+	* appendix-keybindings.xml : Add F4 and move appendix description here
+	  to avoid extra container page
+
 2004-12-01  Jody Goldberg <jody@gnome.org>
 
 	* welcome.xml : typo and emphasis

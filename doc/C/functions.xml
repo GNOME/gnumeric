@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sect1 id="reference">
-  <title>Alphabetical List of Gnumeric Functions</title>
-  <sect2 id="CATEGORY_Bitwise_Operations">
+<appendix id="function-reference">
+  <title>Function Reference</title>
+  <para>
+    This appendix provides a list of all the functions which are
+    currently defined in <application>Gnumeric</application>.
+  </para>
+  <sect1 id="CATEGORY_Bitwise_Operations">
     <title>Bitwise Operations</title>
     <refentry id="gnumeric-BITAND">
       <refmeta>
@@ -156,8 +160,8 @@
       </para>
       </refsect1>
     </refentry>
-  </sect2>
-  <sect2 id="CATEGORY_Complex">
+  </sect1>
+  <sect1 id="CATEGORY_Complex">
     <title>Complex</title>
     <refentry id="gnumeric-COMPLEX">
       <refmeta>
@@ -1693,8 +1697,8 @@
       </para>
       </refsect1>
     </refentry>
-  </sect2>
-  <sect2 id="CATEGORY_Database">
+  </sect1>
+  <sect1 id="CATEGORY_Database">
     <title>Database</title>
     <refentry id="gnumeric-DAVERAGE">
       <refmeta>
@@ -2305,8 +2309,8 @@
       </para>
       </refsect1>
     </refentry>
-  </sect2>
-  <sect2 id="CATEGORY_DateTime">
+  </sect1>
+  <sect1 id="CATEGORY_DateTime">
     <title>Date/Time</title>
     <refentry id="gnumeric-DATE">
       <refmeta>
@@ -3252,8 +3256,8 @@
       </para>
       </refsect1>
     </refentry>
-  </sect2>
-  <sect2 id="CATEGORY_Engineering">
+  </sect1>
+  <sect1 id="CATEGORY_Engineering">
     <title>Engineering</title>
     <refentry id="gnumeric-BESSELI">
       <refmeta>
@@ -4196,8 +4200,8 @@
       </para>
       </refsect1>
     </refentry>
-  </sect2>
-  <sect2 id="CATEGORY_Erlang">
+  </sect1>
+  <sect1 id="CATEGORY_Erlang">
     <title>Erlang</title>
     <refentry id="gnumeric-DIMCIRC">
       <refmeta>
@@ -4333,8 +4337,8 @@
       </para>
       </refsect1>
     </refentry>
-  </sect2>
-  <sect2 id="CATEGORY_Finance">
+  </sect1>
+  <sect1 id="CATEGORY_Finance">
     <title>Finance</title>
     <refentry id="gnumeric-ACCRINT">
       <refmeta>
@@ -8014,8 +8018,8 @@
       </para>
       </refsect1>
     </refentry>
-  </sect2>
-  <sect2 id="CATEGORY_Gnumeric">
+  </sect1>
+  <sect1 id="CATEGORY_Gnumeric">
     <title>Gnumeric</title>
     <refentry id="gnumeric-GNUMERIC_VERSION">
       <refmeta>
@@ -8046,8 +8050,8 @@
       </para>
       </refsect1>
     </refentry>
-  </sect2>
-  <sect2 id="CATEGORY_Information">
+  </sect1>
+  <sect1 id="CATEGORY_Information">
     <title>Information</title>
     <refentry id="gnumeric-CELL">
       <refmeta>
@@ -8783,8 +8787,8 @@
       </para>
       </refsect1>
     </refentry>
-  </sect2>
-  <sect2 id="CATEGORY_Logic">
+  </sect1>
+  <sect1 id="CATEGORY_Logic">
     <title>Logic</title>
     <refentry id="gnumeric-AND">
       <refmeta>
@@ -9056,8 +9060,8 @@
       </para>
       </refsect1>
     </refentry>
-  </sect2>
-  <sect2 id="CATEGORY_Lookup">
+  </sect1>
+  <sect1 id="CATEGORY_Lookup">
     <title>Lookup</title>
     <refentry id="gnumeric-ADDRESS">
       <refmeta>
@@ -9688,8 +9692,8 @@
       </para>
       </refsect1>
     </refentry>
-  </sect2>
-  <sect2 id="CATEGORY_Mathematics">
+  </sect1>
+  <sect1 id="CATEGORY_Mathematics">
     <title>Mathematics</title>
     <refentry id="gnumeric-ABS">
       <refmeta>
@@ -12303,8 +12307,8 @@
       </para>
       </refsect1>
     </refentry>
-  </sect2>
-  <sect2 id="CATEGORY_Number_Theory">
+  </sect1>
+  <sect1 id="CATEGORY_Number_Theory">
     <title>Number Theory</title>
     <refentry id="gnumeric-ISPRIME">
       <refmeta>
@@ -12542,8 +12546,8 @@
       </para>
       </refsect1>
     </refentry>
-  </sect2>
-  <sect2 id="CATEGORY_Random_Numbers">
+  </sect1>
+  <sect1 id="CATEGORY_Random_Numbers">
     <title>Random Numbers</title>
     <refentry id="gnumeric-RAND">
       <refmeta>
@@ -13620,8 +13624,8 @@
       </para>
       </refsect1>
     </refentry>
-  </sect2>
-  <sect2 id="CATEGORY_Statistics">
+  </sect1>
+  <sect1 id="CATEGORY_Statistics">
     <title>Statistics</title>
     <refentry id="gnumeric-AVEDEV">
       <refmeta>
@@ -17413,8 +17417,8 @@
       </para>
       </refsect1>
     </refentry>
-  </sect2>
-  <sect2 id="CATEGORY_String">
+  </sect1>
+  <sect1 id="CATEGORY_String">
     <title>String</title>
     <refentry id="gnumeric-CHAR">
       <refmeta>
@@ -18333,5 +18337,5 @@
       </para>
       </refsect1>
     </refentry>
-  </sect2>
-</sect1>
+  </sect1>
+</appendix>
