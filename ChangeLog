@@ -1,7 +1,22 @@
 2001-09-02  Jody Goldberg <jgoldberg@home.com>
 
+	* src/style-condition.h : Qualify the namespace better.
+
+2001-09-02  Jody Goldberg <jgoldberg@home.com>
+	For Wayne Schuller <k_wayne@linuxpower.org>
+
+	* src/pattern.c (gnumeric_background_set_pc) : Support gray scale
+	  patterns when printing.
+
+2001-09-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/style-condition.c (style_condition_eval) : Use dependent_eval
+	  and add an invariant that ensures that val is only NULL if we have
+	  been queued for recalc.
+
 	* src/eval.c (dependent_eval) : split from workbook_recalc.
 	(cell_eval) : change return type.  no one was using it.
+	(dependent_needs_recalc) : new macro.
 
 2001-08-31  Jody Goldberg <jgoldberg@home.com>
 

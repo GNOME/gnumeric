@@ -204,17 +204,17 @@ style_condition_eval (StyleCondition *sc, Value *val)
 		vc = value_compare (val, scl->val, TRUE);
 		
 		switch (scl->op) {
-		case EQUAL :
+		case STYLE_CONDITION_EQUAL :
 			if (vc != IS_EQUAL) return FALSE; break;
-		case NOT_EQUAL :
+		case STYLE_CONDITION_NOT_EQUAL :
 			if (vc == IS_EQUAL) return FALSE; break;
-		case LESS :
+		case STYLE_CONDITION_LESS :
 			if (vc != IS_LESS) return FALSE; break;
-		case GREATER :
+		case STYLE_CONDITION_GREATER :
 			if (vc != IS_GREATER) return FALSE; break;
-		case LESS_EQUAL :
+		case STYLE_CONDITION_LESS_EQUAL :
 			if (vc == IS_GREATER) return FALSE; break;
-		case GREATER_EQUAL :
+		case STYLE_CONDITION_GREATER_EQUAL :
 			if (vc == IS_LESS) return FALSE; break;
 		default :
 			g_warning ("Unhandled operator"); return FALSE;

@@ -181,6 +181,7 @@
 #define BIFF_QSI                       0x1ad
 #define BIFF_SUPBOOK                   0x1ae	/* ONLY 1 */
 #define BIFF_PROT4REV                  0x1af	/* ONLY 1 */
+#define BIFF_CONDFMT                   0x1b0	/* ONLY 1 */
 #define BIFF_CF                        0x1b1	/* ONLY 1 */
 #define BIFF_DVAL                      0x1b2	/* ONLY 1 */
 #define BIFF_DCONBIN                   0x1b5	/* ONLY 1 */

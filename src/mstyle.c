@@ -623,7 +623,7 @@ mstyle_new_default (void)
 				style_color_black ());
 
 	mstyle_set_validation       (mstyle, NULL);
-	mstyle_set_validation_style (mstyle, STYLE_NONE);
+	mstyle_set_validation_style (mstyle, VALIDATION_STYLE_NONE);
 	mstyle_set_validation_msg   (mstyle, NULL);
 	
 	/* To negate borders */
@@ -1240,7 +1240,8 @@ mstyle_set_validation_style (MStyle *style, ValidationStyle vs)
 ValidationStyle
 mstyle_get_validation_style (const MStyle *style)
 {
-	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_VALIDATION_STYLE), STYLE_NONE);
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_VALIDATION_STYLE),
+			      VALIDATION_STYLE_NONE);
 
 	return style->elements[MSTYLE_VALIDATION_STYLE].u.validation_style;
 }

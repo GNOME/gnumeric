@@ -1,3 +1,14 @@
+2001-09-03  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_read_cf) : Do some guessing about how they
+	  store the format information.
+	(ms_excel_read_sheet) : merge in ms_excel_read_cell, and reorder the
+	  records to match their biff order.  call ms_excel_read_cf.
+
+2001-09-02  Jody Goldberg <jgoldberg@home.com>
+
+	* biff-types.h : Add CONDFMT
+
 2001-08-29  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-chart.c (excel_chart_series_new) : init the xml node.
