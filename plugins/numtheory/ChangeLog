@@ -1,3 +1,7 @@
+2002-02-23  Kevin Breit  <mrproper@ximian.com>
+
+	* numtheory.c: Changed @SEEALSO=BITRSHIFT to BITLSHIFT as it was linking to itself and it probably wanted to go to BITLSHIFT
+
 2002-02-21  Morten Welinder <terra@diku.dk>
 
 	* numtheory.c (help_*): Constify.

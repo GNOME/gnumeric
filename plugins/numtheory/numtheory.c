@@ -511,7 +511,7 @@ static const char *help_bitrshift = {
 	   "If @n is negative, a left shift will in effect be performed.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "@SEEALSO=BITRSHIFT")
+	   "@SEEALSO=BITLSHIFT")
 };
 
 static Value *
