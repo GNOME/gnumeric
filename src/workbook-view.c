@@ -26,7 +26,7 @@ workbook_view_set_paste_special_state (Workbook *wb, gboolean enable)
 #else
 	/* FIXME : How to avoid hard coding the menu name here. */
 	gnome_ui_handler_menu_set_sensitivity (wb->uih,
-		"/Edit/Paste Special...", enable);
+		"/Edit/Paste special...", enable);
 #endif
 }
 

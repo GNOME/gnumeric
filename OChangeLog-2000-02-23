@@ -1,3 +1,8 @@
+2000-01-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/application.c (application_clipboard_cut) : Typo.
+	* src/workbook-view.c (workbook_view_set_paste_special_state) : Typo.
+
 2000-01-09  Jody Goldberg <jgoldberg@home.com>
 
 	* src/commands.c (cmd_insert_cols) : Be kinder to translators.
