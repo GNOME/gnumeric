@@ -1,3 +1,10 @@
+2001-02-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (wb_control_gui_focus_cur_sheet) :
+	  Improve the precondition.
+	(cb_autosave) : ditto.
+	(cb_notebook_switch_page) : Add some safety.
+
 2001-02-11  Karl Eichwalder  <ke@suse.de>
 
 	* src/main.c: s/behaviour/behavior/ and s/colours/colors/ .

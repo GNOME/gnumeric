@@ -109,7 +109,7 @@ wb_control_gui_focus_cur_sheet (WorkbookControlGUI *wbcg)
 {
 	SheetControlGUI *scg;
 
-	g_return_val_if_fail (wbcg != NULL, NULL);
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), NULL);
 
 	scg = SHEET_CONTROL_GUI (GTK_NOTEBOOK (wbcg->notebook)->cur_page->child);
 
@@ -139,7 +139,7 @@ cb_autosave (gpointer *data)
 	WorkbookView *wb_view;
         WorkbookControlGUI *wbcg = (WorkbookControlGUI *)data;
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbcg), FALSE);
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
 
 	wb_view = wb_control_view (WORKBOOK_CONTROL (wbcg));
 
@@ -2752,13 +2752,16 @@ static void
 cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 			 guint page_num, WorkbookControlGUI *wbcg)
 {
-	/* Hang on to old sheet */
-	Sheet *old_sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-
-	/* Lookup sheet associated with the current notebook tab */
-	Sheet *sheet;
+	Sheet *sheet, *old_sheet;
 	gboolean accept = TRUE;
 
+	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
+
+	/* Ignore events during destruction */
+	if (wbcg->notebook == NULL)
+		return;
+
+	old_sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	sheet = wb_control_gui_focus_cur_sheet (wbcg);
 
 	/* While initializing adding the sheets will trigger page changes, but
