@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1999-03-12 18:34-0600\n"
+"POT-Creation-Date: 1999-03-14 18:17-0600\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Németh Péter <qgenpete@gold.uni-miskolc.hu>\n"
 "Language-Team: Németh Péter <qgenpete@gold.uni-miskolc.hu>\n"
@@ -18,7 +18,7 @@ msgstr ""
 msgid "Argument must be a Guile expression"
 msgstr ""
 
-#: plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1177
+#: plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1174
 #: src/fn-sheet.c:38 src/fn-sheet.c:83
 msgid "Invalid number of arguments"
 msgstr "Az argumentumok száma nem megfelelõ"
@@ -638,7 +638,7 @@ msgstr "Szintaktikai hiba"
 msgid "Missing quote"
 msgstr ""
 
-#: src/expr.c:509 src/expr.c:514 src/expr.c:793 src/expr.c:964
+#: src/expr.c:509 src/expr.c:514 src/expr.c:793 src/expr.c:991
 #: src/fn-misc.c:35
 msgid "Type mismatch"
 msgstr ""
@@ -647,15 +647,15 @@ msgstr ""
 msgid "Type error"
 msgstr ""
 
-#: src/expr.c:819 src/expr.c:856
+#: src/expr.c:846 src/expr.c:883
 msgid "Division by zero"
 msgstr "Osztás nullával"
 
-#: src/expr.c:944
+#: src/expr.c:971
 msgid "Reference to newborn cell"
 msgstr ""
 
-#: src/expr.c:979
+#: src/expr.c:1006
 msgid "Unknown evaluation error"
 msgstr ""
 
@@ -890,7 +890,7 @@ msgid ""
 "@SEEALSO=OR, NOT"
 msgstr ""
 
-#: src/fn-math.c:189 src/fn-math.c:962
+#: src/fn-math.c:189 src/fn-math.c:912
 msgid "#VALUE"
 msgstr "#ÉRTÉK!"
 
@@ -1025,23 +1025,6 @@ msgstr ""
 #: src/fn-math.c:386
 #, fuzzy
 msgid ""
-"@FUNCTION=BIN2DEC\n"
-"@SYNTAX=BIN2DEC(x)\n"
-"@DESCRIPTION=The BIN2DEC function converts a binary number in string or "
-"number to its decimal equivalent.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=DEC2BIN"
-msgstr ""
-"@FUNCTION=RADIANS\n"
-"@SYNTAX=RADIANS(szög)\n"
-"@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
-"A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
-"függvénynek csak egy argumentuma lehet.\n"
-"@SEEALSO=PI,DEGREES"
-
-#: src/fn-math.c:436
-#, fuzzy
-msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
 "@DESCRIPTION=The  COS  function  returns  the cosine of x, where x is given "
@@ -1057,7 +1040,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:456
+#: src/fn-math.c:406
 #, fuzzy
 msgid ""
 "@FUNCTION=COSH\n"
@@ -1075,7 +1058,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/fn-math.c:497
+#: src/fn-math.c:447
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -1084,7 +1067,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/fn-math.c:525
+#: src/fn-math.c:475
 #, fuzzy
 msgid ""
 "@FUNCTION=DEGREES\n"
@@ -1100,7 +1083,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:546
+#: src/fn-math.c:496
 #, fuzzy
 msgid ""
 "@FUNCTION=EXP\n"
@@ -1116,7 +1099,7 @@ msgstr ""
 "A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/fn-math.c:573
+#: src/fn-math.c:523
 #, fuzzy
 msgid ""
 "@FUNCTION=FACT\n"
@@ -1132,7 +1115,7 @@ msgstr ""
 "A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/fn-math.c:620
+#: src/fn-math.c:570
 #, fuzzy
 msgid ""
 "@FUNCTION=FLOOR\n"
@@ -1148,7 +1131,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:639
+#: src/fn-math.c:589
 #, fuzzy
 msgid ""
 "@FUNCTION=INT\n"
@@ -1166,7 +1149,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:665
+#: src/fn-math.c:615
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG\n"
@@ -1181,11 +1164,11 @@ msgstr ""
 "A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/fn-math.c:683
+#: src/fn-math.c:633
 msgid "log: domain error"
 msgstr "log: nincs értelmezve"
 
-#: src/fn-math.c:690
+#: src/fn-math.c:640
 #, fuzzy
 msgid ""
 "@FUNCTION=POWER\n"
@@ -1200,7 +1183,7 @@ msgstr ""
 "A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/fn-math.c:709
+#: src/fn-math.c:659
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG2\n"
@@ -1214,11 +1197,11 @@ msgstr ""
 "A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: src/fn-math.c:727
+#: src/fn-math.c:677
 msgid "log2: domain error"
 msgstr "log2: nincs értelmezve"
 
-#: src/fn-math.c:734
+#: src/fn-math.c:684
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG10\n"
@@ -1232,11 +1215,11 @@ msgstr ""
 "A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk.\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
-#: src/fn-math.c:753
+#: src/fn-math.c:703
 msgid "log10: domain error"
 msgstr "log10: nincs értelmezve"
 
-#: src/fn-math.c:760
+#: src/fn-math.c:710
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -1247,7 +1230,7 @@ msgid ""
 "@SEEALSO=MAX,ABS"
 msgstr ""
 
-#: src/fn-math.c:774
+#: src/fn-math.c:724
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -1258,7 +1241,7 @@ msgid ""
 "@SEEALSO=MIN,ABS"
 msgstr ""
 
-#: src/fn-math.c:879
+#: src/fn-math.c:829
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
@@ -1268,7 +1251,7 @@ msgid ""
 "@SEEALSO=AND, OR"
 msgstr ""
 
-#: src/fn-math.c:900
+#: src/fn-math.c:850
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -1282,7 +1265,7 @@ msgid ""
 "@SEEALSO=AND, NOT"
 msgstr ""
 
-#: src/fn-math.c:969
+#: src/fn-math.c:919
 #, fuzzy
 msgid ""
 "@FUNCTION=RADIANS\n"
@@ -1298,7 +1281,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:990
+#: src/fn-math.c:940
 #, fuzzy
 msgid ""
 "@FUNCTION=SIN\n"
@@ -1316,7 +1299,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:1010
+#: src/fn-math.c:960
 #, fuzzy
 msgid ""
 "@FUNCTION=SINH\n"
@@ -1334,7 +1317,28 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/fn-math.c:1031
+#: src/fn-math.c:981
+#, fuzzy
+msgid ""
+"@FUNCTION=SQRT\n"
+"@SYNTAX=SQRT(x)\n"
+"@DESCRIPTION=The SQRT  function  returns  the  square root of x, \n"
+"If x is negative returns #NUM!.This function only takes one argument.\n"
+"@SEEALSO=POW"
+msgstr ""
+"@FUNCTION=PI\n"
+"@SYNTAX=PI()\n"
+"@DESCRIPTION=A pi értékét adja meg 21 jegy pontossággal "
+"(3.14159265358979323846)\n"
+"A függvényt szövegre vagy üres cellára alkalmazva hibát kapunk. A "
+"függvénynek nem lehet argumentuma.\n"
+"@SEEALSO="
+
+#: src/fn-math.c:998
+msgid "#NUM!"
+msgstr ""
+
+#: src/fn-math.c:1005
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1343,7 +1347,7 @@ msgid ""
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
 
-#: src/fn-math.c:1098
+#: src/fn-math.c:1095
 #, fuzzy
 msgid ""
 "@FUNCTION=TAN\n"
@@ -1361,7 +1365,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1118
+#: src/fn-math.c:1115
 #, fuzzy
 msgid ""
 "@FUNCTION=TANH\n"
@@ -1379,7 +1383,7 @@ msgstr ""
 "függvénynek csak egy argumentuma lehet.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1138
+#: src/fn-math.c:1135
 #, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
@@ -1396,7 +1400,7 @@ msgstr ""
 "függvénynek nem lehet argumentuma.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1157
+#: src/fn-math.c:1154
 #, fuzzy
 msgid ""
 "@FUNCTION=TRUNC\n"
@@ -2383,6 +2387,22 @@ msgstr "Névtelen"
 #: src/xml-io.c:1598
 msgid "Gnumeric XML file format"
 msgstr ""
+
+#, fuzzy
+#~ msgid ""
+#~ "@FUNCTION=BIN2DEC\n"
+#~ "@SYNTAX=BIN2DEC(x)\n"
+#~ "@DESCRIPTION=The BIN2DEC function converts a binary number in string or "
+#~ "number to its decimal equivalent.\n"
+#~ "Performing this function on a string or empty cell simply does nothing.\n"
+#~ "@SEEALSO=DEC2BIN"
+#~ msgstr ""
+#~ "@FUNCTION=RADIANS\n"
+#~ "@SYNTAX=RADIANS(szög)\n"
+#~ "@DESCRIPTION=A megadott szöget radiánba számolja át.\n"
+#~ "A függvény szövegre vagy üres cellára alkalmazva nem csinál semmit. A "
+#~ "függvénynek csak egy argumentuma lehet.\n"
+#~ "@SEEALSO=PI,DEGREES"
 
 #~ msgid "Notice"
 #~ msgstr "Megjegyzés"

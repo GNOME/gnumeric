@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 1999-03-12 18:34-0600\n"
+"POT-Creation-Date: 1999-03-14 18:17-0600\n"
 "Content-Type: text/plain; charset=\n"
 "Date: 1998-12-15 01:37:05-0600\n"
 "From: Miguel de Icaza,computo,622-4680 <miguel@metropolis.nuclecu.unam.mx>\n"
@@ -24,7 +24,7 @@ msgstr ""
 msgid "Argument must be a Guile expression"
 msgstr ""
 
-#: plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1177
+#: plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1174
 #: src/fn-sheet.c:38 src/fn-sheet.c:83
 msgid "Invalid number of arguments"
 msgstr ""
@@ -635,7 +635,7 @@ msgstr ""
 msgid "Missing quote"
 msgstr ""
 
-#: src/expr.c:509 src/expr.c:514 src/expr.c:793 src/expr.c:964
+#: src/expr.c:509 src/expr.c:514 src/expr.c:793 src/expr.c:991
 #: src/fn-misc.c:35
 msgid "Type mismatch"
 msgstr ""
@@ -644,15 +644,15 @@ msgstr ""
 msgid "Type error"
 msgstr ""
 
-#: src/expr.c:819 src/expr.c:856
+#: src/expr.c:846 src/expr.c:883
 msgid "Division by zero"
 msgstr ""
 
-#: src/expr.c:944
+#: src/expr.c:971
 msgid "Reference to newborn cell"
 msgstr ""
 
-#: src/expr.c:979
+#: src/expr.c:1006
 msgid "Unknown evaluation error"
 msgstr ""
 
@@ -872,7 +872,7 @@ msgid ""
 "@SEEALSO=OR, NOT"
 msgstr ""
 
-#: src/fn-math.c:189 src/fn-math.c:962
+#: src/fn-math.c:189 src/fn-math.c:912
 msgid "#VALUE"
 msgstr ""
 
@@ -972,16 +972,6 @@ msgstr ""
 
 #: src/fn-math.c:386
 msgid ""
-"@FUNCTION=BIN2DEC\n"
-"@SYNTAX=BIN2DEC(x)\n"
-"@DESCRIPTION=The BIN2DEC function converts a binary number in string or "
-"number to its decimal equivalent.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=DEC2BIN"
-msgstr ""
-
-#: src/fn-math.c:436
-msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
 "@DESCRIPTION=The  COS  function  returns  the cosine of x, where x is given "
@@ -991,7 +981,7 @@ msgid ""
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: src/fn-math.c:456
+#: src/fn-math.c:406
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -1002,7 +992,7 @@ msgid ""
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 msgstr ""
 
-#: src/fn-math.c:497
+#: src/fn-math.c:447
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -1011,7 +1001,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/fn-math.c:525
+#: src/fn-math.c:475
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -1020,7 +1010,7 @@ msgid ""
 "@SEEALSO=RADIANS, PI"
 msgstr ""
 
-#: src/fn-math.c:546
+#: src/fn-math.c:496
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -1030,7 +1020,7 @@ msgid ""
 "@SEEALSO=LOG, LOG2, LOG10"
 msgstr ""
 
-#: src/fn-math.c:573
+#: src/fn-math.c:523
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -1040,7 +1030,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:620
+#: src/fn-math.c:570
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x)\n"
@@ -1049,7 +1039,7 @@ msgid ""
 "@SEEALSO=CEIL, ABS, INT"
 msgstr ""
 
-#: src/fn-math.c:639
+#: src/fn-math.c:589
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(b1, b2, ...)\n"
@@ -1060,7 +1050,7 @@ msgid ""
 "@SEEALSO=FLOOR, CEIL, ABS"
 msgstr ""
 
-#: src/fn-math.c:665
+#: src/fn-math.c:615
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x)\n"
@@ -1069,11 +1059,11 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr ""
 
-#: src/fn-math.c:683
+#: src/fn-math.c:633
 msgid "log: domain error"
 msgstr ""
 
-#: src/fn-math.c:690
+#: src/fn-math.c:640
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -1082,7 +1072,7 @@ msgid ""
 "@SEEALSO=EXP"
 msgstr ""
 
-#: src/fn-math.c:709
+#: src/fn-math.c:659
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -1091,11 +1081,11 @@ msgid ""
 "@SEEALSO=EXP, LOG10, LOG"
 msgstr ""
 
-#: src/fn-math.c:727
+#: src/fn-math.c:677
 msgid "log2: domain error"
 msgstr ""
 
-#: src/fn-math.c:734
+#: src/fn-math.c:684
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -1104,11 +1094,11 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG"
 msgstr ""
 
-#: src/fn-math.c:753
+#: src/fn-math.c:703
 msgid "log10: domain error"
 msgstr ""
 
-#: src/fn-math.c:760
+#: src/fn-math.c:710
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -1119,7 +1109,7 @@ msgid ""
 "@SEEALSO=MAX,ABS"
 msgstr ""
 
-#: src/fn-math.c:774
+#: src/fn-math.c:724
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -1130,7 +1120,7 @@ msgid ""
 "@SEEALSO=MIN,ABS"
 msgstr ""
 
-#: src/fn-math.c:879
+#: src/fn-math.c:829
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
@@ -1140,7 +1130,7 @@ msgid ""
 "@SEEALSO=AND, OR"
 msgstr ""
 
-#: src/fn-math.c:900
+#: src/fn-math.c:850
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -1154,7 +1144,7 @@ msgid ""
 "@SEEALSO=AND, NOT"
 msgstr ""
 
-#: src/fn-math.c:969
+#: src/fn-math.c:919
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -1163,7 +1153,7 @@ msgid ""
 "@SEEALSO=PI,DEGREES"
 msgstr ""
 
-#: src/fn-math.c:990
+#: src/fn-math.c:940
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -1174,7 +1164,7 @@ msgid ""
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: src/fn-math.c:1010
+#: src/fn-math.c:960
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -1185,7 +1175,20 @@ msgid ""
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr ""
 
-#: src/fn-math.c:1031
+#: src/fn-math.c:981
+msgid ""
+"@FUNCTION=SQRT\n"
+"@SYNTAX=SQRT(x)\n"
+"@DESCRIPTION=The SQRT  function  returns  the  square root of x, \n"
+"If x is negative returns #NUM!.This function only takes one argument.\n"
+"@SEEALSO=POW"
+msgstr ""
+
+#: src/fn-math.c:998
+msgid "#NUM!"
+msgstr ""
+
+#: src/fn-math.c:1005
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1194,7 +1197,7 @@ msgid ""
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
 
-#: src/fn-math.c:1098
+#: src/fn-math.c:1095
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1205,7 +1208,7 @@ msgid ""
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:1118
+#: src/fn-math.c:1115
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1216,7 +1219,7 @@ msgid ""
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:1138
+#: src/fn-math.c:1135
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -1225,7 +1228,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1157
+#: src/fn-math.c:1154
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"

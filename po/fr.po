@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1999-03-12 18:34-0600\n"
+"POT-Creation-Date: 1999-03-14 18:17-0600\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Vincent Renardias <vincent@ldsol.com>\n"
 "Language-Team: Vincent Renardias <vincent@ldsol.com>\n"
@@ -21,7 +21,7 @@ msgstr "format de fichier Microsoft(R) Excel"
 msgid "Argument must be a Guile expression"
 msgstr ""
 
-#: plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1177
+#: plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1174
 #: src/fn-sheet.c:38 src/fn-sheet.c:83
 msgid "Invalid number of arguments"
 msgstr "Nombre d'arguments invalides"
@@ -654,7 +654,7 @@ msgstr "Erreur de syntaxe"
 msgid "Missing quote"
 msgstr "guillemet manquante"
 
-#: src/expr.c:509 src/expr.c:514 src/expr.c:793 src/expr.c:964
+#: src/expr.c:509 src/expr.c:514 src/expr.c:793 src/expr.c:991
 #: src/fn-misc.c:35
 msgid "Type mismatch"
 msgstr "Les types ne correspondent pas"
@@ -663,15 +663,15 @@ msgstr "Les types ne correspondent pas"
 msgid "Type error"
 msgstr "Erreur de type"
 
-#: src/expr.c:819 src/expr.c:856
+#: src/expr.c:846 src/expr.c:883
 msgid "Division by zero"
 msgstr "Division par zéro"
 
-#: src/expr.c:944
+#: src/expr.c:971
 msgid "Reference to newborn cell"
 msgstr ""
 
-#: src/expr.c:979
+#: src/expr.c:1006
 msgid "Unknown evaluation error"
 msgstr "Erreur d'évaluation inconnue"
 
@@ -980,7 +980,7 @@ msgstr ""
 "est retournée. \n"
 "@SEEALSO=OR"
 
-#: src/fn-math.c:189 src/fn-math.c:962
+#: src/fn-math.c:189 src/fn-math.c:912
 msgid "#VALUE"
 msgstr "#VALEUR"
 
@@ -1125,23 +1125,6 @@ msgstr ""
 
 #: src/fn-math.c:386
 msgid ""
-"@FUNCTION=BIN2DEC\n"
-"@SYNTAX=BIN2DEC(x)\n"
-"@DESCRIPTION=The BIN2DEC function converts a binary number in string or "
-"number to its decimal equivalent.\n"
-"Performing this function on a string or empty cell simply does nothing.\n"
-"@SEEALSO=DEC2BIN"
-msgstr ""
-"@FUNCTION=BIN2DEC\n"
-"@SYNTAX=BIN2DEC(x)\n"
-"@DESCRIPTION=La fonction BIN2DEC converti un nombre binaire exprimé sous "
-"forme de chaine  ou de nombre en sont équivalent en base décimale.\n"
-"Cette fonction n'a aucun effet lorsqu'elle est utilisée sur une chaine ou "
-"une cellule vide.\n"
-"@SEEALSO=DEC2BIN"
-
-#: src/fn-math.c:436
-msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
 "@DESCRIPTION=The  COS  function  returns  the cosine of x, where x is given "
@@ -1158,7 +1141,7 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, DEGREES, RADIANS"
 
-#: src/fn-math.c:456
+#: src/fn-math.c:406
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -1177,7 +1160,7 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
-#: src/fn-math.c:497
+#: src/fn-math.c:447
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -1192,7 +1175,7 @@ msgstr ""
 "une cellule vide.\n"
 "@SEEALSO=AVERAGE"
 
-#: src/fn-math.c:525
+#: src/fn-math.c:475
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -1207,7 +1190,7 @@ msgstr ""
 "une cellule vide.\n"
 "@SEEALSO=RADIANS, PI"
 
-#: src/fn-math.c:546
+#: src/fn-math.c:496
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -1224,7 +1207,7 @@ msgstr ""
 "une cellule vide.\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
-#: src/fn-math.c:573
+#: src/fn-math.c:523
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -1241,7 +1224,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/fn-math.c:620
+#: src/fn-math.c:570
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x)\n"
@@ -1257,7 +1240,7 @@ msgstr ""
 "une cellule vide.\n"
 "@SEEALSO=CEIL, ABS, INT"
 
-#: src/fn-math.c:639
+#: src/fn-math.c:589
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(b1, b2, ...)\n"
@@ -1276,7 +1259,7 @@ msgstr ""
 "une cellule vide.\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 
-#: src/fn-math.c:665
+#: src/fn-math.c:615
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x)\n"
@@ -1291,11 +1274,11 @@ msgstr ""
 "ou une cellule vide.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/fn-math.c:683
+#: src/fn-math.c:633
 msgid "log: domain error"
 msgstr "log: erreur de domaine"
 
-#: src/fn-math.c:690
+#: src/fn-math.c:640
 #, fuzzy
 msgid ""
 "@FUNCTION=POWER\n"
@@ -1312,7 +1295,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/fn-math.c:709
+#: src/fn-math.c:659
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -1327,11 +1310,11 @@ msgstr ""
 "ou une cellule vide.\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: src/fn-math.c:727
+#: src/fn-math.c:677
 msgid "log2: domain error"
 msgstr "log2: erreur de domaine"
 
-#: src/fn-math.c:734
+#: src/fn-math.c:684
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -1345,11 +1328,11 @@ msgstr ""
 "Cette fonction retourne une erreur lorsqu'elle est utilisée sur une chaine "
 "ou @SEEALSO=EXP, LOG2, LOG"
 
-#: src/fn-math.c:753
+#: src/fn-math.c:703
 msgid "log10: domain error"
 msgstr "log10: erreur de domaine"
 
-#: src/fn-math.c:760
+#: src/fn-math.c:710
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -1368,7 +1351,7 @@ msgstr ""
 "caractères ou des cellules vides.\n"
 "@SEEALSO=MAX,ABS"
 
-#: src/fn-math.c:774
+#: src/fn-math.c:724
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -1387,7 +1370,7 @@ msgstr ""
 "caractères ou des cellules vides.\n"
 "@SEEALSO=MIN,ABS"
 
-#: src/fn-math.c:879
+#: src/fn-math.c:829
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
@@ -1397,7 +1380,7 @@ msgid ""
 "@SEEALSO=AND, OR"
 msgstr ""
 
-#: src/fn-math.c:900
+#: src/fn-math.c:850
 #, fuzzy
 msgid ""
 "@FUNCTION=OR\n"
@@ -1422,7 +1405,7 @@ msgstr ""
 "est retournée. \n"
 "@SEEALSO=AND"
 
-#: src/fn-math.c:969
+#: src/fn-math.c:919
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -1437,7 +1420,7 @@ msgstr ""
 "cellule vide.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:990
+#: src/fn-math.c:940
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -1455,7 +1438,7 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:1010
+#: src/fn-math.c:960
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -1474,7 +1457,27 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/fn-math.c:1031
+#: src/fn-math.c:981
+#, fuzzy
+msgid ""
+"@FUNCTION=SQRT\n"
+"@SYNTAX=SQRT(x)\n"
+"@DESCRIPTION=The SQRT  function  returns  the  square root of x, \n"
+"If x is negative returns #NUM!.This function only takes one argument.\n"
+"@SEEALSO=POW"
+msgstr ""
+"@FUNCTION=PI\n"
+"@SYNTAX=PI()\n"
+"@DESCRIPTION=La fonction PI retourne la valeur de Pi telle qu'elle est "
+"définie par M_PI.\n"
+"Cette fonction ne prend aucun argument.\n"
+"@SEEALSO="
+
+#: src/fn-math.c:998
+msgid "#NUM!"
+msgstr ""
+
+#: src/fn-math.c:1005
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1488,7 +1491,7 @@ msgstr ""
 "la liste des arguments. \n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1098
+#: src/fn-math.c:1095
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1506,7 +1509,7 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1118
+#: src/fn-math.c:1115
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1524,7 +1527,7 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1138
+#: src/fn-math.c:1135
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -1539,7 +1542,7 @@ msgstr ""
 "Cette fonction ne prend aucun argument.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1157
+#: src/fn-math.c:1154
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -2532,6 +2535,22 @@ msgstr "SansNom"
 #: src/xml-io.c:1598
 msgid "Gnumeric XML file format"
 msgstr "format de fichier Gnumeric XML"
+
+#~ msgid ""
+#~ "@FUNCTION=BIN2DEC\n"
+#~ "@SYNTAX=BIN2DEC(x)\n"
+#~ "@DESCRIPTION=The BIN2DEC function converts a binary number in string or "
+#~ "number to its decimal equivalent.\n"
+#~ "Performing this function on a string or empty cell simply does nothing.\n"
+#~ "@SEEALSO=DEC2BIN"
+#~ msgstr ""
+#~ "@FUNCTION=BIN2DEC\n"
+#~ "@SYNTAX=BIN2DEC(x)\n"
+#~ "@DESCRIPTION=La fonction BIN2DEC converti un nombre binaire exprimé sous "
+#~ "forme de chaine  ou de nombre en sont équivalent en base décimale.\n"
+#~ "Cette fonction n'a aucun effet lorsqu'elle est utilisée sur une chaine ou "
+#~ "une cellule vide.\n"
+#~ "@SEEALSO=DEC2BIN"
 
 #~ msgid "Cell comment"
 #~ msgstr "Commentaire de cellule"

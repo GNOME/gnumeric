@@ -15,6 +15,12 @@ Note that Gnumeric will perform regular string to serial number conversion for y
 Performing this function on a string or empty cell simply does nothing.
 @SEEALSO=STDEV,VAR,MEAN
 
+@FUNCTION=BESSELY
+@SYNTAX=BESSELY(x,y)
+@DESCRIPTION=The BESSELY function returns the Neumann, Weber or Bessel function. x is where the function is evaluated. y is the order of the bessel function, if non-integer it is truncated. 
+if x or n are not numeric a #VALUE! error is returned.if n < 0 a #NUM! error is returned.
+@SEEALSO=BESSELJ,BESSELK,BESSELY
+
 @FUNCTION=LOG2
 @SYNTAX=LOG2(x)
 @DESCRIPTION=Computes the base-2 logarithm  of x. 
@@ -37,17 +43,17 @@ Note that Gnumeric will perform regular string to serial number conversion for y
 Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
 @SEEALSO=TAN, COS, SIN, DEGREES, RADIANS
 
-@FUNCTION=INT
-@SYNTAX=INT(b1, b2, ...)
-@DESCRIPTION=The INT function round b1 now to the nearest int. Where 'nearest' implies being closer to zero. Equivalent to FLOOR(b1) for b1 >0, amd CEIL(b1) for b1 < 0. 
-Performing this function on a string or empty cell simply does nothing.
-@SEEALSO=FLOOR, CEIL, ABS
-
 @FUNCTION=SINH
 @SYNTAX=SINH(x)
 @DESCRIPTION=The SINH  function  returns  the  hyperbolic sine of x, which is defined mathematically as (exp(x) - exp(-x)) / 2.  x is in radians. 
 Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
 @SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP
+
+@FUNCTION=INT
+@SYNTAX=INT(b1, b2, ...)
+@DESCRIPTION=The INT function round b1 now to the nearest int. Where 'nearest' implies being closer to zero. Equivalent to FLOOR(b1) for b1 >0, amd CEIL(b1) for b1 < 0. 
+Performing this function on a string or empty cell simply does nothing.
+@SEEALSO=FLOOR, CEIL, ABS
 
 @FUNCTION=NOT
 @SYNTAX=NOT(number)
@@ -65,6 +71,18 @@ Performing this function on a string or empty cell simply does nothing.
 @SYNTAX=SUM(value1, value2, ...)
 @DESCRIPTION=Computes the sum of all the values and cells referenced in the argument list. 
 @SEEALSO=AVERAGE, COUNT
+
+@FUNCTION=HEX2DEC
+@SYNTAX=HEX2DEC(x)
+@DESCRIPTION=The HEX2DEC function converts a binary number in string or number to its decimal equivalent.
+
+@SEEALSO=DEC2HEX
+
+@FUNCTION=SQRTPI
+@SYNTAX=SQRTPI(x)
+@DESCRIPTION=The SQRTPI returns the square root of PI * x. 
+if x < 0 a #NUM! error is returned.
+@SEEALSO=ERF
 
 @FUNCTION=GAMMALN
 @SYNTAX=GAMMALN(x)
@@ -90,6 +108,12 @@ Note that Gnumeric will perform regular string to serial number conversion for y
 @DESCRIPTION=Returns a substring from @string starting at @position for @lenght characters.
 @SEEALSO=LEFT, RIGHT
 
+@FUNCTION=DEC2HEX
+@SYNTAX=DEC2HEX(number,places)
+@DESCRIPTION=The DEC2HEX function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.
+if places is too small or negative #NUM! error is returned.
+@SEEALSO=HEX2DEC
+
 @FUNCTION=MONTH
 @SYNTAX=MONTH (serial_number)
 @DESCRIPTION=Converts a serial number to a month.
@@ -102,6 +126,12 @@ Note that Gnumeric will perform regular string to serial number conversion for y
 Serial Numbers in Gnumeric are represented as follows:The integral part is the number of days since the 1st of January of 1900.  The decimal part represent the fraction of the day and is mapped into hour, minutes and seconds
 For example: .0 represents the beginning of the day, and 0.5 represents noon
 @SEEALSO=TODAY, NOW
+
+@FUNCTION=OCT2BIN
+@SYNTAX=OCT2BIN(number,places)
+@DESCRIPTION=The OCT2BIN function converts a binary number to a hexadecimal number.places is an optional field, specifying to zero pad to that number of spaces.
+if places is too small or negative #NUM! error is returned.
+@SEEALSO=BIN2OCT
 
 @FUNCTION=SIGN
 @SYNTAX=SIGN(number)
@@ -154,6 +184,12 @@ Performing this function on a string or empty cell simply does nothing. This fun
 @SYNTAX=CLEAN(string)
 @DESCRIPTION=Cleans the string from any non-printable characters.
 @SEEALSO=
+
+@FUNCTION=BIN2OCT
+@SYNTAX=BIN2OCT(number,places)
+@DESCRIPTION=The BIN2OCT function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.
+if places is too small or negative #NUM! error is returned.
+@SEEALSO=OCT2BIN
 
 @FUNCTION=RADIANS
 @SYNTAX=RADIANS(x)
@@ -229,10 +265,22 @@ Performing this function on a string or empty cell simply does nothing. This fun
 @DESCRIPTION=Returns a upper-case version of the string in @text
 @SEEALSO=LOWER
 
+@FUNCTION=SQRT
+@SYNTAX=SQRT(x)
+@DESCRIPTION=The SQRT  function  returns  the  square root of x, 
+If x is negative returns #NUM!.This function only takes one argument.
+@SEEALSO=POW
+
 @FUNCTION=SELECTION
 @SYNTAX=SELECTION(x)
 @DESCRIPTION=The SELECTION function returns a list with the values in the current mouse cursor. This is usually used to implement on-the-flight computation of values
 @SEEALSO=
+
+@FUNCTION=OCT2DEC
+@SYNTAX=OCT2DEC(x)
+@DESCRIPTION=The OCT2DEC function converts an octal number in a string or number to its decimal equivalent.
+
+@SEEALSO=DEC2OCT
 
 @FUNCTION=ABS
 @SYNTAX=ABS(b1)
@@ -280,23 +328,47 @@ This function is called with no arguments.
 Formula for it is:
 Depriciation expense = ( cost - salvage value ) * (life-period+1) * 2 / life * (life + 1)@SEEALSO=
 
+@FUNCTION=BESSELJ
+@SYNTAX=BESSELJ(x,y)
+@DESCRIPTION=The BESSELJ function returns the bessel function with x is where the function is evaluated. y is the order of the bessel function, if non-integer it is truncated. 
+if x or n are not numeric a #VALUE! error is returned.if n < 0 a #NUM! error is returned.
+@SEEALSO=BESSELJ,BESSELK,BESSELY
+
+@FUNCTION=OCT2HEX
+@SYNTAX=OCT2HEX(number,places)
+@DESCRIPTION=The OCT2HEX function converts a binary number to a hexadecimal number.places is an optional field, specifying to zero pad to that number of spaces.
+if places is too small or negative #NUM! error is returned.
+@SEEALSO=OCT2HEX
+
 @FUNCTION=ASIN
 @SYNTAX=ASIN(x)
 @DESCRIPTION=The ASIN function calculates the arc sine of x; that is the value whose sine is x. If x falls outside  the  range -1 to 1, ASIN fails and returns the error 'asin - domain error'   
 Performing this function on a string or empty cell simply does nothing. This function only takes one argument.
 @SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS
 
-@FUNCTION=BIN2DEC
-@SYNTAX=BIN2DEC(x)
-@DESCRIPTION=The BIN2DEC function converts a binary number in string or number to its decimal equivalent.
-Performing this function on a string or empty cell simply does nothing.
-@SEEALSO=DEC2BIN
-
 @FUNCTION=EXP
 @SYNTAX=EXP(x)
 @DESCRIPTION=Computes the value of e(the base of natural logarithmns) raised to the power of x. 
 Performing this function on a string or empty cell returns an error.
 @SEEALSO=LOG, LOG2, LOG10
+
+@FUNCTION=BIN2DEC
+@SYNTAX=BIN2DEC(x)
+@DESCRIPTION=The BIN2DEC function converts a binary number in string or number to its decimal equivalent.
+
+@SEEALSO=DEC2BIN
+
+@FUNCTION=DEC2OCT
+@SYNTAX=DEC2OCT(number,places)
+@DESCRIPTION=The DEC2OCT function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.
+if places is too small or negative #NUM! error is returned.
+@SEEALSO=OCT2DEC
+
+@FUNCTION=GESTEP
+@SYNTAX=GESTEP(x,y)
+@DESCRIPTION=The GESTEP function test for if x is >= y, returning 1 if it is so, and 0 otherwise y is optional, and defaults to 0
+if either argument is non-numeric returns a #VALUE! error
+@SEEALSO=DELTA
 
 @FUNCTION=ATAN2
 @SYNTAX=ATAN2(b1,b2)
@@ -315,6 +387,12 @@ Performing this function on a string or empty cell simply does nothing. This fun
 @DESCRIPTION=GEOMEAN returns the geometric mean of the N dataThis is equal to the Nth root of the product of the terms
 Performing this function on a string or empty cell simply does nothing.
 @SEEALSO=MEDIAN,MEAN,MODE
+
+@FUNCTION=DEC2BIN
+@SYNTAX=DEC2BIN(number,places)
+@DESCRIPTION=The DEC2BIN function converts a binary number to an octal number.places is an optional field, specifying to zero pad to that number of spaces.
+if places is too small or negative #NUM! error is returned.
+@SEEALSO=BIN2DEC
 
 @FUNCTION=TRUNC
 @SYNTAX=TRUNC(number[,digits])
@@ -340,6 +418,12 @@ Performing this function on a string or empty cell returns an error.
 Performing this function on a string or empty cell simply does nothing. 
 @SEEALSO=RADIANS, PI
 
+@FUNCTION=ERF
+@SYNTAX=ERF(lower limit, upper_limit)
+@DESCRIPTION=The ERF function returns the integral of the error function between the limits. If the upper limit ommitted ERF returns the integral between zero and the lower limit
+if either lower or upper are not numeric a #VALUE! error is returned.if either lower or upper are < 0 a #NUM! error is returned.
+@SEEALSO=ERFC
+
 @FUNCTION=LEN
 @SYNTAX=LEN(string)
 @DESCRIPTION=Returns the length in characters of the string @string.
@@ -347,8 +431,8 @@ Performing this function on a string or empty cell simply does nothing.
 
 @FUNCTION=EXPONDIST
 @SYNTAX=EXPONDIST(x,y,cumulative)
-@DESCRIPTION=The EXPONDIST function returns the exponential distribution If the cumulative boolean is false it will return: y * exp (-y*x), otherwise it will return 1 - exp (-y*x). If x<0 or y<=0 this will return an error
-Performing this function on a string or empty cell simply does nothing. 
+@DESCRIPTION=The EXPONDIST function returns the exponential distribution If the cumulative boolean is false it will return: y * exp (-y*x), otherwise it will return 1 - exp (-y*x). 
+If x<0 or y<=0 this will return an errorPerforming this function on a string or empty cell simply does nothing. 
 @SEEALSO=POISSON
 
 @FUNCTION=VARP
@@ -356,6 +440,18 @@ Performing this function on a string or empty cell simply does nothing.
 @DESCRIPTION=VARP calculates the variance of a set of numbers where each number is a member of a population and the set is the entire population
 Performing this function on a string or empty cell simply does nothing.
 @SEEALSO=STDEV,VAR,MEAN
+
+@FUNCTION=HEX2OCT
+@SYNTAX=HEX2OCT(number,places)
+@DESCRIPTION=The HEX2OCT function converts a binary number to a hexadecimal number.places is an optional field, specifying to zero pad to that number of spaces.
+if places is too small or negative #NUM! error is returned.
+@SEEALSO=BIN2HEX
+
+@FUNCTION=HEX2BIN
+@SYNTAX=HEX2BIN(number,places)
+@DESCRIPTION=The HEX2BIN function converts a binary number to a hexadecimal number.places is an optional field, specifying to zero pad to that number of spaces.
+if places is too small or negative #NUM! error is returned.
+@SEEALSO=BIN2HEX
 
 @FUNCTION=ISERROR
 @SYNTAX=ISERROR(exp)
@@ -366,6 +462,12 @@ Performing this function on a string or empty cell simply does nothing.
 @FUNCTION=STDEV
 @SYNTAX = STDEV(value1, value2, ...)@DESCRIPTION=Computes the standard deviation of all the values and cells referenced in the argument list. This is equivalent to the square root of the variance.
 @SEEALSO=VARIANCE
+
+@FUNCTION=BIN2HEX
+@SYNTAX=BIN2HEX(number,places)
+@DESCRIPTION=The BIN2HEX function converts a binary number to a hexadecimal number.places is an optional field, specifying to zero pad to that number of spaces.
+if places is too small or negative #NUM! error is returned.
+@SEEALSO=HEX2BIN
 
 @FUNCTION=ASINH
 @SYNTAX=ASINH(x)
@@ -394,6 +496,12 @@ Performing this function on a string or empty cell simply does nothing.
 Performing this function on a string or empty cell returns an error. 
 @SEEALSO=EXP, LOG2, LOG10
 
+@FUNCTION=ERFC
+@SYNTAX=ERFC(x)
+@DESCRIPTION=The ERFC function returns the integral of the complimentary error function between the limits 0 and x. 
+if x is not numeric a #VALUE! error is returned.if x < 0 a #NUM! error is returned.
+@SEEALSO=ERF
+
 @FUNCTION=SIN
 @SYNTAX=SIN(x)
 @DESCRIPTION=The SIN function returns the sine of x, where x is given  in radians. 
@@ -409,6 +517,12 @@ Performing this function on a string or empty cell simply does nothing. This fun
 @SYNTAX=CODE(char)
 @DESCRIPTION=Returns the ASCII number for the character char.
 @SEEALSO=CHAR
+
+@FUNCTION=DELTA
+@SYNTAX=DELTA(x,y)
+@DESCRIPTION=The DELTA function test for numerical eqivilance of two arguments returning 1 in equality y is optional, and defaults to 0
+if either argument is non-numeric returns a #VALUE! error
+@SEEALSO=EXACT,GESTEP
 
 @FUNCTION=POWER
 @SYNTAX=POWER(x,y)
