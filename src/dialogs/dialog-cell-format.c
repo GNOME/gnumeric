@@ -2289,8 +2289,8 @@ static GnmExpr const *
 validation_entry_to_expr (Sheet *sheet, GnmExprEntry *gee)
 {
 	ParsePos pp;
-	parse_pos_init (&pp, sheet->workbook, sheet, 0, 0);
-	return gnm_expr_entry_parse (gee, &pp, NULL, FALSE);
+	parse_pos_init_sheet (&pp, sheet);
+	return gnm_expr_entry_parse (gee, &pp, NULL, FALSE, GNM_EXPR_PARSE_DEFAULT);
 }
 
 static void

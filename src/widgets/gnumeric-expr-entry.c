@@ -547,7 +547,7 @@ gee_rangesel_make_text (GnmExprEntry const *gee)
 
 	gee_prepare_range (gee, &ref);
 	rangeref_as_string (target, gnm_expr_conventions_default,
-			    &ref, parse_pos_init (&pp, NULL, gee->sheet, 0, 0));
+			    &ref, parse_pos_init_sheet (&pp, gee->sheet));
 	return g_string_free (target, FALSE);
 }
 
@@ -623,7 +623,7 @@ gnm_expr_expr_find_range (GnmExprEntry *gee)
 		return;
 	len = strlen (text);
 
-	parse_pos_init (&pp, NULL, gee->sheet, 0, 0);
+	parse_pos_init_sheet (&pp, gee->sheet);
 	ptr = gnm_expr_char_start_p (text);
 	if (ptr == NULL)
 		ptr = text;
@@ -1187,17 +1187,18 @@ gnm_expr_entry_can_rangesel (GnmExprEntry *gee)
  * @gee : the entry
  * @pp : a parse position
  * @start_sel : start range selection when things change.
+ * @flags : 
  *
  * Attempts to parse the content of the entry line honouring
  * the flags.
  */
 GnmExpr const *
 gnm_expr_entry_parse (GnmExprEntry *gee, ParsePos const *pp,
-		      ParseError *perr, gboolean start_sel)
+		      ParseError *perr, gboolean start_sel,
+		      GnmExprParseFlags flags)
 {
 	char const *text;
 	char *str;
-	int flags;
 	GnmExpr const *expr;
 
 	g_return_val_if_fail (IS_GNM_EXPR_ENTRY (gee), NULL);
@@ -1207,7 +1208,6 @@ gnm_expr_entry_parse (GnmExprEntry *gee, ParsePos const *pp,
 	if (text == NULL || text[0] == '\0')
 		return NULL;
 
-	flags = GNM_EXPR_PARSE_DEFAULT;
 	if (gee->flags & GNM_EE_ABS_COL)
 		flags |= GNM_EXPR_PARSE_FORCE_ABSOLUTE_COL_REFERENCES;
 	if (gee->flags & GNM_EE_ABS_ROW)

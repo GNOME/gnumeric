@@ -119,7 +119,7 @@ dhl_get_target_cur_wb (HyperlinkState *state, gboolean *success)
 			ParsePos pp;
 			GnmNamedExpr *nexpr;
 
-			parse_pos_init (&pp, NULL, sheet, 0, 0);
+			parse_pos_init_sheet (&pp, sheet);
 			nexpr = expr_name_lookup (&pp, target);
 			if (nexpr != NULL)
 				val = gnm_expr_get_range (nexpr->expr);

@@ -2,6 +2,7 @@
 #define GNUMERIC_EXPR_ENTRY_H
 
 #include "gui-gnumeric.h"
+#include "parse-util.h"
 #include <gtk/gtkentry.h>
 
 #define GNM_EXPR_ENTRY_TYPE	(gnm_expr_entry_get_type ())
@@ -51,7 +52,8 @@ Value	 *gnm_expr_entry_parse_as_value	(GnmExprEntry *ee, Sheet *sheet);
 GSList	 *gnm_expr_entry_parse_as_list	(GnmExprEntry *ee, Sheet *sheet);
 GnmExpr const  *gnm_expr_entry_parse	(GnmExprEntry *e,
 					 ParsePos const *pp,
-					 ParseError *perr, gboolean start_sel);
+					 ParseError *perr, gboolean start_sel,
+					 GnmExprParseFlags flags);
 char     *gnm_expr_entry_global_range_name (GnmExprEntry *e, Sheet *sheet);
 void	  gnm_expr_entry_load_from_text	(GnmExprEntry *e, char const *str);
 void	  gnm_expr_entry_load_from_dep	(GnmExprEntry *e,
