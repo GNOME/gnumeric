@@ -1,3 +1,10 @@
+2001-04-29  Almer S. Tigelaar  <almer@gnome.org>
+
+	* fn-information.c (gnumeric_cell): Implement remaining
+	information types for the CELL function.
+	(retrieve_format_info): A helper function for gnumeric_cell
+	for gathering format characteristics.
+
 2001-04-18  Jody Goldberg <jgoldberg@home.com>
 
 	* fn-database.c (find_cells_that_match) : fix.

@@ -5,6 +5,7 @@
  *  Jukka-Pekka Iivonen (iivonen@iki.fi)
  *  Jody Goldberg (jgoldberg@home.com)
  *  Morten Welinder (terra@diku.dk)
+ *  Almer S. Tigelaar (almer@gnome.org)
  */
 #include <config.h>
 #include "gnumeric.h"
@@ -13,10 +14,12 @@
 #include "cell.h"
 #include "workbook.h"
 #include "format.h"
+#include "formats.h"
 #include "style.h"
 #include "sheet-style.h"
 #include "number-match.h"
 #include <sys/utsname.h>
+#include <math.h>
 
 enum Value_Class {
 	VALUE_CLASS_NUMBER  = 1,
@@ -82,17 +85,6 @@ static char *help_cell = {
 	   "@SEEALSO=")
 };
 
-/* FIXME: Implement this...
- * Text value corresponding to the number format of the cell.
- * The text values for the various formats are shown in the
- * following table. Returns "-" at the end of the text value if
- * the cell is formatted in color for negative values. Returns
- * "()" at the end of the text value if the cell is formatted
- * with parentheses for positive or all values.  "parentheses"
- * 1 if the cell is formatted with parentheses for positive or
- * all values; otherwise returns 0.
- */
-
 typedef struct {
 	char *format;
 	char *output;
@@ -143,6 +135,7 @@ translate_cell_format (StyleFormat const *format)
 	 */
 	for (i = 0; i < sizeof (translate_table)/sizeof(translate_t); i++) {
 		const translate_t *t = &translate_table[i];
+		
 		if (!g_strcasecmp (fmt, t->format)) {
 			g_free (fmt);
 			return value_new_string (t->output);
@@ -153,50 +146,81 @@ translate_cell_format (StyleFormat const *format)
 	return value_new_string ("G");
 }
 
+static FormatCharacteristics
+retrieve_format_info (Sheet *sheet, int col, int row)
+{
+	MStyle *mstyle = sheet_style_get (sheet, col, row);
+	StyleFormat *format = mstyle_get_format (mstyle);
+	char *fmt = style_format_as_XL (format, FALSE);
+	FormatCharacteristics info;
+
+	cell_format_classify (fmt, &info);
+	g_free (fmt);
+
+	return info;
+}
+
 static Value *
 gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 {
-	char * info_type = argv [0]->v_str.val->str;
+	char *info_type = argv [0]->v_str.val->str;
 	CellRef ref = argv [1]->v_range.cell.a;
-
+	
 	if (!g_strcasecmp(info_type, "address")) {
 		/* Reference of the first cell in reference, as text. */
 		return value_new_string (cell_coord_name (ref.col, ref.row));
 	} else if (!g_strcasecmp (info_type, "col")) {
 		return value_new_int (ref.col + 1);
 	} else if (!g_strcasecmp (info_type, "color")) {
-		/* 1 if the cell is formatted in color for negative values;
-		 * otherwise returns 0 (zero).
-		 */
-		return value_new_error (ei->pos, _("Unimplemented"));
+		FormatCharacteristics info = retrieve_format_info (ei->pos->sheet, ref.col, ref.row);
+
+		/* 0x01 = first bit (1) indicating negative colors */
+		return (info.negative_fmt & 0x01) ? value_new_int (1) : value_new_int (0);
 	} else if (!g_strcasecmp (info_type, "contents")) {
 		Cell *cell = sheet_cell_get (ei->pos->sheet, ref.col, ref.row);
+		
 		if (cell && cell->value)
 			return value_duplicate (cell->value);
-		g_warning ("Untested / checked");
-		return value_new_int (0);
+		return value_new_empty ();
 	} else if (!g_strcasecmp (info_type, "filename"))	{
-		/* Filename (including full path) of the file that contains
-		 * reference, as text. Returns empty text ("") if the worksheet
-		 * that contains reference has not yet been saved.
-		 */
-		return value_new_error (ei->pos, _("Unimplemented"));
+		char *name = ei->pos->sheet->workbook->filename;
+
+		if (name == NULL)
+			return value_new_string ("");
+		else
+			return value_new_string (name);
 	} else if (!g_strcasecmp (info_type, "format")) {
 		MStyle *mstyle = sheet_style_get (ei->pos->sheet, ref.col, ref.row);
+		
 		return translate_cell_format (mstyle_get_format (mstyle));
+	} else if (!g_strcasecmp (info_type, "parentheses")) {
+		FormatCharacteristics info = retrieve_format_info (ei->pos->sheet, ref.col, ref.row);
+
+		/* 0x02 = second bit (2) indicating parentheses */
+		return (info.negative_fmt & 0x02) ? value_new_int (1) : value_new_int (0);
 	} else if (!g_strcasecmp (info_type, "prefix")) {
-		/* Text value corresponding to the "label prefix" of the cell.
-		 * Returns single quotation mark (') if the cell contains
-		 * left-aligned text, double quotation mark (") if the cell
-		 * contains right-aligned text, caret (^) if the cell contains
-		 * centered text, backslash (\) if the cell contains
-		 * fill-aligned text, and empty text ("") if the cell contains
-		 * anything else.
-		 */
-		return value_new_error (ei->pos, _("Unimplemented"));
+		MStyle *mstyle = sheet_style_get (ei->pos->sheet, ref.col, ref.row);
+		Cell *cell = sheet_cell_get (ei->pos->sheet, ref.col, ref.row);
+		
+		if (cell && cell->value && cell->value->type == VALUE_STRING) {
+			switch (mstyle_get_align_h (mstyle)) {
+			case HALIGN_GENERAL: return value_new_string ("'");
+			case HALIGN_LEFT:    return value_new_string ("'");
+			case HALIGN_RIGHT:   return value_new_string ("\"");
+			case HALIGN_CENTER:  return value_new_string ("^");
+			case HALIGN_FILL:    return value_new_string ("\\");
+			default : 	     return value_new_string ("");
+			}
+		}
+		return value_new_string ("");
 	} else if (!g_strcasecmp (info_type, "protect")) {
+		/*
+		 * FIXME: We can only implement this when we have proper
+		 * cell locking in place. For now we will ALWAYS return 0
+		 * this is correct as no cell can ever be locked.
+		 */
 		/* 0 if the cell is not locked, and 1 if the cell is locked. */
-		return value_new_error (ei->pos, _("Unimplemented"));
+		return value_new_int (0);
 	} else if (!g_strcasecmp (info_type, "row")) {
 		return value_new_int (ref.row + 1);
 	} else if (!g_strcasecmp (info_type, "type")) {
@@ -211,11 +235,14 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		}
 		return value_new_string ("b");
 	} else if (!g_strcasecmp (info_type, "width")) {
-		/* Column width of the cell rounded off to an integer. Each
-		 * unit of column width is equal to the width of one character
-		 * in the default font size.
-		 */
-		return value_new_error (ei->pos, _("Unimplemented"));
+		ColRowInfo *info = sheet_col_get_info (ei->pos->sheet, ref.col);
+		double charwidth;
+		int    cellwidth;
+
+		charwidth = style_font_get_width (gnumeric_default_font);
+		cellwidth = info->size_pts;
+
+		return value_new_int (rint (cellwidth / charwidth));
 	}
 
 	return value_new_error (ei->pos, _("Unknown info_type"));

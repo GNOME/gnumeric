@@ -4,6 +4,7 @@ Almer:
 	* Fix a variety of bugs.
 	* Improve parser error messages.
 	* Implement Undo/Redo for Zoom.
+	* Complete the CELL function.
 
 Chema:
 	* GNUMERIC_ENABLE_XL_OVERWRITE

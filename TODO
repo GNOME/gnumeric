@@ -40,7 +40,7 @@ to features that already work.
        YIELDDISC, and YIELDMAT.
 
    + Fix or finish the following functions :
-     - CELL, COUPDAYBS, COUPDAYS, and DURATION
+     - COUPDAYBS, COUPDAYS, and DURATION
 
 * Data Analysis Tools
 
@@ -143,6 +143,7 @@ to features that already work.
 
    + Style
      Protection: Bloqued/Hidden.
+     (Don't forget to update the CELL function after this is implemented)
 
 * File Load/Save
    + Support for popular formats.  
