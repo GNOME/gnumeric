@@ -3377,7 +3377,8 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 	GsfInputGZip *gzip = NULL;
 	GsfInput *source = NULL;
 	guint8 const *buf;
-	size_t size, len;
+	gsf_off_t size;
+	size_t len;
 
 	g_return_if_fail (input != NULL);
 
@@ -3386,6 +3387,7 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 
 	gzip = gsf_input_gzip_new (input, NULL);
 	source = (gzip != NULL) ? GSF_INPUT (gzip) : input;
+#warning Possible overflow
 	value_io_progress_set (context, gsf_input_size (source), 0);
 
 	buf = gsf_input_read (source, 4, NULL);
@@ -3402,6 +3404,7 @@ gnumeric_xml_read_workbook (GnumFileOpener const *fo,
 		       if (buf == NULL)
 			       break;
 		       xmlParseChunk (pctxt, buf, len, 0);
+#warning Possible overflow
 		       value_io_progress_update (context, gsf_input_tell (source));
 		}
 		xmlParseChunk (pctxt, buf, 0, 1);
