@@ -7,7 +7,7 @@
 
 typedef enum {
         SolverRunning, SolverOptimal, SolverUnbounded, SolverInfeasible,
-	SolverFailure, SolverMilpFailure, SolverMaxIterExc
+	SolverFailure, SolverMilpFailure, SolverMaxIterExc, SolverMaxTimeExc
 } SolverStatus;
 
 /* Forward references for structures.  */
