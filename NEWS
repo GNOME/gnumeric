@@ -38,6 +38,8 @@ Morten:
 	* Add BETA and BETALN functions.
 	* Make CHAR function UTF-8 safe.
 	* Make CODE function mostly UTF-8 safe.
+	* Fix SUBSTITUTE (for non-blank fourth argument) and make it UTF-8
+	  safe.
 
 Nick Lamb:
 	* Initial support for pre-ole xls files.

@@ -81,8 +81,14 @@ gnumeric_char (FunctionEvalInfo *ei, Value **argv)
 		char c2 = c;
 		char *str = g_convert_with_iconv (&c2, 1, CHAR_iconv,
 						  NULL, NULL, NULL);
-		if (str)
-			return value_new_string_nocopy (str);
+		if (str) {
+			int len = g_utf8_strlen (str, -1);
+			if (len == 1)
+				return value_new_string_nocopy (str);
+			g_warning ("iconv for CHAR(%d) produced a string of length %d",
+				   c, len);
+		} else
+			g_warning ("iconv failed for CHAR(%d)", c);
 	}
 
 	return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -126,8 +132,10 @@ gnumeric_code (FunctionEvalInfo *ei, Value **argv)
 				    NULL, &written, NULL);
 	if (written)
 		res = value_new_int ((unsigned char)*str);
-	else
+	else {
+		g_warning ("iconv failed for CODE(U%x)", g_utf8_get_char (s));
 		res = value_new_error (ei->pos, gnumeric_err_VALUE);
+	}
 	g_free (str);
 
 	return res;
@@ -866,103 +874,44 @@ static const char *help_substitute = {
 	   "@SEEALSO=REPLACE, TRIM")
 };
 
-struct subs_string {
-	gchar *str;
-	guint len;
-	guint mem;
-};
-
-static struct subs_string *
-subs_string_new (guint len)
-{
-	struct subs_string *s = g_new (struct subs_string, 1);
-
-	s->len  = 0;
-	s->mem  = len;
-	s->str  = g_new (gchar, len);
-	*s->str = '\0';
-	return s;
-}
-
-static void
-subs_string_append_n (struct subs_string *s, gchar *src, guint n)
-{
-	const guint chunk = 1024;
-
-	while (s->len + n >= s->mem)
-		s->str = g_realloc (s->str, s->mem += chunk);
-
-	strncpy (&s->str[s->len], src, n);
-
-	s->len += n;
-	s->str[s->len] = '\0';
-}
-
-static void
-subs_string_free (struct subs_string *s)
-{
-	g_free (s->str);
-	g_free (s);
-}
-
 static Value *
 gnumeric_substitute (FunctionEvalInfo *ei, Value **argv)
 {
-	Value *v;
-	gchar *text, *old, *new, *p ,*f;
-	int num;
+	const char *p;
 	int oldlen, newlen, len, inst;
-	struct subs_string *s;
+	GString *s;
 
-	text = value_get_as_string (argv[0]);
-	old  = value_get_as_string (argv[1]);
-	new  = value_get_as_string (argv[2]);
-
-	if (argv[3])
-		num = value_get_as_int (argv[3]);
-	else
-		num = 0;
+	const char *text = value_peek_string (argv[0]);
+	const char *old  = value_peek_string (argv[1]);
+	const char *new  = value_peek_string (argv[2]);
+	int num = argv[3] ? value_get_as_int (argv[3]) : 0;
 
 	oldlen = strlen (old);
 	newlen = strlen (new);
 	len = strlen (text);
-	if (newlen != oldlen) {
-		s = subs_string_new (len);
-	} else
-		s = NULL;
+	s = g_string_sized_new (len);
 
 	p = text;
 	inst = 0;
 	while (p - text < len) {
-		if ( (f = strstr (p, old)) == NULL )
+		const char *f = strstr (p, old);
+		if (!f)
 			break;
-		if (num == 0 || num == ++inst) {
-			if (s == NULL) {
-				strncpy (f, new, newlen);
-			} else {
-				subs_string_append_n (s, p, f - p);
-				subs_string_append_n (s, new, newlen);
-			}
-			if (num != 0 && num == inst)
-				break;
-		}
+
+		g_string_append_len (s, p, f - p);
 		p = f + oldlen;
+
+		inst++;
+		if (num == 0 || num == inst) {
+			g_string_append_len (s, new, newlen);
+			if (num == inst)
+				break;
+		} else
+			g_string_append_len (s, old, oldlen);
 	}
-	if (newlen != oldlen) { /* FIXME: (p-text) might be bad ? */
-		subs_string_append_n (s, p, len - (p - text) );
-		p = s->str;
-	} else
-		p = text;
+	g_string_append (s, p);
 
-	v = value_new_string (p);
-
-	g_free (new);
-	g_free (old);
-	g_free (text);
-	if (s != NULL)
-		subs_string_free (s);
-
-	return v;
+	return value_new_string_nocopy (g_string_free (s, FALSE));
 }
 
 /***************************************************************************/
