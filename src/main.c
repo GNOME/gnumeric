@@ -206,8 +206,16 @@ int
 main (int argc, char *argv [])
 {
 	int fd;
-	
-	/* guile needs stdin, stdout, stderr */
+
+#if 0
+	/* FIXME:
+	 *
+	 * We segfault inside scm_boot_guile if any of stdin, stdout or stderr
+	 * is missing. Up to gnome-libs 1.0.56, libgnorba closes stdin, so the
+	 * segfault *will* happen when gnumeric is activated that way. This fix
+	 * will make sure fd 0, 1 and 2 are valid. Enable when we know where
+	 * guile init ends up. */
+
 	fd = open("/dev/null", O_RDONLY);
 	if (fd == 0)
 		fdopen (fd, "r");
@@ -224,6 +232,7 @@ main (int argc, char *argv [])
 			}
 		}
 	}
+#endif
 	
 	scm_boot_guile (argc, argv, gnumeric_main, 0);
 	return 0;
