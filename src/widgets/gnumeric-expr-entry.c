@@ -238,7 +238,6 @@ static void
 gnumeric_cell_editable_entry_activated (gpointer data, GnumericExprEntry *entry)
 {
   gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (entry));
-  gtk_cell_editable_remove_widget (GTK_CELL_EDITABLE (entry));
 }
 
 static void
