@@ -222,7 +222,7 @@ parse_criteria (char const *criteria, criteria_test_fun_t *fun,
 		len = 0;
 	}
 
-	*test_value = format_match (criteria + len, NULL, NULL);
+	*test_value = format_match (criteria + len, NULL);
 	if (*test_value == NULL)
 		*test_value = value_new_string (criteria + len);
 }

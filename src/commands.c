@@ -1600,135 +1600,6 @@ cmd_rename_sheet (WorkbookControl *wbc, const char *old_name, const char *new_na
 
 /******************************************************************/
 
-#define CMD_SET_DATE_TIME_TYPE        (cmd_set_date_time_get_type ())
-#define CMD_SET_DATE_TIME(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SET_DATE_TIME_TYPE, CmdSetDateTime))
-
-typedef struct
-{
-	GnumericCommand parent;
-
-	gboolean	 is_date;
-	EvalPos	 pos;
-	gchar		*contents;
-} CmdSetDateTime;
-
-GNUMERIC_MAKE_COMMAND (CmdSetDateTime, cmd_set_date_time);
-
-static gboolean
-cmd_set_date_time_undo (GnumericCommand *cmd, WorkbookControl *wbc)
-{
-	CmdSetDateTime *me = CMD_SET_DATE_TIME (cmd);
-	Cell  *cell;
-	Sheet *sheet;
-
-	g_return_val_if_fail (me != NULL, TRUE);
-
-	sheet = me->pos.sheet;
-
-	/* Get the cell */
-	cell = sheet_cell_get (sheet, me->pos.eval.col, me->pos.eval.row);
-
-	/* The cell MUST exist or something is very confused */
-	g_return_val_if_fail (cell != NULL, TRUE);
-
-	/* Restore the old value (possibly empty) */
-	if (me->contents != NULL) {
-		sheet_cell_set_text (cell, me->contents);
-		g_free (me->contents);
-		me->contents = NULL;
-	} else
-		sheet_clear_region (wbc, me->pos.sheet,
-				    me->pos.eval.col, me->pos.eval.row,
-				    me->pos.eval.col, me->pos.eval.row,
-				    CLEAR_VALUES|CLEAR_RECALC_DEPS);
-
-	return FALSE;
-}
-
-static gboolean
-cmd_set_date_time_redo (GnumericCommand *cmd, WorkbookControl *wbc)
-{
-	CmdSetDateTime *me = CMD_SET_DATE_TIME (cmd);
-	Value *v;
-	Cell *cell;
-	StyleFormat *prefered_format;
-
-	g_return_val_if_fail (me != NULL, TRUE);
-	g_return_val_if_fail (me->contents == NULL, TRUE);
-
-	if (me->is_date) {
-		v = value_new_int (datetime_timet_to_serial (time (NULL)));
-		prefered_format = style_format_new_XL (cell_formats[FMT_DATE][0], TRUE);
-	} else {
-		v = value_new_float (datetime_timet_to_seconds (time (NULL)) / (24.0 * 60 * 60));
-		prefered_format = style_format_new_XL (cell_formats[FMT_TIME][0], TRUE);
-	}
-
-	/* Get the cell (creating it if needed) */
-	cell = sheet_cell_fetch (me->pos.sheet, me->pos.eval.col, me->pos.eval.row);
-
-	/* Save contents */
-	me->contents = (cell->value) ? cell_get_entered_text (cell) : NULL;
-
-	sheet_cell_set_value (cell, v, prefered_format);
-	style_format_unref (prefered_format);
-
-	return FALSE;
-}
-
-static void
-cmd_set_date_time_finalize (GObject *cmd)
-{
-	CmdSetDateTime *me = CMD_SET_DATE_TIME (cmd);
-
-	if (me->contents) {
-		g_free (me->contents);
-		me->contents = NULL;
-	}
-	gnumeric_command_finalize (cmd);
-}
-
-gboolean
-cmd_set_date_time (WorkbookControl *wbc,
-		   Sheet *sheet, CellPos const *pos, gboolean is_date)
-{
-	GObject *obj;
-	CmdSetDateTime *me;
-	Cell const *cell;
-
-	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-
-	/* Ensure that we are not splitting up an array */
-	cell = sheet_cell_get (sheet, pos->col, pos->row);
-	if (cell_is_partial_array (cell)) {
-		gnumeric_error_splits_array (COMMAND_CONTEXT (wbc),
-					     _("Set Date/Time"), NULL);
-		return TRUE;
-	}
-
-	obj = g_object_new (CMD_SET_DATE_TIME_TYPE, NULL);
-	me = CMD_SET_DATE_TIME (obj);
-
-	/* Store the specs for the object */
-	me->pos.sheet = sheet;
-	me->pos.eval = *pos;
-	me->is_date = is_date;
-	me->contents = NULL;
-
-	me->parent.sheet = sheet;
-	me->parent.size = 1;
-	me->parent.cmd_descriptor =
-	    g_strdup_printf (is_date
-			     ? _("Setting current date in %s")
-			     : _("Setting current time in %s"),
-			     cell_coord_name (pos->col, pos->row));
-
-	/* Register the command object */
-	return command_push_undo (wbc, obj);
-}
-
-/******************************************************************/
-
 #define CMD_RESIZE_COLROW_TYPE        (cmd_resize_colrow_get_type ())
 #define CMD_RESIZE_COLROW(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_RESIZE_COLROW_TYPE, CmdResizeColRow))
 
@@ -3410,9 +3281,8 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 		StyleFormat *fmt;
 
 		parse_pos_init_evalpos (&pp, ep);
-		fmt = parse_text_value_or_expr (&pp, cell_res.new_text, &val, &expr,
+		parse_text_value_or_expr (&pp, cell_res.new_text, &val, &expr,
 			mstyle_get_format (cell_get_mstyle (cell_res.cell)));
-		style_format_unref (fmt);
 
 		/*
 		 * FIXME: this is a hack, but parse_text_value_or_expr

@@ -28,7 +28,7 @@ Value *
 value_new_empty (void)
 {
 	/* This is a constant.  no need to allocate  any memory */
-	static ValueType v = VALUE_EMPTY;
+	static ValueAny v = { VALUE_EMPTY, NULL };
 	return (Value *)&v;
 }
 
@@ -37,6 +37,7 @@ value_new_bool (gboolean b)
 {
 	ValueBool *v = g_new (ValueBool, 1);
 	*((ValueType *)&(v->type)) = VALUE_BOOLEAN;
+	v->fmt = NULL;
 	v->val = b;
 	return (Value *)v;
 }
@@ -46,6 +47,7 @@ value_new_int (int i)
 {
 	ValueInt *v = g_new (ValueInt, 1);
 	*((ValueType *)&(v->type)) = VALUE_INTEGER;
+	v->fmt = NULL;
 	v->val = i;
 	return (Value *)v;
 }
@@ -56,6 +58,7 @@ value_new_float (gnum_float f)
 	if (FINITE (f)) {
 		ValueFloat *v = g_new (ValueFloat, 1);
 		*((ValueType *)&(v->type)) = VALUE_FLOAT;
+		v->fmt = NULL;
 		v->val = f;
 		return (Value *)v;
 	} else {
@@ -69,6 +72,7 @@ value_new_error (EvalPos const *ep, char const *mesg)
 {
 	ValueErr *v = g_new (ValueErr, 1);
 	*((ValueType *)&(v->type)) = VALUE_ERROR;
+	v->fmt = NULL;
 	v->mesg = string_get (mesg);
 	return (Value *)v;
 }
@@ -78,6 +82,7 @@ value_new_error_str (EvalPos const *ep, String *mesg)
 {
 	ValueErr *v = g_new (ValueErr, 1);
 	*((ValueType *)&(v->type)) = VALUE_ERROR;
+	v->fmt = NULL;
 	v->mesg = string_ref (mesg);
 	return (Value *)v;
 }
@@ -104,6 +109,7 @@ value_new_string (char const *str)
 {
 	ValueStr *v = g_new (ValueStr, 1);
 	*((ValueType *)&(v->type)) = VALUE_STRING;
+	v->fmt = NULL;
 	v->val = string_get (str);
 	return (Value *)v;
 }
@@ -114,6 +120,7 @@ value_new_string_str (String *str)
 {
 	ValueStr *v = g_new (ValueStr, 1);
 	*((ValueType *)&(v->type)) = VALUE_STRING;
+	v->fmt = NULL;
 	v->val = str;
 	return (Value *)v;
 }
@@ -123,6 +130,7 @@ value_new_cellrange_unsafe (CellRef const *a, CellRef const *b)
 {
 	ValueRange *v = g_new (ValueRange, 1);
 	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
+	v->fmt = NULL;
 	v->cell.a = *a;
 	v->cell.b = *b;
 	return (Value *)v;
@@ -145,6 +153,7 @@ value_new_cellrange (CellRef const *a, CellRef const *b,
 	int tmp;
 
 	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
+	v->fmt = NULL;
 	v->cell.a = *a;
 	v->cell.b = *b;
 
@@ -189,6 +198,7 @@ value_new_cellrange_r (Sheet *sheet, Range const *r)
 	CellRef *a, *b;
 
 	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
+	v->fmt = NULL;
 	a = &v->cell.a;
 	b = &v->cell.b;
 
@@ -209,6 +219,7 @@ value_new_array_non_init (guint cols, guint rows)
 {
 	ValueArray *v = g_new (ValueArray, 1);
 	*((ValueType *)&(v->type)) = VALUE_ARRAY;
+	v->fmt = NULL;
 	v->x = cols;
 	v->y = rows;
 	v->vals = g_new (Value **, cols);
@@ -244,53 +255,51 @@ value_new_array_empty (guint cols, guint rows)
 }
 
 Value *
-value_new_from_string (ValueType t, char const *str)
+value_new_from_string (ValueType t, char const *str, StyleFormat *sf)
 {
+	Value *res = NULL;
 	switch (t) {
 	case VALUE_EMPTY:
-		return value_new_empty ();
+		res = value_new_empty ();
+		break;
 
 	case VALUE_BOOLEAN:
 		/* Is it a boolean */
 		if (0 == g_strcasecmp (str, _("TRUE")))
-			return value_new_bool (TRUE);
-		if (0 == g_strcasecmp (str, _("FALSE")))
-			return value_new_bool (FALSE);
-		return NULL;
+			res = value_new_bool (TRUE);
+		else if (0 == g_strcasecmp (str, _("FALSE")))
+			res = value_new_bool (FALSE);
+		break;
 
-	case VALUE_INTEGER:
-	{
+	case VALUE_INTEGER: {
 		char *end;
 		long l;
 
 		errno = 0;
 		l = strtol (str, &end, 10);
-		if (str != end && *end == '\0') {
-			if (errno != ERANGE)
-				return value_new_int ((int)l);
-		}
-		return NULL;
+		if (str != end && *end == '\0' && errno != ERANGE)
+			res = value_new_int ((int)l);
+		break;
 	}
 
-	case VALUE_FLOAT:
-	{
+	case VALUE_FLOAT: {
 		char *end;
 		double d;
 
 		errno = 0;
 		d = strtod (str, &end);
-		if (str != end && *end == '\0') {
-			if (errno != ERANGE)
-				return value_new_float ((gnum_float)d);
-		}
-		return NULL;
+		if (str != end && *end == '\0' && errno != ERANGE)
+			res = value_new_float ((gnum_float)d);
+		break;
 	}
 
 	case VALUE_ERROR:
-		return value_new_error (NULL, str);
+		res = value_new_error (NULL, str);
+		break;
 
 	case VALUE_STRING:
-		return value_new_string (str);
+		res = value_new_string (str);
+		break;
 
 	/* Should not happend */
 	case VALUE_ARRAY:
@@ -299,6 +308,9 @@ value_new_from_string (ValueType t, char const *str)
 		g_warning ("value_new_from_string problem\n");
 		return NULL;
 	}
+
+	value_set_fmt (res, sf);
+	return res;
 }
 
 void
@@ -309,6 +321,9 @@ value_release (Value *value)
 	/* Do not release value_terminate it is a magic number */
 	if (value == value_terminate ())
 		return;
+
+	if (VALUE_FMT (value) != NULL)
+		style_format_unref (VALUE_FMT (value));
 
 	switch (value->type) {
 	case VALUE_EMPTY:
@@ -371,52 +386,62 @@ value_release (Value *value)
 Value *
 value_duplicate (Value const *src)
 {
+	Value *res;
+
 	g_return_val_if_fail (src != NULL, NULL);
 
 	switch (src->type){
 	case VALUE_EMPTY:
-		return value_new_empty();
+		res = value_new_empty();
+		break;
 
 	case VALUE_BOOLEAN:
-		return value_new_bool(src->v_bool.val);
+		res = value_new_bool(src->v_bool.val);
+		break;
 
 	case VALUE_INTEGER:
-		return value_new_int (src->v_int.val);
+		res = value_new_int (src->v_int.val);
+		break;
 
 	case VALUE_FLOAT:
-		return value_new_float (src->v_float.val);
+		res = value_new_float (src->v_float.val);
+		break;
 
 	case VALUE_ERROR:
-		return value_new_error_str (&src->v_err.src,
-					    src->v_err.mesg);
+		res = value_new_error_str (&src->v_err.src,
+					   src->v_err.mesg);
+		break;
 
 	case VALUE_STRING:
 		string_ref (src->v_str.val);
-		return value_new_string_str (src->v_str.val);
+		res = value_new_string_str (src->v_str.val);
+		break;
 
 	case VALUE_CELLRANGE:
-		return value_new_cellrange_unsafe (&src->v_range.cell.a,
-						   &src->v_range.cell.b);
+		res = value_new_cellrange_unsafe (&src->v_range.cell.a,
+						  &src->v_range.cell.b);
+		break;
 
-	case VALUE_ARRAY:
-	{
+	case VALUE_ARRAY: {
 		int x, y;
-		ValueArray *res =
-		    (ValueArray *)value_new_array_non_init (src->v_array.x, src->v_array.y);
+		ValueArray *array = (ValueArray *)value_new_array_non_init (
+			src->v_array.x, src->v_array.y);
 
-		for (x = 0; x < res->x; x++) {
-			res->vals [x] = g_new (Value *, res->y);
-			for (y = 0; y < res->y; y++)
-				res->vals [x] [y] = value_duplicate (src->v_array.vals [x][y]);
+		for (x = 0; x < array->x; x++) {
+			array->vals [x] = g_new (Value *, array->y);
+			for (y = 0; y < array->y; y++)
+				array->vals [x] [y] = value_duplicate (src->v_array.vals [x][y]);
 		}
-		return (Value *)res;
+		res = (Value *)array;
+		break;
 	}
 
 	default:
-		break;
+		g_warning ("value_duplicate problem\n");
+		res = value_new_empty();
 	}
-	g_warning ("value_duplicate problem\n");
-	return value_new_empty();
+	value_set_fmt (res, VALUE_FMT (src));
+	return res;
 }
 
 gboolean
@@ -771,6 +796,8 @@ compare_float_float (Value const *va, Value const *vb)
  * @a : value a
  * @b : value b
  *
+ * IGNORES format.
+ *
  * Returns a positive difference between 2 values
  */
 double
@@ -854,6 +881,8 @@ value_diff (Value const *a, Value const *b)
  * @a : value a
  * @b : value b
  * @case_sensitive : are string comparisons case sensitive.
+ *
+ * IGNORES format.
  */
 ValueCompare
 value_compare (Value const *a, Value const *b, gboolean case_sensitive)
@@ -949,4 +978,14 @@ value_compare (Value const *a, Value const *b, gboolean case_sensitive)
 	default:
 		return TYPE_MISMATCH;
 	}
+}
+
+void
+value_set_fmt (Value *v, StyleFormat const *fmt)
+{
+	if (fmt != NULL)
+		style_format_ref ((StyleFormat *)fmt);
+	if (VALUE_FMT (v) != NULL)
+		style_format_unref (VALUE_FMT (v));
+	VALUE_FMT (v) = (StyleFormat *)fmt;
 }

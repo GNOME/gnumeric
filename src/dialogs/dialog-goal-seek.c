@@ -91,7 +91,7 @@ goal_seek_eval (gnum_float x, gnum_float *y, void *vevaldata)
 {
 	GoalEvalData *evaldata = vevaldata;
 
-	cell_set_value (evaldata->xcell, value_new_float (x), NULL);
+	cell_set_value (evaldata->xcell, value_new_float (x));
 	cell_queue_recalc (evaldata->xcell);
 	workbook_recalc (evaldata->xcell->base.sheet->workbook);
 
@@ -299,7 +299,7 @@ static void
 cb_dialog_cancel_clicked (GtkWidget *button, GoalSeekState *state)
 {
 	if ((state->old_cell != NULL) && (state->old_value != NULL)) {
-		sheet_cell_set_value (state->old_cell, state->old_value, NULL);
+		sheet_cell_set_value (state->old_cell, state->old_value);
 		workbook_recalc (state->old_cell->base.sheet->workbook);
 		state->old_value = NULL;
 	}
@@ -340,9 +340,6 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 	GoalSeekStatus	status;
 	Value *value;
 	StyleFormat *format;
-	StyleFormat *target_value_format;
-	StyleFormat *min_value_format;
-	StyleFormat *max_value_format;
   	gnum_float  max_range_val = 1e24;    
 	Value *error_value, *target;
 	RangeRef const *r;
@@ -403,9 +400,7 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 
 	text = gtk_entry_get_text (GTK_ENTRY (state->to_value_entry));
 	format = mstyle_get_format (cell_get_mstyle (state->set_cell));
-	value = format_match_number (text, format, &target_value_format);
-	if (format != NULL) 
-		target_value_format = format;
+	value = format_match_number (text, format);
 	if (value == NULL){
 		gnumeric_notice_nonmodal (GTK_WINDOW(state->dialog),
 					  &(state->warning_dialog),
@@ -416,25 +411,21 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 		return;
 	}
 	state->target_value = value_get_as_float (value);
-	target_str = format_value (target_value_format, value, NULL, 0);
+	target_str = format_value (NULL, value, NULL, 0);
 	gtk_entry_set_text (GTK_ENTRY (state->to_value_entry), target_str);
 	g_free (target_str);
 	value_release (value);
 	
+#warning Move the striping into entry_to_float and use that.
 	format = mstyle_get_format (cell_get_mstyle (state->change_cell));
 	tmp = g_strdup (gtk_entry_get_text (GTK_ENTRY (state->at_least_entry)));
 	g_strstrip (tmp);
-	if (strlen (tmp) > 0) {
-		value = format_match_number (tmp, format, &min_value_format);
-		if (format != NULL) 
-			min_value_format = format;
-	} else {
-		value = NULL;
-	}
+	value = (*tmp) ? format_match_number (tmp, format) : NULL;
 	g_free (tmp);
+
 	if (value != NULL) {
 		state->xmin = value_get_as_float (value);
-		tmp = format_value (min_value_format, value, NULL, 0);
+		tmp = format_value (NULL, value, NULL, 0);
 		gtk_entry_set_text (GTK_ENTRY (state->at_least_entry), tmp);
 		g_free (tmp);	
 		value_release (value);
@@ -445,17 +436,11 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 
 	tmp = g_strdup (gtk_entry_get_text (GTK_ENTRY (state->at_most_entry)));
 	g_strstrip (tmp);
-	if (strlen (tmp) > 0) {
-		value = format_match_number (tmp, format, &max_value_format);
-		if (format != NULL) 
-			max_value_format = format;
-	} else {
-		value = NULL;
-	}
+	value = (*tmp) ? format_match_number (tmp, format) : NULL;
 	g_free (tmp);
 	if (value != NULL) {
 		state->xmax = value_get_as_float (value);
-		tmp = format_value (max_value_format, value, NULL, 0);
+		tmp = format_value (NULL, value, NULL, 0);
 		gtk_entry_set_text (GTK_ENTRY (state->at_most_entry), tmp);
 		g_free (tmp);	
 		value_release (value);
@@ -465,7 +450,7 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
 	}
 
 	if ((state->old_cell != NULL) && (state->old_value != NULL)) {
-		sheet_cell_set_value (state->old_cell, state->old_value, NULL);
+		sheet_cell_set_value (state->old_cell, state->old_value);
 		workbook_recalc (state->old_cell->base.sheet->workbook);
 		state->old_value = NULL;
 	}

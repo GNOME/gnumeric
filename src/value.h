@@ -22,40 +22,53 @@ typedef enum {
 	VALUE_ARRAY	= 80
 } ValueType;
 
+typedef struct {
+	ValueType const type;
+	StyleFormat *fmt;
+} ValueAny;
 struct _ValueBool {
 	ValueType const type;
+	StyleFormat *fmt;
 	gboolean val;
 };
 struct _ValueInt {
 	ValueType const type;
+	StyleFormat *fmt;
 	gnum_int val;
 };
 struct _ValueFloat {
 	ValueType const type;
+	StyleFormat *fmt;
 	gnum_float val;
 };
 struct _ValueErr {
 	ValueType const type;
+	StyleFormat *fmt;
 	String       *mesg;
 	/* Currently unused.  Intended to support audit functions */
 	EvalPos  src;
 };
 struct _ValueStr {
 	ValueType const type;
+	StyleFormat *fmt;
 	String *val;
 };
 struct _ValueRange {
 	ValueType const type;
+	StyleFormat *fmt;
 	RangeRef cell;
 };
 struct _ValueArray {
 	ValueType const type;
+	StyleFormat *fmt;
 	int x, y;
 	Value ***vals;  /* Array [x][y] */
 };
 
+/* FIXME */
 union _Value {
 	ValueType const type;
+	ValueAny	v_any;
 	ValueBool	v_bool;
 	ValueInt	v_int;
 	ValueFloat	v_float;
@@ -65,6 +78,8 @@ union _Value {
 	ValueArray	v_array;
 };
 
+#define	VALUE_TYPE(v)			((v)->v_any.type)
+#define	VALUE_FMT(v)			((v)->v_any.fmt)
 #define VALUE_IS_EMPTY(v)		(((v) == NULL) || ((v)->type == VALUE_EMPTY))
 #define VALUE_IS_EMPTY_OR_ERROR(v)	(VALUE_IS_EMPTY(v) || (v)->type == VALUE_ERROR)
 #define VALUE_IS_NUMBER(v)		(((v)->type == VALUE_INTEGER) || \
@@ -93,9 +108,10 @@ Value       *value_new_cellrange_r      (Sheet *sheet, Range const *r);
 Value       *value_new_array            (guint cols, guint rows);
 Value       *value_new_array_empty      (guint cols, guint rows);
 Value 	    *value_new_array_non_init   (guint cols, guint rows);
-Value 	    *value_new_from_string	(ValueType t, char const *str);
+Value 	    *value_new_from_string	(ValueType t, char const *str, StyleFormat *sf);
 
 void         value_release         (Value *v);
+void	     value_set_fmt	   (Value *v, StyleFormat const *fmt);
 void         value_dump            (Value const *v);
 Value       *value_duplicate       (Value const *v);
 double       value_diff		   (Value const *a, Value const *b);

@@ -76,10 +76,6 @@ cell_cleanout (Cell *cell)
 		rendered_value_destroy (cell->rendered_value);
 		cell->rendered_value = NULL;
 	}
-	if (cell->format) {
-		style_format_unref (cell->format);
-		cell->format = NULL;
-	}
 
 	cell_dirty (cell);
 }
@@ -117,9 +113,6 @@ cell_copy (Cell const *cell)
 	new_cell->value = (new_cell->value)
 		? value_duplicate (new_cell->value)
 		: value_new_empty ();
-
-	if (cell->format)
-		style_format_ref (cell->format);
 
 	return new_cell;
 }
@@ -333,7 +326,6 @@ cell_relocate (Cell *cell, ExprRewriteInfo *rwinfo)
 void
 cell_set_text (Cell *cell, char const *text)
 {
-	StyleFormat *format;
 	ExprTree    *expr;
 	Value	    *val;
 	ParsePos     pos;
@@ -342,19 +334,16 @@ cell_set_text (Cell *cell, char const *text)
 	g_return_if_fail (text != NULL);
 	g_return_if_fail (!cell_is_partial_array (cell));
 
-	format = parse_text_value_or_expr (parse_pos_init_cell (&pos, cell),
+	parse_text_value_or_expr (parse_pos_init_cell (&pos, cell),
 		text, &val, &expr, mstyle_get_format (cell_get_mstyle (cell)));
 
 	if (val != NULL) {	/* String was a value */
 		cell_cleanout (cell);
 		cell->value = val;
-		/* parse_text already refed the format */
-		cell->format = format;
 		cell_render_value (cell, TRUE);
 	} else {		/* String was an expression */
-		cell_set_expr (cell, expr, format);
+		cell_set_expr (cell, expr);
 		expr_tree_unref (expr);
-		style_format_unref (format);
 	}
 }
 
@@ -366,8 +355,6 @@ cell_set_text (Cell *cell, char const *text)
  *
  * The value is rendered but spans are not calculated.
  *
- * If an optional format is supplied it is stored for later use.
- *
  * WARNING : This is an internal routine that does not queue redraws,
  *           does not auto-resize, does not calculate spans, does
  *           not mark anything as dirty.
@@ -375,16 +362,10 @@ cell_set_text (Cell *cell, char const *text)
  * NOTE : This DOES NOT check for array partitioning.
  */
 void
-cell_assign_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
+cell_assign_value (Cell *cell, Value *v)
 {
 	g_return_if_fail (cell);
 	g_return_if_fail (v);
-
-	if (opt_fmt)
-		style_format_ref (opt_fmt);
-	if (cell->format)
-		style_format_unref (cell->format);
-	cell->format = opt_fmt;
 
 	if (cell->value != NULL)
 		value_release (cell->value);
@@ -399,28 +380,19 @@ cell_assign_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
  * The value is rendered but spans are not calculated, then the rendered string
  * is stored as if that is what the user had entered.
  *
- * If an optional format is supplied it is stored for later use.
- *
  * WARNING : This is an internal routine that does not queue redraws,
  *           does not auto-resize, and does not calculate spans.
  *
  * NOTE : This DOES check for array partitioning.
  */
 void
-cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
+cell_set_value (Cell *cell, Value *v)
 {
-	g_return_if_fail (cell);
-	g_return_if_fail (v);
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (v != NULL);
 	g_return_if_fail (!cell_is_partial_array (cell));
 
-	if (opt_fmt)
-		style_format_ref (opt_fmt);
-
 	cell_cleanout (cell);
-
-	/* TODO : It would be nice to standardize on NULL == General */
-	cell->format = (opt_fmt == NULL || style_format_is_general (opt_fmt))
-		? NULL : opt_fmt;
 	cell->value = v;
 }
 
@@ -430,8 +402,6 @@ cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
  *        list.  It marks the sheet as dirty. It is intended for use by import
  *        routines or operations that do bulk assignment.
  *
- * If an optional format is supplied it is stored for later use.
- *
  * WARNING : This is an internal routine that does not queue redraws,
  *           does not auto-resize, does not calculate spans, and does
  *           not render the value.
@@ -440,7 +410,7 @@ cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
  */
 void
 cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v,
-			 StyleFormat *opt_fmt, gboolean link_expr)
+			 gboolean link_expr)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (expr != NULL);
@@ -448,12 +418,8 @@ cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v,
 
 	/* Repeat after me.  Ref before unref. */
 	expr_tree_ref (expr);
-	if (opt_fmt != NULL)
-		style_format_ref (opt_fmt);
-
 	cell_cleanout (cell);
 
-	cell->format = opt_fmt;
 	cell->base.expression = expr;
 	cell->base.flags |= CELL_HAS_EXPRESSION;
 	cell->value = v;
@@ -465,7 +431,6 @@ cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v,
  * cell_set_expr_internal:
  * @cell: the cell to set the formula to
  * @expr: an expression tree with the formula
- * opt_fmt: an optional format to apply to the cell.
  *
  * A private internal utility to store an expression.
  * Does NOT
@@ -475,15 +440,12 @@ cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v,
  * 	- link the expression into the master list.
  */
 static void
-cell_set_expr_internal (Cell *cell, ExprTree *expr, StyleFormat *opt_fmt)
+cell_set_expr_internal (Cell *cell, ExprTree *expr)
 {
 	expr_tree_ref (expr);
-	if (opt_fmt != NULL)
-		style_format_ref (opt_fmt);
 
 	cell_cleanout (cell);
 
-	cell->format = opt_fmt;
 	cell->base.expression = expr;
 	cell->base.flags |= CELL_HAS_EXPRESSION;
 
@@ -498,20 +460,18 @@ cell_set_expr_internal (Cell *cell, ExprTree *expr, StyleFormat *opt_fmt)
  *
  * The cell is NOT marked for recalc.
  *
- * If an optional format is supplied it is stored for later use.
- *
  * WARNING : This is an internal routine that does not queue redraws,
  *           does not auto-resize, and does not calculate spans.
  *           It also DOES NOT CHECK FOR ARRAY DIVISION.  Be very careful
  *           using this.
  */
 void
-cell_set_expr_unsafe (Cell *cell, ExprTree *expr, StyleFormat *opt_fmt)
+cell_set_expr_unsafe (Cell *cell, ExprTree *expr)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (expr != NULL);
 
-	cell_set_expr_internal (cell, expr, opt_fmt);
+	cell_set_expr_internal (cell, expr);
 	dependent_link (CELL_TO_DEP (cell), &cell->pos);
 }
 
@@ -520,11 +480,14 @@ cell_set_expr_unsafe (Cell *cell, ExprTree *expr, StyleFormat *opt_fmt)
  *      checks for array subdivision.
  */
 void
-cell_set_expr (Cell *cell, ExprTree *expr, StyleFormat *opt_fmt)
+cell_set_expr (Cell *cell, ExprTree *expr)
 {
 	g_return_if_fail (!cell_is_partial_array (cell));
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (expr != NULL);
 
-	cell_set_expr_unsafe (cell, expr, opt_fmt);
+	cell_set_expr_internal (cell, expr);
+	dependent_link (CELL_TO_DEP (cell), &cell->pos);
 }
 
 /**
@@ -572,7 +535,7 @@ cell_set_array_formula (Sheet *sheet,
 	wrapper = expr_tree_new_array (0, 0, num_cols, num_rows);
 	wrapper->array.corner.value = NULL;
 	wrapper->array.corner.expr = formula;
-	cell_set_expr_internal (corner, wrapper, NULL);
+	cell_set_expr_internal (corner, wrapper);
 	expr_tree_unref (wrapper);
 
 	for (x = 0; x < num_cols; ++x)
@@ -584,7 +547,7 @@ cell_set_array_formula (Sheet *sheet,
 
 			cell = sheet_cell_fetch (sheet, col_a + x, row_a + y);
 			wrapper = expr_tree_new_array (x, y, num_cols, num_rows);
-			cell_set_expr_internal (cell, wrapper, NULL);
+			cell_set_expr_internal (cell, wrapper);
 			dependent_link (CELL_TO_DEP (cell), &cell->pos);
 			expr_tree_unref (wrapper);
 		}
@@ -695,37 +658,31 @@ cell_get_mstyle (Cell const *cell)
 				cell->pos.row);
 }
 
+/**
+ * cell_get_format :
+ * @cell :
+ *
+ * Get the display format.  If the assigned format is General,
+ * the format of the value will be used.
+ */
 char *
 cell_get_format (Cell const *cell)
 {
 	char   *result = NULL;
-	MStyle *mstyle;
+	StyleFormat const *fmt;
 
 	g_return_val_if_fail (cell != NULL, g_strdup ("General"));
 
-	mstyle = cell_get_mstyle (cell);
+	fmt = mstyle_get_format (cell_get_mstyle (cell));
 
-	if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
-		StyleFormat const *format = mstyle_get_format (mstyle);
+	g_return_val_if_fail (fmt != NULL, g_strdup ("General"));
 
-		/* FIXME: we really should distinguish between "not assigned"
-		 * and "assigned General".
-		 *
-		 * 8/20/00 JEG : Do we still need this test ?
-		 */
-		if (format) {
-			/* If the format is General it may have been over
-			 * ridden by the format used to parse the input text.
-			 */
-			result = style_format_as_XL (format, FALSE);
-			if (!strcmp (result, "General") != 0 && cell->format != NULL) {
-				g_free (result);
-				result = style_format_as_XL (cell->format, FALSE);
-			}
-		}
-	}
+	if (style_format_is_general (fmt) &&
+	    cell->value != NULL && VALUE_FMT (cell->value))
+		fmt = VALUE_FMT (cell->value);
 
-	return result;
+#warning make this a StyleFormat
+	return style_format_as_XL (fmt, FALSE);
 }
 
 /*

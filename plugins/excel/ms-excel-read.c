@@ -1355,6 +1355,7 @@ ms_excel_set_xf (ExcelSheet *esheet, int col, int row, guint16 xfidx)
 	d (2, printf ("%s!%s%d = xf(%d)\n", esheet->gnum_sheet->name_unquoted,
 		      col_name (col), row + 1, xfidx););
 
+#warning there is a big optimization here if we do not apply the sheet/col/row default
 	sheet_style_set_pos (esheet->gnum_sheet, col, row, mstyle);
 }
 
@@ -1720,7 +1721,7 @@ ms_excel_sheet_insert (ExcelSheet *esheet, int xfidx,
 
 	if (text) {
 		cell = sheet_cell_fetch (esheet->gnum_sheet, col, row);
-		cell_set_value (cell, value_new_string (text), NULL);
+		cell_set_value (cell, value_new_string (text));
 	}
 }
 
@@ -1834,14 +1835,14 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 		printf ("FIXME: serious formula error: "
 			"invalid FORMULA (0x%x) record with length %d (should >= 22)\n",
 			q->opcode, q->length);
-		cell_set_value (cell, value_new_error (NULL, "Formula Error"), NULL);
+		cell_set_value (cell, value_new_error (NULL, "Formula Error"));
 		return;
 	}
 	if (q->length < (unsigned)(22 + MS_OLE_GET_GUINT16 (q->data + 20))) {
 		printf ("FIXME: serious formula error: "
 			"supposed length 0x%x, real len 0x%x\n",
 			MS_OLE_GET_GUINT16 (q->data + 20), q->length);
-		cell_set_value (cell, value_new_error (NULL, "Formula Error"), NULL);
+		cell_set_value (cell, value_new_error (NULL, "Formula Error"));
 		return;
 	}
 
@@ -1965,11 +1966,11 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 		if (expr == NULL && !array_elem) {
 			g_warning ("EXCEL: How does cell %s have an array expression ?",
 				   cell_name (cell));
-			cell_set_value (cell, val, NULL);
+			cell_set_value (cell, val);
 		} else
-			cell_assign_value (cell, val, NULL);
+			cell_assign_value (cell, val);
 	} else if (!cell_has_expr (cell)) {
-		cell_set_expr_and_value (cell, expr, val, NULL, TRUE);
+		cell_set_expr_and_value (cell, expr, val, TRUE);
 		expr_tree_unref (expr);
 	} else {
 		/*
@@ -1978,7 +1979,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *esheet)
 		 */
 		g_warning ("EXCEL: Shared formula problems in %s!%s",
 			   cell->base.sheet->name_quoted, cell_name (cell));
-		cell_set_value (cell, val, NULL);
+		cell_set_value (cell, val);
 	}
 
 	/*
@@ -2398,7 +2399,6 @@ static void
 ms_excel_sheet_insert_val (ExcelSheet *esheet, int xfidx,
 			   int col, int row, Value *v)
 {
-	Cell *cell;
 	BiffXFData const *xf = ms_excel_get_xf (esheet, xfidx);
 
 	g_return_if_fail (v);
@@ -2406,8 +2406,8 @@ ms_excel_sheet_insert_val (ExcelSheet *esheet, int xfidx,
 	g_return_if_fail (xf);
 
 	ms_excel_set_xf (esheet, col, row, xfidx);
-	cell = sheet_cell_fetch (esheet->gnum_sheet, col, row);
-	cell_set_value (cell, v, xf->style_format);
+	value_set_fmt (v, xf->style_format);
+	cell_set_value (sheet_cell_fetch (esheet->gnum_sheet, col, row), v);
 }
 
 static void

@@ -164,7 +164,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 		char const *expr_txt = NULL;
 
 		/* BE CAREFUL the standard fmts must not NOT include '@' */
-		Value *value = format_match (txt, mstyle_get_format (mstyle), NULL);
+		Value *value = format_match (txt, mstyle_get_format (mstyle));
 		if (value != NULL)
 			value_release (value);
 		else
@@ -180,14 +180,14 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 
 			parse_error_init (&perr);
 			expr = expr_parse_str (expr_txt,
-				&pp, GNM_PARSER_DEFAULT, NULL, &perr);
+				&pp, GNM_PARSER_DEFAULT, &perr);
 			/* Try adding a single extra closing paren to see if it helps */
 			if (expr == NULL && perr.id == PERR_MISSING_PAREN_CLOSE) {
 				ParseError tmp_err;
 				char *tmp = g_strconcat (txt, ")", NULL);
 				parse_error_init (&tmp_err);
 				expr = expr_parse_str (gnumeric_char_start_expr_p (tmp),
-					&pp, GNM_PARSER_DEFAULT, NULL, &tmp_err);
+					&pp, GNM_PARSER_DEFAULT, &tmp_err);
 				parse_error_free (&tmp_err);
 
 				if (expr != NULL)

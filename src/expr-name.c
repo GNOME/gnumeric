@@ -289,7 +289,7 @@ expr_name_create (ParsePos const *pp, char const *name,
 	char const *err = NULL;
 	ExprTree *tree;
 	
-	tree = expr_parse_str (value, pp, GNM_PARSER_DEFAULT, NULL, error);
+	tree = expr_parse_str (value, pp, GNM_PARSER_DEFAULT, error);
 	if (!tree)
 		return NULL;
 

@@ -1357,7 +1357,6 @@ sheet_recompute_spans_for_col (Sheet *sheet, int col)
  * to a range.
  */
 typedef struct {
-	StyleFormat *format;
 	Value      *val;
 	ExprTree   *expr;
 	Range	    expr_bound;
@@ -1388,10 +1387,9 @@ cb_set_cell_content (Sheet *sheet, int col, int row, Cell *cell,
 			rwinfo.u.relocate.row_offset = 0;
 			expr = expr_rewrite (expr, &rwinfo);
 		}
-		cell_set_expr (cell, expr, info->format);
+		cell_set_expr (cell, expr);
 	} else
-		cell_set_value (cell, value_duplicate (info->val),
-				info->format);
+		cell_set_value (cell, value_duplicate (info->val));
 	return NULL;
 }
 
@@ -1400,7 +1398,7 @@ cb_clear_non_corner (Sheet *sheet, int col, int row, Cell *cell,
 		     Range const *merged)
 {
 	if (merged->start.col != col || merged->start.row != row)
-		cell_set_value (cell, value_new_empty (), NULL);
+		cell_set_value (cell, value_new_empty ());
 	return NULL;
 }
 
@@ -1425,7 +1423,7 @@ sheet_range_set_text (ParsePos const *pos, Range const *r, char const *str)
 	g_return_if_fail (r != NULL);
 	g_return_if_fail (str != NULL);
 
-	closure.format = parse_text_value_or_expr (pos, str,
+	parse_text_value_or_expr (pos, str,
 		&closure.val, &closure.expr,
 		NULL /* TODO : Use edit_pos format ?? */);
 
@@ -1457,7 +1455,6 @@ sheet_range_set_text (ParsePos const *pos, Range const *r, char const *str)
 		value_release (closure.val);
 	else
 		expr_tree_unref (closure.expr);
-	style_format_unref (closure.format);
 
 	sheet_flag_status_update_range (pos->sheet, r);
 }
@@ -1494,7 +1491,6 @@ sheet_cell_get_value (Sheet *sheet, int const col, int const row)
 void
 sheet_cell_set_text (Cell *cell, char const *text)
 {
-	StyleFormat *format;
 	ExprTree    *expr;
 	Value	    *val;
 	ParsePos     pp;
@@ -1503,24 +1499,22 @@ sheet_cell_set_text (Cell *cell, char const *text)
 	g_return_if_fail (text != NULL);
 	g_return_if_fail (!cell_is_partial_array (cell));
 
-	format = parse_text_value_or_expr (parse_pos_init_cell (&pp, cell),
+	parse_text_value_or_expr (parse_pos_init_cell (&pp, cell),
 		text, &val, &expr, mstyle_get_format (cell_get_mstyle (cell)));
 
 	/* Queue a redraw before incase the span changes */
 	sheet_redraw_cell (cell);
 
 	if (expr != NULL) {
-		cell_set_expr (cell, expr, format);
+		cell_set_expr (cell, expr);
 		expr_tree_unref (expr);
 
 		/* clear spans from _other_ cells */
 		sheet_cell_calc_span (cell, SPANCALC_SIMPLE);
 	} else {
-		cell_set_value (cell, val, format);
+		cell_set_value (cell, val);
 		sheet_cell_calc_span (cell, SPANCALC_RESIZE | SPANCALC_RENDER);
 	}
-
-	style_format_unref (format);
 
 	cell_queue_recalc (cell);
 	sheet_flag_status_update_cell (cell);
@@ -1537,7 +1531,7 @@ sheet_cell_set_text (Cell *cell, char const *text)
 void
 sheet_cell_set_expr (Cell *cell, ExprTree *expr)
 {
-	cell_set_expr (cell, expr, NULL);
+	cell_set_expr (cell, expr);
 
 	/* clear spans from _other_ cells */
 	sheet_cell_calc_span (cell, SPANCALC_SIMPLE);
@@ -1559,10 +1553,10 @@ sheet_cell_set_expr (Cell *cell, ExprTree *expr)
  * NOTE : This DOES check for array partitioning.
  */
 void
-sheet_cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
+sheet_cell_set_value (Cell *cell, Value *v)
 {
 	/* TODO : if the value is unchanged do not assign it */
-	cell_set_value (cell, v, opt_fmt);
+	cell_set_value (cell, v);
 	sheet_cell_calc_span (cell, SPANCALC_RESIZE | SPANCALC_RENDER);
 	cell_queue_recalc (cell);
 	sheet_flag_status_update_cell (cell);
@@ -4354,7 +4348,7 @@ cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 							Cell *out = sheet_cell_fetch (dst,
 								cell->pos.col + i,
 								cell->pos.row + j);
-							cell_set_value (out, in->value, in->format);
+							cell_set_value (out, in->value);
 						}
 			}
 			return;

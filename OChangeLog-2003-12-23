@@ -1,3 +1,33 @@
+2002-02-03  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (cb_insert_current_date) : don't actually
+	  store the value, just start editing with it.
+	(cb_insert_current_time) : ditto.
+
+2002-02-03  Jody Goldberg <jody@gnome.org>
+
+	* src/value.c (value_new_*) : init Value*::fmt
+	(value_duplicate) : ref the fmt too.
+	(value_set_fmt) : new.
+
+	* src/cell.c (cell_cleanout) : no more format.
+	(cell_copy) : ditto.
+	(cell_set_text) : ditto.
+	(cell_set_expr_internal) : ditto.
+	(cell_set_expr_unsafe) : ditto.
+	(cell_get_format) : ditto.
+
+	Change all callers.
+	* src/sheet.c (sheet_cell_set_value) : remove format assingment.
+	* src/cell.c (cell_set_expr_and_value) : remove format assignment.
+	(cell_assign_value) : ditto.
+	(cell_set_value) : ditto.
+	(cell_set_expr) : ditto.
+	* src/parser.y (expr_parse_str) : remove arg to return the suggested
+	  format.  That will be handled at run time.
+	* src/number-match.c (format_match) : remove arg to return the parse
+	  formula.  Store it in the value instead.
+
 2002-02-02  Jody Goldberg <jody@gnome.org>
 
 	* src/main.c (main) : disable the removal of Shift as an accelerator

@@ -1542,10 +1542,13 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell const *cell, ParsePos c
 		g_free (text);
 
 		if (!cell_has_expr (cell)) {
+			g_return_val_if_fail (cell->value != NULL, cellNode);
+
 			xml_node_set_int (cellNode, "ValueType",
-					   cell->value->type);
-			if (cell->format) {
-				char *fmt = style_format_as_XL (cell->format, FALSE);
+				cell->value->type);
+
+			if (VALUE_FMT (cell->value) != NULL) {
+				char *fmt = style_format_as_XL (VALUE_FMT (cell->value), FALSE);
 				xmlSetProp (cellNode, (xmlChar *)"ValueFormat", (xmlChar *)fmt);
 				g_free (fmt);
 			}
@@ -1782,10 +1785,10 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 						 array_rows, array_cols);
 		} else if (ctxt->version >= GNUM_XML_V3 ||
 			   xml_not_used_old_array_spec (cell, content)) {
-			if (is_value) {
-				Value *v = value_new_from_string (value_type, content);
-				cell_set_value (cell, v, value_fmt);
-			} else {
+			if (is_value)
+				cell_set_value (cell,
+					value_new_from_string (value_type, content, value_fmt));
+			else {
 				/* cell_set_text would probably handle this.
 				 * BUT, be extra careful just incase a sheet
 				 * appears that defines format text on a cell
@@ -1797,17 +1800,14 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 				 */
 				ParsePos pos;
 				ExprTree *expr = NULL;
-				StyleFormat *desired_fmt = NULL;
 				char const *expr_start = gnumeric_char_start_expr_p (content);
 				if (NULL != expr_start && *expr_start)
 					expr = expr_parse_str (expr_start,
 						parse_pos_init_cell (&pos, cell),
-						GNM_PARSER_DEFAULT, &desired_fmt, NULL);
+						GNM_PARSER_DEFAULT, NULL);
 				if (expr != NULL) {
-					cell_set_expr (cell, expr, desired_fmt);
+					cell_set_expr (cell, expr);
 					expr_tree_unref (expr);
-					if (desired_fmt != NULL)
-						style_format_unref (desired_fmt);
 				} else
 					cell_set_text (cell, content);
 			}
@@ -1818,8 +1818,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 				if (!cell_has_expr (cell)) {
 					g_warning ("XML-IO: Shared expression with no expession?");
 					cell_set_expr (cell,
-						expr_tree_new_constant (value_duplicate (cell->value)),
-						NULL);
+						expr_tree_new_constant (value_duplicate (cell->value)));
 				}
 				g_ptr_array_add (ctxt->shared_exprs,
 						 cell->base.expression);
@@ -1833,7 +1832,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		if (shared_expr_index <= (int)ctxt->shared_exprs->len + 1) {
 			ExprTree *expr = g_ptr_array_index (ctxt->shared_exprs,
 							    shared_expr_index - 1);
-			cell_set_expr (cell, expr, NULL);
+			cell_set_expr (cell, expr);
 		} else {
 			g_warning ("XML-IO: Missing shared expression");
 		}
@@ -1843,7 +1842,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		 * If it was created by a previous array
 		 * we do not want to erase it.
 		 */
-		cell_set_value (cell, value_new_empty (), NULL);
+		cell_set_value (cell, value_new_empty ());
 
 	style_format_unref (value_fmt);
 	return cell;
@@ -2501,7 +2500,6 @@ cell_copy_new (void)
 	cell->pos.col = -1;
 	cell->pos.row = -1;
 	cell->value   = value_new_empty ();
-	cell->format  = NULL;
 
 	cc         = g_new (CellCopy, 1);
 	cc->type   = CELL_COPY_TYPE_CELL;
@@ -2573,15 +2571,13 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 
 			g_return_if_fail (expr != NULL);
 #warning TODO : arrays
-		} else if (is_value) {
-			cell->value = value_new_from_string (value_type, (char *)content);
-			cell->format = value_fmt; /* absorb existing ref */
-		} else {
+		} else if (is_value)
+			cell->value = value_new_from_string (value_type, (char *)content, value_fmt);
+		else {
 			Value *val;
 			ExprTree *expr;
-			StyleFormat *parse_fmt;
 
-			parse_fmt = parse_text_value_or_expr (&pp,
+			parse_text_value_or_expr (&pp,
 				(char *)content, &val, &expr, value_fmt);
 
 			if (val != NULL) {	/* String was a value */
@@ -2591,7 +2587,6 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 				cell->base.expression = expr;
 				cell->base.flags |= CELL_HAS_EXPRESSION;
 			}
-			cell->format = parse_fmt;	/* absorb ref */
 		}
 
 		if (shared_expr_index > 0) {

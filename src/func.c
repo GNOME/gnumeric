@@ -660,9 +660,7 @@ function_marshal_arg (FunctionEvalInfo *ei,
 		}
 
 		if (v->type == VALUE_STRING) {
-			Value *newv = format_match_number (value_peek_string (v),
-							   NULL,
-							   NULL);
+			Value *newv = format_match_number (value_peek_string (v), NULL);
 			value_release (v);
 			v = newv;
 			break;

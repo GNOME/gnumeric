@@ -140,10 +140,9 @@ struct _FunctionEvalInfo {
 };
 
 #define expr_parse_str_simple(expr_text, pp) \
-	expr_parse_str (expr_text, pp, GNM_PARSER_DEFAULT, NULL, NULL)
+	expr_parse_str (expr_text, pp, GNM_PARSER_DEFAULT, NULL)
 ExprTree   *expr_parse_str	   (char const *expr, ParsePos const *pp,
 				    GnmExprParserFlags flags,
-				    StyleFormat **desired_format,
 				    ParseError *error);
 ExprTree   *expr_tree_duplicate    (ExprTree *expr);
 char       *expr_tree_as_string    (ExprTree const *tree, ParsePos const *fp);

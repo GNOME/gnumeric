@@ -685,7 +685,7 @@ gnumeric_text (FunctionEvalInfo *ei, Value **args)
 	gboolean ok = FALSE;
 
 	if (arg->type == VALUE_STRING) {
-		Value *match = format_match (value_peek_string (arg), NULL, NULL);
+		Value *match = format_match (value_peek_string (arg), NULL);
 		ok = (match != NULL);
 		if (ok)
 			tmp = match;
@@ -787,7 +787,7 @@ gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 		for (p = arg ; *p && isspace (*p) ; ++p)
 			;
 
-		v = format_match_number ((char *)p, NULL, NULL);
+		v = format_match_number ((char *)p, NULL);
 		g_free (arg);
 
 		if (v != NULL)

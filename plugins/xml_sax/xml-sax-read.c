@@ -456,7 +456,7 @@ typedef struct _XMLSaxParseState
 	CellPos cell;
 	int expr_id, array_rows, array_cols;
 	int value_type;
-	unsigned char const *value_fmt;
+	StyleFormat *value_fmt;
 
 	GString *content;
 
@@ -1204,7 +1204,7 @@ xml_sax_cell (XMLSaxParseState *state, xmlChar const **attrs)
 	int row = -1, col = -1;
 	int rows = -1, cols = -1;
 	int value_type = -1;
-	unsigned char const *value_fmt = NULL;
+	StyleFormat *value_fmt = NULL;
 	int expr_id = -1;
 
 	g_return_if_fail (state->cell.row == -1);
@@ -1222,7 +1222,7 @@ xml_sax_cell (XMLSaxParseState *state, xmlChar const **attrs)
 		else if (xml_sax_attr_int (attrs, "ExprID", &expr_id)) ;
 		else if (xml_sax_attr_int (attrs, "ValueType", &value_type)) ;
 		else if (!strcmp (attrs[0], "ValueFormat"))
-			value_fmt = attrs[1];
+			value_fmt = style_format_new_XL ((char *)attrs[1], FALSE);
 		else
 			xml_sax_unknown_attr (state, attrs, "Cell");
 	}
@@ -1330,7 +1330,7 @@ xml_sax_cell_content (XMLSaxParseState *state)
 	int const array_rows = state->array_rows;
 	int const expr_id = state->expr_id;
 	int const value_type = state->value_type;
-	unsigned char const *value_fmt =state->value_fmt;
+	StyleFormat *value_fmt = state->value_fmt;
 	gpointer const id = GINT_TO_POINTER (expr_id);
 	gpointer expr = NULL;
 
@@ -1367,11 +1367,8 @@ xml_sax_cell_content (XMLSaxParseState *state)
 		} else if (state->version >= GNUM_XML_V3 ||
 			   xml_not_used_old_array_spec (cell, content)) {
 			if (value_type > 0) {
-				Value *v = value_new_from_string (value_type, content);
-				StyleFormat *sf = (value_fmt != NULL)
-					? style_format_new_XL ((char *)value_fmt, FALSE)
-					: NULL;
-				cell_set_value (cell, v, sf);
+				Value *v = value_new_from_string (value_type, content, value_fmt);
+				cell_set_value (cell, v);
 			} else
 				cell_set_text (cell, content);
 		}
@@ -1394,7 +1391,7 @@ xml_sax_cell_content (XMLSaxParseState *state)
 			GINT_TO_POINTER (expr_id));
 
 		if (expr != NULL)
-			cell_set_expr (cell, expr, NULL);
+			cell_set_expr (cell, expr);
 		else
 			g_warning ("XML-IO : Missing shared expression");
 	} else if (is_new_cell)
@@ -1403,7 +1400,10 @@ xml_sax_cell_content (XMLSaxParseState *state)
 		 * If it was created by a previous array
 		 * we do not want to erase it.
 		 */
-		cell_set_value (cell, value_new_empty (), NULL);
+		cell_set_value (cell, value_new_empty ());
+
+	if (value_fmt != NULL)
+		style_format_unref (value_fmt);
 }
 
 static void

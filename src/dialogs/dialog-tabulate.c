@@ -37,7 +37,7 @@ tabulation_eval (Workbook *wb, int dims,
 	int i;
 
 	for (i = 0; i < dims; i++) {
-		cell_set_value (xcells[i], value_new_float (x[i]), NULL);
+		cell_set_value (xcells[i], value_new_float (x[i]));
 		cell_queue_recalc (xcells[i]);
 	}
 	workbook_recalc (wb);
@@ -47,16 +47,15 @@ tabulation_eval (Workbook *wb, int dims,
 		: value_new_error (NULL, gnumeric_err_VALUE);
 }
 
-static StyleFormat *
-my_get_format (Cell *cell)
+static StyleFormat const *
+my_get_format (Cell const *cell)
 {
-	MStyle *mstyle = cell_get_mstyle (cell);
-	StyleFormat *format = mstyle_get_format (mstyle);
+	StyleFormat const *format = mstyle_get_format (cell_get_mstyle (cell));
 
-	if (style_format_is_general (format) && cell->format)
-		return cell->format;
-	else
-		return format;
+	if (style_format_is_general (format) &&
+	    cell->value != NULL && VALUE_FMT (cell->value) != NULL)
+		return VALUE_FMT (cell->value);
+	return format;
 }
 
 static void
@@ -71,14 +70,14 @@ do_tabulation (Workbook *wb,
 {
 	Sheet *sheet = NULL;
 	gboolean sheetdim = (!with_coordinates && dims >= 3);
-	StyleFormat *targetformat = my_get_format (target);
+	StyleFormat const *targetformat = my_get_format (target);
 	int row = 0;
 
 	gnum_float *values = g_new (gnum_float, dims);
 	int *index = g_new (int, dims);
 	int *counts = g_new (int, dims);
 	Sheet **sheets = NULL;
-	StyleFormat **formats = g_new (StyleFormat *, dims);
+	StyleFormat const **formats = g_new (StyleFormat const *, dims);
 
 	{
 		int i;
@@ -100,7 +99,7 @@ do_tabulation (Workbook *wb,
 	if (sheetdim) {
 		int dim = 2;
 		gnum_float val = minima[dim];
-		StyleFormat *sf = my_get_format (cells[dim]);
+		StyleFormat const *sf = my_get_format (cells[dim]);
 		int i;
 
 		sheets = g_new (Sheet *, counts[dim]);
@@ -139,10 +138,10 @@ do_tabulation (Workbook *wb,
 			int i;
 
 			for (i = 0; i < dims; i++) {
-				cell = sheet_cell_fetch (sheet, i, row);
-				sheet_cell_set_value (cell,
-						      value_new_float (values[i]),
-						      formats[i]);
+				Value *v = value_new_float (values[i]);
+				value_set_fmt (v, formats[i]);
+				sheet_cell_set_value (
+					sheet_cell_fetch (sheet, i, row), v);
 			}
 
 			cell = sheet_cell_fetch (sheet, dims, row);
@@ -153,18 +152,18 @@ do_tabulation (Workbook *wb,
 
 			/* Fill-in top header.  */
 			if (row == 1 && dims >= 2) {
-				cell = sheet_cell_fetch (sheet, col, 0);
-				sheet_cell_set_value (cell,
-						      value_new_float (values[1]),
-						      formats[1]);
+				Value *v = value_new_float (values[1]);
+				value_set_fmt (v, formats[1]);
+				sheet_cell_set_value (
+					sheet_cell_fetch (sheet, col, 0), v);
 			}
 
 			/* Fill-in left header.  */
 			if (col == 1 && dims >= 1) {
-				cell = sheet_cell_fetch (sheet, 0, row);
-				sheet_cell_set_value (cell,
-						      value_new_float (values[0]),
-						      formats[0]);
+				Value *v = value_new_float (values[0]);
+				value_set_fmt (v, formats[0]);
+				sheet_cell_set_value (
+					sheet_cell_fetch (sheet, 0, row), v);
 			}
 
 			/* Make a horizon line on top between header and table.  */
@@ -209,7 +208,8 @@ do_tabulation (Workbook *wb,
 		}
 
 		v = tabulation_eval (wb, dims, values, cells, target);
-		sheet_cell_set_value (cell, v, targetformat);
+		value_set_fmt (v, targetformat);
+		sheet_cell_set_value (cell, v);
 
 		if (with_coordinates) {
 			row++;
@@ -393,7 +393,7 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 		}
 
 		text = get_table_entry (dd->source_table, row, COL_MIN, &w);
-		v = format_match_number (text, NULL, NULL);
+		v = format_match_number (text, NULL);
 		if (!v) {
 			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("You should introduce a valid number as minimum"));
@@ -404,7 +404,7 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 		value_release (v);
 
 		text = get_table_entry (dd->source_table, row, COL_MAX, &w);
-		v = format_match_number (text, NULL, NULL);
+		v = format_match_number (text, NULL);
 		if (!v) {
 			gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 					 _("You should introduce a valid number as maximum"));
@@ -423,7 +423,7 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 
 		text = get_table_entry (dd->source_table, row, COL_STEP, &w);
 		if (*text) {
-			v = format_match_number (text, NULL, NULL);
+			v = format_match_number (text, NULL);
 			if (!v) {
 				gnumeric_notice (dd->wbcg, GTK_MESSAGE_ERROR,
 						 _("You should introduce a valid number as step size"));

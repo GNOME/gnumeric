@@ -536,7 +536,7 @@ cb_scrollbar_value_changed (GtkAdjustment *adjustment,
 	if (sheet_widget_scrollbar_get_ref (swb, &ref) != NULL) {
 		Cell *cell = sheet_cell_fetch (ref.sheet, ref.col, ref.row);
 		/* TODO : add more control for precision, XL is stupid */
-		sheet_cell_set_value (cell, value_new_int (swb->adjustment->value), NULL);
+		sheet_cell_set_value (cell, value_new_int (swb->adjustment->value));
 		sheet_set_dirty (ref.sheet, TRUE);
 		workbook_recalc (ref.sheet->workbook);
 		sheet_update (ref.sheet);
@@ -1033,7 +1033,7 @@ cb_checkbox_toggled (GtkToggleButton *button, SheetWidgetCheckbox *swc)
 	if (sheet_widget_checkbox_get_ref (swc, &ref) != NULL) {
 		gboolean const new_val = gtk_toggle_button_get_active (button);
 		Cell *cell = sheet_cell_fetch (ref.sheet, ref.col, ref.row);
-		sheet_cell_set_value (cell, value_new_bool (new_val), NULL);
+		sheet_cell_set_value (cell, value_new_bool (new_val));
 		sheet_set_dirty (ref.sheet, TRUE);
 		workbook_recalc (ref.sheet->workbook);
 		sheet_update (ref.sheet);
@@ -1416,7 +1416,7 @@ sheet_widget_radio_button_toggled (GtkToggleButton *button,
 #if 0
 #endif
 
-		sheet_cell_set_value (cell, value_new_int (new_val), NULL);
+		sheet_cell_set_value (cell, value_new_int (new_val));
 		sheet_set_dirty (ref->sheet, TRUE);
 		workbook_recalc (ref->sheet->workbook);
 		sheet_update (ref->sheet);

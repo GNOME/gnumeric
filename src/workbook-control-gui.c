@@ -55,6 +55,8 @@
 #include "history.h"
 #include "str.h"
 #include "cell.h"
+#include "formats.h"
+#include "format.h"
 #include "gui-file.h"
 #include "search.h"
 #include "error-info.h"
@@ -353,9 +355,7 @@ wbcg_zoom_feedback (WorkbookControl *wbc)
 static void
 wbcg_edit_line_set (WorkbookControl *wbc, char const *text)
 {
-	GtkEntry *entry;
-
-	entry = GTK_ENTRY (wbcg_get_entry ((WorkbookControlGUI*)wbc));
+	GtkEntry *entry = GTK_ENTRY (wbcg_get_entry ((WorkbookControlGUI*)wbc));
 	gtk_entry_set_text (entry, text);
 }
 
@@ -1940,17 +1940,27 @@ cb_view_new_unshared (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cb_insert_current_date (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
-	cmd_set_date_time (wbc, sheet, &sheet->edit_pos, TRUE);
+	Value *v = value_new_int (datetime_timet_to_serial (time (NULL)));
+	StyleFormat *fmt = style_format_new_XL (cell_formats[FMT_DATE][0], TRUE);
+	char *txt = format_value (fmt, v, NULL, -1);
+	value_release (v);
+	style_format_unref (fmt);
+	wbcg_edit_start (wbcg, FALSE, FALSE);
+	wbcg_edit_line_set (WORKBOOK_CONTROL (wbcg), txt);
+	g_free (txt);
 }
 
 static void
 cb_insert_current_time (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet = wb_control_cur_sheet (wbc);
-	cmd_set_date_time (wbc, sheet, &sheet->edit_pos, FALSE);
+	Value *v = value_new_float (datetime_timet_to_seconds (time (NULL)) / (24.0 * 60 * 60));
+	StyleFormat *fmt = style_format_new_XL (cell_formats[FMT_TIME][0], TRUE);
+	char *txt = format_value (fmt, v, NULL, -1);
+	value_release (v);
+	style_format_unref (fmt);
+	wbcg_edit_start (wbcg, FALSE, FALSE);
+	wbcg_edit_line_set (WORKBOOK_CONTROL (wbcg), txt);
+	g_free (txt);
 }
 
 static void

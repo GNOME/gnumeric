@@ -34,14 +34,6 @@ struct _Cell {
 
 	Value         *value;	/* computed or entered (Must be non NULL) */
 	RenderedValue *rendered_value;
-
-	/*
-	 * For exprs  = The prefered output format
-	 * For values = format that parsed the input
-	 *              also used to regenerate the entered
-	 *              text for editing.
-	 */
-	StyleFormat *format;
 };
 
 /**
@@ -73,14 +65,12 @@ ExprArray const *cell_is_array		(Cell const *cell);
  * Utilities to assign the contents of a cell
  */
 void cell_set_text		(Cell *c, char const *text);
-void cell_assign_value		(Cell *c, Value *v, StyleFormat *fmt);
-void cell_set_value		(Cell *c, Value *v, StyleFormat *fmt);
+void cell_assign_value		(Cell *c, Value *v);
+void cell_set_value		(Cell *c, Value *v);
 void cell_set_expr_and_value	(Cell *c, ExprTree *expr, Value *v,
-				 StyleFormat *opt_fmt, gboolean link_expr);
-void cell_set_expr		(Cell *c, ExprTree *expr,
-				 StyleFormat *opt_fmt);
-void cell_set_expr_unsafe 	(Cell *cell, ExprTree *expr,
-				 StyleFormat *opt_fmt);
+				 gboolean link_expr);
+void cell_set_expr		(Cell *c, ExprTree *expr);
+void cell_set_expr_unsafe 	(Cell *cell, ExprTree *expr);
 void cell_set_array_formula	(Sheet *sheet,
 				 int cola, int rowa, int colb, int rowb,
 				 ExprTree *expr);

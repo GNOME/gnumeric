@@ -549,7 +549,7 @@ set_cell_value (data_analysis_output_t *dao, int col, int row, Value *v)
 	cell = sheet_cell_fetch (dao->sheet, dao->start_col + col,
 				 dao->start_row + row);
 
-	sheet_cell_set_value (cell, v, NULL);
+	sheet_cell_set_value (cell, v);
 }
 
 
@@ -674,7 +674,7 @@ WriteData_ForeachCellCB (Sheet *sheet, int col, int row,
 		cell = sheet_cell_new (sheet, col, row);
 	x = g_array_index (data, gnum_float, 0);
 	g_array_remove_index (data, 0);
-	sheet_cell_set_value (cell, value_new_float (x), NULL);
+	sheet_cell_set_value (cell, value_new_float (x));
 	return NULL;
 }
 

@@ -19,9 +19,6 @@ gboolean cmd_set_text		(WorkbookControl *wbc, Sheet *sheet,
 gboolean cmd_area_set_text	(WorkbookControl *wbc, ParsePos const *pos,
 				 char const *text, gboolean as_array);
 
-gboolean cmd_set_date_time	(WorkbookControl *wbc, Sheet *sheet,
-				 CellPos const *pos, gboolean is_date);
-
 gboolean cmd_insert_cols	(WorkbookControl *wbc, Sheet *sheet,
 				 int start_col, int count);
 gboolean cmd_insert_rows	(WorkbookControl *wbc, Sheet *sheet,

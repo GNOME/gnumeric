@@ -81,8 +81,8 @@ rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 		/* For format general approximate the cell width in characters */
 		if (style_format_is_general (format)) {
 			if (dynamic_width &&
-			    (cell->format == NULL ||
-			     style_format_is_general (cell->format))) {
+			    (VALUE_FMT (cell->value) == NULL ||
+			     style_format_is_general (VALUE_FMT (cell->value)))) {
 				StyleFont *style_font =
 					scg_get_style_font (sheet, mstyle);
 				float const font_width = style_font_get_width_pts (style_font);
@@ -102,7 +102,7 @@ rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 					col_width = cell_width / font_width;
 				}
 			} else {
-				format = cell->format;
+				format = VALUE_FMT (cell->value);
 				dynamic_width = FALSE;
 			}
 		} else
@@ -348,7 +348,7 @@ cell_get_entered_text (Cell const *cell)
 	if (cell->value != NULL) {
 		if (cell->value->type == VALUE_STRING)
 			return g_strconcat ("\'", cell->value->v_str.val->str, NULL);
-		return format_value (cell->format, cell->value, NULL, -1);
+		return format_value (NULL, cell->value, NULL, -1);
 	}
 
 	g_warning ("A cell with no expression, and no value ??");

@@ -1026,7 +1026,7 @@ global_range_parse (Sheet *sheet, char const *str)
 	expr = expr_parse_str (str,
 		parse_pos_init (&pp, sheet->workbook, sheet, 0, 0),
 		GNM_PARSER_FORCE_EXPLICIT_SHEET_REFERENCES,
-		NULL, NULL);
+		NULL);
 
 	if (expr != NULL)  {
 		Value * value = expr_tree_get_range (expr);
@@ -1061,7 +1061,7 @@ global_range_list_parse (Sheet *sheet, char const *str)
 	expr = expr_parse_str (str,
 		parse_pos_init (&pp, sheet->workbook, sheet, 0, 0),
 		GNM_PARSER_FORCE_EXPLICIT_SHEET_REFERENCES |
-		GNM_PARSER_PERMIT_MULTIPLE_EXPRESSIONS, NULL, NULL);
+		GNM_PARSER_PERMIT_MULTIPLE_EXPRESSIONS, NULL);
 
 	if (expr != NULL)  {
 		if (expr->any.oper == OPER_SET) {

@@ -168,7 +168,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 				msg = g_strdup_printf (_("'%f' is not a number"),
 						       val->v_float.val);
 			else if (cell->value->type == VALUE_STRING) {
-				val = format_match_number (val->v_str.val->str, NULL, NULL);
+				val = format_match_number (val->v_str.val->str, NULL);
 				if (val != NULL)
 					val_expr = expr_tree_new_constant (val);
 				else

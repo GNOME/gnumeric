@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* format.c - attempts to emulate excel's number formatting ability.
  * Copyright (C) 1998 Chris Lahey, Miguel de Icaza
  *
@@ -1499,7 +1500,7 @@ fmt_general_int (int val, int col_width)
  * Returns NULL when the value should be formated as text
  */
 gchar *
-format_value (StyleFormat *format, const Value *value, StyleColor **color,
+format_value (StyleFormat const *format, Value const *value, StyleColor **color,
 	      float col_width)
 {
 	char *v = NULL;
@@ -1510,6 +1511,9 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 		*color = NULL;
 
 	g_return_val_if_fail (value != NULL, "<ERROR>");
+
+	if (format == NULL)
+		format = VALUE_FMT (value);
 
 	/* Use top left corner of an array result.
 	 * This wont work for ranges because we dont't have a location

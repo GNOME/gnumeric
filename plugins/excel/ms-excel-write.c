@@ -1628,11 +1628,12 @@ pre_cell (gconstpointer dummy, Cell *cell, ExcelSheet *esheet)
 
 	/* For the general format XL assigns the parse format */
 	cell_style = cell_get_mstyle (cell);
-	if (cell->format != NULL &&
-	    !style_format_is_general (cell->format) &&
+	if (cell->value != NULL &&
+	    VALUE_FMT (cell->value) != NULL &&
+	    !style_format_is_general (VALUE_FMT (cell->value)) &&
 	    style_format_is_general (mstyle_get_format (cell_style))) {
 		cell_style = mstyle_copy (cell_style);
-		mstyle_set_format (cell_style, cell->format);
+		mstyle_set_format (cell_style, VALUE_FMT (cell->value));
 		c->xf = put_mstyle (esheet->wb, cell_style);
 		mstyle_ref (cell_style);
 	} else

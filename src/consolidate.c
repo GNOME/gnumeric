@@ -90,12 +90,7 @@ get_bounding_box (GSList const *granges, Range *box)
 static void
 set_cell_expr (Sheet *sheet, int const col, int const row, ExprTree *expr)
 {
-	Cell *cell;
-
-	g_return_if_fail (expr != NULL);
-	
-	cell = sheet_cell_fetch (sheet, col, row);
-	cell_set_expr (cell, expr, NULL);
+	cell_set_expr (sheet_cell_fetch (sheet, col, row), expr);
 }
 
 /**
@@ -111,12 +106,9 @@ static void
 set_cell_value (Sheet *sheet, int const col, int const row, Value const *value)
 {
 	/* There are cases in which value can be NULL */
-	if (value) {
-		Cell *cell;
-		
-		cell = sheet_cell_fetch (sheet, col, row);
-		cell_set_value (cell, value_duplicate (value), NULL);
-	}
+	if (value != NULL)
+		cell_set_value (sheet_cell_fetch (sheet, col, row),
+				value_duplicate (value));
 }
 
 static void

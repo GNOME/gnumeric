@@ -120,7 +120,7 @@ typedef struct _FillItem {
 			String   *str;
 			int       pos, num;
 		} numstr;
-		gboolean bool;
+		gboolean v_bool;
 	} v;
 
 	gboolean delta_is_float;
@@ -286,7 +286,7 @@ fill_item_new (Sheet *sheet, int col, int row)
 	if (!cell)
 		return fi;
 
-	fi->fmt = cell->format;
+	fi->fmt = NULL;
 	if (cell_has_expr (cell)) {
 		fi->type = FILL_EXPR;
 		fi->v.expr = cell->base.expression;
@@ -298,7 +298,8 @@ fill_item_new (Sheet *sheet, int col, int row)
 	if (!value)
 		return fi;
 
-	value_type = value->type;
+	fi->fmt = VALUE_FMT (value);
+	value_type = VALUE_TYPE (value);
 
 	if (value_type == VALUE_INTEGER || value_type == VALUE_FLOAT) {
 		FillType fill = FILL_NUMBER;
@@ -354,7 +355,7 @@ fill_item_new (Sheet *sheet, int col, int row)
 
 	if (value_type == VALUE_BOOLEAN) {
 		fi->type = FILL_BOOLEAN_CONSTANT;
-		fi->v.bool = value->v_bool.val;
+		fi->v.v_bool = value->v_bool.val;
 
 		return fi;
 	}
@@ -427,13 +428,14 @@ autofill_compute_delta (GList *list_last, gboolean singleton_increment)
 		double a, b;
 
 		if (list_last->prev == NULL) {
-			if ((fi->delta_is_float = (fi->v.value->type == VALUE_FLOAT)))
+			if ((fi->delta_is_float = (VALUE_TYPE (fi->v.value) == VALUE_FLOAT)))
 				fi->delta.d_float = singleton_increment ? 1. : 0.;
 			return;
 		}
 		lfi = list_last->prev->data;
 
-		if (fi->v.value->type == VALUE_INTEGER && lfi->v.value->type == VALUE_INTEGER) {
+		if (VALUE_TYPE (fi->v.value) == VALUE_INTEGER &&
+		    VALUE_TYPE (lfi->v.value) == VALUE_INTEGER) {
 			fi->delta_is_float = FALSE;
 			fi->delta.d_int = fi->v.value->v_int.val - lfi->v.value->v_int.val;
 			return;
@@ -599,7 +601,7 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 		return;
 
 	case FILL_STRING_CONSTANT:
-		cell_set_value (cell, value_new_string (fi->v.str->str), NULL);
+		cell_set_value (cell, value_new_string (fi->v.str->str));
 		return;
 
 	case FILL_STRING_WITH_NUMBER: {
@@ -625,7 +627,7 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 			g_free (n);
 		}
 	
-		sheet_cell_set_value (cell, value_new_string (v), NULL);
+		sheet_cell_set_value (cell, value_new_string (v));
 		g_free (v);
 		return;
 	}
@@ -644,7 +646,8 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 			int const i = value_get_as_int (delta->v.value);
 			v = value_new_int (i + idx * delta->delta.d_int);
 		}
-		cell_set_value (cell, v, fi->fmt);
+		value_set_fmt (v, fi->fmt);
+		cell_set_value (cell, v);
 		return;
 	}
 
@@ -673,7 +676,8 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 		res -= gnumeric_fake_floor (res);
 		v = (res < 1e-6) ? value_new_int (d)
 			: value_new_float (((gnum_float)d) + res);
-		cell_set_value (cell, v, fi->fmt);
+		value_set_fmt (v, fi->fmt);
+		cell_set_value (cell, v);
 		return;
 	}
 
@@ -696,7 +700,7 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 		if (*text == '*')
 			text++;
 
-		cell_set_value (cell, value_new_string(text), NULL);
+		cell_set_value (cell, value_new_string (text));
 
 		return;
 	}
@@ -742,13 +746,12 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 			    func->array.corner.expr == NULL)
 				expr_tree_ref (func->array.corner.expr = array->corner.expr);
 		}
-		cell_set_expr (cell, (func == NULL)
-			       ? fi->v.expr : func, fi->fmt);
+		cell_set_expr (cell, (func == NULL) ? fi->v.expr : func);
 		return;
 	}
 
 	case FILL_BOOLEAN_CONSTANT:
-		cell_set_value (cell, value_new_bool (fi->v.bool), NULL);
+		cell_set_value (cell, value_new_bool (fi->v.v_bool));
 		return;
 	}
 }

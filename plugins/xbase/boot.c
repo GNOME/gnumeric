@@ -195,7 +195,8 @@ xbase_file_open (GnumFileOpener const *fo, IOContext *io_context,
 			val = xbase_field_as_value (
 				record_get_field (record, i), field);
 			cell = sheet_cell_fetch (sheet, i, row);
-			cell_set_value (cell, val, field->fmt);
+			value_set_fmt (val, field->fmt);
+			cell_set_value (cell, val);
 		}
 		row++;
 	} while (record_seek (record, SEEK_CUR, 1));

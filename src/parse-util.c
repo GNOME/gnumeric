@@ -486,44 +486,35 @@ parse_cell_name (char const *cell_str, int *col, int *row, gboolean strict, int 
  * @expr: Returns an ExprTree * if the text was an expression, otherwise NULL.
  * @current_format : Optional, current number format.
  *
- * Returns : The optimal format (which the caller must unref) to display the
- *   value or expression result, possibly NULL if there is no preferred format.
- *
  * If there is a parse failure for an expression an error Value with the syntax
  * error is returned.
  */
-StyleFormat *
+void
 parse_text_value_or_expr (ParsePos const *pos, char const *text,
 			  Value **val, ExprTree **expr,
 			  StyleFormat *current_format /* can be NULL */)
 {
-	StyleFormat *desired_fmt = NULL;
 	char const *expr_start;
 
 	*expr = NULL;
 
 	/* Does it match any formats?  */
-	*val = format_match (text, current_format, &desired_fmt);
-	if (*val != NULL) {
-		if (desired_fmt != NULL)
-			style_format_ref (desired_fmt);
-		return desired_fmt;
-	}
+	*val = format_match (text, current_format);
+	if (*val != NULL)
+		return;
 
 	/* If it does not match known formats, see if it is an expression */
 	expr_start = gnumeric_char_start_expr_p (text);
 	if (NULL != expr_start && *expr_start) {
 		*expr = expr_parse_str (expr_start, pos,
-			GNM_PARSER_DEFAULT, &desired_fmt, NULL);
+			GNM_PARSER_DEFAULT, NULL);
 		if (*expr != NULL)
-			return desired_fmt;
+			return;
 	}
 
 	/* Fall back on string */
 	*val = value_new_string (text);
-	return NULL;
 }
-
 
 ParseError *
 parse_error_init (ParseError *pe)

@@ -210,7 +210,7 @@ oleo_parse_formula (char const *text, Sheet *sheet, int col, int row)
 	expr = expr_parse_str (oleo_get_gnumeric_expr (gnumeric_text,
 						       text, &pos),
 			       &pos, GNM_PARSER_DEFAULT,
-			       NULL, parse_error_init (&error));
+			       parse_error_init (&error));
 
 	if (error.id!=PERR_NONE) {
 		g_warning ("%s \"%s\" at %s!%s\n",  error.message, gnumeric_text,
@@ -287,9 +287,9 @@ oleo_deal_with_cell (char *str, Sheet *sheet, MStyle *style, int *ccol, int *cro
 		}
 
 		if (expr != NULL)
-			cell_set_expr_and_value (cell, expr, val, NULL, TRUE);
+			cell_set_expr_and_value (cell, expr, val, TRUE);
 		else
-			cell_set_value (cell, val, NULL);
+			cell_set_value (cell, val);
 
 		if (style != NULL)
 			oleo_set_style (sheet, *ccol, *crow, style);
@@ -300,7 +300,7 @@ oleo_deal_with_cell (char *str, Sheet *sheet, MStyle *style, int *ccol, int *cro
 #endif
 		/* We can still store the expression, even if the value is missing */
 		if (expr != NULL)
-			cell_set_expr (cell, expr, NULL);
+			cell_set_expr (cell, expr);
 	}
 	if (expr)
 		expr_tree_unref (expr);

@@ -248,9 +248,8 @@ sylk_rtd_c_parse (sylk_file_state_t *src, const char *str)
 				v = value_new_int (src->val_l);
 
 			g_assert (v);
-			cell_set_value (cell, v, NULL);
+			cell_set_value (cell, v);
 		}
-
 	}
 
 	src->val_type = VALUE_EMPTY;

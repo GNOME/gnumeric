@@ -28,7 +28,7 @@ static int date_origin = 0;
  * The serial number of 19000228.  Excel allocates a serial number for
  * the non-existing date 19000229.
  */
-static const int date_serial_19000228 = 59;
+static int const date_serial_19000228 = 59;
 
 static void
 date_init (void)
@@ -83,15 +83,15 @@ datetime_g_free (GDate *d)
 /* ------------------------------------------------------------------------- */
 
 gnum_float
-datetime_value_to_serial_raw (const Value *v)
+datetime_value_to_serial_raw (Value const *v)
 {
 	gnum_float serial;
 
 	if (VALUE_IS_NUMBER (v))
 		serial = value_get_as_float (v);
 	else {
-		const char *str = value_peek_string (v);
-		Value *conversion = format_match (str, NULL, NULL);
+		char const *str = value_peek_string (v);
+		Value *conversion = format_match (str, NULL);
 
 		if (conversion) {
 			if (VALUE_IS_NUMBER (conversion))
@@ -131,7 +131,7 @@ datetime_serial_raw_to_serial (gnum_float raw)
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_value_to_serial (const Value *v)
+datetime_value_to_serial (Value const *v)
 {
 	return datetime_serial_raw_to_serial (datetime_value_to_serial_raw (v));
 }
@@ -164,7 +164,7 @@ datetime_serial_to_timet (int serial)
 /* ------------------------------------------------------------------------- */
 
 GDate *
-datetime_value_to_g (const Value *v)
+datetime_value_to_g (Value const *v)
 {
 	int serial = datetime_value_to_serial (v);
 	return serial ? datetime_serial_to_g (serial) : NULL;
@@ -184,7 +184,7 @@ datetime_serial_raw_to_seconds (gnum_float raw)
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_value_to_seconds (const Value *v)
+datetime_value_to_seconds (Value const *v)
 {
 	return datetime_serial_raw_to_seconds (datetime_value_to_serial_raw (v));
 }

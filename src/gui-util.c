@@ -1107,16 +1107,11 @@ gnumeric_textview_set_text (GtkTextView *text_view, char const *txt)
  *
  * retrieve a float from an entry field parsing all reasonable formats
  * 
-  **/
+ **/
 int
 entry_to_float (GtkEntry *entry, gnum_float *the_float, gboolean update)
 {
-	char const  *text      = NULL;
-	Value       *value     = NULL;
-	StyleFormat *format    = NULL;
-
-	text = gtk_entry_get_text (entry);
-	value = format_match_number (text, NULL, &format);
+	Value *value = format_match_number (gtk_entry_get_text (entry), NULL);
 
 	if ((value == NULL) || !VALUE_IS_NUMBER (value)) { 
 		*the_float = 0.0;
@@ -1124,7 +1119,7 @@ entry_to_float (GtkEntry *entry, gnum_float *the_float, gboolean update)
 	}
 	*the_float = value_get_as_float (value);
 	if (update) {
-		char *tmp = format_value (format, value, NULL, 16);
+		char *tmp = format_value (NULL, value, NULL, 16);
 		gtk_entry_set_text (entry, tmp);
 		g_free (tmp);	
 	}
@@ -1145,12 +1140,7 @@ entry_to_float (GtkEntry *entry, gnum_float *the_float, gboolean update)
 int
 entry_to_int (GtkEntry *entry, gint *the_int, gboolean update)
 {
-	char const *text      = NULL;
-	Value       *value     = NULL;
-	StyleFormat *format    = NULL;
-
-	text = gtk_entry_get_text (entry);
-	value = format_match_number (text, NULL, &format);
+	Value *value = format_match_number (gtk_entry_get_text (entry), NULL);
 
 	if ((value == NULL) || !(value->type == VALUE_INTEGER)) { 
 		*the_int = 0;
@@ -1158,7 +1148,7 @@ entry_to_int (GtkEntry *entry, gint *the_int, gboolean update)
 	}
 	*the_int = value_get_as_int (value);
 	if (update) {
-		char *tmp = format_value (format, value, NULL, 16);
+		char *tmp = format_value (NULL, value, NULL, 16);
 		gtk_entry_set_text (entry, tmp);
 		g_free (tmp);	
 	}

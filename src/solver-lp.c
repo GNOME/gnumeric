@@ -93,7 +93,7 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 	for (i = 2; inputs != NULL; inputs = inputs->next) {
 	        cell = (Cell *) inputs->data;
 
-		sheet_cell_set_value (cell, value_new_float (0.0), NULL);
+		sheet_cell_set_value (cell, value_new_float (0.0));
 		cell_eval (target);
 		init_value = value_get_as_float (target->value);
 
@@ -109,7 +109,7 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 			++n;
 		}
 
-		sheet_cell_set_value (cell, value_new_float (1.0), NULL);
+		sheet_cell_set_value (cell, value_new_float (1.0));
 		cell_eval (target);
 		value = value_get_as_float (target->value);
 		current = constraints;
@@ -124,7 +124,7 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 			++n;
 		}
 
-		sheet_cell_set_value (cell, value_new_float (0.0), NULL);
+		sheet_cell_set_value (cell, value_new_float (0.0));
 
 		if (max_flag)
 		        table[i] = value - init_value;
@@ -325,7 +325,7 @@ solver_simplex (WorkbookControl *wbc, Sheet *sheet, gnum_float **init_tbl,
 		        c = (Cell *) cell_list->data;
 		}
 		cell = sheet_cell_fetch (sheet, c->pos.col, c->pos.row);
-		sheet_cell_set_value (cell, value_new_float (table[1 + i * tbl_cols]), NULL);
+		sheet_cell_set_value (cell, value_new_float (table[1 + i * tbl_cols]));
 	skip:
 	}
 	cell = sheet_cell_fetch (sheet, param->target_cell->pos.col,
@@ -357,11 +357,11 @@ get_lp_coeff (Cell *target, Cell *change)
 {
         gnum_float x0, x1;
 
-	sheet_cell_set_value (change, value_new_float (0.0), NULL);
+	sheet_cell_set_value (change, value_new_float (0.0));
 	cell_eval (target);
 	x0 = value_get_as_float (target->value);
 
-	sheet_cell_set_value (change, value_new_float (1.0), NULL);
+	sheet_cell_set_value (change, value_new_float (1.0));
 	cell_eval (target);
 	x1 = value_get_as_float (target->value);
 
@@ -591,7 +591,7 @@ solver_affine_scaling (WorkbookControl *wbc, Sheet *sheet,
 			Value * v = value_new_float ((*x)[i++]);
 
 			cell = (Cell *)inputs->data;
-			sheet_cell_set_value (cell, v, NULL);
+			sheet_cell_set_value (cell, v);
 			inputs = inputs->next;
 		}
 	else
@@ -599,7 +599,7 @@ solver_affine_scaling (WorkbookControl *wbc, Sheet *sheet,
 			Value * v = value_new_float ((*x)[i] - (*x)[i + 1]);
 
 			cell = (Cell *)inputs->data;
-			sheet_cell_set_value (cell, v, NULL);
+			sheet_cell_set_value (cell, v);
 			i += 2;
 			inputs = inputs->next;
 		}
@@ -763,14 +763,14 @@ solver_branch_and_bound (WorkbookControl *wbc, Sheet *sheet, gnum_float **opt_x)
 			Value *v = value_new_float ((*opt_x)[i++]);
 
 			cell = (Cell *)inputs->data;
-			sheet_cell_set_value (cell, v, NULL);
+			sheet_cell_set_value (cell, v);
 			inputs = inputs->next;
 		}
 	else
 	        while (inputs != NULL) {
 			Value *v = value_new_float ((*opt_x)[i] - (*opt_x)[i + 1]);
 			cell = (Cell *)inputs->data;
-			sheet_cell_set_value (cell, v, NULL);
+			sheet_cell_set_value (cell, v);
 			i += 2;
 			inputs = inputs->next;
 		}

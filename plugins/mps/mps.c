@@ -165,7 +165,7 @@ static void
 mps_set_cell (Sheet *sh, int col, int row, const gchar *str)
 {
         Cell *cell = sheet_cell_fetch (sh, col, row);
-        sheet_cell_set_value (cell, value_new_string (str), NULL);
+        sheet_cell_set_value (cell, value_new_string (str));
 }
 
 /* Writes a float into a cell. */
@@ -173,7 +173,7 @@ static void
 mps_set_cell_float (Sheet *sh, int col, int row, const gnum_float f)
 {
         Cell *cell = sheet_cell_fetch (sh, col, row);
-        sheet_cell_set_value (cell, value_new_float (f), NULL);
+        sheet_cell_set_value (cell, value_new_float (f));
 }
 
 /* Callback for the hash table mapping. */

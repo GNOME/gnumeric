@@ -1117,7 +1117,6 @@ format_match_simple (char const *text)
  *
  * @text : The text to parse
  * @cur_fmt : The current format for the value (potentially NULL)
- * @format : An optional place to store the target format
  *
  * Attempts to parse the supplied string to see if it matches a known value format.
  * If @format is supplied it will get a copy of the matching format with no
@@ -1125,15 +1124,12 @@ format_match_simple (char const *text)
  * resulting value.  @matching_format does NOT have a reference added.
  */
 Value *
-format_match (char const *text, StyleFormat *cur_fmt,
-	      StyleFormat **matching_format)
+format_match (char const *text, StyleFormat *cur_fmt)
 {
 	Value  *v;
 	GSList *l;
 	regmatch_t mp[NM + 1];
-
-	if (matching_format)
-		*matching_format = NULL;
+	StyleFormat *matching_format;
 
 	if (text[0] == '\0')
 		return value_new_empty ();
@@ -1164,8 +1160,7 @@ format_match (char const *text, StyleFormat *cur_fmt,
 		}
 #endif
 
-			if (matching_format)
-				*matching_format = cur_fmt;
+			value_set_fmt (v, cur_fmt);
 			return v;
 		}
 	}
@@ -1210,8 +1205,7 @@ format_match (char const *text, StyleFormat *cur_fmt,
 			printf ("unable to compute value\n");
 #endif
 		if (v != NULL) {
-			if (matching_format)
-				*matching_format = fmt;
+			value_set_fmt (v, fmt);
 			return v;
 		}
 	}
@@ -1233,10 +1227,9 @@ format_match (char const *text, StyleFormat *cur_fmt,
  * resulting value.  Will ONLY return numbers.
  */
 Value *
-format_match_number (char const *s, StyleFormat *current_format,
-		     StyleFormat **format)
+format_match_number (char const *s, StyleFormat *current_format)
 {
-	Value *res = format_match (s, current_format, format);
+	Value *res = format_match (s, current_format);
 
 	if (res != NULL) {
 		if (VALUE_IS_NUMBER (res))

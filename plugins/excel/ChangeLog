@@ -1,3 +1,8 @@
+2002-02-03  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (pre_cell) : adjust to Cell::format moving into the
+	  value.
+
 2002-01-31  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-util.c (init_xl_font_widths) : add Helv.

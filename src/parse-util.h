@@ -27,10 +27,10 @@ gboolean    parse_cell_name          (char const *cell_str, int *col, int *row,
 				      gboolean strict, int *chars_read);
 gboolean    parse_cell_range         (Sheet *sheet, char const *range, Value **v);
 
-StyleFormat *parse_text_value_or_expr (ParsePos const *pos,
-				       char const *text,
-				       Value **val, ExprTree **expr,
-				       StyleFormat *current_format /* can be NULL */);
+void	    parse_text_value_or_expr (ParsePos const *pos,
+				      char const *text,
+				      Value **val, ExprTree **expr,
+				      StyleFormat *current_format /* can be NULL */);
 
 /* Is this string potentially the start of an expression */
 char const * gnumeric_char_start_expr_p (char const * c);

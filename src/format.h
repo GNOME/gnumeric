@@ -28,7 +28,7 @@ gboolean       style_format_is_general	(StyleFormat const *sf);
 gboolean       style_format_is_text	(StyleFormat const *sf);
 
 void   format_destroy (StyleFormat *format);
-char  *format_value   (StyleFormat *format, Value const *value, StyleColor **color,
+char  *format_value   (StyleFormat const *format, Value const *value, StyleColor **color,
 		       float col_width);
 
 void   format_color_init     (void);

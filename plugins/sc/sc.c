@@ -308,7 +308,7 @@ sc_parse_let (sc_file_state_t *src, const char *cmd, const char *str, int col, i
 	if (!v)
 		return FALSE;
 
-	cell_set_value (cell, v, NULL);
+	cell_set_value (cell, v);
 
 	return TRUE;
 }

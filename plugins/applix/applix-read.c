@@ -959,8 +959,7 @@ applix_read_cells (ApplixReadState *state)
 		content_type = *ptr;
 		switch (content_type) {
 		case ';' : /* First of a shared formula */
-		case '.' : /* instance of a shared formula */
-		{
+		case '.' : { /* instance of a shared formula */
 			ParsePos	 pos;
 			ExprTree	*expr;
 			Value		*val = NULL;
@@ -975,7 +974,7 @@ applix_read_cells (ApplixReadState *state)
 
 			if (!val_is_string)
 				/* Does it match any formats */
-				val = format_match (ptr, NULL, NULL);
+				val = format_match (ptr, NULL);
 
 			if (val == NULL)
 				/* TODO : Could this happen ? */
@@ -1024,7 +1023,7 @@ applix_read_cells (ApplixReadState *state)
 					parse_pos_init_cell (&pos, cell),
 					GNM_PARSER_USE_APPLIX_REFERENCE_CONVENTIONS |
 					GNM_PARSER_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC,
-					NULL, NULL);
+					NULL);
 				if (expr == NULL) {
 					(void) applix_parse_error (state, "Invalid expression");
 					continue;
@@ -1036,9 +1035,9 @@ applix_read_cells (ApplixReadState *state)
 								r.start.col, r.start.row,
 								r.end.col, r.end.row,
 								expr);
-					cell_assign_value (cell, val, NULL);
+					cell_assign_value (cell, val);
 				} else
-					cell_set_expr_and_value (cell, expr, val, NULL, TRUE);
+					cell_set_expr_and_value (cell, expr, val, TRUE);
 
 				if (!applix_get_line (state) ||
 				    strncmp (state->buffer, "Formula: ", 9)) {
@@ -1057,13 +1056,12 @@ applix_read_cells (ApplixReadState *state)
 				printf ("shared '%s'\n", expr_string);
 #endif
 				expr = g_hash_table_lookup (state->exprs, expr_string);
-				cell_set_expr_and_value (cell, expr, val, NULL, TRUE);
+				cell_set_expr_and_value (cell, expr, val, TRUE);
 			}
 			break;
 		}
 
-		case ':' : /* simple value */
-		{
+		case ':' : { /* simple value */
 			Value *val = NULL;
 
 			ptr += 2;
@@ -1074,14 +1072,14 @@ applix_read_cells (ApplixReadState *state)
 #endif
 			/* Does it match any formats */
 			if (!val_is_string)
-				val = format_match (ptr, NULL, NULL);
+				val = format_match (ptr, NULL);
 			if (val == NULL)
 				val = value_new_string (ptr);
 
 			if (cell_is_array (cell))
-				cell_assign_value (cell, val, NULL);
+				cell_assign_value (cell, val);
 			else
-				cell_set_value (cell, val, NULL);
+				cell_set_value (cell, val);
 			break;
 		}
 

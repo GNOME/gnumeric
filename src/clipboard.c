@@ -77,6 +77,7 @@ paste_oper_to_expr_oper (int paste_flags)
 	return 0;
 }
 
+#warning handle formating
 static Value *
 apply_paste_oper_to_values (Cell const *old_cell, Cell const *copied_cell,
 			    Cell const *new_cell, int paste_flags)
@@ -139,13 +140,13 @@ paste_cell_with_operation (Sheet *dest_sheet,
 		ExprTree *copied_expr = cell_get_contents_as_expr_tree (c_copy->u.cell);
 		Operation oper	      = paste_oper_to_expr_oper (paste_flags);
 		ExprTree *new_expr    = expr_tree_new_binary (old_expr, oper, copied_expr);
-		cell_set_expr (new_cell, new_expr, NULL);
+		cell_set_expr (new_cell, new_expr);
 		cell_relocate (new_cell, rwinfo);
 	} else {
 		Value *new_val = apply_paste_oper_to_values (new_cell, c_copy->u.cell,
 							     new_cell, paste_flags);
 
-		cell_set_value (new_cell, new_val, c_copy->u.cell->format);
+		cell_set_value (new_cell, new_val);
 	}
 }
 
@@ -185,7 +186,7 @@ paste_link (PasteTarget const *pt, int top, int left,
 					continue;
 			source_cell_ref.row = content->base.row + y;
 			expr = expr_tree_new_var (&source_cell_ref);
-			cell_set_expr (cell, expr, NULL);
+			cell_set_expr (cell, expr);
 		}
 	}
 }
@@ -225,14 +226,14 @@ paste_cell (Sheet *dest_sheet,
 			
 		if (cell_has_expr (src_cell)) {
 			cell_set_expr_and_value (new_cell, src_cell->base.expression,
-						 value_duplicate (src_cell->value), src_cell->format, FALSE);
+						 value_duplicate (src_cell->value), FALSE);
 			
 			if (paste_flags & PASTE_CONTENT)
 				cell_relocate (new_cell, rwinfo);
 			else
 				cell_convert_expr_to_value (new_cell);
 		} else
-				cell_set_value (new_cell, value_duplicate (src_cell->value), src_cell->format);
+				cell_set_value (new_cell, value_duplicate (src_cell->value));
 
 	} else {
 		Cell *new_cell = sheet_cell_new (dest_sheet,

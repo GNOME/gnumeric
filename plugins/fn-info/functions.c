@@ -940,7 +940,7 @@ gnumeric_n (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	str = value_peek_string (argv[0]);
-	v = format_match_number (str, NULL, NULL);
+	v = format_match_number (str, NULL);
 	if (v != NULL)
 		return v;
 	return value_new_float (0);

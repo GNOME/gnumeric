@@ -110,7 +110,7 @@ dependent_set_expr (Dependent *dep, ExprTree *new_expr)
 		 * Explicitly do not check for array subdivision, we may be
 		 * replacing the corner of an array.
 		 */
-		cell_set_expr_unsafe (DEP_TO_CELL (dep), new_expr, NULL);
+		cell_set_expr_unsafe (DEP_TO_CELL (dep), new_expr);
 	} else {
 		DependentClass *klass = g_ptr_array_index (dep_classes, t);
 

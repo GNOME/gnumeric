@@ -275,7 +275,7 @@ char       *sheet_name_quote              (char const *unquoted_name);
  * division of arrays.
  */
 void  sheet_cell_set_expr  (Cell *cell, ExprTree *expr);
-void  sheet_cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt);
+void  sheet_cell_set_value (Cell *cell, Value *v);
 void  sheet_cell_set_text  (Cell *cell, char const *str);
 Value const *sheet_cell_get_value (Sheet *sheet, int const col, int const row);
 void  sheet_range_set_text   (ParsePos const *pos, Range const *r, char const *str);

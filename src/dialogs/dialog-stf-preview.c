@@ -443,7 +443,7 @@ stf_preview_format_line (RenderData_t *renderdata, GList *data, int colcount)
 		sf = g_ptr_array_index (renderdata->colformats, col);
 		
 		/* Formatting */
-		if (NULL == (value = format_match (iterator->data, sf, NULL)))
+		if (NULL == (value = format_match (iterator->data, sf)))
 			value = value_new_string (iterator->data);
 
 		celltext = format_value (sf, value, NULL, -1);

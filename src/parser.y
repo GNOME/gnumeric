@@ -210,7 +210,6 @@ typedef struct {
 	gboolean force_explicit_sheet_references;
 
 	/* The suggested format to use for this expression */
-	StyleFormat **desired_fmt;
 	ExprList *result;
 
 	ParseError *error;
@@ -971,7 +970,6 @@ yyerror (char *s)
  *
  * @expr_text   : The string to parse.
  * @flags       : See parse-utils for descriptions
- * @desired_fmt : optionally NULL ptr to the best format for result
  * @error       : optionally NULL ptr to store details of error.
  *
  * Parse a string. if @error is non-null it will be assumed that the
@@ -982,7 +980,6 @@ yyerror (char *s)
 ExprTree *
 expr_parse_str (char const *expr_text, ParsePos const *pos,
 		GnmExprParserFlags flags,
-		StyleFormat **desired_fmt,
 	        ParseError *error)
 {
 	ExprTree *expr;
@@ -1005,10 +1002,6 @@ expr_parse_str (char const *expr_text, ParsePos const *pos,
 	pstate.force_explicit_sheet_references		= flags & GNM_PARSER_FORCE_EXPLICIT_SHEET_REFERENCES;
 
 	pstate.result = NULL;
-	pstate.desired_fmt = desired_fmt;
-	if (pstate.desired_fmt)
-		*pstate.desired_fmt = NULL;
-
 	pstate.error = error;
 	
 	if (deallocate_stack == NULL)
@@ -1033,23 +1026,6 @@ expr_parse_str (char const *expr_text, ParsePos const *pos,
 					pstate.error->end_char);
 		}
 #endif
-
-		if (desired_fmt != NULL) {
-			StyleFormat *format;
-			EvalPos tmp;
-
-			tmp.sheet = pos->sheet;
-			tmp.eval = pos->eval;
-			format = auto_style_format_suggest (pstate.result->data, &tmp);
-			if (format != NULL) {
-				/* Override the format that came from a
-				 * constant somewhere inside.
-				 */
-				if (*desired_fmt != NULL)
-					style_format_unref (*desired_fmt);
-				*desired_fmt = format;
-			}
-		}
 
 		/* Do we have multiple expressions */
 		if (pstate.result->next != NULL) {
@@ -1098,10 +1074,6 @@ expr_parse_str (char const *expr_text, ParsePos const *pos,
 		}
 
 		deallocate_all ();
-		if (desired_fmt != NULL && *desired_fmt != NULL) {
-			style_format_unref (*desired_fmt);
-			*desired_fmt = NULL;
-		}
 
 		expr = NULL;
 	}

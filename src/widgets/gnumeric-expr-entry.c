@@ -785,7 +785,7 @@ gnumeric_expr_entry_parse (GnumericExprEntry *ee, ParsePos const *pp,
 	if (!(ee->flags & GNUM_EE_SHEET_OPTIONAL))
 		flags |= GNM_PARSER_FORCE_EXPLICIT_SHEET_REFERENCES;
 
-	expr = expr_parse_str (text, pp, flags, NULL, NULL);
+	expr = expr_parse_str (text, pp, flags, NULL);
 	if (expr == NULL)
 		return NULL;
 

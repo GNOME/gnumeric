@@ -24,6 +24,7 @@
 #include <ranges.h>
 #include <cell.h>
 #include <expr.h>
+#include <value.h>
 #include <format.h>
 #include <formats.h>
 #include <pattern.h>
@@ -106,7 +107,6 @@ typedef struct _FormatState
 
 	Sheet		*sheet;
 	Value		*value;
-	StyleFormat	*parse_format;
 	MStyle		*style, *result;
 	StyleBorder *borders[STYLE_BORDER_EDGE_MAX];
 
@@ -515,10 +515,10 @@ draw_format_preview (FormatState *state)
 	if (sf == NULL)
 		return;
 
-	if (state->value) {
+	if (state->value != NULL) {
 		if (style_format_is_general (sf) &&
-		    state->parse_format != NULL)
-			sf = state->parse_format;
+		    VALUE_FMT (state->value) != NULL)
+			sf = VALUE_FMT (state->value);
 
 		preview = format_value (sf, state->value, NULL, -1);
 
@@ -903,9 +903,11 @@ fmt_dialog_init_format_page (FormatState *state)
 	} else
 		format = g_strdup (cell_formats[0][0]);
 
-	if (!strcmp (format, "General") && state->parse_format != NULL) {
+	if (!strcmp (format, "General") &&
+	    state->value != NULL &&
+	    VALUE_FMT (state->value) != NULL) {
 		g_free (format);
-		format = g_strdup (state->parse_format->format);
+		format = style_format_as_XL (VALUE_FMT (state->value), FALSE);
 	}
 
 	state->format.preview = NULL;
@@ -2733,13 +2735,7 @@ dialog_cell_format (WorkbookControlGUI *wbcg, Sheet *sheet, FormatDialogPosition
 	state->wbcg		= wbcg;
 	state->gui		= gui;
 	state->sheet		= sheet;
-	if (edit_cell) {
-		state->value	    = edit_cell->value;
-		state->parse_format = edit_cell->format;
-	} else  {
-		state->value	    = NULL;
-		state->parse_format = NULL;
-	}
+	state->value	        = (edit_cell != NULL) ? edit_cell->value : NULL;
 	state->style		= NULL;
 	state->result		= mstyle_new ();
 	state->selection_mask	= 0;
@@ -2773,7 +2769,6 @@ dialog_cell_number_fmt (WorkbookControlGUI *wbcg, Value *sample_val)
 	state->gui		= NULL;
 	state->sheet		= NULL;
 	state->value		= sample_val;
-	state->parse_format	= NULL;
 	state->style		= mstyle_new (); /* FIXME : this should be passed in */
 	state->result		= mstyle_new ();
 	state->selection_mask	= 0;

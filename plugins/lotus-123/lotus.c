@@ -171,7 +171,7 @@ insert_value (Sheet *sheet, guint32 col, guint32 row, Value *val)
 
 	cell = sheet_cell_fetch (sheet, col, row);
 
-	cell_set_value (cell, val, NULL);
+	cell_set_value (cell, val);
 
 #if LOTUS_DEBUG > 0
 	printf ("Inserting value at %s:\n",
@@ -224,17 +224,16 @@ read_workbook (Workbook *wb, FILE *f)
 		}
 
 		switch (r->type) {
-		case LOTUS_BOF:
+		case LOTUS_BOF :
 			if (sheetidx > 1)
 				sheet = attach_sheet (wb, sheetidx++);
 			break;
 
-		case LOTUS_EOF:
+		case LOTUS_EOF :
 			sheet = NULL;
 			break;
 
-		case LOTUS_INTEGER:
-		{
+		case LOTUS_INTEGER : {
 			Value *v = value_new_int (gnumeric_get_le_int16 (r->data + 5));
 			int i = gnumeric_get_le_uint16 (r->data + 1);
 			int j = gnumeric_get_le_uint16 (r->data + 3);
@@ -245,8 +244,7 @@ read_workbook (Workbook *wb, FILE *f)
 				cell_set_format_from_lotus_format (cell, fmt);
 			break;
 		}
-		case LOTUS_NUMBER:
-		{
+		case LOTUS_NUMBER : {
 			Value *v = value_new_float (gnumeric_get_le_double (r->data + 5));
 			int i = gnumeric_get_le_uint16 (r->data + 1);
 			int j = gnumeric_get_le_uint16 (r->data + 3);
@@ -257,8 +255,7 @@ read_workbook (Workbook *wb, FILE *f)
 				cell_set_format_from_lotus_format (cell, fmt);
 			break;
 		}
-		case LOTUS_LABEL:
-		{
+		case LOTUS_LABEL : {
 			/* one of '\', '''', '"', '^' */
 /*			gchar format_prefix = *(r->data + 5);*/
 			Value *v = value_new_string (r->data + 6); /* FIXME unsafe */
@@ -270,8 +267,7 @@ read_workbook (Workbook *wb, FILE *f)
 				cell_set_format_from_lotus_format (cell, fmt);
 			break;
 		}
-		case LOTUS_FORMULA:
-		{
+		case LOTUS_FORMULA : {
 			/* 5-12 = value */
 			/* 13-14 = formula r->length */
 			Value *v = value_new_float (gnumeric_get_le_double (r->data + 5));
@@ -280,11 +276,10 @@ read_workbook (Workbook *wb, FILE *f)
 			fmt = *(guint8 *)(r->data);
 			cell = insert_value (sheet, i, j, v);
 			if (cell) {
-				ExprTree *f =
-					lotus_parse_formula (sheet, i, j,
-							     r->data + 15, /* FIXME: unsafe */
-							     gnumeric_get_le_int16 (r->data + 13));
-				cell_set_expr (cell, f, NULL);
+				ExprTree *f = lotus_parse_formula (sheet, i, j,
+					r->data + 15, /* FIXME: unsafe */
+					gnumeric_get_le_int16 (r->data + 13));
+				cell_set_expr (cell, f);
 				expr_tree_unref (f);
 				cell_set_format_from_lotus_format (cell, fmt);
 			}
