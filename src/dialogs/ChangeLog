@@ -1,5 +1,10 @@
 2002-02-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* autocorrect-glade : don't set has_focus for a widget on an
+	  inactive notebook page
+	
+2002-02-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-goal-seek.c (focus_on_entry) : change argument type
 	(cb_dialog_apply_clicked) : handle new expr entry widget, use
 	  entry_to_float_with_format

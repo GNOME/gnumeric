@@ -341,7 +341,6 @@
                 <child>
                   <widget class="GtkCheckButton" id="init_caps">
                     <property name="can_focus">yes</property>
-                    <property name="has_focus">yes</property>
                     <property name="label" translatable="yes">Correct _TWo INitial CApitals                           </property>
                     <property name="active">no</property>
                     <property name="draw_indicator">yes</property>
@@ -585,7 +584,6 @@
                             <child>
                               <widget class="GtkEntry" id="first_letter_entry">
                                 <property name="can_focus">yes</property>
-                                <property name="has_focus">yes</property>
                                 <property name="editable">yes</property>
                                 <property name="text" translatable="yes"></property>
                                 <property name="max-length">0</property>
