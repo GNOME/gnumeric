@@ -104,9 +104,9 @@ gnm_common_init (gboolean fast)
 	g_object_new (GNM_APP_TYPE, NULL);
 	plugin_services_init ();
 	libgoffice_init ();
-	gnm_conf_init (fast);
 	gnm_string_init ();
 	mstyle_init ();
+	gnm_conf_init (fast);
 	value_init ();
 	parse_util_init ();
 	expr_init ();
@@ -169,6 +169,7 @@ gnm_shutdown (void)
 	expr_shutdown ();
 	parse_util_shutdown ();
 	value_shutdown ();
+	gnm_conf_shutdown ();
 	mstyle_shutdown ();
 	gnm_string_shutdown ();
 	gnm_app_release_gconf_client ();

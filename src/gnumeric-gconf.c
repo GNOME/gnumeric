@@ -30,6 +30,7 @@
 #include "gnumeric-gconf-priv.h"
 #include <gconf/gconf-client.h>
 #include "gutils.h"
+#include "mstyle.h"
 
 static GnmAppPrefs prefs;
 GnmAppPrefs const *gnm_app_prefs = &prefs;
@@ -130,6 +131,33 @@ gnm_gconf_get_float (GConfClient *client, char const *key,
 }
 
 static void
+gnm_conf_init_printer_decoration_font (GConfClient *client)
+{
+	gchar *name;
+	if (prefs.printer_decoration_font == NULL)
+		prefs.printer_decoration_font = mstyle_new ();
+
+	name = gconf_client_get_string (client,
+					PRINTSETUP_GCONF_HF_FONT_NAME, NULL);
+	if (name){
+		mstyle_set_font_name (prefs.printer_decoration_font, name);
+		g_free (name);
+	}
+	mstyle_set_font_size (prefs.printer_decoration_font,
+			      gnm_gconf_get_float 
+			      (client, PRINTSETUP_GCONF_HF_FONT_SIZE, 
+			       1., 100., 10.));
+	mstyle_set_font_bold (prefs.printer_decoration_font,
+			      gnm_gconf_get_bool
+			      (client, PRINTSETUP_GCONF_HF_FONT_BOLD,
+			       FALSE));
+	mstyle_set_font_italic (prefs.printer_decoration_font,
+				gnm_gconf_get_bool
+				(client, PRINTSETUP_GCONF_HF_FONT_ITALIC,
+				 FALSE));
+}
+
+static void
 gnm_conf_init_essential (void)
 {
 	GConfClient *client = gnm_app_get_gconf_client ();
@@ -226,26 +254,15 @@ gnm_conf_init_extras (void)
 		PRINTSETUP_GCONF_HEADER, GCONF_VALUE_STRING, NULL);
 	prefs.printer_footer = gconf_client_get_list (client,
 		PRINTSETUP_GCONF_FOOTER, GCONF_VALUE_STRING, NULL);
-	prefs.printer_decoration_font_name = gconf_client_get_string (client,
-		PRINTSETUP_GCONF_HF_FONT_NAME, NULL);
-	if (prefs.printer_decoration_font_name == NULL)
-		prefs.printer_decoration_font_name = g_strdup ("Sans");
-	prefs.printer_decoration_font_size = gnm_gconf_get_float (client,
-		PRINTSETUP_GCONF_HF_FONT_SIZE, 1., 100., 10.);
-	prefs.printer_decoration_font_weight = ( gnm_gconf_get_bool
-						(client,
-						 PRINTSETUP_GCONF_HF_FONT_BOLD,
-						 FALSE) 
-						? GNOME_FONT_BOLD 
-						: GNOME_FONT_REGULAR);
-	prefs.printer_decoration_font_italic = gnm_gconf_get_bool (client,
-		PRINTSETUP_GCONF_HF_FONT_ITALIC, FALSE);
 	prefs.unfocused_range_selection = gnm_gconf_get_bool (client,
 		DIALOGS_GCONF_UNFOCUSED_RS, TRUE);
 	prefs.prefer_clipboard_selection = gnm_gconf_get_bool (client,
 		GNUMERIC_GCONF_CUTANDPASTE_PREFER_CLIPBOARD, TRUE);
 	prefs.latex_use_utf8 = gnm_gconf_get_bool (client,
 		PLUGIN_GCONF_LATEX_USE_UTF8, TRUE); 
+
+	gnm_conf_init_printer_decoration_font (client);
+
 	return FALSE;
 }
 
@@ -262,6 +279,13 @@ gnm_conf_init (gboolean fast)
 		g_timeout_add (1000, (GSourceFunc) gnm_conf_init_extras, NULL);
 	else
 		gnm_conf_init_extras ();
+}
+
+void     
+gnm_conf_shutdown (void)
+{
+	mstyle_unref (prefs.printer_decoration_font);
+	prefs.printer_decoration_font = NULL;
 }
 
 void

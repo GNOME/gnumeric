@@ -1,3 +1,17 @@
+2003-11-02  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/gnumeric-gconf.c (gnm_conf_init_printer_decoration_font): new
+	(gnm_conf_init_extra): call gnm_conf_init_printer_decoration_font
+	  rather than doing the work itself.
+	(gnm_conf_shutdown): new
+	* src/gnumeric-gconf.h: printer_decoration_font replaces 
+	  printer_decoration_font_* 
+	* src/libgnumeric.c (gnm_common_init): gnm_conf_init requires 
+	  mstyle_init
+	(gnm_shutdown): call gnm_conf_shutdown
+	* src/print.c (print_job_info_get): printer_decoration_font replaces 
+	  printer_decoration_font_* 
+
 2003-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* src/application.c: Added g_assert()s to ensure app is not NULL prior

@@ -2,7 +2,7 @@
 #define GNUMERIC_GCONF_H
 
 #include <numbers.h>
-#include <libgnomeprint/gnome-font.h>
+#include <gnumeric.h>
 
 typedef struct {
 	struct {
@@ -44,10 +44,7 @@ typedef struct {
 	gchar           *printer_config;
 	GSList const    *printer_header;
 	GSList const    *printer_footer;
-	gchar           *printer_decoration_font_name;
-	double           printer_decoration_font_size;
-	GnomeFontWeight  printer_decoration_font_weight;
-	gboolean         printer_decoration_font_italic;
+	MStyle          *printer_decoration_font;
 
 	float		 horizontal_dpi;
 	float		 vertical_dpi;
@@ -62,6 +59,7 @@ typedef struct {
 extern GnmAppPrefs const *gnm_app_prefs;
 
 void     gnm_conf_init (gboolean fast);
+void     gnm_conf_shutdown (void);
 void     gnm_conf_sync (void);
 
 /* autocorrect */

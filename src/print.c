@@ -1184,10 +1184,11 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	pj->render_info->page = 1;
 
 	pj->decoration_font = gnm_font_find_closest_from_weight_slant 
-		(gnm_app_prefs->printer_decoration_font_name, 
-		 gnm_app_prefs->printer_decoration_font_weight,
-		 gnm_app_prefs->printer_decoration_font_italic,
-		 gnm_app_prefs->printer_decoration_font_size);
+	     (mstyle_get_font_name (gnm_app_prefs->printer_decoration_font), 
+	      mstyle_get_font_bold (gnm_app_prefs->printer_decoration_font)
+	      ? GNOME_FONT_BOLD : GNOME_FONT_REGULAR,
+	      mstyle_get_font_italic (gnm_app_prefs->printer_decoration_font),
+	      mstyle_get_font_size (gnm_app_prefs->printer_decoration_font));
 
 	return pj;
 }
