@@ -127,9 +127,6 @@ Excel i/o
 Short Term Goals
 ----------------
 
-* When we release 1.1.18, we should ask people to nominate certain foreign
-  encodings as major.
-
 * compartmentalize gconf support
 - validate expression names to ensure that they are not simple values (eg TRUE)
 
@@ -385,18 +382,12 @@ Short Term Goals
 	1.31.8) Text alignment					(DONE)
 	1.31.9) Text clipping					(DONE)
     1.32) Radar plots
-	1.31.1) Basic (looks trivial)			{SamuriaMike}
-
-    questions
-	- how to select a single point for formating ?
-
-	- printing
-		Looking at dia, sodipodi and paps they all seem to
-		use ft2 (direct or via pango) to stroke the glyphs
-		Why do we need gnome-print at all ?
-		Do we need to worry about ps2 vs ps3 for gradients ?
-		How to handle patterns without more access to ps ?
-		Is it safe to render to ps and assume that something will translate ?
+	1.32.1) line						(DONE)
+	1.32.2) area						(DONE)
+	1.32.3) axis labels
+	1.32.4) fix xls import of marker vs no marker
+    1.33) Single point formating
+	1.33.1) Basic 						{emmanual}
 
 2) stf							{Andreas/Morten}
     2.1) UTF-8 cleanliness					(DONE)
@@ -476,6 +467,9 @@ Short Term Goals
 	6.15.6) use appropriate NAME record for function stubs	(DONE)
 	6.15.7) generate CompObj stream
 	6.15.8) generate property streams to get the flags
+    6.16) Excel95 object import
+	6.16.1) TextBox						(DONE)
+    6.17) Excel95 object export
 
 14) Polish up Open and Save
     14.1) merge open and import dialogs				(DONE)
@@ -590,11 +584,10 @@ Misc stuff that should be fixed
       selected ranges.
     : drag based col/row resize should support negative sizes to
       correspond to hiding.
+    : support delete for discontinuous ranges
 
 - Remove duplication of code between analysis-tools.c and collect.c
     (Many analysis tools may in fact want to follow the consolidate style)
-
-- Make deletion work for multiple ranges.
 
 - Look into octave/matlab filters
 - Talk to shaunm about mathematica (Shouldn't we rather support non-propritary

@@ -1126,7 +1126,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		guint const pid = tmp & 0x3fff;
 		gboolean const is_blip = (tmp & 0x4000) != 0;
 		gboolean const is_complex = (tmp & 0x8000) != 0;
-		guint32 const val = GSF_LE_GET_GUINT32(fopte+2);
+		guint32 val = GSF_LE_GET_GUINT32 (fopte+2);
 		MSObjAttrID id = MS_OBJ_ATTR_NONE;
 
 		/* container is sorted by pid. Use this as sanity test */
@@ -1439,17 +1439,20 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 			/* NOTE : This test is somewhat questionable.
 			 * The docs say this is a bool but I have seen
 			 * 0x110000	not filled
+			 * 0x100000 	not filled
 			 * 0x110010	filled
 			 * 0x010000	filled
 			 */
-			if (val & 0x10)
-				id = MS_OBJ_ATTR_FILLED;
+			if (val != 0x110010 && val != 0x010000)
+				id = MS_OBJ_ATTR_UNFILLED;
 			name = "bool fNoFillHitTest";
 			break;
 
 	/* LineStyle */
 		/* black : Color of line */
-		case 448 : name = "Colour lineColor"; break;
+		case 448 : id = MS_OBJ_ATTR_OUTLINE_COLOR;
+			   name = "Colour lineColor";
+			   break;
 		/* 1<<16 : Not implemented */
 		case 449 : name = "long lineOpacity"; break;
 		/* white : Background color */
@@ -1509,7 +1512,12 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* TRUE : Register pattern on shape */
 		case 510 : name = "bool lineFillShape"; break;
 		/* FALSE : Draw a dashed line if no line */
-		case 511 : name = "bool fNoLineDrawDash"; break;
+		case 511 : name = "bool fNoLineDrawDash";
+			   /* 0 == no line
+			    * 0x80008 == line */
+			if (val == 0)
+				id = MS_OBJ_ATTR_OUTLINE_STYLE;
+			break;
 
 	/* ShadowStyle */
 		/* Offset : Type of effect */
@@ -1824,6 +1832,7 @@ ms_escher_read_ClientTextbox (MSEscherState *state, MSEscherHeader *h)
 	guint16 opcode;
 	int has_next_record;
 	char *text;
+	PangoAttrList *markup;
 
 	g_return_val_if_fail (h->len == COMMON_HEADER_LEN, TRUE);
 	g_return_val_if_fail (h->offset + h->len == state->end_offset, TRUE);
@@ -1835,9 +1844,13 @@ ms_escher_read_ClientTextbox (MSEscherState *state, MSEscherHeader *h)
 	has_next_record = ms_biff_query_next (state->q);
 	g_return_val_if_fail (has_next_record, TRUE);
 
-	text = ms_read_TXO (state->q);
+	text = ms_read_TXO (state->q, state->container, &markup);
 	ms_escher_header_add_attr (h,
 		ms_obj_attr_new_ptr (MS_OBJ_ATTR_TEXT, text));
+	if (markup != NULL)
+		ms_escher_header_add_attr (h,
+			ms_obj_attr_new_markup (MS_OBJ_ATTR_MARKUP, markup));
+	pango_attr_list_unref (markup);
 	d (0, printf ("'%s';\n", text););
 	return FALSE;
 }

@@ -27,6 +27,8 @@ typedef struct _BiffXFData {
 	guint16 font_idx;
 	guint16 format_idx;
 	GnmFormat *style_format;
+	gboolean   is_simple_format;
+
 	gboolean hidden;
 	gboolean locked;
 	MsBiffXfType xftype;	/*  -- Very important field... */

@@ -1122,7 +1122,7 @@ typedef struct {
 	gboolean         is_cut;
 	int		 index;
 	int		 count;
-	GnmRange           *cutcopied;
+	GnmRange        *cutcopied;
 	SheetView	*cut_copy_view;
 
 	ColRowStateList *saved_states;

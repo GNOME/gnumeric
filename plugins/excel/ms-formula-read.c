@@ -727,7 +727,7 @@ excel_formula_parses_ref_sheets (MSContainer const *container, guint8 const *dat
 		if (a < 0 || b < 0) /* deleted sheets */
 			return TRUE;
 
-		d (-1, fprintf (stderr, " : 0x%hx : 0x%hx : 0x%hx\n", ixals, a, b););
+		d (1, fprintf (stderr, " : 0x%hx : 0x%hx : 0x%hx\n", ixals, a, b););
 
 		/* ixals < 0 == reference within the current workbook
 		 *    ixals == negative one based index into containers externsheet table

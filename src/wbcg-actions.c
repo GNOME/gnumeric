@@ -1447,7 +1447,7 @@ static GNM_ACTION_DEF (cb_copyright)
 	g_warning ("Killroy was here in cb_copyright");
 }
 
-static GtkActionEntry actions[] = {
+static GtkActionEntry menus[] = {
 	{ "MenuFile",		NULL, N_("_File") },
 	{ "MenuEdit",		NULL, N_("_Edit") },
 		{ "MenuEditClear",	NULL, N_("C_lear") },
@@ -1472,8 +1472,10 @@ static GtkActionEntry actions[] = {
 		{ "MenuFilter",		NULL,	N_("_Filter") },
 		{ "MenuOutline",	NULL,	N_("_Group and Outline") },
 		{ "MenuExternalData",	NULL,	N_("Get _External Data") },
-	{ "MenuHelp",	NULL,	N_("_Help") },
+	{ "MenuHelp",	NULL,	N_("_Help") }
+};
 
+static GtkActionEntry actions[] = {
 /* File */
 	{ "FileNew", GTK_STOCK_NEW, NULL,
 		NULL, N_("Create a new workbook"),
@@ -1955,7 +1957,7 @@ static GtkActionEntry actions[] = {
 /* Unattached */
 #warning add descriptions for copy down/right
 	{ "CopyDown", NULL, "", "<control>D", NULL, G_CALLBACK (cb_copydown) },
-	{ "CopyRight", NULL, "", "<control>R", NULL, G_CALLBACK (cb_copyright) },
+	{ "CopyRight", NULL, "", "<control>R", NULL, G_CALLBACK (cb_copyright) }
 };
 
 #define TOGGLE_HANDLER(flag, code)					\
@@ -2058,10 +2060,16 @@ static GtkToggleActionEntry toggle_actions[] = {
 		N_("Align Bottom"), G_CALLBACK (cb_align_bottom), FALSE }
 };
 
-void wbcg_register_actions (WorkbookControlGUI *wbcg, GtkActionGroup *group);
+void wbcg_register_actions (WorkbookControlGUI *wbcg,
+			    GtkActionGroup *menu_group,
+			    GtkActionGroup *group);
 void
-wbcg_register_actions (WorkbookControlGUI *wbcg, GtkActionGroup *group)
+wbcg_register_actions (WorkbookControlGUI *wbcg,
+		       GtkActionGroup *menu_group,
+		       GtkActionGroup *group)
 {
+	  gtk_action_group_add_actions (menu_group,
+		menus, G_N_ELEMENTS (menus), wbcg);
 	  gtk_action_group_add_actions (group,
 		actions, G_N_ELEMENTS (actions), wbcg);
 	  gtk_action_group_add_toggle_actions (group,

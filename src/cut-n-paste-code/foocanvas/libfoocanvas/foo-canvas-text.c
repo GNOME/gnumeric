@@ -935,9 +935,9 @@ foo_canvas_text_set_property (GObject            *object,
 			pango_attr_list_unref (text->attr_list);
 
 		text->attr_list = g_value_peek_pointer (value);
-
 		if (text->attr_list)
 			pango_attr_list_ref (text->attr_list);
+
 		foo_canvas_text_apply_attributes (text);
 		break;
 
@@ -1298,6 +1298,7 @@ static void
 foo_canvas_text_apply_attributes (FooCanvasText *text)
 {
 	PangoAttrList *attr_list;
+	double zoom;
 
 	if (text->attr_list)
 		attr_list = pango_attr_list_copy (text->attr_list);
@@ -1310,6 +1311,14 @@ foo_canvas_text_apply_attributes (FooCanvasText *text)
 		add_attr (attr_list, pango_attr_strikethrough_new (text->strikethrough));
 	if (text->rise_set)
 		add_attr (attr_list, pango_attr_rise_new (text->rise));
+
+	zoom = text->item.canvas->pixels_per_unit;
+	if (fabs (zoom - 1.) > 1e-4) {
+		PangoAttribute *attr = pango_attr_scale_new (zoom);
+		attr->start_index = 0;
+		attr->end_index = -1;
+		pango_attr_list_insert_before (attr_list, attr);
+	}
 
 	pango_layout_set_attributes (text->layout, attr_list);
 	pango_attr_list_unref (attr_list);

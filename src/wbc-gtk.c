@@ -57,7 +57,7 @@ struct _WBCgtk {
 
 	GtkWidget	 *status_area;
 	GtkUIManager     *ui;
-	GtkActionGroup   *actions, *file_history;
+	GtkActionGroup   *menus, *actions, *file_history;
 
 	GOActionComboStack	*undo_action, *redo_action;
 	GOActionComboColor	*fore_color, *back_color;
@@ -736,7 +736,9 @@ wbc_gtk_style_feedback (WorkbookControl *wbc, GnmStyle const *changes)
 	wbcg_ui_update_end (WORKBOOK_CONTROL_GUI (wbc));
 }
 
-extern void wbcg_register_actions (WorkbookControlGUI *wbcg, GtkActionGroup *group);;
+extern void wbcg_register_actions (WorkbookControlGUI *wbcg,
+				   GtkActionGroup *menu_group,
+				   GtkActionGroup *group);
 
 static void
 cb_handlebox_dock_status (G_GNUC_UNUSED GtkHandleBox *hb,
@@ -905,10 +907,12 @@ wbc_gtk_init (GObject *obj)
 		wbcg->table, TRUE, TRUE, 0);
 
 #warning TODO split into smaller chunks
+	gtk->menus = gtk_action_group_new ("Menus");
+	gtk_action_group_set_translation_domain (gtk->menus, NULL);
 	gtk->actions = gtk_action_group_new ("Actions");
 	gtk_action_group_set_translation_domain (gtk->actions, NULL);
 
-	wbcg_register_actions (wbcg, gtk->actions);
+	wbcg_register_actions (wbcg, gtk->menus, gtk->actions);
 
 	for (i = G_N_ELEMENTS (toggles); i-- > 0 ; ) {
 		act = gtk_action_group_get_action (gtk->actions, toggles[i].name);
@@ -930,6 +934,7 @@ wbc_gtk_init (GObject *obj)
 		"signal::disconnect_proxy", G_CALLBACK (cb_disconnect_proxy), gtk,
 		"swapped_object_signal::post_activate", G_CALLBACK (wbcg_focus_cur_scg), gtk,
 		NULL);
+	gtk_ui_manager_insert_action_group (gtk->ui, gtk->menus, 0);
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->actions, 0);
 
 	gtk->file_history = gtk_action_group_new ("FileHistory");

@@ -1811,8 +1811,8 @@ scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
 
 	l = scg->object_coords [0];
 	t = scg->object_coords [1];
-	r = scg->object_coords [2] + 1;
-	b = scg->object_coords [3] + 1;
+	r = scg->object_coords [2];
+	b = scg->object_coords [3];
 
 	SCG_FOREACH_PANE (scg, pane,
 		gnm_pane_object_set_bounds (pane, so, l, t, r ,b););

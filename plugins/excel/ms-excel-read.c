@@ -154,8 +154,7 @@ ms_sheet_parse_expr_internal (ExcelReadSheet *esheet, guint8 const *data, int le
 
 	expr = excel_parse_formula (&esheet->container, esheet, 0, 0,
 		data, length, FALSE, NULL);
-#if 0
-	{
+	if (ms_excel_read_debug > 8) {
 		char *tmp;
 		GnmParsePos pp;
 		Sheet *sheet = esheet->sheet;
@@ -165,7 +164,6 @@ ms_sheet_parse_expr_internal (ExcelReadSheet *esheet, guint8 const *data, int le
 		puts (tmp);
 		g_free (tmp);
 	}
-#endif
 
 	return expr;
 }
@@ -322,88 +320,199 @@ ms_sheet_obj_anchor_to_pos (Sheet const * sheet, MsBiffVersion const ver,
 static gboolean
 ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 {
+	static SheetObjectAnchorType const anchor_types[4] = {
+		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
+		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
+		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
+		SO_ANCHOR_PERCENTAGE_FROM_COLROW_START
+	};
 	float offsets[4];
 	char const *label;
+	PangoAttrList *markup;
 	GnmRange range;
 	ExcelReadSheet *esheet;
-	MSObjAttr *anchor;
+	MSObjAttr *attr, *flip_h, *flip_v;
+	SheetObjectDirection direction;
+	SheetObjectAnchor anchor;
+	SheetObject *so;
 
 	if (obj == NULL)
 		return TRUE;
+	if (obj->gnum_obj == NULL)
+		return FALSE;
+	so = obj->gnum_obj;
 
 	g_return_val_if_fail (container != NULL, TRUE);
 	esheet = (ExcelReadSheet *)container;
 
-	anchor = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_ANCHOR);
-	if (anchor == NULL) {
+	attr = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_ANCHOR);
+	if (attr == NULL) {
 		fprintf (stderr,"MISSING anchor for obj %p with id %d of type %s\n", (void *)obj, obj->id, obj->excel_type_name);
 		return TRUE;
 	}
 
 	if (ms_sheet_obj_anchor_to_pos (esheet->sheet, container->ver,
-					anchor->v.v_ptr, &range, offsets))
+					attr->v.v_ptr, &range, offsets))
 		return TRUE;
 
-	if (obj->gnum_obj != NULL) {
-		static SheetObjectAnchorType const anchor_types[4] = {
-			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
-			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
-			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START,
-			SO_ANCHOR_PERCENTAGE_FROM_COLROW_START
+	flip_h = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_H);
+	flip_v = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_V);
+	direction =
+		((flip_h == NULL) ? SO_DIR_RIGHT : 0) |
+		((flip_v == NULL) ? SO_DIR_DOWN : 0);
+
+	sheet_object_anchor_init (&anchor, &range,
+		offsets, anchor_types, direction);
+	sheet_object_anchor_set (so, &anchor);
+	sheet_object_set_sheet (so, esheet->sheet);
+
+	/* handle common attributes */
+	/* THIS IS DAMN UGLY we should be using gobject properties with common names or something */
+	label = ms_obj_attr_get_ptr (obj, MS_OBJ_ATTR_TEXT, NULL);
+	if (label != NULL) {
+		switch (obj->excel_type) {
+
+		case 0x0E: /* label or text box */
+		case 0x06: gnm_so_text_set_text (so, label);
+			   break;
+		case 0x07: sheet_widget_button_set_label (so, label);
+			   break;
+		case 0x0B: sheet_widget_checkbox_set_label (so, label);
+			   break;
+		case 0x0C: sheet_widget_radio_button_set_label (so, label);
+			   break;
+		case 0x19: cell_comment_text_set (CELL_COMMENT (so), label);
+			   break;
+		default:
+			   g_warning ("text for type %x", obj->excel_type);
+			   break;
 		};
-		MSObjAttr *flip_h = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_H);
-		MSObjAttr *flip_v = ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FLIP_V);
-		SheetObjectDirection direction =
-			((flip_h == NULL) ? SO_DIR_RIGHT : 0) |
-			((flip_v == NULL) ? SO_DIR_DOWN : 0);
-		SheetObjectAnchor anchor;
+	}
+	markup = ms_obj_attr_get_markup (obj, MS_OBJ_ATTR_MARKUP, NULL);
+	if (markup != NULL) {
+		switch (obj->excel_type) {
 
-		sheet_object_anchor_init (&anchor, &range,
-			offsets, anchor_types, direction);
-		sheet_object_anchor_set (obj->gnum_obj, &anchor);
-		sheet_object_set_sheet (obj->gnum_obj, esheet->sheet);
+		case 0x0E: /* label or text box */
+		case 0x06: gnm_so_text_set_markup (so, markup);
+			   break;
+		default:
+			   g_warning ("markup for type %x", obj->excel_type);
+			   break;
+		};
+	}
+	switch (obj->excel_type) {
+	case 0x00:
+		break;
+	case 0x01: { /* Line */
+		GnmColor *color = ms_sheet_map_color (esheet, obj,
+			MS_OBJ_ATTR_FILL_COLOR);
+		if (color != NULL)
+			gnm_so_graphic_set_fill_color (so, color);
+		break;
+	}
+	case 0x02:
+	case 0x03: { /* Box or Oval */
+		GnmColor *fill_color = NULL;
+		GnmColor *outline_color;
 
-		/* cannot be done until we have set the sheet */
-		if (obj->excel_type == 0x0B) {
-			sheet_widget_checkbox_set_link (obj->gnum_obj,
-				ms_obj_attr_get_expr (obj, MS_OBJ_ATTR_CHECKBOX_LINK, NULL));
-		} else if (obj->excel_type == 0x10 || obj->excel_type == 0x11) {
-			sheet_widget_adjustment_set_details (obj->gnum_obj,
-				ms_obj_attr_get_expr (obj, MS_OBJ_ATTR_SCROLLBAR_LINK, NULL),
-				ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_VALUE, 0),
-				ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_MIN, 0),
-				ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_MAX, 100) - 1,
-				ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_INC, 1),
-				ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_PAGE, 10));
-		} else if (obj->excel_type == 0x19 &&
-			   obj->comment_pos.col >= 0 && obj->comment_pos.row >= 0) {
-			/* our comment object is too weak.  This anchor is for the text box,
-			 * we need to store the indicator */
+		if (!ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_UNFILLED))
+			fill_color = ms_sheet_map_color (esheet, obj,
+				MS_OBJ_ATTR_FILL_COLOR);
+		outline_color = ms_sheet_map_color (esheet, obj,
+			MS_OBJ_ATTR_OUTLINE_COLOR);
+		gnm_so_graphic_set_fill_color (so, fill_color);
+		if (outline_color)
+			gnm_so_filled_set_outline_color (so, outline_color);
+		break;
+	}
+
+	case 0x05: /* Chart */
+		break;
+
+	case 0x0E: /* Label */
+	case 0x06: /* TextBox */
+		if (ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_UNFILLED))
+			gnm_so_graphic_set_fill_color (so, NULL);
+		else
+			gnm_so_graphic_set_fill_color (so,
+				ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_FILL_COLOR));
+
+		gnm_so_filled_set_outline_style (so,
+			ms_obj_attr_get_int (obj, MS_OBJ_ATTR_OUTLINE_STYLE, 1));
+		gnm_so_filled_set_outline_color (so,
+			ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_OUTLINE_COLOR));
+		gnm_so_graphic_set_width (so,
+			ms_obj_attr_get_int (obj, MS_OBJ_ATTR_OUTLINE_WIDTH, 0));
+		break;
+
+	/* Button */
+	case 0x07:
+		break;
+
+	case 0x08: { /* Picture */
+		MSObjAttr *blip_id = ms_obj_attr_bag_lookup (obj->attrs,
+			MS_OBJ_ATTR_BLIP_ID);
+
+		if (blip_id != NULL) {
+			MSEscherBlip *blip = ms_container_get_blip (container,
+				blip_id->v.v_uint - 1);
+			if (blip != NULL) {
+				so = ms_sheet_create_image (obj, blip);
+				blip->needs_free = FALSE; /* image took over managing data */
+			}
+		}
+
+		/* replace blips we don't know how to handle with rectangles */
+		if (so == NULL)
+			so = sheet_object_box_new (FALSE);  /* placeholder */
+		break;
+	}
+	case 0x09:
+		   gnm_so_polygon_set_points (SHEET_OBJECT (so),
+			ms_obj_attr_get_array (obj, MS_OBJ_ATTR_POLYGON_COORDS, NULL));
+		   gnm_so_polygon_set_fill_color (so, 
+			ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_FILL_COLOR));
+		   gnm_so_polygon_set_outline_color (so, 
+			ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_OUTLINE_COLOR));
+		   break;
+
+	case 0x0B: 
+		sheet_widget_checkbox_set_link (obj->gnum_obj,
+			ms_obj_attr_get_expr (obj, MS_OBJ_ATTR_CHECKBOX_LINK, NULL));
+		break;
+
+	case 0x0C:
+		break;
+
+	case 0x10:
+	case 0x11:
+		sheet_widget_adjustment_set_details (obj->gnum_obj,
+			ms_obj_attr_get_expr (obj, MS_OBJ_ATTR_SCROLLBAR_LINK, NULL),
+			ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_VALUE, 0),
+			ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_MIN, 0),
+			ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_MAX, 100) - 1,
+			ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_INC, 1),
+			ms_obj_attr_get_int (obj, MS_OBJ_ATTR_SCROLLBAR_PAGE, 10));
+		break;
+
+	case 0x12:
+		break;
+
+	case 0x14:
+		break;
+
+	case 0x19:
+		/* our comment object is too weak.  This anchor is for the text box,
+		 * we need to store the indicator */
+		if (obj->comment_pos.col >= 0 && obj->comment_pos.row >= 0)
 			cell_comment_set_cell (CELL_COMMENT (obj->gnum_obj),
 				&obj->comment_pos);
-		}
+		break;
 
-		label = ms_obj_attr_get_ptr (obj, MS_OBJ_ATTR_TEXT, NULL);
-		if (label != NULL) {
-			SheetObject *so = obj->gnum_obj;
-			switch (obj->excel_type) {
-
-			case 0x0E: /* label or text box */
-			case 0x06: gnm_so_text_set_text (so, label);
-				   break;
-			case 0x07: sheet_widget_button_set_label (so, label);
-				   break;
-			case 0x0B: sheet_widget_checkbox_set_label (so, label);
-				   break;
-			case 0x0C: sheet_widget_radio_button_set_label (so, label);
-				   break;
-			case 0x19: cell_comment_text_set (CELL_COMMENT (so), label);
-				   break;
-			default:
-				   g_warning ("text for type %x", obj->excel_type);
-				   break;
-			};
-		}
+	default:
+		g_warning ("EXCEL: unhandled excel object of type %s (0x%x) id = %d.",
+			   obj->excel_type_name, obj->excel_type, obj->id);
+		return TRUE;
 	}
 
 	return FALSE;
@@ -426,34 +535,16 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 
 	switch (obj->excel_type) {
 	case 0x01: { /* Line */
-		GnmColor *color;
 		MSObjAttr *is_arrow = ms_obj_attr_bag_lookup (obj->attrs,
 			MS_OBJ_ATTR_ARROW_END);
 		so = sheet_object_line_new (is_arrow != NULL);
-
-		color = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_FILL_COLOR);
-		if (color != NULL)
-			gnm_so_graphic_set_fill_color (so, color);
 		break;
 	}
 	case 0x00: /* draw the group border */
 	case 0x02:
-	case 0x03: { /* Box or Oval */
-		GnmColor *fill_color = NULL;
-		GnmColor *outline_color;
-
+	case 0x03: /* Box or Oval */
 		so = sheet_object_box_new (obj->excel_type == 3);
-		if (ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FILLED))
-			fill_color = ms_sheet_map_color (esheet, obj,
-				MS_OBJ_ATTR_FILL_COLOR);
-		outline_color = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_OUTLINE_COLOR);
-		gnm_so_graphic_set_fill_color (so, fill_color);
-		if (outline_color)
-			gnm_so_filled_set_outline_color (so, outline_color);
 		break;
-	}
 
 	case 0x05: /* Chart */
 		so = sheet_object_graph_new (NULL);
@@ -462,23 +553,6 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	case 0x0E: /* Label */
 	case 0x06: /* TextBox */
 		so = g_object_new (sheet_object_text_get_type (), NULL);
-
-		if (ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FILLED))
-			gnm_so_graphic_set_fill_color (so,
-				ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_FILL_COLOR));
-		else
-			/* default is None */
-			gnm_so_graphic_set_fill_color (so, NULL);
-
-		gnm_so_filled_set_outline_style (so,
-			ms_obj_attr_get_int (obj, MS_OBJ_ATTR_OUTLINE_STYLE, 0));
-		gnm_so_filled_set_outline_color (so,
-			ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_OUTLINE_COLOR));
-		gnm_so_graphic_set_width (so,
-			ms_obj_attr_get_int (obj, MS_OBJ_ATTR_OUTLINE_WIDTH, 0));
-		gnm_so_text_set_markup (so,
-			ms_obj_attr_get_markup (obj, MS_OBJ_ATTR_MARKUP, NULL));
-
 		break;
 
 	/* Button */
@@ -503,14 +577,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		break;
 	}
 	case 0x09: so = g_object_new (sheet_object_polygon_get_type (), NULL);
-		   gnm_so_polygon_set_points (SHEET_OBJECT (so),
-			ms_obj_attr_get_array (obj, MS_OBJ_ATTR_POLYGON_COORDS, NULL));
-		   gnm_so_polygon_set_fill_color (so, 
-			ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_FILL_COLOR));
-		   gnm_so_polygon_set_outline_color (so, 
-			ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_OUTLINE_COLOR));
-		   break;
-
+		break;
 	case 0x0B: so = g_object_new (sheet_widget_checkbox_get_type (), NULL);
 		break;
 	case 0x0C: so = g_object_new (sheet_widget_radio_button_get_type (), NULL);
@@ -1407,11 +1474,11 @@ excel_palette_get (ExcelPalette const *pal, gint idx)
 
 	d (4, fprintf (stderr,"Color Index %d\n", idx););
 
-	/* Black ? */
+	/* 0 == Black, 64 == system text ? */
 	if (idx == 0 || idx == 64)
 		return style_color_black ();
-	/* White ? */
-	if (idx == 1)
+	/* 1 == White, 65 == system back ? */
+	if (idx == 1 || idx == 65)
 		return style_color_white ();
 
 	idx -= 8;
@@ -1474,23 +1541,26 @@ excel_get_font (ExcelWorkbook const *ewb, unsigned font_idx)
 static BiffXFData const *
 excel_get_xf (ExcelReadSheet *esheet, int xfidx)
 {
-	BiffXFData *xf;
 	GPtrArray const * const p = esheet->container.ewb->XF_cell_records;
 
 	g_return_val_if_fail (p != NULL, NULL);
-	g_return_val_if_fail (p->len, NULL); /* happens in early XL */
+
 	if (esheet->container.ver == MS_BIFF_V2)
 		xfidx &= 0x3f; /* Guess from experimental results */
 	if (0 > xfidx || xfidx >= (int)p->len) {
+		/* cheesy guess */
+		if (xfidx == 0 && esheet->container.ver == MS_BIFF_V2)
+			return NULL;
+		g_return_val_if_fail (p->len > 0, NULL);
+
 		g_warning ("XL: Xf index 0x%X is not in the range[0..0x%X)", xfidx, p->len);
+
 		xfidx = 0;
 	}
-	xf = g_ptr_array_index (p, xfidx);
 
-	g_return_val_if_fail (xf, NULL);
 	/* FIXME: when we can handle styles too deal with this correctly */
 	/* g_return_val_if_fail (xf->xftype == MS_BIFF_X_CELL, NULL); */
-	return xf;
+	return g_ptr_array_index (p, xfidx);
 }
 
 static GnmStyle *
@@ -1505,7 +1575,8 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, guint16 xfidx)
 
 	d (2, fprintf (stderr,"XF index %d\n", xfidx););
 
-	g_return_val_if_fail (xf != NULL, NULL);
+	if (xf == NULL)
+		return NULL;
 
 	/* If we've already done the conversion use the cached style */
 	if (xf->mstyle != NULL) {
@@ -1773,6 +1844,8 @@ excel_read_XF_OLD (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
         xf->format_idx = GSF_LE_GET_GUINT8 (q->data + 1);
 	xf->style_format = (xf->format_idx > 0)
 		? excel_wb_get_fmt (ewb, xf->format_idx) : NULL;
+	xf->is_simple_format = xf->style_format == NULL ||
+		g_slist_length (xf->style_format->entries) <= 1;
 
 	xf->wrap_text = FALSE;
 	xf->shrink_to_fit = FALSE;
@@ -1879,6 +1952,8 @@ excel_read_XF (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 	xf->format_idx = GSF_LE_GET_GUINT16 (q->data + 2);
 	xf->style_format = (xf->format_idx > 0)
 		? excel_wb_get_fmt (ewb, xf->format_idx) : NULL;
+	xf->is_simple_format = xf->style_format == NULL ||
+		g_slist_length (xf->style_format->entries) <= 1;
 
 	data = GSF_LE_GET_GUINT16 (q->data + 4);
 	xf->locked = (data & 0x0001) != 0;
@@ -2448,10 +2523,12 @@ excel_sheet_insert_val (ExcelReadSheet *esheet, int xfidx,
 
 	g_return_if_fail (v);
 	g_return_if_fail (esheet);
-	g_return_if_fail (xf);
 
-	excel_set_xf (esheet, col, row, xfidx);
-	value_set_fmt (v, xf->style_format);
+	if (xf != NULL) {
+		excel_set_xf (esheet, col, row, xfidx);
+		if (xf->is_simple_format)
+			value_set_fmt (v, xf->style_format);
+	}
 	cell_set_value (sheet_cell_fetch (esheet->sheet, col, row), v);
 }
 

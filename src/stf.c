@@ -437,16 +437,29 @@ stf_write_csv (GnmFileSaver const *fs, IOContext *context,
 static gboolean
 csv_tsv_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
-	/* always probe by name.  We can not really tell what encoding is in use
-	 * so its hard to spot invalid data, and we do not want stuff to just
-	 * get sucked in by default */
-	char const *name = gsf_input_name (input);
-	if (name == NULL)
-		return FALSE;
-	name = gsf_extension_pointer (name);
-	return (name != NULL &&
-		(g_ascii_strcasecmp (name, "csv") == 0 ||
-		 g_ascii_strcasecmp (name, "tsv") == 0));
+	if (pl == FILE_PROBE_CONTENT) {
+		/* Rough and ready heuristic.  If the first 80 bytes have no
+		 * nuls this may be text */
+		guint8 const *header;
+		int i = 80;
+
+		if (gsf_input_seek (input, 0, G_SEEK_SET) ||
+		    NULL == (header = gsf_input_read (input, i, NULL)))
+			return FALSE;
+		while (i-- > 0)
+			if (*header++ == 0)
+				return FALSE;
+		return TRUE;
+	} else {
+		char const *name = gsf_input_name (input);
+		if (name == NULL)
+			return FALSE;
+		name = gsf_extension_pointer (name);
+		return (name != NULL &&
+			(g_ascii_strcasecmp (name, "csv") == 0 ||
+			 g_ascii_strcasecmp (name, "tsv") == 0 ||
+			 g_ascii_strcasecmp (name, "txt") == 0));
+	}
 }
 
 void

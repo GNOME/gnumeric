@@ -1,3 +1,16 @@
+2004-03-11  Jody Goldberg <jody@gnome.org>
+
+	* src/stf.c (csv_tsv_probe) : Be more forgiving about what might be
+	text.  Accept
+	    1) *.txt
+	    2) Anything that has no null characters in the first 80 bytes
+	It won't catch everything, but it should be marginally better.
+
+2004-03-08  Jody Goldberg <jody@gnome.org>
+
+	* src/wbc-gtk.c (wbc_gtk_init) : split the menus into a distinct
+	  group.  There's no need to senstize them
+
 2004-03-12  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
 	* src/graph.c (gnm_go_data_vector_load_values): changed initial maximum

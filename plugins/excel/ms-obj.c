@@ -331,9 +331,41 @@ ms_obj_delete (MSObj *obj)
 	}
 }
 
-/* S59EOE.HTM */
+typedef struct {
+	unsigned first, last;
+	PangoAttrList *accum;
+} TXORun;
+
+static gboolean
+append_txorun (PangoAttribute *src, TXORun *run)
+{
+	PangoAttribute *dst = pango_attribute_copy (src);
+	dst->start_index = run->first;	/* inclusive */
+	dst->end_index = run->last;	/* exclusize */
+	pango_attr_list_change (run->accum, dst);
+	return FALSE;
+}
+static PangoAttrList *
+read_txoruns (MSContainer *container, guint8 const *data, int txo_len)
+{
+	TXORun txo_run;
+
+	g_return_val_if_fail (txo_len >= 16, NULL); /* min two records */
+
+	txo_run.last = G_MAXINT;
+	txo_run.accum = pango_attr_list_new ();
+	for (txo_len -= 16 ; txo_len >= 0 ; txo_len -= 8) {
+		txo_run.first = GSF_LE_GET_GUINT16 (data + txo_len);
+		pango_attr_list_filter (ms_container_get_markup (
+			container, GSF_LE_GET_GUINT16 (data + txo_len + 2)),
+			(PangoAttrFilterFunc) append_txorun, &txo_run);
+		txo_run.last = txo_run.first;
+	}
+	return txo_run.accum;
+}
+
 char *
-ms_read_TXO (BiffQuery *q)
+ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 {
 	static char const * const orientations [] = {
 		"Left to right",
@@ -357,7 +389,7 @@ ms_read_TXO (BiffQuery *q)
 	int const halign = (options >> 1) & 0x7;
 	int const valign = (options >> 4) & 0x7;
 	char         *text;
-	guint16       peek_op;
+	guint16       op;
 
 	if (text_len == 0)
 		return NULL;
@@ -366,7 +398,8 @@ ms_read_TXO (BiffQuery *q)
 	g_return_val_if_fail (1 <= halign && halign <= 4, NULL);
 	g_return_val_if_fail (1 <= valign && valign <= 4, NULL);
 
-	if (ms_biff_query_peek_next (q, &peek_op) && peek_op == BIFF_CONTINUE) {
+	*markup = NULL;
+	if (ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
 		ms_biff_query_next (q);
 
 		if ((int)q->length < text_len) {
@@ -376,11 +409,11 @@ ms_read_TXO (BiffQuery *q)
 			text = ms_biff_get_chars (q->data + 1, text_len,
 						  *(q->data) != 0);
 
-		if (ms_biff_query_peek_next (q, &peek_op) &&
-		    peek_op == BIFF_CONTINUE)
+		if (ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
 			ms_biff_query_next (q);
-		else
-			g_warning ("Unusual, TXO text with no formatting has 0x%x @ 0x%x", peek_op, q->streamPos);
+			*markup = read_txoruns (c, q->data, q->length);
+		} else
+			g_warning ("Unusual, TXO text with no formatting has 0x%x @ 0x%x", op, q->streamPos);
 	} else {
 		if (text_len > 0)
 			g_warning ("TXO len of %d but no continue", text_len);
@@ -421,32 +454,105 @@ ms_obj_dump_impl (guint8 const *data, int len, int data_left, char const *name)
 #define ms_obj_dump (data, len, data_left, name)
 #endif
 
-typedef struct {
-	unsigned first, last;
-	PangoAttrList *accum;
-} TXORun;
-
 static gboolean
-append_txorun (PangoAttribute *src, TXORun *run)
+read_pre_biff8_read_str (BiffQuery *q, MSContainer *container, MSObj *obj,
+			 MSObjAttrID id, guint8 const **first, unsigned len)
 {
-	PangoAttribute *dst = pango_attribute_copy (src);
-	dst->start_index = run->first;
-	dst->end_index = run->last;
-	pango_attr_list_change (run->accum, dst);
+	guint8 const *last = q->data + q->length;
+
+	g_return_val_if_fail (*first + len <= last, TRUE);
+
+	if (id != MS_OBJ_ATTR_NONE)
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_ptr (id, ms_biff_get_chars (*first, len, FALSE)));
+
+	*first += len;
+	if (((*first - q->data) & 1))
+		(*first)++; /* pad to word bound */
+
 	return FALSE;
 }
 
-/* S59DAD.HTM */
 static gboolean
-ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
+read_pre_biff8_read_expr (BiffQuery *q, MSContainer *container, MSObj *obj,
+			  MSObjAttrID id, guint8 const **first,
+			  unsigned total_len) /* including extras */
 {
-	guint16 peek_op, tmp, len;
-	int txo_len;
-	guint8 const *data;
-	gboolean const has_fmla = GSF_LE_GET_GUINT16 (q->data+26) != 0;
+	guint8 const *ptr  = *first;
+	guint8 const *last = q->data + q->length;
+	GnmExpr const *ref;
+	unsigned len;
 
-	/* undocumented */
-	gboolean const has_name = GSF_LE_GET_GUINT16 (q->data+30) != 0;
+	if (total_len <= 0)
+		return FALSE;
+
+	g_return_val_if_fail (ptr + 2 <= last, TRUE);
+
+	len = GSF_LE_GET_GUINT16 (ptr);
+
+		g_return_val_if_fail (ptr + 6 + len <= last, TRUE);
+
+		ref = ms_container_parse_expr (container, ptr + 6, len);
+		if (ref != NULL)
+			ms_obj_attr_bag_insert (obj->attrs,
+				ms_obj_attr_new_expr (MS_OBJ_ATTR_SCROLLBAR_LINK, ref));
+
+	*first = ptr + total_len;
+	if (((*first - q->data) & 1))
+		(*first)++; /* pad to word bound */
+
+	return FALSE;
+}
+
+static gboolean
+read_pre_biff8_read_markup (BiffQuery *q, MSContainer *container, MSObj *obj,
+			    MSObjAttrID id, guint8 const **first,
+			    int txo_len, unsigned if_empty)
+{
+	if (txo_len > 0) {
+		guint8 const *last = q->data + q->length;
+		PangoAttrList *markup;
+
+		g_return_val_if_fail ((*first + txo_len) <= last, TRUE);
+
+		markup = read_txoruns (container, *first, txo_len);
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_markup (MS_OBJ_ATTR_MARKUP, markup));
+		pango_attr_list_unref (markup);
+
+		*first += txo_len;
+	} else
+		ms_obj_attr_bag_insert (obj->attrs,
+			ms_obj_attr_new_markup (MS_OBJ_ATTR_MARKUP,
+				ms_container_get_markup (container, if_empty)));
+	return FALSE;
+}
+
+static guint8 const *
+read_pre_biff8_read_name_and_fmla (BiffQuery *q, MSContainer *container, MSObj *obj,
+				   gboolean has_name, unsigned offset)
+{
+	guint8 const *data = q->data + offset;
+	gboolean const fmla_len = GSF_LE_GET_GUINT16 (q->data+26);
+
+	if (has_name &&
+	    read_pre_biff8_read_str (q, container, obj,
+				     MS_OBJ_ATTR_OBJ_NAME, &data, *(data++)))
+		return NULL;
+	if (read_pre_biff8_read_expr (q, container, obj,
+				      MS_OBJ_ATTR_NONE, &data, fmla_len))
+		return NULL;
+	return data;
+}
+
+static gboolean
+ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *c, MSObj *obj)
+{
+	guint8 const *last = q->data + q->length;
+	guint16 peek_op, tmp, len;
+	unsigned txo_len, if_empty;
+	guint8 const *data;
+	gboolean const has_name = GSF_LE_GET_GUINT16 (q->data+30) != 0; /* undocumented */
 
 #if 0
 	guint16 const flags = GSF_LE_GET_GUINT16(q->data+8);
@@ -477,25 +583,32 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 		if (tmp >= 2)
 			ms_obj_attr_bag_insert (obj->attrs,
 				ms_obj_attr_new_flag (MS_OBJ_ATTR_FLIP_V));
+		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 42);
 		break;
 
 	case 2: /* rectangle */
+		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 44);
 		break;
 	case 3: /* oval */
+		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 44);
 		break;
 	case 4: /* arc */
+		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 44);
 		break;
 	case 5: /* chart */
+		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 62);
 		break;
 	case 6: /* textbox */
-		/* gsf_mem_dump (q->data+34, q->length - 34); */
-		if (GSF_LE_GET_GUINT8 (q->data+36) > 0) {
-			ms_obj_attr_bag_insert (obj->attrs,
-				ms_obj_attr_new_flag (MS_OBJ_ATTR_FILLED));
+/* 70 name len, name, fmla (respect cbMacro) */
+		g_return_val_if_fail (q->data + 52 <= last, TRUE);
+
+		if (GSF_LE_GET_GUINT8 (q->data+36) > 0)
 			ms_obj_attr_bag_insert (obj->attrs,
 				ms_obj_attr_new_uint (MS_OBJ_ATTR_FILL_COLOR,
 					0x80000000 | GSF_LE_GET_GUINT8 (q->data+35)));
-		}
+		else
+			ms_obj_attr_bag_insert (obj->attrs,
+				ms_obj_attr_new_flag (MS_OBJ_ATTR_UNFILLED));
 		tmp = GSF_LE_GET_GUINT8 (q->data+39);
 		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_OUTLINE_STYLE,
@@ -507,65 +620,40 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_OUTLINE_WIDTH,
 					      GSF_LE_GET_GUINT8 (q->data+40)));
 
-		/* only pull in the text if it exists */
 		len = GSF_LE_GET_GUINT16 (q->data + 44);
 		txo_len = GSF_LE_GET_GUINT16 (q->data + 48);
-		tmp = GSF_LE_GET_GUINT16 (q->data + 50);
-
+		if_empty = GSF_LE_GET_GUINT16 (q->data + 50);
 		data = q->data + 70;
-		g_return_val_if_fail ((unsigned)(data - q->data) < q->length, TRUE);
 
-		g_return_val_if_fail (!has_fmla, TRUE); /* how would this happen */
+		g_return_val_if_fail (data + 1 <= last, TRUE);
 
-		/* skip the obj name if defined */
-		if (has_name) {
-			data += *data + ((*data & 0x1) ? 1 : 2); /* padding byte */
-			g_return_val_if_fail ((unsigned)(data - q->data) <= q->length, TRUE);
-		}
-
-		if (len > 0)
-			ms_obj_attr_bag_insert (obj->attrs,
-				ms_obj_attr_new_ptr (MS_OBJ_ATTR_TEXT,
-					g_strndup (data, len)));
-
-		data += (len & 1) ? (len+1) : len; /* padding byte */
-
-		if (txo_len > 0) {
-			TXORun txo_run;
-
-			g_return_val_if_fail (txo_len >= 16, TRUE); /* min two records */
-			g_return_val_if_fail ((unsigned)(data+txo_len-q->data) == q->length, TRUE);
-
-			txo_run.last = G_MAXINT;
-			txo_run.accum = pango_attr_list_new ();
-			for (txo_len -= 16 ; txo_len >= 0 ; txo_len -= 8) {
-				txo_run.first = GSF_LE_GET_GUINT16 (data + txo_len);
-				pango_attr_list_filter (ms_container_get_markup (
-					container, GSF_LE_GET_GUINT16 (data + txo_len + 2)),
-					(PangoAttrFilterFunc) append_txorun, &txo_run);
-				txo_run.last = txo_run.first - 1;
-		}
-			ms_obj_attr_bag_insert (obj->attrs,
-				ms_obj_attr_new_markup (MS_OBJ_ATTR_MARKUP, txo_run.accum));
-			pango_attr_list_unref (txo_run.accum);
-		} else
-			ms_obj_attr_bag_insert (obj->attrs,
-				ms_obj_attr_new_markup (MS_OBJ_ATTR_MARKUP,
-					ms_container_get_markup (container, tmp)));
+		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 70);
+		if (data == NULL ||
+		    read_pre_biff8_read_str (q, c, obj,
+			MS_OBJ_ATTR_TEXT, &data, len) ||
+		    read_pre_biff8_read_markup (q, c, obj,
+			MS_OBJ_ATTR_MARKUP, &data, txo_len, if_empty))
+			return TRUE;
 		break;
 
 	case 7: /* button */
+		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 70);
 		break;
 	case 8: /* picture */
+/* 50 uint16 cbPictFmla, 60 name len, name, fmla (respect cbMacro), fmla (cbPictFmla) */
+		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 60);
 		break;
-	case 9: /* polygon */
 
+	case 9: /* polygon */
+/* 66 name len, name, fmla (respect cbMacro) */
 		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_FILL_COLOR,
 				0x80000000 | GSF_LE_GET_GUINT8 (q->data+35)));
 		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_OUTLINE_COLOR,
 				0x80000000 | GSF_LE_GET_GUINT8 (q->data+38)));
+
+		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 70);
 
 		if (ms_biff_query_peek_next (q, &peek_op) &&
 		    peek_op == BIFF_COORDLIST) {
@@ -590,17 +678,37 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 		break;
 
 	case 0xB  : /* check box */
+/* 76 name len, name, cbfmla1 (IGNORE cbMacro), fmla1, cbfmla2, fmla2, cbtext, text */
 		break;
 	case 0xC  : /* option button */
+/* 88 name len, name, cbfmla1 (IGNORE cbMacro), fmla1, cbfmla2, fmla2, cbtext, text */
 		break;
 	case 0xD  : /* edit box */
+/* 70 name len, name, fmla (respect cbMacro), cbtext, text */
+		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 70);
 		break;
 	case 0xE  : /* label */
+/* 70 name len, name, fmla (respect cbMacro), cbtext, text */
+		len = GSF_LE_GET_GUINT16 (q->data + 44);
+		data = q->data + 70;
+
+		g_return_val_if_fail (data + 1 <= last, TRUE);
+
+		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 70);
+		if (data == NULL ||
+		    read_pre_biff8_read_str (q, c, obj,
+			MS_OBJ_ATTR_TEXT, &data, len) ||
+		    read_pre_biff8_read_markup (q, c, obj,
+			MS_OBJ_ATTR_MARKUP, &data, 16, 0))
+			return TRUE;
 		break;
 	case 0xF  : /* dialog frame */
+/* 70 name len, name, fmla (respect cbMacro) */
+		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 70);
 		break;
 	case 0x10 : /* spinner & scrollbar (layout is the same) */
 	case 0x11 :
+/* 68 name len, name, cbfmla1 (IGNORE cbMacro), fmla1, cbfmla2, fmla2 */
 		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_uint (MS_OBJ_ATTR_SCROLLBAR_VALUE,
 				GSF_LE_GET_GUINT16 (q->data+48)));
@@ -632,24 +740,35 @@ ms_obj_read_pre_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			if (ptr >= last) break;
 
 			len = GSF_LE_GET_GUINT16 (ptr+2); /* the assigned macro */
-			ref = ms_container_parse_expr (container, ptr + 8, len);
+			ref = ms_container_parse_expr (c, ptr + 8, len);
 			if (ref != NULL)
 				ms_obj_attr_bag_insert (obj->attrs,
 					ms_obj_attr_new_expr (MS_OBJ_ATTR_SCROLLBAR_LINK, ref));
 		}
 		break;
 	case 0x12 : /* list box */
+/* 88 name len, name, cbfmla1 (IGNORE cbMacro), fmla1, cbfmla2, fmla2, cbfmla3, fmla3 */
 		break;
 	case 0x13 : /* group box */
+/* 82 name len, name, fmla (respect cbMacro), cbtext, text */
+		data = read_pre_biff8_read_name_and_fmla (q, c, obj, has_name, 82);
 		break;
 	case 0x14 : /* drop down */
+/* 110 name len, name, cbfmla1 (IGNORE cbMacro), fmla1, cbfmla2, fmla2, cbfmla3, fmla3 */
 		obj->combo_in_autofilter =
 			(GSF_LE_GET_GUINT16 (q->data + 8) & 0x8000) ? TRUE : FALSE;
 		break;
 	default :
-		;
+		break;
 	}
 
+	if (obj->excel_type == 8) { /* picture */
+		guint16 op;
+		if (ms_biff_query_peek_next (q, &op) && op == BIFF_IMDATA) {
+			ms_biff_query_next (q);
+			excel_read_IMDATA (q);
+		}
+	}
 	return FALSE;
 }
 
@@ -847,8 +966,8 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 			if (ms_excel_object_debug > 4) {
 				/* According to the docs this should not fail
 				 * but there appears to be a flag at 0x200 for
-				 * scrollbars and 0x100 for combos
-				 * associated with filters.
+				 * scrollbars and 0x100 for combos associated
+				 * with filters.
 				 */
 				if ((options & 0x9fee) != 0)
 					printf ("WARNING : Why is option not 0 (%x)\n",
