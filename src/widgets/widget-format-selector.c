@@ -269,14 +269,15 @@ fmt_dialog_init_fmt_list (NumberFormatSelector *nfs, char const *const *formats,
 static void
 fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 {
-	static FormatWidget const contents[12][11] = {
+	static FormatWidget const contents[][12] = {
 		/* General */
 		{
-			F_GENERAL,
+			F_GENERAL_EXPLANATION,
 			F_MAX_WIDGET
 		},
 		/* Number */
 		{
+			F_NUMBER_EXPLANATION,
 			F_DECIMAL_BOX,
 			F_DECIMAL_LABEL,
 			F_DECIMAL_SPIN,
@@ -288,6 +289,7 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 		},
 		/* Currency */
 		{
+			F_CURRENCY_EXPLANATION,
 			F_DECIMAL_BOX,
 			F_DECIMAL_LABEL,
 			F_DECIMAL_SPIN,
@@ -302,6 +304,7 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 		},
 		/* Accounting */
 		{
+			F_ACCOUNTING_EXPLANATION,
 			F_DECIMAL_BOX,
 			F_DECIMAL_LABEL,
 			F_DECIMAL_SPIN,
@@ -312,6 +315,7 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 		},
 		/* Date */
 		{
+			F_DATE_EXPLANATION,
 			F_LIST_BOX,
 			F_LIST_SCROLL,
 			F_LIST,
@@ -319,6 +323,7 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 		},
 		/* Time */
 		{
+			F_TIME_EXPLANATION,
 			F_LIST_BOX,
 			F_LIST_SCROLL,
 			F_LIST,
@@ -326,6 +331,7 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 		},
 		/* Percentage */
 		{
+			F_PERCENTAGE_EXPLANATION,
 			F_DECIMAL_BOX,
 			F_DECIMAL_LABEL,
 			F_DECIMAL_SPIN,
@@ -333,6 +339,7 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 		},
 		/* Fraction */
 		{
+			F_FRACTION_EXPLANATION,
 			F_LIST_BOX,
 			F_LIST_SCROLL,
 			F_LIST,
@@ -340,6 +347,7 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 		},
 		/* Scientific */
 		{
+			F_SCIENTIFIC_EXPLANATION,
 			F_DECIMAL_BOX,
 			F_DECIMAL_LABEL,
 			F_DECIMAL_SPIN,
@@ -347,15 +355,17 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 		},
 		/* Text */
 		{
-			F_TEXT,
+			F_TEXT_EXPLANATION,
 			F_MAX_WIDGET
 		},
 		/* Special */
 		{
+			F_SPECIAL_EXPLANATION,
 			F_MAX_WIDGET
 		},
 		/* Custom */
 		{
+			F_CUSTOM_EXPLANATION,
 			F_CODE_BOX,
 			F_CODE_LABEL,
 			F_ENTRY,
@@ -592,12 +602,24 @@ nfs_init (NumberFormatSelector *nfs)
 {
 	/* The various format widgets */
 	static char const *const widget_names[] = {
-		"format_general_label",
+		"format_general_explanation",
+		"format_number_explanation",
+		"format_currency_explanation",
+		"format_accounting_explanation",
+		"format_date_explanation",
+		"format_time_explanation",
+		"format_percentage_explanation",
+		"format_fraction_explanation",
+		"format_scientific_explanation",
+		"format_text_explanation",
+		"format_special_explanation",
+		"format_custom_explanation",
+
 		"format_separator",	"format_symbol_label",
 		"format_symbol_select",	"format_delete",
 		"format_entry",
 		"format_list_scroll",	"format_list",
-		"format_text_label",	"format_number_decimals",
+		"format_number_decimals",
 		"format_negatives_scroll",
 		"format_negatives",	"format_list_box",
 		"format_decimal_label",	"format_code_label",
