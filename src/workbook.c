@@ -1040,6 +1040,48 @@ file_print_preview_cmd (GtkWidget *widget, Workbook *wb)
 	sheet_print (sheet, TRUE, PRINT_ACTIVE_SHEET);
 }
 
+static void
+sort_cmd (Workbook *wb, int asc)
+{
+	Sheet *sheet;
+	Range *sel;
+	SortClause *clause;
+
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (wb->current_sheet != NULL);
+	
+	sheet = wb->current_sheet;
+	sel = range_copy (selection_first_range (sheet, TRUE));
+
+	/* We can't sort complex ranges */
+	if (!selection_is_simple (workbook_command_context_gui (wb),
+				  sheet, _("sort")))
+		return;
+			
+	range_clip_to_finite (sel, sheet);
+		
+	clause = g_new0 (SortClause, 1);
+	clause->offset = 0;
+	clause->asc = asc;
+	clause->cs = FALSE;
+	clause->val = FALSE;
+
+	cmd_sort ( workbook_command_context_gui (wb),
+		   sheet, sel, clause, 1, TRUE);
+}
+
+static void
+sort_ascend_cmd (GtkWidget *widget, Workbook *wb)
+{
+	sort_cmd (wb, 0);
+}
+
+static void
+sort_descend_cmd (GtkWidget *widget, Workbook *wb)
+{
+	sort_cmd (wb, 1);
+}
+
 #ifdef ENABLE_BONOBO
 static void
 insert_object_cmd (GtkWidget *widget, Workbook *wb)
@@ -1355,10 +1397,12 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 		launch_graphics_wizard_cmd, NULL, graphic_xpm),
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Insert Object"), N_("Inserts an object in the spreadsheet"),
-		create_embedded_component_cmd, NULL, object_xpm),
+		create_embedded_component_cmd, NULL, insert_bonobo_component_xpm),
+#if 0
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Insert shaped object"), N_("Inserts a shaped object in the spreadsheet"),
 		create_embedded_item_cmd, NULL, object_xpm),
+#endif
 #endif
 #ifdef GNUMERIC_TEST_ACTIVE_OBJECT
 	GNOMEUIINFO_ITEM_DATA (
@@ -1383,6 +1427,15 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 	GNOMEUIINFO_ITEM_DATA (
 		N_("Ellipse"), N_("Creates an ellipse object"),
 		create_ellipse_cmd, NULL, oval_xpm),
+
+	GNOMEUIINFO_SEPARATOR, 
+
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Sort Ascending"), N_("Sorts the selected region in ascending order based on the first column selected."),
+		sort_ascend_cmd, NULL, sort_ascending_xpm),
+	GNOMEUIINFO_ITEM_DATA (
+		N_("Sort Descending"), N_("Sorts the selected region in descending order based on the first column selected."),
+		sort_descend_cmd, NULL, sort_descending_xpm),
 
 	GNOMEUIINFO_END
 };

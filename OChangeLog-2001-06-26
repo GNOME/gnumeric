@@ -1,3 +1,20 @@
+2000-03-18   JP Rosevear <jpr@arcavia.com>
+
+	* src/pixmaps: Added sort-ascend.xpm, sort-descend.xpm, 
+	insert-bonobo-component.xpm
+
+	* src/pixmaps.h: Include new xpms.
+
+	* src/workbook.c (sort_cmd): Moved from workbook-format-toolbar.c
+	(sort_ascend_cmd): ditto
+	(sort_descend_cmd): ditto
+	
+	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort): Duh, 
+	pass the parameters in the correct order.
+
+	* src/workbook-format-toolbar.c: Move sort commands to workbook.c
+	and put icons into command toolbar.
+
 2000-03-17  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-object.c (create_object, sheet_set_mode_type_full):

@@ -515,7 +515,7 @@ dialog_cell_sort (Workbook *inwb, Sheet *sheet)
 		return;	
 
 	/* Correct selection if necessary */
-	range_clip_to_finite (sort_flow.sheet, sort_flow.sel);
+	range_clip_to_finite (sort_flow.sel, sort_flow.sheet);
 	
 	/* Set up the dialog information */
 	sort_flow.header = FALSE;
