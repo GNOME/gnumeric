@@ -1,3 +1,8 @@
+1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
+
+	* sc.c: General cleanup, handle left/right-justified
+	labels, begin work on expression parsing.
+
 1999-11-19  Jeff Garzik  <jgarzik@mandrakesoft.com>
 
 	* Makefile.am, sc.c:
