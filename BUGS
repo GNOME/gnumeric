@@ -4,13 +4,6 @@ This file is used as a scratch pad by developers.  It is a list of known
 issues that need to be addressed.  Divided into, things that will prevent
 release, and longer term bugs.
 
-Release Critical
-----------------
-
-* gnome print
-    - Print to file name always output.ps
-    - Does pdf work ?
-
 Pending Patches
 ---------------
 
@@ -33,6 +26,10 @@ Pending Patches
 
 Short Term Goals
 ----------------
+
+* gnome print
+    - Print to file name always output.ps
+    - Does pdf work ?
 
 * When we release 1.1.18, we should ask people to nominate certain foreign
   encodings as major.

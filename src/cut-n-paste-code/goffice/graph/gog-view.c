@@ -71,7 +71,7 @@ cb_remove_child (GogObject *parent, GogObject *child,
 	}
 
 	/* The object may not create a view */
-	klass = GOG_OBJECT_CLASS(child);
+	klass = GOG_OBJECT_GET_CLASS (child);
 	if (klass->view_type != 0)
 		g_warning ("%s (%p) saw %s(%p) being removed from %s(%p) for which I didn't have a child",
 			   G_OBJECT_TYPE_NAME (view), view,

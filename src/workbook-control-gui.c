@@ -5497,9 +5497,10 @@ cb_graph_dim_editor_update (GnmExprEntry *gee,
 	Sheet *sheet;
 	SheetControlGUI *scg;
 
-	/* ignore changes while we are insensitive, usful for displaying
-	 * values, without storing then as Data  */
-	if (!GTK_WIDGET_SENSITIVE (gee))
+	/* Ignore changes while we are insensitive. useful for displaying
+	 * values, without storing then as Data.  Also ignore updates if the
+	 * dataset has been cleared via the weakref handler  */
+	if (!GTK_WIDGET_SENSITIVE (gee) || editor->dataset == NULL)
 		return;
 
 	g_object_get (G_OBJECT (gee), "scg", &scg, NULL);
@@ -5553,6 +5554,22 @@ cb_graph_dim_entry_unrealize (GnmExprEntry *gee, GraphDimEditor *editor)
 	cb_graph_dim_editor_update (gee, FALSE, editor);
 }
 
+static void
+cb_dim_editor_weakref_notify (GraphDimEditor *editor, GogDataset *dataset)
+{
+	g_return_if_fail (editor->dataset == dataset);
+	editor->dataset = NULL;
+}
+
+static void
+graph_dim_editor_free (GraphDimEditor *editor)
+{
+	if (editor->dataset)
+		g_object_weak_unref (G_OBJECT (editor->dataset),
+			(GWeakNotify) cb_dim_editor_weakref_notify, editor);
+	g_free (editor);
+}
+
 static gpointer
 wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 			    GogDataset *dataset, int dim_i, gboolean prefers_scalar)
@@ -5566,6 +5583,9 @@ wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 	editor->dim_i		= dim_i;
 	editor->prefers_scalar	= prefers_scalar;
 	editor->entry  		= gnm_expr_entry_new (wbcg, TRUE);
+	g_object_weak_ref (G_OBJECT (editor->dataset),
+		(GWeakNotify) cb_dim_editor_weakref_notify, editor);
+
 	gnm_expr_entry_set_update_policy (editor->entry,
 		GTK_UPDATE_DISCONTINUOUS);
 
@@ -5588,7 +5608,7 @@ wbcg_data_allocator_editor (GogDataAllocator *dalloc,
 		"unrealize",
 		G_CALLBACK (cb_graph_dim_entry_unrealize), editor);
 	g_object_set_data_full (G_OBJECT (editor->entry),
-		"editor", editor, (GDestroyNotify) g_free);
+		"editor", editor, (GDestroyNotify) graph_dim_editor_free);
 
 	return editor->entry;
 }

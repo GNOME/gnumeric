@@ -1,5 +1,14 @@
 2003-09-22  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-control-gui.c (cb_graph_dim_editor_update) : ignore if
+	  dataset has already been deleted.
+	(cb_dim_editor_weakref_notify) : new.
+	(graph_dim_editor_free) : new.
+	(wbcg_data_allocator_editor) : add a weakref to handle situation where
+	  the dataset is deleted before the widget.
+
+2003-09-22  Jody Goldberg <jody@gnome.org>
+
 	* configure.in :  require libgsf 1.9.0 because it works around changes
 	  in libxml2 semantics for 2.6.0 that break our sax based importers.
 
