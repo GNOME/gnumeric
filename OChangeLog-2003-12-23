@@ -1,3 +1,15 @@
+2003-08-07  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/commands.c 
+	(cmd_reorganize_sheets_delete_get_this_sheet_info):
+	  save sheet object and colrow info
+	(cmd_reorganize_sheets_delete_recreate_sheet): also
+	  recreate sheet objects and set colrow info
+	(cmd_reorganize_sheets_delete_free): free sheet object 
+	  and colrow info
+	(cmd_reorganize_sheets): increade command size if sheets
+	  are being deleted.
+	
 2003-08-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/commands.c (cmd_reorganize_sheets): add

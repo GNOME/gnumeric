@@ -61,6 +61,7 @@
 #include "sheet-object-cell-comment.h"
 #include "sheet-object-widget.h"
 #include "sheet-object.h"
+#include "sheet-object-graph.h"
 #include "sheet-control.h"
 #include "style-color.h"
 #include "summary.h"
@@ -4268,6 +4269,9 @@ typedef struct {
 	char *name;
 	guint pos;
 	CellRegion *content;
+	ColRowStateList         *col_info;
+	ColRowStateList         *row_info;
+	GList                   *sheet_objects;
 } cmd_reorganize_sheets_delete_t;
 
 static cmd_reorganize_sheets_delete_t *
@@ -4276,6 +4280,7 @@ cmd_reorganize_sheets_delete_get_this_sheet_info (Workbook *wb, guint pos)
 	cmd_reorganize_sheets_delete_t *data;
 	Sheet *sheet;
 	Range r;
+	GList *l;
 
 	g_return_val_if_fail (wb != NULL, NULL);
 	g_return_val_if_fail (pos < (guint)workbook_sheet_count (wb), NULL);
@@ -4285,7 +4290,32 @@ cmd_reorganize_sheets_delete_get_this_sheet_info (Workbook *wb, guint pos)
 	data->name = g_strdup (sheet->name_unquoted);
 	data->pos = pos;
 	data->content = clipboard_copy_range (sheet, range_init_full_sheet (&r));
-	
+	data->col_info = colrow_get_states (sheet, TRUE, 0, SHEET_MAX_COLS - 1);
+	data->row_info = colrow_get_states (sheet, FALSE, 0, SHEET_MAX_ROWS - 1);
+	if (data->sheet_objects != NULL) {
+		for (l = data->sheet_objects; l != NULL; l = l->next) {
+			GObject *so = l->data;
+			g_object_unref (so);
+		}
+		g_list_free (data->sheet_objects);
+		data->sheet_objects = NULL;
+	} 
+	data->sheet_objects = NULL;
+	for (l = sheet->sheet_objects; l != NULL; l = l->next) {
+		if (!IS_SHEET_OBJECT_GRAPH (l->data)) {
+			data->sheet_objects 
+				= g_list_prepend (data->sheet_objects,
+						  l->data);
+		}
+		else
+			g_warning ("Dropping a graph object");
+	}
+	data->sheet_objects = g_list_reverse (data->sheet_objects);
+	for (l = data->sheet_objects; l != NULL; l = l->next) {
+			SheetObject *so = l->data;
+			g_object_ref (G_OBJECT (so));
+			sheet_object_clear_sheet (so);
+	}
 	return data;
 }
 
@@ -4357,6 +4387,7 @@ cmd_reorganize_sheets_delete_recreate_sheet (WorkbookControl *wbc, Workbook *wb,
 {
 	Sheet *a_new_sheet;
 	guint pos = sheet->pos;
+	GList *l;
 
 	a_new_sheet = sheet_new (wb, sheet->name);
 	if (pos != 0)
@@ -4375,17 +4406,46 @@ cmd_reorganize_sheets_delete_recreate_sheet (WorkbookControl *wbc, Workbook *wb,
 		Range r;
 		
 		clipboard_paste_region (sheet->content,
-				paste_target_init (&pt, a_new_sheet, range_init_full_sheet(&r), 
-						   PASTE_ALL_TYPES), COMMAND_CONTEXT (wbc));
+					paste_target_init (&pt, a_new_sheet, 
+							   range_init_full_sheet(&r), 
+							   PASTE_ALL_TYPES), 
+					COMMAND_CONTEXT (wbc));
 	}
+	if (sheet->col_info)
+		colrow_set_states (a_new_sheet, TRUE, 0, sheet->col_info);
+	if (sheet->row_info)
+		colrow_set_states (a_new_sheet, FALSE, 0, sheet->row_info);
+	if (sheet->sheet_objects != NULL) {
+		for (l = sheet->sheet_objects; l != NULL; l = l->next) {
+			SheetObject *so = l->data;
+			sheet_object_set_sheet (so, a_new_sheet);
+			g_object_unref (G_OBJECT (so));
+		}
+		g_list_free (sheet->sheet_objects);
+		sheet->sheet_objects = NULL;
+	} 
 }
 
 static void
 cmd_reorganize_sheets_delete_free (cmd_reorganize_sheets_delete_t *sheet)
 {
+	GList *l;
+
 	g_return_if_fail (sheet != NULL);
 	cellregion_free (sheet->content);
 	g_free (sheet->name);
+	if (sheet->col_info)
+		sheet->col_info = colrow_state_list_destroy (sheet->col_info);
+	if (sheet->row_info)
+		sheet->row_info = colrow_state_list_destroy (sheet->row_info);
+	if (sheet->sheet_objects != NULL) {
+		for (l = sheet->sheet_objects; l != NULL; l = l->next) {
+			GObject *so = l->data;
+			g_object_unref (so);
+		}
+		g_list_free (sheet->sheet_objects);
+		sheet->sheet_objects = NULL;
+	} 
 	g_free (sheet);
 }
 
@@ -4701,7 +4761,7 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *new_order,
 	me->old_locks = g_slist_reverse (me->old_locks);
 
 	me->cmd.sheet = NULL;
-	me->cmd.size = 1 + g_slist_length (color_changed) + g_slist_length (changed_names);
+	me->cmd.size = 1 + g_slist_length (color_changed) + g_slist_length (changed_names) + 1000 * g_slist_length (deleted_sheets);
 
 	if (new_order != NULL)
 		selector += (1 << 0);
