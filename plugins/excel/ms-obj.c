@@ -331,39 +331,6 @@ ms_obj_delete (MSObj *obj)
 	}
 }
 
-typedef struct {
-	unsigned first, last;
-	PangoAttrList *accum;
-} TXORun;
-
-static gboolean
-append_txorun (PangoAttribute *src, TXORun *run)
-{
-	PangoAttribute *dst = pango_attribute_copy (src);
-	dst->start_index = run->first;	/* inclusive */
-	dst->end_index = run->last;	/* exclusize */
-	pango_attr_list_change (run->accum, dst);
-	return FALSE;
-}
-static PangoAttrList *
-read_txoruns (MSContainer *container, guint8 const *data, int txo_len)
-{
-	TXORun txo_run;
-
-	g_return_val_if_fail (txo_len >= 16, NULL); /* min two records */
-
-	txo_run.last = G_MAXINT;
-	txo_run.accum = pango_attr_list_new ();
-	for (txo_len -= 16 ; txo_len >= 0 ; txo_len -= 8) {
-		txo_run.first = GSF_LE_GET_GUINT16 (data + txo_len);
-		pango_attr_list_filter (ms_container_get_markup (
-			container, GSF_LE_GET_GUINT16 (data + txo_len + 2)),
-			(PangoAttrFilterFunc) append_txorun, &txo_run);
-		txo_run.last = txo_run.first;
-	}
-	return txo_run.accum;
-}
-
 char *
 ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 {
@@ -411,7 +378,7 @@ ms_read_TXO (BiffQuery *q, MSContainer *c, PangoAttrList **markup)
 
 		if (ms_biff_query_peek_next (q, &op) && op == BIFF_CONTINUE) {
 			ms_biff_query_next (q);
-			*markup = read_txoruns (c, q->data, q->length);
+			*markup = ms_container_read_markup (c, q->data, q->length);
 		} else
 			g_warning ("Unusual, TXO text with no formatting has 0x%x @ 0x%x", op, q->streamPos);
 	} else {
@@ -515,7 +482,7 @@ read_pre_biff8_read_markup (BiffQuery *q, MSContainer *container, MSObj *obj,
 
 		g_return_val_if_fail ((*first + txo_len) <= last, TRUE);
 
-		markup = read_txoruns (container, *first, txo_len);
+		markup = ms_container_read_markup (container, *first, txo_len);
 		ms_obj_attr_bag_insert (obj->attrs,
 			ms_obj_attr_new_markup (MS_OBJ_ATTR_MARKUP, markup));
 		pango_attr_list_unref (markup);

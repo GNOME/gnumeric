@@ -767,12 +767,6 @@ get_xtn_lens (guint32 *pre_len, guint32 *end_len, guint8 const *ptr, gboolean ex
 		*end_len += formatting_runs * 4; /* 4 bytes per */
 		*pre_len += 2;
 		ptr      += 2;
-
-		if (rich_warn) {
-			rich_warn = FALSE;
-			fprintf (stderr,"rich string support unimplemented:"
-				"discarding %d runs\n", formatting_runs);
-		}
 	}
 	if (ext_str) { /* NB this data always comes after the rich_str data */
 		guint32 len_ext_rst = GSF_LE_GET_GUINT32 (ptr); /* A byte length */

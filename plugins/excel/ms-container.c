@@ -20,6 +20,8 @@
 #include <str.h>
 #include <value.h>
 
+#include <gsf/gsf-utils.h>
+
 void
 ms_container_init (MSContainer *container, MSContainerClass const *vtbl,
 		   MSContainer *parent,
@@ -230,4 +232,37 @@ ms_container_get_markup (MSContainer const *c, unsigned indx)
 			break;
 	}
 	return (*c->vtbl->get_markup) (c, indx);
+}
+
+typedef struct {
+	unsigned first, last;
+	PangoAttrList *accum;
+} TXORun;
+
+static gboolean
+append_txorun (PangoAttribute *src, TXORun *run)
+{
+	PangoAttribute *dst = pango_attribute_copy (src);
+	dst->start_index = run->first;	/* inclusive */
+	dst->end_index = run->last;	/* exclusize */
+	pango_attr_list_change (run->accum, dst);
+	return FALSE;
+}
+PangoAttrList *
+ms_container_read_markup (MSContainer const *c, guint8 const *data, int txo_len)
+{
+	TXORun txo_run;
+
+	g_return_val_if_fail (txo_len >= 16, NULL); /* min two records */
+
+	txo_run.last = G_MAXINT;
+	txo_run.accum = pango_attr_list_new ();
+	for (txo_len -= 16 ; txo_len >= 0 ; txo_len -= 8) {
+		txo_run.first = GSF_LE_GET_GUINT16 (data + txo_len);
+		pango_attr_list_filter (ms_container_get_markup (
+			c, GSF_LE_GET_GUINT16 (data + txo_len + 2)),
+			(PangoAttrFilterFunc) append_txorun, &txo_run);
+		txo_run.last = txo_run.first;
+	}
+	return txo_run.accum;
 }
