@@ -11,6 +11,7 @@
 #include <glib.h>
 #include <gnumeric.h>
 #include <libgnumeric.h>
+#include "gnumeric-paths.h"
 #include "bonobo-io.h"
 #include <bonobo/bonobo-ui-main.h>
 
