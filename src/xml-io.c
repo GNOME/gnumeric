@@ -3770,7 +3770,9 @@ maybe_convert (GsfInput *input, gboolean quiet)
 	gsf_off_t input_size;
 	GString *buffer;
 	guint ui;
-	GsfInput *old_input = input;
+	char *converted;
+	const char *encoding;
+	gboolean ok;
 
 	buf = gsf_input_read (input, strlen (noencheader), NULL);
 	if (!buf || strncmp (noencheader, buf, strlen (noencheader)) != 0)
@@ -3779,7 +3781,9 @@ maybe_convert (GsfInput *input, gboolean quiet)
 	input_size = gsf_input_remaining (input);
 	buffer = g_string_sized_new (input_size + strlen (encheader));
 	g_string_append (buffer, encheader);
-	if (!gsf_input_read (input, input_size, buffer->str + strlen (encheader))) {
+	ok = gsf_input_read (input, input_size, buffer->str + strlen (encheader)) != NULL;
+	gsf_input_seek (input, 0, G_SEEK_SET);
+	if (!ok) {
 		g_string_free (buffer, TRUE);
 		return input;
 	}
@@ -3805,40 +3809,20 @@ maybe_convert (GsfInput *input, gboolean quiet)
 		}
 	}
 
-	if (g_get_charset (NULL)) {
-		input = gsf_input_memory_new (buffer->str, buffer->len, TRUE);
-		g_string_free (buffer, FALSE);
+	encoding = go_guess_encoding (buffer->str, buffer->len, NULL, &converted);
+	g_string_free (buffer, TRUE);
+
+	if (encoding) {
+		g_object_unref (input);
 		if (!quiet)
-			g_warning ("Converted xml document with no encoding from pseudo-UTF-8 to UTF-8.");
+			g_warning ("Converted xml document with no explicit encoding from transliterated %s to UTF-8.",
+				   encoding);
+		return gsf_input_memory_new (converted, strlen (converted), TRUE);
 	} else {
-		gsize bytes_written;
-		const char *from = "locale";
-		char *converted =
-			g_locale_to_utf8 (buffer->str, buffer->len,
-					  NULL, &bytes_written, NULL);
-		if (!converted) {
-			from = "ISO-8859-1";
-			converted =
-				g_convert (buffer->str, buffer->len,
-					   "UTF-8", from,
-					   NULL, &bytes_written, NULL);
-		}
-		g_string_free (buffer, TRUE);
-		if (!converted) {
-			gsf_input_seek (input, 0, G_SEEK_SET);
-			if (!quiet)
-				g_warning ("Failed to convert xml document with no encoding to UTF-8.");
-			return input;
-		}
-
-		input = gsf_input_memory_new (converted, bytes_written, TRUE);
 		if (!quiet)
-			g_warning ("Converted xml document with no encoding from %s to UTF-8.",
-				   from);
+			g_warning ("Failed to convert xml document with no explicit encoding to UTF-8.");
+		return input;
 	}
-
-	g_object_unref (old_input);
-	return input;
 }
 
 /* We parse and do some limited validation of the XML file, if this passes,

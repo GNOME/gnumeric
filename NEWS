@@ -52,6 +52,7 @@ Morten:
 	* Make sheets even more object-like.
 	* Fix parsing problem with names that start out with something
 	  that can be parsed as a cell, e.g., "K3P".  [#170465]
+	* Improve auto-fixup of 1.0.x era non-ASCII Gnumeric files.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0
