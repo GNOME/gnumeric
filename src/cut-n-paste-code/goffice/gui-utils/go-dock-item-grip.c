@@ -10,17 +10,17 @@
  * Copyright (C) 2002 Sun Microsystems, Inc.
  */
 
-#include "goffice/goffice-config.h"
+#include "gnumeric-config.h"
 #include <glib/gi18n.h>
-#include <string.h>
-#include <goffice/gui-utils/go-dock-item-grip.h>
-#include <goffice/gui-utils/go-dock-band.h>
-/* #include <goffice/gui-utils/go-a11y.h> */
+#include "go-a11y.h"
+#include "go-dock-band.h"
+#include "go-dock-item-grip.h"
 #include <glib-object.h>
 #include <atk/atkstateset.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkaccessible.h>
 #include <gtk/gtkbindings.h>
+#include <libgnome/gnome-macros.h>
 #include <glib/gi18n.h>
 #include <string.h>
 
@@ -34,7 +34,8 @@ static guint signals [LAST_SIGNAL];
 
 static AtkObjectClass *a11y_parent_class = NULL;
 
-G_DEFINE_TYPE (GoDockItemGrip, go_dock_item_grip, GTK_TYPE_WIDGET)
+GNOME_CLASS_BOILERPLATE (GoDockItemGrip, go_dock_item_grip,
+			 GtkWidget, GTK_TYPE_WIDGET)
 
 static gint
 go_dock_item_grip_expose (GtkWidget      *widget,
@@ -129,6 +130,7 @@ static void
 go_dock_item_grip_dock (GoDockItemGrip *grip)
 {
 	GoDock *dock;
+	int placement;
 
 	g_return_if_fail (GO_IS_DOCK_ITEM_GRIP (grip));
 
@@ -145,9 +147,15 @@ go_dock_item_grip_dock (GoDockItemGrip *grip)
 		GTK_CONTAINER (
 			GTK_WIDGET (grip->item)->parent),
 		GTK_WIDGET (grip->item));
+
+	if (grip->item->orientation == GTK_ORIENTATION_HORIZONTAL)
+		placement = GO_DOCK_TOP;
+	else
+		placement = GO_DOCK_LEFT;
+
 	go_dock_add_item (
 		dock, grip->item,
-		GO_DOCK_TOP, 2, 0, 0, TRUE);
+		placement, 2, 0, 0, TRUE);
 	g_object_unref (G_OBJECT (grip->item));
 }
 
@@ -274,9 +282,9 @@ go_dock_item_grip_activate (GoDockItemGrip *grip)
 }
 
 static void
-go_dock_item_grip_init (GoDockItemGrip *grip)
+go_dock_item_grip_instance_init (GoDockItemGrip *grip)
 {
-/*	GTK_WIDGET_SET_FLAGS (grip, GTK_CAN_FOCUS); */
+	GTK_WIDGET_SET_FLAGS (grip, GTK_CAN_FOCUS);
 	GTK_WIDGET_SET_FLAGS (grip, GTK_NO_WINDOW);
 }
 
@@ -305,7 +313,7 @@ go_dock_item_grip_key_press_event (GtkWidget   *widget,
       return TRUE;
     }
 
-  return GTK_WIDGET_CLASS (go_dock_item_grip_parent_class)->key_press_event (widget, event);
+  return GTK_WIDGET_CLASS (parent_class)->key_press_event (widget, event);
 }
 
 static void
@@ -313,6 +321,8 @@ go_dock_item_grip_class_init (GoDockItemGripClass *klass)
 {
 	GtkBindingSet  *binding_set;
 	GtkWidgetClass *widget_class = (GtkWidgetClass *) klass;
+
+	parent_class = g_type_class_peek_parent (klass);
 
 	widget_class->expose_event = go_dock_item_grip_expose;
 #if 0

@@ -33,13 +33,14 @@
  * bin-compat.
  */
 
-#include <goffice/goffice-config.h>
+#include <gnumeric-config.h>
 #include <glib/gi18n.h>
-#include <goffice/gui-utils/go-dock-item.h>
-#include <goffice/gui-utils/go-dock-band.h>
-#include <goffice/gui-utils/go-dock-item-grip.h>
-#include <gnm-marshalers.h>
+#include "go-dock-item.h"
+#include "go-dock-band.h"
+#include "go-dock-item-grip.h"
+#include "go-ui-marshal.h"
 
+#include <gdk/gdkx.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
@@ -47,10 +48,19 @@
 #include <gtk/gtkwindow.h>
 
 #include <glib/gi18n.h>
+#include <libgnome/gnome-macros.h>
 
-struct _GoDockItemPrivate {
-	GtkWidget *grip;
+struct _GoDockItemPrivate
+{
+  GtkWidget *child;
+  GtkWidget *grip;
+
+  GtkWidget *float_window;
+  GtkWidget *float_window_box;
 };
+
+GNOME_CLASS_BOILERPLATE (GoDockItem, go_dock_item,
+			 GtkBin, GTK_TYPE_BIN);
 
 enum {
   PROP_0,
@@ -108,18 +118,22 @@ static void go_dock_item_forall         (GtkContainer     *container,
 					     gpointer          callback_data);
 static void go_dock_item_paint          (GtkWidget         *widget,
 					     GdkEventExpose    *event);
-static gint go_dock_item_expose         (GtkWidget         *widget,
+static gboolean go_dock_item_expose     (GtkWidget         *widget,
 					     GdkEventExpose    *event);
-static gint go_dock_item_button_changed (GtkWidget         *widget,
-					     GdkEventButton    *event);
-static gint go_dock_item_motion         (GtkWidget         *widget,
+static gboolean go_dock_item_button_changed (GtkWidget         *widget,
+						 GdkEventButton    *event);
+static gboolean go_dock_item_motion     (GtkWidget         *widget,
 					     GdkEventMotion    *event);
-static gint go_dock_item_delete_event   (GtkWidget         *widget,
-					     GdkEventAny       *event);
+
+static void go_dock_item_float_window_size_request (GtkWidget *widget, GtkRequisition *requisition, gpointer data);
+static void go_dock_item_float_window_size_allocate (GtkWidget *widget, GtkAllocation *allocation, gpointer data);
+
+static gboolean go_dock_item_float_window_expose (GtkWidget *widget, GdkEventExpose *event, gpointer data);
+static gboolean go_dock_item_float_window_button_changed (GtkWidget *widget, GdkEventButton *event, gpointer data);
+static gboolean go_dock_item_float_window_motion (GtkWidget *widget, GdkEventMotion *event, gpointer data);
 
 static guint        dock_item_signals[LAST_SIGNAL] = { 0 };
 
-G_DEFINE_TYPE (GoDockItem, go_dock_item, GTK_TYPE_BIN)
 
 /* Helper functions.  */
 
@@ -152,7 +166,7 @@ get_preferred_width (GoDockItem *dock_item)
   GtkWidget *child;
   guint preferred_width;
 
-  child = GTK_BIN (dock_item)->child;
+  child = dock_item->_priv->child;
 
   if (!child)
     return 0;
@@ -179,7 +193,7 @@ get_preferred_height (GoDockItem *dock_item)
   GtkWidget *child;
   guint preferred_height;
 
-  child = GTK_BIN (dock_item)->child;
+  child = dock_item->_priv->child;
 
   if (!child)
     return 0;
@@ -203,20 +217,19 @@ get_preferred_height (GoDockItem *dock_item)
 static void
 go_dock_item_class_init (GoDockItemClass *klass)
 {
-  GObjectClass *gobject_klass;
+  GObjectClass *gobject_class;
   GtkWidgetClass *widget_class;
   GtkContainerClass *container_class;
 
-  gobject_klass = (GObjectClass *) klass;
-  gobject_klass = (GObjectClass *) klass;
+  gobject_class = (GObjectClass *) klass;
   widget_class = (GtkWidgetClass *) klass;
   container_class = (GtkContainerClass *) klass;
 
-  gobject_klass->set_property = go_dock_item_set_property;
-  gobject_klass->get_property = go_dock_item_get_property;
+  gobject_class->set_property = go_dock_item_set_property;
+  gobject_class->get_property = go_dock_item_get_property;
 
   g_object_class_install_property (
-	  gobject_klass,
+	  gobject_class,
 	  PROP_SHADOW,
 	  g_param_spec_enum ("shadow",
 			     _("Shadow type"),
@@ -227,7 +240,7 @@ go_dock_item_class_init (GoDockItemClass *klass)
 			      G_PARAM_WRITABLE)));
 
   g_object_class_install_property (
-	  gobject_klass,
+	  gobject_class,
 	  PROP_ORIENTATION,
 	  g_param_spec_enum ("orientation",
 			     _("Orientation"),
@@ -238,7 +251,7 @@ go_dock_item_class_init (GoDockItemClass *klass)
 			      G_PARAM_WRITABLE)));
 
   g_object_class_install_property (
-	  gobject_klass,
+	  gobject_class,
 	  PROP_PREFERRED_WIDTH,
 	  g_param_spec_uint ("preferred_width",
 			     _("Preferred width"),
@@ -247,7 +260,7 @@ go_dock_item_class_init (GoDockItemClass *klass)
 			     G_PARAM_READABLE));
 
   g_object_class_install_property (
-	  gobject_klass,
+	  gobject_class,
 	  PROP_PREFERRED_HEIGHT,
 	  g_param_spec_uint ("preferred_height",
 			     _("Preferred height"),
@@ -257,7 +270,7 @@ go_dock_item_class_init (GoDockItemClass *klass)
 
   dock_item_signals[DOCK_DRAG_BEGIN] =
 	  g_signal_new ("dock_drag_begin",
-			G_TYPE_FROM_CLASS (gobject_klass),
+			G_TYPE_FROM_CLASS (gobject_class),
 			G_SIGNAL_RUN_LAST,
 			G_STRUCT_OFFSET (GoDockItemClass,
 					 dock_drag_begin),
@@ -267,7 +280,7 @@ go_dock_item_class_init (GoDockItemClass *klass)
 
   dock_item_signals[DOCK_DRAG_MOTION] =
 	  g_signal_new ("dock_drag_motion",
-			G_TYPE_FROM_CLASS (gobject_klass),
+			G_TYPE_FROM_CLASS (gobject_class),
 			G_SIGNAL_RUN_LAST,
 			G_STRUCT_OFFSET (GoDockItemClass, dock_drag_motion),
 			NULL, NULL,
@@ -276,7 +289,7 @@ go_dock_item_class_init (GoDockItemClass *klass)
 
   dock_item_signals[DOCK_DRAG_END] =
 	  g_signal_new ("dock_drag_end",
-			G_TYPE_FROM_CLASS (gobject_klass),
+			G_TYPE_FROM_CLASS (gobject_class),
 			G_SIGNAL_RUN_LAST,
 			G_STRUCT_OFFSET (GoDockItemClass, dock_drag_end),
 			NULL, NULL,
@@ -285,7 +298,7 @@ go_dock_item_class_init (GoDockItemClass *klass)
 
   dock_item_signals[DOCK_DETACH] =
 	  g_signal_new ("dock_detach",
-			G_TYPE_FROM_CLASS (gobject_klass),
+			G_TYPE_FROM_CLASS (gobject_class),
 			G_SIGNAL_RUN_LAST,
 			G_STRUCT_OFFSET (GoDockItemClass, dock_detach),
 			NULL, NULL,
@@ -294,14 +307,14 @@ go_dock_item_class_init (GoDockItemClass *klass)
 
   dock_item_signals[ORIENTATION_CHANGED] =
 	  g_signal_new ("orientation_changed",
-			G_TYPE_FROM_CLASS (gobject_klass),
+			G_TYPE_FROM_CLASS (gobject_class),
 			G_SIGNAL_RUN_LAST,
 			G_STRUCT_OFFSET (GoDockItemClass, orientation_changed),
 			NULL, NULL,
 			g_cclosure_marshal_VOID__ENUM,
 			G_TYPE_NONE, 1, GTK_TYPE_ORIENTATION);
 
-  gobject_klass->finalize = go_dock_item_finalize;
+  gobject_class->finalize = go_dock_item_finalize;
 
   widget_class->map = go_dock_item_map;
   widget_class->unmap = go_dock_item_unmap;
@@ -314,7 +327,6 @@ go_dock_item_class_init (GoDockItemClass *klass)
   widget_class->button_press_event = go_dock_item_button_changed;
   widget_class->button_release_event = go_dock_item_button_changed;
   widget_class->motion_notify_event = go_dock_item_motion;
-  widget_class->delete_event = go_dock_item_delete_event;
 
   container_class->add = go_dock_item_add;
   container_class->remove = go_dock_item_remove;
@@ -322,13 +334,15 @@ go_dock_item_class_init (GoDockItemClass *klass)
 }
 
 static void
-go_dock_item_init (GoDockItem *dock_item)
+go_dock_item_instance_init (GoDockItem *dock_item)
 {
   GTK_WIDGET_UNSET_FLAGS (dock_item, GTK_NO_WINDOW);
 
-  dock_item->_priv = g_new (GoDockItemPrivate, 1);
+  dock_item->_priv = g_new0 (GoDockItemPrivate, 1);
 
   dock_item->_priv->grip = go_dock_item_grip_new (dock_item);
+  dock_item->_priv->float_window = NULL;
+
   gtk_widget_set_parent (dock_item->_priv->grip, GTK_WIDGET (dock_item));
   gtk_widget_show (dock_item->_priv->grip);
 
@@ -426,7 +440,7 @@ go_dock_item_finalize (GObject *object)
   g_free (di->_priv);
   di->_priv = NULL;
 
-  G_OBJECT_CLASS (go_dock_item_parent_class)-> finalize (object);
+  GNOME_CALL_PARENT (G_OBJECT_CLASS, finalize, (object));
 }
 
 static void
@@ -476,7 +490,7 @@ go_dock_item_unmap (GtkWidget *widget)
   gdk_window_hide (widget->window);
   if (di->float_window_mapped)
     {
-      gdk_window_hide (di->float_window);
+      gtk_widget_hide (GTK_WIDGET (di->_priv->float_window));
       di->float_window_mapped = FALSE;
     }
 
@@ -488,7 +502,6 @@ static void
 go_dock_item_realize (GtkWidget *widget)
 {
   GdkWindowAttr attributes;
-  GdkWindow *root_window;
   gint attributes_mask;
   GoDockItem *di;
 
@@ -532,36 +545,38 @@ go_dock_item_realize (GtkWidget *widget)
   if (GTK_BIN (di)->child)
     gtk_widget_set_parent_window (GTK_BIN (di)->child, di->bin_window);
 
-  if (di->_priv->grip)
-    gtk_widget_set_parent_window (di->_priv->grip, di->bin_window);
+  gtk_widget_set_parent_window (di->_priv->grip, di->bin_window);
 
-  root_window = gdk_screen_get_root_window
-	  (gdk_drawable_get_screen (GDK_DRAWABLE (widget->window)));
+  di->_priv->float_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_screen (GTK_WINDOW (di->_priv->float_window), gtk_widget_get_screen (widget));
+  gtk_window_set_decorated (GTK_WINDOW (di->_priv->float_window), FALSE);
 
-  attributes.x = 0;
-  attributes.y = 0;
-  attributes.width = widget->requisition.width;
-  attributes.height = widget->requisition.height;
-  attributes.window_type = GDK_WINDOW_TOPLEVEL;
-  attributes.wclass = GDK_INPUT_OUTPUT;
-  attributes.visual = gtk_widget_get_visual (widget);
-  attributes.colormap = gtk_widget_get_colormap (widget);
-  attributes.event_mask = (gtk_widget_get_events (widget) |
-			   GDK_KEY_PRESS_MASK |
-			   GDK_ENTER_NOTIFY_MASK |
-			   GDK_LEAVE_NOTIFY_MASK |
-			   GDK_FOCUS_CHANGE_MASK |
-			   GDK_STRUCTURE_MASK);
-  attributes_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP;
-  di->float_window = gdk_window_new (root_window, &attributes, attributes_mask);
-  gdk_window_set_transient_for (di->float_window, gdk_window_get_toplevel (widget->window));
-  gdk_window_set_user_data (di->float_window, widget);
-  gdk_window_set_decorations (di->float_window, 0);
+  g_signal_connect (di->_priv->float_window, "size_allocate",
+		    G_CALLBACK (go_dock_item_float_window_size_allocate),
+		    di);
+
+  g_signal_connect (di->_priv->float_window, "size_request",
+		    G_CALLBACK (go_dock_item_float_window_size_request),
+		    di);
+  g_signal_connect (di->_priv->float_window, "expose_event",
+		    G_CALLBACK (go_dock_item_float_window_expose),
+		    di);
+
+  g_signal_connect (di->_priv->float_window, "button_press_event",
+		    G_CALLBACK (go_dock_item_float_window_button_changed),
+		    di);
+
+  g_signal_connect (di->_priv->float_window, "button_release_event",
+		    G_CALLBACK (go_dock_item_float_window_button_changed),
+		    di);
+
+  g_signal_connect (di->_priv->float_window, "motion_notify_event",
+		    G_CALLBACK (go_dock_item_float_window_motion),
+		    di);
 
   widget->style = gtk_style_attach (widget->style, widget->window);
   gtk_style_set_background (widget->style, widget->window, GTK_WIDGET_STATE (di));
   gtk_style_set_background (widget->style, di->bin_window, GTK_WIDGET_STATE (di));
-  gtk_style_set_background (widget->style, di->float_window, GTK_WIDGET_STATE (di));
   gdk_window_set_back_pixmap (widget->window, NULL, TRUE);
 
   if (di->is_floating)
@@ -572,20 +587,25 @@ static void
 go_dock_item_unrealize (GtkWidget *widget)
 {
   GoDockItem *di;
+  GoDockItemPrivate *priv;
 
   g_return_if_fail (widget != NULL);
   g_return_if_fail (GO_IS_DOCK_ITEM (widget));
 
   di = GO_DOCK_ITEM (widget);
+  priv = di->_priv;
 
   gdk_window_set_user_data (di->bin_window, NULL);
   gdk_window_destroy (di->bin_window);
   di->bin_window = NULL;
-  gdk_window_set_user_data (di->float_window, NULL);
-  gdk_window_destroy (di->float_window);
-  di->float_window = NULL;
 
-  GTK_WIDGET_CLASS (go_dock_item_parent_class)->unrealize (widget);
+  if (di->float_window_mapped)
+    go_dock_item_unfloat (di);
+
+  gtk_widget_destroy (GTK_WIDGET (di->_priv->float_window));
+  di->_priv->float_window = NULL;
+
+  GNOME_CALL_PARENT (GTK_WIDGET_CLASS, unrealize, (widget));
 }
 
 static void
@@ -605,26 +625,21 @@ go_dock_item_style_set (GtkWidget *widget,
       gtk_style_set_background (widget->style, widget->window,
                                 widget->state);
       gtk_style_set_background (widget->style, di->bin_window, widget->state);
-      gtk_style_set_background (widget->style, di->float_window, widget->state);
       if (GTK_WIDGET_DRAWABLE (widget))
 	gdk_window_clear (widget->window);
     }
 }
 
 static void
-go_dock_item_size_request (GtkWidget      *widget,
-                              GtkRequisition *requisition)
+size_request (GtkWidget      *widget,
+	      GtkRequisition *requisition,
+	      GoDockItem *dock_item)
 {
-  GtkBin *bin;
-  GoDockItem *dock_item;
+
+  GtkBin  *bin;
   GtkRequisition child_requisition;
 
-  g_return_if_fail (widget != NULL);
-  g_return_if_fail (GO_IS_DOCK_ITEM (widget));
-  g_return_if_fail (requisition != NULL);
-
   bin = GTK_BIN (widget);
-  dock_item = GO_DOCK_ITEM (widget);
 
   /* If our child is not visible, we still request its size, since
      we won't have any useful hint for our size otherwise.  */
@@ -666,6 +681,116 @@ go_dock_item_size_request (GtkWidget      *widget,
 }
 
 static void
+go_dock_item_size_request (GtkWidget *widget,
+			       GtkRequisition *requisition)
+{
+
+  GoDockItem *dock_item;
+
+  g_return_if_fail (widget != NULL);
+  g_return_if_fail (GO_IS_DOCK_ITEM (widget));
+  g_return_if_fail (requisition != NULL);
+
+  dock_item = GO_DOCK_ITEM (widget);
+
+  size_request (widget, requisition, dock_item);
+
+}
+
+static void
+go_dock_item_float_window_size_request (GtkWidget *widget,
+					    GtkRequisition *requisition,
+					    gpointer data)
+{
+  GoDockItem *dock_item;
+
+  g_return_if_fail (widget != NULL);
+  g_return_if_fail (requisition != NULL);
+
+  dock_item = GO_DOCK_ITEM (data);
+
+  size_request (widget, requisition, dock_item);
+
+}
+
+static void
+grip_size_allocate (GtkWidget *widget,
+                    GtkAllocation *allocation,
+		    GtkAllocation *child_allocation,
+		    GtkWidget *grip,
+		    GoDockItem *di)
+{
+  GtkWidget *child  = GTK_BIN (widget)->child;
+
+  GtkAllocation grip_alloc = *allocation;
+
+  grip_alloc.x = grip_alloc.y = 0;
+
+  if (di->orientation != GTK_ORIENTATION_HORIZONTAL) {
+
+     grip_alloc.height = DRAG_HANDLE_SIZE;
+     child_allocation->y += DRAG_HANDLE_SIZE;
+
+   } else {
+
+     grip_alloc.width = DRAG_HANDLE_SIZE;
+
+     if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_LTR)
+        child_allocation->x += DRAG_HANDLE_SIZE;
+     else {
+        GtkRequisition child_requisition;
+
+         gtk_widget_get_child_requisition (child, &child_requisition);
+         grip_alloc.x = child_requisition.width;
+      }
+    }
+
+    gtk_widget_size_allocate (grip, &grip_alloc);
+}
+
+static void
+go_dock_item_float_window_size_allocate (GtkWidget *widget,
+					     GtkAllocation *allocation,
+					     gpointer data)
+{
+  GtkBin *bin;
+  GoDockItem *di;
+  GtkRequisition child_requisition;
+  GtkAllocation child_allocation;
+  GtkWidget *child, *grip;
+  int border_width;
+  GList *list;
+
+  di = GO_DOCK_ITEM (data);
+
+  bin = GTK_BIN(widget);
+  child = bin->child;
+  border_width = GTK_CONTAINER (widget)->border_width;
+
+  /* Grip and InternalToolbar are the children */
+  list = gtk_container_get_children (GTK_CONTAINER (child));
+
+  grip = list->data;
+
+  child_allocation.x = border_width;
+  child_allocation.y = border_width;
+
+  if (GO_DOCK_ITEM_NOT_LOCKED(di))
+    grip_size_allocate (widget, allocation, &child_allocation, grip, di);
+
+  list = list->next;
+  child = list->data;
+
+  gtk_widget_get_child_requisition (child, &child_requisition);
+
+  child_allocation.width = child_requisition.width + 2 * border_width;
+  child_allocation.height = child_requisition.height + 2 * border_width;
+
+  gtk_widget_size_allocate (child, &child_allocation);
+
+}
+
+static void
 go_dock_item_size_allocate (GtkWidget     *widget,
 				GtkAllocation *allocation)
 {
@@ -701,97 +826,68 @@ go_dock_item_size_allocate (GtkWidget     *widget,
       child_allocation.y = border_width;
 
       if (GO_DOCK_ITEM_NOT_LOCKED(di))
+        grip_size_allocate (widget, allocation, &child_allocation,di->_priv->grip, di);
+
+      if (!di->is_floating)
         {
-          GtkAllocation grip_alloc = *allocation;
+           child_allocation.width = MAX (1, (int) widget->allocation.width - 2 * border_width);
+           child_allocation.height = MAX (1, (int) widget->allocation.height - 2 * border_width);
 
-	  grip_alloc.x = grip_alloc.y = 0;
+           if (GO_DOCK_ITEM_NOT_LOCKED (di))
+             {
+               if (di->orientation == GTK_ORIENTATION_HORIZONTAL)
+		 child_allocation.width = MAX ((int) child_allocation.width - DRAG_HANDLE_SIZE, 1);
+               else
+		 child_allocation.height = MAX ((int) child_allocation.height - DRAG_HANDLE_SIZE, 1);
+             }
 
-          if (di->orientation != GTK_ORIENTATION_HORIZONTAL) {
-            grip_alloc.height = DRAG_HANDLE_SIZE;
-            child_allocation.y += DRAG_HANDLE_SIZE;
-          } else {
-            grip_alloc.width = DRAG_HANDLE_SIZE;
-	    if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_LTR) {
-	      child_allocation.x += DRAG_HANDLE_SIZE;
-	    } else {
-	      GtkRequisition child_requisition;
-	      gtk_widget_get_child_requisition (child, &child_requisition);
-	      grip_alloc.x = child_requisition.width;
-	    }
-	  }
-
-	  gtk_widget_size_allocate (di->_priv->grip, &grip_alloc);
-        }
-
-      if (di->is_floating)
-	{
-          GtkRequisition child_requisition;
-	  guint float_width;
-	  guint float_height;
-
-	  gtk_widget_get_child_requisition (child, &child_requisition);
-
-          child_allocation.width = child_requisition.width;
-          child_allocation.height = child_requisition.height;
-
-	  float_width = child_allocation.width + 2 * border_width;
-	  float_height = child_allocation.height + 2 * border_width;
-
-	  if (di->orientation == GTK_ORIENTATION_HORIZONTAL)
-	    float_width += DRAG_HANDLE_SIZE;
-	  else
-	    float_height += DRAG_HANDLE_SIZE;
-
-	  if (GTK_WIDGET_REALIZED (di))
-	    {
-	      gdk_window_resize (di->float_window,
-				 float_width,
-				 float_height);
+	    if (GTK_WIDGET_REALIZED (di))
 	      gdk_window_move_resize (di->bin_window,
-				      0,
-				      0,
-				      float_width,
-				      float_height);
-	    }
-	}
-      else
-	{
-	  child_allocation.width = MAX (1, (int) widget->allocation.width - 2 * border_width);
-	  child_allocation.height = MAX (1, (int) widget->allocation.height - 2 * border_width);
-
-          if (GO_DOCK_ITEM_NOT_LOCKED (di))
-            {
-              if (di->orientation == GTK_ORIENTATION_HORIZONTAL)
-		child_allocation.width = MAX ((int) child_allocation.width - DRAG_HANDLE_SIZE, 1);
-              else
-		child_allocation.height = MAX ((int) child_allocation.height - DRAG_HANDLE_SIZE, 1);
-            }
-
-	  if (GTK_WIDGET_REALIZED (di))
-	    gdk_window_move_resize (di->bin_window,
 				    0,
 				    0,
 				    widget->allocation.width,
 				    widget->allocation.height);
-	}
+          }
 
-      gtk_widget_size_allocate (bin->child, &child_allocation);
-    }
+        gtk_widget_size_allocate (bin->child, &child_allocation);
+
+       }
 }
 
 static void
-go_dock_item_paint (GtkWidget      *widget,
-			GdkEventExpose *event)
+window_paint (GtkWidget *widget,
+	      GdkEventExpose *event,
+	      GoDockItem *di)
 {
-  GtkBin *bin;
-  GoDockItem *di;
 
-  bin = GTK_BIN (widget);
-  di = GO_DOCK_ITEM (widget);
+   GdkWindow *window;
+   GtkWidget *grip;
+   GtkContainer  *container;
 
-  if (!event)
+   if (!di->is_floating) {
+
+      window = di->bin_window;
+      container = GTK_CONTAINER (di);
+      grip = di->_priv->grip;
+
+   } else {
+
+      GtkBin *bin;
+      GtkWidget *child;
+      GList *list;
+
+      bin = GTK_BIN (widget);
+      child = bin->child;
+      list = gtk_container_get_children (GTK_CONTAINER (child));
+
+      window = child->window;
+      grip = list->data;
+      container = GTK_CONTAINER (child);
+   }
+
+   if (!event)
     gtk_paint_box(widget->style,
-                  di->bin_window,
+                  window,
                   GTK_WIDGET_STATE (widget),
                   di->shadow_type,
                   NULL, widget,
@@ -799,7 +895,7 @@ go_dock_item_paint (GtkWidget      *widget,
                   0, 0, -1, -1);
   else
     gtk_paint_box(widget->style,
-                  di->bin_window,
+                  window,
                   GTK_WIDGET_STATE (widget),
                   di->shadow_type,
                   &event->area, widget,
@@ -808,10 +904,55 @@ go_dock_item_paint (GtkWidget      *widget,
 
   if (GO_DOCK_ITEM_NOT_LOCKED (di))
       gtk_container_propagate_expose (
-	      GTK_CONTAINER (di), di->_priv->grip, event);
+              container, grip , event);
 }
 
-static gint
+static void
+go_dock_item_float_window_paint (GtkWidget *widget,
+				     GdkEventExpose *event,
+				     gpointer data)
+{
+  GoDockItem *di;
+
+  di = GO_DOCK_ITEM (data);
+
+  if (di->is_floating)
+    window_paint (widget, event, di);
+}
+
+static void
+go_dock_item_paint (GtkWidget      *widget,
+			GdkEventExpose *event)
+{
+  GoDockItem *di;
+
+  di = GO_DOCK_ITEM (widget);
+
+  if (!di->is_floating)
+    window_paint (widget, event, di);
+
+}
+
+static gboolean
+go_dock_item_float_window_expose (GtkWidget *widget,
+				      GdkEventExpose *event,
+				      gpointer data)
+{
+  g_return_val_if_fail (widget != NULL, FALSE);
+  g_return_val_if_fail (event != NULL, FALSE);
+
+  if (GTK_WIDGET_DRAWABLE (widget))
+    {
+      go_dock_item_float_window_paint (widget, event, data);
+
+      if (GTK_WIDGET_CLASS (parent_class)->expose_event)
+              return GTK_WIDGET_CLASS (parent_class)->expose_event (widget, event);
+    }
+
+  return FALSE;
+}
+
+static gboolean
 go_dock_item_expose (GtkWidget      *widget,
 			 GdkEventExpose *event)
 {
@@ -823,8 +964,8 @@ go_dock_item_expose (GtkWidget      *widget,
     {
       go_dock_item_paint (widget, event);
 
-      if (GTK_WIDGET_CLASS (go_dock_item_parent_class)->expose_event)
-	      return GTK_WIDGET_CLASS (go_dock_item_parent_class)->expose_event (widget, event);
+      if (GTK_WIDGET_CLASS (parent_class)->expose_event)
+	      return GTK_WIDGET_CLASS (parent_class)->expose_event (widget, event);
     }
 
   return FALSE;
@@ -842,33 +983,23 @@ go_dock_item_drag_end (GoDockItem *di)
   g_signal_emit (di, dock_item_signals [DOCK_DRAG_END], 0);
 }
 
-static gint
-go_dock_item_button_changed (GtkWidget      *widget,
-                                GdkEventButton *event)
+static gboolean
+button_changed (GtkWidget *widget,
+		GdkEventButton *event,
+		GoDockItem *di)
 {
-  GoDockItem *di;
-  gboolean event_handled;
 
-  g_return_val_if_fail (widget != NULL, FALSE);
-  g_return_val_if_fail (GO_IS_DOCK_ITEM (widget), FALSE);
-  g_return_val_if_fail (event != NULL, FALSE);
-
-  di = GO_DOCK_ITEM (widget);
-
-  if (event->window != di->bin_window)
-    return FALSE;
-
-  if (!GO_DOCK_ITEM_NOT_LOCKED(widget))
-    return FALSE;
-
-  event_handled = FALSE;
+  gboolean event_handled = FALSE;
 
   if (event->button == 1 && event->type == GDK_BUTTON_PRESS)
     {
       GtkWidget *child;
       gboolean in_handle;
 
-      child = GTK_BIN (di)->child;
+      if (!di->is_floating)
+        child = di->_priv->child;
+      else
+        child = GTK_WIDGET (go_dock_item_get_child (di));
 
       switch (di->orientation)
 	{
@@ -899,7 +1030,7 @@ go_dock_item_button_changed (GtkWidget      *widget,
 
           go_dock_item_grab_pointer (di);
 
-          g_signal_emit (widget, dock_item_signals[DOCK_DRAG_BEGIN], 0);
+          g_signal_emit (di , dock_item_signals[DOCK_DRAG_BEGIN], 0);
 
 	  event_handled = TRUE;
 	}
@@ -913,24 +1044,55 @@ go_dock_item_button_changed (GtkWidget      *widget,
   return event_handled;
 }
 
-static gint
-go_dock_item_motion (GtkWidget      *widget,
-			 GdkEventMotion *event)
+static gboolean
+go_dock_item_float_window_button_changed (GtkWidget *widget,
+					      GdkEventButton *event,
+					      gpointer data)
+{
+
+  GoDockItem *di;
+
+  g_return_val_if_fail (widget != NULL, FALSE);
+  g_return_val_if_fail (event != NULL, FALSE);
+
+  di = GO_DOCK_ITEM (data);
+
+  if (!GO_DOCK_ITEM_NOT_LOCKED(di))
+    return FALSE;
+
+  return button_changed (widget, event, di);
+
+}
+
+static gboolean
+go_dock_item_button_changed (GtkWidget      *widget,
+                                GdkEventButton *event)
 {
   GoDockItem *di;
-  GdkWindow *root_window;
-  gint new_x, new_y;
 
   g_return_val_if_fail (widget != NULL, FALSE);
   g_return_val_if_fail (GO_IS_DOCK_ITEM (widget), FALSE);
   g_return_val_if_fail (event != NULL, FALSE);
 
   di = GO_DOCK_ITEM (widget);
-  if (!di->in_drag)
-    return FALSE;
 
   if (event->window != di->bin_window)
     return FALSE;
+
+  if (!GO_DOCK_ITEM_NOT_LOCKED(widget))
+    return FALSE;
+
+  return button_changed (widget, event, di);
+
+}
+
+static gboolean
+widget_motion (GtkWidget *widget,
+	       GdkEventMotion *event,
+	       GoDockItem *di)
+{
+  GdkWindow *root_window;
+  gint new_x, new_y;
 
   root_window = gdk_screen_get_root_window
 	  (gdk_drawable_get_screen (GDK_DRAWABLE (event->window)));
@@ -940,27 +1102,82 @@ go_dock_item_motion (GtkWidget      *widget,
   new_x -= di->dragoff_x;
   new_y -= di->dragoff_y;
 
-  g_signal_emit (widget, dock_item_signals[DOCK_DRAG_MOTION], 0,
+  g_signal_emit (GTK_WIDGET (di), dock_item_signals[DOCK_DRAG_MOTION], 0,
 		 new_x, new_y);
 
   return TRUE;
 }
 
+static gboolean
+go_dock_item_float_window_motion (GtkWidget *widget,
+				      GdkEventMotion *event,
+				      gpointer data)
+{
+  GoDockItem *di;
+
+  g_return_val_if_fail (widget != NULL, FALSE);
+  g_return_val_if_fail (event != NULL, FALSE);
+
+  di = GO_DOCK_ITEM (data);
+
+  if (!di->in_drag)
+    return FALSE;
+
+  return widget_motion (widget, event, di);
+}
+
+static gboolean
+go_dock_item_motion (GtkWidget      *widget,
+			 GdkEventMotion *event)
+{
+  GoDockItem *di;
+
+  g_return_val_if_fail (widget != NULL, FALSE);
+  g_return_val_if_fail (GO_IS_DOCK_ITEM (widget), FALSE);
+  g_return_val_if_fail (event != NULL, FALSE);
+
+  di = GO_DOCK_ITEM (widget);
+
+  if (!di->in_drag)
+    return FALSE;
+
+  if (event->window != di->bin_window)
+    return FALSE;
+
+  return widget_motion (widget, event, di);
+}
+
 static void
 go_dock_item_add (GtkContainer *container,
-                     GtkWidget    *widget)
+		      GtkWidget    *widget)
 {
   GoDockItem *dock_item;
+  GoDockItemPrivate *priv;
   GParamSpec *pspec;
 
+  dock_item = GO_DOCK_ITEM (container);
+  priv = dock_item->_priv;
+
   g_return_if_fail (GO_IS_DOCK_ITEM (container));
+
+  /*  Is this needed ? We hit this assertion when
+      calling from go_dock_item_unfloat()
+  */
+
   g_return_if_fail (GTK_BIN (container)->child == NULL);
+  g_assert (priv->child == NULL);
+
   g_return_if_fail (widget->parent == NULL);
 
-  dock_item = GO_DOCK_ITEM (container);
+  /* Claim the base reference to the widget, so that it doesn't get owned by the
+   * floating window.
+   */
+  g_object_ref (widget);
+  gtk_object_sink (GTK_OBJECT (widget));
 
   gtk_widget_set_parent_window (widget, dock_item->bin_window);
-  GTK_CONTAINER_CLASS (go_dock_item_parent_class)->add (container, widget);
+  dock_item->_priv->child = widget;
+  GNOME_CALL_PARENT (GTK_CONTAINER_CLASS, add, (container, widget));
 
   pspec = g_object_class_find_property (G_OBJECT_GET_CLASS (widget),
 					"orientation");
@@ -984,13 +1201,14 @@ go_dock_item_set_floating (GoDockItem *item, gboolean val)
    */
   if (item->bin.child != NULL &&
       g_object_class_find_property (G_OBJECT_GET_CLASS (item->bin.child),
-				    "is_floating") != NULL) {
-    GValue value = { 0, };
-    g_value_init (&value, G_TYPE_BOOLEAN);
-    g_value_set_boolean (&value, val);
-    g_object_set_property (G_OBJECT (item->bin.child), "is_floating", &value);
-    g_value_unset (&value);
-  }
+				    "is_floating") != NULL)
+    {
+      GValue value = { 0, };
+      g_value_init (&value, G_TYPE_BOOLEAN);
+      g_value_set_boolean (&value, val);
+      g_object_set_property (G_OBJECT (item->bin.child), "is_floating", &value);
+      g_value_unset (&value);
+    }
 }
 
 static void
@@ -1003,36 +1221,29 @@ go_dock_item_remove (GtkContainer *container,
 
   di = GO_DOCK_ITEM (container);
 
-  if (widget == di->_priv->grip) {
-	  gboolean grip_was_visible;
-
-	  grip_was_visible = GTK_WIDGET_VISIBLE (widget);
-
-	  gtk_widget_unparent (widget);
-	  di->_priv->grip = NULL;
-
-	  if (grip_was_visible)
-		  gtk_widget_queue_resize (GTK_WIDGET (di));
-	  return;
-  }
-
-  g_return_if_fail (GTK_BIN (container)->child == widget);
-
-  if (di->is_floating)
+  if (widget == di->_priv->grip)
     {
-      go_dock_item_set_floating (di, FALSE);
-      if (GTK_WIDGET_REALIZED (di))
-	{
-	  gdk_window_hide (di->float_window);
-	  gdk_window_reparent (di->bin_window, GTK_WIDGET (di)->window, 0, 0);
-          gdk_window_show (widget->window);
-	}
-      di->float_window_mapped = FALSE;
-    }
-  if (di->in_drag)
-    go_dock_item_drag_end (di);
+      gboolean grip_was_visible;
 
-  GTK_CONTAINER_CLASS (go_dock_item_parent_class)->remove (container, widget);
+      grip_was_visible = GTK_WIDGET_VISIBLE (widget);
+
+      gtk_widget_unparent (widget);
+      di->_priv->grip = NULL;
+
+      if (grip_was_visible)
+	gtk_widget_queue_resize (GTK_WIDGET (di));
+
+      return;
+    }
+
+  g_return_if_fail (di->_priv->child == widget);
+  g_assert (di->_priv->child == di->bin.child);
+  g_object_unref (di->_priv->child);
+  di->_priv->child = NULL;
+
+  GNOME_CALL_PARENT (GTK_CONTAINER_CLASS,
+		     remove, (container, widget));
+
 }
 
 static void
@@ -1046,22 +1257,14 @@ go_dock_item_forall (GtkContainer *container,
 
   g_return_if_fail (callback != NULL);
 
+  if (di->float_window_mapped)
+    return; /* The owner of the widgets is the floating window, not the item */
+
   if (di->_priv->grip)
     callback (di->_priv->grip, callback_data);
 
   if (bin->child)
     callback (bin->child, callback_data);
-}
-
-static gint
-go_dock_item_delete_event (GtkWidget *widget,
-                              GdkEventAny  *event)
-{
-  g_return_val_if_fail (widget != NULL, FALSE);
-  g_return_val_if_fail (GO_IS_DOCK_ITEM (widget), FALSE);
-  g_return_val_if_fail (event != NULL, FALSE);
-
-  return TRUE;
 }
 
 /**
@@ -1127,7 +1330,29 @@ go_dock_item_new (const gchar *name,
 GtkWidget *
 go_dock_item_get_child (GoDockItem *item)
 {
-  return GTK_BIN (item)->child;
+    g_return_val_if_fail (GO_IS_DOCK_ITEM (item), NULL);
+
+  if (item->is_floating)
+    {
+
+      GList *list;
+      GtkWidget *child = GTK_BIN (GTK_WIDGET (item->_priv->float_window))->child;
+
+      list = gtk_container_get_children (GTK_CONTAINER (child));
+
+      while (list)
+       {
+            GtkWidget *widget = list->data;
+
+            if (GTK_IS_TOOLBAR (widget))
+                return widget;
+
+            list = list->next;
+       }
+       g_assert_not_reached ();
+    }
+
+   return GTK_BIN (item)->child;
 }
 
 /**
@@ -1330,6 +1555,7 @@ void
 go_dock_item_grab_pointer (GoDockItem *item)
 {
   GdkCursor *fleur;
+  GdkWindow *gdk_window;
 
   g_assert (GO_IS_DOCK_ITEM (item));
 
@@ -1339,8 +1565,19 @@ go_dock_item_grab_pointer (GoDockItem *item)
 	  (gtk_widget_get_display (GTK_WIDGET (item)),
 	   GDK_FLEUR);
 
+  if (item->is_floating) {
+        /* This is not working well...can drag only
+           in the small region of the grip and the first button.
+           To be precise, it just sucks that we can't get a decent
+           grab on the grip itself
+        */
+
+        gdk_window = GTK_WIDGET (item->_priv->float_window)->window;
+  } else  {
+        gdk_window = item->bin_window;
+  }
   /* Hm, not sure this is the right thing to do, but it seems to work.  */
-  while (gdk_pointer_grab (item->bin_window,
+  while (gdk_pointer_grab (gdk_window,
                            FALSE,
                            (GDK_BUTTON1_MOTION_MASK |
                             GDK_POINTER_MOTION_HINT_MASK |
@@ -1349,14 +1586,17 @@ go_dock_item_grab_pointer (GoDockItem *item)
                            fleur,
                            GDK_CURRENT_TIME) != 0);
 
+
   gdk_cursor_unref (fleur);
 }
 
 gboolean
 go_dock_item_detach (GoDockItem *item, gint x, gint y)
 {
-  GtkAllocation allocation;
-  GtkRequisition requisition;
+  GoDockItemPrivate *priv;
+  GtkWidget *widget;
+
+  priv = item->_priv;
 
   if (item->behavior & GO_DOCK_ITEM_BEH_NEVER_FLOATING)
     return FALSE;
@@ -1366,31 +1606,60 @@ go_dock_item_detach (GoDockItem *item, gint x, gint y)
 
   go_dock_item_set_floating (item, TRUE);
 
-  if (! GTK_WIDGET_REALIZED (item))
+  if (!GTK_WIDGET_REALIZED (item))
     return TRUE;
 
-  gtk_widget_size_request (GTK_WIDGET (item), &requisition);
+  g_assert (priv->child != NULL);
+  g_assert (priv->grip != NULL);
 
-  gdk_window_move_resize (item->float_window,
-                          x, y, requisition.width, requisition.height);
+  if (item->orientation == GTK_ORIENTATION_HORIZONTAL)
+     priv->float_window_box = gtk_vbox_new (FALSE, 0);
+  else
+     priv->float_window_box = gtk_hbox_new (FALSE, 0);
 
-  gdk_window_reparent (item->bin_window, item->float_window, 0, 0);
+   /*
 
-/*  gdk_window_set_hints (item->float_window, x, y, 0, 0, 0, 0, GDK_HINT_POS); */
+    <michael> the size allocate etc. stuff looked dubious to me
+    <michael> we shouldn't be overriding size_allocate really when
+              we re-parent the grip into the floating toolbar box
+    <michael> it should all just work in that case, since there's no
+              need to knobble the GTK_BIN stuff,
+    <arvind>  by not overriding, the grip is not allocated
+    <michael> hmm,
+    <michael> it should be a child of the container,
+    <michael> we should override,
+    <michael> but not do a signal connection for the float_window
 
-  gdk_window_show (item->float_window);
+   */
+
+  gtk_container_add (GTK_CONTAINER (item->_priv->float_window), priv->float_window_box);
+
+  widget = priv->grip; /* container_remove() will make priv->grip NULL, so we save it here */
+  g_object_ref (priv->grip);
+  gtk_container_remove (GTK_CONTAINER (item), priv->grip);
+  priv->grip = widget;
+  gtk_box_pack_start (GTK_BOX (priv->float_window_box), priv->grip, FALSE, FALSE, 0);
+  g_object_unref (priv->grip);
+
+  widget = priv->child;
+  g_object_ref (priv->child);
+  gtk_container_remove (GTK_CONTAINER (item), priv->child);
+  priv->child = widget;
+  gtk_box_pack_start (GTK_BOX (priv->float_window_box), priv->child, FALSE, FALSE, 0);
+  g_object_unref (priv->child);
+
+  gtk_window_move (GTK_WINDOW (item->_priv->float_window), x, y);
+  gtk_widget_show_all (GTK_WIDGET (item->_priv->float_window));
+
   item->float_window_mapped = TRUE;
-
-  allocation.x = allocation.y = 0;
-  allocation.width = requisition.width;
-  allocation.height = requisition.height;
-  gtk_widget_size_allocate (GTK_WIDGET (item), &allocation);
 
   gdk_window_hide (GTK_WIDGET (item)->window);
   gtk_widget_queue_draw (GTK_WIDGET (item));
 
-  gdk_window_set_transient_for(item->float_window,
-                               gdk_window_get_toplevel(GTK_WIDGET (item)->window));
+  gtk_window_set_transient_for (GTK_WINDOW (item->_priv->float_window),
+                                (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (item)))));
+
+  g_signal_emit (item, dock_item_signals [DOCK_DETACH], 0);
 
   return TRUE;
 }
@@ -1398,11 +1667,51 @@ go_dock_item_detach (GoDockItem *item, gint x, gint y)
 void
 go_dock_item_unfloat (GoDockItem *item)
 {
-  gdk_window_move_resize (GTK_WIDGET (item)->window, -1, -1, 0, 0);
+  GoDockItemPrivate *priv;
+  gboolean is_realized;
+  GtkWidget *widget;
 
-  gdk_window_hide (item->float_window);
+  priv = item->_priv;
 
-  gdk_window_reparent (item->bin_window, GTK_WIDGET (item)->window, 0, 0);
+  g_assert (item->float_window_mapped);
+  g_assert (priv->child != NULL);
+  g_assert (priv->grip != NULL);
+
+  is_realized = GTK_WIDGET_REALIZED (item);
+
+  /* Grip */
+  g_object_ref (priv->grip);
+  gtk_container_remove (GTK_CONTAINER (priv->float_window_box), priv->grip);
+
+  if (is_realized)
+    gtk_widget_set_parent_window (priv->grip, item->bin_window);
+
+  gtk_widget_set_parent (priv->grip, GTK_WIDGET (item));
+  g_object_unref (priv->grip);
+
+  /* Child */
+  widget = priv->child;
+  g_object_ref (widget);
+  g_assert (item->bin.child == NULL);
+  gtk_container_remove (GTK_CONTAINER (priv->float_window_box), widget);
+  priv->child = NULL;
+
+  if (is_realized)
+    gtk_widget_set_parent_window (widget, item->bin_window);
+
+  /* priv->child must be NULL at this point, or go_dock_item_add() barfs */
+  gtk_container_add (GTK_CONTAINER (item), widget);
+
+  g_assert (item->bin.child == widget);
+  g_assert (priv->child == widget);
+  g_object_unref (widget);
+
+  /* Window */
+
+  gtk_widget_destroy (priv->float_window_box);
+  priv->float_window_box = NULL;
+
+  gtk_widget_hide (GTK_WIDGET (item->_priv->float_window));
   gdk_window_show (GTK_WIDGET (item)->window);
 
   item->float_window_mapped = FALSE;
@@ -1418,9 +1727,17 @@ go_dock_item_attach (GoDockItem *item,
 {
   if (GTK_WIDGET (item)->parent != GTK_WIDGET (parent))
     {
+      GtkWidget *child = item->_priv->child;
+
       gdk_window_move_resize (GTK_WIDGET (item)->window, -1, -1, 0, 0);
-      gtk_widget_reparent (GTK_WIDGET (item), parent);
-      go_dock_item_unfloat (item);
+      g_object_ref (item);
+      gtk_container_remove (GTK_CONTAINER (GTK_WIDGET (item)->parent), GTK_WIDGET (item));
+      gtk_container_add (GTK_CONTAINER (parent), GTK_WIDGET (item));
+      g_object_unref (item);
+
+      if (item->is_floating)
+	go_dock_item_unfloat (item);
+
       go_dock_item_grab_pointer (item);
     }
 }
@@ -1430,8 +1747,7 @@ go_dock_item_drag_floating (GoDockItem *item, gint x, gint y)
 {
   if (item->is_floating)
     {
-      gdk_window_move (item->float_window, x, y);
-      gdk_window_raise (item->float_window);
+      gtk_window_move (GTK_WINDOW (item->_priv->float_window), x, y);
 
       item->float_x = x;
       item->float_y = y;
@@ -1465,7 +1781,7 @@ go_dock_item_get_floating_position (GoDockItem *item,
 					gint *x, gint *y)
 {
   if (GTK_WIDGET_REALIZED (item) && item->is_floating)
-    gdk_window_get_position (item->float_window, x, y);
+    gtk_window_get_position (GTK_WINDOW (item->_priv->float_window), x, y);
   else
     {
       *x = item->float_x;

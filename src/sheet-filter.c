@@ -544,8 +544,8 @@ filter_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vis
 		/* NOTE : far point is EXCLUDED so we add 1 */
 		foo_canvas_item_set (view,
 			"x",	x,
-			"y",	coords [1],
-			"width",  coords [3] - x,
+			"y",	coords [3] - h,
+			"width",  coords [2] - x,
 			"height", h + 1.,
 			NULL);
 
@@ -590,12 +590,9 @@ filter_field_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	g_signal_connect (view_widget,
 		"pressed",
 		G_CALLBACK (cb_filter_button_pressed), view_item);
-
-	/* Do not use the standard handler the combo is not editable */
-	/* gnm_pane_widget_register (so, view_widget, view_item); */
-
 	gtk_widget_show_all (view_widget);
-	return SHEET_OBJECT_VIEW (view_item);
+
+	return gnm_pane_object_register (so, view_item, FALSE);
 }
 
 static void

@@ -32,18 +32,15 @@ cb_item_update_bounds (SheetObject *so, FooCanvasItem *view)
 		foo_canvas_item_hide (view);
 }
 
-static GObject *
-sheet_object_item_new_view (SheetObject *so, SheetControl *sc, gpointer key)
+static SheetObjectView *
+sheet_object_item_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
-	GnmCanvas *gcanvas = ((GnmPane *)key)->gcanvas;
+	GnmCanvas *gcanvas = ((GnmPane *)container)->gcanvas;
 	FooCanvasItem *view = bonobo_client_site_new_item (
 		SHEET_OBJECT_BONOBO (so)->control_frame,
 		bonobo_ui_component_get_container (scg->wbcg->uic),
 		gcanvas->object_views);
-
-	scg_object_register (so, view);
-	gnm_pane_object_register (so, item, &cb_item_update_bounds);
-	return G_OBJECT (view);
+	return gnm_pane_object_register (so, item, &cb_item_update_bounds, TRUE);
 }
 
 static void

@@ -54,8 +54,8 @@ typedef struct _GoDock GoDock;
 typedef struct _GoDockPrivate GoDockPrivate;
 typedef struct _GoDockClass GoDockClass;
 
-#include "go-dock-band.h"
-#include "go-dock-layout.h"
+#include <goffice/gui-utils/go-dock-band.h>
+#include <goffice/gui-utils/go-dock-layout.h>
 
 struct _GoDock
 {

@@ -316,7 +316,7 @@ sheet_object_image_new_view (SheetObject *so, SheetObjectViewContainer *containe
 	if (placeholder)
 		g_object_set_data (G_OBJECT (item), "tile", placeholder);
 
-	return gnm_pane_object_register (so, item);
+	return gnm_pane_object_register (so, item, TRUE);
 }
 
 static gboolean

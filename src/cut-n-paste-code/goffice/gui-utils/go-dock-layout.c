@@ -27,13 +27,13 @@
   @NOTATION@
 */
 
-#include <goffice/goffice-config.h>
+#include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <string.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
 
-#include <goffice/gui-utils/go-dock-layout.h>
+#include "go-dock-layout.h"
 
 /* TODO: handle incorrect GO_DOCK_ITEM_BEH_EXCLUSIVE situations.  */
 

@@ -252,15 +252,6 @@ cell_comment_event (FooCanvasItem *view, GdkEvent *event, GnmPane *pane)
 	return TRUE;
 }
 
-static void
-cb_bounds_changed (SheetObject *so, FooCanvasItem *sov)
-{
-	double coords[4];
-	SheetControlGUI *scg = GNM_SIMPLE_CANVAS (sov->canvas)->scg;
-	scg_object_anchor_to_coords (scg, sheet_object_get_anchor (so), coords);
-	sheet_object_view_set_bounds (SHEET_OBJECT_VIEW (sov),
-		coords, so->flags & SHEET_OBJECT_IS_VISIBLE);
-}
 static SheetObjectView *
 cell_comment_new_view (SheetObject *so, SheetObjectViewContainer *container)
 {
@@ -273,9 +264,7 @@ cell_comment_new_view (SheetObject *so, SheetObjectViewContainer *container)
 	g_signal_connect (view,
 		"event",
 		G_CALLBACK (cell_comment_event), container);
-	g_signal_connect_object (so, "bounds-changed",
-		G_CALLBACK (cb_bounds_changed), view, 0);
-	return SHEET_OBJECT_VIEW (view);
+	return gnm_pane_object_register (so, view, FALSE);
 }
 
 static gboolean

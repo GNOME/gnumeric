@@ -1154,16 +1154,19 @@ cb_bounds_changed (SheetObject *so, FooCanvasItem *sov)
  * gnm_pane_object_register :
  * @so : A sheet object
  * @view   : A canvas item acting as a view for @so
+ * @selectable : Add handlers for selecting and editing the object
  *
  * Setup some standard callbacks for manipulating a view of a sheet object.
  **/
 SheetObjectView *
-gnm_pane_object_register (SheetObject *so, FooCanvasItem *view)
+gnm_pane_object_register (SheetObject *so, FooCanvasItem *view, gboolean selectable)
 {
-	g_signal_connect (view, "event",
-		G_CALLBACK (cb_sheet_object_canvas_event), so);
-	g_signal_connect (view, "destroy",
-		G_CALLBACK (cb_sheet_object_view_destroyed), so);
+	if (selectable) {
+		g_signal_connect (view, "event",
+			G_CALLBACK (cb_sheet_object_canvas_event), so);
+		g_signal_connect (view, "destroy",
+			G_CALLBACK (cb_sheet_object_view_destroyed), so);
+	}
 	g_signal_connect_object (so, "bounds-changed",
 		G_CALLBACK (cb_bounds_changed), view, 0);
 	return SHEET_OBJECT_VIEW (view);
@@ -1185,5 +1188,5 @@ gnm_pane_widget_register (SheetObject *so, GtkWidget *w, FooCanvasItem *view)
 	g_signal_connect (G_OBJECT (w),
 		"event",
 		G_CALLBACK (cb_sheet_object_widget_canvas_event), view);
-	return gnm_pane_object_register (so, view);
+	return gnm_pane_object_register (so, view, TRUE);
 }

@@ -1,5 +1,11 @@
 2004-10-16  Jody Goldberg <jody@gnome.org>
 
+	* src/gnumeric-pane.c (gnm_pane_object_register) : Take a 'selectable'
+	  argument to enable/disable the view selection mechanism.  This
+	  routine is still useful for setting up bounds handlers.
+
+2004-10-16  Jody Goldberg <jody@gnome.org>
+
 	* src/print-info.c : delay the creation of a GnomePrintConfig until it
 	  is really necessary.
 
