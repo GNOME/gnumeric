@@ -37,7 +37,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 static GdaClient* connection_pool = NULL;
 
 static Value *
-display_recordset (GdaDataModel *recset)
+display_recordset (GdaDataModel *recset, FunctionEvalInfo *ei)
 {
 	Value* array = NULL;
 	gint   col;
@@ -136,7 +136,7 @@ gnumeric_execSQL (FunctionEvalInfo *ei, Value **args)
 		if (!GDA_IS_DATA_MODEL (recset))
 			ret = value_new_error (ei->pos, _("Error: no recordsets were returned"));
 		else
-			ret = display_recordset (recset);
+			ret = display_recordset (recset, ei);
 
 		g_list_foreach (recset_list, (GFunc) g_object_unref, NULL);
 		g_list_free (recset_list);
