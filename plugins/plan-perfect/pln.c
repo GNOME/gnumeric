@@ -44,7 +44,7 @@ static char const *formula1[] = {
 	"FALSE(",
 	"AND(",
 	"OR(",
-	"AVE(",			/* 10 */
+	"AVERAGE(",			/* 10 */
 	"COUNT(",
 	"MIN(",
 	"MAX(",
@@ -110,7 +110,7 @@ static const char* formula2[] =
 	"UPPER(",
 	"LOWER(",
 	"PROPER(",
-	"CHAR(",			/* 50 */
+	"CHAR(",		/* 50 */
 	"CODE(",
 	"TRIM(",
 	"REPEAT(",
@@ -119,7 +119,7 @@ static const char* formula2[] =
 	"DDB(",
 	"SLN(",
 	"SYD(",
-	"RATE(",			/* 60 */
+	"RATE(",		/* 60 */
 	"STATUS(",
 	"FOREACH(",
 	"DEGREES(",
@@ -333,8 +333,11 @@ pln_convert_expr (ParsePos const *pp, guint8 const *ch)
 	int i, len, code;
 
 	/* Expressions are stored INFIX so it is easier to just generate text */
-
 	i = GSF_LE_GET_GUINT16 (ch); ch += 2;
+#if DEBUG_EXPR
+	puts (cell_pos_name (&pp->eval));
+	gsf_mem_dump (ch, i);
+#endif
 	for (end = ch + i ; ch < end ; ) {
 		code = *ch++;
 		switch (code) {
@@ -429,7 +432,7 @@ pln_convert_expr (ParsePos const *pp, guint8 const *ch)
 		case 30:	/* Floating point constant */
 			len = ch [8];  /* they store the ascii ?? will we be screwed by locale ? */
 			g_string_append_len (expr, ch+9, len);
-			ch += 2 + len;
+			ch += 9 + len;
 			break;
 
 		case 31:	/* Reference to passed arguement in user defined function */
