@@ -77,10 +77,8 @@
 #include <goffice/utils/go-file.h>
 
 #include <gsf/gsf-impl-utils.h>
-#ifdef WITH_GNOME
-#include <libgnomevfs/gnome-vfs-uri.h>
-#endif
-
+#include <gsf/gsf-input-textline.h>
+#include <gsf/gsf-input-memory.h>
 
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkseparatormenuitem.h>
@@ -2015,18 +2013,25 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 {
 	gchar *target_type = gdk_atom_name (selection_data->target);
 
-#if WITH_GNOME
 	if (!strcmp (target_type, "text/uri-list")) { /* filenames from nautilus */
 		WorkbookView *wbv;
+		guint8 *line;
+		GsfInputTextline *linereader;
 		IOContext *ioc = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbcg));
-		GList *ptr, *uris = gnome_vfs_uri_list_parse (selection_data->data);
-		for (ptr = uris; ptr != NULL; ptr = ptr->next) {
+		GsfInput* mem = gsf_input_memory_new (
+			selection_data->data, selection_data->length, FALSE);
+		linereader = (GsfInputTextline *) gsf_input_textline_new (mem);
+		g_object_unref (mem);
+		while (NULL != (line = gsf_input_textline_ascii_gets (linereader))) {
 			GError *err = NULL;
-			gchar *uri_str = gnome_vfs_uri_to_string (
-				(const GnomeVFSURI*)(ptr->data),
-				GNOME_VFS_URI_HIDE_NONE);
-			GsfInput *input = go_file_open (uri_str, &err);
-		
+			gchar *uri_str;
+			GsfInput *input;
+
+			if (line[0] == '#') /* Comment */
+				continue;
+
+			uri_str = g_strstrip (line);
+			input = go_file_open (uri_str, &err);
 			if (input != NULL) {
 				wbv = wb_view_new_from_input (input, NULL, ioc, NULL);
 				if (wbv != NULL)
@@ -2041,12 +2046,10 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 				gnumeric_io_error_display (ioc);
 				gnumeric_io_error_clear (ioc);
 			}
-			g_free (uri_str);
 		}
-		gnome_vfs_uri_list_free (uris);
+		g_object_unref (linereader);
 		g_object_unref (ioc);
 	} else
-#endif
 
 	/* The user wants to reorder the sheets but hasn't dropped
 	 * the sheet onto a label. Never mind. We figure out

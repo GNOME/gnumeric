@@ -1,3 +1,8 @@
+2004-08-22  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-gui.c (cb_wbcg_drag_data_received): Remove
+	gnome-vfs dependency.
+
 2004-08-14  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-object-image.c (sheet_object_image_write_xml_sax) : add a
