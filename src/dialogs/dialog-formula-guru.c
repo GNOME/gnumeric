@@ -397,11 +397,8 @@ cb_formula_guru_clicked (GtkWidget *button, FormulaGuruState *state)
 		return;
 	}
 
-	/* Detach BEFORE we finish editing */
-	wbcg_edit_detach_guru (state->wbcg);
+	/* This will call destroy if things are ok */
 	wbcg_edit_finish (state->wbcg, button == state->ok_button);
-
-	gtk_widget_destroy (state->dialog);
 }
 
 static void
@@ -455,8 +452,6 @@ formula_guru_arg_new (char * const name,
 			  GTK_WIDGET (as->entry),
 			  1, 2, row, row+1,
 			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
-	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_EDITABLE (as->entry));
 
 	if (as->is_optional)
 		label = g_strconcat ("(", txt, ")", NULL);
@@ -757,9 +752,6 @@ dialog_formula_guru (WorkbookControlGUI *wbcg)
 		prefix = g_strndup (full_str, sub_str - full_str);
 		suffix = g_strdup (sub_str + strlen (func_str));
 		g_free (func_str);
-
-		puts (prefix);
-		puts (suffix);
 	}
 
 	state = g_new0 (FormulaGuruState, 1);

@@ -185,16 +185,20 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 
 	wb_control_gui_focus_cur_sheet (wbcg);
 
-	/* We may have a guru up even if we are not editing */
-	if (wbcg->edit_line.guru != NULL)
-		gtk_widget_destroy (wbcg->edit_line.guru);
-
 	/* Remove the range selection cursor if it exists */
 	if (NULL != wbcg->rangesel)
 		scg_rangesel_stop (wbcg->rangesel, !accept);
 
-	if (!wbcg->editing)
+	if (!wbcg->editing) {
+		/* We may have a guru up even if we are not editing. remove it.
+		 * Do NOT remove until later it if we are editing, it is possible
+		 * that we may want to continue editing.
+		 */
+		if (wbcg->edit_line.guru != NULL)
+			gtk_widget_destroy (wbcg->edit_line.guru);
+
 		return TRUE;
+	}
 
 	g_return_val_if_fail (IS_SHEET (wbcg->editing_sheet), TRUE);
 
@@ -285,6 +289,8 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 	wbcg->editing_sheet = NULL;
 	wbcg->editing_cell = NULL;
 
+	if (wbcg->edit_line.guru != NULL)
+		gtk_widget_destroy (wbcg->edit_line.guru);
 	workbook_edit_set_sensitive (wbcg, FALSE, TRUE);
 
 	/* restore focus to original sheet in case things were being selected
