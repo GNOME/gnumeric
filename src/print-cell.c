@@ -584,17 +584,25 @@ print_cell_OLD (GnmCell const *cell, GnmStyle const *mstyle,
 	gnome_print_grestore (context);
 }
 
+gboolean
+using_old_printing_code (void)
+{
+#ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
+	static int use_old = -1;
+	if (use_old == -1)
+		use_old = !!g_getenv ("USE_OLD_PRINT");
+	return use_old;
+#endif
+	return TRUE;
+}
+
 static void
 print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 	    GnomePrintContext *context, PangoContext *pcontext,
 	    double x1, double y1, double width, double height, double h_center)
 {
 #ifdef HAVE_GNOME_PRINT_PANGO_CREATE_LAYOUT
-	static int use_new = -1;
-
-	if (use_new == -1)
-		use_new = !g_getenv ("USE_OLD_PRINT");
-	if (use_new) {
+	if (!using_old_printing_code ()) {
 		print_cell_NEW (cell, mstyle, context, pcontext,
 				x1, y1, width, height, h_center);
 		return;

@@ -1,3 +1,10 @@
+Gnumeric 1.4.3
+
+Morten:
+	* When using the new printing code, don't bother to generate
+	  gnome print fonts for the old code.
+
+--------------------------------------------------------------------------
 Gnumeric 1.4.2
 
 Caolan McNamara:

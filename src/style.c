@@ -19,6 +19,7 @@
 #include "sheet.h"
 #include "cell.h"
 #include "value.h"
+#include "print-cell.h"
 
 #include "gui-util.h"
 #include "mathfunc.h"
@@ -185,8 +186,12 @@ style_font_new_simple (PangoContext *context,
 			}
 		}
 
-		font->gnome_print_font = gnm_font_find_closest_from_weight_slant (font_name,
-			bold ? GNOME_FONT_BOLD : GNOME_FONT_REGULAR, italic, size_pts);
+		font->gnome_print_font = using_old_printing_code
+			? gnm_font_find_closest_from_weight_slant
+			        (font_name,
+				 bold ? GNOME_FONT_BOLD : GNOME_FONT_REGULAR,
+				 italic, size_pts)
+			: NULL;
 
 		font->pango.font_descr = pango_font_describe (font->pango.font);
 
