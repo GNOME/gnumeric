@@ -1515,7 +1515,7 @@ cmd_format (WorkbookControl *wbc, Sheet *sheet,
 	if (opt_translated_name == NULL) {
 		GString *names = range_list_to_string (me->selection);
 		
-		me->parent.cmd_descriptor = g_strdup_printf ("Changing format of %s", names->str);
+		me->parent.cmd_descriptor = g_strdup_printf (_("Changing format of %s"), names->str);
 		g_string_free (names, TRUE);
 	} else
 		me->parent.cmd_descriptor = g_strdup (opt_translated_name);
