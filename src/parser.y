@@ -21,7 +21,7 @@
 #include "expr-name.h"
 #include "sheet.h"
 #include "application.h"
-#include "utils.h"
+#include "gutils.h"
 #include "auto-format.h"
 
 /* ------------------------------------------------------------------------- */

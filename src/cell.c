@@ -71,6 +71,31 @@ cell_cleanout (Cell *cell)
 	}
 }
 
+/*
+ * cell_set_rendered_text
+ * @cell:          the cell we will modify
+ * @rendered_text: the text we will display
+ *
+ * This routine sets the rendered text field of the cell
+ * it recomputes the bounding box for the cell as well
+ */
+static void
+cell_set_rendered_text (Cell *cell, const char *rendered_text)
+{
+	String *oldtext;
+
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (rendered_text != NULL);
+
+	cell_modified (cell);
+
+	oldtext = cell->text;
+	cell->text = string_get (rendered_text);
+	if (oldtext)
+		string_unref (oldtext);
+
+	cell_calc_dimensions (cell, TRUE);
+}
 
 void
 cell_set_formula (Cell *cell, const char *text)
@@ -333,32 +358,6 @@ cell_set_comment (Cell *cell, const char *str)
 
 	if (cell->sheet)
 		cell_comment_realize (cell);
-}
-
-/*
- * cell_set_rendered_text
- * @cell:          the cell we will modify
- * @rendered_text: the text we will display
- *
- * This routine sets the rendered text field of the cell
- * it recomputes the bounding box for the cell as well
- */
-static void
-cell_set_rendered_text (Cell *cell, const char *rendered_text)
-{
-	String *oldtext;
-
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (rendered_text != NULL);
-
-	cell_modified (cell);
-
-	oldtext = cell->text;
-	cell->text = string_get (rendered_text);
-	if (oldtext)
-		string_unref (oldtext);
-
-	cell_calc_dimensions (cell, TRUE);
 }
 
 char *
