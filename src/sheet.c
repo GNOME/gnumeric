@@ -1374,8 +1374,8 @@ sheet_redraw_cell_region (Sheet const *sheet,
 
 		sheet_view_redraw_cell_region (
 			sheet_view,
-			start_col, start_row,
-			end_col, end_row);
+			min_col, start_row,
+			max_col, end_row);
 	}
 }
 

@@ -1,3 +1,9 @@
+2000-04-21  Chema Celorio  <chema@celorio.com>
+
+	* src/sheet.c (sheet_redraw_cell_region): small typo
+	that was causing a MCSSRB.
+	( multiple cell span string redraw bug)
+
 2000-04-21  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (autosum_cmd) : Add a quick and simple auto-sum
