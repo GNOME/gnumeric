@@ -486,8 +486,8 @@ static char *help_atan2 = {
 static Value *
 gnumeric_atan2 (FunctionEvalInfo *ei, Value **args)
 {
-	return value_new_float (atan2 (value_get_as_float (args [0]),
-							   value_get_as_float (args [1])));
+	return value_new_float (atan2 (value_get_as_float (args [1]),
+				       value_get_as_float (args [0])));
 }
 
 static char *help_ceil = {
