@@ -1893,6 +1893,7 @@ sheet_destroy (Sheet *sheet)
 	sheet_selection_free (sheet);
 
 	g_free (sheet->name);
+	g_free (sheet->solver_parameters.input_entry_str);
 
 	for (l = sheet->sheet_views; l; l = l->next){
 		SheetView *sheet_view = l->data;
