@@ -193,10 +193,12 @@ history_menu_remove_items (Workbook *wb, GList *name_list)
 	gchar *label, *path;
 
 #ifndef ENABLE_BONOBO
-	label = history_item_label ((gchar *)name_list->data, accel_number);
-	path = g_strconcat (_("File/"), label, NULL);
-	gnome_app_remove_menus (GNOME_APP (wb->toplevel), path,
-				g_list_length (name_list));
+	if (name_list) {
+		label = history_item_label ((gchar *)name_list->data, accel_number);
+		path = g_strconcat (_("File/"), label, NULL);
+		gnome_app_remove_menus (GNOME_APP (wb->toplevel), path,
+					g_list_length (name_list));
+	}
 #else
 	for (l = name_list; l; l = l->next) {
 		label = history_item_label ((gchar *)l->data, accel_number++);
