@@ -38,7 +38,7 @@ print_hf_new (const char *left_side_format,
 	PrintHF *format;
 
 	format = g_new0 (PrintHF, 1);
-	
+
 	if (left_side_format)
 		format->left_format = g_strdup (left_side_format);
 
@@ -56,28 +56,28 @@ print_hf_same (const PrintHF *a, const PrintHF *b)
 {
 	if (strcmp (b->left_format, a->left_format))
 		return FALSE;
-	
-	if (strcmp (b->middle_format, a->middle_format)) 
+
+	if (strcmp (b->middle_format, a->middle_format))
 		return FALSE;
-	
+
 	if (strcmp (b->right_format, a->right_format))
 		return FALSE;
 
 	return TRUE;
 }
-		
+
 PrintHF *
 print_hf_register (PrintHF *hf)
 {
 	GList *l;
 	PrintHF *newi;
-	
+
 	g_return_val_if_fail (hf != NULL, NULL);
 
 	for (l = hf_formats; l; l = l->next)
 		if (print_hf_same (hf, l->data))
 			return l->data;
-	
+
 	newi = print_hf_copy (hf);
 	hf_formats = g_list_append (hf_formats, newi);
 
@@ -116,7 +116,7 @@ print_info_free (PrintInformation *pi)
 
 	print_hf_free (pi->header);
 	print_hf_free (pi->footer);
-	
+
 	g_free (pi);
 }
 
@@ -139,7 +139,7 @@ load_margin (const char *str, PrintUnit *p, char *def)
 	char *pts_units = g_strconcat (str, "_units=centimeter", NULL);
 	char *pts = g_strconcat (str, "=", def, NULL);
 	char *s;
-	
+
 	p->points = gnome_config_get_float (pts);
 	s = gnome_config_get_string (pts_units);
 	p->desired_display = unit_name_to_unit (s);
@@ -174,7 +174,7 @@ load_range (const char *name)
 {
 	static Value *v;
 	char *str;
-		
+
 	str = gnome_config_get_string (name);
 	if (!str)
 		return NULL;
@@ -227,9 +227,6 @@ load_formats (void)
 	gnome_config_pop_prefix ();
 }
 
-#define CENTIMETER_IN_POINTS      "28.346457"
-#define HALF_CENTIMETER_IN_POINTS "14.1732285"
-
 /**
  * print_info_new:
  *
@@ -241,11 +238,11 @@ print_info_new (void)
 	PrintInformation *pi;
 	Value *cellrange;
 	char *s;
-	
+
 	pi = g_new0 (PrintInformation, 1);
 
 	gnome_config_push_prefix ("/Gnumeric/Print/");
-	
+
 	/* Orientation */
 	if (gnome_config_get_bool ("vertical_print=false"))
 		pi->orientation = PRINT_ORIENT_VERTICAL;
@@ -262,12 +259,16 @@ print_info_new (void)
 	pi->scaling.dim.rows = gnome_config_get_int ("scale_height=1");
 
 	/* Margins */
-	load_margin ("margin_top", &pi->margins.top,       CENTIMETER_IN_POINTS);
-	load_margin ("margin_bottom", &pi->margins.bottom, CENTIMETER_IN_POINTS);
-	load_margin ("margin_left", &pi->margins.left,     CENTIMETER_IN_POINTS);
-	load_margin ("margin_right", &pi->margins.right,   CENTIMETER_IN_POINTS);
-	load_margin ("margin_header", &pi->margins.header, HALF_CENTIMETER_IN_POINTS);
-	load_margin ("margin_footer", &pi->margins.footer, HALF_CENTIMETER_IN_POINTS);
+	s = g_strdup_printf ("%.13g", unit_convert (1.0, UNIT_CENTIMETER, UNIT_POINTS));
+	load_margin ("margin_top", &pi->margins.top,       s);
+	load_margin ("margin_bottom", &pi->margins.bottom, s);
+	load_margin ("margin_left", &pi->margins.left,     s);
+	load_margin ("margin_right", &pi->margins.right,   s);
+	g_free (s);
+	s = g_strdup_printf ("%.13g", unit_convert (0.5, UNIT_CENTIMETER, UNIT_POINTS));
+	load_margin ("margin_header", &pi->margins.header, s);
+	load_margin ("margin_footer", &pi->margins.footer, s);
+	g_free (s);
 
 	pi->header = load_hf ("header", "", _("&[TAB]"), "");
 	pi->footer = load_hf ("footer", "", _("Page &[PAGE]"), "");
@@ -318,7 +319,7 @@ static void
 save_margin (const char *prefix, PrintUnit *p)
 {
 	char *x = g_strconcat (prefix, "_units", NULL);
-	
+
 	gnome_config_set_float (prefix, p->points);
 	gnome_config_set_string (x, unit_name_get_name (p->desired_display));
 	g_free (x);
@@ -347,7 +348,7 @@ save_hf (const char *type, const char *a, const char *b, const char *c)
 	gnome_config_set_string (code_a, a);
 	gnome_config_set_string (code_b, b);
 	gnome_config_set_string (code_c, c);
-	
+
 	g_free (code_a);
 	g_free (code_b);
 	g_free (code_c);
@@ -362,7 +363,7 @@ save_formats (void)
 {
 	int format_count, i;
 	GList *l;
-	
+
 	gnome_config_push_prefix ("/Gnumeric/Headers_and_Footers/");
 
 	format_count = g_list_length (hf_formats);
@@ -423,7 +424,7 @@ print_info_save (PrintInformation *pi)
 	gnome_config_pop_prefix ();
 
 	save_formats ();
-	
+
 	gnome_config_sync ();
 }
 
@@ -475,7 +476,7 @@ unit_convert (double value, UnitName source, UnitName target)
 
 	return (units [source].factor * value) / units [target].factor;
 }
- 
+
 UnitName
 unit_name_to_unit (const char *s)
 {
@@ -515,10 +516,10 @@ render_value_with_format (GString *target, const char *number_format, HFRenderIn
 {
 	StyleFormat *format;
 	char *text;
-	
+
 	/* TODO : Check this assumption.  Is it a localized format ?? */
 	format = style_format_new_XL (number_format, FALSE);
-	
+
 	text = format_value (format, info->date_time, NULL, NULL);
 
 	/* Just in case someone tries to format it as text */
@@ -538,7 +539,7 @@ render_date (GString *target, HFRenderInfo *info, const char *args)
 		date_format = args;
 	else
 		date_format = "dd-mmm-yyyy";
-	
+
 	render_value_with_format (target, date_format, info);
 }
 
@@ -575,7 +576,7 @@ render_opcode (GString *target, const char *opcode, HFRenderInfo *info, HFRender
 {
 	char *args;
 	int i;
-	
+
 	for (i = 0; render_ops [i].name; i++){
 		if (render_type == HF_RENDER_TO_ENGLISH){
 			if (g_strcasecmp (_(render_ops [i].name), opcode) == 0){
@@ -599,12 +600,12 @@ render_opcode (GString *target, const char *opcode, HFRenderInfo *info, HFRender
 			*args = 0;
 			args++;
 		}
-		
+
 		if ((g_strcasecmp (render_ops [i].name, opcode) == 0) ||
 		    (g_strcasecmp (_(render_ops [i].name), opcode) == 0)){
 			(*render_ops [i].render)(target, info, args);
 		}
-		    
+
 	}
 }
 
@@ -614,9 +615,9 @@ hf_format_render (const char *format, HFRenderInfo *info, HFRenderType render_ty
 	GString *result;
 	const char *p;
 	char *str;
-	
+
 	g_return_val_if_fail (format != NULL, NULL);
-	
+
 	result = g_string_new ("");
 	for (p = format; *p; p++){
 		if (*p == '&' && *(p+1) == '['){
@@ -642,10 +643,10 @@ hf_format_render (const char *format, HFRenderInfo *info, HFRenderType render_ty
 
 	str = result->str;
 	g_string_free (result, FALSE);
-	
+
 	return str;
 }
-		  
+
 HFRenderInfo *
 hf_render_info_new (void)
 {
@@ -693,7 +694,7 @@ print_info_copy (PrintInformation *src_pi)
 	PrintInformation *dst_pi;
 
 	dst_pi = print_info_new();
-	
+
 	dst_pi->orientation        = src_pi->orientation;
 
 	/* Print Scaling */

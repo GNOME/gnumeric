@@ -1,3 +1,11 @@
+2000-09-27  Morten Welinder  <terra@diku.dk>
+
+	* dialog-printer-setup.c (add_unit): Avoid double translation of
+ 	the unit name.
+	(do_convert): Don't corrupt the values.  Someone needs to check
+ 	that what we do to the gtk_adjustment -- here and elsewhere -- is
+ 	right.
+
 2000-09-24    <michael@thomas.home>
 
 	* dialog-graph-guru.c (cb_graph_guru_clicked): update to item container.

@@ -76,7 +76,7 @@ typedef struct {
 	} margins;
 
 	GList *conversion_listeners;
-	
+
 	const GnomePaper *paper;
 	const GnomePaper *current_paper;
 
@@ -131,7 +131,7 @@ spin_button_set_bound (GtkSpinButton *spin, double space_to_grow,
 	g_return_val_if_fail (GTK_IS_ADJUSTMENT (adjustment), 1); /* Ditto */
 
 	space_to_grow = unit_convert (space_to_grow, space_unit, spin_unit);
-	
+
 	if (space_to_grow + EPSILON < 0) {
 		double shrink = MIN (-space_to_grow, adjustment->value);
 
@@ -144,7 +144,7 @@ spin_button_set_bound (GtkSpinButton *spin, double space_to_grow,
 		adjustment->upper = adjustment->value + space_to_grow;
 		gtk_adjustment_changed (adjustment);
 	}
-	
+
 	return unit_convert (space_to_grow, spin_unit, space_unit);
 }
 
@@ -210,7 +210,7 @@ static void set_horizontal_bounds (dialog_print_info_t *dpi,
 						 printable_width,
 						 unit,
 						 dpi->margins.left.unit);
-	
+
 	if (margin_fixed != MARGIN_RIGHT)
 		printable_width
 			= spin_button_set_bound (dpi->margins.right.spin,
@@ -229,7 +229,7 @@ static void set_horizontal_bounds (dialog_print_info_t *dpi,
  * If margin_fixed is one of those margins, it kept unchanged. This is to
  * avoid the possibility of an endless loop.
  */
-static void set_vertical_bounds (dialog_print_info_t *dpi, 
+static void set_vertical_bounds (dialog_print_info_t *dpi,
 				 MarginOrientation margin_fixed,
 				 UnitName unit)
 {
@@ -241,21 +241,21 @@ static void set_vertical_bounds (dialog_print_info_t *dpi,
 						 printable_height,
 						 unit,
 						 dpi->margins.top.unit);
-	
+
 	if (margin_fixed != MARGIN_BOTTOM)
 		printable_height
 			= spin_button_set_bound (dpi->margins.bottom.spin,
 						 printable_height,
 						 unit,
 						 dpi->margins.bottom.unit);
-	
-	if (margin_fixed != MARGIN_HEADER)	
+
+	if (margin_fixed != MARGIN_HEADER)
 		printable_height
 			= spin_button_set_bound (dpi->margins.header.spin,
 						 printable_height,
 						 unit,
 						 dpi->margins.header.unit);
-	
+
 	if (margin_fixed != MARGIN_FOOTER)
 		printable_height
 			= spin_button_set_bound (dpi->margins.footer.spin,
@@ -398,7 +398,7 @@ create_margin (dialog_print_info_t *dpi,
 	uinfo->bound_y1 = y1;
 	uinfo->bound_x2 = x2;
 	uinfo->bound_y2 = y2;
-	
+
 	draw_margin (uinfo, dpi);
 }
 
@@ -546,11 +546,14 @@ spin_button_adapt_to_unit (GtkSpinButton *spin, UnitName new_unit)
 static void
 do_convert (UnitInfo *target, UnitName new_unit)
 {
+	double new_value;
+
 	if (target->unit == new_unit)
 		return;
-	
+	new_value = unit_convert (target->value, target->unit, new_unit);
+
 	spin_button_adapt_to_unit (target->spin, new_unit);
-	target->value = unit_convert (target->value, target->unit, new_unit);
+	target->adj->value = target->value = new_value;
 	target->unit = new_unit;
 
 	gtk_spin_button_set_value (target->spin, target->value);
@@ -599,7 +602,7 @@ add_unit (GtkWidget *menu, int i, dialog_print_info_t *dpi,
 {
 	GtkWidget *item;
 
-	item = gtk_menu_item_new_with_label (_(unit_name_get_short_name (i)));
+	item = gtk_menu_item_new_with_label (unit_name_get_short_name (i));
 	gtk_widget_show (item);
 	gtk_menu_append (GTK_MENU (menu), item);
 
@@ -608,14 +611,14 @@ add_unit (GtkWidget *menu, int i, dialog_print_info_t *dpi,
 	gtk_signal_connect (
 		GTK_OBJECT (item), "activate",
 		GTK_SIGNAL_FUNC (listeners_convert), (gpointer) convert);
-
 }
+
 
 static void
 unit_changed (GtkSpinButton *spin_button, UnitInfo_cbdata *data)
 {
 	data->target->value = data->target->adj->value;
-	
+
 	switch (data->target->orientation) {
 	case MARGIN_LEFT:
 	case MARGIN_RIGHT:
@@ -628,7 +631,7 @@ unit_changed (GtkSpinButton *spin_button, UnitInfo_cbdata *data)
 				     data->target->orientation,
 				     data->target->unit);
 	}
-	
+
 	/* Adjust the display to the current values */
 	draw_margin (data->target, data->dpi);
 }
@@ -659,7 +662,7 @@ unit_editor_configure (UnitInfo *target, dialog_print_info_t *dpi,
 {
 	GtkSpinButton *spin;
 	UnitInfo_cbdata *cbdata;
-	
+
 	spin = GTK_SPIN_BUTTON (glade_xml_get_widget (dpi->gui, spin_name));
 
 	target->unit = unit;
@@ -712,12 +715,12 @@ do_setup_margin (dialog_print_info_t *dpi)
 	GtkBox *container;
 	PrintMargins *pm;
 	UnitName displayed_unit;
-	
+
 	g_return_if_fail (dpi && dpi->pi);
 
 	pm = &dpi->pi->margins;
 	displayed_unit = pm->top.desired_display;
-	
+
 	dpi->preview.canvas = gnome_canvas_new ();
 	gnome_canvas_set_scroll_region (
 		GNOME_CANVAS (dpi->preview.canvas),
@@ -735,7 +738,7 @@ do_setup_margin (dialog_print_info_t *dpi)
 	add_unit (menu, UNIT_MILLIMETER, dpi, convert_to_mm);
 	add_unit (menu, UNIT_CENTIMETER, dpi, convert_to_cm);
 	add_unit (menu, UNIT_INCH, dpi, convert_to_in);
-	
+
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (option_menu), menu);
 	gtk_option_menu_set_history (GTK_OPTION_MENU (option_menu),
 				     displayed_unit);
@@ -1042,7 +1045,7 @@ do_setup_page_info (dialog_print_info_t *dpi)
 	comments_combo = GTK_COMBO (glade_xml_get_widget (dpi->gui,
 							  "comments-combo"));
 	gnumeric_combo_enters (GTK_WINDOW (dpi->dialog), comments_combo);
-		
+
 	if (dpi->pi->repeat_top.use){
 		char *s;
 
@@ -1119,13 +1122,13 @@ do_setup_page (dialog_print_info_t *dpi)
 		GTK_SPIN_BUTTON (scale_percent_spin), pi->scaling.percentage);
 	gnome_dialog_editable_enters (GNOME_DIALOG (dpi->dialog),
 				      GTK_EDITABLE (scale_percent_spin));
-		
+
 	scale_width_spin = glade_xml_get_widget (gui, "scale-width-spin");
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (scale_width_spin), pi->scaling.dim.cols);
 	gnome_dialog_editable_enters (GNOME_DIALOG (dpi->dialog),
 				      GTK_EDITABLE (scale_width_spin));
-	
+
 	scale_height_spin = glade_xml_get_widget (gui, "scale-height-spin");
 	gtk_spin_button_set_value (
 		GTK_SPIN_BUTTON (scale_height_spin), pi->scaling.dim.rows);
@@ -1225,7 +1228,7 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 #else
 	{
 		GtkWidget *w;
-		
+
 		w = glade_xml_get_widget (dpi->gui, "print");
 		gtk_signal_connect (GTK_OBJECT (w), "clicked",
 				    GTK_SIGNAL_FUNC (do_print_cb), dpi);
@@ -1240,8 +1243,8 @@ do_setup_main_dialog (dialog_print_info_t *dpi)
 		w = glade_xml_get_widget (dpi->gui, "options");
 		gtk_widget_hide (w);
 	}
-		
-		
+
+
 #endif
 }
 
@@ -1337,7 +1340,7 @@ do_fetch_margins (dialog_print_info_t *dpi)
 
 	m->header.points += m->top.points;
 	m->footer.points += m->bottom.points;
-	
+
 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (dpi->gui, "center-horizontal"));
 	dpi->pi->center_horizontally = t->active;
 
@@ -1361,7 +1364,7 @@ do_fetch_page_info (dialog_print_info_t *dpi)
 	GtkToggleButton *t;
 	Value *top_range, *left_range;
 	GtkEntry *entry_top, *entry_left;
-	
+
 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (dpi->gui, "check-print-divisions"));
 	dpi->pi->print_line_divisions = t->active;
 

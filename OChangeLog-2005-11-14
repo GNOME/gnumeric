@@ -2,6 +2,8 @@
 
 	* src/print-info.c: Use constant expression to make factors easier
  	to understand.  Constify.  Have the compiler check UNIT_LAST.
+	(print_info_new): Compute margins from unit lengths instead of
+ 	storing "magic" numbers.
 
 2000-09-27  Morten Welinder  <terra@diku.dk>
 
@@ -16,7 +18,7 @@
 	* src/number-match.c (format_match_init) : Call the currency_date init
 	  routine from here.  It must be done BEFORE the regexps are generated.
 	(format_match_finish) : Shut the currency_date routines down from here.
-	  for symetry.
+	  for symmetry.
 
 2000-09-25  Morten Welinder  <terra@diku.dk>
 
