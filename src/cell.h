@@ -20,9 +20,16 @@ typedef struct {
 #define COL_INTERNAL_WIDTH(col) ((col)->pixels - ((col)->margin_b + (col)->margin_a))
 #define ROW_INTERNAL_HEIGHT(row) ((row)->pixels - ((row)->margin_b + (row)->margin_a))
 
-#define CELL_ERROR       1
-#define CELL_HAS_COMMENT 2
-#define CELL_FORMAT_SET  4
+/* Cell has a computation error */
+#define CELL_ERROR             1
+
+/* Cell container a comment */
+#define CELL_HAS_COMMENT       2
+
+#define CELL_FORMAT_SET        4
+
+/* Cell has been queued for recalc */
+#define CELL_QUEUED_FOR_RECALC 8
 
 /**
  * CellComment:

@@ -12,6 +12,7 @@
 #include "gnumeric-sheet.h"
 #include "dialogs.h"
 #include "sheet-object.h"
+#include "sheet-object-container.h"
 #include "cursors.h"
 
 /* Pulls the GnumericSheet from a SheetView */

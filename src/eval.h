@@ -45,6 +45,8 @@ void cell_queue_recalc           (Cell *cell);
 
 void cell_queue_recalc_list      (GList *list);
 
+void cell_unqueue_from_recalc    (Cell *cell);
+
 /*
  * Evaluate a cell
  */

@@ -371,6 +371,12 @@ cell_get_dependencies (Sheet *sheet, int col, int row)
 	return closure.list;
 }
 
+/*
+ * cell_queue_recalc:
+ * @cell: the cell that contains the formula that must be recomputed
+ *
+ * Queues the cell @cell for recalculation.
+ */
 void
 cell_queue_recalc (Cell *cell)
 {
@@ -380,6 +386,30 @@ cell_queue_recalc (Cell *cell)
 	
 	wb = ((Sheet *)cell->sheet)->workbook;
 	wb->eval_queue = g_list_prepend (wb->eval_queue, cell);
+	cell->flags |= CELL_QUEUED_FOR_RECALC;
+}
+
+/*
+ * cell_unqueue_from_recalc:
+ * @cell: the cell to remove from the recomputation queue
+ *
+ * Removes a cell that has been previously added to the recomputation
+ * queue.  Used internally when a cell that was queued no longer contains
+ * a formula.
+ */
+void
+cell_unqueue_from_recalc (Cell *cell)
+{
+	Workbook *wb;
+	
+	g_return_if_fail (cell != NULL);
+
+	if (!(cell->flags & CELL_QUEUED_FOR_RECALC))
+		return;
+
+	wb = ((Sheet *)(cell->sheet))->workbook;
+	wb->eval_queue = g_list_remove (wb->eval_queue, cell);
+	cell->flags &= ~CELL_QUEUED_FOR_RECALC;
 }
 
 void
@@ -407,6 +437,7 @@ pick_next_cell_from_queue (Workbook *wb)
 	
 	cell = wb->eval_queue->data;
 	wb->eval_queue = g_list_remove (wb->eval_queue, cell);
+	cell->flags &= ~CELL_QUEUED_FOR_RECALC;
 	return cell;
 }
 
@@ -475,5 +506,4 @@ workbook_recalc_all (Workbook *workbook)
 	}
 	workbook_recalc (workbook);
 }
-
 

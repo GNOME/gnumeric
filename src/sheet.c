@@ -2147,6 +2147,10 @@ sheet_cell_formula_unlink (Cell *cell)
 	sheet = cell->sheet;
 	cell_drop_dependencies (cell);
 	sheet->workbook->formula_cell_list = g_list_remove (sheet->workbook->formula_cell_list, cell);
+
+	/* Just an optimization to avoid an expensive list lookup */
+	if (cell->flags & CELL_QUEUED_FOR_RECALC)
+		cell_unqueue_from_recalc (cell);
 }
 
 /**
@@ -3416,7 +3420,7 @@ sheet_lookup_by_name (Sheet *base, char *name)
 	return NULL;
 }
 
-#ifdef 0
+#if 0
 void
 sheet_insert_object (Sheet *sheet, char *repoid)
 {
