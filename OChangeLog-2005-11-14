@@ -1,3 +1,8 @@
+2004-08-19  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: Bumped the libgsf-gnome-1 requirement to make it
+	consistent with the libgsf-1 requirement.
+
 2004-08-18  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in (psiconv): Update psiconv.
