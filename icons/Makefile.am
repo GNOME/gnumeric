@@ -26,13 +26,13 @@ icons_DATA = \
 	chart_column_2_2.png 	\
 	chart_column_2_3.png 	\
 	chart_column_3_1.png 	\
-	chart_cone.xpm_1_1.png 	\
-	chart_cone.xpm_1_2.png 	\
-	chart_cone.xpm_1_3.png 	\
-	chart_cone.xpm_2_1.png 	\
-	chart_cone.xpm_2_2.png 	\
-	chart_cone.xpm_2_3.png 	\
-	chart_cone.xpm_3_1.png 	\
+	chart_cone_1_1.png 	\
+	chart_cone_1_2.png 	\
+	chart_cone_1_3.png 	\
+	chart_cone_2_1.png 	\
+	chart_cone_2_2.png 	\
+	chart_cone_2_3.png 	\
+	chart_cone_3_1.png 	\
 	chart_cylinder_1_1.png 	\
 	chart_cylinder_1_2.png 	\
 	chart_cylinder_1_3.png 	\
