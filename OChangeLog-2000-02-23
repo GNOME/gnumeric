@@ -1,5 +1,7 @@
 2000-01-16  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* samples/*.xls: Moved to samples/excel.
+	
 	* samples/statfuns.xls: Updated the LINEST test.
 
 	* samples/excel: Created a new directory for XL samples.
