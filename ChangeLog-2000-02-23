@@ -1,3 +1,7 @@
+1999-10-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_style_changed) : Fix.
+
 1999-10-26  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/mstyle.c (mstyle_set_pattern): cripple for now.

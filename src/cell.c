@@ -381,7 +381,7 @@ cell_render_value (Cell *cell)
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->value != NULL);
 
-	if (cell->render_color == 0xdeadbeef){
+	if (cell->render_color == (void *)0xdeadbeef) {
 		g_error ("This cell is dead!");
 	}
 	if (cell->render_color) {
@@ -1398,7 +1398,9 @@ cell_style_changed (Cell *cell)
 
 	width = b - a;
 	if (width)
-		sheet_redraw_cell_region (cell->sheet, cell->col->pos - width,
+		sheet_redraw_cell_region (cell->sheet,
+					  cell->col->pos - width,
+					  cell->row->pos,
 					  cell->col->pos + width,
-					  cell->row->pos, cell->row->pos);
+					  cell->row->pos);
 }

@@ -898,24 +898,22 @@ typedef enum
     render_BoundingCube,
 } RenderMode;
 
-/*  MSOXFORMTYPE */
 typedef enum
 {
-    msoxformAbsolute,   /*  Apply transform in absolute space centered on shape */
-    msoxformShape,      /*  Apply transform to shape geometry */
-    msoxformDrawing     /*  Apply transform in drawing space */
-} MSOXFORMTYPE;
+    transform_Absolute,   /*  Apply in absolute space centered on shape */
+    transform_Shape,      /*  Apply to shape geometry */
+    transform_Drawing     /*  Apply in drawing space */
+} Transform;
 
-/*  MSOSHADOWTYPE */
 typedef enum
 {
-    msoshadowOffset,    /*  N pixel offset shadow */
-    msoshadowDouble,    /*  Use second offset too */
-    msoshadowRich,      /*  Rich perspective shadow (cast relative to shape) */
-    msoshadowShape,     /*  Rich perspective shadow (cast in shape space) */
-    msoshadowDrawing,   /*  Perspective shadow cast in drawing space */
-    msoshadowEmbossOrEngrave,
-} MSOSHADOWTYPE;
+    shadow_Offset,    /*  N pixel offset shadow */
+    shadow_Double,    /*  Use second offset too */
+    shadow_Rich,      /*  Rich perspective shadow (cast relative to shape) */
+    shadow_Shape,     /*  Rich perspective shadow (cast in shape space) */
+    shadow_Drawing,   /*  Perspective shadow cast in drawing space */
+    shadow_EmbossOrEngrave,
+} Shadow;
 
 /*  LengthMeasure - the type of a (length) measurement */
 typedef enum
@@ -950,7 +948,7 @@ typedef enum
     fill_Background = 9	/*  Use background fill color/pattern */
 } FillType;
 
-/*  Colours in a shaded fill. */
+/* Colours in a shaded fill. */
 typedef enum
 {
 	shade_None  = 0,        /*  Interpolate without correction between RGBs */
@@ -968,38 +966,37 @@ typedef enum
 	shade_Default = (shade_Gamma|shade_Sigma|(0x4000<<shade_ParamShift))
 } ShadeType;
 
-/*    LineStyle - compound line style */
+/* LineStyle - compound line style */
 typedef enum
 {
-    msolineSimple,            /*  Single line (of width lineWidth) */
-    msolineDouble,            /*  Double lines of equal width */
-    msolineThickThin,         /*  Double lines, one thick, one thin */
-    msolineThinThick,         /*  Double lines, reverse order */
-    msolineTriple             /*  Three lines, thin, thick, thin */
+    line_Simple,            /*  Single line (of width lineWidth) */
+    line_Double,            /*  Double lines of equal width */
+    line_ThickThin,         /*  Double lines, one thick, one thin */
+    line_ThinThick,         /*  Double lines, reverse order */
+    line_Triple             /*  Three lines, thin, thick, thin */
 } LineStyle;
 
 typedef enum
 {
-    linefill_SolidType,         /*  Fill with a solid color */
-    linefill_Pattern,           /*  Fill with a pattern (bitmap) */
-    linefill_Texture,           /*  A texture (pattern with its own color map) */
-    linefill_Picture            /*  Center a picture in the shape */
+    line_fill_SolidType,         /*  Fill with a solid color */
+    line_fill_Pattern,           /*  Fill with a pattern (bitmap) */
+    line_fill_Texture,           /*  A texture (pattern with its own color map) */
+    line_fill_Picture            /*  Center a picture in the shape */
 } LineFill;
 
-/*  DashedLineStyle - dashed line style */
 typedef enum
 {
-    msolineSolid,              /*  Solid (continuous) pen */
-    msolineDashSys,            /*  PS_DASH system   dash style */
-    msolineDotSys,             /*  PS_DOT system   dash style */
-    msolineDashDotSys,         /*  PS_DASHDOT system dash style */
-    msolineDashDotDotSys,      /*  PS_DASHDOTDOT system dash style */
-    msolineDotGEL,             /*  square dot style */
-    msolineDashGEL,            /*  dash style */
-    msolineLongDashGEL,        /*  long dash style */
-    msolineDashDotGEL,         /*  dash short dash */
-    msolineLongDashDotGEL,     /*  long dash short dash */
-    msolineLongDashDotDotGEL   /*  long dash short dash short dash */
+    dash_Solid,              /*  Solid (continuous) pen */
+    dash_DashSys,            /*  PS_DASH system   dash style */
+    dash_DotSys,             /*  PS_DOT system   dash style */
+    dash_DashDotSys,         /*  PS_DASHDOT system dash style */
+    dash_DashDotDotSys,      /*  PS_DASHDOTDOT system dash style */
+    dash_DotGEL,             /*  square dot style */
+    dash_DashGEL,            /*  dash style */
+    dash_LongDashGEL,        /*  long dash style */
+    dash_DashDotGEL,         /*  dash short dash */
+    dash_LongDashDotGEL,     /*  long dash short dash */
+    dash_LongDashDotDotGEL   /*  long dash short dash short dash */
 } DashedLineStyle;
 
 typedef enum
@@ -1026,21 +1023,20 @@ typedef enum
     arrow_len_Long = 2
 } ArrowLength;
 
-/*    MSOLINEJOIN - line join style. */
 typedef enum
 {
-    msolineJoinBevel,     /*  Join edges by a straight line */
-    msolineJoinMiter,     /*  Extend edges until they join */
-    msolineJoinRound      /*  Draw an arc between the two edges */
-} MSOLINEJOIN;
+    line_join_Bevel,     /*  Join edges by a straight line */
+    line_join_Miter,     /*  Extend edges until they join */
+    line_join_Round      /*  Draw an arc between the two edges */
+} LineJoin;
 
-/*    MSOLINECAP - line cap style (applies to ends of dash segments too). */
+/* Line cap style (applies to ends of dash segments too). */
 typedef enum
 {
-    msolineEndCapRound,   /*  Rounded ends - the default */
-    msolineEndCapSquare,  /*  Square protrudes by half line width */
-    msolineEndCapFlat     /*  Line ends at end point */
-} MSOLINECAP;
+    line_cap_Round,   /*  Rounded ends - the default */
+    line_cap_Square,  /*  Square protrudes by half line width */
+    line_cap_Flat     /*  Line ends at end point */
+} LineCap;
 
 static gboolean
 ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
@@ -1388,9 +1384,9 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		/* MediumLenArrow : Arrow at end */
 		case 469 : name = "ArrowLength lineEndArrowLength"; break;
 		/* JoinRound : How to join lines */
-		case 470 : name = "MSOLINEJOIN lineJoinStyle"; break;
+		case 470 : name = "LineJoin lineJoinStyle"; break;
 		/* EndCapFlat : How to end lines */
-		case 471 : name = "MSOLINECAP lineEndCapStyle"; break;
+		case 471 : name = "LineCap lineEndCapStyle"; break;
 		/* FALSE : Allow arrowheads if prop. is set */
 		case 507 : name = "bool fArrowheadsOK"; break;
 		/* TRUE : Any line? */
@@ -1403,7 +1399,7 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		case 511 : name = "bool fNoLineDrawDash"; break;
 
 		/* Offset : Type of effect */
-		case 512 : name = "MSOSHADOWTYPE shadowType"; break;
+		case 512 : name = "Shadow shadowType"; break;
 		/* 0x808080 : Foreground color */
 		case 513 : name = "Colour shadowColor"; break;
 		/* 0xCBCBCB : Embossed color */
@@ -1444,7 +1440,7 @@ ms_escher_read_OPT (MSEscherState * state, MSEscherHeader * h)
 		case 575 : name = "bool fshadowObscured"; break;
 
 		/* Shape : Where transform applies */
-		case 576 : name = "MSOXFORMTYPE perspectiveType"; break;
+		case 576 : name = "Transform perspectiveType"; break;
 		/* 0 : The long values define a transformation matrix,
 		 * effectively, each value is scaled by the perspectiveWeight
 		 * parameter. */
