@@ -1,5 +1,14 @@
 2000-09-18  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet.c (sheet_row_size_fit_pixels) : PUTRID KLUDGE.
+	  Avoid the ugly row size changes when fitting the size.
+
+	* src/format.c (style_format_new_XL) : Implement translation.
+	(style_format_as_XL) : Ditto.
+
+	* src/number-match.c (format_match_init) : No need to compare to
+	  translated General.
+
 	* src/sheet.c (sheet_flag_status_update_cell) : Adjust signature.
 
 2000-09-17  Morten Welinder  <terra@diku.dk>

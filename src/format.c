@@ -1519,23 +1519,69 @@ number_format_shutdown (void)
  * style_format_new_XL :
  */
 StyleFormat *
-style_format_new_XL (const char *name, gboolean delocalize)
+style_format_new_XL (const char *descriptor_string, gboolean delocalize)
 {
 	StyleFormat *format;
+	char *internal_string = NULL;
 
-	g_return_val_if_fail (name != NULL, NULL);
+	g_return_val_if_fail (descriptor_string != NULL, NULL);
 
-	format = (StyleFormat *) g_hash_table_lookup (style_format_hash, name);
+	if (delocalize) {
+		if (!strcmp (descriptor_string, _("General")))
+			descriptor_string = "General";
+		else {
+			char const thousands_sep = format_get_thousand ();
+			char const decimal = format_get_decimal ();
+			char const *ptr = descriptor_string;
+			GString *res = g_string_sized_new (strlen (ptr));
+
+			for ( ; *ptr ; ++ptr)
+				if (*ptr == decimal)
+					g_string_append_c (res, '.');
+				else if (*ptr == thousands_sep)
+					g_string_append_c (res, ',');
+				else if (*ptr == '\\')
+					switch (*ptr) {
+					case '.'  : g_string_append_c (res, decimal);
+						    break;
+					case ','  : g_string_append_c (res, thousands_sep);
+						    break;
+
+					case '\"' : do {
+							    g_string_append_c (res, *ptr++);
+						    } while (*ptr && *ptr != '\"');
+						    if (*ptr)
+							    g_string_append_c (res, *ptr);
+						    break;
+
+					case '\\' : g_string_append_c (res, '\\');
+						    if (ptr [1] != '\0') {
+							    g_string_append_c (res, ptr[1]);
+							    ++ptr;
+						    }
+						    break;
+					default   : g_string_append_c (res, *ptr);
+					};
+
+			internal_string = g_strdup (res->str);
+			descriptor_string = internal_string;
+			g_string_free (res, TRUE);
+		}
+	}
+
+	format = (StyleFormat *) g_hash_table_lookup (style_format_hash, descriptor_string);
 
 	if (!format) {
 		format = g_new0 (StyleFormat, 1);
-		format->format = g_strdup (name);
+		format->format = g_strdup (descriptor_string);
 		format->entries = NULL;
 		format_compile (format);
 		g_hash_table_insert (style_format_hash, format->format, format);
 	}
 	format->ref_count++;
 
+	if (internal_string)
+		g_free (internal_string);
 	return format;
 }
 
@@ -1547,8 +1593,65 @@ style_format_new_XL (const char *name, gboolean delocalize)
 char *
 style_format_as_XL (StyleFormat const *fmt, gboolean localized)
 {
-	/* TODO : add localization support */
-	return g_strdup (fmt->format);
+	char const *ptr;
+
+	g_return_val_if_fail (fmt != NULL, g_strdup (_("General")));
+
+	ptr = fmt->format;
+	if (!localized)
+		return g_strdup (ptr);
+
+	if (!strcmp (ptr, "General"))
+		return g_strdup (_("General"));
+
+	{
+	char const thousands_sep = format_get_thousand ();
+	char const decimal = format_get_decimal ();
+	char *tmp;
+	GString *res = g_string_sized_new (strlen (ptr));
+
+	/* TODO : XL seems to do an adaptive escaping of
+	 * things.
+	 * eg '#,##0.00 ' in a locale that uses ' '
+	 * as the thousands would become
+	 *    '# ##0.00 '
+	 * rather than
+	 *    '# ##0.00\ '
+	 *
+	 * TODO : Minimal quotes.
+	 * It also seems to have a display mode vs a storage mode.
+	 * Internally it adds a few quotes around strings.
+	 * Then tries not to display the quotes unless needed.
+	 */
+	for ( ; *ptr ; ++ptr)
+		switch (*ptr) {
+		case '.'  : g_string_append_c (res, decimal);
+			    break;
+		case ','  : g_string_append_c (res, thousands_sep);
+			    break;
+
+		case '\"' : do {
+				    g_string_append_c (res, *ptr++);
+			    } while (*ptr && *ptr != '\"');
+			    if (*ptr)
+				    g_string_append_c (res, *ptr);
+			    break;
+
+		case '\\' : g_string_append_c (res, '\\');
+			    if (ptr [1] != '\0') {
+				    g_string_append_c (res, ptr[1]);
+				    ++ptr;
+			    }
+			    break;
+		default   : if (*ptr == decimal || *ptr == thousands_sep)
+				    g_string_append_c (res, '\\');
+			    g_string_append_c (res, *ptr);
+		};
+
+	tmp = g_strdup (res->str);
+	g_string_free (res, TRUE);
+	return tmp;
+	}
 }
 
 void

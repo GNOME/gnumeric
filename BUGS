@@ -6,7 +6,6 @@ Release Critical
 ----------------
 - Saving xml should not rely on changing the textdomain to disable translation
   of TRUE/FALSE in expressions.
-- The translate/untranslate routines for formats need to be written
 
 Post 0.57 Changes
 -----------------

@@ -1,5 +1,8 @@
 2000-09-18  Jody Goldberg <jgoldberg@home.com>
 
+	* cell-format.glade : Set the descriptive string for cell protection
+	  to wrap.  This avoids ugly dialogs when in a different locale.
+
 	* dialog-solver.c (dialog_solver) : No need to create a cell manually
 	  and fill with empty.  sheet_cell_fetch will handle that.
 

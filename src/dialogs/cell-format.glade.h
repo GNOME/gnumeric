@@ -21,8 +21,6 @@ gchar *s = N_("General format cells attempt to select an appropriate format depe
 gchar *s = N_("Deci_mal places:");
 gchar *s = N_("_Use Separator for 1000's");
 gchar *s = N_("S_ymbol:");
-gchar *s = N_("\n"
-              "");
 gchar *s = N_("$");
 gchar *s = N_("Negat_ive number:");
 gchar *s = N_("De_lete format");
@@ -56,10 +54,9 @@ gchar *s = N_("_Custom");
 gchar *s = N_("Pick a font color");
 gchar *s = N_("Effects");
 gchar *s = N_("_Underline:");
-gchar *s = N_("None\n"
-              "Single\n"
-              "Double\n"
-              "");
+gchar *s = N_("None");
+gchar *s = N_("Single");
+gchar *s = N_("Double");
 gchar *s = N_("None");
 gchar *s = N_("Stri_kethrough");
 gchar *s = N_("Sup_erscript");
@@ -91,15 +88,10 @@ gchar *s = N_("Pattern");
 gchar *s = N_("_Automatic");
 gchar *s = N_("_Custom");
 gchar *s = N_("Pick a Pattern color");
-/* xgettext:no-c-format */
-gchar *s = N_("75% grey");
-/* xgettext:no-c-format */
+gchar *s = N_("75% Grey");
 gchar *s = N_("50% Grey");
-/* xgettext:no-c-format */
 gchar *s = N_("25% Grey");
-/* xgettext:no-c-format */
 gchar *s = N_("12.5% Grey");
-/* xgettext:no-c-format */
 gchar *s = N_("6.25% Grey");
 gchar *s = N_("Horizontal Stripe");
 gchar *s = N_("Thin Horizontal Stripe");

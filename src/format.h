@@ -3,8 +3,10 @@
 
 #include "gnumeric.h"
 
-StyleFormat   *style_format_new_XL	(const char *name, gboolean delocalize);
-char   	      *style_format_as_XL	(StyleFormat const *fmt, gboolean localized);
+StyleFormat   *style_format_new_XL	(const char *descriptor_string,
+					 gboolean delocalize);
+char   	      *style_format_as_XL	(StyleFormat const *fmt,
+					 gboolean localized);
 
 void           style_format_ref		(StyleFormat *sf);
 void           style_format_unref	(StyleFormat *sf);

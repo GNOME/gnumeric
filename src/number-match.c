@@ -572,10 +572,7 @@ format_match_init (void)
 		char const * const * p = cell_formats [i];
 
 		for (; *p; p++){
-			/* FIXME : Why do we need to compare both */
 			if (strcmp (*p, "General") == 0)
-				continue;
-			if (strcmp (*p, _("General")) == 0)
 				continue;
 			format_match_define (*p);
 		}
