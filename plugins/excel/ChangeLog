@@ -1,3 +1,46 @@
+1999-07-06  Michael Meeks  <michael@edenproject.org>
+
+	* ms-formula-read.c (ms_excel_parse_formula): PTG_NAME:
+	use biff_name_data_get_name; fixups: Jody don't do this, this
+	was all on the Names branch !
+
+	* ms-excel-read.c (biff_name_data_new): Changed to take Workbook
+	not sheet, updated to use GPtrArray.
+	(biff_name_data_get_name): Changed to return ExprTree.
+	(biff_name_data_destroy): Updated.
+	(ms_excel_workbook_destroy): Remove old name hash table stuff.
+	(ms_excel_read_name): Fix memory leak before Morten gets there :)
+	use biff_name_data_new.
+	(ms_excel_read_name): Allocate name.
+	(ms_excel_get_name): Culled.
+
+	* ms-excel-read.h (_ExcelWorkbook): Changed name_data to GPtrArray
+	Changed _name_get_data to return ExprTree.
+
+	* ms-formula-read.c (getRefV7): Removed ExcelSheet * parameter.
+	cleaned function indenting.
+	(getRefV8): Ditto. + update all references.
+	s/cell_name(/cell_name (
+	s/sheet->wb/wb/
+
+	* ms-chart.c (BC_R): Updated parse_formula.
+
+	* ms-formula-read.c (ms_excel_parse_formula): s/sheet->ver/wb->ver/
+	updated all calls to itself to add 'wb'.
+
+	* ms-excel-read.c (ms_excel_workbook_new): Setup 'ver'
+	(ms_excel_read_workbook): Update call.
+
+	* ms-excel-read.h (_ExcelWorkbook): Add 'ver' field.
+
+	* ms-excel-read.c: Updated all ms_excel_parse_formulae: this
+	isn't as balmy as it seems... we should only be using the sheet
+	data where we need to as Names have no associated sheet.
+
+	* ms-formula-read.c (ms_excel_parse_formula): Add workbook.
+
+	* ms-formula-read.h (ms_excel_parse_formula): ditto.
+
 1999-07-06  Jody Goldberg  <jgoldberg@home.com>
 
 	* ms-excel-biff.h : remove _eBiff_wrap.

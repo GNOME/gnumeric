@@ -7,7 +7,6 @@
 #ifndef GNUMERIC_MS_EXCEL_H
 #define GNUMERIC_MS_EXCEL_H
 
-#include "ms-ole.h"
 #include "ms-biff.h"
 #include "ms-excel-biff.h"
 
@@ -88,7 +87,7 @@ typedef struct _ExcelWorkbook
 	GPtrArray  *XF_style_records;
 	GHashTable *font_data;
 	GHashTable *format_data;
-	GHashTable *name_data;		/* Seems to be for external names */
+	GPtrArray  *name_data;		/* Seems to be for external names */
 	GPtrArray  *internal_names;	/* For internal names */
 	int read_drawing_group;
 	GPtrArray *excel_sheets;
@@ -97,6 +96,7 @@ typedef struct _ExcelWorkbook
 	ExcelPalette *palette;
 	char **global_strings;
 	int global_string_max;
+	eBiff_version ver;
 
 	/**
 	 * Gnumeric parallel workbook
@@ -107,8 +107,7 @@ typedef struct _ExcelWorkbook
 extern Sheet* biff_get_externsheet_name (ExcelWorkbook *wb, guint16 idx, gboolean get_first);
 extern char* biff_get_text (guint8 *ptr, guint32 length, guint32 *byte_length);
 extern const char* biff_get_error_text (const guint8 err);
-extern char* biff_name_data_get_name (ExcelSheet *sheet, guint16 idx);
-extern char const * ms_excel_get_name (ExcelWorkbook *wb, int name_idx);
+extern ExprTree* biff_name_data_get_name (ExcelSheet *sheet, guint16 idx);
 
 extern BIFF_BOF_DATA * ms_biff_bof_data_new (BiffQuery * q);
 extern void ms_biff_bof_data_destroy (BIFF_BOF_DATA * data);
