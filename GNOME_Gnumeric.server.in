@@ -1,7 +1,7 @@
 <oaf_info>
     <oaf_server iid="OAFIID:GNOME_Gnumeric_WorkbookFactory"
 		type="exe"
-		location="gnumeric-bonobo">
+		location="gnumeric">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 	    <item value="IDL:GNOME/Gnumeric/WorkbookFactory:1.0"/>
@@ -28,7 +28,7 @@
 <!-- disable until it does something other than crash.
     <oaf_server iid="OAFIID:GNOME_Gnumeric_GridFactory"
 		type="exe"
-		location="gnumeric-bonobo">
+		location="gnumeric">
 
 	    <oaf_attribute name="repo_ids" type="stringv">
 		    <item value="IDL:GNOME/ObjectFactory:1.0"/>
