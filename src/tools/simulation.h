@@ -6,6 +6,7 @@
 typedef struct {
         int n_input_vars;
         int n_output_vars;
+	int n_vars;
 
         int first_round;
         int last_round;

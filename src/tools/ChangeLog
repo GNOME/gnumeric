@@ -1,5 +1,11 @@
 2002-08-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* simulation.c (simulation_tool, create_reports,
+	eval_inputs_list): Added the generations of the statistics of the
+	input variables too.
+
+2002-08-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
 	* simulation.c (simulation_tool): Fixed leaks in error condition.
 	Redraw and recompute with sheet->simulation_round=0.
 	(create_reports): Set summary labels italic. Fix the row positions

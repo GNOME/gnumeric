@@ -116,6 +116,7 @@ prepare_ranges (simulation_t *sim)
 	sim->n_output_vars =
 		(abs (sim->ref_outputs->a.col - sim->ref_outputs->b.col) + 1) *
 		(abs (sim->ref_outputs->a.row - sim->ref_outputs->b.row) + 1);
+	sim->n_vars = sim->n_input_vars + sim->n_output_vars;
 
 	/* Get the intput cells into a list. */
 	sim->list_inputs = NULL;

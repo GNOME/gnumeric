@@ -63,17 +63,17 @@ typedef struct {
 static void
 init_stats (simstats_t *stats, simulation_t *sim)
 {
-	stats->min      = g_new (gnum_float, sim->n_output_vars);
-	stats->max      = g_new (gnum_float, sim->n_output_vars);
-	stats->mean     = g_new (gnum_float, sim->n_output_vars);
-	stats->median   = g_new (gnum_float, sim->n_output_vars);
-	stats->median   = g_new (gnum_float, sim->n_output_vars);
-	stats->mode     = g_new (gnum_float, sim->n_output_vars);
-	stats->stddev   = g_new (gnum_float, sim->n_output_vars);
-	stats->var      = g_new (gnum_float, sim->n_output_vars);
-	stats->skew     = g_new (gnum_float, sim->n_output_vars);
-	stats->kurtosis = g_new (gnum_float, sim->n_output_vars);
-	stats->errmask  = g_new (int, sim->n_output_vars);
+	stats->min      = g_new (gnum_float, sim->n_vars);
+	stats->max      = g_new (gnum_float, sim->n_vars);
+	stats->mean     = g_new (gnum_float, sim->n_vars);
+	stats->median   = g_new (gnum_float, sim->n_vars);
+	stats->median   = g_new (gnum_float, sim->n_vars);
+	stats->mode     = g_new (gnum_float, sim->n_vars);
+	stats->stddev   = g_new (gnum_float, sim->n_vars);
+	stats->var      = g_new (gnum_float, sim->n_vars);
+	stats->skew     = g_new (gnum_float, sim->n_vars);
+	stats->kurtosis = g_new (gnum_float, sim->n_vars);
+	stats->errmask  = g_new (int, sim->n_vars);
 }
 
 static void
@@ -91,10 +91,11 @@ free_stats (simstats_t *stats, simulation_t *sim)
 	g_free (stats->errmask);
 }
 
-static void
-eval_inputs_list (simulation_t *sim)
+static gchar *
+eval_inputs_list (simulation_t *sim, gnum_float **outputs, int iter, int round)
 {
 	GSList *cur;
+	int    i = sim->n_output_vars;
 
 	/* Recompute inputs. */
 	for (cur = sim->list_inputs; cur != NULL; cur = cur->next) {
@@ -102,7 +103,18 @@ eval_inputs_list (simulation_t *sim)
 
 		cell_queue_recalc (cell);
 		cell_eval (cell);
+
+		if (cell->value == NULL || ! VALUE_IS_NUMBER (cell->value)) {
+			return _("Input variable did not yield to a numeric "
+				 "value. Check the model (maybe your last "
+				 "round # is too high).");
+		}
+
+		if (outputs)
+			outputs [i++][iter] = value_get_as_float (cell->value);
 	}
+
+	return NULL;
 }
 
 static gchar *
@@ -119,8 +131,8 @@ eval_outputs_list (simulation_t *sim, gnum_float **outputs, int iter, int round)
 		if (cell->value == NULL || ! VALUE_IS_NUMBER (cell->value)) {
 			return _("Output variable did not yield to a numeric "
 				 "value. Check the output variables in your "
-				 "model (maybe your last simulation round # "
-				 "is too high).");
+				 "model (maybe your last round # is too "
+				 "high).");
 		}
 
 		if (outputs)
@@ -133,7 +145,11 @@ eval_outputs_list (simulation_t *sim, gnum_float **outputs, int iter, int round)
 static gchar *
 recompute_outputs (simulation_t *sim, gnum_float **outputs, int iter, int round)
 {
-	eval_inputs_list (sim);
+	gchar *err;
+
+	err = eval_inputs_list (sim, outputs, iter, round);
+	if (err)
+		return err;
 
 	return eval_outputs_list (sim, outputs, iter, round);
 }
@@ -145,11 +161,11 @@ create_stats (simulation_t *sim, gnum_float **outputs, simstats_t *stats)
 	gnum_float x;
 
 	/* Initialize. */
-	for (i = 0; i < sim->n_output_vars; i++)
+	for (i = 0; i < sim->n_vars; i++)
 		stats->errmask [i] = 0;
 
 	/* Calculate stats. */
-	for (i = 0; i < sim->n_output_vars; i++) {
+	for (i = 0; i < sim->n_vars; i++) {
 		/* Min */
 		error = range_min (outputs [i], sim->n_iterations, &x);
 		stats->min [i] = x;
@@ -225,7 +241,7 @@ create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t *stats,
 	 */
 	dao_set_cell (dao, 0, 0, "A");
 
-	rinc = sim->n_output_vars + 4;
+	rinc = sim->n_vars + 4;
 	for (n = 0, t = sim->first_round; t <= sim->last_round; t++, n++) {
 		dao_set_cell (dao, 2, 6 + n * rinc, _("Min"));
 		dao_set_cell (dao, 3, 6 + n * rinc, _("Mean"));
@@ -238,7 +254,7 @@ create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t *stats,
 		dao_set_cell (dao, 10, 6 + n * rinc, _("Kurtosis"));
 		dao_set_bold (dao, 1, 6 + n * rinc, 10, 6 + n * rinc);
 
-		for (i = 0; i < sim->n_output_vars; i++) {
+		for (i = 0; i < sim->n_vars; i++) {
 			dao_set_cell (dao, 1, i + 7 + n * rinc,
 				      sim->cellnames [i]);
 			dao_set_bold (dao, 1, i + 7 + n * rinc, 1,
@@ -324,9 +340,9 @@ simulation_tool (WorkbookControl        *wbc,
 	sheet = wb_view_cur_sheet (wbv);
 
 	/* Initialize results storage. */
-	sim->cellnames = g_new (gchar *, sim->n_output_vars);
-	outputs        = g_new (gnum_float *, sim->n_output_vars);
-	for (i = 0; i < sim->n_output_vars; i++)
+	sim->cellnames = g_new (gchar *, sim->n_vars);
+	outputs        = g_new (gnum_float *, sim->n_vars);
+	for (i = 0; i < sim->n_vars; i++)
 		outputs [i] = g_new (gnum_float, sim->n_iterations);
 
 	stats     = g_new (simstats_t, sim->last_round + 1);
@@ -341,6 +357,17 @@ simulation_tool (WorkbookControl        *wbc,
 			(gchar *) dao_find_name (sheet, cell->pos.col,
 						 cell->pos.row);
 	}
+	for (cur = sim->list_inputs; cur != NULL; cur = cur->next) {
+		Cell *cell = (Cell *) cur->data;
+		gchar *tmp = dao_find_name (sheet, cell->pos.col,
+					    cell->pos.row);
+		gchar *prefix = _("(Input) ");
+		gchar *buf = g_new (gchar, strlen (tmp) + strlen (prefix) + 1);
+
+		sprintf (buf, "%s %s", prefix, tmp);
+		g_free (tmp);
+		sim->cellnames [i++] = buf;
+	}
 
 	/* Run the simulations. */
 	for (round = sim->first_round; round <= sim->last_round; round++) {
@@ -354,11 +381,11 @@ simulation_tool (WorkbookControl        *wbc,
 	}
  out:
 	sheet->simulation_round = 0;
-	eval_inputs_list (sim);
+	eval_inputs_list (sim, NULL, 0, 0);
 	eval_outputs_list (sim, NULL, 0, 0);
 
 	/* Free results storage. */
-	for (i = 0; i < sim->n_output_vars; i++)
+	for (i = 0; i < sim->n_vars; i++)
 		g_free (outputs [i]);
 	g_free (outputs);
 
