@@ -972,8 +972,12 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			break;
 
 		case '"': {
-			if (can_render_number && !info.rendered)
-				g_string_append (result, do_render_number (number, &info));
+			if (can_render_number && !info.rendered) {
+				char *s;
+				s = do_render_number (number, &info);
+				g_string_append (result, s);
+				g_free (s);
+			}
 
 			for (format++; *format && *format != '"'; format++)
 				g_string_append_c (result, *format);

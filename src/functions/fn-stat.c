@@ -3202,7 +3202,7 @@ static char *help_percentile = {
 	   "\n"
 	   "If @array is empty, PERCENTILE returns #NUM! error. "
 	   "If @k < 0 or @k > 1, PERCENTILE returns #NUM! error. "
-	   "This function is Excel compatible. "
+	   "This function is Excel compatible."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "Let us assume that the cells A1, A2, ..., A5 contain numbers "
@@ -3215,8 +3215,8 @@ static char *help_percentile = {
 static Value *
 gnumeric_percentile (FunctionEvalInfo *ei, Value **argv)
 {
-        float_t k, *data, fract, des, a, b;
-	int     n;
+        float_t k, *data, fpos;
+	int     n, pos;
 	Value   *result = NULL;
 
 	k = value_get_as_float (argv[1]);
@@ -3232,14 +3232,23 @@ gnumeric_percentile (FunctionEvalInfo *ei, Value **argv)
 		result = value_new_error (&ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
-	  
+
+	/* OK, so we ignore the constness here.  Tough.  */
 	qsort ((float_t *) data, n, sizeof (data[0]), (void *) &float_compare);
 
-	fract = k * (n-1);
-	des = fract - (int) fract;
-	a = data[(int) fract];
-	b = data[(int) fract + 1];
-	result = value_new_float (b * des + a * (1.0-des));
+	fpos = k * (n-1);
+	pos = (int)fpos;
+	if (pos + 1 > n - 1) {
+		/* MW: I am guessing here that we should just pick the
+		   last number.  FIXME: check.  */
+		result = value_new_float (data[pos]);
+	} else {
+		float_t a, b, des;
+		des = fpos - pos;
+		a = data[pos];
+		b = data[pos + 1];
+		result = value_new_float (b * des + a * (1.0-des));
+	}
 out:
 	g_free (data);
 
@@ -3779,21 +3788,26 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv [])
 
 static char *help_linest = {
 	N_("@FUNCTION=LINEST\n"
-	   "@SYNTAX=LINEST(known_y's[,known_x's])\n"
+	   "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
 
 	   "@DESCRIPTION="
 	   "LINEST function calculates the ``least squares'' line that best "
 	   "fit to your data in @known_y's.  @known_x's contains the "
-	   "corresponding x's where y=mx+b. "
+	   "corresponding x's where y=mx+b."
 	   "\n"
 	   "If @known_x's is omitted, an array {1, 2, 3, ...} is used. "
            "LINEST returns an array having two columns and one row.  The "
            "slope (m) of the regression line y=mx+b is given in the first "
-           "column and the y-intercept (b) in the second. "
+           "column and the y-intercept (b) in the second."
 	   "\n"
 	   "If @known_y's and @known_x's have unequal number of data points, "
-	   "LINEST returns #NUM! error. "
+	   "LINEST returns #NUM! error."
 	   "\n"
+	   "If @const is FALSE, the line will be forced to go through the "
+	   "origin, i.e., b will be zero.  The default is TRUE."
+	   "\n"
+	   "If @stat is TRUE, extra statistical information will be returned. "
+	   "The default is FALSE."
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=LOGEST,TREND")
@@ -3804,8 +3818,9 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv [])
 {
 	float_t *xs = NULL, *ys = NULL;
 	Value *result = NULL;
-	int nx, ny;
+	int nx, ny, dim;
 	float_t linres[2];
+	gboolean affine, stat, err;
 
 	ys = collect_floats_value (argv[0], &ei->pos,
 				   COLLECT_IGNORE_STRINGS |
@@ -3814,32 +3829,60 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv [])
 	if (result)
 		goto out;
 
-	if (argv[1] != NULL)
+	if (argv[1] != NULL) {
 	        xs = collect_floats_value (argv[1], &ei->pos,
 					   COLLECT_IGNORE_STRINGS |
 					   COLLECT_IGNORE_BOOLS,
 					   &nx, &result);
-	else {
+		if (result)
+			goto out;
+	} else {
 	        xs = g_new(float_t, ny);
 	        for (nx=0; nx<ny; nx++)
 		        xs[nx] = nx+1;
 	}
-	        
-	if (result)
-		goto out;
 
 	if (nx != ny) {
 		result = value_new_error (&ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
 
-	if (linear_regression (xs, ys, nx, 1, linres)) {
+	if (argv[2]) {
+		affine = value_get_as_bool (argv[2], &err);
+		if (err) {
+			result = value_new_error (&ei->pos, gnumeric_err_VALUE);
+			goto out;
+		}
+	} else
+		affine = TRUE;
+
+	if (argv[3]) {
+		stat = value_get_as_bool (argv[3], &err);
+		if (err) {
+			result = value_new_error (&ei->pos, gnumeric_err_VALUE);
+			goto out;
+		}
+	} else
+		stat = TRUE;
+
+	if (linear_regression (xs, ys, nx, affine, linres)) {
 		result = value_new_error (&ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
 
-	result = value_new_array (2, 1);
-	value_array_set (result, 1, 0, value_new_float (linres[0]));
+	/* FIXME: we should handle multi-dimensional data, but we do not.  */
+	dim = 1;
+	if (stat) {
+		int y, x;
+		result = value_new_array (dim + 1, 5);
+		for (y = 0; y < 5; y++)
+			for (x = 0; x < dim + 1; x++)
+				value_array_set (result, x, y, value_new_error (&ei->pos, gnumeric_err_NA));
+		/* FIXME: lots of stuff goes here.  */
+	} else {
+		result = value_new_array (dim + 1, 1);
+	}
+	value_array_set (result, dim, 0, value_new_float (linres[0]));
 	value_array_set (result, 0, 0, value_new_float (linres[1]));
 
  out:
@@ -4173,7 +4216,7 @@ stat_functions_init (void)
 			    &help_kurtp, gnumeric_kurtp);
 	function_add_nodes (cat, "large",  0,      "",
 			    &help_large, gnumeric_large);
-	function_add_args  (cat, "linest",  "A|A",  "known_y's[,known_x's]",
+	function_add_args  (cat, "linest",  "A|Abb",  "known_y's[,known_x's[,const[,stat]]]",
 			    &help_linest, gnumeric_linest);
 	function_add_args  (cat, "loginv",  "fff",  "",
 			    &help_loginv, gnumeric_loginv);

@@ -226,12 +226,6 @@ void expr_dump_tree (const ExprTree *tree);
  */
 Value       *eval_expr              (FunctionEvalInfo *s, ExprTree const *tree);
 
-/*
- * Returns NULL if the expression uses a non-existant cell for anything
- * other than an equality test.
- */
-Value       *eval_expr_real         (FunctionEvalInfo *s, ExprTree const *tree);
-
 /* Setup of the symbol table */
 void         functions_init        (void);
 void         constants_init        (void);

@@ -1388,7 +1388,7 @@ do_expr_decode_tree (ExprTree *tree, const ParsePosition *pp,
 	{
 		int const x = tree->u.array.x;
 		int const y = tree->u.array.y;
-		char *res = "<ERROR>";
+		char *res;
 		if (x != 0 || y != 0) {
 			ExprTree *array = expr_tree_array_formula_corner (tree);
 			if (array) {
@@ -1399,7 +1399,8 @@ do_expr_decode_tree (ExprTree *tree, const ParsePosition *pp,
 				res = do_expr_decode_tree (
 					array->u.array.corner.func.expr,
 					&tmp_pos, 0);
-			}
+			} else
+				res = g_strdup ("<ERROR>");
 		} else {
 			res = do_expr_decode_tree (
 			    tree->u.array.corner.func.expr, pp, 0);
@@ -1413,6 +1414,7 @@ do_expr_decode_tree (ExprTree *tree, const ParsePosition *pp,
 					   tree->u.array.cols,
 					   tree->u.array.y,
 					   tree->u.array.x);
+			g_free (res);
 			res = str->str;
 			g_string_free (str, FALSE);
 			return res;

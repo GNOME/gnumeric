@@ -1,3 +1,13 @@
+1999-09-20  Morten Welinder  <terra@diku.dk>
+
+	* src/expr.c (do_expr_decode_tree): Plug leak.
+
+	* src/functions/fn-stat.c (gnumeric_linest): Handle "const"
+ 	parameter also.  Introduce skeleton to handle "stat" parameter.
+	(gnumeric_percentile): Fix PERCENTILE.
+
+	* src/format.c (format_number): Plug leak.
+
 1999-09-20  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell.h (cell_deep_thaw_dependencies,
