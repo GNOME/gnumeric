@@ -29,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
-"POT-Creation-Date: 2002-09-30 00:59-0400\n"
-"PO-Revision-Date: 2002-09-27 16:31+0100\n"
+"POT-Creation-Date: 2002-09-30 15:25+0200\n"
+"PO-Revision-Date: 2002-09-30 15:24+0100\n"
 "Last-Translator: Christian Neumair <chris@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -5588,7 +5588,7 @@ msgstr "%s Version %s"
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1296 src/dialogs/dialog-cell-format.c:2655
 #: src/dialogs/dialog-cell-format.c:2660 src/dialogs/dialog-cell-format.c:2670
-#: src/workbook-format-toolbar.c:837
+#: src/workbook-format-toolbar.c:838
 msgid "Automatic"
 msgstr "Automatisch"
 
@@ -12604,27 +12604,26 @@ msgid "Imports GNU Oleo documents"
 msgstr "»GNU Oleo«-Dokumenten importieren"
 
 #: plugins/openoffice/openoffice-read.c:292
-#, fuzzy
 msgid "Missing expression"
-msgstr "Ungültiger Ausdruck"
+msgstr "Ausdruck fehlt"
 
 #: plugins/openoffice/openoffice-read.c:297
-#, fuzzy, c-format
+#, c-format
 msgid "Expression '%s' does not start with a recognized character"
-msgstr "Ausdruck hat nicht mit »=« begonnen? »%s«"
+msgstr "Ausdruck »%s« beginnt mit keinem bekannten Zeichen"
 
 #: plugins/openoffice/openoffice-read.c:313
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to parse '%s' because '%s'"
-msgstr "Datei »%s« kann nicht geöffnet werden."
+msgstr "»%s« konnte auf Grund von »%s« nicht interpretiert werden"
 
 #: plugins/openoffice/openoffice-read.c:347
 msgid "Invalid array expression does no specify number of columns"
-msgstr ""
+msgstr "Ungültiger Feldausdruck gibt die Spaltenanzahl nicht an"
 
 #: plugins/openoffice/openoffice-read.c:350
 msgid "Invalid array expression does no specify number of rows"
-msgstr ""
+msgstr "Ungültiger Feldausdruck gibt die Zeilenanzahl nicht an"
 
 #: plugins/openoffice/openoffice-read.c:480
 msgid "No stream named content.xml found."
@@ -13021,15 +13020,15 @@ msgstr "Eine Überblicksgruppe hinzufügen"
 msgid "Advanced _Filter..."
 msgstr "Komplexer _Filter..."
 
-#: src/GNOME_Gnumeric.xml.h:4 src/workbook-format-toolbar.c:472
+#: src/GNOME_Gnumeric.xml.h:4 src/workbook-format-toolbar.c:473
 msgid "Aligns the contents to the left and decreases the indent"
 msgstr "Den Inhalt links ausrichten und den Einzug vermindern"
 
-#: src/GNOME_Gnumeric.xml.h:5 src/workbook-format-toolbar.c:475
+#: src/GNOME_Gnumeric.xml.h:5 src/workbook-format-toolbar.c:476
 msgid "Aligns the contents to the left and increases the indent"
 msgstr "Den Inhalt links ausrichten und den Einzug erhöhen"
 
-#: src/GNOME_Gnumeric.xml.h:6 src/workbook-object-toolbar.c:163
+#: src/GNOME_Gnumeric.xml.h:6 src/workbook-object-toolbar.c:164
 msgid "Arrow"
 msgstr "Pfeil"
 
@@ -13055,23 +13054,23 @@ msgstr ""
 "Das aktuelle Dokument automatisch in regelmäßigen Intervallen speichern"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:14
-#: src/dialogs/dialog-cell-format.c:2665 src/workbook-format-toolbar.c:818
-#: src/workbook-format-toolbar.c:876
+#: src/dialogs/dialog-cell-format.c:2665 src/workbook-format-toolbar.c:819
+#: src/workbook-format-toolbar.c:877
 msgid "Background"
 msgstr "Hintergrund"
 
 #: src/GNOME_Gnumeric.xml.h:13 src/widgets/widget-font-selector.c:114
-#: src/workbook-format-toolbar.c:406
+#: src/workbook-format-toolbar.c:407
 msgid "Bold"
 msgstr "Fett"
 
-#: src/GNOME_Gnumeric.xml.h:14 src/workbook-format-toolbar.c:804
-#: src/workbook-format-toolbar.c:873
+#: src/GNOME_Gnumeric.xml.h:14 src/workbook-format-toolbar.c:805
+#: src/workbook-format-toolbar.c:874
 msgid "Borders"
 msgstr "Ränder"
 
 #: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:377
-#: src/workbook-object-toolbar.c:138
+#: src/workbook-object-toolbar.c:139
 msgid "Button"
 msgstr "Knopf"
 
@@ -13090,7 +13089,7 @@ msgstr "_Leeren"
 msgid "C_olumn"
 msgstr "S_palte"
 
-#: src/GNOME_Gnumeric.xml.h:19 src/workbook-format-toolbar.c:433
+#: src/GNOME_Gnumeric.xml.h:19 src/workbook-format-toolbar.c:434
 msgid "Center"
 msgstr "Mitte"
 
@@ -13126,7 +13125,7 @@ msgstr "Die vorgegebene Zeilenhöhe ändern"
 msgid "Change width of the selected columns"
 msgstr "Breite der markierten Spalten ändern"
 
-#: src/GNOME_Gnumeric.xml.h:28 src/workbook-object-toolbar.c:145
+#: src/GNOME_Gnumeric.xml.h:28 src/workbook-object-toolbar.c:146
 msgid "Checkbox"
 msgstr "Kontrollkästchen"
 
@@ -13307,8 +13306,8 @@ msgstr "Ausschneiden"
 msgid "Cut the selection"
 msgstr "Die Markierung ausschneiden"
 
-#: src/GNOME_Gnumeric.xml.h:68 src/workbook-format-toolbar.c:392
-#: src/workbook-format-toolbar.c:472
+#: src/GNOME_Gnumeric.xml.h:68 src/workbook-format-toolbar.c:393
+#: src/workbook-format-toolbar.c:473
 msgid "Decrease Indent"
 msgstr "Einzug vermindern"
 
@@ -13316,7 +13315,7 @@ msgstr "Einzug vermindern"
 msgid "Decrease Precision"
 msgstr "Genauigkeit vermindern"
 
-#: src/GNOME_Gnumeric.xml.h:70 src/workbook-format-toolbar.c:466
+#: src/GNOME_Gnumeric.xml.h:70 src/workbook-format-toolbar.c:467
 msgid "Decreases the number of decimals displayed"
 msgstr "Die Anzahl der angezeigten Dezimalen vermindern"
 
@@ -13365,7 +13364,7 @@ msgstr "Die Gnumeric-Einstellungen festlegen"
 msgid "Edit the selected cell's comment"
 msgstr "Kommentar der markierten Zelle bearbeiten"
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-object-toolbar.c:169
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-object-toolbar.c:170
 msgid "Ellipse"
 msgstr "Ellipse"
 
@@ -13400,21 +13399,21 @@ msgid "Filter data with given criteria"
 msgstr "Daten anhand gegebener Kriterien filtern"
 
 #: src/GNOME_Gnumeric.xml.h:90 src/dialogs/cell-format.glade.h:36
-#: src/workbook-format-toolbar.c:762
+#: src/workbook-format-toolbar.c:763
 msgid "Font"
 msgstr "Schrift"
 
-#: src/GNOME_Gnumeric.xml.h:91 src/workbook-format-toolbar.c:870
+#: src/GNOME_Gnumeric.xml.h:91 src/workbook-format-toolbar.c:871
 msgid "Font Size"
 msgstr "Schriftgröße"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/workbook-format-toolbar.c:403
-#: src/workbook-format-toolbar.c:868
+#: src/GNOME_Gnumeric.xml.h:92 src/workbook-format-toolbar.c:404
+#: src/workbook-format-toolbar.c:869
 msgid "Font selector"
 msgstr "Schriftwähler"
 
 #: src/GNOME_Gnumeric.xml.h:93 src/dialogs/dialog-cell-format.c:2660
-#: src/workbook-format-toolbar.c:843 src/workbook-format-toolbar.c:879
+#: src/workbook-format-toolbar.c:844 src/workbook-format-toolbar.c:880
 msgid "Foreground"
 msgstr "Vordergrund"
 
@@ -13428,7 +13427,7 @@ msgid "Fourier Analysis"
 msgstr "Fourier-Analyse"
 
 #: src/GNOME_Gnumeric.xml.h:96 src/sheet-object-widget.c:285
-#: src/workbook-object-toolbar.c:133
+#: src/workbook-object-toolbar.c:134
 msgid "Frame"
 msgstr "Rahmen"
 
@@ -13481,8 +13480,8 @@ msgstr "_Verknüpfung..."
 msgid "Imports a file"
 msgstr "Datei importieren"
 
-#: src/GNOME_Gnumeric.xml.h:109 src/workbook-format-toolbar.c:371
-#: src/workbook-format-toolbar.c:475
+#: src/GNOME_Gnumeric.xml.h:109 src/workbook-format-toolbar.c:372
+#: src/workbook-format-toolbar.c:476
 msgid "Increase Indent"
 msgstr "Einzug erhöhen"
 
@@ -13490,7 +13489,7 @@ msgstr "Einzug erhöhen"
 msgid "Increase Precision"
 msgstr "Genauigkeit erhöhen"
 
-#: src/GNOME_Gnumeric.xml.h:111 src/workbook-format-toolbar.c:463
+#: src/GNOME_Gnumeric.xml.h:111 src/workbook-format-toolbar.c:464
 msgid "Increases the number of decimals displayed"
 msgstr "Die Anzahl der angezeigten Dezimalen erhöhen"
 
@@ -13592,7 +13591,7 @@ msgstr "Zu einer angegebenen Zelle springen"
 
 #: src/GNOME_Gnumeric.xml.h:134 src/cut-n-paste-code/egg/menu/egg-action.c:128
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbutton.c:101
-#: src/sheet-object-widget.c:192 src/workbook-object-toolbar.c:130
+#: src/sheet-object-widget.c:192 src/workbook-object-toolbar.c:131
 msgid "Label"
 msgstr "Beschriftung"
 
@@ -13604,7 +13603,7 @@ msgid "Launch the Graph Guru"
 msgstr "Den Diagramm-Assistenten ausführen"
 
 #: src/GNOME_Gnumeric.xml.h:136 src/dialogs/cell-format.glade.h:52
-#: src/workbook-format-toolbar.c:622
+#: src/workbook-format-toolbar.c:623
 msgid "Left"
 msgstr "Links"
 
@@ -13613,11 +13612,11 @@ msgid "Left justifies the contents of each cell"
 msgstr "Den Inhalt in allen markierten Zellen links ausrichten"
 
 #: src/GNOME_Gnumeric.xml.h:138 src/dialogs/cell-format.glade.h:53
-#: src/workbook-object-toolbar.c:160 schemas/plot-types.xml.in.h:32
+#: src/workbook-object-toolbar.c:161 schemas/plot-types.xml.in.h:32
 msgid "Line"
 msgstr "Zeile"
 
-#: src/GNOME_Gnumeric.xml.h:139 src/workbook-object-toolbar.c:154
+#: src/GNOME_Gnumeric.xml.h:139 src/workbook-object-toolbar.c:155
 msgid "List"
 msgstr "Liste"
 
@@ -13663,11 +13662,11 @@ msgid "Mark the current selection for movement"
 msgstr "Aktuelle Auswahl zum Verschieben markieren."
 
 #: src/GNOME_Gnumeric.xml.h:150 src/sheet-merge.c:73
-#: src/workbook-format-toolbar.c:445
+#: src/workbook-format-toolbar.c:446
 msgid "Merge"
 msgstr "Zusammenführen"
 
-#: src/GNOME_Gnumeric.xml.h:151 src/workbook-format-toolbar.c:445
+#: src/GNOME_Gnumeric.xml.h:151 src/workbook-format-toolbar.c:446
 msgid "Merge a range of cells"
 msgstr "Einen Bereich von Zellen zusammenführen"
 
@@ -13770,7 +13769,7 @@ msgstr "Mit optionalen Filtern und Umwandlungen einfügen"
 msgid "Pearson Correlation"
 msgstr "Pearson-Korrelation"
 
-#: src/GNOME_Gnumeric.xml.h:175 src/workbook-format-toolbar.c:457
+#: src/GNOME_Gnumeric.xml.h:175 src/workbook-format-toolbar.c:458
 msgid "Percent"
 msgstr "Prozent"
 
@@ -13835,7 +13834,7 @@ msgstr "Neu bere_chnen"
 msgid "Recalculate the spreadsheet"
 msgstr "Arbeitsblatt neu berechnen"
 
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-object-toolbar.c:166
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-object-toolbar.c:167
 msgid "Rectangle"
 msgstr "Rechteck"
 
@@ -13863,7 +13862,7 @@ msgid "Rename the current sheet"
 msgstr "Das aktuelle Blatte umbenennen"
 
 #: src/GNOME_Gnumeric.xml.h:196 src/dialogs/cell-format.glade.h:67
-#: src/workbook-format-toolbar.c:624
+#: src/workbook-format-toolbar.c:625
 msgid "Right"
 msgstr "Rechts"
 
@@ -13899,7 +13898,7 @@ msgstr "Die aktuelle Datei unter einem anderen Namen speichern."
 msgid "Save the current workbook"
 msgstr "Das aktuelle Arbeitsbuch speichern"
 
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-object-toolbar.c:142
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-object-toolbar.c:143
 msgid "Scrollbar"
 msgstr "Scrollleiste"
 
@@ -13962,16 +13961,16 @@ msgstr "Eine komplette Spalte auswählen"
 msgid "Select an entire row"
 msgstr "Eine komplette Zeile auswählen"
 
-#: src/GNOME_Gnumeric.xml.h:220 src/workbook-format-toolbar.c:460
+#: src/GNOME_Gnumeric.xml.h:220 src/workbook-format-toolbar.c:461
 msgid "Sets the format of the selected cells to include a thousands separator"
 msgstr ""
 "Dem Format der markierten Zellen das Trennzeichen für Tausender hinzufügen"
 
-#: src/GNOME_Gnumeric.xml.h:221 src/workbook-format-toolbar.c:454
+#: src/GNOME_Gnumeric.xml.h:221 src/workbook-format-toolbar.c:455
 msgid "Sets the format of the selected cells to monetary"
 msgstr "Die markierten Zellen als Währungswert formatieren"
 
-#: src/GNOME_Gnumeric.xml.h:222 src/workbook-format-toolbar.c:457
+#: src/GNOME_Gnumeric.xml.h:222 src/workbook-format-toolbar.c:458
 msgid "Sets the format of the selected cells to percentage"
 msgstr "Die markierten Zellen als Prozentwert formatieren"
 
@@ -13985,7 +13984,7 @@ msgid "Show all filtered and hidden rows"
 msgstr "Alle gefilterten und versteckten Zeilen anzeigen"
 
 #: src/GNOME_Gnumeric.xml.h:225 src/workbook-control-gui.c:3770
-#: schemas/gnumeric-general.schemas.in.h:41
+#: schemas/gnumeric-general.schemas.in.h:29
 msgid "Sort Ascending"
 msgstr "Aufsteigend sortieren"
 
@@ -14013,11 +14012,11 @@ msgstr ""
 "Den markierten Bereich in absteigender Ordnung sortieren, basierend auf der "
 "ersten markierten Spalte."
 
-#: src/GNOME_Gnumeric.xml.h:230 src/workbook-format-toolbar.c:448
+#: src/GNOME_Gnumeric.xml.h:230 src/workbook-format-toolbar.c:449
 msgid "Split"
 msgstr "Teilen"
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-format-toolbar.c:448
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-format-toolbar.c:449
 msgid "Split merged ranges of cells"
 msgstr "Einen zusammengeführten Bereich von Zellen teilen"
 
@@ -14043,7 +14042,7 @@ msgstr ""
 "Entscheidungsalternativen unter Verwendung der Monte Carlo-Simulation "
 "durchspielen, um mögliche mit ihnen verbundene Ausgaben und Risiken zu finden"
 
-#: src/GNOME_Gnumeric.xml.h:236 src/workbook-format-toolbar.c:460
+#: src/GNOME_Gnumeric.xml.h:236 src/workbook-format-toolbar.c:461
 msgid "Thousand separator"
 msgstr "Trennzeichen für Tausender"
 
@@ -14088,7 +14087,7 @@ msgstr "Zwei _Durchschnitte"
 msgid "Uncollapse an outline group"
 msgstr "Übersichtsgruppe zeigen"
 
-#: src/GNOME_Gnumeric.xml.h:247 src/workbook-format-toolbar.c:420
+#: src/GNOME_Gnumeric.xml.h:247 src/workbook-format-toolbar.c:421
 msgid "Underline"
 msgstr "Unterstreichen"
 
@@ -15605,7 +15604,6 @@ msgstr "Be_schriftungen"
 
 #: src/dialogs/anova-two.glade.h:2 src/dialogs/descriptive-stats.glade.h:3
 #: src/dialogs/random-generation.glade.h:1 src/dialogs/sampling.glade.h:1
-#: schemas/gnumeric-general.schemas.in.h:2
 msgid "1"
 msgstr "1"
 
@@ -15849,7 +15847,7 @@ msgstr "Hintergrundfarbe:"
 msgid "Border"
 msgstr "Rand"
 
-#: src/dialogs/cell-format.glade.h:17 src/workbook-format-toolbar.c:630
+#: src/dialogs/cell-format.glade.h:17 src/workbook-format-toolbar.c:631
 msgid "Bottom"
 msgstr "Unten"
 
@@ -16965,7 +16963,7 @@ msgstr "6"
 msgid "13"
 msgstr "13"
 
-#: src/dialogs/dialog-autoformat.c:69 schemas/gnumeric-general.schemas.in.h:6
+#: src/dialogs/dialog-autoformat.c:69
 msgid "20"
 msgstr "20"
 
@@ -16977,7 +16975,7 @@ msgstr "39"
 msgid "South"
 msgstr "Süd"
 
-#: src/dialogs/dialog-autoformat.c:70 schemas/gnumeric-dialogs.schemas.in.h:1
+#: src/dialogs/dialog-autoformat.c:70
 msgid "12"
 msgstr "12"
 
@@ -17009,7 +17007,7 @@ msgstr "2"
 msgid "0"
 msgstr "0"
 
-#: src/dialogs/dialog-autoformat.c:71 schemas/gnumeric-general.schemas.in.h:3
+#: src/dialogs/dialog-autoformat.c:71
 msgid "10"
 msgstr "10"
 
@@ -17094,7 +17092,7 @@ msgid "The validation criteria are unusable. Disable validation?"
 msgstr ""
 "Die Validierungskriterien sind nicht verwendbar. Validierung deaktivieren?"
 
-#: src/dialogs/dialog-cell-format.c:2665 src/workbook-format-toolbar.c:810
+#: src/dialogs/dialog-cell-format.c:2665 src/workbook-format-toolbar.c:811
 msgid "Clear Background"
 msgstr "Hintergrund entfernen"
 
@@ -17488,15 +17486,13 @@ msgstr "Verzeichnis"
 #. Is it a boolean?
 #: src/dialogs/dialog-preferences.c:374 src/format.c:1556
 #: src/number-match.c:1109 src/value-sheet.c:33 src/value.c:299
-#: src/value.c:608 schemas/gnumeric-dialogs.schemas.in.h:30
-#: schemas/gnumeric-general.schemas.in.h:44
+#: src/value.c:608
 msgid "TRUE"
 msgstr "WAHR"
 
 #: src/dialogs/dialog-preferences.c:375 src/format.c:1556
 #: src/number-match.c:1111 src/value-sheet.c:33 src/value.c:301
-#: src/value.c:608 schemas/gnumeric-dialogs.schemas.in.h:13
-#: schemas/gnumeric-general.schemas.in.h:22
+#: src/value.c:608
 msgid "FALSE"
 msgstr "FALSCH"
 
@@ -20778,7 +20774,7 @@ msgstr "Als Zahl formatieren"
 msgid "Format as Currency"
 msgstr "Als Geld formatieren"
 
-#: src/gnumeric-canvas.c:101 src/workbook-format-toolbar.c:308
+#: src/gnumeric-canvas.c:101 src/workbook-format-toolbar.c:309
 msgid "Format as Percentage"
 msgstr "Als Prozentwert formatieren"
 
@@ -21161,16 +21157,14 @@ msgid "Name '%s' does not exist in workbook '%s'"
 msgstr "Name »%s« existiert im Arbeitsbuch »%s« nicht"
 
 #: src/parser.y:754
-#, fuzzy
 msgid "This locale uses '\\' rather than ',' to separate array columns."
 msgstr ""
-"Der Buchstabe »%c« kann nicht benutzt werden um Feldelemente zu trennen."
+"Diese Locale verwendet »\\« anstatt von »,«, um Feldspalten zu trennen."
 
 #: src/parser.y:767
-#, fuzzy
 msgid "This locale uses ',' rather than '\\' to separate array columns."
 msgstr ""
-"Der Buchstabe »%c« kann nicht benutzt werden um Feldelemente zu trennen."
+"Diese Locale verwendet »,« anstatt von »\\«, um Feldspalten zu trennen."
 
 #: src/parser.y:892 src/parser.y:1049
 msgid "Could not find matching closing quote"
@@ -22875,7 +22869,7 @@ msgstr "Einfache Reichweite erwartet"
 msgid "Bold italic"
 msgstr "Fett-kursiv"
 
-#: src/widgets/widget-font-selector.c:116 src/workbook-format-toolbar.c:413
+#: src/widgets/widget-font-selector.c:116 src/workbook-format-toolbar.c:414
 msgid "Italic"
 msgstr "Kursiv"
 
@@ -23215,195 +23209,195 @@ msgstr ""
 msgid "Unprotect the sheet to enable editing."
 msgstr "Den Schutz des Blatts entfernen um das Bearbeiten zu ermöglichen."
 
-#: src/workbook-format-toolbar.c:83
+#: src/workbook-format-toolbar.c:84
 msgid "Set Horizontal Alignment"
 msgstr "Vertikale Ausrichtung festlegen"
 
-#: src/workbook-format-toolbar.c:183
+#: src/workbook-format-toolbar.c:184
 msgid "Set Font Style"
 msgstr "Stil der Schrift festlegen"
 
-#: src/workbook-format-toolbar.c:249
+#: src/workbook-format-toolbar.c:250
 msgid "Set Font"
 msgstr "Schrift festlegen"
 
-#: src/workbook-format-toolbar.c:281
+#: src/workbook-format-toolbar.c:282
 msgid "Set Font Size"
 msgstr "Schriftgröße festlegen"
 
-#: src/workbook-format-toolbar.c:302
+#: src/workbook-format-toolbar.c:303
 msgid "Format as Money"
 msgstr "Als Geld formatieren"
 
-#: src/workbook-format-toolbar.c:315
+#: src/workbook-format-toolbar.c:316
 msgid "Format with thousands separator"
 msgstr "Mit Trennzeichen für Tausender formatieren"
 
-#: src/workbook-format-toolbar.c:343
+#: src/workbook-format-toolbar.c:344
 msgid "Increase precision"
 msgstr "Genauigkeit erhöhen"
 
-#: src/workbook-format-toolbar.c:349
+#: src/workbook-format-toolbar.c:350
 msgid "Decrease precision"
 msgstr "Genauigkeit vermindern"
 
-#: src/workbook-format-toolbar.c:403
+#: src/workbook-format-toolbar.c:404
 msgid "Select font"
 msgstr "Schrift auswählen"
 
-#: src/workbook-format-toolbar.c:406
+#: src/workbook-format-toolbar.c:407
 msgid "Sets the bold font"
 msgstr "Die Schrift fett machen"
 
-#: src/workbook-format-toolbar.c:413
+#: src/workbook-format-toolbar.c:414
 msgid "Makes the font italic"
 msgstr "Die Schrift kursiv machen"
 
-#: src/workbook-format-toolbar.c:420
+#: src/workbook-format-toolbar.c:421
 msgid "Underlines the font"
 msgstr "Die Schrift unterstreichen"
 
-#: src/workbook-format-toolbar.c:429
+#: src/workbook-format-toolbar.c:430
 msgid "Left align"
 msgstr "Links ausrichten"
 
-#: src/workbook-format-toolbar.c:429
+#: src/workbook-format-toolbar.c:430
 msgid "Left justifies the cell contents"
 msgstr "Zelleninhalt links ausrichten"
 
-#: src/workbook-format-toolbar.c:433
+#: src/workbook-format-toolbar.c:434
 msgid "Centers the cell contents"
 msgstr "Zelleninhalt zentrieren"
 
-#: src/workbook-format-toolbar.c:437
+#: src/workbook-format-toolbar.c:438
 msgid "Right align"
 msgstr "Rechts ausrichten"
 
-#: src/workbook-format-toolbar.c:437
+#: src/workbook-format-toolbar.c:438
 msgid "Right justifies the cell contents"
 msgstr "Zelleninhalt rechts ausrichten"
 
-#: src/workbook-format-toolbar.c:441
+#: src/workbook-format-toolbar.c:442
 msgid "Center across selection"
 msgstr "Über der Auswahl zentrieren"
 
-#: src/workbook-format-toolbar.c:454
+#: src/workbook-format-toolbar.c:455
 msgid "Money format"
 msgstr "Format für Geld"
 
-#: src/workbook-format-toolbar.c:463
+#: src/workbook-format-toolbar.c:464
 msgid "Add decimals"
 msgstr "Dezimalen hinzufügen"
 
-#: src/workbook-format-toolbar.c:466
+#: src/workbook-format-toolbar.c:467
 msgid "Remove decimals"
 msgstr "Dezimalen entfernen"
 
-#: src/workbook-format-toolbar.c:540
+#: src/workbook-format-toolbar.c:541
 msgid "Set Foreground Color"
 msgstr "Vordergrundfarbe festlegen"
 
-#: src/workbook-format-toolbar.c:574
+#: src/workbook-format-toolbar.c:575
 msgid "Set Background Color"
 msgstr "Hintergrundfarbe festlegen"
 
-#: src/workbook-format-toolbar.c:623
+#: src/workbook-format-toolbar.c:624
 msgid "Clear Borders"
 msgstr "Ränder entfernen"
 
-#: src/workbook-format-toolbar.c:626
+#: src/workbook-format-toolbar.c:627
 msgid "All Borders"
 msgstr "Alle Ränder"
 
-#: src/workbook-format-toolbar.c:627
+#: src/workbook-format-toolbar.c:628
 msgid "Outside Borders"
 msgstr "Außenränder"
 
-#: src/workbook-format-toolbar.c:628
+#: src/workbook-format-toolbar.c:629
 msgid "Thick Outside Borders"
 msgstr "Dicke Außenränder"
 
-#: src/workbook-format-toolbar.c:631
+#: src/workbook-format-toolbar.c:632
 msgid "Double Bottom"
 msgstr "Unten doppelt"
 
-#: src/workbook-format-toolbar.c:632
+#: src/workbook-format-toolbar.c:633
 msgid "Thick Bottom"
 msgstr "Unten dick"
 
-#: src/workbook-format-toolbar.c:634
+#: src/workbook-format-toolbar.c:635
 msgid "Top and Bottom"
 msgstr "Oben und unten"
 
-#: src/workbook-format-toolbar.c:635
+#: src/workbook-format-toolbar.c:636
 msgid "Top and Double Bottom"
 msgstr "Oben, dazu unten doppelt"
 
-#: src/workbook-format-toolbar.c:636
+#: src/workbook-format-toolbar.c:637
 msgid "Top and Thick Bottom"
 msgstr "Oben, dazu unten dick"
 
-#: src/workbook-format-toolbar.c:734
+#: src/workbook-format-toolbar.c:735
 msgid "Set Borders"
 msgstr "Ränder festlegen"
 
-#: src/workbook-format-toolbar.c:784
+#: src/workbook-format-toolbar.c:785
 msgid "Size"
 msgstr "Größe"
 
-#: src/workbook-object-toolbar.c:130
+#: src/workbook-object-toolbar.c:131
 msgid "Creates a label"
 msgstr "Ein Label erzeugen"
 
-#: src/workbook-object-toolbar.c:133
+#: src/workbook-object-toolbar.c:134
 msgid "Creates a frame"
 msgstr "Einen Rahmen erzeugen"
 
-#: src/workbook-object-toolbar.c:138
+#: src/workbook-object-toolbar.c:139
 msgid "Creates a button"
 msgstr "Einen Knopf erzeugen"
 
-#: src/workbook-object-toolbar.c:142
+#: src/workbook-object-toolbar.c:143
 msgid "Creates a scrollbar"
 msgstr "Eine Scrollleiste erzeugen"
 
-#: src/workbook-object-toolbar.c:145
+#: src/workbook-object-toolbar.c:146
 msgid "Creates a checkbox"
 msgstr "Ein Kontrollkästchen erzeugen"
 
-#: src/workbook-object-toolbar.c:150
+#: src/workbook-object-toolbar.c:151
 msgid "RadioButton"
 msgstr "Radiobutton"
 
-#: src/workbook-object-toolbar.c:150
+#: src/workbook-object-toolbar.c:151
 msgid "Creates a radio button"
 msgstr "Einen Radiobutton erzeugen"
 
-#: src/workbook-object-toolbar.c:154
+#: src/workbook-object-toolbar.c:155
 msgid "Creates a list"
 msgstr "Eine Liste erzeugen"
 
-#: src/workbook-object-toolbar.c:157
+#: src/workbook-object-toolbar.c:158
 msgid "Combo"
 msgstr "Kombifeld"
 
-#: src/workbook-object-toolbar.c:157
+#: src/workbook-object-toolbar.c:158
 msgid "Creates a combo box"
 msgstr "Ein Kombinationsfeld erzeugen"
 
-#: src/workbook-object-toolbar.c:160
+#: src/workbook-object-toolbar.c:161
 msgid "Creates a line object"
 msgstr "Ein Linienobjekt erzeugen"
 
-#: src/workbook-object-toolbar.c:163
+#: src/workbook-object-toolbar.c:164
 msgid "Creates an arrow object"
 msgstr "Ein Pfeilobjekt erzeugen"
 
-#: src/workbook-object-toolbar.c:166
+#: src/workbook-object-toolbar.c:167
 msgid "Creates a rectangle object"
 msgstr "Ein Rechteckobjekt erzeugen"
 
-#: src/workbook-object-toolbar.c:169
+#: src/workbook-object-toolbar.c:170
 msgid "Creates an ellipse object"
 msgstr "Ein Ellipsenobjekt erzeugen"
 
@@ -23810,107 +23804,103 @@ msgstr "Handelsvolumen, Eröffnung, Hoch, Tief, Schluss."
 msgid "open, High, Low, Close."
 msgstr "Eröffnung , Hoch, Tief, Schluss."
 
-#: schemas/gnumeric-dialogs.schemas.in.h:2
+#: schemas/gnumeric-dialogs.schemas.in.h:1
 msgid "Activate New Plugins"
 msgstr "Neue Plugins sofort aktivieren"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:3
+#: schemas/gnumeric-dialogs.schemas.in.h:2
 msgid "Allow Unfocused Range Selections"
 msgstr "Nicht fokussierte Bereichsmarkierungen erlauben"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:4
+#: schemas/gnumeric-dialogs.schemas.in.h:3
 msgid "Apply print-setup to all sheets"
 msgstr "Druckeinstellungen auf alle Blätter anwenden"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:5
+#: schemas/gnumeric-dialogs.schemas.in.h:4
 msgid "Autocorrect First Letter"
 msgstr "Ersten Buchstaben automatisch korrigieren"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:6
+#: schemas/gnumeric-dialogs.schemas.in.h:5
 msgid "Autocorrect Initial Caps"
 msgstr "Große Anfangsbuchstaben automatisch korrigieren"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:7
+#: schemas/gnumeric-dialogs.schemas.in.h:6
 msgid "Autocorrect Names od Days"
 msgstr "Namen der Tage automatisch korrigieren"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:8
+#: schemas/gnumeric-dialogs.schemas.in.h:7
 msgid "Autocorrect Replace"
 msgstr "Ersetzen automatisch korrigieren"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:9
+#: schemas/gnumeric-dialogs.schemas.in.h:8
 msgid "Autocorrect first letter"
 msgstr "Ersten Buchstaben automatisch korrigieren"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:10
+#: schemas/gnumeric-dialogs.schemas.in.h:9
 msgid "Autocorrect initial caps"
 msgstr "Ersten Buchstaben automatisch korrigieren"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:11
+#: schemas/gnumeric-dialogs.schemas.in.h:10
 msgid "Autocorrect names of days"
 msgstr "Namen der Tage automatisch korrigieren"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:12
+#: schemas/gnumeric-dialogs.schemas.in.h:11
 msgid "Autocorrect replace"
 msgstr "Ersetzen automatisch korrigieren"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:14
-msgid "GENERIC"
-msgstr ""
-
-#: schemas/gnumeric-dialogs.schemas.in.h:15
+#: schemas/gnumeric-dialogs.schemas.in.h:12
 msgid "List of Active Plugins."
 msgstr "Liste aktiver Plugins."
 
-#: schemas/gnumeric-dialogs.schemas.in.h:16
+#: schemas/gnumeric-dialogs.schemas.in.h:13
 msgid "List of Extra Autoformat Directories."
 msgstr "Liste zusätzlicher Auto-Formatierung-Verzeichnisse."
 
-#: schemas/gnumeric-dialogs.schemas.in.h:17
+#: schemas/gnumeric-dialogs.schemas.in.h:14
 msgid "List of Extra Plugin Directories."
 msgstr "Liste zusätzlicher Plugin-Verzeichnisse."
 
-#: schemas/gnumeric-dialogs.schemas.in.h:18
+#: schemas/gnumeric-dialogs.schemas.in.h:15
 msgid "List of First Letter Exceptions"
 msgstr "Liste der erster Buchstabe-Ausnahmen"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:19
+#: schemas/gnumeric-dialogs.schemas.in.h:16
 msgid "List of Init Caps Exceptions"
 msgstr "Liste der Ausnahmen großer Anfangsbuchstaben"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:20
+#: schemas/gnumeric-dialogs.schemas.in.h:17
 msgid "List of Known Plugins."
 msgstr "Liste bekannter Plugins."
 
-#: schemas/gnumeric-dialogs.schemas.in.h:21
+#: schemas/gnumeric-dialogs.schemas.in.h:18
 msgid "List of Plugin File States."
 msgstr "Liste der Plugin-Dateizustände"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:22
+#: schemas/gnumeric-dialogs.schemas.in.h:19
 msgid "List of recently used functions."
 msgstr "Liste zuletzt verwendeter Funktionen."
 
-#: schemas/gnumeric-dialogs.schemas.in.h:23
+#: schemas/gnumeric-dialogs.schemas.in.h:20
 msgid "Maximum Length of Recently Used Functions List"
 msgstr "Maximale Einträge in der Liste zuletzt verwendeter Funktionen"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:24
+#: schemas/gnumeric-dialogs.schemas.in.h:21
 msgid "Print-to Filename"
 msgstr "Drucken-nach Dateiname"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:25
+#: schemas/gnumeric-dialogs.schemas.in.h:22
 msgid "Printer"
 msgstr "Drucker"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:26
+#: schemas/gnumeric-dialogs.schemas.in.h:23
 msgid "Printer Backend"
 msgstr "Drucker-Zugriffsmethode"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:27
+#: schemas/gnumeric-dialogs.schemas.in.h:24
 msgid "Printing Command"
 msgstr "Druckbefehl"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:28
+#: schemas/gnumeric-dialogs.schemas.in.h:25
 msgid ""
 "Some dialogs contain only a single entry field that allows range selections "
 "in the workbook. Setting this variable to TRUE directs selections to this "
@@ -23921,11 +23911,11 @@ msgstr ""
 "WAHR leitet Markierungen an diesen Eintrag weiter, sogar wenn der Eintrag "
 "keinen Tastaturfokus hat."
 
-#: schemas/gnumeric-dialogs.schemas.in.h:29
+#: schemas/gnumeric-dialogs.schemas.in.h:26
 msgid "System Directory for Autoformats"
 msgstr "Systemverzeichnis für Auto-Formatierungen"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:31
+#: schemas/gnumeric-dialogs.schemas.in.h:27
 msgid ""
 "The autocorrect engine does not correct the first letter for words in this "
 "list."
@@ -23933,7 +23923,7 @@ msgstr ""
 "Der ersten Buchstaben von Wörter in dieser Liste wird nicht von der Auto-"
 "Korrektur korrigiert."
 
-#: schemas/gnumeric-dialogs.schemas.in.h:32
+#: schemas/gnumeric-dialogs.schemas.in.h:28
 msgid ""
 "The autocorrect engine does not correct the inital caps for words in this "
 "list."
@@ -23941,13 +23931,13 @@ msgstr ""
 "Die großen Anfangsbuchstaben von Wörter in dieser Liste wird nicht von der "
 "Auto-Korrektur korrigiert."
 
-#: schemas/gnumeric-dialogs.schemas.in.h:33
+#: schemas/gnumeric-dialogs.schemas.in.h:29
 msgid "The backend used in gnome-print. Do not edit this variable."
 msgstr ""
 "Die von GNOME-Print verwendete Zugriffsmethode. Bearbeiten Sie diesen Wert "
 "nicht!"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:34
+#: schemas/gnumeric-dialogs.schemas.in.h:30
 msgid ""
 "The configuration name of the printer in gnome-print. Do not edit this "
 "variable."
@@ -23955,11 +23945,11 @@ msgstr ""
 "Der von GNOME-Print verwendete Konfigurationsname des Druckers. Bearbeiten "
 "Sie diesen Wert nicht!"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:35
+#: schemas/gnumeric-dialogs.schemas.in.h:31
 msgid "The custom printing command (lpr, xpp, ...)"
 msgstr "Der benutzerdefinierte Druckbefehl (lpr, xpp, ...) "
 
-#: schemas/gnumeric-dialogs.schemas.in.h:36
+#: schemas/gnumeric-dialogs.schemas.in.h:32
 msgid ""
 "The file name when printing to a file in gnome-print. Do not edit this "
 "variable."
@@ -23967,7 +23957,7 @@ msgstr ""
 "Der von GNOME-Print verwendete Dateiname beim Drucken in eine Datei. "
 "Bearbeiten Sie diesen Wert nicht!"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:37
+#: schemas/gnumeric-dialogs.schemas.in.h:33
 msgid ""
 "The function selector keeps a list of recently used functions. This is that "
 "list."
@@ -23975,7 +23965,7 @@ msgstr ""
 "Die Funktionswahl hält eine Liste zuletzt verwendeter Funktionen vor. Dies "
 "ist diese Liste."
 
-#: schemas/gnumeric-dialogs.schemas.in.h:38
+#: schemas/gnumeric-dialogs.schemas.in.h:34
 msgid ""
 "The function selector keeps a list of recently used functions. This is the "
 "maximum length of that list."
@@ -23983,49 +23973,49 @@ msgstr ""
 "Die Funktionswahl hält eine Liste zuletzt verwendeter Funktionen vor. Dies "
 "ist die Zahl der maximalen Einträge in dieser Liste."
 
-#: schemas/gnumeric-dialogs.schemas.in.h:39
+#: schemas/gnumeric-dialogs.schemas.in.h:35
 msgid "The main directory for user specific autoformat templates."
 msgstr ""
 "Das Hauptverzeichnis für benutzerspezifische Vorlagen zur Auto-Formatierung."
 
 # CHECK
-#: schemas/gnumeric-dialogs.schemas.in.h:40
+#: schemas/gnumeric-dialogs.schemas.in.h:36
 msgid "The printer used with the lpr command"
 msgstr "Der mit dem lpr-Befehl verwendete Drucker"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:41
+#: schemas/gnumeric-dialogs.schemas.in.h:37
 msgid "This directory contains the pre-installed autoformat templates."
 msgstr ""
 "Dieses Verzeichnis enthält die vorinstallierten Vorlagen für die Auto-"
 "Formatierung."
 
-#: schemas/gnumeric-dialogs.schemas.in.h:42
+#: schemas/gnumeric-dialogs.schemas.in.h:38
 msgid ""
 "This list contains all extra directories containing autoformat templates."
 msgstr ""
 "Diese Liste enthält alle zusätzlichen Dateien, die Vorlagen zur Auto-"
 "Formatierung enthalten."
 
-#: schemas/gnumeric-dialogs.schemas.in.h:43
+#: schemas/gnumeric-dialogs.schemas.in.h:39
 msgid "This list contains all extra directories containing plugins."
 msgstr "Diese Liste enthält alle zusätzlichen Dateien, die Plugins enthalten."
 
-#: schemas/gnumeric-dialogs.schemas.in.h:44
+#: schemas/gnumeric-dialogs.schemas.in.h:40
 msgid "This list contains all known plugins."
 msgstr "Diese Liste enthält alle bekannten Plugins."
 
-#: schemas/gnumeric-dialogs.schemas.in.h:45
+#: schemas/gnumeric-dialogs.schemas.in.h:41
 msgid "This list contains all plugin file states."
 msgstr "Diese Liste enthält alle Plugin-Dateizustände."
 
-#: schemas/gnumeric-dialogs.schemas.in.h:46
+#: schemas/gnumeric-dialogs.schemas.in.h:42
 msgid ""
 "This list contains all plugins that are supposed to be automatically "
 "activated."
 msgstr ""
 "Diese Liste enthält alle Plugins, die automatisch aktiviert werden sollen."
 
-#: schemas/gnumeric-dialogs.schemas.in.h:47
+#: schemas/gnumeric-dialogs.schemas.in.h:43
 msgid ""
 "This value determines whether by default the print set-up dialog applies to "
 "all sheets simultaneously."
@@ -24033,87 +24023,30 @@ msgstr ""
 "Dieser Wert legt fest, ob der Druckeinstellungen-Dialog als Vorgabe auf alle "
 "Blätter gleichzeitig angewendet wird."
 
-#: schemas/gnumeric-dialogs.schemas.in.h:48
+#: schemas/gnumeric-dialogs.schemas.in.h:44
 msgid ""
 "This variable determines whether to activate every new encountered plugin."
 msgstr ""
 "Diese Variable legt fest, ob jedes neu entdeckte Plugin aktiviert werden "
 "soll."
 
-#: schemas/gnumeric-dialogs.schemas.in.h:49
+#: schemas/gnumeric-dialogs.schemas.in.h:45
 msgid "User Directory for Autoformats"
 msgstr "Benutzerverzeichnis für Auto-Formatierungen"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:50
-#, fuzzy
-msgid "autoformat-templates"
-msgstr "Dies ist keine Autoformat-Vorlage."
-
-#: schemas/gnumeric-dialogs.schemas.in.h:51
-#, fuzzy
-msgid "lp"
-msgstr "p"
-
-#: schemas/gnumeric-dialogs.schemas.in.h:52
-msgid "lpr"
-msgstr ""
-
-#: schemas/gnumeric-dialogs.schemas.in.h:53
+#: schemas/gnumeric-dialogs.schemas.in.h:46
 msgid "lpr Printer"
 msgstr "lpr-Drucker"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:54
-#, fuzzy
-msgid "output.ps"
-msgstr "_Ausgaben:"
-
-#: schemas/gnumeric-dialogs.schemas.in.h:55
-msgid "xpp"
-msgstr ""
-
 #: schemas/gnumeric-general.schemas.in.h:1
-#, fuzzy
-msgid "0.75"
-msgstr "0,05"
-
-#: schemas/gnumeric-general.schemas.in.h:4
-#, fuzzy
-msgid "100"
-msgstr "10"
-
-#: schemas/gnumeric-general.schemas.in.h:5
-#, fuzzy
-msgid "15"
-msgstr "1"
-
-#: schemas/gnumeric-general.schemas.in.h:7
-#, fuzzy
-msgid "200"
-msgstr "20"
-
-#: schemas/gnumeric-general.schemas.in.h:8
-msgid "5"
-msgstr ""
-
-#: schemas/gnumeric-general.schemas.in.h:9
-#, fuzzy
-msgid "9"
-msgstr "19"
-
-#: schemas/gnumeric-general.schemas.in.h:10
-#, fuzzy
-msgid "96"
-msgstr "6"
-
-#: schemas/gnumeric-general.schemas.in.h:11
 msgid "Auto Expression Recalculation Lag"
 msgstr "Verzögerung für Neuberechnung von Auto-Ausdrücken"
 
-#: schemas/gnumeric-general.schemas.in.h:12
+#: schemas/gnumeric-general.schemas.in.h:2
 msgid "Autocomplete"
 msgstr "Auto-Vervollständigung"
 
-#: schemas/gnumeric-general.schemas.in.h:13
+#: schemas/gnumeric-general.schemas.in.h:3
 msgid ""
 "Before an existing file is being overwritten, gnumeric will present a "
 "warning dialog. Setting this option will make the overwrite button in that "
@@ -24123,48 +24056,44 @@ msgstr ""
 "Dialog an. Das Setzen dieser Option macht den Überschreiben-Knopf in diesem "
 "Dialog zum vorgegebenen Knopf."
 
-#: schemas/gnumeric-general.schemas.in.h:14
+#: schemas/gnumeric-general.schemas.in.h:4
 msgid "Default Compression Level For Gnumeric Files"
 msgstr "Vorgegebener Kompressionsgrad für Gnumeric-Dateien"
 
-#: schemas/gnumeric-general.schemas.in.h:15
+#: schemas/gnumeric-general.schemas.in.h:5
 msgid "Default Font Size"
 msgstr "Vorgegebene Schriftgröße"
 
-#: schemas/gnumeric-general.schemas.in.h:16
+#: schemas/gnumeric-general.schemas.in.h:6
 msgid "Default Horizontal Window Size"
 msgstr "Vorgegebene Fensterbreite"
 
-#: schemas/gnumeric-general.schemas.in.h:17
+#: schemas/gnumeric-general.schemas.in.h:7
 msgid "Default Number of Sheets"
 msgstr "Vorgegebene Blattanzahl"
 
-#: schemas/gnumeric-general.schemas.in.h:18
+#: schemas/gnumeric-general.schemas.in.h:8
 msgid "Default To Overwriting Files"
 msgstr "Vorgabe auf Datei überschreiben"
 
-#: schemas/gnumeric-general.schemas.in.h:19
+#: schemas/gnumeric-general.schemas.in.h:9
 msgid "Default Vertical Window Size"
 msgstr "Vorgegebene Fensterhöhe"
 
-#: schemas/gnumeric-general.schemas.in.h:20
+#: schemas/gnumeric-general.schemas.in.h:10
 msgid "Default Zoom Factor"
 msgstr "Vorgegebener Vergrößerungsfaktor"
 
-#: schemas/gnumeric-general.schemas.in.h:21
+#: schemas/gnumeric-general.schemas.in.h:11
 msgid "Default font name"
 msgstr "Vorgegebener Schriftname"
 
-#: schemas/gnumeric-general.schemas.in.h:23
-msgid "Helvetica"
-msgstr ""
-
-#: schemas/gnumeric-general.schemas.in.h:24
+#: schemas/gnumeric-general.schemas.in.h:12
 msgid "Horizontal DPI"
 msgstr "DPI horizontal"
 
 # CHECK
-#: schemas/gnumeric-general.schemas.in.h:25
+#: schemas/gnumeric-general.schemas.in.h:13
 msgid ""
 "If this value is positive, auto expressions are recalculated within that "
 "many millesecond after a change. If it is negative they are recalculated "
@@ -24177,47 +24106,47 @@ msgstr ""
 "wobei »last« als Ende einer Periode dieser Größe nach einer Änderung ohne "
 "Änderungen festgelegt ist."
 
-#: schemas/gnumeric-general.schemas.in.h:26
+#: schemas/gnumeric-general.schemas.in.h:14
 msgid "Import Uses All Openers"
 msgstr "Import verwendet alle Öffner"
 
-#: schemas/gnumeric-general.schemas.in.h:27
+#: schemas/gnumeric-general.schemas.in.h:15
 msgid "Length of File History"
 msgstr "Länge der Dateichronik"
 
-#: schemas/gnumeric-general.schemas.in.h:28
+#: schemas/gnumeric-general.schemas.in.h:16
 msgid "Length of the Undo Descriptors"
 msgstr "Länge der Rückgängig-Beschreibungen"
 
-#: schemas/gnumeric-general.schemas.in.h:29
+#: schemas/gnumeric-general.schemas.in.h:17
 msgid "List of recently used files"
 msgstr "Liste zuletzt verwendeter Dateien"
 
-#: schemas/gnumeric-general.schemas.in.h:30
+#: schemas/gnumeric-general.schemas.in.h:18
 msgid "Live Scrolling"
 msgstr "Live-Scrolling"
 
-#: schemas/gnumeric-general.schemas.in.h:31
+#: schemas/gnumeric-general.schemas.in.h:19
 msgid "Maximal Undo Size"
 msgstr "Maximale Rückgängig-Größe"
 
-#: schemas/gnumeric-general.schemas.in.h:32
+#: schemas/gnumeric-general.schemas.in.h:20
 msgid "Number of Automatic Clauses"
 msgstr "Anzahl der automatischen Bedingungen"
 
-#: schemas/gnumeric-general.schemas.in.h:33
+#: schemas/gnumeric-general.schemas.in.h:21
 msgid "Number of Undo Items"
 msgstr "Anzahl der Rückgängig-Objekte"
 
-#: schemas/gnumeric-general.schemas.in.h:34
+#: schemas/gnumeric-general.schemas.in.h:22
 msgid "Screen resolution in the horizontal direction."
 msgstr "Bildschirmauflösung in horizontaler Richtung."
 
-#: schemas/gnumeric-general.schemas.in.h:35
+#: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the vertical direction."
 msgstr "Bildschirmauflösung in vertikaler Richtung."
 
-#: schemas/gnumeric-general.schemas.in.h:36
+#: schemas/gnumeric-general.schemas.in.h:24
 msgid ""
 "Setting this option will cause the sort buttons on the toolbar to perform a "
 "case-sensitive sort and determine the initial state of the case-sensitive "
@@ -24228,7 +24157,7 @@ msgstr ""
 "durchzuführen und legt den Zustand des »Groß-/Kleinschreibung "
 "berücksichtigen«-Kontrollkästchens zu Beginn im Sortierdialog fest."
 
-#: schemas/gnumeric-general.schemas.in.h:37
+#: schemas/gnumeric-general.schemas.in.h:25
 msgid ""
 "Setting this option will cause the sort buttons on the toolbar to preserve "
 "the cell formats while sorting and determines the initial state of the "
@@ -24238,7 +24167,7 @@ msgstr ""
 "die Zellformate beizubehalten und legt den Zustand des »Formate beibehalten«-"
 "Kontrollkästchens zu Beginn im Sortierdialog fest."
 
-#: schemas/gnumeric-general.schemas.in.h:38
+#: schemas/gnumeric-general.schemas.in.h:26
 msgid ""
 "Setting this option will make the import menu item use all available file "
 "openers rather than just those marked as importers."
@@ -24247,11 +24176,11 @@ msgstr ""
 "verfügbaren Dateiöffner zu verwenden und nicht nur die als Importierer "
 "gekennzeichneten."
 
-#: schemas/gnumeric-general.schemas.in.h:39
+#: schemas/gnumeric-general.schemas.in.h:27
 msgid "Show Sheet Name in Undo List"
 msgstr "Name des Blattes in Rückgängig-Liste zeigen"
 
-#: schemas/gnumeric-general.schemas.in.h:40
+#: schemas/gnumeric-general.schemas.in.h:28
 msgid ""
 "Some file formats can contain only a single sheet. This variable determines "
 "whether the user will be warned if only a single sheet of a multi-sheet "
@@ -24261,54 +24190,54 @@ msgstr ""
 "legt fest, ob der Benutzer gewarnt wird, falls nur ein einzelnes Blatt eines "
 "Arbeitsbuches mit mehreren Blättern gespeichert wird."
 
-#: schemas/gnumeric-general.schemas.in.h:42
+#: schemas/gnumeric-general.schemas.in.h:30
 msgid "Sort Preserve Formats"
 msgstr "Beim Sortieren Formate beibehalten"
 
-#: schemas/gnumeric-general.schemas.in.h:43
+#: schemas/gnumeric-general.schemas.in.h:31
 msgid "Sort is Case-Sensitive"
 msgstr "Unter Berücksichtigung von Groß-/Kleinschreibung sortieren"
 
-#: schemas/gnumeric-general.schemas.in.h:45
+#: schemas/gnumeric-general.schemas.in.h:32
 msgid "The default font is bold."
 msgstr "Die vorgegebene Schrift ist fett."
 
-#: schemas/gnumeric-general.schemas.in.h:46
+#: schemas/gnumeric-general.schemas.in.h:33
 msgid "The default font is italic."
 msgstr "Die vorgegebene Schrift ist kursiv."
 
-#: schemas/gnumeric-general.schemas.in.h:47
+#: schemas/gnumeric-general.schemas.in.h:34
 msgid "The default font name for new workbooks."
 msgstr "Der Name der vorgegebenen Schrift für neue Arbeitsbücher.."
 
-#: schemas/gnumeric-general.schemas.in.h:48
+#: schemas/gnumeric-general.schemas.in.h:35
 msgid "The default font size for new workbooks."
 msgstr "Die vorgegebene Schriftgröße für neue Arbeitsbücher.."
 
-#: schemas/gnumeric-general.schemas.in.h:49
+#: schemas/gnumeric-general.schemas.in.h:36
 msgid ""
 "The file menu shows a list of recently used functions. This is that list."
 msgstr ""
 "Das Dateimenü zeigt eine Liste zuletzt verwendeter Funktionen. Dies ist "
 "diese Liste."
 
-#: schemas/gnumeric-general.schemas.in.h:50
+#: schemas/gnumeric-general.schemas.in.h:37
 msgid "The initial zoom factor for new workbooks."
 msgstr "Der vorgegebene Vergrößerungsfaktor für neue Arbeitsbücher."
 
-#: schemas/gnumeric-general.schemas.in.h:51
+#: schemas/gnumeric-general.schemas.in.h:38
 msgid "The number of files kept in the `recent' section of the file menu."
 msgstr ""
 "Die Anzahl der Dateien, die im »Zuletzt geöffnete Dateien«-Abschnitt des "
 "Dateimenüs vorgehalten werden."
 
-#: schemas/gnumeric-general.schemas.in.h:52
+#: schemas/gnumeric-general.schemas.in.h:39
 msgid "The number of sheets initially created in a new workbook."
 msgstr ""
 "Die Anzahl der Blätter die in einem neuen Arbeitsbuch zu Beginn erzeugt "
 "werden."
 
-#: schemas/gnumeric-general.schemas.in.h:53
+#: schemas/gnumeric-general.schemas.in.h:40
 msgid ""
 "This integer (between 0 and 9) gives the amount compression performed by "
 "Gnumeric when saving files in the default file format. 0 is no compression "
@@ -24318,7 +24247,7 @@ msgstr ""
 "Gnumeric beim Speichern von Dateien im vorgegebenen Dateiformat durchgeführt "
 "wird. 0 führt zu keiner Kompression, während 9 die maximale Kompression ist."
 
-#: schemas/gnumeric-general.schemas.in.h:54
+#: schemas/gnumeric-general.schemas.in.h:41
 msgid ""
 "This number (between 0.25 and 1.00) gives the horizontal fraction of the "
 "screen size covered by the default window."
@@ -24326,7 +24255,7 @@ msgstr ""
 "Die Zahl (zwischen 0.25 und 1.00) gibt den horizontalen Anteil des "
 "Bildschirms an, der vom vorgegebenen Fenster belegt wird."
 
-#: schemas/gnumeric-general.schemas.in.h:55
+#: schemas/gnumeric-general.schemas.in.h:42
 msgid ""
 "This number (between 0.25 and 1.00) gives the vertical fraction of the "
 "screen size covered by the default window."
@@ -24334,7 +24263,7 @@ msgstr ""
 "Die Zahl (zwischen 0.25 und 1.00) gibt den vertikalen Anteil des Bildschirms "
 "an, der vom vorgegebenen Fenster belegt wird."
 
-#: schemas/gnumeric-general.schemas.in.h:56
+#: schemas/gnumeric-general.schemas.in.h:43
 msgid ""
 "This option determines the initial state of the sort-order button in the "
 "sort dialog."
@@ -24342,7 +24271,7 @@ msgstr ""
 "Diese Option legt den vorgegebenen Zustand des Sortier-Reihenfolge-Knopfes "
 "im Sortierdialog fest."
 
-#: schemas/gnumeric-general.schemas.in.h:57
+#: schemas/gnumeric-general.schemas.in.h:44
 msgid ""
 "This value determines the length of the undo chain. Each editing action has "
 "a size associate with it, to compare it with the memory requirements of a "
@@ -24355,28 +24284,28 @@ msgstr ""
 "vergleichen. Die Rückgängig-Liste wird abgeschnitten, wenn die gesamte Größe "
 "diesen konfiguriertbaren Wert überschreitet."
 
-#: schemas/gnumeric-general.schemas.in.h:58
+#: schemas/gnumeric-general.schemas.in.h:45
 msgid ""
 "This value determines the maximum number of items in the undo/redo list."
 msgstr ""
 "Diese Wert legt die maximale Anzahl der Objekte in der Rückgängig/Widerholen-"
 "Liste fest."
 
-#: schemas/gnumeric-general.schemas.in.h:59
+#: schemas/gnumeric-general.schemas.in.h:46
 msgid ""
 "This value determines whether the default font for a new workbook bold is."
 msgstr ""
 "Dieser Wert legt fest, ob die vorgegebene Schrift für ein neues Arbeitsbuch "
 "fett ist."
 
-#: schemas/gnumeric-general.schemas.in.h:60
+#: schemas/gnumeric-general.schemas.in.h:47
 msgid ""
 "This value determines whether the default font for a new workbook italic is."
 msgstr ""
 "Dieser Wert legt fest, ob die vorgegebene Schrift für ein neues Arbeitsbuch "
 "kursiv ist."
 
-#: schemas/gnumeric-general.schemas.in.h:61
+#: schemas/gnumeric-general.schemas.in.h:48
 msgid ""
 "This value determines whether to show the sheet names in the undo and redo "
 "lists."
@@ -24385,7 +24314,7 @@ msgstr ""
 "Wiederherstellen-Listen angezeigt werden sollen."
 
 # CHECK
-#: schemas/gnumeric-general.schemas.in.h:62
+#: schemas/gnumeric-general.schemas.in.h:49
 msgid ""
 "This value is indicative of the maximum length of the command descriptors in "
 "the undo and redo chains."
@@ -24393,13 +24322,13 @@ msgstr ""
 "Dieser Wert legt die maximale Länge der Befehlsbeschreibungen in Rückgängig- "
 "und Wiederholen-Ketten fest."
 
-#: schemas/gnumeric-general.schemas.in.h:63
+#: schemas/gnumeric-general.schemas.in.h:50
 msgid "This variable determines whether autocompletion is set on."
 msgstr ""
 "Die Variable legt fest, ob die automatische Vervollständigung durchgeführt "
 "wird."
 
-#: schemas/gnumeric-general.schemas.in.h:64
+#: schemas/gnumeric-general.schemas.in.h:51
 msgid ""
 "This variable determines whether live (versus delayed) scrolling is "
 "performed."
@@ -24407,15 +24336,15 @@ msgstr ""
 "Diese Variable legt fest, ob Scrollbewegungen sofort umgesetzt werden "
 "(ansonsten Verzögerung)."
 
-#: schemas/gnumeric-general.schemas.in.h:65
+#: schemas/gnumeric-general.schemas.in.h:52
 msgid "Vertical DPI"
 msgstr "DPI vertikal"
 
-#: schemas/gnumeric-general.schemas.in.h:66
+#: schemas/gnumeric-general.schemas.in.h:53
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "Beim Exportieren in ein Ein-Blatt-Format warnen"
 
-#: schemas/gnumeric-general.schemas.in.h:67
+#: schemas/gnumeric-general.schemas.in.h:54
 msgid ""
 "When selecting a sort region in the sort dialog, search clauses are "
 "automatically added. This number determines the maximum number of clauses to "
@@ -24424,8 +24353,3 @@ msgstr ""
 "Beim Markieren eines Sortierbereichs im Sortierdialog werden automatisch "
 "Suchbedingungen hinzugefügt. Diese Zahl legt die maximale Anzahl automatisch "
 "hinzuzufügender Suchbedingungen fest."
-
-#: schemas/gnumeric-general.schemas.in.h:68
-#, fuzzy
-msgid "false"
-msgstr "Skalierung"
