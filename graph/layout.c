@@ -101,7 +101,7 @@ init_layout_corba_class (void)
 static void
 layout_class_init (GtkObjectClass *object_class)
 {
-	layout_parent_class = gtk_type_class (gnome_object_get_type ());
+	layout_parent_class = gtk_type_class (gnome_embeddable_get_type ());
 	init_layout_corba_class ();
 
 	object_class->destroy = layout_destroy;

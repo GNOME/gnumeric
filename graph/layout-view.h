@@ -18,18 +18,19 @@ BEGIN_GNOME_DECLS
 typedef struct _LayoutView LayoutView;
 
 struct _LayoutView {
-	GnomeCanvas canvas;
-
-	Layout    *layout;
-	GraphView *graph_view;
+	GnomeView   parent;
+	
+	GnomeCanvas *canvas;
+	Layout      *layout;
+	GraphView   *graph_view;
 };
 
 typedef struct {
-	GnomeCanvasClass parent_class;
+	GnomeViewClass parent_class;
 } LayoutViewClass;
 
 GtkType     layout_view_get_type      (void);
-GtkWidget  *layout_view_new           (Layout *layout);
+GnomeView  *layout_view_new           (Layout *layout);
 
 END_GNOME_DECLS
 

@@ -65,7 +65,7 @@ layout_factory_init (void)
 {
 	
 	factory = gnome_embeddable_factory_new (
-		"embeddable-factory:Graph:Layout", layout_factory, NULL);
+		"GOADID:embeddable-factory:Graph:Layout", layout_factory, NULL);
 
 	if (factory == NULL)
 		g_error ("It was not possible to register a new layout factory");

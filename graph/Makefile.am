@@ -7,7 +7,9 @@ INCLUDES = 						\
 	-I$(top_srcdir)					\
 	$(EXTRA_GNOME_CFLAGS)
 
-bin_PROGRAMS = graph
+bin_PROGRAMS = graph 
+
+noinst_PROGRAMS = sample
 
 
 GRAPH_CORBA_GENERATED = 		\
@@ -41,6 +43,14 @@ graph_SOURCES =			\
 	vector.h
 
 graph_LDADD =			\
+	$(EXTRA_GNOME_LIBS)	\
+	$(INTLLIBS)
+
+sample_SOURCES =		\
+	sample.c
+	$(GRAPH_CORBA_GENERATED)
+
+sample_LDADD =			\
 	$(EXTRA_GNOME_LIBS)	\
 	$(INTLLIBS)
 

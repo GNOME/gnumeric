@@ -12,7 +12,7 @@
 #include "layout-view.h"
 #include "graph-view.h"
 
-static GnomeCanvasClass *layout_view_parent_class;
+static GnomeViewClass *layout_view_parent_class;
 
 static void
 layout_view_destroy (GtkObject *object)
@@ -20,30 +20,12 @@ layout_view_destroy (GtkObject *object)
 	GTK_OBJECT_CLASS (layout_view_parent_class)->destroy (object);
 }
 
-GtkWidget *
-layout_view_new (Layout *layout)
-{
-	LayoutView *layout_view;
-	
-	layout_view = gtk_type_new (LAYOUT_VIEW_TYPE);
-
-	layout_view->graph_view = GRAPH_VIEW (gnome_canvas_item_new (
-		gnome_canvas_root (GNOME_CANVAS (layout_view)),
-		graph_view_get_type (),
-		NULL));
-
-	graph_view_set_graph (layout_view->graph_view, layout->graph);
-	
-	return GTK_WIDGET (layout);
-}
-
 /*
  * For now we just cover everything
  */
 static void
-layout_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
+layout_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation, LayoutView *layout_view)
 {
-	LayoutView *layout_view = LAYOUT_VIEW (widget);
 	ArtIRect bbox;
 
 	bbox.x0 = allocation->x;
@@ -54,13 +36,41 @@ layout_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	graph_view_set_bbox (layout_view->graph_view, &bbox);
 }
 
+GnomeView *
+layout_view_new (Layout *layout)
+{
+	LayoutView *layout_view;
+	GNOME_View corba_layout_view;
+	
+	layout_view = gtk_type_new (LAYOUT_VIEW_TYPE);
+
+	corba_layout_view = gnome_view_corba_object_create (GNOME_OBJECT (layout_view));
+	if (corba_layout_view == CORBA_OBJECT_NIL){
+		gtk_object_destroy (GTK_OBJECT (corba_layout_view));
+		return NULL;
+	}
+	
+	layout_view->canvas = GNOME_CANVAS (gnome_canvas_new ());
+	gtk_widget_show (GTK_WIDGET (layout_view->canvas));
+
+	gnome_view_construct (GNOME_VIEW (layout_view), corba_layout_view, GTK_WIDGET (layout_view->canvas));
+	layout_view->graph_view = GRAPH_VIEW (gnome_canvas_item_new (
+		gnome_canvas_root (layout_view->canvas),
+		graph_view_get_type (),
+		NULL));
+
+	graph_view_set_graph (layout_view->graph_view, layout->graph);
+
+	gtk_signal_connect (GTK_OBJECT (layout_view->canvas), "size_allocate",
+			    GTK_SIGNAL_FUNC (layout_view_size_allocate), layout_view);
+
+	return GNOME_VIEW (layout_view);
+}
+
 static void
 layout_view_class_init (GtkObjectClass *object_class)
 {
-	GtkWidgetClass *widget_class = (GtkWidgetClass *) object_class;
-	
 	object_class->destroy = layout_view_destroy;
-	widget_class->size_allocate = layout_view_size_allocate;
 }
 
 static void
@@ -85,7 +95,7 @@ layout_view_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		type = gtk_type_unique (gnome_canvas_get_type (), &info);
+		type = gtk_type_unique (gnome_view_get_type (), &info);
 	}
 
 	return type;
