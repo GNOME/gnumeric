@@ -1,3 +1,8 @@
+2001-04-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/Makefile.am : workbook-control-bonobo is not ready for prime
+	  time.
+
 2001-04-13  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-control-gui.c (workbook_control_gui_init): Use
@@ -18,7 +23,6 @@
 	* src/style.c (font_init) : rename fontmap -> fontmap2 for newer
 	  versions of gnome-print.
 
->>>>>>> 1.1087
 2001-04-12  Jody Goldberg <jgoldberg@home.com>
 
 	* src/Makefile.am : rename gnumeric.xml GNOME_Gnumeric.xml.
@@ -44,7 +48,6 @@
 	(mstyle_elements_equal) : adjust here.
 	(mstyle_elements_compare) : and here.
 
->>>>>>> 1.1085
 2001-04-12  Morten Welinder  <terra@diku.dk>
 
 	* src/plugin-util.c: Portability fix.
