@@ -1,3 +1,8 @@
+2001-04-21  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in (have_gda): Today, gda plugin compiles again with
+	CVS libgda. Bump required version to 0.2.4. 
+
 2001-04-20  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in : Make gda plugin optional. Check for suitable

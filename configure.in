@@ -544,21 +544,15 @@ if $try_gda; then
         AC_MSG_WARN(GDA plugin will not be built)
         have_gda=false
     else
-        AC_MSG_CHECKING(for libgda 0.2.2 <= version <= 0.2.3				)
+	AC_MSG_CHECKING(for libgda >= 0.2.4						)
         verstxt=`$GDA_CONFIG --version`
         vers=`echo "$verstxt" | sed -e "s/libgda //" | \
 	    awk -F. '{ printf "%d", ($1 * 1000 + $2) * 1000 + $3;}'`
-        if test "$vers" -ge 2002; then
-	    if test "$vers" -lt 2004; then
-	        AC_MSG_RESULT($marker_ok found $verstxt)
-	        GDA_CFLAGS=`$GDA_CONFIG --cflags client`
-        	GDA_LIBS=`$GDA_CONFIG --libs client`
-	        have_gda=true
-	    else
-	        AC_MSG_RESULT($marker_fail found unsupported $verstxt)
-	        AC_MSG_RESULT(This version of Gnumeric does not support libgda >= 0.2.4 yet.)
-		have_gda=false
-	    fi
+        if test "$vers" -ge 2004; then
+	    AC_MSG_RESULT($marker_ok found $verstxt)
+	    GDA_CFLAGS=`$GDA_CONFIG --cflags client`
+            GDA_LIBS=`$GDA_CONFIG --libs client`
+	    have_gda=true
         else
             AC_MSG_RESULT($marker_fail found only $verstxt)
 	    have_gda=false
