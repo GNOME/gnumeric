@@ -1,9 +1,40 @@
 
 #include <bonobo.idl>
-#include "Gnumeric-value.idl"
 
 module GNOME {
 	module Gnumeric {
+		struct CellRange {
+			string cell_a;
+			string cell_b;
+		};
+
+		const short VALUE_STRING    = 0;
+		const short VALUE_INTEGER   = 1;
+		const short VALUE_FLOAT     = 2;
+		const short VALUE_CELLRANGE = 3;
+		const short VALUE_ARRAY     = 4;
+		const short VALUE_BOOLEAN   = 5;
+		const short VALUE_ERROR     = 6;
+		const short VALUE_EMPTY     = 7;
+		
+		union Value switch(short) {
+		case VALUE_BOOLEAN: boolean v_bool;
+		case VALUE_FLOAT:   double v_float;
+		case VALUE_INTEGER: long v_int;
+		case VALUE_STRING:  string str;
+		case VALUE_ERROR:   string error;
+		case VALUE_ARRAY:   string array;
+		case VALUE_CELLRANGE: CellRange cell_range;
+		};
+
+		union VecValue switch (short) {
+		case VALUE_FLOAT:   double v_float;
+		case VALUE_STRING:  string str;
+		};
+
+		typedef sequence<VecValue> VecValueVec;
+		typedef sequence<double>   DoubleVec;
+
 		interface Sheet {
 			exception OutOfRange {};
 			exception ParseError {};

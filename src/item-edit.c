@@ -85,7 +85,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	 */
 
 	gdk_draw_text (drawable, font, canvas->style->black_gc,
-		       dx, dy + hd - font->descent - 1, text, cursor_pos);
+		       dx, dy + hd - font->descent, text, cursor_pos);
 	gdk_draw_line (drawable, canvas->style->black_gc,
 		       first_part_len + dx,
 		       dy + hd - font->descent,
@@ -93,7 +93,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		       dy + hd - (font->ascent + font->descent));
 	gdk_draw_text (drawable, font, canvas->style->black_gc,
 		       dx + first_part_len,
-		       dy + hd - font->descent - 1,
+		       dy + hd - font->descent,
 		       text + cursor_pos, text_len - cursor_pos);
 }
 

@@ -183,7 +183,7 @@ CLEANFILES = my_gnumeric_idl
 
 $(GNUMERIC_CORBA_GENERATED): my_gnumeric_idl
 
-my_gnumeric_idl: Gnumeric.idl Gnumeric-value.idl
+my_gnumeric_idl: Gnumeric.idl 
 	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Gnumeric.idl
 	touch my_gnumeric_idl
 

@@ -458,13 +458,20 @@ static int
 workbook_can_close (Workbook *wb)
 {
 	CloseAction allow_close;
+	static int in_can_close;
 
+	if (in_can_close)
+		return FALSE;
+	
+	in_can_close = TRUE;
 	do {
 		allow_close = CLOSE_ALLOW;
 		g_hash_table_foreach (
 			wb->sheets, cb_sheet_check_dirty, &allow_close);
 	} while (allow_close == CLOSE_RECHECK);
 
+	in_can_close = FALSE;
+	
 	g_assert (allow_close == CLOSE_ALLOW || allow_close == CLOSE_DENY);
 	return allow_close == CLOSE_ALLOW;
 }

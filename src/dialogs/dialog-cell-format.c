@@ -535,9 +535,13 @@ create_font_page (GtkWidget *prop_win, CellList *cells)
 }
 
 static gboolean
-cb_set_row_height(Sheet *sheet, ColRowInfo *info, void *height)
+cb_set_row_height(Sheet *sheet, ColRowInfo *info, void *_height)
 {
-	sheet_row_set_internal_height (sheet, info, *((double *)height));
+	double height = * (double *) _height;
+
+	if (info->units < height)
+		sheet_row_set_internal_height (sheet, info, height);
+	
 	return FALSE;
 }
 
@@ -557,12 +561,13 @@ apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 
 	gnome_font = gnome_display_font->gnome_font;
 	family_name = gnome_font->fontmap_entry->familyname;
-	height = gnome_display_font->gnome_font->size;
+
+	height = font_sel->size;
 
 	style->valid_flags |= STYLE_FONT;
 	style->font = style_font_new (
 		family_name,
-		gnome_font->size,
+		height,
 		sheet->last_zoom_factor_used,
 		gnome_font->fontmap_entry->weight_code >= GNOME_FONT_BOLD,
 		gnome_font->fontmap_entry->italic);

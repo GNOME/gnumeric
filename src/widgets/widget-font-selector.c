@@ -166,6 +166,7 @@ size_selected (GtkCList *size_list, int col, int row, GdkEvent *event, FontSelec
 	 row = GPOINTER_TO_INT (size_list->selection->data);
 	 gtk_clist_get_text (size_list, row, 0, &text);
 	 gtk_entry_set_text (GTK_ENTRY (fs->font_size_entry), text);
+	 fs->size = atof (text);
 }
 
 static void
@@ -221,6 +222,7 @@ fs_init (FontSelector *fs)
 	gtk_widget_destroy (old_parent);
 	gtk_widget_queue_resize (toplevel);
 
+	fs->size = 10;
 	fs->font_name_entry  = glade_xml_get_widget (fs->gui, "font-name-entry");
 	fs->font_style_entry = glade_xml_get_widget (fs->gui, "font-style-entry");
 	fs->font_size_entry  = glade_xml_get_widget (fs->gui, "font-size-entry");
@@ -240,9 +242,6 @@ fs_destroy (GtkObject *object)
 
 	if (fs->gnome_font)
 		gtk_object_unref (GTK_OBJECT (fs->gnome_font));
-	if (fs->display_font)
-		gtk_object_unref (GTK_OBJECT (fs->display_font));
-	
 	((GtkObjectClass *)fs_parent_class)->destroy (object);
 }
 
@@ -342,5 +341,6 @@ font_selector_set (FontSelector *fs,
 		
 		gtk_entry_set_text (GTK_ENTRY (fs->font_size_entry), buffer);
 	}
+	fs->size = size;
 }
 

@@ -124,7 +124,7 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 	char *text;
 
 	font = sheet_view_font (sheet_view, cell);
-	text_base = y1 + cell->row->pixels - cell->row->margin_b - font->descent;
+	text_base = y1 + cell->row->pixels - font->descent;
 	
 	cell_get_span (cell, &start_col, &end_col);
 

@@ -1,3 +1,25 @@
+1999-10-22  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/workbook.c (workbook_can_close): Do not let the can-close
+	dialog box to be run twice (one from the C-w dialog, another from
+	the Window Manager request).
+
+	* src/widgets/widget-font-selector.c (fs_destroy): display_font is
+	not a GtkObject, but a pointer to a GnomeDisplayFont which is just
+	a structure "owned" by GnomePrint.
+
+	* src/dialogs/dialog-cell-format.c (cb_set_row_height): Only
+	autofit when growing, not shrinking.
+
+	* src/cell-draw.c (cell_draw): Remove margin from here.
+
+	* src/widgets/widget-font-selector.c (size_selected): Set the size
+	here.
+	(font_selector_set): Set the size here too.
+
+	* src/dialogs/dialog-cell-format.c (apply_font_format): Use the
+	font dimension from the font selector, not from the GnomeFont.
+
 1999-10-21  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/sheet.c (sheet_accept_pending_input): Focus current sheet
