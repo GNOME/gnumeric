@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-07 11:23+0200\n"
+"POT-Creation-Date: 2003-09-10 00:27-0400\n"
 "PO-Revision-Date: 2002-01-21 11:50+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -693,6 +693,7 @@ msgstr ""
 
 #: plugins/derivatives/plugin.xml.in.h:1
 #: plugins/fn-financial/plugin.xml.in.h:1
+#: plugins/sample_datasource/plugin.xml.in.h:2
 msgid "Finance"
 msgstr "Finansowe"
 
@@ -6056,9 +6057,8 @@ msgstr "%s wersja %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:208
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:104
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:264
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
 msgid "Automatic"
@@ -13532,6 +13532,7 @@ msgid "x,a,b"
 msgstr "x;a;b"
 
 #: plugins/fn-stat/functions.c:5955
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:230
 msgid "x"
 msgstr "x"
 
@@ -14370,6 +14371,14 @@ msgstr "Funkcje bazodanowe, pozwalające na pobieranie danych z baz danych."
 msgid "Could not run GNOME database configuration tool"
 msgstr "Nie można uruchomić narzędzia konfiguracyjnego bazy danych GNOME"
 
+#: plugins/gnome-db/plugin.xml.in.h:1
+msgid "Database UI services plugin"
+msgstr ""
+
+#: plugins/gnome-db/plugin.xml.in.h:2
+msgid "GNOME-DB"
+msgstr ""
+
 #: plugins/gnome-db/ui.xml.h:1
 msgid "Data Sources..."
 msgstr "Źródła danych..."
@@ -14959,6 +14968,27 @@ msgstr ""
 msgid "Default interpreter"
 msgstr ""
 
+#: plugins/python-loader/gnm-python.c:130
+#: plugins/python-loader/gnm-python.c:152
+#, fuzzy, c-format
+msgid "Could not import %s."
+msgstr "Nie można wczytać pliku: %s"
+
+#: plugins/python-loader/gnm-python.c:137
+#, fuzzy, c-format
+msgid "Could not find %s."
+msgstr "Nie można wczytać pliku: %s"
+
+#: plugins/python-loader/gnm-python.c:145
+#, c-format
+msgid "Could not initialize Python bindings for Gtk+, etc: %s"
+msgstr ""
+
+#: plugins/python-loader/gnm-python.c:159
+#, fuzzy, c-format
+msgid "Could not find %s"
+msgstr "Nie można wczytać pliku: %s"
+
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
 msgstr "Ładowarka wtyczek napisanych w Pythonie."
@@ -15109,6 +15139,15 @@ msgid ""
 "file?"
 msgstr ""
 
+#: plugins/sample_datasource/plugin.xml.in.h:1
+msgid "A proof of concept external data source"
+msgstr ""
+
+#: plugins/sample_datasource/plugin.xml.in.h:3
+#, fuzzy
+msgid "Sample DataSource"
+msgstr "Źródła danych..."
+
 #: plugins/sample_datasource/sample_datasource.c:264
 #, no-c-format
 msgid ""
@@ -15178,6 +15217,14 @@ msgstr "Wystąpił błąd przy odczycie arkusza."
 #: plugins/uihello/hello.xml.h:1
 msgid "Hello World"
 msgstr "Witaj świecie"
+
+#: plugins/uihello/plugin.xml.in.h:1
+msgid "Hello World plugin using ui service"
+msgstr ""
+
+#: plugins/uihello/plugin.xml.in.h:2
+msgid "UI Hello"
+msgstr ""
 
 #: plugins/uihello/uihello.c:24
 #, c-format
@@ -16141,7 +16188,7 @@ msgid "Filter data with given criteria"
 msgstr "Filtruje dane według podanych kryteriów"
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:739
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:843
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
 #: src/workbook-format-toolbar.c:411
 msgid "Font"
@@ -16337,7 +16384,7 @@ msgid "Jump to a specified cell"
 msgstr "Przenosi kursor do określonej komórki"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:237
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
 #: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Etykieta"
@@ -17839,57 +17886,92 @@ msgstr "Zależności wtyczki"
 msgid "Reconfigure Graph"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
+#: src/consolidate.c:773
+#, fuzzy, c-format
+msgid "Consolidating to (%s)"
+msgstr "Konsolidowanie do %s!%s"
+
+#: src/consolidate.c:812 src/consolidate.c:815
+#, fuzzy
+msgid "Data Consolidation"
+msgstr "Konsolidacja danych"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
+#, fuzzy
+msgid "_Cross"
+msgstr "Koszt"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
+#, fuzzy
+msgid "_High"
+msgstr "Wysokość"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+#, fuzzy
+msgid "_Invert"
+msgstr "W_staw"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
+#, fuzzy
+msgid "_Low"
+msgstr "_Wiersz"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
+#, fuzzy
+msgid "_Map:"
+msgstr "Wyk_res..."
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_inimum"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 #, fuzzy
 msgid "M_ax"
 msgstr "Maksimum"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:191
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:247
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:192
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:248
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:215
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:271
 #, fuzzy
 msgid "Bounds"
 msgstr "Tło"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:219
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:275
 #, fuzzy
 msgid "Details"
 msgstr "Ukryj szczegóły"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:168
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:172
 msgid "Legend"
 msgstr "Legenda"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:171
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:175
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:165
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:169
 msgid "Title"
 msgstr "Tytuł"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:174
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
 msgid "X-Axis"
 msgstr "Oś X"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
 msgid "Y-Axis"
 msgstr "Oś Y"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
 msgid "Z-Axis"
 msgstr "Oś Z"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
 msgid "Plot"
 msgstr ""
 
@@ -18025,7 +18107,7 @@ msgstr "Nazwa wykresu"
 msgid "Chart Theme"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:164
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:166
 #, fuzzy
 msgid "Series"
 msgstr "_Serie"
@@ -18056,218 +18138,155 @@ msgid "<b>Outline</b>"
 msgstr "<b>Linia</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:6
-msgid "Asterisk"
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
 #, fuzzy
 msgid "Brightness"
 msgstr "jaskrawopomarańczowy"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
-msgid "Butterfly"
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
 #, fuzzy
 msgid "C_olor:"
 msgstr "Kolor :"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:11
-#, fuzzy
-msgid "Circle"
-msgstr "Półokręgi"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
-#, fuzzy
-msgid "Cross"
-msgstr "Koszt"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:13
-#, fuzzy
-msgid "Diamond"
-msgstr "Ukośna linia"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
 msgid "Fill from start color to end color"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
 msgid "Fill from start colour to a darker/lighter version of that color"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
 #, fuzzy
 msgid "Gradient"
 msgstr "Wydrukuj"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
-msgid "Half bar"
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
-msgid "Hourglass"
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:11
 #, fuzzy
 msgid "Image"
 msgstr "_Zapisz..."
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
 #: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-cell-format.c:72
 #: src/dialogs/dialog-paste-special.c:48 src/tools/solver/reports-write.c:722
 msgid "None"
 msgstr "Brak"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:13
 #: src/dialogs/dialog-cell-format.c:2280
 msgid "Pattern"
 msgstr "Deseń"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
 #, fuzzy
 msgid "Si_ze:"
 msgstr "Rozmiar:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
-#, fuzzy
-msgid "Square"
-msgstr "Źródło"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
 #, fuzzy
 msgid "T_ype:"
 msgstr "Typ:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
-msgid "Triangle down"
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
-msgid "Triangle left"
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
-msgid "Triangle right"
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
-#, fuzzy
-msgid "Triangle up"
-msgstr "zakres"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:127
-msgid "X"
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
 #, fuzzy
 msgid "_Background:"
 msgstr "Tło"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
 #, fuzzy
 msgid "_Direction:"
 msgstr "Kierunek:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:32
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
 #, fuzzy
 msgid "_End:"
 msgstr "Koniec"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:33
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
 #, fuzzy
 msgid "_Fill color:"
 msgstr "Kolor wypełnienia"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:34
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
 #, fuzzy
 msgid "_Fit:"
 msgstr "Dop_asowanie do:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:35
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
 #, fuzzy
 msgid "_Foreground:"
 msgstr "Używany kolor"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:36
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
 #, fuzzy
 msgid "_Outline color:"
 msgstr "Kolor obwódki"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:37
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
 #, fuzzy
 msgid "_Pattern:"
 msgstr "Deseń"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:38
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
 #, fuzzy
 msgid "_Select..."
 msgstr "Zaz_naczenie"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:39
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
 #, fuzzy
 msgid "_Shape:"
 msgstr "_Zasięg :"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:40
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
 #, fuzzy
 msgid "_Size:"
 msgstr "Rozmiar:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:41
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
 #, fuzzy
 msgid "_Start:"
 msgstr "Stan"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:42
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
 #: src/dialogs/solver.glade.h:42
 msgid "_Type:"
 msgstr "_Typ:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:43
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
 #, fuzzy
 msgid "_brighter"
 msgstr "jaskrawoniebieski"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:44
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
 #, fuzzy
 msgid "_darker"
 msgstr "ciemnoczerwony"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:45
-#, fuzzy
-msgid "bar"
-msgstr "Mar"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:46
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
 #, fuzzy
 msgid "pts"
 msgstr "Opcje"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:47
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:32
 msgid "stretched"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:48
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:33
 msgid "wallpaper"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:164
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:169
 #: src/widgets/preview-file-selection.c:167
 #, fuzzy, c-format
 msgid "%d x %d"
 msgstr "%dW x %dK"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:452
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:535
 #: src/workbook-control-gui.c:3100
 #, fuzzy
 msgid "Select an image"
 msgstr "Zaznacza całą kolumnę"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:787
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:895
 #: src/dialogs/pivottable.glade.h:4
 #, fuzzy
 msgid "Style"
@@ -18286,6 +18305,18 @@ msgstr "Usuń"
 #, fuzzy
 msgid "Guppi"
 msgstr "Zgrupuj"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:264
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
+#: src/dialogs/consolidate.glade.h:12
+msgid "Labels"
+msgstr "Etykiety"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
+#: src/dialogs/consolidate.glade.h:27
+msgid "Values"
+msgstr "Wartości"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
@@ -18315,10 +18346,27 @@ msgstr ""
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
 #. * 	PlotBarCol2
-#.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:95
 msgid "PlotBarCol"
 msgstr ""
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotLine2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:44
+#, fuzzy
+msgid "PlotLine"
+msgstr "_Wykres"
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotArea2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
+#, fuzzy
+msgid "PlotArea"
+msgstr "_Wykres"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 #, fuzzy
@@ -18578,16 +18626,6 @@ msgstr "_Usuń"
 msgid "PlotPie"
 msgstr "_Wykres"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
-#: src/dialogs/consolidate.glade.h:12
-msgid "Labels"
-msgstr "Etykiety"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
-#: src/dialogs/consolidate.glade.h:27
-msgid "Values"
-msgstr "Wartości"
-
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:263
 #, fuzzy
 msgid "PlotRing"
@@ -18695,12 +18733,19 @@ msgstr ""
 msgid "Ring plotting engine"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:55
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	PlotXY2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:58
 #, fuzzy
-msgid "XYPlot"
+msgid "PlotXY"
 msgstr "_Wykres"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:129
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:153
+msgid "X"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
 msgid "Y"
 msgstr ""
 
@@ -18773,6 +18818,194 @@ msgstr ""
 #, fuzzy
 msgid "XY Charts"
 msgstr "Wykres"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:222
+#, fuzzy
+msgid "none"
+msgstr "Brak"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:223
+#, fuzzy
+msgid "square"
+msgstr "Źródło"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:224
+#, fuzzy
+msgid "diamond"
+msgstr "Ukośna linia"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:225
+#, fuzzy
+msgid "triangle down"
+msgstr "zakres"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:226
+#, fuzzy
+msgid "triangle up"
+msgstr "zakres"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:227
+#, fuzzy
+msgid "triangle right"
+msgstr "zakres"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:228
+#, fuzzy
+msgid "triangle left"
+msgstr "zakres"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:229
+#, fuzzy
+msgid "circle"
+msgstr "Półokręgi"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:231
+#, fuzzy
+msgid "cross"
+msgstr "Koszt"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:232
+#, fuzzy
+msgid "asterisk"
+msgstr "Wklej odnośnik"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:233
+#, fuzzy
+msgid "bar"
+msgstr "Mar"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:234
+msgid "half bar"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:235
+msgid "butterfly"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:236
+msgid "hourglass"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:192
+#: src/dialogs/cell-format.glade.h:71
+msgid "Solid"
+msgstr "Jednolity"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:193
+#: src/dialogs/cell-format.glade.h:12
+#, no-c-format
+msgid "75% Grey"
+msgstr "75% szarości"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:194
+#: src/dialogs/cell-format.glade.h:8
+#, no-c-format
+msgid "50% Grey"
+msgstr "50% szarości"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:195
+#: src/dialogs/cell-format.glade.h:6
+#, no-c-format
+msgid "25% Grey"
+msgstr "25% szarości"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:196
+#: src/dialogs/cell-format.glade.h:4
+#, no-c-format
+msgid "12.5% Grey"
+msgstr "12,5% szarości"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:197
+#: src/dialogs/cell-format.glade.h:10
+#, no-c-format
+msgid "6.25% Grey"
+msgstr "6,25% szarości"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:198
+#: src/dialogs/cell-format.glade.h:47
+msgid "Horizontal Stripe"
+msgstr "Poziome prążki"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:199
+#: src/dialogs/cell-format.glade.h:92
+msgid "Vertical Stripe"
+msgstr "Pionowe prążki"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:200
+#: src/dialogs/cell-format.glade.h:66
+msgid "Reverse Diagonal Stripe"
+msgstr "Odwrócone ukośne prążki"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:201
+#: src/dialogs/cell-format.glade.h:42
+msgid "Diagonal Stripe"
+msgstr "Ukośne prążki"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:202
+#: src/dialogs/cell-format.glade.h:41
+msgid "Diagonal Crosshatch"
+msgstr "Ukośnie skrzyżowane prążki"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:203
+#: src/dialogs/cell-format.glade.h:80
+msgid "Thick Diagonal Crosshatch"
+msgstr "Grube ukośnie skrzyżowane prążki"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:204
+#: src/dialogs/cell-format.glade.h:84
+msgid "Thin Horizontal Stripe"
+msgstr "Cienkie poziome prążki"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:205
+#: src/dialogs/cell-format.glade.h:86
+msgid "Thin Vertical Stripe"
+msgstr "Cienkie pionowe prążki"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:206
+#: src/dialogs/cell-format.glade.h:85
+msgid "Thin Reverse Diagonal Stripe"
+msgstr "Cienkie odwrócone ukośne prążki"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:207
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
+#: src/dialogs/cell-format.glade.h:81
+msgid "Thin Diagonal Crosshatch"
+msgstr "Cienkie skrzyżowane ukośnie prążki"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:208
+#: src/dialogs/cell-format.glade.h:83
+msgid "Thin Horizontal Crosshatch"
+msgstr "Cienkie skrzyżowane poziomo prążki"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:210
+#: src/dialogs/cell-format.glade.h:44
+msgid "Foreground Solid"
+msgstr "Wypełnienie kolorem"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:211
+#: src/dialogs/cell-format.glade.h:70
+msgid "Small Circles"
+msgstr "Małe okręgi"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:212
+#: src/dialogs/cell-format.glade.h:68
+msgid "Semi Circles"
+msgstr "Półokręgi"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:213
+#: src/dialogs/cell-format.glade.h:79
+msgid "Thatch"
+msgstr "Słoma"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:214
+#: src/dialogs/cell-format.glade.h:57
+msgid "Large Circles"
+msgstr "Duże okręgi"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:215
+#: src/dialogs/cell-format.glade.h:32
+msgid "Bricks"
+msgstr "Cegły"
 
 #: src/dates.c:16
 msgid "*Sun"
@@ -19191,7 +19424,7 @@ msgstr "Pierwsza litera"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:659
-#: src/format.c:2117 src/format.c:2246 src/format.c:2252 src/format.c:2328
+#: src/format.c:2123 src/format.c:2252 src/format.c:2258 src/format.c:2334
 #: src/plugin-service.c:199 src/widgets/widget-format-selector.c:68
 msgid "General"
 msgstr "Ogólne"
@@ -19416,31 +19649,6 @@ msgstr "Komentarz do komórki"
 msgid "    "
 msgstr "    "
 
-#: src/dialogs/cell-format.glade.h:4
-#, no-c-format
-msgid "12.5% Grey"
-msgstr "12,5% szarości"
-
-#: src/dialogs/cell-format.glade.h:6
-#, no-c-format
-msgid "25% Grey"
-msgstr "25% szarości"
-
-#: src/dialogs/cell-format.glade.h:8
-#, no-c-format
-msgid "50% Grey"
-msgstr "50% szarości"
-
-#: src/dialogs/cell-format.glade.h:10
-#, no-c-format
-msgid "6.25% Grey"
-msgstr "6,25% szarości"
-
-#: src/dialogs/cell-format.glade.h:12
-#, no-c-format
-msgid "75% Grey"
-msgstr "75% szarości"
-
 #: src/dialogs/cell-format.glade.h:13
 msgid "<b>Background</b>"
 msgstr "<b>Tło</b>"
@@ -19505,10 +19713,6 @@ msgstr "Dowolna wartość      (bez ograniczenia)"
 msgid "Border"
 msgstr "Krawędź"
 
-#: src/dialogs/cell-format.glade.h:32
-msgid "Bricks"
-msgstr "Cegły"
-
 #: src/dialogs/cell-format.glade.h:33
 msgid "Ce_nter"
 msgstr "Ś_rodek"
@@ -19546,18 +19750,6 @@ msgstr "Data"
 msgid "Diagonal"
 msgstr "Ukośna linia"
 
-#: src/dialogs/cell-format.glade.h:41
-msgid "Diagonal Crosshatch"
-msgstr "Ukośnie skrzyżowane prążki"
-
-#: src/dialogs/cell-format.glade.h:42
-msgid "Diagonal Stripe"
-msgstr "Ukośne prążki"
-
-#: src/dialogs/cell-format.glade.h:44
-msgid "Foreground Solid"
-msgstr "Wypełnienie kolorem"
-
 #: src/dialogs/cell-format.glade.h:45 src/dialogs/dialog-cell-format.c:2202
 msgid "Format Cells"
 msgstr "Format komórek"
@@ -19565,10 +19757,6 @@ msgstr "Format komórek"
 #: src/dialogs/cell-format.glade.h:46
 msgid "Hi_de"
 msgstr "Uk_rycie"
-
-#: src/dialogs/cell-format.glade.h:47
-msgid "Horizontal Stripe"
-msgstr "Poziome prążki"
 
 #: src/dialogs/cell-format.glade.h:48
 #, fuzzy
@@ -19607,10 +19795,6 @@ msgstr "Wewnętrzne pionowe"
 msgid "J_ustify"
 msgstr "Wyju_stowanie"
 
-#: src/dialogs/cell-format.glade.h:57
-msgid "Large Circles"
-msgstr "Duże okręgi"
-
 #: src/dialogs/cell-format.glade.h:58 src/workbook-format-toolbar.c:629
 msgid "Left"
 msgstr "Lewa"
@@ -19641,29 +19825,13 @@ msgstr "Zabezpieczenie"
 msgid "Reverse Diagonal"
 msgstr "Odwrotnie ukośna linia"
 
-#: src/dialogs/cell-format.glade.h:66
-msgid "Reverse Diagonal Stripe"
-msgstr "Odwrócone ukośne prążki"
-
 #: src/dialogs/cell-format.glade.h:67 src/workbook-format-toolbar.c:631
 msgid "Right"
 msgstr "Prawa"
 
-#: src/dialogs/cell-format.glade.h:68
-msgid "Semi Circles"
-msgstr "Półokręgi"
-
 #: src/dialogs/cell-format.glade.h:69
 msgid "Shrin_k to fit"
 msgstr "_Dopasowanie do zaznaczenia"
-
-#: src/dialogs/cell-format.glade.h:70
-msgid "Small Circles"
-msgstr "Małe okręgi"
-
-#: src/dialogs/cell-format.glade.h:71
-msgid "Solid"
-msgstr "Jednolity"
 
 #: src/dialogs/cell-format.glade.h:72
 msgid "Stop            (never allow invalid input)"
@@ -19693,37 +19861,9 @@ msgstr "Gó_ra"
 msgid "Text length"
 msgstr "Długość tekstu"
 
-#: src/dialogs/cell-format.glade.h:79
-msgid "Thatch"
-msgstr "Słoma"
-
-#: src/dialogs/cell-format.glade.h:80
-msgid "Thick Diagonal Crosshatch"
-msgstr "Grube ukośnie skrzyżowane prążki"
-
-#: src/dialogs/cell-format.glade.h:81
-msgid "Thin Diagonal Crosshatch"
-msgstr "Cienkie skrzyżowane ukośnie prążki"
-
 #: src/dialogs/cell-format.glade.h:82
 msgid "Thin Diagonal Stripe"
 msgstr "Cienkie ukośne prążki"
-
-#: src/dialogs/cell-format.glade.h:83
-msgid "Thin Horizontal Crosshatch"
-msgstr "Cienkie skrzyżowane poziomo prążki"
-
-#: src/dialogs/cell-format.glade.h:84
-msgid "Thin Horizontal Stripe"
-msgstr "Cienkie poziome prążki"
-
-#: src/dialogs/cell-format.glade.h:85
-msgid "Thin Reverse Diagonal Stripe"
-msgstr "Cienkie odwrócone ukośne prążki"
-
-#: src/dialogs/cell-format.glade.h:86
-msgid "Thin Vertical Stripe"
-msgstr "Cienkie pionowe prążki"
 
 #: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:73
 msgid "Time"
@@ -19740,10 +19880,6 @@ msgstr "Podkreślenie:"
 #: src/dialogs/cell-format.glade.h:91
 msgid "Validation"
 msgstr "Sprawdzanie poprawności"
-
-#: src/dialogs/cell-format.glade.h:92
-msgid "Vertical Stripe"
-msgstr "Pionowe prążki"
 
 #: src/dialogs/cell-format.glade.h:93
 msgid "Warning     (accept/discard invalid input)"
@@ -20946,13 +21082,13 @@ msgid "Directory"
 msgstr "Katalog"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:411 src/format.c:1968
+#: src/dialogs/dialog-preferences.c:411 src/format.c:1971
 #: src/number-match.c:1094 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:818
 msgid "TRUE"
 msgstr "PRAWDA"
 
-#: src/dialogs/dialog-preferences.c:412 src/format.c:1968
+#: src/dialogs/dialog-preferences.c:412 src/format.c:1971
 #: src/number-match.c:1096 src/value-sheet.c:33 src/value.c:405
 #: src/value.c:818
 msgid "FALSE"
@@ -24046,7 +24182,7 @@ msgid "Yellow"
 msgstr "Żółty"
 
 #. Array of arrays ??
-#: src/format.c:2011
+#: src/format.c:2014
 msgid "ARRAY"
 msgstr "TABLICA"
 
@@ -25816,6 +25952,19 @@ msgstr "nie można stworzyć obiektu dla \"%s\""
 #, c-format
 msgid "Could not load file: %s"
 msgstr "Nie można wczytać pliku: %s"
+
+#: src/sheet-object-graph.c:158
+msgid "Save graph as image"
+msgstr ""
+
+#: src/sheet-object-graph.c:196
+msgid "Sorry, gnumeric can only save graphs as png images"
+msgstr ""
+
+#: src/sheet-object-graph.c:214
+#, fuzzy
+msgid "_Save as image"
+msgstr "Zaznacza całą kolumnę"
 
 #: src/sheet-object-graphic.c:934 src/sheet-object-graphic.c:951
 msgid "Transparent"
@@ -28736,9 +28885,6 @@ msgstr "Wystąpił błąd przy zapisie pliku"
 #: src/xml-io.c:4040
 msgid "Gnumeric XML file format"
 msgstr "Format Gnumeric XML"
-
-#~ msgid "Consolidating to %s!%s"
-#~ msgstr "Konsolidowanie do %s!%s"
 
 #~ msgid "Adding a sheet"
 #~ msgstr "Dodawanie arkusza"

@@ -5,14 +5,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.66\n"
-"POT-Creation-Date: 2003-09-07 00:39+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-09-10 00:27-0400\n"
 "PO-Revision-Date: 2003-09-07 01:52+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8-bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -689,6 +689,7 @@ msgstr ""
 
 #: plugins/derivatives/plugin.xml.in.h:1
 #: plugins/fn-financial/plugin.xml.in.h:1
+#: plugins/sample_datasource/plugin.xml.in.h:2
 msgid "Finance"
 msgstr "Finans"
 
@@ -6134,9 +6135,8 @@ msgstr "%s versjon %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:208
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:104
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:264
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
 msgid "Automatic"
@@ -6655,11 +6655,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
-"@DESCRIPTION=AND implementerer den logiske OG-funksjonen: resultatet er SANT hvis hele uttrykket evalueres til SANN, ellers returneres USANN.\n"
+"@DESCRIPTION=AND implementerer den logiske OG-funksjonen: resultatet er SANT "
+"hvis hele uttrykket evalueres til SANN, ellers returneres USANN.\n"
 "\n"
-"@b1, til @bN er uttrykk som skal evalueres til SANN eller USANN. Hvis et heltall eller flyttall oppgis vil null regnes som USANN og alt annet SANN.\n"
+"@b1, til @bN er uttrykk som skal evalueres til SANN eller USANN. Hvis et "
+"heltall eller flyttall oppgis vil null regnes som USANN og alt annet SANN.\n"
 "\n"
-"* Hvis verdiene inneholder strenger eller tomme celler vil disse verdiene ignoreres.\n"
+"* Hvis verdiene inneholder strenger eller tomme celler vil disse verdiene "
+"ignoreres.\n"
 "* Hvis ingen logiske verdier oppgis, vil feilkoden #VALUE! bli gitt.\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
@@ -8426,10 +8429,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=SUMA beregner summen av alle verdier og celler som er referert i argumentlisten. Tall, tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen inneholder tekst eller argumentet evalueres til USANN så telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det som en (1). \n"
+"@DESCRIPTION=SUMA beregner summen av alle verdier og celler som er referert "
+"i argumentlisten. Tall, tekst og logiske verdier inkluderes i beregningen "
+"også.  Hvis cellen inneholder tekst eller argumentet evalueres til USANN så "
+"telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det "
+"som en (1). \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og 43. Da får vi at\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og "
+"43. Da får vi at\n"
 "SUMA(A1:A5) er lik 107.\n"
 "\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
@@ -8452,12 +8460,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=SUMSQ returnerer summen av kvadratene til alle verdier og celler som refereres i argumentlisten.\n"
+"@DESCRIPTION=SUMSQ returnerer summen av kvadratene til alle verdier og "
+"celler som refereres i argumentlisten.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og 43. Da får vi at\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og "
+"43. Da får vi at\n"
 "SUMSQ(A1:A5) er lik 2925.\n"
 "\n"
 "@SEEALSO=SUM, COUNT"
@@ -8478,7 +8488,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=MULTINOMIAL returnerer raten til faktor av en sum av verdiene til produktet av faktorene.\n"
+"@DESCRIPTION=MULTINOMIAL returnerer raten til faktor av en sum av verdiene "
+"til produktet av faktorene.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel.  \n"
 "\n"
@@ -8503,7 +8514,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=G_PRODUCT returnerer produktet av alle verdier og celler som er referert i argumentlisten.\n"
+"@DESCRIPTION=G_PRODUCT returnerer produktet av alle verdier og celler som er "
+"referert i argumentlisten.\n"
 "\n"
 "* Tomme celler ignoreres og det tomme produktet er 1.\n"
 "\n"
@@ -8528,7 +8540,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
-"@DESCRIPTION=TAN-funksjonen returnerer tangenten til @x, hvor @x er gitt i radianer.\n"
+"@DESCRIPTION=TAN-funksjonen returnerer tangenten til @x, hvor @x er gitt i "
+"radianer.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
@@ -8555,7 +8568,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
-"@DESCRIPTION=TANH-funksjonen returnerer den hyperbolske tangenten til @x, som er definert matematisk som \n"
+"@DESCRIPTION=TANH-funksjonen returnerer den hyperbolske tangenten til @x, "
+"som er definert matematisk som \n"
 "\n"
 "\tsinh(@x) / cosh(@x).\n"
 "\n"
@@ -8586,7 +8600,8 @@ msgstr ""
 "@DESCRIPTION=PI-funksjonen returnerer verdien til pi.\n"
 "\n"
 "* Denne funksjonen kalles uten argumenter.\n"
-"* Denne funksjonen er Excel kompatibel, men returnerer pi med større presisjon.\n"
+"* Denne funksjonen er Excel kompatibel, men returnerer pi med større "
+"presisjon.\n"
 "\n"
 "@EXAMPLES=\n"
 "PI() er lik 3.141593\n"
@@ -8612,7 +8627,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(tall[,siffer])\n"
-"@DESCRIPTION=TRUNC-funksjonen returnerer verdien av @tall nedkortet til spesifisert antall siffer.\n"
+"@DESCRIPTION=TRUNC-funksjonen returnerer verdien av @tall nedkortet til "
+"spesifisert antall siffer.\n"
 "\n"
 "* Hvis @siffer er utelatt er @siffer forvalgt til null.\n"
 "* Hvis @siffer ikke er et heltall blir det avkortet.\n"
@@ -8640,7 +8656,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(tall)\n"
-"@DESCRIPTION=EVEN-funksjonen returnerer tallet rundet opp til nærmeste like heltall.\n"
+"@DESCRIPTION=EVEN-funksjonen returnerer tallet rundet opp til nærmeste like "
+"heltall.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
@@ -8665,7 +8682,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(tall)\n"
-"@DESCRIPTION=ODD-funksjonen returnerer @tall rundet opp til nærmeste odde heltall.\n"
+"@DESCRIPTION=ODD-funksjonen returnerer @tall rundet opp til nærmeste odde "
+"heltall.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
@@ -8692,7 +8710,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(tall)\n"
-"@DESCRIPTION=FACTDOUBLE-funksjonen returnerer den doble faktoren av et @tall. \n"
+"@DESCRIPTION=FACTDOUBLE-funksjonen returnerer den doble faktoren av et "
+"@tall. \n"
 "\n"
 "* Hvis @tall ikke er et heltall, blir det avkortet.\n"
 "* Hvis @tall er negativt returnerer FACTDOUBLE en #NUM! feil.\n"
@@ -8746,7 +8765,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(numerator,denumerator)\n"
-"@DESCRIPTION=QUOTIENT-funksjonen returnerer heltallsdelen av en divisjon. @numerator er dividenden og @denumerator er divisor.\n"
+"@DESCRIPTION=QUOTIENT-funksjonen returnerer heltallsdelen av en divisjon. "
+"@numerator er dividenden og @denumerator er divisor.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
@@ -8773,7 +8793,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(tall)\n"
-"@DESCRIPTION=SIGN-funksjonen returnerer 1 hvis @tall er positivt, null hvis @tall er 0, og -1 hvis @tall er negativt.\n"
+"@DESCRIPTION=SIGN-funksjonen returnerer 1 hvis @tall er positivt, null hvis "
+"@tall er 0, og -1 hvis @tall er negativt.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
@@ -8800,7 +8821,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(tall)\n"
-"@DESCRIPTION=SQRTPI-funksjonen returnerer kvadratroten av @tall ganget med pi.\n"
+"@DESCRIPTION=SQRTPI-funksjonen returnerer kvadratroten av @tall ganget med "
+"pi.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
@@ -8835,10 +8857,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(tall[,siffer])\n"
-"@DESCRIPTION=ROUNDDOWN-funksjonen runder et gitt @tall ned mot null. @tall er tallet du vil skal rundes ned og @siffer er antallet siffer du vil runde tallet til. \n"
+"@DESCRIPTION=ROUNDDOWN-funksjonen runder et gitt @tall ned mot null. @tall "
+"er tallet du vil skal rundes ned og @siffer er antallet siffer du vil runde "
+"tallet til. \n"
 "\n"
 "* Hvis @siffer er større enn null, rundes @tall ned til gitt antall siffer.\n"
-"* Hvis @siffer er null eller utelatt, rundes @tall ned til nærmeste heltall.\n"
+"* Hvis @siffer er null eller utelatt, rundes @tall ned til nærmeste "
+"heltall.\n"
 "* Hvis @siffer er mindre enn null, rundes @tall ned til venstre for komma.\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
@@ -8876,9 +8901,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(tall[,siffer])\n"
-"@DESCRIPTION=ROUND-funksjonen runder av et gitt tall. @tall er tallet du vil runde av og @siffer er antallet siffer du vil runde tallet av til. \n"
+"@DESCRIPTION=ROUND-funksjonen runder av et gitt tall. @tall er tallet du vil "
+"runde av og @siffer er antallet siffer du vil runde tallet av til. \n"
 "\n"
-"* Hvis @siffer er større enn null rundes @tall av til oppgitt antall siffer.\n"
+"* Hvis @siffer er større enn null rundes @tall av til oppgitt antall "
+"siffer.\n"
 "* Hvis @siffer er null eller utelatt, rundes @tall av til nærmeste heltall.\n"
 "* Hvis @siffer er mindre enn null, rundes @tall av til venstre for komma.\n"
 "* Denne funksjonen er Excel kompatibel. \n"
@@ -8918,10 +8945,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(tall[,siffer])\n"
-"@DESCRIPTION=ROUNDUP-funksjonen runder opp et gitt tall, bort fra null. @tall er tallet du vil ha rundet opp og @siffer er antallet siffer du vil runde det av til. \n"
+"@DESCRIPTION=ROUNDUP-funksjonen runder opp et gitt tall, bort fra null. "
+"@tall er tallet du vil ha rundet opp og @siffer er antallet siffer du vil "
+"runde det av til. \n"
 "\n"
 "* Hvis @siffer er større enn null, rundes @tall opp til gitt antall siffer.\n"
-"* Hvis @siffer er null eller utelatt, rundes @tall opp til nærmeste heltall.\n"
+"* Hvis @siffer er null eller utelatt, rundes @tall opp til nærmeste "
+"heltall.\n"
 "* Hvis @siffer er mindre enn null, rundes @tall opp til venstre for komma.\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
@@ -8953,9 +8983,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(tall,multippel)\n"
-"@DESCRIPTION=MROUND-funksjonen runder av et gitt tall til ønsket multippel. @tall er tallet du vil runde av og @multiple er multippelen du vil runde tallet av til.\n"
+"@DESCRIPTION=MROUND-funksjonen runder av et gitt tall til ønsket multippel. "
+"@tall er tallet du vil runde av og @multiple er multippelen du vil runde "
+"tallet av til.\n"
 "\n"
-"* Hvis @tall og @multippel har forskjellig fortegn, returnerer MROUND en #NUM! feil.\n"
+"* Hvis @tall og @multippel har forskjellig fortegn, returnerer MROUND en "
+"#NUM! feil.\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
@@ -8989,11 +9022,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(tall[,type])\n"
-"@DESCRIPTION=ROMAN-funksjonen returnerer et arabisk tall i den romanske nummerstilen, som tekst. @tall er tallet du vil konvertere og @type er typen romansk numeral du ønsker. \n"
+"@DESCRIPTION=ROMAN-funksjonen returnerer et arabisk tall i den romanske "
+"nummerstilen, som tekst. @tall er tallet du vil konvertere og @type er typen "
+"romansk numeral du ønsker. \n"
 "\n"
 "* Hvis @type er 0 eller utelatt, returnerer ROMAN klassiske romanske tall.\n"
-"* Type 1 er mer konsis enn klassisk type, type 2 er mer konsis enn type 1, og type 3 er mer konsis enn type 2. Type 4 er forenklet type. \n"
-"* Hvis @tall er negativt eller større enn 3999, returnerer ROMAN en #VALUE! feil.\n"
+"* Type 1 er mer konsis enn klassisk type, type 2 er mer konsis enn type 1, "
+"og type 3 er mer konsis enn type 2. Type 4 er forenklet type. \n"
+"* Hvis @tall er negativt eller større enn 3999, returnerer ROMAN en #VALUE! "
+"feil.\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
@@ -9029,14 +9066,19 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(tabell1,tabell2)\n"
-"@DESCRIPTION=SUMX2MY2-funksjonen returnerer summen av differansen av kvadratene av korresponderende verdier i to tabeller. @tabell1 er den første tabellen eller datasettet, og @tabell2 er den andre tabellen eller datasettet. Ligningen SUMX2MY2 er SUM (x^2-y^2). \n"
+"@DESCRIPTION=SUMX2MY2-funksjonen returnerer summen av differansen av "
+"kvadratene av korresponderende verdier i to tabeller. @tabell1 er den første "
+"tabellen eller datasettet, og @tabell2 er den andre tabellen eller "
+"datasettet. Ligningen SUMX2MY2 er SUM (x^2-y^2). \n"
 "\n"
 "* Strenger og tomme celler ignoreres.\n"
-"* Hvis @tabell1 og @tabell2 har forskjellig antall datapunkter, returnerer SUMX2MY2 en #N/A! feil.\n"
+"* Hvis @tabell1 og @tabell2 har forskjellig antall datapunkter, returnerer "
+"SUMX2MY2 en #N/A! feil.\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og 43 og cellene B1, B2, ..., B5 inneholder tallene 13, 22, 31, 33, og 39.\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og "
+"43 og cellene B1, B2, ..., B5 inneholder tallene 13, 22, 31, 33, og 39.\n"
 "Da får vi\n"
 "SUMX2MY2(A1:A5,B1:B5) er lik -1299.\n"
 "\n"
@@ -9073,14 +9115,19 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(tabell1,tabell2)\n"
-"@DESCRIPTION=SUMX2PY2-funksjonen returnerer summen av summen av kvadratene av de korresponderende verdiene i  to tabeller. @tabell1 er den første tabellen eller området med datapunkter og tabell2 er den andre tabellen eller området med datapunkter. Ligningen til SUMX2PY2 er SUM (x^2+y^2). \n"
+"@DESCRIPTION=SUMX2PY2-funksjonen returnerer summen av summen av kvadratene "
+"av de korresponderende verdiene i  to tabeller. @tabell1 er den første "
+"tabellen eller området med datapunkter og tabell2 er den andre tabellen "
+"eller området med datapunkter. Ligningen til SUMX2PY2 er SUM (x^2+y^2). \n"
 "\n"
 "* Strenger og tomme celler ignoreres.\n"
-"* Hvis  @tabell1 og @tabell2 har forskjellig antall datapunkter, returnerer SUMX2PY2 en #N/A!-feil.\n"
+"* Hvis  @tabell1 og @tabell2 har forskjellig antall datapunkter, returnerer "
+"SUMX2PY2 en #N/A!-feil.\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og 43 og cellene B1, B2, ..., B5 inneholder tallene 13, 22, 31, 33, og 39.\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og "
+"43 og cellene B1, B2, ..., B5 inneholder tallene 13, 22, 31, 33, og 39.\n"
 "Da får vi\n"
 "SUMX2PY2(A1:A5,B1:B5) er lik 7149.\n"
 "@SEEALSO=SUMSQ,SUMX2MY2"
@@ -9109,14 +9156,20 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(tabell1,tabell2)\n"
-"@DESCRIPTION=SUMXMY2-funksjonen returnerer summen av kvadratene av differensen mellom korresponderende verdier i to tabeller. @tabell1 er den første tabellen eller datasettet, og @tabell2 er den andre tabellen eller datasettet. Ligningen SUMXMY2 er SUM (x-y)^2. \n"
+"@DESCRIPTION=SUMXMY2-funksjonen returnerer summen av kvadratene av "
+"differensen mellom korresponderende verdier i to tabeller. @tabell1 er den "
+"første tabellen eller datasettet, og @tabell2 er den andre tabellen eller "
+"datasettet. Ligningen SUMXMY2 er SUM (x-y)^2. \n"
 "\n"
 "* Strenger og tomme celler ignoreres.\n"
-"* Hvis @tabell1 og @tabell2 har forskjellige antall datapunkter, returnerer SUMXMY2 en #N/A! feil.\n"
+"* Hvis @tabell1 og @tabell2 har forskjellige antall datapunkter, returnerer "
+"SUMXMY2 en #N/A! feil.\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og 43 og at cellene B1, B2, ..., B5 inneholder tallene 13, 22, 33, og 39.  Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og "
+"43 og at cellene B1, B2, ..., B5 inneholder tallene 13, 22, 33, og 39.  Da "
+"får vi\n"
 "SUMXMY2(A1:A5,B1:B5) er lik 409.\n"
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
@@ -9141,12 +9194,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,koeffisienter)\n"
-"@DESCRIPTION=SERIESSUM-funksjonen returnerer summen av en potensrekke.  @x er basen for potensrekken, @n er første potens @x skal oppheves i, @m er økningen av potensen for hvert ledd i rekken, og @koeffisienter er koeffisientene som hver suksessiv potens av @x blir multiplisert med.\n"
+"@DESCRIPTION=SERIESSUM-funksjonen returnerer summen av en potensrekke.  @x "
+"er basen for potensrekken, @n er første potens @x skal oppheves i, @m er "
+"økningen av potensen for hvert ledd i rekken, og @koeffisienter er "
+"koeffisientene som hver suksessiv potens av @x blir multiplisert med.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 1.23, 2.32, 2.98, 3.42, og 4.33.  Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 1.23, 2.32, 2.98, "
+"3.42, og 4.33.  Da får vi\n"
 "SERIESSUM(3,1,2.23,A1:A5) er lik 251416.43018.\n"
 "\n"
 "@SEEALSO=COUNT,SUM"
@@ -9171,7 +9228,8 @@ msgstr ""
 "@DESCRIPTION=MINVERSE returnerer den inverse matrisen av en gitt matrise. \n"
 "\n"
 "* Hvis @matrise ikke kan inverteres, returnerer MINVERSE #NUM! error.\n"
-"* Hvis matrisen ikke inneholder likt antall kolonner og rader, returnerer MINVERSE en #VALUE! feil.\n"
+"* Hvis matrisen ikke inneholder likt antall kolonner og rader, returnerer "
+"MINVERSE en #VALUE! feil.\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
@@ -9194,7 +9252,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(matrise1,matrise2)\n"
-"@DESCRIPTION=MMULT returnerer matriseproduktet av to matriser. Resultatet er en matrise med samme antall rader som matrise1 og samme antall kolonner som matrise2.\n"
+"@DESCRIPTION=MMULT returnerer matriseproduktet av to matriser. Resultatet er "
+"en matrise med samme antall rader som matrise1 og samme antall kolonner som "
+"matrise2.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
@@ -9222,13 +9282,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrise)\n"
-"@DESCRIPTION=MDETERM-funksjonen returnerer determinanten av en gitt matrise.\n"
+"@DESCRIPTION=MDETERM-funksjonen returnerer determinanten av en gitt "
+"matrise.\n"
 "\n"
-"* Hvis @matrise ikke inneholder et likt antall kolonner og rader, returnerer MDETERM en #VALUE! feil.\n"
+"* Hvis @matrise ikke inneholder et likt antall kolonner og rader, returnerer "
+"MDETERM en #VALUE! feil.\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at A1, ..., A4 inneholder tallene 2, 3, 7, og 3, B1, ..., B4 4, 2, 4, og 1, C1, ..., C4 9, 4, 3, og 2, og D1, ..., D4 7, 3, 6, og 5.  Da får vi.\n"
+"La oss anta at A1, ..., A4 inneholder tallene 2, 3, 7, og 3, B1, ..., B4 4, "
+"2, 4, og 1, C1, ..., C4 9, 4, 3, og 2, og D1, ..., D4 7, 3, 6, og 5.  Da får "
+"vi.\n"
 "MDETERM(A1:D4) er lik 148.\n"
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
@@ -9255,13 +9319,18 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(område1,område2,...)\n"
-"@DESCRIPTION=SUMPRODUCT-funksjonen multipliserer korresponderende data i gitte tabeller eller områder, og returnerer så summen av disse produktene. Hvis en tabelloppføring ikke er numerisk, brukes null i stedet.\n"
+"@DESCRIPTION=SUMPRODUCT-funksjonen multipliserer korresponderende data i "
+"gitte tabeller eller områder, og returnerer så summen av disse produktene. "
+"Hvis en tabelloppføring ikke er numerisk, brukes null i stedet.\n"
 "\n"
-"* Hvis tabeller eller områdeargumenter ikke har samme størrelse, returnerer SUMPRODUCT en #VALUE! feil.\n"
+"* Hvis tabeller eller områdeargumenter ikke har samme størrelse, returnerer "
+"SUMPRODUCT en #VALUE! feil.\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og 43, og at cellene B1, B2, ..., B5 inneholder tallene 13, 22, 31, 33, og 39.  Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og "
+"43, og at cellene B1, B2, ..., B5 inneholder tallene 13, 22, 31, 33, og 39.  "
+"Da får vi\n"
 "SUMPRODUCT(A1:A5,B1:B5) er lik 3370.\n"
 "\n"
 "@SEEALSO=SUM,PRODUCT"
@@ -9443,7 +9512,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDEXP\n"
 "@SYNTAX=RANDEXP(b)\n"
-"@DESCRIPTION=RANDEXP returnerer et eksponentielt distribuert tilfeldig nummer.\n"
+"@DESCRIPTION=RANDEXP returnerer et eksponentielt distribuert tilfeldig "
+"nummer.\n"
 "\n"
 "@EXAMPLES=\n"
 "RANDEXP(0.5).\n"
@@ -9516,7 +9586,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bunn,topp)\n"
-"@DESCRIPTION=RANDBETWEEN-funksjonen returnerer et tilfeldig heltall mellom og inklusive @bunn og @topp.\n"
+"@DESCRIPTION=RANDBETWEEN-funksjonen returnerer et tilfeldig heltall mellom "
+"og inklusive @bunn og @topp.\n"
 "\n"
 "* Hvis @bunn eller @topp ikke er heltall, blir de avkortet.\n"
 "* Hvis @bunn > @topp, returnerer RANDBETWEEN en #NUM! feil.\n"
@@ -9544,7 +9615,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,feil)\n"
-"@DESCRIPTION=RANDNEGBINOM returnerer et negativt binomialt distribuert tilfeldig tall.\n"
+"@DESCRIPTION=RANDNEGBINOM returnerer et negativt binomialt distribuert "
+"tilfeldig tall.\n"
 "\n"
 "* Hvis @p < 0 eller @p > 1, returnerer RANDNEGBINOM en #NUM! feil.\n"
 "* Hvis @feil er sann returnerer RANDNEGBINOM en #NUM! feil.\n"
@@ -10249,12 +10321,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=VARP\n"
 "@SYNTAX=VARP(b1, b2, ...)\n"
-"@DESCRIPTION=VARP beregner variansen til et sett med tall hvor hvert tall er medlem av en populasjon og settet er hele populasjonen.\n"
+"@DESCRIPTION=VARP beregner variansen til et sett med tall hvor hvert tall er "
+"medlem av en populasjon og settet er hele populasjonen.\n"
 "\n"
 "* VARP er også kjent som N-varians.\n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1.  Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9, og 40.1.  Da får vi\n"
 "VARP(A1:A5) er lik 94.112.\n"
 "\n"
 "@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR"
@@ -10279,13 +10353,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VARP(b1, b2, ...)\n"
-"@DESCRIPTION=VAR beregner variansen til et utvalg fra en populasjon. For å få den sanne variansen fra hele populasjonen bruk @VARP.\n"
+"@DESCRIPTION=VAR beregner variansen til et utvalg fra en populasjon. For å "
+"få den sanne variansen fra hele populasjonen bruk @VARP.\n"
 "\n"
-"* VAR er også kjent som N-1-variansen. Under rimelige betingelser er den en estimator for høyeste sannsynlighet av den sanne variansen.\n"
+"* VAR er også kjent som N-1-variansen. Under rimelige betingelser er den en "
+"estimator for høyeste sannsynlighet av den sanne variansen.\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1.  Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9, og 40.1.  Da får vi\n"
 "VAR(A1:A5) er lik 117.64.\n"
 "\n"
 "@SEEALSO=VARP,STDEV"
@@ -10308,12 +10385,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=CEIL(b1, b2, ...)\n"
-"@DESCRIPTION=STDEV returnerer standardavviket til et sett med tall og behandler disse tallene som medlemmer av en populasjon.\n"
+"@DESCRIPTION=STDEV returnerer standardavviket til et sett med tall og "
+"behandler disse tallene som medlemmer av en populasjon.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1.  Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9, og 40.1.  Da får vi\n"
 "STDEV(A1:A5) er lik 10.84619749.\n"
 "\n"
 "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
@@ -10336,12 +10415,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=STDEVP\n"
 "@SYNTAX=STDEVP(b1, b2, ...)\n"
-"@DESCRIPTION=STDEVP-funksjonen returnerer standardavviket til et sett tall og behandler disse tallene som medlemmer av en komplett populasjon.\n"
+"@DESCRIPTION=STDEVP-funksjonen returnerer standardavviket til et sett tall "
+"og behandler disse tallene som medlemmer av en komplett populasjon.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1.  Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9, og 40.1.  Da får vi\n"
 "STDEVP(A1:A5) er lik 9.701133954.\n"
 "\n"
 "@SEEALSO=STDEV,STDEVA,STDEVPA"
@@ -10399,12 +10480,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=TRIMMEAN\n"
 "@SYNTAX=GEOMEAN(ref,brøkdel, ...)\n"
-"@DESCRIPTION=TRIMMEAN returnerer medianen av innholdet i det gitte datasettet. @ref er listen av tall du vil beregne medianen for og @brøkdel er andelen av datasettet som er eksludert fra medianen. For eksempel, hvis @brøkdel=0.2 og datasettet inneholder 40 tall, blir 8 tall trimmet bort fra datasettet (40 x 0,2), 4 fra toppen og 4 fra bunnen av settet.\n"
+"@DESCRIPTION=TRIMMEAN returnerer medianen av innholdet i det gitte "
+"datasettet. @ref er listen av tall du vil beregne medianen for og @brøkdel "
+"er andelen av datasettet som er eksludert fra medianen. For eksempel, hvis "
+"@brøkdel=0.2 og datasettet inneholder 40 tall, blir 8 tall trimmet bort fra "
+"datasettet (40 x 0,2), 4 fra toppen og 4 fra bunnen av settet.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9, og 40.1. Da får vi\n"
 "TRIMMEAN(A1:A5,0,2) er lik 23,2.\n"
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
@@ -10434,7 +10520,9 @@ msgstr ""
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1, og cellene B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, og 42.7.  Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9, og 40.1, og cellene B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, og 42.7.  "
+"Da får vi\n"
 "COVAR(A1:A5,B1:B5) er lik 65.858.\n"
 "\n"
 "@SEEALSO=CORREL,FISHER,FISHERINV"
@@ -10465,7 +10553,9 @@ msgstr ""
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1, og cellene B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, og 42.7.  Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9, og 40.1, og cellene B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, og 42.7.  "
+"Da får vi\n"
 "CORREL(A1:A5,B1:B5) er lik 0.996124788.\n"
 "\n"
 "@SEEALSO=COVAR,FISHER,FISHERINV"
@@ -10490,7 +10580,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=NEGBINOMDIST\n"
 "@SYNTAX=NEGBINOMDIST(f,t,p)\n"
-"@DESCRIPTION=NEGBINOMDIST-funksjonen returnerer den negative binominale distribusjonen. @f er antall feil, @t er terskelantallet for suksess, og @p er sannsynligheten for suksess.\n"
+"@DESCRIPTION=NEGBINOMDIST-funksjonen returnerer den negative binominale "
+"distribusjonen. @f er antall feil, @t er terskelantallet for suksess, og @p "
+"er sannsynligheten for suksess.\n"
 "\n"
 "* Hvis @f eller @t ikke er heltall, blir de avkortet.\n"
 "* Hvis (@f + @t -1) <=0 returnerer NEGBINOMDIST en #NUM!-feil.\n"
@@ -10518,7 +10610,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMSDIST(x)\n"
-"@DESCRIPTION=NORMSDIST-funksjonen returnerer standard normal kumulativ distribusjon. @x er verdien du vil ha distribusjonen for.\n"
+"@DESCRIPTION=NORMSDIST-funksjonen returnerer standard normal kumulativ "
+"distribusjon. @x er verdien du vil ha distribusjonen for.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
@@ -10545,7 +10638,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=NORMSINV\n"
 "@SYNTAX=NORMSINV(p)\n"
-"@DESCRIPTION=NORMSINV-funksjonen returnerer den inverse av standard normal kumulativ distribusjon. @p er den gitte sannsynligheten som korresponderer til normaldistribusjonen.\n"
+"@DESCRIPTION=NORMSINV-funksjonen returnerer den inverse av standard normal "
+"kumulativ distribusjon. @p er den gitte sannsynligheten som korresponderer "
+"til normaldistribusjonen.\n"
 "\n"
 "* Hvis @p < 0 eller @p > 1 returnerer NORMSINV en #NUM!-feil. \n"
 "* Denne funksjonen er Excel-kompatibel. \n"
@@ -10574,10 +10669,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOGNORMDIST\n"
 "@SYNTAX=NORMDIST(x,middelverdi,stdev)\n"
-"@DESCRIPTION=LOGNORMDIST returnerer lognormal distribusjon. @x er verdien du vil ha distribusjonen for. @middelverdi er middelverdien for distribusjonen, og @stdev er standardavviket for distribusjonen. Denne funksjonen er Excel kompatibel.\n"
+"@DESCRIPTION=LOGNORMDIST returnerer lognormal distribusjon. @x er verdien du "
+"vil ha distribusjonen for. @middelverdi er middelverdien for distribusjonen, "
+"og @stdev er standardavviket for distribusjonen. Denne funksjonen er Excel "
+"kompatibel.\n"
 "\n"
 "* Hvis @stdev = 0 returnerer LOGNORMDIST en #DIV/0! feil.\n"
-"* Hvis @x <=0, @middelverdi < 0 eller @stdev < 0, returnerer LOGNORMDIST en #NUM! feil.\n"
+"* Hvis @x <=0, @middelverdi < 0 eller @stdev < 0, returnerer LOGNORMDIST en "
+"#NUM! feil.\n"
 "* Denne funksjonen er Excel-kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
@@ -10627,7 +10726,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=FISHERINV\n"
 "@SYNTAX=FISHERINV(x)\n"
-"@DESCRIPTION=FISHERINV returnerer den inverse av Fisher-transformasjonen ved @x. \n"
+"@DESCRIPTION=FISHERINV returnerer den inverse av Fisher-transformasjonen ved "
+"@x. \n"
 "\n"
 "* Hvis @x ikke er et tall returnerer FISHERINV en #VALUE!-feil.\n"
 "* Denne funksjonen er Excel kompatibel. \n"
@@ -10657,14 +10757,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
-"@DESCRIPTION=MODE returnerer det vanligste tallet i datasettet. Hvis datasettet har flere like vanlige tall returnerer MODE det første av dem.\n"
+"@DESCRIPTION=MODE returnerer det vanligste tallet i datasettet. Hvis "
+"datasettet har flere like vanlige tall returnerer MODE det første av dem.\n"
 "\n"
 "* Strenger og tomme celler ignoreres.\n"
 "* Hvis datasettet ikke inneholder duplikater returnerer MODE en #N/A-feil.\n"
 "* Denne funksjonen er Excel-kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 11.4, 25.9, og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 11.4, "
+"25.9, og 40.1. Da får vi\n"
 "MODE(A1:A5) er lik 11.4.\n"
 "\n"
 "@SEEALSO=AVERAGE, MEDIAN"
@@ -10687,12 +10789,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=HARMEAN\n"
 "@SYNTAX=HARMEAN(b1, b2, ...)\n"
-"@DESCRIPTION=HARMEAN returnerer den harmoniske middelverdien av de N datapunktene (dvs, N delt på summen av de inverse verdiene til datapunktene).\n"
+"@DESCRIPTION=HARMEAN returnerer den harmoniske middelverdien av de N "
+"datapunktene (dvs, N delt på summen av de inverse verdiene til "
+"datapunktene).\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9, og 40.1. Da får vi\n"
 "HARMEAN(A1:A5) er lik 19.529814427.\n"
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MODE,TRIMMEAN"
@@ -10715,12 +10820,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=GEOMEAN\n"
 "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
-"@DESCRIPTION=GEOMEAN returnerer den geometriske middelverdien av gitte argumenter. Dette er lik den Nte roten av produktet av termene.\n"
+"@DESCRIPTION=GEOMEAN returnerer den geometriske middelverdien av gitte "
+"argumenter. Dette er lik den Nte roten av produktet av termene.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9, og 40.1. Da får vi\n"
 "GEOMEAN(A1:A5) er lik 21.279182482.\n"
 "\n"
 "@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MEAN,MODE,TRIMMEAN"
@@ -10743,12 +10850,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
-"@DESCRIPTION=COUNT returnerer det totale antall heltalls eller flyttalls- argumenter som gis.\n"
+"@DESCRIPTION=COUNT returnerer det totale antall heltalls eller flyttalls- "
+"argumenter som gis.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9, og 40.1. Da får vi\n"
 "COUNT(A1:A5) er lik 5.\n"
 "\n"
 "@SEEALSO=AVERAGE"
@@ -10771,12 +10880,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=COUNTA\n"
 "@SYNTAX=SUM(b1, b2, ...)\n"
-"@DESCRIPTION=COUNTA returnerer antall argumenter som gis, ikke inkludert tomme celler.\n"
+"@DESCRIPTION=COUNTA returnerer antall argumenter som gis, ikke inkludert "
+"tomme celler.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og tekststrengene 11.4, \"missing\", \"missing\", 25.9, og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og tekststrengene "
+"11.4, \"missing\", \"missing\", 25.9, og 40.1. Da får vi\n"
 "COUNTA(A1:A5) er lik 5.\n"
 "\n"
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
@@ -10800,12 +10911,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=SUM(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=AVERAGE beregner gjennomsnittet av alle verdiene og cellene referert i argumentlisten. Dette er ekvivalent til summen av alle argumentene delt på antall argumenter.\n"
+"@DESCRIPTION=AVERAGE beregner gjennomsnittet av alle verdiene og cellene "
+"referert i argumentlisten. Dette er ekvivalent til summen av alle "
+"argumentene delt på antall argumenter.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1.  Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9, og 40.1.  Da får vi\n"
 "AVERAGE(A1:A5) er lik 23.2.\n"
 "\n"
 "@SEEALSO=SUM, COUNT"
@@ -10829,12 +10943,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1,b2, ...)\n"
-"@DESCRIPTION=MIN returnerer verdien til til argumentet med den minste verdien. Negative tall regnes som mindre enn positive tall.\n"
+"@DESCRIPTION=MIN returnerer verdien til til argumentet med den minste "
+"verdien. Negative tall regnes som mindre enn positive tall.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1.  Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9, og 40.1.  Da får vi\n"
 "MIN(A1:A5) er lik 11.4.\n"
 "\n"
 "@SEEALSO=MAX,ABS"
@@ -10858,12 +10974,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
-"@DESCRIPTION=MAX returnerer verdien til argumentet med den minste verdien. Negative tall regnes som mindre enn positive.\n"
+"@DESCRIPTION=MAX returnerer verdien til argumentet med den minste verdien. "
+"Negative tall regnes som mindre enn positive.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1.  Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9, og 40.1.  Da får vi\n"
 "MAX(A1:A5) er lik 40.1.\n"
 "\n"
 "@SEEALSO=MIN,ABS"
@@ -10893,7 +11011,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
-"@DESCRIPTION=DEVSQ returnerer summen av kvadratene av avviket fra den oppgitte\n"
+"@DESCRIPTION=DEVSQ returnerer summen av kvadratene av avviket fra den "
+"oppgitte\n"
 "middelverdien i et datasett.\n"
 "Strenger og tomme celler ignoreres.\n"
 "@SEEALSO=STDEV"
@@ -10997,7 +11116,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=GAMMALN\n"
 "@SYNTAX=GAMMALN(x)\n"
-"@DESCRIPTION=GAMMALN returnerer den naturlige logaritmen til gammafunksjonen.\n"
+"@DESCRIPTION=GAMMALN returnerer den naturlige logaritmen til "
+"gammafunksjonen.\n"
 "\n"
 "* Hvis @x er ikke-numerisk, returnerer GAMMALN en #VALUE! feil.\n"
 "* Hvis @x <= 0 returnerer GAMMALN en #NUM! feil.\n"
@@ -11028,8 +11148,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta,kum)\n"
-"@DESCRIPTION=GAMMADIST-funksjonen returnerer gammadistribusjonen. Hvis @kum er SANN returnerer GAMMADIST den ukomplette gammafunksjonen, ellers returneres massefunksjonen for sannsynligheten.\n"
-"Hvis @x < 0 returnerer GAMMADIST en #NUM!-feil. Hvis @alpha <= 0 eller @beta <= 0, returnerer GAMMADIST en #NUM!-feil.\n"
+"@DESCRIPTION=GAMMADIST-funksjonen returnerer gammadistribusjonen. Hvis @kum "
+"er SANN returnerer GAMMADIST den ukomplette gammafunksjonen, ellers "
+"returneres massefunksjonen for sannsynligheten.\n"
+"Hvis @x < 0 returnerer GAMMADIST en #NUM!-feil. Hvis @alpha <= 0 eller @beta "
+"<= 0, returnerer GAMMADIST en #NUM!-feil.\n"
 "Denne funksjonen er Excel-kompatibel.\n"
 "@EXAMPLES=\n"
 "GAMMADIST(1,2,3,0) er lik 0.07961459.\n"
@@ -11054,7 +11177,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
-"@DESCRIPTION=GAMMAINV-funksjonen returnerer den inverse av den kumulative gammadistribusjonen.\n"
+"@DESCRIPTION=GAMMAINV-funksjonen returnerer den inverse av den kumulative "
+"gammadistribusjonen.\n"
 "\n"
 "* Hvis @p < 0 eller @p > 1 returnerer GAMMAINV en #NUM!-feil.\n"
 "* Hvis @alpha <= 0 eller @beta <= 0, returnerer GAMMAINV en #NUM!-feil.\n"
@@ -11083,7 +11207,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
-"@DESCRIPTION=CHIDIST returnerer den enhalede sannsynligheten til den chi-opphøyede distribusjonen. @dof er antall grader av frihet.\n"
+"@DESCRIPTION=CHIDIST returnerer den enhalede sannsynligheten til den chi-"
+"opphøyede distribusjonen. @dof er antall grader av frihet.\n"
 "\n"
 "* Hvis @dof ikke er et heltall, blir det avkortet.\n"
 "* Hvis @dof < 1 returnerer CHIDIST en #NUM!-feil.\n"
@@ -11111,7 +11236,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,dof)\n"
-"@DESCRIPTION=CHIINV-funksjonen returnerer den inverse av den enhalede sannsynligheten til den chi-opphøyede distribusjonen.\n"
+"@DESCRIPTION=CHIINV-funksjonen returnerer den inverse av den enhalede "
+"sannsynligheten til den chi-opphøyede distribusjonen.\n"
 "\n"
 "* Hvis @p < 0 eller @p > 1 eller @dof < 1, returnerer CHIINV en #NUM!-feil.\n"
 "* Denne funksjonen er Excel kompatibel. \n"
@@ -11140,9 +11266,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(faktisk_område,teoretisk_område)\n"
-"@DESCRIPTION=CHITEST-funksjonen returnerer uavhengighetstesten til den chi-opphøyede distribusjonen.\n"
+"@DESCRIPTION=CHITEST-funksjonen returnerer uavhengighetstesten til den chi-"
+"opphøyede distribusjonen.\n"
 "\n"
-"@faktisk_område er et område som inneholder de observerte datapunktene. @teoretisk_område er et område som inneholder de forventede verdiene til datapunktene.\n"
+"@faktisk_område er et område som inneholder de observerte datapunktene. "
+"@teoretisk_område er et område som inneholder de forventede verdiene til "
+"datapunktene.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
@@ -11170,7 +11299,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
-"@DESCRIPTION=BETADIST returnerer den kumulative betadistribusjonen. @a er den valgfrie nedre grensen til @x og @b er den valgfrie øvre grensen for @x.\n"
+"@DESCRIPTION=BETADIST returnerer den kumulative betadistribusjonen. @a er "
+"den valgfrie nedre grensen til @x og @b er den valgfrie øvre grensen for "
+"@x.\n"
 "\n"
 "* Hvis @a ikke er gitt bruker BETADIST 0.\n"
 "* Hvis @b ikke er gitt bruker BETADIST 1.\n"
@@ -11206,7 +11337,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
-"@DESCRIPTION=BETAINV returnerer den inverse kumulative beta distribusjonen. @a er den valgfrie nedre grensen for @x og @b er den valgfrie øvre grensen for @x.\n"
+"@DESCRIPTION=BETAINV returnerer den inverse kumulative beta distribusjonen. "
+"@a er den valgfrie nedre grensen for @x og @b er den valgfrie øvre grensen "
+"for @x.\n"
 "\n"
 "* Hvis @a ikke er gitt bruker BETAINV 0.\n"
 "* Hvis @b ikke er gitt bruker BETAINV 1.\n"
@@ -11239,7 +11372,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,haler)\n"
-"@DESCRIPTION=TDIST returnerer Student-t distribusjonen. @dof er graden av frihet og @haler er 1 eller 2 avhengig av om du ønsker en en-halet eller to-halet distribusjon.\n"
+"@DESCRIPTION=TDIST returnerer Student-t distribusjonen. @dof er graden av "
+"frihet og @haler er 1 eller 2 avhengig av om du ønsker en en-halet eller to-"
+"halet distribusjon.\n"
 "\n"
 "* Hvis @dof < 1 returnerer TDIST en #NUM!-feil.\n"
 "* Hvis @haler er hverken 1 eller 2 returnerer TDIST en #NUM!-feil.\n"
@@ -11297,7 +11432,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=FDIST\n"
 "@SYNTAX=FDIST(x,dof1,dof2)\n"
-"@DESCRIPTION=FDIST-funksjonen returnerer F-sannsynlighetsdistribusjonen. @dof1 er tellers grader av frihet og @dof2 er nevners grader av frihet.\n"
+"@DESCRIPTION=FDIST-funksjonen returnerer F-sannsynlighetsdistribusjonen. "
+"@dof1 er tellers grader av frihet og @dof2 er nevners grader av frihet.\n"
 "\n"
 "* Hvis @x < 0 returnerer FDIST en #NUM!-feil.\n"
 "* Hvis @dof1 < 1 eller dof2 < 1, returnerer FDIST en #NUM!-feil.\n"
@@ -11322,7 +11458,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RandExp\n"
 "@SYNTAX=RandExp(b)\n"
-"@DESCRIPTION=RandExp returnerer et eksponentielt distribuert tilfeldig nummer.\n"
+"@DESCRIPTION=RandExp returnerer et eksponentielt distribuert tilfeldig "
+"nummer.\n"
 "@EXAMPLES=\n"
 "RandExp(0.5).\n"
 "\n"
@@ -11379,7 +11516,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,forsøk,p,kumulativ)\n"
-"@DESCRIPTION=BINOMDIST-funksjonen returnerer den binominale distribusjonen. @n er antall suksesser, @forsøk er totalt antall uavhengige forsøk, @p er sannsynligheten for suksess i et forsøk, og @kumulativ beskriver om summen av binominalfunksjonen skal returneres fra 0 til @n.\n"
+"@DESCRIPTION=BINOMDIST-funksjonen returnerer den binominale distribusjonen. "
+"@n er antall suksesser, @forsøk er totalt antall uavhengige forsøk, @p er "
+"sannsynligheten for suksess i et forsøk, og @kumulativ beskriver om summen "
+"av binominalfunksjonen skal returneres fra 0 til @n.\n"
 "\n"
 "* Hvis @n eller @forsøk ikke er heltall, blir de avkortet.\n"
 "* Hvis @n < 0 eller @forsøk < 0 returnerer BINOMDIST en #NUM!-feil.\n"
@@ -11410,8 +11550,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,feil)\n"
-"@DESCRIPTION=RANDNEGBINOM returnerer et negativt binomialt distribuert tilfeldig tall.\n"
-"Hvis @p < 0 eller @p > 1, returnerer RANDNEGBINOM en #NUM! feil. Hvis @feil er sann returnerer RANDNEGBINOM en #NUM! feil.\n"
+"@DESCRIPTION=RANDNEGBINOM returnerer et negativt binomialt distribuert "
+"tilfeldig tall.\n"
+"Hvis @p < 0 eller @p > 1, returnerer RANDNEGBINOM en #NUM! feil. Hvis @feil "
+"er sann returnerer RANDNEGBINOM en #NUM! feil.\n"
 "@EXAMPLES=\n"
 "RANDNEGBINOM(0.5,2)\n"
 "\n"
@@ -11617,7 +11759,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,middelverdi,stdavv,kumulativ)\n"
-"@DESCRIPTION=NORMDIST-funksjonen returnerer standard normal kumulativ distribusjon. @x er verdien du vil ha distribusjonen for, @middelverdi er middelverdien for distribusjonen, @stdavv er standardavviket.\n"
+"@DESCRIPTION=NORMDIST-funksjonen returnerer standard normal kumulativ "
+"distribusjon. @x er verdien du vil ha distribusjonen for, @middelverdi er "
+"middelverdien for distribusjonen, @stdavv er standardavviket.\n"
 "\n"
 "* Hvis @stdavv er 0 returnerer NORMDIST en #DIV/0-feil.\n"
 "* Denne funksjonen er Excel kompatibel. \n"
@@ -11677,14 +11821,18 @@ msgstr ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
 "@DESCRIPTION=KURT returnerer upåvirket estimat av kurtosen av et datasett.\n"
-"Merk at dette kun har mening hvis den underliggende distribusjonen virkelig har et fjerde moment. Kurtosen er flyttet tre enheter slik at en normaldistribusjon vil ha kurtose null.\n"
+"Merk at dette kun har mening hvis den underliggende distribusjonen virkelig "
+"har et fjerde moment. Kurtosen er flyttet tre enheter slik at en "
+"normaldistribusjon vil ha kurtose null.\n"
 "\n"
 "* Strenger og tomme celler ignoreres.\n"
-"* Hvis færre enn fire tall oppgis, eller hvis alle er like, returnerer KURT en #DIV/0-feil.\n"
+"* Hvis færre enn fire tall oppgis, eller hvis alle er like, returnerer KURT "
+"en #DIV/0-feil.\n"
 "* Denne funksjonen er Excel-kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3 21.3, 25.9, og 40.1. Vi får da\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3 21.3, "
+"25.9, og 40.1. Vi får da\n"
 "KURT(A1:A5) er lik 1.234546305.\n"
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
@@ -11711,10 +11859,12 @@ msgstr ""
 "@DESCRIPTION=KURTP returnerer populasjons-kurtoisen av et datasett.\n"
 "\n"
 "* Strenger og tomme celler ignoreres.\n"
-"* Hvis færre enn to tall oppgis, eller hvis alle er like, returnerer KURTP en #DIV/0-feil.\n"
+"* Hvis færre enn to tall oppgis, eller hvis alle er like, returnerer KURTP "
+"en #DIV/0-feil.\n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3 21.3, 25.9, og 40.1. Vi får da\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3 21.3, "
+"25.9, og 40.1. Vi får da\n"
 "KURTP(A1:A5) er lik -0.691363424.\n"
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
@@ -11737,13 +11887,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
-"@DESCRIPTION=AVEDEV returnerer gjennomsnittet av absolutt avvik fra middelverdi\n"
+"@DESCRIPTION=AVEDEV returnerer gjennomsnittet av absolutt avvik fra "
+"middelverdi\n"
 "i et datasett.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel.  \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9, og 40.1. Da får vi\n"
 "AVEDEV(A1:A5) er lik 7.84.\n"
 "\n"
 "@SEEALSO=STDEV"
@@ -11767,13 +11919,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
-"@DESCRIPTION=DEVSQ returnerer summen av kvadratene av avviket fra den oppgitte middelverdien i et datasett.\n"
+"@DESCRIPTION=DEVSQ returnerer summen av kvadratene av avviket fra den "
+"oppgitte middelverdien i et datasett.\n"
 "\n"
 "* Strenger og tomme celler ignoreres.\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9, og 40.1. Da får vi\n"
 "AVEDEV(A1:A5) er lik 470.56.\n"
 "\n"
 "@SEEALSO=STDEV"
@@ -11826,7 +11980,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,middelverdi,kumulativ)\n"
-"@DESCRIPTION=POISSON-funksjonen returnerer Poisson distribusjonen. @x er antall hendelser, @middelverdi er den forventede numeriske verdien, @kumulativ beskriver om summen av poisson-funksjonen skal returneres fra 0 til @x.\n"
+"@DESCRIPTION=POISSON-funksjonen returnerer Poisson distribusjonen. @x er "
+"antall hendelser, @middelverdi er den forventede numeriske verdien, "
+"@kumulativ beskriver om summen av poisson-funksjonen skal returneres fra 0 "
+"til @x.\n"
 "\n"
 "* Hvis @x ikke er et heltall, blir det avkortet.\n"
 "* Hvis @x <= 0 returnerer POISSON en #NUM!-feil.\n"
@@ -11854,7 +12011,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(tabell1, tabell2)\n"
-"@DESCRIPTION=PEARSON returnerer Pearson korrelasjonskoeffisienten av to datasett.\n"
+"@DESCRIPTION=PEARSON returnerer Pearson korrelasjonskoeffisienten av to "
+"datasett.\n"
 "\n"
 "* Strenger og tomme celler ignoreres.\n"
 "* Denne funksjonen er Excel kompatibel.\n"
@@ -11879,7 +12037,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(tabell1, tabell2)\n"
-"@DESCRIPTION=RSQ returnerer kvadratet av Pearson korrelasjonskoeffisienten av to datasett.\n"
+"@DESCRIPTION=RSQ returnerer kvadratet av Pearson korrelasjonskoeffisienten "
+"av to datasett.\n"
 "\n"
 "* Strenger og tomme celler ignoreres.\n"
 "* Denne funksjonen er Excel-kompatibel.\n"
@@ -11911,11 +12070,13 @@ msgstr ""
 "@DESCRIPTION=MEDIAN returnerer medianen av det gitte datasettet.\n"
 "\n"
 "* Strenger og tomme celler ignoreres.\n"
-"* Hvis like tall er gitt returnerer MEDIAN middelverdien av de to midterste tallene.\n"
+"* Hvis like tall er gitt returnerer MEDIAN middelverdien av de to midterste "
+"tallene.\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9, og 40.1. Da får vi\n"
 "MEDIAN(A1:A5) er lik 21.3.\n"
 "\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
@@ -11944,7 +12105,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
-"@DESCRIPTION=Returnerer det totale antall heltalls eller flyttallsargumenter som gis.\n"
+"@DESCRIPTION=Returnerer det totale antall heltalls eller flyttallsargumenter "
+"som gis.\n"
 "Bruk av denne funksjonen på en streng eller en tom celle gjør ingenting. \n"
 "@EXAMPLES=\n"
 "\n"
@@ -11974,11 +12136,13 @@ msgstr ""
 "@DESCRIPTION=LARGE returnerer den k-te største verdien i et datasett.\n"
 "\n"
 "* Hvis datasettet er tomt returnerer LARGE en #NUM!-feil.\n"
-"* Hvis @k <= 0 eller @k er større enn antallet dataoppføringer som er oppgitt, returnerer LARGE en #NUM! feil.\n"
+"* Hvis @k <= 0 eller @k er større enn antallet dataoppføringer som er "
+"oppgitt, returnerer LARGE en #NUM! feil.\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9 og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9 og 40.1. Da får vi\n"
 "LARGE(A1:A5,2) er lik 25.9\n"
 "LARGE(A1:A5,4) er lik 17.3\n"
 "\n"
@@ -12008,11 +12172,13 @@ msgstr ""
 "@DESCRIPTION=SMALL returnerer den k-te minste verdien i et datasett.\n"
 "\n"
 "* Hvis datasettet er tomt returnerer SMALL en #NUM!-feil.\n"
-"* Hvis @k <= 0 eller @k er større enn antallet dataoppføringer som er oppgitt, returnerer SMALL en #NUM!-feil.\n"
+"* Hvis @k <= 0 eller @k er større enn antallet dataoppføringer som er "
+"oppgitt, returnerer SMALL en #NUM!-feil.\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9 og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9 og 40.1. Da får vi\n"
 "SMALL(A1:A5,2) er lik 17.3\n"
 "SMALL(A1:A5,4) er lik 25.9\n"
 "\n"
@@ -12123,12 +12289,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(tall1, tall2, ...)\n"
-"@DESCRIPTION=AVERAGEA returnerer gjennomsnittet av de gitte argumentene. Tall tekst og logiske verdier tas med i beregningen også. Hvis cellen inneholder tekst eller argumentene evalueres til FALSK, regnes de som verdien null (0). Hvis argumentet evalueres til SANN regnes det som en (1). Merk at tomme celler ikke telles med.\n"
+"@DESCRIPTION=AVERAGEA returnerer gjennomsnittet av de gitte argumentene. "
+"Tall tekst og logiske verdier tas med i beregningen også. Hvis cellen "
+"inneholder tekst eller argumentene evalueres til FALSK, regnes de som "
+"verdien null (0). Hvis argumentet evalueres til SANN regnes det som en (1). "
+"Merk at tomme celler ikke telles med.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, 17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, "
+"17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
 "AVERAGEA(A1:A5) er lik 18.94.\n"
 "\n"
 "@SEEALSO=AVERAGE"
@@ -12154,12 +12325,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(tall1, tall2,...)\n"
-"@DESCRIPTION=MAXA returnerer den største verdien av de gitte argumentene. Tall, tekst og logiske verdier inkluderes i beregningen også. Hvis cellen inneholder tekst eller argumentet evalueres til USANN, telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at tomme celler ikke tas med.\n"
+"@DESCRIPTION=MAXA returnerer den største verdien av de gitte argumentene. "
+"Tall, tekst og logiske verdier inkluderes i beregningen også. Hvis cellen "
+"inneholder tekst eller argumentet evalueres til USANN, telles verdien som "
+"null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at "
+"tomme celler ikke tas med.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, 17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, "
+"17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
 "MAXA(A1:A5) er lik 40.1.\n"
 "\n"
 "@SEEALSO=MAX,MINA"
@@ -12185,12 +12361,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MAXA(tall1, tall2,...)\n"
-"@DESCRIPTION=MAXA returnerer den minste verdien av de gitte argumentene. Tall, tekst og logiske verdier inkluderes i beregningen også. Hvis cellen inneholder tekst eller argumentet evalueres til USANN, telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at tomme celler ikke tas med.\n"
+"@DESCRIPTION=MAXA returnerer den minste verdien av de gitte argumentene. "
+"Tall, tekst og logiske verdier inkluderes i beregningen også. Hvis cellen "
+"inneholder tekst eller argumentet evalueres til USANN, telles verdien som "
+"null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at "
+"tomme celler ikke tas med.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, 17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, "
+"17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
 "MINA(A1:A5) er lik 0.\n"
 "\n"
 "@SEEALSO=MIN,MAXA"
@@ -12216,12 +12397,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(verdi1,verdi2,...)\n"
-"@DESCRIPTION=VARA returnerer variansen basert på en prøve. Tall, tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen inneholder tekst eller argumentet evalueres til USANN, telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at tomme celler ikke tas med.\n"
+"@DESCRIPTION=VARA returnerer variansen basert på en prøve. Tall, tekst og "
+"logiske verdier inkluderes i beregningen også.  Hvis cellen inneholder tekst "
+"eller argumentet evalueres til USANN, telles verdien som null (0). Hvis "
+"argumentet evalueres til SANN, telles det som en (1). Merk at tomme celler "
+"ikke tas med.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, 17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, "
+"17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
 "VARA(A1:A5) er lik 228.613.\n"
 "\n"
 "@SEEALSO=VAR,VARPA"
@@ -12247,12 +12433,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(verdi1,verdi2,...)\n"
-"@DESCRIPTION=VARPA returnerer variansen basert på hele populasjonen. Tall, tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen inneholder tekst eller argumentet evalueres til USANN, telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at tomme celler ikke tas med.\n"
+"@DESCRIPTION=VARPA returnerer variansen basert på hele populasjonen. Tall, "
+"tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen "
+"inneholder tekst eller argumentet evalueres til USANN, telles verdien som "
+"null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at "
+"tomme celler ikke tas med.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, 17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, "
+"17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
 "VARPA(A1:A5) er lik 182.8904.\n"
 "\n"
 "@SEEALSO=VARP,VARP"
@@ -12278,12 +12469,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(verdi1,verdi2,...)\n"
-"@DESCRIPTION=STDEVA returnerer standardavviket basert på en prøve. Tall, tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen inneholder tekst eller argumentet evalueres til USANN, telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at tomme celler ikke tas med.\n"
+"@DESCRIPTION=STDEVA returnerer standardavviket basert på en prøve. Tall, "
+"tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen "
+"inneholder tekst eller argumentet evalueres til USANN, telles verdien som "
+"null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at "
+"tomme celler ikke tas med.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, 17.3, \\\"missing\\\", 25.9, og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, "
+"17.3, \\\"missing\\\", 25.9, og 40.1. Da får vi\n"
 "STDEVA(A1:A5) er lik 15.119953704.\n"
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
@@ -12309,12 +12505,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(verdi1,verdi2,...)\n"
-"@DESCRIPTION=STDEVPA returnerer standardavviket basert på hele populasjonen. Tall, tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen inneholder tekst eller argumentet evalueres til USANN, telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at tomme celler ikke tas med.\n"
+"@DESCRIPTION=STDEVPA returnerer standardavviket basert på hele populasjonen. "
+"Tall, tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen "
+"inneholder tekst eller argumentet evalueres til USANN, telles verdien som "
+"null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at "
+"tomme celler ikke tas med.\n"
 "\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og tekststrengene 11.4, 17.3, \"missing\", 25.9, og 40.1.  Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene og tekststrengene "
+"11.4, 17.3, \"missing\", 25.9, og 40.1.  Da får vi\n"
 "STDEVPA(A1:A5) er lik 13.523697719.\n"
 "\n"
 "@SEEALSO=STDEVA,STDEVP"
@@ -12398,7 +12599,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(tabell,kvart)\n"
-"@DESCRIPTION=QUARTILE-funksjonen returnerer kvartilen for gitte datapunkter.\n"
+"@DESCRIPTION=QUARTILE-funksjonen returnerer kvartilen for gitte "
+"datapunkter.\n"
 "Hvis @kvart er lik: returnerer QUARTILE:\n"
 "0                   minste verdi i @tabell.\n"
 "1                   første kvartil\n"
@@ -12412,7 +12614,8 @@ msgstr ""
 "* Denne funksjonen er Excel-kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, 25.9, og 40.1. Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
+"25.9, og 40.1. Da får vi\n"
 "QUARTILE(A1:A5,1) er lik 17.3.\n"
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
@@ -12823,7 +13026,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(funksjon_nmr,ref1,ref2,...)\n"
-"@DESCRIPTION=SUBTOTAL-funksjonen returnerer en subtotal av den gitte argumentlisten. @function_nmr er tallet som spesifiserer hvilken funksjon som brukes for å beregne subtotalen. Følgende funksjoner er tilgjengelige:\n"
+"@DESCRIPTION=SUBTOTAL-funksjonen returnerer en subtotal av den gitte "
+"argumentlisten. @function_nmr er tallet som spesifiserer hvilken funksjon "
+"som brukes for å beregne subtotalen. Følgende funksjoner er tilgjengelige:\n"
 "1   AVERAGE\n"
 "2   COUNT\n"
 "3   COUNTA\n"
@@ -12839,7 +13044,8 @@ msgstr ""
 "* Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 23, 27, 28, 33, og 39.  Da får vi\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 23, 27, 28, 33, og "
+"39.  Da får vi\n"
 "SUBTOTAL(1,A1:A5) er lik 30.\n"
 "SUBTOTAL(6,A1:A5) er lik 22378356.\n"
 "SUBTOTAL(7,A1:A5) er lik 6.164414003.\n"
@@ -13176,6 +13382,7 @@ msgid "x,a,b"
 msgstr "x,a,b"
 
 #: plugins/fn-stat/functions.c:5955
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:230
 msgid "x"
 msgstr "x"
 
@@ -13312,7 +13519,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(streng1, streng2)\n"
-"@DESCRIPTION=Returnerer sann hvis @streng1 er eksakt lik @streng2 (denne rutinen gjør forskjell på små og store bokstaver).\n"
+"@DESCRIPTION=Returnerer sann hvis @streng1 er eksakt lik @streng2 (denne "
+"rutinen gjør forskjell på små og store bokstaver).\n"
 "* Denne funksjonen er Excel-kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -13361,7 +13569,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(tekst[,ant_tegn])\n"
-"@DESCRIPTION=Returnerer de @ant_tegn tegnene lengst venstre eller tegnet lengst til venstre hvis @ant_tegn ikke er spesifisert.\n"
+"@DESCRIPTION=Returnerer de @ant_tegn tegnene lengst venstre eller tegnet "
+"lengst til venstre hvis @ant_tegn ikke er spesifisert.\n"
 "\n"
 "* Denne funksjonen er Excel-kompatibel. \n"
 "\n"
@@ -13410,7 +13619,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(streng, posisjon, lengde)\n"
-"@DESCRIPTION=Returnerer en understreng fra @streng som begynner ved  @posisjon og er @lengde tegn lang.\n"
+"@DESCRIPTION=Returnerer en understreng fra @streng som begynner ved  "
+"@posisjon og er @lengde tegn lang.\n"
 "\n"
 "* Denne funksjonen er Excel-kompatibel.\n"
 "\n"
@@ -13436,7 +13646,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(tekst[,ant_tegn])\n"
-"@DESCRIPTION=Returnerer @ant_tegn fra høyre eller tegnet helt til høyre hvis @ant_tegn ikke er spesifisert.\n"
+"@DESCRIPTION=Returnerer @ant_tegn fra høyre eller tegnet helt til høyre hvis "
+"@ant_tegn ikke er spesifisert.\n"
 "\n"
 "* Denne funksjonen er Excel-kompatibel. \n"
 "\n"
@@ -13559,7 +13770,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(streng1,streng2[,start])\n"
-"@DESCRIPTION=Returnerer posisjonen til @streng1 i @streng2 (skiller mellom små og store bokstaver), søker bare fra tegnet @start og utover (antar 1 hvis utelatt).\n"
+"@DESCRIPTION=Returnerer posisjonen til @streng1 i @streng2 (skiller mellom "
+"små og store bokstaver), søker bare fra tegnet @start og utover (antar 1 "
+"hvis utelatt).\n"
 "\n"
 "* Denne funksjonen er Excel-kompatibel.\n"
 "\n"
@@ -13584,7 +13797,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num,[desimaler, ingen_komma])\n"
-"@DESCRIPTION=FIXED returnerer @num som en formatert streng med @desimaler tall etter komma, og utelater komma hvis det etterspørres med @ingen_komma.\n"
+"@DESCRIPTION=FIXED returnerer @num som en formatert streng med @desimaler "
+"tall etter komma, og utelater komma hvis det etterspørres med @ingen_komma.\n"
 "\n"
 "* Denne funksjonen er Excel-kompatiblel.\n"
 "\n"
@@ -13608,7 +13822,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(streng)\n"
-"@DESCRIPTION=Returnerer @streng med stor bokstav i begynnelsen av hvert ord.\n"
+"@DESCRIPTION=Returnerer @streng med stor bokstav i begynnelsen av hvert "
+"ord.\n"
 "\n"
 "* Denne funksjonen er Excel-kompatibel.\n"
 "\n"
@@ -13663,7 +13878,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(verdi)\n"
-"@DESCRIPTION=Returns @verdi hvis og bare hvis den er av tekst, ellers returnerer den en tom streng.\n"
+"@DESCRIPTION=Returns @verdi hvis og bare hvis den er av tekst, ellers "
+"returnerer den en tom streng.\n"
 "\n"
 "* Denne funksjonen er Excel-kompatibel.\n"
 "\n"
@@ -13768,7 +13984,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(tekst, gml, ny [,num])\n"
-"@DESCRIPTION=Erstatter @gml med @ny i @tekst. Utskifting utføres bare på forekomst @num av @gml i @tekst, ellers byttes alle ut.\n"
+"@DESCRIPTION=Erstatter @gml med @ny i @tekst. Utskifting utføres bare på "
+"forekomst @num av @gml i @tekst, ellers byttes alle ut.\n"
 "\n"
 "* Denne funksjonen er Excel-kompatibel.\n"
 "\n"
@@ -13828,12 +14045,19 @@ msgid ""
 msgstr ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(søke_streng,tekst[,start_num])\n"
-"@DESCRIPTION=SEARCH returnerer plasseringen av @søke_streng i @tekst. Søket starter ved tegnet @start_num i teksten @tekst. . Hvis @start_num er utelatt blir det antatt til en.  Søket er gjør ikke forskjell på små og store bokstaver.\n"
+"@DESCRIPTION=SEARCH returnerer plasseringen av @søke_streng i @tekst. Søket "
+"starter ved tegnet @start_num i teksten @tekst. . Hvis @start_num er utelatt "
+"blir det antatt til en.  Søket er gjør ikke forskjell på små og store "
+"bokstaver.\n"
 " \n"
-"@søke_streng kan inneholde jokertegn (*) og spørsmålstegn (?). Et spørsmålstegn erstatter ethvert tegn og wildcard erstatter enhver streng inkludert en tom streng.  Hvis du skal søke på selve jokertegnet eller spørsmålstegnet, må du bruke tilde (~) foran tegnet.\n"
+"@søke_streng kan inneholde jokertegn (*) og spørsmålstegn (?). Et "
+"spørsmålstegn erstatter ethvert tegn og wildcard erstatter enhver streng "
+"inkludert en tom streng.  Hvis du skal søke på selve jokertegnet eller "
+"spørsmålstegnet, må du bruke tilde (~) foran tegnet.\n"
 " \n"
 "* Hvis @søke_streng ikke blir funnet, returnerer SEARCH en #VALUE!-feil.\n"
-"* Hvis @start_num er mindre enn en eller større enn lengden av @tekst, returnerer SEARCH en #VALUE!-feil. \n"
+"* Hvis @start_num er mindre enn en eller større enn lengden av @tekst, "
+"returnerer SEARCH en #VALUE!-feil. \n"
 "* Denne funksjonen er Excel-kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -13951,11 +14175,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=EXECSQL\n"
 "@SYNTAX=EXECSQL(i)\n"
-"@DESCRIPTION=EXECSQL-funksjonen lar deg kjøre en kommando på en database-tjener, og vise resultatet som returneres i aktivt ark. Den bruker libgda for å aksessere databasene.\n"
+"@DESCRIPTION=EXECSQL-funksjonen lar deg kjøre en kommando på en database-"
+"tjener, og vise resultatet som returneres i aktivt ark. Den bruker libgda "
+"for å aksessere databasene.\n"
 "For å bruke denne må du først sette opp en datakilde via libgda.\n"
 "@EXAMPLES=\n"
-"For å hente alle data fra tabellen «Kunder» som finnes i GDA-datakilden  «mindatakilde» bruker du:\n"
-"EXECSQL(\"mindatakilde\",\"brukernavn\",\"passord\",\"SELECT * FROM customers\")\n"
+"For å hente alle data fra tabellen «Kunder» som finnes i GDA-datakilden  "
+"«mindatakilde» bruker du:\n"
+"EXECSQL(\"mindatakilde\",\"brukernavn\",\"passord\",\"SELECT * FROM customers"
+"\")\n"
 "\n"
 "@SEEALSO=READDBTABLE"
 
@@ -13999,6 +14227,14 @@ msgstr "Databasefunksjoner som lar deg hente data fra en database."
 
 #: plugins/gnome-db/plugin-gnomedb.c:24
 msgid "Could not run GNOME database configuration tool"
+msgstr ""
+
+#: plugins/gnome-db/plugin.xml.in.h:1
+msgid "Database UI services plugin"
+msgstr ""
+
+#: plugins/gnome-db/plugin.xml.in.h:2
+msgid "GNOME-DB"
 msgstr ""
 
 #: plugins/gnome-db/ui.xml.h:1
@@ -14227,10 +14463,11 @@ msgstr ""
 
 #. xgettext: you can translate the funny character as an 'o' if unicode is not available.
 #: plugins/numtheory/numtheory.c:247
+#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU function (Mbius mu function) returns \n"
+"@DESCRIPTION=NT_MU function (Möbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "\n"
@@ -14573,6 +14810,27 @@ msgstr "Eksempel på Python tillegg som har noen (ubrukelige) funksjoner."
 msgid "Default interpreter"
 msgstr "Forvalgt fortolker"
 
+#: plugins/python-loader/gnm-python.c:130
+#: plugins/python-loader/gnm-python.c:152
+#, fuzzy, c-format
+msgid "Could not import %s."
+msgstr "Kunne ikke laste fil: %s"
+
+#: plugins/python-loader/gnm-python.c:137
+#, fuzzy, c-format
+msgid "Could not find %s."
+msgstr "Kunne ikke laste fil: %s"
+
+#: plugins/python-loader/gnm-python.c:145
+#, c-format
+msgid "Could not initialize Python bindings for Gtk+, etc: %s"
+msgstr ""
+
+#: plugins/python-loader/gnm-python.c:159
+#, fuzzy, c-format
+msgid "Could not find %s"
+msgstr "Kunne ikke laste fil: %s"
+
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
 msgstr "Python tilleggslaster"
@@ -14721,6 +14979,15 @@ msgid ""
 "file?"
 msgstr ""
 
+#: plugins/sample_datasource/plugin.xml.in.h:1
+msgid "A proof of concept external data source"
+msgstr ""
+
+#: plugins/sample_datasource/plugin.xml.in.h:3
+#, fuzzy
+msgid "Sample DataSource"
+msgstr "Datakilder..."
+
 #: plugins/sample_datasource/sample_datasource.c:264
 #, no-c-format
 msgid ""
@@ -14790,6 +15057,14 @@ msgstr "Feil under lesing av ark."
 #: plugins/uihello/hello.xml.h:1
 msgid "Hello World"
 msgstr "Hallo verden"
+
+#: plugins/uihello/plugin.xml.in.h:1
+msgid "Hello World plugin using ui service"
+msgstr ""
+
+#: plugins/uihello/plugin.xml.in.h:2
+msgid "UI Hello"
+msgstr ""
 
 #: plugins/uihello/uihello.c:24
 #, c-format
@@ -15728,7 +16003,7 @@ msgid "Filter data with given criteria"
 msgstr "Filtrer data etter gitte kriterier"
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:739
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:843
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
 #: src/workbook-format-toolbar.c:411
 msgid "Font"
@@ -15921,7 +16196,7 @@ msgid "Jump to a specified cell"
 msgstr "Gå til spesifisert celle"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:237
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
 #: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Etikett"
@@ -16855,16 +17130,16 @@ msgstr "_Kopier celler"
 msgid "_Paste Cells"
 msgstr "_Lim inn celler"
 
-#: src/clipboard.c:300 src/clipboard.c:312 src/clipboard.c:323
-#: src/clipboard.c:331
+#: src/clipboard.c:301 src/clipboard.c:313 src/clipboard.c:324
+#: src/clipboard.c:332
 msgid "Unable to paste"
 msgstr "Kunne ikke lime inn"
 
-#: src/clipboard.c:301
+#: src/clipboard.c:302
 msgid "Content can only be pasted by value or by link."
 msgstr "Innhold kan kun limes inn etter verdi eller med lenke."
 
-#: src/clipboard.c:309
+#: src/clipboard.c:310
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -16875,7 +17150,7 @@ msgstr ""
 "\n"
 "Prøv å velge en enkel celle eller et område med samme form og størrelse."
 
-#: src/clipboard.c:320
+#: src/clipboard.c:321
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -16886,7 +17161,7 @@ msgstr ""
 "\n"
 "Prøv å velge en enkel celle eller et område med samme form og størrelse."
 
-#: src/clipboard.c:332
+#: src/clipboard.c:333
 msgid "result passes the sheet boundary"
 msgstr "resulatet går utenfor arkgrensen"
 
@@ -17401,54 +17676,89 @@ msgstr "Tabuler avhengighet"
 msgid "Reconfigure Graph"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
+#: src/consolidate.c:773
+#, fuzzy, c-format
+msgid "Consolidating to (%s)"
+msgstr "Korrelasjon (%s)"
+
+#: src/consolidate.c:812 src/consolidate.c:815
+#, fuzzy
+msgid "Data Consolidation"
+msgstr "Konsolidering av data"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
+#, fuzzy
+msgid "_Cross"
+msgstr "Kryss"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
+#, fuzzy
+msgid "_High"
+msgstr "Høyde"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+#, fuzzy
+msgid "_Invert"
+msgstr "Sett _inn"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
+#, fuzzy
+msgid "_Low"
+msgstr "_Rad"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
+#, fuzzy
+msgid "_Map:"
+msgstr "_Mellomrom:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 msgid "M_ax"
 msgstr "M_aks"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:191
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:247
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:192
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:248
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:215
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:271
 msgid "Bounds"
 msgstr "Grenser"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:219
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:275
 msgid "Details"
 msgstr "Detaljer"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:168
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:172
 msgid "Legend"
 msgstr "Bakgrunn"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:171
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:175
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:165
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:169
 msgid "Title"
 msgstr "Tittel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:174
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
 msgid "X-Axis"
 msgstr "X-akse"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
 msgid "Y-Axis"
 msgstr "Y-akse"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
 msgid "Z-Axis"
 msgstr "Z-akse"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
 msgid "Plot"
 msgstr "Plott"
 
@@ -17574,7 +17884,7 @@ msgstr "Type plott"
 msgid "Chart Theme"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:164
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:166
 msgid "Series"
 msgstr "Rekker"
 
@@ -17600,191 +17910,133 @@ msgid "<b>Outline</b>"
 msgstr "<b>Omriss</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:6
-msgid "Asterisk"
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
 msgid "Brightness"
 msgstr "Lyststyrke"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
-msgid "Butterfly"
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
 msgid "C_olor:"
 msgstr "_Farge:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:11
-msgid "Circle"
-msgstr "Sirkel"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
-msgid "Cross"
-msgstr "Kryss"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:13
-msgid "Diamond"
-msgstr "Diamant"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
 msgid "Fill from start color to end color"
 msgstr "Fyll fra startfarge til sluttfarge"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
 msgid "Fill from start colour to a darker/lighter version of that color"
 msgstr "Fyll fra startfarge til en mørkere/lysere versjon av den fargen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
 msgid "Gradient"
 msgstr "Gradient"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
-msgid "Half bar"
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
-msgid "Hourglass"
-msgstr "Timeglass"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:11
 msgid "Image"
 msgstr "Bilde"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
 #: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-cell-format.c:72
 #: src/dialogs/dialog-paste-special.c:48 src/tools/solver/reports-write.c:722
 msgid "None"
 msgstr "Ingen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:13
 #: src/dialogs/dialog-cell-format.c:2280
 msgid "Pattern"
 msgstr "Mønster"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
 msgid "Si_ze:"
 msgstr "St_ørrelse:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
-msgid "Square"
-msgstr "Firkant"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
 msgid "T_ype:"
 msgstr "T_ype:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
-msgid "Triangle down"
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
-msgid "Triangle left"
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
-msgid "Triangle right"
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
-#, fuzzy
-msgid "Triangle up"
-msgstr "område"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:128
-msgid "X"
-msgstr "X"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
 msgid "_Background:"
 msgstr "_Bakgrunn:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
 msgid "_Direction:"
 msgstr "Re_tning:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:32
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
 msgid "_End:"
 msgstr "Sl_utt:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:33
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
 msgid "_Fill color:"
 msgstr "_Fyllfarge:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:34
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
 msgid "_Fit:"
 msgstr "_Tilpass:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:35
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
 msgid "_Foreground:"
 msgstr "_Forgrunn:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:36
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
 msgid "_Outline color:"
 msgstr "_Farge for omriss:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:37
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
 msgid "_Pattern:"
 msgstr "_Mønster:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:38
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
 msgid "_Select..."
 msgstr "_Velg..."
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:39
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
 msgid "_Shape:"
 msgstr "_Form:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:40
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
 msgid "_Size:"
 msgstr "_Størrelse:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:41
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
 msgid "_Start:"
 msgstr "_Start:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:42
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
 #: src/dialogs/solver.glade.h:42
 msgid "_Type:"
 msgstr "_Type:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:43
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
 msgid "_brighter"
 msgstr "_lysere"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:44
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
 msgid "_darker"
 msgstr "_mørkere"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:45
-msgid "bar"
-msgstr "søyle"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:46
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
 msgid "pts"
 msgstr "punkter"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:47
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:32
 msgid "stretched"
 msgstr "strukket"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:48
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:33
 msgid "wallpaper"
 msgstr "bakgrunn"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:164
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:169
 #: src/widgets/preview-file-selection.c:167
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:452
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:535
 #: src/workbook-control-gui.c:3100
 msgid "Select an image"
 msgstr "Velg et bilde"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:787
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:895
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Stil"
@@ -17800,6 +18052,18 @@ msgstr "Forvalg"
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:427
 msgid "Guppi"
 msgstr "Guppi"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:264
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
+#: src/dialogs/consolidate.glade.h:12
+msgid "Labels"
+msgstr "Etiketter"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
+#: src/dialogs/consolidate.glade.h:27
+msgid "Values"
+msgstr "Verdier"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
@@ -17828,10 +18092,27 @@ msgstr "_Overlapping:"
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
 #. * 	PlotBarCol2
-#.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:96
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:95
 msgid "PlotBarCol"
 msgstr ""
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotLine2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:44
+#, fuzzy
+msgid "PlotLine"
+msgstr "Plott"
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotArea2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
+#, fuzzy
+msgid "PlotArea"
+msgstr "Plott"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "3D Adjacent Bars"
@@ -18072,16 +18353,6 @@ msgstr "grader"
 msgid "PlotPie"
 msgstr "Plott"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
-#: src/dialogs/consolidate.glade.h:12
-msgid "Labels"
-msgstr "Etiketter"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
-#: src/dialogs/consolidate.glade.h:27
-msgid "Values"
-msgstr "Verdier"
-
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:263
 #, fuzzy
 msgid "PlotRing"
@@ -18182,12 +18453,19 @@ msgstr ""
 msgid "Ring plotting engine"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:56
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	PlotXY2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:58
 #, fuzzy
-msgid "XYPlot"
+msgid "PlotXY"
 msgstr "Plott"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:130
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:153
+msgid "X"
+msgstr "X"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
 msgid "Y"
 msgstr "Y"
 
@@ -18257,6 +18535,194 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:4
 msgid "XY Charts"
 msgstr "XY-plott"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:222
+#, fuzzy
+msgid "none"
+msgstr "Ingen"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:223
+#, fuzzy
+msgid "square"
+msgstr "Firkant"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:224
+#, fuzzy
+msgid "diamond"
+msgstr "Diamant"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:225
+#, fuzzy
+msgid "triangle down"
+msgstr "område"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:226
+#, fuzzy
+msgid "triangle up"
+msgstr "område"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:227
+#, fuzzy
+msgid "triangle right"
+msgstr "område"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:228
+#, fuzzy
+msgid "triangle left"
+msgstr "område"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:229
+#, fuzzy
+msgid "circle"
+msgstr "Sirkel"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:231
+#, fuzzy
+msgid "cross"
+msgstr "Kryss"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:232
+#, fuzzy
+msgid "asterisk"
+msgstr "Lim inn lenke"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:233
+msgid "bar"
+msgstr "søyle"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:234
+msgid "half bar"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:235
+msgid "butterfly"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:236
+#, fuzzy
+msgid "hourglass"
+msgstr "Timeglass"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:192
+#: src/dialogs/cell-format.glade.h:71
+msgid "Solid"
+msgstr "Helfylt"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:193
+#: src/dialogs/cell-format.glade.h:12
+#, no-c-format
+msgid "75% Grey"
+msgstr "75% grå"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:194
+#: src/dialogs/cell-format.glade.h:8
+#, no-c-format
+msgid "50% Grey"
+msgstr "50% grå"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:195
+#: src/dialogs/cell-format.glade.h:6
+#, no-c-format
+msgid "25% Grey"
+msgstr "25% grå"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:196
+#: src/dialogs/cell-format.glade.h:4
+#, no-c-format
+msgid "12.5% Grey"
+msgstr "12.5% grå"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:197
+#: src/dialogs/cell-format.glade.h:10
+#, no-c-format
+msgid "6.25% Grey"
+msgstr "6.25% grå"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:198
+#: src/dialogs/cell-format.glade.h:47
+msgid "Horizontal Stripe"
+msgstr "Horisontal stripe "
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:199
+#: src/dialogs/cell-format.glade.h:92
+msgid "Vertical Stripe"
+msgstr "Vertikal stripe"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:200
+#: src/dialogs/cell-format.glade.h:66
+msgid "Reverse Diagonal Stripe"
+msgstr "Omvendt diagonal stripe"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:201
+#: src/dialogs/cell-format.glade.h:42
+msgid "Diagonal Stripe"
+msgstr "Diagonal stripe"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:202
+#: src/dialogs/cell-format.glade.h:41
+msgid "Diagonal Crosshatch"
+msgstr "Diagonal krysslinje"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:203
+#: src/dialogs/cell-format.glade.h:80
+msgid "Thick Diagonal Crosshatch"
+msgstr "Tykk diagonal krysskravering"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:204
+#: src/dialogs/cell-format.glade.h:84
+msgid "Thin Horizontal Stripe"
+msgstr "Tynn horisontal stripe"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:205
+#: src/dialogs/cell-format.glade.h:86
+msgid "Thin Vertical Stripe"
+msgstr "Tynn vertikal stripe"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:206
+#: src/dialogs/cell-format.glade.h:85
+msgid "Thin Reverse Diagonal Stripe"
+msgstr "Tynn omvendt diagonal stripe"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:207
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
+#: src/dialogs/cell-format.glade.h:81
+msgid "Thin Diagonal Crosshatch"
+msgstr "Tynn diagonal krysskravering"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:208
+#: src/dialogs/cell-format.glade.h:83
+msgid "Thin Horizontal Crosshatch"
+msgstr "Tynn horisontal krysskravering"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:210
+#: src/dialogs/cell-format.glade.h:44
+msgid "Foreground Solid"
+msgstr "Helfylt forgrunn"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:211
+#: src/dialogs/cell-format.glade.h:70
+msgid "Small Circles"
+msgstr "Små sirkler"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:212
+#: src/dialogs/cell-format.glade.h:68
+msgid "Semi Circles"
+msgstr "Halvsirkler"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:213
+#: src/dialogs/cell-format.glade.h:79
+msgid "Thatch"
+msgstr "Thatch"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:214
+#: src/dialogs/cell-format.glade.h:57
+msgid "Large Circles"
+msgstr "Store sirkler"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:215
+#: src/dialogs/cell-format.glade.h:32
+msgid "Bricks"
+msgstr "Murstein"
 
 #: src/dates.c:16
 msgid "*Sun"
@@ -18672,7 +19138,7 @@ msgstr "Første bokstav"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:659
-#: src/format.c:2117 src/format.c:2246 src/format.c:2252 src/format.c:2328
+#: src/format.c:2123 src/format.c:2252 src/format.c:2258 src/format.c:2334
 #: src/plugin-service.c:199 src/widgets/widget-format-selector.c:68
 msgid "General"
 msgstr "Generelt"
@@ -18894,31 +19360,6 @@ msgstr "Cellekommentar"
 msgid "    "
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:4
-#, no-c-format
-msgid "12.5% Grey"
-msgstr "12.5% grå"
-
-#: src/dialogs/cell-format.glade.h:6
-#, no-c-format
-msgid "25% Grey"
-msgstr "25% grå"
-
-#: src/dialogs/cell-format.glade.h:8
-#, no-c-format
-msgid "50% Grey"
-msgstr "50% grå"
-
-#: src/dialogs/cell-format.glade.h:10
-#, no-c-format
-msgid "6.25% Grey"
-msgstr "6.25% grå"
-
-#: src/dialogs/cell-format.glade.h:12
-#, no-c-format
-msgid "75% Grey"
-msgstr "75% grå"
-
 #: src/dialogs/cell-format.glade.h:13
 msgid "<b>Background</b>"
 msgstr "<b>Bakgrunn</b>"
@@ -18983,10 +19424,6 @@ msgstr "Enhver verdi  (ingen validering)"
 msgid "Border"
 msgstr "Kant"
 
-#: src/dialogs/cell-format.glade.h:32
-msgid "Bricks"
-msgstr "Murstein"
-
 #: src/dialogs/cell-format.glade.h:33
 msgid "Ce_nter"
 msgstr "Se_ntrer"
@@ -19020,18 +19457,6 @@ msgstr "Dato"
 msgid "Diagonal"
 msgstr "Diagonal"
 
-#: src/dialogs/cell-format.glade.h:41
-msgid "Diagonal Crosshatch"
-msgstr "Diagonal krysslinje"
-
-#: src/dialogs/cell-format.glade.h:42
-msgid "Diagonal Stripe"
-msgstr "Diagonal stripe"
-
-#: src/dialogs/cell-format.glade.h:44
-msgid "Foreground Solid"
-msgstr "Helfylt forgrunn"
-
 #: src/dialogs/cell-format.glade.h:45 src/dialogs/dialog-cell-format.c:2202
 msgid "Format Cells"
 msgstr "Formater celler"
@@ -19039,10 +19464,6 @@ msgstr "Formater celler"
 #: src/dialogs/cell-format.glade.h:46
 msgid "Hi_de"
 msgstr "_Skjul"
-
-#: src/dialogs/cell-format.glade.h:47
-msgid "Horizontal Stripe"
-msgstr "Horisontal stripe "
 
 #: src/dialogs/cell-format.glade.h:48
 msgid "I_n-cell dropdown"
@@ -19080,10 +19501,6 @@ msgstr "Innvendig vertikal"
 msgid "J_ustify"
 msgstr "J_uster"
 
-#: src/dialogs/cell-format.glade.h:57
-msgid "Large Circles"
-msgstr "Store sirkler"
-
 #: src/dialogs/cell-format.glade.h:58 src/workbook-format-toolbar.c:629
 msgid "Left"
 msgstr "Venstre"
@@ -19113,29 +19530,13 @@ msgstr "Beskyttelse"
 msgid "Reverse Diagonal"
 msgstr "Omvendt diagonal"
 
-#: src/dialogs/cell-format.glade.h:66
-msgid "Reverse Diagonal Stripe"
-msgstr "Omvendt diagonal stripe"
-
 #: src/dialogs/cell-format.glade.h:67 src/workbook-format-toolbar.c:631
 msgid "Right"
 msgstr "Høyre"
 
-#: src/dialogs/cell-format.glade.h:68
-msgid "Semi Circles"
-msgstr "Halvsirkler"
-
 #: src/dialogs/cell-format.glade.h:69
 msgid "Shrin_k to fit"
 msgstr "Formins_k til det passer"
-
-#: src/dialogs/cell-format.glade.h:70
-msgid "Small Circles"
-msgstr "Små sirkler"
-
-#: src/dialogs/cell-format.glade.h:71
-msgid "Solid"
-msgstr "Helfylt"
 
 #: src/dialogs/cell-format.glade.h:72
 msgid "Stop            (never allow invalid input)"
@@ -19165,37 +19566,9 @@ msgstr "T_opp"
 msgid "Text length"
 msgstr "Tekstlengde"
 
-#: src/dialogs/cell-format.glade.h:79
-msgid "Thatch"
-msgstr "Thatch"
-
-#: src/dialogs/cell-format.glade.h:80
-msgid "Thick Diagonal Crosshatch"
-msgstr "Tykk diagonal krysskravering"
-
-#: src/dialogs/cell-format.glade.h:81
-msgid "Thin Diagonal Crosshatch"
-msgstr "Tynn diagonal krysskravering"
-
 #: src/dialogs/cell-format.glade.h:82
 msgid "Thin Diagonal Stripe"
 msgstr "Tynn diagonal stripe"
-
-#: src/dialogs/cell-format.glade.h:83
-msgid "Thin Horizontal Crosshatch"
-msgstr "Tynn horisontal krysskravering"
-
-#: src/dialogs/cell-format.glade.h:84
-msgid "Thin Horizontal Stripe"
-msgstr "Tynn horisontal stripe"
-
-#: src/dialogs/cell-format.glade.h:85
-msgid "Thin Reverse Diagonal Stripe"
-msgstr "Tynn omvendt diagonal stripe"
-
-#: src/dialogs/cell-format.glade.h:86
-msgid "Thin Vertical Stripe"
-msgstr "Tynn vertikal stripe"
 
 #: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:73
 msgid "Time"
@@ -19212,10 +19585,6 @@ msgstr "Understrek:"
 #: src/dialogs/cell-format.glade.h:91
 msgid "Validation"
 msgstr "Validering"
-
-#: src/dialogs/cell-format.glade.h:92
-msgid "Vertical Stripe"
-msgstr "Vertikal stripe"
 
 #: src/dialogs/cell-format.glade.h:93
 msgid "Warning     (accept/discard invalid input)"
@@ -19562,7 +19931,8 @@ msgstr "John Gotts, rpm pakker."
 #. xgettext:
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:65
-msgid "Andreas J. Glüzow, Gnumeric hacker."
+#, fuzzy
+msgid "Andreas J. Gülzow, Gnumeric hacker."
 msgstr "Andreas J. Gülzow, Gnumeric hacker."
 
 #. xgettext:
@@ -20394,13 +20764,13 @@ msgid "Directory"
 msgstr "Katalog"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:411 src/format.c:1968
+#: src/dialogs/dialog-preferences.c:411 src/format.c:1971
 #: src/number-match.c:1094 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:818
 msgid "TRUE"
 msgstr "SANN"
 
-#: src/dialogs/dialog-preferences.c:412 src/format.c:1968
+#: src/dialogs/dialog-preferences.c:412 src/format.c:1971
 #: src/number-match.c:1096 src/value-sheet.c:33 src/value.c:405
 #: src/value.c:818
 msgid "FALSE"
@@ -21263,7 +21633,9 @@ msgid ""
 "Character interpreted as quote character. If a termination or separation "
 "character is encountered within quotes it will be considered part of the "
 "column text."
-msgstr "Tegn fortolket som et sitattegn. Hvis skilletegnet møtes inne i sitattegn vil det betraktes som en del av kolonneteksten."
+msgstr ""
+"Tegn fortolket som et sitattegn. Hvis skilletegnet møtes inne i sitattegn "
+"vil det betraktes som en del av kolonneteksten."
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid "Clear list of columns"
@@ -23405,7 +23777,7 @@ msgid "Yellow"
 msgstr "Gul"
 
 #. Array of arrays ??
-#: src/format.c:2011
+#: src/format.c:2014
 msgid "ARRAY"
 msgstr "TABELL"
 
@@ -25157,6 +25529,19 @@ msgstr "kan ikke opprette objekt for '%s'"
 #, c-format
 msgid "Could not load file: %s"
 msgstr "Kunne ikke laste fil: %s"
+
+#: src/sheet-object-graph.c:158
+msgid "Save graph as image"
+msgstr ""
+
+#: src/sheet-object-graph.c:196
+msgid "Sorry, gnumeric can only save graphs as png images"
+msgstr ""
+
+#: src/sheet-object-graph.c:214
+#, fuzzy
+msgid "_Save as image"
+msgstr "Velg et bilde"
 
 #: src/sheet-object-graphic.c:934 src/sheet-object-graphic.c:951
 msgid "Transparent"
@@ -28048,3 +28433,7 @@ msgstr "Feil under lagring av fil"
 #: src/xml-io.c:4040
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML filformat"
+
+#, fuzzy
+#~ msgid "XYPlot"
+#~ msgstr "Plott"

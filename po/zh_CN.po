@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-21 18:36-0400\n"
+"POT-Creation-Date: 2003-09-10 00:27-0400\n"
 "PO-Revision-Date: 2003-05-05 18:20+0000\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -707,6 +707,7 @@ msgstr ""
 
 #: plugins/derivatives/plugin.xml.in.h:1
 #: plugins/fn-financial/plugin.xml.in.h:1
+#: plugins/sample_datasource/plugin.xml.in.h:2
 #, fuzzy
 msgid "Finance"
 msgstr "财务"
@@ -719,7 +720,7 @@ msgstr "财务相关"
 msgid "Functions related to financial derivatives"
 msgstr "与财务相关的函数"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5149
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5151
 #: plugins/mps/mps.c:549 src/xml-io.c:3927
 msgid "Reading file..."
 msgstr "正在读取文件..."
@@ -840,12 +841,12 @@ msgstr "图表%d"
 msgid "Module%d"
 msgstr "模块%d"
 
-#: plugins/excel/ms-excel-read.c:2695
+#: plugins/excel/ms-excel-read.c:2696
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "处理名称“%s”失败。"
 
-#: plugins/excel/ms-excel-read.c:2751
+#: plugins/excel/ms-excel-read.c:2752
 #, c-format
 msgid ""
 "DDE links are no supported.\n"
@@ -854,7 +855,7 @@ msgstr ""
 "DDE 链接不支持。\n"
 "名称“%s”将丢失。\n"
 
-#: plugins/excel/ms-excel-read.c:2757
+#: plugins/excel/ms-excel-read.c:2758
 #, c-format
 msgid ""
 "OLE links are no supported.\n"
@@ -863,23 +864,23 @@ msgstr ""
 "OLE 链接不支持。\n"
 "名称“%s”将丢失。\n"
 
-#: plugins/excel/ms-excel-read.c:2809
+#: plugins/excel/ms-excel-read.c:2810
 msgid "Failure parsing AutoFilter."
 msgstr "处理自动筛选时出错。"
 
-#: plugins/excel/ms-excel-read.c:4568
+#: plugins/excel/ms-excel-read.c:4569
 msgid "external references"
 msgstr "外部引用"
 
-#: plugins/excel/ms-excel-read.c:5295
+#: plugins/excel/ms-excel-read.c:5297
 msgid "No password supplied"
 msgstr "未提供密码"
 
-#: plugins/excel/ms-excel-read.c:5299
+#: plugins/excel/ms-excel-read.c:5301
 msgid "Invalid password"
 msgstr "密码无效"
 
-#: plugins/excel/ms-excel-read.c:5400
+#: plugins/excel/ms-excel-read.c:5402
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "找不到有效的 MS Excel 工作簿"
 
@@ -7381,8 +7382,8 @@ msgstr "%s 版本 %s"
 # src/workbook.c:783 src/workbook.c:789
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:207
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:95
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:264
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
 msgid "Automatic"
@@ -14449,6 +14450,7 @@ msgid "x,a,b"
 msgstr "x,a,b"
 
 #: plugins/fn-stat/functions.c:5955
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:230
 msgid "x"
 msgstr "x"
 
@@ -15273,6 +15275,14 @@ msgstr "允许从数据库中获取数据的数据库函数"
 msgid "Could not run GNOME database configuration tool"
 msgstr ""
 
+#: plugins/gnome-db/plugin.xml.in.h:1
+msgid "Database UI services plugin"
+msgstr ""
+
+#: plugins/gnome-db/plugin.xml.in.h:2
+msgid "GNOME-DB"
+msgstr ""
+
 # src/dialog-cell-format.c:68
 #: plugins/gnome-db/ui.xml.h:1
 #, fuzzy
@@ -15413,8 +15423,8 @@ msgid "Constraints:"
 msgstr "约束条件："
 
 # src/plugin-manager.c:95 src/plugin-manager.c:96
-#: plugins/mps/mps.c:247 src/commands.c:5730
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:969
+#: plugins/mps/mps.c:247 src/commands.c:5727
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:974
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:105
 #: src/dialogs/dialog-define-names.c:484 src/dialogs/dialog-formula-guru.c:811
 #: src/dialogs/dialog-function-select.c:443
@@ -15882,6 +15892,30 @@ msgstr "范例 Python 插件，提供了小有用处的函数。"
 msgid "Default interpreter"
 msgstr "默认解释器"
 
+# src/dump.c:29
+#: plugins/python-loader/gnm-python.c:130
+#: plugins/python-loader/gnm-python.c:152
+#, fuzzy, c-format
+msgid "Could not import %s."
+msgstr "无法装入文件：%s"
+
+# src/dump.c:29
+#: plugins/python-loader/gnm-python.c:137
+#, fuzzy, c-format
+msgid "Could not find %s."
+msgstr "无法装入文件：%s"
+
+#: plugins/python-loader/gnm-python.c:145
+#, c-format
+msgid "Could not initialize Python bindings for Gtk+, etc: %s"
+msgstr ""
+
+# src/dump.c:29
+#: plugins/python-loader/gnm-python.c:159
+#, fuzzy, c-format
+msgid "Could not find %s"
+msgstr "无法装入文件：%s"
+
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
 msgstr "Python 插件装入器"
@@ -16042,6 +16076,16 @@ msgid ""
 "file?"
 msgstr "找不到 PerfectOffice_MAIN 流。该文件真的是 Quattro Pro 文件吗？"
 
+#: plugins/sample_datasource/plugin.xml.in.h:1
+msgid "A proof of concept external data source"
+msgstr ""
+
+# src/dialog-cell-format.c:68
+#: plugins/sample_datasource/plugin.xml.in.h:3
+#, fuzzy
+msgid "Sample DataSource"
+msgstr "数据..."
+
 #: plugins/sample_datasource/sample_datasource.c:264
 #, no-c-format
 msgid ""
@@ -16114,6 +16158,14 @@ msgstr "读取工作表出错。"
 msgid "Hello World"
 msgstr "世界你好"
 
+#: plugins/uihello/plugin.xml.in.h:1
+msgid "Hello World plugin using ui service"
+msgstr ""
+
+#: plugins/uihello/plugin.xml.in.h:2
+msgid "UI Hello"
+msgstr ""
+
 #: plugins/uihello/uihello.c:24
 #, fuzzy, c-format
 msgid "This is message from the \"%s\" plugin."
@@ -16124,9 +16176,9 @@ msgid "Error while opening xbase file."
 msgstr "打开 xbase 文件时出错。"
 
 # src/workbook.c:761 src/workbook.c:809
-#: plugins/xbase/boot.c:175 src/commands.c:4550
+#: plugins/xbase/boot.c:175 src/commands.c:4547
 #: src/dialogs/dialog-goto-cell.c:284 src/dialogs/dialog-search.c:391
-#: src/dialogs/print.glade.h:21 src/workbook.c:1040 src/xml-io.c:3585
+#: src/dialogs/print.glade.h:21 src/workbook.c:1041 src/xml-io.c:3585
 msgid "Sheet"
 msgstr "工作表"
 
@@ -16448,9 +16500,8 @@ msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:22
-#, fuzzy
-msgid "Sans"
-msgstr "阶数"
+msgid "Sans Regular"
+msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -16489,7 +16540,7 @@ msgstr ""
 
 # src/dialog-cell-format.c:67
 #: schemas/gnumeric-general.schemas.in.h:29 src/GNOME_Gnumeric.xml.h:231
-#: src/workbook-control-gui.c:3984
+#: src/workbook-control-gui.c:3995
 msgid "Sort Ascending"
 msgstr "升序排序"
 
@@ -16659,8 +16710,8 @@ msgstr ""
 msgid "About this application"
 msgstr "关于此应用程序"
 
-#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:1523
-#: src/workbook-control-gui.c:3857
+#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:1543
+#: src/workbook-control-gui.c:3870
 msgid "Add _Auto Filter"
 msgstr "添加自动筛选(_A)"
 
@@ -16670,15 +16721,15 @@ msgid "Add a scenario"
 msgstr "高级筛选"
 
 # src/workbook.c:767
-#: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3818
+#: src/GNOME_Gnumeric.xml.h:4 src/workbook-control-gui.c:3833
 msgid "Add an outline group"
 msgstr "增加一个分级组"
 
-#: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3858
+#: src/GNOME_Gnumeric.xml.h:5 src/workbook-control-gui.c:3871
 msgid "Add or remove a filter"
 msgstr "添加或删除筛选"
 
-#: src/GNOME_Gnumeric.xml.h:6 src/workbook-control-gui.c:3863
+#: src/GNOME_Gnumeric.xml.h:6 src/workbook-control-gui.c:3876
 msgid "Advanced _Filter..."
 msgstr "高级筛选(_F)..."
 
@@ -16693,7 +16744,7 @@ msgid "Align the contents to the left and increase the indent"
 msgstr "内容左边对齐并增加缩进"
 
 # src/workbook.c:835
-#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:3393
+#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:3408
 #, fuzzy
 msgid "Append a new sheet"
 msgstr "插入一个新工作表"
@@ -16704,23 +16755,23 @@ msgid "Arrow"
 msgstr "箭头"
 
 # src/dialog-cell-format.c:433
-#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3774
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3789
 msgid "Auto _Correct..."
 msgstr "自动更正(_C)..."
 
-#: src/GNOME_Gnumeric.xml.h:12 src/workbook-control-gui.c:3361
+#: src/GNOME_Gnumeric.xml.h:12 src/workbook-control-gui.c:3376
 msgid "Auto_fill"
 msgstr "自动填充(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:13 src/workbook-control-gui.c:3362
+#: src/GNOME_Gnumeric.xml.h:13 src/workbook-control-gui.c:3377
 msgid "Automatically fill the current selection"
 msgstr "自动填充当前选中区"
 
-#: src/GNOME_Gnumeric.xml.h:14 src/workbook-control-gui.c:3775
+#: src/GNOME_Gnumeric.xml.h:14 src/workbook-control-gui.c:3790
 msgid "Automatically perform simple spell checking"
 msgstr "自动执行简单的拼写检查"
 
-#: src/GNOME_Gnumeric.xml.h:15 src/workbook-control-gui.c:3778
+#: src/GNOME_Gnumeric.xml.h:15 src/workbook-control-gui.c:3793
 msgid "Automatically save the current document at regular intervals"
 msgstr "在正常间隔内自动存储当前文档"
 
@@ -16749,22 +16800,22 @@ msgid "Button"
 msgstr "按钮"
 
 # src/workbook.c:763 src/workbook.c:801
-#: src/GNOME_Gnumeric.xml.h:20 src/workbook-control-gui.c:3521
+#: src/GNOME_Gnumeric.xml.h:20 src/workbook-control-gui.c:3536
 msgid "C_ells..."
 msgstr "单元格(_E)..."
 
-#: src/GNOME_Gnumeric.xml.h:21 src/workbook-control-gui.c:3536
+#: src/GNOME_Gnumeric.xml.h:21 src/workbook-control-gui.c:3551
 #, fuzzy
 msgid "C_hart..."
 msgstr "排序(_S)..."
 
 # src/workbook.c:713
-#: src/GNOME_Gnumeric.xml.h:22 src/workbook-control-gui.c:3428
+#: src/GNOME_Gnumeric.xml.h:22 src/workbook-control-gui.c:3443
 msgid "C_lear"
 msgstr "清除(_L)"
 
 # src/workbook.c:807
-#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:3647
+#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:3662
 msgid "C_olumn"
 msgstr "列(_O)"
 
@@ -16782,28 +16833,28 @@ msgstr "跨列置中"
 msgid "Center across the selected cells"
 msgstr "所选单元格跨列置中"
 
-#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:3303
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:3318
 msgid "Change Gnumeric Preferences"
 msgstr "更改 Gnumeric 首选项"
 
-#: src/GNOME_Gnumeric.xml.h:28 src/workbook-control-gui.c:3581
+#: src/GNOME_Gnumeric.xml.h:28 src/workbook-control-gui.c:3596
 msgid "Change height of the selected rows"
 msgstr "更改所选行的高度"
 
-#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:3574
+#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:3589
 msgid "Change the default column width"
 msgstr "更改默认列宽"
 
-#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:3593
+#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:3608
 msgid "Change the default row height"
 msgstr "更改默认行高"
 
 # src/workbook.c:802
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:3562
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:3577
 msgid "Change width of the selected columns"
 msgstr "更改所选列的宽度"
 
-#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:3993
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:4004
 #, fuzzy
 msgid "Chart Guru"
 msgstr "输出图表"
@@ -16812,19 +16863,19 @@ msgstr "输出图表"
 msgid "Checkbox"
 msgstr "复选框"
 
-#: src/GNOME_Gnumeric.xml.h:34 src/workbook-control-gui.c:3322
+#: src/GNOME_Gnumeric.xml.h:34 src/workbook-control-gui.c:3337
 msgid "Clear the selected cells' comments"
 msgstr "清除所选单元的注释"
 
-#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:3325
+#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:3340
 msgid "Clear the selected cells' contents"
 msgstr "清除所选单元的内容"
 
-#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3319
+#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3334
 msgid "Clear the selected cells' formats"
 msgstr "清除所选单元的格式"
 
-#: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:3316
+#: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:3331
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "清除所选单元的格式、注释和内容"
 
@@ -16833,23 +16884,23 @@ msgid "Close the current file"
 msgstr "关闭当前文件"
 
 # src/workbook.c:701
-#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3437
+#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3452
 #, fuzzy
 msgid "Co_mment..."
 msgstr "注释(_M)"
 
 # src/workbook.c:701
 #: src/GNOME_Gnumeric.xml.h:40 src/dialogs/print.glade.h:7
-#: src/workbook-control-gui.c:3321
+#: src/workbook-control-gui.c:3336
 msgid "Co_mments"
 msgstr "注释(_M)"
 
-#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3733
+#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3748
 #, fuzzy
 msgid "Co_variance..."
 msgstr "协方差(_V)"
 
-#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3812
+#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3827
 msgid "Collapse an outline group"
 msgstr "重叠一个组轮廓"
 
@@ -16879,7 +16930,7 @@ msgid ""
 "using a large sample: z-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:3761
+#: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:3776
 msgid "Comparing two population variances"
 msgstr ""
 
@@ -16887,13 +16938,13 @@ msgstr ""
 msgid "Configure toolbars"
 msgstr "配置工具栏"
 
-#: src/GNOME_Gnumeric.xml.h:50 src/workbook-control-gui.c:3889
+#: src/GNOME_Gnumeric.xml.h:50 src/workbook-control-gui.c:3902
 msgid "Consolidate regions using a function"
 msgstr "用一个函数固定一个区域"
 
 # src/item-cursor.c:579 src/item-grid.c:527 src/workbook.c:850
 #: src/GNOME_Gnumeric.xml.h:51 src/sheet-view.c:313
-#: src/workbook-control-gui.c:3950
+#: src/workbook-control-gui.c:3961
 msgid "Copy"
 msgstr "复制"
 
@@ -16901,13 +16952,13 @@ msgstr "复制"
 msgid "Copy the selection"
 msgstr "复制选择区"
 
-#: src/GNOME_Gnumeric.xml.h:53 src/workbook-control-gui.c:3950
+#: src/GNOME_Gnumeric.xml.h:53 src/workbook-control-gui.c:3961
 msgid "Copy the selection to the clipboard"
 msgstr "把所选择区域复制到剪贴板"
 
 #: src/GNOME_Gnumeric.xml.h:54 src/dialogs/covariance.glade.h:3
 #: src/tools/analysis-tools.c:894 src/tools/analysis-tools.c:897
-#: src/workbook-control-gui.c:3734
+#: src/workbook-control-gui.c:3749
 msgid "Covariance"
 msgstr "协方差"
 
@@ -16943,12 +16994,12 @@ msgstr "创建一个列表"
 msgid "Create a new shared view of the workbook"
 msgstr "创建一个新的工作簿共享视图"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/workbook-control-gui.c:3272
-#: src/workbook-control-gui.c:3926
+#: src/GNOME_Gnumeric.xml.h:63 src/workbook-control-gui.c:3287
+#: src/workbook-control-gui.c:3937
 msgid "Create a new workbook"
 msgstr "创建一个新工作簿"
 
-#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:3895
+#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:3908
 msgid "Create a pivot table"
 msgstr "创建一个数据透视表"
 
@@ -16989,18 +17040,18 @@ msgstr "剪切(_T)"
 
 # src/workbook.c:749
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:3494
+#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:3509
 msgid "Current _date"
 msgstr "当前日期(_D)"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:3500
+#: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:3515
 msgid "Current _time"
 msgstr "当前时间(_T)"
 
 # src/item-grid.c:526 src/workbook.c:847
 #: src/GNOME_Gnumeric.xml.h:75 src/sheet-view.c:338 src/sheet-view.c:341
-#: src/workbook-control-gui.c:3947
+#: src/workbook-control-gui.c:3958
 msgid "Cut"
 msgstr "剪切"
 
@@ -17008,7 +17059,7 @@ msgstr "剪切"
 msgid "Cut the selection"
 msgstr "剪切选择区"
 
-#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:3947
+#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:3958
 msgid "Cut the selection to the clipboard"
 msgstr "剪切所选择的区域到剪贴板"
 
@@ -17028,36 +17079,36 @@ msgid "Decrease the number of decimals displayed"
 msgstr "减少所显示的小数位数"
 
 # src/item-cursor.c:581
-#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3608
+#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3623
 msgid "Display _Formulas"
 msgstr "显示公式(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3827
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3842
 msgid "Display _Outlines"
 msgstr "显示轮廓(_O)"
 
-#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3609
+#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3624
 msgid "Display the value of a formula or the formula itself"
 msgstr "显示公式的值还是公式本身"
 
-#: src/GNOME_Gnumeric.xml.h:84 src/workbook-control-gui.c:3981
+#: src/GNOME_Gnumeric.xml.h:84 src/workbook-control-gui.c:3992
 msgid "Edit a function in the current cell"
 msgstr "在当前单元格编辑函数"
 
 # src/dialog-cell-format.c:71
-#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3299
+#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3314
 msgid "Edit descriptive information"
 msgstr "编辑描述性信息"
 
-#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3509
+#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3524
 msgid "Edit sheet and workbook names"
 msgstr "编辑工作表和工作簿名字"
 
-#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3655
+#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3670
 msgid "Edit the Gnumeric Preferences"
 msgstr "编辑 Gnumeric 首选项"
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3438
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3453
 msgid "Edit the selected cell's comment"
 msgstr "编辑选中单元格的注释"
 
@@ -17065,11 +17116,11 @@ msgstr "编辑选中单元格的注释"
 msgid "Ellipse"
 msgstr "椭圆"
 
-#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:3565
+#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:3580
 msgid "Ensure columns are just wide enough to display content"
 msgstr "保证列有足够的宽度来显示内容"
 
-#: src/GNOME_Gnumeric.xml.h:91 src/workbook-control-gui.c:3584
+#: src/GNOME_Gnumeric.xml.h:91 src/workbook-control-gui.c:3599
 msgid "Ensure rows are just tall enough to display content"
 msgstr "保证行有足够的高度来显示内容"
 
@@ -17078,26 +17129,28 @@ msgid "Exponential smoothing"
 msgstr "指数平滑"
 
 # src/dialog-paste-special.c:23
-#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:3740
+#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:3755
 msgid "F_orecasting"
 msgstr "预报(_O)"
 
 # src/dialog-paste-special.c:23
-#: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:3917
+#: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:3928
 msgid "F_ormat"
 msgstr "格式(_O)"
 
-#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:3371
+#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:3386
 msgid "Fill according to a linear or exponential series"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:96 src/workbook-control-gui.c:3864
+#: src/GNOME_Gnumeric.xml.h:96 src/workbook-control-gui.c:3877
 msgid "Filter data with given criteria"
 msgstr "用所给的标准筛选数据"
 
 # src/dialog-cell-format.c:917
-#: src/GNOME_Gnumeric.xml.h:97 src/dialogs/cell-format.glade.h:43
-#: src/dialogs/dialog-preferences.c:1395 src/workbook-format-toolbar.c:411
+#: src/GNOME_Gnumeric.xml.h:97
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:843
+#: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
+#: src/workbook-format-toolbar.c:411
 msgid "Font"
 msgstr "字体"
 
@@ -17116,12 +17169,12 @@ msgstr "字体大小"
 msgid "Foreground"
 msgstr "前景色"
 
-#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:3659
+#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:3674
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "按照预定义的模板格式化单元区域"
 
 #: src/GNOME_Gnumeric.xml.h:102 src/dialogs/fourier-analysis.glade.h:3
-#: src/workbook-control-gui.c:3743
+#: src/workbook-control-gui.c:3758
 msgid "Fourier Analysis"
 msgstr "傅立叶分析"
 
@@ -17131,74 +17184,74 @@ msgstr "傅立叶分析"
 msgid "Frame"
 msgstr "帧"
 
-#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:1508
-#: src/workbook-control-gui.c:3485
+#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:1528
+#: src/workbook-control-gui.c:3500
 msgid "Freeze the top left of the sheet"
 msgstr "冻结表格的左上面"
 
 # src/dialog-cell-format.c:71
 #: src/GNOME_Gnumeric.xml.h:105 src/dialogs/function-select.glade.h:3
-#: src/workbook-control-gui.c:3980
+#: src/workbook-control-gui.c:3991
 msgid "Function"
 msgstr "函数"
 
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3374
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3389
 msgid "Generate random numbers of a selection of distributions"
 msgstr "生成所选分布的随机数"
 
-#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:3899
+#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:3911
 msgid "Get _External Data"
 msgstr "获取外部数据(_E)"
 
 # src/workbook.c:790
-#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:3580
+#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:3595
 msgid "H_eight..."
 msgstr "高度(_H)..."
 
 # src/dialog-delete-cells.c:36
-#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3626
+#: src/GNOME_Gnumeric.xml.h:109 src/workbook-control-gui.c:3641
 msgid "Hide _Column Headers"
 msgstr "隐藏列头(_C)"
 
 # src/gnumeric-sheet.c:907
-#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3620
+#: src/GNOME_Gnumeric.xml.h:110 src/workbook-control-gui.c:3635
 msgid "Hide _Gridlines"
 msgstr "隐藏网格线(_G)"
 
 # src/workbook.c:484 src/workbook.c:500
-#: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3632
+#: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3647
 msgid "Hide _Row Headers"
 msgstr "隐藏行头(_R)"
 
 # src/workbook.c:484 src/workbook.c:500
-#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3614
+#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3629
 msgid "Hide _Zeros"
 msgstr "隐藏零(_Z)"
 
 # src/dialog-delete-cells.c:36
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3568
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3583
 msgid "Hide the selected columns"
 msgstr "隐藏所选择的列"
 
-#: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:3587
+#: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:3602
 msgid "Hide the selected rows"
 msgstr "隐藏选择的行"
 
-#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:3550
+#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:3565
 msgid "Hyper_link..."
 msgstr "超级链接(_L)..."
 
-#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:3972
+#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:3983
 msgid "Hyperlink"
 msgstr "超级链接"
 
 # src/expr.c:67
-#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:3849
+#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:3863
 msgid "Import _Text File..."
 msgstr "导入文本文件(_T)..."
 
 # src/expr.c:67
-#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:3850
+#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:3864
 msgid "Import the text from a file"
 msgstr "从文件导入文本"
 
@@ -17224,18 +17277,18 @@ msgstr "插入组件"
 msgid "Insert Shaped Component"
 msgstr "插入形状组件"
 
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:3551
-#: src/workbook-control-gui.c:3973
+#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:3566
+#: src/workbook-control-gui.c:3984
 msgid "Insert a Hyperlink"
 msgstr "插入超级链接"
 
-#: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:3545
+#: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:3560
 msgid "Insert a function into the selected cell"
 msgstr "在选中的单元格中插入函数"
 
 # src/workbook.c:835
-#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3389
-#: src/workbook-control-gui.c:3531
+#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3404
+#: src/workbook-control-gui.c:3546
 msgid "Insert a new sheet"
 msgstr "插入一个新工作表"
 
@@ -17244,7 +17297,7 @@ msgid "Insert a shaped component into the spreadsheet"
 msgstr "在电子表格中插入一个形状组件"
 
 # src/workbook.c:484 src/workbook.c:500
-#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:3541
+#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:3556
 msgid "Insert an image"
 msgstr "插入图像"
 
@@ -17253,25 +17306,25 @@ msgid "Insert an object into the spreadsheet"
 msgstr "在电子表格中插入一个对象"
 
 # src/dialog-insert-cells.c:30
-#: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3522
+#: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3537
 msgid "Insert new cells"
 msgstr "插入新单元格"
 
 # src/dialog-insert-cells.c:37
-#: src/GNOME_Gnumeric.xml.h:131 src/workbook-control-gui.c:3525
+#: src/GNOME_Gnumeric.xml.h:131 src/workbook-control-gui.c:3540
 msgid "Insert new columns"
 msgstr "插入新列"
 
 # src/workbook.c:484 src/workbook.c:500
-#: src/GNOME_Gnumeric.xml.h:132 src/workbook-control-gui.c:3528
+#: src/GNOME_Gnumeric.xml.h:132 src/workbook-control-gui.c:3543
 msgid "Insert new rows"
 msgstr "插入新行"
 
-#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:3495
+#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:3510
 msgid "Insert the current date into the selected cell(s)"
 msgstr "在所选的单元格中插入当前日期"
 
-#: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:3501
+#: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:3516
 msgid "Insert the current time into the selected cell(s)"
 msgstr "在所选的单元格中插入当前时间"
 
@@ -17283,7 +17336,7 @@ msgstr "插入 Bonobo 对象"
 msgid "Inserts a Shaped Bonobo object"
 msgstr "插入 Bonobo 形状对象"
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3401
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:3416
 msgid "Irrevocably remove an entire sheet"
 msgstr "不能取消删除全部表格"
 
@@ -17293,27 +17346,27 @@ msgstr "不能取消删除全部表格"
 msgid "Italic"
 msgstr "斜体"
 
-#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:3784
+#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:3799
 msgid "Iteratively recalculate to find a target value"
 msgstr "为了找到一个目标值重复重新计算"
 
-#: src/GNOME_Gnumeric.xml.h:140 src/workbook-control-gui.c:3788
+#: src/GNOME_Gnumeric.xml.h:140 src/workbook-control-gui.c:3803
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr "为了接近一个目标值用系统规定参数重复重新计算"
 
-#: src/GNOME_Gnumeric.xml.h:141 src/workbook-control-gui.c:3462
+#: src/GNOME_Gnumeric.xml.h:141 src/workbook-control-gui.c:3477
 msgid "Jump to a specified cell"
 msgstr "调到指定的单元"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:234
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
 #: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "标签"
 
 # src/dialog-paste-special.c:21
-#: src/GNOME_Gnumeric.xml.h:143 src/workbook-control-gui.c:3537
-#: src/workbook-control-gui.c:3994
+#: src/GNOME_Gnumeric.xml.h:143 src/workbook-control-gui.c:3552
+#: src/workbook-control-gui.c:4005
 #, fuzzy
 msgid "Launch the Chart Guru"
 msgstr "调用图表向导"
@@ -17339,29 +17392,29 @@ msgstr "直线"
 msgid "List"
 msgstr "列表"
 
-#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:3397
+#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:3412
 msgid "Make a copy of the current sheet"
 msgstr "做一个当前表格的备份"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3368
+#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3383
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:3571
+#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:3586
 msgid "Make any hidden columns in the selection visible"
 msgstr "在所选择的区域中使任何隐藏的列可见"
 
-#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:3590
+#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:3605
 msgid "Make any hidden rows in the selection visible"
 msgstr "在所选择的区域中使任何隐藏的行可见"
 
-#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:3769
+#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:3784
 msgid "Manage available plugin modules"
 msgstr "管理可用的插件模块"
 
 # src/file.c:257
-#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3383
-#: src/workbook-control-gui.c:3600
+#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3398
+#: src/workbook-control-gui.c:3615
 msgid "Manage the sheets in this workbook"
 msgstr "管理此工作簿中的工作表"
 
@@ -17375,17 +17428,17 @@ msgstr "合并"
 msgid "Merge a range of cells"
 msgstr "合并一组单元格"
 
-#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3365
+#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3380
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 
 # src/workbook.c:802
-#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3644
+#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3659
 msgid "Modify the formatting of the selected cells"
 msgstr "修改所选择单元的格式"
 
-#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:3652
+#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:3667
 msgid "Modify the workbook attributes"
 msgstr "修改工作簿属性"
 
@@ -17400,7 +17453,7 @@ msgid "Moving average"
 msgstr "移动平均"
 
 # src/workbook.c:671
-#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:3926
+#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:3937
 msgid "New"
 msgstr "新建"
 
@@ -17409,21 +17462,21 @@ msgid "One Factor Analysis of Variance"
 msgstr ""
 
 # src/dialog-paste-special.c:65
-#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:3929
+#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:3940
 msgid "Open"
 msgstr "打开"
 
 # src/dialog-define-names.c:27 src/plugin-manager.c:132
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3929
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:3940
 #, fuzzy
 msgid "Open a file"
 msgstr "删除筛选"
 
-#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3833
+#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:3848
 msgid "Outlines _Below"
 msgstr "下部轮廓(_B)"
 
-#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3839
+#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3854
 msgid "Outlines _Right"
 msgstr "右边轮廓(_R)"
 
@@ -17433,17 +17486,17 @@ msgid "P_aste Special..."
 msgstr "选择性粘贴(_A)..."
 
 #: src/GNOME_Gnumeric.xml.h:168 src/GNOME_Gnumeric_Component.xml.h:4
-#: src/workbook-control-gui.c:3282
+#: src/workbook-control-gui.c:3297
 msgid "Page Set_up..."
 msgstr "页面设置(_U)..."
 
-#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3886
+#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3899
 msgid "Parse the text in the selection into data"
 msgstr "将选中内容中的文本处理为数据"
 
 # src/item-grid.c:528 src/sheet.c:2577 src/workbook.c:853
 #: src/GNOME_Gnumeric.xml.h:170 src/cmd-edit.c:344
-#: src/workbook-control-gui.c:3953
+#: src/workbook-control-gui.c:3964
 msgid "Paste"
 msgstr "粘贴"
 
@@ -17452,16 +17505,16 @@ msgstr "粘贴"
 msgid "Paste the clipboard"
 msgstr "粘贴剪贴板"
 
-#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3953
+#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3964
 msgid "Paste the contents of the clipboard"
 msgstr "粘贴剪贴板的内容"
 
-#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3423
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:3438
 msgid "Paste with optional filters and transformations"
 msgstr "进行可选的筛选或变换后再粘贴"
 
 # src/dialog-cell-format.c:71
-#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:3731
+#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:3746
 #, fuzzy
 msgid "Pearson Correlation"
 msgstr "相关"
@@ -17471,32 +17524,32 @@ msgstr "相关"
 msgid "Percent"
 msgstr "百分比"
 
-#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:3755
+#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:3770
 msgid "Periodic and random samples"
 msgstr ""
 
 # src/dialog-paste-special.c:65
-#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3302
+#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:3317
 msgid "Preferen_ces..."
 msgstr "首选项(_C)..."
 
 # src/dialog-cell-format.c:70
 #: src/GNOME_Gnumeric.xml.h:178 src/dialogs/print.glade.h:14
-#: src/workbook-control-gui.c:3938
+#: src/workbook-control-gui.c:3949
 msgid "Print"
 msgstr "打印"
 
-#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:3285
+#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:3300
 msgid "Print Pre_view..."
 msgstr "打印预览(_V)..."
 
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:3941
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:3952
 msgid "Print Preview"
 msgstr "打印预览"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1311 src/workbook-control-gui.c:3286
-#: src/workbook-control-gui.c:3941
+#: src/print.c:1311 src/workbook-control-gui.c:3301
+#: src/workbook-control-gui.c:3952
 msgid "Print preview"
 msgstr "打印预览"
 
@@ -17505,13 +17558,13 @@ msgid "Print the current file"
 msgstr "打印当前文件"
 
 # src/file.c:257
-#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:3938
+#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:3949
 msgid "Print the workbook"
 msgstr "打印工作簿"
 
 # src/dialog-paste-special.c:65
 #: src/GNOME_Gnumeric.xml.h:184 src/GNOME_Gnumeric_Component.xml.h:8
-#: src/workbook-control-gui.c:3298
+#: src/workbook-control-gui.c:3313
 msgid "Proper_ties..."
 msgstr "属性(_T)..."
 
@@ -17529,23 +17582,23 @@ msgstr "单选钮"
 msgid "Ranks and _Percentiles..."
 msgstr "阶数和百分位数"
 
-#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:3749
+#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:3764
 #, fuzzy
 msgid "Ranks, placements and percentiles"
 msgstr "阶数和百分位数"
 
 # src/workbook.c:825
-#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3404
-#: src/workbook-control-gui.c:3602
+#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3419
+#: src/workbook-control-gui.c:3617
 #, fuzzy
 msgid "Re_name"
 msgstr "重命名(_N)..."
 
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3467
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3482
 msgid "Recalculate"
 msgstr "重新计算"
 
-#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3468
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3483
 msgid "Recalculate the spreadsheet"
 msgstr "重新计算电子表格"
 
@@ -17554,24 +17607,24 @@ msgstr "重新计算电子表格"
 msgid "Rectangle"
 msgstr "矩形"
 
-#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:4216
+#: src/GNOME_Gnumeric.xml.h:193 src/workbook-control-gui.c:4227
 msgid "Redo the undone action"
 msgstr "重做刚刚撤消的操作"
 
-#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3752
+#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3767
 msgid "Regression Analysis"
 msgstr "回归分析"
 
-#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3821
+#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3836
 msgid "Remove an outline group"
 msgstr "删除一个组轮廓"
 
-#: src/GNOME_Gnumeric.xml.h:196 src/workbook-control-gui.c:3431
+#: src/GNOME_Gnumeric.xml.h:196 src/workbook-control-gui.c:3446
 msgid "Remove selected cells, shifting others into their place"
 msgstr "删除选中的单元格，并把其它的移动到它们的位置"
 
-#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:3405
-#: src/workbook-control-gui.c:3603
+#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:3420
+#: src/workbook-control-gui.c:3618
 msgid "Rename the current sheet"
 msgstr "重命名当前工作表"
 
@@ -17586,17 +17639,17 @@ msgid "Right align"
 msgstr "右对齐"
 
 # src/workbook.c:761 src/workbook.c:809
-#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:3443
+#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:3458
 msgid "S_heet"
 msgstr "工作表(_H)"
 
 # src/workbook.c:774
-#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:3555
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:3570
 msgid "S_pecial"
 msgstr "特殊(_P)"
 
 # src/item-cursor.c:580
-#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:3932
+#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:3943
 msgid "Save"
 msgstr "保存"
 
@@ -17605,7 +17658,7 @@ msgid "Save _As..."
 msgstr "另存为(_A)..."
 
 # src/file.c:2
-#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:3932
+#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:3943
 msgid "Save the current workbook"
 msgstr "保存当前工作簿"
 
@@ -17615,7 +17668,7 @@ msgid "Save the current workbook with a different name"
 msgstr "用不同的名字保存当前的文件"
 
 # src/workbook.c:761 src/workbook.c:809
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3798
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3813
 #, fuzzy
 msgid "Sce_narios"
 msgstr "连续"
@@ -17624,74 +17677,74 @@ msgstr "连续"
 msgid "Scrollbar"
 msgstr "滚动条"
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:3455
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:3470
 msgid "Search and Replace..."
 msgstr "搜索并替换..."
 
 #: src/GNOME_Gnumeric.xml.h:209 src/GNOME_Gnumeric_Component.xml.h:10
-#: src/workbook-control-gui.c:3450
+#: src/workbook-control-gui.c:3465
 msgid "Search for some text"
 msgstr "搜索文本"
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:3456
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:3471
 msgid "Search for some text and replace it with something else"
 msgstr "搜索文本并用另外的内容替换"
 
 # src/dates.c:57
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3449
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:3464
 msgid "Search..."
 msgstr "搜索..."
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:3348
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:3363
 msgid "Select Arra_y"
 msgstr "选中数组(_Y)"
 
 # src/dialog-delete-cells.c:29
-#: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:3333
+#: src/GNOME_Gnumeric.xml.h:213 src/workbook-control-gui.c:3348
 msgid "Select _All"
 msgstr "全部选中(_A)"
 
 # src/dialog-delete-cells.c:36
-#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3338
+#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:3353
 msgid "Select _Column"
 msgstr "选中列(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3353
+#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3368
 msgid "Select _Depends"
 msgstr "选中依赖(_D)"
 
 # src/dialog-delete-cells.c:35
-#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3343
+#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3358
 msgid "Select _Row"
 msgstr "选中行(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3334
+#: src/GNOME_Gnumeric.xml.h:217 src/workbook-control-gui.c:3349
 msgid "Select all cells in the spreadsheet"
 msgstr "选中电子表格中的所有单元格"
 
-#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3354
+#: src/GNOME_Gnumeric.xml.h:218 src/workbook-control-gui.c:3369
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "选中所有依赖于当前编辑的单元格的单元格"
 
-#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:3349
+#: src/GNOME_Gnumeric.xml.h:219 src/workbook-control-gui.c:3364
 msgid "Select an array of cells"
 msgstr "选中一组单元格"
 
-#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3339
+#: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3354
 msgid "Select an entire column"
 msgstr "选中整列"
 
-#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3344
+#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3359
 msgid "Select an entire row"
 msgstr "选中整行"
 
 # src/dialog-goto-cell.c:45
-#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:3295
+#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:3310
 #, fuzzy
 msgid "Sen_d To..."
 msgstr "转到..."
 
-#: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:3296
+#: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:3311
 #, fuzzy
 msgid "Send the current file via email"
 msgstr "用电子邮件发送当前的文件"
@@ -17710,15 +17763,15 @@ msgid "Set the format of the selected cells to percentage"
 msgstr "设置选中单元格的格式为百分比"
 
 #: src/GNOME_Gnumeric.xml.h:227 src/GNOME_Gnumeric_Component.xml.h:11
-#: src/workbook-control-gui.c:3283
+#: src/workbook-control-gui.c:3298
 msgid "Setup the page settings for your current printer"
 msgstr "为您当前的打印机进行页面设置"
 
-#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3861
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3874
 msgid "Show all filtered and hidden rows"
 msgstr "显示所有筛选的和隐藏的行"
 
-#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3793
+#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3808
 #, fuzzy
 msgid "Si_mulation..."
 msgstr "模拟"
@@ -17729,22 +17782,22 @@ msgstr "模拟"
 msgid "Slider"
 msgstr "无色"
 
-#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:3987
+#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:3998
 msgid "Sort Descending"
 msgstr "降序排序"
 
 # src/workbook.c:802
-#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:3873
+#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:3886
 msgid "Sort the selected region"
 msgstr "排序所选择的区域"
 
-#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3985
+#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3996
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr "基于第一列把所选择的区域按升序排序"
 
-#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:3988
+#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:3999
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
@@ -17765,21 +17818,21 @@ msgstr "拆分"
 msgid "Split merged ranges of cells"
 msgstr "拆分合并的单元的范围"
 
-#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:3804
+#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:3819
 msgid "Statistical Anal_ysis"
 msgstr "统计分析(_Y)"
 
 # src/workbook.c:1130
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3977
-#: src/workbook-control-gui.c:4771 src/workbook-view.c:540
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3988
+#: src/workbook-control-gui.c:4782 src/workbook-view.c:540
 msgid "Sum"
 msgstr "求和"
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3978
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3989
 msgid "Sum into the current cell"
 msgstr "当前单元的总计"
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3794
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3809
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
@@ -17789,31 +17842,31 @@ msgstr ""
 msgid "Thousands Separator"
 msgstr "千位分隔符"
 
-#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3627
+#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:3642
 msgid "Toggle whether or not to display column headers"
 msgstr "切换是否显示列头"
 
-#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3621
+#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3636
 msgid "Toggle whether or not to display gridlines"
 msgstr "切换是否显示网格线"
 
-#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3828
+#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3843
 msgid "Toggle whether or not to display outline groups"
 msgstr "切换是否显示组轮廓"
 
-#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3633
+#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3648
 msgid "Toggle whether or not to display row headers"
 msgstr "切换是否显示行头"
 
-#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:3615
+#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:3630
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "切换是否显示零来作为空格"
 
-#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3840
+#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3855
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "切换是否在左边或右边显示列轮廓"
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:3834
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:3849
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "切换是否在上部或下部显示行轮廓"
 
@@ -17821,12 +17874,12 @@ msgstr "切换是否在上部或下部显示行轮廓"
 msgid "Two Factor Analysis of Variance"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3758
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3773
 #, fuzzy
 msgid "Two _Means"
 msgstr "平均(_M)"
 
-#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:3815
+#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:3830
 #, fuzzy
 msgid "Uncollapse an outline group"
 msgstr "不重叠一个组轮廓"
@@ -17835,41 +17888,41 @@ msgstr "不重叠一个组轮廓"
 msgid "Underline"
 msgstr "下划线"
 
-#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:4213
+#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:4224
 msgid "Undo the last action"
 msgstr "撤消上次操作"
 
-#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:3707
+#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:3722
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:3712
+#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:3727
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3880
+#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3893
 msgid "Validate input with preset criteria"
 msgstr "用事先定义的条件校验输入"
 
-#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:3746
+#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:3761
 msgid "Various frequency tables"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:3737
+#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:3752
 #, fuzzy
 msgid "Various summary statistics"
 msgstr "统计量一览"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3668
+#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3683
 msgid "View, delete and report different scenarios"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3482
-#: src/workbook-control-gui.c:4219
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:3497
+#: src/workbook-control-gui.c:4230
 msgid "Zoom the spreadsheet in or out"
 msgstr "缩放电子表格"
 
-#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3728
+#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3743
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
@@ -17878,39 +17931,39 @@ msgid "_About"
 msgstr "关于(_A)"
 
 # src/dialog-define-names.c:26 src/dialog-paste-special.c:29
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:3670
+#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:3685
 msgid "_Add..."
 msgstr "添加(_A)..."
 
 # src/dialog-paste-special.c:20
-#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:3315
+#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:3330
 msgid "_All"
 msgstr "全部(_A)"
 
 # src/dialog-define-names.c:26 src/dialog-paste-special.c:29
-#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:3392
+#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:3407
 #, fuzzy
 msgid "_Append"
 msgstr "与(_A)"
 
 # src/workbook.c:841
-#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3777
+#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3792
 msgid "_Auto Save..."
 msgstr "自动保存(_A)..."
 
-#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:3564
-#: src/workbook-control-gui.c:3583
+#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:3579
+#: src/workbook-control-gui.c:3598
 msgid "_Auto fit selection"
 msgstr "适合选中区(_A)"
 
 # src/item-cursor.c:581
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3658
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3673
 msgid "_Autoformat..."
 msgstr "自动套用格式(_A)..."
 
 # src/workbook.c:763 src/workbook.c:801
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:3643
+#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:3658
 msgid "_Cells..."
 msgstr "单元格(_C)..."
 
@@ -17927,16 +17980,16 @@ msgstr "关闭(_C)"
 #: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:24
 #: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:12
 #: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:18
-#: src/dialogs/shuffle.glade.h:5 src/workbook-control-gui.c:3524
+#: src/dialogs/shuffle.glade.h:5 src/workbook-control-gui.c:3539
 msgid "_Columns"
 msgstr "列(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:3888
+#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:3901
 msgid "_Consolidate..."
 msgstr "合并计算(_C)..."
 
 # src/workbook.c:703
-#: src/GNOME_Gnumeric.xml.h:275 src/workbook-control-gui.c:3324
+#: src/GNOME_Gnumeric.xml.h:275 src/workbook-control-gui.c:3339
 msgid "_Contents"
 msgstr "内容(_C)"
 
@@ -17947,36 +18000,36 @@ msgid "_Copy"
 msgstr "复制(_C)"
 
 # src/dialog-cell-format.c:71
-#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:3730
+#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:3745
 #, fuzzy
 msgid "_Correlation..."
 msgstr "相关系数(_C)"
 
 # src/dialog-cell-format.c:68
 #: src/GNOME_Gnumeric.xml.h:278 src/dialogs/pivottable.glade.h:8
-#: src/workbook-control-gui.c:3919
+#: src/workbook-control-gui.c:3930
 msgid "_Data"
 msgstr "数据(_D)"
 
 # src/dialog-delete-cells.c:32 src/item-grid.c:532
-#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3508
+#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3523
 msgid "_Define..."
 msgstr "定义(_D)..."
 
 # src/dialog-delete-cells.c:32 src/item-grid.c:532
 #: src/GNOME_Gnumeric.xml.h:280 src/sheet-control-gui.c:1497
-#: src/workbook-control-gui.c:3430
+#: src/workbook-control-gui.c:3445
 msgid "_Delete..."
 msgstr "删除(_D)..."
 
-#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:3736
+#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:3751
 #, fuzzy
 msgid "_Descriptive Statistics..."
 msgstr "描述性统计(_D)"
 
 # src/dialog-cell-format.c:68
 #: src/GNOME_Gnumeric.xml.h:282 src/dialogs/sheet-order.glade.h:2
-#: src/workbook-control-gui.c:3396
+#: src/workbook-control-gui.c:3411
 msgid "_Duplicate"
 msgstr "副本(_D)"
 
@@ -17984,7 +18037,7 @@ msgstr "副本(_D)"
 msgid "_Edit"
 msgstr "编辑(_E)"
 
-#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:3690
+#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:3705
 #, fuzzy
 msgid "_Exponential Smoothing..."
 msgstr "指数平滑(_E)"
@@ -17996,55 +18049,55 @@ msgstr "文件(_F)"
 
 # src/dialog-cell-format.c:362
 #: src/GNOME_Gnumeric.xml.h:286 src/dialogs/cell-format.glade.h:96
-#: src/workbook-control-gui.c:3447
+#: src/workbook-control-gui.c:3462
 msgid "_Fill"
 msgstr "填充(_F)"
 
 # src/dialog-cell-format.c:362
-#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3878
+#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3891
 msgid "_Filter"
 msgstr "筛选(_F)"
 
 # src/dialog-paste-special.c:23
-#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:3318
+#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:3333
 msgid "_Formats"
 msgstr "格式(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3742
+#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3757
 #, fuzzy
 msgid "_Fourier Analysis..."
 msgstr "傅立叶分析(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:1505
-#: src/workbook-control-gui.c:3484
+#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:1525
+#: src/workbook-control-gui.c:3499
 msgid "_Freeze Panes"
 msgstr "冻结拆分(_F)"
 
 # src/dialog-cell-format.c:71
-#: src/GNOME_Gnumeric.xml.h:291 src/workbook-control-gui.c:3544
+#: src/GNOME_Gnumeric.xml.h:291 src/workbook-control-gui.c:3559
 msgid "_Function..."
 msgstr "函数(_F)..."
 
 # src/about.c:51
-#: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:3654
+#: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:3669
 msgid "_Gnumeric..."
 msgstr "_Gnumeric..."
 
-#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3783
+#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3798
 msgid "_Goal Seek..."
 msgstr "搜寻目标(_G)..."
 
 # src/workbook.c:763 src/workbook.c:801
-#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:3461
+#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:3476
 msgid "_Goto cell..."
 msgstr "转到单元格(_G)..."
 
 # src/gnumeric-sheet.c:907
-#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3892
+#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3905
 msgid "_Group and Outline"
 msgstr "组及分级(_G)"
 
-#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3817
+#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3832
 msgid "_Group..."
 msgstr "组(_G)..."
 
@@ -18053,63 +18106,63 @@ msgid "_Help"
 msgstr "帮助(_H)"
 
 #: src/GNOME_Gnumeric.xml.h:298 src/sheet-control-gui.c:1522
-#: src/sheet-control-gui.c:1530 src/workbook-control-gui.c:3567
-#: src/workbook-control-gui.c:3586
+#: src/sheet-control-gui.c:1530 src/workbook-control-gui.c:3582
+#: src/workbook-control-gui.c:3601
 msgid "_Hide"
 msgstr "隐藏(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:3811
+#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:3826
 msgid "_Hide Detail"
 msgstr "隐藏细节(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3745
+#: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:3760
 #, fuzzy
 msgid "_Histogram..."
 msgstr "柱形图(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3540
+#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3555
 msgid "_Image..."
 msgstr "图像(_I)..."
 
 # src/dialog-insert-cells.c:33 src/item-grid.c:531
 #: src/GNOME_Gnumeric.xml.h:302 src/dialogs/function-select.glade.h:6
-#: src/workbook-control-gui.c:3388 src/workbook-control-gui.c:3916
+#: src/workbook-control-gui.c:3403 src/workbook-control-gui.c:3927
 msgid "_Insert"
 msgstr "插入(_I)"
 
-#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3717
+#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3732
 msgid "_Known Variances or Large Sample: Z-Test..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:304 src/workbook-control-gui.c:3382
-#: src/workbook-control-gui.c:3599
+#: src/GNOME_Gnumeric.xml.h:304 src/workbook-control-gui.c:3397
+#: src/workbook-control-gui.c:3614
 msgid "_Manage Sheets..."
 msgstr "管理工作表(_M)..."
 
 # src/workbook.c:1133
-#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3364
+#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3379
 #, fuzzy
 msgid "_Merge..."
 msgstr "合并..."
 
 # src/workbook.c:1133
-#: src/GNOME_Gnumeric.xml.h:306 src/workbook-control-gui.c:3694
+#: src/GNOME_Gnumeric.xml.h:306 src/workbook-control-gui.c:3709
 #, fuzzy
 msgid "_Moving Average..."
 msgstr "移动平均数(_M)"
 
 # src/plugin-manager.c:95 src/plugin-manager.c:96
-#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3548
+#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3563
 msgid "_Name"
 msgstr "名称(_N)"
 
 # src/workbook.c:671
-#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3272
+#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3287
 msgid "_New"
 msgstr "新建(_N)"
 
 # src/workbook.c:671
-#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3478
+#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3493
 #, fuzzy
 msgid "_New View..."
 msgstr "查看(_V)..."
@@ -18118,7 +18171,7 @@ msgstr "查看(_V)..."
 msgid "_Object..."
 msgstr "对象(_O)..."
 
-#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3678
+#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3693
 #, fuzzy
 msgid "_One Factor..."
 msgstr "分散解析: 一元配置"
@@ -18128,7 +18181,7 @@ msgstr "分散解析: 一元配置"
 msgid "_Open..."
 msgstr "打开(_O)..."
 
-#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3703
+#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3718
 msgid "_Paired Samples: T-Test..."
 msgstr ""
 
@@ -18138,11 +18191,11 @@ msgid "_Paste"
 msgstr "粘贴(_P)"
 
 # src/dialog-cell-format.c:70
-#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3894
+#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3907
 msgid "_PivotTable..."
 msgstr "数据透视表(_P)..."
 
-#: src/GNOME_Gnumeric.xml.h:316 src/workbook-control-gui.c:3768
+#: src/GNOME_Gnumeric.xml.h:316 src/workbook-control-gui.c:3783
 msgid "_Plug-ins..."
 msgstr "插件(_P)..."
 
@@ -18155,29 +18208,29 @@ msgstr "打印(_P)..."
 msgid "_Quit"
 msgstr "退出(_Q)"
 
-#: src/GNOME_Gnumeric.xml.h:319 src/workbook-control-gui.c:3373
+#: src/GNOME_Gnumeric.xml.h:319 src/workbook-control-gui.c:3388
 msgid "_Random Generator..."
 msgstr "随机数生成器(_R)..."
 
 # src/dialog-define-names.c:27 src/plugin-manager.c:132
-#: src/GNOME_Gnumeric.xml.h:320 src/workbook-control-gui.c:1549
+#: src/GNOME_Gnumeric.xml.h:320 src/workbook-control-gui.c:1569
 msgid "_Redo"
 msgstr "重做(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:321 src/workbook-control-gui.c:3751
+#: src/GNOME_Gnumeric.xml.h:321 src/workbook-control-gui.c:3766
 #, fuzzy
 msgid "_Regression..."
 msgstr "回归(_R)"
 
 # src/dialog-define-names.c:27 src/plugin-manager.c:132
 #: src/GNOME_Gnumeric.xml.h:322 src/dialogs/autocorrect.glade.h:13
-#: src/dialogs/pivottable.glade.h:12 src/workbook-control-gui.c:3400
+#: src/dialogs/pivottable.glade.h:12 src/workbook-control-gui.c:3415
 msgid "_Remove"
 msgstr "删除(_R)"
 
 # src/workbook.c:765
 #: src/GNOME_Gnumeric.xml.h:323 src/dialogs/pivottable.glade.h:13
-#: src/workbook-control-gui.c:3648
+#: src/workbook-control-gui.c:3663
 msgid "_Row"
 msgstr "行(_R)"
 
@@ -18189,12 +18242,12 @@ msgstr "行(_R)"
 #: src/dialogs/fourier-analysis.glade.h:17 src/dialogs/histogram.glade.h:30
 #: src/dialogs/moving-averages.glade.h:19 src/dialogs/rank.glade.h:19
 #: src/dialogs/regression.glade.h:20 src/dialogs/sampling.glade.h:25
-#: src/dialogs/shuffle.glade.h:6 src/workbook-control-gui.c:3527
+#: src/dialogs/shuffle.glade.h:6 src/workbook-control-gui.c:3542
 msgid "_Rows"
 msgstr "行(_R)"
 
 # src/dialog-cell-format.c:297
-#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:3754
+#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:3769
 #, fuzzy
 msgid "_Sampling..."
 msgstr "采样(_S)"
@@ -18205,11 +18258,11 @@ msgid "_Save"
 msgstr "保存(_S)"
 
 # src/dialog-delete-cells.c:32 src/item-grid.c:532
-#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3445
+#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3460
 msgid "_Select"
 msgstr "选择(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3370
+#: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3385
 msgid "_Series..."
 msgstr "序列(_S)..."
 
@@ -18218,41 +18271,41 @@ msgid "_Shaped Object"
 msgstr "形状对象(_S)"
 
 # src/workbook.c:761 src/workbook.c:809
-#: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3530
-#: src/workbook-control-gui.c:3649
+#: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3545
+#: src/workbook-control-gui.c:3664
 msgid "_Sheet"
 msgstr "工作表(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:331 src/workbook-control-gui.c:3860
+#: src/GNOME_Gnumeric.xml.h:331 src/workbook-control-gui.c:3873
 msgid "_Show All"
 msgstr "全部显示(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3814
+#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3829
 msgid "_Show Detail"
 msgstr "显示细节(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3787
+#: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3802
 msgid "_Solver..."
 msgstr "规划求解(_S)..."
 
-#: src/GNOME_Gnumeric.xml.h:334 src/workbook-control-gui.c:3872
+#: src/GNOME_Gnumeric.xml.h:334 src/workbook-control-gui.c:3885
 msgid "_Sort..."
 msgstr "排序(_S)..."
 
-#: src/GNOME_Gnumeric.xml.h:335 src/workbook-control-gui.c:3592
+#: src/GNOME_Gnumeric.xml.h:335 src/workbook-control-gui.c:3607
 msgid "_Standard Height"
 msgstr "标准高度(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3573
+#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3588
 msgid "_Standard Width"
 msgstr "标准宽度(_S)"
 
-#: src/GNOME_Gnumeric.xml.h:337 src/workbook-control-gui.c:3367
+#: src/GNOME_Gnumeric.xml.h:337 src/workbook-control-gui.c:3382
 msgid "_Tabulate Dependency..."
 msgstr ""
 
 # src/dialog-delete-cells.c:36
-#: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:3885
+#: src/GNOME_Gnumeric.xml.h:338 src/workbook-control-gui.c:3898
 #, fuzzy
 msgid "_Text to Columns..."
 msgstr "自动调整列 %s"
@@ -18263,36 +18316,36 @@ msgid "_Toolbars..."
 msgstr "工具栏(_T)..."
 
 # src/dialog-cell-format.c:368
-#: src/GNOME_Gnumeric.xml.h:340 src/workbook-control-gui.c:3918
+#: src/GNOME_Gnumeric.xml.h:340 src/workbook-control-gui.c:3929
 msgid "_Tools"
 msgstr "工具(_T)"
 
 # src/dialog-cell-format.c:71
-#: src/GNOME_Gnumeric.xml.h:341 src/workbook-control-gui.c:3681
+#: src/GNOME_Gnumeric.xml.h:341 src/workbook-control-gui.c:3696
 #, fuzzy
 msgid "_Two Factor..."
 msgstr "分数(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:342 src/workbook-control-gui.c:3760
+#: src/GNOME_Gnumeric.xml.h:342 src/workbook-control-gui.c:3775
 msgid "_Two Variances: FTest..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:343 src/workbook-control-gui.c:1548
+#: src/GNOME_Gnumeric.xml.h:343 src/workbook-control-gui.c:1568
 msgid "_Undo"
 msgstr "撤消(_U)"
 
-#: src/GNOME_Gnumeric.xml.h:344 src/workbook-control-gui.c:3820
+#: src/GNOME_Gnumeric.xml.h:344 src/workbook-control-gui.c:3835
 msgid "_Ungroup..."
 msgstr "取消组(_U)..."
 
 #: src/GNOME_Gnumeric.xml.h:345 src/sheet-control-gui.c:1524
-#: src/sheet-control-gui.c:1532 src/workbook-control-gui.c:3570
-#: src/workbook-control-gui.c:3589
+#: src/sheet-control-gui.c:1532 src/workbook-control-gui.c:3585
+#: src/workbook-control-gui.c:3604
 msgid "_Unhide"
 msgstr "取消隐藏(_U)"
 
 # src/dialog-delete-cells.c:32 src/item-grid.c:532
-#: src/GNOME_Gnumeric.xml.h:346 src/workbook-control-gui.c:3879
+#: src/GNOME_Gnumeric.xml.h:346 src/workbook-control-gui.c:3892
 msgid "_Validate..."
 msgstr "验证(_V)..."
 
@@ -18301,20 +18354,20 @@ msgid "_View"
 msgstr "查看(_V)"
 
 # src/workbook.c:671
-#: src/GNOME_Gnumeric.xml.h:348 src/workbook-control-gui.c:3667
+#: src/GNOME_Gnumeric.xml.h:348 src/workbook-control-gui.c:3682
 msgid "_View..."
 msgstr "查看(_V)..."
 
-#: src/GNOME_Gnumeric.xml.h:349 src/workbook-control-gui.c:3561
+#: src/GNOME_Gnumeric.xml.h:349 src/workbook-control-gui.c:3576
 msgid "_Width..."
 msgstr "宽度(_W)..."
 
-#: src/GNOME_Gnumeric.xml.h:350 src/workbook-control-gui.c:3651
+#: src/GNOME_Gnumeric.xml.h:350 src/workbook-control-gui.c:3666
 msgid "_Workbook..."
 msgstr "工作簿(_W)..."
 
 # src/dialog-zoom.c:47 src/dialog-zoom.c:50
-#: src/GNOME_Gnumeric.xml.h:351 src/workbook-control-gui.c:3481
+#: src/GNOME_Gnumeric.xml.h:351 src/workbook-control-gui.c:3496
 msgid "_Zoom..."
 msgstr "缩放(_Z)..."
 
@@ -18360,16 +18413,16 @@ msgstr "复制单元格(_C)"
 msgid "_Paste Cells"
 msgstr "粘贴单元格(_P)"
 
-#: src/clipboard.c:300 src/clipboard.c:312 src/clipboard.c:323
-#: src/clipboard.c:331
+#: src/clipboard.c:301 src/clipboard.c:313 src/clipboard.c:324
+#: src/clipboard.c:332
 msgid "Unable to paste"
 msgstr "无法粘贴"
 
-#: src/clipboard.c:301
+#: src/clipboard.c:302
 msgid "Content can only be pasted by value or by link."
 msgstr "内容只能按值或链接粘贴。"
 
-#: src/clipboard.c:309
+#: src/clipboard.c:310
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -18380,7 +18433,7 @@ msgstr ""
 "\n"
 "试着选中单个单元格或者相同形状大小的区域"
 
-#: src/clipboard.c:320
+#: src/clipboard.c:321
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -18391,7 +18444,7 @@ msgstr ""
 "\n"
 "试着选中单个单元格或者相同形状大小的区域"
 
-#: src/clipboard.c:332
+#: src/clipboard.c:333
 msgid "result passes the sheet boundary"
 msgstr "结果传递给工作表边界"
 
@@ -18443,583 +18496,621 @@ msgstr "将拆分数组 %s"
 msgid "Would split an array"
 msgstr "将拆分一个数组"
 
-#: src/commands.c:253
+#: src/commands.c:254
 #, c-format
 msgid "%s is locked. Unprotect the workbook to enable editing."
 msgstr "%s 被锁定。取消工作簿保护才能允许编辑。"
 
-#: src/commands.c:254
+#: src/commands.c:255
 #, c-format
 msgid "%s is locked. Unprotect the sheet to enable editing."
 msgstr "%s 被锁定。取消工作表保护才能允许编辑。"
 
 # src/dialog-paste-special.c:65
-#: src/commands.c:425
+#: src/commands.c:426
 msgid "..."
 msgstr "..."
 
 # src/dialog-cell-format.c:73
-#: src/commands.c:888 src/commands.c:988 src/commands.c:993
+#: src/commands.c:889 src/commands.c:989 src/commands.c:994
 msgid "Set Text"
 msgstr "设定文本"
 
-#: src/commands.c:912
+#: src/commands.c:913
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "在 %3$s 中输入 \"%1$s%2$s\""
 
-#: src/commands.c:1111
+#: src/commands.c:1112
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "输入 \"%s%s\""
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:1235 src/commands.c:1240 src/sheet.c:3167
+#: src/commands.c:1236 src/commands.c:1241 src/sheet.c:3167
 msgid "Delete Columns"
 msgstr "删除列"
 
 # src/dialog-delete-cells.c:35
-#: src/commands.c:1235 src/commands.c:1240 src/sheet.c:3281
+#: src/commands.c:1236 src/commands.c:1241 src/sheet.c:3285
 msgid "Delete Rows"
 msgstr "删除行"
 
 # src/workbook.c:767
-#: src/commands.c:1390
+#: src/commands.c:1391
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "在 %2$s 之前插入 %1$d 列"
 
 # src/workbook.c:767
-#: src/commands.c:1391
+#: src/commands.c:1392
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "在 %2$s 之前插入 %1$d 列"
 
-#: src/commands.c:1406
+#: src/commands.c:1407
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "在 %2$s 之前插入 %1$d 行"
 
-#: src/commands.c:1407
+#: src/commands.c:1408
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "在 %2$s 之前插入 %1$d 行"
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:1418
+#: src/commands.c:1419
 #, c-format
 msgid "Deleting columns %s"
 msgstr "删除列 %s"
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:1419
+#: src/commands.c:1420
 #, c-format
 msgid "Deleting column %s"
 msgstr "删除列 %s"
 
 # src/dialog-delete-cells.c:35
-#: src/commands.c:1429
+#: src/commands.c:1430
 #, c-format
 msgid "Deleting rows %s"
 msgstr "删除行 %s"
 
 # src/dialog-delete-cells.c:35
-#: src/commands.c:1430
+#: src/commands.c:1431
 #, c-format
 msgid "Deleting row %s"
 msgstr "删除行 %s"
 
 # src/workbook.c:713
 #. Check for locked cells
-#: src/commands.c:1507 src/commands.c:1511 src/sheet.c:2784
+#: src/commands.c:1508 src/commands.c:1512 src/sheet.c:2784
 msgid "Clear"
 msgstr "清除"
 
 # src/workbook.c:703
-#: src/commands.c:1583
+#: src/commands.c:1584
 msgid "contents"
 msgstr "内容"
 
 # src/dialog-paste-special.c:23
-#: src/commands.c:1585
+#: src/commands.c:1586
 msgid "formats"
 msgstr "格式"
 
 # src/workbook.c:701
-#: src/commands.c:1587
+#: src/commands.c:1588
 msgid "comments"
 msgstr "注释"
 
 # src/workbook.c:873
-#: src/commands.c:1603
+#: src/commands.c:1604
 msgid "all"
 msgstr "全部"
 
-#: src/commands.c:1610
+#: src/commands.c:1611
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "在 %2$s 中清除 %1$s"
 
 # src/dump.c:29
-#: src/commands.c:1683
+#: src/commands.c:1684
 msgid "Changing Format"
 msgstr "更改格式"
 
 # src/dump.c:29
-#: src/commands.c:1809
+#: src/commands.c:1810
 #, c-format
 msgid "Changing format of %s"
 msgstr "更改 %s 的格式"
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:1922
+#: src/commands.c:1923
 #, c-format
 msgid "Autofitting column %s"
 msgstr "自动调整列 %s"
 
 # src/dialog-delete-cells.c:35
-#: src/commands.c:1923
+#: src/commands.c:1924
 #, c-format
 msgid "Autofitting row %s"
 msgstr "自动调整行 %s"
 
-#: src/commands.c:1926
+#: src/commands.c:1927
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "设置列 %s 的宽度为 %d 像素"
 
-#: src/commands.c:1928
+#: src/commands.c:1929
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "设置行 %s 的高度为 %d 像素"
 
-#: src/commands.c:1931
+#: src/commands.c:1932
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "设置列 %s 的宽度为默认值"
 
-#: src/commands.c:1934
+#: src/commands.c:1935
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "设置行 %s 的高度为默认值"
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:1938 src/commands.c:1939
+#: src/commands.c:1939 src/commands.c:1940
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "自动调整列 %s"
 
-#: src/commands.c:1942
+#: src/commands.c:1943
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "设置列 %s 的宽度为 %d 像素"
 
-#: src/commands.c:1944
+#: src/commands.c:1945
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "设置行 %s 的高度为 %d 像素"
 
-#: src/commands.c:1948
+#: src/commands.c:1949
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "将列 %s 的宽度设为默认值"
 
-#: src/commands.c:1950
+#: src/commands.c:1951
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "将行 %s 的高度设为默认值"
 
-#: src/commands.c:2018 src/dialogs/dialog-preferences.c:1399
+#: src/commands.c:2019 src/dialogs/dialog-preferences.c:1399
 msgid "Sorting"
 msgstr "排序"
 
-#: src/commands.c:2038
+#: src/commands.c:2039
 #, c-format
 msgid "Sorting %s"
 msgstr "排序 %s"
 
 # src/dialog-insert-cells.c:37
-#: src/commands.c:2171
+#: src/commands.c:2172
 msgid "Unhide columns"
 msgstr "取消隐藏列"
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:2171
+#: src/commands.c:2172
 msgid "Hide columns"
 msgstr "隐藏列"
 
 # src/workbook.c:484 src/workbook.c:500
-#: src/commands.c:2172
+#: src/commands.c:2173
 msgid "Unhide rows"
 msgstr "取消隐藏行"
 
 # src/workbook.c:484 src/workbook.c:500
-#: src/commands.c:2172
+#: src/commands.c:2173
 msgid "Hide rows"
 msgstr "隐藏行"
 
 # src/dialog-insert-cells.c:37
-#: src/commands.c:2255
+#: src/commands.c:2256
 msgid "Expand columns"
 msgstr "展开列"
 
 # src/workbook.c:767
-#: src/commands.c:2255
+#: src/commands.c:2256
 msgid "Collapse columns"
 msgstr "折叠列"
 
 # src/workbook.c:484 src/workbook.c:500
-#: src/commands.c:2256
+#: src/commands.c:2257
 msgid "Expand rows"
 msgstr "展开行"
 
-#: src/commands.c:2256
+#: src/commands.c:2257
 msgid "Collapse rows"
 msgstr "折叠行"
 
-#: src/commands.c:2283
+#: src/commands.c:2284
 #, c-format
 msgid "Show column outline %d"
 msgstr ""
 
-#: src/commands.c:2283
+#: src/commands.c:2284
 #, c-format
 msgid "Show row outline %d"
 msgstr ""
 
-#: src/commands.c:2350
+#: src/commands.c:2351
 msgid "Those columns are already grouped"
 msgstr "那些列已被分组"
 
-#: src/commands.c:2351
+#: src/commands.c:2352
 msgid "Those rows are already grouped"
 msgstr "那些行已被分组"
 
-#: src/commands.c:2374
+#: src/commands.c:2375
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "那些列还未被分组, 你不能合并它们"
 
-#: src/commands.c:2375
+#: src/commands.c:2376
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "那些行还未被分组, 你不能合并它们"
 
 # src/sheet-view.c:343 src/sheet-view.c:382
-#: src/commands.c:2389
+#: src/commands.c:2390
 #, c-format
 msgid "Group columns %s"
 msgstr "分组列 %s"
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:2389
+#: src/commands.c:2390
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "取消列 %s 的分组"
 
-#: src/commands.c:2391
+#: src/commands.c:2392
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "分组行 %d:%d"
 
-#: src/commands.c:2391
+#: src/commands.c:2392
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "取消行 %d:%d 的分组"
 
 # src/dialog-insert-cells.c:26
-#: src/commands.c:2599
+#: src/commands.c:2600
 #, c-format
 msgid "Moving %s"
 msgstr "移动 %s"
 
-#: src/commands.c:2608 src/commands.c:2819
+#: src/commands.c:2609 src/commands.c:2820
 msgid "is beyond sheet boundaries"
 msgstr "超过表格边界"
 
 #. FIXME?
-#: src/commands.c:2763
+#: src/commands.c:2764
 #, c-format
 msgid "Pasting into %s"
 msgstr "粘贴至 %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2997 src/commands.c:2998 src/workbook-control-gui.c:2304
+#: src/commands.c:2998 src/commands.c:2999 src/workbook-control-gui.c:2315
 msgid "Autofill"
 msgstr "自动填充"
 
 #. Changed in initial redo.
-#: src/commands.c:3021
+#: src/commands.c:3022
 #, c-format
 msgid "Autofilling %s"
 msgstr "自动填充 %s"
 
 # src/item-cursor.c:581
-#: src/commands.c:3171
+#: src/commands.c:3172
 #, c-format
 msgid "Autoformatting %s"
 msgstr "自动套用格式 %s"
 
-#: src/commands.c:3281
+#: src/commands.c:3282
 #, c-format
 msgid "Unmerging %s"
 msgstr "取消 %s 的合并"
 
 # src/workbook.c:1131
-#: src/commands.c:3419
+#: src/commands.c:3420
 #, c-format
 msgid "Merging %s"
 msgstr "合并 %s"
 
 #. Corrected below.
-#: src/commands.c:3802 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:3803 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "查找并替换"
 
-#: src/commands.c:3900
+#: src/commands.c:3901
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "设置默认列的宽度为 %.2fpts"
 
-#: src/commands.c:3901
+#: src/commands.c:3902
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "设置默认行的高度为 %.2fpts"
 
-#: src/commands.c:4019
+#: src/commands.c:4020
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "放大 %s 为 %.0f%%"
 
-#: src/commands.c:4090
+#: src/commands.c:4091
 msgid "Insert object"
 msgstr "插入对象"
 
 # src/dialog-delete-cells.c:35
-#: src/commands.c:4150
+#: src/commands.c:4151
 msgid "Delete object"
 msgstr "删除对象"
 
-#: src/commands.c:4232
+#: src/commands.c:4233
 msgid "Resize object"
 msgstr "更改对象大小"
 
-#: src/commands.c:4232
+#: src/commands.c:4233
 msgid "Move object"
 msgstr "移动对象"
 
-#: src/commands.c:4794
+#: src/commands.c:4791
 msgid "Reordering Sheets"
 msgstr "更改工作表的顺序"
 
 # src/workbook.c:1549
-#: src/commands.c:4797
+#: src/commands.c:4794
 msgid "Renaming Sheets"
 msgstr "重命名工作表"
 
 # src/workbook.c:1549
-#: src/commands.c:4800
+#: src/commands.c:4797
 #, fuzzy, c-format
 msgid "Appending %i Sheets"
 msgstr "重命名工作表"
 
 # src/dump.c:29
-#: src/commands.c:4804
+#: src/commands.c:4801
 msgid "Changing Tab Colors"
 msgstr "更改标签颜色"
 
-#: src/commands.c:4807
+#: src/commands.c:4804
 msgid "Changing Sheet Protection"
 msgstr "更改工作表保护"
 
 # src/dialog-delete-cells.c:29
-#: src/commands.c:4810
+#: src/commands.c:4807
 #, fuzzy
 msgid "Delete sheets"
 msgstr "删除单元格"
 
 # src/dialog-delete-cells.c:35
-#: src/commands.c:4813
+#: src/commands.c:4810
 #, fuzzy
 msgid "Delete a sheet"
 msgstr "删除对象"
 
-#: src/commands.c:4816
+#: src/commands.c:4813
 msgid "Reorganizing Sheets"
 msgstr "重组工作表"
 
 # src/dump.c:29
-#: src/commands.c:4966
+#: src/commands.c:4963
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "清除 %s 的注释"
 
-#: src/commands.c:4967
+#: src/commands.c:4964
 #, c-format
 msgid "Setting comment of %s"
 msgstr "设置 %s 的注释"
 
 # src/workbook.c:1131
-#: src/commands.c:5349
+#: src/commands.c:5346
 #, c-format
 msgid "Merging data into %s"
 msgstr "将数据合并至 %s"
 
 # src/dump.c:29
-#: src/commands.c:5451
+#: src/commands.c:5448
 msgid "Changing summary info"
 msgstr "更改摘要信息"
 
-#: src/commands.c:5543
+#: src/commands.c:5540
 msgid "Raise object"
 msgstr "提前对象"
 
-#: src/commands.c:5546
+#: src/commands.c:5543
 msgid "Lower object"
 msgstr "推后对象"
 
-#: src/commands.c:5549
+#: src/commands.c:5546
 msgid "Raise object to top"
 msgstr "将对象提到最前"
 
-#: src/commands.c:5552
+#: src/commands.c:5549
 msgid "Lower object to bottom"
 msgstr "将对象推到最后"
 
-#: src/commands.c:5668
+#: src/commands.c:5665
 #, c-format
 msgid "Page Setup For %s"
 msgstr "%s 的页面设置"
 
-#: src/commands.c:5670
+#: src/commands.c:5667
 msgid "Page Setup For All Sheets"
 msgstr "所有工作表的页面设置"
 
-#: src/commands.c:5787
+#: src/commands.c:5784
 #, fuzzy
 msgid "has a circular reference"
 msgstr "“%s”有循环引用"
 
 # src/dialog-define-names.c:23
-#: src/commands.c:5810
+#: src/commands.c:5807
 #, c-format
 msgid "Define Name %s"
 msgstr "定义名称 %s"
 
-#: src/commands.c:5813
+#: src/commands.c:5810
 #, c-format
 msgid "Update Name %s"
 msgstr "更新名称 %s"
 
-#: src/commands.c:5878
+#: src/commands.c:5875
 msgid "Add scenario"
 msgstr ""
 
-#: src/commands.c:5954
+#: src/commands.c:5951
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6019
+#: src/commands.c:6016
 msgid "Shuffle Data"
 msgstr "打乱数据"
 
 # src/dialog-delete-cells.c:36
 #. FIXME?
-#: src/commands.c:6131
+#: src/commands.c:6128
 #, fuzzy, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "删除列"
 
 # src/item-cursor.c:580
 #. Fill in the header titles.
-#: src/commands.c:6280 src/dialogs/solver.glade.h:24
+#: src/commands.c:6277 src/dialogs/solver.glade.h:24
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:910 src/tools/solver/reports-write.c:961
 msgid "Solver"
 msgstr "规划求解"
 
-#: src/commands.c:6368
+#: src/commands.c:6365
 #, fuzzy, c-format
 msgid "Goal Seek (%s)"
 msgstr "搜寻目标..."
 
 # src/dialog-cell-format.c:68
-#: src/commands.c:6512
+#: src/commands.c:6509
 #, fuzzy, c-format
 msgid "Duplicating %s"
 msgstr "副本(_D)"
 
-#: src/commands.c:6593
+#: src/commands.c:6590
 #, fuzzy
 msgid "Tabulating Dependencies"
 msgstr "插件依赖性"
 
+#: src/commands.c:6667
+#, fuzzy
+msgid "Reconfigure Graph"
+msgstr "配置工具栏"
+
+#: src/consolidate.c:773
+#, fuzzy, c-format
+msgid "Consolidating to (%s)"
+msgstr "合并为 %s!%s"
+
+#: src/consolidate.c:812 src/consolidate.c:815
+#, fuzzy
+msgid "Data Consolidation"
+msgstr "合并计算"
+
+# src/workbook.c:713
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
+#, fuzzy
+msgid "_Cross"
+msgstr "关闭(_C)"
+
+# src/workbook.c:790
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
+#, fuzzy
+msgid "_High"
+msgstr "高度(_H)..."
+
+# src/dialog-insert-cells.c:33 src/item-grid.c:531
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+#, fuzzy
+msgid "_Invert"
+msgstr "插入(_I)"
+
+# src/workbook.c:765
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
+#, fuzzy
+msgid "_Low"
+msgstr "行(_R)"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
+#, fuzzy
+msgid "_Map:"
+msgstr "_alpha："
+
 # src/workbook.c:1131
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:189
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "最小(_I)"
 
 # src/workbook.c:1132
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:189
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 #, fuzzy
 msgid "M_ax"
 msgstr "最大值"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:247
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:191
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:248
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:214
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:271
 #, fuzzy
 msgid "Bounds"
 msgstr "背景"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:218
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:275
 #, fuzzy
 msgid "Details"
 msgstr "隐藏细节"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:221
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:135
-#: src/dialogs/pivottable.glade.h:4
-msgid "Style"
-msgstr "样式"
-
-# src/dialog-cell-format.c:917
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:168
-#, fuzzy
-msgid "Plot"
-msgstr "点"
-
 # src/dates.c:26
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:171
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:172
 #, fuzzy
 msgid "Legend"
 msgstr "发送"
 
 # src/dialog-cell-format.c:69
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:174
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:175
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:159
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:169
 #, fuzzy
 msgid "Title"
 msgstr "标题："
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:177
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
 msgid "X-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:181
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
 msgid "Y-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:185
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
 msgid "Z-Axis"
 msgstr ""
+
+# src/dialog-cell-format.c:917
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
+#, fuzzy
+msgid "Plot"
+msgstr "点"
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
 msgid "H"
@@ -19055,35 +19146,35 @@ msgstr "图表(_G)..."
 msgid "Chart"
 msgstr "图表%d"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:995
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1000
 msgid "Step 1 of 2: Select Chart Type"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1003
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1008
 msgid "Step 2 of 2: Customize Chart"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1008
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1013
 #, fuzzy
 msgid "Customize Chart"
 msgstr "自定义页眉"
 
 # src/dialog-paste-special.c:61
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1081
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1108
 #, fuzzy
 msgid "_Plot Type"
 msgstr "粘贴方法"
 
 # src/dialog-cell-format.c:297
 #. Set up sample button
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1171
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1198
 #, fuzzy
 msgid ""
 "Show\n"
 "Sample"
 msgstr "范例"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1180
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1207
 #: src/dialogs/dialog-plugin-manager.c:704
 #: src/dialogs/dialog-preferences.c:545 src/dialogs/function-select.glade.h:2
 msgid "Description"
@@ -19145,6 +19236,14 @@ msgstr "向上对齐(_T)"
 msgid "_Text:"
 msgstr "文本"
 
+# src/dialog-cell-format.c:68
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:108
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:131
+#: src/dialogs/dialog-stf.glade.h:15
+#, fuzzy
+msgid "Data"
+msgstr "数据(_D)"
+
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:52
 msgid "Plot Engine"
 msgstr ""
@@ -19160,17 +19259,10 @@ msgid "Chart Theme"
 msgstr ""
 
 # src/workbook.c:761 src/workbook.c:809
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:164
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:166
 #, fuzzy
 msgid "Series"
 msgstr "序列..."
-
-# src/dialog-cell-format.c:68
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:132
-#: src/dialogs/dialog-stf.glade.h:15
-#, fuzzy
-msgid "Data"
-msgstr "数据(_D)"
 
 # src/dialog-cell-format.c:918
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:1
@@ -19245,7 +19337,7 @@ msgstr "模式"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
 #, fuzzy
-msgid "S_ize:"
+msgid "Si_ze:"
 msgstr "大小："
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
@@ -19268,92 +19360,128 @@ msgstr "方向："
 msgid "_End:"
 msgstr "结束"
 
+# src/dialog-cell-format.c:918
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
+#, fuzzy
+msgid "_Fill color:"
+msgstr "填充颜色(_I)："
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
 #, fuzzy
 msgid "_Fit:"
 msgstr "适合(_F)："
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
 #, fuzzy
 msgid "_Foreground:"
 msgstr "前景色"
 
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
+#, fuzzy
+msgid "_Outline color:"
+msgstr "下部轮廓(_B)"
+
 # src/item-grid.c:528 src/sheet.c:2577 src/workbook.c:853
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
 #, fuzzy
 msgid "_Pattern:"
 msgstr "模式"
 
 # src/dialog-delete-cells.c:32 src/item-grid.c:532
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
 #, fuzzy
 msgid "_Select..."
 msgstr "选择(_S)"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
+#, fuzzy
+msgid "_Shape:"
+msgstr "范围(_S)："
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
 #, fuzzy
 msgid "_Size:"
 msgstr "大小："
 
 # src/dates.c:20
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
 #, fuzzy
 msgid "_Start:"
 msgstr "状态"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
-#, fuzzy
-msgid "_Style:"
-msgstr "样式"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
 #: src/dialogs/solver.glade.h:42
 msgid "_Type:"
 msgstr "类型(_T):"
 
 # src/dialog-cell-format.c:361
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
 #, fuzzy
 msgid "_brighter"
 msgstr "靠右(_R)"
 
 # src/workbook.c:882
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
 #, fuzzy
 msgid "_darker"
 msgstr "array"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
 #, fuzzy
 msgid "pts"
 msgstr "报告："
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:32
 msgid "stretched"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:33
 msgid "wallpaper"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:413
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:169
+#: src/widgets/preview-file-selection.c:167
+#, fuzzy, c-format
+msgid "%d x %d"
+msgstr "%d 行 x %d 列"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:535
+#: src/workbook-control-gui.c:3100
 #, fuzzy
 msgid "Select an image"
 msgstr "选中整列"
 
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:895
+#: src/dialogs/pivottable.glade.h:4
+msgid "Style"
+msgstr "样式"
+
 # src/dialog-delete-cells.c:32 src/item-grid.c:532
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:236
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:380
 #: src/dialogs/dialog-sheet-order.c:953 src/dialogs/dialog-sheet-order.c:966
 msgid "Default"
 msgstr "默认"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:277
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:427
 #, fuzzy
 msgid "Guppi"
 msgstr "分组"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:264
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
+#: src/dialogs/consolidate.glade.h:12
+msgid "Labels"
+msgstr "标签"
+
+# src/dialog-paste-special.c:22
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
+#: src/dialogs/consolidate.glade.h:27
+msgid "Values"
+msgstr "数值"
 
 # src/formats.c:74
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
@@ -19384,10 +19512,29 @@ msgstr ""
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
 #. * 	PlotBarCol2
-#.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:96
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:95
 msgid "PlotBarCol"
 msgstr ""
+
+# src/dialog-cell-format.c:917
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotLine2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:44
+#, fuzzy
+msgid "PlotLine"
+msgstr "点"
+
+# src/dialog-cell-format.c:917
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotArea2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
+#, fuzzy
+msgid "PlotArea"
+msgstr "点"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "3D Adjacent Bars"
@@ -19660,18 +19807,7 @@ msgstr "度数(_D)"
 msgid "PlotPie"
 msgstr "点"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:189
-#: src/dialogs/consolidate.glade.h:12
-msgid "Labels"
-msgstr "标签"
-
-# src/dialog-paste-special.c:22
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:191
-#: src/dialogs/consolidate.glade.h:27
-msgid "Values"
-msgstr "数值"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:261
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:263
 #, fuzzy
 msgid "PlotRing"
 msgstr "无"
@@ -19783,6 +19919,295 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:5
 msgid "Ring plotting engine"
 msgstr ""
+
+# src/dialog-cell-format.c:917
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	PlotXY2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:58
+#, fuzzy
+msgid "PlotXY"
+msgstr "点"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:153
+msgid "X"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
+msgid "Y"
+msgstr ""
+
+# src/format.c:404
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
+#, fuzzy
+msgid "Bubble"
+msgstr "双线"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:2
+msgid ""
+"Interpolate between multi-dimensional points,with markers at each point."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:3
+msgid "Interpolate between multi-dimensional points."
+msgstr ""
+
+# src/dialog-paste-special.c:65
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:4
+#, fuzzy
+msgid "Interpolated points"
+msgstr "迭代"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
+msgid ""
+"Linearly interpolate between multi-dimensional points,with markers at each "
+"point."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
+msgid "Linearly interpolate between multi-dimensional points."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
+msgid "Linearly interpolated points"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
+msgid "Marked interpolated points"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
+msgid "Marked linearly interpolated points"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:10
+msgid "Plot X, Y and bubble size."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:11
+msgid "Plot one series per axis."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:12
+msgid "XY"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:1
+msgid "2D Scatter charts"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:2
+msgid "2D scatter plotting engine"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:3
+msgid "Stock Scatter plot types"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:4
+#, fuzzy
+msgid "XY Charts"
+msgstr "图表%d"
+
+# src/dialog-cell-format.c:606 src/dialog-cell-format.c:639
+# src/dialog-paste-special.c:28
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:222
+#, fuzzy
+msgid "none"
+msgstr "无"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:223
+msgid "square"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:224
+#, fuzzy
+msgid "diamond"
+msgstr "平均(_M)"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:225
+msgid "triangle down"
+msgstr ""
+
+# src/workbook.c:885
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:226
+#, fuzzy
+msgid "triangle up"
+msgstr "range"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:227
+#, fuzzy
+msgid "triangle right"
+msgstr "右边轮廓(_R)"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:228
+msgid "triangle left"
+msgstr ""
+
+# src/dialog-cell-format.c:297
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:229
+#, fuzzy
+msgid "circle"
+msgstr "文件"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:231
+msgid "cross"
+msgstr ""
+
+# src/item-grid.c:528 src/sheet.c:2577 src/workbook.c:853
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:232
+#, fuzzy
+msgid "asterisk"
+msgstr "粘贴链接"
+
+# src/dates.c:40
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:233
+#, fuzzy
+msgid "bar"
+msgstr "*三月"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:234
+msgid "half bar"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:235
+msgid "butterfly"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:236
+msgid "hourglass"
+msgstr ""
+
+# src/workbook.c:870
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:192
+#: src/dialogs/cell-format.glade.h:71
+msgid "Solid"
+msgstr "无色"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:193
+#: src/dialogs/cell-format.glade.h:12
+#, no-c-format
+msgid "75% Grey"
+msgstr "75% 灰度"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:194
+#: src/dialogs/cell-format.glade.h:8
+#, no-c-format
+msgid "50% Grey"
+msgstr "50% 灰度"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:195
+#: src/dialogs/cell-format.glade.h:6
+#, no-c-format
+msgid "25% Grey"
+msgstr "25% 灰度"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:196
+#: src/dialogs/cell-format.glade.h:4
+#, no-c-format
+msgid "12.5% Grey"
+msgstr "12.5% 灰度"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:197
+#: src/dialogs/cell-format.glade.h:10
+#, no-c-format
+msgid "6.25% Grey"
+msgstr "62.5% 灰度"
+
+# src/gnumeric-sheet.c:904
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:198
+#: src/dialogs/cell-format.glade.h:47
+msgid "Horizontal Stripe"
+msgstr "水平行数"
+
+# src/gnumeric-sheet.c:907
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:199
+#: src/dialogs/cell-format.glade.h:92
+msgid "Vertical Stripe"
+msgstr "垂直条纹"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:200
+#: src/dialogs/cell-format.glade.h:66
+msgid "Reverse Diagonal Stripe"
+msgstr "反向对角线条纹"
+
+# src/gnumeric-sheet.c:910 src/gnumeric-sheet.c:913 src/gnumeric-sheet.c:916
+# src/gnumeric-sheet.c:919
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:201
+#: src/dialogs/cell-format.glade.h:42
+msgid "Diagonal Stripe"
+msgstr "对角线条纹"
+
+# src/gnumeric-sheet.c:910 src/gnumeric-sheet.c:913 src/gnumeric-sheet.c:916
+# src/gnumeric-sheet.c:919
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:202
+#: src/dialogs/cell-format.glade.h:41
+msgid "Diagonal Crosshatch"
+msgstr "对角线阴影"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:203
+#: src/dialogs/cell-format.glade.h:80
+msgid "Thick Diagonal Crosshatch"
+msgstr "粗对角线格子"
+
+# src/gnumeric-sheet.c:904
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:204
+#: src/dialogs/cell-format.glade.h:84
+msgid "Thin Horizontal Stripe"
+msgstr "细水平条纹"
+
+# src/gnumeric-sheet.c:907
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:205
+#: src/dialogs/cell-format.glade.h:86
+msgid "Thin Vertical Stripe"
+msgstr "细垂直条纹"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:206
+#: src/dialogs/cell-format.glade.h:85
+msgid "Thin Reverse Diagonal Stripe"
+msgstr "细反向对角线条纹"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:207
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
+#: src/dialogs/cell-format.glade.h:81
+msgid "Thin Diagonal Crosshatch"
+msgstr "细对角线格子"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:208
+#: src/dialogs/cell-format.glade.h:83
+msgid "Thin Horizontal Crosshatch"
+msgstr "细水平格子"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:210
+#: src/dialogs/cell-format.glade.h:44
+msgid "Foreground Solid"
+msgstr "前景色"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:211
+#: src/dialogs/cell-format.glade.h:70
+msgid "Small Circles"
+msgstr "小圆"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:212
+#: src/dialogs/cell-format.glade.h:68
+msgid "Semi Circles"
+msgstr "半圆"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:213
+#: src/dialogs/cell-format.glade.h:79
+msgid "Thatch"
+msgstr "茅草"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:214
+#: src/dialogs/cell-format.glade.h:57
+msgid "Large Circles"
+msgstr "大圆"
+
+# src/gnumeric-sheet.c:925
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:215
+#: src/dialogs/cell-format.glade.h:32
+msgid "Bricks"
+msgstr "组成元件"
 
 # src/dates.c:14
 #: src/dates.c:16
@@ -20249,7 +20674,7 @@ msgstr "首字母"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:659
-#: src/format.c:2113 src/format.c:2242 src/format.c:2248 src/format.c:2324
+#: src/format.c:2123 src/format.c:2252 src/format.c:2258 src/format.c:2334
 #: src/plugin-service.c:199 src/widgets/widget-format-selector.c:68
 msgid "General"
 msgstr "常规"
@@ -20434,6 +20859,7 @@ msgid "Name:"
 msgstr "名称："
 
 #: src/dialogs/autoformat.glade.h:16 src/dialogs/font-sel.glade.h:4
+#: src/widgets/preview-file-selection.c:199
 msgid "Preview"
 msgstr "预览"
 
@@ -20488,31 +20914,6 @@ msgstr "单元格注释"
 #: src/dialogs/cell-format.glade.h:1
 msgid "    "
 msgstr ""
-
-#: src/dialogs/cell-format.glade.h:4
-#, no-c-format
-msgid "12.5% Grey"
-msgstr "12.5% 灰度"
-
-#: src/dialogs/cell-format.glade.h:6
-#, no-c-format
-msgid "25% Grey"
-msgstr "25% 灰度"
-
-#: src/dialogs/cell-format.glade.h:8
-#, no-c-format
-msgid "50% Grey"
-msgstr "50% 灰度"
-
-#: src/dialogs/cell-format.glade.h:10
-#, no-c-format
-msgid "6.25% Grey"
-msgstr "62.5% 灰度"
-
-#: src/dialogs/cell-format.glade.h:12
-#, no-c-format
-msgid "75% Grey"
-msgstr "75% 灰度"
 
 #: src/dialogs/cell-format.glade.h:13
 #, fuzzy
@@ -20599,11 +21000,6 @@ msgstr "任何值               (不校验)"
 msgid "Border"
 msgstr "边框"
 
-# src/gnumeric-sheet.c:925
-#: src/dialogs/cell-format.glade.h:32
-msgid "Bricks"
-msgstr "组成元件"
-
 # src/dialog-cell-format.c:360 src/dialog-cell-format.c:369
 # src/workbook.c:862
 #: src/dialogs/cell-format.glade.h:33
@@ -20650,22 +21046,6 @@ msgstr "日期"
 msgid "Diagonal"
 msgstr "对角线"
 
-# src/gnumeric-sheet.c:910 src/gnumeric-sheet.c:913 src/gnumeric-sheet.c:916
-# src/gnumeric-sheet.c:919
-#: src/dialogs/cell-format.glade.h:41
-msgid "Diagonal Crosshatch"
-msgstr "对角线阴影"
-
-# src/gnumeric-sheet.c:910 src/gnumeric-sheet.c:913 src/gnumeric-sheet.c:916
-# src/gnumeric-sheet.c:919
-#: src/dialogs/cell-format.glade.h:42
-msgid "Diagonal Stripe"
-msgstr "对角线条纹"
-
-#: src/dialogs/cell-format.glade.h:44
-msgid "Foreground Solid"
-msgstr "前景色"
-
 # src/dialog-cell-format.c:309
 #: src/dialogs/cell-format.glade.h:45 src/dialogs/dialog-cell-format.c:2202
 msgid "Format Cells"
@@ -20675,11 +21055,6 @@ msgstr "格式化单元"
 #, fuzzy
 msgid "Hi_de"
 msgstr "隐藏(_H)"
-
-# src/gnumeric-sheet.c:904
-#: src/dialogs/cell-format.glade.h:47
-msgid "Horizontal Stripe"
-msgstr "水平行数"
 
 #: src/dialogs/cell-format.glade.h:48
 #, fuzzy
@@ -20723,10 +21098,6 @@ msgstr "垂直内部"
 msgid "J_ustify"
 msgstr "调整(_U)"
 
-#: src/dialogs/cell-format.glade.h:57
-msgid "Large Circles"
-msgstr "大圆"
-
 # src/dialog-cell-format.c:359
 #: src/dialogs/cell-format.glade.h:58 src/workbook-format-toolbar.c:629
 msgid "Left"
@@ -20759,31 +21130,14 @@ msgstr "保护"
 msgid "Reverse Diagonal"
 msgstr "反向对角线"
 
-#: src/dialogs/cell-format.glade.h:66
-msgid "Reverse Diagonal Stripe"
-msgstr "反向对角线条纹"
-
 # src/dialog-cell-format.c:361
 #: src/dialogs/cell-format.glade.h:67 src/workbook-format-toolbar.c:631
 msgid "Right"
 msgstr "靠右"
 
-#: src/dialogs/cell-format.glade.h:68
-msgid "Semi Circles"
-msgstr "半圆"
-
 #: src/dialogs/cell-format.glade.h:69
 msgid "Shrin_k to fit"
 msgstr "缩小字体适应单元格(_K)"
-
-#: src/dialogs/cell-format.glade.h:70
-msgid "Small Circles"
-msgstr "小圆"
-
-# src/workbook.c:870
-#: src/dialogs/cell-format.glade.h:71
-msgid "Solid"
-msgstr "无色"
 
 #: src/dialogs/cell-format.glade.h:72
 msgid "Stop            (never allow invalid input)"
@@ -20817,41 +21171,11 @@ msgstr "顶"
 msgid "Text length"
 msgstr "文本长度"
 
-#: src/dialogs/cell-format.glade.h:79
-msgid "Thatch"
-msgstr "茅草"
-
-#: src/dialogs/cell-format.glade.h:80
-msgid "Thick Diagonal Crosshatch"
-msgstr "粗对角线格子"
-
-#: src/dialogs/cell-format.glade.h:81
-msgid "Thin Diagonal Crosshatch"
-msgstr "细对角线格子"
-
 # src/gnumeric-sheet.c:910 src/gnumeric-sheet.c:913 src/gnumeric-sheet.c:916
 # src/gnumeric-sheet.c:919
 #: src/dialogs/cell-format.glade.h:82
 msgid "Thin Diagonal Stripe"
 msgstr "细对角线条纹"
-
-#: src/dialogs/cell-format.glade.h:83
-msgid "Thin Horizontal Crosshatch"
-msgstr "细水平格子"
-
-# src/gnumeric-sheet.c:904
-#: src/dialogs/cell-format.glade.h:84
-msgid "Thin Horizontal Stripe"
-msgstr "细水平条纹"
-
-#: src/dialogs/cell-format.glade.h:85
-msgid "Thin Reverse Diagonal Stripe"
-msgstr "细反向对角线条纹"
-
-# src/gnumeric-sheet.c:907
-#: src/dialogs/cell-format.glade.h:86
-msgid "Thin Vertical Stripe"
-msgstr "细垂直条纹"
 
 # src/dialog-cell-format.c:69
 #: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:73
@@ -20872,11 +21196,6 @@ msgstr "下划线(_U)："
 #: src/dialogs/cell-format.glade.h:91
 msgid "Validation"
 msgstr "有效性"
-
-# src/gnumeric-sheet.c:907
-#: src/dialogs/cell-format.glade.h:92
-msgid "Vertical Stripe"
-msgstr "垂直条纹"
 
 #: src/dialogs/cell-format.glade.h:93
 msgid "Warning     (accept/discard invalid input)"
@@ -21982,7 +22301,7 @@ msgid "Could not create the hyperlink dialog."
 msgstr "无法创建超级链接对话框。"
 
 # src/dialog-insert-cells.c:33 src/item-grid.c:531
-#: src/dialogs/dialog-insert-cells.c:135 src/workbook-control-gui.c:638
+#: src/dialogs/dialog-insert-cells.c:135 src/workbook-control-gui.c:639
 msgid "Insert"
 msgstr "插入"
 
@@ -22171,15 +22490,15 @@ msgid "Directory"
 msgstr "目录"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:411 src/format.c:1964
-#: src/number-match.c:1089 src/value-sheet.c:33 src/value.c:404
+#: src/dialogs/dialog-preferences.c:411 src/format.c:1971
+#: src/number-match.c:1094 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:818
 msgid "TRUE"
 msgstr "TRUE"
 
 # src/main.c:36
-#: src/dialogs/dialog-preferences.c:412 src/format.c:1964
-#: src/number-match.c:1091 src/value-sheet.c:33 src/value.c:405
+#: src/dialogs/dialog-preferences.c:412 src/format.c:1971
+#: src/number-match.c:1096 src/value-sheet.c:33 src/value.c:405
 #: src/value.c:818
 msgid "FALSE"
 msgstr "FALSE"
@@ -22214,8 +22533,8 @@ msgstr "隐藏行"
 msgid "Files"
 msgstr "文件(_F)"
 
-#: src/dialogs/dialog-preferences.c:1398 src/workbook-control-gui.c:1545
-#: src/workbook-control-gui.c:3960 src/workbook-control-gui.c:4191
+#: src/dialogs/dialog-preferences.c:1398 src/workbook-control-gui.c:1565
+#: src/workbook-control-gui.c:3971 src/workbook-control-gui.c:4199
 msgid "Undo"
 msgstr "不做"
 
@@ -22682,18 +23001,18 @@ msgstr "变量"
 
 # src/workbook.c:1131
 #: src/dialogs/dialog-simulation.c:249 src/tools/simulation.c:254
-#: src/workbook-control-gui.c:4772
+#: src/workbook-control-gui.c:4783
 msgid "Min"
 msgstr "最小值"
 
 # src/workbook.c:1133
-#: src/dialogs/dialog-simulation.c:249 src/workbook-control-gui.c:4774
+#: src/dialogs/dialog-simulation.c:249 src/workbook-control-gui.c:4785
 msgid "Average"
 msgstr "均值"
 
 # src/workbook.c:1132
 #: src/dialogs/dialog-simulation.c:249 src/tools/simulation.c:256
-#: src/workbook-control-gui.c:4773
+#: src/workbook-control-gui.c:4784
 msgid "Max"
 msgstr "最大值"
 
@@ -23420,7 +23739,7 @@ msgid "Sheets"
 msgstr "工作表"
 
 # src/dialog-zoom.c:47 src/dialog-zoom.c:50
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4176
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4184
 msgid "Zoom"
 msgstr "缩放"
 
@@ -25510,7 +25829,7 @@ msgid "Yellow"
 msgstr "黄"
 
 #. Array of arrays ??
-#: src/format.c:2007
+#: src/format.c:2014
 msgid "ARRAY"
 msgstr "ARRAy"
 
@@ -26405,39 +26724,39 @@ msgstr "数量"
 msgid "Any"
 msgstr "任意"
 
-#: src/func.c:1004
+#: src/func.c:1002
 msgid "Function does not exist"
 msgstr "函数不存在"
 
 # src/dialog-paste-special.c:23
-#: src/gnumeric-canvas.c:64
+#: src/gnumeric-canvas.c:66
 msgid "Format as Number"
 msgstr "格式化为数值"
 
 # src/dialog-paste-special.c:23
-#: src/gnumeric-canvas.c:68
+#: src/gnumeric-canvas.c:70
 msgid "Format as Currency"
 msgstr "格式化为货币"
 
-#: src/gnumeric-canvas.c:72 src/workbook-format-toolbar.c:317
+#: src/gnumeric-canvas.c:74 src/workbook-format-toolbar.c:317
 msgid "Format as Percentage"
 msgstr "格式化为百分比"
 
-#: src/gnumeric-canvas.c:76
+#: src/gnumeric-canvas.c:78
 msgid "Format as Scientific"
 msgstr "格式化为科学计数法"
 
 # src/dialog-paste-special.c:23
-#: src/gnumeric-canvas.c:80
+#: src/gnumeric-canvas.c:82
 msgid "Format as Date"
 msgstr "格式化为日期"
 
 # src/dialog-paste-special.c:23
-#: src/gnumeric-canvas.c:84
+#: src/gnumeric-canvas.c:86
 msgid "Format as Time"
 msgstr "格式化为时间"
 
-#: src/gnumeric-canvas.c:88
+#: src/gnumeric-canvas.c:90
 msgid "Format as alternative Number"
 msgstr "格式化为其它数值"
 
@@ -26450,23 +26769,22 @@ msgstr "剪贴板"
 msgid "Automatically detected"
 msgstr "自动检测"
 
-#: src/gui-file.c:175
-msgid "Character _encoding:"
-msgstr ""
-
 # src/file.c:327
-#. Pack it into file selector
-#: src/gui-file.c:178 src/workbook-control-gui.c:3088
+#: src/gui-file.c:188
 msgid "Load file"
 msgstr "装入文件"
 
+#: src/gui-file.c:199
+msgid "Character _encoding:"
+msgstr ""
+
 # src/dialog-cell-format.c:362
-#: src/gui-file.c:185
+#: src/gui-file.c:209
 #, fuzzy
 msgid "File _type:"
 msgstr "文件："
 
-#: src/gui-file.c:249
+#: src/gui-file.c:275
 #, c-format
 msgid ""
 "%s\n"
@@ -26475,7 +26793,7 @@ msgstr ""
 "%s\n"
 "是一个目录名"
 
-#: src/gui-file.c:255
+#: src/gui-file.c:281
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -26484,7 +26802,7 @@ msgstr ""
 "您没有权限保存到\n"
 "%s"
 
-#: src/gui-file.c:262
+#: src/gui-file.c:288
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
@@ -26493,7 +26811,7 @@ msgstr ""
 "工作簿 %s 已经存在。\n"
 "您是否想要覆盖它？"
 
-#: src/gui-file.c:283
+#: src/gui-file.c:309
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -26505,7 +26823,7 @@ msgstr ""
 "式。\n"
 "您只想保存当前的工作表吗？"
 
-#: src/gui-file.c:310
+#: src/gui-file.c:336
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -26513,7 +26831,7 @@ msgstr ""
 "请输入文件名，\n"
 "而不是目录名"
 
-#: src/gui-file.c:316
+#: src/gui-file.c:342
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
@@ -26521,17 +26839,17 @@ msgstr ""
 
 # src/file.c:2
 #. Pack it into file selector
-#: src/gui-file.c:363
+#: src/gui-file.c:389
 msgid "Save workbook as"
 msgstr "工作簿另存为"
 
 # src/dialog-paste-special.c:31
-#: src/gui-util.c:273
+#: src/gui-util.c:277
 msgid "Multiple errors\n"
 msgstr "多个错误\n"
 
 # src/plugin.c:40
-#: src/gui-util.c:789
+#: src/gui-util.c:793
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "无法打开文件“%s”"
@@ -27411,6 +27729,19 @@ msgstr "不能为 '%s' 创建对象"
 msgid "Could not load file: %s"
 msgstr "无法装入文件：%s"
 
+#: src/sheet-object-graph.c:158
+msgid "Save graph as image"
+msgstr ""
+
+#: src/sheet-object-graph.c:196
+msgid "Sorry, gnumeric can only save graphs as png images"
+msgstr ""
+
+#: src/sheet-object-graph.c:214
+#, fuzzy
+msgid "_Save as image"
+msgstr "选中整列"
+
 #: src/sheet-object-graphic.c:934 src/sheet-object-graphic.c:951
 msgid "Transparent"
 msgstr "透明"
@@ -27457,7 +27788,7 @@ msgid "Insert Columns"
 msgstr "插入列"
 
 # src/workbook.c:484 src/workbook.c:500
-#: src/sheet.c:3222
+#: src/sheet.c:3226
 msgid "Insert Rows"
 msgstr "插入行"
 
@@ -28103,7 +28434,7 @@ msgid "Range"
 msgstr "范围"
 
 # src/workbook.c:1134
-#: src/tools/simulation.c:264 src/workbook-control-gui.c:4775
+#: src/tools/simulation.c:264 src/workbook-control-gui.c:4786
 msgid "Count"
 msgstr "计数"
 
@@ -30054,35 +30385,35 @@ msgid "Remove borders"
 msgstr "删除边框"
 
 # src/about.c:51
-#: src/workbook-control-gui.c:352
+#: src/workbook-control-gui.c:353
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
 # src/workbook.c:1549
-#: src/workbook-control-gui.c:636
+#: src/workbook-control-gui.c:637
 msgid "Manage sheets..."
 msgstr "管理工作表..."
 
 # src/dates.c:26
-#: src/workbook-control-gui.c:639
+#: src/workbook-control-gui.c:640
 #, fuzzy
 msgid "Append"
 msgstr "发送"
 
 # src/dialog-cell-format.c:68
-#: src/workbook-control-gui.c:640
+#: src/workbook-control-gui.c:641
 #, fuzzy
 msgid "Duplicate"
 msgstr "副本(_D)"
 
 # src/dialog-define-names.c:27 src/plugin-manager.c:132
-#: src/workbook-control-gui.c:641
+#: src/workbook-control-gui.c:642
 #, fuzzy
 msgid "Remove"
 msgstr "删除(_R)"
 
 # src/workbook.c:825
-#: src/workbook-control-gui.c:642
+#: src/workbook-control-gui.c:643
 #, fuzzy
 msgid "Rename"
 msgstr "重命名(_N)..."
@@ -30094,86 +30425,86 @@ msgstr "重命名(_N)..."
 #. * 'Preferences...' item in the
 #. * 'File' menu
 #.
-#: src/workbook-control-gui.c:1075
+#: src/workbook-control-gui.c:1076
 msgid "_File/Preferen_ces..."
 msgstr "文件(_F)/首选项(_C)..."
 
 # src/plugin-manager.c:95 src/plugin-manager.c:96
-#: src/workbook-control-gui.c:1097
+#: src/workbook-control-gui.c:1098
 msgid "File/"
 msgstr "文件(F)/"
 
-#: src/workbook-control-gui.c:1318 src/workbook-control-gui.c:1392
+#: src/workbook-control-gui.c:1319 src/workbook-control-gui.c:1393
 msgid "Nothing"
 msgstr "无"
 
-#: src/workbook-control-gui.c:1504
+#: src/workbook-control-gui.c:1524
 msgid "Un_freeze Panes"
 msgstr "取消冻结拆分(_F)"
 
-#: src/workbook-control-gui.c:1507
+#: src/workbook-control-gui.c:1527
 msgid "Unfreeze the top left of the sheet"
 msgstr "取消工作表左上方的冻结"
 
 # src/dialog-define-names.c:27 src/plugin-manager.c:132
-#: src/workbook-control-gui.c:1522
+#: src/workbook-control-gui.c:1542
 msgid "Remove _Auto Filter"
 msgstr "删除自动筛选(_A)"
 
 # src/dialog-define-names.c:27 src/plugin-manager.c:132
-#: src/workbook-control-gui.c:1525
+#: src/workbook-control-gui.c:1545
 msgid "Remove a filter"
 msgstr "删除筛选"
 
-#: src/workbook-control-gui.c:1526
+#: src/workbook-control-gui.c:1546
 msgid "Add a filter"
 msgstr "添加筛选"
 
-#: src/workbook-control-gui.c:1546 src/workbook-control-gui.c:3963
-#: src/workbook-control-gui.c:4198
+#: src/workbook-control-gui.c:1566 src/workbook-control-gui.c:3974
+#: src/workbook-control-gui.c:4206
 msgid "Redo"
 msgstr "重做"
 
-#: src/workbook-control-gui.c:1735
+#: src/workbook-control-gui.c:1755
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
 msgstr ""
 
-#: src/workbook-control-gui.c:1739
+#: src/workbook-control-gui.c:1759
 msgid "Save changes to workbook before closing?"
 msgstr ""
 
-#: src/workbook-control-gui.c:1745
+#: src/workbook-control-gui.c:1765
 msgid "If you close without saving, changes will be discarded."
 msgstr ""
 
-#: src/workbook-control-gui.c:1751
+#: src/workbook-control-gui.c:1771
 #, fuzzy
 msgid "Discard all"
 msgstr "全部丢弃"
 
-#: src/workbook-control-gui.c:1753 src/workbook-control-gui.c:1762
-#: src/workbook-control-gui.c:1770
+#: src/workbook-control-gui.c:1773 src/workbook-control-gui.c:1782
+#: src/workbook-control-gui.c:1790
 msgid "Discard"
 msgstr "丢弃"
 
 # src/item-cursor.c:580
-#: src/workbook-control-gui.c:1755
+#: src/workbook-control-gui.c:1775
 #, fuzzy
 msgid "Save all"
 msgstr "全部保存"
 
-#: src/workbook-control-gui.c:1757 src/workbook-control-gui.c:1764
+#: src/workbook-control-gui.c:1777 src/workbook-control-gui.c:1784
 #, fuzzy
 msgid "Don't quit"
 msgstr "不退出"
 
-#: src/workbook-control-gui.c:1772
+#: src/workbook-control-gui.c:1792
 #, fuzzy
 msgid "Don't close"
 msgstr "不关闭"
 
-#: src/workbook-control-gui.c:2216
+#: src/workbook-control-gui.c:2227
 #, c-format
 msgid ""
 "In cell %s, the current contents\n"
@@ -30190,7 +30521,7 @@ msgstr ""
 "\t%s\n"
 "所替换. 但因不正确而中止. 没有更改任何内容."
 
-#: src/workbook-control-gui.c:2253
+#: src/workbook-control-gui.c:2264
 #, c-format
 msgid "Comment in cell %s!%s"
 msgstr "合并为 %s!%s 中的注释"
@@ -30200,174 +30531,174 @@ msgstr "合并为 %s!%s 中的注释"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:2475
+#: src/workbook-control-gui.c:2486
 msgid "Insert rows"
 msgstr "插入行"
 
 # src/dialog-insert-cells.c:37
-#: src/workbook-control-gui.c:2495
+#: src/workbook-control-gui.c:2506
 msgid "Insert columns"
 msgstr "插入列"
 
-#: src/workbook-control-gui.c:2886
+#: src/workbook-control-gui.c:2897
 msgid "Add Filter"
 msgstr "添加筛选"
 
-#: src/workbook-control-gui.c:2889
+#: src/workbook-control-gui.c:2900
 msgid "AutoFilter"
 msgstr "自动筛选"
 
-#: src/workbook-control-gui.c:2889
+#: src/workbook-control-gui.c:2900
 msgid "Requires more than 1 row"
 msgstr "需要多于 1 行"
 
-#: src/workbook-control-gui.c:2946 src/workbook-control-gui.c:2965
+#: src/workbook-control-gui.c:2957 src/workbook-control-gui.c:2976
 msgid "Show Detail"
 msgstr "显示细节"
 
-#: src/workbook-control-gui.c:2946 src/workbook-control-gui.c:2965
+#: src/workbook-control-gui.c:2957 src/workbook-control-gui.c:2976
 msgid "Hide Detail"
 msgstr "隐藏细节"
 
-#: src/workbook-control-gui.c:2953
+#: src/workbook-control-gui.c:2964
 msgid "can only be performed on an existing group"
 msgstr "只能用于已存在的组"
 
-#: src/workbook-control-gui.c:3011
+#: src/workbook-control-gui.c:3022
 msgid "Group"
 msgstr "分组"
 
-#: src/workbook-control-gui.c:3011
+#: src/workbook-control-gui.c:3022
 msgid "Ungroup"
 msgstr "取消分组"
 
 # src/workbook.c:804
-#: src/workbook-control-gui.c:3137
+#: src/workbook-control-gui.c:3149
 msgid "Sort"
 msgstr "排序"
 
-#: src/workbook-control-gui.c:3213
+#: src/workbook-control-gui.c:3228
 msgid "Select an object to add"
 msgstr "选择要添加的对象"
 
 # src/plugin.c:40
-#: src/workbook-control-gui.c:3224
+#: src/workbook-control-gui.c:3239
 #, c-format
 msgid "Unable to create object of type '%s'"
 msgstr "无法创建“%s”类型的对象"
 
 # src/dialog-paste-special.c:56 src/item-grid.c:529
-#: src/workbook-control-gui.c:3422
+#: src/workbook-control-gui.c:3437
 msgid "P_aste special..."
 msgstr "选择性粘贴(_A)..."
 
-#: src/workbook-control-gui.c:3479
+#: src/workbook-control-gui.c:3494
 #, fuzzy
 msgid "Create a new view of the workbook"
 msgstr "创建一个新的工作簿共享视图"
 
-#: src/workbook-control-gui.c:3513
+#: src/workbook-control-gui.c:3528
 msgid "_Auto generate names..."
 msgstr "自动产生名字(_A)..."
 
-#: src/workbook-control-gui.c:3514
+#: src/workbook-control-gui.c:3529
 msgid "Use the current selection to create names"
 msgstr "用当前所选择的内容来创建一个名字"
 
 # src/workbook.c:767
-#: src/workbook-control-gui.c:3671
+#: src/workbook-control-gui.c:3686
 #, fuzzy
 msgid "Add a new scenario"
 msgstr "插入一个新列"
 
-#: src/workbook-control-gui.c:3679
+#: src/workbook-control-gui.c:3694
 msgid "One Factor Analysis of Variance..."
 msgstr ""
 
-#: src/workbook-control-gui.c:3682
+#: src/workbook-control-gui.c:3697
 msgid "Two Factor Analysis of Variance..."
 msgstr ""
 
-#: src/workbook-control-gui.c:3691
+#: src/workbook-control-gui.c:3706
 #, fuzzy
 msgid "Exponential smoothing..."
 msgstr "指数平滑"
 
 # src/workbook.c:1133
-#: src/workbook-control-gui.c:3695
+#: src/workbook-control-gui.c:3710
 #, fuzzy
 msgid "Moving average..."
 msgstr "移动平均"
 
-#: src/workbook-control-gui.c:3704
+#: src/workbook-control-gui.c:3719
 msgid "Comparing two population means for two paired samples: t-test..."
 msgstr ""
 
-#: src/workbook-control-gui.c:3708
+#: src/workbook-control-gui.c:3723
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test..."
 msgstr ""
 
-#: src/workbook-control-gui.c:3713
+#: src/workbook-control-gui.c:3728
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test..."
 msgstr ""
 
-#: src/workbook-control-gui.c:3718
+#: src/workbook-control-gui.c:3733
 msgid ""
 "Comparing two population means from populations with known variances or "
 "using a large sample: z-test..."
 msgstr ""
 
-#: src/workbook-control-gui.c:3748
+#: src/workbook-control-gui.c:3763
 #, fuzzy
 msgid "Ranks And _Percentiles..."
 msgstr "阶数和百分位数"
 
-#: src/workbook-control-gui.c:3875
+#: src/workbook-control-gui.c:3888
 msgid "Sh_uffle..."
 msgstr "打乱(_U)..."
 
-#: src/workbook-control-gui.c:3876
+#: src/workbook-control-gui.c:3889
 msgid "Shuffle cells, rows or columns"
 msgstr "打乱单元格、行或列"
 
 # src/expr.c:1044
-#: src/workbook-control-gui.c:3960
+#: src/workbook-control-gui.c:3971
 msgid "Undo the operation"
 msgstr "撤消操作"
 
-#: src/workbook-control-gui.c:3963
+#: src/workbook-control-gui.c:3974
 msgid "Redo the operation"
 msgstr "重做操作"
 
-#: src/workbook-control-gui.c:5068
+#: src/workbook-control-gui.c:5079
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "文件“%s”的格式未知。"
 
 # src/dates.c:26
-#: src/workbook-control-gui.c:5114
+#: src/workbook-control-gui.c:5125
 msgid "Send"
 msgstr "发送"
 
-#: src/workbook-control-gui.c:5114
+#: src/workbook-control-gui.c:5125
 msgid "Send the current file in email"
 msgstr "用电子邮件发送当前的文件"
 
-#: src/workbook-control-gui.c:5347 src/workbook-control-gui.c:5362
+#: src/workbook-control-gui.c:5365 src/workbook-control-gui.c:5380
 #, fuzzy
 msgid "_Re-Edit"
 msgstr "重新编辑"
 
-#: src/workbook-control-gui.c:5348 src/workbook-control-gui.c:5353
+#: src/workbook-control-gui.c:5366 src/workbook-control-gui.c:5371
 #, fuzzy
 msgid "_Discard"
 msgstr "丢弃"
 
-#: src/workbook-control-gui.c:5352 src/workbook-control-gui.c:5363
+#: src/workbook-control-gui.c:5370 src/workbook-control-gui.c:5381
 #, fuzzy
 msgid "_Accept"
 msgstr "接受"
@@ -30554,25 +30885,25 @@ msgstr "打开 %s 时发生了未预期的错误"
 msgid "Book%d.%s"
 msgstr "Book%d.%s"
 
-#: src/workbook.c:1246
+#: src/workbook.c:1247
 #, fuzzy
 msgid "Sheet name is NULL"
 msgstr "工作表必须有名称"
 
-#: src/workbook.c:1257
+#: src/workbook.c:1258
 #, fuzzy
 msgid "Sheet name is not valid utf-8"
 msgstr "工作表必须有名称"
 
-#: src/workbook.c:1266
+#: src/workbook.c:1267
 msgid "Sheet name must have at least 1 letter"
 msgstr "工作表名至少要有一个字符"
 
-#: src/workbook.c:1290
+#: src/workbook.c:1291
 msgid "There is already a sheet named"
 msgstr "已经存在此名称的工作表"
 
-#: src/workbook.c:1304
+#: src/workbook.c:1305
 msgid "You may not use this name twice"
 msgstr "您不能两次使用同一名称"
 
@@ -30605,8 +30936,17 @@ msgstr "保存文件失败"
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML 文件格式"
 
-#~ msgid "Consolidating to %s!%s"
-#~ msgstr "合并为 %s!%s"
+#, fuzzy
+#~ msgid "Sans"
+#~ msgstr "阶数"
+
+#, fuzzy
+#~ msgid "S_ize:"
+#~ msgstr "大小："
+
+#, fuzzy
+#~ msgid "_Style:"
+#~ msgstr "样式"
 
 # src/workbook.c:1548
 #~ msgid "Adding a sheet"
@@ -30828,10 +31168,6 @@ msgstr "Gnumeric XML 文件格式"
 
 #~ msgid "_Risk Simulation..."
 #~ msgstr "风险模拟(_R)..."
-
-#, fuzzy
-#~ msgid "Configure Graph"
-#~ msgstr "配置工具栏"
 
 # src/dialog-cell-format.c:633
 #~ msgid "Background Color"

@@ -113,9 +113,11 @@ gog_styled_object_parent_changed (GogObject *obj, gboolean was_set)
 	if (was_set) {
 		GogGraph const *graph = gog_object_get_graph (obj);
 		if (graph != NULL) {
+			GogStyledObjectClass *klass = GOG_STYLED_OBJECT_GET_CLASS (obj);
 			GogStyledObject *gso = GOG_STYLED_OBJECT (obj);
 			gog_theme_init_style (gog_graph_get_theme (graph),
 					      gso->style, obj, 0);
+			gso->style->interesting_fields = (klass->interesting_fields) (gso);
 		}
 	}
 
@@ -159,9 +161,7 @@ gog_styled_object_class_init (GogObjectClass *gog_klass)
 static void
 gog_styled_object_init (GogStyledObject *gso)
 {
-	GogStyledObjectClass *klass = GOG_STYLED_OBJECT_GET_CLASS (gso);
 	gso->style = gog_style_new (); /* use the defaults */
-	gso->style->interesting_fields = (klass->interesting_fields) (gso);
 }
 
 GSF_CLASS (GogStyledObject, gog_styled_object,

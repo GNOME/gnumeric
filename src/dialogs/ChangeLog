@@ -1,3 +1,7 @@
+2003-09-10  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.90
+
 2003-09-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* dialog-sheet-order.c (cb_ok_clicked): remove warning

@@ -32,7 +32,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.1.20\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-08 14:14+0200\n"
+"POT-Creation-Date: 2003-09-10 00:27-0400\n"
 "PO-Revision-Date: 2003-08-24 16:51+0200\n"
 "Last-Translator: Christian Neumair <chris@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
@@ -7738,7 +7738,7 @@ msgstr "%s Version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:208
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:264
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -16434,7 +16434,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU function (Moebius mu function) returns \n"
+"@DESCRIPTION=NT_MU function (Möbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "\n"
@@ -18287,7 +18287,7 @@ msgid "Jump to a specified cell"
 msgstr "Zu einer angegebenen Zelle springen"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:243
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
 #: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Beschriftung"
@@ -19841,54 +19841,54 @@ msgstr "_Zeile"
 msgid "_Map:"
 msgstr "_Abstand:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:191
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:247
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:192
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:248
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:215
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:271
 msgid "Bounds"
 msgstr "Grenzen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:219
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:275
 msgid "Details"
 msgstr "Details"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:168
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:172
 msgid "Legend"
 msgstr "Legende"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:171
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:175
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:169
 msgid "Title"
 msgstr "Titel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:174
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
 msgid "X-Axis"
 msgstr "X-Achse"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
 msgid "Y-Axis"
 msgstr "Y-Achse"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
 msgid "Z-Axis"
 msgstr "Z-Achse"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
 msgid "Plot"
 msgstr "Graph"
 
@@ -20015,7 +20015,7 @@ msgid "Chart Theme"
 msgstr "Diagrammthema"
 
 # CHECK
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:164
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:166
 msgid "Series"
 msgstr "Datenreihe"
 
@@ -20184,13 +20184,13 @@ msgstr "Vorgabe"
 msgid "Guppi"
 msgstr "Guppi"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:237
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:264
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Beschriftungen"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:239
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:266
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
@@ -20223,7 +20223,6 @@ msgstr "Ü_berlappen:"
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
 #. * 	PlotBarCol2
-#.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:95
 msgid "PlotBarCol"
 msgstr "GraphBalSäul"
@@ -20240,7 +20239,7 @@ msgstr "GraphLinie"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:113
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
 msgid "PlotArea"
 msgstr "GraphFläche"
 
@@ -20586,15 +20585,19 @@ msgstr "Kreisgraph-Engine"
 msgid "Ring plotting engine"
 msgstr "Ringgraph-Engine"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:55
-msgid "XYPlot"
-msgstr "XYGraph"
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	PlotXY2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:58
+#, fuzzy
+msgid "PlotXY"
+msgstr "Graph"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:127
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:153
 msgid "X"
 msgstr "X"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:129
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
 msgid "Y"
 msgstr "Y"
 
@@ -21263,7 +21266,7 @@ msgstr "E_rster Buchstabe"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:659
-#: src/format.c:2117 src/format.c:2246 src/format.c:2252 src/format.c:2328
+#: src/format.c:2123 src/format.c:2252 src/format.c:2258 src/format.c:2334
 #: src/plugin-service.c:199 src/widgets/widget-format-selector.c:68
 msgid "General"
 msgstr "Allgemein"
@@ -22921,13 +22924,13 @@ msgid "Directory"
 msgstr "Verzeichnis"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:411 src/format.c:1968
+#: src/dialogs/dialog-preferences.c:411 src/format.c:1971
 #: src/number-match.c:1094 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:818
 msgid "TRUE"
 msgstr "WAHR"
 
-#: src/dialogs/dialog-preferences.c:412 src/format.c:1968
+#: src/dialogs/dialog-preferences.c:412 src/format.c:1971
 #: src/number-match.c:1096 src/value-sheet.c:33 src/value.c:405
 #: src/value.c:818
 msgid "FALSE"
@@ -25994,7 +25997,7 @@ msgid "Yellow"
 msgstr "Gelb"
 
 #. Array of arrays ??
-#: src/format.c:2011
+#: src/format.c:2014
 msgid "ARRAY"
 msgstr "FELD"
 
@@ -27779,11 +27782,15 @@ msgstr "Objekt für »%s« kann nicht erzeugen werden"
 msgid "Could not load file: %s"
 msgstr "Datei kann nicht geladen werden: %s"
 
-#: src/sheet-object-graph.c:156
+#: src/sheet-object-graph.c:158
 msgid "Save graph as image"
 msgstr ""
 
-#: src/sheet-object-graph.c:188
+#: src/sheet-object-graph.c:196
+msgid "Sorry, gnumeric can only save graphs as png images"
+msgstr ""
+
+#: src/sheet-object-graph.c:214
 #, fuzzy
 msgid "_Save as image"
 msgstr "Ein Bild wählen"
@@ -30760,6 +30767,9 @@ msgstr "Datei konnte nicht gespeichert werden"
 #: src/xml-io.c:4040
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric-XML-Dateiformat"
+
+#~ msgid "XYPlot"
+#~ msgstr "XYGraph"
 
 #~ msgid "Sans"
 #~ msgstr "Sans"

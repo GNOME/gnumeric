@@ -9,4 +9,4 @@ install-data-local:
 		GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(srcdir)/$$p; \
 	done
 
-EXTRA_DIST = $(schema_DATA)
+EXTRA_DIST = $(schema_DATA) $(schema_in_files)

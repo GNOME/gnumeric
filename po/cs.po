@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-29 20:38+0200\n"
+"POT-Creation-Date: 2003-09-10 00:27-0400\n"
 "PO-Revision-Date: 2003-08-30 18:15+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -1000,6 +1000,7 @@ msgstr ""
 
 #: plugins/derivatives/plugin.xml.in.h:1
 #: plugins/fn-financial/plugin.xml.in.h:1
+#: plugins/sample_datasource/plugin.xml.in.h:2
 msgid "Finance"
 msgstr "Finance"
 
@@ -1011,7 +1012,7 @@ msgstr "Finanční deriváty"
 msgid "Functions related to financial derivatives"
 msgstr "Funkce spojené s finančními deriváty"
 
-#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5150
+#: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5151
 #: plugins/mps/mps.c:549 src/xml-io.c:3927
 msgid "Reading file..."
 msgstr "Načítá se soubor..."
@@ -1134,12 +1135,12 @@ msgstr "Graf%d"
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:2695
+#: plugins/excel/ms-excel-read.c:2696
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Chyba při zpracování názvu '%s'"
 
-#: plugins/excel/ms-excel-read.c:2751
+#: plugins/excel/ms-excel-read.c:2752
 #, c-format
 msgid ""
 "DDE links are no supported.\n"
@@ -1148,7 +1149,7 @@ msgstr ""
 "Odkazy DDE nejsou podporovány.\n"
 "Název '%s' bude ztracen.\n"
 
-#: plugins/excel/ms-excel-read.c:2757
+#: plugins/excel/ms-excel-read.c:2758
 #, c-format
 msgid ""
 "OLE links are no supported.\n"
@@ -1157,23 +1158,23 @@ msgstr ""
 "Odkazy OLE nejsou podporovány.\n"
 "Název '%s' bude ztracen.\n"
 
-#: plugins/excel/ms-excel-read.c:2809
+#: plugins/excel/ms-excel-read.c:2810
 msgid "Failure parsing AutoFilter."
 msgstr "Chyba při zpracování AutoFiltru."
 
-#: plugins/excel/ms-excel-read.c:4568
+#: plugins/excel/ms-excel-read.c:4569
 msgid "external references"
 msgstr "externí odkazy"
 
-#: plugins/excel/ms-excel-read.c:5296
+#: plugins/excel/ms-excel-read.c:5297
 msgid "No password supplied"
 msgstr "Nebylo zadáno žádné heslo"
 
-#: plugins/excel/ms-excel-read.c:5300
+#: plugins/excel/ms-excel-read.c:5301
 msgid "Invalid password"
 msgstr "Neplatné heslo"
 
-#: plugins/excel/ms-excel-read.c:5401
+#: plugins/excel/ms-excel-read.c:5402
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nepodařilo se nalézt platný sešit MS Excel"
 
@@ -8245,8 +8246,8 @@ msgstr "%s verze %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:207
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:101
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:264
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
 msgid "Automatic"
@@ -16011,6 +16012,7 @@ msgid "x,a,b"
 msgstr "x,a,b"
 
 #: plugins/fn-stat/functions.c:5955
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:230
 msgid "x"
 msgstr "x"
 
@@ -16872,6 +16874,14 @@ msgstr "Databázové funkce pro získávání dat z databází."
 msgid "Could not run GNOME database configuration tool"
 msgstr "Nemohu spsutit nástroj GNOME pro nastavení databáze"
 
+#: plugins/gnome-db/plugin.xml.in.h:1
+msgid "Database UI services plugin"
+msgstr ""
+
+#: plugins/gnome-db/plugin.xml.in.h:2
+msgid "GNOME-DB"
+msgstr ""
+
 #: plugins/gnome-db/ui.xml.h:1
 msgid "Data Sources..."
 msgstr "Zdroje dat..."
@@ -17447,6 +17457,27 @@ msgstr "Ukázkový zásuvný modul Python poskytující některé (zbytečné) f
 msgid "Default interpreter"
 msgstr "Výchozí interpretr"
 
+#: plugins/python-loader/gnm-python.c:130
+#: plugins/python-loader/gnm-python.c:152
+#, fuzzy, c-format
+msgid "Could not import %s."
+msgstr "Nelze načíst soubor: %s"
+
+#: plugins/python-loader/gnm-python.c:137
+#, fuzzy, c-format
+msgid "Could not find %s."
+msgstr "Nelze načíst soubor: %s"
+
+#: plugins/python-loader/gnm-python.c:145
+#, c-format
+msgid "Could not initialize Python bindings for Gtk+, etc: %s"
+msgstr ""
+
+#: plugins/python-loader/gnm-python.c:159
+#, fuzzy, c-format
+msgid "Could not find %s"
+msgstr "Nelze načíst soubor: %s"
+
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
 msgstr "Načítač zásuvného modulu Python"
@@ -17596,6 +17627,15 @@ msgid ""
 msgstr ""
 "Nelze nalézt kanál PerfectOffice_MAIN. Je to opravdu soubor Quattro Pro?"
 
+#: plugins/sample_datasource/plugin.xml.in.h:1
+msgid "A proof of concept external data source"
+msgstr ""
+
+#: plugins/sample_datasource/plugin.xml.in.h:3
+#, fuzzy
+msgid "Sample DataSource"
+msgstr "Zdroje dat..."
+
 #: plugins/sample_datasource/sample_datasource.c:264
 #, no-c-format
 msgid ""
@@ -17677,6 +17717,14 @@ msgstr "Chyba při čtení listu."
 msgid "Hello World"
 msgstr "Nazdar světe"
 
+#: plugins/uihello/plugin.xml.in.h:1
+msgid "Hello World plugin using ui service"
+msgstr ""
+
+#: plugins/uihello/plugin.xml.in.h:2
+msgid "UI Hello"
+msgstr ""
+
 #: plugins/uihello/uihello.c:24
 #, c-format
 msgid "This is message from the \"%s\" plugin."
@@ -17688,7 +17736,7 @@ msgstr "Chyba při otevírání souboru Xbase."
 
 #: plugins/xbase/boot.c:175 src/commands.c:4547
 #: src/dialogs/dialog-goto-cell.c:284 src/dialogs/dialog-search.c:391
-#: src/dialogs/print.glade.h:21 src/workbook.c:1040 src/xml-io.c:3585
+#: src/dialogs/print.glade.h:21 src/workbook.c:1041 src/xml-io.c:3585
 msgid "Sheet"
 msgstr "List"
 
@@ -18676,8 +18724,10 @@ msgstr "Vyplnit podle lineární nebo exponenciální posloupnosti"
 msgid "Filter data with given criteria"
 msgstr "Filtruje data podle zadaných kritérií"
 
-#: src/GNOME_Gnumeric.xml.h:97 src/dialogs/cell-format.glade.h:43
-#: src/dialogs/dialog-preferences.c:1395 src/workbook-format-toolbar.c:411
+#: src/GNOME_Gnumeric.xml.h:97
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:843
+#: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
+#: src/workbook-format-toolbar.c:411
 msgid "Font"
 msgstr "Písmo"
 
@@ -18868,7 +18918,7 @@ msgid "Jump to a specified cell"
 msgstr "Přejde na zadanou buňku"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:234
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
 #: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Titulek"
@@ -19799,16 +19849,16 @@ msgstr "_Kopírovat buňky"
 msgid "_Paste Cells"
 msgstr "V_ložit buňky"
 
-#: src/clipboard.c:300 src/clipboard.c:312 src/clipboard.c:323
-#: src/clipboard.c:331
+#: src/clipboard.c:301 src/clipboard.c:313 src/clipboard.c:324
+#: src/clipboard.c:332
 msgid "Unable to paste"
 msgstr "Nelze vložit"
 
-#: src/clipboard.c:301
+#: src/clipboard.c:302
 msgid "Content can only be pasted by value or by link."
 msgstr "Obsah je možné vložit pouze jako hodnotu nebo jako odkaz."
 
-#: src/clipboard.c:309
+#: src/clipboard.c:310
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -19819,7 +19869,7 @@ msgstr ""
 "\n"
 "Zkuste vybrat jedinou buňku nebo oblast stejného tvaru a velikosti."
 
-#: src/clipboard.c:320
+#: src/clipboard.c:321
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -19830,7 +19880,7 @@ msgstr ""
 "\n"
 "Zkuste vybrat jedinou buňku nebo oblast stejného tvaru a velikosti."
 
-#: src/clipboard.c:332
+#: src/clipboard.c:333
 msgid "result passes the sheet boundary"
 msgstr "výsledek přesahuje okraje listu"
 
@@ -20343,60 +20393,89 @@ msgstr "Tabeluji závislosti"
 msgid "Reconfigure Graph"
 msgstr "Přenastavit graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:189
+#: src/consolidate.c:773
+#, fuzzy, c-format
+msgid "Consolidating to (%s)"
+msgstr "Konsoliduje se do %s!%s"
+
+#: src/consolidate.c:812 src/consolidate.c:815
+#, fuzzy
+msgid "Data Consolidation"
+msgstr "Konsolidace dat"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
+#, fuzzy
+msgid "_Cross"
+msgstr "_Zavřít"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
+#, fuzzy
+msgid "_High"
+msgstr "Výška"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+#, fuzzy
+msgid "_Invert"
+msgstr "Vlož_it"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
+#, fuzzy
+msgid "_Low"
+msgstr "Řá_dek"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
+#, fuzzy
+msgid "_Map:"
+msgstr "_Mezera:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:189
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:247
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:191
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:248
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:214
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:271
 msgid "Bounds"
 msgstr "Hranice"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:218
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:275
 msgid "Details"
 msgstr "Podrobnosti"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:221
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:134
-#: src/dialogs/pivottable.glade.h:4
-msgid "Style"
-msgstr "Styl"
-
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:168
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:172
 msgid "Legend"
 msgstr "Legenda"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:171
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:175
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:159
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:169
 msgid "Title"
 msgstr "Titulek"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:174
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
 msgid "X-Axis"
 msgstr "Osa X"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
 msgid "Y-Axis"
 msgstr "Osa Y"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
 msgid "Z-Axis"
 msgstr "Osa Z"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
 msgid "Plot"
 msgstr "Graf"
 
@@ -20504,6 +20583,12 @@ msgstr "Na_hoře"
 msgid "_Text:"
 msgstr "_Text:"
 
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:108
+#: src/cut-n-paste-code/goffice/graph/gog-series.c:131
+#: src/dialogs/dialog-stf.glade.h:15
+msgid "Data"
+msgstr "Data"
+
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:52
 msgid "Plot Engine"
 msgstr "Kreslící engine"
@@ -20516,14 +20601,9 @@ msgstr "Typ grafu"
 msgid "Chart Theme"
 msgstr "Téma grafu"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:164
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:166
 msgid "Series"
 msgstr "Řady"
-
-#: src/cut-n-paste-code/goffice/graph/gog-series.c:131
-#: src/dialogs/dialog-stf.glade.h:15
-msgid "Data"
-msgstr "Data"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:1
 msgid "2 Color"
@@ -20582,8 +20662,9 @@ msgid "Pattern"
 msgstr "Vzorek"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
-msgid "S_ize:"
-msgstr "_Velikost:"
+#, fuzzy
+msgid "Si_ze:"
+msgstr "Velikost:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
 msgid "T_ype:"
@@ -20602,80 +20683,108 @@ msgid "_End:"
 msgstr "_Konec:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
+#, fuzzy
+msgid "_Fill color:"
+msgstr "_Barva vyplnění:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
 msgid "_Fit:"
 msgstr "_Přizpůsobit:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
 msgid "_Foreground:"
 msgstr "_Popředí:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
+#, fuzzy
+msgid "_Outline color:"
+msgstr "Barva _okraje:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
 msgid "_Pattern:"
 msgstr "_Vzorek:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
 msgid "_Select..."
 msgstr "_Vybrat..."
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
+#, fuzzy
+msgid "_Shape:"
+msgstr "Roz_sah:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
 msgid "_Size:"
 msgstr "_Velikost:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
 msgid "_Start:"
 msgstr "_Počátek:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
-msgid "_Style:"
-msgstr "_Styl:"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
 #: src/dialogs/solver.glade.h:42
 msgid "_Type:"
 msgstr "_Typ:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
 msgid "_brighter"
 msgstr "_jasnější"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
 msgid "_darker"
 msgstr "_tmavší"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
 msgid "pts"
 msgstr "bodů"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:32
 msgid "stretched"
 msgstr "roztažený"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:33
 msgid "wallpaper"
 msgstr "tapeta"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:161
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:169
 #: src/widgets/preview-file-selection.c:167
 #, c-format
 msgid "%d x %d"
 msgstr "%d × %d"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:449
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:535
 #: src/workbook-control-gui.c:3100
 msgid "Select an image"
 msgstr "Vybrat obrázek"
 
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:895
+#: src/dialogs/pivottable.glade.h:4
+msgid "Style"
+msgstr "Styl"
+
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:338
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:380
 #: src/dialogs/dialog-sheet-order.c:953 src/dialogs/dialog-sheet-order.c:966
 msgid "Default"
 msgstr "Výchozí"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:379
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:427
 msgid "Guppi"
 msgstr "Guppi"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:264
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
+#: src/dialogs/consolidate.glade.h:12
+msgid "Labels"
+msgstr "Titulky"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
+#: src/dialogs/consolidate.glade.h:27
+msgid "Values"
+msgstr "Hodnoty"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
@@ -20704,10 +20813,27 @@ msgstr "_Překrytí:"
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
 #. * 	PlotBarCol2
-#.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:96
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:95
 msgid "PlotBarCol"
 msgstr "SloupecSloucovéhoGrafu"
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotLine2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:44
+#, fuzzy
+msgid "PlotLine"
+msgstr "KoláčovýGraf"
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotArea2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
+#, fuzzy
+msgid "PlotArea"
+msgstr "KoláčovýGraf"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "3D Adjacent Bars"
@@ -20959,17 +21085,7 @@ msgstr "stupňů"
 msgid "PlotPie"
 msgstr "KoláčovýGraf"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:189
-#: src/dialogs/consolidate.glade.h:12
-msgid "Labels"
-msgstr "Titulky"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:191
-#: src/dialogs/consolidate.glade.h:27
-msgid "Values"
-msgstr "Hodnoty"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:262
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:263
 msgid "PlotRing"
 msgstr "PlotRing"
 
@@ -21070,6 +21186,278 @@ msgstr "Engine kreslení koláčů"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:5
 msgid "Ring plotting engine"
 msgstr "Engine kreslení prstenců"
+
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	PlotXY2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:58
+#, fuzzy
+msgid "PlotXY"
+msgstr "Graf"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:153
+msgid "X"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
+msgid "Y"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
+#, fuzzy
+msgid "Bubble"
+msgstr "Dvojité"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:2
+msgid ""
+"Interpolate between multi-dimensional points,with markers at each point."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:3
+msgid "Interpolate between multi-dimensional points."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:4
+#, fuzzy
+msgid "Interpolated points"
+msgstr "Iterace"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
+msgid ""
+"Linearly interpolate between multi-dimensional points,with markers at each "
+"point."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
+msgid "Linearly interpolate between multi-dimensional points."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
+msgid "Linearly interpolated points"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
+msgid "Marked interpolated points"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
+msgid "Marked linearly interpolated points"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:10
+msgid "Plot X, Y and bubble size."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:11
+msgid "Plot one series per axis."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:12
+msgid "XY"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:1
+msgid "2D Scatter charts"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:2
+#, fuzzy
+msgid "2D scatter plotting engine"
+msgstr "Engine kreslení koláčů"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:3
+msgid "Stock Scatter plot types"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:4
+#, fuzzy
+msgid "XY Charts"
+msgstr "Koláčové grafy"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:222
+#, fuzzy
+msgid "none"
+msgstr "Nic"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:223
+msgid "square"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:224
+#, fuzzy
+msgid "diamond"
+msgstr "Medián"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:225
+msgid "triangle down"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:226
+#, fuzzy
+msgid "triangle up"
+msgstr "oblast"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:227
+#, fuzzy
+msgid "triangle right"
+msgstr "Přehled vp_ravo"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:228
+msgid "triangle left"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:229
+#, fuzzy
+msgid "circle"
+msgstr "soubor"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:231
+#, fuzzy
+msgid "cross"
+msgstr "Strmost"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:232
+#, fuzzy
+msgid "asterisk"
+msgstr "Vložit odkaz"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:233
+#, fuzzy
+msgid "bar"
+msgstr "Bře"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:234
+msgid "half bar"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:235
+msgid "butterfly"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:236
+msgid "hourglass"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:192
+#: src/dialogs/cell-format.glade.h:71
+msgid "Solid"
+msgstr "Plné"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:193
+#: src/dialogs/cell-format.glade.h:12
+#, no-c-format
+msgid "75% Grey"
+msgstr "75% šedé"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:194
+#: src/dialogs/cell-format.glade.h:8
+#, no-c-format
+msgid "50% Grey"
+msgstr "50% šedé"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:195
+#: src/dialogs/cell-format.glade.h:6
+#, no-c-format
+msgid "25% Grey"
+msgstr "25% šedé"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:196
+#: src/dialogs/cell-format.glade.h:4
+#, no-c-format
+msgid "12.5% Grey"
+msgstr "12,5% šedé"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:197
+#: src/dialogs/cell-format.glade.h:10
+#, no-c-format
+msgid "6.25% Grey"
+msgstr "6,25% šedé"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:198
+#: src/dialogs/cell-format.glade.h:47
+msgid "Horizontal Stripe"
+msgstr "Horizontální pruhy"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:199
+#: src/dialogs/cell-format.glade.h:92
+msgid "Vertical Stripe"
+msgstr "Vertikální pruhy"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:200
+#: src/dialogs/cell-format.glade.h:66
+msgid "Reverse Diagonal Stripe"
+msgstr "Opačné diagonální pruhy"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:201
+#: src/dialogs/cell-format.glade.h:42
+msgid "Diagonal Stripe"
+msgstr "Diagonální pruhy"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:202
+#: src/dialogs/cell-format.glade.h:41
+msgid "Diagonal Crosshatch"
+msgstr "Diagonální křížové šrafování"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:203
+#: src/dialogs/cell-format.glade.h:80
+msgid "Thick Diagonal Crosshatch"
+msgstr "Tučné diagonální křížové šrafování"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:204
+#: src/dialogs/cell-format.glade.h:84
+msgid "Thin Horizontal Stripe"
+msgstr "Tenké horizontální pruhy"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:205
+#: src/dialogs/cell-format.glade.h:86
+msgid "Thin Vertical Stripe"
+msgstr "Tenké vertikální pruhy"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:206
+#: src/dialogs/cell-format.glade.h:85
+msgid "Thin Reverse Diagonal Stripe"
+msgstr "Tenké opačné diagonální pruhy"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:207
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
+#: src/dialogs/cell-format.glade.h:81
+msgid "Thin Diagonal Crosshatch"
+msgstr "Tenké diagonální křížové šrafování"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:208
+#: src/dialogs/cell-format.glade.h:83
+msgid "Thin Horizontal Crosshatch"
+msgstr "Tenké horizontální křížové šrafování"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:210
+#: src/dialogs/cell-format.glade.h:44
+msgid "Foreground Solid"
+msgstr "Plná barva popředí"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:211
+#: src/dialogs/cell-format.glade.h:70
+msgid "Small Circles"
+msgstr "Malé kruhy"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:212
+#: src/dialogs/cell-format.glade.h:68
+msgid "Semi Circles"
+msgstr "Půlkruhy"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:213
+#: src/dialogs/cell-format.glade.h:79
+msgid "Thatch"
+msgstr "Došky"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:214
+#: src/dialogs/cell-format.glade.h:57
+msgid "Large Circles"
+msgstr "Velké kruhy"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:215
+#: src/dialogs/cell-format.glade.h:32
+msgid "Bricks"
+msgstr "Cihly"
 
 #: src/dates.c:16
 msgid "*Sun"
@@ -21485,7 +21873,7 @@ msgstr "První písmeno"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:659
-#: src/format.c:2113 src/format.c:2242 src/format.c:2248 src/format.c:2324
+#: src/format.c:2123 src/format.c:2252 src/format.c:2258 src/format.c:2334
 #: src/plugin-service.c:199 src/widgets/widget-format-selector.c:68
 msgid "General"
 msgstr "Všeobecné"
@@ -21707,31 +22095,6 @@ msgstr "Komentář buňky"
 msgid "    "
 msgstr "    "
 
-#: src/dialogs/cell-format.glade.h:4
-#, no-c-format
-msgid "12.5% Grey"
-msgstr "12,5% šedé"
-
-#: src/dialogs/cell-format.glade.h:6
-#, no-c-format
-msgid "25% Grey"
-msgstr "25% šedé"
-
-#: src/dialogs/cell-format.glade.h:8
-#, no-c-format
-msgid "50% Grey"
-msgstr "50% šedé"
-
-#: src/dialogs/cell-format.glade.h:10
-#, no-c-format
-msgid "6.25% Grey"
-msgstr "6,25% šedé"
-
-#: src/dialogs/cell-format.glade.h:12
-#, no-c-format
-msgid "75% Grey"
-msgstr "75% šedé"
-
 #: src/dialogs/cell-format.glade.h:13
 msgid "<b>Background</b>"
 msgstr "<b>Pozadí</b>"
@@ -21796,10 +22159,6 @@ msgstr "Libovolná hodnota    (bez ověření)"
 msgid "Border"
 msgstr "Okraje"
 
-#: src/dialogs/cell-format.glade.h:32
-msgid "Bricks"
-msgstr "Cihly"
-
 #: src/dialogs/cell-format.glade.h:33
 msgid "Ce_nter"
 msgstr "Na _střed"
@@ -21833,18 +22192,6 @@ msgstr "Datum"
 msgid "Diagonal"
 msgstr "Diagonálně"
 
-#: src/dialogs/cell-format.glade.h:41
-msgid "Diagonal Crosshatch"
-msgstr "Diagonální křížové šrafování"
-
-#: src/dialogs/cell-format.glade.h:42
-msgid "Diagonal Stripe"
-msgstr "Diagonální pruhy"
-
-#: src/dialogs/cell-format.glade.h:44
-msgid "Foreground Solid"
-msgstr "Plná barva popředí"
-
 #: src/dialogs/cell-format.glade.h:45 src/dialogs/dialog-cell-format.c:2202
 msgid "Format Cells"
 msgstr "Formát buněk"
@@ -21852,10 +22199,6 @@ msgstr "Formát buněk"
 #: src/dialogs/cell-format.glade.h:46
 msgid "Hi_de"
 msgstr "_Skrýt"
-
-#: src/dialogs/cell-format.glade.h:47
-msgid "Horizontal Stripe"
-msgstr "Horizontální pruhy"
 
 #: src/dialogs/cell-format.glade.h:48
 msgid "I_n-cell dropdown"
@@ -21893,10 +22236,6 @@ msgstr "Uvnitř vertikálně"
 msgid "J_ustify"
 msgstr "Za_rovnat"
 
-#: src/dialogs/cell-format.glade.h:57
-msgid "Large Circles"
-msgstr "Velké kruhy"
-
 #: src/dialogs/cell-format.glade.h:58 src/workbook-format-toolbar.c:629
 msgid "Left"
 msgstr "Vlevo"
@@ -21925,29 +22264,13 @@ msgstr "Ochrana"
 msgid "Reverse Diagonal"
 msgstr "Opačná diagonála"
 
-#: src/dialogs/cell-format.glade.h:66
-msgid "Reverse Diagonal Stripe"
-msgstr "Opačné diagonální pruhy"
-
 #: src/dialogs/cell-format.glade.h:67 src/workbook-format-toolbar.c:631
 msgid "Right"
 msgstr "Vpravo"
 
-#: src/dialogs/cell-format.glade.h:68
-msgid "Semi Circles"
-msgstr "Půlkruhy"
-
 #: src/dialogs/cell-format.glade.h:69
 msgid "Shrin_k to fit"
 msgstr "Přizpů_sobit"
-
-#: src/dialogs/cell-format.glade.h:70
-msgid "Small Circles"
-msgstr "Malé kruhy"
-
-#: src/dialogs/cell-format.glade.h:71
-msgid "Solid"
-msgstr "Plné"
 
 #: src/dialogs/cell-format.glade.h:72
 msgid "Stop            (never allow invalid input)"
@@ -21977,37 +22300,9 @@ msgstr "Na_hoře"
 msgid "Text length"
 msgstr "Délka textu"
 
-#: src/dialogs/cell-format.glade.h:79
-msgid "Thatch"
-msgstr "Došky"
-
-#: src/dialogs/cell-format.glade.h:80
-msgid "Thick Diagonal Crosshatch"
-msgstr "Tučné diagonální křížové šrafování"
-
-#: src/dialogs/cell-format.glade.h:81
-msgid "Thin Diagonal Crosshatch"
-msgstr "Tenké diagonální křížové šrafování"
-
 #: src/dialogs/cell-format.glade.h:82
 msgid "Thin Diagonal Stripe"
 msgstr "Tenké diagonální pruhy"
-
-#: src/dialogs/cell-format.glade.h:83
-msgid "Thin Horizontal Crosshatch"
-msgstr "Tenké horizontální křížové šrafování"
-
-#: src/dialogs/cell-format.glade.h:84
-msgid "Thin Horizontal Stripe"
-msgstr "Tenké horizontální pruhy"
-
-#: src/dialogs/cell-format.glade.h:85
-msgid "Thin Reverse Diagonal Stripe"
-msgstr "Tenké opačné diagonální pruhy"
-
-#: src/dialogs/cell-format.glade.h:86
-msgid "Thin Vertical Stripe"
-msgstr "Tenké vertikální pruhy"
 
 #: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:73
 msgid "Time"
@@ -22024,10 +22319,6 @@ msgstr "Podtržené:"
 #: src/dialogs/cell-format.glade.h:91
 msgid "Validation"
 msgstr "Ověření"
-
-#: src/dialogs/cell-format.glade.h:92
-msgid "Vertical Stripe"
-msgstr "Vertikální pruhy"
 
 #: src/dialogs/cell-format.glade.h:93
 msgid "Warning     (accept/discard invalid input)"
@@ -23207,14 +23498,14 @@ msgid "Directory"
 msgstr "Adresář"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:411 src/format.c:1964
-#: src/number-match.c:1089 src/value-sheet.c:33 src/value.c:404
+#: src/dialogs/dialog-preferences.c:411 src/format.c:1971
+#: src/number-match.c:1094 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:818
 msgid "TRUE"
 msgstr "TRUE"
 
-#: src/dialogs/dialog-preferences.c:412 src/format.c:1964
-#: src/number-match.c:1091 src/value-sheet.c:33 src/value.c:405
+#: src/dialogs/dialog-preferences.c:412 src/format.c:1971
+#: src/number-match.c:1096 src/value-sheet.c:33 src/value.c:405
 #: src/value.c:818
 msgid "FALSE"
 msgstr "FALSE"
@@ -23622,7 +23913,9 @@ msgstr "Nemůžete odstranit všechny listy v sešitu!"
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
-msgstr "Všechny existující listy prosím nahraďte odstraněním aktuálního sešitu a vytvořením nového!"
+msgstr ""
+"Všechny existující listy prosím nahraďte odstraněním aktuálního sešitu a "
+"vytvořením nového!"
 
 #: src/dialogs/dialog-sheet-order.c:894
 msgid "The sheet order has changed. Do you want to update the list?"
@@ -26217,7 +26510,7 @@ msgid "Yellow"
 msgstr "Žlutá"
 
 #. Array of arrays ??
-#: src/format.c:2007
+#: src/format.c:2014
 msgid "ARRAY"
 msgstr "POLE"
 
@@ -27022,7 +27315,7 @@ msgstr "Skalár"
 msgid "Any"
 msgstr "Cokoli"
 
-#: src/func.c:1004
+#: src/func.c:1002
 msgid "Function does not exist"
 msgstr "Funkce neexistuje"
 
@@ -27976,6 +28269,19 @@ msgstr "nelze vytvořit objekt pro '%s'"
 #, c-format
 msgid "Could not load file: %s"
 msgstr "Nelze načíst soubor: %s"
+
+#: src/sheet-object-graph.c:158
+msgid "Save graph as image"
+msgstr ""
+
+#: src/sheet-object-graph.c:196
+msgid "Sorry, gnumeric can only save graphs as png images"
+msgstr ""
+
+#: src/sheet-object-graph.c:214
+#, fuzzy
+msgid "_Save as image"
+msgstr "Vybrat obrázek"
 
 #: src/sheet-object-graphic.c:934 src/sheet-object-graphic.c:951
 msgid "Transparent"
@@ -30859,23 +31165,23 @@ msgstr "Nastala nevysvětlitelná chyba při otevírání %s"
 msgid "Book%d.%s"
 msgstr "Sešit%d.%s"
 
-#: src/workbook.c:1246
+#: src/workbook.c:1247
 msgid "Sheet name is NULL"
 msgstr "Název listu je NULL"
 
-#: src/workbook.c:1257
+#: src/workbook.c:1258
 msgid "Sheet name is not valid utf-8"
 msgstr "Název listu není platné utf-8"
 
-#: src/workbook.c:1266
+#: src/workbook.c:1267
 msgid "Sheet name must have at least 1 letter"
 msgstr "Název listu musí mít alespoň jedno písmeno"
 
-#: src/workbook.c:1290
+#: src/workbook.c:1291
 msgid "There is already a sheet named"
 msgstr "Již existuje list s názvem"
 
-#: src/workbook.c:1304
+#: src/workbook.c:1305
 msgid "You may not use this name twice"
 msgstr "Nemůžete použít jeden název dvakrát"
 
@@ -30906,8 +31212,11 @@ msgstr "Chyba při ukládání souboru."
 msgid "Gnumeric XML file format"
 msgstr "Souborový formát Gnumeric XML"
 
-#~ msgid "Consolidating to %s!%s"
-#~ msgstr "Konsoliduje se do %s!%s"
+#~ msgid "S_ize:"
+#~ msgstr "_Velikost:"
+
+#~ msgid "_Style:"
+#~ msgstr "_Styl:"
 
 #~ msgid "Fill _Color:"
 #~ msgstr "_Barva vyplnění:"

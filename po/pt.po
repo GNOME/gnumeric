@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 2.4\n"
-"Report-Msgid-Bugs-To: Duarte Loreto <happyguy_pt@hotmail.com>\n"
-"POT-Creation-Date: 2003-09-09 15:33+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-09-10 00:27-0400\n"
 "PO-Revision-Date: 2003-09-09 15:35+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
@@ -8478,7 +8478,7 @@ msgstr "%s versão %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:211
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:264
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -19269,7 +19269,7 @@ msgid "Jump to a specified cell"
 msgstr "Ir para uma célula específica"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
 #: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Etiqueta"
@@ -20780,28 +20780,28 @@ msgstr "_Baixa"
 msgid "_Map:"
 msgstr "_Mapa:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:193
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:193
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 msgid "M_ax"
 msgstr "Má_x"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:194
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:247
 msgid "Ma_jor Ticks"
 msgstr "_Escala Principal"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:195
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:248
 msgid "Mi_nor Ticks"
 msgstr "Escala Secu_ndária"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:218
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:271
 msgid "Bounds"
 msgstr "Limites"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:222
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:275
 msgid "Details"
 msgstr "Detalhes"
 
@@ -21122,13 +21122,13 @@ msgstr "Omissão"
 msgid "Guppi"
 msgstr "Guppi"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:237
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:264
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Etiquetas"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:239
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:266
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
@@ -21540,11 +21540,11 @@ msgstr "Motor desenho círculos"
 msgid "PlotXY"
 msgstr "GráficoXY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:130
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:153
 msgid "X"
 msgstr "X"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:132
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
 msgid "Y"
 msgstr "Y"
 
@@ -22209,7 +22209,7 @@ msgstr "Primeira Letra"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:659
-#: src/format.c:2117 src/format.c:2246 src/format.c:2252 src/format.c:2328
+#: src/format.c:2123 src/format.c:2252 src/format.c:2258 src/format.c:2334
 #: src/plugin-service.c:199 src/widgets/widget-format-selector.c:68
 msgid "General"
 msgstr "Geral"
@@ -23849,13 +23849,13 @@ msgid "Directory"
 msgstr "Directório"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:411 src/format.c:1968
+#: src/dialogs/dialog-preferences.c:411 src/format.c:1971
 #: src/number-match.c:1094 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:818
 msgid "TRUE"
 msgstr "VERDADE"
 
-#: src/dialogs/dialog-preferences.c:412 src/format.c:1968
+#: src/dialogs/dialog-preferences.c:412 src/format.c:1971
 #: src/number-match.c:1096 src/value-sheet.c:33 src/value.c:405
 #: src/value.c:818
 msgid "FALSE"
@@ -26891,7 +26891,7 @@ msgid "Yellow"
 msgstr "Amarelo"
 
 #. Array of arrays ??
-#: src/format.c:2011
+#: src/format.c:2014
 msgid "ARRAY"
 msgstr "MATRIZ"
 

@@ -6,14 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.70\n"
-"POT-Creation-Date: 2003-09-07 21:06+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-09-10 00:27-0400\n"
 "PO-Revision-Date: 2003-09-07 22:02+0200\n"
 "Last-Translator: András Tímár <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -692,6 +692,7 @@ msgstr ""
 
 #: plugins/derivatives/plugin.xml.in.h:1
 #: plugins/fn-financial/plugin.xml.in.h:1
+#: plugins/sample_datasource/plugin.xml.in.h:2
 msgid "Finance"
 msgstr "Pénzügyi"
 
@@ -1165,7 +1166,8 @@ msgstr ""
 "@SYNTAX=IMTAN(komplex_szám)\n"
 "@DESCRIPTION=Az IMTAN kiszámítja egy komplex szám tangensét. \n"
 "\n"
-"* Ha a @komplex_szám nem érvényes komplex szám, akkor az IMTAN #ÉRTÉK! hibát ad vissza.\n"
+"* Ha a @komplex_szám nem érvényes komplex szám, akkor az IMTAN #ÉRTÉK! hibát "
+"ad vissza.\n"
 "* A függvény Excel kompatibilis.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -5720,9 +5722,8 @@ msgstr "%s %s verziója"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:208
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:104
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:264
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
 msgid "Automatic"
@@ -12346,6 +12347,7 @@ msgid "x,a,b"
 msgstr "fül"
 
 #: plugins/fn-stat/functions.c:5955
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:230
 msgid "x"
 msgstr ""
 
@@ -13142,6 +13144,14 @@ msgstr ""
 msgid "Could not run GNOME database configuration tool"
 msgstr ""
 
+#: plugins/gnome-db/plugin.xml.in.h:1
+msgid "Database UI services plugin"
+msgstr ""
+
+#: plugins/gnome-db/plugin.xml.in.h:2
+msgid "GNOME-DB"
+msgstr ""
+
 #: plugins/gnome-db/ui.xml.h:1
 msgid "Data Sources..."
 msgstr ""
@@ -13408,7 +13418,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU function (Mbius mu function) returns \n"
+"@DESCRIPTION=NT_MU function (Möbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "\n"
@@ -13625,8 +13635,8 @@ msgid ""
 "Several basic utilities for prime numbers, pi, phi, sigma. It also holds "
 "some simple bitwise operations."
 msgstr ""
-"Néhány prímszámokkal kapcsolatos függvény, π,φ,σ. Tartalmaz még egy "
-"pár bitenkénti műveletet is."
+"Néhány prímszámokkal kapcsolatos függvény, π,φ,σ. Tartalmaz még egy pár "
+"bitenkénti műveletet is."
 
 #: plugins/oleo/plugin.xml.in.h:1
 msgid "GNU Oleo"
@@ -13765,6 +13775,33 @@ msgstr ""
 #: plugins/python-loader/gnm-py-interpreter.c:258
 msgid "Default interpreter"
 msgstr ""
+
+#: plugins/python-loader/gnm-python.c:130
+#: plugins/python-loader/gnm-python.c:152
+#, fuzzy, c-format
+msgid "Could not import %s."
+msgstr ""
+"Nem olvasható a %s fájl\n"
+"%%s"
+
+#: plugins/python-loader/gnm-python.c:137
+#, fuzzy, c-format
+msgid "Could not find %s."
+msgstr ""
+"Nem olvasható a %s fájl\n"
+"%%s"
+
+#: plugins/python-loader/gnm-python.c:145
+#, c-format
+msgid "Could not initialize Python bindings for Gtk+, etc: %s"
+msgstr ""
+
+#: plugins/python-loader/gnm-python.c:159
+#, fuzzy, c-format
+msgid "Could not find %s"
+msgstr ""
+"Nem olvasható a %s fájl\n"
+"%%s"
 
 #: plugins/python-loader/plugin.xml.in.h:1
 #, fuzzy
@@ -13920,6 +13957,14 @@ msgid ""
 "file?"
 msgstr ""
 
+#: plugins/sample_datasource/plugin.xml.in.h:1
+msgid "A proof of concept external data source"
+msgstr ""
+
+#: plugins/sample_datasource/plugin.xml.in.h:3
+msgid "Sample DataSource"
+msgstr ""
+
 #: plugins/sample_datasource/sample_datasource.c:264
 #, no-c-format
 msgid ""
@@ -13990,6 +14035,14 @@ msgstr "Hiba a munkalap olvasása közben."
 #: plugins/uihello/hello.xml.h:1
 msgid "Hello World"
 msgstr "Szia, világ!"
+
+#: plugins/uihello/plugin.xml.in.h:1
+msgid "Hello World plugin using ui service"
+msgstr ""
+
+#: plugins/uihello/plugin.xml.in.h:2
+msgid "UI Hello"
+msgstr ""
 
 #: plugins/uihello/uihello.c:24
 #, c-format
@@ -14971,7 +15024,7 @@ msgid "Filter data with given criteria"
 msgstr "A megadott feltétel szerint szűri az adatokat"
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:739
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:843
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
 #: src/workbook-format-toolbar.c:411
 msgid "Font"
@@ -15174,7 +15227,7 @@ msgid "Jump to a specified cell"
 msgstr "Megadott cellára ugrás"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:243
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
 #: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Címke"
@@ -16744,38 +16797,73 @@ msgstr "Részletek a bővítményekről"
 msgid "Reconfigure Graph"
 msgstr "Eszköztárak beállításai"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
+#: src/consolidate.c:773
+#, fuzzy, c-format
+msgid "Consolidating to (%s)"
+msgstr "Korrelációk"
+
+#: src/consolidate.c:812 src/consolidate.c:815
+#, fuzzy
+msgid "Data Consolidation"
+msgstr "Bevitel ellenőrzése"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
+#, fuzzy
+msgid "_Cross"
+msgstr "Költség"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
+#, fuzzy
+msgid "_High"
+msgstr "Magasság"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+#, fuzzy
+msgid "_Invert"
+msgstr "_Beszúrás"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
+#, fuzzy
+msgid "_Low"
+msgstr "So_r"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
+#, fuzzy
+msgid "_Map:"
+msgstr "_Grafikon"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_inimum"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 #, fuzzy
 msgid "M_ax"
 msgstr "Maximum"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:191
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:247
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:192
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:248
 msgid "Mi_nor Ticks"
 msgstr ""
 
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
 # src/file-manager/nautilus-directory-view-ui.xml.h:30
 # src/nautilus-sidebar.c:490
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:215
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:271
 #, fuzzy
 msgid "Bounds"
 msgstr "Háttér"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:219
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:275
 #, fuzzy
 msgid "Details"
 msgstr "_Részletek elrejtése"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:168
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:172
 msgid "Legend"
 msgstr "Jelmagyarázat"
 
@@ -16783,25 +16871,25 @@ msgstr "Jelmagyarázat"
 # src/trans.h:325
 # #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
 # src/trans.h:325
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:171
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:175
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:169
 msgid "Title"
 msgstr "Cím"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:174
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
 msgid "X-Axis"
 msgstr "X tengely"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
 msgid "Y-Axis"
 msgstr "Y tengely"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
 msgid "Z-Axis"
 msgstr "Z tengely"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
 #, fuzzy
 msgid "Plot"
 msgstr "_Rendezés"
@@ -16946,7 +17034,7 @@ msgstr "Valamilyen név"
 msgid "Chart Theme"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:164
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:166
 msgid "Series"
 msgstr "Sorozat"
 
@@ -16977,71 +17065,40 @@ msgid "<b>Outline</b>"
 msgstr "Minta"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:6
-msgid "Asterisk"
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
 #, fuzzy
 msgid "Brightness"
 msgstr "élénknarancs"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
-msgid "Butterfly"
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
 #, fuzzy
 msgid "C_olor:"
 msgstr "Szín:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:11
-#, fuzzy
-msgid "Circle"
-msgstr "Félkörök"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
-#, fuzzy
-msgid "Cross"
-msgstr "Költség"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:13
-#, fuzzy
-msgid "Diamond"
-msgstr "Átlós"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
 msgid "Fill from start color to end color"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
 msgid "Fill from start colour to a darker/lighter version of that color"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
 msgid "Gradient"
 msgstr "Színátmenet"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
-msgid "Half bar"
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
-msgid "Hourglass"
-msgstr ""
-
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
 # src/nautilus-property-browser.c:957
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:11
 msgid "Image"
 msgstr "Kép"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
 #: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-cell-format.c:72
 #: src/dialogs/dialog-paste-special.c:48 src/tools/solver/reports-write.c:722
 msgid "None"
 msgstr "Nincs"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:13
 #: src/dialogs/dialog-cell-format.c:2280
 msgid "Pattern"
 msgstr "Minta"
@@ -17050,92 +17107,65 @@ msgstr "Minta"
 # interfaces/memory.glade.h:18 interfaces/memory.glade.h:29
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
 # src/file-manager/fm-properties-window.c:1502
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
 #, fuzzy
 msgid "Si_ze:"
 msgstr "Méret:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
-#, fuzzy
-msgid "Square"
-msgstr "Forrás"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
 #, fuzzy
 msgid "T_ype:"
 msgstr "_Típus:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
-msgid "Triangle down"
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
-msgid "Triangle left"
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
-msgid "Triangle right"
-msgstr ""
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
-#, fuzzy
-msgid "Triangle up"
-msgstr "Tartomány"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:127
-msgid "X"
-msgstr ""
-
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
 # src/file-manager/nautilus-directory-view-ui.xml.h:30
 # src/nautilus-sidebar.c:490
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
 #, fuzzy
 msgid "_Background:"
 msgstr "Háttér"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
 #, fuzzy
 msgid "_Direction:"
 msgstr "Irány:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:32
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
 #, fuzzy
 msgid "_End:"
 msgstr "Vég"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:33
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
 #, fuzzy
 msgid "_Fill color:"
 msgstr "Szín :"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:34
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
 #, fuzzy
 msgid "_Fit:"
 msgstr "Legye_n:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:35
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
 #, fuzzy
 msgid "_Foreground:"
 msgstr "Előtér"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:36
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
 #, fuzzy
 msgid "_Outline color:"
 msgstr "Körvonal"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:37
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
 #, fuzzy
 msgid "_Pattern:"
 msgstr "Minta"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:38
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
 #, fuzzy
 msgid "_Select..."
 msgstr "_Kijelölés"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:39
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
 #, fuzzy
 msgid "_Shape:"
 msgstr "Tartomány :"
@@ -17144,64 +17174,59 @@ msgstr "Tartomány :"
 # interfaces/memory.glade.h:18 interfaces/memory.glade.h:29
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
 # src/file-manager/fm-properties-window.c:1502
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:40
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
 #, fuzzy
 msgid "_Size:"
 msgstr "Méret:"
 
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
 # libnautilus-private/nautilus-program-chooser.c:1189
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:41
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
 #, fuzzy
 msgid "_Start:"
 msgstr "Állapot"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:42
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
 #: src/dialogs/solver.glade.h:42
 msgid "_Type:"
 msgstr "_Típus:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:43
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
 #, fuzzy
 msgid "_brighter"
 msgstr "élénkkék"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:44
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
 #, fuzzy
 msgid "_darker"
 msgstr "sötétpiros"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:45
-#, fuzzy
-msgid "bar"
-msgstr "*márc."
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:46
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
 #, fuzzy
 msgid "pts"
 msgstr "Kimutatások:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:47
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:32
 msgid "stretched"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:48
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:33
 msgid "wallpaper"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:164
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:169
 #: src/widgets/preview-file-selection.c:167
 #, c-format
 msgid "%d x %d"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:452
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:535
 #: src/workbook-control-gui.c:3100
 #, fuzzy
 msgid "Select an image"
 msgstr "Egy teljes oszlop kijelölése"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:787
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:895
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Stílus"
@@ -17219,6 +17244,18 @@ msgstr "Alapértelmezett"
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:427
 msgid "Guppi"
 msgstr "Guppi"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:264
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
+#: src/dialogs/consolidate.glade.h:12
+msgid "Labels"
+msgstr "Címkék"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
+#: src/dialogs/consolidate.glade.h:27
+msgid "Values"
+msgstr "Értékek"
 
 # #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
 # src/trans.h:122
@@ -17252,10 +17289,27 @@ msgstr ""
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
 #. * 	PlotBarCol2
-#.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:95
 msgid "PlotBarCol"
 msgstr ""
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotLine2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:44
+#, fuzzy
+msgid "PlotLine"
+msgstr "_Rendezés"
+
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotArea2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
+#, fuzzy
+msgid "PlotArea"
+msgstr "_Rendezés"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 #, fuzzy
@@ -17514,16 +17568,6 @@ msgstr "fok"
 msgid "PlotPie"
 msgstr "_Rendezés"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
-#: src/dialogs/consolidate.glade.h:12
-msgid "Labels"
-msgstr "Címkék"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
-#: src/dialogs/consolidate.glade.h:27
-msgid "Values"
-msgstr "Értékek"
-
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:263
 #, fuzzy
 msgid "PlotRing"
@@ -17631,12 +17675,19 @@ msgstr ""
 msgid "Ring plotting engine"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:55
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	PlotXY2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:58
 #, fuzzy
-msgid "XYPlot"
+msgid "PlotXY"
 msgstr "_Rendezés"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:129
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:153
+msgid "X"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
 msgid "Y"
 msgstr "Y"
 
@@ -17708,6 +17759,194 @@ msgstr ""
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:4
 msgid "XY Charts"
 msgstr "XY diagram"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:222
+#, fuzzy
+msgid "none"
+msgstr "Nincs"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:223
+#, fuzzy
+msgid "square"
+msgstr "Forrás"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:224
+#, fuzzy
+msgid "diamond"
+msgstr "Átlós"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:225
+#, fuzzy
+msgid "triangle down"
+msgstr "Tartomány"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:226
+#, fuzzy
+msgid "triangle up"
+msgstr "Tartomány"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:227
+#, fuzzy
+msgid "triangle right"
+msgstr "Tartomány"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:228
+#, fuzzy
+msgid "triangle left"
+msgstr "Tartomány"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:229
+#, fuzzy
+msgid "circle"
+msgstr "Félkörök"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:231
+#, fuzzy
+msgid "cross"
+msgstr "Költség"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:232
+#, fuzzy
+msgid "asterisk"
+msgstr "Link beillesztése"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:233
+#, fuzzy
+msgid "bar"
+msgstr "*márc."
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:234
+msgid "half bar"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:235
+msgid "butterfly"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:236
+msgid "hourglass"
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:192
+#: src/dialogs/cell-format.glade.h:71
+msgid "Solid"
+msgstr "Tömör"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:193
+#: src/dialogs/cell-format.glade.h:12
+#, no-c-format
+msgid "75% Grey"
+msgstr "75% Szürke"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:194
+#: src/dialogs/cell-format.glade.h:8
+#, no-c-format
+msgid "50% Grey"
+msgstr "50% Szürke"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:195
+#: src/dialogs/cell-format.glade.h:6
+#, no-c-format
+msgid "25% Grey"
+msgstr "25% Szürke"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:196
+#: src/dialogs/cell-format.glade.h:4
+#, no-c-format
+msgid "12.5% Grey"
+msgstr "12,5% Szürke"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:197
+#: src/dialogs/cell-format.glade.h:10
+#, no-c-format
+msgid "6.25% Grey"
+msgstr "6,25% Szürke"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:198
+#: src/dialogs/cell-format.glade.h:47
+msgid "Horizontal Stripe"
+msgstr "Vízszintes csíkos"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:199
+#: src/dialogs/cell-format.glade.h:92
+msgid "Vertical Stripe"
+msgstr "Függőleges csíkos"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:200
+#: src/dialogs/cell-format.glade.h:66
+msgid "Reverse Diagonal Stripe"
+msgstr "Fordított átlósan csíkos"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:201
+#: src/dialogs/cell-format.glade.h:42
+msgid "Diagonal Stripe"
+msgstr "Átlósan csíkos"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:202
+#: src/dialogs/cell-format.glade.h:41
+msgid "Diagonal Crosshatch"
+msgstr "Átlós keresztmintás"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:203
+#: src/dialogs/cell-format.glade.h:80
+msgid "Thick Diagonal Crosshatch"
+msgstr "Vastag átlós keresztmintás"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:204
+#: src/dialogs/cell-format.glade.h:84
+msgid "Thin Horizontal Stripe"
+msgstr "Vékony vízszintes csíkos"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:205
+#: src/dialogs/cell-format.glade.h:86
+msgid "Thin Vertical Stripe"
+msgstr "Vékony függőleges csíkos"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:206
+#: src/dialogs/cell-format.glade.h:85
+msgid "Thin Reverse Diagonal Stripe"
+msgstr "Vékony fordított átlósan csíkos"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:207
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
+#: src/dialogs/cell-format.glade.h:81
+msgid "Thin Diagonal Crosshatch"
+msgstr "Vékony átlós keresztmintás"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:208
+#: src/dialogs/cell-format.glade.h:83
+msgid "Thin Horizontal Crosshatch"
+msgstr "Vékony vízszintes keresztmintás"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:210
+#: src/dialogs/cell-format.glade.h:44
+msgid "Foreground Solid"
+msgstr "Tömör előtér"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:211
+#: src/dialogs/cell-format.glade.h:70
+msgid "Small Circles"
+msgstr "Kis körök"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:212
+#: src/dialogs/cell-format.glade.h:68
+msgid "Semi Circles"
+msgstr "Félkörök"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:213
+#: src/dialogs/cell-format.glade.h:79
+msgid "Thatch"
+msgstr "Zsúp"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:214
+#: src/dialogs/cell-format.glade.h:57
+msgid "Large Circles"
+msgstr "Nagy körök"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:215
+#: src/dialogs/cell-format.glade.h:32
+msgid "Bricks"
+msgstr "Téglák"
 
 #: src/dates.c:16
 msgid "*Sun"
@@ -18125,7 +18364,7 @@ msgstr "E_lső betű"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:659
-#: src/format.c:2117 src/format.c:2246 src/format.c:2252 src/format.c:2328
+#: src/format.c:2123 src/format.c:2252 src/format.c:2258 src/format.c:2334
 #: src/plugin-service.c:199 src/widgets/widget-format-selector.c:68
 msgid "General"
 msgstr "Általános"
@@ -18354,31 +18593,6 @@ msgstr "Megjegyzés a cellához"
 msgid "    "
 msgstr "    "
 
-#: src/dialogs/cell-format.glade.h:4
-#, no-c-format
-msgid "12.5% Grey"
-msgstr "12,5% Szürke"
-
-#: src/dialogs/cell-format.glade.h:6
-#, no-c-format
-msgid "25% Grey"
-msgstr "25% Szürke"
-
-#: src/dialogs/cell-format.glade.h:8
-#, no-c-format
-msgid "50% Grey"
-msgstr "50% Szürke"
-
-#: src/dialogs/cell-format.glade.h:10
-#, no-c-format
-msgid "6.25% Grey"
-msgstr "6,25% Szürke"
-
-#: src/dialogs/cell-format.glade.h:12
-#, no-c-format
-msgid "75% Grey"
-msgstr "75% Szürke"
-
 #: src/dialogs/cell-format.glade.h:13
 msgid "<b>Background</b>"
 msgstr "<b>Háttér</b>"
@@ -18449,10 +18663,6 @@ msgstr "érték != határ                  (nem egyenlő)"
 msgid "Border"
 msgstr "Szegély"
 
-#: src/dialogs/cell-format.glade.h:32
-msgid "Bricks"
-msgstr "Téglák"
-
 #: src/dialogs/cell-format.glade.h:33
 #, fuzzy
 msgid "Ce_nter"
@@ -18491,18 +18701,6 @@ msgstr "Dátum"
 msgid "Diagonal"
 msgstr "Átlós"
 
-#: src/dialogs/cell-format.glade.h:41
-msgid "Diagonal Crosshatch"
-msgstr "Átlós keresztmintás"
-
-#: src/dialogs/cell-format.glade.h:42
-msgid "Diagonal Stripe"
-msgstr "Átlósan csíkos"
-
-#: src/dialogs/cell-format.glade.h:44
-msgid "Foreground Solid"
-msgstr "Tömör előtér"
-
 #: src/dialogs/cell-format.glade.h:45 src/dialogs/dialog-cell-format.c:2202
 msgid "Format Cells"
 msgstr "Cellák formázása"
@@ -18510,10 +18708,6 @@ msgstr "Cellák formázása"
 #: src/dialogs/cell-format.glade.h:46
 msgid "Hi_de"
 msgstr "_Elrejtés"
-
-#: src/dialogs/cell-format.glade.h:47
-msgid "Horizontal Stripe"
-msgstr "Vízszintes csíkos"
 
 #: src/dialogs/cell-format.glade.h:48
 msgid "I_n-cell dropdown"
@@ -18551,10 +18745,6 @@ msgstr "Belül Függőleges"
 msgid "J_ustify"
 msgstr "S_orkizárt"
 
-#: src/dialogs/cell-format.glade.h:57
-msgid "Large Circles"
-msgstr "Nagy körök"
-
 #: src/dialogs/cell-format.glade.h:58 src/workbook-format-toolbar.c:629
 msgid "Left"
 msgstr "Balra"
@@ -18586,29 +18776,13 @@ msgstr "Védelem"
 msgid "Reverse Diagonal"
 msgstr "Fordított átlós"
 
-#: src/dialogs/cell-format.glade.h:66
-msgid "Reverse Diagonal Stripe"
-msgstr "Fordított átlósan csíkos"
-
 #: src/dialogs/cell-format.glade.h:67 src/workbook-format-toolbar.c:631
 msgid "Right"
 msgstr "Jobbra"
 
-#: src/dialogs/cell-format.glade.h:68
-msgid "Semi Circles"
-msgstr "Félkörök"
-
 #: src/dialogs/cell-format.glade.h:69
 msgid "Shrin_k to fit"
 msgstr "Kicsinyít, hogy be_férjen"
-
-#: src/dialogs/cell-format.glade.h:70
-msgid "Small Circles"
-msgstr "Kis körök"
-
-#: src/dialogs/cell-format.glade.h:71
-msgid "Solid"
-msgstr "Tömör"
 
 #: src/dialogs/cell-format.glade.h:72
 msgid "Stop            (never allow invalid input)"
@@ -18638,37 +18812,9 @@ msgstr "_Fent"
 msgid "Text length"
 msgstr "Szöveg hossza"
 
-#: src/dialogs/cell-format.glade.h:79
-msgid "Thatch"
-msgstr "Zsúp"
-
-#: src/dialogs/cell-format.glade.h:80
-msgid "Thick Diagonal Crosshatch"
-msgstr "Vastag átlós keresztmintás"
-
-#: src/dialogs/cell-format.glade.h:81
-msgid "Thin Diagonal Crosshatch"
-msgstr "Vékony átlós keresztmintás"
-
 #: src/dialogs/cell-format.glade.h:82
 msgid "Thin Diagonal Stripe"
 msgstr "Vékony átlósan csíkos"
-
-#: src/dialogs/cell-format.glade.h:83
-msgid "Thin Horizontal Crosshatch"
-msgstr "Vékony vízszintes keresztmintás"
-
-#: src/dialogs/cell-format.glade.h:84
-msgid "Thin Horizontal Stripe"
-msgstr "Vékony vízszintes csíkos"
-
-#: src/dialogs/cell-format.glade.h:85
-msgid "Thin Reverse Diagonal Stripe"
-msgstr "Vékony fordított átlósan csíkos"
-
-#: src/dialogs/cell-format.glade.h:86
-msgid "Thin Vertical Stripe"
-msgstr "Vékony függőleges csíkos"
 
 # #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
 # interfaces/time.glade.h:10
@@ -18687,10 +18833,6 @@ msgstr "Aláhúzás:"
 #: src/dialogs/cell-format.glade.h:91
 msgid "Validation"
 msgstr "Érvényesítés"
-
-#: src/dialogs/cell-format.glade.h:92
-msgid "Vertical Stripe"
-msgstr "Függőleges csíkos"
 
 #: src/dialogs/cell-format.glade.h:93
 msgid "Warning     (accept/discard invalid input)"
@@ -19038,13 +19180,15 @@ msgstr "John Gotts, csomagolás RPM-be."
 #. xgettext:
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:65
-msgid "Andreas J. Glzow, Gnumeric hacker."
+#, fuzzy
+msgid "Andreas J. Gülzow, Gnumeric hacker."
 msgstr "Andreas J. Gülzow, Gnumeric hacker."
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:68
-msgid "Jon Kre Hellan, Gnumeric hacker."
+#, fuzzy
+msgid "Jon Kåre Hellan, Gnumeric hacker."
 msgstr "Jon Kåre Hellan, Gnumeric hacker."
 
 #: src/dialogs/dialog-about.c:69
@@ -19936,13 +20080,13 @@ msgid "Directory"
 msgstr "Könyvtár"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:411 src/format.c:1968
+#: src/dialogs/dialog-preferences.c:411 src/format.c:1971
 #: src/number-match.c:1094 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:818
 msgid "TRUE"
 msgstr "IGAZ"
 
-#: src/dialogs/dialog-preferences.c:412 src/format.c:1968
+#: src/dialogs/dialog-preferences.c:412 src/format.c:1971
 #: src/number-match.c:1096 src/value-sheet.c:33 src/value.c:405
 #: src/value.c:818
 msgid "FALSE"
@@ -23205,7 +23349,7 @@ msgid "Yellow"
 msgstr "Sárga"
 
 #. Array of arrays ??
-#: src/format.c:2011
+#: src/format.c:2014
 msgid "ARRAY"
 msgstr "ARRAY"
 
@@ -25115,6 +25259,19 @@ msgid "Could not load file: %s"
 msgstr ""
 "Nem olvasható a %s fájl\n"
 "%%s"
+
+#: src/sheet-object-graph.c:158
+msgid "Save graph as image"
+msgstr ""
+
+#: src/sheet-object-graph.c:196
+msgid "Sorry, gnumeric can only save graphs as png images"
+msgstr ""
+
+#: src/sheet-object-graph.c:214
+#, fuzzy
+msgid "_Save as image"
+msgstr "Egy teljes oszlop kijelölése"
 
 #: src/sheet-object-graphic.c:934 src/sheet-object-graphic.c:951
 msgid "Transparent"
@@ -28308,3 +28465,7 @@ msgstr "Hiba történt a DIF fájl mentése közben."
 #: src/xml-io.c:4040
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML fájlformátum"
+
+#, fuzzy
+#~ msgid "XYPlot"
+#~ msgstr "_Rendezés"

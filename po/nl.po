@@ -117,7 +117,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-06 20:24+0200\n"
+"POT-Creation-Date: 2003-09-10 00:27-0400\n"
 "PO-Revision-Date: 2003-09-09 04:35+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
@@ -1083,6 +1083,7 @@ msgstr ""
 
 #: plugins/derivatives/plugin.xml.in.h:1
 #: plugins/fn-financial/plugin.xml.in.h:1
+#: plugins/sample_datasource/plugin.xml.in.h:2
 msgid "Finance"
 msgstr "Financieel"
 
@@ -8514,9 +8515,8 @@ msgstr "%s versie %s "
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:208
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:104
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:264
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
 msgid "Automatic"
@@ -16388,6 +16388,7 @@ msgid "x,a,b"
 msgstr "x;a;b"
 
 #: plugins/fn-stat/functions.c:5955
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:230
 msgid "x"
 msgstr "x"
 
@@ -17260,6 +17261,14 @@ msgstr "Databasefuncties voor het ophalen van gegevens uit een database"
 msgid "Could not run GNOME database configuration tool"
 msgstr "Kon de GNOME database configuratie niet uitvoeren"
 
+#: plugins/gnome-db/plugin.xml.in.h:1
+msgid "Database UI services plugin"
+msgstr ""
+
+#: plugins/gnome-db/plugin.xml.in.h:2
+msgid "GNOME-DB"
+msgstr ""
+
 #: plugins/gnome-db/ui.xml.h:1
 msgid "Data Sources..."
 msgstr "Databronnen..."
@@ -17842,6 +17851,27 @@ msgstr "Voorbeeld Python plugin met enkele (zinloze) functies."
 msgid "Default interpreter"
 msgstr "Standaard interpreteerder"
 
+#: plugins/python-loader/gnm-python.c:130
+#: plugins/python-loader/gnm-python.c:152
+#, fuzzy, c-format
+msgid "Could not import %s."
+msgstr "Niet in staat om bestand '%s' te openen"
+
+#: plugins/python-loader/gnm-python.c:137
+#, fuzzy, c-format
+msgid "Could not find %s."
+msgstr "Niet in staat om bestand '%s' te openen"
+
+#: plugins/python-loader/gnm-python.c:145
+#, c-format
+msgid "Could not initialize Python bindings for Gtk+, etc: %s"
+msgstr ""
+
+#: plugins/python-loader/gnm-python.c:159
+#, fuzzy, c-format
+msgid "Could not find %s"
+msgstr "Niet in staat om bestand '%s' te openen"
+
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
 msgstr "Python plugin lader"
@@ -17992,6 +18022,15 @@ msgstr ""
 "Niet in staat de PerfectOffice_MAIN-stroom te vinden.  Is dit werkelijke een "
 "Quattro Pro bestand?"
 
+#: plugins/sample_datasource/plugin.xml.in.h:1
+msgid "A proof of concept external data source"
+msgstr ""
+
+#: plugins/sample_datasource/plugin.xml.in.h:3
+#, fuzzy
+msgid "Sample DataSource"
+msgstr "Databronnen..."
+
 # BUG hoofdletters voor de functienaam
 #: plugins/sample_datasource/sample_datasource.c:264
 #, no-c-format
@@ -18075,6 +18114,14 @@ msgstr "Fout bij lezen werkblad"
 msgid "Hello World"
 msgstr "Hallo Wereld"
 
+#: plugins/uihello/plugin.xml.in.h:1
+msgid "Hello World plugin using ui service"
+msgstr ""
+
+#: plugins/uihello/plugin.xml.in.h:2
+msgid "UI Hello"
+msgstr ""
+
 #: plugins/uihello/uihello.c:24
 #, c-format
 msgid "This is message from the \"%s\" plugin."
@@ -18087,7 +18134,7 @@ msgstr "Fout bij het openen van xbase bestand"
 # werkblad?
 #: plugins/xbase/boot.c:175 src/commands.c:4547
 #: src/dialogs/dialog-goto-cell.c:284 src/dialogs/dialog-search.c:391
-#: src/dialogs/print.glade.h:21 src/workbook.c:1040 src/xml-io.c:3585
+#: src/dialogs/print.glade.h:21 src/workbook.c:1041 src/xml-io.c:3585
 msgid "Sheet"
 msgstr "Blad"
 
@@ -19092,7 +19139,7 @@ msgid "Filter data with given criteria"
 msgstr "Filter de gegevens met de opgegeven criteria."
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:739
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:843
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
 #: src/workbook-format-toolbar.c:411
 msgid "Font"
@@ -19288,7 +19335,7 @@ msgid "Jump to a specified cell"
 msgstr "Spring naar een specifieke cel"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:237
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
 #: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Label"
@@ -20237,16 +20284,16 @@ msgstr "Cellen _Kopiëren"
 msgid "_Paste Cells"
 msgstr "Cellen _Plakken"
 
-#: src/clipboard.c:300 src/clipboard.c:312 src/clipboard.c:323
-#: src/clipboard.c:331
+#: src/clipboard.c:301 src/clipboard.c:313 src/clipboard.c:324
+#: src/clipboard.c:332
 msgid "Unable to paste"
 msgstr "Plakken niet mogelijk"
 
-#: src/clipboard.c:301
+#: src/clipboard.c:302
 msgid "Content can only be pasted by value or by link."
 msgstr "Inhoud kan alleen worden geplakt door waarde of link"
 
-#: src/clipboard.c:309
+#: src/clipboard.c:310
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -20258,7 +20305,7 @@ msgstr ""
 "Probeer een enkele cel te selecteren of een gebied van dezelfde vorm en "
 "grootte."
 
-#: src/clipboard.c:320
+#: src/clipboard.c:321
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -20270,7 +20317,7 @@ msgstr ""
 "Probeer een enkele cel te selecteren of een gebied van dezelfde vorm en "
 "grootte."
 
-#: src/clipboard.c:332
+#: src/clipboard.c:333
 msgid "result passes the sheet boundary"
 msgstr "resultaat overschreidt de bladgrens"
 
@@ -20791,54 +20838,90 @@ msgstr "Afhankelijkhedeb tabuleren"
 msgid "Reconfigure Graph"
 msgstr "Diagram opnieuw configureren"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
+#: src/consolidate.c:773
+#, fuzzy, c-format
+msgid "Consolidating to (%s)"
+msgstr "Consolideren naar %s!%s"
+
+#: src/consolidate.c:812 src/consolidate.c:815
+#, fuzzy
+msgid "Data Consolidation"
+msgstr "Gegevens consolideren"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
+#, fuzzy
+msgid "_Cross"
+msgstr "Kruis"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
+#, fuzzy
+msgid "_High"
+msgstr "Hoogte"
+
+# de I is een kleine letter voor de sneltoets
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+#, fuzzy
+msgid "_Invert"
+msgstr "I_nvoegen"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
+#, fuzzy
+msgid "_Low"
+msgstr "_Rij"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
+#, fuzzy
+msgid "_Map:"
+msgstr "_Scheiding:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:191
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:247
 msgid "Ma_jor Ticks"
 msgstr "_Hoofdverdeling"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:192
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:248
 msgid "Mi_nor Ticks"
 msgstr "_Onderverdeling"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:215
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:271
 msgid "Bounds"
 msgstr "Grenzen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:219
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:275
 msgid "Details"
 msgstr "Details"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:168
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:172
 msgid "Legend"
 msgstr "Legenda"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:171
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:175
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
-#: src/cut-n-paste-code/goffice/graph/gog-legend.c:165
+#: src/cut-n-paste-code/goffice/graph/gog-legend.c:169
 msgid "Title"
 msgstr "Titel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:174
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
 msgid "X-Axis"
 msgstr "X-As"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
 msgid "Y-Axis"
 msgstr "Y-as"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
 msgid "Z-Axis"
 msgstr "Z-as"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
 msgid "Plot"
 msgstr "Tekenen"
 
@@ -20972,7 +21055,7 @@ msgstr "Plot-type"
 msgid "Chart Theme"
 msgstr "Grafiekthema"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:164
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:166
 msgid "Series"
 msgstr "Series"
 
@@ -20997,212 +21080,164 @@ msgstr "<b>Markering</b>"
 msgid "<b>Outline</b>"
 msgstr "<b>Omtrek</b>"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:6
-msgid "Asterisk"
-msgstr "Sterretje"
-
 # helheid?
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:6
 msgid "Brightness"
 msgstr "Helderheid"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
-msgid "Butterfly"
-msgstr "Vlindertje"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
 msgid "C_olor:"
 msgstr "Kle_ur:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:11
-msgid "Circle"
-msgstr "Cirkel"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
-msgid "Cross"
-msgstr "Kruis"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:13
-msgid "Diamond"
-msgstr "Ruit"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
 msgid "Fill from start color to end color"
 msgstr "Vullen van beginkleur tot eindkleur"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
 msgid "Fill from start colour to a darker/lighter version of that color"
 msgstr "Vullen van beginkleur tot een donkere/lichtere versie van die kleur"
 
 # Kleurverloop
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
 msgid "Gradient"
 msgstr "Kleurverloop"
 
-# Type markering voor punten in een grafiek
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
-msgid "Half bar"
-msgstr "Halve balk"
-
-# Type markering voor punten in een grafiek
-# Diabolo?
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
-msgid "Hourglass"
-msgstr "Zandloper"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:11
 msgid "Image"
 msgstr "Afbeelding"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
 #: src/dialogs/cell-format.glade.h:60 src/dialogs/dialog-cell-format.c:72
 #: src/dialogs/dialog-paste-special.c:48 src/tools/solver/reports-write.c:722
 msgid "None"
 msgstr "Geen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:13
 #: src/dialogs/dialog-cell-format.c:2280
 msgid "Pattern"
 msgstr "Patroon"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
 msgid "Si_ze:"
 msgstr "Gr_ootte:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
-msgid "Square"
-msgstr "Vierkant"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
 msgid "T_ype:"
 msgstr "T_ype:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
-msgid "Triangle down"
-msgstr "Driehoek onder"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
-msgid "Triangle left"
-msgstr "Driehoek links"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
-msgid "Triangle right"
-msgstr "Driehoek rechts"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
-msgid "Triangle up"
-msgstr "Driehoek boven"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:128
-msgid "X"
-msgstr "X"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
 msgid "_Background:"
 msgstr "_Achtergrond:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
 msgid "_Direction:"
 msgstr "_Richting:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:32
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
 msgid "_End:"
 msgstr "_Einde:"
 
 # vulkleur/opvulkleur
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:33
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
 msgid "_Fill color:"
 msgstr "_Vulkleur:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:34
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
 msgid "_Fit:"
 msgstr "_Passen:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:35
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
 msgid "_Foreground:"
 msgstr "_Voorgrond:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:36
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
 msgid "_Outline color:"
 msgstr "Kleur o_mtrek:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:37
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
 msgid "_Pattern:"
 msgstr "_Patroon:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:38
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
 msgid "_Select..."
 msgstr "_Selecteren..."
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:39
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
 msgid "_Shape:"
 msgstr "_Vorm:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:40
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
 msgid "_Size:"
 msgstr "_Grootte:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:41
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
 msgid "_Start:"
 msgstr "_Begin:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:42
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
 #: src/dialogs/solver.glade.h:42
 msgid "_Type:"
 msgstr "_Type:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:43
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
 msgid "_brighter"
 msgstr "_lichter"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:44
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
 msgid "_darker"
 msgstr "_donkerder"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:45
-msgid "bar"
-msgstr "balk"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:46
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
 msgid "pts"
 msgstr "pts"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:47
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:32
 msgid "stretched"
 msgstr "uitgerekt"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:48
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:33
 msgid "wallpaper"
 msgstr "behang"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:164
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:169
 #: src/widgets/preview-file-selection.c:167
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:452
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:535
 #: src/workbook-control-gui.c:3100
 msgid "Select an image"
 msgstr "Een afbeelding selecteren"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:787
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:895
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Stijl"
 
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:378
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:380
 #: src/dialogs/dialog-sheet-order.c:953 src/dialogs/dialog-sheet-order.c:966
 msgid "Default"
 msgstr "Standaard"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:425
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:427
 msgid "Guppi"
 msgstr "Guppi"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:264
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
+#: src/dialogs/consolidate.glade.h:12
+msgid "Labels"
+msgstr "Labels"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
+#: src/dialogs/consolidate.glade.h:27
+msgid "Values"
+msgstr "Waarden"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
@@ -21233,10 +21268,33 @@ msgstr "_Overlap:"
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
 #. * 	PlotBarCol2
-#.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:96
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:95
 msgid "PlotBarCol"
 msgstr "BalkKolom"
+
+# dit is het basiswoord waar getallen achter komen.
+# het is mooier om plot weg te laten bij deze dingen:
+# dus ipv Taartplot1 enz.: Taart1
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotLine2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:44
+#, fuzzy
+msgid "PlotLine"
+msgstr "Taart"
+
+# dit is het basiswoord waar getallen achter komen.
+# het is mooier om plot weg te laten bij deze dingen:
+# dus ipv Taartplot1 enz.: Taart1
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotArea2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
+#, fuzzy
+msgid "PlotArea"
+msgstr "Taart"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "3D Adjacent Bars"
@@ -21491,16 +21549,6 @@ msgstr "graden"
 msgid "PlotPie"
 msgstr "Taart"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
-#: src/dialogs/consolidate.glade.h:12
-msgid "Labels"
-msgstr "Labels"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
-#: src/dialogs/consolidate.glade.h:27
-msgid "Values"
-msgstr "Waarden"
-
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:263
 msgid "PlotRing"
 msgstr "Ring"
@@ -21605,11 +21653,18 @@ msgstr "Taart plot-motor"
 msgid "Ring plotting engine"
 msgstr "Ring plot-motor"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:53
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	PlotXY2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:58
 msgid "PlotXY"
 msgstr "XY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:130
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:153
+msgid "X"
+msgstr "X"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
 msgid "Y"
 msgstr "Y"
 
@@ -21683,6 +21738,200 @@ msgstr "Standaar punten-grafiektypen"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:4
 msgid "XY Charts"
 msgstr "XY-grafieken"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:222
+#, fuzzy
+msgid "none"
+msgstr "Geen"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:223
+#, fuzzy
+msgid "square"
+msgstr "Vierkant"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:224
+#, fuzzy
+msgid "diamond"
+msgstr "Ruit"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:225
+#, fuzzy
+msgid "triangle down"
+msgstr "Driehoek onder"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:226
+#, fuzzy
+msgid "triangle up"
+msgstr "Driehoek boven"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:227
+#, fuzzy
+msgid "triangle right"
+msgstr "Driehoek rechts"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:228
+#, fuzzy
+msgid "triangle left"
+msgstr "Driehoek links"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:229
+#, fuzzy
+msgid "circle"
+msgstr "Cirkel"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:231
+#, fuzzy
+msgid "cross"
+msgstr "Kruis"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:232
+#, fuzzy
+msgid "asterisk"
+msgstr "Sterretje"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:233
+msgid "bar"
+msgstr "balk"
+
+# Type markering voor punten in een grafiek
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:234
+#, fuzzy
+msgid "half bar"
+msgstr "Halve balk"
+
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:235
+#, fuzzy
+msgid "butterfly"
+msgstr "Vlindertje"
+
+# Type markering voor punten in een grafiek
+# Diabolo?
+#: src/cut-n-paste-code/goffice/utils/go-marker.c:236
+#, fuzzy
+msgid "hourglass"
+msgstr "Zandloper"
+
+# was eerst: effen
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:192
+#: src/dialogs/cell-format.glade.h:71
+msgid "Solid"
+msgstr "Egaal"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:193
+#: src/dialogs/cell-format.glade.h:12
+#, no-c-format
+msgid "75% Grey"
+msgstr "75% Grijs"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:194
+#: src/dialogs/cell-format.glade.h:8
+#, no-c-format
+msgid "50% Grey"
+msgstr "50% Grijs"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:195
+#: src/dialogs/cell-format.glade.h:6
+#, no-c-format
+msgid "25% Grey"
+msgstr "25% Grijs"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:196
+#: src/dialogs/cell-format.glade.h:4
+#, no-c-format
+msgid "12.5% Grey"
+msgstr "12.5% Grijs"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:197
+#: src/dialogs/cell-format.glade.h:10
+#, no-c-format
+msgid "6.25% Grey"
+msgstr "6.25% Grijs"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:198
+#: src/dialogs/cell-format.glade.h:47
+msgid "Horizontal Stripe"
+msgstr "Horizontaal gestreept"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:199
+#: src/dialogs/cell-format.glade.h:92
+msgid "Vertical Stripe"
+msgstr "Verticaal Gestreept"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:200
+#: src/dialogs/cell-format.glade.h:66
+msgid "Reverse Diagonal Stripe"
+msgstr "Omgekeerd diagonaal gestreept"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:201
+#: src/dialogs/cell-format.glade.h:42
+msgid "Diagonal Stripe"
+msgstr "Diagonaal gestreept"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:202
+#: src/dialogs/cell-format.glade.h:41
+msgid "Diagonal Crosshatch"
+msgstr "Diagonaal gearceerd"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:203
+#: src/dialogs/cell-format.glade.h:80
+msgid "Thick Diagonal Crosshatch"
+msgstr "Dik diagonaal gearceerd"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:204
+#: src/dialogs/cell-format.glade.h:84
+msgid "Thin Horizontal Stripe"
+msgstr "Dun horizontaal gestreept"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:205
+#: src/dialogs/cell-format.glade.h:86
+msgid "Thin Vertical Stripe"
+msgstr "Dun verticaal gestreept"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:206
+#: src/dialogs/cell-format.glade.h:85
+msgid "Thin Reverse Diagonal Stripe"
+msgstr "Dun omgekeerd diagonaal gestreept"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:207
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
+#: src/dialogs/cell-format.glade.h:81
+msgid "Thin Diagonal Crosshatch"
+msgstr "Dun diagonaal gearceerd"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:208
+#: src/dialogs/cell-format.glade.h:83
+msgid "Thin Horizontal Crosshatch"
+msgstr "Dun horizontaal gearceerd"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:210
+#: src/dialogs/cell-format.glade.h:44
+msgid "Foreground Solid"
+msgstr "Voorgrond egaal"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:211
+#: src/dialogs/cell-format.glade.h:70
+msgid "Small Circles"
+msgstr "Kleine cirkels"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:212
+#: src/dialogs/cell-format.glade.h:68
+msgid "Semi Circles"
+msgstr "Halve Cirkels"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:213
+#: src/dialogs/cell-format.glade.h:79
+msgid "Thatch"
+msgstr "Riet"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:214
+#: src/dialogs/cell-format.glade.h:57
+msgid "Large Circles"
+msgstr "Grote cirkels"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:215
+#: src/dialogs/cell-format.glade.h:32
+msgid "Bricks"
+msgstr "Stenen"
 
 #: src/dates.c:16
 msgid "*Sun"
@@ -22099,7 +22348,7 @@ msgstr "Eerste Letter"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:659
-#: src/format.c:2117 src/format.c:2246 src/format.c:2252 src/format.c:2328
+#: src/format.c:2123 src/format.c:2252 src/format.c:2258 src/format.c:2334
 #: src/plugin-service.c:199 src/widgets/widget-format-selector.c:68
 msgid "General"
 msgstr "Algemeen"
@@ -22321,31 +22570,6 @@ msgstr "Cel-opmerking"
 msgid "    "
 msgstr "    "
 
-#: src/dialogs/cell-format.glade.h:4
-#, no-c-format
-msgid "12.5% Grey"
-msgstr "12.5% Grijs"
-
-#: src/dialogs/cell-format.glade.h:6
-#, no-c-format
-msgid "25% Grey"
-msgstr "25% Grijs"
-
-#: src/dialogs/cell-format.glade.h:8
-#, no-c-format
-msgid "50% Grey"
-msgstr "50% Grijs"
-
-#: src/dialogs/cell-format.glade.h:10
-#, no-c-format
-msgid "6.25% Grey"
-msgstr "6.25% Grijs"
-
-#: src/dialogs/cell-format.glade.h:12
-#, no-c-format
-msgid "75% Grey"
-msgstr "75% Grijs"
-
 #: src/dialogs/cell-format.glade.h:13
 msgid "<b>Background</b>"
 msgstr "<b>Achtergrond</b>"
@@ -22412,10 +22636,6 @@ msgstr "Elke waarde  (geen controle)"
 msgid "Border"
 msgstr "Rand"
 
-#: src/dialogs/cell-format.glade.h:32
-msgid "Bricks"
-msgstr "Stenen"
-
 #: src/dialogs/cell-format.glade.h:33
 msgid "Ce_nter"
 msgstr "Ce_ntreren"
@@ -22449,18 +22669,6 @@ msgstr "Datum"
 msgid "Diagonal"
 msgstr "Diagonaal"
 
-#: src/dialogs/cell-format.glade.h:41
-msgid "Diagonal Crosshatch"
-msgstr "Diagonaal gearceerd"
-
-#: src/dialogs/cell-format.glade.h:42
-msgid "Diagonal Stripe"
-msgstr "Diagonaal gestreept"
-
-#: src/dialogs/cell-format.glade.h:44
-msgid "Foreground Solid"
-msgstr "Voorgrond egaal"
-
 # verbindingsstreepje?
 #: src/dialogs/cell-format.glade.h:45 src/dialogs/dialog-cell-format.c:2202
 msgid "Format Cells"
@@ -22469,10 +22677,6 @@ msgstr "Cel eigenschappen"
 #: src/dialogs/cell-format.glade.h:46
 msgid "Hi_de"
 msgstr "_Verbergen"
-
-#: src/dialogs/cell-format.glade.h:47
-msgid "Horizontal Stripe"
-msgstr "Horizontaal gestreept"
 
 #: src/dialogs/cell-format.glade.h:48
 msgid "I_n-cell dropdown"
@@ -22513,10 +22717,6 @@ msgstr "Binnen Verticaal"
 msgid "J_ustify"
 msgstr "_Uitvullen?"
 
-#: src/dialogs/cell-format.glade.h:57
-msgid "Large Circles"
-msgstr "Grote cirkels"
-
 #: src/dialogs/cell-format.glade.h:58 src/workbook-format-toolbar.c:629
 msgid "Left"
 msgstr "Links"
@@ -22547,30 +22747,13 @@ msgstr "Beveiliging"
 msgid "Reverse Diagonal"
 msgstr "Omgekeerd diagonaal"
 
-#: src/dialogs/cell-format.glade.h:66
-msgid "Reverse Diagonal Stripe"
-msgstr "Omgekeerd diagonaal gestreept"
-
 #: src/dialogs/cell-format.glade.h:67 src/workbook-format-toolbar.c:631
 msgid "Right"
 msgstr "Rechts"
 
-#: src/dialogs/cell-format.glade.h:68
-msgid "Semi Circles"
-msgstr "Halve Cirkels"
-
 #: src/dialogs/cell-format.glade.h:69
 msgid "Shrin_k to fit"
 msgstr "Passend ma_ken"
-
-#: src/dialogs/cell-format.glade.h:70
-msgid "Small Circles"
-msgstr "Kleine cirkels"
-
-# was eerst: effen
-#: src/dialogs/cell-format.glade.h:71
-msgid "Solid"
-msgstr "Egaal"
 
 #: src/dialogs/cell-format.glade.h:72
 msgid "Stop            (never allow invalid input)"
@@ -22600,37 +22783,9 @@ msgstr "B_oven"
 msgid "Text length"
 msgstr "Tekst lengte"
 
-#: src/dialogs/cell-format.glade.h:79
-msgid "Thatch"
-msgstr "Riet"
-
-#: src/dialogs/cell-format.glade.h:80
-msgid "Thick Diagonal Crosshatch"
-msgstr "Dik diagonaal gearceerd"
-
-#: src/dialogs/cell-format.glade.h:81
-msgid "Thin Diagonal Crosshatch"
-msgstr "Dun diagonaal gearceerd"
-
 #: src/dialogs/cell-format.glade.h:82
 msgid "Thin Diagonal Stripe"
 msgstr "Dun diagonaal gestreept"
-
-#: src/dialogs/cell-format.glade.h:83
-msgid "Thin Horizontal Crosshatch"
-msgstr "Dun horizontaal gearceerd"
-
-#: src/dialogs/cell-format.glade.h:84
-msgid "Thin Horizontal Stripe"
-msgstr "Dun horizontaal gestreept"
-
-#: src/dialogs/cell-format.glade.h:85
-msgid "Thin Reverse Diagonal Stripe"
-msgstr "Dun omgekeerd diagonaal gestreept"
-
-#: src/dialogs/cell-format.glade.h:86
-msgid "Thin Vertical Stripe"
-msgstr "Dun verticaal gestreept"
 
 #: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:73
 msgid "Time"
@@ -22647,10 +22802,6 @@ msgstr "Onderstrepen:"
 #: src/dialogs/cell-format.glade.h:91
 msgid "Validation"
 msgstr "Invoercontrole"
-
-#: src/dialogs/cell-format.glade.h:92
-msgid "Vertical Stripe"
-msgstr "Verticaal Gestreept"
 
 #: src/dialogs/cell-format.glade.h:93
 msgid "Warning     (accept/discard invalid input)"
@@ -23851,13 +24002,13 @@ msgid "Directory"
 msgstr "Map"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:411 src/format.c:1968
+#: src/dialogs/dialog-preferences.c:411 src/format.c:1971
 #: src/number-match.c:1094 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:818
 msgid "TRUE"
 msgstr "WAAR"
 
-#: src/dialogs/dialog-preferences.c:412 src/format.c:1968
+#: src/dialogs/dialog-preferences.c:412 src/format.c:1971
 #: src/number-match.c:1096 src/value-sheet.c:33 src/value.c:405
 #: src/value.c:818
 msgid "FALSE"
@@ -26919,7 +27070,7 @@ msgid "Yellow"
 msgstr "Geel"
 
 #. Array of arrays ??
-#: src/format.c:2011
+#: src/format.c:2014
 msgid "ARRAY"
 msgstr "REEKS"
 
@@ -28686,6 +28837,19 @@ msgstr "Kan object voor '%s' niet maken"
 #, c-format
 msgid "Could not load file: %s"
 msgstr "Niet in staat om bestand '%s' te openen"
+
+#: src/sheet-object-graph.c:158
+msgid "Save graph as image"
+msgstr ""
+
+#: src/sheet-object-graph.c:196
+msgid "Sorry, gnumeric can only save graphs as png images"
+msgstr ""
+
+#: src/sheet-object-graph.c:214
+#, fuzzy
+msgid "_Save as image"
+msgstr "Een afbeelding selecteren"
 
 #: src/sheet-object-graphic.c:934 src/sheet-object-graphic.c:951
 msgid "Transparent"
@@ -31597,23 +31761,23 @@ msgstr "Er trad een onverklaarbare fout op bij het openen van %s"
 msgid "Book%d.%s"
 msgstr "Boek%d.%s"
 
-#: src/workbook.c:1246
+#: src/workbook.c:1247
 msgid "Sheet name is NULL"
 msgstr "Werkbladnaam is NULL"
 
-#: src/workbook.c:1257
+#: src/workbook.c:1258
 msgid "Sheet name is not valid utf-8"
 msgstr "Werkbladnaam is geen geldige utf-8"
 
-#: src/workbook.c:1266
+#: src/workbook.c:1267
 msgid "Sheet name must have at least 1 letter"
 msgstr "Bladnaam moet tenminste 1 letter bevatten"
 
-#: src/workbook.c:1290
+#: src/workbook.c:1291
 msgid "There is already a sheet named"
 msgstr "Er is reeds een blad genaamd"
 
-#: src/workbook.c:1304
+#: src/workbook.c:1305
 msgid "You may not use this name twice"
 msgstr "Je mag deze naam niet twee keer gebruiken"
 
@@ -31652,9 +31816,6 @@ msgstr "Gnumeric XML bestandsformaat"
 
 #~ msgid "Sans"
 #~ msgstr "Sans"
-
-#~ msgid "Consolidating to %s!%s"
-#~ msgstr "Consolideren naar %s!%s"
 
 #~ msgid "Adding a sheet"
 #~ msgstr "Een blad toevoegen"

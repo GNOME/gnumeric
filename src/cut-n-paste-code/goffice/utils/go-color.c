@@ -23,6 +23,8 @@
 #include <goffice/utils/go-color.h>
 #include <widgets/widget-color-combo.h>
 
+#include <stdio.h>
+
 void
 go_color_to_artpix (ArtPixMaxDepth *res, GOColor rgba)
 {

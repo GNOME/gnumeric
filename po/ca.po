@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.71\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-08 14:55+0200\n"
+"POT-Creation-Date: 2003-09-10 00:27-0400\n"
 "PO-Revision-Date: 2003-08-31 22:07+0100\n"
 "Last-Translator: Jordi Negrevernis i Font <jorneg@retemail.es>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
@@ -876,6 +876,7 @@ msgstr ""
 # src/functions/fn-financial.c:2153
 #: plugins/derivatives/plugin.xml.in.h:1
 #: plugins/fn-financial/plugin.xml.in.h:1
+#: plugins/sample_datasource/plugin.xml.in.h:2
 #, fuzzy
 msgid "Finance"
 msgstr "Financeres"
@@ -7339,7 +7340,7 @@ msgstr "%s versió %s"
 # src/functions/fn-information.c:308 src/workbook-format-toolbar.c:649
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:208
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:264
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -16004,6 +16005,14 @@ msgstr ""
 msgid "Could not run GNOME database configuration tool"
 msgstr ""
 
+#: plugins/gnome-db/plugin.xml.in.h:1
+msgid "Database UI services plugin"
+msgstr ""
+
+#: plugins/gnome-db/plugin.xml.in.h:2
+msgid "GNOME-DB"
+msgstr ""
+
 #: plugins/gnome-db/ui.xml.h:1
 msgid "Data Sources..."
 msgstr ""
@@ -16633,6 +16642,27 @@ msgstr "Algunes funcions són proporcionades per mostres de connectors dePython"
 msgid "Default interpreter"
 msgstr "Intèrpret per defecte"
 
+#: plugins/python-loader/gnm-python.c:130
+#: plugins/python-loader/gnm-python.c:152
+#, fuzzy, c-format
+msgid "Could not import %s."
+msgstr "No s'ha pogut carregar el fitxer: %s"
+
+#: plugins/python-loader/gnm-python.c:137
+#, fuzzy, c-format
+msgid "Could not find %s."
+msgstr "No s'ha pogut carregar el fitxer: %s"
+
+#: plugins/python-loader/gnm-python.c:145
+#, c-format
+msgid "Could not initialize Python bindings for Gtk+, etc: %s"
+msgstr ""
+
+#: plugins/python-loader/gnm-python.c:159
+#, fuzzy, c-format
+msgid "Could not find %s"
+msgstr "No s'ha pogut carregar el fitxer: %s"
+
 #
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
@@ -16790,6 +16820,14 @@ msgstr ""
 "No s'ha pogut trobar el flux PerfectOffice_MAIN. És realment un fitxer "
 "Quattro Pro?"
 
+#: plugins/sample_datasource/plugin.xml.in.h:1
+msgid "A proof of concept external data source"
+msgstr ""
+
+#: plugins/sample_datasource/plugin.xml.in.h:3
+msgid "Sample DataSource"
+msgstr ""
+
 #: plugins/sample_datasource/sample_datasource.c:264
 #, no-c-format
 msgid ""
@@ -16861,6 +16899,14 @@ msgstr "S'ha produït un error mentre es llegia el full"
 #: plugins/uihello/hello.xml.h:1
 msgid "Hello World"
 msgstr "Hola Món"
+
+#: plugins/uihello/plugin.xml.in.h:1
+msgid "Hello World plugin using ui service"
+msgstr ""
+
+#: plugins/uihello/plugin.xml.in.h:2
+msgid "UI Hello"
+msgstr ""
 
 #: plugins/uihello/uihello.c:24
 #, c-format
@@ -18104,7 +18150,7 @@ msgid "Jump to a specified cell"
 msgstr "Salta a una cel·la específica"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:243
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
 #: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Etiqueta"
@@ -19693,60 +19739,96 @@ msgstr "Dependència Tabulada"
 msgid "Reconfigure Graph"
 msgstr "Configura el gràfic"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
+#: src/consolidate.c:773
+#, fuzzy, c-format
+msgid "Consolidating to (%s)"
+msgstr "S'està consolidant a %s!%s"
+
+#: src/consolidate.c:812 src/consolidate.c:815
+#, fuzzy
+msgid "Data Consolidation"
+msgstr "Consolidació de dades"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
+#, fuzzy
+msgid "_Cross"
+msgstr "Curtosi"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
+#, fuzzy
+msgid "_High"
+msgstr "Alçada"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+#, fuzzy
+msgid "_Invert"
+msgstr "_Insereix"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
+#, fuzzy
+msgid "_Low"
+msgstr "_Fila"
+
+#
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
+#, fuzzy
+msgid "_Map:"
+msgstr "_Buit:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_ín"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 #, fuzzy
 msgid "M_ax"
 msgstr "Màxim"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:191
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:247
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:192
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:248
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:215
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:271
 #, fuzzy
 msgid "Bounds"
 msgstr "Fons"
 
 #
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:219
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:275
 #, fuzzy
 msgid "Details"
 msgstr "Amaga el Detall"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:168
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:172
 msgid "Legend"
 msgstr "Llegenda"
 
 #
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:171
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:175
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:169
 msgid "Title"
 msgstr "Títol"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:174
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
 msgid "X-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
 msgid "Y-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
 msgid "Z-Axis"
 msgstr ""
 
 #
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
 msgid "Plot"
 msgstr "Traçar"
 
@@ -19884,7 +19966,7 @@ msgid "Chart Theme"
 msgstr "Tema de Chart"
 
 #
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:164
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:166
 msgid "Series"
 msgstr "_Sèries"
 
@@ -20084,6 +20166,18 @@ msgstr "Per defecte"
 msgid "Guppi"
 msgstr ""
 
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:264
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
+#: src/dialogs/consolidate.glade.h:12
+msgid "Labels"
+msgstr "Etiquetes"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
+#: src/dialogs/consolidate.glade.h:27
+msgid "Values"
+msgstr "Valors"
+
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
@@ -20113,10 +20207,29 @@ msgstr ""
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
 #. * 	PlotBarCol2
-#.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:95
 msgid "PlotBarCol"
 msgstr ""
+
+#
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotLine2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:44
+#, fuzzy
+msgid "PlotLine"
+msgstr "Traçar"
+
+#
+#. xgettext : the base for how to name bar/col plot objects
+#. * eg The 2nd line plot in a chart will be called
+#. * 	PlotArea2
+#.
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
+#, fuzzy
+msgid "PlotArea"
+msgstr "Traçar"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "3D Adjacent Bars"
@@ -20393,16 +20506,6 @@ msgstr "graus"
 msgid "PlotPie"
 msgstr "Traçar"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
-#: src/dialogs/consolidate.glade.h:12
-msgid "Labels"
-msgstr "Etiquetes"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
-#: src/dialogs/consolidate.glade.h:27
-msgid "Values"
-msgstr "Valors"
-
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:263
 #, fuzzy
 msgid "PlotRing"
@@ -20514,16 +20617,19 @@ msgid "Ring plotting engine"
 msgstr "Motor de traçador de pastissos"
 
 #
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:55
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	PlotXY2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:58
 #, fuzzy
-msgid "XYPlot"
+msgid "PlotXY"
 msgstr "Traçar"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:127
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:153
 msgid "X"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:129
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
 msgid "Y"
 msgstr ""
 
@@ -21214,7 +21320,7 @@ msgstr "Primera Lletra"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:659
-#: src/format.c:2117 src/format.c:2246 src/format.c:2252 src/format.c:2328
+#: src/format.c:2123 src/format.c:2252 src/format.c:2258 src/format.c:2334
 #: src/plugin-service.c:199 src/widgets/widget-format-selector.c:68
 msgid "General"
 msgstr "General"
@@ -22077,13 +22183,15 @@ msgstr "John Gotts, empaquetador en rpm."
 #. xgettext:
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:65
-msgid "Andreas J. Gulzow, Gnumeric hacker."
+#, fuzzy
+msgid "Andreas J. Gülzow, Gnumeric hacker."
 msgstr "Andreas J. Guelzow, expert en Gnumeric."
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:68
-msgid "Jon Kare Hellan, Gnumeric hacker."
+#, fuzzy
+msgid "Jon Kåre Hellan, Gnumeric hacker."
 msgstr "Jon K. Hellan, expert en Gnumeric."
 
 #: src/dialogs/dialog-about.c:69
@@ -22990,13 +23098,13 @@ msgid "Directory"
 msgstr "Directori"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:411 src/format.c:1968
+#: src/dialogs/dialog-preferences.c:411 src/format.c:1971
 #: src/number-match.c:1094 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:818
 msgid "TRUE"
 msgstr "CERT"
 
-#: src/dialogs/dialog-preferences.c:412 src/format.c:1968
+#: src/dialogs/dialog-preferences.c:412 src/format.c:1971
 #: src/number-match.c:1096 src/value-sheet.c:33 src/value.c:405
 #: src/value.c:818
 msgid "FALSE"
@@ -26319,7 +26427,7 @@ msgid "Yellow"
 msgstr "Groc"
 
 #. Array of arrays ??
-#: src/format.c:2011
+#: src/format.c:2014
 msgid "ARRAY"
 msgstr "CADENA"
 
@@ -28251,6 +28359,19 @@ msgstr "no es pot crear cap objecte per a '%s'"
 #, c-format
 msgid "Could not load file: %s"
 msgstr "No s'ha pogut carregar el fitxer: %s"
+
+#: src/sheet-object-graph.c:158
+msgid "Save graph as image"
+msgstr ""
+
+#: src/sheet-object-graph.c:196
+msgid "Sorry, gnumeric can only save graphs as png images"
+msgstr ""
+
+#: src/sheet-object-graph.c:214
+#, fuzzy
+msgid "_Save as image"
+msgstr "Selecciona un fitxer d'imatge"
 
 #
 #: src/sheet-object-graphic.c:934 src/sheet-object-graphic.c:951
@@ -31383,6 +31504,11 @@ msgstr "S'ha produït un error en desar el fitxer."
 msgid "Gnumeric XML file format"
 msgstr "Format de fitxer Gnumeric XML"
 
+#
+#, fuzzy
+#~ msgid "XYPlot"
+#~ msgstr "Traçar"
+
 # src/functions/fn-financial.c:535
 #
 #, fuzzy
@@ -31510,9 +31636,6 @@ msgstr "Format de fitxer Gnumeric XML"
 
 #~ msgid "_Risk Simulation..."
 #~ msgstr "_Simulació de Risc"
-
-#~ msgid "Consolidating to %s!%s"
-#~ msgstr "S'està consolidant a %s!%s"
 
 #
 #~ msgid "Adding a sheet"
