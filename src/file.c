@@ -273,9 +273,10 @@ workbook_read (CommandContext *context, const char *filename)
 	cell_deep_thaw_redraws ();
 
 	if (wb != NULL) {
-		/* TODO : Add preference to toggle this */
-		/* workbook_recalc (wb); */
+		/* FIXME : This should not be needed */
+		workbook_recalc (wb);
 		sheet_update (wb->current_sheet);
+		workbook_mark_clean (wb);
 	}
 
 	return wb;

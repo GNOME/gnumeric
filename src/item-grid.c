@@ -150,19 +150,19 @@ item_grid_find_col (ItemGrid *item_grid, int x, int *col_origin)
 	int pixel = gsheet->col_offset.first;
 
 	if (x < pixel) {
-		do {
-			ColRowInfo *ci = sheet_col_get_info (sheet, col);
+		while (col >= 0) {
+			ColRowInfo *ci = sheet_col_get_info (sheet, --col);
 			if (ci->visible) {
 				pixel -= ci->size_pixels;
-				if (pixel <= x) {
+				if (x >= pixel) {
 					if (col_origin)
 						*col_origin = pixel;
 					return col;
 				}
 			}
-		} while (--col >= 0);
+		};
 		if (col_origin)
-			*col_origin = 1;
+			*col_origin = 1; /* there is a 1 pixel edge at the left */
 		return 0;
 	}
 
@@ -178,10 +178,8 @@ item_grid_find_col (ItemGrid *item_grid, int x, int *col_origin)
 			pixel += tmp;
 		}
 	} while (++col < SHEET_MAX_COLS);
-	if (col_origin) {
-		g_warning ("What goes here ?");
+	if (col_origin)
 		*col_origin = pixel;
-	}
 	return SHEET_MAX_COLS-1;
 }
 
@@ -198,20 +196,19 @@ item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 	int pixel = gsheet->row_offset.first;
 
 	if (y < pixel) {
-		do {
-			ColRowInfo *ri = sheet_row_get_info (sheet, row);
+		while (row >= 0) {
+			ColRowInfo *ri = sheet_row_get_info (sheet, --row);
 			if (ri->visible) {
-				int const tmp = ri->size_pixels;
-				if (pixel <= y && y <= pixel + tmp) {
+				pixel -= ri->size_pixels;
+				if (y >= pixel) {
 					if (row_origin)
 						*row_origin = pixel;
 					return row;
 				}
-				pixel -= tmp;
 			}
-		} while (--row >= 0);
+		};
 		if (row_origin)
-			*row_origin = 1;
+			*row_origin = 1; /* there is a 1 pixel edge on top */
 		return 0;
 	}
 
@@ -227,10 +224,8 @@ item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 			pixel += tmp;
 		}
 	} while (++row < SHEET_MAX_ROWS);
-	if (row_origin) {
-		g_warning ("What goes here ?");
+	if (row_origin)
 		*row_origin = pixel;
-	}
 	return SHEET_MAX_ROWS-1;
 }
 

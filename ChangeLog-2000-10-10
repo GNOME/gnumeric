@@ -1,3 +1,19 @@
+2000-04-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/file.c (workbook_read) : Force clean after post load recalc.
+
+	* src/sheet-view.c (sheet_view_col_selection_changed) : keep the
+	  moving col visible.
+	(sheet_view_row_selection_changed) : Keep the moving row visible.
+
+	* src/item-grid.c (item_grid_find_col) : Tune iteration bounds to
+	  improve speed and allow for scrolling back to the first col/row.
+
+	* src/item-cursor.c (item_cursor_autofill_event) : Pass the coords of
+	  the cell we want to keep visible rather than the top left corner.
+	(item_cursor_set_bounds_visibly) : Rename the parameters to reflect
+	  their real purpose.
+
 2000-04-09  Morten Welinder  <terra@diku.dk>
 
 	* configure.in (gnome-print): Need 0.17.

@@ -355,9 +355,6 @@ sheet_view_col_selection_changed (ItemBar *item_bar, int col, int modifiers, She
 	Sheet *sheet = sheet_view->sheet;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 
-	/* Ensure that the col exists, ignore result */
-	sheet_col_fetch (sheet, col);
-
 	if (modifiers){
 		if ((modifiers & GDK_SHIFT_MASK) && sheet->selections){
 			SheetSelection *ss = sheet->selections->data;
@@ -380,8 +377,10 @@ sheet_view_col_selection_changed (ItemBar *item_bar, int col, int modifiers, She
 					   col, gsheet->row.first,
 					   col, 0,
 					   col, SHEET_MAX_ROWS-1);
-	} else
+	} else {
 		sheet_selection_extend_to (sheet, col, SHEET_MAX_ROWS - 1);
+		gnumeric_sheet_make_cell_visible (gsheet, col, gsheet->row.first, FALSE);
+	}
 }
 
 static void
@@ -420,9 +419,6 @@ sheet_view_row_selection_changed (ItemBar *item_bar, int row, int modifiers, She
 	Sheet *sheet = sheet_view->sheet;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 
-	/* Ensure that the row exists, ignore result */
-	sheet_row_fetch (sheet, row);
-
 	if (modifiers){
 		if ((modifiers & GDK_SHIFT_MASK) && sheet->selections){
 			SheetSelection *ss = sheet->selections->data;
@@ -445,8 +441,10 @@ sheet_view_row_selection_changed (ItemBar *item_bar, int row, int modifiers, She
 					   gsheet->col.first, row,
 					   0, row,
 					   SHEET_MAX_COLS-1, row);
-	} else
+	} else {
 		sheet_selection_extend_to (sheet, SHEET_MAX_COLS-1, row);
+		gnumeric_sheet_make_cell_visible (gsheet, gsheet->col.first, row, FALSE);
+	}
 }
 
 static void

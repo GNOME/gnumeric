@@ -96,6 +96,8 @@ function_select_row (GtkCList *clist, gint row, gint col,
 
 	gtk_label_set_text (state->func_name,
 			    tokenized_help_find (state->func_help, "SYNTAX"));
+
+	/* TODO : Fix 'descriptions' to be simple paragraphs */
 	gtk_label_set_text (state->description, "");
 }
 

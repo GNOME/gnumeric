@@ -776,7 +776,7 @@ item_cursor_do_drop (ItemCursor *item_cursor, GdkEventButton *event)
 
 static void
 item_cursor_set_bounds_visibly (ItemCursor *item_cursor,
-				int const base_col,	int const base_row,
+				int const visible_col,	int const visible_row,
 				int const start_col,	int const start_row,
 				int const end_col,	int const end_row)
 {
@@ -785,7 +785,8 @@ item_cursor_set_bounds_visibly (ItemCursor *item_cursor,
 
 	item_cursor_set_bounds (item_cursor, start_col, start_row, end_col, end_row);
 
-	gnumeric_sheet_make_cell_visible (gsheet, base_col, base_row, FALSE);
+	gnumeric_sheet_make_cell_visible (gsheet,
+					  visible_col, visible_row, FALSE);
 	gnome_canvas_update_now (GNOME_CANVAS (gsheet));
 }
 
@@ -964,29 +965,30 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		col = item_grid_find_col (item_cursor->item_grid, x, NULL);
 		row = item_grid_find_row (item_cursor->item_grid, y, NULL);
 
-		if (col < item_cursor->base_col || col > SHEET_MAX_COLS-1)
-			col = item_cursor->base_col;
-
-		if (row < item_cursor->base_row || row > SHEET_MAX_ROWS-1)
-			row = item_cursor->base_row;
-
+		/* Autofill by row or by col, NOT both. */
 		if ((item_cursor->base_x - x) > (item_cursor->base_y - y)){
+
+			/* FIXME : We do not support inverted auto-fill */
+			int bound = item_cursor->base_row + item_cursor->base_rows;
+			if (row > bound)
+				bound = row;
+
 			item_cursor_set_bounds_visibly (
-				item_cursor,
-				item_cursor->base_col,
-				item_cursor->base_row,
-				item_cursor->base_col,
-				item_cursor->base_row,
+				item_cursor, col, row,
+				item_cursor->base_col, item_cursor->base_row,
 				item_cursor->base_col + item_cursor->base_cols,
-				row);
+				bound);
 		} else {
+
+			/* FIXME : We do not support inverted auto-fill */
+			int bound = item_cursor->base_col + item_cursor->base_cols;
+			if (col > bound)
+				bound = col;
+
 			item_cursor_set_bounds_visibly (
-				item_cursor,
-				item_cursor->base_col,
-				item_cursor->base_row,
-				item_cursor->base_col,
-				item_cursor->base_row,
-				col,
+				item_cursor, col, row,
+				item_cursor->base_col, item_cursor->base_row,
+				bound,
 				item_cursor->base_row + item_cursor->base_rows);
 		}
 		return TRUE;
