@@ -170,10 +170,7 @@ wbcc_set_transient_for (WorkbookControlGUI *wbcg, GtkWindow *window)
 	
 	g_return_if_fail (wbcc->bcontrol != NULL);
 
-#if 0
-	/* Waiting for resolution of bug 80782 */
 	bonobo_control_set_transient_for (wbcc->bcontrol, window, NULL);
-#endif
 }
 
 void

@@ -1,3 +1,9 @@
+2002-05-11  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-component.c (wbcc_set_transient_for):
+	Enable bonobo_control_set_transient_for. It's fixed in libbonoboui
+	now.
+
 2002-05-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/gnumeric-gconf.c (gnm_gconf_rm_notification_autocorrect) : 
