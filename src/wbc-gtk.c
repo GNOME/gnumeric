@@ -312,15 +312,18 @@ wbc_gtk_init_borders (WBCgtk *gtk)
 /****************************************************************************/
 
 static GOActionComboPixmapsElement const halignment_combo_info[] = {
-	{ N_("Align Left"),		GTK_STOCK_JUSTIFY_LEFT,		HALIGN_LEFT },
-	{ N_("Center Horizontally"),	GTK_STOCK_JUSTIFY_CENTER,	HALIGN_CENTER },
-	{ N_("Align Right"),		GTK_STOCK_JUSTIFY_RIGHT,	HALIGN_RIGHT },
+	{ N_("Align left"),		GTK_STOCK_JUSTIFY_LEFT,		HALIGN_LEFT },
+	{ N_("Center horizontally"),	GTK_STOCK_JUSTIFY_CENTER,	HALIGN_CENTER },
+	{ N_("Align right"),		GTK_STOCK_JUSTIFY_RIGHT,	HALIGN_RIGHT },
 #if 0
 									HALIGN_GENERAL
-					GTK_STOCK_JUSTIFY_FILL,		HALIGN_FILL },
-									HALIGN_JUSTIFY
-					"Gnumeric_CenterAcrossSelection", HALIGN_CENTER_ACROSS_SELECTION },
 #endif
+	{ N_("Fill Horizontally"),	GTK_STOCK_JUSTIFY_FILL,		HALIGN_FILL },
+#if 0
+									HALIGN_JUSTIFY
+#endif
+	{ N_("Center horizontally across the selection"),
+					"Gnumeric_CenterAcrossSelection", HALIGN_CENTER_ACROSS_SELECTION },
 	{ NULL, NULL }
 };
 static GOActionComboPixmapsElement const valignment_combo_info[] = {
@@ -346,7 +349,7 @@ static void
 wbc_gtk_init_alignments (WBCgtk *gtk)
 {
 	gtk->halignment = go_action_combo_pixmaps_new ("HAlignmentSelector",
-						       halignment_combo_info, 1, 3);
+						       halignment_combo_info, 3, 1);
 	g_object_set (G_OBJECT (gtk->halignment),
 		      "label", _("Horzontal Alignment"),
 		      "tooltip", _("Horzontal Alignment"),
