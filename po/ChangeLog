@@ -1,3 +1,7 @@
+2002-04-23  Takeshi Aihana <aihana@gnome.gr.jp>
+
+	* ja.po: Updated Japanese translation.
+
 2002-04-23  Abel Cheung  <maddog@linux.org.hk>
 
 	* POTFILES.in: Synced with source tree and sorted.
@@ -77,7 +81,7 @@
 
 	* POTFILES.in : added src/dialogs/goto.glade
 
-2002-03-16  Carlos Perelló Marín <carlos@gnome-db.org>
+2002-03-16  Carlos Perell-Aó Marín <carlos@gnome-db.org>$)B
 
 	* POTFILES.in: /s/GNOME_Gnumeric.server.in/GNOME_Gnumeric.server.in.in/
 
@@ -167,11 +171,11 @@
 
 2002-02-22  Fatih Demir <kabalak@gtranslator.org>
 
-	* tr.po: Committed updated Turkish translation by Nilgün & Deniz.
+	* tr.po: Committed updated Turkish translation by Nilg-Aün & Deniz.$)B
 
 2002-02-22  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokm-Aål) translation.$)B
 
 2002-02-18  Jarkko Ranta  <jjranta@cc.joensuu.fi>
 
@@ -214,7 +218,7 @@
 
 2002-01-27  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokm-Aål) translation.$)B
 
 2002-01-27  Christian Rose  <menthos@menthos.com>
 
@@ -242,7 +246,7 @@
 
 2002-01-22  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokm-Aål) translation.$)B
 
 2002-01-21  Christian Rose  <menthos@menthos.com>
 
@@ -335,7 +339,7 @@
 
 2002-01-12  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* no.po: Updated Norwegian (bokmål) translation.
+	* no.po: Updated Norwegian (bokm-Aål) translation.$)B
 
 2002-01-11  Christian Rose  <menthos@menthos.com>
 
