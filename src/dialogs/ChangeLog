@@ -1,3 +1,12 @@
+2002-03-17  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c (fmt_dialog_init_font_page) : fix underline
+	  handling by converting to gnumeric-combo-text.  Thanks to Almer for
+	  pointing me at this code.
+	(cb_font_underline_changed) : change signal semantics to match
+	  the new combo.
+	* cell-format.glade : Use a custom type.
+
 2002-03-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/dialogs/dialog-search-replace.c : ported to gnome2

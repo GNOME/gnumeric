@@ -17,6 +17,7 @@
 #include <style-color.h>
 #include <widgets/widget-font-selector.h>
 #include <widgets/gnumeric-dashed-canvas-line.h>
+#include <widgets/gnumeric-combo-text.h>
 #include <gui-util.h>
 #include <selection.h>
 #include <str.h>
@@ -1291,24 +1292,25 @@ cb_font_strike_toggle (GtkToggleButton *button, FormatState *state)
 	}
 }
 
-static void
-cb_font_underline_changed (GtkEditable *w, FormatState *state)
+static gboolean
+cb_font_underline_changed (GtkWidget *ct, char *new_text, FormatState *state)
 {
-	gchar const *tmp = gtk_entry_get_text (GTK_ENTRY (w));
 	StyleUnderlineType res = UNDERLINE_NONE;
 
-	if (!state->enable_edit)
-		return;
+	/* ignore the clear while assigning a new value */
+	if (!state->enable_edit || new_text == NULL || *new_text == '\0')
+		return FALSE;
 
 	/* There must be a better way than this */
-	if (!g_strcasecmp (tmp, _("Single")))
+	if (!g_strcasecmp (new_text, _("Single")))
 		res = UNDERLINE_SINGLE;
-	else if (!g_strcasecmp (tmp, _("Double")))
+	else if (!g_strcasecmp (new_text, _("Double")))
 		res = UNDERLINE_DOUBLE;
-	else if (g_strcasecmp (tmp, _("None")))
-		g_warning ("Invalid underline style, assuming NONE");
+	else if (g_strcasecmp (new_text, _("None")))
+		g_warning ("Invalid underline style '%s', assuming NONE", new_text);
 
 	font_selector_set_underline (state->font.selector, res);
+	return TRUE;
 }
 
 /* Manually insert the font selector, and setup signals */
@@ -1319,6 +1321,7 @@ fmt_dialog_init_font_page (FormatState *state)
 	FontSelector *font_widget = FONT_SELECTOR (tmp);
 	GtkWidget *container = glade_xml_get_widget (state->gui, "font_box");
 	GtkWidget *uline = glade_xml_get_widget (state->gui, "underline_combo");
+	char const *uline_str;
 	GtkWidget *strike = glade_xml_get_widget (state->gui, "strikethrough_button");
 	gboolean   strikethrough = FALSE;
 
@@ -1358,23 +1361,26 @@ fmt_dialog_init_font_page (FormatState *state)
 		font_selector_set_points (state->font.selector,
 					  mstyle_get_font_size (state->style));
 
+	gnm_combo_text_add_item	(GNM_COMBO_TEXT (uline), _("None"));
+	gnm_combo_text_add_item	(GNM_COMBO_TEXT (uline), _("Single"));
+	gnm_combo_text_add_item	(GNM_COMBO_TEXT (uline), _("Double"));
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_UNDERLINE)) {
-		GtkCombo *combo = GTK_COMBO (uline);
-		char const *val;
-
 		switch (mstyle_get_font_uline (state->style)) {
 		default :
-		case UNDERLINE_NONE : val = _("None"); break;
-		case UNDERLINE_SINGLE :val = _("Single"); break;
-		case UNDERLINE_DOUBLE :val = _("Double"); break;
+		case UNDERLINE_NONE   : uline_str = _("None"); break;
+		case UNDERLINE_SINGLE : uline_str = _("Single"); break;
+		case UNDERLINE_DOUBLE : uline_str = _("Double"); break;
 		};
-		gtk_entry_set_text (GTK_ENTRY (combo->entry), val);
-		font_selector_set_underline (state->font.selector, mstyle_get_font_uline (state->style));
-
-		g_signal_connect (GTK_OBJECT (combo->entry),
-				    "changed", G_CALLBACK (cb_font_underline_changed),
-				    state);
-	}
+		font_selector_set_underline (state->font.selector,
+			mstyle_get_font_uline (state->style));
+	} else
+		uline_str = "";
+	gnm_combo_text_set_text	(GNM_COMBO_TEXT (uline), uline_str,
+		GNM_COMBO_TEXT_FROM_TOP);
+	g_signal_connect (GTK_OBJECT (uline),
+		"entry_changed",
+		G_CALLBACK (cb_font_underline_changed), state);
+	gtk_widget_show_all (uline);
 
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_STRIKETHROUGH))
 		strikethrough = mstyle_get_font_strike (state->style);
@@ -1383,18 +1389,18 @@ fmt_dialog_init_font_page (FormatState *state)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (strike), strikethrough);
 	font_selector_set_strike (state->font.selector, strikethrough);
 
-	g_signal_connect (GTK_OBJECT (strike), "toggled",
-			    G_CALLBACK (cb_font_strike_toggle),
-			    state);
+	g_signal_connect (GTK_OBJECT (strike),
+		"toggled",
+		G_CALLBACK (cb_font_strike_toggle), state);
 
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_COLOR_FORE))
 		font_selector_set_color (
 			state->font.selector,
 			style_color_ref (mstyle_get_color (state->style, MSTYLE_COLOR_FORE)));
 
-	g_signal_connect (GTK_OBJECT (font_widget), "font_changed",
-			    G_CALLBACK (cb_font_changed),
-			    state);
+	g_signal_connect (GTK_OBJECT (font_widget),
+		"font_changed",
+		G_CALLBACK (cb_font_changed), state);
 }
 
 /*****************************************************************************/
@@ -1596,12 +1602,12 @@ border_format_has_changed (FormatState *state, BorderPicker *edge)
 	gboolean changed = FALSE;
 
 	edge->is_set = TRUE;
-	if (edge->is_auto_color)
+	if (edge->is_auto_color) {
 		if (!state->border.is_auto_color) {
 			edge->is_auto_color = state->border.is_auto_color;
 			changed = TRUE;
 		}
-	else if (edge->rgba != state->border.rgba)
+	} else if (edge->rgba != state->border.rgba)
 		changed = TRUE;
 
 	if (edge->rgba != state->border.rgba) {

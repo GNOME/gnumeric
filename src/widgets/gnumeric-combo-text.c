@@ -173,15 +173,15 @@ cb_scroll_size_request (GtkWidget *widget, GtkRequisition *requisition,
 
 	gtk_widget_size_request	(ct->list, &list_req);
 	if (requisition->height < list_req.height) {
-		int height = 0;
+		int height = list_req.height;
 		GtkWidget const *w = GTK_CONTAINER (ct->list)->focus_child;
 
-		if (w != NULL)
+		if (w != NULL) {
 			/* Magic number, max number of items before we scroll */
 			height = w->requisition.height * 10;
-
-		if (height > list_req.height)
-			height = list_req.height;
+			if (height > list_req.height)
+				height = list_req.height;
+		}
 
 		/* FIXME : Why do we need 4 ??
 		 * without it things end up scrolling.
@@ -298,6 +298,11 @@ gnm_combo_text_new (GCompareFunc cmp_func)
 	ct = g_object_new (GNM_TYPE_COMBO_TEXT, NULL);
 	ct->cmp_func = cmp_func;
 	return GTK_WIDGET (ct);
+}
+GtkWidget *
+gnm_combo_text_glade_new (void)
+{
+	return gnm_combo_text_new (NULL);
 }
 
 E_MAKE_TYPE(gnm_combo_text, "GnmComboText", GnmComboText,

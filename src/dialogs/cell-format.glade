@@ -1351,92 +1351,17 @@
 				    </child>
 
 				    <child>
-				      <widget class="GtkCombo" id="underline_combo">
-					<property name="value_in_list">yes</property>
-					<property name="case_sensitive">no</property>
-					<property name="width-request">100</property>
-					<property name="enable_arrow_keys">yes</property>
-					<property name="enable_arrows_always">no</property>
-					<property name="allow_empty">yes</property>
-					<property name="visible">yes</property>
-
-					<child internal-child="entry">
-					  <widget class="GtkEntry" id="combo-entry2">
-					    <property name="can_focus">yes</property>
-					    <property name="editable">no</property>
-					    <property name="text" translatable="yes">None</property>
-					    <property name="max-length">0</property>
-					    <property name="visibility">yes</property>
-					    <property name="visible">yes</property>
-					  </widget>
-					</child>
-
-					<child internal-child="list">
-					  <widget class="GtkList" id="convertwidget10">
-					    <property name="visible">yes</property>
-
-					    <child>
-					      <widget class="GtkListItem" id="convertwidget11">
-						<property name="visible">yes</property>
-
-						<child>
-						  <widget class="GtkLabel" id="convertwidget12">
-						    <property name="label" translatable="yes">None</property>
-						    <property name="xalign">0.0</property>
-						    <property name="visible">yes</property>
-						  </widget>
-						</child>
-					      </widget>
-					    </child>
-
-					    <child>
-					      <widget class="GtkListItem" id="convertwidget13">
-						<property name="visible">yes</property>
-
-						<child>
-						  <widget class="GtkLabel" id="convertwidget14">
-						    <property name="label" translatable="yes">Single</property>
-						    <property name="xalign">0.0</property>
-						    <property name="visible">yes</property>
-						  </widget>
-						</child>
-					      </widget>
-					    </child>
-
-					    <child>
-					      <widget class="GtkListItem" id="convertwidget15">
-						<property name="visible">yes</property>
-
-						<child>
-						  <widget class="GtkLabel" id="convertwidget16">
-						    <property name="label" translatable="yes">Double</property>
-						    <property name="xalign">0.0</property>
-						    <property name="visible">yes</property>
-						  </widget>
-						</child>
-					      </widget>
-					    </child>
-
-					    <child>
-					      <widget class="GtkListItem" id="convertwidget17">
-						<property name="visible">yes</property>
-
-						<child>
-						  <widget class="GtkLabel" id="convertwidget18">
-						    <property name="label" translatable="yes"></property>
-						    <property name="xalign">0.0</property>
-						    <property name="visible">yes</property>
-						  </widget>
-						</child>
-					      </widget>
-					    </child>
-					  </widget>
-					</child>
+				      <widget class="Custom" id="underline_combo">
+					<property name="visible">True</property>
+					<property name="creation_function">gnm_combo_text_glade_new</property>
+					<property name="int1">0</property>
+					<property name="int2">0</property>
+					<property name="last_modification_time">Sun, 17 Mar 2002 21:20:33 GMT</property>
 				      </widget>
 				      <packing>
 					<property name="padding">0</property>
 					<property name="expand">no</property>
-					<property name="fill">no</property>
+					<property name="fill">yes</property>
 				      </packing>
 				    </child>
 				  </widget>

@@ -32,6 +32,7 @@ typedef enum {		/* begin the search from : */
 
 GType      gnm_combo_text_get_type	(void);
 GtkWidget *gnm_combo_text_new		 (GCompareFunc cmp_func);
+GtkWidget *gnm_combo_text_glade_new	 (void);
 
 gboolean   gnm_combo_text_set_text	 (GnmComboText *ct, const gchar *label,
 					  GnmComboTextSearch start);
