@@ -1008,6 +1008,12 @@ plugin_service_function_group_func_desc_load (GnmFunc const *fn_def,
 		error_info_free (error);
 		return FALSE;
 	}
+	if (!service_function_group->cbs.func_desc_load) {
+                error = error_info_new_printf (_("No func_desc_load method.\n"));
+		error_info_print (error);
+		error_info_free (error);
+		return FALSE;
+	}
 	return service_function_group->cbs.func_desc_load (service,
 		gnm_func_get_name (fn_def), res);
 }

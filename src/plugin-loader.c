@@ -199,8 +199,11 @@ gnm_plugin_loader_load_base (GnmPluginLoader *loader, ErrorInfo **ret_error)
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	gnm_plugin_loader_class = PL_GET_CLASS (loader);
-	g_return_if_fail (gnm_plugin_loader_class->load_base != NULL);
-	gnm_plugin_loader_class->load_base (loader, &error);
+	if (gnm_plugin_loader_class->load_base != NULL) {
+		gnm_plugin_loader_class->load_base (loader, &error);
+	} else {
+		*ret_error = error_info_new_printf (_("Loader has no load_base method.\n"));
+	}
 	if (error == NULL) {
 		loader->is_base_loaded = TRUE;
 		plugin_message (3, "Loaded plugin \"%s\".\n", gnm_plugin_get_id (loader->plugin));
