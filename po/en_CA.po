@@ -1,15 +1,15 @@
 # English/Canada translation of gnumeric.
-# Copyright (C) Adam Weinberger and the GNOME Foundation
+# Copyright (C) 2004-2005 Adam Weinberger and the GNOME Foundation
 # This file is distributed under the same licence as the gnumeric package.
 # Andreas J. Guelzow <aguelzow@italiesin.ca>, 2003.
-# Adam Weinberger <adamw@gnome.org>, 2004.
+# Adam Weinberger <adamw@gnome.org>, 2004, 2005.
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-12-22 02:40-0500\n"
-"PO-Revision-Date: 2004-12-22 11:36-0400\n"
+"POT-Creation-Date: 2005-01-12 16:09-0500\n"
+"PO-Revision-Date: 2005-01-12 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgid "Gnumeric Workbook viewer factory"
 msgstr "Gnumeric Workbook viewer factory"
 
 #. Keep in sync with .desktop file
-#: gnumeric.desktop.in.h:1 src/main-application.c:285
+#: gnumeric.desktop.in.h:1 src/main-application.c:293
 msgid "Gnumeric Spreadsheet"
 msgstr "Gnumeric Spreadsheet"
 
@@ -89,6 +89,7 @@ msgid "Provides a CORBA scripting interface"
 msgstr "Provides a CORBA scripting interface"
 
 #: plugins/derivatives/options.c:159
+#, no-c-format
 msgid ""
 "@FUNCTION=CUM_BIV_NORM_DIST\n"
 "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
@@ -287,6 +288,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_VEGA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:458
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_VEGA\n"
 "@SYNTAX=OPT_BS_VEGA(spot,strike,time,rate,volatility[,cost_of_carry])\n"
@@ -331,7 +333,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:528
-#, c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_RHO\n"
 "@SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -378,6 +380,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:592
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_CARRYCOST\n"
 "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -432,6 +435,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:662
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
 "@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domestic_rate,"
@@ -480,6 +484,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:731
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FRENCH\n"
 "@SYNTAX=OPT_FRENCH(call_put_flag,spot,strike,time,t2,rate,volatility[,"
@@ -528,6 +533,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:793
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_JUMP_DIFF\n"
 "@SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,volatility,lambda,"
@@ -568,6 +574,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:887
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
 "@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_flag,p_t,f_t,x,t1,t2,v_s,v_e,v_f,"
@@ -626,6 +633,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:997
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_RGW\n"
 "@SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)\n"
@@ -664,6 +672,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1051
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BAW_AMER\n"
 "@SYNTAX=OPT_BAW_AMER(call_put_flag,spot,strike,time,rate,cost_of_carry,"
@@ -704,6 +713,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1234
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BJERSTENS\n"
 "@SYNTAX=OPT_BJERSTENS(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -744,6 +754,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1318
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXEC\n"
 "@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,"
@@ -788,6 +799,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1366
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FORWARD_START\n"
 "@SYNTAX=OPT_FORWARD_START(call_put_flag,spot,alpha,time1,time,rate,"
@@ -828,6 +840,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1429
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_TIME_SWITCH\n"
 "@SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,"
@@ -876,6 +889,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1486
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_SIMPLE_CHOOSER\n"
 "@SYNTAX=OPT_SIMPLE_CHOOSER(call_put_flag,spot,strike,time1,time2,rate,"
@@ -916,6 +930,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1547
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_COMPLEX_CHOOSER\n"
 "@SYNTAX=OPT_COMPLEX_CHOOSER(call_put_flag,spot,strike_call,strike_put,time,"
@@ -968,6 +983,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1662
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_ON_OPTIONS\n"
 "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,rate,"
@@ -1016,6 +1032,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1747
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
 "@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,time1,time2,"
@@ -1066,6 +1083,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1809
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_2_ASSET_CORRELATION\n"
 "@SYNTAX=OPT_2_ASSSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,"
@@ -1116,6 +1134,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1862
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_EURO_EXCHANGE\n"
 "@SYNTAX=OPT_EURO_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,"
@@ -1156,6 +1175,7 @@ msgstr ""
 "OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1905
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_AMER_EXCHANGE\n"
 "@SYNTAX=OPT_AMER_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,"
@@ -1196,6 +1216,7 @@ msgstr ""
 "OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1949
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_SPREAD_APPROX\n"
 "@SYNTAX=OPT_SPREAD_APPROX(call_put_flag,fut_price1,fut_price2,strike,time, "
@@ -1236,6 +1257,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:2002
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FLOAT_STRK_LKBK\n"
 "@SYNTAX=OPT_FLOAT_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,time,rate,"
@@ -1284,6 +1306,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:2067
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FIXED_STRK_LKBK\n"
 "@SYNTAX=OPT_FIXED_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,strike,time,"
@@ -1334,6 +1357,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:2148
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BINOMIAL\n"
 "@SYNTAX=OPT_BINOMIAL(amer_euro_flag,call_put_flag,num_time_steps, spot, "
@@ -1722,7 +1746,7 @@ msgstr "Couldn't open stream 'Workbook' for writing\n"
 msgid "Broken function"
 msgstr "Broken function"
 
-#: plugins/excel/ms-formula-write.c:537
+#: plugins/excel/ms-formula-write.c:535
 #, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel expects exactly %d and we "
@@ -1731,7 +1755,7 @@ msgstr ""
 "Too many arguments for function '%s'. MS Excel expects exactly %d and we "
 "have %d"
 
-#: plugins/excel/ms-formula-write.c:538
+#: plugins/excel/ms-formula-write.c:536
 #, c-format
 msgid ""
 "Too many arguments for function '%s', MS Excel can only handle %d not %d"
@@ -4913,8 +4937,8 @@ msgstr ""
 #. * reference of the top and leftmost cell visible in the
 #. * window, based on the current scrolling position.
 #.
-#: plugins/fn-date/functions.c:900 plugins/fn-eng/functions.c:101
-#: plugins/fn-info/functions.c:1285 plugins/fn-info/functions.c:1301
+#: plugins/fn-date/functions.c:900 plugins/fn-info/functions.c:1285
+#: plugins/fn-info/functions.c:1301
 msgid "Unimplemented"
 msgstr "Unimplemented"
 
@@ -5151,7 +5175,39 @@ msgstr "Date/Time"
 msgid "Functions manipulating dates and time"
 msgstr "Functions manipulating dates and time"
 
-#: plugins/fn-eng/functions.c:116
+#: plugins/fn-eng/functions.c:140
+msgid ""
+"@FUNCTION=BASE\n"
+"@SYNTAX=BASE(number,base[,length])\n"
+"@DESCRIPTION=BASE function converts a number to a string representing that "
+"number in base @base.\n"
+"\n"
+"* @base must be an integer between 2 and 36.\n"
+"* This function is OpenOffice.Org compatible.\n"
+"* Optional argument @length specifies the minimum result length.  Leading  "
+"zeroes will be added to reach this length.\n"
+"\n"
+"@EXAMPLES=\n"
+"BASE(255,16,4) equals \"00FF\".\n"
+"\n"
+"@SEEALSO=DECIMAL"
+msgstr ""
+"@FUNCTION=BASE\n"
+"@SYNTAX=BASE(number,base[,length])\n"
+"@DESCRIPTION=BASE function converts a number to a string representing that "
+"number in base @base.\n"
+"\n"
+"* @base must be an integer between 2 and 36.\n"
+"* This function is OpenOffice.Org compatible.\n"
+"* Optional argument @length specifies the minimum result length.  Leading  "
+"zeroes will be added to reach this length.\n"
+"\n"
+"@EXAMPLES=\n"
+"BASE(255,16,4) equals \"00FF\".\n"
+"\n"
+"@SEEALSO=DECIMAL"
+
+#: plugins/fn-eng/functions.c:175
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
@@ -5177,7 +5233,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: plugins/fn-eng/functions.c:139
+#: plugins/fn-eng/functions.c:198
 msgid ""
 "@FUNCTION=BIN2OCT\n"
 "@SYNTAX=BIN2OCT(number[,places])\n"
@@ -5207,7 +5263,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX"
 
-#: plugins/fn-eng/functions.c:165
+#: plugins/fn-eng/functions.c:224
 msgid ""
 "@FUNCTION=BIN2HEX\n"
 "@SYNTAX=BIN2HEX(number[,places])\n"
@@ -5237,7 +5293,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HEX2BIN, BIN2OCT, BIN2DEC"
 
-#: plugins/fn-eng/functions.c:191
+#: plugins/fn-eng/functions.c:250
 msgid ""
 "@FUNCTION=DEC2BIN\n"
 "@SYNTAX=DEC2BIN(number[,places])\n"
@@ -5267,7 +5323,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX"
 
-#: plugins/fn-eng/functions.c:217
+#: plugins/fn-eng/functions.c:276
 msgid ""
 "@FUNCTION=DEC2OCT\n"
 "@SYNTAX=DEC2OCT(number[,places])\n"
@@ -5297,7 +5353,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX"
 
-#: plugins/fn-eng/functions.c:243
+#: plugins/fn-eng/functions.c:302
 msgid ""
 "@FUNCTION=DEC2HEX\n"
 "@SYNTAX=DEC2HEX(number[,places])\n"
@@ -5327,7 +5383,33 @@ msgstr ""
 "\n"
 "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 
-#: plugins/fn-eng/functions.c:269
+#: plugins/fn-eng/functions.c:328
+msgid ""
+"@FUNCTION=DECIMAL\n"
+"@SYNTAX=DECIMAL(text,base)\n"
+"@DESCRIPTION=DECIMAL function converts a number in base @base to decimal.\n"
+"\n"
+"* @base must be an integer between 2 and 36.\n"
+"* This function is OpenOffice.Org compatible.\n"
+"\n"
+"@EXAMPLES=\n"
+"DECIMAL(\"A1\",16) equals 161.\n"
+"\n"
+"@SEEALSO=BASE"
+msgstr ""
+"@FUNCTION=DECIMAL\n"
+"@SYNTAX=DECIMAL(text,base)\n"
+"@DESCRIPTION=DECIMAL function converts a number in base @base to decimal.\n"
+"\n"
+"* @base must be an integer between 2 and 36.\n"
+"* This function is OpenOffice.Org compatible.\n"
+"\n"
+"@EXAMPLES=\n"
+"DECIMAL(\"A1\",16) equals 161.\n"
+"\n"
+"@SEEALSO=BASE"
+
+#: plugins/fn-eng/functions.c:357
 msgid ""
 "@FUNCTION=OCT2DEC\n"
 "@SYNTAX=OCT2DEC(x)\n"
@@ -5353,7 +5435,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 
-#: plugins/fn-eng/functions.c:292
+#: plugins/fn-eng/functions.c:380
 msgid ""
 "@FUNCTION=OCT2BIN\n"
 "@SYNTAX=OCT2BIN(number[,places])\n"
@@ -5383,7 +5465,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX"
 
-#: plugins/fn-eng/functions.c:318
+#: plugins/fn-eng/functions.c:406
 msgid ""
 "@FUNCTION=OCT2HEX\n"
 "@SYNTAX=OCT2HEX(number[,places])\n"
@@ -5413,7 +5495,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC"
 
-#: plugins/fn-eng/functions.c:344
+#: plugins/fn-eng/functions.c:432
 msgid ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(number[,places])\n"
@@ -5443,7 +5525,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC"
 
-#: plugins/fn-eng/functions.c:370
+#: plugins/fn-eng/functions.c:458
 msgid ""
 "@FUNCTION=HEX2OCT\n"
 "@SYNTAX=HEX2OCT(number[,places])\n"
@@ -5473,7 +5555,7 @@ msgstr ""
 "\n"
 "@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC"
 
-#: plugins/fn-eng/functions.c:396
+#: plugins/fn-eng/functions.c:484
 msgid ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
@@ -5499,7 +5581,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 
-#: plugins/fn-eng/functions.c:419
+#: plugins/fn-eng/functions.c:507
 msgid ""
 "@FUNCTION=BESSELI\n"
 "@SYNTAX=BESSELI(x,y)\n"
@@ -5535,7 +5617,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
-#: plugins/fn-eng/functions.c:457
+#: plugins/fn-eng/functions.c:545
 msgid ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
@@ -5567,7 +5649,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
 
-#: plugins/fn-eng/functions.c:494
+#: plugins/fn-eng/functions.c:582
 msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
@@ -5599,7 +5681,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELI,BESSELK,BESSELY"
 
-#: plugins/fn-eng/functions.c:530
+#: plugins/fn-eng/functions.c:618
 msgid ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
@@ -5635,7 +5717,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELI,BESSELJ,BESSELK"
 
-#: plugins/fn-eng/functions.c:573
+#: plugins/fn-eng/functions.c:661
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -5857,7 +5939,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-eng/functions.c:988
+#: plugins/fn-eng/functions.c:1076
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF([lower limit,]upper_limit)\n"
@@ -5907,7 +5989,7 @@ msgstr ""
 "deviations of the mean.\n"
 "@SEEALSO=ERFC"
 
-#: plugins/fn-eng/functions.c:1035
+#: plugins/fn-eng/functions.c:1123
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -5941,7 +6023,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ERF"
 
-#: plugins/fn-eng/functions.c:1065
+#: plugins/fn-eng/functions.c:1153
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -5971,11 +6053,11 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT,GESTEP"
 
-#: plugins/fn-eng/functions.c:1109 plugins/fn-eng/functions.c:1163
+#: plugins/fn-eng/functions.c:1197 plugins/fn-eng/functions.c:1251
 msgid "Impossible"
 msgstr "Impossible"
 
-#: plugins/fn-eng/functions.c:1120
+#: plugins/fn-eng/functions.c:1208
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -6001,7 +6083,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DELTA"
 
-#: plugins/fn-eng/functions.c:1174
+#: plugins/fn-eng/functions.c:1262
 msgid ""
 "@FUNCTION=INVSUMINV\n"
 "@SYNTAX=INVSUMINV(x1,x2,...)\n"
@@ -9700,7 +9782,7 @@ msgstr ""
 "@SEEALSO=TRUE"
 
 #: plugins/fn-logical/functions.c:334 plugins/fn-logical/functions.c:338
-#: plugins/fn-logical/functions.c:358 plugins/fn-math/functions.c:3319
+#: plugins/fn-logical/functions.c:358 plugins/fn-math/functions.c:3332
 #: plugins/fn-stat/functions.c:5633 plugins/fn-stat/functions.c:5637
 #: plugins/fn-stat/functions.c:5641 plugins/fn-stat/functions.c:5679
 #: plugins/fn-stat/functions.c:5682 plugins/fn-stat/functions.c:5691
@@ -9719,24 +9801,24 @@ msgid "number,number,"
 msgstr "number,number,"
 
 #. MS Excel puts this in the engineering functions
-#: plugins/fn-logical/functions.c:342 plugins/fn-math/functions.c:3151
-#: plugins/fn-math/functions.c:3155 plugins/fn-math/functions.c:3158
-#: plugins/fn-math/functions.c:3161 plugins/fn-math/functions.c:3164
-#: plugins/fn-math/functions.c:3167 plugins/fn-math/functions.c:3170
-#: plugins/fn-math/functions.c:3176 plugins/fn-math/functions.c:3185
-#: plugins/fn-math/functions.c:3194 plugins/fn-math/functions.c:3202
-#: plugins/fn-math/functions.c:3205 plugins/fn-math/functions.c:3208
-#: plugins/fn-math/functions.c:3211 plugins/fn-math/functions.c:3214
-#: plugins/fn-math/functions.c:3219 plugins/fn-math/functions.c:3223
-#: plugins/fn-math/functions.c:3229 plugins/fn-math/functions.c:3239
-#: plugins/fn-math/functions.c:3246 plugins/fn-math/functions.c:3249
-#: plugins/fn-math/functions.c:3255 plugins/fn-math/functions.c:3258
-#: plugins/fn-math/functions.c:3271 plugins/fn-math/functions.c:3277
-#: plugins/fn-math/functions.c:3283 plugins/fn-math/functions.c:3304
-#: plugins/fn-math/functions.c:3307 plugins/fn-math/functions.c:3310
-#: plugins/fn-math/functions.c:3313 plugins/fn-math/functions.c:3316
-#: plugins/fn-math/functions.c:3329 plugins/fn-math/functions.c:3341
-#: plugins/fn-math/functions.c:3344 plugins/fn-stat/functions.c:5703
+#: plugins/fn-logical/functions.c:342 plugins/fn-math/functions.c:3164
+#: plugins/fn-math/functions.c:3168 plugins/fn-math/functions.c:3171
+#: plugins/fn-math/functions.c:3174 plugins/fn-math/functions.c:3177
+#: plugins/fn-math/functions.c:3180 plugins/fn-math/functions.c:3183
+#: plugins/fn-math/functions.c:3189 plugins/fn-math/functions.c:3198
+#: plugins/fn-math/functions.c:3207 plugins/fn-math/functions.c:3215
+#: plugins/fn-math/functions.c:3218 plugins/fn-math/functions.c:3221
+#: plugins/fn-math/functions.c:3224 plugins/fn-math/functions.c:3227
+#: plugins/fn-math/functions.c:3232 plugins/fn-math/functions.c:3236
+#: plugins/fn-math/functions.c:3242 plugins/fn-math/functions.c:3252
+#: plugins/fn-math/functions.c:3259 plugins/fn-math/functions.c:3262
+#: plugins/fn-math/functions.c:3268 plugins/fn-math/functions.c:3271
+#: plugins/fn-math/functions.c:3284 plugins/fn-math/functions.c:3290
+#: plugins/fn-math/functions.c:3296 plugins/fn-math/functions.c:3317
+#: plugins/fn-math/functions.c:3320 plugins/fn-math/functions.c:3323
+#: plugins/fn-math/functions.c:3326 plugins/fn-math/functions.c:3329
+#: plugins/fn-math/functions.c:3342 plugins/fn-math/functions.c:3354
+#: plugins/fn-math/functions.c:3357 plugins/fn-stat/functions.c:5703
 #: plugins/fn-stat/functions.c:5706 plugins/fn-stat/functions.c:5724
 #: plugins/fn-stat/functions.c:5802 plugins/fn-string/functions.c:1119
 #: plugins/fn-string/functions.c:1122
@@ -10007,7 +10089,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOOKUP"
 
-#: plugins/fn-lookup/functions.c:792
+#: plugins/fn-lookup/functions.c:789
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text[,format])\n"
@@ -10037,7 +10119,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AREAS,INDEX,CELL"
 
-#: plugins/fn-lookup/functions.c:835
+#: plugins/fn-lookup/functions.c:832
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(array[,row, col, area])\n"
@@ -10069,7 +10151,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-lookup/functions.c:902
+#: plugins/fn-lookup/functions.c:899
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -10097,7 +10179,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:957
+#: plugins/fn-lookup/functions.c:954
 msgid ""
 "@FUNCTION=COLUMNNUMBER\n"
 "@SYNTAX=COLUMNNUMBER(name)\n"
@@ -10123,7 +10205,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ADDRESS"
 
-#: plugins/fn-lookup/functions.c:989
+#: plugins/fn-lookup/functions.c:986
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -10151,7 +10233,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:1014
+#: plugins/fn-lookup/functions.c:1011
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col[,height[,width]])\n"
@@ -10179,7 +10261,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS,INDEX,INDIRECT,ADDRESS"
 
-#: plugins/fn-lookup/functions.c:1072
+#: plugins/fn-lookup/functions.c:1069
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -10207,7 +10289,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: plugins/fn-lookup/functions.c:1125
+#: plugins/fn-lookup/functions.c:1122
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -10235,7 +10317,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROW"
 
-#: plugins/fn-lookup/functions.c:1150
+#: plugins/fn-lookup/functions.c:1147
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location[,optional_label])\n"
@@ -10257,7 +10339,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-lookup/functions.c:1175
+#: plugins/fn-lookup/functions.c:1172
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -10275,56 +10357,56 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT"
 
-#: plugins/fn-lookup/functions.c:1219
+#: plugins/fn-lookup/functions.c:1216
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr "row_num,col_num,abs_num,a1,text"
 
-#: plugins/fn-lookup/functions.c:1222
+#: plugins/fn-lookup/functions.c:1219
 msgid "reference"
 msgstr "reference"
 
-#: plugins/fn-lookup/functions.c:1225
+#: plugins/fn-lookup/functions.c:1222
 msgid "index,value,"
 msgstr "index,value,"
 
-#: plugins/fn-lookup/functions.c:1228 plugins/fn-lookup/functions.c:1234
-#: plugins/fn-lookup/functions.c:1258 plugins/fn-lookup/functions.c:1261
+#: plugins/fn-lookup/functions.c:1225 plugins/fn-lookup/functions.c:1231
+#: plugins/fn-lookup/functions.c:1255 plugins/fn-lookup/functions.c:1258
 msgid "ref"
 msgstr "ref"
 
-#: plugins/fn-lookup/functions.c:1231
+#: plugins/fn-lookup/functions.c:1228
 msgid "colname"
 msgstr "colname"
 
-#: plugins/fn-lookup/functions.c:1237 plugins/fn-lookup/functions.c:1267
+#: plugins/fn-lookup/functions.c:1234 plugins/fn-lookup/functions.c:1264
 msgid "val,range,col_idx,approx,as_index"
 msgstr "val,range,col_idx,approx,as_index"
 
-#: plugins/fn-lookup/functions.c:1240
+#: plugins/fn-lookup/functions.c:1237
 msgid "link_location, label"
 msgstr "link_location, label"
 
-#: plugins/fn-lookup/functions.c:1243
+#: plugins/fn-lookup/functions.c:1240
 msgid "ref_string,format"
 msgstr "ref_string,format"
 
-#: plugins/fn-lookup/functions.c:1246
+#: plugins/fn-lookup/functions.c:1243
 msgid "reference,row,col,area"
 msgstr "reference,row,col,area"
 
-#: plugins/fn-lookup/functions.c:1249
+#: plugins/fn-lookup/functions.c:1246
 msgid "val,range,range"
 msgstr "val,range,range"
 
-#: plugins/fn-lookup/functions.c:1252
+#: plugins/fn-lookup/functions.c:1249
 msgid "val,range,approx"
 msgstr "val,range,approx"
 
-#: plugins/fn-lookup/functions.c:1255
+#: plugins/fn-lookup/functions.c:1252
 msgid "ref,row,col,height,width"
 msgstr "ref,row,col,height,width"
 
-#: plugins/fn-lookup/functions.c:1264 plugins/fn-math/functions.c:3357
+#: plugins/fn-lookup/functions.c:1261 plugins/fn-math/functions.c:3370
 msgid "array"
 msgstr "array"
 
@@ -10808,7 +10890,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, FLOOR, ABS, INT, MOD"
 
-#: plugins/fn-math/functions.c:797
+#: plugins/fn-math/functions.c:800
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -10836,7 +10918,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: plugins/fn-math/functions.c:821
+#: plugins/fn-math/functions.c:824
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -10870,7 +10952,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
-#: plugins/fn-math/functions.c:846
+#: plugins/fn-math/functions.c:849
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -10896,7 +10978,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RADIANS, PI"
 
-#: plugins/fn-math/functions.c:870
+#: plugins/fn-math/functions.c:873
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -10922,7 +11004,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
-#: plugins/fn-math/functions.c:893
+#: plugins/fn-math/functions.c:896
 msgid ""
 "@FUNCTION=EXPM1\n"
 "@SYNTAX=EXPM1(x)\n"
@@ -10944,7 +11026,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LN1P"
 
-#: plugins/fn-math/functions.c:914
+#: plugins/fn-math/functions.c:917
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -10970,7 +11052,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:951
+#: plugins/fn-math/functions.c:954
 msgid ""
 "@FUNCTION=BETA\n"
 "@SYNTAX=BETA(a,b)\n"
@@ -11000,7 +11082,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETALN,GAMMALN"
 
-#: plugins/fn-math/functions.c:981
+#: plugins/fn-math/functions.c:984
 msgid ""
 "@FUNCTION=BETALN\n"
 "@SYNTAX=BETALN(a,b)\n"
@@ -11026,7 +11108,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETA,GAMMALN"
 
-#: plugins/fn-math/functions.c:1010
+#: plugins/fn-math/functions.c:1013
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -11058,7 +11140,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:1043
+#: plugins/fn-math/functions.c:1046
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x[,significance])\n"
@@ -11092,7 +11174,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, CEILING, ABS, INT, MOD"
 
-#: plugins/fn-math/functions.c:1084
+#: plugins/fn-math/functions.c:1090
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
@@ -11120,7 +11202,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, MOD"
 
-#: plugins/fn-math/functions.c:1109
+#: plugins/fn-math/functions.c:1115
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -11150,7 +11232,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LN, LOG2, LOG10"
 
-#: plugins/fn-math/functions.c:1143
+#: plugins/fn-math/functions.c:1149
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -11176,7 +11258,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: plugins/fn-math/functions.c:1172
+#: plugins/fn-math/functions.c:1178
 msgid ""
 "@FUNCTION=LN1P\n"
 "@SYNTAX=LN1P(x)\n"
@@ -11202,7 +11284,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LN, EXPM1"
 
-#: plugins/fn-math/functions.c:1201
+#: plugins/fn-math/functions.c:1207
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -11236,7 +11318,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP"
 
-#: plugins/fn-math/functions.c:1237
+#: plugins/fn-math/functions.c:1243
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -11260,7 +11342,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: plugins/fn-math/functions.c:1263
+#: plugins/fn-math/functions.c:1269
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -11286,7 +11368,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXP, LOG2, LOG"
 
-#: plugins/fn-math/functions.c:1292
+#: plugins/fn-math/functions.c:1298
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -11314,7 +11396,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CEIL, CEILING, FLOOR, ABS, INT, ABS"
 
-#: plugins/fn-math/functions.c:1343
+#: plugins/fn-math/functions.c:1349
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -11340,7 +11422,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI,DEGREES"
 
-#: plugins/fn-math/functions.c:1367
+#: plugins/fn-math/functions.c:1373
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -11366,7 +11448,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: plugins/fn-math/functions.c:1390
+#: plugins/fn-math/functions.c:1396
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -11396,7 +11478,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: plugins/fn-math/functions.c:1414
+#: plugins/fn-math/functions.c:1420
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -11422,7 +11504,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POWER"
 
-#: plugins/fn-math/functions.c:1442
+#: plugins/fn-math/functions.c:1448
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -11454,7 +11536,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1474
+#: plugins/fn-math/functions.c:1480
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -11484,7 +11566,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1505
+#: plugins/fn-math/functions.c:1511
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -11510,7 +11592,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM"
 
-#: plugins/fn-math/functions.c:1534
+#: plugins/fn-math/functions.c:1540
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -11536,7 +11618,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1562
+#: plugins/fn-math/functions.c:1568
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -11562,7 +11644,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:1585
+#: plugins/fn-math/functions.c:1591
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -11592,7 +11674,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:1608
+#: plugins/fn-math/functions.c:1614
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -11620,7 +11702,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SQRTPI"
 
-#: plugins/fn-math/functions.c:1633
+#: plugins/fn-math/functions.c:1639
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -11652,7 +11734,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INT"
 
-#: plugins/fn-math/functions.c:1669
+#: plugins/fn-math/functions.c:1675
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -11680,7 +11762,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ODD"
 
-#: plugins/fn-math/functions.c:1708
+#: plugins/fn-math/functions.c:1714
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -11708,7 +11790,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EVEN"
 
-#: plugins/fn-math/functions.c:1747
+#: plugins/fn-math/functions.c:1753
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -11738,7 +11820,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FACT"
 
-#: plugins/fn-math/functions.c:1785
+#: plugins/fn-math/functions.c:1791
 msgid ""
 "@FUNCTION=FIB\n"
 "@SYNTAX=FIB(number)\n"
@@ -11764,7 +11846,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:1833
+#: plugins/fn-math/functions.c:1839
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(numerator,denominator)\n"
@@ -11790,7 +11872,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MOD"
 
-#: plugins/fn-math/functions.c:1865
+#: plugins/fn-math/functions.c:1871
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -11820,7 +11902,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:1899
+#: plugins/fn-math/functions.c:1905
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -11846,7 +11928,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI"
 
-#: plugins/fn-math/functions.c:1928
+#: plugins/fn-math/functions.c:1934
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -11892,7 +11974,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDUP"
 
-#: plugins/fn-math/functions.c:1972
+#: plugins/fn-math/functions.c:1978
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -11938,7 +12020,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 
-#: plugins/fn-math/functions.c:2013
+#: plugins/fn-math/functions.c:2019
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -11986,7 +12068,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDDOWN"
 
-#: plugins/fn-math/functions.c:2057
+#: plugins/fn-math/functions.c:2063
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -12020,7 +12102,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 
-#: plugins/fn-math/functions.c:2111
+#: plugins/fn-math/functions.c:2117
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -12064,7 +12146,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:2377
+#: plugins/fn-math/functions.c:2383
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -12106,14 +12188,14 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2PY2"
 
-#: plugins/fn-math/functions.c:2433 plugins/fn-math/functions.c:2453
-#: plugins/fn-math/functions.c:2546 plugins/fn-math/functions.c:2566
-#: plugins/fn-math/functions.c:2657 plugins/fn-math/functions.c:2677
+#: plugins/fn-math/functions.c:2439 plugins/fn-math/functions.c:2459
+#: plugins/fn-math/functions.c:2552 plugins/fn-math/functions.c:2572
+#: plugins/fn-math/functions.c:2663 plugins/fn-math/functions.c:2683
 #: plugins/fn-stat/functions.c:2934 plugins/fn-stat/functions.c:2964
 msgid "Array version not implemented!"
 msgstr "Array version not implemented!"
 
-#: plugins/fn-math/functions.c:2491
+#: plugins/fn-math/functions.c:2497
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -12155,7 +12237,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2"
 
-#: plugins/fn-math/functions.c:2602
+#: plugins/fn-math/functions.c:2608
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -12197,7 +12279,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 
-#: plugins/fn-math/functions.c:2715
+#: plugins/fn-math/functions.c:2721
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -12231,7 +12313,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: plugins/fn-math/functions.c:2773
+#: plugins/fn-math/functions.c:2779
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -12259,7 +12341,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: plugins/fn-math/functions.c:2916
+#: plugins/fn-math/functions.c:2922
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -12285,7 +12367,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
-#: plugins/fn-math/functions.c:2992
+#: plugins/fn-math/functions.c:2998
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -12319,7 +12401,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: plugins/fn-math/functions.c:3039
+#: plugins/fn-math/functions.c:3045
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -12357,11 +12439,11 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: plugins/fn-math/functions.c:3173
+#: plugins/fn-math/functions.c:3186
 msgid "xnum,ynum"
 msgstr "xnum,ynum"
 
-#: plugins/fn-math/functions.c:3179 plugins/fn-math/functions.c:3182
+#: plugins/fn-math/functions.c:3192 plugins/fn-math/functions.c:3195
 #: plugins/fn-random/functions.c:1103 plugins/fn-random/functions.c:1124
 #: plugins/fn-random/functions.c:1130 plugins/fn-random/functions.c:1169
 #: plugins/fn-random/functions.c:1184 plugins/fn-random/functions.c:1187
@@ -12369,67 +12451,67 @@ msgid "a,b"
 msgstr "a,b"
 
 #. MS Excel puts this in statistical
-#: plugins/fn-math/functions.c:3190
+#: plugins/fn-math/functions.c:3203
 msgid "range,criteria"
 msgstr "range,criteria"
 
-#: plugins/fn-math/functions.c:3198
+#: plugins/fn-math/functions.c:3211
 msgid "number,significance"
 msgstr "number,significance"
 
-#: plugins/fn-math/functions.c:3226 plugins/fn-stat/functions.c:5817
+#: plugins/fn-math/functions.c:3239 plugins/fn-stat/functions.c:5817
 msgid "n,k"
 msgstr "n,k"
 
-#: plugins/fn-math/functions.c:3233
+#: plugins/fn-math/functions.c:3246
 msgid "number,number"
 msgstr "number,number"
 
-#: plugins/fn-math/functions.c:3252
+#: plugins/fn-math/functions.c:3265
 msgid "number,base"
 msgstr "number,base"
 
-#: plugins/fn-math/functions.c:3261 plugins/fn-math/functions.c:3280
+#: plugins/fn-math/functions.c:3274 plugins/fn-math/functions.c:3293
 msgid "numerator,denominator"
 msgstr "numerator,denominator"
 
-#: plugins/fn-math/functions.c:3264
+#: plugins/fn-math/functions.c:3277
 msgid "number,multiple"
 msgstr "number,multiple"
 
-#: plugins/fn-math/functions.c:3274
+#: plugins/fn-math/functions.c:3287
 msgid "base,exponent"
 msgstr "base,exponent"
 
-#: plugins/fn-math/functions.c:3286
+#: plugins/fn-math/functions.c:3299
 msgid "number,type"
 msgstr "number,type"
 
-#: plugins/fn-math/functions.c:3289 plugins/fn-math/functions.c:3293
-#: plugins/fn-math/functions.c:3297 plugins/fn-math/functions.c:3347
+#: plugins/fn-math/functions.c:3302 plugins/fn-math/functions.c:3306
+#: plugins/fn-math/functions.c:3310 plugins/fn-math/functions.c:3360
 msgid "number,digits"
 msgstr "number,digits"
 
-#: plugins/fn-math/functions.c:3301
+#: plugins/fn-math/functions.c:3314
 msgid "x,n,m,coefficients"
 msgstr "x,n,m,coefficients"
 
-#: plugins/fn-math/functions.c:3323
+#: plugins/fn-math/functions.c:3336
 msgid "range,criteria,actual_range"
 msgstr "range,criteria,actual_range"
 
-#: plugins/fn-math/functions.c:3326
+#: plugins/fn-math/functions.c:3339
 msgid "range,range,"
 msgstr "range,range,"
 
-#: plugins/fn-math/functions.c:3332 plugins/fn-math/functions.c:3335
-#: plugins/fn-math/functions.c:3338 plugins/fn-math/functions.c:3354
+#: plugins/fn-math/functions.c:3345 plugins/fn-math/functions.c:3348
+#: plugins/fn-math/functions.c:3351 plugins/fn-math/functions.c:3367
 #: plugins/fn-stat/functions.c:5676 plugins/fn-stat/functions.c:5685
 #: plugins/fn-stat/functions.c:5808 plugins/fn-stat/functions.c:5864
 msgid "array1,array2"
 msgstr "array1,array2"
 
-#: plugins/fn-math/functions.c:3360 plugins/fn-math/functions.c:3364
+#: plugins/fn-math/functions.c:3373 plugins/fn-math/functions.c:3377
 msgid "array,matrix_type,bandsize"
 msgstr "array,matrix_type,bandsize"
 
@@ -17894,7 +17976,7 @@ msgstr "Objective function:"
 msgid "Constraints:"
 msgstr "Constraints:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6168
+#: plugins/mps/mps.c:245 src/commands.c:6174
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
@@ -17989,6 +18071,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
+#. xgettext: you can translate the funny character as an 'o' if unicode is not available.
 #: plugins/numtheory/numtheory.c:247
 msgid ""
 "@FUNCTION=NT_MU\n"
@@ -18321,7 +18404,7 @@ msgstr "Error while opening paradox file."
 msgid "Could not allocate memory for record."
 msgstr "Could not allocate memory for record."
 
-#: plugins/paradox/paradox.c:196
+#: plugins/paradox/paradox.c:220
 #, c-format
 msgid "Field type %d is not supported."
 msgstr "Field type %d is not supported."
@@ -18621,6 +18704,7 @@ msgid "Sample DataSource"
 msgstr "Sample DataSource"
 
 #: plugins/sample_datasource/sample_datasource.c:272
+#, no-c-format
 msgid ""
 "@FUNCTION=atl_last\n"
 "@SYNTAX=ATL_LAST (tag)\n"
@@ -18708,7 +18792,7 @@ msgstr "This is message from the \"%s\" plugin."
 msgid "Error while opening xbase file."
 msgstr "Error while opening xbase file."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4962
+#: plugins/xbase/boot.c:175 src/commands.c:4968
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
 #: src/print-info.c:395 src/workbook.c:1091 src/xml-io.c:3789
@@ -19390,7 +19474,7 @@ msgstr ""
 "workbook is being saved."
 
 #: schemas/gnumeric-general.schemas.in.h:29
-#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1883
+#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1889
 msgid "Sort Ascending"
 msgstr "Sort Ascending"
 
@@ -19591,20 +19675,20 @@ msgstr ""
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Use UTF-8 in LaTeX Export"
 
-#: src/application.c:307
+#: src/application.c:309
 msgid "Cut Object"
 msgstr "Cut Object"
 
-#: src/clipboard.c:314 src/clipboard.c:326 src/clipboard.c:337
-#: src/clipboard.c:345
+#: src/clipboard.c:316 src/clipboard.c:328 src/clipboard.c:339
+#: src/clipboard.c:347
 msgid "Unable to paste"
 msgstr "Unable to paste"
 
-#: src/clipboard.c:315
+#: src/clipboard.c:317
 msgid "Content can only be pasted by value or by link."
 msgstr "Content can only be pasted by value or by link."
 
-#: src/clipboard.c:323
+#: src/clipboard.c:325
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -19615,7 +19699,7 @@ msgstr ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 
-#: src/clipboard.c:334
+#: src/clipboard.c:336
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -19626,7 +19710,7 @@ msgstr ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 
-#: src/clipboard.c:346
+#: src/clipboard.c:348
 msgid "result passes the sheet boundary"
 msgstr "result passes the sheet boundary"
 
@@ -19710,424 +19794,424 @@ msgstr "Typing \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Ins/Del Column/Row"
 
-#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3259
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3264
 msgid "Delete Columns"
 msgstr "Delete Columns"
 
-#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3381
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3386
 msgid "Delete Rows"
 msgstr "Delete Rows"
 
-#: src/commands.c:1480
+#: src/commands.c:1482
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Inserting %d columns before %s"
 
-#: src/commands.c:1481
+#: src/commands.c:1483
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Inserting %d column before %s"
 
-#: src/commands.c:1496
+#: src/commands.c:1498
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Inserting %d rows before %s"
 
-#: src/commands.c:1497
+#: src/commands.c:1499
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Inserting %d row before %s"
 
-#: src/commands.c:1508
+#: src/commands.c:1510
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Deleting columns %s"
 
-#: src/commands.c:1509
+#: src/commands.c:1511
 #, c-format
 msgid "Deleting column %s"
 msgstr "Deleting column %s"
 
-#: src/commands.c:1519
+#: src/commands.c:1521
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Deleting rows %s"
 
-#: src/commands.c:1520
+#: src/commands.c:1522
 #, c-format
 msgid "Deleting row %s"
 msgstr "Deleting row %s"
 
 #. Check for locked cells
-#: src/commands.c:1602 src/commands.c:1606 src/sheet.c:2862
+#: src/commands.c:1604 src/commands.c:1608 src/sheet.c:2867
 msgid "Clear"
 msgstr "Clear"
 
-#: src/commands.c:1677
+#: src/commands.c:1679
 msgid "contents"
 msgstr "contents"
 
-#: src/commands.c:1679
+#: src/commands.c:1681
 msgid "formats"
 msgstr "formats"
 
-#: src/commands.c:1681
+#: src/commands.c:1683
 msgid "comments"
 msgstr "comments"
 
-#: src/commands.c:1697
+#: src/commands.c:1699
 msgid "all"
 msgstr "all"
 
-#: src/commands.c:1704
+#: src/commands.c:1706
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Clearing %s in %s"
 
-#: src/commands.c:1787
+#: src/commands.c:1793
 msgid "Changing Format"
 msgstr "Changing Format"
 
-#: src/commands.c:1912
+#: src/commands.c:1918
 #, c-format
 msgid "Changing format of %s"
 msgstr "Changing format of %s"
 
-#: src/commands.c:2022
+#: src/commands.c:2028
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Autofitting column %s"
 
-#: src/commands.c:2023
+#: src/commands.c:2029
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Autofitting row %s"
 
-#: src/commands.c:2026
+#: src/commands.c:2032
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Setting width of column %s to %d pixels"
 
-#: src/commands.c:2028
+#: src/commands.c:2034
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Setting height of row %s to %d pixels"
 
-#: src/commands.c:2031
+#: src/commands.c:2037
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Setting width of column %s to default"
 
-#: src/commands.c:2034
+#: src/commands.c:2040
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Setting height of row %s to default"
 
-#: src/commands.c:2038
+#: src/commands.c:2044
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Autofitting columns %s"
 
-#: src/commands.c:2039
+#: src/commands.c:2045
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "Autofitting rows %s"
 
-#: src/commands.c:2042
+#: src/commands.c:2048
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Setting width of columns %s to %d pixels"
 
-#: src/commands.c:2044
+#: src/commands.c:2050
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Setting height of rows %s to %d pixels"
 
-#: src/commands.c:2048
+#: src/commands.c:2054
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Setting width of columns %s to default"
 
-#: src/commands.c:2050
+#: src/commands.c:2056
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Setting height of rows %s to default"
 
-#: src/commands.c:2116 src/dialogs/dialog-preferences.c:770
+#: src/commands.c:2122 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "Sorting"
 
-#: src/commands.c:2136
+#: src/commands.c:2142
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorting %s"
 
-#: src/commands.c:2279
+#: src/commands.c:2285
 msgid "Unhide columns"
 msgstr "Unhide columns"
 
-#: src/commands.c:2279
+#: src/commands.c:2285
 msgid "Hide columns"
 msgstr "Hide columns"
 
-#: src/commands.c:2280
+#: src/commands.c:2286
 msgid "Unhide rows"
 msgstr "Unhide rows"
 
-#: src/commands.c:2280
+#: src/commands.c:2286
 msgid "Hide rows"
 msgstr "Hide rows"
 
-#: src/commands.c:2362
+#: src/commands.c:2368
 msgid "Expand columns"
 msgstr "Expand columns"
 
-#: src/commands.c:2362
+#: src/commands.c:2368
 msgid "Collapse columns"
 msgstr "Collapse columns"
 
-#: src/commands.c:2363
+#: src/commands.c:2369
 msgid "Expand rows"
 msgstr "Expand rows"
 
-#: src/commands.c:2363
+#: src/commands.c:2369
 msgid "Collapse rows"
 msgstr "Collapse rows"
 
-#: src/commands.c:2389
+#: src/commands.c:2395
 #, c-format
 msgid "Show column outline %d"
 msgstr "Show column outline %d"
 
-#: src/commands.c:2389
+#: src/commands.c:2395
 #, c-format
 msgid "Show row outline %d"
 msgstr "Show row outline %d"
 
-#: src/commands.c:2459
+#: src/commands.c:2465
 msgid "Those columns are already grouped"
 msgstr "Those columns are already grouped"
 
-#: src/commands.c:2460
+#: src/commands.c:2466
 msgid "Those rows are already grouped"
 msgstr "Those rows are already grouped"
 
-#: src/commands.c:2483
+#: src/commands.c:2489
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Those columns are not grouped, you can't ungroup them"
 
-#: src/commands.c:2484
+#: src/commands.c:2490
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Those rows are not grouped, you can't ungroup them"
 
-#: src/commands.c:2498
+#: src/commands.c:2504
 #, c-format
 msgid "Group columns %s"
 msgstr "Group columns %s"
 
-#: src/commands.c:2498
+#: src/commands.c:2504
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Ungroup columns %s"
 
-#: src/commands.c:2500
+#: src/commands.c:2506
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Group rows %d:%d"
 
-#: src/commands.c:2500
+#: src/commands.c:2506
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Ungroup rows %d:%d"
 
-#: src/commands.c:2733
+#: src/commands.c:2739
 #, c-format
 msgid "Moving %s"
 msgstr "Moving %s"
 
-#: src/commands.c:2742 src/commands.c:2970
+#: src/commands.c:2748 src/commands.c:2976
 msgid "is beyond sheet boundaries"
 msgstr "is beyond sheet boundaries"
 
-#: src/commands.c:2806
+#: src/commands.c:2812
 msgid "Paste Copy"
 msgstr "Paste Copy"
 
 #. FIXME?
-#: src/commands.c:2911
+#: src/commands.c:2917
 #, c-format
 msgid "Pasting into %s"
 msgstr "Pasting into %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3007 src/commands.c:3164 src/commands.c:3165
+#: src/commands.c:3013 src/commands.c:3170 src/commands.c:3171
 #: src/wbcg-actions.c:424
 msgid "Autofill"
 msgstr "Autofill"
 
 #. Changed in initial redo.
-#: src/commands.c:3187
+#: src/commands.c:3193
 #, c-format
 msgid "Autofilling %s"
 msgstr "Autofilling %s"
 
-#: src/commands.c:3505
+#: src/commands.c:3511
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Autoformatting %s"
 
-#: src/commands.c:3622
+#: src/commands.c:3628
 #, c-format
 msgid "Unmerging %s"
 msgstr "Unmerging %s"
 
-#: src/commands.c:3786
+#: src/commands.c:3792
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Merge and Centre %s"
 
-#: src/commands.c:3786
+#: src/commands.c:3792
 #, c-format
 msgid "Merging %s"
 msgstr "Merging %s"
 
 #. Corrected below.
-#: src/commands.c:4167 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:4173 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Search and Replace"
 
-#: src/commands.c:4262
+#: src/commands.c:4268
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Setting default width of columns to %.2fpts"
 
-#: src/commands.c:4263
+#: src/commands.c:4269
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Setting default height of rows to %.2fpts"
 
-#: src/commands.c:4378
+#: src/commands.c:4384
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s to %.0f%%"
 
-#: src/commands.c:4476
+#: src/commands.c:4482
 msgid "Delete Object"
 msgstr "Delete Object"
 
-#: src/commands.c:4637
+#: src/commands.c:4643
 msgid "Format Object"
 msgstr "Format Object"
 
-#: src/commands.c:5236
+#: src/commands.c:5242
 msgid "Reordering Sheets"
 msgstr "Reordering Sheets"
 
-#: src/commands.c:5239
+#: src/commands.c:5245
 msgid "Renaming Sheets"
 msgstr "Renaming Sheets"
 
-#: src/commands.c:5242
+#: src/commands.c:5248
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Appending %i Sheets"
 
-#: src/commands.c:5246
+#: src/commands.c:5252
 msgid "Changing Tab Colors"
 msgstr "Changing Tab Colours"
 
-#: src/commands.c:5249
+#: src/commands.c:5255
 msgid "Changing Sheet Protection"
 msgstr "Changing Sheet Protection"
 
-#: src/commands.c:5252
+#: src/commands.c:5258
 msgid "Delete sheets"
 msgstr "Delete sheets"
 
-#: src/commands.c:5255
+#: src/commands.c:5261
 msgid "Delete a sheet"
 msgstr "Delete a sheet"
 
-#: src/commands.c:5258
+#: src/commands.c:5264
 msgid "Changing Sheet Visibility"
 msgstr "Changing Sheet Visibility"
 
-#: src/commands.c:5261
+#: src/commands.c:5267
 msgid "Reorganizing Sheets"
 msgstr "Reorganizing Sheets"
 
-#: src/commands.c:5412
+#: src/commands.c:5418
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Clearing comment of %s"
 
-#: src/commands.c:5413
+#: src/commands.c:5419
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Setting comment of %s"
 
-#: src/commands.c:5793
+#: src/commands.c:5799
 #, c-format
 msgid "Merging data into %s"
 msgstr "Merging data into %s"
 
-#: src/commands.c:5895
+#: src/commands.c:5901
 msgid "Changing summary info"
 msgstr "Changing summary info"
 
-#: src/commands.c:5984
+#: src/commands.c:5990
 msgid "Pull Object to the Front"
 msgstr "Pull Object to the Front"
 
-#: src/commands.c:5987
+#: src/commands.c:5993
 msgid "Pull Object Forward"
 msgstr "Pull Object Forward"
 
-#: src/commands.c:5990
+#: src/commands.c:5996
 msgid "Push Object Backward"
 msgstr "Push Object Backward"
 
-#: src/commands.c:5993
+#: src/commands.c:5999
 msgid "Push Object to the Back"
 msgstr "Push Object to the Back"
 
-#: src/commands.c:6108
+#: src/commands.c:6114
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Page Setup For %s"
 
-#: src/commands.c:6110
+#: src/commands.c:6116
 msgid "Page Setup For All Sheets"
 msgstr "Page Setup For All Sheets"
 
-#: src/commands.c:6225
+#: src/commands.c:6231
 msgid "has a circular reference"
 msgstr "has a circular reference"
 
-#: src/commands.c:6248
+#: src/commands.c:6254
 #, c-format
 msgid "Define Name %s"
 msgstr "Define Name %s"
 
-#: src/commands.c:6251
+#: src/commands.c:6257
 #, c-format
 msgid "Update Name %s"
 msgstr "Update Name %s"
 
-#: src/commands.c:6315
+#: src/commands.c:6321
 msgid "Add scenario"
 msgstr "Add scenario"
 
-#: src/commands.c:6390
+#: src/commands.c:6396
 msgid "Scenario Show"
 msgstr "Scenario Show"
 
-#: src/commands.c:6454
+#: src/commands.c:6460
 msgid "Shuffle Data"
 msgstr "Shuffle Data"
 
 #. FIXME?
-#: src/commands.c:6564
+#: src/commands.c:6570
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) to Columns (%s)"
@@ -20137,28 +20221,28 @@ msgstr "Text (%s) to Columns (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6708 src/dialogs/solver.glade.h:17
+#: src/commands.c:6714 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr "Solver"
 
-#: src/commands.c:6792
+#: src/commands.c:6798
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Goal Seek (%s)"
 
-#: src/commands.c:6937
+#: src/commands.c:6943
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplicating %s"
 
-#: src/commands.c:7016
+#: src/commands.c:7022
 msgid "Tabulating Dependencies"
 msgstr "Tabulating Dependencies"
 
-#: src/commands.c:7091
+#: src/commands.c:7097
 msgid "Reconfigure Graph"
 msgstr "Reconfigure Graph"
 
@@ -20251,7 +20335,7 @@ msgid "Format"
 msgstr "Format"
 
 #. Object Toolbar
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1538 src/wbcg-actions.c:1891
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1538 src/wbcg-actions.c:1897
 msgid "Label"
 msgstr "Label"
 
@@ -20464,8 +20548,8 @@ msgid "Customize Chart"
 msgstr "Customize Chart"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1178
-#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1422
-#: src/wbcg-actions.c:1580
+#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1428
+#: src/wbcg-actions.c:1586
 msgid "_Insert"
 msgstr "_Insert"
 
@@ -20494,7 +20578,7 @@ msgid "Push to _back"
 msgstr "Push to _back"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
-#: src/sheet-object.c:107
+#: src/sheet-object.c:111
 msgid "_Order"
 msgstr "_Order"
 
@@ -20822,7 +20906,7 @@ msgid "Column"
 msgstr "Column"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
-#: src/dialogs/dialog-stf-main-page.c:370 src/wbcg-actions.c:1915
+#: src/dialogs/dialog-stf-main-page.c:370 src/wbcg-actions.c:1921
 msgid "Line"
 msgstr "Line"
 
@@ -22026,8 +22110,8 @@ msgstr "_Areas"
 #: src/dialogs/exp-smoothing.glade.h:8 src/dialogs/fourier-analysis.glade.h:6
 #: src/dialogs/histogram.glade.h:16 src/dialogs/rank.glade.h:9
 #: src/dialogs/regression.glade.h:8 src/dialogs/sampling.glade.h:11
-#: src/dialogs/shuffle.glade.h:5 src/wbcg-actions.c:1531
-#: src/wbcg-actions.c:1644
+#: src/dialogs/shuffle.glade.h:5 src/wbcg-actions.c:1537
+#: src/wbcg-actions.c:1650
 msgid "_Columns"
 msgstr "_Columns"
 
@@ -22057,8 +22141,8 @@ msgstr "_Labels"
 #: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:23
 #: src/dialogs/moving-averages.glade.h:12 src/dialogs/rank.glade.h:12
 #: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:18
-#: src/dialogs/shuffle.glade.h:6 src/wbcg-actions.c:1528
-#: src/wbcg-actions.c:1647
+#: src/dialogs/shuffle.glade.h:6 src/wbcg-actions.c:1534
+#: src/wbcg-actions.c:1653
 msgid "_Rows"
 msgstr "_Rows"
 
@@ -22131,8 +22215,8 @@ msgstr "Do _not correct:"
 msgid "First Letter"
 msgstr "First Letter"
 
-#: src/dialogs/autocorrect.glade.h:9 src/format.c:2232 src/format.c:2543
-#: src/format.c:2549 src/format.c:2622 src/plugin-service.c:195
+#: src/dialogs/autocorrect.glade.h:9 src/format.c:2239 src/format.c:2550
+#: src/format.c:2556 src/format.c:2629 src/plugin-service.c:195
 #: src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "General"
@@ -22151,7 +22235,7 @@ msgid "_Add"
 msgstr "_Add"
 
 #: src/dialogs/autocorrect.glade.h:13 src/dialogs/pivottable.glade.h:12
-#: src/wbcg-actions.c:1593
+#: src/wbcg-actions.c:1599
 msgid "_Remove"
 msgstr "_Remove"
 
@@ -22794,7 +22878,7 @@ msgid "Correlation"
 msgstr "Correlation"
 
 #: src/dialogs/covariance.glade.h:1 src/tools/analysis-tools.c:1008
-#: src/tools/analysis-tools.c:1011 src/wbcg-actions.c:1799
+#: src/tools/analysis-tools.c:1011 src/wbcg-actions.c:1805
 msgid "Covariance"
 msgstr "Covariance"
 
@@ -23610,7 +23694,7 @@ msgid "Double"
 msgstr "Double"
 
 #: src/dialogs/dialog-cell-format.c:470 src/dialogs/dialog-search.c:148
-#: src/func.c:741 src/wbcg-actions.c:1942
+#: src/func.c:741 src/wbcg-actions.c:1948
 #: src/widgets/widget-format-selector.c:76
 msgid "Number"
 msgstr "Number"
@@ -23961,7 +24045,7 @@ msgstr "Password :"
 #. * 	Skip Blanks, Paste Link, Cancel, Ok are all on the same page
 #. * 	try to keep them from conflicting
 #. Edit -> Clear
-#: src/dialogs/dialog-paste-special.c:66 src/wbcg-actions.c:1514
+#: src/dialogs/dialog-paste-special.c:66 src/wbcg-actions.c:1520
 msgid "_All"
 msgstr "_All"
 
@@ -23973,11 +24057,11 @@ msgstr "Cont_ent"
 msgid "As _Value"
 msgstr "As _Value"
 
-#: src/dialogs/dialog-paste-special.c:69 src/wbcg-actions.c:1517
+#: src/dialogs/dialog-paste-special.c:69 src/wbcg-actions.c:1523
 msgid "_Formats"
 msgstr "_Formats"
 
-#: src/dialogs/dialog-paste-special.c:70 src/wbcg-actions.c:1520
+#: src/dialogs/dialog-paste-special.c:70 src/wbcg-actions.c:1526
 msgid "Co_mments"
 msgstr "Co_mments"
 
@@ -24818,7 +24902,7 @@ msgid "Select N_one"
 msgstr "Select N_one"
 
 #. Edit -> Select
-#: src/dialogs/dialog-stf-export.glade.h:20 src/wbcg-actions.c:1540
+#: src/dialogs/dialog-stf-export.glade.h:20 src/wbcg-actions.c:1546
 msgid "Select _All"
 msgstr "Select _All"
 
@@ -25403,7 +25487,7 @@ msgid "_Month"
 msgstr "_Month"
 
 #: src/dialogs/fill-series.glade.h:17 src/dialogs/pivottable.glade.h:13
-#: src/wbcg-actions.c:1427
+#: src/wbcg-actions.c:1433
 msgid "_Row"
 msgstr "_Row"
 
@@ -25511,7 +25595,7 @@ msgstr "_Use Separator for 1000's"
 msgid "Formula Guru"
 msgstr "Formula Guru"
 
-#: src/dialogs/fourier-analysis.glade.h:1 src/wbcg-actions.c:1805
+#: src/dialogs/fourier-analysis.glade.h:1 src/wbcg-actions.c:1811
 msgid "Fourier Analysis"
 msgstr "Fourier Analysis"
 
@@ -25523,7 +25607,7 @@ msgstr "_Inverse"
 msgid "Category"
 msgstr "Category"
 
-#: src/dialogs/function-select.glade.h:3 src/wbcg-actions.c:1879
+#: src/dialogs/function-select.glade.h:3 src/wbcg-actions.c:1885
 msgid "Function"
 msgstr "Function"
 
@@ -25831,7 +25915,7 @@ msgid "Workbook"
 msgstr "Workbook"
 
 #: src/dialogs/names.glade.h:8 src/dialogs/solver.glade.h:23
-#: src/wbcg-actions.c:1415
+#: src/wbcg-actions.c:1421
 msgid "_Delete"
 msgstr "_Delete"
 
@@ -25871,7 +25955,7 @@ msgstr "Subtotal By"
 msgid "_Add:"
 msgstr "_Add:"
 
-#: src/dialogs/pivottable.glade.h:8 src/wbcg-actions.c:1435
+#: src/dialogs/pivottable.glade.h:8 src/wbcg-actions.c:1441
 msgid "_Data"
 msgstr "_Data"
 
@@ -26525,7 +26609,7 @@ msgstr "_Search for"
 msgid "Manage Sheets..."
 msgstr "Manage Sheets..."
 
-#: src/dialogs/sheet-order.glade.h:2 src/wbcg-actions.c:1590
+#: src/dialogs/sheet-order.glade.h:2 src/wbcg-actions.c:1596
 msgid "_Duplicate"
 msgstr "_Duplicate"
 
@@ -26963,7 +27047,7 @@ msgstr "Unknown operator"
 msgid "Internal type error"
 msgstr "Internal type error"
 
-#: src/expr.c:1368
+#: src/expr.c:1369
 msgid "Unknown evaluation error"
 msgstr "Unknown evaluation error"
 
@@ -26997,48 +27081,48 @@ msgid ""
 msgstr ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 
-#: src/format.c:248
+#: src/format.c:257
 msgid "TRUE"
 msgstr "TRUE"
 
-#: src/format.c:249
+#: src/format.c:258
 msgid "FALSE"
 msgstr "FALSE"
 
-#: src/format.c:697 templates/autoformat/autoformat.Colourful.black.xml.in.h:1
+#: src/format.c:706 templates/autoformat/autoformat.Colourful.black.xml.in.h:1
 msgid "Black"
 msgstr "Black"
 
-#: src/format.c:698 templates/autoformat/autoformat.Colourful.blue.xml.in.h:2
+#: src/format.c:707 templates/autoformat/autoformat.Colourful.blue.xml.in.h:2
 msgid "Blue"
 msgstr "Blue"
 
-#: src/format.c:699
+#: src/format.c:708
 msgid "Cyan"
 msgstr "Cyan"
 
-#: src/format.c:700 templates/autoformat/autoformat.List.green.xml.in.h:3
+#: src/format.c:709 templates/autoformat/autoformat.List.green.xml.in.h:3
 msgid "Green"
 msgstr "Green"
 
-#: src/format.c:701
+#: src/format.c:710
 msgid "Magenta"
 msgstr "Magenta"
 
-#: src/format.c:702
+#: src/format.c:711
 msgid "Red"
 msgstr "Red"
 
-#: src/format.c:703
+#: src/format.c:712
 msgid "White"
 msgstr "White"
 
-#: src/format.c:704
+#: src/format.c:713
 msgid "Yellow"
 msgstr "Yellow"
 
 #. Array of arrays ??
-#: src/format.c:2106
+#: src/format.c:2113
 msgid "ARRAY"
 msgstr "ARRAY"
 
@@ -27928,19 +28012,19 @@ msgstr "Automatically detected"
 msgid "Load file"
 msgstr "Load file"
 
-#: src/gui-file.c:224 src/gui-file.c:662
+#: src/gui-file.c:224 src/gui-file.c:663
 msgid "Select a file"
 msgstr "Select a file"
 
-#: src/gui-file.c:249 src/gui-file.c:464 src/gui-file.c:676
+#: src/gui-file.c:249 src/gui-file.c:464 src/gui-file.c:677
 msgid "All Files"
 msgstr "All Files"
 
-#: src/gui-file.c:254 src/gui-file.c:681
+#: src/gui-file.c:254 src/gui-file.c:682
 msgid "Spreadsheets"
 msgstr "Spreadsheets"
 
-#: src/gui-file.c:280 src/gui-file.c:531 src/gui-file.c:705
+#: src/gui-file.c:280 src/gui-file.c:531 src/gui-file.c:706
 msgid "File _type:"
 msgstr "File _type:"
 
@@ -27981,7 +28065,7 @@ msgstr "Images"
 msgid "Save as"
 msgstr "Save as"
 
-#: src/gui-file.c:558 src/gui-file.c:754
+#: src/gui-file.c:554 src/gui-file.c:755
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -27989,11 +28073,11 @@ msgstr ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
 
-#: src/gui-file.c:585
+#: src/gui-file.c:586
 msgid "Select an Image"
 msgstr "Select an Image"
 
-#: src/gui-file.c:604
+#: src/gui-file.c:605
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -28005,11 +28089,11 @@ msgstr ""
 "different file format.\n"
 "Do you want to save only current sheet?"
 
-#: src/gui-util.c:212
+#: src/gui-util.c:213
 msgid "Multiple errors\n"
 msgstr "Multiple errors\n"
 
-#: src/gui-util.c:637
+#: src/gui-util.c:638
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Unable to open file '%s'"
@@ -28092,65 +28176,65 @@ msgstr "Shift Righ_t and Move"
 msgid "C_ancel"
 msgstr "C_ancel"
 
-#: src/main-application.c:60 src/ssconvert.c:41 src/ssindex.c:50
+#: src/main-application.c:56 src/ssconvert.c:41 src/ssindex.c:50
 msgid "Display Gnumeric's version"
 msgstr "Display Gnumeric's version"
 
-#: src/main-application.c:62 src/ssconvert.c:44 src/ssindex.c:53
+#: src/main-application.c:58 src/ssconvert.c:44 src/ssindex.c:53
 msgid "Set the root library directory"
 msgstr "Set the root library directory"
 
-#: src/main-application.c:64 src/ssconvert.c:46 src/ssindex.c:55
+#: src/main-application.c:60 src/ssconvert.c:46 src/ssindex.c:55
 msgid "Adjust the root data directory"
 msgstr "Adjust the root data directory"
 
-#: src/main-application.c:67 src/main-application.c:69
+#: src/main-application.c:63 src/main-application.c:65
 msgid "Dumps the function definitions"
 msgstr "Dumps the function definitions"
 
-#: src/main-application.c:67 src/main-application.c:69
+#: src/main-application.c:63 src/main-application.c:65
 msgid "FILE"
 msgstr "FILE"
 
-#: src/main-application.c:72
+#: src/main-application.c:68
 msgid "Enables some debugging functions"
 msgstr "Enables some debugging functions"
 
-#: src/main-application.c:72 src/main-application.c:75
-#: src/main-application.c:77 src/main-application.c:79
+#: src/main-application.c:68 src/main-application.c:71
+#: src/main-application.c:73 src/main-application.c:75
 msgid "LEVEL"
 msgstr "LEVEL"
 
-#: src/main-application.c:75
+#: src/main-application.c:71
 msgid "Enables some dependency related debugging functions"
 msgstr "Enables some dependency related debugging functions"
 
-#: src/main-application.c:77
+#: src/main-application.c:73
 msgid "Enables some debugging functions for expression sharing"
 msgstr "Enables some debugging functions for expression sharing"
 
-#: src/main-application.c:79
+#: src/main-application.c:75
 msgid "Enables some print debugging behavior"
 msgstr "Enables some print debugging behaviour"
 
-#: src/main-application.c:82
+#: src/main-application.c:78
 msgid "Specify the size and location of the initial window"
 msgstr "Specify the size and location of the initial window"
 
-#: src/main-application.c:82
+#: src/main-application.c:78
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "WIDTHxHEIGHT+XOFF+YOFF"
 
-#: src/main-application.c:86
+#: src/main-application.c:82
 msgid "Don't show splash screen"
 msgstr "Don't show splash screen"
 
-#: src/main-application.c:89
+#: src/main-application.c:85
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Exit immediately after loading the selected books (useful for testing)."
 
-#: src/main-application.c:120
+#: src/main-application.c:116
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -28174,84 +28258,84 @@ msgstr ""
 "\n"
 "-- The Gnumeric Team."
 
-#: src/main-application.c:189
+#: src/main-application.c:185
 msgid "Gdk debugging flags to set"
 msgstr "Gdk debugging flags to set"
 
-#: src/main-application.c:189 src/main-application.c:191
-#: src/main-application.c:203 src/main-application.c:205
+#: src/main-application.c:185 src/main-application.c:187
+#: src/main-application.c:199 src/main-application.c:201
 msgid "FLAGS"
 msgstr "FLAGS"
 
-#: src/main-application.c:191
+#: src/main-application.c:187
 msgid "Gdk debugging flags to unset"
 msgstr "Gdk debugging flags to unset"
 
-#: src/main-application.c:193
+#: src/main-application.c:189
 msgid "X display to use"
 msgstr "X display to use"
 
-#: src/main-application.c:193
+#: src/main-application.c:189
 msgid "DISPLAY"
 msgstr "DISPLAY"
 
-#: src/main-application.c:195
+#: src/main-application.c:191
 msgid "X screen to use"
 msgstr "X screen to use"
 
-#: src/main-application.c:195
+#: src/main-application.c:191
 msgid "SCREEN"
 msgstr "SCREEN"
 
-#: src/main-application.c:197
+#: src/main-application.c:193
 msgid "Make X calls synchronous"
 msgstr "Make X calls synchronous"
 
-#: src/main-application.c:199
+#: src/main-application.c:195
 msgid "Program name as used by the window manager"
 msgstr "Program name as used by the window manager"
 
-#: src/main-application.c:199
+#: src/main-application.c:195
 msgid "NAME"
 msgstr "NAME"
 
-#: src/main-application.c:201
+#: src/main-application.c:197
 msgid "Program class as used by the window manager"
 msgstr "Program class as used by the window manager"
 
-#: src/main-application.c:201
+#: src/main-application.c:197
 msgid "CLASS"
 msgstr "CLASS"
 
-#: src/main-application.c:203
+#: src/main-application.c:199
 msgid "Gtk+ debugging flags to set"
 msgstr "Gtk+ debugging flags to set"
 
-#: src/main-application.c:205
+#: src/main-application.c:201
 msgid "Gtk+ debugging flags to unset"
 msgstr "Gtk+ debugging flags to unset"
 
-#: src/main-application.c:207
+#: src/main-application.c:203
 msgid "Make all warnings fatal"
 msgstr "Make all warnings fatal"
 
-#: src/main-application.c:209
+#: src/main-application.c:205
 msgid "Load an additional Gtk module"
 msgstr "Load an additional Gtk module"
 
-#: src/main-application.c:209
+#: src/main-application.c:205
 msgid "MODULE"
 msgstr "MODULE"
 
-#: src/main-application.c:215
+#: src/main-application.c:211
 msgid "Gnumeric options"
 msgstr "Gnumeric options"
 
-#: src/main-application.c:217
+#: src/main-application.c:213
 msgid "GTK+ options"
 msgstr "GTK+ options"
 
-#: src/main-application.c:256
+#: src/main-application.c:264
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -28688,7 +28772,7 @@ msgstr "&[PAGE]"
 msgid "Print Region"
 msgstr "Print Region"
 
-#: src/print.c:1325 src/wbcg-actions.c:1495
+#: src/print.c:1325 src/wbcg-actions.c:1501
 msgid "Print preview"
 msgstr "Print preview"
 
@@ -28824,11 +28908,11 @@ msgstr "cannot operate on merged cells"
 msgid "cannot operate on array formulae"
 msgstr "cannot operate on array formulae"
 
-#: src/sheet.c:3198
+#: src/sheet.c:3203
 msgid "Insert Columns"
 msgstr "Insert Columns"
 
-#: src/sheet.c:3320
+#: src/sheet.c:3325
 msgid "Insert Rows"
 msgstr "Insert Rows"
 
@@ -28893,12 +28977,12 @@ msgid "Column _Width..."
 msgstr "Column _Width..."
 
 #: src/sheet-control-gui.c:1547 src/sheet-control-gui.c:1555
-#: src/wbcg-actions.c:1705 src/wbcg-actions.c:1722
+#: src/wbcg-actions.c:1711 src/wbcg-actions.c:1728
 msgid "_Hide"
 msgstr "_Hide"
 
 #: src/sheet-control-gui.c:1549 src/sheet-control-gui.c:1557
-#: src/wbcg-actions.c:1708 src/wbcg-actions.c:1725
+#: src/wbcg-actions.c:1714 src/wbcg-actions.c:1731
 msgid "_Unhide"
 msgstr "_Unhide"
 
@@ -28920,19 +29004,19 @@ msgid "_Remove Hyperlink"
 msgstr "_Remove Hyperlink"
 
 #. This is somewhat cheesy and should use ngettext
-#: src/sheet-control-gui.c:1972
+#: src/sheet-control-gui.c:1976
 msgid "Duplicate Object"
 msgstr "Duplicate Object"
 
-#: src/sheet-control-gui.c:1972
+#: src/sheet-control-gui.c:1976
 msgid "Insert Object"
 msgstr "Insert Object"
 
-#: src/sheet-control-gui.c:1973
+#: src/sheet-control-gui.c:1977
 msgid "Move Object"
 msgstr "Move Object"
 
-#: src/sheet-control-gui.c:1973
+#: src/sheet-control-gui.c:1977
 msgid "Resize Object"
 msgstr "Resize Object"
 
@@ -28957,7 +29041,7 @@ msgid "(Non Blanks...)"
 msgstr "(Non Blanks...)"
 
 #. Format toolbar
-#: src/sheet-merge.c:73 src/wbcg-actions.c:1935
+#: src/sheet-merge.c:73 src/wbcg-actions.c:1941
 msgid "Merge"
 msgstr "Merge"
 
@@ -28970,19 +29054,19 @@ msgstr ""
 "There is already a merged region that intersects\n"
 "%s!%s"
 
-#: src/sheet-object.c:108
+#: src/sheet-object.c:112
 msgid "Pul_l to Front"
 msgstr "Pul_l to Front"
 
-#: src/sheet-object.c:109
+#: src/sheet-object.c:113
 msgid "Pull _Forward"
 msgstr "Pull _Forward"
 
-#: src/sheet-object.c:110
+#: src/sheet-object.c:114
 msgid "Push _Backward"
 msgstr "Push _Backward"
 
-#: src/sheet-object.c:111
+#: src/sheet-object.c:115
 msgid "Pus_h to Back"
 msgstr "Pus_h to Back"
 
@@ -29024,24 +29108,25 @@ msgstr "EMF (extended metafile)"
 msgid "WMF (windows metafile)"
 msgstr "WMF (windows metafile)"
 
-#: src/sheet-object-widget.c:257 src/wbcg-actions.c:1894
+#: src/sheet-object-widget.c:258 src/wbcg-actions.c:1900
 msgid "Frame"
 msgstr "Frame"
 
-#: src/sheet-object-widget.c:496 src/wbcg-actions.c:1927
+#: src/sheet-object-widget.c:497 src/wbcg-actions.c:1933
 #: templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "Button"
 msgstr "Button"
 
-#: src/sheet-object-widget.c:1352
+#: src/sheet-object-widget.c:1354
 #, c-format
 msgid "CheckBox %d"
 msgstr "CheckBox %d"
 
-#: src/sheet-object-widget.c:1807 src/wbcg-actions.c:1930
+#: src/sheet-object-widget.c:1809 src/wbcg-actions.c:1936
 msgid "RadioButton"
 msgstr "RadioButton"
 
+#. Oh, yeah?
 #: src/sheet-style.c:494
 msgid ""
 "This is a special version of Gnumeric.  It has been compiled\n"
@@ -29126,7 +29211,7 @@ msgstr ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
 "Only the current sheet will be saved."
 
-#: src/ssconvert.c:176
+#: src/ssconvert.c:181
 #, c-format
 msgid ""
 "ssconvert version '%s'\n"
@@ -29267,6 +29352,13 @@ msgstr "Covariances"
 msgid "Covariance (%s)"
 msgstr "Covariance (%s)"
 
+#.
+#. * Note to translators: in the following string and others like it,
+#. * the "/" is a separator character that can be changed to anything
+#. * if the translation needs the slash; just use, say, "|" instead.
+#. *
+#. * The items are bundled like this to increase translation context.
+#.
 #: src/tools/analysis-tools.c:1090
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
@@ -29425,6 +29517,10 @@ msgstr ""
 "Remove one of these\n"
 "variables and try the regression again."
 
+#. FIXME: virtually all the code above needs to be moved from here into
+#. analysis_tool_regression_engine_last_check
+#. we have to figure out which data we have to trnasfer from
+#. to here
 #: src/tools/analysis-tools.c:3422
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
@@ -30336,773 +30432,773 @@ msgstr "Group"
 msgid "Ungroup"
 msgstr "Ungroup"
 
-#: src/wbcg-actions.c:945
+#: src/wbcg-actions.c:951
 msgid "Sort"
 msgstr "Sort"
 
-#: src/wbcg-actions.c:1065
+#: src/wbcg-actions.c:1071
 msgid "Set Horizontal Alignment"
 msgstr "Set Horizontal Alignment"
 
-#: src/wbcg-actions.c:1099
+#: src/wbcg-actions.c:1105
 msgid "Set Vertical Alignment"
 msgstr "Set Vertical Alignment"
 
-#: src/wbcg-actions.c:1188
+#: src/wbcg-actions.c:1194
 msgid "Set Font Style"
 msgstr "Set Font Style"
 
-#: src/wbcg-actions.c:1214
+#: src/wbcg-actions.c:1220
 msgid "Format as Number"
 msgstr "Format as Number"
 
-#: src/wbcg-actions.c:1219
+#: src/wbcg-actions.c:1225
 msgid "Format as Currency"
 msgstr "Format as Currency"
 
-#: src/wbcg-actions.c:1224
+#: src/wbcg-actions.c:1230
 msgid "Format as Accounting"
 msgstr "Format as Accounting"
 
-#: src/wbcg-actions.c:1230
+#: src/wbcg-actions.c:1236
 msgid "Format as Percentage"
 msgstr "Format as Percentage"
 
-#: src/wbcg-actions.c:1235
+#: src/wbcg-actions.c:1241
 msgid "Format as Scientific"
 msgstr "Format as Scientific"
 
-#: src/wbcg-actions.c:1240
+#: src/wbcg-actions.c:1246
 msgid "Format as Date"
 msgstr "Format as Date"
 
-#: src/wbcg-actions.c:1245
+#: src/wbcg-actions.c:1251
 msgid "Format as Time"
 msgstr "Format as Time"
 
-#: src/wbcg-actions.c:1269
+#: src/wbcg-actions.c:1275
 msgid "Add Borders"
 msgstr "Add Borders"
 
-#: src/wbcg-actions.c:1269
+#: src/wbcg-actions.c:1275
 msgid "Remove borders"
 msgstr "Remove borders"
 
-#: src/wbcg-actions.c:1298
+#: src/wbcg-actions.c:1304
 msgid "Increase precision"
 msgstr "Increase precision"
 
-#: src/wbcg-actions.c:1300
+#: src/wbcg-actions.c:1306
 msgid "Decrease precision"
 msgstr "Decrease precision"
 
-#: src/wbcg-actions.c:1302
+#: src/wbcg-actions.c:1308
 msgid "Toggle thousands separator"
 msgstr "Toggle thousands separator"
 
-#: src/wbcg-actions.c:1322
+#: src/wbcg-actions.c:1328
 msgid "Increase Indent"
 msgstr "Increase Indent"
 
-#: src/wbcg-actions.c:1342
+#: src/wbcg-actions.c:1348
 msgid "Decrease Indent"
 msgstr "Decrease Indent"
 
-#: src/wbcg-actions.c:1349
+#: src/wbcg-actions.c:1355
 msgid "Copy down"
 msgstr "Copy down"
 
-#: src/wbcg-actions.c:1355
+#: src/wbcg-actions.c:1361
 msgid "Copy right"
 msgstr "Copy right"
 
 #. Actions that are always sensitive
 #. const 142334
-#: src/wbcg-actions.c:1412
+#: src/wbcg-actions.c:1418
 msgid "_File"
 msgstr "_File"
 
-#: src/wbcg-actions.c:1413
+#: src/wbcg-actions.c:1419
 msgid "_Edit"
 msgstr "_Edit"
 
-#: src/wbcg-actions.c:1414
+#: src/wbcg-actions.c:1420
 msgid "C_lear"
 msgstr "C_lear"
 
-#: src/wbcg-actions.c:1416
+#: src/wbcg-actions.c:1422
 msgid "S_heet"
 msgstr "S_heet"
 
-#: src/wbcg-actions.c:1417
+#: src/wbcg-actions.c:1423
 msgid "_Select"
 msgstr "_Select"
 
-#: src/wbcg-actions.c:1418
+#: src/wbcg-actions.c:1424
 msgid "F_ill"
 msgstr "F_ill"
 
-#: src/wbcg-actions.c:1419
+#: src/wbcg-actions.c:1425
 msgid "_View"
 msgstr "_View"
 
-#: src/wbcg-actions.c:1420
+#: src/wbcg-actions.c:1426
 msgid "_Windows"
 msgstr "_Windows"
 
-#: src/wbcg-actions.c:1421
+#: src/wbcg-actions.c:1427
 msgid "_Toolbars"
 msgstr "_Toolbars"
 
-#: src/wbcg-actions.c:1423
+#: src/wbcg-actions.c:1429
 msgid "_Names"
 msgstr "_Names"
 
-#: src/wbcg-actions.c:1424
+#: src/wbcg-actions.c:1430
 msgid "S_pecial"
 msgstr "S_pecial"
 
-#: src/wbcg-actions.c:1425
+#: src/wbcg-actions.c:1431
 msgid "F_ormat"
 msgstr "F_ormat"
 
-#: src/wbcg-actions.c:1426
+#: src/wbcg-actions.c:1432
 msgid "C_olumn"
 msgstr "C_olumn"
 
 #. ICK A DUPLICATE : we have no way to override a label on one proxy
-#: src/wbcg-actions.c:1428 src/wbcg-actions.c:1584
+#: src/wbcg-actions.c:1434 src/wbcg-actions.c:1590
 msgid "_Sheet"
 msgstr "_Sheet"
 
-#: src/wbcg-actions.c:1429
+#: src/wbcg-actions.c:1435
 msgid "_Tools"
 msgstr "_Tools"
 
-#: src/wbcg-actions.c:1430
+#: src/wbcg-actions.c:1436
 msgid "Sce_narios"
 msgstr "Sce_narios"
 
-#: src/wbcg-actions.c:1431
+#: src/wbcg-actions.c:1437
 msgid "Statistical Anal_ysis"
 msgstr "Statistical Anal_ysis"
 
-#: src/wbcg-actions.c:1432
+#: src/wbcg-actions.c:1438
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
-#: src/wbcg-actions.c:1433
+#: src/wbcg-actions.c:1439
 msgid "F_orecast"
 msgstr "F_orecast"
 
-#: src/wbcg-actions.c:1434
+#: src/wbcg-actions.c:1440
 msgid "Two _Means"
 msgstr "Two _Means"
 
-#: src/wbcg-actions.c:1436
+#: src/wbcg-actions.c:1442
 msgid "_Filter"
 msgstr "_Filter"
 
-#: src/wbcg-actions.c:1437
+#: src/wbcg-actions.c:1443
 msgid "_Group and Outline"
 msgstr "_Group and Outline"
 
-#: src/wbcg-actions.c:1438
+#: src/wbcg-actions.c:1444
 msgid "Get _External Data"
 msgstr "Get _External Data"
 
-#: src/wbcg-actions.c:1439
+#: src/wbcg-actions.c:1445
 msgid "_Help"
 msgstr "_Help"
 
-#: src/wbcg-actions.c:1442
+#: src/wbcg-actions.c:1448
 msgid "Cut the selection"
 msgstr "Cut the selection"
 
-#: src/wbcg-actions.c:1445
+#: src/wbcg-actions.c:1451
 msgid "Copy the selection"
 msgstr "Copy the selection"
 
-#: src/wbcg-actions.c:1448
+#: src/wbcg-actions.c:1454
 msgid "Paste the clipboard"
 msgstr "Paste the clipboard"
 
-#: src/wbcg-actions.c:1451 src/wbcg-actions.c:1523
+#: src/wbcg-actions.c:1457 src/wbcg-actions.c:1529
 msgid "_Contents"
 msgstr "_Contents"
 
-#: src/wbcg-actions.c:1452
+#: src/wbcg-actions.c:1458
 msgid "Open a viewer for Gnumeric's documentation"
 msgstr "Open a viewer for Gnumeric's documentation"
 
-#: src/wbcg-actions.c:1454
+#: src/wbcg-actions.c:1460
 msgid "Gnumeric on the _Web"
 msgstr "Gnumeric on the _Web"
 
-#: src/wbcg-actions.c:1455
+#: src/wbcg-actions.c:1461
 msgid "Browse to Gnumeric's website"
 msgstr "Browse Gnumeric's website"
 
-#: src/wbcg-actions.c:1457
+#: src/wbcg-actions.c:1463
 msgid "_Live Assistance"
 msgstr "_Live Assistance"
 
-#: src/wbcg-actions.c:1458
+#: src/wbcg-actions.c:1464
 msgid "See if anyone is available to answer questions"
 msgstr "See if anyone is available to answer questions"
 
-#: src/wbcg-actions.c:1460
+#: src/wbcg-actions.c:1466
 msgid "Report a _Problem"
 msgstr "Report a _Problem"
 
-#: src/wbcg-actions.c:1461
+#: src/wbcg-actions.c:1467
 msgid "Report problem "
 msgstr "Report problem "
 
-#: src/wbcg-actions.c:1463
+#: src/wbcg-actions.c:1469
 msgid "_About"
 msgstr "_About"
 
-#: src/wbcg-actions.c:1464
+#: src/wbcg-actions.c:1470
 msgid "About this application"
 msgstr "About this application"
 
 #. Special.  The sensitivity is chained to redo we do not want to
 #. * toggle it directly so we put it in here
-#: src/wbcg-actions.c:1469
+#: src/wbcg-actions.c:1475
 msgid "Repeat"
 msgstr "Repeat"
 
-#: src/wbcg-actions.c:1470
+#: src/wbcg-actions.c:1476
 msgid "Repeat the previous action"
 msgstr "Repeat the previous action"
 
-#: src/wbcg-actions.c:1477
+#: src/wbcg-actions.c:1483
 msgid "Create a new workbook"
 msgstr "Create a new workbook"
 
-#: src/wbcg-actions.c:1480
+#: src/wbcg-actions.c:1486
 msgid "Open a file"
 msgstr "Open a file"
 
-#: src/wbcg-actions.c:1483
+#: src/wbcg-actions.c:1489
 msgid "Save the current workbook"
 msgstr "Save the current workbook"
 
-#: src/wbcg-actions.c:1486
+#: src/wbcg-actions.c:1492
 msgid "Save the current workbook with a different name"
 msgstr "Save the current workbook with a different name"
 
-#: src/wbcg-actions.c:1488
+#: src/wbcg-actions.c:1494
 msgid "Sen_d To..."
 msgstr "Sen_d To..."
 
-#: src/wbcg-actions.c:1489
+#: src/wbcg-actions.c:1495
 msgid "Send the current file via email"
 msgstr "Send the current file via email"
 
-#: src/wbcg-actions.c:1491
+#: src/wbcg-actions.c:1497
 msgid "Page Set_up..."
 msgstr "Page Set_up..."
 
-#: src/wbcg-actions.c:1492
+#: src/wbcg-actions.c:1498
 msgid "Setup the page settings for your current printer"
 msgstr "Setup the page settings for your current printer"
 
-#: src/wbcg-actions.c:1498
+#: src/wbcg-actions.c:1504
 msgid "Print the current file"
 msgstr "Print the current file"
 
-#: src/wbcg-actions.c:1500
+#: src/wbcg-actions.c:1506
 msgid "Proper_ties..."
 msgstr "Proper_ties..."
 
-#: src/wbcg-actions.c:1501
+#: src/wbcg-actions.c:1507
 msgid "Edit descriptive information"
 msgstr "Edit descriptive information"
 
-#: src/wbcg-actions.c:1503
+#: src/wbcg-actions.c:1509
 msgid "Pre_ferences..."
 msgstr "Pre_ferences..."
 
-#: src/wbcg-actions.c:1504
+#: src/wbcg-actions.c:1510
 msgid "Change Gnumeric Preferences"
 msgstr "Change Gnumeric Preferences"
 
-#: src/wbcg-actions.c:1507
+#: src/wbcg-actions.c:1513
 msgid "Close the current file"
 msgstr "Close the current file"
 
-#: src/wbcg-actions.c:1510
+#: src/wbcg-actions.c:1516
 msgid "Quit the application"
 msgstr "Quit the application"
 
-#: src/wbcg-actions.c:1515
+#: src/wbcg-actions.c:1521
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Clear the selected cells' formats, comments, and contents"
 
-#: src/wbcg-actions.c:1518
+#: src/wbcg-actions.c:1524
 msgid "Clear the selected cells' formats"
 msgstr "Clear the selected cells' formats"
 
-#: src/wbcg-actions.c:1521
+#: src/wbcg-actions.c:1527
 msgid "Clear the selected cells' comments"
 msgstr "Clear the selected cells' comments"
 
-#: src/wbcg-actions.c:1524
+#: src/wbcg-actions.c:1530
 msgid "Clear the selected cells' contents"
 msgstr "Clear the selected cells' contents"
 
-#: src/wbcg-actions.c:1529
+#: src/wbcg-actions.c:1535
 msgid "Delete the row(s) containing the selected cells"
 msgstr "Delete the row(s) containing the selected cells"
 
-#: src/wbcg-actions.c:1532
+#: src/wbcg-actions.c:1538
 msgid "Delete the column(s) containing the selected cells"
 msgstr "Delete the column(s) containing the selected cells"
 
 #. Insert
-#: src/wbcg-actions.c:1534 src/wbcg-actions.c:1641
+#: src/wbcg-actions.c:1540 src/wbcg-actions.c:1647
 msgid "C_ells..."
 msgstr "C_ells..."
 
-#: src/wbcg-actions.c:1535
+#: src/wbcg-actions.c:1541
 msgid "Delete the selected cells, shifting others into their place"
 msgstr "Delete the selected cells, shifting others into their place"
 
-#: src/wbcg-actions.c:1541
+#: src/wbcg-actions.c:1547
 msgid "Select all cells in the spreadsheet"
 msgstr "Select all cells in the spreadsheet"
 
-#: src/wbcg-actions.c:1543
+#: src/wbcg-actions.c:1549
 msgid "Select _Column"
 msgstr "Select _Column"
 
-#: src/wbcg-actions.c:1544
+#: src/wbcg-actions.c:1550
 msgid "Select an entire column"
 msgstr "Select an entire column"
 
-#: src/wbcg-actions.c:1546
+#: src/wbcg-actions.c:1552
 msgid "Select _Row"
 msgstr "Select _Row"
 
-#: src/wbcg-actions.c:1547
+#: src/wbcg-actions.c:1553
 msgid "Select an entire row"
 msgstr "Select an entire row"
 
-#: src/wbcg-actions.c:1549
+#: src/wbcg-actions.c:1555
 msgid "Select Arra_y"
 msgstr "Select Arra_y"
 
-#: src/wbcg-actions.c:1550
+#: src/wbcg-actions.c:1556
 msgid "Select an array of cells"
 msgstr "Select an array of cells"
 
-#: src/wbcg-actions.c:1552
+#: src/wbcg-actions.c:1558
 msgid "Select _Depends"
 msgstr "Select _Depends"
 
-#: src/wbcg-actions.c:1553
+#: src/wbcg-actions.c:1559
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Select all the cells that depend on the current edit cell"
 
-#: src/wbcg-actions.c:1555
+#: src/wbcg-actions.c:1561
 msgid "Select _Inputs"
 msgstr "Select _Inputs"
 
-#: src/wbcg-actions.c:1556
+#: src/wbcg-actions.c:1562
 msgid "Select all the cells are used by the current edit cell"
 msgstr "Select all the cells are used by the current edit cell"
 
 #. Edit -> Fill
-#: src/wbcg-actions.c:1560
+#: src/wbcg-actions.c:1566
 msgid "Auto_fill"
 msgstr "Auto_fill"
 
-#: src/wbcg-actions.c:1561
+#: src/wbcg-actions.c:1567
 msgid "Automatically fill the current selection"
 msgstr "Automatically fill the current selection"
 
-#: src/wbcg-actions.c:1563
+#: src/wbcg-actions.c:1569
 msgid "_Merge..."
 msgstr "_Merge..."
 
-#: src/wbcg-actions.c:1564
+#: src/wbcg-actions.c:1570
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 
-#: src/wbcg-actions.c:1566
+#: src/wbcg-actions.c:1572
 msgid "_Tabulate Dependency..."
 msgstr "_Tabulate Dependency..."
 
-#: src/wbcg-actions.c:1567
+#: src/wbcg-actions.c:1573
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr "Make a table of a cell's value as a function of other cells"
 
-#: src/wbcg-actions.c:1569
+#: src/wbcg-actions.c:1575
 msgid "_Series..."
 msgstr "_Series..."
 
-#: src/wbcg-actions.c:1570
+#: src/wbcg-actions.c:1576
 msgid "Fill according to a linear or exponential series"
 msgstr "Fill according to a linear or exponential series"
 
-#: src/wbcg-actions.c:1572
+#: src/wbcg-actions.c:1578
 msgid "_Random Generator..."
 msgstr "_Random Generator..."
 
-#: src/wbcg-actions.c:1573
+#: src/wbcg-actions.c:1579
 msgid "Generate random numbers of a selection of distributions"
 msgstr "Generate random numbers of a selection of distributions"
 
 #. Edit -> Sheet
-#: src/wbcg-actions.c:1577
+#: src/wbcg-actions.c:1583
 msgid "_Manage Sheets..."
 msgstr "_Manage Sheets..."
 
-#: src/wbcg-actions.c:1578
+#: src/wbcg-actions.c:1584
 msgid "Manage the sheets in this workbook"
 msgstr "Manage the sheets in this workbook"
 
-#: src/wbcg-actions.c:1581 src/wbcg-actions.c:1585
+#: src/wbcg-actions.c:1587 src/wbcg-actions.c:1591
 msgid "Insert a new sheet"
 msgstr "Insert a new sheet"
 
-#: src/wbcg-actions.c:1587
+#: src/wbcg-actions.c:1593
 msgid "_Append"
 msgstr "_Append"
 
-#: src/wbcg-actions.c:1588
+#: src/wbcg-actions.c:1594
 msgid "Append a new sheet"
 msgstr "Append a new sheet"
 
-#: src/wbcg-actions.c:1591
+#: src/wbcg-actions.c:1597
 msgid "Make a copy of the current sheet"
 msgstr "Make a copy of the current sheet"
 
-#: src/wbcg-actions.c:1594
+#: src/wbcg-actions.c:1600
 msgid "Irrevocably remove an entire sheet"
 msgstr "Irrevocably remove an entire sheet"
 
-#: src/wbcg-actions.c:1596
+#: src/wbcg-actions.c:1602
 msgid "Re_name"
 msgstr "Re_name"
 
-#: src/wbcg-actions.c:1597
+#: src/wbcg-actions.c:1603
 msgid "Rename the current sheet"
 msgstr "Rename the current sheet"
 
 #. Edit
-#: src/wbcg-actions.c:1601
+#: src/wbcg-actions.c:1607
 msgid "P_aste special..."
 msgstr "P_aste special..."
 
-#: src/wbcg-actions.c:1602
+#: src/wbcg-actions.c:1608
 msgid "Paste with optional filters and transformations"
 msgstr "Paste with optional filters and transformations"
 
-#: src/wbcg-actions.c:1605
+#: src/wbcg-actions.c:1611
 msgid "Co_mment..."
 msgstr "Co_mment..."
 
-#: src/wbcg-actions.c:1606
+#: src/wbcg-actions.c:1612
 msgid "Edit the selected cell's comment"
 msgstr "Edit the selected cell's comment"
 
-#: src/wbcg-actions.c:1609
+#: src/wbcg-actions.c:1615
 msgid "_Find..."
 msgstr "_Find..."
 
-#: src/wbcg-actions.c:1610
+#: src/wbcg-actions.c:1616
 msgid "Search for something"
 msgstr "Search for something"
 
-#: src/wbcg-actions.c:1612
+#: src/wbcg-actions.c:1618
 msgid "R_eplace..."
 msgstr "R_eplace..."
 
-#: src/wbcg-actions.c:1613
+#: src/wbcg-actions.c:1619
 msgid "Search for some something and replace it with something else"
 msgstr "Search for something and replace it with something else"
 
-#: src/wbcg-actions.c:1615
+#: src/wbcg-actions.c:1621
 msgid "_Goto cell..."
 msgstr "_Goto cell..."
 
-#: src/wbcg-actions.c:1616
+#: src/wbcg-actions.c:1622
 msgid "Jump to a specified cell"
 msgstr "Jump to a specified cell"
 
-#: src/wbcg-actions.c:1619
+#: src/wbcg-actions.c:1625
 msgid "Recalculate"
 msgstr "Recalculate"
 
-#: src/wbcg-actions.c:1620
+#: src/wbcg-actions.c:1626
 msgid "Recalculate the spreadsheet"
 msgstr "Recalculate the spreadsheet"
 
 #. View
-#: src/wbcg-actions.c:1624
+#: src/wbcg-actions.c:1630
 msgid "_New View..."
 msgstr "_New View..."
 
-#: src/wbcg-actions.c:1625
+#: src/wbcg-actions.c:1631
 msgid "Create a new view of the workbook"
 msgstr "Create a new view of the workbook"
 
-#: src/wbcg-actions.c:1627 src/workbook-control-gui.c:1023
+#: src/wbcg-actions.c:1633 src/workbook-control-gui.c:1023
 msgid "_Freeze Panes"
 msgstr "_Freeze Panes"
 
-#: src/wbcg-actions.c:1628 src/workbook-control-gui.c:1026
+#: src/wbcg-actions.c:1634 src/workbook-control-gui.c:1026
 msgid "Freeze the top left of the sheet"
 msgstr "Freeze the top left of the sheet"
 
-#: src/wbcg-actions.c:1630
+#: src/wbcg-actions.c:1636
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
-#: src/wbcg-actions.c:1631
+#: src/wbcg-actions.c:1637
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zoom the spreadsheet in or out"
 
-#: src/wbcg-actions.c:1633
+#: src/wbcg-actions.c:1639
 msgid "Zoom _In"
 msgstr "Zoom _In"
 
-#: src/wbcg-actions.c:1634
+#: src/wbcg-actions.c:1640
 msgid "Increase the zoom to make things larger"
 msgstr "Increase the zoom to make things larger"
 
-#: src/wbcg-actions.c:1636
+#: src/wbcg-actions.c:1642
 msgid "Zoom _Out"
 msgstr "Zoom _Out"
 
-#: src/wbcg-actions.c:1637
+#: src/wbcg-actions.c:1643
 msgid "Decrease the zoom to make things smaller"
 msgstr "Decrease the zoom to make things smaller"
 
-#: src/wbcg-actions.c:1642
+#: src/wbcg-actions.c:1648
 msgid "Insert new cells"
 msgstr "Insert new cells"
 
-#: src/wbcg-actions.c:1645
+#: src/wbcg-actions.c:1651
 msgid "Insert new columns"
 msgstr "Insert new columns"
 
-#: src/wbcg-actions.c:1648
+#: src/wbcg-actions.c:1654
 msgid "Insert new rows"
 msgstr "Insert new rows"
 
-#: src/wbcg-actions.c:1651
+#: src/wbcg-actions.c:1657
 msgid "C_hart..."
 msgstr "C_hart..."
 
-#: src/wbcg-actions.c:1652
+#: src/wbcg-actions.c:1658
 msgid "Insert a Chart"
 msgstr "Insert a Chart"
 
-#: src/wbcg-actions.c:1654
+#: src/wbcg-actions.c:1660
 msgid "_Image..."
 msgstr "_Image..."
 
-#: src/wbcg-actions.c:1655
+#: src/wbcg-actions.c:1661
 msgid "Insert an image"
 msgstr "Insert an image"
 
-#: src/wbcg-actions.c:1658
+#: src/wbcg-actions.c:1664
 msgid "Hyper_link..."
 msgstr "Hyper_link..."
 
-#: src/wbcg-actions.c:1659
+#: src/wbcg-actions.c:1665
 msgid "Insert a Hyperlink"
 msgstr "Insert a Hyperlink"
 
 #. Insert -> Special
-#: src/wbcg-actions.c:1662
+#: src/wbcg-actions.c:1668
 msgid "Current _date"
 msgstr "Current _date"
 
-#: src/wbcg-actions.c:1663
+#: src/wbcg-actions.c:1669
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Insert the current date into the selected cell(s)"
 
-#: src/wbcg-actions.c:1666
+#: src/wbcg-actions.c:1672
 msgid "Current _time"
 msgstr "Current _time"
 
-#: src/wbcg-actions.c:1667
+#: src/wbcg-actions.c:1673
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Insert the current time into the selected cell(s)"
 
-#: src/wbcg-actions.c:1670
+#: src/wbcg-actions.c:1676
 msgid "Current d_ate and time"
 msgstr "Current d_ate and time"
 
-#: src/wbcg-actions.c:1671
+#: src/wbcg-actions.c:1677
 msgid "Insert the current date and time into the selected cell(s)"
 msgstr "Insert the current date and time into the selected cell(s)"
 
 #. Insert -> Name
-#: src/wbcg-actions.c:1675
+#: src/wbcg-actions.c:1681
 msgid "_Define..."
 msgstr "_Define..."
 
-#: src/wbcg-actions.c:1676
+#: src/wbcg-actions.c:1682
 msgid "Edit sheet and workbook names"
 msgstr "Edit sheet and workbook names"
 
-#: src/wbcg-actions.c:1679
+#: src/wbcg-actions.c:1685
 msgid "_Auto generate names..."
 msgstr "_Auto generate names..."
 
-#: src/wbcg-actions.c:1680
+#: src/wbcg-actions.c:1686
 msgid "Use the current selection to create names"
 msgstr "Use the current selection to create names"
 
 #. Format
-#: src/wbcg-actions.c:1685
+#: src/wbcg-actions.c:1691
 msgid "_Cells..."
 msgstr "_Cells..."
 
-#: src/wbcg-actions.c:1686
+#: src/wbcg-actions.c:1692
 msgid "Modify the formatting of the selected cells"
 msgstr "Modify the formatting of the selected cells"
 
-#: src/wbcg-actions.c:1688
+#: src/wbcg-actions.c:1694
 msgid "_Workbook..."
 msgstr "_Workbook..."
 
-#: src/wbcg-actions.c:1689
+#: src/wbcg-actions.c:1695
 msgid "Modify the workbook attributes"
 msgstr "Modify the workbook attributes"
 
-#: src/wbcg-actions.c:1691
+#: src/wbcg-actions.c:1697
 msgid "_Gnumeric..."
 msgstr "_Gnumeric..."
 
-#: src/wbcg-actions.c:1692
+#: src/wbcg-actions.c:1698
 msgid "Edit the Gnumeric Preferences"
 msgstr "Edit the Gnumeric Preferences"
 
-#: src/wbcg-actions.c:1694
+#: src/wbcg-actions.c:1700
 msgid "_Autoformat..."
 msgstr "_Autoformat..."
 
-#: src/wbcg-actions.c:1695
+#: src/wbcg-actions.c:1701
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Format a region of cells according to a pre-defined template"
 
 #. Format -> Col
-#: src/wbcg-actions.c:1699
+#: src/wbcg-actions.c:1705
 msgid "_Width..."
 msgstr "_Width..."
 
-#: src/wbcg-actions.c:1700
+#: src/wbcg-actions.c:1706
 msgid "Change width of the selected columns"
 msgstr "Change width of the selected columns"
 
-#: src/wbcg-actions.c:1702 src/wbcg-actions.c:1719
+#: src/wbcg-actions.c:1708 src/wbcg-actions.c:1725
 msgid "_Auto fit selection"
 msgstr "_Auto fit selection"
 
-#: src/wbcg-actions.c:1703
+#: src/wbcg-actions.c:1709
 msgid "Ensure columns are just wide enough to display content"
 msgstr "Ensure columns are just wide enough to display content"
 
-#: src/wbcg-actions.c:1706
+#: src/wbcg-actions.c:1712
 msgid "Hide the selected columns"
 msgstr "Hide the selected columns"
 
-#: src/wbcg-actions.c:1709
+#: src/wbcg-actions.c:1715
 msgid "Make any hidden columns in the selection visible"
 msgstr "Make any hidden columns in the selection visible"
 
-#: src/wbcg-actions.c:1711
+#: src/wbcg-actions.c:1717
 msgid "_Standard Width"
 msgstr "_Standard Width"
 
-#: src/wbcg-actions.c:1712
+#: src/wbcg-actions.c:1718
 msgid "Change the default column width"
 msgstr "Change the default column width"
 
 #. Format -> Row
-#: src/wbcg-actions.c:1716
+#: src/wbcg-actions.c:1722
 msgid "H_eight..."
 msgstr "H_eight..."
 
-#: src/wbcg-actions.c:1717
+#: src/wbcg-actions.c:1723
 msgid "Change height of the selected rows"
 msgstr "Change height of the selected rows"
 
-#: src/wbcg-actions.c:1720
+#: src/wbcg-actions.c:1726
 msgid "Ensure rows are just tall enough to display content"
 msgstr "Ensure rows are just tall enough to display content"
 
-#: src/wbcg-actions.c:1723
+#: src/wbcg-actions.c:1729
 msgid "Hide the selected rows"
 msgstr "Hide the selected rows"
 
-#: src/wbcg-actions.c:1726
+#: src/wbcg-actions.c:1732
 msgid "Make any hidden rows in the selection visible"
 msgstr "Make any hidden rows in the selection visible"
 
-#: src/wbcg-actions.c:1728
+#: src/wbcg-actions.c:1734
 msgid "_Standard Height"
 msgstr "_Standard Height"
 
-#: src/wbcg-actions.c:1729
+#: src/wbcg-actions.c:1735
 msgid "Change the default row height"
 msgstr "Change the default row height"
 
 #. Tools
-#: src/wbcg-actions.c:1733
+#: src/wbcg-actions.c:1739
 msgid "_Plug-ins..."
 msgstr "_Plug-ins..."
 
-#: src/wbcg-actions.c:1734
+#: src/wbcg-actions.c:1740
 msgid "Manage available plugin modules"
 msgstr "Manage available plugin modules"
 
-#: src/wbcg-actions.c:1736
+#: src/wbcg-actions.c:1742
 msgid "Auto _Correct..."
 msgstr "Auto _Correct..."
 
-#: src/wbcg-actions.c:1737
+#: src/wbcg-actions.c:1743
 msgid "Automatically perform simple spell checking"
 msgstr "Automatically perform simple spell checking"
 
-#: src/wbcg-actions.c:1739
+#: src/wbcg-actions.c:1745
 msgid "_Auto Save..."
 msgstr "_Auto Save..."
 
-#: src/wbcg-actions.c:1740
+#: src/wbcg-actions.c:1746
 msgid "Automatically save the current document at regular intervals"
 msgstr "Automatically save the current document at regular intervals"
 
-#: src/wbcg-actions.c:1742
+#: src/wbcg-actions.c:1748
 msgid "_Goal Seek..."
 msgstr "_Goal Seek..."
 
-#: src/wbcg-actions.c:1743
+#: src/wbcg-actions.c:1749
 msgid "Iteratively recalculate to find a target value"
 msgstr "Iteratively recalculate to find a target value"
 
-#: src/wbcg-actions.c:1745
+#: src/wbcg-actions.c:1751
 msgid "_Solver..."
 msgstr "_Solver..."
 
-#: src/wbcg-actions.c:1746
+#: src/wbcg-actions.c:1752
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr "Iteratively recalculate with constraints to approach a target value"
 
-#: src/wbcg-actions.c:1748
+#: src/wbcg-actions.c:1754
 msgid "Si_mulation..."
 msgstr "Si_mulation..."
 
-#: src/wbcg-actions.c:1749
+#: src/wbcg-actions.c:1755
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
@@ -31111,70 +31207,70 @@ msgstr ""
 "probable outputs and risks related to them"
 
 #. Tools -> Scenarios
-#: src/wbcg-actions.c:1754
+#: src/wbcg-actions.c:1760
 msgid "_View..."
 msgstr "_View..."
 
-#: src/wbcg-actions.c:1755
+#: src/wbcg-actions.c:1761
 msgid "View, delete and report different scenarios"
 msgstr "View, delete and report different scenarios"
 
-#: src/wbcg-actions.c:1757
+#: src/wbcg-actions.c:1763
 msgid "_Add..."
 msgstr "_Add..."
 
-#: src/wbcg-actions.c:1758
+#: src/wbcg-actions.c:1764
 msgid "Add a new scenario"
 msgstr "Add a new scenario"
 
 #. Tools -> ANOVA
-#: src/wbcg-actions.c:1762
+#: src/wbcg-actions.c:1768
 msgid "_One Factor..."
 msgstr "_One Factor..."
 
-#: src/wbcg-actions.c:1763
+#: src/wbcg-actions.c:1769
 msgid "One Factor Analysis of Variance..."
 msgstr "One Factor Analysis of Variance..."
 
-#: src/wbcg-actions.c:1765
+#: src/wbcg-actions.c:1771
 msgid "_Two Factor..."
 msgstr "_Two Factor..."
 
-#: src/wbcg-actions.c:1766
+#: src/wbcg-actions.c:1772
 msgid "Two Factor Analysis of Variance..."
 msgstr "Two Factor Analysis of Variance..."
 
 #. Tools -> Forecasting
-#: src/wbcg-actions.c:1770
+#: src/wbcg-actions.c:1776
 msgid "_Exponential Smoothing..."
 msgstr "_Exponential Smoothing..."
 
-#: src/wbcg-actions.c:1771
+#: src/wbcg-actions.c:1777
 msgid "Exponential smoothing..."
 msgstr "Exponential smoothing..."
 
-#: src/wbcg-actions.c:1773
+#: src/wbcg-actions.c:1779
 msgid "_Moving Average..."
 msgstr "_Moving Average..."
 
-#: src/wbcg-actions.c:1774
+#: src/wbcg-actions.c:1780
 msgid "Moving average..."
 msgstr "Moving average..."
 
 #. Tools -> Two Means
-#: src/wbcg-actions.c:1778
+#: src/wbcg-actions.c:1784
 msgid "_Paired Samples: T-Test..."
 msgstr "_Paired Samples: T-Test..."
 
-#: src/wbcg-actions.c:1779
+#: src/wbcg-actions.c:1785
 msgid "Comparing two population means for two paired samples: t-test..."
 msgstr "Comparing two population means for two paired samples: t-test..."
 
-#: src/wbcg-actions.c:1782
+#: src/wbcg-actions.c:1788
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
 msgstr "Unpaired Samples, _Equal Variances: T-Test..."
 
-#: src/wbcg-actions.c:1783
+#: src/wbcg-actions.c:1789
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test..."
@@ -31182,11 +31278,11 @@ msgstr ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test..."
 
-#: src/wbcg-actions.c:1786
+#: src/wbcg-actions.c:1792
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
 msgstr "Unpaired Samples, _Unequal Variances: T-Test..."
 
-#: src/wbcg-actions.c:1787
+#: src/wbcg-actions.c:1793
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test..."
@@ -31194,11 +31290,11 @@ msgstr ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test..."
 
-#: src/wbcg-actions.c:1790
+#: src/wbcg-actions.c:1796
 msgid "_Known Variances: Z-Test..."
 msgstr "_Known Variances: Z-Test..."
 
-#: src/wbcg-actions.c:1791
+#: src/wbcg-actions.c:1797
 msgid ""
 "Comparing two population means from populations with known variances: z-"
 "test..."
@@ -31207,609 +31303,609 @@ msgstr ""
 "test..."
 
 #. Tools -> Analysis
-#: src/wbcg-actions.c:1795
+#: src/wbcg-actions.c:1801
 msgid "_Correlation..."
 msgstr "_Correlation..."
 
-#: src/wbcg-actions.c:1796
+#: src/wbcg-actions.c:1802
 msgid "Pearson Correlation"
 msgstr "Pearson Correlation"
 
-#: src/wbcg-actions.c:1798
+#: src/wbcg-actions.c:1804
 msgid "Co_variance..."
 msgstr "Co_variance..."
 
-#: src/wbcg-actions.c:1801
+#: src/wbcg-actions.c:1807
 msgid "_Descriptive Statistics..."
 msgstr "_Descriptive Statistics..."
 
-#: src/wbcg-actions.c:1802
+#: src/wbcg-actions.c:1808
 msgid "Various summary statistics"
 msgstr "Various summary statistics"
 
-#: src/wbcg-actions.c:1804
+#: src/wbcg-actions.c:1810
 msgid "_Fourier Analysis..."
 msgstr "_Fourier Analysis..."
 
-#: src/wbcg-actions.c:1807
+#: src/wbcg-actions.c:1813
 msgid "_Histogram..."
 msgstr "_Histogram..."
 
-#: src/wbcg-actions.c:1808
+#: src/wbcg-actions.c:1814
 msgid "Various frequency tables"
 msgstr "Various frequency tables"
 
-#: src/wbcg-actions.c:1810
+#: src/wbcg-actions.c:1816
 msgid "Ranks And _Percentiles..."
 msgstr "Ranks And _Percentiles..."
 
-#: src/wbcg-actions.c:1811
+#: src/wbcg-actions.c:1817
 msgid "Ranks, placements and percentiles"
 msgstr "Ranks, placements and percentiles"
 
-#: src/wbcg-actions.c:1813
+#: src/wbcg-actions.c:1819
 msgid "_Regression..."
 msgstr "_Regression..."
 
-#: src/wbcg-actions.c:1814
+#: src/wbcg-actions.c:1820
 msgid "Regression Analysis"
 msgstr "Regression Analysis"
 
-#: src/wbcg-actions.c:1816
+#: src/wbcg-actions.c:1822
 msgid "_Sampling..."
 msgstr "_Sampling..."
 
-#: src/wbcg-actions.c:1817
+#: src/wbcg-actions.c:1823
 msgid "Periodic and random samples"
 msgstr "Periodic and random samples"
 
-#: src/wbcg-actions.c:1819
+#: src/wbcg-actions.c:1825
 msgid "_Two Variances: FTest..."
 msgstr "_Two Variances: FTest..."
 
-#: src/wbcg-actions.c:1820
+#: src/wbcg-actions.c:1826
 msgid "Comparing two population variances"
 msgstr "Comparing two population variances"
 
 #. Data
-#: src/wbcg-actions.c:1824
+#: src/wbcg-actions.c:1830
 msgid "_Sort..."
 msgstr "_Sort..."
 
-#: src/wbcg-actions.c:1825
+#: src/wbcg-actions.c:1831
 msgid "Sort the selected region"
 msgstr "Sort the selected region"
 
-#: src/wbcg-actions.c:1827
+#: src/wbcg-actions.c:1833
 msgid "Sh_uffle..."
 msgstr "Sh_uffle..."
 
-#: src/wbcg-actions.c:1828
+#: src/wbcg-actions.c:1834
 msgid "Shuffle cells, rows or columns"
 msgstr "Shuffle cells, rows or columns"
 
-#: src/wbcg-actions.c:1830
+#: src/wbcg-actions.c:1836
 msgid "_Validate..."
 msgstr "_Validate..."
 
-#: src/wbcg-actions.c:1831
+#: src/wbcg-actions.c:1837
 msgid "Validate input with preset criteria"
 msgstr "Validate input with preset criteria"
 
-#: src/wbcg-actions.c:1833
+#: src/wbcg-actions.c:1839
 msgid "_Text to Columns..."
 msgstr "_Text to Columns..."
 
-#: src/wbcg-actions.c:1834
+#: src/wbcg-actions.c:1840
 msgid "Parse the text in the selection into data"
 msgstr "Parse the text in the selection into data"
 
-#: src/wbcg-actions.c:1836
+#: src/wbcg-actions.c:1842
 msgid "_Consolidate..."
 msgstr "_Consolidate..."
 
-#: src/wbcg-actions.c:1837
+#: src/wbcg-actions.c:1843
 msgid "Consolidate regions using a function"
 msgstr "Consolidate regions using a function"
 
-#: src/wbcg-actions.c:1841
+#: src/wbcg-actions.c:1847
 msgid "_PivotTable..."
 msgstr "_PivotTable..."
 
-#: src/wbcg-actions.c:1842
+#: src/wbcg-actions.c:1848
 msgid "Create a pivot table"
 msgstr "Create a pivot table"
 
 #. Data -> Outline
-#: src/wbcg-actions.c:1847
+#: src/wbcg-actions.c:1853
 msgid "_Hide Detail"
 msgstr "_Hide Detail"
 
-#: src/wbcg-actions.c:1848
+#: src/wbcg-actions.c:1854
 msgid "Collapse an outline group"
 msgstr "Collapse an outline group"
 
-#: src/wbcg-actions.c:1850
+#: src/wbcg-actions.c:1856
 msgid "_Show Detail"
 msgstr "_Show Detail"
 
-#: src/wbcg-actions.c:1851
+#: src/wbcg-actions.c:1857
 msgid "Uncollapse an outline group"
 msgstr "Uncollapse an outline group"
 
-#: src/wbcg-actions.c:1853
+#: src/wbcg-actions.c:1859
 msgid "_Group..."
 msgstr "_Group..."
 
-#: src/wbcg-actions.c:1854
+#: src/wbcg-actions.c:1860
 msgid "Add an outline group"
 msgstr "Add an outline group"
 
-#: src/wbcg-actions.c:1856
+#: src/wbcg-actions.c:1862
 msgid "_Ungroup..."
 msgstr "_Ungroup..."
 
-#: src/wbcg-actions.c:1857
+#: src/wbcg-actions.c:1863
 msgid "Remove an outline group"
 msgstr "Remove an outline group"
 
 #. Data -> Filter
-#: src/wbcg-actions.c:1861 src/workbook-control-gui.c:1034
+#: src/wbcg-actions.c:1867 src/workbook-control-gui.c:1034
 msgid "Add _Auto Filter"
 msgstr "Add _Auto Filter"
 
-#: src/wbcg-actions.c:1862
+#: src/wbcg-actions.c:1868
 msgid "Add or remove a filter"
 msgstr "Add or remove a filter"
 
-#: src/wbcg-actions.c:1864
+#: src/wbcg-actions.c:1870
 msgid "_Show All"
 msgstr "_Show All"
 
-#: src/wbcg-actions.c:1865
+#: src/wbcg-actions.c:1871
 msgid "Show all filtered and hidden rows"
 msgstr "Show all filtered and hidden rows"
 
-#: src/wbcg-actions.c:1867
+#: src/wbcg-actions.c:1873
 msgid "Advanced _Filter..."
 msgstr "Advanced _Filter..."
 
-#: src/wbcg-actions.c:1868
+#: src/wbcg-actions.c:1874
 msgid "Filter data with given criteria"
 msgstr "Filter data with given criteria"
 
 #. Data -> External
-#: src/wbcg-actions.c:1871
+#: src/wbcg-actions.c:1877
 msgid "Import _Text File..."
 msgstr "Import _Text File..."
 
-#: src/wbcg-actions.c:1872
+#: src/wbcg-actions.c:1878
 msgid "Import the text from a file"
 msgstr "Import the text from a file"
 
 #. Standard Toolbar
-#: src/wbcg-actions.c:1876 src/workbook-control-gui.c:1827
+#: src/wbcg-actions.c:1882 src/workbook-control-gui.c:1827
 #: src/workbook-view.c:542
 msgid "Sum"
 msgstr "Sum"
 
-#: src/wbcg-actions.c:1877
+#: src/wbcg-actions.c:1883
 msgid "Sum into the current cell"
 msgstr "Sum into the current cell"
 
-#: src/wbcg-actions.c:1880
+#: src/wbcg-actions.c:1886
 msgid "Edit a function in the current cell"
 msgstr "Edit a function in the current cell"
 
-#: src/wbcg-actions.c:1884
+#: src/wbcg-actions.c:1890
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr ""
 "Sort the selected region in ascending order based on the first column "
-"selected"
-
-#: src/wbcg-actions.c:1886
-msgid "Sort Descending"
-msgstr "Sort Descending"
-
-#: src/wbcg-actions.c:1887
-msgid ""
-"Sort the selected region in descending order based on the first column "
-"selected"
-msgstr ""
-"Sort the selected region in descending order based on the first column "
 "selected"
 
 #: src/wbcg-actions.c:1892
+msgid "Sort Descending"
+msgstr "Sort Descending"
+
+#: src/wbcg-actions.c:1893
+msgid ""
+"Sort the selected region in descending order based on the first column "
+"selected"
+msgstr ""
+"Sort the selected region in descending order based on the first column "
+"selected"
+
+#: src/wbcg-actions.c:1898
 msgid "Create a label"
 msgstr "Create a label"
 
-#: src/wbcg-actions.c:1895
+#: src/wbcg-actions.c:1901
 msgid "Create a frame"
 msgstr "Create a frame"
 
-#: src/wbcg-actions.c:1897
+#: src/wbcg-actions.c:1903
 msgid "Checkbox"
 msgstr "Checkbox"
 
-#: src/wbcg-actions.c:1898
+#: src/wbcg-actions.c:1904
 msgid "Create a checkbox"
 msgstr "Create a checkbox"
 
-#: src/wbcg-actions.c:1900
+#: src/wbcg-actions.c:1906
 msgid "Scrollbar"
 msgstr "Scrollbar"
 
-#: src/wbcg-actions.c:1901
+#: src/wbcg-actions.c:1907
 msgid "Create a scrollbar"
 msgstr "Create a scrollbar"
 
-#: src/wbcg-actions.c:1903
+#: src/wbcg-actions.c:1909
 msgid "Slider"
 msgstr "Slider"
 
-#: src/wbcg-actions.c:1904
+#: src/wbcg-actions.c:1910
 msgid "Create a slider"
 msgstr "Create a slider"
 
-#: src/wbcg-actions.c:1906
+#: src/wbcg-actions.c:1912
 msgid "SpinButton"
 msgstr "SpinButton"
 
-#: src/wbcg-actions.c:1907
+#: src/wbcg-actions.c:1913
 msgid "Create a spin button"
 msgstr "Create a spin button"
 
-#: src/wbcg-actions.c:1909 templates/autoformat/autoformat.3D.list.xml.in.h:3
+#: src/wbcg-actions.c:1915 templates/autoformat/autoformat.3D.list.xml.in.h:3
 msgid "List"
 msgstr "List"
 
-#: src/wbcg-actions.c:1910
+#: src/wbcg-actions.c:1916
 msgid "Create a list"
 msgstr "Create a list"
 
-#: src/wbcg-actions.c:1912
+#: src/wbcg-actions.c:1918
 msgid "Combo Box"
 msgstr "Combo Box"
 
-#: src/wbcg-actions.c:1913
+#: src/wbcg-actions.c:1919
 msgid "Create a combo box"
 msgstr "Create a combo box"
 
-#: src/wbcg-actions.c:1916
+#: src/wbcg-actions.c:1922
 msgid "Create a line object"
 msgstr "Create a line object"
 
-#: src/wbcg-actions.c:1918
+#: src/wbcg-actions.c:1924
 msgid "Arrow"
 msgstr "Arrow"
 
-#: src/wbcg-actions.c:1919
+#: src/wbcg-actions.c:1925
 msgid "Create an arrow object"
 msgstr "Create an arrow object"
 
-#: src/wbcg-actions.c:1921
+#: src/wbcg-actions.c:1927
 msgid "Rectangle"
 msgstr "Rectangle"
 
-#: src/wbcg-actions.c:1922
+#: src/wbcg-actions.c:1928
 msgid "Create a rectangle object"
 msgstr "Create a rectangle object"
 
-#: src/wbcg-actions.c:1924
+#: src/wbcg-actions.c:1930
 msgid "Ellipse"
 msgstr "Ellipse"
 
-#: src/wbcg-actions.c:1925
+#: src/wbcg-actions.c:1931
 msgid "Create an ellipse object"
 msgstr "Create an ellipse object"
 
-#: src/wbcg-actions.c:1928
+#: src/wbcg-actions.c:1934
 msgid "Create a button"
 msgstr "Create a button"
 
-#: src/wbcg-actions.c:1931
+#: src/wbcg-actions.c:1937
 msgid "Create a radio button"
 msgstr "Create a radio button"
 
-#: src/wbcg-actions.c:1936
+#: src/wbcg-actions.c:1942
 msgid "Merge a range of cells"
 msgstr "Merge a range of cells"
 
-#: src/wbcg-actions.c:1938
+#: src/wbcg-actions.c:1944
 msgid "Split"
 msgstr "Split"
 
-#: src/wbcg-actions.c:1939
+#: src/wbcg-actions.c:1945
 msgid "Split merged ranges of cells"
 msgstr "Split merged ranges of cells"
 
-#: src/wbcg-actions.c:1943
+#: src/wbcg-actions.c:1949
 msgid "Format the selection as numbers"
 msgstr "Format the selection as numbers"
 
-#: src/wbcg-actions.c:1945 src/widgets/widget-format-selector.c:77
+#: src/wbcg-actions.c:1951 src/widgets/widget-format-selector.c:77
 msgid "Currency"
 msgstr "Currency"
 
-#: src/wbcg-actions.c:1946
+#: src/wbcg-actions.c:1952
 msgid "Format the selection as currency"
 msgstr "Format the selection as currency"
 
-#: src/wbcg-actions.c:1948 src/widgets/widget-format-selector.c:78
+#: src/wbcg-actions.c:1954 src/widgets/widget-format-selector.c:78
 msgid "Accounting"
 msgstr "Accounting"
 
-#: src/wbcg-actions.c:1949
+#: src/wbcg-actions.c:1955
 msgid "Format the selection as accounting"
 msgstr "Format the selection as accounting"
 
-#: src/wbcg-actions.c:1951 src/widgets/widget-format-selector.c:81
+#: src/wbcg-actions.c:1957 src/widgets/widget-format-selector.c:81
 msgid "Percentage"
 msgstr "Percentage"
 
-#: src/wbcg-actions.c:1952
+#: src/wbcg-actions.c:1958
 msgid "Format the selection as percentage"
 msgstr "Format the selection as percentage"
 
-#: src/wbcg-actions.c:1954 src/widgets/widget-format-selector.c:83
+#: src/wbcg-actions.c:1960 src/widgets/widget-format-selector.c:83
 msgid "Scientific"
 msgstr "Scientific"
 
-#: src/wbcg-actions.c:1955
+#: src/wbcg-actions.c:1961
 msgid "Format the selection as scientific"
 msgstr "Format the selection as scientific"
 
-#: src/wbcg-actions.c:1957 src/widgets/widget-format-selector.c:79
+#: src/wbcg-actions.c:1963 src/widgets/widget-format-selector.c:79
 msgid "Date"
 msgstr "Date"
 
-#: src/wbcg-actions.c:1958
+#: src/wbcg-actions.c:1964
 msgid "Format the selection as date"
 msgstr "Format the selection as date"
 
-#: src/wbcg-actions.c:1960 src/widgets/widget-format-selector.c:80
+#: src/wbcg-actions.c:1966 src/widgets/widget-format-selector.c:80
 msgid "Time"
 msgstr "Time"
 
-#: src/wbcg-actions.c:1961
+#: src/wbcg-actions.c:1967
 msgid "Format the selection as time"
 msgstr "Format the selection as time"
 
-#: src/wbcg-actions.c:1963
+#: src/wbcg-actions.c:1969
 msgid "AddBorders"
 msgstr "AddBorders"
 
-#: src/wbcg-actions.c:1964
+#: src/wbcg-actions.c:1970
 msgid "Add a border the the selection"
 msgstr "Add a border the the selection"
 
-#: src/wbcg-actions.c:1966
+#: src/wbcg-actions.c:1972
 msgid "ClearBorders"
 msgstr "ClearBorders"
 
-#: src/wbcg-actions.c:1967
+#: src/wbcg-actions.c:1973
 msgid "Clear the border around the selection"
 msgstr "Clear the border around the selection"
 
-#: src/wbcg-actions.c:1970
+#: src/wbcg-actions.c:1976
 msgid "Thousands Separator"
 msgstr "Thousands Separator"
 
-#: src/wbcg-actions.c:1971
+#: src/wbcg-actions.c:1977
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr "Set the format of the selected cells to include a thousands separator"
 
-#: src/wbcg-actions.c:1973
+#: src/wbcg-actions.c:1979
 msgid "Increase Precision"
 msgstr "Increase Precision"
 
-#: src/wbcg-actions.c:1974
+#: src/wbcg-actions.c:1980
 msgid "Increase the number of decimals displayed"
 msgstr "Increase the number of decimals displayed"
 
-#: src/wbcg-actions.c:1976
+#: src/wbcg-actions.c:1982
 msgid "Decrease Precision"
 msgstr "Decrease Precision"
 
-#: src/wbcg-actions.c:1977
+#: src/wbcg-actions.c:1983
 msgid "Decrease the number of decimals displayed"
 msgstr "Decrease the number of decimals displayed"
 
-#: src/wbcg-actions.c:1980
+#: src/wbcg-actions.c:1986
 msgid "Decrease the indent, and align the contents to the left"
 msgstr "Decrease the indent, and align the contents to the left"
 
-#: src/wbcg-actions.c:1983
+#: src/wbcg-actions.c:1989
 msgid "Increase the indent, and align the contents to the left"
 msgstr "Increase the indent, and align the contents to the left"
 
 #. const 142334
-#: src/wbcg-actions.c:2021
+#: src/wbcg-actions.c:2027
 msgid "Display _Outlines"
 msgstr "Display _Outlines"
 
-#: src/wbcg-actions.c:2022
+#: src/wbcg-actions.c:2028
 msgid "Toggle whether or not to display outline groups"
 msgstr "Toggle whether or not to display outline groups"
 
-#: src/wbcg-actions.c:2024
+#: src/wbcg-actions.c:2030
 msgid "Outlines _Below"
 msgstr "Outlines _Below"
 
-#: src/wbcg-actions.c:2025
+#: src/wbcg-actions.c:2031
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Toggle whether to display row outlines on top or bottom"
 
-#: src/wbcg-actions.c:2027
+#: src/wbcg-actions.c:2033
 msgid "Outlines _Right"
 msgstr "Outlines _Right"
 
-#: src/wbcg-actions.c:2028
+#: src/wbcg-actions.c:2034
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr "Toggle whether to display column outlines on the left or right"
 
-#: src/wbcg-actions.c:2030
+#: src/wbcg-actions.c:2036
 msgid "Display _Formulas"
 msgstr "Display _Formulas"
 
-#: src/wbcg-actions.c:2031
+#: src/wbcg-actions.c:2037
 msgid "Display the value of a formula or the formula itself"
 msgstr "Display the value of a formula or the formula itself"
 
-#: src/wbcg-actions.c:2033
+#: src/wbcg-actions.c:2039
 msgid "Hide _Zeros"
 msgstr "Hide _Zeros"
 
-#: src/wbcg-actions.c:2034
+#: src/wbcg-actions.c:2040
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Toggle whether or not to display zeros as blanks"
 
-#: src/wbcg-actions.c:2036
+#: src/wbcg-actions.c:2042
 msgid "Hide _Gridlines"
 msgstr "Hide _Gridlines"
 
-#: src/wbcg-actions.c:2037
+#: src/wbcg-actions.c:2043
 msgid "Toggle whether or not to display gridlines"
 msgstr "Toggle whether or not to display gridlines"
 
-#: src/wbcg-actions.c:2039
+#: src/wbcg-actions.c:2045
 msgid "Hide _Column Headers"
 msgstr "Hide _Column Headers"
 
-#: src/wbcg-actions.c:2040
+#: src/wbcg-actions.c:2046
 msgid "Toggle whether or not to display column headers"
 msgstr "Toggle whether or not to display column headers"
 
-#: src/wbcg-actions.c:2042
+#: src/wbcg-actions.c:2048
 msgid "Hide _Row Headers"
 msgstr "Hide _Row Headers"
 
-#: src/wbcg-actions.c:2043
+#: src/wbcg-actions.c:2049
 msgid "Toggle whether or not to display row headers"
 msgstr "Toggle whether or not to display row headers"
 
-#: src/wbcg-actions.c:2047
+#: src/wbcg-actions.c:2053
 msgid "_Left Align"
 msgstr "_Left Align"
 
-#: src/wbcg-actions.c:2048 src/wbc-gtk.c:324
+#: src/wbcg-actions.c:2054 src/wbc-gtk.c:324
 msgid "Align left"
 msgstr "Align left"
 
-#: src/wbcg-actions.c:2050
+#: src/wbcg-actions.c:2056
 msgid "_Center"
 msgstr "_Centre"
 
-#: src/wbcg-actions.c:2051 src/wbc-gtk.c:325
+#: src/wbcg-actions.c:2057 src/wbc-gtk.c:325
 msgid "Center horizontally"
 msgstr "Centre horizontally"
 
-#: src/wbcg-actions.c:2053
+#: src/wbcg-actions.c:2059
 msgid "_Right Align"
 msgstr "_Right Align"
 
-#: src/wbcg-actions.c:2054 src/wbc-gtk.c:326
+#: src/wbcg-actions.c:2060 src/wbc-gtk.c:326
 msgid "Align right"
 msgstr "Align right"
 
-#: src/wbcg-actions.c:2056
+#: src/wbcg-actions.c:2062
 msgid "_Center Across Selection"
 msgstr "_Centre Across Selection"
 
-#: src/wbcg-actions.c:2057 src/wbc-gtk.c:329
+#: src/wbcg-actions.c:2063 src/wbc-gtk.c:329
 msgid "Center horizontally across the selection"
 msgstr "Centre horizontally across the selection"
 
-#: src/wbcg-actions.c:2060
+#: src/wbcg-actions.c:2066
 msgid "_Merge and Center"
 msgstr "_Merge and Centre"
 
-#: src/wbcg-actions.c:2061
+#: src/wbcg-actions.c:2067
 msgid "Merge the selection into 1 cell, and center horizontaly."
 msgstr "Merge the selection into 1 cell, and centre horizontaly."
 
-#: src/wbcg-actions.c:2068
+#: src/wbcg-actions.c:2074
 msgid "Align _Top"
 msgstr "Align _Top"
 
-#: src/wbcg-actions.c:2069 src/wbc-gtk.c:336
+#: src/wbcg-actions.c:2075 src/wbc-gtk.c:336
 msgid "Align Top"
 msgstr "Align Top"
 
-#: src/wbcg-actions.c:2071
+#: src/wbcg-actions.c:2077
 msgid "_Vertically Center"
 msgstr "_Vertically Centre"
 
-#: src/wbcg-actions.c:2072
+#: src/wbcg-actions.c:2078
 msgid "Vertically Center"
 msgstr "Vertically Centre"
 
-#: src/wbcg-actions.c:2074
+#: src/wbcg-actions.c:2080
 msgid "Align _Bottom"
 msgstr "Align _Bottom"
 
-#: src/wbcg-actions.c:2075 src/wbc-gtk.c:338
+#: src/wbcg-actions.c:2081 src/wbc-gtk.c:338
 msgid "Align Bottom"
 msgstr "Align Bottom"
 
-#: src/wbcg-actions.c:2078
+#: src/wbcg-actions.c:2084
 msgid "View _Statusbar"
 msgstr "View _Statusbar"
 
-#: src/wbcg-actions.c:2079
+#: src/wbcg-actions.c:2085
 msgid "Toggle visibility of statusbar"
 msgstr "Toggle visibility of statusbar"
 
-#: src/wbcg-actions.c:2083
+#: src/wbcg-actions.c:2089
 msgid "F_ull Screen..."
 msgstr "F_ull Screen..."
 
-#: src/wbcg-actions.c:2084
+#: src/wbcg-actions.c:2090
 msgid "in or out"
 msgstr "in or out"
 
-#: src/wbcg-actions.c:2089
+#: src/wbcg-actions.c:2095
 msgid "_Bold"
 msgstr "_Bold"
 
 #. ALSO "<control>2"
-#: src/wbcg-actions.c:2090 src/widgets/widget-font-selector.c:201
+#: src/wbcg-actions.c:2096 src/widgets/widget-font-selector.c:201
 msgid "Bold"
 msgstr "Bold"
 
-#: src/wbcg-actions.c:2092
+#: src/wbcg-actions.c:2098
 msgid "_Italic"
 msgstr "_Italic"
 
 #. ALSO "<control>3"
-#: src/wbcg-actions.c:2093 src/widgets/widget-font-selector.c:203
+#: src/wbcg-actions.c:2099 src/widgets/widget-font-selector.c:203
 msgid "Italic"
 msgstr "Italic"
 
-#: src/wbcg-actions.c:2095
+#: src/wbcg-actions.c:2101
 msgid "_Underline"
 msgstr "_Underline"
 
 #. ALSO "<control>4"
-#: src/wbcg-actions.c:2096
+#: src/wbcg-actions.c:2102
 msgid "Underline"
 msgstr "Underline"
 
-#: src/wbcg-actions.c:2098
+#: src/wbcg-actions.c:2104
 msgid "_Strike Through"
 msgstr "_Strike Through"
 
-#: src/wbcg-actions.c:2099
+#: src/wbcg-actions.c:2105
 msgid "Strike Through"
 msgstr "Strike Through"
 
-#: src/wbcg-actions.c:2102
+#: src/wbcg-actions.c:2108
 msgid "_Double Underline"
 msgstr "_Double Underline"
 
-#: src/wbcg-actions.c:2103
+#: src/wbcg-actions.c:2109
 msgid "Double Underline"
 msgstr "Double Underline"
 
@@ -33145,16 +33241,16 @@ msgstr "_Discard"
 msgid "_Accept"
 msgstr "_Accept"
 
-#: src/workbook-edit.c:611
+#: src/workbook-edit.c:684
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s is locked"
 
-#: src/workbook-edit.c:615
+#: src/workbook-edit.c:688
 msgid "Unprotect the workbook to enable editing."
 msgstr "Unprotect the workbook to enable editing."
 
-#: src/workbook-edit.c:616
+#: src/workbook-edit.c:689
 msgid "Unprotect the sheet to enable editing."
 msgstr "Unprotect the sheet to enable editing."
 
