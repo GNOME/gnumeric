@@ -152,7 +152,7 @@
      general statistical measures and confidence levels for mean for
      any number variables at the same time.  The variables for which
      the statistical analysis is made are specified by the ``Input
-     Range:'' entry.  The given range can be groupped either by
+     Range:'' entry.  The given range can be grouped either by
      columns or by rows.</para>
 
      <para>This tool can produce four different kinds of statistical
@@ -162,11 +162,15 @@
      variance, kurtosis, skewness, range, minimum, maximum, sum, and
      count for each given variable.</para>
 
-     <para>If ``Confidence Level for Mean'' button is checked on, the
-     tool calculates the confidence level for mean for each variable.
-     You should specify the percentage of the confidence in the entry
+     <para>If ``Confidence Interval for the Mean'' button is checked on, the
+     tool calculates  confidence intervals for the mean of each variable.
+     You should specify the confidence level in the entry
      box.  The default value is to calculate the confidence level of
-     95&percnt;.</para>
+     95&percnt;. Note that the interval given will usually be wider than the 
+     interval obtained using the CONFIDENCE functionn since that function
+     assumes that the population standard deviation is known while this tool
+     estimates the population standard deviation by the sample standard
+     deviation.</para>
 
      <para>If ``Kth Largest:'' button is checked on, the tool finds
      the kth largest value of each of the variables.  Specify the k in
@@ -177,10 +181,10 @@
      the entry box next to the check button.</para>
 
      <para>If you have labels, for example the names of the variables,
-     in the first row of the given range, you should check the
-     ``Labels in First Row'' button on.  This leaves the first row of
+     in the first row (or column) of the given range, you should check the
+     ``Labels'' button.  This leaves the first row (or column)  of
      the input range out of the analysis.  In addition, the names of
-     the variables are printed nicely into the output table.</para>
+     the variables are printed in the output table.</para>
   </sect2>
 
 

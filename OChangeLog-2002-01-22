@@ -1,3 +1,12 @@
+2001-09-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/analysis-tools.c (confidence_level) : Fix confidence interval
+	  calculation (bug 57320). Change code to calculate mean only twice
+	  rather than four times per variable.
+	(summary_statistics) : Change code to calculate mean only twice
+	  rather than four times per variable.
+	(descriptive_stat_tool) : ditto
+
 2001-09-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-graph.c (gnm_graph_range_to_vectors) : move this here

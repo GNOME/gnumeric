@@ -6572,7 +6572,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>CONFIDENCE function returns the confidence interval for a mean. @x is the significance level, @stddev is the standard deviation, and @size is the size of the sample.</para>
+        <para>CONFIDENCE function returns the confidence interval for a mean. @x is the significance level, @stddev is the population standard deviation, and @size is the size of the sample.</para>
         <para>If @size is non-integer it is truncated. If @size &lt; 0 CONFIDENCE returns #NUM! error. If @size is 0 CONFIDENCE returns #DIV/0! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -6827,7 +6827,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>EXPRESSION returns expression in @cell as a string, orempty if the cell is not an expression.</para>
+        <para>EXPRESSION returns expression in @cell as a string, or empty if the cell is not an expression.</para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>

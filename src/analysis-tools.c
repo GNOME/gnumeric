@@ -42,6 +42,14 @@ typedef struct {
         int     n;
 } data_set_t;
 
+typedef struct {
+	gnum_float mean;
+	gint       error_mean;
+	gnum_float var;
+	gint       error_var;
+	gint      len;
+} desc_stats_t;
+
 
 /***** Some general routines ***********************************************/
 
@@ -807,7 +815,7 @@ covariance_tool (WorkbookControl *wbc, Sheet *sheet,
 
 static void
 summary_statistics (WorkbookControl *wbc, GPtrArray *data, GPtrArray* labels,
-		    data_analysis_output_t *dao)
+		    data_analysis_output_t *dao, GArray *basic_stats)
 {
 	guint     col;
 
@@ -839,27 +847,26 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data, GPtrArray* labels,
 
 	for (col = 0; col < data->len; col++) {
 		GArray *the_col = g_ptr_array_index (data, col);
-		int the_col_len = the_col->len;
 		const gnum_float *the_data = (gnum_float *)the_col->data;
+		int the_col_len = the_col->len;
 		gnum_float x, xmin, xmax;
 		int error, error2;
+	        desc_stats_t info = g_array_index(basic_stats, desc_stats_t, col);
 
 	        /* Mean */
-		error = range_average (the_data, the_col_len, &x);
-		if (error == 0) {
-			set_cell_float (dao, col + 1, 1, x);
+		if (info.error_mean == 0) {
+			set_cell_float (dao, col + 1, 1, info.mean);
 		} else {
 			set_cell_na (dao, col + 1, 1);
 		}
 
-		error = range_var_est (the_data, the_col_len, &x);
-		if (error == 0) {
+		if (info.error_var == 0) {
 			/* Standard Error */
-			set_cell_float (dao, col + 1, 2, sqrt (x / the_col_len));
+			set_cell_float (dao, col + 1, 2, sqrt (info.var / info.len));
 			/* Standard Deviation */
-			set_cell_float (dao, col + 1, 5, sqrt (x));
+			set_cell_float (dao, col + 1, 5, sqrt (info.var));
 			/* Sample Variance */
-			set_cell_float (dao, col + 1, 6, x);
+			set_cell_float (dao, col + 1, 6, info.var);
 		} else {
 			set_cell_na (dao, col + 1, 2);
 			set_cell_na (dao, col + 1, 5);
@@ -938,26 +945,29 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data, GPtrArray* labels,
 
 static void
 confidence_level (WorkbookControl *wbc, GPtrArray *data, gnum_float c_level,
-		  GPtrArray* labels, data_analysis_output_t *dao)
+		  GPtrArray* labels, data_analysis_output_t *dao, GArray *basic_stats)
 {
-        gnum_float x, var;
+        gnum_float x;
         guint col;
-	gint error;
-	GArray *the_col;
+	char *buffer;
+	desc_stats_t info;
 
-	prepare_output (wbc, dao, _("Confidence Level"));
-        set_cell_printf (dao, 0, 1, _("Confidence Level (%g%%)"), c_level * 100);
+	prepare_output (wbc, dao, _("Confidence Interval for the Mean"));
+	buffer = g_strdup_printf (_("/%g%% CI for the Mean from"
+					"/to"), c_level * 100);
+	set_cell_text_col (dao, 0, 1, buffer);
+        g_free(buffer);
 
         set_cell (dao, 0, 0, NULL);
 	set_labels_in_row (labels, 0, 1, dao);
 
 	for (col = 0; col < labels->len; col++) {
-		the_col = g_ptr_array_index (data, col);
 		if ((c_level < 1) && (c_level >= 0)) {
-			error = range_var_est ((gnum_float *)(the_col->data), the_col->len, &var);
-			if (error == 0) {
-				x = -qnorm (c_level / 2, 0, sqrt (var / the_col->len));
-				set_cell_float (dao, col + 1, 1, x);
+			info = g_array_index(basic_stats, desc_stats_t, col);
+			if (info.error_mean == 0 && info.error_var == 0) {
+				x = -qt ((1 - c_level) / 2,info.len - 1) * sqrt (info.var / info.len);
+				set_cell_float (dao, col + 1, 1, info.mean - x);
+				set_cell_float (dao, col + 1, 2, info.mean + x);
 				continue;
 			}
 		}
@@ -1030,24 +1040,53 @@ descriptive_stat_tool (WorkbookControl *wbc, Sheet *sheet,
 {
         GPtrArray     *labels = g_ptr_array_new ();
 	GPtrArray     *data = g_ptr_array_new ();
+	GArray        *basic_stats = NULL;
+	GArray        *the_col;
+        desc_stats_t  info;
+	guint         col;
+	const gnum_float *the_data;
 
 	get_labels_n_data (sheet, labels, data, range, columns_flag, dao);
 
+	if (ds->summary_statistics || ds->confidence_level) {
+		basic_stats = g_array_new(FALSE, FALSE, sizeof(desc_stats_t));
+		for (col = 0; col < data->len; col++) {
+			the_col = g_ptr_array_index (data, col);
+			the_data = (gnum_float *)the_col->data;
+                        info.len = the_col->len;
+			info.error_mean = range_average (the_data, info.len, &(info.mean));
+			info.error_var = range_var_est (the_data, info.len, &(info.var));
+			g_array_append_val(basic_stats, info);
+		}
+	}
+
         if (ds->summary_statistics) {
-                summary_statistics (wbc, data, labels, dao);
-		if (dao->type == RangeOutput)
+                summary_statistics (wbc, data, labels, dao, basic_stats);
+		if (dao->type == RangeOutput) {
 		        dao->start_row += 16;
+			dao->rows -= 16;
+		}
 	}
+	if (dao->rows < 1)
+		return 0;
         if (ds->confidence_level) {
-                confidence_level (wbc, data, ds->c_level, labels,  dao);
-		if (dao->type == RangeOutput)
+                confidence_level (wbc, data, ds->c_level, labels,  dao, basic_stats);
+		if (dao->type == RangeOutput) {
 		        dao->start_row += 4;
+			dao->rows -= 4;
+		}
 	}
+	if (dao->rows < 1)
+		return 0;
         if (ds->kth_largest) {
                 kth_largest (wbc, data, ds->k_largest, labels, dao);
-		if (dao->type == RangeOutput)
+		if (dao->type == RangeOutput) {
 		        dao->start_row += 4;
+			dao->rows -= 4;
+		}
 	}
+	if (dao->rows < 1)
+		return 0;
         if (ds->kth_smallest)
                 kth_smallest (wbc, data, ds->k_smallest, labels, dao);
 
@@ -1055,7 +1094,8 @@ descriptive_stat_tool (WorkbookControl *wbc, Sheet *sheet,
 	/* dispose that memory correctly                                                      */
 	g_ptr_array_free (labels, TRUE);
 	g_ptr_array_free (data, TRUE);
-
+	if (basic_stats != NULL)
+		g_array_free(basic_stats, TRUE);
 
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (sheet);
