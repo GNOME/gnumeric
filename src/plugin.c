@@ -108,18 +108,14 @@ plugin_load (CommandContext *context, const gchar *modfile)
 	g_return_val_if_fail (modfile != NULL, NULL);
 
 	data = g_new0 (PluginData, 1);
-	if (!data) {
-		g_print ("allocation error");
-		return NULL;
-	}
-
 	data->initialized = FALSE;
 	data->version_checked = FALSE;
 	data->file_name = g_strdup (modfile);
 	data->handle = g_module_open (modfile, 0);
 	if (!data->handle) {
 		char *str;
-		str = g_strconcat(_("unable to open module file: "), g_module_error(), NULL);
+		str = g_strdup_printf (_("unable to open module file \"%s\": %s"),
+		                       modfile, g_module_error());
 		gnumeric_error_plugin (context, str);
 		g_free (data->file_name);
 		g_free (str);
@@ -128,26 +124,42 @@ plugin_load (CommandContext *context, const gchar *modfile)
 	}
 
 	if (!g_module_symbol (data->handle, "init_plugin", (gpointer *) &data->init_plugin)){
-		gnumeric_error_plugin (context,
-			_("Plugin must contain init_plugin function."));
+		gchar *msg;
+
+		msg = g_strdup_printf (
+		      _("Plugin \"%s\" doesn't contain init_plugin function."),
+		      modfile);
+		gnumeric_error_plugin (context, msg);
+		g_free (msg);
 		goto error;
 	}
 
 	if (stat (data->file_name, &sbuf) < 0) {
-	        gnumeric_error_plugin (context,
-			_("Couldn't determine size or modification date"));
+		gchar *msg;
+
+		msg = g_strdup_printf (
+		      _("Couldn't determine size or modification date for plugin \"%s\"."),
+		      modfile);
+		gnumeric_error_plugin (context, msg);
+		g_free (msg);
 		goto error;
 	} else {
-	        data->size = sbuf.st_size;
+		data->size = sbuf.st_size;
 		data->modified = sbuf.st_ctime;
 	}
 
 	res = data->init_plugin (context, data);
 	if (res != PLUGIN_OK) {
 		/* Avoid displaying 2 error boxes */
-		if (res == PLUGIN_ERROR)
-			gnumeric_error_plugin (context,
-					     _("init_plugin returned error"));
+		if (res == PLUGIN_ERROR) {
+			gchar *msg;
+
+			msg = g_strdup_printf (
+			      _("Function init_plugin inside \"%s\" returned error"),
+			      modfile);
+			gnumeric_error_plugin (context, msg);
+			g_free (msg);
+		}
 		goto error;
 	}
 
