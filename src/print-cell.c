@@ -291,7 +291,7 @@ print_make_rectangle_path (GnomePrintContext *pc,
  */
 static void
 print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
-	    double x1, double y1, double width, double height, double left_offset)
+	    double x1, double y1, double width, double height, double h_center)
 {
 	StyleFont *style_font = mstyle_get_font (mstyle, 1.0);
 	GnomeFont *print_font = style_font->font;
@@ -446,7 +446,7 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 
 		case HALIGN_CENTER:
 		case HALIGN_CENTER_ACROSS_SELECTION:
-			x = rect_x + left_offset + (ci->size_pts - cell_width_pts) / 2;
+			x = rect_x + h_center - cell_width_pts / 2;
 			break;
 
 		default:
@@ -539,7 +539,7 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 			case HALIGN_CENTER:
 			case HALIGN_CENTER_ACROSS_SELECTION:
 				len = gnome_font_get_width_string (print_font, str);
-				x = rect_x + left_offset + (ci->size_pts - len) / 2;
+				x = rect_x + h_center - len / 2;
 			}
 
 			print_text (context,
@@ -596,7 +596,7 @@ print_merged_range (GnomePrintContext *context, Sheet const *sheet,
 		    double start_x, double start_y,
 		    Range const *view, Range const *range)
 {
-	float l, r, t, b;
+	float l, r, t, b, w;
 	int last;
 	Cell  const *cell    = sheet_cell_get (sheet, range->start.col, range->start.row);
 
@@ -641,10 +641,10 @@ print_merged_range (GnomePrintContext *context, Sheet const *sheet,
 				view->end.row+1, range->end.row+1);
 
 		/* FIXME : get the margins from the far col/row too */
+		w = r - l - ci->margin_b - ci->margin_a;
 		print_cell (cell, mstyle, context,
-			    l, t,
-			    r - l - ci->margin_b - ci->margin_a,
-			    b - t - ri->margin_b - ri->margin_a, 0);
+			    l, t, w,
+			    b - t - ri->margin_b - ri->margin_a, w/2.);
 	}
 }
 
@@ -859,7 +859,8 @@ print_cell_range (GnomePrintContext *context,
 				Cell const *cell = sheet_cell_get (sheet, col, row);
 				if (!cell_is_blank (cell))
 					print_cell (cell, style, context,
-						    x, y, -1, -1, 0);
+						    x, y, -1, -1,
+						    cell->col_info->size_pts/2.);
 
 			/* Only draw spaning cells after all the backgrounds
 			 * that we are goign to draw have been drawn.  No need
@@ -870,7 +871,7 @@ print_cell_range (GnomePrintContext *context,
 				int const start_span_col = span->left;
 				int const end_span_col = span->right;
 				double real_x = x;
-				double left_offset = 0;
+				double h_center = cell->col_info->size_pts / 2;
 				/* TODO : Use the spanning margins */
 				double tmp_width = ci->size_pts -
 					ci->margin_b - ci->margin_a;
@@ -884,7 +885,7 @@ print_cell_range (GnomePrintContext *context,
 				 * justify or center justify) compute the pixel difference
 				 */
 				if (start_span_col != cell->pos.col)
-					left_offset = sheet_col_get_distance_pts (
+					h_center += sheet_col_get_distance_pts (
 						sheet, start_span_col, cell->pos.col);
 
 				if (start_span_col != col) {
@@ -894,13 +895,12 @@ print_cell_range (GnomePrintContext *context,
 					tmp_width += offset;
 					sr.vertical [col] = NULL;
 				}
-				if (end_span_col != col) {
+				if (end_span_col != col)
 					tmp_width += sheet_col_get_distance_pts (
 						sheet, col+1, end_span_col + 1);
-				}
 
 				print_cell (cell, style, context,
-					    real_x, y, tmp_width, -1, left_offset);
+					    real_x, y, tmp_width, -1, h_center);
 			} else if (col != span->left)
 				sr.vertical [col] = NULL;
 

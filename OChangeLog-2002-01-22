@@ -5,11 +5,14 @@
 
 	* src/cell-draw.c (cell_draw) : take the coords of the center of the
 	  region directly, rather than the left offset.
+	* src/print-cell.c (print_cell) : ditto.
 
 	* src/preview-grid.c (preview_grid_draw) : change sematics of the
 	  centering arg to cell_draw.
 	* src/item-grid.c (item_grid_draw) : ditto.
 	(item_grid_draw_merged_range) : ditto. Fix drawing of selected cells.
+	* src/print-cell.c (print_cell_range) : ditto.
+	(print_merged_range) : ditto.
 
 2001-02-17  Jody Goldberg <jgoldberg@home.com>
 
