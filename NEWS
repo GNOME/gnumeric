@@ -31,6 +31,21 @@ Frank:
 	* Huge chunk of summary-info re-structuring.
 	* Import and export lots of new summary fields.
 
+
+--------------------------------------------------------------------------
+
+Gnumeric 0.41
+
+	* More recalculation bugs & other minor issues fixed.
+	* Base release before Style mangling.
+
+--------------------------------------------------------------------------
+
+Gnumeric 0.40
+
+Miguel:
+	* Important recalculation bugs fixed.
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.39

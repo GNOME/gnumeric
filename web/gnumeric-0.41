@@ -1,0 +1,29 @@
+Hello guys,
+    
+   I know how much you love the fast paced world of Gnumeric releases,
+   so for all of you that have just finished looking at the output of
+   "make install", I have a new tarball for you to download, compile,
+   and install.
+
+   Excercise those idle cycles in your computer and try the latest
+   version of Gnumeric: 0.41
+
+   This mainly contains a number of bug fixes that were reported on
+   the bug tracking system and it works as a "base" before I merge the
+   new Style scheme from Michael into the CVS.
+
+* Availability:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+* Changes
+
+Gnumeric 0.41
+
+	* More recalculation bugs & other minor issues fixed.
+
+Gnumeric 0.40
+
+Miguel:
+	* Important recalculation bugs fixed.
+

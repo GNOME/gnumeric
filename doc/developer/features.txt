@@ -9,7 +9,7 @@ The Gnumeric feature list for gnumeric 0.42
 
   ** Computation
 
-     Inter sheet and workbook dependencies,
+     Inter sheet dependencies,
      User defined Names (for ranges and functions),
      Arrays, Array functions,
      
@@ -17,9 +17,8 @@ The Gnumeric feature list for gnumeric 0.42
 
      Summary Information
      Cell comments,
-     Zoom,
-     Cut + paste, copy,
      Toolbar for common operations
+     Zoom,
 
   ** Sheet Objects
 
