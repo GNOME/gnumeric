@@ -512,12 +512,12 @@ dnl AM_CONDITIONAL(HAVE_PSPELL, $have_pspell)
 dnl ******************************
 dnl Check for Evolution
 dnl ******************************
-try_evolution=$have_bonobo
+try_evolution=false
 evolution=no
 AC_ARG_WITH(evolution,
-	[--{with,without}-evolution Use evolution to send images (bonobo needed).],
-	if test x$withval=xno; then
-		try_evolution=false
+	[--{with,without}-evolution Use evolution to send spreadsheets (bonobo needed).],
+	if test x$withval=xyes; then
+		try_evolution=true
 	fi
 )
 if $try_evolution; then
