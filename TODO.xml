@@ -15,7 +15,7 @@
 
   <section>
     <title>Graphics Component</title>
-    <entry size="simple" status="0%" target="1.0">
+    <entry size="small" status="0%" target="1.0">
       <title>Need to high light current graphics on the first page</title>
       <description>
 	Current druid is not highlighting the first graphic.
@@ -28,7 +28,7 @@
   <section>
     <title>Graphics Component</title>
 
-    <entry size="simple" status="0%" target="1.0">
+    <entry size="small" status="0%" target="1.0">
       <title>Fix scaling in scatter plots</title>
       <description>
 	Scatter plots are not scaling correctly currently: they are
@@ -38,7 +38,7 @@
       <contact>miguel@helixcode.com</contact>
     </entry>
 
-      <entry size="simple" status="0%" target="1.0">
+      <entry size="small" status="0%" target="1.0">
       <title>Stacked and Stacked 100% are not implemented for line plots</title>
       <description>
 	The stacked and stacked 100% code paths for line plots have
