@@ -11606,7 +11606,7 @@ msgstr "&[PAGE]"
 
 #: src/print.c:987 src/workbook-control-gui.c:2485
 msgid "Selection must be a single range"
-msgstr ""
+msgstr "Вибране ма╓ бути в одному д╕апазон╕"
 
 #: src/print.c:1102
 msgid "Print Sheets"
@@ -12754,19 +12754,16 @@ msgstr "Помилка п╕д час спроби в╕добразити файл у пам'ят╕"
 #. * DO NOT compile it as part of your application.
 #.
 #: po/tmp/gnumeric.xml.h:7
-#, fuzzy
 msgid "*Control*b"
-msgstr "Керування"
+msgstr "Control*b"
 
 #: po/tmp/gnumeric.xml.h:8
-#, fuzzy
 msgid "*Control*i"
-msgstr "Керування"
+msgstr "*Control*i"
 
 #: po/tmp/gnumeric.xml.h:9
-#, fuzzy
 msgid "*Control*u"
-msgstr "Керування"
+msgstr "*Control*u"
 
 #: po/tmp/gnumeric.xml.h:10
 msgid "About this application"
