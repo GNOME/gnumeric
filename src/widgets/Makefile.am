@@ -1,6 +1,5 @@
 INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
-        -DGNUMERIC_GLADEDIR=\""$(gnumeric_gladedir)"\"	\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/src				\
 	-I..						\

@@ -16,6 +16,7 @@
 #include <mstyle.h>
 #include <preview-grid.h>
 #include <style-color.h>
+#include <gui-util.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <stdlib.h>
@@ -264,7 +265,7 @@ fs_init (FontSelector *fs)
 	GtkWidget *toplevel;
 	GtkWidget *old_parent;
 
-	fs->gui = glade_xml_new (GNUMERIC_GLADEDIR "/font-sel.glade", NULL, "gnumeric");
+	fs->gui = gnumeric_glade_xml_new (NULL, "font-sel.glade");
 	if (!fs->gui) {
 		g_warning ("Could not load font-sel.glade");
                 return;
