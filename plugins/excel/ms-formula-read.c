@@ -625,7 +625,7 @@ make_function (GnmExprList **stack, int fn_idx, int numargs)
 		const FormulaFuncData *fd = &formula_func_data[fn_idx];
 		GnmExprList *args;
 
-		d (0, printf ("Function '%s', args %d, templ: %d\n",
+		d (2, printf ("Function '%s', args %d, templ: %d\n",
 			      fd->prefix, numargs, fd->num_args););
 
 		/* Right args for multi-arg funcs. */
@@ -741,9 +741,10 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 	g_return_val_if_fail (ewb != NULL, NULL);
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_formula_debug > 1 && esheet != NULL) {
+	if (ms_excel_formula_debug > 0 && esheet != NULL) {
 		ms_excel_dump_cellname (ewb, esheet, fn_col, fn_row);
-		gsf_mem_dump (mem, length);
+		if (ms_excel_formula_debug > 2)
+			gsf_mem_dump (mem, length);
 	}
 #endif
 
@@ -1455,5 +1456,15 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			"Too much data on stack - probable cause: fixed args function is var-arg, put '-1' in the table above",
 			"#LongStack");
 	}
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_formula_debug > 0 && esheet != NULL) {
+		ParsePos pp;
+		GnmExpr const *expr = parse_list_pop (&stack);
+		parse_pos_init (&pp, NULL, esheet->gnum_sheet, fn_col, fn_row);
+		puts (gnm_expr_as_string (expr, &pp));
+		return expr;
+	}
+#endif
 	return expr_tree_sharer_share (ewb->expr_sharer, parse_list_pop (&stack));
 }

@@ -1,3 +1,12 @@
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_excel_read_SUPBOOK) : do a touch more.
+	Still need to write the encoded path parser.
+
+2002-08-11  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_excel_read_cf) : don't leak.
+
 2002-08-11  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-read.c (ms_excel_parse_formula) : add bounds testing to

@@ -3623,6 +3623,9 @@ ms_excel_read_cf (BiffQuery *q, ExcelSheet *esheet)
 
 	g_return_if_fail (q->length == offset + expr1_len + expr2_len);
 	gsf_mem_dump (q->data+6, 6);
+
+	if (expr1 != NULL) gnm_expr_unref (expr1);
+	if (expr2 != NULL) gnm_expr_unref (expr2);
 #if 0
 	printf ("%d == %d (%d + %d + %d) (0x%x)\n",
 		q->length, offset + expr1_len + expr2_len,
@@ -4433,6 +4436,8 @@ ms_excel_read_SUPBOOK (BiffQuery *q, ExcelWorkbook *ewb)
 	unsigned const numTabs = GSF_LE_GET_GUINT16 (q->data);
 	unsigned len = GSF_LE_GET_GUINT16 (q->data + 2);
 	unsigned i;
+	guint32 byte_length;
+	char *name;
 	guint8 encodeType, *data;
 
 	d (2, printf ("supbook %d has %d\n", ewb->supbooks->len, numTabs););
@@ -4447,9 +4452,9 @@ ms_excel_read_SUPBOOK (BiffQuery *q, ExcelWorkbook *ewb)
 		return;
 	}
 	g_ptr_array_add (ewb->supbooks, 1);
-	gsf_mem_dump (q->data, q->length);
+	/* gsf_mem_dump (q->data, q->length); */
 
-	encodeType = GSF_LE_GET_GUINT8 (q->data + 2);
+	encodeType = GSF_LE_GET_GUINT8 (q->data + 4);
 	d (-1, {
 		printf ("Supporting workbook with %d Tabs\n", numTabs);
 		printf ("--> SUPBOOK VirtPath encoding = ");
@@ -4464,15 +4469,16 @@ ms_excel_read_SUPBOOK (BiffQuery *q, ExcelWorkbook *ewb)
 			puts ("chSelf");
 			break;
 		default:
-			printf ("Unknown/Unencoded?  (%x '%c') %d\n",
-				encodeType, encodeType, q->length);
+			printf ("Unknown/Unencoded?  (%x) %d\n",
+				encodeType, len);
 		};
 	});
 
-	for (data = q->data + 2, i = 0; i < numTabs > 0; i++) {
-		guint32 byte_length, slen = GSF_LE_GET_GUINT16 (data);
-		char *name = biff_get_text (data + 2, slen, &byte_length);
-		puts (name);
+	gsf_mem_dump (q->data + 4 + 1, len);
+	for (data = q->data + 4 + 1 + len, i = 0; i < numTabs > 0; i++) {
+		len = GSF_LE_GET_GUINT16 (data);
+		name = biff_get_text (data + 2, len, &byte_length);
+		printf ("\t-> %s\n", name);
 		g_free (name);
 		data += byte_length + 2;
 	}
