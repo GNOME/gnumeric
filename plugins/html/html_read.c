@@ -30,6 +30,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
+#include <string.h>
 #include "html.h"
 
 #include <sheet-object-cell-comment.h>
@@ -69,14 +70,34 @@ html_get_sheet (char const *name, Workbook *wb)
 }
 
 static void
-html_read_content (htmlNodePtr cur, xmlBufferPtr buf, MStyle *mstyle, xmlBufferPtr a_buf, 
-		   gboolean first, htmlDocPtr doc)
+html_append_text (GString *buf, xmlChar *text)
+{
+	xmlChar *p;
+	
+	while (*text) {
+		while (g_ascii_isspace (*text))
+			text++;
+		if (*text) {
+			for (p = text; *p && !g_ascii_isspace (*p); p++)
+				;
+			if (buf->len > 0)
+				g_string_append_c (buf, ' ');
+			g_string_append_len (buf, text, p - text);
+			text = p;
+		}
+	}
+}
+
+static void
+html_read_content (htmlNodePtr cur, GString *buf, MStyle *mstyle,
+		   xmlBufferPtr a_buf, gboolean first, htmlDocPtr doc)
 {
 	htmlNodePtr ptr;
 
 	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
-		if (ptr->type == XML_TEXT_NODE)
-			htmlNodeDump (buf, doc, ptr);
+		if (ptr->type == XML_TEXT_NODE) {
+			html_append_text (buf, ptr->content);
+ 		}
 		else if (ptr->type == XML_ELEMENT_NODE) {
 			if (first) {
 				if (xmlStrEqual (ptr->name, (xmlChar *)"i")
@@ -121,14 +142,15 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 
 	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
 		if (xmlStrEqual (ptr->name, (xmlChar *)"td") || xmlStrEqual (ptr->name, (xmlChar *)"th")) {
-			xmlBufferPtr buf, a_buf;
+			GString *buf;
+			xmlBufferPtr a_buf;
 			xmlAttrPtr   props;
 			int colspan = 1;
 			int rowspan = 1;
 			CellPos pos;
 			MStyle *mstyle;
 
-			/* Check whetehr we need to skip merges from above */
+			/* Check whether we need to skip merges from above */
 			pos.row = tc->row;
 			pos.col = col + 1;
 			while (sheet_merge_contains_pos (tc->sheet, &pos)) {
@@ -151,7 +173,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 				rowspan = 1;
 
 			/* Let's figure out the content of the cell */
-			buf = xmlBufferCreate ();
+			buf = g_string_new ("");
 			a_buf = xmlBufferCreate ();
 
 			mstyle = mstyle_new_default ();
@@ -160,24 +182,21 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 
 			html_read_content (ptr, buf, mstyle, a_buf, TRUE, doc);
 
-			if (buf->use > 0) {
-				char *name;
+			if (buf->len > 0) {
 				Cell *cell;
 
-				name = g_strndup ((gchar *)buf->content, buf->use);
 				cell = sheet_cell_fetch	(tc->sheet, col + 1, tc->row);
 				sheet_style_set_pos (tc->sheet, col + 1, tc->row, mstyle);
-				cell_set_text (cell, name);
-				g_free (name);
+				cell_set_text (cell, buf->str);
 			}
 			if (a_buf->use > 0) {
 				char *name;
-
+				
 				name = g_strndup ((gchar *)a_buf->content, a_buf->use);
 				cell_set_comment (tc->sheet, &pos, NULL, name);
 				g_free (name);
 			}
-			xmlBufferFree (buf);
+			g_string_free (buf, buf->len == 0);
 			xmlBufferFree (a_buf);
 
 			/* If necessary create the merge */
@@ -287,7 +306,6 @@ html_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	buf = gsf_input_read (input, 4, NULL);
 	if (buf != NULL) {
 		enc = xmlDetectCharEncoding(buf, 4);
-		bomlen = 0;
 		switch (enc) {	/* Skip byte order mark */
 		case XML_CHAR_ENCODING_UCS4BE:
 		case XML_CHAR_ENCODING_UCS4LE:
@@ -306,6 +324,8 @@ html_file_open (GnmFileOpener const *fo, IOContext *io_context,
 			else if (buf[0] == 0x3c)
 				bomlen = 4;
 			break;
+		default:
+			bomlen = 0;
 		}
 		ctxt = htmlCreatePushParserCtxt (NULL, NULL,
 			(char *)(buf + bomlen), 4 - bomlen,
