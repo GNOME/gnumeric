@@ -28,7 +28,9 @@ cell_formula_changed (Cell *cell)
 static inline void
 cell_modified (Cell *cell)
 {
-	cell->sheet->modified = TRUE;
+	Sheet *sheet = cell->sheet;
+	
+	sheet->modified = TRUE;
 }
 
 void
@@ -1254,4 +1256,5 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 
 	return end_col - start_col + 1;
 }
+
 
