@@ -8,6 +8,8 @@ Andreas:
 	* Make the autocorrect dialog non-modal, port to gnome2
 	* Fix gnome2 specific random tool crash 
 	* Destroy outadated dialogs
+	* Port solver dialog to gnome2
+	* Make the solver information dialogs non-modal
 
 Jody:
 	* Initial port to gnome2.

@@ -1,5 +1,14 @@
 2002-01-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* solver.glade : make gnome2 compatible
+	* dialog-solver.c (solver_destroy_warning) : new callback
+	(solver_notice) : wrapper around gnumeric_notice_nonmodal
+	(cb_dialog_solve_clicked) : destroy outdated warnings dialog and
+	  change calls from gnumeric_notice to solver_notice
+	(dialog_solver) : initialize state->warnings_dialog
+
+2002-01-27  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-analysis-tools.c (sampling_tool_ok_clicked_cb) : 
 	  destroy outdated warnings dialog
 	(random_tool_ok_clicked_cb) : destroy outdated warnings dialog and 
