@@ -297,7 +297,8 @@ cb_selection_changed (GtkTreeSelection *new_selection,
 		? gtk_tree_view_get_selection (state->sheets.view) 
 		: new_selection;
 
-	if (selection != NULL) {
+	if (selection != NULL 
+	    && gtk_tree_selection_count_selected_rows (selection) > 0) {
 		gtk_tree_model_get_iter_first 
 			(GTK_TREE_MODEL (state->sheets.model),
 			 &iter);

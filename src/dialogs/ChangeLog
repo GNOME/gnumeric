@@ -1,5 +1,10 @@
 2004-11-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-stf-export.c (cb_selection_changed): disable
+	  movement buttons if there is an empty selection.
+	
+2004-11-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-function-select.c (dialog_function_write_recent_func):
 	  gnm_gconf_set_recent_funcs is now owning the list
 
