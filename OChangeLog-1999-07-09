@@ -1,3 +1,9 @@
+1999-06-10  James Henstridge  <james@daa.com.au>
+
+	* src/main.c (gnumeric_main): changed call to glade_init() to a call
+	to glade_gnome_init(), so that gnome widget building routines get
+	initialised correctly.
+
 1999-06-09  Morten Welinder  <terra@diku.dk>
 
 	* src/xml-io.c: Fix major thinko in writing fonts.  (The name hash
