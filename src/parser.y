@@ -861,13 +861,14 @@ ignore_space_before (gunichar c)
 	case ')':
 	case '#':
 	case '"': case '\'':  /* Refers to opening quote only.  */
-	case 0x00AC: /* NOT */
-	case 0x2215: /* '/' */
-	case 0x2227: /* AND */
-	case 0x2228: /* OR  */
-	case 0x2260: /* NE  */
-	case 0x2264: /* LTE */
-	case 0x2265: /* GTE */
+	case UNICODE_LOGICAL_NOT_C:
+	case UNICODE_LOGICAL_AND_C:
+	case UNICODE_LOGICAL_OR_C:
+	case UNICODE_MINUS_SIGN_C:
+	case UNICODE_DIVISION_SLASH_C:
+	case UNICODE_NOT_EQUAL_TO_C:
+	case UNICODE_LESS_THAN_OR_EQUAL_TO_C:
+	case UNICODE_GREATER_THAN_OR_EQUAL_TO_C:
 	case 0:
 		return TRUE;
 	default:
@@ -886,13 +887,14 @@ ignore_space_after (gunichar c)
 	case '>': case '<': case '=':
 	case '(':
 	case '"': case '\'':  /* Refers to closing quote only [not actually hit].  */
-	case 0x00AC: /* NOT */
-	case 0x2215: /* '/' */
-	case 0x2227: /* AND */
-	case 0x2228: /* OR  */
-	case 0x2260: /* NE  */
-	case 0x2264: /* LTE */
-	case 0x2265: /* GTE */
+	case UNICODE_LOGICAL_NOT_C:
+	case UNICODE_LOGICAL_AND_C:
+	case UNICODE_LOGICAL_OR_C:
+	case UNICODE_MINUS_SIGN_C:
+	case UNICODE_DIVISION_SLASH_C:
+	case UNICODE_NOT_EQUAL_TO_C:
+	case UNICODE_LESS_THAN_OR_EQUAL_TO_C:
+	case UNICODE_GREATER_THAN_OR_EQUAL_TO_C:
 	case 0:
 		return TRUE;
 	default:
@@ -1280,14 +1282,14 @@ yylex (void)
 		return (state->array_col_separator == ',')
 			? ARRAY_START_COMMA : ARRAY_START_BSLASH;
 
-	case 0x00AC: return NOT;
-	case 0x2212: return '-';
-	case 0x2215: return '/';
-	case 0x2227: return AND;
-	case 0x2228: return OR;
-	case 0x2260: return eat_space (state, NE);
-	case 0x2264: return eat_space (state, LTE);
-	case 0x2265: return eat_space (state, GTE);
+	case UNICODE_LOGICAL_NOT_C: return NOT;
+	case UNICODE_MINUS_SIGN_C: return '-';
+	case UNICODE_DIVISION_SLASH_C: return '/';
+	case UNICODE_LOGICAL_AND_C: return AND;
+	case UNICODE_LOGICAL_OR_C: return OR;
+	case UNICODE_NOT_EQUAL_TO_C: return eat_space (state, NE);
+	case UNICODE_LESS_THAN_OR_EQUAL_TO_C: return eat_space (state, LTE);
+	case UNICODE_GREATER_THAN_OR_EQUAL_TO_C: return eat_space (state, GTE);
 	}
 
 	if (ignore_space_after (c))

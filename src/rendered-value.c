@@ -63,6 +63,9 @@ static GOMemChunk *rendered_value_pool;
 #endif
 
 
+static int minus_utf8_len;
+static char minus_utf8[6];
+
 static guint16
 calc_indent (PangoContext *context, const GnmStyle *mstyle, Sheet *sheet)
 {
@@ -109,6 +112,7 @@ rendered_value_render (GString *str,
 	} else if (sheet && sheet->hide_zero && cell_is_zero (cell)) {
 		*go_color = 0;
 	} else if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
+		gboolean handle_minus;
 		double col_width = -1.;
 		/* entered text CAN be null if called by set_value */
 		GOFormat *format = mstyle_get_format (mstyle);
@@ -155,6 +159,26 @@ rendered_value_render (GString *str,
 		format_value_gstring (str, format, cell->value, go_color,
 				      col_width,
 				      sheet ? workbook_date_conv (sheet->workbook) : NULL);
+		switch (VALUE_TYPE (cell->value)) {
+		case VALUE_INTEGER:
+			handle_minus = (value_get_as_int (cell->value) < 0);
+			break;
+		case VALUE_FLOAT:
+			handle_minus = (value_get_as_float (cell->value) < 1.0);
+			break;
+		default:
+			handle_minus = FALSE;
+			break;
+		}
+		if (handle_minus) {
+			unsigned i;
+			for (i = 0; i < str->len; i++)
+				if (str->str[i] == '-') {
+					str->str[i] = minus_utf8[0];
+					g_string_insert_len (str, i + 1, minus_utf8 + 1, minus_utf8_len - 1);
+					i += minus_utf8_len - 1;
+				}
+		}
 	} else {
 		g_warning ("No format: serious error");
 	}
@@ -578,6 +602,7 @@ cell_rendered_offset (GnmCell const * cell)
 void
 rendered_value_init (void)
 {
+	minus_utf8_len = g_unichar_to_utf8 (UNICODE_MINUS_SIGN_C, minus_utf8);
 #if USE_RV_POOLS
 	rendered_value_pool =
 		go_mem_chunk_new ("rendered value pool",

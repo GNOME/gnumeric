@@ -14,6 +14,7 @@
 #include "style.h"
 #include "cell.h"
 #include "sheet.h"
+#include "gnm-format.h"
 #include "rendered-value.h"
 #include "parse-util.h"
 #include <goffice/utils/go-color.h>
@@ -23,8 +24,6 @@
 
 static char const hashes[] =
 "################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################";
-
-gunichar const zero_width_space = 0x200b;
 
 /*
  *             G      G
@@ -122,7 +121,7 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 				int i;
 				for (i = 0; i < copies; i++) {
 					if (i)
-						g_string_append_unichar (multi, zero_width_space);
+						g_string_append_unichar (multi, UNICODE_ZERO_WIDTH_SPACE_C);
 					g_string_append_len (multi, copy1, len1);
 				}
 				pango_layout_set_text (layout, multi->str, multi->len);

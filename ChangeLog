@@ -1,3 +1,12 @@
+2005-02-28  Morten Welinder  <terra@gnome.org>
+
+	* src/rendered-value.c (rendered_value_render): For numbers, map
+	'-' to U2212 which has same width as "+".
+
+	* src/gnm-format.h: Define a bunch of unicode characters by name.
+	* src/parser.y (yylex): Use these.
+	* src/cell-draw.c (cell_calc_layout): Ditto.
+
 2005-02-25  Morten Welinder  <terra@gnome.org>
 
 	* src/main-application.c (main): Properly get rid of wbcgs when

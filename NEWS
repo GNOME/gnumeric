@@ -33,6 +33,7 @@ Morten:
 	* Fix saving.
 	* Fix crash when using --quit.  Fix leak too.
 	* Fix rare crash on exit.
+	* Use unicode minus (U2212) for numbers.  [#168467]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0
