@@ -19,6 +19,7 @@ Emmanuel Pacaud:
 	* Add dash styles to chart objects.
 	* Enables non integer line width for chart objects.
 	* Fix clipping in svg export.	
+	* Update labels automatically [#152585].
 	
 Hal Ashburner:
 	* Some function documentation cleanups.

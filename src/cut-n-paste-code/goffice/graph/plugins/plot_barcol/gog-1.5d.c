@@ -161,6 +161,7 @@ gog_plot1_5d_update (GogObject *obj)
 	GogPlot *plot_that_labeled_axis;
 	GogAxis *axis;
 	GogErrorBar **errors;
+	gboolean index_changed = FALSE;
 
 	old_minima =  model->minima;
 	old_maxima =  model->maxima;
@@ -174,6 +175,11 @@ gog_plot1_5d_update (GogObject *obj)
 		if (!gog_series_is_valid (GOG_SERIES (series)))
 			continue;
 		num_series++;
+
+		if (GOG_SERIES1_5D (series)->index_changed) {
+			GOG_SERIES1_5D (series)->index_changed = FALSE;
+			index_changed = TRUE;
+		}
 
 		if (num_elements < series->base.num_elements)
 			num_elements = series->base.num_elements;
@@ -200,6 +206,9 @@ gog_plot1_5d_update (GogObject *obj)
 		model->num_elements = num_elements;
 		model->implicit_index = (index_dim == NULL);
 		gog_axis_bound_changed (axis, GOG_OBJECT (model));
+	} else { 
+		if (index_changed)  
+			gog_axis_bound_changed (axis, GOG_OBJECT (model));
 	}
 
 	model->num_series = num_series;
@@ -367,6 +376,13 @@ enum {
 };
 
 static void
+gog_series1_5d_dim_changed (GogSeries *series, int dim_i)
+{
+	if (dim_i == 0)
+		GOG_SERIES1_5D (series)->index_changed = TRUE;
+}
+
+static void
 gog_series1_5d_update (GogObject *obj)
 {
 	double *vals;
@@ -459,6 +475,7 @@ gog_series1_5d_class_init (GogObjectClass *obj_klass)
 	gobject_klass->set_property = gog_series1_5d_set_property;
 	gobject_klass->get_property = gog_series1_5d_get_property;
 	gog_series_klass->populate_editor = gog_series1_5d_populate_editor;
+	gog_series_klass->dim_changed = gog_series1_5d_dim_changed;
 
 	g_object_class_install_property (gobject_klass, SERIES_PROP_ERRORS,
 		g_param_spec_object ("errors", "errors",
@@ -472,6 +489,7 @@ gog_series1_5d_init (GObject *obj)
 	GogSeries1_5d *series=  GOG_SERIES1_5D (obj);
 
 	series->errors = NULL;
+	series->index_changed = FALSE;
 }
 
 GSF_CLASS (GogSeries1_5d, gog_series1_5d,

@@ -1,5 +1,15 @@
 2004-10-25  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=152585
+	* grah/gog-axis.c (gog_axis_update): allways emit changed signal for
+	discrete axis, since labels may have changed.
+	* plugins/plot_barcol/gog-1.5d.c (gog_plot1_5d_update): call
+	gog_axis_bound_changed if GogSeries1_5D->index_changed == TRUE.
+	(gog_series1_5d_dim_changed): new. Used to set index_changed to TRUE
+	when vector dim_i == 0 changed.
+				      
+2004-10-25  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	* graph/gog-axis.c (draw_axis_from_a_to_b): use
 	gog_style_is_line_visible instead of checking line width.
 	(gog_axis_view_render): ditto.
