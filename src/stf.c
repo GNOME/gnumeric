@@ -394,21 +394,40 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	char *data;
 	StfParseOptions_t *po;
 	char *pos;
-	unsigned int comma = 0, tab = 0, lines = 0;
+	unsigned int comma = 0, semi = 0, tab = 0, lines = 0;
 	int i;
+	gboolean last_was_newline = FALSE;
+	
+	gunichar guni_comma = g_utf8_get_char (",");
+	gunichar guni_semicolon = g_utf8_get_char (";");
+        gunichar guni_tab = g_utf8_get_char ("\t");
+	gunichar guni_newline = g_utf8_get_char ("\n");
+	gunichar guni_carriage = g_utf8_get_char ("\r");
+	
 
 	book = wb_view_workbook (wbv);
 	data = stf_preparse (COMMAND_CONTEXT (context), input, enc);
 	if (!data)
 		return;
 
-        for (i = STF_PROBE_SIZE, pos = data ; *pos && i-- > 0; ++pos )
-		if (*pos == ',')
-			++comma;
-		else if (*pos == '\t')
+        for (i = STF_PROBE_SIZE, pos = data ; *pos && i-- > 0; pos = g_utf8_next_char(pos)) {
+		gunichar this_char = g_utf8_get_char (pos);
+		if (this_char == guni_comma) {
+			++comma; 
+			last_was_newline = FALSE;
+		} else if (this_char == guni_semicolon) {
+			++semi;
+			last_was_newline = FALSE;
+		} else if (this_char == guni_tab) {
 			++tab;
-		else if (*pos == '\n')
+			last_was_newline = FALSE;
+                } else if ((this_char == guni_newline || this_char == guni_carriage) 
+			   && !last_was_newline) {
 			++lines;
+			last_was_newline = TRUE;
+		}
+	}
+	
 
 	name = g_path_get_basename (gsf_input_name (input));
 	sheet = sheet_new (book, name);
@@ -426,8 +445,8 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	stf_parse_options_csv_set_duplicates (po, FALSE);
 
 	/* Guess */
-	stf_parse_options_csv_set_separators (po, ",", NULL);
-	if (tab >= lines && tab > comma)
+	stf_parse_options_csv_set_separators (po, (comma >= semi) ? "," : ";", NULL);
+	if (tab > lines || (tab >= comma && tab >= semi))
 		stf_parse_options_csv_set_separators (po, "\t", NULL);
 
 	if (!stf_parse_sheet (po, data, sheet, 0, 0)) {
