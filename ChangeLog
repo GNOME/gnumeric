@@ -1,5 +1,8 @@
 2000-12-04  Morten Welinder  <terra@diku.dk>
 
+	* src/mstyle.c (mstyle_hash): Don't shift all the hash information
+ 	away.  Rotate, don't shift.
+
 	* src/mathfunc.c: white-space mania.
 
 	* src/item-bar.c: Make debug-code statement-safe, just in case.

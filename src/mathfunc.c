@@ -4139,7 +4139,7 @@ minverse (float_t *A, int dim, float_t *res)
         int     i, n, r, cols, rows;
 	float_t *array, pivot;
 
-#define ARRAY (C,R) (*(array + (R) + (C) * rows))
+#define ARRAY(C,R) (*(array + (R) + (C) * rows))
 
 	/* Initialize the matrix */
 	cols = dim * 2;
