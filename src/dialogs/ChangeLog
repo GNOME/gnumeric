@@ -1,3 +1,8 @@
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* dialog-cell-format.c (validation_rebuild_validation) : simplify
+	  handling of validation.
+
 2002-11-01  Morten Welinder  <terra@diku.dk>
 
 	* dialog-search.c (search_clicked): Maybe search expression

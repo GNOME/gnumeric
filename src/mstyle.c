@@ -621,6 +621,7 @@ mstyle_new_default (void)
 
 	mstyle_set_hlink       (mstyle, NULL);
 	mstyle_set_input_msg   (mstyle, NULL);
+	mstyle_set_validation  (mstyle, NULL);
 
 	mstyle_set_color       (mstyle, MSTYLE_COLOR_FORE,
 				style_color_black ());
@@ -1421,7 +1422,6 @@ void
 mstyle_set_validation (MStyle *style, Validation *v)
 {
 	g_return_if_fail (style != NULL);
-	g_return_if_fail (v != NULL);
 
 	mstyle_element_unref (style->elements[MSTYLE_VALIDATION]);
 	style->elements[MSTYLE_VALIDATION].type = MSTYLE_VALIDATION;

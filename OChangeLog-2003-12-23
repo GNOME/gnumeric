@@ -1,3 +1,10 @@
+2002-11-01  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_write_style) : simplify handling of validation.
+
+	* src/mstyle.c (mstyle_new_default) : store NULL validation.
+	(mstyle_set_validation) : accept NULL.
+
 2002-11-01  Morten Welinder  <terra@diku.dk>
 
 	* src/search.c (search_filter_matching): Handle locus.  Search

@@ -521,7 +521,8 @@ xml_write_style (XmlParseContext *ctxt,
 {
 	xmlNodePtr  cur, child;
 	xmlChar    *tstr;
-	GnmHLink   *link;
+	GnmHLink   const *link;
+	Validation const *v;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, (xmlChar const *)"Style",
 			     NULL);
@@ -614,8 +615,8 @@ xml_write_style (XmlParseContext *ctxt,
 				gnm_hlink_get_tip (link));
 	}
 
-	if (mstyle_is_element_set (style, MSTYLE_VALIDATION)) {
-		Validation const *v = mstyle_get_validation (style);
+	v = mstyle_get_validation (style);
+	if (v != NULL) {
 		ParsePos    pp;
 		char	   *tmp;
 

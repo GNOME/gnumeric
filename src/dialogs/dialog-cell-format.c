@@ -2131,11 +2131,8 @@ validation_rebuild_validation (FormatState *state)
 
 		g_free (msg);
 		g_free (title);
-	} else {
-		if (!mstyle_is_element_set (state->result, MSTYLE_VALIDATION))
-			return;
-		mstyle_unset_element (state->result, MSTYLE_VALIDATION);
-	}
+	} else
+		mstyle_set_validation (state->result, NULL);
 	fmt_dialog_changed (state);
 }
 
@@ -2331,8 +2328,7 @@ fmt_dialog_init_validation_page (FormatState *state)
 		G_CALLBACK (cb_validation_rebuild), state);
 
 	/* Initialize */
-	if (mstyle_is_element_set (state->style, MSTYLE_VALIDATION) &&
-	    !mstyle_is_element_conflict (state->style, MSTYLE_VALIDATION)) {
+	if (!mstyle_is_element_conflict (state->style, MSTYLE_VALIDATION)) {
 		Validation const *v = mstyle_get_validation (state->style);
 		ParsePos pp;
 
