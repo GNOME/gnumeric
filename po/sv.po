@@ -30,14 +30,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-06-25 19:48-0400\n"
-"PO-Revision-Date: 2003-06-19 12:47+0200\n"
+"POT-Creation-Date: 2003-06-27 11:00+0200\n"
+"PO-Revision-Date: 2003-06-27 11:03+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -834,8 +834,9 @@ msgstr ""
 "fjäril; avista; slag1; slag2; tid1; tid2; ränta; cost_of_carry; volatilitet"
 
 #: plugins/derivatives/plugin.xml.in.h:1
-msgid "Financial"
-msgstr "Finansiella"
+#: plugins/fn-financial/plugin.xml.in.h:1
+msgid "Finance"
+msgstr "Finans"
 
 #: plugins/derivatives/plugin.xml.in.h:2
 msgid "Financial Derivatives"
@@ -6497,7 +6498,6 @@ msgstr ""
 "@SEEALSO=PPMT,PV,FV"
 
 #: plugins/fn-financial/functions.c:2021
-#, fuzzy
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -6528,7 +6528,7 @@ msgstr ""
 "där:\n"
 "\n"
 "PMT = Betalning mottagen för livränta\n"
-"IPMT(per) = summan av räntan för period per\n"
+"IPMT(per) = summan av räntan för period @per\n"
 "\n"
 "* Om @fv utelämnas antas den vara 0.\n"
 "* Om @typ utelämnas antas den vara 0.\n"
@@ -6579,7 +6579,6 @@ msgstr ""
 "@SEEALSO=PPMT,PV,FV"
 
 #: plugins/fn-financial/functions.c:2124
-#, fuzzy
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(settlement,maturity,coup,yield,freq[,basis])\n"
@@ -6626,10 +6625,9 @@ msgstr ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=G_DURATION,MDURATION"
 
 #: plugins/fn-financial/functions.c:2180
-#, fuzzy
 msgid ""
 "@FUNCTION=G_DURATION\n"
 "@SYNTAX=G_DURATION(rate,pv,fv)\n"
@@ -6658,7 +6656,7 @@ msgstr ""
 "* Om @fv = 0 eller @pv = 0, returneras velvärdet #DIV0.\n"
 "* Om @fv / @pv < 0 returneras felvärdet #VALUE.\n"
 "\n"
-"@SEEALSO=PPMT,PV,FV"
+"@SEEALSO=PPMT,PV,FV,DURATION,MDURATION"
 
 #: plugins/fn-financial/functions.c:2221
 msgid ""
@@ -7109,7 +7107,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:2842
-#, fuzzy
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -7575,7 +7572,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-financial/functions.c:3247
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -7773,7 +7769,6 @@ msgstr ""
 "@SEEALSO=DB"
 
 #: plugins/fn-financial/functions.c:3435
-#, fuzzy
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -7820,7 +7815,7 @@ msgstr ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=DURATION,G_DURATION"
 
 #: plugins/fn-financial/functions.c:3493
 msgid ""
@@ -7856,11 +7851,6 @@ msgstr ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DB"
-
-#: plugins/fn-financial/plugin.xml.in.h:1
-#, fuzzy
-msgid "Finance"
-msgstr "Finansiella"
 
 #: plugins/fn-financial/plugin.xml.in.h:2
 msgid "Financial Functions"
@@ -8111,7 +8101,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1409
-#, fuzzy
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR.TYPE(value)\n"
@@ -8133,7 +8122,7 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 "@FUNCTION=ERROR.TYPE\n"
-"@SYNTAX=ERROR(värde)\n"
+"@SYNTAX=ERROR.TYPE(värde)\n"
 "@DESCRIPTION=ERROR.TYPE returnerar ett felnummer som motsvarar det angivna "
 "felvärdet. Felnumren för felvärden är\n"
 "\n"
@@ -8455,7 +8444,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-info/functions.c:1795
-#, fuzzy
 msgid ""
 "@FUNCTION=GETENV\n"
 "@SYNTAX=GETENV(string)\n"
@@ -8471,7 +8459,7 @@ msgstr ""
 "@SYNTAX=GETENV(sträng)\n"
 "@DESCRIPTION=GETENV hämtar ett värde från exekveringsmiljön.\n"
 "\n"
-"* Om variabeln som anges med @STRÄNG inte finns kommer felvärdet #-! att "
+"* Om variabeln som anges med @sträng inte finns kommer felvärdet #-! att "
 "returneras. Observera att variabelnamn är skiftlägeskänsliga.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8530,7 +8518,6 @@ msgid "Information Functions"
 msgstr "Informationsfunktioner"
 
 #: plugins/fn-logical/functions.c:44
-#, fuzzy
 msgid ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -8609,7 +8596,6 @@ msgid "Type Mismatch"
 msgstr "Typfel"
 
 #: plugins/fn-logical/functions.c:134
-#, fuzzy
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -8650,7 +8636,6 @@ msgstr ""
 "@SEEALSO=AND, NOT"
 
 #: plugins/fn-logical/functions.c:193
-#, fuzzy
 msgid ""
 "@FUNCTION=XOR\n"
 "@SYNTAX=XOR(b1, b2, ...)\n"
@@ -8818,12 +8803,10 @@ msgid "Functions for manipulating truth values"
 msgstr "Funktioner för manipulation av sanningsvärden"
 
 #: plugins/fn-logical/plugin.xml.in.h:2
-#, fuzzy
 msgid "Logic"
 msgstr "Logik"
 
 #: plugins/fn-logical/plugin.xml.in.h:3
-#, fuzzy
 msgid "Logic Functions"
 msgstr "Logikfunktioner"
 
@@ -8883,7 +8866,6 @@ msgstr ""
 "@SEEALSO=COLUMNNUMBER"
 
 #: plugins/fn-lookup/functions.c:431
-#, fuzzy
 msgid ""
 "@FUNCTION=AREAS\n"
 "@SYNTAX=AREAS(reference)\n"
@@ -8895,11 +8877,11 @@ msgid ""
 "@SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET"
 msgstr ""
 "@FUNCTION=AREAS\n"
-"@SYNTAX=AREAS(referenser)\n"
-"@DESCRIPTION=AREAS returnerar antalet områden i @referenser.\n"
+"@SYNTAX=AREAS(referens)\n"
+"@DESCRIPTION=AREAS returnerar antalet områden i @referens.\n"
 "\n"
 "@EXAMPLES=\n"
-"AREAS((A1;B2;C3)) är lika med ^C.\n"
+"AREAS((A1;B2;C3)) är lika med 3.\n"
 "\n"
 "@SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET"
 
@@ -8931,7 +8913,6 @@ msgstr ""
 "@SEEALSO=IF"
 
 #: plugins/fn-lookup/functions.c:557
-#, fuzzy
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate,as_index])\n"
@@ -8953,7 +8934,7 @@ msgstr ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(värde;område;kolumn[,uppskatta;som_index])\n"
 "@DESCRIPTION=Funktionen VLOOKUP söker den rad i området som har en första "
-"kolumn liknande den i värde. Om @uppskatta inte är sant söker den raden med "
+"kolumn liknande den i @värde. Om @uppskatta inte är sant söker den raden med "
 "en exakt likhet. Om @uppskatta är sant måste värdena vara sorterade med "
 "minsta värdet först för att funktionen ska fungera korrekt; i detta fall "
 "söker den raden med värde mindre än @värde. Den returnerar värdet på raden "
@@ -8969,7 +8950,6 @@ msgstr ""
 "@SEEALSO=HLOOKUP"
 
 #: plugins/fn-lookup/functions.c:615
-#, fuzzy
 msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row[,approximate,as_index])\n"
@@ -8991,7 +8971,7 @@ msgstr ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(värde;område;rad[,uppskatta;som_index])\n"
 "@DESCRIPTION=Funktionen HLOOKUP söker den kolumn i området som har en första "
-"rad liknande den i värde. Om @uppskatta inte är sant söker den kolumnen med "
+"rad liknande den i @värde. Om @uppskatta inte är sant söker den kolumnen med "
 "en exakt likhet. Om @uppskatta är sant måste värdena vara sorterade med "
 "minsta värdet först för att funktionen ska fungera korrekt; i detta fall "
 "söker den kolumnen med värde mindre än @värde. Den returnerar värdet på "
@@ -9006,7 +8986,6 @@ msgstr ""
 "@SEEALSO=VLOOKUP"
 
 #: plugins/fn-lookup/functions.c:674
-#, fuzzy
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1[,vector2])\n"
@@ -9025,8 +9004,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(värde;vektor1;vektor2)\n"
-"@DESCRIPTION=Funktionen LOOKUP söker radindexet med \"värde\" i @vektor1 och "
-"returnerar innehållet i värde2 vid det radindexet. Om området är längre än "
+"@DESCRIPTION=Funktionen LOOKUP söker radindexet med @värde i @vektor1 och "
+"returnerar innehållet i @vektor2 vid det radindexet. Om området är längre än "
 "det är brett roteras känsligheten för sökningen. Alternativt kan en ensam "
 "vektor användas.\n"
 "\n"
@@ -9040,7 +9019,6 @@ msgstr ""
 "@SEEALSO=VLOOKUP,HLOOKUP"
 
 #: plugins/fn-lookup/functions.c:737
-#, fuzzy
 msgid ""
 "@FUNCTION=MATCH\n"
 "@SYNTAX=MATCH(seek,vector[,type])\n"
@@ -9075,9 +9053,9 @@ msgstr ""
 "* Om @typ = 1  söks största värdet <= @sökning.\n"
 "* Om @typ = 0  söks första värdet == @sökning.\n"
 "* Om @typ = -1 söks minsta värdet >= @sökning.\n"
-"* För typ 0 kan data vara i vilken ordning som helst. För typ -1 och +1 "
-"måste data vara sorterat (och i detta fall använder MATCH en binärsökning "
-"för att hitta indexet).\n"
+"* För typ = 0 kan data vara i vilken ordning som helst. * För @typ = -1 och "
+"@typ = +1 måste data vara sorterat (och i detta fall använder MATCH en "
+"binärsökning för att hitta indexet).\n"
 "* Om @sökning inte kan hittas returneras #-.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -9085,7 +9063,6 @@ msgstr ""
 "@SEEALSO=LOOKUP"
 
 #: plugins/fn-lookup/functions.c:797
-#, fuzzy
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[format])\n"
@@ -9104,9 +9081,9 @@ msgstr ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text;[format])\n"
 "@DESCRIPTION=Funktionen INDIRECT returnerar innehållet i cellen som "
-"refereras i strängen ref_text. Strängen anger en ensam cellreferens av typen "
-"A1 eller R1C1. Stilen anges i formatet boolean, vars standardvärde är det "
-"första av ovanstående.\n"
+"refereras i strängen @ref_text. Strängen anger en ensam cellreferens av "
+"typen A1 eller R1C1. Stilen anges i @format boolean, vars standardvärde är "
+"det första av ovanstående.\n"
 "\n"
 "* Om @ref_text inte är en giltig referens returneras #REF!.\n"
 "\n"
@@ -9148,7 +9125,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-lookup/functions.c:907
-#, fuzzy
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -9165,10 +9141,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([referens])\n"
-"@DESCRIPTION=Funktionen COLUMN returnerar ett fält med kolumnnummer. Om "
-"@referens inte anges, används den cell som formeln finns i.\n"
-"\n"
-"Om @referens inte är ett fält, en referens eller ett område, returneras "
+"@DESCRIPTION=Funktionen COLUMN returnerar kolumnnumret för den aktuella "
+"cellen om inte @referens anges. I det fallet returneras en vektor med "
+"kolumnnummer för alla celler i @referens. \n"
+"* Om @referens inte är ett fält, en referens eller ett område, returneras "
 "felvärdet #VÄRDE!\n"
 "\n"
 "@EXAMPLES=\n"
@@ -9231,7 +9207,6 @@ msgstr ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 
 #: plugins/fn-lookup/functions.c:1019
-#, fuzzy
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col[,height[,width]])\n"
@@ -9249,11 +9224,11 @@ msgstr ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(område;rad;kolumn;höjd;bredd)\n"
 "@DESCRIPTION=Funktionen OFFSET returnerar ett cellområde. Cellområdet börjar "
-"vid offset (@kolumn;@rad) från @område, och är av höjden @höjd och bredden "
+"vid offset (@rad;@kolumn) från @område, och är av höjden @höjd och bredden "
 "@bredd.\n"
 "\n"
-"* Om område varken är en referens eller ett område returneras #VÄRDE!.\n"
-"* Om antingen höjd eller bredd utelämnas används höjden eller bredden på "
+"* Om @område varken är en referens eller ett område returneras #VÄRDE!.\n"
+"* Om antingen @höjd eller @bredd utelämnas används höjden eller bredden på "
 "referensen.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -9289,7 +9264,6 @@ msgstr ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
 #: plugins/fn-lookup/functions.c:1130
-#, fuzzy
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -9423,7 +9397,6 @@ msgid "Lookup Functions"
 msgstr "Uppslagningsfunktioner"
 
 #: plugins/fn-math/functions.c:141
-#, fuzzy
 msgid ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
@@ -9667,7 +9640,6 @@ msgstr ""
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
 #: plugins/fn-math/functions.c:424
-#, fuzzy
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -9694,7 +9666,7 @@ msgstr ""
 "\n"
 "@EXAMPLES=\n"
 "ATANH(0,5) är lika med 0,549306.\n"
-" ATANH(0,8) är lika med 1,098612.\n"
+"ATANH(0,8) är lika med 1,098612.\n"
 "\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
@@ -10010,7 +9982,6 @@ msgstr ""
 "@SEEALSO="
 
 #: plugins/fn-math/functions.c:917
-#, fuzzy
 msgid ""
 "@FUNCTION=BETA\n"
 "@SYNTAX=BETA(a,b)\n"
@@ -10028,11 +9999,12 @@ msgstr ""
 "@DESCRIPTION=BETA returnerar den matematiska beta-funktionen för alla reella "
 "tal och icke-negativa heltal.\n"
 "\n"
-"* Om @a eller @b är icke-negativa heltal returnerar BETA felvärdet #NUM!.\n"
+"* Om @a eller @b är 0 eller negativa heltal returnerar BETA felvärdet "
+"#NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=BETA,GAMMALN"
+"@SEEALSO=BETALN,GAMMA"
 
 #: plugins/fn-math/functions.c:944
 msgid ""
@@ -10284,7 +10256,6 @@ msgstr ""
 "@SEEALSO=EXP, LOG2, LOG"
 
 #: plugins/fn-math/functions.c:1217
-#, fuzzy
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -11219,7 +11190,6 @@ msgstr ""
 "@SEEALSO=COUNT,SUM"
 
 #: plugins/fn-math/functions.c:2695
-#, fuzzy
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -11432,12 +11402,10 @@ msgstr "Matematiska funktioner"
 
 #. *************************************************************************
 #: plugins/fn-math/plugin.xml.in.h:3 src/func-builtin.c:124
-#, fuzzy
 msgid "Mathematics"
-msgstr "Träffar"
+msgstr "Matematik"
 
 #: plugins/fn-random/functions.c:49
-#, fuzzy
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -11452,9 +11420,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
-"@DESCRIPTION=RAND returnerar ett slumptal större än eller lika med 0 och "
-"mindre än eller lika med 1 ([0..1]).\n"
-"\n"
+"@DESCRIPTION=RAND returnerar ett slumptal mellan 0 och 1.\n"
 "* Denna funktion är kompatibel med Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -11634,7 +11600,6 @@ msgstr ""
 "@SEEALSO=RAND,RANDUNIFORM"
 
 #: plugins/fn-random/functions.c:350
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
@@ -11654,8 +11619,8 @@ msgstr ""
 "@DESCRIPTION=RANDNEGBINOM returnerar ett negativt binomialfördelat "
 "slumptal.\n"
 "\n"
-"* Om @p < 0 eller @p > 1 returnerar RANDNEGBINOM felvärdet #NUM!.\n"
-"* Om @misslyckanden returnerar RANDNEGBINOM felvärdet #NUM!.\n"
+"* Om @p < 0 eller @p > 1, returnerar RANDNEGBINOM felvärdet #NUM!.\n"
+"* Om @misslyckanden < 1, returnerar RANDNEGBINOM felvärdet #NUM!.\n"
 "\n"
 "@EXAMPLES=\n"
 "RANDNEGBINOM(0,5;2).\n"
@@ -12029,7 +11994,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:780
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDLOG\n"
 "@SYNTAX=RANDLOG(p)\n"
@@ -12094,7 +12058,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:854
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDGUMBEL\n"
 "@SYNTAX=RANDGUMBEL(a,b[,type])\n"
@@ -12116,7 +12079,7 @@ msgstr ""
 "eller typ II. @typ är antingen 1 eller 2 och anger typen av fördelning (typ "
 "I eller typ II).\n"
 "\n"
-"* Om @typ antingen är 1 eller 2 returnerar RANDGUMBEL felvärdet #NUM!.\n"
+"* Om @typ är vare sig 1 eller 2 returnerar RANDGUMBEL felvärdet #NUM!.\n"
 "* Om @typ utelämnas antas typ 1.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -12125,7 +12088,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:890
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDLEVY\n"
 "@SYNTAX=RANDLEVY(c,alpha[,beta])\n"
@@ -12148,8 +12110,8 @@ msgstr ""
 "@DESCRIPTION=RANDLEVY returnerar ett Levy-fördelat slumptal. Om @beta "
 "utelämnas antas det vara 0.\n"
 "\n"
-"* Med alfa = 1, beta=0, får vi Lorentz-fördelningen.\n"
-"* Med alfa = 2, beta=0, får vi gaussfördelningen. \n"
+"* Med @alfa = 1, @beta=0, får vi Lorentz-fördelningen.\n"
+"* Med @alfa = 2, @beta=0, får vi gaussfördelningen. \n"
 "\n"
 "* Om @alfa <= 0 eller @alfa > 2 returnerar RANDLEVY felvärdet #NUM!.\n"
 "* Om @beta < -1 eller @beta > 1 returnerar RANDLEVY felvärdet #NUM!. \n"
@@ -12160,7 +12122,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:925
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDEXPPOW\n"
 "@SYNTAX=RANDEXPPOW(a,b)\n"
@@ -12186,8 +12147,8 @@ msgstr ""
 "\n"
 "\tp(x) dx = {1 över 2 a Gamma(1+1/b)} exp(-|x/a|^b) dx, för x >= 0.\n"
 "\n"
-"* För b = 1 reduceras detta till Laplace-fördelningen.\n"
-"* För b = 2 har det samma form som en gaussfördelning, men med en sigma = "
+"* För @b = 1 reduceras detta till Laplace-fördelningen.\n"
+"* För @b = 2 har det samma form som en gaussfördelning, men med en sigma = a/"
 "sqrt{2}. \n"
 "\n"
 "@EXAMPLES=\n"
@@ -12234,7 +12195,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:984
-#, fuzzy
 msgid ""
 "@FUNCTION=RANDGAUSSIANTAIL\n"
 "@SYNTAX=RANDGAUSSIANTAIL(a,sigma)\n"
@@ -12260,10 +12220,10 @@ msgstr ""
 "@FUNCTION=RANDGAUSSIANTAIL\n"
 "@SYNTAX=RANDGAUSSIANTAIL(a;sigma)\n"
 "@DESCRIPTION=RANDGAUSSIANTAIL returnerar ett slumptal från den övre svansen "
-"av en Gaussfördelning med standardavvikelsen sigma. De returnerade värdena "
-"är större än den lägre gränsen a, som måste vara positiv. Metoden baseras på "
-"Marsaglias berömda rektangel-kil-svans-algoritm (Ann Math Stat 32, 894-899 "
-"(1961)), med detta förklarat i Knuth, v2, tredje utgåvan, s. 139, 586 "
+"av en Gaussfördelning med standardavvikelsen @sigma. De returnerade värdena "
+"är större än den lägre gränsen @a, som måste vara positiv. Metoden baseras "
+"på Marsaglias berömda rektangel-kil-svans-algoritm (Ann Math Stat 32, 894-"
+"899 (1961)), med detta förklarat i Knuth, v2, tredje utgåvan, s. 139, 586 "
 "(övning 11).\n"
 "\n"
 "Sannolikhetsfördelningen för gaussiska svansslumptal är\n"
@@ -12279,7 +12239,6 @@ msgstr ""
 "@SEEALSO=RAND"
 
 #: plugins/fn-random/functions.c:1020
-#, fuzzy
 msgid ""
 "@FUNCTION=SIMTABLE\n"
 "@SYNTAX=SIMTABLE(d1, d2, ..., dN)\n"
@@ -12416,12 +12375,13 @@ msgid "Functions for generating random numbers"
 msgstr "Funktioner för generering av slumptal"
 
 #: plugins/fn-random/plugin.xml.in.h:2
-msgid "Random"
-msgstr "Slump"
-
-#: plugins/fn-random/plugin.xml.in.h:3
 msgid "Random Number Functions"
 msgstr "Slumptalsfunktioner"
+
+#: plugins/fn-random/plugin.xml.in.h:3 src/tools/random-generator.c:674
+#: src/tools/random-generator.c:677
+msgid "Random Numbers"
+msgstr "Slumptal"
 
 #: plugins/fn-stat/functions.c:189
 msgid ""
@@ -16779,13 +16739,12 @@ msgid "TROFF (*.me)"
 msgstr "TROFF (*.me)"
 
 #: plugins/html/plugin.xml.in.h:9
-#, fuzzy
 msgid "XHTML (*.html)"
-msgstr "XHTML (*.xhtml)"
+msgstr "XHTML (*.html)"
 
 #: plugins/html/plugin.xml.in.h:10
 msgid "XHTML range - for export to clipboard"
-msgstr ""
+msgstr "XHTML-område - för export till urklipp"
 
 #: plugins/lotus-123/boot.c:61
 msgid "Error while reading lotus workbook."
@@ -16828,8 +16787,8 @@ msgstr "Bivillkor:"
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:969
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:115
 #: src/dialogs/dialog-define-names.c:483 src/dialogs/dialog-formula-guru.c:810
-#: src/dialogs/dialog-function-select.c:421
-#: src/dialogs/dialog-function-select.c:443 src/dialogs/dialog-scenarios.c:351
+#: src/dialogs/dialog-function-select.c:449
+#: src/dialogs/dialog-function-select.c:471 src/dialogs/dialog-scenarios.c:351
 #: src/dialogs/dialog-simulation.c:228 src/dialogs/dialog-zoom.c:192
 #: src/format-template.c:247 src/tools/solver/reports-write.c:81
 #: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
@@ -16923,11 +16882,10 @@ msgstr ""
 
 #. xgettext: you can translate the funny character as an 'o' if unicode is not available.
 #: plugins/numtheory/numtheory.c:247
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU function (Möbius mu function) returns \n"
+"@DESCRIPTION=NT_MU function (Mbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "\n"
@@ -17616,14 +17574,12 @@ msgid "Maximum Length of Recently Used Functions List"
 msgstr "Maximal längd på lista över nyligen använda funktioner"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:17
-#, fuzzy
 msgid "Page Footer"
-msgstr "Utskriftsordning"
+msgstr "Sidfot"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:18
-#, fuzzy
 msgid "Page Header"
-msgstr "Utskriftsordning"
+msgstr "Sidhuvud"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:19
 msgid "Print Config"
@@ -17665,12 +17621,14 @@ msgid ""
 "The default page footer for new documents that can be modified using the "
 "page setup dialog."
 msgstr ""
+"Sidfot för nya dokument som kan modifieras i dialogen för sidegenskaper."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:26
 msgid ""
 "The default page header for new documents that can be modified using the "
 "page setup dialog."
 msgstr ""
+"Sidhuvud för nya dokument som kan modifieras i dialogen för sidegenskaper."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:27
 msgid ""
@@ -19046,9 +19004,8 @@ msgstr "Dela sammanslagna cellområden"
 msgid "Statistical Anal_ysis"
 msgstr "Statistisk anal_ys"
 
-#: src/GNOME_Gnumeric.xml.h:233 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:4061 src/workbook-control-gui.c:4833
-#: src/workbook-view.c:516
+#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:4061
+#: src/workbook-control-gui.c:4833 src/workbook-view.c:516
 msgid "Sum"
 msgstr "Summa"
 
@@ -19314,8 +19271,8 @@ msgstr "_Histogram"
 msgid "_Image..."
 msgstr "_Bild..."
 
-#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:3480
-#: src/workbook-control-gui.c:4000
+#: src/GNOME_Gnumeric.xml.h:294 src/dialogs/function-select.glade.h:6
+#: src/workbook-control-gui.c:3480 src/workbook-control-gui.c:4000
 msgid "_Insert"
 msgstr "_Infoga"
 
@@ -20166,9 +20123,8 @@ msgid "TODO : Unfinished"
 msgstr "ATT GÖRA: Inte klar"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
-#: src/dialogs/autocorrect.glade.h:12 src/dialogs/consolidate.glade.h:26
-#: src/dialogs/dialog-stf.glade.h:60 src/dialogs/names.glade.h:6
-#: src/dialogs/solver.glade.h:27
+#: src/dialogs/autocorrect.glade.h:12 src/dialogs/dialog-stf.glade.h:60
+#: src/dialogs/names.glade.h:6 src/dialogs/solver.glade.h:27
 msgid "_Add"
 msgstr "_Lägg till"
 
@@ -20247,8 +20203,8 @@ msgstr "Stil"
 #: src/dialogs/scenario-manager.glade.h:1 src/dialogs/search-replace.glade.h:1
 #: src/dialogs/so-checkbox.glade.h:1 src/dialogs/so-frame.glade.h:1
 #: src/dialogs/solver.glade.h:1 src/dialogs/summary.glade.h:1
-#: src/dialogs/variance-tests.glade.h:1 src/dialogs/view.glade.h:1
-#: src/dialogs/workbook-attr.glade.h:1
+#: src/dialogs/tabulate.glade.h:1 src/dialogs/variance-tests.glade.h:1
+#: src/dialogs/view.glade.h:1 src/dialogs/workbook-attr.glade.h:1
 msgid "*"
 msgstr "*"
 
@@ -20392,13 +20348,13 @@ msgstr "_Överlappning:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:259
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:193
-#: src/dialogs/consolidate.glade.h:12
+#: src/dialogs/consolidate.glade.h:10
 msgid "Labels"
 msgstr "Rubriker"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:261
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:195
-#: src/dialogs/consolidate.glade.h:23
+#: src/dialogs/consolidate.glade.h:22
 msgid "Values"
 msgstr "Värden"
 
@@ -21037,7 +20993,7 @@ msgstr "Första bokstaven"
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:658
 #: src/format.c:1860 src/format.c:1947 src/format.c:1956 src/format.c:2024
-#: src/plugin-service.c:199 src/widgets/widget-format-selector.c:59
+#: src/plugin-service.c:199 src/widgets/widget-format-selector.c:67
 msgid "General"
 msgstr "Allmän"
 
@@ -21137,7 +21093,7 @@ msgid "Items"
 msgstr "Objekt"
 
 #: src/dialogs/autofilter-top10.glade.h:4
-#: src/widgets/widget-format-selector.c:65
+#: src/widgets/widget-format-selector.c:73
 msgid "Percentage"
 msgstr "Procent"
 
@@ -21331,11 +21287,11 @@ msgid "Control"
 msgstr "Kontroll"
 
 #: src/dialogs/cell-format.glade.h:27 src/dialogs/dialog-stf-export.glade.h:17
-#: src/widgets/widget-format-selector.c:70
+#: src/widgets/widget-format-selector.c:78
 msgid "Custom"
 msgstr "Anpassad"
 
-#: src/dialogs/cell-format.glade.h:28 src/widgets/widget-format-selector.c:63
+#: src/dialogs/cell-format.glade.h:28 src/widgets/widget-format-selector.c:71
 msgid "Date"
 msgstr "Datum"
 
@@ -21524,7 +21480,7 @@ msgstr "Tunna omvända diagonala ränder"
 msgid "Thin Vertical Stripe"
 msgstr "Tunna lodräta ränder"
 
-#: src/dialogs/cell-format.glade.h:80 src/widgets/widget-format-selector.c:64
+#: src/dialogs/cell-format.glade.h:80 src/widgets/widget-format-selector.c:72
 msgid "Time"
 msgstr "Tid"
 
@@ -21701,13 +21657,12 @@ msgid "Group/Ungroup"
 msgstr "Gruppera/Avgruppera"
 
 #: src/dialogs/consolidate.glade.h:1
-msgid "Add the entered area to the list of source areas"
-msgstr "Lägg till det angivna området till listan över källområden"
+msgid "AVERAGE"
+msgstr "MEDEL"
 
-#: src/dialogs/consolidate.glade.h:2 src/dialogs/dialog-simulation.c:248
-#: src/workbook-control-gui.c:4836
-msgid "Average"
-msgstr "Medelvärde"
+#: src/dialogs/consolidate.glade.h:2
+msgid "COUNT"
+msgstr "ANTAL"
 
 #: src/dialogs/consolidate.glade.h:3
 msgid "C_opy labels"
@@ -21717,66 +21672,55 @@ msgstr "K_opiera rubriker"
 msgid "Clear the list of source areas"
 msgstr "Töm listan med källområden"
 
-#: src/dialogs/consolidate.glade.h:5 src/tools/simulation.c:264
-#: src/workbook-control-gui.c:4837
-msgid "Count"
-msgstr "Antal"
-
-#: src/dialogs/consolidate.glade.h:6
-msgid "D_elete"
-msgstr "Ta _bort"
-
-#: src/dialogs/consolidate.glade.h:7
+#: src/dialogs/consolidate.glade.h:5
 msgid "Data consolidation"
 msgstr "Datakonsolidation"
 
-#: src/dialogs/consolidate.glade.h:8
+#: src/dialogs/consolidate.glade.h:6
 msgid "Delete the currently selected source area"
 msgstr "Ta bort det markerade källområdet"
 
-#: src/dialogs/consolidate.glade.h:9
+#: src/dialogs/consolidate.glade.h:7
 msgid "Formulas"
 msgstr "Formler"
 
-#: src/dialogs/consolidate.glade.h:10
+#: src/dialogs/consolidate.glade.h:8
 msgid "In _left column"
 msgstr "I _vänstra kolumnen"
 
-#: src/dialogs/consolidate.glade.h:11
+#: src/dialogs/consolidate.glade.h:9
 msgid "In _top row"
 msgstr "I _översta raden"
 
-#: src/dialogs/consolidate.glade.h:13 src/dialogs/dialog-simulation.c:248
-#: src/tools/simulation.c:256 src/workbook-control-gui.c:4835
-msgid "Max"
-msgstr "Max"
+#: src/dialogs/consolidate.glade.h:11
+msgid "MAX"
+msgstr "MAX"
 
-#: src/dialogs/consolidate.glade.h:14 src/dialogs/dialog-simulation.c:248
-#: src/tools/simulation.c:254 src/workbook-control-gui.c:4834
-msgid "Min"
-msgstr "Min"
+#: src/dialogs/consolidate.glade.h:12
+msgid "MIN"
+msgstr "MIN"
+
+#: src/dialogs/consolidate.glade.h:13
+msgid "PRODUCT"
+msgstr "PRODUKT"
+
+#: src/dialogs/consolidate.glade.h:14
+msgid "STDEV"
+msgstr "STDAV"
 
 #: src/dialogs/consolidate.glade.h:15
-msgid "Product"
-msgstr "Produkt"
+msgid "STDEVP"
+msgstr "STDAVP"
 
 #: src/dialogs/consolidate.glade.h:16
-msgid "Source areas"
-msgstr "Källområden"
+msgid "SUM"
+msgstr "SUMMA"
 
 #: src/dialogs/consolidate.glade.h:17
-msgid "Stdev (sample)"
-msgstr "Standardavvikelse (stickprov)"
-
-#: src/dialogs/consolidate.glade.h:18
-msgid "Stdevp (population)"
-msgstr "Standardavvikelse (population)"
-
-#: src/dialogs/consolidate.glade.h:20
 msgid "The function to use when consolidating"
 msgstr "Funktionen att använda vid konsolidering"
 
-#: src/dialogs/consolidate.glade.h:21
+#: src/dialogs/consolidate.glade.h:18
 msgid ""
 "The left column contains labels, these will not be consolidated, but used as "
 "key for comparison"
@@ -21784,7 +21728,7 @@ msgstr ""
 "Den vänstra kolumnen innehåller etiketter, dessa kommer inte att "
 "konsolideras, men användas som nycklar för jämförelse"
 
-#: src/dialogs/consolidate.glade.h:22
+#: src/dialogs/consolidate.glade.h:19
 msgid ""
 "The top row contains labels, these will not be consolidated, but used as key "
 "for comparison"
@@ -21792,29 +21736,29 @@ msgstr ""
 "Den översta raden innehåller etiketter, dessa kommer inte att konsolideras, "
 "men användas som nycklar för jämförelse"
 
-#: src/dialogs/consolidate.glade.h:24
-msgid "Var (sample)"
-msgstr "Var (stickprov)"
+#: src/dialogs/consolidate.glade.h:20
+msgid "VAR"
+msgstr "VAR"
 
-#: src/dialogs/consolidate.glade.h:25
-msgid "Varp (population)"
-msgstr "Varp (population)"
+#: src/dialogs/consolidate.glade.h:21
+msgid "VARP"
+msgstr "VARP"
 
-#: src/dialogs/consolidate.glade.h:27 src/dialogs/dialog-stf.glade.h:62
-msgid "_Clear"
-msgstr "_Töm"
-
-#: src/dialogs/consolidate.glade.h:28
+#: src/dialogs/consolidate.glade.h:23
 msgid "_Destination:"
 msgstr "_Mål:"
 
-#: src/dialogs/consolidate.glade.h:29
+#: src/dialogs/consolidate.glade.h:24
 msgid "_Function:"
 msgstr "_Funktion:"
 
-#: src/dialogs/consolidate.glade.h:30
+#: src/dialogs/consolidate.glade.h:25
 msgid "_Put:"
 msgstr "_Placera:"
+
+#: src/dialogs/consolidate.glade.h:26
+msgid "_Source areas:"
+msgstr "_Källområden:"
 
 #: src/dialogs/correlation.glade.h:3 src/tools/analysis-tools.c:784
 #: src/tools/analysis-tools.c:787
@@ -21937,15 +21881,13 @@ msgstr "John Gotts, rpm-paketering."
 #. xgettext:
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:64
-#, fuzzy
-msgid "Andreas J. Gülzow, Gnumeric hacker."
+msgid "Andreas J. Glzow, Gnumeric hacker."
 msgstr "Andreas J. Gülzow, Gnumeric-hacker."
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:67
-#, fuzzy
-msgid "Jon Kåre Hellan, Gnumeric hacker."
+msgid "Jon Kre Hellan, Gnumeric hacker."
 msgstr "Jon Kåre Hellan, Gnumeric-hacker."
 
 #: src/dialogs/dialog-about.c:68
@@ -22366,12 +22308,12 @@ msgid "Double"
 msgstr "Dubbel"
 
 #: src/dialogs/dialog-cell-format.c:453 src/dialogs/dialog-search.c:140
-#: src/func.c:675 src/widgets/widget-format-selector.c:60
+#: src/func.c:675 src/widgets/widget-format-selector.c:68
 msgid "Number"
 msgstr "Tal"
 
 #: src/dialogs/dialog-cell-format.c:654 src/dialogs/dialog-stf-main-page.c:363
-#: src/widgets/widget-format-selector.c:68
+#: src/widgets/widget-format-selector.c:76
 msgid "Text"
 msgstr "Text"
 
@@ -22441,7 +22383,12 @@ msgstr ""
 "Ställ in kolumnbredden av markeringen på <span style='italic' weight='bold'>%"
 "s</span>"
 
-#: src/dialogs/dialog-consolidate.c:141
+#: src/dialogs/dialog-consolidate.c:203
+#, c-format
+msgid "Specification %s does not define a region"
+msgstr "Soecifikation %s definierar inte en region"
+
+#: src/dialogs/dialog-consolidate.c:212
 #, c-format
 msgid "Source region %s overlaps with the destination region"
 msgstr "Källområdet %s överlappar målområdet"
@@ -22488,6 +22435,10 @@ msgstr "Kunde inte skapa uttrycksgurun."
 msgid "Recently Used"
 msgstr "Nyligen använd"
 
+#: src/dialogs/dialog-function-select.c:210
+msgid "All Functions (long list)"
+msgstr "Alla funktioner (lång lista)"
+
 #: src/dialogs/dialog-goal-seek.c:346
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
 msgstr "Du måste ange ett giltigt cellnamn i \"Ställ in cell:\"!"
@@ -22530,7 +22481,7 @@ msgstr "Arbetsboksnivå"
 #. * Fill in the labels of `Target Cell' section.
 #.
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:391
-#: src/dialogs/tabulate.glade.h:1 src/tools/solver/reports-write.c:80
+#: src/dialogs/tabulate.glade.h:2 src/tools/solver/reports-write.c:80
 #: src/tools/solver/reports-write.c:102 src/tools/solver/reports-write.c:129
 #: src/tools/solver/reports-write.c:236 src/tools/solver/reports-write.c:282
 #: src/tools/solver/reports-write.c:394 src/tools/solver/reports-write.c:401
@@ -22571,9 +22522,8 @@ msgid "Prepare an email"
 msgstr "Skapa epost"
 
 #: src/dialogs/dialog-hyperlink.c:203
-#, fuzzy
 msgid "_Web Link"
-msgstr "Klistra in länk"
+msgstr "_Webblänk"
 
 #: src/dialogs/dialog-hyperlink.c:205
 msgid "Browse to the specified URL"
@@ -22805,19 +22755,19 @@ msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 "Objekten på denna sida är relaterade till sparandet och öppnandet av filer."
 
-#: src/dialogs/dialog-printer-setup.c:854
+#: src/dialogs/dialog-printer-setup.c:853
 msgid "Customize header"
 msgstr "Anpassa sidhuvud"
 
-#: src/dialogs/dialog-printer-setup.c:856
+#: src/dialogs/dialog-printer-setup.c:855
 msgid "Customize footer"
 msgstr "Anpassa sidfot"
 
-#: src/dialogs/dialog-printer-setup.c:1006
+#: src/dialogs/dialog-printer-setup.c:1005
 msgid "Custom header configuration"
 msgstr "Anpassa sidhuvudskonfiguration"
 
-#: src/dialogs/dialog-printer-setup.c:1011
+#: src/dialogs/dialog-printer-setup.c:1010
 msgid "Custom footer configuration"
 msgstr "Anpassa sidfotskonfiguration"
 
@@ -23217,6 +23167,20 @@ msgstr "Kör på"
 msgid "Variable"
 msgstr "Variabel"
 
+#: src/dialogs/dialog-simulation.c:248 src/tools/simulation.c:254
+#: src/workbook-control-gui.c:4834
+msgid "Min"
+msgstr "Min"
+
+#: src/dialogs/dialog-simulation.c:248 src/workbook-control-gui.c:4836
+msgid "Average"
+msgstr "Medelvärde"
+
+#: src/dialogs/dialog-simulation.c:248 src/tools/simulation.c:256
+#: src/workbook-control-gui.c:4835
+msgid "Max"
+msgstr "Max"
+
 #: src/dialogs/dialog-simulation.c:327
 msgid "Invalid variable range was given"
 msgstr "Ogiltigt variabelintervall är givet"
@@ -23560,21 +23524,20 @@ msgstr "_Utropstecken (!)"
 
 #: src/dialogs/dialog-stf.glade.h:10
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid "C_ustom"
 msgstr "An_passad"
 
 #: src/dialogs/dialog-stf.glade.h:12
-#, fuzzy
 msgid ""
 "Character interpreted as quote character. If a termination or separation "
 "character is encountered within quotes it will be considered part of the "
 "column text."
 msgstr ""
 "Tecken tolkas som citattecken. Om skiljetecken eller termineringstecken "
-"finns mellan citattecken kommer det att ignoreras."
+"finns mellan citattecken kommer det att tolkas som en del av kolumntexten."
 
 #: src/dialogs/dialog-stf.glade.h:13
 msgid "Clear list of columns"
@@ -23593,9 +23556,8 @@ msgid "Columns"
 msgstr "Kolumner"
 
 #: src/dialogs/dialog-stf.glade.h:18
-#, fuzzy
 msgid "Custom separator, this can be any character."
-msgstr "Anpassad avskiljare, det här kan vara vilket tecken som helst"
+msgstr "Anpassad avskiljare, det kan vara vilket tecken som helst."
 
 #: src/dialogs/dialog-stf.glade.h:20
 msgid "Define the width of each column manually."
@@ -23618,14 +23580,12 @@ msgid "End"
 msgstr "Slut"
 
 #: src/dialogs/dialog-stf.glade.h:24
-#, fuzzy
 msgid "F_inish"
 msgstr "_Slutför"
 
 #: src/dialogs/dialog-stf.glade.h:25
-#, fuzzy
 msgid "Fixed"
-msgstr "Arkiv/"
+msgstr "Fixt"
 
 #: src/dialogs/dialog-stf.glade.h:26
 msgid "Format"
@@ -23648,9 +23608,8 @@ msgid "Lines to import"
 msgstr "Rader att importera"
 
 #: src/dialogs/dialog-stf.glade.h:31
-#, fuzzy
 msgid "Main"
-msgstr "Min"
+msgstr "Huvud"
 
 #: src/dialogs/dialog-stf.glade.h:33
 msgid "Number of lines to import"
@@ -23741,9 +23700,8 @@ msgid "Te_xt indicator: "
 msgstr "Te_xtindikator: "
 
 #: src/dialogs/dialog-stf.glade.h:54
-#, fuzzy
 msgid "Text indicator"
-msgstr "Te_xtindikator: "
+msgstr "Textindikator"
 
 #: src/dialogs/dialog-stf.glade.h:55
 msgid "The carriage return character (ASCII code 13) breaks lines"
@@ -23776,6 +23734,10 @@ msgstr "Plocka bort:"
 msgid "_Adjacent text indicators escaped"
 msgstr "_Intilliggande textindikatorer med escape-tecken"
 
+#: src/dialogs/dialog-stf.glade.h:62
+msgid "_Clear"
+msgstr "_Töm"
+
 #: src/dialogs/dialog-stf.glade.h:63
 msgid "_Colon (:)"
 msgstr "_Kolon (:)"
@@ -23806,7 +23768,7 @@ msgstr "_Windows (CR-LF)"
 
 #: src/dialogs/dialog-stf.glade.h:72
 msgid "dialog1"
-msgstr ""
+msgstr "dialog1"
 
 #: src/dialogs/dialog-tabulate.c:146
 msgid "Tabulation"
@@ -24005,14 +23967,12 @@ msgid "Size:"
 msgstr "Storlek:"
 
 #: src/dialogs/format-selector.glade.h:2
-#, fuzzy
 msgid "<b>Preview</b>"
-msgstr "Förhandsgranskning"
+msgstr "<b>Förhandsgranskning</b>"
 
 #: src/dialogs/format-selector.glade.h:3
-#, fuzzy
 msgid "Ca_tegories:"
-msgstr "Kategori:"
+msgstr "Ka_tegori:"
 
 #: src/dialogs/format-selector.glade.h:4
 msgid "Deci_mal places:"
@@ -24020,52 +23980,47 @@ msgstr "Deci_maler:"
 
 #: src/dialogs/format-selector.glade.h:5
 msgid "Display amounts in traditional accounting styles."
-msgstr ""
+msgstr "Visa värden i traditionell revisionsstil"
 
 #: src/dialogs/format-selector.glade.h:6
 msgid "Display and input values as strings with no interpretation."
-msgstr ""
+msgstr "Visa och mata in värden utan någon tolkning."
 
 #: src/dialogs/format-selector.glade.h:7
-#, fuzzy
 msgid "Display currency amounts."
-msgstr "Euro"
+msgstr "Visa valutavärden"
 
 #: src/dialogs/format-selector.glade.h:8
 msgid "Display dates and optionally times of day."
-msgstr ""
+msgstr "Visa datum och, valfritt, tidpunkter."
 
 #: src/dialogs/format-selector.glade.h:9
 msgid "Display numeric values with a fixed number of decimals."
-msgstr ""
+msgstr "Visa numeriska värden med ett fixt antal decimaler."
 
 #: src/dialogs/format-selector.glade.h:10
-#, fuzzy
 msgid "Display times of day."
-msgstr "Visa _konturer"
+msgstr "Visa tidpunkter."
 
 #: src/dialogs/format-selector.glade.h:11
 msgid "Display values as closest fractional approximation."
-msgstr ""
+msgstr "Visa vären som närmaste rationella approximation."
 
 #: src/dialogs/format-selector.glade.h:12
-#, fuzzy
 msgid "Display values as percentages."
-msgstr "Visa värdet exakt som det matades in"
+msgstr "Visa värden som procent."
 
 #: src/dialogs/format-selector.glade.h:13
 msgid "Display values with power-of-ten scaling."
-msgstr ""
+msgstr "Visa värden med tiopotensskalning."
 
 #: src/dialogs/format-selector.glade.h:14
-#, fuzzy
 msgid "Format c_ode:"
-msgstr "Formatera celler"
+msgstr "Formatera kod:"
 
 #: src/dialogs/format-selector.glade.h:15
-#, fuzzy
 msgid "Negative number _format:"
-msgstr "Format för negativa tal"
+msgstr "_Format för negativa tal:"
 
 #: src/dialogs/format-selector.glade.h:16
 msgid "S_ymbol:"
@@ -24073,11 +24028,11 @@ msgstr "S_ymbol:"
 
 #: src/dialogs/format-selector.glade.h:17
 msgid "Select an appropriate format automatically."
-msgstr ""
+msgstr "Välj automatiskt ett lämpligt format."
 
 #: src/dialogs/format-selector.glade.h:18
 msgid "Specify an XL-style format directly"
-msgstr ""
+msgstr "Välj ett XL-typ format direkt"
 
 #: src/dialogs/format-selector.glade.h:19
 msgid "_Format:"
@@ -24102,6 +24057,10 @@ msgstr "Kategori"
 #: src/dialogs/function-select.glade.h:4
 msgid "Function Selector"
 msgstr "Funktionsväljare"
+
+#: src/dialogs/function-select.glade.h:5
+msgid "Select a function to insert:"
+msgstr "Välj en funktion att sätta in:"
 
 #: src/dialogs/goalseek.glade.h:1
 msgid "(Ma_ximum):"
@@ -24536,9 +24495,8 @@ msgid "Apply _to:"
 msgstr "Tillämpa _på:"
 
 #: src/dialogs/print.glade.h:5
-#, fuzzy
 msgid "Apply to _all sheets of this workbook."
-msgstr "Tillämpa på _alla blad."
+msgstr "Tillämpa på _alla blad i den här arbetsboken."
 
 #: src/dialogs/print.glade.h:6
 msgid "Center on page"
@@ -24586,7 +24544,7 @@ msgstr "Rad- och kolumnrubriker"
 
 #: src/dialogs/print.glade.h:19
 msgid "Save as Default Settings"
-msgstr ""
+msgstr "Spara som standardinställningar"
 
 #: src/dialogs/print.glade.h:20
 msgid "Scale"
@@ -25462,49 +25420,49 @@ msgstr "_Manager:"
 msgid "_Title:"
 msgstr "_Titel:"
 
-#: src/dialogs/tabulate.glade.h:2
+#: src/dialogs/tabulate.glade.h:3
 msgid "Dependency cells"
 msgstr "Beroendeceller"
 
-#: src/dialogs/tabulate.glade.h:3
+#: src/dialogs/tabulate.glade.h:4
 msgid "Make one long list of coordinates and values"
 msgstr "Skapa en lång lista med koordinater och värden"
 
-#: src/dialogs/tabulate.glade.h:4
+#: src/dialogs/tabulate.glade.h:5
 msgid "Maximum"
 msgstr "Maximum"
 
-#: src/dialogs/tabulate.glade.h:5
+#: src/dialogs/tabulate.glade.h:6
 msgid "Minimum"
 msgstr "Minimum"
 
-#: src/dialogs/tabulate.glade.h:6 src/tools/simulation.c:258
+#: src/dialogs/tabulate.glade.h:7 src/tools/simulation.c:258
 msgid "Mode"
 msgstr "Läge"
 
-#: src/dialogs/tabulate.glade.h:7
+#: src/dialogs/tabulate.glade.h:8
 msgid "Result cell"
 msgstr "Resultatcell"
 
-#: src/dialogs/tabulate.glade.h:8
+#: src/dialogs/tabulate.glade.h:9
 msgid "Step"
 msgstr "Steg"
 
-#: src/dialogs/tabulate.glade.h:9
+#: src/dialogs/tabulate.glade.h:10
 msgid "Tabulate Dependency"
 msgstr "Tabuleringsberoende"
 
-#: src/dialogs/tabulate.glade.h:10
+#: src/dialogs/tabulate.glade.h:11
 msgid ""
 "Use down for first source, right for second, and multiple sheets for third"
 msgstr ""
 "Använd ned för första källan, höger för andra, och flera blad för tredje"
 
-#: src/dialogs/tabulate.glade.h:11
+#: src/dialogs/tabulate.glade.h:12
 msgid "_Coordinate"
 msgstr "_Koordinat"
 
-#: src/dialogs/tabulate.glade.h:12
+#: src/dialogs/tabulate.glade.h:13
 msgid "_Visual"
 msgstr "_Synlig"
 
@@ -25690,12 +25648,11 @@ msgstr ""
 "Överskrivning av gamla filer av denna typ är inaktiverat av säkerhetsskäl."
 
 #: src/file.c:554
-#, fuzzy
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
-"Du kan stänga av denna säkerhetsdetalj genom att redigera respektive plugin."
-"xml-fil."
+"Du kan stänga av denna säkerhetsdetalj genom att redigera lämplig plugin.xml-"
+"fil."
 
 #: src/format-template.c:467
 msgid "Error while trying to load autoformat template"
@@ -26603,11 +26560,11 @@ msgstr "Formatera som tid"
 msgid "Format as alternative Number"
 msgstr "Formatera som alternativt tal"
 
-#: src/gui-clipboard.c:114
+#: src/gui-clipboard.c:120
 msgid "clipboard"
 msgstr "Urklipp"
 
-#: src/gui-clipboard.c:122
+#: src/gui-clipboard.c:128
 msgid "Parse error while trying to parse data into cellregion"
 msgstr "Fel vid tolkning av data till cellområde"
 
@@ -26851,7 +26808,6 @@ msgstr ""
 "testning)."
 
 #: src/main-application.c:112
-#, fuzzy
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -26870,8 +26826,8 @@ msgstr ""
 "gammal nu. Troligtvis har många fel fixats och nya\n"
 "funktioner lagts till under tiden.\n"
 "\n"
-"Överväg att uppgradera innan du rapporterar några\n"
-"fel. Se http://www.gnumeric.org/ för detaljer.\n"
+"Överväg att uppgradera innan du rapporterar några fel.\n"
+"Se http://www.gnome.org/projects/gnumeric/ för detaljer.\n"
 "\n"
 "-- Gnumeric-teamet."
 
@@ -28103,10 +28059,6 @@ msgstr "Sannolikheterna får inte alla vara 0!"
 msgid "Random Numbers (%s)"
 msgstr "Slumptal (%s)"
 
-#: src/tools/random-generator.c:674 src/tools/random-generator.c:677
-msgid "Random Numbers"
-msgstr "Slumptal"
-
 #: src/tools/scenarios.c:628
 msgid "Result Cells:"
 msgstr "Resultatceller:"
@@ -28171,6 +28123,10 @@ msgstr "Kurtosis"
 #: src/tools/simulation.c:263
 msgid "Range"
 msgstr "Område"
+
+#: src/tools/simulation.c:264 src/workbook-control-gui.c:4837
+msgid "Count"
+msgstr "Antal"
 
 #: src/tools/simulation.c:265
 msgid "Confidence (95 %)"
@@ -28722,9 +28678,8 @@ msgid "dull purple"
 msgstr "blek lila"
 
 #: src/widgets/color-palette.c:575
-#, fuzzy
 msgid "dark gray"
-msgstr "mörkgrön"
+msgstr "mörkgrå"
 
 #: src/widgets/color-palette.c:578
 msgid "red"
@@ -28787,7 +28742,6 @@ msgid "red purple"
 msgstr "rödlila"
 
 #: src/widgets/color-palette.c:595
-#, fuzzy
 msgid "light gray"
 msgstr "ljusgrå"
 
@@ -29268,36 +29222,31 @@ msgstr "Det här värdet avgör vilket ikonv-test som skall utföras."
 msgid "Bold italic"
 msgstr "Fet kursiv"
 
-#: src/widgets/widget-format-selector.c:61
-#, fuzzy
-msgid "Currency"
-msgstr "_Valuta"
-
-#: src/widgets/widget-format-selector.c:62
-#, fuzzy
-msgid "Accounting"
-msgstr "_Redovisning"
-
-#: src/widgets/widget-format-selector.c:66
-#, fuzzy
-msgid "Fraction"
-msgstr "_Bråk"
-
-#: src/widgets/widget-format-selector.c:67
-#, fuzzy
-msgid "Scientific"
-msgstr "_Matematik"
-
 #: src/widgets/widget-format-selector.c:69
-#, fuzzy
-msgid "Special"
-msgstr "S_pecial"
+msgid "Currency"
+msgstr "Valuta"
 
-#: src/widgets/widget-format-selector.c:908
+#: src/widgets/widget-format-selector.c:70
+msgid "Accounting"
+msgstr "Redovisning"
+
+#: src/widgets/widget-format-selector.c:74
+msgid "Fraction"
+msgstr "Bråk"
+
+#: src/widgets/widget-format-selector.c:75
+msgid "Scientific"
+msgstr "Vetenskaplig"
+
+#: src/widgets/widget-format-selector.c:77
+msgid "Special"
+msgstr "Special"
+
+#: src/widgets/widget-format-selector.c:916
 msgid "Negative Number Format"
 msgstr "Format för negativa tal"
 
-#: src/widgets/widget-format-selector.c:939
+#: src/widgets/widget-format-selector.c:947
 msgid "Number Formats"
 msgstr "Talformat"
 
@@ -29338,157 +29287,128 @@ msgstr "Australien"
 #. * err on the safe side, if any.
 #.
 #: src/widgets/widget-locale-selector.c:102
-#, fuzzy
 msgid "United States/English (C)"
-msgstr "Förenta Staterna/Spanska (es_US)"
+msgstr "Förenta Staterna/Engelska (C)"
 
 #: src/widgets/widget-locale-selector.c:103
-#, fuzzy
 msgid "South Africa Afrikaans (af_ZA)"
-msgstr "Sydafrika/Engelska (en_ZA)"
+msgstr "Sydafrika Afrikaan (af_ZA)"
 
 #: src/widgets/widget-locale-selector.c:104
 msgid "Ethiopia/Amharic (am_ET)"
-msgstr ""
+msgstr "Etiopien/Amharic (am_ET)"
 
 #: src/widgets/widget-locale-selector.c:105
-#, fuzzy
 msgid "United Arab Emirates (ar_AE)"
-msgstr "Förenade Arabemiraten, dirham"
+msgstr "Förenade Arabemiraten (ar_AE)"
 
 #: src/widgets/widget-locale-selector.c:106
-#, fuzzy
 msgid "Bahrain (ar_BH)"
-msgstr "Bahrain, dinarer"
+msgstr "Bahrain (ar_BH)"
 
 #: src/widgets/widget-locale-selector.c:107
-#, fuzzy
 msgid "Algeria (ar_DZ)"
-msgstr "(ar_DZ)"
+msgstr "Algeriet (ar_DZ)"
 
 #: src/widgets/widget-locale-selector.c:108
-#, fuzzy
 msgid "Egypt (ar_EG)"
-msgstr "(ar_EG)"
+msgstr "Egypten (ar_EG)"
 
 #: src/widgets/widget-locale-selector.c:109
-#, fuzzy
 msgid "India/Arabic (ar_IN)"
-msgstr "Indien/Tamil (ta_IN)"
+msgstr "Indien/Arabiska (ar_IN)"
 
 #: src/widgets/widget-locale-selector.c:110
-#, fuzzy
 msgid "Iraq (ar_IQ)"
-msgstr "Iran (fa_IR)"
+msgstr "Irak (ar_IQ)"
 
 #: src/widgets/widget-locale-selector.c:111
-#, fuzzy
 msgid "Jordan (ar_JO)"
-msgstr "Japan (ja-JP)"
+msgstr "Jordanien (ar_JO)"
 
 #: src/widgets/widget-locale-selector.c:112
-#, fuzzy
 msgid "Kuwait (ar_KW)"
-msgstr "(ar_KW)"
+msgstr "Kuwait (ar_KW)"
 
 #: src/widgets/widget-locale-selector.c:113
-#, fuzzy
 msgid "Lebanon (ar_LB)"
-msgstr "(ar_LB)"
+msgstr "Libanon (ar_LB)"
 
 #: src/widgets/widget-locale-selector.c:114
-#, fuzzy
 msgid "Libya (ar_LY)"
-msgstr "(ar_LY)"
+msgstr "Libyen (ar_LY)"
 
 #: src/widgets/widget-locale-selector.c:115
-#, fuzzy
 msgid "Morocco (ar_MA)"
-msgstr "(ar_MA)"
+msgstr "Marocko (ar_MA)"
 
 #: src/widgets/widget-locale-selector.c:116
-#, fuzzy
 msgid "Oman (ar_OM)"
-msgstr "(ar_OM)"
+msgstr "Oman (ar_OM)"
 
 #: src/widgets/widget-locale-selector.c:117
-#, fuzzy
 msgid "Qatar (ar_QA)"
-msgstr "(ar_QA)"
+msgstr "Qatar (ar_QA)"
 
 #: src/widgets/widget-locale-selector.c:118
-#, fuzzy
 msgid "Saudi Arabia (ar_SA)"
-msgstr "Saudiarabien, riyal"
+msgstr "Saudiarabien (ar_SA)"
 
 #: src/widgets/widget-locale-selector.c:119
-#, fuzzy
 msgid "Sudan (ar_SD)"
-msgstr "(ar_SD)"
+msgstr "Sudan (ar_SD)"
 
 #: src/widgets/widget-locale-selector.c:120
-#, fuzzy
 msgid "Syria (ar_SY)"
-msgstr "(ar_SY)"
+msgstr "Syrien (ar_SY)"
 
 #: src/widgets/widget-locale-selector.c:121
-#, fuzzy
 msgid "Tunisia (ar_TN)"
-msgstr "Tunisien, dinarer"
+msgstr "Tunisien (ar_TN)"
 
 #: src/widgets/widget-locale-selector.c:122
-#, fuzzy
 msgid "Yemen (ar_YE)"
-msgstr "(ar_YE)"
+msgstr "Jemen (ar_YE)"
 
 #: src/widgets/widget-locale-selector.c:123
-#, fuzzy
 msgid "Azerbaijan (az_AZ)"
-msgstr "Azerbajdzjan, manat"
+msgstr "Azerbajdzjan (az_AZ)"
 
 #: src/widgets/widget-locale-selector.c:124
-#, fuzzy
 msgid "Belarus (be_BY)"
-msgstr "Vitryssland, rubel"
+msgstr "Vitryssland (be_BY)"
 
 #: src/widgets/widget-locale-selector.c:125
-#, fuzzy
 msgid "Bulgaria (bg_BG)"
-msgstr "(bg_BG)"
+msgstr "Bulgarien (bg_BG)"
 
 #: src/widgets/widget-locale-selector.c:126
-#, fuzzy
 msgid "Bangladesh (bn_BD)"
-msgstr "Bangladesh, taka"
+msgstr "Bangladesh (bn_BD)"
 
 #: src/widgets/widget-locale-selector.c:127
-#, fuzzy
 msgid "India/Bengali (bn_IN)"
-msgstr "India/Engelska (en_IN)"
+msgstr "India/Bengaliska (bn_IN)"
 
 #: src/widgets/widget-locale-selector.c:128
-#, fuzzy
 msgid "France/Breton (br_FR)"
-msgstr "Frankrike (fr_FR)"
+msgstr "Frankrike/Bretagne (br_FR)"
 
 #: src/widgets/widget-locale-selector.c:129
-#, fuzzy
 msgid "Bosnia and Herzegowina (bs_BA)"
-msgstr "Bosnien och Hercegovina, konvertibla mark"
+msgstr "Bosnien och Hercegovina (bs_BA)"
 
 #: src/widgets/widget-locale-selector.c:130
 msgid "Spain/Catalan (ca_ES)"
 msgstr "Spanska/Katalanska (ca_ES)"
 
 #: src/widgets/widget-locale-selector.c:131
-#, fuzzy
 msgid "Czech Republic (cs_CZ)"
-msgstr "Tjeckien, koruna"
+msgstr "Tjeckien (cs_CZ)"
 
 #: src/widgets/widget-locale-selector.c:132
-#, fuzzy
 msgid "Great Britain/Welsh (cy_GB)"
-msgstr "Storbritannien (en_GB)"
+msgstr "Storbritannien/Walesiska (cy_GB)"
 
 #: src/widgets/widget-locale-selector.c:133
 msgid "Denmark (da_DK)"
@@ -29511,23 +29431,20 @@ msgid "Germany (de_DE)"
 msgstr "Tyskland (de_DE)"
 
 #: src/widgets/widget-locale-selector.c:138
-#, fuzzy
 msgid "Luxembourg/German (de_LU)"
-msgstr "Belgien/Tyska (de_BE)"
+msgstr "Luxemburg/Tyska (de_LU)"
 
 #: src/widgets/widget-locale-selector.c:139
-#, fuzzy
 msgid "Greece (el_GR)"
-msgstr "(el_GR)"
+msgstr "Grekland (el_GR)"
 
 #: src/widgets/widget-locale-selector.c:140
 msgid "Australia (en_AU)"
 msgstr "Australien (en_AU)"
 
 #: src/widgets/widget-locale-selector.c:141
-#, fuzzy
 msgid "Botswana (en_BW)"
-msgstr "(en_BW)"
+msgstr "Botswana (en_BW)"
 
 #: src/widgets/widget-locale-selector.c:142
 msgid "Canada/English (en_CA)"
@@ -29562,9 +29479,8 @@ msgid "Singapore/English (en_SG)"
 msgstr "Singapore/Engelska (en_SG)"
 
 #: src/widgets/widget-locale-selector.c:150
-#, fuzzy
 msgid "United States/English (en_US)"
-msgstr "Förenta Staterna/Spanska (es_US)"
+msgstr "Förenta Staterna/Engelska (en_US)"
 
 #: src/widgets/widget-locale-selector.c:151
 msgid "South Africa/English (en_ZA)"
@@ -29575,9 +29491,8 @@ msgid "Zimbabwe (en_ZW)"
 msgstr "Zimbabwe (en_ZW)"
 
 #: src/widgets/widget-locale-selector.c:153
-#, fuzzy
 msgid "Esperanto (eo_EO)"
-msgstr "Tyskland (de_DE)"
+msgstr "Esperanto (eo_EO)"
 
 #: src/widgets/widget-locale-selector.c:154
 msgid "Argentina (es_AR)"
@@ -29700,19 +29615,16 @@ msgid "Ireland/Gaelic (ga_IE)"
 msgstr "Irland/Gaeliska (ga_IE)"
 
 #: src/widgets/widget-locale-selector.c:184
-#, fuzzy
 msgid "Great Britain/Scottish Gaelic (gd_GB)"
-msgstr "Storbritannien (en_GB)"
+msgstr "Storbritannien/Skotsk Gaeliska (gd_GB)"
 
 #: src/widgets/widget-locale-selector.c:185
-#, fuzzy
 msgid "Spain/Galician (gl_ES)"
-msgstr "Spanska/Katalanska (ca_ES)"
+msgstr "Spanska/Galiciska (gl_ES)"
 
 #: src/widgets/widget-locale-selector.c:186
-#, fuzzy
 msgid "Great Britain/Manx Gaelic (gv_GB)"
-msgstr "Storbritannien (en_GB)"
+msgstr "Storbritannien/Manx Gaeliska (gv_GB)"
 
 #: src/widgets/widget-locale-selector.c:187
 msgid "India/Hindu (hi_IN)"
@@ -29727,18 +29639,16 @@ msgid "Hungary (hu_HU)"
 msgstr "Ungern (hu_HU)"
 
 #: src/widgets/widget-locale-selector.c:190
-#, fuzzy
 msgid "Armenia (hy_AM)"
-msgstr "Argentina (es_AR)"
+msgstr "Armeniska (hy_AM)"
 
 #: src/widgets/widget-locale-selector.c:191
 msgid "(i18n)"
 msgstr "(i18n)"
 
 #: src/widgets/widget-locale-selector.c:192
-#, fuzzy
 msgid "Indonesia (id_ID)"
-msgstr "Indonesien, rupiah"
+msgstr "Indonesien (id_ID)"
 
 #: src/widgets/widget-locale-selector.c:193
 msgid "Iceland (is_IS)"
@@ -29777,9 +29687,8 @@ msgid "Korea (ko_KR)"
 msgstr "Korea (ko_KR)"
 
 #: src/widgets/widget-locale-selector.c:202
-#, fuzzy
 msgid "Great Britain/Cornish (kw_GB)"
-msgstr "Storbritannien (en_GB)"
+msgstr "Storbritannien/Korniska (kw_GB)"
 
 #: src/widgets/widget-locale-selector.c:203
 msgid "Lithuania (lt_LT)"
@@ -29790,28 +29699,24 @@ msgid "Latvia (lv_LV)"
 msgstr "Lettland (lv_LV)"
 
 #: src/widgets/widget-locale-selector.c:205
-#, fuzzy
 msgid "New Zealand/Maori (mi_NZ)"
-msgstr "Nya Zealand (en_NZ)"
+msgstr "Nya Zealand/Maori (mi_NZ)"
 
 #: src/widgets/widget-locale-selector.c:206
 msgid "Macedonia (mk_MK)"
-msgstr ""
+msgstr "Makedonien (mk_MK)"
 
 #: src/widgets/widget-locale-selector.c:207
-#, fuzzy
 msgid "India/Marathi (mr_IN)"
-msgstr "Indien/Tamil (ta_IN)"
+msgstr "Indien/Marathi (mr_IN)"
 
 #: src/widgets/widget-locale-selector.c:208
-#, fuzzy
 msgid "Malaysia (ms_MY)"
-msgstr "(ms_MY)"
+msgstr "Malaysia (ms_MY)"
 
 #: src/widgets/widget-locale-selector.c:209
-#, fuzzy
 msgid "Malta (mt_MT)"
-msgstr "(mt_MT)"
+msgstr "Malta (mt_MT)"
 
 #: src/widgets/widget-locale-selector.c:210
 msgid "Belgium/Flemish (nl_BE)"
@@ -29830,9 +29735,8 @@ msgid "Norway/Bokmal (no_NO)"
 msgstr "Norge/Bokmål (no_NO)"
 
 #: src/widgets/widget-locale-selector.c:214
-#, fuzzy
 msgid "France/Occitan (oc_FR)"
-msgstr "Frankrike (fr_FR)"
+msgstr "Frankrike/Occitan (oc_FR)"
 
 #: src/widgets/widget-locale-selector.c:215
 msgid "Poland (pl_PL)"
@@ -29859,29 +29763,24 @@ msgid "Ukraine/Russian (ru_UA)"
 msgstr "Ukraina/Ryska (ru_UA)"
 
 #: src/widgets/widget-locale-selector.c:221
-#, fuzzy
 msgid "Norway/Saami (se_NO)"
-msgstr "Norge/Bokmål (no_NO)"
+msgstr "Norge/Samiska (se_NO)"
 
 #: src/widgets/widget-locale-selector.c:222
-#, fuzzy
 msgid "Slovakia (sk_SK)"
-msgstr "Slovakien, koruna"
+msgstr "Slovakien (sk_SK)"
 
 #: src/widgets/widget-locale-selector.c:223
-#, fuzzy
 msgid "Slovenia (sl_SI)"
-msgstr "Slovenien, tolar"
+msgstr "Slovenien (sl_SI)"
 
 #: src/widgets/widget-locale-selector.c:224
-#, fuzzy
 msgid "Albania (sq_AL)"
-msgstr "Albanien, lek"
+msgstr "Albanien (sq_AL)"
 
 #: src/widgets/widget-locale-selector.c:225
-#, fuzzy
 msgid "Yugoslavia (sr_YU)"
-msgstr "Ryssland (ru_RU)"
+msgstr "Jugoslavien (sr_YU)"
 
 #: src/widgets/widget-locale-selector.c:226
 msgid "Finland/Swedish (sv_FI)"
@@ -29896,42 +29795,36 @@ msgid "India/Tamil (ta_IN)"
 msgstr "Indien/Tamil (ta_IN)"
 
 #: src/widgets/widget-locale-selector.c:229
-#, fuzzy
 msgid "India/Telugu (te_IN)"
-msgstr "Indien/Tamil (ta_IN)"
+msgstr "Indien/Telugu (te_IN)"
 
 #: src/widgets/widget-locale-selector.c:230
-#, fuzzy
 msgid "Tajikistan (tg_TJ)"
-msgstr "Thailand (th_TH)"
+msgstr "Tadzjikistan (tg_TJ)"
 
 #: src/widgets/widget-locale-selector.c:231
 msgid "Thailand (th_TH)"
 msgstr "Thailand (th_TH)"
 
 #: src/widgets/widget-locale-selector.c:232
-#, fuzzy
 msgid "Eritrea (ti_ER)"
-msgstr "(ti_ER)"
+msgstr "Eritrea (ti_ER)"
 
 #: src/widgets/widget-locale-selector.c:233
 msgid "Ethiopia/Tigrinya (ti_ET)"
-msgstr ""
+msgstr "Etiopien/Tigrinya (ti_ET)"
 
 #: src/widgets/widget-locale-selector.c:234
-#, fuzzy
 msgid "Philippines/Tagalog (tl_PH)"
-msgstr "Filippinerna (en_PH)"
+msgstr "Filippinerna/Tagalog (tl_PH)"
 
 #: src/widgets/widget-locale-selector.c:235
-#, fuzzy
 msgid "Turkey (tr_TR)"
-msgstr "(tr_TR)"
+msgstr "Turkiet (tr_TR)"
 
 #: src/widgets/widget-locale-selector.c:236
-#, fuzzy
 msgid "Russia/Tatar (tt_RU)"
-msgstr "Ryssland (ru_RU)"
+msgstr "Ryssland/Tartar (tt_RU)"
 
 #: src/widgets/widget-locale-selector.c:237
 msgid "Ukraine (uk_UA)"
@@ -29950,14 +29843,12 @@ msgid "Vietnam (vi_VN)"
 msgstr "Vietnam (vi_VN)"
 
 #: src/widgets/widget-locale-selector.c:241
-#, fuzzy
 msgid "Belgium/Walloon (wa_BE)"
-msgstr "Belgien/Tyska (de_BE)"
+msgstr "Belgien/Vallonska (wa_BE)"
 
 #: src/widgets/widget-locale-selector.c:242
-#, fuzzy
 msgid "United States/Yiddish (yi_US)"
-msgstr "Förenta Staterna/Spanska (es_US)"
+msgstr "Förenta Staterna/Yiddish (yi_US)"
 
 #: src/widgets/widget-locale-selector.c:243
 msgid "China (zh_CN)"
@@ -30432,6 +30323,33 @@ msgstr "Fel vid sparande av fil"
 #: src/xml-io.c:3951
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#~ msgid "Financial"
+#~ msgstr "Finansiella"
+
+#~ msgid "Random"
+#~ msgstr "Slump"
+
+#~ msgid "Add the entered area to the list of source areas"
+#~ msgstr "Lägg till det angivna området till listan över källområden"
+
+#~ msgid "D_elete"
+#~ msgstr "Ta _bort"
+
+#~ msgid "Product"
+#~ msgstr "Produkt"
+
+#~ msgid "Stdev (sample)"
+#~ msgstr "Standardavvikelse (stickprov)"
+
+#~ msgid "Stdevp (population)"
+#~ msgstr "Standardavvikelse (population)"
+
+#~ msgid "Var (sample)"
+#~ msgstr "Var (stickprov)"
+
+#~ msgid "Varp (population)"
+#~ msgstr "Varp (population)"
 
 #~ msgid "Maths / Trig."
 #~ msgstr "Matematik/Trig."
