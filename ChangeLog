@@ -1,3 +1,24 @@
+2002-11-21  Jody Goldberg <jody@gnome.org>
+
+	* src/colrow.c (colrow_get_global_outline) : new.
+
+	* src/commands.c (cmd_colrow_hide_correct_selection) : just in case,
+	  don't reset the selection unless we are going to set it to something.
+	(cmd_colrow_hide_undo) : convert from elements+flag -> 2 lists.
+	(cmd_colrow_hide_redo) : ditto.
+	(cmd_colrow_hide_finalize) : ditto.
+	(cmd_selection_colrow_hide) : ditto.
+	(cmd_selection_outline_change) : ditto.
+	(cmd_global_outline_change) : new.
+
+2002-11-20  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet.c (sheet_regen_adjacent_spans) : delete.
+
+	* src/sheet-control-gui.c (scg_setup_group_buttons) : hook up the
+	  outline buttons to a callback.
+	(cb_outline_button) : new.
+
 2002-11-20  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-control-gui.c (scg_setup_group_buttons) : The outline

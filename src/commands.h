@@ -67,6 +67,7 @@ gboolean cmd_selection_autoformat	(WorkbookControl *wbc, FormatTemplate *ft);
 
 /******************************************************************************************/
 
+gboolean cmd_global_outline_change	(WorkbookControl *wbc, gboolean is_cols, int depth);
 
 gboolean cmd_merge_cells	(WorkbookControl *wbc, Sheet *sheet,
 				 GSList const *selection);

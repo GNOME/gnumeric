@@ -104,7 +104,8 @@ ColRowVisList	*colrow_get_visiblity_toggle	(SheetView *sv, gboolean is_cols,
 						 gboolean visible);
 void		 colrow_set_visibility		(Sheet *sheet, gboolean is_cols,
 						 gboolean visible, int first, int last);
-
+void		 colrow_get_global_outline	(Sheet const *sheet, gboolean is_cols, int depth,
+						 ColRowVisList	**show, ColRowVisList	**hide);
 ColRowVisList	*colrow_vis_list_destroy	(ColRowVisList *list);
 void		 colrow_set_visibility_list	(Sheet *sheet, gboolean is_col,
 						 gboolean visible,

@@ -2022,12 +2022,16 @@ typedef struct
 	GnumericCommand cmd;
 
 	gboolean       is_cols;
-	gboolean       visible;
-	ColRowVisList *elements;
+	ColRowVisList *hide, *show;
 } CmdColRowHide;
 
 GNUMERIC_MAKE_COMMAND (CmdColRowHide, cmd_colrow_hide);
 
+/**
+ * cmd_colrow_hide_correct_selection :
+ *
+ * Try to ensure that the selection/cursor is set to a visible row/col
+ **/
 static void
 cmd_colrow_hide_correct_selection (CmdColRowHide *me, WorkbookControl *wbc)
 {
@@ -2035,20 +2039,15 @@ cmd_colrow_hide_correct_selection (CmdColRowHide *me, WorkbookControl *wbc)
 	SheetView *sv = sheet_get_view (me->cmd.sheet,
 		wb_control_view (wbc));
 
-	/*
-	 * Make sure the selection/cursor is set to a visible row/col
-	 */
 	index = colrow_find_adjacent_visible (me->cmd.sheet, me->is_cols,
-					      me->is_cols
-					      ? sv->edit_pos.col
-					      : sv->edit_pos.row,
-					      TRUE);
+			me->is_cols ? sv->edit_pos.col : sv->edit_pos.row,
+			TRUE);
 
 	x = me->is_cols ? sv->edit_pos.row : index;
 	y = me->is_cols ? index : sv->edit_pos.col;
 
-	sv_selection_reset (sv);
-	if (index != -1) {
+	if (index >= 0) {
+		sv_selection_reset (sv);
 		if (me->is_cols)
 			sv_selection_add_range (sv, y, x, y, 0,
 						y, SHEET_MAX_ROWS - 1);
@@ -2066,9 +2065,11 @@ cmd_colrow_hide_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me != NULL, TRUE);
 
 	colrow_set_visibility_list (me->cmd.sheet, me->is_cols,
-				    !me->visible, me->elements);
+				    TRUE, me->hide);
+	colrow_set_visibility_list (me->cmd.sheet, me->is_cols,
+				    FALSE, me->show);
 
-	if (me->visible == TRUE)
+	if (me->show != NULL)
 		cmd_colrow_hide_correct_selection (me, wbc);
 
 	return FALSE;
@@ -2082,9 +2083,11 @@ cmd_colrow_hide_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me != NULL, TRUE);
 
 	colrow_set_visibility_list (me->cmd.sheet, me->is_cols,
-				    me->visible, me->elements);
+				    FALSE, me->hide);
+	colrow_set_visibility_list (me->cmd.sheet, me->is_cols,
+				    TRUE, me->show);
 
-	if (me->visible != TRUE)
+	if (me->hide != NULL)
 		cmd_colrow_hide_correct_selection (me, wbc);
 
 	return FALSE;
@@ -2094,7 +2097,8 @@ static void
 cmd_colrow_hide_finalize (GObject *cmd)
 {
 	CmdColRowHide *me = CMD_COLROW_HIDE (cmd);
-	me->elements = colrow_vis_list_destroy (me->elements);
+	me->hide = colrow_vis_list_destroy (me->hide);
+	me->show = colrow_vis_list_destroy (me->show);
 	gnumeric_command_finalize (cmd);
 }
 
@@ -2110,11 +2114,14 @@ cmd_selection_colrow_hide (WorkbookControl *wbc,
 	me = CMD_COLROW_HIDE (obj);
 
 	me->is_cols = is_cols;
-	me->visible = visible;
-	me->elements = colrow_get_visiblity_toggle (sv, is_cols, visible);
+	me->hide = me->show = NULL;
+	if (visible)
+		me->show = colrow_get_visiblity_toggle (sv, is_cols, TRUE);
+	else
+		me->hide = colrow_get_visiblity_toggle (sv, is_cols, FALSE);
 
 	me->cmd.sheet = sv_sheet (sv);
-	me->cmd.size = 1 + g_slist_length (me->elements);
+	me->cmd.size = 1 + g_slist_length (me->hide) + g_slist_length (me->show);
 	me->cmd.cmd_descriptor = g_strdup (is_cols
 		? (visible ? _("Unhide columns") : _("Hide columns"))
 		: (visible ? _("Unhide rows") : _("Hide rows")));
@@ -2133,8 +2140,8 @@ cmd_selection_outline_change (WorkbookControl *wbc,
 	int first = -1, last = -1;
 	gboolean visible = FALSE;
 	int d;
-	Sheet *sheet = wb_control_cur_sheet (wbc);
-	SheetView *sv = wb_control_cur_sheet_view (wbc);
+	Sheet	  *sheet = wb_control_cur_sheet (wbc);
+	SheetView *sv	 = wb_control_cur_sheet_view (wbc);
 
 	cri = sheet_colrow_get_info (sheet, index, is_cols);
 
@@ -2190,15 +2197,42 @@ cmd_selection_outline_change (WorkbookControl *wbc,
 	me = CMD_COLROW_HIDE (obj);
 
 	me->is_cols = is_cols;
-	me->visible = visible;
-	me->elements = colrow_get_outline_toggle (sv_sheet (sv),
-		is_cols, visible, first, last);
+	me->hide = me->show = NULL;
+	if (visible)
+		me->show = colrow_get_outline_toggle (sv_sheet (sv), is_cols,
+						      TRUE, first, last);
+	else
+		me->hide = colrow_get_outline_toggle (sv_sheet (sv), is_cols,
+						      FALSE, first, last);
 
 	me->cmd.sheet = sv_sheet (sv);
-	me->cmd.size = 1 + g_slist_length (me->elements);
+	me->cmd.size = 1 + g_slist_length (me->show) + g_slist_length (me->hide);
 	me->cmd.cmd_descriptor = g_strdup (is_cols
 		? (visible ? _("Expand columns") : _("Collapse columns"))
 		: (visible ? _("Expand rows") : _("Collapse rows")));
+
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
+}
+
+gboolean
+cmd_global_outline_change (WorkbookControl *wbc, gboolean is_cols, int depth)
+{
+	GObject *obj;
+	CmdColRowHide *me;
+	SheetView *sv	 = wb_control_cur_sheet_view (wbc);
+
+	obj = g_object_new (CMD_COLROW_HIDE_TYPE, NULL);
+	me = CMD_COLROW_HIDE (obj);
+
+	me->is_cols = is_cols;
+	colrow_get_global_outline (sv_sheet (sv), is_cols, depth,
+				   &me->show, &me->hide);
+
+	me->cmd.sheet = sv_sheet (sv);
+	me->cmd.size = 1 + g_slist_length (me->show) + g_slist_length (me->hide);
+	me->cmd.cmd_descriptor = g_strdup_printf (is_cols
+		? _("Show column outline %d") : _("Show row outline %d"));
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);

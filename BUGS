@@ -84,9 +84,9 @@ Pending Patches
     14.4) do we want to persist recently used ?
 15) Decide whether to turn on the poor man's UTF-8 regexps.     (DONE)
 16) Outline mode
-    16.1) markers above/left instead of below/right
+    16.1) optionally put markers above/left
     16.2) smarter handling for groups at the edge of selection
-    16.3) implement 'clicked' for numbers callbacks
+    16.3) implement 'clicked' for numbers callbacks		(DONE)
 17) 3D reference fixes on sheet deletion
 18) 'discard' for invalid expressions enters text as string	(DONE)
 

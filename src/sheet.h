@@ -245,10 +245,6 @@ void  sheet_apply_style	     (Sheet  *sheet, Range const *range, MStyle *mstyle)
 void  sheet_queue_respan     (Sheet const *sheet, int start_row, int end_row);
 void  sheet_range_calc_spans (Sheet *sheet, Range const *r, SpanCalcFlags flags);
 void  sheet_cell_calc_span   (Cell *cell, SpanCalcFlags flags);
-void  sheet_regen_adjacent_spans (Sheet *sheet,
-				  int start_col, int start_row,
-				  int end_col, int end_row,
-				  int *min_col, int *max_col);
 
 void sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols);
 
