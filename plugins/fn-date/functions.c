@@ -198,11 +198,13 @@ static char const *help_datevalue = {
 
 	   "@DESCRIPTION="
 	   "DATEVALUE returns the serial number of the date.  @date_str is "
-	   "the string that contains the date.\n\n"
+	   "the string that contains the date. The value depends on the date "
+	   "convention.  The MS Excel 1900 convention dates things from Jan 1 1900 "
+	   "while the 1904 convention uses Jan 1 1904.\n\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "DATEVALUE(\"1/1/1999\") equals 36161."
+	   "DATEVALUE(\"1/1/1999\") equals 36161 (in the 1900 convention)."
 	   "\n"
 	   "@SEEALSO=DATE")
 };
