@@ -124,7 +124,7 @@ find_column_of_field (const EvalPosition *ep, Value *database, Value *field)
 	field_name = value_get_as_string (field);
 	column = -1;
 
-	/* find the column that is labeled with `field_name' */
+	/* find the column that is labeled after `field_name' */
 	begin_col = database->v.cell_range.cell_a.col;
 	end_col = database->v.cell_range.cell_b.col;
 	row = database->v.cell_range.cell_a.row;
@@ -1161,6 +1161,46 @@ gnumeric_dvarp (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+static char *help_getpivotdata = {
+        N_("@FUNCTION=GETPIVOTDATA\n"
+           "@SYNTAX=GETPIVOTDATA(pivot_table,field_name)\n"
+
+           "@DESCRIPTION="
+           "GETPIVOTDATA function fetches summary data from a pivot table. "
+	   "@pivot_table is a cell range containing the pivot table. "
+	   "@field_name is the name of the field of which you want the "
+	   "summary data. "
+	   "\n"
+	   "If the summary data is unavailable, GETPIVOTDATA returns #REF! "
+	   "error. "
+	   "\n"
+           "@SEEALSO=")
+};
+
+static Value *
+gnumeric_getpivotdata (FunctionEvalInfo *ei, Value **argv)
+{
+	int  col, row;
+	Cell *cell;
+
+	col = find_column_of_field (&ei->pos, argv[0], argv[1]);
+	if (col == -1)
+		return value_new_error (&ei->pos, gnumeric_err_REF);
+
+	row = argv[0]->v.cell_range.cell_b.row;
+	cell = sheet_cell_get(ei->pos.sheet, col, row);
+
+	/* FIXME: Lots of stuff missing */
+
+	if (cell == NULL || cell->value == NULL ||
+	    !VALUE_IS_NUMBER(cell->value))
+		return value_new_error (&ei->pos, gnumeric_err_REF);
+
+        return value_new_float (value_get_as_float(cell->value));
+}
+
+/***************************************************************************/
+
 void
 database_functions_init(void)
 {
@@ -1202,4 +1242,7 @@ database_functions_init(void)
 	function_add_args (cat,  "dvarp",    "r?r",
 			   "database,field,criteria",
 			   &help_dvarp,      gnumeric_dvarp );
+	function_add_args (cat,  "getpivotdata", "rs",
+			   "pivot_table,field_name",
+			   &help_getpivotdata, gnumeric_getpivotdata );
 }

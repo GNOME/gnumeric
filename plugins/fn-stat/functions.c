@@ -3807,7 +3807,17 @@ static char *help_linest = {
 	   "origin, i.e., b will be zero.  The default is TRUE."
 	   "\n"
 	   "If @stat is TRUE, extra statistical information will be returned. "
-	   "The default is FALSE."
+	   "Extra statistical information is written bellow the regression "
+	   "line coefficients in the result array.  Extra statistical "
+	   "information consists of four rows of data.  In the first row "
+	   "the standard error values for the coefficients m1, (m2, ...), b "
+	   "are represented.  The second row contains the square of R and "
+	   "the standard error for the y estimate.  The third row contains "
+	   "the F-observed value and the degrees of freedom.  The last row "
+	   "contains the regression sum of squares and the residual sum "
+	   "of squares. "
+	   "\n"
+	   "The default of @stat is FALSE."
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=LOGEST,TREND")
@@ -3816,11 +3826,14 @@ static char *help_linest = {
 static Value *
 gnumeric_linest (FunctionEvalInfo *ei, Value *argv [])
 {
-	float_t *xs = NULL, *ys = NULL;
-	Value *result = NULL;
-	int nx, ny, dim;
-	float_t linres[2];
-	gboolean affine, stat, err;
+	float_t           *xs = NULL, *ys = NULL;
+	Value             *result = NULL;
+	int               nx, ny, dim;
+	float_t           linres[2];
+	gboolean          affine, stat, err;
+	regression_stat_t extra_stat;
+
+	extra_stat.se = NULL;
 
 	ys = collect_floats_value (argv[0], &ei->pos,
 				   COLLECT_IGNORE_STRINGS |
@@ -3856,39 +3869,51 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv [])
 	} else
 		affine = TRUE;
 
-	if (argv[3]) {
-		stat = value_get_as_bool (argv[3], &err);
-		if (err) {
-			result = value_new_error (&ei->pos, gnumeric_err_VALUE);
-			goto out;
-		}
-	} else
-		stat = TRUE;
-
 	/* FIXME: we should handle multi-dimensional data, but we do not.  */
 	dim = 1;
 
-	if (linear_regression (&xs, dim, ys, nx, affine, linres)) {
+	if (argv[3]) {
+		stat = value_get_as_bool (argv[3], &err);
+		if (err) {
+			result = value_new_error (&ei->pos,
+						  gnumeric_err_VALUE);
+			goto out;
+		}
+	} else
+		stat = FALSE;
+
+	if (linear_regression (&xs, dim, ys, nx, affine,
+			       linres, &extra_stat)) {
 		result = value_new_error (&ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
 
 	if (stat) {
-		int y, x;
 		result = value_new_array (dim + 1, 5);
-		for (y = 0; y < 5; y++)
-			for (x = 0; x < dim + 1; x++)
-				value_array_set (result, x, y, value_new_error (&ei->pos, gnumeric_err_NA));
-		/* FIXME: lots of stuff goes here.  */
-	} else {
+
+		value_array_set (result, 0, 2, 
+				 value_new_float(extra_stat.sqr_r));
+		value_array_set (result, 1, 2, 
+				 value_new_float(extra_stat.se_y));
+		value_array_set (result, 0, 3, 
+				 value_new_float(extra_stat.F));
+		value_array_set (result, 1, 3, 
+				 value_new_float(extra_stat.df));
+		value_array_set (result, 0, 4, 
+				 value_new_float(extra_stat.ss_reg));
+		value_array_set (result, 1, 4, 
+				 value_new_float(extra_stat.ss_resid));
+	} else
 		result = value_new_array (dim + 1, 1);
-	}
+
 	value_array_set (result, dim, 0, value_new_float (linres[0]));
 	value_array_set (result, 0, 0, value_new_float (linres[1]));
 
  out:
 	g_free (xs);
 	g_free (ys);
+	g_free (extra_stat.se);
+
 	return result;
 }
 
@@ -3923,10 +3948,11 @@ static char *help_trend = {
 static Value *
 gnumeric_trend (FunctionEvalInfo *ei, Value *argv [])
 {
-	float_t *xs = NULL, *ys = NULL, *nxs = NULL;
-	Value *result = NULL;
-	int nx, ny, nnx, i, dim;
-	float_t linres[2];
+	float_t  *xs = NULL, *ys = NULL, *nxs = NULL;
+	Value    *result = NULL;
+	int      nx, ny, nnx, i, dim;
+	gboolean affine, err;
+	float_t  linres[2];
 
 	ys = collect_floats_value (argv[0], &ei->pos,
 				   COLLECT_IGNORE_STRINGS |
@@ -3934,6 +3960,8 @@ gnumeric_trend (FunctionEvalInfo *ei, Value *argv [])
 				   &ny, &result);
 	if (result)
 		goto out;
+
+	affine = TRUE;
 
 	if (argv[2] != NULL) {
 	        xs = collect_floats_value (argv[1], &ei->pos,
@@ -3945,6 +3973,14 @@ gnumeric_trend (FunctionEvalInfo *ei, Value *argv [])
 					    COLLECT_IGNORE_STRINGS |
 					    COLLECT_IGNORE_BOOLS,
 					    &nnx, &result);
+		if (argv[3] != NULL) {
+		        affine = value_get_as_bool (argv[3], &err);
+			if (err) {
+			        result = value_new_error (&ei->pos,
+							  gnumeric_err_VALUE);
+				goto out;
+			}
+		}
 	} else {
 	        /* @new_x's is assumed to be the same as @known_x's */ 
 	        if (argv[1] != NULL) {
@@ -3976,7 +4012,7 @@ gnumeric_trend (FunctionEvalInfo *ei, Value *argv [])
 
 	dim = 1;
 
-	if (linear_regression (&xs, dim, ys, nx, 1, linres)) {
+	if (linear_regression (&xs, dim, ys, nx, affine, linres, NULL)) {
 		result = value_new_error (&ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
@@ -4014,7 +4050,17 @@ static char *help_logest = {
 	   "i.e., b will be one.  The default is TRUE."
 	   "\n"
 	   "If @stat is TRUE, extra statistical information will be returned. "
-	   "The default is FALSE."
+	   "Extra statistical information is written bellow the regression "
+	   "line coefficients in the result array.  Extra statistical "
+	   "information consists of four rows of data.  In the first row "
+	   "the standard error values for the coefficients m1, (m2, ...), b "
+	   "are represented.  The second row contains the square of R and "
+	   "the standard error for the y estimate.  The third row contains "
+	   "the F-observed value and the degrees of freedom.  The last row "
+	   "contains the regression sum of squares and the residual sum "
+	   "of squares. "
+	   "\n"
+	   "The default of @stat is FALSE."
 	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=LOGEST,GROWTH,TREND")
@@ -4023,11 +4069,14 @@ static char *help_logest = {
 static Value *
 gnumeric_logest (FunctionEvalInfo *ei, Value *argv [])
 {
-	float_t *xs = NULL, *ys = NULL;
-	Value *result = NULL;
-	int nx, ny, dim;
-	float_t expres[2];
-	gboolean affine, stat, err;
+	float_t           *xs = NULL, *ys = NULL;
+	Value             *result = NULL;
+	int               nx, ny, dim;
+	float_t           expres[2];
+	gboolean          affine, stat, err;
+	regression_stat_t extra_stat;
+
+	extra_stat.se = NULL;
 
 	ys = collect_floats_value (argv[0], &ei->pos,
 				   COLLECT_IGNORE_STRINGS |
@@ -4070,32 +4119,43 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv [])
 			goto out;
 		}
 	} else
-		stat = TRUE;
+		stat = FALSE;
 
 	/* FIXME: we should handle multi-dimensional data, but we do not.  */
 	dim = 1;
 
-	if (exponential_regression (&xs, dim, ys, nx, affine, expres)) {
+	if (exponential_regression (&xs, dim, ys, nx, affine,
+				    expres, &extra_stat)) {
 		result = value_new_error (&ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
 
 	if (stat) {
-		int y, x;
 		result = value_new_array (dim + 1, 5);
-		for (y = 0; y < 5; y++)
-			for (x = 0; x < dim + 1; x++)
-				value_array_set (result, x, y, value_new_error (&ei->pos, gnumeric_err_NA));
-		/* FIXME: lots of stuff goes here.  */
-	} else {
+
+		value_array_set (result, 0, 2, 
+				 value_new_float(extra_stat.sqr_r));
+		value_array_set (result, 1, 2, 
+				 value_new_float(extra_stat.se_y));
+		value_array_set (result, 0, 3, 
+				 value_new_float(extra_stat.F));
+		value_array_set (result, 1, 3, 
+				 value_new_float(extra_stat.df));
+		value_array_set (result, 0, 4, 
+				 value_new_float(extra_stat.ss_reg));
+		value_array_set (result, 1, 4, 
+				 value_new_float(extra_stat.ss_resid));
+	} else
 		result = value_new_array (dim + 1, 1);
-	}
+
 	value_array_set (result, dim, 0, value_new_float (expres[0]));
 	value_array_set (result, 0, 0, value_new_float (expres[1]));
 
  out:
 	g_free (xs);
 	g_free (ys);
+	g_free (extra_stat.se);
+
 	return result;
 }
 
@@ -4131,10 +4191,13 @@ static char *help_growth = {
 static Value *
 gnumeric_growth (FunctionEvalInfo *ei, Value *argv [])
 {
-	float_t *xs = NULL, *ys = NULL, *nxs = NULL;
-	Value *result = NULL;
-	int nx, ny, nnx, i, dim;
-	float_t expres[2];
+	float_t  *xs = NULL, *ys = NULL, *nxs = NULL;
+	Value    *result = NULL;
+	gboolean affine, err;
+	int      nx, ny, nnx, i, dim;
+	float_t  expres[2];
+
+	affine = TRUE;
 
 	ys = collect_floats_value (argv[0], &ei->pos,
 				   COLLECT_IGNORE_STRINGS |
@@ -4153,6 +4216,14 @@ gnumeric_growth (FunctionEvalInfo *ei, Value *argv [])
 					    COLLECT_IGNORE_STRINGS |
 					    COLLECT_IGNORE_BOOLS,
 					    &nnx, &result);
+		if (argv[3] != NULL) {
+		        affine = value_get_as_bool (argv[3], &err);
+			if (err) {
+			        result = value_new_error (&ei->pos,
+							  gnumeric_err_VALUE);
+				goto out;
+			}
+		}
 	} else {
 	        /* @new_x's is assumed to be the same as @known_x's */ 
 	        if (argv[1] != NULL) {
@@ -4184,7 +4255,7 @@ gnumeric_growth (FunctionEvalInfo *ei, Value *argv [])
 
 	dim = 1;
 
-	if (exponential_regression (&xs, dim, ys, nx, 1, expres)) {
+	if (exponential_regression (&xs, dim, ys, nx, affine, expres, NULL)) {
 		result = value_new_error (&ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
@@ -4260,7 +4331,7 @@ gnumeric_forecast (FunctionEvalInfo *ei, Value *argv [])
 
 	dim = 1;
 
-	if (linear_regression (&xs, dim, ys, nx, 1, linres)) {
+	if (linear_regression (&xs, dim, ys, nx, 1, linres, NULL)) {
 		result = value_new_error (&ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
@@ -4304,7 +4375,7 @@ range_intercept (const float_t *xs, const float_t *ys, int n, float_t *res)
 	float_t linres[2];
 	int dim = 1;
 
-	if (linear_regression ((float_t **)&xs, dim, ys, n, 1, linres))
+	if (linear_regression ((float_t **)&xs, dim, ys, n, 1, linres, NULL))
 		return 1;
 
 	*res = linres[0];
@@ -4347,7 +4418,7 @@ range_slope (const float_t *xs, const float_t *ys, int n, float_t *res)
 	float_t linres[2];
 	int dim = 1;
 
-	if (linear_regression ((float_t **)&xs, dim, ys, n, 1, linres))
+	if (linear_regression ((float_t **)&xs, dim, ys, n, 1, linres, NULL))
 		return 1;
 
 	*res = linres[1];
@@ -4518,8 +4589,8 @@ stat_functions_init (void)
 			    &help_tdist, gnumeric_tdist);
 	function_add_args  (cat, "tinv",    "ff",     "",
 			    &help_tinv, gnumeric_tinv);
-	function_add_args  (cat, "trend",  "A|AA",
-			    "known_y's[,known_x's,new_x's]",
+	function_add_args  (cat, "trend",  "A|AAb",
+			    "known_y's[,known_x's,new_x's,const]",
 			    &help_trend, gnumeric_trend);
 	function_add_nodes (cat, "trimmean",  0,      "",
 			    &help_trimmean, gnumeric_trimmean);

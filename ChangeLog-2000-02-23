@@ -1,3 +1,14 @@
+1999-10-26  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/functions/fn-stat.c: Fixed the const arguments of GROWTH and
+ 	TREND.
+
+	* src/regression.[ch], src/functions/fn-stat.c: Started adding the
+ 	extra statistical output for LINEST and LOGEST.
+	
+	* src/functions/fn-database.c: Started the implementation of
+ 	GETPIVOTDATA.
+
 1999-10-25  Jody Goldberg <jgoldberg@home.com>
 
 	* src/main.c (gnumeric_main) : Remove current_workbook notion.

@@ -20,10 +20,20 @@
  * all points on a vertical line.)
  */
 
+typedef struct {
+        float_t *se;
+        float_t sqr_r;
+        float_t se_y;
+        float_t F;
+        int     df;
+        float_t ss_reg;
+        float_t ss_resid;
+} regression_stat_t;
+
 int linear_regression (float_t **xss, int dim,
 		       const float_t *ys, int n,
 		       int affine,
-		       float_t *res);
+		       float_t *res, regression_stat_t *stat);
 
 
 /**
@@ -47,6 +57,6 @@ int linear_regression (float_t **xss, int dim,
 int exponential_regression (float_t **xss, int dim,
 			    const float_t *ys, int n,
 			    int affine,
-			    float_t *res);
+			    float_t *res, regression_stat_t *stat);
 
 #endif
