@@ -3129,13 +3129,22 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv [])
 
 static char *help_linest = {
 	N_("@FUNCTION=LINEST\n"
-	   "@SYNTAX=LINEST(known_y's,known_x's)\n"
+	   "@SYNTAX=LINEST(known_y's[,known_x's])\n"
 
 	   "@DESCRIPTION="
 	   "LINEST function calculates the ``least squares'' line that best "
-	   "fit to your data. "
+	   "fit to your data in @known_y's.  @known_x's contains the "
+	   "corresponding x's where y=mx+b. "
 	   "\n"
-	   "@SEEALSO=LOGEST")
+	   "If @known_x's is omitted, an array {1, 2, 3, ...} is used. "
+           "LINEST returns an array having two columns and one row.  The slope "
+           "(m) of the regression line y=mx+b is given in the first column "
+           "and the y-intercept (b) in the second. "
+	   "\n"
+	   "If @known_y's and @known_x's have unequal number of data points, "
+	   "LINEST returns #NUM! error. "
+	   "\n"
+	   "@SEEALSO=LOGEST,TREND")
 };
 
 static Value *
@@ -3147,14 +3156,23 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv [])
 	float_t linres[2];
 
 	ys = collect_floats_value (argv[0], &ei->pos,
-				   COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				   COLLECT_IGNORE_STRINGS |
+				   COLLECT_IGNORE_BOOLS,
 				   &ny, &result);
 	if (result)
 		goto out;
 
-	xs = collect_floats_value (argv[1], &ei->pos,
-				   COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
-				   &nx, &result);
+	if (argv[1] != NULL)
+	        xs = collect_floats_value (argv[1], &ei->pos,
+					   COLLECT_IGNORE_STRINGS |
+					   COLLECT_IGNORE_BOOLS,
+					   &nx, &result);
+	else {
+	        xs = g_new(float_t, ny);
+	        for (nx=0; nx<ny; nx++)
+		        xs[nx] = nx+1;
+	}
+	        
 	if (result)
 		goto out;
 
@@ -3175,6 +3193,84 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv [])
  out:
 	g_free (xs);
 	g_free (ys);
+	return result;
+}
+
+static char *help_trend = {
+	N_("@FUNCTION=TREND\n"
+	   "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
+
+	   "@DESCRIPTION="
+	   "TREND function estimates future values of a given data set "
+	   "using the ``least squares'' line that best fit to your data. "
+	   "@known_y's is the y-values where y=mx+b and @known_x's contains "
+	   "the corresponding x-values.  @new_x's contains the x-values for "
+	   "which you want to estimate the y-values. "
+	   "\n"
+	   "If @known_x's is omitted, an array {1, 2, 3, ...} is used. "
+	   "If @known_y's and @known_x's have unequal number of data points, "
+	   "TREND returns #NUM! error. "
+	   "@SEEALSO=LINEST")
+};
+
+static Value *
+gnumeric_trend (FunctionEvalInfo *ei, Value *argv [])
+{
+	float_t *xs = NULL, *ys = NULL, *nxs = NULL;
+	Value *result = NULL;
+	int nx, ny, nnx, i;
+	float_t linres[2];
+
+	ys = collect_floats_value (argv[0], &ei->pos,
+				   COLLECT_IGNORE_STRINGS |
+				   COLLECT_IGNORE_BOOLS,
+				   &ny, &result);
+	if (result)
+		goto out;
+
+	if (argv[2] != NULL) {
+	        xs = collect_floats_value (argv[1], &ei->pos,
+					   COLLECT_IGNORE_STRINGS |
+					   COLLECT_IGNORE_BOOLS,
+					   &nx, &result);
+
+		nxs = collect_floats_value (argv[2], &ei->pos,
+					    COLLECT_IGNORE_STRINGS |
+					    COLLECT_IGNORE_BOOLS,
+					    &nnx, &result);
+	} else {
+	        xs = g_new(float_t, ny);
+	        for (nx=0; nx<ny; nx++)
+		        xs[nx] = nx+1;
+
+		nxs = collect_floats_value (argv[1], &ei->pos,
+					    COLLECT_IGNORE_STRINGS |
+					    COLLECT_IGNORE_BOOLS,
+					    &nnx, &result);
+	}
+	        
+	if (result)
+		goto out;
+
+	if (nx != ny) {
+		result = value_new_error (&ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
+
+	if (linear_regression (xs, ys, nx, 1, linres)) {
+		result = value_new_error (&ei->pos, gnumeric_err_NUM);
+		goto out;
+	}
+
+	result = value_new_array (1, nnx);
+	for (i=0; i<nnx; i++)
+	        value_array_set (result, 0, i,
+				 value_new_float (linres[1]*nxs[i]+linres[0]));
+
+ out:
+	g_free (xs);
+	g_free (ys);
+	g_free (nxs);
 	return result;
 }
 
@@ -3384,7 +3480,7 @@ void stat_functions_init()
 			    &help_kurtp, gnumeric_kurtp);
 	function_add_nodes (cat, "large",  0,      "",
 			    &help_large, gnumeric_large);
-	function_add_args  (cat, "linest",  "AA",  "known_y's,known_x's",
+	function_add_args  (cat, "linest",  "A|A",  "known_y's[,known_x's]",
 			    &help_linest, gnumeric_linest);
 	function_add_args  (cat, "loginv",  "fff",  "",
 			    &help_loginv, gnumeric_loginv);
@@ -3447,6 +3543,9 @@ void stat_functions_init()
 			    &help_tdist, gnumeric_tdist);
 	function_add_args  (cat, "tinv",    "ff",     "",
 			    &help_tinv, gnumeric_tinv);
+	function_add_args  (cat, "trend",  "AA|A",
+			    "known_y's[,known_x's],new_x's",
+			    &help_trend, gnumeric_trend);
 	function_add_nodes (cat, "trimmean",  0,      "",
 			    &help_trimmean, gnumeric_trimmean);
 	function_add_args  (cat, "ttest",   "rrff",   "",
