@@ -10,8 +10,6 @@ Release Critical
 - validate expression names to ensure that they are not simple values (eg TRUE)
 - check the implementation of seriessum returning NULL seems bad
 - Bonobo-WARNING **: Leaked a total of 24 refs to 16 bonobo object(s)
-- Import of sheet local names from biff8 files
-- validation borkage in 96387
 
 1.2 Targets
 -----------

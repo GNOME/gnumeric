@@ -1244,7 +1244,6 @@ applix_read_absolute_name (ApplixReadState *state, char *buffer)
 	RangeRef ref;
 	ParsePos pp;
 	GnmExpr const *expr;
-	GnmNamedExpr *nexpr;
 
 	/* .ABCDe. Coordinate: A:B2..A:C4 */
 	/* Spec guarantees that there are no dots in the name */
@@ -1264,11 +1263,8 @@ applix_read_absolute_name (ApplixReadState *state, char *buffer)
 		ref.a.row_relative = ref.b.row_relative = FALSE;
 
 	expr = gnm_expr_new_constant (value_new_cellrange_unsafe (&ref.a, &ref.b));
-	nexpr = expr_name_lookup (&pp, buffer);
-	if (nexpr == NULL)
-		expr_name_add (&pp, buffer, expr, NULL);
-	else
-		expr_name_set_expr (nexpr, expr, NULL);
+	expr_name_add (&pp, buffer, expr, NULL);
+
 	return FALSE;
 }
 
@@ -1280,7 +1276,6 @@ applix_read_relative_name (ApplixReadState *state, char *buffer)
 	RangeRef ref, flag;
 	ParsePos pp;
 	GnmExpr const *expr;
-	GnmNamedExpr *nexpr;
 
 	/* .abcdE. tCol:0 tRow:0 tSheet:0 bCol:1 bRow:2 bSheet: 0 tColAbs:0 tRowAbs:0 tSheetAbs:1 bColAbs:0 bRowAbs:0 bSheetAbs:1 */
 	/* Spec guarantees that there are no dots in the name */
@@ -1306,11 +1301,8 @@ applix_read_relative_name (ApplixReadState *state, char *buffer)
 	expr = gnm_expr_new_constant (value_new_cellrange_unsafe (&ref.a, &ref.b));
 	parse_pos_init (&pp, state->wb, NULL,
 		MAX (-ref.a.col, 0), MAX (-ref.a.row, 0));
-	nexpr = expr_name_lookup (&pp, buffer);
-	if (nexpr == NULL)
-		expr_name_add (&pp, buffer, expr, NULL);
-	else
-		expr_name_set_expr (nexpr, expr, NULL);
+	expr_name_add (&pp, buffer, expr, NULL);
+
 	return FALSE;
 }
 
