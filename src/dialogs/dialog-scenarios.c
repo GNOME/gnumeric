@@ -91,6 +91,7 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	GtkTextBuffer           *buf;
 	GtkTextIter             start, end;
 	RangeRef                *rr;
+	gboolean                res;
 
 	cell_range = gnm_expr_entry_parse_as_value
 		(GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
@@ -135,10 +136,19 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	dao_init (&dao, NewSheetOutput);
 	dao.sheet = state->sheet;
 
-	scenario_add_new (WORKBOOK_CONTROL (state->wbcg), name,
-			  cell_range, (gchar *) gnm_expr_entry_get_text
-			  (GNUMERIC_EXPR_ENTRY (state->input_entry)),
-			  comment, &dao);
+	res = scenario_add_new (WORKBOOK_CONTROL (state->wbcg), name,
+				cell_range, (gchar *) gnm_expr_entry_get_text
+				(GNUMERIC_EXPR_ENTRY (state->input_entry)),
+				comment, &dao);
+
+	if (res)
+		gnumeric_notice (state->wbcg, GTK_MESSAGE_WARNING, 
+				 _("Changing cells contain at least one "
+				   "expression that is not just a value. "
+				   "Note that showing the scenario will "
+				   "overwrite the formula with it's current "
+				   "value."));
+
 
 	gtk_widget_destroy (state->dialog);
  out:

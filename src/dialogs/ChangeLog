@@ -1,5 +1,8 @@
 2003-04-15  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* dialog-scenarios.c (scenario_add_ok_clicked_cb): Issue a warning
+	if some of the changing cells contain a formula.
+
 	* dialog-solver.c (cb_dialog_solve_clicked): Check that at least
 	one constraint is defined.
 
