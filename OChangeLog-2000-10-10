@@ -1,7 +1,12 @@
 2000-05-20  Jody Goldberg <jgoldberg@home.com>
 
+	* configure.in : Bump reqs.  libglade >= .13, gnome-print .20
+
 	* src/workbook-format-toolbar.c (change_selection_font) : Add strikethrough.
 	({bold,italic,underline}_cmd) : Handle accelerators too.
+
+	* src/cellspan.c (cell_calc_span) : Do not overlap spans when using
+	  center across selection.
 
 	* src/application.c (application_set_selected_sheet) : We still need
 	  to partially clear the clipboard when short circuiting.

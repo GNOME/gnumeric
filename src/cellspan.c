@@ -305,14 +305,17 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 
 	case HALIGN_CENTER_ACROSS_SELECTION:
 	{
-		int tmp;
-		int const row = cell->row_info->pos;
+		ColRowInfo const *ri = cell->row_info;
+		int const row = ri->pos;
 		int left = cell->col_info->pos, right = left;
+		int tmp;
 
 		left_loop :
 			tmp = left - 1;
+			/* When scanning left make sure not to overrun other spans */
 			if (tmp >= 0 &&
-			    cell_is_blank (sheet_cell_get (sheet, tmp, row))) {
+			    cell_is_blank (sheet_cell_get (sheet, tmp, row)) &&
+			    NULL == row_span_get (ri, tmp)) {
 				MStyle * const mstyle =
 				    sheet_style_compute (cell->sheet, tmp, row);
 				gboolean const res =

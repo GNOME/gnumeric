@@ -16,8 +16,8 @@ Docdir: 	%{prefix}/doc
 
 Requires: gtk+ >= 1.2.7
 Requires: gnome-libs >= 1.0.57
-Requires: gnome-print >= 0.19
-Requires: libglade >= 0.11
+Requires: gnome-print >= 0.20
+Requires: libglade >= 0.13
 Requires: libxml >= 1.8.5
 
 %description
@@ -95,6 +95,9 @@ fi
 %doc HACKING AUTHORS ChangeLog NEWS README COPYING TODO
 
 %changelog
+* Sat May 20 2000 Jody Goldberg <jgolbderg@home.com>
+- Updated version requirements for gnome-print, and libglade.
+
 * Mon May 15 2000 Karl Eichwalder <ke@suse.de>
 - Use %{version}, %{name} and %{sysconfdir} more consistently.
 - Avoid long lines.
