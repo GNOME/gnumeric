@@ -1,3 +1,26 @@
+1998-07-30  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_color_alloc): Query the
+	colormap with gtkdget_get_colormap(), because the canvas structure
+	no longer has a colormap field in it.
+	(gnumeric_sheet_set_top_row): Use the canvas layout adjustment to
+	scroll.
+	(gnumeric_sheet_set_top_col): Use the canvas layout adjustment to
+	scroll.
+	(gnumeric_sheet_make_cell_visible): Get the values from the canvas
+	adjustments.
+
+	* src/sheet.c (new_canvas_bar): Call gnome_canvas_new() correctly.
+	(scroll_to): New helper function to scroll a canvas.
+	(sheet_set_zoom_factor): Use scroll_to().
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_create): Do not call
+	gnome_canvas_construct() at is does not exist anymore.
+	(gnumeric_sheet_new): Use outrageously big values for the canvas
+	scrolling region, for now.  This needs to be fixed.
+	(gnumeric_sheet_make_cell_visible): Use the canvas layout
+	adjustment to scroll.
+
 1998-07-30    <miguel@nuclecu.unam.mx>
 
 	* src/parser.y (alloc_clean): Free the record that tracks the

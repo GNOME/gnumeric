@@ -42,10 +42,6 @@ gnumeric_sheet_create (Sheet *sheet, GtkWidget *entry)
 	gsheet = gtk_type_new (gnumeric_sheet_get_type ());
 	canvas = GNOME_CANVAS (gsheet);
 
-	gnome_canvas_construct (canvas,
-				gtk_widget_get_default_visual (),
-				gtk_widget_get_default_colormap ());
-	
 	gsheet->sheet   = sheet;
 	gsheet->top_col = 0;
 	gsheet->top_row = 0;
@@ -566,6 +562,8 @@ gnumeric_sheet_new (Sheet *sheet, ItemBar *colbar, ItemBar *rowbar)
 	entry = sheet->parent_workbook->ea_input;
 	gsheet = gnumeric_sheet_create (sheet, entry);
 	gnome_canvas_set_size (GNOME_CANVAS (gsheet), 300, 100);
+	/* FIXME: figure out some real size for the canvas scrolling region */
+	gnome_canvas_set_scroll_region (GNOME_CANVAS (gsheet), 0, 0, 1000000, 1000000);
 
 	/* handy shortcuts */
 	gsheet_canvas = GNOME_CANVAS (gsheet);
@@ -665,7 +663,8 @@ gnumeric_sheet_set_top_row (GnumericSheet *gsheet, int new_top_row)
 	
 	gsheet->top_row = new_top_row;
 	row_distance = sheet_row_get_distance (sheet, 0, gsheet->top_row);
-	gnome_canvas_scroll_to (rowc, rowc->display_x1, row_distance);
+	rowc->layout.vadjustment->value = row_distance;
+	gtk_signal_emit_by_name (GTK_OBJECT (rowc->layout.vadjustment), "value_changed");
 	
 	return row_distance;
 }
@@ -679,7 +678,8 @@ gnumeric_sheet_set_top_col (GnumericSheet *gsheet, int new_top_col)
 
 	gsheet->top_col = new_top_col;
 	col_distance = sheet_col_get_distance (sheet, 0, gsheet->top_col);
-	gnome_canvas_scroll_to (colc, col_distance, colc->display_y1);
+	colc->layout.hadjustment->value = col_distance;
+	gtk_signal_emit_by_name (GTK_OBJECT (colc->layout.hadjustment), "value_changed");
 	
 	return col_distance;
 }
@@ -748,8 +748,8 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 		new_top_row = gsheet->top_row;
 
 	/* Determine if scrolling is required */
-	col_distance = GNOME_CANVAS (gsheet)->display_x1;
-	row_distance = GNOME_CANVAS (gsheet)->display_y1;
+	col_distance = GTK_LAYOUT (gsheet)->hadjustment->value;
+	row_distance = GTK_LAYOUT (gsheet)->vadjustment->value;
 	
 	if (gsheet->top_col != new_top_col){
 		col_distance = gnumeric_sheet_set_top_col (gsheet, new_top_col);
@@ -765,7 +765,9 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row)
 		return;
 	
 	gnumeric_sheet_compute_visible_ranges (gsheet);
-	gnome_canvas_scroll_to (canvas, col_distance, row_distance);
+
+	canvas->layout.hadjustment->value = sheet_col_get_distance (sheet, 0, gsheet->top_col);
+	gtk_signal_emit_by_name (GTK_OBJECT (canvas->layout.hadjustment), "value_changed");
 }
 
 static void
@@ -810,12 +812,15 @@ void
 gnumeric_sheet_color_alloc (GnomeCanvas *canvas)
 {
 	static int colors_loaded;
+	GdkColormap *colormap;
 	
 	if (colors_loaded)
 		return;
+
+	colormap = gtk_widget_get_colormap (GTK_WIDGET (canvas));
 	
-	gdk_color_white (canvas->colormap, &gs_white);
-	gdk_color_black (canvas->colormap, &gs_black);
+	gdk_color_white (colormap, &gs_white);
+	gdk_color_black (colormap, &gs_black);
 	gnome_canvas_get_color (canvas, "gray60", &gs_light_gray);
 	gnome_canvas_get_color (canvas, "gray20", &gs_dark_gray);
 	colors_loaded = 1;
