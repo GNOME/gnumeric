@@ -1,3 +1,149 @@
+2000-01-05  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet.c (sheet_move_range, sheet_insert_cols, sheet_delete_cols),
+	(sheet_insert_rows, sheet_delete_rows): use sheet_recalc_dependencies.
+
+	* src/eval.c (cell_eval_content): Hack out stubs of value tree
+	pruning. (cell_eval): ditto.
+	Stupidly remove all inline optimization.
+	(sheet_recalc_dependencies): implement.
+
+2000-01-03  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/clipboard.c (do_clipboard_paste_cell_region): add back
+	region_get_deps.
+
+2000-01-02  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet.c (sheet_get_extent): fit inside the max_used bounds.
+
+	* src/eval.c (search_range_deps): add back.
+	(cell_get_single_dependencies): make API nicer + rename to
+	(get_single_dependencies). (sheet_region_get_deps): revive, add
+	single dependency checking + more logical name.
+
+1999-12-31  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/eval.c (cell_get_dependencies): add debub.
+	(sheet_dump_dependencies): dump pending eval_queue.
+	(drop_cell_range_dep): improve debug + kill printout.
+
+	* src/cell.c (cell_relocate): When we relocate, we change the content,
+	hence do a cell_content_changed.
+
+	* src/clipboard.c (paste_cell): Do a 'cell_relocate' when we relocate
+	a cell :-).
+
+1999-12-30  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/eval.c (drop_cell_range_dep): fast range dep drop.
+	(cell_drop_dependencies): kill iterate over sheet in favour of faster
+	drop_cell_range_dep. ( drastic simplification )
+	Kill 'remove_list' (dependency_remove_cell): Kill.
+
+	* src/sheet.c (sheet_cell_remove_from_hash): drop dependencies.
+
+	* src/Gnumeric.idl: Add ';'.
+
+	* src/eval.c (cell_eval_content): Comment out & 'fix' the 'changed'
+	return value.
+
+1999-12-24  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/eval.c (DependencySmall): Use a CellPos, we don't need or want
+	a Sheet pointer in this structure. (dependency_small_hash): remove sheet
+	usage. (dependency_small_equal, handle_cell_small_dep): ditto.
+
+	(DependencyRange): Kill redundant ref_count member, this was just ==
+	g_list_length (DependencyRange->cell_list), and was not used sensibly.
+	(dependency_remove_cell): check for cell_list == NULL not ref_count.
+	(add_cell_range_dep, dependency_range_ctor, dump_range_dep): kill
+	ref_count.
+
+1999-12-23  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/eval.c (cell_eval_content): documented + added 'changed' return
+	value + check using value_equal if there is no change.
+
+	* src/value.c (value_equal): implement.
+
+	* src/value.h (struct _Value): comment redundant 'CellRef cell' member.
+
+	* src/eval.c (dependency_range_ctor): kill redundant sheet in
+	DependencyRange. (handle_cell_small_dep): add helpful precondition.
+	(handle_cell_range_deps): Get the right sheet's deps.
+	(add_cell_range_dep): Add DependencyData arg.
+	(range_equal_func): remove sheet check.
+	(search_cell_deps, search_intersheet_deps): ditto.
+
+1999-12-22  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/clipboard.c (do_clipboard_paste_cell_region): remove redundant
+	dependency queueing, this is done by cell_reloate in paste_cell anyhow.
+
+	* src/eval.c (dump_range_dep, dump_small_dep): implement.
+	(add_cell_range_dep): insert the inter sheet dependencies into the
+	correct sheet's hash!
+	(cell_get_range_dependencies): hence use only the sheet's hash and not
+	all of the sheets !
+	(cell_drop_dependencies): iterate over all sheets to kill dependencies.
+	(dump_cell_list): implement.
+	(handle_cell_range_dep): kill + (handle_tree_deps): fixup for ARRAY.
+
+	* src/expr.c (eval_range): update warning + failure case.
+
+	* src/workbook.c (workbook_can_detach_sheet): implement.
+	(workbook_setup_edit_area, misc_output): debugging dumps.
+
+	* src/eval.c (cell_drop_dependencies): only drop depends from single
+	ref-counted formulae; (region_get_dependencies): kill it was used
+	incorrectly all over the place. (search_range_deps): ditto.
+	(search_intersheet_deps): implement. (sheet_get_intersheet_deps): implemtn.
+
+	* src/clipboard.c (do_clipboard_paste_cell_region): remove get_deps +
+	add warning.
+
+	* src/workbook.c (workbook_do_destroy): call sheet_dump_dependencies.
+	(dump_dep): move to eval.c (misc_output): hack debugging code.
+	(workbook_can_detach_sheet): add warning + update ( this was broken ).
+
+	* src/eval.c (cell_add_explicit_dependency): kill.
+	(region_get_dependencies): add warning.
+	(cell_drop_dependencies): Add handle_tree_deps; NB. this can be
+	all moved elsewhere for speed later.
+	(sheet_dump_dependencies): implement.
+
+	* src/sheet.c (sheet_move_range): Kill region_get_dependencies +
+	queue_recalc_list: cell_relocate has to do this anyway.
+	(sheet_insert_cols, sheet_delete_cols,
+	(sheet_insert_rows, sheet_delete_rows): ditto.
+
+	* src/eval.c (dependency_small_hash, dependency_small_equal): implement.
+	(handle_cell_range_depsm cell_add_dependencies, handle_tree_deps),
+	(handle_cell_range_dep): rename + add 'add/remove' parameter.
+	(cell_eval_content): update debug to ParsePosition.
+	(handle_cell_range_deps): update with switch.
+	(handle_cell_small_dep): implement.
+	(cell_get_dependencies): hack.
+	(cell_get_range_dependencies): split out.
+
+1999-12-21  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/eval.c (dependency_hash_init): kill.
+	(dependency_data_new, dependency_data_destroy): implement.
+	(cell_add_dependencies, cell_add_explicit_dependency),
+	(region_get_dependencies, cell_get_dependencies): update preconditions.
+
+	* src/sheet.c (sheet_destroy, sheet_new): use new functions.
+
+	* src/sheet.h (Sheet): Use DependencyData.
+
+	* src/eval.h: Add new / destroy functions for deps.
+
+	* src/gnumeric.h: add DependencyData.
+
+	* src/main.c: Add debug_deps.
+
 2000-01-06  Jody Goldberg <jgoldberg@home.com>
 
 	* *.[ch] : rename struct expr_relocate_info -> ExprRelocateInfo.
@@ -475,16 +621,6 @@
 	(item_bar_init) : Init the guide and points to NULL;
 	(item_bar_event) : No need to call canvas to world.  We zoom manually.
 	(item_bar_get_line_points) : Delete.
-
-1999-12-19  Michael Meeks  <mmeeks@gnu.org>
-
-	* src/ranges.h (range_overlap): macroify.
-
-	* src/ranges.c (range_overlap): comment out.
-
-	* src/eval.c (cell_queue_recalc): inline
-	(cell_queue_deps_recalc): implement.
-	(cell_queue_deps_for_recalc): implement.
 
 1999-12-19  Michael Meeks  <mmeeks@gnu.org>
 

@@ -1,4 +1,6 @@
-1999-12-30  Jody Goldberg <jgoldberg@home.com>
+1999-12-23  Michael Meeks  <mmeeks@gnu.org>
+
+	* lotus.c (read_workbook): comment out format_prefix.
 
 1999-12-30  Jody Goldberg <jgoldberg@home.com>
 

@@ -215,9 +215,7 @@ read_workbook (Workbook *wb, FILE *f)
 		case LOTUS_LABEL:
 		{
 			/* one of '\', '''', '"', '^' */
-#if 0
-			gchar format_prefix = *(r->data + 5);
-#endif
+/*			gchar format_prefix = *(r->data + 5);*/
 			v = value_new_string (r->data + 6); /* FIXME unsafe */
 			i = GUINT16_FROM_LE (*(guint16 *)(r->data + 1));
 		        j = GUINT16_FROM_LE (*(guint16 *)(r->data + 3));

@@ -1,8 +1,9 @@
 /*
  * value.c:  Utilies for handling, creating, removing values.
  *
- * Author:
+ * Authors:
  *   Miguel de Icaza (miguel@gnu.org).
+ *   Michael Meeks   (mmeeks@gnu.org)
  *   Jody Goldberg (jgolderg@home.com)
  */
 
@@ -131,7 +132,7 @@ value_release (Value *value)
 	g_return_if_fail (value != NULL);
 
 	/* Do not release value_terminate it is a magic number */
-	if (value == value_terminate())
+	if (value == value_terminate ())
 		return;
 
 	switch (value->type) {
@@ -551,3 +552,63 @@ value_array_copy_to (Value *v, const Value *src)
 	}
 }
 
+gboolean
+value_equal (const Value *a, const Value *b)
+{
+	if (a == b)
+		return TRUE;
+
+	if (!a || !b)
+		return FALSE;
+
+	if (a->type != b->type)
+		return FALSE;
+
+	switch (a->type) {
+	case VALUE_EMPTY:
+		return TRUE;
+
+	case VALUE_BOOLEAN:
+		return a->v.v_bool == b->v.v_bool;
+
+	case VALUE_INTEGER:
+		return a->v.v_int == b->v.v_int;
+
+	case VALUE_FLOAT:
+		return a->v.v_float == b->v.v_float;
+
+	case VALUE_ERROR:
+		return a->v.error.mesg == b->v.error.mesg;
+
+	case VALUE_STRING:
+		return a->v.str == b->v.str;
+
+	case VALUE_CELLRANGE:
+		return (!(memcmp (&a->v.cell_range.cell_a,
+				  &b->v.cell_range.cell_a,
+				  sizeof (CellRef))) &&
+			!(memcmp (&a->v.cell_range.cell_b,
+				  &b->v.cell_range.cell_b,
+				  sizeof (CellRef))));
+
+	case VALUE_ARRAY:
+	{
+		guint x, y;
+
+		if (a->v.array.x != b->v.array.x ||
+		    a->v.array.y != b->v.array.y)
+			return FALSE;
+
+		for (y = 0; y < a->v.array.y; y++) {
+			for (x = 0; x < a->v.array.x; x++) {
+				if (!value_equal (a->v.array.vals [x] [y],
+						  b->v.array.vals [x] [y]))
+					return FALSE;
+			}
+		}
+		return TRUE;
+		
+	}
+	}
+	return FALSE;
+}

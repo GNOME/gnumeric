@@ -199,8 +199,9 @@ sheet_new (Workbook *wb, const char *name)
 			      COLROW_SEGMENT_INDEX (SHEET_MAX_ROWS-1)+1);
 	sheet->print_info = print_info_new ();
 
-	sheet->cell_hash = g_hash_table_new (cell_hash,
-					     (GCompareFunc)&cell_compare);
+	sheet->cell_hash  = g_hash_table_new (cell_hash,
+					      (GCompareFunc)&cell_compare);
+	sheet->deps       = dependency_data_new ();
 
 	mstyle = mstyle_new_default ();
 	sheet_style_attach (sheet, sheet_get_full_range (), mstyle);
@@ -568,19 +569,19 @@ sheet_get_extent_cb (gpointer key, gpointer value, gpointer data)
 {
 	Cell *cell = (Cell *) value;
 	
-	if ( cell && !cell_is_blank (cell)) {
+	if (cell && !cell_is_blank (cell)) {
 		Range *range = (Range *)data;
 
-		if ( cell->row->pos < range->start.row)
+		if (cell->row->pos < range->start.row)
 			range->start.row = cell->row->pos;
 
-		if ( cell->row->pos > range->end.row)
+		if (cell->row->pos > range->end.row)
 			range->end.row = cell->row->pos;
 
-		if ( cell->col->pos < range->start.col)
+		if (cell->col->pos < range->start.col)
 			range->start.col = cell->col->pos;
 
-		if ( cell->col->pos > range->end.col)
+		if (cell->col->pos > range->end.col)
 			range->end.col = cell->col->pos;
 	}
 }
@@ -2186,9 +2187,11 @@ sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
 	cell->row   = sheet_row_fetch (sheet, row);
 
 	cell_realize (cell);
-	cell_calc_dimensions (cell);
+	cell_calc_dimensions  (cell);
 
 	sheet_cell_add_to_hash (sheet, cell);
+
+	cell_add_dependencies (cell);
 }
 
 Cell *
@@ -2214,7 +2217,9 @@ sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 	cellpos.col = cell->col->pos;
 	cellpos.row = cell->row->pos;
 
-	cell_unregister_span (cell);
+	cell_unregister_span   (cell);
+	cell_drop_dependencies (cell);
+
 	if (g_hash_table_lookup_extended (sheet->cell_hash, &cellpos, &original_key, NULL)) {
 		g_hash_table_remove (sheet->cell_hash, &cellpos);
 		g_free (original_key);
@@ -2488,21 +2493,14 @@ sheet_destroy (Sheet *sheet)
 
 	sheet_destroy_contents (sheet);
 
-	if (sheet->dependency_hash != NULL) {
-		if (g_hash_table_size (sheet->dependency_hash) != 0)
-			g_warning ("Dangling dependencies");
-		g_hash_table_destroy (sheet->dependency_hash);
-		sheet->dependency_hash = NULL;
-	}
+	dependency_data_destroy (sheet->deps);
+	sheet->deps = NULL;
 
 	sheet_destroy_styles (sheet);
 
 	g_hash_table_destroy (sheet->cell_hash);
 
 	expr_name_clean_sheet (sheet);
-
-	if (sheet->dependency_hash)
-		g_hash_table_destroy (sheet->dependency_hash);
 
 	sheet->signature = 0;
 	g_free (sheet);
@@ -3268,7 +3266,7 @@ colrow_move (Sheet *sheet,
 		segment[COLROW_SUB_INDEX(old_pos)] : NULL;
 
 	GList *cells = NULL;
-	Cell *cell;
+	Cell  *cell;
 
 	g_return_if_fail (old_pos >= 0);
 	g_return_if_fail (new_pos >= 0);
@@ -3365,11 +3363,7 @@ sheet_insert_cols (CommandContext *context, Sheet *sheet,
 	sheet_style_insert_colrow (sheet, col, count, TRUE);
 
 	/* 5. Recompute dependencies */
-	deps = region_get_dependencies (sheet,
-					col, 0,
-					SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
-	cell_queue_recalc_list (deps, TRUE);
-	workbook_recalc (sheet->workbook);
+	sheet_recalc_dependencies (sheet);
 
 	/* 6. Redraw */
 	sheet_redraw_all (sheet);
@@ -3435,11 +3429,7 @@ sheet_delete_cols (CommandContext *context, Sheet *sheet,
 	sheet_style_delete_colrow (sheet, col, count, TRUE);
 
 	/* 6. Recompute dependencies */
-	deps = region_get_dependencies (sheet,
-					col, 0,
-					SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
-	cell_queue_recalc_list (deps, TRUE);
-	workbook_recalc (sheet->workbook);
+	sheet_recalc_dependencies (sheet);
 
 	/* 7. Redraw */
 	sheet_redraw_all (sheet);
@@ -3505,11 +3495,7 @@ sheet_insert_rows (CommandContext *context, Sheet *sheet,
 	sheet_style_insert_colrow (sheet, row, count, FALSE);
 
 	/* 5. Recompute dependencies */
-	deps = region_get_dependencies (sheet,
-					0, row,
-					SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
-	cell_queue_recalc_list (deps, TRUE);
-	workbook_recalc (sheet->workbook);
+	sheet_recalc_dependencies (sheet);
 
 	/* 6. Redraw */
 	sheet_redraw_all (sheet);
@@ -3575,11 +3561,7 @@ sheet_delete_rows (CommandContext *context, Sheet *sheet,
 	sheet_style_delete_colrow (sheet, row, count, FALSE);
 
 	/* 6. Recompute dependencies */
-	deps = region_get_dependencies (sheet,
-					0, row,
-					SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
-	cell_queue_recalc_list (deps, TRUE);
-	workbook_recalc (sheet->workbook);
+	sheet_recalc_dependencies (sheet);
 
 	/* 7. Redraw */
 	sheet_redraw_all (sheet);
@@ -3593,7 +3575,7 @@ void
 sheet_move_range (CommandContext *context,
 		  ExprRelocateInfo const * rinfo)
 {
-	GList *deps, *cells = NULL;
+	GList *cells = NULL;
 	Cell  *cell;
 	gboolean inter_sheet_formula;
 
@@ -3666,12 +3648,7 @@ sheet_move_range (CommandContext *context,
 	sheet_style_relocate (rinfo);
 
 	/* 6. Recompute dependencies */
-	/* TODO : What region needs this ? the source or the target ? */
-	deps = region_get_dependencies (rinfo->target_sheet,
-					0, 0,
-					SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
-	cell_queue_recalc_list (deps, TRUE);
-	workbook_recalc (rinfo->target_sheet->workbook);
+	sheet_recalc_dependencies (rinfo->target_sheet);
 
 	/* 7. Redraw */
 	sheet_redraw_all (rinfo->target_sheet);

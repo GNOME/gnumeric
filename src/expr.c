@@ -636,7 +636,7 @@ eval_range (FunctionEvalInfo *s, Value *v)
 	cell_get_abs_col_row (a, &s->pos.eval, &start_col, &start_row);
 	cell_get_abs_col_row (b, &s->pos.eval, &end_col, &end_row);
 
-	if (a->sheet != b->sheet) {
+	if (b->sheet && a->sheet != b->sheet) {
 		g_warning ("3D references not-fully supported.\n"
 			   "Recalc may be incorrect");
 		return;

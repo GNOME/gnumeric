@@ -38,4 +38,6 @@ typedef struct _CommandContext	CommandContext;
 typedef struct _PrintInformation PrintInformation;
 typedef struct _String	 	 String;
 
+typedef struct _DependencyData   DependencyData;
+
 #endif /* GNUMERIC_H */

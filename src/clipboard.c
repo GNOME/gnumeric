@@ -49,19 +49,18 @@ paste_cell (Sheet *dest_sheet, Cell *new_cell,
 
 	sheet_cell_add (dest_sheet, new_cell, target_col, target_row);
 
-	if (!(paste_flags & PASTE_FORMULAS)){
-		if (new_cell->parsed_node){
+	if (!(paste_flags & PASTE_FORMULAS)) {
+		if (new_cell->parsed_node) {
 			expr_tree_unref (new_cell->parsed_node);
 			new_cell->parsed_node = NULL;
 		}
 	}
 
-	if (new_cell->parsed_node){
-		if (paste_flags & PASTE_FORMULAS){
+	if (new_cell->parsed_node) {
+		if (paste_flags & PASTE_FORMULAS) {
 			cell_relocate (new_cell, TRUE);
 			cell_content_changed (new_cell);
-		}
-		else
+		} else
 			cell_make_value (new_cell);
 	}
 
@@ -139,7 +138,7 @@ do_clipboard_paste_cell_region (CommandContext *context,
 				int paste_flags)
 {
 	CellCopyList *l;
-	GList *deps;
+	GList        *deps;
 	int formulas = 0;
 	int col, row, col_inc, row_inc;
 
@@ -167,13 +166,13 @@ do_clipboard_paste_cell_region (CommandContext *context,
 		row_inc = region->rows;
 	}
 
-	for (col = 0; col < paste_width; col += col_inc){
-		for (row = 0; row < paste_height; row += row_inc){
-			for (l = region->list; l; l = l->next){
+	for (col = 0; col < paste_width; col += col_inc) {
+		for (row = 0; row < paste_height; row += row_inc) {
+			for (l = region->list; l; l = l->next) {
 				CellCopy *c_copy = l->data;
 				int target_col, target_row;
 
-				if (paste_flags & PASTE_TRANSPOSE){
+				if (paste_flags & PASTE_TRANSPOSE) {
 					target_col = col + dest_col + c_copy->row_offset;
 					target_row = row + dest_row + c_copy->col_offset;
 				} else {
@@ -194,11 +193,10 @@ do_clipboard_paste_cell_region (CommandContext *context,
 		}
 	}
 
-	deps = region_get_dependencies (
-		dest_sheet,
-		dest_col, dest_row,
-		dest_col + paste_width - 1,
-		dest_row + paste_height -1);
+	deps = sheet_region_get_deps (dest_sheet,
+				      dest_col, dest_row,
+				      dest_col + paste_width - 1,
+				      dest_row + paste_height - 1);
 
 	if (deps) {
 		cell_queue_recalc_list (deps, TRUE);

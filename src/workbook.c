@@ -233,19 +233,6 @@ cb_sheet_destroy_contents (gpointer key, gpointer value, gpointer user_data)
 }
 
 static void
-dump_dep (gpointer key, gpointer value, gpointer closure)
-{
-	DependencyRange const * const deprange = key;
-	Range const * const range = &(deprange->range);
-
-	/* 2 calls to col_name.  It uses a static buffer */
-	printf ("\t%d : %s%d:", deprange->ref_count,
-		col_name(range->start.col), range->start.row+1);
-	printf ("%s%d\n",
-		col_name(range->end.col), range->end.row+1);
-}
-
-static void
 workbook_do_destroy_private (Workbook *wb)
 {
 	g_free (wb->priv);
@@ -316,18 +303,8 @@ workbook_do_destroy (Workbook *wb)
 			 * the sheet from the workbook.  Its ugly, but should
 			 * be ok for debug code.
 			 */
-			if (gnumeric_debugging > 0 &&
-			    sheet->dependency_hash != NULL &&
-			    g_hash_table_size (sheet->dependency_hash) != 0) {
-				printf ("Hash %s:%s = %d\n",
-					sheet->workbook->filename
-					?  sheet->workbook->filename
-					: "(no name)",
-					sheet->name,
-					g_hash_table_size (sheet->dependency_hash));
-				g_hash_table_foreach (sheet->dependency_hash, dump_dep, NULL);
-			}
-
+			if (gnumeric_debugging > 0)
+				sheet_dump_dependencies (sheet);
 			/*
 			 * Make sure we alwayws keep the focus on an
 			 * existing widget (otherwise the destruction
@@ -382,7 +359,7 @@ workbook_destroy (GtkObject *wb_object)
 static int
 workbook_delete_event (GtkWidget *widget, GdkEvent *event, Workbook *wb)
 {
-	if (workbook_can_close (wb)){
+	if (workbook_can_close (wb)) {
 #ifdef ENABLE_BONOBO
 		if (wb->bonobo_regions) {
 			gtk_widget_hide (GTK_WIDGET (wb->toplevel));
@@ -529,8 +506,8 @@ workbook_can_close (Workbook *wb)
 		return FALSE;
 	
 	in_can_close = TRUE;
-	while (workbook_is_dirty (wb) &&
-	       !done) {
+	while (workbook_is_dirty (wb) && !done) {
+
 		GtkWidget *d, *l;
 		int button;
 		char *s;
@@ -1590,7 +1567,6 @@ misc_output (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = workbook_get_current_sheet (wb);
 	Range const * selection;
-	GList *list;
 
 	if (gnumeric_debugging > 3) {
 		summary_info_dump (wb->summary_info);
@@ -1601,33 +1577,16 @@ misc_output (GtkWidget *widget, Workbook *wb)
 				_("Selection must be a single range"));
 			return;
 		}
-		
-		printf ("The cells that depend on ");
-		range_dump (selection);
-		
-		list = region_get_dependencies (sheet,
-						selection->start.col, selection->start.row,
-						selection->end.col, selection->end.row);
-		
-		if (!list)
-			printf ("No dependencies\n");
-		
-		while (list) {
-			Cell *cell = list->data;
-			
-			list = g_list_next (list);
-			if (!cell)
-				continue;
-			
-			if (sheet != cell->sheet && cell->sheet)
-				printf ("%s", cell->sheet->name);
-			
-			printf ("%s\n", cell_name (cell->col->pos, cell->row->pos));
-		}
 	}
+
 	if (style_debugging > 0) {
 		printf ("Style list\n");
 		sheet_styles_dump (sheet);
+	}
+
+	if (dependency_debugging > 0) {
+		printf ("Dependencies\n");
+		sheet_dump_dependencies (sheet);
 	}
 }
 
@@ -1677,7 +1636,8 @@ workbook_setup_edit_area (Workbook *wb)
 
 	/* Dependency + Style debugger */
 	if (gnumeric_debugging > 9 ||
-	    style_debugging > 0) {
+	    style_debugging > 0 ||
+	    dependency_debugging > 0) {
 		deps_button = gtk_button_new ();
 		pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_PIXMAP_BOOK_RED);
 		gtk_container_add (GTK_CONTAINER (deps_button), pix);
@@ -2612,12 +2572,12 @@ workbook_can_detach_sheet (Workbook *wb, Sheet *sheet)
 	g_return_val_if_fail (sheet->workbook == wb, FALSE);
 	g_return_val_if_fail (workbook_sheet_lookup (wb, sheet->name) == sheet, FALSE);
 
-	dependency_list = region_get_dependencies (sheet, 0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS);
-	if (dependency_list == NULL)
+	dependency_list = sheet_get_intersheet_deps (sheet);
+	if (!dependency_list)
 		return TRUE;
 
 	g_list_free (dependency_list);
-
+	
 	return FALSE;
 }
 

@@ -142,9 +142,9 @@ struct _Sheet {
         /* Solver parameters */
         SolverParameters solver_parameters;
 
-	GHashTable *dependency_hash;
+	DependencyData  *deps;
 
-	void         *corba_server;
+	void            *corba_server;
 
 	PrintInformation *print_info;
 };

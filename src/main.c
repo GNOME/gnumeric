@@ -31,6 +31,7 @@
 /* The debugging level */
 int gnumeric_debugging = 0;
 int style_debugging = 0;
+int dependency_debugging = 0;
 int immediate_exit_flag = 0;
 extern int ms_excel_read_debug;
 extern int ms_excel_formula_debug;
@@ -48,10 +49,15 @@ poptContext ctx;
 const struct poptOption gnumeric_popt_options [] = {
 	{ "dump-func-defs", '\0', POPT_ARG_STRING, &dump_file_name, 0,
 	  N_("Dumps the function definitions"),   N_("FILE") },
+
 	{ "debug", '\0', POPT_ARG_INT, &gnumeric_debugging, 0,
 	  N_("Enables some debugging functions"), N_("LEVEL") },
+
 	{ "debug_styles", '\0', POPT_ARG_INT, &style_debugging, 0,
 	  N_("Enables some style related debugging functions"), N_("LEVEL") },
+	{ "debug_deps", '\0', POPT_ARG_INT, &dependency_debugging, 0,
+	  N_("Enables some dependency related debugging functions"), N_("LEVEL") },
+
 	{ "quit", '\0', POPT_ARG_NONE, &immediate_exit_flag, 0,
 	  N_("Exit immediately after loading the selected books (useful for testing)."), NULL },
 
@@ -79,6 +85,7 @@ const struct poptOption gnumeric_popt_options [] = {
 	    &libole2_debug, 0,
 	  N_("Enables extra consistancy checking while reading ole files"),
 	  NULL  },
+
 	{ NULL, '\0', 0, NULL, 0 }
 };
 

@@ -895,7 +895,7 @@ cell_relocate (Cell *cell, gboolean const check_bounds)
 	cell_modified (cell);
 
 	/* 2. If the cell contains a formula, relocate the formula */
-	if (cell->parsed_node){
+	if (cell->parsed_node) {
 		sheet_cell_formula_unlink (cell);
 
 		/*
@@ -948,6 +948,9 @@ cell_relocate (Cell *cell, gboolean const check_bounds)
 	/* 3. Move any auxiliary canvas items */
 	if (cell->comment)
 		cell_comment_reposition (cell);
+
+	/* 4. Tag the contents as having changed */
+	cell_content_changed (cell);
 }
 
 /*

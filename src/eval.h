@@ -4,22 +4,10 @@
 #include "sheet.h"
 #include "cell.h"
 
-/*
- * A DependencyRange defines a range of cells whose values
- * are used by another Cell in the spreadsheet.
- *
- * A change in those cells will trigger a recomputation on the
- * cells listed in cell_list.
- */
-typedef struct {
-	int ref_count;
+DependencyData *dependency_data_new     (void);
+void            dependency_data_destroy (DependencyData *deps);
 
-	Range range;
-
-	Sheet *sheet;
-	/* The list of cells that depend on this range */
-	GList *cell_list;
-} DependencyRange;
+void            sheet_dump_dependencies (const Sheet *sheet);
 
 /* Registers all of the dependencies this cell has */
 void    cell_add_dependencies       (Cell *cell);
@@ -34,15 +22,14 @@ void    cell_drop_dependencies   (Cell *cell);
  * Returns a newly allocated list with Cells inside that
  * depend on the value at Sheet, col, row
  */
-GList   *cell_get_dependencies   (Cell *cell);
+GList   *cell_get_dependencies     (Cell *cell);
 
-/*
- * Returns a newly allocated list with Cells inside that
- * depends on any values in the range specified
- */
-GList   *region_get_dependencies (Sheet *sheet,
-				  int start_col, int start_row,
-				  int end_col,   int end_row);
+GList   *sheet_get_intersheet_deps (Sheet *sheet);
+
+GList   *sheet_region_get_deps     (Sheet *sheet, int start_col, int start_row,
+				    int end_col, int end_row);
+
+void     sheet_recalc_dependencies (Sheet *sheet);
 
 /*
  * Queue a cell or a list of cells for computation

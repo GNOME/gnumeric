@@ -95,7 +95,7 @@ struct _Workbook {
 	GList      *formula_cell_list;
 
 	/* A queue with the cells to be evaluated */
-	GList      *eval_queue;
+	GList     *eval_queue;
 	int        max_iterations;
 
 	guint8     generation;

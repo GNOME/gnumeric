@@ -29,6 +29,9 @@ struct _ErrorMessage {
 struct _Value {
 	ValueType type;
 	union {
+		/*
+		 * This element is used as a short hand for cell_range.cell_a
+		 */
 		CellRef cell;
 		struct {
 			CellRef cell_a;
@@ -68,6 +71,7 @@ void         value_release         (Value *value);
 void         value_dump            (Value const *value);
 Value       *value_duplicate       (Value const *value);
 void         value_copy_to         (Value *dest, Value const *source);
+gboolean     value_equal           (const Value *a, const Value *b);
 
 gboolean     value_get_as_bool     (Value const *v, gboolean *err);
 char        *value_get_as_string   (const Value *value);
