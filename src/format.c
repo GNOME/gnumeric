@@ -31,6 +31,9 @@
 #include <glib.h>
 #include <libgnome/lib_date.h>
 
+/* Points to the locale information for number display */
+static struct lconv *lc;
+
 static void style_entry_free (gpointer data, gpointer user_data);
 
 
@@ -510,7 +513,7 @@ render_number (gdouble number,
 	       int left_spaces,
 	       int right_spaces,
 	       int right_allowed,
-	       int use_commas,
+	       int use_thousand_sep,
 	       int negative,
 	       int supress_minus,
 	       int decimal,
@@ -525,11 +528,18 @@ render_number (gdouble number,
 
 		gint digit = floor (temp);
 
-		if (use_commas){
+		if (use_thousand_sep){
 			group++;
 			if (group == 4){
+				int c;
+				
 				group = 1;
-				g_string_prepend_c (number_string, ',');
+				if (lc->thousands_sep [0] == 0)
+					c = ',';
+				else
+					c = lc->thousands_sep [0];
+				
+				g_string_prepend_c (number_string, c);
 			}
 		}
 		
@@ -552,7 +562,7 @@ render_number (gdouble number,
 		g_string_prepend_c (number_string, '-');
 
 	if (decimal > 0)
-		g_string_append (number_string, ".");
+		g_string_append (number_string, lc->decimal_point);
 	else
 		g_string_append (number_string, show_decimal);
 
@@ -625,187 +635,6 @@ render_number (gdouble number,
       return number_string;
 }
 
-#if 0
-static gchar *
-old_format_number(gdouble number, StyleFormatEntry *style_format_entry)
-{
-  gint left_req = 0, right_req = 0;
-  gint left_spaces = 0, right_spaces = 0;
-  gint right_allowed = 0;
-  gint i = 0;
-  gboolean negative = FALSE;
-  GString *string = g_string_new ("");
-  GString *number_string;
-  gchar *format = style_format_entry->format;
-  gint length = strlen(format);
-  gchar *returnvalue;
-  format_info info;
-  gboolean minute_mode = FALSE;
-  gboolean done = FALSE;
-  gboolean any = FALSE;
-  gdouble date;
-  time_t timec;
-  struct tm *time_split;
-
-  if (color_name)
-    *color_name = NULL;
-  
-  date = number;
-  date -= 25569.0;
-  date *= 86400.0;
-
-  timec = date;
-
-  time_split = localtime (&timec);
-
-  info.decimal = -1;
-  info.timeformat = 0;
-  info.hasnumbers = FALSE;
-
-  if (strcmp (format, "General") == 0){
-  }
-  
-  for (i = 0; i < length; i++)
-    {
-      switch (format[i])
-	{
-	case '.':
-	  info.decimal = i;
-	  break;
-	case 'a': /* Fall through */
-	case 'A': /* Fall through */
-	case 'p': /* Fall through */
-	case 'P':
-	  info.timeformat = 1;
-	  break;
-	case '0': /* Fall through */
-	case '#': /* Fall through */
-	case '?':
-	  info.hasnumbers = TRUE;
-	  break;
-	}
-    }
-
-  for (i = 0; i < length && !done; i++)
-    {
-      switch (format[i])
-	{
-	case 'm':
-	  if (minute_mode)
-	    i += append_minute (string, format + i, time_split) - 1;
-	  else
-	    i += append_month (string, format + i, time_split) - 1;
-	  minute_mode = FALSE;
-	  break;
-	case 'y':
-	  i += append_year (string, format + i, time_split) - 1;
-	  minute_mode = FALSE;
-	  break;
-	case 'h':
-	  i += append_hour (string, format + i, time_split, info.timeformat) - 1;
-	  minute_mode = TRUE;
-	  break;
-	case 'd':
-	  i += append_day (string, format + i, time_split) - 1;
-	  minute_mode = FALSE;
-	  break;
-	case 's':
-	  i += append_second (string, format + i, time_split) - 1;
-	  minute_mode = FALSE;
-	  break;
-	case 'a':
-	case 'A':
-	case 'p':
-	case 'P':
-	  i += append_half (string, format + i, time_split) - 1;
-	  minute_mode = FALSE;
-	  break;
-
-	case '0':
-	case '?':
-	case '#':
-	case '.':
-	  done = any = TRUE;
-	  break;
-
-	default:
-	  process_format_char (string, format, &i, length);
-	}
-    }
-
-  if(any)
-    {
-      for (; format[i] == '#'; i++)
-	{
-	}
-      for (; format[i] == '?'; i++)
-	{
-	  left_spaces ++;
-	}
-      for (; format[i] == '0'; i++)
-	{
-	  left_req ++;
-	  left_spaces ++;
-	}
-      if (format[i] == '.')
-	{
-	  i++;
-	  for (; format[i] == '0'; i++)
-	    {
-	      right_req ++;
-	      right_allowed ++;
-	      right_spaces ++;
-	    }
-	  for (; format[i] == '?'; i++)
-	    {
-	      right_spaces ++;
-	      right_allowed ++;
-	    }
-	  for (; format[i] == '#'; i++)
-	    {
-	      right_allowed ++;
-	    }
-	}
-      for (; format[i] == ','; i++)
-	{
-	  number /= 1000.0;
-	}
-
-      if (number < 0.0){
-	  number = - number;
-	  negative = TRUE;
-      }
-#if 0
-      length = ceil (log10 (number));
-      if (log10 (number) == ceil (log10 (number)))
-	length ++;
-      length = length > left_req ? length : left_req;
-      length += 1;
-      length += right_allowed;
-      
-      g_string_maybe_expand (number_string, length);
-#endif
-
-      number_string = render_number (
-	      number,
-	      left_req, right_req,
-	      left_spaces, right_spaces,
-	      right_allowed, negative,
-	      FALSE, info);
-
-      g_string_append (string, number_string->str);
-      g_string_free (number_string, TRUE);
-    } 
-  returnvalue = g_malloc (string->len + 1);
-  strncpy (returnvalue, string->str, string->len);
-  returnvalue[string->len] = 0;
-  
-  g_string_free (string, TRUE);
-  
-  return returnvalue;
-}
-#endif
-
 typedef struct {
 	char *decimal_point, *append_after_number;
 	int  right_optional, right_spaces, right_req, right_allowed;
@@ -825,7 +654,7 @@ do_render_number (gdouble number, format_info_t *info)
 {
 	GString *res;
 	char *result;
-	char *decimal_point;
+	char decimal_point [2];
 	
 	info->rendered = 1;
 
@@ -834,10 +663,11 @@ do_render_number (gdouble number, format_info_t *info)
 	 * point, number in the [0.0,1.0] range are prefixed with a
 	 * decimal point
 	 */
-	if (number > 0.0 && number < 1.0 && info->right_allowed == 0 && info->right_optional > 0)
-		decimal_point = ".";
-	else
-		decimal_point = "";
+	if (number > 0.0 && number < 1.0 && info->right_allowed == 0 && info->right_optional > 0){
+		decimal_point [0] = lc->decimal_point [0];
+		decimal_point [1] = 0;
+	} else
+		decimal_point [0] = 0;
 
 #if 0
 	printf ("Rendering: %g with:\n", number);
@@ -937,11 +767,14 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 	char *res;
 	
 	memset (&info, 0, sizeof (info));
-
 	if (number < 0.0){
 		info.negative = TRUE;
 		number = -number;
 	}
+
+	if (!lc)
+		lc = localeconv ();
+
 	while (*format){
 		switch (*format){
 		case '#':
@@ -972,15 +805,20 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 			}
 			break;
 			
-		case '.': {
-			int c = *(format+1);
-			
-			can_render_number = 1;
-			if (c && (c != '0' && c != '#' && c != '?'))
-				number /= 1000;
-			else
-				info.decimal_separator_seen = TRUE;
-			break;
+		case ',': case '.': {
+			if (*format == lc->decimal_point [0]){
+				int c = *(format+1);
+				
+				can_render_number = 1;
+				if (c && (c != '0' && c != '#' && c != '?'))
+					number /= 1000;
+				else
+					info.decimal_separator_seen = TRUE;
+				break;
+			} else {
+				info.comma_separator_seen = TRUE;
+				break;
+			}
 		}
 		
 		case 'E': case 'e':
@@ -1033,10 +871,6 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 
 		}
 
-		case ',':
-			info.comma_separator_seen = TRUE;
-			break;
-			
 		case '-':
 		case '/':
 		case '(':

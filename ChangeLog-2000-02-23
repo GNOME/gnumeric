@@ -1,5 +1,9 @@
 1998-09-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/format.c (render_number): Use the locale provided rendering
+	number.  This will require translators to also translate correctly
+	the default formats for their locale.
+
 	* src/format.c (split_time): New code that works correctly
 	in the range expected by Microsoft Excel [1900,1900+65535].  We of
 	course work on a wider range than Excel can.  We can work on
