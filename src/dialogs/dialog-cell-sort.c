@@ -4,6 +4,7 @@
  * Authors:
  *  JP Rosevear   <jpr@arcavia.com>
  *  Michael Meeks <michael@imaginator.com>
+ *  Andreas J. Guelzow <aguelzow@taliesin.ca>
  */
 
 #include <gnumeric-config.h>
@@ -22,44 +23,39 @@
 #include <workbook.h>
 #include <sort.h>
 #include <sheet.h>
+#include <workbook-edit.h>
+#include <widgets/gnumeric-expr-entry.h>
 
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/util/e-util.h>
 #include <ctype.h>
+#include <stdio.h>
 
 #define GLADE_FILE "cell-sort.glade"
 
-#define MAX_CLAUSE 6
-
-#define BUTTON_OK      0
-#define BUTTON_ADD     BUTTON_OK + 1
-#define BUTTON_REMOVE  BUTTON_ADD + 1
-#define BUTTON_CANCEL  BUTTON_REMOVE + 1
+#define CELL_SORT_KEY "cell-sort-dialog"
 
 typedef struct {
-	GtkWidget *parent;
-	GtkWidget *main_frame;
-	GtkWidget *rangetext;
-	int        text_cursor_pos;
-	int        asc;
-	GtkWidget *asc_desc;
-	GSList    *group;
-	gboolean   cs;
-	gboolean   val;
-	GtkWidget *adv_button;
-	WorkbookControlGUI  *wbcg;
-} OrderBox;
-
-typedef struct {
-	Range     *sel;
 	Sheet     *sheet;
 	WorkbookControlGUI  *wbcg;
+	Workbook  *wb;
+
+	GladeXML  *gui;
+	GtkWidget *dialog;
+	GtkWidget *warning_dialog;
+	GtkWidget *cancel_button;
+	GtkWidget *ok_button;
+	GtkWidget *help_button;
+	GnumericExprEntry *range_entry;
+	GtkListStore  *model;
+	GtkTreeView   *treeview;
+	GtkTreeSelection   *selection;
+
+	Range     *sel;
 	int        num_clause;
 	int        max_col_clause;
 	int        max_row_clause;
-	OrderBox  *clauses[MAX_CLAUSE];
-	GtkWidget *dialog;
 	GtkWidget *clause_box;
 	gboolean   header;
 	gboolean   top;
@@ -67,8 +63,48 @@ typedef struct {
 	GList     *colnames_header;
 	GList     *rownames_plain;
 	GList     *rownames_header;
-} SortFlow;
+} SortFlowState;
 
+enum {
+	ITEM_IN_USE,
+	ITEM_NAME,
+	ITEM_DESCENDING,
+	ITEM_CASE_SENSITIVE,
+	ITEM_SORT_BY_VALUE,
+	ITEM_MOVE_FORMAT,
+	ITEM_NUMBER,
+	NUM_COLMNS
+};
+
+static void
+cb_dialog_help (GtkWidget *button, char const *link)
+{
+	gnumeric_help_display (link);
+}
+
+/**
+ * dialog_set_focus:
+ * @window:
+ * @focus_widget:
+ * @state:
+ *
+ **/
+static void
+dialog_set_focus (GtkWidget *window, GtkWidget *focus_widget,
+			SortFlowState *state)
+{
+	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
+		wbcg_set_entry (state->wbcg,
+				    GNUMERIC_EXPR_ENTRY (focus_widget));
+		gnumeric_expr_entry_set_absolute (GNUMERIC_EXPR_ENTRY (focus_widget));
+	} else
+		wbcg_set_entry (state->wbcg, NULL);
+}
+
+
+
+#warning Cell-sort temporarily disabled we will fix this soon (AJG)
+#if 0  
 
 static gchar *
 col_row_name (Sheet *sheet, int col, int row, gboolean header, gboolean is_cols)
@@ -483,22 +519,171 @@ dialog_cell_sort_cols_toggled (GtkWidget *widget, SortFlow *sf)
 	}
 }
 
+#endif
+
+/**
+ * dialog_destroy:
+ * @window:
+ * @focus_widget:
+ * @state:
+ *
+ * Destroy the dialog and associated data structures.
+ *
+ **/
+static gboolean
+dialog_destroy (GtkObject *w, SortFlowState  *state)
+{
+	g_return_val_if_fail (w != NULL, FALSE);
+	g_return_val_if_fail (state != NULL, FALSE);
+	
+	wbcg_edit_detach_guru (state->wbcg);
+
+	if (state->gui != NULL) {
+		g_object_unref (G_OBJECT (state->gui));
+		state->gui = NULL;
+	}
+
+	wbcg_edit_finish (state->wbcg, FALSE);
+
+	state->dialog = NULL;
+
+	g_free (state);
+
+	return FALSE;
+}
+
+/**
+ * cb_dialog_cancel_clicked:
+ * @button:
+ * @state:
+ *
+ * Close (destroy) the dialog
+ **/
+static void
+cb_dialog_cancel_clicked (GtkWidget *button, SortFlowState *state)
+{
+	gtk_widget_destroy (state->dialog);
+	return;
+}
+
+static void
+dialog_load_selection (SortFlowState *state)
+{
+	char *name;
+	Range const *first;
+
+	first = selection_first_range (state->sheet, NULL, NULL);
+	
+	if (first != NULL) {
+		name =  global_range_name (state->sheet, first);
+		gtk_entry_set_text (GTK_ENTRY (state->range_entry), name);
+		g_free (name);
+	}
+}
+
+/**
+ * dialog_init:
+ * @state:
+ *
+ * Create the dialog (guru).
+ *
+ **/
+static gboolean
+dialog_init (SortFlowState *state)
+{
+	GtkTable *table;
+	GtkWidget *scrolled;
+	GtkTreeViewColumn *column;
+
+	table = GTK_TABLE (glade_xml_get_widget (state->gui, "cell_sort_table"));
+
+/* setup range entry */
+	state->range_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
+	gnumeric_expr_entry_set_flags (state->range_entry,
+                                      GNUM_EE_SINGLE_RANGE, 
+                                      GNUM_EE_MASK);
+        gnumeric_expr_entry_set_scg (state->range_entry, wbcg_cur_scg (state->wbcg));
+	gtk_table_attach (table, GTK_WIDGET (state->range_entry),
+			  1, 2, 0, 1,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
+ 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_EDITABLE (state->range_entry));
+	gtk_widget_show (GTK_WIDGET (state->range_entry));
+	dialog_load_selection (state);
+
+/* Set-up tree view */
+	scrolled = glade_xml_get_widget (state->gui, "scrolled_cell_sort_list");
+	state->model = gtk_list_store_new (NUM_COLMNS, G_TYPE_BOOLEAN, G_TYPE_STRING,
+					   G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, 
+					   G_TYPE_BOOLEAN, G_TYPE_BOOLEAN, G_TYPE_INT);
+	state->treeview = GTK_TREE_VIEW (
+		gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model)));
+	state->selection = gtk_tree_view_get_selection (state->treeview);
+	gtk_tree_selection_set_mode (state->selection, GTK_SELECTION_BROWSE);
+
+	column = gtk_tree_view_column_new_with_attributes (_("Sort"),
+							   gtk_cell_renderer_toggle_new (),
+							   "active", ITEM_IN_USE, NULL);
+	gtk_tree_view_append_column (state->treeview, column);
+
+	column = gtk_tree_view_column_new_with_attributes (_("Row/\nColumn"),
+							   gtk_cell_renderer_text_new (),
+							   "text", ITEM_NAME, NULL);
+	gtk_tree_view_append_column (state->treeview, column);
+
+	column = gtk_tree_view_column_new_with_attributes (_("Descend"),
+							   gtk_cell_renderer_toggle_new (),
+							   "active", ITEM_DESCENDING, NULL);
+	gtk_tree_view_append_column (state->treeview, column);
+
+	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->treeview));
+	gtk_widget_show (GTK_WIDGET (state->treeview));
+
+/* Set-up buttons */
+	state->help_button  = glade_xml_get_widget (state->gui, "help_button");
+	gtk_signal_connect (GTK_OBJECT (state->help_button), "clicked",
+			    GTK_SIGNAL_FUNC (cb_dialog_help), "cell-sort.html");
+
+	state->ok_button  = glade_xml_get_widget (state->gui, "ok_button");
+	gtk_signal_connect (GTK_OBJECT (state->ok_button), "clicked",
+			    GTK_SIGNAL_FUNC (cb_dialog_cancel_clicked),
+			    state);
+	state->cancel_button  = glade_xml_get_widget (state->gui, "cancel_button");
+	gtk_signal_connect (GTK_OBJECT (state->cancel_button), "clicked",
+			    GTK_SIGNAL_FUNC (cb_dialog_cancel_clicked),
+			    state);
+
+/* Finish dialog signals */
+	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "set-focus",
+			    GTK_SIGNAL_FUNC (dialog_set_focus), state);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
+			    GTK_SIGNAL_FUNC (dialog_destroy), state);
+	return FALSE;
+}
+
 /*
  * Main entry point for the Cell Sort dialog box
  */
 void
 dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
-	GladeXML  *gui;
-	GtkWidget *table, *check, *rb1, *rb2;
-	SortFlow sort_flow;
-	gboolean cont;
-	int lp, btn;
-	Range const *sel;
+	SortFlowState* state;
 
 	g_return_if_fail (wbcg != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
+	if (gnumeric_dialog_raise_if_exists (wbcg, CELL_SORT_KEY))
+		return;
+
+	state = g_new (SortFlowState, 1);
+	state->wbcg  = wbcg;
+	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sheet;
+	state->warning_dialog = NULL;
+
+#if 0
 	if (!(sel = selection_first_range (sheet, WORKBOOK_CONTROL (wbcg), _("Sort"))))
 		return;
 
@@ -534,12 +719,16 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 						       sort_flow.sel->start.col,
 						       TRUE, FALSE);
 
+#endif
 	/* Get the dialog and check for errors */
-	gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
-        if (gui == NULL)
+	state->gui = gnumeric_glade_xml_new (wbcg, GLADE_FILE);
+        if (state->gui == NULL) {
+		g_free (state);
                 return;
+	}
 
-	sort_flow.dialog = glade_xml_get_widget (gui, "CellSort");
+        state->dialog = glade_xml_get_widget (state->gui, "CellSort");
+#if 0
 	table = glade_xml_get_widget (gui, "cell_sort_table");
 	check = glade_xml_get_widget (gui, "cell_sort_header_check");
 	rb1   = glade_xml_get_widget (gui, "cell_sort_row_rb");
@@ -593,20 +782,6 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	gtk_widget_show_all (sort_flow.clause_box);
 
-	/* Run the dialog */
-	cont = TRUE;
-	while (cont) {
-		btn = gnumeric_dialog_run (wbcg, GTK_DIALOG (sort_flow.dialog));
-		if (btn == BUTTON_OK)
-			cont = dialog_cell_sort_ok (&sort_flow);
-		else if (btn == BUTTON_ADD)
-			dialog_cell_sort_add_clause (&sort_flow, wbcg);
-		else if (btn == BUTTON_REMOVE)
-			dialog_cell_sort_del_clause (&sort_flow);
-		else
-			cont = FALSE;
-	}
-
 	/* Clean up */
 	g_free (sort_flow.sel);
 
@@ -620,6 +795,18 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 	e_free_string_list (sort_flow.colnames_header);
 	e_free_string_list (sort_flow.rownames_plain);
 	e_free_string_list (sort_flow.rownames_header);
-
 	g_object_unref (G_OBJECT (gui));
+#endif
+
+	if (dialog_init (state)) {
+		gnumeric_notice (wbcg, GTK_MESSAGE_ERROR,
+				 _("Could not create the Cell-Sort dialog."));
+		g_free (state);
+		return;
+	}
+
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       CELL_SORT_KEY);
+
+	gtk_widget_show (state->dialog);
 }

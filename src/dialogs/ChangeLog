@@ -1,3 +1,11 @@
+2002-02-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* cell-sort.glade : port to gnome2 and redesign as guru using 
+	  treeview
+	* dialog-cell-sort.c : initial port to gnome2 and 
+	  guru-ification, sorting is currently disabled util completion
+	  of this port.
+	
 2002-02-02  Jody Goldberg <jody@gnome.org>
 
 	* autoformat.glade : Consistently Use 'label:' rather than 'label :'
