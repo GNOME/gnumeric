@@ -62,6 +62,9 @@ fi
 
 dnl *****************************
 # Check for zlib.
+dnl
+dnl zlib is needed for the excel plugin; see plugins/excel/Makefile.am
+dnl
 _cppflags="${CPPFLAGS}"
 _ldflags="${LDFLAGS}"
 

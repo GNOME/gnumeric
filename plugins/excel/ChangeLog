@@ -1,3 +1,7 @@
+2005-03-24  Stepan Kasal  <kasal@ucw.cz>
+
+	* Makefile.am (excel_la_LIBADD): Add an explanation for $(Z_LIBS).
+
 2005-03-23  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_workbook) : add a hook to read pivot

@@ -7,7 +7,18 @@ gnumeric_plugin_exceldir = $(gnumeric_plugindir)/excel
 xmldir = $(gnumeric_plugin_exceldir)
 gnumeric_plugin_excel_LTLIBRARIES = excel.la
 excel_la_LDFLAGS = -module $(GNUMERIC_PLUGIN_LDFLAGS)
+
+# - Why do we need Z_LIBS here?
+# - Because ms-escher.c contains a call to uncompress().
+# - But I tried to remove it and everything worked fine; how is that possible?
+# - Because when libgsf and libz are dynamic libraries, it's enough if you
+#   link against libgsf.  But if libz is a static library, then you need to
+#   list it here in order to get it.
+#
+# To sum up, keep $(Z_LIBS) here, even though it's needed only in a rare case.
+#
 excel_la_LIBADD  = $(Z_LIBS)
+
 excel_la_SOURCES =		\
 	boot.c			\
 	boot.h			\
