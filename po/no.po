@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.42\n"
-"POT-Creation-Date: 1999-11-17 21:00+0100\n"
+"POT-Creation-Date: 1999-11-17 22:25+0100\n"
 "PO-Revision-Date: 1999-11-06 13:11+01:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -47,18 +47,18 @@ msgstr "Ødelagt funksjon"
 
 #: plugins/excel/ms-formula-read.c:1397
 msgid " Unknown formula"
-msgstr "Ukjent formel"
+msgstr " Ukjent formel"
 
-#: plugins/ff-csv/csv-io.c:125 plugins/sylk/sylk.c:443
+#: plugins/ff-csv/csv-io.c:138 plugins/sylk/sylk.c:443
 #, c-format
 msgid "Imported %s"
 msgstr "Importerte %s"
 
-#: plugins/ff-csv/csv-io.c:160
+#: plugins/ff-csv/csv-io.c:176
 msgid "Comma Separated Value (CSV) import"
 msgstr "Komma-separert verdi (CSV) import"
 
-#: plugins/ff-csv/csv-io.c:163
+#: plugins/ff-csv/csv-io.c:179
 msgid "Comma Separated Value (CSV) module"
 msgstr "Komma-separert verdi (CSV) modul"
 
@@ -2085,24 +2085,24 @@ msgstr "Ukjent evalueringsfeil"
 msgid "Could not read file %s"
 msgstr "Kunne ikke lese fil %s"
 
-#: src/file.c:403
+#: src/file.c:404
 msgid "File format:"
 msgstr "Filformat:"
 
-#: src/file.c:457
+#: src/file.c:458
 msgid "Save workbook as"
 msgstr "Lagre arbeidsbok som"
 
-#: src/file.c:501
+#: src/file.c:502
 msgid "Sorry, there are no file savers loaded, I cannot save"
 msgstr "Beklager, ingen fillagrere er lastet, Kan ikke lagre"
 
-#: src/file.c:514 src/file.c:538
+#: src/file.c:515 src/file.c:539
 #, c-format
 msgid "Could not save to file %s"
 msgstr "Kunne ikke lagre til fil %s"
 
-#: src/file.c:549
+#: src/file.c:550
 msgid "Load file"
 msgstr "Last fil"
 
