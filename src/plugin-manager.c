@@ -36,12 +36,13 @@ add_to_clist (PluginData *pd, GtkWidget *clist)
 }
 
 static void
-populate_clist (GtkWidget *clist)
+populate_clist (PluginManager *pm)
 {
-	gtk_clist_freeze (GTK_CLIST (clist));
-	gtk_clist_clear (GTK_CLIST (clist));
-	g_list_foreach (plugin_list, (GFunc) add_to_clist, clist);
-	gtk_clist_thaw (GTK_CLIST (clist));
+	gtk_widget_set_sensitive (pm->button_remove, 0);
+	gtk_clist_freeze (GTK_CLIST (pm->clist));
+	gtk_clist_clear (GTK_CLIST (pm->clist));
+	g_list_foreach (plugin_list, (GFunc) add_to_clist, pm->clist);
+	gtk_clist_thaw (GTK_CLIST (pm->clist));
 }
 
 static void
@@ -60,7 +61,7 @@ add_cb (GtkWidget *button, PluginManager *pm)
 		return;
 	
 	pd = plugin_load (modfile);
-	populate_clist (pm->clist);
+	populate_clist (pm);
 }
 
 static void
@@ -70,24 +71,18 @@ remove_cb (GtkWidget *button, PluginManager *pm)
 	gint row = (gint) g_list_nth_data (selection, 0);
 	PluginData *pd = gtk_clist_get_row_data (GTK_CLIST (pm->clist), row);
 	
-	g_print("remove_cb: activated\n");
-	
 	plugin_unload (pd);
-	populate_clist (pm->clist);
+	populate_clist (pm);
 }
 
 static void
-select_row_cb (GtkWidget * clist, gint row, gint col,
+row_cb (GtkWidget * clist, gint row, gint col,
 	       GdkEvent *event,  PluginManager *pm)
 {
-	gtk_widget_set_sensitive (pm->button_remove, 1);
-}
-
-static void
-unselect_row_cb (GtkWidget * clist, gint row, gint col,
-		 GdkEvent *event, PluginManager *pm)
-{
-	gtk_widget_set_sensitive (pm->button_remove, 0);
+	if (GTK_CLIST(clist)->selection != NULL)
+		gtk_widget_set_sensitive (pm->button_remove, 1);
+	else
+		gtk_widget_set_sensitive (pm->button_remove, 0);
 }
 
 GtkWidget *
@@ -122,7 +117,7 @@ plugin_manager_new (void)
 	gtk_container_add (GTK_CONTAINER (pm->vbbox), pm->button_remove);
 	
 	gtk_widget_realize (pm->clist);
-	populate_clist (pm->clist);
+	populate_clist (pm);
 	
 	gtk_signal_connect (GTK_OBJECT (pm->button_close), "clicked",
 			    GTK_SIGNAL_FUNC (close_cb), pm);
@@ -134,10 +129,10 @@ plugin_manager_new (void)
 			   GTK_SIGNAL_FUNC (remove_cb), pm);
 	
 	gtk_signal_connect(GTK_OBJECT (pm->clist), "select_row",
-			   GTK_SIGNAL_FUNC (select_row_cb), pm);
+			   GTK_SIGNAL_FUNC (row_cb), pm);
 	
 	gtk_signal_connect(GTK_OBJECT (pm->clist), "unselect_row",
-			   GTK_SIGNAL_FUNC (unselect_row_cb), pm);
+			   GTK_SIGNAL_FUNC (row_cb), pm);
 	
 	gtk_widget_show_all (pm->hbox);
 	

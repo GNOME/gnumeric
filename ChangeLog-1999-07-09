@@ -1,3 +1,8 @@
+1998-09-16  Tom Dyas  <tdyas@vger.rutgers.edu>
+
+	* src/plugin-manager.c: Changed where the Remove button was made
+	sensitive so that it actually sync's with the list selection.
+
 1998-09-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/workbook.c: Use the new accelerator setup from
@@ -85,7 +90,7 @@
 
 	* src/cell.c (cell_draw): Fix center alignment code.
 
-1998-09-10  Tom Dyas <tdyas@romulus.rutgers.edu>
+1998-09-10  Tom Dyas <tdyas@vger.rutgers.edu>
 
 	* src/func.c: Made install_symbols public.
 
