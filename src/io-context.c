@@ -42,7 +42,7 @@ io_context_init (IOContext *io_context)
 	io_context->progress_max = 1.0;
 	io_context->last_progress = -1.0;
 	io_context->last_time = 0.0;
-	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_NONE;
+	io_context->helper.helper_type = GNM_PROGRESS_HELPER_NONE;
 }
 
 static void
@@ -306,7 +306,7 @@ value_io_progress_set (IOContext *io_context, gint total, gint step)
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
 	g_return_if_fail (total >= 0);
 
-	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_VALUE;
+	io_context->helper.helper_type = GNM_PROGRESS_HELPER_VALUE;
 	io_context->helper.v.value.total = MAX (total, 1);
 	io_context->helper.v.value.last = -step;
 	io_context->helper.v.value.step = step;
@@ -318,7 +318,7 @@ value_io_progress_update (IOContext *io_context, gint value)
 	gdouble complete;
 
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
-	g_return_if_fail (io_context->helper.helper_type == GNUM_PROGRESS_HELPER_VALUE);
+	g_return_if_fail (io_context->helper.helper_type == GNM_PROGRESS_HELPER_VALUE);
 
 	if (value - io_context->helper.v.value.last < io_context->helper.v.value.step) {
 		return;
@@ -335,7 +335,7 @@ count_io_progress_set (IOContext *io_context, gint total, gint step)
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
 	g_return_if_fail (total >= 0);
 
-	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_COUNT;
+	io_context->helper.helper_type = GNM_PROGRESS_HELPER_COUNT;
 	io_context->helper.v.count.total = MAX (total, 1);
 	io_context->helper.v.count.last = -step;
 	io_context->helper.v.count.current = 0;
@@ -348,7 +348,7 @@ count_io_progress_update (IOContext *io_context, gint inc)
 	gdouble complete;
 
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
-	g_return_if_fail (io_context->helper.helper_type == GNUM_PROGRESS_HELPER_COUNT);
+	g_return_if_fail (io_context->helper.helper_type == GNM_PROGRESS_HELPER_COUNT);
 
 	io_context->helper.v.count.current += inc;
 	if (io_context->helper.v.count.current - io_context->helper.v.count.last
@@ -378,7 +378,7 @@ workbook_io_progress_set (IOContext *io_context, Workbook const *wb, gint step)
 	}
 	g_list_free (sheets);
 
-	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_WORKBOOK;
+	io_context->helper.helper_type = GNM_PROGRESS_HELPER_WORKBOOK;
 	io_context->helper.v.workbook.n_elements = MAX (n, 1);
 	io_context->helper.v.workbook.last = -step;
 	io_context->helper.v.workbook.current = 0;
@@ -391,7 +391,7 @@ workbook_io_progress_update (IOContext *io_context, gint inc)
 	gdouble complete;
 
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
-	g_return_if_fail (io_context->helper.helper_type == GNUM_PROGRESS_HELPER_WORKBOOK);
+	g_return_if_fail (io_context->helper.helper_type == GNM_PROGRESS_HELPER_WORKBOOK);
 
 	io_context->helper.v.workbook.current += inc;
 	if (io_context->helper.v.workbook.current - io_context->helper.v.workbook.last
@@ -410,7 +410,7 @@ io_progress_unset (IOContext *io_context)
 {
 	g_return_if_fail (IS_IO_CONTEXT (io_context));
 
-	io_context->helper.helper_type = GNUM_PROGRESS_HELPER_NONE;
+	io_context->helper.helper_type = GNM_PROGRESS_HELPER_NONE;
 }
 
 void
