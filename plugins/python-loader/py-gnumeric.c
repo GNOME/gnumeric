@@ -123,9 +123,14 @@ Module Gnumeric:
 	PyDict_SetItemString (PyModule_GetDict (GNUMERIC_MODULE), (char *) (key), val)
 #define SET_EVAL_POS(val) \
 	GNUMERIC_MODULE_SET ("Gnumeric_eval_pos", PyCObject_FromVoidPtr (val, NULL))
-#define EVAL_POS \
-	(printf ("%p\n", PyCObject_AsVoidPtr (GNUMERIC_MODULE_GET ("Gnumeric_eval_pos"))), \
-	PyCObject_AsVoidPtr (GNUMERIC_MODULE_GET ("Gnumeric_eval_pos")))
+
+static const EvalPos *
+get_eval_pos ()
+{
+        PyObject *gep = GNUMERIC_MODULE_GET ("Gnumeric_eval_pos");
+
+	return gep ? PyCObject_AsVoidPtr (gep) : NULL;
+}
 
 PyObject *
 python_call_gnumeric_function (GnmFunc *fn_def, const EvalPos *opt_eval_pos, PyObject *args)
@@ -141,7 +146,7 @@ python_call_gnumeric_function (GnmFunc *fn_def, const EvalPos *opt_eval_pos, PyO
 	if (opt_eval_pos != NULL) {
 		eval_pos = opt_eval_pos;
 	} else {
-		eval_pos = EVAL_POS;
+		eval_pos = get_eval_pos ();
 	}
 	if (eval_pos == NULL) {
 		PyErr_SetString (GNUMERIC_MODULE_GET ("GnumericError"),
@@ -186,7 +191,7 @@ call_python_function (PyObject *python_fn, const EvalPos *eval_pos, gint n_args,
 	for (i = 0; i < n_args; i++) {
 		(void) PyTuple_SetItem (python_args, i, convert_gnumeric_value_to_python (eval_pos, args[i]));
 	}
-	if (EVAL_POS != NULL) {
+	if (get_eval_pos () != NULL) {
 		eval_pos_set = FALSE;
 	} else {
 		SET_EVAL_POS ((EvalPos *) eval_pos);

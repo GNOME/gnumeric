@@ -1,5 +1,15 @@
 2003-07-23  Jon K Hellan  <hellan@acm.org>
 
+	* py-gnumeric.c (EVAL_POS): Recode as new function get_eval_pos
+	and handle case when Gnumeric.Gnumeric_eval_pos has not yet been
+	set.
+	(python_call_gnumeric_function, call_python_function): Use
+	get_eval_pos.
+
+	* gnm-py-interpreter.c (read_file): Remove.
+
+2003-07-23  Jon K Hellan  <hellan@acm.org>
+
 	* py-console.c (app_cline_entered): Don't interpret empty string.
 	(app_run_string): New. Factored out of app_cline_entered.
 	(show_python_console): Raise window if it already exists.

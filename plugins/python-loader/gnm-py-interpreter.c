@@ -134,26 +134,6 @@ gnm_py_interpreter_switch_to (GnmPyInterpreter *interpreter)
 	}
 }
 
-static char *
-read_file (FILE *f)
-{
-	gint len;
-	char *buf;
-
-	fseek (f, 0, SEEK_END);
-	len = ftell (f);
-	if (len > 0) {
-		buf = g_new (char, len + 1);
-		buf[len] = '\0';
-		rewind (f);
-		fread (buf, 1, len, f);
-	} else {
-		buf = NULL;
-	}
-
-	return buf;
-}
-
 static void 
 run_print_string (const char *cmd, PyObject *stdout_obj)
 {
