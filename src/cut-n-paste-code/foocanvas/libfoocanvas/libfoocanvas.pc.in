@@ -1,0 +1,13 @@
+/* File import from foocanvas to gnumeric by import-foocanvas.  Do not edit.  */
+
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: libfoocanvas
+Description: libfoocanvas
+Requires: pango gtk+-2.0
+Version: @VERSION@
+Libs: -L${libdir} -lfoocanvas
+Cflags: -I${includedir}/libfoocanvas-1.0

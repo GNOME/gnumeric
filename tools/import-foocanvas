@@ -52,7 +52,7 @@ sub copy_subsystem {
 
 	s/\$\(libfoocanvasinclude_HEADERS\)//;
 
-	if (/^[a-zA-Z0-9_]+_(HEADERS|la_SOURCES)\s*=/ ... !/\\\s*$/) {
+	if (/^([a-zA-Z0-9_]+_(HEADERS|la_SOURCES)|EXTRA_DIST)\s*=/ ... !/\\\s*$/) {
 	    my $line = $_;
 	    $line =~ s/^.*=//;
 	    $line =~ s/\s*\\//;
@@ -112,7 +112,7 @@ sub copy_subsystem {
 
 	    s/\s+$//;
 
-	    next if (/^\s*\* \$[I][d]: .* [E][x][p] $\s*$/);
+	    next if (/^\s*\* \$[I][d]: .* [E][x][p] \$\s*$/);
 
 	    # Turn C++ comments into C comments.
 	    if (m|^\s*//|) {
