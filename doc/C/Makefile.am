@@ -9,6 +9,7 @@ gnumeric_help_DATA = 	\
 SGML_FILES =			\
 	analysis-tools.sgml	\
 	authors.sgml		\
+	autocorrect.sgml	\
 	autofill.sgml		\
 	autosave.sgml		\
 	cell_refer.sgml		\
@@ -16,6 +17,7 @@ SGML_FILES =			\
 	dndselection.sgml	\
 	editing.sgml		\
 	files.sgml		\
+	filter.sgml		\
 	formats.sgml		\
 	formulas.sgml		\
 	func-header.sgml	\

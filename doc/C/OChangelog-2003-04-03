@@ -1,3 +1,8 @@
+2001-10-31  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* gnumeric.sgml, Makefile.am: Integrated auto correct tool and
+	filter documentation.
+
 2001-10-30  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* filter.sgml: Documented `Advanced Filter'.

@@ -16,6 +16,8 @@
 <!entity printing SYSTEM "printing.sgml">
 <!entity analysis-tools SYSTEM "analysis-tools.sgml">
 <!entity solver SYSTEM "solver.sgml">
+<!entity autocorrect SYSTEM "autocorrect.sgml">
+<!entity filter SYSTEM "filter.sgml">
 <!entity authors SYSTEM "authors.sgml">
 <!entity license SYSTEM "license.sgml">
 ]>
@@ -28,8 +30,8 @@
     </releaseinfo>
 
     <copyright>
-      <year>1998, 1999, 2000</year> 
-      <holder>Miguel de Icaza, Thomas Canty</holder>
+      <year>1998, 1999, 2000, 2001</year> 
+      <holder>Miguel de Icaza, Thomas Canty, Jukka-Pekka Iivonen</holder>
     </copyright>
 
     <legalnotice id="legalnotice">
@@ -91,6 +93,11 @@
     &printing;
   </chapter>
 
+  <chapter id="filter">
+    <title>Data Filters</title>
+    &filter;
+  </chapter>
+
   <chapter id="solver">
     <title>Solver</title>
     &solver;
@@ -99,6 +106,11 @@
   <chapter id="analysis-tools">
     <title>Data analysis tools</title>
     &analysis-tools;
+  </chapter>
+
+  <chapter id="autocorrect">
+    <title>Auto Correct Tool</title>
+    &autocorrect;
   </chapter>
 
   <chapter id="tutorials">
