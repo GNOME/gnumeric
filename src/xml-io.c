@@ -3869,7 +3869,7 @@ xml_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 	input = maybe_gunzip (input);
 	input = maybe_convert (input, TRUE);
 	gsf_input_seek (input, 0, G_SEEK_SET);
-	ctxt = gsf_xml_parser_context (input, NULL, NULL);
+	ctxt = gsf_xml_parser_context (input);
 
 	if (ctxt) {
 		/* Do a silent call to the XML parser. */

@@ -26,7 +26,6 @@ Jody:
 	* Re-enable the probe functions in plugins
 	* Big performance improvement when autosizing row heights.
 	* Fix recalc for ISBLANK
-	* Emergency release of libgsf-1.9.0 to handle changes in libxml 2.6.0.
 	* Fix deleting a graph object with expr entries.
 
 John Gill:

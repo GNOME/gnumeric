@@ -1,3 +1,11 @@
+2003-09-23  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_probe) : revert need to change libgsf api.  That
+	  was a bug in libxml-2.6.0-beta2
+	* configure.in :  ditto
+	* gnumeric.spec.in : ditto
+	* README : ditto
+
 2003-09-22  Jody Goldberg <jody@gnome.org>
 
 	From John Gill :
