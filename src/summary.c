@@ -142,8 +142,11 @@ summary_item_as_text (SummaryItem const *sit)
 		ch_time[strlen (ch_time) - 1] = '\0';
 		return g_strdup (ch_time);
 
+#ifndef DEBUG_SWITCH_ENUM
 	default:
+		g_assert_not_reached ();
 		return g_strdup ("Unhandled type");
+#endif
 	}
 }
 
@@ -164,9 +167,12 @@ summary_item_free (SummaryItem *sit)
 	case SUMMARY_INT:
 	case SUMMARY_TIME:
 		break;
+
+#ifndef DEBUG_SWITCH_ENUM
 	default:
-		g_warning ("unknown / unimplemented summary type");
+		g_assert_not_reached ();
 		break;
+#endif
 	}
 	g_free (sit->name);
 	g_free (sit);
@@ -356,9 +362,11 @@ summary_item_copy (SummaryItem const *sit)
 	case SUMMARY_TIME:
 		return summary_item_new_time (sit->name, sit->v.time);
 
+#ifndef DEBUG_SWITCH_ENUM
 	default:
-		g_warning ("Unknown summary type encountered.");
+		g_assert_not_reached ();
 		return NULL;
+#endif
 	}
 }
 

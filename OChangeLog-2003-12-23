@@ -1,3 +1,15 @@
+2002-10-24  Morten Welinder  <terra@diku.dk>
+
+	* src/expr.c (gnm_expr_eval): Debug default cases.
+	(do_gnm_expr_unref): Ditto.
+
+	* src/dependent.c (unlink_expr_dep): Ditto.
+	* src/summary.c: Ditto.
+	* src/mstyle.c (mstyle_hash): Ditto.
+	(summary_item_free): Ditto.
+	(summary_item_as_text): Ditto.
+	(summary_item_copy): Ditto.
+
 2002-10-23  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-io.c : disable GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS

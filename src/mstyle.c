@@ -205,9 +205,12 @@ mstyle_hash (gconstpointer st)
 		case MSTYLE_FONT_UNDERLINE:
 			hash = hash ^ e->u.font.underline;
 			break;
+
+#ifndef DEBUG_SWITCH_ENUM
 		default:
-			g_warning ("Unimplemented hash item");
+			g_assert_not_reached ();
 			break;
+#endif
 		}
 	}
 

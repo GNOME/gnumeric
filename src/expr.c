@@ -381,9 +381,12 @@ do_gnm_expr_unref (GnmExpr const *expr)
 	case GNM_EXPR_OP_SET:
 		gnm_expr_list_unref (expr->set.set);
 		break;
+
+#ifndef DEBUG_SWITCH_ENUM
 	default:
-		g_warning ("do_gnm_expr_unref error.");
+		g_assert_not_reached ();
 		break;
+#endif
 	}
 
 	CHUNK_FREE (expression_pool, (gpointer)expr);
@@ -742,10 +745,12 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 			res = value_new_bool (comp != IS_LESS);
 			break;
 
+#ifndef DEBUG_SWITCH_ENUM
 		default:
 			g_assert_not_reached ();
 			res = value_new_error (pos,
 						_("Internal type error"));
+#endif
 		}
 		return res;
 	}

@@ -804,8 +804,10 @@ link_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
 	case GNM_EXPR_OP_INTERSECT:
 		return DEPENDENT_NO_FLAG; /* handled at run time */
 
+#ifndef DEBUG_SWITCH_ENUM
 	default:
-		g_warning ("Unknown Operation type, dependencies lost");
+		g_assert_not_reached ();
+#endif
 	}
 	return 0;
 }
@@ -888,9 +890,11 @@ unlink_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
 	case GNM_EXPR_OP_INTERSECT:
 		return;
 
+#ifndef DEBUG_SWITCH_ENUM
 	default:
-		g_warning ("Unknown Operation type, dependencies lost");
+		g_assert_not_reached ();
 		break;
+#endif
 	}
 }
 
