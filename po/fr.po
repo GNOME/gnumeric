@@ -18878,16 +18878,16 @@ msgstr "À _propos..."
 
 #: src/GNOME_Gnumeric.xml.h:267 src/wbcg-actions.c:1788
 msgid "_Add..."
-msgstr "_Ajouter ..."
+msgstr "A_jouter..."
 
 #. Edit -> Clear
 #: src/GNOME_Gnumeric.xml.h:268 src/wbcg-actions.c:1554
 msgid "_All"
-msgstr "_Tous"
+msgstr "_Tout"
 
 #: src/GNOME_Gnumeric.xml.h:269 src/wbcg-actions.c:1613
 msgid "_Append"
-msgstr "_Ajouter"
+msgstr "A_jouter"
 
 #: src/GNOME_Gnumeric.xml.h:270 src/wbcg-actions.c:1770
 msgid "_Auto Save..."
