@@ -3995,13 +3995,20 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 	cell_deep_thaw_redraws ();
 
 	if (wb) {
-		/* If we were forced to stop then the load failed */
-		if (problem_loading == NULL)
-			workbook_recalc (wb->gnum_wb);
+		Workbook *workbook = wb->gnum_wb;
+
+		/* Cleanup */
 		ms_excel_workbook_destroy (wb);
-		gnumeric_error_read (context, problem_loading);
-		return -1;
+
+		/* If we were forced to stop then the load failed */
+		if (problem_loading != NULL) {
+			gnumeric_error_read (context, problem_loading);
+			return -1;
+		}
+		workbook_recalc (wb->gnum_wb);
+		return 0;
 	}
 
-	return 0;
+	gnumeric_error_read (context, _("Unable to locate valid MS Excel workbook"));
+	return -1;
 }
