@@ -70,8 +70,15 @@ static gchar*
 history_item_label (const gchar *name, const gint accel_number)
 {
 	int   i;
-	char *label = g_strdup_printf ("_%d %s", accel_number,
-					  g_basename (name));
+	char *label, *menuname, *tmp;
+
+	/* Translate '_' to '-' so menu will not show underline.  */
+	menuname = g_strdup (g_basename (name));
+	for (tmp = menuname; *tmp; tmp++)
+		if (*tmp == '_')
+			*tmp = '-';
+	label = g_strdup_printf ("_%d %s", accel_number, menuname);
+	g_free (menuname);
 
 	for (i = strlen (label) - 1; i >= 0; i--)
 		if (label [i] == '.') {
