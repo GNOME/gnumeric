@@ -185,7 +185,7 @@ workbook_parse_and_jump (WorkbookControl *wbc, const char *text)
 	if (parse_cell_name (text, &col, &row, TRUE, NULL)) {
 		Sheet *sheet = wb_control_cur_sheet (wbc);
 		sheet_selection_set (sheet, col, row, col, row, col, row);
-		sheet_make_cell_visible (sheet, col, row);
+		sheet_make_cell_visible (sheet, col, row, FALSE);
 		return TRUE;
 	} else {
 		/* TODO : create a name */

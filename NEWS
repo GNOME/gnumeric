@@ -27,6 +27,7 @@ Andreas:
 	* Implement cell borders in LaTeX exporter
 	* Fix merged cell to merged cell copy (#65760 & #58691)
 	* Removed latex209 exporter
+
 Jody:
 	* Tricky corner cases for style applications.
 	* Rework sheetname quoting (Good idea Andreas)
@@ -40,6 +41,8 @@ Jody:
 	* Implement XL export for array formulas.
 	* Fix handling of failue in filter dialog.
 	* Remove some dead code.
+	* Minor etable warning tweak.
+	* Improve cursor handling for frozen panes.
 
 Morten:
 	* Fix EXPRESSION crash.

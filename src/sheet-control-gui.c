@@ -957,10 +957,10 @@ scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
 
 static void
 scg_make_cell_visible_virt (SheetControl *sc, int col, int row,
-			    gboolean force_scroll, gboolean couple_panes)
+			    gboolean couple_panes)
 {
 	scg_make_cell_visible ((SheetControlGUI *)sc, col, row,
-			       force_scroll, couple_panes);
+			       FALSE, couple_panes);
 }
 
 /*************************************************************************/
@@ -2590,48 +2590,6 @@ scg_set_display_cursor (SheetControlGUI *scg)
 		e_cursor_set_widget (scg->pane[i].gcanvas, cursor);
 }
 
-/*
- * scg_cursor_move_to:
- * @scg:      The scg where the cursor is located
- * @col:      The new column for the cursor.
- * @row:      The new row for the cursor.
- * @clear_selection: If set, clear the selection before moving
- *
- *   Moves the sheet cursor to a new location, it clears the selection,
- *   accepts any pending output on the editing line and moves the cell
- *   cursor.
- */
-void
-scg_cursor_move_to (SheetControlGUI *scg, int col, int row,
-		    gboolean clear_selection)
-{
-	Sheet *sheet = ((SheetControl *) scg)->sheet;
-
-	if (!wbcg_edit_finish (scg->wbcg, TRUE))
-		return;
-
-	/*
-	 * Please note that the order here is important, as
-	 * the sheet_make_cell_visible call might scroll the
-	 * canvas, you should do all of your screen changes
-	 * in an atomic fashion.
-	 *
-	 * The code at some point did do the selection change
-	 * after the sheet moved, causing flicker -mig
-	 *
-	 * If you dont know what this means, just mail me.
-	 */
-	if (clear_selection)
-		sheet_selection_reset (sheet);
-
-	/* Set the cursor BEFORE making it visible to decrease flicker */
-	sheet_cursor_set (sheet, col, row, col, row, col, row, NULL);
-	sheet_make_cell_visible (sheet, col, row);
-
-	if (clear_selection)
-		sheet_selection_add (sheet, col, row);
-}
-
 void
 scg_rangesel_extend_to (SheetControlGUI *scg, int col, int row)
 {
@@ -2736,6 +2694,9 @@ scg_cursor_move (SheetControlGUI *scg, int n,
 	Sheet *sheet = ((SheetControl *) scg)->sheet;
 	CellPos tmp = sheet->edit_pos_real;
 
+	if (!wbcg_edit_finish (scg->wbcg, TRUE))
+		return;
+
 	if (horiz)
 		tmp.col = sheet_find_boundary_horizontal (sheet,
 			tmp.col, tmp.row, tmp.row,
@@ -2745,7 +2706,11 @@ scg_cursor_move (SheetControlGUI *scg, int n,
 			tmp.col, tmp.row, tmp.col,
 			n, jump_to_bound);
 
-	scg_cursor_move_to (scg, tmp.col, tmp.row, TRUE);
+	sheet_selection_reset (sheet);
+	sheet_cursor_set (sheet, tmp.col, tmp.row, tmp.col, tmp.row,
+			  tmp.col, tmp.row, NULL);
+	sheet_make_cell_visible (sheet, tmp.col, tmp.row, TRUE);
+	sheet_selection_add (sheet, tmp.col, tmp.row);
 }
 
 /**
@@ -2774,7 +2739,7 @@ scg_cursor_extend (SheetControlGUI *scg, int n,
 			n, jump_to_bound);
 
 	sheet_selection_extend_to (sheet, move.col, move.row);
-	sheet_make_cell_visible (sheet, visible.col, visible.row);
+	sheet_make_cell_visible (sheet, visible.col, visible.row, FALSE);
 }
 
 GtkWidget *

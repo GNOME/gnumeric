@@ -2513,7 +2513,7 @@ cmd_paste_copy_impl (GnumericCommand *cmd, WorkbookControl *wbc,
 				   me->dst.range.start.col, me->dst.range.start.row,
 				   me->dst.range.end.col, me->dst.range.end.row);
 	sheet_make_cell_visible	(me->dst.sheet,
-				 me->dst.range.start.col, me->dst.range.start.row);
+				 me->dst.range.start.col, me->dst.range.start.row, FALSE);
 
 	return FALSE;
 }
@@ -2648,7 +2648,7 @@ cmd_autofill_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 				   me->base_col, me->base_row,
 				   me->base_col + me->w-1,
 				   me->base_row + me->h-1);
-	sheet_make_cell_visible	(me->dst.sheet, me->base_col, me->base_row);
+	sheet_make_cell_visible	(me->dst.sheet, me->base_col, me->base_row, FALSE);
 
 	return FALSE;
 }
@@ -2693,7 +2693,7 @@ cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	sheet_region_queue_recalc (me->dst.sheet, &me->dst.range);
 	sheet_range_calc_spans (me->dst.sheet, &me->dst.range, SPANCALC_RENDER);
 	sheet_flag_status_update_range (me->dst.sheet, &me->dst.range);
-	sheet_make_cell_visible	(me->dst.sheet, me->base_col, me->base_row);
+	sheet_make_cell_visible	(me->dst.sheet, me->base_col, me->base_row, FALSE);
 
 	return FALSE;
 }

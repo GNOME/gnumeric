@@ -1,3 +1,13 @@
+2001-12-09  Jody Goldberg <jody@gnome.org>
+
+	* dialog-stf.glade  : only display scrollbars if necessary
+
+2001-12-08  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=64991
+	* dialog-search.c (search_clicked) : call e_table_model_pre_change
+	  before changing.
+
 2001-12-07  Jody Goldberg <jody@gnome.org>
 
 	* dialog-advanced-filter.c (dialog_advanced_filter) : don't destroy

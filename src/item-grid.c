@@ -840,7 +840,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 		sheet_selection_extend_to (sheet, col, row);
 	else {
 		sheet_selection_add (sheet, col, row);
-		sheet_make_cell_visible (sheet, col, row);
+		sheet_make_cell_visible (sheet, col, row, FALSE);
 	}
 	sheet_update (sheet);
 
@@ -935,7 +935,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		case ITEM_GRID_SELECTING_FORMULA_RANGE :
 			sheet_make_cell_visible (sheet,
-				sheet->edit_pos.col, sheet->edit_pos.row);
+				sheet->edit_pos.col, sheet->edit_pos.row, FALSE);
 			/* Fall through */
 		case ITEM_GRID_SELECTING_CELL_RANGE :
 			wb_view_selection_desc (

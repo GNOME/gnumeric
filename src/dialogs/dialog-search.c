@@ -302,7 +302,7 @@ selection_changed (GtkWidget *w, DialogState *dd)
 			wb_view_sheet_focus (view, sheet);
 		});
 		sheet_selection_set (sheet, col, row, col, row, col, row);
-		sheet_make_cell_visible (sheet, col, row);
+		sheet_make_cell_visible (sheet, col, row, FALSE);
 	}
 }
 
@@ -376,6 +376,7 @@ search_clicked (GtkWidget *widget, DialogState *dd)
 		dd->matches = search_filter_matching (sr, cells);
 		search_collect_cells_free (cells);
 
+		e_table_model_pre_change (dd->e_table_model);
 		e_table_model_changed (dd->e_table_model);
 		clear_strings (dd);
 

@@ -107,7 +107,8 @@ void        sheet_cursor_set		(Sheet *sheet,
 void        sheet_set_edit_pos		(Sheet *sheet, int col, int row);
 
 /* deprecated : this will be removed when sheetViews are added */
-void        sheet_make_cell_visible	(Sheet *sheet, int col, int row);
+void        sheet_make_cell_visible	(Sheet *sheet, int col, int row,
+					 gboolean couple_panes);
 
 /* Cell management */
 Cell       *sheet_cell_get		(Sheet const *sheet, int col, int row);

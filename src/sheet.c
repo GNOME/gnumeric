@@ -3101,11 +3101,12 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 /*****************************************************************************/
 
 void
-sheet_make_cell_visible (Sheet *sheet, int col, int row)
+sheet_make_cell_visible (Sheet *sheet, int col, int row,
+			 gboolean couple_panes)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 	SHEET_FOREACH_CONTROL(sheet, control,
-		sc_make_cell_visible (control, col, row, FALSE, FALSE););
+		sc_make_cell_visible (control, col, row, couple_panes););
 }
 
 void

@@ -132,7 +132,7 @@ Sheet_make_cell_visible (PortableServer_Servant servant, const CORBA_long col, c
 	verify_col (col);
 	verify_row (row);
 
-	sheet_make_cell_visible (sheet, col, row);
+	sheet_make_cell_visible (sheet, col, row, FALSE);
 }
 
 static CORBA_boolean

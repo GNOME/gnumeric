@@ -1,3 +1,11 @@
+2001-12-07  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet.c (sheet_make_cell_visible) : add a couple_pane argument.
+	* src/sheet-control-gui.c (scg_cursor_move_to) : merge into.
+	(scg_cursor_move) : here.
+	* src/sheet-control.c (sc_make_cell_visible) : remove the force
+	  argument.
+
 2001-12-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/analysis-tools.c (ztest_tool) : fix leak

@@ -33,7 +33,7 @@ typedef struct {
 	void (*compute_visible_region)	(SheetControl *sc,
 					 gboolean full_recompute);
 	void (*make_cell_visible)	(SheetControl  *sc, int col, int row,
-					 gboolean force_scroll, gboolean couple_panes);
+					 gboolean couple_panes);
 	void (*cursor_bound)		(SheetControl *sc, Range const *r);
 	void (*set_panes)		(SheetControl *sc);
 	float (*colrow_distance_get)	(SheetControl const *sc, gboolean is_col,

@@ -41,7 +41,7 @@ void sc_set_top_left       	(SheetControl *sc, int col, int row);
 /* Can we deprecate these when we get a SheetView ? */
 void sc_compute_visible_region	(SheetControl *sc, gboolean full_recompute);
 void sc_make_cell_visible      	(SheetControl *sc, int col, int row,
-				 gboolean force_scroll, gboolean couple_panes);
+				 gboolean couple_panes);
 
 void sc_cursor_bound		(SheetControl *sc, Range const *r);
 void sc_set_panes		(SheetControl *sc);

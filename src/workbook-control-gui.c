@@ -1717,7 +1717,7 @@ common_cell_goto (Sheet *sheet, const CellPos *cp)
 		wb_view_sheet_focus (view, sheet);
 	});
 	sheet_selection_set (sheet, col, row, col, row, col, row);
-	sheet_make_cell_visible (sheet, col, row);
+	sheet_make_cell_visible (sheet, col, row, FALSE);
 }
 
 

@@ -1162,7 +1162,7 @@ sheet_selection_walk_step (Sheet *sheet,
 					     destination.col, destination.row,
 					     destination.col, destination.row);
 			sheet_make_cell_visible (sheet, sheet->edit_pos.col,
-						 sheet->edit_pos.row);
+						 sheet->edit_pos.row, TRUE);
 		}
 		return;
 	}
@@ -1194,7 +1194,7 @@ sheet_selection_walk_step (Sheet *sheet,
 	}
 
 	sheet_set_edit_pos (sheet, destination.col, destination.row);
-	sheet_make_cell_visible (sheet, destination.col, destination.row);
+	sheet_make_cell_visible (sheet, destination.col, destination.row, TRUE);
 }
 
 ColRowSelectionType

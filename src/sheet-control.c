@@ -112,8 +112,8 @@ SC_VIRTUAL (compute_visible_region,
 	    (SheetControl *sc, gboolean full_recompute),
 	    (sc, full_recompute))
 SC_VIRTUAL (make_cell_visible,
-	    (SheetControl *sc, int col, int row, gboolean force_scroll, gboolean couple_panes),
-	    (sc, col, row, force_scroll, couple_panes));
+	    (SheetControl *sc, int col, int row, gboolean couple_panes),
+	    (sc, col, row, couple_panes));
 
 SC_VIRTUAL (cursor_bound, (SheetControl *sc, Range const *r), (sc, r))
 SC_VIRTUAL (set_panes, (SheetControl *sc), (sc))
