@@ -337,5 +337,5 @@ EXTRA_DIST = \
      worksheet-data-3.png \
      worksheet-data-4.png \
      worksheet-rows-1.png \
-     worksheet-running-calc-1.png \
+     worksheet-running-calc-1.png
 
