@@ -101,7 +101,7 @@ static void     gnumeric_expr_entry_cell_editable_init (GtkCellEditableIface *if
  */
 static void     gnumeric_expr_entry_start_editing (GtkCellEditable *cell_editable,
 						   GdkEvent *event);
-static void     gnumeric_cell_editable_entry_activated (gpointer data, 
+static void     gnumeric_cell_editable_entry_activated (gpointer data,
 							GnumericExprEntry *entry);
 
 
@@ -124,7 +124,7 @@ static gboolean gee_update_timeout (gpointer data);
 static void     gee_remove_update_timer (GnumericExprEntry *range);
 static void     gee_reset_update_timer (GnumericExprEntry *gee);
 static void     gee_destroy (GtkObject *object);
-static void     gee_notify_cursor_position (GObject *object, GParamSpec *pspec, 
+static void     gee_notify_cursor_position (GObject *object, GParamSpec *pspec,
 					    GnumericExprEntry *gee);
 
 static GtkHBoxClass *gnumeric_expr_entry_parent_class = NULL;
@@ -134,32 +134,32 @@ static GtkHBoxClass *gnumeric_expr_entry_parent_class = NULL;
 
 GType gnumeric_expr_entry_get_type(void)
 {
-        static GType type = 0;                          
-        if (!type){                                     
-                static GtkTypeInfo const object_info = {  
+        static GType type = 0;
+        if (!type){
+                static GtkTypeInfo const object_info = {
 			(char *) "GnumericExprEntry",
 			sizeof (GnumericExprEntry),
-                        sizeof (GnumericExprEntryClass),              
-                        (GtkClassInitFunc) gee_class_init,            
+                        sizeof (GnumericExprEntryClass),
+                        (GtkClassInitFunc) gee_class_init,
 			(GtkObjectInitFunc) gee_init,
-                        NULL,      
-                        NULL,   /* class_data */        
-                        (GtkClassInitFunc) NULL,          
-                };                                      
+                        NULL,
+                        NULL,   /* class_data */
+                        (GtkClassInitFunc) NULL,
+                };
 
 		static const GInterfaceInfo cell_editable_info =
 			{
-				(GInterfaceInitFunc) gnumeric_expr_entry_cell_editable_init, 
-				NULL,                                              
-				NULL                                               
+				(GInterfaceInitFunc) gnumeric_expr_entry_cell_editable_init,
+				NULL,
+				NULL
 			};
-		
+
 		type = gtk_type_unique (GTK_TYPE_HBOX, &object_info);
 		g_type_add_interface_static (type,
 					     GTK_TYPE_CELL_EDITABLE,
 					     &cell_editable_info);
-        }                                               
-        return type;                                    
+        }
+        return type;
 }
 
 static void
@@ -222,11 +222,11 @@ gnumeric_expr_entry_start_editing (GtkCellEditable *cell_editable,
 {
   GNUMERIC_EXPR_ENTRY (cell_editable)->is_cell_renderer = TRUE;
 
-  g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (GNUMERIC_EXPR_ENTRY (cell_editable))), 
+  g_signal_connect (G_OBJECT (gnm_expr_entry_get_entry (GNUMERIC_EXPR_ENTRY (cell_editable))),
 		    "activate",
 		    G_CALLBACK (gnumeric_cell_editable_entry_activated), cell_editable);
 
-  gtk_widget_grab_focus (GTK_WIDGET (gnm_expr_entry_get_entry (GNUMERIC_EXPR_ENTRY 
+  gtk_widget_grab_focus (GTK_WIDGET (gnm_expr_entry_get_entry (GNUMERIC_EXPR_ENTRY
 							       (cell_editable))));
 
 }
@@ -389,10 +389,15 @@ gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 	for (start = 0;
 	     start <= cursor;
 	     start = g_utf8_next_char (text + start) - text) {
-		gboolean is_alnum = g_unichar_isalnum (g_utf8_get_char (text + start));
+		gunichar c = g_utf8_get_char (text + start);
+		gboolean is_alnum = g_unichar_isalnum (c);
 		if (last_was_alnum && is_alnum)
 			continue;
 		last_was_alnum = is_alnum;
+
+		/* A range starts with a letter, a quote, or a dollar sign.  */
+		if (is_alnum ? g_unichar_isdigit (c) : (c != '\'' && c != '$'))
+			continue;
 
 		for (end = last;
 		     end >= cursor;
@@ -751,7 +756,7 @@ gnumeric_expr_entry_new (WorkbookControlGUI *wbcg, gboolean with_icon)
 	g_signal_connect (G_OBJECT (gee->entry),
 		"changed",
 		G_CALLBACK (cb_entry_changed), gee);
-	g_signal_connect (G_OBJECT (gee->entry), 
+	g_signal_connect (G_OBJECT (gee->entry),
 			  "key_press_event",
 			  G_CALLBACK (cb_gee_key_press_event), gee);
 
@@ -1250,10 +1255,10 @@ gnm_expr_entry_grab_focus (GnumericExprEntry *gee, gboolean select_all)
 	}
 }
 
-gboolean 
+gboolean
 gnm_expr_entry_editing_canceled (GnumericExprEntry *gee)
 {
 	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), TRUE);
-	
+
 	return gee->editing_canceled;
 }
