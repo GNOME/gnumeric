@@ -59,6 +59,7 @@ src/command-context-stderr.c
 src/commands.c
 src/corba-args.c
 src/dates.c
+src/dependent.c
 src/dialogs/advanced-filter.glade
 src/dialogs/analysis-tools.glade
 src/dialogs/anova-one.glade
@@ -148,7 +149,6 @@ src/dialogs/tabulate.glade
 src/dialogs/variance-tests.glade
 src/dialogs/workbook-attr.glade
 src/embeddable-grid.c
-src/eval.c
 src/expr-name.c
 src/expr-name.c
 src/expr.c
