@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-08 11:41+0900\n"
-"PO-Revision-Date: 2004-10-08 11:45+0900\n"
+"POT-Creation-Date: 2004-10-08 12:29+0900\n"
+"PO-Revision-Date: 2004-10-08 12:31+0900\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -22136,6 +22136,14 @@ msgid ""
 "Text length\n"
 "Custom"
 msgstr ""
+"Valfritt värde (ingen validering)\n"
+"Heltal\n"
+"Tal\n"
+"I en lista\n"
+"Datum\n"
+"Tid\n"
+"Textlängd\n"
+"Anpassad"
 
 #: src/dialogs/cell-format.glade.h:36 src/dialogs/dialog-cell-format.c:2380
 #: src/wbc-gtk.c:587 src/wbc-gtk.c:588 src/wbc-gtk.c:595
@@ -22308,9 +22316,8 @@ msgid "_Show input message when cell is selected"
 msgstr "_Visa indatameddelande när cell har markerats"
 
 #: src/dialogs/cell-format.glade.h:101
-#, fuzzy
 msgid "_Underline:"
-msgstr "_Understrykning"
+msgstr "_Understrykning:"
 
 #: src/dialogs/cell-format.glade.h:102
 msgid "_Wrap text"
@@ -22327,6 +22334,14 @@ msgid ""
 "val >= bound                  (greater than or equal)\n"
 "val <= bound                  (less than or equal)"
 msgstr ""
+"min <= värde <= max          (mellan)\n"
+"värde <= min || max <= värde (inte emellan)\n"
+"värde == gräns               (lika med)\n"
+"värde <> gräns               (inte lika med)\n"
+"värde  >  gräns              (större än)\n"
+"värde  <  gräns              (mindre än)\n"
+"värde >= gräns               (större än eller lika med)\n"
+"värde <= gräns               (mindre än eller lika med)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "<span weight=\"bold\">Sort Options</span>"
@@ -22449,6 +22464,16 @@ msgid ""
 "VAR\n"
 "VARP"
 msgstr ""
+"SUM\n"
+"MIN\n"
+"MAX\n"
+"AVERAGE\n"
+"COUNT\n"
+"PRODUCT\n"
+"STDEV\n"
+"STDEVP\n"
+"VAR\n"
+"VARP"
 
 #: src/dialogs/consolidate.glade.h:18
 msgid "The function to use when consolidating"
@@ -22607,228 +22632,195 @@ msgstr "_K:"
 
 #: src/dialogs/descriptive-stats.glade.h:20
 msgid "_Use ssmedian"
-msgstr "_ANvänd ssmedian"
+msgstr "_Använd ssmedian"
 
 #: src/dialogs/dialog-about.c:63
-#, fuzzy
 msgid "Core"
-msgstr "Mer"
+msgstr "Kärna"
 
 #: src/dialogs/dialog-about.c:64
 msgid "Features"
-msgstr ""
+msgstr "Finesser"
 
 #: src/dialogs/dialog-about.c:65
-#, fuzzy
 msgid "Analytics"
-msgstr "Baltiska"
+msgstr "Analys"
 
 #: src/dialogs/dialog-about.c:66
-#, fuzzy
 msgid "Import Export"
-msgstr "Importera"
+msgstr "Importera och exportera"
 
 #: src/dialogs/dialog-about.c:67
-#, fuzzy
 msgid "Scripting"
-msgstr "Sorterar"
+msgstr "Skriptspråk"
 
 #: src/dialogs/dialog-about.c:68
 msgid "UI"
-msgstr ""
+msgstr "Gränssnitt"
 
 #: src/dialogs/dialog-about.c:69
 msgid "Usability"
-msgstr ""
+msgstr "Användbarhet"
 
 #: src/dialogs/dialog-about.c:70
-#, fuzzy
 msgid "Documentation"
-msgstr "Plats"
+msgstr "Dokumentering"
 
 #: src/dialogs/dialog-about.c:71
-#, fuzzy
 msgid "Translation"
-msgstr "Tabulering"
+msgstr "Översättning"
 
 #: src/dialogs/dialog-about.c:72
 msgid "QA"
-msgstr ""
+msgstr "QA"
 
 #: src/dialogs/dialog-about.c:73
-#, fuzzy
 msgid "Art"
-msgstr "Mrt"
+msgstr "Grafik"
 
 #: src/dialogs/dialog-about.c:74
 msgid "Packaging"
-msgstr ""
+msgstr "Packetering"
 
 #: src/dialogs/dialog-about.c:83
-#, fuzzy
 msgid "Options pricers"
-msgstr "Alternativ"
+msgstr "Optionsberäkningar"
 
 #: src/dialogs/dialog-about.c:85
-#, fuzzy
 msgid "Functions and X-Base importing."
-msgstr "Sean Atkinson, funktioner och X-Base-import."
+msgstr "Funktioner och X-Base-import."
 
 #: src/dialogs/dialog-about.c:87 src/dialogs/dialog-about.c:101
-#, fuzzy
 msgid "Simplex algorithm for Solver (LP Solve)."
-msgstr "Jeroen Dirks, Simplex-algortim (LP-lösare)."
+msgstr "Simplex-algortim för lösaren (LP-lösare)."
 
 #: src/dialogs/dialog-about.c:89
-#, fuzzy
 msgid "Core charting engine."
-msgstr "Cirkeldiagramsritmotor"
+msgstr "Grundläggande diagramsritmotor."
 
 #: src/dialogs/dialog-about.c:91
 msgid "Quality Assurance and sheet copy."
-msgstr ""
+msgstr "Kvalitetskontroll och bladkopiering."
 
 #: src/dialogs/dialog-about.c:93
-#, fuzzy
 msgid "OLE2 support."
-msgstr "Arturo Tena, OLE-stöd."
+msgstr "OLE-stöd."
 
 #: src/dialogs/dialog-about.c:95
-#, fuzzy
 msgid "Localization."
-msgstr "Plats"
+msgstr "Lokalisering."
 
 #: src/dialogs/dialog-about.c:97
 msgid "Plugin system, localization."
-msgstr ""
+msgstr "System för insticksmoduler, lokalisering."
 
 #: src/dialogs/dialog-about.c:99
-#, fuzzy
 msgid "Debian packaging."
-msgstr "J.H.M. Dassen (Ray), debian-paketering."
+msgstr "Debian-paketering."
 
 #: src/dialogs/dialog-about.c:103
-#, fuzzy
 msgid "Original plugin engine."
-msgstr "Cirkeldiagramsritmotor"
+msgstr "Ursprunglig insticksmotor."
 
 #: src/dialogs/dialog-about.c:105
-#, fuzzy
 msgid "Custom UI tools"
-msgstr "Egen färg..."
+msgstr "Anpassade gränssnittsverktyg"
 
 #: src/dialogs/dialog-about.c:107
-#, fuzzy
 msgid "RPM packaging"
-msgstr "_Ersättning"
+msgstr "RPM-paketering"
 
 #: src/dialogs/dialog-about.c:109
 msgid "Statistics and GUI master"
-msgstr ""
+msgstr "Statistik och gränssnittsmäster"
 
 #: src/dialogs/dialog-about.c:111
 msgid "UI Polish and all round bug fixer"
-msgstr ""
+msgstr "Gränssnittspolityr och allmän felrättare"
 
 #: src/dialogs/dialog-about.c:113
-#, fuzzy
 msgid "Special functions"
-msgstr "Finansiella funktioner"
+msgstr "Särskilda funktioner"
 
 #: src/dialogs/dialog-about.c:115
 msgid "Solver, lots of worksheet functions, and general trailblazer"
-msgstr ""
+msgstr "Lösare, msaaor av kalkylfunktioner och allmän föregångare"
 
 #: src/dialogs/dialog-about.c:117
-#, fuzzy
 msgid "One of the original core contributors"
-msgstr "Procentsats för varje bidrag."
+msgstr "En av de ursprungliga medhjälparna"
 
 #: src/dialogs/dialog-about.c:119
-#, fuzzy
 msgid "Icons and Images"
-msgstr "Infoga en bild"
+msgstr "Ikoner och bilder"
 
 #: src/dialogs/dialog-about.c:121
-#, fuzzy
 msgid "The original value format engine and libgoffice work"
-msgstr "Chris Lahey, talformateringsmotor."
+msgstr "Ursprunglig talformateringsmotor och arbete på libgoffice"
 
 #: src/dialogs/dialog-about.c:123
-#, fuzzy
 msgid "The original text plugin"
-msgstr "Takashi Matsuda, ursprunglig insticksmodul för text."
+msgstr "Ursprunglig insticksmodul för text."
 
 #: src/dialogs/dialog-about.c:125
 msgid "Started the MS Excel import/export engine, and 'GnmStyle'"
-msgstr ""
+msgstr "Påbörjade MS Excel import/export-motor och \"Gnmstyle\""
 
 #: src/dialogs/dialog-about.c:127
-#, fuzzy
 msgid "SheetObject improvement"
-msgstr "Lutz Muller, SheetObject-förbättringar"
+msgstr "SheetObject-förbättringar"
 
 #: src/dialogs/dialog-about.c:129
-#, fuzzy
 msgid "Many plot types for charting engine."
-msgstr "Cirkeldiagramsritmotor"
+msgstr "Många graftyper för diagramsritmotor."
 
 #: src/dialogs/dialog-about.c:131
-#, fuzzy
 msgid "canvas support"
-msgstr "Kontraktsupport"
+msgstr "Stöd för rityta"
 
 #: src/dialogs/dialog-about.c:133 src/dialogs/dialog-about.c:139
-#, fuzzy
 msgid "Guile support"
-msgstr "Ariel Rios, stöd för Guile."
+msgstr "Stöd för Guile."
 
 #: src/dialogs/dialog-about.c:135
-#, fuzzy
 msgid "HTML, troff, LaTeX exporters"
-msgstr "Rasca, export till HTML, troff, LaTeX."
+msgstr "Export till HTML, troff, LaTeX."
 
 #: src/dialogs/dialog-about.c:137
-#, fuzzy
 msgid "original CSV support, French localization"
-msgstr "Vincent Renardias, ursprungligt CSV-stöd, fransk översättning."
+msgstr "Ursprungligt CSV-stöd, fransk översättning."
 
 #: src/dialogs/dialog-about.c:141
-#, fuzzy
 msgid "Paradox Importer"
-msgstr "Parametrar"
+msgstr "Import från Paradox"
 
 #: src/dialogs/dialog-about.c:143
 msgid "Initial work on OLE2 for libgsf"
-msgstr ""
+msgstr "Grundläggande arbete på OLE2 för libgsf"
 
 #: src/dialogs/dialog-about.c:145
 msgid "Consolidation and Structured Text importer"
-msgstr ""
+msgstr "Konsolidering och import av strukturerad text"
 
 #: src/dialogs/dialog-about.c:147
-#, fuzzy
 msgid "Pieces of MS Excel import"
-msgstr "Rader att importera"
+msgstr "Delar av import från MX Excel"
 
 #: src/dialogs/dialog-about.c:149
-#, fuzzy
 msgid "Initial XML support"
-msgstr "Daniel Veillard, XML-stöd."
+msgstr "Grundläggande XML-stöd."
 
 #: src/dialogs/dialog-about.c:151
-#, fuzzy
 msgid "Some financial functions"
-msgstr "Finansiella funktioner"
+msgstr "En del finansiella funktioner"
 
 #: src/dialogs/dialog-about.c:153
 msgid "All round powerhouse"
-msgstr ""
+msgstr "Riktig arbetshäst"
 
 #: src/dialogs/dialog-about.c:261
-#, fuzzy
 msgid "About Gnumeric"
-msgstr "_Om Gnumeric"
+msgstr "Om Gnumeric"
 
 #: src/dialogs/dialog-advanced-filter.c:71
 msgid "The list range is invalid."
@@ -23410,9 +23402,8 @@ msgid "Not a range or name"
 msgstr "Inte ett område eller namn"
 
 #: src/dialogs/dialog-hyperlink.c:253
-#, fuzzy
 msgid "Internal Link"
-msgstr "_Intern länk"
+msgstr "Intern länk"
 
 #: src/dialogs/dialog-hyperlink.c:255
 msgid "Jump to specific cells or named range in the current workbook"
@@ -23420,27 +23411,24 @@ msgstr ""
 "Hoppa till specifika celler eller namngett område i den aktuella arbetsboken"
 
 #: src/dialogs/dialog-hyperlink.c:259
-#, fuzzy
 msgid "External Link"
-msgstr "_Extern länk"
+msgstr "Extern länk"
 
 #: src/dialogs/dialog-hyperlink.c:261
 msgid "Open an external file with the specified name"
 msgstr "Öppna en extern fil med det givna namnet"
 
 #: src/dialogs/dialog-hyperlink.c:264
-#, fuzzy
 msgid "Email Link"
-msgstr "_Extern länk"
+msgstr "Eposta länk"
 
 #: src/dialogs/dialog-hyperlink.c:266
 msgid "Prepare an email"
 msgstr "Skapa e-post"
 
 #: src/dialogs/dialog-hyperlink.c:269
-#, fuzzy
 msgid "Web Link"
-msgstr "_Webblänk"
+msgstr "Webblänk"
 
 #: src/dialogs/dialog-hyperlink.c:271
 msgid "Browse to the specified URL"
@@ -23523,14 +23511,12 @@ msgid "_All"
 msgstr "_Allt"
 
 #: src/dialogs/dialog-paste-special.c:67
-#, fuzzy
 msgid "Cont_ent"
-msgstr "Innehåll"
+msgstr "Inn_ehåll"
 
 #: src/dialogs/dialog-paste-special.c:68
-#, fuzzy
 msgid "As _Value"
-msgstr "Som värde"
+msgstr "Som _värde"
 
 #: src/dialogs/dialog-paste-special.c:69 src/wbcg-actions.c:1535
 msgid "_Formats"
@@ -23541,39 +23527,32 @@ msgid "Co_mments"
 msgstr "Ko_mmentarer"
 
 #: src/dialogs/dialog-paste-special.c:75
-#, fuzzy
 msgid "_None"
-msgstr "Ingen"
+msgstr "_Ingen"
 
 #: src/dialogs/dialog-paste-special.c:76
-#, fuzzy
 msgid "A_dd"
-msgstr "Lägg till"
+msgstr "Lä_gg till"
 
 #: src/dialogs/dialog-paste-special.c:77
-#, fuzzy
 msgid "_Subtract"
-msgstr "Subtrahera"
+msgstr "_Subtrahera"
 
 #: src/dialogs/dialog-paste-special.c:78
-#, fuzzy
 msgid "M_ultiply"
-msgstr "Multiplicera"
+msgstr "M_ultiplicera"
 
 #: src/dialogs/dialog-paste-special.c:79
-#, fuzzy
 msgid "D_ivide"
-msgstr "Dividera"
+msgstr "D_ividera"
 
 #: src/dialogs/dialog-paste-special.c:186
-#, fuzzy
 msgid "Paste Special"
-msgstr "Klistra in _special"
+msgstr "Klistra in special"
 
 #: src/dialogs/dialog-paste-special.c:189
-#, fuzzy
 msgid "Paste _Link"
-msgstr "Klistra in länk"
+msgstr "Klistra in _länk"
 
 #: src/dialogs/dialog-paste-special.c:198
 msgid "Paste type"
@@ -23584,19 +23563,16 @@ msgid "Operation"
 msgstr "Åtgärd"
 
 #: src/dialogs/dialog-paste-special.c:234
-#, fuzzy
 msgid "_Transpose"
-msgstr "Transponera"
+msgstr "_Transponera"
 
 #: src/dialogs/dialog-paste-special.c:240
-#, fuzzy
 msgid "Skip _Blanks"
-msgstr "Hoppa över blanksteg"
+msgstr "Hoppa över _blanksteg"
 
 #: src/dialogs/dialog-plugin-manager.c:277
-#, fuzzy
 msgid "Select Directory"
-msgstr "Katalog"
+msgstr "Välj katalog"
 
 #: src/dialogs/dialog-plugin-manager.c:399
 msgid "Plugin dependencies"
@@ -24065,9 +24041,8 @@ msgid "New Name"
 msgstr "Nytt namn"
 
 #: src/dialogs/dialog-sheet-order.c:732
-#, fuzzy
 msgid "At least one sheet must remain visible!"
-msgstr "Åtminstone en sats krävs."
+msgstr "Åtminstone ett blad måste förbli synligt!"
 
 #: src/dialogs/dialog-sheet-order.c:737
 msgid "You may not delete all sheets in a workbook!"
@@ -24155,14 +24130,12 @@ msgid "Could not create the Simulation dialog."
 msgstr "Kunde inte skapa simuleringsdialogen."
 
 #: src/dialogs/dialog-solver.c:107
-#, fuzzy
 msgid "Simplex (LP Solve 5.0)"
-msgstr "Simplex (LP-lösare 3.2)"
+msgstr "Simplex (LP-lösare 5.0)"
 
 #: src/dialogs/dialog-solver.c:108
-#, fuzzy
 msgid "Revised Simplex (GLPK 4.5)"
-msgstr "Reviderad Simplex (GLPK 4.2)"
+msgstr "Reviderad Simplex (GLPK 4.5)"
 
 #: src/dialogs/dialog-solver.c:109
 msgid "< Not available >"
@@ -24259,18 +24232,15 @@ msgid "Are you sure you want to cancel?"
 msgstr "Är du säker på att du vill avbryta?"
 
 #: src/dialogs/dialog-stf-export.c:350
-#, fuzzy
 msgid "Export"
-msgstr "Importera"
+msgstr "Exportera"
 
 #: src/dialogs/dialog-stf-export.c:400
 #: src/dialogs/dialog-stf-export.glade.h:38
-#, fuzzy
 msgid "_Next"
-msgstr "_Text:"
+msgstr "_Nästa"
 
 #: src/dialogs/dialog-stf-export.c:403
-#, fuzzy
 msgid "_Finish"
 msgstr "_Slutför"
 
@@ -24289,49 +24259,50 @@ msgid ""
 "<span background=\"#4B6983\" foreground=\"white\" size=\"xx-large\">Choose "
 "export formatting</span>"
 msgstr ""
+"<span background=\"#4B6983\" foreground=\"white\" size=\"xx-large\">Välj "
+"exportformatering</span>"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid ""
 "<span background=\"#4B6983\" foreground=\"white\" size=\"xx-large\">Choose "
 "sheets to export</span>"
 msgstr ""
+"<span background=\"#4B6983\" foreground=\"white\" size=\"xx-large\">Välj "
+"blad att exportera</span>"
 
 #: src/dialogs/dialog-stf-export.glade.h:8
-#, fuzzy
 msgid ""
 "Automatic (puts quotes where needed)\n"
 "Always\n"
 "Never"
-msgstr "Automatisk (infogar citattecken där det behövs)"
+msgstr ""
+"Automatisk (infogar citattecken där det behövs)\n"
+"Alltid\n"
+"Aldrig"
 
 #: src/dialogs/dialog-stf-export.glade.h:11 src/gui-file.c:208
 msgid "Character _encoding:"
 msgstr "Tecken_kodning:"
 
 #: src/dialogs/dialog-stf-export.glade.h:12
-#, fuzzy
 msgid "Export as Text"
-msgstr "Formatera som tid"
+msgstr "Exportera som text"
 
 #: src/dialogs/dialog-stf-export.glade.h:13
-#, fuzzy
 msgid "How to handle unknown characters"
-msgstr "Okända tecken:"
+msgstr "Hur okända tecken ska hanteras"
 
 #: src/dialogs/dialog-stf-export.glade.h:14
-#, fuzzy
 msgid "Qu_oting:"
-msgstr "Citerar:"
+msgstr "C_iterar:"
 
 #: src/dialogs/dialog-stf-export.glade.h:15
-#, fuzzy
 msgid "Quote _character:"
-msgstr "Citattecken:"
+msgstr "Citat_tecken:"
 
 #: src/dialogs/dialog-stf-export.glade.h:16
-#, fuzzy
 msgid "Select N_one"
-msgstr "Markera _rad"
+msgstr "Markera _inget"
 
 #. Edit -> Select
 #: src/dialogs/dialog-stf-export.glade.h:17 src/wbcg-actions.c:1558
@@ -24351,59 +24322,68 @@ msgid ""
 "Slash (/)\n"
 "Custom"
 msgstr ""
+"mellanslag\n"
+"Tab\n"
+"Utrop (!)\n"
+"Kolon (:)\n"
+"Komma (,)\n"
+"Tankstreck (-)\n"
+"Rör (|)\n"
+"Semikolon (;)\n"
+"Divisor (/)\n"
+"Anpassad"
 
 #: src/dialogs/dialog-stf-export.glade.h:28
 msgid "The character sequence to put between columns"
-msgstr ""
+msgstr "Teckensekvensen att sätta mellan kolumner"
 
 #: src/dialogs/dialog-stf-export.glade.h:29
-#, fuzzy
 msgid "The characters to quote content"
-msgstr "Centrerar cellinnehållet"
+msgstr "Tecken för att citera innehåll"
 
 #: src/dialogs/dialog-stf-export.glade.h:30
 msgid "The sequence of characters to mark the end of a line"
-msgstr ""
+msgstr "Teckensekvenser för att markera radslut"
 
 #: src/dialogs/dialog-stf-export.glade.h:31
-#, fuzzy
 msgid ""
 "Transliterate\n"
 "Escape"
-msgstr "Transliterera"
+msgstr ""
+"Transliterera\n"
+"Bryt ut"
 
 #: src/dialogs/dialog-stf-export.glade.h:33
-#, fuzzy
 msgid ""
 "Unix (linefeed)\n"
 "Macintosh (carriage return)\n"
 "Windows (carriage return + linefeed)"
-msgstr "Windows (vagnretur + radmatning)"
+msgstr ""
+"Unix (radmatning)\n"
+"Macintosh (vagnretur)\n"
+"Windows (vagnretur + radmatning)"
 
 #: src/dialogs/dialog-stf-export.glade.h:36
 msgid ""
 "Whether the quote character placed around cells depends on the value being "
 "quoted"
-msgstr ""
+msgstr "Om citattecknet runt celler beror på värdet som citeras"
 
 #: src/dialogs/dialog-stf-export.glade.h:37
-#, fuzzy
 msgid "_Line termination:"
-msgstr "Radslut:"
+msgstr "_Radslut:"
 
 #: src/dialogs/dialog-stf-export.glade.h:39
 msgid "_Preserves Formats"
 msgstr "_Bevarar format"
 
 #: src/dialogs/dialog-stf-export.glade.h:40
-#, fuzzy
 msgid "_Separator:"
-msgstr "Avskiljare:"
+msgstr "_Avskiljare:"
 
 #: src/dialogs/dialog-stf-export.glade.h:41
-#, fuzzy
 msgid "_Unknown characters:"
-msgstr "Okända tecken:"
+msgstr "_Okända tecken:"
 
 #: src/dialogs/dialog-stf-fixed-page.c:52
 msgid "Autodiscovery did not find any columns in the text. Try manually"
@@ -24493,6 +24473,10 @@ msgid ""
 "On left side only\n"
 "On right side only"
 msgstr ""
+"Alltid (båda sidorna)\n"
+"Aldrig\n"
+"Endast på vänster sida\n"
+"Endast på höger sida"
 
 #: src/dialogs/dialog-stf.glade.h:9
 msgid "Attempt to recognize columns in the text automatically."
@@ -24881,18 +24865,16 @@ msgid "Fill Series"
 msgstr "Fyll serie"
 
 #: src/dialogs/fill-series.glade.h:7
-#, fuzzy
 msgid "S_tep value:"
-msgstr "Stegvärde: "
+msgstr "S_tegvärde:"
 
 #: src/dialogs/fill-series.glade.h:9
 msgid "Series in:"
 msgstr "Serie i:"
 
 #: src/dialogs/fill-series.glade.h:10
-#, fuzzy
 msgid "St_op value:"
-msgstr "Stoppvärde: "
+msgstr "St_oppvärde:"
 
 #: src/dialogs/fill-series.glade.h:11
 msgid "Type:"
@@ -24924,9 +24906,8 @@ msgid "_Row"
 msgstr "_Rad"
 
 #: src/dialogs/fill-series.glade.h:18
-#, fuzzy
 msgid "_Start value:"
-msgstr "Startvärde: "
+msgstr "_Startvärde:"
 
 #: src/dialogs/fill-series.glade.h:19
 msgid "_Weekday"
@@ -25324,9 +25305,8 @@ msgid "3"
 msgstr "3"
 
 #: src/dialogs/moving-averages.glade.h:3
-#, fuzzy
 msgid "C_olumns"
-msgstr "Kolumner"
+msgstr "K_olumner"
 
 #: src/dialogs/moving-averages.glade.h:6 src/tools/analysis-tools.c:3731
 #: src/tools/analysis-tools.c:3734
@@ -25334,22 +25314,18 @@ msgid "Moving Average"
 msgstr "Rullande medelvärde"
 
 #: src/dialogs/moving-averages.glade.h:10
-#, fuzzy
 msgid "_Interval:"
-msgstr "In_tervall:"
+msgstr "_Intervall:"
 
 #: src/dialogs/names.glade.h:3
-#, fuzzy
 msgid "<b>Available Names</b>"
-msgstr "Tillgängliga namn"
+msgstr "<b>Tillgängliga namn</b>"
 
 #: src/dialogs/names.glade.h:4
-#, fuzzy
 msgid "<b>Definition</b>"
-msgstr "<b>Orientering</b>"
+msgstr "<b>Definition</b>"
 
 #: src/dialogs/names.glade.h:5
-#, fuzzy
 msgid "Define Names"
 msgstr "Definiera namn"
 
@@ -25517,9 +25493,8 @@ msgid "Page"
 msgstr "Sida"
 
 #: src/dialogs/print.glade.h:16
-#, fuzzy
 msgid "Page Setup"
-msgstr "Sid_egenskaper..."
+msgstr "Sidegenskaper"
 
 #: src/dialogs/print.glade.h:17
 msgid "Print _area:"
@@ -25606,14 +25581,12 @@ msgid "_Distribution:"
 msgstr "_Distribution:"
 
 #: src/dialogs/random-generation.glade.h:8
-#, fuzzy
 msgid "_Number of variables:"
 msgstr "A_ntal variabler:"
 
 #: src/dialogs/random-generation.glade.h:9
-#, fuzzy
 msgid "_Size of sample:"
-msgstr "Storlek på stickprov:"
+msgstr "_Storlek på stickprov:"
 
 #: src/dialogs/rank.glade.h:5
 msgid "Rank and Percentile"
@@ -26187,14 +26160,12 @@ msgid "Constraints"
 msgstr "Bivillkor"
 
 #: src/dialogs/solver.glade.h:8
-#, fuzzy
 msgid "Max _Iterations:"
-msgstr "Max iterationer:"
+msgstr "Max _iterationer:"
 
 #: src/dialogs/solver.glade.h:9
-#, fuzzy
 msgid "Max _Time (sec.):"
-msgstr "Maxtid (sekunder):"
+msgstr "Max_tid (sekunder):"
 
 #: src/dialogs/solver.glade.h:10
 msgid "Model"
@@ -26221,9 +26192,8 @@ msgid "Solve"
 msgstr "Lös"
 
 #: src/dialogs/solver.glade.h:19
-#, fuzzy
 msgid "_Algorithm:"
-msgstr "Algoritm:"
+msgstr "_Algoritm:"
 
 #: src/dialogs/solver.glade.h:20
 msgid "_Answer"
@@ -26242,9 +26212,8 @@ msgid "_Do not create scenarios"
 msgstr "_Skapa inte scenarier"
 
 #: src/dialogs/solver.glade.h:25
-#, fuzzy
 msgid "_Equal To:"
-msgstr "Lika med:"
+msgstr "_Lika med:"
 
 #: src/dialogs/solver.glade.h:26
 msgid "_Left Hand Side:"
@@ -26290,6 +26259,11 @@ msgid ""
 "Int\n"
 "Bool\n"
 msgstr ""
+"≤\n"
+"≥\n"
+"=\n"
+"Int\n"
+"Bool\n"
 
 #: src/dialogs/so-scrollbar.glade.h:1
 msgid "Increment:"
@@ -26394,18 +26368,16 @@ msgid "_Visual"
 msgstr "_Synlig"
 
 #: src/dialogs/variance-tests.glade.h:5
-#, fuzzy
 msgid "Test"
-msgstr "_Test"
+msgstr "Test"
 
 #: src/dialogs/variance-tests.glade.h:6
 msgid "Testing Equality of 2 Variances (F-Test)"
 msgstr "Testar likhet av 2 varianser (F-test)"
 
 #: src/dialogs/view.glade.h:3
-#, fuzzy
 msgid "<b>Location</b>"
-msgstr "<b>rad</b>"
+msgstr "<b>Plats</b>"
 
 #: src/dialogs/view.glade.h:4
 msgid "Create New View"
@@ -26417,12 +26389,11 @@ msgstr "Den nya vyn öppnas på den bestämda skärmen"
 
 #: src/dialogs/view.glade.h:6
 msgid "Specified screen:"
-msgstr ""
+msgstr "Bestämd skärm:"
 
 #: src/dialogs/view.glade.h:7
-#, fuzzy
 msgid "_Share cursor position"
-msgstr "Vyer har delad markörposition"
+msgstr "_Dela markörposition"
 
 #: src/dialogs/workbook-attr.glade.h:2
 msgid "A_uto Complete Text in Cells"
@@ -27419,14 +27390,12 @@ msgid "Function does not exist"
 msgstr "Funktionen finns inte"
 
 #: src/gnm-so-filled.c:94
-#, fuzzy
 msgid "Filled Object Properties"
-msgstr "Ramegenskaper"
+msgstr "Egenskaper för fyllda objekt"
 
 #: src/gnm-so-line.c:108
-#, fuzzy
 msgid "Line/Arrow Properties"
-msgstr "Pil/Linje-egenskaper"
+msgstr "Linje/Pil-egenskaper"
 
 #: src/gnumeric-pane.c:127
 #, c-format
