@@ -19,7 +19,6 @@
 #include "sheet.h"
 #include "cell.h"
 #include "expr.h"
-#include "rendered-value.h"
 #include "gnumeric-util.h"
 #include "parse-util.h"
 

@@ -31,7 +31,6 @@
 #include "sheet-private.h"
 #include "sheet-control-gui.h"
 #include "sheet-object.h"
-#include "rendered-value.h"
 #include "dialogs.h"
 #include "commands.h"
 #include "cmd-edit.h"

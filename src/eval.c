@@ -16,7 +16,6 @@
 #include "ranges.h"
 #include "eval.h"
 #include "value.h"
-#include "rendered-value.h"
 #include "main.h"
 #include "workbook-control.h"
 #include "workbook-view.h"

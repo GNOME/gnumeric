@@ -20,7 +20,6 @@
 #include "cell.h"
 #include "ranges.h"
 #include "analysis-tools.h"
-#include "rendered-value.h"
 
 #define OK               0
 #define N_COLUMNS_ERROR  1

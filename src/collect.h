@@ -2,7 +2,7 @@
 #define GNUMERIC_COLLECT_H
 
 #include "numbers.h"
-#include "expr.h"
+#include "gnumeric.h"
 
 typedef enum {
 	COLLECT_IGNORE_STRINGS = 0x01,
@@ -23,8 +23,8 @@ typedef int (*float_range_function_t) (const gnum_float *, int, gnum_float *);
 typedef int (*float_range_function2_t) (const gnum_float *, const gnum_float *, int, gnum_float *);
 
 gnum_float *collect_floats_value (const Value *val, const EvalPos *ep,
-			       CollectFlags flags,
-			       int *n, Value **error);
+				  CollectFlags flags,
+				  int *n, Value **error);
 
 Value *float_range_function (GList *exprlist, FunctionEvalInfo *ei,
 			     float_range_function_t func,

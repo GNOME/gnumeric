@@ -22,7 +22,6 @@
 #include "cell.h"
 #include "value.h"
 #include "file.h"
-#include "rendered-value.h"
 #include "io-context.h"
 #include "workbook-view.h"
 #include "workbook.h"

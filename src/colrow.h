@@ -1,7 +1,6 @@
 #ifndef GNUMERIC_COLROW_H
 #define GNUMERIC_COLROW_H
 
-#include <glib.h>
 #include "gnumeric.h"
 
 struct _ColRowInfo {

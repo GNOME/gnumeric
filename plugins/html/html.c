@@ -33,7 +33,6 @@
 #include "cell.h"
 #include "value.h"
 #include "font.h"
-#include "rendered-value.h"
 
 #include <gnome.h>
 #include <errno.h>

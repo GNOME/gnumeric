@@ -35,7 +35,6 @@
 #include "value.h"
 #include "mstyle.h"
 #include "position.h"
-#include "rendered-value.h"
 #include "cell.h"
 #include "parse-util.h"
 #include "gnumeric-type-util.h"

@@ -128,10 +128,10 @@ dnl **************************************************
 dnl
 AC_CHECK_PROG(perl_val, perl, true, false)
 if $perl_val; then
-  AC_MSG_CHECKING(for perl ExtUtils::Embed module)
+  AC_MSG_CHECKING(for perl ExtUtils::Embed module				)
   perl -e 'eval { require ExtUtils::Embed }; if ($@) { exit(1); } else { exit(0); }'
   if test "x$?" = "x0"; then
-    AC_MSG_RESULT(yes)
+    AC_MSG_RESULT($marker_ok)
 
     dnl Use ExtUtils::Embed to figure out the other options.
     PERL_CCCDLFLAGS=`perl -MConfig -e 'print $Config{cccdlflags},"\n";'`
@@ -147,7 +147,7 @@ if $perl_val; then
     AC_SUBST(PERL_CCOPTS)
     AC_SUBST(PERL_LDOPTS)
   else
-    AC_MSG_RESULT(no)
+    AC_MSG_RESULT($marker_no)
     perl_val=false
   fi
 fi

@@ -40,6 +40,7 @@
 #include "format.h"
 #include "expr.h"
 #include "dates.h"
+#include "value.h"
 #include "parse-util.h"
 #include "portability.h"
 #include "datetime.h"

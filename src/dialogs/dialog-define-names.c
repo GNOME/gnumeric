@@ -55,11 +55,11 @@ typedef struct {
 
 /**
  * name_guru_warned_if_used:
- * @state: 
- * 
+ * @state:
+ *
  * If the expresion that is about to be deleted is beeing used,
  * warn the user about it. Ask if we should procede or not
- * 
+ *
  * Return Value: TRUE if users confirms deletion, FALSE otherwise
  **/
 static gboolean
@@ -75,10 +75,10 @@ name_guru_warn (NameGuruState *state)
 
 /**
  * name_guru_scope_change:
- * @state: 
- * @scope: 
- * 
- * Change the scope of state->cur_name. Ask the user if we want to procede with the 
+ * @state:
+ * @scope:
+ *
+ * Change the scope of state->cur_name. Ask the user if we want to procede with the
  * change if we are going to invalidate expressions in the sheet.
  *
  * Return Value: FALSE, if the user cancels the scope change
@@ -92,7 +92,7 @@ name_guru_scope_change (NameGuruState *state, NameGuruScope scope)
 	expression = state->cur_name;
 	if (expression == NULL)
 		return TRUE;
-	
+
 	/* get the current values for the expression */
 	if (scope == NAME_GURU_SCOPE_WORKBOOK) {
 		expr_name_sheet2wb (expression);
@@ -101,13 +101,13 @@ name_guru_scope_change (NameGuruState *state, NameGuruScope scope)
 	if (scope == NAME_GURU_SCOPE_SHEET) {
 		if (!name_guru_warn (state))
 			return FALSE;
-		
+
 		expr_name_wb2sheet (expression, state->sheet);
 	}
-	
+
 	return TRUE;
 }
-			
+
 static void
 cb_scope_changed (GtkEntry *entry, NameGuruState *state)
 {
@@ -126,7 +126,7 @@ cb_scope_changed (GtkEntry *entry, NameGuruState *state)
 				     NAME_GURU_SCOPE_WORKBOOK))
 		g_print ("Here we toggle the scope back to what it was\n"
 			 "The user cancelled the scope change.\n");
-	    
+
 }
 
 static void
@@ -157,9 +157,9 @@ static void cb_name_guru_select_name (GtkWidget *list, NameGuruState *state);
 
 /**
  * name_guru_set_expr:
- * @state: 
+ * @state:
  * @expr_name: Expression to set in the entries, NULL to clear entries
- * 
+ *
  * Set the entries in the dialog from an NamedExpression
  **/
 static void
@@ -171,7 +171,7 @@ name_guru_set_expr (NameGuruState *state, NamedExpression *expr_name)
 
 	/* don't recurse */
 	state->updating = TRUE;
-					      
+
 	if (expr_name) {
 		/* Display the name */
 		gtk_entry_set_text (state->name, expr_name->name->str);
@@ -195,8 +195,8 @@ name_guru_set_expr (NameGuruState *state, NamedExpression *expr_name)
 
 /**
  * name_guru_clear_selection:
- * @state: 
- * 
+ * @state:
+ *
  * Clear the selection of the gtklist
  **/
 static void
@@ -211,11 +211,11 @@ name_guru_clear_selection (NameGuruState *state)
 
 /**
  * name_guru_in_list:
- * @name: 
+ * @name:
  * @state:
- * 
+ *
  * Given a name, it searches for it inside the list of Names
- * 
+ *
  * Return Value: TRUE if name is already defined, FALSE otherwise
  **/
 static gboolean
@@ -244,9 +244,9 @@ name_guru_in_list (const gchar *name, NameGuruState *state)
 
 /**
  * name_guru_update_sensitivity:
- * @state: 
- * @update_entries: 
- * 
+ * @state:
+ * @update_entries:
+ *
  * Update the dialog widgets sensitivity
  **/
 static void
@@ -263,7 +263,7 @@ name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
 
 	if (state->updating)
 		return;
-	
+
 	name  = gtk_entry_get_text (state->name);
 	value = gtk_entry_get_text (state->value);
 
@@ -293,9 +293,9 @@ name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
 
 /**
  * name_guru_update_sensitivity_cb:
- * @dummy: 
- * @state: 
- * 
+ * @dummy:
+ * @state:
+ *
  **/
 static void
 name_guru_update_sensitivity_cb (GtkWidget *dummy, NameGuruState *state)
@@ -305,9 +305,9 @@ name_guru_update_sensitivity_cb (GtkWidget *dummy, NameGuruState *state)
 
 /**
  * cb_name_guru_select_name:
- * @list: 
- * @state: 
- * 
+ * @list:
+ * @state:
+ *
  * Set the expression from the selected row in the gtklist
  **/
 static void
@@ -371,11 +371,11 @@ name_guru_populate_list (NameGuruState *state)
 
 /**
  * name_guru_scope_get:
- * @state: 
- * 
+ * @state:
+ *
  * Get the selected Scope from the combo box
- * 
- * Return Value: 
+ *
+ * Return Value:
  **/
 static NameGuruScope
 name_guru_scope_get (NameGuruState *state)
@@ -385,7 +385,7 @@ name_guru_scope_get (NameGuruState *state)
 	text = gtk_entry_get_text (GTK_ENTRY (state->scope->entry));
 
 	g_return_val_if_fail (text != NULL, NAME_GURU_SCOPE_WORKBOOK);
-	
+
 	if (strcmp (text, _("Workbook"))==0)
 	    return NAME_GURU_SCOPE_WORKBOOK;
 	else
@@ -395,9 +395,9 @@ name_guru_scope_get (NameGuruState *state)
 
 /**
  * cb_name_guru_remove:
- * @ignored: 
- * @state: 
- * 
+ * @ignored:
+ * @state:
+ *
  * Remove the state->cur_name
  **/
 static void
@@ -423,10 +423,10 @@ cb_name_guru_remove (GtkWidget *ignored, NameGuruState *state)
 
 /**
  * cb_name_guru_add:
- * @state: 
- * 
+ * @state:
+ *
  * Update or add a NamedExpression from the values in the gtkentries.
- * 
+ *
  * Return Value: FALSE if the expression was invalid, TRUE otherwise
  **/
 static gboolean
@@ -468,11 +468,11 @@ cb_name_guru_add (NameGuruState *state)
 		if (!expr_name->builtin) {
 			/* This means that the expresion was updated updated.
 			 * FIXME: if the scope has been changed too, call scope
-			 * chaned first. 
+			 * chaned first.
 			 */
 			expr_tree_unref (expr_name->t.expr_tree);
 			expr_name->t.expr_tree = expr;
-		} else 
+		} else
 			gnumeric_notice (state->wbcg, GNOME_MESSAGE_BOX_ERROR,
 					 _("You cannot redefine a builtin name."));
 	} else {
@@ -510,7 +510,7 @@ cb_name_guru_clicked (GtkWidget *button, NameGuruState *state)
 		return;
 
 	workbook_set_entry (state->wbcg, NULL);
-	
+
 	if (button == state->delete_button) {
 		cb_name_guru_remove (NULL, state);
 		return;
@@ -529,7 +529,7 @@ cb_name_guru_clicked (GtkWidget *button, NameGuruState *state)
 		gtk_widget_destroy (state->dialog);
 		return;
 	}
-	
+
 }
 
 static GtkWidget *
@@ -538,7 +538,7 @@ name_guru_init_button (NameGuruState *state, char const *name)
 	GtkWidget *tmp = glade_xml_get_widget (state->gui, name);
 
 	g_return_val_if_fail (tmp != NULL, NULL);
-	
+
 	gtk_signal_connect (GTK_OBJECT (tmp), "clicked",
 			    GTK_SIGNAL_FUNC (cb_name_guru_clicked),
 			    state);
@@ -631,8 +631,8 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 
 /**
  * dialog_define_names:
- * @wbcg: 
- * 
+ * @wbcg:
+ *
  * Create and show the define names dialog.
  **/
 void
@@ -653,4 +653,3 @@ dialog_define_names (WorkbookControlGUI *wbcg)
 	name_guru_populate_list (state);
 	gtk_widget_show (state->dialog);
 }
-

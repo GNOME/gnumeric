@@ -10,6 +10,7 @@
 #include <config.h>
 #include "datetime.h"
 #include "number-match.h"
+#include "value.h"
 #include <math.h>
 
 #define SECS_PER_DAY (24 * 60 * 60)

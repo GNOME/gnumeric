@@ -21,7 +21,6 @@
 #include "ranges.h"
 #include "commands.h"
 #include "workbook.h"
-#include "rendered-value.h"
 #include "sort.h"
 #include "sheet.h"
 

@@ -16,6 +16,8 @@
 #include "workbook-view.h"
 #include "workbook.h"
 
+#include <libgnome/libgnome.h>
+
 /* A GList of FileOpener structures */
 static GList *gnumeric_file_savers = NULL;
 static GList *gnumeric_file_openers = NULL;

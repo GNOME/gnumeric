@@ -13,7 +13,6 @@
 #include "cell.h"
 #include "sort.h"
 #include "value.h"
-#include "rendered-value.h"
 
 #include <stdlib.h>
 #include <stdio.h>

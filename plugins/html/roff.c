@@ -30,7 +30,6 @@
 #include "roff.h"
 #include "font.h"
 #include "cell.h"
-#include "rendered-value.h"
 
 /*
  * escape special characters .. needs work

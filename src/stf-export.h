@@ -1,10 +1,7 @@
 #ifndef GNUMERIC_STF_EXPORT_H
 #define GNUMERIC_STF_EXPORT_H
 
-#include <gnome.h>
-
-#include "sheet.h"
-#include "cell.h"
+#include "gnumeric.h"
 
 /*
  * Callback functions
@@ -46,27 +43,19 @@ typedef struct
 /*
  * Creation/Destruction of StfExportOptions struct
  */
-StfExportOptions_t  *stf_export_options_new                 (void);
-
-void                 stf_export_options_free                (StfExportOptions_t *export_options);
+StfExportOptions_t  *stf_export_options_new  (void);
+void                 stf_export_options_free (StfExportOptions_t *export_options);
 
 /*
  * Manipulation of StfExportOptions struct
  */
-void                 stf_export_options_set_terminator_type (StfExportOptions_t *export_options, StfTerminatorType_t terminator_type);
-
-void                 stf_export_options_set_cell_separator  (StfExportOptions_t *export_options, char cell_separator);
-
-void                 stf_export_options_set_quoting_mode    (StfExportOptions_t *export_options, StfQuotingMode_t quoting_mode);
-
-void                 stf_export_options_set_quoting_char    (StfExportOptions_t *export_options, char quoting_char);
-
-void                 stf_export_options_set_write_callback  (StfExportOptions_t *export_options, StfEWriteFunc write_func, gpointer data);
-
-void                 stf_export_options_sheet_list_clear    (StfExportOptions_t *export_options);
-
-void                 stf_export_options_sheet_list_add      (StfExportOptions_t *export_options, Sheet *sheet);
-
+void stf_export_options_set_terminator_type (StfExportOptions_t *export_options, StfTerminatorType_t terminator_type);
+void stf_export_options_set_cell_separator  (StfExportOptions_t *export_options, char cell_separator);
+void stf_export_options_set_quoting_mode    (StfExportOptions_t *export_options, StfQuotingMode_t quoting_mode);
+void stf_export_options_set_quoting_char    (StfExportOptions_t *export_options, char quoting_char);
+void stf_export_options_set_write_callback  (StfExportOptions_t *export_options, StfEWriteFunc write_func, gpointer data);
+void stf_export_options_sheet_list_clear    (StfExportOptions_t *export_options);
+void stf_export_options_sheet_list_add      (StfExportOptions_t *export_options, Sheet *sheet);
 
 /*
  * Functions that do the actual thing
@@ -74,7 +63,3 @@ void                 stf_export_options_sheet_list_add      (StfExportOptions_t 
 gboolean             stf_export                             (StfExportOptions_t *export_options);
 
 #endif
-
-
-
-

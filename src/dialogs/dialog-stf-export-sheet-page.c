@@ -8,6 +8,7 @@
 
 #include <config.h>
 #include "workbook.h"
+#include "sheet.h"
 
 #include "dialog-stf-export-private.h"
 

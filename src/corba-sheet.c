@@ -28,7 +28,6 @@
 #include "format.h"
 #include "sheet-private.h"
 #include "cell-comment.h"
-#include "rendered-value.h"
 #include "cmd-edit.h"
 
 #define verify(cond)          if (!(cond)){ out_of_range (ev); return; }

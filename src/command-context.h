@@ -28,6 +28,6 @@ void gnumeric_progress_set	 (CommandContext *context, gfloat f);
  * context for error messages. E.g.: "Could not read file: %s". */
 void command_context_pop_err_template (CommandContext *context);
 void command_context_push_err_template (CommandContext *context,
-				    const char *template_str);
+					const char *template_str);
 
 #endif /* GNUMERIC_COMMAND_CONTEXT_H */

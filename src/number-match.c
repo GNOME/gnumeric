@@ -29,6 +29,7 @@
 #include "datetime.h"
 #include "style.h"
 #include "format.h"
+#include "value.h"
 
 #undef DEBUG_NUMBER_MATCH
 

@@ -2,7 +2,6 @@
 #define GNUMERIC_FILE_H
 
 #include "gnumeric.h"
-#include "workbook-control-gui.h"
 
 /*
  * File format levels. They are ordered. When we save a file, we

@@ -1,6 +1,8 @@
 #ifndef GNUMERIC_CLIPBOARD_H
 #define GNUMERIC_CLIPBOARD_H
 
+#include "gnumeric.h"
+
 enum {
 	PASTE_CONTENT		= 1 << 0, /* either CONTENT or AS_VALUES */
 	PASTE_AS_VALUES		= 1 << 1, /*  can be applied, not both */

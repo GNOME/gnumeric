@@ -1,7 +1,6 @@
 #ifndef GNUMERIC_CELL_H
 #define GNUMERIC_CELL_H
 
-#include <glib.h>
 #include "gnumeric.h"
 #include "dependent.h"
 

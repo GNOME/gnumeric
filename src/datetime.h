@@ -2,7 +2,7 @@
 #define GNUMERIC_DATETIME_H
 
 #include "gnumeric.h"
-#include "value.h"
+#include "numbers.h"
 #include <time.h>
 
 /*

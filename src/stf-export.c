@@ -25,11 +25,12 @@
  */
 
 #include <config.h>
-#include <stdio.h>
-
-#include "rendered-value.h"
-
 #include "stf-export.h"
+#include "sheet.h"
+#include "cell.h"
+
+#include <stdio.h>
+#include <string.h>
 
 /*******************************************************************************************************
  * STF_EXPORT_OPTIONS Creation/Destruction/Manipulation

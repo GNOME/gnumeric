@@ -27,7 +27,6 @@
 #include "application.h"
 #include "workbook.h"
 #include "commands.h"
-#include "rendered-value.h"
 
 /* The order corresponds to border_preset_buttons */
 typedef enum

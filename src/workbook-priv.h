@@ -10,6 +10,7 @@
 #include "gnumeric.h"
 #include "summary.h"
 #include "file.h"
+#include <gtk/gtkobject.h>
 
 typedef struct _WorkbookPrivate WorkbookPrivate;
 struct _Workbook {
