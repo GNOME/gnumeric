@@ -4,6 +4,10 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=80134
 	* clone grouping and frozen status too.
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=77682
+	* preset canvas scroll region in case something scrolls before we are
+	  realized.
+
 	* gdk_flush after all grab/ungrab events so that long running
 	  operations that do not update the display are certain to ungrab
 	  without delay (thanks rconover)

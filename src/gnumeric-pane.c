@@ -39,6 +39,11 @@ gnumeric_pane_header_init (GnumericPane *pane, SheetControlGUI *scg,
 		"ItemBar::IsColHeader", is_col_header,
 		NULL);
 
+	/* give a non-constraining default in case something scrolls before we
+	 * are realized
+	 */
+	gnome_canvas_set_scroll_region (canvas,
+		0, 0, GNUMERIC_CANVAS_FACTOR_X, GNUMERIC_CANVAS_FACTOR_Y);
 	if (is_col_header) {
 		pane->col.canvas = canvas;
 		pane->col.item = ITEM_BAR (item);

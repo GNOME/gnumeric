@@ -1,5 +1,12 @@
 2002-04-29  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=77682
+	* src/gnumeric-pane.c (gnumeric_pane_header_init) : set a
+	  non-contraining scrollregion here in case something scrolls before we
+	  are realized and a real region is assigned.
+
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
 	* src/item-cursor.c : remove the flushes in here.
 
 	* src/gnumeric-simple-canvas.c (gnm_simple_canvas_ungrab) : add a
