@@ -1,5 +1,10 @@
 2002-10-30  Morten Welinder  <terra@diku.dk>
 
+	* src/workbook-edit.c (entry_changed): Ditto.
+	(wbcg_edit_start): Ditto.
+
+	* src/func.c (tokenized_help_new): Make utf8 safe.
+
 	* src/cell-draw.c (cell_split_text): Fix isspace check and
 	eliminate ctype.h usage.
 	* src/print-cell.c (cell_split_text): Ditto.

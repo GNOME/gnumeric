@@ -38,7 +38,6 @@
 
 #include <gsf/gsf-impl-utils.h>
 #include <gal/widgets/e-cursors.h>
-#include <ctype.h>
 #include <string.h>
 
 static GnomeCanvasItem *item_edit_parent_class;

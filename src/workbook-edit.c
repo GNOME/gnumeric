@@ -34,7 +34,6 @@
 #include "widgets/gnumeric-expr-entry.h"
 
 #include <gtk/gtk.h>
-#include <ctype.h>
 #include <string.h>
 
 /*
@@ -265,7 +264,7 @@ entry_changed (GtkEntry *entry, void *data)
 	 * does not begin with an alphabetic character.
 	 */
 	if (text_len < wbcg->auto_max_size ||
-	    !isalpha((unsigned char)*text))
+	    !g_unichar_isalpha (g_utf8_get_char (text)))
 		wbcg->auto_completing = FALSE;
 
 	if (wbv->do_auto_completion && wbcg->auto_completing)
@@ -365,7 +364,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 
 	/* Activate auto-completion if this is not an expression */
 	if (wbv->do_auto_completion &&
-	    (text == NULL || isalpha ((unsigned char)*text))) {
+	    (text == NULL || g_unichar_isalpha (g_utf8_get_char (text)))) {
 		wbcg->auto_complete = complete_sheet_new (
 			sv->sheet, col, row,
 			workbook_edit_complete_notify, wbcg);

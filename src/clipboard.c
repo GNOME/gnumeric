@@ -31,7 +31,6 @@
 
 #include <locale.h>
 #include <string.h>
-#include <ctype.h>
 
 static gboolean
 cell_has_expr_or_number_or_blank (Cell const * cell)

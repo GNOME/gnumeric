@@ -89,7 +89,6 @@
 
 #include <libgnomevfs/gnome-vfs-uri.h>
 
-#include <ctype.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <errno.h>

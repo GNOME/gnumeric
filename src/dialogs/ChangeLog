@@ -1,3 +1,9 @@
+2002-10-30  Morten Welinder  <terra@diku.dk>
+
+	* dialog-function-select.c
+	(cb_dialog_function_select_fun_selection_changed): Make utf8 safe.
+	I think.  I hope.
+
 2002-10-29  Jody Goldberg <jody@gnome.org>
 
 	* dialog-define-names.c (name_guru_init) : add a help button.

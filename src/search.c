@@ -20,7 +20,6 @@
 #include "sheet-object-cell-comment.h"
 
 #include <string.h>
-#include <ctype.h>
 #include <stdlib.h>
 
 /* ------------------------------------------------------------------------- */

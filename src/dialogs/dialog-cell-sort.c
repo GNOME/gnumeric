@@ -46,7 +46,6 @@
 
 #include <glade/glade.h>
 #include <gsf/gsf-impl-utils.h>
-#include <ctype.h>
 #include <stdio.h>
 
 #define GLADE_FILE "cell-sort.glade"

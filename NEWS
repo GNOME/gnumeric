@@ -14,6 +14,7 @@ Morten:
 	* Fix elusive dependency leak.
 	* Implemented a new and better qgamma function.  (Anything dealing
           with the chisq distribution will also benefit from this.)
+	* More utf8 work.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.10

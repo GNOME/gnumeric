@@ -30,7 +30,6 @@
 #include <libxml/globals.h>
 #include <locale.h>
 #include <string.h>
-#include <ctype.h>
 
 /* The name of our clipboard atom and the 'magic' info number */
 #define GNUMERIC_ATOM_NAME "application/x-gnumeric"

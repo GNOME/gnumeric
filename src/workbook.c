@@ -40,7 +40,6 @@
 
 #include <gtk/gtkmain.h> /* for gtk_main_quit */
 #include <gsf/gsf-impl-utils.h>
-#include <ctype.h>
 #include <string.h>
 
 static GObjectClass *workbook_parent_class;

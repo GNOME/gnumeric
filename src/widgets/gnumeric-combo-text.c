@@ -6,7 +6,6 @@
 #include <gnumeric.h>
 #include "gnumeric-combo-text.h"
 
-#include <ctype.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtklist.h>

@@ -31,7 +31,6 @@
 #include <string.h>
 #include <glib.h>
 #include <stdlib.h>
-#include <ctype.h>
 
 static GList *categories;
 static SymbolTable *global_symbol_table;
@@ -1211,8 +1210,10 @@ tokenized_help_new (GnmFunc const *func)
 		tok->sections = g_ptr_array_new ();
 
 		for (start = ptr = tok->help_copy; *ptr ; ptr++) {
-			if (ptr[0] == '\\' && ptr[1])
-				ptr += 2;
+			if (ptr[0] == '\\' && ptr[1]) {
+				ptr = g_utf8_next_char (ptr + 1);
+				continue;
+			}
 
 			/* FIXME : This is hugely ugly.  we need a decent
 			 * format for this stuff.
@@ -1221,7 +1222,8 @@ tokenized_help_new (GnmFunc const *func)
 			 * for now make the assumption that any args will
 			 * always start with lower case.
 			 */
-			if (*ptr == '@' && isupper (*(unsigned char *)(ptr +1)) &&
+			if (*ptr == '@' &&
+			    g_unichar_isupper (g_utf8_get_char (ptr + 1)) &&
 			    seek_at && last_newline) {
 				/* previous newline if this is not the first */
 				if (ptr != start)
