@@ -1,0 +1,12 @@
+Document: gnumeric-manual
+Title: Gnumeric's user manual
+Author: Miguel de Icaza, Thomas Canty
+Abstract: The user manual for the GNOME spreadsheet.
+ This manual covers the concepts and use of Gnumeric, the GNOME desktop
+ environment's spreadsheet, including the formulas, the Gnumeric Solver 
+ and data analyis tools.
+Section: Apps/Math
+
+Format: html
+Index: /usr/share/gnome/help/gnumeric/C/index.html
+Files: /usr/share/gnome/help/gnumeric/C/*html

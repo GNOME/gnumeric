@@ -1,3 +1,144 @@
+#! /usr/bin/make -f
+# Sample debian/rules that uses debhelper. 
+# GNU copyright 1997 by Joey Hess.
+#
+# This version is for a hypothetical package that builds an
+# architecture-dependant package, as well as an architecture-independent
+# package.
+
+# Uncomment this to turn on verbose mode. 
+#export DH_VERBOSE=1
+
+# This is the debhelper compatability version to use.
+export DH_COMPAT=3
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+	autoconf
+	env CC="gcc -D_GNU_SOURCE" ./configure --prefix=/usr --sysconfdir=/etc \
+                --without-guile \
+                --with-python \
+                --with-bonobo \
+                --without-gb \
+		--without-evolution \
+                --without-gda \
+                --enable-compile-warnings=minimum \
+                --enable-iso-c
+
+	touch configure-stamp
+
+build: configure-stamp build-stamp
+build-stamp:
+	dh_testdir
+
+	# Add here commands to compile the package.
+	$(MAKE)
+
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp
+	rm -f debian/substvars debian/*~ debian/tmp config.log
+
+	# Add here commands to clean up after the build process.
+	-$(MAKE) distclean
+	-rm -f plugins/perl/ext/Makefile.PL plugins/perl/xsinit.c \
+		gnumeric.keys gnumeric.desktop GNOME_Gnumeric.oaf \
+		config.cache doc/C/index.html
+	-find . -name Makefile | xargs rm -f > /dev/null 2>&1
+	-rm -rf doc/C/gnumeric po/tmp po/*.gmo po/messages xml-i18n-{extract,merge,update} po/gnumeric.pot po/cat-id-tbl.c
+	-rm -rf doc/C/gnumeric po/tmp
+	-rm -rf doc/C/DBTOHTML_OUTPUT_DIR*
+	-rm -f po/*.gmo po/messages po/gnumeric.pot po/cat-id-tbl.c
+	-rm -f xml-i18n-extract xml-i18n-merge xml-i18n-update
+	-rm -f configure
+
+	dh_clean
+
+install: DH_OPTIONS=
+install: build
+	dh_testdir
+	dh_testroot
+	dh_clean -k
+	dh_installdirs
+
+	$(MAKE) install prefix=`pwd`/debian/gnumeric/usr sysconfdir=`pwd`/debian/gnumeric/etc
+
+	find `pwd`/debian/gnumeric/usr/ -name '*.a' -print0 | xargs -0 rm -f
+	find `pwd`/debian/gnumeric/usr/lib/gnumeric/*/plugins -name '*.la' -print0 | xargs -0 rm -f
+
+	dh_movefiles --sourcedir=debian/gnumeric
+
+	install -d `pwd`/debian/gnumeric/usr/share/man/man1/
+	install -p `pwd`/doc/C/gnumeric.1 `pwd`/debian/gnumeric/usr/share/man/man1/
+
+# Build architecture-independent files here.
+# Pass -i to all debhelper commands in this target to reduce clutter.
+binary-indep: build install
+	dh_testdir -i
+	dh_testroot -i
+#	dh_installdebconf -i
+	dh_installdocs -i
+
+	cd `pwd`/debian/gnumeric-doc/usr/share/doc/gnumeric-doc && \
+		ln -s ../../gnome/help/gnumeric/C/ html
+
+	dh_installexamples -i
+	dh_installmenu -i
+#	dh_installlogrotate -i
+#	dh_installemacsen -i
+#	dh_installpam -i
+	dh_installmime -i
+#	dh_installinit -i
+	dh_installcron -i
+#	dh_installman -i
+	dh_installinfo -i
+#	dh_undocumented -i
+	dh_installchangelogs ChangeLog -i
+	dh_link -i
+	dh_compress -i
+	dh_fixperms -i
+	dh_installdeb -i
+#	dh_perl -i
+	dh_gencontrol -i
+	dh_md5sums -i
+	dh_builddeb -i
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir -a
+	dh_testroot -a
+#	dh_installdebconf -a
+	dh_installdocs -a
+	dh_installexamples -a
+	dh_installmenu -a
+#	dh_installlogrotate -a
+#	dh_installemacsen -a
+#	dh_installpam -a
+#	dh_installmime -a
+#	dh_installinit -a
+	dh_installcron -a
+#	dh_installman -a
+	dh_installinfo -a
+#	dh_undocumented -a
+	dh_installchangelogs ChangeLog -a
+	dh_strip -a
+	dh_link -a
+	dh_compress -a
+	dh_fixperms -a
+#	dh_makeshlibs -a
+	dh_installdeb -a
+#	dh_perl -a
+	dh_shlibdeps -a
+	dh_gencontrol -a
+	dh_md5sums -a
+	dh_builddeb -a
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install configure
 #!/usr/bin/make -f
 # MAde with the aid of dh_make, by Craig Small
 # Sample debian/rules that uses debhelper. GNU copyright 1997 by Joey Hess.
@@ -58,7 +199,7 @@ binary-arch: build
 	dh_gencontrol
 	dh_makeshlibs
 	#mv debian/tmp/usr/bin/gnumeric debian/tmp/usr/X11R6/bin/gnumeric
-	dh_undocumented gnumeric.1 gnumeric-corba.1
+	#dh_undocumented gnumeric.1 gnumeric-corba.1
 	dh_md5sums
 	dh_builddeb
 
