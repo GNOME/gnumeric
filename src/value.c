@@ -619,19 +619,13 @@ value_get_as_string (Value const *v)
 		for (y = 0; y < v->v_array.y; y++){
 			for (x = 0; x < v->v_array.x; x++){
 				Value const *val = v->v_array.vals[x][y];
+				char *text;
 
-				g_return_val_if_fail (val->type == VALUE_STRING ||
-						      val->type == VALUE_FLOAT ||
-						      val->type == VALUE_INTEGER,
-						      g_strdup ("Duff Array contents"));
 				if (x)
 					g_string_append_c (str, row_sep);
-				if (val->type == VALUE_STRING)
-					g_string_sprintfa (str, "\"%s\"",
-							   val->v_str.val->str);
-				else
-					g_string_sprintfa (str, "%" GNUM_FORMAT_g,
-							   value_get_as_float (val));
+				text = value_get_as_string (val);
+				g_string_append (str, text);
+				g_free (text);
 			}
 			if (y < v->v_array.y-1)
 				g_string_append_c (str, col_sep);
@@ -673,7 +667,7 @@ value_peek_string (Value const *v)
 	else if (v->type == VALUE_ERROR)
 		return v->v_err.mesg->str;
 	else {
-		static char *cache[2] = { 0 };
+		static char *cache[2] = { 0 , 0};
 		static int next = 0;
 		char const *s;
 

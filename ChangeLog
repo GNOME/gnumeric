@@ -1,3 +1,8 @@
+2002-04-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/value.c (value_get_as_string) : handle VALUE_ARRAY more reasonably
+	(value_peek_string) : initialize all fields of cache
+
 2002-04-13  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-file.c: s/ENABLE_BONOBO/WITH_BONOBO/
