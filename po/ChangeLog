@@ -1,6 +1,18 @@
+2001-05-19  Valek Filippov  <frob@df.ru>
+
+	* ru.po: updated russian translation.
+
 2001-05-19  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* pl.po: Updated Polish translation.
+
+2001-05-18  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.37.
+
+2001-05-18  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.37.
 
 2001-05-18  Karl Eichwalder  <ke@suse.de>
 
