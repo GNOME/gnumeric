@@ -14,6 +14,7 @@ Morten:
 	  floating point effects.  (If you ever truly get a number that
 	  is within DBL_EPSILON of a rounding threshold, well, then you
 	  lose.  With a binary representation, we cannot all win.)
+	* Leak plugging as usual.
 
 Zbigniew Chyla:
 	* Internationalization support for autoformat.

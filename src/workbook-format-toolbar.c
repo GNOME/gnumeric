@@ -832,12 +832,14 @@ static void
 workbook_format_toolbutton_update (WorkbookControlGUI *wbcg,
 				   char const * const path, gboolean state)
 {
-	gchar const *new_val = state ? "1" : "0";
+	const gchar *new_val = state ? "1" : "0";
 
 	/* Ick,  This should be in bonobo */
-	gchar const *old_val = bonobo_ui_component_get_prop (wbcg->uic, path,
-							     "state", NULL);
-	if (old_val != NULL && !strcmp (new_val, old_val))
+	gchar *old_val = bonobo_ui_component_get_prop (wbcg->uic, path,
+						       "state", NULL);
+	gboolean same = (old_val != NULL && !strcmp (new_val, old_val));
+	g_free (old_val);
+	if (same)
 		return;
 
 	g_return_if_fail (!wbcg->updating_ui);
