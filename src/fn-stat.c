@@ -135,6 +135,7 @@ setup_stat_closure (stat_closure_t *cl)
 	cl->M = 0.0;
 	cl->Q = 0.0;
 	cl->afun_flag = 0;
+	cl->sum = 0.0;
 }
 
 int
@@ -158,6 +159,7 @@ callback_function_stat (Sheet *sheet, Value *value, char **error_string,
 	mm->M += dm;
 	mm->Q += mm->N * dx * dm;
 	mm->N++;
+	mm->sum += x;
 
 	return TRUE;
 }
@@ -4029,6 +4031,9 @@ gnumeric_ftest (struct FunctionDefinition *i,
 		 error_string, TRUE))
 	        return NULL;
 
+	g_free(tree);
+	g_list_free(expr_node_list);
+
 	if (cl.N <= 1) {
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
@@ -4053,6 +4058,9 @@ gnumeric_ftest (struct FunctionDefinition *i,
 		 error_string, TRUE))
 	        return NULL;
 
+	g_free(tree);
+	g_list_free(expr_node_list);
+
 	if (cl.N <= 1) {
 		*error_string = gnumeric_err_VALUE;
 		return NULL;
@@ -4067,6 +4075,237 @@ gnumeric_ftest (struct FunctionDefinition *i,
 	        p = 2-p;
 
 	return value_new_float (p);
+}
+
+static char *help_ttest = {
+	N_("@FUNCTION=TTEST\n"
+	   "@SYNTAX=TTEST(array1,array2,tails,type)\n"
+
+	   "@DESCRIPTION="
+	   "TTEST function returns the probability of a Student's t-Test. "
+	   "\n"
+	   "@array1 is the first data set and @array2 is the second data "
+	   "set.  If @tails is one, TTEST uses the one-tailed distribution "
+	   "and if @tails is two, TTEST uses the two-tailed distribution.  "
+	   "@type determines the kind of the test:\n"
+	   "1  Paired test\n"
+	   "2  Two-sample equal variance\n"
+	   "3  Two-sample unequal variance\n"
+	   "\n"
+	   "If the data sets contain a different number of data points and "
+	   "the test is paired (type one), TTEST returns the #N/A error. "
+	   "@tails and @type are truncated to integers. "
+	   "If tails is not one or two, TTEST returns #NUM! error. "
+	   "If type is any other than one, two, or three, TTEST returns "
+	   "#NUM! error. "
+	   "\n"
+	   "@SEEALSO=FDIST,FINV")
+};
+
+typedef struct {
+        GSList   *entries;
+        GSList   *current;
+        gboolean first;
+} stat_ttest_t;
+
+int
+callback_function_ttest (Sheet *sheet, Value *value, char **error_string,
+			 void *closure)
+{
+	stat_ttest_t *mm = closure;
+	float_t      x;
+
+	if (VALUE_IS_NUMBER (value))
+		x = value_get_as_float (value);
+	else
+	        x = 0;
+
+	if (mm->first) {
+	        gpointer p = g_new(float_t, 1);
+		*((float_t *) p) = x;
+		mm->entries = g_slist_append(mm->entries, p);
+	} else {
+	        if (mm->current == NULL) {
+		        *error_string = gnumeric_err_VALUE;
+		        return FALSE;
+		}
+	        *((float_t *) mm->current->data) -= x;
+		mm->current = mm->current->next;
+	}
+
+	return TRUE;
+}
+
+static Value *
+gnumeric_ttest (struct FunctionDefinition *i,
+		Value *argv [], char **error_string)
+{
+	stat_closure_t cl;
+	stat_ttest_t   t_cl;
+	ExprTree       *tree;
+	GList          *expr_node_list;
+        int            tails, type;
+	float_t        mean1, mean2, x, p;
+	float_t        s, var1, var2, dof;
+	int            n1, n2;
+
+	tails = value_get_as_int(argv[2]);
+	type = value_get_as_int(argv[3]);
+	
+	if ((tails != 1 && tails != 2) ||
+	    (type < 1 || type > 3)) {
+		*error_string = gnumeric_err_NUM;
+		return NULL;
+	}
+
+	if (type == 1) {
+	        GSList  *current;
+	        float_t sum, dx, dm, M, Q, N;
+
+	        t_cl.first = TRUE;
+		t_cl.entries = NULL;
+
+		tree = g_new(ExprTree, 1);
+		tree->u.constant = argv[0];
+		tree->oper = OPER_CONSTANT;
+		expr_node_list = g_list_append(NULL, tree);
+
+		if (!function_iterate_argument_values
+		    (argv[0]->v.cell_range.cell_a.sheet,
+		     callback_function_ttest,
+		     &t_cl, expr_node_list,
+		     argv[0]->v.cell_range.cell_a.col,
+		     argv[0]->v.cell_range.cell_a.row,
+		     error_string, TRUE))
+		        return NULL;
+
+		g_free(tree);
+		g_list_free(expr_node_list);
+
+	        t_cl.first = FALSE;
+		t_cl.current = t_cl.entries;
+
+		tree = g_new(ExprTree, 1);
+		tree->u.constant = argv[1];
+		tree->oper = OPER_CONSTANT;
+		expr_node_list = g_list_append(NULL, tree);
+
+		if (!function_iterate_argument_values
+		    (argv[1]->v.cell_range.cell_a.sheet,
+		     callback_function_ttest,
+		     &t_cl, expr_node_list,
+		     argv[1]->v.cell_range.cell_a.col,
+		     argv[1]->v.cell_range.cell_a.row,
+		     error_string, TRUE))
+		        return NULL;
+
+		g_free(tree);
+		g_list_free(expr_node_list);
+
+		current = t_cl.entries;
+		dx = dm = M = Q = N = sum = 0;
+
+		while (current != NULL) {
+		        x = *((float_t *) current->data);
+
+			dx = x - M;
+			dm = dx / (N + 1);
+			M += dm;
+			Q += N * dx * dm;
+			N++;
+			sum += x;
+
+			g_free(current->data);
+			current = current->next;
+		}
+		g_slist_free(t_cl.entries);
+
+		s = sqrt(Q / (N - 1));
+		mean1 = sum / N;
+		x = mean1 / (s / sqrt(N));
+		dof = N-1;
+
+		if (tails == 1)
+		        p = (1.0 - pt(fabs(x), dof));
+		else
+		        p = ((1.0 - pt(fabs(x), dof))*2);
+
+		return value_new_float (p);
+	} else {
+	        setup_stat_closure (&cl);
+
+		tree = g_new(ExprTree, 1);
+		tree->u.constant = argv[0];
+		tree->oper = OPER_CONSTANT;
+		expr_node_list = g_list_append(NULL, tree);
+
+		if (!function_iterate_argument_values
+		    (argv[0]->v.cell_range.cell_a.sheet,
+		     callback_function_stat,
+		     &cl, expr_node_list,
+		     argv[0]->v.cell_range.cell_a.col,
+		     argv[0]->v.cell_range.cell_a.row,
+		     error_string, TRUE))
+		        return NULL;
+
+		g_free(tree);
+		g_list_free(expr_node_list);
+
+		if (cl.N <= 1) {
+		        *error_string = gnumeric_err_VALUE;
+			return NULL;
+		}
+
+		var1 = cl.Q / (cl.N - 1);
+		mean1 = cl.sum / cl.N;
+		n1 = cl.N;
+
+	        setup_stat_closure (&cl);
+
+		tree = g_new(ExprTree, 1);
+		tree->u.constant = argv[1];
+		tree->oper = OPER_CONSTANT;
+		expr_node_list = g_list_append(NULL, tree);
+
+		if (!function_iterate_argument_values
+		    (argv[1]->v.cell_range.cell_a.sheet,
+		     callback_function_stat,
+		     &cl, expr_node_list,
+		     argv[1]->v.cell_range.cell_a.col,
+		     argv[1]->v.cell_range.cell_a.row,
+		     error_string, TRUE))
+		        return NULL;
+
+		g_free(tree);
+		g_list_free(expr_node_list);
+
+		if (cl.N <= 1) {
+		        *error_string = gnumeric_err_VALUE;
+			return NULL;
+		}
+
+		var2 = cl.Q / (cl.N - 1);
+		mean2 = cl.sum / cl.N;
+		n2 = cl.N;
+
+		if (type == 2)
+		        dof = n1+n2-2;
+		else {
+		        float_t c;
+
+			c = (var1/n1) / (var1/n1+var2/n2);
+			dof = 1.0 / ((c*c) / (n1-1) + ((1-c)*(1-c)) / (n2-1));
+		}
+		   
+		x = (mean1 - mean2) / sqrt(var1/n1 + var2/n2);
+
+		if (tails == 1)
+		        p = (1.0 - pt(fabs(x), dof));
+		else
+		        p = ((1.0 - pt(fabs(x), dof))*2);
+
+		return value_new_float (p);
+	}
 }
 
 
@@ -4195,6 +4434,8 @@ FunctionDefinition stat_functions [] = {
 	  NULL, gnumeric_tinv },
 	{ "trimmean",  0,      "",          &help_trimmean,
 	  gnumeric_trimmean, NULL },
+	{ "ttest",   "rrff",  "array1,array2,tails,type", &help_ttest,
+	  NULL, gnumeric_ttest },
 	{ "var",       0,      "",          &help_var,
 	  gnumeric_var, NULL },
 	{ "vara",      0,      "",          &help_vara,

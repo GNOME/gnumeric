@@ -1,5 +1,7 @@
 1999-06-22  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* src/fn-stat.c: Added TTEST().
+
 	* src/fn-stat.c: Added FTEST().
 
 	* src/fn-math.c: Added SUMPRODUCT().

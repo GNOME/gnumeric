@@ -103,7 +103,7 @@ typedef struct {
 
 typedef struct {
 	int N;
-	float_t M, Q;
+	float_t M, Q, sum;
         gboolean afun_flag;
 } stat_closure_t;
 
