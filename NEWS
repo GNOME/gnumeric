@@ -50,6 +50,9 @@ Jody:
 	* Start work on 'Text from Columns' and 'External Data -> Text File'
 	* Simple manual recalculation, it won't catch everything yet.
 	* Some UI for recalc and iteration changes
+	* Tweak precedence of new operators and clean up the grammar
+	* Fix parse error reporting
+	* Fix xls name import for external and builtin names (95 & 2k)
 
 Morten:
 	* Port search center from gal's e-table to gtk's treeview.

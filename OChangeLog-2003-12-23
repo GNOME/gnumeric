@@ -1,3 +1,48 @@
+2002-10-23  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook.c (workbook_foreach_cell_in_range) : fix.
+
+	* src/position.c (rangeref_normalize) : fix.
+
+	* src/validation.c (validation_eval) : don't unref the val expr too
+	  early.
+
+2002-10-21  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-file.c (gui_file_read) : handle workbooks with no sheets.
+	* src/workbook-control-gui.c (wbcg_focus_cur_scg) : ditto.
+	(show_gui) : ditto.
+
+2002-10-21  Jody Goldberg <jody@gnome.org>
+
+	* src/rendered-value.h : don't use short for width.
+
+	* src/workbook.c (workbook_set_placeholder) : new.
+	(workbook_is_placeholder) : ditto.
+
+	* src/gui-util.c (cb_parent_mapped) : new utility.
+	(gnumeric_set_transient) : handle the case where we are a transient
+	  child of an unmapped parent.
+
+	* src/expr.c (gnm_expr_equal) : name comparison should take scoping
+	  into account too.
+	(do_expr_as_string) : and here.
+	(ets_hash) : use the name itself as a hash key.
+
+	* src/expr-name.c (expr_name_add) : return a copy of the error
+	  message.  And ensure that all NULL returns generate errors.
+	(expr_name_new) : make this static and internal.
+	(name_print_area) : delete.
+
+	* src/dependent.c (workbook_unlink_3d_dep) : during destruction the
+	  order hash may be gone.  This happens with names that contain 3d
+	  references.
+
+2002-10-17  Jody Goldberg <jody@gnome.org>
+
+	* src/plugin-service.c (gnum_plugin_file_opener_open) : store the save
+	  info before we load so that the file name is valid.
+
 2002-10-20  Morten Welinder  <terra@diku.dk>
 
 	* src/expr-name.c (expr_name_by_name): Sort case insensitively and
@@ -51,6 +96,12 @@
 2002-10-17  Morten Welinder  <terra@diku.dk>
 
 	* src/expr-name.c (expr_name_by_name): New function.
+
+2002-10-17  Jody Goldberg <jody@gnome.org>
+
+	* src/expr-name.c (name_print_area) : Print_Area is a command to the
+	  print system regarding what to print.  It does not return the area
+	  that would be printed.
 
 2002-10-17  Jody Goldberg <jody@gnome.org>
 
