@@ -43,7 +43,7 @@ typedef struct {
 #define ITEM_BAR_IS_SELECTING(ib) ((ib)->start_selection != -1)
 
 GtkType item_bar_get_type (void);
-void    item_bar_fonts_init (ItemBar *item_bar, double const zoom_factor);
+void    item_bar_fonts_init (ItemBar *item_bar);
 
 typedef struct {
 	GnomeCanvasItemClass parent_class;
