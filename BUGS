@@ -7,6 +7,9 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+http://bugzilla.gnome.org/show_bug.cgi?id=71551
+http://bugzilla.gnome.org/show_bug.cgi?id=69362	(fix and backport)
+
 1.2 Targets
 -----------
 
