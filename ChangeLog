@@ -1,5 +1,9 @@
 2002-05-04  Jody Goldberg <jody@gnome.org>
 
+ 	http://bugzilla.gnome.org/show_bug.cgi?id=80784
+	* src/sheet.c (sheet_colrow_get_default) : new.
+	* src/commands.c (cmd_ins_del_colrow_redo) : Use it.
+
 	* src/gnumeric-simple-canvas.c (gnm_simple_canvas_grab) : fix.
 
 2002-05-02  Jody Goldberg <jody@gnome.org>

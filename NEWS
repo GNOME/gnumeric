@@ -7,6 +7,9 @@ Almer:
 
 Jody:
  	http://bugzilla.gnome.org/show_bug.cgi?id=79925
+	* Fix grab when selecting a col/row with validation failure.
+
+ 	http://bugzilla.gnome.org/show_bug.cgi?id=80784
 	* Handle inserting col/row if the first is hidden.
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=80134

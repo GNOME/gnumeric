@@ -976,7 +976,7 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 				me->sheet, me->is_cols, me->index - 1, FALSE);
 			ColRowInfo const *prev_vis = (tmp >= 0)
 				? sheet_colrow_get_info (me->sheet, tmp, me->is_cols)
-				: NULL;
+				: sheet_colrow_get_default (me->sheet, me->is_cols);
 
 			/* Use the outline level of the preceding col/row
 			 * (visible or not), and leave the new ones visible.
@@ -985,8 +985,7 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 				me->sheet, me->index-1, me->is_cols);
 
 			if (prev->outline_level > 0 || !colrow_is_default (prev_vis))
-				state = colrow_make_state (me->sheet, me->index,
-					me->index + me->count - 1,
+				state = colrow_make_state (me->sheet, me->count,
 					prev_vis->size_pts, prev_vis->hard_size,
 					prev->outline_level);
 		}

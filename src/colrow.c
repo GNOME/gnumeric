@@ -287,12 +287,12 @@ colrow_get_index_list (int first, int last, ColRowIndexList *list)
 }
 
 ColRowStateList	*
-colrow_make_state (Sheet *sheet, int first, int last,
+colrow_make_state (Sheet *sheet, int count,
 		   float size_pts, gboolean hard_size,
 		   int outline_level)
 {
 	ColRowRLEState  *rles = g_new0 (ColRowRLEState, 1);
-	rles->length = last - first +1;
+	rles->length = count;
 	rles->state.size_pts	  = size_pts;
 	rles->state.outline_level = outline_level;
 	rles->state.is_collapsed  = FALSE;
