@@ -3011,12 +3011,12 @@ xml_probe (GnumFileOpener const *fo, const gchar *filename, FileProbeLevel pl)
 	GnumericXMLVersion version;
 
 	if (pl == FILE_PROBE_FILE_NAME) {
-		char const * extension = g_extension_pointer (filename);
-		if (extension == NULL)
-			return FALSE;
-		return (g_strcasecmp (extension, "gnumeric") == 0 ||
-			g_strcasecmp (extension, "xml.gz") == 0 ||
-			g_strcasecmp (extension, "xml"));
+		char const *extension = g_extension_pointer (filename);
+
+		return (extension != NULL &&
+		        g_strcasecmp (extension, "gnumeric") == 0 ||
+		        g_strcasecmp (extension, "xml.gz") == 0 ||
+		        g_strcasecmp (extension, "xml") == 0);
 	}
 
 	/*

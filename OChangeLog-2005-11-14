@@ -1,3 +1,8 @@
+2001-10-01  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/xml-io.c (xml_probe): Accept .gnumeric, .xml, .xml.gz not
+	"everything but .xml".
+
 2001-09-30  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-graph.c (gnm_graph_vector_as_string) : screw it.
