@@ -4,11 +4,30 @@
 #include <gtk/gtklist.h>
 #include <gtk/gtkscrolledwindow.h>
 
-/* static GtkComboBoxClass *gtk_combo_text_parent_class;*/
+static GtkObjectClass *gtk_combo_text_parent_class;
+
+static gboolean
+elements_free (gpointer	key, gpointer value, gpointer user_data)
+{
+	g_free (key);
+	return TRUE;
+}
 
 static void
-gtk_combo_text_class_init (GtkObjectClass *class)
+gtk_combo_test_finalize (GtkObject *object)
 {
+	GtkComboText *ct = GTK_COMBO_TEXT (object);
+
+	g_hash_table_foreach_remove (ct->elements, &elements_free, NULL);
+
+	(*gtk_combo_text_parent_class->finalize) (object);
+}
+
+static void
+gtk_combo_text_class_init (GtkObjectClass *object_class)
+{
+	object_class->finalize = &gtk_combo_test_finalize;
+	gtk_combo_text_parent_class = gtk_type_class (gtk_combo_box_get_type ());
 }
 
 static void
