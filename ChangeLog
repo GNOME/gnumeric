@@ -1,5 +1,10 @@
 2001-09-18  Jody Goldberg <jgoldberg@home.com>
 
+	* src/style.c (style_font_get_width_pts) : renamed from
+	  style_font_get_width and set to return pts.
+
+2001-09-18  Jody Goldberg <jgoldberg@home.com>
+
 	* src/cell-draw.c (cell_draw) : implemenent a bit of just in time
 	  rendering.
 	* src/print-cell.c (print_cell) : ditto.

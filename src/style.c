@@ -157,12 +157,17 @@ style_font_get_height (StyleFont const * const sf)
 	return gnome_display_font_height (sf->dfont);
 }
 
+/**
+ * style_font_get_width_pts
+ *
+ * Return our guestimate of the average width in pts.
+ */
 float
-style_font_get_width (StyleFont const *sf)
+style_font_get_width_pts (StyleFont const *sf)
 {
 	g_return_val_if_fail (sf != NULL, 0);
 
-	return sf->approx_width.pixels;
+	return sf->approx_width.pts;
 }
 
 void

@@ -68,7 +68,7 @@ StyleFont     *style_font_new_simple  (const char *font_name,
 				       gboolean bold, gboolean italic);
 GdkFont       *style_font_gdk_font    (StyleFont const *sf);
 int            style_font_get_height  (StyleFont const *sf);
-float	       style_font_get_width   (StyleFont const *sf);
+float	       style_font_get_width_pts(StyleFont const *sf);
 void           style_font_ref         (StyleFont *sf);
 void           style_font_unref       (StyleFont *sf);
 

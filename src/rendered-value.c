@@ -81,7 +81,7 @@ rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 			     style_format_is_general (cell->format))) {
 				StyleFont *style_font =
 					scg_get_style_font (sheet, mstyle);
-				float const font_width = style_font_get_width (style_font);
+				float const font_width = style_font_get_width_pts (style_font);
 				style_font_unref (style_font);
 
 				if (font_width > 0.) {
