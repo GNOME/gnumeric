@@ -11,6 +11,7 @@ Andreas:
 	* Fix &[TIME:hh:mm:ss] and &[DATE:yyyy] style subformatting
 	* Fix manage-sheet-dialog bug
 	* Add console warning message for font substitution
+	* Fix format chooser list (Thanks Etsushi Kato)
 
 Christian Neumair:
 	* Start adding ATK relations to the dialogs.

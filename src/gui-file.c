@@ -75,15 +75,10 @@ make_format_chooser (GList *list, GtkOptionMenu *omenu)
 		else if (IS_GNM_FILE_OPENER (l->data))
 			descr = gnm_file_opener_get_description (
 						GNM_FILE_OPENER (l->data));
-		else {
-			GnmFileSaver *saver = GNM_FILE_SAVER (l->data);
-			FileSaveScope save_scope;
+		else
+			descr = gnm_file_saver_get_description (
+				                GNM_FILE_SAVER (l->data));
 
-			save_scope = gnm_file_saver_get_save_scope (saver);
-			if (save_scope == FILE_SAVE_RANGE) 
-				continue;
-			descr = gnm_file_saver_get_description (saver);
-		}
 		item = gtk_menu_item_new_with_label (descr);
 		gtk_widget_show (item);
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
@@ -368,7 +363,7 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
 gboolean
 gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 {
-	GList *savers;
+	GList *savers = NULL, *l;
 	GtkFileSelection *fsel;
 	GtkOptionMenu *omenu;
 	GtkWidget *format_chooser;
@@ -378,7 +373,12 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 
 	g_return_val_if_fail (wbcg != NULL, FALSE);
 
-	savers = g_list_copy (get_file_savers ());
+	for (l = get_file_savers (); l; l = l->next) {
+		if ((l->data == NULL) || 
+		    (gnm_file_saver_get_save_scope (GNM_FILE_SAVER (l->data)) 
+		     != FILE_SAVE_RANGE))
+			savers = g_list_prepend (savers, l->data);
+	}
 	savers = g_list_sort (savers, file_saver_description_cmp);
 
 	/* Make format chooser */

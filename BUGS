@@ -27,7 +27,6 @@ Release Critical
 Pending Patches
 ---------------
 
-    - japanese saver
     - updated spanish translation
     http://bugzilla.gnome.org/show_bug.cgi?id=84062
     - XIM menu, blocking on gtk changes
