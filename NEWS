@@ -1,10 +1,11 @@
 Gnumeric 1.0.3
 
 Andreas:
-	* Redo  COUP_ functions one more time, ignoring XL
+	* Redo  COUP_ functions one more time, ignoring XL.
 
 Jody:
-	* Enable Add/Delete Series for Graph Guru
+	* Enable Add/Delete Series for Graph Guru.
+	* Improve usability of Graph Guru data selectors.
 	* More work on XL import for 3d references.
 	* Import checkbox links from XL.
 
