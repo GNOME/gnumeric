@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
 "POT-Creation-Date: 2000-12-17 20:35-0500\n"
-"PO-Revision-Date: 2001-01-16 16:30+01:00\n"
+"PO-Revision-Date: 2001-01-19 16:30+01:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -1060,8 +1060,8 @@ msgstr "Bin"
 msgid "Frequency"
 msgstr "Frekvens"
 
-#: src/analysis-tools.c:2886
-#, c-format
+#: src/analysis-tools.c:2887
+#, no-c-format
 msgid "Cumulative %"
 msgstr "Akkumuleret %"
 
@@ -1132,76 +1132,76 @@ msgstr "Kan ikke indsætte i markering"
 msgid "Paste"
 msgstr "Indsæt"
 
-#: src/commands.c:533 src/commands.c:628
+#: src/commands.c:534 src/commands.c:629
 msgid "Set Text"
 msgstr "Sæt tekst"
 
-#: src/commands.c:559
+#: src/commands.c:560
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Indtaster \"%s%s\" i %s"
 
-#: src/commands.c:738
+#: src/commands.c:739
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Indtaster \"%s%s\""
 
-#: src/commands.c:931
+#: src/commands.c:932
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Indsætter %d kolonner før %s"
 
-#: src/commands.c:932
+#: src/commands.c:933
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "indsætter %d kolonner før %s"
 
-#: src/commands.c:943
+#: src/commands.c:944
 #, c-format
 msgid "Inserting %d rows before %d"
 msgstr "Indsætter %d rækker før %d"
 
-#: src/commands.c:944
+#: src/commands.c:945
 #, c-format
 msgid "Inserting %d row before %d"
 msgstr "Indsætter %d række før %d"
 
 #. col_name uses a static buffer
-#: src/commands.c:957
+#: src/commands.c:958
 #, c-format
 msgid "Deleting %d columns %s:"
 msgstr "Sletter %d kolonner %s:"
 
-#: src/commands.c:962
+#: src/commands.c:963
 #, c-format
 msgid "Deleting column %s"
 msgstr "Sletter kolonne %s"
 
-#: src/commands.c:973
+#: src/commands.c:974
 #, c-format
 msgid "Deleting %d rows %d:%d"
 msgstr "Sletter %d rækker %d:%d"
 
-#: src/commands.c:975
+#: src/commands.c:976
 #, c-format
 msgid "Deleting row %d"
 msgstr "Sletter række %d"
 
-#: src/commands.c:1039
+#: src/commands.c:1040
 msgid "Undo Clear"
 msgstr "Fortryd rydning"
 
 #. FIXME?
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:1109 src/sheet.c:2427
+#: src/commands.c:1110 src/sheet.c:2427
 msgid "Clear"
 msgstr "Ryd"
 
-#: src/commands.c:1296
+#: src/commands.c:1299
 msgid "Format cells"
 msgstr "Formatér celler"
 
-#: src/commands.c:1369
+#: src/commands.c:1372
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Omdøb ark '%s' '%s'"
@@ -1213,90 +1213,96 @@ msgstr "Omdøb ark '%s' '%s'"
 #. * translators should be aware that the leading character of the
 #. * result will be ignored.
 #.
-#: src/commands.c:1443
+#: src/commands.c:1446
 msgid ">mm/dd/yyyy"
 msgstr ">mm/dd/yyyy"
 
 #. FIXME : See comment above
-#: src/commands.c:1448
+#: src/commands.c:1451
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/commands.c:1488
+#: src/commands.c:1492
 msgid "Set Date/Time"
 msgstr "Sæt dato/klokkeslet"
 
-#: src/commands.c:1505
+#: src/commands.c:1509
 #, c-format
 msgid "Setting current date in %s"
 msgstr "Indsætter dags dato i %s"
 
-#: src/commands.c:1506
+#: src/commands.c:1510
 #, c-format
 msgid "Setting current time in %s"
 msgstr "Indsætter klokkeslet i %s"
 
-#: src/commands.c:1602
+#: src/commands.c:1606
 msgid "Setting width of columns"
 msgstr "Sætter bredde på kolonner"
 
-#: src/commands.c:1603
+#: src/commands.c:1607
 msgid "Setting height of rows"
 msgstr "Sætter højde på rækker"
 
-#: src/commands.c:1692
+#: src/commands.c:1696
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorterer %s"
 
-#: src/commands.c:1769
+#: src/commands.c:1773
 msgid "Unhide columns"
 msgstr "Vis kolonner"
 
-#: src/commands.c:1769
+#: src/commands.c:1773
 msgid "Hide columns"
 msgstr "Skjul kolonner"
 
-#: src/commands.c:1770
+#: src/commands.c:1774
 msgid "Unhide rows"
 msgstr "Vis rækker"
 
-#: src/commands.c:1770
+#: src/commands.c:1774
 msgid "Hide rows"
 msgstr "Skjul rækker"
 
 #. FIXME : improve on this
-#: src/commands.c:1956
+#: src/commands.c:1960
 msgid "Moving cells"
 msgstr "Flytter celler"
 
 #. FIXME?
-#: src/commands.c:2097
+#: src/commands.c:2101
 #, c-format
 msgid "Pasting into %s"
 msgstr "Indsætter i %s"
 
 #. Changed in initial redo.
-#: src/commands.c:2160 src/commands.c:2166 src/commands.c:2252
+#: src/commands.c:2164 src/commands.c:2170 src/commands.c:2256
 msgid "Autofill"
 msgstr "Autofyld"
 
-#: src/commands.c:2167
+#: src/commands.c:2171
 msgid "Target region contains merged cells"
 msgstr "Målregion indeholder flettede celler"
 
 #. FIXME?
-#: src/commands.c:2401
+#: src/commands.c:2405
 msgid "Autoformat"
 msgstr "Autoformat"
 
-#: src/commands.c:2534
+#: src/commands.c:2538
 msgid "Unmerge Cells"
 msgstr "Adskil celler"
 
-#: src/commands.c:2659
+#: src/commands.c:2663
 msgid "Merge Cells"
 msgstr "Flet celler"
+
+#. sheet
+#. Corrected below.
+#: src/commands.c:2788
+msgid "Search and Replace"
+msgstr "Søg og erstat"
 
 #: src/corba-args.c:25
 msgid "Oaf options"
@@ -2277,6 +2283,14 @@ msgstr "Konfiguration af personlig sidehoved"
 #: src/dialogs/dialog-printer-setup.c:977
 msgid "Custom footer configuration"
 msgstr "Konfiguration af personlig sidefod"
+
+#: src/dialogs/dialog-search-replace.c:116
+msgid "You must enter something to search for."
+msgstr "Du skal indtaste noget at søge efter"
+
+#: src/dialogs/dialog-search-replace.c:124
+msgid "You must select some cell types to search."
+msgstr "Du skal vælge nogle celle-typer der skal søges efter"
 
 #: src/dialogs/dialog-sheet-order.c:145 src/workbook-control-gui.c:345
 #, c-format
@@ -4318,8 +4332,8 @@ msgstr ""
 "@SYNTAX=WEEKDAY (serienummer)\n"
 "@DESCRIPTION=Konverterer et serienummer til en ugedag.\n"
 "\n"
-"Denne funktion returnerer et heltal i området 0-6, hvor lørdag er 0, "
-"søndag er 1, osv.\n"
+"Denne funktion returnerer et heltal i området 0-6, hvor lørdag er 0, søndag "
+"er 1, osv.\n"
 "\n"
 "Bemærk at Gnumeric vil udføre regulær streng til serienummer konvertering "
 "for dig, så du kan opgive en dato som en streng.\n"
@@ -4381,8 +4395,8 @@ msgstr ""
 "@start_dato.\n"
 "Returnerer #NUM hvis start_dato eller måneder er ugyldig.\n"
 "@EXAMPLES=\n"
-"Hvis A1 indeholder 12/21/00 så er EOMONTH(A1,0)=12/31/00, EOMONTH(A1,5)=5/31/01, "
-"og EOMONTH(A1,2)=2/28/01\n"
+"Hvis A1 indeholder 12/21/00 så er EOMONTH(A1,0)=12/31/00, "
+"EOMONTH(A1,5)=5/31/01, og EOMONTH(A1,2)=2/28/01\n"
 "\n"
 "@SEEALSO=MONTH"
 
@@ -12645,17 +12659,17 @@ msgstr "Filer/Vis udskrift"
 msgid "File/"
 msgstr "Fil/"
 
-#: src/item-bar.c:474
+#: src/item-bar.c:483
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Bredde: %.2f pts (%d pixler)"
 
-#: src/item-bar.c:477
+#: src/item-bar.c:486
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Højde: %.2f pts (%d pixler)"
 
-#: src/item-cursor.c:809
+#: src/item-cursor.c:807
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -12665,39 +12679,39 @@ msgstr ""
 "eksisterende celler i området. Vil du have mig til at erstatte\n"
 "indholdet i denne region?"
 
-#: src/item-cursor.c:911
+#: src/item-cursor.c:909
 msgid "_Move"
 msgstr "Flyt"
 
-#: src/item-cursor.c:914 src/sheet-control-gui.c:1075
+#: src/item-cursor.c:912 src/sheet-control-gui.c:1071
 msgid "_Copy"
 msgstr "_Kopiér"
 
-#: src/item-cursor.c:917
+#: src/item-cursor.c:915
 msgid "Copy _Formats"
 msgstr "Kopiér _Formater"
 
-#: src/item-cursor.c:919
+#: src/item-cursor.c:917
 msgid "Copy _Values"
 msgstr "Kopiér _Værdier"
 
-#: src/item-cursor.c:924
+#: src/item-cursor.c:922
 msgid "Shift _Down and Copy"
 msgstr "Flyt celler ned og kopiér"
 
-#: src/item-cursor.c:926
+#: src/item-cursor.c:924
 msgid "Shift _Right and Copy"
 msgstr "Flyt celler til højre og kopiér"
 
-#: src/item-cursor.c:928
+#: src/item-cursor.c:926
 msgid "Shift Dow_n and Move"
 msgstr "Flyt celler ned og flyt"
 
-#: src/item-cursor.c:930
+#: src/item-cursor.c:928
 msgid "Shift Righ_t and Move"
 msgstr "Flyt celler til højre og flyt"
 
-#: src/item-cursor.c:935
+#: src/item-cursor.c:933
 msgid "C_ancel"
 msgstr "_Annullér"
 
@@ -13021,15 +13035,15 @@ msgstr "Række: %d"
 msgid "Column: %s"
 msgstr "Kolonne: %s"
 
-#: src/sheet-control-gui.c:1073
+#: src/sheet-control-gui.c:1069
 msgid "Cu_t"
 msgstr "K_lip"
 
-#: src/sheet-control-gui.c:1077
+#: src/sheet-control-gui.c:1073
 msgid "_Paste"
 msgstr "_Indsæt"
 
-#: src/sheet-control-gui.c:1079
+#: src/sheet-control-gui.c:1075
 msgid "Paste _Special"
 msgstr "Indsæt s_peciel"
 
@@ -13040,55 +13054,55 @@ msgstr "Indsæt s_peciel"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1091
+#: src/sheet-control-gui.c:1087
 msgid "_Insert..."
 msgstr "_Indsæt..."
 
-#: src/sheet-control-gui.c:1093 src/workbook-control-gui.c:1839
+#: src/sheet-control-gui.c:1089 src/workbook-control-gui.c:1839
 msgid "_Delete..."
 msgstr "_Slet..."
 
-#: src/sheet-control-gui.c:1095
+#: src/sheet-control-gui.c:1091
 msgid "_Insert Column(s)"
 msgstr "_Indsæt kolonner"
 
-#: src/sheet-control-gui.c:1097
+#: src/sheet-control-gui.c:1093
 msgid "_Delete Column(s)"
 msgstr "_Slet kolonner"
 
-#: src/sheet-control-gui.c:1099
+#: src/sheet-control-gui.c:1095
 msgid "_Insert Row(s)"
 msgstr "_Indsæt rækker"
 
-#: src/sheet-control-gui.c:1101
+#: src/sheet-control-gui.c:1097
 msgid "_Delete Row(s)"
 msgstr "_Slet rækker"
 
-#: src/sheet-control-gui.c:1104
+#: src/sheet-control-gui.c:1100
 msgid "Clear Co_ntents"
 msgstr "Ryd i_ndhold"
 
-#: src/sheet-control-gui.c:1110
+#: src/sheet-control-gui.c:1106
 msgid "_Format Cells..."
 msgstr "_Formatér celler..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1114
+#: src/sheet-control-gui.c:1110
 msgid "Column _Width..."
 msgstr "_Kolonnebredde..."
 
-#: src/sheet-control-gui.c:1116 src/sheet-control-gui.c:1124
+#: src/sheet-control-gui.c:1112 src/sheet-control-gui.c:1120
 #: src/workbook-control-gui.c:1945 src/workbook-control-gui.c:1964
 msgid "_Hide"
 msgstr "_Skjul"
 
-#: src/sheet-control-gui.c:1118 src/sheet-control-gui.c:1126
+#: src/sheet-control-gui.c:1114 src/sheet-control-gui.c:1122
 #: src/workbook-control-gui.c:1948 src/workbook-control-gui.c:1967
 msgid "_Unhide"
 msgstr "_Vis igen"
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1122
+#: src/sheet-control-gui.c:1118
 msgid "_Row Height..."
 msgstr "_Rækkehøjde..."
 
@@ -13460,7 +13474,7 @@ msgid "Add decimals"
 msgstr "Tilføj decimaler"
 
 #: src/workbook-format-toolbar.c:443
-msgid "Increases the number of decimal numbers displayed"
+msgid "Increases the number of decimals displayed"
 msgstr "Hæver det antal decimaler som vises"
 
 #: src/workbook-format-toolbar.c:446
@@ -13468,7 +13482,7 @@ msgid "Remove decimals"
 msgstr "Fjern decimaler"
 
 #: src/workbook-format-toolbar.c:446
-msgid "Decreases the number of decimal numbers displayed"
+msgid "Decreases the number of decimals displayed"
 msgstr "Sænker det antal decimaler som vises"
 
 #: src/workbook-format-toolbar.c:566
@@ -14278,15 +14292,15 @@ msgstr "Maks"
 msgid "Book%d.gnumeric"
 msgstr "Bog%d.gnumeric"
 
-#: src/workbook.c:1170
+#: src/workbook.c:1173
 msgid "Sheet name"
 msgstr "Arknavn"
 
-#: src/workbook.c:1171
+#: src/workbook.c:1174
 msgid "must have at least 1 letter"
 msgstr "skal have mindst 1 bogstav"
 
-#: src/workbook.c:1184
+#: src/workbook.c:1187
 #, c-format
 msgid "There is already a sheet named '%s'"
 msgstr "Der er allerede et ark kaldet '%s'"
