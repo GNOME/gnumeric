@@ -1,3 +1,7 @@
+2001-10-26  Morten Welinder  <terra@diku.dk>
+
+	* dif.c (dif_parse_header): Eliminate invalid allocs.
+
 2001-10-18  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.72

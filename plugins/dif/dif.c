@@ -168,12 +168,17 @@ dif_parse_header (DifInputContext *ctxt)
 		gint str_line_len;
 
 		lines_ok = lines_ok && dif_get_line (ctxt);
-		topic = strcpy (g_alloca (ctxt->line_len + 1), ctxt->line);
+		topic = g_alloca (ctxt->line_len + 1);
+		strcpy (topic, ctxt->line);
+
 		lines_ok = lines_ok && dif_get_line (ctxt);
-		num_line = strcpy (g_alloca (ctxt->line_len + 1), ctxt->line);
+		num_line = g_alloca (ctxt->line_len + 1);
+		strcpy (num_line, ctxt->line);
+
 		lines_ok = lines_ok && dif_get_line (ctxt);
 		str_line_len = ctxt->line_len;
-		str_line = strcpy (g_alloca (str_line_len + 1), ctxt->line);
+		str_line = g_alloca (str_line_len + 1);
+		strcpy (str_line, ctxt->line);
 
 		if (!lines_ok) {
 			return FALSE;
