@@ -404,6 +404,16 @@ simulation_tool (WorkbookControl        *wbc,
 		sheet->simulation_round = round;
 		for (i = 0; i < sim->n_iterations; i++) {
 			err = recompute_outputs (sim, outputs, i, round);
+			if (i % 100 == 99) {
+				g_get_current_time (&sim->end);
+				if (sim->end.tv_sec - sim->start.tv_sec >
+				    sim->max_time) {
+					err = _("Maximum time exceeded. "
+						"Simulation was not "
+						"completed. ");
+					goto out;
+				}
+			}
 			if (err != NULL)
 				goto out;
 		}

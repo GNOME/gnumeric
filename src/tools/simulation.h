@@ -34,6 +34,8 @@ typedef struct {
         int last_round;
         int n_iterations;
 
+	int max_time;
+
 	Value    *inputs;
 	Value    *outputs;
 	RangeRef *ref_inputs;
@@ -48,8 +50,8 @@ typedef struct {
 } simulation_t;
 
 gchar const *simulation_tool (WorkbookControl        *wbc,
-			data_analysis_output_t *dao,
-			simulation_t           *sim);
+			      data_analysis_output_t *dao,
+			      simulation_t           *sim);
 void   simulation_tool_destroy (simulation_t *sim);
 
 #endif

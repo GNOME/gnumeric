@@ -1,5 +1,8 @@
 2003-04-20  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* simulation.c (simulation_tool): Added checking of maximum
+	elapsed time.
+
 	* scenarios.[ch]: Results cell in summary reporting can also be a
 	list of cell ranges.
 
