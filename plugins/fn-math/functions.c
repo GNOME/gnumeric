@@ -3348,6 +3348,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GList *args)
 
 /***************************************************************************/
 
+void math_functions_init (void);
 void
 math_functions_init (void)
 {

@@ -1126,6 +1126,7 @@ gnumeric_transpose (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+void lookup_functions_init (void);
 void
 lookup_functions_init (void)
 {

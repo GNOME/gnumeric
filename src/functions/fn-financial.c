@@ -2908,6 +2908,7 @@ gnumeric_vdb (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+void finance_functions_init (void);
 void
 finance_functions_init (void)
 {

@@ -4700,6 +4700,7 @@ gnumeric_slope (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+void stat_functions_init (void);
 void
 stat_functions_init (void)
 {

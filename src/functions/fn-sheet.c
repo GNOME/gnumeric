@@ -131,6 +131,7 @@ gnumeric_version (FunctionEvalInfo *ei, Value *argv [])
  *
  * WARNING * WARNING * WARNING
  */
+void sheet_functions_init (void);
 void
 sheet_functions_init (void)
 {

@@ -877,11 +877,13 @@ cell_get_dependencies (const Cell *cell)
 	return deps;
 }
 
+#if 0
 void
 cell_recalc_dependencies  (const Cell *cell)
 {
 	/* FIXME is there a way to write this without replicating alot of code ? */
 }
+#endif
 
 static Dependent *
 pick_next_dependent_from_queue (Workbook *wb)

@@ -1847,6 +1847,7 @@ gnumeric_gestep (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+void eng_functions_init (void);
 void
 eng_functions_init (void)
 {

@@ -1330,6 +1330,7 @@ gnumeric_getpivotdata (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+void database_functions_init(void);
 void
 database_functions_init(void)
 {

@@ -270,6 +270,7 @@ gnumeric_false (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
+void logical_functions_init (void);
 void
 logical_functions_init (void)
 {

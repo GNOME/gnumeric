@@ -1,3 +1,15 @@
+2000-09-24  Jody Goldberg <jgoldberg@home.com>
+
+	* src/normal-args.c : Suppress warning.
+
+	* src/functions/fn*.c : Add a prototype of the _init routine to
+	  suppress warning.
+
+	* src/eval.c (cell_recalc_dependencies ) : Comment out until it is
+	  implemented.
+
+	* src/sheet-object-widget.c (sheet_object_widget_new) : delete.
+
 2000-09-23  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (workbook_create_standard_toobar) : Attempt to inject

@@ -120,7 +120,7 @@ static char *help_datedif = {
 	   "@SEEALSO=DATE")
 };
 
-int
+static int
 datedif_opt_ym (GDate *gdate1, GDate *gdate2)
 {
 	g_assert (g_date_valid (gdate1));
@@ -129,7 +129,7 @@ datedif_opt_ym (GDate *gdate1, GDate *gdate2)
 	return datetime_g_months_between (gdate1, gdate2) % 12;
 }
 
-int
+static int
 datedif_opt_yd (GDate *gdate1, GDate *gdate2, int excel_compat)
 {
 	int day;
@@ -160,7 +160,7 @@ datedif_opt_yd (GDate *gdate1, GDate *gdate2, int excel_compat)
 	return datetime_g_days_between (gdate1, gdate2);
 }
 
-int
+static int
 datedif_opt_md (GDate *gdate1, GDate *gdate2, int excel_compat)
 {
 	int day;
@@ -968,6 +968,7 @@ gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
+void date_functions_init(void);
 void
 date_functions_init(void)
 {

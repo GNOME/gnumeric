@@ -851,6 +851,7 @@ gnumeric_type (FunctionEvalInfo *ei, GList *expr_node_list)
 
 /***************************************************************************/
 
+void information_functions_init (void);
 void
 information_functions_init (void)
 {
@@ -894,6 +895,4 @@ information_functions_init (void)
 			    &help_na,      gnumeric_na);
 	function_add_nodes (cat, "type",   NULL, "value",
 			    &help_type, gnumeric_type);
-};
-
-
+}

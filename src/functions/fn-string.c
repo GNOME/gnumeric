@@ -1329,6 +1329,7 @@ match_again:
 
 /***************************************************************************/
 
+void string_functions_init (void);
 void
 string_functions_init (void)
 {

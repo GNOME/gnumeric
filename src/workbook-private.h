@@ -111,7 +111,7 @@ struct _WorkbookPrivate {
 #endif
 };
 
-WorkbookPrivate * workbook_private_new ();
-void              workbook_private_delete (WorkbookPrivate *wbp);
+WorkbookPrivate *workbook_private_new (void);
+void             workbook_private_delete (WorkbookPrivate *wbp);
 
 #endif /* GNUMERIC_WORKBOOK_PRIVATE_H */

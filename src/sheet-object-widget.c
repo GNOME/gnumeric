@@ -175,21 +175,6 @@ sheet_object_widget_construct (SheetObjectWidget *sow, Sheet *sheet)
 	sheet_object_set_bounds (so, 0, 0, 30, 30);
 }
 
-SheetObject *
-sheet_object_widget_new (Sheet *sheet)
-{
-	SheetObjectWidget *sow;
-
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-
-	sow = gtk_type_new (sheet_object_widget_get_type ());
-
-	sheet_object_widget_construct (sow, sheet);
-
-	return SHEET_OBJECT (sow);
-}
-
 static GNUMERIC_MAKE_TYPE (sheet_object_widget,
 			   "SheetObjectWidget", SheetObjectWidget,
 			   &sheet_object_widget_class_init, NULL,

@@ -13,7 +13,6 @@
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "gnumeric-util.h"
-#include "sheet-object-container.h"
 #include "color.h"
 #include "selection.h"
 #include "parse-util.h"
@@ -23,6 +22,10 @@
 #include "workbook-edit.h"
 #include "workbook.h"
 #include "commands.h"
+
+#ifdef ENABLE_BONOBO
+#  include "sheet-object-container.h"
+#endif
 #include <gal/widgets/e-cursors.h>
 
 static GnomeCanvasClass *sheet_parent_class;
