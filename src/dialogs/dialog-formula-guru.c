@@ -201,9 +201,13 @@ cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, Ar
 
 			for (; i >= lim ; --i) {
 				ArgumentState *tmp = g_ptr_array_index (state->args, i);
-				gtk_object_destroy (GTK_OBJECT (tmp->name_label));
-				gtk_object_destroy (GTK_OBJECT (tmp->entry));
-				gtk_object_destroy (GTK_OBJECT (tmp->type_label));
+
+				gtk_container_remove (GTK_CONTAINER (state->arg_table),
+						      GTK_WIDGET (tmp->name_label));
+				gtk_container_remove (GTK_CONTAINER (state->arg_table),
+						      GTK_WIDGET (tmp->entry));
+				gtk_container_remove (GTK_CONTAINER (state->arg_table),
+						      GTK_WIDGET (tmp->type_label));
 				formula_guru_arg_delete (state, i);
 			}
 
@@ -230,7 +234,7 @@ cb_formula_guru_destroy (GtkObject *w, FomulaGuruState *state)
 
 		for (i = state->args->len; i-- > 0 ;)
 			formula_guru_arg_delete (state, i);
-		g_ptr_array_free (state->args, FALSE);
+		g_ptr_array_free (state->args, TRUE);
 		state->args = NULL;
 	}
 
@@ -473,7 +477,6 @@ formula_guru_init (FomulaGuruState *state)
 
 	gtk_window_set_transient_for (GTK_WINDOW (state->dialog),
 				      GTK_WINDOW (state->wb->toplevel));
-	gtk_widget_show_all (GTK_WIDGET (state->arg_table));
 
 	workbook_edit_attach_guru (state->wb, state->dialog);
 	formula_guru_set_expr (state, 0);
@@ -556,5 +559,6 @@ dialog_formula_guru (Workbook *wb)
 
 	/* Ok everything is hooked up. Let-er rip */
 	state->valid = TRUE;
+	gtk_widget_show_all (state->arg_table);
 	formula_guru_set_expr (state, 0);
 }
