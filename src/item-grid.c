@@ -876,9 +876,9 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 
 	/* Range check first */
 	if (pos.col >= SHEET_MAX_COLS)
-		return 1;
+		return TRUE;
 	if (pos.row >= SHEET_MAX_ROWS)
-		return 1;
+		return TRUE;
 
 	/* A new object is ready to be realized and inserted */
 	if (scg->new_object != NULL)
@@ -906,7 +906,7 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 		gnm_simple_canvas_grab (item,
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
 			NULL, event->time);
-		return 1;
+		return TRUE;
 	}
 
 	/* If the user is editing a formula (wbcg_rangesel_possible) then we
@@ -919,18 +919,18 @@ item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 		gnm_simple_canvas_grab (item,
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
 			NULL, event->time);
-		return 1;
+		return TRUE;
 	}
 
 	/* While a guru is up ignore clicks */
 	if (wbcg_edit_has_guru (scg->wbcg))
-		return 1;
+		return TRUE;
 
 	/* This was a regular click on a cell on the spreadsheet.  Select it.
 	 * but only if the entered expression is valid
 	 */
 	if (!wbcg_edit_finish (scg->wbcg, TRUE))
-		return 1;
+		return TRUE;
 
 	/* button 1 will always change the selection,  the other buttons will
 	 * only effect things if the target is not already selected.
