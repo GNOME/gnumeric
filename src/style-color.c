@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * color.c: Color allocation on the Gnumeric spreadsheet
  *
@@ -80,6 +81,12 @@ style_color_new (gushort red, gushort green, gushort blue)
 		sc->ref_count++;
 
 	return sc;
+}
+
+GnmColor *
+style_color_new_pango (PangoColor *c)
+{
+	return style_color_new (c->red, c->green, c->blue);
 }
 
 /* scale 8 bit/color ->  16 bit/color by cloning */

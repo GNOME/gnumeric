@@ -21,8 +21,8 @@ struct _WorkbookControlGUI {
 		GnmExprEntry *entry; /* The real edit line */
 		GnmExprEntry *temp_entry; /* A tmp overlay eg from a guru */
 		GtkWidget*guru;
-		gulong         signal_changed, signal_insert, signal_delete;
-		PangoAttrList *markup;
+		gulong         signal_changed, signal_insert, signal_delete, signal_cursor_pos;
+		PangoAttrList *markup, *cur_fmt;
 	} edit_line;
 
 	/* While editing these should be visible */
@@ -67,6 +67,10 @@ struct _WorkbookControlGUI {
 typedef struct {
 	WorkbookControlClass base;
 
+	/* signals */
+	void (*markup_changed)		(WorkbookControlGUI const *wbcg);
+
+	/* virtuals */
 	void (*set_transient)		(WorkbookControlGUI *wbcg, GtkWindow *window);
 	void (*create_status_area)	(WorkbookControlGUI *wbcg, GtkWidget *progress,
 					 GtkWidget *status, GtkWidget *autoexpr);
@@ -101,6 +105,13 @@ int	 wbcg_close_if_user_permits   (WorkbookControlGUI *wbcg,
 void	 scg_delete_sheet_if_possible (GtkWidget *ignored, SheetControlGUI *scg);
 void	 wbcg_insert_sheet	      (GtkWidget *ignored, WorkbookControlGUI *wbcg);
 void	 wbcg_append_sheet	      (GtkWidget *ignored, WorkbookControlGUI *wbcg);
+
+enum {
+	WBCG_MARKUP_CHANGED,
+	WBCG_LAST_SIGNAL
+};
+
+extern guint wbcg_signals [WBCG_LAST_SIGNAL];
 
 #endif /* GNUMERIC_WORKBOOK_CONTROL_GUI_PRIV_H */
 

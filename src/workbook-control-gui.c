@@ -2375,6 +2375,7 @@ wbcg_go_plot_data_allocator_init (GogDataAllocatorClass *iface)
 
 /***************************************************************************/
 
+guint wbcg_signals [WBCG_LAST_SIGNAL];
 static void
 workbook_control_gui_class_init (GObjectClass *object_class)
 {
@@ -2423,6 +2424,14 @@ workbook_control_gui_class_init (GObjectClass *object_class)
 	wbc_class->validation_msg	 = wbcg_validation_msg;
 	wbcg_class->set_transient        = wbcg_set_transient_for;
 
+	wbcg_signals [WBCG_MARKUP_CHANGED] = g_signal_new ("markup-changed",
+		WORKBOOK_CONTROL_GUI_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (WorkbookControlGUIClass, markup_changed),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE,
+		0, G_TYPE_NONE);
 	{
 		GdkPixbuf *icon = gnumeric_load_pixbuf ("gnome-gnumeric.png");
 		if (icon != NULL) {

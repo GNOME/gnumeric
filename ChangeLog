@@ -1,3 +1,23 @@
+2004-03-28  Jody Goldberg <jody@gnome.org>
+
+	* src/item-edit.c (ie_layout) : Support rich text.
+
+	* src/wbc-gtk.c (wbc_gtk_style_feedback) : Pull the values from
+	  @changes if it is supplied.
+	(cb_post_activate) : new.
+	(wbc_gtk_init) :  Only restore focus when we aren't editing.
+	  Otherwise every time the style feedback changes we lose focus.
+
+2004-03-26  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-edit.c (cb_delete_filter) : first step in syncing the
+	  markup when content changes.
+	(cb_entry_delete_text) : ditto.
+
+2004-03-25  Jody Goldberg <jody@gnome.org>
+
+	* src/wbcg-actions.c (cb_help_docs) : quick an dirty
+
 2004-03-26  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (wbc_gtk_reload_recent_file_menu): Make UTF-8 safe

@@ -196,7 +196,11 @@
       </menu>
     </menu>
     <menu name="Help" action="MenuHelp">
-      <placeholder name="BuiltMenuItems"/>
+      <menuitem action="HelpDocs"/>
+      <menuitem action="HelpWeb"/>
+      <menuitem action="HelpIRC"/>
+      <menuitem action="HelpBug"/>
+      <separator/>
       <menuitem action="HelpAbout"/>
     </menu>
   </menubar>

@@ -1,8 +1,8 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * item-edit.c : Edit facilities for worksheets.
  *
- * (C) 1999-2002 Miguel de Icaza & Jody Goldberg
+ * (C) 1999-2004 Miguel de Icaza & Jody Goldberg
  *
  * This module provides:
  *   * Integration of an in-sheet text editor (GtkEntry) with the Workbook
@@ -11,7 +11,6 @@
  *   * Feedback on expressions in the spreadsheet (referenced cells or
  *     ranges are highlighted on the spreadsheet).
  */
-
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include "gnumeric.h"
@@ -53,12 +52,12 @@ struct _ItemEdit {
 	PangoLayout	*layout;
 
 	/* Where are we */
-	GnmCellPos	   pos;
+	GnmCellPos pos;
 	gboolean   cursor_visible;
 	int        blink_timer;
 
-	GnmFont *gfont;
-	GnmStyle	  *style;
+	GnmFont   *gfont;
+	GnmStyle  *style;
 	GdkGC     *fill_gc;	/* Default background fill gc */
 
 	/* When editing, if the cursor is inside a cell name, or a cell range,
@@ -84,7 +83,7 @@ ie_destroy_feedback_range (ItemEdit *ie)
 		if (ie->feedback_cursor[i] != NULL) {
 			gtk_object_destroy (GTK_OBJECT (ie->feedback_cursor[i]));
 			ie->feedback_cursor[i] = NULL;
-	}
+		}
 }
 
 /* WARNING : DO NOT CALL THIS FROM FROM UPDATE.  It may create another
@@ -222,7 +221,7 @@ ie_layout (FooCanvasItem *item)
 	GnmRange	   const *merged;
 	int end_col, end_row, tmp, width, height, col_size;
 	char const *text, *entered_text;
-	PangoAttrList	*attrs, *markup;
+	PangoAttrList	*attrs;
 	PangoAttribute  *attr;
 	int cursor_pos = gtk_editable_get_position (GTK_EDITABLE (ie->entry));
 
@@ -239,17 +238,13 @@ ie_layout (FooCanvasItem *item)
 	pango_layout_set_wrap (ie->layout, PANGO_WRAP_CHAR);
 	pango_layout_set_width (ie->layout, (int)(item->x2 - item->x1)*PANGO_SCALE);
 
- 	attrs = pango_attr_list_new ();
+	attrs = wbcg_edit_get_markup (scg_get_wbcg (ie->scg));
+	if (attrs != NULL)
+		attrs = pango_attr_list_copy (attrs);
+	else
+		attrs = mstyle_generate_attrs_full (ie->style);
 
-	{
-		GnmColor *fore = mstyle_get_color (ie->style, MSTYLE_COLOR_FORE);
-		attr = pango_attr_foreground_new (fore->color.red,
-						  fore->color.green,
-						  fore->color.blue);
-		attr->start_index = 0;
-		attr->end_index = -1;
-		pango_attr_list_insert (attrs, attr);
-	}
+	/* reverse video the auto completion text  */
 	if (entered_text != NULL && entered_text != text) {
 		GnmColor *color;
 		int const start = strlen (entered_text);
@@ -268,36 +263,6 @@ ie_layout (FooCanvasItem *item)
 		attr->end_index = G_MAXINT;
 		pango_attr_list_insert (attrs, attr);
 	}
-	/* Handle underlining and strikethrough */
-	switch (mstyle_get_font_uline (ie->style)) {
-	case UNDERLINE_SINGLE :
-		attr = pango_attr_underline_new (PANGO_UNDERLINE_SINGLE);
-		attr->start_index = 0;
-		attr->end_index = -1;
-		pango_attr_list_insert (attrs, attr);
-		break;
-
-	case UNDERLINE_DOUBLE :
-		attr = pango_attr_underline_new (PANGO_UNDERLINE_DOUBLE);
-		attr->start_index = 0;
-		attr->end_index = -1;
-		pango_attr_list_insert (attrs, attr);
-		break;
-
-	default :
-		break;
-	};
-
-	if (mstyle_get_font_strike (ie->style)){
-		attr = pango_attr_strikethrough_new (TRUE);
-		attr->start_index = 0;
-		attr->end_index = -1;
-		pango_attr_list_insert (attrs, attr);
-	}
-
-	markup = wbcg_edit_get_markup (scg_get_wbcg (ie->scg));
-	if (markup != NULL)
-		pango_attr_list_splice (attrs, markup, 0, 0);
 	pango_layout_set_attributes (ie->layout, attrs);
 	pango_attr_list_unref (attrs);
 
@@ -469,9 +434,8 @@ item_edit_init (ItemEdit *ie)
  * We use this to sync up the GtkEntry with our display on the screen.
  */
 static void
-entry_changed (GnmExprEntry *ignore, void *data)
+entry_changed (FooCanvasItem *item)
 {
-	FooCanvasItem *item = FOO_CANVAS_ITEM (data);
 	ItemEdit *ie = ITEM_EDIT (item);
 	char const *text = gtk_entry_get_text (ie->entry);
 
@@ -504,16 +468,16 @@ item_edit_finalize (GObject *gobject)
 }
 
 static int
-entry_event (GtkEntry *entry, GdkEvent *event, FooCanvasItem *item)
+entry_key_press (FooCanvasItem *item)
 {
-	entry_changed (NULL, item);
+	entry_changed (item);
 	return TRUE;
 }
 
 static int
-entry_cursor_event (GtkEntry *entry, GParamSpec *pspec, FooCanvasItem *item)
+entry_cursor_event (FooCanvasItem *item)
 {
-	entry_changed (NULL, item);
+	entry_changed (item);
 	return TRUE;
 }
 
@@ -536,15 +500,18 @@ item_edit_set_property (GObject *gobject, guint param_id,
 	sv = sc_view (SHEET_CONTROL (ie->scg));
 	ie->pos = sv->edit_pos;
 	ie->entry = entry = wbcg_get_entry (scg_get_wbcg (ie->scg));
+	g_signal_connect_object (G_OBJECT (scg_get_wbcg (ie->scg)),
+		"markup-changed",
+		G_CALLBACK (foo_canvas_item_request_update), G_OBJECT (ie), G_CONNECT_SWAPPED);
 	g_signal_connect_object (G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (entry))),
 		"changed",
-		G_CALLBACK (entry_changed), G_OBJECT (ie), 0);
+		G_CALLBACK (entry_changed), G_OBJECT (ie), G_CONNECT_SWAPPED);
 	g_signal_connect_object (G_OBJECT (entry),
 		"key-press-event",
-		G_CALLBACK (entry_event), G_OBJECT (ie), G_CONNECT_AFTER);
+		G_CALLBACK (entry_key_press), G_OBJECT (ie), G_CONNECT_AFTER|G_CONNECT_SWAPPED);
 	g_signal_connect_object (G_OBJECT (entry),
 		"notify::cursor-position",
-		G_CALLBACK (entry_cursor_event), G_OBJECT (ie), G_CONNECT_AFTER);
+		G_CALLBACK (entry_cursor_event), G_OBJECT (ie), G_CONNECT_AFTER|G_CONNECT_SWAPPED);
 
 	ie_scan_for_range (ie);
 

@@ -54,7 +54,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static GQuark signals [LAST_SIGNAL] = { 0 };
+static guint signals [LAST_SIGNAL] = { 0 };
 
 static void
 cb_saver_finalize (Workbook *wb, GnmFileSaver *saver)

@@ -21,6 +21,7 @@
 #include "commands.h"
 #include "gnumeric-gconf.h"
 #include "mstyle.h"
+#include "style-color.h"
 #include "sheet-control-gui-priv.h"
 #include "sheet-style.h"
 #include "sheet-view.h"
@@ -235,13 +236,17 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept,
 	}
 	if (wbcg->edit_line.markup != NULL) {
 		pango_attr_list_unref (wbcg->edit_line.markup);
-		wbcg->edit_line.markup = NULL;
+		pango_attr_list_unref (wbcg->edit_line.cur_fmt);
+		wbcg->edit_line.markup = wbcg->edit_line.cur_fmt = NULL;
 		g_signal_handler_disconnect (GTK_OBJECT (wbcg_get_entry (wbcg)),
 			wbcg->edit_line.signal_insert);
 		wbcg->edit_line.signal_insert = 0;
 		g_signal_handler_disconnect (GTK_OBJECT (wbcg_get_entry (wbcg)),
 			wbcg->edit_line.signal_delete);
 		wbcg->edit_line.signal_delete = 0;
+		g_signal_handler_disconnect (GTK_OBJECT (wbcg_get_entry (wbcg)),
+			wbcg->edit_line.signal_cursor_pos);
+		wbcg->edit_line.signal_cursor_pos = 0;
 	}
 	wb_control_edit_set_sensitive (wbc, FALSE, TRUE);
 
@@ -639,15 +644,55 @@ wbcg_edit_ctor (WorkbookControlGUI *wbcg)
 	wbcg->edit_line.guru = NULL;
 	wbcg->edit_line.signal_changed = 0;
 	wbcg->edit_line.markup = NULL;
+	wbcg->edit_line.cur_fmt = NULL;
+}
+
+static gboolean
+cb_set_attr_list_len (PangoAttribute *a, int const *len)
+{
+	a->start_index = 0;
+	a->end_index = *len;
+	return FALSE;
 }
 
 static void
-cb_entry_insert_text (GtkEditable    *editable,
-		      const gchar    *text,
-		      gint            length,
-		      gint           *position,
+cb_entry_insert_text (GtkEditable *editable,
+		      gchar const *text,
+		      gint         len,
+		      gint        *pos,
 		      WorkbookControlGUI *wbcg)
 {
+	pango_attr_list_filter (wbcg->edit_line.cur_fmt,
+		(PangoAttrFilterFunc) cb_set_attr_list_len, &len);
+	pango_attr_list_splice (wbcg->edit_line.markup,
+		wbcg->edit_line.cur_fmt, *pos, len);
+}
+
+typedef struct {
+	unsigned start_pos, end_pos, len;
+} EntryDeleteTextClosure;
+
+static gboolean
+cb_delete_filter (PangoAttribute *a, EntryDeleteTextClosure *change)
+{
+	if (change->start_pos >= a->end_index)
+		return FALSE;
+
+	if (change->start_pos <= a->start_index) {
+		if (change->end_pos >= a->end_index)
+			return TRUE;
+
+		a->start_index -= change->len;
+		a->end_index -= change->len;
+		if (a->start_index < change->start_pos)
+			a->start_index = change->start_pos;
+	} else {
+		a->end_index -= change->len;
+		if (a->end_index < change->end_pos)
+			a->end_index = change->end_pos;
+	}
+
+	return FALSE;
 }
 
 static void
@@ -656,6 +701,62 @@ cb_entry_delete_text (GtkEditable    *editable,
 		      gint            end_pos,
 		      WorkbookControlGUI *wbcg)
 {
+	PangoAttrList *gunk;
+	EntryDeleteTextClosure change;
+
+	change.start_pos = start_pos;
+	change.end_pos = end_pos;
+	change.len = end_pos - start_pos;
+	gunk = pango_attr_list_filter (wbcg->edit_line.markup,
+		(PangoAttrFilterFunc) cb_delete_filter, &change);
+	if (gunk != NULL)
+		pango_attr_list_unref (gunk);
+}
+
+static void
+cb_entry_cursor_pos (WorkbookControlGUI *wbcg)
+{
+	gint start, end, target_pos;
+	GtkEditable *entry = GTK_EDITABLE (wbcg_get_entry (wbcg));
+	PangoAttrIterator *iter = pango_attr_list_get_iterator (wbcg->edit_line.markup);
+	PangoAttribute *attr;
+
+	/* 1) Use first selected character if there is a selection
+	 * 2) Ue the character just before the edit pos if it exists
+	 * 3) Use the first character */
+	if (gtk_editable_get_selection_bounds (entry, &start, &end))
+		target_pos = start;
+	else {
+		target_pos = gtk_editable_get_position (entry);
+		if (target_pos > 0)
+			target_pos--;
+	}
+
+	g_warning ("style from %d", target_pos);
+
+	pango_attr_list_unref (wbcg->edit_line.cur_fmt);
+	wbcg->edit_line.cur_fmt = pango_attr_list_new ();
+	do {
+		pango_attr_iterator_range (iter, &start, &end);
+		if (start <= target_pos && target_pos < end) {
+			GSList *ptr, *attrs = pango_attr_iterator_get_attrs (iter);
+			GnmStyle *style = mstyle_new ();
+
+			for (ptr = attrs; ptr != NULL ; ptr = ptr->next) {
+				attr = (PangoAttribute *)(ptr->data);
+				mstyle_set_from_pango_attribute (style, attr);
+				attr->start_index = 0;
+				attr->end_index = 1;
+				pango_attr_list_insert (wbcg->edit_line.cur_fmt, attr);
+			}
+
+			wb_control_style_feedback (WORKBOOK_CONTROL (wbcg), style);
+			mstyle_unref (style);
+			g_slist_free (attrs);
+			break;
+		}
+	} while (pango_attr_iterator_next (iter));
+	pango_attr_iterator_destroy (iter);
 }
 
 /**
@@ -668,23 +769,31 @@ cb_entry_delete_text (GtkEditable    *editable,
 void
 wbcg_edit_add_markup (WorkbookControlGUI *wbcg, PangoAttribute *attr)
 {
+	GObject *entry = (GObject *)wbcg_get_entry (wbcg);
 	if (wbcg->edit_line.markup == NULL) {
-		wbcg->edit_line.markup = pango_attr_list_new ();
+		SheetView const *sv  = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
+		wbcg->edit_line.markup = mstyle_generate_attrs_full (
+			sheet_style_get (sv->sheet, sv->edit_pos.col, sv->edit_pos.row));
+		wbcg->edit_line.cur_fmt = pango_attr_list_copy (wbcg->edit_line.markup);
 		wbcg->edit_line.signal_insert = g_signal_connect (
-			G_OBJECT (wbcg_get_entry (wbcg)),
-			"insert_text",
+			entry, "insert-text",
 			G_CALLBACK (cb_entry_insert_text), wbcg);
 		wbcg->edit_line.signal_delete = g_signal_connect (
-			G_OBJECT (wbcg_get_entry (wbcg)),
-			"delete_text",
+			entry, "delete-text",
 			G_CALLBACK (cb_entry_delete_text), wbcg);
+		wbcg->edit_line.signal_cursor_pos = g_signal_connect_swapped (
+			entry, "notify::cursor-position",
+			G_CALLBACK (cb_entry_cursor_pos), wbcg);
 	}
 
-	if (gtk_editable_get_selection_bounds (GTK_EDITABLE (wbcg_get_entry (wbcg)),
+	if (gtk_editable_get_selection_bounds (GTK_EDITABLE (entry),
 					       &attr->start_index, &attr->end_index))
-		pango_attr_list_change (wbcg->edit_line.markup, attr);
-	else
-		pango_attribute_destroy (attr);
+		pango_attr_list_change (wbcg->edit_line.markup,
+			pango_attribute_copy (attr));
+	attr->start_index = 0;
+	attr->end_index = 1;
+	pango_attr_list_change (wbcg->edit_line.cur_fmt, attr);
+	g_signal_emit (G_OBJECT (wbcg), wbcg_signals [WBCG_MARKUP_CHANGED], 0);
 }
 
 /**

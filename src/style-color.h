@@ -16,9 +16,10 @@ struct _GnmColor {
 extern GdkColor gs_white, gs_light_gray, gs_dark_gray, gs_black, gs_lavender, gs_yellow;
 
 GnmColor *style_color_new_go   (GOColor c);
-GnmColor *style_color_new_name (char const *name);
-GnmColor *style_color_new      (gushort red, gushort green, gushort blue);
+GnmColor *style_color_new_name  (char const *name);
+GnmColor *style_color_new       (gushort red, gushort green, gushort blue);
 GnmColor *style_color_new_i8    (guint8 red, guint8 green, guint8 blue);
+GnmColor *style_color_new_pango (PangoColor *c);
 GnmColor *style_color_auto_font (void);
 GnmColor *style_color_auto_back (void);
 GnmColor *style_color_auto_pattern (void);

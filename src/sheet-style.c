@@ -78,7 +78,7 @@ sheet_style_find (Sheet const *sheet, GnmStyle *s)
 		return res;
 	}
 
-	s = mstyle_link_sheet (s, sheet);
+	s = mstyle_link_sheet (s, (Sheet *)sheet);
 	g_hash_table_insert (sheet->style_data->style_hash, s, s);
 	return s;
 }

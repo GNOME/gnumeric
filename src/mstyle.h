@@ -62,7 +62,7 @@ GnmStyle	   *mstyle_copy_merge	 (const GnmStyle *orig, const GnmStyle *overlay);
 void        mstyle_ref           (GnmStyle *st);
 void        mstyle_unref         (GnmStyle *st);
 
-GnmStyle   *mstyle_link_sheet    (GnmStyle *st, Sheet const *sheet);
+GnmStyle   *mstyle_link_sheet    (GnmStyle *st, Sheet *sheet);
 void        mstyle_link          (GnmStyle *st);
 void        mstyle_link_multiple (GnmStyle *st, int count);
 void        mstyle_unlink        (GnmStyle *st);
@@ -142,9 +142,12 @@ GnmInputMsg   	   *mstyle_get_input_msg	(const GnmStyle *st);
 
 gboolean            mstyle_visible_in_blank (const GnmStyle *st);
 
-PangoAttrList      *mstyle_get_pango_attrs (const GnmStyle *st,
-					    PangoContext *context,
-					    double zoom);
+PangoAttrList      *mstyle_generate_attrs_full (const GnmStyle *st);
+PangoAttrList      *mstyle_get_pango_attrs     (const GnmStyle *st,
+						PangoContext *context,
+						double zoom);
+void	    	    mstyle_set_from_pango_attribute (GnmStyle *style,
+						     PangoAttribute const *attr);
 
 char       *mstyle_to_string   (const GnmStyle *st); /* Debug only ! leaks like a sieve */
 void        mstyle_dump        (const GnmStyle *st);

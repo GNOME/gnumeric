@@ -854,7 +854,7 @@ link_border_colors (GnmStyle *style, GnmColor *auto_color, gboolean make_copy)
  * link_xxxxx_color functions tell whether or not to copy.
  */
 GnmStyle *
-mstyle_link_sheet (GnmStyle *style, Sheet const *sheet)
+mstyle_link_sheet (GnmStyle *style, Sheet *sheet)
 {
 	GnmColor *auto_color;
 	gboolean style_is_orig = TRUE;
@@ -1607,13 +1607,24 @@ mstyle_visible_in_blank (const GnmStyle *st)
 	return FALSE;
 }
 
+static void
+add_attr (PangoAttrList *attrs, PangoAttribute *attr)
+{
+	attr->start_index = 0;
+	attr->end_index = G_MAXINT;
+	pango_attr_list_insert (attrs, attr);
+}
+
+/**
+ * mstyle_get_pango_attrs :
+ * @style : #GnmStyle
+ **/
 PangoAttrList *
 mstyle_get_pango_attrs (const GnmStyle *mstyle,
 			PangoContext *context,
 			double zoom)
 {
-	PangoAttribute *attr;
-	PangoAttrList *res;
+	PangoAttrList *l;
 
 	if (mstyle->pango_attrs) {
 		if (zoom == mstyle->pango_attrs_zoom) {
@@ -1623,59 +1634,115 @@ mstyle_get_pango_attrs (const GnmStyle *mstyle,
 		pango_attr_list_unref (((GnmStyle *)mstyle)->pango_attrs);
 	}
 
-	((GnmStyle *)mstyle)->pango_attrs = res = pango_attr_list_new ();
+	((GnmStyle *)mstyle)->pango_attrs = l = pango_attr_list_new ();
 	((GnmStyle *)mstyle)->pango_attrs_zoom = zoom;
 
 	/* Foreground colour.  */
 	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
 	if (0) {
 		const GnmColor *fore = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
-		attr = pango_attr_foreground_new (fore->color.red, fore->color.green, fore->color.blue);
-		attr->start_index = 0;
-		attr->end_index = -1;
-		pango_attr_list_insert (res, attr);
+		add_attr (l, pango_attr_foreground_new (
+			fore->color.red, fore->color.green, fore->color.blue));
 	}
 
 	/* Handle underlining.  */
 	switch (mstyle_get_font_uline (mstyle)) {
 	case UNDERLINE_SINGLE :
-		attr = pango_attr_underline_new (PANGO_UNDERLINE_SINGLE);
-		attr->start_index = 0;
-		attr->end_index = -1;
-		pango_attr_list_insert (res, attr);
+		add_attr (l, pango_attr_underline_new (PANGO_UNDERLINE_SINGLE));
 		break;
-
 	case UNDERLINE_DOUBLE :
-		attr = pango_attr_underline_new (PANGO_UNDERLINE_DOUBLE);
-		attr->start_index = 0;
-		attr->end_index = -1;
-		pango_attr_list_insert (res, attr);
+		add_attr (l, pango_attr_underline_new (PANGO_UNDERLINE_DOUBLE));
 		break;
-
 	default :
 		break;
-	};
-
-	/* Handle strike-through.  */
-	if (mstyle_get_font_strike (mstyle)) {
-		attr = pango_attr_strikethrough_new (TRUE);
-		attr->start_index = 0;
-		attr->end_index = -1;
-		pango_attr_list_insert (res, attr);
 	}
 
-	/* Handle font.  */
+	if (mstyle_get_font_strike (mstyle))
+		add_attr (l, pango_attr_strikethrough_new (TRUE));
+
 	{
 		GnmFont *font = mstyle_get_font (mstyle, context, zoom);
-		attr = pango_attr_font_desc_new (font->pango.font_descr);
-		attr->start_index = 0;
-		attr->end_index = -1;
-		pango_attr_list_insert (res, attr);
+		add_attr (l, pango_attr_font_desc_new (font->pango.font_descr));
 		style_font_unref (font);
 	}
 
-	pango_attr_list_ref (res);
-	return res;
+	pango_attr_list_ref (l);
+	return l;
+}
+
+PangoAttrList *
+mstyle_generate_attrs_full (GnmStyle const *st)
+{
+	GnmColor *fore = mstyle_get_color (st, MSTYLE_COLOR_FORE);
+	PangoAttrList *l = pango_attr_list_new ();
+
+	add_attr (l, pango_attr_family_new (mstyle_get_font_name (st)));
+	add_attr (l, pango_attr_size_new (mstyle_get_font_size (st) * PANGO_SCALE));
+	add_attr (l, pango_attr_style_new (mstyle_get_font_italic (st)
+		? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL));
+	add_attr (l, pango_attr_weight_new (mstyle_get_font_bold (st)
+		? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL));
+	add_attr (l, pango_attr_foreground_new (
+		fore->color.red, fore->color.green, fore->color.blue));
+	add_attr (l, pango_attr_strikethrough_new (mstyle_get_font_strike (st)));
+	switch (mstyle_get_font_uline (st)) {
+	case UNDERLINE_SINGLE :
+		add_attr (l, pango_attr_underline_new (PANGO_UNDERLINE_SINGLE));
+		break;
+	case UNDERLINE_DOUBLE :
+		add_attr (l, pango_attr_underline_new (PANGO_UNDERLINE_DOUBLE));
+		break;
+	default :
+		break;
+	}
+
+	return l;
+}
+
+void
+mstyle_set_from_pango_attribute (GnmStyle *style, PangoAttribute const *attr)
+{
+	switch (attr->klass->type) {
+	case PANGO_ATTR_FAMILY :
+		mstyle_set_font_name (style, ((PangoAttrString *)attr)->value);
+		break;
+	case PANGO_ATTR_SIZE :
+		mstyle_set_font_size (style,
+			(double )(((PangoAttrInt *)attr)->value) / PANGO_SCALE);
+		break;
+	case PANGO_ATTR_STYLE :
+		mstyle_set_font_italic (style,
+			((PangoAttrInt *)attr)->value == PANGO_STYLE_ITALIC);
+		break;
+	case PANGO_ATTR_WEIGHT :
+		mstyle_set_font_bold (style,
+			((PangoAttrInt *)attr)->value >= PANGO_WEIGHT_BOLD);
+		break;
+	case PANGO_ATTR_FOREGROUND :
+		mstyle_set_color (style, MSTYLE_COLOR_FORE,
+			style_color_new_pango (
+			&((PangoAttrColor *)attr)->color));
+		break;
+	case PANGO_ATTR_UNDERLINE :
+		switch (((PangoAttrInt *)attr)->value) {
+		case PANGO_UNDERLINE_NONE :
+			mstyle_set_font_uline (style, UNDERLINE_NONE);
+			break;
+		case PANGO_UNDERLINE_SINGLE :
+			mstyle_set_font_uline (style, UNDERLINE_SINGLE);
+			break;
+		case PANGO_UNDERLINE_DOUBLE :
+			mstyle_set_font_uline (style, UNDERLINE_DOUBLE);
+			break;
+		}
+		break;
+	case PANGO_ATTR_STRIKETHROUGH :
+		mstyle_set_font_strike (style,
+			((PangoAttrInt *)attr)->value != 0);
+		break;
+	default :
+		break; /* ignored */
+	}
 }
 
 /* ------------------------------------------------------------------------- */

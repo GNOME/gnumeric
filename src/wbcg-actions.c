@@ -1005,10 +1005,22 @@ static GNM_ACTION_DEF (cb_data_group)
 static GNM_ACTION_DEF (cb_data_ungroup)
 	{ group_ungroup_colrow (wbcg, FALSE); }
 
-static GNM_ACTION_DEF (cb_help_about)
+static GNM_ACTION_DEF (cb_help_docs)
 {
-	dialog_about (wbcg);
+	char   *argv[] = { (char *)"yelp", NULL, NULL };
+	GError *error = NULL;
+
+#warning handle translations when we generate them
+	argv[1] = gnumeric_sys_data_dir ("doc/C/gnumeric.xml");
+	g_spawn_async (NULL, argv, NULL, G_SPAWN_SEARCH_PATH,
+		NULL, NULL, NULL, &error);
+	g_free (argv[1]);
 }
+
+static GNM_ACTION_DEF (cb_help_web) { }
+static GNM_ACTION_DEF (cb_help_irc) { }
+static GNM_ACTION_DEF (cb_help_bug) { }
+static GNM_ACTION_DEF (cb_help_about) { dialog_about (wbcg); }
 
 static GNM_ACTION_DEF (cb_autosum)
 {
@@ -1434,7 +1446,8 @@ static GNM_ACTION_DEF (cb_copyright)
 	g_warning ("Killroy was here in cb_copyright");
 }
 
-static GtkActionEntry menus[] = {
+/* Actions that are always sensitive */
+static GtkActionEntry permanent_actions[] = {
 	{ "MenuFile",		NULL, N_("_File") },
 	{ "MenuEdit",		NULL, N_("_Edit") },
 		{ "MenuEditClear",	NULL, N_("C_lear") },
@@ -1459,7 +1472,24 @@ static GtkActionEntry menus[] = {
 		{ "MenuFilter",		NULL,	N_("_Filter") },
 		{ "MenuOutline",	NULL,	N_("_Group and Outline") },
 		{ "MenuExternalData",	NULL,	N_("Get _External Data") },
-	{ "MenuHelp",	NULL,	N_("_Help") }
+	{ "MenuHelp",	NULL,	N_("_Help") },
+
+	{ "HelpDocs", GTK_STOCK_HELP, N_("_Contents"),
+		NULL, N_("Open a viewer for Gnumeric's documentation"),
+		G_CALLBACK (cb_help_docs) },
+	{ "HelpWeb", NULL, N_("Gnumeric on the _Web"),
+		NULL, N_("Browse to Gnumeric's website"),
+		G_CALLBACK (cb_help_web) },
+	{ "HelpIRC", NULL, N_("Live _Assistance"),
+		NULL, N_("See if anyone is available to answer questions"),
+		G_CALLBACK (cb_help_irc) },
+	{ "HelpBug", NULL, N_("Report a _Problem"),
+		NULL, N_("Report problem "),
+		G_CALLBACK (cb_help_bug) },
+	{ "HelpAbout", NULL, N_("_About"),
+		NULL, N_("About this application"),
+		G_CALLBACK (cb_help_about) },
+
 };
 
 static GtkActionEntry actions[] = {
@@ -1583,7 +1613,7 @@ static GtkActionEntry actions[] = {
 		NULL, N_("Paste the clipboard"),
 		G_CALLBACK (cb_edit_paste) },
 	{ "EditPasteSpecial", NULL, N_("P_aste special..."),
-		NULL, N_("Paste with optional filters and transformations"),
+		"<shift><control>V", N_("Paste with optional filters and transformations"),
 		G_CALLBACK (cb_edit_paste_special) },
 
 	{ "EditDelete", GTK_STOCK_DELETE, N_("_Delete..."),
@@ -1850,10 +1880,6 @@ static GtkActionEntry actions[] = {
 		NULL, N_("Import the text from a file"),
 		G_CALLBACK (cb_data_import_text) },
 
-	{ "HelpAbout", NULL, N_("_About"),
-		NULL, N_("About this application"),
-		G_CALLBACK (cb_help_about) },
-
 /* Standard Toolbar */
 	{ "AutoSum", "Gnumeric_AutoSum", N_("Sum"),
 		NULL, N_("Sum into the current cell"),
@@ -2061,7 +2087,7 @@ wbcg_register_actions (WorkbookControlGUI *wbcg,
 		       GtkActionGroup *font_group)
 {
 	  gtk_action_group_add_actions (menu_group,
-		menus, G_N_ELEMENTS (menus), wbcg);
+		permanent_actions, G_N_ELEMENTS (permanent_actions), wbcg);
 	  gtk_action_group_add_actions (group,
 		actions, G_N_ELEMENTS (actions), wbcg);
 	  gtk_action_group_add_toggle_actions (group,
