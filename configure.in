@@ -529,6 +529,8 @@ if test "x$try_bonobo" = "xtrue"; then
 		[bonobo_msg="yes"],
 		[bonobo_msg="NO. xxx problem"])
 fi
+AC_SUBST(LIBBONOBO_LIBS)
+AC_SUBST(LIBBONOBO_CFLAGS)
 
 if test "x$bonobo_msg" = "xyes"; then
 	bonobo_suffix=-bonobo

@@ -301,6 +301,7 @@ gnumeric_LDADD =				\
 	$(gnumeric_app_libs)			\
 	../idl/libGnumericIDL.a			\
 	$(GNUMERIC_LIBS)			\
+	$(LIBBONOBO_LIBS)			\
 	$(INTLLIBS)
 else
 gnumeric_SOURCES =				\
