@@ -54,7 +54,6 @@ Long term breakage
 
 - Search-and-replace.
   - It is doubtful whether the regexp selection belongs on the first page.
-  - Querying is not implemented for comments.
 
 - The max row/col canvas scroll size is still hard coded.
 
