@@ -24,7 +24,7 @@ my @files =
      "dt.c",
      "pt.c",
      "qt.c",
-     "pf.c",
+     # "pf.c",
      "qf.c",
      "pchisq.c",
      "qchisq.c",

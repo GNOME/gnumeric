@@ -2062,58 +2062,6 @@ gnm_float qt(gnm_float p, gnm_float ndf, gboolean lower_tail, gboolean log_p)
 }
 
 /* ------------------------------------------------------------------------ */
-/* Imported src/nmath/pf.c from R.  */
-/*
- *  Mathlib : A C Library of Special Functions
- *  Copyright (C) 1998 Ross Ihaka
- *  Copyright (C) 2000 The R Development Core Team
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
- *
- *  DESCRIPTION
- *
- *    The distribution function of the F distribution.
- */
-
-
-gnm_float pf(gnm_float x, gnm_float n1, gnm_float n2, gboolean lower_tail, gboolean log_p)
-{
-#ifdef IEEE_754
-    if (isnangnum(x) || isnangnum(n1) || isnangnum(n2))
-	return x + n2 + n1;
-#endif
-    if (n1 <= 0. || n2 <= 0.) ML_ERR_return_NAN;
-
-    if (x <= 0.)
-	return R_DT_0;
-
-    /* fudge the extreme DF cases -- pbeta doesn't do this well */
-
-    if (n2 > 4e5)
-	return pchisq(x * n1, n1, lower_tail, log_p);
-
-    if (n1 > 4e5)
-	return pchisq(n2 / x , n2, !lower_tail, log_p);
-
-    x = pbeta(n2 / (n2 + n1 * x), n2 / 2.0, n1 / 2.0,
-	      !lower_tail, log_p);
-
-    return !isnangnum(x) ? x : gnm_nan;
-}
-
-/* ------------------------------------------------------------------------ */
 /* Imported src/nmath/qf.c from R.  */
 /*
  *  Mathlib : A C Library of Special Functions
@@ -5218,6 +5166,27 @@ pcauchy (gnm_float x, gnm_float location, gnm_float scale,
 	    return (x > 0) ? R_D_Clog (temp) : R_D_val (-temp);
     } else
 	    return R_D_val (0.5 + atangnum (x) / M_PIgnum);
+}
+
+gnm_float
+pf (gnm_float x, gnm_float n1, gnm_float n2, gboolean lower_tail, gboolean log_p)
+{
+#ifdef IEEE_754
+    if (isnangnum (x) || isnangnum (n1) || isnangnum (n2))
+	return x + n2 + n1;
+#endif
+    if (n1 <= 0 || n2 <= 0) ML_ERR_return_NAN;
+
+    if (x <= 0)
+	return R_DT_0;
+
+    /* Avoid squeezing pbeta's first parameter against 1.  */
+    if (n1 * x > n2)
+	    return pbeta (n2 / (n2 + n1 * x), n2 / 2, n1 / 2,
+			  !lower_tail, log_p);
+    else
+	    return pbeta (n1 * x / (n2 + n1 * x), n1 / 2, n2 / 2,
+			  lower_tail, log_p);
 }
 
 /* ------------------------------------------------------------------------ */
