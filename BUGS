@@ -19,6 +19,10 @@ Release Critical
 - String functions need to be UTF8ed: CHAR, CODE, SUBSTITUTE, SEARCH.
 - Search/Replace needs to be UTF8ed.
 - function_category_compare needs to be made UTF8 safe.
+- http://bugzilla.gnome.org/show_bug.cgi?id=83390 [drawing problem with large
+  formulae]
+- http://bugzilla.gnome.org/show_bug.cgi?id=83363 [gross performance problems
+  with large formulae]
 
 Pending Patches
 ---------------
