@@ -630,11 +630,15 @@ latex2e_write_multicolumn_cell (FILE *fp, Cell const *cell, int num_merged_cols,
 	if (!cell_is_blank (cell)) {
                 /* Check the foreground (text) colour. */
 		textColor = cell_get_render_color (cell);
-		if (textColor == NULL)
+		if (textColor == NULL && mstyle_is_element_set (mstyle, MSTYLE_COLOR_FORE))
 			textColor = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
-		r = textColor->red;
-		g = textColor->green;
-		b = textColor->blue;
+		if (textColor == NULL)
+			r = g = b = 0;
+		else {
+			r = textColor->red;
+			g = textColor->green;
+			b = textColor->blue;
+		}
 		if (r != 0 || g != 0 || b != 0)
 			fprintf (fp, "{\\color[rgb]{%.2f,%.2f,%.2f} ",
 				 (double)r/65535, (double)g/65535, (double)b/65535);

@@ -124,12 +124,15 @@ html_get_text_color (Cell *cell, MStyle *mstyle, guint *r, guint *g, guint *b)
 	StyleColor *textColor;
 
 	textColor = cell_get_render_color (cell);
-	if (textColor == NULL)
+	if (textColor == NULL && mstyle_is_element_set (mstyle, MSTYLE_COLOR_FORE))
 		textColor = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
-
-	*r = textColor->color.red >> 8;
-	*g = textColor->color.green >> 8;
-	*b = textColor->color.blue >> 8;
+	if (textColor == NULL)
+		*r = *g = *b = 0;
+	else {
+		*r = textColor->color.red >> 8;
+		*g = textColor->color.green >> 8;
+		*b = textColor->color.blue >> 8;
+	}
 }
 static void
 html_get_color (MStyle *mstyle, MStyleElementType t, guint *r, guint *g, guint *b)
@@ -322,11 +325,11 @@ write_cell (FILE *fp, Sheet *sheet, gint row, gint col, html_version_t version)
 	guint r, g, b;
 
 	mstyle = sheet_style_get (sheet, col, row);
-	if (mstyle != NULL && version != HTML32 && version != HTML40) {
+	if (mstyle != NULL && version != HTML32 && version != HTML40 && 
+	    mstyle_get_pattern (mstyle) != 0 &&
+	    mstyle_is_element_set (mstyle, MSTYLE_COLOR_BACK)) {
 		html_get_color (mstyle, MSTYLE_COLOR_BACK, &r, &g, &b);
-		if (r < 255 || g < 255 || b < 255) {
-			fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
-		}
+		fprintf (fp, " bgcolor=\"#%02X%02X%02X\"", r, g, b);
 	}
 
 	cell = sheet_cell_get (sheet, col, row);
@@ -370,8 +373,9 @@ write_cell (FILE *fp, Sheet *sheet, gint row, gint col, html_version_t version)
 	if (version == HTML40) {
 		if (mstyle != NULL) {
 			fprintf (fp, " style=\"");
-			html_get_color (mstyle, MSTYLE_COLOR_BACK, &r, &g, &b);
-			if (r < 255 || g < 255 || b < 255) {
+			if (mstyle_get_pattern (mstyle) != 0 &&
+			    mstyle_is_element_set (mstyle, MSTYLE_COLOR_BACK)) {
+				html_get_color (mstyle, MSTYLE_COLOR_BACK, &r, &g, &b);
 				fprintf (fp, "background:#%02X%02X%02X;", r, g, b);
 			}
 			if (cell != NULL) {

@@ -1,3 +1,11 @@
+2002-06-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=84396
+	* html.c (html_get_text_color) : be more careful
+	(write_cell) : write the background colour if and only if the cell has a
+	  background pattern
+	* latex.c (latex2e_write_multicolumn_cell) : be more casreful with font colours.
+
 2002-06-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* html_read.c (html_read_content) : also save src prop of <img>
