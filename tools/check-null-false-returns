@@ -70,8 +70,8 @@ my %exceptions =
 		} elsif (/^(static\s+)?(inline\s+)?gboolean\b[^*]*$/) {
 		    $state = 1;
 		    $good = 'FALSE|TRUE';
-		    $dubious = '\d+';
-		    $bad = 'NULL|[-+]\d+';
+		    $dubious = '0|1';
+		    $bad = 'NULL|[-+]\d+|[2-9]\d*';
 		    $functype = 'boolean';
 		} elsif (/^(static\s+)?(inline\s+)?(const\s+)?(gpointer|\S[ a-zA-Z0-9]+\*)/) {
 		    $state = 1;
