@@ -1725,7 +1725,6 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	cells = xmlNewChild (cur, ctxt->ns, "Cells", NULL);
 	ctxt->parent = cells;
 	g_hash_table_foreach (sheet->cell_hash, xml_write_cell_to, ctxt);
-	sheet->modified = 0;
 
 	return cur;
 }
@@ -2142,7 +2141,6 @@ gnumeric_xml_read_sheet (const char *filename)
 	
 	xmlFreeDoc (res);
 
-	sheet->modified = FALSE;
 	return sheet;
 }
 
@@ -2182,7 +2180,6 @@ gnumeric_xml_write_sheet (Sheet *sheet, const char *filename)
 	xmlSetDocCompressMode (xml, 9);
 	ret = xmlSaveFile (filename, xml);
 	xmlFreeDoc (xml);
-	sheet->modified = FALSE;
 	if (ret < 0)
 		return -1;
 	return 0;

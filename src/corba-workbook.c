@@ -80,7 +80,16 @@ Workbook_save_to (PortableServer_Servant servant, const CORBA_char * filename, C
 {
         Workbook *workbook = workbook_from_servant (servant);
 
-	gnumeric_xml_write_workbook (workbook, filename);
+	/* <FIXME> */
+
+	g_warning ("Failure to save will not be noticed");
+
+	if (gnumeric_xml_write_workbook (workbook, filename) == 0)
+		workbook_mark_clean (wb);
+	else
+		g_error ("Could not save to file %s", wb->filename);
+
+	/* </FIXME> */
 }
 
 static GNOME_Gnumeric_Sheet

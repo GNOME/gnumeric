@@ -190,6 +190,19 @@ workbook_try_read (const char *filename)
 	return wb;
 }
 
+static void 
+file_error_message (char *message, const char *filename)
+{
+	char *s;
+	
+	s = g_strdup_printf (message, filename);
+
+	gnumeric_notice (
+		NULL,
+		GNOME_MESSAGE_BOX_ERROR, s);
+	g_free (s);
+}
+
 /**
  * workbook_read:
  * @filename: the file's URI
@@ -215,17 +228,7 @@ workbook_read (const char *filename)
 	}
 
 	wb = workbook_try_read (filename);
-	if (!wb) {
-		char *s;
-
-		s = g_strdup_printf (
-			N_("Could not read file %s"), filename);
-		
-		gnumeric_notice (
-			NULL,
-			GNOME_MESSAGE_BOX_ERROR, s);
-		g_free (s);
-	}
+	if (!wb) file_error_message (N_("Could not read file %s"), filename);
 	return wb;
 }
 
@@ -280,8 +283,12 @@ workbook_import (Workbook *parent, const char *filename)
 		text [0] = fo->format_description;
 		gtk_clist_append (clist, text);
 		gtk_clist_set_row_data (clist, row, l->data);
+		if (row == 0) gtk_clist_select_row(clist, 0, 0);
+
 		row++;
 	}
+
+	gtk_widget_grab_focus (GTK_WIDGET(clist));
 
 	ret = gnome_dialog_run (GNOME_DIALOG (dialog));
 
@@ -449,6 +456,8 @@ workbook_save_as (Workbook *wb)
 	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Save workbook as")));
 
 	gtk_window_set_modal (GTK_WINDOW (fsel), TRUE);
+	gtk_window_set_transient_for (GTK_WINDOW (fsel), 
+				      GTK_WINDOW (wb->toplevel));
 	if (wb->filename)
 		gtk_file_selection_set_filename (fsel, wb->filename);
 
@@ -495,10 +504,16 @@ workbook_save_as (Workbook *wb)
 				} else
 					name = g_strdup (name);
 
-				workbook_set_filename (wb, name);
-
 				/* Files are expected to be in standard C format.  */
-				current_saver->save (wb, wb->filename);
+				if (current_saver->save (wb, name) == 0) {
+					workbook_set_filename (wb, name);
+					workbook_mark_clean (wb);
+				} else {
+					file_error_message 
+						(N_("Could not save to file %s"), 
+						 name);
+				}
+
 				g_free (name);
 			}
 		}
@@ -516,7 +531,11 @@ workbook_save (Workbook *wb)
 		return;
 	}
 
-	gnumeric_xml_write_workbook (wb, wb->filename);
+	if (gnumeric_xml_write_workbook (wb, wb->filename) == 0)
+		workbook_mark_clean (wb);
+	else
+		file_error_message (N_("Could not save to file %s"), 
+				    wb->filename);
 }
 
 char *

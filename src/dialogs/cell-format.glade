@@ -55,222 +55,213 @@
       <spacing>0</spacing>
 
       <widget>
-	<class>GtkScrolledWindow</class>
-	<name>scrolledwindow4</name>
-	<width>100</width>
-	<height>200</height>
-	<hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
-	<vscrollbar_policy>GTK_POLICY_NEVER</vscrollbar_policy>
-	<hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-	<vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+	<class>GtkFrame</class>
+	<name>frame17</name>
+	<border_width>10</border_width>
+	<label_xalign>0</label_xalign>
+	<shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
 	<child>
-	  <padding>0</padding>
+	  <padding>3</padding>
 	  <expand>False</expand>
 	  <fill>True</fill>
 	</child>
 
 	<widget>
-	  <class>GtkViewport</class>
-	  <name>viewport1</name>
-	  <shadow_type>GTK_SHADOW_IN</shadow_type>
+	  <class>GtkVBox</class>
+	  <name>vbox28</name>
+	  <homogeneous>False</homogeneous>
+	  <spacing>0</spacing>
 
 	  <widget>
-	    <class>GtkVBox</class>
-	    <name>vbox28</name>
-	    <homogeneous>False</homogeneous>
-	    <spacing>0</spacing>
+	    <class>GtkRadioButton</class>
+	    <name>format_general</name>
+	    <height>20</height>
+	    <can_focus>True</can_focus>
+	    <label>_General</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>number</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
 
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>format_general</name>
-	      <height>20</height>
-	      <can_focus>True</can_focus>
-	      <label>_General</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>number</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>format_number</name>
+	    <height>20</height>
+	    <can_focus>True</can_focus>
+	    <label>_Number</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>number</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
 
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>format_number</name>
-	      <height>20</height>
-	      <can_focus>True</can_focus>
-	      <label>_Number</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>number</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>format_currency</name>
+	    <height>20</height>
+	    <can_focus>True</can_focus>
+	    <label>_Currency</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>number</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
 
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>format_currency</name>
-	      <height>20</height>
-	      <can_focus>True</can_focus>
-	      <label>_Currency</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>number</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>format_accounting</name>
+	    <height>20</height>
+	    <can_focus>True</can_focus>
+	    <label>_Acounting</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>number</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
 
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>format_accounting</name>
-	      <height>20</height>
-	      <can_focus>True</can_focus>
-	      <label>_Acounting</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>number</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>format_date</name>
+	    <height>20</height>
+	    <can_focus>True</can_focus>
+	    <label>_Date</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>number</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
 
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>format_date</name>
-	      <height>20</height>
-	      <can_focus>True</can_focus>
-	      <label>_Date</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>number</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>format_time</name>
+	    <height>20</height>
+	    <can_focus>True</can_focus>
+	    <label>_Time</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>number</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
 
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>format_time</name>
-	      <height>20</height>
-	      <can_focus>True</can_focus>
-	      <label>_Time</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>number</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>format_percentage</name>
+	    <height>20</height>
+	    <can_focus>True</can_focus>
+	    <label>_Percentage</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>number</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
 
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>format_percentage</name>
-	      <height>20</height>
-	      <can_focus>True</can_focus>
-	      <label>_Percentage</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>number</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>format_fraction</name>
+	    <height>20</height>
+	    <can_focus>True</can_focus>
+	    <label>_Fraction</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>number</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
 
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>format_fraction</name>
-	      <height>20</height>
-	      <can_focus>True</can_focus>
-	      <label>_Fraction</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>number</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>format_scientific</name>
+	    <height>20</height>
+	    <can_focus>True</can_focus>
+	    <label>_Scientific</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>number</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
 
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>format_scientific</name>
-	      <height>20</height>
-	      <can_focus>True</can_focus>
-	      <label>_Scientific</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>number</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>format_text</name>
+	    <height>20</height>
+	    <can_focus>True</can_focus>
+	    <label>Te_xt</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>number</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
 
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>format_text</name>
-	      <height>20</height>
-	      <can_focus>True</can_focus>
-	      <label>Te_xt</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>number</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>format_special</name>
+	    <height>20</height>
+	    <can_focus>True</can_focus>
+	    <label>S_pecial</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>number</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
 
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>format_special</name>
-	      <height>20</height>
-	      <can_focus>True</can_focus>
-	      <label>S_pecial</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>number</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>format_custom</name>
-	      <height>20</height>
-	      <can_focus>True</can_focus>
-	      <label>C_ustom</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>number</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>format_custom</name>
+	    <height>20</height>
+	    <can_focus>True</can_focus>
+	    <label>C_ustom</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>number</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
 	  </widget>
 	</widget>
       </widget>
@@ -283,7 +274,7 @@
 	<spacing>0</spacing>
 	<child>
 	  <padding>0</padding>
-	  <expand>False</expand>
+	  <expand>True</expand>
 	  <fill>True</fill>
 	</child>
 
@@ -321,7 +312,7 @@
 	  <label>General format cells attempt to select an appropriate format depending on the value of the cell.</label>
 	  <justify>GTK_JUSTIFY_LEFT</justify>
 	  <wrap>True</wrap>
-	  <xalign>1.49012e-08</xalign>
+	  <xalign>0</xalign>
 	  <yalign>0.1</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
@@ -563,15 +554,15 @@ None
 	    <columns>1</columns>
 	    <column_widths>80</column_widths>
 	    <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
-	    <show_titles>True</show_titles>
+	    <show_titles>False</show_titles>
 	    <shadow_type>GTK_SHADOW_IN</shadow_type>
 
 	    <widget>
 	      <class>GtkLabel</class>
 	      <child_name>CList:title</child_name>
 	      <name>label49</name>
-	      <label>_Type:</label>
-	      <justify>GTK_JUSTIFY_LEFT</justify>
+	      <label>_Type</label>
+	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
 	      <xalign>0</xalign>
 	      <yalign>0.5</yalign>
@@ -990,8 +981,8 @@ None
 	  <widget>
 	    <class>GtkAlignment</class>
 	    <name>alignment45</name>
-	    <xalign>7.45058e-09</xalign>
-	    <yalign>7.45058e-09</yalign>
+	    <xalign>0</xalign>
+	    <yalign>0</yalign>
 	    <xscale>0</xscale>
 	    <yscale>0</yscale>
 
@@ -1296,7 +1287,7 @@ Double
 	    <widget>
 	      <class>GtkAlignment</class>
 	      <name>alignment44</name>
-	      <xalign>7.45058e-09</xalign>
+	      <xalign>0</xalign>
 	      <yalign>1</yalign>
 	      <xscale>0</xscale>
 	      <yscale>0</yscale>
@@ -1420,7 +1411,7 @@ Double
 	      <class>GtkAlignment</class>
 	      <name>alignment16</name>
 	      <xalign>0.5</xalign>
-	      <yalign>7.45058e-09</yalign>
+	      <yalign>0</yalign>
 	      <xscale>0</xscale>
 	      <yscale>0</yscale>
 	      <child>
@@ -1456,7 +1447,7 @@ Double
 	    <widget>
 	      <class>GtkAlignment</class>
 	      <name>alignment11</name>
-	      <xalign>7.45058e-09</xalign>
+	      <xalign>0</xalign>
 	      <yalign>1</yalign>
 	      <xscale>0</xscale>
 	      <yscale>0</yscale>

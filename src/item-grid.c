@@ -21,6 +21,7 @@
 #include "border.h"
 #include "application.h"
 #include "workbook-cmd-format.h"
+#include "pattern.h"
 
 static GnomeCanvasItem *item_grid_parent_class;
 
@@ -261,24 +262,6 @@ item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
 			     x+w, y+h, x, y);
 }
 
-static void
-item_grid_set_gc_stipple (GdkGC *gc, MStyle *mstyle)
-{
-	GdkPixmap *stipple;
-	int p = mstyle_get_pattern (mstyle) - 1;
-
-/*	if (p == 0)*/
-		return;
-
-	stipple = gdk_pixmap_create_from_data (NULL, gnumeric_sheet_patterns
-					       [p].pattern, 8, 8, 1,
-					       &mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color,
-					       &mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color);
-	
-	gdk_gc_set_stipple (gc, stipple);
-	gdk_gc_set_fill    (gc, GDK_STIPPLED);
-}
-
 /*
  * Draw a cell.  It gets pixel level coordinates
  *
@@ -313,14 +296,6 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 
 	w = cell->col->pixels;
 	h = cell->row->pixels;
-/*	if (mstyle_is_element_set (mstyle, MSTYLE_PATTERN)) {
-		item_grid_set_gc_stipple (gc, mstyle);
-		gdk_draw_rectangle (drawable, gc, TRUE,
-				    x1, y1, w, h);
-				    
-		gdk_gc_set_fill    (gc, GDK_SOLID);
-		gdk_gc_set_stipple (gc, NULL);
-		}*/
 
 	/* Draw cell contents BEFORE border */
 	count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
@@ -342,26 +317,35 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	
 	mstyle = sheet_style_compute (item_grid->sheet, col, row);
 
-/*	if (mstyle_is_element_set (mstyle, MSTYLE_PATTERN)) {
-		item_grid_set_gc_stipple (gc, mstyle);
-		gdk_draw_rectangle (drawable, gc, TRUE,
-				    x + ci->margin_a, y + ri->margin_b,
-				    ci->pixels - ci->margin_b,
-				    ri->pixels - ri->margin_b);
-				    
-		gdk_gc_set_fill    (gc, GDK_SOLID);
-		gdk_gc_set_stipple (gc, NULL);
-		}*/
+	/*
+	 * Draw the background if the PATTERN is non 0
+	 * Draw a stipple too if the pattern is > 1
+	 */
+	if (mstyle_is_element_set (mstyle, MSTYLE_PATTERN)) {
+		int const pattern = mstyle_get_pattern (mstyle);
+		if (pattern > 0) {
+			StyleColor *back_col =
+				mstyle_get_color (mstyle, MSTYLE_COLOR_BACK);
+			g_return_if_fail (back_col != NULL);
 
-	if (mstyle_is_element_set (mstyle, MSTYLE_COLOR_BACK) &&
-	    mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)) {
-		gdk_gc_set_foreground (gc,
-				       &mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color);
-		gdk_draw_rectangle (
-			drawable, gc, TRUE,
-			x + ci->margin_a, y + ri->margin_b,
-			ci->pixels - ci->margin_b,
-			ri->pixels - ri->margin_b);
+			if (pattern > 1) {
+				StyleColor *pat_col =
+					mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);
+				g_return_if_fail (pat_col != NULL);
+
+				gdk_gc_set_fill (gc, GDK_OPAQUE_STIPPLED);
+				gdk_gc_set_foreground (gc, &pat_col->color);
+				gdk_gc_set_background (gc, &back_col->color);
+				gdk_gc_set_stipple (gc, gnumeric_pattern_get_stipple (pattern));
+			} else {
+				gdk_gc_set_fill (gc, GDK_SOLID);
+				gdk_gc_set_foreground (gc, &back_col->color);
+			}
+
+			/* Ignore margins. Fill the entire cell */
+			gdk_draw_rectangle (drawable, gc, TRUE,
+					    x, y, ci->pixels, ri->pixels);
+		}
 	}
 
 	item_grid_draw_border (drawable, mstyle, x, y, ci->pixels, ri->pixels, FALSE);

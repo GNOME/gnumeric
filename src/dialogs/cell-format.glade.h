@@ -26,32 +26,26 @@ gchar *s = N_("$\n"
               "");
 gchar *s = N_("$");
 gchar *s = N_("_Negative number:");
-gchar *s = N_("_Type:");
 gchar *s = N_("_Delete format");
-gchar *s = N_("_Type:");
+gchar *s = N_("_Type");
 gchar *s = N_("Display the value exactly as it was entered");
 gchar *s = N_("Number");
-gchar *s = N_("Alignment");
-gchar *s = N_("_Horizontal");
-gchar *s = N_("General\n"
-              "Left\n"
-              "Center\n"
-              "Right\n"
-              "Fill\n"
-              "Justify\n"
-              "");
-gchar *s = N_("General");
-gchar *s = N_("_Vertical");
-gchar *s = N_("Top\n"
-              "Center\n"
-              "Bottom\n"
-              "Justify\n"
-              "");
-gchar *s = N_("Top");
+gchar *s = N_("Horizontal");
+gchar *s = N_("_Justify");
+gchar *s = N_("_Right");
+gchar *s = N_("_Fill");
+gchar *s = N_("_Center");
+gchar *s = N_("_Left");
+gchar *s = N_("_General");
+gchar *s = N_("Vertical");
+gchar *s = N_("J_ustify");
+gchar *s = N_("_Top");
+gchar *s = N_("C_enter");
+gchar *s = N_("_Bottom");
 gchar *s = N_("Control");
 gchar *s = N_("_Wrap text");
 gchar *s = N_("Orientation");
-gchar *s = N_("Unavailable");
+gchar *s = N_("Unfinished");
 gchar *s = N_("Alignment");
 gchar *s = N_("Color");
 gchar *s = N_("_Automatic");
@@ -61,7 +55,7 @@ gchar *s = N_("Effects");
 gchar *s = N_("_Underline:");
 gchar *s = N_("None\n"
               "Single\n"
-              "Souble\n"
+              "Double\n"
               "");
 gchar *s = N_("None");
 gchar *s = N_("Sup_erscript");

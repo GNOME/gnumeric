@@ -115,8 +115,8 @@ GNUMERIC_BASE_SOURCES =				\
 	number-match.h				\
 	numbers.h				\
 	parser.y				\
-	pattern-selector.c			\
-	pattern-selector.h			\
+	pattern.h				\
+	pattern.c				\
 	pixmaps.h				\
 	plugin.c				\
 	plugin.h				\

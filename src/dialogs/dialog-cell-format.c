@@ -1,909 +1,1699 @@
-/*
- * dialog-cell-format.c:  Implements the Cell Format dialog box.
+/**
+ * dialog-cell-format.c:  Implements a dialog to format cells.
  *
  * Author:
- *  Miguel de Icaza (miguel@gnu.org)
+ *  Jody Goldberg <jgoldberg@home.com>
  *
- */
+ **/
+
 #include <config.h>
 #include <gnome.h>
-#include <libgnomeprint/gnome-font-dialog.h>
-#include "gnumeric.h"
-#include "gnumeric-util.h"
-#include "gnumeric-sheet.h"
+#include <glade/glade.h>
+#include "sheet.h"
+#include "color.h"
 #include "dialogs.h"
 #include "utils-dialog.h"
-#include "format.h"
-#include "formats.h"
-#include "selection.h"
-#include "pattern-selector.h"
 #include "widgets/widget-font-selector.h"
+#include "widgets/gnumeric-dashed-canvas-line.h"
+#include "gnumeric-sheet.h"
+#include "selection.h"
+#include "ranges.h"
+#include "formats.h"
+#include "pattern.h"
 
-/* The main dialog box */
-static GtkWidget *cell_format_prop_win = 0;
-static int cell_format_last_page_used = 0;
+#define GLADE_FILE "cell-format.glade"
 
-/* These point to the various widgets in the format/number page */
-static GtkWidget *number_sample;
-static GtkWidget *number_input;
-static GtkWidget *number_cat_list;
-static GtkWidget *number_format_list;
-
-static GtkWidget *font_widget;
-
-/* These point to the radio groups in the format/alignment page */
-static GSList *hradio_list;
-static GSList *vradio_list;
-static GtkWidget *auto_return;
-
-/* These point to the radio buttons of the coloring page */
-static GSList *foreground_radio_list;
-static GSList *background_radio_list;
-
-static GtkWidget *foreground_cs;
-static GtkWidget *background_cs;
-static PatternSelector *pattern_selector;
-
-/* Points to the first cell in the selection */
-static Cell *first_cell;
-
-static void
-prop_modified (GtkWidget *widget, GnomePropertyBox *box)
+/* The order corresponds to the border_buttons name list
+ * in dialog_cell_format_impl */
+typedef enum
 {
-	gnome_property_box_changed (box);
+	BORDER_TOP,	BORDER_BOTTOM,
+	BORDER_LEFT,	BORDER_RIGHT,
+	BORDER_REV_DIAG,BORDER_DIAG,
+
+	/* These are special.
+	 * They are logical rather than actual borders, however, they
+	 * require extra lines to be drawn so they need to be here.
+	 */
+	BORDER_HORIZ, BORDER_VERT,
+
+	BORDER_EDGE_MAX
+} BorderLocations;
+
+/* The order corresponds to border_preset_buttons */
+typedef enum
+{
+	BORDER_PRESET_NONE,
+	BORDER_PRESET_OUTLINE,
+	BORDER_PRESET_INSIDE,
+
+	BORDER_PRESET_MAX
+} BorderPresets;
+
+/* The available format widgets */
+typedef enum
+{
+    F_GENERAL,		F_DECIMAL_BOX,	F_SEPERATOR, 
+    F_SYMBOL_LABEL,	F_SYMBOL,	F_DELETE,
+    F_ENTRY,		F_LIST_SCROLL,	F_LIST,
+    F_TEXT,		F_DECIMAL_SPIN,	F_NEGATIVE,
+    F_MAX_WIDGET
+} FormatWidget;
+
+struct _FormatState;
+typedef struct
+{
+	struct _FormatState *state;
+	int cur_index;
+	GtkToggleButton *current_pattern;
+	GtkToggleButton *default_button;
+	void (*draw_preview) (struct _FormatState *);
+} PatternPicker;
+
+typedef struct
+{
+	struct _FormatState *state;
+	GdkColor	 *auto_color;
+	GtkToggleButton  *custom, *autob;
+	GnomeColorPicker *picker;
+	GtkSignalFunc	  preview_update;
+
+	gboolean	  is_auto;
+	guint		  rgba;
+	guint		  r, g, b;
+} ColorPicker;
+
+typedef struct
+{
+	struct _FormatState *state;
+	GtkToggleButton  *button;
+	StyleBorderType	  pattern_index;
+	gboolean	  is_selected;
+	BorderLocations   index;
+	guint		  rgba;
+} BorderPicker;
+
+typedef struct _FormatState
+{
+	GladeXML	*gui;
+	GnomePropertyBox*dialog;
+	gint		 page_signal;
+
+	Sheet		*sheet;
+	MStyle		*style, *result;
+
+	gboolean	 is_multi;	/* single cell or multiple ranges */
+	gboolean	 enable_edit;
+
+	struct
+	{
+		GnomeCanvas	*canvas;
+		GtkBox		*box;
+		GtkWidget	*widget[F_MAX_WIDGET];
+
+		gchar 		*spec;
+		gint		 current_type;
+		int		 num_decimals;
+		gboolean	 use_seperator;
+	} format;
+	struct
+	{
+		GtkCheckButton	*wrap;
+	} align;
+	struct
+	{
+		FontSelector	*selector;
+		ColorPicker	 color;
+	} font;
+	struct
+	{
+		GnomeCanvas	*canvas;
+		GtkButton 	*preset[BORDER_PRESET_MAX];
+		GnomeCanvasItem	*back;
+		GnomeCanvasItem *lines[12];
+
+		BorderPicker	 edge[BORDER_EDGE_MAX];
+		ColorPicker	 color;
+		PatternPicker	 pattern;
+	} border;
+	struct
+	{
+		GnomeCanvas	*canvas;
+		GnomeCanvasItem	*back;
+		GnomeCanvasItem	*pattern_item;
+
+		ColorPicker	 back_color, pattern_color;
+		PatternPicker	 pattern;
+	} back;
+} FormatState;
+
+/*****************************************************************************/
+/* Some utility routines shared by all pages */
+
+/*
+ * A utility routine to help mark the attributes as being changed
+ * VERY stupid for now.
+ */
+static void
+fmt_dialog_changed (FormatState *state)
+{
+	/* Catch all the pseudo-events that take place while initializing */
+	if (state->enable_edit)
+		gnome_property_box_changed (state->dialog);
+}
+
+/* Default to the 'Format' page but remember which page we were on between
+ * invocations */
+static int fmt_dialog_page = 0;
+
+/*
+ * Callback routine to help remember which format tab was selected
+ * between dialog invocations.
+ */
+static void
+cb_page_select (GtkNotebook *notebook, GtkNotebookPage *page,
+		gint page_num, gpointer user_data)
+{
+	fmt_dialog_page = page_num;
 }
 
 static void
-make_radio_notify_change (GSList *list, GtkWidget *prop_win)
+cb_notebook_destroy (GtkObject *obj, FormatState *state)
 {
-	GSList *sl;
-	
-	for (sl = list; sl; sl = sl->next){
-		gtk_signal_connect (GTK_OBJECT (sl->data), "toggled",
-				    GTK_SIGNAL_FUNC (prop_modified), prop_win);
+	gtk_signal_disconnect (obj, state->page_signal);
+}
+
+/*
+ * Callback routine to give radio button like behaviour to the
+ * set of toggle buttons used for line & background patterns.
+ */
+static void
+cb_toggle_changed (GtkToggleButton *button, PatternPicker *picker)
+{
+	if (gtk_toggle_button_get_active (button) &&
+	    picker->current_pattern != button) {
+		gtk_toggle_button_set_active(picker->current_pattern, FALSE);
+		picker->current_pattern = button;
+		picker->cur_index =
+				GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (button), "index"));
+		if (picker->draw_preview)
+			picker->draw_preview (picker->state);
 	}
 }
 
-static struct {
-	const char *name;
-	const char *const *formats;	
-} cell_formats [] = {
-	{ N_("Numbers"),    cell_format_numbers    },
-	{ N_("Accounting"), cell_format_accounting },
-	{ N_("Date"),       cell_format_date       },
-	{ N_("Time"),       cell_format_hour       },
-	{ N_("Percent"),    cell_format_percent    },
-	{ N_("Fraction"),   cell_format_fraction   },
-	{ N_("Scientific"), cell_format_scientific },
-	{ N_("Text"),       cell_format_text       },
-	{ N_("Money"),      cell_format_money      },
-	{ NULL, NULL }
-};
+/*
+ * Setup routine to associate images with toggle buttons
+ * and to adjust the relief so it looks nice.
+ */
+static void
+setup_pattern_button (GladeXML  *gui,
+		      char const * const name,
+		      PatternPicker *picker,
+		      gboolean const flag,
+		      int const index,
+		      gboolean select)
+{
+	GtkWidget * tmp = glade_xml_get_widget (gui, name);
+	if (tmp != NULL) {
+		GtkButton *button = GTK_BUTTON (tmp);
+		if (flag) {
+			GtkWidget * image = gnumeric_load_image(name);
+			if (image != NULL)
+				gtk_container_add(GTK_CONTAINER (tmp), image);
+		}
+
+		if (picker->current_pattern == NULL) {
+			picker->default_button = GTK_TOGGLE_BUTTON (button);
+			picker->current_pattern = picker->default_button;
+			picker->cur_index = index;
+		}
+
+		gtk_button_set_relief (button, GTK_RELIEF_NONE);
+		gtk_signal_connect (GTK_OBJECT (button), "toggled",
+				    GTK_SIGNAL_FUNC (cb_toggle_changed),
+				    picker);
+		gtk_object_set_data (GTK_OBJECT (button), "index", 
+				     GINT_TO_POINTER (index));
+
+		/* Set the state AFTER the signal to get things redrawn correctly */
+		if (select) {
+			picker->cur_index = index;
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button),
+						      TRUE);
+		}
+	} else
+		g_warning ("CellFormat : Unexpected missing glade widget");
+}
 
 static void
-format_list_fill (int n)
+cb_custom_color_selected (GtkObject *obj, ColorPicker *state)
 {
-	GtkCList *cl = GTK_CLIST (number_format_list);
-	const char *const *texts;
+	/* The color picker was clicked.  Toggle the custom radio button */
+	gtk_toggle_button_set_active (state->custom, TRUE);
+}
+
+static void
+cb_auto_color_selected (GtkObject *obj, ColorPicker *state)
+{
+	/* TODO TODO TODO : Some day we need to properly support 'Auto' colors.
+	 *                  We should calculate them on the fly rather than hard coding
+	 *                  in the initialization.
+	 */
+
+	if ((state->is_auto = gtk_toggle_button_get_active (state->autob))) {
+		/* The auto radio was clicked.  Reset the color in the picker */
+		gnome_color_picker_set_i16 (state->picker,
+					    state->auto_color->red,
+					    state->auto_color->green,
+					    state->auto_color->blue,
+					    0xffff);
+
+		state->preview_update (state->picker,
+				       state->auto_color->red,
+				       state->auto_color->green,
+				       state->auto_color->blue,
+				       0, state->state);
+	}
+}
+
+static void
+setup_color_pickers (GladeXML	 *gui,
+		     char const  * const picker_name,
+		     char const  * const custom_radio_name,
+		     char const  * const auto_name,
+		     ColorPicker *color_state,
+		     FormatState *state,
+		     GdkColor	 *auto_color,
+		     GtkSignalFunc preview_update,
+		     MStyleElementType const e,
+		     MStyle	 *mstyle)
+{
+	StyleColor *mcolor = NULL;
+
+	GtkWidget *tmp = glade_xml_get_widget (gui, picker_name);
+	g_return_if_fail (tmp && NULL != (color_state->picker = GNOME_COLOR_PICKER (tmp)));
+
+	tmp = glade_xml_get_widget (gui, custom_radio_name);
+	g_return_if_fail (tmp && NULL != (color_state->custom = GTK_TOGGLE_BUTTON (tmp)));
+
+	tmp = glade_xml_get_widget (gui, auto_name);
+	g_return_if_fail (tmp && NULL != (color_state->autob = GTK_TOGGLE_BUTTON (tmp)));
+
+	color_state->auto_color = auto_color;
+	color_state->preview_update = preview_update;
+	color_state->state = state;
+	color_state->is_auto = TRUE;
+
+	gtk_signal_connect (GTK_OBJECT (color_state->picker), "clicked",
+			    GTK_SIGNAL_FUNC (cb_custom_color_selected),
+			    color_state);
+	gtk_signal_connect (GTK_OBJECT (color_state->autob), "clicked",
+			    GTK_SIGNAL_FUNC (cb_auto_color_selected),
+			    color_state);
+
+	/* Toggle the auto button to initialize the color to Auto */
+	gtk_toggle_button_set_active (color_state->autob, FALSE);
+	gtk_toggle_button_set_active (color_state->autob, TRUE);
+
+	/* Connect to the sample canvas and redraw it */
+	gtk_signal_connect (GTK_OBJECT (color_state->picker), "color_set",
+			    preview_update, state);
+
+
+	if (e != MSTYLE_ELEMENT_UNSET && mstyle_is_element_set (mstyle, e))
+		mcolor = mstyle_get_color (mstyle, e);
+
+	if (mcolor != NULL) {
+		gnome_color_picker_set_i16 (color_state->picker,
+					    mcolor->red, mcolor->green,
+					    mcolor->blue, 0xffff);
+		gtk_toggle_button_set_active (color_state->custom, TRUE);
+		(*preview_update) (state,
+				   mcolor->red,
+				   mcolor->green,
+				   mcolor->blue,
+				   0xffff, state);
+	}
+
+}
+
+static StyleColor *
+picker_style_color (ColorPicker const *c)
+{
+	return style_color_new (c->r, c->g, c->b);
+}
+
+/*
+ * Utility routine to load an image and insert it into a
+ * button of the same name.
+ */
+static GtkWidget *
+init_button_image (GladeXML *gui, char const * const name)
+{
+	GtkWidget *tmp = glade_xml_get_widget (gui, name);
+	if (tmp != NULL) {
+		GtkWidget * image = gnumeric_load_image(name);
+		if (image != NULL)
+			gtk_container_add (GTK_CONTAINER (tmp), image);
+	}
+
+	return tmp;
+}
+
+/*****************************************************************************/
+
+/* TODO : Add preview */
+static void
+draw_format_preview (FormatState *state)
+{
+	/* The first time through lets initialize */
+	if (state->format.canvas == NULL) {
+		state->format.canvas =
+		    GNOME_CANVAS (glade_xml_get_widget (state->gui, "format_sample"));
+	}
+}
+
+static void
+fillin_negative_samples (FormatState *state, int const page)
+{
+	static char const * const decimals = "098765432109876543210987654321";
+	char const * const sep = state->format.use_seperator ? "," : "";
+	int const n = 30 - state->format.num_decimals;
+
+	/* FIXME : Get from locale */
+	char const * const decimal =
+	    (state->format.num_decimals > 0) ? "." : "";
+
+	char const * prefix = "";
+	char const * const *formats;
+	GtkCList *cl;
+	char buf[50];
 	int i;
 
-	g_return_if_fail (n >= 0);
-	g_return_if_fail (cell_formats [n].name != NULL);
+	g_return_if_fail (page == 1 || page == 2);
 
-	texts = cell_formats [n].formats;
-	
-	gtk_clist_freeze (cl);
-	gtk_clist_clear (cl);
+	cl = GTK_CLIST (state->format.widget[F_NEGATIVE]);
+	if (page == 1) {
+		/* TODO : Do these need translation too ?? */
+		static char const * const number_formats[4] = {
+		    "%s-3%s210%s%s",
+		    "%s3%s210%s%s",
+		    "%s(3%s210%s%s)",
+		    "%s(3%s210%s%s)"
+		};
+		prefix = "";
+		formats = number_formats;
+	} else {
+		static char const * const currency_formats[4] = {
+		    "-%s3%s210%s%s",
+		    "%s3%s210%s%s",
+		    "-%s3%s210%s%s",
+		    "-%s3%s210%s%s"
+		};
+		prefix = "$"; /* FIXME : Add real currency list support */
+		formats = currency_formats;
+	}
 
-	for (i = 0; texts [i]; i++){
+	for (i = 4; --i >= 0 ; ) {
+		sprintf (buf, formats[i], prefix, sep, decimal, decimals + n);
+		gtk_clist_set_text (cl, i, 0, buf);
+	}
+
+	draw_format_preview (state);
+}
+
+static void
+cb_decimals_changed (GtkEditable *editable, FormatState *state)
+{
+	int const page = state->format.current_type;
+
+	state->format.num_decimals =
+		gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (editable));
+
+	if (page == 1 || page == 2)
+		fillin_negative_samples (state, page);
+}
+
+static void
+cb_seperator_toggle (GtkObject *obj, FormatState *state)
+{
+	state->format.use_seperator = 
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (obj));
+	fillin_negative_samples (state, 1);
+}
+
+static int
+fm_dialog_init_fmt_list (GtkCList *cl, char const * const *formats,
+			 char const * const cur_format,
+			 int select, int *count)
+{
+	int j;
+
+	for (j = 0; formats [j]; ++j) {
 		gchar *t [1];
 
-		t [0] = _(texts [i]);
-		
+		t [0] = _(formats [j]);
 		gtk_clist_append (cl, t);
-	}
-	gtk_clist_thaw (cl);
-}
 
-/*
- * This routine is just used at startup to find the current
- * format that applies to this cell
- */
-static int
-format_find (const char *format)
-{
-	int i, row;
-	const char *const *p;
-	
-	for (i = 0; cell_formats [i].name; i++){
-		p = cell_formats [i].formats;
-
-		for (row = 0; *p; p++, row++){
-			if (strcmp (format, *p) == 0){
-				format_list_fill (i);
-				gtk_clist_select_row (GTK_CLIST (number_cat_list), i, 0);
-				gtk_clist_select_row (GTK_CLIST (number_format_list), row, 0);
-				return 1;
-			}
+		/* CHECK : Do we really want to be case insensitive ? */
+		if (!g_strcasecmp (formats[j], cur_format)) {
+			select = j + *count;
 		}
 	}
-	return 0;
-}
 
-
-/*
- * Invoked when the user has selected a new format category
- */
-static void
-format_number_select_row (GtkCList *clist, gint row, gint col,
-			  GdkEvent *event, GtkWidget *prop_win)
-{
-	format_list_fill (row);
-	gtk_clist_select_row (GTK_CLIST (number_format_list), 0, 0);
-
-	if (cell_format_prop_win)
-		gnome_property_box_changed (GNOME_PROPERTY_BOX (prop_win));
+	*count += j;
+	return select;
 }
 
 static void
-render_formated_version (char *format)
+fmt_dialog_enable_widgets (FormatState *state, int page)
 {
-	if (!first_cell)
-		gtk_label_set_text (GTK_LABEL (number_sample), "");
-	else {
-		StyleFormat *style_format;
-		Value *v = first_cell->value;
-		char *str;
-
-		if (v == NULL)
-			return;
-		
-		style_format = style_format_new (format);
-		str = format_value (style_format, v, NULL);
-
-		gtk_label_set_text (GTK_LABEL (number_sample), str);
-		g_free (str);
-		style_format_unref (style_format);
-	}
-}
-
-/*
- * Invoked when a specific format has been selected
- */
-static void
-format_selected (GtkCList *clist, gint row, gint col, GdkEvent *event, GnomePropertyBox *prop_win)
-{
-	char *format;
-
-	gtk_clist_get_text (clist, row, col, &format);
-
-	/* Set the input line to reflect the selected format */
-	gtk_entry_set_text (GTK_ENTRY (number_input), format);
-
-	/* Notify gnome-property-box that a change has happened */
-	if (cell_format_prop_win)
-		gnome_property_box_changed (prop_win);
-		
-}
-
-/*
- * Creates the lists for the number display with our defaults
- */
-static GtkWidget *
-my_clist_new (void)
-{
-	GtkCList *cl;
-	GdkFont *font;
-	
-	cl = GTK_CLIST (gtk_clist_new (1));
-	gtk_clist_column_titles_hide (cl);
-	gtk_clist_set_selection_mode (cl,GTK_SELECTION_SINGLE);
-				      
-	/* Configure the size */
-	font = GTK_WIDGET (cl)->style->font;
-	gtk_widget_set_usize (GTK_WIDGET (cl), 0, 11 * (font->ascent + font->descent));
-
-	return GTK_WIDGET (cl);
-}
-
-static void
-format_code_changed (GtkEntry *entry, GnomePropertyBox *prop_win)
-{
-	render_formated_version (gtk_entry_get_text (entry));
-	if (cell_format_prop_win)
-		gnome_property_box_changed (prop_win);
-}
-
-/*
- * Creates the widget that represents the number format configuration page
- */
-static GtkWidget *
-create_number_format_page (GtkWidget *prop_win, MStyle *style,
-			   GtkWidget **focus_widget)
-{
-	StyleFormat *format;
-	GtkWidget *l, *scrolled_list;
-	GtkTable *t, *tt;
-	int i;
-	
-	enum {
-		BOXES_LINE  = 1,
-		INPUT_LINE  = 3,
+	static FormatWidget contents[12][6] =
+	{
+		/* General */
+		{ F_GENERAL, F_MAX_WIDGET },
+		/* Number */
+		{ F_DECIMAL_BOX, F_DECIMAL_SPIN, F_SEPERATOR, F_NEGATIVE, F_MAX_WIDGET },
+		/* Currency */
+		{ F_DECIMAL_BOX, F_DECIMAL_SPIN, F_SYMBOL_LABEL, F_SYMBOL, F_NEGATIVE, F_MAX_WIDGET },
+		/* Accounting */
+		{ F_DECIMAL_BOX, F_DECIMAL_SPIN, F_SYMBOL_LABEL, F_SYMBOL, F_MAX_WIDGET },
+		/* Date */
+		{ F_LIST_SCROLL, F_LIST, F_MAX_WIDGET },
+		/* Time */
+		{ F_LIST_SCROLL, F_LIST, F_MAX_WIDGET },
+		/* Percentage */
+		{ F_DECIMAL_BOX, F_DECIMAL_SPIN, F_MAX_WIDGET },
+		/* Fraction */
+		{ F_LIST_SCROLL, F_LIST, F_MAX_WIDGET },
+		/* Scientific */
+		{ F_DECIMAL_BOX, F_DECIMAL_SPIN, F_MAX_WIDGET },
+		/* Text */
+		{ F_TEXT, F_MAX_WIDGET },
+		/* Special */
+		{ F_MAX_WIDGET },
+		/* Custom */
+		{ F_ENTRY, F_LIST_SCROLL, F_LIST, F_DELETE, F_MAX_WIDGET },
 	};
 
-	t = (GtkTable *) gtk_table_new (0, 0, 0);
+	static char const * const * catalogs[] = {
+		cell_format_numbers,
+		cell_format_money,
+		cell_format_percent,
+		cell_format_scientific,
+		cell_format_fraction,
+		cell_format_date,
+		cell_format_hour,
+		cell_format_text,
+		cell_format_accounting
+	};
 
-	/* try to select the current format the user is using */
-	format = NULL;
-	if (mstyle_is_element_set (style, MSTYLE_FORMAT))
-		format = mstyle_get_format (style);
+	char const *new_format = NULL;
+	int const old_page = state->format.current_type;
+	int i, count = 0;
+	FormatWidget tmp;
 
-	/* 1. Categories */
-	gtk_table_attach (t, l = gtk_label_new (_("Categories")),
-			  0, 1, BOXES_LINE, BOXES_LINE+1,
-			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+	if (old_page >= 0)
+		for (i = 0; (tmp = contents[old_page][i]) != F_MAX_WIDGET ; ++i)
+			gtk_widget_hide (state->format.widget[tmp]);
 
-	number_cat_list = my_clist_new ();
-	scrolled_list = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_list),
-					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_container_add (GTK_CONTAINER (scrolled_list), number_cat_list);
-	gtk_table_attach (t, scrolled_list, 0, 1, BOXES_LINE+1, BOXES_LINE+2,
-			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 4, 0);
+	/* Set the default format if appropriat */
+	switch (page)
+	{
+	case 0: new_format = "General"; break;
+	/* case 1 , 2 Are handled by fillin_negative */
+	case 3: new_format = cell_format_accounting[0]; break;
+	/* case 4 , 5 get filled in with their lists */
+	case 6: new_format = cell_format_percent[0]; break;
+	case 7: new_format = cell_format_fraction[0]; break;
+	case 8: new_format = cell_format_scientific[0]; break;
+	case 9: new_format = cell_format_text[0]; break;
+	default :
+		new_format = NULL;
+	};
+	if (new_format != NULL)
+		gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]),
+				    new_format);
 
-	/* 1.1 Connect our signal handler */
-	gtk_signal_connect (GTK_OBJECT (number_cat_list), "select_row",
-			    GTK_SIGNAL_FUNC (format_number_select_row), prop_win);
+	state->format.current_type = page;
+	for (i = 0; (tmp = contents[page][i]) != F_MAX_WIDGET ; ++i) {
+		GtkWidget *w = state->format.widget[tmp];
+		gtk_widget_show (w);
 
-	/* 1.2 Fill the category list */
-	gtk_clist_freeze (GTK_CLIST (number_cat_list));
-	for (i = 0; cell_formats [i].name; i++){
-		gchar *text [1];
+		/* The sample is always the 1st widget */
+		gtk_box_reorder_child (state->format.box, w, i+1);
 
-		text [0] = _(cell_formats [i].name);
-		
-		gtk_clist_append (GTK_CLIST (number_cat_list), text);
+		if (tmp == F_LIST) {
+			GtkCList *cl = GTK_CLIST (w);
+			int select = 0, start = 0, end = -1;
+			switch (page) {
+			case 4: case 5:
+				start = end = page+1;
+				break;
+			case 7:
+				start = end = 4;
+				break;
+
+			case 11:
+				/* TODO Allow for REAL custom formats */
+				start = 0; end = 8;
+				break;
+
+			default :
+				g_assert_not_reached ();
+			};
+
+			gtk_clist_freeze (cl);
+			gtk_clist_clear (cl);
+			gtk_clist_set_auto_sort (cl, FALSE);
+
+			for (; start <= end ; ++start)
+				select = fm_dialog_init_fmt_list (cl,
+						catalogs[start],
+						state->format.spec,
+						select, &count);
+
+			gtk_clist_select_row (cl, select, 0);
+			gtk_clist_thaw (cl);
+			if (!gtk_clist_row_is_visible (cl, select))
+				gtk_clist_moveto (cl, select, 0, 0.5, 0.);
+		} else if (tmp == F_NEGATIVE)
+			fillin_negative_samples (state, page);
 	}
-	gtk_clist_thaw (GTK_CLIST (number_cat_list));
-	
-	/* 2. Code input and sample display */
-	tt = GTK_TABLE (gtk_table_new (0, 0, 0));
-	
-	/* 2.1 Input line */
-	gtk_table_attach (tt, gtk_label_new (_("Code:")),
-			  0, 1, 0, 1, 0, 0, 2, 0);
-	
-	number_input = gnumeric_dialog_entry_new (GNOME_DIALOG (prop_win));
-	gtk_signal_connect (GTK_OBJECT (number_input), "changed",
-			    GTK_SIGNAL_FUNC (format_code_changed), prop_win);
+}
 
-	gtk_table_attach (tt, number_input, 1, 2, 0, 1,
-			  GTK_FILL | GTK_EXPAND, 0, 0, 2);
-	
-	/* 2.2 Sample */
-	gtk_table_attach (tt, gtk_label_new (_("Sample:")),
-			  0, 1, 1, 2, 0, 0, 2, 0);
-	number_sample = gtk_label_new ("X");
-	gtk_misc_set_alignment (GTK_MISC (number_sample), 0.0, 0.5);
-	gtk_table_attach (tt, number_sample, 1, 2, 1, 2,
-			  GTK_FILL | GTK_EXPAND, 0, 0, 2);
-
-	gtk_table_attach (t, GTK_WIDGET (tt), 0, 2, INPUT_LINE, INPUT_LINE + 1,
-			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
-
-	/* 3. Format codes */
-	number_format_list = my_clist_new ();
-	scrolled_list = gtk_scrolled_window_new (NULL, NULL);
-	gtk_container_add (GTK_CONTAINER (scrolled_list), number_format_list);
-	gtk_table_attach (t, l = gtk_label_new (_("Format codes")),
-			  1, 2, BOXES_LINE, BOXES_LINE+1,
-			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
-	gtk_table_attach_defaults (t, scrolled_list, 1, 2,
-				   BOXES_LINE + 1, BOXES_LINE + 2);
-	format_list_fill (0);
-
-	/* 3.1 connect the signal handled for row selected */
-	gtk_signal_connect (GTK_OBJECT (number_format_list), "select_row",
-			    GTK_SIGNAL_FUNC (format_selected), prop_win);
-
-
-	/* 3.2: Invoke the current style for the cell if possible */
-	if (format) {
-		if (!format_find (format->format))
-		    gtk_entry_set_text (GTK_ENTRY (number_input),
-					format->format);
-	}
-
-
-	/* 4. finish */
-	gtk_widget_show_all (GTK_WIDGET (t));
-	
-	return GTK_WIDGET (t);
+/*
+ * Callback routine to manage the relationship between the number
+ * formating radio buttons and the widgets required for each mode.
+ */
+static void
+cb_format_changed (GtkObject *obj, FormatState *state)
+{
+	GtkToggleButton *button = GTK_TOGGLE_BUTTON (obj);
+	if (gtk_toggle_button_get_active (button))
+		fmt_dialog_enable_widgets ( state,
+			GPOINTER_TO_INT (gtk_object_get_data (obj, "index")));
 }
 
 static void
-apply_number_formats (Sheet *sheet, MStyle *style)
+cb_format_entry (GtkEditable *w, FormatState *state)
 {
-	char *str = gtk_entry_get_text (GTK_ENTRY (number_input));
-	
-	if (!strcmp (str, ""))
-		return;
-
-	mstyle_set_format (style, str);
+	state->format.spec = gtk_entry_get_text (GTK_ENTRY (w));
+	mstyle_set_format (state->result, state->format.spec);
+	fmt_dialog_changed (state);
 }
-
-typedef struct {
-	char *name;
-	int  flag;
-} align_def_t;
-
-static align_def_t horizontal_aligns [] = {
-	{ N_("General"),   HALIGN_GENERAL },
-	{ N_("Left"),      HALIGN_LEFT    },
-	{ N_("Center"),    HALIGN_CENTER  },
-	{ N_("Right"),     HALIGN_RIGHT   },
-	{ N_("Fill"),      HALIGN_FILL    },
-	{ N_("Justify"),   HALIGN_JUSTIFY },
-	{ NULL, 0 }
-};
-
-static align_def_t vertical_aligns [] = {
-	{ N_("Top"),       VALIGN_TOP     },
-	{ N_("Center"),    VALIGN_CENTER  },
-	{ N_("Bottom"),    VALIGN_BOTTOM  },
-	{ N_("Justify"),   VALIGN_JUSTIFY },
-	{ NULL, 0 }
-};
 
 static void
-do_disable (GtkWidget *widget, GtkWidget *op)
+cb_format_list_select (GtkCList *clist, gint row, gint column,
+		       GdkEventButton *event, FormatState *state)
 {
-	int v;
-	
-	if (GTK_TOGGLE_BUTTON (widget)->active)
-		v = FALSE;
-	else
-		v = TRUE;
-	
-	gtk_widget_set_sensitive (op, v);
+	gchar *text;
+	gtk_clist_get_text (clist, row, column, &text);
+	gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]), text);
 }
 
-static GtkWidget *
-make_radio_selection (GtkWidget *prop_win, char *title, align_def_t *array, GSList **dest_list, GtkWidget *disable)
+static void
+fmt_dialog_init_format_page (FormatState *state)
 {
-	GtkWidget *frame, *vbox;
-	GSList *group;
+	static char const * const format_buttons[] = {
+	    "format_general",	"format_number",
+	    "format_currency",	"format_accounting",
+	    "format_date",	"format_time",
+	    "format_percentage","format_fraction",
+	    "format_scientific","format_text",
+	    "format_special",	"format_custom",
+	    NULL
+	};
 
-	frame = gtk_frame_new (title);
-	vbox = gtk_vbox_new (0, 0);
-	gtk_container_add (GTK_CONTAINER (frame), vbox);
+	/* The various format widgets */
+	static char const * const widget_names[] =
+	{
+		"format_general_label",	"format_decimal_box",
+		"format_seperator",	"format_symbol_label",
+		"format_symbol_select",	"format_delete",
+		"format_entry",		"format_list_scroll",
+		"format_list",		"format_text_label",
+		"format_number_decimals", "format_negatives",
+		NULL
+	};
 
-	for (group = NULL;array->name; array++){
-		GtkWidget *item;
+	GtkWidget *tmp;
+	GtkCList *cl;
+	char const * name;
+	int i, j;
 
-		item = gtk_radio_button_new_with_label (group, _(array->name));
-		group = gtk_radio_button_group (GTK_RADIO_BUTTON (item));
-		gtk_box_pack_start_defaults (GTK_BOX (vbox), item);
+	/* Get the current format */
+	StyleFormat *format = NULL;
+	if (mstyle_is_element_set (state->style, MSTYLE_FORMAT))
+		format = mstyle_get_format (state->style);
 
-		if (disable && strcmp (array->name, "Fill") == 0){
-			gtk_signal_connect (GTK_OBJECT (item), "toggled",
-					    GTK_SIGNAL_FUNC (do_disable), disable);
+	state->format.canvas = NULL;
+
+	/* FIXME : Get this from the format */
+	state->format.spec = format->format;
+	state->format.current_type = -1;
+	state->format.num_decimals = 2;
+	state->format.use_seperator = FALSE;
+
+	state->format.box = GTK_BOX (glade_xml_get_widget (state->gui, "format_box"));
+
+	/* Setup format buttons to toggle between the format pages */
+	for (i = 0; (name = format_buttons[i]) != NULL; ++i) {
+		tmp = glade_xml_get_widget (state->gui, name);
+		if (tmp != NULL) {
+			gtk_object_set_data (GTK_OBJECT (tmp), "index", 
+					     GINT_TO_POINTER (i));
+			gtk_signal_connect (GTK_OBJECT (tmp), "toggled",
+					    GTK_SIGNAL_FUNC (cb_format_changed),
+					    state);
 		}
 	}
+
+	/* Collect all the required format widgets */
+	for (i = 0; (name = widget_names[i]) != NULL; ++i) {
+		tmp = glade_xml_get_widget (state->gui, name);
+
+		g_return_if_fail (tmp != NULL);
+
+		gtk_widget_hide (tmp);
+		state->format.widget[i] = tmp;
+	}
+
+	/* setup the red elements of the negative list box */
+	cl = GTK_CLIST (state->format.widget[F_NEGATIVE]);
+	if (cl != NULL) {
+		gchar *dummy[1] = { "321" };
+		GtkStyle *style;
+
+		/* stick in some place holders */
+		for (j = 4; --j >= 0 ;)
+		    gtk_clist_append  (cl, dummy);
+
+		/* Make the 2nd and 4th elements red */
+		gtk_widget_ensure_style (GTK_WIDGET (cl));
+		style = gtk_widget_get_style (GTK_WIDGET (cl));
+		style = gtk_style_copy (style);
+		style->fg[GTK_STATE_NORMAL] = gs_red;
+		style->fg[GTK_STATE_ACTIVE] = gs_red;
+		style->fg[GTK_STATE_PRELIGHT] = gs_red;
+		gtk_clist_set_cell_style (cl, 1, 0, style);
+		gtk_clist_set_cell_style (cl, 3, 0, style);
+		gtk_style_unref (style);
+	}
+
+	/* Catch changes to the spin box */
+	(void) gtk_signal_connect (
+		GTK_OBJECT (state->format.widget[F_DECIMAL_SPIN]),
+		"changed", GTK_SIGNAL_FUNC (cb_decimals_changed),
+		state);
+
+	/* Catch <return> in the spin box */
+	gnome_dialog_editable_enters (
+		GNOME_DIALOG (state->dialog),
+		GTK_EDITABLE (state->format.widget[F_DECIMAL_SPIN]));
+
+
+	/* Setup special handlers for : Numbers */
+	gtk_signal_connect (GTK_OBJECT (state->format.widget[F_SEPERATOR]),
+			    "toggled",
+			    GTK_SIGNAL_FUNC (cb_seperator_toggle),
+			    state);
+
+	gtk_signal_connect (GTK_OBJECT (state->format.widget[F_LIST]),
+			    "select-row",
+			    GTK_SIGNAL_FUNC (cb_format_list_select),
+			    state);
+#if 0
+	/* TODO */
+	/* Setup special handler for : Currency */
+	"_symbol"
+	/* Setup special handler for : Accounting */
+	"_symbol"
+#endif
+
+	/* Setup special handler for Custom */
+	gtk_signal_connect (GTK_OBJECT (state->format.widget[F_ENTRY]),
+			    "changed", GTK_SIGNAL_FUNC(cb_format_entry),
+			    state);
+	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
+				      GTK_EDITABLE (state->format.widget[F_ENTRY]));
 	
-	*dest_list = group;
-	return frame;
+	/* HACK : Start on Custom for now so that we can see what format is
+	 * selected.  When the regexps are ready we can go to the correct
+	 * page.
+	 */
+	fmt_dialog_enable_widgets (state, 11);
 }
 
-static GtkWidget *
-create_align_page (GtkWidget *prop_win, MStyle *style,
-		   GtkWidget **focus_widget)
+/*****************************************************************************/
+
+static void
+cb_align_h_toggle (GtkToggleButton *button, FormatState *state)
 {
-	GtkTable  *t;
-	GtkWidget *w;
-	int        n;
-	
-	t = (GtkTable *) gtk_table_new (0, 0, 0);
+	if (!gtk_toggle_button_get_active (button))
+		return;
 
-	/* Vertical alignment */
-	w = make_radio_selection (prop_win, _("Vertical"), vertical_aligns, &vradio_list, NULL);
-	gtk_table_attach (t, w, 1, 2, 0, 1, 0, GTK_FILL, 4, 0);
-
-	/* Horizontal alignment */
-	w = make_radio_selection (prop_win, _("Horizontal"), horizontal_aligns, &hradio_list, w);
-	gtk_table_attach (t, w, 0, 1, 0, 2, 0, GTK_FILL, 4, 0);
-
-	auto_return = gtk_check_button_new_with_label (_("Auto return"));
-	gtk_table_attach (t, auto_return, 0, 3, 2, 3, 0, 0, 0, 0);
-	gtk_signal_connect (GTK_OBJECT (auto_return), "toggled",
-			    GTK_SIGNAL_FUNC (prop_modified), prop_win);
-
-	if (mstyle_is_element_set (style, MSTYLE_ALIGN_H))
-		for (n = 0; horizontal_aligns [n].name; n++)
-			if (horizontal_aligns [n].flag ==
-			    mstyle_get_align_h (style)) {
-				gtk_radio_button_select (hradio_list, n);
-				break;
-			}
-	if (mstyle_is_element_set (style, MSTYLE_ALIGN_V))
-		for (n = 0; vertical_aligns [n].name; n++)
-			if (vertical_aligns [n].flag ==
-			    mstyle_get_align_v (style)) {
-				gtk_radio_button_select (vradio_list, n);
-				break;
-			}
-			
-
-	if (mstyle_is_element_set (style, MSTYLE_FIT_IN_CELL))
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (auto_return),
-					      mstyle_get_fit_in_cell (style));
-
-	/* Now after we *potentially* toggled the radio button above, we
-	 * connect the signals to activate the propertybox
-	 */
-
-	make_radio_notify_change (hradio_list, prop_win);
-	make_radio_notify_change (vradio_list, prop_win);
-	gtk_widget_show_all (GTK_WIDGET (t));
-	*focus_widget = (GTK_WIDGET(g_slist_last(hradio_list)->data));
-
-	return GTK_WIDGET (t);
+	mstyle_set_align_v (
+		state->style,
+		GPOINTER_TO_INT (gtk_object_get_data (
+		GTK_OBJECT (button), "align")));
+	fmt_dialog_changed (state);
 }
 
 static void
-apply_align_format (Sheet *sheet, MStyle *style)
+cb_align_v_toggle (GtkToggleButton *button, FormatState *state)
 {
+	if (!gtk_toggle_button_get_active (button))
+		return;
+
+	mstyle_set_align_v (
+		state->style,
+		GPOINTER_TO_INT (gtk_object_get_data (
+		GTK_OBJECT (button), "align")));
+	fmt_dialog_changed (state);
+}
+
+static void
+cb_align_wrap_toggle (GtkToggleButton *button, FormatState *state)
+{
+	mstyle_set_fit_in_cell (state->result,
+				gtk_toggle_button_get_active (button));
+	fmt_dialog_changed (state);
+}
+
+static void
+fmt_dialog_init_align_radio (char const * const name,
+			     int const val, int const target,
+			     FormatState *state,
+			     GtkSignalFunc handler)
+{
+	GtkWidget *tmp = glade_xml_get_widget (state->gui, name);
+	if (tmp != NULL) {
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tmp),
+					      val == target);
+		gtk_object_set_data (GTK_OBJECT (tmp), "align", 
+				     GINT_TO_POINTER (val));
+		gtk_signal_connect (GTK_OBJECT (tmp),
+				    "toggled", handler,
+				    state);
+	}
+}
+
+static void
+fmt_dialog_init_align_page (FormatState *state)
+{
+	static struct
+	{
+		char const * const	name;
+		StyleHAlignFlags	align;
+	} const h_buttons[] =
+	{
+	    { "halign_left",	HALIGN_LEFT },
+	    { "halign_center",	HALIGN_CENTER },
+	    { "halign_right",	HALIGN_RIGHT },
+	    { "halign_general",	HALIGN_GENERAL },
+	    { "halign_justify",	HALIGN_JUSTIFY },
+	    { "halign_fill",	HALIGN_FILL },
+	    { NULL }
+	};
+	static struct
+	{
+		char const * const	name;
+		StyleVAlignFlags	align;
+	} const v_buttons[] =
+	{
+	    { "valign_top", VALIGN_TOP },
+	    { "valign_center", VALIGN_CENTER },
+	    { "valign_bottom", VALIGN_BOTTOM },
+	    { "valign_justify", VALIGN_JUSTIFY },
+	    { NULL }
+	};
+
+	gboolean wrap = FALSE;
+	StyleHAlignFlags    h = HALIGN_GENERAL;
+	StyleVAlignFlags    v = VALIGN_CENTER;
+	char const *name;
 	int i;
-	int halign, valign, autor;
 
-	i = gtk_radio_group_get_selected (hradio_list);
-	halign = horizontal_aligns [i].flag;
-	if (halign)
-		mstyle_set_align_h (style, halign);
+	if (mstyle_is_element_set (state->style, MSTYLE_ALIGN_H))
+		h = mstyle_get_align_h (state->style);
+	if (mstyle_is_element_set (state->style, MSTYLE_ALIGN_V))
+		v = mstyle_get_align_v (state->style);
 
-	i = gtk_radio_group_get_selected (vradio_list);
-	valign = vertical_aligns [i].flag;
-	if (valign)
-		mstyle_set_align_v (style, valign);
+	/* Setup the horizontal buttons */
+	for (i = 0; (name = h_buttons[i].name) != NULL; ++i)
+		fmt_dialog_init_align_radio (name, h_buttons[i].align,
+					     h, state,
+					     GTK_SIGNAL_FUNC (cb_align_h_toggle));
 
-	autor = GTK_TOGGLE_BUTTON (auto_return)->active;
-	if (autor)
-		mstyle_set_fit_in_cell (style, autor);
+	/* Setup the vertical buttons */
+	for (i = 0; (name = v_buttons[i].name) != NULL; ++i)
+		fmt_dialog_init_align_radio (name, v_buttons[i].align,
+					     v, state,
+					     GTK_SIGNAL_FUNC (cb_align_v_toggle));
 
-	mstyle_set_orientation (style, ORIENT_HORIZ);
+	/* Setup the wrap button, and assign the current value */
+	if (mstyle_is_element_set (state->style, MSTYLE_FIT_IN_CELL))
+		wrap = mstyle_get_fit_in_cell (state->style);
+
+	state->align.wrap =
+	    GTK_CHECK_BUTTON (glade_xml_get_widget (state->gui, "align_wrap"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->align.wrap),
+				      wrap);
+	gtk_signal_connect (GTK_OBJECT (state->align.wrap), "toggled",
+			    GTK_SIGNAL_FUNC (cb_align_wrap_toggle),
+			    state);
+}
+
+/*****************************************************************************/
+
+/*
+ * A callback to set the font color.
+ * It is called whenever the color picker changes value.
+ */
+static void
+cb_font_preview_color (GtkObject *obj, guint r, guint g, guint b, guint a,
+		       FormatState *state)
+{
+	GtkStyle *style;
+	GdkColor col;
+	col.red   = r;
+	col.green = g;
+	col.blue  = b;
+
+	style = gtk_style_copy (state->font.selector->font_preview->style);
+	style->fg[GTK_STATE_NORMAL] = col;
+	style->fg[GTK_STATE_ACTIVE] = col;
+	style->fg[GTK_STATE_PRELIGHT] = col;
+	style->fg[GTK_STATE_SELECTED] = col;
+	gtk_widget_set_style (state->font.selector->font_preview, style);
+	gtk_style_unref (style);
+
+	fmt_dialog_changed (state);
 }
 
 static void
-font_changed (GtkWidget *widget, GtkStyle *previous_style, GnomePropertyBox *prop_win)
+cb_font_changed (GtkWidget *widget, GtkStyle *previous_style, FormatState *state)
 {
-	gnome_property_box_changed (prop_win);
+	fmt_dialog_changed (state);
 }
 
-static GtkWidget *
-create_font_page (GtkWidget *prop_win, MStyle *style,
-		  GtkWidget **focus_widget)
+/* Manually insert the font selector, and setup signals */
+static void
+fmt_dialog_init_font_page (FormatState *state)
 {
-	font_widget = font_selector_new ();
-	gtk_widget_show (font_widget);
+	GtkWidget *tmp = font_selector_new ();
+	FontSelector *font_widget = FONT_SELECTOR (tmp);
+	GtkWidget *container = glade_xml_get_widget (state->gui, "font_box");
 
-	gtk_signal_connect (GTK_OBJECT (FONT_SELECTOR (font_widget)->font_preview),
+	g_return_if_fail (container != NULL);
+
+	/* TODO : How to insert the font box in the right place initially */
+	gtk_widget_show (tmp);
+	gtk_box_pack_start (GTK_BOX (container), tmp, TRUE, TRUE, 0);
+	gtk_box_reorder_child (GTK_BOX (container), tmp, 0);
+
+	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
+				      GTK_EDITABLE (font_widget->font_name_entry));
+	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
+				      GTK_EDITABLE (font_widget->font_style_entry));
+	gnome_dialog_editable_enters (GNOME_DIALOG (state->dialog),
+				      GTK_EDITABLE (font_widget->font_size_entry));
+
+	/* When the font preview changes flag we know the style has changed.
+	 * This catches color and font changes
+	 */
+	gtk_signal_connect (GTK_OBJECT (font_widget->font_preview),
 			    "style_set",
-			    GTK_SIGNAL_FUNC (font_changed), prop_win);
+			    GTK_SIGNAL_FUNC (cb_font_changed), state);
 
-	gnome_dialog_editable_enters
-	  (GNOME_DIALOG(prop_win), 
-	   GTK_EDITABLE(FONT_SELECTOR (font_widget)->font_name_entry));
-	gnome_dialog_editable_enters
-	  (GNOME_DIALOG(prop_win), 
-	   GTK_EDITABLE(FONT_SELECTOR (font_widget)->font_style_entry));
-	gnome_dialog_editable_enters
-	  (GNOME_DIALOG(prop_win), 
-	   GTK_EDITABLE(FONT_SELECTOR (font_widget)->font_size_entry));
-	gnome_dialog_editable_enters
-	  (GNOME_DIALOG(prop_win), 
-	   GTK_EDITABLE(FONT_SELECTOR (font_widget)->font_preview));
+	state->font.selector = FONT_SELECTOR (font_widget);
 
-	/* Focus alternatives: */
-	/*     Size entry  (font_widget->font_size_entry) */
-	/* or  Font listbox (font_widget->font_name_list). */
-	/* Font entry is not editable. */
-	*focus_widget = 
-		GTK_WIDGET (FONT_SELECTOR (font_widget)->font_size_entry);
-	return font_widget;
+	/* Init the font selector with the current font */
+	font_selector_set (state->font.selector,
+			   mstyle_get_font_name (state->style),
+			   mstyle_get_font_bold (state->style),
+			   mstyle_get_font_italic (state->style),
+			   mstyle_get_font_size (state->style));
 }
+
+/*****************************************************************************/
 
 static void
-apply_font_format (Sheet *sheet, MStyle *style)
+draw_pattern_preview (FormatState *state)
 {
-	FontSelector *font_sel = FONT_SELECTOR (font_widget);
-	GnomeDisplayFont *gnome_display_font;
-	GnomeFont *gnome_font;
-	char *family_name;
-	double height;
-
-	gnome_display_font = font_sel->display_font;
-	if (!gnome_display_font)
-		return;
-
-	gnome_font = gnome_display_font->gnome_font;
-	family_name = gnome_font->fontmap_entry->familyname;
-	height = gnome_display_font->gnome_font->size;
-
-	mstyle_set_font_name   (style, family_name);
-	mstyle_set_font_size   (style, gnome_font->size);
-	mstyle_set_font_bold   (style,
-				gnome_font->fontmap_entry->weight_code >=
-				GNOME_FONT_BOLD);
-	mstyle_set_font_italic (style, gnome_font->fontmap_entry->italic);
-
-	sheet_selection_height_update (sheet, height);
-}
-
-
-static void
-color_pick_change_notify (GnomeColorPicker *cp, guint r, guint g,
- 			  guint b, guint a, GnomePropertyBox *pbox)
-{
-	gnome_property_box_changed (pbox);
-}
-
-static void
-make_color_picker_notify (GtkWidget *widget, GtkWidget *prop_win)
-{
-	gtk_signal_connect (GTK_OBJECT (widget), "color_set",
-			    GTK_SIGNAL_FUNC (color_pick_change_notify), prop_win);
-}
-
-static void
-activate_toggle (GtkWidget *color_sel, GtkToggleButton *button)
-{
-	if (button->active)
-		return;
-
-	gtk_toggle_button_set_active (button, TRUE);
-}
-
-static GtkWidget *
-create_foreground_radio (GtkWidget *prop_win)
-{
-	GtkWidget *frame, *table, *r1, *r2, *r3;
-	int e = GTK_FILL | GTK_EXPAND;
-	
-	frame = gtk_frame_new (_("Text color"));
-        table = gtk_table_new (2, 2, 0);
-	gtk_container_add (GTK_CONTAINER (frame), table);
-
-	r1 = gtk_radio_button_new_with_label (NULL, _("None"));
-	r2 = gtk_radio_button_new_with_label_from_widget (
-		GTK_RADIO_BUTTON (r1), _("Use this color"));
-	r3 = gtk_radio_button_new_with_label_from_widget (
-		GTK_RADIO_BUTTON (r1), _("No change"));
-
-	foreground_radio_list = GTK_RADIO_BUTTON (r3)->group;
-
-	foreground_cs = gnome_color_picker_new ();
-	gtk_signal_connect (
-		GTK_OBJECT (foreground_cs), "clicked",
-		activate_toggle, r2);
-		
-	make_color_picker_notify (foreground_cs, prop_win);
-	
-	gtk_table_attach (GTK_TABLE (table), r1, 0, 1, 0, 1, e, 0, 4, 2);
-	gtk_table_attach (GTK_TABLE (table), r2, 0, 1, 1, 2, e, 0, 4, 2);
-	gtk_table_attach (GTK_TABLE (table), r3, 0, 1, 2, 3, e, 0, 4, 2);
-	gtk_table_attach (GTK_TABLE (table), foreground_cs,
-			  1, 2, 1, 2, 0, 0, 0, 0); 
-
-	return frame;
-}
-
-static GtkWidget *
-create_background_radio (GtkWidget *prop_win, MStyle *mstyle)
-{
-	GtkWidget *frame, *table, *r1, *r2, *r3, *r4;
-	int e = GTK_FILL | GTK_EXPAND;
-	
-	frame = gtk_frame_new (_("Background configuration"));
-        table = gtk_table_new (2, 2, 0);
-	gtk_container_add (GTK_CONTAINER (frame), table);
-	gtk_container_set_border_width (GTK_CONTAINER (frame), 5);
-
-	/* The radio buttons */
-	r1 = gtk_radio_button_new_with_label (NULL, _("None"));
-	r2 = gtk_radio_button_new_with_label_from_widget (
-		GTK_RADIO_BUTTON (r1), _("Use solid color"));
-	r3 = gtk_radio_button_new_with_label_from_widget (
-		GTK_RADIO_BUTTON (r1), _("Use a pattern"));
-	r4 = gtk_radio_button_new_with_label_from_widget (
-		GTK_RADIO_BUTTON (r1), _("No change"));
-
-	background_radio_list = GTK_RADIO_BUTTON (r4)->group;
-
-	/* The color selectors */
-	background_cs = gnome_color_picker_new ();
-	gtk_signal_connect (GTK_OBJECT (background_cs), "clicked",
-			    GTK_SIGNAL_FUNC (activate_toggle), r2);
-			    
-	make_color_picker_notify (background_cs, prop_win);
-	
-	/* Create the pattern preview */
-/*	if (mstyle_is_element_set (mstyle, MSTYLE_PATTERN))
-		pattern_selector = PATTERN_SELECTOR (pattern_selector_new (
-		  mstyle_get_pattern (mstyle)));
-		  else*/
-		pattern_selector = PATTERN_SELECTOR (pattern_selector_new (0));
-	
-	gtk_table_attach (GTK_TABLE (table), r1, 0, 1, 0, 1, e, 0, 4, 2);
-	gtk_table_attach (GTK_TABLE (table), r2, 0, 1, 1, 2, e, 0, 4, 2);
-	gtk_table_attach (GTK_TABLE (table), r3, 0, 1, 2, 3, e, 0, 4, 2);
-	gtk_table_attach (GTK_TABLE (table), r4, 0, 1, 4, 5, e, 0, 4, 2);
-
-	gtk_table_attach (GTK_TABLE (table), background_cs, 1, 2, 1, 2, 0, 0, 4, 2);
-	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (pattern_selector), 0, 2, 3, 4,
-			  GTK_FILL | GTK_EXPAND, GTK_FILL|GTK_EXPAND, 0, 0);
-	return frame;
-}
-
-static void
-set_color_picker_from_style (GnomeColorPicker *cp, const StyleColor *col)
-{
-	gdouble rd, gd, bd, ad;
-	gushort red, green, blue;
-
-	g_return_if_fail (cp != NULL);
-	g_return_if_fail (col != NULL);
-
-	red   = col->red;
-	green = col->green;
-	blue  = col->blue;
-	
-	rd = (gdouble) red / 65535;
-	gd = (gdouble) green / 65535;
-	bd = (gdouble) blue / 65535;
-	ad = 1.0;
-	gnome_color_picker_set_d (cp, rd, gd, bd, ad);
-}
-
-static GtkWidget *
-create_coloring_page (GtkWidget *prop_win,
-		      MStyle    *mstyle,
-		      GtkWidget **focus_widget)
-{
-	GtkTable *t;
-	GtkWidget *fore, *back;
-	int e = GTK_FILL | GTK_EXPAND;
-
-	t = (GtkTable *) gtk_table_new (0, 0, 0);
-
-	fore = create_foreground_radio (prop_win);
-	back = create_background_radio (prop_win, mstyle);
-
-	if (mstyle_is_element_set (mstyle, MSTYLE_COLOR_FORE) &&
-	    !mstyle_is_element_conflict (mstyle, MSTYLE_COLOR_FORE)) {
-		gtk_radio_button_select (foreground_radio_list, 1);
-		set_color_picker_from_style (GNOME_COLOR_PICKER (foreground_cs),
-					     mstyle_get_color (mstyle, MSTYLE_COLOR_FORE));
-	} else
-		gtk_radio_button_select (foreground_radio_list, 2);
-
-	if (mstyle_is_element_set (mstyle, MSTYLE_COLOR_BACK) &&
-	    !mstyle_is_element_conflict (mstyle, MSTYLE_COLOR_BACK)) {
-		gtk_radio_button_select (background_radio_list, 1);
-		set_color_picker_from_style (GNOME_COLOR_PICKER (background_cs),
-					     mstyle_get_color (mstyle, MSTYLE_COLOR_BACK));
-	} else
-		gtk_radio_button_select (background_radio_list, 3);
-
-	make_radio_notify_change (foreground_radio_list, prop_win);
-	make_radio_notify_change (background_radio_list, prop_win);
-	
-	gtk_table_attach (t, fore, 0, 1, 0, 1, e, 0, 4, 4);
-	gtk_table_attach (t, back, 0, 1, 1, 2, e, 0, 4, 4);
-	
-	gtk_widget_show_all (GTK_WIDGET (t));
-	*focus_widget = 
-		(GTK_WIDGET(g_slist_last(foreground_radio_list)->data));
-	
-	return GTK_WIDGET (t);
-}
-	
-static void
-apply_coloring_format (Sheet *sheet, MStyle *mstyle)
-{
-	double rd, gd, bd, ad;
-	gushort fore_change = FALSE, back_change = FALSE;
-	gushort fore_red=0, fore_green=0, fore_blue=0;
-	gushort back_red=0xff, back_green=0xff, back_blue=0xff;
-
-	/*
-	 * Let's check the foreground first
-	 */
-	switch (gtk_radio_group_get_selected (foreground_radio_list)) {
-	/*
-	 * case 0 means no foreground
-	 */
-	case 0:
-		mstyle_unset_element (mstyle, MSTYLE_COLOR_FORE);
-		fore_change = FALSE;
-		break;
-	/*
-	 * case 1 means colored foreground
-	 */
-	case 1:
-		gnome_color_picker_get_d (GNOME_COLOR_PICKER (foreground_cs), &rd, &gd, &bd, &ad);
-		fore_red   = rd * 65535;
-		fore_green = gd * 65535;
-		fore_blue  = bd * 65535;
-		fore_change = TRUE;
-		break;
-	/*
-	 * case 2 means no change
-	 */
-	case 2:
-		fore_change = FALSE;
-		break;
+	/* The first time through lets initialize */
+	if (state->back.canvas == NULL) {
+		state->back.canvas =
+		    GNOME_CANVAS (glade_xml_get_widget (state->gui, "back_sample"));
 	}
 
-	/*
-	 * Now, the background
-	 */
-	switch (gtk_radio_group_get_selected (background_radio_list)) {
-	/*
-	 * case 0 means no background
-	 */
-	case 0:
-		mstyle_unset_element (mstyle, MSTYLE_COLOR_BACK);
-		back_change = FALSE;
-		break;
+	fmt_dialog_changed (state);
 
-	/*
-	 * case 1 means solid color background
-	 */
-	case 1:
-		gnome_color_picker_get_d (GNOME_COLOR_PICKER (background_cs), &rd, &gd, &bd, &ad);
+	/* If background is auto (none) : then remove any patterns or backgrounds */
+	if (state->back.back_color.is_auto) {
+		if (state->back.back != NULL) {
+			gtk_object_destroy (GTK_OBJECT (state->back.back));
+			state->back.back = NULL;
+		}
+		if (state->back.pattern_item != NULL) {
+			gtk_object_destroy (GTK_OBJECT (state->back.pattern_item));
+			state->back.pattern_item = NULL;
 
-		back_red   = rd * 65535;
-		back_green = gd * 65535;
-		back_blue  = bd * 65535;
-		back_change = TRUE;
-		break;
+			/* This will recursively call draw_pattern_preview */
+			gtk_toggle_button_set_active (state->back.pattern.default_button,
+						      TRUE);
+			/* This will recursively call draw_pattern_preview */
+			gtk_toggle_button_set_active (state->back.pattern_color.autob,
+						      TRUE);
+			return;
+		}
 
-	/*
-	 * case 2 means a pattern background
-	 */
-	case 2:
-		back_red = 0xffff;
-		back_green = 0xffff;
-		back_blue = 0xffff;
-		
-		if (pattern_selector)
-			mstyle_set_pattern (mstyle, pattern_selector->selected_item);
-		back_change = TRUE;
-		break;
-	/*
-	 * case 3 means no change
-	 */
-	case 3:
-		back_change = FALSE;
-		break;
+		if (state->enable_edit) {
+			/* We can clear the background by specifying a pattern of 0 */
+			mstyle_set_pattern (state->result, 0);
+
+			/* Clear the colours just in case (The actual colours are irrelevant */
+			mstyle_set_color (state->result, MSTYLE_COLOR_BACK,
+					  style_color_new (0xffff, 0xffff, 0xffff));
+
+			mstyle_set_color (state->result, MSTYLE_COLOR_PATTERN,
+					  style_color_new (0x0, 0x0, 0x0));
+		}
+
+	/* BE careful just in case the initialization failed */
+	} else if (state->back.canvas != NULL) {
+		GnomeCanvasGroup *group =
+			GNOME_CANVAS_GROUP (gnome_canvas_root (state->back.canvas));
+
+		/* Create the background if necessary */
+		if (state->back.back == NULL) {
+			state->back.back = GNOME_CANVAS_ITEM (
+				gnome_canvas_item_new (
+					group,
+					gnome_canvas_rect_get_type (),
+					"x1", 0.,	"y1", 0.,
+					"x2", 90.,	"y2", 50.,
+					"width_pixels", (int) 5,
+				       "fill_color_rgba",
+				       state->back.back_color.rgba,
+					NULL));
+		} else
+			gnome_canvas_item_set (
+				GNOME_CANVAS_ITEM (state->back.back),
+				"fill_color_rgba", state->back.back_color.rgba,
+				NULL);
+
+		if (state->enable_edit) {
+			mstyle_set_pattern (state->result, state->back.pattern.cur_index);
+			mstyle_set_color (state->result, MSTYLE_COLOR_BACK,
+					  picker_style_color (&state->back.back_color));
+
+			if (state->back.pattern.cur_index > 1)
+				mstyle_set_color (state->result, MSTYLE_COLOR_PATTERN,
+						  picker_style_color (&state->back.pattern_color));
+		}
+
+		/* If there is no pattern don't draw the overlay */
+		if (state->back.pattern.cur_index == 0) {
+			if (state->back.pattern_item != NULL) {
+				gtk_object_destroy (GTK_OBJECT (state->back.pattern_item));
+				state->back.pattern_item = NULL;
+			}
+			return;
+		}
+
+		/* Create the pattern if necessary */
+		if (state->back.pattern_item == NULL) {
+			state->back.pattern_item = GNOME_CANVAS_ITEM (
+				gnome_canvas_item_new (
+					group,
+					gnome_canvas_rect_get_type (),
+					"x1", 0.,	"y1", 0.,
+					"x2", 90.,	"y2", 50.,
+					"width_pixels", (int) 5,
+					"fill_color_rgba",
+					state->back.pattern_color.rgba,
+					NULL));
+		} else
+			gnome_canvas_item_set (
+				GNOME_CANVAS_ITEM (state->back.pattern_item),
+				"fill_color_rgba", state->back.pattern_color.rgba,
+				NULL);
+
+		gnome_canvas_item_set (
+			GNOME_CANVAS_ITEM (state->back.pattern_item),
+			"fill_stipple",
+			gnumeric_pattern_get_stipple (state->back.pattern.cur_index),
+			NULL);
 	}
-
-	if (fore_change)
-		mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, 
-				  style_color_new (fore_red, fore_green, fore_blue));
-
-	if (back_change)
-		mstyle_set_color (mstyle, MSTYLE_COLOR_BACK, 
-				  style_color_new (back_red, back_green, back_blue));
 }
 
-static struct {
-	char       *title;
-	GtkWidget *(*create_page) (GtkWidget *prop_win,
-				   MStyle    *styles, 
-				   GtkWidget **focus_widget);
-	void       (*apply_page)  (Sheet *sheet,
-				   MStyle *styles);
-} cell_format_pages [] = {
-	{ N_("Number"),    create_number_format_page,  apply_number_formats  },
-	{ N_("Alignment"), create_align_page,          apply_align_format    },
-	{ N_("Font"),      create_font_page,           apply_font_format     },
-	{ N_("Coloring"),  create_coloring_page,       apply_coloring_format },
-	{ NULL, NULL, NULL }
+static void
+cb_back_preview_color (GtkObject *obj, guint r, guint g, guint b, guint a,
+		       FormatState *state)
+{
+	state->back.back_color.r = r;
+	state->back.back_color.g = g;
+	state->back.back_color.b = b;
+	state->back.back_color.rgba =
+		GNOME_CANVAS_COLOR_A (r>>8, g>>8, b>>8, a>>8);
+	draw_pattern_preview (state);
+}
+
+static void
+cb_pattern_preview_color (GtkObject *obj, guint r, guint g, guint b, guint a,
+			  FormatState *state)
+{
+	state->back.pattern_color.r = r;
+	state->back.pattern_color.g = g;
+	state->back.pattern_color.b = b;
+	state->back.pattern_color.rgba =
+		GNOME_CANVAS_COLOR_A (r>>8, g>>8, b>>8, a>>8);
+	draw_pattern_preview (state);
+}
+
+static void
+cb_custom_back_selected (GtkObject *obj, FormatState *state)
+{
+	draw_pattern_preview (state);
+}
+
+static void
+draw_pattern_selected (FormatState *state)
+{
+	/* If a pattern was selected switch to custom color.
+	 * The color is already set to the default, but we need to
+	 * differentiate, default and none
+	 */
+	if (state->back.pattern.cur_index > 0)
+		gtk_toggle_button_set_active (state->back.back_color.custom, TRUE);
+	draw_pattern_preview (state);
+}
+
+/*****************************************************************************/
+
+#define L 10.	/* Left */
+#define R 140.	/* Right */
+#define T 10.	/* Top */
+#define B 90.	/* Bottom */
+#define H 50.	/* Horizontal Middle */
+#define V 75.	/* Vertical Middle */
+
+static struct
+{
+	double const		points[4];
+	gboolean const		is_single;
+	BorderLocations	const	location;
+} const line_info[12] =
+{
+	{ { L, T, R, T }, TRUE, BORDER_TOP },
+	{ { L, B, R, B }, TRUE, BORDER_BOTTOM },
+	{ { L, T, L, B }, TRUE, BORDER_LEFT },
+	{ { R, T, R, B }, TRUE, BORDER_RIGHT },
+	{ { L, T, R, B }, TRUE, BORDER_REV_DIAG },
+	{ { L, B, R, T }, TRUE, BORDER_DIAG},
+
+	{ { L, H, R, H }, FALSE, BORDER_HORIZ },
+	{ { L, H, V, B }, FALSE, BORDER_REV_DIAG },
+	{ { V, T, R, H }, FALSE, BORDER_REV_DIAG },
+
+	{ { V, T, V, B }, FALSE, BORDER_VERT },
+	{ { V, T, L, H }, FALSE, BORDER_DIAG },
+	{ { R, H, V, B }, FALSE, BORDER_DIAG }
 };
 
-static void
-cell_properties_apply (GtkObject *w, int page, MStyle *style)
+/* See if either the color or pattern for any segment has changed and
+ * apply the change to all of the lines that make up the segment.
+ */
+static gboolean
+border_format_has_changed (FormatState *state, BorderPicker *edge)
 {
-	Sheet *sheet;
 	int i;
-	
+	gboolean changed = FALSE;
+
+	if (edge->rgba != state->border.color.rgba) {
+		edge->rgba = state->border.color.rgba;
+
+		for (i = 12; --i >= 0 ; ) {
+			if (line_info[i].location == edge->index &&
+			    state->border.lines[i] != NULL)
+				gnome_canvas_item_set (
+					GNOME_CANVAS_ITEM (state->border.lines[i]),
+					"fill_color_rgba", edge->rgba,
+					NULL);
+		}
+		changed = TRUE;
+	}
+	if (edge->pattern_index != state->border.pattern.cur_index) {
+		edge->pattern_index = state->border.pattern.cur_index;
+		for (i = 12; --i >= 0 ; ) {
+			if (line_info[i].location == edge->index &&
+			    state->border.lines[i] != NULL) {
+				gnumeric_dashed_canvas_line_set_dash_index (
+					GNUMERIC_DASHED_CANVAS_LINE (state->border.lines[i]),
+					edge->pattern_index, edge->rgba);
+			}
+		}
+		changed = TRUE;
+	}
+
+	return changed;
+}
+
+/*
+ * Map canvas x.y coords to a border type */
+static gboolean
+border_event (GtkWidget *widget, GdkEventButton *event, FormatState *state)
+{
+	double x = event->x;
+	double y = event->y;
+	BorderLocations	which;
+
+	if (event->button != 1)
+		return FALSE;
+
+	/* If we receive a double or triple translate them into single clicks */
+	if (event->type == GDK_2BUTTON_PRESS || event->type == GDK_3BUTTON_PRESS)
+	{
+		GdkEventType type = event->type;
+		event->type = GDK_BUTTON_PRESS;
+		border_event (widget, event, state);
+		if (event->type == GDK_3BUTTON_PRESS)
+			border_event (widget, event, state);
+		event->type = type;
+	}
+
+	if (x <= L+5.)		which = BORDER_LEFT;
+	else if (y <= T+5.)	which = BORDER_TOP;
+	else if (y >= B-5.)	which = BORDER_BOTTOM;
+	else if (x >= R-5.)	which = BORDER_RIGHT;
+	else if (state->is_multi) {
+		if (V-5. < x  && x < V+5.)
+			which = BORDER_VERT;
+		else if (H-5. < y  && y < H+5.)
+			which = BORDER_HORIZ;
+		else {
+			/* Map everything back to the 1sr quadrant */
+			if (x > V) x -= V-10.;
+			if (y > H) y -= H-10.;
+
+			if ((x < V/2.) == (y < H/2.))
+				which = BORDER_REV_DIAG;
+			else
+				which = BORDER_DIAG;
+		}
+	} else
+	{
+		if ((x < V) == (y < H))
+			which = BORDER_REV_DIAG;
+		else
+			which = BORDER_DIAG;
+	}
+
+	{
+		BorderPicker *edge = &state->border.edge[which];
+		if (!border_format_has_changed (state, edge) ||
+		    !edge->is_selected)
+			gtk_toggle_button_set_active (edge->button, !edge->is_selected);
+	}
+	return TRUE;
+}
+
+static void
+draw_border_preview (FormatState *state)
+{
+	static double const corners[12][6] = 
+	{
+	    { T-5., T, L, T, L, T-5. },
+	    { R+5., T, R, T, R, T-5 },
+	    { T-5., B, L, B, L, B+5. },
+	    { R+5., B, R, B, R, B+5. },
+
+	    { V-5., T-1., V, T-1., V, T-5. },
+	    { V+5., T-1., V, T-1., V, T-5. },
+
+	    { V-5., B+1., V, B+1., V, B+5. },
+	    { V+5., B+1., V, B+1., V, B+5. },
+
+	    { L-1., H-5., L-1., H, L-5., H },
+	    { L-1., H+5., L-1., H, L-5., H },
+
+	    { R+1., H-5., R+1., H, R+5., H },
+	    { R+1., H+5., R+1., H, R+5., H }
+	};
+	int i, j;
+
+	/* The first time through lets initialize */
+	if (state->border.canvas == NULL) {
+		GnomeCanvasGroup  *group;
+		GnomeCanvasPoints *points;
+
+		state->border.canvas =
+			GNOME_CANVAS (glade_xml_get_widget (state->gui, "border_sample"));
+		group = GNOME_CANVAS_GROUP (gnome_canvas_root (state->border.canvas));
+
+		gtk_signal_connect (GTK_OBJECT (state->border.canvas),
+				    "button-press-event", GTK_SIGNAL_FUNC (border_event),
+				    state);
+
+		state->border.back = GNOME_CANVAS_ITEM (
+			gnome_canvas_item_new ( group,
+						gnome_canvas_rect_get_type (),
+						"x1", L-10.,	"y1", T-10.,
+						"x2", R+10.,	"y2", B+10.,
+						"width_pixels", (int) 0,
+						"fill_color",	"white",
+						NULL));
+
+		/* Draw the corners */
+		points = gnome_canvas_points_new (3);
+
+		i = (state->is_multi) ? 12 : 4;
+		for (; --i >= 0 ; ) {
+			for (j = 6 ; --j >= 0 ;)
+				points->coords [j] = corners[i][j];
+
+			gnome_canvas_item_new (group,
+					       gnome_canvas_line_get_type (),
+					       "width_pixels",	(int) 0,
+					       "fill_color",	"gray63",
+					       "points",	points,
+					       NULL);
+		}
+		gnome_canvas_points_free (points);
+
+		points = gnome_canvas_points_new (2);
+		for (i = 12; --i >= 0 ; ) {
+			for (j = 4; --j >= 0 ; )
+				points->coords [j] = line_info[i].points[j];
+
+			if (line_info[i].is_single || state->is_multi)
+				state->border.lines[i] =
+					gnome_canvas_item_new (group,
+							       gnumeric_dashed_canvas_line_get_type (),
+							       "width_pixels",	(int) 0,
+							       "fill_color_rgba",
+							       state->border.edge[line_info[i].location].rgba,
+							       "points",	points,
+							       NULL);
+			else
+				state->border.lines[i] = NULL;
+		    }
+		gnome_canvas_points_free (points);
+	}
+
+	for (i = 0; i < BORDER_EDGE_MAX; ++i) {
+		BorderPicker *border = &state->border.edge[i];
+		void (*func)(GnomeCanvasItem *item) = border->is_selected
+			? &gnome_canvas_item_show : &gnome_canvas_item_hide;
+
+		for (j = 12; --j >= 0 ; ) {
+			if (line_info[j].location == i &&
+			    state->border.lines[j] != NULL)
+				(*func) (state->border.lines[j]);
+		}
+	}
+
+	fmt_dialog_changed (state);
+}
+
+static void
+cb_border_preset_clicked (GtkButton *btn, FormatState *state)
+{
+	gboolean target_state;
+	BorderLocations i, last;
+
+	if (state->border.preset[BORDER_PRESET_NONE] == btn) {
+		i = BORDER_TOP;
+		last = BORDER_VERT;
+		target_state = FALSE;
+	} else if (state->border.preset[BORDER_PRESET_OUTLINE] == btn) {
+		i = BORDER_TOP;
+		last = BORDER_RIGHT;
+		target_state = TRUE;
+	} else if (state->border.preset[BORDER_PRESET_INSIDE] == btn) {
+		i = BORDER_HORIZ;
+		last = BORDER_VERT;
+		target_state = TRUE;
+	} else {
+		g_warning ("Unknown border preset button");
+		return;
+	}
+
+	/* If we are turning things on, TOGGLE the states to
+	 * capture the current pattern and color */
+	for (; i <= last; ++i) {
+		gtk_toggle_button_set_active (
+			state->border.edge[i].button,
+			FALSE);
+
+		if (target_state)
+			gtk_toggle_button_set_active (
+				state->border.edge[i].button,
+				TRUE);
+	}
+}
+
+/*
+ * Callback routine to update the border preview when a button is clicked
+ */
+static void
+cb_border_toggle (GtkToggleButton *button, BorderPicker *picker)
+{
+	picker->is_selected = gtk_toggle_button_get_active (button);
+
+	/* If the format has changed and we were just toggled off,
+	 * turn ourselves back on.
+	 */
+	if (border_format_has_changed (picker->state, picker) &&
+	    !picker->is_selected)
+		gtk_toggle_button_set_active (button, TRUE);
+	else 
+		/* Update the preview lines and enable/disable them */
+		draw_border_preview (picker->state);
+}
+
+static void
+cb_border_color (GtkObject *obj, guint r, guint g, guint b, guint a,
+		 FormatState *state)
+{
+	state->border.color.rgba = GNOME_CANVAS_COLOR_A (r>>8, g>>8, b>>8, a>>8);
+}
+
+#undef L
+#undef R
+#undef T
+#undef B
+#undef H
+#undef V
+
+/*
+ * Initialize the feilds of a BorderPicker, connect signals and
+ * hide if needed.
+ */
+static void
+init_border_button (FormatState * state, BorderLocations const i,
+		    GtkWidget *button, gboolean const hide)
+{
+	g_return_if_fail (button != NULL);
+
+	state->border.edge[i].rgba = 0;
+	state->border.edge[i].pattern_index = BORDER_NONE;
+	state->border.edge[i].is_selected = FALSE;
+	state->border.edge[i].state = state;
+	state->border.edge[i].index = i;
+	state->border.edge[i].button = GTK_TOGGLE_BUTTON (button);
+
+	gtk_signal_connect (GTK_OBJECT (button), "toggled",
+			    GTK_SIGNAL_FUNC (cb_border_toggle),
+			    &state->border.edge[i]);
+
+	if (!state->is_multi && hide)
+		gtk_widget_hide (button);
+}
+
+/*****************************************************************************/
+
+/* Handler for the apply button */
+static void
+cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
+{
 	if (page != -1)
 		return;
 
-	sheet = (Sheet *) gtk_object_get_data (w, "Sheet");
-
 	cell_freeze_redraws ();
 	
-	for (i = 0; cell_format_pages [i].title; i++)
-		(*cell_format_pages [i].apply_page) (sheet, style);
+	sheet_selection_apply_style (state->sheet, state->result);
 
 	cell_thaw_redraws ();
-	
-	sheet_selection_apply_style (sheet, style);
 }
 
 static void
-cell_properties_close (void)
+fmt_dialog_impl (Sheet *sheet, MStyle *mstyle, GladeXML  *gui, gboolean is_multi)
 {
-	GnomePropertyBox *pbox = GNOME_PROPERTY_BOX (cell_format_prop_win);
-	
-	gtk_main_quit ();
-	cell_format_last_page_used = gtk_notebook_get_current_page (
-		GTK_NOTEBOOK (pbox->notebook));
-	gtk_widget_destroy (cell_format_prop_win);
-	cell_format_prop_win = 0;
+	static GnomeHelpMenuEntry help_ref = { "gnumeric", "formatting.html" };
+
+	static struct
+	{
+		char const * const name;
+		StyleBorderType const pattern;
+	} const line_pattern_buttons[] = {
+	    { "line_pattern_thin", BORDER_THIN },
+
+	    { "line_pattern_none", BORDER_NONE },
+	    { "line_pattern_medium_dash_dot_dot", BORDER_MEDIUM_DASH_DOT_DOT },
+
+	    { "line_pattern_hair", BORDER_HAIR },
+	    { "line_pattern_slant", BORDER_SLANTED_DASH_DOT },
+
+	    { "line_pattern_dotted", BORDER_DOTTED },
+	    { "line_pattern_medium_dash_dot", BORDER_MEDIUM_DASH_DOT },
+
+	    { "line_pattern_dash_dot_dot", BORDER_DASH_DOT_DOT },
+	    { "line_pattern_medium_dash", BORDER_MEDIUM_DASH },
+
+	    { "line_pattern_dash_dot", BORDER_DASH_DOT },
+	    { "line_pattern_medium", BORDER_MEDIUM },
+
+	    { "line_pattern_dashed", BORDER_DASHED },
+	    { "line_pattern_thick", BORDER_THICK },
+
+	    /* Thin will display here, but we need to put it first to make it
+	     * the default */
+	    { "line_pattern_double", BORDER_DOUBLE },
+
+	    { NULL },
+	};
+	static char const * const pattern_buttons[] = {
+	    "gp_solid", "gp_75grey", "gp_50grey",
+	    "gp_25grey", "gp_125grey", "gp_625grey",
+	    "gp_horiz",
+	    "gp_vert",
+	    "gp_diag",
+	    "gp_rev_diag",
+	    "gp_diag_cross",
+	    "gp_thick_diag_cross",
+	    "gp_thin_horiz",
+	    "gp_thin_vert",
+	    "gp_thin_rev_diag",
+	    "gp_thin_diag",
+	    "gp_thin_horiz_cross",
+	    "gp_thin_diag_cross",
+	    NULL
+	};
+
+	/* The order corresponds to the BorderLocation enum */
+	static char const * const border_buttons[] = {
+	    "top_border",	"bottom_border",
+	    "left_border",	"right_border",
+	    "rev_diag_border",	"diag_border",
+	    "inside_horiz_border", "inside_vert_border",
+	    NULL
+	};
+
+	/* The order corresponds to BorderPresets */
+	static char const * const border_preset_buttons[] = {
+	    "no_border", "outline_border", "inside_border",
+	    NULL
+	};
+
+	FormatState state;
+	int i, res, selected;
+	char const *name;
+	gboolean has_back;
+
+	GtkWidget *dialog = glade_xml_get_widget (gui, "CellFormat");
+	g_return_if_fail (dialog != NULL);
+
+	/* Make the dialog a child of the application so that it will iconify */
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (sheet->workbook->toplevel));
+
+	/* Initialize */
+	state.gui			= gui;
+	state.dialog			= GNOME_PROPERTY_BOX (dialog);
+	state.sheet			= sheet;
+	state.style			= mstyle;
+	state.result			= mstyle_new ();
+	state.is_multi			= is_multi;
+	state.enable_edit		= FALSE;  /* Enable below */
+
+	state.border.canvas	= NULL;
+	state.border.pattern.cur_index	= 0;
+
+	state.back.canvas	= NULL;
+	state.back.back		= NULL;
+	state.back.pattern_item	= NULL;
+	state.back.pattern.cur_index	= 0;
+
+	/* Select the same page the last invocation used */
+	gtk_notebook_set_page (
+		GTK_NOTEBOOK (GNOME_PROPERTY_BOX (dialog)->notebook),
+		fmt_dialog_page);
+	state.page_signal = gtk_signal_connect (
+		GTK_OBJECT (GNOME_PROPERTY_BOX (dialog)->notebook),
+		"switch_page", GTK_SIGNAL_FUNC (cb_page_select),
+		NULL);
+	gtk_signal_connect (
+		GTK_OBJECT (GNOME_PROPERTY_BOX (dialog)->notebook),
+		"destroy", GTK_SIGNAL_FUNC (cb_notebook_destroy),
+		&state);
+
+	fmt_dialog_init_format_page (&state);
+	fmt_dialog_init_align_page (&state);
+	fmt_dialog_init_font_page (&state);
+
+	/* Setup border line pattern buttons & select the 1st button */
+	state.border.pattern.draw_preview = NULL;
+	state.border.pattern.current_pattern = NULL;
+	state.border.pattern.state = &state;
+	for (i = 0; (name = line_pattern_buttons[i].name) != NULL; ++i)
+		setup_pattern_button (gui, name, &state.border.pattern,
+				      i != 1, /* No image for None */
+				      line_pattern_buttons[i].pattern,
+				      FALSE); /* don't select */
+
+	/* Set the default line pattern to THIN (the 1st element of line_pattern_buttons).
+	 * This can not come from the style.  It is a UI element not a display item */
+	gtk_toggle_button_set_active (state.border.pattern.default_button, TRUE);
+
+#define COLOR_SUPPORT(v, n, style_element, auto_color, func) \
+	setup_color_pickers (gui, #n "_picker", #n "_custom", #n "_auto",\
+			     &state.v, &state, auto_color, GTK_SIGNAL_FUNC (func),\
+			     style_element, mstyle)
+
+	COLOR_SUPPORT (font.color, font_color, MSTYLE_COLOR_FORE,
+		       &gs_black, cb_font_preview_color);
+
+	/* FIXME : If all the border colors are the same return that color */
+	COLOR_SUPPORT (border.color, border_color, MSTYLE_ELEMENT_UNSET,
+		       &gs_black, cb_border_color);
+
+	COLOR_SUPPORT (back.back_color, back_color, MSTYLE_COLOR_BACK,
+		       &gs_white, cb_back_preview_color);
+	COLOR_SUPPORT (back.pattern_color, pattern_color, MSTYLE_COLOR_PATTERN,
+		       &gs_black, cb_pattern_preview_color);
+
+	/* The background color selector is special.  There is a difference
+	 * between auto (None) and the default custom which is white.
+	 */
+	gtk_signal_connect (GTK_OBJECT (state.back.back_color.custom), "clicked",
+			    GTK_SIGNAL_FUNC (cb_custom_back_selected),
+			    &state);
+
+	/* Setup the border images */
+	for (i = 0; (name = border_buttons[i]) != NULL; ++i) {
+		GtkWidget * tmp = init_button_image (gui, name);
+		if (tmp != NULL)
+			init_border_button (&state, i, tmp, i >= BORDER_HORIZ);
+	}
+
+	/* Get the current background
+	 * A pattern of 0 is has no background.
+	 * A pattern of 1 is a solid background
+	 * All others have 2 colours and a stipple
+	 */
+	has_back = FALSE;
+	selected = 1;
+	if (mstyle_is_element_set (mstyle, MSTYLE_PATTERN)) {
+		selected = mstyle_get_pattern (mstyle);
+		has_back = (selected != 0);
+	}
+
+	/* Setup pattern buttons & select the current pattern (or the 1st
+	 * if none is selected)
+	 * NOTE : This must be done AFTER the colour has been setup to
+	 * avoid having it erased by initialization.
+	 */
+	state.back.pattern.draw_preview = &draw_pattern_selected;
+	state.back.pattern.current_pattern = NULL;
+	state.back.pattern.state = &state;
+	for (i = 0; (name = pattern_buttons[i]) != NULL; ++i)
+		setup_pattern_button (gui, name, &state.back.pattern, TRUE,
+				      i+1, /* Pattern #s start at 1 */
+				      i+1 == selected);
+
+	/* If the pattern is 0 indicating no background colour
+	 * Set background to No colour.  This will set states correctly.
+	 */
+	if (!has_back)
+		gtk_toggle_button_set_active (state.back.back_color.autob,
+					      TRUE);
+
+	/* Setup the images in the border presets */
+	for (i = 0; (name = border_preset_buttons[i]) != NULL; ++i) {
+		GtkWidget * tmp = init_button_image (gui, name);
+		if (tmp != NULL) {
+			state.border.preset[i] = GTK_BUTTON (tmp);
+			gtk_signal_connect (GTK_OBJECT (tmp), "clicked",
+					    GTK_SIGNAL_FUNC (cb_border_preset_clicked),
+					    &state);
+			if (!state.is_multi && i == BORDER_PRESET_INSIDE)
+				gtk_widget_hide (tmp);
+		}
+	}
+
+	/* Draw the border preview */
+	draw_border_preview (&state);
+
+	/* Setup help */
+	gtk_signal_connect (GTK_OBJECT (dialog), "help",
+			    GTK_SIGNAL_FUNC (gnome_help_pbox_goto), &help_ref);
+
+	/* Handle apply */
+	gtk_signal_connect (GTK_OBJECT (dialog), "apply",
+			    GTK_SIGNAL_FUNC (cb_fmt_dialog_dialog_apply), &state);
+
+	/* Ok, edit events from now on are real */
+	state.enable_edit = TRUE;
+
+	/* Bring up the dialog */
+	res = gnome_dialog_run (GNOME_DIALOG (dialog));
+
+	/* If the user closed the dialog with prejudice, its already destroyed */
+	if (res >= 0)
+		gnome_dialog_close (GNOME_DIALOG (dialog));
 }
 
-/*
- * Main entry point for the Cell Format dialog box
- */
+/* Wrapper to ensure the libglade object gets removed on error */
 void
 dialog_cell_format (Workbook *wb, Sheet *sheet)
 {
-	static GnomeHelpMenuEntry help_ref = { "gnumeric", "formatting.html" };
-	GtkWidget     *prop_win;
-	GtkWidget     *focus_widgets [sizeof cell_format_pages/
-				     sizeof cell_format_pages[0]];
-	MStyle        *style;
-	int            i;
+	Range const *selection;
+	GladeXML    *gui;
+	MStyle      *mstyle;
+	gboolean     is_multi;
 
+	g_return_if_fail (wb != NULL);
 	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_assert (cell_format_prop_win == NULL);
 
-	style = sheet_selection_get_unique_style (sheet);
-	
-	prop_win = gnome_property_box_new ();
-	gnome_dialog_set_parent (GNOME_DIALOG (prop_win),
-				 GTK_WINDOW (wb->toplevel));
-	
-	for (i = 0; cell_format_pages [i].title; i++){
-		GtkWidget *page;
-
-		focus_widgets[i] = NULL;
-		page = (*cell_format_pages [i].create_page) 
-			(prop_win, style, &focus_widgets[i]);
-		gnome_property_box_append_page (
-			GNOME_PROPERTY_BOX (prop_win), page,
-			gtk_label_new (_(cell_format_pages [i].title)));
-
+	gui = glade_xml_new (GNUMERIC_GLADEDIR "/" GLADE_FILE , NULL);
+	if (!gui) {
+		g_warning ("Could not find " GLADE_FILE "\n");
+		return;
 	}
 
-	gtk_signal_connect (GTK_OBJECT (prop_win), "apply",
-			    GTK_SIGNAL_FUNC (cell_properties_apply), style);
-	gtk_signal_connect (GTK_OBJECT (prop_win), "help",
-			    GTK_SIGNAL_FUNC (gnome_help_pbox_goto), &help_ref);
-	
-	gtk_object_set_data (GTK_OBJECT (prop_win), "Sheet", sheet);
-	
-	gtk_signal_connect (GTK_OBJECT (prop_win), "destroy",
-			    GTK_SIGNAL_FUNC (cell_properties_close), NULL);
+	selection = selection_first_range (sheet);
+	is_multi = g_list_length (sheet->selections) != 1 ||
+	    !range_is_singleton (selection);
 
-	gtk_notebook_set_page (
-		GTK_NOTEBOOK (GNOME_PROPERTY_BOX(prop_win)->notebook),
-		cell_format_last_page_used);
+	mstyle = sheet_style_compute (sheet,
+				      selection->start.col,
+				      selection->start.row);
+	fmt_dialog_impl (sheet, mstyle, gui, is_multi);
 	
-	gtk_widget_show (prop_win);
-	if (focus_widgets [cell_format_last_page_used])
-		gtk_widget_grab_focus 
-			(focus_widgets [cell_format_last_page_used]);
-
-	gtk_grab_add (prop_win);
-
-	cell_format_prop_win = prop_win;
-	gtk_main ();
-	cell_format_prop_win = NULL;
+	gtk_object_unref (GTK_OBJECT (gui));
+	mstyle_unref (mstyle);
 }
+
+/*
+ * TODO 
+ *
+ * Translation to/from an MStyle.
+ * 	- border to
+ * 	- border from
+ *
+ * Formats : regexps to recognize parameterized formats (ie percent 4 decimals)
+ *           Generate formats from the dialogs.
+ * Double lines for borders
+ */

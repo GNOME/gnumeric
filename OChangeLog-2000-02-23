@@ -1,3 +1,39 @@
+1999-11-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialog/dialog-cell-format.c : Rewrite.
+
+	* src/item-grid.c (item_grid_paint_empty_cell) : First attempt to
+	  draw patterns correctly.  We'll move much of this into a new routine
+	  to be shared by non-empty cells if it works.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_realize) : move the patterns
+	  into their own file.
+
+	* src/pattern.[ch] : New file.
+
+	* src/mstyle.c (mstyle_new_default) : Do not set the pattern colour
+	  by default.
+
+1999-10-06  Jon K Hellan  <Jon.K.Hellan@item.ntnu.no>
+
+	* src/file.c
+	(workbook_import): Initial focus and selection in import dialog
+	(workbook_save_as): Specify the app as the parent.
+
+	* src/file.c
+	(workbook_read): Moved error message code to new
+	file_error_message procedure
+	(file_error_message): The procedure
+	(workbook_save, workbook_save_as): Notice failure to
+	save. Clean marking of sheet moved from xml-io.c to here.
+
+	* src/xml-io.c (xml_sheet_write, gnumeric_xml_read_sheet,
+	gnumeric_xml_write_sheet): 
+	Dirty/clean marking of sheet moved out.
+
+	* src/corba-workbook.c (Workbook_save_to): 
+	Mark saved sheet clean. FIXME: Failure to save still ignored.
+
 1999-11-03  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/sheet.c (sheet_insert_col, sheet_insert_row): fiddle styles.
