@@ -395,11 +395,13 @@ ms_obj_read_biff8_obj (BiffQuery *q, MSContainer *container, MSObj *obj)
 	 * but very careful in case it is not there.
 	 */
 	if (next_biff_record_maybe_imdata) {
-		guint16 opcode;
+		guint16 op;
 
-		if (ms_biff_query_peek_next (q, &opcode) &&
-		    opcode == BIFF_IMDATA) {
-			g_return_val_if_fail (ms_biff_query_next (q), TRUE);
+		if (ms_biff_query_peek_next (q, &op) && op == BIFF_IMDATA) {
+			ms_biff_query_next (q);
+			while (ms_biff_query_peek_next (q, &op) &&
+			       op == BIFF_CONTINUE)
+				ms_biff_query_next (q);
 		}
 	}
 

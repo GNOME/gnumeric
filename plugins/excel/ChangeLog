@@ -1,6 +1,12 @@
+2001-04-01  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-obj.c (ms_obj_read_biff8_obj) : when reading the mystery trailing
+	  IMDATA we need to handle CONTINUE.  We really need to figure out
+	  what this is.
+
 2001-04-01  Morten Welinder  <terra@diku.dk>
 
-	* ms-chart.c (BC): Fix prototype.
+	* ms-chart.c (register_handlers) : Fix prototype.
 
 	* gnumeric-chart.c (gnumeric_chart_new): Fix prototype.
 
