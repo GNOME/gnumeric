@@ -47,7 +47,7 @@
 /* Generic stuff **********************************************************/
 
 static scenario_t *
-find_scenario (GList *scenarios, gchar *name, gboolean *all_deleted)
+scenario_by_name (GList *scenarios, gchar *name, gboolean *all_deleted)
 {
 	scenario_t *s, *res = NULL;
  
@@ -78,7 +78,7 @@ scenario_show (WorkbookControl        *wbc,
 	scenario_t *s;
 	int        i, j, cols;
 
-	s = find_scenario (dao->sheet->scenarios, name, NULL);
+	s = scenario_by_name (dao->sheet->scenarios, name, NULL);
 	if (s == NULL)
 		return;
 
@@ -100,14 +100,46 @@ scenario_show (WorkbookControl        *wbc,
 /* Scenario: Add ***********************************************************/
 
 static scenario_t *
-scenario_new (gchar *name, gchar *comment)
+scenario_new (GList *scenarios, gchar *name, gchar *comment)
 {
 	scenario_t *s;
 
 	s = g_new (scenario_t, 1);
 
-	s->name           = name;
-	s->comment        = comment;
+	/* Check if a scenario having the same name already exists. */
+	if (scenario_by_name (scenarios, name, NULL)) {
+		GString *str;
+		gchar   *tmp;
+		int     i, j, len;
+
+		len = strlen (name);
+		if (len > 1 && name [len - 1] == ']') {
+			for (i = len - 2; i > 0; i--) {
+				if (! g_ascii_isdigit (name [i]))
+					break;
+			}
+
+			tmp = g_strdup (name);
+			if (i > 0 && name [i] == '[')
+				tmp [i] = '\0';
+		} else
+			tmp = g_strdup (name);
+
+		for (j = 1; j < 10000; j++) {
+			str = g_string_new (NULL);
+			g_string_append_printf (str, "%s [%d]",	tmp, j);
+			if (scenario_by_name (scenarios, str->str, NULL) ==
+			    NULL)
+				break;
+			g_string_free (str, FALSE);
+		}
+		s->name = g_strdup (str->str);
+		g_free (tmp);
+		g_string_free (str, FALSE);
+	} else
+		s->name           = g_strdup (name);
+
+	s->comment        = g_strdup (comment);
 	s->changing_cells = NULL;
 	s->cell_sel_str   = NULL;
 	s->marked_deleted = FALSE;
@@ -158,7 +190,7 @@ scenario_add_new (gchar *name,
 	int        cols, rows;
 	gboolean   res;
 
-	scenario = scenario_new (name, comment);
+	scenario = scenario_new (sheet->scenarios, name, comment);
 
 	res = collect_values (sheet, scenario, (ValueRange *) changing_cells);
 
@@ -262,7 +294,7 @@ scenario_mark_deleted (GList *scenarios, gchar *name)
 	scenario_t *s;
 	gboolean   all_deleted;
 
-	s = find_scenario (scenarios, name, &all_deleted);
+	s = scenario_by_name (scenarios, name, &all_deleted);
 	s->marked_deleted = TRUE;
 
 	return all_deleted;

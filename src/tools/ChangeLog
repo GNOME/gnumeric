@@ -1,5 +1,9 @@
 2003-04-16  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* scenarios.c (scenario_new): Make the name to be unique if it
+	isn't already.
+	(find_scenario): Renamed by scenario_find_by_name.
+	
 	* scenarios.c (scenario_add_new): Simplified the API.
 
 	* scenarios.c (find_scenario): API change to check the deletion

@@ -149,7 +149,8 @@ scenario_add_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 				   "overwrite the formula with it's current "
 				   "value."));
 
-
+	g_free (name);
+	g_free (comment);
 	gtk_widget_destroy (state->dialog);
  out:
 	value_release (cell_range);

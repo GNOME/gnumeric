@@ -849,9 +849,9 @@ solver_add_scenario (SolverState *state, SolverResults *res, gchar *name)
 	input_range = gnm_expr_entry_parse_as_value (state->change_cell_entry,
 						     state->sheet);
 
-	scenario_add_new (g_strdup (name), input_range,
+	scenario_add_new (name, input_range,
 			  g_strdup (state->sheet->solver_parameters->input_entry_str),
-			  g_strdup (comment), state->sheet);
+			  comment, state->sheet);
 }
 
 /**
