@@ -571,7 +571,7 @@ value_from_python (PyObject *o, EvalPos const *pos)
 	if (o == Py_None) {
 		v = value_new_empty ();
 	} else if (PyInt_Check (o)){
-		v = value_new_int ((gnum_int) PyInt_AsLong (o));
+		v = value_new_int ((int) PyInt_AsLong (o));
 	} else if (PyFloat_Check (o)) {
 		v = value_new_float ((gnum_float) PyFloat_AsDouble (o));
 	} else if (PyString_Check (o)) {
