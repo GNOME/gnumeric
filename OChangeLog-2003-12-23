@@ -1,3 +1,11 @@
+2001-10-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (cb_file_quit) :
+	(workbook_close_if_user_permits) : optionally avoid closing pristine
+	  books.  Return more state info to handle cancel vs closed vs can
+	  close.
+	(wbcg_close_control) : keep it simple.
+
 2001-10-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/colrow.c (colrow_visibility) : we stop wither at the edge, or 1

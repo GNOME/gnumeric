@@ -1200,11 +1200,17 @@ static char const * const preset_zoom [] = {
  * workbook_close_if_user_permits : If the workbook is dirty the user is
  *  		prompted to see if they should exit.
  *
- * Returns : TRUE is the book remains open.
- *           FALSE if it is closed.
+ * Returns :
+ * 0) canceled
+ * 1) closed
+ * 2) pristine can close
+ * TODO 
+ * 3) save any future dirty
+ * 4) do not save any future dirty
  */
 static gboolean
-workbook_close_if_user_permits (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
+workbook_close_if_user_permits (WorkbookControlGUI *wbcg,
+				WorkbookView *wb_view, gboolean close_clean)
 {
 	gboolean   can_close = TRUE;
 	gboolean   done      = FALSE;
@@ -1213,6 +1219,9 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	static int in_can_close;
 
 	g_return_val_if_fail (IS_WORKBOOK (wb), TRUE);
+
+	if (!close_clean && !workbook_is_dirty (wb))
+		return 2;
 
 	if (in_can_close)
 		return FALSE;
@@ -1249,7 +1258,6 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 			break;
 
 		case 1: /* NO */
-			can_close = TRUE;
 			done      = TRUE;
 			workbook_set_dirty (wb, FALSE);
 			break;
@@ -1266,9 +1274,9 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 
 	if (can_close) {
 		workbook_unref (wb);
-		return FALSE;
+		return 1;
 	} else
-		return TRUE;
+		return 0;
 }
 
 /*
@@ -1300,7 +1308,7 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 
 		/* This is the last view */
 		if (wb->wb_views->len <= 1)
-			return workbook_close_if_user_permits (wbcg, wb_view);
+			return workbook_close_if_user_permits (wbcg, wb_view, TRUE) != 0;
 
 		gtk_object_unref (GTK_OBJECT (wb_view));
 	} else
@@ -1472,7 +1480,8 @@ static void
 cb_file_quit (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	GList *ptr, *workbooks;
+	GList *ptr, *workbooks, *clean_no_closed = NULL;
+	gboolean ok = TRUE;
 
 	/* If we are still loading initial files, short circuit */
 	if (!initial_workbook_open_complete) {
@@ -1486,7 +1495,7 @@ cb_file_quit (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	/* list is modified during workbook destruction */
 	workbooks = g_list_copy (application_workbook_list ());
 
-	for (ptr = workbooks; ptr != NULL ; ptr = ptr->next) {
+	for (ptr = workbooks; ok && ptr != NULL ; ptr = ptr->next) {
 		Workbook *wb = ptr->data;
 		WorkbookView *wb_view;
 
@@ -1496,11 +1505,22 @@ cb_file_quit (GtkWidget *widget, WorkbookControlGUI *wbcg)
 		if (wb_control_workbook (wbc) == wb)
 			continue;
 		wb_view = g_ptr_array_index (wb->wb_views, 0);
-		workbook_close_if_user_permits (wbcg, wb_view);
+		switch (workbook_close_if_user_permits (wbcg, wb_view, FALSE)) {
+		case 0 : ok = FALSE;	/* canceled */
+			break;
+		case 1 :		/* closed */
+			break;
+		case 2 : clean_no_closed = g_list_prepend (clean_no_closed, wb);
+		};
 	}
-	workbook_close_if_user_permits (wbcg, wb_control_view (wbc));
+
+	/* only close pristine books if nothing was canceled. */
+	if (ok && workbook_close_if_user_permits (wbcg, wb_control_view (wbc), TRUE) > 0)
+		for (ptr = clean_no_closed; ptr != NULL ; ptr = ptr->next)
+			workbook_unref (ptr->data);
 
 	g_list_free (workbooks);
+	g_list_free (clean_no_closed);
 }
 
 /****************************************************************************/
