@@ -26,12 +26,14 @@
   <!ENTITY data-overview        SYSTEM "data-overview.xml">
   <!ENTITY data-types           SYSTEM "data-types.xml">
   <!ENTITY data-entry           SYSTEM "data-entry.xml">
+  <!ENTITY data-entry-adv       SYSTEM "data-entry-advanced.xml">
   <!ENTITY data-selections      SYSTEM "data-selections.xml">
   <!ENTITY data-move-copy       SYSTEM "data-move-copy.xml">
   <!ENTITY data-delete          SYSTEM "data-delete.xml">
   <!ENTITY data-insert          SYSTEM "data-insert.xml">
   <!ENTITY data-format          SYSTEM "data-format.xml">
   <!ENTITY data-modify          SYSTEM "data-modify.xml">
+  <!ENTITY data-generate        SYSTEM "data-generate.xml">
   <!ENTITY data-commentNlink    SYSTEM "data-commentNlink.xml">
 
   <!ENTITY f-worksheets         SYSTEM "worksheets.xml">
@@ -408,12 +410,14 @@
     &data-overview;
     &data-types;
     &data-entry;
+    &data-entry-adv;
     &data-selections;
     &data-move-copy;
     &data-delete;
     &data-insert;
     &data-format;
     &data-modify;
+    &data-generate;
     &data-commentNlink;
 
   </chapter>

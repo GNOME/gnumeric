@@ -1,5 +1,10 @@
 2003-07-09 Adrian Custer <acuster@nature.berkeley.edu>
 
+	* Split data-entry-advanced from data-entry
+	* Add data-generate.xml
+
+2003-07-09 Adrian Custer <acuster@nature.berkeley.edu>
+
 	* Added README
 
 2003-07-07 Adrian Custer <acuster@nature.berkeley.edu>

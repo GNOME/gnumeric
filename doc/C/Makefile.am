@@ -24,8 +24,10 @@ entities =  about-authors.xml \
      data-delete.xml \
      data-insert.xml \
      data-entry.xml \
+     data-entry-advanced.xml \
      data-format.xml \
      data-modify.xml \
+     data-generate.xml \
      data-move-copy.xml \
      data-overview.xml \
      data-selections.xml \

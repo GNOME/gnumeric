@@ -1,0 +1,399 @@
+<sect1 id="sect-dataentryadv">
+  <title>Advanced Data Entry.</title>
+
+  <para>
+    This section describes advanced methods for data entry in
+    <application>Gnumeric</application>. This includes techniques
+    useful when adding large amounts of data, methods to automatically
+    catch mistakes during data entry, using pre-defined templates to
+    format data input, obtaining data from external sources and
+    generating sequences of random numbers with defined distributions.
+  </para>
+
+  <sect2 id="sect-dataentryadv-large">
+    <title>Entering Large Quantities of Data</title>
+
+    <para>
+      It is sometimes necessary to enter large amounts of data by hand
+      into a spreadsheet. To facilitate this work,
+      <application>Gnumeric</application> provides several techniques
+      to facilitate the entry of large amounts of data.
+    </para>
+
+    <para>
+      If data are to be entered into a series of rows or columns, this
+      region can be selected ahead of time thereby modifying the
+      behaviour of the data entry keys (the <keysym>Enter</keysym>,
+      <keysym>Tab</keysym> and arrow keys).
+    </para>
+
+    <procedure>
+      <title>Data entry into a region</title>
+
+        <step>
+          <para>
+            Select the region with the mouse. For example, the region
+            from cell C4 to cell E8 can be selected by clicking with
+            the left mouse button on cell C4 and dragging the mouse
+            cursor to cell E8. (More information on complex selections
+            is presented below.)
+          </para>
+        </step>
+
+        <step>
+          <para>
+            Enter data by typing the data and the the
+            <keysym>Enter</keysym> key. If this is done repeatedly,
+            the fifth time the <keysym>Enter</keysym> key is pressed,
+            the selection will not move to cell C9 but will jump up to
+            cell D4.
+          </para>
+        </step>
+
+    </procedure>
+
+    <note>
+      <para>
+        The <keysym>Tab</keysym> key can also be used instead of the
+        <keysym>Enter</keysym> key to move sequentially through the
+        selection.
+      </para>
+    </note>
+
+  </sect2>
+
+
+
+
+  <sect2 id="sect-dataentryadv-series">
+    <title>Entering a Regular Sequence</title>
+
+        <para>
+          It is often necessary to enter a regular sequence of numbers
+          or a repeated sequence of
+          text. <application>Gnumeric</application> provides several
+          ways to input series and sequences of this kind.
+        </para>
+
+        <para>
+          The simplest way to fill a series with the same element
+          repeated involves entering the element once and dragging the
+          selection box to fill that element repeatedly. For example,
+          the text "employee:" could be input into cell C2. That cell
+          could then be selected. The selection box is a thick white
+          rectangle which surrounds the cell. This selection box has a
+          small white square at the bottom right hand corner. If the
+          mouse cursor is placed above this square box, it changes to
+          a thin cross. If the left hand mouse button is clicked and
+          held, and the mouse dragged to cell C10,
+          <application>Gnumeric</application> will automatically fill
+          all of the cells with the identical string.
+        </para>
+
+        <para>
+          An alternative way to enter data into a region involves
+          first selecting the region, then typing the value and
+          finally typing the
+          <keycombo><keysym>Ctrl</keysym><keysym>Enter</keysym></keycombo>
+          key combination. This will fill the whole region with the
+          identical value which was originally entered.
+        </para>
+
+        <para>
+          A similar method is available to fill sequences of
+          integers. If the example just given was altered so that cell
+          C2 had the number 14 and the <keysym>Ctrl</keysym> key was
+          held during the dragging of the selection,
+          <application>Gnumeric</application> will automatically fill
+          the cells C2 to C10 with the series 14,15,16,...,22.
+        </para>
+
+        <para>
+          More complex series and sequences of data can be entered
+          with a similar mechanism. 
+        </para>
+
+        <para>
+          To do an autofill:
+        </para>
+
+        <procedure>
+	<step>
+	  <para>
+	    Enter a value into the first cell you wish to
+	    autofill. For example, the cell C2 could have the number
+	    "24" entered.
+	  </para>
+	</step>
+
+	<step>
+	  <para>
+	    Enter a second value into the second cell you wish to
+	    autofill. This must be adjacent to the first cell. This
+	    sets the increment to use when autofilling the rest of
+	    your cells. For example, the cell D2 could have the number
+	    "28" entered.
+	  </para>
+	</step>
+
+	<step>
+	  <para>
+	    Select both the cells just entered. At the bottom-right of
+	    the selection should be a small box. Your mouse cursor
+	    will change to a cross-hair when placed over the box.
+	    Press and hold on the box. Drag in the direction, either
+	    vertical or horizonatal, you wish to increment and release
+	    when all the cells are filled. For example, selecting
+	    cells C2 and D2, then dragging the bottom right of the
+	    selection to cell I2 will fill the cells with the sequence
+	    from 24 to 48 with each increment being 4.
+	  </para>
+	</step>
+        </procedure>
+
+        <para>
+          An alternative to the last step involves using the
+          menus. Once the first two values have been input, the whole
+          range to be filled can be selected using the mouse and then
+          the <guimenuitem>Autofill</guimenuitem> selection can be
+          made from the <guimenu>Edit</guimenu> and
+          <guisubmenu>Fill</guisubmenu>. This will automatically
+          complete the series in the selected region.
+        </para>
+
+
+        <para>
+	  <application>Gnumeric</application> is able to increment
+	  several types of data beyond simple integers. The proceedure
+	  is the same as described above but involves different
+	  starting values. <application>Gnumeric</application> can
+	  increment:
+	<variablelist>
+	  <varlistentry>
+	    <term>Integers</term>
+	    <listitem>
+	      <para>
+		1, 2, 3, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Natural Numbers</term>
+	    <listitem>
+	      <para>
+		1.03, 2.05, 3.07, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Weekday Names</term>
+	    <listitem>
+	      <para>
+		Monday, Tuesday, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Weekday Abbreviations</term>
+	    <listitem>
+	      <para>
+		Mon, Tues, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Month Names</term>
+	    <listitem>
+	      <para>
+		January, February, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Month Abbreviations</term>
+	    <listitem>
+	      <para>
+		Jan, Feb, etc.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Strings with Numbers</term>
+	    <listitem>
+	      <para>
+		Item1, Item2, etc
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Dates</term>
+	    <listitem>
+	      <para>
+		11/14/2001, 11/15/2001, etc.
+	      </para>
+	      <para>
+		<application>Gnumeric</application> supports
+		incrementing the date by month, date, or year.
+	      </para>
+		<para>
+		  Note that, While <application>Gnumeric</application>
+		  will increment days of the month, if you do
+		  11/14/2001 and 12/14/2001, it will recognize it as
+		  the same day of the month and increment the month so
+		  the next value would be to 1/14/2002 instead of the
+		  day difference.
+		</para>
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
+        </para>
+
+        <para>
+          <application>Gnumeric</application> can be explicitly told
+          the cells to autofill as in the examples above, but it can
+          also guess the number of cells to fill based on the length
+          of an adjacent column or row. For example, if the cells B2
+          to B10 have information and cell C2 has the integer value
+          "1", then selecting cell C2 and double clicking on the
+          bottom rightmost box of the selection rectangle will fill
+          the value "1" from cell C3 to cell C10.
+        </para>
+
+  </sect2>
+
+
+
+
+
+  <sect2 id="sect-dataentryadv-autocorrect">
+    <title>Automatically Correcting Simple Mistakes</title>
+
+    <para>
+      The entry of large amounts of data into a spreadsheet is tedious
+      work which is prone to repeated
+      mistakes. <application>Gnumeric</application> provides a tool to
+      automatically correct commonly made simple mistakes. The
+      corrections are configured and activated using AutoCorrect
+      Dialog, available via <guimenuitem>Auto Correct</guimenuitem> in
+      the <guimenu>Tools</guimenu> menu.
+    </para>
+
+       <figure id="fig-autocorrect-figure">
+         <title>The Auto Correct dialog.</title>
+         <screenshot>
+           <mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/dialog-auto-correct.png" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of the auto-correct dialog.</phrase>
+            </textobject>
+           </mediaobject>
+         </screenshot>
+       </figure>
+
+  <sect3 id="sect-dataentryadv-autocorrect-init-caps">
+     <title>Correct TWo INitial CApitals</title>
+
+     <para>A common mistake is to hold down the shift key a little bit
+     too long while typing initial letters.  When it happens, you will
+     get two initial capitals instead of one.  If this correction rule
+     is activated, the second letter of words beginning with two
+     capital letters is automatically lowercased.  For example, if you
+     type `TOtal' into a cell it is replaced by `Total'.  Note that if
+     the word contains two capital letters only, it is not
+     replaced.</para>
+
+     <para>It is possible to specify exceptions to this tool.  For
+     example, you do not want the tool to replace the word `PVbonds'
+     when it is typed.  To specify exceptions, press the
+     ``Exceptions...''  button in the dialog.  This should pop up the
+     ``Auto correct exceptions'' dialog.  In this dialog, select the
+     ``INitial CApitals'' page.  In this page, type `PVbonds' into the
+     ``Do not correct'' entry, and press ``Add'' button.  Now the word
+     should be included in the list of exceptions.  To remove a word
+     from the list, select the word and press the ``Remove'' button.
+     If you now press ``Ok'' the exceptions in the list are
+     activated.</para>
+
+  </sect3>
+
+  <sect3 id="sect-dataentryadv-autocorrect-first-letter">
+     <title>Capitalize the First Letter of Sentences</title>
+
+     <para>If this correction rule is activated, the first letter of a
+     sentence typed into a cell is capitalized, if it is a lowercase
+     letter in the first place.  Only text that ends to a dot is
+     considered a sentence.</para>
+
+     <para>It is possible to specify exceptions to this tool.  For
+     example, you do not want the tool to capitalize letters after
+     acronym `i.g.'.  To specify exceptions, press the
+     ``Exceptions...''  button in the dialog.  This should pop up the
+     ``Auto correct exceptions'' dialog.  In this dialog, select the
+     ``First letter'' page.  In this page, type `i.g.' into the ``Do
+     not capitalize after'' entry, and press ``Add'' button.  Now the
+     word should be included in the list of exceptions.  To remove a
+     word from the list, select the word and press the ``Remove''
+     button.  If you now press ``Ok'' the exceptions in the list are
+     activated.</para>
+
+  </sect3>
+
+  <sect3 id="sect-dataentryadv-autocorrect-cap-days">
+     <title>Capitalize the Names of Days</title>
+
+     <para>If this correction rule is activated, the first letter of a
+     name of a day is capitalized automatically.  For example, if you
+     type `monday', it is automatically replaced by `Monday'.</para>
+  </sect3>
+
+
+  </sect2>
+
+
+
+
+
+  <sect2 id="sect-dataentryadv-external">
+    <title>Obtaining Data from External Sources</title>
+
+      <para>
+        Data are commonly obtained from external sources such as other
+        spreadsheeets or other applications. Data can be obtained from
+        other <application>Gnumeric</application> workbooks or other
+        applications using the mouse to copy data and paste them into
+        a worksheet as is explained in <xref
+        linkend="sect-movecopy-xclipboard" />. Data can also be
+        imported from external files as is explained in <xref
+        linkend="sect-files-openimport" /> and then copied and
+        pasted into the current worksheet with the copy and paste
+        commands as explained in <xref
+        linkend="sect-movecopy-cutandpaste" />.
+      </para>
+
+    </sect2>
+
+
+  <sect2 id="sect-dataentryadv-templates">
+    <title>Using a Format Template</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+   </sect2>
+
+
+  <sect2 id="sect-dataentryadv-random">
+    <title>Generating Random Number Sequences</title>
+
+    <para>
+      This section has not yet been written.
+    </para>
+
+   </sect2>
+
+
+</sect1>
+
