@@ -218,6 +218,16 @@ fill_item_destroy (FillItem *fi)
 	g_free (fi);
 }
 
+static gboolean
+str_contains (char const *str, char c)
+{
+	char const *tmp;
+	for (tmp = str ; (tmp = strchr (tmp, 'd')) != NULL ; )
+		if (tmp == str || tmp[-1] != '\\')
+			return TRUE;
+	return FALSE;
+}
+
 static FillItem *
 fill_item_new (Cell *cell)
 {
@@ -257,19 +267,14 @@ fill_item_new (Cell *cell)
 			/* FIXME : We need better format classification that this.
 			 * the XL format is crap.  redo it.
 			 */
-			if (family == FMT_DATE) {
-				char *tmp;
-				for (tmp = fmt ; (tmp = strchr (tmp, 'd')) != NULL ; )
-					if (tmp == fmt || tmp[-1] != '\\')
-						break;
-				/* No days */
-				if (tmp == NULL) {
-					for (tmp = fmt ; (tmp = strchr (tmp, 'm')) != NULL ; )
-						if (tmp == fmt || tmp[-1] != '\\')
-							break;
-					/* No months either */
-					fill = (tmp == NULL) ? FILL_YEARS : FILL_MONTHS;
-				}
+
+			/* No days */
+			if (family == FMT_DATE &&
+			    !(str_contains (fmt, 'd') || str_contains (fmt, 'D'))) {
+
+			    /* No months either */
+			    fill = (str_contains (fmt, 'm') || str_contains (fmt, 'M'))
+				? FILL_MONTHS : FILL_YEARS;
 			}
 			g_free (fmt);
 		}
