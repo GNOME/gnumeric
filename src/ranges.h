@@ -31,6 +31,7 @@ gboolean    range_is_singleton (Range const *r);
 gboolean    range_equal        (Range const *a, Range const *b);
 gboolean    range_overlap      (Range const *a, Range const *b);
 gboolean    range_contains     (Range const *range, int col, int row);
+gboolean    range_adjacent     (Range const *a, Range const *b);
 void        range_dump         (Range const *src);
 Range      *range_duplicate    (Range const *src);
 GList      *range_fragment     (GList *ranges);

@@ -26,6 +26,48 @@
 #include "mstyle.h"
 
 /**
+ * sheet_style_optimize:
+ * @sheet: The sheet
+ * @range: The range containing optimizable StyleRegions.
+ * 
+ * This routine merges similar styles in the Range.
+ * since this function is not only slow, but memory
+ * intensive it should be used wisely & sparingly and
+ * over small ranges.
+ * 
+ **/
+void
+sheet_style_optimize (Sheet *sheet, Range range)
+{
+	GList *l;
+	GList *style_list;
+
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	g_warning ("implement the sheet style optimizer");
+
+	style_list = NULL;
+ 	/* Look in the styles applied to the sheet */
+	for (l = sheet->style_list; l; l = l->next) {
+		StyleRegion *sr = l->data;
+		if (range_overlap (&sr->range, &range))
+			style_list = g_list_prepend (style_list,
+						     sr->style);
+	}
+	/* See if any are adjacent to each other */
+	for (l = style_list; l; l = l->next) {
+		GList *a;
+		for (a = l->next; a; a = a->next) {
+			if (range_adjacent (l->data, a->data) {
+				/* We need to compare MStyleElements's quickly: hash ? */
+				/* If equal we need to merge up */
+			}
+		}
+	}
+}
+
+/**
  * sheet_style_attach:
  * @sheet: The sheet to attach to
  * @range: the range to attach to
@@ -201,7 +243,7 @@ sheet_selection_get_uniq_style (Sheet *sheet)
 	   this is a nightmare so, instead get duplicate culling perfect */
 
 	style_list = NULL;
-	/* Look in the styles applied to the sheet */
+ 	/* Look in the styles applied to the sheet */
 	for (l = sheet->style_list; l; l = l->next) {
 		StyleRegion *sr = l->data;
 		if (range_overlap (&sr->range, range)) {

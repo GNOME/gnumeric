@@ -1,5 +1,9 @@
 1999-10-09  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/sheet-style.c (sheet_style_optimize): hack.
+
+	* src/ranges.c (range_adjacent): implement.
+
 	* src/sheet.c (sheet_cell_add): Kill complexity: sorted.
 
 	* src/cell.c (cell_get_span): Fixup.

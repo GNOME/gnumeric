@@ -252,8 +252,46 @@ range_contains (Range const *range, int col, int row)
 	return FALSE;
 }
 
+/**
+ * range_adjacent:
+ * @a: First range
+ * @b: Second range
+ * 
+ * Detects whether a range of similar size is adjacent
+ * to the other range. Similarity is determined by having
+ * a shared side of equal length. NB. this will clearly
+ * give odd results for overlapping regions.
+ * 
+ * Return value: if they share a side of equal length
+ **/
+gboolean
+range_adjacent (Range const *a, Range const *b)
+{
+	int adx = a->end.col - a->start.col;
+	int bdx = b->end.col - b->start.col;
+	int ady = a->end.row - a->start.row;
+	int bdy = b->end.row - b->start.row;
+
+	if ((a->start.col == b->start.col) &&
+	    (a->end.col   == b->end.col)) {
+		if (a->end.row + 1 == b->start.row ||
+		    b->end.row + 1 == a->start.row)
+			return TRUE;
+		else
+			return FALSE;
+	} else if ((a->start.row == b->start.row) &&
+	    (a->end.row   == b->end.row)) {
+		if (a->end.col + 1 == b->start.col ||
+		    b->end.col + 1 == a->start.col)
+			return TRUE;
+		else
+			return FALSE;
+	}
+	return FALSE;
+}
+
 void
-range_dump (Range const * src)
+range_dump (Range const *src)
 {
 	/* keep these as 2 print statements, because
 	 * col_name uses a static buffer */
