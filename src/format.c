@@ -26,11 +26,11 @@
 #include <string.h>
 #include <time.h>
 #include <math.h>
-#include "gnumeric.h"
-#include "format.h"
-#include <glib.h>
 #include <libgnome/lib_date.h>
 #include <locale.h>
+#include "gnumeric.h"
+#include "format.h"
+#include "dates.h"
 
 /* Points to the locale information for number display */
 static struct lconv *lc;
@@ -56,60 +56,6 @@ static void style_entry_free (gpointer data, gpointer user_data);
  * supported.  
  */
 
-
-static char *day_short [] =
-{
-	N_("Sun"),
-	N_("Mon"),
-	N_("Tue"),
-	N_("Wed"),
-	N_("Thu"),
-	N_("Fri"),
-	N_("Sat")
-};
-
-static char *day_long [] =
-{
-	N_("Sunday"),
-	N_("Monday"),
-	N_("Tuesday"),
-	N_("Wednesday"),
-	N_("Thursday"),
-	N_("Friday"),
-	N_("Saturday")
-};
-
-static char *month_short [] =
-{
-	N_("Jan"),
-	N_("Feb"),
-	N_("Mar"),
-	N_("Apr"),
-	N_("May"),
-	N_("Jun"),
-	N_("Jul"),
-	N_("Aug"),
-	N_("Sep"),
-	N_("Oct"),
-	N_("Nov"),
-	N_("Dec")
-};
-
-static char *month_long [] =
-{
-	N_("January"),
-	N_("February"),
-	N_("March"),
-	N_("April"),
-	N_("May"),
-	N_("June"),
-	N_("July"),
-	N_("August"),
-	N_("September"),
-	N_("October"),
-	N_("November"),
-	N_("December")
-};
 
 static void
 do_roundup (GString *string)
@@ -783,8 +729,6 @@ format_number (gdouble number, StyleFormatEntry *style_format_entry)
 			can_render_number = 1;
 			if (info.decimal_separator_seen)
 				info.right_optional++;
-			else
-				;
 			break;
 			
 		case '?':

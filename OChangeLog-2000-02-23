@@ -1,5 +1,8 @@
 1998-09-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/format.c (append_day, append_month): Skip the -now included-
+	start at the begining for internationalization purposes.
+
 	* src/sheet-autofill.c (matches_list): Allow the lists to include
 	an asterisk to be able to distinguish between abbreviations and
 	full descriptions.

@@ -595,7 +595,7 @@ alloc_glist (GList *list)
 }
 
 static void
-forget (int type, void *data)
+forget (AllocType type, void *data)
 {
 	GList *l;
 

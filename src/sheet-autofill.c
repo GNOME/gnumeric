@@ -19,6 +19,7 @@
 #include <ctype.h>
 #include "gnumeric.h"
 #include "sheet-autofill.h"
+#include "dates.h"
 
 typedef enum {
 
@@ -590,52 +591,13 @@ sheet_autofill_dir (Sheet *sheet,
 	workbook_recalc (sheet->workbook);
 }
 
-static char *months [] = {
-	N_("January"),
-	N_("February"),
-	N_("March"),
-	N_("April"),
-	N_("May"),
-	N_("June"),
-	N_("July"),
-	N_("August"),
-	N_("September"),
-	N_("October"),
-	N_("November"),
-	N_("December"),
-	NULL
-};
-
-static char *short_months [] = {
-	N_("*Jan"), N_("*Feb"), N_("*Mar"), N_("*Apr"),
-	N_("*May"), N_("*Jun"), N_("*Jul"), N_("*Aug"),
-	N_("*Sep"), N_("*Oct"), N_("*Nov"), N_("*Dec"),
-	NULL
-};
-
-static char *weekdays [] = {
-	N_("Monday"),
-	N_("Tuesday"),
-	N_("Wednesday"),
-	N_("Thursday"),
-	N_("Friday"),
-	N_("Saturday"),
-	N_("Sunday"),
-	NULL
-};
-
-static char *short_weekdays [] = {
-	N_("*Mon"), N_("*Tue"), N_("*Wed"), N_("*Thu"),
-	N_("*Fri"), N_("*Sat"), N_("*Sun"), NULL
-};
-
 static void
 autofill_init (void)
 {
-	autofill_register_list (months);
-	autofill_register_list (weekdays);
-	autofill_register_list (short_months);
-	autofill_register_list (short_weekdays);
+	autofill_register_list (day_short);
+	autofill_register_list (day_long);
+	autofill_register_list (month_short);
+	autofill_register_list (month_long);
 }
 
 /*

@@ -1,0 +1,100 @@
+/*
+ * formats.c: The default formats supported in Gnumeric
+ *
+ * Author:
+ *    Miguel de Icaza (miguel@kernel.org)
+ */
+#include <config.h>
+#include <gnome.h>
+#include "formats.h"
+
+/* The various formats */
+char *cell_format_numbers [] = {
+	N_("General"),
+	N_("0"),
+	N_("0.00"),
+	N_("#,##0"),
+	N_("#,##0.00"),
+	N_("#,##0_);(#,##0)"),
+	N_("#,##0_);[red](#,##0)"),
+	N_("#,##0.00_);(#,##0.00)"),
+	N_("#,##0.00_);[red](#,##0.00)"),
+	N_("0.0"),
+	NULL
+};
+
+char *cell_format_accounting [] = {
+	N_("_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"),
+	N_("_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"),
+	N_("_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"),
+	N_("_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"),
+	NULL
+};
+
+char *cell_format_date [] = {
+	N_("m/d/yy"),
+	N_("m/d/yyyy"),
+	N_("d-mmm-yy"),
+	N_("d-mmm-yyyy"),
+	N_("d-mmm"),
+	N_("d-mm"),
+	N_("d/mmm"),
+	N_("d/mm"),
+	N_("dd/mm/yy"),
+	N_("dd/mm/yyyy"),
+	N_("dd/mmm/yy"),
+	N_("dd/mmm/yyyy"),
+	N_("ddd/mmm/yy"),
+	N_("ddd/mmm/yyyy"),
+	N_("ddd/mm/yy"),
+	N_("ddd/mm/yyyy"),
+	N_("mmm-yy"),
+	N_("mmm-yyyy"),
+	N_("m/d/yy h:mm"),
+	N_("m/d/yyyy h:mm"),
+	NULL
+};
+
+char *cell_format_hour [] = {
+	N_("h:mm AM/PM"),
+	N_("h:mm:ss AM/PM"),
+	N_("h:mm"),
+	N_("h:mm:ss"),
+	N_("m/d/yy h:mm"),
+	N_("mm:ss"),
+	N_("mm:ss.0"),
+	N_("[h]:mm:ss"),
+	NULL
+};
+
+char *cell_format_percent [] = {
+	N_("0%"),
+	N_("0.00%"),
+	NULL,
+};
+
+char *cell_format_fraction [] = {
+	N_("# ?/?"),
+	N_("# ??/??"),
+	NULL
+};
+
+char *cell_format_scientific [] = {
+	N_("0.00E+00"),
+	N_("##0.0E+0"),
+	NULL
+};
+
+char *cell_format_text [] = {
+	"@",
+	NULL,
+};
+
+char *cell_format_money [] = {
+	N_("$#,##0_);($#,##0)"),
+	N_("$#,##0_);[red]($#,##0)"),
+	N_("$#,##0.00_);($#,##0.00)"),
+	N_("$#,##0.00_);[red]($#,##0.00)"),
+	NULL,
+
+};

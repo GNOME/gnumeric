@@ -2,7 +2,7 @@
 # 	-Wshadow             -Wpointer-arith  	\
 # 	-Wmissing-prototypes -Wmissing-declarations 
 
-bin_PROGRAMS = gnumeric
+bin_PROGRAMS = gnumeric number-match
 
 INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
@@ -21,6 +21,8 @@ GNUMERIC_BASE_SOURCES =			\
 	color.h				\
 	cursors.c			\
 	cursors.h			\
+	dates.c				\
+	dates.h				\
 	dialog-cell-format.c		\
 	dialog-goto-cell.c		\
 	dialog-insert-cells.c		\
@@ -35,6 +37,8 @@ GNUMERIC_BASE_SOURCES =			\
 	expr.c				\
 	expr.h				\
 	file.c				\
+	formats.h			\
+	formats.c			\
 	func.c				\
 	func.h				\
 	fn-date.c			\
@@ -125,3 +129,12 @@ dist-hook:
 	cp $(srcdir)/pixmaps/*.xpm $(distdir)/pixmaps
 
 EXTRA_DIST = Gnumeric.idl
+
+number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
+
+
+number_match_LDADD = 			\
+	$(GNOME_LIBDIR) 		\
+	$(GNOMEUI_LIBS)			\
+	$(GNOME_XML_LIB) 		\
+	$(INTLLIBS)

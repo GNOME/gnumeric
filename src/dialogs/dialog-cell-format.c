@@ -12,6 +12,7 @@
 #include "gnumeric-sheet.h"
 #include "dialogs.h"
 #include "format.h"
+#include "formats.h"
 #include "pattern-selector.h"
 
 /* The main dialog box */
@@ -57,82 +58,6 @@ make_radio_notify_change (GSList *list, GtkWidget *prop_win)
 				    GTK_SIGNAL_FUNC (prop_modified), prop_win);
 	}
 }
-
-/* The various formats */
-static char *cell_format_numbers [] = {
-	N_("General"),
-	"0",
-	"0.00",
-	"#,##0",
-	"#,##0.00",
-	"#,##0_);(#,##0)",
-	"#,##0_);[red](#,##0)",
-	"#,##0.00_);(#,##0.00)",
-	"#,##0.00_);[red](#,##0.00)",
-	"0.0",
-	NULL
-};
-
-static char *cell_format_accounting [] = {
-	"_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)",
-	"_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)",
-	"_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)",
-	"_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)",
-	NULL
-};
-
-static char *cell_format_date [] = {
-	"m/d/yy",
-	"d-mmm-yy",
-	"d-mmm",
-	"mmm-yy",
-	"m/d/yy h:mm",
-	NULL
-};
-
-static char *cell_format_hour [] = {
-	"h:mm AM/PM",
-	"h:mm:ss AM/PM",
-	"h:mm",
-	"h:mm:ss",
-	"m/d/yy h:mm",
-	"mm:ss",
-	"mm:ss.0",
-	"[h]:mm:ss",
-	NULL
-};
-
-static char *cell_format_percent [] = {
-	"0%",
-	"0.00%",
-	NULL,
-};
-
-static char *cell_format_fraction [] = {
-	"# ?/?",
-	"# ??/??",
-	NULL
-};
-
-static char *cell_format_scientific [] = {
-	"0.00E+00",
-	"##0.0E+0",
-	NULL
-};
-
-static char *cell_format_text [] = {
-	"@",
-	NULL,
-};
-
-static char *cell_format_money [] = {
-	"$#,##0_);($#,##0)",
-	"$#,##0_);[red]($#,##0)",
-	"$#,##0.00_);($#,##0.00)",
-	"$#,##0.00_);[red]($#,##0.00)",
-	NULL,
-
-};
 
 static struct {
 	char *name;
