@@ -245,10 +245,15 @@ sheet_object_graph_set_sheet (SheetObject *so, Sheet *sheet)
 static void
 sheet_object_graph_default_size (SheetObject const *so, double *w, double *h)
 {
+#ifdef NEW_GRAPHS
 	g_object_get (G_OBJECT (SHEET_OBJECT_GRAPH (so)->graph),
 		"width_pts", w,
 		"height_pts", h,
 		NULL);
+#else
+	*w = 200;
+	*h = 200;
+#endif
 }
 
 static void
