@@ -5,6 +5,9 @@ AM_INIT_AUTOMAKE(gnumeric,0.52)
 AM_MAINTAINER_MODE
 AM_ACLOCAL_INCLUDE(macros)
 
+# Make --disable-static the default
+AC_DISABLE_STATIC
+
 AC_ISC_POSIX
 AC_PROG_CC
 AC_STDC_HEADERS
@@ -40,23 +43,6 @@ AC_ARG_WITH(guile,[--with-guile   Include Guile support],[GNOME_CHECK_GUILE])
 AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)
 AC_SUBST(LDFLAGS)
-
-dnl **************************************************
-dnl * gnumeric-config defaults
-dnl **************************************************
-gnumeric_prefix="$prefix"
-gnumeric_exec_prefix="$exec_prefix"
-gnumeric_datadir="$datadir"
-gnumeric_libdir="$libdir"
-
-test "x$gnumeric_prefix" = xNONE && gnumeric_prefix=$ac_default_prefix
-test "x$gnumeric_exec_prefix" = xNONE && gnumeric_exec_prefix=$gnumeric_prefix
-
-AC_SUBST(gnumeric_prefix)
-AC_SUBST(gnumeric_exec_prefix)
-AC_SUBST(gnumeric_datadir)
-AC_SUBST(gnumeric_libdir)
-AC_SUBST(gnumeric_bonobo_enabled)
 
 dnl **************************************************
 dnl * internationalization support
@@ -172,6 +158,7 @@ dnl ******************************
 try_bonobo=true
 bonobo=
 bonobo_msg=no
+bonobo_suffix=
 have_bonobo=false
 AC_ARG_WITH(bonobo,
 	[--{with,without}-bonobo   Compile with Bonobo support or without it],
@@ -201,6 +188,7 @@ if $try_bonobo; then
 		have_bonobo=true
 		bonobo=bonobo
 		bonobo_msg=yes
+		bonobo_suffix=-bonobo
 	        gnumeric_executable=gnumeric-bonobo
 	else
 		AC_MSG_RESULT(not found)
@@ -209,6 +197,29 @@ fi
 gnumeric_bonobo_enabled=$bonobo_msg
 AM_CONDITIONAL(BONOBO, $have_bonobo)
 
+
+dnl **************************************************
+dnl * Config defaults (Must be after bonobo)
+dnl **************************************************
+gnumeric_prefix="$prefix"
+gnumeric_exec_prefix="$exec_prefix"
+gnumeric_version="${VERSION}${bonobo_suffix}"
+gnumeric_datadir="${datadir}/gnumeric/${gnumeric_version}/"
+gnumeric_libdir="${libdir}/gnumeric/${gnumeric_version}/"
+gnumeric_plugindir="${gnumeric_libdir}plugins/"
+gnumeric_gladedir="${gnumeric_datadir}glade/"
+
+test "x$gnumeric_prefix" = xNONE && gnumeric_prefix=$ac_default_prefix
+test "x$gnumeric_exec_prefix" = xNONE && gnumeric_exec_prefix=$gnumeric_prefix
+
+AC_SUBST(gnumeric_prefix)
+AC_SUBST(gnumeric_exec_prefix)
+AC_SUBST(gnumeric_datadir)
+AC_SUBST(gnumeric_version)
+AC_SUBST(gnumeric_libdir)
+AC_SUBST(gnumeric_bonobo_enabled)
+AC_SUBST(gnumeric_plugindir)
+AC_SUBST(gnumeric_gladedir)
 
 dnl ******************************
 dnl Kludge for Libole2 virtual link.
@@ -384,7 +395,6 @@ Configuration:
 	
 	GB Support:		${gb_msg}
 	Bonobo Support:		${bonobo_msg}
-	Applix SHELF Support:	${applix_shelf_msg}
 "
 if $have_bonobo; then
 	echo "

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-version="@VERSION@"
+version="@gnumeric_version@"
 bonobo="@gnumeric_bonobo_enabled@"
 prefix="@gnumeric_prefix@"
 exec_prefix="@gnumeric_exec_prefix@"
