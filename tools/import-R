@@ -149,10 +149,6 @@ sub import_file {
 	    s/int log_p/gboolean log_p/g;
 	    s/int lower_tail/gboolean lower_tail/g;
 
-	    if (/^.*char\s+\*vmax;\s*$/) {
-		$_ = "#ifndef MATHLIB_STANDALONE\n$_\n#endif";
-	    }
-
 	    if ($filename =~ m|/qbeta\.c$| && /xinbta = 0\.5;/) {
 		s/0\.5/(xinbta < lower) ? sqrtgnum (lower) : 1 - sqrtgnum (lower)/;
 	    }

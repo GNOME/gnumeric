@@ -1,3 +1,7 @@
+2004-02-23  Morten Welinder  <terra@gnome.org>
+
+	* check-finalizers (pass1): Improve type definition detection.
+
 2004-02-19  Morten Welinder  <terra@gnome.org>
 
 	* check-finalizers: New toy.
