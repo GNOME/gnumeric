@@ -49,7 +49,7 @@ void	      gog_series_set_index  (GogSeries *series,
 				     int ind, gboolean is_manual);
 
 unsigned      gog_series_num_elements  (GogSeries const *series);
-GList 	     *gog_series_get_overrides (GogSeries *series);
+GList const  *gog_series_get_overrides (GogSeries const *series);
 
 G_END_DECLS
 

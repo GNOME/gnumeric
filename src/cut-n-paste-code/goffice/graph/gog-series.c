@@ -58,6 +58,14 @@ static gint element_compare (GogSeriesElement *gse_a, GogSeriesElement *gse_b)
 }
 
 static void
+gog_series_element_set_index (GogSeriesElement *gse, int ind)
+{
+	gse->index = ind;
+	gog_styled_object_apply_theme (&gse->base, gse->base.style);
+	gog_styled_object_style_changed (&gse->base);
+}
+
+static void
 gog_series_element_set_property (GObject *obj, guint param_id,
 				 GValue const *value, GParamSpec *pspec)
 {
@@ -66,7 +74,7 @@ gog_series_element_set_property (GObject *obj, guint param_id,
 
 	switch (param_id) {
 	case ELEMENT_INDEX :
-		gse->index = g_value_get_int (value);
+		gog_series_element_set_index (gse, g_value_get_int (value));
 		if (gobj->parent != NULL) {
 			GogSeries *series = GOG_SERIES (gobj->parent);
 			series->overrides = g_list_remove (series->overrides, gse);
@@ -160,14 +168,15 @@ gog_series_element_editor (GogObject *gobj,
 static void
 gog_series_element_init_style (GogStyledObject *gso, GogStyle *style)
 {
-	GogSeries *series = GOG_SERIES (GOG_OBJECT (gso)->parent);
+	GogSeries const *series = GOG_SERIES (GOG_OBJECT (gso)->parent);
 	GogStyle *parent_style;
 
-	g_return_if_fail (GOG_SERIES (series) != NULL);
+	g_return_if_fail (series != NULL);
 
 	parent_style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series));
-
 	style->interesting_fields = parent_style->interesting_fields;
+	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
+		style, GOG_OBJECT (gso), GOG_SERIES_ELEMENT (gso)->index, FALSE);
 }
 
 static void
@@ -228,8 +237,8 @@ role_series_element_allocate (GogObject *series)
 
 	gse = g_object_new (type, NULL);
 	if (gse != NULL)
-		GOG_SERIES_ELEMENT (gse)->index =
-			gog_series_get_valid_element_index (GOG_SERIES (series), -1, 0);
+		gog_series_element_set_index (GOG_SERIES_ELEMENT (gse),
+			gog_series_get_valid_element_index (GOG_SERIES (series), -1, 0));
 	return gse;
 }
 
@@ -719,8 +728,8 @@ gog_series_num_elements (GogSeries const *series)
 	return series->num_elements;
 }
 
-GList *
-gog_series_get_overrides (GogSeries *series)
+GList const *
+gog_series_get_overrides (GogSeries const *series)
 {
 	return series->overrides;
 }

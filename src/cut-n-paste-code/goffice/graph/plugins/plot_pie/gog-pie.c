@@ -374,7 +374,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	gboolean has_hole;
 	double separation_max, separation;
 	GogPieSeriesElement *gpse;
-	GList *overrides;
+	GList const *overrides;
 
 	/* compute number of valid series */
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
