@@ -15,7 +15,6 @@
 #include "mathfunc.h"
 
 #include <libgnome/gnome-i18n.h>
-#include <libgnome/gnome-config.h>
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
@@ -58,58 +57,6 @@ gnumeric_time_counter_pop (void)
 	g_timer_destroy (timer);
 
 	return ret_val;
-}
-
-/**
- * gnumeric_config_get_string_list:
- * @config_path: GNOME configuration path or its prefix if
- *               @item_name_prefix != NULL.
- * @item_name_prefix: Prefix of key name when reading multiple strings from
- *                    configuration.
- *
- * Reads list of string values from GNOME configuration.
- * If @item_name_prefix == NULL it gets a vector from configuration and then
- * converts it to GList. If @item_name_prefix != NULL, it gets string values
- * with keys of the form @item_name_prefix%d.
- *
- * Return value: list of newly allocated strings which you should free after
- * use using function e_free_string_list().
- */
-GList *
-gnumeric_config_get_string_list (gchar const *config_path,
-                                 gchar const *item_name_prefix)
-{
-	GList *items = NULL;
-	gint i;
-
-	if (item_name_prefix != NULL) {
-		gnome_config_push_prefix (config_path);
-		for (i = 0; ; i++) {
-			gchar *key, *value;
-
-			key = g_strdup_printf ("%s%d", item_name_prefix, i);
-			value = gnome_config_get_string (key);
-			g_free (key);
-			if (value != NULL) {
-				items = g_list_prepend (items, value);
-			} else {
-				break;
-			}
-		}
-		gnome_config_pop_prefix ();
-		items = g_list_reverse (items);
-	} else {
-		gchar **itemv;
-		gint n_items;
-
-		gnome_config_get_vector (config_path, &n_items, &itemv);
-		for (i = 0; i < n_items; i++) {
-			items = g_list_prepend (items, itemv[i]);
-		}
-		g_free (itemv);
-	}
-
-	return items;;
 }
 
 void

@@ -8,9 +8,6 @@
 void     gnumeric_time_counter_push (void);
 gdouble  gnumeric_time_counter_pop (void);
 
-GList   *gnumeric_config_get_string_list (const gchar *config_path,
-                                          const gchar *item_name_prefix);
-
 void	  g_ptr_array_insert (GPtrArray *array, gpointer value, int index);
 GList    *g_create_list	     (gpointer item1, ...);
 gint      g_list_index_custom (GList *list, gpointer data, GCompareFunc cmp_func);

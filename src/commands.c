@@ -63,8 +63,6 @@
 #include "summary.h"
 #include "tools/dao.h"
 #include "gnumeric-gconf.h"
-/* FIXME, we shouldn't be using gnumeric-gconf-priv.h */
-#include "gnumeric-gconf-priv.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
@@ -189,16 +187,7 @@ static E_MAKE_TYPE (func, #type, type,					\
 static char *
 undo_global_range_name (Sheet *sheet, Range const * const range)
 {
-	gboolean show_sheet_name;
-	GConfClient *client;
-	GError *err = NULL;
-
-	client = application_get_gconf_client ();
-	show_sheet_name = gconf_client_get_bool (client, 
-						 GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME, &err);
-	if (err)
-		show_sheet_name = FALSE;
-
+	gboolean show_sheet_name = gnm_gconf_get_show_sheet_name ();
 	return global_range_name (show_sheet_name ? sheet : NULL, range); 
 }
 
@@ -225,18 +214,7 @@ cmd_cell_pos_name_utility (Sheet *sheet, CellPos const *pos)
 static guint
 max_descriptor_width (void)
 {
-	guint max_width;
-	GConfClient *client;
-	GError *err = NULL;
-
-	client = application_get_gconf_client ();
-	max_width = (guint) gconf_client_get_int (client, 
-		GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH, &err);
-	if (err)
-		max_width = 10;
-
-	g_return_val_if_fail (max_width >= 3, 10);
-	return max_width;
+	return gnm_gconf_get_max_descriptor_width ();
 }
 
 /**
@@ -510,21 +488,13 @@ command_list_release (GSList *cmd_list)
 static int
 truncate_undo_info (Workbook *wb)
 {
-	GConfClient *client;
 	int size_left;
 	int max_num;
 	int ok_count;
 	GSList *l, *prev;
-	GError *err = NULL;
 
-	client = application_get_gconf_client ();
-	size_left = gconf_client_get_int (client, GNUMERIC_GCONF_UNDO_SIZE, &err);
-	if (err || size_left < 0)
-		size_left = 0;
-	err = NULL;
-	max_num = gconf_client_get_int (client, GNUMERIC_GCONF_UNDO_MAXNUM, &err);
-	if (err || max_num <= 0)
-		max_num = 1;
+	size_left = gnm_gconf_get_undo_size (); 
+	max_num = gnm_gconf_get_undo_max_number ();
 	
 #ifdef DEBUG_TRUNCATE_UNDO
 	fprintf (stderr, "Undo sizes:");

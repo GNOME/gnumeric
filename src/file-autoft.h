@@ -4,10 +4,6 @@
 #include "gnumeric.h"
 #include "format-template.h"
 
-gchar                       *gnumeric_sys_autoformat_dir (void);
-gchar                       *gnumeric_usr_autoformat_dir (void);
-GList                       *gnumeric_extra_autoformat_dirs (void);
-
 void                         category_free (FormatTemplateCategory *category);
 GSList                      *category_get_templates_list (FormatTemplateCategory *category,
 							  CommandContext *context);

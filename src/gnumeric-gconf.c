@@ -29,7 +29,7 @@
 #include "gnumeric-gconf.h"
 #include "gnumeric-gconf-priv.h"
 #include <gconf/gconf-client.h>
-
+#include "gutils.h"
 
 void
 gnm_conf_sync (void)
@@ -394,5 +394,135 @@ gnm_gconf_set_initial_sheet_number (gint val)
 	gconf_client_set_int (application_get_gconf_client (), 
 			      GNUMERIC_GCONF_WORKBOOK_NSHEETS,
 			      val, NULL);
+}
+
+gboolean
+gnm_gconf_get_show_sheet_name (void)
+{
+	return gconf_client_get_bool (application_get_gconf_client (), 
+				      GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME,
+				      NULL);
+}
+
+void
+gnm_gconf_set_show_sheet_name (gboolean val)
+{
+	gconf_client_set_bool (application_get_gconf_client (), 
+			       GNUMERIC_GCONF_UNDO_SHOW_SHEET_NAME,
+			       val, NULL);
+}
+
+guint
+gnm_gconf_get_max_descriptor_width (void)
+{
+	gint val = gconf_client_get_int (application_get_gconf_client (), 
+					 GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH,
+					 NULL);
+	return ((val < 3) ? 10 : (guint) val);
+}
+
+void
+gnm_gconf_set_max_descriptor_width (guint val)
+{
+	gconf_client_set_int (application_get_gconf_client (), 
+			       GNUMERIC_GCONF_UNDO_MAX_DESCRIPTOR_WIDTH,
+			       (gint) val, NULL);
+}
+
+gint
+gnm_gconf_get_undo_size (void)
+{
+	gint val = gconf_client_get_int (application_get_gconf_client (), 
+					 GNUMERIC_GCONF_UNDO_SIZE,
+					 NULL);
+	return ((val < 0) ? 0 : val);
+}
+
+void
+gnm_gconf_set_undo_size (gint val)
+{
+	gconf_client_set_int (application_get_gconf_client (), 
+			      GNUMERIC_GCONF_UNDO_SIZE,
+			      val, NULL);
+}
+
+
+gint
+gnm_gconf_get_undo_max_number (void)
+{
+	gint val = gconf_client_get_int (application_get_gconf_client (), 
+					 GNUMERIC_GCONF_UNDO_MAXNUM,
+					 NULL);
+	return ((val <= 0) ? 1 : val);
+}
+
+void
+gnm_gconf_set_undo_max_number (gint val)
+{
+	gconf_client_set_int (application_get_gconf_client (), 
+			      GNUMERIC_GCONF_UNDO_MAXNUM,
+			      val, NULL);
+}
+
+GSList *
+gnm_gconf_get_autoformat_extra_dirs (void)
+{
+	return gconf_client_get_list (application_get_gconf_client (), 
+				      AUTOFORMAT_GCONF_EXTRA_DIRS,
+				      GCONF_VALUE_STRING, NULL);
+}
+
+void
+gnm_gconf_set_autoformat_extra_dirs (GSList *list)
+{
+	gconf_client_set_list (application_get_gconf_client (), 
+			       AUTOFORMAT_GCONF_EXTRA_DIRS,
+			       GCONF_VALUE_STRING, list, NULL);
+}
+
+char *
+gnm_gconf_get_autoformat_sys_dirs (void)
+{
+	char *directory;
+	char *conf_value = gconf_client_get_string (application_get_gconf_client (), 
+						    AUTOFORMAT_GCONF_SYS_DIR,
+						    NULL);
+	if (conf_value) {
+		directory = gnumeric_sys_data_dir (conf_value);
+		g_free (conf_value);
+		return directory;
+	} else 
+		return gnumeric_sys_data_dir ("autoformat-template");
+}
+
+void
+gnm_gconf_set_autoformat_sys_dirs (char const * string)
+{
+	gconf_client_set_string (application_get_gconf_client (), 
+			       AUTOFORMAT_GCONF_SYS_DIR,
+			       string, NULL);
+}
+
+char *
+gnm_gconf_get_autoformat_usr_dirs (void)
+{
+	char *directory;
+	char *conf_value = gconf_client_get_string (application_get_gconf_client (), 
+						    AUTOFORMAT_GCONF_USR_DIR,
+						    NULL);
+	if (conf_value) {
+		directory = gnumeric_usr_dir (conf_value);
+		g_free (conf_value);
+		return directory;
+	} else 
+		return gnumeric_usr_dir ("autoformat-template");
+}
+
+void
+gnm_gconf_set_autoformat_usr_dirs (char const * string)
+{
+	gconf_client_set_string (application_get_gconf_client (), 
+			       AUTOFORMAT_GCONF_USR_DIR,
+			       string, NULL);
 }
 

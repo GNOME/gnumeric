@@ -1,5 +1,14 @@
 2002-04-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* schemas/gnumeric-dialogs.schemas : add more schemas
+	* src/commands.c : use get/set methods from src/gnumeric-gconf.h
+	* src/file-autoft.[ch] : switch from gnome-config to gconf
+	* src/gnumeric-gconf-priv.h : more keys
+	* src/gnumeric-gconf.[ch] : more get/set methods
+	* src/gutils.[ch] (gnumeric_config_get_string_list) : deleted
+
+2002-04-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* schemas/gnumeric-dialogs.schemas : new plugin schemas
 	* src/Makefile.am : add src/gnumeric-gconf.c and src/gnumeric-gconf-priv.h
 	* src/application.c : use get/set methods from src/gnumeric-gconf.h

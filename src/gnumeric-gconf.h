@@ -75,6 +75,33 @@ void     gnm_gconf_set_file_history_files (GSList *list);
 gint     gnm_gconf_get_initial_sheet_number (void);
 void     gnm_gconf_set_initial_sheet_number (gint val);
 
+gboolean gnm_gconf_get_show_sheet_name (void);
+void     gnm_gconf_set_show_sheet_name (gboolean val);
+
+guint    gnm_gconf_get_max_descriptor_width (void);
+void     gnm_gconf_set_max_descriptor_width (guint val);
+
+gint     gnm_gconf_get_undo_size (void);
+void     gnm_gconf_set_undo_size (gint val);
+
+gint     gnm_gconf_get_undo_max_number (void);
+void     gnm_gconf_set_undo_max_number (gint val);
+
+GSList * gnm_gconf_get_autoformat_extra_dirs (void);
+void     gnm_gconf_set_autoformat_extra_dirs (GSList *list);
+
+char *   gnm_gconf_get_autoformat_sys_dirs (void);
+void     gnm_gconf_set_autoformat_sys_dirs (char const * string);
+
+char *   gnm_gconf_get_autoformat_usr_dirs (void);
+void     gnm_gconf_set_autoformat_usr_dirs (char const * string);
+
+
+
+
+
+
+
 
 
 

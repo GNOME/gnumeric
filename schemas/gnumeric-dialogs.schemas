@@ -136,6 +136,38 @@
         <long>This list contains all extra directories containing plugins.</long>
         </locale>
       </schema>
-    </schemalist>
+       <schema>
+        <key>/schemas/apps/gnumeric/autoformat/extra-dirs</key>
+        <applyto>/apps/gnumeric/autoformat/extra-dirs</applyto>
+        <owner>Gnumeric</owner>
+        <type>list</type>
+        <locale name="C">
+        <short>List of Extra Autoformat Directories.</short>
+        <long>This list contains all extra directories containing autoformat templates.</long>
+        </locale>
+      </schema>
+       <schema>
+        <key>/schemas/apps/gnumeric/autoformat/sys-dir</key>
+        <applyto>/apps/gnumeric/autoformat/sys-dir</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+	<default>autoformat-templates</default>
+        <locale name="C">
+        <short>System Directory for Autoformats</short>
+        <long>This directory contains the pre-installed autoformat templates.</long>
+        </locale>
+      </schema>
+       <schema>
+        <key>/schemas/apps/gnumeric/autoformat/usr-dir</key>
+        <applyto>/apps/gnumeric/autoformat/usr-dir</applyto>
+        <owner>Gnumeric</owner>
+        <type>string</type>
+	<default>autoformat-templates</default>
+        <locale name="C">
+        <short>User Directory for Autoformats</short>
+        <long>The main directory for user specific autoformat templates.</long>
+        </locale>
+      </schema>
+   </schemalist>
 </gconfschemafile>
   

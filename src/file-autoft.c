@@ -28,6 +28,7 @@
 #include "xml-io.h"
 #include "xml-io-autoft.h"
 #include "format-template.h"
+#include "gnumeric-gconf.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -41,44 +42,6 @@
 #include <gal/util/e-util.h>
 
 #define TEMPLATE_FILE_EXT    ".xml"
-
-#define AUTOFORMAT_SUFFIX	"autoformat-templates"
-
-char *
-gnumeric_sys_autoformat_dir (void)
-{
-	return gnumeric_sys_data_dir (AUTOFORMAT_SUFFIX);
-}
-
-char *
-gnumeric_usr_autoformat_dir (void)
-{
-	return gnumeric_usr_dir (AUTOFORMAT_SUFFIX);
-}
-
-GList *
-gnumeric_extra_autoformat_dirs (void)
-{
-	static GList *extra_dirs;
-	static gboolean list_ready = FALSE;
-	GList *new_list, *l;
-
-	if (!list_ready) {
-		extra_dirs = gnumeric_config_get_string_list ("Gnumeric/Autoformat/",
-		                                              "ExtraTemplatesDir");
-		list_ready = TRUE;
-	}
-
-	new_list = NULL;
-	for (l = extra_dirs; l != NULL; l = l->next) {
-		gchar *dir_name;
-
-		dir_name = (gchar *) l->data;
-		new_list = g_list_prepend (new_list, g_strdup (dir_name));
-	}
-
-	return g_list_reverse (new_list);
-}
 
 /**
  * category_compare_orig_name:
@@ -158,10 +121,10 @@ category_get_templates_list (FormatTemplateCategory *category,
  *
  **/
 static GList *
-category_list_get_from_dir_list (GList *dir_list)
+category_list_get_from_dir_list (GSList *dir_list)
 {
 	GList *categories = NULL;
-	GList *dir_iterator;
+	GSList *dir_iterator;
 
 	g_return_val_if_fail (dir_list != NULL, NULL);
 
@@ -225,14 +188,14 @@ GList *
 category_group_list_get (void)
 {
 	GList *category_groups = NULL;
-	GList *dir_list;
+	GSList *dir_list;
 	GList *categories, *l;
 	FormatTemplateCategoryGroup *current_group;
 
-	dir_list = g_create_list (gnumeric_sys_autoformat_dir (),
-	                          gnumeric_usr_autoformat_dir (),
-	                          NULL);
-	dir_list = g_list_concat (dir_list, gnumeric_extra_autoformat_dirs ());
+	dir_list = g_create_slist (gnm_gconf_get_autoformat_sys_dirs (),
+				   gnm_gconf_get_autoformat_usr_dirs (),
+				   NULL);
+	dir_list = g_slist_concat (dir_list, gnm_gconf_get_autoformat_extra_dirs ());
 	categories = category_list_get_from_dir_list (dir_list);
 
 	categories = g_list_sort (categories, category_compare_orig_name);
@@ -268,7 +231,7 @@ category_group_list_get (void)
 	}
 
 	g_list_free (categories);
-	e_free_string_list (dir_list);
+	e_free_string_slist (dir_list);
 
 	return category_groups;
 }
