@@ -1,4 +1,8 @@
-2000-12-7  Jody Goldberg <jgoldberg@home.com>
+2000-12-10  Morten Welinder  <terra@diku.dk>
+
+	* make-docbook.pl: Cleanup, quote "<" and ">".
+
+2000-12-07  Jody Goldberg <jgoldberg@home.com>
 
         * Release 0.60
 

@@ -1,9 +1,9 @@
 $state = 0;
 
-while (<>){
+while (<>) {
     s/\s+$//;
-    if (/^\@FUNCTION=(.*)/){
-	if ($state){
+    if (/^\@FUNCTION=(.*)/) {
+	if ($state) {
 	    printf "\n";
 	    print "      </refsect1>\n";
 	    print "    </refentry>\n\n";
@@ -22,14 +22,14 @@ while (<>){
 	next;
     }	
     
-    if (/^\@SYNTAX=(.*)/){
+    if (/^\@SYNTAX=(.*)/) {
 	print "    <refsynopsisdiv>\n";
 	print "      <synopsis>", &quote_stuff ($1), "</synopsis>\n";
 	print "    </refsynopsisdiv>\n";
 	next;
     }
     
-    if (/^\@DESCRIPTION=(.*)/){
+    if (/^\@DESCRIPTION=(.*)/) {
 	print "      <refsect1>\n";
 	print "        <title>Description</title>\n";
 	print "        <para>", &quote_stuff ($1), "</para>\n";
@@ -37,8 +37,8 @@ while (<>){
 	next;
     } 
 
-    if (/^\@EXAMPLES=(.*)/){
-	if ($state){
+    if (/^\@EXAMPLES=(.*)/) {
+	if ($state) {
 	    print "\n    </refsect1>";
 	}
 	print "      <refsect1>\n";
@@ -47,21 +47,24 @@ while (<>){
 	$state = 2;
 	next;
     } 
-    if (/^\@SEEALSO=(.*)/){
-	my @links = split (/,/, $1);
+    if (/^\@SEEALSO=(.*)/) {
+	my $linktxt = $1;
+	$linktxt =~ s/\s//g;
+	$linktxt =~ s/\.$//;
+	my @links = split (/,/, $linktxt);
 
-	if ($state){
+	if ($state) {
 	    print "\n    </refsect1>";
 	}
 	print "\n    <refsect1><title>See also</title>\n";
-	@a = ();
+	my @a = ();
 	print   "      <para>";
-	foreach my $link (@links){
-	    $link =~ s/\s//g;
-
-	    push @a, "        <link linkend=\"gnumeric-$link\">$link</link>\n";
+	foreach my $link (@links) {
+	    push @a, "        <link linkend=\"gnumeric-$link\">$link</link>";
 	}
-	print join (", ", @a);
+	if (@a > 0) {
+	    print join (",\n", @a), ".\n";
+	}
 	print "      </para>\n";
 	print "    </refsect1>\n";
 	print "  </refentry>\n\n";
@@ -69,7 +72,7 @@ while (<>){
 	next;
     }
 
-    if ($state){
+    if ($state) {
 	print "        <para>", &quote_stuff ($_), "</para>";
     } else {
     }
@@ -79,7 +82,7 @@ while (<>){
 sub quote_stuff {
     my ($str) = @_;
 
-    $str =~ s/</\&lt;//g;
-    $str =~ s/>/\&gt;//g;
+    $str =~ s/</\&lt;/g;
+    $str =~ s/>/\&gt;/g;
     return $str;
 }
