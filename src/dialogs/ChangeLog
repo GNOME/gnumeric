@@ -1,3 +1,8 @@
+2003-09-11  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* dialog-cell-sort.c (dialog_init): focus on the most 
+	  likely entry field
+
 2003-09-10  Christian Neumair  <chris@gnome-de.org>
 
 	* cell-sort.glade: Add ATK relation information.

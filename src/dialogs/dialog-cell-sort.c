@@ -811,6 +811,7 @@ dialog_init (SortFlowState *state)
 	dialog_load_selection (state);
 	cb_update_sensitivity (state);
 
+	gnm_expr_entry_grab_focus(GNM_EXPR_ENTRY (state->add_entry), TRUE);
 	return FALSE;
 }
 

@@ -656,8 +656,6 @@ compute_group (PrintJobInfo const *pj, Sheet const *sheet,
 	float size_pts = 1.; /* The initial grid line */
 	int idx, count = 0;
 
-	usable /= pj->pi->scaling.percentage.x / 100.;
-
 	for (idx = start; idx <= end; idx++, count++) {
 		ColRowInfo const *info = (*get_info) (sheet, idx);
 		if (info->visible) {
