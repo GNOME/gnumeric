@@ -1,5 +1,10 @@
 1999-08-20  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* samples/finfuns.xls: Made all the dates to use DATE() function
+	instead of using strings in scandinavian style.
+	
+1999-08-20  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
 	* src/fn-financial.c: Made the last two arguments of PMT and PPMT
  	optional.
 	
