@@ -18,7 +18,7 @@ GSList	*gnm_slist_map		(GSList const *list, GnmMapFunc map_func);
 GSList	*gnm_slist_create	(gpointer item1, ...);
 void	 gnm_slist_free_custom	(GSList *list, GFreeFunc free_func);
 #define	 gnm_string_slist_copy(list) gnm_slist_map (list, (GnmMapFunc) g_strdup)
-GSList	*gnm_strsplit_to_slist	(char const *str, char const *delimiter);
+GSList	*gnm_strsplit_to_slist	(char const *str, gchar delimiter);
 #define GNM_SLIST_FOREACH(list,valtype,val,stmnt) \
 G_STMT_START { \
 	GSList const *gnm_l; \

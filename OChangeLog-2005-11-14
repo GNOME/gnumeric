@@ -1,3 +1,11 @@
+2005-02-10  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=165982
+	* src/gnm-plugin.c (gnm_plugins_init) : Use G_SEARCHPATH_SEPARATOR in
+	  place of hard coding ':' to be more portable.
+	* src/dialogs/dialog-plugin-manager.c (pm_gui_load_directory_page) :
+	  ditto.
+
 2005-02-09  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (wbcg_sheet_add) : don't create a control

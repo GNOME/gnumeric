@@ -656,7 +656,7 @@ gnm_plugins_init (GOCmdContext *context)
 
 	env_var = g_getenv ("GNUMERIC_PLUGIN_PATH");
 	if (env_var != NULL)
-		GNM_SLIST_CONCAT (dir_list, gnm_strsplit_to_slist (env_var, ":"));
+		GNM_SLIST_CONCAT (dir_list, gnm_strsplit_to_slist (env_var, G_SEARCHPATH_SEPARATOR));
 
 	go_plugins_init (GO_CMD_CONTEXT (context),
 		gnm_app_prefs->plugin_file_states,

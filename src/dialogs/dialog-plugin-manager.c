@@ -259,7 +259,7 @@ pm_gui_load_directory_page (PluginManagerGUI *pm_gui)
 
 	plugin_path_env = g_getenv ("GNUMERIC_PLUGIN_PATH");
 	if (plugin_path_env != NULL) {
-		plugin_dirs = gnm_strsplit_to_slist (plugin_path_env, ":");
+		plugin_dirs = gnm_strsplit_to_slist (plugin_path_env, G_SEARCHPATH_SEPARATOR);
 		pm_gui_load_directories (pm_gui, plugin_dirs, FALSE);
 		g_slist_foreach (plugin_dirs, (GFunc)g_free, NULL);
 		g_slist_free (plugin_dirs);

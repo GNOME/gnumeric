@@ -199,13 +199,15 @@ gnm_list_free_custom (GList *list, GFreeFunc free_func)
  * e_free_string_list().
  **/
 GSList *
-gnm_strsplit_to_slist (gchar const *string, gchar const *delimiter)
+gnm_strsplit_to_slist (gchar const *string, gchar delimiter)
 {
 	gchar **token_v;
 	GSList *string_list = NULL;
+	char buf[2] = { '\0', '\0' };
 	gint i;
 
-	token_v = g_strsplit (string, delimiter, 0);
+	buf[0] = delimiter;
+	token_v = g_strsplit (string, buf, 0);
 	if (token_v != NULL) {
 		for (i = 0; token_v[i] != NULL; i++) {
 			string_list = g_slist_prepend (string_list, token_v[i]);
