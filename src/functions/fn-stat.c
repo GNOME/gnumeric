@@ -494,7 +494,7 @@ static char *help_normsdist = {
 	   "@EXAMPLES=\n"
 	   "NORMSDIST(2) equals 0.977249868.\n"
 	   "\n"
-           "@SEEALSO=NOMRDIST")
+           "@SEEALSO=NORMDIST")
 };
 
 static Value *
