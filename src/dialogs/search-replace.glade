@@ -814,7 +814,7 @@
 
       <widget>
 	<class>GtkButton</class>
-	<name>cancel_button</name>
+	<name>cancel_button2</name>
 	<tooltip>Perform no more replacements</tooltip>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>

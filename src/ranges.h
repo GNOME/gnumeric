@@ -8,7 +8,7 @@
  * @a: First range
  * @b: Second range
  *
- * NB. totaly commutative.
+ * NB. commutative, symmetric, and transitive.
  *
  * Returns: True if both ranges are equal.
  **/
@@ -22,7 +22,7 @@
  * @a: First range
  * @b: Second range
  *
- * NB. totaly commutative, hence symmetry.
+ * NB. commutative, symmetric, but not transitive.
  *
  * Returns: True if the ranges overlap at all.
  **/
@@ -41,16 +41,16 @@
  *
  * Return value: TRUE if co-ordinate contained.
  **/
-#define range_contains(r,x,y)	(((y) <= ((r))->end.row) && \
-				 ((y) >= ((r))->start.row) && \
-				 ((x) >= ((r))->start.col) && \
-				 ((x) <= ((r))->end.col))
+#define range_contains(r,x,y)	(((y) <= (r)->end.row) && \
+				 ((y) >= (r)->start.row) && \
+				 ((x) >= (r)->start.col) && \
+				 ((x) <= (r)->end.col))
 
 /*
  * Quickly Test if a range is valid
  */
-#define range_valid(r)          (((r))->start.col <= ((r))->end.col && \
-				 ((r))->start.row <= ((r))->end.row)
+#define range_valid(r)          ((r)->start.col <= (r)->end.col && \
+				 (r)->start.row <= (r)->end.row)
 
 Range	   *range_init_full_sheet   (Range *r);
 Range      *range_init              (Range *r, int start_col, int start_row,

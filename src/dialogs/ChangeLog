@@ -1,3 +1,8 @@
+2001-03-22  Morten Welinder  <terra@diku.dk>
+
+	* search-replace.glade: Work around libglade bug.  (Having
+ 	identical widget names in different dialogs does not work.)
+
 2001-03-21  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* dialog-plugin-manager.c
