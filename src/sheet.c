@@ -1,3 +1,5 @@
+/* vim: set sw=8: */
+
 /*
  * Sheet.c:  Implements the sheet management and per-sheet storage
  *
@@ -285,7 +287,8 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 	int left, right;
 	int min_col, max_col;
 	gboolean render = (flags & SPANCALC_RE_RENDER);
-	gboolean resize = (flags & SPANCALC_RESIZE);
+	gboolean const resize = (flags & SPANCALC_RESIZE);
+	gboolean existing = FALSE;
 
 	g_return_if_fail (cell != NULL);
 
@@ -303,46 +306,43 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 		return;
 	}
 
-	/* Calculate the span of the cell */
-	cell_calc_span (cell, &left, &right);
-	min_col = left;
-	max_col = right;
-
-	/* Is there an existing span ? */
+	/* Is there an existing span ? clear it BEFORE calculating new one */
 	span = row_span_get (cell->row_info, cell->pos.col);
 	if (span != NULL) {
 		Cell const * const other = span->cell;
-		int other_left, other_right;
 
-		/* The existing span belonged to this cell */
-		if (cell == other) {
-			if (left != span->left || right != span->right) {
-				cell_unregister_span (cell);
-				cell_register_span (cell, left, right);
-			}
-			sheet_redraw_partial_row (cell->base.sheet, cell->pos.row,
-						  left, right);
-			return;
-		}
-
-		/* Do we need to redraw the original span because it shrank ? */
-		if (min_col > span->left)
-			min_col = span->left;
-		if (max_col < span->right)
-			max_col = span->right;
+		min_col = span->left;
+		max_col = span->right;
 
 		/* A different cell used to span into this cell, respan that */
-		cell_calc_span (other, &other_left, &other_right);
-		cell_unregister_span (other);
-		if (other_left != other_right)
-			cell_register_span (other, other_left, other_right);
+		if (cell != other) {
+			int other_left, other_right;
 
-		/* Do we need to redraw the new span because it grew ? */
-		if (min_col > other_left)
-			min_col = other_left;
-		if (max_col < other_right)
-			max_col = other_right;
-	}
+			cell_calc_span (other, &other_left, &other_right);
+			if (min_col > other_left)
+				min_col = other_left;
+			if (max_col < other_right)
+				max_col = other_right;
+
+			/* no need to test, other span definitely changed */
+			cell_unregister_span (other);
+			if (other_left != other_right)
+				cell_register_span (other, other_left, other_right);
+		} else
+			existing = TRUE;
+	} else
+		min_col = max_col = cell->pos.col;
+
+	/* Calculate the span of the cell */
+	cell_calc_span (cell, &left, &right);
+	if (min_col > left)
+		min_col = left;
+	if (max_col < right)
+		max_col = right;
+
+	/* This cell already had an existing span */
+	if (existing && (left != span->left || right != span->right))
+		cell_unregister_span (cell);
 
 	if (left != right)
 		cell_register_span (cell, left, right);
