@@ -78,6 +78,12 @@ Pending Patches
     21.4) xml import/export
     21.5) xls export
 
+22) Basic audit of financial functions
+    22.1) Behaviour when nper and/or per is not integer.
+    22.2) Behaviour when per < 1 or per > nper.
+    22.3) Behaviour for rate==0.
+
+
 UTF-8:
     - Window titles.
     - format precompile
