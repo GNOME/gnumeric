@@ -1,3 +1,7 @@
+2002-07-26  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* filter.[ch]: New file for filtering submenu functionality.
+
 2002-07-21  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* random-generator.c (tool_random_engine): Added Gaussian tail and

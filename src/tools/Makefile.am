@@ -24,6 +24,8 @@ libtools_a_SOURCES =					\
 	dao.h						\
 	auto-correct.c					\
 	auto-correct.h					\
+	filter.h					\
+	filter.c					\
 	goal-seek.c					\
 	goal-seek.h					\
 	tools.h
