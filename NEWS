@@ -7,6 +7,7 @@ Andreas:
 	* Add output formatting options to Analysis Tools.
 	* Make undo-size configurable.
 	* Plug leaks.
+	* Add preference dialog.
 
 Jody:
 	* Add password dialog to support encrypted input.

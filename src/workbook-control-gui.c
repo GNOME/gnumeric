@@ -1498,6 +1498,12 @@ cb_file_summary (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
+cb_file_preferences (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	dialog_preferences (0);
+}
+
+static void
 cb_file_close (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	wbcg_close_control (wbcg);
@@ -2159,6 +2165,14 @@ cb_workbook_attr (GtkWidget *unused, WorkbookControlGUI *wbcg)
 }
 
 static void
+cb_format_preferences (GtkWidget *unused, WorkbookControlGUI *wbcg)
+{
+	dialog_preferences (1);
+}
+
+
+
+static void
 cb_tools_plugins (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	dialog_plugin_manager (wbcg);
@@ -2630,6 +2644,10 @@ static GnomeUIInfo workbook_menu_file [] = {
 			       N_("Edit descriptive information"),
 			       cb_file_summary),
 
+	GNOMEUIINFO_ITEM_STOCK (N_("Preferen_ces..."),
+			       N_("Change Gnumeric Preferences"),
+			       cb_file_preferences, GTK_STOCK_PREFERENCES),
+
 	GNOMEUIINFO_MENU_CLOSE_ITEM (cb_file_close, NULL),
 
 	GNOMEUIINFO_SEPARATOR,
@@ -2957,6 +2975,9 @@ static GnomeUIInfo workbook_menu_format [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Workbook..."),
 		N_("Modify the workbook attributes"),
 		cb_workbook_attr),
+	GNOMEUIINFO_ITEM_STOCK (N_("_Gnumeric..."),
+		N_("Edit the Gnumeric Preferences"),
+		cb_format_preferences, GTK_STOCK_PREFERENCES),
 
 	GNOMEUIINFO_ITEM_NONE (N_("_Autoformat..."),
 			      N_("Format a region of cells according to a pre-defined template"),
@@ -3250,6 +3271,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("FilePrint", cb_file_print),
 	BONOBO_UI_UNSAFE_VERB ("FilePrintPreview", cb_file_print_preview),
 	BONOBO_UI_UNSAFE_VERB ("FileSummary", cb_file_summary),
+	BONOBO_UI_UNSAFE_VERB ("FilePreferences", cb_file_preferences),
 	BONOBO_UI_UNSAFE_VERB ("FileClose", cb_file_close),
 	BONOBO_UI_UNSAFE_VERB ("FileExit", cb_file_quit),
 
@@ -3323,6 +3345,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("FormatCells", cb_format_cells),
 	BONOBO_UI_UNSAFE_VERB ("FormatAuto", cb_autoformat),
 	BONOBO_UI_UNSAFE_VERB ("FormatWorkbook", cb_workbook_attr),
+	BONOBO_UI_UNSAFE_VERB ("FormatGnumeric", cb_format_preferences),
 
 	BONOBO_UI_UNSAFE_VERB ("ToolsPlugins", cb_tools_plugins),
 	BONOBO_UI_UNSAFE_VERB ("ToolsAutoCorrect", cb_tools_autocorrect),

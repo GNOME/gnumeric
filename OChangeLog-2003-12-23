@@ -1,3 +1,12 @@
+2002-04-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* schemas/gnumeric-general.schemas : add default font schemas
+	* src/application.[ch] : add central preferences dialog
+	* src/main.c : dispose of preference dialog on exit
+	* src/mstyle.c : use gconf data to initialize default style
+	* src/style.[ch] : use gconf data to initialize default style
+	* src/workbook-control-gui.c : add preference menu items
+
 2002-04-01  Morten Welinder  <terra@diku.dk>
 
 	* src/mathfunc.c (gnumeric_fake_trunc): Fix for negative valus.

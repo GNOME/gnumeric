@@ -1,3 +1,10 @@
+2002-04-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* Makefile.am : add dialog-preferences.c and preferences.glade
+	* dialogs.h : add dialog_preferences
+	* dialog-preferences.c : new
+	* preferences.glade : new
+
 2002-03-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* Makefile.am : replace tools.h by tool-dialogs.h 

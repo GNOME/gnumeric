@@ -340,8 +340,21 @@ style_font_hash_func (gconstpointer v)
 static void
 font_init (void)
 {
-	gnumeric_default_font = style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE,
+	GConfClient *client = application_get_gconf_client ();
+	char *font_name =  gconf_client_get_string (client,
+					  GCONF_DEFAULT_FONT, NULL);
+	double font_size = gconf_client_get_float (client,
+						   GCONF_DEFAULT_SIZE, NULL);
+	
+	gnumeric_default_font = style_font_new_simple (font_name, font_size,
 						       1., FALSE, FALSE);
+	g_free (font_name);
+
+	if (!gnumeric_default_font) {
+		g_warning ("Configured default font not available, trying fallback...");
+		gnumeric_default_font = style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE,
+							       1., FALSE, FALSE);
+	}
 
 	if (!gnumeric_default_font)
 		exit (1);

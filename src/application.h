@@ -9,6 +9,11 @@ void         application_init			(void);
 void         application_release_gconf_client   (void);
 GConfClient *application_get_gconf_client       (void);
 
+void         application_release_pref_dialog    (void);
+gpointer     application_get_pref_dialog        (void);
+void         application_set_pref_dialog        (gpointer dialog);
+
+
 void         application_workbook_list_add (Workbook *wb);
 void         application_workbook_list_remove (Workbook *wb);
 GList *      application_workbook_list (void);

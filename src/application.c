@@ -41,6 +41,7 @@ typedef struct
 	int         	 auto_expr_recalc_lag;
 	
 	GConfClient     *gconf_client;
+	GtkWidget       *pref_dialog;
 } GnumericApplication;
 
 static GnumericApplication app;
@@ -595,13 +596,39 @@ application_get_gconf_client (void)
 {
 	if (!app.gconf_client)
 		app.gconf_client = gconf_client_get_default ();
+	gconf_client_add_dir (app.gconf_client, "/apps/gnumeric",
+			      GCONF_CLIENT_PRELOAD_RECURSIVE,
+			      NULL);
 	return app.gconf_client; 
 }
 
 void         
 application_release_gconf_client (void) 
 { 
-	if (app.gconf_client)
+	if (app.gconf_client) {
+		gconf_client_remove_dir (app.gconf_client,
+					 "/apps/gnumeric", NULL);
 		g_object_unref (G_OBJECT (app.gconf_client));
+	}
 	app.gconf_client = NULL;
 }
+
+gpointer       
+application_get_pref_dialog (void)
+{
+	return app.pref_dialog; 
+}
+
+void         
+application_set_pref_dialog (gpointer dialog)
+{
+	app.pref_dialog = dialog;
+}
+
+void     
+application_release_pref_dialog (void)
+{ 
+	if (app.pref_dialog)
+		gtk_widget_destroy (app.pref_dialog);
+}
+

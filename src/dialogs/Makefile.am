@@ -45,6 +45,7 @@ base_files =					\
 	dialog-paste-special.c			\
 	dialog-plugin-manager.c 		\
 	dialog-printer-setup.c			\
+	dialog-preferences.c			\
 	dialog-random-generator.c		\
 	dialog-search.c				\
 	dialog-search-replace.c			\
@@ -108,6 +109,7 @@ glade_DATA = 				\
 	moving-averages.glade		\
 	names.glade			\
 	plugin-manager.glade		\
+	preferences.glade 		\
 	print.glade 			\
 	rank.glade			\
 	random-generation.glade		\

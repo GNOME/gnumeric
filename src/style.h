@@ -7,6 +7,8 @@
 
 #define DEFAULT_FONT "Helvetica"
 #define DEFAULT_SIZE 9.0
+#define GCONF_DEFAULT_FONT "/apps/gnumeric/core/defaultfont/name"
+#define GCONF_DEFAULT_SIZE "/apps/gnumeric/core/defaultfont/size"
 
 /* Alignment definitions */
 typedef enum _StyleHAlignFlags {

@@ -304,6 +304,8 @@ main (int argc, char *argv [])
 		gtk_main ();
 	}
 
+	application_release_pref_dialog ();
+
 	plugins_shutdown ();
 	print_shutdown ();
 	auto_format_shutdown ();
