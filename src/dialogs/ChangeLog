@@ -1,3 +1,13 @@
+2001-04-14  Almer S. Tigelaar  <almer@gnome.org>
+
+	* dialog-autoformat.c (previews_load) : Create previewgrid and
+	rectangles here. Preview-grid-controller is no longer.
+	(previews_free) : Idem but destruct.
+	(cb_apply_item_toggled) : Use gnome_canvas_request_redraw instead
+	of preview_grid_controller_force_redraw.
+	(cb_get_cell_style) : Renamed from cb_get_style.
+	(cb_get_cell_value) : Renamed from cb_get_cell.
+
 2001-04-09  Jody Goldberg <jgoldberg@home.com>
 
 	* src/dialogs/dialog-define-names.c (cb_name_guru_add) : Handle people

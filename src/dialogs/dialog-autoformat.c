@@ -39,7 +39,7 @@
 
 #include "dialogs.h"
 
-#include "preview-grid-controller.h"
+#include "preview-grid.h"
 #include "format-template.h"
 #include "file-autoft.h"
 
@@ -62,6 +62,11 @@
  */
 #define NUM_PREVIEWS 6
 
+/*
+ * Col widths/row heights
+ */
+#define DEFAULT_COL_WIDTH  42
+#define DEFAULT_ROW_HEIGHT 16
 /* Keep these strings very short.
    They are used as a sample data for a sheet, so you can put anything here
    ("One", "Two", "Three" for example) */
@@ -75,14 +80,17 @@ demotable[PREVIEW_ROWS][PREVIEW_COLS] = {
 };
 
 typedef struct {
-	Workbook        *wb;                              /* Workbook we are working on */
+	Workbook           *wb;                              /* Workbook we are working on */
 	WorkbookControlGUI *wbcg;
-	PreviewGridController *controller[NUM_PREVIEWS];  /* Controller for each canvas */
-	GSList         *templates;                        /* List of FormatTemplate's */
-	FormatTemplate *selected_template;                /* The currently selected template */
-	GList          *category_groups;                  /* List of groups of categories */
+	PreviewGrid        *grid[NUM_PREVIEWS];              /* Previewgrid's */
+	GnomeCanvasRect    *rect[NUM_PREVIEWS];              /* Centering rectangles */
+	GnomeCanvasRect    *selrect;                         /* Selection rectangle */
+	GSList             *templates;                       /* List of FormatTemplate's */
+	FormatTemplate     *selected_template;               /* The currently selected template */
+	GList              *category_groups;                 /* List of groups of categories */
 
 	FormatTemplateCategoryGroup *current_category_group; /* Currently selected category group */
+	
 	int               preview_top;       /* Top index of the previewlist */
 	int               preview_index;     /* Selected canvas in previewlist */
 	gboolean          previews_locked;   /* If true, the preview_free and preview_load will not function */
@@ -96,9 +104,9 @@ typedef struct {
 
 	GtkCombo       *category;
 
-	GnomeCanvas    *canvas[NUM_PREVIEWS];
-	GtkFrame       *frame[NUM_PREVIEWS];
-	GtkVScrollbar  *scroll;
+	GnomeCanvas      *canvas[NUM_PREVIEWS];
+	GtkFrame         *frame[NUM_PREVIEWS];
+	GtkVScrollbar    *scroll;
 	GtkCheckMenuItem *gridlines;
 
 	GtkMenuItem    *new, *edit, *remove_current;
@@ -114,28 +122,41 @@ typedef struct {
 } AutoFormatInfo;
 
 /********************************************************************************
- * CALLBACKS FOR PREVIEW GRID CONTROLLER
+ * CALLBACKS FOR PREVIEW GRID
  ********************************************************************************/
 
-/**
- * cb_get_cell_content:
- * @row: row offset
- * @col: column offset
- * @data: FormatTemplate (unused)
- *
- * Return the value for cell @row, @col.
- * This if fairly easy and we don't even use @data here.
- * We simply return the entries from the demotable.
- *
- * Return value: the value for cell @row, @col.
- **/
+static int
+cb_get_row_height (int row, gpointer data)
+{
+	return -1;
+}
+
+static int
+cb_get_col_width (int col, gpointer data)
+{
+	return -1;
+}
+
+static MStyle *
+cb_get_cell_style (int row, int col, gpointer data)
+{
+	FormatTemplate *ft = (FormatTemplate *) data;
+
+	/*
+	 * If this happens to be NULL the default style
+	 * will automatically be used.
+	 */
+	return format_template_get_style (ft, row, col);
+}
+
 static Value *
-cb_get_cell_content (int row, int col, gpointer data)
+cb_get_cell_value (int row, int col, gpointer data)
 {
 	Value *value;
 	const char *text;
 
-	g_return_val_if_fail (row < PREVIEW_ROWS && col < PREVIEW_COLS, NULL);
+	if (row >= PREVIEW_ROWS || col >= PREVIEW_COLS)
+		return NULL;
 
 	text = _(demotable[row][col]);
 
@@ -159,67 +180,6 @@ cb_get_cell_content (int row, int col, gpointer data)
        }
 
        return value;
-}
-
-/**
- * cb_get_row_height:
- * @row: row index
- * @data: FormatTemplate (unused)
- *
- * Return row height for row @row, we return
- * -1, this will cause the preview-grid-controller
- * to take the default value.
- *
- * Return value: always -1.
- **/
-static int
-cb_get_row_height (int row, gpointer data)
-{
-	return -1;
-}
-
-/**
- * cb_get_col_width:
- * @col: column index
- * @data: FormatTemplate (unused)
- *
- * Return col width for col @col.
- * This always return -1 so the
- * preview-grid-controller will take
- * the default column width.
- *
- * Return value: always -1.
- **/
-static int
-cb_get_col_width (int col, gpointer data)
-{
-	return -1;
-}
-
-/**
- * cb_get_cell_style:
- * @row: row offset
- * @col: col offset
- * @data: FormatTemplate
- *
- * Return the style for cell @row, @col.
- * This callback function uses formattemplate
- * to calculate the style.
- *
- * Return value: style associated with @row, @col
- **/
-static MStyle *
-cb_get_cell_style (int row, int col, gpointer data)
-{
-	FormatTemplate *ft = (FormatTemplate *) data;
-
-	/*
-	 * It is "OK" if format_template_get_style
-	 * returns NULL, the preview grid controller
-	 * will then automatically pick our default
-	 * style and use that :-)
-	 */
-	return format_template_get_style (ft, row, col);
 }
 
 /********************************************************************************
@@ -275,9 +235,11 @@ templates_load (AutoFormatInfo *info)
 		return FALSE;
 	}
 
-	info->templates = category_group_get_templates_list (info->current_category_group, WORKBOOK_CONTROL (info->wbcg));
+	info->templates = category_group_get_templates_list (info->current_category_group,
+							     WORKBOOK_CONTROL (info->wbcg));
 	for (l = info->templates; l != NULL; l = l->next) {
-		format_template_set_size ((FormatTemplate *) l->data, 0, 0, PREVIEW_COLS - 1, PREVIEW_ROWS - 1);
+		format_template_set_size ((FormatTemplate *) l->data, 0, 0,
+					  PREVIEW_COLS - 1, PREVIEW_ROWS - 1);
 	}
 	n_templates = g_slist_length (info->templates);
 
@@ -316,7 +278,7 @@ templates_load (AutoFormatInfo *info)
  * previews_free:
  * @info: AutoFormatInfo
  *
- * This function will free all preview-grid-controllers.
+ * This function will free all previews.
  **/
 static void
 previews_free (AutoFormatInfo *info)
@@ -326,11 +288,18 @@ previews_free (AutoFormatInfo *info)
 	if (info->previews_locked)
 		return;
 
+	if (info->selrect)
+		gtk_object_destroy (GTK_OBJECT (info->selrect));
+	info->selrect = NULL;
+	
 	for (i = 0; i < NUM_PREVIEWS; i++) {
-		if (info->controller[i]) {
+		if (info->grid[i]) {
 			gtk_layout_freeze (GTK_LAYOUT (info->canvas[i]));
-			preview_grid_controller_free (info->controller[i]);
-			info->controller[i] = NULL;
+			
+			gtk_object_destroy (GTK_OBJECT (info->rect[i]));
+			gtk_object_destroy (GTK_OBJECT (info->grid[i]));
+			info->rect[i] = NULL;
+			info->grid[i] = NULL;
 		}
 	}
 }
@@ -340,7 +309,7 @@ previews_free (AutoFormatInfo *info)
  * @info: AutoFormatInfo
  * @topindex: The index of the template to be displayed in the upper left corner
  *
- * This function will create preview-grid-controller for each canvas and associate
+ * This function will create grids and rects for each canvas and associate
  * them with the right format templates.
  * NOTE : if info->preview_locked is TRUE this function will do nothing,
  *        this is handy in situation where signals can cause previews_load to be
@@ -358,10 +327,8 @@ previews_load (AutoFormatInfo *info, int topindex)
 		return;
 
 	iterator = info->templates;
-
 	start = iterator;
 	while (iterator && count > 0) {
-
 		iterator = g_slist_next (iterator);
 		start = iterator;
 
@@ -369,62 +336,88 @@ previews_load (AutoFormatInfo *info, int topindex)
 	}
 
 	for (i = 0; i < NUM_PREVIEWS; i++) {
-
 		if (start == NULL) {
-
 			/*
 			 * Hide the canvas and make sure label is empty and frame is invisible
 			 */
 			gtk_widget_hide (GTK_WIDGET (info->canvas[i]));
-
 			gtk_frame_set_shadow_type (info->frame[i], GTK_SHADOW_NONE);
-
 		} else {
 			FormatTemplate *ft = start->data;
 
 			/*
-			 * Create the controller and set the label text
+			 * This rect is used to properly center on the canvas. It covers the whole canvas area.
+			 * Currently the canvas shifts the (0,0) 4,5 pixels downwards in vertical and horizontal
+			 * directions. So we need (-4.5, -4.5) as the absolute top coordinate and (215.5, 85.5) for
+			 * the absolute bottom of the canvas's region. Look at src/dialogs/autoformat.glade for
+			 * the original canvas dimensions (look at the scrolledwindow that houses each canvas)
 			 */
-			if (info->controller[i])
-				g_warning ("Serious troubles -> A previous preview controller was not freed!");
+			info->rect[i] = GNOME_CANVAS_RECT (
+				gnome_canvas_item_new (gnome_canvas_root (info->canvas[i]),
+						       gnome_canvas_rect_get_type (),
+						       "x1", -4.5, "y1", -4.5,
+						       "x2", 215.5, "y2", 85.5,
+						       "width_pixels", (int) 0,
+						       "fill_color", NULL,
+						       NULL));
 
+			/* Setup grid */
 			gtk_layout_freeze (GTK_LAYOUT (info->canvas[i]));
-			info->controller[i] = preview_grid_controller_new (info->canvas[i],
-									   PREVIEW_ROWS, PREVIEW_COLS, 16, 42,
-									   cb_get_row_height, cb_get_col_width,
-									   cb_get_cell_content, cb_get_cell_style,
-									   ft, info->gridlines->active,
-									   (topindex + i == info->preview_index));
-
+			info->grid[i] = PREVIEW_GRID (
+				gnome_canvas_item_new (gnome_canvas_root (info->canvas[i]),
+						       preview_grid_get_type (),
+						       "GetRowHeightCb", cb_get_row_height,
+						       "GetColWidthCb", cb_get_col_width,
+						       "GetCellStyleCb", cb_get_cell_style,
+						       "GetCellValueCb", cb_get_cell_value,
+						       "RenderGridlines", info->gridlines->active,
+						       "DefaultRowHeight", DEFAULT_ROW_HEIGHT,
+						       "DefaultColWidth", DEFAULT_COL_WIDTH,
+						       "CbData", ft,
+						       NULL));
+						       
+			/* Are we selected? Then draw a selection rectangle */
+			if (topindex + i == info->preview_index) {
+				g_return_if_fail (info->selrect == NULL);
+				
+				info->selrect = GNOME_CANVAS_RECT (
+					gnome_canvas_item_new (gnome_canvas_root (info->canvas[i]),
+							       gnome_canvas_rect_get_type (),
+							       "x1", -7.0, "y1", -2.5,
+							       "x2", 219.0, "y2", 84.5,
+							       "width_pixels", (int) 2,
+							       "outline_color", "red",
+							       "fill_color", NULL,
+							       NULL));
+				gtk_frame_set_shadow_type (info->frame[i], GTK_SHADOW_IN);
+			} else
+				gtk_frame_set_shadow_type (info->frame[i], GTK_SHADOW_OUT);
+			
+			gnome_canvas_set_scroll_region (info->canvas[i], 0, 0,
+							PREVIEW_COLS * DEFAULT_COL_WIDTH,
+							PREVIEW_ROWS * DEFAULT_ROW_HEIGHT);
 
 			{
 				char *name = format_template_get_name (ft);
 
-				gtk_tooltips_set_tip (info->tooltips, GTK_WIDGET (info->canvas[i]), name, "");
-
+				gtk_tooltips_set_tip (info->tooltips,
+						      GTK_WIDGET (info->canvas[i]),
+						      name, "");
 				g_free (name);
 			}
 			
 			/*
-			 * Make sure the canvas and frame are visible
+			 * Make sure the canvas is visible
 			 */
 			gtk_widget_show (GTK_WIDGET (info->canvas[i]));
-
-			if (topindex + i == info->preview_index)
-				gtk_frame_set_shadow_type (info->frame[i], GTK_SHADOW_IN);	
-			else
-				gtk_frame_set_shadow_type (info->frame[i], GTK_SHADOW_OUT);
-
 			start = g_slist_next (start);
 		}
 	}
 
 	info->preview_top = topindex;
 
-	for (i = 0; i < NUM_PREVIEWS; i++) {
-
+	for (i = 0; i < NUM_PREVIEWS; i++)
 		gtk_layout_thaw (GTK_LAYOUT (info->canvas[i]));
-	}
 }
 
 /********************************************************************************
@@ -562,7 +555,7 @@ cb_remove_current_activated (GtkMenuItem *item, AutoFormatInfo *info)
  * @info:
  *
  * Invoked when the scrollbar is slid, simply changes the topindex for the previews
- * and reloads the preview grid controllers.
+ * and reloads the previews.
  **/
 static void
 cb_scroll_value_changed (GtkAdjustment *adjustment, AutoFormatInfo *info)
@@ -695,8 +688,8 @@ cb_apply_item_toggled (GtkCheckMenuItem *item, AutoFormatInfo *info)
 	}
 
 	for (i = 0; i < NUM_PREVIEWS; i++)
-		if (info->controller[i])
-			preview_grid_controller_force_redraw (info->controller[i]);
+		gnome_canvas_request_redraw (info->canvas[i], INT_MIN, INT_MIN,
+					     INT_MAX/2, INT_MAX/2);
 }
 
 /**
@@ -740,7 +733,7 @@ cb_category_popwin_hide (GtkWidget *widget, AutoFormatInfo *info)
 	/*
 	 * This is for the initial selection
 	 */
-	if (info->controller[0] != NULL) {
+	if (info->grid[0] != NULL) {
 		cb_canvas_button_release (info->canvas[0], NULL, info);
 
 		gtk_widget_set_sensitive (GTK_WIDGET (info->edit), TRUE);
@@ -843,8 +836,10 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	info->wbcg            = wbcg;
 	info->templates       = NULL;
 	info->category_groups = NULL;
+	info->selrect         = NULL;
 	for (i = 0; i < NUM_PREVIEWS; i++) {
-		info->controller[i] = NULL;
+		info->grid[i] = NULL;
+		info->rect[i] = NULL;
 	}
 
 	info->current_category_group  = NULL;

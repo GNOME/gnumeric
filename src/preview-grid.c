@@ -4,8 +4,7 @@
  * Based upon "The Grid Gnome Canvas Item" a.k.a. Item-Grid
  * (item-grid.c) Created by Miguel de Icaza (miguel@kernel.org)
  *
- * Author : Almer. S. Tigelaar.
- * E-mail: almer1@dds.nl or almer-t@bigfoot.com
+ * Author : Almer S. Tigelaar <almer@gnome.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,32 +29,38 @@
 
 #include "cell.h"
 #include "cell-draw.h"
+#include "colrow.h"
 #include "pattern.h"
 #include "portability.h"
 #include "mstyle.h"
+#include "rendered-value.h"
 #include "sheet-style.h"
 #include "style-border.h"
 #include "style-color.h"
+#include "value.h"
 
 struct _PreviewGrid {
 	GnomeCanvasItem canvas_item;
 
-	GdkGC      *grid_gc;	/* Draw grid gc */
-	GdkGC      *fill_gc;	/* Default background fill gc */
-	GdkGC      *gc;		/* Color used for the cell */
-	GdkGC      *empty_gc;	/* GC used for drawing empty cells */
+	struct { /* Gc's */
+		GdkGC *grid;	/* Draw grid gc */
+		GdkGC *fill;	/* Default background fill gc */
+		GdkGC *cell;	/* Color used for the cell */
+		GdkGC *empty;	/* GC used for drawing empty cells */
+	} gc;
+	struct { /* Callbacks */
+		PGridGetRowHeight get_row_height;
+		PGridGetColWidth  get_col_width;
+		PGridGetCellStyle get_cell_style;
+		PGridGetCellValue get_cell_value;
 
-	PGridGetCell get_cell_cb;
-
-	PGridGetRowOffset get_row_offset_cb;
-	PGridGetColOffset get_col_offset_cb;
-
-	PGridGetColWidth get_col_width_cb;
-	PGridGetRowHeight get_row_height_cb;
-
-	PGridGetStyle get_style_cb;
-
-	gpointer cb_data;
+		gpointer          user_data;
+	} cb;
+	struct { /* Defaults */
+		MStyle *style;
+		int     row_height;
+		int     col_width;
+	} def;
 
 	gboolean gridlines;
 };
@@ -71,15 +76,215 @@ static GnomeCanvasItemClass *preview_grid_parent_class;
 /* The arguments we take */
 enum {
 	ARG_0,
-	ARG_GET_CELL_CB,
-	ARG_GET_ROW_OFFSET_CB,
+	
+	/* Callbacks */
 	ARG_GET_ROW_HEIGHT_CB,
-	ARG_GET_COL_OFFSET_CB,
 	ARG_GET_COL_WIDTH_CB,
-	ARG_GET_STYLE_CB,
+	ARG_GET_CELL_STYLE_CB,
+	ARG_GET_CELL_VALUE_CB,
 	ARG_CB_DATA,
+
+	/* Options */
 	ARG_RENDER_GRIDLINES,
+	ARG_DEFAULT_ROW_HEIGHT,
+	ARG_DEFAULT_COL_WIDTH,
 };
+
+/*****************************************************************************/
+
+static int
+pg_get_row_height (PreviewGrid *pg, int const row)
+{
+	int height;
+
+	g_return_val_if_fail (pg != NULL, 0);
+	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, 0);
+	
+	height = pg->cb.get_row_height (row, pg->cb.user_data);
+	
+	if (height < 0)
+		return pg->def.row_height;
+	else
+		return height;
+}
+
+static int
+pg_get_col_width (PreviewGrid *pg, int const col)
+{
+	int width;
+
+	g_return_val_if_fail (pg != NULL, 0);
+	g_return_val_if_fail (col >= 0 && col < SHEET_MAX_COLS, 0);
+
+	width = pg->cb.get_col_width (col, pg->cb.user_data);
+	
+	if (width < 0)
+		return pg->def.col_width;
+	else
+		return width;
+}
+
+/**
+ * pg_get_row_offset:
+ * pg:
+ * @y: offset
+ * @row_origin: if not null the origin of the row containing pixel @y is put here
+ *
+ * Return value: Row containing pixel y (and origin in @row_origin)
+ **/
+static int
+pg_get_row_offset (PreviewGrid *pg, int const y, int *row_origin)
+{
+	int row   = 0;
+	int pixel = 0;
+
+	g_return_val_if_fail (pg != NULL, 0);
+	
+	if (y < pixel) {
+		if (row_origin)
+			*row_origin = 1; /* there is a 1 pixel edge at the left */
+		return 0;
+	}
+
+	do {
+		if (y <= pixel + pg_get_row_height (pg, row)) {
+			if (row_origin)
+				*row_origin = pixel;
+			return row;
+		}
+		pixel += pg_get_row_height (pg, row);
+	} while (++row < SHEET_MAX_ROWS);
+
+	if (row_origin)
+		*row_origin = pixel;
+
+	return SHEET_MAX_ROWS - 1;
+}
+
+/**
+ * pg_get_col_offset:
+ * @x: offset
+ * @col_origin: if not null the origin of the column containing pixel @x is put here
+ *
+ * Return value: Column containing pixel x (and origin in @col_origin)
+ **/
+static int
+pg_get_col_offset (PreviewGrid *pg, int const x, int *col_origin)
+{
+	int col   = 0;
+	int pixel = 0;
+
+	g_return_val_if_fail (pg != NULL, 0);
+	
+	if (x < pixel) {
+		if (col_origin)
+			*col_origin = 1; /* there is a 1 pixel edge */
+		return 0;
+	}
+
+	do {
+		if (x <= pixel + pg_get_col_width (pg, col)) {
+			if (col_origin)
+				*col_origin = pixel;
+			return col;
+		}
+		pixel += pg_get_col_width (pg, col);
+	} while (++col < SHEET_MAX_COLS);
+
+	if (col_origin)
+		*col_origin = pixel;
+
+	return SHEET_MAX_COLS - 1;
+}
+
+static MStyle *
+pg_get_style (PreviewGrid *pg, int const row, int const col)
+{
+	MStyle *style;
+
+	g_return_val_if_fail (pg != NULL, 0);
+	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, 0);
+	g_return_val_if_fail (col >= 0 && col < SHEET_MAX_COLS, 0);
+	
+	style = pg->cb.get_cell_style (row, col, pg->cb.user_data);
+	
+	/* If no style was returned, use the default style */
+	if (style == NULL)
+		return pg->def.style;
+	else
+		return style;
+}
+
+static Cell *
+pg_construct_cell (PreviewGrid *pg, int const row, int const col)
+{
+	Cell          *cell  = NULL;
+	RenderedValue *res   = NULL;
+	MStyle        *style = NULL;
+
+	g_return_val_if_fail (pg != NULL, 0);
+	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, 0);
+	g_return_val_if_fail (col >= 0 && col < SHEET_MAX_COLS, 0);
+
+	/*
+	 * We are going to manually replicate a cell
+	 * structure here, please remember that this is not
+	 * the equivalent of a real cell
+	 */
+	cell = g_new0 (Cell, 1);
+	
+	cell->row_info = g_new0 (ColRowInfo, 1);
+	cell->col_info = g_new0 (ColRowInfo, 1);
+
+	style = pg_get_style (pg, row, col);
+		
+	/*
+	 * Eventually the row_info->pos and col_info->pos
+	 * will go away
+	 */
+	cell->row_info->pos = row;
+	cell->col_info->pos = col;
+	cell->pos.row = row;
+	cell->pos.col = col;
+
+	cell->row_info->margin_a = 0;
+	cell->row_info->margin_b = 0;
+	cell->col_info->margin_a = 2;
+	cell->col_info->margin_b = 2;
+
+	cell->row_info->size_pixels = pg_get_row_height (pg, row);
+	cell->col_info->size_pixels = pg_get_col_width  (pg, col);
+
+	cell->value = pg->cb.get_cell_value (row, col, pg->cb.user_data);
+	if (!cell->value)
+		cell->value = value_new_empty ();
+		
+	res = rendered_value_new (cell, style, TRUE);
+	cell->rendered_value = res;
+
+	/*
+	 * Rendered value needs to know text width and height to handle
+	 * alignment properly
+	 */
+	rendered_value_calc_size_ext (cell, style);
+
+	return cell;
+}
+
+static void
+pg_destruct_cell (Cell *cell)
+{
+	g_return_if_fail (cell != NULL);
+	
+	value_release (cell->value);
+	rendered_value_destroy (cell->rendered_value);
+
+	g_free (cell->col_info);
+	g_free (cell->row_info);
+	
+	g_free (cell);
+}
+/*****************************************************************************/
 
 /**
  * preview_grid_destroy:
@@ -90,9 +295,9 @@ enum {
 static void
 preview_grid_destroy (GtkObject *object)
 {
-	PreviewGrid *grid;
+	PreviewGrid *pg;
 
-	grid = PREVIEW_GRID (object);
+	pg = PREVIEW_GRID (object);
 
 	if (GTK_OBJECT_CLASS (preview_grid_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (preview_grid_parent_class)->destroy)(object);
@@ -107,15 +312,15 @@ preview_grid_destroy (GtkObject *object)
 static void
 preview_grid_realize (GnomeCanvasItem *item)
 {
-	GdkWindow *window;
-	GtkStyle  *style;
-	PreviewGrid  *preview_grid;
-	GdkGC     *gc;
+	GdkWindow   *window;
+	GtkStyle    *style;
+	PreviewGrid *pg;
+	GdkGC       *gc;
 
 	if (GNOME_CANVAS_ITEM_CLASS (preview_grid_parent_class)->realize)
 		(*GNOME_CANVAS_ITEM_CLASS (preview_grid_parent_class)->realize)(item);
 
-	preview_grid = PREVIEW_GRID (item);
+	pg = PREVIEW_GRID (item);
 	window = GTK_WIDGET (item->canvas)->window;
 
 	/* Set the default background color of the canvas itself to white.
@@ -127,16 +332,19 @@ preview_grid_realize (GnomeCanvasItem *item)
 	gtk_style_unref (style);
 
 	/* Configure the default grid gc */
-	preview_grid->grid_gc = gc = gdk_gc_new (window);
-	preview_grid->fill_gc = gdk_gc_new (window);
-	preview_grid->gc = gdk_gc_new (window);
-	preview_grid->empty_gc = gdk_gc_new (window);
+	pg->gc.grid  = gc = gdk_gc_new (window);
+	pg->gc.fill  = gdk_gc_new (window);
+	pg->gc.cell  = gdk_gc_new (window);
+	pg->gc.empty = gdk_gc_new (window);
 
 	gdk_gc_set_foreground (gc, &gs_light_gray);
 	gdk_gc_set_background (gc, &gs_white);
 
-	gdk_gc_set_foreground (preview_grid->fill_gc, &gs_white);
-	gdk_gc_set_background (preview_grid->fill_gc, &gs_light_gray);
+	gdk_gc_set_foreground (pg->gc.fill, &gs_white);
+	gdk_gc_set_background (pg->gc.fill, &gs_light_gray);
+
+	/* Initialize hard-coded defaults */
+	pg->def.style = mstyle_new_default ();
 }
 
 /**
@@ -148,21 +356,22 @@ preview_grid_realize (GnomeCanvasItem *item)
 static void
 preview_grid_unrealize (GnomeCanvasItem *item)
 {
-	PreviewGrid *preview_grid = PREVIEW_GRID (item);
+	PreviewGrid *pg = PREVIEW_GRID (item);
 
-	gdk_gc_unref (preview_grid->grid_gc);
-	gdk_gc_unref (preview_grid->fill_gc);
-	gdk_gc_unref (preview_grid->gc);
-	gdk_gc_unref (preview_grid->empty_gc);
-	preview_grid->grid_gc = 0;
-	preview_grid->fill_gc = 0;
-	preview_grid->gc = 0;
-	preview_grid->empty_gc = 0;
+	gdk_gc_unref (pg->gc.grid);
+	gdk_gc_unref (pg->gc.fill);
+	gdk_gc_unref (pg->gc.cell);
+	gdk_gc_unref (pg->gc.empty);
+	pg->gc.grid  = 0;
+	pg->gc.fill  = 0;
+	pg->gc.cell  = 0;
+	pg->gc.empty = 0;
 
+	mstyle_unref (pg->def.style);
+	
 	if (GNOME_CANVAS_ITEM_CLASS (preview_grid_parent_class)->unrealize)
 		(*GNOME_CANVAS_ITEM_CLASS (preview_grid_parent_class)->unrealize)(item);
 }
-
 
 /**
  * preview_grid_update:
@@ -189,11 +398,10 @@ preview_grid_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, i
  * Draw cell background
  **/
 static void
-preview_grid_draw_background (GdkDrawable *drawable, PreviewGrid *pg,
-			      MStyle const *mstyle,
+preview_grid_draw_background (GdkDrawable *drawable, PreviewGrid const *pg, MStyle const *mstyle,
 			      int col, int row, int x, int y, int w, int h)
 {
-	GdkGC *gc = pg->empty_gc;
+	GdkGC *gc = pg->gc.empty;
 	if (gnumeric_background_set_gc (mstyle, gc, pg->canvas_item.canvas, FALSE))
 		/* Fill the entire cell (API excludes far pixel) */
 		gdk_draw_rectangle (drawable, gc, TRUE, x, y, w+1, h+1);
@@ -201,7 +409,7 @@ preview_grid_draw_background (GdkDrawable *drawable, PreviewGrid *pg,
 
 #define border_null(b)	((b) == none || (b) == NULL)
 static void
-pg_style_get_row (PreviewGrid const *pg, StyleRow *sr, MStyle const *def_style)
+pg_style_get_row (PreviewGrid *pg, StyleRow *sr)
 {
 	StyleBorder const *top, *bottom, *none = style_border_none ();
 	StyleBorder const *left, *right;
@@ -210,12 +418,9 @@ pg_style_get_row (PreviewGrid const *pg, StyleRow *sr, MStyle const *def_style)
 
 	sr->vertical [col] = none;
 	while (col <= end) {
-		MStyle const *style = pg->get_style_cb (row, col, pg->cb_data);
-		/*
-		 * If the mstyle is NULL we are probably out of range
-		 * In such cases we simply draw with the default style
-		 */
-		sr->styles [col] = (style != NULL) ? style : def_style;
+		MStyle const * style = pg_get_style (pg, row, col);
+
+		sr->styles [col] = style;
 
 		top = mstyle_get_border (style, MSTYLE_BORDER_TOP);
 		bottom = mstyle_get_border (style, MSTYLE_BORDER_BOTTOM);
@@ -265,23 +470,22 @@ preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
  	 * However, that feels like more hassle that it is worth.  Look into this someday.
  	 */
  	int x, y, col, row, n;
- 	int const start_col = pg->get_col_offset_cb (draw_x - 2, &x, pg->cb_data);
- 	int end_col         = pg->get_col_offset_cb (draw_x + width + 2, NULL, pg->cb_data);
+ 	int const start_col = pg_get_col_offset (pg, draw_x - 2, &x);
+ 	int end_col         = pg_get_col_offset (pg, draw_x + width + 2, NULL);
  	int const diff_x    = draw_x - x;
- 	int start_row       = pg->get_row_offset_cb (draw_y - 2, &y, pg->cb_data);
- 	int end_row         = pg->get_row_offset_cb (draw_y + height + 2, NULL, pg->cb_data);
+ 	int start_row       = pg_get_row_offset (pg, draw_y - 2, &y);
+ 	int end_row         = pg_get_row_offset (pg, draw_y + height + 2, NULL);
  	int const diff_y    = draw_y - y;
 
 	StyleRow sr, next_sr;
 	MStyle const **styles;
 	StyleBorder const **borders, **prev_vert;
 	StyleBorder const *none = pg->gridlines ? style_border_none () : NULL;
-	MStyle *def_style = mstyle_new_default ();
 
 	int *colwidths = NULL;
 
  	/* Fill entire region with default background (even past far edge) */
- 	gdk_draw_rectangle (drawable, pg->fill_gc, TRUE,
+ 	gdk_draw_rectangle (drawable, pg->gc.fill, TRUE,
  			    draw_x, draw_y, width, height);
 
 	/*
@@ -295,26 +499,26 @@ preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	/* load up the styles for the first row */
 	next_sr.row = sr.row = row = start_row;
-	pg_style_get_row (pg, &sr, def_style);
+	pg_style_get_row (pg, &sr);
 
 	/* Collect the column widths */	
 	colwidths = g_alloca (n * sizeof (int));
 	colwidths -= start_col;
 	for (col = start_col; col <= end_col; col++)
-		colwidths[col] = pg->get_col_width_cb (col, pg->cb_data);
+		colwidths[col] = pg_get_col_width (pg, col);
 
 	for (y = -diff_y; row <= end_row; row = sr.row = next_sr.row) {
- 		int row_height = pg->get_row_height_cb (row, pg->cb_data);
+ 		int row_height = pg_get_row_height (pg, row);
  			
 		if (++next_sr.row > end_row) {
 			for (col = start_col ; col <= end_col; ++col)
 				next_sr.vertical [col] =
 				next_sr.bottom [col] = none;
 		} else
-			pg_style_get_row (pg, &next_sr, def_style);
+			pg_style_get_row (pg, &next_sr);
 
 		for (col = start_col, x = -diff_x; col <= end_col; col++) {
- 			Cell const *cell  = pg->get_cell_cb (row, col, pg->cb_data);
+ 			Cell         *cell  = pg_construct_cell (pg, row, col);
 			MStyle const *style = sr.styles [col];
 
  			preview_grid_draw_background (drawable, pg,
@@ -322,9 +526,10 @@ preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
  						      colwidths [col], row_height);
  
 			if (!cell_is_blank (cell))
-				cell_draw (cell, style, pg->gc, drawable,
+				cell_draw (cell, style, pg->gc.cell, drawable,
 					   x, y, -1, -1, -1);
 
+			pg_destruct_cell (cell);
  			x += colwidths [col];
  		}
 
@@ -341,7 +546,6 @@ preview_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		 
 		y += row_height;
  	}
-	mstyle_unref (def_style);
 }
 
 /**
@@ -385,35 +589,38 @@ static void
 preview_grid_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
 	GnomeCanvasItem *item;
-	PreviewGrid *preview_grid;
+	PreviewGrid *pg;
 
 	item = GNOME_CANVAS_ITEM (o);
-	preview_grid = PREVIEW_GRID (o);
+	pg = PREVIEW_GRID (o);
 
 	switch (arg_id){
-	case ARG_GET_CELL_CB:
-		preview_grid->get_cell_cb = GTK_VALUE_POINTER (*arg);
-		break;
-	case ARG_GET_ROW_OFFSET_CB :
-		preview_grid->get_row_offset_cb = GTK_VALUE_POINTER (*arg);
-		break;
 	case ARG_GET_ROW_HEIGHT_CB :
-		preview_grid->get_row_height_cb = GTK_VALUE_POINTER (*arg);
-		break;
-	case ARG_GET_COL_OFFSET_CB :
-		preview_grid->get_col_offset_cb = GTK_VALUE_POINTER (*arg);
+		pg->cb.get_row_height = GTK_VALUE_POINTER (*arg);
 		break;
 	case ARG_GET_COL_WIDTH_CB :
-		preview_grid->get_col_width_cb = GTK_VALUE_POINTER (*arg);
-		break;
-	case ARG_GET_STYLE_CB :
-		preview_grid->get_style_cb = GTK_VALUE_POINTER (*arg);
+		pg->cb.get_col_width = GTK_VALUE_POINTER (*arg);
 		break;
 	case ARG_CB_DATA :
-		preview_grid->cb_data = GTK_VALUE_POINTER (*arg);
+		pg->cb.user_data = GTK_VALUE_POINTER (*arg);
+		break;
+	case ARG_GET_CELL_STYLE_CB :
+		pg->cb.get_cell_style = GTK_VALUE_POINTER (*arg);
+		break;
+	case ARG_GET_CELL_VALUE_CB:
+		pg->cb.get_cell_value = GTK_VALUE_POINTER (*arg);
 		break;
 	case ARG_RENDER_GRIDLINES :
-		preview_grid->gridlines = GTK_VALUE_BOOL (*arg);
+		pg->gridlines = GTK_VALUE_BOOL (*arg);
+		break;
+	case ARG_DEFAULT_ROW_HEIGHT :
+		pg->def.row_height = GTK_VALUE_INT (*arg);
+		break;
+	case ARG_DEFAULT_COL_WIDTH :
+		pg->def.col_width = GTK_VALUE_INT (*arg);
+		break;
+	default :
+		g_warning ("Unknown argument");
 		break;
 	}
 }
@@ -435,24 +642,25 @@ preview_grid_class_init (PreviewGridClass *preview_grid_class)
 	object_class = (GtkObjectClass *) preview_grid_class;
 	item_class = (GnomeCanvasItemClass *) preview_grid_class;
 
-	gtk_object_add_arg_type ("PreviewGrid::GetCellCb", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_GET_CELL_CB);
-	gtk_object_add_arg_type ("PreviewGrid::GetRowOffsetCb", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_GET_ROW_OFFSET_CB);
+	/* Callbacks */
 	gtk_object_add_arg_type ("PreviewGrid::GetRowHeightCb", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_GET_ROW_HEIGHT_CB);
-	gtk_object_add_arg_type ("PreviewGrid::GetColOffsetCb", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_GET_COL_OFFSET_CB);
 	gtk_object_add_arg_type ("PreviewGrid::GetColWidthCb", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_GET_COL_WIDTH_CB);
-	gtk_object_add_arg_type ("PreviewGrid::GetStyleCb", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_GET_STYLE_CB);
-
+	gtk_object_add_arg_type ("PreviewGrid::GetCellStyleCb", GTK_TYPE_POINTER,
+				 GTK_ARG_WRITABLE, ARG_GET_CELL_STYLE_CB);
+	gtk_object_add_arg_type ("PreviewGrid::GetCellValueCb", GTK_TYPE_POINTER,
+				 GTK_ARG_WRITABLE, ARG_GET_CELL_VALUE_CB);
 	gtk_object_add_arg_type ("PreviewGrid::CbData", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_CB_DATA);
 
+	/* Manipulation */
 	gtk_object_add_arg_type ("PreviewGrid::RenderGridlines", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_RENDER_GRIDLINES);
+	gtk_object_add_arg_type ("PreviewGrid::DefaultRowHeight", GTK_TYPE_INT,
+				 GTK_ARG_WRITABLE, ARG_DEFAULT_ROW_HEIGHT);
+	gtk_object_add_arg_type ("PreviewGrid::DefaultColWidth", GTK_TYPE_INT,
+				 GTK_ARG_WRITABLE, ARG_DEFAULT_COL_WIDTH);
 
 	object_class->set_arg = preview_grid_set_arg;
 	object_class->destroy = preview_grid_destroy;

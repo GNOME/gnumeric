@@ -1,3 +1,20 @@
+2001-04-15  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/preview-grid.c (pgrid_get_style) : Calls upon
+	cb_cell_get_style, if NULL use default.
+	(pg_get_row_height) : Retrieve row height.
+	(pg_get_col_width) : Retrieve col width.
+	(pg_get_row_offset) : Get offset of row.
+	(pg_get_col_offset) : Get offset of column.
+	(pg_construct_cell) : Construct a cell from a value.
+	(pg_destruct_cell) : Destruct a cell.
+	(preview_grid_realize) : Initialize default mstyle.
+	(preview_grid_unrealize) : Free default mstyle.
+	(preview_grid_set_arg) : Add support for row height and col
+	width.
+	(pg_style_get_row) : Use pg_* routines.
+	(preview_grid_draw) : Idem.
+
 2001-04-13  Jody Goldberg <jgoldberg@home.com>
 
 	* idl/Makefile.am (dist-hook) : automate removing the generated files.

@@ -163,8 +163,6 @@ GNUMERIC_BASE_SOURCES =				\
 	position.h				\
 	preview-grid.c				\
 	preview-grid.h				\
-	preview-grid-controller.c		\
-	preview-grid-controller.h		\
 	print.c					\
 	print.h					\
 	print-cell.c				\
