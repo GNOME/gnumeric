@@ -74,6 +74,7 @@ typedef struct {
 	GtkWidget *down_button;
 	GtkWidget *add_button;
 	GtkWidget *delete_button;
+	GtkWidget *clear_button;
 	GnmExprEntry *range_entry;
 	GnmExprEntry *add_entry;
 	GtkListStore  *model;
@@ -267,6 +268,7 @@ cb_update_sensitivity (SortFlowState *state)
 					  (items > 1));
 		cb_update_add_sensitivity (state);
 	}
+	gtk_widget_set_sensitive (state->clear_button, state->sort_items != 0);
 }
 
 /**
@@ -543,6 +545,14 @@ cb_delete_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 }
 
 static void
+cb_clear_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
+{
+	state->sort_items = 0;
+	gtk_list_store_clear (state->model);
+	cb_update_sensitivity (state);
+}
+
+static void
 cb_add_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 {
         GnmValue *range_add;
@@ -552,6 +562,7 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 	int end;
 	int index;
 	int i;
+	gboolean had_items = (state->sort_items > 0);
 
         range_add = gnm_expr_entry_parse_as_value
 		(GNM_EXPR_ENTRY (state->add_entry), state->sheet);
@@ -596,13 +607,11 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *w, SortFlowState *state)
 
 			if (!found) {
 				append_data (state, i, index);
-				break;
 			}
 		}
+		if (!had_items && (state->sort_items > 0)) 
+			cb_update_sensitivity (state);
 	}
-
-	if (state->sort_items == 1)
-		cb_update_sensitivity (state);
 }
 
 static void
@@ -683,7 +692,7 @@ dialog_init (SortFlowState *state)
 				  GNM_EE_SINGLE_RANGE,
 				  GNM_EE_MASK);
 	gtk_table_attach (table, GTK_WIDGET (state->add_entry),
-			  1, 3, 2, 3,
+			  1, 2, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
@@ -789,6 +798,12 @@ dialog_init (SortFlowState *state)
 		G_CALLBACK (cb_delete_clicked), state);
 	gtk_widget_set_sensitive (state->delete_button, FALSE);
 
+	state->clear_button  = glade_xml_get_widget (state->gui, "clear_button");
+	g_signal_connect (G_OBJECT (state->clear_button),
+		"clicked",
+		G_CALLBACK (cb_clear_clicked), state);
+	gtk_widget_set_sensitive (state->clear_button, FALSE);
+
 	gtk_button_stock_alignment_set (GTK_BUTTON (state->up_button),
 		0., .5, 0., 0.);
 	gtk_button_stock_alignment_set (GTK_BUTTON (state->down_button),
@@ -796,6 +811,8 @@ dialog_init (SortFlowState *state)
 	gtk_button_stock_alignment_set (GTK_BUTTON (state->add_button),
 		0., .5, 0., 0.);
 	gtk_button_stock_alignment_set (GTK_BUTTON (state->delete_button),
+		0., .5, 0., 0.);
+	gtk_button_stock_alignment_set (GTK_BUTTON (state->clear_button),
 		0., .5, 0., 0.);
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),

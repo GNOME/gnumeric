@@ -2,6 +2,7 @@
 <!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
+<requires lib="gnome"/>
 
 <widget class="GtkDialog" id="CellSort">
   <property name="border_width">6</property>
@@ -337,26 +338,6 @@
 		  <property name="spacing">6</property>
 
 		  <child>
-		    <widget class="GtkButton" id="add_button">
-		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="label">gtk-add</property>
-		      <property name="use_stock">True</property>
-		      <property name="relief">GTK_RELIEF_NORMAL</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkButton" id="delete_button">
-		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="label">gtk-remove</property>
-		      <property name="use_stock">True</property>
-		      <property name="relief">GTK_RELIEF_NORMAL</property>
-		    </widget>
-		  </child>
-
-		  <child>
 		    <widget class="GtkButton" id="up_button">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
@@ -371,6 +352,27 @@
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
 		      <property name="label">gtk-go-down</property>
+		      <property name="use_stock">True</property>
+		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkButton" id="clear_button">
+		      <property name="visible">True</property>
+		      <property name="can_default">True</property>
+		      <property name="can_focus">True</property>
+		      <property name="label">gtk-clear</property>
+		      <property name="use_stock">True</property>
+		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		    </widget>
+		  </child>
+
+		  <child>
+		    <widget class="GtkButton" id="delete_button">
+		      <property name="visible">True</property>
+		      <property name="can_focus">True</property>
+		      <property name="label">gtk-remove</property>
 		      <property name="use_stock">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		    </widget>
@@ -425,6 +427,24 @@
 		  <property name="bottom_attach">3</property>
 		  <property name="x_options">fill</property>
 		  <property name="y_options">fill</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkButton" id="add_button">
+		  <property name="visible">True</property>
+		  <property name="can_focus">True</property>
+		  <property name="label">gtk-add</property>
+		  <property name="use_stock">True</property>
+		  <property name="relief">GTK_RELIEF_NORMAL</property>
+		</widget>
+		<packing>
+		  <property name="left_attach">2</property>
+		  <property name="right_attach">3</property>
+		  <property name="top_attach">2</property>
+		  <property name="bottom_attach">3</property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options"></property>
 		</packing>
 	      </child>
 	    </widget>

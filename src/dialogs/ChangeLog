@@ -1,3 +1,14 @@
+2003-10-27  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=127932
+	* src/dialogs/dialog-cell-sort.c (cb_update_sensitivity):
+	  handle clear button
+	(cb_clear_clicked): new
+	(cb_add_clicked): don't stop after the first addition
+	(dialog_init): handle clear button and shortened add entry
+	* src/dialogs/cell-sort.glade: add clear button and move
+	  add button next to add entry field
+
 2003-10-27  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-format-page.c (cb_col_event): Handle mouse-1 clicks
