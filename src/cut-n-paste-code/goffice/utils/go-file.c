@@ -435,7 +435,7 @@ go_url_show (gchar const *url)
 	}
 
 	/* some win32 specific url cleanup */
-	If this is a file:// URL, strip off file:// and make it backslashed */
+	/* If this is a file:// URL, strip off file:// and make it backslashed */
 	if (g_ascii_strncasecmp (url, "file://", 7) == 0) {
 		url += 7;
 
