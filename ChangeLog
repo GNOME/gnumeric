@@ -1,3 +1,8 @@
+2001-07-24  Jody Goldberg <jgoldberg@home.com>
+
+	* plugins/Makefile.am (SUBDIRS) : Add psion plugin from
+	Frodo Looijaard <frodol@dds.nl>
+
 2001-07-27  Morten Welinder  <terra@diku.dk>
 
 	* src/rangefunc.c (range_min_k, range_min_k_nonconst): New
