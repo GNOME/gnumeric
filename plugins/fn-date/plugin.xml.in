@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <plugin id="Gnumeric_fndate">
 	<information>
 		<_name>Date and Time Functions</_name>

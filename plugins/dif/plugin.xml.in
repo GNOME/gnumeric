@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <plugin id="Gnumeric_dif">
 	<information>
 		<_name>Data Interchange Format (DIF) module</_name>
