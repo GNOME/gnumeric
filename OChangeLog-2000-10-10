@@ -1,5 +1,10 @@
 2000-05-04  Almer. S. Tigelaar.  <almer1@dds.nl>
 
+	* doc/stf-export.txt :
+	Added stf-exporter documentation
+
+2000-05-04  Almer. S. Tigelaar.  <almer1@dds.nl>
+
 	* src/gnumeric-util.[ch] :
 	(gnumeric_combo_enters) : New, makes dialogs
 	close when enter is pressed inside a gtkcombo.
