@@ -9,6 +9,9 @@ Jody
 	* Remove the patch to the xml importer in 1.0.11 and solve the
 	  problem using a blunt object.
 
+Morten:
+	* Improve determinant calculation for singular matrices.
+
 --------------------------------------------------------------------------
 Gnumeric 1.0.11
 
