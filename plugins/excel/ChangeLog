@@ -1,3 +1,9 @@
+2003-11-17  Jody Goldberg <jody@gnome.org>
+
+	* plugins/excel/ms-chart.c (BC_R(areaformat)) : we need to consider
+	  pattern = 0 as NONE only if it is not autoformat.  Our theme engine
+	  does not change fill types, so it would ignore styles with fill=NONE
+
 2003-11-15  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-write.c (write_sheet_head) : save the manual recalc flag.

@@ -358,9 +358,9 @@ BC_R(areaformat)(XLChartHandler const *handle,
 	d (0, {
 		fprintf (stderr, "pattern = %d;\n", pattern);
 		if (auto_format)
-			fputs ("Use auto format;", stderr);
+			fputs ("Use auto format;\n", stderr);
 		if (invert_if_negative)
-			fputs ("Swap fore and back colours when displaying negatives;", stderr);
+			fputs ("Swap fore and back colours when displaying negatives;\n", stderr);
 	});
 
 #if 0 
@@ -380,6 +380,13 @@ BC_R(areaformat)(XLChartHandler const *handle,
 			s->style->fill.u.pattern.pat.fore = s->style->fill.u.pattern.pat.back;
 			s->style->fill.u.pattern.pat.back = tmp;
 		}
+	} else if (auto_format) {
+		s->style->fill.type = GOG_FILL_STYLE_PATTERN;
+		s->style->fill.is_auto = TRUE;
+		s->style->fill.invert_if_negative = invert_if_negative;
+		s->style->fill.u.pattern.pat.pattern = 0;
+		s->style->fill.u.pattern.pat.fore =
+		s->style->fill.u.pattern.pat.back = 0;
 	} else
 		s->style->fill.type = GOG_FILL_STYLE_NONE;
 
