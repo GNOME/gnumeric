@@ -28,7 +28,7 @@ struct _Sheet {
 	CellPos	 edit_pos_real;	/* Even in the middle of a merged cell */
 
 	struct {
-		/* Static corner to rubber band the selecton range around */
+		/* Static corner to rubber band the selection range around */
 		CellPos	 base_corner;
 		/* Corner that is moved when the selection range is extended */
 		CellPos	 move_corner;
