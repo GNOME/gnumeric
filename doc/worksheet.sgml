@@ -168,7 +168,7 @@
   </sect2>
   <!-- end of menubar description -->
   
-  <sect2>
+  <sect2 id="buttonbar-buttons">
     <title>The Button Bar</title>
     
     <para>The Button bar contains many icons representative of some the more common
@@ -350,7 +350,7 @@
   </sect2>
   <!-- end of button bar docs -->
   
-  <sect2>
+  <sect2 id="worksheet-data-entry">
     <title>Data entry area.</title>
 
     <para>Immediately under the button bar is the data entry area. This is a small

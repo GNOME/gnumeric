@@ -1,3 +1,10 @@
+1998-10-01 Adrian Likins <adrian@gimp.org>
+
+	* src/*.sgml: guess what? doc updates.. mainly
+	info on formatting cells.
+	
+	* src/images/number-format-*.jpg: more images
+
 1998-10-01  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/item-grid.c (item_grid_event): Removed unused variables

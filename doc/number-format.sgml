@@ -19,6 +19,10 @@
       (or from the context sensitive popup menu
       bound to the right mouse button) the appropriate format.</para>
   
+  <para>The quickest way to access the cell format dialog is to use its 
+        keyboard shortcut, <keycombo><keycap>Ctrl</keycap><keycap>1</keycap></keycombo>.
+        This is equilivent to selecting the cell format item from the menus.</para>
+
   <para>Gnumeric provides a wide range of predetermined formatting
     styles.  These formatting styles are shown by category in the
     Cell/Style dialog box.  Just choose one of the display formats and
@@ -30,7 +34,7 @@
     custom formatting expression: the custom formatting expressions give
     you more flexibility in number display.</para>
 
-<sect2>
+<sect2 id="format-dialog">
   <title>The Format Dialog</title>
 
   <para>The number formatting dialog (see <xref linkend="number-format-dialog"> ) 
@@ -55,6 +59,115 @@
       look like, and the example of what the formatting code looks like.</para>
 </sect2>    
 
+
+<sect2>
+<title>Changing the Font</title>
+
+<para>Any cell can use any font that is availble to Gnumeric. This 
+includes font attributes like bold, italics, etc as well as
+font size.</para>
+
+<para>To change the font for cells, simply open the file format
+dialog (see <xref linkend="format-dialog">), and select the font
+tab. This will open the standard Gnome font selection dialog.</para>
+<!-- FIXME link to doc on the font dialog when they exist -->
+
+<figure id="number-format-font-dialog">
+   <title>The Font selection dialog</title>
+   <screenshot>
+      <graphic fileref="images/number-format-font-dialog.jpg"></graphic>
+   </screenshot>
+</figure>
+
+<!-- FIXME -->
+<para>Reference docs on how to use the font dialog here.</para>
+<!-- FIXME -->
+
+
+<para>For simply changing a cell's format to be Bold or Italics,
+there are buttons on the toolbar for doing this quickly.
+See <xref linkend="number-format-bold-italics"></para>
+
+</sect2>
+
+<sect2>
+<title>Changing the cell's Color</title>
+
+<para>Any cell in gnumeric can be assigned a color
+for the text, the background, or the border. It is also
+possible to add a pattern to the background of the cell.
+FIXME: Setting the color and pattern for the background
+currently is not enabled.</para>
+
+<figure id="number-format-color-dialog">
+  <title>The cell color dialog.</title>
+    <screenshot>
+      <graphic fileref="images/number-format-color-dialog.jpg"></graphic>
+     </screenshot>
+</figure>
+
+<para>The <guilabel>Text color</guilabel> area is use to set an optional color
+for the cell contents. The default is to not assign a
+color to the cell and rely on the global defaults. To
+give a cells contents a color, select the 
+<guibutton>Use This Color</guibutton> and then click
+on the <guibutton>Color Selector Button</guibutton> to
+open the Gnome color dialog. Select a color and
+press <guibutton>Okay</guibutton> to return to the cell color dialog.
+</para>
+
+<Para>The <Guilabel>Background Configuration</Guilabel> Includes
+Options For Setting The Cells Background To Either A Solid
+Color Or A Pattern.</Para>
+
+<Para>To Set The Background Of The Cell To A Solid Color,
+Click On The <Guibutton>Use Solid Color</Guibutton>, And
+Choose A Color From The Color Selector Dialog. </Para>
+
+<Para>To Set A Pattern For The Cell Background, 
+Click On The <Guibutton>Use A Pattern</Guibutton> Button
+And Select A Pattern By Clicking On The Pattern The User Wants.
+There Is A Solid Black Border That Should Outline The Currently
+Selected Pattern. </Para>
+
+<!-- Fixme -->
+<Para>Note: The Background Options Are Not Implemented Yet.</Para>
+<!-- Fixme -->
+</sect2>
+
+<sect2>
+<title>Cell content justification and alignment</title>
+
+  
+<para>The contents of cell can be justified and aligned
+as needed. There are several justification options. See
+<xref linkend="number-format-justification">.</para>
+
+<figure id="number-format-justification">
+  <title>Example of text justification.</title>
+  <screenshot>
+     <graphic fileref="images/number-format-justification.jpg"></graphic>
+   </screenshot>
+</figure>
+
+</sect2>
+<sect2 id="number-format-bold-italics">
+   <title>Cell Formatting options on the buttonbar.</title>
+
+  <para>For frequently applied formats, there are some quick
+ access buttons on the button bar. </para>
+
+<figure id="number-format-buttonbar">
+  <title>Example of justification quick buttons.</title>
+  <screenshot>
+     <graphic fileref="images/number-format-buttonbar.jpg"></graphic>
+   </screenshot>
+</figure>
+
+<para>See <xref linkend="buttonbar-buttons"> for more detail one what these
+ buttons do.</para>
+
+</sect2>
 </sect1>
 
   
@@ -90,7 +203,62 @@
 
 <sect1>
 <title>Date and Time formatting</title>
- <para>Nothing here yet</para>
+   <para>Gnumeric supports a wide variety of date and time formatting.</para>
+
+   <para>These formats can be used to convert an existing time serial number
+   into a new more readable format, or dates can be entered in these formats
+   and Gnumeric will automatically convert them to a serial number with the
+   proper cell format. See <xref linkend="entering-dates-and-numbers"> for more
+   information.</para>
+
+   <para>In <xref linkend="number-format-date-time-examples">  'd' is a day,
+  'm' is a month, 'y' is a year, 'h' is an hour, and 's' is a second.</para>
+
+
+   <example id="number-format-date-time-examples">
+<title>Date and Time Formatting.</title>
+<programlisting>
+
+    Date
+        Format                     Sample
+   Serial number		36068.7	
+   m/d/yyyy	        	10/1/1998	
+   d-mmm-yy		        1-Oct-98	
+   d-mmm-yyyy		        1-Oct-1998	
+   d-mmm		        1-Oct	
+   d-mm		                1-10	
+   mmm/d		        Oct/1	
+   mm/d		                10/1	
+   mm/dd/yy		        10/01/98	
+   mm/dd/yyyy		        10/01/1998	
+   mmm/dd/yy		        Oct/01/98	
+   mmm/dd/yyyy		        Oct/01/1998	
+   mmm/ddd/yy		        Oct/Thu/98	
+   mmm/ddd/yyyy		        10/01/1998	
+   mm/ddd/yy		        10/Thu/98	
+   mm/ddd/yyyy		        10/Thu/1998	
+   mmm-yy		        Oct-98	
+   mmm-yyyy		        Oct-1998	
+   m/d/yy h:mm		        10/1/98 16:48	
+   m/d/yyyy h:mm                10/1/1998 16:48	
+
+
+Time
+
+      Format                     Sample
+  Serial number		       36068.7	
+  h:mm:ss AM/PM		       4:51 PM	
+  h:mm:ss AM/PM		       4:51:18 PM	
+  h:mm		               16:51	
+  h:mm:ss		       16:51:18	
+  m/d/yy h:mm		       10/1/98 16:51	
+  mm:ss		               10:18	
+  mm:ss.0		       10:1836068.7	
+  [h]:mm:ss		       :10:18	
+
+
+</programlisting>
+</example>
 
 </sect1>
   

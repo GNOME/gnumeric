@@ -1,5 +1,5 @@
 <sect1>
-<title>Strings and numbers</title>
+  <title>Strings and numbers</title>
   
   <para>The basic forms of data that can be entered into a cell include
     strings, numbers, formulas, and cell references. </para>
@@ -19,16 +19,46 @@
       <graphic fileref="images/editing-1.jpg"></graphic>
     </screenshot>
   </figure>
-  
-</sect1>
 
-<sect1>
-  <title>Editing of cells.</title>
-  
-  <para>To enter data into a cell, click on the cell with the white-cross
-    cursor. This will make the cell become the active cell (see <xref linkend="activecell">).
-      Then the user types in the data or formula for the cell.</para>
-  
+<sect2 id="entering-dates-and-numbers">
+  <title>Dates and Numbers</title>
+
+  <para>Dates and numbers are a special case of strings that are automatically
+    converted to numerical types. If a string entered matches one of the formats
+    for dates or times, the string is converted into a serial number (representitive
+    of the time in the string) and the cell format is set to that of the
+    original string.</para>
+
+  <para>To make use of this feature, the user just needs to enter in a number in
+    a recognizable format. Gnumeric will automatically convert it into an approriate serial
+    number. Because of this, it is possible to enter a date or time in a human readable 
+    format, and have it stored in a numerical format inside of Gnumeric.</para>
+
+  <para>The interesting part of this is that a user entered string, can be autofilled (see 
+    <xref linkend="autofill">) properly. </para>
+
+  <para>See <xref linkend="number-format-date-time-examples"> for some examples of 
+      the many date and time formats that are accepted by Gnumeric.</para>
+
+  </SECT2>
+
+  <sect2>
+    <title>Editing of cells.</title>
+    
+    <procedure>
+      <title>Entering data in a cell</title>
+      <step>
+	<para>Activate the cell by clicking on it with the white-cross cursor.
+	  This will make the cell become the active cell (see <xref linkend="activecell">).
+	    </para></step>
+      <step>
+	<para>Type in the data or formula.</para></step>
+    </procedure>
+
+    <para>See <xref linkend="formulas"> for more detail on entering formulas into cells.</para>
+
+  </sect2>
+
   <sect2>
     <title>Editing commands</title>
     
@@ -46,8 +76,8 @@
       <para>This mode is accessed by pressing <keycap>F2</keycap>. This shifts the
 	focus from the current cell to the editing region in the worksheet. This
 	allows more complete control over the text and data in the cell. This includes
-	the use of the cursor keys to postition the cursor within the data in the cell.</para>
-      <!--  FIXME  need docs on the editing region to refer here -->
+	the use of the cursor keys to postition the cursor within the data in the cell.
+        See <xref linkend="worksheet-data-entry"> For more info on the data entry area.</para>
       
       <variablelist>
 	<varlistentry>
@@ -106,7 +136,8 @@
     <listitem><para>Using the mouse to drag the selection</para></listitem>
   </itemizedlist>
   
-  <sect2><title>Using the mouse to drag the selection</title>
+  <sect2>
+      <title>Using the mouse to drag the selection</title>
     
     <para>Gnumeric allows the user to move and copy cells
       and their contents by simply dragging and dropping the
@@ -118,77 +149,115 @@
       to its new location and release. The contents of the cell
       will be moved to the new cell.</para>
     
-    <itemizedlist>
-
-      <listitem><para>Click <mousebutton>(MB1)</mousebutton> on the border (anywhere, except the autofill square in
-	  the bottom right corner).<keycap>Ctrl</keycap>+<mousebutton>MB1</mousebutton> 
-	  copies the cell, why a plain
-	  click just moves the cell.</para></listitem>
+      <procedure>
+	<step>
+	  <para>Click <mousebutton>(MB1)</mousebutton> on the border (anywhere, except the autofill square in
+	    the bottom right corner).<keycap>Ctrl</keycap>+<mousebutton>MB1</mousebutton> 
+	    copies the cell, why a plain
+	    click just moves the cell.
+	  </para>
+	</step>
+	
+	<step>
+	  <para>Drag the cell to the new cell location.</para>
+	</step>
       
-      <listitem><para>Drag the cell to the new cell location.</para></listitem>
-      
-     <listitem><para>Release the selection.</para></listitem>
-    </itemizedlist>
+	<step>
+	  <para>Release the selection.</para>
+	</step>
+      </procedure>
     
     <para>This is the simplest method and most common use the drag and drop
       cell moving and copying. The key bindings give you a good set of options
       for quick moving and copying.</para>
-  </sect2>
+
+    </sect2>
   
+  
+    <sect2>
+      <title>Right Click Options</title>
+    
+      <para>The other more extensive option to moving and copying cells is the 
+	right click options. This presents a menu of options that is more extensive
+	that can be easily done with the normal key bindings</para>
+    
+      <procedure>
+	<step>
+	  <para>Right Click <mousebutton>(MB3)</mousebutton> on the border (anywhere, except the autofill square in
+	    the bottom right corner).
+	  </para>
+	</step>
+      
+	<step>
+	  <para>Drag the cell to the new cell location.
+	  </para>
+	</step>
+	
+	<step>
+	  <para>Release the selection. An options menu should pop-up.
+	  </para>
+	</step>
+      
+	<step>
+	  <para>Select the appropriate option from the menu and click again. The new
+	    cell should have the new info.
+	  </para>
+	</step>
+	
+      </procedure>
+      
+      
+    </sect2>
   
   <sect2>
-    <title>Right Click Options</title>
-    
-    <para>The other more extensive option to moving and copying cells is the 
-      right click options. This presents a menu of options that is more extensive
-      that can be easily done with the normal key bindings</para>
+    <title>Move and copy right click menu options</title>
     
     <itemizedlist>
-      <listitem><para>Right Click (MB3) on the border (anywhere, except the autofill square in
-	  the bottom right corner).</para></listitem>
+      <listitem>
+	<para>
+	  Copy: Same effect as the normal Copy operations. It
+	  copies the value, the format, and the formula. Equivalent  to Ctrl+MB1.
+	</para>
+      </listitem>
       
-      <listitem><para>Drag the cell to the new cell location.</para></listitem>
-      
-      <listitem><para>Release the selection. An options menu should pop-up.</para></listitem>
-      
-      <listitem><para>Select the appropriate option from the menu and click again. The new
-	  cell should have the new info.</para></listitem>
-      
+      <listitem>
+	<para>
+	  Move: Same effect as the normal Move operations. It
+	  moves the value, the format, and the formula. Equivalent  to MB1.
+	</para>
+      </listitem>
+	
+	<listitem>
+	  <para>
+	    Copy Formats: Copies the formatting info of the source cell. This
+	    includes number format, color, font, fill type, etc.
+	  </para>
+	</listitem>
+	
+	<listitem>
+	  <para>
+	    Copy Values: Copies the value in the source cell to the destination
+	    cell.
+	  </para>
+	</listitem>
+	
+	<listitem><para>Shift Cells Down and Copy: not implemented yet</para></listitem>
+	<listitem><para>Shift Cells Right and Copy: not implemented yet</para></listitem>
+	<listitem><para>Shift Cells Down and Move: not implemented yet</para></listitem>
+	<listitem><para>Shift Cells Right and Move: not implemented yet</para></listitem>
+	
     </itemizedlist>
-    
-    
-    <para>FIXME! screenshot here once i figure out how to do cursors</para>
-    
-    <para>Move and copy right click menu options</para>
-    
-    <itemizedlist>
-      <listitem><para>Copy: Same effect as the normal Copy operations. It
-	  copies the value, the format, and the formula. Equivalent  to Ctrl+MB1.</para></listitem>
-      
-      <listitem><para>Move: Same effect as the normal Move operations. It
-	  moves the value, the format, and the formula. Equivalent  to MB1.</para></listitem>
-      
-     <listitem><para>Copy Formats: Copies the formatting info of the source cell. This
-	  includes number format, color, font, fill type, etc.</para></listitem>
-      
-      <listitem><para>Copy Values: Copies the value in the source cell to the destination
-	  cell. </para></listitem>
-      
-      <listitem><para>Shift Cells Down and Copy: not implemented yet</para></listitem>
-      <listitem><para>Shift Cells Right and Copy: not implemented yet</para></listitem>
-      <listitem><para>Shift Cells Down and Move: not implemented yet</para></listitem>
-      <listitem><para>Shift Cells Right and Move: not implemented yet</para></listitem>
-      
-    </itemizedlist>
-    
+  
     <figure id="rightclickmove">
-      <title>The option menu for  dragging a cell with right click.</title>
+      <title>The option menu for  dragging a cell with right click <mousebutton>(MB3)</mousebutton>.</title>
       <screenshot>
 	<graphic fileref="images/dndselection-1.jpg"></graphic>
       </screenshot>
     </figure>
-  </sect2>
-</sect1>  
+    
+    </sect2>
+</sect1>
+  
   
   <!-- include the files for handling selections -->
   

@@ -7,7 +7,7 @@
 <!entity autofill SYSTEM "autofill.sgml">
 <!entity worksheet SYSTEM "worksheet.sgml">
 ]>
-<book>
+<book id="gnumeric">
   <bookinfo>
     <title>Gnumeric's user manual</title>
     <authorgroup>

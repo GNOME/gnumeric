@@ -1,4 +1,4 @@
-<sect1>
+<sect1 id="autofill">
   <title>Autofill</title>
   
   <para>When dealing with spreadsheets it's pretty typical to want to
@@ -16,18 +16,23 @@
     dragging the autofill button(see <xref linkend="celltobautofilled">) down three or four cells
       will fill the cells with 1,2,3,4 automatically.(see <xref linkend="cellsautofilled">)</para>
 
-  <itemizedlist>
-    <listitem><para>Select the cell that marks the beginning of the 
-	area to autofill</para></listitem>
+  <procedure>
+    <title>Autofilling a range of cells</title>
+    <step performance="required">
+      <para>Select the cell that marks the beginning of the 
+	area to autofill</para></step>
     
-    <listitem><para>Enter the starting value into this cell</para></listitem>
+    <step performance="required">
+      <para>Enter the starting value into this cell</para></step>
     
-    <listitem><para>Click the small rectangle in the bottom right corner
-	of the first cell, and drag it to the end of the area to fill.</para></listitem>
+    <step performance="required">
+      <para>Click the small rectangle in the bottom right corner
+	of the first cell, and drag it to the end of the area to fill.</para></step>
 
-    <listitem><para>Release the mouse button. The cells in the selected area should
-	now be field with autofilled values</para></listitem>
-  </itemizedlist>
+    <step performance="required">
+      <para>Release the mouse button. The cells in the selected area should
+	now be field with autofilled values</para></step>
+  </procedure>
   
   
   <figure id="celltobautofilled">
@@ -38,7 +43,7 @@
   </figure>
   
   <figure id="cellsautofilled">
-    <title>A set of cells being autofill'ed</title>
+    <title>A set of cells being autofilled</title>
     <screenshot>
       <graphic fileref="images/autofill-2.jpg"></graphic>
     </screenshot>
@@ -137,7 +142,7 @@
     <title>Formula autofill</title>
     
     <para>Probably the most useful of all the autofill capabilities is
-      the abilty to autofill functions. In practice it works essentials the
+      the ability to autofill functions. In practice it works essentials the
       same as all the other autofill methods, it just transfers the functions
       of course. </para>
     
