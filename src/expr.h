@@ -149,7 +149,7 @@ struct _NamedExpression {
 ExprTree   *expr_parse_string      (char const *expr, ParsePos const *pp,
 				    StyleFormat **desired_format, char **error_msg);
 ExprTree   *expr_tree_duplicate    (ExprTree *expr);
-char       *expr_decode_tree       (ExprTree *tree, ParsePos const *fp);
+char       *expr_tree_as_string    (ExprTree const *tree, ParsePos const *fp);
 
 ExprTree   *expr_tree_new_constant (Value *v);
 ExprTree   *expr_tree_new_error    (char const *txt);
@@ -208,6 +208,9 @@ Value       *eval_expr (EvalPos const *pos,
 
 Value       *expr_implicit_intersection (EvalPos const *pos,
 					 Value *v);
+
+FunctionDefinition *expr_tree_get_func_def (ExprTree const *expr);
+ExprTree const *    expr_tree_first_func (ExprTree const *expr);
 
 /* Setup of the symbol table */
 void         functions_init        (void);

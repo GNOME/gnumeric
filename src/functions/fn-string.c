@@ -492,7 +492,7 @@ gnumeric_find (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_fixed = {
 	N_("@FUNCTION=FIXED\n"
-	   "@SYNTAX=FIXED(num, [decimals, no_commas])\n"
+	   "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
 	   "@DESCRIPTION="
 	   "FIXED returns @num as a formatted string with @decimals numbers "
 	   "after the decimal point, omitting commas if requested by "
@@ -812,7 +812,7 @@ gnumeric_expression (FunctionEvalInfo *ei, Value **args)
 		if (cell_has_expr (cell)) {
 			ParsePos pos;
 			char * expr_string =
-			    expr_decode_tree (cell->u.expression,
+			    expr_tree_as_string (cell->u.expression,
 				parse_pos_init_evalpos (&pos, ei->pos));
 			Value * res = value_new_string (expr_string);
 			g_free (expr_string);

@@ -339,7 +339,7 @@ expr_name_value (const NamedExpression *expr_name)
 					     expr_name->sheet),
 				 expr_name->sheet,
 				0, 0);
-		val = expr_decode_tree (expr_name->t.expr_tree, &pp);
+		val = expr_tree_as_string (expr_name->t.expr_tree, &pp);
 	} else
 		val = g_strdup (_("Builtin"));
 

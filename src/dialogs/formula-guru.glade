@@ -183,9 +183,9 @@
 	<widget>
 	  <class>GtkFrame</class>
 	  <name>arg_frame</name>
-	  <border_width>5</border_width>
-	  <label_xalign>0</label_xalign>
-	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+	  <border_width>10</border_width>
+	  <label_xalign>0.0999999</label_xalign>
+	  <shadow_type>GTK_SHADOW_ETCHED_OUT</shadow_type>
 
 	  <widget>
 	    <class>GtkScrolledWindow</class>
@@ -198,18 +198,16 @@
 	    <widget>
 	      <class>GtkViewport</class>
 	      <name>viewport1</name>
-	      <shadow_type>GTK_SHADOW_IN</shadow_type>
+	      <shadow_type>GTK_SHADOW_NONE</shadow_type>
 
 	      <widget>
-		<class>GtkVBox</class>
-		<name>arg_box</name>
-		<border_width>2</border_width>
+		<class>GtkTable</class>
+		<name>arg_table</name>
+		<rows>1</rows>
+		<columns>3</columns>
 		<homogeneous>False</homogeneous>
-		<spacing>2</spacing>
-
-		<widget>
-		  <class>Placeholder</class>
-		</widget>
+		<row_spacing>0</row_spacing>
+		<column_spacing>0</column_spacing>
 	      </widget>
 	    </widget>
 	  </widget>

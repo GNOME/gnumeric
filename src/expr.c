@@ -1032,8 +1032,8 @@ strescape (char *string)
  * creates a string representation.
  */
 static char *
-do_expr_decode_tree (ExprTree *tree, ParsePos const *pp,
-		     int paren_level)
+do_expr_tree_to_string (ExprTree const *tree, ParsePos const *pp,
+			int paren_level)
 {
 	static struct {
 		char const *name;
@@ -1073,9 +1073,9 @@ do_expr_decode_tree (ExprTree *tree, ParsePos const *pp,
 
 		prec = operations[op].prec;
 
-		a = do_expr_decode_tree (tree->binary.value_a, pp,
+		a = do_expr_tree_to_string (tree->binary.value_a, pp,
 					 prec - operations[op].assoc_left);
-		b = do_expr_decode_tree (tree->binary.value_b, pp,
+		b = do_expr_tree_to_string (tree->binary.value_b, pp,
 					 prec - operations[op].assoc_right);
 		opname = operations[op].name;
 
@@ -1095,7 +1095,7 @@ do_expr_decode_tree (ExprTree *tree, ParsePos const *pp,
 		int prec;
 
 		prec = operations[op].prec;
-		a = do_expr_decode_tree (tree->unary.value, pp,
+		a = do_expr_tree_to_string (tree->unary.value, pp,
 					 operations[op].prec);
 		opname = operations[op].name;
 
@@ -1133,7 +1133,7 @@ do_expr_decode_tree (ExprTree *tree, ParsePos const *pp,
 			for (l = arg_list; l; l = l->next, i++) {
 				ExprTree *t = l->data;
 
-				args [i] = do_expr_decode_tree (t, pp, 0);
+				args [i] = do_expr_tree_to_string (t, pp, 0);
 				len += strlen (args [i]) + 1;
 			}
 			len++;
@@ -1165,7 +1165,7 @@ do_expr_decode_tree (ExprTree *tree, ParsePos const *pp,
 		return g_strdup (tree->name.name->name->str);
 
 	case OPER_VAR: {
-		CellRef *cell_ref = &tree->var.ref;
+		CellRef const *cell_ref = &tree->var.ref;
 		return cellref_name (cell_ref, pp);
 	}
 
@@ -1241,13 +1241,13 @@ do_expr_decode_tree (ExprTree *tree, ParsePos const *pp,
 				tmp_pos.wb  = pp->wb;
 				tmp_pos.eval.col = pp->eval.col - x;
 				tmp_pos.eval.row = pp->eval.row - y;
-				res = do_expr_decode_tree (
+				res = do_expr_tree_to_string (
 					array->array.corner.func.expr,
 					&tmp_pos, 0);
 			} else
 				res = g_strdup ("<ERROR>");
 		} else {
-			res = do_expr_decode_tree (
+			res = do_expr_tree_to_string (
 			    tree->array.corner.func.expr, pp, 0);
 		}
 
@@ -1260,11 +1260,11 @@ do_expr_decode_tree (ExprTree *tree, ParsePos const *pp,
 }
 
 char *
-expr_decode_tree (ExprTree *tree, ParsePos const *pp)
+expr_tree_as_string (ExprTree const *tree, ParsePos const *pp)
 {
 	g_return_val_if_fail (tree != NULL, NULL);
 
-	return do_expr_decode_tree (tree, pp, 0);
+	return do_expr_tree_to_string (tree, pp, 0);
 }
 
 enum CellRefRelocate {
@@ -1582,6 +1582,55 @@ expr_rewrite (ExprTree        const *expr,
 		}
 		return NULL;
 	}
+	}
+
+	g_assert_not_reached ();
+	return NULL;
+}
+
+FunctionDefinition *
+expr_tree_get_func_def (ExprTree const *expr)
+{
+	Symbol const *sym;
+
+	g_return_val_if_fail (expr != NULL, NULL);
+
+	sym = expr->func.symbol;
+
+	g_return_val_if_fail (sym, NULL);
+	g_return_val_if_fail (sym->type == SYMBOL_FUNCTION, NULL);
+
+	return sym->data;
+}
+
+ExprTree const *
+expr_tree_first_func (ExprTree const *expr)
+{
+	ExprTree const *tmp;
+
+	g_return_val_if_fail (expr != NULL, NULL);
+
+	switch (expr->any.oper) {
+	default :
+	case OPER_NAME:
+	case OPER_VAR:
+	case OPER_CONSTANT:
+		return NULL;
+
+	case OPER_FUNCALL:
+		return expr;
+
+	case OPER_ANY_BINARY:
+		tmp = expr_tree_first_func (expr->binary.value_a);
+		if (tmp != NULL)
+			return tmp;
+		return expr_tree_first_func (expr->binary.value_b);
+
+	case OPER_ANY_UNARY:
+		return expr_tree_first_func (expr->unary.value);
+
+	case OPER_ARRAY:
+		return expr_tree_first_func (expr->array.corner.func.expr);
 	}
 
 	g_assert_not_reached ();

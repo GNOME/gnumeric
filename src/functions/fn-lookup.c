@@ -669,7 +669,7 @@ gnumeric_match (FunctionEvalInfo *ei, Value **args)
 
 static char *help_indirect = {
 	N_("@FUNCTION=INDIRECT\n"
-	   "@SYNTAX=INDIRECT(ref_text, [format])\n"
+	   "@SYNTAX=INDIRECT(ref_text,[format])\n"
 
 	   "@DESCRIPTION="
 	   "INDIRECT function returns the contents of the cell pointed to "
@@ -738,7 +738,7 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
  */
 static char *help_index = {
 	N_("@FUNCTION=INDEX\n"
-	   "@SYNTAX=INDEX(reference, [row, col, area])\n"
+	   "@SYNTAX=INDEX(reference,[row, col, area])\n"
 
 	   "@DESCRIPTION="
 	   "The INDEX function returns a reference to the cell at a offset "

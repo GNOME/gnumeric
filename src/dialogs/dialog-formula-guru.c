@@ -38,8 +38,8 @@ typedef struct _FomulaGuruState FomulaGuruState;
 typedef struct
 {
 	FomulaGuruState	*state;
+	GtkWidget	*name_label, *type_label;
 	GtkEntry	*entry;
-	GtkWidget	*box;
 
 	gchar 	  *name;
 	gchar	   type;
@@ -62,10 +62,11 @@ struct _FomulaGuruState
 	GtkWidget *rolled_label;
 	GtkWidget *rolled_entry;
 	GtkWidget *unrolled_box;
-	GtkWidget *arg_box;
+	GtkWidget *arg_table;
 	GtkWidget *arg_frame;
 	GtkWidget *description;
 	
+	gboolean	    valid;
 	gboolean	    is_rolled;
 	gboolean	    var_args;
 	ArgumentState	   *cur_arg;
@@ -90,6 +91,10 @@ formula_guru_set_expr (FomulaGuruState *state, int index)
 	g_return_if_fail (state != NULL);
 	g_return_if_fail (state->fd != NULL);
 	g_return_if_fail (state->args != NULL);
+
+	/* Do not do anything until we are fully up and running */
+	if (!state->valid)
+		return;
 
 	str = g_string_new ("="); /* FIXME use prefix string */
 	g_string_append (str, function_def_get_name (state->fd));
@@ -188,18 +193,21 @@ cb_formula_guru_entry_focus_in (GtkWidget *ignored0, GdkEventFocus *ignored1, Ar
 
 		if (i == as->index) {
 			formula_guru_arg_new (NULL, '?', TRUE, state);
-			gtk_widget_show_all (GTK_WIDGET (state->arg_box));
+			gtk_widget_show_all (state->arg_table);
 			/* FIXME : scroll window to make visible if necessary */
 		} else {
-			lim = MAX (as->index+1, state->max_arg);
-			if (lim < 1)
-				lim = 1;
-			for (; i > lim ; --i) {
-				ArgumentState *as = g_ptr_array_index (state->args, i);
-				gtk_object_destroy (GTK_OBJECT (as->box));
+			lim = MAX (as->index+1, state->max_arg) +1;
+			if (lim < 2) lim = 2;
+
+			for (; i >= lim ; --i) {
+				ArgumentState *tmp = g_ptr_array_index (state->args, i);
+				gtk_object_destroy (GTK_OBJECT (tmp->name_label));
+				gtk_object_destroy (GTK_OBJECT (tmp->entry));
+				gtk_object_destroy (GTK_OBJECT (tmp->type_label));
 				formula_guru_arg_delete (state, i);
 			}
-			g_ptr_array_set_size (state->args, i+1);
+
+			g_ptr_array_set_size (state->args, lim);
 		}
 	}
 
@@ -288,7 +296,6 @@ formula_guru_arg_new (char * const name,
 	int row;
 
 	as = g_new (ArgumentState, 1);
-	as->box = gtk_hbox_new (FALSE, 0);
 	as->index = row = state->args->len;
 	as->name = name ? name : g_strdup_printf (_("Value%d"), row+1);
 	as->is_optional = is_optional;
@@ -307,20 +314,28 @@ formula_guru_arg_new (char * const name,
 	default: txt = _("Any");
 	}
 
-	gtk_box_pack_start (GTK_BOX (as->box), gtk_label_new (as->name),
-			    TRUE, TRUE, 0);
+	as->name_label = gtk_label_new (as->name);
+	gtk_table_attach (GTK_TABLE (state->arg_table),
+			  as->name_label,
+			  0, 1, row, row+1,
+			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
 
 	as->entry = GTK_ENTRY (gtk_entry_new ());
-	gtk_box_pack_start (GTK_BOX (as->box), GTK_WIDGET(as->entry),
-			    TRUE, TRUE, 0);
+	gtk_table_attach (GTK_TABLE (state->arg_table),
+			  GTK_WIDGET (as->entry),
+			  1, 2, row, row+1,
+			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
 
 	if (as->is_optional)
 		label = g_strconcat ("(", txt, ")", NULL);
 	else
 		label = g_strconcat ("=", txt, NULL);
 
-	gtk_box_pack_start (GTK_BOX (as->box), gtk_label_new (label),
-			    TRUE, TRUE, 0);
+	as->type_label = gtk_label_new (label);
+	gtk_table_attach (GTK_TABLE (state->arg_table),
+			  as->type_label,
+			  2, 3, row, row+1,
+			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
 	g_free (label);
 
 	/* FIXME : Do I really need focus-in ?  is there something less draconian */
@@ -332,9 +347,6 @@ formula_guru_arg_new (char * const name,
 	g_ptr_array_add (state->args, as);
 	if (row == 0)
 		as->state->cur_arg = as;
-
-	gtk_box_pack_start (GTK_BOX (state->arg_box), as->box,
-			    FALSE, FALSE, 0);
 }
 
 static void
@@ -442,7 +454,7 @@ formula_guru_init (FomulaGuruState *state)
 	state->rolled_label = glade_xml_get_widget (state->gui, "rolled_label");
 	state->rolled_entry = glade_xml_get_widget (state->gui, "rolled_entry");
 	state->unrolled_box = glade_xml_get_widget (state->gui, "unrolled_box");
-	state->arg_box	    = glade_xml_get_widget (state->gui, "arg_box");
+	state->arg_table    = glade_xml_get_widget (state->gui, "arg_table");
 	state->arg_frame    = glade_xml_get_widget (state->gui, "arg_frame");
 	state->description  = glade_xml_get_widget (state->gui, "description");
 	
@@ -461,7 +473,7 @@ formula_guru_init (FomulaGuruState *state)
 
 	gtk_window_set_transient_for (GTK_WINDOW (state->dialog),
 				      GTK_WINDOW (state->wb->toplevel));
-	gtk_widget_show_all (GTK_WIDGET (state->arg_box));
+	gtk_widget_show_all (GTK_WIDGET (state->arg_table));
 
 	workbook_edit_attach_guru (state->wb, state->dialog);
 	formula_guru_set_expr (state, 0);
@@ -479,36 +491,70 @@ formula_guru_init (FomulaGuruState *state)
 void
 dialog_formula_guru (Workbook *wb)
 {
-	Sheet *sheet;
-	GtkEntry *entry;
-	gchar *txt;
 	FomulaGuruState *state;
 	FunctionDefinition *fd;
+	Sheet *sheet;
+	Cell *cell;
+	ExprTree const *expr = NULL;
 
 	g_return_if_fail (wb != NULL);
 
-	entry = workbook_get_entry (wb);
-	txt   = gtk_entry_get_text (entry);
 	sheet = wb->current_sheet;
+	cell = sheet_cell_get (sheet,
+			       sheet->cursor.edit_pos.col,
+			       sheet->cursor.edit_pos.row);
 
-	/* If the current cell is not an expression clear cell, and start one */
-	if (gnumeric_char_start_expr_p (txt) == NULL) {
+	if (cell != NULL && cell_has_expr (cell))
+		expr = expr_tree_first_func (cell->u.expression);
+
+	/* If the current cell has no function calls,  clear cell, and start an
+	 * expression
+	 */
+	if (expr == NULL) {
 		workbook_start_editing_at_cursor (wb, TRUE, TRUE);
-		gtk_entry_set_text (entry, "=");
-	} else
-		workbook_start_editing_at_cursor (wb, FALSE, TRUE);
+		gtk_entry_set_text (workbook_get_entry (wb), "=");
 
-	fd = dialog_function_select (wb);
-	if (fd == NULL) {
-		workbook_finish_editing (wb, FALSE);
-		return;
+		fd = dialog_function_select (wb);
+		if (fd == NULL) {
+			workbook_finish_editing (wb, FALSE);
+			return;
+		}
+	} else {
+		workbook_start_editing_at_cursor (wb, FALSE, TRUE);
+		fd = expr_tree_get_func_def (expr);
 	}
 
 	state = g_new(FomulaGuruState, 1);
 	state->wb	= wb;
 	state->fd	= fd;
+	state->valid	= FALSE;
 	if (formula_guru_init (state)) {
 		g_free (state);
 		return;
 	}
+
+	/* If there were arguments initialize the fields */
+	if (expr != NULL) {
+		GList *l;
+		int i = 0;
+		char *str;
+		ParsePos pos;
+		parse_pos_init_cell (&pos, cell);
+
+		for (l = expr->func.arg_list; l; l = l->next) {
+			ArgumentState *as;
+
+			while (i >= state->args->len)
+				formula_guru_arg_new (NULL, '?', TRUE, state);
+
+			as = g_ptr_array_index (state->args, i);
+			str = expr_tree_as_string (l->data, &pos);
+			gtk_entry_set_text (as->entry, str);
+			g_free (str);
+		}
+	}
+
+	/* Ok everything is hooked up. Let-er rip */
+	state->valid = TRUE;
+	formula_guru_set_expr (state, 0);
 }

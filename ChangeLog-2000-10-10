@@ -1,5 +1,12 @@
 2000-06-15  Jody Goldberg <jgoldberg@home.com>
 
+	* src/expr.c (expr_tree_as_string) : Renamed from expr_decode_tree.
+	(expr_tree_get_func_def) : new function.
+	(expr_tree_first_func) : New function.
+
+	* src/expr-name.c (expr_name_value) : Rename expr_decode_tree ->
+	  expr_tree_as_string.
+
 	* src/style.c (font_init) : Improve error message to include the most
 	  probable location of the fontmap file.
 

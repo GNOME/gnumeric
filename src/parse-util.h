@@ -9,7 +9,7 @@
 const char *col_name                 (int col);
 int         col_from_name            (const char *cell_str);
 
-char        *cellref_name            (CellRef *cell_ref,
+char        *cellref_name            (CellRef const *cell_ref,
 				      ParsePos const *pp);
 gboolean     cellref_get             (CellRef *out, const char *in,
 				      int parse_col, int parse_row);

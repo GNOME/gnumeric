@@ -37,7 +37,7 @@
 
 /* Can remove sheet since local references have NULL sheet */
 char *
-cellref_name (CellRef *cell_ref, ParsePos const *pp)
+cellref_name (CellRef const *cell_ref, ParsePos const *pp)
 {
 	static char buffer [sizeof (long) * 4 + 4];
 	char *p = buffer;
