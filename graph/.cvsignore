@@ -1,2 +1,10 @@
 Makefile
 Makefile.in
+.deps
+.libs
+graph
+Graph-stubs.c
+Graph-skels.c
+Graph-common.c
+Graph.h
+my_graph_idl
