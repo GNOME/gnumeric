@@ -18,50 +18,46 @@ msgstr ""
 
 #: plugins/dif/dif.c:76 plugins/excel/ms-excel-read.c:4057
 msgid "Reading file..."
-msgstr ""
+msgstr "ファイルを読み込んでいます..."
 
 #: plugins/dif/dif.c:240
 #, c-format
 msgid "Syntax error at line %d. Ignoring."
-msgstr ""
+msgstr "%d行目に文法エラーがあります。無視します。"
 
 #: plugins/dif/dif.c:277
 #, c-format
 msgid "Unknown data value \"%s\" at line %d. Ignoring."
-msgstr ""
+msgstr "%d行目に不明なデータ値\"%s\"があります。無視します。"
 
 #: plugins/dif/dif.c:284
 #, c-format
 msgid "Unknown value type %d at line %d. Ignoring."
-msgstr ""
+msgstr "%d行に不明なデータ型があります。無視します。"
 
 #: plugins/dif/dif.c:293
-#, fuzzy, c-format
 msgid ""
 "DIF file has more than the maximum number of rows %d. Ignoring remaining "
 "rows."
 msgstr ""
-"無効な PLN ファイルです\n"
-"%s の最大行数 %d 以上あります"
+"DIFファイルが行の最大数%dを越えています。超過分の行は無視します。"
 
 #: plugins/dif/dif.c:297
-#, fuzzy, c-format
 msgid ""
 "DIF file has more than the maximum number of columns %d. Ignoring remaining "
 "columns."
 msgstr ""
-"無効な PLN ファイルです\n"
-"%s の最大行数 %d 以上あります"
+"DIFファイルが列の最大数%dを越えています。超過分の列は無視します。"
 
 #: plugins/dif/dif.c:309
 #, c-format
 msgid "Unexpected end of file at line %d while reading header."
-msgstr ""
+msgstr "ヘッダの読み込み中に、%d行目に予期しないEOFがありました。"
 
 #: plugins/dif/dif.c:313
 #, c-format
 msgid "Unexpected end of file at line %d while reading data."
-msgstr ""
+msgstr "データの読み込み中に、%d行目に予期しないEOFがありました。"
 
 #: plugins/dif/dif.c:329
 msgid "Error while reading DIF file."
@@ -82,10 +78,14 @@ msgid ""
 "(You can turn this safety feature off by setting the\n"
 "enviromental variable GNUMERIC_ENABLE_XL_OVERWRITE.)"
 msgstr ""
+"安全のために、古いExcelファイルに上書きできないようになっています。\n"
+"\n"
+"(環境変数GNUMERIC_ENABLE_XL_OVERWRITEをセットすることで\n"
+"この安全装置機能をオフにすることができます。)"
 
 #: plugins/excel/boot.c:161
 msgid "Preparing for save..."
-msgstr ""
+msgstr "保存の準備をしています..."
 
 #: plugins/excel/boot.c:175
 msgid "Can't open"
@@ -141,12 +141,12 @@ msgstr "不明なGBエラーです"
 #: plugins/gb/plugin.c:373
 #, c-format
 msgid "Error initializing gb '%s'"
-msgstr ""
+msgstr "GB '%s' の初期化でエラーが発生しました"
 
 #: plugins/gb/plugin.c:388
 #, c-format
 msgid "Error in project '%s'"
-msgstr ""
+msgstr "プロジェクト'%s'でエラーが発生しました"
 
 #: plugins/gda/plugin-gda.c:109
 msgid ""
@@ -562,11 +562,11 @@ msgstr "xbaseファイルのオープンに失敗しました"
 
 #: plugins/xml_sax/xml-sax-read.c:1917
 msgid "xmlCreateFileParserCtxt () failed."
-msgstr ""
+msgstr "xmlCreateFileParsetCtxt()が失敗しました。"
 
 #: plugins/xml_sax/xml-sax-read.c:1928
 msgid "XML document not well formed!"
-msgstr ""
+msgstr "XMLドキュメントがうまく構成されていません!"
 
 #: src/analysis-tools.c:462
 msgid "Correlations"
@@ -909,7 +909,7 @@ msgstr "貼り付けられません"
 
 #: src/clipboard.c:274
 msgid "Content can only be pasted by value or by link."
-msgstr ""
+msgstr "コンテンツは値かリンクでのみ貼り付けできます。"
 
 #: src/clipboard.c:282
 #, c-format
@@ -958,14 +958,12 @@ msgid "Paste"
 msgstr "貼り付け"
 
 #: src/cmd-edit.c:408
-#, fuzzy, c-format
 msgid "Shift rows %s"
-msgstr "行%dを左に移動"
+msgstr "行%dを上に移動"
 
 #: src/cmd-edit.c:409
-#, fuzzy, c-format
 msgid "Shift row %s"
-msgstr "行%dを左に移動"
+msgstr "行%dを上に移動"
 
 #: src/cmd-edit.c:446
 #, c-format
@@ -1002,17 +1000,14 @@ msgid "Inserting %d column before %s"
 msgstr "%2$s の前に %1$d 列を挿入"
 
 #: src/commands.c:1111
-#, fuzzy, c-format
 msgid "Inserting %d rows before %s"
-msgstr "%2$d の前に %1$d 行を挿入"
+msgstr "%2$s の前に %1$d 行を挿入"
 
 #: src/commands.c:1112
-#, fuzzy, c-format
 msgid "Inserting %d row before %s"
-msgstr "%2$d の前に %1$d 行を挿入"
+msgstr "%2$s の前に %1$d 行を挿入"
 
 #: src/commands.c:1123
-#, fuzzy, c-format
 msgid "Deleting columns %s"
 msgstr "%s 列を削除中"
 
@@ -1022,14 +1017,12 @@ msgid "Deleting column %s"
 msgstr "%s 列を削除中"
 
 #: src/commands.c:1134
-#, fuzzy, c-format
 msgid "Deleting rows %s"
-msgstr "%d 行を削除中"
+msgstr "%s 行を削除中"
 
 #: src/commands.c:1135
-#, fuzzy, c-format
 msgid "Deleting row %s"
-msgstr "%d 行を削除中"
+msgstr "%s 行を削除中"
 
 #: src/commands.c:1210
 msgid "Undo Clear"
@@ -1102,14 +1095,12 @@ msgid "Autofitting row %s"
 msgstr "%d 行を削除中"
 
 #: src/commands.c:1845
-#, fuzzy, c-format
 msgid "Setting width of column %s to %d pixels"
-msgstr "列の幅を設定"
+msgstr "列%sの幅を%dピクセルに設定"
 
 #: src/commands.c:1847
-#, fuzzy, c-format
 msgid "Setting height of row %s to %d pixels"
-msgstr "行の高さを設定"
+msgstr "行%sの高さを%dピクセルに設定"
 
 #: src/commands.c:1852 src/commands.c:1853
 #, fuzzy, c-format
@@ -1117,14 +1108,12 @@ msgid "Autofitting columns %s"
 msgstr "%s 列を削除中"
 
 #: src/commands.c:1856
-#, fuzzy, c-format
 msgid "Setting width of columns %s to %d pixels"
-msgstr "列の幅を設定"
+msgstr "列%sの幅を%dピクセルに設定"
 
 #: src/commands.c:1858
-#, fuzzy, c-format
 msgid "Setting height of rows %s to %d pixels"
-msgstr "行の高さを設定"
+msgstr "行%sの高さを%dピクセルに設定"
 
 #: src/commands.c:1942
 #, c-format
@@ -1148,9 +1137,8 @@ msgid "Hide rows"
 msgstr "行を隠す"
 
 #: src/commands.c:2155
-#, fuzzy
 msgid "Expand columns"
-msgstr "列を出す"
+msgstr "列を展開する"
 
 #: src/commands.c:2155
 #, fuzzy
@@ -1158,9 +1146,8 @@ msgid "Collapse columns"
 msgstr "列のリストを消去"
 
 #: src/commands.c:2156
-#, fuzzy
 msgid "Expand rows"
-msgstr "行を出す"
+msgstr "行を展開する"
 
 #: src/commands.c:2156
 msgid "Collapse rows"
@@ -1168,39 +1155,35 @@ msgstr ""
 
 #: src/commands.c:2257
 msgid "Those columns are already grouped"
-msgstr ""
+msgstr "これらの列はすでにグループ化されています"
 
 #: src/commands.c:2258
 msgid "Those rows are already grouped"
-msgstr ""
+msgstr "これらの行はすでにグループ化されています"
 
 #: src/commands.c:2261
 msgid "Those columns are not grouped, you can't ungroup them"
-msgstr ""
+msgstr "これらの列はグループ化されていません。グループ解除はできません"
 
 #: src/commands.c:2262
 msgid "Those rows are not grouped, you can't ungroup them"
-msgstr ""
+msgstr "これらの行はグループ化されていません。グループ解除はできません"
 
 #: src/commands.c:2273
-#, fuzzy, c-format
 msgid "Group columns %s"
-msgstr "列%sを左に移動"
+msgstr "列%sをグループ化"
 
 #: src/commands.c:2273
-#, fuzzy, c-format
 msgid "Ungroup columns %s"
-msgstr "%s 列を削除中"
+msgstr "列%sをグループ解除"
 
 #: src/commands.c:2275
-#, fuzzy, c-format
 msgid "Group rows %d:%d"
-msgstr "行%d:%dを左に移動"
+msgstr "行%d:%dをグループ化"
 
 #: src/commands.c:2275
-#, fuzzy, c-format
 msgid "Ungroup rows %d:%d"
-msgstr "%d 行を削除中 (%d:%d"
+msgstr "行%d:%dをグループ解除"
 
 #: src/commands.c:2478
 #, c-format
@@ -1209,7 +1192,7 @@ msgstr "%sを移動中"
 
 #: src/commands.c:2487 src/commands.c:2671
 msgid "is beyond sheet boundaries"
-msgstr ""
+msgstr "はシートの範囲を越えています"
 
 #. FIXME?
 #: src/commands.c:2642
@@ -1224,24 +1207,20 @@ msgstr "自動で埋める"
 
 #. Changed in initial redo.
 #: src/commands.c:2828
-#, fuzzy, c-format
 msgid "Autofilling %s"
-msgstr "自動で埋める"
+msgstr "%sを自動で埋める"
 
 #: src/commands.c:2981
-#, fuzzy, c-format
 msgid "Autoformatting %s"
-msgstr "自動書式設定"
+msgstr "%sの自動書式設定"
 
 #: src/commands.c:3090
-#, fuzzy, c-format
 msgid "Unmerging %s"
-msgstr "セルの結合解除"
+msgstr "%sの結合解除"
 
 #: src/commands.c:3228
-#, fuzzy, c-format
 msgid "Merging %s"
-msgstr "%sを移動中"
+msgstr "%sの結合"
 
 #. Corrected below.
 #: src/commands.c:3662 src/dialogs/search-replace.glade.h:41
@@ -16181,7 +16160,7 @@ msgstr "選択された最初の列を元に、選択されている範囲を降順に並べ替える。"
 #: src/workbook.c:467
 #, c-format
 msgid "Book%d.%s"
-msgstr ""
+msgstr "ブック%d.%s"
 
 #: src/workbook.c:1228
 msgid "Sheet name"
@@ -16200,7 +16179,7 @@ msgstr "同じ名前のシートがすでにあります:"
 #.
 #: src/xml-io.c:3137
 msgid "Processing XML tree..."
-msgstr ""
+msgstr "XMLツリーを読み込んでいます..."
 
 #: src/xml-io.c:3300
 msgid "Invalid xml clipboard data. Tree is empty ?"
@@ -16208,11 +16187,11 @@ msgstr "不正な xml クリップボードデータです。ツリーが空ですか?"
 
 #: src/xml-io.c:3352 src/xml-io.c:3363
 msgid "Not enough memory to create zlib decompression state."
-msgstr ""
+msgstr "zlib解凍状態を作成するのに十分なメモリがありません。"
 
 #: src/xml-io.c:3366
 msgid "Parsing XML file..."
-msgstr ""
+msgstr "XMLファイルをパースしています..."
 
 #: src/xml-io.c:3398
 msgid "Is not an Gnumeric Workbook file"
