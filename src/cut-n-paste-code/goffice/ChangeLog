@@ -1,3 +1,10 @@
+2004-09-21  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=153289
+	* graph/gog-axis.c (gog_axis_editor): hide minor tick properties when
+	editing discrete axis properties.
+	* grah/gog-axis-prefs.glade: name minor tick frame.
+
 2004-09-20  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* pixmaps: make color order consistent and rerender png from svg with

@@ -1381,8 +1381,13 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 		g_object_get (G_OBJECT (gobj), toggle_props[i], &cur_val, NULL);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), cur_val);
 		g_signal_connect_object (G_OBJECT (w),
-			"toggled",
-			G_CALLBACK (cb_axis_toggle_changed), axis, 0);
+					 "toggled",
+					 G_CALLBACK (cb_axis_toggle_changed), axis, 0);
+	}
+	if (axis->is_discrete) {
+		/* Hide minor tick properties */
+		w = glade_xml_get_widget (gui, "minor_tick_frame");
+		gtk_widget_hide (w);
 	}
 
 	/* Bounds Page */
