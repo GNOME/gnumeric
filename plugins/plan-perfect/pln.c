@@ -549,6 +549,7 @@ pln_parse_sheet (GsfInput *input, PlanPerfectImport *state)
 			break;
 
 		default:
+			;
 			/* g_warning("PLN : Record handling code for code %d not yet written", rcode); */
 		}
 	} while (rcode != 25);
