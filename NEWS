@@ -40,6 +40,7 @@ Jon Kåre:
 	* Improve image loading. With libwmf-0.2.8 and gtk+-2.1.2 or
 	  later, Gnumeric can now display Windows Metafile images -
 	  common in Excel documents.
+	* Fix bug in hyperlink import from Excel.
 
 Morten:
 	* Improve qpro importer.

@@ -1,3 +1,7 @@
+2002-12-13  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-read.c (excel_read_HLINK): Fix typo.
+
 2002-12-08  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_prepare_autofilter) : don't fully register

@@ -4149,9 +4149,9 @@ excel_read_HLINK (BiffQuery *q, ExcelSheet *esheet)
 	if ((options & 0x1e3) == 0x003 && !memcmp (data, url_guid, sizeof (url_guid))) {
 		guchar *url;
 
-		data += 4 + sizeof (url_guid);
+		data += sizeof (url_guid);
 		len = GSF_LE_GET_GUINT32 (data);
-
+		data += 4;
 		g_return_if_fail (len + data - q->data <= (int)q->length);
 
 		url = read_utf16_str (len/2, data);
