@@ -49,7 +49,7 @@
  * "22.5%".
  *
  * (The problem here is actually more a physics problem -- what are the
- * units -- that a math problem.)
+ * units -- than a math problem.)
  */
 /* ------------------------------------------------------------------------- */
 
