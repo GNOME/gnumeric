@@ -25,7 +25,7 @@ typedef struct {
 } ORDER_BOX;
 
 static ORDER_BOX *
-order_box_new(GtkWidget * parent, char *frame_text, char *default_text)
+order_box_new(GtkWidget * parent, const char *frame_text, const char *default_text)
 {
 	ORDER_BOX *this = g_new(ORDER_BOX, 1);
 	GtkWidget *box = gtk_hbox_new(0, 0);

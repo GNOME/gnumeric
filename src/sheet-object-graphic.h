@@ -55,6 +55,6 @@ GtkType sheet_object_filled_get_type (void);
 SheetObject *sheet_object_create_line (Sheet *sheet, int is_arrow,
 				       double x1, double y1,
 				       double x2, double y2,
-				       char *color, int w);
+				       const char *color, int w);
 
 #endif

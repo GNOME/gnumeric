@@ -1,3 +1,15 @@
+Fri Apr 23 17:52:44 1999  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet.c (sheet_destroy): Don't check that workbook is
+	NULL because it cb_sheet_do_destroy will call it non-NULL.
+
+	* src/workbook.c (cb_sheet_do_destroy): Don't NULL workbook
+	member as it will be used.
+
+	* src/format.c (render_number): Fix rounding up.
+
+	* src/*.[chy]: add tons on "const"s.
+	
 1999-04-23  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-stat.c: Added GAMMADIST() function.  It uses pgamma()

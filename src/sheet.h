@@ -228,11 +228,11 @@ void        sheet_selection_extend_horizontal (Sheet *sheet, int count);
 void        sheet_selection_extend_vertical   (Sheet *sheet, int count);
 int         sheet_selection_is_cell_selected  (Sheet *sheet, int col, int row);
 
-gboolean    sheet_verify_selection_simple     (Sheet *sheet, char *command_name);
+gboolean    sheet_verify_selection_simple     (Sheet *sheet, const char *command_name);
 
 /* Cell management */
 void        sheet_set_text                (Sheet *sheet, int col, int row,
-					   char *str);
+					   const char *str);
 Cell       *sheet_cell_new                (Sheet *sheet, int col, int row);
 void        sheet_cell_add                (Sheet *sheet, Cell *cell,
 				           int col, int row);
@@ -340,7 +340,7 @@ void        sheet_style_attach            (Sheet *sheet,
 					   int    start_col, int start_row,
 					   int    end_col,   int end_row,
 					   Style  *style);
-Sheet      *sheet_lookup_by_name          (Sheet *base, char *name);
+Sheet      *sheet_lookup_by_name          (Sheet *base, const char *name);
 
 /*
  * Sheet visual editing
@@ -363,7 +363,7 @@ void        sheet_set_mode_type           (Sheet *sheet, SheetModeType type);
 /*
  * Callback routines.
  */
-void        sheet_fill_selection_with     (Sheet *sheet, char *text);
+void        sheet_fill_selection_with     (Sheet *sheet, const char *text);
 
 /*
  * Hiding/showing the cursor
@@ -399,10 +399,10 @@ gboolean    workbook_detach_sheet        (Workbook *, Sheet *);
 Sheet      *workbook_focus_current_sheet (Workbook *wb);
 Sheet      *workbook_get_current_sheet   (Workbook *wb);
 char       *workbook_sheet_get_free_name (Workbook *wb);
-void        workbook_auto_expr_label_set (Workbook *wb, char *text);
+void        workbook_auto_expr_label_set (Workbook *wb, const char *text);
 void        workbook_next_generation     (Workbook *wb);
-void        workbook_set_region_status   (Workbook *wb, char *str);
-int         workbook_parse_and_jump      (Workbook *wb, char *text);
+void        workbook_set_region_status   (Workbook *wb, const char *str);
+int         workbook_parse_and_jump      (Workbook *wb, const char *text);
 Sheet      *workbook_sheet_lookup        (Workbook *wb, const char *sheet_name);
 void        workbook_mark_clean          (Workbook *wb);
 gboolean    workbook_rename_sheet        (Workbook *wb,

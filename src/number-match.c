@@ -31,14 +31,14 @@
  * would match them
  */
 static char *
-create_option_list (char **list)
+create_option_list (const char *const *list)
 {
 	int len = 0;
-	char **p;
+	const char *const *p;
 	char *res;
 	
 	for (p = list; *p; p++){
-		char *v = _(*p);
+		const char *v = _(*p);
 
 		if (*v == '*')
 			v++;
@@ -50,7 +50,7 @@ create_option_list (char **list)
 	res [0] = '(';
 	res [1] = 0;
 	for (p = list; *p; p++){
-		char *v = _(*p);
+		const char *v = _(*p);
 
 		if (*v == '*')
 			v++;
@@ -81,10 +81,10 @@ typedef enum {
 	MATCH_PERCENT,
 } MatchType;
 
-#define append_type(t) { guint8 x = t; match_types = g_byte_array_append (match_types, &x, 1); }
+#define append_type(t) do { guint8 x = t; match_types = g_byte_array_append (match_types, &x, 1); } while (0)
 
 static char *
-format_create_regexp (char *format, GByteArray **dest)
+format_create_regexp (const char *format, GByteArray **dest)
 {
 	GString *regexp;
 	GByteArray *match_types;
@@ -289,7 +289,7 @@ format_create_regexp (char *format, GByteArray **dest)
 			
 			/* Matches a string */
 		case '"': {
-			char *p;
+			const char *p;
 			char *buf;
 
 			for (p = format+1; *p && *p != '"'; p++)
@@ -397,7 +397,7 @@ typedef struct {
 static GList *format_match_list = NULL;
 
 int 
-format_match_define (char *format)
+format_match_define (const char *format)
 {
 	format_parse_t *fp;
 	GByteArray *match_tags;
@@ -427,7 +427,7 @@ format_match_define (char *format)
 	return TRUE;
 }
 
-static char **formats [] = {
+static const char * const *formats [] = {
 	cell_format_date,
 	cell_format_hour,
 	cell_format_money,
@@ -447,7 +447,7 @@ format_match_init (void)
 	int i;
 	
 	for (i = 0; formats [i]; i++){
-		char **p = formats [i];
+		const char *const *p = formats [i];
 
 		for (; *p; p++){
 			if (strcmp (*p, "General") == 0)
@@ -484,14 +484,14 @@ format_match_finish (void)
  * Looks the string in the table passed
  */
 static int
-table_lookup (char *str, char **table)
+table_lookup (const char *str, const char *const *table)
 {
-	char **p = table;
+	const char *const *p = table;
 	int i = 0;
 	
 	for (p = table; *p; p++, i++){
-		char *v  = *p;
-		char *iv = _(*p);
+		const char *v  = *p;
+		const char *iv = _(*p);
 		
 		if (*v == '*'){
 			v++;
@@ -516,7 +516,7 @@ table_lookup (char *str, char **table)
  * in the fields rm_so and rm_eo
  */
 static char *
-extract_text (char *str, regmatch_t *mp)
+extract_text (const char *str, const regmatch_t *mp)
 {
 	char *p;
 		
@@ -535,7 +535,8 @@ extract_text (char *str, regmatch_t *mp)
  * of the date/time matching.
  */
 static gboolean
-compute_value (char *s, regmatch_t *mp, GByteArray *array, double *v)
+compute_value (const char *s, const regmatch_t *mp,
+	       GByteArray *array, double *v)
 {
 	const int len = array->len;
 	double number = 0.0;
@@ -714,7 +715,7 @@ compute_value (char *s, regmatch_t *mp, GByteArray *array, double *v)
 #define NM 40
 
 gboolean
-format_match (char *s, double *v, char **format)
+format_match (const char *s, double *v, char **format)
 {
 	GList *l;
 	regmatch_t mp [NM+1];

@@ -13,7 +13,7 @@
 #include "style.h"
 
 void
-gnumeric_notice (Workbook *wb, char *type, char *str)
+gnumeric_notice (Workbook *wb, const char *type, const char *str)
 {
 	GtkWidget *dialog;
 
@@ -121,7 +121,7 @@ range_contains (Range *range, int col, int row)
 }
 
 char *
-font_change_component (char *fontname, int idx, char *newvalue)
+font_change_component (const char *fontname, int idx, char *newvalue)
 {
 	char *components [15];
 	char *new = g_strdup (fontname), *res;
@@ -161,7 +161,7 @@ font_change_component (char *fontname, int idx, char *newvalue)
 }
 
 char *
-font_get_bold_name (char *fontname)
+font_get_bold_name (const char *fontname)
 {
 	char *f;
 	
@@ -173,7 +173,7 @@ font_get_bold_name (char *fontname)
 }
 
 char *
-font_get_italic_name (char *fontname)
+font_get_italic_name (const char *fontname)
 {
 	char *f;
 	

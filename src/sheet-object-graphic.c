@@ -129,7 +129,7 @@ SheetObject *
 sheet_object_create_line (Sheet *sheet, int is_arrow,
 			  double x1, double y1,
 			  double x2, double y2,
-			  char *color, int w)
+			  const char *color, int w)
 {
 	SheetObjectGraphic *sog;
 	SheetObject *so;
@@ -250,7 +250,8 @@ SheetObject *
 sheet_object_create_filled (Sheet *sheet, int type,
 			    double x1, double y1,
 			    double x2, double y2,
-			    char *fill_color, char *outline_color, int w)
+			    const char *fill_color,
+			    const char *outline_color, int w)
 {
 	SheetObjectFilled *sof;
 	SheetObjectGraphic *sog;

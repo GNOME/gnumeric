@@ -9,7 +9,7 @@
 #include <gnome.h>
 #include "dates.h"
 
-char *day_short [] =
+const char *day_short [] =
 {
 	N_("*Sun"),
 	N_("*Mon"),
@@ -21,7 +21,7 @@ char *day_short [] =
 	NULL,
 };
 
-char *day_long [] =
+const char *day_long [] =
 {
 	N_("Sunday"),
 	N_("Monday"),
@@ -33,7 +33,7 @@ char *day_long [] =
 	NULL
 };
 
-char *month_short [] =
+const char *month_short [] =
 {
 	N_("*Jan"),
 	N_("*Feb"),
@@ -50,7 +50,7 @@ char *month_short [] =
 	NULL
 };
 
-char *month_long [] =
+const char *month_long [] =
 {
 	N_("January"),
 	N_("February"),

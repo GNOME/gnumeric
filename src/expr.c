@@ -17,7 +17,7 @@
 /* Shared variables with parser.y */
 
 /*       The expression being parsed */
-char     *parser_expr;
+const char     *parser_expr;
 
 /*        The suggested format to use for this expression */
 char     *parser_desired_format;
@@ -35,7 +35,7 @@ void     *parser_sheet;
 int       parser_col, parser_row;
 
 ExprTree *
-expr_parse_string (char *expr, void *sheet, int col, int row, char **desired_format, char **error_msg)
+expr_parse_string (const char *expr, void *sheet, int col, int row, char **desired_format, char **error_msg)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
 	
@@ -786,7 +786,7 @@ function_def_call_with_values (Sheet *sheet, FunctionDefinition *fd, int argc,
  * you have to compute/expand all of the values to use this
  */
 Value *
-function_call_with_values (Sheet *sheet, char *name, int argc, Value *values[], char **error_string)
+function_call_with_values (Sheet *sheet, const char *name, int argc, Value *values[], char **error_string)
 {
 	FunctionDefinition *fd;
 	Value *retval;

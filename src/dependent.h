@@ -53,4 +53,3 @@ void cell_unqueue_from_recalc    (Cell *cell);
 void cell_eval                   (Cell *cell);
 
 #endif /* GNUMERIC_EVAL_H */
-

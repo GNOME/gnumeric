@@ -48,7 +48,7 @@ function_iterate_argument_values (Sheet                   *sheet,
  *
  */
 Value      *function_call_with_values     (Sheet     *sheet,
-					   char      *name,
+					   const char      *name,
 					   int argc,
 					   Value *values [],
 					   char **error_string);

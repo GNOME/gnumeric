@@ -21,7 +21,7 @@ dump_func_help (gpointer key, gpointer value, gpointer user_data)
 }
 
 void
-dump_functions (char *filename)
+dump_functions (const char *filename)
 {
 	g_return_if_fail (filename != NULL);
 	

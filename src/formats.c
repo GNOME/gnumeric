@@ -12,7 +12,7 @@
 #include "formats.h"
 
 /* The various formats */
-char *cell_format_numbers [] = {
+const char *cell_format_numbers [] = {
 	N_("General"),
 	N_("0"),
 	N_("0.00"),
@@ -26,7 +26,7 @@ char *cell_format_numbers [] = {
 	NULL
 };
 
-char *cell_format_accounting [] = {
+const char *cell_format_accounting [] = {
 	N_("_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"),
 	N_("_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"),
 	N_("_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"),
@@ -34,7 +34,7 @@ char *cell_format_accounting [] = {
 	NULL
 };
 
-char *cell_format_date [] = {
+const char *cell_format_date [] = {
 	N_("m/d/yy"),
 	N_("m/d/yyyy"),
 	N_("d-mmm-yy"),
@@ -58,7 +58,7 @@ char *cell_format_date [] = {
 	NULL
 };
 
-char *cell_format_hour [] = {
+const char *cell_format_hour [] = {
 	N_("h:mm AM/PM"),
 	N_("h:mm:ss AM/PM"),
 	N_("h:mm"),
@@ -70,30 +70,30 @@ char *cell_format_hour [] = {
 	NULL
 };
 
-char *cell_format_percent [] = {
+const char *cell_format_percent [] = {
 	N_("0%"),
 	N_("0.00%"),
 	NULL,
 };
 
-char *cell_format_fraction [] = {
+const char *cell_format_fraction [] = {
 	N_("# ?/?"),
 	N_("# ??/??"),
 	NULL
 };
 
-char *cell_format_scientific [] = {
+const char *cell_format_scientific [] = {
 	N_("0.00E+00"),
 	N_("##0.0E+0"),
 	NULL
 };
 
-char *cell_format_text [] = {
+const char *cell_format_text [] = {
 	"@",
 	NULL,
 };
 
-char *cell_format_money [] = {
+const char *cell_format_money [] = {
 	N_("$#,##0_);($#,##0)"),
 	N_("$#,##0_);[red]($#,##0)"),
 	N_("$#,##0.00_);($#,##0.00)"),

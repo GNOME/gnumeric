@@ -133,7 +133,7 @@ struct FunctionDefinition {
 typedef struct FunctionDefinition FunctionDefinition;
 
 /* For communication with yyparse */
-extern char     *parser_expr;
+extern const char     *parser_expr;
 extern char     *parser_desired_format;
 extern ParseErr  parser_error;
 extern ExprTree *parser_result;
@@ -144,7 +144,7 @@ void        cell_get_abs_col_row (const CellRef *cell_ref,
 				  int eval_col, int eval_row,
 				  int *col, int *row);
 
-ExprTree   *expr_parse_string    (char *expr, void *sheet, int col, int row,
+ExprTree   *expr_parse_string    (const char *expr, void *sheet, int col, int row,
 				  char **desired_format, char **error_msg);
 ExprTree   *expr_tree_duplicate  (ExprTree *expr);
 ExprTree   *expr_tree_relocate   (ExprTree *expr, int col_diff, int row_diff);

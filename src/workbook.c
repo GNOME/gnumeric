@@ -221,7 +221,6 @@ static void
 cb_sheet_do_destroy (gpointer key, gpointer value, gpointer user_data)
 {
 	Sheet *sheet = value;
-
 	sheet_destroy (sheet);
 }
 
@@ -1030,7 +1029,7 @@ wb_input_finished (GtkEntry *entry, Workbook *wb)
 }
 
 int
-workbook_parse_and_jump (Workbook *wb, char *text)
+workbook_parse_and_jump (Workbook *wb, const char *text)
 {
 	int col, row;
 
@@ -1064,14 +1063,14 @@ workbook_parse_and_jump (Workbook *wb, char *text)
 static void
 wb_jump_to_cell (GtkEntry *entry, Workbook *wb)
 {
-	char *text = gtk_entry_get_text (entry);
+	const char *text = gtk_entry_get_text (entry);
 
 	workbook_parse_and_jump (wb, text);
 	workbook_focus_current_sheet (wb);
 }
 
 void
-workbook_set_region_status (Workbook *wb, char *str)
+workbook_set_region_status (Workbook *wb, const char *str)
 {
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (str != NULL);
@@ -1212,7 +1211,7 @@ static struct {
  * selection in the sheet changes
  */
 static char *
-workbook_set_auto_expr (Workbook *wb, char *description, char *expression)
+workbook_set_auto_expr (Workbook *wb, const char *description, const char *expression)
 {
 	char *error = NULL;
 	
@@ -1338,7 +1337,7 @@ workbook_setup_status_area (Workbook *wb)
 }
 
 void
-workbook_auto_expr_label_set (Workbook *wb, char *text)
+workbook_auto_expr_label_set (Workbook *wb, const char *text)
 {
 	char *res;
 
@@ -1615,7 +1614,7 @@ sheet_action_delete_sheet (GtkWidget *widget, Sheet *current_sheet)
 #define SHEET_CONTEXT_TEST_SIZE 1
 
 struct {
-	char *text;
+	const char *text;
 	void (*function) (GtkWidget *widget, Sheet *sheet);
 	int  flags;
 } sheet_label_context_actions [] = {
@@ -1875,17 +1874,19 @@ workbook_sheet_lookup (Workbook *wb, const char *sheet_name)
 char *
 workbook_sheet_get_free_name (Workbook *wb)
 {
-	char name [80];
+        const char *name_format = _("Sheet %d");
+	char *name = g_malloc (strlen (name_format) + 4 * sizeof (int));
 	int  i;
-	
+
 	g_return_val_if_fail (wb != NULL, NULL);
 
 	for (i = 0; ; i++){
-		g_snprintf (name, sizeof (name), _("Sheet %d"), i);
+		sprintf (name, name_format, i);
 		if (workbook_sheet_lookup (wb, name) == NULL)
-			return g_strdup (name);
+			return name;
 	}
 	g_assert_not_reached ();
+	g_free (name);
 	return NULL;
 }
 

@@ -1,14 +1,14 @@
 #ifndef GNUMERIC_FORMATS_H
 #define GNUMERIC_FORMATS_H
 
-extern char *cell_format_numbers [];
-extern char *cell_format_accounting [];
-extern char *cell_format_date [];
-extern char *cell_format_hour [];
-extern char *cell_format_percent [];
-extern char *cell_format_fraction [];
-extern char *cell_format_scientific [];
-extern char *cell_format_text [];
-extern char *cell_format_money [];
+extern const char *cell_format_numbers [];
+extern const char *cell_format_accounting [];
+extern const char *cell_format_date [];
+extern const char *cell_format_hour [];
+extern const char *cell_format_percent [];
+extern const char *cell_format_fraction [];
+extern const char *cell_format_scientific [];
+extern const char *cell_format_text [];
+extern const char *cell_format_money [];
 
 #endif

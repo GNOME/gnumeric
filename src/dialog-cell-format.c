@@ -60,8 +60,8 @@ make_radio_notify_change (GSList *list, GtkWidget *prop_win)
 }
 
 static struct {
-	char *name;
-	char **formats;	
+	const char *name;
+	const char *const *formats;	
 } cell_formats [] = {
 	{ N_("Numbers"),    cell_format_numbers    },
 	{ N_("Accounting"), cell_format_accounting },
@@ -79,7 +79,7 @@ static void
 format_list_fill (int n)
 {
 	GtkCList *cl = GTK_CLIST (number_format_list);
-	char **texts;
+	const char *const *texts;
 	int i;
 
 	g_return_if_fail (n >= 0);
@@ -105,10 +105,10 @@ format_list_fill (int n)
  * format that applies to this cell
  */
 static int
-format_find (char *format)
+format_find (const char *format)
 {
 	int i, row;
-	char **p;
+	const char *const *p;
 	
 	for (i = 0; cell_formats [i].name; i++){
 		p = cell_formats [i].formats;

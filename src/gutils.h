@@ -2,15 +2,15 @@
 #define GNUMERIC_UTILS_H
 
 /* Gets an integer in the buffer in start to end */
-void      int_get_from_range     (char *start, char *end, int_t *t);
-void      float_get_from_range   (char *start, char *end, float_t *t);
+void      int_get_from_range     (const char *start, const char *end, int_t *t);
+void      float_get_from_range   (const char *start, const char *end, float_t *t);
 
-char      *cell_name             (int col, int row);
-int       parse_cell_name        (char *cell_str, int *col, int *row);
-GSList    *parse_cell_name_list  (void *sheet, char *cell_name_str,
+const char*cell_name             (int col, int row);
+int       parse_cell_name        (const char *cell_str, int *col, int *row);
+GSList    *parse_cell_name_list  (void *sheet, const char *cell_name_str,
 				  int *eflag);
-char      *col_name              (int col);
-int       col_from_name          (char *cell_str);
+const char*col_name              (int col);
+int       col_from_name          (const char *cell_str);
 
 guint     gnumeric_strcase_hash  (gconstpointer v);
 gint      gnumeric_strcase_equal (gconstpointer v, gconstpointer v2);

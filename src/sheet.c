@@ -676,7 +676,7 @@ sheet_update_auto_expr (Sheet *sheet)
 		workbook_auto_expr_label_set (wb, error);
 }
 
-static char *
+static const char *
 sheet_get_selection_name (Sheet *sheet)
 {
 	SheetSelection *ss = sheet->selections->data;
@@ -693,7 +693,7 @@ sheet_get_selection_name (Sheet *sheet)
 }
 
 void
-sheet_set_text (Sheet *sheet, int col, int row, char *str)
+sheet_set_text (Sheet *sheet, int col, int row, const char *str)
 {
 	GList *l;
 	Cell *cell;
@@ -2231,6 +2231,10 @@ sheet_destroy (Sheet *sheet)
 	
 	g_assert (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet)); 
+#if 0
+	/* When destroying a workbook, this condition is not true.  */
+	g_return_if_fail (sheet->workbook == NULL);
+#endif
 
 	g_warning ("Reminder: need to destroy SheetObjects");
 	sheet_selections_free (sheet);
@@ -2474,7 +2478,7 @@ sheet_selection_clear_formats (Sheet *sheet)
 }
 
 gboolean
-sheet_verify_selection_simple (Sheet *sheet, char *command_name)
+sheet_verify_selection_simple (Sheet *sheet, const char *command_name)
 {
 	char *msg;
 	
@@ -3286,7 +3290,7 @@ sheet_cursor_set (Sheet *sheet, int base_col, int base_row, int start_col, int s
 }
 
 void
-sheet_fill_selection_with (Sheet *sheet, char *str)
+sheet_fill_selection_with (Sheet *sheet, const char *str)
 {
 	GList *l;
 	int  col, row;
@@ -3399,7 +3403,7 @@ sheet_mark_clean (Sheet *sheet)
  * The routine might return NULL.
  */
 Sheet *
-sheet_lookup_by_name (Sheet *base, char *name)
+sheet_lookup_by_name (Sheet *base, const char *name)
 {
 	Sheet *sheet;
 	

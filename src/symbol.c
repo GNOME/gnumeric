@@ -18,7 +18,7 @@ SymbolTable *global_symbol_table;
  * @str: string to be looked up in the symbol table
  */
 Symbol *
-symbol_lookup (SymbolTable *st, char *str)
+symbol_lookup (SymbolTable *st, const char *str)
 {
 	Symbol *sym;
 
@@ -30,7 +30,7 @@ symbol_lookup (SymbolTable *st, char *str)
 }
 
 Symbol *
-symbol_lookup_substr (SymbolTable *st, char *buffer, int len)
+symbol_lookup_substr (SymbolTable *st, const char *buffer, int len)
 {
 	char *str;
 	Symbol *sym;
@@ -57,7 +57,7 @@ symbol_lookup_substr (SymbolTable *st, char *buffer, int len)
  * @data: information attached to the symbol
  */
 Symbol *
-symbol_install (SymbolTable *st, char *str, SymbolType type, void *data)
+symbol_install (SymbolTable *st, const char *str, SymbolType type, void *data)
 {
 	Symbol *sym;
 
@@ -99,7 +99,7 @@ symbol_ref (Symbol *sym)
  * symbol is created
  */
 Symbol *
-symbol_ref_string (SymbolTable *st, char *str)
+symbol_ref_string (SymbolTable *st, const char *str)
 {
 	Symbol *sym;
 
@@ -144,7 +144,7 @@ g_strcase_equal (gconstpointer v1, gconstpointer v2)
 static guint
 g_strcase_hash (gconstpointer v)
 {
-	const char *s = (char *) v;
+	const char *s = (const char *) v;
 	const char *p;
 	guint h = 0, g;
 	
@@ -191,4 +191,3 @@ global_symbol_init (void)
 {
 	global_symbol_table = symbol_table_new ();
 }
-

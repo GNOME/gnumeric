@@ -19,7 +19,7 @@
 GList *plugin_list = NULL;
 
 PluginData *
-plugin_load (Workbook *wb, gchar *modfile)
+plugin_load (Workbook *wb, const gchar *modfile)
 {
 	PluginData *data;
 

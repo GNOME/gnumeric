@@ -37,7 +37,7 @@ cell_modified (Cell *cell)
 }
 
 void
-cell_set_formula (Cell *cell, char *text)
+cell_set_formula (Cell *cell, const char *text)
 {
 	char *error_msg = _("ERROR");
 	char *desired_format = NULL;
@@ -147,7 +147,7 @@ cell_set_font_from_style (Cell *cell, StyleFont *style_font)
 }
 
 void
-cell_set_font (Cell *cell, char *font_name)
+cell_set_font (Cell *cell, const char *font_name)
 {
 	StyleFont *style_font;
 
@@ -491,7 +491,7 @@ cell_set_border (Cell *cell,
  * it recomputes the bounding box for the cell as well
  */
 void
-cell_set_rendered_text (Cell *cell, char *rendered_text)
+cell_set_rendered_text (Cell *cell, const char *rendered_text)
 {
 	String *oldtext;
 	
@@ -549,7 +549,7 @@ cell_render_value (Cell *cell)
  *      yourself.
  */
 void
-cell_set_text_simple (Cell *cell, char *text)
+cell_set_text_simple (Cell *cell, const char *text)
 {
 	struct lconv *lconv;
 	
@@ -580,7 +580,7 @@ cell_set_text_simple (Cell *cell, char *text)
 		Value *v = g_new (Value, 1);
 		int is_text, is_float, maybe_float, has_digits;
 		int seen_exp;
-		char *p;
+		const char *p;
 
 		lconv = localeconv ();
 		
@@ -673,7 +673,7 @@ cell_content_changed (Cell *cell)
  * Changes the content of a cell
  */
 void
-cell_set_text (Cell *cell, char *text)
+cell_set_text (Cell *cell, const char *text)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
@@ -740,7 +740,7 @@ cell_set_formula_tree (Cell *cell, ExprTree *formula)
  * fields are set to NULL.
  */
 Cell *
-cell_copy (Cell *cell)
+cell_copy (const Cell *cell)
 {
 	Cell *new_cell;
 
@@ -864,7 +864,7 @@ cell_queue_redraw (Cell *cell)
  * Make sure you queue a draw in the future for this cell.
  */
 void
-cell_set_format_simple (Cell *cell, char *format)
+cell_set_format_simple (Cell *cell, const char *format)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (format != NULL);
@@ -886,7 +886,7 @@ cell_set_format_simple (Cell *cell, char *format)
  * a number display format as specified on the manual
  */
 void
-cell_set_format (Cell *cell, char *format)
+cell_set_format (Cell *cell, const char *format)
 {
 	g_return_if_fail (cell != NULL);
 	
@@ -985,7 +985,7 @@ cell_make_value (Cell *cell)
 }
 
 int
-cell_get_horizontal_align (Cell *cell)
+cell_get_horizontal_align (const Cell *cell)
 {
 	g_return_val_if_fail (cell != NULL, HALIGN_LEFT);
 
@@ -1003,7 +1003,7 @@ cell_get_horizontal_align (Cell *cell)
 }
 
 static inline int
-cell_is_number (Cell *cell)
+cell_is_number (const Cell *cell)
 {
 	if (cell->value)
 		if (cell->value->type == VALUE_FLOAT || cell->value->type == VALUE_INTEGER)
@@ -1013,7 +1013,7 @@ cell_is_number (Cell *cell)
 }
 
 static inline int
-cell_contents_fit_inside_column (Cell *cell)
+cell_contents_fit_inside_column (const Cell *cell)
 {
 	if (cell->width < COL_INTERNAL_WIDTH (cell->col))
 		return TRUE;
@@ -1187,7 +1187,7 @@ cell_get_span (Cell *cell, int *col1, int *col2)
  * constraints in the style using the font specified on the style. 
  */
 void
-calc_text_dimensions (int is_number, Style *style, char *text, int cell_w, int cell_h, int *h, int *w)
+calc_text_dimensions (int is_number, Style *style, const char *text, int cell_w, int cell_h, int *h, int *w)
 {
 	GdkFont *font = style->font->font;
 	int text_width, font_height;
@@ -1204,9 +1204,9 @@ calc_text_dimensions (int is_number, Style *style, char *text, int cell_w, int c
 	if (style->halign == HALIGN_JUSTIFY ||
 	    style->valign == VALIGN_JUSTIFY ||
 	    style->fit_in_cell){
-		char *ideal_cut_spot = NULL;
+		const char *ideal_cut_spot = NULL;
 		int  used, last_was_cut_point;
-		char *p = text;
+		const char *p = text;
 		*w = cell_w;
 		*h = font_height;
 		
@@ -1309,10 +1309,10 @@ draw_overflow (GdkDrawable *drawable, GdkGC *gc, GdkFont *font, int x1, int y1, 
 }
 
 static GList *
-cell_split_text (GdkFont *font, char *text, int width)
+cell_split_text (GdkFont *font, const char *text, int width)
 {
 	GList *list;
-	char *p, *line, *line_begin, *ideal_cut_spot = NULL;
+	const char *p, *line_begin, *ideal_cut_spot = NULL;
 	int  line_len, used, last_was_cut_point;
 
 	list = NULL;
@@ -1328,7 +1328,8 @@ cell_split_text (GdkFont *font, char *text, int width)
 
 		/* If we have overflowed, do the wrap */
 		if (used + len > width){
-			char *begin = line_begin;
+			const char *begin = line_begin;
+			char *line;
 			
 			if (ideal_cut_spot){
 				int n = p - ideal_cut_spot + 1;
@@ -1357,6 +1358,7 @@ cell_split_text (GdkFont *font, char *text, int width)
 			last_was_cut_point = FALSE;
 	}
 	if (*line_begin){
+		char *line;
 		line_len = p - line_begin;
 		line = g_malloc (line_len+1);
 		memcpy (line, line_begin, line_len);

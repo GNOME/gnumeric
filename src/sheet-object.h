@@ -63,12 +63,13 @@ void             sheet_object_register       (Sheet *sheet,
 SheetObject     *sheet_object_create_line    (Sheet *sheet,   int is_arrow,
 					      double x1,      double y1,
 					      double x2,      double y2,
-					      char    *color, int width);
+					      const char    *color, int width);
 
 SheetObject     *sheet_object_create_filled  (Sheet *sheet, int type,
 					      double x1, double y1,
 					      double x2, double y2,
-					      char *fill_color, char *outline_color,
+					      const char *fill_color,
+					      const char *outline_color,
 					      int w);
 
 #endif /* GNUMERIC_SHEET_OBJECT_H */

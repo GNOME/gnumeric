@@ -25,7 +25,7 @@
 static char small_buffer [SMALL_BUF_SIZE];
 
 void
-float_get_from_range (char *start, char *end, float_t *t)
+float_get_from_range (const char *start, const char *end, float_t *t)
 {
 	char *p;
 	int  size = end - start;
@@ -50,7 +50,7 @@ float_get_from_range (char *start, char *end, float_t *t)
 }
 
 void
-int_get_from_range (char *start, char *end, int_t *t)
+int_get_from_range (const char *start, const char *end, int_t *t)
 {
 	char *p;
 	int  size = end - start;
@@ -74,7 +74,7 @@ int_get_from_range (char *start, char *end, int_t *t)
 		g_free (p);
 }
 
-char *
+const char *
 cell_name (int col, int row)
 {
 	static char buffer [2 + 4 * sizeof (long)];
@@ -94,7 +94,7 @@ cell_name (int col, int row)
 	return buffer;
 }
 
-char *
+const char *
 col_name (int col)
 {
 	static char buffer [20];
@@ -118,7 +118,7 @@ col_name (int col)
  * Converts a column name into an integer
  **/
 int
-col_from_name (char *cell_str)
+col_from_name (const char *cell_str)
 {
 	int col = 0 ;
 
@@ -142,7 +142,7 @@ col_from_name (char *cell_str)
  * Return value: true if the cell_name could be successfully parsed
  */
 int
-parse_cell_name (char *cell_str, int *col, int *row)
+parse_cell_name (const char *cell_str, int *col, int *row)
 {
 	*col = 0;
 	*row = 0;
@@ -181,7 +181,7 @@ gnumeric_strcase_equal (gconstpointer v, gconstpointer v2)
 guint
 gnumeric_strcase_hash (gconstpointer v)
 {
-	const char *s = (char*)v;
+	const char *s = (const char*)v;
 	const char *p;
 	guint h=0, g;
 	
@@ -228,7 +228,7 @@ g_date_new_serial (guint32 serial)
  * error_flag is set.
  */
 GSList  *parse_cell_name_list  (void *vsheet, 
-				char *cell_name_str, int *error_flag)
+				const char *cell_name_str, int *error_flag)
 {
         Sheet    *sheet = (Sheet *) vsheet;
         char     *buf = (char *) malloc(strlen(cell_name_str)+1);

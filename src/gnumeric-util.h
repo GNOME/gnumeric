@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_GNUMERIC_UTIL_H
 #define GNUMERIC_GNUMERIC_UTIL_H
 
-void       gnumeric_notice (Workbook *wb, char *type, char *str);
+void       gnumeric_notice (Workbook *wb, const char *type, const char *str);
 
 /* A simple routine for making a popup menu */
 int        run_popup_menu  (GdkEvent *event, int button, char **strings);
@@ -10,9 +10,9 @@ int        run_popup_menu  (GdkEvent *event, int button, char **strings);
 int        gtk_radio_group_get_selected (GSList *radio_group);
 void       gtk_radio_button_select      (GSList *group, int n);
 
-char      *font_get_bold_name           (char *fontname);
-char      *font_get_italic_name         (char *fontname);
-char      *font_change_component        (char *fontname, int idx, char *value);
+char      *font_get_bold_name           (const char *fontname);
+char      *font_get_italic_name         (const char *fontname);
+char      *font_change_component        (const char *fontname, int idx, char *value);
 
 /*
  * Use this on menus that are popped up

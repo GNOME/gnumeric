@@ -128,16 +128,16 @@ typedef struct {
 void           style_init  	      (void);
 Style         *style_new   	      (void);
 void           style_merge_to         (Style *target, Style *source);
-Style         *style_duplicate        (Style *style);
+Style         *style_duplicate        (const Style *style);
 void           style_destroy          (Style *style);
 Style         *style_new_empty        (void);
 
-StyleFormat   *style_format_new       (char *name);
+StyleFormat   *style_format_new       (const char *name);
 void           style_format_ref       (StyleFormat *sf);
 void           style_format_unref     (StyleFormat *sf);
 				      
-StyleFont     *style_font_new         (char *font_name, int units);
-StyleFont     *style_font_new_simple  (char *font_name, int units);
+StyleFont     *style_font_new         (const char *font_name, int units);
+StyleFont     *style_font_new_simple  (const char *font_name, int units);
 void           style_font_ref         (StyleFont *sf);
 void           style_font_unref       (StyleFont *sf);
 

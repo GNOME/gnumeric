@@ -163,7 +163,7 @@ dialog_found_solution (int set_cell_col, int set_cell_row,
 	GtkWidget *target_label;
 	GtkWidget *current_label;
 
-	char *name;
+	const char *name;
 	char status_str[256];
 	char target_str[256];
 	char current_str[256];
@@ -221,7 +221,7 @@ dialog_goal_seek (Workbook *wb, Sheet *sheet)
 	static GtkWidget *label_box;
 	static GtkWidget *entry_box;
 
-	char             *set_entry_str;
+	const char       *set_entry_str;
 	char             *text;
 	int              selection;
 	float_t          old_value;

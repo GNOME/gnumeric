@@ -64,7 +64,7 @@ typedef enum {
 
 typedef struct {
 	int    count;
-	char **items;
+	const char *const *items;
 } AutoFillList;
 
 struct FillItem {
@@ -100,10 +100,10 @@ typedef struct FillItem FillItem;
 static GList *autofill_lists;
 
 void
-autofill_register_list (char **list)
+autofill_register_list (const char *const *list)
 {
 	AutoFillList *afl;
-	char **p = list;
+	const char *const *p = list;
 	
 	while (*p)
 		p++;
@@ -116,17 +116,17 @@ autofill_register_list (char **list)
 }
 
 static AutoFillList *
-matches_list (String *str, int *n, int *is_i18n)
+matches_list (const String *str, int *n, int *is_i18n)
 {
 	GList *l;
-	char *s = str->str;
+	const char *s = str->str;
 
 	for (l = autofill_lists; l; l = l->next){
 		AutoFillList *afl = l->data;
 		int i;
 		
 		for (i = 0; i < afl->count; i++){
-			char *english_text, *translated_text;
+			const char *english_text, *translated_text;
 
 			english_text = afl->items [i];
 			if (*english_text == '*')
@@ -490,7 +490,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 	
 	case FILL_STRING_LIST: {
 		FillItem *last = fi->group_last;
-		char *text;
+		const char *text;
 		int n;
 		
 		n = last->v.list.num + idx * last->delta.d_int;

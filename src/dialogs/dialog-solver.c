@@ -15,7 +15,7 @@
 
 
 /* Different constraint types */
-static char *constraint_strs[] = {
+static const char *constraint_strs[] = {
         N_("<="),
 	N_("="),
 	N_(">="),
@@ -26,7 +26,7 @@ static char *constraint_strs[] = {
 
 
 static struct {
-	char *name;
+	const char *name;
 	int  disables_second_group;
 } paste_types [] = {
 	{ N_("All"),      0 },
@@ -36,37 +36,37 @@ static struct {
 	{ NULL, 0 }
 };
 
-static char *equal_ops [] = {
+static const char *equal_ops [] = {
 	N_("Max"),
 	N_("Min"),
 	NULL
 };
 
-static char *estimate_ops [] = {
+static const char *estimate_ops [] = {
 	N_("Tangent"),
 	N_("Quadratic"),
 	NULL
 };
 
-static char *derivative_ops [] = {
+static const char *derivative_ops [] = {
 	N_("Forward"),
 	N_("Central"),
 	NULL
 };
 
-static char *search_ops [] = {
+static const char *search_ops [] = {
 	N_("Newton"),
 	N_("Conjugate"),
 	NULL
 };
 
-static char *check_button_left_ops [] = {
+static const char *check_button_left_ops [] = {
 	N_("Assume Linear Model"),
 	N_("Assume Non-Negative"),
 	NULL
 };
 
-static char *check_button_right_ops [] = {
+static const char *check_button_right_ops [] = {
 	N_("Use Automatic Scaling"),
 	N_("Show Iteration Results"),
 	NULL
@@ -74,7 +74,7 @@ static char *check_button_right_ops [] = {
 
 
 static GSList *
-add_radio_buttons (GtkWidget *hbox, char *title, char *ops[])
+add_radio_buttons (GtkWidget *hbox, const char *title, const char *ops[])
 {
         GtkWidget *f, *fv;
 	GSList    *group_ops = NULL;
@@ -98,7 +98,7 @@ add_radio_buttons (GtkWidget *hbox, char *title, char *ops[])
 }
 
 static void
-add_check_buttons (GtkWidget *box, char *ops[])
+add_check_buttons (GtkWidget *box, const char *ops[])
 {
         GtkWidget *button;
 	int       i;
@@ -111,7 +111,7 @@ add_check_buttons (GtkWidget *box, char *ops[])
 
 
 static GList *
-add_strings_to_glist (char *strs[])
+add_strings_to_glist (const char *strs[])
 {
         int   i;
 	GList *list = NULL;
@@ -339,7 +339,7 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 
 	constraint_dialog_t constraint_dialog;
 
-	char     *text, *target_entry_str;
+	const char *text, *target_entry_str;
 	int      selection, sel_equal_to;
 	Cell     *target_cell;
 	CellList *input_cells;

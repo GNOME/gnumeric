@@ -27,7 +27,7 @@ StyleFont *gnumeric_default_bold_font;
 StyleFont *gnumeric_default_italic_font;
 
 StyleFormat *
-style_format_new (char *name)
+style_format_new (const char *name)
 {
 	StyleFormat *format;
 
@@ -39,7 +39,7 @@ style_format_new (char *name)
 		format = g_new0 (StyleFormat, 1);
 		format->format = g_strdup (name);
 		format_compile (format);
-		g_hash_table_insert (style_format_hash, name, format);
+		g_hash_table_insert (style_format_hash, format->format, format);
 	}
 	format->ref_count++;
 
@@ -73,7 +73,7 @@ style_format_unref (StyleFormat *sf)
 static void
 font_compute_hints (StyleFont *font)
 {
-	char *p = font->font_name;
+	const char *p = font->font_name;
 	int hyphens = 0;
 	
 	font->hint_is_bold = 0;
@@ -98,7 +98,7 @@ font_compute_hints (StyleFont *font)
 }
 
 StyleFont *
-style_font_new_simple (char *font_name, int units)
+style_font_new_simple (const char *font_name, int units)
 {
 	StyleFont *font;
 	StyleFont key;
@@ -106,25 +106,29 @@ style_font_new_simple (char *font_name, int units)
 	g_return_val_if_fail (font_name != NULL, NULL);
 	g_return_val_if_fail (units != 0, NULL);
 
-	key.font_name = font_name;
+	key.font_name = (char *)font_name;  /* We will not change the name.  */
 	key.units    = units;
 	
 	font = (StyleFont *) g_hash_table_lookup (style_font_hash, &key);
 	if (!font){
 		GdkFont *gdk_font;
+		char *font_name_copy;
 
-		gdk_font = gdk_fontset_load (font_name);
-		
-		if (!gdk_font)
+		font_name_copy = g_strdup (font_name);
+		gdk_font = gdk_fontset_load (font_name_copy);
+
+		if (!gdk_font) {
+			g_free (font_name_copy);
 			return NULL;
-		
+		}
+
 		font = g_new0 (StyleFont, 1);
-		font->font_name = g_strdup (font_name);
+		font->font_name = font_name_copy;
 		font->units    = units;
 		font->font     = gdk_font;
 
 		font_compute_hints (font);
-		
+
 		g_hash_table_insert (style_font_hash, font, font);
 	}
 	font->ref_count++;
@@ -133,7 +137,7 @@ style_font_new_simple (char *font_name, int units)
 }
 
 StyleFont *
-style_font_new (char *font_name, int units)
+style_font_new (const char *font_name, int units)
 {
 	StyleFont *font;
 
@@ -342,7 +346,7 @@ style_destroy (Style *style)
 
 
 Style *
-style_duplicate (Style *original)
+style_duplicate (const Style *original)
 {
 	Style *style;
 
@@ -386,8 +390,8 @@ style_duplicate (Style *original)
 static gint
 font_equal (gconstpointer v, gconstpointer v2)
 {
-	StyleFont *k1 = (StyleFont *) v;
-	StyleFont *k2 = (StyleFont *) v2;
+	const StyleFont *k1 = (const StyleFont *) v;
+	const StyleFont *k2 = (const StyleFont *) v2;
 
 	if (k1->units != k2->units)
 		return 0;
@@ -398,7 +402,7 @@ font_equal (gconstpointer v, gconstpointer v2)
 static guint
 font_hash (gconstpointer v)
 {
-	StyleFont *k = (StyleFont *) v;
+	const StyleFont *k = (const StyleFont *) v;
 
 	return k->units + g_str_hash (k->font_name);
 }
@@ -406,8 +410,8 @@ font_hash (gconstpointer v)
 static gint
 border_equal (gconstpointer v, gconstpointer v2)
 {
-	StyleBorder *k1 = (StyleBorder *) v;
-	StyleBorder *k2 = (StyleBorder *) v2;
+	const StyleBorder *k1 = (const StyleBorder *) v;
+	const StyleBorder *k2 = (const StyleBorder *) v2;
 	int lp;
 
  	for (lp = 0; lp < 4; lp++)
@@ -425,7 +429,7 @@ border_equal (gconstpointer v, gconstpointer v2)
 static guint
 border_hash (gconstpointer v)
 {
-	StyleBorder *k = (StyleBorder *) v;
+	const StyleBorder *k = (const StyleBorder *) v;
 
  	return (k->type [STYLE_LEFT] << 12) | (k->type [STYLE_RIGHT] << 8) |
 	       (k->type [STYLE_TOP] << 4)   | (k->type [STYLE_BOTTOM]);
@@ -435,8 +439,8 @@ border_hash (gconstpointer v)
 static gint
 color_equal (gconstpointer v, gconstpointer v2)
 {
-	StyleColor *k1 = (StyleColor *) v;
-	StyleColor *k2 = (StyleColor *) v2;
+	const StyleColor *k1 = (const StyleColor *) v;
+	const StyleColor *k2 = (const StyleColor *) v2;
 
 	if (k1->color.red   == k2->color.red &&
 	    k1->color.green == k2->color.green &&
@@ -449,7 +453,7 @@ color_equal (gconstpointer v, gconstpointer v2)
 static guint
 color_hash (gconstpointer v)
 {
-	StyleColor *k = (StyleColor *)v;
+	const StyleColor *k = (const StyleColor *)v;
 
 	return (k->color.red << 16) | (k->color.green << 8) | (k->color.blue);
 }
