@@ -21045,10 +21045,11 @@ msgstr "H"
 msgid "Height"
 msgstr "Hoogte"
 
+#. GRUT modified this item
 # Width-Breedte
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 msgid "W"
-msgstr "B"
+msgstr "W"
 
 #: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 msgid "Width"
