@@ -146,7 +146,6 @@ change_font_in_selection_cmd (GtkWidget *caller, Workbook *wb)
 
 		wb->priv->current_font_name = font_name;
 
-
 		mstyle = mstyle_new ();
 		mstyle_set_font_name (mstyle, font_name);
 		cmd_format (workbook_command_context_gui (wb),
@@ -692,45 +691,55 @@ workbook_format_halign_feedback_set (Workbook *workbook,
  * Updates the edit control state: bold, italic, font name and font size
  */
 void
-workbook_feedback_set (Workbook *workbook, MStyle *style)
+workbook_feedback_set (Workbook *wb, MStyle *style)
 {
-	GnumericToolbar *toolbar = GNUMERIC_TOOLBAR (workbook->priv->format_toolbar);
+	GnumericToolbar *toolbar = GNUMERIC_TOOLBAR (wb->priv->format_toolbar);
+	GtkComboText    *fontsel = GTK_COMBO_TEXT (wb->priv->font_name_selector);
+	GtkComboText    *fontsize= GTK_COMBO_TEXT (wb->priv->font_size_selector);
 	gboolean         font_set;
 	char             size_str [40];
 
 	g_return_if_fail (style != NULL);
-	g_return_if_fail (workbook != NULL);
-	g_return_if_fail (IS_WORKBOOK (workbook));
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (IS_WORKBOOK (wb));
 
 	/* Handle font boldness */
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_BOLD));
-	workbook_format_toolbutton_update (workbook, toolbar,
+	workbook_format_toolbutton_update (wb, toolbar,
 					   TOOLBAR_BOLD_BUTTON_INDEX,
 					   (GtkSignalFunc)&bold_cmd,
 					   mstyle_get_font_bold (style));
 
 	/* Handle font italics */
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_ITALIC));
-	workbook_format_toolbutton_update (workbook, toolbar,
+	workbook_format_toolbutton_update (wb, toolbar,
 					   TOOLBAR_ITALIC_BUTTON_INDEX,
 					   (GtkSignalFunc)&italic_cmd,
 					   mstyle_get_font_italic (style));
 
 	/* Handle font underlining */
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_UNDERLINE));
-	workbook_format_toolbutton_update (workbook, toolbar,
+	workbook_format_toolbutton_update (wb, toolbar,
 					   TOOLBAR_UNDERLINE_BUTTON_INDEX,
 					   (GtkSignalFunc)&underline_cmd,
 					   mstyle_get_font_uline (style) == UNDERLINE_SINGLE);
 
 	/* horizontal alignment */
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_ALIGN_H));
-	workbook_format_halign_feedback_set (workbook, mstyle_get_align_h (style));
+	workbook_format_halign_feedback_set (wb, mstyle_get_align_h (style));
 
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_SIZE));
 	g_snprintf (size_str, sizeof(size_str), "%d", (int)mstyle_get_font_size (style));
-	gtk_entry_set_text (GTK_ENTRY(GTK_COMBO_TEXT (workbook->priv->font_size_selector)->entry),
-			    size_str);
+
+	/* Do no update the font when we update the status display */
+	gtk_signal_handler_block_by_func (GTK_OBJECT (fontsize->entry),
+					  &change_font_size_in_selection_cmd, wb);
+
+	gtk_entry_set_text (GTK_ENTRY(fontsize->entry), size_str);
+
+	/* Restore callback */
+	gtk_signal_handler_unblock_by_func (GTK_OBJECT (fontsize->entry),
+					    &change_font_size_in_selection_cmd, wb);
 
 	/*
 	 * hack: we try to find the key "gnumeric-index" in the
@@ -741,11 +750,16 @@ workbook_feedback_set (Workbook *workbook, MStyle *style)
 	 */
 	font_set = FALSE;
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_NAME));
+
+	/* Do no update the font when we update the status display */
+	gtk_signal_handler_block_by_func (GTK_OBJECT (fontsel->entry),
+					  &change_font_in_selection_cmd, wb);
+
 	{
 		const char *font_name = mstyle_get_font_name (style);
 		int np = 0;
 		
-		workbook->priv->current_font_name = font_name;
+		wb->priv->current_font_name = font_name;
 
 		/*
 		 * We need the cache again sometime for performance on
@@ -770,13 +784,13 @@ workbook_feedback_set (Workbook *workbook, MStyle *style)
 		/*
 		 * +1 means, skip over the "undefined font" element
 		 */
-		gtk_combo_text_select_item (
-			GTK_COMBO_TEXT (workbook->priv->font_name_selector),
-			np+1);
+		gtk_combo_text_select_item (fontsel, np+1);
 		font_set = TRUE;
 	}
 	if (!font_set)
-		gtk_combo_text_select_item (
-			GTK_COMBO_TEXT (workbook->priv->font_name_selector),
-			0);
+		gtk_combo_text_select_item (fontsel, 0);
+
+	/* Reenable the status display */
+	gtk_signal_handler_unblock_by_func (GTK_OBJECT (fontsel->entry),
+					    &change_font_in_selection_cmd, wb);
 }

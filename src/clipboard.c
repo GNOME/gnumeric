@@ -377,6 +377,7 @@ static void
 x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpointer data)
 {
 	Workbook       *wb = data;
+	Sheet	       *sheet = NULL;
 	CommandContext *context = workbook_command_context_gui (wb);
 	GdkAtom atom_targets  = gdk_atom_intern (TARGETS_ATOM_NAME, FALSE);
 	GdkAtom atom_gnumeric = gdk_atom_intern (GNUMERIC_ATOM_NAME, FALSE);
@@ -465,8 +466,9 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpoi
 
 		SheetSelection *ss;
 		
-		ss = pc->dest_sheet->selections->data;	
-		sheet_paste_selection (context, pc->dest_sheet, content, ss, pc);
+		sheet = pc->dest_sheet;
+		ss = sheet->selections->data;	
+		sheet_paste_selection (context, sheet, content, ss, pc);
 
 		/* Release the resources we used */
 		if (sel->length >= 0)
@@ -486,7 +488,7 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpoi
 	 */
 	if (region_pastable) {
 		workbook_recalc (wb);
-		sheet_update (pc->dest_sheet);
+		sheet_update (sheet);
 	}
 }
 

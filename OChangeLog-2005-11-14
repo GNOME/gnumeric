@@ -10,6 +10,13 @@
 	* src/xml-io.c (xml_write_attributes) : remove unused variable.
 	(xml_read_attribute) : Fix warning.
 
+	* src/clipboard.c (x_selection_received) : Cache the Sheet* before
+	  freeing the closure.
+
+	* src/workbook-format-toolbar.c (workbook_feedback_set) : Disable
+	  callbacks when setting the font status.  This avoids applying a
+	  spurious format.
+
 2000-04-05  Miguel de Icaza  <miguel@gnu.org>
 
 	Fix #8326
