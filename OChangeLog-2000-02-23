@@ -1,3 +1,8 @@
+1999-11-16  Morten Welinder  <terra@diku.dk>
+
+	* src/functions/fn-financial.c (gnumeric_irr): Plug leak.
+	(gnumeric_xirr): Plug leak.
+
 1999-11-16  Jody Goldberg <jgoldberg@home.com>
 
 	* src/selection.c (sheet_selection_move) : Fix.

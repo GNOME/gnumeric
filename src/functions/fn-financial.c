@@ -1318,12 +1318,14 @@ gnumeric_irr (FunctionEvalInfo *ei, Value **argv)
 	p.values = collect_floats_value (argv[0], &ei->pos,
 					 COLLECT_IGNORE_STRINGS,
 					 &n, &result);
-	if (result != NULL)
+	if (result != NULL) {
+		g_free (p.values);
 	        return result;
+	}
 
 	p.n = n;
-
 	status = goal_seek_newton (&irr_npv, NULL, &data, &p, rate0);
+	g_free (p.values);
 
 	if (status == GOAL_SEEK_OK)
 		return value_new_float (data.root);
@@ -1557,29 +1559,30 @@ gnumeric_xirr (FunctionEvalInfo *ei, Value **argv)
 	p.values = collect_floats_value (argv[0], &ei->pos,
 					 COLLECT_IGNORE_STRINGS,
 					 &n, &result);
-	
+	p.dates = NULL;
+
 	if (result != NULL)
-	        return result;
+		goto out;
 
 	p.dates = collect_floats_value (argv[1], &ei->pos,
 					COLLECT_DATES,
 					&d_n, &result);
-	if (result != NULL) {
-	        g_free(p.values);
-	        return result;
-	}
+	if (result != NULL)
+		goto out;
 
 	p.n = n;
-
 	status = goal_seek_newton (&xirr_npv, NULL, &data, &p, rate0);
 
-	g_free(p.values);
-	g_free(p.dates);
-
 	if (status == GOAL_SEEK_OK)
-		return value_new_float (data.root);
+		result = value_new_float (data.root);
 	else
-		return value_new_error (&ei->pos, gnumeric_err_NUM);
+		result = value_new_error (&ei->pos, gnumeric_err_NUM);
+
+ out:
+	g_free (p.values);
+	g_free (p.dates);
+
+	return result;
 }
 
 /***************************************************************************/
