@@ -1,3 +1,7 @@
+2005-01-09  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_trend) : fix the example in the help text
+
 2004-12-09  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.4.1
