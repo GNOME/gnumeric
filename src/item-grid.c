@@ -877,7 +877,7 @@ item_grid_sliding_callback (gpointer data)
 	row = item_grid->sliding_row;
 
 	if (item_grid->sliding_x < 0){
-		if (gsheet->top_col){
+		if (gsheet->left_col){
 			change = 1;
 			if (item_grid->sliding_x >= -8)
 				col = 1;
@@ -885,7 +885,7 @@ item_grid_sliding_callback (gpointer data)
 				col = 10;
 			else
 				col = 50;
-			col = gsheet->top_col - col;
+			col = gsheet->left_col - col;
 			if (col < 0)
 				col = 0;
 		} else
@@ -1049,7 +1049,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			else if (y >= row + height)
 				dy = y - height - row;
 
-			if ((!dx || (dx < 0 && !gsheet->top_col) ||
+			if ((!dx || (dx < 0 && !gsheet->left_col) ||
 			     (dx >= 0 && gsheet->last_full_col == SHEET_MAX_COLS-1)) &&
 			    (!dy || (dy < 0 && !gsheet->top_row) ||
 			     (dy >= 0 && gsheet->last_full_row == SHEET_MAX_ROWS-1))){
