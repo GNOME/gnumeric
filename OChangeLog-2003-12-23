@@ -1,5 +1,8 @@
 2000-02-28  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* src/utils.c (parse_cell_name_or_range): Bug fix.  Single cell
+	constraints can be added again.
+
 	* src/solver-lp.c (count_dimensions, make_solver_arrays,
 	solver_affine_scaling, solver_branch_and_bound): The Solver can
 	now solve the negative variables too.

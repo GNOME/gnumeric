@@ -185,6 +185,7 @@ parse_cell_name_or_range (const char *cell_str, int *col, int *row,
 {
         int e_col, e_row;
 
+	*cols = *rows = 1;
 	if (!parse_cell_name (cell_str, col, row)) {
 	        if (!parse_range ((char *) cell_str, col, row, &e_col, &e_row))
 		        return FALSE;
