@@ -4627,40 +4627,6 @@
       </para>
       </refsect1>
     </refentry>
-    <refentry id="gnumeric-atl_last">
-      <refmeta>
-        <refentrytitle>
-          <function>atl_last</function>
-        </refentrytitle>
-      </refmeta>
-      <refnamediv>
-        <refname>
-          <function>atl_last</function>
-        </refname>
-      </refnamediv>
-      <refsynopsisdiv>
-        <synopsis>ATL_LAST (<parameter>tag</parameter>)</synopsis>
-      </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>ATL_LAST is a sample implemention of a real time data source. It takes a string tag and monitors the named pipe /tmp/atl for changes to the value of that tag.</para>
-        <itemizedlist>
-          <listitem>
-            <para>This is no intended to be generally enabled and is OFF by default.</para>
-          </listitem>
-        </itemizedlist>
-      </refsect1>
-      <refsect1>
-        <title>Examples</title>
-        <para/>
-        <para>ATL_LAST("IBM")</para>
-      </refsect1>
-      <refsect1>
-        <title>See also</title>
-        <para>
-      </para>
-      </refsect1>
-    </refentry>
     <refentry id="gnumeric-COUPDAYBS">
       <refmeta>
         <refentrytitle>

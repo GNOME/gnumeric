@@ -1,3 +1,7 @@
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
 2005-02-07  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-write.c (excel_font_overlay_pango): Plug leak.

@@ -1,3 +1,7 @@
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
 2005-02-04  Morten Welinder  <terra@gnome.org>
 
 	* dialog-search.c (make_matches_table): Remove old #ifdef

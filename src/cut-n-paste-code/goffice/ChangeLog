@@ -1,3 +1,7 @@
+2005-02-08  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.5.0
+
 2005-02-05  Morten Welinder  <terra@gnome.org>
 
 	* graph/gog-renderer-gnome-print.c (get_font): Return a

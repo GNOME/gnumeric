@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-17 00:44-0500\n"
+"POT-Creation-Date: 2005-02-08 00:53-0500\n"
 "PO-Revision-Date: 2005-1-5 18:34+0100\n"
 "Last-Translator: Softcatalà <tradgnome@softcatala.org>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
@@ -1443,8 +1443,8 @@ msgid "Functions related to financial derivatives"
 msgstr "Les funcions relacionaven els subproductes financers"
 
 # fitxer: plugins.ca.po.2
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5837
-#: plugins/mps/mps.c:547 src/xml-io.c:4199
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5839
+#: plugins/mps/mps.c:547 src/xml-io.c:4204
 msgid "Reading file..."
 msgstr "S'està llegint el fitxer..."
 
@@ -1552,7 +1552,7 @@ msgid "Saving file..."
 msgstr "S'està desant el fitxer..."
 
 # fitxer: plugins.ca.po.2
-#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:276
+#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:277
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atribut inesperat %s::%s == '%s'."
@@ -1560,7 +1560,7 @@ msgstr "Atribut inesperat %s::%s == '%s'."
 # fitxer: plugins.ca.po.2
 #: plugins/excel/excel-xml-read.c:198
 #: plugins/openoffice/openoffice-read.c:1503
-#: plugins/xml_sax/xml-sax-read.c:1767
+#: plugins/xml_sax/xml-sax-read.c:1772
 msgid "XML document not well formed!"
 msgstr "No s'ha format bé el document XML!"
 
@@ -1574,7 +1574,7 @@ msgstr "#UNKNOWN!"
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1110 plugins/excel/ms-excel-read.c:1122
 #: plugins/oleo/oleo.c:344 plugins/psiconv/psiconv-read.c:510
-#: src/dialogs/dialog-sheet-order.c:432 src/dialogs/dialog-sheet-order.c:436
+#: src/dialogs/dialog-sheet-order.c:474 src/dialogs/dialog-sheet-order.c:478
 #, c-format
 msgid "Sheet%d"
 msgstr "Full%d"
@@ -1598,13 +1598,13 @@ msgid "Module%d"
 msgstr "Mòdul%d"
 
 # fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-read.c:2922
+#: plugins/excel/ms-excel-read.c:2924
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "S'ha produït un error analitzant el nom '%s'"
 
 # fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-read.c:3018
+#: plugins/excel/ms-excel-read.c:3020
 #, fuzzy, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1614,7 +1614,7 @@ msgstr ""
 "El Nom '%s' es perdrà.\n"
 
 # fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-read.c:3024
+#: plugins/excel/ms-excel-read.c:3026
 #, fuzzy, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1625,17 +1625,17 @@ msgstr ""
 
 #
 # fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-read.c:5145
+#: plugins/excel/ms-excel-read.c:5147
 msgid "external references"
 msgstr "Referències externes"
 
 # fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-read.c:5168
+#: plugins/excel/ms-excel-read.c:5170
 msgid "No password supplied"
 msgstr "No s'ha subministrat la contrasenya"
 
 # fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-read.c:6063
+#: plugins/excel/ms-excel-read.c:6065
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "No es pot trobar un llibre de treball de MS Excel vàlid"
 
@@ -1651,7 +1651,7 @@ msgstr ""
 "codificació."
 
 # fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-write.c:4195
+#: plugins/excel/ms-excel-write.c:4201
 #, fuzzy, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1661,7 +1661,7 @@ msgstr ""
 "suporta %d files, i aquesta fulla té %d"
 
 # fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-write.c:4202
+#: plugins/excel/ms-excel-write.c:4208
 #, fuzzy, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1671,12 +1671,12 @@ msgstr ""
 "d files, i aquesta fulla té %d"
 
 # fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-write.c:4967
+#: plugins/excel/ms-excel-write.c:4973
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "No es pot obrir el flux 'Book' per escriure\n"
 
 # fitxer: plugins.ca.po.2
-#: plugins/excel/ms-excel-write.c:4987
+#: plugins/excel/ms-excel-write.c:4993
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "No es pot obrir el flux 'Korkbook' per escriure\n"
 
@@ -4506,7 +4506,7 @@ msgstr "date1,date2,interval"
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:476
+#: src/print-info.c:486
 msgid "date"
 msgstr "data"
 
@@ -4527,7 +4527,7 @@ msgstr "data_inici,mesos"
 
 # fitxer: plugins.ca.po.5
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:477
+#: plugins/fn-date/functions.c:1265 src/print-info.c:487
 msgid "time"
 msgstr "hora"
 
@@ -8826,7 +8826,7 @@ msgstr "cel la info_type"
 #: plugins/fn-info/functions.c:1843 plugins/fn-info/functions.c:1846
 #: plugins/fn-info/functions.c:1849 plugins/fn-info/functions.c:1852
 #: plugins/fn-info/functions.c:1855 plugins/fn-info/functions.c:1861
-#: plugins/fn-string/functions.c:1182
+#: plugins/fn-string/functions.c:1191
 msgid "value"
 msgstr "Valor"
 
@@ -8843,12 +8843,12 @@ msgid "range"
 msgstr "rang"
 
 # fitxer: plugins.ca.po.4
-#: plugins/fn-info/functions.c:1870 plugins/fn-string/functions.c:1125
-#: plugins/fn-string/functions.c:1128 plugins/fn-string/functions.c:1131
-#: plugins/fn-string/functions.c:1152 plugins/fn-string/functions.c:1155
-#: plugins/fn-string/functions.c:1158 plugins/fn-string/functions.c:1164
-#: plugins/fn-string/functions.c:1188 plugins/fn-string/functions.c:1191
-#: plugins/fn-string/functions.c:1194
+#: plugins/fn-info/functions.c:1870 plugins/fn-string/functions.c:1134
+#: plugins/fn-string/functions.c:1137 plugins/fn-string/functions.c:1140
+#: plugins/fn-string/functions.c:1161 plugins/fn-string/functions.c:1164
+#: plugins/fn-string/functions.c:1167 plugins/fn-string/functions.c:1173
+#: plugins/fn-string/functions.c:1197 plugins/fn-string/functions.c:1200
+#: plugins/fn-string/functions.c:1203
 msgid "text"
 msgstr "text"
 
@@ -9175,8 +9175,8 @@ msgstr "número,número,"
 #: plugins/fn-math/functions.c:3342 plugins/fn-math/functions.c:3354
 #: plugins/fn-math/functions.c:3357 plugins/fn-stat/functions.c:5706
 #: plugins/fn-stat/functions.c:5709 plugins/fn-stat/functions.c:5727
-#: plugins/fn-stat/functions.c:5805 plugins/fn-string/functions.c:1119
-#: plugins/fn-string/functions.c:1122
+#: plugins/fn-stat/functions.c:5805 plugins/fn-string/functions.c:1128
+#: plugins/fn-string/functions.c:1131
 msgid "number"
 msgstr "número"
 
@@ -10307,7 +10307,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "@FUNCTION=CEILING\n"
-"@SYNTAX=CEILING(x,significance)\n"
+"@SYNTAX=CEILING(x[,significance])\n"
 "@DESCRIPTION=CEILING function rounds @x up to the nearest multiple of "
 "@significance.\n"
 "\n"
@@ -17260,7 +17260,7 @@ msgstr ""
 
 #
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:992
+#: plugins/fn-string/functions.c:1001
 #, fuzzy
 msgid ""
 "@FUNCTION=DOLLAR\n"
@@ -17285,7 +17285,7 @@ msgstr ""
 
 #
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1048
+#: plugins/fn-string/functions.c:1057
 #, fuzzy
 msgid ""
 "@FUNCTION=SEARCH\n"
@@ -17333,62 +17333,62 @@ msgstr ""
 "@SEEALSO=FIND"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1134
+#: plugins/fn-string/functions.c:1143
 msgid "text,text,"
 msgstr "text,text"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1137
+#: plugins/fn-string/functions.c:1146
 msgid "num,decimals"
 msgstr "num,decimals"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1140
+#: plugins/fn-string/functions.c:1149
 msgid "text1,text2"
 msgstr "text1,text2"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1143
+#: plugins/fn-string/functions.c:1152
 msgid "text1,text2,num"
 msgstr "text1,text2,num"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1146
+#: plugins/fn-string/functions.c:1155
 msgid "num,decs,no_commas"
 msgstr "num,decs,sense_decimals"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1149 plugins/fn-string/functions.c:1173
+#: plugins/fn-string/functions.c:1158 plugins/fn-string/functions.c:1182
 msgid "text,num_chars"
 msgstr "text,num_carac"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1161
+#: plugins/fn-string/functions.c:1170
 msgid "text,pos,num"
 msgstr "text,pos,num"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1167
+#: plugins/fn-string/functions.c:1176
 msgid "old,start,num,new"
 msgstr "vell,inici,num,nou"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1170
+#: plugins/fn-string/functions.c:1179
 msgid "text,num"
 msgstr "text,num"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1176
+#: plugins/fn-string/functions.c:1185
 msgid "search_string,text,start_num"
 msgstr ""
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1179
+#: plugins/fn-string/functions.c:1188
 msgid "text,old,new,num"
 msgstr "text,vell,nou,num"
 
 # fitxer: plugins.ca.po.9
-#: plugins/fn-string/functions.c:1185
+#: plugins/fn-string/functions.c:1194
 msgid "value,format_text"
 msgstr "valor,format_text"
 
@@ -17711,7 +17711,7 @@ msgid "Constraints:"
 msgstr "Restriccions"
 
 # fitxer: plugins.ca.po.8
-#: plugins/mps/mps.c:245 src/commands.c:6174
+#: plugins/mps/mps.c:245 src/commands.c:6175
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
@@ -18726,10 +18726,10 @@ msgstr "S'ha produït un error en obrir el fitxer xbase."
 
 # src/functions/fn-sheet.c:104
 # fitxer: plugins.ca.po.10
-#: plugins/xbase/boot.c:177 src/commands.c:4968
+#: plugins/xbase/boot.c:177 src/commands.c:4969
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
-#: src/print-info.c:395 src/workbook.c:1091 src/xml-io.c:3789
+#: src/print-info.c:405 src/workbook.c:1091 src/xml-io.c:3794
 msgid "Sheet"
 msgstr "Full"
 
@@ -18779,7 +18779,7 @@ msgstr "XML experimental basat en SAX"
 
 #
 # fitxer: plugins.ca.po.10
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4327
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4332
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "XML Gnumeric (*.gnumeric)"
 
@@ -18789,18 +18789,18 @@ msgid "The next generation sax based xml I/O subsystem"
 msgstr "La nova generació del subsistema d'E/S xml basat en sax"
 
 # fitxer: plugins.ca.po.10
-#: plugins/xml_sax/xml-sax-read.c:308
+#: plugins/xml_sax/xml-sax-read.c:309
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Múltiples especificacions de versions. S'assumeix %d"
 
 # fitxer: plugins.ca.po.10
-#: plugins/xml_sax/xml-sax-read.c:479
+#: plugins/xml_sax/xml-sax-read.c:482
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "El fitxer té inconsistències en l'element SheetNameIndex."
 
 # fitxer: src.ca.po.15
-#: plugins/xml_sax/xml-sax-read.c:1318 src/xml-io.c:2770
+#: plugins/xml_sax/xml-sax-read.c:1323 src/xml-io.c:2770
 #, c-format
 msgid "Unsupported object type '%s'"
 msgstr "No se suporta el tipus d'objecte '%s'"
@@ -19533,7 +19533,7 @@ msgstr ""
 
 # fitxer: schemas.ca.po
 #: schemas/gnumeric-general.schemas.in.h:29
-#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1889
+#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1898
 msgid "Sort Ascending"
 msgstr "Ordena ascendentment"
 
@@ -19926,525 +19926,525 @@ msgid "Ins/Del Column/Row"
 msgstr "Inserir/suprimir columna/fila"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3265
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3301
 msgid "Delete Columns"
 msgstr "Suprimir columnes"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3387
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3423
 msgid "Delete Rows"
 msgstr "Suprimir files"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:1482
+#: src/commands.c:1483
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Inserir %d columnes abans de %s"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:1483
+#: src/commands.c:1484
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Inserir %d columna abans de %s"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:1498
+#: src/commands.c:1499
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Inserir %d files abans de %s"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:1499
+#: src/commands.c:1500
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Inserir %d fila abans de %s"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:1510
+#: src/commands.c:1511
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Suprimir columnes %s"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:1511
+#: src/commands.c:1512
 #, c-format
 msgid "Deleting column %s"
 msgstr "Suprimir columna %s"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:1521
+#: src/commands.c:1522
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Suprimir files %s"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:1522
+#: src/commands.c:1523
 #, c-format
 msgid "Deleting row %s"
 msgstr "Suprimir fila %s"
 
 # fitxer: src.ca.po.10
 #. Check for locked cells
-#: src/commands.c:1604 src/commands.c:1608 src/sheet.c:2868
+#: src/commands.c:1605 src/commands.c:1609 src/sheet.c:2904
 msgid "Clear"
 msgstr "Buida"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:1679
+#: src/commands.c:1680
 msgid "contents"
 msgstr "continguts"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:1681
+#: src/commands.c:1682
 msgid "formats"
 msgstr "formats"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:1683
+#: src/commands.c:1684
 msgid "comments"
 msgstr "comentaris"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:1699
+#: src/commands.c:1700
 msgid "all"
 msgstr "tot"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:1706
+#: src/commands.c:1707
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Esborrar %s a %s"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:1793
+#: src/commands.c:1794
 msgid "Changing Format"
 msgstr "Canviar format"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:1918
+#: src/commands.c:1919
 #, c-format
 msgid "Changing format of %s"
 msgstr "Canviar format de %s"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:2028
+#: src/commands.c:2029
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Ajustar automàticament columna %s"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:2029
+#: src/commands.c:2030
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Ajustar automàticament fila %s"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:2032
+#: src/commands.c:2033
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Especificar amplada de columna %s a %d píxels"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:2034
+#: src/commands.c:2035
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Especificar alçada de fila %s a %d píxels"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:2037
+#: src/commands.c:2038
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Especificar amplada de columna %s per defecte"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:2040
+#: src/commands.c:2041
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Especificar alçada de fila %s per defecte"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:2044
+#: src/commands.c:2045
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Ajustar automàticament columnes %s"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:2045
+#: src/commands.c:2046
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "Ajustar automàticament files %s"
 
 # fitxer: src.ca.po.10
-#: src/commands.c:2048
+#: src/commands.c:2049
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Especificar amplada de columnes %s a %d píxels"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2050
+#: src/commands.c:2051
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Especificar alçada de files %s a %d píxels"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2054
+#: src/commands.c:2055
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Especificar amplada de columnes %s al valor predeterminat"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2056
+#: src/commands.c:2057
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Especificar alçada de files %s al valor predeterminat"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2122 src/dialogs/dialog-preferences.c:770
+#: src/commands.c:2123 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "Ordenació"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2142
+#: src/commands.c:2143
 #, c-format
 msgid "Sorting %s"
 msgstr "Ordenació de %s"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2285
+#: src/commands.c:2286
 msgid "Unhide columns"
 msgstr "Mostrar columnes"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2285
+#: src/commands.c:2286
 msgid "Hide columns"
 msgstr "Amagar columnes"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2286
+#: src/commands.c:2287
 msgid "Unhide rows"
 msgstr "Mostrar files"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2286
+#: src/commands.c:2287
 msgid "Hide rows"
 msgstr "Amagar files"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2368
+#: src/commands.c:2369
 msgid "Expand columns"
 msgstr "Expandir columnes"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2368
+#: src/commands.c:2369
 msgid "Collapse columns"
 msgstr "Reduir columnes"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2369
+#: src/commands.c:2370
 msgid "Expand rows"
 msgstr "Expandir files"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2369
+#: src/commands.c:2370
 msgid "Collapse rows"
 msgstr "Contraure files"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2395
+#: src/commands.c:2396
 #, c-format
 msgid "Show column outline %d"
 msgstr "Ensenyar contorn de columna %d"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2395
+#: src/commands.c:2396
 #, c-format
 msgid "Show row outline %d"
 msgstr "Ensenya el contorn de fila %d"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2465
+#: src/commands.c:2466
 msgid "Those columns are already grouped"
 msgstr "Aquestes columnes ja estan agrupades"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2466
+#: src/commands.c:2467
 msgid "Those rows are already grouped"
 msgstr "Aquestes files ja estan agrupades"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2489
+#: src/commands.c:2490
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Aquestes columnes no estan agrupades, no les podeu desagrupar"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2490
+#: src/commands.c:2491
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Aquestes files no estan agrupades, no les podeu desagrupar"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2504
+#: src/commands.c:2505
 #, c-format
 msgid "Group columns %s"
 msgstr "Agrupar columnes %s"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2504
+#: src/commands.c:2505
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Desagrupar columnes %s"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2506
+#: src/commands.c:2507
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Agrupar files %d:%d"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2506
+#: src/commands.c:2507
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Desagrupar files %d:%d"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2739
+#: src/commands.c:2740
 #, c-format
 msgid "Moving %s"
 msgstr "Moure %s"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2748 src/commands.c:2976
+#: src/commands.c:2749 src/commands.c:2977
 msgid "is beyond sheet boundaries"
 msgstr "està fora dels límits del full"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:2812
+#: src/commands.c:2813
 msgid "Paste Copy"
 msgstr "Enganxar còpia"
 
 # fitxer: src.ca.po.9
 #. FIXME?
-#: src/commands.c:2917
+#: src/commands.c:2918
 #, c-format
 msgid "Pasting into %s"
 msgstr "Enganxar a %s"
 
 # fitxer: src.ca.po.9
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3013 src/commands.c:3170 src/commands.c:3171
+#: src/commands.c:3014 src/commands.c:3171 src/commands.c:3172
 #: src/wbcg-actions.c:424
 msgid "Autofill"
 msgstr "Emplenar automàticament"
 
 # fitxer: src.ca.po.9
 #. Changed in initial redo.
-#: src/commands.c:3193
+#: src/commands.c:3194
 #, c-format
 msgid "Autofilling %s"
 msgstr "Emplenar automàticament %s"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:3511
+#: src/commands.c:3512
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Autoformatejar %s"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:3628
+#: src/commands.c:3629
 #, c-format
 msgid "Unmerging %s"
 msgstr "Desfer fusió de %s"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:3792
+#: src/commands.c:3793
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Fusionar i centrar %s"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:3792
+#: src/commands.c:3793
 #, c-format
 msgid "Merging %s"
 msgstr "Fusionar %s"
 
 # fitxer: src.ca.po.9
 #. Corrected below.
-#: src/commands.c:4173 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:4174 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Cercar i reemplaçar"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:4268
+#: src/commands.c:4269
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Especificar amplada per defecte de columnes a %.2fpts"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:4269
+#: src/commands.c:4270
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Especificar alçada per defecte de files a %.2fpts"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:4384
+#: src/commands.c:4385
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Ampliar %s a %.0f%%"
 
 #
 # fitxer: src.ca.po.9
-#: src/commands.c:4482
+#: src/commands.c:4483
 msgid "Delete Object"
 msgstr "Suprimir l'objecte"
 
 #
 # fitxer: src.ca.po.9
-#: src/commands.c:4643
+#: src/commands.c:4644
 msgid "Format Object"
 msgstr "Formatejar l'objecte"
 
 #
 # fitxer: src.ca.po.9
-#: src/commands.c:5242
+#: src/commands.c:5243
 msgid "Reordering Sheets"
 msgstr "Reordenar els fulls"
 
 #
 # fitxer: src.ca.po.9
-#: src/commands.c:5245
+#: src/commands.c:5246
 msgid "Renaming Sheets"
 msgstr "Reanomenar els fulls"
 
 #
 # fitxer: src.ca.po.9
-#: src/commands.c:5248
+#: src/commands.c:5249
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Afegir %i fulls"
 
 #
 # fitxer: src.ca.po.9
-#: src/commands.c:5252
+#: src/commands.c:5253
 msgid "Changing Tab Colors"
 msgstr "Canviar colors de pestanyes"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:5255
+#: src/commands.c:5256
 msgid "Changing Sheet Protection"
 msgstr "Canviar protecció del full"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:5258
+#: src/commands.c:5259
 msgid "Delete sheets"
 msgstr "Suprimir fulls"
 
 #
 # fitxer: src.ca.po.9
-#: src/commands.c:5261
+#: src/commands.c:5262
 msgid "Delete a sheet"
 msgstr "Suprimir un full"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:5264
+#: src/commands.c:5265
 msgid "Changing Sheet Visibility"
 msgstr "Canviar visibilitat del full"
 
 #
 # fitxer: src.ca.po.9
-#: src/commands.c:5267
+#: src/commands.c:5268
 msgid "Reorganizing Sheets"
 msgstr "Reorganitzar fulls"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:5418
+#: src/commands.c:5419
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Netejar comentari de %s"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:5419
+#: src/commands.c:5420
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Establir comentari de %s"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:5799
+#: src/commands.c:5800
 #, c-format
 msgid "Merging data into %s"
 msgstr "Fusionar dades a %s"
 
 #
 # fitxer: src.ca.po.9
-#: src/commands.c:5901
+#: src/commands.c:5902
 msgid "Changing summary info"
 msgstr "Canviar informació del resum"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:5990
+#: src/commands.c:5991
 msgid "Pull Object to the Front"
 msgstr "Moure objecte al davant de tot"
 
 #
 # fitxer: src.ca.po.9
-#: src/commands.c:5993
+#: src/commands.c:5994
 msgid "Pull Object Forward"
 msgstr "Moure objecte cap a endavant"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:5996
+#: src/commands.c:5997
 msgid "Push Object Backward"
 msgstr "Moure objecte cap a endarrere"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:5999
+#: src/commands.c:6000
 msgid "Push Object to the Back"
 msgstr "Moure objecte al fons de tot"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:6114
+#: src/commands.c:6115
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Configurar pàgina per a %s"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:6116
+#: src/commands.c:6117
 msgid "Page Setup For All Sheets"
 msgstr "Configurar pàgina per a tots els fulls"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:6231
+#: src/commands.c:6232
 msgid "has a circular reference"
 msgstr "té una referència circular"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:6254
+#: src/commands.c:6255
 #, c-format
 msgid "Define Name %s"
 msgstr "Definir el nom %s"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:6257
+#: src/commands.c:6258
 #, c-format
 msgid "Update Name %s"
 msgstr "Actualitzar el nom %s"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:6321
+#: src/commands.c:6322
 msgid "Add scenario"
 msgstr "Afegir escenari"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:6396
+#: src/commands.c:6397
 msgid "Scenario Show"
 msgstr "Mostrar l'escenari"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:6460
+#: src/commands.c:6461
 msgid "Shuffle Data"
 msgstr "Mesclar les dades"
 
 # fitxer: src.ca.po.9
 #. FIXME?
-#: src/commands.c:6570
+#: src/commands.c:6571
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "text (%s) a les columnes (%s)"
@@ -20456,7 +20456,7 @@ msgstr "text (%s) a les columnes (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6714 src/dialogs/solver.glade.h:17
+#: src/commands.c:6715 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
@@ -20465,19 +20465,19 @@ msgstr "Resoledor"
 
 #
 # fitxer: src.ca.po.9
-#: src/commands.c:6798
+#: src/commands.c:6799
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Cercar d'objectius (%s)"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:6943
+#: src/commands.c:6944
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplicar %s"
 
 # fitxer: src.ca.po.9
-#: src/commands.c:7022
+#: src/commands.c:7023
 msgid "Tabulating Dependencies"
 msgstr "Dependències de tabulació"
 
@@ -20486,6 +20486,16 @@ msgstr "Dependències de tabulació"
 #: src/commands.c:7097
 msgid "Reconfigure Graph"
 msgstr "Reconfigurar el gràfic"
+
+# fitxer: src.ca.po.13
+#: src/commands.c:7140
+#, fuzzy
+msgid "Left to Right"
+msgstr "Esquerra-_Dreta"
+
+#: src/commands.c:7140
+msgid "Right to Left"
+msgstr ""
 
 # fitxer: src.ca.po.9
 #: src/consolidate.c:771
@@ -20599,7 +20609,7 @@ msgstr "Format"
 
 # fitxer: src.ca.po.9
 #. Object Toolbar
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1538 src/wbcg-actions.c:1897
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1538 src/wbcg-actions.c:1906
 msgid "Label"
 msgstr "Etiqueta"
 
@@ -20681,51 +20691,51 @@ msgid "_Type:"
 msgstr "_Tipus:"
 
 # fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:195
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:197
 msgid "Legend"
 msgstr "Llegenda"
 
 #
 # fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:198
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:200
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:157
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:179
 msgid "Title"
 msgstr "Títol"
 
 # fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:201
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:203
 msgid "Grid"
 msgstr "Graella"
 
 # fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:206
 msgid "X-Axis"
 msgstr "Eix X"
 
 # fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:208
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:210
 msgid "Y-Axis"
 msgstr "Eix Y"
 
 # fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:212
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:214
 msgid "Z-Axis"
 msgstr "Eix Z"
 
 # fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:216
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:218
 msgid "Circular-Axis"
 msgstr "Eix circular"
 
 # fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:220
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:222
 msgid "Radial-Axis"
 msgstr "Eix radial"
 
 #
 # fitxer: src.ca.po.9
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:224
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:226
 msgid "Plot"
 msgstr "Traça"
 
@@ -20868,8 +20878,8 @@ msgstr "Personalitza el gràfic"
 
 # fitxer: src.ca.po.1
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1178
-#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1428
-#: src/wbcg-actions.c:1586
+#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1434
+#: src/wbcg-actions.c:1592
 msgid "_Insert"
 msgstr "_Insereix"
 
@@ -21138,7 +21148,7 @@ msgstr ""
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:458
-#: src/dialogs/dialog-sheet-order.c:987 src/dialogs/dialog-sheet-order.c:996
+#: src/dialogs/dialog-sheet-order.c:1053 src/dialogs/dialog-sheet-order.c:1062
 msgid "Default"
 msgstr "Per defecte"
 
@@ -21158,6 +21168,7 @@ msgstr "Etiquetes"
 
 # fitxer: src.ca.po.11
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:337
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:230
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:233
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:227
 msgid "Values"
@@ -21178,6 +21189,7 @@ msgstr "Traçat bar/col"
 
 # fitxer: src.ca.po.11
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
@@ -21198,12 +21210,14 @@ msgstr "So_breposa:"
 
 # fitxer: src.ca.po.11
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:5
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot-prefs.glade.h:3
 msgid "Separation between groups as a percentage of bar/col width"
 msgstr "Separació entre grups com a percentatge de l'amplada de barra/columna"
 
 #
 # fitxer: src.ca.po.11
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:6
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot-prefs.glade.h:4
 msgid "_Gap:"
 msgstr "_Buit:"
 
@@ -21319,7 +21333,7 @@ msgstr "Columna"
 
 # fitxer: src.ca.po.10
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
-#: src/dialogs/dialog-stf-main-page.c:370 src/wbcg-actions.c:1921
+#: src/dialogs/dialog-stf-main-page.c:370 src/wbcg-actions.c:1930
 msgid "Line"
 msgstr "Línia"
 
@@ -21503,6 +21517,68 @@ msgstr "Motor de traçador de línia"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:6
 msgid "Line, Area, Bar and Column plots"
 msgstr "Traçats de línia, d'àrees, de barres i de columnes."
+
+#
+# fitxer: src.ca.po.9
+#. xgettext : the base for how to name box-plot objects
+#. * eg The 2nd box-plot in a chart will be called
+#. * 	BoxPlot2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:104
+#, fuzzy
+msgid "Box-Plot"
+msgstr "Traça"
+
+# fitxer: src.ca.po.4
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:341
+#, fuzzy
+msgid "Invalid data."
+msgstr "El patró de cerca és invàlid."
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:1
+msgid ""
+"Box-Plot. You must provide five values to the plot engine in this order: "
+"minimum, first quartile, median, third quartile, and maximum, not the raw "
+"data."
+msgstr ""
+
+#
+# fitxer: src.ca.po.9
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:2
+#, fuzzy
+msgid "BoxPlot"
+msgstr "Traça"
+
+#
+# fitxer: src.ca.po.9
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:3
+#, fuzzy
+msgid "BoxPlots"
+msgstr "Traça"
+
+#
+# fitxer: src.ca.po.9
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:1
+#, fuzzy
+msgid "Box-Plots"
+msgstr "Traça"
+
+# fitxer: src.ca.po.10
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:2
+#, fuzzy
+msgid "Box-plot plotting engine"
+msgstr "Motor de traçador de bar/col"
+
+# fitxer: src.ca.po.10
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:3
+#, fuzzy
+msgid "Charting : Box-Plots"
+msgstr "Gràfic: traçats radials"
+
+# fitxer: src.ca.po.10
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:4
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:2
+msgid "Default surface plot types"
+msgstr "Tipus de traçat de superfície per defecte"
 
 # fitxer: src.ca.po.10
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:180
@@ -21790,15 +21866,15 @@ msgstr "Contorn del traçat"
 
 # fitxer: src.ca.po.10
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/gog-surface.c:367
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:337
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:489
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:349
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:501
 msgid "X"
 msgstr "X"
 
 # fitxer: src.ca.po.10
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/gog-surface.c:369
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:339
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:491
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:351
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:503
 msgid "Y"
 msgstr "Y"
 
@@ -21827,11 +21903,6 @@ msgstr "Superfície"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:1
 msgid "Contour plotting engine"
 msgstr "Motor de traçador de contorn"
-
-# fitxer: src.ca.po.10
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:2
-msgid "Default surface plot types"
-msgstr "Tipus de traçat de superfície per defecte"
 
 # fitxer: src.ca.po.10
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:3
@@ -21891,33 +21962,40 @@ msgstr "_Varia colors segons la bombolla"
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:277
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:279
 msgid "PlotXY"
 msgstr "Traçat XY"
 
 # fitxer: src.ca.po.10
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:379
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:391
 msgid "PlotBubble"
 msgstr "Traçat bombolla"
 
 # fitxer: src.ca.po.10
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:493
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:505
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
 msgid "Bubble"
 msgstr "Bombolla"
 
 # fitxer: src.ca.po.10
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1012
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1040
 msgid "Y Error bars"
 msgstr "Barres d'error Y"
 
 # fitxer: src.ca.po.10
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1014
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1042
 msgid "X Error bars"
 msgstr "Barres d'error X"
 
 # fitxer: src.ca.po.10
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:2
+#, fuzzy
+msgid "Interpolate between multi-dimensional points with Bezier splines."
+msgstr ""
+"Interpola linealment entre punts multidimensionals, amb marques a cada punt."
+
+# fitxer: src.ca.po.10
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:3
 #, fuzzy
 msgid ""
 "Linearly interpolate between multi-dimensional points,with markers at each "
@@ -21926,42 +22004,48 @@ msgstr ""
 "Interpola linealment entre punts multidimensionals, amb marques a cada punt."
 
 # fitxer: src.ca.po.10
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:3
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:4
 #, fuzzy
 msgid "Linearly interpolate between multi-dimensional points."
 msgstr "Interpola linealment entre punts multidimensionals."
 
 # fitxer: src.ca.po.10
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:4
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
 msgid "Markers at each point."
 msgstr "Marques a cada punt."
 
 # fitxer: src.ca.po.10
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
 #, fuzzy
 msgid "Multi-dimensional points with circle at each point."
 msgstr "Punts multidimensionals amb cercle a cada punt."
 
 # fitxer: src.ca.po.10
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
 msgid "Plot X, Y and bubble size."
 msgstr "Traça X, Y i mida de la bombolla."
 
 # fitxer: src.ca.po.10
 #. really 3_1
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
 msgid "XY"
 msgstr "XY"
 
 # fitxer: src.ca.po.10
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:10
 msgid "XY Lines"
 msgstr "Línies XY"
 
 # fitxer: src.ca.po.10
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:10
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:11
 msgid "XY Points"
 msgstr "Punts XY"
+
+# fitxer: src.ca.po.10
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:12
+#, fuzzy
+msgid "XY Splines"
+msgstr "Línies XY"
 
 # fitxer: src.ca.po.10
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:1
@@ -22265,36 +22349,36 @@ msgid "Un dock the toolbar"
 msgstr "Desenganxa la barra d'eines"
 
 # fitxer: src.ca.po.12
-#: src/cut-n-paste-code/goffice/utils/go-line.c:51
+#: src/cut-n-paste-code/goffice/utils/go-line.c:52
 #: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:91
 #: src/tools/solver/reports-write.c:718
 msgid "None"
 msgstr "Cap"
 
 # fitxer: src.ca.po.12
-#: src/cut-n-paste-code/goffice/utils/go-line.c:52
+#: src/cut-n-paste-code/goffice/utils/go-line.c:53
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:95
 #: src/dialogs/cell-format.glade.h:72
 msgid "Solid"
 msgstr "Sòlid"
 
 # fitxer: src.ca.po.12
-#: src/cut-n-paste-code/goffice/utils/go-line.c:53
+#: src/cut-n-paste-code/goffice/utils/go-line.c:54
 msgid "Dash"
 msgstr "Ratlla"
 
 # fitxer: src.ca.po.12
-#: src/cut-n-paste-code/goffice/utils/go-line.c:54
+#: src/cut-n-paste-code/goffice/utils/go-line.c:55
 msgid "Dot"
 msgstr "Punt"
 
 # fitxer: src.ca.po.12
-#: src/cut-n-paste-code/goffice/utils/go-line.c:55
+#: src/cut-n-paste-code/goffice/utils/go-line.c:56
 msgid "Dash dot"
 msgstr "Ratlla punt"
 
 # fitxer: src.ca.po.12
-#: src/cut-n-paste-code/goffice/utils/go-line.c:56
+#: src/cut-n-paste-code/goffice/utils/go-line.c:57
 msgid "Dash dot dot"
 msgstr "Ratlla punt punt"
 
@@ -22303,7 +22387,7 @@ msgstr "Ratlla punt punt"
 #. xgettext : this will appear as 'Automatic (patternname)'
 #. xgettext : this will appear as 'Automatic (shapename)'
 #. xgettext : this will appear as 'Automatic (patternname)'
-#: src/cut-n-paste-code/goffice/utils/go-line.c:305
+#: src/cut-n-paste-code/goffice/utils/go-line.c:306
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:603
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:242
 #, c-format
@@ -22808,8 +22892,8 @@ msgstr "_Àrees"
 #: src/dialogs/exp-smoothing.glade.h:8 src/dialogs/fourier-analysis.glade.h:6
 #: src/dialogs/histogram.glade.h:16 src/dialogs/rank.glade.h:9
 #: src/dialogs/regression.glade.h:8 src/dialogs/sampling.glade.h:11
-#: src/dialogs/shuffle.glade.h:5 src/wbcg-actions.c:1537
-#: src/wbcg-actions.c:1650
+#: src/dialogs/shuffle.glade.h:5 src/wbcg-actions.c:1543
+#: src/wbcg-actions.c:1659
 msgid "_Columns"
 msgstr "_Columnes"
 
@@ -22842,8 +22926,8 @@ msgstr "_Etiquetes"
 #: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:23
 #: src/dialogs/moving-averages.glade.h:12 src/dialogs/rank.glade.h:12
 #: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:18
-#: src/dialogs/shuffle.glade.h:6 src/wbcg-actions.c:1534
-#: src/wbcg-actions.c:1653
+#: src/dialogs/shuffle.glade.h:6 src/wbcg-actions.c:1540
+#: src/wbcg-actions.c:1662
 msgid "_Rows"
 msgstr "_Files"
 
@@ -22958,7 +23042,7 @@ msgstr "_Afegeix"
 
 # fitxer: src.ca.po.11
 #: src/dialogs/autocorrect.glade.h:13 src/dialogs/pivottable.glade.h:12
-#: src/wbcg-actions.c:1599
+#: src/wbcg-actions.c:1605
 msgid "_Remove"
 msgstr "_Suprimeix"
 
@@ -23765,7 +23849,7 @@ msgstr "Correlació"
 
 # fitxer: src.ca.po.13
 #: src/dialogs/covariance.glade.h:1 src/tools/analysis-tools.c:1008
-#: src/tools/analysis-tools.c:1011 src/wbcg-actions.c:1805
+#: src/tools/analysis-tools.c:1011 src/wbcg-actions.c:1814
 msgid "Covariance"
 msgstr "Covariança"
 
@@ -24827,7 +24911,7 @@ msgstr "Doble"
 
 # fitxer: src.ca.po.14
 #: src/dialogs/dialog-cell-format.c:470 src/dialogs/dialog-search.c:148
-#: src/func.c:741 src/wbcg-actions.c:1948
+#: src/func.c:741 src/wbcg-actions.c:1957
 #: src/widgets/widget-format-selector.c:76
 msgid "Number"
 msgstr "Nombre"
@@ -25209,7 +25293,7 @@ msgid "Edit Hyperlink"
 msgstr "Edita hiperenllaç"
 
 # fitxer: src.ca.po.13
-#: src/dialogs/dialog-hyperlink.c:350 src/sheet-control-gui.c:1472
+#: src/dialogs/dialog-hyperlink.c:350 src/sheet-control-gui.c:1474
 msgid "Remove Hyperlink"
 msgstr "Suprimeix hiperenllaç"
 
@@ -25289,7 +25373,7 @@ msgstr "Contrasenya:"
 #. * 	Skip Blanks, Paste Link, Cancel, Ok are all on the same page
 #. * 	try to keep them from conflicting
 #. Edit -> Clear
-#: src/dialogs/dialog-paste-special.c:66 src/wbcg-actions.c:1520
+#: src/dialogs/dialog-paste-special.c:66 src/wbcg-actions.c:1526
 msgid "_All"
 msgstr "_Tot"
 
@@ -25304,12 +25388,12 @@ msgid "As _Value"
 msgstr "Com a _valor"
 
 # fitxer: src.ca.po.13
-#: src/dialogs/dialog-paste-special.c:69 src/wbcg-actions.c:1523
+#: src/dialogs/dialog-paste-special.c:69 src/wbcg-actions.c:1529
 msgid "_Formats"
 msgstr "_Formats"
 
 # fitxer: src.ca.po.13
-#: src/dialogs/dialog-paste-special.c:70 src/wbcg-actions.c:1526
+#: src/dialogs/dialog-paste-special.c:70 src/wbcg-actions.c:1532
 msgid "Co_mments"
 msgstr "Co_mentaris"
 
@@ -26003,29 +26087,29 @@ msgstr "Realitza aquest reemplaçament"
 
 #
 # fitxer: src.ca.po.15
-#: src/dialogs/dialog-sheet-order.c:350
+#: src/dialogs/dialog-sheet-order.c:391
 msgid "Current Name"
 msgstr "Nom actual"
 
 #
 # fitxer: src.ca.po.15
-#: src/dialogs/dialog-sheet-order.c:360
+#: src/dialogs/dialog-sheet-order.c:401
 msgid "New Name"
 msgstr "Nom nou"
 
 # fitxer: src.ca.po.15
-#: src/dialogs/dialog-sheet-order.c:670
+#: src/dialogs/dialog-sheet-order.c:718
 msgid "At least one sheet must remain visible!"
 msgstr "Almenys un full ha de ser visible"
 
 #
 # fitxer: src.ca.po.15
-#: src/dialogs/dialog-sheet-order.c:675
+#: src/dialogs/dialog-sheet-order.c:723
 msgid "You may not delete all sheets in a workbook!"
 msgstr "No hauríeu d'esborrar tots els fulls del llibre de treball"
 
 # fitxer: src.ca.po.15
-#: src/dialogs/dialog-sheet-order.c:680
+#: src/dialogs/dialog-sheet-order.c:728
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
@@ -26034,7 +26118,7 @@ msgstr ""
 "actual i creeu-ne un de nou"
 
 # fitxer: src.ca.po.15
-#: src/dialogs/dialog-sheet-order.c:925
+#: src/dialogs/dialog-sheet-order.c:983
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "L'ordre dels fulls ha canviat. Voleu actualitzar la llista?"
 
@@ -26096,18 +26180,18 @@ msgstr "Variable"
 
 # fitxer: src.ca.po.15
 #: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:247
-#: src/workbook-control-gui.c:1828
+#: src/workbook-control-gui.c:1830
 msgid "Min"
 msgstr "Mínim"
 
 # fitxer: src.ca.po.15
-#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1830
+#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1832
 msgid "Average"
 msgstr "Mitjana"
 
 # fitxer: src.ca.po.15
 #: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:249
-#: src/workbook-control-gui.c:1829
+#: src/workbook-control-gui.c:1831
 msgid "Max"
 msgstr "Màxim"
 
@@ -26383,7 +26467,7 @@ msgstr "N_o seleccionis res"
 
 # fitxer: src.ca.po.14
 #. Edit -> Select
-#: src/dialogs/dialog-stf-export.glade.h:20 src/wbcg-actions.c:1546
+#: src/dialogs/dialog-stf-export.glade.h:20 src/wbcg-actions.c:1552
 msgid "Select _All"
 msgstr "Seleccion_a-ho tot"
 
@@ -27121,7 +27205,7 @@ msgstr "_Més"
 
 # fitxer: src.ca.po.2
 #: src/dialogs/fill-series.glade.h:17 src/dialogs/pivottable.glade.h:13
-#: src/wbcg-actions.c:1433
+#: src/wbcg-actions.c:1439
 msgid "_Row"
 msgstr "_Fila"
 
@@ -27260,7 +27344,7 @@ msgid "Formula Guru"
 msgstr "Fórmules per a experts"
 
 # fitxer: src.ca.po.1
-#: src/dialogs/fourier-analysis.glade.h:1 src/wbcg-actions.c:1811
+#: src/dialogs/fourier-analysis.glade.h:1 src/wbcg-actions.c:1820
 msgid "Fourier Analysis"
 msgstr "Anàlisi de Fourier"
 
@@ -27275,7 +27359,7 @@ msgid "Category"
 msgstr "Categoria"
 
 # fitxer: src.ca.po.1
-#: src/dialogs/function-select.glade.h:3 src/wbcg-actions.c:1885
+#: src/dialogs/function-select.glade.h:3 src/wbcg-actions.c:1894
 msgid "Function"
 msgstr "Funció"
 
@@ -27702,7 +27786,7 @@ msgstr "Llibre de treball"
 
 # fitxer: src.ca.po.1
 #: src/dialogs/names.glade.h:8 src/dialogs/solver.glade.h:23
-#: src/wbcg-actions.c:1421
+#: src/wbcg-actions.c:1427
 msgid "_Delete"
 msgstr "_Suprimeix"
 
@@ -27755,7 +27839,7 @@ msgid "_Add:"
 msgstr "_Afegeix:"
 
 # fitxer: src.ca.po.1
-#: src/dialogs/pivottable.glade.h:8 src/wbcg-actions.c:1441
+#: src/dialogs/pivottable.glade.h:8 src/wbcg-actions.c:1447
 msgid "_Data"
 msgstr "_Dades"
 
@@ -28647,7 +28731,7 @@ msgid "Manage Sheets..."
 msgstr "Gestiona els fulls..."
 
 # fitxer: src.ca.po.2
-#: src/dialogs/sheet-order.glade.h:2 src/wbcg-actions.c:1596
+#: src/dialogs/sheet-order.glade.h:2 src/wbcg-actions.c:1602
 msgid "_Duplicate"
 msgstr "_Duplica"
 
@@ -29263,15 +29347,19 @@ msgstr "'%s' ja està definit al llibre de treball"
 msgid "Invalid template file: %s"
 msgstr "Fitxer de plantilla no vàlid: %s"
 
+#: src/file.c:519
+msgid "Not a valid UTF-8 filename."
+msgstr ""
+
 #
 # fitxer: src.ca.po.2
-#: src/file.c:522
+#: src/file.c:529
 msgid "Saving over old files of this type is disabled for safety."
 msgstr ""
 "S'ha deshabilitat l'opció per desar sobre fitxers antics per seguretat."
 
 # fitxer: src.ca.po.2
-#: src/file.c:524
+#: src/file.c:531
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -30572,19 +30660,19 @@ msgid "Unable to open '%s'"
 msgstr "No es pot obrir '%s'"
 
 # fitxer: src.ca.po.5
-#: src/item-bar.c:765
+#: src/item-bar.c:781
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Amplada: %.2f pts (%d píxels)"
 
 # fitxer: src.ca.po.5
-#: src/item-bar.c:768
+#: src/item-bar.c:784
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Alçada: %.2f pts (%d píxels)"
 
 # fitxer: src.ca.po.5
-#: src/item-cursor.c:917
+#: src/item-cursor.c:906
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -30595,47 +30683,47 @@ msgstr ""
 "d'aquestes regions?"
 
 # fitxer: src.ca.po.5
-#: src/item-cursor.c:1017
+#: src/item-cursor.c:1006
 msgid "_Move"
 msgstr "_Mou"
 
 # fitxer: src.ca.po.5
-#: src/item-cursor.c:1020 src/sheet-control-gui.c:1504
+#: src/item-cursor.c:1009 src/sheet-control-gui.c:1506
 msgid "_Copy"
 msgstr "_Copia"
 
 # fitxer: src.ca.po.5
-#: src/item-cursor.c:1023
+#: src/item-cursor.c:1012
 msgid "Copy _Formats"
 msgstr "Copia els _formats"
 
 # fitxer: src.ca.po.5
-#: src/item-cursor.c:1025
+#: src/item-cursor.c:1014
 msgid "Copy _Values"
 msgstr "Copia els _valors"
 
 # fitxer: src.ca.po.5
-#: src/item-cursor.c:1030
+#: src/item-cursor.c:1019
 msgid "Shift _Down and Copy"
 msgstr "Desplaça avall i co_pia"
 
 # fitxer: src.ca.po.5
-#: src/item-cursor.c:1032
+#: src/item-cursor.c:1021
 msgid "Shift _Right and Copy"
 msgstr "Desplaça a la d_reta i copia"
 
 # fitxer: src.ca.po.5
-#: src/item-cursor.c:1034
+#: src/item-cursor.c:1023
 msgid "Shift Dow_n and Move"
 msgstr "Desplaça avall i _mou"
 
 # fitxer: src.ca.po.5
-#: src/item-cursor.c:1036
+#: src/item-cursor.c:1025
 msgid "Shift Righ_t and Move"
 msgstr "Desplaça a la dre_ta i mou"
 
 # fitxer: src.ca.po.5
-#: src/item-cursor.c:1041
+#: src/item-cursor.c:1030
 msgid "C_ancel"
 msgstr "C_ancel·la"
 
@@ -31378,95 +31466,95 @@ msgstr "S'ha produït un error en obrir el fitxer \"%s\" per llegir-lo."
 
 # fitxer: src.ca.po.4
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:612
+#: src/print.c:604
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
 # fitxer: src.ca.po.4
-#: src/print.c:1157
+#: src/print.c:1147
 msgid "Print Region"
 msgstr "Imprimeix regió"
 
 # fitxer: src.ca.po.4
-#: src/print.c:1326 src/wbcg-actions.c:1501
+#: src/print.c:1307 src/wbcg-actions.c:1507
 msgid "Print preview"
 msgstr "Previsualitza la impressió"
 
 # fitxer: src.ca.po.4
-#: src/print.c:1339
+#: src/print.c:1320
 msgid "Printing failed"
 msgstr "Ha fallat la impressió"
 
 # fitxer: src.ca.po.4
-#: src/print.c:1445
+#: src/print.c:1426
 msgid "Print Sheets"
 msgstr "Imprimeix Fulls"
 
 # fitxer: src.ca.po.4
-#: src/print.c:1454
+#: src/print.c:1435
 msgid "Act_ive sheet"
 msgstr "Full act_iu"
 
 # fitxer: src.ca.po.4
-#: src/print.c:1454
+#: src/print.c:1435
 msgid "S_heets"
 msgstr "F_ulls"
 
 # fitxer: src.ca.po.4
-#: src/print-info.c:145 src/print-info.c:148 src/print-info.c:149
-#: src/print-info.c:260
+#: src/print-info.c:155 src/print-info.c:158 src/print-info.c:159
+#: src/print-info.c:270
 msgid "Page &[PAGE]"
 msgstr "Pàgina &[PAGE]"
 
 # fitxer: src.ca.po.4
-#: src/print-info.c:146 src/print-info.c:151
+#: src/print-info.c:156 src/print-info.c:161
 msgid "Page &[PAGE] of &[PAGES]"
 msgstr "Pàgina &[PAGE] de &[PAGES]"
 
 # fitxer: src.ca.po.4
-#: src/print-info.c:147 src/print-info.c:148 src/print-info.c:149
-#: src/print-info.c:151 src/print-info.c:254
+#: src/print-info.c:157 src/print-info.c:158 src/print-info.c:159
+#: src/print-info.c:161 src/print-info.c:264
 msgid "&[TAB]"
 msgstr "&[TAB]"
 
 # fitxer: src.ca.po.4
-#: src/print-info.c:149 src/print-info.c:150 src/print-info.c:151
+#: src/print-info.c:159 src/print-info.c:160 src/print-info.c:161
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
 #
 # fitxer: src.ca.po.4
-#: src/print-info.c:454
+#: src/print-info.c:464
 msgid "File Name"
 msgstr "Nom de fitxer"
 
 # fitxer: src.ca.po.4
-#: src/print-info.c:465
+#: src/print-info.c:475
 msgid "Path "
 msgstr "Camí "
 
 # fitxer: src.ca.po.4
-#: src/print-info.c:473
+#: src/print-info.c:483
 msgid "tab"
 msgstr "pestanya"
 
 # fitxer: src.ca.po.4
-#: src/print-info.c:474
+#: src/print-info.c:484
 msgid "page"
 msgstr "pàgina"
 
 # fitxer: src.ca.po.4
-#: src/print-info.c:475
+#: src/print-info.c:485
 msgid "pages"
 msgstr "pàgines"
 
 # fitxer: src.ca.po.4
-#: src/print-info.c:478
+#: src/print-info.c:488
 msgid "file"
 msgstr "fitxer"
 
 # fitxer: src.ca.po.4
-#: src/print-info.c:479
+#: src/print-info.c:489
 msgid "path"
 msgstr "camí"
 
@@ -31543,44 +31631,44 @@ msgid "Do not log out"
 msgstr "No surtis"
 
 # fitxer: src.ca.po.4
-#: src/sheet.c:2015
+#: src/sheet.c:2051
 msgid "Target region contains merged cells"
 msgstr "La regió de destí conté cel·les fusionades"
 
 #
 # fitxer: src.ca.po.4
-#: src/sheet.c:2076
+#: src/sheet.c:2112
 msgid "cannot operate on merged cells"
 msgstr "no pot treballar en cel·les fusionades"
 
 #
 # fitxer: src.ca.po.4
-#: src/sheet.c:2086
+#: src/sheet.c:2122
 msgid "cannot operate on array formulae"
 msgstr "no pot treballar en fórmules de vector"
 
 # fitxer: src.ca.po.4
-#: src/sheet.c:3204
+#: src/sheet.c:3240
 msgid "Insert Columns"
 msgstr "Insereix columnes"
 
 # fitxer: src.ca.po.4
-#: src/sheet.c:3326
+#: src/sheet.c:3362
 msgid "Insert Rows"
 msgstr "Insereix files"
 
 # fitxer: src.ca.po.4
-#: src/sheet-control-gui.c:1502
+#: src/sheet-control-gui.c:1504
 msgid "Cu_t"
 msgstr "Re_talla"
 
 # fitxer: src.ca.po.4
-#: src/sheet-control-gui.c:1506
+#: src/sheet-control-gui.c:1508
 msgid "_Paste"
 msgstr "_Enganxa"
 
 # fitxer: src.ca.po.4
-#: src/sheet-control-gui.c:1508
+#: src/sheet-control-gui.c:1510
 msgid "Paste _Special"
 msgstr "Enganxar _especial"
 
@@ -31592,110 +31680,110 @@ msgstr "Enganxar _especial"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1520
+#: src/sheet-control-gui.c:1522
 msgid "_Insert Cells..."
 msgstr "_Insereix cel·les..."
 
 # fitxer: src.ca.po.4
-#: src/sheet-control-gui.c:1522
+#: src/sheet-control-gui.c:1524
 msgid "_Delete Cells..."
 msgstr "_Suprimeix cel·les..."
 
 # fitxer: src.ca.po.4
-#: src/sheet-control-gui.c:1524
+#: src/sheet-control-gui.c:1526
 msgid "_Insert Column(s)"
 msgstr "_Insereix columnes"
 
 # fitxer: src.ca.po.4
-#: src/sheet-control-gui.c:1526
+#: src/sheet-control-gui.c:1528
 msgid "_Delete Column(s)"
 msgstr "_Suprimeix columnes"
 
 # fitxer: src.ca.po.4
-#: src/sheet-control-gui.c:1528
+#: src/sheet-control-gui.c:1530
 msgid "_Insert Row(s)"
 msgstr "_Insereix files"
 
 # fitxer: src.ca.po.4
-#: src/sheet-control-gui.c:1530
+#: src/sheet-control-gui.c:1532
 msgid "_Delete Row(s)"
 msgstr "_Suprimeix files"
 
 # fitxer: src.ca.po.4
-#: src/sheet-control-gui.c:1533
+#: src/sheet-control-gui.c:1535
 msgid "Clear Co_ntents"
 msgstr "Buida co_ntinguts"
 
 # fitxer: src.ca.po.4
-#: src/sheet-control-gui.c:1535
+#: src/sheet-control-gui.c:1537
 msgid "Edit Co_mment..."
 msgstr "Edita co_mentari..."
 
 # fitxer: src.ca.po.4
-#: src/sheet-control-gui.c:1541
+#: src/sheet-control-gui.c:1543
 msgid "_Format Cells..."
 msgstr "_Format de cel·les..."
 
 # fitxer: src.ca.po.4
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1545
+#: src/sheet-control-gui.c:1547
 msgid "Column _Width..."
 msgstr "Amplada de _columna..."
 
 # fitxer: src.ca.po.4
-#: src/sheet-control-gui.c:1547 src/sheet-control-gui.c:1555
-#: src/wbcg-actions.c:1711 src/wbcg-actions.c:1728
+#: src/sheet-control-gui.c:1549 src/sheet-control-gui.c:1557
+#: src/wbcg-actions.c:1720 src/wbcg-actions.c:1737
 msgid "_Hide"
 msgstr "_Oculta"
 
 # fitxer: src.ca.po.4
-#: src/sheet-control-gui.c:1549 src/sheet-control-gui.c:1557
-#: src/wbcg-actions.c:1714 src/wbcg-actions.c:1731
+#: src/sheet-control-gui.c:1551 src/sheet-control-gui.c:1559
+#: src/wbcg-actions.c:1723 src/wbcg-actions.c:1740
 msgid "_Unhide"
 msgstr "_Mostra"
 
 # fitxer: src.ca.po.4
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1553
+#: src/sheet-control-gui.c:1555
 msgid "_Row Height..."
 msgstr "_Alçada de Fila..."
 
 # fitxer: src.ca.po.4
-#: src/sheet-control-gui.c:1560
+#: src/sheet-control-gui.c:1562
 msgid "_Hyperlink"
 msgstr "_Hiperenllaç"
 
 #
 # fitxer: src.ca.po.4
-#: src/sheet-control-gui.c:1563
+#: src/sheet-control-gui.c:1565
 msgid "Edit _Hyperlink"
 msgstr "Edita _hiperenllaç"
 
 # fitxer: src.ca.po.4
-#: src/sheet-control-gui.c:1566
+#: src/sheet-control-gui.c:1568
 msgid "_Remove Hyperlink"
 msgstr "_Suprimeix l'hiperenllaç"
 
 # fitxer: src.ca.po.4
 #. This is somewhat cheesy and should use ngettext
-#: src/sheet-control-gui.c:1981
+#: src/sheet-control-gui.c:2083
 msgid "Duplicate Object"
 msgstr "Duplica l'objecte"
 
 #
 # fitxer: src.ca.po.4
-#: src/sheet-control-gui.c:1981
+#: src/sheet-control-gui.c:2083
 msgid "Insert Object"
 msgstr "Insereix un objecte"
 
 # fitxer: src.ca.po.4
-#: src/sheet-control-gui.c:1982
+#: src/sheet-control-gui.c:2084
 msgid "Move Object"
 msgstr "Mou l'objecte"
 
 #
 # fitxer: src.ca.po.4
-#: src/sheet-control-gui.c:1982
+#: src/sheet-control-gui.c:2084
 msgid "Resize Object"
 msgstr "Redimensiona l'objecte"
 
@@ -31726,7 +31814,7 @@ msgstr "(No buits...)"
 
 # fitxer: src.ca.po.4
 #. Format toolbar
-#: src/sheet-merge.c:73 src/wbcg-actions.c:1941
+#: src/sheet-merge.c:73 src/wbcg-actions.c:1950
 msgid "Merge"
 msgstr "Fusiona"
 
@@ -31808,12 +31896,12 @@ msgid "WMF (windows metafile)"
 msgstr "WMF (metafitxer de windows)"
 
 # fitxer: src.ca.po.6
-#: src/sheet-object-widget.c:258 src/wbcg-actions.c:1900
+#: src/sheet-object-widget.c:258 src/wbcg-actions.c:1909
 msgid "Frame"
 msgstr "Marc"
 
 # fitxer: src.ca.po.6
-#: src/sheet-object-widget.c:497 src/wbcg-actions.c:1933
+#: src/sheet-object-widget.c:497 src/wbcg-actions.c:1942
 #: templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "Button"
 msgstr "Botó"
@@ -31825,7 +31913,7 @@ msgid "CheckBox %d"
 msgstr "Quadre de verificació %d"
 
 # fitxer: src.ca.po.6
-#: src/sheet-object-widget.c:1809 src/wbcg-actions.c:1936
+#: src/sheet-object-widget.c:1809 src/wbcg-actions.c:1945
 msgid "RadioButton"
 msgstr "Botó de ràdio"
 
@@ -31844,12 +31932,12 @@ msgstr ""
 "mateix nom. Espereu fenòmens estranys."
 
 # fitxer: src.ca.po.6
-#: src/sheet-view.c:313
+#: src/sheet-view.c:315
 msgid "Copy"
 msgstr "Copia"
 
 # fitxer: src.ca.po.6
-#: src/sheet-view.c:338 src/sheet-view.c:341
+#: src/sheet-view.c:340 src/sheet-view.c:343
 msgid "Cut"
 msgstr "Retalla"
 
@@ -32038,7 +32126,7 @@ msgid "Too many rows in data to parse: %d"
 msgstr "Hi ha massa files a les dades per analitzar: %d"
 
 # fitxer: src.ca.po.5
-#: src/stf-parse.c:1175
+#: src/stf-parse.c:1178
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -32717,7 +32805,7 @@ msgid "Range"
 msgstr "Rang"
 
 # fitxer: src.ca.po.5
-#: src/tools/simulation.c:257 src/workbook-control-gui.c:1831
+#: src/tools/simulation.c:257 src/workbook-control-gui.c:1833
 msgid "Count"
 msgstr "Compta"
 
@@ -33407,350 +33495,350 @@ msgstr "Comentari a la cel·la %s!%s"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/wbcg-actions.c:630
+#: src/wbcg-actions.c:636
 msgid "Insert rows"
 msgstr "Inserir files"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:647
+#: src/wbcg-actions.c:653
 msgid "Insert columns"
 msgstr "Inserir columnes"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:724
+#: src/wbcg-actions.c:730
 msgid "Add Filter"
 msgstr "Afegir filtre"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:736
+#: src/wbcg-actions.c:742
 msgid "AutoFilter"
 msgstr "Filtrar automàticament"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:736
+#: src/wbcg-actions.c:742
 msgid "Requires more than 1 row"
 msgstr "Requereix més d'una fila"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:763 src/wbcg-actions.c:782
+#: src/wbcg-actions.c:769 src/wbcg-actions.c:788
 msgid "Show Detail"
 msgstr "Mostrar el detall"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:763 src/wbcg-actions.c:782
+#: src/wbcg-actions.c:769 src/wbcg-actions.c:788
 msgid "Hide Detail"
 msgstr "Amagar el detall"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:770
+#: src/wbcg-actions.c:776
 msgid "can only be performed on an existing group"
 msgstr "només pot ser realitzat en un grup existent"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:810
+#: src/wbcg-actions.c:816
 msgid "Group"
 msgstr "Agrupar"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:810
+#: src/wbcg-actions.c:816
 msgid "Ungroup"
 msgstr "Desagrupar"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:951
+#: src/wbcg-actions.c:957
 msgid "Sort"
 msgstr "Ordenar"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1071
+#: src/wbcg-actions.c:1077
 msgid "Set Horizontal Alignment"
 msgstr "Establir alineació horitzontal"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1105
+#: src/wbcg-actions.c:1111
 msgid "Set Vertical Alignment"
 msgstr "Establir alineació vertical"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1194
+#: src/wbcg-actions.c:1200
 msgid "Set Font Style"
 msgstr "Seleccionar estil del tipus de lletra"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1220
+#: src/wbcg-actions.c:1226
 msgid "Format as Number"
 msgstr "Formatar com a nombre"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1225
+#: src/wbcg-actions.c:1231
 msgid "Format as Currency"
 msgstr "Formatar com a moneda"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1230
+#: src/wbcg-actions.c:1236
 msgid "Format as Accounting"
 msgstr "Formatar com a finança"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1236
+#: src/wbcg-actions.c:1242
 msgid "Format as Percentage"
 msgstr "Formatar com a percentatge"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1241
+#: src/wbcg-actions.c:1247
 msgid "Format as Scientific"
 msgstr "Formatar com a científic"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1246
+#: src/wbcg-actions.c:1252
 msgid "Format as Date"
 msgstr "Formatar com a data"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1251
+#: src/wbcg-actions.c:1257
 msgid "Format as Time"
 msgstr "Formatar com a hora"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1275
+#: src/wbcg-actions.c:1281
 msgid "Add Borders"
 msgstr "Afegir vores"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1275
+#: src/wbcg-actions.c:1281
 msgid "Remove borders"
 msgstr "Eliminar vores"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1304
+#: src/wbcg-actions.c:1310
 msgid "Increase precision"
 msgstr "Incrementar precisió"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1306
+#: src/wbcg-actions.c:1312
 msgid "Decrease precision"
 msgstr "Reduir precisió"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1308
+#: src/wbcg-actions.c:1314
 msgid "Toggle thousands separator"
 msgstr "Separador de milers"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1328
+#: src/wbcg-actions.c:1334
 msgid "Increase Indent"
 msgstr "Incrementar sagnat"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1348
+#: src/wbcg-actions.c:1354
 msgid "Decrease Indent"
 msgstr "Reduir sagnat"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1355
+#: src/wbcg-actions.c:1361
 msgid "Copy down"
 msgstr "Copiar avall"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1361
+#: src/wbcg-actions.c:1367
 msgid "Copy right"
 msgstr "Copiar a dreta"
 
 # fitxer: src.ca.po.6
 #. Actions that are always sensitive
 #. const 142334
-#: src/wbcg-actions.c:1418
+#: src/wbcg-actions.c:1424
 msgid "_File"
 msgstr "_Fitxer"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1419
+#: src/wbcg-actions.c:1425
 msgid "_Edit"
 msgstr "_Edita"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1420
+#: src/wbcg-actions.c:1426
 msgid "C_lear"
 msgstr "Nete_ja"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1422
+#: src/wbcg-actions.c:1428
 msgid "S_heet"
 msgstr "F_ull"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1423
+#: src/wbcg-actions.c:1429
 msgid "_Select"
 msgstr "_Selecciona"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1424
+#: src/wbcg-actions.c:1430
 msgid "F_ill"
 msgstr "_Omple"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1425
+#: src/wbcg-actions.c:1431
 msgid "_View"
 msgstr "_Visualitza"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1426
+#: src/wbcg-actions.c:1432
 msgid "_Windows"
 msgstr "_Finestres"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1427
+#: src/wbcg-actions.c:1433
 msgid "_Toolbars"
 msgstr "_Barra d'eines"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1429
+#: src/wbcg-actions.c:1435
 msgid "_Names"
 msgstr "_Noms"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1430
+#: src/wbcg-actions.c:1436
 msgid "S_pecial"
 msgstr "E_special"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1431
+#: src/wbcg-actions.c:1437
 msgid "F_ormat"
 msgstr "F_ormat"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1432
+#: src/wbcg-actions.c:1438
 msgid "C_olumn"
 msgstr "C_olumna"
 
 # fitxer: src.ca.po.6
 #. ICK A DUPLICATE : we have no way to override a label on one proxy
-#: src/wbcg-actions.c:1434 src/wbcg-actions.c:1590
+#: src/wbcg-actions.c:1440 src/wbcg-actions.c:1596
 msgid "_Sheet"
 msgstr "_Full"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1435
+#: src/wbcg-actions.c:1441
 msgid "_Tools"
 msgstr "_Eines"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1436
+#: src/wbcg-actions.c:1442
 msgid "Sce_narios"
 msgstr "Esce_naris"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1437
+#: src/wbcg-actions.c:1443
 msgid "Statistical Anal_ysis"
 msgstr "Anàl_isi estadístic"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1438
+#: src/wbcg-actions.c:1444
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1439
+#: src/wbcg-actions.c:1445
 msgid "F_orecast"
 msgstr "Pr_ojectar"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1440
+#: src/wbcg-actions.c:1446
 msgid "Two _Means"
 msgstr "Dues _mitjanes"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1442
+#: src/wbcg-actions.c:1448
 msgid "_Filter"
 msgstr "_Fitxer"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1443
+#: src/wbcg-actions.c:1449
 msgid "_Group and Outline"
 msgstr "_Grup i contorn"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1444
+#: src/wbcg-actions.c:1450
 msgid "Get _External Data"
 msgstr "Agafa dades _externes"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1445
+#: src/wbcg-actions.c:1451
 msgid "_Help"
 msgstr "_Ajuda"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1448
+#: src/wbcg-actions.c:1454
 msgid "Cut the selection"
 msgstr "Retallar selecció"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1451
+#: src/wbcg-actions.c:1457
 msgid "Copy the selection"
 msgstr "Copiar selecció"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1454
+#: src/wbcg-actions.c:1460
 msgid "Paste the clipboard"
 msgstr "Enganxar porta-retalls"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1457 src/wbcg-actions.c:1529
+#: src/wbcg-actions.c:1463 src/wbcg-actions.c:1535
 msgid "_Contents"
 msgstr "_Contingut"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1458
+#: src/wbcg-actions.c:1464
 msgid "Open a viewer for Gnumeric's documentation"
 msgstr "Obre un visualitzador per a la documentació de Gnumeric"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1460
+#: src/wbcg-actions.c:1466
 msgid "Gnumeric on the _Web"
 msgstr "Vés a la _web del Gnumeric"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1461
+#: src/wbcg-actions.c:1467
 msgid "Browse to Gnumeric's website"
 msgstr "Navega pel lloc web de Gnumeric"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1463
+#: src/wbcg-actions.c:1469
 msgid "_Live Assistance"
 msgstr "A_ssistència"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1464
+#: src/wbcg-actions.c:1470
 msgid "See if anyone is available to answer questions"
 msgstr "Mira si alguna persona està disponible per respondre preguntes"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1466
+#: src/wbcg-actions.c:1472
 msgid "Report a _Problem"
 msgstr "Informa d'un _problema"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1467
+#: src/wbcg-actions.c:1473
 msgid "Report problem "
 msgstr "Informa d'un problema"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1469
+#: src/wbcg-actions.c:1475
 msgid "_About"
 msgstr "_Quant a"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1470
+#: src/wbcg-actions.c:1476
 msgid "About this application"
 msgstr "Sobre aquesta aplicació"
 
@@ -33758,191 +33846,191 @@ msgstr "Sobre aquesta aplicació"
 # fitxer: src.ca.po.6
 #. Special.  The sensitivity is chained to redo we do not want to
 #. * toggle it directly so we put it in here
-#: src/wbcg-actions.c:1475
+#: src/wbcg-actions.c:1481
 msgid "Repeat"
 msgstr "Repeteix"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1476
+#: src/wbcg-actions.c:1482
 msgid "Repeat the previous action"
 msgstr "Repeteix l'acció prèvia"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1483
+#: src/wbcg-actions.c:1489
 msgid "Create a new workbook"
 msgstr "Crea un nou llibre de treball"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1486
+#: src/wbcg-actions.c:1492
 msgid "Open a file"
 msgstr "Obre un fitxer"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1489
+#: src/wbcg-actions.c:1495
 msgid "Save the current workbook"
 msgstr "Desa el llibre de treball actual"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1492
+#: src/wbcg-actions.c:1498
 msgid "Save the current workbook with a different name"
 msgstr "Desa el fitxer actual amb un nom diferent"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1494
+#: src/wbcg-actions.c:1500
 msgid "Sen_d To..."
 msgstr "_Envia a..."
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1495
+#: src/wbcg-actions.c:1501
 msgid "Send the current file via email"
 msgstr "Envia el fitxer actual per correu electrònic"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1497
+#: src/wbcg-actions.c:1503
 msgid "Page Set_up..."
 msgstr "Config_uració de pàgina..."
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1498
+#: src/wbcg-actions.c:1504
 msgid "Setup the page settings for your current printer"
 msgstr "Configura els paràmetres de pàgina per a la impressora"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1504
+#: src/wbcg-actions.c:1510
 msgid "Print the current file"
 msgstr "Imprimeix el fitxer actual"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1506
+#: src/wbcg-actions.c:1512
 msgid "Proper_ties..."
 msgstr "Propie_tats..."
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1507
+#: src/wbcg-actions.c:1513
 msgid "Edit descriptive information"
 msgstr "Edita la informació descriptiva"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1509
+#: src/wbcg-actions.c:1515
 msgid "Pre_ferences..."
 msgstr "Pre_ferències..."
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1510
+#: src/wbcg-actions.c:1516
 msgid "Change Gnumeric Preferences"
 msgstr "Canvia les preferències del Gnumeric"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1513
+#: src/wbcg-actions.c:1519
 msgid "Close the current file"
 msgstr "Tanca el fitxer actual"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1516
+#: src/wbcg-actions.c:1522
 msgid "Quit the application"
 msgstr "Tanca l'aplicació"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1521
+#: src/wbcg-actions.c:1527
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr ""
 "Suprimeix els formats, comentaris i continguts de les cel·les seleccionades"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1524
+#: src/wbcg-actions.c:1530
 msgid "Clear the selected cells' formats"
 msgstr "Suprimeix els formats de les cel·les seleccionades"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1527
+#: src/wbcg-actions.c:1533
 msgid "Clear the selected cells' comments"
 msgstr "Suprimeix els comentaris de les cel·les seleccionades"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1530
+#: src/wbcg-actions.c:1536
 msgid "Clear the selected cells' contents"
 msgstr "Suprimeix els continguts de les cel·les seleccionades"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1535
+#: src/wbcg-actions.c:1541
 msgid "Delete the row(s) containing the selected cells"
 msgstr "Esborra les files que contenen les cel·les seleccionades"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1538
+#: src/wbcg-actions.c:1544
 msgid "Delete the column(s) containing the selected cells"
 msgstr "Esborra les columnes que contenen les cel·les seleccionades"
 
 # fitxer: src.ca.po.6
 #. Insert
-#: src/wbcg-actions.c:1540 src/wbcg-actions.c:1647
+#: src/wbcg-actions.c:1546 src/wbcg-actions.c:1656
 msgid "C_ells..."
 msgstr "C_el·les..."
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1541
+#: src/wbcg-actions.c:1547
 msgid "Delete the selected cells, shifting others into their place"
 msgstr "Suprimeix les cel·les seleccionades i desplaça les altres al seu lloc"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1547
+#: src/wbcg-actions.c:1553
 msgid "Select all cells in the spreadsheet"
 msgstr "Selecciona totes les cel·les del full de càlcul"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1549
+#: src/wbcg-actions.c:1555
 msgid "Select _Column"
 msgstr "Selecciona una _columna"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1550
+#: src/wbcg-actions.c:1556
 msgid "Select an entire column"
 msgstr "Selecciona una columna completa"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1552
+#: src/wbcg-actions.c:1558
 msgid "Select _Row"
 msgstr "Selecciona una _fila"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1553
+#: src/wbcg-actions.c:1559
 msgid "Select an entire row"
 msgstr "Selecciona una fila completa"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1555
+#: src/wbcg-actions.c:1561
 msgid "Select Arra_y"
 msgstr "Selecciona una matri_u"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1556
+#: src/wbcg-actions.c:1562
 msgid "Select an array of cells"
 msgstr "Selecciona una matriu de cel·les"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1558
+#: src/wbcg-actions.c:1564
 msgid "Select _Depends"
 msgstr "Selecciona _dependències"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1559
+#: src/wbcg-actions.c:1565
 msgid "Select all the cells that depend on the current edit cell"
 msgstr ""
 "Selecciona totes les cel·les que depenen de la cel·la que s'està editant"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1561
+#: src/wbcg-actions.c:1567
 msgid "Select _Inputs"
 msgstr "Selecc_iona les entrades"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1562
+#: src/wbcg-actions.c:1568
 msgid "Select all the cells are used by the current edit cell"
 msgstr ""
 "Selecciona totes les cel·les que depenen de la cel·la que s'està editant"
@@ -33950,24 +34038,24 @@ msgstr ""
 #
 # fitxer: src.ca.po.6
 #. Edit -> Fill
-#: src/wbcg-actions.c:1566
+#: src/wbcg-actions.c:1572
 msgid "Auto_fill"
 msgstr "Omple _automàticament"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1567
+#: src/wbcg-actions.c:1573
 msgid "Automatically fill the current selection"
 msgstr "Omple la selecció actual automàticament"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1569
+#: src/wbcg-actions.c:1575
 msgid "_Merge..."
 msgstr "_Fusiona..."
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1570
+#: src/wbcg-actions.c:1576
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
@@ -33975,481 +34063,491 @@ msgstr ""
 "fila."
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1572
+#: src/wbcg-actions.c:1578
 msgid "_Tabulate Dependency..."
 msgstr "_Tabula la dependència..."
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1573
+#: src/wbcg-actions.c:1579
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr ""
 "Fes una taula amb els valors d'una cel·la com a una funció d'altres cel·les"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1575
+#: src/wbcg-actions.c:1581
 msgid "_Series..."
 msgstr "_Sèries..."
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1576
+#: src/wbcg-actions.c:1582
 msgid "Fill according to a linear or exponential series"
 msgstr "Omple d'acord amb una sèrie lineal o exponencial"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1578
+#: src/wbcg-actions.c:1584
 msgid "_Random Generator..."
 msgstr "Gene_rador de nombres aleatoris..."
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1579
+#: src/wbcg-actions.c:1585
 msgid "Generate random numbers of a selection of distributions"
 msgstr "Genera nombres aleatoris d'una selecció de distribucions"
 
 #
 # fitxer: src.ca.po.6
 #. Edit -> Sheet
-#: src/wbcg-actions.c:1583
+#: src/wbcg-actions.c:1589
 msgid "_Manage Sheets..."
 msgstr "_Gestiona els fulls..."
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1584
+#: src/wbcg-actions.c:1590
 msgid "Manage the sheets in this workbook"
 msgstr "Gestiona els fulls en aquest llibre de treball"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1587 src/wbcg-actions.c:1591
+#: src/wbcg-actions.c:1593 src/wbcg-actions.c:1597
 msgid "Insert a new sheet"
 msgstr "Insereix un nou full"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1593
+#: src/wbcg-actions.c:1599
 msgid "_Append"
 msgstr "_Afegeix"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1594
+#: src/wbcg-actions.c:1600
 msgid "Append a new sheet"
 msgstr "Insereix un nou full"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1597
+#: src/wbcg-actions.c:1603
 msgid "Make a copy of the current sheet"
 msgstr "Fes una còpia del full actual"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1600
+#: src/wbcg-actions.c:1606
 msgid "Irrevocably remove an entire sheet"
 msgstr "Suprimeix un full sencer irrevocablement"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1602
+#: src/wbcg-actions.c:1608
 msgid "Re_name"
 msgstr "Rea_nomena"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1603
+#: src/wbcg-actions.c:1609
 msgid "Rename the current sheet"
 msgstr "Reanomena el full actual"
 
 # fitxer: src.ca.po.6
 #. Edit
-#: src/wbcg-actions.c:1607
+#: src/wbcg-actions.c:1613
 msgid "P_aste special..."
 msgstr "Eng_anxa de forma especial..."
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1608
+#: src/wbcg-actions.c:1614
 msgid "Paste with optional filters and transformations"
 msgstr "Enganxa amb filtres i transformacions opcionals"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1611
+#: src/wbcg-actions.c:1617
 msgid "Co_mment..."
 msgstr "Co_mentari..."
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1612
+#: src/wbcg-actions.c:1618
 msgid "Edit the selected cell's comment"
 msgstr "Edita el comentari de les cel·les seleccionades"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1615
+#: src/wbcg-actions.c:1621
 msgid "_Find..."
 msgstr "_Cerca..."
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1616
+#: src/wbcg-actions.c:1622
 msgid "Search for something"
 msgstr "Cerca alguna cosa"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1618
+#: src/wbcg-actions.c:1624
 msgid "R_eplace..."
 msgstr "Re_emplaça..."
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1619
+#: src/wbcg-actions.c:1625
 msgid "Search for something and replace it with something else"
 msgstr "Cerca alguna cosa i reemplaça-la amb una altra cosa"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1621
+#: src/wbcg-actions.c:1627
 msgid "_Goto cell..."
 msgstr "_Vés a la cel·la..."
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1622
+#: src/wbcg-actions.c:1628
 msgid "Jump to a specified cell"
 msgstr "Salta a una cel·la específica"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1625
+#: src/wbcg-actions.c:1631
 msgid "Recalculate"
 msgstr "Recalcula"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1626
+#: src/wbcg-actions.c:1632
 msgid "Recalculate the spreadsheet"
 msgstr "Recalcula el full de càlcul"
 
 # fitxer: src.ca.po.6
 #. View
-#: src/wbcg-actions.c:1630
+#: src/wbcg-actions.c:1636
 msgid "_New View..."
 msgstr "_Nova vista..."
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1631
+#: src/wbcg-actions.c:1637
 msgid "Create a new view of the workbook"
 msgstr "Crea una nova vista del llibre de treball"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1633 src/workbook-control-gui.c:1023
+#: src/wbcg-actions.c:1639 src/workbook-control-gui.c:1023
 msgid "_Freeze Panes"
 msgstr "_Congela les subfinestres"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1634 src/workbook-control-gui.c:1026
+#: src/wbcg-actions.c:1640 src/workbook-control-gui.c:1026
 msgid "Freeze the top left of the sheet"
 msgstr "Atura la part esquerra de dalt del full"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1636
+#: src/wbcg-actions.c:1642
 msgid "_Zoom..."
 msgstr "Am_pliació..."
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1637
+#: src/wbcg-actions.c:1643
 msgid "Zoom the spreadsheet in or out"
 msgstr "Augmenta o redueix el full de càlcul"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1639
+#: src/wbcg-actions.c:1645
 msgid "Zoom _In"
 msgstr "Au_gmenta"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1640
+#: src/wbcg-actions.c:1646
 msgid "Increase the zoom to make things larger"
 msgstr "Augmenta la visualització per augmentar de tamany"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1642
+#: src/wbcg-actions.c:1648
 msgid "Zoom _Out"
 msgstr "_Redueix"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1643
+#: src/wbcg-actions.c:1649
 msgid "Decrease the zoom to make things smaller"
 msgstr "Redueix la visualització per disminuir de tamany"
 
+# fitxer: src.ca.po.13
+#: src/wbcg-actions.c:1651
+#, fuzzy
+msgid "Direction"
+msgstr "Direcció:"
+
+#: src/wbcg-actions.c:1652
+msgid "Toggle sheet direction, left to right vs right to left"
+msgstr ""
+
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1648
+#: src/wbcg-actions.c:1657
 msgid "Insert new cells"
 msgstr "Insereix noves cel·les"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1651
+#: src/wbcg-actions.c:1660
 msgid "Insert new columns"
 msgstr "Insereix noves columnes"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1654
+#: src/wbcg-actions.c:1663
 msgid "Insert new rows"
 msgstr "Insereix noves files"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1657
+#: src/wbcg-actions.c:1666
 msgid "C_hart..."
 msgstr "_Gràfic..."
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1658
+#: src/wbcg-actions.c:1667
 msgid "Insert a Chart"
 msgstr "Insereix un gràfic"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1660
+#: src/wbcg-actions.c:1669
 msgid "_Image..."
 msgstr "_Imatge..."
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1661
+#: src/wbcg-actions.c:1670
 msgid "Insert an image"
 msgstr "Insereix una imatge"
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1664
+#: src/wbcg-actions.c:1673
 msgid "Hyper_link..."
 msgstr "En_llaç..."
 
 #
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1665
+#: src/wbcg-actions.c:1674
 msgid "Insert a Hyperlink"
 msgstr "Insereix un hiperenllaç"
 
 # fitxer: src.ca.po.6
 #. Insert -> Special
-#: src/wbcg-actions.c:1668
+#: src/wbcg-actions.c:1677
 msgid "Current _date"
 msgstr "_Dades actuals"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1669
+#: src/wbcg-actions.c:1678
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Insereix les dades actuals a les cel·les seleccionades"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1672
+#: src/wbcg-actions.c:1681
 msgid "Current _time"
 msgstr "Hora ac_tual"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1673
+#: src/wbcg-actions.c:1682
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Insereix l'hora actual a les cel·les seleccionades"
 
 # fitxer: src.ca.po.6
-#: src/wbcg-actions.c:1676
+#: src/wbcg-actions.c:1685
 msgid "Current d_ate and time"
 msgstr "D_ata i hora actuals"
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1677
+#: src/wbcg-actions.c:1686
 msgid "Insert the current date and time into the selected cell(s)"
 msgstr "Insereix l'hora i la data actuals a les cel·les seleccionades"
 
 # fitxer: src.ca.po.8
 #. Insert -> Name
-#: src/wbcg-actions.c:1681
+#: src/wbcg-actions.c:1690
 msgid "_Define..."
 msgstr "_Defineix..."
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1682
+#: src/wbcg-actions.c:1691
 msgid "Edit sheet and workbook names"
 msgstr "Edita els noms del full i del llibre de treball"
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1685
+#: src/wbcg-actions.c:1694
 msgid "_Auto generate names..."
 msgstr "Gener_a els noms automàticament..."
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1686
+#: src/wbcg-actions.c:1695
 msgid "Use the current selection to create names"
 msgstr "Utilitza la selecció actual per crear els noms"
 
 # fitxer: src.ca.po.8
 #. Format
-#: src/wbcg-actions.c:1691
+#: src/wbcg-actions.c:1700
 msgid "_Cells..."
 msgstr "_Cel·les..."
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1692
+#: src/wbcg-actions.c:1701
 msgid "Modify the formatting of the selected cells"
 msgstr "Modifica el format de les cel·les seleccionades"
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1694
+#: src/wbcg-actions.c:1703
 msgid "_Workbook..."
 msgstr "_Llibre de treball..."
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1695
+#: src/wbcg-actions.c:1704
 msgid "Modify the workbook attributes"
 msgstr "Modifica els atributs d'un llibre de treball"
 
 #
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1697
+#: src/wbcg-actions.c:1706
 msgid "_Gnumeric..."
 msgstr "_Gnumeric..."
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1698
+#: src/wbcg-actions.c:1707
 msgid "Edit the Gnumeric Preferences"
 msgstr "Edita les preferències del Gnumeric"
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1700
+#: src/wbcg-actions.c:1709
 msgid "_Autoformat..."
 msgstr "_Autoformatatge..."
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1701
+#: src/wbcg-actions.c:1710
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formata una regió de cel·les seguint una plantilla predefinida"
 
 # fitxer: src.ca.po.8
 #. Format -> Col
-#: src/wbcg-actions.c:1705
+#: src/wbcg-actions.c:1714
 msgid "_Width..."
 msgstr "_Amplada..."
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1706
+#: src/wbcg-actions.c:1715
 msgid "Change width of the selected columns"
 msgstr "Canvia l'amplada de les columnes seleccionades"
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1708 src/wbcg-actions.c:1725
+#: src/wbcg-actions.c:1717 src/wbcg-actions.c:1734
 msgid "_Auto fit selection"
 msgstr "_Ajusta automàticament la selecció"
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1709
+#: src/wbcg-actions.c:1718
 msgid "Ensure columns are just wide enough to display content"
 msgstr "Fes les columnes prou amples per visualitzar el contingut"
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1712
+#: src/wbcg-actions.c:1721
 msgid "Hide the selected columns"
 msgstr "Amaga les columnes seleccionades"
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1715
+#: src/wbcg-actions.c:1724
 msgid "Make any hidden columns in the selection visible"
 msgstr "Fes visible qualsevol columna amagada a la selecció"
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1717
+#: src/wbcg-actions.c:1726
 msgid "_Standard Width"
 msgstr "Amplada e_stàndard"
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1718
+#: src/wbcg-actions.c:1727
 msgid "Change the default column width"
 msgstr "Canvia l'amplada per defecte de la columna"
 
 # fitxer: src.ca.po.8
 #. Format -> Row
-#: src/wbcg-actions.c:1722
+#: src/wbcg-actions.c:1731
 msgid "H_eight..."
 msgstr "A_lçada..."
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1723
+#: src/wbcg-actions.c:1732
 msgid "Change height of the selected rows"
 msgstr "Canvia l'alçada de les files seleccionades"
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1726
+#: src/wbcg-actions.c:1735
 msgid "Ensure rows are just tall enough to display content"
 msgstr "Fes les files prou altes per visualitzar el contingut"
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1729
+#: src/wbcg-actions.c:1738
 msgid "Hide the selected rows"
 msgstr "Amaga les files seleccionades"
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1732
+#: src/wbcg-actions.c:1741
 msgid "Make any hidden rows in the selection visible"
 msgstr "Fes visible a la selecció qualsevol fila amagada"
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1734
+#: src/wbcg-actions.c:1743
 msgid "_Standard Height"
 msgstr "Alçada e_stàndard"
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1735
+#: src/wbcg-actions.c:1744
 msgid "Change the default row height"
 msgstr "Canvia l'alçada de la fila per defecte"
 
 # fitxer: src.ca.po.8
 #. Tools
-#: src/wbcg-actions.c:1739
+#: src/wbcg-actions.c:1748
 msgid "_Plug-ins..."
 msgstr "_Connectors..."
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1740
+#: src/wbcg-actions.c:1749
 msgid "Manage available plugin modules"
 msgstr "Gestiona els mòduls de connectors disponibles"
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1742
+#: src/wbcg-actions.c:1751
 msgid "Auto _Correct..."
 msgstr "_Corregeix automàticament..."
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1743
+#: src/wbcg-actions.c:1752
 msgid "Automatically perform simple spell checking"
 msgstr "Realitza una correcció ortogràfica simple automàticament"
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1745
+#: src/wbcg-actions.c:1754
 msgid "_Auto Save..."
 msgstr "Desa _automàticament..."
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1746
+#: src/wbcg-actions.c:1755
 msgid "Automatically save the current document at regular intervals"
 msgstr "Desa el document actual a intervals regulars"
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1748
+#: src/wbcg-actions.c:1757
 msgid "_Goal Seek..."
 msgstr "Ob_jectiu de cerca..."
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1749
+#: src/wbcg-actions.c:1758
 msgid "Iteratively recalculate to find a target value"
 msgstr "Recalcula iterativament per trobar un valor de destinació"
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1751
+#: src/wbcg-actions.c:1760
 msgid "_Solver..."
 msgstr "_Resoledor..."
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1752
+#: src/wbcg-actions.c:1761
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 "Recalcula iterativament les restriccions per acostar-se a un valor destí"
 
 #
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1754
+#: src/wbcg-actions.c:1763
 msgid "Si_mulation..."
 msgstr "Si_mulació..."
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1755
+#: src/wbcg-actions.c:1764
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
@@ -34459,93 +34557,93 @@ msgstr ""
 
 # fitxer: src.ca.po.8
 #. Tools -> Scenarios
-#: src/wbcg-actions.c:1760
+#: src/wbcg-actions.c:1769
 msgid "_View..."
 msgstr "_Visualitza..."
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1761
+#: src/wbcg-actions.c:1770
 msgid "View, delete and report different scenarios"
 msgstr "Visualitza, suprimeix i informa de diferents escenaris"
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1763
+#: src/wbcg-actions.c:1772
 msgid "_Add..."
 msgstr "_Afegeix..."
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1764
+#: src/wbcg-actions.c:1773
 msgid "Add a new scenario"
 msgstr "Afegeix un nou escenari"
 
 #
 # fitxer: src.ca.po.8
 #. Tools -> ANOVA
-#: src/wbcg-actions.c:1768
+#: src/wbcg-actions.c:1777
 msgid "_One Factor..."
 msgstr "Un fact_or..."
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1769
+#: src/wbcg-actions.c:1778
 msgid "One Factor Analysis of Variance..."
 msgstr "Anàlisi de variança d'un factor..."
 
 #
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1771
+#: src/wbcg-actions.c:1780
 msgid "_Two Factor..."
 msgstr "Dos fac_tors..."
 
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1772
+#: src/wbcg-actions.c:1781
 msgid "Two Factor Analysis of Variance..."
 msgstr "Anàlisi de variança de dos factors..."
 
 #
 # fitxer: src.ca.po.8
 #. Tools -> Forecasting
-#: src/wbcg-actions.c:1776
+#: src/wbcg-actions.c:1785
 msgid "_Exponential Smoothing..."
 msgstr "Suavitzat _exponencial..."
 
 #
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1777
+#: src/wbcg-actions.c:1786
 msgid "Exponential smoothing..."
 msgstr "Suavitzat exponencial..."
 
 #
 # fitxer: src.ca.po.8
-#: src/wbcg-actions.c:1779
+#: src/wbcg-actions.c:1788
 msgid "_Moving Average..."
 msgstr "_Mitjana mòbil..."
 
 #
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1780
+#: src/wbcg-actions.c:1789
 msgid "Moving average..."
 msgstr "Mitjana mòbil..."
 
 # fitxer: src.ca.po.7
 #. Tools -> Two Means
-#: src/wbcg-actions.c:1784
+#: src/wbcg-actions.c:1793
 msgid "_Paired Samples: T-Test..."
 msgstr "Mostres A_parellades: T-Test..."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1785
+#: src/wbcg-actions.c:1794
 msgid "Comparing two population means for two paired samples: t-test..."
 msgstr ""
 "S'està comparant dues mitjanes de població amb dues mostres aparellades: t-"
 "test..."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1788
+#: src/wbcg-actions.c:1797
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
 msgstr "Mostres d_esaparellades, igual variança: t-Test..."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1789
+#: src/wbcg-actions.c:1798
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test..."
@@ -34554,12 +34652,12 @@ msgstr ""
 "de poblacions amb igual variança: t-test..."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1792
+#: src/wbcg-actions.c:1801
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
 msgstr "Mostres desaparellades, diferent _variança: T-Test..."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1793
+#: src/wbcg-actions.c:1802
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test..."
@@ -34568,12 +34666,12 @@ msgstr ""
 "de poblacions amb desiguals variances: t-test..."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1796
+#: src/wbcg-actions.c:1805
 msgid "_Known Variances: Z-Test..."
 msgstr "Variances descone_gudes: Z-Test..."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1797
+#: src/wbcg-actions.c:1806
 msgid ""
 "Comparing two population means from populations with known variances: z-"
 "test..."
@@ -34584,263 +34682,263 @@ msgstr ""
 #
 # fitxer: src.ca.po.7
 #. Tools -> Analysis
-#: src/wbcg-actions.c:1801
+#: src/wbcg-actions.c:1810
 msgid "_Correlation..."
 msgstr "_Correlació..."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1802
+#: src/wbcg-actions.c:1811
 msgid "Pearson Correlation"
 msgstr "Correlació de Pearson"
 
 #
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1804
+#: src/wbcg-actions.c:1813
 msgid "Co_variance..."
 msgstr "Co_variança..."
 
 #
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1807
+#: src/wbcg-actions.c:1816
 msgid "_Descriptive Statistics..."
 msgstr "Estadístiques _descriptives..."
 
 #
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1808
+#: src/wbcg-actions.c:1817
 msgid "Various summary statistics"
 msgstr "Diferents estadístiques de resum"
 
 #
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1810
+#: src/wbcg-actions.c:1819
 msgid "_Fourier Analysis..."
 msgstr "Anàlisi de _Fourier..."
 
 #
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1813
+#: src/wbcg-actions.c:1822
 msgid "_Histogram..."
 msgstr "_Histograma..."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1814
+#: src/wbcg-actions.c:1823
 msgid "Various frequency tables"
 msgstr "Varies taules de freqùència"
 
 #
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1816
+#: src/wbcg-actions.c:1825
 msgid "Ranks And _Percentiles..."
 msgstr "Rangs i _percentils..."
 
 #
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1817
+#: src/wbcg-actions.c:1826
 msgid "Ranks, placements and percentiles"
 msgstr "Rangs, situacions i percentils"
 
 #
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1819
+#: src/wbcg-actions.c:1828
 msgid "_Regression..."
 msgstr "_Regressió..."
 
 #
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1820
+#: src/wbcg-actions.c:1829
 msgid "Regression Analysis"
 msgstr "Anàlisi de regressió"
 
 #
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1822
+#: src/wbcg-actions.c:1831
 msgid "_Sampling..."
 msgstr "Mo_streig..."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1823
+#: src/wbcg-actions.c:1832
 msgid "Periodic and random samples"
 msgstr "Mostres aleatòries i periòdiques"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1825
+#: src/wbcg-actions.c:1834
 msgid "_Two Variances: FTest..."
 msgstr "Dues variances: F_Test..."
 
 #
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1826
+#: src/wbcg-actions.c:1835
 msgid "Comparing two population variances"
 msgstr "Comparar dues variances de població"
 
 # fitxer: src.ca.po.7
 #. Data
-#: src/wbcg-actions.c:1830
+#: src/wbcg-actions.c:1839
 msgid "_Sort..."
 msgstr "_Ordena..."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1831
+#: src/wbcg-actions.c:1840
 msgid "Sort the selected region"
 msgstr "Ordena la regió seleccionada"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1833
+#: src/wbcg-actions.c:1842
 msgid "Sh_uffle..."
 msgstr "Me_scla..."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1834
+#: src/wbcg-actions.c:1843
 msgid "Shuffle cells, rows or columns"
 msgstr "Mescla cel·les, files o columnes"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1836
+#: src/wbcg-actions.c:1845
 msgid "_Validate..."
 msgstr "_Valida..."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1837
+#: src/wbcg-actions.c:1846
 msgid "Validate input with preset criteria"
 msgstr "Valida l'entrada amb els criteris donats"
 
 #
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1839
+#: src/wbcg-actions.c:1848
 msgid "_Text to Columns..."
 msgstr "_Text a les columnes..."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1840
+#: src/wbcg-actions.c:1849
 msgid "Parse the text in the selection into data"
 msgstr "Analitza el text de la selecció i genera dades"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1842
+#: src/wbcg-actions.c:1851
 msgid "_Consolidate..."
 msgstr ""
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1843
+#: src/wbcg-actions.c:1852
 msgid "Consolidate regions using a function"
 msgstr ""
 
 #
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1847
+#: src/wbcg-actions.c:1856
 msgid "_PivotTable..."
 msgstr ""
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1848
+#: src/wbcg-actions.c:1857
 msgid "Create a pivot table"
 msgstr ""
 
 # fitxer: src.ca.po.7
 #. Data -> Outline
-#: src/wbcg-actions.c:1853
+#: src/wbcg-actions.c:1862
 msgid "_Hide Detail"
 msgstr "_Amaga els detalls"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1854
+#: src/wbcg-actions.c:1863
 msgid "Collapse an outline group"
 msgstr "Redueix un grup de contorn"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1856
+#: src/wbcg-actions.c:1865
 msgid "_Show Detail"
 msgstr "_Mostra els detalls"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1857
+#: src/wbcg-actions.c:1866
 msgid "Uncollapse an outline group"
 msgstr "Amplia el grup de contorn"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1859
+#: src/wbcg-actions.c:1868
 msgid "_Group..."
 msgstr "A_grupa..."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1860
+#: src/wbcg-actions.c:1869
 msgid "Add an outline group"
 msgstr "Afegeix un grup de contorn"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1862
+#: src/wbcg-actions.c:1871
 msgid "_Ungroup..."
 msgstr "Desagr_upa..."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1863
+#: src/wbcg-actions.c:1872
 msgid "Remove an outline group"
 msgstr "Suprimeix el grup de contorn"
 
 # fitxer: src.ca.po.7
 #. Data -> Filter
-#: src/wbcg-actions.c:1867 src/workbook-control-gui.c:1034
+#: src/wbcg-actions.c:1876 src/workbook-control-gui.c:1034
 msgid "Add _Auto Filter"
 msgstr "_Afegeix filtre automàtic"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1868
+#: src/wbcg-actions.c:1877
 msgid "Add or remove a filter"
 msgstr "Afegeix o elimina un filtre"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1870
+#: src/wbcg-actions.c:1879
 msgid "_Show All"
 msgstr "Mo_stra-ho tot"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1871
+#: src/wbcg-actions.c:1880
 msgid "Show all filtered and hidden rows"
 msgstr "Mostra totes les files filtrades o ocultes"
 
 #
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1873
+#: src/wbcg-actions.c:1882
 msgid "Advanced _Filter..."
 msgstr "_Filtre avançat..."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1874
+#: src/wbcg-actions.c:1883
 msgid "Filter data with given criteria"
 msgstr "Filtra les dades a partir dels criteris donats"
 
 # fitxer: src.ca.po.7
 #. Data -> External
-#: src/wbcg-actions.c:1877
+#: src/wbcg-actions.c:1886
 msgid "Import _Text File..."
 msgstr "Importa un fitxer de _text..."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1878
+#: src/wbcg-actions.c:1887
 msgid "Import the text from a file"
 msgstr "Importa un text des d'un fitxer"
 
 # fitxer: src.ca.po.7
 #. Standard Toolbar
-#: src/wbcg-actions.c:1882 src/workbook-control-gui.c:1827
+#: src/wbcg-actions.c:1891 src/workbook-control-gui.c:1829
 #: src/workbook-view.c:542
 msgid "Sum"
 msgstr "Suma"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1883
+#: src/wbcg-actions.c:1892
 msgid "Sum into the current cell"
 msgstr "Suma a la cel·la actual"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1886
+#: src/wbcg-actions.c:1895
 msgid "Edit a function in the current cell"
 msgstr "Edita una funció a la cel·la actual"
 
 #
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1890
+#: src/wbcg-actions.c:1899
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
@@ -34849,13 +34947,13 @@ msgstr ""
 "columna seleccionada."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1892
+#: src/wbcg-actions.c:1901
 msgid "Sort Descending"
 msgstr "Ordena de forma descendent"
 
 #
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1893
+#: src/wbcg-actions.c:1902
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
@@ -34864,499 +34962,499 @@ msgstr ""
 "columna seleccionada."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1898
+#: src/wbcg-actions.c:1907
 msgid "Create a label"
 msgstr "Crea una etiqueta"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1901
+#: src/wbcg-actions.c:1910
 msgid "Create a frame"
 msgstr "Crea un marc"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1903
+#: src/wbcg-actions.c:1912
 msgid "Checkbox"
 msgstr "Quadre de verificació"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1904
+#: src/wbcg-actions.c:1913
 msgid "Create a checkbox"
 msgstr "Crea un quadre de verificació"
 
 #
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1906
+#: src/wbcg-actions.c:1915
 msgid "Scrollbar"
 msgstr "Barra de desplaçament"
 
 #
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1907
+#: src/wbcg-actions.c:1916
 msgid "Create a scrollbar"
 msgstr "Crea una barra de desplaçament"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1909
+#: src/wbcg-actions.c:1918
 msgid "Slider"
 msgstr "Lliscador"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1910
+#: src/wbcg-actions.c:1919
 msgid "Create a slider"
 msgstr "Crea un lliscador"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1912
+#: src/wbcg-actions.c:1921
 msgid "SpinButton"
 msgstr "Botó giratori"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1913
+#: src/wbcg-actions.c:1922
 msgid "Create a spin button"
 msgstr "Crea un botó giratori"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1915 templates/autoformat/autoformat.3D.list.xml.in.h:3
+#: src/wbcg-actions.c:1924 templates/autoformat/autoformat.3D.list.xml.in.h:3
 msgid "List"
 msgstr "Llista"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1916
+#: src/wbcg-actions.c:1925
 msgid "Create a list"
 msgstr "Crea una llista"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1918
+#: src/wbcg-actions.c:1927
 msgid "Combo Box"
 msgstr "Quadre combinat"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1919
+#: src/wbcg-actions.c:1928
 msgid "Create a combo box"
 msgstr "Crea un quadre combinat"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1922
+#: src/wbcg-actions.c:1931
 msgid "Create a line object"
 msgstr "Crea un objecte de línia"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1924
+#: src/wbcg-actions.c:1933
 msgid "Arrow"
 msgstr "Fletxa"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1925
+#: src/wbcg-actions.c:1934
 msgid "Create an arrow object"
 msgstr "Crea un objecte de fletxa"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1927
+#: src/wbcg-actions.c:1936
 msgid "Rectangle"
 msgstr "Rectangle"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1928
+#: src/wbcg-actions.c:1937
 msgid "Create a rectangle object"
 msgstr "Crea un objecte de rectangle"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1930
+#: src/wbcg-actions.c:1939
 msgid "Ellipse"
 msgstr "El·lipse"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1931
+#: src/wbcg-actions.c:1940
 msgid "Create an ellipse object"
 msgstr "Crea un objecte d'el·lipse"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1934
+#: src/wbcg-actions.c:1943
 msgid "Create a button"
 msgstr "Crea un botó"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1937
+#: src/wbcg-actions.c:1946
 msgid "Create a radio button"
 msgstr "Crea un botó de ràdio"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1942
+#: src/wbcg-actions.c:1951
 msgid "Merge a range of cells"
 msgstr "Fusiona un rang de cel·les"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1944
+#: src/wbcg-actions.c:1953
 msgid "Split"
 msgstr "Divideix"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1945
+#: src/wbcg-actions.c:1954
 msgid "Split merged ranges of cells"
 msgstr "Divideix els rangs fusionats de les cel·les"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1949
+#: src/wbcg-actions.c:1958
 msgid "Format the selection as numbers"
 msgstr "Formata la selecció com a nombre"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1951 src/widgets/widget-format-selector.c:77
+#: src/wbcg-actions.c:1960 src/widgets/widget-format-selector.c:77
 msgid "Currency"
 msgstr "Moneda"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1952
+#: src/wbcg-actions.c:1961
 msgid "Format the selection as currency"
 msgstr "Format de selecció com a moneda"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1954 src/widgets/widget-format-selector.c:78
+#: src/wbcg-actions.c:1963 src/widgets/widget-format-selector.c:78
 msgid "Accounting"
 msgstr "Financer"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1955
+#: src/wbcg-actions.c:1964
 msgid "Format the selection as accounting"
 msgstr "Format de selecció com a finances"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1957 src/widgets/widget-format-selector.c:81
+#: src/wbcg-actions.c:1966 src/widgets/widget-format-selector.c:81
 msgid "Percentage"
 msgstr "Percentatge"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1958
+#: src/wbcg-actions.c:1967
 msgid "Format the selection as percentage"
 msgstr "Formata la selecció com a percentatge"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1960 src/widgets/widget-format-selector.c:83
+#: src/wbcg-actions.c:1969 src/widgets/widget-format-selector.c:83
 msgid "Scientific"
 msgstr "Científic"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1961
+#: src/wbcg-actions.c:1970
 msgid "Format the selection as scientific"
 msgstr "Format la selecció com a científic"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1963 src/widgets/widget-format-selector.c:79
+#: src/wbcg-actions.c:1972 src/widgets/widget-format-selector.c:79
 msgid "Date"
 msgstr "Data"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1964
+#: src/wbcg-actions.c:1973
 msgid "Format the selection as date"
 msgstr "Formata la selecció com a data"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1966 src/widgets/widget-format-selector.c:80
+#: src/wbcg-actions.c:1975 src/widgets/widget-format-selector.c:80
 msgid "Time"
 msgstr "Hora"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1967
+#: src/wbcg-actions.c:1976
 msgid "Format the selection as time"
 msgstr "Formata la selecció com a hora"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1969
+#: src/wbcg-actions.c:1978
 msgid "AddBorders"
 msgstr "Afegeix vores"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1970
+#: src/wbcg-actions.c:1979
 msgid "Add a border the the selection"
 msgstr "Afegeix una vora a la selecció"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1972
+#: src/wbcg-actions.c:1981
 msgid "ClearBorders"
 msgstr "Suprimeix les vores"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1973
+#: src/wbcg-actions.c:1982
 msgid "Clear the border around the selection"
 msgstr "Neteja les vores al voltant de la selecció"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1976
+#: src/wbcg-actions.c:1985
 msgid "Thousands Separator"
 msgstr "Separador de milers"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1977
+#: src/wbcg-actions.c:1986
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr ""
 "Defineix el format de les cel·les seleccionades per incloure separadors de "
 "milers"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1979
+#: src/wbcg-actions.c:1988
 msgid "Increase Precision"
 msgstr "Incrementa la precisió"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1980
+#: src/wbcg-actions.c:1989
 msgid "Increase the number of decimals displayed"
 msgstr "Augmenta el nombre de decimals a visualitzar"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1982
+#: src/wbcg-actions.c:1991
 msgid "Decrease Precision"
 msgstr "Redueix la precisió"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1983
+#: src/wbcg-actions.c:1992
 msgid "Decrease the number of decimals displayed"
 msgstr "Disminueix el nombre de decimals a visualitzar"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1986
+#: src/wbcg-actions.c:1995
 msgid "Decrease the indent, and align the contents to the left"
 msgstr "Redueix el sagnat, i alinea els continguts a l'esquerra"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:1989
+#: src/wbcg-actions.c:1998
 msgid "Increase the indent, and align the contents to the left"
 msgstr "Incrementa el sagnat, i alinea els continguts a l'esquerra"
 
 # fitxer: src.ca.po.7
 #. const 142334
-#: src/wbcg-actions.c:2027
+#: src/wbcg-actions.c:2036
 msgid "Display _Outlines"
 msgstr "Mostra els c_ontorns"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2028
+#: src/wbcg-actions.c:2037
 msgid "Toggle whether or not to display outline groups"
 msgstr "Commuta la visualització dels grups de contorn"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2030
+#: src/wbcg-actions.c:2039
 msgid "Outlines _Below"
 msgstr "Contorns a _sota"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2031
+#: src/wbcg-actions.c:2040
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr ""
 "Commuta la visualització dels contorns de les files a dalt o a baix de tot"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2033
+#: src/wbcg-actions.c:2042
 msgid "Outlines _Right"
 msgstr "Contorns a la d_reta"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2034
+#: src/wbcg-actions.c:2043
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 "Commuta la visualització dels contorns de les columnes a l'esquerra o la "
 "dreta"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2036
+#: src/wbcg-actions.c:2045
 msgid "Display _Formulas"
 msgstr "Mostra les _fórmules"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2037
+#: src/wbcg-actions.c:2046
 msgid "Display the value of a formula or the formula itself"
 msgstr "Visualitza el valor d'una fórmula o la mateixa fórmula"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2039
+#: src/wbcg-actions.c:2048
 msgid "Hide _Zeros"
 msgstr "Oculta els _zeros"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2040
+#: src/wbcg-actions.c:2049
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Commuta la visualització dels zeros com a buits"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2042
+#: src/wbcg-actions.c:2051
 msgid "Hide _Gridlines"
 msgstr "Oculta les línies de _quadrícula"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2043
+#: src/wbcg-actions.c:2052
 msgid "Toggle whether or not to display gridlines"
 msgstr "Commuta la visualització les línies de la graella"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2045
+#: src/wbcg-actions.c:2054
 msgid "Hide _Column Headers"
 msgstr "Oculta _capçaleres de columnes"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2046
+#: src/wbcg-actions.c:2055
 msgid "Toggle whether or not to display column headers"
 msgstr "Commuta la visualització de les capçaleres de les columnes"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2048
+#: src/wbcg-actions.c:2057
 msgid "Hide _Row Headers"
 msgstr "Oculta capçale_res de files"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2049
+#: src/wbcg-actions.c:2058
 msgid "Toggle whether or not to display row headers"
 msgstr "Commuta la visualització de les capçaleres de les files"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2053
+#: src/wbcg-actions.c:2062
 msgid "_Left Align"
 msgstr "A_linea a l'esquerra"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2054 src/wbc-gtk.c:324
+#: src/wbcg-actions.c:2063 src/wbc-gtk.c:324
 msgid "Align left"
 msgstr "Alinea a l'esquerra"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2056
+#: src/wbcg-actions.c:2065
 msgid "_Center"
 msgstr "_Centra"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2057 src/wbc-gtk.c:325
+#: src/wbcg-actions.c:2066 src/wbc-gtk.c:325
 msgid "Center horizontally"
 msgstr "Centra horitzontalment"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2059
+#: src/wbcg-actions.c:2068
 msgid "_Right Align"
 msgstr "Alinea a la d_reta"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2060 src/wbc-gtk.c:326
+#: src/wbcg-actions.c:2069 src/wbc-gtk.c:326
 msgid "Align right"
 msgstr "Alinea a la dreta"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2062
+#: src/wbcg-actions.c:2071
 msgid "_Center Across Selection"
 msgstr "_Centra per selecció"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2063 src/wbc-gtk.c:329
+#: src/wbcg-actions.c:2072 src/wbc-gtk.c:329
 msgid "Center horizontally across the selection"
 msgstr "Centra horitzontalment a través de la selecció"
 
 #
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2066
+#: src/wbcg-actions.c:2075
 msgid "_Merge and Center"
 msgstr "_Fusiona i centra"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2067
+#: src/wbcg-actions.c:2076
 msgid "Merge the selection into 1 cell, and center horizontaly."
 msgstr "Fusiona la selecció a la cel·la 1, i centra horitzontalment."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2074
+#: src/wbcg-actions.c:2083
 msgid "Align _Top"
 msgstr "Alinea amun_t"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2075 src/wbc-gtk.c:336
+#: src/wbcg-actions.c:2084 src/wbc-gtk.c:336
 msgid "Align Top"
 msgstr "Alinea amunt"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2077
+#: src/wbcg-actions.c:2086
 msgid "_Vertically Center"
 msgstr "Centra _verticalment"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2078
+#: src/wbcg-actions.c:2087
 msgid "Vertically Center"
 msgstr "Centra verticalment"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2080
+#: src/wbcg-actions.c:2089
 msgid "Align _Bottom"
 msgstr "Alinea a_baix"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2081 src/wbc-gtk.c:338
+#: src/wbcg-actions.c:2090 src/wbc-gtk.c:338
 msgid "Align Bottom"
 msgstr "Alinea abaix"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2084
+#: src/wbcg-actions.c:2093
 msgid "View _Statusbar"
 msgstr "Vi_sualitza la barra d'estat"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2085
+#: src/wbcg-actions.c:2094
 msgid "Toggle visibility of statusbar"
 msgstr "Commuta la visiblitat de la barra d'estat"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2089
+#: src/wbcg-actions.c:2098
 msgid "F_ull Screen..."
 msgstr "_Pantalla sencera..."
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2090
+#: src/wbcg-actions.c:2099
 msgid "in or out"
 msgstr "dins o fora"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2095
+#: src/wbcg-actions.c:2104
 msgid "_Bold"
 msgstr "Ne_greta"
 
 # fitxer: src.ca.po.7
 #. ALSO "<control>2"
-#: src/wbcg-actions.c:2096 src/widgets/widget-font-selector.c:201
+#: src/wbcg-actions.c:2105 src/widgets/widget-font-selector.c:201
 msgid "Bold"
 msgstr "Negreta"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2098
+#: src/wbcg-actions.c:2107
 msgid "_Italic"
 msgstr "Curs_iva"
 
 # fitxer: src.ca.po.7
 #. ALSO "<control>3"
-#: src/wbcg-actions.c:2099 src/widgets/widget-font-selector.c:203
+#: src/wbcg-actions.c:2108 src/widgets/widget-font-selector.c:203
 msgid "Italic"
 msgstr "Cursiva"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2101
+#: src/wbcg-actions.c:2110
 msgid "_Underline"
 msgstr "S_ubratlla"
 
 # fitxer: src.ca.po.7
 #. ALSO "<control>4"
-#: src/wbcg-actions.c:2102
+#: src/wbcg-actions.c:2111
 msgid "Underline"
 msgstr "Subratlla"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2104
+#: src/wbcg-actions.c:2113
 msgid "_Strike Through"
 msgstr "_Ratllat"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2105
+#: src/wbcg-actions.c:2114
 msgid "Strike Through"
 msgstr "Ratllat"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2108
+#: src/wbcg-actions.c:2117
 msgid "_Double Underline"
 msgstr "Subratllat _doble"
 
 # fitxer: src.ca.po.7
-#: src/wbcg-actions.c:2109
+#: src/wbcg-actions.c:2118
 msgid "Double Underline"
 msgstr "Subratllat doble"
 
@@ -37021,18 +37119,18 @@ msgstr "No tanquis"
 
 #
 # fitxer: src.ca.po.15
-#: src/workbook-control-gui.c:2237 src/workbook-control-gui.c:2252
+#: src/workbook-control-gui.c:2236 src/workbook-control-gui.c:2251
 msgid "_Re-Edit"
 msgstr "To_rna a editar"
 
 #
 # fitxer: src.ca.po.15
-#: src/workbook-control-gui.c:2238 src/workbook-control-gui.c:2243
+#: src/workbook-control-gui.c:2237 src/workbook-control-gui.c:2242
 msgid "_Discard"
 msgstr "_Descarta"
 
 # fitxer: src.ca.po.15
-#: src/workbook-control-gui.c:2242 src/workbook-control-gui.c:2253
+#: src/workbook-control-gui.c:2241 src/workbook-control-gui.c:2252
 msgid "_Accept"
 msgstr "_Accepta"
 
@@ -37110,13 +37208,13 @@ msgstr "S'ha produït un error no explicat en obrir %s"
 
 #
 # fitxer: src.ca.po.15
-#: src/xml-io.c:3473
+#: src/xml-io.c:3478
 msgid "Unparsable xml in clipboard"
 msgstr "L'xml del porta-retalls no es pot analitzar"
 
 #
 # fitxer: src.ca.po.15
-#: src/xml-io.c:3480
+#: src/xml-io.c:3485
 msgid "Clipboard is in unknown format"
 msgstr "No es coneix el format del porta-retalls"
 
@@ -37125,22 +37223,22 @@ msgstr "No es coneix el format del porta-retalls"
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3920
+#: src/xml-io.c:3925
 msgid "Processing file..."
 msgstr "S'està processant el fitxer..."
 
 # fitxer: src.ca.po.15
-#: src/xml-io.c:4247
+#: src/xml-io.c:4252
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "No és un fitxer de llibre de treball del Gnumeric"
 
 # fitxer: src.ca.po.15
-#: src/xml-io.c:4284
+#: src/xml-io.c:4289
 msgid "Failure saving file"
 msgstr "S'ha produït un error en desar el fitxer."
 
 # fitxer: src.ca.po.15
-#: src/xml-io.c:4332
+#: src/xml-io.c:4337
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "Exportador original lent XML de Gnumeric (*.gnumeric)"
 

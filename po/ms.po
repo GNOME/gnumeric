@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gnumeric HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-17 00:44-0500\n"
+"POT-Creation-Date: 2005-02-08 00:53-0500\n"
 "PO-Revision-Date: 2003-07-23 23:51+0800\n"
 "Last-Translator: Hasbullah Bin Pit <sebol@ikhlas.com>\n"
 "Language-Team: Projek Gabai <gabai-penyumbang@lists.sourceforge.org>\n"
@@ -936,8 +936,8 @@ msgstr "Terbitan Kewangan"
 msgid "Functions related to financial derivatives"
 msgstr "Fungsi berkait dengan terbitan kewangan"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5837
-#: plugins/mps/mps.c:547 src/xml-io.c:4199
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5839
+#: plugins/mps/mps.c:547 src/xml-io.c:4204
 msgid "Reading file..."
 msgstr "Membaca fail..."
 
@@ -1021,14 +1021,14 @@ msgstr "Bersedia untuk menyimpan..."
 msgid "Saving file..."
 msgstr "Menyimpan fail..."
 
-#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:276
+#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:277
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atribut dijangka %s::%s == '%s'."
 
 #: plugins/excel/excel-xml-read.c:198
 #: plugins/openoffice/openoffice-read.c:1503
-#: plugins/xml_sax/xml-sax-read.c:1767
+#: plugins/xml_sax/xml-sax-read.c:1772
 msgid "XML document not well formed!"
 msgstr "Dokumen XML tidak sempurna!"
 
@@ -1040,7 +1040,7 @@ msgstr "#ENTAH!"
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1110 plugins/excel/ms-excel-read.c:1122
 #: plugins/oleo/oleo.c:344 plugins/psiconv/psiconv-read.c:510
-#: src/dialogs/dialog-sheet-order.c:432 src/dialogs/dialog-sheet-order.c:436
+#: src/dialogs/dialog-sheet-order.c:474 src/dialogs/dialog-sheet-order.c:478
 #, c-format
 msgid "Sheet%d"
 msgstr "Helaian%d"
@@ -1060,12 +1060,12 @@ msgstr "Carta%d"
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:2922
+#: plugins/excel/ms-excel-read.c:2924
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Gagal menghantar nama '%s'"
 
-#: plugins/excel/ms-excel-read.c:3018
+#: plugins/excel/ms-excel-read.c:3020
 #, fuzzy, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1074,7 +1074,7 @@ msgstr ""
 "Pautan DDE  tak disokong.\n"
 "Nama '%s' akan hilang.\n"
 
-#: plugins/excel/ms-excel-read.c:3024
+#: plugins/excel/ms-excel-read.c:3026
 #, fuzzy, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1083,15 +1083,15 @@ msgstr ""
 "Pautan OLE  tak disokong.\n"
 "Nama '%s' akan hilang.\n"
 
-#: plugins/excel/ms-excel-read.c:5145
+#: plugins/excel/ms-excel-read.c:5147
 msgid "external references"
 msgstr "rujukan luaran"
 
-#: plugins/excel/ms-excel-read.c:5168
+#: plugins/excel/ms-excel-read.c:5170
 msgid "No password supplied"
 msgstr "Tiada katalaluan dibekalkan"
 
-#: plugins/excel/ms-excel-read.c:6063
+#: plugins/excel/ms-excel-read.c:6065
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Tak dapat menjumpai bukukerja MS Excel yang sah"
 
@@ -1102,7 +1102,7 @@ msgid ""
 "encoding problems."
 msgstr ""
 
-#: plugins/excel/ms-excel-write.c:4195
+#: plugins/excel/ms-excel-write.c:4201
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1111,7 +1111,7 @@ msgstr ""
 "Terdapat kandungan akan hilang bila menyimpan sebagai MS Excel (tm) 95. ia "
 "hanya menyokong %d baris dan bukukerja ini mengandungi %d"
 
-#: plugins/excel/ms-excel-write.c:4202
+#: plugins/excel/ms-excel-write.c:4208
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1120,11 +1120,11 @@ msgstr ""
 "Terdapat kandungan akan hilang bila menyimpan sebagai MS Excel (tm). ia "
 "hanya menyokong %d baris dan bukukerja ini mengandungi %d"
 
-#: plugins/excel/ms-excel-write.c:4967
+#: plugins/excel/ms-excel-write.c:4973
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Tak dapat membuka aliran 'Book' untuk ditulis\n"
 
-#: plugins/excel/ms-excel-write.c:4987
+#: plugins/excel/ms-excel-write.c:4993
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Tak dapat membuka aliran 'Workbook' untuk ditulis\n"
 
@@ -3054,7 +3054,7 @@ msgstr "tarikh1,tarikh2,selangmasa"
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:476
+#: src/print-info.c:486
 msgid "date"
 msgstr "tarikh"
 
@@ -3071,7 +3071,7 @@ msgid "start_date,months"
 msgstr "tarikh_mula,bulan"
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:477
+#: plugins/fn-date/functions.c:1265 src/print-info.c:487
 msgid "time"
 msgstr "masa"
 
@@ -5536,7 +5536,7 @@ msgstr "jenis_maklumat,sel"
 #: plugins/fn-info/functions.c:1843 plugins/fn-info/functions.c:1846
 #: plugins/fn-info/functions.c:1849 plugins/fn-info/functions.c:1852
 #: plugins/fn-info/functions.c:1855 plugins/fn-info/functions.c:1861
-#: plugins/fn-string/functions.c:1182
+#: plugins/fn-string/functions.c:1191
 msgid "value"
 msgstr "nilai"
 
@@ -5549,12 +5549,12 @@ msgstr "jenis_maklumat"
 msgid "range"
 msgstr "julat"
 
-#: plugins/fn-info/functions.c:1870 plugins/fn-string/functions.c:1125
-#: plugins/fn-string/functions.c:1128 plugins/fn-string/functions.c:1131
-#: plugins/fn-string/functions.c:1152 plugins/fn-string/functions.c:1155
-#: plugins/fn-string/functions.c:1158 plugins/fn-string/functions.c:1164
-#: plugins/fn-string/functions.c:1188 plugins/fn-string/functions.c:1191
-#: plugins/fn-string/functions.c:1194
+#: plugins/fn-info/functions.c:1870 plugins/fn-string/functions.c:1134
+#: plugins/fn-string/functions.c:1137 plugins/fn-string/functions.c:1140
+#: plugins/fn-string/functions.c:1161 plugins/fn-string/functions.c:1164
+#: plugins/fn-string/functions.c:1167 plugins/fn-string/functions.c:1173
+#: plugins/fn-string/functions.c:1197 plugins/fn-string/functions.c:1200
+#: plugins/fn-string/functions.c:1203
 msgid "text"
 msgstr "teks"
 
@@ -5750,8 +5750,8 @@ msgstr "nombor,nombor,"
 #: plugins/fn-math/functions.c:3342 plugins/fn-math/functions.c:3354
 #: plugins/fn-math/functions.c:3357 plugins/fn-stat/functions.c:5706
 #: plugins/fn-stat/functions.c:5709 plugins/fn-stat/functions.c:5727
-#: plugins/fn-stat/functions.c:5805 plugins/fn-string/functions.c:1119
-#: plugins/fn-string/functions.c:1122
+#: plugins/fn-stat/functions.c:5805 plugins/fn-string/functions.c:1128
+#: plugins/fn-string/functions.c:1131
 msgid "number"
 msgstr "nombor"
 
@@ -6379,7 +6379,7 @@ msgstr ""
 #: plugins/fn-math/functions.c:753
 msgid ""
 "@FUNCTION=CEILING\n"
-"@SYNTAX=CEILING(x,significance)\n"
+"@SYNTAX=CEILING(x[,significance])\n"
 "@DESCRIPTION=CEILING function rounds @x up to the nearest multiple of "
 "@significance.\n"
 "\n"
@@ -10343,7 +10343,7 @@ msgid ""
 "@SEEALSO=REPLACE, TRIM"
 msgstr ""
 
-#: plugins/fn-string/functions.c:992
+#: plugins/fn-string/functions.c:1001
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[,decimals])\n"
@@ -10357,7 +10357,7 @@ msgid ""
 "@SEEALSO=FIXED, TEXT, VALUE"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1048
+#: plugins/fn-string/functions.c:1057
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(search_string,text[,start_num])\n"
@@ -10383,51 +10383,51 @@ msgid ""
 "@SEEALSO=FIND"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1134
+#: plugins/fn-string/functions.c:1143
 msgid "text,text,"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1137
+#: plugins/fn-string/functions.c:1146
 msgid "num,decimals"
 msgstr "nom,desimal"
 
-#: plugins/fn-string/functions.c:1140
+#: plugins/fn-string/functions.c:1149
 msgid "text1,text2"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1143
+#: plugins/fn-string/functions.c:1152
 msgid "text1,text2,num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1146
+#: plugins/fn-string/functions.c:1155
 msgid "num,decs,no_commas"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1149 plugins/fn-string/functions.c:1173
+#: plugins/fn-string/functions.c:1158 plugins/fn-string/functions.c:1182
 msgid "text,num_chars"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1161
+#: plugins/fn-string/functions.c:1170
 msgid "text,pos,num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1167
+#: plugins/fn-string/functions.c:1176
 msgid "old,start,num,new"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1170
+#: plugins/fn-string/functions.c:1179
 msgid "text,num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1176
+#: plugins/fn-string/functions.c:1185
 msgid "search_string,text,start_num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1179
+#: plugins/fn-string/functions.c:1188
 msgid "text,old,new,num"
 msgstr ""
 
-#: plugins/fn-string/functions.c:1185
+#: plugins/fn-string/functions.c:1194
 msgid "value,format_text"
 msgstr ""
 
@@ -10676,7 +10676,7 @@ msgstr "Fungsi Objektif:"
 msgid "Constraints:"
 msgstr "Pengekangan:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6174
+#: plugins/mps/mps.c:245 src/commands.c:6175
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
@@ -11405,10 +11405,10 @@ msgstr ""
 msgid "Error while opening xbase file."
 msgstr "Ralat bila membuka fail xbase."
 
-#: plugins/xbase/boot.c:177 src/commands.c:4968
+#: plugins/xbase/boot.c:177 src/commands.c:4969
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
-#: src/print-info.c:395 src/workbook.c:1091 src/xml-io.c:3789
+#: src/print-info.c:405 src/workbook.c:1091 src/xml-io.c:3794
 msgid "Sheet"
 msgstr "Helaian"
 
@@ -11444,7 +11444,7 @@ msgstr ""
 msgid "EXPERIMENTAL SAX based XML"
 msgstr ""
 
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4327
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4332
 #, fuzzy
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Format fail XML Gnumeric"
@@ -11453,16 +11453,16 @@ msgstr "Format fail XML Gnumeric"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr ""
 
-#: plugins/xml_sax/xml-sax-read.c:308
+#: plugins/xml_sax/xml-sax-read.c:309
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr ""
 
-#: plugins/xml_sax/xml-sax-read.c:479
+#: plugins/xml_sax/xml-sax-read.c:482
 msgid "File has inconsistent SheetNameIndex element."
 msgstr ""
 
-#: plugins/xml_sax/xml-sax-read.c:1318 src/xml-io.c:2770
+#: plugins/xml_sax/xml-sax-read.c:1323 src/xml-io.c:2770
 #, fuzzy, c-format
 msgid "Unsupported object type '%s'"
 msgstr "Jenis Python tidak disokong: %s"
@@ -12038,7 +12038,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:29
-#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1889
+#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1898
 msgid "Sort Ascending"
 msgstr "Isih Menaik"
 
@@ -12321,438 +12321,438 @@ msgstr "Menaip \"%s%s\""
 msgid "Ins/Del Column/Row"
 msgstr "Selit Kolum"
 
-#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3265
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3301
 msgid "Delete Columns"
 msgstr "Padam Kolum"
 
-#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3387
+#: src/commands.c:1330 src/commands.c:1335 src/sheet.c:3423
 #, fuzzy
 msgid "Delete Rows"
 msgstr "Pa_dam"
 
-#: src/commands.c:1482
+#: src/commands.c:1483
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Menyelit %d kolum sebelum %s"
 
-#: src/commands.c:1483
+#: src/commands.c:1484
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Menyelit %d kolum sebelum %s"
 
-#: src/commands.c:1498
+#: src/commands.c:1499
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr ""
 
-#: src/commands.c:1499
+#: src/commands.c:1500
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr ""
 
-#: src/commands.c:1510
+#: src/commands.c:1511
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Memadam kolum %s"
 
-#: src/commands.c:1511
+#: src/commands.c:1512
 #, c-format
 msgid "Deleting column %s"
 msgstr "Memadam kolum %s"
 
-#: src/commands.c:1521
+#: src/commands.c:1522
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Memadam baris %s"
 
-#: src/commands.c:1522
+#: src/commands.c:1523
 #, c-format
 msgid "Deleting row %s"
 msgstr "Memadam baris %s"
 
 #. Check for locked cells
-#: src/commands.c:1604 src/commands.c:1608 src/sheet.c:2868
+#: src/commands.c:1605 src/commands.c:1609 src/sheet.c:2904
 msgid "Clear"
 msgstr "Terangkan"
 
-#: src/commands.c:1679
+#: src/commands.c:1680
 msgid "contents"
 msgstr "kandungan"
 
-#: src/commands.c:1681
+#: src/commands.c:1682
 msgid "formats"
 msgstr "format"
 
-#: src/commands.c:1683
+#: src/commands.c:1684
 msgid "comments"
 msgstr "komen"
 
-#: src/commands.c:1699
+#: src/commands.c:1700
 msgid "all"
 msgstr "semua"
 
-#: src/commands.c:1706
+#: src/commands.c:1707
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Mengosongkan %s pada %s"
 
-#: src/commands.c:1793
+#: src/commands.c:1794
 msgid "Changing Format"
 msgstr "Menukar Format"
 
-#: src/commands.c:1918
+#: src/commands.c:1919
 #, c-format
 msgid "Changing format of %s"
 msgstr "Menukar format bagi %s"
 
-#: src/commands.c:2028
+#: src/commands.c:2029
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Automuat kolum %s"
 
-#: src/commands.c:2029
+#: src/commands.c:2030
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Automuat baris %s"
 
-#: src/commands.c:2032
+#: src/commands.c:2033
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr ""
 
-#: src/commands.c:2034
+#: src/commands.c:2035
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr ""
 
-#: src/commands.c:2037
+#: src/commands.c:2038
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr ""
 
-#: src/commands.c:2040
+#: src/commands.c:2041
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr ""
 
-#: src/commands.c:2044
+#: src/commands.c:2045
 #, c-format
 msgid "Autofitting columns %s"
 msgstr ""
 
-#: src/commands.c:2045
+#: src/commands.c:2046
 #, fuzzy, c-format
 msgid "Autofitting rows %s"
 msgstr "Automuat baris %s"
 
-#: src/commands.c:2048
+#: src/commands.c:2049
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr ""
 
-#: src/commands.c:2050
+#: src/commands.c:2051
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr ""
 
-#: src/commands.c:2054
+#: src/commands.c:2055
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr ""
 
-#: src/commands.c:2056
+#: src/commands.c:2057
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr ""
 
-#: src/commands.c:2122 src/dialogs/dialog-preferences.c:770
+#: src/commands.c:2123 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "Mengisih"
 
-#: src/commands.c:2142
+#: src/commands.c:2143
 #, c-format
 msgid "Sorting %s"
 msgstr "Mengisih %s"
 
-#: src/commands.c:2285
+#: src/commands.c:2286
 msgid "Unhide columns"
 msgstr ""
 
-#: src/commands.c:2285
+#: src/commands.c:2286
 msgid "Hide columns"
 msgstr "Sembunyi kolum"
 
-#: src/commands.c:2286
+#: src/commands.c:2287
 msgid "Unhide rows"
 msgstr "Nyahsorok baris"
 
-#: src/commands.c:2286
+#: src/commands.c:2287
 msgid "Hide rows"
 msgstr "Sorok Baris"
 
-#: src/commands.c:2368
+#: src/commands.c:2369
 msgid "Expand columns"
 msgstr "Kembangkan Kolum"
 
-#: src/commands.c:2368
+#: src/commands.c:2369
 msgid "Collapse columns"
 msgstr "Kuncupkan kolum"
 
-#: src/commands.c:2369
+#: src/commands.c:2370
 msgid "Expand rows"
 msgstr "Kembangkan baris"
 
-#: src/commands.c:2369
+#: src/commands.c:2370
 msgid "Collapse rows"
 msgstr "Kuncupkan baris"
 
-#: src/commands.c:2395
+#: src/commands.c:2396
 #, c-format
 msgid "Show column outline %d"
 msgstr ""
 
-#: src/commands.c:2395
+#: src/commands.c:2396
 #, c-format
 msgid "Show row outline %d"
 msgstr ""
 
-#: src/commands.c:2465
+#: src/commands.c:2466
 msgid "Those columns are already grouped"
 msgstr "Kolum itu telah dikumpulkan"
 
-#: src/commands.c:2466
+#: src/commands.c:2467
 msgid "Those rows are already grouped"
 msgstr "Baris itu telah dikumpulkan"
 
-#: src/commands.c:2489
+#: src/commands.c:2490
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Kolum ini tidak dikumpulkan, anda tak boleh pisahkan"
 
-#: src/commands.c:2490
+#: src/commands.c:2491
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Baris ini tidak dikumpulkan, anda tak boleh pisahkan"
 
-#: src/commands.c:2504
+#: src/commands.c:2505
 #, c-format
 msgid "Group columns %s"
 msgstr "Kumpulkan kolum %s"
 
-#: src/commands.c:2504
+#: src/commands.c:2505
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Pisahkan kolum %s"
 
-#: src/commands.c:2506
+#: src/commands.c:2507
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Kumpulkan baris %d:%d"
 
-#: src/commands.c:2506
+#: src/commands.c:2507
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Pisahkan baris %d:%d"
 
-#: src/commands.c:2739
+#: src/commands.c:2740
 #, c-format
 msgid "Moving %s"
 msgstr "Memindah %s"
 
-#: src/commands.c:2748 src/commands.c:2976
+#: src/commands.c:2749 src/commands.c:2977
 msgid "is beyond sheet boundaries"
 msgstr ""
 
-#: src/commands.c:2812
+#: src/commands.c:2813
 #, fuzzy
 msgid "Paste Copy"
 msgstr "Tepek jenis"
 
 #. FIXME?
-#: src/commands.c:2917
+#: src/commands.c:2918
 #, c-format
 msgid "Pasting into %s"
 msgstr "Menepek ke %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3013 src/commands.c:3170 src/commands.c:3171
+#: src/commands.c:3014 src/commands.c:3171 src/commands.c:3172
 #: src/wbcg-actions.c:424
 msgid "Autofill"
 msgstr "Auto-isi"
 
 #. Changed in initial redo.
-#: src/commands.c:3193
+#: src/commands.c:3194
 #, c-format
 msgid "Autofilling %s"
 msgstr "Mengautoisi %s"
 
-#: src/commands.c:3511
+#: src/commands.c:3512
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Mengautoformat %s"
 
-#: src/commands.c:3628
+#: src/commands.c:3629
 #, c-format
 msgid "Unmerging %s"
 msgstr ""
 
-#: src/commands.c:3792
+#: src/commands.c:3793
 #, fuzzy, c-format
 msgid "Merge and Center %s"
 msgstr "Mencantum %s"
 
-#: src/commands.c:3792
+#: src/commands.c:3793
 #, c-format
 msgid "Merging %s"
 msgstr "Mencantum %s"
 
 #. Corrected below.
-#: src/commands.c:4173 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:4174 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Cari dan Ganti"
 
-#: src/commands.c:4268
+#: src/commands.c:4269
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr ""
 
-#: src/commands.c:4269
+#: src/commands.c:4270
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr ""
 
-#: src/commands.c:4384
+#: src/commands.c:4385
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s ke %.0f%%"
 
-#: src/commands.c:4482
+#: src/commands.c:4483
 #, fuzzy
 msgid "Delete Object"
 msgstr "Pa_dam objek"
 
-#: src/commands.c:4643
+#: src/commands.c:4644
 #, fuzzy
 msgid "Format Object"
 msgstr "Selit objek"
 
-#: src/commands.c:5242
+#: src/commands.c:5243
 msgid "Reordering Sheets"
 msgstr ""
 
-#: src/commands.c:5245
+#: src/commands.c:5246
 msgid "Renaming Sheets"
 msgstr "Menukarnama Helaian"
 
-#: src/commands.c:5248
+#: src/commands.c:5249
 #, fuzzy, c-format
 msgid "Appending %i Sheets"
 msgstr "Menukarnama Helaian"
 
-#: src/commands.c:5252
+#: src/commands.c:5253
 msgid "Changing Tab Colors"
 msgstr "Menukar Warna Tab"
 
-#: src/commands.c:5255
+#: src/commands.c:5256
 msgid "Changing Sheet Protection"
 msgstr ""
 
-#: src/commands.c:5258
+#: src/commands.c:5259
 #, fuzzy
 msgid "Delete sheets"
 msgstr "Padam sel"
 
-#: src/commands.c:5261
+#: src/commands.c:5262
 #, fuzzy
 msgid "Delete a sheet"
 msgstr "Pa_dam objek"
 
-#: src/commands.c:5264
+#: src/commands.c:5265
 msgid "Changing Sheet Visibility"
 msgstr ""
 
-#: src/commands.c:5267
+#: src/commands.c:5268
 msgid "Reorganizing Sheets"
 msgstr ""
 
-#: src/commands.c:5418
+#: src/commands.c:5419
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Mengosongkan komen bagi %s"
 
-#: src/commands.c:5419
+#: src/commands.c:5420
 #, c-format
 msgid "Setting comment of %s"
 msgstr "menetapkan komen bagi %s"
 
-#: src/commands.c:5799
+#: src/commands.c:5800
 #, fuzzy, c-format
 msgid "Merging data into %s"
 msgstr "Mencantum %s"
 
-#: src/commands.c:5901
+#: src/commands.c:5902
 msgid "Changing summary info"
 msgstr ""
 
 # src/prefs.c:618
 # ui/galeon.glade.h:140
-#: src/commands.c:5990
+#: src/commands.c:5991
 #, fuzzy
 msgid "Pull Object to the Front"
 msgstr "Pengekangan:"
 
-#: src/commands.c:5993
+#: src/commands.c:5994
 #, fuzzy
 msgid "Pull Object Forward"
 msgstr "Pemuat GObject"
 
-#: src/commands.c:5996
+#: src/commands.c:5997
 msgid "Push Object Backward"
 msgstr ""
 
 # src/prefs.c:618
 # ui/galeon.glade.h:140
-#: src/commands.c:5999
+#: src/commands.c:6000
 #, fuzzy
 msgid "Push Object to the Back"
 msgstr "Pengekangan:"
 
-#: src/commands.c:6114
+#: src/commands.c:6115
 #, fuzzy, c-format
 msgid "Page Setup For %s"
 msgstr "T_etapan cetak"
 
-#: src/commands.c:6116
+#: src/commands.c:6117
 #, fuzzy
 msgid "Page Setup For All Sheets"
 msgstr "T_etapan cetak"
 
-#: src/commands.c:6231
+#: src/commands.c:6232
 msgid "has a circular reference"
 msgstr ""
 
-#: src/commands.c:6254
+#: src/commands.c:6255
 #, fuzzy, c-format
 msgid "Define Name %s"
 msgstr "Takrif Nama"
 
-#: src/commands.c:6257
+#: src/commands.c:6258
 #, c-format
 msgid "Update Name %s"
 msgstr ""
 
-#: src/commands.c:6321
+#: src/commands.c:6322
 msgid "Add scenario"
 msgstr ""
 
-#: src/commands.c:6396
+#: src/commands.c:6397
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6460
+#: src/commands.c:6461
 msgid "Shuffle Data"
 msgstr ""
 
 #. FIXME?
-#: src/commands.c:6570
+#: src/commands.c:6571
 #, fuzzy, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Tels ke Kolum"
@@ -12762,7 +12762,7 @@ msgstr "Tels ke Kolum"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6714 src/dialogs/solver.glade.h:17
+#: src/commands.c:6715 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
@@ -12770,17 +12770,17 @@ msgstr "Tels ke Kolum"
 msgid "Solver"
 msgstr "Simpan Sebagai..."
 
-#: src/commands.c:6798
+#: src/commands.c:6799
 #, fuzzy, c-format
 msgid "Goal Seek (%s)"
 msgstr "_Siri"
 
-#: src/commands.c:6943
+#: src/commands.c:6944
 #, fuzzy, c-format
 msgid "Duplicating %s"
 msgstr "Laman Bertindan"
 
-#: src/commands.c:7022
+#: src/commands.c:7023
 #, fuzzy
 msgid "Tabulating Dependencies"
 msgstr "_Cetak..."
@@ -12788,6 +12788,18 @@ msgstr "_Cetak..."
 #: src/commands.c:7097
 msgid "Reconfigure Graph"
 msgstr ""
+
+# ui/galeon.glade.h:268
+#: src/commands.c:7140
+#, fuzzy
+msgid "Left to Right"
+msgstr "Ka_nan"
+
+# ui/galeon.glade.h:268
+#: src/commands.c:7140
+#, fuzzy
+msgid "Right to Left"
+msgstr "Kanan"
 
 #: src/consolidate.c:771
 #, fuzzy, c-format
@@ -12886,7 +12898,7 @@ msgid "Format"
 msgstr "Format"
 
 #. Object Toolbar
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1538 src/wbcg-actions.c:1897
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1538 src/wbcg-actions.c:1906
 msgid "Label"
 msgstr "Label"
 
@@ -12969,44 +12981,44 @@ msgstr "_Label"
 msgid "_Type:"
 msgstr "_Jenis:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:195
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:197
 #, fuzzy
 msgid "Legend"
 msgstr "Kirim"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:198
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:200
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:157
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:179
 #, fuzzy
 msgid "Title"
 msgstr "Tajuk:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:201
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:203
 #, fuzzy
 msgid "Grid"
 msgstr "Jumaat"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:206
 msgid "X-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:208
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:210
 msgid "Y-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:212
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:214
 msgid "Z-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:216
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:218
 msgid "Circular-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:220
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:222
 msgid "Radial-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:224
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:226
 #, fuzzy
 msgid "Plot"
 msgstr "_Plot"
@@ -13128,8 +13140,8 @@ msgid "Customize Chart"
 msgstr "Personalisasi pengepala"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1178
-#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1428
-#: src/wbcg-actions.c:1586
+#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1434
+#: src/wbcg-actions.c:1592
 msgid "_Insert"
 msgstr "Sel_it"
 
@@ -13371,7 +13383,7 @@ msgstr ""
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:458
-#: src/dialogs/dialog-sheet-order.c:987 src/dialogs/dialog-sheet-order.c:996
+#: src/dialogs/dialog-sheet-order.c:1053 src/dialogs/dialog-sheet-order.c:1062
 msgid "Default"
 msgstr ""
 
@@ -13388,6 +13400,7 @@ msgid "Labels"
 msgstr "Label"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:337
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:230
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:233
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:227
 msgid "Values"
@@ -13407,6 +13420,7 @@ msgstr ""
 
 # ui/galeon.glade.h:3
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
@@ -13424,10 +13438,12 @@ msgid "O_verlap:"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:5
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot-prefs.glade.h:3
 msgid "Separation between groups as a percentage of bar/col width"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:6
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot-prefs.glade.h:4
 #, fuzzy
 msgid "_Gap:"
 msgstr "Jumlah"
@@ -13529,7 +13545,7 @@ msgid "Column"
 msgstr "Kolum"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:18
-#: src/dialogs/dialog-stf-main-page.c:370 src/wbcg-actions.c:1921
+#: src/dialogs/dialog-stf-main-page.c:370 src/wbcg-actions.c:1930
 msgid "Line"
 msgstr "Garisan"
 
@@ -13681,6 +13697,57 @@ msgstr ""
 #, fuzzy
 msgid "Line, Area, Bar and Column plots"
 msgstr "Pengepala baris dan ko_lum"
+
+#. xgettext : the base for how to name box-plot objects
+#. * eg The 2nd box-plot in a chart will be called
+#. * 	BoxPlot2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:104
+#, fuzzy
+msgid "Box-Plot"
+msgstr "_Plot"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:341
+#, fuzzy
+msgid "Invalid data."
+msgstr "Katalaluan tidak sah"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:1
+msgid ""
+"Box-Plot. You must provide five values to the plot engine in this order: "
+"minimum, first quartile, median, third quartile, and maximum, not the raw "
+"data."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:2
+#, fuzzy
+msgid "BoxPlot"
+msgstr "_Plot"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:3
+#, fuzzy
+msgid "BoxPlots"
+msgstr "_Plot"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:1
+#, fuzzy
+msgid "Box-Plots"
+msgstr "_Plot"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:2
+#, fuzzy
+msgid "Box-plot plotting engine"
+msgstr "Ralat menghantar baris"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:3
+#, fuzzy
+msgid "Charting : Box-Plots"
+msgstr "Menukar Warna Tab"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:4
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:2
+#, fuzzy
+msgid "Default surface plot types"
+msgstr "Nama font default"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:180
 #, fuzzy
@@ -13921,14 +13988,14 @@ msgid "PlotContour"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/gog-surface.c:367
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:337
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:489
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:349
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:501
 msgid "X"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/gog-surface.c:369
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:339
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:491
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:351
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:503
 msgid "Y"
 msgstr ""
 
@@ -13954,11 +14021,6 @@ msgstr "Sumber"
 #, fuzzy
 msgid "Contour plotting engine"
 msgstr "Ralat menghantar baris"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:2
-#, fuzzy
-msgid "Default surface plot types"
-msgstr "Nama font default"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:3
 #, fuzzy
@@ -14008,69 +14070,78 @@ msgstr ""
 #. xgettext : the base for how to name scatter plot objects
 #. * eg The 2nd plot in a chart will be called
 #. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:277
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:279
 #, fuzzy
 msgid "PlotXY"
 msgstr "_Plot"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:379
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:391
 #, fuzzy
 msgid "PlotBubble"
 msgstr "Selesai"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:493
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:505
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
 #, fuzzy
 msgid "Bubble"
 msgstr "Selesai"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1012
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1040
 #, fuzzy
 msgid "Y Error bars"
 msgstr "Ralat menghantar baris"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1014
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1042
 #, fuzzy
 msgid "X Error bars"
 msgstr "Ralat menghantar baris"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:2
+msgid "Interpolate between multi-dimensional points with Bezier splines."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:3
 msgid ""
 "Linearly interpolate between multi-dimensional points,with markers at each "
 "point."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:3
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:4
 msgid "Linearly interpolate between multi-dimensional points."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:4
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
 #, fuzzy
 msgid "Markers at each point."
 msgstr "Bar Bertindan"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
 msgid "Multi-dimensional points with circle at each point."
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
 msgid "Plot X, Y and bubble size."
 msgstr ""
 
 #. really 3_1
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
 msgid "XY"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:10
 #, fuzzy
 msgid "XY Lines"
 msgstr "Garisan"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:10
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:11
 #, fuzzy
 msgid "XY Points"
 msgstr "Titik"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:12
+#, fuzzy
+msgid "XY Splines"
+msgstr "Garisan"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:1
 msgid "2D plots"
@@ -14325,38 +14396,38 @@ msgstr ""
 msgid "Un dock the toolbar"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/utils/go-line.c:51
+#: src/cut-n-paste-code/goffice/utils/go-line.c:52
 #: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:91
 #: src/tools/solver/reports-write.c:718
 msgid "None"
 msgstr "Tiada"
 
-#: src/cut-n-paste-code/goffice/utils/go-line.c:52
+#: src/cut-n-paste-code/goffice/utils/go-line.c:53
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:95
 #: src/dialogs/cell-format.glade.h:72
 msgid "Solid"
 msgstr "Tegar"
 
-#: src/cut-n-paste-code/goffice/utils/go-line.c:53
+#: src/cut-n-paste-code/goffice/utils/go-line.c:54
 msgid "Dash"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/utils/go-line.c:54
+#: src/cut-n-paste-code/goffice/utils/go-line.c:55
 msgid "Dot"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/utils/go-line.c:55
+#: src/cut-n-paste-code/goffice/utils/go-line.c:56
 msgid "Dash dot"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/utils/go-line.c:56
+#: src/cut-n-paste-code/goffice/utils/go-line.c:57
 msgid "Dash dot dot"
 msgstr ""
 
 #. xgettext : this will appear as 'Automatic (patternname)'
 #. xgettext : this will appear as 'Automatic (shapename)'
 #. xgettext : this will appear as 'Automatic (patternname)'
-#: src/cut-n-paste-code/goffice/utils/go-line.c:305
+#: src/cut-n-paste-code/goffice/utils/go-line.c:306
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:603
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:242
 #, fuzzy, c-format
@@ -14779,8 +14850,8 @@ msgstr "_Kawasan"
 #: src/dialogs/exp-smoothing.glade.h:8 src/dialogs/fourier-analysis.glade.h:6
 #: src/dialogs/histogram.glade.h:16 src/dialogs/rank.glade.h:9
 #: src/dialogs/regression.glade.h:8 src/dialogs/sampling.glade.h:11
-#: src/dialogs/shuffle.glade.h:5 src/wbcg-actions.c:1537
-#: src/wbcg-actions.c:1650
+#: src/dialogs/shuffle.glade.h:5 src/wbcg-actions.c:1543
+#: src/wbcg-actions.c:1659
 msgid "_Columns"
 msgstr "_Kolum"
 
@@ -14811,8 +14882,8 @@ msgstr "_Label"
 #: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:23
 #: src/dialogs/moving-averages.glade.h:12 src/dialogs/rank.glade.h:12
 #: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:18
-#: src/dialogs/shuffle.glade.h:6 src/wbcg-actions.c:1534
-#: src/wbcg-actions.c:1653
+#: src/dialogs/shuffle.glade.h:6 src/wbcg-actions.c:1540
+#: src/wbcg-actions.c:1662
 msgid "_Rows"
 msgstr "Ba_ris"
 
@@ -14909,7 +14980,7 @@ msgid "_Add"
 msgstr "_Tambah"
 
 #: src/dialogs/autocorrect.glade.h:13 src/dialogs/pivottable.glade.h:12
-#: src/wbcg-actions.c:1599
+#: src/wbcg-actions.c:1605
 msgid "_Remove"
 msgstr "_Buang"
 
@@ -15562,7 +15633,7 @@ msgid "Correlation"
 msgstr "_Kaitan"
 
 #: src/dialogs/covariance.glade.h:1 src/tools/analysis-tools.c:1008
-#: src/tools/analysis-tools.c:1011 src/wbcg-actions.c:1805
+#: src/tools/analysis-tools.c:1011 src/wbcg-actions.c:1814
 msgid "Covariance"
 msgstr ""
 
@@ -16415,7 +16486,7 @@ msgid "Double"
 msgstr "Selesai"
 
 #: src/dialogs/dialog-cell-format.c:470 src/dialogs/dialog-search.c:148
-#: src/func.c:741 src/wbcg-actions.c:1948
+#: src/func.c:741 src/wbcg-actions.c:1957
 #: src/widgets/widget-format-selector.c:76
 msgid "Number"
 msgstr "Nombor"
@@ -16725,7 +16796,7 @@ msgstr "_Pautan"
 msgid "Edit Hyperlink"
 msgstr "Edit _Pautan"
 
-#: src/dialogs/dialog-hyperlink.c:350 src/sheet-control-gui.c:1472
+#: src/dialogs/dialog-hyperlink.c:350 src/sheet-control-gui.c:1474
 #, fuzzy
 msgid "Remove Hyperlink"
 msgstr "_Buang"
@@ -16789,7 +16860,7 @@ msgstr "Katalaluan :"
 #. * 	Skip Blanks, Paste Link, Cancel, Ok are all on the same page
 #. * 	try to keep them from conflicting
 #. Edit -> Clear
-#: src/dialogs/dialog-paste-special.c:66 src/wbcg-actions.c:1520
+#: src/dialogs/dialog-paste-special.c:66 src/wbcg-actions.c:1526
 msgid "_All"
 msgstr "Semu_a"
 
@@ -16803,11 +16874,11 @@ msgstr "Kandungan"
 msgid "As _Value"
 msgstr "Sebagai Nilai"
 
-#: src/dialogs/dialog-paste-special.c:69 src/wbcg-actions.c:1523
+#: src/dialogs/dialog-paste-special.c:69 src/wbcg-actions.c:1529
 msgid "_Formats"
 msgstr "_Format"
 
-#: src/dialogs/dialog-paste-special.c:70 src/wbcg-actions.c:1526
+#: src/dialogs/dialog-paste-special.c:70 src/wbcg-actions.c:1532
 msgid "Co_mments"
 msgstr "Ko_men"
 
@@ -17367,31 +17438,31 @@ msgstr ""
 msgid "Perform this replacement"
 msgstr ""
 
-#: src/dialogs/dialog-sheet-order.c:350
+#: src/dialogs/dialog-sheet-order.c:391
 #, fuzzy
 msgid "Current Name"
 msgstr "Kawalan Semasa"
 
-#: src/dialogs/dialog-sheet-order.c:360
+#: src/dialogs/dialog-sheet-order.c:401
 msgid "New Name"
 msgstr "Nama Baru"
 
-#: src/dialogs/dialog-sheet-order.c:670
+#: src/dialogs/dialog-sheet-order.c:718
 msgid "At least one sheet must remain visible!"
 msgstr ""
 
-#: src/dialogs/dialog-sheet-order.c:675
+#: src/dialogs/dialog-sheet-order.c:723
 #, fuzzy
 msgid "You may not delete all sheets in a workbook!"
 msgstr "Urus helaian pada bukukerja ini"
 
-#: src/dialogs/dialog-sheet-order.c:680
+#: src/dialogs/dialog-sheet-order.c:728
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
 msgstr ""
 
-#: src/dialogs/dialog-sheet-order.c:925
+#: src/dialogs/dialog-sheet-order.c:983
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr ""
 
@@ -17442,17 +17513,17 @@ msgid "Variable"
 msgstr "Pembolehubah"
 
 #: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:247
-#: src/workbook-control-gui.c:1828
+#: src/workbook-control-gui.c:1830
 #, fuzzy
 msgid "Min"
 msgstr "Man"
 
-#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1830
+#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:1832
 msgid "Average"
 msgstr "Purata"
 
 #: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:249
-#: src/workbook-control-gui.c:1829
+#: src/workbook-control-gui.c:1831
 msgid "Max"
 msgstr "Max"
 
@@ -17661,7 +17732,7 @@ msgid "Select N_one"
 msgstr "Pilih Semua"
 
 #. Edit -> Select
-#: src/dialogs/dialog-stf-export.glade.h:20 src/wbcg-actions.c:1546
+#: src/dialogs/dialog-stf-export.glade.h:20 src/wbcg-actions.c:1552
 #, fuzzy
 msgid "Select _All"
 msgstr "Pilih Semua"
@@ -18236,7 +18307,7 @@ msgid "_Month"
 msgstr "_Bulan"
 
 #: src/dialogs/fill-series.glade.h:17 src/dialogs/pivottable.glade.h:13
-#: src/wbcg-actions.c:1433
+#: src/wbcg-actions.c:1439
 msgid "_Row"
 msgstr "Ba_ris"
 
@@ -18351,7 +18422,7 @@ msgstr ""
 msgid "Formula Guru"
 msgstr "Guru Formula"
 
-#: src/dialogs/fourier-analysis.glade.h:1 src/wbcg-actions.c:1811
+#: src/dialogs/fourier-analysis.glade.h:1 src/wbcg-actions.c:1820
 msgid "Fourier Analysis"
 msgstr ""
 
@@ -18364,7 +18435,7 @@ msgstr "Naikkan"
 msgid "Category"
 msgstr "Kategori"
 
-#: src/dialogs/function-select.glade.h:3 src/wbcg-actions.c:1885
+#: src/dialogs/function-select.glade.h:3 src/wbcg-actions.c:1894
 msgid "Function"
 msgstr "Fungsi"
 
@@ -18705,7 +18776,7 @@ msgid "Workbook"
 msgstr "Bukukerja"
 
 #: src/dialogs/names.glade.h:8 src/dialogs/solver.glade.h:23
-#: src/wbcg-actions.c:1421
+#: src/wbcg-actions.c:1427
 msgid "_Delete"
 msgstr "Pa_dam"
 
@@ -18746,7 +18817,7 @@ msgstr ""
 msgid "_Add:"
 msgstr "_Tambah:"
 
-#: src/dialogs/pivottable.glade.h:8 src/wbcg-actions.c:1441
+#: src/dialogs/pivottable.glade.h:8 src/wbcg-actions.c:1447
 msgid "_Data"
 msgstr "_Data"
 
@@ -19434,7 +19505,7 @@ msgstr "_Cari "
 msgid "Manage Sheets..."
 msgstr "Urus Helaian..."
 
-#: src/dialogs/sheet-order.glade.h:2 src/wbcg-actions.c:1596
+#: src/dialogs/sheet-order.glade.h:2 src/wbcg-actions.c:1602
 #, fuzzy
 msgid "_Duplicate"
 msgstr "Laman Bertindan"
@@ -19921,11 +19992,15 @@ msgstr "'%s' sudah ditakrifkan pada bukukerja"
 msgid "Invalid template file: %s"
 msgstr "Fail templat tidak sah: %s"
 
-#: src/file.c:522
+#: src/file.c:519
+msgid "Not a valid UTF-8 filename."
+msgstr ""
+
+#: src/file.c:529
 msgid "Saving over old files of this type is disabled for safety."
 msgstr ""
 
-#: src/file.c:524
+#: src/file.c:531
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -20945,56 +21020,56 @@ msgstr "Tak dapat mengaktifkan '%s'"
 msgid "Unable to open '%s'"
 msgstr "Tak dapat buka '%s'"
 
-#: src/item-bar.c:765
+#: src/item-bar.c:781
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Lebar: %.2f ttk (%d piksel)"
 
-#: src/item-bar.c:768
+#: src/item-bar.c:784
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Tinggi: %.2f ttk (%d piksel)"
 
-#: src/item-cursor.c:917
+#: src/item-cursor.c:906
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
 "the contents in this region?"
 msgstr ""
 
-#: src/item-cursor.c:1017
+#: src/item-cursor.c:1006
 msgid "_Move"
 msgstr "_Pindah"
 
-#: src/item-cursor.c:1020 src/sheet-control-gui.c:1504
+#: src/item-cursor.c:1009 src/sheet-control-gui.c:1506
 msgid "_Copy"
 msgstr "_Salin"
 
-#: src/item-cursor.c:1023
+#: src/item-cursor.c:1012
 msgid "Copy _Formats"
 msgstr "Salin _Format"
 
-#: src/item-cursor.c:1025
+#: src/item-cursor.c:1014
 msgid "Copy _Values"
 msgstr "Salin _Nilai"
 
-#: src/item-cursor.c:1030
+#: src/item-cursor.c:1019
 msgid "Shift _Down and Copy"
 msgstr "Shif _Bawah dan Salin"
 
-#: src/item-cursor.c:1032
+#: src/item-cursor.c:1021
 msgid "Shift _Right and Copy"
 msgstr "Shif Ka_nan dan Salin"
 
-#: src/item-cursor.c:1034
+#: src/item-cursor.c:1023
 msgid "Shift Dow_n and Move"
 msgstr "Shif _Bawah dan Pindah"
 
-#: src/item-cursor.c:1036
+#: src/item-cursor.c:1025
 msgid "Shift Righ_t and Move"
 msgstr "Shif Ka_nan dan Pindah"
 
-#: src/item-cursor.c:1041
+#: src/item-cursor.c:1030
 msgid "C_ancel"
 msgstr "B_atal"
 
@@ -21574,79 +21649,79 @@ msgid "Error while opening file \"%s\" for reading."
 msgstr ""
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:612
+#: src/print.c:604
 msgid "&[PAGE]"
 msgstr ""
 
-#: src/print.c:1157
+#: src/print.c:1147
 msgid "Print Region"
 msgstr ""
 
-#: src/print.c:1326 src/wbcg-actions.c:1501
+#: src/print.c:1307 src/wbcg-actions.c:1507
 msgid "Print preview"
 msgstr "Pralihat cetakan"
 
-#: src/print.c:1339
+#: src/print.c:1320
 msgid "Printing failed"
 msgstr "Cetakan gagal"
 
-#: src/print.c:1445
+#: src/print.c:1426
 msgid "Print Sheets"
 msgstr ""
 
-#: src/print.c:1454
+#: src/print.c:1435
 msgid "Act_ive sheet"
 msgstr "Helaian aktif"
 
-#: src/print.c:1454
+#: src/print.c:1435
 msgid "S_heets"
 msgstr "_Helaian"
 
-#: src/print-info.c:145 src/print-info.c:148 src/print-info.c:149
-#: src/print-info.c:260
+#: src/print-info.c:155 src/print-info.c:158 src/print-info.c:159
+#: src/print-info.c:270
 msgid "Page &[PAGE]"
 msgstr "Halaman &[HALAMAN]"
 
-#: src/print-info.c:146 src/print-info.c:151
+#: src/print-info.c:156 src/print-info.c:161
 msgid "Page &[PAGE] of &[PAGES]"
 msgstr ""
 
-#: src/print-info.c:147 src/print-info.c:148 src/print-info.c:149
-#: src/print-info.c:151 src/print-info.c:254
+#: src/print-info.c:157 src/print-info.c:158 src/print-info.c:159
+#: src/print-info.c:161 src/print-info.c:264
 msgid "&[TAB]"
 msgstr ""
 
-#: src/print-info.c:149 src/print-info.c:150 src/print-info.c:151
+#: src/print-info.c:159 src/print-info.c:160 src/print-info.c:161
 msgid "&[DATE]"
 msgstr "&[TARIKH]"
 
-#: src/print-info.c:454
+#: src/print-info.c:464
 #, fuzzy
 msgid "File Name"
 msgstr "Nama Baru"
 
-#: src/print-info.c:465
+#: src/print-info.c:475
 #, fuzzy
 msgid "Path "
 msgstr "Tepek"
 
-#: src/print-info.c:473
+#: src/print-info.c:483
 msgid "tab"
 msgstr "tab"
 
-#: src/print-info.c:474
+#: src/print-info.c:484
 msgid "page"
 msgstr "halaman"
 
-#: src/print-info.c:475
+#: src/print-info.c:485
 msgid "pages"
 msgstr "laman"
 
-#: src/print-info.c:478
+#: src/print-info.c:488
 msgid "file"
 msgstr "fail"
 
-#: src/print-info.c:479
+#: src/print-info.c:489
 msgid "path"
 msgstr ""
 
@@ -21709,35 +21784,35 @@ msgstr "Jangan tutup"
 msgid "Do not log out"
 msgstr ""
 
-#: src/sheet.c:2015
+#: src/sheet.c:2051
 msgid "Target region contains merged cells"
 msgstr ""
 
-#: src/sheet.c:2076
+#: src/sheet.c:2112
 msgid "cannot operate on merged cells"
 msgstr ""
 
-#: src/sheet.c:2086
+#: src/sheet.c:2122
 msgid "cannot operate on array formulae"
 msgstr ""
 
-#: src/sheet.c:3204
+#: src/sheet.c:3240
 msgid "Insert Columns"
 msgstr "Selit Kolum"
 
-#: src/sheet.c:3326
+#: src/sheet.c:3362
 msgid "Insert Rows"
 msgstr "Selit Baris"
 
-#: src/sheet-control-gui.c:1502
+#: src/sheet-control-gui.c:1504
 msgid "Cu_t"
 msgstr "Po_tong"
 
-#: src/sheet-control-gui.c:1506
+#: src/sheet-control-gui.c:1508
 msgid "_Paste"
 msgstr "Te_pek"
 
-#: src/sheet-control-gui.c:1508
+#: src/sheet-control-gui.c:1510
 msgid "Paste _Special"
 msgstr "Tepek Isti_mewa"
 
@@ -21748,96 +21823,96 @@ msgstr "Tepek Isti_mewa"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1520
+#: src/sheet-control-gui.c:1522
 #, fuzzy
 msgid "_Insert Cells..."
 msgstr "Selit sel"
 
-#: src/sheet-control-gui.c:1522
+#: src/sheet-control-gui.c:1524
 #, fuzzy
 msgid "_Delete Cells..."
 msgstr "Padam sel"
 
-#: src/sheet-control-gui.c:1524
+#: src/sheet-control-gui.c:1526
 msgid "_Insert Column(s)"
 msgstr "Sel_it Kolum"
 
-#: src/sheet-control-gui.c:1526
+#: src/sheet-control-gui.c:1528
 msgid "_Delete Column(s)"
 msgstr "Pa_dam Kolum"
 
-#: src/sheet-control-gui.c:1528
+#: src/sheet-control-gui.c:1530
 msgid "_Insert Row(s)"
 msgstr "Sel_it Baris"
 
-#: src/sheet-control-gui.c:1530
+#: src/sheet-control-gui.c:1532
 msgid "_Delete Row(s)"
 msgstr "Pa_dam Baris"
 
-#: src/sheet-control-gui.c:1533
+#: src/sheet-control-gui.c:1535
 msgid "Clear Co_ntents"
 msgstr "Ko_songkan Kandungan"
 
-#: src/sheet-control-gui.c:1535
+#: src/sheet-control-gui.c:1537
 #, fuzzy
 msgid "Edit Co_mment..."
 msgstr "Ko_men"
 
-#: src/sheet-control-gui.c:1541
+#: src/sheet-control-gui.c:1543
 msgid "_Format Cells..."
 msgstr "_Format Sel..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1545
+#: src/sheet-control-gui.c:1547
 msgid "Column _Width..."
 msgstr "_Lebar Kolum..."
 
 # ui/galeon.glade.h:134
-#: src/sheet-control-gui.c:1547 src/sheet-control-gui.c:1555
-#: src/wbcg-actions.c:1711 src/wbcg-actions.c:1728
+#: src/sheet-control-gui.c:1549 src/sheet-control-gui.c:1557
+#: src/wbcg-actions.c:1720 src/wbcg-actions.c:1737
 #, fuzzy
 msgid "_Hide"
 msgstr "_Fail"
 
-#: src/sheet-control-gui.c:1549 src/sheet-control-gui.c:1557
-#: src/wbcg-actions.c:1714 src/wbcg-actions.c:1731
+#: src/sheet-control-gui.c:1551 src/sheet-control-gui.c:1559
+#: src/wbcg-actions.c:1723 src/wbcg-actions.c:1740
 msgid "_Unhide"
 msgstr "_Nyahsorok"
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1553
+#: src/sheet-control-gui.c:1555
 msgid "_Row Height..."
 msgstr "Tinggi _Baris..."
 
-#: src/sheet-control-gui.c:1560
+#: src/sheet-control-gui.c:1562
 msgid "_Hyperlink"
 msgstr "_Pautan"
 
-#: src/sheet-control-gui.c:1563
+#: src/sheet-control-gui.c:1565
 msgid "Edit _Hyperlink"
 msgstr "Edit _Pautan"
 
-#: src/sheet-control-gui.c:1566
+#: src/sheet-control-gui.c:1568
 msgid "_Remove Hyperlink"
 msgstr "_Buang Hiperpautan"
 
 #. This is somewhat cheesy and should use ngettext
-#: src/sheet-control-gui.c:1981
+#: src/sheet-control-gui.c:2083
 #, fuzzy
 msgid "Duplicate Object"
 msgstr "Laman Bertindan"
 
-#: src/sheet-control-gui.c:1981
+#: src/sheet-control-gui.c:2083
 #, fuzzy
 msgid "Insert Object"
 msgstr "Selit objek"
 
-#: src/sheet-control-gui.c:1982
+#: src/sheet-control-gui.c:2084
 #, fuzzy
 msgid "Move Object"
 msgstr "Selit objek"
 
-#: src/sheet-control-gui.c:1982
+#: src/sheet-control-gui.c:2084
 #, fuzzy
 msgid "Resize Object"
 msgstr "Ubahsaiz objek"
@@ -21863,7 +21938,7 @@ msgid "(Non Blanks...)"
 msgstr ""
 
 #. Format toolbar
-#: src/sheet-merge.c:73 src/wbcg-actions.c:1941
+#: src/sheet-merge.c:73 src/wbcg-actions.c:1950
 msgid "Merge"
 msgstr "Gabung"
 
@@ -21930,11 +22005,11 @@ msgstr ""
 msgid "WMF (windows metafile)"
 msgstr ""
 
-#: src/sheet-object-widget.c:258 src/wbcg-actions.c:1900
+#: src/sheet-object-widget.c:258 src/wbcg-actions.c:1909
 msgid "Frame"
 msgstr "Bingkai"
 
-#: src/sheet-object-widget.c:497 src/wbcg-actions.c:1933
+#: src/sheet-object-widget.c:497 src/wbcg-actions.c:1942
 #: templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "Button"
 msgstr "Butang"
@@ -21944,7 +22019,7 @@ msgstr "Butang"
 msgid "CheckBox %d"
 msgstr ""
 
-#: src/sheet-object-widget.c:1809 src/wbcg-actions.c:1936
+#: src/sheet-object-widget.c:1809 src/wbcg-actions.c:1945
 msgid "RadioButton"
 msgstr "ButangRadio"
 
@@ -21957,11 +22032,11 @@ msgid ""
 "name.  Expect weirdness."
 msgstr ""
 
-#: src/sheet-view.c:313
+#: src/sheet-view.c:315
 msgid "Copy"
 msgstr "Salin"
 
-#: src/sheet-view.c:338 src/sheet-view.c:341
+#: src/sheet-view.c:340 src/sheet-view.c:343
 msgid "Cut"
 msgstr "Potong"
 
@@ -22102,7 +22177,7 @@ msgstr ""
 msgid "Too many rows in data to parse: %d"
 msgstr ""
 
-#: src/stf-parse.c:1175
+#: src/stf-parse.c:1178
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -22611,7 +22686,7 @@ msgstr ""
 msgid "Range"
 msgstr "Range"
 
-#: src/tools/simulation.c:257 src/workbook-control-gui.c:1831
+#: src/tools/simulation.c:257 src/workbook-control-gui.c:1833
 msgid "Count"
 msgstr "Kira"
 
@@ -23146,129 +23221,129 @@ msgstr "KOmen pada sel %s!%s"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/wbcg-actions.c:630
+#: src/wbcg-actions.c:636
 msgid "Insert rows"
 msgstr "Selit baris"
 
-#: src/wbcg-actions.c:647
+#: src/wbcg-actions.c:653
 msgid "Insert columns"
 msgstr "Selit kolum"
 
-#: src/wbcg-actions.c:724
+#: src/wbcg-actions.c:730
 #, fuzzy
 msgid "Add Filter"
 msgstr "Tapisan Lanjutan"
 
-#: src/wbcg-actions.c:736
+#: src/wbcg-actions.c:742
 #, fuzzy
 msgid "AutoFilter"
 msgstr "Tapisan Lanjutan"
 
-#: src/wbcg-actions.c:736
+#: src/wbcg-actions.c:742
 msgid "Requires more than 1 row"
 msgstr ""
 
-#: src/wbcg-actions.c:763 src/wbcg-actions.c:782
+#: src/wbcg-actions.c:769 src/wbcg-actions.c:788
 msgid "Show Detail"
 msgstr "Papar Perincian"
 
-#: src/wbcg-actions.c:763 src/wbcg-actions.c:782
+#: src/wbcg-actions.c:769 src/wbcg-actions.c:788
 msgid "Hide Detail"
 msgstr "Sorok Perincian"
 
-#: src/wbcg-actions.c:770
+#: src/wbcg-actions.c:776
 msgid "can only be performed on an existing group"
 msgstr ""
 
-#: src/wbcg-actions.c:810
+#: src/wbcg-actions.c:816
 msgid "Group"
 msgstr "Kumpul"
 
-#: src/wbcg-actions.c:810
+#: src/wbcg-actions.c:816
 msgid "Ungroup"
 msgstr "Lerai"
 
-#: src/wbcg-actions.c:951
+#: src/wbcg-actions.c:957
 msgid "Sort"
 msgstr "Isih"
 
-#: src/wbcg-actions.c:1071
+#: src/wbcg-actions.c:1077
 msgid "Set Horizontal Alignment"
 msgstr ""
 
-#: src/wbcg-actions.c:1105
+#: src/wbcg-actions.c:1111
 #, fuzzy
 msgid "Set Vertical Alignment"
 msgstr "Jajaran Menegak"
 
-#: src/wbcg-actions.c:1194
+#: src/wbcg-actions.c:1200
 msgid "Set Font Style"
 msgstr "Tetapkan gaya Font"
 
-#: src/wbcg-actions.c:1220
+#: src/wbcg-actions.c:1226
 msgid "Format as Number"
 msgstr "Format sebagai Nombor"
 
-#: src/wbcg-actions.c:1225
+#: src/wbcg-actions.c:1231
 msgid "Format as Currency"
 msgstr "Format sebagai Matawang"
 
-#: src/wbcg-actions.c:1230
+#: src/wbcg-actions.c:1236
 #, fuzzy
 msgid "Format as Accounting"
 msgstr "Format sebagai Saintifik"
 
-#: src/wbcg-actions.c:1236
+#: src/wbcg-actions.c:1242
 msgid "Format as Percentage"
 msgstr "Format sebagai Peratus"
 
-#: src/wbcg-actions.c:1241
+#: src/wbcg-actions.c:1247
 msgid "Format as Scientific"
 msgstr "Format sebagai Saintifik"
 
-#: src/wbcg-actions.c:1246
+#: src/wbcg-actions.c:1252
 msgid "Format as Date"
 msgstr "Format sebagai Tarikh"
 
-#: src/wbcg-actions.c:1251
+#: src/wbcg-actions.c:1257
 msgid "Format as Time"
 msgstr "Formatkan sebagai Masa"
 
-#: src/wbcg-actions.c:1275
+#: src/wbcg-actions.c:1281
 msgid "Add Borders"
 msgstr "Tambah Sempadan"
 
-#: src/wbcg-actions.c:1275
+#: src/wbcg-actions.c:1281
 msgid "Remove borders"
 msgstr "Buang Sempadan"
 
-#: src/wbcg-actions.c:1304
+#: src/wbcg-actions.c:1310
 msgid "Increase precision"
 msgstr "Naikkan ketepatan"
 
-#: src/wbcg-actions.c:1306
+#: src/wbcg-actions.c:1312
 msgid "Decrease precision"
 msgstr "Kurangkan ketepatan"
 
-#: src/wbcg-actions.c:1308
+#: src/wbcg-actions.c:1314
 #, fuzzy
 msgid "Toggle thousands separator"
 msgstr "Pemisah _baru"
 
-#: src/wbcg-actions.c:1328
+#: src/wbcg-actions.c:1334
 msgid "Increase Indent"
 msgstr "Naikkan Inden"
 
-#: src/wbcg-actions.c:1348
+#: src/wbcg-actions.c:1354
 msgid "Decrease Indent"
 msgstr "Kurangkan Inden"
 
-#: src/wbcg-actions.c:1355
+#: src/wbcg-actions.c:1361
 #, fuzzy
 msgid "Copy down"
 msgstr "Salin"
 
-#: src/wbcg-actions.c:1361
+#: src/wbcg-actions.c:1367
 #, fuzzy
 msgid "Copy right"
 msgstr "Mengautoformat %s"
@@ -23276,164 +23351,164 @@ msgstr "Mengautoformat %s"
 # ui/galeon.glade.h:134
 #. Actions that are always sensitive
 #. const 142334
-#: src/wbcg-actions.c:1418
+#: src/wbcg-actions.c:1424
 msgid "_File"
 msgstr "_Fail"
 
-#: src/wbcg-actions.c:1419
+#: src/wbcg-actions.c:1425
 msgid "_Edit"
 msgstr "_Edit"
 
-#: src/wbcg-actions.c:1420
+#: src/wbcg-actions.c:1426
 msgid "C_lear"
 msgstr "_Kosongkan"
 
-#: src/wbcg-actions.c:1422
+#: src/wbcg-actions.c:1428
 msgid "S_heet"
 msgstr "_Helaian"
 
-#: src/wbcg-actions.c:1423
+#: src/wbcg-actions.c:1429
 msgid "_Select"
 msgstr "_Pilih"
 
 # ui/galeon.glade.h:134
-#: src/wbcg-actions.c:1424
+#: src/wbcg-actions.c:1430
 #, fuzzy
 msgid "F_ill"
 msgstr "_Isi"
 
 # ui/galeon.glade.h:134
-#: src/wbcg-actions.c:1425
+#: src/wbcg-actions.c:1431
 msgid "_View"
 msgstr "_Lihat"
 
-#: src/wbcg-actions.c:1426
+#: src/wbcg-actions.c:1432
 #, fuzzy
 msgid "_Windows"
 msgstr "Tetingkap"
 
-#: src/wbcg-actions.c:1427
+#: src/wbcg-actions.c:1433
 #, fuzzy
 msgid "_Toolbars"
 msgstr "_Toolbar..."
 
-#: src/wbcg-actions.c:1429
+#: src/wbcg-actions.c:1435
 #, fuzzy
 msgid "_Names"
 msgstr "_Nama"
 
-#: src/wbcg-actions.c:1430
+#: src/wbcg-actions.c:1436
 msgid "S_pecial"
 msgstr ""
 
-#: src/wbcg-actions.c:1431
+#: src/wbcg-actions.c:1437
 msgid "F_ormat"
 msgstr "F_ormat"
 
-#: src/wbcg-actions.c:1432
+#: src/wbcg-actions.c:1438
 msgid "C_olumn"
 msgstr "K_olum"
 
 #. ICK A DUPLICATE : we have no way to override a label on one proxy
-#: src/wbcg-actions.c:1434 src/wbcg-actions.c:1590
+#: src/wbcg-actions.c:1440 src/wbcg-actions.c:1596
 msgid "_Sheet"
 msgstr "_Helaian"
 
-#: src/wbcg-actions.c:1435
+#: src/wbcg-actions.c:1441
 msgid "_Tools"
 msgstr "_Radas"
 
-#: src/wbcg-actions.c:1436
+#: src/wbcg-actions.c:1442
 msgid "Sce_narios"
 msgstr ""
 
-#: src/wbcg-actions.c:1437
+#: src/wbcg-actions.c:1443
 msgid "Statistical Anal_ysis"
 msgstr "Anal_isis Stastikal"
 
-#: src/wbcg-actions.c:1438
+#: src/wbcg-actions.c:1444
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
-#: src/wbcg-actions.c:1439
+#: src/wbcg-actions.c:1445
 #, fuzzy
 msgid "F_orecast"
 msgstr "L_okasi"
 
-#: src/wbcg-actions.c:1440
+#: src/wbcg-actions.c:1446
 msgid "Two _Means"
 msgstr "Dua _Min"
 
 # ui/galeon.glade.h:134
-#: src/wbcg-actions.c:1442
+#: src/wbcg-actions.c:1448
 msgid "_Filter"
 msgstr "_Tapis"
 
-#: src/wbcg-actions.c:1443
+#: src/wbcg-actions.c:1449
 msgid "_Group and Outline"
 msgstr ""
 
-#: src/wbcg-actions.c:1444
+#: src/wbcg-actions.c:1450
 #, fuzzy
 msgid "Get _External Data"
 msgstr "RALAT dalaman"
 
-#: src/wbcg-actions.c:1445
+#: src/wbcg-actions.c:1451
 msgid "_Help"
 msgstr "_Bantuan"
 
-#: src/wbcg-actions.c:1448
+#: src/wbcg-actions.c:1454
 msgid "Cut the selection"
 msgstr "Potong pilihan"
 
-#: src/wbcg-actions.c:1451
+#: src/wbcg-actions.c:1457
 msgid "Copy the selection"
 msgstr "Salin Pilihan"
 
-#: src/wbcg-actions.c:1454
+#: src/wbcg-actions.c:1460
 msgid "Paste the clipboard"
 msgstr "Tepek clipboard"
 
-#: src/wbcg-actions.c:1457 src/wbcg-actions.c:1529
+#: src/wbcg-actions.c:1463 src/wbcg-actions.c:1535
 msgid "_Contents"
 msgstr "_Kandungan"
 
-#: src/wbcg-actions.c:1458
+#: src/wbcg-actions.c:1464
 msgid "Open a viewer for Gnumeric's documentation"
 msgstr ""
 
-#: src/wbcg-actions.c:1460
+#: src/wbcg-actions.c:1466
 #, fuzzy
 msgid "Gnumeric on the _Web"
 msgstr "Laman Gnumeric"
 
-#: src/wbcg-actions.c:1461
+#: src/wbcg-actions.c:1467
 msgid "Browse to Gnumeric's website"
 msgstr ""
 
-#: src/wbcg-actions.c:1463
+#: src/wbcg-actions.c:1469
 msgid "_Live Assistance"
 msgstr ""
 
-#: src/wbcg-actions.c:1464
+#: src/wbcg-actions.c:1470
 msgid "See if anyone is available to answer questions"
 msgstr ""
 
-#: src/wbcg-actions.c:1466
+#: src/wbcg-actions.c:1472
 msgid "Report a _Problem"
 msgstr ""
 
-#: src/wbcg-actions.c:1467
+#: src/wbcg-actions.c:1473
 #, fuzzy
 msgid "Report problem "
 msgstr "Laporan Dicipta:"
 
-#: src/wbcg-actions.c:1469
+#: src/wbcg-actions.c:1475
 #, fuzzy
 msgid "_About"
 msgstr "Perih_al..."
 
-#: src/wbcg-actions.c:1470
+#: src/wbcg-actions.c:1476
 msgid "About this application"
 msgstr "Perihal aplikasi ini"
 
@@ -23441,584 +23516,593 @@ msgstr "Perihal aplikasi ini"
 # ui/galeon.glade.h:140
 #. Special.  The sensitivity is chained to redo we do not want to
 #. * toggle it directly so we put it in here
-#: src/wbcg-actions.c:1475
+#: src/wbcg-actions.c:1481
 #, fuzzy
 msgid "Repeat"
 msgstr "Laporan"
 
-#: src/wbcg-actions.c:1476
+#: src/wbcg-actions.c:1482
 #, fuzzy
 msgid "Repeat the previous action"
 msgstr "Ulangcara operasi"
 
-#: src/wbcg-actions.c:1483
+#: src/wbcg-actions.c:1489
 msgid "Create a new workbook"
 msgstr "Cipta bukukerja baru"
 
-#: src/wbcg-actions.c:1486
+#: src/wbcg-actions.c:1492
 msgid "Open a file"
 msgstr "Buka fail"
 
-#: src/wbcg-actions.c:1489
+#: src/wbcg-actions.c:1495
 msgid "Save the current workbook"
 msgstr "Simpan bukukerja semasa"
 
-#: src/wbcg-actions.c:1492
+#: src/wbcg-actions.c:1498
 #, fuzzy
 msgid "Save the current workbook with a different name"
 msgstr "Simpan fail semasa dengan nama lain"
 
-#: src/wbcg-actions.c:1494
+#: src/wbcg-actions.c:1500
 #, fuzzy
 msgid "Sen_d To..."
 msgstr "Pergi Ke..."
 
-#: src/wbcg-actions.c:1495
+#: src/wbcg-actions.c:1501
 #, fuzzy
 msgid "Send the current file via email"
 msgstr "Kirim laman semasa dengan emel"
 
-#: src/wbcg-actions.c:1497
+#: src/wbcg-actions.c:1503
 msgid "Page Set_up..."
 msgstr "T_etapan Halaman..."
 
-#: src/wbcg-actions.c:1498
+#: src/wbcg-actions.c:1504
 #, fuzzy
 msgid "Setup the page settings for your current printer"
 msgstr "Nyatakan tetapan stylesheet untuk laman ini"
 
-#: src/wbcg-actions.c:1504
+#: src/wbcg-actions.c:1510
 msgid "Print the current file"
 msgstr "Cetak fail semasa"
 
-#: src/wbcg-actions.c:1506
+#: src/wbcg-actions.c:1512
 msgid "Proper_ties..."
 msgstr "_Ciri-ciri..."
 
-#: src/wbcg-actions.c:1507
+#: src/wbcg-actions.c:1513
 msgid "Edit descriptive information"
 msgstr ""
 
-#: src/wbcg-actions.c:1509
+#: src/wbcg-actions.c:1515
 #, fuzzy
 msgid "Pre_ferences..."
 msgstr "Ke_utamaan..."
 
-#: src/wbcg-actions.c:1510
+#: src/wbcg-actions.c:1516
 msgid "Change Gnumeric Preferences"
 msgstr "Ubah Keutamaan Gnumeric"
 
-#: src/wbcg-actions.c:1513
+#: src/wbcg-actions.c:1519
 msgid "Close the current file"
 msgstr "Tutup fail semasa"
 
-#: src/wbcg-actions.c:1516
+#: src/wbcg-actions.c:1522
 #, fuzzy
 msgid "Quit the application"
 msgstr "Perihal aplikasi ini"
 
-#: src/wbcg-actions.c:1521
+#: src/wbcg-actions.c:1527
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr ""
 
-#: src/wbcg-actions.c:1524
+#: src/wbcg-actions.c:1530
 msgid "Clear the selected cells' formats"
 msgstr ""
 
-#: src/wbcg-actions.c:1527
+#: src/wbcg-actions.c:1533
 msgid "Clear the selected cells' comments"
 msgstr ""
 
-#: src/wbcg-actions.c:1530
+#: src/wbcg-actions.c:1536
 msgid "Clear the selected cells' contents"
 msgstr ""
 
-#: src/wbcg-actions.c:1535
+#: src/wbcg-actions.c:1541
 #, fuzzy
 msgid "Delete the row(s) containing the selected cells"
 msgstr "Tengah merentas sel yang dipilih"
 
-#: src/wbcg-actions.c:1538
+#: src/wbcg-actions.c:1544
 #, fuzzy
 msgid "Delete the column(s) containing the selected cells"
 msgstr "Selit fungsi ke sel dipilih"
 
 #. Insert
-#: src/wbcg-actions.c:1540 src/wbcg-actions.c:1647
+#: src/wbcg-actions.c:1546 src/wbcg-actions.c:1656
 msgid "C_ells..."
 msgstr "S_el..."
 
-#: src/wbcg-actions.c:1541
+#: src/wbcg-actions.c:1547
 msgid "Delete the selected cells, shifting others into their place"
 msgstr ""
 
-#: src/wbcg-actions.c:1547
+#: src/wbcg-actions.c:1553
 #, fuzzy
 msgid "Select all cells in the spreadsheet"
 msgstr "Pilih semua teks pada laman semasa"
 
-#: src/wbcg-actions.c:1549
+#: src/wbcg-actions.c:1555
 #, fuzzy
 msgid "Select _Column"
 msgstr "Pilih Semua"
 
-#: src/wbcg-actions.c:1550
+#: src/wbcg-actions.c:1556
 msgid "Select an entire column"
 msgstr "Pilih seluruh kolum"
 
-#: src/wbcg-actions.c:1552
+#: src/wbcg-actions.c:1558
 #, fuzzy
 msgid "Select _Row"
 msgstr "Pilih Semua"
 
-#: src/wbcg-actions.c:1553
+#: src/wbcg-actions.c:1559
 msgid "Select an entire row"
 msgstr "Pilih seluruh baris"
 
-#: src/wbcg-actions.c:1555
+#: src/wbcg-actions.c:1561
 #, fuzzy
 msgid "Select Arra_y"
 msgstr "Pilih Semua"
 
-#: src/wbcg-actions.c:1556
+#: src/wbcg-actions.c:1562
 msgid "Select an array of cells"
 msgstr ""
 
-#: src/wbcg-actions.c:1558
+#: src/wbcg-actions.c:1564
 msgid "Select _Depends"
 msgstr ""
 
-#: src/wbcg-actions.c:1559
+#: src/wbcg-actions.c:1565
 #, fuzzy
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Pilih semua teks pada laman semasa"
 
-#: src/wbcg-actions.c:1561
+#: src/wbcg-actions.c:1567
 #, fuzzy
 msgid "Select _Inputs"
 msgstr "Pilih Semua"
 
-#: src/wbcg-actions.c:1562
+#: src/wbcg-actions.c:1568
 #, fuzzy
 msgid "Select all the cells are used by the current edit cell"
 msgstr "Pilih semua teks pada laman semasa"
 
 #. Edit -> Fill
-#: src/wbcg-actions.c:1566
+#: src/wbcg-actions.c:1572
 msgid "Auto_fill"
 msgstr "Auto_isi"
 
-#: src/wbcg-actions.c:1567
+#: src/wbcg-actions.c:1573
 msgid "Automatically fill the current selection"
 msgstr "Automatik isi pilihan semasa"
 
-#: src/wbcg-actions.c:1569
+#: src/wbcg-actions.c:1575
 #, fuzzy
 msgid "_Merge..."
 msgstr "Gabung..."
 
-#: src/wbcg-actions.c:1570
+#: src/wbcg-actions.c:1576
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row"
 msgstr ""
 
-#: src/wbcg-actions.c:1572
+#: src/wbcg-actions.c:1578
 msgid "_Tabulate Dependency..."
 msgstr ""
 
-#: src/wbcg-actions.c:1573
+#: src/wbcg-actions.c:1579
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr ""
 
-#: src/wbcg-actions.c:1575
+#: src/wbcg-actions.c:1581
 #, fuzzy
 msgid "_Series..."
 msgstr "_Siri"
 
-#: src/wbcg-actions.c:1576
+#: src/wbcg-actions.c:1582
 msgid "Fill according to a linear or exponential series"
 msgstr ""
 
-#: src/wbcg-actions.c:1578
+#: src/wbcg-actions.c:1584
 msgid "_Random Generator..."
 msgstr "Penjana _Rawak..."
 
-#: src/wbcg-actions.c:1579
+#: src/wbcg-actions.c:1585
 msgid "Generate random numbers of a selection of distributions"
 msgstr ""
 
 #. Edit -> Sheet
-#: src/wbcg-actions.c:1583
+#: src/wbcg-actions.c:1589
 msgid "_Manage Sheets..."
 msgstr "_Urus Helaian..."
 
-#: src/wbcg-actions.c:1584
+#: src/wbcg-actions.c:1590
 msgid "Manage the sheets in this workbook"
 msgstr "Urus helaian pada bukukerja ini"
 
-#: src/wbcg-actions.c:1587 src/wbcg-actions.c:1591
+#: src/wbcg-actions.c:1593 src/wbcg-actions.c:1597
 msgid "Insert a new sheet"
 msgstr "selit helaian baru"
 
-#: src/wbcg-actions.c:1593
+#: src/wbcg-actions.c:1599
 #, fuzzy
 msgid "_Append"
 msgstr "_Tambah"
 
-#: src/wbcg-actions.c:1594
+#: src/wbcg-actions.c:1600
 #, fuzzy
 msgid "Append a new sheet"
 msgstr "selit helaian baru"
 
-#: src/wbcg-actions.c:1597
+#: src/wbcg-actions.c:1603
 msgid "Make a copy of the current sheet"
 msgstr "Buat salinan bagi helaian semasa"
 
-#: src/wbcg-actions.c:1600
+#: src/wbcg-actions.c:1606
 msgid "Irrevocably remove an entire sheet"
 msgstr ""
 
-#: src/wbcg-actions.c:1602
+#: src/wbcg-actions.c:1608
 #, fuzzy
 msgid "Re_name"
 msgstr "Tukar_nama..."
 
-#: src/wbcg-actions.c:1603
+#: src/wbcg-actions.c:1609
 msgid "Rename the current sheet"
 msgstr "Tukarnama helaian semasa"
 
 #. Edit
-#: src/wbcg-actions.c:1607
+#: src/wbcg-actions.c:1613
 msgid "P_aste special..."
 msgstr "Tepek i_stimewa"
 
-#: src/wbcg-actions.c:1608
+#: src/wbcg-actions.c:1614
 msgid "Paste with optional filters and transformations"
 msgstr ""
 
-#: src/wbcg-actions.c:1611
+#: src/wbcg-actions.c:1617
 #, fuzzy
 msgid "Co_mment..."
 msgstr "Ko_men"
 
-#: src/wbcg-actions.c:1612
+#: src/wbcg-actions.c:1618
 msgid "Edit the selected cell's comment"
 msgstr ""
 
-#: src/wbcg-actions.c:1615
+#: src/wbcg-actions.c:1621
 #, fuzzy
 msgid "_Find..."
 msgstr "_Lebar..."
 
-#: src/wbcg-actions.c:1616
+#: src/wbcg-actions.c:1622
 #, fuzzy
 msgid "Search for something"
 msgstr "Cari rentetan"
 
-#: src/wbcg-actions.c:1618
+#: src/wbcg-actions.c:1624
 #, fuzzy
 msgid "R_eplace..."
 msgstr "_Ganti:"
 
-#: src/wbcg-actions.c:1619
+#: src/wbcg-actions.c:1625
 msgid "Search for something and replace it with something else"
 msgstr ""
 
-#: src/wbcg-actions.c:1621
+#: src/wbcg-actions.c:1627
 msgid "_Goto cell..."
 msgstr "Per_gi ke sel..."
 
-#: src/wbcg-actions.c:1622
+#: src/wbcg-actions.c:1628
 msgid "Jump to a specified cell"
 msgstr "Lompat ke sel dinyatakan"
 
-#: src/wbcg-actions.c:1625
+#: src/wbcg-actions.c:1631
 #, fuzzy
 msgid "Recalculate"
 msgstr "Nilaikan"
 
-#: src/wbcg-actions.c:1626
+#: src/wbcg-actions.c:1632
 msgid "Recalculate the spreadsheet"
 msgstr ""
 
 # ui/galeon.glade.h:134
 #. View
-#: src/wbcg-actions.c:1630
+#: src/wbcg-actions.c:1636
 #, fuzzy
 msgid "_New View..."
 msgstr "_Lihat"
 
-#: src/wbcg-actions.c:1631
+#: src/wbcg-actions.c:1637
 msgid "Create a new view of the workbook"
 msgstr "Cipta paparan baru bagi bukukerja"
 
-#: src/wbcg-actions.c:1633 src/workbook-control-gui.c:1023
+#: src/wbcg-actions.c:1639 src/workbook-control-gui.c:1023
 msgid "_Freeze Panes"
 msgstr "_Bekukan Jendela"
 
-#: src/wbcg-actions.c:1634 src/workbook-control-gui.c:1026
+#: src/wbcg-actions.c:1640 src/workbook-control-gui.c:1026
 msgid "Freeze the top left of the sheet"
 msgstr ""
 
-#: src/wbcg-actions.c:1636
+#: src/wbcg-actions.c:1642
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
-#: src/wbcg-actions.c:1637
+#: src/wbcg-actions.c:1643
 msgid "Zoom the spreadsheet in or out"
 msgstr ""
 
-#: src/wbcg-actions.c:1639
+#: src/wbcg-actions.c:1645
 #, fuzzy
 msgid "Zoom _In"
 msgstr "Zum"
 
-#: src/wbcg-actions.c:1640
+#: src/wbcg-actions.c:1646
 #, fuzzy
 msgid "Increase the zoom to make things larger"
 msgstr "Naikkan bilangan desimal yg dipaparkan"
 
-#: src/wbcg-actions.c:1642
+#: src/wbcg-actions.c:1648
 #, fuzzy
 msgid "Zoom _Out"
 msgstr "Zum"
 
-#: src/wbcg-actions.c:1643
+#: src/wbcg-actions.c:1649
 msgid "Decrease the zoom to make things smaller"
 msgstr ""
 
-#: src/wbcg-actions.c:1648
+#: src/wbcg-actions.c:1651
+#, fuzzy
+msgid "Direction"
+msgstr "Direktori"
+
+#: src/wbcg-actions.c:1652
+msgid "Toggle sheet direction, left to right vs right to left"
+msgstr ""
+
+#: src/wbcg-actions.c:1657
 msgid "Insert new cells"
 msgstr "Selit sel baru"
 
-#: src/wbcg-actions.c:1651
+#: src/wbcg-actions.c:1660
 msgid "Insert new columns"
 msgstr "Selit kolum baru"
 
-#: src/wbcg-actions.c:1654
+#: src/wbcg-actions.c:1663
 msgid "Insert new rows"
 msgstr "Selit baris baru"
 
-#: src/wbcg-actions.c:1657
+#: src/wbcg-actions.c:1666
 #, fuzzy
 msgid "C_hart..."
 msgstr "I_sih..."
 
-#: src/wbcg-actions.c:1658
+#: src/wbcg-actions.c:1667
 #, fuzzy
 msgid "Insert a Chart"
 msgstr "Selit imej"
 
-#: src/wbcg-actions.c:1660
+#: src/wbcg-actions.c:1669
 msgid "_Image..."
 msgstr "_Imej..."
 
-#: src/wbcg-actions.c:1661
+#: src/wbcg-actions.c:1670
 msgid "Insert an image"
 msgstr "Selit imej"
 
-#: src/wbcg-actions.c:1664
+#: src/wbcg-actions.c:1673
 #, fuzzy
 msgid "Hyper_link..."
 msgstr "_Pautan"
 
-#: src/wbcg-actions.c:1665
+#: src/wbcg-actions.c:1674
 #, fuzzy
 msgid "Insert a Hyperlink"
 msgstr "Edit _Pautan"
 
 #. Insert -> Special
-#: src/wbcg-actions.c:1668
+#: src/wbcg-actions.c:1677
 msgid "Current _date"
 msgstr "_Tarikh semasa"
 
-#: src/wbcg-actions.c:1669
+#: src/wbcg-actions.c:1678
 msgid "Insert the current date into the selected cell(s)"
 msgstr ""
 
-#: src/wbcg-actions.c:1672
+#: src/wbcg-actions.c:1681
 msgid "Current _time"
 msgstr "_Masa semasa"
 
-#: src/wbcg-actions.c:1673
+#: src/wbcg-actions.c:1682
 msgid "Insert the current time into the selected cell(s)"
 msgstr ""
 
-#: src/wbcg-actions.c:1676
+#: src/wbcg-actions.c:1685
 #, fuzzy
 msgid "Current d_ate and time"
 msgstr "_Masa semasa"
 
-#: src/wbcg-actions.c:1677
+#: src/wbcg-actions.c:1686
 #, fuzzy
 msgid "Insert the current date and time into the selected cell(s)"
 msgstr "Selit fungsi ke sel dipilih"
 
 #. Insert -> Name
-#: src/wbcg-actions.c:1681
+#: src/wbcg-actions.c:1690
 msgid "_Define..."
 msgstr "_Takrif..."
 
-#: src/wbcg-actions.c:1682
+#: src/wbcg-actions.c:1691
 msgid "Edit sheet and workbook names"
 msgstr ""
 
-#: src/wbcg-actions.c:1685
+#: src/wbcg-actions.c:1694
 msgid "_Auto generate names..."
 msgstr "_Auto jana nama..."
 
-#: src/wbcg-actions.c:1686
+#: src/wbcg-actions.c:1695
 #, fuzzy
 msgid "Use the current selection to create names"
 msgstr "Simpan sessi semasa ke satu fail"
 
 #. Format
-#: src/wbcg-actions.c:1691
+#: src/wbcg-actions.c:1700
 msgid "_Cells..."
 msgstr "_Sel..."
 
-#: src/wbcg-actions.c:1692
+#: src/wbcg-actions.c:1701
 msgid "Modify the formatting of the selected cells"
 msgstr ""
 
-#: src/wbcg-actions.c:1694
+#: src/wbcg-actions.c:1703
 msgid "_Workbook..."
 msgstr "_Bukukerja..."
 
-#: src/wbcg-actions.c:1695
+#: src/wbcg-actions.c:1704
 msgid "Modify the workbook attributes"
 msgstr ""
 
-#: src/wbcg-actions.c:1697
+#: src/wbcg-actions.c:1706
 msgid "_Gnumeric..."
 msgstr "_Gnumeric..."
 
-#: src/wbcg-actions.c:1698
+#: src/wbcg-actions.c:1707
 msgid "Edit the Gnumeric Preferences"
 msgstr ""
 
-#: src/wbcg-actions.c:1700
+#: src/wbcg-actions.c:1709
 msgid "_Autoformat..."
 msgstr "_Autoformat..."
 
-#: src/wbcg-actions.c:1701
+#: src/wbcg-actions.c:1710
 msgid "Format a region of cells according to a pre-defined template"
 msgstr ""
 
 #. Format -> Col
-#: src/wbcg-actions.c:1705
+#: src/wbcg-actions.c:1714
 msgid "_Width..."
 msgstr "_Lebar..."
 
-#: src/wbcg-actions.c:1706
+#: src/wbcg-actions.c:1715
 msgid "Change width of the selected columns"
 msgstr ""
 
-#: src/wbcg-actions.c:1708 src/wbcg-actions.c:1725
+#: src/wbcg-actions.c:1717 src/wbcg-actions.c:1734
 #, fuzzy
 msgid "_Auto fit selection"
 msgstr "_Auto muat pilihan"
 
-#: src/wbcg-actions.c:1709
+#: src/wbcg-actions.c:1718
 msgid "Ensure columns are just wide enough to display content"
 msgstr ""
 
-#: src/wbcg-actions.c:1712
+#: src/wbcg-actions.c:1721
 #, fuzzy
 msgid "Hide the selected columns"
 msgstr "Potong pilihan"
 
-#: src/wbcg-actions.c:1715
+#: src/wbcg-actions.c:1724
 msgid "Make any hidden columns in the selection visible"
 msgstr ""
 
-#: src/wbcg-actions.c:1717
+#: src/wbcg-actions.c:1726
 msgid "_Standard Width"
 msgstr "_Lebar Piawai"
 
-#: src/wbcg-actions.c:1718
+#: src/wbcg-actions.c:1727
 msgid "Change the default column width"
 msgstr "Tukar lebar kolum default"
 
 # ui/galeon.glade.h:268
 #. Format -> Row
-#: src/wbcg-actions.c:1722
+#: src/wbcg-actions.c:1731
 msgid "H_eight..."
 msgstr "_Tinggi..."
 
-#: src/wbcg-actions.c:1723
+#: src/wbcg-actions.c:1732
 msgid "Change height of the selected rows"
 msgstr "Tukar tinggi baris dipilih"
 
-#: src/wbcg-actions.c:1726
+#: src/wbcg-actions.c:1735
 msgid "Ensure rows are just tall enough to display content"
 msgstr ""
 
-#: src/wbcg-actions.c:1729
+#: src/wbcg-actions.c:1738
 #, fuzzy
 msgid "Hide the selected rows"
 msgstr "Potong pilihan"
 
-#: src/wbcg-actions.c:1732
+#: src/wbcg-actions.c:1741
 msgid "Make any hidden rows in the selection visible"
 msgstr ""
 
-#: src/wbcg-actions.c:1734
+#: src/wbcg-actions.c:1743
 #, fuzzy
 msgid "_Standard Height"
 msgstr "_Tinggi"
 
-#: src/wbcg-actions.c:1735
+#: src/wbcg-actions.c:1744
 msgid "Change the default row height"
 msgstr ""
 
 #. Tools
-#: src/wbcg-actions.c:1739
+#: src/wbcg-actions.c:1748
 msgid "_Plug-ins..."
 msgstr "_Plug-in"
 
-#: src/wbcg-actions.c:1740
+#: src/wbcg-actions.c:1749
 msgid "Manage available plugin modules"
 msgstr ""
 
-#: src/wbcg-actions.c:1742
+#: src/wbcg-actions.c:1751
 msgid "Auto _Correct..."
 msgstr "Auto Pem_betul..."
 
-#: src/wbcg-actions.c:1743
+#: src/wbcg-actions.c:1752
 msgid "Automatically perform simple spell checking"
 msgstr "Automatik lakukan penyemakan ejaan mudah"
 
-#: src/wbcg-actions.c:1745
+#: src/wbcg-actions.c:1754
 msgid "_Auto Save..."
 msgstr "_Auto Simpan..."
 
-#: src/wbcg-actions.c:1746
+#: src/wbcg-actions.c:1755
 msgid "Automatically save the current document at regular intervals"
 msgstr "Automatik simpan dokumen semasa pada selangmasa biasa"
 
-#: src/wbcg-actions.c:1748
+#: src/wbcg-actions.c:1757
 msgid "_Goal Seek..."
 msgstr ""
 
-#: src/wbcg-actions.c:1749
+#: src/wbcg-actions.c:1758
 msgid "Iteratively recalculate to find a target value"
 msgstr ""
 
-#: src/wbcg-actions.c:1751
+#: src/wbcg-actions.c:1760
 msgid "_Solver..."
 msgstr "_Penyelesai..."
 
-#: src/wbcg-actions.c:1752
+#: src/wbcg-actions.c:1761
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 
-#: src/wbcg-actions.c:1754
+#: src/wbcg-actions.c:1763
 #, fuzzy
 msgid "Si_mulation..."
 msgstr "Terjemahan: Hasbullah Bin Pit (sebol) <sebol@ikhlas.com>"
 
-#: src/wbcg-actions.c:1755
+#: src/wbcg-actions.c:1764
 msgid ""
 "Test decision alternatives by using Monte Carlo simulation to find out "
 "probable outputs and risks related to them"
@@ -24026,755 +24110,755 @@ msgstr ""
 
 # ui/galeon.glade.h:134
 #. Tools -> Scenarios
-#: src/wbcg-actions.c:1760
+#: src/wbcg-actions.c:1769
 #, fuzzy
 msgid "_View..."
 msgstr "_Lihat"
 
-#: src/wbcg-actions.c:1761
+#: src/wbcg-actions.c:1770
 msgid "View, delete and report different scenarios"
 msgstr ""
 
-#: src/wbcg-actions.c:1763
+#: src/wbcg-actions.c:1772
 #, fuzzy
 msgid "_Add..."
 msgstr "_Tambah"
 
-#: src/wbcg-actions.c:1764
+#: src/wbcg-actions.c:1773
 #, fuzzy
 msgid "Add a new scenario"
 msgstr "Tambah kolum baru"
 
 #. Tools -> ANOVA
-#: src/wbcg-actions.c:1768
+#: src/wbcg-actions.c:1777
 #, fuzzy
 msgid "_One Factor..."
 msgstr "_Satu Faktof"
 
-#: src/wbcg-actions.c:1769
+#: src/wbcg-actions.c:1778
 msgid "One Factor Analysis of Variance..."
 msgstr ""
 
-#: src/wbcg-actions.c:1771
+#: src/wbcg-actions.c:1780
 #, fuzzy
 msgid "_Two Factor..."
 msgstr "_Satu Faktof"
 
-#: src/wbcg-actions.c:1772
+#: src/wbcg-actions.c:1781
 msgid "Two Factor Analysis of Variance..."
 msgstr ""
 
 #. Tools -> Forecasting
-#: src/wbcg-actions.c:1776
+#: src/wbcg-actions.c:1785
 #, fuzzy
 msgid "_Exponential Smoothing..."
 msgstr "Eksponential"
 
-#: src/wbcg-actions.c:1777
+#: src/wbcg-actions.c:1786
 #, fuzzy
 msgid "Exponential smoothing..."
 msgstr "Eksponential"
 
-#: src/wbcg-actions.c:1779
+#: src/wbcg-actions.c:1788
 #, fuzzy
 msgid "_Moving Average..."
 msgstr "Purata _Bergerak"
 
-#: src/wbcg-actions.c:1780
+#: src/wbcg-actions.c:1789
 #, fuzzy
 msgid "Moving average..."
 msgstr "Memindah %s"
 
 #. Tools -> Two Means
-#: src/wbcg-actions.c:1784
+#: src/wbcg-actions.c:1793
 msgid "_Paired Samples: T-Test..."
 msgstr ""
 
-#: src/wbcg-actions.c:1785
+#: src/wbcg-actions.c:1794
 msgid "Comparing two population means for two paired samples: t-test..."
 msgstr ""
 
-#: src/wbcg-actions.c:1788
+#: src/wbcg-actions.c:1797
 msgid "Unpaired Samples, _Equal Variances: T-Test..."
 msgstr ""
 
-#: src/wbcg-actions.c:1789
+#: src/wbcg-actions.c:1798
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with equal variances: t-test..."
 msgstr ""
 
-#: src/wbcg-actions.c:1792
+#: src/wbcg-actions.c:1801
 msgid "Unpaired Samples, _Unequal Variances: T-Test..."
 msgstr ""
 
-#: src/wbcg-actions.c:1793
+#: src/wbcg-actions.c:1802
 msgid ""
 "Comparing two population means for two unpaired samples from populations "
 "with unequal variances: t-test..."
 msgstr ""
 
-#: src/wbcg-actions.c:1796
+#: src/wbcg-actions.c:1805
 msgid "_Known Variances: Z-Test..."
 msgstr ""
 
-#: src/wbcg-actions.c:1797
+#: src/wbcg-actions.c:1806
 msgid ""
 "Comparing two population means from populations with known variances: z-"
 "test..."
 msgstr ""
 
 #. Tools -> Analysis
-#: src/wbcg-actions.c:1801
+#: src/wbcg-actions.c:1810
 #, fuzzy
 msgid "_Correlation..."
 msgstr "_Kaitan"
 
-#: src/wbcg-actions.c:1802
+#: src/wbcg-actions.c:1811
 #, fuzzy
 msgid "Pearson Correlation"
 msgstr "Kaitan _songsang"
 
-#: src/wbcg-actions.c:1804
+#: src/wbcg-actions.c:1813
 #, fuzzy
 msgid "Co_variance..."
 msgstr "Pen_ampilan"
 
-#: src/wbcg-actions.c:1807
+#: src/wbcg-actions.c:1816
 #, fuzzy
 msgid "_Descriptive Statistics..."
 msgstr "Statistik"
 
-#: src/wbcg-actions.c:1808
-msgid "Various summary statistics"
-msgstr ""
-
-#: src/wbcg-actions.c:1810
-#, fuzzy
-msgid "_Fourier Analysis..."
-msgstr "Analisis _Fourier"
-
-#: src/wbcg-actions.c:1813
-#, fuzzy
-msgid "_Histogram..."
-msgstr "Sejarah"
-
-#: src/wbcg-actions.c:1814
-msgid "Various frequency tables"
-msgstr ""
-
-#: src/wbcg-actions.c:1816
-msgid "Ranks And _Percentiles..."
-msgstr ""
-
 #: src/wbcg-actions.c:1817
-msgid "Ranks, placements and percentiles"
+msgid "Various summary statistics"
 msgstr ""
 
 #: src/wbcg-actions.c:1819
 #, fuzzy
+msgid "_Fourier Analysis..."
+msgstr "Analisis _Fourier"
+
+#: src/wbcg-actions.c:1822
+#, fuzzy
+msgid "_Histogram..."
+msgstr "Sejarah"
+
+#: src/wbcg-actions.c:1823
+msgid "Various frequency tables"
+msgstr ""
+
+#: src/wbcg-actions.c:1825
+msgid "Ranks And _Percentiles..."
+msgstr ""
+
+#: src/wbcg-actions.c:1826
+msgid "Ranks, placements and percentiles"
+msgstr ""
+
+#: src/wbcg-actions.c:1828
+#, fuzzy
 msgid "_Regression..."
 msgstr "Ikon Refresh"
 
-#: src/wbcg-actions.c:1820
+#: src/wbcg-actions.c:1829
 msgid "Regression Analysis"
 msgstr ""
 
-#: src/wbcg-actions.c:1822
+#: src/wbcg-actions.c:1831
 #, fuzzy
 msgid "_Sampling..."
 msgstr "Peng_sampelan"
 
-#: src/wbcg-actions.c:1823
+#: src/wbcg-actions.c:1832
 msgid "Periodic and random samples"
 msgstr ""
 
-#: src/wbcg-actions.c:1825
+#: src/wbcg-actions.c:1834
 msgid "_Two Variances: FTest..."
 msgstr ""
 
-#: src/wbcg-actions.c:1826
+#: src/wbcg-actions.c:1835
 msgid "Comparing two population variances"
 msgstr ""
 
 #. Data
-#: src/wbcg-actions.c:1830
+#: src/wbcg-actions.c:1839
 msgid "_Sort..."
 msgstr "I_sih..."
 
-#: src/wbcg-actions.c:1831
+#: src/wbcg-actions.c:1840
 msgid "Sort the selected region"
 msgstr "Isih kawasan dipilih"
 
-#: src/wbcg-actions.c:1833
+#: src/wbcg-actions.c:1842
 msgid "Sh_uffle..."
 msgstr ""
 
-#: src/wbcg-actions.c:1834
+#: src/wbcg-actions.c:1843
 msgid "Shuffle cells, rows or columns"
 msgstr ""
 
-#: src/wbcg-actions.c:1836
+#: src/wbcg-actions.c:1845
 msgid "_Validate..."
 msgstr "_Tentusah..."
 
-#: src/wbcg-actions.c:1837
+#: src/wbcg-actions.c:1846
 msgid "Validate input with preset criteria"
 msgstr ""
 
-#: src/wbcg-actions.c:1839
+#: src/wbcg-actions.c:1848
 #, fuzzy
 msgid "_Text to Columns..."
 msgstr "A_utomuat Kolum"
 
-#: src/wbcg-actions.c:1840
+#: src/wbcg-actions.c:1849
 #, fuzzy
 msgid "Parse the text in the selection into data"
 msgstr "Tengahkan teks pada setiap pilihan"
 
-#: src/wbcg-actions.c:1842
+#: src/wbcg-actions.c:1851
 #, fuzzy
 msgid "_Consolidate..."
 msgstr "Konsol _Java..."
 
-#: src/wbcg-actions.c:1843
+#: src/wbcg-actions.c:1852
 msgid "Consolidate regions using a function"
 msgstr ""
 
-#: src/wbcg-actions.c:1847
+#: src/wbcg-actions.c:1856
 #, fuzzy
 msgid "_PivotTable..."
 msgstr "_Cetak..."
 
-#: src/wbcg-actions.c:1848
+#: src/wbcg-actions.c:1857
 msgid "Create a pivot table"
 msgstr "Cipta jadual pivot"
 
 #. Data -> Outline
-#: src/wbcg-actions.c:1853
+#: src/wbcg-actions.c:1862
 #, fuzzy
 msgid "_Hide Detail"
 msgstr "Terperinci"
 
-#: src/wbcg-actions.c:1854
+#: src/wbcg-actions.c:1863
 #, fuzzy
 msgid "Collapse an outline group"
 msgstr "_Kuncupkan semua kategori"
 
-#: src/wbcg-actions.c:1856
+#: src/wbcg-actions.c:1865
 msgid "_Show Detail"
 msgstr "_Papar Terperinci"
 
-#: src/wbcg-actions.c:1857
+#: src/wbcg-actions.c:1866
 msgid "Uncollapse an outline group"
 msgstr ""
 
-#: src/wbcg-actions.c:1859
+#: src/wbcg-actions.c:1868
 msgid "_Group..."
 msgstr "_Kumpulan..."
 
-#: src/wbcg-actions.c:1860
+#: src/wbcg-actions.c:1869
 msgid "Add an outline group"
 msgstr ""
 
-#: src/wbcg-actions.c:1862
+#: src/wbcg-actions.c:1871
 msgid "_Ungroup..."
 msgstr "_Lerai..."
 
-#: src/wbcg-actions.c:1863
+#: src/wbcg-actions.c:1872
 msgid "Remove an outline group"
 msgstr ""
 
 #. Data -> Filter
-#: src/wbcg-actions.c:1867 src/workbook-control-gui.c:1034
+#: src/wbcg-actions.c:1876 src/workbook-control-gui.c:1034
 #, fuzzy
 msgid "Add _Auto Filter"
 msgstr "Tapisan Lanjutan"
 
-#: src/wbcg-actions.c:1868
+#: src/wbcg-actions.c:1877
 msgid "Add or remove a filter"
 msgstr "Tambah atau buang tapisan"
 
-#: src/wbcg-actions.c:1870
+#: src/wbcg-actions.c:1879
 msgid "_Show All"
 msgstr "Papar _Semua"
 
-#: src/wbcg-actions.c:1871
+#: src/wbcg-actions.c:1880
 msgid "Show all filtered and hidden rows"
 msgstr ""
 
-#: src/wbcg-actions.c:1873
+#: src/wbcg-actions.c:1882
 msgid "Advanced _Filter..."
 msgstr "_Tapisan Lanjutan..."
 
-#: src/wbcg-actions.c:1874
+#: src/wbcg-actions.c:1883
 msgid "Filter data with given criteria"
 msgstr ""
 
 #. Data -> External
-#: src/wbcg-actions.c:1877
+#: src/wbcg-actions.c:1886
 #, fuzzy
 msgid "Import _Text File..."
 msgstr "Import satu fail"
 
-#: src/wbcg-actions.c:1878
+#: src/wbcg-actions.c:1887
 #, fuzzy
 msgid "Import the text from a file"
 msgstr "Import satu fail"
 
 #. Standard Toolbar
-#: src/wbcg-actions.c:1882 src/workbook-control-gui.c:1827
+#: src/wbcg-actions.c:1891 src/workbook-control-gui.c:1829
 #: src/workbook-view.c:542
 msgid "Sum"
 msgstr "Jumlahkan"
 
-#: src/wbcg-actions.c:1883
+#: src/wbcg-actions.c:1892
 #, fuzzy
 msgid "Sum into the current cell"
 msgstr "Cetak laman semasa"
 
-#: src/wbcg-actions.c:1886
+#: src/wbcg-actions.c:1895
 #, fuzzy
 msgid "Edit a function in the current cell"
 msgstr "Edit fungsi pada sel semasa."
 
-#: src/wbcg-actions.c:1890
+#: src/wbcg-actions.c:1899
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr ""
 
-#: src/wbcg-actions.c:1892
+#: src/wbcg-actions.c:1901
 msgid "Sort Descending"
 msgstr "Isih Menurun"
 
-#: src/wbcg-actions.c:1893
+#: src/wbcg-actions.c:1902
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
 msgstr ""
 
-#: src/wbcg-actions.c:1898
+#: src/wbcg-actions.c:1907
 msgid "Create a label"
 msgstr "Cipta satu label"
 
-#: src/wbcg-actions.c:1901
+#: src/wbcg-actions.c:1910
 msgid "Create a frame"
 msgstr "Cipta satu kerangka"
 
-#: src/wbcg-actions.c:1903
+#: src/wbcg-actions.c:1912
 msgid "Checkbox"
 msgstr ""
 
-#: src/wbcg-actions.c:1904
+#: src/wbcg-actions.c:1913
 msgid "Create a checkbox"
 msgstr "Cipta satu kekotak semak"
 
-#: src/wbcg-actions.c:1906
+#: src/wbcg-actions.c:1915
 msgid "Scrollbar"
 msgstr "Bar skrol"
 
-#: src/wbcg-actions.c:1907
+#: src/wbcg-actions.c:1916
 msgid "Create a scrollbar"
 msgstr "Cipta satu bar skrol"
 
-#: src/wbcg-actions.c:1909
+#: src/wbcg-actions.c:1918
 #, fuzzy
 msgid "Slider"
 msgstr "Tegar"
 
-#: src/wbcg-actions.c:1910
+#: src/wbcg-actions.c:1919
 msgid "Create a slider"
 msgstr "Cipta satu penggelungsur"
 
-#: src/wbcg-actions.c:1912
+#: src/wbcg-actions.c:1921
 #, fuzzy
 msgid "SpinButton"
 msgstr "Butang"
 
-#: src/wbcg-actions.c:1913
+#: src/wbcg-actions.c:1922
 msgid "Create a spin button"
 msgstr "Cipta satu butang pusing"
 
-#: src/wbcg-actions.c:1915 templates/autoformat/autoformat.3D.list.xml.in.h:3
+#: src/wbcg-actions.c:1924 templates/autoformat/autoformat.3D.list.xml.in.h:3
 msgid "List"
 msgstr "Senarai"
 
-#: src/wbcg-actions.c:1916
+#: src/wbcg-actions.c:1925
 msgid "Create a list"
 msgstr "Cipta satu senarai"
 
-#: src/wbcg-actions.c:1918
+#: src/wbcg-actions.c:1927
 msgid "Combo Box"
 msgstr "Kekotak Combo"
 
-#: src/wbcg-actions.c:1919
+#: src/wbcg-actions.c:1928
 msgid "Create a combo box"
 msgstr "Cipta satu kekotak kombo"
 
-#: src/wbcg-actions.c:1922
+#: src/wbcg-actions.c:1931
 msgid "Create a line object"
 msgstr "Cipta satu objek garisan"
 
-#: src/wbcg-actions.c:1924
+#: src/wbcg-actions.c:1933
 msgid "Arrow"
 msgstr "Panah"
 
-#: src/wbcg-actions.c:1925
+#: src/wbcg-actions.c:1934
 msgid "Create an arrow object"
 msgstr "Cipta satu objek panah"
 
-#: src/wbcg-actions.c:1927
+#: src/wbcg-actions.c:1936
 msgid "Rectangle"
 msgstr "Segi empat"
 
-#: src/wbcg-actions.c:1928
+#: src/wbcg-actions.c:1937
 msgid "Create a rectangle object"
 msgstr "Cipta satu objek segiempat"
 
-#: src/wbcg-actions.c:1930
+#: src/wbcg-actions.c:1939
 msgid "Ellipse"
 msgstr ""
 
-#: src/wbcg-actions.c:1931
+#: src/wbcg-actions.c:1940
 msgid "Create an ellipse object"
 msgstr "Cipta satu objek elips"
 
-#: src/wbcg-actions.c:1934
+#: src/wbcg-actions.c:1943
 msgid "Create a button"
 msgstr "Cipta satu butang"
 
-#: src/wbcg-actions.c:1937
+#: src/wbcg-actions.c:1946
 msgid "Create a radio button"
 msgstr "Cipta satu butang radio"
 
-#: src/wbcg-actions.c:1942
+#: src/wbcg-actions.c:1951
 msgid "Merge a range of cells"
 msgstr ""
 
-#: src/wbcg-actions.c:1944
+#: src/wbcg-actions.c:1953
 msgid "Split"
 msgstr "Pisah"
 
-#: src/wbcg-actions.c:1945
+#: src/wbcg-actions.c:1954
 msgid "Split merged ranges of cells"
 msgstr ""
 
-#: src/wbcg-actions.c:1949
+#: src/wbcg-actions.c:1958
 #, fuzzy
 msgid "Format the selection as numbers"
 msgstr "Format sebagai Nombor"
 
-#: src/wbcg-actions.c:1951 src/widgets/widget-format-selector.c:77
+#: src/wbcg-actions.c:1960 src/widgets/widget-format-selector.c:77
 msgid "Currency"
 msgstr "Matawang"
 
-#: src/wbcg-actions.c:1952
+#: src/wbcg-actions.c:1961
 #, fuzzy
 msgid "Format the selection as currency"
 msgstr "Format sebagai Matawang"
 
-#: src/wbcg-actions.c:1954 src/widgets/widget-format-selector.c:78
+#: src/wbcg-actions.c:1963 src/widgets/widget-format-selector.c:78
 msgid "Accounting"
 msgstr "Perakaunan"
 
-#: src/wbcg-actions.c:1955
+#: src/wbcg-actions.c:1964
 msgid "Format the selection as accounting"
 msgstr ""
 
-#: src/wbcg-actions.c:1957 src/widgets/widget-format-selector.c:81
+#: src/wbcg-actions.c:1966 src/widgets/widget-format-selector.c:81
 msgid "Percentage"
 msgstr "Peratus"
 
-#: src/wbcg-actions.c:1958
+#: src/wbcg-actions.c:1967
 #, fuzzy
 msgid "Format the selection as percentage"
 msgstr "Format sebagai Peratus"
 
-#: src/wbcg-actions.c:1960 src/widgets/widget-format-selector.c:83
+#: src/wbcg-actions.c:1969 src/widgets/widget-format-selector.c:83
 msgid "Scientific"
 msgstr "Saintifik"
 
-#: src/wbcg-actions.c:1961
+#: src/wbcg-actions.c:1970
 #, fuzzy
 msgid "Format the selection as scientific"
 msgstr "Format sebagai Saintifik"
 
-#: src/wbcg-actions.c:1963 src/widgets/widget-format-selector.c:79
+#: src/wbcg-actions.c:1972 src/widgets/widget-format-selector.c:79
 msgid "Date"
 msgstr "Tarikh"
 
-#: src/wbcg-actions.c:1964
+#: src/wbcg-actions.c:1973
 #, fuzzy
 msgid "Format the selection as date"
 msgstr "Potong pilihan"
 
-#: src/wbcg-actions.c:1966 src/widgets/widget-format-selector.c:80
+#: src/wbcg-actions.c:1975 src/widgets/widget-format-selector.c:80
 msgid "Time"
 msgstr "Masa"
 
-#: src/wbcg-actions.c:1967
+#: src/wbcg-actions.c:1976
 #, fuzzy
 msgid "Format the selection as time"
 msgstr "Potong pilihan"
 
-#: src/wbcg-actions.c:1969
+#: src/wbcg-actions.c:1978
 #, fuzzy
 msgid "AddBorders"
 msgstr "Tambah Sempadan"
 
-#: src/wbcg-actions.c:1970
+#: src/wbcg-actions.c:1979
 #, fuzzy
 msgid "Add a border the the selection"
 msgstr "Potong pilihan"
 
-#: src/wbcg-actions.c:1972
+#: src/wbcg-actions.c:1981
 #, fuzzy
 msgid "ClearBorders"
 msgstr "Terangkan Sempadan"
 
-#: src/wbcg-actions.c:1973
+#: src/wbcg-actions.c:1982
 #, fuzzy
 msgid "Clear the border around the selection"
 msgstr "Ketengah me_rentas pilihan"
 
-#: src/wbcg-actions.c:1976
+#: src/wbcg-actions.c:1985
 #, fuzzy
 msgid "Thousands Separator"
 msgstr "Pemisah _baru"
 
-#: src/wbcg-actions.c:1977
+#: src/wbcg-actions.c:1986
 msgid "Set the format of the selected cells to include a thousands separator"
 msgstr ""
 
-#: src/wbcg-actions.c:1979
+#: src/wbcg-actions.c:1988
 msgid "Increase Precision"
 msgstr "Naikkan ketepatan"
 
-#: src/wbcg-actions.c:1980
+#: src/wbcg-actions.c:1989
 msgid "Increase the number of decimals displayed"
 msgstr "Naikkan bilangan desimal yg dipaparkan"
 
-#: src/wbcg-actions.c:1982
+#: src/wbcg-actions.c:1991
 msgid "Decrease Precision"
 msgstr "Kurangkan Ketepatan"
 
-#: src/wbcg-actions.c:1983
+#: src/wbcg-actions.c:1992
 msgid "Decrease the number of decimals displayed"
 msgstr ""
 
-#: src/wbcg-actions.c:1986
+#: src/wbcg-actions.c:1995
 msgid "Decrease the indent, and align the contents to the left"
 msgstr ""
 
-#: src/wbcg-actions.c:1989
+#: src/wbcg-actions.c:1998
 msgid "Increase the indent, and align the contents to the left"
 msgstr ""
 
 #. const 142334
-#: src/wbcg-actions.c:2027
+#: src/wbcg-actions.c:2036
 msgid "Display _Outlines"
 msgstr ""
 
-#: src/wbcg-actions.c:2028
+#: src/wbcg-actions.c:2037
 msgid "Toggle whether or not to display outline groups"
 msgstr ""
 
-#: src/wbcg-actions.c:2030
+#: src/wbcg-actions.c:2039
 msgid "Outlines _Below"
 msgstr ""
 
-#: src/wbcg-actions.c:2031
+#: src/wbcg-actions.c:2040
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr ""
 
-#: src/wbcg-actions.c:2033
+#: src/wbcg-actions.c:2042
 msgid "Outlines _Right"
 msgstr ""
 
-#: src/wbcg-actions.c:2034
+#: src/wbcg-actions.c:2043
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 
-#: src/wbcg-actions.c:2036
+#: src/wbcg-actions.c:2045
 msgid "Display _Formulas"
 msgstr "Papar _Formula"
 
-#: src/wbcg-actions.c:2037
+#: src/wbcg-actions.c:2046
 msgid "Display the value of a formula or the formula itself"
 msgstr ""
 
-#: src/wbcg-actions.c:2039
+#: src/wbcg-actions.c:2048
 msgid "Hide _Zeros"
 msgstr "Sembunyi _Sifar"
 
-#: src/wbcg-actions.c:2040
+#: src/wbcg-actions.c:2049
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr ""
 
-#: src/wbcg-actions.c:2042
+#: src/wbcg-actions.c:2051
 msgid "Hide _Gridlines"
 msgstr ""
 
-#: src/wbcg-actions.c:2043
+#: src/wbcg-actions.c:2052
 msgid "Toggle whether or not to display gridlines"
 msgstr ""
 
-#: src/wbcg-actions.c:2045
+#: src/wbcg-actions.c:2054
 msgid "Hide _Column Headers"
 msgstr ""
 
-#: src/wbcg-actions.c:2046
+#: src/wbcg-actions.c:2055
 msgid "Toggle whether or not to display column headers"
 msgstr ""
 
-#: src/wbcg-actions.c:2048
+#: src/wbcg-actions.c:2057
 msgid "Hide _Row Headers"
 msgstr "Sembunyi Pengepala _Baris"
 
-#: src/wbcg-actions.c:2049
+#: src/wbcg-actions.c:2058
 msgid "Toggle whether or not to display row headers"
 msgstr ""
 
-#: src/wbcg-actions.c:2053
+#: src/wbcg-actions.c:2062
 #, fuzzy
 msgid "_Left Align"
 msgstr "Jajaran Kiri"
 
-#: src/wbcg-actions.c:2054 src/wbc-gtk.c:324
+#: src/wbcg-actions.c:2063 src/wbc-gtk.c:324
 #, fuzzy
 msgid "Align left"
 msgstr "Jajaran"
 
-#: src/wbcg-actions.c:2056
+#: src/wbcg-actions.c:2065
 #, fuzzy
 msgid "_Center"
 msgstr "Tengah"
 
-#: src/wbcg-actions.c:2057 src/wbc-gtk.c:325
+#: src/wbcg-actions.c:2066 src/wbc-gtk.c:325
 #, fuzzy
 msgid "Center horizontally"
 msgstr "Meng_ufuk"
 
 # ui/galeon.glade.h:268
-#: src/wbcg-actions.c:2059
+#: src/wbcg-actions.c:2068
 #, fuzzy
 msgid "_Right Align"
 msgstr "Jajaran kanan"
 
 # ui/galeon.glade.h:268
-#: src/wbcg-actions.c:2060 src/wbc-gtk.c:326
+#: src/wbcg-actions.c:2069 src/wbc-gtk.c:326
 #, fuzzy
 msgid "Align right"
 msgstr "Kanan"
 
-#: src/wbcg-actions.c:2062
+#: src/wbcg-actions.c:2071
 #, fuzzy
 msgid "_Center Across Selection"
 msgstr "CenterAcrossSelection"
 
-#: src/wbcg-actions.c:2063 src/wbc-gtk.c:329
+#: src/wbcg-actions.c:2072 src/wbc-gtk.c:329
 #, fuzzy
 msgid "Center horizontally across the selection"
 msgstr "Ketengah me_rentas pilihan"
 
-#: src/wbcg-actions.c:2066
+#: src/wbcg-actions.c:2075
 #, fuzzy
 msgid "_Merge and Center"
 msgstr "Me_negak"
 
-#: src/wbcg-actions.c:2067
+#: src/wbcg-actions.c:2076
 msgid "Merge the selection into 1 cell, and center horizontaly."
 msgstr ""
 
-#: src/wbcg-actions.c:2074
+#: src/wbcg-actions.c:2083
 msgid "Align _Top"
 msgstr ""
 
-#: src/wbcg-actions.c:2075 src/wbc-gtk.c:336
+#: src/wbcg-actions.c:2084 src/wbc-gtk.c:336
 msgid "Align Top"
 msgstr ""
 
-#: src/wbcg-actions.c:2077
+#: src/wbcg-actions.c:2086
 #, fuzzy
 msgid "_Vertically Center"
 msgstr "Me_negak"
 
-#: src/wbcg-actions.c:2078
+#: src/wbcg-actions.c:2087
 #, fuzzy
 msgid "Vertically Center"
 msgstr "Me_negak"
 
-#: src/wbcg-actions.c:2080
+#: src/wbcg-actions.c:2089
 #, fuzzy
 msgid "Align _Bottom"
 msgstr "_Bawah"
 
-#: src/wbcg-actions.c:2081 src/wbc-gtk.c:338
+#: src/wbcg-actions.c:2090 src/wbc-gtk.c:338
 #, fuzzy
 msgid "Align Bottom"
 msgstr "Tebal Bawah"
 
-#: src/wbcg-actions.c:2084
+#: src/wbcg-actions.c:2093
 msgid "View _Statusbar"
 msgstr ""
 
-#: src/wbcg-actions.c:2085
+#: src/wbcg-actions.c:2094
 msgid "Toggle visibility of statusbar"
 msgstr ""
 
-#: src/wbcg-actions.c:2089
+#: src/wbcg-actions.c:2098
 msgid "F_ull Screen..."
 msgstr ""
 
-#: src/wbcg-actions.c:2090
+#: src/wbcg-actions.c:2099
 msgid "in or out"
 msgstr ""
 
-#: src/wbcg-actions.c:2095
+#: src/wbcg-actions.c:2104
 #, fuzzy
 msgid "_Bold"
 msgstr "Bold"
 
 #. ALSO "<control>2"
-#: src/wbcg-actions.c:2096 src/widgets/widget-font-selector.c:201
+#: src/wbcg-actions.c:2105 src/widgets/widget-font-selector.c:201
 msgid "Bold"
 msgstr "Bold"
 
-#: src/wbcg-actions.c:2098
+#: src/wbcg-actions.c:2107
 #, fuzzy
 msgid "_Italic"
 msgstr "Italik"
 
 #. ALSO "<control>3"
-#: src/wbcg-actions.c:2099 src/widgets/widget-font-selector.c:203
+#: src/wbcg-actions.c:2108 src/widgets/widget-font-selector.c:203
 msgid "Italic"
 msgstr "Italik"
 
-#: src/wbcg-actions.c:2101
+#: src/wbcg-actions.c:2110
 #, fuzzy
 msgid "_Underline"
 msgstr "Garisbawah"
 
 #. ALSO "<control>4"
-#: src/wbcg-actions.c:2102
+#: src/wbcg-actions.c:2111
 msgid "Underline"
 msgstr "Garisbawah"
 
-#: src/wbcg-actions.c:2104
+#: src/wbcg-actions.c:2113
 msgid "_Strike Through"
 msgstr ""
 
-#: src/wbcg-actions.c:2105
+#: src/wbcg-actions.c:2114
 msgid "Strike Through"
 msgstr ""
 
-#: src/wbcg-actions.c:2108
+#: src/wbcg-actions.c:2117
 #, fuzzy
 msgid "_Double Underline"
 msgstr "Garisbawah"
 
-#: src/wbcg-actions.c:2109
+#: src/wbcg-actions.c:2118
 #, fuzzy
 msgid "Double Underline"
 msgstr "Garisbawah"
@@ -26117,17 +26201,17 @@ msgstr "Jangan Keluar"
 msgid "Don't close"
 msgstr "Jangan tutup"
 
-#: src/workbook-control-gui.c:2237 src/workbook-control-gui.c:2252
+#: src/workbook-control-gui.c:2236 src/workbook-control-gui.c:2251
 #, fuzzy
 msgid "_Re-Edit"
 msgstr "Ulang-Edit"
 
-#: src/workbook-control-gui.c:2238 src/workbook-control-gui.c:2243
+#: src/workbook-control-gui.c:2237 src/workbook-control-gui.c:2242
 #, fuzzy
 msgid "_Discard"
 msgstr "_Dimatikan"
 
-#: src/workbook-control-gui.c:2242 src/workbook-control-gui.c:2253
+#: src/workbook-control-gui.c:2241 src/workbook-control-gui.c:2252
 #, fuzzy
 msgid "_Accept"
 msgstr "Terima"
@@ -26192,32 +26276,32 @@ msgstr "Format fail tidak disokong."
 msgid "An unexplained error happened while opening %s"
 msgstr ""
 
-#: src/xml-io.c:3473
+#: src/xml-io.c:3478
 msgid "Unparsable xml in clipboard"
 msgstr "Xml tak boleh dihantar pada papanklip"
 
-#: src/xml-io.c:3480
+#: src/xml-io.c:3485
 msgid "Clipboard is in unknown format"
 msgstr "Format Papanklip tidak diketahui"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3920
+#: src/xml-io.c:3925
 msgid "Processing file..."
 msgstr "Memproses fail..."
 
-#: src/xml-io.c:4247
+#: src/xml-io.c:4252
 #, fuzzy
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Adalah bukan fail Bukukerja Gnumeric"
 
-#: src/xml-io.c:4284
+#: src/xml-io.c:4289
 #, fuzzy
 msgid "Failure saving file"
 msgstr "Ralat berlaku ketika menyimpan fail ."
 
-#: src/xml-io.c:4332
+#: src/xml-io.c:4337
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr ""
 
@@ -26665,9 +26749,6 @@ msgstr "Nama bagi templat"
 #~ msgid "The filename given is not valid in the current encoding."
 #~ msgstr "Penyimpan fail default tidak ada."
 
-#~ msgid "Invalid password"
-#~ msgstr "Katalaluan tidak sah"
-
 #~ msgid "Type mismatch"
 #~ msgstr "Jenis tidak padan"
 
@@ -26801,11 +26882,6 @@ msgstr "Nama bagi templat"
 
 #~ msgid "_Output Range:"
 #~ msgstr "Julat _Output:"
-
-# ui/galeon.glade.h:268
-#, fuzzy
-#~ msgid "_Right-Left"
-#~ msgstr "Kanan"
 
 #~ msgid "Miguel de Icaza, creator."
 #~ msgstr "Miguel de Icaza, pencipta."

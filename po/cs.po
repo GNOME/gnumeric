@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-28 11:27+0100\n"
+"POT-Creation-Date: 2005-02-08 00:53-0500\n"
 "PO-Revision-Date: 2005-01-29 15:35+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -1676,7 +1676,7 @@ msgstr ""
 "Byla už zapsána délka řetězce, který musí být zkrácen díky problémům s "
 "kódováním."
 
-#: plugins/excel/ms-excel-write.c:4199
+#: plugins/excel/ms-excel-write.c:4201
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1685,7 +1685,7 @@ msgstr ""
 "Při ukládání jako MS Excel™ 95 bude něco z obsahu ztraceno. Tento formát "
 "podporuje pouze %d řádků, tento sešit jich má %d"
 
-#: plugins/excel/ms-excel-write.c:4206
+#: plugins/excel/ms-excel-write.c:4208
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1694,11 +1694,11 @@ msgstr ""
 "Při ukládání jako MS Excel™ bude něco z obsahu ztraceno. Tento formát "
 "podporuje pouze %d řádků a tento sešit jich má %d"
 
-#: plugins/excel/ms-excel-write.c:4971
+#: plugins/excel/ms-excel-write.c:4973
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Nepodařilo se otevřít kanál 'Book' pro zápis\n"
 
-#: plugins/excel/ms-excel-write.c:4991
+#: plugins/excel/ms-excel-write.c:4993
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Nepodařilo se otevřít kanál 'Workbook' pro zápis\n"
 
@@ -5063,7 +5063,7 @@ msgstr "datum1,datum2,interval"
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:476
+#: src/print-info.c:486
 msgid "date"
 msgstr "datum"
 
@@ -5080,7 +5080,7 @@ msgid "start_date,months"
 msgstr "poč_datum,měsíce"
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:477
+#: plugins/fn-date/functions.c:1265 src/print-info.c:487
 msgid "time"
 msgstr "čas"
 
@@ -5139,11 +5139,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=BASE\n"
 "@SYNTAX=BASE(číslo,základ[,délka])\n"
-"@DESCRIPTION=Funkce BASE převede číslo na řetězec reprezentující toto číslo v číselné soustavě @základ.\n"
+"@DESCRIPTION=Funkce BASE převede číslo na řetězec reprezentující toto číslo "
+"v číselné soustavě @základ.\n"
 "\n"
 "* @základ musí být celé číslo mezi 2 a 36.\n"
 "* Tato funkce je kompatibilní s OpenOffice.Org.\n"
-"* Nepovinný parametr @délka určuje minimální délku výsledku. Pro dosažení této délky budou přidány nuly na začátek.\n"
+"* Nepovinný parametr @délka určuje minimální délku výsledku. Pro dosažení "
+"této délky budou přidány nuly na začátek.\n"
 "\n"
 "@EXAMPLES=\n"
 "BASE(255,16,4) se rovná \"00FF\".\n"
@@ -5340,7 +5342,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DECIMAL\n"
 "@SYNTAX=DECIMAL(text,základ)\n"
-"@DESCRIPTION=Funkce DECIMAL převede číslo v číselné soustavě @base na desítkové.\n"
+"@DESCRIPTION=Funkce DECIMAL převede číslo v číselné soustavě @base na "
+"desítkové.\n"
 "\n"
 "* @základ musí být celé číslo mezi 2 a 36.\n"
 "* Tato funkce je kompatibilní s OpenOffice.Org.\n"
@@ -9425,7 +9428,7 @@ msgstr "info_type, buňka"
 #: plugins/fn-info/functions.c:1843 plugins/fn-info/functions.c:1846
 #: plugins/fn-info/functions.c:1849 plugins/fn-info/functions.c:1852
 #: plugins/fn-info/functions.c:1855 plugins/fn-info/functions.c:1861
-#: plugins/fn-string/functions.c:1182
+#: plugins/fn-string/functions.c:1191
 msgid "value"
 msgstr "hodnota"
 
@@ -9438,12 +9441,12 @@ msgstr "info_type"
 msgid "range"
 msgstr "oblast"
 
-#: plugins/fn-info/functions.c:1870 plugins/fn-string/functions.c:1125
-#: plugins/fn-string/functions.c:1128 plugins/fn-string/functions.c:1131
-#: plugins/fn-string/functions.c:1152 plugins/fn-string/functions.c:1155
-#: plugins/fn-string/functions.c:1158 plugins/fn-string/functions.c:1164
-#: plugins/fn-string/functions.c:1188 plugins/fn-string/functions.c:1191
-#: plugins/fn-string/functions.c:1194
+#: plugins/fn-info/functions.c:1870 plugins/fn-string/functions.c:1134
+#: plugins/fn-string/functions.c:1137 plugins/fn-string/functions.c:1140
+#: plugins/fn-string/functions.c:1161 plugins/fn-string/functions.c:1164
+#: plugins/fn-string/functions.c:1167 plugins/fn-string/functions.c:1173
+#: plugins/fn-string/functions.c:1197 plugins/fn-string/functions.c:1200
+#: plugins/fn-string/functions.c:1203
 msgid "text"
 msgstr "text"
 
@@ -9742,8 +9745,8 @@ msgstr "číslo,číslo,"
 #: plugins/fn-math/functions.c:3342 plugins/fn-math/functions.c:3354
 #: plugins/fn-math/functions.c:3357 plugins/fn-stat/functions.c:5706
 #: plugins/fn-stat/functions.c:5709 plugins/fn-stat/functions.c:5727
-#: plugins/fn-stat/functions.c:5805 plugins/fn-string/functions.c:1119
-#: plugins/fn-string/functions.c:1122
+#: plugins/fn-stat/functions.c:5805 plugins/fn-string/functions.c:1128
+#: plugins/fn-string/functions.c:1131
 msgid "number"
 msgstr "číslo"
 
@@ -10780,9 +10783,10 @@ msgstr ""
 "@SEEALSO=COUNTIF, SUM"
 
 #: plugins/fn-math/functions.c:753
+#, fuzzy
 msgid ""
 "@FUNCTION=CEILING\n"
-"@SYNTAX=CEILING(x,significance)\n"
+"@SYNTAX=CEILING(x[,significance])\n"
 "@DESCRIPTION=CEILING function rounds @x up to the nearest multiple of "
 "@significance.\n"
 "\n"
@@ -17477,7 +17481,7 @@ msgstr ""
 "\n"
 "@SEEALSO=REPLACE, TRIM"
 
-#: plugins/fn-string/functions.c:992
+#: plugins/fn-string/functions.c:1001
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[,decimals])\n"
@@ -17501,7 +17505,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 
-#: plugins/fn-string/functions.c:1048
+#: plugins/fn-string/functions.c:1057
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(search_string,text[,start_num])\n"
@@ -17547,51 +17551,51 @@ msgstr ""
 "\n"
 "@SEEALSO=FIND"
 
-#: plugins/fn-string/functions.c:1134
+#: plugins/fn-string/functions.c:1143
 msgid "text,text,"
 msgstr "text,text,"
 
-#: plugins/fn-string/functions.c:1137
+#: plugins/fn-string/functions.c:1146
 msgid "num,decimals"
 msgstr "počet,des_místa"
 
-#: plugins/fn-string/functions.c:1140
+#: plugins/fn-string/functions.c:1149
 msgid "text1,text2"
 msgstr "text1,text2"
 
-#: plugins/fn-string/functions.c:1143
+#: plugins/fn-string/functions.c:1152
 msgid "text1,text2,num"
 msgstr "text1,text2,počet"
 
-#: plugins/fn-string/functions.c:1146
+#: plugins/fn-string/functions.c:1155
 msgid "num,decs,no_commas"
 msgstr "počet,des,bez_čárek"
 
-#: plugins/fn-string/functions.c:1149 plugins/fn-string/functions.c:1173
+#: plugins/fn-string/functions.c:1158 plugins/fn-string/functions.c:1182
 msgid "text,num_chars"
 msgstr "text,počet_znaků"
 
-#: plugins/fn-string/functions.c:1161
+#: plugins/fn-string/functions.c:1170
 msgid "text,pos,num"
 msgstr "text,poz,počet"
 
-#: plugins/fn-string/functions.c:1167
+#: plugins/fn-string/functions.c:1176
 msgid "old,start,num,new"
 msgstr "starý,zač,počet,nový"
 
-#: plugins/fn-string/functions.c:1170
+#: plugins/fn-string/functions.c:1179
 msgid "text,num"
 msgstr "text,počet"
 
-#: plugins/fn-string/functions.c:1176
+#: plugins/fn-string/functions.c:1185
 msgid "search_string,text,start_num"
 msgstr "hledaný_řetězec,text,počáteční_číslo"
 
-#: plugins/fn-string/functions.c:1179
+#: plugins/fn-string/functions.c:1188
 msgid "text,old,new,num"
 msgstr "text,starý,nový,počet"
 
-#: plugins/fn-string/functions.c:1185
+#: plugins/fn-string/functions.c:1194
 msgid "value,format_text"
 msgstr "hodnota,formát_textu"
 
@@ -17851,7 +17855,7 @@ msgstr "Objektivní funkce:"
 msgid "Constraints:"
 msgstr "Omezení:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6174
+#: plugins/mps/mps.c:245 src/commands.c:6175
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1063
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
@@ -18668,10 +18672,10 @@ msgstr "Toto je zpráva ze zásuvného modulu \"%s\"."
 msgid "Error while opening xbase file."
 msgstr "Chyba při otevírání souboru Xbase."
 
-#: plugins/xbase/boot.c:177 src/commands.c:4968
+#: plugins/xbase/boot.c:177 src/commands.c:4969
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
-#: src/print-info.c:395 src/workbook.c:1091 src/xml-io.c:3794
+#: src/print-info.c:405 src/workbook.c:1091 src/xml-io.c:3794
 msgid "Sheet"
 msgstr "List"
 
@@ -19678,416 +19682,416 @@ msgstr "Odstranit sloupce"
 msgid "Delete Rows"
 msgstr "Odstranit řádky"
 
-#: src/commands.c:1482
+#: src/commands.c:1483
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Vložení %d sloupců před %s"
 
-#: src/commands.c:1483
+#: src/commands.c:1484
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Vložení %d sloupce před %s"
 
-#: src/commands.c:1498
+#: src/commands.c:1499
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Vložení %d řádků před %s"
 
-#: src/commands.c:1499
+#: src/commands.c:1500
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Vložení %d řádku před %s"
 
-#: src/commands.c:1510
+#: src/commands.c:1511
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Odstranění sloupců %s"
 
-#: src/commands.c:1511
+#: src/commands.c:1512
 #, c-format
 msgid "Deleting column %s"
 msgstr "Odstranění sloupce %s"
 
-#: src/commands.c:1521
+#: src/commands.c:1522
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Odstranění řádků %s"
 
-#: src/commands.c:1522
+#: src/commands.c:1523
 #, c-format
 msgid "Deleting row %s"
 msgstr "Odstranění řádku %s"
 
 #. Check for locked cells
-#: src/commands.c:1604 src/commands.c:1608 src/sheet.c:2904
+#: src/commands.c:1605 src/commands.c:1609 src/sheet.c:2904
 msgid "Clear"
 msgstr "Smazat"
 
-#: src/commands.c:1679
+#: src/commands.c:1680
 msgid "contents"
 msgstr "obsah"
 
-#: src/commands.c:1681
+#: src/commands.c:1682
 msgid "formats"
 msgstr "formáty"
 
-#: src/commands.c:1683
+#: src/commands.c:1684
 msgid "comments"
 msgstr "komentáře"
 
-#: src/commands.c:1699
+#: src/commands.c:1700
 msgid "all"
 msgstr "vše"
 
-#: src/commands.c:1706
+#: src/commands.c:1707
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Vyčištění %s v %s"
 
-#: src/commands.c:1793
+#: src/commands.c:1794
 msgid "Changing Format"
 msgstr "Změna formátu"
 
-#: src/commands.c:1918
+#: src/commands.c:1919
 #, c-format
 msgid "Changing format of %s"
 msgstr "Změna formátu %s"
 
-#: src/commands.c:2028
+#: src/commands.c:2029
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Automatická úprava velikosti sloupce %s"
 
-#: src/commands.c:2029
+#: src/commands.c:2030
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Automatická úprava velikosti řádku %s"
 
-#: src/commands.c:2032
+#: src/commands.c:2033
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Nastavení šířky sloupce %s na %d bodů"
 
-#: src/commands.c:2034
+#: src/commands.c:2035
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Nastavení výšky řádku %s na %d bodů"
 
-#: src/commands.c:2037
+#: src/commands.c:2038
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Nastavení šířky sloupce %s na výchozí"
 
-#: src/commands.c:2040
+#: src/commands.c:2041
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Nastavení výšky řádku %s na výchozí"
 
-#: src/commands.c:2044
+#: src/commands.c:2045
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Automaticky upravuji sloupce %s"
 
-#: src/commands.c:2045
+#: src/commands.c:2046
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "Automaticky upravuji řádky %s"
 
-#: src/commands.c:2048
+#: src/commands.c:2049
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Nastavení šířky sloupců %s na %d bodů"
 
-#: src/commands.c:2050
+#: src/commands.c:2051
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Nastavení výšky řádků %s na %d bodů"
 
-#: src/commands.c:2054
+#: src/commands.c:2055
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Nastavení šířky sloupců %s na výchozí"
 
-#: src/commands.c:2056
+#: src/commands.c:2057
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Nastavení výšky řádků %s na výchozí"
 
-#: src/commands.c:2122 src/dialogs/dialog-preferences.c:770
+#: src/commands.c:2123 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "Třídění"
 
-#: src/commands.c:2142
+#: src/commands.c:2143
 #, c-format
 msgid "Sorting %s"
 msgstr "Třídění %s"
 
-#: src/commands.c:2285
+#: src/commands.c:2286
 msgid "Unhide columns"
 msgstr "Zobrazení skrytých sloupců"
 
-#: src/commands.c:2285
+#: src/commands.c:2286
 msgid "Hide columns"
 msgstr "Skrytí sloupců"
 
-#: src/commands.c:2286
+#: src/commands.c:2287
 msgid "Unhide rows"
 msgstr "Zobrazení skrytých řádků"
 
-#: src/commands.c:2286
+#: src/commands.c:2287
 msgid "Hide rows"
 msgstr "Skrytí řádků"
 
-#: src/commands.c:2368
+#: src/commands.c:2369
 msgid "Expand columns"
 msgstr "Rozbalení sloupců"
 
-#: src/commands.c:2368
+#: src/commands.c:2369
 msgid "Collapse columns"
 msgstr "Sbalení sloupců"
 
-#: src/commands.c:2369
+#: src/commands.c:2370
 msgid "Expand rows"
 msgstr "Rozbalení řádků"
 
-#: src/commands.c:2369
+#: src/commands.c:2370
 msgid "Collapse rows"
 msgstr "Sbalení řádků"
 
-#: src/commands.c:2395
+#: src/commands.c:2396
 #, c-format
 msgid "Show column outline %d"
 msgstr "Zobrazit přehled sloupců %d"
 
-#: src/commands.c:2395
+#: src/commands.c:2396
 #, c-format
 msgid "Show row outline %d"
 msgstr "Zobrazit přehled řádků %d"
 
-#: src/commands.c:2465
+#: src/commands.c:2466
 msgid "Those columns are already grouped"
 msgstr "Tyto sloupce už jsou seskupeny"
 
-#: src/commands.c:2466
+#: src/commands.c:2467
 msgid "Those rows are already grouped"
 msgstr "Tyto řádky už jsou seskupeny"
 
-#: src/commands.c:2489
+#: src/commands.c:2490
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Tyto sloupce nejsou ve skupině, takže je nemůžete rozeskupit"
 
-#: src/commands.c:2490
+#: src/commands.c:2491
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Tyto řádky nejsou ve skupině, takže je nemůžete rozeskupit"
 
-#: src/commands.c:2504
+#: src/commands.c:2505
 #, c-format
 msgid "Group columns %s"
 msgstr "Seskupit sloupce %s"
 
-#: src/commands.c:2504
+#: src/commands.c:2505
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Rozeskupit sloupce %s"
 
-#: src/commands.c:2506
+#: src/commands.c:2507
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Seskupit řádky %d:%d"
 
-#: src/commands.c:2506
+#: src/commands.c:2507
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Rozeskupit řádky %d:%d"
 
-#: src/commands.c:2739
+#: src/commands.c:2740
 #, c-format
 msgid "Moving %s"
 msgstr "Přesun %s"
 
-#: src/commands.c:2748 src/commands.c:2976
+#: src/commands.c:2749 src/commands.c:2977
 msgid "is beyond sheet boundaries"
 msgstr "je mimo okraje listu"
 
-#: src/commands.c:2812
+#: src/commands.c:2813
 msgid "Paste Copy"
 msgstr "Vložit kopii"
 
 #. FIXME?
-#: src/commands.c:2917
+#: src/commands.c:2918
 #, c-format
 msgid "Pasting into %s"
 msgstr "Vložení do %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3013 src/commands.c:3170 src/commands.c:3171
+#: src/commands.c:3014 src/commands.c:3171 src/commands.c:3172
 #: src/wbcg-actions.c:424
 msgid "Autofill"
 msgstr "Automatické vyplňování"
 
 #. Changed in initial redo.
-#: src/commands.c:3193
+#: src/commands.c:3194
 #, c-format
 msgid "Autofilling %s"
 msgstr "Automatické vyplňování %s"
 
-#: src/commands.c:3511
+#: src/commands.c:3512
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Automatický formát %s"
 
-#: src/commands.c:3628
+#: src/commands.c:3629
 #, c-format
 msgid "Unmerging %s"
 msgstr "Rozdělení buněk %s"
 
-#: src/commands.c:3792
+#: src/commands.c:3793
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Spojit a vycentrovat %s"
 
-#: src/commands.c:3792
+#: src/commands.c:3793
 #, c-format
 msgid "Merging %s"
 msgstr "Spojení %s"
 
 #. Corrected below.
-#: src/commands.c:4173 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:4174 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Hledat a nahradit"
 
-#: src/commands.c:4268
+#: src/commands.c:4269
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Nastavení výchozí šířky sloupců na %.2f bodů"
 
-#: src/commands.c:4269
+#: src/commands.c:4270
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Nastavení výchozí výšky řádků na %.2f bodů"
 
-#: src/commands.c:4384
+#: src/commands.c:4385
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zvětšení %s na %.0f%%"
 
-#: src/commands.c:4482
+#: src/commands.c:4483
 msgid "Delete Object"
 msgstr "Odstranit objekt"
 
-#: src/commands.c:4643
+#: src/commands.c:4644
 msgid "Format Object"
 msgstr "Formátovat objekt"
 
-#: src/commands.c:5242
+#: src/commands.c:5243
 msgid "Reordering Sheets"
 msgstr "Změna pořadí listů"
 
-#: src/commands.c:5245
+#: src/commands.c:5246
 msgid "Renaming Sheets"
 msgstr "Přejmenování listů"
 
-#: src/commands.c:5248
+#: src/commands.c:5249
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Připojuji %i listů"
 
-#: src/commands.c:5252
+#: src/commands.c:5253
 msgid "Changing Tab Colors"
 msgstr "Změna barev záložky"
 
-#: src/commands.c:5255
+#: src/commands.c:5256
 msgid "Changing Sheet Protection"
 msgstr "Změna ochrany listu"
 
-#: src/commands.c:5258
+#: src/commands.c:5259
 msgid "Delete sheets"
 msgstr "Odstranit listy"
 
-#: src/commands.c:5261
+#: src/commands.c:5262
 msgid "Delete a sheet"
 msgstr "Odstranit list"
 
-#: src/commands.c:5264
+#: src/commands.c:5265
 msgid "Changing Sheet Visibility"
 msgstr "Měním viditelnost listu"
 
-#: src/commands.c:5267
+#: src/commands.c:5268
 msgid "Reorganizing Sheets"
 msgstr "Reorganizace listů"
 
-#: src/commands.c:5418
+#: src/commands.c:5419
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Smazání komentáře %s"
 
-#: src/commands.c:5419
+#: src/commands.c:5420
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Nastavení komentáře %s"
 
-#: src/commands.c:5799
+#: src/commands.c:5800
 #, c-format
 msgid "Merging data into %s"
 msgstr "Spojení dat do %s"
 
-#: src/commands.c:5901
+#: src/commands.c:5902
 msgid "Changing summary info"
 msgstr "Změna souhrnných informací"
 
-#: src/commands.c:5990
+#: src/commands.c:5991
 msgid "Pull Object to the Front"
 msgstr "Vytáhnout objekt dopředu"
 
-#: src/commands.c:5993
+#: src/commands.c:5994
 msgid "Pull Object Forward"
 msgstr "Táhnout objekt vpřed"
 
-#: src/commands.c:5996
+#: src/commands.c:5997
 msgid "Push Object Backward"
 msgstr "Tlačit objekt vzad"
 
-#: src/commands.c:5999
+#: src/commands.c:6000
 msgid "Push Object to the Back"
 msgstr "Zatlačit objekt dozadu"
 
-#: src/commands.c:6114
+#: src/commands.c:6115
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Nastavení stránky pro %s"
 
-#: src/commands.c:6116
+#: src/commands.c:6117
 msgid "Page Setup For All Sheets"
 msgstr "Nastavení stránky pro všechny listy"
 
-#: src/commands.c:6231
+#: src/commands.c:6232
 msgid "has a circular reference"
 msgstr "obsahuje cyklický odkaz"
 
-#: src/commands.c:6254
+#: src/commands.c:6255
 #, c-format
 msgid "Define Name %s"
 msgstr "Definovat název %s"
 
-#: src/commands.c:6257
+#: src/commands.c:6258
 #, c-format
 msgid "Update Name %s"
 msgstr "Aktualizovat název %s"
 
-#: src/commands.c:6321
+#: src/commands.c:6322
 msgid "Add scenario"
 msgstr "Přidat scénář"
 
-#: src/commands.c:6396
+#: src/commands.c:6397
 msgid "Scenario Show"
 msgstr "Zobrazení Scénáře"
 
-#: src/commands.c:6460
+#: src/commands.c:6461
 msgid "Shuffle Data"
 msgstr "Zamíchat data"
 
 #. FIXME?
-#: src/commands.c:6570
+#: src/commands.c:6571
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) do sloupců (%s)"
@@ -20097,36 +20101,36 @@ msgstr "Text (%s) do sloupců (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6714 src/dialogs/solver.glade.h:17
+#: src/commands.c:6715 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr "Řešitel"
 
-#: src/commands.c:6798
+#: src/commands.c:6799
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Hledání cíle (%s)"
 
-#: src/commands.c:6943
+#: src/commands.c:6944
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplikuji %s"
 
-#: src/commands.c:7022
+#: src/commands.c:7023
 msgid "Tabulating Dependencies"
 msgstr "Tabeluji závislosti"
 
-#: src/commands.c:7096
+#: src/commands.c:7097
 msgid "Reconfigure Graph"
 msgstr "Přenastavit graf"
 
-#: src/commands.c:7139
+#: src/commands.c:7140
 msgid "Left to Right"
 msgstr "Zleva doprava"
 
-#: src/commands.c:7139
+#: src/commands.c:7140
 msgid "Right to Left"
 msgstr "Zprava doleva"
 
@@ -20664,6 +20668,7 @@ msgid "Labels"
 msgstr "Titulky"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:337
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:230
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:233
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_radar/gog-radar.c:227
 msgid "Values"
@@ -20681,6 +20686,7 @@ msgid "PlotBarCol"
 msgstr "SloupecSloucovéhoGrafu"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
@@ -20698,10 +20704,12 @@ msgid "O_verlap:"
 msgstr "_Překrytí:"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:5
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot-prefs.glade.h:3
 msgid "Separation between groups as a percentage of bar/col width"
 msgstr "Oddělení mezi skupinami jako procenta šířky pruhu/sloupce"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:6
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot-prefs.glade.h:4
 msgid "_Gap:"
 msgstr "_Mezera:"
 
@@ -20948,6 +20956,57 @@ msgstr "Engine kreslení čar"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:6
 msgid "Line, Area, Bar and Column plots"
 msgstr "Čárové, plošné, pruhové a sloupcové grafy"
+
+#. xgettext : the base for how to name box-plot objects
+#. * eg The 2nd box-plot in a chart will be called
+#. * 	BoxPlot2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:104
+#, fuzzy
+msgid "Box-Plot"
+msgstr "Graf"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:341
+#, fuzzy
+msgid "Invalid data."
+msgstr "Neplatný vzor vyhledávání."
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:1
+msgid ""
+"Box-Plot. You must provide five values to the plot engine in this order: "
+"minimum, first quartile, median, third quartile, and maximum, not the raw "
+"data."
+msgstr ""
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:2
+#, fuzzy
+msgid "BoxPlot"
+msgstr "Graf"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:3
+#, fuzzy
+msgid "BoxPlots"
+msgstr "Graf"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:1
+#, fuzzy
+msgid "Box-Plots"
+msgstr "Graf"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:2
+#, fuzzy
+msgid "Box-plot plotting engine"
+msgstr "Engine kreslení pruhů/sloupců"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:3
+#, fuzzy
+msgid "Charting : Box-Plots"
+msgstr "Kreslení grafů : Kruhové grafy"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:4
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:2
+#, fuzzy
+msgid "Default surface plot types"
+msgstr "Implicitní typy radarových grafů"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:180
 msgid "PlotPie"
@@ -21214,11 +21273,6 @@ msgstr "Povrch"
 #, fuzzy
 msgid "Contour plotting engine"
 msgstr "Engine kreslení prstenců"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:2
-#, fuzzy
-msgid "Default surface plot types"
-msgstr "Implicitní typy radarových grafů"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:3
 #, fuzzy
@@ -28017,12 +28071,12 @@ msgstr "Nelze aktivovat URL '%s'"
 msgid "Unable to open '%s'"
 msgstr "Nelze otevřít '%s'"
 
-#: src/item-bar.c:780
+#: src/item-bar.c:781
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Šířka: %.2f bodů (%d pixelů)"
 
-#: src/item-bar.c:783
+#: src/item-bar.c:784
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Výška: %.2f bodů (%d pixelů)"
@@ -28664,77 +28718,77 @@ msgid "Error while opening file \"%s\" for reading."
 msgstr "Chyba při otevírání souboru \"%s\" pro čtení."
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:627
+#: src/print.c:604
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1172
+#: src/print.c:1147
 msgid "Print Region"
 msgstr "Oblast tisku"
 
-#: src/print.c:1341 src/wbcg-actions.c:1507
+#: src/print.c:1307 src/wbcg-actions.c:1507
 msgid "Print preview"
 msgstr "Náhled před tiskem"
 
-#: src/print.c:1354
+#: src/print.c:1320
 msgid "Printing failed"
 msgstr "Tisk selhal"
 
-#: src/print.c:1460
+#: src/print.c:1426
 msgid "Print Sheets"
 msgstr "Tisknuté listy"
 
-#: src/print.c:1469
+#: src/print.c:1435
 msgid "Act_ive sheet"
 msgstr "_Aktivní list"
 
-#: src/print.c:1469
+#: src/print.c:1435
 msgid "S_heets"
 msgstr "_Listy"
 
-#: src/print-info.c:145 src/print-info.c:148 src/print-info.c:149
-#: src/print-info.c:260
+#: src/print-info.c:155 src/print-info.c:158 src/print-info.c:159
+#: src/print-info.c:270
 msgid "Page &[PAGE]"
 msgstr "Strana &[PAGE]"
 
-#: src/print-info.c:146 src/print-info.c:151
+#: src/print-info.c:156 src/print-info.c:161
 msgid "Page &[PAGE] of &[PAGES]"
 msgstr "Strana &[PAGE] z &[PAGES]"
 
-#: src/print-info.c:147 src/print-info.c:148 src/print-info.c:149
-#: src/print-info.c:151 src/print-info.c:254
+#: src/print-info.c:157 src/print-info.c:158 src/print-info.c:159
+#: src/print-info.c:161 src/print-info.c:264
 msgid "&[TAB]"
 msgstr "&[TAB]"
 
-#: src/print-info.c:149 src/print-info.c:150 src/print-info.c:151
+#: src/print-info.c:159 src/print-info.c:160 src/print-info.c:161
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: src/print-info.c:454
+#: src/print-info.c:464
 msgid "File Name"
 msgstr "Název souboru"
 
-#: src/print-info.c:465
+#: src/print-info.c:475
 msgid "Path "
 msgstr "Cesta "
 
-#: src/print-info.c:473
+#: src/print-info.c:483
 msgid "tab"
 msgstr "tab"
 
-#: src/print-info.c:474
+#: src/print-info.c:484
 msgid "page"
 msgstr "strana"
 
-#: src/print-info.c:475
+#: src/print-info.c:485
 msgid "pages"
 msgstr "stran"
 
-#: src/print-info.c:478
+#: src/print-info.c:488
 msgid "file"
 msgstr "soubor"
 
-#: src/print-info.c:479
+#: src/print-info.c:489
 msgid "path"
 msgstr "cesta"
 
@@ -29197,7 +29251,7 @@ msgstr "Hodnoty oddělené čárkou (CSV)"
 msgid "Too many rows in data to parse: %d"
 msgstr "Příliš mnoho řádků dat pro zpracování: %d"
 
-#: src/stf-parse.c:1175
+#: src/stf-parse.c:1178
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
