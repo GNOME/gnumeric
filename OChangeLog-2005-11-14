@@ -1,3 +1,8 @@
+2004-03-16  Morten Welinder  <terra@gnome.org>
+
+	* src/sheet-autofill.c (autofill_cell): Kill some read-only
+	warnings.
+
 2004-03-16  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
 	* configure.in: add src/cut-n-paste-code/goffice/data/Makefile.in
