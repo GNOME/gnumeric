@@ -158,6 +158,13 @@ range_output_toggled(GtkWidget *widget, data_analysis_output_type_t *type)
 }
 
 static void
+focus_on_entry (GtkWidget *widget, GtkWidget *entry)
+{
+        if (GTK_TOGGLE_BUTTON (widget)->active)
+		gtk_widget_grab_focus (entry);
+}
+
+static void
 columns_toggled(GtkWidget *widget, int *group)
 {
         if (GTK_TOGGLE_BUTTON (widget)->active) {
@@ -223,6 +230,9 @@ set_output_option_signals (GladeXML *gui, data_analysis_output_t *dao, char *n)
                 printf ("Corrupt file analysis-tools.glade\n");
                 return 1;
         }
+	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
+			    GTK_SIGNAL_FUNC (focus_on_entry),
+			    entry);	
 	gtk_signal_connect (GTK_OBJECT (entry), "focus_in_event",
 			    GTK_SIGNAL_FUNC (output_range_selected),
 			    radiobutton);
@@ -1680,15 +1690,18 @@ distribution_parbox_config (random_tool_callback_t *p,
 
 	par1_key = gtk_label_parse_uline (GTK_LABEL (p->par1_label),
 					  ds->label1);
-	gtk_widget_add_accelerator (p->par1_entry, "grab_focus",
-				    p->distribution_accel, par1_key,
-				    GDK_MOD1_MASK, 0);
+	if (par1_key != GDK_VoidSymbol)
+		gtk_widget_add_accelerator (p->par1_entry, "grab_focus",
+					    p->distribution_accel, par1_key,
+					    GDK_MOD1_MASK, 0);
 	if (ds->label2) {
 		par2_key = gtk_label_parse_uline (GTK_LABEL (p->par2_label),
 						  ds->label2);
-		gtk_widget_add_accelerator (p->par2_entry, "grab_focus",
-					    p->distribution_accel, par2_key,
-					    GDK_MOD1_MASK, 0);
+		if (par2_key != GDK_VoidSymbol)
+			gtk_widget_add_accelerator
+				(p->par2_entry, "grab_focus",
+				 p->distribution_accel, par2_key,
+				 GDK_MOD1_MASK, 0);
 	        gtk_widget_show (p->par2_entry);
 	} else {
 		gtk_label_set_text (GTK_LABEL (p->par2_label), "");
@@ -1818,9 +1831,6 @@ dialog_random_tool (Workbook *wb, Sheet *sheet)
                 return 0;
         }
 
-	gnome_dialog_editable_enters
-		(GNOME_DIALOG (dialog),
-		 GTK_EDITABLE (GTK_COMBO (distribution_combo)->entry));
 	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
 				      GTK_EDITABLE (par1_entry));
 	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),

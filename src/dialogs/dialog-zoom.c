@@ -31,6 +31,13 @@ radio_toggled (GtkToggleButton *togglebutton,
 					   dat->factor);
 }
 
+static void
+focus_to_custom (GtkToggleButton *togglebutton, GtkSpinButton *zoom)
+{
+	if (gtk_toggle_button_get_active (togglebutton))
+		gtk_widget_grab_focus (GTK_WIDGET (&zoom->entry));
+}
+
 static gboolean
 custom_selected (GtkWidget *widget, GdkEventFocus   *event,
 		 GtkWidget *custom_button)
@@ -68,6 +75,9 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 	g_return_if_fail (zoom != NULL);
 	custom = GTK_RADIO_BUTTON (glade_xml_get_widget (gui, "radio_custom"));
 	g_return_if_fail (custom != NULL);
+	gtk_signal_connect (GTK_OBJECT (custom), "clicked",
+			    GTK_SIGNAL_FUNC (focus_to_custom),
+			    (gpointer) zoom);
 	gtk_signal_connect (GTK_OBJECT (zoom), "focus_in_event",
 			    GTK_SIGNAL_FUNC (custom_selected),
 			    custom);

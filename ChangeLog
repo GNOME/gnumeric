@@ -1,3 +1,25 @@
+2000-04-12  Jon K Hellan  <hellan@acm.org>
+
+	* src/history.c (history_menu_item_create): Really add
+	accelerators to history menu items.
+
+	* src/dialogs/dialog-analysis-tools.c (dialog_random_tool): Bug:
+	Dialog would quit when combo list was popped via keyboard. Fix:
+	Remove gnome_dialog_editable_enters from distribution combo.
+
+2000-04-11  Jon K Hellan  <hellan@acm.org>
+
+	* src/dialogs/dialog-zoom.c (focus_to_custom): New callback: Set
+	focus to custom spinbutton when custom radiobutton is checked.
+	(dialog_zoom_impl): Connect the callback.
+
+	* src/dialogs/dialog-analysis-tools.c (focus_on_entry): New
+	callback: Set focus to output range entry when output range
+	radiobutton is checked.
+	(set_output_option_signals): Connect the callback.
+	(distribution_parbox_config): Only add accelerator if we've got
+	one.
+
 2000-04-11  Morten Welinder  <terra@diku.dk>
 
 	* src/print.c (sheet_print): Supply new landscape argument to

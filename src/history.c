@@ -92,7 +92,9 @@ history_menu_item_create (Workbook *wb, gchar *name, gint accel_number,
 	info [0].label = history_item_label (name, accel_number);
 
 #ifndef ENABLE_BONOBO
-	gnome_app_fill_menu (GTK_MENU_SHELL (menu), info, NULL, FALSE, pos);
+	gnome_app_fill_menu (GTK_MENU_SHELL (menu), info,
+			     GNOME_APP (wb->toplevel)->accel_group, TRUE,
+			     pos);
 	gtk_object_set_data (GTK_OBJECT (info [0].widget), UGLY_GNOME_UI_KEY, name);
 	gnome_app_install_menu_hints (GNOME_APP (wb->toplevel), info);
 #else
