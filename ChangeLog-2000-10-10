@@ -1,3 +1,9 @@
+2000-10-02  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/file-autoft.c:
+	(template_list_load): Make more error proof and insert
+	protection for invalid filenames.
+
 2000-10-01  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* templates/autoformat/, templates/autoformat/Makefile.am:
