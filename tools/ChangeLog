@@ -1,3 +1,7 @@
+2003-05-05  Morten Welinder  <terra@gnome.org>
+
+	* import-R: Import dbeta.c.  Do not import qbeta.c.
+
 2003-05-01  Morten Welinder  <terra@gnome.org>
 
 	* import-R (import_file): Patch qbeta to work around a hang.
