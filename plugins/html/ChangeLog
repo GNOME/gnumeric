@@ -1,5 +1,9 @@
 2002-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* html_read.c (html_read_row) : handle merges (colspan/rowspan)
+
+2002-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* html.h (html_file_open) : fix prototype 
 	* html_read.c (html_read_buffer) : disable
 	(html_get_sheet) : new

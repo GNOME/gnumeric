@@ -39,6 +39,7 @@
 #include "cellspan.h"
 #include "sheet.h"
 #include "sheet-merge.h"
+#include "ranges.h"
 #include "value.h"
 #include "font.h"
 #include "plugin-util.h"
@@ -59,59 +60,6 @@
 #define HTML_CENTER	8
 
 #if 0
-				if (p[1] == 'i' || p[1] == 'I')
-					*flags |= HTML_ITALIC;
-				else if (p[1] == 'b' || p[1] == 'B')
-					*flags |= HTML_BOLD;
-#endif
-static void
-html_read_buffer (IOContext *io_context, WorkbookView *wb_view, 
-		  guchar const *buf, int buf_size)
-{
-#if 0
-	Workbook *wb = wb_view_workbook (wb_view);
-	Sheet *sheet;
-	Cell *cell;
-	int num, row, col, flags;
-	guchar const *p, *str, *ptr;
-
-	sheet = NULL;
-	col = 0;
-	row = -1;
-	num = 0;
-	for (ptr = buf; (ptr - buf) < buf_size ; ) {
-quick_hack :
-		/* FIXME : This is an ugly hack.  I'll patch it a bit for now
-		 * but we should migrate to libxml
-		 */
-		if (ptr == NULL)
-			continue;
-
-		if (NULL != (p = findtag (ptr, "<TABLE"))) {
-			sheet = workbook_sheet_add (wb, NULL, FALSE);
-			row = -1;
-			ptr = strchr (p + 6, '>');
-			goto quick_hack;
-		} else if (NULL != (p = findtag (ptr, "</TABLE>"))) {
-			sheet = NULL;
-			ptr = strchr (p + 7, '>');
-			goto quick_hack;
-		} else if (NULL != (p = findtag (ptr, "<TR"))) {
-			row++;
-			col = 0;
-			ptr = strchr (p + 3, '>');
-			goto quick_hack;
-		} else if (NULL != (p = findtag (ptr, "<TD"))) {
-			/* process table data .. */
-			if (sheet) {
-				p += 3;
-				flags = 0;
-				/* find the end of the TD tag and check for attributes */
-				while (*p) {
-					if (*p == '>') {
-						p++;
-						break;
-					}
 					if (*p == ' ' && p[1] != '>') {
 						p++;
 						if (strncasecmp (p, "align=", 6) == 0) {
@@ -134,8 +82,6 @@ quick_hack :
 						p++;
 					}
 				}
-				if (row == -1)	/* if we didn't found a TR .. */
-					row = 0;
 				if (*p) {
 					str = html_get_string (p, &flags, &ptr);
 					cell = sheet_cell_fetch (sheet, col, row);
@@ -162,13 +108,8 @@ quick_hack :
 						cell_set_text (cell, str);
 					}
 				}
-				col++;
-				goto quick_hack;
-			}
-		}
-	}
 #endif
-}
+
 
 static Sheet *
 html_get_sheet (char const *name, Workbook *wb) 
@@ -195,8 +136,34 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 	for (ptr = cur->children; ptr != NULL ; ptr = ptr->next) {
 		if (xmlStrEqual (ptr->name, "td") || xmlStrEqual (ptr->name, "th")) {
 			xmlBufferPtr buf;
+			xmlAttrPtr   props;
+			int colspan = 1;
+			int rowspan = 1;
+			CellPos pos;
 
-			col++;
+			/* Check whetehr we need to skip merges from above */
+			pos.row = row;
+			pos.col = col + 1;
+			while (sheet_merge_contains_pos (sheet, &pos)) {
+				col++;
+				pos.col++;
+			}
+
+			/* Do we span across multiple rows or cols? */
+			props = ptr->properties;
+			while (props) {
+				if (xmlStrEqual (props->name, "colspan") && props->children)
+				    colspan = atoi (props->children->content);
+				if (xmlStrEqual (props->name, "rowspan") && props->children)
+				    rowspan = atoi (props->children->content);
+				props = props->next;
+			}
+			if (colspan < 1)
+				colspan = 1;
+			if (rowspan < 1)
+				rowspan = 1;
+
+			/* Let's figure out the content of the cell */
 			buf = xmlBufferCreate ();
 			for (ptr2 = ptr->children; ptr2 != NULL ; ptr2 = ptr2->next) {
 				htmlNodeDump (buf, doc, ptr2);
@@ -206,11 +173,22 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, Sheet *sheet, int row)
 				Cell *cell;
 
 				name = g_strndup (buf->content, buf->use);
-				cell = sheet_cell_fetch	(sheet, col, row);
+				cell = sheet_cell_fetch	(sheet, col + 1, row);
 				cell_set_text (cell, name);
 				g_free (name);
 			}
-			xmlBufferFree (buf);			
+			xmlBufferFree (buf);
+
+			/* If necessary create the merge */
+			if (colspan > 1 || rowspan > 1) {
+				Range range;
+				Range *r = &range;
+
+				range_init (r, col + 1, row, col + colspan, row + rowspan - 1);
+				sheet_merge_add (NULL, sheet, r, FALSE);
+			}
+
+			col += colspan;
 		}
 	}
 }
@@ -272,117 +250,6 @@ html_search_for_tables (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view)
 	    }
 	    html_read_table (cur, doc, wb_view);
     }
-
-#if 0
-    const htmlElemDesc * info;
-
-    /*
-     * Special cases.
-     */
-    if (cur->type == XML_DTD_NODE)
-	return;
-    if (cur->type == XML_HTML_DOCUMENT_NODE) {
-	htmlDocContentDumpOutput(buf, (xmlDocPtr) cur, encoding);
-	return;
-    }
-    if (cur->type == HTML_TEXT_NODE) {
-	if (cur->content != NULL) {
-	    if (((cur->name == (const xmlChar *)xmlStringText) ||
-		 (cur->name != (const xmlChar *)xmlStringTextNoenc)) &&
-		((cur->parent == NULL) ||
-		 (!xmlStrEqual(cur->parent->name, BAD_CAST "script")))) {
-		xmlChar *buffer;
-
-		buffer = xmlEncodeEntitiesReentrant(doc, cur->content);
-		if (buffer != NULL) {
-		    xmlOutputBufferWriteString(buf, (const char *)buffer);
-		    xmlFree(buffer);
-		}
-	    } else {
-		xmlOutputBufferWriteString(buf, (const char *)cur->content);
-	    }
-	}
-	return;
-    }
-    /*
-     * Get specific HTML info for that node.
-     */
-    info = htmlTagLookup(cur->name);
-
-    xmlOutputBufferWriteString(buf, "<");
-    xmlOutputBufferWriteString(buf, (const char *)cur->name);
-    if (cur->properties != NULL)
-        htmlAttrListDumpOutput(buf, doc, cur->properties, encoding);
-
-    if ((info != NULL) && (info->empty)) {
-        xmlOutputBufferWriteString(buf, ">");
-	if ((format) && (!info->isinline) && (cur->next != NULL)) {
-	    if ((cur->next->type != HTML_TEXT_NODE) &&
-		(cur->next->type != HTML_ENTITY_REF_NODE) &&
-		(cur->parent != NULL) &&
-		(!xmlStrEqual(cur->parent->name, BAD_CAST "pre")))
-		xmlOutputBufferWriteString(buf, "\n");
-	}
-	return;
-    }
-    if (((cur->type == XML_ELEMENT_NODE) || (cur->content == NULL)) &&
-	(cur->children == NULL)) {
-        if ((info != NULL) && (info->saveEndTag != 0) &&
-	    (xmlStrcmp(BAD_CAST info->name, BAD_CAST "html")) &&
-	    (xmlStrcmp(BAD_CAST info->name, BAD_CAST "body"))) {
-	    xmlOutputBufferWriteString(buf, ">");
-	} else {
-	    xmlOutputBufferWriteString(buf, "></");
-	    xmlOutputBufferWriteString(buf, (const char *)cur->name);
-	    xmlOutputBufferWriteString(buf, ">");
-	}
-	if ((format) && (cur->next != NULL) &&
-            (info != NULL) && (!info->isinline)) {
-	    if ((cur->next->type != HTML_TEXT_NODE) &&
-		(cur->next->type != HTML_ENTITY_REF_NODE) &&
-		(cur->parent != NULL) &&
-		(!xmlStrEqual(cur->parent->name, BAD_CAST "pre")))
-		xmlOutputBufferWriteString(buf, "\n");
-	}
-	return;
-    }
-    xmlOutputBufferWriteString(buf, ">");
-    if ((cur->type != XML_ELEMENT_NODE) &&
-	(cur->content != NULL)) {
-	    /*
-	     * Uses the OutputBuffer property to automatically convert
-	     * invalids to charrefs
-	     */
-
-            xmlOutputBufferWriteString(buf, (const char *) cur->content);
-    }
-    if (cur->children != NULL) {
-        if ((format) && (info != NULL) && (!info->isinline) &&
-	    (cur->children->type != HTML_TEXT_NODE) &&
-	    (cur->children->type != HTML_ENTITY_REF_NODE) &&
-	    (cur->children != cur->last) &&
-	    (!xmlStrEqual(cur->name, BAD_CAST "pre")))
-	    xmlOutputBufferWriteString(buf, "\n");
-	htmlNodeListDumpOutput(buf, doc, cur->children, encoding, format);
-        if ((format) && (info != NULL) && (!info->isinline) &&
-	    (cur->last->type != HTML_TEXT_NODE) &&
-	    (cur->last->type != HTML_ENTITY_REF_NODE) &&
-	    (cur->children != cur->last) &&
-	    (!xmlStrEqual(cur->name, BAD_CAST "pre")))
-	    xmlOutputBufferWriteString(buf, "\n");
-    }
-    xmlOutputBufferWriteString(buf, "</");
-    xmlOutputBufferWriteString(buf, (const char *)cur->name);
-    xmlOutputBufferWriteString(buf, ">");
-    if ((format) && (info != NULL) && (!info->isinline) &&
-	(cur->next != NULL)) {
-        if ((cur->next->type != HTML_TEXT_NODE) &&
-	    (cur->next->type != HTML_ENTITY_REF_NODE) &&
-	    (cur->parent != NULL) &&
-	    (!xmlStrEqual(cur->parent->name, BAD_CAST "pre")))
-	    xmlOutputBufferWriteString(buf, "\n");
-    }
-#endif
 }
 
 void
