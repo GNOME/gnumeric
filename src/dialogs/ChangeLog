@@ -1,3 +1,8 @@
+2002-02-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* delete-cells.glade : add help button, change some ids
+	* dialog-delete-cells.c : rewrite as guru
+
 2002-02-28  Jody Goldberg <jody@gnome.org>
 
 	* cell-format.glade : reorder slightly.
