@@ -61,6 +61,8 @@ dao_init (data_analysis_output_t *dao,
 	dao->type = type;
 	dao->start_col = 0;
 	dao->start_row = 0;
+	dao->offset_col = 0;
+	dao->offset_row = 0;
 	dao->cols = SHEET_MAX_COLS;
 	dao->rows = SHEET_MAX_ROWS;
 	dao->sheet = NULL;
@@ -511,6 +513,44 @@ dao_autofit_columns (data_analysis_output_t *dao)
 }
 
 /**
+ * dao_set_style:
+ * @dao:
+ * @col1:
+ * @row1:
+ * @col2:
+ * @row2:
+ * @style:
+ *
+ * sets the given cell range to bold
+ * 
+ *
+ **/
+
+static void
+dao_set_style (data_analysis_output_t *dao, int col1, int row1,
+	      int col2, int row2, MStyle *mstyle)
+{
+	Range  range;
+
+	range.start.col = col1 + dao->start_col + dao->offset_col;
+	range.start.row = row1 + dao->start_row + dao->offset_row;
+	range.end.col   = col2 + dao->start_col + dao->offset_col;
+	range.end.row   = row2 + dao->start_row + dao->offset_row;
+
+	if (range.end.col > dao->start_col + dao->cols)
+		range.end.col = dao->start_col + dao->cols;
+	if (range.end.row > dao->start_row + dao->rows)
+		range.end.row = dao->start_row + dao->rows;
+
+	if (range.end.col < range.start.col)
+		return;
+	if (range.end.row < range.start.row)
+		return;
+
+	sheet_style_apply_range (dao->sheet, &range, mstyle);
+}
+
+/**
  * dao_set_bold:
  * @dao:
  * @col1:
@@ -523,6 +563,7 @@ dao_autofit_columns (data_analysis_output_t *dao)
  *
  **/
 
+/* FIXME: We should be dao-relative! */
 void
 dao_set_bold (data_analysis_output_t *dao, int col1, int row1,
 	      int col2, int row2)
@@ -552,6 +593,7 @@ dao_set_bold (data_analysis_output_t *dao, int col1, int row1,
  *
  **/
 
+/* FIXME: We should be dao-relative! */
 void
 dao_set_underlined (data_analysis_output_t *dao, int col1, int row1,
 		    int col2, int row2)
@@ -586,15 +628,9 @@ dao_set_italic (data_analysis_output_t *dao, int col1, int row1,
 		int col2, int row2)
 {
 	MStyle *mstyle = mstyle_new ();
-	Range  range;
-
-	range.start.col = col1 + dao->start_col;
-	range.start.row = row1 + dao->start_row;
-	range.end.col   = col2 + dao->start_col;
-	range.end.row   = row2 + dao->start_row;
 
 	mstyle_set_font_italic (mstyle, TRUE);
-	sheet_style_apply_range (dao->sheet, &range, mstyle);
+	dao_set_style (dao, col1, row1, col2, row2, mstyle);
 }
 
 /**
@@ -615,13 +651,7 @@ dao_set_percent (data_analysis_output_t *dao, int col1, int row1,
 		 int col2, int row2)
 {
 	MStyle *mstyle = mstyle_new ();
-	Range  range;
-
-	range.start.col = col1 + dao->start_col;
-	range.start.row = row1 + dao->start_row;
-	range.end.col   = col2 + dao->start_col;
-	range.end.row   = row2 + dao->start_row;
 
 	mstyle_set_format_text (mstyle, "0.00%");
-	sheet_style_apply_range (dao->sheet, &range, mstyle);
+	dao_set_style (dao, col1, row1, col2, row2, mstyle);
 }

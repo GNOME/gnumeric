@@ -1,3 +1,12 @@
+2002-03-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* tools.h : change exp_smoothing_tool, averages_tool, ranking_tool
+	  and sampling_tool into cmd_analysis_tools engines
+	* dialog-analysis-tools.c : make fourier analysis, moving averages, 
+	  rank and percentile, and sampling tools undoable
+	* src/dialogs/dao-gui-utils.h (parse_output) : change return type
+	* src/dialogs/dao-gui-utils.c (parse_output) : return dao
+
 2002-03-29  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-function-select.c (dialog_function_load_recent_funcs) : 

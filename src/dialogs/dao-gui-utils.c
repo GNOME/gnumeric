@@ -133,7 +133,7 @@ dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
  *
  * fill dao with information from the standard output section of a dialog
  */
-int
+data_analysis_output_t *
 parse_output (GenericToolState *state, data_analysis_output_t *dao)
 {
         Value *output_range;
@@ -143,18 +143,18 @@ parse_output (GenericToolState *state, data_analysis_output_t *dao)
 	switch (gnumeric_glade_group_value (state->gui, output_group)) {
 	case 0:
 	default:
-		dao_init (dao, NewSheetOutput);
+		dao = dao_init (dao, NewSheetOutput);
 		break;
 	case 1:
-		dao_init (dao, NewWorkbookOutput);
+		dao = dao_init (dao, NewWorkbookOutput);
 		break;
 	case 2:
 		output_range = gnm_expr_entry_parse_as_value
 			(GNUMERIC_EXPR_ENTRY (state->output_entry), state->sheet);
-		g_return_val_if_fail (output_range != NULL, 1);
-		g_return_val_if_fail (output_range->type == VALUE_CELLRANGE, 1);
+		g_return_val_if_fail (output_range != NULL, NULL);
+		g_return_val_if_fail (output_range->type == VALUE_CELLRANGE, NULL);
 
-		dao_init (dao, RangeOutput);
+		dao = dao_init (dao, RangeOutput);
 		dao->start_col = output_range->v_range.cell.a.col;
 		dao->start_row = output_range->v_range.cell.a.row;
 		dao->cols = output_range->v_range.cell.b.col
@@ -169,10 +169,10 @@ parse_output (GenericToolState *state, data_analysis_output_t *dao)
 		output_range = gnm_expr_entry_parse_as_value (
 			state->input_entry, state->sheet);
 
-		g_return_val_if_fail (output_range != NULL, 1);
-		g_return_val_if_fail (output_range->type == VALUE_CELLRANGE, 1);
+		g_return_val_if_fail (output_range != NULL, NULL);
+		g_return_val_if_fail (output_range->type == VALUE_CELLRANGE, NULL);
 
-		dao_init (dao, InPlaceOutput);
+		dao = dao_init (dao, InPlaceOutput);
 		dao->start_col = output_range->v_range.cell.a.col;
 		dao->start_row = output_range->v_range.cell.a.row;
 		dao->cols = output_range->v_range.cell.b.col
@@ -202,7 +202,7 @@ parse_output (GenericToolState *state, data_analysis_output_t *dao)
 		dao->retain_comments = gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (button));
 
-	return 0;
+	return dao;
 }
 
 

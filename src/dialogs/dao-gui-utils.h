@@ -46,7 +46,7 @@
 
 
 void dialog_tool_init_outputs (GenericToolState *state, GCallback sensitivity_cb);
-int parse_output          (GenericToolState *state, data_analysis_output_t *dao);
+data_analysis_output_t *parse_output (GenericToolState *state, data_analysis_output_t *dao);
 
 
 #endif

@@ -80,10 +80,6 @@ void error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_
 /*******************************************************************/
 /* Section 2: not undoable tools                                   */
 
-int sampling_tool         (WorkbookControl *context, Sheet *sheet,
-			   GSList *input, group_by_t group_by,
-			   gboolean periodic_flag, guint size, guint number,
-			   data_analysis_output_t *dao);
 int ftest_tool            (WorkbookControl *context, Sheet *sheet,
 			   Value *input_range1, Value *input_range2,
 			   gnum_float alpha,
@@ -113,18 +109,6 @@ int ztest_tool            (WorkbookControl *context, Sheet *sheet,
 int random_tool           (WorkbookControl *context, Sheet *sheet,
 			   int vars, int count, random_distribution_t distribution,
 			   random_tool_t *param, data_analysis_output_t *dao);
-int average_tool          (WorkbookControl *context, Sheet *sheet,
-			   GSList *input, group_by_t group_by,
-			   int interval, int std_error_flag,
-			   data_analysis_output_t *dao);
-int exp_smoothing_tool    (WorkbookControl *context, Sheet *sheet,
-			   GSList *input, group_by_t group_by,
-			   gnum_float damp_fact, int std_error_flag,
-			   data_analysis_output_t *dao);
-int ranking_tool          (WorkbookControl *context, Sheet *sheet,
-			   GSList *input, group_by_t group_by,
-			   gboolean av_ties_flag,
-			   data_analysis_output_t *dao);
 int histogram_tool        (WorkbookControl *context, Sheet *sheet,
 			   GSList *input, Value *bin, group_by_t group_by,
 			   gboolean bin_labels, gboolean pareto, gboolean percentage,
@@ -199,6 +183,30 @@ gboolean analysis_tool_descriptive_engine (data_analysis_output_t *dao, gpointer
 					   analysis_tool_engine_t selector, gpointer result);
 
 
+/************** Moving Averages **** *************/
+
+typedef struct {
+	ANALYSIS_TOOLS_DATA_GENERIC;
+	int interval;
+	int std_error_flag;
+} analysis_tools_data_moving_average_t;
+
+gboolean analysis_tool_moving_average_engine (data_analysis_output_t *dao, gpointer specs, 
+					      analysis_tool_engine_t selector, gpointer result);
+
+
+/************** Exponential Smoothing  *************/
+
+typedef struct {
+	ANALYSIS_TOOLS_DATA_GENERIC;
+	gnum_float damp_fact;
+	int std_error_flag;
+} analysis_tools_data_exponential_smoothing_t;
+
+gboolean analysis_tool_exponential_smoothing_engine (data_analysis_output_t *dao, gpointer specs, 
+					   analysis_tool_engine_t selector, gpointer result);
+
+
 /************** Fourier Analysis **** *************/
 
 typedef struct {
@@ -207,6 +215,30 @@ typedef struct {
 } analysis_tools_data_fourier_t;
 
 gboolean analysis_tool_fourier_engine (data_analysis_output_t *dao, gpointer specs, 
+				       analysis_tool_engine_t selector, gpointer result);
+
+
+/************** Sampling Tool **********************/
+
+typedef struct {
+	ANALYSIS_TOOLS_DATA_GENERIC;
+	gboolean periodic;
+	guint size;
+	guint number;
+} analysis_tools_data_sampling_t;
+
+gboolean analysis_tool_sampling_engine (data_analysis_output_t *dao, gpointer specs, 
+				       analysis_tool_engine_t selector, gpointer result);
+
+
+/************** Ranking Tool *************************/
+
+typedef struct {
+	ANALYSIS_TOOLS_DATA_GENERIC;
+	gboolean av_ties;
+} analysis_tools_data_ranking_t;
+
+gboolean analysis_tool_ranking_engine (data_analysis_output_t *dao, gpointer specs, 
 				       analysis_tool_engine_t selector, gpointer result);
 
 

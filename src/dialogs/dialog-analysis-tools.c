@@ -533,14 +533,15 @@ corr_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
         char   *text;
 	GtkWidget *w;
 
+	if (state->warning_dialog != NULL)
+		gtk_widget_destroy (state->warning_dialog);
+
 	data = g_new0 (analysis_tools_data_generic_t, 1);
-	dao  = g_new0 (data_analysis_output_t, 1);
+	dao  = parse_output (state, NULL);
 
 	data->input = gnm_expr_entry_parse_as_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
-
-        parse_output (state, dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
         data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -660,14 +661,15 @@ cov_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
         char   *text;
 	GtkWidget *w;
 
+	if (state->warning_dialog != NULL)
+		gtk_widget_destroy (state->warning_dialog);
+
 	data = g_new0 (analysis_tools_data_generic_t, 1);
-	dao  = g_new0 (data_analysis_output_t, 1);
+	dao  = parse_output (state, NULL);
 
 	data->input = gnm_expr_entry_parse_as_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
-
-        parse_output (state, dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
         data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -795,7 +797,7 @@ cb_desc_stat_tool_ok_clicked (GtkWidget *button, DescriptiveStatState *state)
 	gint err;
 
 	data = g_new0 (analysis_tools_data_descriptive_t, 1);
-	dao  = g_new0 (data_analysis_output_t, 1);
+	dao  = parse_output ((GenericToolState *)state, NULL);
 
 	data->input = gnm_expr_entry_parse_as_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
@@ -816,8 +818,6 @@ cb_desc_stat_tool_ok_clicked (GtkWidget *button, DescriptiveStatState *state)
 		err = entry_to_int (GTK_ENTRY (state->l_entry), &data->k_largest, TRUE);
 	if (data->kth_smallest == 1)
 		err = entry_to_int (GTK_ENTRY (state->s_entry), &data->k_smallest, TRUE);
-
-        parse_output ((GenericToolState *)state, dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
         data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -1011,36 +1011,28 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 static void
 rank_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 {
-	data_analysis_output_t  dao;
-        char   *text;
+	data_analysis_output_t  *dao;
+	analysis_tools_data_ranking_t  *data;
+
 	GtkWidget *w;
-	GSList *input;
-	gint err;
-	gboolean av_ties_flag;
 
-	input = gnm_expr_entry_parse_as_list (
+	data = g_new0 (analysis_tools_data_ranking_t, 1);
+	dao  = parse_output (state, NULL);
+
+	data->input = gnm_expr_entry_parse_as_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
-
-        parse_output (state, &dao);
+	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	w = glade_xml_get_widget (state->gui, "rank_button");
-        av_ties_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->av_ties = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = ranking_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, input,
-			    gnumeric_glade_group_value (state->gui, grouped_by_group),
-			    av_ties_flag, &dao);
-	switch (err) {
-	case 0: gtk_widget_destroy (state->dialog);
-		break;
-	default:
-		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
-		g_free (text);
-		break;
-	}
+
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
+			       dao, data, analysis_tool_ranking_engine)) 
+		gtk_widget_destroy (state->dialog);
 	return;
 }
 
@@ -1126,6 +1118,9 @@ ttest_tool_ok_clicked_cb (GtkWidget *button, TTestState *state)
 	GtkWidget *w;
 	int    err = 0;
 	gnum_float alpha, mean_diff, var1, var2;
+
+	if (state->warning_dialog != NULL)
+		gtk_widget_destroy (state->warning_dialog);
 
 	range_1 = gnm_expr_entry_parse_as_value
 		(GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
@@ -1543,6 +1538,9 @@ ftest_tool_ok_clicked_cb (GtkWidget *button, FTestToolState *state)
 	gnum_float alpha;
 	gint err;
 
+	if (state->warning_dialog != NULL)
+		gtk_widget_destroy (state->warning_dialog);
+
 	range_1 = gnm_expr_entry_parse_as_value
 		(GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 
@@ -1771,48 +1769,36 @@ sampling_tool_update_sensitivity_cb (GtkWidget *dummy, SamplingState *state)
 static void
 sampling_tool_ok_clicked_cb (GtkWidget *button, SamplingState *state)
 {
+	data_analysis_output_t  *dao;
+	analysis_tools_data_sampling_t  *data;
 
-	data_analysis_output_t  dao;
-        char   *text;
 	GtkWidget *w;
-	GSList *input;
-	gint size, number;
-	gint periodic, err;
+	gint err;
 
-	if (state->warning_dialog != NULL)
-		gtk_widget_destroy (state->warning_dialog);
+	data = g_new0 (analysis_tools_data_sampling_t, 1);
+	dao  = parse_output ((GenericToolState *)state, NULL);
 
-	input = gnm_expr_entry_parse_as_list (
+	data->wbcg = state->wbcg;
+
+	data->input = gnm_expr_entry_parse_as_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
-
-        parse_output ((GenericToolState *)state, &dao);
+	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-        periodic = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->periodic_button));
+        data->periodic = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->periodic_button));
 
-	if (periodic == 1) {
-		err = entry_to_int (GTK_ENTRY (state->period_entry), &size, TRUE);
+	if (data->periodic == 1) {
+		err = entry_to_int (GTK_ENTRY (state->period_entry), &data->size, TRUE);
 	} else {
-		err = entry_to_int (GTK_ENTRY (state->random_entry), &size, TRUE);
+		err = entry_to_int (GTK_ENTRY (state->random_entry), &data->size, TRUE);
 	}
-	err = entry_to_int (GTK_ENTRY (state->number_entry), &number, TRUE);
+	err = entry_to_int (GTK_ENTRY (state->number_entry), &data->number, TRUE);
 
-	err = sampling_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, input,
-			       gnumeric_glade_group_value (state->gui, grouped_by_group),
-			     periodic, size, number, &dao);
-	switch (err) {
-	case 0:
-		if (button == state->ok_button)
-			gtk_widget_destroy (state->dialog);
-		break;
-	default:
-		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
-		g_free (text);
-		break;
-	}
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
+			       dao, data, analysis_tool_sampling_engine)) 
+		gtk_widget_destroy (state->dialog);
 	return;
 }
 
@@ -2565,6 +2551,9 @@ regression_tool_ok_clicked_cb (GtkWidget *button, RegressionToolState *state)
 	gnum_float confidence;
 	RegressionResult regerr;
 
+	if (state->warning_dialog != NULL)
+		gtk_widget_destroy (state->warning_dialog);
+
 	x_input = gnm_expr_entry_parse_as_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 	y_input = gnm_expr_entry_parse_as_value
@@ -2846,42 +2835,31 @@ dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 static void
 exp_smoothing_tool_ok_clicked_cb (GtkWidget *button, ExpSmoothToolState *state)
 {
-	data_analysis_output_t  dao;
-	GSList                  *input;
-        char                    *text;
+	data_analysis_output_t  *dao;
+	analysis_tools_data_exponential_smoothing_t  *data;
+
 	GtkWidget               *w;
-	int                     standard_errors_flag;
-	gnum_float              damp_fact;
 	gint                    err;
 
-	input = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+	data = g_new0 (analysis_tools_data_exponential_smoothing_t, 1);
+	dao  = parse_output ((GenericToolState *)state, NULL);
 
-        parse_output ((GenericToolState *)state, &dao);
+	data->input = gnm_expr_entry_parse_as_list (
+		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = entry_to_float (GTK_ENTRY (state->damping_fact_entry), &damp_fact, TRUE);
+	err = entry_to_float (GTK_ENTRY (state->damping_fact_entry), &data->damp_fact, TRUE);
 
 	w = glade_xml_get_widget (state->gui, "std_errors_button");
-	standard_errors_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	data->std_error_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = exp_smoothing_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, input,
-				  gnumeric_glade_group_value (state->gui, grouped_by_group),
-				  damp_fact, standard_errors_flag,
-				  &dao);
-
-	switch (err) {
-	case 0:
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
+			       dao, data, analysis_tool_exponential_smoothing_engine))
 		gtk_widget_destroy (state->dialog);
-		break;
-	default:
-		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
-		g_free (text);
-		break;
-	}
+
 	return;
 }
 
@@ -3025,40 +3003,31 @@ dialog_exp_smoothing_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 static void
 average_tool_ok_clicked_cb (GtkWidget *button, AverageToolState *state)
 {
-	data_analysis_output_t  dao;
-	GSList                  *input;
-        char                    *text;
+	data_analysis_output_t  *dao;
+	analysis_tools_data_moving_average_t  *data;
+
 	GtkWidget               *w;
-	int                     standard_errors_flag,
-                                interval;
 	gint                    err;
 
-	input = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+	data = g_new0 (analysis_tools_data_moving_average_t, 1);
+	dao  = parse_output ((GenericToolState *)state, NULL);
 
-        parse_output ((GenericToolState *)state, &dao);
+	data->input = gnm_expr_entry_parse_as_list (
+		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = entry_to_int (GTK_ENTRY (state->interval_entry), &interval, TRUE);
+	err = entry_to_int (GTK_ENTRY (state->interval_entry), &data->interval, TRUE);
 
 	w = glade_xml_get_widget (state->gui, "std_errors_button");
-	standard_errors_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	data->std_error_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = average_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, input,
-			    gnumeric_glade_group_value (state->gui, grouped_by_group),
-			    interval, standard_errors_flag, &dao);
-	switch (err) {
-	case 0:
+	if (!cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
+			       dao, data, analysis_tool_moving_average_engine))
 		gtk_widget_destroy (state->dialog);
-		break;
-	default:
-		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
-		g_free (text);
-		break;
-	}
+
 	return;
 }
 
@@ -3205,13 +3174,11 @@ fourier_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 	GtkWidget               *w;
 
 	data = g_new0 (analysis_tools_data_fourier_t, 1);
-	dao  = g_new0 (data_analysis_output_t, 1);
+	dao  = parse_output (state, NULL);
 
 	data->input = gnm_expr_entry_parse_as_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
-
-        parse_output (state, dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
         data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -3362,6 +3329,9 @@ histogram_tool_ok_clicked_cb (GtkWidget *button, HistogramToolState *state)
 	int pareto, cum, chart, err, bin_labels = 0, percent;
 	histogram_calc_bin_info_t bin_info = {FALSE, FALSE, 0, 0, 0};
 	histogram_calc_bin_info_t *bin_info_ptr = &bin_info;
+
+	if (state->warning_dialog != NULL)
+		gtk_widget_destroy (state->warning_dialog);
 
 	input = gnm_expr_entry_parse_as_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
@@ -3668,13 +3638,11 @@ anova_single_tool_ok_clicked_cb (GtkWidget *button, AnovaSingleToolState *state)
 	analysis_tools_data_anova_single_t *data;
 
 	data = g_new0 (analysis_tools_data_anova_single_t, 1);
-	dao  = g_new0 (data_analysis_output_t  , 1);
+	dao  = parse_output ((GenericToolState *)state, NULL);
 
 	data->input = gnm_expr_entry_parse_as_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
-
-        parse_output ((GenericToolState *)state, dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
         data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
@@ -3837,15 +3805,16 @@ anova_two_factor_tool_ok_clicked_cb (GtkWidget *button, AnovaTwoFactorToolState 
 	analysis_tools_data_anova_two_factor_t *data;
 	char *text;
 
+	if (state->warning_dialog != NULL)
+		gtk_widget_destroy (state->warning_dialog);
+
 	data = g_new0 (analysis_tools_data_anova_two_factor_t, 1);
-	dao  = g_new0 (data_analysis_output_t  , 1);
+	dao  = parse_output ((GenericToolState *)state, NULL);
 
 	data->input = gnm_expr_entry_parse_as_value
 		(GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 	data->err = analysis_tools_noerr;
 	data->wbcg = state->wbcg;
-
-        parse_output ((GenericToolState *)state, dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
         data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));

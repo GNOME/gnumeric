@@ -623,15 +623,13 @@ WriteData_ForeachCellCB (Sheet *sheet, int col, int row,
 static void
 write_data (WorkbookControl *wbc, data_analysis_output_t *dao, GArray *data)
 {
-	gint st_row = dao->start_row;
-	gint end_row = dao->start_row + data->len - 1;
-	gint st_col = dao->start_col, end_col = dao->start_col;
+	gint st_row = dao->start_row + dao->offset_row;
+	gint end_row = dao->start_row + dao->rows - 1;
+	gint st_col = dao->start_col + dao->offset_col;
+	gint end_col = dao->start_col + dao->offset_col;
 
-	if (dao->type == RangeOutput) {
-		end_row = st_row + dao->rows - 1;
-		if (dao->cols == 0)
-			return;
-	}
+	if (dao->cols <= dao->offset_col)
+		return;
 
 	sheet_foreach_cell_in_range (dao->sheet, FALSE, st_col, st_row, end_col, end_row,
 				     (ForeachCellCB)&WriteData_ForeachCellCB, data);
@@ -645,6 +643,25 @@ analysis_tool_generic_clean (data_analysis_output_t *dao, gpointer specs)
 	range_list_destroy (info->input);
 	info->input = NULL;
 	return FALSE;
+}
+
+
+
+static int
+analysis_tool_calc_length (analysis_tools_data_generic_t *info)
+{
+	int           result = 1;
+	GSList        *dataset;
+
+	for (dataset = info->input; dataset; dataset = dataset->next) {
+		Value    *current = dataset->data;
+		int      given_length;
+
+		given_length = current->v_range.cell.b.row - current->v_range.cell.a.row + 1;
+		if (given_length > result)
+			result = given_length;
+	}
+	return result;
 }
 
 
@@ -1169,13 +1186,10 @@ analysis_tool_descriptive_engine (data_analysis_output_t *dao, gpointer specs,
  **/
 
 
-int
-sampling_tool (WorkbookControl *wbc, Sheet *sheet,
-	       GSList *input, group_by_t group_by,
-	       gboolean periodic_flag, guint size, guint number,
-	       data_analysis_output_t *dao)
+static gboolean
+analysis_tool_sampling_engine_run (data_analysis_output_t *dao, 
+					 analysis_tools_data_sampling_t *info)
 {
-	GSList *input_range = input;
 	GPtrArray *data = NULL;
 
 	guint i, j, data_len;
@@ -1183,14 +1197,11 @@ sampling_tool (WorkbookControl *wbc, Sheet *sheet,
 	guint n_data;
 	gnum_float x;
 
-	prepare_input_range (&input_range, group_by);
-	data = new_data_set_list (input_range, group_by,
-				  TRUE, dao->labels_flag, sheet);
-
-	dao_prepare_output (wbc, dao, _("Sample"));
+	data = new_data_set_list (info->input, info->group_by,
+				  TRUE, info->labels, dao->sheet);
 
 	for (n_data = 0; n_data < data->len; n_data++) {
-		for (n_sample = 0; n_sample < number; n_sample++) {
+		for (n_sample = 0; n_sample < info->number; n_sample++) {
 			GArray * sample = g_array_new (FALSE, FALSE,
 						       sizeof (gnum_float));
 			GArray * this_data = g_array_new (FALSE, FALSE,
@@ -1202,22 +1213,27 @@ sampling_tool (WorkbookControl *wbc, Sheet *sheet,
 
 			dao_set_cell_printf (dao, 0, 0, this_data_set->label);
 			dao_set_italic (dao, 0, 0, 0, 0);
-			dao->start_row++;
+			dao->offset_row = 1;
 
 			g_array_set_size (this_data, data_len);
 			g_memmove (this_data->data, this_data_set->data->data,
 				   sizeof (gnum_float) * data_len);
 
-			if (periodic_flag) {
-				if ((size < 0) || (size > data_len))
-					return 1;
-				for (i = size - 1; i < data_len; i += size) {
+			if (info->periodic) {
+				if ((info->size < 0) || (info->size > data_len)) {
+					destroy_data_set_list (data);
+					gnumeric_notice (info->wbcg, GTK_MESSAGE_ERROR,
+							 _("The requested sample size is to large"
+							   " for a periodic sample."));
+					return TRUE;
+				}
+				for (i = info->size - 1; i < data_len; i += info->size) {
 					x = g_array_index (this_data, gnum_float, i);
 					g_array_append_val (sample, x);
 				}
-				write_data (wbc, dao, sample);
+				write_data (WORKBOOK_CONTROL (info->wbcg), dao, sample);
 			} else {
-				for (i = 0; i < size; i++) {
+				for (i = 0; i < info->size; i++) {
 					guint random_index;
 
 					if (0 == data_len)
@@ -1230,36 +1246,52 @@ sampling_tool (WorkbookControl *wbc, Sheet *sheet,
 					g_array_append_val (sample, x);
 					data_len--;
 				}
-
-				write_data (wbc, dao, sample);
-				for (j = i; j < size; j++)
+				write_data (WORKBOOK_CONTROL (info->wbcg), dao, sample);
+				for (j = i; j < info->size; j++)
 					dao_set_cell_na (dao, 0, j);
 			}
 
-			dao_autofit_columns (dao);
 			g_array_free (this_data, TRUE);
 			g_array_free (sample, TRUE);
-      			dao->start_col++;
-			dao->start_row--;
-			if (dao->type == RangeOutput) {
-				dao->start_col++;
-				dao->cols--;
-				if (dao->cols <= 0)
-					break;
-			}
+      			dao->offset_col++;
+			dao->offset_row = 0;
 		}
-		if ((dao->type == RangeOutput) && (dao->cols <= 0))
-			break;
 	}
 
 	destroy_data_set_list (data);
-	range_list_destroy (input_range);
 
-	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (sheet);
-
-	return 0;
+	return FALSE;
 }
+
+gboolean 
+analysis_tool_sampling_engine (data_analysis_output_t *dao, gpointer specs, 
+			       analysis_tool_engine_t selector, gpointer result)
+{
+	analysis_tools_data_sampling_t *info = specs;
+
+	switch (selector) {
+	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
+		return (dao_command_descriptor (dao, _("Sampling (%s)"), result) 
+			== NULL);
+	case TOOL_ENGINE_UPDATE_DAO: 
+		prepare_input_range (&info->input, info->group_by);
+		dao_adjust (dao, info->number * g_slist_length (info->input), 
+			    1 + info->size);
+		return FALSE;
+	case TOOL_ENGINE_CLEAN_UP:
+		return analysis_tool_generic_clean (dao, specs);
+	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
+		dao_prepare_output (NULL, dao, _("Sample"));
+		return FALSE;
+	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
+		return dao_format_output (dao, _("Sample"));
+	case TOOL_ENGINE_PERFORM_CALC:
+	default:
+		return analysis_tool_sampling_engine_run (dao, specs);
+	}
+	return TRUE;  /* We shouldn't get here */
+}
+
 
 
 /************* z-Test: Two Sample for Means ******************************
@@ -2442,27 +2474,20 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
  **/
 
 
-int
-average_tool (WorkbookControl *wbc, Sheet *sheet,
-	      GSList *input, group_by_t group_by,
-	      int interval,
-	      int std_error_flag, data_analysis_output_t *dao)
+static gboolean
+analysis_tool_moving_average_engine_run (data_analysis_output_t *dao, 
+					 analysis_tools_data_moving_average_t *info)
 {
-	GSList        *input_range;
 	GPtrArray     *data;
 	guint         dataset;
 	gint          col = 0;
 	gnum_float    *prev, *prev_av;
 
-	input_range = input;
-	prepare_input_range (&input_range, group_by);
-	data = new_data_set_list (input_range, group_by,
-				  TRUE, dao->labels_flag, sheet);
+	data = new_data_set_list (info->input, info->group_by,
+				  TRUE, info->labels, dao->sheet);
 
-	dao_prepare_output (wbc, dao, _("Moving Averages"));
-
-	prev = g_new (gnum_float, interval);
-	prev_av = g_new (gnum_float, interval);
+	prev = g_new (gnum_float, info->interval);
+	prev_av = g_new (gnum_float, info->interval);
 
 	for (dataset = 0; dataset < data->len; dataset++) {
 		data_set_t    *current;
@@ -2473,62 +2498,87 @@ average_tool (WorkbookControl *wbc, Sheet *sheet,
 
 		current = g_ptr_array_index (data, dataset);
 		dao_set_cell_printf (dao, col, 0, current->label);
-		if (std_error_flag)
+		if (info->std_error_flag)
 			dao_set_cell_printf (dao, col + 1, 0, _("Standard Error"));
 
 		add_cursor = del_cursor = 0;
 		sum = 0;
 		std_err = 0;
 
-		for (row = 0; row < interval - 1; row++) {
+		for (row = 0; row < info->interval - 1; row++) {
 			prev[add_cursor] = g_array_index
 				(current->data, gnum_float, row);
 			sum += prev[add_cursor];
 			++add_cursor;
 			dao_set_cell_na (dao, col, row + 1);
-			if (std_error_flag)
+			if (info->std_error_flag)
 				dao_set_cell_na (dao, col + 1, row + 1);
 		}
-		for (row = interval - 1; row < (gint)current->data->len; row++) {
+		for (row = info->interval - 1; row < (gint)current->data->len; row++) {
 			prev[add_cursor] = g_array_index
 				(current->data, gnum_float, row);
 			sum += prev[add_cursor];
-			prev_av[add_cursor] = sum / interval;
+			prev_av[add_cursor] = sum / info->interval;
 			dao_set_cell_float (dao, col, row + 1, prev_av[add_cursor]);
 			sum -= prev[del_cursor];
-			if (std_error_flag) {
+			if (info->std_error_flag) {
 				std_err += (prev[add_cursor] - prev_av[add_cursor]) *
 					(prev[add_cursor] - prev_av[add_cursor]);
-				if (row >= 2 * interval - 2) {
+				if (row >= 2 * info->interval - 2) {
 					dao_set_cell_float (dao, col + 1, row + 1,
-							sqrtgnum (std_err / interval));
+							sqrtgnum (std_err / info->interval));
 					std_err -= (prev[del_cursor] - prev_av[del_cursor]) *
 						(prev[del_cursor] - prev_av[del_cursor]);
 				} else {
 					dao_set_cell_na (dao, col + 1, row + 1);
 				}
 			}
-			if (++add_cursor == interval)
+			if (++add_cursor == info->interval)
 				add_cursor = 0;
-			if (++del_cursor == interval)
+			if (++del_cursor == info->interval)
 				del_cursor = 0;
 		}
 		col++;
-		if (std_error_flag)
+		if (info->std_error_flag)
 			col++;
 	}
 	dao_set_italic (dao, 0, 0, col - 1, 0);
-	dao_autofit_columns (dao);
 
 	destroy_data_set_list (data);
-	range_list_destroy (input_range);
 	g_free (prev);
 	g_free (prev_av);
 
-	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (sheet);
+	return FALSE;
+}
 
-	return 0;
+
+gboolean 
+analysis_tool_moving_average_engine (data_analysis_output_t *dao, gpointer specs, 
+			      analysis_tool_engine_t selector, gpointer result)
+{
+	analysis_tools_data_moving_average_t *info = specs;
+
+	switch (selector) {
+	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
+		return (dao_command_descriptor (dao, _("Moving Average (%s)"), result) 
+			== NULL);
+	case TOOL_ENGINE_UPDATE_DAO: 
+		prepare_input_range (&info->input, info->group_by);
+		dao_adjust (dao, (info->std_error_flag ? 2 : 1) * g_slist_length (info->input), 
+			    1 + analysis_tool_calc_length (specs));
+		return FALSE;
+	case TOOL_ENGINE_CLEAN_UP:
+		return analysis_tool_generic_clean (dao, specs);
+	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
+		dao_prepare_output (NULL, dao, _("Moving Average"));
+		return FALSE;
+	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
+		return dao_format_output (dao, _("Moving Average"));
+	case TOOL_ENGINE_PERFORM_CALC:
+	default:
+		return analysis_tool_moving_average_engine_run (dao, specs);
+	}
+	return TRUE;  /* We shouldn't get here */
 }
 
 
@@ -2545,24 +2595,17 @@ average_tool (WorkbookControl *wbc, Sheet *sheet,
  *
  **/
 
-int
-exp_smoothing_tool (WorkbookControl *wbc, Sheet *sheet,
-		    GSList *input, group_by_t group_by,
-		    gnum_float damp_fact, int std_error_flag,
-		    data_analysis_output_t *dao)
+static gboolean
+analysis_tool_exponential_smoothing_engine_run (data_analysis_output_t *dao, 
+						analysis_tools_data_exponential_smoothing_t *info)
 {
-	GSList        *input_range;
 	GPtrArray     *data;
 	guint           dataset;
 
 	/* TODO: Standard error output */
 
-	input_range = input;
-	prepare_input_range (&input_range, group_by);
-	data = new_data_set_list (input_range, group_by,
-				  TRUE, dao->labels_flag, sheet);
-
-	dao_prepare_output (wbc, dao, _("Exponential Smoothing"));
+	data = new_data_set_list (info->input, info->group_by,
+				  TRUE, info->labels, dao->sheet);
 
 	for (dataset = 0; dataset < data->len; dataset++) {
 		data_set_t    *current;
@@ -2586,22 +2629,46 @@ exp_smoothing_tool (WorkbookControl *wbc, Sheet *sheet,
 				 * where A(t) is the t'th data element.
 				 */
 
-				f = f + (1.0 - damp_fact) * (a - f);
+				f = f + (1.0 - info->damp_fact) * (a - f);
 				dao_set_cell_float (dao, dataset, row + 1, f);
 			}
 			a = g_array_index (current->data, gnum_float, row);
 		}
 	}
 	dao_set_italic (dao, 0, 0, data->len - 1, 0);
-	dao_autofit_columns (dao);
 
 	destroy_data_set_list (data);
-	range_list_destroy (input_range);
 
-	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (sheet);
+	return FALSE;
+}
 
-	return 0;
+gboolean 
+analysis_tool_exponential_smoothing_engine (data_analysis_output_t *dao, gpointer specs, 
+					    analysis_tool_engine_t selector, gpointer result)
+{
+	analysis_tools_data_exponential_smoothing_t *info = specs;
+
+	switch (selector) {
+	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
+		return (dao_command_descriptor (dao, _("Exponential Smoothing (%s)"), result) 
+			== NULL);
+	case TOOL_ENGINE_UPDATE_DAO: 
+		prepare_input_range (&info->input, info->group_by);
+		dao_adjust (dao, (info->std_error_flag ? 2 : 1) * g_slist_length (info->input), 
+			    1 + analysis_tool_calc_length (specs));
+		return FALSE;
+	case TOOL_ENGINE_CLEAN_UP:
+		return analysis_tool_generic_clean (dao, specs);
+	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
+		dao_prepare_output (NULL, dao, _("Exponential Smoothing"));
+		return FALSE;
+	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
+		return dao_format_output (dao, _("Exponential Smoothing"));
+	case TOOL_ENGINE_PERFORM_CALC:
+	default:
+		return analysis_tool_exponential_smoothing_engine_run (dao, specs);
+	}
+	return TRUE;  /* We shouldn't get here */
 }
 
 
@@ -2630,19 +2697,16 @@ rank_compare (const rank_t *a, const rank_t *b)
                 return -1;
 }
 
-int
-ranking_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input,
-	      group_by_t group_by, gboolean av_ties_flag, data_analysis_output_t *dao)
+
+static gboolean
+analysis_tool_ranking_engine_run (data_analysis_output_t *dao, 
+				      analysis_tools_data_ranking_t *info)
 {
-	GSList *input_range = input;
 	GPtrArray *data = NULL;
 	guint n_data;
 
-	prepare_input_range (&input_range, group_by);
-	data = new_data_set_list (input_range, group_by,
-				  TRUE, dao->labels_flag, sheet);
-
-	dao_prepare_output (wbc, dao, _("Ranks"));
+	data = new_data_set_list (info->input, info->group_by,
+				  TRUE, info->labels, dao->sheet);
 
 	for (n_data = 0; n_data < data->len; n_data++) {
 	        rank_t *rank;
@@ -2654,7 +2718,7 @@ ranking_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input,
 		dao_set_cell (dao, n_data * 4, 0, _("Point"));
 		dao_set_cell (dao, n_data * 4+1, 0, this_data_set->label);
 		dao_set_cell (dao, n_data * 4 + 2, 0, _("Rank"));
-		dao_set_cell (dao, n_data * 4 + 3, 0, _("Percent"));
+		dao_set_cell (dao, n_data * 4 + 3, 0, _("Percentile"));
 
 		rank = g_new (rank_t, this_data_set->data->len);
 
@@ -2690,7 +2754,7 @@ ranking_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input,
 			/* Rank */
 			dao_set_cell_float (dao, n_data * 4 + 2, i + 1,
 					rank[i].rank +
-					(av_ties_flag ? rank[i].same_rank_count / 2. : 0));
+					(info->av_ties ? rank[i].same_rank_count / 2. : 0));
 
 			/* Percent */
 			dao_set_cell_float_na (dao, n_data * 4 + 3, i + 1,
@@ -2701,16 +2765,41 @@ ranking_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input,
 		g_free (rank);
 	}
 
-	dao_autofit_columns (dao);
-
 	destroy_data_set_list (data);
-	range_list_destroy (input_range);
-
-	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (sheet);
 
 	return 0;
 }
+
+gboolean
+analysis_tool_ranking_engine (data_analysis_output_t *dao, gpointer specs, 
+			      analysis_tool_engine_t selector, gpointer result)
+{
+	analysis_tools_data_ranking_t *info = specs;
+
+	switch (selector) {
+	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
+		return (dao_command_descriptor (dao, _("Ranks (%s)"), result) 
+			== NULL);
+	case TOOL_ENGINE_UPDATE_DAO: 
+		prepare_input_range (&info->input, info->group_by);
+		dao_adjust (dao, 4 * g_slist_length (info->input), 
+			    1 + analysis_tool_calc_length (specs));
+		return FALSE;
+	case TOOL_ENGINE_CLEAN_UP:
+		return analysis_tool_generic_clean (dao, specs);
+	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
+		dao_prepare_output (NULL, dao, _("Ranks"));
+		return FALSE;
+	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
+		return dao_format_output (dao, _("Ranks"));
+	case TOOL_ENGINE_PERFORM_CALC:
+	default:
+		return analysis_tool_ranking_engine_run (dao, specs);
+	}
+	return TRUE;  /* We shouldn't get here */
+}
+
+
 
 
 /************* Anova: Single Factor Tool **********************************
