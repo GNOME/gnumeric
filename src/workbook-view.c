@@ -1,25 +1,32 @@
+/*
+ * workbook-view.c: View functions for the workbook
+ *
+ * This is actually broken, as there is no such separation right now
+ *
+ * Authors:
+ *   Jody Goldberg
+ *   Miguel de Icaza
+ */
 #include <config.h>
 #include "workbook-view.h"
 #include "command-context.h"
 #include "command-context-gui.h"
 #include "workbook.h"
+#include "workbook-private.h"
 #include "gnumeric-util.h"
 
-/* enable/disable paste/paste_special
- * 0 = both disabled
- * 1 = paste enabled
- * 2 = both enabled
- */
 void
-workbook_view_set_paste_state (Workbook *wb, int const state)
+workbook_view_set_paste_state (Workbook *wb, int flags)
 {
 	g_return_if_fail (wb != NULL);
-	g_return_if_fail (state >= 0);
-	g_return_if_fail (state <= 2);
 
 #ifndef ENABLE_BONOBO
-	gtk_widget_set_sensitive (wb->menu_item_paste, state > 0);
-	gtk_widget_set_sensitive (wb->menu_item_paste_special, state > 1);
+	gtk_widget_set_sensitive (
+		wb->priv->menu_item_paste,
+		flags & WORKBOOK_VIEW_PASTE_ITEM);
+	gtk_widget_set_sensitive (
+		wb->priv->menu_item_paste_special,
+		flags & WORKBOOK_VIEW_PASTE_SPECIAL_ITEM);
 #else
 	/* gnome_ui_handler_menu_set_sensitivity (); */
 #endif
@@ -33,8 +40,8 @@ workbook_view_set_undo_redo_state (Workbook const * const wb,
 	g_return_if_fail (wb != NULL);
 
 #ifndef ENABLE_BONOBO
-	gtk_widget_set_sensitive (wb->menu_item_undo, has_undos);
-	gtk_widget_set_sensitive (wb->menu_item_redo, has_redos);
+	gtk_widget_set_sensitive (wb->priv->menu_item_undo, has_undos);
+	gtk_widget_set_sensitive (wb->priv->menu_item_redo, has_redos);
 #else
 	/* gnome_ui_handler_menu_set_sensitivity (); */
 #endif

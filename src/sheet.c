@@ -1420,7 +1420,7 @@ sheet_start_editing_at_cursor (Sheet *sheet, gboolean blankp, gboolean cursorp)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	application_clipboard_clear ();
+	application_clipboard_unant ();
 	
 	if (blankp)
 		gtk_entry_set_text (GTK_ENTRY (sheet->workbook->ea_input), "");

@@ -2171,10 +2171,10 @@ workbook_new (void)
 	/* Get the menu items that will be enabled disabled based on
 	 * workbook state.
 	 */
-	wb->menu_item_undo		= workbook_menu_edit[0].widget;
-	wb->menu_item_redo		= workbook_menu_edit[1].widget;
-	wb->menu_item_paste		= workbook_menu_edit[5].widget;
-	wb->menu_item_paste_special	= workbook_menu_edit[6].widget;
+	wb->priv->menu_item_undo	  = workbook_menu_edit[0].widget;
+	wb->priv->menu_item_redo	  = workbook_menu_edit[1].widget;
+	wb->priv->menu_item_paste         = workbook_menu_edit[5].widget;
+	wb->priv->menu_item_paste_special = workbook_menu_edit[6].widget;
 #else
 	{
 		GnomeUIHandlerMenuItem *list;
@@ -2193,8 +2193,10 @@ workbook_new (void)
 	/* Disable undo/redo for now */
 	workbook_view_set_undo_redo_state (wb, FALSE, FALSE);
 
-	/* Disable paste & paste special, they will be enabled when
-	 * there is something to paste */
+	/*
+	 * Disable paste & paste special, they will be enabled when
+	 * there is something to paste
+	 */
 	workbook_view_set_paste_state (wb, 0);
 
  	workbook_create_toolbars (wb);

@@ -38,6 +38,15 @@ struct _WorkbookPrivate {
 	 * GUI command context
 	 */
 	CommandContext *gui_context, *corba_context;
+
+#ifdef ENABLE_BONOBO
+#else
+	/* Menu items that get toggled */
+	GtkWidget  *menu_item_undo;
+	GtkWidget  *menu_item_redo;
+	GtkWidget  *menu_item_paste;
+	GtkWidget  *menu_item_paste_special;
+#endif
 };
 
 #endif /* GNUMERIC_WORKBOOK_PRIVATE_H */

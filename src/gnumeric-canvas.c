@@ -826,7 +826,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 
 	case GDK_Escape:
 		sheet_cancel_pending_input (sheet);
-		application_clipboard_clear ();
+		application_clipboard_unant ();
 		break;
 
 	case GDK_F2:
@@ -860,7 +860,7 @@ gnumeric_sheet_key_mode_object (GnumericSheet *gsheet, GdkEventKey *event)
 	switch (event->keyval){
 	case GDK_Escape:
 		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
-		application_clipboard_clear ();
+		application_clipboard_unant ();
 		break;
 
 	case GDK_BackSpace:
