@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2000-06-09 22:16+0200\n"
-"PO-Revision-Date: 2000-06-10 20:44+0200\n"
+"POT-Creation-Date: 2000-06-11 15:18+0200\n"
+"PO-Revision-Date: 2000-06-11 19:01+0200\n"
 "Last-Translator: GNOME PL Team <gnomepl@pandora.info.bielsko.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -50,7 +50,7 @@ msgstr "Zaimportowano %s"
 
 #: plugins/dif/dif.c:1
 msgid "DIF : Failed to load sheet"
-msgstr ""
+msgstr "DIF : Wczytanie arkusza nie powiod³o siê"
 
 #: plugins/dif/dif.c:1 plugins/plan-perfect/pln.c:1
 msgid "Unable to mmap the file"
@@ -112,11 +112,11 @@ msgstr "Nie mo¿na odnale¼æ poprawnego zeszytu MS Excela"
 
 #: plugins/excel/ms-excel-write.c:1
 msgid "Too many rows for this format"
-msgstr ""
+msgstr "Zbyt wiele wierszy dla tego formatu"
 
 #: plugins/excel/ms-excel-write.c:1
 msgid "Can't open stream for writing\n"
-msgstr ""
+msgstr "Nie mo¿na otworzyæ strumienia do zapisu\n"
 
 #: plugins/excel/ms-formula-read.c:1
 msgid "Unknown Function"
@@ -257,11 +257,11 @@ msgstr "Format pliku EPS (*.eps)"
 
 #: plugins/html/boot.c:1
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: plugins/html/boot.c:1
 msgid "Import/Export of HTML, TeX, DVI, roff and pdf"
-msgstr ""
+msgstr "Import/Eksport formatów HTML, TeX, DVI, roff i PDF"
 
 #: plugins/html/html.c:1 plugins/lotus-123/lotus.c:1
 #: plugins/oleo/oleo.c:1 src/workbook.c:1
@@ -1011,7 +1011,7 @@ msgstr ""
 
 #: src/clipboard.c:1 src/clipboard.c:1 src/clipboard.c:1
 msgid "Unable to paste"
-msgstr ""
+msgstr "Nie mo¿na wkleiæ"
 
 #: src/clipboard.c:1
 #, c-format
@@ -1023,7 +1023,7 @@ msgstr ""
 
 #: src/clipboard.c:1
 msgid "result passes the sheet boundary"
-msgstr ""
+msgstr "wynik przekracza granice arkusza"
 
 #: src/clipboard.c:1
 msgid "Error while trying to pre-convert clipboard data"
@@ -1047,7 +1047,7 @@ msgstr ""
 
 #: src/cmd-edit.c:1
 msgid "Unable to paste into selection"
-msgstr ""
+msgstr "Nie mo¿na wkleiæ do zaznaczenia"
 
 #: src/cmd-edit.c:1 src/workbook.c:1
 msgid "Paste"
@@ -1059,7 +1059,7 @@ msgstr ""
 
 #: src/commands.c:1 src/commands.c:1
 msgid "Set Text"
-msgstr ""
+msgstr "Ustawienie tekstu"
 
 #: src/commands.c:1
 #, c-format
@@ -1186,11 +1186,11 @@ msgstr "Przeniesienie komórek"
 #: src/commands.c:1
 #, c-format
 msgid "Pasting into %s"
-msgstr ""
+msgstr "Wstawienie do %s"
 
 #: src/commands.c:1
 msgid "Autofill"
-msgstr ""
+msgstr "Automatyczne wype³nienie"
 
 #: src/corba-args.c:1
 msgid "Oaf options"
@@ -2903,7 +2903,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:1
 msgid "Line termination :"
-msgstr ""
+msgstr "Zakoñczenie wiersza :"
 
 #: src/dialogs/dialog-stf-export.glade.h:1
 msgid ""
@@ -2914,7 +2914,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:1
 msgid "Separator :"
-msgstr ""
+msgstr "Separator :"
 
 #: src/dialogs/dialog-stf-export.glade.h:1 src/dialogs/dialog-stf.glade.h:1
 msgid ""
@@ -2922,10 +2922,13 @@ msgid ""
 "'\n"
 "`\n"
 msgstr ""
+"\"\n"
+"'\n"
+"`\n"
 
 #: src/dialogs/dialog-stf-export.glade.h:1 src/dialogs/dialog-stf.glade.h:1
 msgid "\""
-msgstr ""
+msgstr "\""
 
 #: src/dialogs/dialog-stf-export.glade.h:1
 msgid ""
@@ -2933,6 +2936,9 @@ msgid ""
 "Always\n"
 "Never\n"
 msgstr ""
+"Automatycznie (stosuje cudzys³owy w razie konieczno¶ci)\n"
+"Zawsze\n"
+"Nigdy\n"
 
 #: src/dialogs/dialog-stf-export.glade.h:1
 msgid "Quoting :"
@@ -2955,6 +2961,16 @@ msgid ""
 "Slash (/)\n"
 "Custom\n"
 msgstr ""
+"Spacja\n"
+"Tabulacja\n"
+"Wykrzyknik (!)\n"
+"Dwukropek (:)\n"
+"Przecinek (,)\n"
+"My¶lnik (-)\n"
+"Kreska (|)\n"
+"¦rednik (;)\n"
+"Uko¶nik (/)\n"
+"Dowolny\n"
 
 #: src/dialogs/dialog-stf-format-page.c:1
 #: src/dialogs/dialog-stf-format-page.c:1
@@ -2964,12 +2980,12 @@ msgstr "Dowolne"
 #: src/dialogs/dialog-stf-main-page.c:1
 #, c-format
 msgid "%d lines to import"
-msgstr ""
+msgstr "%d wierszy przeznaczonych do importu"
 
 #: src/dialogs/dialog-stf-main-page.c:1
 #, c-format
 msgid "Data (from %s)"
-msgstr ""
+msgstr "Dane (z %s)"
 
 #: src/dialogs/dialog-stf.glade.h:1
 msgid "Gnumeric : Importing structured text"
@@ -2977,7 +2993,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:1
 msgid "Data type and number of lines"
-msgstr ""
+msgstr "Typ danych i liczba wierszy"
 
 #: src/dialogs/dialog-stf.glade.h:1
 msgid ""
@@ -3807,6 +3823,8 @@ msgid ""
 "Workbook %s already exists.\n"
 "Do you want to save over it?"
 msgstr ""
+"Zeszyt %s ju¿ istnieje.\n"
+"Czy chcesz go nadpisaæ?"
 
 #: src/file.c:1
 #, c-format
@@ -3827,6 +3845,8 @@ msgid ""
 "Please enter a file name,\n"
 "not a directory"
 msgstr ""
+"Wprowad¼ nazwê pliku, nie\n"
+"katalogu"
 
 #: src/file.c:1
 msgid ""
@@ -4156,7 +4176,7 @@ msgstr "##0,0E+0"
 
 #: src/formats.c:1
 msgid "[$ADP]"
-msgstr ""
+msgstr "[$ADP]"
 
 #: src/formats.c:1
 msgid "Andorran peseta"
@@ -4164,7 +4184,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$AED]"
-msgstr ""
+msgstr "[$AED]"
 
 #: src/formats.c:1
 msgid "UAE dirham"
@@ -4172,7 +4192,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$AFA]"
-msgstr ""
+msgstr "[$AFA]"
 
 #: src/formats.c:1
 msgid "Afghanistan afghani"
@@ -4180,7 +4200,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$ALL]"
-msgstr ""
+msgstr "[$ALL]"
 
 #: src/formats.c:1
 msgid "Albanian lek"
@@ -4188,7 +4208,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$ANG]"
-msgstr ""
+msgstr "[$ANG]"
 
 #: src/formats.c:1
 msgid "Netherlands Antillian guilder"
@@ -4196,7 +4216,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$AON]"
-msgstr ""
+msgstr "[$AON]"
 
 #: src/formats.c:1
 msgid "Angolan new kwanza"
@@ -4204,7 +4224,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$ARA]"
-msgstr ""
+msgstr "[$ARA]"
 
 #: src/formats.c:1
 msgid "Argentine austral"
@@ -4212,7 +4232,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$ATS]"
-msgstr ""
+msgstr "[$ATS]"
 
 #: src/formats.c:1
 msgid "Austrian schilling"
@@ -4220,7 +4240,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$AUD]"
-msgstr ""
+msgstr "[$AUD]"
 
 #: src/formats.c:1
 msgid "Australian dollar"
@@ -4228,7 +4248,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$AWG]"
-msgstr ""
+msgstr "[$AWG]"
 
 #: src/formats.c:1
 msgid "Aruban guilder"
@@ -4236,7 +4256,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$BBD]"
-msgstr ""
+msgstr "[$BBD]"
 
 #: src/formats.c:1
 msgid "Barbados dollar"
@@ -4244,7 +4264,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$BDT]"
-msgstr ""
+msgstr "[$BDT]"
 
 #: src/formats.c:1
 msgid "Bangladeshi taka"
@@ -4252,7 +4272,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$BEF]"
-msgstr ""
+msgstr "[$BEF]"
 
 #: src/formats.c:1
 msgid "Belgian franc"
@@ -4260,7 +4280,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$BGL]"
-msgstr ""
+msgstr "[$BGL]"
 
 #: src/formats.c:1
 msgid "Bulgarian lev"
@@ -4268,7 +4288,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$BHD]"
-msgstr ""
+msgstr "[$BHD]"
 
 #: src/formats.c:1
 msgid "Bahraini dinar"
@@ -4276,7 +4296,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$BIF]"
-msgstr ""
+msgstr "[$BIF]"
 
 #: src/formats.c:1
 msgid "Burundi franc"
@@ -4284,7 +4304,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$BMD]"
-msgstr ""
+msgstr "[$BMD]"
 
 #: src/formats.c:1
 msgid "Bermudian dollar"
@@ -4292,7 +4312,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$BND]"
-msgstr ""
+msgstr "[$BND]"
 
 #: src/formats.c:1
 msgid "Brunei dollar"
@@ -4300,7 +4320,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$BOB]"
-msgstr ""
+msgstr "[$BOB]"
 
 #: src/formats.c:1
 msgid "Bolivian boliviano"
@@ -4308,7 +4328,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$BRE]"
-msgstr ""
+msgstr "[$BRE]"
 
 #: src/formats.c:1
 msgid "Brazilian cruzeiro"
@@ -4316,7 +4336,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$BSD]"
-msgstr ""
+msgstr "[$BSD]"
 
 #: src/formats.c:1
 msgid "Bahamian dollar"
@@ -4324,7 +4344,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$BTN]"
-msgstr ""
+msgstr "[$BTN]"
 
 #: src/formats.c:1
 msgid "Bhutan ngultrum"
@@ -4332,7 +4352,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$BWP]"
-msgstr ""
+msgstr "[$BWP]"
 
 #: src/formats.c:1
 msgid "Botswanian pula"
@@ -4340,7 +4360,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$BYB]"
-msgstr ""
+msgstr "[$BYB]"
 
 #: src/formats.c:1
 msgid "Belarussian ruble"
@@ -4348,15 +4368,15 @@ msgstr "Bia³oruski rubel"
 
 #: src/formats.c:1
 msgid "[$BZD]"
-msgstr ""
+msgstr "[$BZD]"
 
 #: src/formats.c:1
 msgid "Belize dollar"
-msgstr ""
+msgstr "Belizejski dolar"
 
 #: src/formats.c:1
 msgid "[$CAD]"
-msgstr ""
+msgstr "[$CAD]"
 
 #: src/formats.c:1
 msgid "Canadian dollar"
@@ -4364,7 +4384,7 @@ msgstr "Dolar kanadyjski"
 
 #: src/formats.c:1
 msgid "[$CHF]"
-msgstr ""
+msgstr "[$CHF]"
 
 #: src/formats.c:1
 msgid "Swiss franc"
@@ -4372,7 +4392,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$CLP]"
-msgstr ""
+msgstr "[$CLP]"
 
 #: src/formats.c:1
 msgid "Chilean peso"
@@ -4380,7 +4400,7 @@ msgstr "Czilijskie peso"
 
 #: src/formats.c:1
 msgid "[$CNY]"
-msgstr ""
+msgstr "[$CNY]"
 
 #: src/formats.c:1
 msgid "Chinese yuan renminbi"
@@ -4388,7 +4408,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$COP]"
-msgstr ""
+msgstr "[$COP]"
 
 #: src/formats.c:1
 msgid "Colombian peso"
@@ -4396,7 +4416,7 @@ msgstr "Kolumbijskie peso"
 
 #: src/formats.c:1
 msgid "[$CRC]"
-msgstr ""
+msgstr "[$CRC]"
 
 #: src/formats.c:1
 msgid "Costa Rican colon"
@@ -4404,7 +4424,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$CSK]"
-msgstr ""
+msgstr "[$CSK]"
 
 #: src/formats.c:1
 msgid "Czech Koruna"
@@ -4412,7 +4432,7 @@ msgstr "Czeska korona"
 
 #: src/formats.c:1
 msgid "[$CUP]"
-msgstr ""
+msgstr "[$CUP]"
 
 #: src/formats.c:1
 msgid "Cuban peso"
@@ -4420,7 +4440,7 @@ msgstr "Kubañskie peso"
 
 #: src/formats.c:1
 msgid "[$CVE]"
-msgstr ""
+msgstr "[$CVE]"
 
 #: src/formats.c:1
 msgid "Cape Verde escudo"
@@ -4428,7 +4448,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$CYP]"
-msgstr ""
+msgstr "[$CYP]"
 
 #: src/formats.c:1
 msgid "Cyprus pound"
@@ -4436,7 +4456,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$DEM]"
-msgstr ""
+msgstr "[$DEM]"
 
 #: src/formats.c:1
 msgid "Deutsche mark"
@@ -4444,7 +4464,7 @@ msgstr "Niemiecka marka"
 
 #: src/formats.c:1
 msgid "[$DJF]"
-msgstr ""
+msgstr "[$DJF]"
 
 #: src/formats.c:1
 msgid "Djibouti franc"
@@ -4452,7 +4472,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$DKK]"
-msgstr ""
+msgstr "[$DKK]"
 
 #: src/formats.c:1
 msgid "Danish krone"
@@ -4460,7 +4480,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$DOP]"
-msgstr ""
+msgstr "[$DOP]"
 
 #: src/formats.c:1
 msgid "Dominican peso"
@@ -4468,15 +4488,15 @@ msgstr "Dominikañskie peso"
 
 #: src/formats.c:1
 msgid "[$DZD]"
-msgstr ""
+msgstr "[$DZD]"
 
 #: src/formats.c:1
 msgid "Algerian dinar"
-msgstr ""
+msgstr "Algierski dinar"
 
 #: src/formats.c:1
 msgid "[$ECS]"
-msgstr ""
+msgstr "[$ECS]"
 
 #: src/formats.c:1
 msgid "Ecuador sucre"
@@ -4484,15 +4504,15 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$EGP]"
-msgstr ""
+msgstr "[$EGP]"
 
 #: src/formats.c:1
 msgid "Egyptian pound"
-msgstr ""
+msgstr "Egipski funt"
 
 #: src/formats.c:1
 msgid "[$ESP]"
-msgstr ""
+msgstr "[$ESP]"
 
 #: src/formats.c:1
 msgid "Spanish peseta"
@@ -4500,7 +4520,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$ETB]"
-msgstr ""
+msgstr "[$ETB]"
 
 #: src/formats.c:1
 msgid "Ethiopian birr"
@@ -4516,7 +4536,7 @@ msgstr "Euro"
 
 #: src/formats.c:1
 msgid "[$FIM]"
-msgstr ""
+msgstr "[$FIM]"
 
 #: src/formats.c:1
 msgid "Finnish markka"
@@ -4524,7 +4544,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$FJD]"
-msgstr ""
+msgstr "[$FJD]"
 
 #: src/formats.c:1
 msgid "Fiji dollar"
@@ -4532,7 +4552,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$FKP]"
-msgstr ""
+msgstr "[$FKP]"
 
 #: src/formats.c:1
 msgid "Falkland Islands pound"
@@ -4540,7 +4560,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$FRF]"
-msgstr ""
+msgstr "[$FRF]"
 
 #: src/formats.c:1
 msgid "French franc"
@@ -4548,7 +4568,7 @@ msgstr "Francuski frank"
 
 #: src/formats.c:1
 msgid "[$GBP]"
-msgstr ""
+msgstr "[$GBP]"
 
 #: src/formats.c:1
 msgid "UK pound sterling"
@@ -4556,7 +4576,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$GHC]"
-msgstr ""
+msgstr "[$GHC]"
 
 #: src/formats.c:1
 msgid "Ghanaian cedi"
@@ -4564,7 +4584,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$GIP]"
-msgstr ""
+msgstr "[$GIP]"
 
 #: src/formats.c:1
 msgid "Gibraltar pound"
@@ -4572,7 +4592,7 @@ msgstr "Gibraltarski funt"
 
 #: src/formats.c:1
 msgid "[$GMD]"
-msgstr ""
+msgstr "[$GMD]"
 
 #: src/formats.c:1
 msgid "Gambian dalasi"
@@ -4580,7 +4600,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$GNF]"
-msgstr ""
+msgstr "[$GNF]"
 
 #: src/formats.c:1
 msgid "Guinea franc"
@@ -4588,7 +4608,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$GRD]"
-msgstr ""
+msgstr "[$GRD]"
 
 #: src/formats.c:1
 msgid "Greek drachma"
@@ -4596,7 +4616,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$GTQ]"
-msgstr ""
+msgstr "[$GTQ]"
 
 #: src/formats.c:1
 msgid "Guatemalan quetzal"
@@ -4604,7 +4624,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$GWP]"
-msgstr ""
+msgstr "[$GWP]"
 
 #: src/formats.c:1
 msgid "Guinea-Bissau peso"
@@ -4612,7 +4632,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$GYD]"
-msgstr ""
+msgstr "[$GYD]"
 
 #: src/formats.c:1
 msgid "Guyanan dollar"
@@ -4620,7 +4640,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$HKD]"
-msgstr ""
+msgstr "[$HKD]"
 
 #: src/formats.c:1
 msgid "Hong Kong dollar"
@@ -4628,7 +4648,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$HNL]"
-msgstr ""
+msgstr "[$HNL]"
 
 #: src/formats.c:1
 msgid "Honduran lempira"
@@ -4636,7 +4656,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$HRK]"
-msgstr ""
+msgstr "[$HRK]"
 
 #: src/formats.c:1
 msgid "Croatian kuna"
@@ -4644,7 +4664,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$HTG]"
-msgstr ""
+msgstr "[$HTG]"
 
 #: src/formats.c:1
 msgid "Haitian gourde"
@@ -4652,7 +4672,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$HUF]"
-msgstr ""
+msgstr "[$HUF]"
 
 #: src/formats.c:1
 msgid "Hungarian forint"
@@ -4660,7 +4680,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$IDR]"
-msgstr ""
+msgstr "[$IDR]"
 
 #: src/formats.c:1
 msgid "Indonesian rupiah"
@@ -4668,7 +4688,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$IEP]"
-msgstr ""
+msgstr "[$IEP]"
 
 #: src/formats.c:1
 msgid "Irish punt"
@@ -4676,7 +4696,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$IEX]"
-msgstr ""
+msgstr "[$IEX]"
 
 #: src/formats.c:1
 msgid "Irish pence ***"
@@ -4684,7 +4704,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$ILS]"
-msgstr ""
+msgstr "[$ILS]"
 
 #: src/formats.c:1
 msgid "Israeli shekel"
@@ -4692,7 +4712,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$INR]"
-msgstr ""
+msgstr "[$INR]"
 
 #: src/formats.c:1
 msgid "Indian rupee"
@@ -4700,7 +4720,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$IQD]"
-msgstr ""
+msgstr "[$IQD]"
 
 #: src/formats.c:1
 msgid "Iraqi dinar"
@@ -4708,7 +4728,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$IRR]"
-msgstr ""
+msgstr "[$IRR]"
 
 #: src/formats.c:1
 msgid "Iranian rial"
@@ -4716,7 +4736,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$ISK]"
-msgstr ""
+msgstr "[$ISK]"
 
 #: src/formats.c:1
 msgid "Iceland krona"
@@ -4724,7 +4744,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$ITL]"
-msgstr ""
+msgstr "[$ITL]"
 
 #: src/formats.c:1
 msgid "Italian lira"
@@ -4732,7 +4752,7 @@ msgstr "W³oski lir"
 
 #: src/formats.c:1
 msgid "[$JMD]"
-msgstr ""
+msgstr "[$JMD]"
 
 #: src/formats.c:1
 msgid "Jamaican dollar"
@@ -4740,7 +4760,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$JOD]"
-msgstr ""
+msgstr "[$JOD]"
 
 #: src/formats.c:1
 msgid "Jordanian dinar"
@@ -4748,7 +4768,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$JPY]"
-msgstr ""
+msgstr "[$JPY]"
 
 #: src/formats.c:1
 msgid "Japanese yen"
@@ -4756,7 +4776,7 @@ msgstr "Japoñski jen"
 
 #: src/formats.c:1
 msgid "[$KES]"
-msgstr ""
+msgstr "[$KES]"
 
 #: src/formats.c:1
 msgid "Kenyan shilling"
@@ -4764,7 +4784,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$KHR]"
-msgstr ""
+msgstr "[$KHR]"
 
 #: src/formats.c:1
 msgid "Kampuchean riel"
@@ -4772,7 +4792,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$KMF]"
-msgstr ""
+msgstr "[$KMF]"
 
 #: src/formats.c:1
 msgid "Comoros franc"
@@ -4780,7 +4800,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$KPW]"
-msgstr ""
+msgstr "[$KPW]"
 
 #: src/formats.c:1
 msgid "North Korean won"
@@ -4788,7 +4808,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$KRW]"
-msgstr ""
+msgstr "[$KRW]"
 
 #: src/formats.c:1
 msgid "Republic of Korea won"
@@ -4796,7 +4816,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$KWD]"
-msgstr ""
+msgstr "[$KWD]"
 
 #: src/formats.c:1
 msgid "Kuwaiti dinar"
@@ -4804,7 +4824,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$KYD]"
-msgstr ""
+msgstr "[$KYD]"
 
 #: src/formats.c:1
 msgid "Cayman Islands dollar"
@@ -4812,7 +4832,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$LAK]"
-msgstr ""
+msgstr "[$LAK]"
 
 #: src/formats.c:1
 msgid "Lao kip"
@@ -4820,7 +4840,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$LBP]"
-msgstr ""
+msgstr "[$LBP]"
 
 #: src/formats.c:1
 msgid "Lebanese pound"
@@ -4828,7 +4848,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$LKR]"
-msgstr ""
+msgstr "[$LKR]"
 
 #: src/formats.c:1
 msgid "Sri Lanka rupee"
@@ -4836,7 +4856,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$LRD]"
-msgstr ""
+msgstr "[$LRD]"
 
 #: src/formats.c:1
 msgid "Liberian dollar"
@@ -4844,7 +4864,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$LSL]"
-msgstr ""
+msgstr "[$LSL]"
 
 #: src/formats.c:1
 msgid "Lesotho loti"
@@ -4852,7 +4872,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$LUF]"
-msgstr ""
+msgstr "[$LUF]"
 
 #: src/formats.c:1
 msgid "Luxembourg franc"
@@ -4860,7 +4880,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$LYD]"
-msgstr ""
+msgstr "[$LYD]"
 
 #: src/formats.c:1
 msgid "Libyan dinar"
@@ -4868,7 +4888,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$MAD]"
-msgstr ""
+msgstr "[$MAD]"
 
 #: src/formats.c:1
 msgid "Moroccan dirham"
@@ -4876,7 +4896,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$MDL]"
-msgstr ""
+msgstr "[$MDL]"
 
 #: src/formats.c:1
 msgid "Moldovan leu"
@@ -4884,7 +4904,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$MGF]"
-msgstr ""
+msgstr "[$MGF]"
 
 #: src/formats.c:1
 msgid "Malagasy franc"
@@ -4892,7 +4912,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$MLF]"
-msgstr ""
+msgstr "[$MLF]"
 
 #: src/formats.c:1
 msgid "Mali franc"
@@ -4900,7 +4920,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$MMK]"
-msgstr ""
+msgstr "[$MMK]"
 
 #: src/formats.c:1
 msgid "Myanmar kyat"
@@ -4908,7 +4928,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$MNT]"
-msgstr ""
+msgstr "[$MNT]"
 
 #: src/formats.c:1
 msgid "Mongolian tugrik"
@@ -4916,7 +4936,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$MOP]"
-msgstr ""
+msgstr "[$MOP]"
 
 #: src/formats.c:1
 msgid "Macau pataca"
@@ -4924,7 +4944,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$MRO]"
-msgstr ""
+msgstr "[$MRO]"
 
 #: src/formats.c:1
 msgid "Mauritanian ouguiya"
@@ -4932,7 +4952,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$MTL]"
-msgstr ""
+msgstr "[$MTL]"
 
 #: src/formats.c:1
 msgid "Maltese lira"
@@ -4940,7 +4960,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$MUR]"
-msgstr ""
+msgstr "[$MUR]"
 
 #: src/formats.c:1
 msgid "Mauritius rupee"
@@ -4948,7 +4968,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$MVR]"
-msgstr ""
+msgstr "[$MVR]"
 
 #: src/formats.c:1
 msgid "Maldive rupee"
@@ -4956,7 +4976,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$MWK]"
-msgstr ""
+msgstr "[$MWK]"
 
 #: src/formats.c:1
 msgid "Malawi kwacha"
@@ -4964,15 +4984,15 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$MXP]"
-msgstr ""
+msgstr "[$MXP]"
 
 #: src/formats.c:1
 msgid "Mexican peso"
-msgstr ""
+msgstr "Meksykañskie peso"
 
 #: src/formats.c:1
 msgid "[$MYR]"
-msgstr ""
+msgstr "[$MYR]"
 
 #: src/formats.c:1
 msgid "Malaysian ringgit"
@@ -4980,7 +5000,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$MZM]"
-msgstr ""
+msgstr "[$MZM]"
 
 #: src/formats.c:1
 msgid "Mozambique metical"
@@ -4988,7 +5008,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$NGN]"
-msgstr ""
+msgstr "[$NGN]"
 
 #: src/formats.c:1
 msgid "Nigerian naira"
@@ -4996,7 +5016,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$NIO]"
-msgstr ""
+msgstr "[$NIO]"
 
 #: src/formats.c:1
 msgid "Nicaraguan cordoba oro"
@@ -5004,7 +5024,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$NLG]"
-msgstr ""
+msgstr "[$NLG]"
 
 #: src/formats.c:1
 msgid "Netherlands guilder"
@@ -5012,7 +5032,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$NOK]"
-msgstr ""
+msgstr "[$NOK]"
 
 #: src/formats.c:1
 msgid "Norwegian krone"
@@ -5020,7 +5040,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$NPR]"
-msgstr ""
+msgstr "[$NPR]"
 
 #: src/formats.c:1
 msgid "Nepalese rupee"
@@ -5028,15 +5048,15 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$NZD]"
-msgstr ""
+msgstr "[$NZD]"
 
 #: src/formats.c:1
 msgid "New Zealand dollar"
-msgstr ""
+msgstr "Nowozelandzki dolar"
 
 #: src/formats.c:1
 msgid "[$OMR]"
-msgstr ""
+msgstr "[$OMR]"
 
 #: src/formats.c:1
 msgid "Rial Omani"
@@ -5044,7 +5064,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$PAB]"
-msgstr ""
+msgstr "[$PAB]"
 
 #: src/formats.c:1
 msgid "Panamanian balboa"
@@ -5052,7 +5072,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$PEI]"
-msgstr ""
+msgstr "[$PEI]"
 
 #: src/formats.c:1
 msgid "Peruvian inti"
@@ -5060,7 +5080,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$PGK]"
-msgstr ""
+msgstr "[$PGK]"
 
 #: src/formats.c:1
 msgid "Papua New Guinea kina"
@@ -5068,7 +5088,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$PHP]"
-msgstr ""
+msgstr "[$PHP]"
 
 #: src/formats.c:1
 msgid "Philippino peso"
@@ -5076,7 +5096,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$PKR]"
-msgstr ""
+msgstr "[$PKR]"
 
 #: src/formats.c:1
 msgid "Pakistan rupee"
@@ -5092,7 +5112,7 @@ msgstr "Polski z³oty"
 
 #: src/formats.c:1
 msgid "[$PTE]"
-msgstr ""
+msgstr "[$PTE]"
 
 #: src/formats.c:1
 msgid "Portuguese escudo"
@@ -5100,7 +5120,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$PYG]"
-msgstr ""
+msgstr "[$PYG]"
 
 #: src/formats.c:1
 msgid "Paraguay guarani"
@@ -5108,7 +5128,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$QAR]"
-msgstr ""
+msgstr "[$QAR]"
 
 #: src/formats.c:1
 msgid "Qatari rial"
@@ -5116,7 +5136,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$ROL]"
-msgstr ""
+msgstr "[$ROL]"
 
 #: src/formats.c:1
 msgid "Romanian leu"
@@ -5124,7 +5144,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$RWF]"
-msgstr ""
+msgstr "[$RWF]"
 
 #: src/formats.c:1
 msgid "Rwanda franc"
@@ -5132,7 +5152,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$SAR]"
-msgstr ""
+msgstr "[$SAR]"
 
 #: src/formats.c:1
 msgid "Saudi Arabian riyal"
@@ -5140,7 +5160,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$SBD]"
-msgstr ""
+msgstr "[$SBD]"
 
 #: src/formats.c:1
 msgid "Solomon Islands dollar"
@@ -5148,7 +5168,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$SCR]"
-msgstr ""
+msgstr "[$SCR]"
 
 #: src/formats.c:1
 msgid "Seychelles rupee"
@@ -5156,7 +5176,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$SDP]"
-msgstr ""
+msgstr "[$SDP]"
 
 #: src/formats.c:1
 msgid "Sudanese pound"
@@ -5164,7 +5184,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$SEK]"
-msgstr ""
+msgstr "[$SEK]"
 
 #: src/formats.c:1
 msgid "Swedish krona"
@@ -5172,7 +5192,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$SGD]"
-msgstr ""
+msgstr "[$SGD]"
 
 #: src/formats.c:1
 msgid "Singapore dollar"
@@ -5180,7 +5200,7 @@ msgstr "Singapurski dolar"
 
 #: src/formats.c:1
 msgid "[$SHP]"
-msgstr ""
+msgstr "[$SHP]"
 
 #: src/formats.c:1
 msgid "St.Helena pound"
@@ -5188,7 +5208,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$SLL]"
-msgstr ""
+msgstr "[$SLL]"
 
 #: src/formats.c:1
 msgid "Sierra Leone leone"
@@ -5196,7 +5216,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$SOS]"
-msgstr ""
+msgstr "[$SOS]"
 
 #: src/formats.c:1
 msgid "Somali shilling"
@@ -5204,7 +5224,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$SRG]"
-msgstr ""
+msgstr "[$SRG]"
 
 #: src/formats.c:1
 msgid "Suriname guilder"
@@ -5212,7 +5232,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$STD]"
-msgstr ""
+msgstr "[$STD]"
 
 #: src/formats.c:1
 msgid "Sao Tome and Principe dobra"
@@ -5220,7 +5240,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$SUR]"
-msgstr ""
+msgstr "[$SUR]"
 
 #: src/formats.c:1
 msgid "USSR rouble"
@@ -5228,7 +5248,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$SVC]"
-msgstr ""
+msgstr "[$SVC]"
 
 #: src/formats.c:1
 msgid "El Salvador colon"
@@ -5236,7 +5256,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$SYP]"
-msgstr ""
+msgstr "[$SYP]"
 
 #: src/formats.c:1
 msgid "Syrian pound"
@@ -5244,7 +5264,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$SZL]"
-msgstr ""
+msgstr "[$SZL]"
 
 #: src/formats.c:1
 msgid "Swaziland lilangeni"
@@ -5252,7 +5272,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$THB]"
-msgstr ""
+msgstr "[$THB]"
 
 #: src/formats.c:1
 msgid "Thai baht"
@@ -5260,7 +5280,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$TND]"
-msgstr ""
+msgstr "[$TND]"
 
 #: src/formats.c:1
 msgid "Tunisian dinar"
@@ -5268,7 +5288,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$TOP]"
-msgstr ""
+msgstr "[$TOP]"
 
 #: src/formats.c:1
 msgid "Tongan pa'anga"
@@ -5276,7 +5296,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$TPE]"
-msgstr ""
+msgstr "[$TPE]"
 
 #: src/formats.c:1
 msgid "East Timor escudo"
@@ -5284,7 +5304,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$TRL]"
-msgstr ""
+msgstr "[$TRL]"
 
 #: src/formats.c:1
 msgid "Turkish lira"
@@ -5292,7 +5312,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$TTD]"
-msgstr ""
+msgstr "[$TTD]"
 
 #: src/formats.c:1
 msgid "Trinidad and Tobago dollar"
@@ -5300,7 +5320,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$TWD]"
-msgstr ""
+msgstr "[$TWD]"
 
 #: src/formats.c:1
 msgid "New Taiwan dollar"
@@ -5308,7 +5328,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$TZS]"
-msgstr ""
+msgstr "[$TZS]"
 
 #: src/formats.c:1
 msgid "Tanzanian shilling"
@@ -5316,7 +5336,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$UAH]"
-msgstr ""
+msgstr "[$UAH]"
 
 #: src/formats.c:1
 msgid "Ukrainian hryvnia"
@@ -5324,7 +5344,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$UGX]"
-msgstr ""
+msgstr "[$UGX]"
 
 #: src/formats.c:1
 msgid "Ugandan shilling"
@@ -5348,7 +5368,7 @@ msgstr "Urugwajskie peso"
 
 #: src/formats.c:1
 msgid "[$VEB]"
-msgstr ""
+msgstr "[$VEB]"
 
 #: src/formats.c:1
 msgid "Venezuelan bolivar"
@@ -5356,7 +5376,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$VND]"
-msgstr ""
+msgstr "[$VND]"
 
 #: src/formats.c:1
 msgid "Vietnamese dong"
@@ -5364,7 +5384,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$VUV]"
-msgstr ""
+msgstr "[$VUV]"
 
 #: src/formats.c:1
 msgid "Vanuatu vatu"
@@ -5372,7 +5392,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$WST]"
-msgstr ""
+msgstr "[$WST]"
 
 #: src/formats.c:1
 msgid "Samoan tala"
@@ -5380,7 +5400,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$XCD]"
-msgstr ""
+msgstr "[$XCD]"
 
 #: src/formats.c:1
 msgid "East Caribbean dollar"
@@ -5388,7 +5408,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$XEU]"
-msgstr ""
+msgstr "[$XEU]"
 
 #: src/formats.c:1
 msgid "European currency unit"
@@ -5396,7 +5416,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$YDD]"
-msgstr ""
+msgstr "[$YDD]"
 
 #: src/formats.c:1
 msgid "Democratic Yemeni dinar"
@@ -5404,7 +5424,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$YER]"
-msgstr ""
+msgstr "[$YER]"
 
 #: src/formats.c:1
 msgid "Yemeni rial"
@@ -5412,7 +5432,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$YUN]"
-msgstr ""
+msgstr "[$YUN]"
 
 #: src/formats.c:1
 msgid "New Yugoslavia dinar"
@@ -5420,7 +5440,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$ZAL]"
-msgstr ""
+msgstr "[$ZAL]"
 
 #: src/formats.c:1
 msgid "South African rand funds code"
@@ -5428,7 +5448,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$ZAR]"
-msgstr ""
+msgstr "[$ZAR]"
 
 #: src/formats.c:1
 msgid "South African rand"
@@ -5436,7 +5456,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$ZMK]"
-msgstr ""
+msgstr "[$ZMK]"
 
 #: src/formats.c:1
 msgid "Zambian kwacha"
@@ -5444,7 +5464,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$ZRZ]"
-msgstr ""
+msgstr "[$ZRZ]"
 
 #: src/formats.c:1
 msgid "Zaire Zaire"
@@ -5452,7 +5472,7 @@ msgstr ""
 
 #: src/formats.c:1
 msgid "[$ZWD]"
-msgstr ""
+msgstr "[$ZWD]"
 
 #: src/formats.c:1
 msgid "Zimbabwe dollar"
@@ -6513,14 +6533,15 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
+#: src/functions/fn-eng.c:1
 msgid ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
 "@DESCRIPTION=BESSELK function returns the Neumann, Weber or Bessel function. "
 "@x is where the function is evaluated. @y is the order of the bessel "
 "function, if non-integer it is truncated.\n"
-"If x or y are not numeric a #VALUE! error is returned.If y < 0 a #NUM! error "
-"is returned.This function is Excel compatible. \n"
+"If x or n are not numeric a #VALUE! error is returned. If y < 0 a #NUM! "
+"error is returned. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "BESSELK(3,9) equals 397.95880.\n"
 "\n"
@@ -6539,6 +6560,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
 
+#: src/functions/fn-eng.c:1
 msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
@@ -6546,7 +6568,7 @@ msgid ""
 "the function is evaluated. @y is the order of the bessel function, if "
 "non-integer it is truncated.\n"
 "If @x or @y are not numeric a #VALUE! error is returned.  If @y < 0 a #NUM! "
-"error is returned.This function is Excel compatible. \n"
+"error is returned. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "BESSELJ(0.89,3) equals 0.013974004.\n"
 "\n"
@@ -6564,14 +6586,15 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 
+#: src/functions/fn-eng.c:1
 msgid ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
 "@DESCRIPTION=BESSELY function returns the Neumann, Weber or Bessel function. "
 "@x is where the function is evaluated. @y is the order of the bessel "
 "function, if non-integer it is truncated.\n"
-"If x or n are not numeric a #VALUE! error is returned.If n < 0 a #NUM! error "
-"is returned.This function is Excel compatible. \n"
+"If x or n are not numeric a #VALUE! error is returned. If n < 0 a #NUM! "
+"error is returned. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "BESSELY(4,2) equals 0.215903595.\n"
 "\n"
@@ -6678,11 +6701,12 @@ msgstr ""
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 
+#: src/functions/fn-eng.c:1
 msgid ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(inumber)\n"
-"@DESCRIPTION=IMCONJUGATE returns the complex conjugate of a complex "
-"number.This function is Excel compatible. \n"
+"@DESCRIPTION=IMCONJUGATE returns the complex conjugate of a complex number. "
+"This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "IMCONJUGATE(\"1-j\") equals 1+j.\n"
 "\n"
@@ -6735,11 +6759,12 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSIN,IMCOS"
 
+#: src/functions/fn-eng.c:1
 msgid ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(inumber)\n"
-"@DESCRIPTION=IMEXP returns the exponential of a complex number.This function "
-"is Excel compatible. \n"
+"@DESCRIPTION=IMEXP returns the exponential of a complex number. This "
+"function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "IMEXP(\"2-j\") equals 3.992324-6.217676j.\n"
 "\n"
@@ -6754,10 +6779,11 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLN"
 
+#: src/functions/fn-eng.c:1
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
-"@DESCRIPTION=IMARGUMENT returns the argument theta of a complex number.This "
+"@DESCRIPTION=IMARGUMENT returns the argument theta of a complex number. This "
 "function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "IMARGUMENT(\"2-j\") equals -0.463647609.\n"
@@ -6839,12 +6865,13 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLN,IMLOG2"
 
+#: src/functions/fn-eng.c:1
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber,number)\n"
 "@DESCRIPTION=IMPOWER returns a complex number raised to a power.  @inumber "
 "is the complex number to be raised to a power and @number is the power to "
-"which you want to raise the complex number.This function is Excel "
+"which you want to raise the complex number. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
 "IMPOWER(\"4-j\",2) equals 15-8j.\n"
@@ -7189,6 +7216,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
+#: src/functions/fn-eng.c:1
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF(lower limit[,upper_limit])\n"
@@ -7197,7 +7225,7 @@ msgid ""
 "zero and the @lower_limit.\n"
 "If either @lower_limit or @upper_limit are not numeric a #VALUE! error is "
 "returned.  If either @lower_limit or @upper_limit are < 0 a #NUM! error is "
-"returned.This function is Excel compatible. \n"
+"returned. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "ERF(0.4) equals 0.428392355.\n"
 "\n"
@@ -7238,12 +7266,13 @@ msgstr ""
 "\n"
 "@SEEALSO=ERF"
 
+#: src/functions/fn-eng.c:1
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
 "@DESCRIPTION=DELTA function test for numerical equivilance of two arguments "
 "returning 1 in equality @y is optional, and defaults to 0.\n"
-"If either argument is non-numeric returns a #VALUE! error.This function is "
+"If either argument is non-numeric returns a #VALUE! error. This function is "
 "Excel compatible. \n"
 "@EXAMPLES=\n"
 "DELTA(42.99,43) equals 0.\n"
@@ -7266,12 +7295,13 @@ msgstr ""
 msgid "Impossible"
 msgstr "Niemo¿liwe"
 
+#: src/functions/fn-eng.c:1
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
 "@DESCRIPTION=GESTEP function test for if @x is >= @y, returning 1 if it is "
 "so, and 0 otherwise @y is optional, and defaults to 0.\n"
-"If either argument is non-numeric returns a #VALUE! error.This function is "
+"If either argument is non-numeric returns a #VALUE! error. This function is "
 "Excel compatible. \n"
 "@EXAMPLES=\n"
 "GESTEP(5,4) equals 1.\n"
@@ -8545,6 +8575,7 @@ msgstr ""
 msgid "Information"
 msgstr "Informacja"
 
+#: src/functions/fn-logical.c:1
 msgid ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -8554,17 +8585,16 @@ msgid ""
 "an integer or floating point value is provided zero is considered FALSE and "
 "anything else is TRUE.\n"
 "If the values contain strings or empty cells those values are ignored. If no "
-"logical values are provided, then the error '#VALUE!' is returned. This "
+"logical values are provided, then the error #VALUE! is returned. This "
 "function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "AND(TRUE,TRUE) equals TRUE.\n"
 "AND(TRUE,FALSE) equals FALSE.\n"
 "\n"
 "Let us assume that A1 holds number five and A2 number one.  Then\n"
-"AND(A1>3,A24,4< 1 or @index > number of values: returns #VAL!.\n"
-"@EXAMPLES=\n"
+"AND(A1>3,A2<2) equals TRUE.\n"
 "\n"
-"@SEEALSO=IF"
+"@SEEALSO=OR, NOT"
 msgstr ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -8683,6 +8713,7 @@ msgstr ""
 msgid "#ARG!"
 msgstr "#ARG!"
 
+#: src/functions/fn-lookup.c:1
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column,[approximate])\n"
@@ -8692,7 +8723,8 @@ msgid ""
 "in order of ascending value for correct function; in this case it finds the "
 "row with value less than @value.  It returns the value in the row found at a "
 "1 based offset in @column columns into the @range.\n"
-"Returns #NUM! if @column < 0.Returns #REF! if @column falls outside @range.\n"
+"Returns #NUM! if @column < 0. Returns #REF! if @column falls outside "
+"@range.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=HLOOKUP"
@@ -8713,6 +8745,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HLOOKUP"
 
+#: src/functions/fn-lookup.c:1
 msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row,[approximate])\n"
@@ -8722,7 +8755,7 @@ msgid ""
 "in order of ascending value for correct function; in this case it finds the "
 "col with value less than @value it returns the value in the col found at a 1 "
 "based offset in @row rows into the @range.\n"
-"Returns #NUM! if @row < 0.Returns #REF! if @row falls outside @range.\n"
+"Returns #NUM! if @row < 0. Returns #REF! if @row falls outside @range.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=VLOOKUP"
@@ -8772,17 +8805,22 @@ msgstr ""
 "\n"
 "@SEEALSO=VLOOKUP,HLOOKUP"
 
+#: src/functions/fn-lookup.c:1
 msgid ""
 "@FUNCTION=MATCH\n"
-"@SYNTAX=MATCH(seek,vector1[,type])\n"
-"@DESCRIPTION=The MATCH function finds the row index of 'value' in @vector1 "
-"and returns it.If the area is longer than it is wide then the sense of the "
-"search is rotated. Alternatively a single array can be used.if type = 1,  "
-"finds largest value <= seek,if type = 0,  finds first value == seek,if type "
-"= -1, finds smallest value >= seek,\n"
-"If LOOKUP can't find @value it uses the next largest value less than value. "
-"The data must be sorted. \n"
-"If @value is smaller than the first value it returns #N/A\n"
+"@SYNTAX=MATCH(seek,vector[,type])\n"
+"@DESCRIPTION=The MATCH function finds the row index of @seek in @vector and "
+"returns it. If the area is longer than it is wide then the sense of the "
+"search is rotated. Alternatively a single array can be used.\n"
+"The @type parameter, which defaults to +1, controls the search:\n"
+"If @type = 1,  finds largest value <= @seek.\n"
+"If @type = 0,  finds first value == @seek.\n"
+"If @type = -1, finds smallest value >= @seek.\n"
+"\n"
+"For type 0, the data can be in any order.  For types -1 and +1, the data "
+"must be sorted.  (And in this case, MATCH uses a binary search to locate the "
+"index.)\n"
+"If @seek could not be found, #N/A is returned.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LOOKUP"
@@ -9038,12 +9076,13 @@ msgstr ""
 "\n"
 "@SEEALSO=GCD"
 
+#: src/functions/fn-math.c:1
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
 "@DESCRIPTION=ABS implements the Absolute Value function:  the result is to "
 "drop the negative sign (if present).  This can be done for integers and "
-"floating point numbers.This function is Excel compatible. \n"
+"floating point numbers. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "ABS(7) equals 7.\n"
 "ABS(-3.14) equals 3.14.\n"
@@ -9138,6 +9177,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 
+#: src/functions/fn-math.c:1
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -9145,7 +9185,9 @@ msgid ""
 "that is the value whose hyperbolic sine is @x. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
-"ASINH(0.5) equals 0.481212.ASINH(1.0) equals 0.881374.\n"
+"ASINH(0.5) equals 0.481212.\n"
+"ASINH(1.0) equals 0.881374.\n"
+"\n"
 "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 msgstr ""
 "@FUNCTION=ASINH\n"
@@ -9157,13 +9199,16 @@ msgstr ""
 "ASINH(0.5) jest równe 0.481212. ASINH(1.0) jest równe 0.881374.\n"
 "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 
+#: src/functions/fn-math.c:1
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
 "@DESCRIPTION=ATAN function calculates the arc tangent of @x; that is the "
-"value whose tangent is @x.Return value is in radians.This function is Excel "
-"compatible. \n"
+"value whose tangent is @x. Return value is in radians. This function is "
+"Excel compatible. \n"
 "@EXAMPLES=\n"
+"ATAN(0.5) equals 0,463648.\n"
+"ATAN(1) equals 0,785398.\n"
 "\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 msgstr ""
@@ -9176,6 +9221,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
+#: src/functions/fn-math.c:1
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -9184,7 +9230,9 @@ msgid ""
 "@x is greater than 1.0, ATANH returns NUM! error. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
-"ATANH(0.5) equals 0.549306.ATANH(0.8) equals 1.098612.\n"
+"ATANH(0.5) equals 0.549306.\n"
+" ATANH(0.8) equals 1.098612.\n"
+"\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 msgstr ""
 "@FUNCTION=ATANH\n"
@@ -9197,15 +9245,19 @@ msgstr ""
 "ATANH(0.5) jest równe 0.549306. ATANH(0.8) jest równe 1.098612.\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
+#: src/functions/fn-math.c:1
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
 "@DESCRIPTION=ATAN2 function calculates the arc tangent of the two variables "
 "@b1 and @b2.  It is similar to calculating the arc tangent of @b2 / @b1, "
 "except that the signs of both arguments are used to determine the quadrant "
-"of the result. The result is in radians.This function is Excel compatible. \n"
+"of the result. The result is in radians. This function is Excel compatible. "
+"\n"
 "@EXAMPLES=\n"
-"ATAN2(0.5,1.0) equals 1.107149.ATAN2(-0.5,2.0) equals 1.815775.\n"
+"ATAN2(0.5,1.0) equals 1.107149.\n"
+"ATAN2(-0.5,2.0) equals 1.815775.\n"
+"\n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 msgstr ""
 "@FUNCTION=ATAN2\n"
@@ -9219,13 +9271,17 @@ msgstr ""
 "ATAN2(0.5,1.0) jest równe 1.107149.ATAN2(-0.5,2.0) jest równe 1.815775.\n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
+#: src/functions/fn-math.c:1
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
 "@DESCRIPTION=CEIL function rounds @x up to the next nearest integer.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
-"CEIL(0.4) equals 1.CEIL(-1.1) equals -1.CEIL(-2.9) equals -2.\n"
+"CEIL(0.4) equals 1.\n"
+"CEIL(-1.1) equals -1.\n"
+"CEIL(-2.9) equals -2.\n"
+"\n"
 "@SEEALSO=ABS, FLOOR, INT"
 msgstr ""
 "@FUNCTION=CEIL\n"
@@ -9237,6 +9293,7 @@ msgstr ""
 "CEIL(0.4) jest równe 1. CEIL(-1.1) jest równe -1. CEIL(-2.9) jest równe -2.\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
+#: src/functions/fn-math.c:1
 msgid ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(range,criteria)\n"
@@ -9246,12 +9303,11 @@ msgid ""
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, "
 "and 39.  Then\n"
 "COUNTIF(A1:A5,\"<=28\") equals 3.\n"
-"COUNTIF(A1:A5,\"< 1 TDIST returns #NUM! error. If @tails is neither 1 or 2 "
-"TDIST returns #NUM! error.This function is Excel compatible. \n"
-"@EXAMPLES=\n"
-"TDIST(2,5,1) equals 0.050969739.\n"
+"COUNTIF(A1:A5,\"<28\") equals 2.\n"
+"COUNTIF(A1:A5,\"28\") equals 1.\n"
+"COUNTIF(A1:A5,\">28\") equals 2.\n"
 "\n"
-"@SEEALSO=TINV,TTEST"
+"@SEEALSO=COUNT,SUMIF"
 msgstr ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(zakres,kryteria)\n"
@@ -10547,6 +10603,7 @@ msgid ""
 "@SEEALSO=GAMMAINV"
 msgstr ""
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
@@ -10674,6 +10731,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TDIST,TTEST"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=FDIST\n"
 "@SYNTAX=FDIST(x,dof1,dof2)\n"
@@ -10681,7 +10739,7 @@ msgid ""
 "the numerator degrees of freedom and @dof2 is the denominator degrees of "
 "freedom.\n"
 "If @x < 0 FDIST returns #NUM! error. If @dof1 < 1 or @dof2 < 1, FDIST "
-"returns #NUM! error.This function is Excel compatible. \n"
+"returns #NUM! error. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "FDIST(2,5,5) equals 0.232511319.\n"
 "\n"
@@ -10700,13 +10758,14 @@ msgstr ""
 "\n"
 "@SEEALSO=FINV"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=FINV\n"
 "@SYNTAX=TINV(p,dof)\n"
 "@DESCRIPTION=FINV function returns the inverse of the F probability "
 "distribution.\n"
 "If @p < 0 or @p > 1 FINV returns #NUM! error. If @dof1 < 1 or @dof2 < 1 FINV "
-"returns #NUM! error.This function is Excel compatible. \n"
+"returns #NUM! error. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "FINV(0.2,2,4) equals 2.472135955.\n"
 "\n"
@@ -10723,6 +10782,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -10732,7 +10792,7 @@ msgid ""
 "to return the sum of thebinomial function from 0 to @n.\n"
 "If @n or @trials are non-integer they are truncated. If @n < 0 or @trials < "
 "0 BINOMDIST returns #NUM! error. If @n > trials BINOMDIST returns #NUM! "
-"error. If @p < 0 or @p > 1 BINOMDIST returns #NUM! error.This function is "
+"error. If @p < 0 or @p > 1 BINOMDIST returns #NUM! error. This function is "
 "Excel compatible. \n"
 "@EXAMPLES=\n"
 "BINOMDIST(3,5,0.8,0) equals 0.2048.\n"
@@ -10788,13 +10848,14 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
 "@DESCRIPTION=PERMUT function returns the number of permutations. @n is the "
 "number of objects, @k is the number of objects in each permutation.\n"
-"If @n = 0 PERMUT returns #NUM! error. If @n < @k PERMUT returns #NUM! "
-"error.This function is Excel compatible. \n"
+"If @n = 0 PERMUT returns #NUM! error. If @n < @k PERMUT returns #NUM! error. "
+"This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "PERMUT(7,3) equals 210.\n"
 "\n"
@@ -10811,15 +10872,16 @@ msgstr ""
 "\n"
 "@SEEALSO=COMBIN"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
-"@DESCRIPTION=HYPGEOMDIST function returns the hypergeometric distribution @x "
-"is the number of successes in the sample, @n is the number of trials, @M is "
-"the number of successes overall, and @N is thepopulation size.\n"
+"@DESCRIPTION=HYPGEOMDIST function returns the hypergeometric distribution. "
+"@x is the number of successes in the sample, @n is the number of trials, @M "
+"is the number of successes overall, and @N is thepopulation size.\n"
 "If @x,@n,@M or @N is a non-integer it is truncated. If @x,@n,@M or @N < 0 "
 "HYPGEOMDIST returns #NUM! error. If @x > @M or @n > @N HYPGEOMDIST returns "
-"#NUM! error.This function is Excel compatible. \n"
+"#NUM! error. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "HYPGEOMDIST(1,2,3,10) equals 0.4666667.\n"
 "\n"
@@ -10839,6 +10901,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,POISSON"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -10846,8 +10909,8 @@ msgid ""
 "@x is the significance level, @stddev is the standard deviation, and @size "
 "is the size of the sample.\n"
 "If @size is non-integer it is truncated. If @size < 0 CONFIDENCE returns "
-"#NUM! error. If @size is 0 CONFIDENCE returns #DIV/0! error.This function is "
-"Excel compatible. \n"
+"#NUM! error. If @size is 0 CONFIDENCE returns #DIV/0! error. This function "
+"is Excel compatible. \n"
 "@EXAMPLES=\n"
 "CONFIDENCE(0.05,1,33) equals 0.341185936.\n"
 "\n"
@@ -10867,16 +10930,14 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-msgid "#DIV/0!"
-msgstr "#DZIEL/0!"
-
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
 "@DESCRIPTION=STANDARDIZE function returns a normalized value. @x is the "
 "number to be normalized, @mean is the mean of the distribution, @stdev is "
 "the standard deviation of the distribution.\n"
-"If stddev is 0 STANDARDIZE returns #DIV/0! error.This function is Excel "
+"If stddev is 0 STANDARDIZE returns #DIV/0! error. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
 "STANDARDIZE(3,2,4) equals 0.25.\n"
@@ -10978,6 +11039,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -10988,7 +11050,7 @@ msgid ""
 "distribution will have zero kurtosis.\n"
 "Strings and empty cells are simply ignored.\n"
 "If fewer than four numbers are given or all of them are equal KURT returns "
-"#DIV/0! error.This function is Excel compatible. \n"
+"#DIV/0! error. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1.  Then\n"
@@ -11066,12 +11128,13 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
 "@DESCRIPTION=DEVSQ returns the sum of squares of deviations of a data set "
 "from the sample mean.\n"
-"Strings and empty cells are simply ignored.This function is Excel "
+"Strings and empty cells are simply ignored. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
@@ -11093,12 +11156,13 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
 "@DESCRIPTION=FISHER function returns the Fisher transformation at @x.\n"
-"If @x is not-number FISHER returns #VALUE! error.If @x <= -1 or @x >= 1 "
-"FISHER returns #NUM! errorThis function is Excel compatible. \n"
+"If @x is not-number FISHER returns #VALUE! error. If @x <= -1 or @x >= 1 "
+"FISHER returns #NUM! error. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "FISHER(0.332) equals 0.345074339.\n"
 "\n"
@@ -11115,14 +11179,15 @@ msgstr ""
 "\n"
 "@SEEALSO=SKEW"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,mean,cumulative)\n"
-"@DESCRIPTION=POISSON function returns the Poisson distribution @x is the "
+"@DESCRIPTION=POISSON function returns the Poisson distribution. @x is the "
 "number of events, @mean is the expected numeric value @cumulative describes "
 "whether to return the sum of the poisson function from 0 to @x.\n"
 "If @x is a non-integer it is truncated. If @x <= 0 POISSON returns #NUM! "
-"error. If @mean <= 0 POISSON returns the #NUM! error.This function is Excel "
+"error. If @mean <= 0 POISSON returns the #NUM! error. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
 "POISSON(3,6,0) equals 0.089235078.\n"
@@ -11142,12 +11207,13 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST, WEIBULL"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(array1,array2)\n"
 "@DESCRIPTION=PEARSON returns the Pearson correllation coefficient of two "
 "data sets.\n"
-"Strings and empty cells are simply ignored.This function is Excel "
+"Strings and empty cells are simply ignored. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
 "\n"
@@ -11163,16 +11229,17 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
 "@DESCRIPTION=RSQ returns the square of the Pearson correllation coefficient "
 "of two data sets.\n"
-"Strings and empty cells are simply ignored.This function is Excel "
+"Strings and empty cells are simply ignored. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=CORREL,COVAR,INTERPCEPT,LINEST,LOGEST,PEARSON,SLOPE,STE YX,TREND"
+"@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 msgstr ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(tablica1,tablica2)\n"
@@ -11184,12 +11251,13 @@ msgstr ""
 "\n"
 "@SEEALSO=CORREL,COVAR,INTERPCEPT,LINEST,LOGEST,PEARSON,SLOPE,STE YX,TREND"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
 "@DESCRIPTION=MEDIAN returns the median of the given data set.\n"
 "Strings and empty cells are simply ignored. If even numbers are given MEDIAN "
-"returns the average of the two numbers in the middle.This function is Excel "
+"returns the average of the two numbers in the middle. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
@@ -11211,12 +11279,13 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=LARGE\n"
 "@SYNTAX=LARGE(n1, n2, ..., k)\n"
 "@DESCRIPTION=LARGE returns the k-th largest value in a data set.\n"
 "If data set is empty LARGE returns #NUM! error. If @k <= 0 or @k is greater "
-"than the number of data items given LARGE returns #NUM! error.This function "
+"than the number of data items given LARGE returns #NUM! error. This function "
 "is Excel compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
@@ -11240,12 +11309,13 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=SMALL\n"
 "@SYNTAX=SMALL(n1, n2, ..., k)\n"
 "@DESCRIPTION=SMALL returns the k-th smallest value in a data set.\n"
 "If data set is empty SMALL returns #NUM! error. If @k <= 0 or @k is greater "
-"than the number of data items given SMALL returns #NUM! error.This function "
+"than the number of data items given SMALL returns #NUM! error. This function "
 "is Excel compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
@@ -11270,6 +11340,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(range_x,prob_range,lower_limit[,upper_limit])\n"
@@ -11279,7 +11350,7 @@ msgid ""
 "If the sum of the probabilities in @prob_range is not equal to 1 PROB "
 "returns #NUM! error. If any value in @prob_range is <=0 or > 1, PROB returns "
 "#NUM! error. If @x_range and @prob_range contain a different number of data "
-"entries, PROB returns #N/A! error.This function is Excel compatible. \n"
+"entries, PROB returns #N/A! error. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=BINOMDIST,CRITBINOM"
@@ -11299,13 +11370,14 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,CRITBINOM"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
 "@DESCRIPTION=STEYX function returns the standard error of the predicted "
 "y-value for each x in the regression.\n"
 "If @known_y's and @known_x's are empty or have a different number of "
-"arguments then STEYX returns #N/A! error.This function is Excel compatible. "
+"arguments then STEYX returns #N/A! error. This function is Excel compatible. "
 "\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
@@ -11330,19 +11402,20 @@ msgstr ""
 "\n"
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(ref,x)\n"
 "@DESCRIPTION=ZTEST returns the two-tailed probability of a z-test.\n"
 "@ref is the data set and @x is the value to be tested.\n"
-"If @ref contains less than two data items ZTEST returns #DIV/0! error.This "
+"If @ref contains less than two data items ZTEST returns #DIV/0! error. This "
 "function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
 "21.3, 25.9, and 40.1.  Then\n"
 "ZTEST(A1:A5,20) equals 0.254717826.\n"
 "\n"
-"@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARD IZE"
+"@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 msgstr ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(wsk,x)\n"
@@ -11358,6 +11431,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARD IZE"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -11365,7 +11439,7 @@ msgid ""
 "text and logical values are included in the calculation too. If the cell "
 "contains text or the argument evaluates to FALSE, it is counted as value "
 "zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  "
-"Note that empty cells are not counted.This function is Excel compatible. \n"
+"Note that empty cells are not counted. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
 "11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
@@ -11387,6 +11461,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -11394,7 +11469,7 @@ msgid ""
 "Numbers, text and logical values are included in the calculation too. If the "
 "cell contains text or the argument evaluates to FALSE, it is counted as "
 "value zero (0).  If the argument evaluates to TRUE, it is counted as one "
-"(1).  Note that empty cells are not counted.This function is Excel "
+"(1).  Note that empty cells are not counted. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -11418,6 +11493,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,MINA"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -11425,7 +11501,7 @@ msgid ""
 "Numbers, text and logical values are included in the calculation too. If the "
 "cell contains text or the argument evaluates to FALSE, it is counted as "
 "value zero (0).  If the argument evaluates to TRUE, it is counted as one "
-"(1).  Note that empty cells are not counted.This function is Excel "
+"(1).  Note that empty cells are not counted. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -11449,6 +11525,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MIN,MAXA"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -11456,7 +11533,7 @@ msgid ""
 "logical values are included in the calculation too. If the cell contains "
 "text or the argument evaluates to FALSE, it is counted as value zero (0).  "
 "If the argument evaluates to TRUE, it is counted as one (1).  Note that "
-"empty cells are not counted.This function is Excel compatible. \n"
+"empty cells are not counted. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
 "11.4, 17.3, \"missing\", 25.9, and 40.1.  Then\n"
@@ -11478,6 +11555,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VAR,VARPA"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -11485,7 +11563,7 @@ msgid ""
 "Numbers, text and logical values are included in the calculation too.  If "
 "the cell contains text or the argument evaluates to FALSE, it is counted as "
 "value zero (0).  If the argument evaluates to TRUE, it is counted as one "
-"(1).  Note that empty cells are not counted.This function is Excel "
+"(1).  Note that empty cells are not counted. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -11509,6 +11587,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VARP,VARP"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -11516,7 +11595,7 @@ msgid ""
 "Numbers, text and logical values are included in the calculation too.  If "
 "the cell contains text or the argument evaluates to FALSE, it is counted as "
 "value zero (0).  If the argument evaluates to TRUE, it is counted as one "
-"(1).  Note that empty cells are not counted.This function is Excel "
+"(1).  Note that empty cells are not counted. This function is Excel "
 "compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -11540,6 +11619,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -11547,7 +11627,7 @@ msgid ""
 "population.  Numbers, text and logical values are included in the "
 "calculation too.  If the cell contains text or the argument evaluates to "
 "FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, "
-"it is counted as one (1).  Note that empty cells are not counted.This "
+"it is counted as one (1).  Note that empty cells are not counted. This "
 "function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -11762,6 +11842,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -11774,7 +11855,7 @@ msgid ""
 "If @known_y's and @known_x's have unequal number of data points, LINEST "
 "returns #NUM! error.\n"
 "If @const is FALSE, the line will be forced to go through the origin, i.e., "
-"b will be zero.  The default is TRUE.\n"
+"b will be zero. The default is TRUE.\n"
 "If @stat is TRUE, extra statistical information will be returned. Extra "
 "statistical information is written bellow the regression line coefficients "
 "in the result array.  Extra statistical information consists of four rows of "
@@ -11783,7 +11864,8 @@ msgid ""
 "the standard error for the y estimate.  The third row contains the "
 "F-observed value and the degrees of freedom.  The last row contains the "
 "regression sum of squares and the residual sum of squares. \n"
-"The default of @stat is FALSE.@EXAMPLES=\n"
+"The default of @stat is FALSE.\n"
+"@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
@@ -11852,6 +11934,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LINEST"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -11872,7 +11955,8 @@ msgid ""
 "the standard error for the y estimate.  The third row contains the "
 "F-observed value and the degrees of freedom.  The last row contains the "
 "regression sum of squares and the residual sum of squares. \n"
-"The default of @stat is FALSE.@EXAMPLES=\n"
+"The default of @stat is FALSE.\n"
+"@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 msgstr ""
@@ -11900,6 +11984,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -11913,7 +11998,7 @@ msgid ""
 "If @known_y's and @known_x's have unequal number of data points, GROWTH "
 "returns #NUM! error.\n"
 "If @const is FALSE, the line will be forced to go through the origin, i.e., "
-"b will be zero.  The default is TRUE.\n"
+"b will be zero. The default is TRUE.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
@@ -12005,10 +12090,11 @@ msgstr ""
 "\n"
 "@SEEALSO=FORECAST,TREND"
 
+#: src/functions/fn-stat.c:1
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
-"@DESCRIPTION=SLOPE returns the slope of the linear regression line.This "
+"@DESCRIPTION=SLOPE returns the slope of the linear regression line. This "
 "function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
@@ -12131,10 +12217,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, RIGHT"
 
+#: src/functions/fn-string.c:1
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
-"@DESCRIPTION=LOWER returns a lower-case version of the string in @text\n"
+"@DESCRIPTION=LOWER returns a lower-case version of the string in @text.\n"
 "@EXAMPLES=\n"
 "LOWER(\"J. F. Kennedy\") equals \"j. f. kennedy\".\n"
 "\n"
@@ -13110,7 +13197,7 @@ msgstr "#DZIEL/0!"
 
 #: src/value-sheet.c:1
 msgid "#VALUE!"
-msgstr ""
+msgstr "#WARTO¦Æ!"
 
 #: src/value-sheet.c:1
 msgid "#REF!"
@@ -13118,7 +13205,7 @@ msgstr ""
 
 #: src/value-sheet.c:1
 msgid "#NAME?"
-msgstr ""
+msgstr "#NAZWA?"
 
 #: src/value-sheet.c:1
 msgid "#NUM!"
@@ -13126,7 +13213,7 @@ msgstr ""
 
 #: src/value-sheet.c:1
 msgid "#RECALC!"
-msgstr ""
+msgstr "#PRZELICZ!"
 
 #: src/value.c:1
 msgid "Terminate"
@@ -13819,11 +13906,11 @@ msgstr "_Filtr..."
 
 #: src/workbook.c:1
 msgid "Filter date with given criterias"
-msgstr ""
+msgstr "Fitruje dane wed³ug podanych kryteriów"
 
 #: src/workbook.c:1
 msgid "_Insert"
-msgstr "W_klej"
+msgstr "_Wstaw"
 
 #: src/workbook.c:1
 msgid "F_ormat"
@@ -14033,11 +14120,11 @@ msgstr "Przeszereguj arkusze"
 
 #: src/xml-io.c:1
 msgid "Invalid xml clipboard data. Tree is empty ?"
-msgstr ""
+msgstr "Niepoprawne dar xml w schowku. Drzewo jest puste?"
 
 #: src/xml-io.c:1
 msgid "Invalid xml file. Tree is empty ?"
-msgstr ""
+msgstr "Niepoprawny plik xml. Drzewo jest puste?"
 
 #: src/xml-io.c:1
 msgid "Is not an Workbook file"
@@ -14050,7 +14137,7 @@ msgstr "Format Gnumeric XML"
 #: wizards/graphics/graphic-context.c:1
 #, c-format
 msgid "\"Series %d\""
-msgstr ""
+msgstr "\"Serie %d\""
 
 #: wizards/graphics/graphic-type.c:1
 msgid "Clustered columns.  Compares values between categories"
@@ -14230,7 +14317,7 @@ msgstr "_Warto¶æ:"
 
 #: wizards/graphics/graphics.glade.h:1
 msgid "Labels for the _X axis:"
-msgstr ""
+msgstr "Etykiety osi _X:"
 
 #: wizards/graphics/graphics.glade.h:1
 msgid "Series"
@@ -14266,7 +14353,7 @@ msgstr "Tytu³y"
 
 #: wizards/graphics/graphics.glade.h:1
 msgid "Principal Axis"
-msgstr ""
+msgstr "G³ówna o¶"
 
 #: wizards/graphics/graphics.glade.h:1
 msgid "_X axis"
@@ -14290,11 +14377,11 @@ msgstr "O¶ _Z"
 
 #: wizards/graphics/graphics.glade.h:1
 msgid "Axis"
-msgstr ""
+msgstr "O¶"
 
 #: wizards/graphics/graphics.glade.h:1
 msgid " X axis "
-msgstr ""
+msgstr " O¶ X "
 
 #: wizards/graphics/graphics.glade.h:1
 msgid "_Main line divisions"
@@ -14306,7 +14393,7 @@ msgstr ""
 
 #: wizards/graphics/graphics.glade.h:1
 msgid " Y axis "
-msgstr ""
+msgstr " O¶ Y "
 
 #: wizards/graphics/graphics.glade.h:1
 msgid "M_ain line divisions"
