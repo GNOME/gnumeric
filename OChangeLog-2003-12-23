@@ -1,3 +1,21 @@
+2000-12-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_find_boundary_horizontal) : support merged cells
+	  fully.
+	(sheet_find_boundary_vertical) : Ditto.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_set_cursor_bounds) : Remove
+	  unnecessary sanity checks.
+	(cursor_horizontal_move) : pass the base row.
+	(cursor_vertical_move) : Ditto.
+	(rangesel_horizontal_move) : Ditto.
+	(rangesel_vertical_move) : Ditto.
+	(rangesel_horizontal_extend) : Ditto.
+	(rangesel_vertical_extend) : Ditto.
+
+	* src/selection.c (sheet_selection_extend) : Pass the base row/col.
+	* src/item-cursor.c (item_cursor_selection_event) : Ditto.
+
 2000-12-17  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/dialogs/dialog-stf-preview.c (stf_preview_format_line) :

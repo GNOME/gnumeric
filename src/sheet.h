@@ -123,10 +123,12 @@ ColRowInfo *sheet_col_new                  (Sheet *sheet);
 ColRowInfo *sheet_row_new                  (Sheet *sheet);
 int         sheet_row_check_bound          (int row, int diff);
 int         sheet_col_check_bound          (int col, int diff);
-int	    sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
-					    int count, gboolean jump_to_boundaries);
-int	    sheet_find_boundary_vertical   (Sheet *sheet, int col, int start_row,
-					    int count, gboolean jump_to_boundaries);
+int	    sheet_find_boundary_horizontal (Sheet *sheet, int col, int move_row,
+					    int base_row, int count,
+					    gboolean jump_to_boundaries);
+int	    sheet_find_boundary_vertical   (Sheet *sheet, int move_col, int row,
+					    int base_col, int count,
+					    gboolean jump_to_boundaries);
 
 /* Retrieve information from a col/row */
 ColRowInfo *sheet_col_get_info            (Sheet const *sheet, int const col);

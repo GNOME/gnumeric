@@ -1407,31 +1407,51 @@ sheet_col_is_hidden (Sheet *sheet, int const col)
  *
  * @sheet:  The Sheet *
  * @start_col	: The column from which to begin searching.
- * @row		: The row in which to search for the edge of the range.
+ * @move_row	: The row in which to search for the edge of the range.
+ * @base_row	: The height of the area being moved.
  * @n:      units to extend the selection vertically
  * @jump_to_boundaries : Jump to range boundaries.
  */
 int
-sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
-				int count, gboolean jump_to_boundaries)
+sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
+				int base_row, int count,
+				gboolean jump_to_boundaries)
 {
-	gboolean find_nonblank = sheet_is_cell_empty (sheet, start_col, row);
+	gboolean find_nonblank = sheet_is_cell_empty (sheet, start_col, move_row);
 	gboolean keep_looking = FALSE;
-	int new_col, prev_col;
+	int new_col, prev_col, lagged_start_col;
 	int iterations = 0;
-	CellPos	pos;
-	Range const *merged;
+	Range check_merge;
 
 	/* Jumping to bounds requires steping cell by cell */
 	g_return_val_if_fail (count == 1 || count == -1 || !jump_to_boundaries, start_col);
 	g_return_val_if_fail (IS_SHEET (sheet), start_col);
 
-	pos.col = start_col;
-	pos.row = row;
-	merged = sheet_region_get_merged_cell (sheet, &pos);
+	if (move_row < base_row) {
+		check_merge.start.row = move_row;
+		check_merge.end.row = base_row;
+	} else {
+		check_merge.end.row = move_row;
+		check_merge.start.row = base_row;
+	}
 
-	if (merged != NULL)
-		start_col = (count > 0) ? merged->end.col : merged->start.col;
+	do {
+		GSList *merged, *ptr;
+
+		lagged_start_col = check_merge.start.col = check_merge.end.col = start_col;
+		merged = sheet_region_get_merged (sheet, &check_merge);
+		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
+			Range const * const r = ptr->data;
+			if (count > 0) {
+				if (start_col < r->end.col)
+					start_col = r->end.col;
+			} else {
+				if (start_col > r->start.col)
+					start_col = r->start.col;
+			}
+		}
+		g_slist_free (merged);
+	} while (start_col != lagged_start_col);
 	new_col = prev_col = start_col;
 
 	do {
@@ -1449,7 +1469,7 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
 					return (find_nonblank || iterations == 1) ? SHEET_MAX_COLS-1 : prev_col;
 				new_col = sheet->cols.max_used;
 			}
-			keep_looking = (sheet_is_cell_empty (sheet, new_col, row) == find_nonblank);
+			keep_looking = (sheet_is_cell_empty (sheet, new_col, move_row) == find_nonblank);
 			if (keep_looking)
 				prev_col = new_col;
 			else if (!find_nonblank) {
@@ -1484,32 +1504,52 @@ sheet_row_is_hidden (Sheet *sheet, int const row)
  * TRUE @n must be 1 and the jump is to the edge of the logical range.
  *
  * @sheet:  The Sheet *
- * @col		: The col in which to search for the edge of the range.
+ * @move_col	: The col in which to search for the edge of the range.
  * @start_row	: The row from which to begin searching.
+ * @base_col	: The width of the area being moved.
  * @n:      units to extend the selection vertically
  * @jump_to_boundaries : Jump to range boundaries.
  */
 int
-sheet_find_boundary_vertical (Sheet *sheet, int col, int start_row,
-			      int count, gboolean jump_to_boundaries)
+sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
+			      int base_col, int count,
+			      gboolean jump_to_boundaries)
 {
-	gboolean find_nonblank = sheet_is_cell_empty (sheet, col, start_row);
+	gboolean find_nonblank = sheet_is_cell_empty (sheet, move_col, start_row);
 	gboolean keep_looking = FALSE;
-	int new_row, prev_row;
+	int new_row, prev_row, lagged_start_row;
 	int iterations = 0;
-	CellPos	pos;
-	Range const *merged;
+	Range check_merge;
 
 	/* Jumping to bounds requires steping cell by cell */
 	g_return_val_if_fail (count == 1 || count == -1 || !jump_to_boundaries, start_row);
 	g_return_val_if_fail (IS_SHEET (sheet), start_row);
 
-	pos.col = col;
-	pos.row = start_row;
-	merged = sheet_region_get_merged_cell (sheet, &pos);
+	if (move_col < base_col) {
+		check_merge.start.col = move_col;
+		check_merge.end.col = base_col;
+	} else {
+		check_merge.end.col = move_col;
+		check_merge.start.col = base_col;
+	}
 
-	if (merged != NULL)
-		start_row = (count > 0) ? merged->end.row : merged->start.row;
+	do {
+		GSList *merged, *ptr;
+
+		lagged_start_row = check_merge.start.row = check_merge.end.row = start_row;
+		merged = sheet_region_get_merged (sheet, &check_merge);
+		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
+			Range const * const r = ptr->data;
+			if (count > 0) {
+				if (start_row < r->end.row)
+					start_row = r->end.row;
+			} else {
+				if (start_row > r->start.row)
+					start_row = r->start.row;
+			}
+		}
+		g_slist_free (merged);
+	} while (start_row != lagged_start_row);
 	new_row = prev_row = start_row;
 
 	do {
@@ -1528,7 +1568,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int col, int start_row,
 				new_row = sheet->rows.max_used;
 			}
 
-			keep_looking = (sheet_is_cell_empty (sheet, col, new_row) == find_nonblank);
+			keep_looking = (sheet_is_cell_empty (sheet, move_col, new_row) == find_nonblank);
 			if (keep_looking)
 				prev_row = new_row;
 			else if (!find_nonblank) {

@@ -723,7 +723,8 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 			}
 
 			final_col = sheet_find_boundary_horizontal (sheet,
-				ic->pos.end.col, template_row, 1, TRUE);
+				ic->pos.end.col, template_row,
+				template_row, 1, TRUE);
 			if (final_row <= ic->pos.end.row)
 				return TRUE;
 		} else {
@@ -740,7 +741,8 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 			}
 
 			final_row = sheet_find_boundary_vertical (sheet,
-				template_col, ic->pos.end.row, 1, TRUE);
+				template_col, ic->pos.end.row,
+				template_col, 1, TRUE);
 			if (final_row <= ic->pos.end.row)
 				return TRUE;
 		}

@@ -154,10 +154,12 @@ sheet_selection_extend (Sheet *sheet, int n, gboolean jump_to_boundaries,
 	if (horizontal)
 		tmp.col = sheet_find_boundary_horizontal (sheet,
 				tmp.col, tmp.row,
+				sheet->cursor.base_corner.row,
 				n, jump_to_boundaries);
 	else
 		tmp.row = sheet_find_boundary_vertical (sheet,
 				tmp.col, tmp.row,
+				sheet->cursor.base_corner.col,
 				n, jump_to_boundaries);
 
 	sheet_selection_extend_to (sheet, tmp.col, tmp.row);

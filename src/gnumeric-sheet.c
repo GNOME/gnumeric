@@ -89,8 +89,6 @@ gnumeric_sheet_set_cursor_bounds (GnumericSheet *gsheet,
 				  int end_col,   int end_row)
 {
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
-	g_return_if_fail (start_row <= end_row);
-	g_return_if_fail (start_col <= end_col);
 
 	item_cursor_set_bounds (
 		gsheet->item_cursor,
@@ -114,9 +112,8 @@ cursor_horizontal_move (GnumericSheet *gsheet, int count,
 {
 	Sheet *sheet = gsheet->scg->sheet;
 	int const new_col = sheet_find_boundary_horizontal (sheet,
-		sheet->edit_pos_real.col,
-		sheet->edit_pos_real.row,
-		count, jump_to_boundaries);
+		sheet->edit_pos_real.col, sheet->edit_pos_real.row,
+		sheet->edit_pos_real.row, count, jump_to_boundaries);
 	move_cursor (gsheet, new_col, sheet->edit_pos_real.row, TRUE);
 }
 
@@ -144,9 +141,8 @@ cursor_vertical_move (GnumericSheet *gsheet, int count,
 {
 	Sheet *sheet = gsheet->scg->sheet;
 	int const new_row = sheet_find_boundary_vertical (sheet,
-		sheet->edit_pos_real.col,
-		sheet->edit_pos_real.row,
-		count, jump_to_boundaries);
+		sheet->edit_pos_real.col, sheet->edit_pos_real.row,
+		sheet->edit_pos_real.row, count, jump_to_boundaries);
 	move_cursor (gsheet, sheet->edit_pos_real.col, new_row, TRUE);
 }
 
@@ -426,7 +422,8 @@ rangesel_horizontal_move (GnumericSheet *gsheet, int dir, gboolean jump_to_bound
 
 	ic = gsheet->sel_cursor;
 	ic->base.col = sheet_find_boundary_horizontal (gsheet->scg->sheet,
-		ic->base.col, ic->base.row, dir, jump_to_boundaries);
+		ic->base.col, ic->base.row,
+		ic->base.row, dir, jump_to_boundaries);
 	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic,
 		ic->base.col, ic->base.row, ic->base.col, ic->base.row);
@@ -447,7 +444,8 @@ rangesel_vertical_move (GnumericSheet *gsheet, int dir, gboolean jump_to_boundar
 
 	ic = gsheet->sel_cursor;
 	ic->base.row = sheet_find_boundary_vertical (gsheet->scg->sheet,
-		ic->base.col, ic->base.row, dir, jump_to_boundaries);
+		ic->base.col, ic->base.row,
+		ic->base.row, dir, jump_to_boundaries);
 	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic,
 		ic->base.col, ic->base.row, ic->base.col, ic->base.row);
@@ -472,7 +470,7 @@ rangesel_horizontal_extend (GnumericSheet *gsheet, int n, gboolean jump_to_bound
 	ic = gsheet->sel_cursor;
 	new_col = sheet_find_boundary_horizontal (gsheet->scg->sheet,
 		ic->move_corner.col, ic->move_corner.row, 
-		n, jump_to_boundaries);
+		ic->base_corner.row, n, jump_to_boundaries);
 	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic,
 				ic->base_corner.col, ic->base_corner.row,
@@ -498,7 +496,7 @@ rangesel_vertical_extend (GnumericSheet *gsheet, int n, gboolean jump_to_boundar
 	ic = gsheet->sel_cursor;
 	new_row = sheet_find_boundary_vertical (gsheet->scg->sheet,
 		ic->move_corner.col, ic->move_corner.row, 
-		n, jump_to_boundaries);
+		ic->base_corner.col, n, jump_to_boundaries);
 	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic,
 				ic->base_corner.col, ic->base_corner.row,
