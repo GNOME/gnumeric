@@ -3,6 +3,8 @@ Gnumeric 1.2.14
 Jody:
 	* Invalid metadata in xls is a warning not an error
 
+Jon Kåre:
+	* Fix crash in Python plugins.
 Morten:
 	* Fix IMCONJUGATE and IMABS for reals.  [#148323]
 	* Fix crash on exit.
