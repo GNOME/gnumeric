@@ -102,6 +102,7 @@ gog_plot_new_by_name (char const *id)
 		 */
 		plugin = plugin_service_get_plugin (service);
 		refd_plugins = g_slist_prepend (refd_plugins, plugin);
+		g_object_ref (plugin);
 		gnm_plugin_use_ref (plugin);
 	}
 
@@ -352,6 +353,7 @@ void
 gog_plugin_services_shutdown (void)
 {
 	g_slist_foreach (refd_plugins, (GFunc)gnm_plugin_use_unref, NULL);
+	g_slist_foreach (refd_plugins, (GFunc)g_object_unref, NULL);
 	g_slist_free (refd_plugins);
 }
 
