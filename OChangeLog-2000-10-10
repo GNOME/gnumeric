@@ -1,3 +1,8 @@
+2000-05-15  Jesus Bravo Alvarez  <jba@pobox.com>
+
+	* configure.in: Added gl (Galician) to ALL_LINGUAS
+	* gnumeric.desktop.in: Added Galician translation
+
 2000-05-15  Jody Goldberg <jgoldberg@home.com>
 
 	* src/functions/fn-math.c (gnumeric_floor) : Add some examples for
