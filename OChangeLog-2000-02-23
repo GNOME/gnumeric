@@ -5,6 +5,17 @@
 	
 2000-01-29  Jody Goldberg <jgoldberg@home.com>
 
+	* src/gnumeric-sheet.h (gnumeric_sheet_stop_cell_selection) : Remove
+	  duplicate decl.
+
+	* src/item-grid.c : Remove unused enum SELECTING_CELL_RANGE.
+
+	* src/application.[ch] (application_workbook_get_by_{index,name}) :
+	  New functions.
+
+	* src/selection.c (sheet_selection_paste) : Reload the edit field when
+	  finished. The current cell may have changed.
+
 	* src/sheet.c (sheet_accept_pending_input) : Use
 	  gnumeric_sheet_destroy_editing_cursor.
 

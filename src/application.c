@@ -171,3 +171,53 @@ application_clipboard_area_get (void)
 		return &app.clipboard_cut_range;
 	return NULL;
 }
+
+struct wb_name_closure
+{
+	Workbook *wb;
+	char const * name;
+};
+static gboolean
+cb_workbook_name (Workbook * wb, gpointer closure)
+{
+	struct wb_name_closure *dat = closure;
+	if (0 == strcmp (wb->filename, dat->name)) {
+		dat->wb = wb;
+		return FALSE;
+	}
+	return TRUE;
+}
+
+Workbook *
+application_workbook_get_by_name (char const * const name)
+{
+	struct wb_name_closure close;
+	close.wb = NULL;
+	close.name = name;
+	workbook_foreach (&cb_workbook_name, &close);
+
+	return close.wb;
+}
+
+struct wb_index_closure
+{
+	Workbook *wb;
+	int index;	/* 1 based */
+};
+static gboolean
+cb_workbook_index (Workbook * wb, gpointer closure)
+{
+	struct wb_index_closure *dat = closure;
+	return (--(dat->index) != 0);
+}
+
+Workbook *
+application_workbook_get_by_index (int i)
+{
+	struct wb_index_closure close;
+	close.wb = NULL;
+	close.index = i;
+	workbook_foreach (&cb_workbook_index, &close);
+
+	return close.wb;
+}

@@ -5,6 +5,9 @@
 
 void         application_init			(void);
 
+Workbook *   application_workbook_get_by_name   (char const * const name);
+Workbook *   application_workbook_get_by_index  (int i);
+
 void         application_clipboard_clear	(void);
 
 void         application_clipboard_copy		(Sheet *sheet, Range const *area);

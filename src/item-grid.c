@@ -33,10 +33,6 @@ enum {
 	ARG_SHEET_VIEW,
 };
 
-enum {
-	SELECTING_CELL_RANGE
-};
-
 static void
 item_grid_destroy (GtkObject *object)
 {
