@@ -2990,9 +2990,8 @@ gnumeric_mdeterm (FunctionEvalInfo *ei, GnmValue **argv)
 	gnm_float **matrix;
 	GnmStdError err;
 
-	if (validate_range_numeric_matrix (ep, values, &rows, &cols, &err)) {
+	if (validate_range_numeric_matrix (ep, values, &rows, &cols, &err))
 		return value_new_error_std (ei->pos, err);
-	}
 
 	/* Guarantee shape and non-zero size */
 	if (cols != rows || !rows || !cols)

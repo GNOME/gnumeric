@@ -550,6 +550,7 @@ sheet_object_image_write_xml_sax (SheetObject const *so, GsfXMLOut *output)
  	gsf_xml_out_start_element (output, "Content");
 	if (soi->type != NULL)
 		gsf_xml_out_add_cstr (output, "image-type", soi->type);
+	gsf_xml_out_add_uint (output, "size-bytes", soi->bytes.len);
 	gsf_xml_out_add_base64 (output, NULL, soi->bytes.data, soi->bytes.len);
  	gsf_xml_out_end_element (output);
 }
