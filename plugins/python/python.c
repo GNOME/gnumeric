@@ -2,6 +2,8 @@
  * Rudimentary support for Python in gnumeric.
  */
 
+#include <string.h>
+
 #include <glib.h>
 #include <gnome.h>
 
@@ -50,12 +52,20 @@ py2v(PyObject *o)
   } else if (PyFloat_Check(o)) {
     v->type = VALUE_FLOAT;
     v->v.v_float = (float_t) PyFloat_AsDouble(o);
+  } else if (PyString_Check(o)) {
+    int size = PyString_Size(o);
+    gchar *s;
+
+    s = g_malloc(size + 1);
+    strncpy(s, PyString_AsString(o), size);
+    s[size] = '\0';
+    v->type = VALUE_STRING;
+    v->v.str = string_get(s);
+    g_free(s);
   } else {
     g_free(v);
     return NULL;
   }
-
-  /* Python strings ae not null-terminated ... add code later */ 
 
   return v;
 }
@@ -68,9 +78,9 @@ typedef struct {
 static GList *funclist = NULL;
 
 static int
-fndef_compare(FunctionDefinition *fndef, FuncData *fdata)
+fndef_compare(FuncData *fdata, FunctionDefinition *fndef)
 {
-  return (fdata->fndef == fndef);
+  return (fdata->fndef != fndef);
 }
 
 static Value *
