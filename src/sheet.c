@@ -3041,6 +3041,14 @@ sheet_colrow_insert_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 				   colrow_max (is_cols));
 	sheet_filter_insdel_colrow (rinfo->origin_sheet, is_cols, TRUE,
 				    pos, count);
+
+	/* WARNING WARNING WARNING
+	 * This is bad practice and should not really be here.
+	 * However, we need to ensure that update is run before
+	 * sv_panes_insdel_colrow plays with frozen panes, updating those can
+	 * trigger redraws before sheet_update has been called. */
+	sheet_update (rinfo->origin_sheet);
+
 	SHEET_FOREACH_VIEW (rinfo->origin_sheet, sv,
 		sv_panes_insdel_colrow (sv, is_cols, TRUE, pos, count););
 }
@@ -3056,6 +3064,13 @@ sheet_colrow_delete_finish (GnmExprRelocateInfo const *rinfo, gboolean is_cols,
 	sheet_colrow_set_collapse (rinfo->origin_sheet, is_cols, end);
 	sheet_filter_insdel_colrow (rinfo->origin_sheet, is_cols, FALSE,
 				    pos, count);
+	/* WARNING WARNING WARNING
+	 * This is bad practice and should not really be here.
+	 * However, we need to ensure that update is run before
+	 * sv_panes_insdel_colrow plays with frozen panes, updating those can
+	 * trigger redraws before sheet_update has been called. */
+	sheet_update (rinfo->origin_sheet);
+
 	SHEET_FOREACH_VIEW (rinfo->origin_sheet, sv,
 		sv_panes_insdel_colrow (sv, is_cols, FALSE, pos, count););
 }

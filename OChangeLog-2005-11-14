@@ -4,6 +4,12 @@
 
 2003-06-06  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet.c (sheet_colrow_delete_finish) : This is bad practice and
+	  should not really be here.  However, we need to ensure that update is
+	  run before sv_panes_insdel_colrow plays with frozen panes, updating
+	  those can trigger redraws before sheet_update has been called.
+	(sheet_colrow_insert_finish) : ditto.
+
 	* configure.in : bump gsf req.
 	* README : ditto.
 
