@@ -6,7 +6,7 @@
 #include <goffice/goffice-config.h>
 #include "go-combo-text.h"
 #include "go-combo-box.h"
-#include "go-marshalers.h"
+#include <goffice/utils/go-marshalers.h>
 
 #include <gtk/gtksignal.h>
 #include <gtk/gtkentry.h>

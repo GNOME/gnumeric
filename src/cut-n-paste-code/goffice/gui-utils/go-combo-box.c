@@ -26,7 +26,7 @@
 
 #include <goffice/goffice-config.h>
 #include "go-combo-box.h"
-#include "go-marshalers.h"
+#include <goffice/utils/go-marshalers.h>
 
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtktearoffmenuitem.h>

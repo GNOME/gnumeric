@@ -30,7 +30,7 @@
 #include <goffice/goffice-config.h>
 #include "go-color-palette.h"
 #include "go-gui-utils.h"
-#include "go-marshalers.h"
+#include <goffice/utils/go-marshalers.h>
 
 #include <goffice/utils/go-color.h>
 #include <gtk/gtklabel.h>

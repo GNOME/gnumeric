@@ -33,7 +33,7 @@
 #include <goffice/goffice-config.h>
 
 #include "go-combo-color.h"
-#include "go-marshalers.h"
+#include <goffice/utils/go-marshalers.h>
 #include "go-combo-box.h"
 #include "go-color-palette.h"
 

@@ -1,3 +1,11 @@
+2005-02-15  Stepan Kasal  <kasal@ucw.cz>
+
+	* gui-utils/go-marshalers.list: Remove, merge with ...
+	* utils/go-marshalers.list: ... this one, adjust all callers.
+	* gui-utils/Makefile.am: Nuke the rules for go-marshalers.
+	* goffice.mk (INCLUDES): Add $(builddir)/../cut-n-paste-code,
+	  for the generated header goffice/utils/go-marshalers.h.
+
 2005-02-11  Morten Welinder  <terra@gnome.org>
 
 	* gui-utils/go-combo-text.c (cb_list_changed): Plug leak.
