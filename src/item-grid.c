@@ -638,9 +638,10 @@ item_grid_stop_sliding (ItemGrid *item_grid)
 	item_grid->sliding = -1;
 }
 
-static int
-item_grid_sliding_callback (GnomeCanvasItem *item)
+static gint
+item_grid_sliding_callback (gpointer data)
 {
+	GnomeCanvasItem *item = data;
 	GnomeCanvas *canvas = item->canvas;
 	ItemGrid *item_grid = ITEM_GRID (item);
 	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
@@ -738,8 +739,7 @@ item_grid_start_sliding (GnomeCanvasItem *item)
 	ItemGrid *item_grid = ITEM_GRID (item);
 	
 	item_grid->sliding = gtk_timeout_add (
-		100, item_grid_sliding_callback,
-		item);
+		100, item_grid_sliding_callback, item);
 }
 
 /*

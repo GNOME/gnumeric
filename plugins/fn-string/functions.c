@@ -13,6 +13,55 @@
 #include "func.h"
 
 static Value *
+gnumeric_char (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	Value *v;
+	char result [2];
+
+	result [0] = value_get_as_int (argv [0]);
+	result [1] = 0;
+
+	v = g_new (Value, 1);
+	v->type = VALUE_STRING;
+	v->v.str = string_get (result);
+
+	return v;
+}
+
+static Value *
+gnumeric_code (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	if (argv [0]->type != VALUE_STRING){
+		*error_string = "Type mismatch";
+		return NULL;
+	}
+
+	return value_int (argv [0]->v.str->str [0]);
+}
+
+static Value *
+gnumeric_exact (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	if (argv [0]->type != VALUE_STRING || argv [1]->type != VALUE_STRING){
+		*error_string = "Type mismatch";
+		return NULL;
+	}
+
+	return value_int (strcmp (argv [0]->v.str->str, argv [1]->v.str->str) == 0);
+}
+
+static Value *
+gnumeric_len (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	if (argv [0]->type != VALUE_STRING){
+		*error_string = "Type mismatch";
+		return NULL;
+	}
+
+	return value_int (strlen (argv [0]->v.str->str));
+}
+
+static Value *
 string_and_optional_int (Sheet *sheet, GList *l, int eval_col, int eval_row, char **error, int *count)
 {
 	int argc = g_list_length (l);
@@ -85,6 +134,27 @@ gnumeric_left (void *sheet, GList *expr_node_list, int eval_col, int eval_row, c
 	return v;
 }
 
+static Value *
+gnumeric_lower (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	Value *v;
+	char *s, *p;
+	
+	if (argv [0]->type != VALUE_STRING){
+		*error_string = "Type mismatch";
+		return NULL;
+	}
+
+	v = g_new (Value, 1);
+	p = s = strdup (argv [0]->v.str->str);
+	while (*p)
+		*p = tolower (*p);
+	v->v.str = string_get (p);
+	g_free (p);
+
+	return v;
+}
+
 static char *help_right = {
 	N_("@FUNCTION=RIGHT\n"
 	   "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -127,9 +197,66 @@ gnumeric_right (void *sheet, GList *expr_node_list, int eval_col, int eval_row, 
 	return v;
 }
 
+static Value *
+gnumeric_upper (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	Value *v;
+	char *s, *p;
+	
+	if (argv [0]->type != VALUE_STRING){
+		*error_string = "Type mismatch";
+		return NULL;
+	}
+
+	v = g_new (Value, 1);
+	p = s = strdup (argv [0]->v.str->str);
+	while (*p)
+		*p = toupper (*p);
+	v->v.str = string_get (p);
+	g_free (p);
+
+	return v;
+}
 
 FunctionDefinition string_functions [] = {
+	{ "char",     "f",  "number",            NULL, NULL, gnumeric_char },
+	{ "code",     "s",  "text",              NULL, NULL, gnumeric_code },
+	{ "exact",    "ss", "text1,text2",       NULL, NULL, gnumeric_exact },
 	{ "left",     0,    "text,num_chars",    &help_left, gnumeric_left, NULL },
-	{ "right",     0,   "text,num_chars",    &help_right, gnumeric_right, NULL },
+	{ "len",      "s",  "text",              NULL, NULL, gnumeric_len },
+	{ "lower",    "s",  "text",              NULL, NULL, gnumeric_lower },
+	{ "right",    0,    "text,num_chars",    &help_right, gnumeric_right, NULL },
+	{ "upper",    "s",  "text",              NULL, NULL, gnumeric_upper },
 	{ NULL, NULL },
 };
+
+/*
+ * Missing:
+ *
+ * CLEAN(text) removes non-printable character from text
+ *
+ * DOLLAR(number [,decimals] formats number as currency.
+ *
+ * FIXED (number, decimals, no_comma)
+ * formats number as text with a fixed number of decimals
+ *
+ * FIND (find_text, within_text [,start_at_num])
+ *
+ * MID (text, start_num, num_chars)
+ *
+ * PROPER(text) capitalizes the first letter in each word of a text value
+ *
+ * REPLACE(old_text, start_num, num_chars, new_text)
+ *
+ * REPT (text, number_of_times)
+ *
+ * SUBSTITUTE(text,old_text, new_text [,intenace_num])
+ *
+ * T(value) -> converts its argumnt to text
+ *
+ * TEXT (value, format_text)  converts value to text with format_text
+ *
+ * TRIM(text) removes spaces form text
+ *
+ * VALUE(text) converts a text argument to a number
+ */
