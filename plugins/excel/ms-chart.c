@@ -541,7 +541,7 @@ static gboolean
 BC_R(axisparent)(XLChartHandler const *handle,
 		 XLChartReadState *s, BiffQuery *q)
 {
-	d (0, {
+	d (-1, {
 	guint16 const index = GSF_LE_GET_GUINT16 (q->data);	/* 1 or 2 */
 	/* Measured in 1/4000ths of the chart width */
 	guint32 const x = GSF_LE_GET_GUINT32 (q->data+2);
@@ -1852,6 +1852,8 @@ BC_R(end)(XLChartHandler const *handle,
 	s->stack = g_array_remove_index_fast (s->stack, s->stack->len-1);
 
 	switch (popped_state) {
+	case BIFF_CHART_axisparent :
+		break;
 	case BIFF_CHART_axis :
 		s->axis = NULL;
 		break;
@@ -2349,6 +2351,15 @@ chart_write_END (ExcelWriteChart *state)
 	ms_biff_put_empty (state->bp, BIFF_CHART_end);
 }
 
+/* returns the index of an element in the palette that is close to
+ * the selected color */
+static unsigned
+chart_write_color (ExcelWriteChart *state, guint8 *data, GOColor c)
+{
+#warning TODO
+	return 0;
+}
+
 static void
 chart_write_FBI (ExcelWriteChart *state, guint16 n)
 {
@@ -2377,54 +2388,124 @@ chart_write_series (BiffPut *bp)
 }
 
 static void
+chart_write_LINEFORMAT (ExcelWriteChart *state,
+			GogStyleLine const *lstyle, gboolean draw_ticks)
+{
+	guint8 *data = ms_biff_put_len_next (state->bp, BIFF_CHART_lineformat,
+		(state->bp->version >= MS_BIFF_V8) ? 12: 10);
+	guint16 tmp, color_index, pattern = lstyle->pattern;
+
+	color_index = chart_write_color (state, data, lstyle->color);
+	if (lstyle->width < 0.) {
+		tmp = 0xffff;
+		pattern = 5;	/* none */
+	} else if (lstyle->width <= .5)
+		tmp = 0xffff;	/* hairline */
+	else if (lstyle->width <= 1.5)
+		tmp = 0;	/* normal */
+	else if (lstyle->width <= 2.5)
+		tmp = 1;	/* medium */
+	else
+		tmp = 2;	/* wide */
+	GSF_LE_SET_GUINT16 (data+4, pattern);
+	GSF_LE_SET_GUINT16 (data+6, tmp);
+	GSF_LE_SET_GUINT16 (data+8,
+		(lstyle->auto_color ? 1 : 0) |
+		(draw_ticks ? 4 : 0));
+
+	if (state->bp->version >= MS_BIFF_V8)
+		GSF_LE_SET_GUINT16 (data+10, color_index);
+	ms_biff_put_commit (state->bp);
+}
+
+static void
+chart_write_AREAFORMAT (ExcelWriteChart *state, GogStyle const *style)
+{
+}
+static void
+chart_write_frame (ExcelWriteChart *state, gboolean calc_size)
+{
+	guint8 *data = ms_biff_put_len_next (state->bp, BIFF_CHART_frame, 4);
+	GSF_LE_SET_GUINT16 (data + 0, 0); /* 0 == std/no border, 4 == shadow */
+	GSF_LE_SET_GUINT16 (data + 2, (0x2 | (calc_size ? 1 : 0)));
+	ms_biff_put_commit (state->bp);
+
+	chart_write_BEGIN (state);
+	chart_write_LINEFORMAT (state, NULL, FALSE);
+	chart_write_AREAFORMAT (state, NULL);
+	chart_write_END (state);
+}
+
+static void
 chart_write_axis_sets (ExcelWriteChart *state)
 {
+#warning TODO select the axis sets
+	guint16 i, j, num_axis_set = 1;
+	guint8 *data;
+
+	ms_biff_put_2byte (state->bp, BIFF_CHART_axesused, num_axis_set);
+	for (i = 0 ; i < num_axis_set ; i++) {
+		data = ms_biff_put_len_next (state->bp, BIFF_CHART_axisparent, 4*4 + 2);
+		/* pick arbitrary position, this sort of info is in the view  */
+		GSF_LE_SET_GUINT16 (data + 0, i);
+		GSF_LE_SET_GUINT32 (data + 2, 400);	/* 10% of 4000th of chart area */
+		GSF_LE_SET_GUINT32 (data + 6, 400);
+		GSF_LE_SET_GUINT32 (data + 10, 3000);	/* 75% of 4000th of chart area */
+		GSF_LE_SET_GUINT32 (data + 14, 3000);
+		ms_biff_put_commit (state->bp);
+
+		chart_write_BEGIN (state);
+		/* BIFF_CHART_pos, optional we use auto positioning */
+		for (j = GOG_AXIS_X ; j <= GOG_AXIS_Y ; j++) {
+			data = ms_biff_put_len_next (state->bp, BIFF_CHART_axis, 18);
+			GSF_LE_SET_GUINT32 (data + 0, j);
+			memset (data+2, 0, 16);
+			chart_write_BEGIN (state);
 #if 0
-	BIFF_CHART_axesused (num_axis)
-	{
-	BIFF_CHART_axisparent
-		BIFF_CHART_pos
-		{
-		BIFF_CHART_axis
 			if (is_discrete)
 				( BIFF_CHART_catserrange, BIFF_CHART_axcext, BIFF_CHART_tick | BIFF_CHART_axislineformat )
 			else
 				( BIFF_CHART_valuerange, BIFF_CHART_tick, BIFF_CHART_axislineformat )
-		BIFF_CHART_end } x { X, Y }
+#endif
+			chart_write_END (state);
+		}
 
-		{
-		BIFF_CHART_plotarea
-		BIFF_CHART_frame
-			BIFF_CHART_lineformat
-			BIFF_CHART_areaformat
-		BIFF_CHART_end
-		} only for first axis parent
+		if (i == 0) {
+			ms_biff_put_empty (state->bp, BIFF_CHART_plotarea);
+			chart_write_frame (state, TRUE);
+		}
+
+#if 0
 		BIFF_CHART_chartformat
+		chart_write_BEGIN (state);
 			BIFF_CHART_bar
 			BIFF_CHART_chartformatlink
 			(
 			BIFF_CHART_legend
-				BIFF_CHART_pos
+			chart_write_BEGIN (state);
+				/* BIFF_CHART_pos, optional we use auto positioning */
 				BIFF_CHART_text
-					BIFF_CHART_pos
+				chart_write_BEGIN (state);
+					/* BIFF_CHART_pos, optional we use auto positioning */
 					BIFF_CHART_fontx
 					BIFF_CHART_ai
-				BIFF_CHART_end
-			BIFF_CHART_end
+				chart_write_END (state);
+			chart_write_END (state);
 			) only for first axis parent
-		BIFF_CHART_end
-
-	BIFF_CHART_end } x num_axis
+		chart_write_END (state);
 #endif
+		chart_write_END (state);
+	}
 }
 
 static void
 chart_write_chart (ExcelWriteChart *state, SheetObject *so)
 {
 	double pos[4];
-	guint8 *data = ms_biff_put_len_next (state->bp, BIFF_CHART_chart, 4*4);
+	guint8 *data;
 	guint32 tmp;
 
+	data = ms_biff_put_len_next (state->bp, BIFF_CHART_chart, 4*4);
 	sheet_object_position_pts_get (so, pos);
 	GSF_LE_SET_GUINT32 (data + 0, 0);
 	GSF_LE_SET_GUINT32 (data + 4, 0);
@@ -2432,23 +2513,26 @@ chart_write_chart (ExcelWriteChart *state, SheetObject *so)
 	GSF_LE_SET_GUINT32 (data + 8, tmp);
 	tmp = (unsigned)(fabs (pos[3] - pos[1]) * (65535 * 72) + .5);
 	GSF_LE_SET_GUINT32 (data + 12, tmp);
+	ms_biff_put_commit (state->bp);
 
 	chart_write_BEGIN (state);
 	excel_write_SCL	(state->bp, 1.0);
 
+	if (state->bp->version >= MS_BIFF_V8) {
+		/* zoom does not seem to effect it */
+		data = ms_biff_put_len_next (state->bp, BIFF_CHART_plotgrowth, 8);
+		GSF_LE_SET_GUINT32 (data + 0, 1);
+		GSF_LE_SET_GUINT32 (data + 4, 1);
+		ms_biff_put_commit (state->bp);
+	}
+	chart_write_frame (state, FALSE);
 #if 0
-		BIFF_CHART_plotgrowth
-		BIFF_CHART_frame
-			BIFF_CHART_lineformat
-			BIFF_CHART_areaformat
-		BIFF_CHART_end
-
 		chart_write_series (state) x num_series;
 
 		{
 		BIFF_CHART_defaulttext
 		BIFF_CHART_text
-			BIFF_CHART_pos
+			/* BIFF_CHART_pos, optional we use auto positioning */
 			BIFF_CHART_fontx
 			BIFF_CHART_ai
 		BIFF_CHART_end
