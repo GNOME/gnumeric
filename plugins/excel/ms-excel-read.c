@@ -1530,19 +1530,25 @@ ms_excel_set_xf_segment (ExcelSheet *sheet, int start_col, int end_col, int row,
 		fprintf (stderr, " = xf(%d)\n", xfidx);
 	}
 #endif
-	if (mstyle[1] != NULL && row < (SHEET_MAX_ROWS-1)) {
-		range.start.col = start_col;
-		range.start.row = row+1;
-		range.end.col   = end_col;
-		range.end.row   = row+1;
-		sheet_style_attach (sheet->gnum_sheet, range, mstyle[1]);
+	if (mstyle[1] != NULL) {
+		if (row < SHEET_MAX_ROWS - 1) {
+			range.start.col = start_col;
+			range.start.row = row+1;
+			range.end.col   = end_col;
+			range.end.row   = row+1;
+			sheet_style_attach (sheet->gnum_sheet, range, mstyle[1]);
+		} else
+			mstyle_unref (mstyle[1]);
 	}
-	if (mstyle[2] != NULL && end_col < (SHEET_MAX_COLS-1)) {
-		range.start.col = start_col+1;
-		range.start.row = row;
-		range.end.col   = end_col+1;
-		range.end.row   = row;
-		sheet_style_attach (sheet->gnum_sheet, range, mstyle[2]);
+	if (mstyle[2] != NULL) {
+		if (end_col < SHEET_MAX_COLS - 1) {
+			range.start.col = start_col+1;
+			range.start.row = row;
+			range.end.col   = end_col+1;
+			range.end.row   = row;
+			sheet_style_attach (sheet->gnum_sheet, range, mstyle[2]);
+		} else
+			mstyle_unref (mstyle[2]);
 	}
 }
 
