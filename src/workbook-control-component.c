@@ -244,7 +244,6 @@ cb_edit_copy (GtkWidget *widget, BonoboControl *control)
 {
 	WorkbookControlGUI *wbcg = bcontrol_get_wbcg (control);
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet *sheet;
 
 	g_return_if_fail (wbcg != NULL);
 

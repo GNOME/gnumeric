@@ -227,13 +227,13 @@ calculate_replacement (SearchReplace *sr, const char *src, const regmatch_t *pm)
 			switch (*s) {
 			case '$':
 			{
-				int i;
 				int n = s[1] - '0';
 				s++;
 
 				g_assert (n > 0 && n <= (int)sr->comp_search->re_nsub);
-				for (i = pm[n].rm_so; i < pm[n].rm_eo; i++)
-					g_string_append_c (gres, src[i]);
+				g_string_append_len (gres,
+						     src + pm[n].rm_so,
+						     pm[n].rm_eo - pm[n].rm_so);
 				break;
 			}
 			case '\\':
@@ -383,11 +383,8 @@ search_replace_string (SearchReplace *sr, const char *src)
 			res = g_string_sized_new (size);
 		}
 
-		if (pmatch[0].rm_so) {
-			int i;
-			/* This is terrible!  */
-			for (i = 0; i < pmatch[0].rm_so; i++)
-				g_string_append_c (res, src[i]);
+		if (pmatch[0].rm_so > 0) {
+			g_string_append_len (res, src, pmatch[0].rm_so);
 		}
 
 		if (sr->match_words && !match_is_word (sr, src, pmatch,
@@ -444,7 +441,7 @@ cb_order_sheet_row_col (const void *_a, const void *_b)
 	int i;
 
 	/* By sheet name.  FIXME: Any better way than this?  */
-	i = strcmp (a->sheet->name_unquoted, b->sheet->name_unquoted);
+	i = g_utf8_collate (a->sheet->name_unquoted, b->sheet->name_unquoted);
 
 	/* By row number.  */
 	if (!i) i = (a->eval.row - b->eval.row);
@@ -463,7 +460,7 @@ cb_order_sheet_col_row (const void *_a, const void *_b)
 	int i;
 
 	/* By sheet name.  FIXME: Any better way than this?  */
-	i = strcmp (a->sheet->name_unquoted, b->sheet->name_unquoted);
+	i = g_utf8_collate (a->sheet->name_unquoted, b->sheet->name_unquoted);
 
 	/* By column number.  */
 	if (!i) i = (a->eval.col - b->eval.col);
@@ -476,7 +473,7 @@ cb_order_sheet_col_row (const void *_a, const void *_b)
 
 static Value *
 search_collect_cells_cb (Sheet *sheet, int col, int row,
-				 Cell *cell, GPtrArray *cells)
+			 Cell *cell, GPtrArray *cells)
 {
 	EvalPos *ep = g_new (EvalPos, 1);
 

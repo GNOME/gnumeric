@@ -1,3 +1,10 @@
+2002-07-10  Morten Welinder  <terra@diku.dk>
+
+	* src/search.c (search_replace_string): Use glib 2's
+	g_string_append_len.
+	(calculate_replacement): Ditto.
+	(cb_order_sheet_col_row, cb_order_sheet_row_col): Make UTF-8 safe.
+
 2002-07-09  Morten Welinder  <terra@diku.dk>
 
 	* src/mathfunc.c (random_poisson): Fix loop (by switching method).
