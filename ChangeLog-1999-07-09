@@ -1,3 +1,8 @@
+1999-06-01  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-string.c: Added SEARCH().  Quite a complex beast but
+ 	should work completely.
+
 1999-06-01  Morten Welinder  <terra@diku.dk>
 
 	* src/fn-stat.c (gnumeric_confidence): Fix sign.

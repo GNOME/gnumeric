@@ -4,6 +4,7 @@
  * Authors:
  *  Miguel de Icaza (miguel@gnu.org)
  *  Sean Atkinson (sca20@cam.ac.uk)
+ *  Jukka-Pekka Iivonen (iivonen@iki.fi)
  */
 #include <config.h>
 #include <gnome.h>
@@ -26,7 +27,8 @@ static char *help_char = {
 };
 
 static Value *
-gnumeric_char (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_char (struct FunctionDefinition *i,
+	       Value *argv [], char **error_string)
 {
 	char result [2];
 
@@ -48,7 +50,8 @@ static char *help_code = {
 };
 
 static Value *
-gnumeric_code (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_code (struct FunctionDefinition *i,
+	       Value *argv [], char **error_string)
 {
 	unsigned char c;
 
@@ -66,21 +69,24 @@ static char *help_exact = {
 	   "@SYNTAX=EXACT(string1, string2)\n"
 
 	   "@DESCRIPTION="
-	   "Returns true if string1 is exactly equal to string2 (this routine is case sensitive)."
+	   "Returns true if string1 is exactly equal to string2 "
+	   "(this routine is case sensitive)."
 	   "\n"
 
 	   "@SEEALSO=LEN")  /* FIXME: DELTA, LEN, SEARCH */
 };
 
 static Value *
-gnumeric_exact (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_exact (struct FunctionDefinition *i,
+		Value *argv [], char **error_string)
 {
 	if (argv [0]->type != VALUE_STRING || argv [1]->type != VALUE_STRING){
 		*error_string = _("Type mismatch");
 		return NULL;
 	}
 
-	return value_new_int (strcmp (argv [0]->v.str->str, argv [1]->v.str->str) == 0);
+	return value_new_int (strcmp (argv [0]->v.str->str,
+				      argv [1]->v.str->str) == 0);
 }
 
 static char *help_len = {
@@ -95,7 +101,8 @@ static char *help_len = {
 };
 
 static Value *
-gnumeric_len (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_len (struct FunctionDefinition *i,
+	      Value *argv [], char **error_string)
 {
 	if (argv [0]->type != VALUE_STRING){
 		*error_string = _("Type mismatch");
@@ -117,7 +124,8 @@ static char *help_left = {
 };
 
 static Value *
-gnumeric_left (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_left (struct FunctionDefinition *i,
+	       Value *argv [], char **error_string)
 {
 	Value *v;
 	int count;
@@ -149,7 +157,8 @@ static char *help_lower = {
 };
 
 static Value *
-gnumeric_lower (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_lower (struct FunctionDefinition *i,
+		Value *argv [], char **error_string)
 {
 	Value *v;
 	char *s, *p;
@@ -176,7 +185,8 @@ static char *help_mid = {
 	   "@SYNTAX=MID(string, position, length)\n"
 
 	   "@DESCRIPTION="
-	   "Returns a substring from @string starting at @position for @length characters."
+	   "Returns a substring from @string starting at @position for "
+	   "@length characters."
 	   "\n"
 
 	   "@SEEALSO=LEFT, RIGHT")
@@ -222,14 +232,15 @@ static char *help_right = {
 	   "@SYNTAX=RIGHT(text[,num_chars])\n"
 
 	   "@DESCRIPTION="
-	   "Returns the rightmost num_chars characters or the right"
-	   " character if num_chars is not specified"
+	   "Returns the rightmost num_chars characters or the right "
+	   "character if num_chars is not specified"
 	   "\n"
 	   "@SEEALSO=MID, LEFT")
 };
 
 static Value *
-gnumeric_right (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_right (struct FunctionDefinition *i,
+		Value *argv [], char **error_string)
 {
 	Value *v;
 	int count, len;
@@ -265,7 +276,8 @@ static char *help_upper = {
 };
 
 static Value *
-gnumeric_upper (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_upper (struct FunctionDefinition *i,
+		Value *argv [], char **error_string)
 {
 	Value *v;
 	char *s, *p;
@@ -291,12 +303,15 @@ gnumeric_upper (struct FunctionDefinition *i, Value *argv [], char **error_strin
 static char *help_concatenate = {
 	N_("@FUNCTION=CONCATENATE\n"
 	   "@SYNTAX=CONCATENATE(string1[,string2...])\n"
-	   "@DESCRIPTION=Returns up appended strings\n"
+	   "@DESCRIPTION="
+	   "Returns up appended strings."
+	   "\n"
 	   "@SEEALSO=LEFT, MID, RIGHT")
 };
 
 static Value *
-gnumeric_concatenate (Sheet *sheet, GList *l, int eval_col, int eval_row, char **error_string)
+gnumeric_concatenate (Sheet *sheet, GList *l,
+		      int eval_col, int eval_row, char **error_string)
 {
 	Value *v;
 	char *s, *p, *tmp;
@@ -337,12 +352,15 @@ gnumeric_concatenate (Sheet *sheet, GList *l, int eval_col, int eval_row, char *
 static char *help_rept = {
 	N_("@FUNCTION=REPT\n"
 	   "@SYNTAX=REPT(string,num)\n"
-	   "@DESCRIPTION=Returns @num repetitions of @string\n"
+	   "@DESCRIPTION="
+	   "Returns @num repetitions of @string."
+	   "\n"
 	   "@SEEALSO=CONCATENATE")
 };
 
 static Value *
-gnumeric_rept (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_rept (struct FunctionDefinition *i,
+	       Value *argv [], char **error_string)
 {
 	Value *v;
 	gchar *s, *p;
@@ -414,13 +432,17 @@ gnumeric_clean (FunctionDefinition *fn, Value *argv [], char **error_string)
 static char *help_find = {
 	N_("@FUNCTION=FIND\n"
 	   "@SYNTAX=FIND(string1,string2[,start])\n"
-	   "@DESCRIPTION=Returns position of @string1 in @string2 (case-sesitive), "
-	   "searching only from character @start onwards (assumed 1 if omitted)\n"
+	   "@DESCRIPTION="
+	   "Returns position of @string1 in @string2 (case-sesitive), "
+	   "searching only from character @start onwards (assumed 1 if "
+	   "omitted)."
+	   "\n"
 	   "@SEEALSO=EXACT, LEN, MID, SEARCH")
 };
 
 static Value *
-gnumeric_find (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_find (struct FunctionDefinition *i,
+	       Value *argv [], char **error_string)
 {
 	Value *ret;
 	int count;
@@ -454,13 +476,17 @@ static char *help_fixed = {
 	N_("@FUNCTION=FIXED\n"
 	   "@SYNTAX=FIXED(num, [decimals, no_commas])\n"
 
-	   "@DESCRIPTION=Returns @num as a formatted string with @decimals numbers "
-	   "after the decimal point, omitting commas if requested by @no_commas\n"
+	   "@DESCRIPTION="
+	   "Returns @num as a formatted string with @decimals numbers "
+	   "after the decimal point, omitting commas if requested by "
+	   "@no_commas."
+	   "\n"
 	   "@SEEALSO=")
 };
 
 static Value *
-gnumeric_fixed (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_fixed (struct FunctionDefinition *i,
+		Value *argv [], char **error_string)
 {
 	Value *v;
 	gchar *s, *p, *f;
@@ -559,12 +585,15 @@ static char *help_proper = {
 	N_("@FUNCTION=PROPER\n"
 	   "@SYNTAX=PROPER(string)\n"
 
-	   "@DESCRIPTION=Returns @string with initial of each word capitalised\n"
+	   "@DESCRIPTION="
+	   "Returns @string with initial of each word capitalised."
+	   "\n"
 	   "@SEEALSO=LOWER, UPPER")
 };
 
 static Value *
-gnumeric_proper (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_proper (struct FunctionDefinition *i,
+		 Value *argv [], char **error_string)
 {
 	Value *v;
 	gchar *s, *p;
@@ -598,12 +627,15 @@ gnumeric_proper (struct FunctionDefinition *i, Value *argv [], char **error_stri
 static char *help_replace = {
 	N_("@FUNCTION=REPLACE\n"
 	   "@SYNTAX=REPLACE(old,start,num,new)\n"
-	   "@DESCRIPTION=Returns @old with @new replacing @num characters from @start\n"
+	   "@DESCRIPTION="
+	   "Returns @old with @new replacing @num characters from @start."
+	   "\n"
 	   "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM")
 };
 
 static Value *
-gnumeric_replace (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_replace (struct FunctionDefinition *i,
+		  Value *argv [], char **error_string)
 {
 	Value *v;
 	gchar *s;
@@ -631,7 +663,8 @@ gnumeric_replace (struct FunctionDefinition *i, Value *argv [], char **error_str
 	s = g_new (gchar, 1 + newlen + oldlen - num);
 	strncpy (s, argv[0]->v.str->str, start);
 	strncpy (&s[start], argv[3]->v.str->str, newlen);
-	strncpy (&s[start+newlen], &argv[0]->v.str->str[start+num], oldlen - num - start );
+	strncpy (&s[start+newlen], &argv[0]->v.str->str[start+num],
+		 oldlen - num - start );
 
 	s [newlen+oldlen-num] = '\0';
 
@@ -647,12 +680,15 @@ gnumeric_replace (struct FunctionDefinition *i, Value *argv [], char **error_str
 static char *help_t = {
 	N_("@FUNCTION=T\n"
 	   "@SYNTAX=T(value)\n"
-	   "@DESCRIPTION=Returns @value if and only if it is text, otherwise a blank string\n"
+	   "@DESCRIPTION="
+	   "Returns @value if and only if it is text, otherwise a blank "
+	   "string.\n"
 	   "@SEEALSO=CELL, N, VALUE")
 };
 
 static Value *
-gnumeric_t (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_t (struct FunctionDefinition *i,
+	    Value *argv [], char **error_string)
 {
 	Value *v;
 
@@ -670,12 +706,15 @@ gnumeric_t (struct FunctionDefinition *i, Value *argv [], char **error_string)
 static char *help_trim = {
 	N_("@FUNCTION=TRIM\n"
 	   "@SYNTAX=TRIM(text)\n"
-	   "@DESCRIPTION=Returns @text with only single spaces between words\n"
+	   "@DESCRIPTION="
+	   "Returns @text with only single spaces between words."
+	   "\n"
 	   "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE")
 };
 
 static Value *
-gnumeric_trim (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_trim (struct FunctionDefinition *i,
+	       Value *argv [], char **error_string)
 {
 	Value *v;
 	gchar *new, *dest, *src;
@@ -717,12 +756,15 @@ gnumeric_trim (struct FunctionDefinition *i, Value *argv [], char **error_string
 static char *help_value = {
 	N_("@FUNCTION=VALUE\n"
 	   "@SYNTAX=VALUE(text)\n"
-	   "@DESCRIPTION=Returns numeric value of @text\n"
+	   "@DESCRIPTION="
+	   "Returns numeric value of @text."
+	   "\n"
 	   "@SEEALSO=DOLLAR, FIXED, TEXT")
 };
 
 static Value *
-gnumeric_value (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_value (struct FunctionDefinition *i,
+		Value *argv [], char **error_string)
 /* FIXME: in Excel, VALUE("$1, 000") = 1000, and dates etc. supported */
 {
 	Value *v;
@@ -778,13 +820,17 @@ subs_string_free (struct subs_string *s)
 static char *help_substitute = {
 	N_("@FUNCTION=SUBSTITUTE\n"
 	   "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
-	   "@DESCRIPTION=Replaces @old with @new in @text.  Substitutions are only applied to "
-	   "instance @num of @old in @text, otherwise every one is changed.\n"
+	   "@DESCRIPTION="
+	   "Replaces @old with @new in @text.  Substitutions are only "
+	   "applied to instance @num of @old in @text, otherwise every "
+	   "one is changed."
+	   "\n"
 	   "@SEEALSO=REPLACE, TRIM")
 };
 
 static Value *
-gnumeric_substitute (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_substitute (struct FunctionDefinition *i,
+		     Value *argv [], char **error_string)
 {
 	Value *v;
 	gchar *text, *old, *new, *p ,*f;
@@ -848,19 +894,23 @@ gnumeric_substitute (struct FunctionDefinition *i, Value *argv [], char **error_
 static char *help_dollar = {
 	N_("@FUNCTION=DOLLAR\n"
 	   "@SYNTAX=DOLLAR(num,[decimals])\n"
-	   "@DESCRIPTION=Returns @num formatted as currency \n"
+	   "@DESCRIPTION="
+	   "Returns @num formatted as currency."
+	   "\n"
 	   "@SEEALSO=FIXED, TEXT, VALUE")
 };
 
 /* FIXME: should use lc->[pn]_sign_posn, mon_thousands_sep, negative_sign */
 static Value *
-gnumeric_dollar (struct FunctionDefinition *i, Value *argv [], char **error_string)
+gnumeric_dollar (struct FunctionDefinition *i,
+		 Value *argv [], char **error_string)
 {
 	Value *v, *ag [3];
 	guint len, neg;
 	gchar *s;
 
-	g_warning ("GNUMERIC_DOLLAR is broken, it should use the format_value routine");
+	g_warning ("GNUMERIC_DOLLAR is broken, it should use the "
+		   "format_value routine");
 	ag[0] = argv [0];
 	ag[1] = argv [1];
 	ag[2] = NULL;
@@ -890,32 +940,281 @@ gnumeric_dollar (struct FunctionDefinition *i, Value *argv [], char **error_stri
 	return v;
 }
 
+static char *help_search = {
+	N_("@FUNCTION=SEARCH\n"
+	   "@SYNTAX=SEARCH(text,within[,start_num])\n"
+	   "@DESCRIPTION="
+	   "Returns the location of a character or text string within "
+	   "another string.  @text is the string or character to be searched. "
+	   "@within is the string in which you want to search.  @start_num "
+	   "is the start position of the search in @within.  If @start_num "
+	   "is omitted, it is assumed to be one.  The search is not case "
+	   "sensitive. "
+	   "\n"
+	   "@text can contain wildcard characters (*) and question marks (?) "
+	   "to control the search.  A question mark matches with any "
+	   "character and wildcard matches with any string including empty "
+	   "string.  If you want the actual wildcard or question mark to "
+	   "be searched, use tilde (~) before the character. "
+	   "\n"
+	   "If @text is not found, SEARCH returns #VALUE! error. "
+	   "If @start_num is less than one or it is greater than the length "
+	   "of @within, SEARCH returns #VALUE! error. "
+	   "\n"
+	   "@SEEALSO=FIND")
+};
+
+typedef struct {
+        gchar    *str;
+        int      min_skip;
+        gboolean wildcard_prefix;
+} string_search_t;
+
+
+static int
+wildcards_and_question_marks(gchar *find_str, int *qmarks, int *wildcard)
+{
+        int pos, skip=0;
+
+	*wildcard = 0;
+	for (pos=0; find_str[pos]; pos++)
+	        if (find_str[pos] == '?')
+		        ++skip;
+	        else if (find_str[pos] == '*')
+		        *wildcard = 1;
+	        else
+		        break;
+	*qmarks = skip;
+
+	return pos;
+}
+
+
+/* Breaks the regular expression into a list of string and skip pairs.
+ */
+static GSList *
+parse_search_string(gchar *find_str)
+{
+        string_search_t *search_cond;
+        GSList          *conditions = NULL;
+	int             i, pos, qmarks;
+	gboolean        wildcard;
+        gchar           *buf, *p;
+
+	buf = g_new(gchar, strlen(find_str) + 1);
+	p = buf;
+	i = 0;
+	
+	pos = wildcards_and_question_marks(find_str, &qmarks, &wildcard);
+	wildcard = 1;
+	find_str += pos;
+	
+	while (*find_str) {
+	        if (*find_str == '~') {
+		        buf[i++] = *(++find_str);
+			find_str++;
+		} else if (*find_str == '?' || *find_str == '*') {
+		        buf[i] = '\0';
+			search_cond = g_new(string_search_t, 1);
+			search_cond->str = g_new(gchar, strlen(buf)+1);
+			strcpy(search_cond->str, buf);
+			search_cond->min_skip = qmarks;
+			search_cond->wildcard_prefix = wildcard;
+			conditions = g_slist_append(conditions, search_cond);
+			i = 0;
+			pos = wildcards_and_question_marks(find_str, &qmarks,
+							   &wildcard);
+			find_str += pos;
+		} else
+		        buf[i++] = *find_str++;
+	}
+	buf[i] = '\0';
+	search_cond = g_new(string_search_t, 1);
+	search_cond->str = g_new(gchar, strlen(buf)+1);
+	strcpy(search_cond->str, buf);
+	search_cond->min_skip = qmarks;
+	search_cond->wildcard_prefix = wildcard;
+	conditions = g_slist_append(conditions, search_cond);
+	
+	g_free(buf);
+
+	return conditions;
+}
+
+/* Returns 1 if a given condition ('cond') matches with 'str'.  'match_start'
+ * points to the beginning of the token found and 'match_end' points to the
+ * end of the token.
+ */
+static int
+match_string(gchar *str, string_search_t *cond, gchar **match_start, 
+	     gchar **match_end)
+{
+        gchar *p;
+
+        if (cond->min_skip > strlen(str))
+	        return 0;
+
+	if (*cond->str == '\0') {
+	         *match_start = str;
+		 *match_end = str+1;
+		 return 1;
+	}
+        p = strstr(str+cond->min_skip, cond->str);
+
+	/* Check no match case */
+	if (p == NULL)
+	        return 0;
+
+	/* Check if match in a wrong place and no wildcard */
+	if (! cond->wildcard_prefix && p > str+cond->min_skip)
+	        return 0;
+
+	/* Matches correctly */
+	*match_start = p-cond->min_skip;
+	*match_end = p+strlen(cond->str);
+
+	return 1;
+}
+
+static void
+free_all_after_search(GSList *conditions, gchar *text, gchar *within)
+{
+        GSList          *current;
+	string_search_t *current_cond;
+
+	current = conditions;
+	while (current != NULL) {
+	        current_cond = current->data;
+	        g_free(current_cond->str);
+		g_free(current_cond);
+		current = current->next;
+	}
+	g_slist_free(conditions);
+	g_free(text);
+	g_free(within);
+}
+
+static Value *
+gnumeric_search (struct FunctionDefinition *i,
+		 Value *argv [], char **error_string)
+{
+        GSList          *conditions, *current;
+	string_search_t *current_cond;
+        int             ret, start_num, within_len;
+	gchar           *text, *within, *match_str, *match_str_next;
+	gchar           *p_start, *p_end;
+
+	if (argv[2] == NULL)
+	        start_num = 0;
+	else
+	        start_num = value_get_as_int(argv[2]) - 1;
+
+	text = g_new(gchar, strlen(argv[0]->v.str->str) + 1);
+	within = g_new(gchar, strlen(argv[1]->v.str->str) + 1);
+	strcpy(text, argv[0]->v.str->str);
+	strcpy(within, argv[1]->v.str->str);
+	g_strdown(text);
+	g_strdown(within);
+	
+	within_len = strlen(within);
+
+	if (within_len <= start_num) {
+	        g_free(text);
+		g_free(within);
+		*error_string = _("#VALUE!");
+		return NULL;
+	}
+
+	conditions = parse_search_string(text);
+	if (conditions == NULL) {
+	        g_free(text);
+		g_free(within);
+		*error_string = _("#VALUE!");
+		return NULL;
+	}
+
+	match_str = within;
+
+match_again:
+	current = conditions;
+	current_cond = current->data;
+	ret = match_string(match_str, current_cond, &p_start, &p_end);
+	if (ret) {
+	        current = current->next;
+		if (current == NULL) {
+			free_all_after_search(conditions, text, within);
+			return value_new_int (p_start - within + 1);
+		}
+		current_cond = current->data;
+		match_str = p_start;
+		match_str_next = p_end;
+		while (match_string(p_end, current_cond, &p_start, &p_end)) {
+		        current = current->next;
+			if (current == NULL) {
+				free_all_after_search(conditions,
+						      text, within);
+				return value_new_int (match_str - within + 1);
+			}
+			current_cond = current->data;
+		}
+		match_str = match_str_next;
+		goto match_again;
+	}
+
+	free_all_after_search(conditions, text, within);
+	*error_string = _("#VALUE!");
+	return NULL;
+}
+
+
 FunctionDefinition string_functions [] = {
-	{ "char",       "f",    "number",            &help_char,       NULL, gnumeric_char },
-	{ "clean",      "s",    "text",              &help_clean,      NULL, gnumeric_clean },
-	{ "code",       "s",    "text",              &help_code,       NULL, gnumeric_code },
-	{ "concatenate",0,      "text1,text2",       &help_concatenate,gnumeric_concatenate, NULL },
-	{ "dollar",     "f|f",  "num,decimals",      &help_dollar,     NULL, gnumeric_dollar },
-	{ "exact",      "ss",   "text1,text2",       &help_exact,      NULL, gnumeric_exact },
-	{ "find",       "ss|f", "text1,text2,num",   &help_find,       NULL, gnumeric_find },
-	{ "fixed",      "f|fb", "num,decs,no_commas",&help_fixed,      NULL, gnumeric_fixed },
-	{ "left",       "s|f",  "text,num_chars",    &help_left,       NULL, gnumeric_left },
-	{ "len",        "s",    "text",              &help_len,        NULL, gnumeric_len },
-	{ "lower",      "s",    "text",              &help_lower,      NULL, gnumeric_lower },
-	{ "proper",     "s",    "text",              &help_proper,     NULL, gnumeric_proper },
-        { "mid",        "sff",  "text,pos,num",      &help_mid,        NULL, gnumeric_mid },
-	{ "replace",    "sffs", "old,start,num,new", &help_replace,    NULL, gnumeric_replace },
-	{ "rept",       "sf",   "text,num",          &help_rept,       NULL, gnumeric_rept },
-	{ "right",      "s|f",  "text,num_chars",    &help_right,      NULL, gnumeric_right },
-	{ "substitute", "sss|f","text,old,new,num",  &help_substitute, NULL, gnumeric_substitute },
-	{ "t",          "?",    "value",             &help_t,          NULL, gnumeric_t },
-	{ "trim",       "s",    "text",              &help_trim,       NULL, gnumeric_trim },
-	{ "upper",      "s",    "text",              &help_upper,      NULL, gnumeric_upper },
-	{ "value",      "s",    "text",              &help_value,      NULL, gnumeric_value },
+	{ "char",       "f",    "number",
+	  &help_char,       NULL, gnumeric_char },
+	{ "clean",      "s",    "text",
+	  &help_clean,      NULL, gnumeric_clean },
+	{ "code",       "s",    "text",
+	  &help_code,       NULL, gnumeric_code },
+	{ "concatenate",0,      "text1,text2", 
+	  &help_concatenate,gnumeric_concatenate, NULL },
+	{ "dollar",     "f|f",  "num,decimals",
+	  &help_dollar,     NULL, gnumeric_dollar },
+	{ "exact",      "ss",   "text1,text2",
+	  &help_exact,      NULL, gnumeric_exact },
+	{ "find",       "ss|f", "text1,text2,num",
+	  &help_find,       NULL, gnumeric_find },
+	{ "fixed",      "f|fb", "num,decs,no_commas",
+	  &help_fixed,      NULL, gnumeric_fixed },
+	{ "left",       "s|f",  "text,num_chars",
+	  &help_left,       NULL, gnumeric_left },
+	{ "len",        "s",    "text",
+	  &help_len,        NULL, gnumeric_len },
+	{ "lower",      "s",    "text",
+	  &help_lower,      NULL, gnumeric_lower },
+	{ "proper",     "s",    "text",
+	  &help_proper,     NULL, gnumeric_proper },
+        { "mid",        "sff",  "text,pos,num",
+	  &help_mid,        NULL, gnumeric_mid },
+	{ "replace",    "sffs", "old,start,num,new",
+	  &help_replace,    NULL, gnumeric_replace },
+	{ "rept",       "sf",   "text,num",
+          &help_rept,       NULL, gnumeric_rept },
+	{ "right",      "s|f",  "text,num_chars",
+	  &help_right,      NULL, gnumeric_right },
+	{ "search",     "ss|f",  "find,within[,start_num]",
+	  &help_search,     NULL, gnumeric_search },
+	{ "substitute", "sss|f","text,old,new,num",
+	  &help_substitute, NULL, gnumeric_substitute },
+	{ "t",          "?",    "value",
+	  &help_t,          NULL, gnumeric_t },
+	{ "trim",       "s",    "text",
+	  &help_trim,       NULL, gnumeric_trim },
+	{ "upper",      "s",    "text",
+	  &help_upper,      NULL, gnumeric_upper },
+	{ "value",      "s",    "text",
+	  &help_value,      NULL, gnumeric_value },
 	{ NULL, NULL },
 };
 
 /* Missing:
- * SEARCH(find, within, start) searches using wildcards
  * TEXT(number,format) formats number
  */
