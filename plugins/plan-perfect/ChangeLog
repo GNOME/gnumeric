@@ -1,3 +1,8 @@
+2000-01-01  Jody Goldberg <jgoldberg@home.com>
+
+	* pln.c (pln_parse_sheet) : Use value_empty and value_error where
+	  appropriate.
+
 1999-12-30  Jody Goldberg <jgoldberg@home.com>
 
 	* pln.c (pln_parse_sheet) : Begin returning error strings.

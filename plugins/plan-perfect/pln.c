@@ -801,16 +801,15 @@ g_warning("PLN : Record handling code for code %d not yet written", rcode);
 		switch (ctype & 7)
 		{
 		case 0:		/* Empty Cell */
+		case 6:		/* format only, no data in cell */
 			cell = sheet_cell_new(src->sheet, ccol, crow);
+			cell_set_value (cell, value_new_empty ());
 			break;
 
 		case 1:		/* Floating Point */
 			dvalue = pln_get_number(src->cur + 4);
-			svalue = g_strdup_printf("%f", dvalue);
 			cell = sheet_cell_new(src->sheet, ccol, crow);
-			cell_set_text_simple(cell, svalue);
-			g_free(svalue);
-
+			cell_set_value (cell, value_new_float (dvalue));
 			break;
 
 		case 2:		/* Short Text */
@@ -831,16 +830,14 @@ g_warning("PLN : Record handling code for code %d not yet written", rcode);
 
 		case 4:		/* Error Cell */
 			cell = sheet_cell_new(src->sheet, ccol, crow);
-			cell_set_text_simple(cell, "ERROR");
+			/* TODO : What to use as the eval position */
+			cell_set_value (cell, value_new_error (NULL, gnumeric_err_VALUE));
 			break;
 
 		case 5:		/* na Cell */
 			cell = sheet_cell_new(src->sheet, ccol, crow);
-			cell_set_text_simple(cell, "NA");
-			break;
-
-		case 6:		/* format only, no data in cell */
-			cell = sheet_cell_new(src->sheet, ccol, crow);
+			/* TODO : What to use as the eval position */
+			cell_set_value (cell, value_new_error (NULL, gnumeric_err_NA));
 			break;
 		}
 
