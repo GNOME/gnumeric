@@ -129,20 +129,6 @@
 	</widget>
 
 	<widget>
-	  <class>GtkCheckButton</class>
-	  <name>caps_lock</name>
-	  <can_focus>True</can_focus>
-	  <label>Correct accidental use of _cAPS LOCK key</label>
-	  <active>False</active>
-	  <draw_indicator>True</draw_indicator>
-	  <child>
-	    <padding>0</padding>
-	    <expand>False</expand>
-	    <fill>False</fill>
-	  </child>
-	</widget>
-
-	<widget>
 	  <class>GtkVBox</class>
 	  <name>vbox3</name>
 	  <homogeneous>False</homogeneous>

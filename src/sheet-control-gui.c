@@ -1765,7 +1765,7 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 				 scg->object_was_resized);
 		gnm_canvas_slide_stop (gcanvas);
 		scg->drag_object = NULL;
-		gnome_canvas_item_ungrab (ctrl_pt, event->button.time);
+		gnm_canvas_item_ungrab (ctrl_pt, event->button.time);
 		sheet_object_update_bounds (so, NULL);
 		break;
 
@@ -1775,7 +1775,7 @@ cb_control_point_event (GnomeCanvasItem *ctrl_pt, GdkEvent *event,
 		switch (event->button.button) {
 		case 1:
 		case 2: scg->drag_object = so;
-			gnome_canvas_item_grab (ctrl_pt,
+			gnm_canvas_item_grab (ctrl_pt,
 				GDK_POINTER_MOTION_MASK |
 				GDK_BUTTON_RELEASE_MASK,
 				NULL, event->button.time);
@@ -2142,10 +2142,10 @@ cb_sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event,
 			scg->drag_object = so;
 
 			/* grab the acetate */
-			gnome_canvas_item_grab (scg->control_points [8],
-						GDK_POINTER_MOTION_MASK |
-						GDK_BUTTON_RELEASE_MASK,
-						NULL, event->button.time);
+			gnm_canvas_item_grab (scg->control_points [8],
+				GDK_POINTER_MOTION_MASK |
+				GDK_BUTTON_RELEASE_MASK,
+				NULL, event->button.time);
 			scg->last_x = event->button.x;
 			scg->last_y = event->button.y;
 		} else

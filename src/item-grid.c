@@ -748,9 +748,8 @@ ig_obj_create_begin (ItemGrid *ig, GdkEventButton *event)
 
 	ig->selecting = ITEM_GRID_SELECTING_OBJECT_CREATION;
 	gnm_canvas_slide_init (gcanvas);
-	gnome_canvas_item_grab (item,
-		GDK_POINTER_MOTION_MASK |
-		GDK_BUTTON_RELEASE_MASK,
+	gnm_canvas_item_grab (item,
+		GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
 		NULL, event->time);
 
 	return TRUE;
@@ -798,11 +797,9 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 		else
 			scg_rangesel_bound (scg, col, row, col, row);
 		gnm_canvas_slide_init (gcanvas);
-		gnome_canvas_item_grab (item,
-					GDK_POINTER_MOTION_MASK |
-					GDK_BUTTON_RELEASE_MASK,
-					NULL,
-					event->time);
+		gnm_canvas_item_grab (item,
+			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
+			NULL, event->time);
 		return 1;
 	}
 
@@ -813,11 +810,9 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 		scg_rangesel_start (scg, col, row, col, row);
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		gnm_canvas_slide_init (gcanvas);
-		gnome_canvas_item_grab (item,
-					GDK_POINTER_MOTION_MASK |
-					GDK_BUTTON_RELEASE_MASK,
-					NULL,
-					event->time);
+		gnm_canvas_item_grab (item,
+			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
+			NULL, event->time);
 		return 1;
 	}
 
@@ -845,11 +840,9 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	sheet_update (sheet);
 
 	gnm_canvas_slide_init (gcanvas);
-	gnome_canvas_item_grab (item,
-				GDK_POINTER_MOTION_MASK |
-				GDK_BUTTON_RELEASE_MASK,
-				NULL,
-				event->time);
+	gnm_canvas_item_grab (item,
+		GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
+		NULL, event->time);
 	return 1;
 }
 
@@ -950,7 +943,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		};
 
 		ig->selecting = ITEM_GRID_NO_SELECTION;
-		gnome_canvas_item_ungrab (item, event->button.time);
+		gnm_canvas_item_ungrab (item, event->button.time);
 		return TRUE;
 
 	case GDK_MOTION_NOTIFY: {

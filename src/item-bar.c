@@ -712,11 +712,11 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 							 ib->is_col_header,
 							 ib->colrow_being_resized);
 
-				gnome_canvas_item_grab (item,
-							GDK_POINTER_MOTION_MASK |
-							GDK_BUTTON_RELEASE_MASK,
-							ib->change_cursor,
-							e->motion.time);
+				gnm_canvas_item_grab (item,
+					GDK_POINTER_MOTION_MASK |
+					GDK_BUTTON_RELEASE_MASK,
+					ib->change_cursor,
+					e->motion.time);
 			}
 
 			pos = (is_cols) ? x : y;
@@ -816,11 +816,11 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 
 			ib->start_selection = element;
 			gnm_canvas_slide_init (gcanvas);
-			gnome_canvas_item_grab (item,
-						GDK_POINTER_MOTION_MASK |
-						GDK_BUTTON_RELEASE_MASK,
-						ib->normal_cursor,
-						e->button.time);
+			gnm_canvas_item_grab (item,
+				GDK_POINTER_MOTION_MASK |
+				GDK_BUTTON_RELEASE_MASK,
+				ib->normal_cursor,
+				e->button.time);
 
 			scg_colrow_select (scg, is_cols,
 					   element, e->button.state);
@@ -864,7 +864,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 				item_bar_resize_stop (ib, 0);
 		}
 		if (needs_ungrab)
-			gnome_canvas_item_ungrab (item, e->button.time);
+			gnm_canvas_item_ungrab (item, e->button.time);
 		break;
 	}
 

@@ -650,7 +650,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		button = ic->drag_button;
 		ic->drag_button = -1;
-		gnome_canvas_item_ungrab (item, event->button.time);
+		gnm_canvas_item_ungrab (item, event->button.time);
 
 		scg_special_cursor_start (ic->scg, style, button);
 		special_cursor = gcanvas->pane->cursor.special;
@@ -695,11 +695,10 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (scg_special_cursor_bound_set (ic->scg, &ic->pos))
 			gnome_canvas_update_now (canvas);
 
-		gnome_canvas_item_grab (
+		gnm_canvas_item_grab (
 			GNOME_CANVAS_ITEM (special_cursor),
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK,
-			NULL,
-			event->button.time);
+			NULL, event->button.time);
 		gnm_canvas_slide_init (gcanvas);
 
 		/*
@@ -730,7 +729,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		 * long, and we do not want the mouse to be grabbed
 		 * all this time).
 		 */
-		gnome_canvas_item_ungrab (item, event->button.time);
+		gnm_canvas_item_ungrab (item, event->button.time);
 		gdk_flush ();
 
 		if (sheet_is_region_empty (sheet, &ic->pos))
@@ -858,11 +857,10 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		 * with race conditions when the new cursors pop into existence
 		 * during a double-click
 		 */
-		gnome_canvas_item_grab (
+		gnm_canvas_item_grab (
 			item,
 			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK,
-			NULL,
-			event->button.time);
+			NULL, event->button.time);
 
 		/* Be extra paranoid.  Ensure that the grab is registered */
 		gdk_flush ();
@@ -875,7 +873,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		/* Double clicks may have already released the drag prep */
 		if (ic->drag_button >= 0) {
 			ic->drag_button = -1;
-			gnome_canvas_item_ungrab (item, event->button.time);
+			gnm_canvas_item_ungrab (item, event->button.time);
 			gdk_flush ();
 		}
 		return TRUE;
@@ -1223,7 +1221,7 @@ item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 		/* Note : see comment below, and bug 30507 */
 		if ((int)event->button.button == ic->drag_button) {
 			gnm_canvas_slide_stop (GNUMERIC_CANVAS (item->canvas));
-			gnome_canvas_item_ungrab (item, event->button.time);
+			gnm_canvas_item_ungrab (item, event->button.time);
 			item_cursor_do_drop (ic, (GdkEventButton *) event);
 		}
 		return TRUE;
@@ -1297,7 +1295,7 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		 * immediately (the fill operation might take a while, and we
 		 * do not want the mouse to be grabbed the entire time).
 		 */
-		gnome_canvas_item_ungrab (item, event->button.time);
+		gnm_canvas_item_ungrab (item, event->button.time);
 		gdk_flush ();
 
 		inverse_autofill = (ic->pos.start.col < ic->base.col ||

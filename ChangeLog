@@ -1,3 +1,31 @@
+2001-12-17  Jody Goldberg <jody@gnome.org>
+
+
+	* src/item-grid.c (item_grid_event) : use the Gnumeric Canvas versions
+	  of grab/ungrab.
+	(ig_obj_create_begin) : ditto.
+	(item_grid_button_1) : ditto.
+	* src/item-bar.c (item_bar_event) : ditto.
+	* src/item-cursor.c (item_cursor_selection_event) : ditto.
+	(item_cursor_drag_event) : ditto.
+	(item_cursor_autofill_event) : ditto.
+	* src/sheet-control-gui.c (cb_control_point_event) : ditto.
+
+	* src/gnumeric-canvas.c (gnm_canvas_item_ungrab) : new.
+	(gnm_canvas_item_grab) : new.
+	(gnm_canvas_key_press) : silently absorb keypress events during mouse
+	  grabs.  This help protect against users using accelerators while
+	  grabbing.  If the accelerator command brought up a dialog we lost
+	  the release event, resulting in a dangling mouse grab.
+	(gnm_canvas_key_release) : ditto.
+
+2001-12-17  Jody Goldberg <jody@gnome.org>
+
+	* src/auto-correct.c (autocorrect_tool) : remove mis-implemented
+	  'caps-lock' feature.  XL checks while you are typing and notices the
+	  use of Shift in conjunction with Caps-Lock, and switches off
+	  Caps-Lock.
+
 2001-12-16  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : Post release version bump

@@ -7,7 +7,6 @@ typedef enum {
 	AC_INIT_CAPS,
 	AC_FIRST_LETTER,
 	AC_NAMES_OF_DAYS,
-	AC_CAPS_LOCK,
 	AC_REPLACE,
 	AC_MAX_FEATURE
 } AutoCorrectFeature;

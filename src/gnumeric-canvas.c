@@ -371,6 +371,9 @@ gnm_canvas_key_press (GtkWidget *widget, GdkEventKey *event)
 	SheetControlGUI *scg = gcanvas->scg;
 	gboolean res;
 
+	if (gcanvas->grab_stack > 0)
+		return TRUE;
+
 	if (scg->current_object != NULL || scg->new_object != NULL)
 		res = gnm_canvas_key_mode_object (gcanvas, event);
 	else
@@ -394,6 +397,9 @@ gnm_canvas_key_release (GtkWidget *widget, GdkEventKey *event)
 {
 	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (widget);
 	SheetControl *sc = (SheetControl *) gcanvas->scg;
+
+	if (gcanvas->grab_stack > 0)
+		return TRUE;
 
 	/*
 	 * The status_region normally displays the current edit_pos
@@ -671,6 +677,7 @@ gnumeric_canvas_new (SheetControlGUI *scg, GnumericPane *pane)
 
 	gcanvas->scg = scg;
 	gcanvas->pane = pane;
+	gcanvas->grab_stack = 0;
 
 	/* FIXME: figure out some real size for the canvas scrolling region */
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (gcanvas), 0, 0,
@@ -1287,4 +1294,23 @@ gnm_canvas_slide_init (GnumericCanvas *gcanvas)
 	gcanvas->sliding_adjacent_v = (gcanvas3 != NULL)
 		? (gcanvas3->last_full.row == (gcanvas0->first.row - 1))
 		: FALSE;
+}
+
+int
+gnm_canvas_item_grab (GnomeCanvasItem *item, unsigned int event_mask,
+		      GdkCursor *cursor, guint32 etime)
+{
+	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (item->canvas);
+	g_return_if_fail (gcanvas != NULL);
+	gcanvas->grab_stack++;
+	gnome_canvas_item_grab (item, event_mask, cursor, etime);
+}
+
+void
+gnm_canvas_item_ungrab (GnomeCanvasItem *item, guint32 etime)
+{
+	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (item->canvas);
+	g_return_if_fail (gcanvas != NULL);
+	gcanvas->grab_stack--;
+	gnome_canvas_item_ungrab (item, etime);
 }

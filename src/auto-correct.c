@@ -20,7 +20,6 @@ static struct {
 	gboolean init_caps	: 1;
 	gboolean first_letter	: 1;
 	gboolean names_of_days	: 1;
-	gboolean caps_lock	: 1;
 	gboolean replace	: 1;
 
 	struct {
@@ -36,7 +35,6 @@ autocorrect_init (void)
 	autocorrect.init_caps = gnome_config_get_bool ("init_caps=true");
 	autocorrect.first_letter = gnome_config_get_bool ("first_letter=true");
 	autocorrect.names_of_days = gnome_config_get_bool ("names_of_days=true");
-	autocorrect.caps_lock = gnome_config_get_bool ("caps_lock=true");
 	autocorrect.replace = gnome_config_get_bool ("replace=true");
 	gnome_config_pop_prefix ();
 
@@ -52,7 +50,6 @@ autocorrect_store_config (void)
 	gnome_config_set_bool ("init_caps", autocorrect.init_caps);
 	gnome_config_set_bool ("first_letter", autocorrect.first_letter);
 	gnome_config_set_bool ("names_of_days", autocorrect.names_of_days);
-	gnome_config_set_bool ("caps_lock", autocorrect.caps_lock);
 	gnome_config_set_bool ("replace", autocorrect.replace);
 	gnome_config_pop_prefix ();
 }
@@ -64,7 +61,6 @@ autocorrect_get_feature (AutoCorrectFeature feature)
 	case AC_INIT_CAPS :	return autocorrect.init_caps;
 	case AC_FIRST_LETTER :	return autocorrect.first_letter;
 	case AC_NAMES_OF_DAYS :	return autocorrect.names_of_days;
-	case AC_CAPS_LOCK :	return autocorrect.caps_lock;
 	case AC_REPLACE :	return autocorrect.replace;
 	default :
 		g_warning ("Invalid autocorrect feature %d.", feature);
@@ -79,7 +75,6 @@ autocorrect_set_feature (AutoCorrectFeature feature, gboolean val)
 	case AC_INIT_CAPS :	autocorrect.init_caps = val;	break;
 	case AC_FIRST_LETTER :	autocorrect.first_letter = val;	break;
 	case AC_NAMES_OF_DAYS :	autocorrect.names_of_days = val;break;
-	case AC_CAPS_LOCK :	autocorrect.caps_lock = val;	break;
 	case AC_REPLACE :	autocorrect.replace = val;	break;
 	default :
 		g_warning ("Invalid autocorrect feature %d.", feature);
@@ -191,16 +186,6 @@ autocorrect_tool (char const *command)
 					*s = toupper (*s);
 			} while (s != NULL);
 		}
-
-	if (autocorrect.caps_lock)
-		if (len > 1 && islower (ucommand[0]) && isupper (ucommand[1]))
-			for (i = 0; i < len; i++)
-				if (isalpha (ucommand[i])) {
-					if (isupper (ucommand[i]))
-						ucommand[i] = tolower (ucommand[i]);
-					else
-						ucommand[i] = toupper (ucommand[i]);
-				}
 
 	return ucommand;
 }

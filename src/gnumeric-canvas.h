@@ -22,6 +22,8 @@ struct _GnumericCanvas {
 	GnomeCanvasGroup *anted_group;
 	GnomeCanvasGroup *object_group;
 
+	int grab_stack;
+
 	/* Input context for dead key support */
 	GdkIC     *ic;
 	GdkICAttr *ic_attr;
@@ -61,5 +63,9 @@ gboolean gnm_canvas_handle_motion	(GnumericCanvas *gsheet,
 					 GnumericSlideFlags slide_flags,
 					 GnumericCanvasSlideHandler callback,
 					 gpointer user_data);
+
+int  gnm_canvas_item_grab   (GnomeCanvasItem *item, unsigned int event_mask,
+			     GdkCursor *cursor, guint32 etime);
+void gnm_canvas_item_ungrab (GnomeCanvasItem *item, guint32 etime);
 
 #endif /* GNUMERIC_GNUMERIC_CANVAS_H */

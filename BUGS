@@ -11,6 +11,9 @@ Pending Patches
 ---------------
 
     libole2 + vfs support.
+    Yukihiro's multibyte stf patch
+    Yukihiro's IM support
+    The dbf patch
 
 Pre 1.0 breakage
 ------------------
@@ -27,10 +30,10 @@ Pre 1.0 breakage
       * test for unicode
     : Check scoping changes.
 
+- Check ref vs link support for validation.
+
 Long term breakage
 ------------------
-
-- xml-io::Context::parent ???
 
 - Audit all fixed-length buffers.  Most non-time-critical can be replaced
   by proper usage of g_strdup_printf.

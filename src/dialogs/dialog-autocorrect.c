@@ -226,7 +226,6 @@ dialog_init (AutoCorrectState *state)
 	ac_dialog_toggle_init (state, "init_caps",     AC_INIT_CAPS);
 	ac_dialog_toggle_init (state, "first_letter",  AC_FIRST_LETTER);
 	ac_dialog_toggle_init (state, "names_of_days", AC_NAMES_OF_DAYS);
-	ac_dialog_toggle_init (state, "caps_lock",     AC_CAPS_LOCK);
 	ac_dialog_toggle_init (state, "replace_text",  AC_REPLACE);
 
         button = glade_xml_get_widget (state->glade, "help_button");
