@@ -511,6 +511,9 @@ xml2ParseSheet (XML2ParseState *state, CHAR const **attrs)
 {
 	int tmp;
 
+	if (attrs == NULL)
+		return;
+
 	for (; attrs[0] && attrs[1] ; attrs += 2)
 		if (xml2ParseAttrInt (attrs, "DisplayFormulas", &tmp))
 			state->sheet->display_formulas = tmp;
@@ -1096,12 +1099,12 @@ xml2UnknownState (XML2ParseState *state, CHAR const *name)
 /*
  * We parse and do some limited validation of the XML file, if this
  * passes, then we return TRUE
- */
 gboolean
 xml2_file_probe (FileOpener const *fo, const gchar *file_name)
 {
 	return TRUE;
 }
+ */
 
 static void
 xml2StartElement (XML2ParseState *state, CHAR const *name, CHAR const **attrs)

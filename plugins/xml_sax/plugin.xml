@@ -6,12 +6,8 @@
 		<attribute name="module_file" value="xml2.so"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="xml2" priority="1" probe="TRUE">
+		<service type="file_opener" id="xml2" priority="1" probe="FALSE">
 			<information description="EXPERIMENTAL Gnumeric (*.gnumeric) XML based file format"/>
-			<file_patterns>
-				<file_pattern type="shell_pattern" value="*.gnumeric"/>
-				<file_pattern type="shell_pattern" value="*.xml"/>
-			</file_patterns>
 			<save_info saver_id="" format_level="manual_remember"/>
 		</service>
 	</services>

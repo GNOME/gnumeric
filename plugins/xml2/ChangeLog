@@ -1,3 +1,11 @@
+2001-04-09  Jody Goldberg <jgoldberg@home.com>
+
+	* xml2.c (xml2ParseSheet) : support no args.  this should be handled
+	  more generally.
+
+	* plugin.xml : Add .xml.gz, and disable probe so that it can be used
+	  as an importer while it is experimental.
+
 2001-03-17  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.64
