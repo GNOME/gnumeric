@@ -151,7 +151,8 @@ ms_biff_query_destroy (BiffQuery *bq)
 /*                                 Write Side                                  */
 /*******************************************************************************/
 
-#define MAX_LIKED_BIFF_LEN 0x2000
+#define MAX_BIFF7_RECORD_SIZE 0x820
+/* #define MAX_BIFF8_RECORD_SIZE 0x2020 */
 
 /* Sets up a record on a stream */
 BiffPut *
@@ -189,7 +190,7 @@ ms_biff_put_len_next (BiffPut *bp, guint16 opcode, guint32 len)
 	g_return_val_if_fail (bp, 0);
 	g_return_val_if_fail (bp->pos, 0);
 	g_return_val_if_fail (bp->data == NULL, 0);
-	g_return_val_if_fail (len < MAX_LIKED_BIFF_LEN, 0);
+	g_return_val_if_fail (len < MAX_BIFF7_RECORD_SIZE, 0);
 
 #if BIFF_DEBUG > 0
 	printf ("Biff put len 0x%x\n", opcode);
@@ -295,7 +296,7 @@ ms_biff_put_len_commit (BiffPut *bp)
 	g_return_if_fail (bp->pos != NULL);
 	g_return_if_fail (bp->len_fixed);
 	g_return_if_fail (bp->length == 0 || bp->data);
-	g_return_if_fail (bp->length < MAX_LIKED_BIFF_LEN);
+	g_return_if_fail (bp->length < MAX_BIFF7_RECORD_SIZE);
 
 /*	if (!bp->data_malloced) Unimplemented optimisation
 		bp->pos->lseek (bp->pos, bp->length, MsOleSeekCur);
@@ -319,4 +320,10 @@ ms_biff_put_commit (BiffPut *bp)
 		ms_biff_put_len_commit (bp);
 	else
 		ms_biff_put_var_commit (bp);
+}
+
+unsigned
+ms_biff_max_record_len (BiffPut const *bp)
+{
+	return MAX_BIFF7_RECORD_SIZE; /* 1.0.x lacks a version in the bp */
 }

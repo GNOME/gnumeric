@@ -533,7 +533,9 @@ write_mergecells (BiffPut *bp, MsBiffVersion ver, ExcelSheet *esheet)
 {
 	guint8 *record, *ptr;
 	GSList *merged;
-	guint16 len = 0;
+	guint16 len;
+	int remainder = 0;
+	int const max_records = (ms_biff_max_record_len (bp) - 2) / 8;
 
 	/* Find the set of regions that we can safely export */
 	for (merged = esheet->gnum_sheet->list_merged; merged != NULL ; merged = merged->next) {
@@ -541,30 +543,35 @@ write_mergecells (BiffPut *bp, MsBiffVersion ver, ExcelSheet *esheet)
 		Range const *r = merged->data;
 		if (r->start.row <= USHRT_MAX && r->end.row <= USHRT_MAX &&
 		    r->start.col <= UCHAR_MAX && r->end.col <= UCHAR_MAX)
-			len++;
+			remainder++;
 	}
 
 	/* Do not even write the record if there are no merged regions */
-	if (len <= 0)
+	if (remainder <= 0)
 		return;
 
-	record = ms_biff_put_len_next (bp, BIFF_MERGECELLS, 2+8*len);
-	MS_OLE_SET_GUINT16 (record, len);
+	merged = esheet->gnum_sheet->list_merged;
 
-	ptr = record + 2;
-	for (merged = esheet->gnum_sheet->list_merged; merged != NULL ; merged = merged->next) {
-		Range const *r = merged->data;
-		if (r->start.row <= USHRT_MAX && r->end.row <= USHRT_MAX &&
-		    r->start.col <= UCHAR_MAX && r->end.col <= UCHAR_MAX) {
-			MS_OLE_SET_GUINT16 (ptr+0, r->start.row);
-			MS_OLE_SET_GUINT16 (ptr+2, r->end.row);
-			MS_OLE_SET_GUINT16 (ptr+4, r->start.col);
-			MS_OLE_SET_GUINT16 (ptr+6, r->end.col);
-			ptr += 8;
+	for (; remainder > 0 ; remainder -= max_records) {
+		len = (remainder > max_records) ? max_records : remainder;
+
+		record = ms_biff_put_len_next (bp, BIFF_MERGECELLS, 2+8*len);
+		MS_OLE_SET_GUINT16 (record, len);
+
+		ptr = record + 2;
+		for (; merged != NULL && len-- > 0 ; merged = merged->next) {
+			Range const *r = merged->data;
+			if (r->start.row <= USHRT_MAX && r->end.row <= USHRT_MAX &&
+			    r->start.col <= UCHAR_MAX && r->end.col <= UCHAR_MAX) {
+				MS_OLE_SET_GUINT16 (ptr+0, r->start.row);
+				MS_OLE_SET_GUINT16 (ptr+2, r->end.row);
+				MS_OLE_SET_GUINT16 (ptr+4, r->start.col);
+				MS_OLE_SET_GUINT16 (ptr+6, r->end.col);
+				ptr += 8;
+			}
 		}
+		ms_biff_put_commit (bp);
 	}
-
-	ms_biff_put_commit (bp);
 }
 
 static void

@@ -77,5 +77,7 @@ void           ms_biff_put_var_seekto (BiffPut *, MsOlePos pos);
 /* Must commit after each record */
 void           ms_biff_put_commit     (BiffPut *);
 
+unsigned ms_biff_max_record_len (BiffPut const *bp);
 void dump_biff (BiffQuery *bq);
+
 #endif
