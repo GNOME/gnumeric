@@ -1,3 +1,19 @@
+2000-10-27 Ariel Rios  <ariel@arcavia.com>
+
+	* guile-support.c (gnumeric_list2scm): Translates GList into SCM ls.
+	(gnumeric_scm2list): Translates SCM ls into GList
+	(value_to_scm): Moved here from plugin.c
+	(scm_to_value): Ditto.
+	(expr_to_scm): Ditto.
+	(list_to_scm): Ditto. 
+	(cell_ref_to_scm): Ditto.
+	(scm_to_cell_ref): Ditto.
+	* guile-support.h (gnumeric_list2scm): Add prototype.
+	(gnumeric_scm2list, value_to_scm, scm_to_value, expr_to_scm,
+	list_to_scm, cell_ref_to_scm, scm_to_cell_ref): Ditto
+	* plugin.c: Removed functions. Include guile-support.h
+	* Makefile.am: Add guile-support.c
+
 2000-10-27  Ariel Rios  <ariel@arcavia.com>
 
 	* plugin.c (list_to_scm): Removed
