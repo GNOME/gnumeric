@@ -195,66 +195,62 @@ gnum_plugin_file_opener_init (GnumPluginFileOpener *fo)
 }
 
 static gboolean
-gnum_plugin_file_opener_probe (GnumFileOpener const *fo, const gchar *file_name)
+gnum_plugin_file_opener_probe (GnumFileOpener const *fo, const gchar *file_name,
+                               FileProbeLevel pl)
 {
 	GnumPluginFileOpener *pfo;
 	PluginServiceFileOpener *service_file_opener;
-	gboolean file_name_matches;
 	gchar *base_file_name = g_basename (file_name);
-	GList *l;
 
 	g_return_val_if_fail (IS_GNUM_PLUGIN_FILE_OPENER (fo), FALSE);
 	g_return_val_if_fail (file_name != NULL, FALSE);
 
 	pfo = GNUM_PLUGIN_FILE_OPENER (fo);
 	service_file_opener = &pfo->service->t.file_opener;
-	file_name_matches = FALSE;
-	for (l = service_file_opener->file_patterns; l != NULL; l = l->next) {
-		InputFilePattern *pattern;
 
-		pattern = (InputFilePattern *) l->data;
-		switch (pattern->pattern_type) {
-		case FILE_PATTERN_SHELL: {
-			if (pattern->case_sensitive) {
-				if (fnmatch (pattern->value, base_file_name, FNM_PATHNAME) == 0) {
-					file_name_matches = TRUE;
+	if (pl == FILE_PROBE_FILE_NAME && service_file_opener->file_patterns != NULL) {
+		gboolean match = FALSE;
+		GList *l;
+
+		for (l = service_file_opener->file_patterns; l != NULL && !match; l = l->next) {
+			InputFilePattern *pattern = l->data;
+
+			if (pattern->pattern_type == FILE_PATTERN_SHELL) {
+				if (pattern->case_sensitive) {
+					match = fnmatch (pattern->value, base_file_name, FNM_PATHNAME) == 0;
+				} else {
+					gchar *pattern_str, *name_str;
+
+					pattern_str = g_alloca (strlen (pattern->value) + 1);
+					name_str = g_alloca (strlen (base_file_name) + 1);
+					g_strdown (strcpy (pattern_str, pattern->value));
+					g_strdown (strcpy (name_str, base_file_name));
+					match = fnmatch (pattern_str, name_str, FNM_PATHNAME) == 0;
 				}
+			} else if (pattern->pattern_type == FILE_PATTERN_REGEXP) {
+				g_warning ("Not implemented");
 			} else {
-				gchar *pattern_str, *name_str;
-
-				pattern_str = g_alloca (strlen (pattern->value) + 1);
-				name_str = g_alloca (strlen (base_file_name) + 1);
-				g_strdown (strcpy (pattern_str, pattern->value));
-				g_strdown (strcpy (name_str, base_file_name));
-				if (fnmatch (pattern_str, name_str, FNM_PATHNAME) == 0) {
-					file_name_matches = TRUE;
-				}
-			}
-			break;
+				g_assert_not_reached ();
+			}	
 		}
-		case FILE_PATTERN_REGEXP:
-			g_warning ("Not implemented");
-			break;
-		default:
-			g_assert_not_reached ();
-		}	
+
+		return match;
 	}
 
-	if (service_file_opener->has_probe &&
-	    (service_file_opener->file_patterns == NULL || file_name_matches)) {
+	if (service_file_opener->has_probe) {
 		ErrorInfo *ignored_error;
 
 		plugin_service_load (pfo->service, &ignored_error);
 		if (ignored_error == NULL) {
 			g_return_val_if_fail (service_file_opener->plugin_func_file_probe != NULL, FALSE);
-			return service_file_opener->plugin_func_file_probe (fo, pfo->service, file_name);
+			return service_file_opener->plugin_func_file_probe (fo, pfo->service, file_name, pl);
 		} else {
 			error_info_print (ignored_error);
 			error_info_free (ignored_error);
 			return FALSE;
 		}
 	} else {
-		return file_name_matches;
+		return FALSE;
 	}
 }
 

@@ -708,13 +708,16 @@ wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
 
 		/* Search for an applicable opener */
 		if (fo == NULL) {
+			FileProbeLevel pl;
 			GList *l;
 
-			for (l = get_file_openers (); l != NULL; l = l->next) {
-				GnumFileOpener const *tmp_fo = GNUM_FILE_OPENER (l->data);
-				if (gnum_file_opener_probe (tmp_fo, file_name)) {
-					fo = tmp_fo;
-					break;
+			for (pl = FILE_PROBE_FILE_NAME; pl < FILE_PROBE_LAST && fo == NULL; pl++) {
+				for (l = get_file_openers (); l != NULL; l = l->next) {
+					GnumFileOpener const *tmp_fo = GNUM_FILE_OPENER (l->data);
+					if (gnum_file_opener_probe (tmp_fo, file_name, pl)) {
+						fo = tmp_fo;
+						break;
+					}
 				}
 			}
 		}

@@ -20,6 +20,23 @@ typedef enum {
 } FileFormatLevel;
 
 /*
+ * File probe level tells file opener (its probe method to be exact), how
+ * hard it should try to recognize the type of the file. File openers may
+ * ignore this or support only some probe levels, but if specifies
+ * "reccomened" behaviour.
+ * Before opening any file we detect its type by calling probe for
+ * every registered file opener (in order of priority) and passing
+ * FILE_PROBE_FILE_NAME as probe level. If none of them recogizes the file,
+ * we increase probe level and try again...
+ */
+typedef enum {
+	FILE_PROBE_FILE_NAME,    /* Test only file name, don't read file contents */
+	FILE_PROBE_CONTENT_FAST, /* Read only small parts of the file */
+	FILE_PROBE_CONTENT_FULL, /* Read the whole file if it's necessary */
+	FILE_PROBE_LAST
+} FileProbeLevel;
+
+/*
  * GnumFileOpener
  */
 
@@ -28,12 +45,11 @@ typedef struct _GnumFileOpenerClass GnumFileOpenerClass;
 
 #define TYPE_GNUM_FILE_OPENER             (gnum_file_opener_get_type ())
 #define GNUM_FILE_OPENER(obj)             (GTK_CHECK_CAST ((obj), TYPE_GNUM_FILE_OPENER, GnumFileOpener))
-#define GNUM_FILE_OPENER_CLASS(klass)     (GTK_CHECK_CLASS_CAST ((klass), TYPE_GNUM_FILE_OPENER, GnumFileOpenerClass))
 #define IS_GNUM_FILE_OPENER(obj)          (GTK_CHECK_TYPE ((obj), TYPE_GNUM_FILE_OPENER))
-#define IS_GNUM_FILE_OPENER_CLASS(klass)  (GTK_CHECK_CLASS_TYPE ((klass), TYPE_GNUM_FILE_OPENER))
 
 typedef gboolean (*GnumFileOpenerProbeFunc) (GnumFileOpener const *fo,
-                                             const gchar *file_name);
+                                             const gchar *file_name,
+                                             FileProbeLevel pl);
 typedef void     (*GnumFileOpenerOpenFunc) (GnumFileOpener const *fo,
                                             IOContext *io_context,
                                             WorkbookView *wbv,
@@ -46,7 +62,8 @@ GnumFileOpener *gnum_file_opener_new (const gchar *id,
                                       GnumFileOpenerProbeFunc probe_func,
                                       GnumFileOpenerOpenFunc open_func);
 
-gboolean     gnum_file_opener_probe (GnumFileOpener const *fo, const gchar *file_name);
+gboolean     gnum_file_opener_probe (GnumFileOpener const *fo, const gchar *file_name,
+                                     FileProbeLevel pl);
 void         gnum_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
                                     WorkbookView *wbv, const gchar *file_name);
 const gchar *gnum_file_opener_get_id (GnumFileOpener const *fo);
@@ -61,9 +78,7 @@ typedef struct _GnumFileSaverClass GnumFileSaverClass;
 
 #define TYPE_GNUM_FILE_SAVER             (gnum_file_saver_get_type ())
 #define GNUM_FILE_SAVER(obj)             (GTK_CHECK_CAST ((obj), TYPE_GNUM_FILE_SAVER, GnumFileSaver))
-#define GNUM_FILE_SAVER_CLASS(klass)     (GTK_CHECK_CLASS_CAST ((klass), TYPE_GNUM_FILE_SAVER, GnumFileSaverClass))
 #define IS_GNUM_FILE_SAVER(obj)          (GTK_CHECK_TYPE ((obj), TYPE_GNUM_FILE_SAVER))
-#define IS_GNUM_FILE_SAVER_CLASS(klass)  (GTK_CHECK_CLASS_TYPE ((klass), TYPE_GNUM_FILE_SAVER))
 
 typedef void (*GnumFileSaverSaveFunc) (GnumFileSaver const *fs,
                                        IOContext *io_context,

@@ -3110,14 +3110,18 @@ xml_workbook_read (IOContext *context, WorkbookView *wb_view,
  * passes, then we return TRUE
  */
 static gboolean
-xml_probe (GnumFileOpener const *fo, const gchar *filename)
+xml_probe (GnumFileOpener const *fo, const gchar *filename, FileProbeLevel pl)
 {
-        int ret;
+	int ret;
 	xmlDocPtr res = NULL;
 	xmlNsPtr gmr;
 	xmlParserCtxtPtr ctxt;
 	xmlSAXHandler silent, *old;
 	GnumericXMLVersion version;
+
+	if (pl == FILE_PROBE_FILE_NAME) {
+		return strcmp (g_extension_pointer (filename), "gnumeric") == 0;
+	}
 
 	/*
 	 * Do a silent call to the XML parser.

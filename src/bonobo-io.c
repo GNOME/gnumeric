@@ -502,7 +502,8 @@ gnumeric_bonobo_read_workbook (GnumFileOpener const *fo,
 }
 
 static gboolean
-gnumeric_bonobo_io_probe (GnumFileOpener const *fo, const char *filename)
+gnumeric_bonobo_io_probe (GnumFileOpener const *fo, const char *filename,
+                          FileProbeLevel pl)
 {
 	char *p;
 

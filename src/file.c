@@ -49,13 +49,14 @@ gnum_file_opener_destroy (GtkObject *obj)
 }
 
 static gboolean
-gnum_file_opener_probe_real (GnumFileOpener const *fo, const gchar *file_name)
+gnum_file_opener_probe_real (GnumFileOpener const *fo, const gchar *file_name,
+                             FileProbeLevel pl)
 {
 	if (fo->probe_func == NULL) {
 		return FALSE;
 	}
 
-	return fo->probe_func (fo, file_name);
+	return fo->probe_func (fo, file_name, pl);
 }
 
 static void
@@ -163,12 +164,12 @@ gnum_file_opener_get_description (GnumFileOpener const *fo)
  *               otherwise.
  */
 gboolean
-gnum_file_opener_probe (GnumFileOpener const *fo, const gchar *file_name)
+gnum_file_opener_probe (GnumFileOpener const *fo, const gchar *file_name, FileProbeLevel pl)
 {
 	g_return_val_if_fail (IS_GNUM_FILE_OPENER (fo), FALSE);
 	g_return_val_if_fail (file_name != NULL, FALSE);
 
-	return GNUM_FILE_OPENER_METHOD (fo, probe) (fo, file_name);
+	return GNUM_FILE_OPENER_METHOD (fo, probe) (fo, file_name, pl);
 }
 
 /**

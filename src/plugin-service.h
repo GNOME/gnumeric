@@ -41,7 +41,7 @@ struct _PluginServiceFileOpener {
 	GnumFileOpener *opener;
 	/* fields available after loading */
 	gboolean (*plugin_func_file_probe) (GnumFileOpener const *fo, PluginService *service,
-	                                    const gchar *file_name);
+	                                    const gchar *file_name, FileProbeLevel pl);
 	void (*plugin_func_file_open) (GnumFileOpener const *fo, PluginService *service,
 	                               IOContext *io_context, WorkbookView *wbv,
 	                               const gchar *file_name);

@@ -1,3 +1,42 @@
+2001-05-29  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/file.h
+	(typedef enum FileProbeLevel) New.
+	(typedef GnumFileOpenerProbeFunc, gnum_file_opener_probe): Added
+	FileProbeLevel argument.
+	(GNUM_FILE_OPENER_CLASS, IS_GNUM_FILE_OPENER_CLASS,
+	GNUM_FILE_SAVER_CLASS, IS_GNUM_FILE_SAVER_CLASS):
+	Macros moved to file-priv.h.
+
+	* src/file-priv.h
+	(struct _GnumFileOpenerClass::probe): 
+	(GNUM_FILE_OPENER_CLASS, IS_GNUM_FILE_OPENER_CLASS,
+	GNUM_FILE_SAVER_CLASS, IS_GNUM_FILE_SAVER_CLASS):
+	Macros moved from file.h.
+
+	* src/file.c
+	(gnum_file_opener_probe_real, gnum_file_opener_probe): 
+	Added FileProbeLevel argument.
+
+	* src/workbook-view.c
+	(wb_view_open_custom): Iterate over FileProbeLevel values when probing
+	the file (passing current value to probe function).
+
+	* src/xml-io.c
+	(xml_probe): Added FileProbeLevel argument, testing only file name if
+	probe level == FILE_PROBE_FILE_NAME.
+
+	* src/plugin-service.c (gnum_plugin_file_opener_probe):
+	Use file_patterns only if probe level == FILE_PROBE_FILE_NAME, otherwise
+	call module's probe function.
+
+	* src/bonobo-io.c (gnumeric_bonobo_io_probe),
+	src/plugin-service.h (struct _PluginServiceFileOpener),
+	src/plugin-loader-module.c
+	(gnumeric_plugin_loader_module_func_file_probe,
+	struct ServiceLoaderDataFileOpener::module_func_file_probe):
+	Added FileProbeLevel argument.
+
 2001-05-27  Jody Goldberg <jgoldberg@home.com>
 	From Juan Pablo Mendoza <pablo_juan@yahoo.com>
 

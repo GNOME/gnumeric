@@ -13,6 +13,7 @@
 #include <gnome-xml/parserInternals.h>
 #include <gnome-xml/xmlmemory.h>
 #include "gnumeric.h"
+#include "file.h"
 #include "plugin.h"
 #include "plugin-service.h"
 #include "plugin-loader.h"
@@ -351,14 +352,15 @@ gnumeric_plugin_loader_module_load_service_general (GnumericPluginLoader *loader
  */
 
 typedef struct {
-	gboolean (*module_func_file_probe) (GnumFileOpener const *fo, const gchar *file_name);
+	gboolean (*module_func_file_probe) (GnumFileOpener const *fo, const gchar *file_name,
+	                                    FileProbeLevel pl);
 	void (*module_func_file_open) (GnumFileOpener const *fo, IOContext *io_context,
 	                               WorkbookView *wbv, const gchar *filename);
 } ServiceLoaderDataFileOpener;
 
 static gboolean
 gnumeric_plugin_loader_module_func_file_probe (GnumFileOpener const *fo, PluginService *service,
-                                               const gchar *file_name)
+                                               const gchar *file_name, FileProbeLevel pl)
 {
 	ServiceLoaderDataFileOpener *loader_data;
 
@@ -366,7 +368,7 @@ gnumeric_plugin_loader_module_func_file_probe (GnumFileOpener const *fo, PluginS
 	g_return_val_if_fail (file_name != NULL, FALSE);
 
 	loader_data = (ServiceLoaderDataFileOpener *) plugin_service_get_loader_data (service);
-	return loader_data->module_func_file_probe (fo, file_name);
+	return loader_data->module_func_file_probe (fo, file_name, pl);
 }
 
 static void
