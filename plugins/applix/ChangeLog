@@ -1,3 +1,7 @@
+2002-02-22  Jon K Hellan  <hellan@acm.org>
+
+	* applix-write.c (applix_save): Rename to applix_write.
+
 2002-02-21  Morten Welinder <terra@diku.dk>
 
 	* applix-read.c (applix_parse_style): Constify.

@@ -80,7 +80,7 @@ applix_write_colormap (ApplixWriteState *state)
 }
 
 void
-applix_save (IOContext *io_context, WorkbookView *wb_view, FILE *file)
+applix_write (IOContext *io_context, WorkbookView *wb_view, FILE *file)
 {
 	ApplixWriteState	state;
 
