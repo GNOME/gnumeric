@@ -437,6 +437,8 @@ style_shutdown (void)
 	}
 	style_font_unref (gnumeric_default_font);
 	gnumeric_default_font = NULL;
+	g_free (gnumeric_default_font_name);
+	gnumeric_default_font_name = NULL;
 
 	number_format_shutdown ();
 	{
