@@ -1,3 +1,7 @@
+2003-05-09  Morten Welinder  <terra@gnome.org>
+
+	* import-pcre: New file.
+
 2003-05-05  Morten Welinder  <terra@gnome.org>
 
 	* import-R: Import dbeta.c.  Do not import qbeta.c.
