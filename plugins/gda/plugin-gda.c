@@ -43,7 +43,7 @@ display_recordset (GdaRecordset *recset)
 	gint       fieldcount = 0;
 	GPtrArray* data_loaded = NULL; // array for rows
 
-	g_return_val_if_fail(IS_GDA_RECORDSET(recset), NULL);
+	g_return_val_if_fail(GDA_IS_RECORDSET(recset), NULL);
 
 	data_loaded = g_ptr_array_new();
 	
@@ -138,20 +138,20 @@ gnumeric_execSQL (FunctionEvalInfo *ei, Value **args)
 		return value_new_error(ei->pos, _("Format: execSQL(dsn,user,password,sql)"));
 
 	/* initialize connection pool if first time */
-	if (!IS_GDA_CONNECTION_POOL(connection_pool)) {
+	if (!GDA_IS_CONNECTION_POOL(connection_pool)) {
 		connection_pool = gda_connection_pool_new();
 		if (!connection_pool) {
 			return value_new_error(ei->pos, _("Error: could not initialize connection pool"));
 		}
 	}
 	cnc = gda_connection_pool_open_connection(connection_pool, dsn_name, user_name, password);
-	if (!IS_GDA_CONNECTION(cnc)) {
+	if (!GDA_IS_CONNECTION(cnc)) {
 		return value_new_error(ei->pos, _("Error: could not open connection to %s"));
 	}
 	
 	/* execute command */
 	recset = gda_connection_execute(cnc, sql, &reccount, 0);
-	if (IS_GDA_RECORDSET(recset)) {
+	if (GDA_IS_RECORDSET(recset)) {
 		ret = display_recordset(recset);
 		gda_recordset_free(recset);
 	}
@@ -164,7 +164,7 @@ void
 plugin_cleanup (void)
 {
 	/* close the connection pool */
-	if (IS_GDA_CONNECTION_POOL(connection_pool)) {
+	if (GDA_IS_CONNECTION_POOL(connection_pool)) {
 		gda_connection_pool_close_all(connection_pool);
 		gda_connection_pool_free(connection_pool);
 		connection_pool = NULL;

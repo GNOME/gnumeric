@@ -1,3 +1,7 @@
+2001-07-05  Rodrigo Moya <rodrigo@gnome-db.org>
+
+	* plugin-gda.c: adapted to new names in libgda CVS
+
 2001-06-28  Jody Goldberg <jgoldberg@home>
 
 	* Release 0.67
