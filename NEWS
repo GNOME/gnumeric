@@ -1,11 +1,17 @@
+Gnumeric 0.76
+
+--------------------------------------------------------------------------
 Gnumeric 0.75
 
 Andreas:
 	* Rewrite solver dialog as guru (semi-modal using the 
           expr-entry widget).
+	* Fix FTEST docs.
 
 Jody:
 	* Shink exported XL files.
+	* Enable per sheet style management to support
+	  validation, conditionals, and simply XL export.
 	* re-enable compression for .gnumeric files.
 	* Make cell formt dialog only pseudo-modal.
 	* Fix support for cancel on window manager quit.
@@ -13,13 +19,13 @@ Jody:
 	* Fix sheet extent calculation new complex objects.
 	* Improve formula guru.
 	* Support scrollwheel in a larger area.
-	* Fix Edit -> Fill -> Autofill
+	* Fix Edit -> Fill -> Autofill.
+	* Fix Autofill with the month of May.
 	* Improve dbf importer.
 	* Make autocorrect non-modal and cleaner.
 	* Make autocompletion a view attribute, with a gui.
+	* Improve the ExprEntry widget.
 	* Don't clear the clipboard when Klipper requests things.
-	* Enable per sheet style management to support
-	  validation, conditionals, and simply XL export.
 
 Jukka:
 	* Lots of documentation added.
