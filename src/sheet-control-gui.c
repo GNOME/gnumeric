@@ -1516,7 +1516,7 @@ scg_cursor_visible (SheetControlGUI *scg, gboolean is_visible)
 
 /***************************************************************************/
 
-#define SO_CLASS(so) SHEET_OBJECT_CLASS(GTK_OBJECT(so)->klass)
+#define SO_CLASS(so) SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so))
 
 static void
 scg_object_stop_editing (SheetControlGUI *scg, SheetObject *so)
@@ -1635,7 +1635,7 @@ display_object_menu (SheetObject *so, GnomeCanvasItem *view, GdkEvent *event)
 
 	scg_mode_edit_object (scg, so);
 	menu = GTK_MENU (gtk_menu_new ());
-	SHEET_OBJECT_CLASS (GTK_OBJECT(so)->klass)->populate_menu (so, GTK_OBJECT (view), menu);
+	SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS(so))->populate_menu (so, GTK_OBJECT (view), menu);
 
 	gtk_widget_show_all (GTK_WIDGET (menu));
 	gnumeric_popup_menu (menu, &event->button);

@@ -1,3 +1,8 @@
+2001-12-24  Jody Goldberg <jody@gnome.org>
+
+	* boot.c (xbase_field_as_value) : be more picky about parsing dates.
+	  The spec states that they must be in this format.
+
 2001-12-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 0.99.0

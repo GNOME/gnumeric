@@ -108,7 +108,7 @@ xbase_field_as_value (guint8 *content, XBfield *field)
 	case 'D': {
 		/* double check that the date is stored according to spec */
 		int year, month, day;
-		if (sscanf (s, "%4d%2d%2d", &year, &month, &day)) {
+		if (sscanf (s, "%4d%2d%2d", &year, &month, &day) == 3) {
 			GDate *date = g_date_new_dmy (day, month, year);
 			val = value_new_int (datetime_g_to_serial (date));
 			g_date_free (date);

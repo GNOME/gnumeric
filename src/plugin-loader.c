@@ -15,7 +15,7 @@
 #include <gal/util/e-util.h>
 
 #define PARENT_TYPE (gtk_object_get_type ())
-#define PL_GET_CLASS(loader)	GNUMERIC_PLUGIN_LOADER_CLASS (GTK_OBJECT (loader)->klass)
+#define PL_GET_CLASS(loader)	GNUMERIC_PLUGIN_LOADER_CLASS (G_OBJECT_GET_CLASS (loader))
 
 void gnumeric_plugin_loader_unload_service_general_real (GnumericPluginLoader *loader,
                                                          PluginService *service,

@@ -38,7 +38,7 @@
 
 static SheetObjectClass *sheet_object_bonobo_parent_class;
 
-#define SOB_CLASS(o) SHEET_OBJECT_CLASS (GTK_OBJECT (o)->klass)
+#define SOB_CLASS(o) SHEET_OBJECT_CLASS (G_OBJECT_GET_CLASS (o))
 
 static void
 sheet_object_bonobo_destroy (GtkObject *object)

@@ -192,7 +192,7 @@ typedef struct _FormatState
 		GtkEntry        *title;
 		GtkText         *msg;
 	} input_msg;
-	
+
 	void (*dialog_changed) (gpointer user_data);
 	gpointer	dialog_changed_user_data;
 } FormatState;
@@ -331,7 +331,7 @@ setup_color_pickers (ColorPicker *picker,
 
 	picker->combo          = combo;
 	picker->preview_update = preview_update;
-	
+
 	switch (e) {
 	case MSTYLE_COLOR_PATTERN: /* Fall through */
 	case MSTYLE_COLOR_FORE:
@@ -1256,14 +1256,14 @@ cb_font_changed (GtkWidget *widget, MStyle *mstyle, FormatState *state)
 	if (!state->enable_edit)
 		return;
 
-	for (i = 0 ; i < num_font_types; i++) { 
+	for (i = 0 ; i < num_font_types; i++) {
 		MStyleElementType const t = font_types[i];
 		if (mstyle_is_element_set (mstyle, t)) {
 			mstyle_replace_element (mstyle, state->result, t);
 			changed = TRUE;
 		}
 	}
-				
+
 	if (changed)
 		fmt_dialog_changed (state);
 }
@@ -1342,7 +1342,7 @@ fmt_dialog_init_font_page (FormatState *state)
 	state->font.selector = FONT_SELECTOR (font_widget);
 
 	font_selector_set_value (state->font.selector, state->value);
-	
+
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_FONT_NAME))
 		font_selector_set_name (state->font.selector,
 					mstyle_get_font_name (state->style));
@@ -1408,7 +1408,7 @@ static void
 draw_pattern_preview (FormatState *state)
 {
 	g_return_if_fail (state->back.style != NULL);
-	
+
 	fmt_dialog_changed (state);
 
 	if (state->enable_edit) {
@@ -1425,23 +1425,23 @@ static void
 cb_back_preview_color (ColorCombo *combo, GdkColor *c, gboolean by_user, FormatState *state)
 {
 	state->back.back_color_is_default = (c == NULL);
-	
+
 	if (c != NULL) {
 		mstyle_set_border (state->back.style, MSTYLE_BORDER_DIAGONAL,
 				   style_border_ref (style_border_none ()));
 		mstyle_set_border (state->back.style, MSTYLE_BORDER_REV_DIAGONAL,
 				   style_border_ref (style_border_none ()));
-		
+
 		mstyle_set_color (state->back.style, MSTYLE_COLOR_BACK,
 				  style_color_new (c->red, c->green, c->blue));
-		mstyle_set_pattern (state->back.style, state->back.pattern.cur_index);		
+		mstyle_set_pattern (state->back.style, state->back.pattern.cur_index);
 	} else {
 		StyleBorder *border = style_border_fetch (STYLE_BORDER_THIN, style_color_black (), STYLE_BORDER_DIAGONAL);
-		
+
 		mstyle_set_border (state->back.style, MSTYLE_BORDER_DIAGONAL, style_border_ref (border));
 		mstyle_set_border (state->back.style, MSTYLE_BORDER_REV_DIAGONAL, style_border_ref (border));
 		style_border_unref (border);
-		
+
 		gtk_toggle_button_set_active (state->back.pattern.default_button, TRUE);
 		color_combo_set_color (COLOR_COMBO (state->back.pattern_color.combo), &gs_black);
 
@@ -1449,7 +1449,7 @@ cb_back_preview_color (ColorCombo *combo, GdkColor *c, gboolean by_user, FormatS
 				  style_color_new (0xffff, 0xffff, 0xffff));
 		mstyle_set_pattern (state->back.style, 0);
 	}
-	
+
 	draw_pattern_preview (state);
 }
 
@@ -1475,7 +1475,7 @@ fmt_dialog_init_background_page (FormatState *state)
 {
 	int w = 0;
 	int h = 0;
-		
+
 	state->back.canvas =
 		GNOME_CANVAS (glade_xml_get_widget (state->gui, "back_sample"));
 
@@ -1486,7 +1486,7 @@ fmt_dialog_init_background_page (FormatState *state)
 	gtk_object_get (GTK_OBJECT (state->back.canvas), "width", &w,
 			"height", &h, NULL);
 	gnome_canvas_set_scroll_region (state->back.canvas, -1, -1, w, h);
-	
+
 	state->back.grid = PREVIEW_GRID (gnome_canvas_item_new (
 		gnome_canvas_root (state->back.canvas),
 		preview_grid_get_type (),
@@ -2011,7 +2011,7 @@ static ExprTree *
 validation_entry_to_expr (Sheet *sheet, GnumericExprEntry *gee)
 {
 	ParsePos pp;
-	return gnumeric_expr_entry_parse (gee, 
+	return gnumeric_expr_entry_parse (gee,
 		parse_pos_init (&pp, sheet->workbook, sheet, 0, 0), FALSE);
 }
 
@@ -2019,16 +2019,18 @@ static void
 validation_rebuild_validation (FormatState *state)
 {
 	StyleCondition *sc = NULL;
-	int constraint     = gnumeric_option_menu_get_selected_index (state->validation.constraint_type);
+	int constraint;
 
 	if (!state->enable_edit)
 		return;
-	
+
 	state->validation.changed = FALSE;
+	constraint = gnumeric_option_menu_get_selected_index (
+		state->validation.constraint_type);
 	if (constraint != 0) {
 		StyleCondition *scl = NULL;
 		int operator        = gnumeric_option_menu_get_selected_index (state->validation.operator);
-		
+
 		if (operator > 1) {
 			ExprTree *bound = validation_entry_to_expr (state->sheet, state->validation.bound1.entry);
 			if (bound != NULL)
@@ -2067,7 +2069,7 @@ validation_rebuild_validation (FormatState *state)
 					flags |= SCF_ALLOW_BLANK;
 				if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->validation.in_dropdown)))
 					flags |= SCF_IN_CELL_DROPDOWN;
-				
+
 				scf = style_condition_new_flags (flags);
 				style_condition_chain (scl, SCB_OR, scf);
 				scl = scf;
@@ -2087,10 +2089,10 @@ validation_rebuild_validation (FormatState *state)
 		g_free (msg);
 		g_free (title);
 	} else {
-		if (mstyle_is_element_set (state->result, MSTYLE_VALIDATION))
-			mstyle_unset_element (state->result, MSTYLE_VALIDATION);
+		if (!mstyle_is_element_set (state->result, MSTYLE_VALIDATION))
+			return;
+		mstyle_unset_element (state->result, MSTYLE_VALIDATION);
 	}
-	
 	fmt_dialog_changed (state);
 }
 
@@ -2104,10 +2106,10 @@ cb_validation_error_action_deactivate (GtkMenuShell *shell, FormatState *state)
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.msg_label), flag);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.title), flag);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.msg), flag);
-	
+
 	if (flag) {
 		char *s = NULL;
-		
+
 		switch (index) {
 		case 1 :
 			s = gnome_pixmap_file ("gnome-error.png");
@@ -2119,7 +2121,7 @@ cb_validation_error_action_deactivate (GtkMenuShell *shell, FormatState *state)
 			s = gnome_pixmap_file ("gnome-info.png");
 			break;
 		}
-		
+
 	     	if (s != NULL) {
 			gnome_pixmap_load_file (state->validation.error.image, s);
 			g_free (s);
@@ -2127,7 +2129,7 @@ cb_validation_error_action_deactivate (GtkMenuShell *shell, FormatState *state)
 		gtk_widget_show (GTK_WIDGET (state->validation.error.image));
 	} else
 		gtk_widget_hide (GTK_WIDGET (state->validation.error.image));
-	
+
 	validation_rebuild_validation (state);
 }
 
@@ -2135,7 +2137,7 @@ static void
 cb_validation_operator_deactivate (GtkMenuShell *shell, FormatState *state)
 {
 	int index = gnumeric_option_menu_get_selected_index (state->validation.operator);
-	
+
 	if (index > 1) {
 		gtk_widget_hide (GTK_WIDGET (state->validation.bound2.name));
 		gtk_widget_hide (GTK_WIDGET (state->validation.bound2.entry));
@@ -2165,7 +2167,7 @@ cb_validation_operator_deactivate (GtkMenuShell *shell, FormatState *state)
 	default :
 		g_warning ("Unknown operator index");
 	}
-	
+
 	validation_rebuild_validation (state);
 }
 
@@ -2173,7 +2175,7 @@ static void
 cb_validation_constraint_type_deactivate (GtkMenuShell *shell, FormatState *state)
 {
 	gboolean flag = (gnumeric_option_menu_get_selected_index (state->validation.constraint_type) != 0);
-	
+
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.operator), flag);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.bound1.entry), flag);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.bound2.entry), flag);
@@ -2186,7 +2188,7 @@ cb_validation_constraint_type_deactivate (GtkMenuShell *shell, FormatState *stat
 
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.action_label), flag);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.action), flag);
-	
+
 	cb_validation_error_action_deactivate (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->validation.error.action)), state);
 }
 
@@ -2223,7 +2225,7 @@ fmt_dialog_init_validation_from_style_condition (FormatState *state, StyleCondit
 
 	for (sci = sc; sci != NULL; sci = sci->next) {
 		char *text = NULL;
-		
+
 		switch (sci->type) {
 		case SCT_EXPR :
 			if (!got_bound1) {
@@ -2235,7 +2237,7 @@ fmt_dialog_init_validation_from_style_condition (FormatState *state, StyleCondit
 				text = expr_tree_as_string (sci->u.expr.dep.expression, &pp);
 				gtk_entry_set_text (GTK_ENTRY (state->validation.bound1.entry), text);
 				g_free (text);
-				
+
 				bound1_op = sci->u.expr.op;
 				got_bound1 = TRUE;
 			} else if (!got_bound2) {
@@ -2258,7 +2260,7 @@ fmt_dialog_init_validation_from_style_condition (FormatState *state, StyleCondit
 				text = expr_tree_as_string (sci->u.expr.dep.expression, &pp);
 				gtk_entry_set_text (GTK_ENTRY (state->validation.bound2.entry), text);
 				g_free (text);
-				
+
 				got_bound2 = TRUE;
 			} else {
 				/*
@@ -2367,7 +2369,7 @@ fmt_dialog_init_validation_page (FormatState *state)
 		 * Maps directly onto the error style option menu
 		 */
 		gtk_option_menu_set_history (state->validation.error.action, v->vs);
-		
+
 		if (v->title)
 			gtk_entry_set_text (GTK_ENTRY (state->validation.error.title), v->title->str);
 
@@ -2377,7 +2379,7 @@ fmt_dialog_init_validation_page (FormatState *state)
 
 		fmt_dialog_init_validation_from_style_condition (state, v->sc);
 	}
-	
+
 	cb_validation_constraint_type_deactivate (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->validation.constraint_type)), state);
 	cb_validation_operator_deactivate (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->validation.operator)), state);
 }
@@ -2388,7 +2390,7 @@ static void
 cb_input_msg_flag_toggled (GtkToggleButton *button, FormatState *state)
 {
 	gboolean flag = gtk_toggle_button_get_active (button);
-	
+
 	gtk_widget_set_sensitive (GTK_WIDGET (state->input_msg.title_label), flag);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->input_msg.msg_label), flag);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->input_msg.title), flag);
@@ -2408,7 +2410,7 @@ fmt_dialog_init_input_msg_page (FormatState *state)
 	gtk_notebook_remove_page (GTK_NOTEBOOK (GNOME_PROPERTY_BOX (state->dialog)->notebook), 7);
 	return;
 #endif
-	
+
 	/* Setup widgets */
 	state->input_msg.flag        = GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "input_msg_flag"));
 	state->input_msg.title_label = GTK_LABEL         (glade_xml_get_widget (state->gui, "input_msg_title_label"));
@@ -2484,13 +2486,15 @@ cb_fmt_dialog_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 
 	if (IS_GNUMERIC_EXPR_ENTRY (focus_widget)) {
 		GnumericExprEntryFlags flags;
-		
+
 		wbcg_set_entry (state->wbcg,
 				GNUMERIC_EXPR_ENTRY (focus_widget));
-				    
+
 		flags = GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL | GNUM_EE_SHEET_OPTIONAL;
-		gnumeric_expr_entry_set_flags (state->validation.bound1.entry, flags, flags);
-		gnumeric_expr_entry_set_flags (state->validation.bound2.entry, flags, flags);
+		gnumeric_expr_entry_set_flags (state->validation.bound1.entry,
+			flags, flags | GNUM_EE_SINGLE_RANGE);
+		gnumeric_expr_entry_set_flags (state->validation.bound2.entry,
+			flags, flags | GNUM_EE_SINGLE_RANGE);
 	} else
 		wbcg_set_entry (state->wbcg, NULL);
 }
@@ -2657,7 +2661,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	fmt_dialog_init_protection_page (state);
 	fmt_dialog_init_validation_page (state);
 	fmt_dialog_init_input_msg_page (state);
-	
+
 	/* Setup border line pattern buttons & select the 1st button */
 	for (i = MSTYLE_BORDER_TOP; i < MSTYLE_BORDER_DIAGONAL; i++) {
 		StyleBorder const *border = mstyle_get_border (state->style, i);
@@ -2772,7 +2776,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 
 	set_initial_focus (state);
 	gtk_notebook_set_scrollable (GTK_NOTEBOOK (GNOME_PROPERTY_BOX (dialog)->notebook), TRUE);
-	
+
 	/* Ok, edit events from now on are real */
 	state->enable_edit = TRUE;
 
@@ -2788,7 +2792,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	 *   then move around and apply it to different cells.
 	 */
 	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
-	
+
 	gnumeric_dialog_show (state->wbcg, GNOME_DIALOG (dialog), FALSE, TRUE);
 }
 

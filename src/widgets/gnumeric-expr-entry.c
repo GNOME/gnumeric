@@ -521,7 +521,7 @@ cb_scg_destroy (SheetControlGUI *scg, GnumericExprEntry *expr_entry)
  * %GNUM_EE_ABS_ROW           Row reference must be absolute.
  * %GNUM_EE_FULL_COL          Range consists of full columns.
  * %GNUM_EE_FULL_ROW          Range consists of full rows.
- * %GNUM_EE_SHEET_OPTIONAL    Sheet must not be displayed if current sheet.
+ * %GNUM_EE_SHEET_OPTIONAL    Current sheet name not auto-added.
  **/
 void
 gnumeric_expr_entry_set_flags (GnumericExprEntry *ee,

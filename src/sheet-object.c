@@ -30,12 +30,11 @@
 #include <gal/util/e-util.h>
 
 /* Returns the class for a SheetObject */
-#define SO_CLASS(so) SHEET_OBJECT_CLASS(GTK_OBJECT(so)->klass)
+#define SO_CLASS(so) SHEET_OBJECT_CLASS(G_OBJECT_GET_CLASS(so))
 
 #define	SO_VIEW_SHEET_CONTROL_KEY	"SheetControl"
 #define	SO_VIEW_OBJECT_KEY		"SheetObject"
 
-GtkType    sheet_object_get_type  (void);
 static GtkObjectClass *sheet_object_parent_class;
 
 static void

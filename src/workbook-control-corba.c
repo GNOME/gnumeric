@@ -12,7 +12,7 @@
 #include "workbook-control-priv.h"
 #include <gal/util/e-util.h>
 
-#define CCG_CLASS(o) CMD_CONTEXT_CORBA_CLASS (GTK_OBJECT (o)->klass)
+#define CCG_CLASS(o) CMD_CONTEXT_CORBA_CLASS (G_OBJECT_GET_CLASS (o))
 
 typedef struct {
 	WorkbookControl parent;

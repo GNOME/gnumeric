@@ -125,4 +125,7 @@ typedef enum _SpanCalcFlags {
 
 typedef struct _SearchReplace           SearchReplace;
 
+/* simplify porting to gtk-2 */
+#define	G_OBJECT_GET_CLASS(obj) (GTK_OBJECT(obj)->klass)
+
 #endif /* GNUMERIC_H */

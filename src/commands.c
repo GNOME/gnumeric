@@ -103,6 +103,7 @@
 #define GNUMERIC_COMMAND_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), GNUMERIC_COMMAND_TYPE, GnumericCommandClass))
 #define IS_GNUMERIC_COMMAND(o)       (GTK_CHECK_TYPE ((o), GNUMERIC_COMMAND_TYPE))
 #define IS_GNUMERIC_COMMAND_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GNUMERIC_COMMAND_TYPE))
+#define CMD_CLASS(o)		     (GNUMERIC_COMMAND_CLASS (cmd->parent.klass))
 
 typedef struct
 {
@@ -280,7 +281,7 @@ command_undo (WorkbookControl *wbc)
 	cmd = GNUMERIC_COMMAND (wb->undo_commands->data);
 	g_return_if_fail (cmd != NULL);
 
-	klass = GNUMERIC_COMMAND_CLASS (cmd->parent.klass);
+	klass = CMD_CLASS (cmd);
 	g_return_if_fail (klass != NULL);
 
 	/* TRUE indicates a failure to undo.  Leave the command where it is */
@@ -321,7 +322,7 @@ command_redo (WorkbookControl *wbc)
 	cmd = GNUMERIC_COMMAND (wb->redo_commands->data);
 	g_return_if_fail (cmd != NULL);
 
-	klass = GNUMERIC_COMMAND_CLASS (cmd->parent.klass);
+	klass = CMD_CLASS (cmd);
 	g_return_if_fail (klass != NULL);
 
 	/* TRUE indicates a failure to redo.  Leave the command where it is */
@@ -533,7 +534,7 @@ command_push_undo (WorkbookControl *wbc, GtkObject *obj)
 	cmd = GNUMERIC_COMMAND (obj);
 	g_return_val_if_fail (cmd != NULL, TRUE);
 
-	klass = GNUMERIC_COMMAND_CLASS (cmd->parent.klass);
+	klass = CMD_CLASS (cmd);
 	g_return_val_if_fail (klass != NULL, TRUE);
 
 	/* TRUE indicates a failure to do the command */

@@ -13,7 +13,7 @@
 #include <gal/util/e-util.h>
 #include <libgnome/gnome-i18n.h>
 
-#define CC_CLASS(o) COMMAND_CONTEXT_CLASS (GTK_OBJECT (o)->klass)
+#define CC_CLASS(o) COMMAND_CONTEXT_CLASS (G_OBJECT_GET_CLASS (o))
 
 /**
  * command_context_format_message:
