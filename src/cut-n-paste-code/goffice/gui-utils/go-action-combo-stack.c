@@ -26,6 +26,7 @@
 
 #include <gtk/gtkaction.h>
 #include <gtk/gtktoolitem.h>
+#include <gtk/gtkimagemenuitem.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
 
@@ -40,30 +41,24 @@ typedef GtkToolItemClass GOToolComboStackClass;
 #define IS_GO_TOOL_COMBO_STACK(o)	(G_TYPE_CHECK_INSTANCE_TYPE (o, GO_TOOL_COMBO_STACK_TYPE))
 
 static GType go_tool_combo_stack_get_type (void);
-#if 0
-static void
-go_tool_combo_stack_finalize (GObject *obj)
-{
-}
-static gboolean
-go_tool_combo_stack_create_menu_proxy (GtkToolItem *tool_item)
-{
-}
 static gboolean
 go_tool_combo_stack_set_tooltip (GtkToolItem *tool_item, GtkTooltips *tooltips,
 				 char const *tip_text,
 				 char const *tip_private)
 {
+	GOToolComboStack *self = (GOToolComboStack *)tool_item;
+#warning this is ugly the tip moves as we jump from preview to arrow
+	gtk_tooltips_set_tip (tooltips, gnm_combo_stack_get_button (GNM_COMBO_STACK (self->combo)),
+		tip_text, tip_private);
+	gtk_tooltips_set_tip (tooltips, gnm_combo_box_get_arrow	(GNM_COMBO_BOX (self->combo)),
+		tip_text, tip_private);
+	return TRUE;
 }
-#endif
+
 static void
 go_tool_combo_stack_class_init (GtkToolItemClass *tool_item_klass)
 {
-#if 0
-	gobject_klass->finalize		   = go_tool_combo_stack_finalize;
-	tool_item_klass->create_menu_proxy = go_tool_combo_stack_create_menu_proxy;
-	tool_item_klass->set_tooltip	   = go_tool_combo_stack_set_tooltip;
-#endif
+	tool_item_klass->set_tooltip = go_tool_combo_stack_set_tooltip;
 }
 
 static GSF_CLASS (GOToolComboStack, go_tool_combo_stack,
@@ -76,28 +71,14 @@ struct _GOActionComboStack {
 	GtkAction	base;
 };
 
-typedef struct {
-	GtkActionClass	base;
-} GOActionComboStackClass;
+typedef GtkActionClass GOActionComboStackClass;
 
 static GObjectClass *combo_stack_parent;
-#if 0
-static void
-go_action_combo_stack_connect_proxy (GtkAction *action, GtkWidget *proxy)
-{
-}
-
-static void
-go_action_combo_stack_disconnect_proxy (GtkAction *action, GtkWidget *proxy)
-{
-}
-#endif
 
 static GtkWidget *
 go_action_combo_stack_create_tool_item (GtkAction *act)
 {
 	char const *id;
-	GOActionComboStack *caction = (GOActionComboStack *)act;
 	GOToolComboStack *tool = g_object_new (GO_TOOL_COMBO_STACK_TYPE, NULL);
 
 	g_object_get (G_OBJECT (act), "stock_id", &id, NULL);
@@ -108,6 +89,14 @@ go_action_combo_stack_create_tool_item (GtkAction *act)
 	gtk_widget_show (GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool));
 	return GTK_WIDGET (tool);
+}
+
+static GtkWidget *
+go_action_combo_stack_create_menu_item (GtkAction *a)
+{
+	GOActionComboStack *saction = (GOActionComboStack *)a;
+	GtkWidget *item = gtk_image_menu_item_new_with_label ("UNDOREDO");
+	return item;
 }
 
 static void
@@ -122,14 +111,10 @@ go_action_combo_stack_class_init (GtkActionClass *gtk_act_klass)
 	GObjectClass *gobject_klass = (GObjectClass *)gtk_act_klass;
 
 	combo_stack_parent = g_type_class_peek_parent (gobject_klass);
-	gobject_klass->finalize		= go_action_combo_stack_finalize;
 
+	gobject_klass->finalize = go_action_combo_stack_finalize;
 	gtk_act_klass->create_tool_item = go_action_combo_stack_create_tool_item;
-#if 0
-	gtk_act_klass->create_menu_item = Use the default
-	gtk_act_klass->connect_proxy	= go_action_combo_stack_connect_proxy;
-	gtk_act_klass->disconnect_proxy = go_action_combo_stack_disconnect_proxy;
-#endif
+	gtk_act_klass->create_menu_item = go_action_combo_stack_create_menu_item;
 }
 
 GSF_CLASS (GOActionComboStack, go_action_combo_stack,
@@ -142,8 +127,13 @@ GSF_CLASS (GOActionComboStack, go_action_combo_stack,
  * @str : The label to push
  **/
 void
-go_action_combo_stack_push (GOActionComboStack *act, char const *str)
+go_action_combo_stack_push (GOActionComboStack *a, char const *str)
 {
+	GSList *p;
+
+	for (p = gtk_action_get_proxies (GTK_ACTION (a)); p != NULL ; p = p->next)
+		if (IS_GNM_COMBO_STACK (ptr->data))
+			gnm_combo_stack_push (GNM_COMBO_STACK (ptr->data), str);
 }
 
 /**
@@ -155,8 +145,13 @@ go_action_combo_stack_push (GOActionComboStack *act, char const *str)
  * shorter)
  **/
 void
-go_action_combo_stack_pop (GOActionComboStack *act, unsigned n)
+go_action_combo_stack_pop (GOActionComboStack *a, unsigned n)
 {
+	GSList *p;
+
+	for (p = gtk_action_get_proxies (GTK_ACTION (a)); p != NULL ; p = p->next)
+		if (IS_GNM_COMBO_STACK (ptr->data))
+			gnm_combo_stack_pop (GNM_COMBO_STACK (ptr->data), n);
 }
 
 /**
@@ -168,26 +163,11 @@ go_action_combo_stack_pop (GOActionComboStack *act, unsigned n)
  * bottom.
  **/
 void
-go_action_combo_stack_trunc (GOActionComboStack *act, unsigned n)
+go_action_combo_stack_trunc (GOActionComboStack *a, unsigned n)
 {
-}
-#if 0
-static void
-cb_proxy_push (GtkAction *act, char const *str, GnmComboStack *proxy)
-{
-	gnm_combo_stack_push_item (proxy, str);
-}
+	GSList *p;
 
-static void
-cb_proxy_pop (GtkAction *act, unsigned n, GnmComboStack *proxy)
-{
-	gnm_combo_stack_remove_top (proxy, n);
+	for (p = gtk_action_get_proxies (GTK_ACTION (a)); p != NULL ; p = p->next)
+		if (IS_GNM_COMBO_STACK (p->data))
+			gnm_combo_stack_truncate (GNM_COMBO_STACK (p->data), n);
 }
-
-static void
-cb_proxy_truncate (GtkAction *act, unsigned n, GnmComboStack *proxy)
-{
-	gnm_combo_stack_truncate (proxy, n);
-}
-
-#endif

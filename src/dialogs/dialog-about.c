@@ -70,6 +70,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 		N_("Ross Ihaka, special functions."),
 		N_("Jukka-Pekka Iivonen, numerous functions and tools."),
 		N_("Jakub Jelinek, Gnumeric hacker."),
+		N_("Jakub Steiner, Icons and Images."),
 		N_("Chris Lahey, number format engine."),
 		N_("Takashi Matsuda, original text plugin."),
 		N_("Michael Meeks, Excel and OLE2 importing."),

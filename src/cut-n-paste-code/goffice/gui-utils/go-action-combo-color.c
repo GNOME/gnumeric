@@ -28,6 +28,7 @@
 #include <gtk/gtkaction.h>
 #include <gtk/gtktoolitem.h>
 #include <gtk/gtkimagemenuitem.h>
+#include <gtk/gtkimage.h>
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
 
@@ -48,6 +49,7 @@ go_tool_combo_color_set_tooltip (GtkToolItem *tool_item, GtkTooltips *tooltips,
 				 char const *tip_private)
 {
 	GOToolComboColor *self = (GOToolComboColor *)tool_item;
+#warning this is ugly the tip moves as we jump from preview to arrow
 	gtk_tooltips_set_tip (tooltips, self->combo->preview_button,
 			      tip_text, tip_private);
 	gtk_tooltips_set_tip (tooltips, gnm_combo_box_get_arrow	(GNM_COMBO_BOX (self->combo)),
@@ -70,41 +72,74 @@ struct _GOActionComboColor {
 	GtkAction	 base;
 	GdkPixbuf	*icon;
 	ColorGroup 	*color_group;
-	char const 	*no_color_label;
-	GdkColor const	*default_color;
+	char const 	*default_val_label;
+	GOColor		 default_val, current_color;
 };
-typedef struct {
-	GtkActionClass	base;
-} GOActionComboColorClass;
+typedef GtkActionClass GOActionComboColorClass;
 
 static GObjectClass *combo_color_parent;
-#if 0
 static void
-go_action_combo_color_connect_proxy (GtkAction *action, GtkWidget *proxy)
+go_action_combo_color_connect_proxy (GtkAction *a, GtkWidget *proxy)
 {
+	GTK_ACTION_CLASS (combo_color_parent)->connect_proxy (a, proxy);
+
+	if (GTK_IS_IMAGE_MENU_ITEM (proxy)) { /* set the icon */
+		GOActionComboColor *caction = (GOActionComboColor *)a;
+		GtkWidget *image = gtk_image_new_from_pixbuf (caction->icon);
+		gtk_widget_show (image);
+		gtk_image_menu_item_set_image (
+			GTK_IMAGE_MENU_ITEM (proxy), image);
+	}
 }
 
 static void
-go_action_combo_color_disconnect_proxy (GtkAction *action, GtkWidget *proxy)
+cb_color_changed (GtkWidget *cc, GdkColor const *c,
+		  gboolean is_custom, gboolean by_user, gboolean is_default,
+		  GOActionComboColor *caction)
 {
+	if (!by_user)
+		return;
+	caction->current_color = (is_default)
+		? caction->default_val
+		: color_combo_get_gocolor (cc, is_custom);
+	gtk_action_activate (GTK_ACTION (caction));
 }
-#endif
 
 static GtkWidget *
 go_action_combo_color_create_tool_item (GtkAction *a)
 {
 	GOActionComboColor *caction = (GOActionComboColor *)a;
 	GOToolComboColor *tool = g_object_new (GO_TOOL_COMBO_COLOR_TYPE, NULL);
-
+	GdkColor gdk_default;
 	tool->combo = (ColorCombo *)color_combo_new (caction->icon,
-		caction->no_color_label, caction->default_color,
+		caction->default_val_label,
+		go_color_to_gdk	(caction->default_val, &gdk_default),
 		caction->color_group);
 
 	gnm_widget_disable_focus (GTK_WIDGET (tool->combo));
 	gtk_container_add (GTK_CONTAINER (tool), GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool));
+
+	g_signal_connect (G_OBJECT (tool->combo),
+		"color_changed",
+		G_CALLBACK (cb_color_changed), a);
 	return GTK_WIDGET (tool);
+}
+
+static GtkWidget *
+go_action_combo_color_create_menu_item (GtkAction *a)
+{
+	GOActionComboColor *caction = (GOActionComboColor *)a;
+	GdkColor gdk_default;
+	GtkWidget *submenu = color_palette_make_menu (
+		caction->default_val_label,
+		go_color_to_gdk	(caction->default_val, &gdk_default),
+		caction->color_group);
+	GtkWidget *item = gtk_image_menu_item_new ();
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), submenu);
+	gtk_widget_show (submenu);
+	return item;
 }
 
 static void
@@ -119,31 +154,6 @@ go_action_combo_color_finalize (GObject *obj)
 	combo_color_parent->finalize (obj);
 }
 
-static GtkWidget *
-go_action_combo_color_create_menu_item (GtkAction *a)
-{
-	GOActionComboColor *caction = (GOActionComboColor *)a;
-	GtkWidget *submenu = color_palette_make_menu (
-		caction->no_color_label, caction->default_color,
-		caction->color_group);
-	GtkWidget *item;
-	GdkPixbuf *pixbuf;
-	char *label, *stock_id;
-
-	g_object_get (G_OBJECT (a),
-		      "label",	  &label,
-		      "stock_id", &stock_id,
-		      NULL);
-	pixbuf = gnm_app_get_pixbuf (stock_id);
-	item = gtk_image_menu_item_new_with_label (label ? label : _("Color"));
-	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item),
-		gtk_image_new_from_pixbuf (pixbuf));
-	gtk_menu_item_set_submenu (GTK_MENU_ITEM (item), submenu);
-	gtk_widget_show (submenu);
-
-	return item;
-}
-
 static void
 go_action_combo_color_class_init (GtkActionClass *gtk_act_klass)
 {
@@ -154,10 +164,7 @@ go_action_combo_color_class_init (GtkActionClass *gtk_act_klass)
 
 	gtk_act_klass->create_tool_item = go_action_combo_color_create_tool_item;
 	gtk_act_klass->create_menu_item = go_action_combo_color_create_menu_item;
-#if 0
 	gtk_act_klass->connect_proxy	= go_action_combo_color_connect_proxy;
-	gtk_act_klass->disconnect_proxy = go_action_combo_color_disconnect_proxy;
-#endif
 }
 
 GSF_CLASS (GOActionComboColor, go_action_combo_color,
@@ -165,11 +172,11 @@ GSF_CLASS (GOActionComboColor, go_action_combo_color,
 	   GTK_TYPE_ACTION)
 
 GOActionComboColor *
-go_action_combo_color_new (char const *action_name,
-			   char const *stock_id,
-			   char const *no_color_label,
-			   GdkColor const *default_color,
-			   gpointer group_key)
+go_action_combo_color_new (char const  *action_name,
+			   char const  *stock_id,
+			   char const  *default_color_label,
+			   GOColor	default_color,
+			   gpointer	group_key)
 {
 	GOActionComboColor *res = g_object_new (go_action_combo_color_get_type (),
 					   "name", action_name,
@@ -177,14 +184,28 @@ go_action_combo_color_new (char const *action_name,
 					   NULL);
 	res->icon = gnm_app_get_pixbuf (stock_id);
 	res->color_group = color_group_fetch (action_name, group_key);
-	res->no_color_label = g_strdup (no_color_label);
-	res->default_color = default_color;
+	res->default_val_label = g_strdup (default_color_label);
+	res->current_color = res->default_val = default_color;
 
 	return res;
 }
 
 void
 go_action_combo_color_set_group (GOActionComboColor *action, gpointer group_key)
+{
+#warning TODO
+}
+
+GOColor
+go_action_combo_color_get_color (GOActionComboColor *a, gboolean *is_default)
+{
+	if (is_default != NULL)
+		*is_default = (a->current_color == a->default_val);
+	return a->current_color;
+}
+
+void
+go_action_combo_color_set_color (GOActionComboColor *a, GOColor color)
 {
 #warning TODO
 }

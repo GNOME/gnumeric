@@ -94,6 +94,12 @@ style_color_new_i8 (guint8 red, guint8 green, guint8 blue)
 
 	return style_color_new (red16, green16, blue16);
 }
+GnmColor *
+style_color_new_go (GOColor c)
+{
+	return style_color_new_i8 (
+		UINT_RGBA_R (c), UINT_RGBA_G (c), UINT_RGBA_B (c));
+}
 
 GnmColor *
 style_color_black (void)

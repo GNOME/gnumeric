@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * color-palette.c - A color selector palette
  * Copyright 2000, 2001, Ximian, Inc.
@@ -45,12 +45,13 @@
 #include <gtk/gtkdrawingarea.h>
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtkimage.h>
+#include <gdk/gdkkeysyms.h>
 #include <libgnomeui/gnome-color-picker.h>
 
 #include <string.h>
 
-#define COLOR_PREVIEW_WIDTH 15
-#define COLOR_PREVIEW_HEIGHT 15
+#define COLOR_PREVIEW_WIDTH 10
+#define COLOR_PREVIEW_HEIGHT 10
 
 enum {
 	COLOR_CHANGED,
@@ -209,20 +210,40 @@ cb_default_release_event (GtkWidget *button, GdkEventButton *event, ColorPalette
 	return TRUE;
 }
 
-/*
- * Something in our table was clicked. Find out what and emit it
- */
 static gboolean
-cb_swatch_release_event (GtkWidget *button, GdkEventButton *event, ColorPalette *P)
+swatch_activated (ColorPalette *P, GtkBin *button)
 {
-	int        index  = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "gal"));
-	GtkWidget *swatch = P->swatches[index];
-	
+	GList *tmp = gtk_container_get_children (GTK_CONTAINER (gtk_bin_get_child (button)));
+	GtkWidget *swatch = (tmp != NULL) ? tmp->data : NULL;
+
+	g_list_free (tmp);
+
+	g_return_val_if_fail (swatch != NULL, TRUE);
+
 	emit_color_changed (P,
-			    &swatch->style->bg[GTK_STATE_NORMAL],
-			    FALSE, TRUE, FALSE);
+		&swatch->style->bg[GTK_STATE_NORMAL],
+		FALSE, TRUE, FALSE);
+
 	return TRUE;
 }
+
+static gboolean
+cb_swatch_release_event (GtkBin *button, GdkEventButton *event, ColorPalette *P)
+{
+#warning TODO do I want to check for which button ?
+	return swatch_activated (P, button);
+}
+static gboolean
+cb_swatch_key_press (GtkBin *button, GdkEventKey *event, ColorPalette *P)
+{
+	if (event->keyval == GDK_Return ||
+	    event->keyval == GDK_KP_Enter ||
+	    event->keyval == GDK_space)
+		return swatch_activated (P, button);
+	else
+		return FALSE;
+}
+
 
 static void
 cb_group_custom_color_add (GtkObject *cg, GdkColor *color, ColorPalette *P)
@@ -270,7 +291,7 @@ color_palette_button_new(ColorPalette *P, GtkTable* table,
 			 GtkTooltips *tool_tip, ColorNamePair* color_name,
 			 gint col, gint row, int data)
 {
-        GtkWidget *button, *swatch;
+        GtkWidget *button, *swatch, *box;
 	GdkColor   c;
 
 	swatch = gtk_drawing_area_new ();
@@ -278,22 +299,23 @@ color_palette_button_new(ColorPalette *P, GtkTable* table,
 	gtk_widget_modify_bg (swatch, GTK_STATE_NORMAL, &c);
 	gtk_widget_set_size_request (swatch, COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
 
-	button = gtk_button_new ();
-	gtk_container_set_border_width (GTK_CONTAINER (button), 0);
-	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-	gtk_container_add (GTK_CONTAINER (button), swatch);
+	/* Wrap inside a vbox with a border so that we can see the focus indicator */
+	box = gtk_vbox_new (FALSE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (box), 2);
+	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (swatch), TRUE, TRUE, 0);
 
-	gtk_tooltips_set_tip (tool_tip, button, _(color_name->name),
-			      "Private+Unused");
+	button = gtk_button_new ();
+	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
+	gtk_container_add (GTK_CONTAINER (button), box);
+	gtk_tooltips_set_tip (tool_tip, button, _(color_name->name), "");
 
 	gtk_table_attach (table, button,
-			  col, col+1, row, row+1, GTK_EXPAND, GTK_EXPAND, 1, 1);
+		col, col+1, row, row+1, GTK_FILL, GTK_FILL, 0, 0);
 
-	g_signal_connect (button,
-		"button_release_event",
-		G_CALLBACK (cb_swatch_release_event), P);
-	g_object_set_data (G_OBJECT (button), "gal",
-				  GINT_TO_POINTER (data));
+	g_object_connect (button,
+		"signal::button_release_event", G_CALLBACK (cb_swatch_release_event), P,
+		"signal::key_press_event", G_CALLBACK (cb_swatch_key_press), P,
+		NULL);
 	return swatch;
 }
 
@@ -606,21 +628,44 @@ color_palette_new (char const *no_color_label,
 					    color_group);
 }
 
+static GtkWidget *
+make_colored_menu_item (char const *label, GdkColor const *c)
+{
+	GtkWidget *button;
+	GdkPixbuf *pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
+		COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
+	gdk_pixbuf_fill (pixbuf, GDK_TO_UINT (*c));
+
+	button = gtk_image_menu_item_new_with_label (label);
+	gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (button),
+		gtk_image_new_from_pixbuf (pixbuf));
+	g_object_unref (pixbuf);
+	gtk_widget_show_all (button);
+	return button;
+}
+
 GtkWidget *
 color_palette_make_menu (char const *no_color_label,
 			 GdkColor const *default_color,
 			 ColorGroup *color_group)
 {
 	int ncols = 8;
-	int nrows =6;
-	int col, row, pos;
+	int nrows = 6;
+	int col, row, pos, table_row = 0;
 	ColorNamePair *color_names = default_color_set;
         GtkWidget *button, *submenu;
-	GdkPixbuf *pixbuf;
 	GdkColor   c;
 
 	submenu = gtk_menu_new ();
-	for (row = 0; row < nrows; row++) {
+	if (no_color_label != NULL) {
+		if (default_color != NULL)
+			button = make_colored_menu_item (no_color_label, default_color);
+		else
+			button = gtk_menu_item_new_with_label (no_color_label);
+		gtk_menu_attach (GTK_MENU (submenu), button, 0, ncols, 0, 1);
+		table_row++;
+	}
+	for (row = 0; row < nrows; row++, table_row++) {
 		for (col = 0; col < ncols; col++) {
 			pos = row * ncols + col;
 			if (color_names [pos].color == NULL) {
@@ -629,18 +674,10 @@ color_palette_make_menu (char const *no_color_label,
 				break;
 			}
 
-			pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
-				COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
 			gdk_color_parse (color_names [pos].color, &c);
-			gdk_pixbuf_fill (pixbuf, GDK_TO_UINT (c));
-
-			button = gtk_image_menu_item_new_with_label (" ");
-			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (button),
-				gtk_image_new_from_pixbuf (pixbuf));
-			g_object_unref (pixbuf);
-			gtk_widget_show_all (button);
-
-			gtk_menu_attach (GTK_MENU (submenu), button, col, col+1, row, row+1);
+			button = make_colored_menu_item (" ", &c);
+			gtk_menu_attach (GTK_MENU (submenu), button,
+				col, col+1, table_row, table_row+1);
 		}
 	}
 	gtk_widget_show (submenu);

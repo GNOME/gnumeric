@@ -36,6 +36,7 @@
 #include <goffice/gui-utils/go-action-combo-color.h>
 #include <goffice/gui-utils/go-action-combo-text.h>
 #include <goffice/gui-utils/go-action-combo-pixmaps.h>
+#include <goffice/utils/go-color.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkactiongroup.h>
 #include <gtk/gtkuimanager.h>
@@ -300,62 +301,99 @@ wbc_gtk_init_borders (WBCgtk *gtk)
 }
 
 /****************************************************************************/
+
 static GOActionComboStack *
-wbc_gtk_init_undo_redo (WBCgtk *gtk, char const *name, char const *tooltip,
-			char const *stock_id)
+ur_stack (WorkbookControl *wbc, gboolean is_undo)
+{
+	WBCgtk *gtk = (WBCgtk *)wbc;
+	return is_undo ? gtk->undo_action : gtk->redo_action;
+}
+
+static void
+wbc_gtk_undo_redo_truncate (WorkbookControl *wbc, int n, gboolean is_undo)
+{
+	go_action_combo_stack_trunc (ur_stack (wbc, is_undo), n);
+}
+
+static void
+wbc_gtk_undo_redo_pop (WorkbookControl *wbc, gboolean is_undo)
+{
+	go_action_combo_stack_pop (ur_stack (wbc, is_undo), 1);
+}
+
+static void
+wbc_gtk_undo_redo_push (WorkbookControl *wbc, char const *text, gboolean is_undo)
+{
+	go_action_combo_stack_push (ur_stack (wbc, is_undo), text);
+}
+
+static GOActionComboStack *
+create_undo_redo (WBCgtk *gtk, char const *name, char const *tooltip,
+		  char const *stock_id, char const *accel)
 {
 	GOActionComboStack *res = g_object_new (go_action_combo_stack_get_type (),
 		"name",		name,
 		"tooltip",  	_(tooltip),
 		"stock_id",	stock_id,
+		"sensitive",	FALSE,
 		NULL);
-	gtk_action_group_add_action (gtk->actions, GTK_ACTION (res));
-#warning Create gtk_action_group_add_action_with_accel
+	gtk_action_group_add_action_with_accel (gtk->actions,
+		GTK_ACTION (res), accel);
 	return res;
+}
+
+
+static void
+cb_undo_activated (GOActionComboColor *a, WorkbookControl *wbc)
+{
+#warning TODO need to lookup wht the new top of the stack is
+	command_undo (wbc);
+}
+
+static void
+cb_redo_activated (GOActionComboColor *a, WorkbookControl *wbc)
+{
+#warning TODO need to lookup what the new top of the stack is
+	command_redo (wbc);
+}
+
+static void
+wbc_gtk_init_undo_redo (WBCgtk *gtk)
+{
+	gtk->undo_action = create_undo_redo (gtk, N_("Undo"),
+		N_("Undo the last action"), GTK_STOCK_UNDO, "<control>z");
+	g_signal_connect (G_OBJECT (gtk->undo_action),
+		"activate",
+		G_CALLBACK (cb_undo_activated), gtk);
+
+	gtk->redo_action = create_undo_redo (gtk, N_("Redo"),
+		N_("Redo the undone action"), GTK_STOCK_REDO, "<control>y");
+	g_signal_connect (G_OBJECT (gtk->redo_action),
+		"activate",
+		G_CALLBACK (cb_redo_activated), gtk);
 }
 
 /****************************************************************************/
 
 static void
-cb_fore_color_changed (GOActionComboColor *combo, GdkColor *c,
-		       gboolean is_custom, gboolean by_user, gboolean is_default,
-		       WorkbookControlGUI *wbcg)
+cb_fore_color_changed (GOActionComboColor *a, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	GnmStyle *mstyle;
+	GOColor   c;
+	gboolean  is_default;
 
 	if (wbcg->updating_ui)
 		return;
 
-	g_return_if_fail (c != NULL);
+	c = go_action_combo_color_get_color (a, &is_default);
 
 	mstyle = mstyle_new ();
 	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, is_default
 		? style_color_auto_font ()
-		: style_color_new (c->red, c->green, c->blue));
+		: style_color_new_go (c));
 	cmd_selection_format (wbc, mstyle, NULL, _("Set Foreground Color"));
-}
-
-static void
-wbc_gtk_init_color_fore (WBCgtk *gtk)
-{
-	GnmColor *sc_auto_font = style_color_auto_font ();
-
-	gtk->fore_color = go_action_combo_color_new ("ColorFore", "font",
-		_("Automatic"),	&sc_auto_font->color, NULL);
-	g_object_set (G_OBJECT (gtk->fore_color),
-		      "label", _("Foreground"),
-		      "tooltip", _("Foreground"),
-		      NULL);
-	style_color_unref (sc_auto_font);
 #if 0
-	g_signal_connect (G_OBJECT (fore_combo),
-		"color_changed",
-		G_CALLBACK (cb_fore_color_changed), wbcg);
-	disable_focus (fore_combo, NULL);
-	gnm_combo_box_set_title (GNM_COMBO_BOX (fore_combo),
-				 _("Foreground"));
-
 	/* Sync the color of the font color combo with the other views */
 	WORKBOOK_FOREACH_CONTROL (wb_control_workbook (WORKBOOK_CONTROL (wbcg)), view, control,
 				  if (control != WORKBOOK_CONTROL (wbcg)) {
@@ -369,52 +407,58 @@ wbc_gtk_init_color_fore (WBCgtk *gtk)
 					  }
 				  });
 #endif
+}
+
+static void
+wbc_gtk_init_color_fore (WBCgtk *gtk)
+{
+	GnmColor *sc_auto_font = style_color_auto_font ();
+	GOColor   default_color = GDK_TO_UINT(sc_auto_font->color);
+	style_color_unref (sc_auto_font);
+
+	gtk->fore_color = go_action_combo_color_new ("ColorFore", "font",
+		_("Automatic"),	default_color, NULL); /* set group to view */
+	g_object_set (G_OBJECT (gtk->fore_color),
+		      "label", _("Foreground"),
+		      "tooltip", _("Foreground"),
+		      NULL);
+	g_signal_connect (G_OBJECT (gtk->fore_color),
+		"activate",
+		G_CALLBACK (cb_fore_color_changed), gtk);
+#if 0
+	gnm_combo_box_set_title (GNM_COMBO_BOX (fore_combo), _("Foreground"));
+#endif
 	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->fore_color));
 }
 /****************************************************************************/
 
 static void
-cb_back_color_changed (GOActionComboColor *combo, GdkColor *c,
-		       gboolean is_custom, gboolean by_user, gboolean is_default,
-		       WorkbookControlGUI *wbcg)
+cb_back_color_changed (GOActionComboColor *a, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	GnmStyle *mstyle;
+	GOColor   c;
+	gboolean  is_default;
 
 	if (wbcg->updating_ui)
 		return;
 
+	c = go_action_combo_color_get_color (a, &is_default);
+
 	mstyle = mstyle_new ();
-	if (c != NULL) {
+	if (!is_default) {
 		/* We need to have a pattern of at least solid to draw a background colour */
 		if (!mstyle_is_element_set  (mstyle, MSTYLE_PATTERN) ||
 		    mstyle_get_pattern (mstyle) < 1)
 			mstyle_set_pattern (mstyle, 1);
 
 		mstyle_set_color (mstyle, MSTYLE_COLOR_BACK,
-				  style_color_new (c->red, c->green, c->blue));
+			style_color_new_go (c));
 	} else
 		mstyle_set_pattern (mstyle, 0);	/* Set background to NONE */
 	cmd_selection_format (wbc, mstyle, NULL, _("Set Background Color"));
-}
 
-static void
-wbc_gtk_init_color_back (WBCgtk *gtk)
-{
-	gtk->back_color = go_action_combo_color_new ("ColorBack", "bucket",
-		_("Clear Background"), NULL, NULL);
-	g_object_set (G_OBJECT (gtk->back_color),
-		      "label", _("Background"),
-		      "tooltip", _("Background"),
-		      NULL);
 #if 0
-	g_signal_connect (G_OBJECT (back_combo),
-		"color_changed",
-		G_CALLBACK (cb_back_color_changed), wbcg);
-	disable_focus (back_combo, NULL);
-	gnm_combo_box_set_title (GNM_COMBO_BOX (back_combo),
-				 _("Background"));
-
 	/* Sync the color of the background color combo with the other views */
 	WORKBOOK_FOREACH_CONTROL (wb_control_workbook (WORKBOOK_CONTROL (wbcg)), view, control,
 				  if (control != WORKBOOK_CONTROL (wbcg)) {
@@ -428,7 +472,23 @@ wbc_gtk_init_color_back (WBCgtk *gtk)
 					  }
 				  });
 #endif
+}
 
+static void
+wbc_gtk_init_color_back (WBCgtk *gtk)
+{
+	gtk->back_color = go_action_combo_color_new ("ColorBack", "bucket",
+		_("Clear Background"), 0, NULL);
+	g_object_set (G_OBJECT (gtk->back_color),
+		      "label", _("Background"),
+		      "tooltip", _("Background"),
+		      NULL);
+	g_signal_connect (G_OBJECT (gtk->back_color),
+		"activate",
+		G_CALLBACK (cb_back_color_changed), gtk);
+#if 0
+	gnm_combo_box_set_title (GNM_COMBO_BOX (back_combo), _("Background"));
+#endif
 	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->back_color));
 }
 /****************************************************************************/
@@ -611,31 +671,6 @@ wbc_gtk_control_new (G_GNUC_UNUSED WorkbookControl *wbc,
 		     gpointer extra)
 {
 	return workbook_control_gui_new (wbv, wb, extra ? GDK_SCREEN (extra) : NULL);
-}
-
-static GOActionComboStack *
-ur_stack (WorkbookControl *wbc, gboolean is_undo)
-{
-	WBCgtk *gtk = (WBCgtk *)wbc;
-	return is_undo ? gtk->undo_action : gtk->redo_action;
-}
-
-static void
-wbc_gtk_undo_redo_truncate (WorkbookControl *wbc, int n, gboolean is_undo)
-{
-	go_action_combo_stack_trunc (ur_stack (wbc, is_undo), n);
-}
-
-static void
-wbc_gtk_undo_redo_pop (WorkbookControl *wbc, gboolean is_undo)
-{
-	go_action_combo_stack_pop (ur_stack (wbc, is_undo), 1);
-}
-
-static void
-wbc_gtk_undo_redo_push (WorkbookControl *wbc, char const *text, gboolean is_undo)
-{
-	go_action_combo_stack_push (ur_stack (wbc, is_undo), text);
 }
 
 static void
@@ -890,10 +925,7 @@ wbc_gtk_init (GObject *obj)
 		G_STRUCT_MEMBER (GtkToggleAction *, gtk, toggles[i].offset) = GTK_TOGGLE_ACTION (act);
 	}
 
-	gtk->undo_action = wbc_gtk_init_undo_redo (gtk, N_("Undo"),
-		N_("Undo the last action"), GTK_STOCK_UNDO);
-	gtk->redo_action = wbc_gtk_init_undo_redo (gtk, N_("Redo"),
-		N_("Redo the undone action"), GTK_STOCK_REDO);
+	wbc_gtk_init_undo_redo (gtk);
 	wbc_gtk_init_color_fore (gtk);
 	wbc_gtk_init_color_back (gtk);
 	wbc_gtk_init_font_name (gtk);

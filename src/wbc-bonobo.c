@@ -98,13 +98,13 @@ wbcg_undo_redo_truncate (WorkbookControl *wbc, int n, gboolean is_undo)
 static void
 wbcg_undo_redo_pop (WorkbookControl *wbc, gboolean is_undo)
 {
-	gnm_combo_stack_remove_top (ur_stack (wbc, is_undo), 1);
+	gnm_combo_stack_pop (ur_stack (wbc, is_undo), 1);
 }
 
 static void
 wbcg_undo_redo_push (WorkbookControl *wbc, char const *text, gboolean is_undo)
 {
-	gnm_combo_stack_push_item (ur_stack (wbc, is_undo), text);
+	gnm_combo_stack_push (ur_stack (wbc, is_undo), text);
 }
 
 static void

@@ -1,3 +1,21 @@
+2004-01-16  Jody Goldberg <jody@gnome.org>
+
+	* src/wbc-gtk.c : Fix some accelerators and enable colour combos.
+	  Some undo/redo is working too.
+
+	* src/style-color.c (style_color_new_go) : new.
+
+	* configure.in : Push the goffice include up here until it can get a
+	  pkg file.
+
+	* autogen.sh (REQUIRED_AUTOMAKE_VERSION) : bump automake version to
+	  get stricter distchecks.
+
+2004-01-14  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric.mime : prune this to just types gnome-mime-data does not
+	  appear to have.
+
 2004-01-15  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=131343

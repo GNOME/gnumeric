@@ -1,7 +1,6 @@
 INCLUDES = \
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 		\
     -I$(top_srcdir)/src	-I$(top_builddir)/src		\
-    -I$(top_srcdir)/src/cut-n-paste-code		\
     $(GNUMERIC_CFLAGS)
 
 gnumeric_plugin_exceldir = $(gnumeric_plugindir)/excel

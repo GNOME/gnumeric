@@ -1,5 +1,10 @@
 2004-01-14  Jody Goldberg <jody@gnome.org>
 
+	* color-palette.c (cb_swatch_key_press) : still no cleanup, but at
+	  least the keyboard nav and activation looks reasonable now.
+
+2004-01-14  Jody Goldberg <jody@gnome.org>
+
 	* gnm-combo-box.c : More finger feel improvements.  Only color takes
 	  advantage so far.  Still needs love.
 

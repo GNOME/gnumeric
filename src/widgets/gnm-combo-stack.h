@@ -1,8 +1,6 @@
-/* File import from gal to gnumeric by import-gal.  Do not edit.  */
-
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gtk-combo-stack.h - A combo box for displaying stacks (useful for Undo lists)
+ * gnm-combo-stack.h - A combo box for displaying stacks (useful for Undo lists)
  *
  * Copyright (C) 2000 ÉRDI Gergõ <cactus@cactus.rulez.org>
  *
@@ -37,19 +35,15 @@ G_BEGIN_DECLS
 
 typedef struct _GnmComboStack	     GnmComboStack;
 
-GtkType    gnm_combo_stack_get_type  (void);
-GtkWidget *gnm_combo_stack_new       (const gchar *stock_name,
-				      gboolean const is_scrolled);
-
-void       gnm_combo_stack_push_item (GnmComboStack *combo_stack,
-				      const gchar *item);
-
-void       gnm_combo_stack_remove_top (GnmComboStack *combo_stack,
-				       gint num);
-void       gnm_combo_stack_pop       (GnmComboStack *combo_stack,
-				      gint num);
-void       gnm_combo_stack_truncate  (GnmComboStack *combo, int n);
+GtkType    gnm_combo_stack_get_type   (void);
+GtkWidget *gnm_combo_stack_new        (char const *stock_name,
+				       gboolean const is_scrolled);
+void       gnm_combo_stack_push	      (GnmComboStack *combo_stack,
+				       char const *item);
+void       gnm_combo_stack_pop	      (GnmComboStack *combo, int n);
+void       gnm_combo_stack_truncate   (GnmComboStack *combo, int n);
+GtkWidget *gnm_combo_stack_get_button (GnmComboStack *combo);
 
 G_END_DECLS
 
-#endif
+#endif /* _GNM_COMBO_STACK_H */

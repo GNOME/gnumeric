@@ -257,44 +257,6 @@ static GNM_ACTION_DEF (cb_edit_select_inputs)
 	sv_select_cur_inputs (wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg)));
 }
 
-static GNM_ACTION_DEF (cb_edit_undo)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	wbcg_edit_finish (wbcg, FALSE, NULL);
-	command_undo (wbc);
-}
-
-static void
-cb_undo_combo (G_GNUC_UNUSED gpointer p,
-	       gint num, WorkbookControlGUI *wbcg)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	int i;
-
-	wbcg_edit_finish (wbcg, FALSE, NULL);
-	for (i = 0; i < num; i++)
-		command_undo (wbc);
-}
-
-static GNM_ACTION_DEF (cb_edit_redo)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	wbcg_edit_finish (wbcg, FALSE, NULL);
-	command_redo (wbc);
-}
-
-static void
-cb_redo_combo (G_GNUC_UNUSED gpointer p,
-	       gint num, WorkbookControlGUI *wbcg)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	int i;
-
-	wbcg_edit_finish (wbcg, FALSE, NULL);
-	for (i = 0; i < num; i++)
-		command_redo (wbc);
-}
-
 static GNM_ACTION_DEF (cb_edit_cut)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -1604,24 +1566,24 @@ static GtkActionEntry actions[] = {
 
 /* Edit -> Select */
 	{ "EditSelectAll", NULL, N_("Select _All"),
-		"<control>A", N_("Select all cells in the spreadsheet"),
+		"<control>a", N_("Select all cells in the spreadsheet"),
 		G_CALLBACK (cb_edit_select_all) },
 #warning "Check how to write space"
 	{ "EditSelectColumn", NULL, N_("Select _Column"),
-		"<control><space>", N_("Select an entire column"),
+		"<control>space", N_("Select an entire column"),
 		G_CALLBACK (cb_edit_select_col) },
 #warning "Check how to write meta"
 	{ "EditSelectRow", NULL, N_("Select _Row"),
-		"<meta><space>", N_("Select an entire row"),
+		"<alt>space", N_("Select an entire row"),
 		G_CALLBACK (cb_edit_select_row) },
 	{ "EditSelectArray", NULL, N_("Select Arra_y"),
-		"<control>/", N_("Select an array of cells"),
+		"<control>slash", N_("Select an array of cells"),
 		G_CALLBACK (cb_edit_select_array) },
 	{ "EditSelectDepends", NULL, N_("Select _Depends"),
-		"<control>]", N_("Select all the cells that depend on the current edit cell"),
+		"<control>bracketright", N_("Select all the cells that depend on the current edit cell"),
 		G_CALLBACK (cb_edit_select_depends) },
 	{ "EditSelectInputs", NULL, N_("Select _Inputs"),
-		"<control>[", N_("Select all the cells are used by the current edit cell"),
+		"<control>bracketleft", N_("Select all the cells are used by the current edit cell"),
 		G_CALLBACK (cb_edit_select_inputs) },
 
 /* Edit -> Fill */
@@ -2185,8 +2147,8 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditSelectDepends", cb_edit_select_depends),
 	BONOBO_UI_UNSAFE_VERB ("EditSelectInputs", cb_edit_select_inputs),
 
-	BONOBO_UI_UNSAFE_VERB ("Undo", cb_edit_undo),
-	BONOBO_UI_UNSAFE_VERB ("Redo", cb_edit_redo),
+	/* BONOBO_UI_UNSAFE_VERB ("Undo", cb_edit_undo), */
+	/* BONOBO_UI_UNSAFE_VERB ("Redo", cb_edit_redo), */
 	BONOBO_UI_UNSAFE_VERB ("EditCut", cb_edit_cut),
 	BONOBO_UI_UNSAFE_VERB ("EditCopy", cb_edit_copy),
 	BONOBO_UI_UNSAFE_VERB ("EditPaste", cb_edit_paste),

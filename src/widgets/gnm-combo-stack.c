@@ -1,6 +1,4 @@
-/* File import from gal to gnumeric by import-gal.  Do not edit.  */
-
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * gnm-combo-stack.c - A combo box for displaying stacks (useful for Undo lists)
  *
@@ -103,6 +101,12 @@ GSF_CLASS (GnmComboStack, gnm_combo_stack,
 	   GNM_COMBO_BOX_TYPE)
 
 static void
+gnm_combo_stack_emit_pop (GnmComboStack *combo, gint num)
+{
+	g_signal_emit_by_name (combo, "pop", num);
+}
+
+static void
 gnm_combo_stack_clear_selection (GnmComboStack *combo)
 {
 	GList *ptr, *items = gtk_container_get_children (GTK_CONTAINER (combo->list));
@@ -112,9 +116,9 @@ gnm_combo_stack_clear_selection (GnmComboStack *combo)
 }
 
 static void
-button_cb (GtkWidget *button, gpointer data)
+cb_button_clicked (GnmComboStack *cs)
 {
-	gnm_combo_stack_pop (GNM_COMBO_STACK (data), 1);
+	gnm_combo_stack_emit_pop (cs, 1);
 }
 
 static gboolean
@@ -129,7 +133,7 @@ cb_button_release_event (GtkList *list, GdkEventButton *e, gpointer data)
 		gint dummy, w, h;
 		gdk_window_get_geometry (e->window, &dummy, &dummy, &w, &h, &dummy);
 		if (0 <= e->x && e->x < w && 0 <= e->y && e->y < h)
-			gnm_combo_stack_pop (combo, combo->curr_item);
+			gnm_combo_stack_emit_pop (combo, combo->curr_item);
 	}
 	gtk_list_end_drag_selection (list);
 
@@ -157,7 +161,7 @@ list_select_cb (GtkList *list, GtkWidget *child, gpointer data)
 
 static void
 gnm_combo_stack_construct (GnmComboStack *combo,
-			   const gchar *stock_name,
+			   char const *stock_name,
 			   gboolean const is_scrolled)
 {
 	GtkWidget *button, *list, *scroll, *display_widget, *pixmap;
@@ -205,8 +209,8 @@ gnm_combo_stack_construct (GnmComboStack *combo,
 			  G_CALLBACK (cb_button_release_event),
 			  (gpointer) combo);
 
-	g_signal_connect (button, "clicked",
-			  G_CALLBACK (button_cb),
+	g_signal_connect_swapped (button, "clicked",
+			  G_CALLBACK (cb_button_clicked),
 			  (gpointer) combo);
 
 	gtk_widget_show (display_widget);
@@ -216,7 +220,7 @@ gnm_combo_stack_construct (GnmComboStack *combo,
 }
 
 GtkWidget*
-gnm_combo_stack_new (const gchar *stock,
+gnm_combo_stack_new (char const *stock,
 		     gboolean const is_scrolled)
 {
 	GnmComboStack *combo;
@@ -228,12 +232,11 @@ gnm_combo_stack_new (const gchar *stock,
 }
 
 void
-gnm_combo_stack_push_item (GnmComboStack *combo,
-			   const gchar *item)
+gnm_combo_stack_push (GnmComboStack *combo, char const *item)
 {
 	GtkWidget *listitem;
 
-	g_return_if_fail (item != NULL);
+	g_return_if_fail (IS_GNM_COMBO_STACK (item));
 
 	combo->num_items++;
 
@@ -256,16 +259,11 @@ gnm_combo_stack_push_item (GnmComboStack *combo,
 void
 gnm_combo_stack_pop (GnmComboStack *combo, gint num)
 {
-	g_signal_emit_by_name (combo, "pop", num);
-}
-
-void
-gnm_combo_stack_remove_top (GnmComboStack *combo, gint num)
-{
 	gint i;
 	GList *child, *children;
 	GtkWidget *list = combo->list;
 
+	g_return_if_fail (IS_GNM_COMBO_STACK (combo));
 	g_return_if_fail (combo->num_items != 0);
 
 	if (num > combo->num_items)
@@ -294,6 +292,7 @@ gnm_combo_stack_remove_top (GnmComboStack *combo, gint num)
 void
 gnm_combo_stack_truncate (GnmComboStack *combo, int n)
 {
+	g_return_if_fail (IS_GNM_COMBO_STACK (combo));
 	if (combo->num_items > n) {
 		combo->num_items = n;
 
@@ -301,4 +300,11 @@ gnm_combo_stack_truncate (GnmComboStack *combo, int n)
 		if (n == 0)
 			gtk_widget_set_sensitive (GTK_WIDGET (combo), FALSE);
 	}
+}
+
+GtkWidget *
+gnm_combo_stack_get_button (GnmComboStack *combo)
+{
+	g_return_val_if_fail (IS_GNM_COMBO_STACK (combo), NULL);
+	return combo->button;
 }

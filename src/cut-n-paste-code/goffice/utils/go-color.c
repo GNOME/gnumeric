@@ -394,7 +394,7 @@ go_color_as_str (GOColor color)
 	return g_strdup_printf ("%X:%X:%X:%X", r, g, b, a);
 }
 
-void
+GdkColor *
 go_color_to_gdk	(GOColor c, GdkColor *res)
 {
 	res->red    = UINT_RGBA_R (c);
@@ -403,4 +403,6 @@ go_color_to_gdk	(GOColor c, GdkColor *res)
 	res->green |= (res->green << 8);
 	res->blue   = UINT_RGBA_B (c);
 	res->blue  |= (res->blue << 8);
+
+	return res;
 }

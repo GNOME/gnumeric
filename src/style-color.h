@@ -2,6 +2,7 @@
 #define GNUMERIC_STYLE_COLOR_H
 
 #include "gnumeric.h"
+#include <goffice/utils/go-color.h>
 #include <gdk/gdkcolor.h>
 
 struct _GnmColor {
@@ -14,6 +15,7 @@ struct _GnmColor {
 /* Colors used by any GnumericSheet item */
 extern GdkColor gs_white, gs_light_gray, gs_dark_gray, gs_black, gs_lavender, gs_yellow;
 
+GnmColor *style_color_new_go   (GOColor c);
 GnmColor *style_color_new_name (char const *name);
 GnmColor *style_color_new      (gushort red, gushort green, gushort blue);
 GnmColor *style_color_new_i8    (guint8 red, guint8 green, guint8 blue);

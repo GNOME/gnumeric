@@ -117,6 +117,7 @@ dnl shot so that we can have a nice neat compile/link line
 dnl ****************************
 
 PKG_CHECK_MODULES(GNUMERIC, $gnumeric_reqs)
+GNUMERIC_CFLAGS="$GNUMERIC_CFLAGS -I\$(top_srcdir)/src/cut-n-paste-code"
 AC_SUBST(GNUMERIC_LIBS)
 AC_SUBST(GNUMERIC_CFLAGS)
 
