@@ -1,4 +1,4 @@
-Gnumeric 0.77
+Gnumeric 0.99.0
 
 Andreas:
 	* Fix problem in search & search/replace tool #64989
@@ -44,7 +44,7 @@ Jody:
 	* Minor etable warning tweak.
 	* Improve cursor handling for frozen panes.
 	* Fix sorting with hidden cols/rows before region.
-	* have FIXED use the format engine.
+	* FIXED now uses the format engine.
 
 Morten:
 	* Fix EXPRESSION crash.

@@ -1,5 +1,9 @@
 2001-12-10  Jody Goldberg <jody@gnome.org>
 
+	* configure.in (version) : bump to 0.99.0 in preparation for 1.0.0
+
+2001-12-10  Jody Goldberg <jody@gnome.org>
+
 	* src/value.c (value_new_string_str) : absorb the ref.
 	(value_duplicate) : manually add a ref here.
 
