@@ -534,8 +534,8 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 	for (i = 1; i < dd->source_table->nrows; i++) {
 		GnumericExprEntry *ge = gnumeric_expr_entry_new (wbcg, TRUE);
 		gnm_expr_entry_set_flags (ge,
-					       GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL,
-					       GNUM_EE_MASK);
+					       GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL,
+					       GNM_EE_MASK);
 
 		gtk_table_attach (dd->source_table,
 				  GTK_WIDGET (ge),
@@ -549,8 +549,8 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	dd->resultrangetext = gnumeric_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (dd->resultrangetext,
-				       GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL,
-				       GNUM_EE_MASK);
+				       GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL,
+				       GNM_EE_MASK);
 	gtk_box_pack_start (GTK_BOX (glade_xml_get_widget (gui, "result_hbox")),
 			    GTK_WIDGET (dd->resultrangetext),
 			    TRUE, TRUE, 0);

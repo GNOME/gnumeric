@@ -809,8 +809,8 @@ sheet_widget_scrollbar_user_config (SheetObject *so, SheetControl *sc)
 
 	state->expression = gnumeric_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->expression,
-		GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL | GNUM_EE_SHEET_OPTIONAL | GNUM_EE_SINGLE_RANGE,
-		GNUM_EE_MASK);
+		GNM_EE_ABS_ROW | GNM_EE_ABS_COL | GNM_EE_SHEET_OPTIONAL | GNM_EE_SINGLE_RANGE,
+		GNM_EE_MASK);
 	gnm_expr_entry_set_scg (state->expression, SHEET_CONTROL_GUI (sc));
 	gnm_expr_entry_load_from_dep (state->expression, &swb->dep);
 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (state->expression),
@@ -1267,8 +1267,8 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 
 	state->expression = gnumeric_expr_entry_new (wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->expression,
-		GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL | GNUM_EE_SHEET_OPTIONAL | GNUM_EE_SINGLE_RANGE,
-		GNUM_EE_MASK);
+		GNM_EE_ABS_ROW | GNM_EE_ABS_COL | GNM_EE_SHEET_OPTIONAL | GNM_EE_SINGLE_RANGE,
+		GNM_EE_MASK);
 	gnm_expr_entry_set_scg (state->expression, SHEET_CONTROL_GUI (sc));
 	gnm_expr_entry_load_from_dep (state->expression, &swc->dep);
 	gtk_table_attach (GTK_TABLE (table), GTK_WIDGET (state->expression),

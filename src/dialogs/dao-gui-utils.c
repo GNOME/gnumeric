@@ -108,7 +108,7 @@ dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "output-table"));
 	state->output_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->output_entry,
-				  GNUM_EE_SINGLE_RANGE, GNUM_EE_MASK);
+				  GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
         gnm_expr_entry_set_scg (state->output_entry,
 				wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->output_entry),

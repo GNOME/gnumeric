@@ -805,7 +805,7 @@ dialog_random_tool_init (RandomToolState *state)
 	table = GTK_TABLE (glade_xml_get_widget (state->base.gui, "distribution_table"));
 	state->par1_expr_entry = GTK_WIDGET (gnumeric_expr_entry_new (state->base.wbcg, TRUE));
 	gnm_expr_entry_set_flags (GNUMERIC_EXPR_ENTRY (state->par1_expr_entry),
-				       GNUM_EE_SINGLE_RANGE, GNUM_EE_MASK);
+				       GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
         gnm_expr_entry_set_scg (GNUMERIC_EXPR_ENTRY (state->par1_expr_entry),
 				wbcg_cur_scg (state->base.wbcg));
 	gtk_table_attach (table, state->par1_expr_entry,

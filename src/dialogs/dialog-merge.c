@@ -344,7 +344,7 @@ dialog_merge (WorkbookControlGUI *wbcg)
 
 	table = GTK_TABLE (glade_xml_get_widget (gui, "main_table"));
 	state->zone = gnumeric_expr_entry_new (wbcg, TRUE);
-	gnm_expr_entry_set_flags (state->zone, GNUM_EE_SINGLE_RANGE, GNUM_EE_MASK);
+	gnm_expr_entry_set_flags (state->zone, GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
 	gnm_expr_entry_set_scg (state->zone, wbcg_cur_scg (wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->zone),
 			  1, 3, 0, 1,
@@ -352,7 +352,7 @@ dialog_merge (WorkbookControlGUI *wbcg)
 			  0, 0);
 
 	state->data = gnumeric_expr_entry_new (wbcg, TRUE);
-	gnm_expr_entry_set_flags (state->data, GNUM_EE_SINGLE_RANGE, GNUM_EE_MASK);
+	gnm_expr_entry_set_flags (state->data, GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
 	gnm_expr_entry_set_scg (state->data, wbcg_cur_scg (wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->data),
 			  0, 1, 8, 9,
@@ -360,7 +360,7 @@ dialog_merge (WorkbookControlGUI *wbcg)
 			  0, 0);
 
 	state->field = gnumeric_expr_entry_new (wbcg, TRUE);
-	gnm_expr_entry_set_flags (state->field, GNUM_EE_SINGLE_RANGE, GNUM_EE_MASK);
+	gnm_expr_entry_set_flags (state->field, GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
 	gnm_expr_entry_set_scg (state->field, wbcg_cur_scg (wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->field),
 			  1, 2, 8, 9,

@@ -674,8 +674,8 @@ dialog_init (SortFlowState *state)
 /* setup range entry */
 	state->range_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->range_entry,
-                                      GNUM_EE_SINGLE_RANGE,
-                                      GNUM_EE_MASK);
+                                      GNM_EE_SINGLE_RANGE,
+                                      GNM_EE_MASK);
         gnm_expr_entry_set_scg (state->range_entry, wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->range_entry),
 			  1, 2, 0, 1,
@@ -694,8 +694,8 @@ dialog_init (SortFlowState *state)
 /* setup add entry */
 	state->add_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->add_entry,
-                                      GNUM_EE_SINGLE_RANGE,
-                                      GNUM_EE_MASK);
+                                      GNM_EE_SINGLE_RANGE,
+                                      GNM_EE_MASK);
         gnm_expr_entry_set_scg (state->add_entry, wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->add_entry),
 			  0, 2, 1, 2,

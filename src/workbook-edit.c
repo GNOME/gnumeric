@@ -361,8 +361,8 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 
 	gnm_expr_entry_set_scg (wbcg->edit_line.entry, scg);
 	gnm_expr_entry_set_flags (wbcg->edit_line.entry,
-		GNUM_EE_SHEET_OPTIONAL,
-		GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL);
+		GNM_EE_SHEET_OPTIONAL,
+		GNM_EE_SINGLE_RANGE | GNM_EE_SHEET_OPTIONAL);
 	scg_edit_start (scg);
 
 	/* Redraw the cell contents in case there was a span */

@@ -359,7 +359,7 @@ dialog_tool_init (GenericToolState *state,
 		state->input_entry = gnumeric_expr_entry_new (state->wbcg,
 							      TRUE);
 		gnm_expr_entry_set_flags (state->input_entry, flags,
-					  GNUM_EE_MASK);
+					  GNM_EE_MASK);
 		gnm_expr_entry_set_scg (state->input_entry,
 					wbcg_cur_scg (state->wbcg));
 		gtk_table_attach (table, GTK_WIDGET (state->input_entry),
@@ -394,7 +394,7 @@ dialog_tool_init (GenericToolState *state,
 		state->input_entry_2 = gnumeric_expr_entry_new (state->wbcg,
 								TRUE);
 		gnm_expr_entry_set_flags (state->input_entry_2, 
-					  GNUM_EE_SINGLE_RANGE, GNUM_EE_MASK);
+					  GNM_EE_SINGLE_RANGE, GNM_EE_MASK);
 		gnm_expr_entry_set_scg (state->input_entry_2,
 					wbcg_cur_scg (state->wbcg));
 		table = GTK_TABLE (gtk_widget_get_parent (widget));
@@ -1479,7 +1479,7 @@ dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
 			      TTEST_KEY,
 			      G_CALLBACK (ttest_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (ttest_update_sensitivity_cb),
-			      GNUM_EE_SINGLE_RANGE))
+			      GNM_EE_SINGLE_RANGE))
 		return 0;
 
 	gtk_object_set_data (GTK_OBJECT (state->base.dialog), "state", state);
@@ -1677,7 +1677,7 @@ dialog_ftest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      FTEST_KEY,
 			      G_CALLBACK (ftest_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (ftest_update_sensitivity_cb),
-			      GNUM_EE_SINGLE_RANGE))
+			      GNM_EE_SINGLE_RANGE))
 		return 0;
 
 	state->alpha_entry = glade_xml_get_widget (state->base.gui, "one_alpha");
@@ -2983,7 +2983,7 @@ dialog_anova_two_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      G_CALLBACK (anova_two_factor_tool_ok_clicked_cb),
 			      NULL,
 			      G_CALLBACK (anova_two_factor_tool_update_sensitivity_cb),
-			      GNUM_EE_SINGLE_RANGE))
+			      GNM_EE_SINGLE_RANGE))
 		return 0;
 
 	state->alpha_entry = glade_xml_get_widget (state->base.gui,

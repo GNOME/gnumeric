@@ -223,8 +223,8 @@ gee_rangesel_reset (GnumericExprEntry *gee)
 	memset (&rs->ref, 0, sizeof (Range));
 
 	/* restore the default based on the flags */
-	rs->ref.a.col_relative = rs->ref.b.col_relative = (gee->flags & GNUM_EE_ABS_COL) != 0;
-	rs->ref.a.row_relative = rs->ref.b.row_relative = (gee->flags & GNUM_EE_ABS_ROW) != 0;
+	rs->ref.a.col_relative = rs->ref.b.col_relative = (gee->flags & GNM_EE_ABS_COL) != 0;
+	rs->ref.a.row_relative = rs->ref.b.row_relative = (gee->flags & GNM_EE_ABS_ROW) != 0;
 
 	gee->rangesel.is_valid = FALSE;
 }
@@ -285,17 +285,17 @@ gee_prepare_range (GnumericExprEntry const *gee, RangeRef *dst)
 
 	*dst = rs->ref;
 
-	if (gee->flags & GNUM_EE_FULL_ROW) {
+	if (gee->flags & GNM_EE_FULL_ROW) {
 		dst->a.col = 0;
 		dst->b.col = SHEET_MAX_COLS - 1;
 	}
-	if (gee->flags & GNUM_EE_FULL_COL) {
+	if (gee->flags & GNM_EE_FULL_COL) {
 		dst->a.row = 0;
 		dst->b.row = SHEET_MAX_ROWS - 1;
 	}
 
 	/* special case a single merge to be only corner */
-	if (!(gee->flags & (GNUM_EE_FULL_ROW|GNUM_EE_FULL_COL))) {
+	if (!(gee->flags & (GNM_EE_FULL_ROW|GNM_EE_FULL_COL))) {
 		Range const *merge;
 		CellPos  corner;
 
@@ -310,7 +310,7 @@ gee_prepare_range (GnumericExprEntry const *gee, RangeRef *dst)
 		}
 	}
 
-	if (dst->a.sheet == NULL && !(gee->flags & GNUM_EE_SHEET_OPTIONAL))
+	if (dst->a.sheet == NULL && !(gee->flags & GNM_EE_SHEET_OPTIONAL))
 		dst->a.sheet = gee->sheet;
 }
 
@@ -384,13 +384,13 @@ gnm_expr_expr_find_range (GnumericExprEntry *gee)
 	g_return_if_fail (gee != NULL);
 
 	rs     = &gee->rangesel;
-	single = (gee->flags & (GNUM_EE_SINGLE_RANGE != 0));
+	single = (gee->flags & (GNM_EE_SINGLE_RANGE != 0));
 
 	text = gtk_entry_get_text (gee->entry);
 	cursor = text + gtk_editable_get_position (GTK_EDITABLE (gee->entry));
 
-	rs->ref.a.col_relative = rs->ref.b.col_relative = (gee->flags & GNUM_EE_ABS_COL) == 0;
-	rs->ref.a.row_relative = rs->ref.b.row_relative = (gee->flags & GNUM_EE_ABS_ROW) == 0;
+	rs->ref.a.col_relative = rs->ref.b.col_relative = (gee->flags & GNM_EE_ABS_COL) == 0;
+	rs->ref.a.row_relative = rs->ref.b.row_relative = (gee->flags & GNM_EE_ABS_ROW) == 0;
 	rs->ref.a.sheet = rs->ref.b.sheet = NULL;
 	rs->is_valid = FALSE;
 	if (text == NULL)
@@ -481,7 +481,7 @@ gnm_expr_entry_rangesel_stop (GnumericExprEntry *gee,
 		gtk_editable_delete_text (GTK_EDITABLE (gee->entry),
 					  rs->text_start, rs->text_end);
 
-	if (!(gee->flags & GNUM_EE_SINGLE_RANGE) || clear_string)
+	if (!(gee->flags & GNM_EE_SINGLE_RANGE) || clear_string)
 		gee_rangesel_reset (gee);
 }
 
@@ -595,8 +595,8 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 		 * displayed in entry.
 		 */
 		Rangesel *rs = &gee->rangesel;
-		gboolean abs_cols = (gee->flags & GNUM_EE_ABS_COL);
-		gboolean abs_rows = (gee->flags & GNUM_EE_ABS_ROW);
+		gboolean abs_cols = (gee->flags & GNM_EE_ABS_COL);
+		gboolean abs_rows = (gee->flags & GNM_EE_ABS_ROW);
 
 		/* FIXME: since the range can't have changed we should just be able to */
 		/*        look it up rather than reparse */
@@ -850,13 +850,13 @@ gnm_expr_entry_thaw (GnumericExprEntry *gee)
  * Changes the flags specified in @mask to values given in @flags.
  *
  * Flags (%FALSE by default, with exceptions given below):
- * %GNUM_EE_SINGLE_RANGE      Entry will only hold a single range.
+ * %GNM_EE_SINGLE_RANGE      Entry will only hold a single range.
  *                            %TRUE by default
- * %GNUM_EE_ABS_COL           Column reference must be absolute.
- * %GNUM_EE_ABS_ROW           Row reference must be absolute.
- * %GNUM_EE_FULL_COL          Range consists of full columns.
- * %GNUM_EE_FULL_ROW          Range consists of full rows.
- * %GNUM_EE_SHEET_OPTIONAL    Current sheet name not auto-added.
+ * %GNM_EE_ABS_COL           Column reference must be absolute.
+ * %GNM_EE_ABS_ROW           Row reference must be absolute.
+ * %GNM_EE_FULL_COL          Range consists of full columns.
+ * %GNM_EE_FULL_ROW          Range consists of full rows.
+ * %GNM_EE_SHEET_OPTIONAL    Current sheet name not auto-added.
  **/
 void
 gnm_expr_entry_set_flags (GnumericExprEntry *gee,
@@ -869,10 +869,10 @@ gnm_expr_entry_set_flags (GnumericExprEntry *gee,
 
 	gee->flags = (gee->flags & ~mask) | (flags & mask);
 	rs = &gee->rangesel;
-	if (mask & GNUM_EE_ABS_COL)
-		rs->ref.a.col_relative = rs->ref.b.col_relative = (gee->flags & GNUM_EE_ABS_COL) != 0;
-	if (mask & GNUM_EE_ABS_ROW)
-		rs->ref.a.row_relative = rs->ref.b.row_relative = (gee->flags & GNUM_EE_ABS_ROW) != 0;
+	if (mask & GNM_EE_ABS_COL)
+		rs->ref.a.col_relative = rs->ref.b.col_relative = (gee->flags & GNM_EE_ABS_COL) != 0;
+	if (mask & GNM_EE_ABS_ROW)
+		rs->ref.a.row_relative = rs->ref.b.row_relative = (gee->flags & GNM_EE_ABS_ROW) != 0;
 }
 
 /**
@@ -890,7 +890,7 @@ gnm_expr_entry_set_scg (GnumericExprEntry *gee, SheetControlGUI *scg)
 	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
 	g_return_if_fail (scg == NULL || IS_SHEET_CONTROL_GUI (scg));
 
-	if ((gee->flags & GNUM_EE_SINGLE_RANGE) || scg != gee->scg)
+	if ((gee->flags & GNM_EE_SINGLE_RANGE) || scg != gee->scg)
 		gee_rangesel_reset (gee);
 
 	gee_detach_scg (gee);
@@ -1001,9 +1001,9 @@ gnm_expr_entry_load_from_range (GnumericExprEntry *gee,
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (r != NULL, FALSE);
 
-	needs_change =  (gee->flags & GNUM_EE_FULL_COL &&
+	needs_change =  (gee->flags & GNM_EE_FULL_COL &&
 			 !range_is_full (r, TRUE)) ||
-			(gee->flags & GNUM_EE_FULL_ROW &&
+			(gee->flags & GNM_EE_FULL_ROW &&
 			 !range_is_full (r, FALSE));
 
 	rs = &gee->rangesel;
@@ -1024,7 +1024,7 @@ gnm_expr_entry_load_from_range (GnumericExprEntry *gee,
 		rs->ref.a.col = rs->ref.b.col = rs->ref.a.row = rs->ref.b.row = 0;
 
 	rs->ref.a.sheet =
-		(sheet != gee->sheet || !(gee->flags & GNUM_EE_SHEET_OPTIONAL)) ? sheet : NULL;
+		(sheet != gee->sheet || !(gee->flags & GNM_EE_SHEET_OPTIONAL)) ? sheet : NULL;
 	rs->ref.b.sheet = NULL;
 
 	if (gee->freeze_count == 0)
@@ -1098,7 +1098,7 @@ gnm_expr_entry_set_absolute (GnumericExprEntry *gee)
 {
 	GnumericExprEntryFlags flags;
 
-	flags = GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL;
+	flags = GNM_EE_ABS_ROW | GNM_EE_ABS_COL;
 	gnm_expr_entry_set_flags (gee, flags, flags);
 }
 
@@ -1176,18 +1176,18 @@ gnm_expr_entry_parse (GnumericExprEntry *gee, ParsePos const *pp,
 		return NULL;
 
 	flags = GNM_EXPR_PARSE_DEFAULT;
-	if (gee->flags & GNUM_EE_ABS_COL)
+	if (gee->flags & GNM_EE_ABS_COL)
 		flags |= GNM_EXPR_PARSE_FORCE_ABSOLUTE_COL_REFERENCES;
-	if (gee->flags & GNUM_EE_ABS_ROW)
+	if (gee->flags & GNM_EE_ABS_ROW)
 		flags |= GNM_EXPR_PARSE_FORCE_ABSOLUTE_ROW_REFERENCES;
-	if (!(gee->flags & GNUM_EE_SHEET_OPTIONAL))
+	if (!(gee->flags & GNM_EE_SHEET_OPTIONAL))
 		flags |= GNM_EXPR_PARSE_FORCE_EXPLICIT_SHEET_REFERENCES;
 
 	expr = gnm_expr_parse_str (text, pp, flags, gnm_expr_conventions_default, perr);
 	if (expr == NULL)
 		return NULL;
 
-	if (gee->flags & GNUM_EE_SINGLE_RANGE) {
+	if (gee->flags & GNM_EE_SINGLE_RANGE) {
 		Value *range = gnm_expr_get_range (expr) ;
 		if (range == NULL) {
 			if (perr != NULL) {

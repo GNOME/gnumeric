@@ -1099,8 +1099,8 @@ dialog_init (SolverState *state)
 						 "parameter_table"));
 	state->target_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->target_entry,
-				  GNUM_EE_SINGLE_RANGE |
-				  GNUM_EE_SHEET_OPTIONAL, GNUM_EE_MASK);
+				  GNM_EE_SINGLE_RANGE |
+				  GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
         gnm_expr_entry_set_scg (state->target_entry,
 				wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->target_entry),
@@ -1118,8 +1118,8 @@ dialog_init (SolverState *state)
 						 "parameter_table"));
 	state->change_cell_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->change_cell_entry,
-				  GNUM_EE_SINGLE_RANGE |
-				  GNUM_EE_SHEET_OPTIONAL, GNUM_EE_MASK);
+				  GNM_EE_SINGLE_RANGE |
+				  GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
         gnm_expr_entry_set_scg (state->change_cell_entry,
 				wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->change_cell_entry),
@@ -1168,8 +1168,8 @@ dialog_init (SolverState *state)
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "edit-table"));
 	state->lhs_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->lhs_entry,
-				  GNUM_EE_SINGLE_RANGE |
-				  GNUM_EE_SHEET_OPTIONAL, GNUM_EE_MASK);
+				  GNM_EE_SINGLE_RANGE |
+				  GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
         gnm_expr_entry_set_scg (state->lhs_entry, wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->lhs_entry),
 			  0, 1, 1, 2,
@@ -1186,8 +1186,8 @@ dialog_init (SolverState *state)
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "edit-table"));
 	state->rhs_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_flags (state->rhs_entry,
-				  GNUM_EE_SINGLE_RANGE |
-				  GNUM_EE_SHEET_OPTIONAL, GNUM_EE_MASK);
+				  GNM_EE_SINGLE_RANGE |
+				  GNM_EE_SHEET_OPTIONAL, GNM_EE_MASK);
         gnm_expr_entry_set_scg (state->rhs_entry, wbcg_cur_scg (state->wbcg));
 	gtk_table_attach (table, GTK_WIDGET (state->rhs_entry),
 			  2, 3, 1, 2,

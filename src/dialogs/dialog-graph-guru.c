@@ -712,7 +712,7 @@ vector_state_fill (VectorState *vs, xmlNode *series)
 	vs->state->updating = TRUE;
 	gnm_expr_entry_load_from_text (vs->entry, "");
 	gnm_expr_entry_set_flags (vs->entry,
-		GNUM_EE_ABS_COL|GNUM_EE_ABS_ROW, GNUM_EE_MASK);
+		GNM_EE_ABS_COL|GNM_EE_ABS_ROW, GNM_EE_MASK);
 	vs->state->updating = FALSE;
 
 	if (series == NULL)
@@ -729,7 +729,7 @@ vector_state_fill (VectorState *vs, xmlNode *series)
 			gnm_expr_entry_load_from_dep (vs->entry,
 				gnm_graph_vector_get_dependent (vs->vector));
 			gnm_expr_entry_set_flags (vs->entry,
-				GNUM_EE_ABS_COL|GNUM_EE_ABS_ROW, GNUM_EE_MASK);
+				GNM_EE_ABS_COL|GNM_EE_ABS_ROW, GNM_EE_MASK);
 		}
 	}
 }

@@ -383,7 +383,7 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 	gnm_expr_entry_set_scg (state->gui.destination, wbcg_cur_scg (state->wbcg));
 	gnm_expr_entry_set_scg (state->gui.source, wbcg_cur_scg (state->wbcg));
 
-	flags = GNUM_EE_SINGLE_RANGE;
+	flags = GNM_EE_SINGLE_RANGE;
 	gnm_expr_entry_set_flags (state->gui.destination, flags, flags);
 	gnm_expr_entry_set_flags (state->gui.source, flags, flags);
 

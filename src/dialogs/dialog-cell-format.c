@@ -2502,7 +2502,7 @@ static void
 fmt_dialog_init_validation_expr_entry (FormatState *state, ExprEntry *entry,
 				       char const *name, int i)
 {
-	GnumericExprEntryFlags flags = GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL | GNUM_EE_SHEET_OPTIONAL;
+	GnumericExprEntryFlags flags = GNM_EE_ABS_ROW | GNM_EE_ABS_COL | GNM_EE_SHEET_OPTIONAL;
 
 	entry->name  = GTK_LABEL (glade_xml_get_widget (state->gui, name));
 	entry->entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
@@ -2517,7 +2517,7 @@ fmt_dialog_init_validation_expr_entry (FormatState *state, ExprEntry *entry,
 	g_signal_connect (G_OBJECT (entry->entry),
 		"changed",
 		G_CALLBACK (cb_validation_changed), state);
-	gnm_expr_entry_set_flags (entry->entry, flags, flags | GNUM_EE_SINGLE_RANGE);
+	gnm_expr_entry_set_flags (entry->entry, flags, flags | GNM_EE_SINGLE_RANGE);
 }
 
 static void

@@ -1260,8 +1260,8 @@ do_setup_page_info (PrinterSetupState *state)
 	state->area_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_scg (state->area_entry, wbcg_cur_scg (state->wbcg));
 	gnm_expr_entry_set_flags (state->area_entry,
-				       GNUM_EE_SHEET_OPTIONAL,
-				       GNUM_EE_SHEET_OPTIONAL);
+				       GNM_EE_SHEET_OPTIONAL,
+				       GNM_EE_SHEET_OPTIONAL);
 	gtk_box_pack_start (GTK_BOX (pa_hbox), GTK_WIDGET (state->area_entry),
 			    TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET (state->area_entry));
@@ -1269,8 +1269,8 @@ do_setup_page_info (PrinterSetupState *state)
 	state->top_entry = gnumeric_expr_entry_new (state->wbcg, TRUE);
 	gnm_expr_entry_set_scg (state->top_entry, wbcg_cur_scg (state->wbcg));
 	gnm_expr_entry_set_flags (state->top_entry,
-		GNUM_EE_FULL_ROW | GNUM_EE_SHEET_OPTIONAL,
-		GNUM_EE_FULL_ROW | GNUM_EE_SHEET_OPTIONAL);
+		GNM_EE_FULL_ROW | GNM_EE_SHEET_OPTIONAL,
+		GNM_EE_FULL_ROW | GNM_EE_SHEET_OPTIONAL);
 	gtk_table_attach (GTK_TABLE (repeat_table),
 			  GTK_WIDGET (state->top_entry),
 			  1, 2, 0, 1,
@@ -1281,8 +1281,8 @@ do_setup_page_info (PrinterSetupState *state)
 	gnm_expr_entry_set_scg (state->left_entry, wbcg_cur_scg (state->wbcg));
 	gnm_expr_entry_set_flags (
 		state->left_entry,
-		GNUM_EE_FULL_COL | GNUM_EE_SHEET_OPTIONAL,
-		GNUM_EE_FULL_COL | GNUM_EE_SHEET_OPTIONAL);
+		GNM_EE_FULL_COL | GNM_EE_SHEET_OPTIONAL,
+		GNM_EE_FULL_COL | GNM_EE_SHEET_OPTIONAL);
 	gtk_table_attach (GTK_TABLE (repeat_table),
 			  GTK_WIDGET (state->left_entry),
 			  1, 2, 1, 2,

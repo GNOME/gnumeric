@@ -13,13 +13,13 @@ typedef struct _GnumericExprEntry GnumericExprEntry;
 
 typedef enum
 {
-	GNUM_EE_SINGLE_RANGE    = 1 << 0,
-	GNUM_EE_ABS_COL         = 1 << 1,
-	GNUM_EE_ABS_ROW         = 1 << 2,
-	GNUM_EE_FULL_COL        = 1 << 3,
-	GNUM_EE_FULL_ROW        = 1 << 4,
-	GNUM_EE_SHEET_OPTIONAL  = 1 << 5,
-	GNUM_EE_MASK            = 0x3F
+	GNM_EE_SINGLE_RANGE    = 1 << 0,
+	GNM_EE_ABS_COL         = 1 << 1,
+	GNM_EE_ABS_ROW         = 1 << 2,
+	GNM_EE_FULL_COL        = 1 << 3,
+	GNM_EE_FULL_ROW        = 1 << 4,
+	GNM_EE_SHEET_OPTIONAL  = 1 << 5,
+	GNM_EE_MASK            = 0x3F
 } GnumericExprEntryFlags;
 
 GType gnumeric_expr_entry_get_type (void);
