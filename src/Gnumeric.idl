@@ -1,6 +1,6 @@
 
 #include <gnome-factory.idl>
-#include <gnome-object.idl>
+#include <GnomeObject.idl>
 
 module GNOME {
 	module Gnumeric {
