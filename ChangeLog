@@ -1,3 +1,14 @@
+2004-01-26  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=132448
+	* src/wbcg-actions.c (cb_auto_filter) : fix
+	* src/selection.c (selection_first_range) : improve readability of
+	  error message.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=127138
+	* src/wbcg-actions.c (cb_view_freeze_panes) : Don't get confused by an
+	  attempt to freeze without centering when the top or left is not 0.
+
 2004-01-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/cell-draw.c (cell_calc_layout): new

@@ -40,6 +40,10 @@ Jody:
 	* Install the executable as gnumeric-<version>
 	http://bugzilla.gnome.org/show_bug.cgi?id=132017
 	* Support double underline when importing from applix
+	http://bugzilla.gnome.org/show_bug.cgi?id=127138
+	* Handle freezing when top or left is non 0
+	http://bugzilla.gnome.org/show_bug.cgi?id=132448
+	* Silly crash fix
 
 John Gill:
 	* Tool tips for the sort dialog.
