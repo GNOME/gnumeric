@@ -63,7 +63,7 @@ wbcc_init_class (GtkObjectClass *object_class)
 	cc_class->error.invalid	= &wbcc_error_invalid;
 }
 
-GNUMERIC_MAKE_TYPE(workbook_control_corba, "WorkbookControlCorba", WorkbookControlCorba,
+static GNUMERIC_MAKE_TYPE(workbook_control_corba, "WorkbookControlCorba", WorkbookControlCorba,
 		   wbcc_init_class, NULL, workbook_control_get_type ())
 
 

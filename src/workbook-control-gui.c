@@ -197,17 +197,6 @@ wbcg_prefs_update (WorkbookControl *wbc)
 }
 
 static void
-wbcg_progress_set (WorkbookControl *wbc, gfloat val)
-{
-	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-#ifdef ENABLE_BONOBO
-	gtk_progress_bar_update (GTK_PROGRESS_BAR (wbcg->progress_bar), val);
-#else
-	gnome_appbar_set_progress (wbcg->appbar, val);
-#endif
-}
-
-static void
 wbcg_format_feedback (WorkbookControl *wbc)
 {
 	workbook_feedback_set ((WorkbookControlGUI *)wbc);
@@ -778,6 +767,17 @@ wbcg_claim_selection  (WorkbookControl *wbc)
 }
 
 static void
+wbcg_progress_set (CommandContext *cc, gfloat val)
+{
+	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)cc;
+#ifdef ENABLE_BONOBO
+	gtk_progress_bar_update (GTK_PROGRESS_BAR (wbcg->progress_bar), val);
+#else
+	gnome_appbar_set_progress (wbcg->appbar, val);
+#endif
+}
+
+static void
 wbcg_error_system (CommandContext *cc, char const *msg)
 {
 	gnumeric_notice ((WorkbookControlGUI *)cc, GNOME_MESSAGE_BOX_ERROR, msg);
@@ -804,6 +804,11 @@ wbcg_error_invalid (CommandContext *cc, char const *msg, char const * value)
 	char *buf = g_strconcat (msg, " : ", value, NULL);
 	gnumeric_notice ((WorkbookControlGUI *)cc, GNOME_MESSAGE_BOX_ERROR, buf);
 	g_free (buf);
+}
+static void
+wbcg_error_splits_array (CommandContext *context, char const *cmd)
+{
+	gnumeric_error_invalid (context, cmd, _("Would split an array."));
 }
 
 static char const * const preset_zoom [] = {
@@ -3044,10 +3049,18 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	parent_class = gtk_type_class (workbook_control_get_type ());
 
 	object_class->destroy		= wbcg_destroy;
+
+	wbc_class->context_class.progress_set	= wbcg_progress_set;
+	wbc_class->context_class.error.system	= wbcg_error_system;
+	wbc_class->context_class.error.plugin	= wbcg_error_plugin;
+	wbc_class->context_class.error.read	= wbcg_error_read;
+	wbc_class->context_class.error.save	= wbcg_error_save;
+	wbc_class->context_class.error.invalid	= wbcg_error_invalid;
+	wbc_class->context_class.error.splits_array  = wbcg_error_splits_array;
+
 	wbc_class->control_new		= wbcg_control_new;
 	wbc_class->title_set		= wbcg_title_set;
 	wbc_class->prefs_update		= wbcg_prefs_update;
-	wbc_class->progress_set		= wbcg_progress_set;
 	wbc_class->format_feedback	= wbcg_format_feedback;
 	wbc_class->zoom_feedback	= wbcg_zoom_feedback;
 	wbc_class->edit_line_set	= wbcg_edit_line_set;
@@ -3069,12 +3082,6 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->paste.special_enable = wbcg_paste_special_enable;
 	wbc_class->paste.from_selection = wbcg_paste_from_selection;
 	wbc_class->claim_selection	= wbcg_claim_selection;
-
-	wbc_class->context_class.error.system	 = wbcg_error_system;
-	wbc_class->context_class.error.plugin	 = wbcg_error_plugin;
-	wbc_class->context_class.error.read	 = wbcg_error_read;
-	wbc_class->context_class.error.save	 = wbcg_error_save;
-	wbc_class->context_class.error.invalid   = wbcg_error_invalid;
 }
 
 GNUMERIC_MAKE_TYPE(workbook_control_gui,

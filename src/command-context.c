@@ -90,7 +90,7 @@ gnumeric_error_splits_array (CommandContext *context, char const *cmd)
 {
 	g_return_if_fail (IS_COMMAND_CONTEXT (context));
 
-	gnumeric_error_invalid	(context, cmd, _("Would split an array."));
+	CC_CLASS (context)->error.splits_array (context, cmd);
 }
 
 void

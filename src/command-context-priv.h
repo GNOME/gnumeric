@@ -14,12 +14,13 @@ typedef struct {
 
 	void (*progress_set)	(CommandContext *context, gfloat val);
 	struct {
-		void (*system)	(CommandContext *context, char const *msg);
-		void (*plugin)	(CommandContext *context, char const *msg);
-		void (*read)	(CommandContext *context, char const *msg);
-		void (*save)	(CommandContext *context, char const *msg);
-		void (*invalid)	(CommandContext *context,
-				 char const *msg, char const *val);
+		void (*system)		(CommandContext *ctxt, char const *msg);
+		void (*plugin)		(CommandContext *ctxt, char const *msg);
+		void (*read)		(CommandContext *ctxt, char const *msg);
+		void (*save)		(CommandContext *ctxt, char const *msg);
+		void (*splits_array)	(CommandContext *ctxt, char const *cmd);
+		void (*invalid)		(CommandContext *ctxt,
+					 char const *msg, char const *val);
 	} error;
 } CommandContextClass;
 

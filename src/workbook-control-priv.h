@@ -18,7 +18,6 @@ typedef struct {
 	/* Actions on the workbook UI */
 	void (*title_set)	    (WorkbookControl *wbc, char const *title);
 	void (*prefs_update)	    (WorkbookControl *wbc);
-	void (*progress_set)	    (WorkbookControl *wbc, gfloat val);
 	void (*format_feedback)	    (WorkbookControl *wbc);
 	void (*zoom_feedback)	    (WorkbookControl *wbc);
 	void (*edit_line_set)	    (WorkbookControl *wbc, char const *text);

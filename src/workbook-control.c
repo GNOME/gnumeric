@@ -61,8 +61,6 @@ WBC_VIRTUAL (title_set,
 	(WorkbookControl *wbc, char const * title), (wbc, title))
 WBC_VIRTUAL (prefs_update,
 	(WorkbookControl *wbc), (wbc))
-WBC_VIRTUAL (progress_set,
-	(WorkbookControl *wbc, gfloat val), (wbc, val))
 WBC_VIRTUAL (format_feedback, (WorkbookControl *wbc), (wbc))
 WBC_VIRTUAL (zoom_feedback,
 	(WorkbookControl *wbc), (wbc))

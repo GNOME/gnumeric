@@ -1,3 +1,7 @@
+2000-11-18  Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.59
+
 2000-11-09  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* excel-gb-worksheets.c (excel_gb_worksheets_remove): Provide
