@@ -1,3 +1,8 @@
+2002-02-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/workbook-control-gui.c (delete_sheet_if_possible) : 
+	  use gnumeric_dialog_question_yes_no 
+	
 2002-02-28  Jody Goldberg <jody@gnome.org>
 
 	* src/expr-name.c (expr_name_set_expr) : always relink.

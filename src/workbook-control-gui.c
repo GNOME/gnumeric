@@ -400,9 +400,7 @@ delete_sheet_if_possible (GtkWidget *ignored, SheetControlGUI *scg)
 {
 	SheetControl *sc = (SheetControl *) scg;
 	Workbook *wb = wb_control_workbook (sc->wbc);
-	GtkWidget *dialog;
 	char *message;
-	int response;
 
 	/* If this is the last sheet left, ignore the request */
 	if (workbook_sheet_count (wb) == 1)
@@ -418,18 +416,11 @@ delete_sheet_if_possible (GtkWidget *ignored, SheetControlGUI *scg)
 		_("Are you sure you want to remove the sheet called `%s'?"),
 		sc->sheet->name_unquoted);
 
-	dialog = gtk_message_dialog_new (wbcg_toplevel (scg->wbcg),
-		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_MESSAGE_QUESTION,
-		GTK_BUTTONS_YES_NO,
-		message);
-	g_free (message);
-	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_NO);
-	response = gtk_dialog_run (GTK_DIALOG (dialog));
-	if (response == GTK_RESPONSE_YES) {
+	if (gnumeric_dialog_question_yes_no (scg->wbcg, message, GTK_RESPONSE_YES)) {
 		workbook_sheet_delete (sc->sheet);
 		workbook_recalc_all (wb);
 	}
+	g_free (message);
 }
 
 static void
