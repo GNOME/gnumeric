@@ -25,6 +25,7 @@
 #include "mstyle.h"
 
 #include <libgnome/gnome-i18n.h>
+#include <libxml/globals.h>
 #include <locale.h>
 #include <string.h>
 #include <ctype.h>

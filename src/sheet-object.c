@@ -26,6 +26,7 @@
 #include "sheet-object-cell-comment.h"
 #include "sheet-object-widget.h"
 
+#include <libxml/globals.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 

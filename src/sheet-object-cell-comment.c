@@ -29,6 +29,7 @@
 #include "sheet-merge.h"
 #include "sheet-control-gui-priv.h"
 
+#include <libxml/globals.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-cursors.h>
 
