@@ -1,3 +1,7 @@
+2002-07-08  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-graph.c : modernize.
+
 2002-07-07  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric.h : Add GnmHLink.

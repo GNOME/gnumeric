@@ -77,7 +77,7 @@ typedef struct {
 } GnmGraphClass;
 
 struct _GnmGraphVector {
-	GtkObject 	obj;
+	GObject 	obj;
 	Dependent 	dep;
 
 	GnmGraphVectorType  type;
@@ -106,7 +106,7 @@ struct _GnmGraphVector {
 };
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 } GnmGraphVectorClass;
 
 #define DEP_TO_GRAPH_VECTOR(ptr)	\
@@ -330,7 +330,7 @@ gnm_graph_vector_get_dependent (GnmGraphVector const *vec)
 
 /******************************************************************************/
 
-static GtkObjectClass *gnm_graph_vector_parent_class = NULL;
+static GObjectClass *gnm_graph_vector_parent_class = NULL;
 static POA_GNOME_Gnumeric_VectorSelection__vepv	vector_selection_vepv;
 static POA_GNOME_Gnumeric_Scalar_Vector__vepv	scalar_vector_vepv;
 static POA_GNOME_Gnumeric_String_Vector__vepv	string_vector_vepv;
@@ -471,7 +471,7 @@ gnm_graph_vector_corba_destroy (GnmGraphVector *vector)
 }
 
 static void
-gnm_graph_vector_destroy (GtkObject *obj)
+gnm_graph_vector_finalize (GObject *obj)
 {
 	GnmGraphVector *vector = GNUMERIC_GRAPH_VECTOR (obj);
 
@@ -527,17 +527,17 @@ gnm_graph_vector_corba_class_init (void)
 		&selection_epv;
 }
 static void
-gnm_graph_vector_class_init (GtkObjectClass *object_class)
+gnm_graph_vector_class_init (GObjectClass *object_class)
 {
 	gnm_graph_vector_parent_class = gtk_type_class (gtk_object_get_type ());
 
-	object_class->destroy = & gnm_graph_vector_destroy;
+	object_class->finalize = &gnm_graph_vector_finalize;
 
 	gnm_graph_vector_corba_class_init ();
 }
 
 static void
-gnm_graph_vector_init (GtkObject *obj)
+gnm_graph_vector_init (GObject *obj)
 {
 	GnmGraphVector *vector = GNUMERIC_GRAPH_VECTOR (obj);
 
@@ -548,13 +548,13 @@ gnm_graph_vector_init (GtkObject *obj)
 	vector->initialized	= FALSE;
 }
 
-GSF_CLASS (GraphVector, gnm_graph_vector,
+GSF_CLASS (GnmGraphVector, gnm_graph_vector,
 	   gnm_graph_vector_class_init, gnm_graph_vector_init,
-	   GTK_TYPE_OBJECT);
+	   G_TYPE_OBJECT);
 
 /***************************************************************************/
 
-static GtkObjectClass *gnm_graph_parent_class = NULL;
+static GObjectClass *gnm_graph_parent_class = NULL;
 
 static void
 gnm_graph_clear_vectors_internal (GnmGraph *graph, gboolean unsubscribe)
@@ -1003,7 +1003,7 @@ gnm_graph_get_vector (GnmGraph *graph, int id)
 }
 
 static void
-gnm_graph_init (GtkObject *obj)
+gnm_graph_init (GObject *obj)
 {
 	GnmGraph *graph = GNUMERIC_GRAPH (obj);
 
@@ -1015,7 +1015,7 @@ gnm_graph_init (GtkObject *obj)
 }
 
 static void
-gnm_graph_destroy (GtkObject *obj)
+gnm_graph_finalize (GObject *obj)
 {
 	GnmGraph *graph = GNUMERIC_GRAPH (obj);
 
@@ -1034,8 +1034,8 @@ gnm_graph_destroy (GtkObject *obj)
 	}
 	gnm_graph_clear_xml (graph);
 
-	if (gnm_graph_parent_class->destroy)
-		gnm_graph_parent_class->destroy (obj);
+	if (gnm_graph_parent_class->finalize)
+		gnm_graph_parent_class->finalize (obj);
 }
 
 static void
@@ -1163,7 +1163,7 @@ gnm_graph_write_xml (SheetObject const *so,
 }
 
 static void
-gnm_graph_class_init (GtkObjectClass *object_class)
+gnm_graph_class_init (GObjectClass *object_class)
 {
 	SheetObjectClass *sheet_object_class;
 
@@ -1173,7 +1173,7 @@ gnm_graph_class_init (GtkObjectClass *object_class)
 	abort ();
 #endif
 
-	object_class->destroy = &gnm_graph_destroy;
+	object_class->finalize = &gnm_graph_destroy;
 
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
 	sheet_object_class->populate_menu = gnm_graph_populate_menu;
@@ -1183,10 +1183,10 @@ gnm_graph_class_init (GtkObjectClass *object_class)
 }
 
 #ifdef GNOME2_CONVERSION_COMPLETE
-GSF_CLASS (gnm_graph, GnmGraph,
+GSF_CLASS (GnmGraph, gnm_graph,
 	   gnm_graph_class_init, gnm_graph_init, SHEET_OBJECT_CONTAINER_TYPE)
 #else
-GSF_CLASS (gnm_graph, GnmGraph,
+GSF_CLASS (GnmGraph, gnm_graph,
 	   gnm_graph_class_init, gnm_graph_init, 42)
 #endif
 
