@@ -27,6 +27,9 @@
 #include "sheet.h"
 #include "border.h"
 
+#include "command-context.h"
+#include "ranges.h"
+
 /******************************************************************************
  * Hash table related callbacks and functions
  ******************************************************************************
@@ -698,57 +701,100 @@ format_template_detach_member (FormatTemplate *ft, TemplateMember *member)
 /**
  * format_template_filter_style:
  * @ft: 
- * @mstyle: 
+ * @mstyle:
+ * @fill_defaults: If set fill in the gaps with the "default" mstyle.
  * 
  * Filter an mstyle and strip and replace certain elements
  * based on what the user wants to apply.
+ * Basically you should pass FALSE as @fill_defaults, unless you want to have
+ * a completely filled style to be returned. If you set @fill_default to TRUE
+ * the returned mstyle might have some of it's elements 'not set'
  * 
  * Return value: The same mstyle as @mstyle with most likely some modifications
  **/
 static MStyle *
-format_template_filter_style (FormatTemplate *ft, MStyle *mstyle)
+format_template_filter_style (FormatTemplate *ft, MStyle *mstyle, gboolean fill_defaults)
 {
-	MStyle *mstyle_default;
-
 	g_return_val_if_fail (ft != NULL, NULL);
 	g_return_val_if_fail (mstyle != NULL, NULL);
-	
-	/*
-	 * We fill in the gaps with the default mstyle
-	 */
-	mstyle_default = mstyle_new_default ();
 
-	if (!ft->number) {
-		mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FORMAT);
-	}
-	if (!ft->border) {
-		mstyle_replace_element (mstyle_default, mstyle, MSTYLE_BORDER_TOP);
-		mstyle_replace_element (mstyle_default, mstyle, MSTYLE_BORDER_BOTTOM);
-		mstyle_replace_element (mstyle_default, mstyle, MSTYLE_BORDER_LEFT);
-		mstyle_replace_element (mstyle_default, mstyle, MSTYLE_BORDER_RIGHT);
-		mstyle_replace_element (mstyle_default, mstyle, MSTYLE_BORDER_DIAGONAL);
-		mstyle_replace_element (mstyle_default, mstyle, MSTYLE_BORDER_REV_DIAGONAL);
-	}
-	if (!ft->font) {
-		mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_NAME);
-		mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_BOLD);
-		mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_ITALIC);
-		mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_UNDERLINE);
-		mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_STRIKETHROUGH);
-		mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_SIZE);
+	/*
+	 * Don't fill with defaults, this is perfect for when the
+	 * mstyles are going to be 'merged' with other mstyles which
+	 * have all their elements set
+	 */
+	if (!fill_defaults) {
+
+		if (!ft->number) {
+			mstyle_unset_element (mstyle, MSTYLE_FORMAT);
+		}
+		if (!ft->border) {
+			mstyle_unset_element (mstyle, MSTYLE_BORDER_TOP);
+			mstyle_unset_element (mstyle, MSTYLE_BORDER_BOTTOM);
+			mstyle_unset_element (mstyle, MSTYLE_BORDER_LEFT);
+			mstyle_unset_element (mstyle, MSTYLE_BORDER_RIGHT);
+			mstyle_unset_element (mstyle, MSTYLE_BORDER_DIAGONAL);
+			mstyle_unset_element (mstyle, MSTYLE_BORDER_REV_DIAGONAL);
+		}
+		if (!ft->font) {
+			mstyle_unset_element (mstyle, MSTYLE_FONT_NAME);
+			mstyle_unset_element (mstyle, MSTYLE_FONT_BOLD);
+			mstyle_unset_element (mstyle, MSTYLE_FONT_ITALIC);
+			mstyle_unset_element (mstyle, MSTYLE_FONT_UNDERLINE);
+			mstyle_unset_element (mstyle, MSTYLE_FONT_STRIKETHROUGH);
+			mstyle_unset_element (mstyle, MSTYLE_FONT_SIZE);
 		
-		mstyle_replace_element (mstyle_default, mstyle, MSTYLE_COLOR_FORE);
+			mstyle_unset_element (mstyle, MSTYLE_COLOR_FORE);
+		}
+		if (!ft->patterns) {
+			mstyle_unset_element (mstyle, MSTYLE_COLOR_BACK);
+			mstyle_unset_element (mstyle, MSTYLE_COLOR_PATTERN);
+			mstyle_unset_element (mstyle, MSTYLE_PATTERN);
+		}
+		if (!ft->alignment) {
+			mstyle_unset_element (mstyle, MSTYLE_ALIGN_V);
+			mstyle_unset_element (mstyle, MSTYLE_ALIGN_H);
+		}
+	} else {
+		MStyle *mstyle_default = mstyle_new_default ();
+		
+		/*
+		 * We fill in the gaps with the default mstyle
+		 */
+
+		 if (!ft->number) {
+			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FORMAT);
+		 }
+		 if (!ft->border) {
+			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_BORDER_TOP);
+			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_BORDER_BOTTOM);
+			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_BORDER_LEFT);
+			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_BORDER_RIGHT);
+			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_BORDER_DIAGONAL);
+			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_BORDER_REV_DIAGONAL);
+		 }
+		 if (!ft->font) {
+			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_NAME);
+			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_BOLD);
+			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_ITALIC);
+			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_UNDERLINE);
+			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_STRIKETHROUGH);
+			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_FONT_SIZE);
+		
+			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_COLOR_FORE);
+		 }
+		 if (!ft->patterns) {
+			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_COLOR_BACK);
+			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_COLOR_PATTERN);
+			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_PATTERN);
+		 }
+		 if (!ft->alignment) {
+			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_ALIGN_V);
+			 mstyle_replace_element (mstyle_default, mstyle, MSTYLE_ALIGN_H);
+		 }
+
+		 mstyle_unref (mstyle_default);
 	}
-	if (!ft->patterns) {
-		mstyle_replace_element (mstyle_default, mstyle, MSTYLE_COLOR_PATTERN);
-		mstyle_replace_element (mstyle_default, mstyle, MSTYLE_PATTERN);
-	}
-	if (!ft->alignment) {
-		mstyle_replace_element (mstyle_default, mstyle, MSTYLE_ALIGN_V);
-	        mstyle_replace_element (mstyle_default, mstyle, MSTYLE_ALIGN_H);
-	}
-	
-	mstyle_unref (mstyle_default);
 	
 	return mstyle;
 }
@@ -757,6 +803,84 @@ format_template_filter_style (FormatTemplate *ft, MStyle *mstyle)
  * Callback used for calculating the styles
  */
 typedef void (* PCalcCallback) (FormatTemplate *ft, Range *r, MStyle *mstyle, gpointer data);
+
+/**
+ * format_template_range_check:
+ * @ft: Format template
+ * @s: Target range
+ * @display_error: If TRUE will display an error message if @s is not appropriate for @ft.
+ * 
+ * Check wether range @s is big enough to apply format template @ft to it.
+ * If this is not the case an error message WILL be displayed if @display_error is TRUE
+ * 
+ * Return value: TRUE if @s is big enough, FALSE if not.
+ **/
+static gboolean
+format_template_range_check (FormatTemplate *ft, Range s, gboolean display_error)
+{
+	GSList *iterator;
+	int diff_col_high = -1;
+	int diff_row_high = -1;
+	gboolean invalid_range_seen = FALSE;
+
+	g_return_val_if_fail (ft != NULL, FALSE);
+	
+	iterator = ft->members;
+	while (iterator) {
+		TemplateMember *member = iterator->data;
+		Range r = format_template_member_get_rect (member, s.start.col, s.start.row,
+							   s.end.col, s.end.row);
+
+		if (!range_valid (&r)) {
+			int diff_col = (r.start.col - r.end.col);
+			int diff_row = (r.start.row - r.end.row);
+
+			if (diff_col > diff_col_high)
+				diff_col_high = diff_col;
+
+			if (diff_row > diff_row_high)
+				diff_row_high = diff_row;
+					
+			invalid_range_seen = TRUE;
+		}
+			
+		iterator = g_slist_next (iterator);
+	}
+
+	if (invalid_range_seen && display_error) {
+		int diff_row_high_ft = diff_row_high + (s.end.row - s.start.row) + 1;
+		int diff_col_high_ft = diff_col_high + (s.end.col - s.start.col) + 1;
+		char *errmsg;
+
+		if (diff_col_high > 0 && diff_row_high > 0) {
+			errmsg = g_strdup_printf (_("The target region is too small, is should be at least %d rows by %d columns"),
+							  diff_row_high_ft, diff_col_high_ft);
+		} else if (diff_col_high > 0) {
+			errmsg = g_strdup_printf (_("The target region is too small, it should be at least %d columns wide"),
+							  diff_col_high_ft);
+		} else if (diff_row_high > 0) {
+			errmsg = g_strdup_printf (_("The target region is too small, it should be at least %d rows high"),
+							  diff_row_high_ft);
+		} else {
+			errmsg = NULL;
+
+			g_warning ("Internal error while verifying ranges! (this should not happen!)");
+		}
+
+		if (errmsg) {
+			gnumeric_error_system (COMMAND_CONTEXT (ft->context), errmsg);
+		}
+
+		g_free (errmsg);
+		
+		return FALSE;
+	} else if (invalid_range_seen) {
+
+		return FALSE;
+	}
+
+	return TRUE;
+}
 
 /**
  * format_template_calculate:
@@ -768,17 +892,19 @@ typedef void (* PCalcCallback) (FormatTemplate *ft, Range *r, MStyle *mstyle, gp
  * Calculate all styles for a range of @s. This routine will invoke the callback function
  * and pass all styles and ranges for those styles to the callback function.
  * The callback function should UNREF the mstyle passed!
+ *
  **/
 static void
 format_template_calculate (FormatTemplate *ft, Range s, PCalcCallback pc, gpointer cb_data)
 {
 	GSList *iterator;
 
-	iterator = ft->members;
+	g_return_if_fail (ft != NULL);
 	
 	/*
 	 * Apply all styles
 	 */
+	iterator = ft->members;
 	while (iterator) {
 		TemplateMember *member = iterator->data;
 		MStyle *mstyle = format_template_member_get_style (member);
@@ -788,6 +914,7 @@ format_template_calculate (FormatTemplate *ft, Range s, PCalcCallback pc, gpoint
 		if (member->direction == FREQ_DIRECTION_NONE) {
 
 			pc (ft, &r, mstyle_copy (mstyle), cb_data);
+				
 		} else if (member->direction == FREQ_DIRECTION_HORIZONTAL) {
 			int col_repeat = member->repeat;
 			Range hr = r;
@@ -830,6 +957,7 @@ format_template_calculate (FormatTemplate *ft, Range s, PCalcCallback pc, gpoint
 			}
 		}
 
+		
 		iterator = g_slist_next (iterator);
 	}
 }
@@ -846,7 +974,7 @@ cb_format_hash_style (FormatTemplate *ft, Range *r, MStyle *mstyle, GHashTable *
 	/*
 	 * Filter out undesired elements
 	 */
-	mstyle = format_template_filter_style (ft, mstyle);
+	mstyle = format_template_filter_style (ft, mstyle, TRUE);
 	
 	for (row = r->start.row; row <= r->end.row; row++) {
 		for (col = r->start.col; col <= r->end.col; col++) {
@@ -884,6 +1012,18 @@ format_template_recalc_hash (FormatTemplate *ft)
 	s.end.col   = ft->x2;
 	s.start.row = ft->y1;
 	s.end.row   = ft->y2;
+
+	/*
+	 * If the range check fails then the template it simply too *huge*
+	 * so we don't display an error dialog.
+	 */
+	if (!format_template_range_check (ft, s, FALSE)) {
+
+		g_warning ("Template %s is too large, hash can't be calculated", ft->name->str);
+		g_hash_table_thaw (ft->table);
+
+		return;
+	}
 	
 	format_template_calculate (ft, s, (PCalcCallback) cb_format_hash_style, ft->table);
 
@@ -1010,12 +1150,11 @@ cb_format_sheet_style (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *shee
 	g_return_if_fail (r != NULL);
 	g_return_if_fail (mstyle != NULL);
 	
-	mstyle = format_template_filter_style (ft, mstyle);
-	
+	mstyle = format_template_filter_style (ft, mstyle, FALSE);
+
 	/*
 	 * We need not unref the mstyle, sheet will
 	 * take care of the mstyle
-
 	 */
 	sheet_style_attach (sheet, *r, mstyle);
 }
@@ -1031,7 +1170,7 @@ cb_format_sheet_border (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *she
 	g_return_if_fail (mstyle != NULL);
 	g_return_if_fail (sheet != NULL);
 
-	mstyle = format_template_filter_style (ft, mstyle);
+	mstyle = format_template_filter_style (ft, mstyle, FALSE);
 	
 	bottom = mstyle_get_border (mstyle, MSTYLE_BORDER_BOTTOM);
 	right  = mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT);
@@ -1066,7 +1205,7 @@ cb_format_sheet_border (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *she
 		sheet_style_attach (sheet, rr, mstyle_to_right);
 	}
 
-	mstyle_unref (mstyle);		
+	mstyle_unref (mstyle);
 }
 
 /**
@@ -1080,13 +1219,33 @@ cb_format_sheet_border (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *she
 void
 format_template_apply_to_sheet_regions (FormatTemplate *ft, Sheet *sheet, GSList *regions)
 {
-	GSList *region = regions;
+	GSList *region = NULL;
+
+	/*
+	 * First check for range validity
+	 */
+	region = regions;
+	while (region) {
+		Range s = *((Range const *) region->data);
+
+		/*
+		 * Check if the selected range is valid
+		 * if it's not we will abort to avoid a 'spray'
+		 * of error dialogs on screen.
+		 */
+		if (!format_template_range_check (ft, s, TRUE))
+			return;
+
+		region = g_slist_next (region);
+	}
 
 	/*
 	 * Apply the template to all regions
 	 */
+ 	region = regions;
 	while (region) {
 		Range s = *((Range const *) region->data);
+
 		/*
 		 * First apply styles and then do a second
 		 * pass for bottom and right borders

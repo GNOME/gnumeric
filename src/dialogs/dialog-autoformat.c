@@ -289,7 +289,7 @@ templates_load (AutoFormatInfo *info)
 				WORKBOOK_CONTROL (info->wbcg), filename);
 								    
 			format_template_set_size (ft, 0, 0, PREVIEW_COLS - 1, PREVIEW_ROWS - 1);
-				
+
 			if (ft == NULL) {
 				
 				g_warning ("Error while reading %s", filename);
@@ -711,6 +711,37 @@ cb_canvas_button_release (GnomeCanvas *canvas, GdkEventButton *event, AutoFormat
 }
 
 /**
+ * cb_apply_item_toggled:
+ * @item:
+ * @info: 
+ * 
+ * This callback is invoked when one of the (6) apply items is toggled.
+ * It will change the filter for each FormatTemplate. This way certain elements
+ * can be filtered out (like the background, border, etc..)
+ **/
+static void
+cb_apply_item_toggled (GtkCheckMenuItem *item, AutoFormatInfo *info)
+{
+	GSList *iterator = info->templates;
+	int i;
+
+	while (iterator) {
+		format_template_set_filter ((FormatTemplate *) iterator->data,
+					    info->number->active,
+					    info->border->active,
+					    info->font->active,
+					    info->patterns->active,
+					    info->alignment->active);
+
+		iterator = g_slist_next (iterator);
+	}
+
+	for (i = 0; i < NUM_PREVIEWS; i++)
+		if (info->controller[i])
+			preview_grid_controller_force_redraw (info->controller[i]);
+}
+
+/**
  * cb_category_popwin_hide:
  * @widget:
  * @info:
@@ -737,6 +768,11 @@ cb_category_popwin_hide (GtkWidget *widget, AutoFormatInfo *info)
 		
 	previews_load (info, 0);
 
+	/*
+	 * Apply filter
+	 */
+	cb_apply_item_toggled (NULL, info);
+	
 	/*
 	 * This is for the initial selection
 	 */
@@ -768,37 +804,6 @@ cb_category_popwin_hide (GtkWidget *widget, AutoFormatInfo *info)
 	gtk_widget_set_sensitive (GTK_WIDGET (info->edit), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (info->remove_current), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (info->new), FALSE);
-}
-
-/**
- * cb_apply_item_toggled:
- * @item:
- * @info: 
- * 
- * This callback is invoked when one of the (6) apply items is toggled.
- * It will change the filter for each FormatTemplate. This way certain elements
- * can be filtered out (like the background, border, etc..)
- **/
-static void
-cb_apply_item_toggled (GtkCheckMenuItem *item, AutoFormatInfo *info)
-{
-	GSList *iterator = info->templates;
-	int i;
-
-	while (iterator) {
-		format_template_set_filter ((FormatTemplate *) iterator->data,
-					    info->number->active,
-					    info->border->active,
-					    info->font->active,
-					    info->patterns->active,
-					    info->alignment->active);
-
-		iterator = g_slist_next (iterator);
-	}
-
-	for (i = 0; i < NUM_PREVIEWS; i++)
-		if (info->controller[i])
-			preview_grid_controller_force_redraw (info->controller[i]);
 }
 
 static void
@@ -1032,25 +1037,9 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	if (!info->canceled && info->selected_template) {
 		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 		Sheet *sheet = wb_control_cur_sheet (wbc);
-		GSList *selection = selection_get_ranges (sheet, FALSE);
 
 		cmd_autoformat (wbc, sheet,
 			format_template_clone (info->selected_template));
-
-		format_template_apply_to_sheet_regions (info->selected_template,
-			sheet, selection);
-
-		/*
-		 * Free selection ranges
-		 */
-		if (selection != NULL) {
-			GSList *l;
-			
-			for (l = selection ; l != NULL ; l = g_slist_remove (l, l->data))
-				g_free (l->data);
-				
-			selection = NULL;
-		}
 	}
 
 	/*
