@@ -693,7 +693,7 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view, const char *name)
 	command_context_push_err_template (COMMAND_CONTEXT (wbcg), template);
 	/* Files are expected to be in standard C format.  */
 	if (current_saver->save (&io_context, wb_view, filename) == 0) {
-		workbook_set_saveinfo (wb, name, current_saver->level,
+		workbook_set_saveinfo (wb, filename, current_saver->level,
 				       current_saver->save);
 		workbook_set_dirty (wb, FALSE);
 		success = TRUE;

@@ -1,3 +1,11 @@
+2000-11-24  Jon K Hellan  <hellan@acm.org>
+
+	* src/file.c (do_save_as): Remember name with extension, so
+	subsequent saves are done to the correct file.
+	
+	* src/workbook.c (workbook_set_saveinfo): Remove redundant setting
+	of title.
+
 2000-11-24  Jody Goldberg <jgoldberg@home.com>
 
 	* src/print-cell.c (print_cell) : bubble the sizing code further up.

@@ -631,10 +631,6 @@ workbook_set_saveinfo (Workbook *wb, const char *name,
 	if (save_fn != NULL)
 	wb->file_save_fn = save_fn ? save_fn : gnumeric_xml_write_workbook;
 
-	base_name = g_basename (name);
-	WORKBOOK_FOREACH_CONTROL (wb, view, control,
-		wb_control_title_set (control, base_name););
-
 	return TRUE;
 }
 
