@@ -3,8 +3,9 @@ AC_INIT(src/gnumeric.h)
 AM_CONFIG_HEADER(gnumeric-config.h)
 AM_INIT_AUTOMAKE(gnumeric,1.0.11)
 AM_MAINTAINER_MODE
-AM_ACLOCAL_INCLUDE(macros)
+dnl AM_ACLOCAL_INCLUDE(macros)
 AM_PROG_XML_I18N_TOOLS
+AM_CONDITIONAL(INSIDE_GNOME_COMMON, false)
 
 # Make --disable-static the default
 AC_DISABLE_STATIC
@@ -722,7 +723,7 @@ dnl = End tests for jw
 dnl ====================================
 
 
-AC_OUTPUT([ po/Makefile.in m4/Makefile 
+AC_OUTPUT([m4/Makefile po/Makefile.in
 gnumeric.spec
 Makefile
 src/Makefile

@@ -1,6 +1,13 @@
+2002-11-09  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Add m4.
+	(EXTRA_DIST): Add config.rpath mkinstalldirs.
+	* configure.in (AC_OUTPUT): Add po/Makefile.in,
+
 2002-11-09  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
-	* configure.in: define GETTEXT_PACKAGE; added AC_PROG_INTLTOOL.
+	* configure.in: define GETTEXT_PACKAGE; added AC_PROG_INTLTOOL; dropped
+	AM_ACLOCAL_INCLUDE; declared INSIDE_GNOME_COMMON.
 	* Makefile.am: export GETTEXT_PACKAGE for po/Makefile.
 
 2002-11-09  gettextize  <bug-gnu-gettext@gnu.org>
