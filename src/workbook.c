@@ -424,21 +424,33 @@ static void
 workbook_sheet_name_strip_number (char *name, int* number)
 {
 	char *end;
-
+	int p10 = 1;
+	int n = 0;
 	*number = 1;
 
-	end = strrchr (name, ')');
-	if (end == NULL || end[1] != '\0')
+	g_return_if_fail (*name != 0);
+
+	end = name + strlen (name) - 1;
+	if (*end != ')')
 		return;
 
-	while (--end >= name) {
+	while (end > name) {
+		int dig;
+		end = g_utf8_prev_char (end);
+
 		if (*end == '(') {
-			*number = atoi (end + 1);
-			*end = '\0';
+			*number = n;
+			*end = 0;
 			return;
 		}
-		if (!isdigit ((unsigned char)*end))
+
+		dig = g_unichar_digit_value (g_utf8_get_char (end));
+		if (dig == -1)
 			return;
+
+		/* FIXME: check for overflow.  */
+		n += p10 * dig;
+		p10 *= 10;
 	}
 }
 
