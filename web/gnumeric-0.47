@@ -1,0 +1,44 @@
+Hello guys,
+
+   Gnumeric 0.47 has been released.
+
+   This is mostly a bug fix release, we have been fixing a bunch of
+errors that had been queued on our personal lists and on the bug
+tracking system as well as some obvious flops from 0.46.
+
+* Availability:
+
+  ftp://ftp.gnome.org/pub/GNOME/stable/sources/gnumeric/gnumeric-0.47.tar.gz
+
+* New in this release:
+
+	* Paste from X applications to Gnumeric should work again (it
+	  was shortly broken) (Miguel).
+
+	* Printing should pick a better bounding box (Michael)
+
+	* Paste from X applications to Gnumeric will actually do the
+	  right cell splitting and bounding computation in the presence of
+	  cell-separators (Miguel)
+
+	* Import plugins should work now (Jody).
+
+	* Memory leak fixes to the parser for array formulas (Miguel)
+
+	* Entering data into the spreadsheet should not cancel the
+	  paste buffer (Miguel).
+
+	* Guile plugin bug fixed (Michael)
+
+	* A serious recomputation bug has been fixed (in some
+	  conditions it would make gnumeric loop infinitely) (Michael). 
+
+	* Should load properly sheets that had empty values (this
+	  causes some cells to display nothing but be considered to
+	  have an empty string, thus breaking computation for any
+	  refence to those) (Jody, Miguel).
+
+	* CORBA command context are implemented (Miguel).
+	
+Enjoy,
+Miguel 

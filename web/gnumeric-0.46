@@ -1,0 +1,80 @@
+Hello guys,
+
+   A new version of Gnumeric has been released
+
+* Availability:
+
+  ftp://ftp.gnome.org/pub/GNOME/stable/sources/gnumeric/gnumeric-0.46.tar.gz
+
+* New in this release:
+
+    - Greatly enhanced Excel Export, it now handles styles, and summaries are
+      now mostly complete (Jody, Jon, Michael)
+  
+    - Linear regression and linear optimization were added.
+
+    - Many improvments for plugins.  The guile plugin is seeing active
+      development and many of the dormant modules are now enabled by default.
+
+    - Some final Y2K polishing has also been done.
+	Guessing dates correctly when you enter them (Peter Moulder)
+
+    - Lots of core adjustments and stability improvements.
+
+	* The beginning of a command interface for implementing error
+	  reporting and setting up the Undo architecture (Jody).
+
+	* Make the interface more consistent in a few places (JP)
+
+	* Cell sort user interface improved (JP)
+
+	* Handles failed file/open and file/import better (Jody)
+
+	* Improved error reporting mechanism for Plugins (Jody).
+
+    - Functions
+
+	* New EURO() function for currency conversions (Jukka-Pekka)
+
+	* Few skeleton functions added
+
+	* Robustify range checking in a few functions (Morten)
+
+	* Improved statistical functions, regression code works with
+	  multi-dimensional data (check ChangeLog for details) (Andrew)
+
+    - Printing should be smarter
+
+	It should no longer print out the entire sheet, but try to
+	find the best region to print (JP, Michael)
+
+    - Python plugin should work now (Jody)
+
+    - More user-visible state is preserved on the .gnumeric files (Michael)
+
+    - Various bugs were fixed and memory leaks were plugged as usual.
+
+    - Updated Gnumeric programming documentation.
+
+    - Filters
+
+      Fixed HTML export (michael), 
+
+* Installation Notes :
+    
+    1) Be sure to install the plugins supplied with this release.
+       Previous versions will neither work, nor be accepted.
+
+    2) You will want to clear out ~/.gnome/Gnumeric if you had used
+       the printing code in other versions, this will speed up
+       Gnumeric (a bug was there that could slow Gnumeric down).
+
+* Contributors to this release:
+
+  Andrew Chatman, Ariel Rios, Cort Dougan, Ettore Perazzoli, Frank,
+  Jody Goldberg, Jon K Hellan, Michael Meeks, Joe Sakosky, JP Rosevar,
+  Jukka-Pekka Iivonnen, Kjartan Maaras, Miguel de Icaza, Morten
+  Welinder, Peter Moulder, Tuomas Kuosmanen, and Yuri Syrota.
+
+Enjoy,
+Miguel.
