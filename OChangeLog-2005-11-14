@@ -1,5 +1,9 @@
 2001-02-20  Jody Goldberg <jgoldberg@home.com>
 
+	* src/item-edit.c (item_edit_draw_text) : kill warning.
+
+2001-02-20  Jody Goldberg <jgoldberg@home.com>
+
 	* src/main.c : remove inclusion of embeddable-grid.h this causes
 	  problems in the release because main.c then depends on files that
 	  are only available in the ENABLE_BONOBO case.

@@ -171,8 +171,8 @@ item_edit_draw_cursor (ItemEdit *item_edit, GdkDrawable *drawable, GtkStyle *sty
 
 static void
 item_edit_draw_text (ItemEdit *item_edit, GdkDrawable *drawable, GtkStyle *style,
-		     gint x, gint y, const gchar *text, gint text_length,
-		     int const cursor_pos)
+		     gint x, gint y, char const *text, int text_length,
+		     int cursor_pos)
 {
 	GdkFont *font = item_edit->font;
 
@@ -223,7 +223,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	int text_offset = 0;
 	int cursor_pos = GTK_EDITABLE (item_edit->entry)->current_pos;
 	GSList *ptr;
-	const char *text;
+	char const *text;
 
 	/* no drawing until the font is set */
 	if (item_edit->font == NULL)
