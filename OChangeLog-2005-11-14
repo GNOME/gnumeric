@@ -1,3 +1,8 @@
+2001-06-04  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/func.c (function_def_get_full_info_if_needed): Use fn_type to
+	check if we need to get full information.
+
 2001-06-04  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/stf-parse.[ch] : Burn useless comments.

@@ -249,18 +249,15 @@ error_function_no_full_info (FunctionEvalInfo *ei, GList *expr_node_list)
 static void
 function_def_get_full_info_if_needed (FunctionDefinition *fn_def)
 {
-	if (fn_def->get_full_info_callback != NULL) {
+	if (fn_def->fn_type == FUNCTION_NAMEONLY) {
 		gchar *args, *arg_names, **help;
 		FunctionArgs *fn_args;
 		FunctionNodes *fn_nodes;
 		gboolean success;
-		FunctionGetFullInfoCallback callback;
 
-		callback = fn_def->get_full_info_callback;
-		fn_def->get_full_info_callback = NULL;
-
-		success = callback (fn_def, &args, &arg_names, &help,
-		                    &fn_args, &fn_nodes);
+		success = fn_def->get_full_info_callback (
+		          fn_def, &args, &arg_names, &help,
+		          &fn_args, &fn_nodes);
 		if (success) {
 			fn_def->named_arguments = arg_names;
 			fn_def->help = help;
