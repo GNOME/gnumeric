@@ -144,8 +144,8 @@ main (int argc, char *argv [])
 				fs = gnm_file_saver_for_id (ssconvert_export_id);
 				if (fs == NULL) {
 					res = 1;
-					fprintf (stderr, "Unknown exporter '%s'.\n"
-						 "Try --list-exports to see a list of possibilities.\n",
+					fprintf (stderr, _("Unknown exporter '%s'.\n"
+						 "Try --list-exporters to see a list of possibilities.\n"),
 						 ssconvert_export_id);
 				} else if (outfile == NULL &&
 					   gnm_file_saver_get_extension	(fs) != NULL) {
@@ -168,23 +168,23 @@ main (int argc, char *argv [])
 					fs = gnm_file_saver_for_file_name (outfile);
 					if (fs == NULL) {
 						res = 2;
-						fprintf (stderr, "Unable to guess exporter to use for '%s'.\n"
-							 "Try --list-exports to see a list of possibilities.\n",
+						fprintf (stderr, _("Unable to guess exporter to use for '%s'.\n"
+							 "Try --list-exporters to see a list of possibilities.\n"),
 							 outfile);
 					}
 				}
 			}
 			if (outfile == NULL)
-				fprintf (stderr, "An output file name or an explicit export type is required.\n"
-					 "Try --list-exports to see a list of possibilities.\n");
+				fprintf (stderr, _("An output file name or an explicit export type is required.\n"
+					 "Try --list-exporters to see a list of possibilities.\n"));
 
 			if (fs != NULL) {
 				IOContext    *io_context = gnumeric_io_context_new (cc);
 				WorkbookView *wbv = wb_view_new_from_file (args[0], NULL,
 					io_context, ssconvert_import_encoding);
 				if (gnm_file_saver_get_save_scope (fs) != FILE_SAVE_WORKBOOK)
-					fprintf (stderr, "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
-						 "Only the first will be saved.",
+					fprintf (stderr, _("Selected exporter (%s) does not support saving multiple sheets in one file.\n"
+						 "Only the first will be saved."),
 						 gnm_file_saver_get_id (fs));
 				res = !wb_view_save_as (wbv, fs, outfile, cc);
 				g_object_unref (wb_view_workbook (wbv));
