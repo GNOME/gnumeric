@@ -1,4 +1,6 @@
-2002-03-05  Morten Welinder  <welinder@rentec.com>
+2002-03-05  Morten Welinder  <terra@diku.dk>
+
+	* src/validation.c (validation_eval): Fix translated string.
 
 	* src/analysis-tools.c (fourier_fft_inv, fourier_fft): Improve
 	precision.
