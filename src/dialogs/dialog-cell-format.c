@@ -365,8 +365,9 @@ draw_format_preview (FormatState *state)
 	/* Update the format based on the current selections and page */
 	switch (page)
 	{
-	/* General has no parameters that change */
-	default :
+	case FMT_GENERAL :
+	case FMT_TEXT :
+		g_string_append (new_format, cell_formats[page][0]);
 		break;
 
 	case FMT_CURRENCY :
@@ -462,6 +463,9 @@ draw_format_preview (FormatState *state)
 			g_string_append_c (new_format, '%');
 		else
 			g_string_append (new_format, "+E00");
+
+	default :
+		break;
 	};
 
 	if (new_format->len > 0)

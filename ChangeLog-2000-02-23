@@ -1,5 +1,8 @@
 1999-11-14  Jody Goldberg <jgoldberg@home.com>
 
+	* src/dialogs/dialog-cell-format.c (draw_format_preview) :
+	  Reset the formats for General and Text.
+
 	* src/parser.y (build_array) : Rows and cols were reversed
 	  when parsing.
 
