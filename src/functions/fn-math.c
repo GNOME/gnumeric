@@ -2094,7 +2094,10 @@ gnumeric_round (FunctionEvalInfo *ei, Value **argv)
 	digits = argv[1] ? value_get_as_int (argv[1]) : 0;
 
 	p10 = gpow10 (digits);
-	return value_new_float (floor (number * p10 + (number >= 0 ? 0.5 : -0.5)) / p10);
+	if (number < 0)
+		return value_new_float (-floor (-number * p10 + 0.5) / p10);
+	else
+		return value_new_float (floor (number * p10 + 0.5) / p10);
 }
 
 /***************************************************************************/

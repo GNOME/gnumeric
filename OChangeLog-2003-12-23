@@ -1,5 +1,8 @@
 2000-12-11  Morten Welinder  <terra@diku.dk>
 
+	* src/functions/fn-math.c (gnumeric_round): Apply patch from
+ 	hans@snow.nl, see bug 34844.
+
 	* src/functions/fn-math.c (help_int): fix bogus docs for negative
  	arguments.
 
