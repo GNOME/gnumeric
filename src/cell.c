@@ -108,32 +108,6 @@ cell_set_font (Cell *cell, char *font_name)
 }
 
 /*
- * cell_calc_dimensions
- * @cell:  The cell
- *
- * This routine updates the dimensions of the the rendered text of a cell
- */
-void
-cell_calc_dimensions (Cell *cell)
-{
-	char    *rendered_text;
-	GdkFont *font;
-
-	g_return_if_fail (cell != NULL);
-
-	if (cell->text){
-		rendered_text = CELL_TEXT_GET (cell);
-
-		font = cell->style->font->font;
-	
-		cell->width = cell->col->margin_a + cell->col->margin_b + 
-			gdk_text_width (font, rendered_text, strlen (rendered_text));
-		cell->height = font->ascent + font->descent;
-	} else
-		cell->width = cell->col->margin_a + cell->col->margin_b;
-}
-
-/*
  * cell_set_rendered_text
  * @cell:          the cell we will modify
  * @rendered_text: the text we will display
@@ -410,11 +384,14 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 	
 	g_return_if_fail (cell != NULL);
 
-	/*
-	 * If the cell is a number, or the text fits inside the
-	 * column, then we report only one column is used
+        /*
+	 * If the cell is a number, or the text fits inside the column, or the
+	 * alignment modes are set to "justify", then we report only one
+	 * column is used.
 	 */
 	if (cell_is_number (cell) ||
+	    cell->style->fit_in_cell ||
+	    cell->style->valign == VALIGN_JUSTIFY ||
 	    cell->style->halign == HALIGN_JUSTIFY ||
 	    cell_contents_fit_inside_column (cell)){
 		*col1 = *col2 = cell->col->pos;
@@ -537,3 +514,119 @@ cell_get_span (Cell *cell, int *col1, int *col2)
 	} /* switch */
 }
 
+/*
+ * calc_text_dimensions
+ * @is_number: whether we are computing the size for a number.
+ * @style:     the style formatting constraints (font, alignments)
+ * @text:      the string contents.
+ * @cell_w:    the cell width
+ * @cell_h:    the cell height
+ * @h:         return value: the height used
+ * @w:         return value: the width used.
+ *
+ * Computes the width and height used by the cell based on alignments
+ * constraints in the style using the font specified on the style. 
+ */
+void
+calc_text_dimensions (int is_number, Style *style, char *text, int cell_w, int cell_h, int *h, int *w)
+{
+	GdkFont *font = style->font->font;
+	int text_width, font_height;
+	
+	text_width = gdk_string_width (font, text);
+	font_height = font->ascent + font->descent;
+	
+	if (text_width < cell_w || is_number){
+		*w = text_width;
+		*h = font_height;
+		return;
+	} 
+
+	if (style->halign == HALIGN_JUSTIFY ||
+	    style->valign == VALIGN_JUSTIFY ||
+	    style->fit_in_cell){
+		char *ideal_cut_spot = NULL;
+		int  used, last_was_cut_point;
+		char *p = text;
+		*w = cell_w;
+		*h = font_height;
+		
+		used = 0;
+		last_was_cut_point = FALSE;
+
+		for (; *p; p++){
+			int len;
+
+			if (last_was_cut_point && *p != ' ')
+				ideal_cut_spot = p;
+			
+			len = gdk_text_width (font, p, 1);
+
+			/* If we have overflowed the cell, wrap */
+			if (used + len > cell_w){
+				if (ideal_cut_spot){
+					int n = p - ideal_cut_spot;
+					
+					used = gdk_text_width (font, ideal_cut_spot, n);
+				} else {
+					used = 0;
+				}
+				*h += CELL_TEXT_INTER_SPACE + font_height;
+				ideal_cut_spot = NULL;
+			} 
+			used += len;
+
+			if (*p == ' ')
+				last_was_cut_point = TRUE;
+			else
+				last_was_cut_point = FALSE;
+		}
+	} else {
+		*w = text_width;
+		*h = font_height;
+		return;
+	}
+}
+
+/*
+ * cell_calc_dimensions
+ * @cell:  The cell
+ *
+ * This routine updates the dimensions of the the rendered text of a cell
+ */
+void
+cell_calc_dimensions (Cell *cell)
+{
+	char    *rendered_text;
+
+	g_return_if_fail (cell != NULL);
+
+	if (cell->text){
+		Style *style = cell->style;
+		int h, w;
+		
+		rendered_text = CELL_TEXT_GET (cell);
+
+		calc_text_dimensions (cell_is_number (cell),
+				      style, rendered_text,
+				      COL_INTERNAL_WIDTH (cell->col),
+				      ROW_INTERNAL_HEIGHT (cell->row),
+				      &h, &w);
+
+		cell->width = cell->col->margin_a + cell->col->margin_b + w;
+		cell->height = cell->row->margin_a + cell->row->margin_b + h;
+
+		if (cell->height > cell->row->pixels && !cell->row->hard_size)
+			sheet_row_set_internal_height (cell->sheet, cell->row, h);
+	} else
+		cell->width = cell->col->margin_a + cell->col->margin_b;
+}
+
+#if 0
+void
+cell_draw (GdkDrawable *drawable, GdkFont *font, GdkGc *gc,
+	   Style *style, int   x_offset, int y_offset, int width, char  *text)
+{
+	
+}
+#endif

@@ -351,7 +351,7 @@ Sheet *gnumericReadXmlSheet(const char *filename) {
     xmlNsPtr gmr;
     parseXmlContext ctxt;
 
-    g_return_if_fail (filename != NULL);
+    g_return_val_if_fail (filename != NULL, NULL);
     
     /*
      * Load the file into an XML tree.
@@ -399,9 +399,9 @@ int gnumericWriteXmlSheet(Sheet *sheet, const char *filename) {
     xmlNsPtr gmr;
     parseXmlContext ctxt;
 
-    g_return_if_fail (sheet != NULL);
-    g_return_if_fail (IS_SHEET (sheet));
-    g_return_if_fail (filename != NULL);
+    g_return_val_if_fail (sheet != NULL, -1);
+    g_return_val_if_fail (IS_SHEET (sheet), -1);
+    g_return_val_if_fail (filename != NULL, -1);
     /*
      * Open in write mode, !!! Save a bak ?
      */
@@ -451,7 +451,7 @@ Workbook *gnumericReadXmlWorkbook(const char *filename) {
     xmlNsPtr gmr;
     parseXmlContext ctxt;
 
-    g_return_if_fail (filename != NULL);
+    g_return_val_if_fail (filename != NULL, NULL);
     
     /*
      * Load the file into an XML tree.
@@ -499,8 +499,8 @@ int gnumericWriteXmlWorkbook(Workbook *wb, const char *filename) {
     xmlNsPtr gmr;
     parseXmlContext ctxt;
 
-    g_return_if_fail (wb != NULL);
-    g_return_if_fail (filename != NULL);
+    g_return_val_if_fail (wb != NULL, -1);
+    g_return_val_if_fail (filename != NULL, -1);
     
     /*
      * Open in write mode, !!! Save a bak ?

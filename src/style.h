@@ -102,6 +102,8 @@ typedef struct {
 	unsigned int halign:6;
 	unsigned int valign:4;
 	unsigned int orientation:4;
+	unsigned int fit_in_cell:1;
+	
 	unsigned char valid_flags;
 } Style;
 
