@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-09-10 20:59+0200\n"
-"PO-Revision-Date: 2003-09-08 13:15+0200\n"
+"POT-Creation-Date: 2003-09-14 10:51+0200\n"
+"PO-Revision-Date: 2003-09-14 10:51+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4706,7 +4706,7 @@ msgstr "datum1;datum2;intervall"
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:545
+#: src/print-info.c:578
 msgid "date"
 msgstr "datum"
 
@@ -4723,7 +4723,7 @@ msgid "start_date,months"
 msgstr "startdatum;månader"
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:546
+#: plugins/fn-date/functions.c:1265 src/print-info.c:579
 msgid "time"
 msgstr "tid"
 
@@ -8415,7 +8415,7 @@ msgstr "%s version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:264
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:474
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -17957,7 +17957,8 @@ msgstr "Fel vid öppnande av xbase-fil."
 
 #: plugins/xbase/boot.c:175 src/commands.c:4547
 #: src/dialogs/dialog-goto-cell.c:284 src/dialogs/dialog-search.c:391
-#: src/dialogs/print.glade.h:21 src/workbook.c:1041 src/xml-io.c:3585
+#: src/dialogs/print.glade.h:21 src/print-info.c:477 src/workbook.c:1041
+#: src/xml-io.c:3585
 msgid "Sheet"
 msgstr "Blad"
 
@@ -17984,10 +17985,6 @@ msgstr "EXPERIMENTELL SAX-baserad XML"
 #: plugins/xml_sax/plugin.xml.in.h:3
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "Nästa generationens xml-system, baserat på sax"
-
-#: plugins/xml_sax/plugin.xml.in.h:4
-msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
-msgstr "EJ KLAR Gnumeric XML (*.gnumeric)"
 
 #: plugins/xml_sax/xml-sax-read.c:301
 #, c-format
@@ -18939,7 +18936,7 @@ msgid "Filter data with given criteria"
 msgstr "Filtrera data efter givna kriterier"
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:843
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:858
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
 #: src/workbook-format-toolbar.c:411
 msgid "Font"
@@ -19132,7 +19129,7 @@ msgid "Jump to a specified cell"
 msgstr "Gå till specifierad cell"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:518
 #: src/sheet-object-graphic.c:1440 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Rubrik"
@@ -19299,7 +19296,7 @@ msgid "Print Preview"
 msgstr "Förhandsgranska"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1311 src/workbook-control-gui.c:3301
+#: src/print.c:1322 src/workbook-control-gui.c:3301
 #: src/workbook-control-gui.c:3952
 msgid "Print preview"
 msgstr "Förhandsgranskning"
@@ -20623,75 +20620,108 @@ msgstr "Konsolidiering till (%s)"
 msgid "Data Consolidation"
 msgstr "Datakonsolidation"
 
+# ZZZ
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
+msgid "<b>Major Ticks:</b>"
+msgstr "<b>Stora skalstreck:</b>"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
+msgid "<b>Minor Ticks:</b>"
+msgstr "<b>Små skalstreck:</b>"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+msgid "I_nside"
+msgstr "I_nuti"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
+msgid "O_utside"
+msgstr "Ui_tanför"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
 msgid "_Cross"
 msgstr "_Kors"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:6
 msgid "_High"
 msgstr "_Hög"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
+msgid "_Inside"
+msgstr "_Inuti"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:8
 msgid "_Invert"
 msgstr "_Invertera"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:9
 msgid "_Low"
 msgstr "_Låg"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:10
 msgid "_Map:"
 msgstr "_Karta:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:11
+msgid "_Outside"
+msgstr "_Utanför"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:12
+msgid "_Show Labels"
+msgstr "_Visa etiketter"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:420
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:421
 msgid "M_ax"
 msgstr "M_ax"
 
 # ZZZ
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:422
 msgid "Ma_jor Ticks"
 msgstr "S_tora skalstreck"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:248
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:423
 msgid "Mi_nor Ticks"
 msgstr "S_må skalstreck"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:271
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:481
 msgid "Bounds"
 msgstr "Gränser"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:275
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:485
 msgid "Details"
 msgstr "Detaljer"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:172
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:195
 msgid "Legend"
 msgstr "Förklaring"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:175
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:198
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:169
 msgid "Title"
 msgstr "Titel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:201
+msgid "Grid"
+msgstr "Rutnät"
+
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
 msgid "X-Axis"
 msgstr "X-axel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:208
 msgid "Y-Axis"
 msgstr "Y-axel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:212
 msgid "Z-Axis"
 msgstr "Z-aAxel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:216
 msgid "Plot"
 msgstr "Graf"
 
@@ -20795,11 +20825,11 @@ msgstr "_Ordning"
 msgid "_Top"
 msgstr "_Överkant"
 
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:102
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:105
 msgid "_Text:"
 msgstr "_Text:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:108
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:111
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:131
 #: src/dialogs/dialog-stf.glade.h:15
 msgid "Data"
@@ -20817,7 +20847,7 @@ msgstr "Plottyp"
 msgid "Chart Theme"
 msgstr "Diagramtema"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:166
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:167
 msgid "Series"
 msgstr "Serier"
 
@@ -20964,12 +20994,12 @@ msgstr "bakgrundsbild"
 msgid "%d x %d"
 msgstr "%d × %d"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:535
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:548
 #: src/workbook-control-gui.c:3100
 msgid "Select an image"
 msgstr "Välj en bild"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:895
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:910
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Stil"
@@ -20982,17 +21012,17 @@ msgid "Default"
 msgstr "Standard"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:427
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:435
 msgid "Guppi"
 msgstr "Guppi"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:264
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:265
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Rubriker"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:267
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
@@ -21033,7 +21063,7 @@ msgstr "PlotStapKol"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotLine2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:44
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:45
 msgid "PlotLine"
 msgstr "GrafLinje"
 
@@ -21041,7 +21071,7 @@ msgstr "GrafLinje"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:115
 msgid "PlotArea"
 msgstr "GrafArea"
 
@@ -21403,11 +21433,11 @@ msgstr "Cirkeldiagramsritmotor"
 msgid "PlotXY"
 msgstr "PlotXY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:153
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:178
 msgid "X"
 msgstr "X"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:180
 msgid "Y"
 msgstr "Y"
 
@@ -21618,14 +21648,18 @@ msgid "Thin Reverse Diagonal Stripe"
 msgstr "Tunna omvända diagonala ränder"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:207
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
-#: src/dialogs/cell-format.glade.h:81
-msgid "Thin Diagonal Crosshatch"
-msgstr "Tunna diagonala rutor"
+#: src/dialogs/cell-format.glade.h:82
+msgid "Thin Diagonal Stripe"
+msgstr "Tunna diagonala ränder"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:208
 #: src/dialogs/cell-format.glade.h:83
 msgid "Thin Horizontal Crosshatch"
+msgstr "Tunna diagonala rutor"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
+#: src/dialogs/cell-format.glade.h:81
+msgid "Thin Diagonal Crosshatch"
 msgstr "Tunna diagonala rutor"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:210
@@ -21998,7 +22032,7 @@ msgstr "_Indata"
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:21
 #: src/dialogs/dialog-analysis-tools.c:338
-#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/dialog-shuffle.c:149
+#: src/dialogs/dialog-analysis-tools.c:2583 src/dialogs/dialog-shuffle.c:149
 #: src/dialogs/exp-smoothing.glade.h:14
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:16 src/dialogs/rank.glade.h:14
@@ -22307,7 +22341,7 @@ msgid "<b>Error alerts</b>"
 msgstr "<b>Felvarning</b>"
 
 #: src/dialogs/cell-format.glade.h:16
-msgid "<b>Horizontal alignement</b>"
+msgid "<b>Horizontal alignment</b>"
 msgstr "<b>Vågrät justering</b>"
 
 #: src/dialogs/cell-format.glade.h:18
@@ -22327,7 +22361,7 @@ msgid "<b>Style</b>"
 msgstr "<b>Stil</b>"
 
 #: src/dialogs/cell-format.glade.h:22
-msgid "<b>Vertical alignement</b>"
+msgid "<b>Vertical alignment</b>"
 msgstr "<b>Lodrät justering</b>"
 
 #: src/dialogs/cell-format.glade.h:23
@@ -22498,10 +22532,6 @@ msgstr "_Överkant"
 #: src/dialogs/cell-format.glade.h:78
 msgid "Text length"
 msgstr "Textlängd"
-
-#: src/dialogs/cell-format.glade.h:82
-msgid "Thin Diagonal Stripe"
-msgstr "Tunna diagonala ränder"
 
 #: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:73
 msgid "Time"
@@ -22992,7 +23022,7 @@ msgstr "Inga matachande poster hittades."
 #: src/dialogs/dialog-analysis-tools.c:585
 #: src/dialogs/dialog-analysis-tools.c:703
 #: src/dialogs/dialog-analysis-tools.c:1985
-#: src/dialogs/dialog-analysis-tools.c:2876
+#: src/dialogs/dialog-analysis-tools.c:2875
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Ett oväntat fel har inträffat: %d."
@@ -23110,19 +23140,19 @@ msgstr "Kunde inte skapa dialogen för det exponentiella utsmetningsverkyget."
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Kunde inte skapa dialogen för rullande medelvärdesverktyget."
 
-#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/histogram.glade.h:3
+#: src/dialogs/dialog-analysis-tools.c:2583 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
 msgstr "_Gruppområde:"
 
-#: src/dialogs/dialog-analysis-tools.c:2587
+#: src/dialogs/dialog-analysis-tools.c:2584
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Kunde inte skapa histogramverktygsdialogen."
 
-#: src/dialogs/dialog-analysis-tools.c:2763
+#: src/dialogs/dialog-analysis-tools.c:2762
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Kunde inte skapa ANOVA-verktygsdialogen (enkel faktor)."
 
-#: src/dialogs/dialog-analysis-tools.c:2842
+#: src/dialogs/dialog-analysis-tools.c:2841
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -23130,7 +23160,7 @@ msgstr ""
 "Det angivna indataområdet bör innehålla åtminstone två kolumner och två "
 "rader med data och rubrikerna."
 
-#: src/dialogs/dialog-analysis-tools.c:2845
+#: src/dialogs/dialog-analysis-tools.c:2844
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
@@ -23138,7 +23168,7 @@ msgstr ""
 "Det angivna indataområdet bör innehålla åtminstone två kolumner och två "
 "rader med data."
 
-#: src/dialogs/dialog-analysis-tools.c:2851
+#: src/dialogs/dialog-analysis-tools.c:2850
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
@@ -23146,12 +23176,12 @@ msgstr ""
 "Det angivna indataområdet bör innehålla åtminstone två kolumner med data och "
 "rubrikerna."
 
-#: src/dialogs/dialog-analysis-tools.c:2854
+#: src/dialogs/dialog-analysis-tools.c:2853
 msgid "The given input range should contain at least two columns of data."
 msgstr ""
 "Det angivna indataområdet bör innehålla åtminstone två kolumner med data."
 
-#: src/dialogs/dialog-analysis-tools.c:2860
+#: src/dialogs/dialog-analysis-tools.c:2859
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
@@ -23159,15 +23189,15 @@ msgstr ""
 "Det angivna indataområdet bör innehålla åtminstone två rader med data och "
 "rubrikerna."
 
-#: src/dialogs/dialog-analysis-tools.c:2863
+#: src/dialogs/dialog-analysis-tools.c:2862
 msgid "The given input range should contain at least two rows of data."
 msgstr "Det angivna indataområdet bör innehålla åtminstone två rader med data."
 
-#: src/dialogs/dialog-analysis-tools.c:2870
+#: src/dialogs/dialog-analysis-tools.c:2869
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr "Antalet datarader måste vara en multipel av upprepningstalet."
 
-#: src/dialogs/dialog-analysis-tools.c:2967
+#: src/dialogs/dialog-analysis-tools.c:2966
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Kunde inte skapa ANOVA-verktygsdialogen (dubbel faktor)."
 
@@ -23350,7 +23380,7 @@ msgstr "Gör skillnad på gemener/VERSALER"
 msgid "By Value"
 msgstr "Efter värde"
 
-#: src/dialogs/dialog-cell-sort.c:857
+#: src/dialogs/dialog-cell-sort.c:858
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Kunde inte skapa cellsorteringsdialogen."
 
@@ -28291,48 +28321,56 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: src/print-info.c:477
-msgid "Sheet 1"
-msgstr "Blad 1"
+#: src/print-info.c:536
+msgid "File Name"
+msgstr "Filnamn"
 
-#: src/print-info.c:542
+#: src/print-info.c:567
+msgid "Path "
+msgstr "Sökväg "
+
+#: src/print-info.c:575
 msgid "tab"
 msgstr "tab"
 
-#: src/print-info.c:543
+#: src/print-info.c:576
 msgid "page"
 msgstr "sida"
 
-#: src/print-info.c:544
+#: src/print-info.c:577
 msgid "pages"
 msgstr "sidor"
 
-#: src/print-info.c:547
+#: src/print-info.c:580
 msgid "file"
 msgstr "fil"
+
+#: src/print-info.c:581
+msgid "path"
+msgstr "Sökväg"
 
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:576
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1104
+#: src/print.c:1115
 msgid "Print Region"
 msgstr "Utskriftsområde"
 
-#: src/print.c:1229
+#: src/print.c:1240
 msgid "Print Sheets"
 msgstr "Skriv ut blad"
 
-#: src/print.c:1237
+#: src/print.c:1248
 msgid "Act_ive sheet"
 msgstr "Akt_ivt blad"
 
-#: src/print.c:1237
+#: src/print.c:1248
 msgid "S_heets"
 msgstr "_Blad"
 
-#: src/print.c:1323
+#: src/print.c:1334
 msgid "Printing failed"
 msgstr "Utskrift misslyckades"
 
@@ -29844,7 +29882,7 @@ msgstr "mörklila"
 msgid "sky blue"
 msgstr "himmelsblå"
 
-#: src/widgets/gnumeric-expr-entry.c:1239
+#: src/widgets/gnumeric-expr-entry.c:1254
 msgid "Expecting a single range"
 msgstr "Förväntar sammanhängande område"
 
@@ -31362,23 +31400,23 @@ msgstr "Ett oförklarligt fel inträffade vid sparande av %s"
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:608 src/workbook-view.c:967
+#: src/workbook-view.c:608 src/workbook-view.c:964
 msgid "The filename given is not valid in the current encoding."
 msgstr "Det givna filnamnet är inte giltigt i den nuvarande kodningen."
 
-#: src/workbook-view.c:693 src/workbook-view.c:809
+#: src/workbook-view.c:693 src/workbook-view.c:806
 msgid "Default file saver is not available."
 msgstr "Standardfilspararen är inte tillgänglig."
 
-#: src/workbook-view.c:768
+#: src/workbook-view.c:765
 msgid "Failed to create temporary file for sending."
 msgstr "Kan inte skapa temporär filför att skicka."
 
-#: src/workbook-view.c:902
+#: src/workbook-view.c:899
 msgid "Unsupported file format."
 msgstr "Filformatet stöds inte."
 
-#: src/workbook-view.c:960
+#: src/workbook-view.c:957
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Ett oförklarat fel inträffade vid öppnande av %s"
@@ -31434,6 +31472,12 @@ msgstr "Fel vid sparande av fil"
 #: src/xml-io.c:4040
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#~ msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
+#~ msgstr "EJ KLAR Gnumeric XML (*.gnumeric)"
+
+#~ msgid "Sheet 1"
+#~ msgstr "Blad 1"
 
 #~ msgid "XYPlot"
 #~ msgstr "XYGraf"
@@ -36300,9 +36344,6 @@ msgstr "Gnumeric XML-filformat"
 
 #~ msgid "Modified: %s"
 #~ msgstr "Ändrad: %s"
-
-#~ msgid "Path:"
-#~ msgstr "Sökväg:"
 
 #~ msgid "Document Summary Information\n"
 #~ msgstr "Sammanfattningsinformation\n"
