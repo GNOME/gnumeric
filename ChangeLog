@@ -5,6 +5,9 @@
 	    it for us.
 	  * Reworked Guile handling.
 	  * Removed src/Makefile and intl/Makefile from AC_OUTPUT
+	  * Removed AC_SUBST(gnumeric_version),
+	  * Added AM_GNU_GETTEXT([external]).
+	  * Added m4/Makefile to AC_OUTPUT.
 
 2002-11-07  J.H.M. Dassen (Ray) <jdassen@debian.org>
 

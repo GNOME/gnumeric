@@ -14,7 +14,6 @@ AC_PROG_CC
 AC_PROG_YACC
 AM_PROG_LEX
 AC_STDC_HEADERS
-AC_ARG_PROGRAM
 AM_PROG_LIBTOOL
 
 GNOME_INIT
@@ -84,21 +83,30 @@ AC_SUBST(GNUMERIC_HAVE_ALLOCA_H)
 AC_SUBST(QTTHREADS_LIB)
 AC_SUBST(TERMCAP_LIB)
 AC_SUBST(READLINE_LIB)
-AC_SUBST(GUILE_LIBS)
-AC_SUBST(GUILE_INCS)
-guile_msg='not requested'
 
 #check for guile 1.5
 try_guile=true
-guile_msg="no"
-build_guile=false
+require_guile=false
+AC_MSG_CHECKING(whether to build the Guile plugin)
 AC_ARG_WITH(guile,
 	[--{with,without}-guile   Compile with Guile support or without it],
+	[
+	if test x$withval = xyes; then
+		require_guile=true
+		guile_msg='yes'
+	fi
 	if test x$withval = xno; then
 		try_guile=false
+		guile_msg='no'
 	fi
+	],[ 
+	guile_msg="if possible"
+	]
 )
+AC_MSG_RESULT($guile_msg)
 
+GNOME_CHECK_GUILE
+build_guile=false
 if $try_guile; then
 	AC_MSG_CHECKING(for guile >= 1.5)
 	if test "`guile -c '(display (string>=? (version) "1.4.1"))'`" != "#t"; then
@@ -108,14 +116,17 @@ if $try_guile; then
 		guile_msg="yes"
 		build_guile=true
 	fi
-	
+fi
+
+if $require_guile ; then
+	if ! $build_guile ; then
+		AC_MSG_ERROR([Guile support explicitly requested, but no usable Guile found.])
+	fi
 fi
 
 AM_CONDITIONAL(HAVE_GUILE, $build_guile)
-
-if $build_guile; then
-	GNOME_CHECK_GUILE
-fi
+AC_SUBST(GUILE_LIBS)
+AC_SUBST(GUILE_INCS)
 
 AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)
@@ -158,6 +169,7 @@ AM_GNOME_GETTEXT
 # this is the directory where the *.{mo,gmo} files are installed
 gnomelocaledir='${prefix}/${DATADIRNAME}/locale'
 AC_SUBST(gnomelocaledir)
+AM_GNU_GETTEXT([external])
 
 #AC_PATH_PROG(TPUT_CMD,tput,no)
 TPUT_CMD=no
@@ -429,7 +441,6 @@ AC_DEFINE_UNQUOTED(GNUMERIC_VERSION, "$gnumeric_version",
 AC_SUBST(gnumeric_prefix)
 AC_SUBST(gnumeric_exec_prefix)
 AC_SUBST(gnumeric_datadir)
-AC_SUBST(gnumeric_version)
 AC_SUBST(gnumeric_libdir)
 AC_SUBST(gnumeric_plugindir)
 AC_SUBST(gnumeric_gladedir)
@@ -716,7 +727,6 @@ src/Makefile
 src/portability.h
 icons/Makefile
 idl/Makefile
-src/Makefile
 src/dialogs/Makefile
 src/widgets/Makefile
 src/functions/Makefile
@@ -758,13 +768,13 @@ plugins/applix/Makefile
 plugins/gda/Makefile
 plugins/psiconv/Makefile
 plugins/mps/Makefile
-intl/Makefile
 po/Makefile.in
 templates/Makefile
 templates/english/Makefile
 templates/autoformat/Makefile
 tools/Makefile
 macros/Makefile
+m4/Makefile
 stamp.h
 ])
 
