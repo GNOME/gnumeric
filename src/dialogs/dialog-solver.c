@@ -14,13 +14,17 @@
 #include "func.h"
 #include "utils.h"
 
+GtkWidget *
+hbox_pack_label_and_entry(char *str, char *default_str,
+			  int entry_len, GtkWidget *vbox);
+
 /* Different constraint types */
 static const char *constraint_strs[] = {
         N_("<="),
-	N_("="),
+/*	N_("="),    */
 	N_(">="),
-	N_("int"),
-	N_("bool"),
+/*	N_("int"),
+	N_("bool"), */
 	NULL
 };
 
@@ -187,67 +191,98 @@ dialog_solver_options (Workbook *wb, Sheet *sheet)
 }
 
 
+static void
+add_constraint(constraint_dialog_t *constraint_dialog,
+	       int lhs_col, int lhs_row, int rhs_col, int rhs_row,
+	       char *type_str)
+{
+	SolverConstraint *constraint;
+	char             constraint_buf[512];
+	char             *constraint_str[2] = { constraint_buf, NULL };
+
+	sprintf(constraint_buf, "%s %s ", 
+		cell_name (lhs_col, lhs_row),
+		type_str);
+	strcat(constraint_buf, cell_name(rhs_col, rhs_row));
+
+	gtk_clist_append (constraint_dialog->clist, constraint_str);
+	constraint = g_new (SolverConstraint, 1);
+	constraint->lhs = sheet_cell_fetch (constraint_dialog->sheet,
+					    lhs_col, lhs_row);
+	constraint->rhs = sheet_cell_fetch (constraint_dialog->sheet,
+					    rhs_col, rhs_row);
+
+	constraint->type = g_malloc (strlen (type_str) + 1);
+	strcpy (constraint->type, type_str);
+	constraint->str = g_malloc (strlen (constraint_buf)+1);
+	strcpy (constraint->str, constraint_buf);
+	constraint_dialog->constraints = 
+	        g_slist_append(constraint_dialog->constraints,
+			       (gpointer) constraint);
+}
+
 /* 'Constraint Add' button clicked */
 static void
 constr_add_click (gpointer data)
 {
+	static GtkWidget    *dialog;
+	static GtkWidget    *lhs_entry;
+	static GtkWidget    *rhs_entry;
+	static GtkWidget    *type_entry;
+	static GList        *constraint_type_strs;
+
         constraint_dialog_t *constraint_dialog = (constraint_dialog_t *) data;
-	SolverConstraint    *constraint;
-	GtkWidget           *dialog;
-	GtkWidget           *lhs_vbox, *rhs_vbox, *type_vbox;
-	GtkWidget           *lhs_label, *rhs_label, *type_label;
-	GtkWidget           *lhs_entry, *rhs_entry, *type_entry;
-	GtkWidget           *hbox;
-	GList               *constraint_type_strs;
 	int                 selection;
-	char                constraint_buf[512];
 	char                *lhs_text, *rhs_text;
 	int                 rhs_col, rhs_row;
 	int                 lhs_col, lhs_row;
-	char                *constraint_str[2] = { constraint_buf, NULL };
 	char                *type_str;
-	constraint_type_strs = add_strings_to_glist (constraint_strs);
 
-	dialog = gnome_dialog_new (_("Add Constraint"),
-				   GNOME_STOCK_BUTTON_OK,
-				   GNOME_STOCK_BUTTON_CANCEL,
-				   _("Add"),
-				   NULL);
+	if (!dialog) {
+	        GtkWidget *box;
 
-	hbox = gtk_hbox_new (FALSE, 0);
-	lhs_vbox = gtk_vbox_new (FALSE, 0);
-	rhs_vbox = gtk_vbox_new (FALSE, 0);
-	type_vbox = gtk_vbox_new (FALSE, 0);
-	lhs_label = gtk_label_new ("Cell Reference:");
-	rhs_label = gtk_label_new ("Constraint:");
-	type_label = gtk_label_new ("Type:");
-	lhs_entry = gtk_entry_new_with_max_length (20);
-	rhs_entry = gtk_entry_new_with_max_length (20);
-	type_entry = gtk_combo_new ();
-	gtk_combo_set_popdown_strings (GTK_COMBO (type_entry),
-				       constraint_type_strs);
-	gtk_box_pack_start_defaults (GTK_BOX (lhs_vbox), lhs_label);
-	gtk_box_pack_start_defaults (GTK_BOX (lhs_vbox), lhs_entry);
-	gtk_box_pack_start_defaults (GTK_BOX (rhs_vbox), rhs_label);
-	gtk_box_pack_start_defaults (GTK_BOX (rhs_vbox), rhs_entry);
-	gtk_box_pack_start_defaults (GTK_BOX (type_vbox), type_label);
-	gtk_box_pack_start_defaults (GTK_BOX (type_vbox), type_entry);
+	        constraint_type_strs = add_strings_to_glist (constraint_strs);
 
-	gtk_box_pack_start_defaults (GTK_BOX (hbox), lhs_vbox);
-	gtk_box_pack_start_defaults (GTK_BOX (hbox), type_vbox);
-	gtk_box_pack_start_defaults (GTK_BOX (hbox), rhs_vbox);
+	        dialog = gnome_dialog_new (_("Add Constraint"),
+					   GNOME_STOCK_BUTTON_OK,
+					   GNOME_STOCK_BUTTON_CANCEL,
+					   _("Add"),
+					   NULL);
 
-	gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-					      (dialog)->vbox), hbox);
+		gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
+		box = gtk_hbox_new (FALSE, 0);
+
+		lhs_entry = hbox_pack_label_and_entry
+		  ("Left Hand Side:", "", 20, box);
+
+		type_entry = gtk_combo_new ();
+		gtk_combo_set_popdown_strings (GTK_COMBO (type_entry),
+					       constraint_type_strs);
+		gtk_box_pack_start_defaults (GTK_BOX (box), type_entry);
+
+		rhs_entry = hbox_pack_label_and_entry
+		  ("Right Hand Side:", "", 20, box);
+
+		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
+						      (dialog)->vbox), box);
+
+		gtk_widget_show_all (dialog);
+	} else
+		gtk_widget_show (dialog);
+
 add_dialog:
-	gtk_widget_show_all (dialog);
+
+	gtk_widget_grab_focus (lhs_entry);
 
 	/* Run the dialog */
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
-
+	
 	if (selection == 1) {
-	        gtk_object_unref (GTK_OBJECT (dialog));
+add_constraint(constraint_dialog, 0, 8, 2, 8, "<=");
+add_constraint(constraint_dialog, 0, 9, 2, 9, ">=");
+add_constraint(constraint_dialog, 0, 10, 2, 10, ">=");
+add_constraint(constraint_dialog, 0, 11, 2, 11, ">=");
+	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
 	}
 	
@@ -269,38 +304,17 @@ add_dialog:
 	}
 
 	type_str = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(type_entry)->entry));
-	sprintf(constraint_buf, "%s %s ", 
-		cell_name (lhs_col, lhs_row),
-		type_str);
-	strcat(constraint_buf, cell_name(rhs_col, rhs_row));
-	gtk_clist_append (constraint_dialog->clist, constraint_str);
-	constraint = g_new (SolverConstraint, 1);
-	constraint->lhs = sheet_cell_get (constraint_dialog->sheet,
-					  lhs_col, lhs_row);
-	if (constraint->lhs == NULL) {
-	        constraint->lhs = sheet_cell_new (constraint_dialog->sheet,
-						  lhs_col, lhs_row);
-		cell_set_text (constraint->lhs, "");
-	}
-	constraint->rhs = sheet_cell_get (constraint_dialog->sheet,
-					  rhs_col, rhs_row);
-	if (constraint->rhs == NULL) {
-	        constraint->rhs = sheet_cell_new (constraint_dialog->sheet,
-						  rhs_col, rhs_row);
-		cell_set_text (constraint->rhs, "");
-	}
-	constraint->type = g_malloc (strlen (type_str) + 1);
-	strcpy (constraint->type, type_str);
-	constraint->str = g_malloc (strlen (constraint_buf)+1);
-	strcpy (constraint->str, constraint_buf);
-	constraint_dialog->constraints = 
-	        g_slist_append(constraint_dialog->constraints,
-			       (gpointer) constraint);
+
+	add_constraint(constraint_dialog, lhs_col, lhs_row, rhs_col, rhs_row,
+		       type_str);
+
+	gtk_entry_set_text (GTK_ENTRY (lhs_entry), "");
+	gtk_entry_set_text (GTK_ENTRY (rhs_entry), "");
 
 	if (selection == 2)
 	        goto add_dialog;
 
-	gtk_object_unref (GTK_OBJECT (dialog));
+	gnome_dialog_close (GNOME_DIALOG (dialog));
 }
 
 
@@ -326,11 +340,9 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 {
 	static GtkWidget *dialog;
 	static GtkWidget *target_entry, *input_entry;
-	static GtkWidget *label;
-	static GtkWidget *hbox;
 	static GtkWidget *radio_buttons;
 	static GtkWidget *constraint_list;
-	static GtkWidget *constraint_box;
+	static GtkWidget *constraint_box, *scrolled_win;
 	static GtkWidget *constr_add_button;
 	static GtkWidget *constr_change_button;
 	static GtkWidget *constr_delete_button;
@@ -360,48 +372,43 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 
 		box = gtk_vbox_new (FALSE, 0);
 
+		gtk_box_pack_start_defaults
+		  (GTK_BOX(GNOME_DIALOG(dialog)->vbox), box);
+
 		/* 'Set Target Cell' entry */
-		hbox = gtk_hbox_new (FALSE, 0);
-		label = gtk_label_new("Set Target Cell:");
-		gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-		target_entry = gtk_entry_new_with_max_length (30);
+		target_entry = hbox_pack_label_and_entry
+		  ("Set Target Cell:", "", 20, box);
 		gtk_entry_set_text (GTK_ENTRY (target_entry),
 				    target_entry_str);
 		gtk_entry_select_region (GTK_ENTRY (target_entry),
                                   0, GTK_ENTRY(target_entry)->text_length);
        
-		gtk_box_pack_start_defaults (GTK_BOX (hbox), target_entry);
-		gtk_box_pack_start_defaults (GTK_BOX
-					     (GNOME_DIALOG (dialog)->vbox),
-					     hbox);
-		gtk_widget_show_all (hbox);
-
 		/* Radio buttons for problem type selection */
 		radio_buttons = gtk_hbox_new (TRUE, 0);
 		group_equal = add_radio_buttons(radio_buttons,
 						"Equal to:", equal_ops);
 
-		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), 
+		gtk_box_pack_start (GTK_BOX (box), 
 				    radio_buttons, TRUE, TRUE, 0);
 
-		gtk_widget_show_all (radio_buttons);
-
 		/* 'By Changeing Cells' entry */
-		hbox = gtk_hbox_new (FALSE, 0);
-		label = gtk_label_new("By Changing Cells:");
-		gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-		input_entry = gtk_entry_new_with_max_length (30);
-		gtk_entry_set_text (GTK_ENTRY (input_entry), "");
-		gtk_entry_select_region (GTK_ENTRY (input_entry),
-                                  0, GTK_ENTRY(input_entry)->text_length);
-       
-		gtk_box_pack_start_defaults (GTK_BOX (hbox), input_entry);
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), hbox);
+		input_entry = hbox_pack_label_and_entry
+		  ("By Changing Cells:", "", 20, box);
 
 		/* Constraints list */
+		scrolled_win = gtk_scrolled_window_new (NULL, NULL);
+		gtk_container_set_border_width (GTK_CONTAINER (scrolled_win),
+						5);
+		gtk_widget_set_usize (scrolled_win, 230, 160);
+		gtk_scrolled_window_set_policy
+		  (GTK_SCROLLED_WINDOW (scrolled_win),
+		   GTK_POLICY_AUTOMATIC,
+		   GTK_POLICY_AUTOMATIC);
+
 		constraint_box = gtk_hbox_new (FALSE, 0);
 		constraint_list = gtk_clist_new (1);
+		gtk_scrolled_window_add_with_viewport
+		  (GTK_SCROLLED_WINDOW (scrolled_win), constraint_list);
 		gtk_clist_set_selection_mode (GTK_CLIST (constraint_list),
 					      GTK_SELECTION_SINGLE);
 		gtk_clist_set_column_title (GTK_CLIST (constraint_list),
@@ -440,13 +447,11 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 		
 		/* Pack the constraint setting into a box */
 		gtk_box_pack_start_defaults (GTK_BOX (constraint_box),
-					     constraint_list);
+					     scrolled_win);
 		gtk_box_pack_start_defaults (GTK_BOX (constraint_box),
 					     constr_button_box);
 
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), 
-					     constraint_box);
+		gtk_box_pack_start_defaults (GTK_BOX (box), constraint_box);
 
 		gtk_widget_show_all (dialog);
 	} else {
@@ -478,6 +483,11 @@ main_dialog:
 	}
 
 	sel_equal_to = gtk_radio_group_get_selected (group_equal);
+
+	if (sel_equal_to)
+	        sheet->solver_parameters.problem_type = SolverMinimize;
+	else
+	        sheet->solver_parameters.problem_type = SolverMaximize;
 
 	/* Parse target cell entry */
 	text = gtk_entry_get_text (GTK_ENTRY (target_entry));

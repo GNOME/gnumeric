@@ -210,7 +210,7 @@ static char *sample_method_ops [] = {
 };
 
 
-static GtkWidget *
+GtkWidget *
 hbox_pack_label_and_entry(char *str, char *default_str,
 			  int entry_len, GtkWidget *vbox)
 {

@@ -144,6 +144,9 @@ int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 				     float_t alpha, 
 				     data_analysis_output_t *dao);
 
+GtkWidget *hbox_pack_label_and_entry(char *str, char *default_str,
+				     int entry_len, GtkWidget *vbox);
+
 GList *add_strings_to_glist (const char *strs[]);
 
 #endif /* GNUMERIC_DIALOGS_H */

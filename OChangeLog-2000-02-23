@@ -1,5 +1,12 @@
 1999-08-22  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* src/dialogs/dialogs-solver.c: Fixed a lot of things, memory
+ 	leaks and bugs.  The backend is still not there (but wait, one of
+ 	these days it may get there).
+
+	* src/dialogs/dialogs.h, src/dialogs/dialogs-analysis-tools.c:
+ 	hbox_pack_label_and_entry made public.
+
 	* src/collect.[ch], src/functions/fn-financial.c: Removed
  	collect_dates.  Added a flag COLLECT_DATES to
  	callback_function_collect instead.
