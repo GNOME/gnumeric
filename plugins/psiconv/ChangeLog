@@ -1,3 +1,7 @@
+2003-03-13  Jody Goldberg <jody@gnome.org>
+
+	* psiconv-read.c : remove pointless include
+
 2003-01-28  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.16

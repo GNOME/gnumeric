@@ -1,3 +1,7 @@
+2003-03-14  Jody Goldberg <jody@gnome.org>
+
+	* gnm-py-interpreter.c (gnm_py_interpreter_new) : Use G_N_ELEMENTS.
+
 2003-03-04  Jon K Hellan  <hellan@acm.org>
 
 	* gnm-python.c (gnm_init_pygobject): New function. Try to import

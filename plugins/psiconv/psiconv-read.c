@@ -27,7 +27,6 @@
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
-#include <libgnome/libgnome.h>
 #include "psiconv-plugin.h"
 #include "application.h"
 #include "expr.h"

@@ -95,7 +95,7 @@ gnm_py_interpreter_new (GnmPlugin *plugin)
 	interpreter->py_thread_state = py_thread_state;
 	interpreter->plugin = plugin;
 
-	PySys_SetArgv (GNM_SIZEOF_ARRAY (plugin_argv) - 1, plugin_argv);
+	PySys_SetArgv (G_N_ELEMENTS (plugin_argv) - 1, plugin_argv);
 	py_initgnumeric (interpreter); 
 
 	return interpreter;
