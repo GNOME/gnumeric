@@ -931,11 +931,12 @@ gnumeric_column (FunctionEvalInfo *ei, Value **args)
 		CellRef const *const refa = &ref->v_range.cell.a;
 		int col = cellref_get_abs_col (refa, ei->pos) + 1;
 		int i, j;
-		Value *res = value_new_array (width, height);
+		Value *res;
 
 		if (width == 1 && height == 1)
 			return value_new_int (col);
 
+		res = value_new_array (width, height);
 		for (i = width - 1; i >= 0 ; --i)
 			for (j = height - 1 ; j >= 0 ; --j)
 				value_array_set (res, i, j,
@@ -1065,11 +1066,12 @@ gnumeric_row (FunctionEvalInfo *ei, Value **args)
 		CellRef const *const refa = &ref->v_range.cell.a;
 		int row    = cellref_get_abs_row (refa, ei->pos) + 1;
 		int i, j;
-		Value *res = value_new_array (width, height);
+		Value *res;
 
 		if (width == 1 && height == 1)
 			return value_new_int (row);
 
+		res = value_new_array (width, height);
 		for (i = width - 1; i >= 0 ; --i)
 			for (j = height - 1 ; j >= 0 ; --j)
 				value_array_set (res, i, j,

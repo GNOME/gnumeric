@@ -10,7 +10,6 @@ Release Critical
 - figure out why error dialogs at startup get forced behind workbook
 - validate expression names to ensure that they are not simple values (eg TRUE)
 - check the implementation of seriessum returning NULL seems bad
-- find leak of 2 bools and 2 arrays when loading samples/excel/lookfuns.xls
 
 1.2 Targets
 -----------
