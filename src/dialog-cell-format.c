@@ -17,6 +17,7 @@
 
 /* The main dialog box */
 static GtkWidget *cell_format_prop_win = 0;
+static int cell_format_last_page_used = 0;
 
 /* These point to the various widgets in the format/number page */
 static GtkWidget *number_sample;
@@ -763,7 +764,10 @@ cell_properties_apply (GtkObject *w, int page, CellList *cells)
 static void
 cell_properties_close (void)
 {
+	GnomePropertyBox *pbox = GNOME_PROPERTY_BOX (cell_format_prop_win);
+	
 	gtk_main_quit ();
+	cell_format_last_page_used = gtk_notebook_current_page (pbox->notebook);
 	gtk_widget_destroy (cell_format_prop_win);
 	cell_format_prop_win = 0;
 }
@@ -806,6 +810,10 @@ dialog_cell_format (Sheet *sheet)
 	
 	gtk_signal_connect (GTK_OBJECT (prop_win), "destroy",
 			    GTK_SIGNAL_FUNC (cell_properties_close), NULL);
+
+	gtk_notebook_set_page (
+		GNOME_PROPERTY_BOX(prop_win)->notebook,
+		cell_format_last_page_used);
 	
 	gtk_widget_show (prop_win);
 	gtk_grab_add (prop_win);
@@ -816,4 +824,5 @@ dialog_cell_format (Sheet *sheet)
 
 	g_list_free (cells);
 }
+
 

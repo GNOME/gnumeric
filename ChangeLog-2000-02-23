@@ -1,3 +1,11 @@
+1998-09-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/dialog-cell-format.c (dialog_cell_format): save and restore
+	the last page used during a cell style application.
+
+	* src/item-edit.c (item_edit_draw): Do not shift the characters
+	one pixel to draw the cursor.
+
 1998-09-09  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/dialog-cell-format.c (create_background_radio): Use the new
