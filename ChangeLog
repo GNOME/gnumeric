@@ -1,3 +1,10 @@
+2002-08-03  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/plugin.c
+	(gnm_plugin_force_mark_inactive, ghf_plugin_mark_inactive): Removed
+	(plugins_shutdown): Proper way of handling plugins marked for
+	deactivation.
+
 2002-07-31  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/gnumeric-gconf-priv.h: removed PLUGIN_GCONF_KNOWN

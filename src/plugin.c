@@ -1077,17 +1077,6 @@ gnm_plugin_can_deactivate (GnmPlugin *pinfo)
 }
 
 static void
-gnm_plugin_force_mark_inactive (GnmPlugin *pinfo)
-{
-	g_return_if_fail (GNM_IS_PLUGIN (pinfo));
-
-	if (!plugin_info_read_full_info_if_needed (pinfo)) {
-		return;
-	}
-	pinfo->is_active = FALSE;
-}
-
-static void
 gnm_plugin_load_base (GnmPlugin *plugin, ErrorInfo **ret_error)
 {
 	ErrorInfo *error;
@@ -1767,12 +1756,6 @@ plugins_init (CommandContext *context)
 }
 
 static void
-ghf_plugin_mark_inactive (gpointer key, gpointer value, gpointer unused)
-{
-	gnm_plugin_force_mark_inactive (GNM_PLUGIN (value));
-}
-
-static void
 ghf_collect_used_plugin_state_strings (gpointer key, gpointer value, gpointer user_data)
 {
 	PluginFileState *state = value;
@@ -1796,20 +1779,19 @@ plugins_shutdown (void)
 	GSList *active_list = NULL, *used_plugin_state_strings = NULL;
 	ErrorInfo *ignored_error;
 
-	if (plugins_marked_for_deactivation_hash != NULL) {
-		g_hash_table_foreach (plugins_marked_for_deactivation_hash,
-		                      &ghf_plugin_mark_inactive, NULL);
-		g_hash_table_destroy (plugins_marked_for_deactivation_hash);
-	}
-
 	/* save active plugins list */
 	GNM_SLIST_FOREACH (available_plugins, GnmPlugin, plugin,
-		if (gnm_plugin_is_active (plugin)) {
+		if (gnm_plugin_is_active (plugin) &&
+		    !plugin_db_is_plugin_marked_for_deactivation (plugin)) {
 			GNM_SLIST_PREPEND (active_list, (gpointer) gnm_plugin_get_id (plugin));
 		}
 	);
 	gnm_gconf_set_active_plugins (g_slist_reverse (active_list));
 	g_slist_free (active_list);
+
+	if (plugins_marked_for_deactivation_hash != NULL) {
+		g_hash_table_destroy (plugins_marked_for_deactivation_hash);
+	}
 
 	/* deactivate all plugins */
 	plugin_db_deactivate_plugin_list (available_plugins, &ignored_error);
