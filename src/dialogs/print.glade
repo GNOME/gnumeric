@@ -10,17 +10,11 @@
   <language>C</language>
   <gnome_support>True</gnome_support>
   <gettext_support>True</gettext_support>
-  <use_widget_names>False</use_widget_names>
   <output_main_file>False</output_main_file>
-  <output_support_files>True</output_support_files>
-  <output_build_files>True</output_build_files>
-  <backup_source_files>True</backup_source_files>
   <main_source_file>gladesrc.c</main_source_file>
   <main_header_file>gladesrc.h</main_header_file>
   <handler_source_file>gladesig.c</handler_source_file>
   <handler_header_file>gladesig.h</handler_header_file>
-  <support_source_file>support.c</support_source_file>
-  <support_header_file>support.h</support_header_file>
   <output_translatable_strings>True</output_translatable_strings>
   <translatable_strings_file>print.glade.h</translatable_strings_file>
 </project>
@@ -50,6 +44,66 @@
       <expand>True</expand>
       <fill>True</fill>
     </child>
+
+    <widget>
+      <class>GtkHButtonBox</class>
+      <child_name>GnomeDialog:action_area</child_name>
+      <name>dialog-action_area1</name>
+      <layout_style>GTK_BUTTONBOX_END</layout_style>
+      <spacing>8</spacing>
+      <child_min_width>85</child_min_width>
+      <child_min_height>27</child_min_height>
+      <child_ipad_x>7</child_ipad_x>
+      <child_ipad_y>0</child_ipad_y>
+      <child>
+	<padding>0</padding>
+	<expand>False</expand>
+	<fill>True</fill>
+	<pack>GTK_PACK_END</pack>
+      </child>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>button1</name>
+	<can_default>True</can_default>
+	<has_default>True</has_default>
+	<can_focus>True</can_focus>
+	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>print</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<label>Print</label>
+	<stock_pixmap>GNOME_STOCK_PIXMAP_PRINT</stock_pixmap>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>preview</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<label>Print preview</label>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>options</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<label>Options</label>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>button8</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
+      </widget>
+    </widget>
 
     <widget>
       <class>GtkNotebook</class>
@@ -1301,6 +1355,7 @@ In
 	      <name>configure-header</name>
 	      <can_focus>True</can_focus>
 	      <label>Customize _header</label>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	      <child>
 		<padding>0</padding>
 		<expand>True</expand>
@@ -1313,6 +1368,7 @@ In
 	      <name>configure-footer</name>
 	      <can_focus>True</can_focus>
 	      <label>Customize _footer</label>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	      <child>
 		<padding>4</padding>
 		<expand>True</expand>
@@ -1645,7 +1701,7 @@ In
 	  <widget>
 	    <class>GtkTable</class>
 	    <name>table9</name>
-	    <rows>2</rows>
+	    <rows>3</rows>
 	    <columns>2</columns>
 	    <homogeneous>False</homogeneous>
 	    <row_spacing>0</row_spacing>
@@ -1791,6 +1847,29 @@ In
 		<yfill>True</yfill>
 	      </child>
 	    </widget>
+
+	    <widget>
+	      <class>GtkCheckButton</class>
+	      <name>check-only-styles</name>
+	      <can_focus>True</can_focus>
+	      <label>Styles with no content</label>
+	      <active>False</active>
+	      <draw_indicator>True</draw_indicator>
+	      <child>
+		<left_attach>0</left_attach>
+		<right_attach>1</right_attach>
+		<top_attach>2</top_attach>
+		<bottom_attach>3</bottom_attach>
+		<xpad>6</xpad>
+		<ypad>0</ypad>
+		<xexpand>False</xexpand>
+		<yexpand>False</yexpand>
+		<xshrink>False</xshrink>
+		<yshrink>False</yshrink>
+		<xfill>True</xfill>
+		<yfill>False</yfill>
+	      </child>
+	    </widget>
 	  </widget>
 
 	  <widget>
@@ -1908,66 +1987,6 @@ In
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
-      </widget>
-    </widget>
-
-    <widget>
-      <class>GtkHButtonBox</class>
-      <child_name>GnomeDialog:action_area</child_name>
-      <name>dialog-action_area1</name>
-      <layout_style>GTK_BUTTONBOX_END</layout_style>
-      <spacing>8</spacing>
-      <child_min_width>85</child_min_width>
-      <child_min_height>27</child_min_height>
-      <child_ipad_x>7</child_ipad_x>
-      <child_ipad_y>0</child_ipad_y>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>True</fill>
-	<pack>GTK_PACK_END</pack>
-      </child>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>button1</name>
-	<can_default>True</can_default>
-	<has_default>True</has_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>print</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<label>Print</label>
-	<stock_pixmap>GNOME_STOCK_PIXMAP_PRINT</stock_pixmap>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>preview</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<label>Print preview</label>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>options</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<label>Options</label>
-      </widget>
-
-      <widget>
-	<class>GtkButton</class>
-	<name>button8</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
       </widget>
     </widget>
   </widget>

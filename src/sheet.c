@@ -2024,7 +2024,6 @@ sheet_cell_remove_simple (Sheet *sheet, Cell *cell)
 		dependent_queue_recalc_list (deps, TRUE);
 
 	sheet_cell_remove_from_hash (sheet, cell);
-#warning Remove objects
 }
 
 /**
@@ -3184,9 +3183,10 @@ sheet_move_range (WorkbookControl *wbc,
 		/* check for out of bounds and delete if necessary */
 		if ((cell->pos.col + rinfo->col_offset) >= SHEET_MAX_COLS ||
 		    (cell->pos.row + rinfo->row_offset) >= SHEET_MAX_ROWS) {
+			if (cell_needs_recalc (cell))
+				dependent_unqueue_recalc (CELL_TO_DEP (cell));
 			if (cell_has_expr (cell))
 				dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
-#warning Remove objects
 			cell_destroy (cell);
 			continue;
 		}
@@ -3638,23 +3638,13 @@ sheet_clone_colrow_info (Sheet const *src, Sheet *dst)
 static void
 sheet_clone_styles (Sheet const *src, Sheet *dst)
 {
-#warning rewrite
-#if 0
-	GList *style_regions, *ptr;
-
-	style_regions = sheet_get_style_list (src);
-	style_regions = g_list_reverse (style_regions);
-
-	if (!style_regions)
-		return;
-
-	for (ptr = style_regions; ptr != NULL; ptr = ptr->next) {
-		StyleRegion const *region = ptr->data;
-		sheet_style_attach (dst, &region->range, mstyle_copy (region->style));
-	}
-
-	g_list_free (style_regions);
-#endif
+	Range r;
+	StyleList *styles;
+	CellPos	corner = { 0, 0 };
+	
+	styles = sheet_style_get_list (src, range_init_full_sheet (&r));
+	sheet_style_set_list (dst, &corner, FALSE, styles);
+	style_list_free	(styles);
 }
 
 static void

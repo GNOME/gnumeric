@@ -5,13 +5,15 @@
  */
 
 gchar *s = N_("Print setup");
+gchar *s = N_("Print");
+gchar *s = N_("Print preview");
+gchar *s = N_("Options");
 gchar *s = N_("Orientation");
 gchar *s = N_("Por_trait");
 gchar *s = N_("_Landscape");
 gchar *s = N_("Scale");
 gchar *s = N_("_Adjust to:");
 gchar *s = N_("_Fit to:");
-/* xgettext:no-c-format */
 gchar *s = N_("% of normal size");
 gchar *s = N_("page(s) wide by");
 gchar *s = N_("tall");
@@ -23,11 +25,10 @@ gchar *s = N_("_Vertically");
 gchar *s = N_("_Left:");
 gchar *s = N_("_Right:");
 gchar *s = N_("_Units:");
-gchar *s = N_("pts\n"
-              "mm\n"
-              "cm\n"
-              "In\n"
-              "");
+gchar *s = N_("pts");
+gchar *s = N_("mm");
+gchar *s = N_("cm");
+gchar *s = N_("In");
 gchar *s = N_("_Top:");
 gchar *s = N_("He_ader:");
 gchar *s = N_("_Footer:");
@@ -50,10 +51,8 @@ gchar *s = N_("Row and co_lumn headings");
 gchar *s = N_("Co_mments");
 gchar *s = N_("_Grid lines");
 gchar *s = N_("_Black and white");
+gchar *s = N_("Styles with no content");
 gchar *s = N_("Page order");
 gchar *s = N_("_Down, then right");
 gchar *s = N_("R_ight, then down");
 gchar *s = N_("Sheet");
-gchar *s = N_("Print");
-gchar *s = N_("Print preview");
-gchar *s = N_("Options");

@@ -1,3 +1,8 @@
+2001-02-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_clone_styles) : rewrite for new style engine.
+	(sheet_move_range) : remove warning.
+
 2001-02-13  Maciej Stachowiak  <mjs@eazel.com>
 
 	Changes to make gnumeric distcheck properly (mildly xml-i18n-tools
