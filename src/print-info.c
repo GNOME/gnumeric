@@ -197,9 +197,9 @@ load_formats (void)
 			PrintHF *format;
 			
 			format = print_hf_new (
-				predefined_formats [i].left_format,
-				predefined_formats [i].middle_format,
-				predefined_formats [i].right_format);
+				_(predefined_formats [i].left_format),
+				_(predefined_formats [i].middle_format),
+				_(predefined_formats [i].right_format));
 
 			hf_formats = g_list_prepend (hf_formats, format);
 		}
