@@ -215,9 +215,8 @@ Office 2000 and 'explorer' compatibility.
 
 * Rendering
 
-  * Sort out the cell span stuff
-    * Have a 'merged cell' structure that can be overridden
-    * have a 'user-set' feature for 'merge cells'
+ * Have a 'merged cell' structure that can be overridden
+ * have a 'user-set' feature for 'merge cells'
 
 * Calculation
 
@@ -247,7 +246,6 @@ Office 2000 and 'explorer' compatibility.
 
 * Undo 
   * Commands to do
-      - paste_copy
       - autofill
   * Commands to link in
       - Row/Col resize.  The current linkage between itembar and sheet is odd.
@@ -301,17 +299,17 @@ Office 2000 and 'explorer' compatibility.
 
   * Add printing support (not fun)
 
-* Graphics Wizard
+* Graph Druid
 
   * Need to high-light current graph type on the first page
 
-  * Need to finish the wizard: manual data entry, better wizarding,
+  * Need to finish the druid: manual data entry, better druiding,
 
-  * Need to split the wizard from the Gnumeric linking stage
+  * Need to split the druid from the Gnumeric linking stage
 
 * Gnumeric-side graph support
 
-  * Need to save the settings for the plots.  Perhaps the wizard?
+  * Need to save the settings for the plots.  Perhaps the druid?
 
   * Need to restore the setting from the plots. 
 
@@ -319,7 +317,7 @@ Office 2000 and 'explorer' compatibility.
 
 * Sheet Object and Graphics support
 
-  * Handle ownership of objects: from the wizard to the "finish"
+  * Handle ownership of objects: from the druid to the "finish"
     creation routine in the sheet-object.c code
 
   * Remove the sheet_object_set_type_full thing, and simplify the API
