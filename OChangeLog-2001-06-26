@@ -1,3 +1,10 @@
+2000-10-14  Chema Celorio  <chema@celorio.com>
+
+	* src/workbook.c (workbook_sheet_get_free_name): remove g_assert not
+	reached, as it was reached when duplicating sheets with names like :
+	"Sales (1995)". If we have a sheet with a number in parenthesis and
+	the number is > 1000. Duplicate it with the name "Name (numer) (2)".
+
 2000-10-13  Jody Goldberg <jgoldberg@home.com>
 
 	* src/position.c (parse_pos_init) : Relax the restrictions.

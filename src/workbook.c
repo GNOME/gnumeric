@@ -3525,10 +3525,11 @@ workbook_sheet_get_free_name (Workbook *wb,
 			return name;
 		}
 	}
-	g_assert_not_reached ();
+
 	g_free (name);
 	g_free (base_name);
-	return NULL;
+	name = g_strdup_printf ("%s (%i)", base, 2);
+	return name;
 }
 
 /**
