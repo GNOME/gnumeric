@@ -1,0 +1,5 @@
+/usr/lib/gnumeric/*-bonobo/plugins/python
+/usr/lib/gnumeric/*-bonobo/plugins/python-loader
+/usr/lib/gnumeric/*-bonobo/plugins/py-func
+/usr/lib/gnumeric/*-bonobo/plugins/gnome-glossary
+/usr/share/gnumeric/*-bonobo/python
