@@ -1,3 +1,12 @@
+1999-07-06  Jody Goldberg  <jgoldberg@home.com>
+
+	* ms-excel-biff.h : remove _eBiff_wrap.
+
+	* ms-excel-read.c : replace _eBiff_wrap with a boolean.
+	(ms_excel_set_cell_xf) : Send xf->wrap.
+	(excel_map_pattern_index_from_excel) : New function.
+	(biff_xf_data_new) : Used here.
+
 1999-07-06  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel-read.c (ms_excel_read_name): Fix up Names definition

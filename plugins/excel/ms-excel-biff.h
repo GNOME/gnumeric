@@ -31,7 +31,6 @@ typedef enum _eBiff_hidden { eBiffHVisible=0, eBiffHHidden=1,
 typedef enum _eBiff_locked { eBiffLLocked=1, eBiffLUnlocked=0 } eBiff_locked ;
 typedef enum _eBiff_xftype { eBiffXStyle=0, eBiffXCell=1 } eBiff_xftype ;
 typedef enum _eBiff_format { eBiffFMS=0, eBiffFLotus=1 } eBiff_format ;
-typedef enum _eBiff_wrap { eBiffWWrap=0, eBiffWNoWrap=1 } eBiff_wrap ;
 typedef enum _eBiff_eastern { eBiffEContext=0, eBiffEleftToRight=1,
 			      eBiffErightToLeft=2 } eBiff_eastern ;
 

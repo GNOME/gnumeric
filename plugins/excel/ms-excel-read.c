@@ -826,7 +826,7 @@ typedef struct _BiffXFData {
 	guint16 parentstyle;
 	StyleHAlignFlags halign;
 	StyleVAlignFlags valign;
-	eBiff_wrap wrap;
+	gboolean wrap;
 	guint8 rotation;
 	eBiff_eastern eastern;
 	guint8 border_color[4];	/*
@@ -910,7 +910,8 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 	/*
 	 * Well set it up then ! FIXME: hack !
 	 */
-	cell_set_alignment (cell, xf->halign, xf->valign, ORIENT_HORIZ, 0);
+	cell_set_alignment (cell, xf->halign, xf->valign, ORIENT_HORIZ,
+			    xf->wrap);
 	basefore = ms_excel_set_cell_font (sheet, cell, xf);
 	if (sheet->wb->palette) {
 		int lp;
@@ -1009,6 +1010,23 @@ biff_xf_map_border (int b)
  	return BORDER_NONE;
 }
 
+static int
+excel_map_pattern_index_from_excel (int const i)
+{
+	static int const map_from_excel[] = {
+		 0,
+		 1,  3,  2,  4,  7,  8,
+		 9, 10, 11, 12, 13, 14,
+		15, 16, 17, 18,  5,  6
+	};
+
+	/* Default to Auto if out of range */
+	g_return_val_if_fail (i < 0 ||
+			      i >= (sizeof(map_from_excel)/sizeof(int)), 0);
+
+	return map_from_excel[i];
+}
+
 /**
  * Parse the BIFF XF Data structure into a nice form, see S59E1E.HTM
  **/
@@ -1061,7 +1079,7 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 		printf ("Unknown halign %d\n", subdata);
 		break;
 	}
-	xf->wrap = (data & 0x0008) ? eBiffWWrap : eBiffWNoWrap;
+	xf->wrap = (data & 0x0008) ? TRUE : FALSE;
 	subdata = (data & 0x0070) >> 4;
 	switch (subdata) {
 	case 0:
@@ -1172,7 +1190,8 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 		xf->border_color[STYLE_BOTTOM] = (subdata & 0x7f);
 		subdata = subdata >> 7;
 		xf->border_linestyle = biff_xf_map_border ((data & 0x01e00000) >> 21);
-		xf->fill_pattern_idx = (data & 0xfc000000) >> 26;
+		xf->fill_pattern_idx =
+			excel_map_pattern_index_from_excel ((data>>26) & 0x3f);
 
 		data = BIFF_GET_GUINT16 (q->data + 18);
 		xf->pat_foregnd_col = (data & 0x007f);
@@ -1191,6 +1210,7 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 
 		data = BIFF_GET_GUINT16 (q->data + 10);
 		xf->fill_pattern_idx = data & 0x03f;
+			excel_map_pattern_index_from_excel (data & 0x3f);
 		/*
 		 * Luckily this maps nicely onto the new set.
 		 */
