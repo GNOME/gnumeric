@@ -99,7 +99,7 @@ static LocaleInfo locale_trans_array[] = {
 	 * Note: lots of people get very emotional over this.  Please
 	 * err on the safe side, if any.
 	 */
-	{N_("United Status/English (C)"),                "C",     LG_OTHER},
+	{N_("United States/English (C)"),                "C",     LG_OTHER},
 	{N_("South Africa Afrikaans (af_ZA)"),           "af_ZA", LG_AFRICA },
 	{N_("Ethiopia/Amharic (am_ET)"),                 "am_ET", LG_AFRICA },
 	{N_("United Arab Emirates (ar_AE)"),             "ar_AE", LG_ASIA },

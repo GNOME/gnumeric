@@ -1,3 +1,9 @@
+2003-06-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
+	for Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* dialog-stf.glade: small formatting change
+	* format-selector.glade: small formatting change
+
 2003-06-20  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-csv-page.c (csv_page_textindicator_change): Move from

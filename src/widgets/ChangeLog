@@ -1,3 +1,10 @@
+2003-06-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* widget-format-selector.h (number_format_selector_set_locale): 
+	  after "oldlocale = g_strdup(gnumeric_setlocale(LC_ALL,newlocale));"
+	  oldlocale contains the newlocale
+	* widget-locale-selector.c: s/United Status/United States/
+	
 2003-06-20  Morten Welinder  <terra@gnome.org>
 
 	* widget-locale-selector.c (get_locale_name): Use GTK+-consistent

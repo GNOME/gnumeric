@@ -27,6 +27,7 @@
 #include <sheet.h>
 #include <value.h>
 #include <workbook.h>
+#include <locale.h>
 #include <gnm-marshalers.h>
 
 #include <widgets/gnumeric-combo-text.h>
@@ -39,7 +40,7 @@
 #define FORMAT_PREVIEW_MAX 40
 
 #define SETUP_LOCALE_SWITCH char *oldlocale = NULL
-#define START_LOCALE_SWITCH if (nfs->locale) oldlocale = g_strdup(gnumeric_setlocale(LC_ALL, nfs->locale))
+#define START_LOCALE_SWITCH if (nfs->locale) {oldlocale = g_strdup(gnumeric_setlocale (LC_ALL, NULL)); gnumeric_setlocale(LC_ALL, nfs->locale);}
 #define END_LOCALE_SWITCH if (oldlocale) {gnumeric_setlocale(LC_ALL, oldlocale);g_free (oldlocale);}
 
 static GtkHBoxClass *nfs_parent_class;
