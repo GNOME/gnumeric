@@ -27,7 +27,7 @@ static struct {
 static char *paste_ops [] = {
 	N_("None"),
 	N_("Add "),
-	N_("Substract"),
+	N_("Subtract"),
 	N_("Multiply"),
 	N_("Divide"),
 	NULL
