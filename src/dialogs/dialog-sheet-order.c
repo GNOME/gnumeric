@@ -633,7 +633,6 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	state->add_btn   = glade_xml_get_widget (gui, "add_button");
 	state->duplicate_btn   = glade_xml_get_widget (gui, "duplicate_button");
 	state->delete_btn   = glade_xml_get_widget (gui, "delete_button");
-	gtk_widget_set_size_request (state->delete_btn, 100,-1);
 
 	state->ok_btn  = glade_xml_get_widget (gui, "ok_button");
 	state->cancel_btn  = glade_xml_get_widget (gui, "cancel_button");
@@ -654,21 +653,24 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 									   FALSE, NULL),
 					       _("Default"), NULL, cg);
 	gtk_table_attach (table, state->ccombo_back,
-			  0, 1, 1, 2,
+			  0, 1, 6, 7,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
 	gtk_widget_set_sensitive (state->ccombo_back, FALSE);
+	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (state->ccombo_back), GTK_RELIEF_NORMAL);
+	color_combo_box_set_preview_relief (COLOR_COMBO (state->ccombo_back), GTK_RELIEF_NORMAL);
 
 	cg = color_group_fetch ("fore_color_group", wb_control_view (WORKBOOK_CONTROL (wbcg)));
 	state->ccombo_fore = color_combo_new  (gdk_pixbuf_new_from_inline (-1, gnm_font, 
 									   FALSE, NULL),
 					       _("Default"), NULL, cg);
 	gtk_table_attach (table, state->ccombo_fore,
-			  0, 1, 0, 1,
+			  0, 1, 5, 6,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
 	gtk_widget_set_sensitive (state->ccombo_fore, FALSE);
-	
+	gtk_combo_box_set_arrow_relief (GTK_COMBO_BOX (state->ccombo_fore), GTK_RELIEF_NORMAL);
+	color_combo_box_set_preview_relief (COLOR_COMBO (state->ccombo_fore), GTK_RELIEF_NORMAL);
 
 	populate_sheet_list (state);
 
@@ -712,4 +714,5 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	gnumeric_non_modal_dialog (state->wbcg, GTK_WINDOW (state->dialog));
 	wbcg_edit_attach_guru (state->wbcg, GTK_WIDGET (state->dialog));
 	gtk_widget_show_all (GTK_WIDGET (state->dialog));
+	
 }

@@ -1,5 +1,12 @@
 2002-03-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-sheet-order.c (dialog_sheet_order) : some
+	beautification
+	NOTE: To compile, this requires today's cvs version of gal
+	* sheet-order.glade : some beautification
+
+2002-03-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-sheet-name.c : removed
 	* sheet-rename.glade : removed
 	* dialogs.h : removed ref to dialog_sheet_name
