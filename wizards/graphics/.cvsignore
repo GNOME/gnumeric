@@ -4,3 +4,6 @@
 *~
 Makefile.in
 Makefile
+graphics-wizard
+.libs
+.deps
