@@ -1,3 +1,20 @@
+2004-03-16  Christopher James Lahey  <clahey@ximian.com>
+
+	* Makefile.am (SUBDIRS): Added libpresent and test.
+
+	* drawing/Makefile.am (libgoffice_drawing_la_SOURCES): Added god-anchor.c and
+	god-anchor.h.
+
+	* drawing/Makefile.am, drawing/god-drawing-group.c, drawing/god-drawing.c,
+	drawing/god-drawing.h, drawing/god-property-table.c,
+	drawing/god-shape.c, drawing/god-shape.h,
+	drawing/god-text-model.c, ms-compat/Makefile.am,
+	ms-compat/go-ms-parser.c, ms-compat/god-drawing-ms.c,
+	ms-compat/god-drawing-ms.h: Standardized #include lines.
+
+	* utils/go-units.h: Added an underlying unit and added a type for
+	storing lengths.  Added point and rect types.
+
 2004-03-16  Morten Welinder  <terra@gnome.org>
 
 	* graph/gog-error-bar-prefs.glade: Don't start visible.
@@ -63,7 +80,7 @@
 	* graph/plugins/plot_xy/gog-xy.c: (gog_xy_view_render),
 	(gog_xy_series_update), (gog_xy_series_init_style): fixed tests about bubble plots.
 
-2004-03-13    <clahey@ximian.com>
+2004-03-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* Makefile.am (SUBDIRS): Added drawing and ms-compat.
 	(libgoffice_la_LIBADD): Added drawing/libgoffice-drawing.la and

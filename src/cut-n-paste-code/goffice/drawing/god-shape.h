@@ -15,8 +15,8 @@
 
 #include <glib-object.h>
 #include <glib.h>
-#include <god-property-table.h>
-#include <god-text-model.h>
+#include <drawing/god-property-table.h>
+#include <drawing/god-text-model.h>
 
 G_BEGIN_DECLS
 

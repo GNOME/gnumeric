@@ -1,3 +1,9 @@
+2004-03-17  Christopher James Lahey  <clahey@ximian.com>
+
+	* configure.in: Added
+	src/cut-n-paste-code/goffice/libpresent/Makefile and
+	src/cut-n-paste-code/goffice/test/Makefile.
+
 2004-03-16  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=137357
@@ -36,11 +42,11 @@
 	* src/graph.c (gnm_go_data_vector_load_values): changed initial maximum
 	from G_MINDOUBLE to - G_MAXDOUBLE.
 	
-2004-03-13    <clahey@ximian.com>
+2004-03-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* configure.in: Added
 	src/cut-n-paste-code/goffice/drawing/Makefile and
-	src/cut-n-paste-code/goffice/ms-compat/Makefile
+	src/cut-n-paste-code/goffice/ms-compat/Makefile.
 
 2004-03-11  Kjartan Maraas  <kmaraas@gnome.org>
 

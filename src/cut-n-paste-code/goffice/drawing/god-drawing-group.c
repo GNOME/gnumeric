@@ -25,7 +25,7 @@
  */
 
 #include <gnumeric-config.h>
-#include "god-drawing-group.h"
+#include "drawing/god-drawing-group.h"
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 

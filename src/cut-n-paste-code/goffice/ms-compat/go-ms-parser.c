@@ -22,7 +22,7 @@
  **/
 
 #include <gnumeric-config.h>
-#include "go-ms-parser.h"
+#include "ms-compat/go-ms-parser.h"
 #include <glib/gmacros.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>

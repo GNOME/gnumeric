@@ -775,6 +775,8 @@ src/cut-n-paste-code/goffice/graph/plugins/plot_pie/Makefile
 src/cut-n-paste-code/goffice/graph/plugins/plot_xy/Makefile
 src/cut-n-paste-code/goffice/drawing/Makefile
 src/cut-n-paste-code/goffice/ms-compat/Makefile
+src/cut-n-paste-code/goffice/libpresent/Makefile
+src/cut-n-paste-code/goffice/test/Makefile
 doc/Makefile
 doc/C/Makefile
 doc/C/figures/Makefile

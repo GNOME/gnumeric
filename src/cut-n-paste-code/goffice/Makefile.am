@@ -1,4 +1,4 @@
-SUBDIRS = graph utils gui-utils drawing ms-compat data
+SUBDIRS = graph utils gui-utils drawing ms-compat libpresent test data
 
 noinst_LTLIBRARIES = libgoffice.la
 
@@ -7,7 +7,8 @@ libgoffice_la_LIBADD = 				\
 	gui-utils/libgoffice-gui-utils.la	\
 	graph/libgoffice-graph.la		\
 	drawing/libgoffice-drawing.la		\
-	ms-compat/libgoffice-ms-compat.la
+	ms-compat/libgoffice-ms-compat.la	\
+	libpresent/libgoffice-libpresent.la
 
 libgoffice_la_SOURCES = 	\
 	goffice.c		\

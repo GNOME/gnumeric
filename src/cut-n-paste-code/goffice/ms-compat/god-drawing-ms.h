@@ -13,8 +13,8 @@
  * (C) 1998-2004 Michael Meeks, Jody Goldberg, Chris Lahey
  **/
 
-#include "god-drawing.h"
-#include "god-drawing-group.h"
+#include <drawing/god-drawing.h>
+#include <drawing/god-drawing-group.h>
 #include <gsf/gsf.h>
 
 GodDrawing      *god_drawing_read_ms        (GsfInput    *input,

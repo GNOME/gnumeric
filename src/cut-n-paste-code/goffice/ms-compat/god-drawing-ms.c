@@ -22,10 +22,10 @@
  **/
 
 #include <gnumeric-config.h>
-#include "god-drawing-ms.h"
-#include "god-property-table.h"
-#include "god-shape.h"
-#include "go-ms-parser.h"
+#include "ms-compat/god-drawing-ms.h"
+#include <ms-compat/go-ms-parser.h>
+#include <drawing/god-property-table.h>
+#include <drawing/god-shape.h>
 #include <glib/gmacros.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
@@ -53,7 +53,7 @@ god_drawing_ms_init (void)
 	static gboolean inited = FALSE;
 	if (inited)
 		return;
-	domain = g_quark_from_static_string ("GoDrawingMs");
+	domain = g_quark_from_static_string ("GodDrawingMs");
 	code = 1;
 	inited = TRUE;
 }

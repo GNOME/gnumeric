@@ -15,7 +15,7 @@
 
 #include <glib-object.h>
 #include <glib.h>
-#include <god-shape.h>
+#include <drawing/god-shape.h>
 
 G_BEGIN_DECLS
 

@@ -25,7 +25,7 @@
  */
 
 #include <gnumeric-config.h>
-#include "god-drawing.h"
+#include "drawing/god-drawing.h"
 #include <gsf/gsf-impl-utils.h>
 
 static GObjectClass *parent_class;

@@ -24,19 +24,41 @@
 G_BEGIN_DECLS
 
 /* Conversion factors */
+/* The following number is the least common multiplier of 254 (1/10mm), 72(pt), 100000, and 576 */
+/* This way inch, pt, and mm are all integer multipliers (in fact, a nanometer is.) */
+#define UN_PER_IN 228600000.0
 #define PT_PER_IN 72.0
 #define CM_PER_IN 2.54
-#define PT_PER_CM (PT_PER_IN/CM_PER_IN)
-#define IN_PER_CM (1.0/CM_PER_IN)
-#define IN_PER_PT (1.0/PT_PER_IN)
-#define CM_PER_PT (1.0/PT_PER_CM)
 
+#define GO_IN_TO_UN(inch)	((inch)*UN_PER_IN)
 #define GO_IN_TO_PT(inch)	((inch)*PT_PER_IN)
 #define GO_IN_TO_CM(inch)	((inch)*CM_PER_IN)
-#define GO_CM_TO_PT(cm)		((cm)*PT_PER_CM)
-#define GO_CM_TO_IN(cm)		((cm)*IN_PER_CM)
-#define GO_PT_TO_CM(pt)		((pt)*CM_PER_PT)
-#define GO_PT_TO_IN(pt)		((pt)*IN_PER_PT)
+
+#define GO_UN_TO_IN(unit)	((unit)          /UN_PER_IN)
+#define GO_UN_TO_PT(unit)	((unit)*PT_PER_IN/UN_PER_IN)
+#define GO_UN_TO_CM(unit)	((unit)*CM_PER_IN/UN_PER_IN)
+
+#define GO_PT_TO_UN(pt)		((pt)*UN_PER_IN/PT_PER_IN)
+#define GO_PT_TO_IN(pt)		((pt)          /PT_PER_IN)
+#define GO_PT_TO_CM(pt)		((pt)*CM_PER_IN/PT_PER_IN)
+
+#define GO_CM_TO_UN(cm)		((cm)*UN_PER_IN/CM_PER_IN)
+#define GO_CM_TO_IN(cm)		((cm)          /CM_PER_IN)
+#define GO_CM_TO_PT(cm)		((cm)*PT_PER_IN/CM_PER_IN)
+
+typedef gint64 go_unit_t;
+
+typedef struct {
+	go_unit_t x;
+	go_unit_t y;
+} GoPoint;
+
+typedef struct {
+	go_unit_t top;
+	go_unit_t left;
+	go_unit_t bottom;
+	go_unit_t right;
+} GoRect;
 
 G_END_DECLS
 
