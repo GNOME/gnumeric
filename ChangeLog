@@ -1,3 +1,17 @@
+2003-01-23  Jon K Hellan  <hellan@acm.org>
+
+	* src/gui-clipboard.c (table_cellregion_read): Initalize wb and
+	wb_view to NULL, check against NULL before unrefing.
+	(complex_content_received): const char* reader_id.
+	(x_clipboard_clear_cb): Remove incorrect comment.
+
+2003-01-22  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-view.c (wbv_save_to_file): Close output stream.
+
+	* src/file.c (gnm_file_saver_save): Only test for overwriting
+	files if we are in fact writing to a file.
+
 2003-01-23  Jody Goldberg <jody@gnome.org>
 
 	For Wayne Schuller  <k_wayne@linuxpower.org>
