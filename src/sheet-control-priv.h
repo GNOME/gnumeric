@@ -15,7 +15,7 @@ typedef struct {
 
 	void (*init_state) (SheetControl *sc);
 
-	void (*resize) 		       (SheetControl *sc);
+	void (*resize) 		       (SheetControl *sc, gboolean force_scroll);
 	void (*set_zoom_factor)        (SheetControl *sc);
 	void (*redraw_all)             (SheetControl *sc);
 	void (*redraw_region)	       (SheetControl *sc,

@@ -1082,7 +1082,7 @@ sheet_col_row_group_ungroup (Sheet *sheet, int from, int to, gboolean is_cols,
 	 * was not changed.
 	 */
 	if (!sheet_col_row_fit_gutter (sheet, highest, is_cols, inc))
-		SHEET_FOREACH_CONTROL (sheet, control, sc_resize (control););
+		SHEET_FOREACH_CONTROL (sheet, control, sc_resize (control, FALSE););
 
 	return TRUE;
 }
@@ -1105,7 +1105,7 @@ sheet_col_row_gutter (Sheet *sheet,
 
 	sheet->cols.max_outline_level = col_max_outline;
 	sheet->rows.max_outline_level = row_max_outline;
-	SHEET_FOREACH_CONTROL (sheet, control, sc_resize (control););
+	SHEET_FOREACH_CONTROL (sheet, control, sc_resize (control, FALSE););
 }
 
 struct sheet_extent_data {
@@ -4134,7 +4134,7 @@ sheet_adjust_preferences (Sheet const *sheet, gboolean redraw, gboolean resize)
 	SHEET_FOREACH_CONTROL (sheet, control, {
 		sc_adjust_preferences (control);
 		if (resize)
-			sc_resize (control);
+			sc_resize (control, FALSE);
 		if (redraw)
 			sc_redraw_all (control);
 	});

@@ -1,3 +1,23 @@
+2001-07-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-control.c (sc_resize) : add a force_scroll argument.
+
+	* src/sheet-control-gui.c (scg_scrollbar_config) : handle panes.
+	(scg_resize) : Add a force_scroll argument.
+	  reset all of the offsets.
+	  Keep the col/row heades for pane[0] and toss those on pane[1,3]
+	(scg_set_zoom_factor) : support panes without headers.
+	(scg_scrollbar_config) : pane support.
+	(scg_set_left_col) : quicky stub.
+	(scg_set_top_row) : quicky stub.
+	(gnumeric_pane_init) : rename from gnumeric_pane_new for consistency.
+	  either add both or neither header.
+	(gnumeric_pane_free) : rename from gnumeric_pane_delete.
+	(scg_set_panes) : only panes 0 and 2 need headers no need to attach
+	 the headers for panes 1 & 3.
+	 force a full scroll when setting up the panes.
+	(scg_adjust_preferences) : no need to worry about panes.
+
 2001-07-05  Rodrigo Moya <rodrigo@gnome-db.org>
 
 	* configure.in: use libgda >= 0.2.11 for the GDA plugin

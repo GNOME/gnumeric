@@ -88,7 +88,7 @@ sc_set_sheet (SheetControl *sc, Sheet *sheet)
 }
 
 
-SC_VIRTUAL (resize, (SheetControl *sc), (sc))
+SC_VIRTUAL (resize, (SheetControl *sc, gboolean force_scroll), (sc, force_scroll))
 
 SC_VIRTUAL (set_zoom_factor, (SheetControl *sc), (sc))
 

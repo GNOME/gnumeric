@@ -20,7 +20,7 @@ void   sc_set_sheet (SheetControl *sc, Sheet *sheet);
  * calling the virtual. Change this if the base class becomes something
  * more than a passthrough.
  */
-void sc_resize		       (SheetControl *sc);
+void sc_resize		       (SheetControl *sc, gboolean force_scroll);
 void sc_set_zoom_factor        (SheetControl *sc);
 void sc_redraw_all             (SheetControl *sc);
 void sc_redraw_region          (SheetControl *sc,
