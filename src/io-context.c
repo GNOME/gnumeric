@@ -208,7 +208,9 @@ io_progress_update (IOContext *io_context, gdouble f)
 			io_context->last_progress = f;
 		}
 	}
-	while (gtk_main_iteration_do (FALSE));
+
+	while (gtk_events_pending ())
+		gtk_main_iteration_do (FALSE);
 }
 
 void

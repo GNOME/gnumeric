@@ -106,9 +106,8 @@ handle_paint_events (void)
 {
 	/* FIXME: we need to mask input events correctly here */
 	/* Show something coherent */
-	while (gtk_events_pending () &&
-	       !initial_workbook_open_complete)
-		gtk_main_iteration ();
+	while (gtk_events_pending () && !initial_workbook_open_complete)
+		gtk_main_iteration_do (FALSE);
 }
 
 

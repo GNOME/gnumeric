@@ -1,5 +1,11 @@
 2001-06-02  Jody Goldberg <jgoldberg@home.com>
 
+	* src/main.c (handle_paint_events) : be consistent and don't block.
+
+	* src/io-context.c (io_progress_update) : avoid an infinite loop.
+
+2001-06-02  Jody Goldberg <jgoldberg@home.com>
+
 	* src/format.c (format_compile) : rewrite, not quite done.
 
 	* src/commands.c (cmd_set_text_undo) : queue a recalc.
