@@ -18,6 +18,7 @@ enum {
 };
 static gint gtk_combo_box_signals [LAST_SIGNAL] = { 0, };
 
+#if 0
 static void
 gtk_combo_stack_destroy (GtkObject *object)
 {
@@ -36,6 +37,7 @@ gtk_combo_stack_destroy (GtkObject *object)
 	(*gtk_combo_text_parent_class->destroy) (object);
     */
 }
+#endif
 
 static void
 gtk_combo_stack_class_init (GtkObjectClass *object_class)
