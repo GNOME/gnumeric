@@ -1,3 +1,9 @@
+2004-08-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-about.c (dialog_about): start at a random position in the
+	  list of contributors and include verion info (and application name)
+	  in the dialog.
+
 2004-07-28  Morten Welinder  <terra@gnome.org>
 
 	* dialog-plugin-manager.c (cb_active_toggled): Call

@@ -2,6 +2,9 @@ Gnumeric 1.3.2
 
 Andreas:
 	* Improve `F-Test' tool
+	http://bugzilla.gnome.org/show_bug.cgi?id=148724
+	http://bugzilla.gnome.org/show_bug.cgi?id=149247
+	* Some minor About box changes
 
 Emmanuel Pacaud:
 	* Add logarithmic mapping support to xy plots

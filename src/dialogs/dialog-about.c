@@ -25,6 +25,7 @@
 #include "dialogs.h"
 
 #include <gui-util.h>
+#include <mathfunc.h>
 #include <libfoocanvas/foo-canvas.h>
 #include <goffice/graph/gog-object.h>
 #include <goffice/graph/gog-styled-object.h>
@@ -262,7 +263,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 		GTK_STOCK_OK,		GTK_RESPONSE_OK,
 		NULL);
 	state->fade_state = MAX_FADE_STATE;	/* prime things to start at item 0 */
-	state->item_index = -1;
+	state->item_index = (int) (random_01 () * G_N_ELEMENTS (contributors)) - 1;
 	state->dec = FALSE;
 	for (i = GNM_ABOUT_NUM_TYPES ; i-- > 0 ; )
 		state->contribs[i] = state->individual[i] = 0.;
@@ -365,6 +366,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 	gog_object_set_pos (tmp, GOG_POSITION_S | GOG_POSITION_ALIGN_END);
 	gog_dataset_set_dim (GOG_DATASET (tmp), 0,
 		go_data_scalar_str_new (
+			"Gnumeric " GNUMERIC_VERSION "\n"
 			"Copyright \xc2\xa9 2001-2004 Jody Goldberg\n"
 			"Copyright \xc2\xa9 1998-2000 Miguel de Icaza", FALSE),
 		NULL);
