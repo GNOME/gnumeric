@@ -266,6 +266,7 @@
 	  <class>GtkButton</class>
 	  <name>button_install_plugin</name>
 	  <border_width>4</border_width>
+	  <sensitive>False</sensitive>
 	  <can_focus>True</can_focus>
 	  <label>Install new plugin</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
