@@ -1040,6 +1040,9 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 	if (MS_CONSOLIDATE & flags)
 		change_menu_sensitivity (wbcg->menu_item_consolidate,
 					 !wbcg_edit_has_guru (wbcg));
+	if (MS_CONSOLIDATE & flags)
+		change_menu_sensitivity (wbcg->menu_item_filter_show_all,
+					 sheet->has_hidden_rows);
 #else
 	if (MS_INSERT_COLS & flags)
 		change_menu_sensitivity (wbcg, "/commands/InsertColumns",
@@ -4632,7 +4635,9 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		workbook_menu_data_outline [6].widget;
 	wbcg->menu_item_sheet_outline_symbols_right =
 		workbook_menu_data_outline [7].widget;
-
+	wbcg->menu_item_filter_show_all =
+		workbook_menu_data_filter [0].widget;
+	
 	wbcg->menu_item_sheet_remove =
 		workbook_menu_edit_sheet [3].widget;
 	wbcg->menu_item_sheets_edit_reorder =

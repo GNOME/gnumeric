@@ -61,6 +61,7 @@ filter (data_analysis_output_t *dao, Sheet *sheet, GSList *rows,
 	int  i, r=0;
 
 	if (dao->type == InPlaceOutput) {
+		sheet->has_hidden_rows = TRUE;
 		colrow_set_visibility (sheet, FALSE,
 				       FALSE, input_row_b+1, input_row_e);
 		while (rows != NULL) {
@@ -166,5 +167,6 @@ filter_show_all (Sheet *sheet)
 	 * containing the filtered rows in the sheet structure. */
 	colrow_foreach (&(sheet->rows), 0, SHEET_MAX_ROWS,
 			(ColRowHandler) cb_show_all, sheet);
+	sheet->has_hidden_rows = FALSE;
 	sheet_redraw_all (sheet, TRUE);
 }

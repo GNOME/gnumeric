@@ -57,6 +57,8 @@ struct _WorkbookControlGUI {
 	GtkWidget  *menu_item_sheet_outline_symbols_below;
 	GtkWidget  *menu_item_sheet_outline_symbols_right;
 
+        GtkWidget  *menu_item_filter_show_all;
+
 	/* Toolbars */
 	GtkWidget *standard_toolbar;
 	GtkWidget *format_toolbar;

@@ -48,6 +48,8 @@ struct _Sheet {
 	gboolean    outline_symbols_below;
 	gboolean    outline_symbols_right;
 
+	gboolean    has_hidden_rows;  /* Filtered or hidden rows */
+
         SolverParameters *solver_parameters;
 
 	GnmDepContainer *deps;
