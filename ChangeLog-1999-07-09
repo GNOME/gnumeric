@@ -1,5 +1,8 @@
 1998-09-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/main.c (main): Add support to load more than one file from
+	the command line.  Drop requirement for --file option.
+
 	* src/sheet-object.c (sheet_object_destroy): Keep track of the
 	sheet->objects structure.
 	(sheet_object_create_line, sheet_object_create_filled): Keep track

@@ -8,10 +8,9 @@
 #include "cursors.h"
 
 /* If set, the file to load at startup time */
-static char *startup_file;
+static GList *startup_files;
 
 static struct argp_option argp_options [] = {
-	{ "file",   'f',   N_("FILE"),    0, N_("File to load at startup"), 0 },
 	{ NULL,     0,     NULL,          0, NULL, 0 },
 };
 
@@ -19,13 +18,15 @@ static error_t
 parse_an_arg (int key, char *arg, struct argp_state *state)
 {
 	switch (key){
-	case 'f':
-		startup_file = arg;
-		break;
-	default:
-		return ARGP_ERR_UNKNOWN;
-	}
+	case ARGP_KEY_INIT:
+	case ARGP_KEY_FINI:
+		return 0;
 
+	default:
+		if (arg)
+			startup_files = g_list_prepend (startup_files, arg);
+	}
+	
 	return 0;
 }
 
@@ -36,6 +37,8 @@ static struct argp parser = {
 int
 main (int argc, char *argv [])
 {
+	GList *l;
+	
 	bindtextdomain (PACKAGE, GNOMELOCALEDIR);
 	textdomain (PACKAGE);
 	
@@ -51,13 +54,19 @@ main (int argc, char *argv [])
 	functions_init ();
 	plugins_init ();
 
-	if (startup_file)
-		current_workbook = gnumericReadXmlWorkbook (startup_file);
+	for (l = startup_files; l; l = l->next){
+		current_workbook = gnumericReadXmlWorkbook (l->data);
 
-	if (current_workbook == NULL)
+		if (current_workbook)
+			gtk_widget_show (current_workbook->toplevel);
+		
+	}
+	g_list_free (startup_files);
+	
+	if (current_workbook == NULL){
 		current_workbook = workbook_new_with_sheets (1);
-
-	gtk_widget_show (current_workbook->toplevel);
+		gtk_widget_show (current_workbook->toplevel);
+	}
 
 	gtk_main ();
 
