@@ -1,3 +1,13 @@
+2002-09-10  Morten Welinder  <terra@diku.dk>
+
+	* auto-correct.c (autocorrect_tool): Split the meat into
+	subfunctions.
+	(autocorrect_set_exceptions): Don't convert into ucs4.
+	(autocorrect_get_exceptions): therefore don't convert from ucs4.
+	(autocorrect_names_of_days): New function.
+	(autocorrect_first_letter): New function, unimplemented.
+	(autocorrect_initial_caps): New function.
+
 2002-09-09  Jody Goldberg <jody@gnome.org>
 
 	* auto-correct.c (autocorrect_tool) : convert to unicode.

@@ -178,6 +178,33 @@ static GSF_CLASS (type, func,						\
 /******************************************************************/
 
 
+static char *
+make_undo_text (const char *src, int max_len, gboolean *truncated)
+{
+	char *dst = g_strdup (src);
+	char *p;
+	int len;
+
+	*truncated = FALSE;
+	for (len = 0, p = dst;
+	     *p;
+	     p = g_utf8_next_char (p), len++) {
+		if (len == max_len) {
+			*p = 0;
+			*truncated = TRUE;
+			break;
+		}
+		if (*p == '\r' || *p == '\n') {
+			*p = 0;
+			*truncated = TRUE;
+			break;
+		}
+	}
+
+	return dst;
+}
+
+
 /**
  * returns the range name depending on the preference setting
  *
@@ -804,11 +831,10 @@ cmd_set_text (WorkbookControl *wbc,
 {
 	GObject *obj;
 	CmdSetText *me;
-	const gchar *pad = "";
-	gchar *text, *corrected_text, *tmp, c = '\0';
+	gchar *text, *corrected_text;
 	Cell const *cell;
-	guint max_width;
 	char *where;
+	gboolean truncated;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (new_text != NULL, TRUE);
@@ -831,38 +857,20 @@ cmd_set_text (WorkbookControl *wbc,
 	me->pos.eval = *pos;
 	me->text = corrected_text;
 
-	/* strip leading white space from labels */
-	while (*corrected_text != '\0' && isspace (*(unsigned char *)corrected_text))
-		++corrected_text;
-
-	/* truncate at newlines */
-	for (tmp = corrected_text ; *tmp != '\0' ; ++tmp)
-		if (*tmp == '\r' || *tmp == '\n') {
-			c = *tmp;
-			*tmp = '\0';
-			break;
-		}
-
-	/* Limit the size of the descriptor to something reasonable */
-	max_width = max_descriptor_width ();
-	if (strlen (corrected_text) > max_width || c != '\0') {
-		pad = "..."; /* length of 3 */
-		text = g_strndup (corrected_text,
-				  max_width - 3);
-	} else
-		text = corrected_text;
+	text = make_undo_text (corrected_text,
+			       max_descriptor_width (),
+			       &truncated);
 
 	me->cmd.sheet = sheet;
 	me->cmd.size = 1;
 	where = cmd_cell_pos_name_utility (sheet, pos);
 	me->cmd.cmd_descriptor =
-		g_strdup_printf (_("Typing \"%s%s\" in %s"), text, pad, where);
+		g_strdup_printf (_("Typing \"%s%s\" in %s"),
+				 text,
+				 truncated ? "..." : "",
+				 where);
 	g_free (where);
-
-	if (text != corrected_text)
-		g_free (text);
-	if (c != '\0')
-		*tmp = c;
+	g_free (text);
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
@@ -1013,8 +1021,7 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 	GObject *obj;
 	CmdAreaSetText *me;
 	gchar *text;
-	const gchar *pad = "";
-	guint max_width;
+	gboolean truncated;
 
 	obj = g_object_new (CMD_AREA_SET_TEXT_TYPE, NULL);
 	me = CMD_AREA_SET_TEXT (obj);
@@ -1027,21 +1034,18 @@ cmd_area_set_text (WorkbookControl *wbc, SheetView *sv,
 
 	parse_pos_init_editpos (&me->pp, sv);
 
-	max_width = max_descriptor_width ();
-	if (strlen (new_text) > max_width) {
-		pad = "..."; /* length of 3 */
-		text = g_strndup (new_text,
-				  max_width - 3);
-	} else
-		text = (gchar *) new_text;
+	text = make_undo_text (new_text,
+			       max_descriptor_width (),
+			       &truncated);
 
 	me->cmd.sheet = me->pp.sheet;
 	me->cmd.size = 1;
 	me->cmd.cmd_descriptor =
-		g_strdup_printf (_("Typing \"%s%s\""), text, pad);
+		g_strdup_printf (_("Typing \"%s%s\""),
+				 text,
+				 truncated ? "..." : "");
 
-	if (*pad)
-		g_free (text);
+	g_free (text);
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);

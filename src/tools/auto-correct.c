@@ -3,8 +3,9 @@
 /*
  * auto-correct.c:
  *
- * Author:
+ * Authors:
  *        Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
+ *        Morten Welinder (utf8).
  *
  * (C) Copyright 2000, 2001 by Jukka-Pekka Iivonen <iivonen@iki.fi>
  *
@@ -46,7 +47,7 @@ static struct {
 		GSList *first_letter;
 		GSList *init_caps;
 	} exceptions;
-	
+
 	guint notification_id;
 } autocorrect;
 
@@ -106,7 +107,7 @@ autocorrect_init (void)
 }
 
 static void
-cb_autocorrect_update (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+cb_autocorrect_update (GConfClient *gconf, guint cnxn_id, GConfEntry *entry,
 		       gpointer ignore)
 {
 	autocorrect_clear ();
@@ -196,8 +197,7 @@ autocorrect_get_exceptions (AutoCorrectFeature feature)
 	};
 
 	for (accum = NULL; ptr != NULL; ptr = ptr->next)
-		accum = g_slist_prepend (accum,
-			g_ucs4_to_utf8 (ptr->data, -1, NULL, NULL, NULL));
+		accum = g_slist_prepend (accum, g_strdup (ptr->data));
 	return g_slist_reverse (accum);
 }
 
@@ -211,118 +211,219 @@ void
 autocorrect_set_exceptions (AutoCorrectFeature feature, GSList const *list)
 {
 	GSList **res, *accum = NULL;
-	
+
 	switch (feature) {
-	case AC_INIT_CAPS : res = &autocorrect.exceptions.init_caps; break;
-	case AC_FIRST_LETTER :res = &autocorrect.exceptions.first_letter; break;
+	case AC_INIT_CAPS: res = &autocorrect.exceptions.init_caps; break;
+	case AC_FIRST_LETTER: res = &autocorrect.exceptions.first_letter; break;
 	default :
 		g_warning ("Invalid autocorrect feature %d.", feature);
 		return;
 	};
 
 	for (; list; list = list->next)
-		accum = g_slist_prepend (accum,
-			g_utf8_to_ucs4 (list->data, -1, NULL, NULL, NULL));
+		accum = g_slist_prepend (accum, g_strdup (list->data));
 	accum = g_slist_reverse (accum);
-		
+
 	g_slist_foreach (*res, (GFunc)g_free, NULL);
 	g_slist_free (*res);
-	*res = accum;	   
+	*res = accum;
 }
 
-static char const * const autocorrect_day [] = {
-        /* English */
-        "monday", "tuesday", "wednesday", "thursday",
-	"friday", "saturday", "sunday", NULL
-};
+/*
+ * Utility to replace a single character in an utf8 string.
+ */
+static char *
+replace1 (const char *src, int keepbytes, gunichar c, const char *tail)
+{
+	char *dst = g_new (char, strlen (src) + 7);
+	char *p = dst;
+
+	memcpy (p, src, keepbytes);
+	p += keepbytes;
+
+	p += g_unichar_to_utf8 (c, p);
+
+	strcpy (p, tail);
+	return dst;
+}
+
+
+static char *
+autocorrect_initial_caps (const char *src)
+{
+	enum State {
+		S_waiting_for_word_begin,
+		S_waiting_for_whitespace,
+		S_seen_one_caps,
+		S_seen_two_caps
+	};
+
+	enum State state = S_waiting_for_word_begin;
+	char *res = NULL;
+	const char *p;
+
+	for (p = src; *p; p = g_utf8_next_char (p)) {
+		gunichar c = g_utf8_get_char (p);
+
+		switch (state) {
+		case S_waiting_for_word_begin:
+			if (g_unichar_isupper (c))
+				state = S_seen_one_caps;
+			else if (g_unichar_isalpha (c))
+				state = S_waiting_for_whitespace;
+			break;
+
+		case S_waiting_for_whitespace:
+			if (g_unichar_isspace (c))
+				state = S_waiting_for_word_begin;
+			break;
+
+		case S_seen_one_caps:
+			if (g_unichar_isupper (c))
+				state = S_seen_two_caps;
+			else
+				state = S_waiting_for_whitespace;
+			break;
+
+		case S_seen_two_caps:
+			state = S_waiting_for_whitespace;
+
+			if (g_unichar_islower (c)) {
+				const char *target = g_utf8_prev_char (p);
+				const char *begin = g_utf8_prev_char (target);
+				GSList *l;
+				char *newres;
+
+				for (l = autocorrect.exceptions.init_caps; l; l = l->next) {
+					const char *except = l->data;
+					if (strncmp (begin, except, strlen (except)) == 0)
+						continue;
+				}
+
+				newres = replace1 (src, target - src,
+						   g_unichar_tolower (g_utf8_get_char (target)),
+						   p);
+				p = newres + (p - src);
+				g_free (res);
+				src = res = newres;
+			}
+			break;
+
+#ifndef DEBUG_SWITCH_ENUM
+		default:
+			g_assert_not_reached ();
+#endif
+		}
+	}
+
+	return res;
+}
+
+
+static char *
+autocorrect_first_letter (const char *src)
+{
+	/* Sorry, not implemented.  I got tired.  */
+#if 0
+	for (s = ucommand; *s; s = p+1) {
+	skip_first_letter:
+		/* Attempt to find the end of a sentence. */
+		for (p = s; *p != '\0' &&
+			     !(g_unichar_ispunct (*p) &&
+			       NULL == g_unichar_strchr (not_punct, *p)) ; p++)
+			;
+		if (*p == '\0')
+			break;
+		
+		while (g_unichar_isspace(*s))
+			++s;
+		if (g_unichar_islower (*s) && (s == ucommand || g_unichar_isspace (s[-1]))) {
+			GSList const *cur = autocorrect.exceptions.first_letter;
+			
+			for ( ; cur != NULL; cur = cur->next) {
+				gunichar *t, *c = cur->data;
+				gint l = g_unichar_strlen (c);
+				gint spaces = 0;
+				
+				for (t = s - 1; t >= ucommand; t--)
+					if (g_unichar_isspace (*t))
+						++spaces;
+					else
+						break;
+				if (s - ucommand > l + spaces &&
+				    g_unichar_strncmp (s-l-spaces, c, l) == 0) {
+					s = p + 1;
+					goto skip_first_letter;
+				}
+			}
+				*s = g_unichar_toupper (*s);
+		}
+	}
+#endif
+	return NULL;
+}
+
+
+static char *
+autocorrect_names_of_days (const char *src)
+{
+	/* English, except for lower case.  */
+	static char const * const days[7] = {
+		"monday", "tuesday", "wednesday", "thursday",
+		"friday", "saturday", "sunday"
+	};
+
+	char *res = NULL;
+	int i;
+
+	for (i = 0; i < 7; i++) {
+		const char *day = days[i];
+		const char *pos = strstr (src, day);
+		if (pos) {
+			char *newres = g_strdup (src);
+			/* It's ASCII...  */
+			newres[pos - src] += ('A' - 'a');
+			g_free (res);
+			src = res = newres;
+			continue;
+		}
+	}
+
+	return res;
+}
+
 
 char *
-autocorrect_tool (char const *command)
+autocorrect_tool (char const *src)
 {
-        gunichar *s, *p;
-	gunichar *ucommand = g_utf8_to_ucs4 (command, -1, NULL, NULL, NULL);
-	gint i, len;
-	static gunichar const not_punct[] = {
-		'~', '@', '#', '$', '%',
-		'^', '&', '*', '(', ')',
-		'[', ']', '{', '}', '<',
-		'>', ',', '/', '_', '-',
-		'+', '=', '`', '\'', '\"', '\\'
-	};
+	char *res = NULL;
 
 	autocorrect_init ();
 
-	len = strlen ((char *)ucommand);
-
         if (autocorrect.init_caps) {
-		for (s = ucommand; *s; s++) {
-		skip_ic_correct:
-			if (g_unichar_isupper (s[0]) && g_unichar_isupper (s[1])) {
-				if (g_unichar_islower (s[2])) {
-					GSList *c = autocorrect.exceptions.init_caps;
-					while (c != NULL) {
-						gunichar const *a = c->data;
-						if (g_unichar_strncmp (s, a, g_unichar_strlen (a)) == 0) {
-							s++;
-							goto skip_ic_correct;
-						}
-						c = c->next;
-					}
-					s[1] = g_unichar_tolower (s[1]);
-				} else
-					while (*s && !g_unichar_isspace(*s))
-						++s;
-			}
+		char *res2 = autocorrect_initial_caps (src);
+		if (res2) {
+			g_free (res);
+			src = res = res2;
 		}
 	}
 
 	if (autocorrect.first_letter) {
-		for (s = ucommand; *s; s = p+1) {
-		skip_first_letter:
-			/* Attempt to find the end of a sentence. */
-			for (p = s; *p != '\0' &&
-			     !(g_unichar_ispunct (*p) &&
-			       NULL == g_unichar_strchr (not_punct, *p)) ; p++)
-				;
-			if (*p == '\0')
-				break;
-
-			while (g_unichar_isspace(*s))
-				++s;
-			if (g_unichar_islower (*s) && (s == ucommand || g_unichar_isspace (s[-1]))) {
-				GSList const *cur = autocorrect.exceptions.first_letter;
-
-				for ( ; cur != NULL; cur = cur->next) {
-					gunichar *t, *c = cur->data;
-					gint l = g_unichar_strlen (c);
-					gint spaces = 0;
-
-					for (t = s - 1; t >= ucommand; t--)
-						if (g_unichar_isspace (*t))
-							++spaces;
-						else
-							break;
-					if (s - ucommand > l + spaces &&
-					    g_unichar_strncmp (s-l-spaces, c, l) == 0) {
-						s = p + 1;
-						goto skip_first_letter;
-					}
-				}
-				*s = g_unichar_toupper (*s);
-			}
+		char *res2 = autocorrect_first_letter (src);
+		if (res2) {
+			g_free (res);
+			src = res = res2;
 		}
 	}
 
-	if (autocorrect.names_of_days)
-		for (i = 0; day_long[i] != NULL; i++) {
-			char const *day = _(day_long [i]) + 1;
-			for (s = ucommand ; NULL != (s = (gunichar *)g_unichar_strstr_utf8 (s, day)) ; s++)
-				if (s > ucommand &&
-				    (s-1 == ucommand || g_unichar_isspace (s[-2])))
-					s[-1] = g_unichar_toupper (s[-1]);
+	if (autocorrect.names_of_days) {
+		char *res2 = autocorrect_names_of_days (src);
+		if (res2) {
+			g_free (res);
+			src = res = res2;
 		}
+	}
 
-	command = g_ucs4_to_utf8 (ucommand, -1, NULL, NULL, NULL);
-	g_free (ucommand);
-	return (char *)command;
+	if (!res) res = g_strdup (src);
+	return res;
 }

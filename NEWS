@@ -11,11 +11,12 @@ Jody:
 	* remove some deprecated functions
 	* Fix handling of files named .xml.gz
 	* Improvements for ExprEntry
-	* Make autocorrect unicode safe, and port dialgo to treeview
+	* Make autocorrect unicode safe, and port dialog to treeview
 
 Morten:
 	* Leak plugging.
-	* Speeding a few string value constructions.
+	* Speeding up a few string value constructions.
+	* Really make autocorrect utf8 safe.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.8
