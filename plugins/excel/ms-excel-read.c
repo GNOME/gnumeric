@@ -2810,7 +2810,6 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 			if (name_len > 1) {
 				/* NOTE : Assume no builtins with unicode suffixes */
 				char *tmp = biff_get_text (ptr+2, name_len-1, &name_len);
-				g_warning ("foo");
 				name = g_strconcat (builtin, tmp, NULL);
 				name_len += 2;
 				g_free (tmp);
