@@ -109,10 +109,10 @@ style_font_unref (StyleFont *sf)
 }
 
 StyleBorder *
-style_border_new (StyleBorderType left, StyleBorderType right,
-		  StyleBorderType top,  StyleBorderType bottom,
-		  GdkColor *left_color,  GdkColor *right_color,
-		  GdkColor *top_color,   GdkColor *bottom_color)
+style_border_new (StyleBorderType left,    StyleBorderType right,
+		  StyleBorderType top,     StyleBorderType bottom,
+		  StyleColor *left_color,  StyleColor *right_color,
+		  StyleColor *top_color,   StyleColor *bottom_color)
 {
 	StyleBorder key, *border;
 
@@ -121,13 +121,13 @@ style_border_new (StyleBorderType left, StyleBorderType right,
 	key.top     	 = top;
 	key.bottom  	 = bottom;
 	if (left_color)
-		key.left_color   = *left_color;
+		key.left_color   = left_color;
 	if (right_color)
-		key.right_color  = *right_color;
+		key.right_color  = right_color;
 	if (top_color)
-		key.top_color    = *top_color;
+		key.top_color    = top_color;
 	if (bottom_color)
-		key.bottom_color = *bottom_color;
+		key.bottom_color = bottom_color;
 
 	border = (StyleBorder *) g_hash_table_lookup (style_border_hash, &key);
 	if (!border){
@@ -357,16 +357,16 @@ border_equal (gconstpointer v, gconstpointer v2)
 	if (k1->bottom != k2->bottom)
 		return 0;
 	if (k1->left != BORDER_NONE)
-		if (!gdk_color_equal (&k1->left_color, &k2->left_color))
+		if (k1->left_color != k2->left_color)
 			return 0;
 	if (k1->right != BORDER_NONE)
-		if (!gdk_color_equal (&k1->right_color, &k2->right_color))
+		if (k1->right_color != k2->right_color)
 			return 0;
 	if (k1->top != BORDER_NONE)
-		if (gdk_color_equal (&k1->top_color, &k2->top_color))
+		if (k1->top_color != k2->top_color)
 			return 0;
 	if (k1->bottom != BORDER_NONE)
-		if (gdk_color_equal (&k1->bottom_color, &k2->bottom_color))
+		if (k1->bottom_color != k2->bottom_color)
 			return 0;
 	return 1;
 }

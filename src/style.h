@@ -22,6 +22,12 @@ typedef struct {
 	GdkFont  *font;
 } StyleFont;
 
+typedef struct {
+	int      ref_count;
+	GdkColor color;
+	char     *name;
+} StyleColor;
+
 typedef enum {
 	BORDER_NONE,
 	BORDER_SOLID
@@ -40,17 +46,11 @@ typedef struct {
 	unsigned int top:4;
 	unsigned int bottom:4;
 
-	GdkColor left_color;
-	GdkColor right_color;
-	GdkColor top_color;
-	GdkColor bottom_color;
+	StyleColor *left_color;
+	StyleColor *right_color;
+	StyleColor *top_color;
+	StyleColor *bottom_color;
 } StyleBorder;
-
-typedef struct {
-	int      ref_count;
-	GdkColor color;
-	char     *name;
-} StyleColor;
 
 /* Alignment definitions */
 typedef enum {
@@ -131,9 +131,9 @@ StyleBorder   *style_border_new       (StyleBorderType left,
 				       StyleBorderType right,
 				       StyleBorderType top,
 				       StyleBorderType bottom,
-				       GdkColor *left_color,
-				       GdkColor *right_color,
-				       GdkColor *top_color,
-				       GdkColor *bottom_color);
+				       StyleColor *left_color,
+				       StyleColor *right_color,
+				       StyleColor *top_color,
+				       StyleColor *bottom_color);
 
 #endif /* GNUMERIC_STYLE_H */

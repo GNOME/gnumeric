@@ -648,10 +648,12 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		gnome_canvas_item_ungrab (item, event->button.time);
 
+#if DEBUG_AUTOFILL
 		g_warning ("Temporary flush after ungrap here\n");
 
 		gnome_canvas_update_now (canvas);
 		gdk_flush ();
+#endif
 		
 		if (!((item_cursor->end_col == item_cursor->base_col + item_cursor->base_cols) &&
 		      (item_cursor->end_row == item_cursor->base_row + item_cursor->base_rows))){

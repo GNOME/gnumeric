@@ -159,6 +159,8 @@ string_has_number (String *str, int *num, int *pos)
 	if (p == str->str)
 		return FALSE;
 
+	if (!isdigit (*p))
+		return FALSE;
 	p++;
 	*num = atoi (p);
 	*pos = p - str->str;

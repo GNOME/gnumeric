@@ -64,7 +64,7 @@ static const char *xmlGetValue(xmlNodePtr node, const char *name) {
  * Get a String value for a node either carried as an attibute or as
  * the content of a child.
  */
-String *xmlGetStringValue(xmlNodePtr node, const char *name) {
+static String *xmlGetStringValue(xmlNodePtr node, const char *name) {
     const char *val;
     String *ret;
     xmlNodePtr child;
@@ -115,7 +115,7 @@ static int xmlGetIntValue(xmlNodePtr node, const char *name, int *val) {
  * Get a float value for a node either carried as an attibute or as
  * the content of a child.
  */
-int xmlGetFloatValue(xmlNodePtr node, const char *name, float *val) {
+static int xmlGetFloatValue(xmlNodePtr node, const char *name, float *val) {
     const char *ret;
     xmlNodePtr child;
     float f;
@@ -167,8 +167,8 @@ static int xmlGetDoubleValue(xmlNodePtr node, const char *name, double *val) {
  * Get a set of coodinates for a node, carried as the content of a child.
  */
 
-int xmlGetCoordinate(xmlNodePtr node, const char *name,
-                     double *x, double *y) {
+static int xmlGetCoordinate(xmlNodePtr node, const char *name,
+			    double *x, double *y) {
     xmlNodePtr child;
     float X, Y;
 
@@ -218,7 +218,7 @@ static int xmlGetCoordinates(xmlNodePtr node, const char *name,
  * Get a GnomeCanvasPoints for a node, carried as the content of a child.
  */
 
-GnomeCanvasPoints *xmlGetGnomeCanvasPoints(xmlNodePtr node,
+static GnomeCanvasPoints *xmlGetGnomeCanvasPoints(xmlNodePtr node,
                                                   const char *name) {
     GnomeCanvasPoints *ret = NULL;
     int res;
@@ -362,7 +362,7 @@ static void xmlSetIntValue(xmlNodePtr node, const char *name, int val) {
  * Set a float value for a node either carried as an attibute or as
  * the content of a child.
  */
-void xmlSetFloatValue(xmlNodePtr node, const char *name, float val) {
+static void xmlSetFloatValue(xmlNodePtr node, const char *name, float val) {
     const char *ret;
     xmlNodePtr child;
     char str[101];
@@ -388,7 +388,7 @@ void xmlSetFloatValue(xmlNodePtr node, const char *name, float val) {
  * Set a double value for a node either carried as an attibute or as
  * the content of a child.
  */
-void xmlSetDoubleValue(xmlNodePtr node, const char *name, double val) {
+static void xmlSetDoubleValue(xmlNodePtr node, const char *name, double val) {
     const char *ret;
     xmlNodePtr child;
     char str[101];
@@ -441,36 +441,22 @@ static xmlNodePtr xmlSearchChild(xmlNodePtr node, const char *name) {
  *           option ...
  */
 static int xmlGetColorValue(xmlNodePtr node, const char *name,
-                            GdkColor **val) {
+                            StyleColor **color) {
     const char *ret;
     xmlNodePtr child;
-    GdkColormap *colormap;
     int red, green, blue;
     
-
-    colormap = gtk_widget_get_default_colormap();
-    if (colormap == NULL) {
-        fprintf(stderr, "xmlGetColorValue : cannot get default_colormap\n");
-        return(0);
-    }
-
     ret = xmlGetProp(node, name);
     if ((ret != NULL) &&
         (sscanf(ret, "%X:%X:%X", &red, &green, &blue) == 3)) {
-	(*val)->red   = red;
-	(*val)->green = green;
-	(*val)->red   = blue;
-	color_alloc_gdk (*val);
+	*color = style_color_new (red, green, blue);
         return(1);
     }
     child = node->childs;
     while (child != NULL) {
         if ((!strcmp(child->name, name)) && (child->content != NULL) &&
 	    (sscanf(ret, "%X:%X:%X", &red, &green, &blue) == 3)) {
-	    (*val)->red = red;
-	    (*val)->green = green;
-	    (*val)->red   = blue;
-	    color_alloc_gdk (*val);
+	    *color = style_color_new (red, green, blue);
 	    return(1);
 	}
 	child = child->next;
@@ -483,12 +469,12 @@ static int xmlGetColorValue(xmlNodePtr node, const char *name,
  * the content of a child.
  */
 static void xmlSetColorValue(xmlNodePtr node, const char *name,
-                             GdkColor *val) {
+                             StyleColor *val) {
     const char *ret;
     xmlNodePtr child;
     char str[101];
 
-    snprintf(str, 100, "%X:%X:%X", val->red, val->green, val->blue);
+    snprintf(str, 100, "%X:%X:%X", val->color.red, val->color.green, val->color.blue);
     ret = xmlGetProp(node, name);
     if (ret != NULL) {
 	xmlSetProp(node, name, str);
@@ -549,7 +535,7 @@ Sheet *gnumericReadXmlSheet(const char *filename) {
 
     ctxt.doc = res;
     ctxt.ns = gmr;
-    ctxt.nameTable = g_hash_table_new(ptrHash, ptrCompare);
+    ctxt.nameTable = g_hash_table_new(g_str_hash, g_str_equal);
     ctxt.fontIdx = 1;
     sheet = readXmlSheet(&ctxt, res->root);
     g_hash_table_foreach(ctxt.nameTable, nameFree, NULL);
@@ -596,7 +582,7 @@ int gnumericWriteXmlSheet(Sheet *sheet, const char *filename) {
     gmr = xmlNewGlobalNs(xml, "http://www.gnome.org/gnumeric/", "gmr");
     ctxt.doc = xml;
     ctxt.ns = gmr;
-    ctxt.nameTable = g_hash_table_new(ptrHash, ptrCompare);
+    ctxt.nameTable = g_hash_table_new(g_str_hash, g_str_equal);
     ctxt.fontIdx = 1;
     xml->root = writeXmlSheet(&ctxt, sheet);
     g_hash_table_foreach(ctxt.nameTable, nameFree, NULL);
@@ -649,7 +635,7 @@ Workbook *gnumericReadXmlWorkbook(const char *filename) {
 
     ctxt.doc = res;
     ctxt.ns = gmr;
-    ctxt.nameTable = g_hash_table_new(ptrHash, ptrCompare);
+    ctxt.nameTable = g_hash_table_new(g_str_hash, g_str_equal);
     ctxt.fontIdx = 1;
     wb = readXmlWorkbook(&ctxt, res->root);
     workbook_recalc(wb);
@@ -697,7 +683,7 @@ int gnumericWriteXmlWorkbook(Workbook *wb, const char *filename) {
     gmr = xmlNewGlobalNs(xml, "http://www.gnome.org/gnumeric/", "gmr");
     ctxt.doc = xml;
     ctxt.ns = gmr;
-    ctxt.nameTable = g_hash_table_new(ptrHash, ptrCompare);
+    ctxt.nameTable = g_hash_table_new(g_str_hash, g_str_equal);
     ctxt.fontIdx = 1;
     xml->root = writeXmlWorkbook(&ctxt, wb);
     g_hash_table_foreach(ctxt.nameTable, nameFree, NULL);
@@ -723,34 +709,31 @@ int gnumericWriteXmlWorkbook(Workbook *wb, const char *filename) {
  */
 static void nameFree(gpointer key, gpointer value, gpointer user_data)
 {
-    /* g_free(value); */
+	g_free (key);
 }
 
-/*
- * Hash functions for pointers.
- */
-static guint ptrHash(gconstpointer a)
+static int
+style_is_default_fore (StyleColor *color)
 {
-    guint res = (guint) a;
-    res >>= 2;
-    res &= 0xFFFF;
-    return(res);
+	if (!color)
+		return TRUE;
+	
+	if (color->color.red == 0 && color->color.green == 0 && color->color.blue == 0)
+		return TRUE;
+	else
+		return FALSE;
 }
 
-/*
- * Comparison functions for pointers.
- */
-static gint ptrCompare(gconstpointer a, gconstpointer b)
+static int
+style_is_default_back (StyleColor *color)
 {
-    char *ca, *cb;
-
-    ca = (char *) a;
-    cb = (char *) b;
-
-    if (ca != cb)
-	    return 0;
-    
-    return 1;
+	if (!color)
+		return TRUE;
+	
+	if (color->color.red == 0xffff && color->color.green == 0xffff && color->color.blue == 0xffff)
+		return TRUE;
+	else
+		return FALSE;
 }
 
 /*
@@ -769,19 +752,19 @@ static xmlNodePtr writeXmlStyleBorder(parseXmlContextPtr ctxt,
     cur = xmlNewNode(ctxt->ns, "StyleBorder", NULL);
     if (border->left != BORDER_NONE) {
         side = xmlNewChild(cur, ctxt->ns,"Left", BorderTypes[border->left]);
-	xmlSetColorValue(side, "Color", &border->left_color);
+	xmlSetColorValue(side, "Color", border->left_color);
     }
     if (border->right != BORDER_NONE) {
         side = xmlNewChild(cur, ctxt->ns,"Right", BorderTypes[border->right]);
-	xmlSetColorValue(side, "Color", &border->right_color);
+	xmlSetColorValue(side, "Color", border->right_color);
     }
     if (border->top != BORDER_NONE) {
         side = xmlNewChild(cur, ctxt->ns,"Top", BorderTypes[border->top]);
-	xmlSetColorValue(side, "Color", &border->top_color);
+	xmlSetColorValue(side, "Color", border->top_color);
     }
     if (border->bottom != BORDER_NONE) {
         side = xmlNewChild(cur, ctxt->ns,"Bottom", BorderTypes[border->bottom]);
-	xmlSetColorValue(side, "Color", &border->bottom_color);
+	xmlSetColorValue(side, "Color", border->bottom_color);
     }
     return(cur);
 }
@@ -796,10 +779,10 @@ static StyleBorder *readXmlStyleBorder(parseXmlContextPtr ctxt,
     StyleBorderType right = BORDER_NONE;
     StyleBorderType top = BORDER_NONE;
     StyleBorderType bottom = BORDER_NONE;
-    GdkColor *left_color = NULL;
-    GdkColor *right_color = NULL;
-    GdkColor *top_color = NULL;
-    GdkColor *bottom_color = NULL;
+    StyleColor *left_color = NULL;
+    StyleColor *right_color = NULL;
+    StyleColor *top_color = NULL;
+    StyleColor *bottom_color = NULL;
     xmlNodePtr side;
 
     if (strcmp(tree->name, "StyleBorder")) {
@@ -845,8 +828,16 @@ static xmlNodePtr writeXmlStyle(parseXmlContextPtr ctxt, Style *style) {
     cur = xmlNewNode(ctxt->ns, "Style", NULL);
     xmlSetIntValue(cur, "HAlign", style->halign);
     xmlSetIntValue(cur, "VAlign", style->valign);
+    xmlSetIntValue(cur, "Fit",    style->fit_in_cell);
     xmlSetIntValue(cur, "Orient", style->orientation);
+    xmlSetIntValue(cur, "Shade", style->pattern);
 
+    if (!style_is_default_fore (style->fore_color))
+	xmlSetColorValue(cur, "Fore", style->fore_color);
+
+    if (!style_is_default_back (style->back_color))
+	xmlSetColorValue(cur, "Back", style->back_color);
+    
     if (style->format != NULL) {
 	xmlSetValue(cur, "Format", style->format->format);
     }
@@ -861,17 +852,13 @@ static xmlNodePtr writeXmlStyle(parseXmlContextPtr ctxt, Style *style) {
 	    xmlSetIntValue(child, "Unit", style->font->units);
 	    sprintf(str, "FontDef%d", ctxt->fontIdx++);
 	    xmlNewProp(child, "NAME", str);
-	    g_hash_table_insert(ctxt->nameTable, style->font, g_strdup(str));
+	    g_hash_table_insert(ctxt->nameTable, g_strdup (str), style->font);
 	}
 	             
     }
     if (style->border != NULL) {
         child = writeXmlStyleBorder(ctxt, style->border);
         if (child) xmlAddChild(cur, child);
-    }
-    if (style->valid_flags & STYLE_PATTERN != NULL) {
-	sprintf(str, "%d", style->pattern);
-        xmlNewChild(cur, ctxt->ns, "Shade", str);
     }
     return(cur);
 }
@@ -884,6 +871,7 @@ static Style *readXmlStyle(parseXmlContextPtr ctxt, xmlNodePtr tree,
     xmlNodePtr child;
     const char *prop;
     int val;
+    StyleColor *c;
 
     if (strcmp(tree->name, "Style")) {
         fprintf(stderr,
@@ -891,38 +879,87 @@ static Style *readXmlStyle(parseXmlContextPtr ctxt, xmlNodePtr tree,
 		tree->name);
     }
     if (ret == NULL) {
-        ret = style_new();
+        ret = style_new_empty();
     }
     if (ret == NULL) return(NULL);
 
-    if (xmlGetIntValue(tree, "HAlign", &val)) ret->halign = val;
-    if (xmlGetIntValue(tree, "VAlign", &val)) ret->valign = val;
-    if (xmlGetIntValue(tree, "Orient", &val)) ret->orientation = val;
-
+    if (xmlGetIntValue(tree, "HAlign", &val)){
+	    ret->halign = val;
+	    ret->valid_flags |= STYLE_ALIGN;
+    }
+    if (xmlGetIntValue(tree, "Fit", &val)){
+	    ret->fit_in_cell = val;
+	    ret->valid_flags |= STYLE_ALIGN;
+    }
+    if (xmlGetIntValue(tree, "VAlign", &val)){
+	    ret->valign = val;
+	    ret->valid_flags |= STYLE_ALIGN;
+    }
+    if (xmlGetIntValue(tree, "Orient", &val)){
+	    ret->orientation = val;
+	    ret->valid_flags |= STYLE_ALIGN;
+    }
+    if (xmlGetIntValue(tree, "Shade",  &val)){
+	    ret->pattern = val;
+	    ret->valid_flags |= STYLE_PATTERN;
+    }
+    if (xmlGetColorValue(tree, "Fore", &c)){
+	    ret->fore_color = c;
+	    ret->valid_flags |= STYLE_FORE_COLOR;
+    }
+    if (xmlGetColorValue(tree, "Back", &c)){
+	    ret->back_color = c;
+	    ret->valid_flags |= STYLE_BACK_COLOR;
+    }
     prop = xmlGetValue(tree, "Format");
     if (prop != NULL) {
-	if (ret->format == NULL)
-	    ret->format = style_format_new((char *) prop);
+	    if (ret->format == NULL){
+		    ret->format = style_format_new((char *) prop);
+		    ret->valid_flags |= STYLE_FORMAT;
+	    }
     }
 
     child = tree->childs;
     while (child != NULL) {
         if (!strcmp(child->name, "Font")) {
-	    /* TODO */
+	    const char *v;
+	    
+	    v = xmlGetValue (child, "NAME");
+	    if (v){
+		int units = 14;
+
+		xmlGetIntValue (child, "Unit", &units);
+	        ret->font = style_font_new (child->content, units);
+		if (ret->font){
+		  g_hash_table_insert (ctxt->nameTable, g_strdup (v), ret->font);
+		  ret->valid_flags |= STYLE_FONT;
+		}
+	    } else {
+		    StyleFont *font;
+		    
+		    v = xmlGetValue (child, "HREF");
+		    if (v){
+			    font = g_hash_table_lookup (ctxt->nameTable, v+1);
+			    if (font){
+				    ret->font = font;
+				    style_font_ref (font);
+				    ret->valid_flags |= STYLE_FONT;
+			    }
+		    }
+	    }
 	} else if (!strcmp(child->name, "StyleBorder")) {
             StyleBorder *sb;
 
 	    sb = readXmlStyleBorder(ctxt, child);
-	} else if (!strcmp(child->name, "Shade")) {
-	    /* TODO */
 	} else {
 	    fprintf(stderr, "readXmlStyle: unknown type '%s'\n",
 	            child->name);
 	}
         child = child->next;
     }
-    
-    return(NULL);
+
+    /* Now add defaults to any style that was not loaded */
+    return ret;
 }
 
 /*
@@ -940,6 +977,8 @@ static xmlNodePtr writeXmlStyleRegion(parseXmlContextPtr ctxt,
 
     if (region->style != NULL) {
         child = writeXmlStyle(ctxt, region->style);
+	if (child)
+	  xmlAddChild (cur, child);
     }
     return(cur);
 }
@@ -1106,10 +1145,11 @@ static SheetObject *readXmlObject(parseXmlContextPtr ctxt, xmlNodePtr tree) {
 	    fo = (SheetFilledObject *) ret;
 	    fo->pattern = pattern;
 	}
-    } else 
+    } else {
         ret = sheet_object_create_line(ctxt->sheet, type,
 	            x1, y1, x2, y2, color, width);
-    
+    }
+    sheet_object_realize (ctxt->sheet, ret);
     return(ret);
 }
 
@@ -1117,11 +1157,14 @@ static SheetObject *readXmlObject(parseXmlContextPtr ctxt, xmlNodePtr tree) {
  * Create an XML subtree of doc equivalent to the given Cell.
  */
 static xmlNodePtr writeXmlCell(parseXmlContextPtr ctxt, Cell *cell) {
-    xmlNodePtr cur;
+    xmlNodePtr cur, child;
     
     cur = xmlNewNode(ctxt->ns, "Cell", cell->entered_text->str);
     xmlSetIntValue(cur, "Col", cell->col->pos);
     xmlSetIntValue(cur, "Row", cell->row->pos);
+    child = writeXmlStyle (ctxt, cell->style);
+    if (child)
+      xmlAddChild (cur, child);
     return(cur);
 }
 
@@ -1129,9 +1172,10 @@ static xmlNodePtr writeXmlCell(parseXmlContextPtr ctxt, Cell *cell) {
  * Create a Cell equivalent to the XML subtree of doc.
  */
 static Cell *readXmlCell(parseXmlContextPtr ctxt, xmlNodePtr tree) {
+    Style *style;
     Cell *ret;
     int row = 0, col = 0;
-
+    
     if (strcmp(tree->name, "Cell")) {
         fprintf(stderr,
 	"readXmlCell: invalid element type %s, 'Cell' expected`\n",
@@ -1146,8 +1190,25 @@ static Cell *readXmlCell(parseXmlContextPtr ctxt, xmlNodePtr tree) {
         ret = sheet_cell_new(ctxt->sheet, col, row);
     if (ret == NULL) return(NULL);
 
-    if (tree->content != NULL)
-        cell_set_text(ret, tree->content);
+    style = readXmlStyle (ctxt, tree->childs, NULL);
+    if (style){
+	    style_merge_to (style, ret->style);
+	    ret->style = style;
+    }
+    if (tree->content != NULL){
+	char *v = g_strdup (tree->content);
+	char *p = v + strlen (v);
+
+	while (p > v){
+		p--;
+		if (*p != ' ' && *p != '\n')
+		   break;
+		*p = 0;
+	}
+			
+        cell_set_text(ret, v);
+	g_free (v);
+    }
     
     return(ret);
 }

@@ -24,6 +24,7 @@
 #define WB_COLS      1
 
 Workbook *current_workbook;
+static int workbook_count;
 
 static void
 new_cmd (void)
@@ -141,6 +142,12 @@ static void
 quit_cmd (void)
 {
 	gtk_main_quit ();
+}
+
+static void
+close_cmd (GtkWidget *widget, Workbook *wb)
+{
+	gtk_widget_destroy (wb->toplevel);
 }
 
 static void
@@ -290,6 +297,7 @@ static GnomeUIInfo workbook_menu_file [] = {
 	{ GNOME_APP_UI_ITEM, N_("S_ave as..."), NULL, save_as_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE },
 	{ GNOME_APP_UI_ITEM, N_("_Plugins..."), NULL, plugins_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Close"), NULL, close_cmd },
 	{ GNOME_APP_UI_ITEM, N_("_Exit"), NULL, quit_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_EXIT },
 	GNOMEUIINFO_END
@@ -688,6 +696,14 @@ workbook_set_focus (GtkWindow *window, GtkWidget *focus, Workbook *wb)
 		workbook_focus_current_sheet (wb);
 }
 
+static void
+workbook_close (void)
+{
+	workbook_count--;
+	if (workbook_count == 0)
+		gtk_main_quit ();
+}
+
 /*
  * Sets up the workbook.
  * Right now it is adding some decorations to the window,
@@ -720,10 +736,15 @@ workbook_new (void)
 		GTK_OBJECT (wb->toplevel), "set_focus",
 		GTK_SIGNAL_FUNC (workbook_set_focus), wb);
 
-	
+	gtk_signal_connect (
+		GTK_OBJECT (wb->toplevel), "destroy",
+		GTK_SIGNAL_FUNC (workbook_close), wb);
+		
 	/* Set the default operation to be performed over selections */
 	workbook_set_auto_expr (wb, "SUM", "SUM(SELECTION())");
 
+	workbook_count++;
+	
 	gtk_widget_show_all (wb->table);
 	return wb;
 }

@@ -1,5 +1,37 @@
 1998-09-22  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/xml-io.c (writeXmlStyle): Save colors.  Save pattern.
+	(readXmlStyle): return the value.  Start with an empty style. Load
+	font.  
+	(xmlGetColorValue): Use the style color allocation routines.
+	(readXmlCell): Load style. Merge styles if an element is missing.
+	Trim the cell tail content (spaces and newlines at the end).
+	Changed the use of all hash tables to use strings instead of
+	pointers. 
+	(readXmlObject); Call sheet_object_realize on the object loaded. 
+
+	* src/item-cursor.c (item_cursor_autofill_event): Commted out
+	debugging code. 
+
+	* src/sheet-autofill.c (string_has_number): Bug fix: it was
+	assuming every string had a number at the end.
+
+	* src/workbook.c (workbook_new): Handle to destroy signal.  Add
+	Close option to file menu.
+
+	* src/style.c, src/style.h (border_equal): Colors in the
+	BorderStyler are now stored as StyleColors.
+
+	* src/sheet.c (sheet_shift_col): Small buglette fixes: we need to
+	advance our row walker here ;-)
+	(sheet_shift_row): Same error was here.
+
+	* src/format.c (format_value): Handle NaN/infinite numbers
+	
+	* src/gnumeric-sheet.c (gnumeric_sheet_key): Last fix was a little
+	too good:  Forward the keystroke events if the user is already
+	editing a cell.
+	
 	* src/gnumeric-sheet.c (gnumeric_sheet_key): Do not process events
 	that might be catched by the menubar.
 
