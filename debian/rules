@@ -63,8 +63,8 @@ features+= --without-guile
 
 features+= --without-gb
 
-# See http://bugs.debian.org/283067
-features+= --without-paradox
+# Paradox database files plugin
+features+= --with-paradox
 
 confflags :=	--prefix=/usr --sysconfdir=/etc \
 		--localstatedir=/var/lib \

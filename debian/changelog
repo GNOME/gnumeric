@@ -2,8 +2,13 @@ gnumeric (1.4.0-2) UNRELEASED; urgency=low
 
   * [debian/gnumeric-doc.doc-base] Removed as the documentation is now in
     DocBook XML only, and doc-base doesn't know how to deal with XML formats.
+    (Closes: #283700)
+  * [debian/rules] Build the Paradox plugin.
+  * [debian/control] Added (versioned) build dependency on pxlib-dev for the
+    Paradox plugin.
+  * [debian/gnumeric-plugins-extra.install] Include the Paradox plugin.
 
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Mon, 29 Nov 2004 18:06:16 +0100
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu,  2 Dec 2004 22:32:00 +0100
 
 gnumeric (1.4.0-1) unstable; urgency=medium
 
