@@ -74,7 +74,8 @@ cb_dialog_col_row_cancel_clicked (GtkWidget *button, ColRowState *state)
 
 
 static void
-cb_dialog_col_row_ok_clicked (GtkWidget *button, ColRowState *state)
+cb_dialog_col_row_ok_clicked (__attribute__((unused)) GtkWidget *button,
+			      ColRowState *state)
 {
 	state->callback (state->wbcg, 
 			 gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON 

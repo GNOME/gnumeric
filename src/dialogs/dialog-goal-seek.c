@@ -288,7 +288,8 @@ dialog_destroy (GtkObject *w, GoalSeekState  *state)
  * Close (destroy) the dialog
  **/
 static void
-cb_dialog_cancel_clicked (GtkWidget *button, GoalSeekState *state)
+cb_dialog_cancel_clicked (__attribute__((unused)) GtkWidget *button,
+			  GoalSeekState *state)
 {
 	if ((state->old_cell != NULL) && (state->old_value != NULL)) {
 		sheet_cell_set_value (state->old_cell, state->old_value);
@@ -307,7 +308,8 @@ cb_dialog_cancel_clicked (GtkWidget *button, GoalSeekState *state)
  * Close (destroy) the dialog
  **/
 static void
-cb_dialog_close_clicked (GtkWidget *button, GoalSeekState *state)
+cb_dialog_close_clicked (__attribute__((unused)) GtkWidget *button,
+			 GoalSeekState *state)
 {
 	gtk_widget_destroy (state->dialog);
 	return;
@@ -321,7 +323,8 @@ cb_dialog_close_clicked (GtkWidget *button, GoalSeekState *state)
  * Close (destroy) the dialog
  **/
 static void
-cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
+cb_dialog_apply_clicked (__attribute__((unused)) GtkWidget *button,
+			 GoalSeekState *state)
 {
 	char *status_str;
 	char *target_str;
@@ -474,7 +477,8 @@ cb_dialog_apply_clicked (GtkWidget *button, GoalSeekState *state)
  *
  **/
 static void
-dialog_realized (GtkWidget *dialog, GoalSeekState *state)
+dialog_realized (__attribute__((unused)) GtkWidget *dialog,
+		 GoalSeekState *state)
 {
 	gtk_widget_hide (state->result_frame);
 }

@@ -84,7 +84,7 @@ enum {
 };
 
 static void
-cb_name_edited (GtkCellRendererText *cell,
+cb_name_edited (__attribute__((unused)) GtkCellRendererText *cell,
 	gchar               *path_string,
 	gchar               *new_text,
         SheetManager        *state)
@@ -122,9 +122,12 @@ location_of_iter (GtkTreeIter  *iter, GtkListStore *model)
 	return -1;
 }
 
-static void 
-cb_color_changed_fore (ColorCombo *color_combo, GdkColor *color, gboolean custom, 
-		  gboolean by_user, gboolean is_default, SheetManager *state)
+static void
+cb_color_changed_fore (__attribute__((unused)) ColorCombo *color_combo,
+		       GdkColor *color, __attribute__((unused)) gboolean custom,
+		       __attribute__((unused)) gboolean by_user,
+		       __attribute__((unused)) gboolean is_default,
+		       SheetManager *state)
 {
 	GtkTreeIter sel_iter;
 	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheet_list);
@@ -136,9 +139,12 @@ cb_color_changed_fore (ColorCombo *color_combo, GdkColor *color, gboolean custom
 	}
 }
 
-static void 
-cb_color_changed_back (ColorCombo *color_combo, GdkColor *color, gboolean custom, 
-		  gboolean by_user, gboolean is_default, SheetManager *state)
+static void
+cb_color_changed_back (__attribute__((unused)) ColorCombo *color_combo,
+		       GdkColor *color, __attribute__((unused)) gboolean custom,
+		       __attribute__((unused)) gboolean by_user,
+		       __attribute__((unused)) gboolean is_default,
+		       SheetManager *state)
 {
 	GtkTreeIter sel_iter;
 	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheet_list);
@@ -155,7 +161,8 @@ cb_color_changed_back (ColorCombo *color_combo, GdkColor *color, gboolean custom
  * for this view.
  */
 static void
-cb_selection_changed (GtkTreeSelection *ignored, SheetManager *state)
+cb_selection_changed (__attribute__((unused)) GtkTreeSelection *ignored,
+		      SheetManager *state)
 {
 	GtkTreeIter  iter;
 	GtkTreeIter this_iter;
@@ -164,7 +171,7 @@ cb_selection_changed (GtkTreeSelection *ignored, SheetManager *state)
 	gboolean is_deleted;
 	GdkColor *fore, *back;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->sheet_list);
-	
+
 	gtk_widget_set_sensitive (state->add_btn, TRUE);
 	gtk_widget_set_sensitive (state->duplicate_btn, FALSE);
 
@@ -204,7 +211,7 @@ cb_selection_changed (GtkTreeSelection *ignored, SheetManager *state)
 
 	row = location_of_iter (&iter, state->model);
 	gtk_widget_set_sensitive (state->down_btn,
-				  gtk_tree_model_iter_nth_child  
+				  gtk_tree_model_iter_nth_child
 				  (GTK_TREE_MODEL (state->model),
 				   &this_iter, NULL, row+1));
 
@@ -214,7 +221,7 @@ cb_selection_changed (GtkTreeSelection *ignored, SheetManager *state)
 }
 
 static void
-cb_toggled_lock (GtkCellRendererToggle *cell,
+cb_toggled_lock (__attribute__((unused)) GtkCellRendererToggle *cell,
 		 gchar                 *path_string,
 		 gpointer               data)
 {
@@ -377,14 +384,14 @@ cb_item_move (SheetManager *state, gint direction)
 			    SHEET_NEW_NAME, new_name,
 			    IS_EDITABLE_COLUMN, is_editable,
 			    SHEET_POINTER, sheet,
-			    IS_DELETED,	is_deleted,   
+			    IS_DELETED,	is_deleted,
 			    BACKGROUND_COLOUR_POINTER, back,
 			    FOREGROUND_COLOUR_POINTER, fore,
 			    -1);
 	if (back)
 		gdk_color_free (back);
 	if (fore)
-		gdk_color_free (fore);	
+		gdk_color_free (fore);
 	g_free (name);
 	g_free (new_name);
 	gtk_tree_selection_select_iter (selection, &iter);
@@ -393,11 +400,20 @@ cb_item_move (SheetManager *state, gint direction)
 	cb_selection_changed (NULL, state);
 }
 
-static void cb_up   (GtkWidget *w, SheetManager *state) { cb_item_move (state, -1); }
-static void cb_down (GtkWidget *w, SheetManager *state) { cb_item_move (state,  1); }
+static void
+cb_up (__attribute__((unused)) GtkWidget *w, SheetManager *state)
+{
+	cb_item_move (state, -1);
+}
 
 static void
-cb_add_clicked (GtkWidget *ignore, SheetManager *state)
+cb_down (__attribute__((unused)) GtkWidget *w, SheetManager *state)
+{
+	cb_item_move (state,  1);
+}
+
+static void
+cb_add_clicked (__attribute__((unused)) GtkWidget *ignore, SheetManager *state)
 {
 	GtkTreeIter iter;
 	GtkTreeIter sel_iter;
@@ -440,8 +456,8 @@ cb_add_clicked (GtkWidget *ignore, SheetManager *state)
 			    SHEET_NAME, "",
 			    SHEET_NEW_NAME, name,
 			    SHEET_POINTER, NULL,
-			    IS_EDITABLE_COLUMN,	TRUE,   
-			    IS_DELETED,	FALSE,   
+			    IS_EDITABLE_COLUMN,	TRUE,
+			    IS_DELETED,	FALSE,
 			    BACKGROUND_COLOUR_POINTER, NULL,
 			    FOREGROUND_COLOUR_POINTER, NULL,
 			    -1);
@@ -450,13 +466,15 @@ cb_add_clicked (GtkWidget *ignore, SheetManager *state)
 }
 
 static void
-cb_duplicate_clicked (GtkWidget *ignore, SheetManager *state)
+cb_duplicate_clicked (__attribute__((unused)) GtkWidget *ignore,
+		      __attribute__((unused)) SheetManager *state)
 {
 	g_warning ("'Duplicate' not implemented.");
 }
 
 static void
-cb_delete_clicked (GtkWidget *ignore, SheetManager *state)
+cb_delete_clicked (__attribute__((unused)) GtkWidget *ignore,
+		   SheetManager *state)
 {
 	GtkTreeIter sel_iter;
 	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheet_list);
@@ -488,13 +506,14 @@ cb_delete_clicked (GtkWidget *ignore, SheetManager *state)
 }
 
 static void
-cb_cancel_clicked (GtkWidget *ignore, SheetManager *state)
+cb_cancel_clicked (__attribute__((unused)) GtkWidget *ignore,
+		   SheetManager *state)
 {
 	    gtk_widget_destroy (GTK_WIDGET (state->dialog));
 }
 
 static void
-cb_delete_sheets (gpointer data, gpointer dummy)
+cb_delete_sheets (gpointer data, __attribute__((unused)) gpointer dummy)
 {
 	Sheet *sheet = data;
 
@@ -513,7 +532,7 @@ sheet_order_gdk_color_equal (GdkColor *color_a, GdkColor *color_b)
 }
 
 static void
-cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
+cb_ok_clicked (__attribute__((unused)) GtkWidget *ignore, SheetManager *state)
 {
 	GSList *new_order = NULL;
 	GSList *changed_names = NULL;

@@ -81,19 +81,20 @@ name_guru_scope_is_sheet (NameGuruState *state)
  * name_guru_warned_if_used:
  * @state:
  *
- * If the expresion that is about to be deleted is beeing used,
- * warn the user about it. Ask if we should procede or not
+ * If the expresion that is about to be deleted is being used,
+ * warn the user about it. Ask if we should proceed or not
  *
  * Return Value: TRUE if users confirms deletion, FALSE otherwise
  **/
 static gboolean
-name_guru_warn (NameGuruState *state)
+name_guru_warn (__attribute__((unused)) NameGuruState *state)
 {
 	return TRUE;
 }
 
 static void
-cb_scope_changed (GtkToggleButton *button, NameGuruState *state)
+cb_scope_changed (__attribute__((unused)) GtkToggleButton *button,
+		  NameGuruState *state)
 {
 	if (state->updating || state->cur_name == NULL)
 		return;
@@ -219,13 +220,15 @@ name_guru_update_sensitivity (NameGuruState *state, gboolean update_entries)
  *
  **/
 static void
-cb_name_guru_update_sensitivity (GtkWidget *dummy, NameGuruState *state)
+cb_name_guru_update_sensitivity (__attribute__((unused)) GtkWidget *dummy,
+				 NameGuruState *state)
 {
 	name_guru_update_sensitivity (state, FALSE);
 }
 
 static void
-cb_name_guru_select_name (GtkTreeSelection *ignored, NameGuruState *state)
+cb_name_guru_select_name (__attribute__((unused)) GtkTreeSelection *ignored,
+			  NameGuruState *state)
 {
 	GnmNamedExpr *nexpr;
 	GtkTreeIter  iter;
@@ -296,7 +299,8 @@ name_guru_populate_list (NameGuruState *state)
  * Remove the state->cur_name
  **/
 static void
-name_guru_remove (GtkWidget *ignored, NameGuruState *state)
+name_guru_remove (__attribute__((unused)) GtkWidget *ignored,
+		  NameGuruState *state)
 {
 	g_return_if_fail (state != NULL);
 	g_return_if_fail (state->cur_name != NULL);
@@ -441,7 +445,8 @@ cb_name_guru_destroy (NameGuruState *state)
 }
 
 static void
-cb_entry_activate (GtkWidget *item, NameGuruState *state)
+cb_entry_activate (__attribute__((unused)) GtkWidget *item,
+		   NameGuruState *state)
 {
 	char const *name = gtk_entry_get_text (state->name);
 

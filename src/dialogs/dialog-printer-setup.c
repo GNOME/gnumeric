@@ -501,30 +501,30 @@ static void
 canvas_update (PrinterSetupState *state)
 {
 	guchar *unit_txt;
-	
+
 	preview_page_destroy (state);
 	preview_page_create (state);
 	set_vertical_bounds (state);
-	
+
 	unit_txt = gnome_print_config_get (state->pi->print_config, GNOME_PRINT_KEY_PREFERED_UNIT);
 	if (unit_txt) {
-		gnome_print_unit_selector_set_unit (GNOME_PRINT_UNIT_SELECTOR 
-						    (state->unit_selector), 
-						    gnome_print_unit_get_by_abbreviation 
+		gnome_print_unit_selector_set_unit (GNOME_PRINT_UNIT_SELECTOR
+						    (state->unit_selector),
+						    gnome_print_unit_get_by_abbreviation
 						    (unit_txt));
 		g_free (unit_txt);
 	}
-	
+
 }
 
-static void 
-notebook_flipped (GtkNotebook *notebook,
-		  GtkNotebookPage *page,
+static void
+notebook_flipped (__attribute__((unused)) GtkNotebook *notebook,
+		  __attribute__((unused)) GtkNotebookPage *page,
 		  gint page_num,
 		  PrinterSetupState *state)
 {
 	if (page_num == HF_PAGE)
-		canvas_update (state);	
+		canvas_update (state);
 }
 
 /**
@@ -577,7 +577,8 @@ spin_button_adapt_to_unit (GtkSpinButton *spin, UnitName new_unit)
 }
 
 static void
-unit_changed (GtkSpinButton *spin_button, UnitInfo_cbdata *data)
+unit_changed (__attribute__((unused)) GtkSpinButton *spin_button,
+	      UnitInfo_cbdata *data)
 {
 	data->target->value = gtk_adjustment_get_value (data->target->adj);
 	data->target->unit = gnome_print_unit_selector_get_unit (
@@ -588,8 +589,8 @@ unit_changed (GtkSpinButton *spin_button, UnitInfo_cbdata *data)
 }
 
 static gboolean
-unit_activated (GtkSpinButton *spin_button,
-		GdkEventFocus *event,
+unit_activated (__attribute__((unused)) GtkSpinButton *spin_button,
+		__attribute__((unused)) GdkEventFocus *event,
 		UnitInfo_cbdata *data)
 {
 	gnome_canvas_item_set (data->target->line,
@@ -599,8 +600,8 @@ unit_activated (GtkSpinButton *spin_button,
 }
 
 static gboolean
-unit_deactivated (GtkSpinButton *spin_button,
-		  GdkEventFocus *event,
+unit_deactivated (__attribute__((unused)) GtkSpinButton *spin_button,
+		  __attribute__((unused)) GdkEventFocus *event,
 		  UnitInfo_cbdata *data)
 {
 	gnome_canvas_item_set (data->target->line,
@@ -799,13 +800,15 @@ footer_changed (GtkObject *object, PrinterSetupState *state)
 }
 
 static void
-do_header_customize (GtkWidget *button, PrinterSetupState *state)
+do_header_customize (__attribute__((unused)) GtkWidget *button,
+		     PrinterSetupState *state)
 {
 	do_hf_customize (TRUE, state);
 }
 
 static void
-do_footer_customize (GtkWidget *button, PrinterSetupState *state)
+do_footer_customize (__attribute__((unused)) GtkWidget *button,
+		     PrinterSetupState *state)
 {
 	do_hf_customize (FALSE, state);
 }
@@ -904,7 +907,8 @@ text_get (GtkEditable *text_widget)
 }
 
 static void
-hf_customize_cancel (GtkWidget *button, GtkWidget *dialog)
+hf_customize_cancel (__attribute__((unused)) GtkWidget *button,
+		     GtkWidget *dialog)
 {
 		gtk_widget_destroy (dialog);
 }
@@ -919,7 +923,8 @@ hf_customize_ok (GtkWidget *button, GtkWidget *dialog)
 }
 
 static void
-hf_customize_apply (GtkWidget *button, GtkWidget *dialog)
+hf_customize_apply (__attribute__((unused)) GtkWidget *button,
+		    GtkWidget *dialog)
 {
 	GladeXML *gui;
 	GtkEntry *left, *middle, *right;
@@ -967,8 +972,8 @@ hf_customize_apply (GtkWidget *button, GtkWidget *dialog)
 	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "ok_button"), FALSE);
 }
 
-static gboolean 
-hf_changed (GtkWidget *dummy,  GladeXML *gui)
+static gboolean
+hf_changed (__attribute__((unused)) GtkWidget *dummy,  GladeXML *gui)
 {
 	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "apply_button"), TRUE);
 	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "ok_button"), TRUE);
@@ -1083,7 +1088,8 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
  * They can also do this from the option menu.
  */
 static gboolean
-header_preview_event (GnomeCanvas *canvas, GdkEvent *event, PrinterSetupState *state)
+header_preview_event (__attribute__((unused)) GnomeCanvas *canvas,
+		      GdkEvent *event, PrinterSetupState *state)
 {
 	if (event == NULL ||
 	    event->button.button != 1 ||
@@ -1094,7 +1100,8 @@ header_preview_event (GnomeCanvas *canvas, GdkEvent *event, PrinterSetupState *s
 }
 
 static gboolean
-footer_preview_event (GnomeCanvas *canvas, GdkEvent *event, PrinterSetupState *state)
+footer_preview_event (__attribute__((unused)) GnomeCanvas *canvas,
+		      GdkEvent *event, PrinterSetupState *state)
 {
 	if (event == NULL ||
 	    event->button.button != 1 ||
@@ -1429,7 +1436,7 @@ print_setup_get_sheet (PrinterSetupState *state)
 }
 
 static void
-cb_do_print (GtkWidget *w, PrinterSetupState *state)
+cb_do_print (__attribute__((unused)) GtkWidget *w, PrinterSetupState *state)
 {
 	WorkbookControlGUI *wbcg;
 	Sheet *sheet;
@@ -1447,7 +1454,8 @@ cb_do_print (GtkWidget *w, PrinterSetupState *state)
 }
 
 static void
-cb_do_print_preview (GtkWidget *w, PrinterSetupState *state)
+cb_do_print_preview (__attribute__((unused)) GtkWidget *w,
+		     PrinterSetupState *state)
 {
 	PrintInformation *old_pi;
 	fetch_settings (state);
@@ -1459,13 +1467,15 @@ cb_do_print_preview (GtkWidget *w, PrinterSetupState *state)
 }
 
 static void
-cb_do_print_cancel (GtkWidget *w, PrinterSetupState *state)
+cb_do_print_cancel (__attribute__((unused)) GtkWidget *w,
+		    PrinterSetupState *state)
 {
 	gtk_widget_destroy (state->dialog);
 }
 
 static void
-cb_do_print_ok (GtkWidget *w, PrinterSetupState *state)
+cb_do_print_ok (__attribute__((unused)) GtkWidget *w,
+		PrinterSetupState *state)
 {
 	/* Detach BEFORE we finish editing */
 	wbcg_edit_detach_guru (state->wbcg);
@@ -1478,7 +1488,8 @@ cb_do_print_ok (GtkWidget *w, PrinterSetupState *state)
 }
 
 static void
-cb_do_print_destroy (GtkWidget *button, PrinterSetupState *state)
+cb_do_print_destroy (__attribute__((unused)) GtkWidget *button,
+		     PrinterSetupState *state)
 {
 	wbcg_edit_detach_guru (state->wbcg);
 	wbcg_edit_finish (state->wbcg, FALSE);

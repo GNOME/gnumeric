@@ -102,7 +102,8 @@ dialog_goto_close_destroy (GtkObject *w, GotoState  *state)
  * Close (destroy) the dialog
  **/
 static void
-cb_dialog_goto_close_clicked (GtkWidget *button, GotoState *state)
+cb_dialog_goto_close_clicked (__attribute__((unused)) GtkWidget *button,
+			      GotoState *state)
 {
 	gtk_widget_destroy (state->dialog);
 	return;
@@ -115,7 +116,8 @@ cb_dialog_goto_close_clicked (GtkWidget *button, GotoState *state)
  *
  **/
 static void
-cb_dialog_goto_go_clicked (GtkWidget *button, GotoState *state)
+cb_dialog_goto_go_clicked (__attribute__((unused)) GtkWidget *button,
+			   GotoState *state)
 {
 	char *text = g_strdup (gtk_entry_get_text 
 	       (GTK_ENTRY (gnome_entry_gtk_entry (state->goto_text))));
@@ -127,7 +129,8 @@ cb_dialog_goto_go_clicked (GtkWidget *button, GotoState *state)
 }
 
 static void
-cb_dialog_goto_update_sensitivity (GtkWidget *dummy, GotoState *state)
+cb_dialog_goto_update_sensitivity (__attribute__((unused)) GtkWidget *dummy,
+				   GotoState *state)
 {
 	GtkEntry *entry = GTK_ENTRY (gnome_entry_gtk_entry (state->goto_text));
 	Value *val = global_range_parse (wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)), 
@@ -146,7 +149,8 @@ typedef struct {
 } LoadNames;
 
 static void
-cb_load_names (gpointer key, GnmNamedExpr *nexpr, LoadNames *user)
+cb_load_names (__attribute__((unused)) gpointer key,
+	       GnmNamedExpr *nexpr, LoadNames *user)
 {
 	GtkTreeIter iter;
 	char *expr_name = NULL;

@@ -8,7 +8,10 @@
 	  dialog-formula-guru.c, dialog-goal-seek.c, dialog-goto-cell.c,
 	  dialog-graph-guru.c, dialog-hyperlink.c, dialog-insert-cells.c,
 	  dialog-define-names.c, dialog-delete-cells.c, dialog-merge.c,
-	  dialog-paste-special.c, dialog-plugin-manager.c: ditto.
+	  dialog-paste-special.c, dialog-plugin-manager.c,
+	  dialog-printer-setup.c, dialog-preferences.c,
+	  dialog-random-generator.c, dialog-row-height.c, dialog-search.c,
+	  dialog-search-replace.c, dialog-sheet-order.c: ditto.
 
 2002-11-03  Jody Goldberg <jody@gnome.org>
 

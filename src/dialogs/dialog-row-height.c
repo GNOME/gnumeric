@@ -102,7 +102,8 @@ dialog_row_height_destroy (GtkObject *w, RowHeightState *state)
 }
 
 static void
-cb_dialog_row_height_cancel_clicked (GtkWidget *button, RowHeightState *state)
+cb_dialog_row_height_cancel_clicked (__attribute__((unused)) GtkWidget *button,
+				     RowHeightState *state)
 {
 	gtk_widget_destroy (state->dialog);
 	return;
@@ -156,7 +157,8 @@ dialog_row_height_load_value (RowHeightState *state)
 }
 
 static void
-cb_dialog_row_height_value_changed (GtkSpinButton *spinbutton, RowHeightState *state)
+cb_dialog_row_height_value_changed (__attribute__((unused)) GtkSpinButton *spinbutton,
+				    RowHeightState *state)
 {
 	if (!state->adjusting) {
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->default_check), FALSE);
@@ -179,7 +181,8 @@ cb_dialog_row_height_default_check_toggled (GtkToggleButton *togglebutton, RowHe
 }
 
 static void
-cb_dialog_row_height_apply_clicked (GtkWidget *button, RowHeightState *state)
+cb_dialog_row_height_apply_clicked (__attribute__((unused)) GtkWidget *button,
+				    RowHeightState *state)
 {
 	gnum_float value = gtk_spin_button_get_value (state->spin);
 	double const scale =

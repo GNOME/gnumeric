@@ -69,7 +69,8 @@ enum {
 };
 
 static void
-cb_merge_update_buttons (gpointer ignored, MergeState *state)
+cb_merge_update_buttons (__attribute__((unused)) gpointer ignored,
+			 MergeState *state)
 {
 /* Note: ignored could be NULL or  an expr-entry. */
 	GtkTreeIter  iter;
@@ -133,7 +134,8 @@ merge_store_info_in_list (GtkTreeIter *iter, MergeState *state)
 
 
 static void
-cb_merge_add_clicked (GtkWidget *ignore, MergeState *state)
+cb_merge_add_clicked (__attribute__((unused)) GtkWidget *ignore,
+		      MergeState *state)
 {
 	GtkTreeIter iter;
 	GtkTreeIter sel_iter;
@@ -148,7 +150,8 @@ cb_merge_add_clicked (GtkWidget *ignore, MergeState *state)
 }
 
 static void
-cb_merge_change_clicked (GtkWidget *ignore, MergeState *state)
+cb_merge_change_clicked (__attribute__((unused)) GtkWidget *ignore,
+			 MergeState *state)
 {
 	GtkTreeIter iter;
 	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->list);
@@ -158,7 +161,8 @@ cb_merge_change_clicked (GtkWidget *ignore, MergeState *state)
 }
 
 static void
-cb_merge_delete_clicked (GtkWidget *ignore, MergeState *state)
+cb_merge_delete_clicked (__attribute__((unused)) GtkWidget *ignore,
+			 MergeState *state)
 {
 	GtkTreeIter iter;
 	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->list);
@@ -169,7 +173,8 @@ cb_merge_delete_clicked (GtkWidget *ignore, MergeState *state)
 }
 
 static void
-cb_merge_cancel_clicked (GtkWidget *ignore, MergeState *state)
+cb_merge_cancel_clicked (__attribute__((unused)) GtkWidget *ignore,
+			 MergeState *state)
 {
 	    gtk_widget_destroy (GTK_WIDGET (state->dialog));
 }
@@ -210,7 +215,8 @@ cb_merge_trim_data (gpointer data, gpointer lp)
 
 
 static void
-cb_merge_merge_clicked (GtkWidget *ignore, MergeState *state)
+cb_merge_merge_clicked (__attribute__((unused)) GtkWidget *ignore,
+			MergeState *state)
 {
 	GtkTreeIter this_iter;
 	gint n = 0;

@@ -102,7 +102,8 @@ dialog_col_width_destroy (GtkObject *w, ColWidthState *state)
 }
 
 static void
-cb_dialog_col_width_cancel_clicked (GtkWidget *button, ColWidthState *state)
+cb_dialog_col_width_cancel_clicked (__attribute__((unused)) GtkWidget *button,
+				    ColWidthState *state)
 {
 	gtk_widget_destroy (state->dialog);
 	return;
@@ -156,7 +157,8 @@ dialog_col_width_load_value (ColWidthState *state)
 }
 
 static void
-cb_dialog_col_width_value_changed (GtkSpinButton *spinbutton, ColWidthState *state)
+cb_dialog_col_width_value_changed (__attribute__((unused)) GtkSpinButton *spinbutton,
+				   ColWidthState *state)
 {
 	if (!state->adjusting) {
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->default_check), FALSE);
@@ -179,7 +181,8 @@ cb_dialog_col_width_default_check_toggled (GtkToggleButton *togglebutton, ColWid
 }
 
 static void
-cb_dialog_col_width_apply_clicked (GtkWidget *button, ColWidthState *state)
+cb_dialog_col_width_apply_clicked (__attribute__((unused)) GtkWidget *button,
+				   ColWidthState *state)
 {
 	gnum_float value = gtk_spin_button_get_value (state->spin);
 	double const scale =

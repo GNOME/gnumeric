@@ -159,7 +159,8 @@ set_plugin_model_row (PluginManagerGUI *pm_gui, GtkTreeIter *iter, GnmPlugin *pl
 }
 
 static void
-cb_pm_button_rescan_directories_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
+cb_pm_button_rescan_directories_clicked (__attribute__((unused)) GtkButton *button,
+					 PluginManagerGUI *pm_gui)
 {
 	ErrorInfo *error;
 	GSList *new_plugins, *l;
@@ -196,7 +197,8 @@ cb_pm_button_rescan_directories_clicked (GtkButton *button, PluginManagerGUI *pm
 }
 
 static void
-cb_pm_checkbutton_install_new_toggled (GtkCheckButton *checkbutton, PluginManagerGUI *pm_gui)
+cb_pm_checkbutton_install_new_toggled (__attribute__((unused)) GtkCheckButton *checkbutton,
+				       PluginManagerGUI *pm_gui)
 {
 	gnm_gconf_set_activate_new_plugins (
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbutton)));
@@ -237,7 +239,8 @@ pm_add_dir (char *dir_name)
 }
 
 static void
-cb_pm_button_directory_add_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
+cb_pm_button_directory_add_clicked (__attribute__((unused)) GtkButton *button,
+				    PluginManagerGUI *pm_gui)
 {
 	GtkFileSelection *fs;
 	char *dir_name;
@@ -251,7 +254,8 @@ cb_pm_button_directory_add_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
 }
 
 static void
-cb_pm_button_directory_delete_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
+cb_pm_button_directory_delete_clicked (__attribute__((unused)) GtkButton *button,
+				       PluginManagerGUI *pm_gui)
 {
 	GtkTreeIter iter;
 	char *name = NULL;
@@ -373,7 +377,8 @@ cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 }
 
 static void
-pm_dialog_cleanup (GObject *dialog, PluginManagerGUI *pm_gui)
+pm_dialog_cleanup (__attribute__((unused)) GObject *dialog,
+		   PluginManagerGUI *pm_gui)
 {
 	GtkTreeModel *model = GTK_TREE_MODEL (pm_gui->model_plugins);
 	GtkTreeIter iter;
@@ -394,7 +399,8 @@ pm_dialog_cleanup (GObject *dialog, PluginManagerGUI *pm_gui)
 }
 
 static void
-cb_pm_button_activate_all_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
+cb_pm_button_activate_all_clicked (__attribute__((unused)) GtkButton *button,
+				   PluginManagerGUI *pm_gui)
 {
 	ErrorInfo *activation_error, *error;
 
@@ -409,7 +415,8 @@ cb_pm_button_activate_all_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
 }
 
 static void
-cb_pm_button_deactivate_all_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
+cb_pm_button_deactivate_all_clicked (__attribute__((unused)) GtkButton *button,
+				     PluginManagerGUI *pm_gui)
 {
 	ErrorInfo *deactivation_error, *error;
 
@@ -519,7 +526,8 @@ pm_gui_load_directory_page (PluginManagerGUI *pm_gui)
 }
 
 static void
-cb_pm_dir_selection_changed (GtkTreeSelection *ignored, PluginManagerGUI *pm_gui)
+cb_pm_dir_selection_changed (__attribute__((unused)) GtkTreeSelection *ignored,
+			     PluginManagerGUI *pm_gui)
 {
 	GtkTreeIter  iter;
 	gboolean is_system;
@@ -536,15 +544,18 @@ cb_pm_dir_selection_changed (GtkTreeSelection *ignored, PluginManagerGUI *pm_gui
 }
 
 static void
-cb_dir_changed_notification (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+cb_dir_changed_notification (__attribute__((unused)) GConfClient *gconf,
+			    __attribute__((unused)) guint cnxn_id,
+			    __attribute__((unused)) GConfEntry *entry,
 			    PluginManagerGUI *pm_gui)
 {
-	pm_gui_load_directory_page (pm_gui);	
+	pm_gui_load_directory_page (pm_gui);
 	cb_pm_button_rescan_directories_clicked (NULL, pm_gui);
 }
 
 static void
-cb_active_toggled (GtkCellRendererToggle *celltoggle, char *path,
+cb_active_toggled (__attribute__((unused)) GtkCellRendererToggle *celltoggle,
+		   char *path,
                    PluginManagerGUI *pm_gui)
 {
 	GtkTreeModel *model;

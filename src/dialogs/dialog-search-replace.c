@@ -88,7 +88,7 @@ set_checked (GladeXML *gui, const char *name, gboolean checked)
 }
 
 static void
-ok_clicked (GtkWidget *widget, DialogState *dd)
+ok_clicked (__attribute__((unused)) GtkWidget *widget, DialogState *dd)
 {
 	GladeXML *gui = dd->gui;
 	GtkDialog *dialog = dd->dialog;
@@ -161,7 +161,7 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 }
 
 static void
-cancel_clicked (GtkWidget *widget, DialogState *dd)
+cancel_clicked (__attribute__((unused)) GtkWidget *widget, DialogState *dd)
 {
 	GtkDialog *dialog = dd->dialog;
 
@@ -170,7 +170,7 @@ cancel_clicked (GtkWidget *widget, DialogState *dd)
 
 
 static void
-dialog_destroy (GtkWidget *widget, DialogState *dd)
+dialog_destroy (__attribute__((unused)) GtkWidget *widget, DialogState *dd)
 {
 	GladeXML *gui = dd->gui;
 	g_object_unref (G_OBJECT (gui));
@@ -180,7 +180,9 @@ dialog_destroy (GtkWidget *widget, DialogState *dd)
 }
 
 static gboolean
-range_focused (GtkWidget *widget, GdkEventFocus   *event, DialogState *dd)
+range_focused (__attribute__((unused)) GtkWidget *widget,
+	       __attribute__((unused)) GdkEventFocus *event,
+	       DialogState *dd)
 {
 	GtkWidget *scope_range = glade_xml_get_widget (dd->gui, "scope_range");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (scope_range), TRUE);

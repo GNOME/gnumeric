@@ -516,7 +516,8 @@ dialog_formula_guru_destroy (FormulaGuruState *state)
  * Close (destroy) the dialog
  **/
 static void
-cb_dialog_formula_guru_cancel_clicked (GtkWidget *button, FormulaGuruState *state)
+cb_dialog_formula_guru_cancel_clicked (__attribute__((unused)) GtkWidget *button,
+				       FormulaGuruState *state)
 {
 	wbcg_edit_finish (state->wbcg, FALSE);
 }
@@ -583,7 +584,8 @@ cb_dialog_formula_guru_zoom_toggled (GtkWidget *button, FormulaGuruState *state)
  *
  **/
 static void
-cb_dialog_formula_guru_selector_clicked (GtkWidget *button, FormulaGuruState *state)
+cb_dialog_formula_guru_selector_clicked (__attribute__((unused)) GtkWidget *button,
+					 FormulaGuruState *state)
 {
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->treeview);
 	GtkTreeModel *model;
@@ -608,7 +610,8 @@ cb_dialog_formula_guru_selector_clicked (GtkWidget *button, FormulaGuruState *st
  *
  **/
 static void
-cb_dialog_formula_guru_clear_clicked (GtkWidget *button, FormulaGuruState *state)
+cb_dialog_formula_guru_clear_clicked (__attribute__((unused)) GtkWidget *button,
+				      FormulaGuruState *state)
 {
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->treeview);
 	GtkTreeModel *model;
@@ -641,7 +644,8 @@ cb_dialog_formula_guru_clear_clicked (GtkWidget *button, FormulaGuruState *state
  * Close (destroy) the dialog
  **/
 static void
-cb_dialog_formula_guru_ok_clicked (GtkWidget *button, FormulaGuruState *state)
+cb_dialog_formula_guru_ok_clicked (__attribute__((unused)) GtkWidget *button,
+				   FormulaGuruState *state)
 {
 	if (state->cellrenderer->entry)
 		gnumeric_cell_renderer_expr_entry_editing_done (
@@ -672,10 +676,12 @@ cb_dialog_formula_guru_selection_changed (GtkTreeSelection *the_selection,
 						NULL, 0, 0);
 }
 
-/* We shouln't need that if it weren't for a GTK+ bug*/
+/* We shouldn't need that if it weren't for a GTK+ bug*/
 static void
-cb_dialog_formula_guru_row_collapsed (GtkTreeView *treeview, GtkTreeIter *iter,
-				      GtkTreePath *path, FormulaGuruState *state)
+cb_dialog_formula_guru_row_collapsed (__attribute__((unused)) GtkTreeView *treeview,
+				      __attribute__((unused)) GtkTreeIter *iter,
+				      __attribute__((unused)) GtkTreePath *path,
+				      FormulaGuruState *state)
 {
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->treeview);
 
@@ -684,7 +690,7 @@ cb_dialog_formula_guru_row_collapsed (GtkTreeView *treeview, GtkTreeIter *iter,
 
 
 static void
-cb_dialog_formula_guru_edited (GtkCellRendererText *cell,
+cb_dialog_formula_guru_edited (__attribute__((unused)) GtkCellRendererText *cell,
 	gchar               *path_string,
 	gchar               *new_text,
         FormulaGuruState    *state)

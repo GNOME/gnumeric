@@ -265,7 +265,8 @@ minor_chart_type_get_pos (xmlNode const *node, int *col, int *row)
 }
 
 static gboolean
-cb_key_press_event (GtkWidget *wrapper, GdkEventKey *event,
+cb_key_press_event (__attribute__((unused)) GtkWidget *wrapper,
+		    GdkEventKey *event,
 		    GraphGuruTypeSelector *typesel)
 {
 	GtkCornerType corner;
@@ -326,7 +327,8 @@ cb_button_press_event (GtkWidget *widget, GdkEventButton *event,
 }
 
 static void
-cb_selection_changed (GtkTreeSelection *ignored, GraphGuruTypeSelector *typesel)
+cb_selection_changed (__attribute__((unused)) GtkTreeSelection *ignored,
+		      GraphGuruTypeSelector *typesel)
 {
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (typesel->list_view);
 	GtkTreeIter  iter;
@@ -352,7 +354,8 @@ cb_selection_changed (GtkTreeSelection *ignored, GraphGuruTypeSelector *typesel)
 }
 
 static void
-cb_sample_pressed (GtkWidget *button, GraphGuruTypeSelector *typesel)
+cb_sample_pressed (__attribute__((unused)) GtkWidget *button,
+		   GraphGuruTypeSelector *typesel)
 {
 	if (typesel->current_major_item == NULL)
 		return;
@@ -380,7 +383,8 @@ cb_sample_pressed (GtkWidget *button, GraphGuruTypeSelector *typesel)
 }
 
 static void
-cb_sample_released (GtkWidget *button, GraphGuruTypeSelector *typesel)
+cb_sample_released (__attribute__((unused)) GtkWidget *button,
+		    GraphGuruTypeSelector *typesel)
 {
 	if (typesel->current_major_item == NULL)
 		return;
@@ -489,7 +493,8 @@ major_list_init (GraphGuruTypeSelector *typesel, xmlNode *major)
 }
 
 static void
-cb_canvas_realized (GtkWidget *widget, gpointer data)
+cb_canvas_realized (__attribute__((unused)) GtkWidget *widget,
+		    __attribute__((unused)) gpointer data)
 {
 	/*gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE); */
 }
@@ -540,7 +545,8 @@ graph_guru_get_series (GraphGuruState *s, int indx)
 }
 
 static char *
-graph_guru_plot_name (GraphGuruState *s, xmlNode *plot)
+graph_guru_plot_name (__attribute__((unused)) GraphGuruState *s,
+		      xmlNode *plot)
 {
 	char *name;
 	xmlChar *t;
@@ -788,14 +794,16 @@ vector_state_init (VectorState *vs, xmlNode *descriptor)
 }
 
 static void
-cb_entry_changed (GtkEditable *editable, VectorState *vs)
+cb_entry_changed (__attribute__((unused)) GtkEditable *editable,
+		  VectorState *vs)
 {
 	if (!vs->state->updating)
 		vs->changed = TRUE;
 }
 
 static void
-cb_entry_rangesel_drag_finished (GnumericExprEntry *gee, VectorState *vs)
+cb_entry_rangesel_drag_finished (__attribute__((unused)) GnumericExprEntry *gee,
+				 VectorState *vs)
 {
 	vector_state_apply_changes (vs);
 }
@@ -933,14 +941,16 @@ graph_guru_state_destroy (GraphGuruState *state)
 }
 
 static gboolean
-cb_graph_guru_destroy (GtkObject *w, GraphGuruState *state)
+cb_graph_guru_destroy (__attribute__((unused)) GtkObject *w,
+		       GraphGuruState *state)
 {
 	graph_guru_state_destroy (state);
 	return FALSE;
 }
 
 static  gint
-cb_graph_guru_key_press (GtkWidget *widget, GdkEventKey *event,
+cb_graph_guru_key_press (__attribute__((unused)) GtkWidget *widget,
+			 GdkEventKey *event,
 			 GraphGuruState *state)
 {
 	if (event->keyval == GDK_Escape) {
@@ -951,7 +961,8 @@ cb_graph_guru_key_press (GtkWidget *widget, GdkEventKey *event,
 }
 
 static char *
-graph_guru_series_name (GraphGuruState *s, xmlNode *series)
+graph_guru_series_name (__attribute__((unused)) GraphGuruState *s,
+			xmlNode *series)
 {
 	int i;
 	xmlChar *name = xmlGetProp (series, (xmlChar *)"name");
@@ -1101,7 +1112,7 @@ graph_guru_select_plot (GraphGuruState *s, xmlNode *plot, int seriesID)
 }
 
 static void
-graph_guru_apply_changes (GraphGuruState *state)
+graph_guru_apply_changes (__attribute__((unused)) GraphGuruState *state)
 {
 #if 0
 	CORBA_Environment  ev;
@@ -1126,7 +1137,7 @@ graph_guru_apply_changes (GraphGuruState *state)
 }
 
 static void
-graph_guru_init_data_page (GraphGuruState *s)
+graph_guru_init_data_page (__attribute__((unused)) GraphGuruState *s)
 {
 #if 0
 	if (s->data_guru != CORBA_OBJECT_NIL)
@@ -1146,7 +1157,7 @@ graph_guru_init_data_page (GraphGuruState *s)
 }
 
 static void
-graph_guru_init_format_page (GraphGuruState *s)
+graph_guru_init_format_page (__attribute__((unused)) GraphGuruState *s)
 {
 #if 0
 	GtkWidget *w;
@@ -1274,8 +1285,10 @@ cb_series_entry_changed (GtkWidget *ct, char *new_text, GraphGuruState *s)
 
 	return FALSE;
 }
+
 static gboolean
-cb_series_selection_changed (GtkWidget *ct, GtkWidget *item, GraphGuruState *s)
+cb_series_selection_changed (__attribute__((unused)) GtkWidget *ct,
+			     GtkWidget *item, GraphGuruState *s)
 {
 	if (!s->updating) {
 		gpointer *tmp = g_object_get_data (G_OBJECT (item), "index");
@@ -1287,7 +1300,8 @@ cb_series_selection_changed (GtkWidget *ct, GtkWidget *item, GraphGuruState *s)
 }
 
 static gboolean
-cb_plot_entry_changed (GtkWidget *ct, char *new_text, GraphGuruState *s)
+cb_plot_entry_changed (GtkWidget *ct, char *new_text,
+		       __attribute__((unused)) GraphGuruState *s)
 {
 	if (!gnm_combo_text_set_text (GNM_COMBO_TEXT (ct), new_text,
 		GNM_COMBO_TEXT_NEXT)) {
@@ -1297,7 +1311,8 @@ cb_plot_entry_changed (GtkWidget *ct, char *new_text, GraphGuruState *s)
 }
 
 static gboolean
-cb_plot_selection_changed (GtkWidget *ct, GtkWidget *item, GraphGuruState *s)
+cb_plot_selection_changed (__attribute__((unused)) GtkWidget *ct,
+			   GtkWidget *item, GraphGuruState *s)
 {
 	if (!s->updating) {
 		gpointer *tmp = g_object_get_data (G_OBJECT (item), "index");
@@ -1329,7 +1344,8 @@ graph_guru_selector_init (GraphGuruState *s, char const *name, int i,
 }
 
 static void
-cb_graph_guru_focus (GtkWindow *window, GtkWidget *focus, GraphGuruState *state)
+cb_graph_guru_focus (__attribute__((unused)) GtkWindow *window,
+		     GtkWidget *focus, GraphGuruState *state)
 {
 	vector_state_apply_changes (state->current_vector);
 
@@ -1346,7 +1362,8 @@ cb_graph_guru_focus (GtkWindow *window, GtkWidget *focus, GraphGuruState *state)
 }
 
 static void
-cb_graph_guru_series_add (GtkWidget *button, GraphGuruState *s)
+cb_graph_guru_series_add (__attribute__((unused)) GtkWidget *button,
+			  __attribute__((unused)) GraphGuruState *s)
 {
 #if 0
 	int new_index;
@@ -1368,7 +1385,8 @@ cb_graph_guru_series_add (GtkWidget *button, GraphGuruState *s)
 }
 
 static void
-cb_graph_guru_series_delete (GtkWidget *button, GraphGuruState *s)
+cb_graph_guru_series_delete (__attribute__((unused)) GtkWidget *button,
+			     GraphGuruState *s)
 {
 	if (s->current_series >= 0) {
 #ifdef GNOME2_CONVERSION_COMPLETE

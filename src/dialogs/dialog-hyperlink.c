@@ -63,13 +63,13 @@ dialog_hyperlink_free (HyperlinkState *state)
 }
 
 static void
-cb_cancel (GtkWidget *button, HyperlinkState *state)
+cb_cancel (__attribute__((unused)) GtkWidget *button, HyperlinkState *state)
 {
 	gtk_widget_destroy (state->dialog);
 }
 
 static void
-cb_ok (GtkWidget *button, HyperlinkState *state)
+cb_ok (__attribute__((unused)) GtkWidget *button, HyperlinkState *state)
 {
 #warning todo assign the result
 	gtk_widget_destroy (state->dialog);
