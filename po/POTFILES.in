@@ -74,7 +74,7 @@ src/dialogs/dialog-cell-sort.c
 src/dialogs/dialog-consolidate.c
 src/dialogs/dialog-define-names.c
 src/dialogs/dialog-delete-cells.c
-src/dialogs/dialog-function-guru.c
+src/dialogs/dialog-formula-guru.c
 src/dialogs/dialog-goal-seek.c
 src/dialogs/dialog-goto-cell.c
 src/dialogs/dialog-graph-guru.c

@@ -1,5 +1,9 @@
 2001-09-17  Carlos Perelló Marín <carlos@gnome-db.org>
 
+	* POTFILES.in: I'm idiot. It's fixed now.
+
+2001-09-17  Carlos Perelló Marín <carlos@gnome-db.org>
+
         * POTFILES.in: Fixed a rename, please remember
         to update your changes here.
 
