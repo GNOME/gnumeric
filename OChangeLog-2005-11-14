@@ -1,3 +1,17 @@
+2001-01-28  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/plugin.c, src/xml-io-autoft.c:
+	s/xml_search_child/e_xml_get_child_by_name/
+	s/xml_search_child_lang_list/e_xml_get_child_by_name_by_lang_list/
+
+	* src/xml-io.[ch]:
+	Removed function: xml_search_child.
+	Functions moved to GAL:
+	xml_search_child_lang_list_with_score,
+	xml_search_child_lang_list,
+	xml_search_child_no_lang.
+	Use e_xml_get_child_by_name instead of xml_search_child everywhere.
+
 2001-01-27  Zbigniew Chyla  <cyba@gnome.pl>
 
 	Making Gnumeric -Werror friendly (well, almost).

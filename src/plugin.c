@@ -20,10 +20,11 @@
 #include <sys/wait.h>
 #include <sys/time.h>
 #include <unistd.h>
-#include <gal/util/e-util.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/parserInternals.h>
 #include <gnome-xml/xmlmemory.h>
+#include <gal/util/e-util.h>
+#include <gal/util/e-xml-utils.h>
 #include <fnmatch.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
@@ -210,7 +211,7 @@ plugin_info_read (const gchar *dir_name, xmlNodePtr tree, ErrorInfo **ret_error)
 	g_return_val_if_fail (xmlStrcmp (tree->name, "plugin") == 0, NULL);
 
 	x_id = xmlGetProp (tree, "id");
-	information_node = xml_search_child_lang_list (tree, "information", NULL);
+	information_node = e_xml_get_child_by_name_by_lang_list (tree, "information", NULL);
 	if (information_node != NULL) {
 		x_name = xmlGetProp (information_node, "name");
 		x_description = xmlGetProp (information_node, "description");
@@ -218,7 +219,7 @@ plugin_info_read (const gchar *dir_name, xmlNodePtr tree, ErrorInfo **ret_error)
 		x_name = NULL;
 		x_description = NULL;
 	}
-	activation_node = xml_search_child (tree, "activation");
+	activation_node = e_xml_get_child_by_name (tree, "activation");
 	if (activation_node != NULL) {
 		x_activation_type = xmlGetProp (activation_node, "type");
 	} else {
@@ -1002,7 +1003,7 @@ module_plugin_info_read (PluginInfo *pinfo, xmlNodePtr tree, ErrorInfo **ret_err
 	g_assert (ret_error != NULL);
 
 	*ret_error = NULL;
-	activation_node = xml_search_child (tree, "activation");
+	activation_node = e_xml_get_child_by_name (tree, "activation");
 	x_module_file = xmlGetProp (activation_node, "module_file");
 	if (x_module_file != NULL) {
 		gchar *full_module_file_name;

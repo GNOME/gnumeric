@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include <gnome.h>
+#include <gal/util/e-xml-utils.h>
 #include "gnumeric.h"
 #include "command-context.h"
 #include "workbook-control.h"
@@ -232,7 +233,7 @@ xml_read_format_col_row_info (XmlParseContext *ctxt, FormatTemplate *ft, xmlNode
 	/*
 	 * Read placement
 	 */
-	child = xml_search_child (tree, "Placement");
+	child = e_xml_get_child_by_name (tree, "Placement");
 	if (child) {
 		xml_get_value_int  (child, "offset", &info.offset);
 		xml_get_value_int  (child, "offset_gravity", &info.offset_gravity);
@@ -243,7 +244,7 @@ xml_read_format_col_row_info (XmlParseContext *ctxt, FormatTemplate *ft, xmlNode
 	/*
 	 * Read dimensions
 	 */
-	child = xml_search_child (tree, "Dimensions");
+	child = e_xml_get_child_by_name (tree, "Dimensions");
 	if (child){
 		xml_get_value_int (child, "size", &info.size);
 	} else {
@@ -276,7 +277,7 @@ xml_read_format_template_member (XmlParseContext *ctxt, FormatTemplate *ft, xmlN
 	/*
 	 * Read row and column information
 	 */
-	child = xml_search_child (tree, "Row");
+	child = e_xml_get_child_by_name (tree, "Row");
 	if (child){
 		row = xml_read_format_col_row_info (ctxt, ft, child);
 	} else {
@@ -284,7 +285,7 @@ xml_read_format_template_member (XmlParseContext *ctxt, FormatTemplate *ft, xmlN
 		return FALSE;
 	}
 
-	child = xml_search_child (tree, "Col");
+	child = e_xml_get_child_by_name (tree, "Col");
 	if (child){
 		col = xml_read_format_col_row_info (ctxt, ft, child);
 	} else {
@@ -292,7 +293,7 @@ xml_read_format_template_member (XmlParseContext *ctxt, FormatTemplate *ft, xmlN
 		return FALSE;
 	}
 
-	child = xml_search_child (tree, "Frequency");
+	child = e_xml_get_child_by_name (tree, "Frequency");
 	if (child){
 		xml_get_value_int (child, "direction", (int *) &direction);
 		xml_get_value_int (child, "repeat", &repeat);
@@ -306,7 +307,7 @@ xml_read_format_template_member (XmlParseContext *ctxt, FormatTemplate *ft, xmlN
 	/*
 	 * Read style information
 	 */
-	child = xml_search_child (tree, "Style");
+	child = e_xml_get_child_by_name (tree, "Style");
 	if (child) {
 		mstyle = xml_read_style (ctxt, child);
 	} else {
@@ -353,7 +354,7 @@ xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xml
 	/*
 	 * Read some general information
 	 */
-	child = xml_search_child_lang_list (tree, "Information", NULL);
+	child = e_xml_get_child_by_name_by_lang_list (tree, "Information", NULL);
 	if (child){
 		String *author, *name, *description;
 
@@ -375,7 +376,7 @@ xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xml
 	/*
 	 * Read Members
 	 */
-	child = xml_search_child (tree, "Members");
+	child = e_xml_get_child_by_name (tree, "Members");
 	if (child == NULL)
 		return FALSE;
 
@@ -473,10 +474,10 @@ gnumeric_xml_read_format_template_category (const char *dir_name)
 	if (doc != NULL && doc->root != NULL
 	    && xmlSearchNsByHref (doc, doc->root, "http://www.gnome.org/gnumeric/format-template-category/v1") != NULL
 	    && strcmp (doc->root->name, "FormatTemplateCategory") == 0
-	    && (translated_info_node = xml_search_child_lang_list (doc->root, "Information", NULL)) != NULL) {
+	    && (translated_info_node = e_xml_get_child_by_name_by_lang_list (doc->root, "Information", NULL)) != NULL) {
 		xmlChar *orig_name, *name, *description, *lang;
 
-		orig_info_node = xml_search_child_no_lang (doc->root, "Information");
+		orig_info_node = e_xml_get_child_by_name_no_lang (doc->root, "Information");
 		if (orig_info_node == NULL) {
 			orig_info_node = translated_info_node;
 		}
