@@ -1154,7 +1154,7 @@ gnm_graph_series_get_dimension (xmlNode *series, xmlChar const *target)
 	xmlNode *dim;
 	xmlChar *dim_name;
 
-	g_return_if_fail (series != NULL, NULL);
+	g_return_val_if_fail (series != NULL, NULL);
 
 	/* attempt to find the matching dimension */
 	for (dim = series->xmlChildrenNode; dim; dim = dim->next) {
@@ -1185,7 +1185,7 @@ gnm_graph_series_add_dimension (xmlNode *series, char const *dim_name)
 {
 	xmlNode *res;
 
-	g_return_if_fail (series != NULL, NULL);
+	g_return_val_if_fail (series != NULL, NULL);
 
 	res = xmlNewChild (series, series->ns, "Dimension", NULL);
 	xmlSetProp (res, "dim_name", dim_name);
