@@ -15,6 +15,32 @@
 #include "utils.h"
 #include "ms-formula.h"
 
+/**
+ * Various bits of data for operators
+ * see S59E2B.HTM for formula_ptg values
+ * formula PTG, prefix, middle, suffix, precedence
+ **/
+FORMULA_OP_DATA formula_op_data[] = {
+  { 0x03, 0, "+", 0, 1 },
+  { 0x04, 0, "-", 0, 1 },
+  { 0x05, 0, "*", 0, 3 },
+  { 0x06, 0, "/", 0, 2 }
+} ;
+#define FORMULA_OP_DATA_LEN   (sizeof(formula_op_data)/sizeof(FORMULA_OP_DATA))
+
+/**
+ * Various bits of data for functions
+ * function index, prefix, middle, suffix, multiple args?, precedence
+ **/
+FORMULA_FUNC_DATA formula_func_data[] =
+{
+  { 0x04, "SUM (", 0,  ")", 1, 0 },
+  { 0x05, "AVERAGE (", 0,  ")", 1, 0 },
+  { 0x06, "MIN (", 0,  ")", 1, 0 },
+  { 0x07, "MAX (", 0,  ")", 1, 0 }
+};
+#define FORMULA_FUNC_DATA_LEN (sizeof(formula_func_data)/sizeof(FORMULA_FUNC_DATA))
+
 /* FIXME these probably don't work weel with negative numbers ! */
 /**
  *  A useful routine for extracting data from a common
@@ -53,11 +79,12 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q)
   BYTE *cur ;
   int length, fn_row, fn_col ;
   GList *stack = 0 ;   /* A whole load of Text arguments */
+  int error = 0 ;
 
   g_assert (q->ls_op == BIFF_FORMULA) ;
   fn_col = BIFF_GETCOL(q) ;
   fn_row = BIFF_GETROW(q) ;
-  printf ("Formula at [%d, %d] XF %d :\n", fn_row, fn_col, BIFF_GETXF(q)) ;
+  printf ("Formula at [%d, %d] XF %d :\n", fn_col, fn_row, BIFF_GETXF(q)) ;
   printf ("formula data : \n") ;
   dump (q->data +22, q->length-22) ;
   /* This will be safe when we collate continuation records in get_query */
@@ -65,7 +92,7 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q)
   /* NB. the effective '-1' here is so that the offsets and lengths
      are identical to those in the documentation */
   cur = q->data + 23 ;
-  while (length>0)
+  while (length>0 && !error)
     {
       int ptg_length = 0 ;
       int ptg = BIFF_GETBYTE(cur-1) ;
@@ -126,31 +153,44 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q)
 	    GList *args=0, *tmp ;
 	    int lp ;
 	    char buffer[4096] ; /* Nasty ! */
-	    char *ptr ;
 	    printf ("Found formula %d with %d args\n", iftab, numargs) ;
 	    /* Whack those arguments on an arg list */
 	    for (lp=0;lp<numargs;lp++)
 	      {
 		tmp   = g_list_last (stack) ;
+		if (tmp == 0)
+		  printf ("Warning not enough arguments on stack for fn %d: %d\n", iftab, numargs), error=1 ;
 		stack = g_list_remove_link (stack, tmp) ;
 		args  = g_list_append(args, tmp->data) ;
 		g_list_free (tmp) ;
 	      }
-	    /* The arguments are now in reverse order in 'args' */
-	    if (iftab == 4) /* Guess at a SUM fn */
+	    printf ("Search %d records\n", FORMULA_FUNC_DATA_LEN) ;
+	    for (lp=0;lp<FORMULA_FUNC_DATA_LEN;lp++)
 	      {
-		sprintf (buffer, "SUM( ") ;
-		tmp = g_list_first (args) ;
-		for (lp=0;lp<numargs;lp++)
+		if (formula_func_data[lp].function_idx == iftab && formula_func_data[lp].multi_arg)
 		  {
-		    ptr = &buffer[strlen(buffer)] ;
-		    sprintf (ptr, "%s%c", (char *)g_list_nth_data(args, lp), (lp<numargs-1)?',':' ') ;
+		    FORMULA_FUNC_DATA *fd = &formula_func_data[lp] ;
+		    GList *ptr ;
+
+		    strcpy (buffer, (fd->prefix)?fd->prefix:"") ;
+
+		    ptr = g_list_first (args) ;
+		    while (ptr)
+		      {
+			char *str   = &buffer[strlen(buffer)] ;
+			char *appnd = ptr->data ;
+			ptr = ptr->next ;
+			sprintf (str, "%s%c", appnd, ptr?',':' ') ;
+		      }
+
+		    strcat (buffer, fd->suffix?fd->suffix:"") ;
+		    stack = g_list_append (stack, strdup(buffer)) ;
+		    break ;
 		  }
-		strcat (buffer, ")") ;
-		stack = g_list_append (stack, strdup(buffer)) ;
 	      }
-	    else
-	      printf ("FIXME, unimplemented vararg fn %d, with %d args\n", iftab, numargs) ;
+	    if (lp==FORMULA_FUNC_DATA_LEN)
+	      printf ("FIXME, unimplemented vararg fn %d, with %d args\n", iftab, numargs), error=1 ;
+
 	    /* Free args : should be unused by now */
 	    tmp = g_list_first (args) ;
 	    while (tmp)
@@ -167,26 +207,67 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q)
 	    int row, col ;
 	    row = BIFF_GETWORD(cur) ;
 	    col = BIFF_GETWORD(cur+2) ;
-	    printf ("Unimplemented ARARY formula at [%d,%d]\n", row, col) ;
-	    return ;
+	    printf ("Unimplemented ARARY formula at [%d,%d]\n", row, col), error=1 ;
 	    ptg_length = 4 ;
 	  }
 	  break ;
 	case FORMULA_PTG_FUNC:
 	  {
 	    int iftab   = BIFF_GETWORD(cur) ;
-	    printf ("FIXME, unimplemented function table pointer %d\n", iftab) ;
-	    return ;
+	    printf ("FIXME, unimplemented function table pointer %d\n", iftab), error=1 ;
 	    ptg_length = 2 ;
 	  }
 	  break ;
 	default:
-	  printf ("Unknown PTG 0x%x base %x\n", ptg, ptgbase) ;
-	  ms_excel_sheet_insert (sheet, BIFF_GETXF(q), BIFF_GETCOL(q), BIFF_GETROW(q), "Unknown formula") ;
+	  {
+	    int lp ;
+
+	    printf ("Search %d records\n", FORMULA_OP_DATA_LEN) ;
+	    for (lp=0;lp<FORMULA_OP_DATA_LEN;lp++)
+	      {
+		if (ptgbase == formula_op_data[lp].formula_ptg)
+		  {
+		    char *arg2, *arg1 ;
+		    GList *tmp ;
+		    char buffer[2048] ;
+		    FORMULA_OP_DATA *fd = &formula_op_data[lp] ;
+
+		    tmp   = g_list_last (stack) ;
+		    if (tmp == 0)
+		      printf ("Warning not enough arguments on stack for op %d", ptgbase), error=1 ;
+		    stack = g_list_remove_link (stack, tmp) ;
+		    arg2  = tmp->data ;
+		    g_list_free (tmp) ;
+		    tmp   = g_list_last (stack) ;
+		    if (tmp == 0)
+		      printf ("Warning not enough arguments on stack for op %d", ptgbase), error=1 ;
+		    stack = g_list_remove_link (stack, tmp) ;
+		    arg1  = tmp->data ;
+		    g_list_free (tmp) ;
+
+		    strcpy (buffer, fd->prefix?fd->prefix:"") ;
+		    strcat (buffer, arg1) ;
+		    strcat (buffer, fd->mid?fd->mid:"") ;
+		    strcat (buffer, arg2) ;
+		    strcat (buffer, fd->suffix?fd->suffix:"") ;
+
+		    printf ("Op : '%s'\n", buffer) ;
+		    stack = g_list_append (stack, strdup(buffer)) ;
+		    break ;
+		  }
+	      }
+	    if (lp==FORMULA_OP_DATA_LEN)
+	      printf ("Unknown PTG 0x%x base %x\n", ptg, ptgbase), error=1 ;
+	  }
 	  return ;
 	}
       cur+=    (ptg_length+1) ;
       length-= (ptg_length+1) ;
+    }
+  if (error)
+    {
+      ms_excel_sheet_insert (sheet, BIFF_GETXF(q), BIFF_GETCOL(q), BIFF_GETROW(q), "Unknown formula") ;
+      return ;
     }
   printf ("--------- Found valid formula !---------\n") ;
   cell = sheet_cell_fetch (sheet->gnum_sheet, BIFF_GETCOL(q), BIFF_GETROW(q)) ;

@@ -21,4 +21,23 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q) ;
 #define FORMULA_PTG_AREA               0x25
 #define FORMULA_PTG_MEM_AREA           0x26
 
+typedef struct _FORMULA_OP_DATA
+{
+  BYTE formula_ptg ;
+  char *prefix ;
+  char *mid ;
+  char *suffix ;
+  int  precedance ;
+} FORMULA_OP_DATA ;
+
+typedef struct _FORMULA_FUNC_DATA
+{
+  int function_idx ;
+  char *prefix ;
+  char *mid ;
+  char *suffix ;
+  int multi_arg ;
+  int precedance ;
+} FORMULA_FUNC_DATA ;
+
 #endif

@@ -1,3 +1,9 @@
+1998-11-09  Michael Meeks    <michael@imaginator.com>
+
+	* plugins/excel/ms-formula.c: Re-designed the translation
+	code, abstracted, and implemented AVERAGE, MIN & MAX using
+	StarOffice 4.0 to deduce the standard function numbers.
+
 1998-11-08  Michael Meeks    <michael@imaginator.com>
 
 	* plugins/excel/ms-formula.c: Major top to bottom changes
