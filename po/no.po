@@ -1,11 +1,11 @@
-# Norwegian (bokmål dialect) translation of gnumeric.
+# Norwegian (bokmål dialect) translation of gnumeric.
 # Copyright (C) 1998,1999 Free Software Foundation, Inc.
 # Kjartan Maraas <kmaraas@online.no>, 1998,1999.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.54\n"
-"POT-Creation-Date: 2000-05-20 18:56-0400\n"
+"POT-Creation-Date: 2000-05-21 08:29+0200\n"
 "PO-Revision-Date: 2000-05-20 23:57+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -61,7 +61,7 @@ msgstr "DIF : Kunne ikke laste ark"
 
 #: plugins/dif/dif.c:292 plugins/plan-perfect/pln.c:922
 msgid "Unable to mmap the file"
-msgstr "Kunne ikke kjøre mmap på filen"
+msgstr "Kunne ikke kjøre mmap på filen"
 
 #: plugins/dif/dif.c:422
 msgid "Data Interchange Format (DIF) import"
@@ -73,11 +73,11 @@ msgstr "Data Interchange Format (*.dif)"
 
 #: plugins/excel/boot.c:122
 msgid "Saving over old files disabled for safety"
-msgstr "Lagring over gamle filer slått av for sikkerhets skyld"
+msgstr "Lagring over gamle filer slått av for sikkerhets skyld"
 
 #: plugins/excel/boot.c:133
 msgid "Can't open"
-msgstr "Kan ikke åpne"
+msgstr "Kan ikke åpne"
 
 #: plugins/excel/boot.c:171
 msgid "Microsoft(R) Excel file format"
@@ -102,7 +102,7 @@ msgstr "Ingen bok- eller arbeidsbokstream funnet."
 #. All records after this are encrypted
 #: plugins/excel/ms-excel-read.c:3867
 msgid "Password protected workbooks are not supported yet."
-msgstr "Passordbeskyttede arbeidsbøker er ikke støttet ennå."
+msgstr "Passordbeskyttede arbeidsbøker er ikke støttet ennå."
 
 #: plugins/excel/ms-excel-read.c:4039
 msgid "Unable to locate valid MS Excel workbook"
@@ -114,7 +114,7 @@ msgstr "For mange rader for dette formatet"
 
 #: plugins/excel/ms-excel-write.c:3454
 msgid "Can't open stream for writing\n"
-msgstr "Kan ikke åpne strømmen for skriving\n"
+msgstr "Kan ikke åpne strømmen for skriving\n"
 
 #: plugins/excel/ms-formula-read.c:649
 msgid "Unknown Function"
@@ -122,7 +122,7 @@ msgstr "Ukjent funksjon"
 
 #: plugins/excel/ms-formula-read.c:701
 msgid "Broken function"
-msgstr "Ødelagt funksjon"
+msgstr "Ødelagt funksjon"
 
 #: plugins/excel/ms-formula-read.c:1465
 msgid " Unknown formula"
@@ -135,7 +135,7 @@ msgid ""
 "unexpected end of line at line %d"
 msgstr ""
 "Ugyldig CSV-fil - \n"
-"Uventet sluttt på linje ved linje %d"
+"Uventet sluttt på linje ved linje %d"
 
 #: plugins/ff-csv/csv-io.c:113
 #, c-format
@@ -176,7 +176,7 @@ msgstr "GNOME basic"
 
 #: plugins/gb/plugin.c:370
 msgid "Enables Gnome Basic support"
-msgstr "Slår på støtte for GNOME basic"
+msgstr "Slår på støtte for GNOME basic"
 
 #: plugins/guile/plugin.c:281 src/func.c:433
 #: src/functions/fn-information.c:574 src/functions/fn-information.c:642
@@ -190,7 +190,7 @@ msgstr "Ugyldig antall argumenter"
 #. FIXME : This looks like a leak (JEG 4/4/00)
 #: plugins/guile/plugin.c:286 plugins/guile/plugin.c:291
 msgid "First argument to SCM must be a Guile expression"
-msgstr "Første argument til SCM må være et Guile uttrykk"
+msgstr "Første argument til SCM må være et Guile uttrykk"
 
 #: plugins/guile/plugin.c:295
 msgid "Undefined scheme function"
@@ -202,7 +202,7 @@ msgstr "Kunne ikke evaluere argumentet"
 
 #: plugins/guile/plugin.c:481
 msgid "Gnumeric has not been compiled with support for guile."
-msgstr "Gnumeric er ikke kompilert med støtte for guile."
+msgstr "Gnumeric er ikke kompilert med støtte for guile."
 
 #: plugins/html/boot.c:75
 msgid "HTML 3.2 file format (*.html)"
@@ -266,7 +266,6 @@ msgid ""
 msgstr ""
 
 #: plugins/numtheory/numtheory.c:214
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_D\n"
 "@SYNTAX=NT_D(n)\n"
@@ -275,16 +274,14 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA"
 msgstr ""
-"@FUNCTION=ISODD\n"
-"@SYNTAX=ISODD()\n"
-"@DESCRIPTION=ISODD returnerer SANN hvis tallet er odde. Denne funksjonen er "
-"Excel kompatibel. \n"
+"@FUNCTION=NT_D\n"
+"@SYNTAX=NT_D(n)\n"
+"@DESCRIPTION=NT_D funksjonen kalkulerer antall dividender for @n.\n"
+"Denne funksjonen tar kun ett argument.\n"
 "@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
+"@SEEALSO=ITHPRIMEm NT_PHI, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:248
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_SIGMA\n"
 "@SYNTAX=NT_SIGMA(n)\n"
@@ -294,15 +291,14 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 msgstr ""
-"@FUNCTION=NA\n"
-"@SYNTAX=NA()\n"
-"@DESCRIPTION=NA returnerer feilverdien #N/A. Denne funksjonen er Excel "
-"kompatibel. \n"
-"\n"
-"@SEEALSO="
+"@FUNCTION=NT_SIGMA\n"
+"@SYNTAX=NT_SIGMA(n)\n"
+"@DESCRIPTION=NT_SIGMA kalkulerer summen av dividendene for @n.\n"
+"Denne funksjonen tar kun ett argument. \n"
+"@EXAMPLES=\n"
+"@SEEALSO=NT_D, ITHPRIME, NT_PHI"
 
 #: plugins/numtheory/numtheory.c:283
-#, fuzzy
 msgid ""
 "@FUNCTION=ITHPRIME\n"
 "@SYNTAX=ITHPRIME(i)\n"
@@ -311,16 +307,15 @@ msgid ""
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, NT_SIGMA"
 msgstr ""
-"@FUNCTION=HYPERLINK\n"
-"@SYNTAX=HYPERLINK(referanse)\n"
-"@DESCRIPTION=HYPERLINK-funksjonen returnerer sitt andre argument, eller hvis "
-"dette er utelatt det første argumentet.\n"
+"@FUNCTION=ITHPRIME\n"
+"@SYNTAX=ITHPRIME(i)\n"
+"@DESCRIPTION=ITHPRIME-funksjonen returnerer det @i'te primtallet.\n"
+"Denne funksjonen tar kun ett argument.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 
 #: plugins/numtheory/numtheory.c:311
-#, fuzzy
 msgid ""
 "@FUNCTION=ISPRIME\n"
 "@SYNTAX=ISPRIME(i)\n"
@@ -329,16 +324,16 @@ msgid ""
 "This function only takes one argument.\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 msgstr ""
-"@FUNCTION=HYPERLINK\n"
-"@SYNTAX=HYPERLINK(referanse)\n"
-"@DESCRIPTION=HYPERLINK-funksjonen returnerer sitt andre argument, eller hvis "
-"dette er utelatt det første argumentet.\n"
+"@FUNCTION=ISPRIME\n"
+"@SYNTAX=ISPRIME(i)\n"
+"@DESCRIPTION=ISPRIME-funksjonen returnerer SANN hvis @i er et primtall og "
+"USANN ellers.\n"
+"Denne funksjonen tar kun ett argument.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 
 #: plugins/numtheory/numtheory.c:337
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_PI\n"
 "@SYNTAX=NT_PI(n)\n"
@@ -347,13 +342,13 @@ msgid ""
 "This function only takes one argument.\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 msgstr ""
-"@FUNCTION=ISODD\n"
-"@SYNTAX=ISODD()\n"
-"@DESCRIPTION=ISODD returnerer SANN hvis tallet er odde. Denne funksjonen er "
-"Excel kompatibel. \n"
+"@FUNCTION=NT_PI\n"
+"@SYNTAX=NT_PI(n)\n"
+"@DESCRIPTION=NT_PI returnerer antall primtall mindre enn eller lik @n.\n"
+"Denne funksjonen tar kun ett argument. \n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:412
 msgid "Number Theory"
@@ -398,7 +393,7 @@ msgstr "Kan ikke finne Python kodeobjektet."
 
 #: plugins/python/python.c:814
 msgid "object must be callable"
-msgstr "objektet må kunne kalles"
+msgstr "objektet må kunne kalles"
 
 #: plugins/sample/plugin-sample.c:53
 msgid "Sample Plugin"
@@ -438,7 +433,7 @@ msgstr "Enkel tekst I/O"
 
 #: plugins/text/text-io.c:419
 msgid "Read/Write workbooks using a simple text format."
-msgstr "Les/skriv arbeidsbøker ved bruk av et enkelt tekstformat."
+msgstr "Les/skriv arbeidsbøker ved bruk av et enkelt tekstformat."
 
 #: plugins/xbase/boot.c:205
 msgid "Xbase (*.dbf) file format"
@@ -458,7 +453,7 @@ msgstr "Sean Atkinson, funksjoner og X-Base import."
 
 #: src/about.c:28
 msgid "Tom Dyas, Plugin support."
-msgstr "Tom Dyas, Tilleggstøtte."
+msgstr "Tom Dyas, Tilleggstøtte."
 
 #: src/about.c:29
 msgid "Gergõ Érdi, Gnumeric hacker."
@@ -474,7 +469,7 @@ msgstr "Ross Ihaka, spesielle funksjoner."
 
 #: src/about.c:32
 msgid "Jukka-Pekka Iivonen, numerous functions and tools."
-msgstr "Jukka-Pekka Iivonen, mange funksjoner og verktøy."
+msgstr "Jukka-Pekka Iivonen, mange funksjoner og verktøy."
 
 #: src/about.c:33
 msgid "Jakub Jelinek, Gnumeric hacker."
@@ -490,7 +485,7 @@ msgstr "Chris Lahey, nummerformat motor."
 
 #: src/about.c:36
 msgid "Adrian Likins, Documentation, debugging."
-msgstr "Adrian Likins, Dokumentasjon, feilsøking."
+msgstr "Adrian Likins, Dokumentasjon, feilsøking."
 
 #: src/about.c:37
 msgid "Takashi Matsuda, original text plugin."
@@ -498,7 +493,7 @@ msgstr "Takashi Matsuda, opprinnelig tekst-tillegg."
 
 #: src/about.c:38
 msgid "Federico Mena, Canvas support."
-msgstr "Federico Mena, Kanvas støtte."
+msgstr "Federico Mena, Kanvas støtte."
 
 #: src/about.c:39
 msgid "Michael Meeks, Excel and OLE2 importing."
@@ -506,7 +501,7 @@ msgstr "Michael Meeks, Excel og OLE2 importering."
 
 #: src/about.c:40
 msgid "Mark Probst, Guile support."
-msgstr "Mark Probst, Guile støtte"
+msgstr "Mark Probst, Guile støtte"
 
 #: src/about.c:41
 msgid "Rasca, HTML, troff, LaTeX exporters."
@@ -514,11 +509,11 @@ msgstr "Rasca, HTML, troff, LaTeX eksport."
 
 #: src/about.c:42
 msgid "Vincent Renardias, original CSV support, French localisation."
-msgstr "Vincent Renardias, opprinnelig CSV-støtte, fransk lokalisering."
+msgstr "Vincent Renardias, opprinnelig CSV-støtte, fransk lokalisering."
 
 #: src/about.c:43
 msgid "Ariel Rios, Guile support."
-msgstr "Ariel Rios, Guile støtte."
+msgstr "Ariel Rios, Guile støtte."
 
 #: src/about.c:44
 msgid "Bruno Unna, Excel bits."
@@ -526,7 +521,7 @@ msgstr "Bruno Unna, Excel biter."
 
 #: src/about.c:45
 msgid "Daniel Veillard, XML support."
-msgstr "Daniel Veillard, XML støtte."
+msgstr "Daniel Veillard, XML støtte."
 
 #: src/about.c:46
 msgid "Vladimir Vuksan, financial functions."
@@ -621,7 +616,7 @@ msgstr "Forskyvning"
 
 #: src/analysis-tools.c:707 src/dialogs/dialog-function-wizard.c:210
 msgid "Range"
-msgstr "Område"
+msgstr "Område"
 
 #: src/analysis-tools.c:708
 msgid "Minimum"
@@ -643,20 +638,20 @@ msgstr "Teller"
 
 #: src/analysis-tools.c:804
 msgid "Confidence Level"
-msgstr "Konfidensnivå"
+msgstr "Konfidensnivå"
 
 #: src/analysis-tools.c:818
 msgid "Confidence Level (%g%%)"
-msgstr "Konfidensnivå (%g%%)"
+msgstr "Konfidensnivå (%g%%)"
 
 #: src/analysis-tools.c:830
 msgid "Kth Largest"
-msgstr "Kte største"
+msgstr "Kte største"
 
 #: src/analysis-tools.c:844
 #, c-format
 msgid "Largest (%d)"
-msgstr "Største (%d)"
+msgstr "Største (%d)"
 
 #: src/analysis-tools.c:856
 msgid "Kth Smallest"
@@ -797,7 +792,7 @@ msgstr "Tilfeldig"
 
 #: src/analysis-tools.c:1895
 msgid "Not implemented yet.\n"
-msgstr "Ikke implementert ennå.\n"
+msgstr "Ikke implementert ennå.\n"
 
 #. TODO This would be better using the
 #. value in the checkbox instead of this
@@ -882,7 +877,7 @@ msgstr "Nedre 95%"
 #: src/analysis-tools.c:2026
 #, c-format
 msgid "Upper 95%"
-msgstr "Øvre 95%"
+msgstr "Øvre 95%"
 
 #: src/analysis-tools.c:2246
 msgid "Moving Averages"
@@ -963,15 +958,15 @@ msgstr "Feil"
 
 #: src/clipboard.c:243
 msgid "Error while trying to pre-convert clipboard data"
-msgstr "Feil under forsøk på å pre-konvertere data fra utklippstavlen"
+msgstr "Feil under forsøk på å pre-konvertere data fra utklippstavlen"
 
 #: src/clipboard.c:250
 msgid "This data on the clipboard does not seem to be valid text"
-msgstr "Data fra utklippstavlen ser ikke ut til å være en gyldig tekst"
+msgstr "Data fra utklippstavlen ser ikke ut til å være en gyldig tekst"
 
 #: src/clipboard.c:265
 msgid "Parse error while trying to parse data into cellregion"
-msgstr "Fortolkningsfeil under forsøk på å lese data inn i celleregionen"
+msgstr "Fortolkningsfeil under forsøk på å lese data inn i celleregionen"
 
 #: src/command-context-gui.c:48 src/gnumeric-util.c:24
 msgid "You cannot change part of an array."
@@ -990,22 +985,22 @@ msgstr "Skriver \"%s%s\""
 #: src/commands.c:785
 #, c-format
 msgid "Inserting %d columns before %s"
-msgstr "Setter inn %d kolonner før %s"
+msgstr "Setter inn %d kolonner før %s"
 
 #: src/commands.c:786
 #, c-format
 msgid "Inserting %d column before %s"
-msgstr "Setter inn %d kolonne før %s"
+msgstr "Setter inn %d kolonne før %s"
 
 #: src/commands.c:797
 #, c-format
 msgid "Inserting %d rows before %d"
-msgstr "Setter inn %d rader før %d"
+msgstr "Setter inn %d rader før %d"
 
 #: src/commands.c:798
 #, c-format
 msgid "Inserting %d row before %d"
-msgstr "Setter inn %d rad før %d"
+msgstr "Setter inn %d rad før %d"
 
 #. col_name uses a static buffer
 #: src/commands.c:811
@@ -1031,7 +1026,7 @@ msgstr "Sletter rad %d"
 #. TODO : Something more descriptive ? maybe the range name
 #: src/commands.c:969
 msgid "Clear"
-msgstr "Tøm"
+msgstr "Tøm"
 
 #: src/commands.c:1157
 msgid "Format cells"
@@ -1040,7 +1035,7 @@ msgstr "Formater celler"
 #: src/commands.c:1228
 #, c-format
 msgid "Rename sheet '%s' '%s'"
-msgstr "Endre navn på ark '%s' '%s'"
+msgstr "Endre navn på ark '%s' '%s'"
 
 #. FIXME : the '>' prefix is intended to give the translators
 #. * a chance to provide a locale specific date format.
@@ -1051,7 +1046,7 @@ msgstr "Endre navn på ark '%s' '%s'"
 #.
 #: src/commands.c:1307
 msgid ">mm/dd/yyyy"
-msgstr ">mm/dd/åååå"
+msgstr ">mm/dd/åååå"
 
 #. FIXME : See comment above
 #: src/commands.c:1312
@@ -1071,12 +1066,12 @@ msgstr "Setter aktiv tid i %s"
 #: src/commands.c:1457
 #, c-format
 msgid "Setting width of column %s"
-msgstr "Setter høyden for kolonne %s"
+msgstr "Setter høyden for kolonne %s"
 
 #: src/commands.c:1458
 #, c-format
 msgid "Setting height of row %d"
-msgstr "Setter høyden for rad %d"
+msgstr "Setter høyden for rad %d"
 
 #: src/commands.c:1581
 #, c-format
@@ -1114,7 +1109,7 @@ msgstr "Kunne ikke initialisere Gnumeric's arbeidsbok \"factory\""
 
 #: src/dates.c:14
 msgid "*Sun"
-msgstr "*Søn"
+msgstr "*Søn"
 
 #: src/dates.c:15
 msgid "*Mon"
@@ -1138,11 +1133,11 @@ msgstr "*Fre"
 
 #: src/dates.c:20
 msgid "*Sat"
-msgstr "*Lør"
+msgstr "*Lør"
 
 #: src/dates.c:26
 msgid "Sunday"
-msgstr "Søndag"
+msgstr "Søndag"
 
 #: src/dates.c:27
 msgid "Monday"
@@ -1166,7 +1161,7 @@ msgstr "Fredag"
 
 #: src/dates.c:32
 msgid "Saturday"
-msgstr "Lørdag"
+msgstr "Lørdag"
 
 #: src/dates.c:38
 msgid "*Jan"
@@ -1279,7 +1274,7 @@ msgstr "Handling"
 
 #: src/dialogs/advanced-filter.glade.h:9
 msgid "_Filter in-place"
-msgstr "_Filtrer på-plass"
+msgstr "_Filtrer på-plass"
 
 #: src/dialogs/advanced-filter.glade.h:10
 msgid "_Copy to a new location"
@@ -1295,7 +1290,7 @@ msgstr "Kopier til en ny _arbeidsbok"
 
 #: src/dialogs/advanced-filter.glade.h:13
 msgid "C_riteria range:"
-msgstr "K_riterieområde:"
+msgstr "K_riterieområde:"
 
 #: src/dialogs/advanced-filter.glade.h:14
 msgid "C_opy to:        "
@@ -1303,7 +1298,7 @@ msgstr "K_opier til:     "
 
 #: src/dialogs/advanced-filter.glade.h:15
 msgid "_List range:     "
-msgstr "_Listeområde:    "
+msgstr "_Listeområde:    "
 
 #: src/dialogs/advanced-filter.glade.h:16
 msgid "_Unique records only"
@@ -1320,11 +1315,11 @@ msgstr "Data-analyse"
 
 #: src/dialogs/analysis-tools.glade.h:8
 msgid "Analysis Tools"
-msgstr "Analyseverktøy"
+msgstr "Analyseverktøy"
 
 #: src/dialogs/analysis-tools.glade.h:9 src/dialogs/dialog-analysis-tools.c:91
 msgid "F-Test: Two-Sample for Variances"
-msgstr "F-Test: To-prøve for varianser"
+msgstr "F-Test: To-prøve for varianser"
 
 #: src/dialogs/analysis-tools.glade.h:10 src/dialogs/analysis-tools.glade.h:20
 #: src/dialogs/analysis-tools.glade.h:31 src/dialogs/analysis-tools.glade.h:42
@@ -1337,7 +1332,7 @@ msgstr "Inndata"
 
 #: src/dialogs/analysis-tools.glade.h:11 src/dialogs/analysis-tools.glade.h:25
 msgid "_Labels in First Row"
-msgstr "_Etiketter i første rad"
+msgstr "_Etiketter i første rad"
 
 #: src/dialogs/analysis-tools.glade.h:12 src/dialogs/analysis-tools.glade.h:24
 #: src/dialogs/analysis-tools.glade.h:33 src/dialogs/analysis-tools.glade.h:46
@@ -1348,12 +1343,12 @@ msgstr "_Alpha:"
 #: src/dialogs/analysis-tools.glade.h:13 src/dialogs/analysis-tools.glade.h:22
 #: src/dialogs/analysis-tools.glade.h:35 src/dialogs/analysis-tools.glade.h:44
 msgid "Va_riable 2 Range:"
-msgstr "Område for va_riabel 2:"
+msgstr "Område for va_riabel 2:"
 
 #: src/dialogs/analysis-tools.glade.h:14 src/dialogs/analysis-tools.glade.h:23
 #: src/dialogs/analysis-tools.glade.h:36 src/dialogs/analysis-tools.glade.h:43
 msgid "_Variable 1 Range:"
-msgstr "Område for _variabel 1:"
+msgstr "Område for _variabel 1:"
 
 #: src/dialogs/analysis-tools.glade.h:15 src/dialogs/analysis-tools.glade.h:26
 #: src/dialogs/analysis-tools.glade.h:37 src/dialogs/analysis-tools.glade.h:48
@@ -1372,7 +1367,7 @@ msgstr "Utskriftsalternativer"
 #: src/dialogs/analysis-tools.glade.h:102
 #: src/dialogs/analysis-tools.glade.h:115
 msgid "_Output Range:"
-msgstr "Ut_område:"
+msgstr "Ut_område:"
 
 #: src/dialogs/analysis-tools.glade.h:17 src/dialogs/analysis-tools.glade.h:28
 #: src/dialogs/analysis-tools.glade.h:39 src/dialogs/analysis-tools.glade.h:50
@@ -1394,7 +1389,7 @@ msgstr "N_y arbeidsbok"
 
 #: src/dialogs/analysis-tools.glade.h:19
 msgid "T-Test: Paired Two Sample for Means"
-msgstr "T-Test: Parvis to-prøve for medianer"
+msgstr "T-Test: Parvis to-prøve for medianer"
 
 #: src/dialogs/analysis-tools.glade.h:21 src/dialogs/analysis-tools.glade.h:34
 #: src/dialogs/analysis-tools.glade.h:45
@@ -1408,7 +1403,7 @@ msgstr "T-Test: Forutsetter lik varians"
 #: src/dialogs/analysis-tools.glade.h:32 src/dialogs/analysis-tools.glade.h:47
 #: src/dialogs/analysis-tools.glade.h:75
 msgid "_Labels in First Row           "
-msgstr "_Etiketter på første rad       "
+msgstr "_Etiketter på første rad       "
 
 #: src/dialogs/analysis-tools.glade.h:41
 msgid "T-Test: Assuming Unequal Variances"
@@ -1418,7 +1413,7 @@ msgstr "t-Test: Forutsetter ulik varians"
 #: src/dialogs/analysis-tools.glade.h:96
 #: src/dialogs/analysis-tools.glade.h:107
 msgid " _Input Range: "
-msgstr " _Inndataområde:"
+msgstr " _Inndataområde:"
 
 #: src/dialogs/analysis-tools.glade.h:55 src/dialogs/analysis-tools.glade.h:86
 #: src/dialogs/analysis-tools.glade.h:100
@@ -1448,7 +1443,7 @@ msgstr "Gruppert etter:"
 
 #: src/dialogs/analysis-tools.glade.h:61
 msgid "_Output Range: "
-msgstr "_Utskriftsområde: "
+msgstr "_Utskriftsområde: "
 
 #: src/dialogs/analysis-tools.glade.h:62
 msgid "_New Sheet     "
@@ -1460,7 +1455,7 @@ msgstr "_Etiketter   "
 
 #: src/dialogs/analysis-tools.glade.h:68 src/dialogs/analysis-tools.glade.h:77
 msgid "_Input Range:"
-msgstr "_Innområde:"
+msgstr "_Innområde:"
 
 #: src/dialogs/analysis-tools.glade.h:73
 #: src/dialogs/dialog-analysis-tools.c:93
@@ -1517,7 +1512,7 @@ msgstr "Ny arbei_dsbok"
 
 #: src/dialogs/analysis-tools.glade.h:123
 msgid "_Output range:"
-msgstr "Ut_område:"
+msgstr "Ut_område:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1526,7 +1521,7 @@ msgstr "Ut_område:"
 #.
 #: src/dialogs/autocorrect-exceptions.glade.h:7
 msgid "AutoCorrect Exceptions"
-msgstr "Autokorrigér unntak"
+msgstr "Autokorrigér unntak"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:8
 msgid "_Do not capitalize after:"
@@ -1545,7 +1540,7 @@ msgstr "Fje_rn"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:11
 msgid "_First Letter"
-msgstr "_Første bokstav"
+msgstr "_Første bokstav"
 
 #: src/dialogs/autocorrect-exceptions.glade.h:12
 msgid "Do _not correct:"
@@ -1574,7 +1569,7 @@ msgstr "_Store bokstaver i starten"
 #.
 #: src/dialogs/autocorrect.glade.h:7
 msgid "Auto Correct"
-msgstr "Autokorrigér"
+msgstr "Autokorrigér"
 
 #: src/dialogs/autocorrect.glade.h:8
 msgid "Correct _TWo INitial CApitals                           "
@@ -1586,11 +1581,11 @@ msgstr "_Unntak..."
 
 #: src/dialogs/autocorrect.glade.h:10
 msgid "Capitalize _first letter of sentence"
-msgstr "Stor bokstav på første bokstav i en setning"
+msgstr "Stor bokstav på første bokstav i en setning"
 
 #: src/dialogs/autocorrect.glade.h:11
 msgid "Capitalize _names of days"
-msgstr "Store bokstaver på dagnavn"
+msgstr "Store bokstaver på dagnavn"
 
 #: src/dialogs/autocorrect.glade.h:12
 msgid "Correct accidental use of _cAPS LOCK key"
@@ -1623,7 +1618,7 @@ msgstr "_Automatisk lagring hvert"
 
 #: src/dialogs/autosave.glade.h:9
 msgid "_Prompt Before Saving"
-msgstr "_Spør før lagring"
+msgstr "_Spør før lagring"
 
 #: src/dialogs/autosave.glade.h:10
 msgid "_minutes"
@@ -1668,7 +1663,7 @@ msgstr "_Prosent"
 
 #: src/dialogs/cell-format.glade.h:14
 msgid "_Fraction"
-msgstr "_Brøk"
+msgstr "_Brøk"
 
 #: src/dialogs/cell-format.glade.h:15
 msgid "_Scientific"
@@ -1691,7 +1686,7 @@ msgid ""
 "General format cells attempt to select an appropriate format depending on "
 "the value of the cell."
 msgstr ""
-"Celler med generelt format prøver å velge et passende format avhengig av "
+"Celler med generelt format prøver å velge et passende format avhengig av "
 "verdien til cellen."
 
 #: src/dialogs/cell-format.glade.h:21
@@ -1745,7 +1740,7 @@ msgstr "_Juster"
 #: src/dialogs/cell-format.glade.h:34 src/dialogs/print.glade.h:31
 #: wizards/graphics/graphics.glade.h:61
 msgid "_Right"
-msgstr "_Høyre"
+msgstr "_Høyre"
 
 #: src/dialogs/cell-format.glade.h:35
 msgid "_Fill"
@@ -1773,7 +1768,7 @@ msgstr "Vertikal justering"
 
 #: src/dialogs/cell-format.glade.h:42
 msgid "_Top"
-msgstr "Øvers_t"
+msgstr "Øvers_t"
 
 #: src/dialogs/cell-format.glade.h:43
 msgid "C_enter"
@@ -1801,7 +1796,7 @@ msgstr "Forminsk til det passer"
 
 #: src/dialogs/cell-format.glade.h:49
 msgid "_Merge Cells"
-msgstr "Sa_mmenføy celler"
+msgstr "Sa_mmenføy celler"
 
 #: src/dialogs/cell-format.glade.h:50 src/dialogs/print.glade.h:8
 msgid "Orientation"
@@ -1883,7 +1878,7 @@ msgstr "Venstre"
 
 #: src/dialogs/cell-format.glade.h:70
 msgid "Top"
-msgstr "Øverst"
+msgstr "Øverst"
 
 #: src/dialogs/cell-format.glade.h:71 src/workbook-format-toolbar.c:486
 msgid "Bottom"
@@ -1895,7 +1890,7 @@ msgstr "Diagonal"
 
 #: src/dialogs/cell-format.glade.h:73 src/workbook-format-toolbar.c:480
 msgid "Right"
-msgstr "Høyre"
+msgstr "Høyre"
 
 #: src/dialogs/cell-format.glade.h:75
 msgid "Outline"
@@ -1947,36 +1942,36 @@ msgstr "Velg en bakgrunnsfarge"
 
 #: src/dialogs/cell-format.glade.h:90
 msgid "Pattern"
-msgstr "Mønster"
+msgstr "Mønster"
 
 #: src/dialogs/cell-format.glade.h:93
 msgid "Pick a Pattern color"
-msgstr "Velg en farge for mønsteret"
+msgstr "Velg en farge for mønsteret"
 
 #: src/dialogs/cell-format.glade.h:95
 #, no-c-format
 msgid "75% grey"
-msgstr "75% grå"
+msgstr "75% grå"
 
 #: src/dialogs/cell-format.glade.h:97
 #, no-c-format
 msgid "50% Grey"
-msgstr "50% grå"
+msgstr "50% grå"
 
 #: src/dialogs/cell-format.glade.h:99
 #, no-c-format
 msgid "25% Grey"
-msgstr "25% grå"
+msgstr "25% grå"
 
 #: src/dialogs/cell-format.glade.h:101
 #, no-c-format
 msgid "12.5% Grey"
-msgstr "12.5% grå"
+msgstr "12.5% grå"
 
 #: src/dialogs/cell-format.glade.h:103
 #, no-c-format
 msgid "6.25% Grey"
-msgstr "6.25% grå"
+msgstr "6.25% grå"
 
 #: src/dialogs/cell-format.glade.h:104
 msgid "Horizontal Stripe"
@@ -2048,7 +2043,7 @@ msgstr "Middels sirkler"
 
 #: src/dialogs/cell-format.glade.h:121
 msgid "Small Circles"
-msgstr "Små sirkler"
+msgstr "Små sirkler"
 
 #: src/dialogs/cell-format.glade.h:122
 msgid "Foreground Solid"
@@ -2061,7 +2056,7 @@ msgstr "Bakgrunn"
 
 #: src/dialogs/cell-format.glade.h:125
 msgid "_Locked"
-msgstr "_Låst"
+msgstr "_Låst"
 
 #: src/dialogs/cell-format.glade.h:126
 msgid "_Hidden"
@@ -2070,7 +2065,7 @@ msgstr "_Skjult"
 #: src/dialogs/cell-format.glade.h:127
 msgid "Locking cells or hiding formulas only affects protected worksheets."
 msgstr ""
-"Låsing av celler eller skjuling av formler påvirker bare beskyttede ark."
+"Låsing av celler eller skjuling av formler påvirker bare beskyttede ark."
 
 #: src/dialogs/cell-format.glade.h:128
 msgid "Worksheet _protected"
@@ -2087,7 +2082,7 @@ msgstr "Beskyttelse"
 #.
 #: src/dialogs/cell-sort.glade.h:7
 msgid "Sort..."
-msgstr "Sortér..."
+msgstr "Sortér..."
 
 #: src/dialogs/cell-sort.glade.h:8
 msgid "Selection has"
@@ -2099,7 +2094,7 @@ msgstr "En topptekst"
 
 #: src/dialogs/cell-sort.glade.h:10
 msgid "Sort"
-msgstr "Sortér"
+msgstr "Sortér"
 
 #: src/dialogs/cell-sort.glade.h:15
 msgid "Advanced Sort Options"
@@ -2107,7 +2102,7 @@ msgstr "Avanserte alternativer for sortering"
 
 #: src/dialogs/cell-sort.glade.h:16 src/dialogs/dialog-cell-sort.c:583
 msgid "Sort by"
-msgstr "Sortér etter"
+msgstr "Sortér etter"
 
 #: src/dialogs/cell-sort.glade.h:17 src/solver-lp.c:1059 src/solver-lp.c:1111
 msgid "Value"
@@ -2119,11 +2114,11 @@ msgstr "Tekst"
 
 #: src/dialogs/cell-sort.glade.h:19
 msgid "Entries are"
-msgstr "Oppføringer er"
+msgstr "Oppføringer er"
 
 #: src/dialogs/cell-sort.glade.h:20
 msgid "Case sensitive"
-msgstr "Følsomme for små-/store bokstaver"
+msgstr "Følsomme for små-/store bokstaver"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -2170,22 +2165,23 @@ msgstr "Slett _kolonn(er)"
 
 #: src/dialogs/dialog-advanced-filter.c:237
 msgid "You should introduce a valid cell names in 'List Range:'"
-msgstr "Du må oppgi et gyldig cellenavn i 'Listeområde:'"
+msgstr "Du må oppgi et gyldig cellenavn i 'Listeområde:'"
 
 #: src/dialogs/dialog-advanced-filter.c:251
 msgid "You should introduce a valid cell names in 'Criteria Range:'"
-msgstr "Du må oppgi et gyldig cellenavn i 'Område for kriterie:'"
+msgstr "Du må oppgi et gyldig cellenavn i 'Område for kriterie:'"
 
 #: src/dialogs/dialog-advanced-filter.c:270
 msgid "You should introduce a valid cell range in 'Copy To:'"
-msgstr "Du må oppgi et gyldig cellenavn i 'Kopier til:'"
+msgstr "Du må oppgi et gyldig cellenavn i 'Kopier til:'"
 
 #: src/dialogs/dialog-advanced-filter.c:315
 msgid ""
 "You should introduce the same number of columns in the `List Range' and in "
 "`Criteria Range:'"
 msgstr ""
-"Du må oppgi det samme antall kolonner i `Listeområde' og i `Kriterieområde:'"
+"Du må oppgi det samme antall kolonner i `Listeområde' og i "
+"`Kriterieområde:'"
 
 #: src/dialogs/dialog-analysis-tools.c:89
 #: src/dialogs/dialog-analysis-tools.c:909
@@ -2199,20 +2195,20 @@ msgstr "Datasamling"
 
 #: src/dialogs/dialog-analysis-tools.c:103
 msgid "t-Test: Paired Two Sample for Means"
-msgstr "t-Test: Parvis to-prøve for medianer"
+msgstr "t-Test: Parvis to-prøve for medianer"
 
 #: src/dialogs/dialog-analysis-tools.c:105
 msgid "t-Test: Two-Sample Assuming Equal Variances"
-msgstr "t-Test: To-prøve som forutsetter lik varians"
+msgstr "t-Test: To-prøve som forutsetter lik varians"
 
 #: src/dialogs/dialog-analysis-tools.c:107
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
-msgstr "t-Test: To-prøve som forutsetter ulik varians"
+msgstr "t-Test: To-prøve som forutsetter ulik varians"
 
 #: src/dialogs/dialog-analysis-tools.c:109
 #: src/dialogs/dialog-analysis-tools.c:1008
 msgid "z-Test: Two Sample for Means"
-msgstr "z-Test: To-prøve for medianer"
+msgstr "z-Test: To-prøve for medianer"
 
 #: src/dialogs/dialog-analysis-tools.c:117
 msgid "Discrete"
@@ -2220,7 +2216,7 @@ msgstr "Diskret"
 
 #: src/dialogs/dialog-analysis-tools.c:117
 msgid "_Value and probability input range:"
-msgstr "Inndataområde for _verdi og sannsynlighet:"
+msgstr "Inndataområde for _verdi og sannsynlighet:"
 
 #: src/dialogs/dialog-analysis-tools.c:119
 #: src/widgets/widget-font-selector.c:129
@@ -2263,7 +2259,7 @@ msgstr "_p verdi:"
 
 #: src/dialogs/dialog-analysis-tools.c:125
 msgid "N_umber of trials"
-msgstr "Antall fors_øk"
+msgstr "Antall fors_øk"
 
 #: src/dialogs/dialog-analysis-tools.c:127
 msgid "Negative Binomial"
@@ -2287,11 +2283,11 @@ msgstr "Nedre _grense:"
 
 #: src/dialogs/dialog-analysis-tools.c:132
 msgid "_Upper bound:"
-msgstr "_Øvre grense:"
+msgstr "_Øvre grense:"
 
 #: src/dialogs/dialog-analysis-tools.c:315
 msgid "Confidence Level for Mean"
-msgstr "Konfidensnivå for middelverdi"
+msgstr "Konfidensnivå for middelverdi"
 
 #: src/dialogs/dialog-analysis-tools.c:316
 msgid "0.95"
@@ -2299,7 +2295,7 @@ msgstr "0.95"
 
 #: src/dialogs/dialog-analysis-tools.c:317
 msgid "Kth Largest:"
-msgstr "Kte største:"
+msgstr "Kte største:"
 
 #: src/dialogs/dialog-analysis-tools.c:318
 #: src/dialogs/dialog-analysis-tools.c:320
@@ -2312,11 +2308,11 @@ msgstr "Kte minste:"
 
 #: src/dialogs/dialog-analysis-tools.c:325
 msgid "Labels in First Row"
-msgstr "Etiketter i første rad"
+msgstr "Etiketter i første rad"
 
 #: src/dialogs/dialog-analysis-tools.c:331
 msgid "Force Intercept to Be Zero"
-msgstr "Tving Fang opp til å være null"
+msgstr "Tving Fang opp til å være null"
 
 #: src/dialogs/dialog-analysis-tools.c:402
 msgid "Periodic"
@@ -2325,7 +2321,7 @@ msgstr "Periodisk"
 #: src/dialogs/dialog-analysis-tools.c:491
 #: src/dialogs/dialog-analysis-tools.c:645
 msgid "You should introduce a valid cell range in 'Input Range:'"
-msgstr "Du må oppgi et gyldig celleområde i 'Inndataområde:'"
+msgstr "Du må oppgi et gyldig celleområde i 'Inndataområde:'"
 
 #: src/dialogs/dialog-analysis-tools.c:523
 msgid "New Sheet"
@@ -2338,7 +2334,7 @@ msgstr "Ny arbeidsbok"
 
 #: src/dialogs/dialog-analysis-tools.c:532
 msgid "Output Range:"
-msgstr "Utområde:"
+msgstr "Utområde:"
 
 #: src/dialogs/dialog-analysis-tools.c:556
 msgid "Grouped By:"
@@ -2356,7 +2352,7 @@ msgstr "Gruppert etter:"
 #: src/dialogs/dialog-analysis-tools.c:2397
 #: src/dialogs/dialog-analysis-tools.c:2507
 msgid "You should introduce a valid cell range in 'Output Range:'"
-msgstr "Du må oppgi et gyldig celleområde i 'Utskriftsområde:'"
+msgstr "Du må oppgi et gyldig celleområde i 'Utskriftsområde:'"
 
 #: src/dialogs/dialog-analysis-tools.c:745
 #: src/dialogs/dialog-analysis-tools.c:867
@@ -2366,7 +2362,7 @@ msgstr "Du må oppgi et gyldig celleområde i 'Utskriftsområde:'"
 #: src/dialogs/dialog-analysis-tools.c:2386
 #: src/dialogs/dialog-analysis-tools.c:2496
 msgid "You should introduce a valid cell range in 'Range:'"
-msgstr "Du må oppgi et gyldig celleområde i 'Område:'"
+msgstr "Du må oppgi et gyldig celleområde i 'Område:'"
 
 #: src/dialogs/dialog-analysis-tools.c:802
 #: src/dialogs/dialog-analysis-tools.c:916
@@ -2378,7 +2374,7 @@ msgstr "Inndata:"
 #: src/dialogs/dialog-analysis-tools.c:805
 #: src/dialogs/dialog-analysis-tools.c:919
 msgid "Input Range:"
-msgstr "Innområde:"
+msgstr "Innområde:"
 
 #: src/dialogs/dialog-analysis-tools.c:807
 msgid "Sampling Method:"
@@ -2394,11 +2390,11 @@ msgstr "Antall datapunkter:"
 
 #: src/dialogs/dialog-analysis-tools.c:1018
 msgid "Variable 1 Range:"
-msgstr "Område for variabel 1:"
+msgstr "Område for variabel 1:"
 
 #: src/dialogs/dialog-analysis-tools.c:1021
 msgid "Variable 2 Range:"
-msgstr "Område for variabel 2:"
+msgstr "Område for variabel 2:"
 
 #: src/dialogs/dialog-analysis-tools.c:1024
 msgid "Hypothesized Mean Difference:"
@@ -2423,7 +2419,7 @@ msgstr "Alpha:"
 #: src/dialogs/dialog-analysis-tools.c:1585
 #: src/dialogs/dialog-analysis-tools.c:2032
 msgid "You should introduce a valid cell range in 'Variable 1:'"
-msgstr "Du må oppgi et gyldig celleområde i 'Variabel 1:'"
+msgstr "Du må oppgi et gyldig celleområde i 'Variabel 1:'"
 
 #: src/dialogs/dialog-analysis-tools.c:1076
 #: src/dialogs/dialog-analysis-tools.c:1200
@@ -2432,35 +2428,35 @@ msgstr "Du må oppgi et gyldig celleområde i 'Variabel 1:'"
 #: src/dialogs/dialog-analysis-tools.c:1596
 #: src/dialogs/dialog-analysis-tools.c:2040
 msgid "You should introduce a valid cell range in 'Variable 2:'"
-msgstr "Du må oppgi et gyldig celleområde i 'Variabel 2:'"
+msgstr "Du må oppgi et gyldig celleområde i 'Variabel 2:'"
 
 #: src/dialogs/dialog-analysis-tools.c:1915
 msgid ""
 "You should introduce a valid cell range in 'Value and probability input "
 "Range:'"
 msgstr ""
-"Du må oppgi et gyldig celleområde i 'Inndataområde for verdi og "
+"Du må oppgi et gyldig celleområde i 'Inndataområde for verdi og "
 "sannsynlighet:'"
 
 #: src/dialogs/dialog-analysis-tools.c:1992
 msgid "Input Y Range:"
-msgstr "Y-område for inndata:"
+msgstr "Y-område for inndata:"
 
 #: src/dialogs/dialog-analysis-tools.c:1995
 msgid "Input X Range:"
-msgstr "X-område for inndata:"
+msgstr "X-område for inndata:"
 
 #: src/dialogs/dialog-analysis-tools.c:1998
 msgid "Confidence Level:"
-msgstr "Konfidensnivå:"
+msgstr "Konfidensnivå:"
 
 #: src/dialogs/dialog-analysis-tools.c:2064
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
 msgstr ""
-"For få datapunkter til å utføre regresjonen.\n"
-"Det må være minst like mange datapunkter som er der frie variabler."
+"For få datapunkter til å utføre regresjonen.\n"
+"Det må være minst like mange datapunkter som er der frie variabler."
 
 #: src/dialogs/dialog-analysis-tools.c:2070
 msgid ""
@@ -2468,18 +2464,18 @@ msgid ""
 "and the regression cannot be calculated. Remove one of these\n"
 "variables and try the regression again."
 msgstr ""
-"To eller flere av de uavhengige variablene er lineært avhengig,\n"
+"To eller flere av de uavhengige variablene er lineært avhengig,\n"
 "og regresjonen kan ikke kalkuleres. Fjern en av disse\n"
-"variablene og forsøk regresjonen på nytt."
+"variablene og forsøk regresjonen på nytt."
 
 #: src/dialogs/dialog-analysis-tools.c:2077
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
-msgstr "Antallet oppføringer i regresjonen for hver variabel må være likt."
+msgstr "Antallet oppføringer i regresjonen for hver variabel må være likt."
 
 #: src/dialogs/dialog-autosave.c:136
 msgid "You should introduce a proper number of minutes in the entry."
-msgstr "Du må oppgi et gyldig antall minutter i oppføringen."
+msgstr "Du må oppgi et gyldig antall minutter i oppføringen."
 
 #: src/dialogs/dialog-cell-comment.c:27
 msgid "Cell comment"
@@ -2524,19 +2520,19 @@ msgstr "Avansert..."
 
 #: src/dialogs/dialog-cell-sort.c:340
 msgid "Column must be within range"
-msgstr "Kolonnen må være innenfor området"
+msgstr "Kolonnen må være innenfor området"
 
 #: src/dialogs/dialog-cell-sort.c:340
 msgid "Row must be within range"
-msgstr "Raden må være innenfor området"
+msgstr "Raden må være innenfor området"
 
 #: src/dialogs/dialog-cell-sort.c:347
 msgid "First column must be valid"
-msgstr "Første kolonne må være gyldig"
+msgstr "Første kolonne må være gyldig"
 
 #: src/dialogs/dialog-cell-sort.c:348
 msgid "First row must be valid"
-msgstr "Første rad må være gyldig"
+msgstr "Første rad må være gyldig"
 
 #: src/dialogs/dialog-cell-sort.c:379
 msgid "At least one clause is required."
@@ -2548,15 +2544,15 @@ msgstr "Kan ikke legge til mer enn utvalgets lengde."
 
 #: src/dialogs/dialog-cell-sort.c:391
 msgid "Maximum number of clauses has been reached."
-msgstr "Maksimum antall klausuler er nådd."
+msgstr "Maksimum antall klausuler er nådd."
 
 #: src/dialogs/dialog-cell-sort.c:516 src/workbook.c:1007
 msgid "sort"
-msgstr "sortér"
+msgstr "sortér"
 
 #: src/dialogs/dialog-cell-sort.c:582
 msgid "then by"
-msgstr "så etter"
+msgstr "så etter"
 
 #: src/dialogs/dialog-delete-cells.c:82
 msgid "delete cells"
@@ -2576,7 +2572,7 @@ msgstr "Matrise"
 
 #: src/dialogs/dialog-function-wizard.c:216
 msgid "Range/Array"
-msgstr "Område/Matrise"
+msgstr "Område/Matrise"
 
 #: src/dialogs/dialog-function-wizard.c:219
 msgid "Any"
@@ -2593,30 +2589,30 @@ msgstr "Formelveiviser"
 #: src/dialogs/dialog-goal-seek.c:201
 #, c-format
 msgid "Goal seeking with cell %s found a solution"
-msgstr "Målsøking med celle %s fant en løsning"
+msgstr "Målsøking med celle %s fant en løsning"
 
 #: src/dialogs/dialog-goal-seek.c:204
 #, c-format
 msgid "Target value:   %12.2f"
-msgstr "Målverdi:   %12.2f"
+msgstr "Målverdi:   %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:207
 #, c-format
 msgid "Current value:  %12.2f"
-msgstr "Nåværende verdi:  %12.2f"
+msgstr "Nåværende verdi:  %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:210
 #, c-format
 msgid "Solution:       %12.2f"
-msgstr "Løsning:        %12.2f"
+msgstr "Løsning:        %12.2f"
 
 #: src/dialogs/dialog-goal-seek.c:213
 msgid "Goal Seek Report"
-msgstr "Målsøkingsrapport"
+msgstr "Målsøkingsrapport"
 
 #: src/dialogs/dialog-goal-seek.c:277
 msgid "Goal Seek..."
-msgstr "Målsøk..."
+msgstr "Målsøk..."
 
 #: src/dialogs/dialog-goal-seek.c:295
 msgid "Set cell:"
@@ -2628,35 +2624,35 @@ msgstr "Til verdi:"
 
 #: src/dialogs/dialog-goal-seek.c:297
 msgid "By changing cell:"
-msgstr "Ved å endre cellen:"
+msgstr "Ved å endre cellen:"
 
 #: src/dialogs/dialog-goal-seek.c:298
 msgid "To a value of at least [optional]:"
-msgstr "Til en verdi på minst [valgfri]:"
+msgstr "Til en verdi på minst [valgfri]:"
 
 #: src/dialogs/dialog-goal-seek.c:299
 msgid "But no bigger than [optional]:"
-msgstr "Men ikke større enn [valgfri]:"
+msgstr "Men ikke større enn [valgfri]:"
 
 #: src/dialogs/dialog-goal-seek.c:358
 msgid "You should introduce a valid cell name in 'Set cell'"
-msgstr "Du må oppgi et gyldig cellenavn i 'Sett celle'"
+msgstr "Du må oppgi et gyldig cellenavn i 'Sett celle'"
 
 #: src/dialogs/dialog-goal-seek.c:366
 msgid "The cell named in 'Set cell' must contain a formula"
-msgstr "Cellen oppgitt i 'Sett celle' må inneholde en formel"
+msgstr "Cellen oppgitt i 'Sett celle' må inneholde en formel"
 
 #: src/dialogs/dialog-goal-seek.c:379
 msgid "You should introduce a valid cell name in 'By changing cell'"
-msgstr "Du må oppgi et gyldig cellenavn i 'Ved å endre celle'"
+msgstr "Du må oppgi et gyldig cellenavn i 'Ved å endre celle'"
 
 #: src/dialogs/dialog-goal-seek.c:388
 msgid "The cell named in 'By changing cell' must not contain a formula"
-msgstr "Cellen oppgitt i 'Ved å endre celle' må ikke inneholde en formel"
+msgstr "Cellen oppgitt i 'Ved å endre celle' må ikke inneholde en formel"
 
 #: src/dialogs/dialog-goal-seek.c:438
 msgid "Goal seek did not find a solution!"
-msgstr "Målsøking fant ikke noen løsning!"
+msgstr "Målsøking fant ikke noen løsning!"
 
 #: src/dialogs/dialog-goto-cell.c:45 src/solver-lp.c:897 src/solver-lp.c:924
 #: src/solver-lp.c:959 src/solver-lp.c:1057 src/solver-lp.c:1109
@@ -2665,7 +2661,7 @@ msgstr "Celle"
 
 #: src/dialogs/dialog-goto-cell.c:48
 msgid "Go to..."
-msgstr "Gå til..."
+msgstr "Gå til..."
 
 #: src/dialogs/dialog-insert-cells.c:82
 msgid "insert cells"
@@ -2732,12 +2728,12 @@ msgstr "Filnavn: %s"
 #: src/dialogs/dialog-plugin-manager.c:100 src/dialogs/font-sel.glade.h:10
 #: src/dialogs/plugin-manager.glade.h:13
 msgid "Size:"
-msgstr "Størrelse:"
+msgstr "Størrelse:"
 
 #: src/dialogs/dialog-plugin-manager.c:102
 #, c-format
 msgid "Size: %ld bytes"
-msgstr "Størrelse: %ld bytes"
+msgstr "Størrelse: %ld bytes"
 
 #: src/dialogs/dialog-plugin-manager.c:107
 #: src/dialogs/plugin-manager.glade.h:14
@@ -2764,7 +2760,7 @@ msgstr "Skriveroppsett"
 #: src/dialogs/dialog-sheet-order.c:142 src/workbook.c:2840
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
-msgstr "Er du sikker på at du vil fjerne arket med navn `%s'?"
+msgstr "Er du sikker på at du vil fjerne arket med navn `%s'?"
 
 #: src/dialogs/dialog-solver.c:27
 msgid "<="
@@ -2787,24 +2783,24 @@ msgid ""
 "The constraints having cell ranges in LHS and RHS should have the same "
 "number of columns and rows in both sides."
 msgstr ""
-"Begrensningene som har celleområder i LHS og RHS burde ha samme antall "
-"kolonner og rader på begge sider."
+"Begrensningene som har celleområder i LHS og RHS burde ha samme antall "
+"kolonner og rader på begge sider."
 
 #: src/dialogs/dialog-solver.c:260 src/dialogs/dialog-solver.c:442
 msgid "The cell range in LHS or RHS should have only one column or row."
-msgstr "Celleområdet i LHS eller RHS burde kun ha en kolonne eller rad."
+msgstr "Celleområdet i LHS eller RHS burde kun ha en kolonne eller rad."
 
 #: src/dialogs/dialog-solver.c:848
 msgid "You should introduce a valid cell name for 'Target cell'"
-msgstr "Du må oppgi et gyldig cellenavn for 'Målcelle'"
+msgstr "Du må oppgi et gyldig cellenavn for 'Målcelle'"
 
 #: src/dialogs/dialog-solver.c:871
 msgid "You should introduce a valid cell names in 'By changing cells'"
-msgstr "Du må oppgi et gyldige cellenavn i 'Ved å endre celler'"
+msgstr "Du må oppgi et gyldige cellenavn i 'Ved å endre celler'"
 
 #: src/dialogs/dialog-stf-export.c:49 src/dialogs/dialog-stf.c:102
 msgid "Are you sure you want to cancel?"
-msgstr "Er du sikker på at du vil avbryte?"
+msgstr "Er du sikker på at du vil avbryte?"
 
 #: src/dialogs/dialog-stf-export.c:382 src/dialogs/dialog-stf.c:525
 #, c-format
@@ -2830,7 +2826,7 @@ msgid ""
 "They will be exported in the same order as in the export list."
 msgstr ""
 "Vennligst velg hvilke ark du vil eksportere fra aktiv arbeidsbok. De vil bli "
-"eksportert i samme rekkefølge som de er oppført i eksportlisten."
+"eksportert i samme rekkefølge som de er oppført i eksportlisten."
 
 #: src/dialogs/dialog-stf-export.glade.h:10 src/dialogs/import.glade.h:9
 msgid "label2"
@@ -2875,7 +2871,7 @@ msgid ""
 "placed around cells depends on the value choosen for quoting."
 msgstr ""
 "Egendefinert eksportformat. Linjeterminatoren er tegnsekvensen som brukes "
-"for å avslutte linjer i tekstfilen. Om sitattegnet plasseres rundt cellene "
+"for å avslutte linjer i tekstfilen. Om sitattegnet plasseres rundt cellene "
 "er avhengig av om verdien er valgt for sitering."
 
 #: src/dialogs/dialog-stf-export.glade.h:20
@@ -2897,7 +2893,6 @@ msgid "Separator :"
 msgstr "Separator:"
 
 #: src/dialogs/dialog-stf-export.glade.h:26 src/dialogs/dialog-stf.glade.h:34
-#, fuzzy
 msgid ""
 "\"\n"
 "'\n"
@@ -2905,6 +2900,7 @@ msgid ""
 msgstr ""
 "\"\n"
 "'\n"
+"`\n"
 
 #: src/dialogs/dialog-stf-export.glade.h:30 src/dialogs/dialog-stf.glade.h:38
 msgid "\""
@@ -2916,7 +2912,7 @@ msgid ""
 "Always\n"
 "Never\n"
 msgstr ""
-"Automatisk (plasserer sitattegn der det er nødvendig)\n"
+"Automatisk (plasserer sitattegn der det er nødvendig)\n"
 "Alltid\n"
 "Aldri\n"
 
@@ -2947,12 +2943,12 @@ msgstr ""
 "Kolon (:)\n"
 "Komma (,)\n"
 "Hyphen (-)\n"
-"Skråstrek (/)\n"
+"Skråstrek (/)\n"
 "Egendefinert\n"
 
 #: src/dialogs/dialog-stf-export-sheet-page.c:356
 msgid "You need to select at least one sheet to export"
-msgstr "Du må velge minst ett ark som skal eksporteres"
+msgstr "Du må velge minst ett ark som skal eksporteres"
 
 #: src/dialogs/dialog-stf-format-page.c:167
 #: src/dialogs/dialog-stf-format-page.c:359
@@ -2980,10 +2976,10 @@ msgid ""
 "yourself. You should also select what part of the data you want to import by "
 "adjusting the from and to line."
 msgstr ""
-"Velg den strukturen for teksten som er nærmest den som er brukt i dataene. "
+"Velg den strukturen for teksten som er nærmest den som er brukt i dataene. "
 "\"Seprarert\" betyr at hver kolonne er separert av et 'separasjonstegn' og "
 "\"fast bredde\" betyr at du kan definere bredden for hver kolonne selv. Du "
-"bør også velge hvilken del av dataene du ønsker ved å justere fra og til "
+"bør også velge hvilken del av dataene du ønsker ved å justere fra og til "
 "linjen."
 
 #: src/dialogs/dialog-stf.glade.h:10
@@ -3027,9 +3023,9 @@ msgid ""
 "aswell. Changes will reflect in the example below."
 msgstr ""
 "Velg separatorer som finnes i teksten (du kan velge flere separatorer hvis "
-"dette er ønskelig og du kan definere en selv). Du kan velge "
-"strengindikatoren og om du ønsker å se to etterfølgende separatorer som en. "
-"Endringer vil vises i eksempelet under."
+"dette er ønskelig og du kan definere en selv). Du kan velge "
+"strengindikatoren og om du ønsker å se to etterfølgende separatorer som "
+"en. Endringer vil vises i eksempelet under."
 
 #: src/dialogs/dialog-stf.glade.h:19
 msgid "Separators"
@@ -3065,7 +3061,7 @@ msgstr "Ko_mma (,)"
 
 #: src/dialogs/dialog-stf.glade.h:27
 msgid "P_ipe (|)"
-msgstr "R_ør (|)"
+msgstr "R_ør (|)"
 
 #: src/dialogs/dialog-stf.glade.h:28
 msgid "Semicolo_n (;)"
@@ -3073,7 +3069,7 @@ msgstr "Semikolon (;)"
 
 #: src/dialogs/dialog-stf.glade.h:29
 msgid "Slas_h (/)"
-msgstr "Skråstre_k (/)"
+msgstr "Skråstre_k (/)"
 
 #: src/dialogs/dialog-stf.glade.h:30
 msgid "Misc"
@@ -3081,7 +3077,7 @@ msgstr "Forskjellig"
 
 #: src/dialogs/dialog-stf.glade.h:31
 msgid "S_ee two separators as one"
-msgstr "S_e på to separatorer som en"
+msgstr "S_e på to separatorer som en"
 
 #: src/dialogs/dialog-stf.glade.h:32
 msgid "_Adjacent quotes escaped"
@@ -3103,9 +3099,9 @@ msgid ""
 "a column."
 msgstr ""
 "Lag egendefinerte kolonner ved bruk av legg til/fjern knappene eller musen : "
-"venstreklikk for å opprette en ny kolonne, høyreklikk på en kolonnekant for "
-"å slette en eksisterende kolonne og hold nede venstre musknapp på en "
-"kolonnekant og dra for å endre størrelsen på en kolonne."
+"venstreklikk for å opprette en ny kolonne, høyreklikk på en kolonnekant "
+"for å slette en eksisterende kolonne og hold nede venstre musknapp på en "
+"kolonnekant og dra for å endre størrelsen på en kolonne."
 
 #: src/dialogs/dialog-stf.glade.h:43 src/dialogs/dialog-stf.glade.h:52
 #: wizards/graphics/graphic-type.c:289
@@ -3131,8 +3127,8 @@ msgid ""
 "a custom format or select one from the list on the right."
 msgstr ""
 "Velg format for hver kolonne. Du kan klikke i kolonnelisten til venstre for "
-"å velge en kolonne, eller du kan klikke i forhåndsvisningen. Du kan "
-"spesifisere et egendefinert format, eller velge et fra listen til høyre."
+"å velge en kolonne, eller du kan klikke i forhåndsvisningen. Du kan "
+"spesifisere et egendefinert format, eller velge et fra listen til høyre."
 
 #: src/dialogs/dialog-stf.glade.h:51
 msgid "Per column formatting"
@@ -3154,7 +3150,7 @@ msgstr "etikett8"
 #: src/dialogs/dialog-stf-main-page.c:196
 #, c-format
 msgid "%d lines to import"
-msgstr "%d linjer å importere"
+msgstr "%d linjer å importere"
 
 #: src/dialogs/dialog-stf-main-page.c:200
 #, c-format
@@ -3172,7 +3168,7 @@ msgstr "Zoom"
 
 #: src/dialogs/dialog-zoom.glade.h:8
 msgid "Magnification"
-msgstr "Forstørrelse"
+msgstr "Forstørrelse"
 
 #: src/dialogs/dialog-zoom.glade.h:10
 #, no-c-format
@@ -3232,7 +3228,7 @@ msgstr "Stil for skrifttype:"
 
 #: src/dialogs/font-sel.glade.h:11
 msgid "Preview"
-msgstr "Forhåndsvisning"
+msgstr "Forhåndsvisning"
 
 #: src/dialogs/font-sel.glade.h:12
 msgid "AaBbCcDdEe12345"
@@ -3284,7 +3280,7 @@ msgstr "Midtre del:"
 
 #: src/dialogs/hf-config.glade.h:9
 msgid "Right section:"
-msgstr "Høyre del:"
+msgstr "Høyre del:"
 
 #: src/dialogs/hf-config.glade.h:10
 msgid "Enter the format strings for each section:"
@@ -3297,7 +3293,7 @@ msgstr "Skriv inn formatstrengene for hver del:"
 #.
 #: src/dialogs/import.glade.h:7
 msgid "Import"
-msgstr "Importér"
+msgstr "Importér"
 
 #: src/dialogs/import.glade.h:8
 msgid "Choose an import filter for loading the file:"
@@ -3318,7 +3314,7 @@ msgstr "Sett inn"
 
 #: src/dialogs/insert-cells.glade.h:9
 msgid "_Shift cells right"
-msgstr "_Flytt celler til høyre"
+msgstr "_Flytt celler til høyre"
 
 #: src/dialogs/insert-cells.glade.h:10
 msgid "Shift cells _down"
@@ -3406,7 +3402,7 @@ msgstr "_Tilpass til:"
 #: src/dialogs/print.glade.h:15
 #, no-c-format
 msgid "% of normal size"
-msgstr "% av normal størrelse"
+msgstr "% av normal størrelse"
 
 #: src/dialogs/print.glade.h:16
 msgid "page(s) wide by"
@@ -3414,11 +3410,11 @@ msgstr "side(r) bredere med "
 
 #: src/dialogs/print.glade.h:17
 msgid "tall"
-msgstr "høy"
+msgstr "høy"
 
 #: src/dialogs/print.glade.h:18
 msgid "Fi_rst page number:"
-msgstr "F_ørste sidenummer:"
+msgstr "F_ørste sidenummer:"
 
 #: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:33
 #: src/dialogs/print.glade.h:43 src/dialogs/print.glade.h:59
@@ -3428,7 +3424,7 @@ msgstr "_Skriv ut"
 #: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:34
 #: src/dialogs/print.glade.h:44 src/dialogs/print.glade.h:60
 msgid "Print previe_w"
-msgstr "Forh_åndsvisning"
+msgstr "Forh_åndsvisning"
 
 #: src/dialogs/print.glade.h:21 src/dialogs/print.glade.h:35
 #: src/dialogs/print.glade.h:45 src/dialogs/print.glade.h:61
@@ -3441,7 +3437,7 @@ msgstr "Side"
 
 #: src/dialogs/print.glade.h:23
 msgid "_Top:"
-msgstr "Ø_verst:"
+msgstr "Ø_verst:"
 
 #: src/dialogs/print.glade.h:24
 msgid "He_ader:"
@@ -3457,7 +3453,7 @@ msgstr "_Bunntekst"
 
 #: src/dialogs/print.glade.h:27
 msgid "Center on page"
-msgstr "Senter på siden"
+msgstr "Senter på siden"
 
 #: src/dialogs/print.glade.h:28
 msgid "_Horizontally"
@@ -3473,7 +3469,7 @@ msgstr "_Venstre:"
 
 #: src/dialogs/print.glade.h:32
 msgid "Paper _size:"
-msgstr "Papir_størrelse:"
+msgstr "Papir_størrelse:"
 
 #: src/dialogs/print.glade.h:36
 msgid "Margins"
@@ -3505,7 +3501,7 @@ msgstr "Topp- og bunntekst"
 
 #: src/dialogs/print.glade.h:47
 msgid "Print _area:"
-msgstr "Utskrifts_område:"
+msgstr "Utskrifts_område:"
 
 #: src/dialogs/print.glade.h:48
 msgid "Titles to print"
@@ -3513,11 +3509,11 @@ msgstr "Titler som skal skrives ut"
 
 #: src/dialogs/print.glade.h:49
 msgid "_Columns to repeat on the left side:"
-msgstr "_Kolonner som skal repeteres på venstre side:"
+msgstr "_Kolonner som skal repeteres på venstre side:"
 
 #: src/dialogs/print.glade.h:50
 msgid "_Rows to repeat on the upper region:"
-msgstr "_Rader som skal repeteres i øvre region:"
+msgstr "_Rader som skal repeteres i øvre region:"
 
 #: src/dialogs/print.glade.h:51 src/workbook.c:1455
 msgid "Print"
@@ -3541,15 +3537,15 @@ msgstr "_Sort / Hvitt"
 
 #: src/dialogs/print.glade.h:56
 msgid "Page order"
-msgstr "Siderekkefølge"
+msgstr "Siderekkefølge"
 
 #: src/dialogs/print.glade.h:57
 msgid "_Down, then right"
-msgstr "Ne_d, så til høyre"
+msgstr "Ne_d, så til høyre"
 
 #: src/dialogs/print.glade.h:58
 msgid "R_ight, then down"
-msgstr "Hø_yre, så ned"
+msgstr "Hø_yre, så ned"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3558,11 +3554,11 @@ msgstr "Hø_yre, så ned"
 #.
 #: src/dialogs/row-height.glade.h:7
 msgid "Row height"
-msgstr "Radhøyde"
+msgstr "Radhøyde"
 
 #: src/dialogs/row-height.glade.h:8
 msgid "_Row height:"
-msgstr "_Radhøyde:"
+msgstr "_Radhøyde:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3600,11 +3596,11 @@ msgstr "Lukk denne dialogboksen"
 #.
 #: src/dialogs/sheet-rename.glade.h:7
 msgid "Rename sheet"
-msgstr "Endre navn på arket"
+msgstr "Endre navn på arket"
 
 #: src/dialogs/sheet-rename.glade.h:8
 msgid "Enter new _sheet name:"
-msgstr "Skriv inn nytt navn på _ark:"
+msgstr "Skriv inn nytt navn på _ark:"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -3625,7 +3621,7 @@ msgstr "_Type:"
 
 #: src/dialogs/solver.glade.h:10 src/dialogs/solver.glade.h:15
 msgid "_Right Hand Side:"
-msgstr "Høy_re side:"
+msgstr "Høy_re side:"
 
 #: src/dialogs/solver.glade.h:11
 msgid "Add  "
@@ -3637,11 +3633,11 @@ msgstr "Endre begrensning"
 
 #: src/dialogs/solver.glade.h:16
 msgid "Gnumeric Solver Parameters"
-msgstr "Parametere for Gnumeric problemløser"
+msgstr "Parametere for Gnumeric problemløser"
 
 #: src/dialogs/solver.glade.h:17
 msgid "_Set Target Cell:       "
-msgstr "_Sett målcelle:         "
+msgstr "_Sett målcelle:         "
 
 #: src/dialogs/solver.glade.h:18 src/dialogs/solver.glade.h:23
 msgid "                         "
@@ -3661,7 +3657,7 @@ msgstr "M_in"
 
 #: src/dialogs/solver.glade.h:22
 msgid "B_y Changing Cells: "
-msgstr "Ve_d å endre cellene: "
+msgstr "Ve_d å endre cellene: "
 
 #: src/dialogs/solver.glade.h:24
 msgid "Subject to the Constraints:"
@@ -3677,7 +3673,7 @@ msgstr "_Slett"
 
 #: src/dialogs/solver.glade.h:28
 msgid "Solve"
-msgstr "Løs"
+msgstr "Løs"
 
 #: src/dialogs/solver.glade.h:29
 msgid "Options..."
@@ -3701,7 +3697,7 @@ msgstr "_Grenser"
 
 #: src/dialogs/solver.glade.h:34
 msgid "_Keep Solver Solution"
-msgstr "_Behold løsning fra problemløser"
+msgstr "_Behold løsning fra problemløser"
 
 #: src/dialogs/solver.glade.h:35
 msgid "_Restore Original Values"
@@ -3714,11 +3710,11 @@ msgstr "Gjenopp_rett originalverdier"
 #.
 #: src/dialogs/solver-options.glade.h:7
 msgid "Solver Options"
-msgstr "Alternativer for problemløser"
+msgstr "Alternativer for problemløser"
 
 #: src/dialogs/solver-options.glade.h:8
 msgid "Assume _Linear Model"
-msgstr "Bruk _lineær modell"
+msgstr "Bruk _lineær modell"
 
 #: src/dialogs/solver-options.glade.h:9
 msgid "Assume _Non-Negative"
@@ -3747,7 +3743,7 @@ msgstr "Kategori"
 
 #: src/dialogs/summary.glade.h:11
 msgid "Keywords"
-msgstr "Nøkkelord"
+msgstr "Nøkkelord"
 
 #: src/dialogs/summary.glade.h:12
 msgid "Manager"
@@ -3832,11 +3828,11 @@ msgstr "allerede definert"
 
 #: src/expr-name.c:183
 msgid "no scope"
-msgstr "uten område"
+msgstr "uten område"
 
 #: src/expr-name.c:188
 msgid "circular reference"
-msgstr "sirkulær referanse"
+msgstr "sirkulær referanse"
 
 #: src/expr-name.c:344
 msgid "Builtin"
@@ -3890,7 +3886,7 @@ msgid ""
 "You do not have permission to save to\n"
 "%s"
 msgstr ""
-"Du har ikke rettigheter til å lagre til\n"
+"Du har ikke rettigheter til å lagre til\n"
 "%s"
 
 #: src/file.c:618
@@ -3932,7 +3928,7 @@ msgstr "sort"
 #: src/format.c:441 src/widgets/widget-color-combo.c:469
 #: src/widgets/widget-color-combo.c:522
 msgid "blue"
-msgstr "blå"
+msgstr "blå"
 
 #: src/format.c:442 src/widgets/widget-color-combo.c:488
 #: src/widgets/widget-color-combo.c:518
@@ -3941,7 +3937,7 @@ msgstr "cyan"
 
 #: src/format.c:443 src/widgets/widget-color-combo.c:487
 msgid "green"
-msgstr "grønn"
+msgstr "grønn"
 
 #: src/format.c:444 src/widgets/widget-color-combo.c:484
 #: src/widgets/widget-color-combo.c:516
@@ -3950,7 +3946,7 @@ msgstr "magenta"
 
 #: src/format.c:445 src/widgets/widget-color-combo.c:474
 msgid "red"
-msgstr "rød"
+msgstr "rød"
 
 #: src/format.c:446 src/widgets/widget-color-combo.c:501
 msgid "white"
@@ -4303,7 +4299,7 @@ msgstr "[$ATS]"
 
 #: src/formats.c:171
 msgid "Austrian schilling"
-msgstr "Østerrikske schilling"
+msgstr "Østerrikske schilling"
 
 #: src/formats.c:172
 msgid "[$AUD]"
@@ -4623,7 +4619,7 @@ msgstr "[$FKP]"
 
 #: src/formats.c:211
 msgid "Falkland Islands pound"
-msgstr "Falklandsøyenes pund"
+msgstr "Falklandsøyenes pund"
 
 #: src/formats.c:212
 msgid "[$FRF]"
@@ -4895,7 +4891,7 @@ msgstr "[$KYD]"
 
 #: src/formats.c:245
 msgid "Cayman Islands dollar"
-msgstr "Kaymanøyene dollar"
+msgstr "Kaymanøyene dollar"
 
 #: src/formats.c:246
 msgid "[$LAK]"
@@ -5231,7 +5227,7 @@ msgstr "[$SB]"
 
 #: src/formats.c:287
 msgid "Solomon Islands dollar"
-msgstr "Solomon øyenes dollar"
+msgstr "Solomon øyenes dollar"
 
 #: src/formats.c:288
 msgid "[$SCR]"
@@ -5367,7 +5363,7 @@ msgstr "[$TPE]"
 
 #: src/formats.c:304
 msgid "East Timor escudo"
-msgstr "Øst Timorske escudo"
+msgstr "Øst Timorske escudo"
 
 #: src/formats.c:305
 msgid "[$TRL]"
@@ -5471,7 +5467,7 @@ msgstr "[$XCD]"
 
 #: src/formats.c:317
 msgid "East Caribbean dollar"
-msgstr "Øst karribianske dollar"
+msgstr "Øst karribianske dollar"
 
 #: src/formats.c:318
 msgid "[$XEU]"
@@ -5479,7 +5475,7 @@ msgstr "[$XEU]"
 
 #: src/formats.c:318
 msgid "European currency unit"
-msgstr "Øst europeisk valutaenhet"
+msgstr "Øst europeisk valutaenhet"
 
 #: src/formats.c:319
 msgid "[$YDD]"
@@ -5511,7 +5507,7 @@ msgstr "[$ZAL]"
 
 #: src/formats.c:322
 msgid "South African rand funds code"
-msgstr "Sør Afrikanske rand"
+msgstr "Sør Afrikanske rand"
 
 #: src/formats.c:323
 msgid "[$ZAR]"
@@ -5519,7 +5515,7 @@ msgstr "[$ZAR]"
 
 #: src/formats.c:323
 msgid "South African rand"
-msgstr "Sør Afrikanske rand"
+msgstr "Sør Afrikanske rand"
 
 #: src/formats.c:324
 msgid "[$ZMK]"
@@ -5548,7 +5544,7 @@ msgstr "Zimbabwe dollar"
 #. TODO : Do we handle 'Red' being translated ??
 #: src/formats.c:449
 msgid "[Red]"
-msgstr "[Rød]"
+msgstr "[Rød]"
 
 #: src/func.c:731
 msgid "Function does not exist"
@@ -5575,17 +5571,6 @@ msgstr ""
 "@DESCRIPTION=DAVERAGE-funksjonen returnerer gjennomsnittet av verdiene i en "
 "liste eller en database som passer til de spesifiserte betingelsene. \n"
 
-#: src/functions/fn-database.c:499
-msgid ""
-"\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:560
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -5597,16 +5582,6 @@ msgstr ""
 "@SYNTAX=DCOUNT(database,felt,kriterie)\n"
 "@DESCRIPTION=DCOUNT-funksjonen teller cellene som inneholder tall i en "
 "database som passer de oppgitte betingelsene. \n"
-
-#: src/functions/fn-database.c:568
-msgid ""
-"\n"
-"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
-"\n"
-"@SEEALSO=DAVERAGE"
-msgstr ""
 
 #: src/functions/fn-database.c:621
 msgid ""
@@ -5620,16 +5595,6 @@ msgstr ""
 "@DESCRIPTION=DCOUNTA-funksjonen teller cellene som inneholder data i en "
 "database som passer de oppgitte betingelsene. \n"
 
-#: src/functions/fn-database.c:629
-msgid ""
-"\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:679
 msgid ""
 "@FUNCTION=DGET\n"
@@ -5642,17 +5607,6 @@ msgstr ""
 "@DESCRIPTION=DGET-funksjonen returnerer en enkelt verdi fra en kolonne som "
 "tilfredstiller de spesifiserte betingelsene. \n"
 
-#: src/functions/fn-database.c:687
-msgid ""
-"\n"
-"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-"\n"
-"If none of the items match the conditions, DGET returns #VALUE! error. If "
-"more than one items match the conditions, DGET returns #NUM! error. \n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:747
 msgid ""
 "@FUNCTION=DMAX\n"
@@ -5662,18 +5616,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,felt,kriterie)\n"
-"@DESCRIPTION=DMAX-funksjonen returnerer det største tallet i en kolonne som "
+"@DESCRIPTION=DMAX-funksjonen returnerer det største tallet i en kolonne som "
 "tilfredstiller de spesifiserte betingelsene. \n"
-
-#: src/functions/fn-database.c:755
-msgid ""
-"\n"
-"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
-"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
-"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
-"\n"
-"@SEEALSO=DMIN"
-msgstr ""
 
 #: src/functions/fn-database.c:818
 msgid ""
@@ -5687,15 +5631,6 @@ msgstr ""
 "@DESCRIPTION=DMIN-funksjonen returnerer det minste tallet i en kolonne som "
 "tilfredstiller de spesifiserte betingelsene. \n"
 
-#: src/functions/fn-database.c:826
-msgid ""
-"\n"
-"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
-"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
-"\n"
-"@SEEALSO=DMAX"
-msgstr ""
-
 #: src/functions/fn-database.c:888
 msgid ""
 "@FUNCTION=DPRODUCT\n"
@@ -5708,14 +5643,6 @@ msgstr ""
 "@DESCRIPTION=DPRODUCT-funksjonen returnerer produktet av tallene i en "
 "kolonne som tilfredstiller de spesifiserte betingelsene. \n"
 
-#: src/functions/fn-database.c:896
-msgid ""
-"\n"
-"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
-"\n"
-"@SEEALSO=DSUM"
-msgstr ""
-
 #: src/functions/fn-database.c:955
 msgid ""
 "@FUNCTION=DSTDEV\n"
@@ -5727,17 +5654,8 @@ msgstr ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,felt,kriterie)\n"
 "@DESCRIPTION=DSTDEV-funksjonen returnerer det estimerte standardavviket for "
-"en populasjon basert på et utvalg. Populasjonen består av tall som til- "
+"en populasjon basert på et utvalg. Populasjonen består av tall som til- "
 "fredstiller de spesifiserte betingelsene. \n"
-
-#: src/functions/fn-database.c:964
-msgid ""
-"\n"
-"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
-"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
-"\n"
-"@SEEALSO=DSTDEVP"
-msgstr ""
 
 #: src/functions/fn-database.c:1021
 msgid ""
@@ -5750,17 +5668,8 @@ msgstr ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,felt,kriterie)\n"
 "@DESCRIPTION=DSTDEVP-funksjonen returnerer standardavviket for en populasjon "
-"basert på hele populasjonen. Populasjonenen består av tall som til- "
+"basert på hele populasjonen. Populasjonenen består av tall som til- "
 "fredstiller de spesifiserte betingelsene. \n"
-
-#: src/functions/fn-database.c:1030
-msgid ""
-"\n"
-"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
-"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
-"\n"
-"@SEEALSO=DSTDEV"
-msgstr ""
 
 #: src/functions/fn-database.c:1089
 msgid ""
@@ -5772,16 +5681,7 @@ msgstr ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,felt,kriterie)\n"
 "@DESCRIPTION=DSUM-funksjonen returnerer summen av tallene i en kolonne som "
-"møter de spesifiserte betingelsene. \n"
-
-#: src/functions/fn-database.c:1097
-msgid ""
-"\n"
-"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
-"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
-"\n"
-"@SEEALSO=DPRODUCT"
-msgstr ""
+"møter de spesifiserte betingelsene. \n"
 
 #: src/functions/fn-database.c:1156
 msgid ""
@@ -5794,17 +5694,8 @@ msgstr ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,felt,kriterie)\n"
 "@DESCRIPTION=DVAR-funksjonen returnerer estimert varians for en populasjon "
-"basert på et utvalg. Populasjonene består av tall som møter de spesifiserte "
-"betingelsene. \n"
-
-#: src/functions/fn-database.c:1165
-msgid ""
-"\n"
-"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
-"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
-"\n"
-"@SEEALSO=DVARP"
-msgstr ""
+"basert på et utvalg. Populasjonene består av tall som møter de "
+"spesifiserte betingelsene. \n"
 
 #: src/functions/fn-database.c:1224
 msgid ""
@@ -5817,17 +5708,8 @@ msgstr ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,felt,kriterie)\n"
 "@DESCRIPTION=DVARP-funksjonen returnerer variansen til en populasjon basert "
-"på hele populasjonene. Populasjonene består av tall som møter de "
+"på hele populasjonene. Populasjonene består av tall som møter de "
 "spesifiserte betingelsene. \n"
-
-#: src/functions/fn-database.c:1233
-msgid ""
-"\n"
-"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
-"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
-"\n"
-"@SEEALSO=DVAR"
-msgstr ""
 
 #: src/functions/fn-database.c:1293
 msgid ""
@@ -5857,16 +5739,16 @@ msgid ""
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 "@FUNCTION=DATE\n"
-"SYNTAX= DATE(år,måned,dag)\n"
+"SYNTAX= DATE(år,måned,dag)\n"
 "@DESCRIPTION=Beregner antallet dager siden 1 januar i 1900 "
-"(datoserienummeret) for oppgitt år, måned og dag.\n"
-"@dag kan være negativ (for å telle bakover) og den er relativ til "
-"forutgående @måned. @år må være minst 1900\n"
+"(datoserienummeret) for oppgitt år, måned og dag.\n"
+"@dag kan være negativ (for å telle bakover) og den er relativ til "
+"forutgående @måned. @år må være minst 1900\n"
 "@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-date.c:55
 msgid "Invalid month or year"
-msgstr "Ugyldig måned eller år"
+msgstr "Ugyldig måned eller år"
 
 #: src/functions/fn-date.c:67
 msgid "Invalid day"
@@ -5905,12 +5787,12 @@ msgid ""
 "@SEEALSO=DATE"
 msgstr ""
 "@FUNCTION=EDATE\n"
-"@SYNTAX=EDATE(dato,måneder)\n"
+"@SYNTAX=EDATE(dato,måneder)\n"
 "@DESCRIPTION=EDATE returnerer serienummeret for datoen som er ved det "
-"spesifiserte antall måneder før eller etter en gitt dato. @dato er "
-"serienummeret til den opprinnelige datoen og @måneder er antallet måneder "
-"før (negativt tall) eller etter (positivt tall) den opprinnelige datoen.\n"
-"Hvis @måneder ikke er et heltall, blir det kuttet. \n"
+"spesifiserte antall måneder før eller etter en gitt dato. @dato er "
+"serienummeret til den opprinnelige datoen og @måneder er antallet måneder "
+"før (negativt tall) eller etter (positivt tall) den opprinnelige datoen.\n"
+"Hvis @måneder ikke er et heltall, blir det kuttet. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DATE"
@@ -5928,7 +5810,7 @@ msgstr ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
 "@DESCRIPTION=Returnerer serienummeret for dagen i dag (antallet dager som "
-"har gått siden 1. januar 1900).\n"
+"har gått siden 1. januar 1900).\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TODAY, NOW"
@@ -5951,10 +5833,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
-"@DESCRIPTION=Returnerer serienummeret for dato og tid når den evalueres.\n"
-"Serienummer i Gnumeric representeres som følger: Heltallsdelen er antallet "
-"dager siden 1. januar 1900. Desimaldelen representerer brøkdelen av dagen og "
-"gjøres om til timer, minuter og sekunder\n"
+"@DESCRIPTION=Returnerer serienummeret for dato og tid når den evalueres.\n"
+"Serienummer i Gnumeric representeres som følger: Heltallsdelen er antallet "
+"dager siden 1. januar 1900. Desimaldelen representerer brøkdelen av dagen "
+"og gjøres om til timer, minuter og sekunder\n"
 "For eksempel: .0 representerer begynnelsen av dagen, og 0.5 representerer "
 "middag\n"
 "@EXAMPLES=\n"
@@ -5972,7 +5854,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (timer,minutter,sekunder)\n"
-"@DESCRIPTION=Returnerer en brøk som representerer tiden på dagen.\n"
+"@DESCRIPTION=Returnerer en brøk som representerer tiden på dagen.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=HOUR"
@@ -5989,7 +5871,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timer,minutter,sekunder)\n"
-"@DESCRIPTION=Returnerer en brøk som representerer tiden på dagen, et\n"
+"@DESCRIPTION=Returnerer en brøk som representerer tiden på dagen, et\n"
 "tall mellom 0 og 1.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -6011,9 +5893,9 @@ msgstr ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serienummer)\n"
 "@DESCRIPTION=Konverterer et serienummer til en time. Timen representeres som "
-"et heltall i området 0 (12:00 A.M.) til 23 (11:00 P.M.).\n"
-"Merk at Gnumeric vil utføre vanlig streng til serienummer konvertering for "
-"deg, så du kan oppgi en dato som en streng.\n"
+"et heltall i området 0 (12:00 A.M.) til 23 (11:00 P.M.).\n"
+"Merk at Gnumeric vil utføre vanlig streng til serienummer konvertering for "
+"deg, så du kan oppgi en dato som en streng.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
@@ -6033,9 +5915,9 @@ msgstr ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serienummer)\n"
 "@DESCRIPTION=Konverterer et serienummer til et minutt. Minuttet returneres "
-"som et heltall i området 0 til 59.\n"
-"Merk at Gnumeric vil utføre vanlig streng til serienummer konvertering for "
-"deg, så du kan oppgi en dato som en streng.\n"
+"som et heltall i området 0 til 59.\n"
+"Merk at Gnumeric vil utføre vanlig streng til serienummer konvertering for "
+"deg, så du kan oppgi en dato som en streng.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
@@ -6055,9 +5937,9 @@ msgstr ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serienummer)\n"
 "@DESCRIPTION=Konverterer et serienummer til et sekund. Sekundet returneres "
-"som et heltall i området 0 til 59.\n"
-"Merk at Gnumeric vil utføre vanlig streng til serienummer konvertering for "
-"deg, så du kan oppgi en dato som en streng.\n"
+"som et heltall i området 0 til 59.\n"
+"Merk at Gnumeric vil utføre vanlig streng til serienummer konvertering for "
+"deg, så du kan oppgi en dato som en streng.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
@@ -6075,9 +5957,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serienummer)\n"
-"@DESCRIPTION=Konverterer et serienummer til et år.\n"
-"Merk at Gnumeric vil utføre vanlig streng til serienummer konvertering for "
-"deg, så du kan oppgi en dato som en streng.\n"
+"@DESCRIPTION=Konverterer et serienummer til et år.\n"
+"Merk at Gnumeric vil utføre vanlig streng til serienummer konvertering for "
+"deg, så du kan oppgi en dato som en streng.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW"
@@ -6095,9 +5977,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serienummer)\n"
-"@DESCRIPTION=Konverterer et serienummer til en måned.\n"
-"Merk at Gnumeric vil utføre vanlig streng til serienummer konvertering for "
-"deg, så du kan oppgi en dato som en streng.\n"
+"@DESCRIPTION=Konverterer et serienummer til en måned.\n"
+"Merk at Gnumeric vil utføre vanlig streng til serienummer konvertering for "
+"deg, så du kan oppgi en dato som en streng.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DAY, TIME, NOW, YEAR"
@@ -6116,8 +5998,8 @@ msgstr ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serienummer)\n"
 "@DESCRIPTION=Konverterer et serienummer til en dag.\n"
-"Merk at Gnumeric vil utføre vanlig streng til serienummer konvertering for "
-"deg, så du kan oppgi en dato som en streng.\n"
+"Merk at Gnumeric vil utføre vanlig streng til serienummer konvertering for "
+"deg, så du kan oppgi en dato som en streng.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
@@ -6136,8 +6018,8 @@ msgstr ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (serienummer)\n"
 "@DESCRIPTION=Konverterer et serienummer til en ukedag.  FIXME: forklar.\n"
-"Merk at Gnumeric vil utføre vanlig streng til serienummer konvertering for "
-"deg, så du kan oppgi en dato som en streng.\n"
+"Merk at Gnumeric vil utføre vanlig streng til serienummer konvertering for "
+"deg, så du kan oppgi en dato som en streng.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
@@ -6161,20 +6043,20 @@ msgstr ""
 "@FUNCTION=DAYS360\n"
 "@SYNTAX=DAYS360 (dato1,dato2,metode)\n"
 "@DESCRIPTION=Returnerer antall dager fra @dato1 til @dato2 etter en "
-"360-dagers kalendar hvor alle måneder tenkes å ha 30 dager.\n"
+"360-dagers kalendar hvor alle måneder tenkes å ha 30 dager.\n"
 "Hvis @metode er sann, vil Europeisk metode brukes. I dette tilfellet, hvis "
-"dagen i måneden er 31, vil den bli betraktet som 30.\n"
+"dagen i måneden er 31, vil den bli betraktet som 30.\n"
 "Hvis @metode er usann eller utelatt, vil USA's metode brukes.  Dette er en "
 "noe komplisert industristandard metode.\n"
-"Merk at Gnumeric vil utføre vanlig streng til serienummer konvertering for "
-"deg, så du kan skrive inn en dato som en streng.\n"
+"Merk at Gnumeric vil utføre vanlig streng til serienummer konvertering for "
+"deg, så du kan skrive inn en dato som en streng.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: src/functions/fn-date.c:486
 msgid "Unsupported method"
-msgstr "Ikke støttet metode"
+msgstr "Ikke støttet metode"
 
 #: src/functions/fn-date.c:547
 msgid ""
@@ -6188,10 +6070,10 @@ msgid ""
 "@SEEALSO=MONTH"
 msgstr ""
 "@FUNCTION=EOMONTH\n"
-"@SYNTAX=EOMONTH (start_dato,måneder)\n"
-"@DESCRIPTION=Returnerer siste dagen av måneden som er @måneder fra "
+"@SYNTAX=EOMONTH (start_dato,måneder)\n"
+"@DESCRIPTION=Returnerer siste dagen av måneden som er @måneder fra "
 "@start_dato.\n"
-"Returnerer #NUM hvis start_dato eller måneder er ugyldig.\n"
+"Returnerer #NUM hvis start_dato eller måneder er ugyldig.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MONTH"
@@ -6283,7 +6165,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
-"@DESCRIPTION=BIN2DEC konverterer et binært tall i en streng eller et tall "
+"@DESCRIPTION=BIN2DEC konverterer et binært tall i en streng eller et tall "
 "til den desimale ekvivalenten.\n"
 "@EXAMPLES=\n"
 "BIN2DEC(101) er lik 5.\n"
@@ -6306,7 +6188,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=BIN2OCT\n"
 "@SYNTAX=BIN2OCT=(tall[,plasser])\n"
-"@DESCRIPTION=BIN2OCT-funksjonen konverterer et binært tall til et oktalt "
+"@DESCRIPTION=BIN2OCT-funksjonen konverterer et binært tall til et oktalt "
 "tall. @plasser er et valgfritt felt, som spesifiserer antall plasser som "
 "skal fylles med nuller.\n"
 "Hvis @plasser er for liten eller negativ returneres en #NUM! feil.\n"
@@ -6331,7 +6213,7 @@ msgid ""
 msgstr ""
 "@FUNTION=BIN2HEX\n"
 "@SYNTAX=BIN2HEX(tall[,plasser])\n"
-"@DESCRIPTION=BIN2HEX konverterer et binært tall til et heksadesimalt tall. "
+"@DESCRIPTION=BIN2HEX konverterer et binært tall til et heksadesimalt tall. "
 "@plasser er et valgfritt felt som spesifiserer antall plasser som skal "
 "fylles med nuller.\n"
 "Hvis @plasser er for liten eller negativ returneres en #NUM! feil.\n"
@@ -6356,9 +6238,9 @@ msgid ""
 msgstr ""
 "@FUNCTION\"DEC2BIN\n"
 "@SYNTAX=DEC2BIN(tall[,plasser])\n"
-"@DESCRIPTION=DEC2BIN konverterer et desimaltall til et binært tall. @plasser "
-"er et valgfritt felt, som spesifiserer antall plasser som skal fylles med "
-"nuller.\n"
+"@DESCRIPTION=DEC2BIN konverterer et desimaltall til et binært tall. "
+"@plasser er et valgfritt felt, som spesifiserer antall plasser som skal "
+"fylles med nuller.\n"
 "Hvis @plasser er for liten eller negativ returneres en #NUM! feil. Denne "
 "funksjonen er Excel kompatibel.\n"
 "@EXAMPLES=\n"
@@ -6454,7 +6336,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=OCT2BIN\n"
 "@SYNTAX=OCT2BIN(tall[,plasser])\n"
-"@DESCRIPTION=OCT2BIN-funksjonen konverterer et oktalt tall til et binært "
+"@DESCRIPTION=OCT2BIN-funksjonen konverterer et oktalt tall til et binært "
 "tall. @plasser er et valgfritt felt, som spesifiserer antall plasser som "
 "skal fylles med nuller.\n"
 "Hvis plasser er for liten eller negativ, returneres en #NUM! feil. Denne "
@@ -6505,7 +6387,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(tall[,plasser])\n"
-"@DESCRIPTION=HEX2BIN-funksjonen konverterer heksadesimale tall til binære "
+"@DESCRIPTION=HEX2BIN-funksjonen konverterer heksadesimale tall til binære "
 "tall. @plasser er et valgfritt felt, som spesifiserer antall plasser som "
 "skal fylles med nuller.\n"
 "Hvis @plasser er for liten eller negativ returneres en #NUM! feil. Denne "
@@ -6579,7 +6461,7 @@ msgstr ""
 "@SYNTAX=BESSELI(x,y)\n"
 "@DESCRIPTION=BESSELI-funksjonen returnerer Neumann, Weber eller Bessel "
 "funksjonen. \n"
-"@x er området funksjonen evalueres for. @y er rekkefølgen for "
+"@x er området funksjonen evalueres for. @y er rekkefølgen for "
 "besselfunksjonen, \n"
 "hvis denne ikke er et heltall avkortes den.\n"
 "Hvis @x eller @y ikke er numeriske returneres en #VALUE! feil. Hvis @y < 0 "
@@ -6606,7 +6488,7 @@ msgstr ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
 "@DESCRIPTION=BESSELK returnerer Neumann, Weber eller Besselfunksjonen. "
-"Funksjonen evalueres for @x. @y er rekkefølgen for besselfunksjonen,hvis "
+"Funksjonen evalueres for @x. @y er rekkefølgen for besselfunksjonen,hvis "
 "denne ikke er et heltall blir den avrundet.\n"
 "Hvis x eller n ikke er tall returneres en #VALUE!-feil. Hvis y < 0 "
 "returneres en #NUM!-feil. Denne funksjonen er Excel kompatibel. \n"
@@ -6632,8 +6514,8 @@ msgstr ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
 "@DESCRIPTION=BESSELJ-funksjonen returnerer besselfunksjonen med @x som verdi "
-"for evaluering. @y er rekkefølgen for besselfunksjonen,hvis denne ikke er et "
-"heltall blir den avrundet.\n"
+"for evaluering. @y er rekkefølgen for besselfunksjonen,hvis denne ikke er "
+"et heltall blir den avrundet.\n"
 "Hvis @x eller @y ikke er tall returneres en #VALUE!-feil. Hvis @y < 0 "
 "returneres en #NUM!-feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
@@ -6658,7 +6540,7 @@ msgstr ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
 "@DESCRIPTION=BESSELY-funksjonen returnerer Neumann, Weber eller "
-"Besselfunksjonen. Funksjonen evalueres for @x. @y er rekkefølgen for "
+"Besselfunksjonen. Funksjonen evalueres for @x. @y er rekkefølgen for "
 "besselfunksjonen,hvis denne ikke er et heltall blir den avrundet.\n"
 "Hvis x eller n ikke er tall returneres en #VALUE!-feil. Hvis n < 0 "
 "returneres en #NUM!-feil. Denne funksjonen er Excel kompatibel. \n"
@@ -6696,7 +6578,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(itall)\n"
-"@DESCRIPTION=IMAGINARY returnerer den imaginære koeffisienten av et "
+"@DESCRIPTION=IMAGINARY returnerer den imaginære koeffisienten av et "
 "komplekst tall. Denne funksjonen er Excel kompatibel.\n"
 "@EXAMPLES=\n"
 "IMAGINARY(\"132-j\") er lik -1.\n"
@@ -6858,9 +6740,11 @@ msgstr ""
 "@SYNTAX=IMLN(itall)\n"
 "@DESCRIPTION=IMLN returnerer den naturlige logaritmen av et komplekst tall. "
 "\n"
-"Resultatet vil ha en imaginær del mellom -pi og +pi. Den naturlige \n"
-"logaritmen er ikke definert unikt med komplekse tall. Du vil kanskje måtte \n"
-"legge til eller trekke fra en lik multippel av pi til den imaginære delen.)\n"
+"Resultatet vil ha en imaginær del mellom -pi og +pi. Den naturlige \n"
+"logaritmen er ikke definert unikt med komplekse tall. Du vil kanskje måtte "
+"\n"
+"legge til eller trekke fra en lik multippel av pi til den imaginære "
+"delen.)\n"
 "@EXAMPLES=\n"
 "IMLN(\"3-j\") er lik 1.15129-0.32175j.\n"
 "\n"
@@ -6921,9 +6805,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(itall,tall)\n"
-"@DESCRIPTION=IMPOWER returnerer et komplekst tall opphøyet. @itall er det "
-"komplekse tallet som skal opphøyes og @tall er potensen det skal opphøyes i. "
-"Denne funksjonen er Excel kompatibel.\n"
+"@DESCRIPTION=IMPOWER returnerer et komplekst tall opphøyet. @itall er det "
+"komplekse tallet som skal opphøyes og @tall er potensen det skal opphøyes "
+"i. Denne funksjonen er Excel kompatibel.\n"
 "@EXAMPLES\n"
 "IMPOWER(\"4-j\",2) er lik 15-8j.\n"
 "\n"
@@ -7155,11 +7039,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(tall,fra_enhet,til_enhet)\n"
-"@DESCRIPTION=CONVERT returnerer en konvertering fra en målesystem til et "
+"@DESCRIPTION=CONVERT returnerer en konvertering fra en målesystem til et "
 "annet.Du kan for eksempel konvertere en vekt i pund til en vekt i gram. "
-"@tall er verdien du ønsker å konvertere, @fra_enhet spesifiserer enheten av "
-"@tall, og @til_enhet er enheten for resultatet.\n"
-"@fra_enhet og @til_enhet kan være følgende:\n"
+"@tall er verdien du ønsker å konvertere, @fra_enhet spesifiserer enheten "
+"av @tall, og @til_enhet er enheten for resultatet.\n"
+"@fra_enhet og @til_enhet kan være følgende:\n"
 "\n"
 "Vekt og masse:\n"
 "'g'    Gram\n"
@@ -7179,7 +7063,7 @@ msgstr ""
 "'Pica' Pica\n"
 "\n"
 "Tid:\n"
-"'yr'   År\n"
+"'yr'   År\n"
 "'day'  Dag\n"
 "'hr'   Time\n"
 "'mn'   Minutt\n"
@@ -7187,8 +7071,8 @@ msgstr ""
 "\n"
 "Trykk:\n"
 "'Pa'   Pascal\n"
-"'atm'  Atmosfære\n"
-"'mmHg' mm kvikksølv\n"
+"'atm'  Atmosfære\n"
+"'mmHg' mm kvikksølv\n"
 "\n"
 "Kraft:\n"
 "'N'    Newton\n"
@@ -7218,7 +7102,7 @@ msgstr ""
 "'F'    Grader Fahrenheit\n"
 "'K'    Grader Kelvin\n"
 "\n"
-"Væskemål:\n"
+"Væskemål:\n"
 "'tsp'  Teskje\n"
 "'tbs'  Spiseskje\n"
 "'oz'   Flytende unse\n"
@@ -7228,7 +7112,7 @@ msgstr ""
 "'gal'  Gallon\n"
 "'l'    Liter\n"
 "\n"
-"For metriske enheter kan alle følgende prefiks brukes:\n"
+"For metriske enheter kan alle følgende prefiks brukes:\n"
 "'E'  exa    1E+18\n"
 "'P'  peta   1E+15\n"
 "'T'  tera   1E+12\n"
@@ -7272,12 +7156,12 @@ msgid ""
 "@SEEALSO=ERFC"
 msgstr ""
 "@FUNCTION=ERF\n"
-"@SYNTAX=ERF(nedre_grense[,øvre_grense)\n"
+"@SYNTAX=ERF(nedre_grense[,øvre_grense)\n"
 "@DESCRIPTION=ERF-funksjonen returnerer integralet av feilfunksjonen mellom "
-"grensene. Hvis @øvre_grense er utelatt returnerer ERF integralet mellom null "
-"og @nedre_grense.\n"
-"Hvis enten @nedre_grense eller @øvre_grense ikke er et tall returneres en "
-"#VALUE! feil. Hvis enten @nedre_grense eller @øvre_grense er < 0 returneres "
+"grensene. Hvis @øvre_grense er utelatt returnerer ERF integralet mellom "
+"null og @nedre_grense.\n"
+"Hvis enten @nedre_grense eller @øvre_grense ikke er et tall returneres en "
+"#VALUE! feil. Hvis enten @nedre_grense eller @øvre_grense er < 0 returneres "
 "en #NUM!-feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "ERF(0.4) er lik 0.428392355.\n"
@@ -7298,7 +7182,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
-"@DESCRIPTION=ERFC-funksjonen returnerer integralet av den komplimentære \n"
+"@DESCRIPTION=ERFC-funksjonen returnerer integralet av den komplimentære \n"
 "feilfunksjonen mellom grensene 0 og @x.\n"
 "Hvis @x ikke er et tall returneres en #VALUE! feil. Hvis @x < 0 en "
 "returneres\n"
@@ -7322,7 +7206,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
-"@DESCRIPTION=DELTA-funksjonen undersøker om det er numerisk ekvivalens "
+"@DESCRIPTION=DELTA-funksjonen undersøker om det er numerisk ekvivalens "
 "mellom to argumenter retur av 1 i evkaliteten @y er valgfri, og satt til 0 "
 "som standard.\n"
 "Hvis noen av argumentene ikke er tall returneres en #VALUE!-feil. Denne "
@@ -7351,7 +7235,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
-"@DESCRIPTION=GESTEP-funksjonen undersøker om @ er >= @y, returnerer 1 hvis "
+"@DESCRIPTION=GESTEP-funksjonen undersøker om @ er >= @y, returnerer 1 hvis "
 "det er tilfelle, og 0 hvis ikke. @y er valgfri, og satt til 0. \n"
 "Hvis noen av argumentene er ikke-numeriske returneres en #VALUE!-feil. Denne "
 "funksjonen er Excel kompatibel. \n"
@@ -7706,10 +7590,10 @@ msgid ""
 "@SEEALSO=DOLLARFR"
 msgstr ""
 "@FUNCTION=DOLLARDE\n"
-"@SYNTAX=DOLLARDE(@delt_dollar, brøk))\n"
-"@DESCRIPTION=DOLLARDE konverterer en dollarpris uttrykt som en brøk til en "
+"@SYNTAX=DOLLARDE(@delt_dollar, brøk))\n"
+"@DESCRIPTION=DOLLARDE konverterer en dollarpris uttrykt som en brøk til en "
 "dollarpris uttrykt som et desimaltall. \n"
-"Hvis @brøk ikke er et heltall, blir det avkortet. Hvis @brøk<=0 returnerer "
+"Hvis @brøk ikke er et heltall, blir det avkortet. Hvis @brøk<=0 returnerer "
 "DOLLARDE en #NUM! feil. \n"
 "@EXAMPLES=\n"
 "\n"
@@ -7728,11 +7612,11 @@ msgid ""
 "@SEEALSO=DOLLARDE"
 msgstr ""
 "@FUNCTION=DOLLARFR\n"
-"@SYNTAX=DOLLARFR(desimal_dollar, brøk)\n"
+"@SYNTAX=DOLLARFR(desimal_dollar, brøk)\n"
 "@DESCRIPTION=DOLLARFR konverterer en dollarpris i desimaltall til en dollar- "
-"pris uttrykt som en brøk. \n"
-"Hvis @brøk ikke er et heltall, blir det avrundet. Hvis @brøk <= 0 returnerer "
-"DOLLARFR en #NUM! feil. \n"
+"pris uttrykt som en brøk. \n"
+"Hvis @brøk ikke er et heltall, blir det avrundet. Hvis @brøk <= 0 "
+"returnerer DOLLARFR en #NUM! feil. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DOLLARDE"
@@ -7749,8 +7633,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=COUNTIF(verdier,finans_rate,reinversterings_rate)\n"
-"@DESCRIPTION=MIRR-funksjonen returnerer den endrede internraten for retur på "
-"en gitt periodisk pengestrøm. \n"
+"@DESCRIPTION=MIRR-funksjonen returnerer den endrede internraten for retur "
+"på en gitt periodisk pengestrøm. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=NPV"
@@ -7848,7 +7732,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
-"@DESCRIPTION=PV kalkulerer nåværende verdi av en investering.\n"
+"@DESCRIPTION=PV kalkulerer nåværende verdi av en investering.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=FV"
@@ -7935,7 +7819,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
-"@DESCRIPTION=PMT kalkulerer nåværende verdi av en investering.\n"
+"@DESCRIPTION=PMT kalkulerer nåværende verdi av en investering.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PPMT,PV,FV"
@@ -8022,11 +7906,11 @@ msgstr ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=SUM(verdi1, verdi2, ...)\n"
 "@DESCRIPTION=Beregner gjennomsnittet av alle verdiene og cellene referert i "
-"argumentlisten. Dette er ekvivalent til summen av alle argumentene delt på "
+"argumentlisten. Dette er ekvivalent til summen av alle argumentene delt på "
 "antall argumenter. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
-"25.9, og 40.1.  Da får vi\n"
+"25.9, og 40.1.  Da får vi\n"
 "AVERAGE(A1:A5) er lik 23.2.\n"
 "\n"
 "@SEEALSO=SUM, COUNT"
@@ -8141,7 +8025,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:2155
-#, fuzzy
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate,basis)"
@@ -8151,15 +8034,15 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (timer,minutter,sekunder)\n"
-"@DESCRIPTION=Returnerer en brøk som representerer tiden på dagen.\n"
+"@FUNCTION=AMORDEGRC\n"
+"@SYNTAX=AMORDEGRC(kost,kjøpsdato,første_periode,gjenstående,periode,basis)"
+"\n"
+"@DESCRIPTION=Returnerer avskrivning for hver regnskapsperiode..\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=HOUR"
+"@SEEALSO="
 
 #: src/functions/fn-financial.c:2173
-#, fuzzy
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate,basis)\n"
@@ -8168,15 +8051,15 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (timer,minutter,sekunder)\n"
-"@DESCRIPTION=Returnerer en brøk som representerer tiden på dagen.\n"
+"@FUNCTION=AMORLINC\n"
+"@SYNTAX=AMORLINC(kost,kjøpsdato,første_periode,gjenstående,periode,rate,ba"
+"sis)\n"
+"@DESCRIPTION=Returnerer avskrivning for hver regnskapsperiode.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=HOUR"
+"@SEEALSO="
 
 #: src/functions/fn-financial.c:2191
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -8186,16 +8069,15 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=Returnerer serienummeret for dagen i dag (antallet dager som "
-"har gått siden 1. januar 1900).\n"
+"@FUNCTION=COUPDAYBS\n"
+"@SYNTAX=COUPDAYBS(avtale,modenhet,frekvens[,basis])\n"
+"@DESCRIPTION=Returnerer antall dager fra begynnelsen av kupongperioden til "
+"avtaledatoen.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=TODAY, NOW"
+"@SEEALSO="
 
 #: src/functions/fn-financial.c:2210
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])\n"
@@ -8205,16 +8087,14 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=Returnerer serienummeret for dagen i dag (antallet dager som "
-"har gått siden 1. januar 1900).\n"
+"@FUNCTION=COUPDAYS\n"
+"@SYNTAX=COUPDAYS(avtale,modenhet,frekvens[,basis])\n"
+"@DESCRIPTION=Returnerer antall dager i kupongperioden før avtaledato.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=TODAY, NOW"
+"@SEEALSO="
 
 #: src/functions/fn-financial.c:2229
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis])\n"
@@ -8224,16 +8104,14 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TODAY\n"
-"@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=Returnerer serienummeret for dagen i dag (antallet dager som "
-"har gått siden 1. januar 1900).\n"
+"@FUNCTION=COUPDAYSNC\n"
+"@SYNTAX=COUPDAYSNC(avtale,modenhet,frekvens[,basis])\n"
+"@DESCRIPTION=Returnerer antall dager fra avtaledatoen til neste kupongdato.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=TODAY, NOW"
+"@SEEALSO="
 
 #: src/functions/fn-financial.c:2248
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis])\n"
@@ -8242,15 +8120,14 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=PV\n"
-"@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
-"@DESCRIPTION=PV kalkulerer nåværende verdi av en investering.\n"
+"@FUNCTION=COUPNCD\n"
+"@SYNTAX=COUPNCD(avtale,modenhet,frekvens[,basis])\n"
+"@DESCRIPTION=COUPNCD returnerer kupongdato som følger avtalen.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=FV"
+"@SEEALSO="
 
 #: src/functions/fn-financial.c:2266
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
@@ -8259,12 +8136,12 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (timer,minutter,sekunder)\n"
-"@DESCRIPTION=Returnerer en brøk som representerer tiden på dagen.\n"
+"@FUNCTION=COUPPCD\n"
+"@SYNTAX=COUPPCD(avtale,modenhet,frekvens[,basis])\n"
+"@DESCRIPTION=Returnerer kupongdato forut for avtale.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=HOUR"
+"@SEEALSO="
 
 #: src/functions/fn-financial.c:2284
 msgid ""
@@ -8278,7 +8155,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:2303
-#, fuzzy
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -8288,16 +8164,15 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=ISPMT\n"
-"@SYNTAX=ISPMT(rate,per,nper,pv)\n"
-"@DESCRIPTION=ISPMT returnerer renten betalt i en gitt periode. . \n"
-"Hvis @per < 1 eller @per > @nper,  returnerer ISPMT en #NUM! feil. \n"
+"@FUNCTION=CUMIPMT\n"
+"@SYNTAX=CUMIPMT(rate,nper,pv,start_periode,slutt_periode,type)\n"
+"@DESCRIPTION=CUMIPMT returnerer den kumulative renten betalt på et lån "
+"mellom @start_periode og @slutt_periode.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=PV"
+"@SEEALSO="
 
 #: src/functions/fn-financial.c:2322
-#, fuzzy
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -8307,15 +8182,15 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=PV\n"
-"@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
-"@DESCRIPTION=PV kalkulerer nåværende verdi av en investering.\n"
+"@FUNCTION=CUMPRINC\n"
+"@SYNTAX=CUMPRINC(rate,nper,pv,start_periode,slutt_periode,type)\n"
+"@DESCRIPTION=Returnerer kumulativ prinsipal betalt på et lån mellom "
+"@start_periode og @slutt_periode.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=FV"
+"@SEEALSO="
 
 #: src/functions/fn-financial.c:2341
-#, fuzzy
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -8325,12 +8200,13 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (timer,minutter,sekunder)\n"
-"@DESCRIPTION=Returnerer en brøk som representerer tiden på dagen.\n"
+"@FUNCTION=MDURATION\n"
+"@SYNTAX=MDURATION(avtale,modenhet,kupong,yield,frekvens[,basis])\n"
+"@DESCRIPTION=Returnerer Macauley varigheten for en sikkerhet med "
+"standardverdi 100.\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=HOUR"
+"@SEEALSO="
 
 #: src/functions/fn-financial.c:2360
 msgid ""
@@ -8380,9 +8256,9 @@ msgid ""
 "@SEEALSO=COUNT"
 msgstr ""
 "@FUNCTION=COUNTBLANK\n"
-"@SYNTAX=COUNTIF (område)\n"
-"@DESCRIPTION=COUNTBLANK returnerer antallet blanke celler i et gitt @område. "
-"Denne funksjonen er Excel kompatibel. \n"
+"@SYNTAX=COUNTIF (område)\n"
+"@DESCRIPTION=COUNTBLANK returnerer antallet blanke celler i et gitt "
+"@område. Denne funksjonen er Excel kompatibel. \n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8400,8 +8276,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO()\n"
-"@DESCRIPTION=INFO returnerer informasjon om det nåværende system- miljøet. "
-"Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=INFO returnerer informasjon om det nåværende system- "
+"miljøet. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -8960,10 +8836,10 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=INDEX\n"
-"@SYNTAX=INDEX(referanse, [rad, kol, område])\n"
+"@SYNTAX=INDEX(referanse, [rad, kol, område])\n"
 "@DESCRIPTION=INDEX-funksjonen returnerer en referanse til cellen ved et "
 "punkt i referansen spesifisert av rad, kol.\n"
-"Hvis noe går galt returneres #REF! \n"
+"Hvis noe går galt returneres #REF! \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -8984,8 +8860,8 @@ msgstr ""
 "@SYNTAX=COLUMN([referanse])\n"
 "@DESCRIPTION=COLUMN-funksjonen returnerer en array med kolonnenumre og tar "
 "celleposisjonen som argument.\n"
-"Hvis @referanse hverken er en array, en referanse eller et område returnerer "
-"funksjonen en #VALUE!-feil.\n"
+"Hvis @referanse hverken er en array, en referanse eller et område "
+"returnerer funksjonen en #VALUE!-feil.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=COLUMNS,ROW,ROWS  "
@@ -9004,9 +8880,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(referanse)\n"
-"@DESCRIPTION=COLUMNS-funksjonen returnerer antall kolonner i et område eller "
-"matrisereferanse.\n"
-"Hvis @referanse hverken er en matrise, en referanse eller et område "
+"@DESCRIPTION=COLUMNS-funksjonen returnerer antall kolonner i et område "
+"eller matrisereferanse.\n"
+"Hvis @referanse hverken er en matrise, en referanse eller et område "
 "returnerer funksjonen en #VALUE!-feil.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -9042,7 +8918,7 @@ msgstr ""
 "@SYNTAX=ROW([referanse])\n"
 "@DESCRIPTION=ROW-funksjonen returnerer en array med radnumre og tar "
 "celleoposisjonen som argument.\n"
-"Hvis @referanse hverken er en matrise, en referanse eller et område "
+"Hvis @referanse hverken er en matrise, en referanse eller et område "
 "returneres en #VALUE!-feil.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -9062,9 +8938,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=COLUMNS(referanse)\n"
-"@DESCRIPTION=ROWS-funksjonen returnerer antall rader i et område eller "
+"@DESCRIPTION=ROWS-funksjonen returnerer antall rader i et område eller "
 "matrisereferanse.\n"
-"Hvis @referanse hverken er en matrise, en referanse eller et område "
+"Hvis @referanse hverken er en matrise, en referanse eller et område "
 "returneres en #VALUE!-feil.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -9084,7 +8960,7 @@ msgstr ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(referanse)\n"
 "@DESCRIPTION=HYPERLINK-funksjonen returnerer sitt andre argument, eller hvis "
-"dette er utelatt det første argumentet.\n"
+"dette er utelatt det første argumentet.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -9126,7 +9002,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(tall1,tall2,...)\n"
-"@DESCRIPTION=GCD returnerer den største vanlige dividend av gitte tall. \n"
+"@DESCRIPTION=GCD returnerer den største vanlige dividend av gitte tall. \n"
 "Hvis noen av argumentene er mindre en null, returnerer GCD en #NUM! feil. \n"
 "Hvis noen av argumentene ikke er heltall, blir de avrundet. Denne funksjonen "
 "er Excel kompatibel. \n"
@@ -9179,8 +9055,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
-"@DESCRIPTION=ABS implementerer absoluttverdifunksjonen: resultatet er å "
-"fjerne negativtegnet (hvis funnet).  Dette kan gjøres for heltall og "
+"@DESCRIPTION=ABS implementerer absoluttverdifunksjonen: resultatet er å "
+"fjerne negativtegnet (hvis funnet).  Dette kan gjøres for heltall og "
 "flyttall. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "ABS(7) er lik 7.\n"
@@ -9205,9 +9081,9 @@ msgstr ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
 "@DESCRIPTION=ACOS funksjonen beregner arkus kosinus av x; det vil si verdien "
-"hvis kosinus er @x.  Hvis @x faller utenfor området -1 til 1, feiler ACOS og "
-"returnerer feilen 'acos - domain error'.  Verdien den returnerer er gitt i "
-"radianer. Denne funksjonen er Excel kompatibel. \n"
+"hvis kosinus er @x.  Hvis @x faller utenfor området -1 til 1, feiler ACOS "
+"og returnerer feilen 'acos - domain error'.  Verdien den returnerer er gitt "
+"i radianer. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "ACOS(0.1) er lik 1.470629.\n"
 "ACOS(-0.1) er lik 1.670964.\n"
@@ -9255,7 +9131,7 @@ msgstr ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
 "@DESCRIPTION=ASIN-finksjonen beregner arkus sinus av @x; det vil si verdien "
-"hvis sinus er @x. Hvis @x faller utenfor området -1 to 1, feiler ASIN og "
+"hvis sinus er @x. Hvis @x faller utenfor området -1 to 1, feiler ASIN og "
 "returnerer en NUM!-feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "ASIN(0.5) er lik 0.523599.\n"
@@ -9329,7 +9205,7 @@ msgstr ""
 "@SYNTAX=ATANH(x)\n"
 "@DESCRIPTION=ATANH beregner den inverse hyperbolske tangenten til @x; det "
 "vil si verdien hvis hyperbolske tangent er @x. Hvis absoluttverdien av @x er "
-"større enn 1.0, returnerer ATANH en NUM!-feil. Denne funksjonen er Excel "
+"større enn 1.0, returnerer ATANH en NUM!-feil. Denne funksjonen er Excel "
 "kompatibel. \n"
 "@EXAMPLES=\n"
 "ATANH(0.5) er lik 0.549306.\n"
@@ -9356,7 +9232,7 @@ msgstr ""
 "@SYNTAX=ATAN2(b1,b2)\n"
 "@DESCRIPTION=ATAN2-funksjonen beregner arkus tangens til de to variablene "
 "@b1 og @b2.  Dette er likt til beregning av arkus tangens av @b2 / @b1, "
-"bortsett fra at fortegnene til begge argumentene brukes til å bestemme "
+"bortsett fra at fortegnene til begge argumentene brukes til å bestemme "
 "kvadratet til resultatet. Resultatet oppgis i radianer. Denne funksjonen er "
 "Excel kompatibel. \n"
 "@EXAMPLES=\n"
@@ -9380,7 +9256,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
-"@DESCRIPTION=CEIL-funksjonen runder @x opp til nærmeste heltall.\n"
+"@DESCRIPTION=CEIL-funksjonen runder @x opp til nærmeste heltall.\n"
 "Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "CEIL(0.4) er lik 1.\n"
@@ -9406,18 +9282,18 @@ msgid ""
 "@SEEALSO=COUNT,SUMIF"
 msgstr ""
 "@FUNCTION=COUNTIF\n"
-"@SYNTAX=COUNTIF (område,kriterier)\n"
-"@DESCRIPTION=COUNTIF-funksjonen teller antallet celler i et gitt @område som "
-"møter kriteriene. Denne funksjonen er Excel kompatibel. \n"
+"@SYNTAX=COUNTIF (område,kriterier)\n"
+"@DESCRIPTION=COUNTIF-funksjonen teller antallet celler i et gitt @område "
+"som møter kriteriene. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 23, 27, 28, 33, og "
-"39. Da får vi:\n"
+"39. Da får vi:\n"
 "COUNTIF(A1:A5,\"<=28\") er lik 3.\n"
 "COUNTIF(A1:A5,\"<28\") er lik 2.\n"
 "COUNTIF(A1:A5,\"28\") er lik 1.\n"
 "COUNTIF(A1:A5,\">28\") er lik 2.\n"
 "\n"
-"@SEOGSÅ=COUNT,SUMIF"
+"@SEOGSÅ=COUNT,SUMIF"
 
 #: src/functions/fn-math.c:556
 msgid ""
@@ -9439,21 +9315,21 @@ msgid ""
 "@SEEALSO=COUNTIF, SUM"
 msgstr ""
 "@FUNCTION=SUMIF\n"
-"@SYNTAX=SUMIF(område,kriterie[,faktisk_område])\n"
-"@DESCRIPTION=SUMIF-funksjonen summerer verdiene et gitt @område som møter "
-"det gitte kriteriet. Hvis @faktisk_område er gitt, summerer SUMIF verdiene i "
-"@faktisk_område hvis korresponderende komponenter i @område svarer til de "
-"gitte kriterier. Denne funksjonen er Excel kompatibel. \n"
+"@SYNTAX=SUMIF(område,kriterie[,faktisk_område])\n"
+"@DESCRIPTION=SUMIF-funksjonen summerer verdiene et gitt @område som møter "
+"det gitte kriteriet. Hvis @faktisk_område er gitt, summerer SUMIF verdiene "
+"i @faktisk_område hvis korresponderende komponenter i @område svarer til "
+"de gitte kriterier. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 23, 27, 28, 33, og "
-"39. Da får vi:\n"
+"39. Da får vi:\n"
 "SUMIF(A1:A5,\"<=28\") er lik 78.\n"
 "SUMIF(A1:A5,\"<28\") er lik 50.\n"
 "I tillegg, hvis cellene B1, B2, ..., B5 inneholder tallene 5, 3, 2, 6, og 7 "
-"får vi:\n"
+"får vi:\n"
 "SUMIF(A1:A5,\"<=27\",B1:B5) er lik 8.\n"
 "\n"
-"@SEOGSÅ=COUNTIF, SUM"
+"@SEOGSÅ=COUNTIF, SUM"
 
 #: src/functions/fn-math.c:721
 msgid ""
@@ -9472,7 +9348,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,signifikans)\n"
-"@DESCRIPTION=CEILING-funksjonen runder @x opp til nærmeste multippel av "
+"@DESCRIPTION=CEILING-funksjonen runder @x opp til nærmeste multippel av "
 "signifikans. \n"
 "Hvis @x eller @signifikans er ikke-numerisk, returnerer CEILING #VALUE! "
 "feil. Hvis @x eller @signifikans har forskjellige fortegn, returnerer "
@@ -9583,7 +9459,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=Beregner faktor av @x. altså, @x! Denne funksjonen er Excel "
+"@DESCRIPTION=Beregner faktor av @x. altså, @x! Denne funksjonen er Excel "
 "komptatibel. \n"
 "@EXAMPLES=\n"
 "FACT(3) er lik 6.\n"
@@ -9608,7 +9484,7 @@ msgstr ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
 "@DESCRIPTION=COMBIN beregner antall kombinasjoner.\n"
-"Bruk av denne funksjonen på et ikke-heltall eller et negativt tall "
+"Bruk av denne funksjonen på et ikke-heltall eller et negativt tall "
 "returnerer en feil. I tillegg returneres en feil hvis @n er mindre enn @k. "
 "Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
@@ -9634,7 +9510,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=CEIL(x,signifikans)\n"
-"@DESCRIPTION=FLOOR-funksjonen runder @x ned til nærmeste multippel.\n"
+"@DESCRIPTION=FLOOR-funksjonen runder @x ned til nærmeste multippel.\n"
 "av @signifikans.  @signifikans er forvalgt til 1. Denne funksjonen er Excel "
 "kompatible. \n"
 "@EXAMPLES=\n"
@@ -9660,8 +9536,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
-"@DESCRIPTION=INT-funksjonen runder @a av til nærmeste heltall, der "
-"'nærmeste' betyr nærmere null. INT er ekvivalent til FLOOR(a) for @a >= 0, "
+"@DESCRIPTION=INT-funksjonen runder @a av til nærmeste heltall, der "
+"'nærmeste' betyr nærmere null. INT er ekvivalent til FLOOR(a) for @a >= 0, "
 "og CEIL(a) for @a < 0. Denne funksjonen er Excel kompatibel.  \n"
 "@EXAMPLES=\n"
 "INT(7.2) er lik 7.\n"
@@ -9727,7 +9603,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
-"@DESCRIPTION=POWER returnerer verdien av @x opphøyd til @y'te potens. Denne "
+"@DESCRIPTION=POWER returnerer verdien av @x opphøyd til @y'te potens. Denne "
 "funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "POWER(2,7) er lik 128.\n"
@@ -9790,7 +9666,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(tall,dividend)\n"
-"@DESCRIPTION=MOD-funksjonen returnerer resten når @dividend er dividert med "
+"@DESCRIPTION=MOD-funksjonen returnerer resten når @dividend er dividert med "
 "@tall. Denne funksjonen er Excel kompatibel. \n"
 "MOD returnerer #DIV/0! hvis dividenden er null.\n"
 "@EXAMPLES=\n"
@@ -9831,7 +9707,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:1271
-#, fuzzy
 msgid ""
 "@FUNCTION=RandExp\n"
 "@SYNTAX=RandExp(b)\n"
@@ -9841,13 +9716,14 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@FUNCTION=REPT\n"
-"@SYNTAX=REPT(streng,ant)\n"
-"@DESCRIPTION=Returnerer @ant repetisjoner av @streng.\n"
+"@FUNCTION=RandExp\n"
+"@SYNTAX=RandExp(b)\n"
+"@DESCRIPTION=RandExp returnerer et eksponensielt distribuert tilfeldig "
+"nummer.\n"
 "@EXAMPLES=\n"
-"REPT(\".\",3) er lik \"...\".\n"
+"RandExp(0.5).\n"
 "\n"
-"@SEEALSO=CONCATENATE"
+"@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1294
 msgid ""
@@ -9861,7 +9737,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-math.c:1320
-#, fuzzy
 msgid ""
 "@FUNCTION=RandBinom\n"
 "@SYNTAX=RandBinom(p,trials)\n"
@@ -9873,20 +9748,18 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@FUNCTION=FINV\n"
-"@SYNTAX=FINV(p,dof)\n"
-"@DESCRIPTION=FINV-funksjonen returnerer den inverse av F-sannsynlighets "
-"distribusjonen.\n"
-"Hvis @p < 0 eller @p > 1 returnerer FINV en #NUM!-feil. Hvis @dof < 1 eller "
-"@dof2 < 1 returnerer FINV en #NUM!-feil. Denne funksjonen er Excel "
-"kompatibel. \n"
+"@FUNCTION=RandBinom\n"
+"@SYNTAX=RandBinom(p,forsøk)\n"
+"@DESCRIPTION=RandBinom returnerer et binomialt distribuert tilfeldig "
+"nummer.\n"
+"Hvis @p < 0 eller @p > 1 returnerer RandBinom #NUM! feil. Hvis @forsøk < 0 "
+"returnerer RandBinom #NUM! feil.\n"
 "@EXAMPLES=\n"
-"FINV(0.2,2,4) er lik 2.472135955.\n"
+"RandBinom(0.5,2).\n"
 "\n"
-"@SEEALSO=FDIST"
+"@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1350
-#, fuzzy
 msgid ""
 "@FUNCTION=RandNegBinom\n"
 "@SYNTAX=RandNegBinom(p,failures)\n"
@@ -9899,17 +9772,16 @@ msgid ""
 "\n"
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
-"@FUNCTION=FINV\n"
-"@SYNTAX=FINV(p,dof)\n"
-"@DESCRIPTION=FINV-funksjonen returnerer den inverse av F-sannsynlighets "
-"distribusjonen.\n"
-"Hvis @p < 0 eller @p > 1 returnerer FINV en #NUM!-feil. Hvis @dof < 1 eller "
-"@dof2 < 1 returnerer FINV en #NUM!-feil. Denne funksjonen er Excel "
-"kompatibel. \n"
+"@FUNCTION=RandNegBinom\n"
+"@SYNTAX=RandNegBinom(p,feil)\n"
+"@DESCRIPTION=RandNegBinom returnerer et negativt binomialt distribuert "
+"tilfeldig tall.\n"
+"Hvis @p < 0 eller @p > 1 returnerer RandNegBinom en #NUM! feil. Hvis @feil "
+"er sann returnerer RandNegBinom en #NUM! feil.\n"
 "@EXAMPLES=\n"
-"FINV(0.2,2,4) er lik 2.472135955.\n"
+"RandNegBinom(0.5,2)\n"
 "\n"
-"@SEEALSO=FDIST"
+"@SEEALSO=RAND,RANDBETWEEN"
 
 #: src/functions/fn-math.c:1381
 msgid ""
@@ -10006,7 +9878,7 @@ msgstr ""
 "argumentlisten. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21 og "
-"43. Da får vi at\n"
+"43. Da får vi at\n"
 "SUM(A1:A5) er lik 107.\n"
 "\n"
 "@SEEALSO=AVERAGE, COUNT"
@@ -10031,12 +9903,12 @@ msgstr ""
 "@SYNTAX=SUMA(verdi1, verdi2, ...)\n"
 "@DESCRIPTION=SUMA beregner summen av alle verdier og celler som er referert "
 "i argumentlisten. Tall, tekst og logiske verdier inkluderes i beregningen "
-"også.  Hvis cellen inneholder tekst eller argumentet evalueres til USANN så "
-"telles verdien som null (0). Hvis argumentet evalueres til SANN, telles det "
-"som en (1). \n"
+"også.  Hvis cellen inneholder tekst eller argumentet evalueres til USANN "
+"så telles verdien som null (0). Hvis argumentet evalueres til SANN, telles "
+"det som en (1). \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og "
-"43. Da får vi at\n"
+"43. Da får vi at\n"
 "SUMA(A1:A5) er lik 107.\n"
 "\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
@@ -10061,7 +9933,7 @@ msgstr ""
 "\n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og "
-"43. Da får vi at\n"
+"43. Da får vi at\n"
 "SUMSQ(A1:A5) er lik 2925.\n"
 "\n"
 "@SEEALSO=SUM, COUNT"
@@ -10232,7 +10104,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(tall)\n"
-"@DESCRIPTION=EVEN-funksjonen returnerer tallet rundet opp til nærmeste like "
+"@DESCRIPTION=EVEN-funksjonen returnerer tallet rundet opp til nærmeste like "
 "heltall. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "EVEN(5.4) er lik 6.\n"
@@ -10252,7 +10124,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(tall)\n"
-"@DESCRIPTION=ODD-funksjonen returnerer @tall rundet opp til nærmeste odde "
+"@DESCRIPTION=ODD-funksjonen returnerer @tall rundet opp til nærmeste odde "
 "heltall. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "ODD(4.4) er lik 5.\n"
@@ -10401,8 +10273,8 @@ msgstr ""
 "@DESCRIPTION=ROUNDDOWN-funksjonen runder et gitt @tall ned mot null. @tall "
 "er tallet du vil skal rundes ned og @siffer er antallet siffer du vil runde "
 "tallet til. \n"
-"Hvis @siffer er større enn null, rundes @tall ned til det gitte antall "
-"siffer. Hvis @siffer er null eller utelatt, rundes @tall ned til nærmeste "
+"Hvis @siffer er større enn null, rundes @tall ned til det gitte antall "
+"siffer. Hvis @siffer er null eller utelatt, rundes @tall ned til nærmeste "
 "heltall. Hvis @siffer er mindre enn null, rundes @tall ned til venstre for "
 "komma. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
@@ -10436,8 +10308,8 @@ msgstr ""
 "@SYNTAX=ROUND(tall[,siffer])\n"
 "@DESCRIPTION=ROUND-funksjonen runder av et gitt tall. @tall er tallet du vil "
 "runde av og @siffer er antallet siffer du vil runde tallet av til. \n"
-"Hvus @siffer er større enn null rundes @tall av til oppgitt antall siffer. "
-"Hvis @siffer er null eller utelatt, rundes @tall av til nærmeste heltall. "
+"Hvus @siffer er større enn null rundes @tall av til oppgitt antall siffer. "
+"Hvis @siffer er null eller utelatt, rundes @tall av til nærmeste heltall. "
 "Hvis @siffer er mindre enn null, rundes @tall av til venstre for komma. "
 "Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
@@ -10472,8 +10344,8 @@ msgstr ""
 "@DESCRIPTION=ROUNDUP-funksjonen runder opp et gitt tall, bort fra null. "
 "@tall er tallet du vil ha rundet opp og @siffer er antallet siffer du vil "
 "runde det av til. \n"
-"Hvis @siffer er større enn null, rundes @tall opp til gitt antall siffer. "
-"Hvis @siffer er null eller utelatt, rundes @tall opp til nærmeste heltall "
+"Hvis @siffer er større enn null, rundes @tall opp til gitt antall siffer. "
+"Hvis @siffer er null eller utelatt, rundes @tall opp til nærmeste heltall "
 "Hvis @siffer er mindre enn null, rundes @tall opp til venstre for komma. "
 "Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
@@ -10501,7 +10373,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(tall,multippel)\n"
-"@DESCRIPTION=MROUND-funksjonen runder av et gitt tall til ønsket multippel. "
+"@DESCRIPTION=MROUND-funksjonen runder av et gitt tall til ønsket multippel. "
 "@tall er tallet du vil runde av og @multiple er multippelen du vil runde "
 "tallet av til. Hvis @tall og @multippel har forskjellig fortegn, returnerer "
 "MROUND en #NUM! feil. Denne funksjonen er Excel kompatibel. \n"
@@ -10536,11 +10408,11 @@ msgstr ""
 "@SYNTAX=ROMAN(tall[,type])\n"
 "@DESCRIPTION=ROMAN-funksjonen returnerer et arabisk tall i den romanske "
 "nummerstilen, som tekst. @tall er tallet du vil konvertere og @type er typen "
-"romansk numeral du ønsker. \n"
+"romansk numeral du ønsker. \n"
 "Hvis @type er 0 eller utelatt, returnerer ROMAN klassiske romanske tall. "
 "Type 1 er mer konsis enn klassisk type, type 2 er mer konsis enn type 1, og "
 "type 3 er mer konsis enn type 2. Type 4 er forenklet type. \n"
-"Hvis @tall er negativt eller større enn 3999, returnerer ROMAN en #VALUE! "
+"Hvis @tall er negativt eller større enn 3999, returnerer ROMAN en #VALUE! "
 "feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "ROMAN(999) er lik CMXCIX.\n"
@@ -10573,8 +10445,8 @@ msgstr ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(tabell1,tabell2)\n"
 "@DESCRIPTION=SUMX2MY2-funksjonen returnerer summen av differansen av "
-"kvadratene av korresponderende verdier i to tabeller. @tabell1 er den første "
-"tabellen eller datasettet, og @tabell2 er den andre tabellen eller "
+"kvadratene av korresponderende verdier i to tabeller. @tabell1 er den "
+"første tabellen eller datasettet, og @tabell2 er den andre tabellen eller "
 "datasettet. Ligningen SUMX2MY2 er SUM (x^2-y^2). \n"
 "Strenger og tomme celler ignoreres.\n"
 "Hvis @tabell1 og @tabell2 har forskjellig antall datapunkter, returnerer "
@@ -10582,7 +10454,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og "
 "43 og cellene B1, B2, ..., B5 inneholder tallene 13, 22, 31, 33, og 39.\n"
-"Da får vi\n"
+"Da får vi\n"
 "SUMX2MY2(A1:A5,B1:B5) er lik -1299.\n"
 "\n"
 "@SEEALSO=SUMSQ"
@@ -10616,16 +10488,16 @@ msgstr ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(tabell1,tabell2)\n"
 "@DESCRIPTION=SUMX2PY2-funksjonen returnere summen av summen av kvadratene av "
-"de korresponderende verdiene i  to tabeller. @tabell1 er den første "
-"tabellene eller området med datapunkter og tabell2 er den andre tabellen "
-"eller området med datapunkter. Likningen til SUMX2PY2 er SUM (x^2+y^2). \n"
+"de korresponderende verdiene i  to tabeller. @tabell1 er den første "
+"tabellene eller området med datapunkter og tabell2 er den andre tabellen "
+"eller området med datapunkter. Likningen til SUMX2PY2 er SUM (x^2+y^2). \n"
 "Strenger og tomme celler ignoreres.\n"
 "Hvis  @tabell1 og @tanell2 har forskjellig antall datapunkter, returnerer "
 "SUMX2PY2 en #N/A!-feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og "
 "43 og cellene B1, B2, ..., B5 inneholder tallene 13, 22, 31, 33, og 39.\n"
-"Da får vi\n"
+"Da får vi\n"
 "SUMX2PY2(A1:A5,B1:B5) er lik 7149.\n"
 "@SEEALSO=SUMSQ"
 
@@ -10652,7 +10524,7 @@ msgstr ""
 "@SYNTAX=SUMXMY2(tabell1,tabell2)\n"
 "@DESCRIPTION=SUMXMY2-funksjonen returnerer summen av kvadratene av "
 "differensen mellom korresponderende verdier i to tabeller. @tabell1 er den "
-"første tabellen eller datasettet, og @tabell2 er den andre tabellen eller "
+"første tabellen eller datasettet, og @tabell2 er den andre tabellen eller "
 "datasettet. Ligningen SUMXMY2 er SUM (x-y)^2. \n"
 "Strenger og tomme celler ignoreres.\n"
 "Hvis @tabell1 og @tabell2 har forskjellige antall datapunkter, returnerer "
@@ -10660,7 +10532,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og "
 "43 og at cellene B1, B2, ..., B5 inneholder tallene 13, 22, 33, og 39.  Da "
-"får vi\n"
+"får vi\n"
 "SUMXMY2(A1:A5,B1:B5) er lik 409.\n"
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
@@ -10699,7 +10571,8 @@ msgstr ""
 "@SYNTAX=SUMIF(funksjon_nmr,ref1,ref2,...)\n"
 "@DESCRIPTION=SUBTOTAL-funksjonen returnerer en subtotal av den gitte "
 "argumentlisten. @function_nmr er tallet som spesifiserer hvilken funksjon "
-"som brukes for å beregne subtotalen. Følgende funksjoner er tilgjengelige:\n"
+"som brukes for å beregne subtotalen. Følgende funksjoner er "
+"tilgjengelige:\n"
 "1   AVERAGE\n"
 "2   COUNT\n"
 "3   COUNTA\n"
@@ -10714,7 +10587,7 @@ msgstr ""
 "Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 23, 27, 28, 33, og "
-"39.  Da får vi\n"
+"39.  Da får vi\n"
 "SUBTOTAL(1,A1:A5) er lik 30.\n"
 "SUBTOTAL(6,A1:A5) er lik 22378356.\n"
 "SUBTOTAL(7,A1:A5) er lik 6.164414003.\n"
@@ -10743,12 +10616,12 @@ msgstr ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,koeffisienter)\n"
 "@DESCRIPTION=SERIESSUM-funksjonen returnerer summen av en potensrekke.  @x "
-"er basen for potensrekken, @n er første potens @x skal oppheves i, @m er "
-"økningen av potensen for hvert ledd i rekken, og @koeffisienter er "
+"er basen for potensrekken, @n er første potens @x skal oppheves i, @m er "
+"økningen av potensen for hvert ledd i rekken, og @koeffisienter er "
 "koeffisientene som hver suksessiv potens av @x blir muliplisert med. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 1.23, 2.32, 2.98, "
-"3.42, og 4.33.  Da får vi\n"
+"3.42, og 4.33.  Da får vi\n"
 "SERIESSUM(3,1,2.23,A1:A5) er lik 251416.43018.\n"
 "\n"
 "@SEEALSO=COUNT,SUM"
@@ -10822,8 +10695,8 @@ msgstr ""
 "MDETERM en #VALUE! feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at A1, ..., A4 inneholder tallene 2, 3, 7, og 3, B1, ..., B4 4, "
-"2, 4, og 1, C1, ..., C4 9, 4, 3, og 2, og D1, ..., D4 7, 3, 6, og 5.  Da får "
-"vi.\n"
+"2, 4, og 1, C1, ..., C4 9, 4, 3, og 2, og D1, ..., D4 7, 3, 6, og 5.  Da "
+"får vi.\n"
 "MDETERM(A1:D4) er lik 148.\n"
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
@@ -10846,16 +10719,16 @@ msgid ""
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
 "@FUNCTION=SUMPRODUCT\n"
-"@SYNTAX=SUMPRODUCT(område1,område2,...)\n"
+"@SYNTAX=SUMPRODUCT(område1,område2,...)\n"
 "@DESCRIPTION=SUMPRODUCT-funksjonen multipliserer korresponderende data i\n"
-"gitte tabeller eller områder, og returnerer summen av disse produktene. Hvis "
-"en tabelloppføring ikke er numerisk, brukes null i stedet.\n"
-"Hvis tabell- eller områdeargumenter ikke har samme størrelse, returnerer\n"
+"gitte tabeller eller områder, og returnerer summen av disse produktene. "
+"Hvis en tabelloppføring ikke er numerisk, brukes null i stedet.\n"
+"Hvis tabell- eller områdeargumenter ikke har samme størrelse, returnerer\n"
 "SUMPRODUCT en #VALUE! feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21, og "
 "43, og at cellene B1, B2, ..., B5 inneholder tallene 13, 22, 31, 33, og 39.  "
-"Da får vi\n"
+"Da får vi\n"
 "SUMPRODUCT(A1:A5,B1:B5) er lik 3370.\n"
 "\n"
 "@SEEALSO=SUM,PRODUCT"
@@ -10901,10 +10774,10 @@ msgstr ""
 "@SYNTAX=VARP(b1, b2, ...)\n"
 "@DESCRIPTION=VARP beregner variansen til et sett med tall hvor hvert tall er "
 "medlem av en populasjon og settet er hele populasjonen.\n"
-"(VARP er også kjent som N-varians.)\n"
+"(VARP er også kjent som N-varians.)\n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
-"25.9, og 40.1.  Da får vi\n"
+"25.9, og 40.1.  Da får vi\n"
 "VARP(A1:A5) er lik 94.112.\n"
 "\n"
 "@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR"
@@ -10927,14 +10800,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VARP(b1, b2, ...)\n"
-"@DESCRIPTION=VAR beregner variansen til et utvalg fra en populasjon. For å\n"
-"få den sanne variansen fra hele populasjonen bruk @VARP.\n"
-"(VAR er også kjent som N-1-variansen. Under rimelige betingelser er den en "
-"estimator for høyeste sannsynlighet av den sanne variansen.) Denne "
+"@DESCRIPTION=VAR beregner variansen til et utvalg fra en populasjon. For å\n"
+"få den sanne variansen fra hele populasjonen bruk @VARP.\n"
+"(VAR er også kjent som N-1-variansen. Under rimelige betingelser er den en "
+"estimator for høyeste sannsynlighet av den sanne variansen.) Denne "
 "funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
-"25.9, og 40.1.  Da får vi\n"
+"25.9, og 40.1.  Da får vi\n"
 "VAR(A1:A5) er lik 117.64.\n"
 "\n"
 "@SEEALSO=VARP,STDEV"
@@ -10959,7 +10832,7 @@ msgstr ""
 "Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
-"25.9, og 40.1.  Da får vi\n"
+"25.9, og 40.1.  Da får vi\n"
 "STDEV(A1:A5) er lik 10.84619749.\n"
 "\n"
 "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
@@ -10985,7 +10858,7 @@ msgstr ""
 "funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
-"25.9, og 40.1.  Da får vi\n"
+"25.9, og 40.1.  Da får vi\n"
 "STDEVP(A1:A5) er lik 9.701133954.\n"
 "\n"
 "@SEEALSO=STDEV,STDEVA,STDEVPA"
@@ -11041,13 +10914,12 @@ msgstr ""
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
 "25.9, og 40.1, og cellene B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, og 42.7.  "
-"Da får vi\n"
+"Da får vi\n"
 "COVAR(A1:A5,B1:B5) er lik 65.858.\n"
 "\n"
 "@SEEALSO=CORREL,FISHER,FISHERINV"
 
 #: src/functions/fn-stat.c:421
-#, fuzzy
 msgid ""
 "@FUNCTION=CORREL\n"
 "@SYNTAX=CORREL(array1,array2)\n"
@@ -11063,19 +10935,18 @@ msgid ""
 "@SEEALSO=COVAR,FISHER,FISHERINV"
 msgstr ""
 "@FUNCTION=CORREL\n"
-"@SYNTAX=CORREL(matrise1, matrise2)\n"
+"@SYNTAX=CORREL(matrise1,matrise2)\n"
 "@DESCRIPTION=CORREL returnerer korrelasjonskoeffisienten for to datasett.\n"
 "Strenger og tomme celler ignoreres. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
 "25.9, og 40.1, og cellene B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, og 42.7.  "
-"Da får vi\n"
+"Da får vi\n"
 "CORREL(A1:A5,B1:B5) er lik 0.996124788.\n"
 "\n"
-"@SEEALSO=STDEV"
+"@SEEALSO=COVAR,FISHER,FISHERINV"
 
 #: src/functions/fn-stat.c:453
-#, fuzzy
 msgid ""
 "@FUNCTION=NEGBINOMDIST\n"
 "@SYNTAX=NEGBINOMDIST(f,t,p)\n"
@@ -11105,7 +10976,6 @@ msgstr ""
 "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"
 
 #: src/functions/fn-stat.c:492
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMSDIST(x)\n"
@@ -11128,7 +10998,6 @@ msgstr ""
 "@SEEALSO=NORMDIST"
 
 #: src/functions/fn-stat.c:519
-#, fuzzy
 msgid ""
 "@FUNCTION=NORMSINV\n"
 "@SYNTAX=NORMSINV(p)\n"
@@ -11153,7 +11022,6 @@ msgstr ""
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 
 #: src/functions/fn-stat.c:552
-#, fuzzy
 msgid ""
 "@FUNCTION=LOGNORMDIST\n"
 "@SYNTAX=LOGNORMDIST(x,mean,stdev)\n"
@@ -11168,12 +11036,18 @@ msgid ""
 "\n"
 "@SEEALSO=NORMDIST"
 msgstr ""
-"@FUNCTION=NORMDIST\n"
-"@SYNTAX=NORMDIST(x)\n"
-"@DESCRIPTION=NORMDIST-funksjonen returnerer standard normal kumulativ "
-"distribusjon. @x er verdien du vil ha distribusjonen for.\n"
-"Bruk av denne funksjonen på en streng eller en tom celle gjør ingenting.\n"
-"@SEEALSO=ABS, FLOOR, INT"
+"@FUNCTION=LOGNORMDIST\n"
+"@SYNTAX=NORMDIST(x,middelverdi,stdev)\n"
+"@DESCRIPTION=LOGNORMDIST returnerer lognormal distribusjon. @x er verdien du "
+"vil ha distribusjonen for. @middelverdi er middelverdien for distribusjonen, "
+"og @stdev er standardavviket for distribusjonen. Denne funksjonen er Excel "
+"kompatibel.\n"
+"Hvis @stdev = 0 returnerer LOGNORMDIST en #DIV/0! feil. Hvis @x <=0, "
+"@middelverdi < 0 eller @stdev < 0, returnerer LOGNORMDIST en #NUM! feil.\n"
+"@EXAMPLES=\n"
+"LOGNORMDIST(3,1,2) er lik 0.519662338\n"
+"\n"
+"@SEEALSO=NORMDIST"
 
 #: src/functions/fn-stat.c:593
 #, fuzzy
@@ -11194,12 +11068,11 @@ msgstr ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,dof)\n"
 "@DESCRIPTION=CHIINV-funksjonen returnerer den inverse av den enhalede "
-"sannsynligheten til den chi-opphøyede distribusjonen.\n"
+"sannsynligheten til den chi-opphøyede distribusjonen.\n"
 "Hvis @p < 0 eller @p > 1 eller @dof < 1, returnerer CHIINV en #NUM!-feil. \n"
 "@SEEALSO=CHIDIST,CHITEST"
 
 #: src/functions/fn-stat.c:630
-#, fuzzy
 msgid ""
 "@FUNCTION=FISHERINV\n"
 "@SYNTAX=FISHERINV(x)\n"
@@ -11214,8 +11087,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=FISHERINV\n"
 "@SYNTAX=FISHERINV(x)\n"
-"@DESCRIPTION=FISHERINV-funksjonen returnerer det inverse av Fisher- "
-"transformasjonen ved @x. \n"
+"@DESCRIPTION=FISHERINV returnerer den inverse av Fisher-transformasjonen ved "
+"@x. \n"
 "Hvis @x ikke er et tall returnerer FISHERINV en #VALUE! feil. Denne "
 "funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
@@ -11264,7 +11137,7 @@ msgstr ""
 "datapunkter. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
-"25.9, og 40.1. Da får vi\n"
+"25.9, og 40.1. Da får vi\n"
 "HARMEAN(A1:A5) er lik 19.529814427.\n"
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,MEDIAN,MEAN,MODE,TRIMMEAN"
@@ -11290,7 +11163,7 @@ msgstr ""
 "funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
-"25.9, og 40.1. Da får vi\n"
+"25.9, og 40.1. Da får vi\n"
 "GEOMEAN(A1:A5) er lik 21.279182482.\n"
 "\n"
 "@SEEALSO=AVERAGE,HARMEAN,MEDIAN,MEAN,MODE,TRIMMEAN"
@@ -11314,7 +11187,7 @@ msgstr ""
 "argumenter som gis. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
-"25.9, og 40.1. Da får vi\n"
+"25.9, og 40.1. Da får vi\n"
 "COUNT(A1:A5) er lik 5.\n"
 "\n"
 "@SEEALSO=AVERAGE"
@@ -11339,7 +11212,7 @@ msgstr ""
 " \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene og tekststrengene "
-"11.4, \"missing\", \"missing\", 25.9, og 40.1. Da får vi\n"
+"11.4, \"missing\", \"missing\", 25.9, og 40.1. Da får vi\n"
 "COUNTA(A1:A5) er lik 5.\n"
 "\n"
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
@@ -11363,11 +11236,11 @@ msgstr ""
 "@SYNTAX=SUM(verdi1, verdi2, ...)\n"
 "@DESCRIPTION=AVERAGE beregner gjennomsnittet av alle verdiene og cellene "
 "referert i argumentlisten. Dette er ekvivalent til summen av alle "
-"argumentene delt på antall argumenter. Denne funksjonen er Excel kompatibel. "
-"\n"
+"argumentene delt på antall argumenter. Denne funksjonen er Excel "
+"kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
-"25.9, og 40.1.  Da får vi\n"
+"25.9, og 40.1.  Da får vi\n"
 "AVERAGE(A1:A5) er lik 23.2.\n"
 "\n"
 "@SEEALSO=SUM, COUNT"
@@ -11393,7 +11266,7 @@ msgstr ""
 "er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
-"25.9, og 40.1.  Da får vi\n"
+"25.9, og 40.1.  Da får vi\n"
 "MIN(A1:A5) er lik 11.4.\n"
 "\n"
 "@SEEALSO=MAX,ABS"
@@ -11419,7 +11292,7 @@ msgstr ""
 "kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
-"25.9, og 40.1.  Da får vi\n"
+"25.9, og 40.1.  Da får vi\n"
 "MAX(A1:A5) er lik 40.1.\n"
 "\n"
 "@SEEALSO=MIN,ABS"
@@ -11494,7 +11367,7 @@ msgstr ""
 "@SYNTAX=NORMDIST(x)\n"
 "@DESCRIPTION=NORMDIST-funksjonen returnerer standard normal kumulativ "
 "distribusjon. @x er verdien du vil ha distribusjonen for.\n"
-"Bruk av denne funksjonen på en streng eller en tom celle gjør ingenting.\n"
+"Bruk av denne funksjonen på en streng eller en tom celle gjør ingenting.\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
 #: src/functions/fn-stat.c:1116
@@ -11585,7 +11458,7 @@ msgstr ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
 "@DESCRIPTION=CHIDIST returnerer den enhalede sannsynligheten til den "
-"chi-opphøyede distribusjonen. @dof er antall grader av frihet.\n"
+"chi-opphøyede distribusjonen. @dof er antall grader av frihet.\n"
 "Hvis @dof ikke er et heltall, blir det avkortet. Hvis @dof < 1 returnerer \n"
 "CHIDIST en #NUM!-feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
@@ -11609,7 +11482,7 @@ msgstr ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,dof)\n"
 "@DESCRIPTION=CHIINV-funksjonen returnerer den inverse av den enhalede "
-"sannsynligheten til den chi-opphøyede distribusjonen.\n"
+"sannsynligheten til den chi-opphøyede distribusjonen.\n"
 "Hvis @p < 0 eller @p > 1 eller @dof < 1, returnerer CHIINV en #NUM!-feil. "
 "Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
@@ -11631,11 +11504,11 @@ msgid ""
 "@SEEALSO=CHIDIST,CHIINV"
 msgstr ""
 "@FUNCTION=CHITEST\n"
-"@SYNTAX=CHITEST(faktisk_område,teoretisk_område)\n"
+"@SYNTAX=CHITEST(faktisk_område,teoretisk_område)\n"
 "@DESCRIPTION=CHITEST-funksjonen returnerer uavhengighetstesten til den "
-"chi-opphøyede distribusjonen.\n"
-"@faktisk_område er et område som inneholder de observerte datapunktene. "
-"@teoretisk_område er et område som inneholder de forventede verdiene til "
+"chi-opphøyede distribusjonen.\n"
+"@faktisk_område er et område som inneholder de observerte datapunktene. "
+"@teoretisk_område er et område som inneholder de forventede verdiene til "
 "datapunktene. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "\n"
@@ -11659,12 +11532,12 @@ msgstr ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
 "@DESCRIPTION=BETADIST returnerer den kumulative betadistribusjonen. @a er "
-"den valgfrie nedre grensen til @x og @b er den valgfrie øvre grensen for @x. "
-"Hvis @a ikke er gitt bruker BETADIST 0. Hvis @b ikke er gitt bruker BETADIST "
-"1. Hvis @x < @a eller @x > @b, returnerer BETADIST en #NUM!-feil. Hvis "
-"@alpha <= 0 eller @beta <= 0, returnerer BETADIST en #NUM!-feil. Hvis @a >= "
-"@b returnerer BETADIST en #NUM!-feil. Denne funksjonen er Excel kompatibel. "
-"\n"
+"den valgfrie nedre grensen til @x og @b er den valgfrie øvre grensen for "
+"@x. Hvis @a ikke er gitt bruker BETADIST 0. Hvis @b ikke er gitt bruker "
+"BETADIST 1. Hvis @x < @a eller @x > @b, returnerer BETADIST en #NUM!-feil. "
+"Hvis @alpha <= 0 eller @beta <= 0, returnerer BETADIST en #NUM!-feil. Hvis "
+"@a >= @b returnerer BETADIST en #NUM!-feil. Denne funksjonen er Excel "
+"kompatibel. \n"
 "@EXAMPLES=\n"
 "BETADIST(0.12,2,3) er lik 0.07319808.\n"
 "\n"
@@ -11689,7 +11562,7 @@ msgstr ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
 "@DESCRIPTION=BETAINV returnerer den inverse kumulative beta distribusjonen. "
-"@a er den valgfrie nedre grensen for @x og @b er den valgfrie øvre grensen "
+"@a er den valgfrie nedre grensen for @x og @b er den valgfrie øvre grensen "
 "for @x. Hvis @a ikke er gitt bruker BETAINV 0. Hvis @b ikke er gitt bruker "
 "BETAINV 1.\n"
 "Hvis @p < 0 eller @p > 1 returnerer BETAINV en #NUM!-feil. Hvis alpha <= 0 "
@@ -11717,7 +11590,7 @@ msgstr ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,haler)\n"
 "@DESCRIPTION=TDIST returnerer Student-t distribusjonen. @dof er graden av "
-"frihet og @haler er 1 eller 2 avhengig av om du ønsker en en-halet eller "
+"frihet og @haler er 1 eller 2 avhengig av om du ønsker en en-halet eller "
 "to-halet distribusjon.\n"
 "Hvis @dof < 1 returnerer TDIST en #NUM!-feil. Hvis @haler er hverken 1 eller "
 "2 returnerer TDIST en #NUM!-feil. Denne funksjonen er Excel kompatibel. \n"
@@ -11818,15 +11691,15 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 "@FUNCTION=BINOMDIST\n"
-"@SYNTAX=BINOMDIST(n,forsøk,p,kumulativ)\n"
+"@SYNTAX=BINOMDIST(n,forsøk,p,kumulativ)\n"
 "@DESCRIPTION=BINOMDIST-funksjonen returnerer den binominale distribusjonen. "
-"@n er antall suksesser, @forsøk er totalt antall uavhengige forsøk, @p er "
-"sannsynligheten for suksess i et forsøk, og @kumulativ beskriver om summen "
+"@n er antall suksesser, @forsøk er totalt antall uavhengige forsøk, @p er "
+"sannsynligheten for suksess i et forsøk, og @kumulativ beskriver om summen "
 "av binominalfunksjonen skal returneres fra 0 til @n.\n"
-"Hvis @n eller @forsøk ikke er heltall, blir de avkortet. Hvis @n < 0 eller\n"
-"@forsøk < 0 returnerer BINOMDIST en #NUM!-feil. Hvis @n > @forsøk returnerer "
-"BINOMDIST en NUM!-feil. Hvis @p < 0 eller @p > 1 returnerer BINOMDIST en "
-"#NUM!-feil. Denne funksjonen er Excel kompatibel. \n"
+"Hvis @n eller @forsøk ikke er heltall, blir de avkortet. Hvis @n < 0 eller\n"
+"@forsøk < 0 returnerer BINOMDIST en #NUM!-feil. Hvis @n > @forsøk "
+"returnerer BINOMDIST en NUM!-feil. Hvis @p < 0 eller @p > 1 returnerer "
+"BINOMDIST en #NUM!-feil. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "BINOMDIST(3,5,0.8,0) er lik 0.2048.\n"
 "\n"
@@ -11851,17 +11724,17 @@ msgid ""
 "@SEEALSO=BINOMDIST"
 msgstr ""
 "@FUNCTION=BINOMDIST\n"
-"@SYNTAX=BINOMDIST(n,forsøk,p,kumulativ)\n"
+"@SYNTAX=BINOMDIST(n,forsøk,p,kumulativ)\n"
 "@DESCRIPTION=BINOMDIST-funksjonen returnerer den binominale distribusjonen. "
-"@n er antall suksesser, @forsøk er totalt antall uavhengige forsøk, @p er "
-"sannsynligheten for suksess i et forsøk, og @kumulativ beskriver om summen "
+"@n er antall suksesser, @forsøk er totalt antall uavhengige forsøk, @p er "
+"sannsynligheten for suksess i et forsøk, og @kumulativ beskriver om summen "
 "av binominalfunksjonen skal returneres fra 0 til @n.\n"
-"Bruk av denne funksjonen på en streng eller en tom celle returnerer en "
+"Bruk av denne funksjonen på en streng eller en tom celle returnerer en "
 "feil.\n"
-"Hvis @n eller @forsøk ikke er heltall, blir de avkortet. Hvis @n < 0 eller\n"
-"@forsøk < 0 returnerer BINOMDIST en #NUM!-feil. Hvis @n > @forsøk returnerer "
-"BINOMDIST en NUM!-feil. Hvis @p < 0 eller @p > 1 returnerer BINOMDIST en "
-"#NUM!-feil.\n"
+"Hvis @n eller @forsøk ikke er heltall, blir de avkortet. Hvis @n < 0 eller\n"
+"@forsøk < 0 returnerer BINOMDIST en #NUM!-feil. Hvis @n > @forsøk "
+"returnerer BINOMDIST en NUM!-feil. Hvis @p < 0 eller @p > 1 returnerer "
+"BINOMDIST en #NUM!-feil.\n"
 "@SEEALSO=POISSON"
 
 #: src/functions/fn-stat.c:1771
@@ -11903,17 +11776,17 @@ msgid ""
 "@SEEALSO=BINOMDIST,POISSON"
 msgstr ""
 "@FUNCTION=BINOMDIST\n"
-"@SYNTAX=BINOMDIST(n,forsøk,p,kumulativ)\n"
+"@SYNTAX=BINOMDIST(n,forsøk,p,kumulativ)\n"
 "@DESCRIPTION=BINOMDIST-funksjonen returnerer den binominale distribusjonen. "
-"@n er antall suksesser, @forsøk er totalt antall uavhengige forsøk, @p er "
-"sannsynligheten for suksess i et forsøk, og @kumulativ beskriver om summen "
+"@n er antall suksesser, @forsøk er totalt antall uavhengige forsøk, @p er "
+"sannsynligheten for suksess i et forsøk, og @kumulativ beskriver om summen "
 "av binominalfunksjonen skal returneres fra 0 til @n.\n"
-"Bruk av denne funksjonen på en streng eller en tom celle returnerer en "
+"Bruk av denne funksjonen på en streng eller en tom celle returnerer en "
 "feil.\n"
-"Hvis @n eller @forsøk ikke er heltall, blir de avkortet. Hvis @n < 0 eller\n"
-"@forsøk < 0 returnerer BINOMDIST en #NUM!-feil. Hvis @n > @forsøk returnerer "
-"BINOMDIST en NUM!-feil. Hvis @p < 0 eller @p > 1 returnerer BINOMDIST en "
-"#NUM!-feil.\n"
+"Hvis @n eller @forsøk ikke er heltall, blir de avkortet. Hvis @n < 0 eller\n"
+"@forsøk < 0 returnerer BINOMDIST en #NUM!-feil. Hvis @n > @forsøk "
+"returnerer BINOMDIST en NUM!-feil. Hvis @p < 0 eller @p > 1 returnerer "
+"BINOMDIST en #NUM!-feil.\n"
 "@SEEALSO=POISSON"
 
 #: src/functions/fn-stat.c:1846
@@ -11990,7 +11863,7 @@ msgstr ""
 "@SYNTAX=NORMDIST(x)\n"
 "@DESCRIPTION=NORMDIST-funksjonen returnerer standard normal kumulativ "
 "distribusjon. @x er verdien du vil ha distribusjonen for.\n"
-"Bruk av denne funksjonen på en streng eller en tom celle gjør ingenting.\n"
+"Bruk av denne funksjonen på en streng eller en tom celle gjør ingenting.\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
 #: src/functions/fn-stat.c:1971
@@ -12038,7 +11911,7 @@ msgstr ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,dof)\n"
 "@DESCRIPTION=CHIINV-funksjonen returnerer den inverse av den enhalede "
-"sannsynligheten til den chi-opphøyede distribusjonen.\n"
+"sannsynligheten til den chi-opphøyede distribusjonen.\n"
 "Hvis @p < 0 eller @p > 1 eller @dof < 1, returnerer CHIINV en #NUM!-feil. \n"
 "@SEEALSO=CHIDIST,CHITEST"
 
@@ -12066,11 +11939,11 @@ msgstr ""
 "@SYNTAX=KURTP(n1, n2, ...)\n"
 "@DESCRIPTION=KURTP returnerer populasjonen kurtois av et datasett.\n"
 "Strenger og tomme celler ignoreres.\n"
-"Hvis færre enn to tall oppgis, eller hvis alle er lik KURTP, returneres en "
+"Hvis færre enn to tall oppgis, eller hvis alle er lik KURTP, returneres en "
 "#DIV/0-feil.\n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3 21.3, "
-"25.9, og 40.1. Vi får da\n"
+"25.9, og 40.1. Vi får da\n"
 "KURTP(A1:A5) er lik -0.691363424.\n"
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
@@ -12094,11 +11967,11 @@ msgstr ""
 "@SYNTAX=KURTP(n1, n2, ...)\n"
 "@DESCRIPTION=KURTP returnerer populasjonen kurtois av et datasett.\n"
 "Strenger og tomme celler ignoreres.\n"
-"Hvis færre enn to tall oppgis, eller hvis alle er lik KURTP, returneres en "
+"Hvis færre enn to tall oppgis, eller hvis alle er lik KURTP, returneres en "
 "#DIV/0-feil.\n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3 21.3, "
-"25.9, og 40.1. Vi får da\n"
+"25.9, og 40.1. Vi får da\n"
 "KURTP(A1:A5) er lik -0.691363424.\n"
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
@@ -12123,7 +11996,7 @@ msgstr ""
 "i et datasett. Denne funksjonen er Excel kompatibel.  \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
-"25.9, og 40.1. Da får vi\n"
+"25.9, og 40.1. Da får vi\n"
 "AVEDEV(A1:A5) er lik 7.84.\n"
 "\n"
 "@SEEALSO=STDEV"
@@ -12150,7 +12023,7 @@ msgstr ""
 "Strenger og tomme celler ignoreres. Denne funksjonen er Excel kompatibel.\n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
-"25.9, og 40.1. Da får vi\n"
+"25.9, og 40.1. Da får vi\n"
 "AVEDEV(A1:A5) er lik 470.56.\n"
 "\n"
 "@SEEALSO=STDEV"
@@ -12271,7 +12144,7 @@ msgstr ""
 "funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
-"25.9, og 40.1. Da får vi\n"
+"25.9, og 40.1. Da får vi\n"
 "GEOMEAN(A1:A5) er lik 21.279182482.\n"
 "\n"
 "@SEEALSO=HARMEAN,MEDIAN,MEAN,MODE"
@@ -12297,7 +12170,7 @@ msgstr ""
 "@SYNTAX=COUNT(b1, b2, ...)\n"
 "@DESCRIPTION=Returnerer det totale antall heltalls eller flyttallsargumenter "
 "som gis.\n"
-"Bruk av denne funksjonen på en streng eller en tom celle gjør ingenting. \n"
+"Bruk av denne funksjonen på en streng eller en tom celle gjør ingenting. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=AVERAGE"
@@ -12323,7 +12196,7 @@ msgstr ""
 "@SYNTAX=COUNT(b1, b2, ...)\n"
 "@DESCRIPTION=Returnerer det totale antall heltalls eller flyttallsargumenter "
 "som gis.\n"
-"Bruk av denne funksjonen på en streng eller en tom celle gjør ingenting. \n"
+"Bruk av denne funksjonen på en streng eller en tom celle gjør ingenting. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=AVERAGE"
@@ -12369,7 +12242,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
 "25.9, og 40.1, og cellene B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, og 42.7.  "
-"Da får vi\n"
+"Da får vi\n"
 "CORREL(A1:A5,B1:B5) er lik 0.996124788.\n"
 "\n"
 "@SEEALSO=STDEV"
@@ -12398,7 +12271,7 @@ msgstr ""
 "Strenger og tomme celler ignoreres. Denne funksjonen er Excel kompatibel.\n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
-"25.9, og 40.1. Da får vi\n"
+"25.9, og 40.1. Da får vi\n"
 "AVEDEV(A1:A5) er lik 470.56.\n"
 "\n"
 "@SEEALSO=STDEV"
@@ -12422,14 +12295,14 @@ msgstr ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(tall1, tall2, ...)\n"
 "@DESCRIPTION=AVERAGEA returnerer gjennomsnittet av de gitte argumentene. "
-"Tall tekst og logiske verdier tas med i beregningen også. Hvis cellen "
+"Tall tekst og logiske verdier tas med i beregningen også. Hvis cellen "
 "inneholder tekst eller argumentene evalueres til FALSK, regnes de som "
 "verdien null (0). Hvis argumentet evalueres til SANN regnes det som en (1). "
 "Merk at tomme celler ikke telles med. Denne funksjonen er Excel kompatibel. "
 "\n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, "
-"17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
+"17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
 "AVERAGEA(A1:A5) er lik 18.94.\n"
 "\n"
 "@SEEALSO=AVERAGE"
@@ -12453,14 +12326,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(tall1, tall2,...)\n"
-"@DESCRIPTION=MAXA returnerer den største verdien av de gitte argumentene.  "
-"Tall, tekst og logiske verdier inkluderes i beregningen også. Hvis cellen "
+"@DESCRIPTION=MAXA returnerer den største verdien av de gitte argumentene.  "
+"Tall, tekst og logiske verdier inkluderes i beregningen også. Hvis cellen "
 "inneholder tekst eller argumentet evalueres til USANN, telles verdien som "
 "null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at "
 "tomme celler ikke tas med. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, "
-"17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
+"17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
 "MAXA(A1:A5) er lik 0.\n"
 "\n"
 "@SEEALSO=MAX,MINA"
@@ -12485,13 +12358,13 @@ msgstr ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(verdi1,verdi2,...)\n"
 "@DESCRIPTION=MINA returnerer den minste verdien av de gitte argumentene.  "
-"Tall, tekst og logiske verdier inkluderes i beregningen også. Hvis cellen "
+"Tall, tekst og logiske verdier inkluderes i beregningen også. Hvis cellen "
 "inneholder tekst eller argumentet evalueres til USANN, telles verdien som "
 "null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at "
 "tomme celler ikke tas med. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, "
-"17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
+"17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
 "MINA(A1:A5) er lik 40.1.\n"
 "\n"
 "@SEEALSO=MIN,MAXA"
@@ -12514,14 +12387,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(verdi1,verdi2,...)\n"
-"@DESCRIPTION=VARA returnerer variansen basert på en prøve. Tall, tekst og "
-"logiske verdier inkluderes i beregningen også.  Hvis cellen inneholder tekst "
-"eller argumentet evalueres til USANN, telles verdien som null (0). Hvis "
-"argumentet evalueres til SANN, telles det som en (1). Merk at tomme celler "
-"ikke tas med. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=VARA returnerer variansen basert på en prøve. Tall, tekst og "
+"logiske verdier inkluderes i beregningen også.  Hvis cellen inneholder "
+"tekst eller argumentet evalueres til USANN, telles verdien som null (0). "
+"Hvis argumentet evalueres til SANN, telles det som en (1). Merk at tomme "
+"celler ikke tas med. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, "
-"17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
+"17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
 "VARA(A1:A5) er lik 228.613.\n"
 "\n"
 "@SEEALSO=VAR,VARPA"
@@ -12545,14 +12418,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(verdi1,verdi2,...)\n"
-"@DESCRIPTION=VARPA returnerer variansen basert på hele populasjonen. Tall, "
-"tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen "
+"@DESCRIPTION=VARPA returnerer variansen basert på hele populasjonen. Tall, "
+"tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen "
 "inneholder tekst eller argumentet evalueres til USANN, telles verdien som "
 "null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at "
 "tomme celler ikke tas med. Denne funksjonen er Excel kompatibel.\n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, "
-"17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
+"17.3, \"missing\", 25.9, og 40.1. Da får vi\n"
 "VARPA(A1:A5) er lik 182.8904.\n"
 "\n"
 "@SEEALSO=VARP,VARP"
@@ -12576,14 +12449,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(verdi1,verdi2,...)\n"
-"@DESCRIPTION=STDEVA returnerer standardavviket basert på en prøve. Tall, "
-"tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen "
+"@DESCRIPTION=STDEVA returnerer standardavviket basert på en prøve. Tall, "
+"tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen "
 "inneholder tekst eller argumentet evalueres til USANN, telles verdien som "
 "null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at "
 "tomme celler ikke tas med. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene og strengene 11.4, "
-"17.3, \\\"missing\\\", 25.9, og 40.1. Da får vi\n"
+"17.3, \\\"missing\\\", 25.9, og 40.1. Da får vi\n"
 "STDEVA(A1:A5) er lik 15.119953704.\n"
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
@@ -12607,14 +12480,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(verdi1,verdi2,...)\n"
-"@DESCRIPTION=STDEVPA returnerer standardavviket basert på hele populasjonen. "
-"Tall, tekst og logiske verdier inkluderes i beregningen også.  Hvis cellen "
-"inneholder tekst eller argumentet evalueres til USANN, telles verdien som "
-"null (0). Hvis argumentet evalueres til SANN, telles det som en (1). Merk at "
-"tomme celler ikke tas med. Denne funksjonen er Excel kompatibel. \n"
+"@DESCRIPTION=STDEVPA returnerer standardavviket basert på hele "
+"populasjonen. Tall, tekst og logiske verdier inkluderes i beregningen også. "
+" Hvis cellen inneholder tekst eller argumentet evalueres til USANN, telles "
+"verdien som null (0). Hvis argumentet evalueres til SANN, telles det som en "
+"(1). Merk at tomme celler ikke tas med. Denne funksjonen er Excel "
+"kompatibel. \n"
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene og tekststrengene "
-"11.4, 17.3, \"missing\", 25.9, og 40.1.  Da får vi\n"
+"11.4, 17.3, \"missing\", 25.9, og 40.1.  Da får vi\n"
 "STDEVPA(A1:A5) er lik 13.523697719.\n"
 "\n"
 "@SEEALSO=STDEVA,STDEVP"
@@ -12657,7 +12531,7 @@ msgstr ""
 "@SYNTAX=COUNT(b1, b2, ...)\n"
 "@DESCRIPTION=Returnerer det totale antall heltalls eller flyttallsargumenter "
 "som gis.\n"
-"Bruk av denne funksjonen på en streng eller en tom celle gjør ingenting. \n"
+"Bruk av denne funksjonen på en streng eller en tom celle gjør ingenting. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=AVERAGE"
@@ -12901,7 +12775,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11.4, 17.3, 21.3, "
 "25.9, og 40.1, og cellene B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, og 42.7.  "
-"Da får vi\n"
+"Da får vi\n"
 "COVAR(A1:A5,B1:B5) er lik 65.858.\n"
 "\n"
 "@SEEALSO=CORREL,FISHER,FISHERINV"
@@ -12961,7 +12835,7 @@ msgstr ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(streng1, streng2)\n"
 "@DESCRIPTION=Returnerer sann hvis @streng1 er eksakt lik @streng2 (denne "
-"rutinen gjør forskjell på små og store bokstaver).\n"
+"rutinen gjør forskjell på små og store bokstaver).\n"
 "@EXAMPLES=\n"
 "EXACT(\"key\",\"key\") er SANN.\n"
 "EXACT(\"key\",\"Key\") er USANN.\n"
@@ -13018,7 +12892,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(tekst)\n"
-"@DESCRIPTION=Returnerer strengen i @tekst med små bokstaver\n"
+"@DESCRIPTION=Returnerer strengen i @tekst med små bokstaver\n"
 "@EXAMPLES=\n"
 "LOWER(\"J. F. Kennedy\") er lik \"j. f. kennedy\".\n"
 "\n"
@@ -13062,8 +12936,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(tekst[,ant_tegn])\n"
-"@DESCRIPTION=Returnerer @ant_tegn fra høyre eller tegnet helt til høyre hvis "
-"@ant_tegn ikke er spesifisert.\n"
+"@DESCRIPTION=Returnerer @ant_tegn fra høyre eller tegnet helt til høyre "
+"hvis @ant_tegn ikke er spesifisert.\n"
 "@EXAMPLES=\n"
 "RIGHT(\"end\") er lik \"d\".\n"
 "RIGHT(\"end\",2) er lik \"nd\".\n"
@@ -13100,7 +12974,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(streng1[,streng2...])\n"
-"@DESCRIPTION=Returnerer sammenslåtte strenger.\n"
+"@DESCRIPTION=Returnerer sammenslåtte strenger.\n"
 "@EXAMPLES=\n"
 "CONCATENATE(\"aa\",\"bb\") er lik \"aabb\".\n"
 "\n"
@@ -13162,7 +13036,7 @@ msgstr ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(streng1,streng2[,start])\n"
 "@DESCRIPTION=Returnerer posisjonen til @string1 i @string2 (skiller mellom "
-"små og store bokstaver), søker bare fra tegnet @start og utover (bruker 1 "
+"små og store bokstaver), søker bare fra tegnet @start og utover (bruker 1 "
 "hvis utelatt).\n"
 "@EXAMPLES=\n"
 "FIND(\"ac\",\"Jack\") er lik 2.\n"
@@ -13183,7 +13057,7 @@ msgstr ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num, [desimaler, ikke_komma])\n"
 "@DESCRIPTION=Returnerer @num som en formatert streng med @desimaler tall "
-"etter komma, og utelater komma hvis det etterspørres med @ikke_komma.\n"
+"etter komma, og utelater komma hvis det etterspørres med @ikke_komma.\n"
 "@EXAMPLES=\n"
 "FIXED(1234.567,2) er lik \"1,234.57\".\n"
 "\n"
@@ -13332,7 +13206,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(tekst, gml, ny [,num])\n"
-"@DESCRIPTION=Erstatter @gml med @ny i @tekst. Utskifting utføres bare på "
+"@DESCRIPTION=Erstatter @gml med @ny i @tekst. Utskifting utføres bare på "
 "forekomst @num av @gml i @tekst, ellers byttes alle ut.\n"
 "@EXAMPLES=\n"
 "SUBSTITUTE(\"testing\",\"test\",\"wait\") er lik \"waiting\".\n"
@@ -13382,16 +13256,17 @@ msgstr ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(tekst,innen[,start_num])\n"
 "@DESCRIPTION=Returnerer plasseringen av et tegn eller tekst streng inni en "
-"annen streng.  @tekst er strengen eller tegnet det skal søkes etter. @innen "
-"er strengen du skal søke i. @start_num er startposisjonen for søket i "
-"@innen.  Hvis @start_num er utelatt blir den regnet som one.  Søket er gjør "
-"ikke forskjell på små og store bokstaver. \n"
-"@tekst kan inneholde wildcard tegn (*) og spørsmålstegn (?) for å "
-"kontrollerer søket. Et spørsmålstegn erstatter ethvert tegn og wildcard "
-"erstatter enhver streng inkludert en tom streng.  Hvis du skal søke på selve "
-"wildcard eller spørsmålstegn tegnene, må du bruke tilde (~) foran tegnet. \n"
+"annen streng.  @tekst er strengen eller tegnet det skal søkes etter. @innen "
+"er strengen du skal søke i. @start_num er startposisjonen for søket i "
+"@innen.  Hvis @start_num er utelatt blir den regnet som one.  Søket er "
+"gjør ikke forskjell på små og store bokstaver. \n"
+"@tekst kan inneholde wildcard tegn (*) og spørsmålstegn (?) for å "
+"kontrollerer søket. Et spørsmålstegn erstatter ethvert tegn og wildcard "
+"erstatter enhver streng inkludert en tom streng.  Hvis du skal søke på "
+"selve wildcard eller spørsmålstegn tegnene, må du bruke tilde (~) foran "
+"tegnet. \n"
 "Hvis @tekst ikke blir funnet, returnerer SEARCH en #VALUE! feil. Hvis "
-"@start_num er mindre enn en eller større enn lengden av @innen, returnerer "
+"@start_num er mindre enn en eller større enn lengden av @innen, returnerer "
 "SEARCH en #VALUE! feil. \n"
 "@EXAMPLES=\n"
 "SEARCH(\"c\",\"Cancel\") er lik 1.\n"
@@ -13402,7 +13277,7 @@ msgstr ""
 #: src/gnumeric-util.c:602
 #, c-format
 msgid "Unable to open file '%s'"
-msgstr "Kunne ikke åpne fil '%s'"
+msgstr "Kunne ikke åpne fil '%s'"
 
 #: src/history.c:104
 msgid "/File/"
@@ -13410,7 +13285,7 @@ msgstr "/Fil/"
 
 #: src/history.c:136 src/history.c:158
 msgid "File/Print preview"
-msgstr "Forhåndsvisning av fil/utskrift"
+msgstr "Forhåndsvisning av fil/utskrift"
 
 #: src/history.c:204
 msgid "File/"
@@ -13419,7 +13294,7 @@ msgstr "Fil/"
 #: src/item-bar.c:480
 #, c-format
 msgid "Height: %.2f (%d pixels)"
-msgstr "Høyde: %.2f (%d piksler)"
+msgstr "Høyde: %.2f (%d piksler)"
 
 #: src/item-bar.c:483
 #, c-format
@@ -13433,7 +13308,7 @@ msgid ""
 "the contents in this region?"
 msgstr ""
 "Cellene som dras hit vil overskrive innholdet til de\n"
-"eksisterende cellene i dette området. Vil du at jeg skal\n"
+"eksisterende cellene i dette området. Vil du at jeg skal\n"
 "erstatte innholdet i denne regionen?"
 
 #: src/item-cursor.c:747 src/workbook.c:1467
@@ -13458,7 +13333,7 @@ msgstr "Flytt celler ned og kopier"
 
 #: src/item-cursor.c:752
 msgid "Shift cells right and copy"
-msgstr "Flytt celler til høyre og kopier"
+msgstr "Flytt celler til høyre og kopier"
 
 #: src/item-cursor.c:753
 msgid "Shift cells down and move"
@@ -13466,7 +13341,7 @@ msgstr "Flytt celled ned og flytt"
 
 #: src/item-cursor.c:754
 msgid "Shift cells right and move"
-msgstr "Flytt celler til høyre og flytt"
+msgstr "Flytt celler til høyre og flytt"
 
 #: src/item-grid.c:593
 msgid "Cu_t"
@@ -13494,7 +13369,7 @@ msgstr "_Slett..."
 
 #: src/item-grid.c:608
 msgid "Clear Co_ntents"
-msgstr "Tøm i_nnhold"
+msgstr "Tøm i_nnhold"
 
 #: src/item-grid.c:613
 msgid "_Format Cells..."
@@ -13518,7 +13393,7 @@ msgstr "_Ta frem"
 #. Row specific functions (Note some of the labels are duplicated
 #: src/item-grid.c:625
 msgid "_Row Height..."
-msgstr "_Radhøyde..."
+msgstr "_Radhøyde..."
 
 #: src/main.c:68
 msgid "Display Gnumeric's version"
@@ -13542,50 +13417,50 @@ msgstr "FIL"
 
 #: src/main.c:78
 msgid "Enables some debugging functions"
-msgstr "Slår på noen debugging funksjoner"
+msgstr "Slår på noen debugging funksjoner"
 
 #: src/main.c:78 src/main.c:81 src/main.c:83 src/main.c:91 src/main.c:95
 #: src/main.c:99 src/main.c:103 src/main.c:107 src/main.c:111
 msgid "LEVEL"
-msgstr "NIVÅ"
+msgstr "NIVÅ"
 
 #: src/main.c:81
 msgid "Enables some style related debugging functions"
-msgstr "Slår på noen stilrelaterte debugging funksjoner"
+msgstr "Slår på noen stilrelaterte debugging funksjoner"
 
 #: src/main.c:83
 msgid "Enables some dependency related debugging functions"
-msgstr "Slår på noen avhengighetsrelaterte debugging funksjoner"
+msgstr "Slår på noen avhengighetsrelaterte debugging funksjoner"
 
 #: src/main.c:86
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
-"Avslutt med én gang etter å ha åpnet de valgte arbeidsbøkene (nyttig for "
+"Avslutt med én gang etter å ha åpnet de valgte arbeidsbøkene (nyttig for "
 "testing)."
 
 #: src/main.c:90 src/main.c:110
 msgid "Enables debugging mesgs while reading excel workbooks"
-msgstr "Slår på debugmeldinger under lesing av excel arbeidsbøker"
+msgstr "Slår på debugmeldinger under lesing av excel arbeidsbøker"
 
 #: src/main.c:94
 msgid "Enables debugging mesgs while reading excel functions"
-msgstr "Slår på noen debugging funksjoner under lesing av excel funksjoner"
+msgstr "Slår på noen debugging funksjoner under lesing av excel funksjoner"
 
 #: src/main.c:98
 msgid "Enables debugging mesgs while reading excel colours & patterns"
-msgstr "Slår på debugmeldinger under lesing av farger og mønstre fra excel"
+msgstr "Slår på debugmeldinger under lesing av farger og mønstre fra excel"
 
 #: src/main.c:102
 msgid "Enables debugging mesgs while reading excel objects"
-msgstr "Slår på debuggingmeldinger under lesing av objekter fra excel"
+msgstr "Slår på debuggingmeldinger under lesing av objekter fra excel"
 
 #: src/main.c:106
 msgid "Enables debugging mesgs while reading excel charts"
-msgstr "Slår på debugmeldinger under lesing av grafer fra excel"
+msgstr "Slår på debugmeldinger under lesing av grafer fra excel"
 
 #: src/main.c:114
 msgid "Enables extra consistancy checking while reading ole files"
-msgstr "Slår på ekstra sjekk for enhetlighet under lesing av ole filer"
+msgstr "Slår på ekstra sjekk for enhetlighet under lesing av ole filer"
 
 #: src/main.c:140
 #, c-format
@@ -13612,20 +13487,20 @@ msgid ""
 "Unable to open plugin '%s'\n"
 "Plugin version '%s' is different from application '%s'."
 msgstr ""
-"Kan ikke åpne tillegg '%s'\n"
+"Kan ikke åpne tillegg '%s'\n"
 "Tilleggets versjon '%s' er forskjellig fra applikasjonen '%s'."
 
 #: src/plugin.c:123
 msgid "unable to open module file: "
-msgstr "kan ikke åpne modulfilen: "
+msgstr "kan ikke åpne modulfilen: "
 
 #: src/plugin.c:133
 msgid "Plugin must contain init_plugin function."
-msgstr "Tillegg må inneholde init_plugin funksjonen."
+msgstr "Tillegg må inneholde init_plugin funksjonen."
 
 #: src/plugin.c:139
 msgid "Couldn't determine size or modification date"
-msgstr "Kunne ikke bestemme størrelse eller endringsdato"
+msgstr "Kunne ikke bestemme størrelse eller endringsdato"
 
 #: src/plugin.c:151
 msgid "init_plugin returned error"
@@ -13638,7 +13513,7 @@ msgid ""
 "The plugin did not check it's version.\n"
 "It is probably for a different version of Gnumeric than '%s'."
 msgstr ""
-"Kunnen ikke åpne tillegg '%s'\n"
+"Kunnen ikke åpne tillegg '%s'\n"
 "Tillegget sjekket ikke sin egen versjon.\n"
 "Det er sannsynligvis for en annen versjon av Gnumeric enn '%s'."
 
@@ -13649,7 +13524,7 @@ msgstr "Tillegget er fremdeles i bruk.\n"
 #: src/plugin-util.c:114
 #, c-format
 msgid "Unable to unmap the file, error : %s"
-msgstr "Kunne ikke kjøre unmap på filen, feil: %s "
+msgstr "Kunne ikke kjøre unmap på filen, feil: %s "
 
 #: src/plugin-util.c:123
 #, c-format
@@ -13659,7 +13534,7 @@ msgstr "Feil under lukking av fil, feil: %s"
 #: src/plugin-util.c:178
 #, c-format
 msgid "Unable to mmap the file, error : %s"
-msgstr "Kunne ikke kjøre mmap på filen, feil: %s"
+msgstr "Kunne ikke kjøre mmap på filen, feil: %s"
 
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:366
@@ -13668,7 +13543,7 @@ msgstr "&[SIDE]"
 
 #: src/print.c:793 src/workbook.c:1853
 msgid "Selection must be a single range"
-msgstr "Utvalget må bestå av et enkelt område"
+msgstr "Utvalget må bestå av et enkelt område"
 
 #: src/print.c:902
 msgid "Print Sheets"
@@ -13684,7 +13559,7 @@ msgstr "Ar_k"
 
 #: src/print.c:987 src/workbook.c:1137 src/workbook.c:1458
 msgid "Print preview"
-msgstr "Forhåndsvisning"
+msgstr "Forhåndsvisning"
 
 #: src/print-info.c:21 src/print-info.c:24 src/print-info.c:25
 #: src/print-info.c:274
@@ -13763,12 +13638,12 @@ msgstr "tid"
 #: src/selection.c:149
 #, c-format
 msgid "The command `%s' cannot be performed with multiple selections"
-msgstr "Kommandoen '%s' kan ikke utføres på flere utvalg"
+msgstr "Kommandoen '%s' kan ikke utføres på flere utvalg"
 
 #. FIXME FIXME : disable copying part of an array
 #: src/selection.c:628
 msgid "copy"
-msgstr "kopiér"
+msgstr "kopiér"
 
 #: src/selection.c:659
 msgid "cut"
@@ -13786,10 +13661,10 @@ msgid ""
 "\n"
 "Try selecting a single cell or an area of the same shape and size."
 msgstr ""
-"Dette området kan ikke limes inn i utvalget fordi det \n"
+"Dette området kan ikke limes inn i utvalget fordi det \n"
 "har en forskjellig form (%dRx%dC vs %dRx%dC)\n"
 "\n"
-"Prøv å velg en enkel celle eller et område med samme form og størrelse."
+"Prøv å velg en enkel celle eller et område med samme form og størrelse."
 
 #: src/sheet.c:1082
 msgid "Internal ERROR"
@@ -13811,7 +13686,7 @@ msgstr "Knapp"
 #: src/sheet-object.c:777 src/sheet-object.c:780 src/workbook.c:1105
 #: src/workbook.c:1108
 msgid "Select an object to add"
-msgstr "Velg et objekt å legge til"
+msgstr "Velg et objekt å legge til"
 
 #: src/sheet-view.c:479
 #, c-format
@@ -13829,15 +13704,15 @@ msgstr "Svarrapport"
 
 #: src/solver-lp.c:890
 msgid "Gnumeric Solver Answer Report"
-msgstr "Parametere for Gnumeric problemløser"
+msgstr "Parametere for Gnumeric problemløser"
 
 #: src/solver-lp.c:894
 msgid "Target Cell (Maximize)"
-msgstr "Målcelle (Maksimer)"
+msgstr "Målcelle (Maksimer)"
 
 #: src/solver-lp.c:896
 msgid "Target Cell (Minimize)"
-msgstr "Målcelle (Minimer)"
+msgstr "Målcelle (Minimer)"
 
 #: src/solver-lp.c:898 src/solver-lp.c:925 src/solver-lp.c:960
 #: src/solver-lp.c:1058 src/solver-lp.c:1110
@@ -13890,7 +13765,7 @@ msgstr "Sensitivitetsrapport"
 
 #: src/solver-lp.c:1050
 msgid "Gnumeric Solver Sensitivity Report"
-msgstr "Gnumeric problemløser sensitivitetsrapport"
+msgstr "Gnumeric problemløser sensitivitetsrapport"
 
 #: src/solver-lp.c:1052 src/solver-lp.c:1103
 msgid "Final"
@@ -13919,7 +13794,7 @@ msgstr "Koeffisient"
 
 #: src/solver-lp.c:1062 src/solver-lp.c:1114
 msgid "Increase"
-msgstr "Øk"
+msgstr "Øk"
 
 #: src/solver-lp.c:1063 src/solver-lp.c:1115
 msgid "Decrease"
@@ -13939,7 +13814,7 @@ msgstr "Pris"
 
 #: src/solver-lp.c:1113
 msgid "R.H. Side"
-msgstr "Høyre side"
+msgstr "Høyre side"
 
 #: src/stf.c:122
 msgid "Error while trying to memory map file"
@@ -13947,19 +13822,19 @@ msgstr "Feil under memory map av fil"
 
 #: src/stf.c:132
 msgid "Error while trying to pre-convert file"
-msgstr "Feil under forsøk på å pre-konvertere filen"
+msgstr "Feil under forsøk på å pre-konvertere filen"
 
 #: src/stf.c:143
 msgid "This file does not seem to be a valid text file"
-msgstr "Denne filen ser ikke ut til å være en gyldig tekstfil"
+msgstr "Denne filen ser ikke ut til å være en gyldig tekstfil"
 
 #: src/stf.c:171
 msgid "Parse error while trying to parse data into sheet"
-msgstr "Fortolkningsfeil under forsøk på å lese data inn i arket"
+msgstr "Fortolkningsfeil under forsøk på å lese data inn i arket"
 
 #: src/stf.c:300
 msgid "Error while trying to write csv file"
-msgstr "Feil under forsøk på å skrive csv-fil"
+msgstr "Feil under forsøk på å skrive csv-fil"
 
 #: src/stf.c:325
 msgid "Text File import"
@@ -13985,16 +13860,16 @@ msgid ""
 "\n"
 "Thanks -- the Gnumeric Team\n"
 msgstr ""
-"Gnumeric klarte ikke å finne en passende standard skrifttype.\n"
+"Gnumeric klarte ikke å finne en passende standard skrifttype.\n"
 "\n"
 "Vennligst sjekk installasjonen av gnome-print, og at fontmap filen\n"
 "(typisk plassert i /usr/local/share/fonts/fontmap) ikke er tom eller\n"
 "nesten tom.\n"
 "\n"
-"Hvis du fremdeles ikke lykkes, vær snill å sende inn en feilrapport\n"
+"Hvis du fremdeles ikke lykkes, vær snill å sende inn en feilrapport\n"
 "(se http://bugs.gnome.org) som inkluderer denne informasjonen i tillegg:\n"
 "\n"
-"1. Verdier for LC_ALL og LANG miljøvariablene.\n"
+"1. Verdier for LC_ALL og LANG miljøvariablene.\n"
 "2. Din fontmap fil, se over.\n"
 "\n"
 "Takk -- Gnumeric programmererene\n"
@@ -14050,7 +13925,7 @@ msgstr "gyllen brun"
 
 #: src/widgets/widget-color-combo.c:457
 msgid "dark green #2"
-msgstr "mørk grønn #2"
+msgstr "mørk grønn #2"
 
 #: src/widgets/widget-color-combo.c:458
 msgid "navy"
@@ -14058,7 +13933,7 @@ msgstr "marine"
 
 #: src/widgets/widget-color-combo.c:459 src/widgets/widget-color-combo.c:515
 msgid "dark blue"
-msgstr "mørk blå"
+msgstr "mørk blå"
 
 #: src/widgets/widget-color-combo.c:460
 msgid "purple #2"
@@ -14066,15 +13941,15 @@ msgstr "lilla #2"
 
 #: src/widgets/widget-color-combo.c:461
 msgid "very dark gray"
-msgstr "meget mørk grå"
+msgstr "meget mørk grå"
 
 #: src/widgets/widget-color-combo.c:464 src/widgets/widget-color-combo.c:520
 msgid "dark red"
-msgstr "mørk rød"
+msgstr "mørk rød"
 
 #: src/widgets/widget-color-combo.c:465
 msgid "red-orange"
-msgstr "rød-oransje"
+msgstr "rød-oransje"
 
 #: src/widgets/widget-color-combo.c:466
 msgid "gold"
@@ -14082,19 +13957,19 @@ msgstr "gyllen"
 
 #: src/widgets/widget-color-combo.c:467
 msgid "dark green"
-msgstr "mørk grønn"
+msgstr "mørk grønn"
 
 #: src/widgets/widget-color-combo.c:468 src/widgets/widget-color-combo.c:521
 msgid "dull blue"
-msgstr "sløv blå"
+msgstr "sløv blå"
 
 #: src/widgets/widget-color-combo.c:470
 msgid "dull purple"
-msgstr "sløv lilla"
+msgstr "sløv lilla"
 
 #: src/widgets/widget-color-combo.c:471
 msgid "dark grey"
-msgstr "mørk grå"
+msgstr "mørk grå"
 
 #: src/widgets/widget-color-combo.c:475
 msgid "orange"
@@ -14106,15 +13981,15 @@ msgstr "lime"
 
 #: src/widgets/widget-color-combo.c:477
 msgid "dull green"
-msgstr "sløv grønn"
+msgstr "sløv grønn"
 
 #: src/widgets/widget-color-combo.c:478
 msgid "dull blue #2"
-msgstr "sløv blå #2"
+msgstr "sløv blå #2"
 
 #: src/widgets/widget-color-combo.c:479
 msgid "sky blue #2"
-msgstr "himmelblå #2"
+msgstr "himmelblå #2"
 
 #: src/widgets/widget-color-combo.c:480 src/widgets/widget-color-combo.c:519
 msgid "purple"
@@ -14122,7 +13997,7 @@ msgstr "lilla"
 
 #: src/widgets/widget-color-combo.c:481
 msgid "gray"
-msgstr "grå"
+msgstr "grå"
 
 #: src/widgets/widget-color-combo.c:485
 msgid "bright orange"
@@ -14130,15 +14005,15 @@ msgstr "lys oransje"
 
 #: src/widgets/widget-color-combo.c:489
 msgid "bright blue"
-msgstr "lys blå"
+msgstr "lys blå"
 
 #: src/widgets/widget-color-combo.c:490 src/widgets/widget-color-combo.c:507
 msgid "red purple"
-msgstr "rød-lilla"
+msgstr "rød-lilla"
 
 #: src/widgets/widget-color-combo.c:491
 msgid "light grey"
-msgstr "lys grå"
+msgstr "lys grå"
 
 #: src/widgets/widget-color-combo.c:494 src/widgets/widget-color-combo.c:511
 msgid "pink"
@@ -14154,7 +14029,7 @@ msgstr "lys gul"
 
 #: src/widgets/widget-color-combo.c:497
 msgid "light green"
-msgstr "lys grønn"
+msgstr "lys grønn"
 
 #: src/widgets/widget-color-combo.c:498
 msgid "light cyan"
@@ -14162,7 +14037,7 @@ msgstr "lys cyan"
 
 #: src/widgets/widget-color-combo.c:499 src/widgets/widget-color-combo.c:509
 msgid "light blue"
-msgstr "lys blå"
+msgstr "lys blå"
 
 #: src/widgets/widget-color-combo.c:500 src/widgets/widget-color-combo.c:513
 msgid "light purple"
@@ -14170,15 +14045,15 @@ msgstr "lys lilla"
 
 #: src/widgets/widget-color-combo.c:506
 msgid "purplish blue"
-msgstr "purpur-blå"
+msgstr "purpur-blå"
 
 #: src/widgets/widget-color-combo.c:510
 msgid "dark purple"
-msgstr "mørk purpur"
+msgstr "mørk purpur"
 
 #: src/widgets/widget-color-combo.c:512
 msgid "sky blue"
-msgstr "himmelblå"
+msgstr "himmelblå"
 
 #: src/widgets/widget-font-selector.c:130 src/workbook-format-toolbar.c:339
 msgid "Bold"
@@ -14227,7 +14102,7 @@ msgstr "Lag et nytt regneark"
 
 #: src/workbook.c:1123
 msgid "_Import..."
-msgstr "_Importér..."
+msgstr "_Importér..."
 
 #: src/workbook.c:1123
 msgid "Imports a file"
@@ -14243,7 +14118,7 @@ msgstr "Sammendragsinformasjon"
 
 #: src/workbook.c:1137 src/workbook.c:1458
 msgid "Print pre_view"
-msgstr "Fo_rhåndsvisning"
+msgstr "Fo_rhåndsvisning"
 
 #: src/workbook.c:1153
 msgid "_All"
@@ -14283,11 +14158,11 @@ msgstr "Lim inn med alternative filtre og transformasjoner"
 
 #: src/workbook.c:1186
 msgid "C_lear"
-msgstr "T_øm"
+msgstr "T_øm"
 
 #: src/workbook.c:1189
 msgid "Remove selected cells, shifting other into their place"
-msgstr "Fjern valgte celler, og flytt andre inn på plassen"
+msgstr "Fjern valgte celler, og flytt andre inn på plassen"
 
 #: src/workbook.c:1191
 msgid "De_lete Sheet"
@@ -14295,7 +14170,7 @@ msgstr "S_lett ark"
 
 #: src/workbook.c:1192
 msgid "Irrevocably remove an entire sheet"
-msgstr "Fjern et helt ark, uten muligheter for å hente det tilbake"
+msgstr "Fjern et helt ark, uten muligheter for å hente det tilbake"
 
 #. Default <Ctrl-A> to be select all
 #: src/workbook.c:1198
@@ -14309,11 +14184,11 @@ msgstr "Velg alle celler i regnearket"
 #. Default <Ctrl-I> to be goto
 #: src/workbook.c:1203
 msgid "_Goto cell..."
-msgstr "_Gå til celle..."
+msgstr "_Gå til celle..."
 
 #: src/workbook.c:1204
 msgid "Jump to a specified cell"
-msgstr "Gå til spesifiser celle"
+msgstr "Gå til spesifiser celle"
 
 #. Default <F9> to recalculate
 #: src/workbook.c:1208
@@ -14335,20 +14210,20 @@ msgstr "Zoom inn eller ut i regnearket"
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
 #: src/workbook.c:1227
 msgid "Current _date"
-msgstr "Nåværende _dato"
+msgstr "Nåværende _dato"
 
 #: src/workbook.c:1228
 msgid "Insert the current date into the selected cell(s)"
-msgstr "Sett nåværende dato inn i valgte celle(r)"
+msgstr "Sett nåværende dato inn i valgte celle(r)"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
 #: src/workbook.c:1233
 msgid "Current _time"
-msgstr "Nåværende _tid"
+msgstr "Nåværende _tid"
 
 #: src/workbook.c:1234
 msgid "Insert the current time into the selected cell(s)"
-msgstr "Sett inn nåværende tid i valgte celle(r)"
+msgstr "Sett inn nåværende tid i valgte celle(r)"
 
 #: src/workbook.c:1241 src/workbook.c:1364
 msgid "_Sheet"
@@ -14412,11 +14287,11 @@ msgstr "_Standardavvik bredde"
 
 #: src/workbook.c:1300
 msgid "_Height"
-msgstr "_Høyde"
+msgstr "_Høyde"
 
 #: src/workbook.c:1309
 msgid "_Standard Height"
-msgstr "_Standard høyde"
+msgstr "_Standard høyde"
 
 #: src/workbook.c:1316
 msgid "_Change name"
@@ -14477,15 +14352,15 @@ msgstr "Tille_gg..."
 
 #: src/workbook.c:1375
 msgid "Manage available plugin modules."
-msgstr "Håndtering av tilgjengelige tilleggsmoduler."
+msgstr "Håndtering av tilgjengelige tilleggsmoduler."
 
 #: src/workbook.c:1380
 msgid "Auto _Correct..."
-msgstr "Auto_korrigér..."
+msgstr "Auto_korrigér..."
 
 #: src/workbook.c:1381
 msgid "Automaticly perform simple spell checking"
-msgstr "Automatisk utføring av  enkel stavekontroll"
+msgstr "Automatisk utføring av  enkel stavekontroll"
 
 #: src/workbook.c:1383
 msgid "_Auto Save..."
@@ -14497,19 +14372,20 @@ msgstr "Automatisk lagring av aktivt dokument med jevne mellomrom"
 
 #: src/workbook.c:1389
 msgid "_Goal Seek..."
-msgstr "_Mål-søk..."
+msgstr "_Mål-søk..."
 
 #: src/workbook.c:1390
 msgid "Iteratively recalculate to find a target value"
-msgstr "Interaktiv rekalkulasjon for å finne en målverdi"
+msgstr "Interaktiv rekalkulasjon for å finne en målverdi"
 
 #: src/workbook.c:1392
 msgid "_Solver..."
-msgstr "_Problemløser"
+msgstr "_Problemløser"
 
 #: src/workbook.c:1393
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr "Interaktiv rekalkulasjon med begrensninger for å nærme seg en målverdi"
+msgstr ""
+"Interaktiv rekalkulasjon med begrensninger for å nærme seg en målverdi"
 
 #: src/workbook.c:1398
 msgid "_Data Analysis..."
@@ -14545,7 +14421,7 @@ msgstr "F_ormat"
 
 #: src/workbook.c:1431
 msgid "_Tools"
-msgstr "Verk_tøy"
+msgstr "Verk_tøy"
 
 #: src/workbook.c:1432
 msgid "_Data"
@@ -14561,11 +14437,11 @@ msgstr "Oppretter en ny arbeidsbok"
 
 #: src/workbook.c:1446
 msgid "Open"
-msgstr "Åpne"
+msgstr "Åpne"
 
 #: src/workbook.c:1446
 msgid "Opens an existing workbook"
-msgstr "Åpner en eksisterende arbeidsbok"
+msgstr "Åpner en eksisterende arbeidsbok"
 
 #: src/workbook.c:1449
 msgid "Save"
@@ -14614,7 +14490,7 @@ msgstr "Gjenopprett"
 
 #: src/workbook.c:1479
 msgid "Redo the operation"
-msgstr "Gjør operasjonen på nytt"
+msgstr "Gjør operasjonen på nytt"
 
 #: src/workbook.c:1485
 msgid "Sum into the current cell."
@@ -14637,7 +14513,7 @@ msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
 msgstr ""
-"Sorterer det valgte området i stigende rekkefølge basert på den første "
+"Sorterer det valgte området i stigende rekkefølge basert på den første "
 "kolonnen som er valgt."
 
 #: src/workbook.c:1497
@@ -14649,7 +14525,7 @@ msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
 msgstr ""
-"Sorterer det valgte området i synkende rekkefølge basert på den første "
+"Sorterer det valgte området i synkende rekkefølge basert på den første "
 "kolonnen som er valgt."
 
 #: src/workbook.c:1504
@@ -14658,7 +14534,7 @@ msgstr "Lager et grafikk objekt"
 
 #: src/workbook.c:1504
 msgid "Invokes the graphic wizard to create a graphic"
-msgstr "Starter grafikk-hjelperen for å lage grafikk"
+msgstr "Starter grafikk-hjelperen for å lage grafikk"
 
 #: src/workbook.c:1507
 msgid "Insert Object"
@@ -14718,7 +14594,7 @@ msgstr "Lager et elipseobjekt"
 
 #: src/workbook.c:1819
 msgid "You should introduce a valid cell name"
-msgstr "Du må presentere et gyldig cellenavn"
+msgstr "Du må presentere et gyldig cellenavn"
 
 #: src/workbook.c:1954
 msgid "Min"
@@ -14739,7 +14615,7 @@ msgstr "Arknavn"
 
 #: src/workbook.c:2742
 msgid "must have at least 1 letter"
-msgstr "må ha minst 1 bokstav"
+msgstr "må ha minst 1 bokstav"
 
 #: src/workbook.c:2749
 msgid "Duplicate Sheet name"
@@ -14755,7 +14631,7 @@ msgstr "Fjern dette arket"
 
 #: src/workbook.c:2902
 msgid "Rename this sheet"
-msgstr "Endre navn på dette arket"
+msgstr "Endre navn på dette arket"
 
 #: src/workbook.c:2903
 msgid "Re-order sheets"
@@ -14764,19 +14640,19 @@ msgstr "Omplasser ark"
 #: src/workbook-cmd-format.c:94
 msgid "You entered an invalid column width value.  It must be bigger than 0"
 msgstr ""
-"Du skrev inn en ugyldig verdi for kolonnebredde. Den må være større enn 0"
+"Du skrev inn en ugyldig verdi for kolonnebredde. Den må være større enn 0"
 
 #: src/workbook-cmd-format.c:185
 msgid "You entered an invalid row height value.  It must be bigger than 0"
-msgstr "Du oppga en ugyldig verdi for radhøyde. Den må være større enn 0"
+msgstr "Du oppga en ugyldig verdi for radhøyde. Den må være større enn 0"
 
 #: src/workbook-format-toolbar.c:340
 msgid "Sets the bold font"
-msgstr "Slår på uthevet skrift"
+msgstr "Slår på uthevet skrift"
 
 #: src/workbook-format-toolbar.c:348
 msgid "Makes the font italic"
-msgstr "Slår på kursiv skrift"
+msgstr "Slår på kursiv skrift"
 
 #: src/workbook-format-toolbar.c:355
 msgid "Underline"
@@ -14804,11 +14680,11 @@ msgstr "Sentrerer celleinnholdet"
 
 #: src/workbook-format-toolbar.c:368
 msgid "Right align"
-msgstr "Høyrejuster"
+msgstr "Høyrejuster"
 
 #: src/workbook-format-toolbar.c:368
 msgid "Right justifies the cell contents"
-msgstr "Høyrejusterer celleinnholdet"
+msgstr "Høyrejusterer celleinnholdet"
 
 #: src/workbook-format-toolbar.c:374
 msgid "Money format"
@@ -14829,7 +14705,7 @@ msgstr "Tusenskilletegn"
 #: src/workbook-format-toolbar.c:380
 msgid "Sets the format of the selected cells to include a thousands separator"
 msgstr ""
-"Setter formateringen for valgte celler til å inkludere et tusenskilletegn"
+"Setter formateringen for valgte celler til å inkludere et tusenskilletegn"
 
 #: src/workbook-format-toolbar.c:383
 msgid "Add decimals"
@@ -14837,7 +14713,7 @@ msgstr "Legg til desimaler"
 
 #: src/workbook-format-toolbar.c:383
 msgid "Increases the number of decimal numbers displayed"
-msgstr "Øker antall desimaler som vises"
+msgstr "Øker antall desimaler som vises"
 
 #: src/workbook-format-toolbar.c:386
 msgid "Remove decimals"
@@ -14889,11 +14765,11 @@ msgstr "Valg av skrifttype"
 
 #: src/workbook-format-toolbar.c:645
 msgid "Size"
-msgstr "Størrelse"
+msgstr "Størrelse"
 
 #: src/workbook-format-toolbar.c:659
 msgid "Font Size"
-msgstr "Størrelse for skrifttype"
+msgstr "Størrelse for skrifttype"
 
 #: src/workbook-format-toolbar.c:675 src/workbook-format-toolbar.c:678
 msgid "Borders"
@@ -14904,7 +14780,7 @@ msgstr "Kanter"
 #.
 #: src/workbook-format-toolbar.c:683
 msgid "Clear Background"
-msgstr "Tøm bakgrunn"
+msgstr "Tøm bakgrunn"
 
 #: src/workbook-format-toolbar.c:709 src/workbook-format-toolbar.c:712
 msgid "Foreground"
@@ -14962,7 +14838,7 @@ msgstr "_Neste steg >>"
 
 #: wizards/graphics/graphics.glade.h:11
 msgid "_Finish"
-msgstr "_Fullfør"
+msgstr "_Fullfør"
 
 #: wizards/graphics/graphics.glade.h:12
 msgid "_Graphic type:"
@@ -15002,7 +14878,7 @@ msgstr "Steg1"
 
 #: wizards/graphics/graphics.glade.h:21
 msgid "_Data Range:"
-msgstr "_Dataområde:"
+msgstr "_Dataområde:"
 
 #: wizards/graphics/graphics.glade.h:24
 msgid "Series in:"
@@ -15010,7 +14886,7 @@ msgstr "Serier inn:"
 
 #: wizards/graphics/graphics.glade.h:25
 msgid "Data ranges"
-msgstr "Dataområder"
+msgstr "Dataområder"
 
 #: wizards/graphics/graphics.glade.h:26
 msgid "Serie:"
@@ -15042,7 +14918,7 @@ msgstr "Steg2"
 
 #: wizards/graphics/graphics.glade.h:35
 msgid "_Plot title:"
-msgstr "Tittel på _plott:"
+msgstr "Tittel på _plott:"
 
 #: wizards/graphics/graphics.glade.h:36
 msgid "_X axis label:"
@@ -15098,11 +14974,11 @@ msgstr " X-akse "
 
 #: wizards/graphics/graphics.glade.h:50
 msgid "_Main line divisions"
-msgstr "_Primære linjeoppdelinger"
+msgstr "_Primære linjeoppdelinger"
 
 #: wizards/graphics/graphics.glade.h:51
 msgid "_Secondary line divisions"
-msgstr "_Sekundære linjeoppdelinger"
+msgstr "_Sekundære linjeoppdelinger"
 
 #: wizards/graphics/graphics.glade.h:52
 msgid " Y axis "
@@ -15110,11 +14986,11 @@ msgstr " Y-akse "
 
 #: wizards/graphics/graphics.glade.h:53
 msgid "M_ain line divisions"
-msgstr "Primære linjeoppdelinger"
+msgstr "Primære linjeoppdelinger"
 
 #: wizards/graphics/graphics.glade.h:54
 msgid "S_econdary line divisions"
-msgstr "S_ekundære linjeoppdelinger"
+msgstr "S_ekundære linjeoppdelinger"
 
 #: wizards/graphics/graphics.glade.h:55
 msgid "Division lines"
@@ -15134,7 +15010,7 @@ msgstr "Ne_d"
 
 #: wizards/graphics/graphics.glade.h:59
 msgid "_Corner"
-msgstr "_Hjørne"
+msgstr "_Hjørne"
 
 #: wizards/graphics/graphics.glade.h:60
 msgid "_Up"
@@ -15154,7 +15030,7 @@ msgstr "Kyngede kolonner. Sammenligner verdier mellom kategorier"
 
 #: wizards/graphics/graphic-type.c:37
 msgid "Stacked columns.  Compares the values brought by each category"
-msgstr "Stablede kolonner. Sammenligner verdiene innført av hver kategori"
+msgstr "Stablede kolonner. Sammenligner verdiene innført av hver kategori"
 
 #: wizards/graphics/graphic-type.c:50
 msgid ""
@@ -15190,15 +15066,15 @@ msgstr "Stablede linjer, 100%. FIXME: Legg til fin forklaring"
 
 #: wizards/graphics/graphic-type.c:147
 msgid "Lines with markers.  FIXME: Add nice explanation"
-msgstr "Linjer med markører. FIXME: Legg til fin forklaring"
+msgstr "Linjer med markører. FIXME: Legg til fin forklaring"
 
 #: wizards/graphics/graphic-type.c:160
 msgid "Stacked lines with markers.  FIXME: Add nice explanation"
-msgstr "Stablede linjer med markører. FIXME: Legg til fin forklaring"
+msgstr "Stablede linjer med markører. FIXME: Legg til fin forklaring"
 
 #: wizards/graphics/graphic-type.c:173
 msgid "Stacked lines with markers, 100%.  FIXME: Add nice explanation"
-msgstr "Stablede linjer med markører, 100%. FIXME: Legg til fin forklaring"
+msgstr "Stablede linjer med markører, 100%. FIXME: Legg til fin forklaring"
 
 #: wizards/graphics/graphic-type.c:190
 msgid "Scatter points"
@@ -15214,15 +15090,15 @@ msgstr "Spredningsdata forbundet med linjer"
 
 #: wizards/graphics/graphic-type.c:245
 msgid "Area 1: FIXME add nice description"
-msgstr "Område 1: FIXME: Legg til fin forklaring"
+msgstr "Område 1: FIXME: Legg til fin forklaring"
 
 #: wizards/graphics/graphic-type.c:257
 msgid "Stacked area.  FIXME: add nic description"
-msgstr "Stablet område. FIXME: Legg til fin forklaring"
+msgstr "Stablet område. FIXME: Legg til fin forklaring"
 
 #: wizards/graphics/graphic-type.c:270
 msgid "Stacked Area, 100%.  FIXME: add nice description"
-msgstr "Stablet område, 100%. FIXME: Legg til fin forklaring"
+msgstr "Stablet område, 100%. FIXME: Legg til fin forklaring"
 
 #: wizards/graphics/graphic-type.c:290
 msgid "Bar"
@@ -15238,7 +15114,7 @@ msgstr "Spredning"
 
 #: wizards/graphics/graphic-type.c:293
 msgid "Areas"
-msgstr "Områder"
+msgstr "Områder"
 
 #: wizards/graphics/main.c:86
 msgid "Step 1 of 3: Select graphic type"
@@ -15246,7 +15122,7 @@ msgstr "Steg 1 av 3: Velg grafikktype"
 
 #: wizards/graphics/main.c:89
 msgid "Step 2 of 3: Select data ranges"
-msgstr "Steg 2 av 3: Velg dataområder"
+msgstr "Steg 2 av 3: Velg dataområder"
 
 #: wizards/graphics/main.c:92
 msgid "Step 3 of 3: Customize graphic"
@@ -15255,3 +15131,6 @@ msgstr "Steg 3 av 3: Tilpass grafikk"
 #: wizards/graphics/main.c:175
 msgid "Unable to launch the graphics service"
 msgstr "Kunne ikke starte grafikktjenesten"
+
+#~ msgid "Gergõ Érdi, Gnumeric hacker."
+#~ msgstr "Gergo Erdi, Gnumeric hacker."
