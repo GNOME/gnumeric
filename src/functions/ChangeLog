@@ -1,3 +1,7 @@
+2002-11-30  Jody Goldberg <jody@gnome.org>
+
+	* fn-math.c (help_subtotal) : fix typo.
+
 2002-11-01  Jody Goldberg <jody@gnome.org>
 
 	* fn-stat.c (gnumeric_poisson) : poisson is defined for x == 0

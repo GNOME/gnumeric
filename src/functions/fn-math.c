@@ -2765,7 +2765,7 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_subtotal = {
 	N_("@FUNCTION=SUBTOTAL\n"
-	   "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
+	   "@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2,...)\n"
 
 	   "@DESCRIPTION="
 	   "SUBTOTAL function returns a subtotal of given list of arguments. "

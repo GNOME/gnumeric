@@ -18,6 +18,7 @@ Jody:
 	* fix bound check when exporting to XL95 to actually warn
 	* POISSON is defined for x == 0
  	* Support the global outline buttons
+	* typo in subtotal's help
 
 Morten:
 	* Fix GAMMAINV.

@@ -1,3 +1,7 @@
+2002-11-24  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (gnumeric_xml_read_workbook) : Use the new parser.
+
 2002-11-22  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-control-gui.c (scg_setup_group_buttons) : fix ungrouping.
