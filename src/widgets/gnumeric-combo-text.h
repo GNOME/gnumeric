@@ -8,8 +8,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define GNM_COMBO_TEXT(obj)	    GTK_CHECK_CAST (obj, gnm_combo_text_get_type (), GnmComboText)
-#define GNM_IS_COMBO_TEXT(obj)      GTK_CHECK_TYPE (obj, gnm_combo_text_get_type ())
+#define GNM_TYPE_COMBO_TEXT	(gnm_combo_text_get_type ())
+#define GNM_COMBO_TEXT(obj)	(G_TYPE_CHECK_INSTANCE_CAST (obj, GNM_TYPE_COMBO_TEXT, GnmComboText))
+#define GNM_IS_COMBO_TEXT(obj)	(G_TYPE_CHECK_INSTANCE_TYPE (obj, GNM_TYPE_COMBO_TEXT))
 
 typedef struct _GnmComboText	   GnmComboText;
 
@@ -31,7 +32,7 @@ typedef enum {		/* begin the search from : */
 	GNM_COMBO_TEXT_NEXT		/* the next element after current */
 } GnmComboTextSearch;
 
-GtkType    gnm_combo_text_get_type	(void);
+GType      gnm_combo_text_get_type	(void);
 GtkWidget *gnm_combo_text_new		 (GCompareFunc cmp_func);
 
 gboolean   gnm_combo_text_set_text	 (GnmComboText *ct, const gchar *label,

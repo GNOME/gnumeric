@@ -31,18 +31,42 @@ enum {
 };
 static guint combo_text_signals [LAST_SIGNAL] = { 0 };
 
-static GtkObjectClass *gnm_combo_text_parent_class;
+/**
+ * A utility wrapper around g_signal_emitv because it does not initiialize the
+ * result to FALSE if there is no handler.
+ */
+static gboolean
+gnm_signal_emit (GnmComboText *ct, int signal,
+		 gconstpointer arg, gboolean default_ret)
+{
+	gboolean result;
+	GValue ret = { 0, };
+	GValue instance_and_parm [2] = { { 0, }, { 0, } };
+
+	g_value_init (instance_and_parm + 0, GNM_TYPE_COMBO_TEXT);
+	g_value_set_instance (instance_and_parm + 0, G_OBJECT (ct));
+
+	g_value_init (instance_and_parm + 1, G_TYPE_POINTER);
+	g_value_set_pointer (instance_and_parm + 1, (gpointer)arg);
+
+	g_value_init (&ret, G_TYPE_BOOLEAN);
+	g_value_set_boolean  (&ret, default_ret);
+
+	g_signal_emitv (instance_and_parm, combo_text_signals [signal], 0, &ret);
+	result = g_value_get_boolean (&ret);
+
+	g_value_unset (instance_and_parm + 0);
+	g_value_unset (instance_and_parm + 1);
+
+	return result;
+}
 
 static void
 cb_entry_activate (GtkWidget *entry, gpointer ct)
 {
 	char const *text = gtk_entry_get_text (GTK_ENTRY (entry));
-	gboolean accept_change = TRUE;
 
-	gtk_signal_emit (GTK_OBJECT (ct), combo_text_signals [ENTRY_CHANGED],
-		text, &accept_change);
-
-	if (accept_change)
+	if (gnm_signal_emit (GNM_COMBO_TEXT (ct), ENTRY_CHANGED, text, TRUE))
 		gnm_combo_text_set_text (GNM_COMBO_TEXT (ct), text,
 			GNM_COMBO_TEXT_CURRENT);
 }
@@ -64,21 +88,16 @@ cb_list_select (GtkWidget *list, GtkWidget *child, gpointer data)
 {
 	GnmComboText *ct = GNM_COMBO_TEXT (data);
 	GtkEntry *entry = GTK_ENTRY (ct->entry);
-	gboolean notify_entry, accept_change;
+	gboolean accept_change;
 	char *text = g_strdup ((child != NULL)
 		? GTK_LABEL (GTK_BIN (child)->child)->label : "");
 
 	if (ct->cached_entry == child)
 		ct->cached_entry = NULL;
 
-	accept_change = notify_entry = TRUE;
-	gtk_signal_emit (GTK_OBJECT (ct), combo_text_signals [SELECTION_CHANGED],
-			 child, &notify_entry);
-
-	if (notify_entry)
-		gtk_signal_emit (GTK_OBJECT (ct), combo_text_signals [ENTRY_CHANGED],
-				 text, &accept_change);
-
+	accept_change = TRUE;
+	if (gnm_signal_emit (ct, SELECTION_CHANGED, child, TRUE))
+		accept_change = gnm_signal_emit (ct, ENTRY_CHANGED, text, TRUE);
 	if (accept_change)
 		gtk_entry_set_text (entry, text);
 	g_free (text);
@@ -177,7 +196,7 @@ cb_scroll_size_request (GtkWidget *widget, GtkRequisition *requisition,
 }
 
 static void
-gnm_combo_text_construct (GnmComboText *ct)
+gnm_combo_text_init (GnmComboText *ct)
 {
 	ct->cached_entry	= NULL;
 	ct->cache_mouse_state	= GTK_STATE_NORMAL;
@@ -227,6 +246,7 @@ gnm_combo_text_construct (GnmComboText *ct)
 static void
 gnm_combo_text_destroy (GtkObject *object)
 {
+	GtkObjectClass *parent;
 	GnmComboText *ct = GNM_COMBO_TEXT (object);
 
 	gtk_signal_disconnect_by_func (GTK_OBJECT (ct),
@@ -234,29 +254,31 @@ gnm_combo_text_destroy (GtkObject *object)
 	gtk_signal_disconnect_by_func (GTK_OBJECT (ct->list),
 				       GTK_SIGNAL_FUNC (cb_list_unselect),
 				       (gpointer) ct);
-	(*gnm_combo_text_parent_class->destroy) (object);
+
+	parent = g_type_class_peek (gtk_combo_box_get_type ());
+	if (parent && parent->destroy)
+		(*parent->destroy) (object);
 }
 
 static void
 gnm_combo_text_class_init (GtkObjectClass *klass)
 {
 	klass->destroy = &gnm_combo_text_destroy;
-	gnm_combo_text_parent_class = gtk_type_class (gtk_combo_box_get_type ());
 
-	combo_text_signals [SELECTION_CHANGED] =
-		gtk_signal_new ("selection_changed",
-				GTK_RUN_LAST,
-				GTK_CLASS_TYPE (klass),
-				GTK_SIGNAL_OFFSET (GnmComboTextClass, selection_changed),
-				gtk_marshal_BOOL__POINTER,
-				GTK_TYPE_BOOL, 1, GTK_TYPE_POINTER);
-	combo_text_signals [ENTRY_CHANGED] =
-		gtk_signal_new ("entry_changed",
-				GTK_RUN_LAST,
-				GTK_CLASS_TYPE (klass),
-				GTK_SIGNAL_OFFSET (GnmComboTextClass, entry_changed),
-				gtk_marshal_BOOL__POINTER,
-				GTK_TYPE_BOOL, 1, GTK_TYPE_POINTER);
+	combo_text_signals [SELECTION_CHANGED] = g_signal_new ("selection_changed",
+		GNM_TYPE_COMBO_TEXT,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnmComboTextClass, selection_changed),
+		(GSignalAccumulator) NULL, NULL,
+		gtk_marshal_BOOL__POINTER,
+		G_TYPE_BOOLEAN, 1, G_TYPE_POINTER);
+	combo_text_signals [ENTRY_CHANGED] = g_signal_new ("entry_changed",
+		GNM_TYPE_COMBO_TEXT,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnmComboTextClass, entry_changed),
+		(GSignalAccumulator) NULL, NULL,
+		gtk_marshal_BOOL__POINTER,
+		G_TYPE_BOOLEAN, 1, G_TYPE_POINTER);
 }
 
 /**
@@ -271,13 +293,14 @@ gnm_combo_text_new (GCompareFunc cmp_func)
 	if (cmp_func == NULL)
 		cmp_func = &g_str_equal;
 
-	ct = gtk_type_new (gnm_combo_text_get_type ());
+	ct = g_object_new (GNM_TYPE_COMBO_TEXT, NULL);
 	ct->cmp_func = cmp_func;
-	gnm_combo_text_construct (ct);
 	return GTK_WIDGET (ct);
 }
 
-E_MAKE_TYPE(gnm_combo_text, "GnmComboText", GnmComboText, gnm_combo_text_class_init, NULL, gtk_combo_box_get_type ())
+E_MAKE_TYPE(gnm_combo_text, "GnmComboText", GnmComboText,
+	    gnm_combo_text_class_init, gnm_combo_text_init,
+	    gtk_combo_box_get_type ())
 
 /**
  * gnm_combo_text_set_text :

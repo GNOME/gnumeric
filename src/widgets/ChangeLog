@@ -1,3 +1,23 @@
+2002-02-09  Jody Goldberg <jody@gnome.org>
+
+	* src/widgets/gnumeric-combo-text.c (gnm_signal_emit) : new utility to
+	  hand wrap g_signal_emitv.  We are forced to use it to avoid having the
+	  result value we assign as default initialized to FALSE by
+	  gtk_signal_emit.
+	(cb_entry_activate) : use gnm_signal_emit.
+	(cb_list_select) : ditto.
+	(gnm_combo_text_init) : renamed from gnm_combo_text_construct.
+	(gnm_combo_text_destroy) : use g_type_class_peek.
+	(gnm_combo_text_class_init) : convert to g_signal.
+	(gnm_combo_text_new) : use g_object_new.
+
+2002-02-02  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-hscrollbar.c : lose some functionality in the port to
+	  gtk-13., but enable the most important aspect, extension past
+	  current max.
+	* gnumeric-vscrollbar.c : ditto.
+
 2002-02-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnumeric-expr-entry.c (update_rangesel_text) : when deleting 
