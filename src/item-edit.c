@@ -60,7 +60,7 @@ setup_range_from_value (Range *range, Value *v)
 }
 
 /*
- * This routine could definetly be better.
+ * This routine could definitely be better.
  *
  * Currently it will not handle ranges like R[-1]C1, nor named ranges,
  * nor will it detect whether something is part of an expression or a
@@ -71,18 +71,17 @@ setup_range_from_value (Range *range, Value *v)
 static gboolean
 point_is_inside_range (ItemEdit *item_edit, Range *range)
 {
-	int text_len, cursor_pos, scan;
 	Value *v;
-	char *text;
-
-	text = gtk_entry_get_text (GTK_ENTRY (item_edit->entry));
+	int text_len, cursor_pos, scan;
+	GtkEntry *entry = GTK_ENTRY(workbook_get_entry (item_edit->sheet->workbook));
+	char *text = gtk_entry_get_text (entry);
 
 	if (NULL == gnumeric_char_start_expr_p (text))
 		return FALSE;
 
 	text++;
 	text_len = strlen (text);
-	cursor_pos = GTK_EDITABLE (item_edit->entry)->current_pos;
+	cursor_pos = GTK_EDITABLE (entry)->current_pos;
 	if (cursor_pos == 0)
 		return FALSE;
 	cursor_pos--;
@@ -183,11 +182,12 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	int const left_pos = ((int)item->x1) + 1 + ci->margin_a - x;
 	int top_pos = ((int)item->y1) + 1 - y;
 	int text_offset = 0;
+	GtkEntry *entry = GTK_ENTRY(workbook_get_entry (item_edit->sheet->workbook));
 	int cursor_pos = item_edit->cursor_visible
-		? GTK_EDITABLE (item_edit->entry)->current_pos : -1;
+		? GTK_EDITABLE (entry)->current_pos : -1;
 	GSList *ptr;
 
-	char const * const text = gtk_entry_get_text (GTK_ENTRY (item_edit->entry));
+	char const * const text = gtk_entry_get_text (entry);
 
 	/* no drawing until the font is set */
 	if (item_edit->font == NULL)
@@ -247,7 +247,8 @@ recalc_spans (GnomeCanvasItem *item)
 	ItemEdit *item_edit = ITEM_EDIT (item);
 	Sheet    *sheet     = item_edit->sheet;
 	GdkFont  *font      = item_edit->font;
-	char const * const start = gtk_entry_get_text (GTK_ENTRY (item_edit->entry));
+	GtkEntry *entry = GTK_ENTRY(workbook_get_entry (item_edit->sheet->workbook));
+	char const * const start = gtk_entry_get_text (entry);
 	char const * text = start;
 
 	GSList	*text_offsets = NULL;
@@ -411,6 +412,7 @@ static void
 item_edit_destroy (GtkObject *o)
 {
 	ItemEdit *item_edit = ITEM_EDIT (o);
+	GtkWidget *entry = workbook_get_entry (item_edit->sheet->workbook);
 
 	if (item_edit->text_offsets != NULL)
 		g_slist_free (item_edit->text_offsets);
@@ -418,8 +420,8 @@ item_edit_destroy (GtkObject *o)
 	item_edit_cursor_blink_stop (item_edit);
 	entry_destroy_feedback_range (item_edit);
 
-	gtk_signal_disconnect (GTK_OBJECT (item_edit->entry), item_edit->signal);
-	gtk_signal_disconnect (GTK_OBJECT (item_edit->entry), item_edit->signal2);
+	gtk_signal_disconnect (GTK_OBJECT (entry), item_edit->signal);
+	gtk_signal_disconnect (GTK_OBJECT (entry), item_edit->signal2);
 
 	if (GTK_OBJECT_CLASS (item_edit_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (item_edit_parent_class)->destroy)(o);
@@ -447,6 +449,7 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	ItemEdit        *item_edit = ITEM_EDIT (o);
 	GnumericSheet   *gsheet    = GNUMERIC_SHEET (item->canvas);
 	Sheet		*sheet;
+	GtkWidget	*entry;
 
 	/* We can only set the item_grid once */
 	g_return_if_fail (arg_id == ARG_ITEM_GRID);
@@ -456,12 +459,12 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	sheet = item_edit->sheet = item_edit->item_grid->sheet_view->sheet;
 	item_edit->col = sheet->cursor.edit_pos.col;
 	item_edit->row = sheet->cursor.edit_pos.row;
-	item_edit->entry = sheet->workbook->ea_input;
+	entry = workbook_get_entry (sheet->workbook);
 	item_edit->signal = gtk_signal_connect (
-		GTK_OBJECT (item_edit->entry), "changed",
+		GTK_OBJECT (entry), "changed",
 		GTK_SIGNAL_FUNC (entry_changed), item_edit);
 	item_edit->signal2 = gtk_signal_connect_after (
-		GTK_OBJECT (item_edit->entry), "event",
+		GTK_OBJECT (entry), "event",
 		GTK_SIGNAL_FUNC (entry_event), item_edit);
 
 	scan_for_range (item_edit);

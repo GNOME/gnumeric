@@ -750,7 +750,6 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		break;
 
 	case GDK_F2:
-		gtk_window_set_focus (GTK_WINDOW (wb->toplevel), wb->ea_input);
 		workbook_start_editing_at_cursor (wb, FALSE, FALSE);
 		/* fall down */
 
@@ -935,8 +934,7 @@ gnumeric_sheet_new (SheetView *sheet_view, ItemBar *colbar, ItemBar *rowbar)
 	sheet = sheet_view->sheet;
 	workbook = sheet->workbook;
 
-	/* FIXME FIXME FIXME : We should not be conecting directly to the entry */
-	entry = workbook->ea_input;
+	entry = workbook_get_entry (workbook);
 	gsheet = gnumeric_sheet_create (sheet_view, entry);
 
 	/* FIXME: figure out some real size for the canvas scrolling region */

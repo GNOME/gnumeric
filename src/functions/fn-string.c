@@ -763,8 +763,7 @@ gnumeric_text (FunctionEvalInfo *ei, Value **args)
 	} else
 		ok = VALUE_IS_NUMBER(arg);
 
-	if (ok)
-	{
+	if (ok) {
 		char *str = format_value (format,
 					  (tmp != NULL) ? tmp : arg,
 					  NULL, NULL);

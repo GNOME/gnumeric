@@ -561,8 +561,7 @@ render_number (gdouble number,
 
 	temp = number - floor (number);
 
-	for (; right_req > 0; right_req --, right_allowed --, right_spaces --)
-	{
+	for (; right_req > 0; right_req --, right_allowed --, right_spaces --) {
 		gint digit;
 		temp *= 10.0;
 		digit = (gint)temp;
@@ -572,8 +571,7 @@ render_number (gdouble number,
 
 	zero_count = 0;
 
-	for (; right_allowed > 0; right_allowed --)
-	{
+	for (; right_allowed > 0; right_allowed --) {
 		gint digit;
 		temp *= 10.0;
 		digit = (gint)temp;
@@ -581,8 +579,7 @@ render_number (gdouble number,
 
 		if (digit == 0)
 			zero_count ++;
-		else
-		{
+		else {
 			right_spaces -= zero_count + 1;
 			zero_count = 0;
 		}
@@ -592,8 +589,7 @@ render_number (gdouble number,
 
 	g_string_truncate (number_string, number_string->len - zero_count);
 
-	for (; right_spaces > 0; right_spaces--)
-	{
+	for (; right_spaces > 0; right_spaces--) {
 		g_string_append_c (number_string, ' ');
 	}
 
@@ -875,8 +871,7 @@ format_add_decimal (const char *format_string)
 		format_string = "0";
 		pre = format_string+1;
 		post = pre;
-	} else
-	{
+	} else {
 		pre = find_decimal_char (format_string);
 
 		/* If there is no decimal append to the last '0' */

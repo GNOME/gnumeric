@@ -38,8 +38,7 @@ cb_row_col_visibility (Sheet *sheet,
 		i = start_col;
 		end = end_col;
 		fetch = &sheet_col_fetch;
-	} else
-	{
+	} else {
 		i = start_row;
 		end = end_row;
 		fetch = &sheet_row_fetch;

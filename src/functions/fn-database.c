@@ -101,7 +101,7 @@ criteria_test_greater_or_equal(Value *x, Value *y)
 }
 
 
-/* Finds a column index of a field. 
+/* Finds a column index of a field.
  */
 static int
 find_column_of_field (const EvalPosition *ep, Value *database, Value *field)
@@ -115,7 +115,7 @@ find_column_of_field (const EvalPosition *ep, Value *database, Value *field)
 	offset = database->v.cell_range.cell_b.col -
 	  database->v.cell_range.cell_a.col;
 
-	if (field->type == VALUE_INTEGER) 
+	if (field->type == VALUE_INTEGER)
 	        return value_get_as_int (field) + offset - 1;
 
 	if (field->type != VALUE_STRING)
@@ -205,14 +205,13 @@ parse_criteria(const char *criteria, criteria_test_fun_t *fun,
 	        *fun = (criteria_test_fun_t) criteria_test_equal;
 		len=0;
 	}
-	
-	tmp = strtod(criteria+len, &p);
+
+	tmp = g_strtod(criteria+len, &p);
 
 	if (p == criteria+len || *p != '\0')
 	        *test_value = value_new_string (criteria+len);
 	else
 	        *test_value = value_new_float (tmp);
-
 }
 
 
@@ -258,7 +257,7 @@ parse_criteria_range(Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 			else
 			        cond->column = j-b_col;
 			g_free (cell_str);
-	    
+
 			conditions = g_slist_append(conditions, cond);
 		}
 
@@ -369,7 +368,7 @@ find_cells_that_match (Sheet *sheet, Value *database,
 /* Finds the rows from the given database that match the criteria.
  */
 GSList *
-find_rows_that_match (Sheet *sheet, int first_col, int first_row, 
+find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 		      int last_col, int last_row,
 		      GSList *criterias, gboolean unique_only)
 {
@@ -379,7 +378,7 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 
 	for (row=first_row; row<=last_row; row++) {
 	       Cell   *test_cell;
-	       
+
 	       current = criterias;
 	       add_flag = 1;
 	       for (current = criterias; current != NULL;
@@ -394,7 +393,7 @@ find_rows_that_match (Sheet *sheet, int first_col, int first_row,
 			       func_criteria_t *cond = conditions->data;
 
 			       test_cell =
-				 sheet_cell_get(sheet, 
+				 sheet_cell_get(sheet,
 						first_col + cond->column, row);
 			       if (test_cell == NULL ||
 				   test_cell->value == NULL)
@@ -528,7 +527,7 @@ gnumeric_daverage (FunctionEvalInfo *ei, Value **argv)
 	if (criterias == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	sheet = eval_sheet (database->v.cell_range.cell_a.sheet, 
+	sheet = eval_sheet (database->v.cell_range.cell_a.sheet,
 			    ei->pos->sheet);
 	cells = find_cells_that_match (sheet, database, field, criterias);
 
@@ -656,7 +655,7 @@ gnumeric_dcounta (FunctionEvalInfo *ei, Value **argv)
 	if (criterias == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	sheet = eval_sheet (database->v.cell_range.cell_a.sheet, 
+	sheet = eval_sheet (database->v.cell_range.cell_a.sheet,
 			    ei->pos->sheet);
 	cells = find_cells_that_match (sheet, database, field, criterias);
 
@@ -721,7 +720,7 @@ gnumeric_dget (FunctionEvalInfo *ei, Value **argv)
 	if (criterias == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	sheet = eval_sheet (database->v.cell_range.cell_a.sheet, 
+	sheet = eval_sheet (database->v.cell_range.cell_a.sheet,
 			    ei->pos->sheet);
 	cells = find_cells_that_match (sheet, database, field, criterias);
 
@@ -1127,7 +1126,7 @@ gnumeric_dsum (FunctionEvalInfo *ei, Value **argv)
 	if (criterias == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	sheet = eval_sheet (database->v.cell_range.cell_a.sheet, 
+	sheet = eval_sheet (database->v.cell_range.cell_a.sheet,
 			    ei->pos->sheet);
 	cells = find_cells_that_match (sheet, database, field, criterias);
 	if (cells == NULL) {
@@ -1194,7 +1193,7 @@ gnumeric_dvar (FunctionEvalInfo *ei, Value **argv)
 	if (criterias == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	sheet = eval_sheet (database->v.cell_range.cell_a.sheet, 
+	sheet = eval_sheet (database->v.cell_range.cell_a.sheet,
 			    ei->pos->sheet);
 	cells = find_cells_that_match (sheet, database, field, criterias);
 	if (cells == NULL) {
@@ -1274,7 +1273,7 @@ gnumeric_dvarp (FunctionEvalInfo *ei, Value **argv)
 
 	current = cells;
 	setup_stat_closure (&p);
-	
+
 	while (current != NULL) {
 	        Cell *cell = current->data;
 
@@ -1338,7 +1337,7 @@ void
 database_functions_init(void)
 {
 	FunctionCategory *cat = function_get_category (_("Database"));
-	
+
 	function_add_args (cat,  "daverage", "r?r",
 			   "database,field,criteria",
 			   &help_daverage,   gnumeric_daverage );

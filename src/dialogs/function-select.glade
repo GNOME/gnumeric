@@ -22,7 +22,7 @@
   <name>FunctionSelect</name>
   <visible>False</visible>
   <title>Function Selector</title>
-  <type>GTK_WINDOW_POPUP</type>
+  <type>GTK_WINDOW_DIALOG</type>
   <position>GTK_WIN_POS_MOUSE</position>
   <modal>True</modal>
   <allow_shrink>False</allow_shrink>
@@ -32,14 +32,11 @@
   <hide_on_close>False</hide_on_close>
 
   <widget>
-    <class>GtkAlignment</class>
+    <class>GtkVBox</class>
     <child_name>GnomeDialog:vbox</child_name>
-    <name>alignment1</name>
-    <width>480</width>
-    <xalign>0.5</xalign>
-    <yalign>0.5</yalign>
-    <xscale>0</xscale>
-    <yscale>0</yscale>
+    <name>dialog-vbox1</name>
+    <homogeneous>False</homogeneous>
+    <spacing>8</spacing>
     <child>
       <padding>4</padding>
       <expand>True</expand>
@@ -47,69 +44,71 @@
     </child>
 
     <widget>
-      <class>GtkVBox</class>
-      <child_name>GnomeDialog:vbox</child_name>
-      <name>dialog-vbox1</name>
-      <width>480</width>
-      <homogeneous>False</homogeneous>
+      <class>GtkHButtonBox</class>
+      <child_name>GnomeDialog:action_area</child_name>
+      <name>dialog-action_area1</name>
+      <layout_style>GTK_BUTTONBOX_EDGE</layout_style>
       <spacing>8</spacing>
+      <child_min_width>85</child_min_width>
+      <child_min_height>27</child_min_height>
+      <child_ipad_x>7</child_ipad_x>
+      <child_ipad_y>0</child_ipad_y>
+      <child>
+	<padding>0</padding>
+	<expand>False</expand>
+	<fill>True</fill>
+	<pack>GTK_PACK_END</pack>
+      </child>
 
       <widget>
-	<class>GtkHButtonBox</class>
-	<child_name>GnomeDialog:action_area</child_name>
-	<name>dialog-action_area1</name>
-	<layout_style>GTK_BUTTONBOX_EDGE</layout_style>
-	<spacing>8</spacing>
-	<child_min_width>85</child_min_width>
-	<child_min_height>27</child_min_height>
-	<child_ipad_x>7</child_ipad_x>
-	<child_ipad_y>0</child_ipad_y>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>True</fill>
-	  <pack>GTK_PACK_END</pack>
-	</child>
-
-	<widget>
-	  <class>GtkButton</class>
-	  <name>button1</name>
-	  <can_default>True</can_default>
-	  <can_focus>True</can_focus>
-	  <stock_button>GNOME_STOCK_BUTTON_HELP</stock_button>
-	</widget>
-
-	<widget>
-	  <class>GtkButton</class>
-	  <name>button2</name>
-	  <can_default>True</can_default>
-	  <can_focus>True</can_focus>
-	  <stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
-	</widget>
-
-	<widget>
-	  <class>GtkButton</class>
-	  <name>button3</name>
-	  <can_default>True</can_default>
-	  <can_focus>True</can_focus>
-	  <stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
-	</widget>
+	<class>GtkButton</class>
+	<name>button1</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<stock_button>GNOME_STOCK_BUTTON_HELP</stock_button>
       </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>button2</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>button3</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
+      </widget>
+    </widget>
+
+    <widget>
+      <class>GtkAlignment</class>
+      <name>alignment1</name>
+      <xalign>7.45058e-09</xalign>
+      <yalign>7.45058e-09</yalign>
+      <xscale>0</xscale>
+      <yscale>0</yscale>
+      <child>
+	<padding>0</padding>
+	<expand>False</expand>
+	<fill>False</fill>
+	<pack>GTK_PACK_END</pack>
+      </child>
 
       <widget>
 	<class>GtkVBox</class>
 	<name>vbox1</name>
 	<homogeneous>False</homogeneous>
 	<spacing>0</spacing>
-	<child>
-	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
-	</child>
 
 	<widget>
 	  <class>GtkHBox</class>
 	  <name>hbox1</name>
+	  <width>450</width>
 	  <height>220</height>
 	  <homogeneous>False</homogeneous>
 	  <spacing>0</spacing>

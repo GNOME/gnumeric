@@ -812,8 +812,7 @@ gnumeric_column (FunctionEvalInfo *ei, GList *nodes)
 		return value_new_int (cell_ref_get_abs_col (&expr->u.ref,
 							    ei->pos) + 1);
 	if (expr->oper == OPER_CONSTANT &&
-	    expr->u.constant->type == VALUE_CELLRANGE)
-	{
+	    expr->u.constant->type == VALUE_CELLRANGE) {
 		int i, j, col;
 		Value const * range = expr->u.constant;
 		CellRef const * a = &range->v.cell_range.cell_a;
@@ -906,8 +905,7 @@ gnumeric_offset (FunctionEvalInfo *ei, Value **args)
 		return value_new_error (ei->pos, gnumeric_err_REF);
 
 	/* Special case of a single cell */
-	if (width == 1 && height == 1)
-	{
+	if (width == 1 && height == 1) {
 		/* FIXME FIXME : do we need to check for recalc here ?? */
 		Cell const * c =
 		    sheet_cell_fetch (eval_sheet (a.sheet, ei->pos->sheet),
@@ -952,8 +950,7 @@ gnumeric_row (FunctionEvalInfo *ei, GList *nodes)
 		return value_new_int (cell_ref_get_abs_row (&expr->u.ref,
 							    ei->pos) + 1);
 	if (expr->oper == OPER_CONSTANT &&
-	    expr->u.constant->type == VALUE_CELLRANGE)
-	{
+	    expr->u.constant->type == VALUE_CELLRANGE) {
 		int i, j, row;
 		Value const * range = expr->u.constant;
 		CellRef const * a = &range->v.cell_range.cell_a;

@@ -30,10 +30,8 @@ gnumeric_printer_dialog_get_type (void)
 {
 	static GtkType printer_dialog_type = 0;
 	
-	if (!printer_dialog_type)
-	{
-		GtkTypeInfo printer_dialog_info =
-		{
+	if (!printer_dialog_type) {
+		GtkTypeInfo printer_dialog_info = {
 			"GnumericPrinterDialog",
 			sizeof (GnumericPrinterDialog),
 			sizeof (GnumericPrinterDialogClass),

@@ -64,9 +64,6 @@ struct _Workbook {
 	/* { Start view specific elements */
         GtkWidget  *toplevel; 
 	GtkWidget  *notebook;
-
-	/* Edit area */
-	GtkWidget  *ea_input;
 	/* } End view specific elements */
 
 	char       *filename;
@@ -190,6 +187,8 @@ void        workbook_expr_unrelocate_free(GSList *info);
 
 void        workbook_move_sheet          (Sheet *sheet, int direction);
 void        workbook_delete_sheet        (Sheet *sheet);
+
+GtkWidget  *workbook_get_entry           (Workbook const *wb);
 
 /*
  * Does any pending recalculations

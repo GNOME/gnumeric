@@ -1766,8 +1766,7 @@ gnumeric_delta (FunctionEvalInfo *ei, Value **argv)
 		vy = value_new_int (0);
 
 	/* Promote to the largest value */
-	switch ((vx->type > vy->type) ? vx->type : vy->type)
-	{
+	switch ((vx->type > vy->type) ? vx->type : vy->type) {
 	case VALUE_BOOLEAN:
 		/* Only happens when both are bool */
 		ans = vx->v.v_bool == vy->v.v_bool;
@@ -1821,8 +1820,7 @@ gnumeric_gestep (FunctionEvalInfo *ei, Value **argv)
 		vy = value_new_int (0);
 
 	/* Promote to the largest value */
-	switch ((vx->type > vy->type) ? vx->type : vy->type)
-	{
+	switch ((vx->type > vy->type) ? vx->type : vy->type) {
 	case VALUE_BOOLEAN:
 		/* Only happens when both are bool */
 		ans = vx->v.v_bool >= vy->v.v_bool;

@@ -174,15 +174,14 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->priv->corba_server = NULL;
 	sheet->priv->sheet_vectors = NULL;
 #endif
-	/* FIXME : Init to true for safety eventually
-	 * this should be FALSE
-	 */
-	sheet->priv->edit_pos_changed = TRUE;
-	sheet->priv->selection_content_changed = TRUE;
-	sheet->priv->recompute_visibility = TRUE;
-	sheet->priv->recompute_spans = TRUE;
-	sheet->priv->reposition_row_comment = 0;
-	sheet->priv->reposition_col_comment = 0;
+
+	/* Init, focus, and load handle setting these if/when necessary */
+	sheet->priv->edit_pos_changed = FALSE;
+	sheet->priv->selection_content_changed = FALSE;
+	sheet->priv->recompute_visibility = FALSE;
+	sheet->priv->recompute_spans = FALSE;
+	sheet->priv->reposition_row_comment = SHEET_MAX_ROWS;
+	sheet->priv->reposition_col_comment = SHEET_MAX_COLS;
 
 	sheet->signature = SHEET_SIGNATURE;
 	sheet->workbook = wb;
@@ -1182,7 +1181,7 @@ sheet_load_cell_val (Sheet const *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	entry = GTK_ENTRY (sheet->workbook->ea_input);
+	entry = GTK_ENTRY(workbook_get_entry (sheet->workbook));
 	cell = sheet_cell_get (sheet,
 			       sheet->cursor.edit_pos.col,
 			       sheet->cursor.edit_pos.row);
@@ -1482,8 +1481,7 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
 	/* Jumping to bounds requires steping cell by cell */
 	g_return_val_if_fail (count == 1 || count == -1 || !jump_to_boundaries, start_col);
 
-	do
-	{
+	do {
 		new_col += count;
 		++iterations;
 		keep_looking = FALSE;
@@ -1549,8 +1547,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int col, int start_row,
 	/* Jumping to bounds requires steping cell by cell */
 	g_return_val_if_fail (count == 1 || count == -1 || !jump_to_boundaries, start_row);
 
-	do
-	{
+	do {
 		new_row += count;
 		++iterations;
 		keep_looking = FALSE;
@@ -1612,8 +1609,7 @@ sheet_range_splits_array (Sheet const *sheet,
 	if (end_row > sheet->rows.max_used)
 		end_row = sheet->rows.max_used;
 
-	if (start_row > 0 || end_row < SHEET_MAX_ROWS-1)
-	{
+	if (start_row > 0 || end_row < SHEET_MAX_ROWS-1) {
 		/* Check top & bottom */
 		single = (start_row == end_row);
 		for (c = start_col; c <= end_col && nosplit; ++c){
@@ -2770,8 +2766,7 @@ sheet_delete_cols (CommandContext *context, Sheet *sheet,
 
 	/* 0. Walk cells in deleted cols and ensure arrays aren't divided. */
 	if (sheet_range_splits_array (sheet, col, 0,
-				      col+count-1, SHEET_MAX_ROWS-1))
-	{
+				      col+count-1, SHEET_MAX_ROWS-1)) {
 		gnumeric_error_splits_array (context);
 		return TRUE;
 	}
@@ -2915,8 +2910,7 @@ sheet_delete_rows (CommandContext *context, Sheet *sheet,
 
 	/* 0. Walk cells in deleted rows and ensure arrays aren't divided. */
 	if (sheet_range_splits_array (sheet, 0, row,
-				      SHEET_MAX_COLS-1, row+count-1))
-	{
+				      SHEET_MAX_COLS-1, row+count-1)) {
 		gnumeric_error_splits_array (context);
 		return TRUE;
 	}
@@ -3177,8 +3171,7 @@ sheet_restore_row_col_sizes (Sheet *sheet, gboolean const is_cols,
 					g_free (cri);
 				}
 			}
-		} else
-		{
+		} else {
 			if (sizes[i] < 0.) {
 				hard_size = TRUE;
 				sizes[i] *= -1.;
@@ -3265,8 +3258,7 @@ sheet_col_get_distance_pixels (Sheet const *sheet, int from, int to)
 
 	g_assert (sheet != NULL);
 
-	if (from > to)
-	{
+	if (from > to) {
 		int const tmp = to;
 		to = from;
 		from = tmp;
@@ -3298,14 +3290,12 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 
 	g_assert (sheet != NULL);
 
-	if (from > to)
-	{
+	if (from > to) {
 		int const tmp = to;
 		to = from;
 		from = tmp;
 		sign = -1;
 	}
-
 
 	/* Do not use sheet_foreach_colrow, it ignores empties */
 	for (i = from ; i < to ; ++i) {
@@ -3412,13 +3402,12 @@ int
 sheet_row_get_distance_pixels (Sheet const *sheet, int from, int to)
 {
 	int const default_size = sheet->rows.default_style.size_pixels;
-	int i, pixels = 0;
-	int sign = 1;
+	int pixels = 0, sign = 1;
+	int i;
 
 	g_assert (sheet != NULL);
 
-	if (from > to)
-	{
+	if (from > to) {
 		int const tmp = to;
 		to = from;
 		from = tmp;
@@ -3464,14 +3453,12 @@ double
 sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
 {
 	double const default_size = sheet->rows.default_style.size_pts;
-	double pts;
+	double pts = 0., sign = 1.;
 	int i;
-	double sign = 1.;
 
 	g_assert (sheet != NULL);
 
-	if (from > to)
-	{
+	if (from > to) {
 		int const tmp = to;
 		to = from;
 		from = tmp;

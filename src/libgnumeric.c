@@ -164,8 +164,6 @@ gnumeric_main (void *closure, int argc, char *argv [])
 
 			if (new_book) {
 				opened_workbook = TRUE;
-
-/*				workbook_style_test (new_book);*/
 				gtk_widget_show (new_book->toplevel);
 			}
 
@@ -177,6 +175,9 @@ gnumeric_main (void *closure, int argc, char *argv [])
 
 	if (!opened_workbook) {
 		new_book = workbook_new_with_sheets (1);
+#if 0
+		workbook_style_test (new_book);
+#endif
 		gtk_widget_show (new_book->toplevel);
 	}
 	initial_worbook_open_complete = TRUE;

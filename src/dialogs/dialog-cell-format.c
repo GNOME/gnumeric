@@ -99,8 +99,7 @@ typedef struct _FormatState
 	int	 	 selection_mask;
 	gboolean	 enable_edit;
 
-	struct
-	{
+	struct {
 		GtkLabel	*preview;
 		GtkBox		*box;
 		GtkWidget	*widget[F_MAX_WIDGET];
@@ -112,18 +111,15 @@ typedef struct _FormatState
 		int		 currency_index;
 		gboolean	 use_separator;
 	} format;
-	struct
-	{
+	struct {
 		GtkCheckButton	*wrap;
 	} align;
-	struct
-	{
+	struct {
 		FontSelector	*selector;
 		ColorPicker	 color;
 		GtkCheckButton	*strikethrough;
 	} font;
-	struct
-	{
+	struct {
 		GnomeCanvas	*canvas;
 		GtkButton 	*preset[BORDER_PRESET_MAX];
 		GnomeCanvasItem	*back;
@@ -133,8 +129,7 @@ typedef struct _FormatState
 		ColorPicker	 color;
 		PatternPicker	 pattern;
 	} border;
-	struct
-	{
+	struct {
 		GnomeCanvas	*canvas;
 		GnomeCanvasItem	*back;
 		GnomeCanvasItem	*pattern_item;
@@ -371,8 +366,7 @@ draw_format_preview (FormatState *state)
 	StyleFormat	*sf = NULL;
 
 	/* Update the format based on the current selections and page */
-	switch (page)
-	{
+	switch (page) {
 	case FMT_GENERAL :
 	case FMT_TEXT :
 		g_string_append (new_format, cell_formats[page][0]);
@@ -614,8 +608,7 @@ fmt_dialog_init_fmt_list (GtkCList *cl, char const * const *formats,
 static void
 fmt_dialog_enable_widgets (FormatState *state, int page)
 {
-	static FormatWidget contents[12][7] =
-	{
+	static FormatWidget contents[12][7] = {
 		/* General */
 		{ F_GENERAL, F_MAX_WIDGET },
 		/* Number */
@@ -823,8 +816,7 @@ fmt_dialog_init_format_page (FormatState *state)
 	};
 
 	/* The various format widgets */
-	static char const * const widget_names[] =
-	{
+	static char const * const widget_names[] = {
 		"format_general_label",	"format_decimal_box",
 		"format_separator",	"format_symbol_label",
 		"format_symbol_select",	"format_delete",
@@ -1053,12 +1045,10 @@ fmt_dialog_init_align_radio (char const * const name,
 static void
 fmt_dialog_init_align_page (FormatState *state)
 {
-	static struct
-	{
+	static struct {
 		char const * const	name;
 		StyleHAlignFlags	align;
-	} const h_buttons[] =
-	{
+	} const h_buttons[] = {
 	    { "halign_left",	HALIGN_LEFT },
 	    { "halign_center",	HALIGN_CENTER },
 	    { "halign_right",	HALIGN_RIGHT },
@@ -1068,12 +1058,10 @@ fmt_dialog_init_align_page (FormatState *state)
 	    { "halign_center_across_selection",	HALIGN_CENTER_ACROSS_SELECTION },
 	    { NULL }
 	};
-	static struct
-	{
+	static struct {
 		char const * const	name;
 		StyleVAlignFlags	align;
-	} const v_buttons[] =
-	{
+	} const v_buttons[] = {
 	    { "valign_top", VALIGN_TOP },
 	    { "valign_center", VALIGN_CENTER },
 	    { "valign_bottom", VALIGN_BOTTOM },
@@ -1588,8 +1576,7 @@ border_event (GtkWidget *widget, GdkEventButton *event, FormatState *state)
 		return FALSE;
 
 	/* If we receive a double or triple translate them into single clicks */
-	if (event->type == GDK_2BUTTON_PRESS || event->type == GDK_3BUTTON_PRESS)
-	{
+	if (event->type == GDK_2BUTTON_PRESS || event->type == GDK_3BUTTON_PRESS) {
 		GdkEventType type = event->type;
 		event->type = GDK_BUTTON_PRESS;
 		border_event (widget, event, state);
@@ -1668,8 +1655,7 @@ border_event (GtkWidget *widget, GdkEventButton *event, FormatState *state)
 static void
 draw_border_preview (FormatState *state)
 {
-	static double const corners[12][6] = 
-	{
+	static double const corners[12][6] = {
 	    { T-5., T, L, T, L, T-5. },
 	    { R+5., T, R, T, R, T-5 },
 	    { T-5., B, L, B, L, B+5. },
@@ -1983,8 +1969,7 @@ static void
 fmt_dialog_impl (FormatState *state, MStyleBorder **borders)
 {
 	static GnomeHelpMenuEntry help_ref = { "gnumeric", "formatting.html" };
-	static struct
-	{
+	static struct {
 		char const * const name;
 		StyleBorderType const pattern;
 	} const line_pattern_buttons[] = {

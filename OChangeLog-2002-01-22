@@ -1,3 +1,68 @@
+2000-04-24  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-private.h : Rename ea_status -> selection_descriptor
+	Moved ea_entry here and called it edit_line.
+	* src/workbook.c (workbook_get_entry) : new routine.
+
+	* src/dialogs/function-select.glade : Made this a dialog, not a popup.
+
+	* src/summary.c (summary_item_free) : format police.
+	* src/value-sheet.c (value_area_foreach) : Ditto.
+
+	* src/sheet.c (sheet_new) : Init the update flags to FALSE, rather
+	  than TRUE now that the system seems to be getting their initial
+	  state correct when importing, paging and the like.
+	(sheet_load_cell_val) : Use workbook_get_entry.
+	(sheet_find_boundary_horizontal) : format police.
+	(sheet_find_boundary_vertical) : Ditto.
+	(sheet_range_splits_array) : Ditto.
+	(sheet_delete_{cols,rows}) : Ditto.
+	(sheet_restore_row_col_sizes) : Ditto.
+	(sheet_col_get_distance_{pixels,pts}) : Ditto.
+	(sheet_row_get_distance_pixels) : Ditto.
+	(sheet_row_get_distance_pts) : Ditto, Init accumulator.
+
+	* src/selection.c (sheet_selection_set) : format police.
+	(selection_check_for_array) : Ditto.
+	(sheet_selection_walk_step) : Ditto.
+	* src/sheet-view.c (horizontal_scroll_event) : Ditto.
+	(vertical_scroll_event) : Ditto.
+	* src/dialogs/dialog-cell-format.c : Ditto.
+	* src/dialogs/dialog-printer.c : Ditto.
+	* src/dialogs/dialog-workbook-attr.c : Ditto.
+	* src/functions/fn-eng.c : Ditto.
+	* src/functions/fn-lookup.c : Ditto.
+	* src/functions/fn-string.c : Ditto.
+
+	* src/pattern.c (gnumeric_sheet_patterns) : Add a few patterns for
+	  applix.  More are needed, and these are not available in the format
+	  dialog yet.
+
+	* src/number-match.c (compute_value) : Use g_strtod.
+	(format_match) : Ditto.
+
+	* src/item-edit.c : Use workbook_get_entry.
+
+	* src/item-bar.c (item_bar_event) : format police.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : Do not set
+	  the focus directly.  Leave that to workbook_start_editing.
+	(gnumeric_sheet_new) : Use workbook_get_entry.
+
+	* src/format.c (render_number) : format police.
+
+	* src/complex.c (complex_from_string) : Use g_strtod.
+	* src/functions/fn-database.c : Ditto.
+
+	* src/colrow.c (cb_row_col_visibility) : format police.
+
+	* src/main.c (gnumeric_main) : Move the workbook_style_test to the
+	  empty case.
+
+	* src/mstyle.c (mstyle_set_pattern) : Add some safety.
+
+	* src/number-match.c (format_match) : Handle empties.
+
 2000-04-22  Michael Meeks  <michael@helixcode.com>
 
 	* src/test.c (zero_stats, dump_stats): implement.

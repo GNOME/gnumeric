@@ -8,6 +8,7 @@
 #include "mstyle.h"
 #include "str.h"
 #include "border.h"
+#include "pattern.h"
 #include "main.h"
 
 #define STYLE_DEBUG (style_debugging > 2)
@@ -879,6 +880,8 @@ void
 mstyle_set_pattern (MStyle *st, int pattern)
 {
 	g_return_if_fail (st != NULL);
+	g_return_if_fail (pattern >= 0);
+	g_return_if_fail (pattern <= GNUMERIC_SHEET_PATTERNS);
 
 	st->elements [MSTYLE_PATTERN].type = MSTYLE_PATTERN;
 	st->elements [MSTYLE_PATTERN].u.pattern = pattern;

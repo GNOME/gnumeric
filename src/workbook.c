@@ -1035,7 +1035,7 @@ sort_cmd (Workbook *wb, int asc)
 static void
 autosum_cmd (GtkWidget *widget, Workbook *wb)
 {
-	GtkEntry *entry = GTK_ENTRY (wb->ea_input);
+	GtkEntry *entry = GTK_ENTRY (wb->priv->edit_line);
 	gchar *txt = gtk_entry_get_text (entry);
 
 	if (strncmp (txt, "=sum(", 5)) {
@@ -1512,12 +1512,16 @@ do_focus_sheet (GtkNotebook *notebook, GtkNotebookPage *page, guint page_num, Wo
 
 	if (wb->editing) {
 		/* If we are not at a subexpression boundary then finish editing */
-		accept = !gnumeric_entry_at_subexpr_boundary_p (wb->ea_input);
+		accept = !gnumeric_entry_at_subexpr_boundary_p (wb->priv->edit_line);
 		if (accept)
 			workbook_finish_editing (wb, TRUE);
 	}
-	if (accept && wb->current_sheet != NULL)
+	if (accept && wb->current_sheet != NULL) {
+		/* force an update of the status and edit regions */
+		sheet_flag_status_update_range (sheet, NULL);
+
 		sheet_update (sheet);
+	}
 }
 
 static void
@@ -1730,7 +1734,7 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
 				gboolean const is_array =
 					(event->state & GDK_SHIFT_MASK);
 				char * const text =
-					gtk_entry_get_text (GTK_ENTRY (wb->ea_input));
+					gtk_entry_get_text (GTK_ENTRY (wb->priv->edit_line));
 				Sheet * sheet = wb->editing_sheet;
 				EvalPosition pos;
 				/* Be careful to use the editing sheet */
@@ -1749,7 +1753,7 @@ wb_edit_key_pressed (GtkEntry *entry, GdkEventKey *event, Workbook *wb)
 
 			/* Is this the right way to append a newline ?? */
 			if (event->state == GDK_MOD1_MASK)
-				gtk_entry_append_text (GTK_ENTRY (wb->ea_input), "\n");
+				gtk_entry_append_text (GTK_ENTRY (wb->priv->edit_line), "\n");
 		}
 	default:
 		return FALSE;
@@ -1790,7 +1794,7 @@ workbook_set_region_status (Workbook *wb, const char *str)
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (str != NULL);
 
-	gtk_entry_set_text (GTK_ENTRY (wb->priv->ea_status), str);
+	gtk_entry_set_text (GTK_ENTRY (wb->priv->selection_descriptor), str);
 }
 
 static void
@@ -1833,14 +1837,14 @@ workbook_setup_edit_area (Workbook *wb)
 	GtkWidget *wizard_button;
 	GtkWidget *pix, *deps_button, *box, *box2;
 
-	wb->priv->ea_status     = gtk_entry_new ();
+	wb->priv->selection_descriptor     = gtk_entry_new ();
 	wb->priv->ok_button     = gtk_button_new ();
 	wb->priv->cancel_button = gtk_button_new ();
-	wb->ea_input  = gtk_entry_new ();
+	wb->priv->edit_line  = gtk_entry_new ();
 	box           = gtk_hbox_new (0, 0);
 	box2          = gtk_hbox_new (0, 0);
 
-	gtk_widget_set_usize (wb->priv->ea_status, 100, 0);
+	gtk_widget_set_usize (wb->priv->selection_descriptor, 100, 0);
 
 	/* Ok */
 	pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_BUTTON_OK);
@@ -1858,7 +1862,7 @@ workbook_setup_edit_area (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (wb->priv->cancel_button), "clicked",
 			    GTK_SIGNAL_FUNC (cancel_input), wb);
 
-	gtk_box_pack_start (GTK_BOX (box2), wb->priv->ea_status, 0, 0, 0);
+	gtk_box_pack_start (GTK_BOX (box2), wb->priv->selection_descriptor, 0, 0, 0);
 	gtk_box_pack_start (GTK_BOX (box), wb->priv->ok_button, 0, 0, 0);
 	gtk_box_pack_start (GTK_BOX (box), wb->priv->cancel_button, 0, 0, 0);
 
@@ -1887,25 +1891,25 @@ workbook_setup_edit_area (Workbook *wb)
 	}
 
 	gtk_box_pack_start (GTK_BOX (box2), box, 0, 0, 0);
-	gtk_box_pack_end   (GTK_BOX (box2), wb->ea_input, 1, 1, 0);
+	gtk_box_pack_end   (GTK_BOX (box2), wb->priv->edit_line, 1, 1, 0);
 
 	gtk_table_attach (GTK_TABLE (wb->priv->table), box2,
 			  0, 1, 0, 1,
 			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	/* Do signal setup for the editing input line */
-	gtk_signal_connect (GTK_OBJECT (wb->ea_input), "focus-in-event",
+	gtk_signal_connect (GTK_OBJECT (wb->priv->edit_line), "focus-in-event",
 			    GTK_SIGNAL_FUNC (cb_editline_focus_in),
 			    wb);
-	gtk_signal_connect (GTK_OBJECT (wb->ea_input), "activate",
+	gtk_signal_connect (GTK_OBJECT (wb->priv->edit_line), "activate",
 			    GTK_SIGNAL_FUNC (accept_input),
 			    wb);
-	gtk_signal_connect (GTK_OBJECT (wb->ea_input), "key_press_event",
+	gtk_signal_connect (GTK_OBJECT (wb->priv->edit_line), "key_press_event",
 			    GTK_SIGNAL_FUNC (wb_edit_key_pressed),
 			    wb);
 
 	/* Do signal setup for the status input line */
-	gtk_signal_connect (GTK_OBJECT (wb->priv->ea_status), "activate",
+	gtk_signal_connect (GTK_OBJECT (wb->priv->selection_descriptor), "activate",
 			    GTK_SIGNAL_FUNC (wb_jump_to_cell),
 			    wb);
 }
@@ -3551,7 +3555,7 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 			       sheet->cursor.edit_pos.row);
 
 	if (blankp)
-		gtk_entry_set_text (GTK_ENTRY (wb->ea_input), "");
+		gtk_entry_set_text (GTK_ENTRY (wb->priv->edit_line), "");
 	else {
 		/* If this is part of an array we need to remove the
 		 * '{' '}' and the size information from the display.
@@ -3559,7 +3563,7 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 		 */
 		if (NULL != cell_is_array (cell)) {
 			char * text = cell_get_entered_text (cell);
-			gtk_entry_set_text (GTK_ENTRY (wb->ea_input), text);
+			gtk_entry_set_text (GTK_ENTRY (wb->priv->edit_line), text);
 			g_free (text);
 		}
 	}
@@ -3570,7 +3574,10 @@ workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 		int const r = sheet->cursor.edit_pos.row;
 		sheet_create_edit_cursor (sheet);
 		sheet_redraw_cell_region (sheet, c, r, c, r);
-	}
+	} else
+		/* Give the focus to the edit line */
+		gtk_window_set_focus (GTK_WINDOW (wb->toplevel), workbook_get_entry (wb));
+
 
 	/* TODO : Should we reset like this ? probably */
 	wb->use_absolute_cols = wb->use_absolute_rows = FALSE;
@@ -3617,7 +3624,7 @@ workbook_finish_editing (Workbook *wb, gboolean const accept)
 	/* Save the results before changing focus */
 	if (accept) {
 		/* TODO : Get a context */
-		GtkEntry * const entry = GTK_ENTRY (sheet->workbook->ea_input);
+		GtkEntry * const entry = GTK_ENTRY (sheet->workbook->priv->edit_line);
 		char     * const txt = gtk_entry_get_text (entry);
 		/* Store the old value for undo */
 		/* TODO : What should we do in case of failure ?
@@ -3665,4 +3672,14 @@ workbook_calc_spans (Workbook *wb, SpanCalcFlags const flags)
 	g_return_if_fail (wb != NULL);
 
 	g_hash_table_foreach (wb->sheets, &cb_sheet_calc_spans, GINT_TO_POINTER (flags));
+}
+
+GtkWidget *
+workbook_get_entry (Workbook const *wb)
+{
+	g_return_val_if_fail (wb != NULL, NULL);
+	g_return_val_if_fail (wb->priv != NULL, NULL);
+
+	/* TODO : If there is an function wizard up use the edit line from there */
+	return wb->priv->edit_line;
 }

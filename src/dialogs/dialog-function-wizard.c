@@ -340,13 +340,14 @@ dialog_function_wizard (Workbook *wb)
 	Sheet *sheet;
 	GtkEntry *entry;
 	gchar *txt;
-	GtkWidget *dialog;
+	GtkWidget *dialog, *w;
 	State *state;
 	FunctionDefinition *fd;
 
 	g_return_if_fail (wb);
 
-	entry = GTK_ENTRY (wb->ea_input);
+	w = workbook_get_entry (wb);
+	entry = GTK_ENTRY(w);
 	txt   = gtk_entry_get_text (entry);
 	sheet = wb->current_sheet;
 

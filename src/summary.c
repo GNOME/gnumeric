@@ -154,8 +154,7 @@ summary_item_free (SummaryItem *sit)
 {
 	g_return_if_fail (sit);
 
-	switch (sit->type)
-	{
+	switch (sit->type) {
 	case SUMMARY_STRING:
 		g_free (sit->v.txt);
 		sit->v.txt = NULL;

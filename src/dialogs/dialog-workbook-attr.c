@@ -39,8 +39,7 @@ typedef struct _AttrState
 
 	gboolean	 enable_edit;
 
-	struct
-	{
+	struct {
 		GtkToggleButton	*show_hsb;
 		GtkToggleButton	*show_vsb;
 		GtkToggleButton	*show_tabs;

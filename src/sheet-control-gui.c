@@ -481,9 +481,8 @@ horizontal_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet
 		horizontal_scroll_change (GTK_ADJUSTMENT (sheet_view->ha), sheet_view);
 		gnumeric_position_tooltip (sheet_view->tip, 1);
 		gtk_widget_show_all (gtk_widget_get_toplevel (sheet_view->tip));
-	}
-	else if (event->type == GDK_BUTTON_RELEASE)
-	{
+
+	} else if (event->type == GDK_BUTTON_RELEASE) {
 		GnumericSheet  *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 		int col;
 
@@ -511,9 +510,8 @@ vertical_scroll_event (GtkScrollbar *scroll, GdkEvent *event, SheetView *sheet_v
 		vertical_scroll_change (GTK_ADJUSTMENT (sheet_view->va), sheet_view);
 		gnumeric_position_tooltip (sheet_view->tip, 0);
 		gtk_widget_show_all (gtk_widget_get_toplevel (sheet_view->tip));
-	}
-	else if (event->type == GDK_BUTTON_RELEASE)
-	{
+
+	} else if (event->type == GDK_BUTTON_RELEASE) {
 		GnumericSheet  *gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
 		int row;
 

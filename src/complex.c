@@ -91,7 +91,7 @@ complex_from_string (complex_t *dst, const char *src, char *imunit)
 		return 0;
 	}
 
-	x = strtod (src, &end);
+	x = g_strtod (src, &end);
 	if (src == end)
 		return -1;
 	src = end;
@@ -116,7 +116,7 @@ complex_from_string (complex_t *dst, const char *src, char *imunit)
 		return 0;
 	}
 
-	y = strtod (src, &end);
+	y = g_strtod (src, &end);
 	if (src == end)
 		return -1;
 	src = end;

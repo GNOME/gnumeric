@@ -38,7 +38,8 @@ struct _WorkbookPrivate {
 	const char *current_font_name;
 
 	/* Edit area */
-	GtkWidget *ea_status;
+	GtkWidget *selection_descriptor;
+	GtkWidget *edit_line;
 
 	/* While editing these should be visible */
 	GtkWidget *ok_button, *cancel_button;

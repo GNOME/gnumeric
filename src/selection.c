@@ -347,8 +347,7 @@ sheet_selection_set (Sheet *sheet,
 	if ((new_sel.start.row == 0 && new_sel.end.row == SHEET_MAX_ROWS-1) ^
 	    (old_sel.start.row == 0 && old_sel.end.row == SHEET_MAX_ROWS-1)) {
 		sheet_redraw_headers (sheet, TRUE, FALSE, &new_sel);
-	} else
-	{
+	} else {
 		Range tmp = new_sel;
 		int diff;
 
@@ -380,8 +379,7 @@ sheet_selection_set (Sheet *sheet,
 	if ((new_sel.start.col == 0 && new_sel.end.col == SHEET_MAX_COLS-1) ^
 	    (old_sel.start.col == 0 && old_sel.end.col == SHEET_MAX_COLS-1)) {
 		sheet_redraw_headers (sheet, FALSE, TRUE, &new_sel);
-	} else
-	{
+	} else {
 		Range tmp = new_sel;
 		int diff;
 
@@ -1024,8 +1022,7 @@ selection_check_for_array (Sheet const * sheet, GSList const *selection)
 	GSList const *l;
 
 	/* Check for array subdivision */
-	for (l = selection; l != NULL; l = l->next)
-	{
+	for (l = selection; l != NULL; l = l->next) {
 		Range const *r = l->data;
 		if (sheet_range_splits_array (sheet,
 					      r->start.col, r->start.row,
@@ -1316,8 +1313,7 @@ sheet_selection_walk_step (Sheet *sheet,
 		return;
 	}
 
-	if (walk_boundaries (&ss->user, inc_x, inc_y, &current, &destination))
-	{
+	if (walk_boundaries (&ss->user, inc_x, inc_y, &current, &destination)) {
 		if (forward) {
 			GList *tmp = g_list_last (sheet->selections);
 			sheet->selections =

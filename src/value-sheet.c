@@ -304,8 +304,7 @@ value_area_foreach (EvalPosition const *ep, Value const *v,
 
 	g_return_val_if_fail (callback != NULL, FALSE);
 
-        if (v->type == VALUE_CELLRANGE)
-	{
+        if (v->type == VALUE_CELLRANGE) {
 		WrapperClosure wrap;
 		wrap.callback = callback;
 		wrap.ep = ep;

@@ -612,7 +612,7 @@ compute_value (const char *s, const regmatch_t *mp,
 				     *    I assume ',' means thousans_sep.
 				     */
 				    number *= 1000.;
-				    number += strtod (ptr, &ptr);
+				    number += g_strtod (ptr, &ptr);
 				} while (*(ptr++) == ',');
 
 				idx += 3;
@@ -799,13 +799,16 @@ format_match (const char *text, char **format)
 	if (format)
 		*format = NULL;
 
-	/* TODO : We should check the format associated with the region first,
-	 *        but we're not passing that information in yet
-	 */
+	if (text[0] == '\0')
+		return value_new_empty ();
 
 	/* If it begins with a '\'' it is a string */
 	if (text[0] == '\'')
 		return value_new_string (text+1);
+
+	/* TODO : We should check the format associated with the region first,
+	 *        but we're not passing that information in yet
+	 */
 
 	/* Is it an integer */
 	{
@@ -821,7 +824,7 @@ format_match (const char *text, char **format)
 	/* Is it a double */
 	{
 		char *end;
-		double d = strtod (text, &end);
+		double d = g_strtod (text, &end);
 		/* Allow and ignore spaces at the end . */
 		while (*end == ' ')
 			end++;

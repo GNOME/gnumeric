@@ -11,8 +11,6 @@
 typedef struct {
 	GnomeCanvasItem canvas_item;
 
-	/* The entry whose status we reflect on the spreadsheet */
-	GtkWidget  *entry;
 	guint      signal;	/* the signal we connect */
 	guint      signal2;	/* the other signal we connect */
 
