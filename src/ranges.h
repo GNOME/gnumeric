@@ -114,8 +114,6 @@ typedef Range *(*RangeCopyFn) (Range const *r);
 GList      *range_split_ranges    (Range const *hard, Range const *soft,
 				   RangeCopyFn copy_fn);
 GList      *range_fragment        (Range const *a, Range const *b);
-GList      *range_fragment_list   (GList const *ranges);
-GList      *range_fragment_list_clip (GList const *ranges, Range const *clip);
 void        range_fragment_free   (GList *fragments);
 
 GlobalRange *global_range_new     (Sheet *sheet, Range const *r);

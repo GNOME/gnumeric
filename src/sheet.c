@@ -1787,7 +1787,7 @@ sheet_col_check_bound (int col, int diff)
 	return new_val;
 }
 
-static gboolean
+static inline gboolean
 sheet_col_is_hidden (Sheet *sheet, int const col)
 {
 	ColRowInfo const * const res = sheet_col_get (sheet, col);
@@ -1859,21 +1859,20 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 	do {
 		new_col += count;
 		++iterations;
-		keep_looking = FALSE;
 
 		if (new_col < bound->start.col)
 			return bound->start.col;
 		if (new_col > bound->end.col)
 			return bound->end.col;
+
+		keep_looking = sheet_col_is_hidden (sheet, new_col);
 		if (jump_to_boundaries) {
 			if (new_col > sheet->cols.max_used) {
 				if (count > 0)
 					return (find_nonblank || iterations == 1) ? bound->end.col : prev_col;
 				new_col = sheet->cols.max_used;
 			}
-			keep_looking =
-				sheet_col_is_hidden (sheet, new_col) ||
-				(sheet_is_cell_empty (sheet, new_col, move_row) == find_nonblank);
+			keep_looking |= (sheet_is_cell_empty (sheet, new_col, move_row) == find_nonblank);
 			if (keep_looking)
 				prev_col = new_col;
 			else if (!find_nonblank) {
@@ -1893,7 +1892,7 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 	return new_col;
 }
 
-static gboolean
+static inline gboolean
 sheet_row_is_hidden (Sheet *sheet, int const row)
 {
 	ColRowInfo const * const res = sheet_row_get (sheet, row);
@@ -1965,12 +1964,13 @@ sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
 	do {
 		new_row += count;
 		++iterations;
-		keep_looking = FALSE;
 
 		if (new_row < bound->start.row)
 			return bound->start.row;
 		if (new_row > bound->end.row)
 			return bound->end.row;
+
+		keep_looking = sheet_row_is_hidden (sheet, new_row);
 		if (jump_to_boundaries) {
 			if (new_row > sheet->rows.max_used) {
 				if (count > 0)
@@ -1978,9 +1978,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
 				new_row = sheet->rows.max_used;
 			}
 
-			keep_looking =
-				sheet_row_is_hidden (sheet, new_row) ||
-				(sheet_is_cell_empty (sheet, move_col, new_row) == find_nonblank);
+			keep_looking |= (sheet_is_cell_empty (sheet, move_col, new_row) == find_nonblank);
 			if (keep_looking)
 				prev_row = new_row;
 			else if (!find_nonblank) {
