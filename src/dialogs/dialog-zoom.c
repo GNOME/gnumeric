@@ -84,7 +84,7 @@ dialog_zoom (Workbook *wb, Sheet *sheet)
 
 	if (zoom < 0.25){
 		gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
-				 _("Zoom factor should be at least 50%"));
+				 _("Zoom factor should be at least 25%"));
 		return;
 	}
 
