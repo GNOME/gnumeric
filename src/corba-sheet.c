@@ -348,7 +348,7 @@ Sheet_cell_set_value (PortableServer_Servant servant,
 		return;
 	}
 
-	cell_set_value (cell, v, NULL);
+	sheet_cell_set_value (cell, v, NULL);
 }
 
 static void

@@ -32,6 +32,7 @@
 #include "rendered-value.h"
 
 #ifdef ENABLE_BONOBO
+#    include "sheet-vector.h"
 #    include <libgnorba/gnorba.h>
 #endif
 

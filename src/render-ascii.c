@@ -11,6 +11,7 @@
 #include "clipboard.h"
 #include "gnumeric-util.h"
 #include "render-ascii.h"
+#include "rendered-value.h"
 
 /*
  * Renders a CellRegion (we only deal with Cell Regions of type

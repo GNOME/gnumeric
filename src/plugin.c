@@ -122,6 +122,7 @@ plugin_load (CommandContext *context, const gchar *modfile)
 		char *str;
 		str = g_strconcat(_("unable to open module file: "), g_module_error(), NULL);
 		gnumeric_error_plugin_problem (context, str);
+		g_free (data->file_name);
 		g_free (str);
 		g_free (data);
 		return NULL;

@@ -106,9 +106,6 @@ module GNOME {
 			string  cell_get_text (in long col, in long row)
 				raises (OutOfRange);
 
-			void    cell_set_formula (in long col, in long row, in string formula)
-				raises (OutOfRange, ParseError, SplitsArray);
-
 			void    cell_set_format (in long col, in long row, in string format)
 				raises (OutOfRange);
 			string  cell_get_format (in long col, in long row)
@@ -170,8 +167,6 @@ module GNOME {
 				raises (OutOfRange);
 			void    range_set_text (in string range, in string text)
 				raises (OutOfRange, SplitsArray);
-			void    range_set_formula (in string range, in string formula)
-				raises (OutOfRange, SplitsArray);
 			void    range_set_format (in string range, in string format)
 				raises (OutOfRange);
 			void    range_set_font (in string range, in string font, in short points)
@@ -219,7 +214,7 @@ module GNOME {
 			double row_height (in long row);
 		};
 
-		interface Workbook : Bonobo::Unknown {
+		interface Workbook : Bonobo::Embeddable {
 			exception NameExists {};
 
 			Sheet sheet_new    (in string name) raises (NameExists);

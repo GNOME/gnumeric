@@ -1,3 +1,7 @@
+2000-04-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/plugin.c (plugin_load) : Fix leak.
+
 2000-04-20  Matt Wilson  <msw@redhat.com>
 
 	* src/corba-sheet.c (Sheet_cell_set_value): 
