@@ -669,7 +669,8 @@ static GnomeUIInfo workbook_menu_file [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_ITEM, N_("Plu_g-ins..."), NULL, plugins_cmd },
+	{ GNOME_APP_UI_ITEM, N_("Plu_g-ins..."), N_("Gnumeric plugins"),
+	  plugins_cmd },
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -682,10 +683,15 @@ static GnomeUIInfo workbook_menu_file [] = {
 /* Edit menu */
 
 static GnomeUIInfo workbook_menu_edit_clear [] = {
-	{ GNOME_APP_UI_ITEM, N_("_All"),      NULL, clear_all_cmd },
-	{ GNOME_APP_UI_ITEM, N_("_Formats"),  NULL, clear_formats_cmd },
-	{ GNOME_APP_UI_ITEM, N_("_Comments"), NULL, clear_comments_cmd },
-	{ GNOME_APP_UI_ITEM, N_("_Content"),  NULL, clear_content_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_All"),
+  N_("Clear the selected cells' formats, comments, and contents"),
+	  NULL, clear_all_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Formats"),
+	  N_("Clear the selected cells' formats"), clear_formats_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Comments"),
+	  N_("Clear the selected cells' comments"), clear_comments_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Content"),
+	  N_("Clear the selected cells' contents"), clear_content_cmd },
 	GNOMEUIINFO_END
 };
 
@@ -694,13 +700,16 @@ static GnomeUIInfo workbook_menu_edit [] = {
 	GNOMEUIINFO_MENU_COPY_ITEM(copy_cmd, NULL),
 	GNOMEUIINFO_MENU_PASTE_ITEM(paste_cmd, NULL),
 	{ GNOME_APP_UI_ITEM, N_("P_aste special..."), NULL, paste_special_cmd },
-        { GNOME_APP_UI_SUBTREE, N_("C_lear"), NULL, workbook_menu_edit_clear },
+        { GNOME_APP_UI_SUBTREE, N_("C_lear"),
+	  N_("Clear the selected cell(s)"), workbook_menu_edit_clear },
 
 	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_ITEM, N_("_Select All"), NULL, select_all_cmd, NULL, NULL,
-	  0, 0, 'a', GDK_CONTROL_MASK },
-	{ GNOME_APP_UI_ITEM, N_("_Goto cell.."), NULL, goto_cell_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("_Select All"),
+	  N_("Select all cells in the spreadsheet"), select_all_cmd, NULL,
+	  NULL, 0, 0, 'a', GDK_CONTROL_MASK },
+	{ GNOME_APP_UI_ITEM, N_("_Goto cell.."),
+	  N_("Jump to a specified cell"), goto_cell_cmd, NULL, NULL,
 	  0, 0, 'i', GDK_CONTROL_MASK },
 
 	GNOMEUIINFO_SEPARATOR,
@@ -710,7 +719,8 @@ static GnomeUIInfo workbook_menu_edit [] = {
 	GNOMEUIINFO_SEPARATOR,
 #endif
 	
-	{ GNOME_APP_UI_ITEM, N_("_Recalculate"), NULL, recalc_cmd, NULL, NULL,
+	{ GNOME_APP_UI_ITEM, N_("_Recalculate"),
+	  N_("Recalculate the spreadsheet"), recalc_cmd, NULL, NULL,
 	  0, 0, GDK_F9, 0 },
 	GNOMEUIINFO_END
 };
@@ -718,25 +728,34 @@ static GnomeUIInfo workbook_menu_edit [] = {
 /* View menu */
 
 static GnomeUIInfo workbook_menu_view [] = {
-	{ GNOME_APP_UI_ITEM, N_("_Zoom..."), NULL, zoom_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Zoom..."),
+	  N_("Zoom the spreadsheet in or out"), zoom_cmd },
 	GNOMEUIINFO_END
 };
 
 /* Insert menu */
 
 static GnomeUIInfo workbook_menu_insert_special [] = {
-	{ GNOME_APP_UI_ITEM, N_("Current _date"), NULL, insert_current_date_cmd,
+	{ GNOME_APP_UI_ITEM, N_("Current _date"),
+	  N_("Insert the current data into the selected cell(s)"),
+	  insert_current_date_cmd,
 	  NULL, NULL, 0, 0, ';', GDK_CONTROL_MASK },
-	{ GNOME_APP_UI_ITEM, N_("Current _time"), NULL, insert_current_time_cmd,
+	{ GNOME_APP_UI_ITEM, N_("Current _time"),
+	  N_("Insert the current time into the selected cell(s)"),
+	  insert_current_time_cmd,
 	  NULL, NULL, 0, 0, ';', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo workbook_menu_insert [] = {
-	{ GNOME_APP_UI_ITEM, N_("_Sheet"),    NULL, insert_sheet_cmd },
-	{ GNOME_APP_UI_ITEM, N_("_Cells..."), NULL, insert_cells_cmd },
-	{ GNOME_APP_UI_ITEM, N_("_Rows"),     NULL, insert_rows_cmd  },
-	{ GNOME_APP_UI_ITEM, N_("C_olumns"),  NULL, insert_cols_cmd  },
+	{ GNOME_APP_UI_ITEM, N_("_Sheet"), N_("Insert a new spreadsheet"),
+	  insert_sheet_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Cells..."), N_("Insert new cells"),
+	  insert_cells_cmd },
+	{ GNOME_APP_UI_ITEM, N_("_Rows"), N_("Insert new rows"),
+	  insert_rows_cmd  },
+	{ GNOME_APP_UI_ITEM, N_("C_olumns"), N_("Insert new columns"),
+	  insert_cols_cmd  },
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -1180,7 +1199,14 @@ static void
 workbook_setup_status_area (Workbook *wb)
 {
 	workbook_setup_auto_calc (wb);
-	
+
+	/*
+	 * Create the GnomeAppBar
+	 */
+	wb->appbar = GNOME_APPBAR(gnome_appbar_new(TRUE, TRUE,
+						   GNOME_PREFERENCES_USER));
+	gnome_app_set_statusbar(GNOME_APP(wb->toplevel),
+				GTK_WIDGET(wb->appbar));
 }
 
 void
@@ -1238,6 +1264,7 @@ workbook_new (void)
 	workbook_setup_sheets (wb);
 	gnome_app_set_contents (GNOME_APP (wb->toplevel), wb->table);
 	gnome_app_create_menus_with_data (GNOME_APP (wb->toplevel), workbook_menu, wb);
+	gnome_app_install_menu_hints(GNOME_APP (wb->toplevel), workbook_menu);
 	gnome_app_create_toolbar_with_data (GNOME_APP (wb->toplevel), workbook_toolbar, wb);
 
 	item = gnome_app_get_dock_item_by_name (GNOME_APP (wb->toplevel), GNOME_APP_TOOLBAR_NAME);

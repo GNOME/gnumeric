@@ -20,8 +20,8 @@ typedef struct {
 
 typedef struct {
 	char       *filename;
-	
-	GtkWidget  *toplevel;
+
+        GtkWidget  *toplevel; 
 	GtkWidget  *notebook;
 	GtkWidget  *table;
 
@@ -30,6 +30,9 @@ typedef struct {
 	GtkWidget  *ea_button_box;
 	GtkWidget  *ea_input;
 
+        /* The status bar */
+        GnomeAppBar * appbar;
+  
 	/* The auto-expression */
 	ExprTree   *auto_expr;
 	String     *auto_expr_desc;

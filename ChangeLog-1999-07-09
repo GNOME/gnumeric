@@ -1,5 +1,14 @@
 1999-01-07  Nat Friedman  <nat@nat.org>
 
+	* src/workbook.c (workbook_new): Install the menu hints.
+	(workbook_setup_status_area): Create the GnomeAppBar.
+
+	Added hints to most of the custom menu items.
+
+	* src/sheet.h: Added the appbar field to the Workbook structure.
+
+1999-01-07  Nat Friedman  <nat@nat.org>
+
 	* src/workbook.c: Use GNOMEUIINFO_MENU_ABOUT_ITEM and the new
  	GNOMEUIINFO_MENU trees.
 
