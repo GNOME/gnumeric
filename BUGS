@@ -8,8 +8,10 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
+    - How to handle Dependents in styles ?
     - get a libole2 release and attempt to deal with the ameritrade issues
     - http://bugzilla.gnome.org/show_bug.cgi?id=62520
+    - http://bugzilla.gnome.org/show_bug.cgi?id=63408
 
 Pending Patches
 ---------------
@@ -37,8 +39,6 @@ Long term breakage
       or by selecting the first named expression in scope that contains the
       current cell.
     : Should <ok> add the name ?
-
-- How to handle Dependents in styles ?
 
 - Consistent capitalization of labels.
 

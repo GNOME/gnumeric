@@ -1,3 +1,18 @@
+2001-10-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-style.c (sheet_style_most_common_in_col) : typo.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=63409
+	* src/workbook-control-gui.c (workbook_control_gui_init) : fix
+	position of freeze menu.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=63415
+	(wbcg_delete_event) : typo.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=62683
+	* src/sheet-object.c (sheet_object_set_sheet) : adding an object may
+	  extend the bounds.
+
 2001-10-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/ranges.c/h (global_range_contained) : new routine testing whether 

@@ -2641,7 +2641,7 @@ static GnomeUIInfo workbook_menu_view [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Zoom..."),
 		N_("Zoom the spreadsheet in or out"),
 		cb_view_zoom),
-	GNOMEUIINFO_ITEM_NONE (N_("_Freeze..."),
+	GNOMEUIINFO_ITEM_NONE (N_("_Freeze Panes"),
 		N_("Freeze the top left of the sheet"),
 		cb_view_freeze_panes),
 	GNOMEUIINFO_END
@@ -3344,7 +3344,7 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 static int
 wbcg_delete_event (GtkWidget *widget, GdkEvent *event, WorkbookControlGUI *wbcg)
 {
-	return wbcg_close_control (wbcg);
+	return !wbcg_close_control (wbcg);
 }
 
 /*
@@ -3783,7 +3783,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	wbcg->menu_item_consolidate =
 		workbook_menu_data [4].widget;
 	wbcg->menu_item_freeze_panes =
-		workbook_menu_view [3].widget;
+		workbook_menu_view [4].widget;
 
 	wbcg->menu_item_sheet_display_formulas =
 		workbook_menu_format_sheet [2].widget;
@@ -3884,7 +3884,6 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		GTK_SIGNAL_FUNC (cb_realize), wbcg);
 #if 0
 	/* Enable toplevel as a drop target */
-
 	gtk_drag_dest_set (wbcg->toplevel,
 			   GTK_DEST_DEFAULT_ALL,
 			   drag_types, n_drag_types,

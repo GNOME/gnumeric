@@ -26,10 +26,6 @@
 #include "sheet-object-graphic.h"
 #include "sheet-object-cell-comment.h"
 #include "sheet-object-widget.h"
-#ifdef ENABLE_BONOBO
-#include "sheet-object-bonobo.h"
-#include "gnumeric-graph.h"
-#endif
 
 #include <gal/util/e-util.h>
 
@@ -319,6 +315,9 @@ sheet_object_set_sheet (SheetObject *so, Sheet *sheet)
 	sheet->sheet_objects = g_list_prepend (sheet->sheet_objects, so);
 	sheet_object_realize (so);
 	sheet_object_update_bounds (so, NULL);
+
+	/* FIXME : add a flag to sheet to have sheet_update do this */
+	sheet_objects_max_extent (sheet);
 
 	return FALSE;
 }
@@ -789,6 +788,14 @@ sheet_get_objects (Sheet const *sheet, Range const *r, GtkType t)
 	return res;
 }
 
+#ifdef ENABLE_BONOBO
+/* Do NOT include the relevant header files,
+ * they introduce automake depends in the non-bonobo build.
+ */
+extern GtkType sheet_object_bonobo_get_type (void);
+extern GtkType gnm_graph_get_type (void);
+#endif
+
 void
 sheet_object_register (void)
 {
@@ -796,12 +803,11 @@ sheet_object_register (void)
 	SHEET_OBJECT_FILLED_TYPE;
 	CELL_COMMENT_TYPE;
 #ifdef ENABLE_BONOBO
-	SHEET_OBJECT_BONOBO_TYPE;
-	GNUMERIC_GRAPH_TYPE;
+	sheet_object_bonobo_get_type ();
+	gnm_graph_get_type ();
 #endif
 	sheet_object_widget_register ();
 }
-
 
 /**
  * sheet_object_clone:

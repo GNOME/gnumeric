@@ -1849,7 +1849,7 @@ cb_find_max (gpointer key, gpointer value, gpointer user_data)
  * The resulting style does not have its reference count bumped.
  */
 MStyle *
-sheet_style_most_common_in_row (Sheet const *sheet, int col)
+sheet_style_most_common_in_col (Sheet const *sheet, int col)
 {
 	MostCommon  res;
 	GHashTable *accumulator;

@@ -405,11 +405,6 @@ cell_assign_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
  * WARNING : This is an internal routine that does not queue redraws,
  *           does not auto-resize, and does not calculate spans.
  *
- * FIXME FIXME FIXME : The current format code only checks against the list of
- * canned formats.  Therefore the rendered string MAY NOT BE PARSEABLE!! if the
- * user has assigned a non-std format.  We need to improve the parser to handle
- * all formats that exist within the workbook.
- *
  * NOTE : This DOES check for array partitioning.
  */
 void
