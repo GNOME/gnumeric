@@ -90,7 +90,7 @@ stf_open_and_read (GsfInput *input, size_t *readsize)
 
 	*((char *)result + *readsize) = '\0';
 
-	if (size > 0 && gsf_input_read (input, *readsize, result) == NULL) {
+	if (*readsize > 0 && gsf_input_read (input, *readsize, result) == NULL) {
 		g_warning ("gsf_input_read failed.");
 		g_free (result);
 		result = NULL;

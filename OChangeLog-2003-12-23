@@ -1,5 +1,7 @@
 2003-09-03  Morten Welinder  <terra@gnome.org>
 
+	* src/stf.c (stf_open_and_read): Fix zero-size check.
+
 	* src/number-match.c (compute_value): Handle negative hh:mm.
 
 2003-09-02  Jody Goldberg <jody@gnome.org>
