@@ -1,3 +1,29 @@
+2002-10-17  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-edit.c (wbcg_edit_finish) : adjust to changes in
+	  ParseError and tweak focus handling when user decides to re-edit so
+	  that we actually select what we want to.
+
+	* src/parse-util.c (parse_error_init) : Use a GError for the error
+	  message to clarify life cycle.
+	(parse_error_free) : ditto.
+
+	* src/item-edit.c (item_edit_cursor_blink_start) : simple support for
+	  xsettings.
+
+	* src/expr.c (do_expr_as_string) : sync the precedence with the parser.
+	(do_expr_as_string) : Always qualify a sheet local name from another
+	  sheet.
+
+2002-10-16  Jody Goldberg <jody@gnome.org>
+
+	* src/parser.y : Fix precedences and associativity
+	Revamp error reporting to make sense.
+	Tify up the code a bit.
+	(sheetref) : remove the 3d productions.  We no longer need them
+	(workbookref) : add a new production to simplify error reporting.
+
+
 2002-10-15  Jody Goldberg <jody@gnome.org>
 
 	* src/value-sheet.c (value_area_foreach) : Add CellIterFlags

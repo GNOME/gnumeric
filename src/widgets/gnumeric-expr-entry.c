@@ -1175,8 +1175,8 @@ gnm_expr_entry_parse (GnumericExprEntry *gee, ParsePos const *pp,
 		Value *range = gnm_expr_get_range (expr) ;
 		if (range == NULL) {
 			if (perr != NULL) {
-				perr->id         = PERR_SINGLE_RANGE;
-				perr->message    = g_strdup (_("Expecting a single range"));
+				perr->err = g_error_new (0, PERR_SINGLE_RANGE,
+					_("Expecting a single range"));
 				perr->begin_char = perr->end_char   = 0;
 			}
 			gnm_expr_unref (expr);

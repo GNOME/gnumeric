@@ -34,6 +34,7 @@
 #include <stdlib.h>
 
 #define YYDEBUG 1
+
 /* ------------------------------------------------------------------------- */
 /* Allocation with disposal-on-error */
 
@@ -186,13 +187,8 @@ static int yylex (void);
 static int yyerror (const char *s);
 
 typedef struct {
-	/* The expression being parsed */
-	char const *expr_text;
-
-	/* A backup of the above, this will always point to the real
-	 * expression beginning to calculate the offset in the expression
-	 */
-	char const *expr_backup;
+	char const *ptr;	/* current position of the lexer */
+	char const *start;	/* start of the expression */
 
 	/* Location where the parsing is taking place */
 	ParsePos const *pos;
@@ -223,15 +219,17 @@ typedef struct {
 static ParserState *state;
 
 static void
-gnumeric_parse_error (ParserState *state, ParseErrorID id, char *message, int end, int relative_begin)
+report_err (ParserState *state, GError *err,
+	    char const *last, int guesstimate_of_length)
 {
 	if (state->error != NULL) {
-		state->error->id         = id;
-		state->error->message    = message;
-		state->error->begin_char = (end - relative_begin);
-		state->error->end_char   = end;
+		state->error->err    	 = err;
+		state->error->end_char   = last - state->start;
+		state->error->begin_char = state->error->end_char - guesstimate_of_length;
+		if (state->error->begin_char < 0)
+			state->error->begin_char = 0;
 	} else
-		g_free (message);
+		g_error_free (err);
 }
 
 static GnmExpr *
@@ -330,9 +328,9 @@ build_range_ctor (GnmExpr *l, GnmExpr *r, GnmExpr *validate)
 	if (validate != NULL) {
 		if (validate->any.oper != GNM_EXPR_OP_CELLREF ||
 		    validate->cellref.ref.sheet != NULL) {
-			gnumeric_parse_error (state, PERR_UNEXPECTED_TOKEN,
-				_("Constructed ranges use simple references"),
-				state->expr_text - state->expr_backup, 0);
+			report_err (state, g_error_new (1, PERR_UNEXPECTED_TOKEN,
+				_("Constructed ranges use simple references")),
+				state->ptr, 0);
 			return NULL;
 		    }
 	}
@@ -344,10 +342,9 @@ build_intersect (GnmExpr *l, GnmExpr *r)
 {
 	if (gnm_expr_is_rangeref (l) && gnm_expr_is_rangeref (r))
 		return build_binop (l, GNM_EXPR_OP_INTERSECT, r);
-	gnumeric_parse_error (
-		state, PERR_SET_CONTENT_MUST_BE_RANGE,
-		g_strdup (_("All entries in the set must be references")),
-		state->expr_text - state->expr_backup, 0);
+	report_err (state, g_error_new (1, PERR_SET_CONTENT_MUST_BE_RANGE,
+		_("All entries in the set must be references")),
+		state->ptr, 0);
 	return NULL;
 }
 
@@ -358,10 +355,9 @@ build_set (GnmExprList *list)
 	GnmExprList *ptr;
 	for (ptr = list; ptr != NULL ; ptr = ptr->next)
 		if (!gnm_expr_is_rangeref (ptr->data)) {
-			gnumeric_parse_error (
-				state, PERR_SET_CONTENT_MUST_BE_RANGE,
-				g_strdup (_("All entries in the set must be references")),
-				state->expr_text - state->expr_backup, 0);
+			report_err (state, g_error_new (1, PERR_SET_CONTENT_MUST_BE_RANGE,
+				_("All entries in the set must be references")),
+				state->ptr, 0);
 			return NULL;
 		}
 
@@ -442,9 +438,14 @@ parser_sheet_by_name (Workbook *wb, GnmExpr *name_expr)
 		sheet = workbook_sheet_by_name (wb, name+1);
 
 	if (sheet == NULL)
-		gnumeric_parse_error (state, PERR_UNKNOWN_SHEET,
-			g_strdup_printf (_("Unknown sheet '%s'"), name),
-			state->expr_text - state->expr_backup, strlen (name));
+		/* TODO : length is broken in the context of quoted names or
+		 * names with escaped character */
+		/* -1 is a kludge.  We know that this routine is only called
+		 * when the last token was SHEET_SEP
+		 */
+		report_err (state, g_error_new (1, PERR_UNKNOWN_SHEET,
+			_("Unknown sheet '%s'"), name),
+			state->ptr-1, strlen (name));
 
 	return sheet;
 }
@@ -459,26 +460,27 @@ int yyparse (void);
 	Value		*value;
 	CellRef		*cell;
 	GnmExprList	*list;
-	struct {
-		Sheet	*first;
-		Sheet	*last;
-	} sheet;
+	Sheet		*sheet;
+	Workbook	*wb;
 }
-%type  <list>	opt_exp arg_list array_row, array_cols
+%type  <list>	opt_exp arg_list array_row array_cols
 %type  <expr>	exp array_exp function string_opt_quote cellref
-%token <expr>	STRING QUOTED_STRING CONSTANT RANGEREF GTE LTE NE AND OR NOT
-%token		SEPARATOR INVALID_TOKEN
+%token <expr>	STRING QUOTED_STRING CONSTANT RANGEREF GTE LTE NE AND OR NOT INTERSECT
+%token		SEPARATOR SHEET_SEP INVALID_TOKEN
 %type  <sheet>	sheetref
+%type  <wb>	workbookref
 
-%left '&'
 %left '<' '>' '=' GTE LTE NE
+%left '&'
 %left '-' '+'
 %left '*' '/'
-%left NEG PLUS NOT
-%left RANGE_SEP SHEET_SEP
 %right '^'
+%nonassoc '%'
+%nonassoc NEG PLUS NOT
 %left AND OR
-%right '%'
+%left ','
+%left ' '
+%left RANGE_SEP
 
 %%
 line:	opt_exp exp {
@@ -531,9 +533,9 @@ exp:	  CONSTANT 	{ $$ = $1; }
 
 	| '(' arg_list ')' {
 		if ($2 == NULL) {
-			gnumeric_parse_error (state, PERR_INVALID_EMPTY,
-				g_strdup_printf (_("() is an invalid expression")),
-				state->expr_text - state->expr_backup + 1, 0);
+			report_err (state, g_error_new (1, PERR_INVALID_EMPTY,
+				_("() is an invalid expression")),
+				state->ptr-2, 2);
 			YYERROR;
 		} else {
 			unregister_allocation ($2);
@@ -561,57 +563,37 @@ exp:	  CONSTANT 	{ $$ = $1; }
 		char const *name = $2->constant.value->v_str.val->str;
 		ParsePos pos = *state->pos;
 
-		pos.sheet = $1.first;
-		if ($1.last != NULL)
-			gnumeric_parse_error (state, PERR_3D_NAME,
-				g_strdup_printf (_("What is a 3D name %s:%s!%s ?"),
-						$1.first->name_quoted,
-						$1.last->name_quoted,
-						name),
-				state->expr_text - state->expr_backup + 1, strlen (name));
-		else {
-			nexpr = expr_name_lookup (&pos, name);
-			if (nexpr == NULL)
-				gnumeric_parse_error (state, PERR_UNKNOWN_NAME,
-					g_strdup_printf (_("Name '%s' does not exist in sheet '%s'"),
-							name, pos.sheet->name_quoted),
-					state->expr_text - state->expr_backup + 1, strlen (name));
-		}
-
+		pos.sheet = $1;
+		nexpr = expr_name_lookup (&pos, name);
 		if (nexpr == NULL) {
+			report_err (state, g_error_new (1, PERR_UNKNOWN_NAME,
+				_("Name '%s' does not exist in sheet '%s'"),
+						name, pos.sheet->name_quoted),
+				state->ptr, strlen (name));
 			YYERROR;
+		} else {
+			unregister_allocation ($2); gnm_expr_unref ($2);
+			$$ = register_expr_allocation (gnm_expr_new_name (nexpr, $1, NULL));
 		}
-		unregister_allocation ($2); gnm_expr_unref ($2);
-	        $$ = register_expr_allocation (gnm_expr_new_name (nexpr, $1.first, NULL));
 	}
-	| '[' string_opt_quote ']' STRING {
-		GnmNamedExpr *nexpr;
-		char *name = $4->constant.value->v_str.val->str;
-		char *wb_name = $2->constant.value->v_str.val->str;
+	| workbookref STRING {
+		GnmNamedExpr *nexpr = NULL;
+		char const *name = $2->constant.value->v_str.val->str;
 		ParsePos pos = *state->pos;
 
 		pos.sheet = NULL;
-		pos.wb = application_workbook_get_by_name (wb_name);
-
-		if (pos.wb == NULL) {
-			gnumeric_parse_error (state, PERR_UNKNOWN_WORKBOOK,
-				g_strdup_printf (_("Unknown workbook '%s'"), wb_name), 
-				state->expr_text - state->expr_backup + 1, strlen (name));
-			YYERROR;
-		}
-
+		pos.wb = $1;
 		nexpr = expr_name_lookup (&pos, name);
-		if (nexpr == NULL) {
-			gnumeric_parse_error (state, PERR_UNKNOWN_NAME,
-				g_strdup_printf (_("Name '%s' does not exist in workbook '%s'"),
-						name, wb_name),
-				state->expr_text - state->expr_backup + 1, strlen (name));
-			YYERROR;
-		} else {
-			unregister_allocation ($4); gnm_expr_unref ($4);
+		if (nexpr != NULL) {
 			unregister_allocation ($2); gnm_expr_unref ($2);
+			$$ = register_expr_allocation (gnm_expr_new_name (nexpr, NULL, $1));
+		} else {
+			report_err (state, g_error_new (1, PERR_UNKNOWN_NAME,
+				_("Name '%s' does not exist in sheet '%s'"),
+						name, pos.sheet->name_quoted),
+				state->ptr, strlen (name));
+			YYERROR;
 		}
-	        $$ = register_expr_allocation (gnm_expr_new_name (nexpr, NULL, pos.wb));
 	}
 	;
 
@@ -640,58 +622,47 @@ string_opt_quote : STRING
 		 | QUOTED_STRING
 		 ;
 
+workbookref : '[' string_opt_quote ']'  {
+		char const *wb_name = $2->constant.value->v_str.val->str;
+		Workbook *wb = application_workbook_get_by_name (wb_name);
+
+		if (wb != NULL) {
+			unregister_allocation ($2); gnm_expr_unref ($2);
+			$$ = wb;
+		} else {
+			/* kludge to produce better error messages
+			 * we know that the last token read will be the ']'
+			 * so subtract 1.
+			 */
+			report_err (state, g_error_new (1, PERR_UNKNOWN_WORKBOOK,
+				_("Unknown workbook '%s'"), wb_name), 
+				state->ptr - 1, strlen (wb_name));
+			YYERROR;
+		}
+	}
+	;
+
+/* does not need to handle 3d case.  this is only used for names.
+ * 3d cell references are handled in the lexer
+ */
 sheetref: string_opt_quote SHEET_SEP {
 		Sheet *sheet = parser_sheet_by_name (state->pos->wb, $1);
-		unregister_allocation ($1); gnm_expr_unref ($1);
-		if (sheet == NULL) {
+		if (sheet != NULL) {
+			unregister_allocation ($1); gnm_expr_unref ($1);
+			$$ = sheet;
+		} else {
 			YYERROR;
 		}
-	        $$.first = sheet;
-	        $$.last = NULL;
 	}
-	| string_opt_quote RANGE_SEP string_opt_quote SHEET_SEP {
-		Sheet *a_sheet = parser_sheet_by_name (state->pos->wb, $1);
-		Sheet *b_sheet = parser_sheet_by_name (state->pos->wb, $3);
+	| workbookref string_opt_quote SHEET_SEP {
+		Sheet *sheet = parser_sheet_by_name ($1, $2);
 
-		if (a_sheet == NULL || b_sheet == NULL) {
+		if (sheet != NULL) {
+			unregister_allocation ($2); gnm_expr_unref ($2);
+			$$ = sheet;
+		} else {
 			YYERROR;
 		}
-
-		unregister_allocation ($1); gnm_expr_unref ($1);
-		unregister_allocation ($3); gnm_expr_unref ($3);
-	        $$.first = a_sheet;
-	        $$.last = b_sheet;
-	}
-
-	| '[' string_opt_quote ']' string_opt_quote SHEET_SEP {
-		Workbook *wb = application_workbook_get_by_name (
-			$2->constant.value->v_str.val->str);
-		Sheet *sheet = parser_sheet_by_name (wb, $4);
-
-		if (sheet == NULL) {
-			YYERROR;
-		}
-
-		unregister_allocation ($2); gnm_expr_unref ($2);
-		unregister_allocation ($4); gnm_expr_unref ($4);
-	        $$.first = sheet;
-	        $$.last = NULL;
-        }
-	| '[' string_opt_quote ']' string_opt_quote RANGE_SEP string_opt_quote SHEET_SEP {
-		Workbook *wb = application_workbook_get_by_name (
-			$2->constant.value->v_str.val->str);
-		Sheet *a_sheet = parser_sheet_by_name (wb, $4);
-		Sheet *b_sheet = parser_sheet_by_name (wb, $6);
-
-		if (a_sheet == NULL || b_sheet == NULL) {
-			YYERROR;
-		}
-
-		unregister_allocation ($2); gnm_expr_unref ($2);
-		unregister_allocation ($4); gnm_expr_unref ($4);
-		unregister_allocation ($6); gnm_expr_unref ($6);
-	        $$.first = a_sheet;
-	        $$.last = b_sheet;
         }
 	;
 
@@ -753,9 +724,9 @@ array_row: array_exp {
 			$$ = g_slist_prepend ($3, $1);
 			register_expr_list_allocation ($$);
 		} else {
-			gnumeric_parse_error (state, PERR_INVALID_ARRAY_SEPARATOR,
-				g_strdup (_("This locale uses '\\' rather than ',' to separate array columns.")),
-				state->expr_text - state->expr_backup + 1, 1);
+			report_err (state, g_error_new (1, PERR_INVALID_ARRAY_SEPARATOR,
+				_("This locale uses '\\' rather than ',' to separate array columns.")),
+				state->ptr, 1);
 			YYERROR;
 		}
 	}
@@ -766,9 +737,9 @@ array_row: array_exp {
 			$$ = g_slist_prepend ($3, $1);
 			register_expr_list_allocation ($$);
 		} else {
-			gnumeric_parse_error (state, PERR_INVALID_ARRAY_SEPARATOR,
-				g_strdup (_("This locale uses ',' rather than '\\' to separate array columns.")),
-				state->expr_text - state->expr_backup + 1, 1);
+			report_err (state, g_error_new (1, PERR_INVALID_ARRAY_SEPARATOR,
+				_("This locale uses ',' rather than '\\' to separate array columns.")),
+				state->ptr, 1);
 			YYERROR;
 		}
 	}
@@ -835,16 +806,16 @@ yylex (void)
 	gboolean is_number = FALSE;
 	gboolean is_space = FALSE;
 
-        while (g_unichar_isspace (g_utf8_get_char (state->expr_text))) {
-                state->expr_text = g_utf8_next_char (state->expr_text);
+        while (g_unichar_isspace (g_utf8_get_char (state->ptr))) {
+                state->ptr = g_utf8_next_char (state->ptr);
 		is_space = TRUE;
 	}
 	if (is_space && !state->use_applix_conventions)
 		return ' ';
 
-	start = state->expr_text;
+	start = state->ptr;
 	c = g_utf8_get_char (start);
-	state->expr_text = g_utf8_next_char (state->expr_text);
+	state->ptr = g_utf8_next_char (state->ptr);
 
 	if (c == '(' || c == ')')
 		return c;
@@ -856,38 +827,38 @@ yylex (void)
 			return SHEET_SEP;
 	} else if (state->use_opencalc_conventions) {
 		if (c == '&') {
-			if (!strncmp (state->expr_text, "amp;", 4)) {
-				state->expr_text += 4;
+			if (!strncmp (state->ptr, "amp;", 4)) {
+				state->ptr += 4;
 				return '&';
 			}
-			if (!strncmp (state->expr_text, "lt;", 3)) {
-				state->expr_text += 3;
-				if (*state->expr_text == '='){
-					state->expr_text++;
+			if (!strncmp (state->ptr, "lt;", 3)) {
+				state->ptr += 3;
+				if (*state->ptr == '='){
+					state->ptr++;
 					return LTE;
 				}
-				if (!strncmp (state->expr_text, "&gt;", 4)) {
-					state->expr_text += 4;
+				if (!strncmp (state->ptr, "&gt;", 4)) {
+					state->ptr += 4;
 					return NE;
 				}
 				return '<';
 			}
-			if (!strncmp (state->expr_text, "gt;", 3)) {
-				state->expr_text += 3;
-				if (*state->expr_text == '='){
-					state->expr_text++;
+			if (!strncmp (state->ptr, "gt;", 3)) {
+				state->ptr += 3;
+				if (*state->ptr == '='){
+					state->ptr++;
 					return GTE;
 				}
 				return '>';
 			}
-			if (!strncmp (state->expr_text, "apos;", 5) ||
-			    !strncmp (state->expr_text, "quot;", 5)) {
+			if (!strncmp (state->ptr, "apos;", 5) ||
+			    !strncmp (state->ptr, "quot;", 5)) {
 				char const *quotes_end;
 				char const *p;
 				char *string, *s;
 				Value *v;
 
-				if (*state->expr_text == 'q') {
+				if (*state->ptr == 'q') {
 					quotes_end = "&quot;";
 					c = '\"';
 				} else {
@@ -895,23 +866,23 @@ yylex (void)
 					c = '\'';
 				}
 
-				state->expr_text += 5;
-				p = state->expr_text;
+				state->ptr += 5;
+				p = state->ptr;
 				double_quote_loop :
-					state->expr_text = strstr (state->expr_text, quotes_end);
-					if (!*state->expr_text) {
-						gnumeric_parse_error (state, PERR_MISSING_CLOSING_QUOTE,
-							g_strdup (_("Could not find matching closing quote")),
-							(p - state->expr_backup) + 1, 1);
+					state->ptr = strstr (state->ptr, quotes_end);
+					if (!*state->ptr) {
+						report_err (state, g_error_new (1, PERR_MISSING_CLOSING_QUOTE,
+							_("Could not find matching closing quote")),
+							p, 1);
 						return INVALID_TOKEN;
 					}
-					if (!strncmp (state->expr_text + 6, quotes_end, 6)) {
-						state->expr_text += 2 * 6;
+					if (!strncmp (state->ptr + 6, quotes_end, 6)) {
+						state->ptr += 2 * 6;
 						goto double_quote_loop; 
 					}
 
-				s = string = (char *) g_alloca (1 + state->expr_text - p);
-				while (p != state->expr_text) {
+				s = string = (char *) g_alloca (1 + state->ptr - p);
+				while (p != state->ptr) {
 					if (*p == '&') {
 						if (!strncmp (p, "&amp;", 5)) {
 							p += 5;
@@ -943,7 +914,7 @@ yylex (void)
 				}
 
 				*s = 0;
-				state->expr_text += 6;
+				state->ptr += 6;
 
 				v = value_new_string (string);
 				yylval.expr = register_expr_allocation (gnm_expr_new_constant (v));
@@ -952,23 +923,23 @@ yylex (void)
 		}
 	} else {
 		/* Treat '..' as range sep (A1..C3) */
-		if (c == '.' && *state->expr_text == '.') {
-			state->expr_text++;
+		if (c == '.' && *state->ptr == '.') {
+			state->ptr++;
 			return RANGE_SEP;
 		}
 		if (c == ':')
 			return SHEET_SEP;
 		if (c == '#') {
-			if (!strncmp (state->expr_text, "NOT#", 4)) {
-				state->expr_text += 4;
+			if (!strncmp (state->ptr, "NOT#", 4)) {
+				state->ptr += 4;
 				return NOT;
 			}
-			if (!strncmp (state->expr_text, "AND#", 4)) {
-				state->expr_text += 4;
+			if (!strncmp (state->ptr, "AND#", 4)) {
+				state->ptr += 4;
 				return AND;
 			}
-			if (!strncmp (state->expr_text, "OR#", 3)) {
-				state->expr_text += 3;
+			if (!strncmp (state->ptr, "OR#", 3)) {
+				state->ptr += 3;
 				return OR;
 			}
 		}
@@ -978,7 +949,7 @@ yylex (void)
 		return SEPARATOR;
 
 	if (start != (end = state->ref_parser (&ref, start, state->pos))) {
-		state->expr_text = end;
+		state->ptr = end;
 		if (state->force_absolute_col_references) {
 			if (ref.a.col_relative) {
 				ref.a.col += state->pos->eval.col;
@@ -1003,10 +974,9 @@ yylex (void)
 		if (ref.a.sheet == NULL && state->force_explicit_sheet_references) {
 			ref.a.sheet = state->pos->sheet;
 			if (ref.a.sheet == NULL) {
-				gnumeric_parse_error (
-					state, PERR_SHEET_IS_REQUIRED,
-					g_strdup (_("Sheet name is required")),
-					state->expr_text - state->expr_backup, 0);
+				report_err (state, g_error_new (1, PERR_SHEET_IS_REQUIRED,
+					_("Sheet name is required")),
+					state->ptr, 0);
 				return INVALID_TOKEN;
 			}
 		}
@@ -1026,13 +996,13 @@ yylex (void)
 
 	if (c == state->decimal_point) {
 		/* Could be a number or a stand alone  */
-		if (!g_unichar_isdigit (g_utf8_get_char (state->expr_text)))
+		if (!g_unichar_isdigit (g_utf8_get_char (state->ptr)))
 			return c;
 		is_number = TRUE;
 	} else if (g_unichar_isdigit (c)) {
 		do {
-			c = g_utf8_get_char (state->expr_text);
-			state->expr_text = g_utf8_next_char (state->expr_text);
+			c = g_utf8_get_char (state->ptr);
+			state->ptr = g_utf8_next_char (state->ptr);
 		} while (g_unichar_isdigit (c));
 		is_number = TRUE;
 	}
@@ -1051,24 +1021,23 @@ yylex (void)
 				g_warning ("%s is not a double, but was expected to be one", start);
 			}  else if (errno != ERANGE) {
 				v = value_new_float (d);
-				state->expr_text = end;
+				state->ptr = end;
 			} else if (c != 'e' && c != 'E') {
-				gnumeric_parse_error (state, PERR_OUT_OF_RANGE,
-					g_strdup (_("The number is out of range")),
-					state->expr_text - state->expr_backup, end - start);
+				report_err (state, g_error_new (1, PERR_OUT_OF_RANGE,
+					_("The number is out of range")),
+					state->ptr, end - start);
 				return INVALID_TOKEN;
 			} else {
 				/* For an exponent it's hard to highlight the
 				 * right region w/o it turning into an ugly
 				 * hack, for now the cursor is put at the end.
 				 */
-				gnumeric_parse_error (state, PERR_OUT_OF_RANGE,
-					g_strdup (_("The number is out of range")),
-					0, 0);
+				report_err (state, g_error_new (1, PERR_OUT_OF_RANGE,
+					_("The number is out of range")),
+					state->ptr, 0);
 				return INVALID_TOKEN;
 			}
 		} else {
-			/* This could be a row range ref or an integer */
 			char *end;
 			long l;
 
@@ -1078,7 +1047,7 @@ yylex (void)
 				g_warning ("%s is not an integer, but was expected to be one", start);
 			} else if (errno != ERANGE) {
 				v = value_new_int (l);
-				state->expr_text = end;
+				state->ptr = end;
 			} else if (l == LONG_MIN || l == LONG_MAX) {
 				gnum_float d;
 
@@ -1086,11 +1055,11 @@ yylex (void)
 				d = strtognum (start, &end);
 				if (errno != ERANGE) {
 					v = value_new_float (d);
-					state->expr_text = end;
+					state->ptr = end;
 				} else {
-					gnumeric_parse_error (state, PERR_OUT_OF_RANGE,
-						g_strdup (_("The number is out of range")),
-						state->expr_text - state->expr_backup, end - start);
+					report_err (state, g_error_new (1, PERR_OUT_OF_RANGE,
+						_("The number is out of range")),
+						state->ptr, end - start);
 					return INVALID_TOKEN;
 				}
 			}
@@ -1112,17 +1081,17 @@ yylex (void)
 		char quotes_end = c;
 		Value *v;
 
- 		p = state->expr_text;
- 		state->expr_text = find_char (state->expr_text, quotes_end);
-		if (!*state->expr_text) {
-  			gnumeric_parse_error (state, PERR_MISSING_CLOSING_QUOTE,
-				g_strdup (_("Could not find matching closing quote")),
-  				(p - state->expr_backup) + 1, 1);
+ 		p = state->ptr;
+ 		state->ptr = find_char (state->ptr, quotes_end);
+		if (!*state->ptr) {
+  			report_err (state, g_error_new (1, PERR_MISSING_CLOSING_QUOTE,
+				_("Could not find matching closing quote")),
+  				p, 1);
 			return INVALID_TOKEN;
 		}
 
-		s = string = (char *) g_alloca (1 + state->expr_text - p);
-		while (p != state->expr_text)
+		s = string = (char *) g_alloca (1 + state->ptr - p);
+		while (p != state->ptr)
 			if (*p == '\\') {
 				int n = g_utf8_skip [*(guchar *)(++p)];
 				strncpy (s, p, n);
@@ -1132,7 +1101,7 @@ yylex (void)
 				*s++ = *p++;
 
 		*s = 0;
-		state->expr_text++;
+		state->ptr++;
 
 		v = value_new_string (string);
 		yylval.expr = register_expr_allocation (gnm_expr_new_constant (v));
@@ -1143,13 +1112,13 @@ yylex (void)
 	if (g_unichar_isalpha (c) || c == '_' || c == '$'){
 		gunichar tmp;
 
-		while ((tmp = g_utf8_get_char (state->expr_text)) != 0 &&
+		while ((tmp = g_utf8_get_char (state->ptr)) != 0 &&
 		       (g_unichar_isalnum (tmp) || tmp == '_' || tmp == '$' ||
 		       (state->use_excel_conventions && tmp == '.')))
-			state->expr_text = g_utf8_next_char (state->expr_text);
+			state->ptr = g_utf8_next_char (state->ptr);
 
 		yylval.expr = register_expr_allocation (gnm_expr_new_constant (
-			value_new_string_nocopy (g_strndup (start, state->expr_text - start))));
+			value_new_string_nocopy (g_strndup (start, state->ptr - start))));
 		return STRING;
 	}
 
@@ -1157,13 +1126,13 @@ yylex (void)
 	if (c == '#') {
 		gunichar tmp;
 
-		while ((tmp = g_utf8_get_char (state->expr_text)) != 0 &&
+		while ((tmp = g_utf8_get_char (state->ptr)) != 0 &&
 		       !g_unichar_isspace (tmp)) {
-			state->expr_text = g_utf8_next_char (state->expr_text);
+			state->ptr = g_utf8_next_char (state->ptr);
 			if (tmp == '!') {
 				yylval.expr = register_expr_allocation
 					(gnm_expr_new_constant (
-						value_new_string_nocopy (g_strndup (start, state->expr_text - start))));
+						value_new_string_nocopy (g_strndup (start, state->ptr - start))));
 				return STRING;
 			}
 		}
@@ -1174,20 +1143,20 @@ yylex (void)
 		return 0;
 
 	if (c == '<'){
-		if (*state->expr_text == '='){
-			state->expr_text++;
+		if (*state->ptr == '='){
+			state->ptr++;
 			return LTE;
 		}
-		if (*state->expr_text == '>'){
-			state->expr_text++;
+		if (*state->ptr == '>'){
+			state->ptr++;
 			return NE;
 		}
 		return c;
 	}
 
 	if (c == '>'){
-		if (*state->expr_text == '='){
-			state->expr_text++;
+		if (*state->ptr == '='){
+			state->ptr++;
 			return GTE;
 		}
 		return c;
@@ -1229,9 +1198,8 @@ gnm_expr_parse_str (char const *expr_text, ParsePos const *pos,
 	g_return_val_if_fail (expr_text != NULL, NULL);
 	g_return_val_if_fail (ref_parser != NULL, NULL);
 
-	pstate.expr_text   = expr_text;
-	pstate.expr_backup = expr_text;
-	pstate.pos	   = pos;
+	pstate.start = pstate.ptr = expr_text;
+	pstate.pos   = pos;
 
 	pstate.use_excel_conventions		   	= !(flags & (GNM_EXPR_PARSE_USE_APPLIX_CONVENTIONS | GNM_EXPR_PARSE_USE_OPENCALC_CONVENTIONS));
 	pstate.use_applix_conventions			= flags & GNM_EXPR_PARSE_USE_APPLIX_CONVENTIONS;
@@ -1260,7 +1228,7 @@ gnm_expr_parse_str (char const *expr_text, ParsePos const *pos,
 		deallocate_init ();
 
 	g_return_val_if_fail (pstate.pos != NULL, NULL);
-	g_return_val_if_fail (pstate.expr_text != NULL, NULL);
+	g_return_val_if_fail (pstate.ptr != NULL, NULL);
 	g_return_val_if_fail (state == NULL, NULL);
 
 	state = &pstate;
@@ -1285,10 +1253,10 @@ gnm_expr_parse_str (char const *expr_text, ParsePos const *pos,
 				expr = gnm_expr_new_set (g_slist_reverse (pstate.result));
 			else {
 				gnm_expr_list_unref (pstate.result);
-				gnumeric_parse_error (&pstate, PERR_MULTIPLE_EXPRESSIONS,
-					g_strdup (_("Multiple expressions are not supported in this context")),
-					(pstate.expr_text - pstate.expr_backup) + 1,
-					(pstate.expr_text - pstate.expr_backup));
+				report_err (&pstate, g_error_new (1, PERR_MULTIPLE_EXPRESSIONS,
+					_("Multiple expressions are not supported in this context")),
+					pstate.start,
+					(pstate.ptr - pstate.start));
 				expr = NULL;
 			}
 		} else {
@@ -1298,31 +1266,31 @@ gnm_expr_parse_str (char const *expr_text, ParsePos const *pos,
 		}
 	} else {
 		/* If there is no error message, attempt to be more detailed */
-		if (pstate.error != NULL && pstate.error->message == NULL) {
-			char const *last_token = pstate.expr_text - 1;
+		if (pstate.error != NULL &&
+		    (pstate.error->err == NULL || pstate.error->err->message == NULL)) {
+			char const *last_token = pstate.ptr - 1;
 
 			if (*last_token == '\0') {
-				char const *str = pstate.expr_backup;
+				char const *str = pstate.start;
 				char const *res = NULL;
 				char const *last = find_matching_close (str, &res);
 
 				if (*last)
-					gnumeric_parse_error (&pstate, PERR_MISSING_PAREN_OPEN,
-						g_strdup (_("Could not find matching opening parenthesis")),
-						(last - str) + 2, 1);
+					report_err (&pstate, g_error_new (1, PERR_MISSING_PAREN_OPEN,
+						_("Could not find matching opening parenthesis")),
+						last, 1);
 				else if (res != NULL)
-					gnumeric_parse_error (&pstate, PERR_MISSING_PAREN_CLOSE,
-						g_strdup (_("Could not find matching closing parenthesis")),
-						(res - str) + 2, 1);
+					report_err (&pstate, g_error_new (1, PERR_MISSING_PAREN_CLOSE,
+						_("Could not find matching closing parenthesis")),
+						res, 1);
 				else
-					gnumeric_parse_error (&pstate, PERR_INVALID_EXPRESSION,
-						g_strdup (_("Invalid expression")),
-						(pstate.expr_text - pstate.expr_backup) + 1,
-						(pstate.expr_text - pstate.expr_backup));
+					report_err (&pstate, g_error_new (1, PERR_INVALID_EXPRESSION,
+						_("Invalid expression")),
+						pstate.ptr, pstate.ptr - pstate.start);
 			} else
-				gnumeric_parse_error (&pstate, PERR_UNEXPECTED_TOKEN,
-					g_strdup_printf (_("Unexpected token %c"), *last_token),
-					(last_token - pstate.expr_backup) + 1, 1);
+				report_err (&pstate, g_error_new (1, PERR_UNEXPECTED_TOKEN,
+					_("Unexpected token %c"), *last_token),
+					last_token, 1);
 		}
 
 		deallocate_all ();

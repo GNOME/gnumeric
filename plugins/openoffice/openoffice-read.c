@@ -389,7 +389,7 @@ oo_cell_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 					&state->pos, 0, &perr);
 				if (expr == NULL) {
 					oo_warning (state, _("Unable to parse '%s' because '%s'"),
-						    attrs[1], perr.message);
+						    attrs[1], perr.err->message);
 					parse_error_free (&perr);
 				}
 			}
@@ -642,7 +642,7 @@ oo_named_expr (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 
 		if (expr == NULL || expr->any.oper != GNM_EXPR_OP_CELLREF) {
 			oo_warning (state, _("Unable to parse position for expression '%s' @ '%s' because '%s'"),
-				    name, base_str, perr.message);
+				    name, base_str, perr.err->message);
 			parse_error_free (&perr);
 			if (expr != NULL)
 				gnm_expr_unref (expr);
@@ -655,7 +655,7 @@ oo_named_expr (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 			expr = oo_expr_parse_str (expr_str, &pp, 0, &perr);
 			if (expr == NULL) {
 				oo_warning (state, _("Unable to parse position for expression '%s' with value '%s' because '%s'"),
-					    name, expr_str, perr.message);
+					    name, expr_str, perr.err->message);
 				parse_error_free (&perr);
 			} else {
 				GnmNamedExpr *nexpr = expr_name_lookup (&pp, name);

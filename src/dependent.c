@@ -1731,7 +1731,7 @@ cb_name_invalidate (GnmNamedExpr *nexpr, gpointer value,
 	    ((rwinfo->type == GNM_EXPR_REWRITE_SHEET &&
 	     rwinfo->u.sheet != nexpr->pos.sheet) ||
 	    (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK &&
-	     rwinfo->u.workbook == nexpr->pos.wb))) {
+	     rwinfo->u.workbook != nexpr->pos.wb))) {
 		new_expr = gnm_expr_rewrite (nexpr->t.expr_tree, rwinfo);
 		g_return_if_fail (new_expr != NULL);
 	}

@@ -671,10 +671,9 @@ parse_text_value_or_expr (ParsePos const *pos, char const *text,
 ParseError *
 parse_error_init (ParseError *pe)
 {
-	pe->id         = PERR_NONE;
-	pe->message    = NULL;
-	pe->begin_char = -1;
-	pe->end_char   = -1;
+	pe->err		= NULL;
+	pe->begin_char	= 0;
+	pe->end_char	= 0;
 
 	return pe;
 }
@@ -682,9 +681,9 @@ parse_error_init (ParseError *pe)
 void
 parse_error_free (ParseError *pe)
 {
-	if (pe->message != NULL) {
-		g_free (pe->message);
-		pe->message = NULL;
+	if (pe->err != NULL) {
+		g_error_free (pe->err);
+		pe->err = NULL;
 	}
 }
 

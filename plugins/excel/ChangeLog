@@ -1,3 +1,10 @@
+2002-10-17  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_excel_parse_NAME) : It looks like some
+	  builtinnames are just names, no definitions. eg 'Database'
+	  It also looks like these sheet_indexes apply to externsheet records
+	  for <= biff7 (see pivot.xls) rather than boundsheets.
+
 2002-10-13  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (ms_excel_read_pane) : the sizes are only valid if

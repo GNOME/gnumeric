@@ -2600,8 +2600,18 @@ ms_excel_parse_NAME (ExcelWorkbook *ewb, int sheet_index, char const *name,
 	}
 
 	parse_pos_init (&pp, ewb->gnum_wb, NULL, 0, 0);
-	if (sheet_index > 0)
-		pp.sheet = workbook_sheet_by_index (ewb->gnum_wb, sheet_index-1);
+	if (sheet_index > 0) {
+		if (ewb->container.ver <= MS_BIFF_V7) {
+			if (ewb->extern_sheet_v7->len <= 0 ||
+			    ewb->extern_sheet_v7->len < (unsigned)sheet_index) {
+				g_warning ("Invalid sheet_index %d for name", sheet_index);
+			} else
+				pp.sheet = g_ptr_array_index (ewb->extern_sheet_v7,
+							      sheet_index-1);
+		} else
+			pp.sheet = workbook_sheet_by_index (ewb->gnum_wb, sheet_index-1);
+	}
+
 	nexpr = expr_name_add (&pp, name, expr, &err);
 	if (nexpr == NULL) {
 		gnm_io_warning (ewb->context, err);
@@ -2645,7 +2655,12 @@ ms_excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 	/*guint8  kb_shortcut	= GSF_LE_GET_GUINT8  (q->data + 2); */
 	guint8  name_len	= GSF_LE_GET_GUINT8  (q->data + 3);
 	guint16 expr_len	= GSF_LE_GET_GUINT16 (q->data + 4);
-	guint16 sheet_index	= GSF_LE_GET_GUINT16 (q->data + 8);
+
+	/* opencalc docs claim 8 is the right one, XL docs say 6 == 8
+	 * pivot.xls suggests that at least for local builtin names
+	 * 6 is correct and 8 is bogus
+	 */
+	guint16 sheet_index	= GSF_LE_GET_GUINT16 (q->data + 6);
 	guint8 const *expr_data, *ptr = q->data + 14;
 	char *name = NULL;
 	/* int fn_grp_idx = (flags & 0xfc0)>>6; */
@@ -2669,34 +2684,42 @@ ms_excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 			/* lookup does not add a reference */
 			if (nexpr != NULL)
 				expr_name_ref (nexpr);
+			else
+				name = g_strdup (cname);
 		}
-	} else if (NULL != (name = biff_get_text (ptr, name_len, NULL))) {
+	} 
 
-		/* Versions of XL <= Excel5 had boundsheet records after the
-		 * name declarations.  Without those we do not know how many
-		 * sheets there are and can not create them effectively.
-		 * So we blob up the names without parsing them, then handle
-		 * them at EOF for the initial BOF.
-		 */
-		if (ewb->container.ver <= MS_BIFF_V7) {
-			int full_len = q->length - (expr_data - q->data);
-			delay = g_new (MSDelayedNameParse, 1);
-			delay->name = name;
-			delay->sheet_index = sheet_index;
-			delay->expr_len = expr_len;
-			delay->expr_data = g_malloc (full_len);
+	if (nexpr == NULL) {
+		if (name == NULL)
+			name = biff_get_text (ptr, name_len, NULL);
 
-			/* copy the entire remainder of the record because the
-			 * expr_len can _lie_.  Array data is placed after the
-			 * expression itself and is not calculated as part of
-			 * the expr size.
+		if (name != NULL) {
+			/* Versions of XL <= Excel5 had boundsheet records after the
+			 * name declarations.  Without those we do not know how many
+			 * sheets there are and can not create them effectively.
+			 * So we blob up the names without parsing them, then handle
+			 * them at EOF for the initial BOF.
 			 */
-			memcpy (delay->expr_data, expr_data, full_len);
-			/* reverse before parsing */
-			ewb->delayed_names = g_slist_prepend (ewb->delayed_names, delay);
-		} else
-			nexpr = ms_excel_parse_NAME (ewb, sheet_index,
-				name, expr_data, expr_len);
+			if (ewb->container.ver <= MS_BIFF_V7) {
+				int full_len = q->length - (expr_data - q->data);
+				delay = g_new (MSDelayedNameParse, 1);
+				delay->name = name;
+				delay->sheet_index = sheet_index;
+				delay->expr_len = expr_len;
+				delay->expr_data = g_malloc (full_len);
+
+				/* copy the entire remainder of the record because the
+				 * expr_len can _lie_.  Array data is placed after the
+				 * expression itself and is not calculated as part of
+				 * the expr size.
+				 */
+				memcpy (delay->expr_data, expr_data, full_len);
+				/* reverse before parsing */
+				ewb->delayed_names = g_slist_prepend (ewb->delayed_names, delay);
+			} else
+				nexpr = ms_excel_parse_NAME (ewb, sheet_index,
+					name, expr_data, expr_len);
+		}
 	}
 
 	/* nexpr is potentially NULL if there was an error */
@@ -4638,6 +4661,7 @@ ms_excel_externsheet_v8 (BiffQuery const *q, ExcelWorkbook *ewb)
 	}
 }
 
+#warning fix func name.  It looks like formulas use the boundsheet for v7 but names use the extensheet list
 Sheet *
 ms_excel_workbook_get_externsheet_v7 (ExcelWorkbook const *ewb,
 				      int idx, guint sheet_index)
@@ -4670,6 +4694,11 @@ ms_excel_externsheet_v7 (BiffQuery const *q, ExcelWorkbook *ewb)
 					       ewb->extern_sheet_v7->len + 1, name););
 			}
 		}
+	} else if (0x0401 == GSF_LE_GET_GUINT16 (q->data)) {
+		/* another piece of undocumented magic that I am guessing is
+		 * the same as SUPBOOK
+		 * see pivot.xls for an example
+		 */
 	} else {
 		/* Fix when we get placeholders to external workbooks */
 		gnm_io_warning_unsupported_feature (ewb->context,

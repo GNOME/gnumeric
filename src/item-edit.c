@@ -302,9 +302,18 @@ item_edit_cursor_blink_stop (ItemEdit *item_edit)
 static void
 item_edit_cursor_blink_start (ItemEdit *item_edit)
 {
-	item_edit->blink_timer = gtk_timeout_add (
-		500, (GtkFunction)(cb_item_edit_cursor_blink),
-		item_edit);
+	gboolean blink;
+	int	 blink_time;
+
+	g_object_get (gtk_widget_get_settings (
+		GTK_WIDGET (item_edit->canvas_item.canvas)),
+		"gtk-cursor-blink-time",	&blink_time,
+		"gtk-cursor-blink", 	&blink,
+		NULL);
+	if (blink)
+		item_edit->blink_timer = gtk_timeout_add ( blink_time,
+			(GtkFunction)&cb_item_edit_cursor_blink,
+			item_edit);
 }
 
 /*

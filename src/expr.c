@@ -1127,19 +1127,19 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 		{ "-",  3, 1, 0 },
 		{ "*",  4, 1, 0 },
 		{ "/",  4, 1, 0 },
-		{ "^",  6, 0, 1 },
+		{ "^",  5, 0, 1 },
 		{ "&",  2, 1, 0 },
 		{ NULL, 0, 0, 0 }, /* Funcall  */
 		{ NULL, 0, 0, 0 }, /* Name     */
 		{ NULL, 0, 0, 0 }, /* Constant */
 		{ NULL, 0, 0, 0 }, /* Var      */
-		{ "-",  5, 0, 0 }, /* Unary -  */
-		{ "+",  5, 0, 0 }, /* Unary +  */
-		{ "%",  5, 0, 0 }, /* Percentage (NOT MODULO) */
+		{ "-",  7, 0, 0 }, /* Unary -  */
+		{ "+",  7, 0, 0 }, /* Unary +  */
+		{ "%",  6, 0, 0 }, /* Percentage (NOT MODULO) */
 		{ NULL, 0, 0, 0 }, /* Array    */
 		{ NULL, 0, 0, 0 }, /* Set      */
-		{ ":", 1, 1, 0 },  /* Range Ctor   */
-		{ " ", 1, 1, 0 }   /* Intersection */
+		{ ":",  9, 1, 0 }, /* Range Ctor   */
+		{ " ",  8, 1, 0 }  /* Intersection */
 	};
 	int const op = expr->any.oper;
 
@@ -1212,7 +1212,11 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 					expr->name.name->name->str, NULL);
 			return g_strconcat (expr->name.optional_scope->name_quoted, "!",
 					    expr->name.name->name->str, NULL);
-		}
+		} else if (pp->sheet != NULL &&
+			   expr->name.name->pos.sheet != NULL &&
+			   expr->name.name->pos.sheet != pp->sheet)
+			return g_strconcat (expr->name.name->pos.sheet->name_quoted, "!",
+					    expr->name.name->name->str, NULL);
 
 		return g_strdup (expr->name.name->name->str);
 

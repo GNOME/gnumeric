@@ -130,7 +130,8 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 			expr = gnm_expr_parse_str (expr_txt,
 				&pp, GNM_EXPR_PARSE_DEFAULT, &rangeref_parse, &perr);
 			/* Try adding a single extra closing paren to see if it helps */
-			if (expr == NULL && perr.id == PERR_MISSING_PAREN_CLOSE) {
+			if (expr == NULL && perr.err != NULL &&
+			    perr.err->code == PERR_MISSING_PAREN_CLOSE) {
 				ParseError tmp_err;
 				char *tmp = g_strconcat (txt, ")", NULL);
 				parse_error_init (&tmp_err);
@@ -145,19 +146,28 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 					g_free (tmp);
 			}
 
-			if (expr == NULL &&
-			    wbcg_edit_error_dialog (wbcg, perr.message)) {
-				if (perr.begin_char == 0 && perr.end_char == 0)
-					gtk_editable_set_position (
-						GTK_EDITABLE (wbcg_get_entry (wbcg)), -1);
-				else
-					gtk_entry_select_region (wbcg_get_entry (wbcg),
-						perr.begin_char, perr.end_char);
+			if (expr == NULL && perr.err != NULL) {
+				int reedit;
+
+				/* set focus _before_ selection.  gtk2 seems to
+				 * screw with selection in gtk_entry_grab_focus
+				 */
 				gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
 						      GTK_WIDGET (wbcg_get_entry (wbcg)));
 
+				if (perr.begin_char != 0 || perr.end_char != 0) {
+					int offset = expr_txt - txt;
+					gtk_entry_select_region (wbcg_get_entry (wbcg),
+						offset + perr.begin_char,
+						offset + perr.end_char);
+				} else
+					gtk_editable_set_position (
+						GTK_EDITABLE (wbcg_get_entry (wbcg)), -1);
+
+				reedit = wbcg_edit_error_dialog (wbcg, perr.err->message);
 				parse_error_free (&perr);
-				return FALSE;
+				if (reedit)
+					return FALSE;
 			}
 			if (expr != NULL)
 				gnm_expr_unref (expr);

@@ -765,7 +765,7 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 			if (err != NULL)
 				gnm_io_warning (ctxt->io_context, err);
 		} else
-			gnm_io_warning (ctxt->io_context, perr.message);
+			gnm_io_warning (ctxt->io_context, perr.err->message);
 		parse_error_free (&perr);
 
 		xmlFree (name_str);

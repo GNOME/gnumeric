@@ -1092,7 +1092,7 @@ applix_read_cells (ApplixReadState *state)
 				if (expr == NULL) {
 					(void) applix_parse_error (state, _("%s!%s : unable to parse '%s'\n     %s"),
 								   cell->base.sheet->name_quoted, cell_name (cell),
-								   expr_string, perr.message);
+								   expr_string, perr.err->message);
 					parse_error_free (&perr);
 					expr = gnm_expr_new_constant (value_new_string (expr_string));
 				} else if (is_array) {

@@ -212,8 +212,8 @@ oleo_parse_formula (char const *text, Sheet *sheet, int col, int row)
 			       &pos, GNM_EXPR_PARSE_DEFAULT,
 			       &rangeref_parse, parse_error_init (&error));
 
-	if (error.id!=PERR_NONE) {
-		g_warning ("%s \"%s\" at %s!%s.",  error.message, gnumeric_text,
+	if (error.err != NULL) {
+		g_warning ("%s \"%s\" at %s!%s.",  error.err->message, gnumeric_text,
 			   sheet->name_unquoted,
 			   cell_coord_name (OLEO_TO_GNUMERIC (col), OLEO_TO_GNUMERIC (row)));
 	}

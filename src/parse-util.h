@@ -23,6 +23,7 @@ char const *cellref_parse	(CellRef *out, char const *in,
 char	   *rangeref_as_string	(RangeRef const *ref, ParsePos const *pp);
 char const *rangeref_parse	(RangeRef *res, char const *in,
 				 ParsePos const *pp);
+				 //GError **err);
 
 char const *sheetref_parse	(char const *start, Sheet **sheet,
 				 Workbook const *wb, gboolean allow_3d);
@@ -57,9 +58,8 @@ typedef enum {
 
 /* In parser.y  */
 struct _ParseError {
-	ParseErrorID  id;
-	char         *message;
-	int           begin_char, end_char;
+	GError	*err;
+	int begin_char, end_char;
 };
 
 ParseError *parse_error_init (ParseError *pe);
@@ -79,6 +79,7 @@ typedef enum {
 
 typedef char const *(*GnmRangeRefParse) (RangeRef *res, char const *in,
 					 ParsePos const *pp);
+					 //GError **err);
 
 #define gnm_expr_parse_str_simple(expr_text, pp) \
 	gnm_expr_parse_str (expr_text, pp, GNM_EXPR_PARSE_DEFAULT, &rangeref_parse, NULL)

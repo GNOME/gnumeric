@@ -550,19 +550,19 @@ write_node (PolishData *pd, GnmExpr const *tree, int paren_level)
 		{ FORMULA_PTG_SUB,	 3, 1, 0 },
 		{ FORMULA_PTG_MULT,	 4, 1, 0 },
 		{ FORMULA_PTG_DIV,	 4, 1, 0 },
-		{ FORMULA_PTG_EXP,	 6, 0, 1 },
+		{ FORMULA_PTG_EXP,	 5, 0, 1 },
 		{ FORMULA_PTG_CONCAT,	 2, 1, 0 },
 		{ 0, 0, 0, 0 }, /* Funcall  */
 		{ 0, 0, 0, 0 }, /* Name     */
 		{ 0, 0, 0, 0 }, /* Constant */
 		{ 0, 0, 0, 0 }, /* Var      */
-		{ FORMULA_PTG_U_MINUS,	 5, 0, 0 }, /* Unary - */
-		{ FORMULA_PTG_U_PLUS,	 5, 0, 0 }, /* Unary + */
-		{ FORMULA_PTG_PERCENT,	 5, 0, 0 }, /* Percentage (NOT MODULO) */
+		{ FORMULA_PTG_U_MINUS,	 7, 0, 0 }, /* Unary - */
+		{ FORMULA_PTG_U_PLUS,	 7, 0, 0 }, /* Unary + */
+		{ FORMULA_PTG_PERCENT,	 6, 0, 0 }, /* Percentage (NOT MODULO) */
 		{ 0, 0, 0, 0 },	/* Array    */
 		{ 0, 0, 0, 0 }, /* Set      */
-		{ FORMULA_PTG_RANGE,	 0, 0, 0 },
-		{ FORMULA_PTG_INTERSECT, 0, 0, 0 }
+		{ FORMULA_PTG_RANGE,	 9, 1, 0 },
+		{ FORMULA_PTG_INTERSECT, 8, 1, 0 }
 	};
 	int op;
 	g_return_if_fail (pd);

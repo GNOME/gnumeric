@@ -592,7 +592,7 @@ static struct {
 	   Auto_Open
 	   Auto_Close
 	   Extract
-	   Database
+	   Database	just a standard name, no associated range
 	   Criteria*/
 	{ "Print_Area", name_print_area },
 /*	   Print_Titles

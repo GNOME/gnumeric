@@ -26,6 +26,7 @@
 #include "corba-sheet.h"
 
 #include <sheet.h>
+#include <sheet-view.h>
 #include <sheet-control-priv.h>
 
 #include <gsf/gsf-impl-utils.h>
