@@ -1,3 +1,8 @@
+#
+# Keep this in sync with ../../icons/Makefile.am
+#
+iconsdir = $(datadir)/pixmaps/gnumeric
+
 INCLUDES = 						\
 	-I$(srcdir)/..					\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\

@@ -180,18 +180,14 @@ change_selection_font (Workbook *wb, int bold, int italic)
 }
 
 static void
-bold_cmd (GtkWidget *widget, Workbook *wb)
+bold_cmd (GtkToggleButton *t, Workbook *wb)
 {
-	GtkToggleButton *t = GTK_TOGGLE_BUTTON (widget);
-
 	change_selection_font (wb, t->active, -1);
 }
 
 static void
-italic_cmd (GtkWidget *widget, Workbook *wb)
+italic_cmd (GtkToggleButton *t, Workbook *wb)
 {
-	GtkToggleButton *t = GTK_TOGGLE_BUTTON (widget);
-
 	change_selection_font (wb, -1, t->active);
 }
 

@@ -17,7 +17,7 @@
 #include "ranges.h"
 
 #define PREVIEW_X 170
-#define PREVIEW_Y 200
+#define PREVIEW_Y 170
 #define PREVIEW_MARGIN_X 20
 #define PREVIEW_MARGIN_Y 20
 #define PAGE_X (PREVIEW_X - PREVIEW_MARGIN_X)
@@ -35,10 +35,8 @@ typedef struct {
 	GtkWidget        *canvas;
 
 	/* Objects in the Preview Canvas */
-	GnomeCanvasItem *o_page, *o_page_shadow;
-	GnomeCanvasItem *m_left, *m_right, *m_top, *m_bottom;
-	GnomeCanvasItem *m_footer, m_header;
-
+	GnomeCanvasItem  *group;
+	
 	/* Values for the scaling of the nice preview */
 	int offset_x, offset_y;	/* For centering the small page preview */
 	double scale;
@@ -101,19 +99,51 @@ load_image (const char *name)
 static void
 preview_page_destroy (dialog_print_info_t *dpi)
 {
-	if (dpi->preview.o_page){
-		gtk_object_unref (GTK_OBJECT (dpi->preview.o_page));
-		gtk_object_unref (GTK_OBJECT (dpi->preview.o_page_shadow));
+	if (dpi->preview.group){
+		gtk_object_destroy (GTK_OBJECT (dpi->preview.group));
 
-		dpi->preview.o_page = NULL;
-		dpi->preview.o_page_shadow = NULL;
+		dpi->preview.group = NULL;
 	}
+}
+
+static void
+make_line (GnomeCanvasGroup *g, double x1, double y1, double x2, double y2)
+{
+	GnomeCanvasPoints *points;
+
+	points = gnome_canvas_points_new (2);
+	points->coords [0] = x1;
+	points->coords [1] = y1;
+	points->coords [2] = x2;
+	points->coords [3] = y2;
+	gnome_canvas_item_new (
+		GNOME_CANVAS_GROUP (g), gnome_canvas_line_get_type (),
+		"points", points,
+		"width_pixels", 1,
+		"fill_color",   "gray",
+		NULL);
+	gnome_canvas_points_unref (points);
+}
+
+static void
+draw_margins (dialog_print_info_t *dpi, double x1, double y1, double x2, double y2)
+{
+	GnomeCanvasGroup *g = GNOME_CANVAS_GROUP (dpi->preview.group);
+
+	/* Margins */
+	make_line (g, x1 + 8, y1, x1 + 8, y2);
+	make_line (g, x2 - 8, y1, x2 - 8, y2);
+	make_line (g, x1, y1 + 8, x2, y1 + 8);
+	make_line (g, x1, y2 - 8, x2, y2 - 8);
+
+	/* Headers & footers */
+	make_line (g, x1, y1 + 13, x2, y1 + 13);
+	make_line (g, x1, y2 - 13, x2, y2 - 13);
 }
 
 static void
 preview_page_create (dialog_print_info_t *dpi)
 {
-	GnomeCanvasGroup *group;
 	double x1, y1, x2, y2;
 	double width, height;
 	PreviewInfo *pi = &dpi->preview;
@@ -121,22 +151,29 @@ preview_page_create (dialog_print_info_t *dpi)
 	width = gnome_paper_pswidth (dpi->paper);
 	height = gnome_paper_psheight (dpi->paper);
 
-	if (width > height)
+	if (width < height)
 		pi->scale = PAGE_Y / height;
 	else
 		pi->scale = PAGE_X / width;
 
 	pi->offset_x = (PREVIEW_X - (width * pi->scale)) / 2;
 	pi->offset_y = (PREVIEW_Y - (height * pi->scale)) / 2;
-	pi->offset_x = pi->offset_y = 0;
+/*	pi->offset_x = pi->offset_y = 0; */
 	x1 = pi->offset_x + 0 * pi->scale;
 	y1 = pi->offset_y + 0 * pi->scale;
 	x2 = pi->offset_x + width * pi->scale;
 	y2 = pi->offset_y + height * pi->scale;
 
-	group = gnome_canvas_root (GNOME_CANVAS (pi->canvas));
-	pi->o_page_shadow = gnome_canvas_item_new (
-		group, gnome_canvas_rect_get_type (),
+	pi->group = gnome_canvas_item_new (
+		gnome_canvas_root (GNOME_CANVAS (pi->canvas)),
+		gnome_canvas_group_get_type (),
+		"x", 0.0,
+		"y", 0.0,
+		NULL);
+	
+	gnome_canvas_item_new (
+		GNOME_CANVAS_GROUP (pi->group),
+		gnome_canvas_rect_get_type (),
 		"x1",  	      	 (double) x1+2,
 		"y1",  	      	 (double) y1+2,
 		"x2",  	      	 (double) x2+2,
@@ -146,8 +183,9 @@ preview_page_create (dialog_print_info_t *dpi)
 		"width_pixels",   1,
 		NULL);
 		
-	pi->o_page = gnome_canvas_item_new (
-		group, gnome_canvas_rect_get_type (),
+	gnome_canvas_item_new (
+		GNOME_CANVAS_GROUP (pi->group),
+		gnome_canvas_rect_get_type (),
 		"x1",  	      	 (double) x1,
 		"y1",  	      	 (double) y1,
 		"x2",  	      	 (double) x2,
@@ -156,6 +194,8 @@ preview_page_create (dialog_print_info_t *dpi)
 		"outline_color", "black",
 		"width_pixels",   1,
 		NULL);
+
+	draw_margins (dpi, x1, y1, x2, y2);
 }
 
 static void
@@ -230,36 +270,50 @@ unit_editor_new (UnitInfo *target, PrintUnit init)
 {
 	GtkWidget *box, *om, *menu;
 	
-	box = gtk_hbox_new (0, 0);
-
-	target->unit = init.desired_display;
-	target->value = unit_convert (init.points, UNIT_POINTS, init.desired_display);
+	/*
+	 * FIXME: Hardcoded for now
+	 */
+	target->unit = UNIT_CENTIMETER;
+	target->value = init.points;
 
 	target->adj = GTK_ADJUSTMENT (gtk_adjustment_new (
 		target->value,
-		0.0, 1000.0, 0.1, 1.0, 1.0));
+		0.0, 1000.0, 0.5, 1.0, 1.0));
 	target->spin = GTK_SPIN_BUTTON (gtk_spin_button_new (target->adj, 1, 1));
+	gtk_widget_set_usize (GTK_WIDGET (target->spin), 60, 0);
 	gtk_signal_connect (
 		GTK_OBJECT (target->spin), "changed",
 		GTK_SIGNAL_FUNC (unit_changed), target);
-	
-	gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (target->spin), TRUE, TRUE, 0);
-	om = gtk_option_menu_new ();
-	gtk_box_pack_start (GTK_BOX (box), om, FALSE, FALSE, 0);
-	gtk_widget_show_all (box);
 
-	menu = gtk_menu_new ();
-
-	add_unit (menu, UNIT_POINTS, convert_to_pt, target);
-	add_unit (menu, UNIT_MILLIMITER, convert_to_mm, target);
-	add_unit (menu, UNIT_CENTIMETER, convert_to_cm, target);
-	add_unit (menu, UNIT_INCH, convert_to_in, target);
-
-	gtk_menu_set_active (GTK_MENU (menu), target->unit);
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (om), menu);
-	gtk_option_menu_set_history (GTK_OPTION_MENU (om), init.desired_display);
-
-	return box;
+	/*
+	 * We need to figure out a way to make the dialog box look good
+	 *
+	 * Currently the result from using this is particularly ugly.
+	 */
+	if (1) {
+		gtk_widget_show (GTK_WIDGET (target->spin));
+		return target->spin;
+	} else {
+		box = gtk_hbox_new (0, 0);
+		
+		gtk_box_pack_start (GTK_BOX (box), GTK_WIDGET (target->spin), TRUE, TRUE, 0);
+		om = gtk_option_menu_new ();
+		gtk_box_pack_start (GTK_BOX (box), om, FALSE, FALSE, 0);
+		gtk_widget_show_all (box);
+		
+		menu = gtk_menu_new ();
+		
+		add_unit (menu, UNIT_POINTS, convert_to_pt, target);
+		add_unit (menu, UNIT_MILLIMITER, convert_to_mm, target);
+		add_unit (menu, UNIT_CENTIMETER, convert_to_cm, target);
+		add_unit (menu, UNIT_INCH, convert_to_in, target);
+		
+		gtk_menu_set_active (GTK_MENU (menu), target->unit);
+		gtk_option_menu_set_menu (GTK_OPTION_MENU (om), menu);
+		gtk_option_menu_set_history (GTK_OPTION_MENU (om), init.desired_display);
+		
+		return box;
+	}
 }
 
 static void
@@ -270,7 +324,7 @@ tattach (GtkTable *table, int x, int y, PrintUnit init, UnitInfo *target)
 	w = unit_editor_new (target, init);
 	gtk_table_attach (
 		table, w, x, x+1, y, y+1,
-		GTK_FILL | GTK_EXPAND, 0, 0, 0);
+		0, 0, 0, 0);
 }
 
 static void
@@ -523,10 +577,10 @@ do_setup_page_info (dialog_print_info_t *dpi)
 
 	dpi->icon_rd = load_image ("right-down.png");
 	dpi->icon_dr = load_image ("down-right.png");
-	
+
 	gtk_widget_hide (dpi->icon_dr);
 	gtk_widget_hide (dpi->icon_rd);
-	
+
 	gtk_table_attach (
 		GTK_TABLE (table), dpi->icon_rd,
 		1, 2, 0, 2, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
@@ -549,6 +603,7 @@ do_setup_page_info (dialog_print_info_t *dpi)
 		order = order_dr;
 	else
 		order = order_rd;
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (order), TRUE);
 
 	if (dpi->pi->repeat_top.use){
@@ -595,8 +650,10 @@ do_setup_page (dialog_print_info_t *dpi)
 	table = GTK_TABLE (glade_xml_get_widget (gui, "table-orient"));
 	
 	image = load_image ("orient-vertical.png");
+	gtk_widget_show (image);
 	gtk_table_attach_defaults (table, image, 0, 1, 0, 1);
 	image = load_image ("orient-horizontal.png");
+	gtk_widget_show (image);
 	gtk_table_attach_defaults (table, image, 2, 3, 0, 1);
 
 	/*

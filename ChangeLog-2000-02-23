@@ -1,3 +1,19 @@
+1999-09-03  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/dialogs/dialog-printer-setup.c (draw_margins): Added margin
+	display preview. 
+
+	* src/print-preview.c (preview_zoom_out_cmd): Zoom-in, zoom-out
+	and move are now toggle buttons.
+
+	* src/workbook.c (italic_cmd, bold_cmd): Simplified the code some.
+
+	* src/dialogs/dialog-printer-setup.c (do_setup_page_info): Force
+	the icon display here.
+	(preview_page_create): Invert test.
+	(PAGE_X, PAGE_Y): They are now the same values.
+	(do_setup_page): Show the images here.
+
 1999-09-02  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/print-preview.c (create_toplevel): Add a toolbar.

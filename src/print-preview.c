@@ -26,6 +26,7 @@
 #include "main.h"
 #include "print-preview.h"
 #include "print-info.h"
+#include "cursors.h"
 
 struct _PrintPreview {
 	GnomeApp *toplevel;
@@ -52,6 +53,8 @@ struct _PrintPreview {
 
 	int                  current_page;
 	int                  pages;
+
+	GnomeUIInfo          *toolbar;
 };
 
 /*
@@ -206,6 +209,7 @@ preview_destroyed (void *unused, PrintPreview *pp)
 {
 	gtk_object_unref (GTK_OBJECT (pp->preview));
 	gtk_object_unref (GTK_OBJECT (pp->metafile));
+	g_free (pp->toolbar);
 	g_free (pp);
 }
 
@@ -254,23 +258,44 @@ preview_last_page_cmd (void *unused, PrintPreview *pp)
 }
 
 static void
-preview_zoom_in_cmd (void *unused, PrintPreview *pp)
+do_zoom (PrintPreview *pp, double change)
 {
 	gnome_canvas_set_pixels_per_unit (
 		pp->canvas,
-		pp->canvas->pixels_per_unit + 0.25);
+		pp->canvas->pixels_per_unit + change);
 	render_page (pp, pp->current_page);
 }
 
 static void
-preview_zoom_out_cmd (void *unused, PrintPreview *pp)
+preview_zoom_in_cmd (GtkToggleButton *t, PrintPreview *pp)
 {
-	gnome_canvas_set_pixels_per_unit (
-		pp->canvas,
-		pp->canvas->pixels_per_unit - 0.25);
-	render_page (pp, pp->current_page);
+	if (t->active){
+		gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (pp->toolbar [4].widget));
+		gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (pp->toolbar [6].widget));
+	}
+	cursor_set_widget (pp->canvas, GNUMERIC_CURSOR_THIN_CROSS);
 }
 
+static void
+preview_zoom_out_cmd (GtkToggleButton *t, PrintPreview *pp)
+{
+	if (t->active){
+		gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (pp->toolbar [4].widget));
+		gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (pp->toolbar [5].widget));
+	}		
+	cursor_set_widget (pp->canvas, GNUMERIC_CURSOR_ARROW);
+}
+
+static void
+move_cmd (GtkToggleButton *t, PrintPreview *pp)
+{
+	if (t->active){
+		gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (pp->toolbar [5].widget));
+		gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (pp->toolbar [6].widget));
+	}
+	cursor_set_widget (pp->canvas, GNUMERIC_CURSOR_MOVE);
+}
+ 
 static GnomeUIInfo preview_file_menu [] = {
 	GNOMEUIINFO_MENU_PRINT_ITEM (preview_file_print_cmd, NULL),
 	GNOMEUIINFO_MENU_CLOSE_ITEM (preview_close_cmd, NULL),
@@ -319,9 +344,11 @@ static GnomeUIInfo toolbar [] = {
 		N_("Last"), N_("Shows the last page"),
 		preview_last_page_cmd, GNOME_STOCK_PIXMAP_LAST),
 
-	{ GNOME_APP_UI_ITEM, N_("Zoom in"), N_("Zooms in"), preview_zoom_in_cmd },
-	{ GNOME_APP_UI_ITEM, N_("Zoom out"), N_("Zooms out"), preview_zoom_out_cmd },
-
+#if 0
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Move"), N_("Move"), move_cmd },
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Zoom in"), N_("Zooms in"), preview_zoom_in_cmd },
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Zoom out"), N_("Zooms out"), preview_zoom_out_cmd },
+#endif
 	GNOMEUIINFO_END
 };
 
@@ -356,7 +383,11 @@ create_toplevel (PrintPreview *pp)
 	pp->toplevel = GNOME_APP (toplevel);
 
 	gnome_app_create_menus_with_data (pp->toplevel, top_menu, pp);
-	gnome_app_create_toolbar_with_data (pp->toplevel, toolbar, pp);
+
+	pp->toolbar = g_malloc (sizeof (toolbar));
+	memcpy (pp->toolbar, toolbar, sizeof (toolbar));
+	
+	gnome_app_create_toolbar_with_data (pp->toplevel, pp->toolbar, pp);
 	
 	gtk_signal_connect (
 		GTK_OBJECT (pp->toplevel), "destroy",

@@ -27,11 +27,6 @@ endif
 
 #noinst_PROGRAMS = number-match
 
-#
-# Keep this in sync with ../icons/Makefile.am
-#
-iconsdir = $(datadir)/pixmaps/gnumeric
-
 INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
 	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
