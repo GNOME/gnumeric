@@ -30,11 +30,12 @@ G_STMT_START { \
 } G_STMT_END
 #define   g_vector_free_custom(vector_expr,elem_type,free_func_expr) \
 G_STMT_START { \
-	elem_type **vector; \
+	elem_type **vector, **v; \
 	GFreeFunc free_func; \
-	free_func = free_func_expr; \
-	for (vector = (vector_expr); *vector != NULL; vector++) \
-		free_func (*vector); \
+	vector = (vector_expr); \
+	free_func = (free_func_expr); \
+	for (v = vector; *v != NULL; v++) \
+		free_func (*v); \
 	g_free (vector); \
 } G_STMT_END
 

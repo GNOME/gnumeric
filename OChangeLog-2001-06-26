@@ -1,3 +1,7 @@
+2001-03-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/gutils.h (g_vector_free_custom macro): Fixed stupid bug.
+
 2001-03-20  Zbigniew Chyla  <cyba@gnome.pl>
 
 	Moved XL support from Gnumeric binary into real plugin.
