@@ -1,3 +1,7 @@
+2001-08-24  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c : fix and prune includes.
+
 2001-08-23  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-chart.c (ms_excel_chart) : only delete the series after

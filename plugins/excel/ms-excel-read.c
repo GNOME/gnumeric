@@ -11,7 +11,6 @@
  **/
 
 #include <config.h>
-#include <locale.h>
 
 #include "boot.h"
 #include "ms-formula-read.h"
@@ -19,32 +18,36 @@
 #include "ms-obj.h"
 #include "ms-chart.h"
 #include "ms-escher.h"
-#include "print-info.h"
-#include "selection.h"
-#include "parse-util.h"	/* for cell_name */
-#include "ranges.h"
-#include "expr-name.h"
-#include "style.h"
-#include "sheet-style.h"
-#include "cell.h"
-#include "sheet-merge.h"
-#include "format.h"
-#include "formats.h"
-#include "eval.h"
-#include "value.h"
-#include "gutils.h"
-#include "sheet-object-cell-comment.h"
-#include "application.h"
-#include "io-context.h"
-#include "workbook-view.h"
-#include "workbook.h"
 #include "ms-excel-util.h"
 #include "ms-excel-xf.h"
-#include "sheet-object-widget.h"
-#include "sheet-object-graphic.h"
+
+#include <workbook.h>
+#include <workbook-view.h>
+#include <sheet-style.h>
+#include <sheet-merge.h>
+#include <cell.h>
+#include <style.h>
+#include <format.h>
+#include <formats.h>
+#include <print-info.h>
+#include <selection.h>
+#include <parse-util.h>	/* for cell_name */
+#include <ranges.h>
+#include <expr-name.h>
+#include <value.h>
+#include <gutils.h>
+#include <application.h>
+#include <io-context.h>
+#include <sheet-object-cell-comment.h>
+#include <sheet-object-widget.h>
+#include <sheet-object-graphic.h>
 #ifdef ENABLE_BONOBO
-#  include "sheet-object-container.h"
+#  include <sheet-object-container.h>
 #endif
+
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <locale.h>
 
 /* #define NO_DEBUG_EXCEL */
 
