@@ -31,6 +31,7 @@ Jukka:
 Morten:
 	* Plug leaks.
 	* Add aggressive expression sharing during load.
+	* Add chunk allocators for cells and dependents.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.0 and 1.1.1
