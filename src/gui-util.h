@@ -55,9 +55,6 @@ int gnumeric_glade_group_value (GladeXML *gui, const char *group[]);
 /* Use this on menus that are popped up */
 void gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event);
 
-/* Scroll the viewing area of the list to the given row */
-void gnumeric_clist_moveto (/*GtkCList*/ void *clist, gint row);
-
 /*
  * Pseudo-tool-tip support code.
  */

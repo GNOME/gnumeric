@@ -19,8 +19,6 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED"
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
@@ -122,20 +120,19 @@ static gboolean
 widen_column (StfDialogData *pagedata, int col, gboolean test_only)
 {
 	int colcount = stf_parse_options_fixed_splitpositions_count (pagedata->parseoptions);
-	int nextstart;
+	int nextstart, nextnextstart;
 
 	if (col >= colcount - 1)
 		return FALSE;
 
 	nextstart = stf_parse_options_fixed_splitpositions_nth (pagedata->parseoptions, col);
 
-	if (col != colcount - 2) {
-		int nextnextstart =
-			stf_parse_options_fixed_splitpositions_nth (pagedata->parseoptions, col + 1);
+	nextnextstart = (col == colcount - 2)
+		? pagedata->longest_line
+		: stf_parse_options_fixed_splitpositions_nth (pagedata->parseoptions, col + 1);
 
-		if (nextstart + 1 >= nextnextstart)
-			return FALSE;
-	}
+	if (nextstart + 1 >= nextnextstart)
+		return FALSE;
 
 	if (!test_only) {
 		stf_parse_options_fixed_splitpositions_remove (pagedata->parseoptions, nextstart);
@@ -301,19 +298,6 @@ cb_col_button_press (GtkWidget *button,
 					    sensitivity_filter, event);
 		return TRUE;
 	}
-
-#if 0
-	if (event->type == GDK_BUTTON_PRESS && event->button == 3) {
-		/* Remove column.  */
-		gtk_clist_select_row (data->fixed.fixed_collist, col, 0);
-		gnumeric_clist_moveto (data->fixed.fixed_collist, col);
-
-		gtk_signal_emit_by_name (GTK_OBJECT (data->fixed.fixed_remove),
-					 "clicked",
-					 data);
-		return TRUE;
-	}
-#endif
 
 	return FALSE;
 }

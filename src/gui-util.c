@@ -705,49 +705,6 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 	gtk_menu_popup (menu, NULL, NULL, 0, NULL, 0, event->time);
 }
 
-/*
- * Helper for gnumeric_clist_moveto. Ensures that we move in the same way
- * whether direct or from a callback.
- */
-static void
-clist_moveto (GtkCList *clist, gint row)
-{
-	gtk_clist_moveto (clist, row, 0, 0.1, 0.0);
-	clist->focus_row = row;
-}
-
-/*
- * map handler. Disconnects itself and moves the list.
- */
-static void
-cb_clist_moveto (GtkWidget *clist, gpointer row)
-{
-	g_signal_handlers_disconnect_by_func (G_OBJECT (clist),
-		G_CALLBACK (cb_clist_moveto), row);
-
-	clist_moveto (GTK_CLIST (clist), GPOINTER_TO_INT (row));
-}
-
-/*
- * gnumeric_clist_moveto
- * @clist   clist
- * @row     row
-
- *
- * Scroll the viewing area of the list to the given row.
- * We do it this way because gtk_clist_moveto only works if the list is
- * mapped.
- */
-void
-gnumeric_clist_moveto (/*GtkCList*/ void *clist, gint row)
-{
-	if (GTK_WIDGET_DRAWABLE (clist))
-		clist_moveto (clist, row);
-	else
-		g_signal_connect (G_OBJECT (clist),
-			"map",
-			G_CALLBACK (cb_clist_moveto), GINT_TO_POINTER (row));
-}
 
 GtkWidget *
 gnumeric_create_tooltip (void)

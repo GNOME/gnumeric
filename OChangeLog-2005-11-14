@@ -1,5 +1,7 @@
 2003-07-25  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-util.c (gnumeric_clist_moveto): Finally delete this.
+
 	* src/stf-parse.c (stf_parse_options_fixed_splitpositions_clear):
 	Add terminator here.
 	(stf_parse_options_fixed_splitpositions_add): Insert sorted.
