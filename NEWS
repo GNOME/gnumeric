@@ -36,6 +36,7 @@ Morten:
 	* Fixed parsing of numbers in scientific, monetary, and number
 	  contexts.
 	* Find and fix leaks.
+	* Fix dif plugin's use of alloca.
 
 Wayne Schuller:
 	* Much improved header/footer preview canvas.
