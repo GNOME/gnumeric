@@ -1,3 +1,7 @@
+2001-11-22  Christian Rose  <menthos@menthos.com>
+
+	* sv.po: Translated some more.
+
 2001-11-20  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
 
 	* sk.po: Updated Slovak translation.
@@ -249,7 +253,7 @@
 
 	* POTFILES.in: Removed non-existant src/gnumeric-util.c.
 	* sv.po: Added additional translations from
-	Jvrgen Tegnir <jorgen.tegner@telia.com>, and updated
+	Jörgen Tegnir <jorgen.tegner@telia.com>, and updated
 	some more.
 
 2001-08-31  Abel Cheung  <maddog@linux.org.hk>
