@@ -4181,28 +4181,10 @@ typedef struct
 static gboolean
 sheet_clone_colrow_info_item (ColRowInfo *info, void *user_data)
 {
-	ColRowInfo *new_colrow;
-	closure_clone_colrow * closure = user_data;
-
-	if (closure->is_column)
-		new_colrow = sheet_col_new (closure->sheet);
-	else
-		new_colrow = sheet_row_new (closure->sheet);
-
-	new_colrow->pos         = info->pos;
-	new_colrow->margin_a    = info->margin_a;
-	new_colrow->margin_b    = info->margin_b;
-	new_colrow->hard_size   = info->hard_size;
-	new_colrow->visible     = info->visible;
-
-	if (closure->is_column) {
-		sheet_col_add (closure->sheet, new_colrow);
-		sheet_col_set_size_pts (closure->sheet, new_colrow->pos, info->size_pts, new_colrow->hard_size);
-	} else {
-		sheet_row_add (closure->sheet, new_colrow);
-		sheet_row_set_size_pts (closure->sheet, new_colrow->pos, info->size_pts, new_colrow->hard_size);
-	}
-
+	closure_clone_colrow const *closure = user_data;
+	ColRowInfo *new_colrow = sheet_colrow_fetch (closure->sheet,
+		src->pos, closure->is_column);
+	colrow_copy (new_colrow, src);
 	return FALSE;
 }
 
@@ -4387,8 +4369,12 @@ sheet_duplicate	(Sheet const *src)
 	sheet_clone_selection      (src, dst);
 	sheet_clone_names          (src, dst);
 	sheet_clone_cells          (src, dst);
-
 	sheet_object_clone_sheet   (src, dst);
+
+	if (sheet_is_frozen (src))
+		sheet_freeze_panes (dst,
+			&src->frozen_top_left, &src->unfrozen_top_left);
+
 
 	/* Copy the solver */
 	solver_lp_copy (&src->solver_parameters, dst);

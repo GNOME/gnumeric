@@ -1,7 +1,12 @@
 Gnumeric 1.0.7
 
+Jody:
+	http://bugzilla.gnome.org/show_bug.cgi?id=80134
+	* clone grouping and frozen status too.
+
 J.H.M. Dassen (Ray):
 	* Some gda plugin warnings.
+	* correct the help references in a few languages
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.6

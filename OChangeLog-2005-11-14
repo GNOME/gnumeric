@@ -1,3 +1,9 @@
+2002-04-29  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=80134
+	* src/sheet.c (sheet_duplicate) : clone freeze status too.
+	(sheet_clone_colrow_info_item) : simplify and use colrow_copy.
+
 2002-04-14  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : post release version bump
