@@ -262,7 +262,9 @@ name_guru_populate_list (NameGuruState *state)
 	gtk_list_store_clear (state->model);
 
 	g_list_free (state->expr_names);
-	state->expr_names = sheet_names_get_available (state->sheet);
+	state->expr_names =
+		g_list_sort (sheet_names_get_available (state->sheet),
+			     (GCompareFunc)expr_name_by_name);
 
 	for (ptr = state->expr_names ; ptr != NULL ; ptr = ptr->next) {
 		nexpr = ptr->data;

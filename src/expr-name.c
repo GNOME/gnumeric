@@ -560,6 +560,12 @@ expr_name_is_placeholder (GnmNamedExpr const *nexpr)
 		gnm_expr_is_err (nexpr->t.expr_tree, gnumeric_err_NAME);
 }
 
+int
+expr_name_by_name (const GnmNamedExpr *a, const GnmNamedExpr *b)
+{
+	return g_utf8_collate (a->name->str, b->name->str);
+}
+
 /* ---------------------------------------------------------------------- */
 
 static Value *
@@ -638,12 +644,10 @@ expr_name_shutdown (void)
 GList *
 sheet_names_get_available (Sheet const *sheet)
 {
-	GList *l = NULL;
-
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	l = g_list_copy (sheet->names);
-	return g_list_concat (l, g_list_copy (sheet->workbook->names));
+	return g_list_concat (g_list_copy (sheet->names),
+			      g_list_copy (sheet->workbook->names));
 }
 
 static char const *

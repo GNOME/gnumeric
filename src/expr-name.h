@@ -38,6 +38,8 @@ void	 expr_name_add_dep    (GnmNamedExpr *ne, Dependent *dep);
 void	 expr_name_remove_dep (GnmNamedExpr *ne, Dependent *dep);
 gboolean expr_name_is_placeholder (GnmNamedExpr const *ne);
 
+int      expr_name_by_name    (const GnmNamedExpr *a, const GnmNamedExpr *b);
+
 void expr_name_list_destroy (GList **names);
 
 void expr_name_init       (void);

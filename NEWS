@@ -64,6 +64,7 @@ Morten:
 	* Fix division by zero in MROUND.
 	* Fix a bunch of gnum_float issues.
 	* Fix leaks in COLUMN and ROW.
+	* Sort names in name dialog.
 
 Nicolas Peninguy:
 	* Use regexps to classify currency and accounting formats

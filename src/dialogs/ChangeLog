@@ -1,7 +1,10 @@
+2002-10-17  Morten Welinder  <terra@diku.dk>
+
+	* dialog-define-names.c (name_guru_populate_list): Sort names.
+
 2002-10-15 Chris Benedict <cbenedic@csa.concordia.ab.ca>
 
 	* Makefile.am : added in the so-frame.glade.
-
 
 2002-10-14  Jody Goldberg <jody@gnome.org>
 
