@@ -1,3 +1,8 @@
+2002-02-10  Chema Celorio  <chema@celorio.com>
+
+	* configure.in: remove GNOME_COMMON_INIT
+	[http://developer.gnome.org/dotplan/porting/ar01s05.html]
+
 2002-02-08  Jon K Hellan  <hellan@acm.org>
 
 	* src/mstyle.c (link_border_colors): Return from the right place.

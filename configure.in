@@ -1,11 +1,11 @@
-AC_INIT(src/gnumeric.h)
+AC_INIT(gnumeric, 1.1.0, http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric)
+AC_CONFIG_SRCDIR(src/sheet.h)
+AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
 AM_CONFIG_HEADER(gnumeric-config.h)
-AM_INIT_AUTOMAKE(gnumeric,1.1.0)
 
 AM_MAINTAINER_MODE
 
-GNOME_COMMON_INIT
 GNOME_PLATFORM_GNOME_2(yes, force)
 
 # Make --disable-static the default
