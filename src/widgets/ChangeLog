@@ -1,3 +1,7 @@
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.55
+
 2000-06-13  Jon K Hellan  <hellan@acm.org>
 
 	* gtk-combo-text.c (strcase_hash, strcase_equal): New case

@@ -1,5 +1,9 @@
 2000-06-18  Jody Goldberg <jgoldberg@home.com>
 
+        * Release 0.55
+
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
 	* ms-excel-read.c (biff_boundsheet_data_new) : Guess at some
 	  undocumented behavior.  It appears that when a sheet has a NULL
 	  name it is actually 'Sheet#'.

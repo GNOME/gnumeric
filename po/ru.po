@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.54+\n"
-"POT-Creation-Date: 2000-06-17 23:12+0000\n"
+"POT-Creation-Date: 2000-06-18 23:27-0400\n"
 "PO-Revision-Date: 2000-06-17 23:13+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -104,16 +104,22 @@ msgstr "Формат файла Excel(R) 95"
 msgid "#UNKNOWN!"
 msgstr "#НЕИЗВЕСТНОЕ!"
 
-#: plugins/excel/ms-excel-read.c:3661
+#: plugins/excel/ms-excel-read.c:594 plugins/html/html.c:409
+#: plugins/lotus-123/lotus.c:224 plugins/oleo/oleo.c:44 src/workbook.c:3315
+#, c-format
+msgid "Sheet%d"
+msgstr "Лист%d"
+
+#: plugins/excel/ms-excel-read.c:3671
 msgid "No book or workbook streams found."
 msgstr "Не найден поток книги или рабочей книги."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:3965
+#: plugins/excel/ms-excel-read.c:3975
 msgid "Password protected workbooks are not supported yet."
 msgstr "Защищенные паролем книги пока не поддерживаются."
 
-#: plugins/excel/ms-excel-read.c:4137
+#: plugins/excel/ms-excel-read.c:4147
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Не удалось найти рабочую книгу MS Excel"
 
@@ -272,12 +278,6 @@ msgstr "HTML"
 #: plugins/html/boot.c:126
 msgid "Import/Export of HTML, TeX, DVI, roff and pdf"
 msgstr "Импорт/Экспорт HTML, TeX, DVI, roff и pdf"
-
-#: plugins/html/html.c:409 plugins/lotus-123/lotus.c:224
-#: plugins/oleo/oleo.c:44 src/workbook.c:3315
-#, c-format
-msgid "Sheet%d"
-msgstr "Лист%d"
 
 #: plugins/lotus-123/boot.c:87
 msgid "Lotus file format (*.wk1)"
@@ -716,7 +716,7 @@ msgstr "Эксцесс"
 msgid "Skewness"
 msgstr "Ассиметрия"
 
-#: src/analysis-tools.c:707 src/dialogs/dialog-function-wizard.c:314
+#: src/analysis-tools.c:707 src/dialogs/dialog-function-wizard.c:333
 msgid "Range"
 msgstr "Диапазон"
 
@@ -1184,7 +1184,7 @@ msgid "Undo Clear"
 msgstr "Откат очистки"
 
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:989 src/sheet.c:2359
+#: src/commands.c:989 src/sheet.c:2364
 msgid "Clear"
 msgstr "Очистить"
 
@@ -1886,7 +1886,7 @@ msgstr "Тип"
 msgid "Display the value exactly as it was entered"
 msgstr "Показывать значение точно так как оно было введено"
 
-#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:312
+#: src/dialogs/cell-format.glade.h:31 src/dialogs/dialog-function-wizard.c:331
 msgid "Number"
 msgstr "Числовой"
 
@@ -2740,28 +2740,28 @@ msgstr "затем по"
 msgid "delete cells"
 msgstr "удалить ячейки"
 
-#: src/dialogs/dialog-function-wizard.c:304
+#: src/dialogs/dialog-function-wizard.c:323
 #, c-format
 msgid "Value%d"
 msgstr "Значение%d"
 
-#: src/dialogs/dialog-function-wizard.c:311 src/functions/fn-string.c:1337
+#: src/dialogs/dialog-function-wizard.c:330 src/functions/fn-string.c:1337
 msgid "String"
 msgstr "Строка"
 
-#: src/dialogs/dialog-function-wizard.c:313
+#: src/dialogs/dialog-function-wizard.c:332
 msgid "Boolean"
 msgstr "Булевый"
 
-#: src/dialogs/dialog-function-wizard.c:315
+#: src/dialogs/dialog-function-wizard.c:334
 msgid "Array"
 msgstr "Массив"
 
-#: src/dialogs/dialog-function-wizard.c:316
+#: src/dialogs/dialog-function-wizard.c:335
 msgid "Range/Array"
 msgstr "Диапазон/Массив"
 
-#: src/dialogs/dialog-function-wizard.c:318
+#: src/dialogs/dialog-function-wizard.c:337
 msgid "Any"
 msgstr "Любой"
 
@@ -3595,52 +3595,52 @@ msgstr "Выравнивать до:"
 msgid "_Fit to:"
 msgstr "Заполнять до:"
 
-#: src/dialogs/print.glade.h:15
-#, no-c-format
+#: src/dialogs/print.glade.h:14
+#, c-format
 msgid "% of normal size"
 msgstr "% от нормального размера"
 
-#: src/dialogs/print.glade.h:16
+#: src/dialogs/print.glade.h:15
 msgid "page(s) wide by"
 msgstr ""
 
-#: src/dialogs/print.glade.h:17
+#: src/dialogs/print.glade.h:16
 msgid "tall"
 msgstr "высокий"
 
-#: src/dialogs/print.glade.h:18
+#: src/dialogs/print.glade.h:17
 msgid "Fi_rst page number:"
 msgstr "Номер первой страницы:"
 
-#: src/dialogs/print.glade.h:19
+#: src/dialogs/print.glade.h:18
 msgid "Page"
 msgstr "Страница"
 
-#: src/dialogs/print.glade.h:20
+#: src/dialogs/print.glade.h:19
 msgid "Center on page"
 msgstr "По центру страницы"
 
-#: src/dialogs/print.glade.h:21
+#: src/dialogs/print.glade.h:20
 msgid "_Horizontally"
 msgstr "По горизонтали"
 
-#: src/dialogs/print.glade.h:22
+#: src/dialogs/print.glade.h:21
 msgid "_Vertically"
 msgstr "По вертикали"
 
-#: src/dialogs/print.glade.h:23
+#: src/dialogs/print.glade.h:22
 msgid "_Left:"
 msgstr "Влево:"
 
-#: src/dialogs/print.glade.h:24
+#: src/dialogs/print.glade.h:23
 msgid "_Right:"
 msgstr "Вправо"
 
-#: src/dialogs/print.glade.h:25
+#: src/dialogs/print.glade.h:24
 msgid "_Units:"
 msgstr "Единицы:"
 
-#: src/dialogs/print.glade.h:26
+#: src/dialogs/print.glade.h:25
 msgid ""
 "pts\n"
 "mm\n"
@@ -3652,114 +3652,114 @@ msgstr ""
 "см\n"
 "дюймы\n"
 
-#: src/dialogs/print.glade.h:31
+#: src/dialogs/print.glade.h:30
 msgid "_Top:"
 msgstr "Вверх:"
 
-#: src/dialogs/print.glade.h:32
+#: src/dialogs/print.glade.h:31
 msgid "He_ader:"
 msgstr "Заголовок:"
 
-#: src/dialogs/print.glade.h:33
+#: src/dialogs/print.glade.h:32
 msgid "_Footer:"
 msgstr "Сноска:"
 
-#: src/dialogs/print.glade.h:34
+#: src/dialogs/print.glade.h:33
 msgid "_Bottom:"
 msgstr "Вниз:"
 
-#: src/dialogs/print.glade.h:35
+#: src/dialogs/print.glade.h:34
 msgid "Paper _size:"
 msgstr "Размер бумаги:"
 
-#: src/dialogs/print.glade.h:36
+#: src/dialogs/print.glade.h:35
 msgid "Margins"
 msgstr "Отступы"
 
-#: src/dialogs/print.glade.h:37 src/dialogs/print.glade.h:42
+#: src/dialogs/print.glade.h:36 src/dialogs/print.glade.h:41
 msgid "sample goes here"
 msgstr "это образец"
 
-#: src/dialogs/print.glade.h:38
+#: src/dialogs/print.glade.h:37
 msgid "Header"
 msgstr "Заголовок"
 
-#: src/dialogs/print.glade.h:39
+#: src/dialogs/print.glade.h:38
 msgid "Customize _header"
 msgstr "Настроить заголовок"
 
-#: src/dialogs/print.glade.h:40
+#: src/dialogs/print.glade.h:39
 msgid "Customize _footer"
 msgstr "Настроить сноску"
 
-#: src/dialogs/print.glade.h:41
+#: src/dialogs/print.glade.h:40
 msgid "Footer:"
 msgstr "Сноска:"
 
-#: src/dialogs/print.glade.h:43
+#: src/dialogs/print.glade.h:42
 msgid "Headers and footers"
 msgstr "Заголовки и сноски:"
 
-#: src/dialogs/print.glade.h:44
+#: src/dialogs/print.glade.h:43
 msgid "Print _area:"
 msgstr "Область печати:"
 
-#: src/dialogs/print.glade.h:45
+#: src/dialogs/print.glade.h:44
 msgid "Titles to print"
 msgstr "Заголовки для печати"
 
-#: src/dialogs/print.glade.h:46
+#: src/dialogs/print.glade.h:45
 msgid "_Columns to repeat on the left side:"
 msgstr "Столбцы повторяются на левой стороне:"
 
-#: src/dialogs/print.glade.h:47
+#: src/dialogs/print.glade.h:46
 msgid "_Rows to repeat on the upper region:"
 msgstr "Строки повторяются в верхней части:"
 
-#: src/dialogs/print.glade.h:48 src/dialogs/print.glade.h:57
+#: src/dialogs/print.glade.h:47 src/dialogs/print.glade.h:56
 #: src/workbook.c:1519
 msgid "Print"
 msgstr "Печать"
 
-#: src/dialogs/print.glade.h:49
+#: src/dialogs/print.glade.h:48
 msgid "Row and co_lumn headings"
 msgstr "Озаглавливание строк и столбцов"
 
-#: src/dialogs/print.glade.h:50 src/workbook.c:1198
+#: src/dialogs/print.glade.h:49 src/workbook.c:1198
 msgid "Co_mments"
 msgstr "Комментарии"
 
-#: src/dialogs/print.glade.h:51
+#: src/dialogs/print.glade.h:50
 msgid "_Grid lines"
 msgstr "Линии сетки"
 
-#: src/dialogs/print.glade.h:52
+#: src/dialogs/print.glade.h:51
 msgid "_Black and white"
 msgstr "Черное и белое"
 
-#: src/dialogs/print.glade.h:53
+#: src/dialogs/print.glade.h:52
 msgid "Page order"
 msgstr "Порядок страниц"
 
-#: src/dialogs/print.glade.h:54
+#: src/dialogs/print.glade.h:53
 msgid "_Down, then right"
 msgstr "Вниз, затем вправо"
 
-#: src/dialogs/print.glade.h:55
+#: src/dialogs/print.glade.h:54
 msgid "R_ight, then down"
 msgstr "Вправо, затем вниз"
 
-#: src/dialogs/print.glade.h:56 src/functions/fn-sheet.c:105
+#: src/dialogs/print.glade.h:55 src/functions/fn-sheet.c:105
 #: src/workbook.c:768
 msgid "Sheet"
 msgstr "Табличные"
 
-#: src/dialogs/print.glade.h:58 src/print.c:987 src/workbook.c:1176
+#: src/dialogs/print.glade.h:57 src/print.c:987 src/workbook.c:1176
 #: src/workbook.c:1522
 msgid "Print preview"
 msgstr "Просмотр печати"
 
-#: src/dialogs/print.glade.h:59
+#: src/dialogs/print.glade.h:58
 msgid "Options"
 msgstr "Параметры"
 
@@ -5802,6 +5802,17 @@ msgstr ""
 "@DESCRIPTION=Функция DAVERAGE возвращает среднее значений из списка или базы "
 "данных удовлетворяющих указанным условиям. \n"
 
+#: src/functions/fn-database.c:499
+msgid ""
+"\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:560
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -5813,6 +5824,16 @@ msgstr ""
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
 "@DESCRIPTION=Функция DCOUNT подсчитывает ячейки содержащие числа в базе "
 "данных удовлетворяющей указанному условию. \n"
+
+#: src/functions/fn-database.c:568
+msgid ""
+"\n"
+"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
+"\n"
+"@SEEALSO=DAVERAGE"
+msgstr ""
 
 #: src/functions/fn-database.c:621
 msgid ""
@@ -5826,6 +5847,16 @@ msgstr ""
 "@DESCRIPTION=Функция DCOUNTA подсчитывает ячейки  содержащие данные в базе "
 "данных удовлетворяющей указанному условию. \n"
 
+#: src/functions/fn-database.c:629
+msgid ""
+"\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:679
 msgid ""
 "@FUNCTION=DGET\n"
@@ -5837,6 +5868,17 @@ msgstr ""
 "@SYNTAX=DGET(database,field,criteria)\n"
 "@DESCRIPTION=Функция DGET возвращает одно значение из столбца "
 "удовлетворяющего указанному условию. \n"
+
+#: src/functions/fn-database.c:687
+msgid ""
+"\n"
+"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
+"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
+"\n"
+"If none of the items match the conditions, DGET returns #VALUE! error. If "
+"more than one items match the conditions, DGET returns #NUM! error. \n"
+"@SEEALSO=DCOUNT"
+msgstr ""
 
 #: src/functions/fn-database.c:747
 msgid ""
@@ -5850,6 +5892,16 @@ msgstr ""
 "@DESCRIPTION=Функция DMAX возвращает наибольшее значение в столбце "
 "удовлетворяющем указанному условию. \n"
 
+#: src/functions/fn-database.c:755
+msgid ""
+"\n"
+"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
+"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
+"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
+"\n"
+"@SEEALSO=DMIN"
+msgstr ""
+
 #: src/functions/fn-database.c:818
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -5862,6 +5914,15 @@ msgstr ""
 "@DESCRIPTION=Функция DMIN возвращает наименьшее значение в столбце "
 "удовлетворяющем указанному условию. \n"
 
+#: src/functions/fn-database.c:826
+msgid ""
+"\n"
+"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
+"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
+"\n"
+"@SEEALSO=DMAX"
+msgstr ""
+
 #: src/functions/fn-database.c:888
 msgid ""
 "@FUNCTION=DPRODUCT\n"
@@ -5873,6 +5934,14 @@ msgstr ""
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
 "@DESCRIPTION=Функция DPRODUCT возвращает произведение чисел в столбце "
 "удовлетворяющем указанному условию. \n"
+
+#: src/functions/fn-database.c:896
+msgid ""
+"\n"
+"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
+"\n"
+"@SEEALSO=DSUM"
+msgstr ""
 
 #: src/functions/fn-database.c:955
 msgid ""
@@ -5888,6 +5957,15 @@ msgstr ""
 "генеральной совокупности основанное на выборке. Генеральная совокупность "
 "состоит из чисел удовлетворяющих указанному условию. \n"
 
+#: src/functions/fn-database.c:964
+msgid ""
+"\n"
+"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
+"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
+"\n"
+"@SEEALSO=DSTDEVP"
+msgstr ""
+
 #: src/functions/fn-database.c:1021
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -5902,6 +5980,15 @@ msgstr ""
 "совокупности на основе полной совокупности. Генеральная совокупность состоит "
 "из чисел удовлетворяющих указанным условиям. \n"
 
+#: src/functions/fn-database.c:1030
+msgid ""
+"\n"
+"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
+"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
+"\n"
+"@SEEALSO=DSTDEV"
+msgstr ""
+
 #: src/functions/fn-database.c:1089
 msgid ""
 "@FUNCTION=DSUM\n"
@@ -5913,6 +6000,15 @@ msgstr ""
 "@SYNTAX=DSUM(database,field,criteria)\n"
 "@DESCRIPTION=Функция DSUM возвращает сумму чисел в столбце удовлетворяющем "
 "указанному условию. \n"
+
+#: src/functions/fn-database.c:1097
+msgid ""
+"\n"
+"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
+"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
+"\n"
+"@SEEALSO=DPRODUCT"
+msgstr ""
 
 #: src/functions/fn-database.c:1156
 msgid ""
@@ -5928,6 +6024,15 @@ msgstr ""
 "совокупности на основе выборки. Генеральная совокупность содержит числа "
 "удовлетворяющие указанному условию. \n"
 
+#: src/functions/fn-database.c:1165
+msgid ""
+"\n"
+"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
+"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
+"\n"
+"@SEEALSO=DVARP"
+msgstr ""
+
 #: src/functions/fn-database.c:1224
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -5941,6 +6046,15 @@ msgstr ""
 "@DESCRIPTION=Функция DVARP возвращает дисперсию генеральной совокупности на "
 "основе полной совокупности. Генеральная совокупность состоит из чисел "
 "удовлетворяющих указанным условиям. \n"
+
+#: src/functions/fn-database.c:1233
+msgid ""
+"\n"
+"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
+"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
+"\n"
+"@SEEALSO=DVAR"
+msgstr ""
 
 #: src/functions/fn-database.c:1293
 msgid ""
@@ -14099,15 +14213,15 @@ msgstr "Вы не можете изменить часть массива."
 msgid "Unable to open file '%s'"
 msgstr "Не удалось открыть файл '%s'"
 
-#: src/history.c:117
+#: src/history.c:116
 msgid "/File/"
 msgstr "/Файл/"
 
-#: src/history.c:148 src/history.c:170
+#: src/history.c:147 src/history.c:169
 msgid "File/Print preview"
 msgstr "Файл/Просмотр печати"
 
-#: src/history.c:224
+#: src/history.c:223
 msgid "File/"
 msgstr "Файл/"
 
@@ -14524,19 +14638,19 @@ msgstr "Столбец: %s"
 msgid "Internal ERROR"
 msgstr "Внутренняя ОШИБКА"
 
-#: src/sheet.c:2840 src/sheet.c:2849
+#: src/sheet.c:2845 src/sheet.c:2854
 msgid "Insert Columns"
 msgstr "Вставить столбцы"
 
-#: src/sheet.c:2919
+#: src/sheet.c:2924
 msgid "Delete Columns"
 msgstr "Удалить столбцы"
 
-#: src/sheet.c:2988 src/sheet.c:2997
+#: src/sheet.c:2993 src/sheet.c:3002
 msgid "Insert Rows"
 msgstr "Вставить строки"
 
-#: src/sheet.c:3067
+#: src/sheet.c:3072
 msgid "Delete Rows"
 msgstr "Удалить строки"
 
@@ -14692,19 +14806,21 @@ msgid "<Has not been set>"
 msgstr "<Не был установлен>"
 
 #: src/style.c:449
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Gnumeric failed to find a suitable default font.\n"
-"Please verify your gnome-print installation.\n"
+"Please verify your gnome-print installation\n"
+".Your fontmap file %s\n"
+"\n"
 "If you still have no luck, please file a proper bug report (see\n"
 "http://bugs.gnome.org) including the following extra items:\n"
 "\n"
-"1) The value of the LC_ALL environment variable\n"
+"1) The content of your fontmap file, if the file exists.\n"
+"\t (typically located in %s)\n"
+"2) The value of the LC_ALL environment variable\n"
 "\tLC_ALL=%s\n"
-"2) The value of the LANG environment variable\n"
+"3) The value of the LANG environment variable\n"
 "\tLANG=%s\n"
-"3) The content of your fontmap file, if the file exists.\n"
-"\t (typically located in %s) %s\n"
 "4) What version of libxml gnumeric is running with.\n"
 "   You may be able to use the 'ldd' command to get that information.\n"
 "\n"
@@ -14726,11 +14842,11 @@ msgstr ""
 " \n"
 "Спасибо -- Команда разработчиков Gnumeric\n"
 
-#: src/style.c:464
+#: src/style.c:466
 msgid "does not have a valid entry for Helvetica"
 msgstr "нет подходящей записи для шрифта Helvetica"
 
-#: src/style.c:465
+#: src/style.c:467
 msgid "could not be found in the expected location"
 msgstr "невозможно найти в ожидаемом месте"
 
@@ -15669,19 +15785,19 @@ msgstr "Переименовать этот лист"
 msgid "Re-order sheets"
 msgstr "Переупорядочить листы"
 
-#: src/xml-io.c:3139
+#: src/xml-io.c:3142
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Неправильные XML данные в буфере обмена. Дерево пусто?"
 
-#: src/xml-io.c:3180
+#: src/xml-io.c:3183
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Испорченный XML-файл. Дерево пусто?"
 
-#: src/xml-io.c:3194
+#: src/xml-io.c:3197
 msgid "Is not an Workbook file"
 msgstr "Это не файл книги"
 
-#: src/xml-io.c:3259
+#: src/xml-io.c:3262
 msgid "Gnumeric XML file format"
 msgstr "Формат файла Gnumeric XML"
 

@@ -1,3 +1,9 @@
+2000-06-18  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.55
+
+	* Makefile.am : add dialog-autocorrect.h
+
 2000-06-18  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-function-select.c (dialog_function_select_impl): Make

@@ -24,6 +24,7 @@ libdialogs_a_SOURCES =				\
 	dialog-advanced-filter.c		\
 	dialog-analysis-tools.c			\
 	dialog-autocorrect.c			\
+	dialog-autocorrect.h			\
 	dialog-autosave.c			\
 	dialog-cell-comment.c			\
 	dialog-cell-format.c			\
