@@ -1,5 +1,7 @@
 2001-09-10  Morten Welinder  <terra@diku.dk>
 
+	* src/xml-io.c (xml_probe): Don't be picky about file name case.
+
 	* src/GNOME_Gnumeric.xml: Add menu item for toolbars.
 
 2001-09-10  Andreas J. Guelzow <aguelzow@taliesin.ca>

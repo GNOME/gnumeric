@@ -3066,34 +3066,34 @@ xml_probe (GnumFileOpener const *fo, const gchar *filename, FileProbeLevel pl)
 		char const * extension = g_extension_pointer (filename);
 		if (extension == NULL)
 			return FALSE;
-		return	strcmp (extension, "gnumeric") == 0 ||
-			strcmp (extension, "xml.gz") == 0 ||
-			strcmp (extension, "xml");
+		return (g_strcasecmp (extension, "gnumeric") == 0 ||
+			g_strcasecmp (extension, "xml.gz") == 0 ||
+			g_strcasecmp (extension, "xml"));
 	}
 
 	/*
 	 * Do a silent call to the XML parser.
 	 */
-	ctxt = xmlCreateFileParserCtxt(filename);
+	ctxt = xmlCreateFileParserCtxt (filename);
 	if (ctxt == NULL)
 		return FALSE;
 
-	memcpy(&silent, ctxt->sax, sizeof(silent));
+	memcpy (&silent, ctxt->sax, sizeof (silent));
 	old = ctxt->sax;
 	ctxt->sax = &silent;
 
-	xmlParseDocument(ctxt);
+	xmlParseDocument (ctxt);
 
 	ret = ctxt->wellFormed;
 	res = ctxt->myDoc;
 	ctxt->sax = old;
-	xmlFreeParserCtxt(ctxt);
+	xmlFreeParserCtxt (ctxt);
 
 	/*
 	 * This is not well formed.
 	 */
 	if (!ret) {
-		xmlFreeDoc(res);
+		xmlFreeDoc (res);
 	        return FALSE;
 	}
 
