@@ -23,6 +23,7 @@ plugins/xbase/boot.c
 plugins/xml2/xml2.c
 src/about.c
 src/analysis-tools.c
+src/bonobo-io.c
 src/cell.c
 src/clipboard.c
 src/cmd-edit.c

@@ -103,8 +103,10 @@ apply_paste_oper_to_values (Cell const *old_cell, Cell const *copied_cell,
 		op = OPER_MULT;
 	else if (paste_flags & PASTE_OPER_DIV)
 		op = OPER_DIV;
-	else
+	else {
+		op = OPER_ADD;
 		g_assert_not_reached ();
+	}
 
 	*((Operation *)&(arg_a.constant.oper)) = OPER_CONSTANT;
 	arg_a.constant.value = old_cell->value;

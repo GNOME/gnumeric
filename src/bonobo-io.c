@@ -241,11 +241,11 @@ gnumeric_bonobo_write_workbook (IOContext *context, WorkbookView *wb_view,
 	g_return_val_if_fail (wb_view != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
 
-	flags = Bonobo_Storage_CREATE | Bonobo_Storage_READ |
-		Bonobo_Storage_WRITE | Bonobo_Storage_FAILIFEXIST;
+	flags = Bonobo_Storage_CREATE | Bonobo_Storage_WRITE |
+		Bonobo_Storage_FAILIFEXIST;
 
-	storage = bonobo_storage_open (BONOBO_IO_DRIVER_EFS,
-				       filename, flags, 0);
+	storage = bonobo_storage_open (BONOBO_IO_DRIVER_FS,
+				       filename, flags, 0664);
 
 	if (!storage) {
 		char *msg = g_strdup_printf ("Can't open '%s'", filename);
@@ -263,8 +263,10 @@ gnumeric_bonobo_write_workbook (IOContext *context, WorkbookView *wb_view,
 		bonobo_object_unref (BONOBO_OBJECT (storage));
 		return -1;
 	}
-	ctxt = xml_parse_ctx_new_full (xml, NULL, NULL, gnumeric_bonobo_obj_write,
-				       storage);
+	ctxt = xml_parse_ctx_new_full (
+		xml, NULL, GNUM_XML_V5, NULL,
+		gnumeric_bonobo_obj_write, storage);
+
 	xml->root = xml_workbook_write (ctxt, wb_view);
 	xml_parse_ctx_destroy (ctxt);
 
@@ -419,16 +421,17 @@ static int
 gnumeric_bonobo_read_workbook (IOContext *context, WorkbookView *wb_view,
 			       const char *filename)
 {
-	CORBA_Environment ev;
-	xmlDocPtr         res;
-	xmlNsPtr          gmr;
-	XmlParseContext  *ctxt;
-	BonoboStorage    *storage;
-	Bonobo_Stream     stream;
+	CORBA_Environment   ev;
+	xmlDoc             *doc;
+	xmlNs              *gmr;
+	XmlParseContext    *ctxt;
+	BonoboStorage      *storage;
+	Bonobo_Stream       stream;
+	GnumericXMLVersion  version;
 
 	g_return_val_if_fail (filename != NULL, -1);
 
-	storage = bonobo_storage_open (BONOBO_IO_DRIVER_EFS,
+	storage = bonobo_storage_open (BONOBO_IO_DRIVER_FS,
 				       filename, Bonobo_Storage_READ, 0);
 	if (!storage) {
 		char *msg = g_strdup_printf ("Can't open '%s'", filename);
@@ -443,20 +446,23 @@ gnumeric_bonobo_read_workbook (IOContext *context, WorkbookView *wb_view,
 		"Workbook", Bonobo_Storage_READ, &ev);
 
 	if (BONOBO_EX (&ev) || stream == CORBA_OBJECT_NIL) {
-		gnumeric_io_error_save (context, "Error opening workbook stream");
+		char *txt = g_strdup_printf (_("Error '%s' opening workbook stream"),
+					     bonobo_exception_get_text (&ev));
+		gnumeric_io_error_save (context, txt);
+		g_free (txt);
 		goto storage_err;
 	}
 
 	/*
 	 * Load the file into an XML tree.
 	 */
-	res = hack_xmlSAXParseFile (stream);
-	if (!res) {
+	doc = hack_xmlSAXParseFile (stream);
+	if (!doc) {
 		gnumeric_io_error_read (context, "Failed to parse file");
 		goto storage_err;
 	}
-	if (!res->root) {
-		xmlFreeDoc (res);
+	if (!doc->root) {
+		xmlFreeDoc (doc);
 		gnumeric_io_error_read (context,
 				     _("Invalid xml file. Tree is empty ?"));
 		goto storage_err;
@@ -465,29 +471,26 @@ gnumeric_bonobo_read_workbook (IOContext *context, WorkbookView *wb_view,
 	/*
 	 * Do a bit of checking, get the namespaces, and check the top elem.
 	 */
-	gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/v3");
-	if (gmr == NULL)
-		gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/v2");
-	if (gmr == NULL)
-		gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/");
-	if (strcmp (res->root->name, "Workbook") || (gmr == NULL)) {
-		xmlFreeDoc (res);
-		gnumeric_io_error_read (context,
-				     _("Is not an Workbook file"));
+	gmr = xml_check_version (doc, &version);
+	if (!gmr) {
+		xmlFreeDoc (doc);
+		gnumeric_io_error_read (context, _("Does not contain a Workbook file"));
 		goto storage_err;
 	}
 
-	ctxt = xml_parse_ctx_new_full (res, gmr, gnumeric_bonobo_obj_read, NULL,
-				       storage);
+	ctxt = xml_parse_ctx_new_full (
+		doc, gmr, version, 
+		gnumeric_bonobo_obj_read,
+		NULL, storage);
 
-	xml_workbook_read (context, wb_view, ctxt, res->root);
+	xml_workbook_read (context, wb_view, ctxt, doc->root);
 	workbook_set_saveinfo (wb_view_workbook (wb_view),
 			       (char *) filename, FILE_FL_AUTO,
 			       gnumeric_bonobo_write_workbook);
 
 	xml_parse_ctx_destroy (ctxt);
 
-	xmlFreeDoc (res);
+	xmlFreeDoc (doc);
 	bonobo_object_unref (BONOBO_OBJECT (storage));
 	CORBA_exception_free (&ev);
 	return 0;
@@ -503,11 +506,15 @@ gnumeric_bonobo_io_probe (const char *filename)
 {
 	char *p;
 
-	if ((p = strrchr (filename, '.')) &&
-	    !g_strncasecmp (p + 1, "efs", 3))
+	if (((p = strrchr (filename, '.')) &&
+	     !g_strncasecmp (p + 1, "efs", 3)) ||
+	    filename [strlen (filename) - 1] == '/') {
+/*		g_warning ("I like '%s'", filename);*/
 		return TRUE;
-	else
+	} else {
+/*		g_warning ("I don't like '%s'", filename);*/
 		return FALSE;
+	}
 }
 
 void
@@ -517,6 +524,6 @@ gnumeric_bonobo_io_init (void)
 
 	file_format_register_open (100, desc, gnumeric_bonobo_io_probe,
 				   gnumeric_bonobo_read_workbook);
-	file_format_register_save ("", desc, FILE_FL_AUTO,
+	file_format_register_save (".efs", desc, FILE_FL_AUTO,
 				   gnumeric_bonobo_write_workbook);
 }

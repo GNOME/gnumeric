@@ -43,14 +43,6 @@
 /*
  * A parsing context.
  */
-typedef enum
-{
-    GNUM_XML_V1,
-    GNUM_XML_V2,
-    GNUM_XML_V3,	/* >= 0.52 */
-    GNUM_XML_V4,	/* >= 0.57 */
-    GNUM_XML_V5,	/* >= 0.58 */
-} GnumericXMLVersion;
 
 struct _XmlParseContext {
 	xmlDocPtr doc;		/* Xml document */
@@ -73,12 +65,14 @@ struct _XmlParseContext {
 XmlParseContext *
 xml_parse_ctx_new_full (xmlDocPtr             doc,
 			xmlNsPtr              ns,
+			GnumericXMLVersion    version,
 			XmlSheetObjectReadFn  read_fn,
 			XmlSheetObjectWriteFn write_fn,
 			gpointer              user_data)
 {
 	XmlParseContext *ctxt = g_new0 (XmlParseContext, 1);
 
+	ctxt->version   = version;
 	ctxt->doc       = doc;
 	ctxt->ns        = ns;
 	ctxt->expr_map  = g_hash_table_new (g_direct_hash, g_direct_equal);
@@ -94,7 +88,8 @@ XmlParseContext *
 xml_parse_ctx_new (xmlDocPtr doc,
 		   xmlNsPtr  ns)
 {
-	return xml_parse_ctx_new_full (doc, ns, NULL, NULL, NULL);
+	return xml_parse_ctx_new_full (
+		doc, ns, GNUM_XML_V5, NULL, NULL, NULL);
 }
        
 void
@@ -3277,7 +3272,7 @@ static const struct {
 	{ NULL }
 };
 
-static xmlNsPtr
+xmlNsPtr
 xml_check_version (xmlDocPtr doc, GnumericXMLVersion *version)
 {
 	xmlNsPtr gmr;

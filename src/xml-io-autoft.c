@@ -36,13 +36,6 @@
  * A parsing context.
  * FIXME : Structure copied from xml-io.c, not very nice.
  */
-typedef enum
-{
-    GNUM_XML_V1,
-    GNUM_XML_V2,
-    GNUM_XML_V3,	/* >= 0.52 */
-    GNUM_XML_V4,	/* >= 0.57 */
-} GnumericXMLVersion;
 
 struct _XmlParseContext {
 	xmlDocPtr doc;		/* Xml document */

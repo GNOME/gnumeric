@@ -13,6 +13,15 @@
 #include "sheet-object.h"
 #include "gnome-xml/tree.h"
 
+typedef enum
+{
+    GNUM_XML_V1,
+    GNUM_XML_V2,
+    GNUM_XML_V3,	/* >= 0.52 */
+    GNUM_XML_V4,	/* >= 0.57 */
+    GNUM_XML_V5,	/* >= 0.58 */
+} GnumericXMLVersion;
+
 typedef struct _XmlParseContext XmlParseContext;
 
 typedef gboolean     (*XmlSheetObjectWriteFn) (xmlNodePtr   cur,
@@ -37,17 +46,21 @@ XmlParseContext *xml_parse_ctx_new      (xmlDocPtr             doc,
 					 xmlNsPtr              ns);
 XmlParseContext *xml_parse_ctx_new_full (xmlDocPtr             doc,
 					 xmlNsPtr              ns,
+					 GnumericXMLVersion    version,
 					 XmlSheetObjectReadFn  read_fn,
 					 XmlSheetObjectWriteFn write_fn,
 					 gpointer              user_data);
 void             xml_parse_ctx_destroy  (XmlParseContext      *ctxt);
 					
-xmlNodePtr       xml_workbook_write     (XmlParseContext *ctx,
-					 WorkbookView    *wb_view);
-gboolean         xml_workbook_read      (IOContext *context,
-					 WorkbookView	 *new_wb,
-					 XmlParseContext *ctx,
-					 xmlNodePtr       tree);
+xmlNodePtr       xml_workbook_write     (XmlParseContext      *ctx,
+					 WorkbookView         *wb_view);
+gboolean         xml_workbook_read      (IOContext            *context,
+					 WorkbookView	      *new_wb,
+					 XmlParseContext      *ctx,
+					 xmlNodePtr           tree);
+
+xmlNsPtr         xml_check_version      (xmlDocPtr            doc,
+					 GnumericXMLVersion  *version);
 
 int        gnumeric_xml_write_selection_clipboard (WorkbookControl *context, Sheet *sheet,
 						   xmlChar **buffer, int *size);

@@ -1,5 +1,24 @@
 2000-11-11  Michael Meeks  <michael@helixcode.com>
 
+	* src/clipboard.c (apply_paste_oper_to_values): kill warning.
+
+	* src/xml-io-autoft.c: remove stale enum.
+
+	* src/xml-io.c (xml_check_version): publicized.
+	(xml_parse_ctx_new_full): add version parameter.
+	(xml_parse_ctx_new): update.
+
+	* src/bonobo-io.c (gnumeric_bonobo_read_workbook): use
+	xml_check_version.
+
+	* src/bonobo-io.c (gnumeric_bonobo_write_workbook): open the
+	stream with the correct permissions.
+	(gnumeric_bonobo_io_probe): update to like directories too.
+	(gnumeric_bonobo_io_init): register for '.efs'
+	(gnumeric_bonobo_read_workbook): beef up exception reporting.
+
+2000-11-11  Michael Meeks  <michael@helixcode.com>
+
 	* src/gnumeric.xml: fiddle, lots of strange mangling, needs HEAD
 	bonobo to look at all good.
 	
