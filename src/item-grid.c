@@ -326,6 +326,29 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 }
 
 static void
+item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
+			    ColRowInfo *ci, ColRowInfo *ri, int col, int row,
+			    int x, int y)
+{
+	Style *style;
+	
+	style = sheet_style_compute (item_grid->sheet, col, row, NULL);
+
+	if (style->valid_flags & (STYLE_PATTERN | STYLE_FORE_COLOR)){
+		/* FIXME: set the GC here */
+	}
+
+	if ((style->valid_flags & STYLE_BACK_COLOR) && (style->back_color)){
+		gdk_gc_set_foreground (item_grid->gc, &style->back_color->color);
+		gdk_draw_rectangle (
+			drawable, item_grid->gc, TRUE,
+			x + ci->margin_a, y + ri->margin_b,
+			ci->pixels - ci->margin_b,
+			ri->pixels - ri->margin_b);
+	}
+}
+
+static void
 item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
 	ItemGrid *item_grid = ITEM_GRID (item);
@@ -403,9 +426,18 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 			cell = sheet_cell_get (sheet, col, row);
 
 			if (cell){
-				item_grid_draw_cell (drawable, item_grid, cell,
-						     x_paint, y_paint);
-			} else if (ri->pos != -1){
+				item_grid_draw_cell (
+					drawable, item_grid, cell,
+					x_paint, y_paint);
+			}
+
+			if (!cell && gnumeric_debugging > 0){
+				item_grid_paint_empty_cell (
+					drawable, item_grid, ci, ri,
+					col, row, x_paint, y_paint);
+			}
+			
+			if (!cell && (ri->pos != -1)){
 				/*
 				 * If there was no cell, and the row has any cell allocated
 				 * (indicated by ri->pos != -1)

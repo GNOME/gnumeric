@@ -1,3 +1,15 @@
+1999-09-05  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/dialogs/dialog-cell-format.c (create_background_radio,
+	create_foreground_radio): Set the toggle button to the colored
+	when the color selector has been clicked.
+
+	* src/item-grid.c (item_grid_draw): Experimental code for drawing
+	empty cells with the correct attributes.
+
+	Only enabled if you use set gnumeric debugging flag above 1.  I do
+	have some issues with selection drawing. 
+
 1999-09-05  Richard Hestilow  <hestgray@ionet.net>
 
 	* configure.in: Minor s/For/for library check message fix.

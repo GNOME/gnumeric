@@ -602,6 +602,15 @@ make_color_picker_notify (GtkWidget *widget, GtkWidget *prop_win)
 			    GTK_SIGNAL_FUNC (color_pick_change_notify), prop_win);
 }
 
+static void
+activate_toggle (GtkWidget *color_sel, GtkToggleButton *button)
+{
+	if (button->active)
+		return;
+
+	gtk_toggle_button_set_active (button, TRUE);
+}
+
 static GtkWidget *
 create_foreground_radio (GtkWidget *prop_win)
 {
@@ -621,7 +630,10 @@ create_foreground_radio (GtkWidget *prop_win)
 	foreground_radio_list = GTK_RADIO_BUTTON (r3)->group;
 
 	foreground_cs = gnome_color_picker_new ();
-
+	gtk_signal_connect (
+		GTK_OBJECT (foreground_cs), "clicked",
+		activate_toggle, r2);
+		
 	make_color_picker_notify (foreground_cs, prop_win);
 	
 	gtk_table_attach (GTK_TABLE (table), r1, 0, 1, 0, 1, e, 0, 4, 2);
@@ -657,7 +669,9 @@ create_background_radio (GtkWidget *prop_win)
 
 	/* The color selectors */
 	background_cs = gnome_color_picker_new ();
-
+	gtk_signal_connect (GTK_OBJECT (background_cs), "clicked",
+			    GTK_SIGNAL_FUNC (activate_toggle), r2);
+			    
 	make_color_picker_notify (background_cs, prop_win);
 	
 	/* Create the pattern preview */
