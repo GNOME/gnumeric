@@ -458,7 +458,7 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
  * This will parse one line from the current @src->position.
  * It will return a GList with the cell contents as strings.
  * NOTE :
- * 1) The calling routine is responsible for freeing the string in the GList
+ * 1) The calling routine is responsible for freeing the strings in the GList
  * 2) The calling routine is responsible for freeing the list itself.
  *
  * returns : a list with char*'s
@@ -480,7 +480,7 @@ stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 
 		if (++col >= SHEET_MAX_COLS) {
 			g_warning (WARN_TOO_MANY_COLS, col);
-			return list;
+			break;
 		}
 	}
 
@@ -562,7 +562,7 @@ stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 
 		if (++col >= SHEET_MAX_COLS) {
 			g_warning (WARN_TOO_MANY_COLS, col);
-			return list;
+			break;
 		}
 
 		src->splitpos++;
@@ -612,7 +612,7 @@ stf_parse_general (StfParseOptions_t *parseoptions, char const *data)
 			
 		if (++row >= SHEET_MAX_ROWS) {
 				g_warning (WARN_TOO_MANY_ROWS, row);
-				return NULL;
+				break;
 		}
 				
 		if (parseoptions->parselines != -1)

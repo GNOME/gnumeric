@@ -1,3 +1,10 @@
+2001-07-16  Morten Welinder  <terra@diku.dk>
+
+	* src/stf-parse.c (stf_parse_csv_line): Don't reverse the fields
+ 	in case there are too many.
+	(stf_parse_fixed_line): Ditto.
+	(stf_parse_general): Plug leak.
+
 2001-07-16  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/file.c (gnum_file_saver_save_to_stream_real):

@@ -11,7 +11,7 @@ Almer:
 	* Add csv default importing + probing.
 	* Improve font preview in cell format dialog.
 
-Andreas J. Guelzow:
+Andreas:
 	* Fix bugs in analysis-tools' t-test.
 	* Finish two-factor anova tool in analysis-tools.
 
