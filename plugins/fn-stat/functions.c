@@ -2468,7 +2468,7 @@ static const char *help_poisson = {
 	   "poisson function from 0 to @x.\n"
 	   "\n"
 	   "* If @x is a non-integer it is truncated.\n"
-	   "* If @x <= 0 POISSON returns #NUM! error.\n"
+	   "* If @x < 0 POISSON returns #NUM! error.\n"
 	   "* If @mean <= 0 POISSON returns the #NUM! error.\n"
 	   "* This function is Excel compatible.\n"
 	   "\n"
@@ -2489,7 +2489,7 @@ gnumeric_poisson (FunctionEvalInfo *ei, Value **argv)
 	mean = value_get_as_float (argv[1]);
 	cuml = value_get_as_bool (argv[2], &err);
 
-	if (x <= 0 || mean <= 0 || err)
+	if (x < 0 || mean <= 0 || err)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	if (cuml)

@@ -1,5 +1,8 @@
 Gnumeric 1.1.12
 
+Jody
+	* POISSON is defined for x == 0
+
 Morten:
 	* Spelling fixes all over.
 	* Add the ability to search expression results.
