@@ -1,5 +1,10 @@
 2003-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=114099
+	* src/clipboard.h: change PASTE_DEFAULT to include comments
+
+2003-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/workbook-control-gui.c: Correct  the description of the mean
 	  test.
 	* src/GNOME_Gnumeric.xml: ditto
