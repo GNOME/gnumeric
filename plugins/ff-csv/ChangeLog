@@ -1,3 +1,8 @@
+2000-05-08  Jon K Hellan  <hellan@acm.org>
+
+	* csv-io.c (CSV_DESCR): Description said that plugin can read and
+	write. Fixed to say write only.
+
 2000-04-20  Jody Goldberg <jgoldberg@home.com>
 
 	* csv-io.c (csv_write_cell) : Use cell_get_rendered_text instead of

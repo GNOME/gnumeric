@@ -299,7 +299,11 @@ csv_cleanup_plugin (PluginData *pd)
 }
 
 #define CSV_TITLE _("Comma Separated Value (CSV) module")
+#ifdef ENABLE_OLD_CSV_IMPORT
 #define CSV_DESCR _("This plugin reads and writes comma separated value formatted data (*.csv)")
+#else
+#define CSV_DESCR _("This plugin writes comma separated value formatted data (*.csv)")
+#endif
 
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
