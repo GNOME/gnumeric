@@ -2494,6 +2494,32 @@ sheet_selection_cut (Sheet *sheet)
 	return TRUE;
 }
 
+static gboolean
+find_a_clipboard (Workbook *wb, gpointer data)
+{
+	CellRegion **cr = data;
+
+	if (wb->clipboard_contents){
+		*cr = wb->clipboard_contents;
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+static CellRegion *
+find_workbook_with_clipboard (Sheet *sheet)
+{
+	CellRegion *cr = NULL;
+	
+	if (sheet->workbook->clipboard_contents)
+		return sheet->workbook->clipboard_contents;
+	
+	workbook_foreach (find_a_clipboard, &cr);
+
+	return cr;
+}
+
 void
 sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags, guint32 time)
 {
@@ -2503,7 +2529,7 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->selections);
 
-	content = sheet->workbook->clipboard_contents;
+	content = find_workbook_with_clipboard (sheet);
 	
 	if (content)
 		if (!sheet_verify_selection_simple (sheet, _("Paste")))

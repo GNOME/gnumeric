@@ -1607,9 +1607,10 @@ cell_get_text (Cell *cell)
 	
 	g_return_val_if_fail (cell != NULL, NULL);
 
-	if (cell->parsed_node){
+	if (cell->parsed_node && cell->sheet){
+		Sheet *sheet;
 		char *func, *ret;
-		
+
 		func = expr_decode_tree (cell->parsed_node, cell->sheet, cell->col->pos, cell->row->pos);
 		ret = g_strconcat ("=", func, NULL);
 		g_free (func);

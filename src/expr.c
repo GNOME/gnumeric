@@ -938,7 +938,10 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 			if (cell->value)
 				return eval_cell_value (sheet, cell->value);
 			else {
-				*error_string = cell->text->str;
+				if (cell->text)
+					*error_string = cell->text->str;
+				else
+					*error_string = _("Reference to newborn cell");
 				return NULL;
 			}
 		}

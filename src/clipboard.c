@@ -246,30 +246,14 @@ x_selection_to_cell_region (char *data, int len)
 }
 
 /**
- * x_selection_received:
+ * sheet_paste_selection:
  *
- * Invoked when the selection has been received by our application.
- * This is triggered by a call we do to gtk_selection_convert.
  */
 static void
-x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpointer data)
+sheet_paste_selection (Sheet *sheet, CellRegion *content, SheetSelection *ss, clipboard_paste_closure_t *pc)
 {
-	SheetSelection *ss;
-	Workbook       *wb = data;
-	clipboard_paste_closure_t *pc = wb->clipboard_paste_callback_data;
-	CellRegion *content;
 	int        paste_height, paste_width;
 	int        end_col, end_row;
-
-	ss = pc->dest_sheet->selections->data;
-	
-	/* Did X provide any selection? */
-	if (sel->length < 0){
-		content = pc->region;
-		if (!content)
-			return;
-	} else
-		content = x_selection_to_cell_region (sel->data, sel->length);
 
 	/* Compute the bigger bounding box (selection u clipboard-region) */
 	if (ss->end_col - ss->start_col + 1 > content->cols)
@@ -287,7 +271,7 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpoi
 
 	/* Do the actual paste operation */
 	do_clipboard_paste_cell_region (
-		content,      pc->dest_sheet,
+		content,      sheet,
 		pc->dest_col, pc->dest_row,
 		paste_width,  paste_height,
 		pc->paste_flags);
@@ -301,6 +285,34 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpoi
 	sheet_selection_append (pc->dest_sheet, pc->dest_col, pc->dest_row);
 	sheet_selection_extend_to (pc->dest_sheet, end_col, end_row);
 
+}
+
+/**
+ * x_selection_received:
+ *
+ * Invoked when the selection has been received by our application.
+ * This is triggered by a call we do to gtk_selection_convert.
+ */
+static void
+x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpointer data)
+{
+	SheetSelection *ss;
+	Workbook       *wb = data;
+	clipboard_paste_closure_t *pc = wb->clipboard_paste_callback_data;
+	CellRegion *content;
+
+	ss = pc->dest_sheet->selections->data;
+	
+	/* Did X provide any selection? */
+	if (sel->length < 0){
+		content = pc->region;
+		if (!content)
+			return;
+	} else
+		content = x_selection_to_cell_region (sel->data, sel->length);
+
+	sheet_paste_selection (pc->dest_sheet, content, ss, pc);
+			    
 	/* Release the resources we used */
 	if (sel->length >= 0)
 		clipboard_release (content);
@@ -439,6 +451,27 @@ clipboard_copy_cell_range (Sheet *sheet, int start_col, int start_row, int end_c
 	return c.r;
 }
 
+static gboolean
+workbook_selection_locator (Workbook *wb, gpointer data)
+{
+	Workbook **target = data;
+	
+	if (wb->have_x_selection)
+		*target = wb;
+
+	return TRUE;
+}
+
+static Workbook *
+find_local_workbook_with_selection (void)
+{
+	Workbook *result = NULL;
+	
+	workbook_foreach (workbook_selection_locator, &result);
+
+	return result;
+}
+
 /**
  * clipboard_paste_region:
  * @region:      A cell region
@@ -456,6 +489,7 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet,
 			int paste_flags,    guint32 time)
 {
 	clipboard_paste_closure_t *data;
+	Workbook *workbook_holding_selection;
 	
 	g_return_if_fail (dest_sheet != NULL);
 	g_return_if_fail (IS_SHEET (dest_sheet));
@@ -488,12 +522,17 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet,
 	 * to paste from in this case (instead of the simplistic text
 	 * we get from X
 	 */
-	if (dest_sheet->workbook->have_x_selection){
-		GtkSelectionData sel;
 
-		sel.length = -1;
-		x_selection_received (dest_sheet->workbook->toplevel, &sel,
-				      0, dest_sheet->workbook);
+	workbook_holding_selection = find_local_workbook_with_selection ();
+	if (workbook_holding_selection && region){
+		CellRegion *content;
+		
+		content = region;
+
+		sheet_paste_selection (dest_sheet, content, dest_sheet->selections->data, data);
+		
+		workbook_holding_selection->clipboard_paste_callback_data = NULL;
+		g_free (data);
 		return;
 	}
 

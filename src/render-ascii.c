@@ -41,7 +41,6 @@ cell_region_render_ascii (CellRegion *cr)
 			v = g_strdup (c_copy->u.text);
 		
 		data [c_copy->row_offset][c_copy->col_offset] = v;
-		g_free (v);
 	}
 
 	all = g_string_new (NULL);
@@ -50,8 +49,10 @@ cell_region_render_ascii (CellRegion *cr)
 		g_string_assign (line, "");
 		
 		for (col = 0; col < cr->cols; col++){
-			if (data [row][col])
+			if (data [row][col]){
 				g_string_append (line, data [row][col]);
+				g_free (data [row][col]);
+			}
 			g_string_append_c (line, '\t');
 		}
 		g_string_append (all, line->str);

@@ -1870,3 +1870,16 @@ workbook_set_filename (Workbook *wb, const char *name)
 
 	workbook_set_title (wb, g_basename (name));
 }
+
+void
+workbook_foreach (WorkbookCallback cback, gpointer data)
+{
+	GList *l;
+	
+	for (l = workbook_list; l ; l = l->next){
+		Workbook *wb = l->data;
+		
+		if (!(*cback)(wb, data))
+			return;
+	}
+}

@@ -391,6 +391,11 @@ void        workbook_recalc_all          (Workbook *wb);
  */
 void     workbook_realized            (Workbook *, GdkWindow *);
 
+typedef gboolean (*WorkbookCallback)(Workbook *, gpointer data);
+
+void     workbook_foreach             (WorkbookCallback cback,
+				       gpointer data);
+
 /*
  * Feedback routines
  */

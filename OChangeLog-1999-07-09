@@ -1,3 +1,20 @@
+1999-03-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/clipboard.c (sheet_paste_selection): New routine.  Abstracts
+	the paste operation.
+	(clipboard_paste_region): Now it uses a clipboard with the active
+	X selection instead of defaulting to "request clipboard from X"
+	(this is only for inter-workbook copy-paste).
+
+	* src/sheet.c (find_workbook_with_clipboard): Tries to find a
+	workbook with clipboard information.  Probably the clipboard
+	should be global to all Gnumeric.
+
+	* src/render-ascii.c (cell_region_render_ascii): Free the
+	information after we have used it, not before.
+
+	* src/expr.c (eval_expr): Handle new-born recursive references. 
+
 1999-03-11  Michael Meeks <michael@imaginator.com>
 
 	* src/fn-math.c (gnumeric_power): Implemented.
