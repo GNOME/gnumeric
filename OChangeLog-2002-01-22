@@ -1,4 +1,8 @@
 2000-12-30  Jody Goldberg <jgoldberg@home.com>
+	
+	* rename border.[ch] -> style-border.[ch]
+
+2000-12-30  Jody Goldberg <jgoldberg@home.com>
 
 	* src/border.c (style_border_draw) : Take a StyleBorderLocation rather
 	  than an MSTYLE_ELEMENT.  The fit is more natural.

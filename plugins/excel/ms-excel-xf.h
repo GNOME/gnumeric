@@ -10,7 +10,7 @@
 #ifndef GNUMERIC_MS_EXCEL_XF_H
 #define GNUMERIC_MS_EXCEL_XF_H
 
-#include "border.h"
+#include "style-border.h"
 
 #define STYLE_TOP		(MSTYLE_BORDER_TOP	    - MSTYLE_BORDER_TOP)
 #define STYLE_BOTTOM		(MSTYLE_BORDER_BOTTOM	    - MSTYLE_BORDER_TOP)

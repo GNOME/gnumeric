@@ -24,7 +24,7 @@
 #include "format.h"
 #include "formats.h"
 #include "color.h"
-#include "border.h"
+#include "style-border.h"
 #include "ranges.h"
 #include "widgets/gnumeric-toolbar.h"
 

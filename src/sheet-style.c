@@ -20,7 +20,7 @@
 #include "mstyle.h"
 #include "expr.h"
 #include "main.h"
-#include "border.h"
+#include "style-border.h"
 
 typedef enum {
 	STYLE_CACHE_FLUSH_HASH   = 0x1,

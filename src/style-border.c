@@ -7,7 +7,7 @@
  *  (C) 1999, 2000 Jody Goldberg
  */
 #include <config.h>
-#include "border.h"
+#include "style-border.h"
 #include "color.h"
 #include "style.h"
 

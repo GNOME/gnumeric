@@ -32,7 +32,7 @@
 #include "number-match.h"
 #include "cell.h"
 #include "parse-util.h"
-#include "border.h"
+#include "style-border.h"
 #include "style.h"
 #include "selection.h"
 #include "position.h"

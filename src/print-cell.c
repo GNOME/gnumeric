@@ -17,7 +17,7 @@
 #include "parse-util.h"
 #include "cell.h"
 #include "value.h"
-#include "border.h"
+#include "style-border.h"
 #include "pattern.h"
 #include "cellspan.h"
 #include "ranges.h"

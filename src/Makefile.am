@@ -47,8 +47,6 @@ GNUMERIC_BASE_SOURCES =				\
 	application.h				\
 	auto-format.c				\
 	auto-format.h				\
-	border.c				\
-	border.h				\
 	cell.h					\
 	cell.c					\
 	cell-draw.c				\
@@ -207,6 +205,8 @@ GNUMERIC_BASE_SOURCES =				\
 	stf-parse.h				\
 	style.c					\
 	style.h					\
+	style-border.c				\
+	style-border.h				\
 	summary.c				\
 	summary.h				\
 	symbol.h				\

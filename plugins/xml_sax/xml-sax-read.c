@@ -27,7 +27,7 @@
 #include "plugin-util.h"
 #include "style.h"
 #include "format.h"
-#include "border.h"
+#include "style-border.h"
 #include "cell.h"
 #include "position.h"
 #include "expr.h"

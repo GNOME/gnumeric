@@ -34,7 +34,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "mstyle.h"
-#include "border.h"
+#include "style-border.h"
 #include "value.h"
 
 #include "dialogs.h"

@@ -26,7 +26,7 @@
 #include <gnome.h>
 
 #include "gnumeric.h"
-#include "border.h"
+#include "style-border.h"
 #include "cell.h"
 #include "colrow.h"
 #include "pattern.h"

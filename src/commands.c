@@ -43,7 +43,7 @@
 #include "datetime.h"
 #include "colrow.h"
 #include "dialogs.h"
-#include "border.h"
+#include "style-border.h"
 #include "rendered-value.h"
 #include "dialogs/dialog-autocorrect.h"
 #include "sheet-autofill.h"

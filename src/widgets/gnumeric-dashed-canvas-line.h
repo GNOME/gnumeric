@@ -3,7 +3,7 @@
 
 /* dashed Line item for the canvas */
 #include <gnome.h>
-#include "border.h"
+#include "style-border.h"
 
 #define GNUMERIC_TYPE_DASHED_CANVAS_LINE\
     (gnumeric_dashed_canvas_line_get_type ())

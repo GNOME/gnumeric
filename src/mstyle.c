@@ -10,7 +10,7 @@
 #include <config.h>
 #include "mstyle.h"
 #include "str.h"
-#include "border.h"
+#include "style-border.h"
 #include "pattern.h"
 #include "format.h"
 #include "main.h"
