@@ -251,6 +251,7 @@ dialog_sheet_order_impl (Workbook *wb, GladeXML *gui)
 			    GTK_SIGNAL_FUNC (close_clicked_cb), &sm);
 
 	populate_sheet_clist (&sm);
+	gnumeric_clist_make_selection_visible (GTK_CLIST (sm.clist));
 
 	if (GTK_CLIST (sm.clist)->rows > 0) {
 		gtk_widget_grab_focus (sm.clist);

@@ -79,10 +79,10 @@ reload_preview (FontSelector *fs)
 }
 
 /*
- * We can not moveto a list element until it is realized.
+ * We can not moveto a list element until it is mapped.
  */
 static void
-list_realized (GtkWidget *widget, gpointer user_data)
+list_mapped (GtkWidget *widget, gpointer user_data)
 {
 	GtkCList * clist = GTK_CLIST (widget);
 	int row = 0;
@@ -121,8 +121,8 @@ fs_fill_font_name_list (FontSelector *fs)
 		 GTK_OBJECT (fs->font_name_list), "select_row",
 		 GTK_SIGNAL_FUNC (font_selected), fs);
 	 gtk_signal_connect (
-		 GTK_OBJECT (fs->font_name_list), "realize",
-		 GTK_SIGNAL_FUNC (list_realized), NULL);
+		 GTK_OBJECT (fs->font_name_list), "map",
+		 GTK_SIGNAL_FUNC (list_mapped), NULL);
 }
 
 static char *styles [] = {
@@ -176,8 +176,8 @@ fs_fill_font_style_list (FontSelector *fs)
 		 GTK_OBJECT (fs->font_style_list), "select_row",
 		 GTK_SIGNAL_FUNC(style_selected), fs);
 	 gtk_signal_connect (
-		 GTK_OBJECT (fs->font_name_list), "realize",
-		 GTK_SIGNAL_FUNC(list_realized), NULL);
+		 GTK_OBJECT (fs->font_style_list), "map",
+		 GTK_SIGNAL_FUNC(list_mapped), NULL);
 }
 
 static void
@@ -221,9 +221,9 @@ fs_fill_font_size_list (FontSelector *fs)
 	gtk_signal_connect (
 		GTK_OBJECT (fs->font_size_list), "select_row",
 		GTK_SIGNAL_FUNC(size_selected), fs);
-	 gtk_signal_connect (
-		 GTK_OBJECT (fs->font_name_list), "realize",
-		 GTK_SIGNAL_FUNC (list_realized), NULL);
+	gtk_signal_connect (
+		GTK_OBJECT (fs->font_size_list), "map",
+		GTK_SIGNAL_FUNC (list_mapped), NULL);
 	
 	gtk_signal_connect (
 		GTK_OBJECT (fs->font_size_entry), "changed",

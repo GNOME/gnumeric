@@ -440,6 +440,71 @@ gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event)
 	gtk_menu_popup (menu, NULL, NULL, 0, NULL, event->button, event->time);
 }
 
+/*
+ * Helper for gnumeric_clist_moveto. Ensures that we move in the same way
+ * whether direct or from a callback.
+ */ 
+static void
+clist_moveto (GtkCList *clist, gint row)
+{
+	gtk_clist_moveto (clist, row, 0, 0.1, 0.0);
+	clist->focus_row = row;
+}
+
+/*
+ * map handler. Disconnects itself and moves the list.
+ */
+static void
+cb_clist_moveto (GtkWidget *clist, gpointer row)
+{
+	gtk_signal_disconnect_by_func (GTK_OBJECT (clist),
+				       GTK_SIGNAL_FUNC (cb_clist_moveto),
+				       row);
+
+	clist_moveto (GTK_CLIST (clist), GPOINTER_TO_INT (row));
+}
+
+/*
+ * gnumeric_clist_moveto
+ * @clist   clist
+ * @row     row
+
+ *
+ * Scroll the viewing area of the list to the given row.
+ * We do it this way because gtk_clist_moveto only works if the list is
+ * mapped.  
+ */
+void
+gnumeric_clist_moveto (GtkCList *clist, gint row)
+{
+	if (GTK_WIDGET_DRAWABLE (clist))
+		clist_moveto (clist, row);
+	else
+		gtk_signal_connect (GTK_OBJECT (clist), "map",
+				    GTK_SIGNAL_FUNC (cb_clist_moveto),
+				    GINT_TO_POINTER (row));
+}
+
+/*
+ * gnumeric_clist_make_selection_visible
+ * @clist   clist
+ *
+ * Scroll the viewing area of the list to the first selected row.
+ */
+void
+gnumeric_clist_make_selection_visible (GtkCList *clist)
+{
+	guint selection_length;
+	
+	g_return_if_fail(GTK_IS_CLIST(clist));
+
+	selection_length = g_list_length (clist->selection);
+	if (selection_length > 0) {
+		gint row = (gint) clist->selection->data;
+		gnumeric_clist_moveto (clist, row);
+	}
+}
+
 GtkWidget *
 gnumeric_create_tooltip (void)
 {

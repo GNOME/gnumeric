@@ -2573,6 +2573,7 @@ dialog_data_analysis (Workbook *wb, Sheet *sheet)
 	        gtk_clist_append (GTK_CLIST (tool_list),
 				  (char **) &tools[i].name);
 	gtk_clist_select_row (GTK_CLIST (tool_list), selected_row, 0);
+	gnumeric_clist_moveto (GTK_CLIST (tool_list), selected_row);
 
 	gtk_widget_grab_focus (GTK_WIDGET(tool_list));
 

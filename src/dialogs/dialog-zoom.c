@@ -123,8 +123,8 @@ dialog_zoom_impl (Workbook *wb, Sheet *cur_sheet, GladeXML  *gui)
 	g_list_free (sheets);
 
 	gtk_clist_select_row (list, cur_row, 0);
-	gtk_clist_moveto     (list, cur_row, 0, .5, 0.0);
 	gtk_clist_thaw (list);
+	gnumeric_clist_moveto (list, cur_row);
 
 	dialog = glade_xml_get_widget (gui, "Zoom");
 	if (dialog == NULL) {

@@ -35,6 +35,12 @@ char      *x11_font_change_component    (const char *fontname, int idx, const ch
 void      gnumeric_auto_kill_popup_menu_on_hide (GtkMenu *menu);
 void      gnumeric_popup_menu                   (GtkMenu *menu, GdkEventButton *event);
 
+/* Scroll the viewing area of the list to the given row */
+void gnumeric_clist_moveto (GtkCList *clist, gint row);
+
+/* Scroll the viewing area of the list to the first selected row */
+void gnumeric_clist_make_selection_visible (GtkCList *clist);
+
 /*
  * Pseudo-tool-tip support code.
  */

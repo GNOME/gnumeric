@@ -520,7 +520,7 @@ tokenized_help_find (TokenizedHelp *tok, const char *token)
 	if (!tok || !tok->sections)
 		return "Incorrect Function Description.";
 
-	for (lp = 0; lp < tok->sections->len-1; lp++) {
+	for (lp = 0; lp + 1 < tok->sections->len; lp++) {
 		const char *cmp = g_ptr_array_index (tok->sections, lp);
 
 		if (g_strcasecmp (cmp, token) == 0){

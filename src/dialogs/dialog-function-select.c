@@ -50,8 +50,8 @@ category_list_fill (FunctionSelectState *state)
 	}
 
 	gtk_clist_select_row (list, state->selected_cat, 0);
-	gtk_clist_moveto     (list, state->selected_cat, 0, .5, 0.0);
 	gtk_clist_thaw (list);
+	gnumeric_clist_moveto (list, state->selected_cat);
 }
 
 static void
@@ -76,8 +76,8 @@ function_list_fill (FunctionSelectState *state)
 	}
 
 	gtk_clist_select_row (list, state->selected_func, 0);
-	gtk_clist_moveto     (list, state->selected_func, 0, .5, 0.0);
 	gtk_clist_thaw (list);
+	gnumeric_clist_moveto (list, state->selected_func);
 }
 
 static void

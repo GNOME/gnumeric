@@ -1,3 +1,13 @@
+2000-05-10  Jon K Hellan  <hellan@acm.org>
+
+	* widget-font-selector.c (list_realized): Rename to
+	list_mapped. List must be mapped before we can move to a list
+	element. realized is not enough. See gtkclist.c:
+	vadjustment_value_changed (ca l. 6147).
+	(fs_fill_font_name_list, fs_fill_font_style_list,
+	fs_fill_font_size_list): Replace realize signal and list_realized
+	handler with map and list_mapped.
+
 2000-05-09  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.53

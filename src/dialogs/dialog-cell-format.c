@@ -894,6 +894,12 @@ fmt_dialog_init_format_page (FormatState *state)
 		gtk_clist_column_titles_passive (cl);
 	}
 
+	/* Ensure that list rows are visible */
+	if ((cl = GTK_CLIST (state->format.widget[F_LIST])) != NULL)
+		gnumeric_clist_make_selection_visible (cl);
+	if ((cl = GTK_CLIST (state->format.widget[F_NEGATIVE])) != NULL)
+		gnumeric_clist_make_selection_visible (cl);
+
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->format.widget[F_DECIMAL_SPIN]),
 				   state->format.num_decimals);
 

@@ -1,3 +1,39 @@
+2000-05-10  Jon K Hellan  <hellan@acm.org>
+
+	* src/dialogs/dialog-analysis-tools.c (dialog_data_analysis):
+	Use gnumeric_clist_moveto to ensure that selected tool is visible.
+	
+	* src/dialogs/dialog-function-select.c (category_list_fill):
+	s/current sheet/selected category/
+	(function_list_fill): s/category/function/
+
+	* src/dialogs/dialog-zoom.c (dialog_zoom_impl):
+	s/selected function/current sheet/
+
+	* src/dialogs/dialog-cell-format.c (fmt_dialog_init_format_page):
+	Use gnumeric_clist_make_selection_visible to ensure that list rows
+	are visible.
+
+	* src/dialogs/dialog-sheet-order.c (dialog_sheet_order_impl): 
+	s/list rows/current sheet/
+	
+	* src/gnumeric-util.c (clist_moveto): New helper function scroll
+	list so that row becomes visible.
+	(cb_clist_moveto): New callback function:
+	Disconnect callback and use clist_moveto to make row visible.
+
+	* src/gnumeric-util.[ch] (gnumeric_clist_moveto): New public
+	function: Make given row visible in list - immediately if mapped,
+	otherwise by attaching a signal handler.
+	(gnumeric_clist_make_selection_visible): New public function: Make
+	first selected row visible in list.
+	
+2000-05-10  Jon K Hellan  <hellan@acm.org>
+
+	* src/func.c (tokenized_help_find): This segfaulted if no help was
+	available. The test for no help failed because of
+	signedness. Fixed it.
+
 2000-05-10  Michael Meeks  <michael@helixcode.com>
 
 	* gnumeric.oafinfo: fix borked magic sodding UUID's which suck.
