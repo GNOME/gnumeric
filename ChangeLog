@@ -1,3 +1,9 @@
+2002-06-20  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in (have_pygtk): Add test for Pygtk.
+
+	* acconfig.h: Add WITH_PYGTK
+
 2002-06-19  Jody Goldberg <jody@gnome.org>
 
 	* src/application.c (application_clipboard_cut_copy) : Use sv_weak_ref.

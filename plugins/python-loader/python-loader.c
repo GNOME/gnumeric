@@ -7,6 +7,9 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <Python.h>
+#ifdef WITH_PYGTK
+#include "pygobject.h"
+#endif
 #include <glib.h>
 #include <libgnome/libgnome.h>
 #include <gal/util/e-xml-utils.h>
@@ -90,11 +93,16 @@ initialize_python_if_needed (void)
 		/* Python's convertenviron has gotten into its head that it can
 		   write to the strings in the environment.  We have little choice
 		but to allocate a copy of everything. */
+
+		/* Fixed in Python 2.0. JK */
 		for (i = 0; environ[i]; i++)
 			environ[i] = g_strdup (environ[i]);
 #endif
 		Py_Initialize ();
 		PyEval_InitThreads ();
+#ifdef WITH_PYGTK
+		init_pygobject ();
+#endif
 		python_initialized = TRUE;
 	}
 }
@@ -295,20 +303,37 @@ typedef struct {
 } ServiceLoaderDataFileOpener;
 
 static gboolean
-gnumeric_plugin_loader_python_func_file_probe (GnumFileOpener const *fo, PluginService *service,
-                                               const gchar *file_name, FileProbeLevel pl)
+gnumeric_plugin_loader_python_func_file_probe (GnumFileOpener const *fo, 
+					       PluginService *service,
+                                               GsfInput *input, 
+					       FileProbeLevel pl)
 {
+#ifndef WITH_PYGTK
+	g_warning ("Probing from Python plugins requires gnome-python "
+		   "and Python bindings for libgsf");
+	return FALSE;
+#else	
 	ServiceLoaderDataFileOpener *loader_data;
-	PyObject *probe_result;
+	PyObject *probe_result = NULL;
+	PyObject *input_wrapper;
 	gboolean result;
 
 	g_return_val_if_fail (service != NULL, FALSE);
-	g_return_val_if_fail (file_name != NULL, FALSE);
+	g_return_val_if_fail (input != NULL, FALSE);
 
 	loader_data = (ServiceLoaderDataFileOpener *) plugin_service_get_loader_data (service);
 	switch_python_interpreter_if_needed (GNUMERIC_PLUGIN_LOADER_PYTHON (plugin_info_get_loader (service->plugin))->py_interpreter_info);
-	probe_result = PyObject_CallFunction
-		(loader_data->python_func_file_probe, (char *) "s", file_name);
+	input_wrapper = pygobject_new (G_OBJECT (input));
+	if (input_wrapper == NULL) {
+		g_warning (convert_python_exception_to_string ());
+		clear_python_error_if_needed ();
+	}
+	if (input_wrapper != NULL) {
+		probe_result = PyObject_CallFunction
+			(loader_data->python_func_file_probe, 
+			 (char *) "O", input_wrapper);
+		Py_DECREF (input_wrapper);
+	}
 	if (probe_result != NULL) {
 		result = PyObject_IsTrue (probe_result);
 		Py_DECREF (probe_result);
@@ -318,26 +343,41 @@ gnumeric_plugin_loader_python_func_file_probe (GnumFileOpener const *fo, PluginS
 	}
 
 	return result;
+#endif
 }
 
 static void
-gnumeric_plugin_loader_python_func_file_open (GnumFileOpener const *fo, PluginService *service,
-                                              IOContext *io_context, WorkbookView *wb_view,
-                                              const gchar *file_name)
+gnumeric_plugin_loader_python_func_file_open (GnumFileOpener const *fo, 
+					      PluginService *service,
+                                              IOContext *io_context, 
+					      WorkbookView *wb_view,
+                                              GsfInput *input)
 {
+#ifndef WITH_PYGTK
+	gnumeric_io_error_string
+		(io_context,
+		 "File opening from python plugins requires gnome-python "
+		 "and Python bindings for libgsf");
+#else	
 	ServiceLoaderDataFileOpener *loader_data;
 	Sheet *sheet;
-	PyObject *open_result;
+	PyObject *open_result = NULL;
+	PyObject *input_wrapper;
 
 	g_return_if_fail (service != NULL);
-	g_return_if_fail (file_name != NULL);
+	g_return_if_fail (input != NULL);
 
 	loader_data = (ServiceLoaderDataFileOpener *) plugin_service_get_loader_data (service);
 	switch_python_interpreter_if_needed (GNUMERIC_PLUGIN_LOADER_PYTHON (plugin_info_get_loader (service->plugin))->py_interpreter_info);
 	sheet = sheet_new (wb_view_workbook (wb_view), _("Some name"));
-	open_result = PyObject_CallFunction
-		(loader_data->python_func_file_open,
-		 (char *) "Ns", py_new_Sheet_object (sheet), file_name);
+	input_wrapper = pygobject_new (G_OBJECT (input));
+	if (input_wrapper != NULL) {
+		open_result = PyObject_CallFunction
+			(loader_data->python_func_file_open,
+			 (char *) "NO", 
+			 py_new_Sheet_object (sheet), input_wrapper);
+		Py_DECREF (input_wrapper);
+	}
 	if (open_result != NULL) {
 		Py_DECREF (open_result);
 		workbook_sheet_attach (wb_view_workbook (wb_view), sheet, NULL);
@@ -346,6 +386,7 @@ gnumeric_plugin_loader_python_func_file_open (GnumFileOpener const *fo, PluginSe
 		clear_python_error_if_needed ();
 		sheet_destroy (sheet);
 	}
+#endif
 }
 
 static void

@@ -2,6 +2,7 @@ INCLUDES = \
     -DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
     -I$(top_srcdir)/src	-I$(top_builddir)/src	\
     $(PY_CFLAGS)				\
+    $(PYGTK_CFLAGS)				\
     $(GNUMERIC_CFLAGS)
 
 gnumeric_plugin_python_loaderdir = $(gnumeric_plugindir)/python-loader

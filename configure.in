@@ -445,6 +445,7 @@ dnl **************************************************
 dnl * Check for Python
 dnl **************************************************
 try_python=true
+try_pygtk=false
 AC_ARG_WITH(python,
 	[--{with,without}-python   Compile the Python plugin loader],
 	if test "x$withval" = xno; then
@@ -508,8 +509,19 @@ EOF
 		rm -rf testpython
 	fi
 	AM_CONDITIONAL(WITH_PYTHON, $python_val)
+	try_pygtk=$python_val
 else
 	AM_CONDITIONAL(WITH_PYTHON, false)
+fi
+pygtk_msg="no"
+if test "x$try_pygtk" = "xtrue"; then
+	PKG_CHECK_MODULES(PYGTK, pygtk-2.0 >= 1.99.10,
+			  [pygtk_msg="yes"],
+		          [pygtk_msg="NO.  pygtk problem"])
+	AC_SUBST(PYGTK_CFLAGS)
+fi
+if test "x$pygtk_msg" = "xyes"; then
+	AC_DEFINE(WITH_PYGTK)
 fi
 
 try_bonobo=false

@@ -1,3 +1,15 @@
+2002-06-20  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c: Include pygobject.h if Pygtk is installed.
+	(initialize_python_if_needed): Add init_pygobject if Pygtk is
+	installed.
+	(gnumeric_plugin_loader_python_func_file_probe): Replace file name
+	argument with GsfInput. Try to wrap GsfInput in Python object if
+	Pygtk is installed. Otherwise give up with warning.
+	(gnumeric_plugin_loader_python_func_file_open): Ditto.
+
+	* Makefile.am: Add PYGTK_CFLAGS to includes.
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4

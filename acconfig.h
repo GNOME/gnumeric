@@ -8,6 +8,7 @@
 #undef HAVE_LC_MESSAGES
 
 #undef WITH_BONOBO
+#undef WITH_PYGTK
 #undef ENABLE_EVOLUTION
 
 #undef HAVE_FINITE
