@@ -327,7 +327,7 @@ cmd_paste (WorkbookControl *wbc, PasteTarget const *pt, guint32 time)
 		rinfo.origin_sheet = src_sheet;
 		rinfo.target_sheet = pt->sheet;
 
-		cmd_paste_cut (wbc, &rinfo);
+		cmd_paste_cut (wbc, &rinfo, TRUE);
 		application_clipboard_clear (TRUE);
 	} else
 		/*
@@ -394,7 +394,7 @@ cmd_shift_rows (WorkbookControl *wbc, Sheet *sheet,
 	rinfo.origin.end.row = end_row;
 	rinfo.origin.end.col = SHEET_MAX_COLS-1;
 
-	cmd_paste_cut (wbc, &rinfo);
+	cmd_paste_cut (wbc, &rinfo, FALSE);
 }
 
 /**
@@ -425,6 +425,6 @@ cmd_shift_cols (WorkbookControl *wbc, Sheet *sheet,
 	rinfo.origin.end.col = end_col;
 	rinfo.origin.end.row = SHEET_MAX_ROWS-1;
 
-	cmd_paste_cut (wbc, &rinfo);
+	cmd_paste_cut (wbc, &rinfo, FALSE);
 }
 

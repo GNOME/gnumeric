@@ -1,5 +1,14 @@
 2000-10-31  Jody Goldberg <jgoldberg@home.com>
 
+	* src/cmd-edit.c (cmd_paste) : change the selection when pasting.
+	(cmd_shift_{rows,cols}) : Do not change the selection when pasting.
+
+	* src/commands.c (cmd_paste_cut_{undo,redo}) : Only select the target
+	  if requested.
+	(cmd_paste_cut) : new argument.
+
+2000-10-31  Jody Goldberg <jgoldberg@home.com>
+
 	* src/value.c (value_new_from_string) : Reset errno on over/underflow.
 	* src/number-match.c (format_match_simple) : Ditto.
 

@@ -32,7 +32,8 @@ gboolean cmd_resize_row_col	(WorkbookControl *wbc, Sheet *sheet,
 				 int new_size);
 
 gboolean cmd_paste_cut		(WorkbookControl *wbc,
-				 const ExprRelocateInfo *info);
+				 const ExprRelocateInfo *info,
+				 gboolean move_selection);
 gboolean cmd_paste_copy		(WorkbookControl *wbc,
 				 const PasteTarget *pt, CellRegion *content);
 

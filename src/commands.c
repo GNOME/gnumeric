@@ -1698,6 +1698,7 @@ typedef struct
 	ExprRelocateInfo info;
 	GSList		*paste_content;
 	GSList		*reloc_storage;
+	gboolean	 move_selection;
 } CmdPasteCut;
 
 GNUMERIC_MAKE_COMMAND (CmdPasteCut, cmd_paste_cut);
@@ -1749,13 +1750,14 @@ cmd_paste_cut_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	sheet_flag_status_update_range (me->info.target_sheet, NULL /* force update */);
 
 	/* Select the original region */
-	sheet_selection_set (me->info.origin_sheet,
-			     me->info.origin.start.col,
-			     me->info.origin.start.row,
-			     me->info.origin.start.col,
-			     me->info.origin.start.row,
-			     me->info.origin.end.col,
-			     me->info.origin.end.row);
+	if (me->move_selection)
+		sheet_selection_set (me->info.origin_sheet,
+				     me->info.origin.start.col,
+				     me->info.origin.start.row,
+				     me->info.origin.start.col,
+				     me->info.origin.start.row,
+				     me->info.origin.end.col,
+				     me->info.origin.end.row);
 
 	sheet_set_dirty (me->info.target_sheet, TRUE);
 	workbook_recalc (me->info.target_sheet->workbook);
@@ -1814,10 +1816,11 @@ cmd_paste_cut_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		tmp.end.row = SHEET_MAX_ROWS-1;
 
 	/* Make sure the destination is selected */
-	sheet_selection_set (me->info.target_sheet,
-			     tmp.start.col, tmp.start.row,
-			     tmp.start.col, tmp.start.row,
-			     tmp.end.col, tmp.end.row);
+	if (me->move_selection)
+		sheet_selection_set (me->info.target_sheet,
+				     tmp.start.col, tmp.start.row,
+				     tmp.start.col, tmp.start.row,
+				     tmp.end.col, tmp.end.row);
 
 	sheet_move_range (wbc, &me->info, &me->reloc_storage);
 
@@ -1846,7 +1849,8 @@ cmd_paste_cut_destroy (GtkObject *cmd)
 }
 
 gboolean
-cmd_paste_cut (WorkbookControl *wbc, ExprRelocateInfo const *info)
+cmd_paste_cut (WorkbookControl *wbc, ExprRelocateInfo const *info,
+	       gboolean move_selection)
 {
 	GtkObject *obj;
 	CmdPasteCut *me;
@@ -1861,8 +1865,9 @@ cmd_paste_cut (WorkbookControl *wbc, ExprRelocateInfo const *info)
 
 	/* Store the specs for the object */
 	me->info = *info;
-	me->paste_content = NULL;
-	me->reloc_storage = NULL;
+	me->paste_content  = NULL;
+	me->reloc_storage  = NULL;
+	me->move_selection = move_selection;
 
 	me->parent.cmd_descriptor = descriptor;
 
