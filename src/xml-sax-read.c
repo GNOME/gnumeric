@@ -1355,7 +1355,7 @@ xml_sax_orientation_end (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 	char const *content = state->base.content->str;
 
-	g_assert(state->sheet->print_info != NULL);
+	g_return_if_fail(state->sheet->print_info != NULL);
 	if (!strcmp(content, "portrait")) {
 		print_info_set_orientation (state->sheet->print_info, PRINT_ORIENT_VERTICAL);
 	} else if (!strcmp(content, "landscape")) {
@@ -1371,8 +1371,8 @@ xml_sax_paper_end (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	XMLSaxParseState *state = (XMLSaxParseState *)gsf_state;
 	char const *content = state->base.content->str;
 
-	g_assert(state->sheet->print_info != NULL);
-	g_assert(state->sheet->print_info->print_config != NULL);
+	g_return_if_fail(state->sheet->print_info != NULL);
+	g_return_if_fail(state->sheet->print_info->print_config != NULL);
 
 	gnome_print_config_set(state->sheet->print_info->print_config,
 		(guchar *)GNOME_PRINT_KEY_PAPER_SIZE, (guchar *)content);
