@@ -29,12 +29,20 @@ typedef struct _MS_EXCEL_SHEET
 
 void ms_excel_sheet_insert (MS_EXCEL_SHEET *sheet, int xfidx, int col, int row, char *text) ;
 
+typedef struct _MS_EXCEL_PALETTE
+{
+  int *red ;
+  int *green ;
+  int *blue ;
+  int length ;
+} MS_EXCEL_PALETTE ;
 
 typedef struct _MS_EXCEL_WORKBOOK
 {
   GList *boundsheet_data ;
   GList *XF_records ;
   GList *excel_sheets ;
+  MS_EXCEL_PALETTE *palette ;
   // Gnumeric parallel workbook
   Workbook *gnum_wb ;
 } MS_EXCEL_WORKBOOK ;

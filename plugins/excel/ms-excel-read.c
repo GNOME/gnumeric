@@ -106,6 +106,29 @@ static void free_biff_boundsheet_data (BIFF_BOUNDSHEET_DATA *d)
   free (d) ;
 }
 
+static MS_EXCEL_PALETTE *new_ms_excel_palette (BIFF_QUERY *q)
+{
+  int lp, len ;
+  MS_EXCEL_PALETTE *pal ;
+
+  pal = (MS_EXCEL_PALETTE *)malloc (sizeof(MS_EXCEL_PALETTE)) ;
+  len = BIFF_GETWORD(q->data) ;
+  pal->length = len ;
+  pal->red    = (int *)malloc(sizeof(int)*len) ;
+  pal->green  = (int *)malloc(sizeof(int)*len) ;
+  pal->blue   = (int *)malloc(sizeof(int)*len) ;
+  printf ("New palette with %d entries\n", len) ;
+  for (lp=0;lp<pal->length;lp++)
+    {
+      LONG num  = BIFF_GETLONG(q->data+2+lp*4) ;
+      pal->red[lp]   = (num & 0x00ff0000) >> 16 ;
+      pal->green[lp] = (num & 0x0000ff00) >>  8 ;
+      pal->blue[lp]  = (num & 0x000000ff) >>  0 ;
+      printf ("Colour %d : (%d,%d,%d)\n", lp, pal->red[lp], pal->green[lp], pal->blue[lp]) ;
+    }
+  return pal ;
+}
+
 typedef struct _BIFF_XF_DATA
 {
   WORD             font_idx ;
@@ -129,6 +152,28 @@ typedef struct _BIFF_XF_DATA
   BYTE             backgnd_col ;
 } BIFF_XF_DATA ;
 
+static void ms_excel_set_cell_colors (MS_EXCEL_SHEET *sheet, Cell *cell, BIFF_XF_DATA *xf)
+{
+  MS_EXCEL_PALETTE *p = sheet->wb->palette ;
+  int col ;
+    
+  col = xf->foregnd_col ;
+  if (p && col>=0 && col < sheet->wb->palette->length)
+    {
+      printf ("FG set to %d = (%d,%d,%d)\n", col, p->red[col], p->green[col], p->blue[col]) ;
+      cell_set_foreground (cell, p->red[col], p->green[col], p->blue[col]) ;
+    }
+  else
+    printf ("FG col out of range %d\n", col) ;
+  col = xf->backgnd_col ;
+  if (p && col>=0 && col < sheet->wb->palette->length)
+    {
+      printf ("BG set to %d = (%d,%d,%d)\n", col, p->red[col], p->green[col], p->blue[col]) ;
+      cell_set_background (cell, p->red[col], p->green[col], p->blue[col]) ;
+    }
+  else
+    printf ("BG col out of range %d\n", col) ;
+}
 
 static void ms_excel_set_cell_xf(MS_EXCEL_SHEET *sheet, Cell *cell, int xfidx)
 {
@@ -160,6 +205,7 @@ static void ms_excel_set_cell_xf(MS_EXCEL_SHEET *sheet, Cell *cell, int xfidx)
 	{
 	  printf ("Found the style !\n") ;
 	  cell_set_alignment (cell, xf->halign, xf->valign, ORIENT_HORIZ, 1) ;
+	  ms_excel_set_cell_colors (sheet, cell, xf) ;
 	  return ;
 	}
       //      printf ("Checking %d\n", cnt) ;
@@ -563,6 +609,10 @@ Workbook *ms_excelReadWorkbook(MS_OLE_FILE *file)
 	      assert (dat) ;
 	      wb->boundsheet_data = g_list_append (wb->boundsheet_data, dat) ;
 	    }
+	    break;
+	  case BIFF_PALETTE:
+	    printf ("READ PALETTE\n") ;
+	    wb->palette = new_ms_excel_palette (q) ;
 	    break;
 	  case BIFF_PRECISION: // FIXME:
 	    printf ("Opcode : 0x%x, length 0x%x\n", q->opcode, q->length) ;

@@ -116,6 +116,7 @@ extern void free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
 
 #define BIFF_RK                         0x7e
 #define BIFF_BOUNDSHEET                 0x85
+#define BIFF_PALETTE                    0x92
 #define BIFF_MULBLANK                   0xbe
 #define BIFF_RSTRING                    0xd6
 #define BIFF_XF                         0xe0
