@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-24 11:08+0900\n"
+"POT-Creation-Date: 2004-10-25 16:05+0900\n"
 "PO-Revision-Date: 2004-03-08 18:30+0900\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -5182,7 +5182,7 @@ msgstr "エンジニアリング関数"
 msgid "Functions for complex numbers, base conversions, and more"
 msgstr "複素数や基数変換などの関数"
 
-#: plugins/fn-erlang/functions.c:110
+#: plugins/fn-erlang/functions.c:128
 msgid ""
 "@FUNCTION=PROBBLOCK\n"
 "@SYNTAX=PROBBLOCK(traffic,circuits)\n"
@@ -5192,12 +5192,12 @@ msgid ""
 "* @traffic cannot exceed @circuits\n"
 "\n"
 "@EXAMPLES=\n"
-"PROBBLOCK(24, 30) returns 0.4012.\n"
+"PROBBLOCK(24,30) returns 0.4012.\n"
 "\n"
 "@SEEALSO=OFFTRAF, DIMCIRC, OFFCAP"
 msgstr ""
 
-#: plugins/fn-erlang/functions.c:138
+#: plugins/fn-erlang/functions.c:157
 msgid ""
 "@FUNCTION=OFFTRAF\n"
 "@SYNTAX=OFFTRAF(traffic,circuits)\n"
@@ -5208,12 +5208,12 @@ msgid ""
 "* @traffic cannot exceed @circuits\n"
 "\n"
 "@EXAMPLES=\n"
-"OFFTRAF(24, 30) returns 25.526.\n"
+"OFFTRAF(24,30) returns 25.527.\n"
 "\n"
 "@SEEALSO=PROBBLOCK, DIMCIRC, OFFCAP"
 msgstr ""
 
-#: plugins/fn-erlang/functions.c:202
+#: plugins/fn-erlang/functions.c:223
 msgid ""
 "@FUNCTION=DIMCIRC\n"
 "@SYNTAX=DIMCIRC(traffic,gos)\n"
@@ -5221,12 +5221,12 @@ msgid ""
 "@traffic loads with @gos grade of service.\n"
 "\n"
 "@EXAMPLES=\n"
-"DIMCIRC(24, 1%) returns 35.\n"
+"DIMCIRC(24,1%) returns 35.\n"
 "\n"
 "@SEEALSO=OFFCAP, OFFTRAF, PROBBLOCK"
 msgstr ""
 
-#: plugins/fn-erlang/functions.c:240
+#: plugins/fn-erlang/functions.c:265
 msgid ""
 "@FUNCTION=OFFCAP\n"
 "@SYNTAX=OFFCAP(circuits,gos)\n"
@@ -5234,20 +5234,20 @@ msgid ""
 "of @circuits with @gos grade of service.\n"
 "\n"
 "@EXAMPLES=\n"
-"OFFCAP(30, 1%) returns 20.337.\n"
+"OFFCAP(30,1%) returns 20.337.\n"
 "\n"
 "@SEEALSO=DIMCIRC, OFFTRAF, PROBBLOCK"
 msgstr ""
 
-#: plugins/fn-erlang/functions.c:286 plugins/fn-erlang/functions.c:291
+#: plugins/fn-erlang/functions.c:311 plugins/fn-erlang/functions.c:316
 msgid "traffic,circuits"
 msgstr ""
 
-#: plugins/fn-erlang/functions.c:296
+#: plugins/fn-erlang/functions.c:321
 msgid "traffic,gos"
 msgstr ""
 
-#: plugins/fn-erlang/functions.c:301
+#: plugins/fn-erlang/functions.c:326
 msgid "circuits,gos"
 msgstr ""
 
@@ -16479,6 +16479,7 @@ msgid "No stream named styles.xml found."
 msgstr "styles.xmlという名前のストリームが見つかりませんでした。"
 
 #: plugins/openoffice/openoffice-write.c:122
+#, c-format
 msgid ""
 "Some content will be lost when saving as OpenOffice .sxc. It only supports %"
 "d rows, and sheet '%s' has %d"
@@ -16487,12 +16488,13 @@ msgstr ""
 "ポートしていますが、シート '%s' には%d行あります"
 
 #: plugins/openoffice/openoffice-write.c:129
+#, c-format
 msgid ""
 "Some content will be lost when saving as OpenOffice .sxc. It only supports %"
 "d columns, and sheet '%s' has %d"
 msgstr ""
-"OpenOffice .sxc型式で保存すると失われるデータがあります。sxc型式は%d"
-"列までサポートしていますが、シート '%s' には%d列あります"
+"OpenOffice .sxc型式で保存すると失われるデータがあります。sxc型式は%d列までサ"
+"ポートしていますが、シート '%s' には%d列あります"
 
 #: plugins/openoffice/plugin.xml.in.h:1
 msgid "Open/Star Calc (*.sxc)"
@@ -16520,8 +16522,8 @@ msgstr "レコードのメモリを確保できませんでした。"
 
 #: plugins/paradox/paradox.c:196
 #, c-format
-msgid "Field type %d is not unsupported."
-msgstr ""
+msgid "Field type %d is not supported."
+msgstr "フィールドタイプ  %d はサポートされていません。"
 
 #: plugins/paradox/plugin.xml.in.h:1
 msgid "Imports Paradox files"
@@ -16615,10 +16617,12 @@ msgstr "デフォルトインタプリタ"
 
 #: plugins/python-loader/gnm-python.c:130
 #: plugins/python-loader/gnm-python.c:152
+#, c-format
 msgid "Could not import %s."
 msgstr "%s をインポートできませんでした。"
 
 #: plugins/python-loader/gnm-python.c:137
+#, c-format
 msgid "Could not find %s."
 msgstr "%s は見つかりませんでした。"
 
@@ -16628,6 +16632,7 @@ msgid "Could not initialize Python bindings for Gtk+, etc: %s"
 msgstr "PythonのGtK+バインディングなどを初期化できませんでした: %s"
 
 #: plugins/python-loader/gnm-python.c:159
+#, c-format
 msgid "Could not find %s"
 msgstr "%s は見つかりませんでした。"
 
@@ -17365,9 +17370,9 @@ msgid ""
 "warning dialog. Setting this option will make the overwrite button in that "
 "dialog the default button."
 msgstr ""
-"すでに存在するファイルを上書きする前に、Gnumericは警告ダイアログを"
-"表示します。このオプションをセットすると、 そのダイアログの上書きボタンを"
-"デフォルトボタンにします。"
+"すでに存在するファイルを上書きする前に、Gnumericは警告ダイアログを表示しま"
+"す。このオプションをセットすると、 そのダイアログの上書きボタンをデフォルトボ"
+"タンにします。"
 
 #: schemas/gnumeric-general.schemas.in.h:4
 msgid "Default Compression Level For Gnumeric Files"
@@ -17665,6 +17670,10 @@ msgstr ""
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "LaTeXのエクスポートでUTF-8を使う"
 
+#: src/application.c:303
+msgid "Cut Object"
+msgstr "オブジェクトの切り取り"
+
 #: src/clipboard.c:314 src/clipboard.c:326 src/clipboard.c:337
 #: src/clipboard.c:345
 msgid "Unable to paste"
@@ -17749,6 +17758,7 @@ msgid "Would split an array"
 msgstr "配列に分割されます"
 
 #: src/commands.c:252
+#, c-format
 msgid "%s is locked. Unprotect the workbook to enable editing."
 msgstr "%s はロックされています。ワークブックの保護を解除すると編集できます。"
 
@@ -17898,6 +17908,7 @@ msgid "Autofitting columns %s"
 msgstr "列 %s の自動調整"
 
 #: src/commands.c:2007
+#, c-format
 msgid "Autofitting rows %s"
 msgstr "行 %s の自動調整"
 
@@ -18098,6 +18109,7 @@ msgid "Renaming Sheets"
 msgstr "シート名の変更"
 
 #: src/commands.c:5181
+#, c-format
 msgid "Appending %i Sheets"
 msgstr "%i シートを追加しています"
 
@@ -18233,6 +18245,7 @@ msgid "Reconfigure Graph"
 msgstr "グラフを再設定します"
 
 #: src/consolidate.c:771
+#, c-format
 msgid "Consolidating to (%s)"
 msgstr "(%s) へ合成しています"
 
@@ -22588,8 +22601,8 @@ msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
 msgstr ""
-"存在するすべてのシートを置き換えるには、現在のワークブックを削除して"
-"新しく作成してください。"
+"存在するすべてのシートを置き換えるには、現在のワークブックを削除して新しく作"
+"成してください。"
 
 #: src/dialogs/dialog-sheet-order.c:987
 msgid "The sheet order has changed. Do you want to update the list?"
@@ -22791,7 +22804,8 @@ msgid ""
 "Automatic (puts quotes where needed)\n"
 "Always\n"
 "Never"
-msgstr "自動 (必要な場所に引用符を付与する)\n"
+msgstr ""
+"自動 (必要な場所に引用符を付与する)\n"
 "常に\n"
 "しない"
 
@@ -22912,10 +22926,12 @@ msgid "_Narrow"
 msgstr "狭くする(_N)"
 
 #: src/dialogs/dialog-stf-format-page.c:44
+#, c-format
 msgid "Importing %i columns and ignoring none."
 msgstr "%i 列をインポートして無視するものはありません。"
 
 #: src/dialogs/dialog-stf-format-page.c:47
+#, c-format
 msgid "Importing %i columns and ignoring %i."
 msgstr "%i 列をインポートして %i を無視します。"
 
@@ -23008,8 +23024,8 @@ msgid ""
 "character is encountered within quotes it will be considered part of the "
 "column text."
 msgstr ""
-"引用符として扱われる文字です。引用符の間に終端文字やセパレータがあっても"
-"列のテキストの一部と見なされます。"
+"引用符として扱われる文字です。引用符の間に終端文字やセパレータがあっても列の"
+"テキストの一部と見なされます。"
 
 #: src/dialogs/dialog-stf.glade.h:14
 msgid "Clear list of columns"
@@ -23215,6 +23231,7 @@ msgid "`"
 msgstr "`"
 
 #: src/dialogs/dialog-stf-main-page.c:150
+#, fuzzy, c-format
 msgid "%d of %d lines to import"
 msgstr "%2$1行のうち%1$d行をインポート"
 
@@ -25956,6 +25973,7 @@ msgid ""
 msgstr "%s に保存するためのパーミッションがありません"
 
 #: src/gui-file.c:411
+#, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
 "\n"
@@ -26484,7 +26502,11 @@ msgstr "プラグインシステムの初期化中にエラーが発生しまし
 msgid "Loader has no set_attributes method.\n"
 msgstr ""
 
-#: src/plugin-loader.c:263 src/plugin-loader.c:303
+#: src/plugin-loader.c:205
+msgid "Loader has no load_base method.\n"
+msgstr ""
+
+#: src/plugin-loader.c:266 src/plugin-loader.c:306
 #, c-format
 msgid "Service '%s' not supported by loader."
 msgstr "サービス '%s' は、ローダーはサポートしていません。"
@@ -26547,7 +26569,7 @@ msgstr "ファイルには \"%s\" 配列が含まれていません。"
 msgid "Module doesn't contain \"%s\" function."
 msgstr "モジュールには関数 \"%s\" が含まれていません。"
 
-#: src/plugin-service.c:162 src/plugin-service.c:252 src/plugin-service.c:1138
+#: src/plugin-service.c:162 src/plugin-service.c:252 src/plugin-service.c:1144
 msgid "Error while loading plugin service."
 msgstr "プラグイン・サービスの読み込み中にエラーが発生しました。"
 
@@ -26597,57 +26619,61 @@ msgstr "関数のカテゴリ名がありません。"
 msgid "Function group is empty."
 msgstr "関数グループは空です。"
 
-#: src/plugin-service.c:1076
+#: src/plugin-service.c:1012
+msgid "No func_desc_load method.\n"
+msgstr ""
+
+#: src/plugin-service.c:1082
 #, c-format
 msgid "%d function in category \"%s\""
 msgstr "%d の関数がカテゴリ\"%s\"にあります"
 
-#: src/plugin-service.c:1077
+#: src/plugin-service.c:1083
 #, c-format
 msgid "Group of %d functions in category \"%s\""
 msgstr "%d個の関数のグループがカテゴリ\"%s\"にあります"
 
-#: src/plugin-service.c:1173
+#: src/plugin-service.c:1179
 msgid "Plugin loader"
 msgstr "プラグイン・ローダー"
 
-#: src/plugin-service.c:1250
+#: src/plugin-service.c:1256
 msgid "Missing file name."
 msgstr "ファイル名が見当たりません"
 
-#: src/plugin-service.c:1316
+#: src/plugin-service.c:1322
 #, c-format
 msgid "Cannot read UI description from XML file %s."
 msgstr "XMLファイル %s からUI情報が読み取れません。"
 
-#: src/plugin-service.c:1353
+#: src/plugin-service.c:1359
 #, c-format
 msgid "User interface with %d action"
 msgstr "%dアクションのユーザインターフェース"
 
-#: src/plugin-service.c:1354
+#: src/plugin-service.c:1360
 #, c-format
 msgid "User interface with %d actions"
 msgstr "%dアクションのユーザインターフェース"
 
-#: src/plugin-service.c:1384
+#: src/plugin-service.c:1390
 msgid "GObject loader"
 msgstr "GObjectローダー"
 
-#: src/plugin-service.c:1491
+#: src/plugin-service.c:1497
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "\"type\"属性が\"service\"要素ありません。"
 
-#: src/plugin-service.c:1497
+#: src/plugin-service.c:1503
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "不明なサービスタイプです: %s"
 
-#: src/plugin-service.c:1513
+#: src/plugin-service.c:1519
 msgid "Error reading service information."
 msgstr "サービス情報の読み込みでエラーが発生しました。"
 
-#: src/plugin-service.c:1575
+#: src/plugin-service.c:1581
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -27091,6 +27117,8 @@ msgid ""
 "Unknown exporter '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
+"エクスポータ '%s' は不明です。\n"
+"可能なエクスポータの一覧を表示するには--list-exportersを使ってみてください。\n"
 
 #: src/ssconvert.c:177
 #, c-format
@@ -27143,7 +27171,8 @@ msgstr "ファイルは指定されたエンコーディングではありませ
 msgid ""
 "Some columns of data were dropped since they exceeded the available sheet "
 "size."
-msgstr "いくつかの列データは、利用可能なシートのサイズを超えたので捨てられました。"
+msgstr ""
+"いくつかの列データは、利用可能なシートのサイズを超えたので捨てられました。"
 
 #: src/stf.c:393
 msgid "Parse error while trying to parse data into sheet"
@@ -31726,9 +31755,6 @@ msgstr "シンプルなリストテンプレート"
 
 #~ msgid "Formatting"
 #~ msgstr "フォーマッティング"
-
-#~ msgid "Objects"
-#~ msgstr "オブジェクト"
 
 #~ msgid "File \"%s\" has unknown format."
 #~ msgstr "ファイル \"%s\" は不明な書式です。"
