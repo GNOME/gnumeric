@@ -1,3 +1,10 @@
+2002-01-24  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-formula-guru.c (cb_formula_guru_entry_focus_in): Align
+	argument fields better when autoscrolling. Autoscroll in one more
+	case: Navigating with keyboard from Cancel button. (OK, nobody is
+	ever going to do that, but it works now, nevertheless.)
+
 2002-01-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-advanced-filter.c : fix all calls to gnumeric_notice
