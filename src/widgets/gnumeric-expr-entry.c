@@ -32,7 +32,6 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtkcelleditable.h>
 #include <gdk/gdkkeysyms.h>
-#include <ctype.h>
 #include <stdio.h>
 
 typedef struct {
@@ -436,7 +435,7 @@ gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 	} else {
 		for (tmp = cursor; tmp > text; tmp = g_utf8_prev_char (tmp)) {
 			gunichar c = g_utf8_get_char (tmp);
-			if (!isalnum (c)) {
+			if (!g_unichar_isalnum (c)) {
 				tmp = g_utf8_next_char (tmp);
 				break;
 			}

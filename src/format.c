@@ -39,7 +39,6 @@
 #include "formats.h"
 
 #include <locale.h>
-#include <ctype.h>
 #include <string.h>
 #include <stdio.h>
 #include <errno.h>
@@ -147,11 +146,11 @@ format_month_before_day (void)
 		month_first = TRUE;
 		if (ptr)
 			while (*ptr) {
-				char const tmp = tolower((unsigned char)*ptr++);
-				if (tmp == 'd') {
+				char c = *ptr++;
+				if (c == 'd' || c == 'D') {
 					month_first = FALSE;
 					break;
-				} else if (tmp == 'm')
+				} else if (c == 'm' || c == 'M')
 					break;
 			}
 	}
@@ -226,19 +225,21 @@ static int
 append_year (GString *string, const guchar *format, const struct tm *time_split)
 {
 	char temp[5];
+	int year = time_split->tm_year + 1900;
 
-	if (tolower (format[1]) != 'y'){
+	if (format[1] != 'y' && format[1] != 'Y') {
 		g_string_append_c (string, 'y');
 		return 1;
 	}
 
-	if (tolower (format[2]) != 'y' || tolower (format[3]) != 'y'){
-		sprintf (temp, "%02d", time_split->tm_year % 100);
+	if ((format[2] != 'y' && format[2] != 'Y') ||
+	    (format[3] != 'y' && format[3] != 'Y')) {
+		sprintf (temp, "%02d", year % 100);
 		g_string_append (string, temp);
 		return 2;
 	}
 
-	sprintf (temp, "%04d", time_split->tm_year + 1900);
+	sprintf (temp, "%04d", year);
 	g_string_append (string, temp);
 
 	return 4;
@@ -283,19 +284,19 @@ append_day (GString *string, const guchar *format, const struct tm *time_split)
 {
 	char temp[3];
 
-	if (tolower (format[1]) != 'd'){
+	if (format[1] != 'd' && format[1] != 'D') {
 		sprintf (temp, "%d", time_split->tm_mday);
 		g_string_append (string, temp);
 		return 1;
 	}
 
-	if (tolower (format[2]) != 'd'){
+	if (format[2] != 'd' && format[2] != 'D') {
 		sprintf (temp, "%02d", time_split->tm_mday);
 		g_string_append (string, temp);
 		return 2;
 	}
 
-	if (tolower (format[3]) != 'd'){
+	if (format[3] != 'd' && format[3] != 'D') {
 		g_string_append (string, _(day_short[time_split->tm_wday]) + 1);
 		return 3;
 	}
@@ -517,7 +518,7 @@ format_compile (StyleFormat *format)
 		}
 
 		case '/':
-			if (fmt[1] == '?' || isdigit ((unsigned char)fmt[1])) {
+			if (fmt[1] == '?' || (fmt[1] >= '0' && fmt[1] <= '9')) {
 				entry->has_fraction = TRUE;
 				fmt++;
 			}
@@ -525,7 +526,7 @@ format_compile (StyleFormat *format)
 
 		case 'a': case 'A':
 		case 'p': case 'P':
-			if (tolower (fmt[1]) == 'm')
+			if (fmt[1] == 'm' || fmt[1] == 'M')
 				entry->want_am_pm = TRUE;
 			break;
 
@@ -1253,7 +1254,8 @@ format_number (gnum_float number, int col_width, StyleFormatEntry const *entry)
 				ignore_further_elapsed = TRUE;
 				append_minute_elapsed (result, time_split, number);
 			} else if (hour_seen ||
-				   (format[1] == ':' && tolower (format[2]) == 's')){
+				   (format[1] == ':' &&
+				    (format[2] == 's' || format[2] == 'S'))) {
 				append_minute (result, n, time_split);
 			} else
 				append_month (result, n, time_split);

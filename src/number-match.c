@@ -32,7 +32,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 #include <errno.h>
 #include <locale.h>
 #include <math.h>
@@ -152,7 +151,7 @@ format_create_regexp (char const *format, GByteArray **dest)
 			break;
 
 		case 'P': case 'p':
-			if (tolower (*(format + 1)) == 'm')
+			if (format[1] == 'm' || format[1] == 'M')
 				format++;
 			break;
 
@@ -257,7 +256,7 @@ format_create_regexp (char const *format, GByteArray **dest)
 		case 'h':
 		case 'H':
 			hour_seen = TRUE;
-			if (tolower (*(format + 1)) == 'h')
+			if (format[1] == 'h' || format[1] == 'H')
 				format++;
 
 			g_string_append (regexp, "([0-9][0-9]?)");
@@ -267,15 +266,15 @@ format_create_regexp (char const *format, GByteArray **dest)
 		case 'M':
 		case 'm':
 			if (hour_seen) {
-				if (tolower (*(format + 1)) == 'm')
+				if (format[1] == 'm' || format[1] == 'M')
 					format++;
 				g_string_append (regexp, "([0-9][0-9]?)");
 				append_type (MATCH_MINUTE);
 				hour_seen = FALSE;
 			} else {
-				if (tolower (*(format + 1)) == 'm') {
-					if (tolower (*(format + 2)) == 'm') {
-						if (tolower (*(format + 3)) == 'm') {
+				if (format[1] == 'm' || format[1] == 'M') {
+					if (format[2] == 'm' || format[2] == 'M') {
+						if (format[3] == 'm' || format[3] == 'M') {
 							char *l;
 
 							l = create_option_list (month_long);
@@ -318,7 +317,7 @@ format_create_regexp (char const *format, GByteArray **dest)
 					match_types->data[l - 1] = MATCH_MINUTE;
 			}
 
-			if (tolower (*(format + 1) == 's'))
+			if (format[1] == 's' || format[1] == 'S')
 				format++;
 			g_string_append (regexp, "([0-9][0-9]?)");
 			append_type (MATCH_SECOND);
@@ -326,9 +325,9 @@ format_create_regexp (char const *format, GByteArray **dest)
 
 		case 'D':
 		case 'd':
-			if (tolower (*(format + 1) == 'd')) {
-				if (tolower (*(format + 2) == 'd')) {
-					if (tolower (*(format + 3) == 'd')) {
+			if (format[1] == 'd' || format[1] == 'D') {
+				if (format[2] == 'd' || format[2] == 'D') {
+					if (format[3] == 'd' || format[3] == 'D') {
 						char *l;
 
 						l = create_option_list (day_long);
@@ -358,9 +357,9 @@ format_create_regexp (char const *format, GByteArray **dest)
 
 		case 'Y':
 		case 'y':
-			if (tolower (*(format + 1) == 'y')) {
-				if (tolower (*(format + 2) == 'y')) {
-					if (tolower (*(format + 3) == 'y')) {
+			if (format[1] == 'y' || format[1] == 'Y') {
+				if (format[2] == 'y' || format[2] == 'Y') {
+					if (format[3] == 'y' || format[3] == 'Y') {
 						g_string_append (regexp, "([0-9][0-9][0-9][0-9])");
 						append_type (MATCH_YEAR_FULL);
 						format++;
@@ -957,7 +956,7 @@ compute_value (char const *s, const regmatch_t *mp,
 			break;
 
 		case MATCH_AMPM:
-			if (tolower ((unsigned char) *str) == 'p')
+			if (*str == 'p' || *str == 'P')
 				is_pm = TRUE;
 			else
 				is_explicit_am = TRUE;

@@ -23,7 +23,6 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
-#include <ctype.h>
 
 #ifndef MAP_PRIVATE
 /* For the benefit of HPUX  */
@@ -60,7 +59,7 @@ gnumeric_fopen (IOContext *context, const char *path, const char *mode)
 	if (f != NULL)
 		return f;
 
-	if (mode != NULL && tolower (*mode) == 'r')
+	if (mode != NULL && (*mode == 'r' || *mode == 'R'))
 		gnumeric_error_read (COMMAND_CONTEXT (context), g_strerror (errno));
 	else
 		gnumeric_error_save (COMMAND_CONTEXT (context), g_strerror (errno));

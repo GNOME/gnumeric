@@ -1,5 +1,15 @@
 2002-10-18  Morten Welinder  <terra@diku.dk>
 
+	* src/format.c (format_month_before_day): Eliminate tolower and
+	make utf8 safe.  Hopefully.
+	(append_year): Ditto.
+	(append_day): Ditto.
+	(format_compile): Ditto.
+	(format_number): Ditto.
+	* src/number-match.c (format_create_regexp): Ditto.
+
+2002-10-18  Morten Welinder  <terra@diku.dk>
+
 	* src/sheet.c (sheet_name_quote): Make this utf8 safe.
 	* src/parse-util.c (cellref_a1_get): Eliminate use of toupper and
 	isdigit.  Should be utf8 safe now.
