@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-05-03 09:53+0200\n"
-"PO-Revision-Date: 2003-05-03 09:54+0200\n"
+"POT-Creation-Date: 2003-05-06 11:10+0200\n"
+"PO-Revision-Date: 2003-05-06 11:12+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -25197,36 +25197,36 @@ msgstr "Okänt evalueringsfel"
 msgid "Invalid template file: %s"
 msgstr "Ogiltig mallfil: %s"
 
-#: src/file.c:269
+#: src/file.c:321
 msgid "Cannot create temporary file."
 msgstr "Kan inte skapa temporär fil."
 
-#: src/file.c:281
+#: src/file.c:333
 msgid "Error saving to temporary file."
 msgstr "Fel vid sparande till temporär fil."
 
-#: src/file.c:284
+#: src/file.c:336
 msgid "Cannot get temporary file size."
 msgstr "Kan inte få tag i storlek på temporär fil."
 
-#: src/file.c:290
+#: src/file.c:342
 msgid "Saving file to stream."
 msgstr "Sparar fil till flöde."
 
-#: src/file.c:303
+#: src/file.c:355
 msgid "Error reading temporary file."
 msgstr "Fel vid läsning av temporär fil."
 
-#: src/file.c:316
+#: src/file.c:368
 msgid "Exception occurred while saving to stream."
 msgstr "Ett undantag inträffade vid sparande till flöde."
 
-#: src/file.c:497
+#: src/file.c:549
 msgid "Saving over old files of this type is disabled for safety."
 msgstr ""
 "Överskrivning av gamla filer av denna typ är inaktiverat av säkerhetsskäl."
 
-#: src/file.c:499
+#: src/file.c:551
 msgid ""
 "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
@@ -26163,20 +26163,24 @@ msgstr "Fel vid förhandskonvertering av urklippsdata"
 msgid "Parse error while trying to parse data into cellregion"
 msgstr "Fel vid tolkning av data till cellområde"
 
-#: src/gui-file.c:65
+#: src/gui-file.c:73
 msgid "Automatically detected"
 msgstr "Upptäcks automatiskt"
 
-#: src/gui-file.c:77
-msgid "File format:"
-msgstr "Filformat:"
-
 #. Pack it into file selector
-#: src/gui-file.c:143 src/workbook-control-gui.c:3027
+#: src/gui-file.c:169 src/workbook-control-gui.c:3027
 msgid "Load file"
 msgstr "Öppna fil"
 
-#: src/gui-file.c:186
+#: src/gui-file.c:177
+msgid "File format:"
+msgstr "Filformat:"
+
+#: src/gui-file.c:183
+msgid "Character encoding:"
+msgstr "Teckenkodning:"
+
+#: src/gui-file.c:230
 #, c-format
 msgid ""
 "%s\n"
@@ -26185,7 +26189,7 @@ msgstr ""
 "%s\n"
 "är ett katalognamn"
 
-#: src/gui-file.c:192
+#: src/gui-file.c:236
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -26194,7 +26198,7 @@ msgstr ""
 "Du har inte rättigheter att spara till\n"
 "%s"
 
-#: src/gui-file.c:199
+#: src/gui-file.c:243
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
@@ -26203,7 +26207,7 @@ msgstr ""
 "Arbetsboken %s finns redan.\n"
 "Vill du skriva över den?"
 
-#: src/gui-file.c:219
+#: src/gui-file.c:263
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -26215,7 +26219,7 @@ msgstr ""
 "ett annat filformat.\n"
 "Vill du spara endast det aktuella bladet?"
 
-#: src/gui-file.c:243
+#: src/gui-file.c:287
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -26223,7 +26227,7 @@ msgstr ""
 "Var vänlig ange ett filnamn,\n"
 "inte en katalog"
 
-#: src/gui-file.c:249
+#: src/gui-file.c:293
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
@@ -26232,11 +26236,11 @@ msgstr ""
 "namn i alla fall?"
 
 #. Pack it into file selector
-#: src/gui-file.c:296
+#: src/gui-file.c:340
 msgid "Save workbook as"
 msgstr "Spara arbetsbok som"
 
-#: src/gui-file.c:374
+#: src/gui-file.c:418
 msgid "Which file format would you like?"
 msgstr "Vilket filformat önskar du?"
 
@@ -26587,7 +26591,7 @@ msgstr "Okänt verb: %s"
 msgid "Service '%s' not supported by loader."
 msgstr "Tjänsten \"%s\" stöds inte av inläsaren."
 
-#: src/plugin-service.c:164 src/plugin-service.c:254 src/plugin-service.c:1161
+#: src/plugin-service.c:164 src/plugin-service.c:254 src/plugin-service.c:1162
 msgid "Error while loading plugin service."
 msgstr "Fel vid inläsning av insticksmodultjänst."
 
@@ -26612,82 +26616,82 @@ msgstr "Filöppnaren har ingen beskrivning"
 msgid "File opener - %s"
 msgstr "Filöppnare - %s"
 
-#: src/plugin-service.c:595
+#: src/plugin-service.c:596
 msgid "Error while reading file."
 msgstr "Fel vid läsning av fil."
 
-#: src/plugin-service.c:740
+#: src/plugin-service.c:741
 msgid "File saver has no description"
 msgstr "Filspararen har ingen beskrivning"
 
-#: src/plugin-service.c:786
+#: src/plugin-service.c:787
 #, c-format
 msgid "File saver - %s"
 msgstr "Filsparare -  %s"
 
-#: src/plugin-service.c:848
+#: src/plugin-service.c:849
 msgid "Error while saving file."
 msgstr "Fel vid sparande av fil."
 
-#: src/plugin-service.c:1001
+#: src/plugin-service.c:1002
 msgid "Missing function category name."
 msgstr "Kategorinamn för funktion saknas."
 
-#: src/plugin-service.c:1005
+#: src/plugin-service.c:1006
 msgid "Function group is empty."
 msgstr "Funktionsgruppen är tom."
 
-#: src/plugin-service.c:1099
+#: src/plugin-service.c:1100
 #, c-format
 msgid "%d function in category \"%s\""
 msgstr "%d funktion i kategori \"%s\""
 
-#: src/plugin-service.c:1100
+#: src/plugin-service.c:1101
 #, c-format
 msgid "Group of %d functions in category \"%s\""
 msgstr "Grupp med %d funktioner i kategori \"%s\""
 
-#: src/plugin-service.c:1196
+#: src/plugin-service.c:1197
 msgid "Plugin loader"
 msgstr "Inläsare för insticksmoduler"
 
-#: src/plugin-service.c:1272
+#: src/plugin-service.c:1273
 msgid "Missing file name."
 msgstr "Saknat filnamn."
 
-#: src/plugin-service.c:1338
+#: src/plugin-service.c:1339
 #, c-format
 msgid "Cannot read UI description from XML file %s."
 msgstr "Kan inte läsa UI-beskrivning från XML-filen %s."
 
-#: src/plugin-service.c:1374
+#: src/plugin-service.c:1375
 #, c-format
 msgid "User interface with %d action"
 msgstr "Användargränssnitt med %d åtgärd"
 
-#: src/plugin-service.c:1375
+#: src/plugin-service.c:1376
 #, c-format
 msgid "User interface with %d actions"
 msgstr "Användargränssnitt med %d åtgärder"
 
-#: src/plugin-service.c:1405
+#: src/plugin-service.c:1406
 msgid "GObject loader"
 msgstr "GObjectinläsare"
 
-#: src/plugin-service.c:1512
+#: src/plugin-service.c:1513
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "Inget \"typ\"-attribut på \"tjänst\"-element."
 
-#: src/plugin-service.c:1518
+#: src/plugin-service.c:1519
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "Okänd tjänstetyp: %s."
 
-#: src/plugin-service.c:1534
+#: src/plugin-service.c:1535
 msgid "Error reading service information."
 msgstr "Fel vid läsning av information för tjänst."
 
-#: src/plugin-service.c:1596
+#: src/plugin-service.c:1597
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -27136,15 +27140,39 @@ msgstr "För många rader i data för att tolka: %d"
 msgid "Too many columns in data to parse: %d"
 msgstr "För många kolumner i data för att tolka: %d"
 
-#: src/stf.c:110
+#: src/stf.c:111
 msgid "Error while trying to read file"
 msgstr "Fel vid försök att läsa fil"
 
-#: src/stf.c:119
+#: src/stf.c:122
 msgid "Error while trying to pre-convert file"
 msgstr "Fel vid försök att förkonvertera fil"
 
-#: src/stf.c:133
+#: src/stf.c:147
+#, c-format
+msgid ""
+"The file does not appear to use the %s encoding.\n"
+"After %i of %i bytes a conversion error occurred:\n"
+"%s.\n"
+"The next two bytes have (hex) values %02X and %02X."
+msgstr ""
+"Filen verkar inte använda teckenkodning %s.\n"
+"Konverteringsfel inträffade efter %i av %i byte:\n"
+"%s.\n"
+"De nästa två byte har (hex-) värde %02X och %02X."
+
+#: src/stf.c:154
+#, c-format
+msgid ""
+"The file does not appear to use the %s encoding.\n"
+"After %i of %i bytes a conversion error occurred:\n"
+"%s.\n"
+msgstr ""
+"Filen verkar inte använda teckenkodning %s.\n"
+"Konverteringsfel inträffade efter %i av %i byte:\n"
+"%s.\n"
+
+#: src/stf.c:182
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -27155,7 +27183,7 @@ msgstr ""
 "Tecknet \"%s\" (det decimala ASCII-tecknet %d) hittades.\n"
 "Dina lokalinställningar är troligtvis fel."
 
-#: src/stf.c:139
+#: src/stf.c:188
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -27166,36 +27194,36 @@ msgstr ""
 "Byte 0x%d hittades.\n"
 "Dina lokalinställningar är troligtvis fel."
 
-#: src/stf.c:275 src/stf.c:305
+#: src/stf.c:325 src/stf.c:355
 msgid "Text to Columns"
 msgstr "Text till kolumner"
 
-#: src/stf.c:280
+#: src/stf.c:330
 #, c-format
 msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
 msgstr "Endast en kolumn med <b>indata</b> kan tolkas åt gången, inte %d"
 
-#: src/stf.c:311
+#: src/stf.c:361
 msgid "Error while trying to parse data into sheet"
 msgstr "Fel vid tolkning av data i kalkylbladet"
 
-#: src/stf.c:387
+#: src/stf.c:458
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Tolkningsfel vid tolkning av data i kalkylbladet"
 
-#: src/stf.c:453
+#: src/stf.c:524
 msgid "Error while trying to write csv file"
 msgstr "Fel vid skrivning av csv-fil"
 
-#: src/stf.c:468
-msgid "Comma or tab separated files (CSV/TSV))"
-msgstr "Komma- eller tabseparerad fil (CSV/TSV))"
+#: src/stf.c:539
+msgid "Comma or tab separated files (CSV/TSV)"
+msgstr "Komma- eller tabseparerad fil (CSV/TSV)"
 
-#: src/stf.c:472
+#: src/stf.c:543
 msgid "Text import (configurable)"
 msgstr "Textimport (konfigurerbar)"
 
-#: src/stf.c:476
+#: src/stf.c:547
 msgid "Text export (configurable)"
 msgstr "Textexport (konfigurerbar)"
 
@@ -28209,6 +28237,398 @@ msgstr "#OMKALK!"
 msgid "Expecting a single range"
 msgstr "Förväntar sammanhängande område"
 
+#: src/widgets/widget-charmap-selector.c:66
+msgid "Arabic"
+msgstr "Arabiska"
+
+#: src/widgets/widget-charmap-selector.c:67
+msgid "Baltic"
+msgstr "Baltiska"
+
+#: src/widgets/widget-charmap-selector.c:68
+msgid "Central European"
+msgstr "Centraleuropeiska"
+
+#: src/widgets/widget-charmap-selector.c:69
+msgid "Chinese"
+msgstr "Chinesiska"
+
+#: src/widgets/widget-charmap-selector.c:70
+msgid "Cyrillic"
+msgstr "Kyrilliska"
+
+#: src/widgets/widget-charmap-selector.c:71
+msgid "Greek"
+msgstr "Grekiska"
+
+#: src/widgets/widget-charmap-selector.c:72
+msgid "Hebrew"
+msgstr "Hebreiska"
+
+#: src/widgets/widget-charmap-selector.c:73
+msgid "Indian"
+msgstr "Indiska"
+
+#: src/widgets/widget-charmap-selector.c:74
+msgid "Japanese"
+msgstr "Japanska"
+
+#: src/widgets/widget-charmap-selector.c:75
+msgid "Korean"
+msgstr "Koreanska"
+
+#: src/widgets/widget-charmap-selector.c:76
+msgid "Turkish"
+msgstr "Turkiska"
+
+#: src/widgets/widget-charmap-selector.c:77
+msgid "Unicode"
+msgstr "Unicode"
+
+#: src/widgets/widget-charmap-selector.c:78
+msgid "Vietnamese"
+msgstr "Vietnamesiska"
+
+#: src/widgets/widget-charmap-selector.c:79
+msgid "Western"
+msgstr "Västlig"
+
+#: src/widgets/widget-charmap-selector.c:80
+msgid "Other"
+msgstr "Annan"
+
+#: src/widgets/widget-charmap-selector.c:85
+msgid "IBM-864"
+msgstr "IBM-864"
+
+#: src/widgets/widget-charmap-selector.c:86
+msgid "IBM-864-I"
+msgstr "IBM-864-I"
+
+#: src/widgets/widget-charmap-selector.c:87
+msgid "ISO-8859-6"
+msgstr "ISO-8859-6"
+
+#: src/widgets/widget-charmap-selector.c:88
+msgid "ISO-8859-6-E"
+msgstr "ISO-8859-6-E"
+
+#: src/widgets/widget-charmap-selector.c:89
+msgid "ISO-8859-6-I"
+msgstr "ISO-8859-6-I"
+
+#: src/widgets/widget-charmap-selector.c:90
+msgid "MacArabic"
+msgstr "MacArabic"
+
+#: src/widgets/widget-charmap-selector.c:91
+msgid "Windows-1256"
+msgstr "Windows-1256"
+
+#: src/widgets/widget-charmap-selector.c:92
+msgid "Armenian (ARMSCII-8)"
+msgstr "Armeniska (ARMSCII-8)"
+
+#: src/widgets/widget-charmap-selector.c:93
+msgid "ISO-8859-13"
+msgstr "ISO-8859-13"
+
+#: src/widgets/widget-charmap-selector.c:94
+msgid "ISO-8859-4"
+msgstr "ISO-8859-4"
+
+#: src/widgets/widget-charmap-selector.c:95
+msgid "Windows-1257"
+msgstr "Windows-1257"
+
+#: src/widgets/widget-charmap-selector.c:96
+msgid "Celtic (ISO-8859-14)"
+msgstr "Keltiska (ISO-8859-14)"
+
+#: src/widgets/widget-charmap-selector.c:97
+msgid "IBM-852"
+msgstr "IBM-852"
+
+#: src/widgets/widget-charmap-selector.c:98
+msgid "ISO-8859-2"
+msgstr "ISO-8859-2"
+
+#: src/widgets/widget-charmap-selector.c:99
+msgid "MacCE"
+msgstr "MacCE"
+
+#: src/widgets/widget-charmap-selector.c:100
+msgid "Windows-1250"
+msgstr "Windows-1250"
+
+#: src/widgets/widget-charmap-selector.c:101
+msgid "Simplified (GB18030)"
+msgstr "Förenklad (GB18030)"
+
+#: src/widgets/widget-charmap-selector.c:102
+msgid "Simplified (GB2312)"
+msgstr "Förenklad (GB2312)"
+
+#: src/widgets/widget-charmap-selector.c:103
+msgid "Simplified (GBK)"
+msgstr "Förenklad (GBK)"
+
+#: src/widgets/widget-charmap-selector.c:104
+msgid "Simplified (HZ)"
+msgstr "Förenklad (HZ)"
+
+#: src/widgets/widget-charmap-selector.c:105
+msgid "Simplified (Windows-936)"
+msgstr "Förenklad (Windows-936)"
+
+#: src/widgets/widget-charmap-selector.c:106
+msgid "Traditional (Big5)"
+msgstr "Traditionell (Big5)"
+
+#: src/widgets/widget-charmap-selector.c:107
+msgid "Traditional (Big5-HKSCS)"
+msgstr "Traditionell (Big5-HKSCS)"
+
+#: src/widgets/widget-charmap-selector.c:108
+msgid "Traditional (EUC-TW)"
+msgstr "Traditionell (EUC-TW)"
+
+#: src/widgets/widget-charmap-selector.c:109
+msgid "Croatian (MacCroatian)"
+msgstr "Croatiska (MacCroatian)"
+
+#: src/widgets/widget-charmap-selector.c:110
+msgid "IBM-855"
+msgstr "IBM-855"
+
+#: src/widgets/widget-charmap-selector.c:111
+msgid "ISO-8859-5"
+msgstr "ISO-8859-5"
+
+#: src/widgets/widget-charmap-selector.c:112
+msgid "ISO-IR-111"
+msgstr "ISO-IR-111"
+
+#: src/widgets/widget-charmap-selector.c:113
+msgid "KOI8-R"
+msgstr "KOI8-R"
+
+#: src/widgets/widget-charmap-selector.c:114
+msgid "MacCyrillic"
+msgstr "MacCyrillic"
+
+#: src/widgets/widget-charmap-selector.c:115
+msgid "Windows-1251"
+msgstr "Windows-1251"
+
+#: src/widgets/widget-charmap-selector.c:116
+msgid "Russian (CP-866)"
+msgstr "Ryska (CP-866)"
+
+#: src/widgets/widget-charmap-selector.c:117
+msgid "Ukrainian (KOI8-U)"
+msgstr "Ukrainska (KOI8-U)"
+
+#: src/widgets/widget-charmap-selector.c:118
+msgid "Ukrainian (MacUkrainian)"
+msgstr "Ukrainska (MacUkrainian)"
+
+#: src/widgets/widget-charmap-selector.c:119
+msgid "English (US-ASCII)"
+msgstr "Engelska (US-ASCII)"
+
+#: src/widgets/widget-charmap-selector.c:120
+msgid "Farsi (MacFarsi)"
+msgstr "Farsi (MacFarsi)"
+
+#: src/widgets/widget-charmap-selector.c:121
+msgid "Georgian (GEOSTD8)"
+msgstr "Georgiska (GEOSTD8)"
+
+#: src/widgets/widget-charmap-selector.c:122
+msgid "Greek (ISO-8859-7)"
+msgstr "Grekiska (ISO-8859-7)"
+
+#: src/widgets/widget-charmap-selector.c:123
+msgid "Greek (MacGreek)"
+msgstr "Grekiska (MacGreek)"
+
+#: src/widgets/widget-charmap-selector.c:124
+msgid "Greek (Windows-1253)"
+msgstr "Grekiska (Windows-1253)"
+
+#: src/widgets/widget-charmap-selector.c:125
+msgid "Gujarati (MacGujarati)"
+msgstr "Gujarati (MacGujarati)"
+
+#: src/widgets/widget-charmap-selector.c:126
+msgid "Gurmukhi (MacGurmukhi)"
+msgstr "Gurmukhi (MacGurmukhi)"
+
+#: src/widgets/widget-charmap-selector.c:127
+msgid "IBM-862"
+msgstr "IBM-862"
+
+#: src/widgets/widget-charmap-selector.c:128
+msgid "ISO-8859-8-E"
+msgstr "ISO-8859-8-E"
+
+#: src/widgets/widget-charmap-selector.c:129
+msgid "ISO-8859-8-I"
+msgstr "ISO-8859-8-I"
+
+#: src/widgets/widget-charmap-selector.c:130
+msgid "MacHebrew"
+msgstr "MacHebrew"
+
+#: src/widgets/widget-charmap-selector.c:131
+msgid "Windows-1255"
+msgstr "Windows-1255"
+
+#: src/widgets/widget-charmap-selector.c:132
+msgid "Hindi (MacDevanagari)"
+msgstr "Hindi (MacDevanagari)"
+
+#: src/widgets/widget-charmap-selector.c:133
+msgid "Icelandic (MacIcelandic)"
+msgstr "Isländska (MacIcelandic)"
+
+#: src/widgets/widget-charmap-selector.c:134
+msgid "EUC-JP"
+msgstr "EUC-JP"
+
+#: src/widgets/widget-charmap-selector.c:135
+msgid "ISO-2022-JP"
+msgstr "ISO-2022-JP"
+
+#: src/widgets/widget-charmap-selector.c:136
+msgid "Shift_JIS"
+msgstr "Shift_JIS"
+
+#: src/widgets/widget-charmap-selector.c:137
+msgid "EUC-KR"
+msgstr "EUC-KR"
+
+#: src/widgets/widget-charmap-selector.c:138
+msgid "ISO-2022-KR"
+msgstr "ISO-2022-KR"
+
+#: src/widgets/widget-charmap-selector.c:139
+msgid "JOHAB"
+msgstr "JOHAB"
+
+#: src/widgets/widget-charmap-selector.c:140
+msgid "UHC"
+msgstr "UHC"
+
+#: src/widgets/widget-charmap-selector.c:141
+msgid "Nordic (ISO-8859-10)"
+msgstr "Nordiska (ISO-8859-10)"
+
+#: src/widgets/widget-charmap-selector.c:142
+msgid "Romanian (MacRomanian)"
+msgstr "Rumänska (MacRomanian)"
+
+#: src/widgets/widget-charmap-selector.c:143
+msgid "Romanian (ISO-8859-16)"
+msgstr "Rumänska (ISO-8859-16)"
+
+#: src/widgets/widget-charmap-selector.c:144
+msgid "South European (ISO-8859-3)"
+msgstr "Sydeuropeiska (ISO-8859-3)"
+
+#: src/widgets/widget-charmap-selector.c:145
+msgid "Thai (TIS-620)"
+msgstr "Thai (TIS-620)"
+
+#: src/widgets/widget-charmap-selector.c:146
+msgid "IBM-857"
+msgstr "IBM-857"
+
+#: src/widgets/widget-charmap-selector.c:147
+msgid "ISO-8859-9"
+msgstr "ISO-8859-9"
+
+#: src/widgets/widget-charmap-selector.c:148
+msgid "MacTurkish"
+msgstr "MacTurkish"
+
+#: src/widgets/widget-charmap-selector.c:149
+msgid "Windows-1254"
+msgstr "Windows-1254"
+
+#: src/widgets/widget-charmap-selector.c:150
+msgid "UTF-7"
+msgstr "UTF-7"
+
+#: src/widgets/widget-charmap-selector.c:151
+msgid "UTF-8"
+msgstr "UTF-8"
+
+#: src/widgets/widget-charmap-selector.c:152
+msgid "UTF-16BE"
+msgstr "UTF-16BE"
+
+#: src/widgets/widget-charmap-selector.c:153
+msgid "UTF-16LE"
+msgstr "UTF-16LE"
+
+#: src/widgets/widget-charmap-selector.c:154
+msgid "UTF-32BE"
+msgstr "UTF-32BE"
+
+#: src/widgets/widget-charmap-selector.c:155
+msgid "UTF-32LE"
+msgstr "UTF-32LE"
+
+#: src/widgets/widget-charmap-selector.c:156
+msgid "User Defined"
+msgstr "Egendefinierad"
+
+#: src/widgets/widget-charmap-selector.c:157
+msgid "TCVN"
+msgstr "TCVN"
+
+#: src/widgets/widget-charmap-selector.c:158
+msgid "VISCII"
+msgstr "VISCII"
+
+#: src/widgets/widget-charmap-selector.c:159
+msgid "VPS"
+msgstr "VPS"
+
+#: src/widgets/widget-charmap-selector.c:160
+msgid "Windows-1258"
+msgstr "Windows-1258"
+
+#: src/widgets/widget-charmap-selector.c:161
+msgid "Visual (ISO-8859-8)"
+msgstr "Visuell (ISO-8859-8)"
+
+#: src/widgets/widget-charmap-selector.c:162
+msgid "Western (IBM-850)"
+msgstr "Västlig (IBM-850)"
+
+#: src/widgets/widget-charmap-selector.c:163
+msgid "Western (ISO-8859-1)"
+msgstr "Västlig (ISO-8859-1)"
+
+#: src/widgets/widget-charmap-selector.c:164
+msgid "Western (ISO-8859-15)"
+msgstr "Västlig (ISO-8859-15)"
+
+#: src/widgets/widget-charmap-selector.c:165
+msgid "Western (MacRoman)"
+msgstr "Västlig (MacRoman)"
+
+#: src/widgets/widget-charmap-selector.c:166
+msgid "Western (Windows-1252)"
+msgstr "Västlig (Windows-1252)"
+
+#: src/widgets/widget-charmap-selector.c:323
+msgid "Locale"
+msgstr "Locale"
+
 #: src/widgets/widget-font-selector.c:119
 msgid "Bold italic"
 msgstr "Fet kursiv"
@@ -28589,7 +29009,7 @@ msgstr "Ett oförklarligt fel inträffade vid sparande av %s"
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:573 src/workbook-view.c:808
+#: src/workbook-view.c:573 src/workbook-view.c:812
 msgid "The filename given is not valid."
 msgstr "Det givna filnamnet är inte giltigt."
 
@@ -28597,11 +29017,11 @@ msgstr "Det givna filnamnet är inte giltigt."
 msgid "Default file saver is not available."
 msgstr "Standardfilspararen är inte tillgänglig."
 
-#: src/workbook-view.c:748
+#: src/workbook-view.c:749
 msgid "Unsupported file format."
 msgstr "Filformatet stöds inte."
 
-#: src/workbook-view.c:801
+#: src/workbook-view.c:805
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "Ett oförklarat fel inträffade vid öppnande av %s"
@@ -32745,9 +33165,6 @@ msgstr "Gnumeric XML-filformat"
 #~ "\"\n"
 #~ "'\n"
 #~ "'\n"
-
-#~ msgid "window1"
-#~ msgstr "window1"
 
 #~ msgid "\n"
 #~ msgstr "\n"
