@@ -23,7 +23,8 @@ gnumeric_chart_new ()
 void
 gnumeric_chart_destroy (GnumericChart * chart)
 {
-	g_ptr_array_free (chart->series, FALSE);
+	if (chart->series)
+		g_ptr_array_free (chart->series, FALSE);
 	chart->series = (GPtrArray *)0xdeadbeef; /* poison the pointer */
 	g_free (chart);
 }

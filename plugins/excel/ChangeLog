@@ -1,5 +1,10 @@
 1999-11-28  Michael Meeks  <mmeeks@gnu.org>
 
+	* gnumeric-chart.c (gnumeric_chart_destroy): check the series
+	is valid before freeing.
+
+1999-11-28  Michael Meeks  <mmeeks@gnu.org>
+
 	* ms-excel-read.c (biff_name_data_destroy): add comment.
 
 	* ms-chart.c (ms_excel_chart): destroy state.chart.
