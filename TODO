@@ -1,0 +1,71 @@
+
+GNOME Spread Sheet task list
+
+* Information formatting
+
+	Given a structure like this:
+
+	struct {
+		int type;	/* string or number */
+		union {
+			char   *string_value;
+			double number_value;
+		}
+	}
+
+    And an Excel-like format, render the value with the specified
+format specifier.
+
+* Engine
+
+    Keeps track of the actual spreadsheet internal representation,
+does the calculation, deals with the events from any of the display
+frontends and updates the visual representations based on the events
+that it receives. 
+
+** Style manager
+
+    This keep track of the styles that apply to every cell displayed.
+It takes care of per-cell, per-column, per-row, per-sheet and
+per-workbook styles and does the style computation for every cell on
+the spreadsheet based on the styles the user has set. 
+
+** Dislay engine
+
+    The display engine is a derived widget from the GNOME canvas
+widget: this allows for graphics, widgets and decorations to be added
+to the spreadsheet with a minimal amount of work.  The GNOME
+spreadsheet widget is both a derived type of the Canvas and provides a
+specific Canvas-Item that implements the actual spreadsheet to be
+drawn. 
+
+*** Cell display engine
+
+	Displays the cell contents according to the format
+	information.  This gets specific formating requirements for
+	the currently displayed region from the engine. 
+
+**** Selections
+
+	The display engine needs to support a number of display features:
+
+		1. Cursor display: this shows the cursor position and
+		the selection range.  The range fill little bottom
+		right box is displayed in the selected region. 
+
+		2. Walking ants region: a region that has a walking
+		ants selection.
+
+		3. Cell being edited: Only the external borders for
+		the cursor are shown, the internal lines are hidden.
+
+*** Graphic dislay engine
+
+	As the spreadsheet is derived from the Gnome Canvas, this only
+	keeps track of the correct zoom factor and addresses the basic
+	drawing needs required for an Excel-like spreadsheet.
+
+
+
+
+
