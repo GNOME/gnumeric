@@ -1,18 +1,10 @@
+2001-07-15  Karl Eichwalder  <ke@suse.de>
+
+	* de.po: Update.
+
 2001-07-15  Valek Filippov  <frob@df.ru>
 
 	* ru.po: updated russian translation.
-
-2001-07-14  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.38.
-
-2001-07-14  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.38.
-
-2001-07-14  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.38.
 
 2001-07-14  Karl Eichwalder  <ke@suse.de>
 
@@ -658,7 +650,7 @@
 2000-11-29  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian translation.
-	
+
 2000-11-28  Valek Filippov  <frob@df.ru>
 
 	* ru.po: updated russian translation.
