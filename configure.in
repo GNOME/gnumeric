@@ -384,6 +384,9 @@ dnl we need iconv for translating to/from locale's charset when
 dnl reading/writing Excel files
 AC_CHECK_HEADERS(iconv.h)
 
+dnl iswprint/iswspace are sometimes in wctype.h
+AC_CHECK_HEADERS(wctype.h)
+
 dnl **************************************************
 dnl * Check for Perl
 dnl **************************************************

@@ -1,3 +1,9 @@
+2002-04-08  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in: Test for <wctype.h>
+
+	* src/stf-parse.c: Include <wctype.h> only if present.
+
 2002-04-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/colrow.c (colrow_set_sizes) : set to default if size is 0

@@ -29,7 +29,9 @@
 #include "clipboard.h"
 
 #include <ctype.h>
+#ifdef HAVE_WCTYPE_H
 #include <wctype.h>
+#endif
 #include <stdlib.h>
 
 #define WARN_TOO_MANY_ROWS _("Too many rows in data to parse: %d")
