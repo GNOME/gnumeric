@@ -1,3 +1,9 @@
+2000-04-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/stf-parse.c (stf_parse_options_new) : Init oldsplitpositions.
+	* src/dialogs/dialog-stf-format-page.c (stf_dialog_format_page_init) :
+	  Init format_run_parseoptions.
+
 2000-04-05  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook.c (workbook_do_destroy): Unref, not destroy, the

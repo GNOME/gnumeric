@@ -41,7 +41,7 @@ typedef struct {
 	/* Fixed width related */
         GArray              *splitpositions;        /* Positions where text will be split vertically */
 
-	gboolean             modified;              /* Indicates weather the contents have changed */
+	gboolean             modified;              /* Indicates whether the contents have changed */
 	int                  rowcount;              /* Number of rows parsed */
 	int                  colcount;              /* Number of columns parsed */
 	

@@ -350,6 +350,7 @@ stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	info->format_run_manual_change = FALSE;
 	info->format_run_displayrows   = stf_preview_get_displayed_rowcount (info->format_run_renderdata);
 	info->format_run_cacheoptions  = stf_cache_options_new ();
+	info->format_run_parseoptions  = stf_parse_options_new ();
 
         gtk_clist_column_titles_passive (info->format_sublist);
 

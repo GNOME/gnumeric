@@ -67,6 +67,7 @@ stf_parse_options_new (void)
 	parseoptions->parselines = -1;
 
 	parseoptions->splitpositions = g_array_new (FALSE, FALSE, sizeof (int));
+	parseoptions->oldsplitpositions = NULL;
 	parseoptions->modificationmode = FALSE;
 
 	parseoptions->indicator_2x_is_single = TRUE;

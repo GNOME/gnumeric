@@ -9,24 +9,32 @@ static GtkObjectClass *gtk_combo_text_parent_class;
 static gboolean
 elements_free (gpointer	key, gpointer value, gpointer user_data)
 {
+#ifdef BROKEN
 	g_free (key);
+#endif
+	/* This works */
+	/* puts (key); */
 	return TRUE;
 }
 
 static void
-gtk_combo_test_finalize (GtkObject *object)
+gtk_combo_text_destroy (GtkObject *object)
 {
 	GtkComboText *ct = GTK_COMBO_TEXT (object);
 
-	g_hash_table_foreach_remove (ct->elements, &elements_free, NULL);
+	if (ct->elements != NULL) {
+		g_hash_table_foreach_remove (ct->elements, &elements_free, NULL);
+		g_hash_table_destroy (ct->elements);
+		ct->elements = NULL;
+	}
 
-	(*gtk_combo_text_parent_class->finalize) (object);
+	(*gtk_combo_text_parent_class->destroy) (object);
 }
 
 static void
 gtk_combo_text_class_init (GtkObjectClass *object_class)
 {
-	object_class->finalize = &gtk_combo_test_finalize;
+	object_class->destroy = &gtk_combo_text_destroy;
 	gtk_combo_text_parent_class = gtk_type_class (gtk_combo_box_get_type ());
 }
 
