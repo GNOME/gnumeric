@@ -33,8 +33,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-14 08:22+0100\n"
-"PO-Revision-Date: 2005-03-14 08:21+0100\n"
+"POT-Creation-Date: 2005-03-16 09:55+0100\n"
+"PO-Revision-Date: 2005-03-16 09:55+0100\n"
 "Last-Translator: Frank Arnold <frank@scirocco-5v-turbo.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -379,8 +379,8 @@ msgstr "#UNBEKANNT!"
 #. name for multiple adds
 #: ../plugins/excel/ms-excel-read.c:1110 ../plugins/excel/ms-excel-read.c:1122
 #: ../plugins/oleo/oleo.c:343 ../plugins/psiconv/psiconv-read.c:510
-#: ../src/dialogs/dialog-sheet-order.c:474
-#: ../src/dialogs/dialog-sheet-order.c:478
+#: ../src/dialogs/dialog-sheet-order.c:475
+#: ../src/dialogs/dialog-sheet-order.c:479
 #, c-format
 msgid "Sheet%d"
 msgstr "Blatt%d"
@@ -1386,7 +1386,7 @@ msgstr "Wert; Textformat"
 msgid "Functions for manipulating strings"
 msgstr "Funktionen zur Manipulation von Zeichenketten"
 
-#: ../plugins/fn-string/plugin.xml.in.h:2 ../src/dialogs/dialog-search.c:144
+#: ../plugins/fn-string/plugin.xml.in.h:2 ../src/dialogs/dialog-search.c:154
 #: ../src/func.c:837
 msgid "String"
 msgstr "Zeichenkette"
@@ -1611,7 +1611,7 @@ msgstr "Wert"
 #. * Fill in the labels of `General Info' section.
 #.
 #: ../plugins/mps/mps.c:273 ../src/dialogs/dialog-formula-guru.c:804
-#: ../src/dialogs/dialog-search.c:411 ../src/tools/solver/reports-write.c:515
+#: ../src/dialogs/dialog-search.c:449 ../src/tools/solver/reports-write.c:515
 msgid "Type"
 msgstr "Typ"
 
@@ -2154,9 +2154,9 @@ msgid "Error while opening xbase file."
 msgstr "Fehler beim Öffnen der xbase-Datei."
 
 #: ../plugins/xbase/boot.c:176 ../src/dialogs/dialog-goto-cell.c:289
-#: ../src/dialogs/dialog-search.c:409 ../src/dialogs/dialog-stf-export.c:444
+#: ../src/dialogs/dialog-search.c:447 ../src/dialogs/dialog-stf-export.c:444
 #: ../src/dialogs/print.glade.h:21 ../src/commands.c:4966
-#: ../src/print-info.c:398 ../src/workbook.c:1091 ../src/xml-io.c:3569
+#: ../src/print-info.c:398 ../src/workbook.c:1108 ../src/xml-io.c:3569
 msgid "Sheet"
 msgstr "Blatt"
 
@@ -4890,7 +4890,7 @@ msgstr "Einfach"
 msgid "Double"
 msgstr "Doppelt"
 
-#: ../src/dialogs/dialog-cell-format.c:474 ../src/dialogs/dialog-search.c:148
+#: ../src/dialogs/dialog-cell-format.c:474 ../src/dialogs/dialog-search.c:158
 #: ../src/func.c:835 ../src/wbcg-actions.c:1951
 msgid "Number"
 msgstr "Zahl"
@@ -5128,7 +5128,7 @@ msgstr "Arbeitsbuchwert"
 #.
 #. * Fill in the labels of `Constraints' section.
 #.
-#: ../src/dialogs/dialog-goto-cell.c:295 ../src/dialogs/dialog-search.c:410
+#: ../src/dialogs/dialog-goto-cell.c:295 ../src/dialogs/dialog-search.c:448
 #: ../src/dialogs/tabulate.glade.h:2 ../src/tools/solver/reports-write.c:78
 #: ../src/tools/solver/reports-write.c:100
 #: ../src/tools/solver/reports-write.c:127
@@ -5787,34 +5787,39 @@ msgstr "Ergebniseintrag enthielt keine gültigen Zellnamen."
 msgid "Could not create the Scenarios dialog."
 msgstr "Der Szenariendialog konnte nicht erzeugt werden."
 
-#: ../src/dialogs/dialog-search.c:129
+#: ../src/dialogs/dialog-search.c:137
 msgid "Comment"
 msgstr "Kommentare"
 
-#: ../src/dialogs/dialog-search.c:132 ../src/tools/solver/reports-write.c:406
+#: ../src/dialogs/dialog-search.c:140 ../src/tools/solver/reports-write.c:406
 #: ../src/tools/solver/reports-write.c:411
 msgid "Result"
 msgstr "Ergebnis"
 
-#: ../src/dialogs/dialog-search.c:142
+#: ../src/dialogs/dialog-search.c:150 ../src/dialogs/dialog-search.c:178
+#: ../src/dialogs/dialog-search.c:184 ../src/dialogs/dialog-search.c:190
+msgid "Deleted"
+msgstr "Gelöscht"
+
+#: ../src/dialogs/dialog-search.c:152
 msgid "Expression"
 msgstr "Ausdruck"
 
-#: ../src/dialogs/dialog-search.c:146
+#: ../src/dialogs/dialog-search.c:156
 msgid "Integer"
 msgstr "Integer"
 
-#: ../src/dialogs/dialog-search.c:150
+#: ../src/dialogs/dialog-search.c:160
 msgid "Other value"
 msgstr "Anderer Wert"
 
-#: ../src/dialogs/dialog-search.c:332
+#: ../src/dialogs/dialog-search.c:366
 #: ../src/dialogs/dialog-search-replace.c:156
 msgid "You must select some cell types to search."
 msgstr ""
 "Sie müssen mindestens einen Zelltyp auswählen, der durchsucht werden soll."
 
-#: ../src/dialogs/dialog-search.c:412
+#: ../src/dialogs/dialog-search.c:450
 msgid "Content"
 msgstr "Inhalt"
 
@@ -5830,23 +5835,23 @@ msgstr "Diese Ersetzung nicht durchführen"
 msgid "Perform this replacement"
 msgstr "Diese Ersetzung durchführen"
 
-#: ../src/dialogs/dialog-sheet-order.c:391
+#: ../src/dialogs/dialog-sheet-order.c:392
 msgid "Current Name"
 msgstr "Derzeitiger Name"
 
-#: ../src/dialogs/dialog-sheet-order.c:401
+#: ../src/dialogs/dialog-sheet-order.c:402
 msgid "New Name"
 msgstr "Neuer Name"
 
-#: ../src/dialogs/dialog-sheet-order.c:718
+#: ../src/dialogs/dialog-sheet-order.c:719
 msgid "At least one sheet must remain visible!"
 msgstr "Es muss wenigstens ein Blatt sichtbar bleiben!"
 
-#: ../src/dialogs/dialog-sheet-order.c:723
+#: ../src/dialogs/dialog-sheet-order.c:724
 msgid "You may not delete all sheets in a workbook!"
 msgstr "Ein Arbeitsbuch muss mindestens ein Blatt enthalten!"
 
-#: ../src/dialogs/dialog-sheet-order.c:728
+#: ../src/dialogs/dialog-sheet-order.c:729
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
@@ -5854,14 +5859,14 @@ msgstr ""
 "Um alle existierenden Blätter zu ersetzen löschen Sie bitte das momentan "
 "geöffnete Arbeitsbuch und legen Sie ein neues an!"
 
-#: ../src/dialogs/dialog-sheet-order.c:984
+#: ../src/dialogs/dialog-sheet-order.c:985
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr ""
 "Die Reihenfolge der Blätter wurde verändert. Soll die Liste aktualisiert "
 "werden?"
 
-#: ../src/dialogs/dialog-sheet-order.c:1055
-#: ../src/dialogs/dialog-sheet-order.c:1065
+#: ../src/dialogs/dialog-sheet-order.c:1056
+#: ../src/dialogs/dialog-sheet-order.c:1066
 msgid "Default"
 msgstr "Vorgabe"
 
@@ -6278,7 +6283,7 @@ msgstr ""
 "importiert"
 
 #: ../src/dialogs/dialog-stf-format-page.c:627
-#: ../src/dialogs/dialog-stf-preview.h:27
+#: ../src/dialogs/dialog-stf-preview.h:26
 #, c-format
 msgid "Column %d"
 msgstr "Spalte %d"
@@ -9345,7 +9350,7 @@ msgstr "Fett-kursiv"
 msgid "Italic"
 msgstr "Kursiv"
 
-#: ../src/application.c:308
+#: ../src/application.c:307
 msgid "Cut Object"
 msgstr "Objekt ausschneiden"
 
@@ -9474,11 +9479,11 @@ msgstr "»%s%s« wird eingeben"
 msgid "Ins/Del Column/Row"
 msgstr "Einf/Entf Spalte/Zeile"
 
-#: ../src/commands.c:1327 ../src/commands.c:1332 ../src/sheet.c:3301
+#: ../src/commands.c:1327 ../src/commands.c:1332 ../src/sheet.c:3343
 msgid "Delete Columns"
 msgstr "Spalten löschen"
 
-#: ../src/commands.c:1327 ../src/commands.c:1332 ../src/sheet.c:3423
+#: ../src/commands.c:1327 ../src/commands.c:1332 ../src/sheet.c:3465
 msgid "Delete Rows"
 msgstr "Zeilen löschen"
 
@@ -9523,7 +9528,7 @@ msgid "Deleting row %s"
 msgstr "Zeile %s löschen"
 
 #. Check for locked cells
-#: ../src/commands.c:1602 ../src/commands.c:1606 ../src/sheet.c:2904
+#: ../src/commands.c:1602 ../src/commands.c:1606 ../src/sheet.c:2946
 msgid "Clear"
 msgstr "Entfernen"
 
@@ -10196,7 +10201,7 @@ msgstr ""
 "%.1f x %.1f Punkte\n"
 "%d x %d Pixel"
 
-#: ../src/gui-clipboard.c:120
+#: ../src/gui-clipboard.c:121
 msgid "clipboard"
 msgstr "Zwischenablage"
 
@@ -10208,19 +10213,19 @@ msgstr "Auto-Erkennung"
 msgid "Load file"
 msgstr "Datei laden"
 
-#: ../src/gui-file.c:222 ../src/gui-file.c:364
+#: ../src/gui-file.c:222 ../src/gui-file.c:365
 msgid "Select a file"
 msgstr "Eine Datei wählen"
 
-#: ../src/gui-file.c:247 ../src/gui-file.c:378
+#: ../src/gui-file.c:247 ../src/gui-file.c:379
 msgid "All Files"
 msgstr "Alle Dateien"
 
-#: ../src/gui-file.c:252 ../src/gui-file.c:383
+#: ../src/gui-file.c:252 ../src/gui-file.c:384
 msgid "Spreadsheets"
 msgstr "Tabellenkalkulationen"
 
-#: ../src/gui-file.c:278 ../src/gui-file.c:407
+#: ../src/gui-file.c:278 ../src/gui-file.c:408
 msgid "File _type:"
 msgstr "Datei_typ:"
 
@@ -10237,7 +10242,7 @@ msgstr ""
 "Dateien speichern oder ein anderes Dateiformat wählen.\n"
 "Wollen Sie nur das aktuelle Blatt speichern?"
 
-#: ../src/gui-file.c:458
+#: ../src/gui-file.c:459
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -10722,23 +10727,23 @@ msgstr "Nicht speichern"
 msgid "Do not log out"
 msgstr "Nicht abmelden"
 
-#: ../src/sheet.c:2051
+#: ../src/sheet.c:2078
 msgid "Target region contains merged cells"
 msgstr "Zielbereich beinhaltet zusammengeführte Zellen"
 
-#: ../src/sheet.c:2112
+#: ../src/sheet.c:2139
 msgid "cannot operate on merged cells"
 msgstr "kann nicht auf zusammengeführte Zellen angewendet werden"
 
-#: ../src/sheet.c:2122
+#: ../src/sheet.c:2149
 msgid "cannot operate on array formulae"
 msgstr "kann nicht auf Datenfeld-Formeln angewendet werden"
 
-#: ../src/sheet.c:3240
+#: ../src/sheet.c:3282
 msgid "Insert Columns"
 msgstr "Spalten einfügen"
 
-#: ../src/sheet.c:3362
+#: ../src/sheet.c:3404
 msgid "Insert Rows"
 msgstr "Zeilen einfügen"
 
@@ -10924,11 +10929,11 @@ msgstr "PNG (Pixelgrafik)"
 msgid "JPEG (photograph)"
 msgstr "JPEG (Fotografie)"
 
-#: ../src/sheet-object-graph.c:253 ../src/sheet-object-image.c:477
+#: ../src/sheet-object-graph.c:253 ../src/sheet-object-image.c:437
 msgid "Unknown failure while saving image"
 msgstr "Unbekannter Fehler beim Speichern des Bilds."
 
-#: ../src/sheet-object-graph.c:266 ../src/sheet-object-image.c:492
+#: ../src/sheet-object-graph.c:266 ../src/sheet-object-image.c:504
 msgid "_Save as image"
 msgstr "Als Bild _speichern"
 
@@ -12962,28 +12967,28 @@ msgstr ""
 msgid "Show/Hide toolbar %s"
 msgstr "Werkzeugleiste %s anzeigen/verbergen"
 
-#: ../src/workbook.c:429
+#: ../src/workbook.c:441
 #, c-format
 msgid "Book%d.%s"
 msgstr "Buch%d.%s"
 
-#: ../src/workbook.c:1297
+#: ../src/workbook.c:1312
 msgid "Sheet name is NULL"
 msgstr "Blattname ist NULL."
 
-#: ../src/workbook.c:1306
+#: ../src/workbook.c:1321
 msgid "Sheet name is not valid utf-8"
 msgstr "Blattname ist ungültiges UTF-8."
 
-#: ../src/workbook.c:1314
+#: ../src/workbook.c:1329
 msgid "Sheet name must have at least 1 letter"
 msgstr "Der Name des Blatts muss mindestens aus einem Buchstaben bestehen."
 
-#: ../src/workbook.c:1336
+#: ../src/workbook.c:1351
 msgid "There is already a sheet named"
 msgstr "Es gibt bereits ein Blatt mit Namen"
 
-#: ../src/workbook.c:1348
+#: ../src/workbook.c:1363
 msgid "You may not use this name twice"
 msgstr "Sie dürfen diesen Namen nicht zweimal verwenden"
 
