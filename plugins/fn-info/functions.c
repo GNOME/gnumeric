@@ -242,7 +242,7 @@ gnumeric_countblank (FunctionEvalInfo *ei, Value **args)
 
 	/* FIXME : This does not handle 3D references */
 	int count = (abs(r->a.col - r->b.col) + 1) *
-		    (abs(r->a.col - r->b.col) + 1);
+		    (abs(r->a.row - r->b.row) + 1);
 
 	workbook_foreach_cell_in_range (ei->pos, args[0], TRUE,
 					&cb_countblank, &count);

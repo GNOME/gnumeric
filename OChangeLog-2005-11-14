@@ -1,5 +1,8 @@
 2000-05-31  Jody Goldberg <jgoldberg@home.com>
 
+	* src/functions/fn-information.c (gnumeric_countblank) : Fix typo
+	  reported by <matasmi@iki.fi> Bug 12428.
+
 	* src/sheet.c (sheet_move_range) : invalidate destination before
 	  adjsuting src to point to dst.
 	(cmd_paste_cut_*) : keep a list of displaced content, not just the
