@@ -143,12 +143,9 @@ void        sheet_cell_comment_unlink    (Cell *cell);
 
 void        sheet_recompute_spans_for_col     (Sheet *sheet, int col);
 
-gboolean    sheet_is_region_empty_or_selected (Sheet *sheet,
-					       int start_col, int start_row,
-					       int end_col, int end_row);
-gboolean    sheet_is_region_empty (Sheet *sheet,
-				   int start_col, int start_row,
-				   int end_col, int end_row);
+gboolean    sheet_is_region_empty_or_selected (Sheet *sheet, Range const *r);
+gboolean    sheet_is_region_empty 	      (Sheet *sheet, Range const *r);
+gboolean    sheet_is_cell_empty 	      (Sheet *sheet, int col, int row);
 
 /* Create new ColRowInfos from the default sheet style */
 ColRowInfo *sheet_col_new                  (Sheet *sheet);

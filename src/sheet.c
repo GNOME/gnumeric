@@ -1442,7 +1442,7 @@ int
 sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
 				int count, gboolean jump_to_boundaries)
 {
-	gboolean find_nonblank = cell_is_blank (sheet_cell_get (sheet, start_col, row));
+	gboolean find_nonblank = sheet_is_cell_empty (sheet, start_col, row);
 	int new_col = start_col, prev_col = start_col;
 	gboolean keep_looking = FALSE;
 	int iterations = 0;
@@ -1466,7 +1466,7 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int row,
 					return (find_nonblank || iterations == 1) ? SHEET_MAX_COLS-1 : prev_col;
 				new_col = sheet->cols.max_used;
 			}
-			keep_looking = (cell_is_blank (sheet_cell_get (sheet, new_col, row)) == find_nonblank);
+			keep_looking = (sheet_is_cell_empty (sheet, new_col, row) == find_nonblank);
 			if (keep_looking)
 				prev_col = new_col;
 			else if (!find_nonblank) {
@@ -1509,7 +1509,7 @@ int
 sheet_find_boundary_vertical (Sheet *sheet, int col, int start_row,
 			      int count, gboolean jump_to_boundaries)
 {
-	gboolean find_nonblank = cell_is_blank (sheet_cell_get (sheet, col, start_row));
+	gboolean find_nonblank = sheet_is_cell_empty (sheet, col, start_row);
 	int new_row = start_row, prev_row = start_row;
 	gboolean keep_looking = FALSE;
 	int iterations = 0;
@@ -1533,7 +1533,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int col, int start_row,
 				new_row = sheet->rows.max_used;
 			}
 
-			keep_looking = (cell_is_blank (sheet_cell_get (sheet, col, new_row)) == find_nonblank);
+			keep_looking = (sheet_is_cell_empty (sheet, col, new_row) == find_nonblank);
 			if (keep_looking)
 				prev_row = new_row;
 			else if (!find_nonblank) {
@@ -1859,12 +1859,12 @@ fail_if_not_selected (Sheet *sheet, int col, int row, Cell *cell, void *user_dat
  * features of a cell rather than just the existance of the cell.
  */
 gboolean
-sheet_is_region_empty_or_selected (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
+sheet_is_region_empty_or_selected (Sheet *sheet, Range const *r)
 {
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	return sheet_cell_foreach_range (
-		sheet, TRUE, start_col, start_row, end_col, end_row,
+		sheet, TRUE, r->start.col, r->start.row, r->end.col, r->end.row,
 		fail_if_not_selected, NULL) == NULL;
 
 }
@@ -1872,7 +1872,7 @@ sheet_is_region_empty_or_selected (Sheet *sheet, int start_col, int start_row, i
 static Value *
 fail_if_exist (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
-	return value_terminate ();
+	return cell_is_blank (cell) ? NULL : value_terminate ();
 }
 
 /**
@@ -1887,13 +1887,20 @@ fail_if_exist (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
  * contain any cells 
  */
 gboolean
-sheet_is_region_empty (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
+sheet_is_region_empty (Sheet *sheet, Range const *r)
 {
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
 	return sheet_cell_foreach_range (
-		sheet, TRUE, start_col, start_row, end_col, end_row,
+		sheet, TRUE, r->start.col, r->start.row, r->end.col, r->end.row,
 		fail_if_exist, NULL) == NULL;
+}
+
+gboolean
+sheet_is_cell_empty (Sheet *sheet, int col, int row)
+{
+	Cell const *cell = sheet_cell_get (sheet, col, row);
+	return cell_is_blank (cell);
 }
 
 /**

@@ -657,8 +657,8 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	case GDK_2BUTTON_PRESS: {
 		Sheet *sheet = ic->sheet_view->sheet;
-		int final_row = ic->base_row + ic->base_rows;
-		int final_col = ic->base_col + ic->base_cols;
+		int final_col = ic->pos.end.col;
+		int final_row = ic->pos.end.col;
 
 		g_return_val_if_fail (ic->prepared_to_drag, TRUE);
 
@@ -675,28 +675,50 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		workbook_finish_editing (ic->sheet_view->wbcg, TRUE);
 
-		if (sheet_is_region_empty (sheet, ic->base_col, ic->base_row,
-					   final_row, final_col))
+		if (sheet_is_region_empty (sheet, &ic->pos))
 			return TRUE;
 
-		/* fill current column to boundary of column to left
-		 * OR current row to boundary of row above
-		 */
-		if (event->button.state & GDK_MOD1_MASK)
+		if (event->button.state & GDK_MOD1_MASK) {
+			int template_row = ic->pos.start.row - 1;
+			if (template_row < 0 ||
+			    sheet_is_cell_empty (sheet, ic->pos.start.col,
+						 template_row)) {
+
+				template_row = ic->pos.end.row + 1;
+				if (template_row >= SHEET_MAX_ROWS ||
+				    sheet_is_cell_empty (sheet, ic->pos.end.col,
+							 template_row))
+					return TRUE;
+			}
+
 			final_col = sheet_find_boundary_horizontal (sheet,
-				ic->base_col,
-				MAX(0, ic->base_row-1),
-				1, TRUE);
-		else
+				ic->pos.end.col, template_row, 1, TRUE);
+			if (final_row <= ic->pos.end.row)
+				return TRUE;
+		} else {
+			int template_col = ic->pos.start.col - 1;
+			if (template_col < 0 ||
+			    sheet_is_cell_empty (sheet, template_col,
+						 ic->pos.start.row)) {
+
+				template_col = ic->pos.end.col + 1;
+				if (template_col >= SHEET_MAX_COLS ||
+				    sheet_is_cell_empty (sheet, template_col,
+							 ic->pos.start.row))
+					return TRUE;
+			}
+
 			final_row = sheet_find_boundary_vertical (sheet,
-				MAX(0, ic->base_col-1),
-				ic->base_row,
-				1, TRUE);
+				template_col, ic->pos.end.row, 1, TRUE);
+			if (final_row <= ic->pos.end.row)
+				return TRUE;
+		}
 
 		/* fill the row/column */
 		cmd_autofill (WORKBOOK_CONTROL (ic->sheet_view->wbcg), sheet,
-			      ic->base_col,    ic->base_row,
-			      ic->base_cols+1, ic->base_rows+1,
+			      ic->pos.start.col,    ic->pos.start.row,
+			      ic->pos.end.col - ic->pos.start.col + 1,
+			      ic->pos.end.row - ic->pos.start.row + 1,
 			      final_col, final_row);
 
 		return TRUE;
@@ -736,21 +758,17 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 }
 
 static gboolean
-item_cursor_target_region_ok (ItemCursor *item_cursor)
+item_cursor_target_region_ok (ItemCursor *ic)
 {
 	int v;
 	GtkWidget	*message;
-	GnomeCanvasItem *gci = GNOME_CANVAS_ITEM (item_cursor);
+	GnomeCanvasItem *gci = GNOME_CANVAS_ITEM (ic);
+	SheetView	*sheet_view = ic->sheet_view;
 
 	g_return_val_if_fail (gci != NULL, FALSE);
 	g_return_val_if_fail (gci->canvas != NULL, FALSE);
 
-	v = sheet_is_region_empty_or_selected (
-		item_cursor->sheet_view->sheet,
-		item_cursor->pos.start.col, item_cursor->pos.start.row,
-		item_cursor->pos.end.col, item_cursor->pos.end.row);
-
-	if (v)
+	if (sheet_is_region_empty_or_selected (sheet_view->sheet, &ic->pos))
 		return TRUE;
 
 	message = gnome_message_box_new (
@@ -761,8 +779,7 @@ item_cursor_target_region_ok (ItemCursor *item_cursor)
 		GNOME_STOCK_BUTTON_YES,
 		GNOME_STOCK_BUTTON_NO,
 		NULL);
-	v = gnumeric_dialog_run (item_cursor->sheet_view->wbcg,
-				 GNOME_DIALOG (message));
+	v = gnumeric_dialog_run (sheet_view->wbcg, GNOME_DIALOG (message));
 
 	if (v == 0)
 		return TRUE;

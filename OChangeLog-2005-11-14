@@ -1,3 +1,10 @@
+2000-11-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-cursor.c (item_cursor_selection_event) : Make
+	  the double click handler smarter.  It now handles empties
+	  and checks both sides of a row/col.  Left/top is perfered to
+	  bottom/right.
+
 2000-11-08  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-cursor.c (item_cursor_init) : Initialize fully, add
