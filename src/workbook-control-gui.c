@@ -2046,33 +2046,8 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 	gchar *target_type = gdk_atom_name (selection_data->target);
 
 	if (!strcmp (target_type, "text/uri-list")) { /* filenames from nautilus */
-		WorkbookView *wbv;
-		IOContext *ioc = gnumeric_io_context_new (GO_CMD_CONTEXT (wbcg));
-		char *cdata = g_strndup (selection_data->data, selection_data->length);
-		GSList *l, *urls = go_file_split_urls (cdata);
-
-		g_free (cdata);
-		for (l = urls; l; l = l-> next) {
-			const char *uri_str = l->data;
-			GError *err = NULL;
-			GsfInput *input = go_file_open (uri_str, &err);
-			if (input != NULL) {
-				wbv = wb_view_new_from_input (input, NULL, ioc, NULL);
-				if (wbv != NULL)
-					gui_wb_view_show (wbcg, wbv);
-			} else {
-				go_cmd_context_error_import (GO_CMD_CONTEXT (ioc),
-					err->message);
-			}
-			if (gnumeric_io_error_occurred (ioc) ||
-			    gnumeric_io_warning_occurred (ioc)) {
-				gnumeric_io_error_display (ioc);
-				gnumeric_io_error_clear (ioc);
-			}
-		}
-		g_object_unref (ioc);
-
-		go_slist_free_custom (urls, (GFreeFunc)g_free);
+		scg_drag_data_received (wbcg_cur_scg (wbcg), 0, 0, 
+					selection_data);
 	} else if (!strcmp (target_type, "GNUMERIC_SHEET")) {
 		/* The user wants to reorder the sheets but hasn't dropped
 		 * the sheet onto a label. Never mind. We figure out

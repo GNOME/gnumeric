@@ -24,6 +24,7 @@ Jon Kåre:
         * Don't crash on csv file with invalid unicode [#167190]
 	* Import html hyperlinks as hyperlinks.
 	* Fix session management bug when gnumeric is minimized. [#166769]
+	* Receive drag/drop images.
 
 Morten:
 	* Work around Pango bug causing XL save crash.  [#166532]

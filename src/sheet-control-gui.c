@@ -26,6 +26,7 @@
 #include "sheet-style.h"
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
+#include "sheet-object-image.h"
 #include "gui-util.h"
 #include "parse-util.h"
 #include "selection.h"
@@ -35,6 +36,7 @@
 #include "commands.h"
 #include "clipboard.h"
 #include "dialogs.h"
+#include "gui-file.h"
 #include "sheet-merge.h"
 #include "ranges.h"
 
@@ -43,8 +45,12 @@
 #include "item-cursor.h"
 #include "widgets/gnumeric-expr-entry.h"
 
+#include <goffice/utils/go-file.h>
+#include <goffice/app/io-context.h>
+
 #include <gdk/gdkkeysyms.h>
 #include <gsf/gsf-impl-utils.h>
+#include <gsf/gsf-input.h>
 #include <gtk/gtkframe.h>
 #include <gtk/gtkalignment.h>
 #include <gtk/gtklabel.h>
@@ -2936,4 +2942,116 @@ scg_queue_movement (SheetControlGUI	*scg,
 	scg->delayedMovement.n	     = n;
 	scg->delayedMovement.timer   = g_timeout_add (10,
 		(GSourceFunc)cb_scg_queued_movement, scg);
+}
+
+
+static void
+scg_drag_receive_img_data (SheetControlGUI *scg, double x, double y, 
+			   guint8 const *data, unsigned len)
+{
+	SheetObjectImage *soi;
+	SheetObject *so;
+	SheetObjectAnchor anchor;
+	double w, h;
+	double coords[4];
+
+	soi = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL);
+	sheet_object_image_set_image (soi, "", (guint8 *)data, len, TRUE);
+
+	sheet_object_anchor_init (&anchor, NULL, NULL, NULL, 
+				  SO_DIR_DOWN_RIGHT);
+	coords[0] = coords[2] = x;
+	coords[1] = coords[3] = y;
+	scg_object_coords_to_anchor (scg, coords, &anchor);
+	so = SHEET_OBJECT (soi);
+	sheet_object_set_anchor (so, &anchor);
+	sheet_object_set_sheet (so, sc_sheet (SHEET_CONTROL (scg)));
+	scg_object_select (scg, so);
+	sheet_object_default_size (so, &w, &h);
+	scg_objects_drag (scg, NULL, NULL, &w, &h, 7, FALSE, FALSE, FALSE);
+	scg_objects_drag_commit	(scg, 7, TRUE);
+}
+
+static void
+scg_drag_receive_img_uri (SheetControlGUI *scg, double x, double y, const gchar *uri)
+{
+	GError *err = NULL;
+	GsfInput *input = go_file_open (uri, &err);
+	IOContext *ioc = gnumeric_io_context_new (GO_CMD_CONTEXT (scg->wbcg));
+
+	if (input != NULL) {
+		unsigned len = gsf_input_size (input);
+		guint8 const *data = gsf_input_read (input, len, NULL);
+		
+		scg_drag_receive_img_data (scg, x, y, data, len);
+		g_object_unref (input);
+	} else
+		go_cmd_context_error (GO_CMD_CONTEXT (ioc), err);
+	
+	if (gnumeric_io_error_occurred (ioc) ||
+	    gnumeric_io_warning_occurred (ioc)) {
+		gnumeric_io_error_display (ioc);
+		gnumeric_io_error_clear (ioc);
+	}
+	g_object_unref (ioc);
+}
+
+static void
+scg_drag_receive_spreadsheet (SheetControlGUI *scg, const gchar *uri)
+{
+	GError *err = NULL;
+	GsfInput *input = go_file_open (uri, &err);
+	IOContext *ioc = gnumeric_io_context_new (GO_CMD_CONTEXT (scg->wbcg));
+
+	if (input != NULL) {
+		WorkbookView *wbv;
+
+		wbv = wb_view_new_from_input (input, NULL, ioc, NULL);
+		if (wbv != NULL)
+			gui_wb_view_show (scg->wbcg,
+					  wbv);
+		
+	} else
+		go_cmd_context_error (GO_CMD_CONTEXT (ioc), err);
+	
+	if (gnumeric_io_error_occurred (ioc) ||
+	    gnumeric_io_warning_occurred (ioc)) {
+		gnumeric_io_error_display (ioc);
+		gnumeric_io_error_clear (ioc);
+	}
+	g_object_unref (ioc);
+}
+
+void
+scg_drag_data_received (SheetControlGUI *scg, double x, double y, 
+			GtkSelectionData *selection_data)
+{
+	gchar *target_type;
+
+	target_type = gdk_atom_name (selection_data->target);
+
+	if (!strcmp (target_type, "text/uri-list")) {
+		char *cdata = g_strndup (selection_data->data, 
+					 selection_data->length);
+		GSList *l, *urls = go_file_split_urls (cdata);
+		g_free (cdata);
+		for (l = urls; l; l = l-> next) {
+			const char *uri_str = l->data;
+			char *mime = go_get_mime_type (uri_str);
+			if (!strncmp (mime, "image/", 6)) {
+				scg_drag_receive_img_uri (scg, x, y, uri_str);
+			} else if (!strcmp (mime, "application/x-gnumeric") ||
+				   !strcmp (mime, 
+					    "application/vnd.ms-excel")) {
+				scg_drag_receive_spreadsheet (scg, uri_str);
+			}
+		}
+		go_slist_free_custom (urls, (GFreeFunc)g_free);
+	} else if (!strncmp (target_type, "image/", 6)) {
+		scg_drag_receive_img_data (scg, x, y, selection_data->data,
+					   selection_data->length);
+	} else
+		g_warning ("Unknown target type '%s'!", target_type);
+
+	g_free (target_type);
 }

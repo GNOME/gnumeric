@@ -1,3 +1,20 @@
+2005-03-07  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-control-gui.c (cb_wbcg_drag_data_received):
+	Delegate text/uri-list to scg_drag_data_received.
+
+	* src/sheet-control-gui.c (scg_drag_receive_img_data): New. Receive
+	dragged image data.
+	* src/sheet-control-gui.c (scg_drag_receive_img_uri): New. Receive
+	dragged image uri.
+	(scg_drag_receive_spreadsheet): New. Receive dragged spreadsheet
+	uri.
+	(scg_drag_data_received): New. Receive drag data.
+
+	* src/gnumeric-pane.c (cb_pane_drag_data_received): New. Receive
+	drag data.
+	(gnm_pane_init): Register as drag destination.
+
 2005-03-07  Morten Welinder  <terra@gnome.org>
 
 	* configure.in: We no lonfer need the "finite" hackery.

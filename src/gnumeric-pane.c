@@ -33,6 +33,7 @@
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtkseparatormenuitem.h>
 #include <gtk/gtkimage.h>
+#include <gtk/gtkdnd.h>
 #include <gdk/gdkdisplay.h>
 #include <glib/gi18n.h>
 #include <math.h>
@@ -171,6 +172,26 @@ cb_ctrl_pts_free (GtkObject **ctrl_pts)
 	g_free (ctrl_pts);
 }
 
+static void
+cb_pane_drag_data_received (GtkWidget *widget, GdkDragContext *context,
+			    gint x, gint y, GtkSelectionData *selection_data,
+			    guint info, guint time, GnmPane *pane)
+{
+	double wx, wy;
+	GnmCanvas *gcanvas = pane->gcanvas;
+
+	if (gcanvas->first.col > 0)
+		x += scg_colrow_distance_get
+			(gcanvas->simple.scg, TRUE, 0, gcanvas->first.col);
+	if (gcanvas->first.row > 0)
+		y += scg_colrow_distance_get
+			(gcanvas->simple.scg, FALSE, 0, gcanvas->first.row);
+
+	foo_canvas_c2w (FOO_CANVAS (gcanvas), x, y, &wx, &wy);
+
+	scg_drag_data_received (gcanvas->simple.scg, wx, wy, selection_data);
+}
+
 void
 gnm_pane_init (GnmPane *pane, SheetControlGUI *scg,
 	       gboolean col_headers, gboolean row_headers, int index)
@@ -228,6 +249,14 @@ gnm_pane_init (GnmPane *pane, SheetControlGUI *scg,
 			sheet_object_new_view (ptr->data,
 				(SheetObjectViewContainer *)pane);
 	}
+
+	gtk_drag_dest_set (GTK_WIDGET (pane->gcanvas), GTK_DEST_DEFAULT_ALL,
+			NULL, 0, GDK_ACTION_COPY);
+	gtk_drag_dest_add_uri_targets (GTK_WIDGET (pane->gcanvas));
+	gtk_drag_dest_add_image_targets (GTK_WIDGET (pane->gcanvas));
+	gtk_drag_dest_add_text_targets (GTK_WIDGET (pane->gcanvas));
+	g_signal_connect (pane->gcanvas, "drag_data_received",
+		G_CALLBACK (cb_pane_drag_data_received), pane);
 
 	pane->mouse_cursor = NULL;
 }

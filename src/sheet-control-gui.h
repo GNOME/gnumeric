@@ -4,6 +4,7 @@
 #include "gui-gnumeric.h"
 #include "sheet-control.h"
 #include <gtk/gtkwidget.h>
+#include <gtk/gtkselection.h>
 
 #define SHEET_CONTROL_GUI_TYPE        (sheet_control_gui_get_type ())
 #define SHEET_CONTROL_GUI(obj)        (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_CONTROL_GUI_TYPE, SheetControlGUI))
@@ -97,6 +98,8 @@ typedef void (*SCGUIMoveFunc)	(SheetControlGUI *, int n,
 void scg_queue_movement		(SheetControlGUI *scg,
 				 SCGUIMoveFunc	  handler,
 				 int n, gboolean jump, gboolean horiz);
+void scg_drag_data_received     (SheetControlGUI *scg, double x, double y, 
+				 GtkSelectionData *selection_data);
 
 /* DO NOT USE THIS WITHOUT ALOT OF THOUGHT */
 GnmCanvas	   *scg_pane		(SheetControlGUI *scg, int pane);
