@@ -1,5 +1,16 @@
 2003-07-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-stf-format-page.c (format_page_update_preview): preserve
+	  the old column headers and column selection
+	(cb_col_check_clicked): verify arguments
+	(check_columns_for_import): ditto
+	(uncheck_columns_for_import): ditto
+	(stf_dialog_format_page_cleanup): handle col_import_array_len 
+	(stf_dialog_format_page_init): ditto
+	* dialog-stf.h: added col_import_array_len to FormatInfo_t
+	
+2003-07-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-stf-format-page.c (cb_col_check_clicked): reformatted
 	(check_columns_for_import): new
 	(uncheck_columns_for_import): new

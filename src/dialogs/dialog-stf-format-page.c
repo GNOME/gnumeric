@@ -111,6 +111,8 @@ static void cb_col_check_clicked (GtkToggleButton *togglebutton,
 		g_object_get_data (G_OBJECT (togglebutton), "pagedata");
 	gboolean active = gtk_toggle_button_get_active (togglebutton);
 	
+	g_return_if_fail (i < pagedata->format.col_import_array_len);
+
 	if (pagedata->format.col_import_array[i] == active)
 		return;
 	if (!active) {
@@ -140,6 +142,7 @@ check_columns_for_import (StfDialogData *pagedata, int from, int to)
 	g_return_if_fail (pagedata != NULL);
 	g_return_if_fail (!(from < 0));
 	g_return_if_fail (to < pagedata->format.renderdata->colcount);
+	g_return_if_fail (to < pagedata->format.col_import_array_len);
 
 	for (i = from; i <= to; i++) {
 		if (!pagedata->format.col_import_array[i]) {
@@ -164,6 +167,7 @@ uncheck_columns_for_import (StfDialogData *pagedata, int from, int to)
 	g_return_if_fail (pagedata != NULL);
 	g_return_if_fail (!(from < 0));
 	g_return_if_fail (to < pagedata->format.renderdata->colcount);
+	g_return_if_fail (to < pagedata->format.col_import_array_len);
 	
 	for (i = from; i <= to; i++) {
 		if (pagedata->format.col_import_array[i]) {
@@ -323,6 +327,7 @@ format_page_update_preview (StfDialogData *pagedata)
 	RenderData_t *renderdata = pagedata->format.renderdata;
 	unsigned int ui;
 	int i;
+	int col_import_array_len_old, old_part;
 
 	stf_preview_colformats_clear (renderdata);
 	for (ui = 0; ui < pagedata->format.formats->len; ui++) {
@@ -335,54 +340,71 @@ format_page_update_preview (StfDialogData *pagedata)
 						  pagedata->cur,
 						  pagedata->cur_end));
 
-	g_free (pagedata->format.col_import_array);
-	pagedata->format.col_import_array = g_new0(gboolean, renderdata->colcount);
-	pagedata->format.col_import_count = 0;	
+	col_import_array_len_old = pagedata->format.col_import_array_len;
+	pagedata->format.col_import_array_len = renderdata->colcount;
 
-	for (i = 0; i < renderdata->colcount; i++) {
+	pagedata->format.col_import_array = 
+		g_renew(gboolean, pagedata->format.col_import_array, 
+			pagedata->format.col_import_array_len);
+	old_part = (col_import_array_len_old < 
+		    pagedata->format.col_import_array_len) ? 
+		col_import_array_len_old : 
+		pagedata->format.col_import_array_len;
+	pagedata->format.col_import_count = 0;
+	for (i = 0; i < old_part; i++)
+		if (pagedata->format.col_import_array[i])
+			pagedata->format.col_import_count++;
+	for (i = old_part; 
+	     i < pagedata->format.col_import_array_len; i++) 
+		if (pagedata->format.col_import_count < SHEET_MAX_COLS) {
+			pagedata->format.col_import_array[i] = TRUE;
+			pagedata->format.col_import_count++;
+		} else {
+			pagedata->format.col_import_array[i] = FALSE;	
+		}
+		
+	for (i = old_part; i < renderdata->colcount; i++) {
 		GtkTreeViewColumn *column =
 			stf_preview_get_column (renderdata, i);
-		GtkWidget *box = gtk_hbox_new (FALSE,5);
-		GtkWidget *check = gtk_check_button_new ();
-		char * label_text = g_strdup_printf 
-			(pagedata->format.col_header, i+1);
-		GtkWidget *label = gtk_label_new (label_text);
+		if (NULL == g_object_get_data (G_OBJECT (column), "checkbox")) {
+			GtkWidget *box = gtk_hbox_new (FALSE,5);
+			GtkWidget *check = gtk_check_button_new ();
+			char * label_text = g_strdup_printf 
+				(pagedata->format.col_header, i+1);
+			GtkWidget *label = gtk_label_new (label_text);
+			
+			g_free (label_text);
 		
-		g_free (label_text);
-		
-		pagedata->format.col_import_array[i] = (i < SHEET_MAX_COLS);
-		
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(check),
-					      pagedata->
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(check),
+						      pagedata->
 					      format.col_import_array[i]);
-		if ( pagedata->format.col_import_array[i])
-		     pagedata->format.col_import_count++;
-		
-		gtk_tooltips_set_tip (gtk_tooltips_new(), check,
-				      _("If this checkbox is selected, the "
-					"column will be imported into "
-					"Gnumeric."),
-				      _("At most 256 columns can be imported "
-					"at one time."));
-		g_object_set_data (G_OBJECT (check), "pagedata", pagedata);
-		gtk_box_pack_start (GTK_BOX(box), check, FALSE, FALSE, 0);
-		gtk_box_pack_start (GTK_BOX(box), label, TRUE, TRUE, 0);
-		gtk_widget_show_all (box);
-		
-		gtk_tree_view_column_set_widget (column, box);
-		g_object_set_data (G_OBJECT (column), "pagedata", pagedata);
-		g_object_set_data (G_OBJECT (column), "checkbox", check);
-		g_object_set_data (G_OBJECT (column->button), 
-				   "pagedata", pagedata);
-		g_object_set (G_OBJECT (column), "clickable", TRUE, NULL);
-		g_signal_connect (G_OBJECT (check),
-				  "toggled",
-				  G_CALLBACK (cb_col_check_clicked),
-				  GINT_TO_POINTER (i));
-		g_signal_connect (G_OBJECT (column->button), 
-				  "event",
-				  G_CALLBACK (cb_col_event), 
-				  GINT_TO_POINTER (i));
+			
+			gtk_tooltips_set_tip (gtk_tooltips_new(), check,
+					      _("If this checkbox is selected, the "
+						"column will be imported into "
+						"Gnumeric."),
+					      _("At most 256 columns can be imported "
+						"at one time."));
+			g_object_set_data (G_OBJECT (check), "pagedata", pagedata);
+			gtk_box_pack_start (GTK_BOX(box), check, FALSE, FALSE, 0);
+			gtk_box_pack_start (GTK_BOX(box), label, TRUE, TRUE, 0);
+			gtk_widget_show_all (box);
+			
+			gtk_tree_view_column_set_widget (column, box);
+			g_object_set_data (G_OBJECT (column), "pagedata", pagedata);
+			g_object_set_data (G_OBJECT (column), "checkbox", check);
+			g_object_set_data (G_OBJECT (column->button), 
+					   "pagedata", pagedata);
+			g_object_set (G_OBJECT (column), "clickable", TRUE, NULL);
+			g_signal_connect (G_OBJECT (check),
+					  "toggled",
+					  G_CALLBACK (cb_col_check_clicked),
+					  GINT_TO_POINTER (i));
+			g_signal_connect (G_OBJECT (column->button), 
+					  "event",
+					  G_CALLBACK (cb_col_event), 
+					  GINT_TO_POINTER (i));
+		}
 	}
 }
 
@@ -481,6 +503,7 @@ stf_dialog_format_page_cleanup (StfDialogData *pagedata)
 	stf_preview_free (pagedata->format.renderdata);
 	g_free (pagedata->format.col_import_array);
 	pagedata->format.col_import_array = NULL;
+	pagedata->format.col_import_array_len = 0;
 	pagedata->format.col_import_count = 0;	
 }
 
@@ -495,6 +518,7 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 
         /* Create/get object and fill information struct */
 	pagedata->format.col_import_array = NULL;
+	pagedata->format.col_import_array_len = 0;
 	pagedata->format.col_import_count = 0;
 	pagedata->format.col_header = _("Column %d");
 	
