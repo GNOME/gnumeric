@@ -695,7 +695,7 @@ graph_guru_init_data_page (GraphGuruState *s)
 		return;
 
 	s->data_guru = gnm_graph_get_config_control (
-		s->graph, "DataGuru"),
+		s->graph, "DataGuru");
 
 	g_return_if_fail (s->data_guru != CORBA_OBJECT_NIL);
 
@@ -997,7 +997,7 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 	} else
 		state->graph = gnm_graph_new (state->wb);
 
-	if (page == 0) {
+	if (state->graph != NULL && page == 0) {
 		GList *ptr;
 		Range const * r = selection_first_range (state->sheet,
 			NULL, NULL);
@@ -1014,7 +1014,7 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 		gnm_graph_arrange_vectors (state->graph);
 	}
 
-	if (graph_guru_init (state)) {
+	if (state->graph == NULL || graph_guru_init (state)) {
 		graph_guru_state_destroy (state);
 		return;
 	}

@@ -1,3 +1,9 @@
+2001-10-19  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-graph-guru.c (dialog_graph_guru) : be quieter about a
+	  failure to start the graph server.
+	(graph_guru_init_data_page) : typo.
+
 2001-10-19  Morten Welinder  <terra@diku.dk>
 
 	* dialog-goal-seek.c (gnumeric_goal_seek): Fix determination of

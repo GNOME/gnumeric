@@ -711,12 +711,12 @@ gnm_graph_setup (GnmGraph *graph, Workbook *wb)
 
 	o = (Bonobo_Unknown)oaf_activate ("repo_ids.has('" MANAGER_OAF "')",
 					  NULL, 0, NULL, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("'%s' : while attempting to activate a graphing component",
+
+	if (ev._major != CORBA_NO_EXCEPTION || o == CORBA_OBJECT_NIL) {
+		g_warning ("'%s' : while attempting to activate a graphing component.\n"
+			   "oaf-run-query \"repo_ids.has('" MANAGER_OAF "')\"\nshould return a value.",
 			   oaf_exception_id (&ev));
-	} else if (o == CORBA_OBJECT_NIL) {
-		g_warning ("No graphing component is installed.  Oaf has nothing registered that implements the required interface.\n"
-			   "oaf-query 'repo_ids.has('" MANAGER_OAF "')\nshould return a value.");
+		graph = NULL;
 	} else {
 		graph->manager = Bonobo_Unknown_queryInterface (o, MANAGER_OAF, &ev);
 
@@ -726,10 +726,9 @@ gnm_graph_setup (GnmGraph *graph, Workbook *wb)
 		bonobo_object_release_unref (o, &ev);
 
 		if (sheet_object_bonobo_construct (SHEET_OBJECT_BONOBO (graph),
-				wb->priv->bonobo_container, NULL) == NULL ||
+						   wb->priv->bonobo_container, NULL) == NULL ||
 		    !sheet_object_bonobo_set_server (SHEET_OBJECT_BONOBO (graph),
-				graph->manager_client)) {
-			gtk_object_destroy (GTK_OBJECT (graph));
+						     graph->manager_client)) {
 			graph = NULL;
 		}
 	}
