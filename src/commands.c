@@ -1785,6 +1785,7 @@ cmd_paste_cut_redo (GnumericCommand *cmd, CommandContext *context)
 		paste_target_init (&pc->pt, me->info.target_sheet, r, PASTE_ALL_TYPES);
 		pc->contents = clipboard_copy_range (me->info.target_sheet,  r);
 		me->paste_content = g_slist_prepend (me->paste_content, pc);
+		g_free (r);
 	}
 
 	if (tmp.start.col < 0)

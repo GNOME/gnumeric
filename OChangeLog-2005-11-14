@@ -1,5 +1,7 @@
 2000-06-20  Jody Goldberg <jgoldberg@home.com>
 
+	* src/commands.c (cmd_paste_cut_redo) : Plug leak.
+
 	* src/number-match.c (format_match) : strings with only spaces are NOT
 	  numbers.
 
