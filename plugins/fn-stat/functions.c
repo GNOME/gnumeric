@@ -3,9 +3,9 @@
  * fn-stat.c:  Built in statistical functions and functions registration
  *
  * Authors:
- *  Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
- *  Michael Meeks <michael@imaginator.com>
- *  Morten Welinder <terra@diku.dk>
+ *   Jukka-Pekka Iivonen <jiivonen@hutcs.cs.hut.fi>
+ *   Michael Meeks <micheal@ximian.com>
+ *   Morten Welinder <terra@diku.dk>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,6 +42,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <libgnome/gnome-i18n.h>
+
+#include "plugin.h"
+#include "plugin-util.h"
+#include "module-plugin-defs.h"
+
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
+
+/***************************************************************************/
 
 static gint
 float_compare (const gnum_float *a, const gnum_float *b)
@@ -4553,282 +4561,210 @@ gnumeric_subtotal (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 
 /***************************************************************************/
 
-void stat_functions_init (void);
+const ModulePluginFunctionInfo stat_functions[] = {
+        { "avedev",       0,      "",
+	  &help_avedev, NULL, gnumeric_avedev, NULL, NULL },
+	{ "average",      0,      "",
+	  &help_average, NULL, gnumeric_average, NULL, NULL },
+	{ "averagea",     0,      "",
+	  &help_averagea, NULL, gnumeric_averagea, NULL, NULL },
+	{ "betadist",     "fff|ff", "",
+	  &help_betadist, gnumeric_betadist, NULL, NULL, NULL },
+	{ "betainv",      "fff|ff", "",
+	  &help_betainv, gnumeric_betainv, NULL, NULL, NULL },
+	{ "binomdist",    "fffb", "n,t,p,c",
+	  &help_binomdist, gnumeric_binomdist, NULL, NULL, NULL },
+	{ "chidist",      "ff",  "",
+	  &help_chidist, gnumeric_chidist, NULL, NULL, NULL },
+	{ "chiinv",       "ff",  "",
+	  &help_chiinv, gnumeric_chiinv, NULL, NULL, NULL },
+	{ "chitest",      "rr",  "",
+	  &help_chitest, gnumeric_chitest, NULL, NULL, NULL },
+	{ "confidence",   "fff",  "x,stddev,size",
+	  &help_confidence, gnumeric_confidence, NULL, NULL, NULL },
+	{ "count",        0,      "",
+	  &help_count, NULL, gnumeric_count, NULL, NULL },
+	{ "counta",       0,      "",
+	  &help_counta, NULL, gnumeric_counta, NULL, NULL },
+	{ "critbinom",    "fff",  "trials,p,alpha",
+	  &help_critbinom, gnumeric_critbinom, NULL, NULL, NULL },
+        { "correl",       "AA",   "array1,array2",
+	  &help_correl, gnumeric_correl, NULL, NULL, NULL },
+        { "covar",        "AA",   "array1,array2",
+	  &help_covar, gnumeric_covar, NULL, NULL, NULL },
+        { "devsq",        0,      "",
+	  &help_devsq, NULL, gnumeric_devsq, NULL, NULL },
+	{ "permut",       "ff",  "n,k",
+	  &help_permut, gnumeric_permut, NULL, NULL, NULL },
+	{ "poisson",      "ffb",  "",
+	  &help_poisson, gnumeric_poisson, NULL, NULL, NULL },
+	{ "expondist",    "ffb",  "",
+	  &help_expondist, gnumeric_expondist, NULL, NULL, NULL },
+	{ "fdist",        "fff",  "",
+	  &help_fdist, gnumeric_fdist, NULL, NULL, NULL },
+	{ "finv",         "fff",  "",
+	  &help_finv, gnumeric_finv, NULL, NULL, NULL },
+        { "fisher",       "f",    "",
+	  &help_fisher, gnumeric_fisher, NULL, NULL, NULL },
+        { "fisherinv",    "f",    "",
+	  &help_fisherinv, gnumeric_fisherinv, NULL, NULL, NULL },
+        { "forecast",     "frr",   "",
+	  &help_forecast, gnumeric_forecast, NULL, NULL, NULL },
+	{ "frequency",    "AA", "data_array,bins_array",
+	  &help_frequency, gnumeric_frequency, NULL, NULL, NULL },
+	{ "ftest",        "rr",   "arr1,arr2",
+	  &help_ftest, gnumeric_ftest, NULL, NULL, NULL },
+	{ "gammaln",      "f",    "number",
+	  &help_gammaln, gnumeric_gammaln, NULL, NULL, NULL },
+	{ "gammadist",    "fffb", "number,alpha,beta,cum",
+	  &help_gammadist, gnumeric_gammadist, NULL, NULL, NULL },
+	{ "gammainv",     "fff",   "number,alpha,beta",
+	  &help_gammainv, gnumeric_gammainv, NULL, NULL, NULL },
+	{ "geomean",      0,      "",
+	  &help_geomean, NULL, gnumeric_geomean, NULL, NULL },
+	{ "growth",       "A|AAb", "known_y's[,known_x's,new_x's,const]",
+	  &help_growth, gnumeric_growth, NULL, NULL, NULL },
+	{ "harmean",      0,      "",
+	  &help_harmean, NULL, gnumeric_harmean, NULL, NULL },
+	{ "hypgeomdist",  "ffff", "x,n,M,N",
+	  &help_hypgeomdist, gnumeric_hypgeomdist, NULL, NULL, NULL },
+        { "intercept",    "AA",   "",
+	  &help_intercept, gnumeric_intercept, NULL, NULL, NULL },
+        { "kurt",         0,      "",
+	  &help_kurt, NULL, gnumeric_kurt, NULL, NULL },
+        { "kurtp",        0,      "",
+	  &help_kurtp, NULL, gnumeric_kurtp, NULL, NULL },
+	{ "large",        0,      "",
+	  &help_large, NULL, gnumeric_large, NULL, NULL },
+	{ "linest",       "A|Abb",  "known_y's[,known_x's,const,stat]",
+	  &help_linest, gnumeric_linest, NULL, NULL, NULL },
+	{ "logest",       "A|Abb",  "known_y's[,known_x's,const,stat]",
+	  &help_logest, gnumeric_logest, NULL, NULL, NULL },
+	{ "loginv",       "fff",  "",
+	  &help_loginv, gnumeric_loginv, NULL, NULL, NULL },
+	{ "lognormdist",  "fff",  "",
+	  &help_lognormdist, gnumeric_lognormdist, NULL, NULL, NULL },
+	{ "max",          0,      "",
+	  &help_max, NULL, gnumeric_max, NULL, NULL },
+	{ "maxa",         0,      "",
+	  &help_maxa, NULL, gnumeric_maxa, NULL, NULL },
+	{ "median",       0,      "",
+	  &help_median, NULL, gnumeric_median, NULL, NULL },
+	{ "min",          0,      "",
+	  &help_min, NULL, gnumeric_min, NULL, NULL },
+	{ "mina",         0,      "",
+	  &help_mina, NULL, gnumeric_mina, NULL, NULL },
+	{ "mode",         0,      "",
+	  &help_mode, NULL, gnumeric_mode, NULL, NULL },
+	{ "negbinomdist", "fff", "f,t,p",
+	  &help_negbinomdist, gnumeric_negbinomdist, NULL, NULL, NULL },
+	{ "normdist",     "fffb",  "",
+	  &help_normdist, gnumeric_normdist, NULL, NULL, NULL },
+	{ "norminv",      "fff",  "",
+	  &help_norminv, gnumeric_norminv, NULL, NULL, NULL },
+	{ "normsdist",    "f",  "",
+	  &help_normsdist, gnumeric_normsdist, NULL, NULL, NULL },
+	{ "normsinv",     "f",  "",
+	  &help_normsinv, gnumeric_normsinv, NULL, NULL, NULL },
+        { "percentile",   "Af",  "array,k",
+	  &help_percentile, gnumeric_percentile, NULL, NULL, NULL },
+	{ "percentrank",  "Af|f", "array,x,significance",
+	  &help_percentrank, gnumeric_percentrank, NULL, NULL, NULL },
+        { "pearson",      "AA",   "array1,array2",
+	  &help_pearson, gnumeric_pearson, NULL, NULL, NULL },
+	{ "prob",         "AAf|f", "x_range,prob_range,lower_limit,upper_limit",
+	  &help_prob, gnumeric_prob, NULL, NULL, NULL },
+        { "quartile",     "Af",   "array,quart",
+	  &help_quartile, gnumeric_quartile, NULL, NULL, NULL },
+	{ "rank",         "fr|f",      "",
+	  &help_rank, gnumeric_rank, NULL, NULL, NULL },
+        { "rsq",          "AA",   "array1,array2",
+	  &help_rsq, gnumeric_rsq, NULL, NULL, NULL },
+	{ "skew",         0,      "",
+	  &help_skew, NULL, gnumeric_skew, NULL, NULL },
+	{ "skewp",        0,      "",
+	  &help_skewp, NULL, gnumeric_skewp, NULL, NULL },
+	{ "slope",        "AA", "known_y's,known_x's",
+	  &help_slope, gnumeric_slope, NULL, NULL, NULL },
+	{ "small",        0,      "",
+	  &help_small, NULL, gnumeric_small, NULL, NULL },
+	{ "standardize",  "fff",  "x,mean,stddev",
+	  &help_standardize, gnumeric_standardize, NULL, NULL, NULL },
+	{ "stdev",        0,      "",
+	  &help_stdev, NULL, gnumeric_stdev, NULL, NULL },
+	{ "stdeva",       0,      "",
+	  &help_stdeva, NULL, gnumeric_stdeva, NULL, NULL },
+	{ "stdevp",       0,      "",
+	  &help_stdevp, NULL, gnumeric_stdevp, NULL, NULL },
+	{ "stdevpa",      0,      "",
+	  &help_stdevpa, NULL, gnumeric_stdevpa, NULL, NULL },
+	{ "steyx",        "AA", "known_y's,known_x's",
+	  &help_steyx, gnumeric_steyx, NULL, NULL, NULL },
+	{ "subtotal",     0,  "function_nbr,ref1,ref2,...",
+	  &help_subtotal,    NULL, gnumeric_subtotal, NULL, NULL },
+	{ "tdist",        "fff",    "",
+	  &help_tdist, gnumeric_tdist, NULL, NULL, NULL },
+	{ "tinv",         "ff",     "",
+	  &help_tinv, gnumeric_tinv, NULL, NULL, NULL },
+	{ "trend",        "A|AAb", "known_y's[,known_x's,new_x's,const]",
+	  &help_trend, gnumeric_trend, NULL, NULL, NULL },
+	{ "trimmean",     0,      "",
+	  &help_trimmean, NULL, gnumeric_trimmean, NULL, NULL },
+	{ "ttest",        "rrff",   "",
+	  &help_ttest, gnumeric_ttest, NULL, NULL, NULL },
+	{ "var",          0,      "",
+	  &help_var, NULL, gnumeric_var, NULL, NULL },
+	{ "vara",         0,      "",
+	  &help_vara, NULL, gnumeric_vara, NULL, NULL },
+	{ "varp",         0,      "",
+	  &help_varp, NULL, gnumeric_varp, NULL, NULL },
+	{ "varpa",        0,      "",
+	  &help_varpa, NULL, gnumeric_varpa, NULL, NULL },
+        { "weibull",      "fffb",  "",
+	  &help_weibull, gnumeric_weibull, NULL, NULL, NULL },
+	{ "ztest",        0,      "",
+	  &help_ztest, NULL, gnumeric_ztest, NULL, NULL },
+        {NULL}
+};
+
+/* FIXME: Should be merged into the above.  */
+static const struct {
+	const char *func;
+	AutoFormatTypes typ;
+} af_info[] = {
+	{ "avedev", AF_FIRST_ARG_FORMAT },
+	{ "average", AF_FIRST_ARG_FORMAT },
+	{ "averagea", AF_FIRST_ARG_FORMAT },
+	{ "geomean", AF_FIRST_ARG_FORMAT },
+	{ "harmean", AF_FIRST_ARG_FORMAT },
+	{ "large", AF_FIRST_ARG_FORMAT },
+	{ "max", AF_FIRST_ARG_FORMAT },
+	{ "maxa", AF_FIRST_ARG_FORMAT },
+	{ "min", AF_FIRST_ARG_FORMAT },
+	{ "mina", AF_FIRST_ARG_FORMAT },
+	{ "median", AF_FIRST_ARG_FORMAT },
+	{ "mode", AF_FIRST_ARG_FORMAT },
+	{ "small", AF_FIRST_ARG_FORMAT },
+	{ "stdev", AF_FIRST_ARG_FORMAT },
+	{ "stdeva", AF_FIRST_ARG_FORMAT },
+	{ "stdevp", AF_FIRST_ARG_FORMAT },
+	{ "stdevpa", AF_FIRST_ARG_FORMAT },
+	{ "trimmean", AF_FIRST_ARG_FORMAT },
+	{ NULL, AF_UNKNOWN }
+};
+
 void
-stat_functions_init (void)
+plugin_init (void)
 {
-	FunctionDefinition *def;
-	FunctionCategory *cat = function_get_category_with_translation
-	  ("Statistics", _("Statistics"));
-
-        def = function_add_nodes (cat, "avedev",    0,      "",
-				  &help_avedev, gnumeric_avedev);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_nodes (cat, "average", 0,      "",
-				  &help_average, gnumeric_average);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_nodes (cat, "averagea", 0,      "",
-				  &help_averagea, gnumeric_averagea);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_args  (cat, "betadist", "fff|ff", "",
-				  &help_betadist, gnumeric_betadist);
-
-	def = function_add_args  (cat, "betainv", "fff|ff", "",
-				  &help_betainv, gnumeric_betainv);
-
-	def = function_add_args  (cat, "binomdist", "fffb", "n,t,p,c",
-				  &help_binomdist, gnumeric_binomdist);
-
-	def = function_add_args  (cat, "chidist",   "ff",  "",
-				  &help_chidist, gnumeric_chidist);
-
-	def = function_add_args  (cat, "chiinv",    "ff",  "",
-				  &help_chiinv, gnumeric_chiinv);
-
-	def = function_add_args  (cat, "chitest",   "rr",  "",
-				  &help_chitest, gnumeric_chitest);
-
-	def = function_add_args  (cat, "confidence", "fff",  "x,stddev,size",
-				  &help_confidence, gnumeric_confidence);
-
-	def = function_add_nodes (cat, "count",     0,      "",
-				  &help_count, gnumeric_count);
-
-	def = function_add_nodes (cat, "counta",    0,      "",
-				  &help_counta, gnumeric_counta);
-
-	def = function_add_args  (cat, "critbinom",  "fff",  "trials,p,alpha",
-				  &help_critbinom, gnumeric_critbinom);
-
-        def = function_add_args  (cat, "correl",     "AA",   "array1,array2",
-				  &help_correl, gnumeric_correl);
-
-        def = function_add_args  (cat, "covar",      "AA",   "array1,array2",
-				  &help_covar, gnumeric_covar);
-
-        def = function_add_nodes (cat, "devsq",      0,      "",
-				  &help_devsq, gnumeric_devsq);
-
-	def = function_add_args  (cat, "permut",    "ff",  "n,k",
-				  &help_permut, gnumeric_permut);
-
-	def = function_add_args  (cat, "poisson",   "ffb",  "",
-				  &help_poisson, gnumeric_poisson);
-
-	def = function_add_args  (cat, "expondist", "ffb",  "",
-				  &help_expondist, gnumeric_expondist);
-
-	def = function_add_args  (cat, "fdist",   "fff",  "",
-				  &help_fdist, gnumeric_fdist);
-
-	def = function_add_args  (cat, "finv",   "fff",  "",
-				  &help_finv, gnumeric_finv);
-
-        def = function_add_args  (cat, "fisher",    "f",    "",
-				  &help_fisher, gnumeric_fisher);
-
-        def = function_add_args  (cat, "fisherinv", "f",    "",
-				  &help_fisherinv, gnumeric_fisherinv);
-
-        def = function_add_args  (cat, "forecast", "frr",   "",
-				  &help_forecast, gnumeric_forecast);
-
-	def = function_add_args  (cat, "frequency", "AA", "data_array,bins_array",
-				  &help_frequency, gnumeric_frequency);
-
-	def = function_add_args  (cat, "ftest",     "rr",   "arr1,arr2",
-				  &help_ftest, gnumeric_ftest);
-
-	def = function_add_args  (cat, "gammaln",   "f",    "number",
-				  &help_gammaln, gnumeric_gammaln);
-
-	def = function_add_args  (cat, "gammadist", "fffb", "number,alpha,beta,cum",
-				  &help_gammadist, gnumeric_gammadist);
-
-	def = function_add_args  (cat, "gammainv", "fff",   "number,alpha,beta",
-				  &help_gammainv, gnumeric_gammainv);
-
-	def = function_add_nodes (cat, "geomean",   0,      "",
-				  &help_geomean, gnumeric_geomean);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_args  (cat, "growth",  "A|AAb",
-				  "known_y's[,known_x's,new_x's,const]",
-				  &help_growth, gnumeric_growth);
-
-	def = function_add_nodes (cat, "harmean",   0,      "",
-				  &help_harmean, gnumeric_harmean);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_args  (cat, "hypgeomdist", "ffff", "x,n,M,N",
-				  &help_hypgeomdist, gnumeric_hypgeomdist);
-
-        def = function_add_args  (cat, "intercept", "AA",   "",
-				  &help_intercept, gnumeric_intercept);
-
-        def = function_add_nodes (cat, "kurt",      0,      "",
-				  &help_kurt, gnumeric_kurt);
-
-        def = function_add_nodes (cat, "kurtp",     0,      "",
-				  &help_kurtp, gnumeric_kurtp);
-
-	def = function_add_nodes (cat, "large",  0,      "",
-				  &help_large, gnumeric_large);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_args  (cat, "linest",  "A|Abb",
-				  "known_y's[,known_x's,const,stat]",
-				  &help_linest, gnumeric_linest);
-
-	def = function_add_args  (cat, "logest",  "A|Abb",
-				  "known_y's[,known_x's,const,stat]",
-				  &help_logest, gnumeric_logest);
-
-	def = function_add_args  (cat, "loginv",  "fff",  "",
-				  &help_loginv, gnumeric_loginv);
-
-	def = function_add_args  (cat, "lognormdist",  "fff",  "",
-				  &help_lognormdist, gnumeric_lognormdist);
-
-	def = function_add_nodes (cat, "max",     0,      "",
-				  &help_max, gnumeric_max);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_nodes (cat, "maxa",    0,      "",
-				  &help_maxa, gnumeric_maxa);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_nodes (cat, "median",    0,      "",
-				  &help_median, gnumeric_median);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_nodes (cat, "min",     0,      "",
-				  &help_min, gnumeric_min);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_nodes (cat, "mina",    0,      "",
-				  &help_mina, gnumeric_mina);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_nodes (cat, "mode",      0,      "",
-				  &help_mode, gnumeric_mode);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_args  (cat, "negbinomdist", "fff", "f,t,p",
-				  &help_negbinomdist, gnumeric_negbinomdist);
-
-	def = function_add_args  (cat, "normdist",   "fffb",  "",
-				  &help_normdist, gnumeric_normdist);
-
-	def = function_add_args  (cat, "norminv",    "fff",  "",
-				  &help_norminv, gnumeric_norminv);
-
-	def = function_add_args  (cat, "normsdist",  "f",  "",
-				  &help_normsdist, gnumeric_normsdist);
-
-	def = function_add_args  (cat, "normsinv",  "f",  "",
-				  &help_normsinv, gnumeric_normsinv);
-
-        def = function_add_args  (cat, "percentile",   "Af",  "array,k",
-				  &help_percentile, gnumeric_percentile);
-
-	def = function_add_args  (cat, "percentrank", "Af|f", "array,x,significance",
-				  &help_percentrank, gnumeric_percentrank);
-
-        def = function_add_args  (cat, "pearson",     "AA",   "array1,array2",
-				  &help_pearson, gnumeric_pearson);
-
-	def = function_add_args  (cat, "prob", "AAf|f",
-				  "x_range,prob_range,lower_limit,upper_limit",
-				  &help_prob, gnumeric_prob);
-
-        def = function_add_args  (cat, "quartile",    "Af",   "array,quart",
-				  &help_quartile, gnumeric_quartile);
-
-	def = function_add_args  (cat, "rank", "fr|f",      "",
-				  &help_rank, gnumeric_rank);
-
-        def = function_add_args  (cat, "rsq",         "AA",   "array1,array2",
-				  &help_rsq, gnumeric_rsq);
-
-	def = function_add_nodes (cat, "skew",      0,      "",
-				  &help_skew, gnumeric_skew);
-
-	def = function_add_nodes (cat, "skewp",     0,      "",
-				  &help_skewp, gnumeric_skewp);
-
-	def = function_add_args  (cat, "slope", "AA", "known_y's,known_x's",
-				  &help_slope, gnumeric_slope);
-
-	def = function_add_nodes (cat, "small",  0,      "",
-				  &help_small, gnumeric_small);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_args  (cat, "standardize", "fff",  "x,mean,stddev",
-				  &help_standardize, gnumeric_standardize);
-
-	def = function_add_nodes (cat, "stdev",     0,      "",
-				  &help_stdev, gnumeric_stdev);
-	/*
-	 * Note: since stdev is sort-of a difference, we should actually guess
-	 * "number" when the arguments are dates.  We guess "date".  Tough.
-	 */
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_nodes (cat, "stdeva",    0,      "",
-				  &help_stdeva, gnumeric_stdeva);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_nodes (cat, "stdevp",    0,      "",
-				  &help_stdevp, gnumeric_stdevp);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_nodes (cat, "stdevpa",   0,      "",
-				  &help_stdevpa, gnumeric_stdevpa);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_args  (cat, "steyx", "AA", "known_y's,known_x's",
-				  &help_steyx, gnumeric_steyx);
-
-	function_add_nodes (cat, "subtotal", 0,
-			    "function_nbr,ref1,ref2,...",
-			    &help_subtotal,    gnumeric_subtotal);
-
-	def = function_add_args  (cat, "tdist",   "fff",    "",
-				  &help_tdist, gnumeric_tdist);
-
-	def = function_add_args  (cat, "tinv",    "ff",     "",
-				  &help_tinv, gnumeric_tinv);
-
-	def = function_add_args  (cat, "trend",  "A|AAb",
-				  "known_y's[,known_x's,new_x's,const]",
-				  &help_trend, gnumeric_trend);
-
-	def = function_add_nodes (cat, "trimmean",  0,      "",
-				  &help_trimmean, gnumeric_trimmean);
-	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
-
-	def = function_add_args  (cat, "ttest",   "rrff",   "",
-				  &help_ttest, gnumeric_ttest);
-
-	def = function_add_nodes (cat, "var",       0,      "",
-				  &help_var, gnumeric_var);
-
-	def = function_add_nodes (cat, "vara",      0,      "",
-				  &help_vara, gnumeric_vara);
-
-	def = function_add_nodes (cat, "varp",      0,      "",
-				  &help_varp, gnumeric_varp);
-
-	def = function_add_nodes (cat, "varpa",     0,      "",
-				  &help_varpa, gnumeric_varpa);
-
-        def = function_add_args  (cat, "weibull", "fffb",  "",
-				  &help_weibull, gnumeric_weibull);
-
-	def = function_add_nodes (cat, "ztest",  0,      "",
-				  &help_ztest, gnumeric_ztest);
+	int i;
+	for (i = 0; af_info[i].func; i++)
+		auto_format_function_result_by_name (af_info[i].func, af_info[i].typ);
+}
+
+void
+plugin_cleanup (void)
+{
+	int i;
+	for (i = 0; af_info[i].func; i++)
+		auto_format_function_result_remove (af_info[i].func);
 }

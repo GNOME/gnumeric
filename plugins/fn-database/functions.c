@@ -1,9 +1,10 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * fn-database.c:  Built in database functions and functions registration
+ * fn-database.c: Built-in database functions and functions registration
  *
  * Author:
- *  Jukka-Pekka Iivonen (iivonen@iki.fi)
+ *   Jukka-Pekka Iivonen (iivonen@iki.fi)
+ *   Morten Welinder (terra@diku.dk)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,6 +36,12 @@
 #include <math.h>
 #include <string.h>
 #include <libgnome/gnome-i18n.h>
+
+#include "plugin.h"
+#include "plugin-util.h"
+#include "module-plugin-defs.h"
+
+GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /***************************************************************************/
 
@@ -760,50 +767,32 @@ gnumeric_getpivotdata (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-void database_functions_init (void);
-
-void
-database_functions_init (void)
-{
-	FunctionCategory *cat = function_get_category_with_translation ("Database", _("Database"));
-
-	function_add_args (cat,  "daverage", "r?r",
-			   "database,field,criteria",
-			   &help_daverage,   gnumeric_daverage );
-	function_add_args (cat,  "dcount",   "r?r",
-			   "database,field,criteria",
-			   &help_dcount,     gnumeric_dcount );
-	function_add_args (cat,  "dcounta",  "r?r",
-			   "database,field,criteria",
-			   &help_dcounta,    gnumeric_dcounta );
-	function_add_args (cat,  "dget",     "r?r",
-			   "database,field,criteria",
-			   &help_dget,       gnumeric_dget );
-	function_add_args (cat,  "dmax",     "r?r",
-			   "database,field,criteria",
-			   &help_dmax,       gnumeric_dmax );
-	function_add_args (cat,  "dmin",     "r?r",
-			   "database,field,criteria",
-			   &help_dmin,       gnumeric_dmin );
-	function_add_args (cat,  "dproduct", "r?r",
-			   "database,field,criteria",
-			   &help_dproduct,   gnumeric_dproduct );
-	function_add_args (cat,  "dstdev",   "r?r",
-			   "database,field,criteria",
-			   &help_dstdev,     gnumeric_dstdev );
-	function_add_args (cat,  "dstdevp",  "r?r",
-			   "database,field,criteria",
-			   &help_dstdevp,    gnumeric_dstdevp );
-	function_add_args (cat,  "dsum",     "r?r",
-			   "database,field,criteria",
-			   &help_dsum,       gnumeric_dsum );
-	function_add_args (cat,  "dvar",     "r?r",
-			   "database,field,criteria",
-			   &help_dvar,       gnumeric_dvar );
-	function_add_args (cat,  "dvarp",    "r?r",
-			   "database,field,criteria",
-			   &help_dvarp,      gnumeric_dvarp );
-	function_add_args (cat,  "getpivotdata", "rs",
-			   "pivot_table,field_name",
-			   &help_getpivotdata, gnumeric_getpivotdata );
-}
+const ModulePluginFunctionInfo database_functions[] = {
+	{ "daverage", "r?r", "database,field,criteria",
+	  &help_daverage,   gnumeric_daverage, NULL, NULL, NULL },
+	{ "dcount",   "r?r", "database,field,criteria",
+	  &help_dcount,     gnumeric_dcount, NULL, NULL, NULL },
+	{ "dcounta",  "r?r", "database,field,criteria",
+	  &help_dcounta,    gnumeric_dcounta, NULL, NULL, NULL },
+	{ "dget",     "r?r", "database,field,criteria",
+	  &help_dget,       gnumeric_dget, NULL, NULL, NULL },
+	{ "dmax",     "r?r", "database,field,criteria",
+	  &help_dmax,       gnumeric_dmax, NULL, NULL, NULL },
+	{ "dmin",     "r?r", "database,field,criteria",
+	  &help_dmin,       gnumeric_dmin, NULL, NULL, NULL },
+	{ "dproduct", "r?r", "database,field,criteria",
+	  &help_dproduct,   gnumeric_dproduct, NULL, NULL, NULL },
+	{ "dstdev",   "r?r", "database,field,criteria",
+	  &help_dstdev,     gnumeric_dstdev, NULL, NULL, NULL },
+	{ "dstdevp",  "r?r", "database,field,criteria",
+	  &help_dstdevp,    gnumeric_dstdevp, NULL, NULL, NULL },
+	{ "dsum",     "r?r", "database,field,criteria",
+	  &help_dsum,       gnumeric_dsum, NULL, NULL, NULL },
+	{ "dvar",     "r?r", "database,field,criteria",
+	  &help_dvar,       gnumeric_dvar, NULL, NULL, NULL },
+	{ "dvarp",    "r?r", "database,field,criteria",
+	  &help_dvarp,      gnumeric_dvarp, NULL, NULL, NULL },
+	{ "getpivotdata", "rs", "pivot_table,field_name",
+	  &help_getpivotdata, gnumeric_getpivotdata, NULL, NULL, NULL },
+        {NULL}
+};
