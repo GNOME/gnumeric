@@ -1,3 +1,9 @@
+2001-04-12  Jody Goldberg <jgoldberg@home.com>
+
+	* xml-sax-read.c (xml2ParseColRow) : support the outline mode col/row
+	  extensions.
+	(*) : cleanly support elements with no attributes.
+
 2001-04-09  Jody Goldberg <jgoldberg@home.com>
 
 	* xml2.c (xml2ParseSheet) : support no args.  this should be handled

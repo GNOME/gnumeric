@@ -64,6 +64,7 @@ typedef struct _XML2ParseState XML2ParseState;
 static void
 xml2UnknownAttr (XML2ParseState *state, CHAR const * const *attrs, char const *name)
 {
+	g_return_val_if_fail (attrs != NULL, FALSE);
 	g_warning ("Unexpected attribute '%s'='%s' for element of type %s.", name, attrs[0], attrs[1]);
 }
 
@@ -387,7 +388,7 @@ xml2ParseWBView (XML2ParseState *state, CHAR const **attrs)
 	int sheet_index;
 	int width = -1, height = -1;
 
-	for (; attrs[0] && attrs[1] ; attrs += 2)
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (xml2ParseAttrInt (attrs, "SelectedTab", &sheet_index))
 			wb_view_sheet_focus (state->wb_view,
 				workbook_sheet_by_index (state->wb, sheet_index));
@@ -511,10 +512,7 @@ xml2ParseSheet (XML2ParseState *state, CHAR const **attrs)
 {
 	int tmp;
 
-	if (attrs == NULL)
-		return;
-
-	for (; attrs[0] && attrs[1] ; attrs += 2)
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (xml2ParseAttrInt (attrs, "DisplayFormulas", &tmp))
 			state->sheet->display_formulas = tmp;
 		else if (xml2ParseAttrInt (attrs, "HideZero", &tmp))
@@ -585,7 +583,7 @@ xml2ParseMargin (XML2ParseState *state, CHAR const **attrs)
 		return;
 	}
 
-	for (; attrs[0] && attrs[1] ; attrs += 2) {
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (xml2ParseAttrDouble (attrs, "Points", &points))
 			pu->points = points;
 		else if (!strcmp (attrs[0], "PrefUnit")) {
@@ -620,7 +618,7 @@ xml2ParseSelection (XML2ParseState *state, CHAR const **attrs)
 
 	sheet_selection_reset (state->sheet);
 
-	for (; attrs[0] && attrs[1] ; attrs += 2)
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (xml2ParseAttrInt (attrs, "CursorCol", &col)) ;
 		else if (xml2ParseAttrInt (attrs, "CursorRow", &row)) ;
 		else
@@ -657,7 +655,7 @@ xml2ParseColRow (XML2ParseState *state, CHAR const **attrs, gboolean is_col)
 
 	g_return_if_fail (state->sheet != NULL);
 
-	for (; attrs[0] && attrs[1] ; attrs += 2) {
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (xml2ParseAttrInt (attrs, "No", &dummy)) {
 			g_return_if_fail (cri == NULL);
 
@@ -677,6 +675,10 @@ xml2ParseColRow (XML2ParseState *state, CHAR const **attrs, gboolean is_col)
 				cri->hard_size = dummy;
 			else if (xml2ParseAttrInt (attrs, "Hidden", &dummy))
 				cri->visible = !dummy;
+			else if (xml2ParseAttrInt (attrs, "Collapsed", &dummy))
+				cri->is_collapsed = dummy;
+			else if (xml2ParseAttrInt (attrs, "OutlineLevel", &dummy))
+				cri->outline_level = dummy;
 			else
 				xml2UnknownAttr (state, attrs, "ColRow");
 		}
@@ -718,10 +720,7 @@ xml2ParseStyleRegionStyle (XML2ParseState *state, CHAR const **attrs)
 
 	g_return_if_fail (state->style != NULL);
 
-	if (attrs == NULL)
-		return;
-
-	for (; attrs[0] && attrs[1] ; attrs += 2) {
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (xml2ParseAttrInt (attrs, "HAlign", &val))
 			mstyle_set_align_h (state->style, val);
 		else if (xml2ParseAttrInt (attrs, "VAlign", &val))
@@ -760,10 +759,7 @@ xml2ParseStyleRegionFont (XML2ParseState *state, CHAR const **attrs)
 
 	g_return_if_fail (state->style != NULL);
 
-	if (attrs == NULL)
-		return;
-
-	for (; attrs[0] && attrs[1] ; attrs += 2) {
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (xml2ParseAttrDouble (attrs, "Unit", &size_pts))
 			mstyle_set_font_size (state->style, size_pts);
 		else if (xml2ParseAttrInt (attrs, "Bold", &val))
@@ -848,7 +844,7 @@ xml2ParseStyleRegionBorders (XML2ParseState *state, CHAR const **attrs)
 	g_return_if_fail (state->style != NULL);
 
 	/* Colour is optional */
-	for (; attrs[0] && attrs[1] ; attrs += 2) {
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (xml2ParseAttrColour (attrs, "Color", &colour)) ;
 		else if (xml2ParseAttrInt (attrs, "Style", &pattern)) ;
 		else
@@ -880,7 +876,7 @@ xml2ParseCell (XML2ParseState *state, CHAR const **attrs)
 	g_return_if_fail (state->array_cols == -1);
 	g_return_if_fail (state->expr_id == -1);
 
-	for (; attrs[0] && attrs[1] ; attrs += 2) {
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2) {
 		if (xml2ParseAttrInt (attrs, "Col", &col)) ;
 		else if (xml2ParseAttrInt (attrs, "Row", &row)) ;
 		else if (xml2ParseAttrInt (attrs, "Cols", &cols)) ;
