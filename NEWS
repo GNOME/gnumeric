@@ -4,6 +4,9 @@ Andreas:
 	* Fix text export dialog [#155437, #154231]
 	* Skip sheet selection in text export if there is only one sheet.
 	* Make print dialog less modal. [#132876]
+	* Make non-imported columns in configurable text import more
+	  visible [#154139]
+	* Suppress warnings when filling with large series. [#153527]
 
 Hal Ashburner:
 	* Some function documentation cleanups.

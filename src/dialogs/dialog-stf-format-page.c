@@ -111,11 +111,16 @@ cb_col_check_clicked (GtkToggleButton *togglebutton, gpointer _i)
 	StfDialogData *pagedata =
 		g_object_get_data (G_OBJECT (togglebutton), "pagedata");
 	gboolean active = gtk_toggle_button_get_active (togglebutton);
+	GtkCellRenderer   *renderer;
 	
 	g_return_if_fail (i < pagedata->format.col_import_array_len);
 
 	if (pagedata->format.col_import_array[i] == active)
 		return;
+
+	renderer = stf_preview_get_cell_renderer (pagedata->format.renderdata, i);
+	g_object_set (G_OBJECT (renderer), "strikethrough", !active, NULL);
+
 	if (!active) {
 		pagedata->format.col_import_array[i] = FALSE;
 		pagedata->format.col_import_count--;		
@@ -391,10 +396,13 @@ format_page_update_preview (StfDialogData *pagedata)
 			
 			g_free (label_text);
 		
+			g_object_set (G_OBJECT (stf_preview_get_cell_renderer 
+						(pagedata->format.renderdata, i)), 
+				      "strikethrough", 
+				      !pagedata->format.col_import_array[i], NULL);
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(check),
 						      pagedata->
-					      format.col_import_array[i]);
-			
+						      format.col_import_array[i]);
 			gtk_tooltips_set_tip (renderdata->tooltips, check,
 					      _("If this checkbox is selected, the "
 						"column will be imported into "

@@ -174,6 +174,9 @@ dao_command_descriptor (data_analysis_output_t *dao, char const *format,
 void
 dao_adjust (data_analysis_output_t *dao, gint cols, gint rows)
 {
+	int max_rows = SHEET_MAX_ROWS - dao->start_row;
+	int max_cols = SHEET_MAX_COLS - dao->start_col;
+
 	if (dao->cols == 1 && dao->rows == 1) {
 		if (cols != -1)
 			dao->cols = cols;
@@ -185,6 +188,11 @@ dao_adjust (data_analysis_output_t *dao, gint cols, gint rows)
 		if (rows != -1)
 			dao->rows = MIN (rows, dao->rows);
 	}
+	
+	if (dao->cols > max_cols)
+		dao->cols = max_cols;
+	if (dao->rows > max_rows)
+		dao->rows = max_rows;
 }
 
 /**

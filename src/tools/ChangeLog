@@ -1,3 +1,9 @@
+2004-10-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=153527
+	* dao.c (dao_adjust): don't expand the dao beyond SHEET_MAX_ROWS
+	  or SHEET_MAX_COLS.
+
 2004-10-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
         * analysis-tools.c (analysis_tool_ttest_eqvar_engine_run): 
