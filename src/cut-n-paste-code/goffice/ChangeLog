@@ -1,3 +1,9 @@
+2003-10-06  Morten Welinder  <terra@gnome.org>
+
+	* graph/gog-plot.c (gog_plot_get_axis_bounds): Return NULL, not
+	FALSE.
+	* graph/plugins/plot_xy/gog-xy.c (gog_xy_view_point): Ditto.
+
 2003-10-05  Jon K Hellan  <hellan@acm.org>
 
 	* utils/go-pattern.c (go_pattern_selector): gtk_combo_box renamed

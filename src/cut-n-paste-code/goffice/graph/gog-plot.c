@@ -331,7 +331,7 @@ gog_plot_get_axis_bounds (GogPlot *plot, GogAxisType axis,
 {
 	GogPlotClass *klass = GOG_PLOT_GET_CLASS (plot);
 
-	g_return_val_if_fail (klass != NULL, FALSE);
+	g_return_val_if_fail (klass != NULL, NULL);
 
 	*logical_maxima = gnm_nan;
 	*logical_minima = gnm_nan;
