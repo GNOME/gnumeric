@@ -20,8 +20,6 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED"
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
@@ -35,9 +33,17 @@
 #include <sheet-view.h>
 #include <selection.h>
 #include <widgets/gnumeric-expr-entry.h>
+#include <widgets/gnumeric-cell-renderer-expr-entry.h>
 #include <workbook-edit.h>
 
 #include <string.h>
+
+enum {
+	SOURCE_COLUMN,
+	PIXMAP_COLUMN,
+	IS_EDITABLE_COLUMN,
+	NUM_COLMNS
+};
 
 typedef struct {
 	WorkbookControlGUI *wbcg;
@@ -51,11 +57,14 @@ typedef struct {
 
 		GtkOptionMenu     *function;
 		GtkOptionMenu     *put;
-		GnmExprEntry	  *source;
 
 		GnmExprEntry	  *destination;
-		GtkButton         *add;
-		GtkCList          *areas;
+
+		GtkTreeView       *source_view;
+		GtkTreeModel      *source_areas;
+		GnumericCellRendererExprEntry *cellrenderer;
+		GdkPixbuf         *pixmap;
+
 		GtkButton         *clear;
 		GtkButton         *delete;
 
@@ -71,6 +80,51 @@ typedef struct {
 	char                      *construct_error; /* If set an error occurred in construct_consolidate */
 } ConsolidateState;
 
+static void dialog_set_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
+					   ConsolidateState *state);
+
+/**
+ * adjust_source_areas
+ * 
+ * ensures that we have exactly 2 empty rows
+ *
+ *
+ **/
+static void
+adjust_source_areas (ConsolidateState *state)
+{
+	int i = 0;
+	int cnt_empty = 2;
+	GtkTreeIter      iter;
+	
+	if (gtk_tree_model_get_iter_first 
+	    (state->gui.source_areas, &iter)) {
+		do {
+			char *source;
+
+			gtk_tree_model_get (state->gui.source_areas, 
+					    &iter,
+					    SOURCE_COLUMN, &source,
+					    -1);
+			if (strlen(source) == 0)
+				cnt_empty--;
+			g_free (source);
+		} while (gtk_tree_model_iter_next 
+			 (state->gui.source_areas,&iter));
+	}
+	for (i = 0; i < cnt_empty; i++) {
+		gtk_list_store_append (GTK_LIST_STORE(state->gui.source_areas),
+				       &iter);
+		gtk_list_store_set (GTK_LIST_STORE(state->gui.source_areas),
+				    &iter,
+				    IS_EDITABLE_COLUMN,	TRUE,
+				    SOURCE_COLUMN, "",
+				    PIXMAP_COLUMN, state->gui.pixmap,
+				    -1);
+	}
+	dialog_set_button_sensitivity (NULL, state);
+}
+
 /**
  * construct_consolidate:
  *
@@ -85,7 +139,7 @@ construct_consolidate (ConsolidateState *state)
 	ConsolidateMode  mode = 0;
 	const char       *func;
 	Value            *range_value;
-	int              i;
+	GtkTreeIter      iter;
 
 	switch (gtk_option_menu_get_history (state->gui.function)) {
 	case 0 : func = "SUM"; break;
@@ -127,23 +181,45 @@ construct_consolidate (ConsolidateState *state)
 		return NULL;
 	}
 
-	g_return_val_if_fail (state->gui.areas->rows > 0, NULL);
+	g_return_val_if_fail (gtk_tree_model_iter_n_children
+			      (state->gui.source_areas,
+			       NULL)> 2, NULL);
 
-	for (i = 0; i < state->gui.areas->rows; i++) {
-		char *tmp[1];
+	gtk_tree_model_get_iter_first 
+		(state->gui.source_areas, &iter);
 
-		gtk_clist_get_text (state->gui.areas, i, 0, tmp);
-		range_value = global_range_parse (state->sheet, tmp[0]);
-		g_return_val_if_fail (range_value != NULL, NULL);
+	do {
+		char *source;
 
-		if (!consolidate_add_source (cs, range_value)) {
-			state->construct_error = g_strdup_printf (
-				_("Source region %s overlaps with the destination region"),
-				tmp[0]);
-			consolidate_free (cs);
-			return NULL;
+		gtk_tree_model_get (state->gui.source_areas, 
+				    &iter,
+				    SOURCE_COLUMN, &source,
+				    -1);
+		if (strlen(source) != 0) {
+			range_value = global_range_parse (state->sheet, source);
+			
+			if (range_value == NULL) {
+				state->construct_error = g_strdup_printf (
+					_("Specification %s "
+					  "does not define a region"),
+					source);
+				g_free (source);
+				consolidate_free (cs);
+				return NULL;
+			}
+			if (!consolidate_add_source (cs, range_value)) {
+				state->construct_error = g_strdup_printf (
+					_("Source region %s overlaps "
+					  "with the destination region"),
+					source);
+				g_free (source);
+				consolidate_free (cs);
+				return NULL;
+			}
 		}
-	}
+		g_free (source);
+	} while (gtk_tree_model_iter_next 
+		 (state->gui.source_areas,&iter));
 
 	return cs;
 }
@@ -163,9 +239,41 @@ dialog_set_button_sensitivity (G_GNUC_UNUSED GtkWidget *dummy,
 	gboolean ready = FALSE;
 
 	ready = gnm_expr_entry_is_cell_ref (state->gui.destination, state->sheet, TRUE)
-		&& (state->gui.areas->rows > 0);
+		&& (gtk_tree_model_iter_n_children
+		    (state->gui.source_areas, NULL)> 2);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->gui.btn_ok), ready);
 	return;
+}
+
+static void
+cb_selection_changed (G_GNUC_UNUSED GtkTreeSelection *ignored,
+		      ConsolidateState *state)
+{
+	GtkTreeIter  iter;
+	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->gui.source_view);
+
+	gtk_widget_set_sensitive (GTK_WIDGET(state->gui.delete), 
+				  gtk_tree_selection_get_selected (selection, NULL, &iter));
+}
+
+
+static void
+cb_source_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
+	gchar               *path_string,
+	gchar               *new_text,
+        ConsolidateState        *state)
+{
+	GtkTreeIter iter;
+	GtkTreePath *path;
+
+	path = gtk_tree_path_new_from_string (path_string);
+
+	gtk_tree_model_get_iter (state->gui.source_areas, &iter, path);
+	gtk_list_store_set (GTK_LIST_STORE(state->gui.source_areas), 
+			    &iter, SOURCE_COLUMN, new_text, -1);
+
+	gtk_tree_path_free (path);
+	adjust_source_areas (state);
 }
 
 static void
@@ -174,6 +282,9 @@ cb_dialog_destroy (ConsolidateState *state)
 	wbcg_edit_detach_guru (state->wbcg);
 
 	g_object_unref (G_OBJECT (state->glade_gui));
+	state->glade_gui = NULL;
+	g_object_unref (G_OBJECT (state->gui.pixmap));
+	state->gui.pixmap = NULL;
 
 	if (state->construct_error) {
 		g_warning ("The construct error was not freed, this should not happen!");
@@ -185,6 +296,11 @@ cb_dialog_destroy (ConsolidateState *state)
 static void
 cb_dialog_clicked (GtkWidget *widget, ConsolidateState *state)
 {
+	if (state->gui.cellrenderer->entry)
+		gnumeric_cell_renderer_expr_entry_editing_done (
+			GTK_CELL_EDITABLE (state->gui.cellrenderer->entry),
+			state->gui.cellrenderer);
+
 	if (widget == GTK_WIDGET (state->gui.btn_ok)) {
 		Consolidate *cs;
 
@@ -216,69 +332,11 @@ cb_dialog_clicked (GtkWidget *widget, ConsolidateState *state)
 }
 
 static void
-cb_areas_select_row (G_GNUC_UNUSED GtkCList *clist,
-		     int row,
-		     G_GNUC_UNUSED int column,
-		     G_GNUC_UNUSED GdkEventButton *event,
-		     ConsolidateState *state)
-{
-	g_return_if_fail (state != NULL);
-
-	state->areas_index = row;
-	gtk_widget_set_sensitive (GTK_WIDGET (state->gui.delete), TRUE);
-}
-
-static void
 cb_source_changed (G_GNUC_UNUSED GtkEntry *ignored,
 		   ConsolidateState *state)
 {
 	g_return_if_fail (state != NULL);
 
-	gtk_widget_set_sensitive (GTK_WIDGET (state->gui.add),
-				  gnm_expr_entry_is_cell_ref (state->gui.source,
-							      state->sheet, TRUE));
-}
-
-static void
-cb_add_clicked (G_GNUC_UNUSED GtkButton *button,
-		ConsolidateState *state)
-{
-	char *text[1];
-	int i, exists = -1;
-
-	g_return_if_fail (state != NULL);
-
-	/*
-	 * Add the newly added range, we have to make sure
-	 * that the range doesn't already exist, in such cases we
-	 * simply select the existing entry
-	 */
-
-	text[0] = gnm_expr_entry_global_range_name (state->gui.source, state->sheet);
-	g_return_if_fail (text != NULL);
-
-	for (i = 0; i < state->gui.areas->rows; i++) {
-		char *t[1];
-
-		gtk_clist_get_text (state->gui.areas, i, 0, t);
-		if (strcmp (t[0], text[0]) == 0)
-			exists = i;
-	}
-
-	if (exists == -1) {
-		exists = gtk_clist_append (state->gui.areas, text);
-		gtk_widget_grab_focus (GTK_WIDGET (state->gui.source));
-	}
-
-	gtk_clist_select_row (state->gui.areas, exists, 0);
-	gtk_clist_moveto (state->gui.areas, exists, 0, 0.5, 0.5);
-
-	g_free (text[0]);
-
-	gtk_widget_set_sensitive (GTK_WIDGET (state->gui.clear), TRUE);
-	gtk_widget_set_sensitive (GTK_WIDGET (state->gui.delete), TRUE);
-
-	dialog_set_button_sensitivity (NULL, state);
 }
 
 static void
@@ -287,10 +345,13 @@ cb_clear_clicked (G_GNUC_UNUSED GtkButton *button,
 {
 	g_return_if_fail (state != NULL);
 
-	gtk_clist_clear (state->gui.areas);
+	if (state->gui.cellrenderer->entry)
+		gnumeric_cell_renderer_expr_entry_editing_done (
+			GTK_CELL_EDITABLE (state->gui.cellrenderer->entry),
+			state->gui.cellrenderer);
 
-	gtk_widget_set_sensitive (GTK_WIDGET (state->gui.clear), FALSE);
-	gtk_widget_set_sensitive (GTK_WIDGET (state->gui.delete), FALSE);
+	gtk_list_store_clear (GTK_LIST_STORE(state->gui.source_areas));
+	adjust_source_areas (state);	
 
 	dialog_set_button_sensitivity (NULL, state);
 }
@@ -299,19 +360,19 @@ static void
 cb_delete_clicked (G_GNUC_UNUSED GtkButton *button,
 		   ConsolidateState *state)
 {
-	g_return_if_fail (state != NULL);
+	GtkTreeIter sel_iter;
+	GtkTreeSelection  *selection = 
+		gtk_tree_view_get_selection (state->gui.source_view);
 
-	if (state->areas_index == -1)
+	if (state->gui.cellrenderer->entry)
+		gnumeric_cell_renderer_expr_entry_editing_done (
+			GTK_CELL_EDITABLE (state->gui.cellrenderer->entry),
+			state->gui.cellrenderer);
+	if (!gtk_tree_selection_get_selected (selection, NULL, &sel_iter))
 		return;
-
-	gtk_clist_remove (state->gui.areas, state->areas_index);
-
-	if (state->gui.areas->rows < 1) {
-		gtk_widget_set_sensitive (GTK_WIDGET (state->gui.clear), FALSE);
-		gtk_widget_set_sensitive (GTK_WIDGET (state->gui.delete), FALSE);
-		state->areas_index = -1;
-	} else
-		gtk_clist_select_row (state->gui.areas, state->gui.areas->rows - 1, 0);
+	gtk_list_store_remove (GTK_LIST_STORE(state->gui.source_areas),
+			       &sel_iter);
+	adjust_source_areas (state);
 
 	dialog_set_button_sensitivity (NULL, state);
 }
@@ -351,6 +412,9 @@ static void
 setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 {
 	GnmExprEntryFlags flags;
+	GtkTreeViewColumn *column;
+	GtkTreeSelection  *selection;
+	GtkCellRenderer *renderer;
 
 	state->gui.dialog      = GTK_DIALOG        (glade_xml_get_widget (glade_gui, "dialog"));
 
@@ -358,10 +422,44 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 	state->gui.put         = GTK_OPTION_MENU     (glade_xml_get_widget (glade_gui, "put"));
 
 	state->gui.destination = gnm_expr_entry_new (state->wbcg, TRUE);
-	state->gui.source      = gnm_expr_entry_new (state->wbcg, TRUE);
 
-	state->gui.add         = GTK_BUTTON          (glade_xml_get_widget (glade_gui, "add"));
-	state->gui.areas       = GTK_CLIST           (glade_xml_get_widget (glade_gui, "areas"));
+/* Begin: Source Areas View*/
+	state->gui.source_view = GTK_TREE_VIEW (glade_xml_get_widget 
+						(glade_gui, 
+						 "source_treeview"));
+	state->gui.source_areas = GTK_TREE_MODEL(gtk_list_store_new 
+						 (NUM_COLMNS, 
+						  G_TYPE_STRING, 
+						  GDK_TYPE_PIXBUF,
+						  G_TYPE_INT));
+	gtk_tree_view_set_model (state->gui.source_view, 
+				 state->gui.source_areas);
+	
+	selection = gtk_tree_view_get_selection 
+			(state->gui.source_view );
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
+	
+	renderer = gnumeric_cell_renderer_expr_entry_new (state->wbcg);
+	state->gui.cellrenderer = 
+		GNUMERIC_CELL_RENDERER_EXPR_ENTRY (renderer);
+	column = gtk_tree_view_column_new_with_attributes
+		("", renderer,
+		 "text", SOURCE_COLUMN,
+		 "editable", IS_EDITABLE_COLUMN,
+		 NULL);
+	g_signal_connect (G_OBJECT (renderer), "edited",
+			  G_CALLBACK (cb_source_edited), state);
+	/* Note, for GTK 2.4 we should */
+	/* uncomment the next line and remove the following */
+/* 		gtk_tree_view_column_set_expand (column, TRUE); */
+	gtk_tree_view_column_set_min_width (column, 200);
+	gtk_tree_view_append_column (state->gui.source_view, column);
+	column = gtk_tree_view_column_new_with_attributes 
+		("", gtk_cell_renderer_pixbuf_new (), 
+		 "pixbuf", PIXMAP_COLUMN, NULL);
+	gtk_tree_view_append_column (state->gui.source_view, column);
+/* End: Source Areas View*/
+
 	state->gui.clear       = GTK_BUTTON          (glade_xml_get_widget (glade_gui, "clear"));
 	state->gui.delete      = GTK_BUTTON          (glade_xml_get_widget (glade_gui, "delete"));
 
@@ -377,33 +475,21 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 			  1, 2, 2, 3,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
-	gtk_box_pack_start (GTK_BOX (glade_xml_get_widget (glade_gui, "hbox2")),
-			    GTK_WIDGET (state->gui.source),
-			    TRUE, TRUE, 0);
 	gtk_widget_show (GTK_WIDGET (state->gui.destination));
-	gtk_widget_show (GTK_WIDGET (state->gui.source));
 
 	flags = GNM_EE_SINGLE_RANGE;
 	gnm_expr_entry_set_flags (state->gui.destination, flags, flags);
-	gnm_expr_entry_set_flags (state->gui.source, flags, flags);
 
 	gnumeric_editable_enters (GTK_WINDOW (state->gui.dialog),
 				  GTK_WIDGET (state->gui.destination));
- 	gnumeric_editable_enters (GTK_WINDOW (state->gui.dialog),
-				  GTK_WIDGET (state->gui.source));
 
+	cb_selection_changed (NULL, state);
+	g_signal_connect (selection,
+		"changed",
+		G_CALLBACK (cb_selection_changed), state);
 	g_signal_connect (G_OBJECT (state->gui.destination),
 		"changed",
 		G_CALLBACK (dialog_set_button_sensitivity), state);
-	g_signal_connect (G_OBJECT (state->gui.areas),
-		"select_row",
-		G_CALLBACK (cb_areas_select_row), state);
-	g_signal_connect (G_OBJECT (state->gui.source),
-		"changed",
-		G_CALLBACK (cb_source_changed), state);
-	g_signal_connect (G_OBJECT (state->gui.add),
-		"clicked",
-		G_CALLBACK (cb_add_clicked), state);
 	g_signal_connect (G_OBJECT (state->gui.clear),
 		"clicked",
 		G_CALLBACK (cb_clear_clicked), state);
@@ -425,16 +511,22 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 }
 
 static gboolean
-cb_add_source_area (SheetView *sv, Range const *range, gpointer user_data)
+add_source_area (SheetView *sv, Range const *r, gpointer closure)
 {
-	ConsolidateState *state = user_data;
-	char const *name = global_range_name (sv_sheet (sv), range);
-	char const *t[2];
+	ConsolidateState *state = closure;
+	char *range_name = global_range_name (sv_sheet (sv), r);
+	GtkTreeIter      iter;
+	
+	gtk_list_store_prepend (GTK_LIST_STORE(state->gui.source_areas),
+				&iter);
+	gtk_list_store_set (GTK_LIST_STORE(state->gui.source_areas),
+			    &iter,
+			    IS_EDITABLE_COLUMN,	TRUE,
+			    SOURCE_COLUMN, range_name,
+			    PIXMAP_COLUMN, state->gui.pixmap,
+			    -1);
+	g_free (range_name);
 
-	t[0] = name;
-	t[1] = NULL;
-
-	gtk_clist_append (state->gui.areas, (char **) t);
 	return TRUE;
 }
 
@@ -462,25 +554,30 @@ dialog_consolidate (WorkbookControlGUI *wbcg)
 	state->areas_index = -1;
 
 	setup_widgets (state, glade_gui);
+	state->gui.pixmap =  gtk_widget_render_icon 
+		(GTK_WIDGET(state->gui.dialog),
+		 "Gnumeric_ExprEntry",
+		 GTK_ICON_SIZE_LARGE_TOOLBAR,
+		 "Gnumeric-Consolidate-Dialog");
 
 	/* Dynamic initialization */
 	cb_source_changed (NULL, state);
-	cb_clear_clicked  (state->gui.clear, state);
 	cb_labels_toggled (state->gui.labels_row, state);
 
 	/*
 	 * When there are non-singleton selections add them all to the
 	 * source range list for convenience
 	 */
-	if ((r = selection_first_range (state->sv, NULL, NULL)) != NULL && !range_is_singleton (r)) {
-		selection_foreach_range (state->sv, TRUE, cb_add_source_area, state);
-		gtk_clist_select_row (state->gui.areas, state->gui.areas->rows - 1, 0);
-		gtk_clist_moveto (state->gui.areas, state->gui.areas->rows - 1, 0, 0.5, 0.5);
-		gtk_widget_set_sensitive (GTK_WIDGET (state->gui.clear), TRUE);
-	}
+	if ((r = selection_first_range (state->sv, NULL, NULL)) != NULL 
+	    && !range_is_singleton (r))
+		selection_foreach_range (state->sv, TRUE, &add_source_area, state);
+
+	adjust_source_areas (state);
 
 	gtk_widget_grab_focus   (GTK_WIDGET (state->gui.function));
 	gtk_widget_grab_default (GTK_WIDGET (state->gui.btn_ok));
+
+	dialog_set_button_sensitivity(NULL, state);
 
 	/* a candidate for merging into attach guru */
 	g_object_set_data_full (G_OBJECT (state->gui.dialog),

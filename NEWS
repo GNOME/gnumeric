@@ -12,6 +12,7 @@ Andreas:
 	* Fix 115542 (cs_CZ bug) and various others
 	* Fix landscape printing
 	* Save header/footer defaults
+	* Update consolidate dialog
 
 Emmanuel Pacaud:
 	* New format selector for stf.

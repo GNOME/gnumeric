@@ -1,3 +1,8 @@
+2003-06-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-consolidate.c: replace GTKCList with Treeview
+	* consolidate.glade: ditto
+	
 2003-06-25  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf*.[ch]: Replace GnomeDruid setup with a GtkNotebook

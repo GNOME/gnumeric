@@ -47,7 +47,7 @@ Pending Patches
     0.12) Use 'Chart' in the ui to be compatible		(DONE)
     0.13) giving focus to an expr entry with a single rangeref
     	  in another sheet should make that range visible.
-    0.14) Convert dialog-consolidate to TreeView
+    0.14) Convert dialog-consolidate to TreeView                (DONE)
     0.15) Enter ''123 in a text-formattted cell and expr entry
           will show only one quote.
 
