@@ -1,0 +1,107 @@
+<sect1>
+<title>Cell Referencing</title>
+
+
+<para>To reference the value stored in a single cell, say B1, just enter "B1"
+in the function argument.</para>
+
+<para>Cell are refernce in a format like C4, where C is the column label
+and 4 is the row label.</para>
+
+ <programlisting>
+ 	<title>Some examples of function syntax</title>
+	    =EXP(B1)
+
+            =COS(A2)
+            
+    </programlisting>
+    </example>
+
+
+<sect2>
+<title>Referencing multiple cells</title>
+
+<para>Many funtions can take multiple cells as arguments. This can either
+be a comma seperated list, an array, or any combination thereof.</para>
+
+<sect3>
+<title>Multiple individual cells</title>
+
+<para>A comma seperated list of cell references can be used to
+indicate cells that are discontinous.</para>
+
+
+    <example>
+    <programlisting>
+ 	<title>Some examples of function syntax</title>
+	    =SUM(A1,B2,C4)
+
+            =MIN(A1,B2, C4,C5,D6)
+            
+    </programlisting>
+    </example>
+
+
+ <screenshot>
+       <screeninfo>Figure 10. 
+	 </screeninfo>
+       <graphic fileref="cells-1.jpg"></graphic>
+  </screenshot>
+ 
+</sect3>
+
+<sect3>
+<title>Referencing a continous region of cells</title>
+
+<para>For functions that take more than one argument, it is often
+eaier to reference the cells as a group. This can include
+cells in sets horizontally, vertically, or in arrays.</para>
+
+<para>The ':' operator is used to indicate a range of cells. The basic
+syntax is upperleft corne:bottom rigth corner. </para>
+
+    <example>
+    <programlisting>
+ 	<title>Referencing blocks of cells</title>
+		=SUM(A1:E1)
+
+		=AVERAGE(B4:E7)
+
+	        =MIN(A1:A5)            
+    </programlisting>
+    </example>
+
+
+<screenshot>
+       <screeninfo>Figure 10. 
+	 </screeninfo>
+       <graphic fileref="cells-2.jpg"></graphic>
+  </screenshot>
+ </sect3>
+
+<sect3>
+<title>Referencing non-continous regions</title>
+
+<para>For referencing cells that are in non-continous regions
+you can use any combination of the above methods to get
+the needed cells.</para>
+
+
+   <example>
+    <programlisting>
+ 	<title>Referencing blocks of cells</title>
+		=SUM(A1:E1, B19, L14:L17)
+
+		=AVERAGE(A1,A3, A5:C5)
+
+    </programlisting>
+    </example>
+
+
+</sect3>
+
+
+
+</sect2>
+
+</sect1>

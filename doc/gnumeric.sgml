@@ -1,9 +1,8 @@
 <!DOCTYPE book PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
 <!entity editing SYSTEM "editing.sgml">
-<!entity autofill SYSTEM "autofill.sgml">
 <!entity numberformat SYSTEM "number-format.sgml">
-<!entity dndselection SYSTEM "dndselection.sgml">
-<!entity selection SYSTEM "selection.sgml">
+<!entity formulas SYSTEM "formulas.sgml">
+<!entity cellrefer SYSTEM "cell_refer.sgml">
 ]>
 <book>
   <bookinfo>
@@ -59,30 +58,24 @@
   <chapter id="style">
     <title>Style.</title>
     <sect1>
-      <para></para>
+      <para> </para>
     </sect1>
   </chapter>
 
-  <chapter id="">
+  <chapter id="formatting">
     <title>Number formatting.</title>
     &numberformat;
   </chapter>
 
- <chapter id="autofill">
-     <title>Autofill.</title>
-       &autofill;
- </chapter>
+<chapter id="formulas">
+    <title>Formulas</title>
+    &formulas;
+  </chapter>
 
- <chapter id="dndselection">
-    <title>Drag And Drop Selection.</title>
-     &dndselection;
-    </chapter>
-
- <chapter id="selection">
-    <title>Selections.</title>
-     &selection;
-    </chapter>
-
+<chapter id="cellrefer">
+    <title>Cell Referencing</title>
+    &cellrefer;
+  </chapter>
 
 </book>
 	
