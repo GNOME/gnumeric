@@ -1,3 +1,7 @@
+2003-06-29  Morten Welinder  <terra@gnome.org>
+
+	* src/stf.c (stf_store_results): Don't switch locales here.
+
 2003-06-28  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/stf-parse.c (stf_parse_options_new): initialize new fields

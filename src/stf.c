@@ -120,35 +120,22 @@ stf_store_results (DialogStfResult_t *dialogresult,
 		   Sheet *sheet, int start_col, int start_row)
 {
 	unsigned int ui;
-	char *oldlocale = NULL;
 	Range range;
 
-	if (dialogresult->parseoptions->locale) {
-		oldlocale = g_strdup(gnumeric_setlocale(LC_ALL,NULL));
-		gnumeric_setlocale(LC_ALL,dialogresult->parseoptions->locale);
-	}
 	range.start.col = start_col;
 	range.start.row = start_row;
 	range.end.col   = start_col;
 	range.end.row   = start_row + dialogresult->rowcount - 1;
 
 	for (ui = 0; ui < dialogresult->formats->len; ui++) {
-		StyleFormat *sf;
-		MStyle *style;
-
 		if (dialogresult->parseoptions->col_import_array[ui]) {
-			style = mstyle_new ();
-			sf = g_ptr_array_index (dialogresult->formats, ui);
+			MStyle *style = mstyle_new ();
+			StyleFormat *sf = g_ptr_array_index (dialogresult->formats, ui);
 			mstyle_set_format (style, sf);
 			sheet_style_apply_range (sheet, &range, style);
 			range.start.col++;
 			range.end.col++;
 		}
-	}
-
-	if (oldlocale) {
-		gnumeric_setlocale(LC_ALL,oldlocale);
-		g_free (oldlocale);
 	}
 
 	return stf_parse_sheet (dialogresult->parseoptions,
