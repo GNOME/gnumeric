@@ -145,10 +145,11 @@ cell_formats [] = {
 
 CurrencySymbol const currency_symbols[] =
 {
-	{ "", "None" },	/* These fist three elements */
+	{ "", "None" },	/* These first four elements */
 	{ "$", "$" },	/* Must stay in this order */
 	{ "£", "£" },
-	/* TODO : Add yen and euro */
+	{ "¥", "¥" },
+	/* TODO : Add euro */
 
 	/* The first column has three letter acronyms
 	 * for each currency.  They MUST start with '[$'

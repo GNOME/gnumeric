@@ -502,14 +502,16 @@ draw_format_preview (FormatState *state)
 	if (sf == NULL)
 		return;
 
-	preview = format_value (sf, state->value, &preview_color,
-				state->sample_rendered_text);
+	if (state->sample_rendered_text) {
+		preview = format_value (sf, state->value, &preview_color,
+					state->sample_rendered_text);
 
-	if (strlen (preview) > FORMAT_PREVIEW_MAX)
-		strcpy (&preview [FORMAT_PREVIEW_MAX - 5], " ...");
+		if (strlen (preview) > FORMAT_PREVIEW_MAX)
+			strcpy (&preview [FORMAT_PREVIEW_MAX - 5], " ...");
 
-	gtk_label_set_text (state->format.preview, preview);
-	g_free (preview);
+		gtk_label_set_text (state->format.preview, preview);
+		g_free (preview);
+	}
 }
 
 static void
@@ -2266,7 +2268,9 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	state->gui		= gui;
 	state->sheet		= sheet;
 	state->value		= sample_val;
-	state->sample_rendered_text = cell_get_rendered_text (edit_cell);
+	state->sample_rendered_text = edit_cell
+	    ? cell_get_rendered_text (edit_cell)
+	    : NULL;
 	state->style		= mstyle;
 	state->result		= mstyle_new ();
 	state->selection_mask	= 0;

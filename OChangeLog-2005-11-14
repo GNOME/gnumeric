@@ -1,6 +1,15 @@
 2000-04-20  Jody Goldberg <jgoldberg@home.com>
 
+	* src/dialogs/dialog-cell-format.c (draw_format_preview) : Don't
+	  display preview text if there is none.
+	(dialog_cell_format) : Don't init the preview text if the cell is empty.
+
 	* src/plugin.c (plugin_load) : Fix leak.
+
+	* src/formats.c (currency_symbols) : Add Yen.
+
+	* src/corba-sheet.c (Sheet_cell_set_value): 
+	cell_set_value -> sheet_cell_set_value
 
 2000-04-20  Matt Wilson  <msw@redhat.com>
 
