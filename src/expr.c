@@ -2431,7 +2431,7 @@ expr_tree_sharer_share (ExprTreeSharer *es, GnmExpr const *e)
 
 	/*
 	 * Note: we have to use a variable for this because a non-shared node
-	 * might now exist anymore.
+	 * might not exist anymore.
 	 */
 	if (wasshared) {
 		gnm_expr_ref (e);
