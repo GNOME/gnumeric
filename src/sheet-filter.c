@@ -894,7 +894,7 @@ gnm_filter_set_condition (GnmFilter *filter, unsigned i,
 {
 	GnmFilterField *field;
 	gboolean set_infilter = FALSE;
-	gboolean existing_cond;
+	gboolean existing_cond = FALSE;
 	int r;
 
 	g_return_if_fail (filter != NULL);

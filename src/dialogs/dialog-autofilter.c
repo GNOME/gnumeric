@@ -61,7 +61,7 @@ cb_autofilter_destroy (AutoFilterState *state)
 }
 
 static void
-cb_autofilter_ok (GtkWidget *button G_GNUC_UNUSED,
+cb_autofilter_ok (G_GNUC_UNUSED GtkWidget *button,
 		  AutoFilterState *state)
 {
 	GnmFilterCondition *cond = NULL;
@@ -93,10 +93,20 @@ cb_autofilter_ok (GtkWidget *button G_GNUC_UNUSED,
 }
 
 static void
-cb_autofilter_cancel (GtkWidget *button G_GNUC_UNUSED,
-			   AutoFilterState *state)
+cb_autofilter_cancel (G_GNUC_UNUSED GtkWidget *button,
+		      AutoFilterState *state)
 {
 	gtk_widget_destroy (state->dialog);
+}
+
+static void
+cb_top10_type_changed (GtkOptionMenu *menu,
+		       AutoFilterState *state)
+{
+	GtkWidget *spin = glade_xml_get_widget (state->gui, "item_count");
+	int max_val = (gtk_option_menu_get_history (menu) > 0) ? 100 : 500;
+
+	printf ("%d\n", max_val);
 }
 
 void
@@ -122,6 +132,14 @@ dialog_auto_filter (WorkbookControlGUI *wbcg,
 			is_expr ? "autofilter-expression.glade" : "autofilter-top10.glade");
 
 	g_return_if_fail (state->gui != NULL);
+
+	if (is_expr) {
+	} else {
+		w = glade_xml_get_widget (state->gui, "item_vs_percentage_option_menu");
+		g_signal_connect (G_OBJECT (w),
+			"changed",
+			G_CALLBACK (cb_top10_type_changed), state);
+	}
 
 	if (cond != NULL) {
 		GnmFilterOp const op = cond->op[0];

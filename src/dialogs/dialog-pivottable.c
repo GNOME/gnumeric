@@ -59,14 +59,14 @@ cb_pivottable_guru_destroy (PivotTableGuru *state)
 }
 
 static void
-cb_pivottable_guru_ok (GtkWidget *button G_GNUC_UNUSED,
+cb_pivottable_guru_ok (G_GNUC_UNUSED GtkWidget *button,
 		       PivotTableGuru *state)
 {
 	gtk_widget_destroy (state->dialog);
 }
 
 static void
-cb_pivottable_guru_cancel (GtkWidget *button G_GNUC_UNUSED,
+cb_pivottable_guru_cancel (G_GNUC_UNUSED GtkWidget *button,
 			   PivotTableGuru *state)
 {
 	gtk_widget_destroy (state->dialog);

@@ -1,6 +1,7 @@
 2002-12-05  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-filter.c (cb_filter_button_release) : silence warning.
+	(gnm_filter_set_condition) : ditto.
 
 	* src/plugin-service.c : s/gnum_plugin/gnm_plugin/
 
