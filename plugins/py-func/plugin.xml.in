@@ -14,6 +14,7 @@
 			<functions>
 				<function name="py_printf"/>
 				<function name="py_capwords"/>
+				<function name="py_bitand"/>
 			</functions>
 		</service>
 	</services>

@@ -1,3 +1,9 @@
+2003-07-09  Jon K Hellan  <hellan@acm.org>
+
+	* py_func.py: Added comments. Telling what each example is
+	supposed to demonstrate.
+	(func_bitand): New, shows how to call a spreadsheet function.
+
 2003-06-07  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.19
