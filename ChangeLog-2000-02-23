@@ -4,6 +4,7 @@
 	  Use the undo framework.
 
 	* src/sheet.c (sheet_fill_selection_with) : Take a context.
+	(sheet_save_row_col_sizes) : Use is_cols. Doh!
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : Add
 	  Alt-Pg{Up,Down}.  sheet_fill_selection_with now takes a context.
