@@ -14,6 +14,10 @@ Morten:
 Almer:
 	* Stf importer bug fixes and enhancements.
 
+Kenneth
+	* Added two perl scripts for translation help/maintainence. 
+          Also added is a README.tools file, explaining how to use these.
+
 Translations:
 	* Updated: da (Kenneth), de (Karl), ja (Oka), no (Kjartan), ru
 	  (Valek), maybe more.
