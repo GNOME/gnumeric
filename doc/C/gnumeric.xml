@@ -65,6 +65,8 @@
   <!ENTITY analysis-complexNum  SYSTEM "analysis-complexNumbers.xml">
   <!ENTITY analysis-solver      SYSTEM "analysis-solver.xml">
   <!ENTITY analysis-simulation  SYSTEM "analysis-simulation.xml">
+  <!ENTITY analysis-scenarios   SYSTEM "analysis-scenarios.xml">
+  <!ENTITY analysis-goalseek    SYSTEM "analysis-goalseek.xml">
 
   <!ENTITY morehelp             SYSTEM "morehelp.xml">
 
@@ -435,11 +437,12 @@
     </para>
 
     &analysis-overview;
-    &analysis-statistical;
     &analysis-complexNum;
+    &analysis-goalseek;
     &analysis-solver;
     &analysis-simulation;
-
+    &analysis-scenarios;
+    &analysis-statistical;
   </chapter>
 
 

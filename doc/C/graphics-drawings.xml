@@ -15,7 +15,7 @@
     case it will have to be made visible using the
     <guimenu>View</guimenu> menu and selecting the
     <guimenuitem>Toolbars</guimenuitem> menu item (see <xref
-    linkend="sect-configuration-toolbars"> for a detailed
+    linkend="sect-configuration-toolbars"/> for a detailed
     explanation. The basic process to add any of these elements is to
     click with the left hand mouse button on the toolbar icon
     representing the element to be added and then to click on the
@@ -43,8 +43,16 @@
   </sect2>
 
 
-  <sect2 id="sect-graphics-drawings-filled">
-    <title>Drawing Filled Rectangles or Ovals.</title>
+  <sect2 id="sect-graphics-drawings-oval">
+    <title>Drawing Ovals.</title>
+
+    <para>
+      
+    </para>
+  </sect2>
+
+  <sect2 id="sect-graphics-drawings-rectangle">
+    <title>Drawing Rectangles.</title>
 
     <para>
       

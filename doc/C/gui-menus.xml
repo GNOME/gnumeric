@@ -1648,7 +1648,7 @@
 	  solve systems of linear equations and other mathematical
 	  problems. These two dialogs enable access to these tools. A
 	  full discussion of these tools is presented in <xref
-	  linkend="sect-analysis-solver" />. </para>
+	  linkend="sect-advanced-analysis-solver" />. </para>
 				<itemizedlist>
 					<listitem>
 						<para><guimenuitem>Goal Seek</guimenuitem> --- The
@@ -1657,7 +1657,7 @@
 							search for a numeric value which solves a formula. This dialog is
 							explained in
 							<xref
-							linkend="sect-analysis-goalseek"
+							linkend="sect-advanced-analysis-goalseek"
 							/>.
 						</para>
 					</listitem>
@@ -1671,7 +1671,7 @@
 							This is
 							explained in
 							<xref
-							linkend="sect-analysis-solver"
+							linkend="sect-advanced-analysis-solver"
 							/>.
 						</para>
 					</listitem>
