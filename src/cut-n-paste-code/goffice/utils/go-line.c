@@ -33,7 +33,7 @@
 
 typedef struct {
 	int 		 n_dash;
-	double 		 dash[];
+	double 		 dash[6];
 } GOLineDashDesc;
 
 static GOLineDashDesc line_dash_desc =		{2,	{ 18, 6 } };
@@ -125,7 +125,7 @@ go_line_clip_vpath (ArtVpath const *vpath, GogViewAllocation const *clip_area)
 	double p[4], q[4], r, t1 = 0., t2 = 1., delta_x, delta_y;
 	double x_min, x_max, y_min, y_max;
 	unsigned i = 0, j;
-	gboolean clip_last, clip_first, reject;
+	gboolean clip_last, clip_first;
 	ArtVpath *result_path;
 	int n_result, n_result_max;
 	
@@ -140,6 +140,7 @@ go_line_clip_vpath (ArtVpath const *vpath, GogViewAllocation const *clip_area)
 
 	/* TODO clip_first computation isn't needed if previous clip_last was FALSE */
 	while (vpath[i].code != ART_END) {
+		gboolean reject = FALSE;
 		clip_last = TRUE;
 		while (vpath[i+1].code == ART_LINETO) {
 

@@ -1,3 +1,9 @@
+2004-10-27  Morten Welinder  <terra@gnome.org>
+
+	* utils/go-line.c (go_line_clip_vpath): Make sure "reject" is
+	initialized.
+	(GOLineDashDesc): Do not rely on C99 features.
+
 2004-10-27  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/gog-style.c (gog_style_gradient_load): fix brightness case.
