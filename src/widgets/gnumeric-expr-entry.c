@@ -740,7 +740,7 @@ gnumeric_expr_entry_rangesel_meaningful (GnumericExprEntry *ee)
 	text = gtk_entry_get_text (GTK_ENTRY (ee));
 
 	/* We need to be editing an expression */
-	if (!wbcg_edit_has_guru (ee->wbcg) &&
+	if (wbcg_edit_has_guru (ee->wbcg) == NULL &&
 	    gnumeric_char_start_expr_p (text) == NULL)
 		return FALSE;
 

@@ -1,3 +1,27 @@
+2002-01-28  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-object-toolbar.c :  adjust to the new creation format.
+
+	* src/workbook-edit.c (wbcg_edit_has_guru) : return the actual guru.
+
+	* src/workbook-control-gui.c : Explicitly use the STOCK items rather
+	  than just the stock icon names.  This enables the accelerators too.
+
+	* src/sheet-object-widget.c : cleanup.
+	  Use _init functions, no need to create a silly _new wrapper that calls
+	  construct.  Remove unused Sheet arguments.
+
+	* src/gnumeric-canvas.c (gnm_canvas_guru_key) : new.
+	(gnm_canvas_key_mode_sheet) : be more careful about what how to handle
+	  keys when there is a guru up.
+
+	* src/sheet-object-widget.c (sheet_widget_checkbox_user_config) :
+	  create the table.
+
+2002-01-27  Jody Goldberg <jody@gnome.org>
+
+	* src/Makefile.am : cleanup the generated files.
+
 2002-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/consolidate.c (consolidate_set_destination) : accept 
@@ -7,6 +31,7 @@
 	  parameters
 	(consolidate_add_source) : ditto
 	
+>>>>>>> 1.1833
 2002-01-27  Seth Nickell  <snickell@stanford.edu>
 
 	* Makefile.am:

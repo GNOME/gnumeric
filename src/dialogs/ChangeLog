@@ -1,3 +1,10 @@
+2002-01-28  Jody Goldberg <jody@gnome.org>
+
+	* sheet-order.glade : rewrite.
+	* dialog-sheet-order.c : begin transfer to TreeView.
+	NOTE : IT CRASHES ! commit now so that jrb can see what the hell is
+	going on.
+
 2002-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* consolidate.glade : add help button

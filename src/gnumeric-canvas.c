@@ -37,6 +37,19 @@
 
 static GnomeCanvasClass *gcanvas_parent_class;
 
+static gboolean
+gnm_canvas_guru_key (WorkbookControlGUI const *wbcg, GdkEventKey *event)
+{
+	GtkWidget *guru = wbcg_edit_has_guru (wbcg);
+	GtkWidget *entry = GTK_WIDGET (wbcg_get_entry_logical (wbcg));
+
+	if (guru == NULL)
+		return FALSE;
+
+	gtk_widget_event ((entry != NULL) ? entry : guru, (GdkEvent *) event);
+	return TRUE;
+}
+
 /*
  * key press event handler for the gnumeric sheet for the sheet mode
  */
@@ -71,60 +84,59 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 			? scg_rangesel_extend
 			: scg_rangesel_move;
 	} else {
+		if ((event->state & GDK_CONTROL_MASK) && (event->state & GDK_SHIFT_MASK)) {
+			char const *fmt = NULL;
+			char const *desc = NULL;
+			
+			switch (event->keyval) {
+			case GDK_asciitilde :
+				fmt = cell_formats [FMT_NUMBER][0];
+				desc = _("Format as Number");
+				break;
+			case GDK_dollar :
+				fmt = cell_formats [FMT_CURRENCY][0];
+				desc = _("Format as Currency");
+				break;
+			case GDK_percent :
+				fmt = cell_formats [FMT_PERCENT][0];
+				desc = _("Format as Percentage");
+				break;
+			case GDK_asciicircum :
+				fmt = cell_formats [FMT_SCIENCE][0];
+				desc = _("Format as Scientific");
+				break;
+			case GDK_numbersign :
+				fmt = cell_formats [FMT_DATE][0];
+				desc = _("Format as Date");
+				break;
+			case GDK_at :
+				fmt = cell_formats [FMT_TIME][0];
+				desc = _("Format as Time");
+				break;
+			case GDK_exclam :
+				fmt = cell_formats [FMT_ACCOUNT][0];
+				desc = _("Format as alternative Number"); /* FIXME: Better descriptor */
+				break;
+
+			case GDK_ampersand :
+				workbook_cmd_mutate_borders (WORKBOOK_CONTROL (wbcg), sheet, TRUE);
+				return TRUE;
+			case GDK_underscore :
+				workbook_cmd_mutate_borders (WORKBOOK_CONTROL (wbcg), sheet, TRUE);
+				return TRUE;
+			}
+
+			if (fmt != NULL) {
+				MStyle *mstyle = mstyle_new ();
+
+				mstyle_set_format_text (mstyle, fmt);
+				cmd_format (WORKBOOK_CONTROL (wbcg), sheet, mstyle, NULL, desc);
+				return TRUE;
+			}
+		}
 		movefn = (event->state & GDK_SHIFT_MASK)
 			? scg_cursor_extend
 			: scg_cursor_move;
-	}
-
-	if ((event->state & GDK_CONTROL_MASK) && (event->state & GDK_SHIFT_MASK)) {
-		char const *fmt = NULL;
-		char const *desc = NULL;
-		
-		switch (event->keyval) {
-		case GDK_asciitilde :
-			fmt = cell_formats [FMT_NUMBER][0];
-			desc = _("Format as Number");
-			break;
-		case GDK_dollar :
-			fmt = cell_formats [FMT_CURRENCY][0];
-			desc = _("Format as Currency");
-			break;
-		case GDK_percent :
-			fmt = cell_formats [FMT_PERCENT][0];
-			desc = _("Format as Percentage");
-			break;
-		case GDK_asciicircum :
-			fmt = cell_formats [FMT_SCIENCE][0];
-			desc = _("Format as Scientific");
-			break;
-		case GDK_numbersign :
-			fmt = cell_formats [FMT_DATE][0];
-			desc = _("Format as Date");
-			break;
-		case GDK_at :
-			fmt = cell_formats [FMT_TIME][0];
-			desc = _("Format as Time");
-			break;
-		case GDK_exclam :
-			fmt = cell_formats [FMT_ACCOUNT][0];
-			desc = _("Format as alternative Number"); /* FIXME: Better descriptor */
-			break;
-
-		case GDK_ampersand :
-			workbook_cmd_mutate_borders (WORKBOOK_CONTROL (wbcg), sheet, TRUE);
-			return TRUE;
-		case GDK_underscore :
-			workbook_cmd_mutate_borders (WORKBOOK_CONTROL (wbcg), sheet, TRUE);
-			return TRUE;
-		}
-
-		if (fmt) {
-			MStyle *mstyle = mstyle_new ();
-
-			mstyle_set_format_text (mstyle, fmt);
-			cmd_format (WORKBOOK_CONTROL (wbcg), sheet, mstyle, NULL, desc);
-			return TRUE;
-		}
 	}
 	
 	switch (event->keyval) {
@@ -220,6 +232,8 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 
 	case GDK_KP_Insert :
 	case GDK_Insert :
+		if (gnm_canvas_guru_key (wbcg, event))
+			break;
 		if (state == GDK_CONTROL_MASK)
 			sheet_selection_copy (WORKBOOK_CONTROL (wbcg), sheet);
 		else if (state == GDK_SHIFT_MASK)
@@ -228,6 +242,8 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 
 	case GDK_KP_Delete:
 	case GDK_Delete:
+		if (gnm_canvas_guru_key (wbcg, event))
+			break;
 		if (state == GDK_SHIFT_MASK) {
 			scg_mode_edit (sc);
 			sheet_selection_cut (WORKBOOK_CONTROL (wbcg), sheet);
@@ -254,7 +270,9 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 	case GDK_Tab:
 	case GDK_ISO_Left_Tab:
 	case GDK_KP_Tab:
-	{
+		if (gnm_canvas_guru_key (wbcg, event))
+			break;
+
 		/* Be careful to restore the editing sheet if we are editing */
 		if (wbcg->editing)
 			sheet = wbcg->editing_sheet;
@@ -268,7 +286,6 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 			sheet_selection_walk_step (sheet, direction, horizontal);
 		}
 		break;
-	}
 
 	case GDK_Escape:
 		wbcg_edit_finish (wbcg, FALSE);
@@ -282,6 +299,9 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 		return TRUE;
 
 	case GDK_F2:
+		if (gnm_canvas_guru_key (wbcg, event))
+			break;
+
 		wbcg_edit_start (wbcg, FALSE, FALSE);
 		/* fall down */
 

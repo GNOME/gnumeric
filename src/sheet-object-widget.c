@@ -53,37 +53,26 @@
 #define IS_SHEET_WIDGET_OBJECT(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_WIDGET_TYPE))
 #define SOW_CLASS(so)	 	     (SHEET_OBJECT_WIDGET_CLASS (G_OBJECT_GET_CLASS(so)))
 
-#define SOW_MAKE_TYPE(n1, n2, fn_config, fn_set_sheet, fn_clear_sheet,\
-		      fn_clone, fn_write_xml, fn_read_xml) \
-static void \
-sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class) \
-{ \
+#define SOW_MAKE_TYPE(n1, n2, fn_config, fn_set_sheet, fn_clear_sheet,	\
+		      fn_clone, fn_write_xml, fn_read_xml)		\
+static void								\
+sheet_widget_ ## n1 ## _class_init (GObjectClass *object_class)		\
+{									\
 	SheetObjectWidgetClass *sow_class = SHEET_OBJECT_WIDGET_CLASS (object_class); \
-	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (object_class); \
+	SheetObjectClass *so_class = SHEET_OBJECT_CLASS (object_class);	\
 	sow_class->create_widget = & sheet_widget_ ## n1 ## _create_widget; \
-	so_class->user_config = fn_config; \
-	so_class->assign_to_sheet = fn_set_sheet; \
-	so_class->remove_from_sheet = fn_clear_sheet; \
-	so_class->clone = fn_clone; \
-	so_class->write_xml = fn_write_xml; \
-	so_class->read_xml = fn_read_xml; \
-	object_class->finalize = & sheet_widget_ ## n1 ## _finalize; \
-} \
-static E_MAKE_TYPE(sheet_widget_ ## n1, "SheetWidget" #n2, SheetWidget ## n2, \
-		   &sheet_widget_ ## n1 ## _class_init, \
-		   NULL, SHEET_OBJECT_WIDGET_TYPE);	\
-SheetObject * \
-sheet_widget_ ## n1 ## _new(Sheet *sheet) \
-{ \
-	SheetObjectWidget *sow; \
-\
-	sow = g_object_new (sheet_widget_ ## n1 ## _get_type (), NULL); \
-\
-	sheet_object_widget_construct (sow); \
-	sheet_widget_ ##n1 ## _construct (sow); \
-\
-	return SHEET_OBJECT (sow); \
-}
+	so_class->user_config = fn_config;				\
+	so_class->assign_to_sheet = fn_set_sheet;			\
+	so_class->remove_from_sheet = fn_clear_sheet;			\
+	so_class->clone = fn_clone;					\
+	so_class->write_xml = fn_write_xml;				\
+	so_class->read_xml = fn_read_xml;				\
+	object_class->finalize = & sheet_widget_ ## n1 ## _finalize;	\
+}									\
+E_MAKE_TYPE (sheet_widget_ ## n1, "SheetWidget" #n2, SheetWidget ## n2, \
+	     &sheet_widget_ ## n1 ## _class_init,			\
+	     &sheet_widget_ ## n1 ## _init,				\
+	     SHEET_OBJECT_WIDGET_TYPE);
 
 typedef struct _SheetObjectWidget SheetObjectWidget;
 
@@ -161,36 +150,15 @@ sheet_object_widget_class_init (GtkObjectClass *object_class)
 }
 
 static void
-sheet_object_widget_construct (SheetObjectWidget *sow)
+sheet_object_widget_init (SheetObjectWidget *sow)
 {
 	SheetObject *so = SHEET_OBJECT (sow);
 	so->type = SHEET_OBJECT_ACTION_CAN_PRESS;
 }
 
-/**
- * sheet_object_widget_clone:
- * @so: The source object for that we are going to use as cloning source
- * @sheet: The destination sheet of the cloned object
- *
- * The common part of the clone rutine of all the objects
- *
- * Return Value: a newly created SheetObjectWidget
- **/
-static SheetObjectWidget *
-sheet_object_widget_clone (SheetObject const *so, Sheet *sheet)
-{
-	SheetObjectWidget *sow = SHEET_OBJECT_WIDGET (so);
-	SheetObjectWidget *new_sow;
-	
-	new_sow = g_object_new (G_OBJECT_TYPE (sow), NULL);
-
-	sheet_object_widget_construct (new_sow);
-
-	return new_sow;
-}
-
 static E_MAKE_TYPE (sheet_object_widget, "SheetObjectWidget", SheetObjectWidget,
-		    sheet_object_widget_class_init, NULL,
+		    sheet_object_widget_class_init,
+		    sheet_object_widget_init,
 		    SHEET_OBJECT_TYPE);
 
 static void
@@ -208,7 +176,6 @@ gnumeric_table_attach_with_label (GtkWidget *dialog, GtkWidget *table,
 }
 
 /****************************************************************************/
-static GtkType sheet_widget_label_get_type (void);
 #define SHEET_WIDGET_LABEL_TYPE     (sheet_widget_label_get_type ())
 #define SHEET_WIDGET_LABEL(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_LABEL_TYPE, SheetWidgetLabel))
 typedef struct {
@@ -220,17 +187,15 @@ typedef struct {
 } SheetWidgetLabelClass;
 
 static void
-sheet_widget_label_construct_with_label (SheetObjectWidget *sow, const char *text)
+sheet_widget_label_init_full (SheetWidgetLabel *swl, char const *text)
 {
-	SheetWidgetLabel *swl = SHEET_WIDGET_LABEL (sow);
-
 	swl->label = g_strdup (text);
 }
 
 static void
-sheet_widget_label_construct (SheetObjectWidget *sow)
+sheet_widget_label_init (SheetWidgetLabel *swl)
 {
-	sheet_widget_label_construct_with_label (sow, _("Label"));
+	sheet_widget_label_init_full (swl, _("Label"));
 }
 
 static void
@@ -238,8 +203,10 @@ sheet_widget_label_finalize (GObject *obj)
 {
 	SheetWidgetLabel *swl = SHEET_WIDGET_LABEL (obj);
 
-	g_free (swl->label);
-	swl->label = NULL;
+	if (swl->label != NULL) {
+		g_free (swl->label);
+		swl->label = NULL;
+	}
 
 	(*sheet_object_widget_class->finalize) (obj);
 }
@@ -253,15 +220,12 @@ sheet_widget_label_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview
 }
 
 static SheetObject *
-sheet_widget_label_clone (SheetObject const *so, Sheet *new_sheet)
+sheet_widget_label_clone (SheetObject const *src_swl, Sheet *new_sheet)
 {
-	SheetObjectWidget *new_sow;
-
-	new_sow = sheet_object_widget_clone (so, new_sheet);
-
-	sheet_widget_label_construct_with_label (new_sow, SHEET_WIDGET_LABEL (so)->label);
-
-	return SHEET_OBJECT (new_sow);
+	SheetWidgetLabel *swl = g_object_new (SHEET_WIDGET_LABEL_TYPE, NULL);
+	sheet_widget_label_init_full (swl,
+		SHEET_WIDGET_LABEL (src_swl)->label);
+	return SHEET_OBJECT (swl);
 }
 
 static gboolean
@@ -296,16 +260,15 @@ sheet_widget_label_read_xml (SheetObject *so,
 }
 
 
-SOW_MAKE_TYPE(label, Label,
-	      NULL,
-	      NULL,
-	      NULL,
-	      &sheet_widget_label_clone,
-	      &sheet_widget_label_write_xml,
-	      &sheet_widget_label_read_xml);
+SOW_MAKE_TYPE (label, Label,
+	       NULL,
+	       NULL,
+	       NULL,
+	       &sheet_widget_label_clone,
+	       &sheet_widget_label_write_xml,
+	       &sheet_widget_label_read_xml);
 
 /****************************************************************************/
-static GtkType sheet_widget_frame_get_type (void);
 #define SHEET_WIDGET_FRAME_TYPE     (sheet_widget_frame_get_type ())
 #define SHEET_WIDGET_FRAME(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_FRAME_TYPE, SheetWidgetFrame))
 typedef struct {
@@ -317,17 +280,15 @@ typedef struct {
 } SheetWidgetFrameClass;
 
 static void
-sheet_widget_frame_construct_with_label (SheetObjectWidget *sow, const char *text)
+sheet_widget_frame_init_full (SheetWidgetFrame *swf, char const *text)
 {
-	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (sow);
-
 	swf->label = g_strdup (text);
 }
 
 static void
-sheet_widget_frame_construct (SheetObjectWidget *sow)
+sheet_widget_frame_init (SheetWidgetFrame *swf)
 {
-	sheet_widget_frame_construct_with_label (sow, _("Frame"));
+	sheet_widget_frame_init_full (swf, _("Frame"));
 }
 
 static void
@@ -335,8 +296,10 @@ sheet_widget_frame_finalize (GObject *obj)
 {
 	SheetWidgetFrame *swf = SHEET_WIDGET_FRAME (obj);
 
-	g_free (swf->label);
-	swf->label = NULL;
+	if (swf->label != NULL) {
+		g_free (swf->label);
+		swf->label = NULL;
+	}
 
 	(*sheet_object_widget_class->finalize) (obj);
 }
@@ -350,16 +313,12 @@ sheet_widget_frame_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview
 }
 
 static SheetObject *
-sheet_widget_frame_clone (SheetObject const *so, Sheet *new_sheet)
+sheet_widget_frame_clone (SheetObject const *src_swf, Sheet *new_sheet)
 {
-	SheetObjectWidget *new_sow;
-
-	new_sow = sheet_object_widget_clone (so, new_sheet);
-
-	sheet_widget_frame_construct_with_label (new_sow,
-						 SHEET_WIDGET_FRAME (so)->label);
-
-	return SHEET_OBJECT (new_sow);
+	SheetWidgetFrame *swf = g_object_new (SHEET_WIDGET_FRAME_TYPE, NULL);
+	sheet_widget_frame_init_full (swf,
+		SHEET_WIDGET_FRAME (src_swf)->label);
+	return SHEET_OBJECT (swf);
 }
 
 static gboolean
@@ -393,16 +352,15 @@ sheet_widget_frame_read_xml (SheetObject *so,
 	return FALSE;
 }
 
-SOW_MAKE_TYPE(frame, Frame,
-	      NULL,
-	      NULL,
-	      NULL,
-	      &sheet_widget_frame_clone,
-	      &sheet_widget_frame_write_xml,
-	      &sheet_widget_frame_read_xml);
+SOW_MAKE_TYPE (frame, Frame,
+	       NULL,
+	       NULL,
+	       NULL,
+	       &sheet_widget_frame_clone,
+	       &sheet_widget_frame_write_xml,
+	       &sheet_widget_frame_read_xml);
 
 /****************************************************************************/
-static GtkType sheet_widget_button_get_type (void);
 #define SHEET_WIDGET_BUTTON_TYPE     (sheet_widget_button_get_type ())
 #define SHEET_WIDGET_BUTTON(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_BUTTON_TYPE, SheetWidgetButton))
 typedef struct {
@@ -414,17 +372,15 @@ typedef struct {
 } SheetWidgetButtonClass;
 
 static void
-sheet_widget_button_construct_with_label (SheetObjectWidget *sow, const char *text)
+sheet_widget_button_init_full (SheetWidgetButton *swb, char const *text)
 {
-	SheetWidgetButton *swb = SHEET_WIDGET_BUTTON (sow);
-
 	swb->label = g_strdup (text);
 }
 
 static void
-sheet_widget_button_construct (SheetObjectWidget *sow)
+sheet_widget_button_init (SheetWidgetButton *swb)
 {
-	sheet_widget_button_construct_with_label (sow, _("Button"));
+	sheet_widget_button_init_full (swb, _("Button"));
 }
 
 static void
@@ -447,16 +403,12 @@ sheet_widget_button_create_widget (SheetObjectWidget *sow, SheetControlGUI *svie
 }
 
 static SheetObject *
-sheet_widget_button_clone (SheetObject const *so, Sheet *new_sheet)
+sheet_widget_button_clone (SheetObject const *src_swb, Sheet *new_sheet)
 {
-	SheetObjectWidget *new_sow;
-
-	new_sow = sheet_object_widget_clone (so, new_sheet);
-
-	sheet_widget_button_construct_with_label (new_sow, SHEET_WIDGET_BUTTON (so)->label);
-
-	return SHEET_OBJECT (new_sow);
-
+	SheetWidgetButton *swb = g_object_new (SHEET_WIDGET_BUTTON_TYPE, NULL);
+	sheet_widget_button_init_full (swb,
+		SHEET_WIDGET_BUTTON (src_swb)->label);
+	return SHEET_OBJECT (swb);
 }
 
 static gboolean
@@ -490,16 +442,15 @@ sheet_widget_button_read_xml (SheetObject *so,
 	return FALSE;
 }
 
-SOW_MAKE_TYPE(button, Button,
-	      NULL,
-	      NULL,
-	      NULL,
-	      &sheet_widget_button_clone,
-	      &sheet_widget_button_write_xml,
-      	      &sheet_widget_button_read_xml);
+SOW_MAKE_TYPE (button, Button,
+	       NULL,
+	       NULL,
+	       NULL,
+	       &sheet_widget_button_clone,
+	       &sheet_widget_button_write_xml,
+	       &sheet_widget_button_read_xml);
 
 /****************************************************************************/
-static GtkType sheet_widget_scrollbar_get_type (void);
 #define SHEET_WIDGET_SCROLLBAR_TYPE     (sheet_widget_scrollbar_get_type ())
 #define SHEET_WIDGET_SCROLLBAR(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), SHEET_WIDGET_SCROLLBAR_TYPE, SheetWidgetScrollbar))
 #define DEP_TO_SCROLLBAR(d_ptr)		(SheetWidgetScrollbar *)(((char *)d_ptr) - GTK_STRUCT_OFFSET(SheetWidgetScrollbar, dep))
@@ -548,18 +499,18 @@ scrollbar_debug_name (Dependent const *dep, FILE *out)
 
 static DEPENDENT_MAKE_TYPE (scrollbar, NULL)
 
-static gboolean
+static CellRef *
 sheet_widget_scrollbar_get_ref (SheetWidgetScrollbar const *swb, CellRef *res)
 {
 	Value *target;
-	g_return_val_if_fail (swb != NULL, FALSE);
+	g_return_val_if_fail (swb != NULL, NULL);
 
 	if (swb->dep.expression == NULL)
-		return FALSE;
+		return NULL;
 
 	target = expr_tree_get_range (swb->dep.expression);
 	if (target == NULL)
-		return FALSE;
+		return NULL;
 
 	*res = target->v_range.cell.a;
 	value_release (target);
@@ -569,7 +520,7 @@ sheet_widget_scrollbar_get_ref (SheetWidgetScrollbar const *swb, CellRef *res)
 
 	if (res->sheet == NULL)
 		res->sheet = sheet_object_get_sheet (SHEET_OBJECT (swb));
-	return TRUE;
+	return res;
 }
 
 static void
@@ -582,7 +533,7 @@ cb_scrollbar_value_changed (GtkAdjustment *adjustment,
 		return;
 
 	swb->being_updated = TRUE;
-	if (sheet_widget_scrollbar_get_ref (swb, &ref)) {
+	if (sheet_widget_scrollbar_get_ref (swb, &ref) != NULL) {
 		Cell *cell = sheet_cell_fetch (ref.sheet, ref.col, ref.row);
 		/* TODO : add more control for precision, XL is stupid */
 		sheet_cell_set_value (cell, value_new_int (swb->adjustment->value), NULL);
@@ -594,11 +545,8 @@ cb_scrollbar_value_changed (GtkAdjustment *adjustment,
 }
 
 static void
-sheet_widget_scrollbar_construct_with_ref (SheetObjectWidget *sow,
-					  CellRef const *ref)
+sheet_widget_scrollbar_init_full (SheetWidgetScrollbar *swb, CellRef const *ref)
 {
-	SheetWidgetScrollbar *swb = SHEET_WIDGET_SCROLLBAR (sow);
-
 	g_return_if_fail (swb != NULL);
 
 	swb->adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (0., 0., 100., 1., 10., 1.));
@@ -615,9 +563,9 @@ sheet_widget_scrollbar_construct_with_ref (SheetObjectWidget *sow,
 }
 
 static void
-sheet_widget_scrollbar_construct (SheetObjectWidget *sow)
+sheet_widget_scrollbar_init (SheetWidgetScrollbar *swb)
 {
-	sheet_widget_scrollbar_construct_with_ref (sow, NULL);
+	sheet_widget_scrollbar_init_full (swb, NULL);
 }
 
 static void
@@ -658,25 +606,25 @@ sheet_widget_scrollbar_create_widget (SheetObjectWidget *sow, SheetControlGUI *s
 }
 
 static SheetObject *
-sheet_widget_scrollbar_clone (SheetObject const *so, Sheet *new_sheet)
+sheet_widget_scrollbar_clone (SheetObject const *src_so, Sheet *new_sheet)
 {
-	SheetWidgetScrollbar *swb = SHEET_WIDGET_SCROLLBAR (so);
-	SheetObjectWidget *new_sow = sheet_object_widget_clone (so, new_sheet);
-	GtkAdjustment *new_adjust, *old_adjust;
+	SheetWidgetScrollbar *src_swb = SHEET_WIDGET_SCROLLBAR (src_so);
+	SheetWidgetScrollbar *swb = g_object_new (SHEET_WIDGET_SCROLLBAR_TYPE, NULL);
+	GtkAdjustment *adjust, *src_adjust;
 	CellRef ref;
 
-	sheet_widget_scrollbar_construct_with_ref (new_sow,
-		(sheet_widget_scrollbar_get_ref (swb, &ref)) ? &ref : NULL);
-	new_adjust = SHEET_WIDGET_SCROLLBAR (new_sow)->adjustment;
-	old_adjust = SHEET_WIDGET_SCROLLBAR (so)->adjustment;
+	sheet_widget_scrollbar_init_full (swb,
+		sheet_widget_scrollbar_get_ref (src_swb, &ref));
+	adjust = swb->adjustment;
+	src_adjust = src_swb->adjustment;
 
-	new_adjust->lower = old_adjust->lower;
-	new_adjust->upper = old_adjust->upper;
-	new_adjust->value = old_adjust->value;
-	new_adjust->step_increment = old_adjust->step_increment;
-	new_adjust->page_increment = old_adjust->page_increment;
+	adjust->lower = src_adjust->lower;
+	adjust->upper = src_adjust->upper;
+	adjust->value = src_adjust->value;
+	adjust->step_increment = src_adjust->step_increment;
+	adjust->page_increment = src_adjust->page_increment;
 
-	return SHEET_OBJECT (new_sow);
+	return SHEET_OBJECT (swb);
 }
 
 typedef struct {
@@ -949,7 +897,6 @@ SOW_MAKE_TYPE (scrollbar, Scrollbar,
 	       &sheet_widget_scrollbar_read_xml)
 
 /****************************************************************************/
-static GtkType sheet_widget_checkbox_get_type (void);
 #define SHEET_WIDGET_CHECKBOX_TYPE	(sheet_widget_checkbox_get_type ())
 #define SHEET_WIDGET_CHECKBOX(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_CHECKBOX_TYPE, SheetWidgetCheckbox))
 #define DEP_TO_CHECKBOX(d_ptr)		(SheetWidgetCheckbox *)(((char *)d_ptr) - GTK_STRUCT_OFFSET(SheetWidgetCheckbox, dep))
@@ -1011,12 +958,10 @@ checkbox_debug_name (Dependent const *dep, FILE *out)
 static DEPENDENT_MAKE_TYPE (checkbox, NULL)
 
 static void
-sheet_widget_checkbox_construct_with_ref (SheetObjectWidget *sow,
-					  CellRef const *ref,
-					  char const *label)
+sheet_widget_checkbox_init_full (SheetWidgetCheckbox *swc,
+				 CellRef const *ref, char const *label)
 {
 	static int counter = 0;
-	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (sow);
 
 	g_return_if_fail (swc != NULL);
 
@@ -1029,9 +974,9 @@ sheet_widget_checkbox_construct_with_ref (SheetObjectWidget *sow,
 }
 
 static void
-sheet_widget_checkbox_construct (SheetObjectWidget *sow)
+sheet_widget_checkbox_init (SheetWidgetCheckbox *swc)
 {
-	sheet_widget_checkbox_construct_with_ref (sow, NULL, NULL);
+	sheet_widget_checkbox_init_full (swc, NULL, NULL);
 }
 
 static void
@@ -1051,18 +996,18 @@ sheet_widget_checkbox_finalize (GObject *obj)
 	(*sheet_object_widget_class->finalize)(obj);
 }
 
-static gboolean
+static CellRef *
 sheet_widget_checkbox_get_ref (SheetWidgetCheckbox const *swc, CellRef *res)
 {
 	Value *target;
-	g_return_val_if_fail (swc != NULL, FALSE);
+	g_return_val_if_fail (swc != NULL, NULL);
 
 	if (swc->dep.expression == NULL)
-		return FALSE;
+		return NULL;
 
 	target = expr_tree_get_range (swc->dep.expression);
 	if (target == NULL)
-		return FALSE;
+		return NULL;
 
 	*res = target->v_range.cell.a;
 	value_release (target);
@@ -1072,7 +1017,7 @@ sheet_widget_checkbox_get_ref (SheetWidgetCheckbox const *swc, CellRef *res)
 
 	if (res->sheet == NULL)
 		res->sheet = sheet_object_get_sheet (SHEET_OBJECT (swc));
-	return TRUE;
+	return res;
 }
 
 static void
@@ -1085,7 +1030,7 @@ cb_checkbox_toggled (GtkToggleButton *button, SheetWidgetCheckbox *swc)
 	swc->value = gtk_toggle_button_get_active (button);
 	sheet_widget_checkbox_set_active (swc);
 
-	if (sheet_widget_checkbox_get_ref (swc, &ref)) {
+	if (sheet_widget_checkbox_get_ref (swc, &ref) != NULL) {
 		gboolean const new_val = gtk_toggle_button_get_active (button);
 		Cell *cell = sheet_cell_fetch (ref.sheet, ref.col, ref.row);
 		sheet_cell_set_value (cell, value_new_bool (new_val), NULL);
@@ -1114,18 +1059,18 @@ sheet_widget_checkbox_create_widget (SheetObjectWidget *sow, SheetControlGUI *sv
 }
 
 static SheetObject *
-sheet_widget_checkbox_clone (SheetObject const *so, Sheet *new_sheet)
+sheet_widget_checkbox_clone (SheetObject const *src_so, Sheet *new_sheet)
 {
-	SheetWidgetCheckbox *swc = SHEET_WIDGET_CHECKBOX (so);
-	SheetObjectWidget *new_sow = sheet_object_widget_clone (so, new_sheet);
+	SheetWidgetCheckbox *src_swc = SHEET_WIDGET_CHECKBOX (src_so);
+	SheetWidgetCheckbox *swc = g_object_new (SHEET_WIDGET_CHECKBOX_TYPE, NULL);
 	CellRef ref;
 
-	sheet_widget_checkbox_construct_with_ref (new_sow,
-		(sheet_widget_checkbox_get_ref (swc, &ref)) ? &ref : NULL,
-		swc->label);
-	SHEET_WIDGET_CHECKBOX (new_sow)->value = swc->value;
+	sheet_widget_checkbox_init_full (swc,
+		sheet_widget_checkbox_get_ref (src_swc, &ref),
+		src_swc->label);
+	swc->value = src_swc->value;
 
-	return SHEET_OBJECT (new_sow);
+	return SHEET_OBJECT (swc);
 }
 
 typedef struct {
@@ -1250,6 +1195,10 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 					  GNOME_STOCK_BUTTON_OK,
 					  GNOME_STOCK_BUTTON_CANCEL,
 					  NULL);
+ 	table = gtk_table_new (0, 0, FALSE);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (state->dialog)->vbox),
+		table, TRUE, TRUE, 5);
+
 	state->expression = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (wbcg));
 	gnumeric_expr_entry_set_flags (state->expression,
 		GNUM_EE_ABS_ROW | GNUM_EE_ABS_COL | GNUM_EE_SHEET_OPTIONAL | GNUM_EE_SINGLE_RANGE,
@@ -1265,8 +1214,6 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 
  	gtk_entry_set_text (GTK_ENTRY (state->label), swc->label);
 
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (state->dialog)->vbox),
-			    table, TRUE, TRUE, 5);
 	gnome_dialog_set_default (GNOME_DIALOG (state->dialog), 0);
 
  	gtk_signal_connect (GTK_OBJECT (state->label), "changed",
@@ -1381,16 +1328,15 @@ sheet_widget_checkbox_set_link (SheetObject *so, ExprTree *expr)
 	dependent_set_expr (&swc->dep, expr);
 }
 
-SOW_MAKE_TYPE(checkbox, Checkbox,
-	      &sheet_widget_checkbox_user_config,
-	      &sheet_widget_checkbox_set_sheet,
-	      &sheet_widget_checkbox_clear_sheet,
-	      &sheet_widget_checkbox_clone,
-	      &sheet_widget_checkbox_write_xml,
-	      &sheet_widget_checkbox_read_xml)
+SOW_MAKE_TYPE (checkbox, Checkbox,
+	       &sheet_widget_checkbox_user_config,
+	       &sheet_widget_checkbox_set_sheet,
+	       &sheet_widget_checkbox_clear_sheet,
+	       &sheet_widget_checkbox_clone,
+	       &sheet_widget_checkbox_write_xml,
+	       &sheet_widget_checkbox_read_xml)
 
 /****************************************************************************/
-static GtkType sheet_widget_radio_button_get_type (void);
 #define SHEET_WIDGET_RADIO_BUTTON_TYPE	(sheet_widget_radio_button_get_type ())
 #define SHEET_WIDGET_RADIO_BUTTON(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_RADIO_BUTTON_TYPE, SheetWidgetRadioButton))
 #define DEP_TO_RADIO_BUTTON(d_ptr)	(SheetWidgetRadioButton *)(((char *)d_ptr) - GTK_STRUCT_OFFSET(SheetWidgetRadioButton, dep))
@@ -1432,7 +1378,7 @@ radio_button_debug_name (Dependent const *dep, FILE *out)
 static DEPENDENT_MAKE_TYPE (radio_button, NULL)
 
 static void
-sheet_widget_radio_button_construct (SheetObjectWidget *sow)
+sheet_widget_radio_button_init (SheetObjectWidget *sow)
 {
 	SheetWidgetRadioButton *swrb = SHEET_WIDGET_RADIO_BUTTON (sow);
 
@@ -1510,16 +1456,15 @@ sheet_widget_radio_button_clear_sheet (SheetObject *so)
 	return FALSE;
 }
 
-SOW_MAKE_TYPE(radio_button, RadioButton,
-	      NULL,
-	      sheet_widget_radio_button_set_sheet,
-	      sheet_widget_radio_button_clear_sheet,
-	      NULL,
-	      NULL,
-	      NULL)
+SOW_MAKE_TYPE (radio_button, RadioButton,
+	       NULL,
+	       sheet_widget_radio_button_set_sheet,
+	       sheet_widget_radio_button_clear_sheet,
+	       NULL,
+	       NULL,
+	       NULL)
 
 /****************************************************************************/
-static GtkType sheet_widget_list_get_type (void);
 #define SHEET_WIDGET_LIST_TYPE	(sheet_widget_list_get_type ())
 #define SHEET_WIDGET_LIST(obj)	(G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_LIST_TYPE, SheetWidgetList))
 #define DEP_TO_LIST(d_ptr)	(SheetWidgetList *)(((char *)d_ptr) - GTK_STRUCT_OFFSET(SheetWidgetList, dep))
@@ -1560,7 +1505,7 @@ list_debug_name (Dependent const *dep, FILE *out)
 static DEPENDENT_MAKE_TYPE (list, NULL)
 
 static void
-sheet_widget_list_construct (SheetObjectWidget *sow)
+sheet_widget_list_init (SheetObjectWidget *sow)
 {
 	SheetWidgetList *swl = SHEET_WIDGET_LIST (sow);
 
@@ -1608,16 +1553,15 @@ sheet_widget_list_clear_sheet (SheetObject *so)
 	return FALSE;
 }
 
-SOW_MAKE_TYPE(list, List,
-	      NULL,
-	      sheet_widget_list_set_sheet,
-	      sheet_widget_list_clear_sheet,
-	      NULL,
-	      NULL,
-	      NULL)
+SOW_MAKE_TYPE (list, List,
+	       NULL,
+	       sheet_widget_list_set_sheet,
+	       sheet_widget_list_clear_sheet,
+	       NULL,
+	       NULL,
+	       NULL)
 
 /****************************************************************************/
-static GtkType sheet_widget_combo_get_type (void);
 #define SHEET_WIDGET_COMBO_TYPE     (sheet_widget_combo_get_type ())
 #define SHEET_WIDGET_COMBO(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_WIDGET_COMBO_TYPE, SheetWidgetCombo))
 #define DEP_TO_COMBO_INPUT(d_ptr)	(SheetWidgetCombo *)(((char *)d_ptr) - GTK_STRUCT_OFFSET(SheetWidgetCombo, input_dep))
@@ -1688,7 +1632,7 @@ static DEPENDENT_MAKE_TYPE (combo_output, NULL)
 /*-----------*/
 
 static void
-sheet_widget_combo_construct (SheetObjectWidget *sow)
+sheet_widget_combo_init (SheetObjectWidget *sow)
 {
 	SheetWidgetCombo *swc = SHEET_WIDGET_COMBO (sow);
 
@@ -1749,13 +1693,13 @@ sheet_widget_combo_clear_sheet (SheetObject *so)
 	return FALSE;
 }
 
-SOW_MAKE_TYPE(combo, Combo,
-	      NULL,
-	      sheet_widget_combo_set_sheet,
-	      sheet_widget_combo_clear_sheet,
-	      NULL,
-	      NULL,
-	      NULL)
+SOW_MAKE_TYPE (combo, Combo,
+	       NULL,
+	       sheet_widget_combo_set_sheet,
+	       sheet_widget_combo_clear_sheet,
+	       NULL,
+	       NULL,
+	       NULL)
 
 /**************************************************************************/
 

@@ -483,10 +483,10 @@ wbcg_edit_detach_guru (WorkbookControlGUI *wbcg)
 	wb_control_menu_state_update (wbc, NULL, MS_GURU_MENU_ITEMS);
 }
 
-gboolean
+GtkWidget *
 wbcg_edit_has_guru (WorkbookControlGUI const *wbcg)
 {
-	return (wbcg->edit_line.guru != NULL);
+	return wbcg->edit_line.guru;
 }
 
 gboolean

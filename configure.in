@@ -311,7 +311,7 @@ else
 fi
 
 enable_bonobo=false
-bonobo_msg='temporarily disabled in gnome2'
+bonobo_msg="temporarily disabled in gnome2 branch"
 AC_ARG_WITH(bonobo,
 	[--{with,without}-bonobo   Use the bonobo UI routines],
 	if test "x$withval" = xyes; then

@@ -2596,10 +2596,8 @@ static GnomeUIInfo workbook_menu_file [] = {
 	GNOMEUIINFO_MENU_OPEN_ITEM (cb_file_open, NULL),
 	GNOMEUIINFO_ITEM_STOCK (N_("_Import..."), N_("Imports a file"),
 				cb_file_import, GTK_STOCK_OPEN),
-	GNOMEUIINFO_ITEM_STOCK (N_("_Save..."), N_("Save"),
-				cb_file_save, GTK_STOCK_SAVE),
-	GNOMEUIINFO_ITEM_STOCK (N_("Save _As..."), N_("Save with a new name or format"),
-				cb_file_save_as, GTK_STOCK_SAVE_AS),
+	GNOMEUIINFO_MENU_SAVE_ITEM (cb_file_save, NULL),
+	GNOMEUIINFO_MENU_SAVE_AS_ITEM (cb_file_save_as, NULL),
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -2709,29 +2707,14 @@ static GnomeUIInfo workbook_menu_edit_sheet [] = {
 
 
 static GnomeUIInfo workbook_menu_edit [] = {
-	{ GNOME_APP_UI_ITEM, N_("_Undo"),
-		N_("Undo the last action"), cb_edit_undo, NULL, NULL,
-		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_UNDO,
-		'z', GDK_CONTROL_MASK },
-	{ GNOME_APP_UI_ITEM, N_("_Redo"),
-		N_("Redo the undone action"), cb_edit_redo, NULL, NULL,
-		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_REDO,
-		'r', GDK_CONTROL_MASK },
+	GNOMEUIINFO_MENU_UNDO_ITEM(cb_edit_undo, NULL),
+	GNOMEUIINFO_MENU_REDO_ITEM(cb_edit_redo, NULL),
 
 	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_ITEM, N_("Cu_t"),
-		N_("Cut the selection"), cb_edit_cut, NULL, NULL,
-		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_CUT,
-		'x', GDK_CONTROL_MASK },
-	{ GNOME_APP_UI_ITEM, N_("_Copy"),
-		N_("Copy the selection"), cb_edit_copy, NULL, NULL,
-		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_COPY,
-		'c', GDK_CONTROL_MASK },
-	{ GNOME_APP_UI_ITEM, N_("_Paste"),
-		N_("Paste the clipboard"), cb_edit_paste, NULL, NULL,
-		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_PASTE,
-		'v', GDK_CONTROL_MASK },
+	GNOMEUIINFO_MENU_CUT_ITEM (cb_edit_cut, NULL),
+	GNOMEUIINFO_MENU_COPY_ITEM (cb_edit_copy, NULL),
+	GNOMEUIINFO_MENU_PASTE_ITEM (cb_edit_paste, NULL),
 
 	GNOMEUIINFO_ITEM_NONE (N_("P_aste special..."),
 		N_("Paste with optional filters and transformations"),

@@ -38,8 +38,9 @@
 #include <libgnome/gnome-i18n.h>
 
 static void
-create_object_command (SheetControlGUI *scg, SheetObject *so)
+create_object_command (WorkbookControlGUI *wbcg, SheetObject *so)
 {
+	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
 
 	scg_mode_create_object (scg, so);
@@ -48,21 +49,16 @@ create_object_command (SheetControlGUI *scg, SheetObject *so)
 }
 
 static void
-cmd_create_label (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cmd_create_label (GtkWidget *ignored, WorkbookControlGUI *wbcg)
 {
-	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
-	SheetObject *so = sheet_widget_label_new (sheet);
-		
-	create_object_command (scg, so);
+	create_object_command (wbcg,
+		g_object_new (sheet_widget_label_get_type(), NULL));
 }
 static void
-cmd_create_frame (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cmd_create_frame (GtkWidget *ignored, WorkbookControlGUI *wbcg)
 {
-	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
-	SheetObject *so = sheet_widget_frame_new (sheet);
-	create_object_command (scg, so);
+	create_object_command (wbcg,
+		g_object_new (sheet_widget_frame_get_type(), NULL));
 }
 
 #if 0 
@@ -70,84 +66,63 @@ cmd_create_frame (GtkWidget *widget, WorkbookControlGUI *wbcg)
 static void
 cmd_create_button (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
-	SheetObject *so = sheet_widget_button_new (sheet);
-	create_object_command (scg, so);
+	create_object_command (wbcg,
+		g_object_new (sheet_widget_button_get_type(), NULL));
 }
 #endif
 static void
 cmd_create_scrollbar (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
-	SheetObject *so = sheet_widget_scrollbar_new (sheet);
-	create_object_command (scg, so);
+	create_object_command (wbcg,
+		g_object_new (sheet_widget_scrollbar_get_type(), NULL));
 }
 static void
 cmd_create_checkbox (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
-	SheetObject *so = sheet_widget_checkbox_new (sheet);
-	create_object_command (scg, so);
+	create_object_command (wbcg,
+		g_object_new (sheet_widget_checkbox_get_type(), NULL));
 }
 #if 0
 static void
 cmd_create_radiobutton (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
-	SheetObject *so = sheet_widget_radio_button_new	(sheet);
-	create_object_command (scg, so);
+	create_object_command (wbcg,
+		g_object_new (sheet_widget_radiobutton_get_type(), NULL));
 }
 #endif
 static void
 cmd_create_list (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
-	SheetObject *so = sheet_widget_list_new (sheet);
-	create_object_command (scg, so);
+	create_object_command (wbcg,
+		g_object_new (sheet_widget_list_get_type(), NULL));
 }
 static void
-cmd_create_combobox (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cmd_create_combo (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-	Sheet *sheet = sc_sheet (SHEET_CONTROL (scg));
-	SheetObject *so = sheet_widget_combo_new (sheet);
-	create_object_command (scg, so);
+	create_object_command (wbcg,
+		g_object_new (sheet_widget_combo_get_type(), NULL));
 }
 
 static void
 cmd_create_line (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-	SheetObject *so = sheet_object_line_new (FALSE);
-	create_object_command (scg, so);
+	create_object_command (wbcg, sheet_object_line_new (FALSE));
 }
 static void
 cmd_create_arrow (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-	SheetObject *so = sheet_object_line_new (TRUE);
-	create_object_command (scg, so);
+	create_object_command (wbcg, sheet_object_line_new (TRUE));
 }
 static void
 cmd_create_rectangle (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-	SheetObject *so = sheet_object_box_new (FALSE);
-	create_object_command (scg, so);
+	create_object_command (wbcg, sheet_object_box_new (FALSE));
 }
 static void
 cmd_create_ellipse (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
-	SheetObject *so = sheet_object_box_new (TRUE);
-	create_object_command (scg, so);
+	create_object_command (wbcg, sheet_object_box_new (TRUE));
 }
-
 
 #ifndef ENABLE_BONOBO
 static GnomeUIInfo workbook_object_toolbar [] = {
@@ -179,8 +154,8 @@ static GnomeUIInfo workbook_object_toolbar [] = {
 		N_("List"), N_("Creates a list"),
 		&cmd_create_list, "Gnumeric_List"),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Combo"), N_("Creates a combobox"),
-		&cmd_create_combobox, "Gnumeric_Combo"),
+		N_("Combo"), N_("Creates a combo box"),
+		&cmd_create_combo, "Gnumeric_Combo"),
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Line"), N_("Creates a line object"),
 		cmd_create_line, "Gnumeric_Line"),
@@ -213,7 +188,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("CreateCheckbox", cmd_create_checkbox),
 	/* BONOBO_UI_UNSAFE_VERB ("CreateRadiobutton", cmd_create_radiobutton), */
 	BONOBO_UI_UNSAFE_VERB ("CreateList", cmd_create_list),
-	BONOBO_UI_UNSAFE_VERB ("CreateCombobox", cmd_create_combobox),
+	BONOBO_UI_UNSAFE_VERB ("CreateCombo", cmd_create_combo),
 	BONOBO_UI_UNSAFE_VERB ("CreateLine", cmd_create_line),
 	BONOBO_UI_UNSAFE_VERB ("CreateArrow", cmd_create_arrow),
 	BONOBO_UI_UNSAFE_VERB ("CreateRectangle", cmd_create_rectangle),

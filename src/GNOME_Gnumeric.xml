@@ -892,7 +892,7 @@
 	<toolitem name="Combo"
 	    pixtype="stock" pixname="Gnumeric_Combo"
 	    _label="Combo Box"
-	    _tip="Create a combo box" verb="CreateCombobox"/>
+	    _tip="Create a combo box" verb="CreateCombo"/>
 	-->
 
 	<toolitem name="Line"
