@@ -2111,14 +2111,18 @@ sheet_cursor_set (Sheet *sheet,
 	sheet_accept_pending_input (sheet);
 
 	/* Redraw the old edit cell */
-	sheet_redraw_cell_region (sheet,
-				  sheet->cursor.edit_pos.col,
-				  sheet->cursor.edit_pos.row,
-				  sheet->cursor.edit_pos.col,
-				  sheet->cursor.edit_pos.row);
+	if (sheet->cursor.edit_pos.col != edit_col ||
+	    sheet->cursor.edit_pos.row != edit_row) {
+		sheet_redraw_cell_region (sheet,
+					  sheet->cursor.edit_pos.col,
+					  sheet->cursor.edit_pos.row,
+					  sheet->cursor.edit_pos.col,
+					  sheet->cursor.edit_pos.row);
+		sheet->cursor.edit_pos.col = edit_col;
+		sheet->cursor.edit_pos.row = edit_row;
+		sheet_load_cell_val (sheet);
+	}
 
-	sheet->cursor.edit_pos.col = edit_col;
-	sheet->cursor.edit_pos.row = edit_row;
 	sheet->cursor.base_corner.col = base_col;
 	sheet->cursor.base_corner.row = base_row;
 	sheet->cursor.move_corner.col = move_col;
@@ -2133,7 +2137,6 @@ sheet_cursor_set (Sheet *sheet,
 			MAX (base_col, move_col),
 			MAX (base_row, move_row));
 	}
-	sheet_load_cell_val (sheet);
 }
 
 /**

@@ -67,8 +67,9 @@ static void
 gnumeric_dashed_canvas_line_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				  int x, int y, int width, int height)
 {
+	GnumericDashedCanvasLine *line = GNUMERIC_DASHED_CANVAS_LINE (item);
 	style_border_set_gc_dash (GNOME_CANVAS_LINE (item)->gc,
-				  GNUMERIC_DASHED_CANVAS_LINE (item)->dash_style_index);
+				  line->dash_style_index);
 	gnumeric_dashed_canvas_line_class->
 	    real_draw (item, drawable, x, y, width, height);
 }

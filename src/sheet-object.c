@@ -1052,7 +1052,6 @@ sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *
 			event_total_y = 0;
 			break;
 		case 3:
-		default:
 		{
 			GtkMenu *menu;
 
@@ -1062,6 +1061,9 @@ sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *
 			gnumeric_popup_menu (menu, (GdkEventButton *)event);
 			break;
 		}
+		default:
+			/* Ignore mouse wheel events */
+			return FALSE;
 		}
 		break;
 	}

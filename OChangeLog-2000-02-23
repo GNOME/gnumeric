@@ -1,3 +1,23 @@
+2000-02-21  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_cursor_set) : Be religous about handing edit_pos
+	  changes.
+
+	* src/commands.c (cmd_format) : save for formats for a range 1 cell
+	  thick around the selection so that borders are handled.
+
+	* src/sheet-view.c (sheet_view_redraw_cell_region) : Redraw a border
+	  around the selected region to handle thick borders */
+
+	* src/sheet-object.c (sheet_object_canvas_event) : Ignore mouse wheel
+	  events.
+
+	* src/border.c (style_border_set_gc_dash) : Use GDK_LINE_ON_OFF_DASH
+	  so that background colours show through.
+
+	* src/sheet-style.c (sheet_range_set_border) : Prefer top vs bottom
+	  and left vs right.  This will simplify drawing eventually.
+
 2000-02-21  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* src/dialogs/dialog-stf-csv-page.c :
@@ -52,6 +72,11 @@
 	for parent shell closing.
 
 	* src/print.c (sheet_print): Use gnumeric_dialog_run.
+
+2000-02-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/border.c (style_border_draw) : It ain't perfect, but it is
+	  better than nothing.
 
 2000-02-20  Jody Goldberg <jgoldberg@home.com>
 

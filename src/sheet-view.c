@@ -98,14 +98,22 @@ sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_r
 
 	x = sheet_col_get_distance_pixels (sheet, gsheet->col.first, min_col);
 	y = sheet_row_get_distance_pixels (sheet, gsheet->row.first, first_row);
-	w = sheet_col_get_distance_pixels (sheet, min_col, max_col+1) + 1;
-	h = sheet_row_get_distance_pixels (sheet, first_row, last_row+1) + 1;
+	w = sheet_col_get_distance_pixels (sheet, min_col, max_col+1);
+	h = sheet_row_get_distance_pixels (sheet, first_row, last_row+1);
 
 	x += canvas->layout.xoffset - canvas->zoom_xofs;
 	y += canvas->layout.yoffset - canvas->zoom_yofs;
+
+#if 0
+	fprintf (stderr, "%s%d:", col_name(min_col), first_row+1);
+	fprintf (stderr, "%s%d\n", col_name(max_col), last_row+1);
+#endif
+
+	/* redraw a border of 1 pixel around the region to handle thick borders
+	 * NOTE the 2nd coordinates are excluded so add 1 extra (+1border +1include) */
 	gnome_canvas_request_redraw (GNOME_CANVAS (gsheet),
-				     x, y,
-				     x+w, y+h);
+				     x-1, y-1,
+				     x+w+1+1, y+h+1+1);
 }
 
 void

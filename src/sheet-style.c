@@ -486,7 +486,6 @@ sheet_style_attach (Sheet  *sheet, Range range,
 	}
 	sheet_style_cache_flush (sheet);
 
-	/* FIXME: Need to clip range against view port */
 	sheet_redraw_range (sheet, &range);
 }
 
@@ -1038,7 +1037,7 @@ do_apply_border (Sheet *sheet, const Range *r,
 {
 	MStyle *mstyle;
 
-	if (borders && borders [idx]) {
+	if (borders [idx]) {
 		style_border_ref (borders [idx]);
 		
 		mstyle = mstyle_new ();
@@ -1082,32 +1081,42 @@ sheet_range_set_border (Sheet         *sheet,
 	Range          r;
 	MStyle        *mstyle;
 
-	/* 1.1 The top inner */
-	r = *range;
-	r.end.row = r.start.row;
-	do_apply_border (sheet, &r,
-			 MSTYLE_BORDER_TOP,
-			 STYLE_BORDER_TOP, borders);
-	/* 1.2 The top outer */
+	if (borders == NULL)
+		return;
+
 	if (borders [STYLE_BORDER_TOP]) {
+		/* 1.1 The top inner */
+		r = *range;
+		r.end.row = r.start.row;
+		do_apply_border (sheet, &r,
+				 MSTYLE_BORDER_TOP,
+				 STYLE_BORDER_TOP, borders);
+
+		/* 1.2 The top outer */
 		r.start.row--;
 		r.end.row = r.start.row;
 		if (r.start.row >= 0)
 			do_blank_border (sheet, &r, MSTYLE_BORDER_BOTTOM);
 	}
 
-	/* 2.1 The bottom inner */
-	r = *range;
-	r.start.row = r.end.row;
-	do_apply_border (sheet, &r,
-			 MSTYLE_BORDER_BOTTOM,
-			 STYLE_BORDER_BOTTOM, borders);
-	/* 2.2 The bottom outer */
+	/* 2   We prefer to paint Top of the row below */ 
 	if (borders [STYLE_BORDER_BOTTOM]) {
-		r.start.row++;
-		r.end.row = r.start.row;
-		if (r.start.row < SHEET_MAX_ROWS)
-			do_blank_border (sheet, &r, MSTYLE_BORDER_TOP);
+		r = *range;
+		r.start.row = r.end.row;
+		if (r.start.row < SHEET_MAX_ROWS-1) {
+			/* 2.1 The bottom outer */
+			do_blank_border (sheet, &r, MSTYLE_BORDER_BOTTOM);
+
+			/* 2.1 The bottom inner */
+			++r.end.row;
+			r.start.row = r.end.row;
+			do_apply_border (sheet, &r,
+					 MSTYLE_BORDER_TOP,
+					 STYLE_BORDER_BOTTOM, borders);
+		} else
+			do_apply_border (sheet, &r,
+					 MSTYLE_BORDER_BOTTOM,
+					 STYLE_BORDER_BOTTOM, borders);
 	}
 
 	/* 3.1 The left inner */
@@ -1125,19 +1134,25 @@ sheet_range_set_border (Sheet         *sheet,
 	}
 
 	/* 4.1 The right inner */
-	r = *range;
-	r.start.col = r.end.col;
-	do_apply_border (sheet, &r,
-			 MSTYLE_BORDER_RIGHT,
-			 STYLE_BORDER_RIGHT, borders);
-	/* 4.2 The right outer */
+	/* 4   We prefer to paint left of the col to the right */ 
 	if (borders [STYLE_BORDER_RIGHT]) {
-		r.start.col++;
-		r.end.col = r.start.col;
-		if (r.start.col < SHEET_MAX_COLS)
-			do_blank_border (sheet, &r, MSTYLE_BORDER_LEFT);
-	}
+		r = *range;
+		r.start.col = r.end.col;
+		if (r.start.col < SHEET_MAX_COLS-1) {
+			/* 2.1 The bottom outer */
+			do_blank_border (sheet, &r, MSTYLE_BORDER_RIGHT);
 
+			/* 2.1 The bottom inner */
+			++r.end.col;
+			r.start.col = r.end.col;
+			do_apply_border (sheet, &r,
+					 MSTYLE_BORDER_LEFT,
+					 STYLE_BORDER_RIGHT, borders);
+		} else
+			do_apply_border (sheet, &r,
+					 MSTYLE_BORDER_RIGHT,
+					 STYLE_BORDER_RIGHT, borders);
+	}
 
 	/* 5.1 The horizontal interior top */
 	r = *range;

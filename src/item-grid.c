@@ -27,6 +27,8 @@
 #include "cell-draw.h"
 #include "commands.h"
 
+#undef PAINT_DEBUG
+
 static GnomeCanvasItemClass *item_grid_parent_class;
 
 /* The arguments we take */
@@ -370,7 +372,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 
 	/* 2. the grids */
 	if (sheet->show_grid) {
-#if 0
+#if PAINT_DEBUG
 		fprintf (stderr, "paint : %s%d:", col_name(paint_col), paint_row+1);
 #endif
 		col = paint_col;
@@ -394,7 +396,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 				gdk_draw_line (drawable, grid_gc, 0, y_paint, width, y_paint);
 			}
 		}
-#if 0
+#if PAINT_DEBUG
 		fprintf (stderr, "%s%d\n", col_name(col-1), row);
 #endif
 	}

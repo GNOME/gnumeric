@@ -36,9 +36,6 @@
  *
  * 3) Implement the guts of the support functions.
  *
- * For formatting.  I'd like a range clipped list of a subset of style
- * elements corresponding to those being overridden.
- *
  * That way undo redo just become applications of the old or the new styles.
  *
  * Design thoughts :
@@ -936,12 +933,18 @@ cmd_format (CommandContext *context, Sheet *sheet,
 	me->old_styles = NULL;
 	for (l = me->selection; l; l = l->next) {
 		CmdFormatOldStyle *os;
-		Range *range = l->data;
+		Range range = *((Range const *)l->data);
+
+		/* Store the containing range to handle borders */
+		if (range.start.col > 0) range.start.col--;
+		if (range.start.row > 0) range.start.row--;
+		if (range.end.col < SHEET_MAX_COLS-1) range.end.col++;
+		if (range.end.row < SHEET_MAX_ROWS-1) range.end.row++;
 
 		os = g_new (CmdFormatOldStyle, 1);
 
-		os->styles = sheet_get_styles_in_range (sheet, range);
-		os->pos = range->start;
+		os->styles = sheet_get_styles_in_range (sheet, &range);
+		os->pos = range.start;
 
 		me->old_styles = g_slist_append (me->old_styles, os);
 	}

@@ -177,7 +177,7 @@ style_border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type)
 	i = line_type - 1;
 
 	if (style_border_data[i].pattern != NULL)
-		style = GDK_LINE_DOUBLE_DASH;
+		style = GDK_LINE_ON_OFF_DASH;
 
 	/* FIXME FIXME FIXME :
 	 * We will want to Adjust the join styles eventually to get
@@ -253,11 +253,20 @@ void
 style_border_draw (GdkDrawable * drawable, const MStyleBorder* border,
 		   int x1, int y1, int x2, int y2)
 {
-	if (border != NULL && border->line_type != STYLE_BORDER_NONE)
-		gdk_draw_line (drawable,
-			       style_border_get_gc ((MStyleBorder *)border,
-						    drawable),
-			       x1, y1, x2, y2);
+	if (border != NULL && border->line_type != STYLE_BORDER_NONE) {
+		GdkGC *gc = style_border_get_gc ((MStyleBorder *)border,
+						 drawable);
+
+		gdk_draw_line (drawable, gc, x1, y1, x2, y2);
+		if (border->line_type == STYLE_BORDER_DOUBLE) {
+			static GdkGC *middle_gc = NULL;
+			if (middle_gc == NULL) {
+				middle_gc = gdk_gc_new (drawable);
+				gdk_gc_set_foreground (middle_gc, &gs_white);
+			}
+			gdk_draw_line (drawable, middle_gc, x1, y1, x2, y2);
+		}
+	}
 }
 
 StyleBorderOrientation
