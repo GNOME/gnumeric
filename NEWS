@@ -5,6 +5,9 @@ Andreas:
 	* Fix default font selection in preference dialog. [#157238]
 	* Fix preference dialog window fraction selection. [#157239]
 
+Morten:
+	* Fix Clear-All crash.  [#157376]
+
 --------------------------------------------------------------------------
 
 Gnumeric 1.3.92
