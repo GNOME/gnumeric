@@ -2101,11 +2101,11 @@ cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
 					sheet_colrow_get (sheet, index-1, is_cols);
 
 				if (prev != NULL && prev->outline_level > d) {
-					visible = ((d+1) == prev->outline_level &&
+					visible = (depth == d &&
 						   cri != NULL && cri->is_collapsed);
 					last = index - 1;
 					first = colrow_find_outline_bound (sheet, is_cols,
-									   index-1, prev->outline_level, FALSE);
+						last, d+1, FALSE);
 				}
 			}
 		} else if (index+1 < colrow_max (is_cols)) {
@@ -2113,11 +2113,11 @@ cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
 				sheet_colrow_get (sheet, index+1, is_cols);
 
 			if (next != NULL && next->outline_level > d) {
-				visible = ((d+1) == next->outline_level &&
+				visible = (depth == d &&
 					   cri != NULL && cri->is_collapsed);
 				first = index + 1;
 				last = colrow_find_outline_bound (sheet, is_cols,
-					index+1, next->outline_level, TRUE);
+					first, d+1, TRUE);
 			}
 		}
 	}

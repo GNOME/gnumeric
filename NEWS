@@ -10,8 +10,9 @@ Andreas:
 
 Jody:
 	* More work on the expr entry.
-	* Fix nested grouping and xml import of grouping.
+	* Fix outline mode. 
 	* Add keyboard support to sheet objects.
+	* Add warning when xls imports non-ole file.
 
 Jukka:
 	* Improved function documentation.

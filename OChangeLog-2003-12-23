@@ -1,5 +1,11 @@
 2001-11-09  Jody Goldberg <jgoldberg@home.com>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=62131
+	* src/commands.c (cmd_colrow_outline_change) : The logic is to funky
+	  for my health.  I hope this doesn't screw something else up.
+
+2001-11-09  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet-object-widget.c (sheet_widget_checkbox_toggled) : Use
 	  expr_tree_get_range.
 	(cb_checkbox_set_focus) : rework to use dialog::set-focus.
