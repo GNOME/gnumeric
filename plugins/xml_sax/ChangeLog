@@ -1,3 +1,7 @@
+2001-12-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.1
+
 2001-12-18  Jody Goldberg <jody@gnome.org>
 
 	* xml-sax-read.c (xml_sax_style_condition_expr) :

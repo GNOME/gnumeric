@@ -2,6 +2,10 @@
 
 	* autocorrect.glade : change position of help button
 	
+2001-12-24  Jody Goldberg <jody@gnome.org>
+
+	* Release 0.99.1
+
 2001-12-22  Wayne Schuller  <k_wayne@linuxpower.org>
 
 	* dialog-printer-setup.c (hf_customize_help) : hook up help
