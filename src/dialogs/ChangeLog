@@ -1,3 +1,10 @@
+2002-03-22  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-function-select.c : split categories and functions into
+	  separate lists (we should really add subcategories to the 
+	  categories list
+	* function-select.glade : ditto
+
 2002-03-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-formula-guru.c (dialog_formula_guru_init) : use 

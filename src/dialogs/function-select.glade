@@ -75,6 +75,11 @@
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 
+      <child>
+	<widget class="GtkHPaned" id="hpaned1">
+	  <property name="visible">True</property>
+	  <property name="can_focus">True</property>
+
 	  <child>
 	    <widget class="GtkScrolledWindow" id="scrolled_tree">
 	      <property name="border_width">5</property>
@@ -90,6 +95,25 @@
 	      <property name="resize">False</property>
 	    </packing>
 	  </child>
+
+	  <child>
+	    <widget class="GtkScrolledWindow" id="scrolled_list">
+	      <property name="border_width">5</property>
+	      <property name="visible">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+	      <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+	      <property name="shadow_type">GTK_SHADOW_ETCHED_IN</property>
+	      <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
+	    </widget>
+	    <packing>
+	      <property name="shrink">True</property>
+	      <property name="resize">False</property>
+	    </packing>
+	  </child>
+
+	</widget>
+      </child>
 
 	  <child>
 	    <widget class="GtkScrolledWindow" id="scrolled_desc">

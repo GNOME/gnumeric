@@ -52,17 +52,22 @@ typedef struct {
 	GtkWidget *ok_button;
 	GtkTreeStore  *model;
 	GtkTreeView   *treeview;
+	GtkListStore  *model_f;
+	GtkTreeView   *treeview_f;
 	GtkTextBuffer   *description;
 
 	char const *formula_guru_key;
 } FunctionSelectState;
 
 enum {
-	CAT_FUN_NAME,
-	IS_FUNCTION,
+	CAT_NAME,
 	CATEGORY,
-	FUNCTION,
 	NUM_COLMNS
+};
+enum {
+	FUN_NAME,
+	FUNCTION,
+	NUM_COLUMNS
 };
 
 /**
@@ -122,22 +127,18 @@ cb_dialog_function_select_ok_clicked (GtkWidget *button, FunctionSelectState *st
 {
 	GtkTreeIter  iter;
 	GtkTreeModel *model;
-	gboolean     is_func;
 	FunctionDefinition const *func;
-	GtkTreeSelection *the_selection = gtk_tree_view_get_selection (state->treeview);
+	GtkTreeSelection *the_selection = gtk_tree_view_get_selection (state->treeview_f);
 
 	if (gtk_tree_selection_get_selected (the_selection, &model, &iter)) {
+		WorkbookControlGUI *wbcg = state->wbcg;
 		gtk_tree_model_get (model, &iter,
-				    IS_FUNCTION, &is_func,
 				    FUNCTION, &func,
 				    -1);
-		if (is_func) {
-			WorkbookControlGUI *wbcg = state->wbcg;
-			state->formula_guru_key = NULL;
-			gtk_widget_destroy (state->dialog);
-			dialog_formula_guru (wbcg, func);
-			return;
-		}
+		state->formula_guru_key = NULL;
+		gtk_widget_destroy (state->dialog);
+		dialog_formula_guru (wbcg, func);
+		return;
 	}
 	g_warning ("Something wrong, we should never get here!");
 	gtk_widget_destroy (state->dialog);
@@ -158,20 +159,63 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 {
 	int i = 0;
 	GtkTreeIter p_iter;
-	GtkTreeIter iter;
 	FunctionCategory const * cat;
-	GList *funcs, *this_func;
 
 	gtk_tree_store_clear (state->model);
 
 	while ((cat = function_category_get_nth (i++)) != NULL) {
 		gtk_tree_store_append (state->model, &p_iter, NULL);
 		gtk_tree_store_set (state->model, &p_iter,
-				    CAT_FUN_NAME, cat->display_name->str,
-				    IS_FUNCTION, FALSE,
+				    CAT_NAME, cat->display_name->str,
 				    CATEGORY, cat,
-				    FUNCTION, NULL,
 				    -1);
+	}
+
+}
+
+
+static void
+cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection, 
+					     FunctionSelectState *state)
+{
+	GtkTreeIter  iter;
+	GtkTreeModel *model;
+	FunctionDefinition const *func;
+
+	if (gtk_tree_selection_get_selected (the_selection, &model, &iter)) {
+		gtk_tree_model_get (model, &iter,
+				    FUNCTION, &func,
+				    -1);
+		{
+			TokenizedHelp *help = tokenized_help_new (func);
+			char const * f_desc = tokenized_help_find (help, "DESCRIPTION");
+			gtk_text_buffer_set_text (state->description, f_desc, -1);
+			tokenized_help_destroy (help);
+		}
+		gtk_widget_set_sensitive (state->ok_button, TRUE);
+		return;
+	}
+	gtk_widget_set_sensitive (state->ok_button, FALSE);
+	gtk_text_buffer_set_text (state->description, "", 0);
+
+}
+
+static void
+cb_dialog_function_select_cat_selection_changed (GtkTreeSelection *the_selection, 
+					     FunctionSelectState *state)
+{
+	GtkTreeIter  iter;
+	GtkTreeModel *model;
+	FunctionCategory const * cat;
+	GList *funcs, *this_func;
+
+	gtk_list_store_clear (state->model_f);
+
+	if (gtk_tree_selection_get_selected (the_selection, &model, &iter)) {
+		gtk_tree_model_get (model, &iter,
+				    CATEGORY, &cat,
+				    -1);
+
 		this_func = funcs = g_list_sort (g_list_copy (cat->functions), 
 						 dialog_function_select_by_name);
 		while (this_func) {
@@ -179,11 +223,9 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 			TokenizedHelp *help = tokenized_help_new (a_func);
 			char const *f_syntax = tokenized_help_find (help, "SYNTAX");
 
-			gtk_tree_store_append (state->model, &iter, &p_iter);
-			gtk_tree_store_set (state->model, &iter,
-					    CAT_FUN_NAME, f_syntax,
-					    IS_FUNCTION, TRUE,
-					    CATEGORY, NULL,
+			gtk_list_store_append (state->model_f, &iter);
+			gtk_list_store_set (state->model_f, &iter,
+					    FUN_NAME, f_syntax,
 					    FUNCTION, a_func,
 					    -1);
 			this_func = this_func->next;
@@ -191,34 +233,6 @@ dialog_function_select_load_tree (FunctionSelectState *state)
 		}
 		g_list_free (funcs);
 	}
-
-}
-
-
-static void
-cb_dialog_function_select_selection_changed (GtkTreeSelection *the_selection, 
-					     FunctionSelectState *state)
-{
-	GtkTreeIter  iter;
-	GtkTreeModel *model;
-	gboolean     is_func;
-	FunctionDefinition const *func;
-
-	if (gtk_tree_selection_get_selected (the_selection, &model, &iter)) {
-		gtk_tree_model_get (model, &iter,
-				    IS_FUNCTION, &is_func,
-				    FUNCTION, &func,
-				    -1);
-		if (is_func) {
-			TokenizedHelp *help = tokenized_help_new (func);
-			char const *f_desc = tokenized_help_find (help, "DESCRIPTION");
-			gtk_text_buffer_set_text (state->description, f_desc, -1);
-			gtk_widget_set_sensitive (state->ok_button, TRUE);
-			return;
-		}
-	}
-	gtk_widget_set_sensitive (state->ok_button, FALSE);
-	gtk_text_buffer_set_text (state->description, "", 0);
 }
 
 static gboolean
@@ -232,28 +246,48 @@ dialog_function_select_init (FunctionSelectState *state)
 	g_object_set_data (G_OBJECT (state->dialog), FUNCTION_SELECT_DIALOG_KEY, 
 			   state);
 
-	/* Set-up treeview */
+	/* Set-up first treeview */
 	scrolled = glade_xml_get_widget (state->gui, "scrolled_tree");
-	state->model = gtk_tree_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_BOOLEAN,
-					   G_TYPE_POINTER, G_TYPE_POINTER);
+	state->model = gtk_tree_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_POINTER);
 	state->treeview = GTK_TREE_VIEW (
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model)));
 	selection = gtk_tree_view_get_selection (state->treeview);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
 	g_signal_connect (selection,
 		"changed",
-		G_CALLBACK (cb_dialog_function_select_selection_changed), state);
+		G_CALLBACK (cb_dialog_function_select_cat_selection_changed), state);
 
 	column = gtk_tree_view_column_new_with_attributes (_("Name"),
 							   gtk_cell_renderer_text_new (),
-							   "text", CAT_FUN_NAME, NULL);
-	gtk_tree_view_column_set_sort_column_id (column, CAT_FUN_NAME);
+							   "text", CAT_NAME, NULL);
+	gtk_tree_view_column_set_sort_column_id (column, CAT_NAME);
 	gtk_tree_view_append_column (state->treeview, column);
 
 	gtk_tree_view_set_headers_visible (state->treeview, FALSE);
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->treeview));
 	dialog_function_select_load_tree (state);
-	/* Finished set-up of treeview */
+	/* Finished set-up of first treeview */
+
+	/* Set-up second treeview */
+	scrolled = glade_xml_get_widget (state->gui, "scrolled_list");
+	state->model_f = gtk_list_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_POINTER);
+	state->treeview_f = GTK_TREE_VIEW (
+		gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model_f)));
+	selection = gtk_tree_view_get_selection (state->treeview_f);
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
+	g_signal_connect (selection,
+		"changed",
+		G_CALLBACK (cb_dialog_function_select_fun_selection_changed), state);
+
+	column = gtk_tree_view_column_new_with_attributes (_("Name"),
+							   gtk_cell_renderer_text_new (),
+							   "text", FUN_NAME, NULL);
+	gtk_tree_view_column_set_sort_column_id (column, FUN_NAME);
+	gtk_tree_view_append_column (state->treeview_f, column);
+
+	gtk_tree_view_set_headers_visible (state->treeview_f, FALSE);
+	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->treeview_f));
+	/* Finished set-up of second treeview */
 
 	gtk_paned_set_position (GTK_PANED (glade_xml_get_widget 
 					   (state->gui, "vpaned1")), 300);
