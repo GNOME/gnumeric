@@ -96,8 +96,11 @@ item_bar_unrealize (GnomeCanvasItem *item)
 }
 
 static void
-item_bar_reconfigure (GnomeCanvasItem *item)
+item_bar_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 {
+	if (GNOME_CANVAS_ITEM_CLASS(item_bar_parent_class)->update)
+		(*GNOME_CANVAS_ITEM_CLASS(item_bar_parent_class)->update)(item, affine, clip_path, flags);
+
 	item->x1 = 0;
 	item->y1 = 0;
 	item->x2 = INT_MAX;
@@ -569,7 +572,7 @@ item_bar_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		}
 		break;
 	}
-	item_bar_reconfigure (item);
+	item_bar_update (item, NULL, NULL, 0);
 }
 
 /*
@@ -622,9 +625,9 @@ item_bar_class_init (ItemBarClass *item_bar_class)
 	object_class->set_arg = item_bar_set_arg;
 
 	/* GnomeCanvasItem method overrides */
+	item_class->update      = item_bar_update;
 	item_class->realize     = item_bar_realize;
 	item_class->unrealize   = item_bar_unrealize;
-	item_class->reconfigure = item_bar_reconfigure;
 	item_class->draw        = item_bar_draw;
 	item_class->point       = item_bar_point;
 	item_class->translate   = item_bar_translate;

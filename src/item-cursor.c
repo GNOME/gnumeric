@@ -117,10 +117,10 @@ item_cursor_unrealize (GnomeCanvasItem *item)
 }
 
 static void
-item_cursor_reconfigure (GnomeCanvasItem *item)
+item_cursor_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 {
-	if (GNOME_CANVAS_ITEM_CLASS(item_cursor_parent_class)->reconfigure)
-		(*GNOME_CANVAS_ITEM_CLASS(item_cursor_parent_class)->reconfigure)(item);
+	if (GNOME_CANVAS_ITEM_CLASS(item_cursor_parent_class)->update)
+		(*GNOME_CANVAS_ITEM_CLASS(item_cursor_parent_class)->update)(item, affine, clip_path, flags);
 }
 
 /*
@@ -834,9 +834,9 @@ item_cursor_class_init (ItemCursorClass *item_cursor_class)
 	object_class->destroy = item_cursor_destroy;
 
 	/* GnomeCanvasItem method overrides */
+	item_class->update      = item_cursor_update;
 	item_class->realize     = item_cursor_realize;
 	item_class->unrealize   = item_cursor_unrealize;
-	item_class->reconfigure = item_cursor_reconfigure;
 	item_class->draw        = item_cursor_draw;
 	item_class->point       = item_cursor_point;
 	item_class->translate   = item_cursor_translate;

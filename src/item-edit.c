@@ -119,13 +119,13 @@ item_edit_event (GnomeCanvasItem *item, GdkEvent *event)
 }
 
 static void
-item_edit_reconfigure (GnomeCanvasItem *item)
+item_edit_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 {
 	ItemEdit *item_edit = ITEM_EDIT (item);
 	int x, y, w, h;
 
-	if (GNOME_CANVAS_ITEM_CLASS (item_edit_parent_class)->reconfigure)
-		(*GNOME_CANVAS_ITEM_CLASS(item_edit_parent_class)->reconfigure)(item);
+	if (GNOME_CANVAS_ITEM_CLASS (item_edit_parent_class)->update)
+		(*GNOME_CANVAS_ITEM_CLASS(item_edit_parent_class)->update)(item, affine, clip_path, flags);
 	
 	item_edit_get_pixel_coords (item_edit, &x, &y, &w, &h);
 	item->x1 = x;
@@ -253,7 +253,7 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	/* Once all of our parameters have been set, do the reconfiguration */
 	if (item_edit->sheet && item_edit->col != -1 && item_edit->row != -1)
-		item_edit_reconfigure (item);
+		item_edit_update (item, NULL, NULL, 0);
 }
 
 /*
@@ -285,11 +285,11 @@ item_edit_class_init (ItemEditClass *item_edit_class)
 	object_class->destroy = item_edit_destroy;
 	
 	/* GnomeCanvasItem method overrides */
+	item_class->update      = item_edit_update;
 	item_class->draw        = item_edit_draw;
 	item_class->point       = item_edit_point;
 	item_class->translate   = item_edit_translate;
 	item_class->event       = item_edit_event;
-	item_class->reconfigure = item_edit_reconfigure;
 }
 
 GtkType

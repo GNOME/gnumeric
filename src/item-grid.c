@@ -102,8 +102,11 @@ item_grid_unrealize (GnomeCanvasItem *item)
 }
 
 static void
-item_grid_reconfigure (GnomeCanvasItem *item)
+item_grid_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 {
+	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->update)
+		(* GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->update) (item, affine, clip_path, flags);
+
 	item->x1 = 0;
 	item->y1 = 0;
 	item->x2 = INT_MAX;
@@ -963,9 +966,9 @@ item_grid_class_init (ItemGridClass *item_grid_class)
 	object_class->destroy = item_grid_destroy;
 
 	/* GnomeCanvasItem method overrides */
+	item_class->update      = item_grid_update;
 	item_class->realize     = item_grid_realize;
 	item_class->unrealize   = item_grid_unrealize;
-	item_class->reconfigure = item_grid_reconfigure;
 	item_class->draw        = item_grid_draw;
 	item_class->point       = item_grid_point;
 	item_class->translate   = item_grid_translate;
