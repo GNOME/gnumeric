@@ -56,11 +56,7 @@ solver_param_new (void)
 
 	res->options.model_type          = SolverLPModel;
 	res->options.assume_non_negative = TRUE;
-#if __HAVE_GLPK__
 	res->options.algorithm           = GLPKSimplex;
-#else
-	res->options.algorithm           = LPSolve;
-#endif
 	res->input_entry_str             = g_strdup ("");
 	res->problem_type                = SolverMaximize;
 	res->constraints                 = NULL;

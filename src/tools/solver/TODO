@@ -2,13 +2,12 @@
 
 1.1 For Gnumeric 1.2
 
-	* Add `keep original values dialog'.
-	  - Add show iteration results list into it.
 	* Clean up dialog-solver.c.
 	* Fix constraint change button.
 	* Add `equal to' option for target cell.
 	* Add `in range' option for target cell.
 	* Improve the usability of the dialog (e.g. focus issues).
+	* Add show iteration results feature.
 
 
 1.2 Later versions
@@ -24,16 +23,11 @@
 	  - Fix constraints: allowable decrease.
 	* Add a status dialog for reporting while Solver is computing.
 	  - Add abort button into it.
-	* Enable GLPK:
-	  - Add configure check.
-	  - Fix bug: INT & BOOL constraints with GLPK Simplex.
-	  - Add support for algorithm specific options.
 	* Add model checkings (check that a model is really LP or QP).
 	* Dual program report.
 	* Speed up LP model generation by implementing a parser.
 	* Speed up limits reporting.
 	* Add options:
-	  - Algorithm selection.
 	  - Rounding of close zeros.
 	* Fix XL import and export of the solver parameters.
 	* MPS plugin:
