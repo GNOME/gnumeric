@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.69\n"
-"POT-Creation-Date: 2001-12-15 07:59+0100\n"
+"POT-Creation-Date: 2001-12-15 21:37+0100\n"
 "PO-Revision-Date: 2001-12-14 14:29+0100\n"
 "Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
 "Language-Team: nynorsk <nn@li.org>\n"
@@ -956,7 +956,7 @@ msgid "Automatically save the current document at regular intervals"
 msgstr "Automatisk lagre gjeldande dokument med jamne mellomrom"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:16
-#: src/dialogs/dialog-cell-format.c:2673 src/workbook-format-toolbar.c:840
+#: src/dialogs/dialog-cell-format.c:2699 src/workbook-format-toolbar.c:840
 #: src/workbook-format-toolbar.c:896
 msgid "Background"
 msgstr "Bakgrunn"
@@ -998,7 +998,7 @@ msgstr "SentrerOverUtvalet"
 
 #: src/GNOME_Gnumeric.xml.h:21
 msgid "Centers across the selected cells"
-msgstr "Sentrer dei over dei valte elementa"
+msgstr "Sentrer over dei valte elementa"
 
 #: src/GNOME_Gnumeric.xml.h:22
 msgid "Centers the text in each selection"
@@ -1246,7 +1246,7 @@ msgstr "Skriftstorleik"
 msgid "Font selector"
 msgstr "Skrifttypevelgar"
 
-#: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2668
+#: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2694
 #: src/workbook-format-toolbar.c:865 src/workbook-format-toolbar.c:899
 msgid "Foreground"
 msgstr "Framgrunn"
@@ -2097,7 +2097,7 @@ msgstr "_Arbeidsbok ..."
 
 #: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:2653
 msgid "_Zoom..."
-msgstr "_Forstørr ..."
+msgstr "F_orstørr ..."
 
 #: src/analysis-tools.c:194 src/analysis-tools.c:3188
 #, c-format
@@ -3309,7 +3309,7 @@ msgstr "Alle verdiar                 (ingen validering)"
 msgid "Background Color"
 msgstr "Bakgrunnsfarge"
 
-#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2663
+#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2689
 msgid "Border"
 msgstr "Kant"
 
@@ -3391,8 +3391,8 @@ msgstr "Diagonal stripe"
 msgid "Display the value exactly as it was entered"
 msgstr "Vis verdien eksakt som den vart skriven inn"
 
-#: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-cell-format.c:1280
-#: src/dialogs/dialog-cell-format.c:1340
+#: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-cell-format.c:1306
+#: src/dialogs/dialog-cell-format.c:1366
 msgid "Double"
 msgstr "Dobbel"
 
@@ -3474,8 +3474,8 @@ msgstr "Melding :"
 msgid "Negat_ive number:"
 msgstr "Negat_ivt tal:"
 
-#: src/dialogs/cell-format.glade.h:61 src/dialogs/dialog-cell-format.c:1282
-#: src/dialogs/dialog-cell-format.c:1338 src/dialogs/dialog-paste-special.c:34
+#: src/dialogs/cell-format.glade.h:61 src/dialogs/dialog-cell-format.c:1308
+#: src/dialogs/dialog-cell-format.c:1364 src/dialogs/dialog-paste-special.c:34
 msgid "None"
 msgstr "Ingen"
 
@@ -3496,7 +3496,7 @@ msgstr "Retning"
 msgid "Outline"
 msgstr "Oversikt"
 
-#: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2678
+#: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2704
 msgid "Pattern"
 msgstr "Mønster"
 
@@ -3529,8 +3529,8 @@ msgid "Shrin_k to fit"
 msgstr "Formins_k så den passar"
 
 #. There must be a better way than this
-#: src/dialogs/cell-format.glade.h:76 src/dialogs/dialog-cell-format.c:1278
-#: src/dialogs/dialog-cell-format.c:1339
+#: src/dialogs/cell-format.glade.h:76 src/dialogs/dialog-cell-format.c:1304
+#: src/dialogs/dialog-cell-format.c:1365
 msgid "Single"
 msgstr "Enkel"
 
@@ -4630,30 +4630,30 @@ msgstr "_);("
 msgid "_);[Red]("
 msgstr "_);[Raud]("
 
-#: src/dialogs/dialog-cell-format.c:2127 src/dialogs/dialog-cell-format.c:2136
+#: src/dialogs/dialog-cell-format.c:2153 src/dialogs/dialog-cell-format.c:2162
 msgid "Minimum :"
 msgstr "Minimum :"
 
-#: src/dialogs/dialog-cell-format.c:2128 src/dialogs/dialog-cell-format.c:2140
+#: src/dialogs/dialog-cell-format.c:2154 src/dialogs/dialog-cell-format.c:2166
 msgid "Maximum :"
 msgstr "Maksimum :"
 
-#: src/dialogs/dialog-cell-format.c:2132
+#: src/dialogs/dialog-cell-format.c:2158
 msgid "Value :"
 msgstr "Verdi:"
 
-#: src/dialogs/dialog-cell-format.c:2597
+#: src/dialogs/dialog-cell-format.c:2623
 msgid "Format Cells"
 msgstr "Format:Celler"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2663 src/dialogs/dialog-cell-format.c:2668
-#: src/dialogs/dialog-cell-format.c:2678 src/functions/fn-information.c:427
+#: src/dialogs/dialog-cell-format.c:2689 src/dialogs/dialog-cell-format.c:2694
+#: src/dialogs/dialog-cell-format.c:2704 src/functions/fn-information.c:427
 #: src/workbook-format-toolbar.c:858
 msgid "Automatic"
 msgstr "Automatisk"
 
-#: src/dialogs/dialog-cell-format.c:2673 src/workbook-format-toolbar.c:833
+#: src/dialogs/dialog-cell-format.c:2699 src/workbook-format-toolbar.c:833
 msgid "Clear Background"
 msgstr "Klar bakgrunn"
 
@@ -5222,11 +5222,11 @@ msgstr "Autooppdag fann ingen kolonner i teksta, Prøv manuelt"
 msgid "%d lines to import"
 msgstr "%d linjer å importera"
 
-#: src/dialogs/dialog-stf-main-page.c:210
+#: src/dialogs/dialog-stf-main-page.c:227
 msgid "LINES TOO LONG!"
 msgstr "LINJER FOR LANGE!"
 
-#: src/dialogs/dialog-stf-main-page.c:234
+#: src/dialogs/dialog-stf-main-page.c:253
 #, c-format
 msgid "Data (from %s)"
 msgstr "Data (frå %s)"
@@ -8476,7 +8476,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-date.c:386
-#, fuzzy
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -8487,17 +8486,14 @@ msgid ""
 "\n"
 "@SEEALSO=HOUR"
 msgstr ""
-"@FUNCTION=INT\n"
-"@SYNTAX=INT(a)\n"
-"@DESCRIPTION=INT returnerar det største heiltalet som ikkje er høgare talet "
-"gitt som argument. Denne funksjonen er Excel kompatibel. \n"
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (timar;minutt;sekund)\n"
+"@DESCRIPTION=TIME returnerar ein brøk som representerar tid på dagen.\n"
+"Denne funksjonen er Excel-kompatibel. \n"
 "@EXAMPLES=\n"
+"TIME(3; 5; 23) er lik 3:05.\n"
 "\n"
-"INT(7,2) er lik 7.\n"
-"\n"
-"INT(-5,5) er lik -6.\n"
-"\n"
-"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
+"@SEEALSO=HOUR"
 
 #: src/functions/fn-date.c:415
 #, fuzzy
@@ -8515,7 +8511,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
-"@DESCRIPTION=INT returnerar det største heiltalet som ikkje er høgare talet "
+"@DESCRIPTION=INT returnerar det største heiltalet som ikkje er høgare enn talet "
 "gitt som argument. Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "\n"
@@ -8688,7 +8684,7 @@ msgstr ""
 #: src/functions/fn-date.c:873 src/functions/fn-eng.c:75
 #: src/functions/fn-information.c:393 src/functions/fn-information.c:409
 msgid "Unimplemented"
-msgstr "Er ikkje implementert."
+msgstr "Ikkje implementert"
 
 #: src/functions/fn-date.c:908
 msgid ""
