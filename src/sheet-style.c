@@ -1136,3 +1136,4 @@ sheet_selection_set_border (Sheet *sheet,
 	if (vert)
 		style_border_unref (vert);
 }
+

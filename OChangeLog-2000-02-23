@@ -1,3 +1,10 @@
+1999-11-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-cell-format.c (init_border_button) : Use
+	  check_border.
+	(check_border, cb_check_border,
+	 do_check_border, sheet_cell_get_border) : New functions.
+
 1999-11-08  Jody Goldberg <jgoldberg@home.com>
 
 	* src/selection.c (selection_foreach_range) : Have the call back

@@ -1423,6 +1423,15 @@ cb_border_preset_clicked (GtkButton *btn, FormatState *state)
 			gtk_toggle_button_set_active (
 				state->border.edge[i].button,
 				TRUE);
+		else if (gtk_toggle_button_get_active (
+				state->border.edge[i].button))
+			/* Turn off damn it !
+			 * we really want things off not just to pick up
+			 * the new colours.
+			 */
+			gtk_toggle_button_set_active (
+				state->border.edge[i].button,
+				FALSE);
 	}
 }
 
@@ -1459,6 +1468,146 @@ cb_border_color (GtkObject *obj, guint r, guint g, guint b, guint a,
 #undef H
 #undef V
 
+typedef struct
+{
+	BorderLocations     t;
+	MStyleBorder const *res;
+} check_border_closure_t;
+
+static MStyleBorder const *
+sheet_cell_get_border (Sheet *sheet, int col, int row, MStyleElementType const t)
+{
+	MStyleBorder const * res;
+	MStyle *style = sheet_style_compute (sheet, col, row);
+	res = mstyle_get_border (style, t);
+	mstyle_unref (style);
+	return res;
+}
+
+static MStyleBorder const *
+do_check_border (Sheet *sheet, Range const *r,
+		 MStyleElementType const t1,
+		 MStyleElementType const t2,
+		 int const x_dual_offset,
+		 int const y_dual_offset,
+		 MStyleBorder const * res)
+{
+    int x, y;
+
+    for (x = r->start.col ; x <= r->end.col; ++x)
+	    for (y = r->start.row ; y <= r->end.row; ++y)
+	    {
+		    MStyleBorder const * border =
+			sheet_cell_get_border (sheet, x, y, t1);
+
+		    g_return_val_if_fail (border != NULL, NULL);
+
+		    if ((x_dual_offset != 0 || y_dual_offset != 0) &&
+			border->line_type == BORDER_NONE)
+			    border = sheet_cell_get_border (sheet,
+							    x + x_dual_offset,
+							    y + y_dual_offset,
+							    t2);
+		    
+		    if (res == NULL)
+			    res = border;
+		    else if (res != border)
+			    return NULL;
+	    }
+    return res;
+}
+
+/*
+ * Check to see if there is a consistent border
+ * style, pattern, and colour around a region.
+ */
+static gboolean
+cb_check_border (Sheet *sheet,
+		 Range const *range,
+		 gpointer user_data)
+{
+	check_border_closure_t *cl = user_data;
+	Range	  r = *range;
+	int x_offset = 0, y_offset = 0;
+
+	/* Init with a bogus element to pacify the compiler */
+	MStyleElementType t1 = MSTYLE_ELEMENT_UNSET;
+	MStyleElementType t2 = MSTYLE_ELEMENT_UNSET;
+
+	switch (cl->t) {
+	case BORDER_TOP :
+		t1 = MSTYLE_BORDER_TOP;
+		t2 = MSTYLE_BORDER_BOTTOM;
+		r.end.row = r.start.row;
+		y_offset = -1;
+		break;
+
+	case BORDER_BOTTOM :
+		/* Look for Top 1st */
+		t1 = MSTYLE_BORDER_TOP;
+		t2 = MSTYLE_BORDER_BOTTOM;
+		r.start.row = ++r.end.row;
+		y_offset = -1;
+		break;
+
+	case BORDER_LEFT :
+		t1 = MSTYLE_BORDER_LEFT;
+		t2 = MSTYLE_BORDER_RIGHT;
+		r.end.col = r.start.col;
+		x_offset = -1;
+		break;
+
+	case BORDER_RIGHT :
+		/* Look for Left 1st */
+		t1 = MSTYLE_BORDER_LEFT;
+		t2 = MSTYLE_BORDER_RIGHT;
+		r.start.col = ++r.end.col;
+		x_offset = -1;
+		break;
+
+	case BORDER_REV_DIAG :
+		t1 = MSTYLE_BORDER_REV_DIAGONAL;
+		break;
+
+	case BORDER_DIAG :
+		t1 = MSTYLE_BORDER_DIAGONAL;
+		break;
+
+	case BORDER_HORIZ :
+		t1 = MSTYLE_BORDER_TOP;
+		t2 = MSTYLE_BORDER_BOTTOM;
+		++r.start.row;
+		y_offset = -1;
+		break;
+
+	case BORDER_VERT :
+		t1 = MSTYLE_BORDER_LEFT;
+		t2 = MSTYLE_BORDER_RIGHT;
+		++r.start.col;
+		x_offset = -1;
+		break;
+
+	default :
+		g_assert_not_reached ();
+	};
+
+	cl->res = do_check_border (sheet, &r, t1, t2, x_offset, y_offset, cl->res);
+	return (cl->res != NULL);
+}
+
+static MStyleBorder const *
+check_border (Sheet *sheet, BorderLocations const t)
+{
+	check_border_closure_t cl;
+
+	cl.res     = NULL;
+	cl.t       = t;
+	(void) selection_foreach_range (sheet,
+					&cb_check_border,
+					&cl);
+	return cl.res;
+}
+
 /*
  * Initialize the fields of a BorderPicker, connect signals and
  * hide if needed.
@@ -1467,17 +1616,26 @@ static void
 init_border_button (FormatState *state, BorderLocations const i,
 		    GtkWidget *button, gboolean const hide)
 {
-	g_return_if_fail (button != NULL);
+	MStyleBorder const * border = check_border (state->sheet, i);
 
-	/* TODO : get this information from the selection */
-	state->border.edge[i].rgba = 0;
-	state->border.edge[i].pattern_index = BORDER_NONE /* BORDER_INCONSISTENT */;
-	state->border.edge[i].is_selected = FALSE;
+	if (border == NULL) {
+		state->border.edge[i].rgba = 0;
+		state->border.edge[i].pattern_index = BORDER_INCONSISTENT;
+		state->border.edge[i].is_selected = TRUE;
+	} else {
+		StyleColor const * c = border->color;
+		state->border.edge[i].rgba =
+		    GNOME_CANVAS_COLOR_A (c->red>>8, c->green>>8, c->blue>>8, 0xff);
+		state->border.edge[i].pattern_index = border->line_type;
+		state->border.edge[i].is_selected = (border->line_type != BORDER_NONE);
+	}
 
 	state->border.edge[i].state = state;
 	state->border.edge[i].index = i;
 	state->border.edge[i].button = GTK_TOGGLE_BUTTON (button);
 	state->border.edge[i].is_set = FALSE;
+
+	g_return_if_fail (button != NULL);
 
 	gtk_toggle_button_set_active (state->border.edge[i].button,
 				      state->border.edge[i].is_selected);
@@ -1756,6 +1914,7 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 
 	gui = glade_xml_new (GNUMERIC_GLADEDIR "/" GLADE_FILE , NULL);
 	if (!gui) {
@@ -1779,9 +1938,6 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 /*
  * TODO 
  *
- * Translation to/from an MStyle.
- * 	- border from
- *
  * Formats 
  * 	- regexps to recognize parameterized formats (ie percent 4 decimals)
  *      - Generate formats from the dialogs.
@@ -1790,9 +1946,6 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
  * Borders
  * 	- Double lines for borders
  * 	- Add the 'text' elements in the preview
- * 	- Handle indeterminant.
- *
- * How to show ambiguities when applying to a range ?
  *
  * Wishlist
  * 	- Some undo capabilities in the dialog.
