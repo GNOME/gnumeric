@@ -2366,6 +2366,24 @@ sheet_action_delete_sheet (GtkWidget *widget, Sheet *current_sheet)
 	workbook_recalc_all (wb);
 }
 
+/*
+ * sheet_action_rename_sheet:
+ * Invoked when the user selects the option to rename a sheet
+ */
+static void
+sheet_action_rename_sheet (GtkWidget *widget, Sheet *current_sheet)
+{
+	char *new_name;
+	Workbook *wb = current_sheet->workbook;
+	
+	new_name = dialog_get_sheet_name (wb, current_sheet->name);
+	if (!new_name)
+		return;
+
+	workbook_rename_sheet (wb, current_sheet->name, new_name);
+	g_free (new_name);
+}
+
 #define SHEET_CONTEXT_TEST_SIZE 1
 
 struct {
@@ -2375,6 +2393,7 @@ struct {
 } sheet_label_context_actions [] = {
 	{ N_("Add another sheet"), sheet_action_add_sheet, 0 },
 	{ N_("Remove this sheet"), sheet_action_delete_sheet, SHEET_CONTEXT_TEST_SIZE },
+	{ N_("Rename this sheet"), sheet_action_rename_sheet, 0 },
 	{ NULL, NULL }
 };
 

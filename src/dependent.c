@@ -959,9 +959,19 @@ search_range_deps (gpointer key, gpointer value, gpointer closure)
 	c->list = g_list_concat (c->list, g_list_copy (deprange->cell_list));
 }
 
+/**
+ * sheet_region_get_deps :
+ * Get a list of the elements that depend on the specified range.
+ *
+ * @sheet : The sheet.
+ * @start_col : The target range.
+ * @start_row :
+ * @end_col :
+ * @end_row :
+ */
 GList *
-sheet_region_get_deps (Sheet *sheet, int start_col, int start_row,
-		       int end_col,  int end_row)
+sheet_region_get_deps (Sheet *sheet,
+		       int start_col, int start_row, int end_col,  int end_row)
 {
 	int                      ix, iy;
 	get_range_dep_closure_t  closure;
@@ -1014,11 +1024,10 @@ cb_single_get_all_depends (gpointer key, gpointer value, gpointer closure)
 
 /**
  * sheet_recalc_dependencies :
- * Force a recalc of anything that depends on the cells in this sheet.
+ * Queue a recalc of anything that depends on the cells in this sheet.
+ * Do not actually recalc, just queue them up.
  *
  * @sheet : The sheet.
- *
- * This seems like over kill we could probably use a finer grained test.
  */
 void
 sheet_recalc_dependencies (Sheet *sheet)
@@ -1039,6 +1048,4 @@ sheet_recalc_dependencies (Sheet *sheet)
 
 	if (deps)
 		cell_queue_recalc_list (deps, TRUE);
-
-	workbook_recalc (sheet->workbook);
 }

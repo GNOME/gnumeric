@@ -40,11 +40,15 @@
  *
  * That way undo redo just become applications of the old or the new styles.
  *
- * FIXME : fine tune the use of these commands so that they actually
- *         execute the operation.  Redo must be capable of applying the
- *         command, so lets avoid duplicating logic.  SetText is a good
- *         example of the WRONG way to do it.  I use that as an after thought
- *         and hence treat formating differenting.
+ * Design thoughts :
+ * 1) redo : this should be renamed 'exec' and should be the place that the
+ *    the actual command executes.  This avoid duplicating the code for
+ *    application and re-application.
+ *
+ * 2) The command objects are responsible for generating recalc and redraw
+ *    events.  None of the internal utility routines should do so.  Those are
+ *    expensive events and should only be done once per command to avoid
+ *    duplicating work.
  *
  * TODO : Add user preference for undo buffer size limit (# of commands ?)
  * TODO : Possibly clear lists on save.
@@ -258,7 +262,7 @@ command_list_release (GSList *cmd_list)
  * @trouble : A flag indicating whether there was a problem with the
  *            command.
  *
- * returns : @trouble.
+ * returns : TRUE if there was an error.
  */
 static gboolean
 command_push_undo (Workbook *wb, GtkObject *cmd, gboolean const trouble)
@@ -465,6 +469,9 @@ cmd_ins_del_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 	workbook_expr_unrelocate (me->sheet->workbook, me->reloc_storage);
 	me->reloc_storage = NULL;
 
+	workbook_recalc (me->sheet->workbook);
+	sheet_redraw_all (me->sheet);
+
 	return trouble;
 }
 
@@ -508,6 +515,9 @@ cmd_ins_del_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 			trouble =sheet_delete_rows (context, me->sheet, me->index,
 						    me->count, &me->reloc_storage);
 	}
+
+	workbook_recalc (me->sheet->workbook);
+	sheet_redraw_all (me->sheet);
 
 	return trouble;
 }
@@ -776,9 +786,16 @@ cmd_paste_cut (CommandContext *context, ExprRelocateInfo const * const info)
 	trouble = cmd_paste_cut_redo (GNUMERIC_COMMAND(me), context);
 
 	/* Register the command object */
+
 	/* NOTE : if the destination workbook is different from the source workbook
 	 * should we have undo elements in both menus ??  It seems poor form to
 	 * hit undo in 1 window and effect another ...
+	 *
+	 * Maybe queue it as 2 different commands, as a clear in one book and
+	 * a paste  in the other.    This is not symetric though.  What happens to the
+	 * cells in the original sheet that now reference the cells in the other.
+	 * When do they reset to the original ?  Probably when the clear in the original
+	 * is undone.
 	 */
 	return command_push_undo (info->target_sheet->workbook, obj, trouble);
 }
@@ -835,9 +852,64 @@ cmd_format (CommandContext *context,
 }
 #endif
 
+/******************************************************************/
+
+#define CMD_RENAME_SHEET_TYPE        (cmd_rename_sheet_get_type ())
+#define CMD_RENAME_SHEET(o)          (GTK_CHECK_CAST ((o), CMD_RENAME_SHEET_TYPE, CmdRenameSheet))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	char *name;
+} CmdRenameSheet;
+
+GNUMERIC_MAKE_COMMAND (CmdRenameSheet, cmd_rename_sheet);
+
+static gboolean
+cmd_rename_sheet_undo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdRenameSheet *me = CMD_RENAME_SHEET(cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	/* FIXME : Fill in */
+	return FALSE;
+}
+
+static gboolean
+cmd_rename_sheet_redo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdRenameSheet *me = CMD_RENAME_SHEET(cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	/* FIXME : Fill in */
+	return FALSE;
+}
+static void
+cmd_rename_sheet_destroy (GtkObject *cmd)
+{
+	CmdRenameSheet *me = CMD_RENAME_SHEET(cmd);
+
+	g_free (me->name);
+	gnumeric_command_destroy (cmd);
+}
+
+gboolean
+cmd_rename_sheet (CommandContext *context,
+		  Workbook *wb, const char *old_name, const char *new_name)
+{
+	/* FIXME : Finish */
+	return workbook_rename_sheet (wb, old_name, new_name);
+}
+
+/******************************************************************/
+
 /* TODO : Make a list of commands that should have undo support that dont
  *        even have stubs
- * - Rename sheet
  * - Autofill
  * - Array formula creation.
+ * - Row/Col size changes
+ * - insert data/time
  */

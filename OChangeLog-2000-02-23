@@ -1,3 +1,17 @@
+2000-01-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_move_range) : Recalc here until there is a
+	  command wrapper for shift and cut_paste.
+
+	* src/sheet.c (sheet_{insert,delete}_{rows,cols}) : Move recalc
+	  request into the command wrapper.
+	* src/eval.c (sheet_recalc_dependencies) : Ditto.
+
+2000-01-07  Mike Kestner <mkestner@enteract.com>
+
+	* src/workbook.c (sheet_action_rename_sheet) : Enable rename from the
+	  popup menu associated with sheet tabs.
+
 2000-01-07  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/eval.c (sheet_recalc_dependencies): add precondition, use

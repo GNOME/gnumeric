@@ -3377,9 +3377,6 @@ sheet_insert_cols (CommandContext *context, Sheet *sheet,
 	/* 5. Recompute dependencies */
 	sheet_recalc_dependencies (sheet);
 
-	/* 6. Redraw */
-	sheet_redraw_all (sheet);
-
 	return FALSE;
 }
 
@@ -3449,9 +3446,6 @@ sheet_delete_cols (CommandContext *context, Sheet *sheet,
 
 	/* 6. Recompute dependencies */
 	sheet_recalc_dependencies (sheet);
-
-	/* 7. Redraw */
-	sheet_redraw_all (sheet);
 
 	return FALSE;
 }
@@ -3526,9 +3520,6 @@ sheet_insert_rows (CommandContext *context, Sheet *sheet,
 	/* 5. Recompute dependencies */
 	sheet_recalc_dependencies (sheet);
 
-	/* 6. Redraw */
-	sheet_redraw_all (sheet);
-
 	return FALSE;
 }
 
@@ -3598,9 +3589,6 @@ sheet_delete_rows (CommandContext *context, Sheet *sheet,
 
 	/* 6. Recompute dependencies */
 	sheet_recalc_dependencies (sheet);
-
-	/* 7. Redraw */
-	sheet_redraw_all (sheet);
 
 	return FALSE;
 }
@@ -3688,7 +3676,8 @@ sheet_move_range (CommandContext *context,
 	/* 6. Recompute dependencies */
 	sheet_recalc_dependencies (rinfo->target_sheet);
 
-	/* 7. Redraw */
+	/* 7. Recalc & Redraw */
+	workbook_recalc (rinfo->target_sheet->workbook);
 	sheet_redraw_all (rinfo->target_sheet);
 }
 
