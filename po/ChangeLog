@@ -1,3 +1,10 @@
+2003-08-11  Carlos Perelló Marín <carlos@gnome.org>
+
+	* POTFILES.in: Added a label so intltool can know
+	the encoding used inside the files. Old intltool releases
+	should work without problems, but if you detect any error, please
+	send me an email.
+	
 2003-08-04  Andreas Guelzow <aguelzow@taliesin.ca>
 
 	* POTFILES.in: Added src/session.c
