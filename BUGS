@@ -37,11 +37,12 @@ Release Critical
 14) merge open and import dialogs
 15) finish corba plugin
 16) eggmenu
+17) Decide whether to turn on the poor man's utf8 regexps.
 
 UTF-8 :
-    - audit string functions for utf8: CHAR, CODE, SUBSTITUTE, SEARCH.
+    - Audit string functions for utf8: CHAR, CODE, SUBSTITUTE, SEARCH.
     - Recent files in "File" menu.
-    - Error messages.
+    - Error messages (notably when files names are present).
     - Window titles.
     - function_category_compare
 
