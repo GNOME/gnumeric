@@ -31,27 +31,6 @@
 #include "value.h"
 #include "widgets/gnumeric-expr-entry.h"
 
-static int dialog_correlation_tool         (WorkbookControlGUI *wbcg, Sheet *sheet);
-static int dialog_covariance_tool          (WorkbookControlGUI *wbcg, Sheet *sheet);
-static int dialog_descriptive_stat_tool    (WorkbookControlGUI *wbcg, Sheet *sheet);
-static int dialog_ztest_tool               (WorkbookControlGUI *wbcg, Sheet *sheet);
-static int dialog_ranking_tool      	   (WorkbookControlGUI *wbcg, Sheet *sheet);
-static int dialog_sampling_tool     	   (WorkbookControlGUI *wbcg, Sheet *sheet);
-static int dialog_ttest_paired_tool 	   (WorkbookControlGUI *wbcg, Sheet *sheet);
-static int dialog_ttest_eq_tool     	   (WorkbookControlGUI *wbcg, Sheet *sheet);
-static int dialog_ttest_neq_tool    	   (WorkbookControlGUI *wbcg, Sheet *sheet);
-static int dialog_ftest_tool        	   (WorkbookControlGUI *wbcg, Sheet *sheet);
-static int dialog_average_tool      	   (WorkbookControlGUI *wbcg, Sheet *sheet);
-static int dialog_fourier_tool      	   (WorkbookControlGUI *wbcg, Sheet *sheet);
-static int dialog_histogram_tool      	   (WorkbookControlGUI *wbcg, Sheet *sheet);
-static int dialog_random_tool       	   (WorkbookControlGUI *wbcg, Sheet *sheet);
-static int dialog_regression_tool   	   (WorkbookControlGUI *wbcg, Sheet *sheet);
-static int dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet);
-static int dialog_anova_two_factor_tool    (WorkbookControlGUI *wbcg, Sheet *sheet);
-
-
-
-
 
 /**********************************************/
 /*  Generic guru items */
@@ -495,7 +474,7 @@ error_in_entry (WorkbookControlGUI *wbcg, GtkWidget *entry, const char *err_str)
 	gtk_widget_grab_focus (entry);
 	gtk_entry_set_position (GTK_ENTRY (entry), 0);
 	gtk_entry_select_region (GTK_ENTRY (entry), 0,
-				 GTK_ENTRY(entry)->text_length);
+				 GTK_ENTRY (entry)->text_length);
 }
 
 static int
@@ -694,9 +673,9 @@ dialog_tool_init_outputs (GenericToolState *state, GtkSignalFunc sensitivity_cb)
 	gtk_signal_connect (GTK_OBJECT (state->output_entry), "focus-in-event",
 			    GTK_SIGNAL_FUNC (tool_set_focus_output_range), state);
 	gtk_signal_connect_after (GTK_OBJECT (state->output_entry), "changed",
-			    GTK_SIGNAL_FUNC (sensitivity_cb), state);
+				  GTK_SIGNAL_FUNC (sensitivity_cb), state);
 	gtk_signal_connect_after (GTK_OBJECT (state->output_range), "toggled",
-			    GTK_SIGNAL_FUNC (sensitivity_cb), state);
+				  GTK_SIGNAL_FUNC (sensitivity_cb), state);
 
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE (state->output_entry));
@@ -1203,9 +1182,9 @@ cb_desc_stat_tool_ok_clicked(GtkWidget *button, DescriptiveStatState *state)
 	text = gtk_entry_get_text (GTK_ENTRY (state->c_entry));
 	dst.c_level = atof (text);
 	text = gtk_entry_get_text (GTK_ENTRY (state->l_entry));
-	dst.k_largest = atoi(text);
+	dst.k_largest = atoi (text);
 	text = gtk_entry_get_text (GTK_ENTRY (state->s_entry));
-	dst.k_smallest = atoi(text);
+	dst.k_smallest = atoi (text);
 
         parse_output ((GenericToolState *)state, &dao);
 
@@ -1716,11 +1695,11 @@ dialog_ttest_tool_init (TTestState *state)
 	state->alpha_entry = glade_xml_get_widget (state->gui, "one_alpha");
 
 	gtk_signal_connect_after (GTK_OBJECT (state->paired_button), "toggled",
-			    GTK_SIGNAL_FUNC (tool_update_sensitivity_cb), state);
+				  GTK_SIGNAL_FUNC (tool_update_sensitivity_cb), state);
 	gtk_signal_connect (GTK_OBJECT (state->paired_button), "toggled",
 			    GTK_SIGNAL_FUNC (ttest_paired_toggled_cb), state);
 	gtk_signal_connect_after (GTK_OBJECT (state->known_button), "toggled",
-			    GTK_SIGNAL_FUNC (tool_update_sensitivity_cb), state);
+				  GTK_SIGNAL_FUNC (tool_update_sensitivity_cb), state);
 	gtk_signal_connect (GTK_OBJECT (state->known_button), "toggled",
 			    GTK_SIGNAL_FUNC (ttest_known_toggled_cb), state);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "realize",
@@ -2018,9 +1997,9 @@ sampling_tool_update_sensitivity_cb (GtkWidget *dummy, SamplingState *state)
 	} else {
 		text = gtk_entry_get_text (GTK_ENTRY (state->random_entry));
 	}
-	size = atoi(text);
+	size = atoi (text);
 	text = gtk_entry_get_text (GTK_ENTRY (state->number_entry));
-	number = atoi(text);
+	number = atoi (text);
 
 	ready = ((input_range != NULL) &&
 		 (size > 0) && (number > 0) &&
@@ -2068,9 +2047,9 @@ sampling_tool_ok_clicked_cb (GtkWidget *button, SamplingState *state)
 	} else {
 		text = gtk_entry_get_text (GTK_ENTRY (state->random_entry));
 	}
-	size = atoi(text);
+	size = atoi (text);
 	text = gtk_entry_get_text (GTK_ENTRY (state->number_entry));
-	number = atoi(text);
+	number = atoi (text);
 
 	switch (sampling_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, input,
 			       gnumeric_glade_group_value (state->gui, grouped_by_group),
@@ -2164,17 +2143,17 @@ dialog_sampling_tool_init (SamplingState *state)
 	state->number_entry = glade_xml_get_widget (state->gui, "number-entry");
 
 	gtk_signal_connect_after (GTK_OBJECT (state->periodic_button), "toggled",
-			    GTK_SIGNAL_FUNC (sampling_tool_update_sensitivity_cb), state);
+				  GTK_SIGNAL_FUNC (sampling_tool_update_sensitivity_cb), state);
 	gtk_signal_connect (GTK_OBJECT (state->periodic_button), "toggled",
 			    GTK_SIGNAL_FUNC (sampling_method_toggled_cb), state);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "realize",
 			    GTK_SIGNAL_FUNC (dialog_sampling_realized), state);
 	gtk_signal_connect_after (GTK_OBJECT (state->period_entry), "changed",
-			    GTK_SIGNAL_FUNC (sampling_tool_update_sensitivity_cb), state);
+				  GTK_SIGNAL_FUNC (sampling_tool_update_sensitivity_cb), state);
 	gtk_signal_connect_after (GTK_OBJECT (state->random_entry), "changed",
-			    GTK_SIGNAL_FUNC (sampling_tool_update_sensitivity_cb), state);
+				  GTK_SIGNAL_FUNC (sampling_tool_update_sensitivity_cb), state);
 	gtk_signal_connect_after (GTK_OBJECT (state->number_entry), "changed",
-			    GTK_SIGNAL_FUNC (sampling_tool_update_sensitivity_cb), state);
+				  GTK_SIGNAL_FUNC (sampling_tool_update_sensitivity_cb), state);
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE (state->period_entry));
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
@@ -2323,10 +2302,10 @@ random_tool_update_sensitivity_cb (GtkWidget *dummy, RandomToolState *state)
 	i = gnumeric_glade_group_value (state->gui, output_group);
 
 	text = gtk_entry_get_text (GTK_ENTRY (state->vars_entry));
-	vars = atoi(text);
+	vars = atoi (text);
 
 	text = gtk_entry_get_text (GTK_ENTRY (state->count_entry));
-	count = atoi(text);
+	count = atoi (text);
 
 	ready = ((vars > 0) &&
 		 (count > 0) &&
@@ -2407,7 +2386,7 @@ combo_get_distribution (GtkWidget *combo)
         char *text;
 	int i;
 
-        text = gtk_entry_get_text(GTK_ENTRY(GTK_COMBO (combo)->entry));
+        text = gtk_entry_get_text(GTK_ENTRY (GTK_COMBO (combo)->entry));
 
 	for (i = 0; distribution_strs[i].name != NULL; i++)
 		if (strcmp (text, _(distribution_strs[i].name)) == 0)
@@ -2482,10 +2461,10 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
         parse_output ((GenericToolState *)state, &dao);
 
 	text = gtk_entry_get_text (GTK_ENTRY (state->vars_entry));
-	vars = atoi(text);
+	vars = atoi (text);
 
 	text = gtk_entry_get_text (GTK_ENTRY (state->count_entry));
-	count = atoi(text);
+	count = atoi (text);
 
 	state->distribution = combo_get_distribution (state->distribution_combo);
 	switch (state->distribution) {
@@ -2511,13 +2490,13 @@ random_tool_ok_clicked_cb (GtkWidget *button, RandomToolState *state)
 		text = gtk_entry_get_text (GTK_ENTRY (state->par1_entry));
 		param.binomial.p = atof (text);
 		text = gtk_entry_get_text (GTK_ENTRY (state->par2_entry));
-		param.binomial.trials = atoi(text);
+		param.binomial.trials = atoi (text);
 		break;
 	case NegativeBinomialDistribution:
 		text = gtk_entry_get_text (GTK_ENTRY (state->par1_entry));
 		param.negbinom.p = atof (text);
 		text = gtk_entry_get_text (GTK_ENTRY (state->par2_entry));
-		param.negbinom.f = atoi(text);
+		param.negbinom.f = atoi (text);
 		break;
 	case DiscreteDistribution:
 		text = gtk_entry_get_text (GTK_ENTRY (state->par1_expr_entry));
@@ -2634,10 +2613,10 @@ dialog_random_tool_init (RandomToolState *state)
 
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "distribution_table"));
 	state->par1_expr_entry = GTK_WIDGET (gnumeric_expr_entry_new (state->wbcg));
-	gnumeric_expr_entry_set_flags (GNUMERIC_EXPR_ENTRY(state->par1_expr_entry),
+	gnumeric_expr_entry_set_flags (GNUMERIC_EXPR_ENTRY (state->par1_expr_entry),
 				       GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL,
 				       GNUM_EE_MASK);
-        gnumeric_expr_entry_set_scg (GNUMERIC_EXPR_ENTRY(state->par1_expr_entry),
+        gnumeric_expr_entry_set_scg (GNUMERIC_EXPR_ENTRY (state->par1_expr_entry),
 				     wb_control_gui_cur_sheet (state->wbcg));
 	gtk_table_attach (table, state->par1_expr_entry,
 			  1, 2, 1, 2,
@@ -2857,7 +2836,7 @@ dialog_regression_tool_init (RegressionToolState *state)
 	state->confidence_entry = glade_xml_get_widget (state->gui, "confidence-entry");
 
 	gtk_signal_connect_after (GTK_OBJECT (state->confidence_entry), "changed",
-			    GTK_SIGNAL_FUNC (regression_tool_update_sensitivity_cb), state);
+				  GTK_SIGNAL_FUNC (regression_tool_update_sensitivity_cb), state);
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE (state->confidence_entry));
 
@@ -3027,7 +3006,7 @@ dialog_average_tool_init (AverageToolState *state)
 	state->interval_entry = glade_xml_get_widget (state->gui, "interval-entry");
 
 	gtk_signal_connect_after (GTK_OBJECT (state->interval_entry), "changed",
-			    GTK_SIGNAL_FUNC (average_tool_update_sensitivity_cb), state);
+				  GTK_SIGNAL_FUNC (average_tool_update_sensitivity_cb), state);
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE (state->interval_entry));
 
@@ -3414,7 +3393,7 @@ dialog_anova_single_tool_init (AnovaSingleToolState *state)
 	state->alpha_entry = glade_xml_get_widget (state->gui, "alpha-entry");
 
 	gtk_signal_connect_after (GTK_OBJECT (state->alpha_entry), "changed",
-			    GTK_SIGNAL_FUNC (anova_single_tool_update_sensitivity_cb), state);
+				  GTK_SIGNAL_FUNC (anova_single_tool_update_sensitivity_cb), state);
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE (state->alpha_entry));
 
