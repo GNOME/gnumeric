@@ -2856,17 +2856,16 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 	if (wbcg->editing) {
 		/* If we are not at a subexpression boundary then finish editing */
 		accept = !workbook_editing_expr (wbcg);
-
 		if (accept)
 			workbook_finish_editing (wbcg, TRUE);
 	}
-	if (accept && wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)) != NULL) {
-		/* force an update of the status and edit regions */
-		sheet_flag_status_update_range (sheet, NULL);
 
+	/* if we are not selecting a range for an expression update */
+	if (accept && wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)) != NULL) {
+		sheet_flag_status_update_range (sheet, NULL);
 		sheet_update (sheet);
-	}
 	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
+}
 }
 
 static GtkObjectClass *parent_class;

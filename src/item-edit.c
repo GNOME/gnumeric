@@ -46,15 +46,14 @@ enum {
 static void
 scan_at (const char *text, int *scan)
 {
-	while (*scan > 0){
-		const char *p = &text [(*scan)-1];
-		char c = *p;
+	int i;
+	for (i = *scan ; i > 0 ; i--) {
+		unsigned char const c = text [i-1];
 
-		if (!(c == ':' || c == '$' || isalnum ((unsigned char)*p)))
+		if (!(c == ':' || c == '$' || isalnum (c)))
 			break;
-
-		(*scan)--;
 	}
+	*scan = i;
 }
 
 static gboolean
@@ -97,6 +96,10 @@ point_is_inside_range (ItemEdit *item_edit, const char *text, Range *range)
 
 	scan = cursor_pos;
 	scan_at (text, &scan);
+
+	/* If the range is on another sheet ignore it */
+	if (scan > 0 && text [scan-1] == '!')
+		return FALSE;
 
 	if ((v = range_parse (item_edit->scg->sheet, &text [scan], FALSE)) != NULL)
 		return setup_range_from_value (range, v);

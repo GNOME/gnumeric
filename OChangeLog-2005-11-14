@@ -1,5 +1,13 @@
 2001-02-22  Jody Goldberg <jgoldberg@home.com>
 
+	* src/item-edit.c (point_is_inside_range) : dont highlight ranges on
+	  other sheets.
+	(scan_at) : simplify.
+
+	* src/workbook-control-gui.c (cb_notebook_switch_page) : If we are
+	  only switching pages to select a range there is no need to update
+	  anything.
+
 	* src/expr.c (eval_expr_real) : fix old typo.
 
 	* src/commands.c (cmd_unmerge_cells_init) : add simple test to avoid
