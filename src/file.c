@@ -237,8 +237,13 @@ do_load_from (WorkbookControl *wbc, WorkbookView *wbv,
 			io_context.impl = wbc;
 
 			result = (*fo->open) (&io_context, wbv, filename, fo->user_data);
-			if (result == 0)
-				workbook_set_dirty (wb_view_workbook (wbv), FALSE);
+			if (result == 0) {
+				Workbook *wb = wb_view_workbook (wbv);
+				if (workbook_sheet_count (wb) > 0)
+					workbook_set_dirty (wb, FALSE);
+				else
+					result = -1;
+			}
 			return result;
 		}
 	}

@@ -360,11 +360,18 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 	merged_unused = sheet_merge_get_overlap (sheet,
 		range_init (&view, start_col, start_row, end_col, end_row));
 
-	/* allocate then alias the arrays for easy access */
-	n = end_col - start_col + 2;
-	sr.vertical	 = (StyleBorder const **)g_alloca (n *
-			    (6 * sizeof (StyleBorder const *) +
-			     2 * sizeof (MStyle const *)));
+	/*
+	 * allocate a single blob of memory for all 8 arrays of pointers.
+	 * 	- 6 arrays of n StyleBorder const *
+	 * 	- 2 arrays of n MStyle const *
+	 *
+	 * then alias the arrays for easy access so that array [col] is valid
+	 * for all elements start_col-1 .. end_col+1 inclusive.
+	 * Note that this means that in some cases array [-1] is legal.
+	 */
+	n = end_col - start_col + 3; /* 1 before, 1 after, 1 fencepost */
+	sr.vertical	 = g_alloca (n * 8 * sizeof (gpointer));
+	sr.vertical 	-= start_col-1;
 	sr.top		 = sr.vertical + n;
 	sr.bottom	 = sr.top + n;
 	next_sr.top	 = sr.bottom; /* yes they should share */
@@ -373,16 +380,11 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 	prev_vert	 = next_sr.vertical + n;
 	sr.styles	 = ((MStyle const **) (prev_vert + n));
 	next_sr.styles	 = sr.styles + n;
-	sr.vertical	-= start_col; next_sr.vertical	-= start_col;
-	sr.top		-= start_col; next_sr.top	-= start_col;
-	sr.bottom	-= start_col; next_sr.bottom	-= start_col;
-	sr.styles	-= start_col; next_sr.styles	-= start_col;
-	prev_vert	-= start_col;
 	sr.start_col	 = start_col; next_sr.start_col	 = start_col;
 	sr.end_col	 = end_col;   next_sr.end_col	 = end_col;
 
 	/* pretend the previous bottom had no borders */
-	for (col = start_col ; col <= end_col+1; ++col)
+	for (col = start_col-1 ; col <= end_col+1; ++col)
 		prev_vert [col] = sr.top [col] = none;
 	next_sr.top [end_col+1] = next_sr.bottom [end_col+1] = none;
 

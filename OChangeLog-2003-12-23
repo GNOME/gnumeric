@@ -1,4 +1,10 @@
-2001-02-02  Jody Goldberg <jgoldberg@home.com>
+2001-02-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gui-file.c (gui_file_import) : A successful import must have at
+	  least 1 sheet.
+
+	* src/file.c (do_load_from) : Check that a successful read actually
+	  imported something.
 
 	* src/gui-clipboard.c (x_selection_to_cell_region) : Init
 	  CellRegion::merged.

@@ -100,6 +100,10 @@ gui_file_import (WorkbookControlGUI *wbcg, const char *filename)
 		IOContext io_context;
 		io_context.impl = WORKBOOK_CONTROL (wbcg);
 		ret = fo->open (&io_context, new_view, filename, fo->user_data);
+		if (ret == 0 && workbook_sheet_count (new_wb) <= 0) {
+			ret = -1;
+			gnumeric_error_read (COMMAND_CONTEXT (wbcg), _("No sheets found"));
+		}
 	}
 	command_context_pop_err_template (COMMAND_CONTEXT (wbcg));
 	g_free (template);
