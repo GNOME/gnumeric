@@ -3606,6 +3606,11 @@ show_gui (WorkbookControlGUI *wbcg)
 	return FALSE;
 }
 
+/*
+ * NOTE: Keep the two strings below in sync - send_menu_item_i18n array must
+ * always contain values of _label and _tip properties from XML inside
+ * send_menu_item.
+ */
 #ifdef ENABLE_EVOLUTION
 static gchar send_menu_item[] =
 "<placeholder name=\"FileOperations\">"

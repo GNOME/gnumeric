@@ -1,3 +1,8 @@
+2001-07-15  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/workbook-control-gui.c: Added comment above send_menu_item and
+	send_menu_item_i18n strings about keeping them in sync.
+
 2001-07-15  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* configure.in: Added "nn" to ALL_LINGUAS.
