@@ -69,6 +69,7 @@
 #include "src/plugin-util.h"
 #include "sheet-object-image.h"
 #include "gnumeric-gconf.h"
+#include "filter.h"
 
 #ifdef WITH_BONOBO
 #include "sheet-object-container.h"
@@ -2523,6 +2524,13 @@ cb_data_sort (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
+cb_show_all (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	filter_show_all (wb_control_cur_sheet (wbc));
+}
+
+static void
 cb_data_filter (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	dialog_advanced_filter (wbcg);
@@ -3377,6 +3385,9 @@ static GnomeUIInfo workbook_menu_data_outline [] = {
 };
 
 static GnomeUIInfo workbook_menu_data_filter [] = {
+	GNOMEUIINFO_ITEM_NONE (N_("_Show All"),
+		N_("Show all filtered and hidden rows"),
+		cb_show_all),
 	{ GNOME_APP_UI_ITEM, N_("Advanced _Filter..."),
 	  N_("Filter data with given criteria"),
 	  cb_data_filter,

@@ -893,9 +893,9 @@ void
 colrow_set_visibility (Sheet *sheet, gboolean is_cols,
 		       gboolean visible, int first, int last)
 {
-	int i, prev_outline = 0;
+	int i, prev_outline   = 0;
 	gboolean prev_changed = FALSE;
-	Range * const bound = &sheet->priv->unhidden_region;
+	Range * const bound   = &sheet->priv->unhidden_region;
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (first <= last);

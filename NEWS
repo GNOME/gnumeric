@@ -13,6 +13,7 @@ Jukka:
 	  GSL 1.1.1):
 	  BERNOULLI(), CAUCHY(), EXPPOWDIST(), GEOMDIST(), LANDAU(),
  	  LAPLACE(), LOGISTIC(), PARETO(), RAYLEIGH(), and RAYLEIGHTAIL().
+	* Added `Filter->Show All'.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.6
