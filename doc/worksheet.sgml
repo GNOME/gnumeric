@@ -1,12 +1,12 @@
 <sect1>
   <title>The Worksheet</title>
   
-  <para>After opening up gnumeric, your presented with a view of a
+  <para>After opening up gnumeric, you're presented with a view of a
     worksheet. This is where the majority of the work on the spreadsheet
     is done, and provides access to all the various sub dialogs of gnumeric.</para>
   
   <para>The worksheet view is split into several main areas. The menu bar, the 
-    buton bar, the entry area, the main cell area, and the info area. See 
+    button bar, the entry area, the main cell area, and the info area. See 
    <xref linkend="worksheet-all-1.jpg"> </para>
   
   

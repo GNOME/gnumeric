@@ -5,7 +5,7 @@
 <para>To reference the value stored in a single cell, say B1, just enter "B1"
 in the function argument.</para>
 
-<para>Cell are refernce in a format like C4, where C is the column label
+<para>Cells are reference in a format like C4, where C is the column label
 and 4 is the row label.</para>
 
  <example id="simplecellrefer">
@@ -55,7 +55,7 @@ indicate cells that are discontinous.</para>
 <title>Referencing a continous region of cells</title>
 
 <para>For functions that take more than one argument, it is often
-eaier to reference the cells as a group. This can include
+easier to reference the cells as a group. This can include
 cells in sets horizontally, vertically, or in arrays.</para>
 
 <para>The ':' operator is used to indicate a range of cells. The basic

@@ -8,7 +8,7 @@
 
 
   <para>A typical example of when you want to use this feature is to fill
-  a series of numbers maybe a list of part numbers, or a perhaps a list
+  a serie of numbers, maybe a list of part numbers, or a perhaps a list
   of TV channels. To create a list like this, all the user needs to do
   is to enter the first number into a cell and click on the autofill
   cursor in the bottom right corner of the cell border and drag it in
@@ -136,8 +136,8 @@
   <sect2>
   <title>Formula autofill</title>
  
-  <para>Probabaly the most useful of all the autofill capabilties is
-  the abilty to autofill functions. In practice it works essentialy the
+  <para>Probably the most useful of all the autofill capabilties is
+  the ability to autofill functions. In practice it works essentialy the
   same as all the other autofill methods, it just transfers the funtions
   of course. </para>
 
@@ -171,7 +171,7 @@
 highest value into the first cell, then the next value in the second cell and select
 them both in the first step outlined above. </para>
           </listitem>
-        <listitem><para>Starting a series with more than two inital values can result in
+        <listitem><para>Starting a serie with more than two inital values can result in
        some unexpected results. Use with care.</para>
           </listitem>
   

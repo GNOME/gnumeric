@@ -14,7 +14,7 @@
    a string.</para>
 
  <figure id="stringnumber">
- <title>Entering strings and mumbers.</title>
+ <title>Entering strings and numbers.</title>
  <screenshot>
         <graphic fileref="images/editing-1.jpg"></graphic>
   </screenshot>
@@ -54,7 +54,7 @@
 
     <itemizedlist>
         <listitem><para>Click (MB1) on the border (anywhere, except the autofill square in
-        the bottom right corner). Ctrl+click copies the cell, why a plain
+        the bottom right corner). Ctrl+click copies the cell, while a plain
         click just moves the cell.</para></listitem>
 
      <listitem><para>Drag the cell to the new cell location.</para></listitem>
