@@ -1,3 +1,22 @@
+2000-04-07  Morten Welinder  <terra@diku.dk>
+
+	* src/collect.h (CollectFlags): Get rid of COLLECT_IGNORE_POSITIVE
+ 	and COLLECT_IGNORE_NEGATIVE.
+
+	* src/collect.c (callback_function_collect): Don't have the above
+ 	flags.
+
+	* src/functions/fn-financial.c (irr_npv_df): New function.
+	(gnumeric_irr): Use irr_npv_df for better results.
+	(gnumeric_ipmt, gnumeric_ppmt): Fix order of arguments!  (It works
+ 	so much better that way.)
+	(gnumeric_mirr): Fix formula.
+
+	* src/goal-seek.c (update_data): Spelling fix.
+
+	* src/functions/fn-financial.c (gnumeric_rate, gnumeirc_irr,
+ 	gnumeric_xirr): Use the supplied guess.
+
 2000-04-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/xml-io.c (gnumeric_xml_read_workbook) : No need to recalc, the

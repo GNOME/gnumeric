@@ -58,10 +58,6 @@ callback_function_collect (const EvalPosition *ep, Value *value, void *closure)
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
 		x = value_get_as_float (value);
-	        if ((cl->flags & COLLECT_IGNORE_NEGATIVE) && x < 0)
-		        return NULL;
-	        if ((cl->flags & COLLECT_IGNORE_POSITIVE) && x >= 0)
-		        return NULL;
 		break;
 
 	case VALUE_STRING:

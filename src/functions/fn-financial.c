@@ -105,19 +105,6 @@ calculate_pmt (float_t rate, float_t nper, float_t pv, float_t fv, int type)
         return ((-pv * pvif - fv ) / ((1.0 + rate * type) * fvifa));
 }
 
-static float_t
-calculate_npv (float_t rate, float_t *values, int n)
-{
-	float_t sum;
-        int     i;
-
-	sum = 0;
-	for (i = 0; i < n; i++)
-	        sum += values[i] / pow (1 + rate, i);
-
-	return sum;
-}
-
 static int
 annual_year_basis (Value *value_date, int basis)
 {
@@ -1012,41 +999,43 @@ static Value *
 gnumeric_mirr (FunctionEvalInfo *ei, Value **argv)
 {
 	float_t frate, rrate, npv_neg, npv_pos;
-	float_t *pos_values = NULL, *neg_values = NULL, res;
+	float_t *values = NULL, res;
 	Value   *result = NULL;
-	int     n, n_pos, n_neg;
+	int     i, n;
 
 	frate = value_get_as_float (argv[1]);
 	rrate = value_get_as_float (argv[2]);
 
-	pos_values = collect_floats_value (argv[0], ei->pos,
-					   COLLECT_IGNORE_NEGATIVE,
-					   &n_pos, &result);
+	values = collect_floats_value (argv[0], ei->pos,
+				       COLLECT_IGNORE_STRINGS,
+				       &n, &result);
 	if (result)
 		goto out;
 
-	neg_values = collect_floats_value (argv[0], ei->pos,
-					   COLLECT_IGNORE_POSITIVE,
-					   &n_neg, &result);
-	if (result)
+	for (i = 0, npv_pos = npv_neg = 0; i < n; i++) {
+		float_t v = values[i];
+		if (v >= 0)
+			npv_pos += v / pow (1 + rrate, i);
+		else
+			npv_neg += v / pow (1 + frate, i);
+	}
+
+	if (npv_neg == 0 || npv_pos == 0 || rrate <= -1) {
+		result = value_new_error (ei->pos, gnumeric_err_DIV0);
 		goto out;
+	}
 
-	n = n_pos + n_neg;
-
-	npv_pos = calculate_npv(rrate, pos_values, n_pos);
-	npv_neg = calculate_npv(frate, neg_values, n_neg);
-
-	/* div by zero */
-	if ( (n - 1) == 0 || npv_neg == 0 || (1+frate) == 0)
-	        return value_new_error (ei->pos, gnumeric_err_NUM);
-
-	res = pow ((-npv_pos * pow (1 + rrate, n_pos)) / (npv_neg * (1 + frate)),
+	/*
+	 * I have my doubts about this formula, but it sort of looks like
+	 * the one Microsoft claims to use and it produces the results
+	 * that Excel does.  -- MW.
+	 */
+	res = pow ((-npv_pos * pow (1 + rrate, n)) / (npv_neg * (1 + rrate)),
 		  (1.0 / (n - 1))) - 1.0;
 
 	result = value_new_float (res);
 out:
-	g_free(pos_values);
-	g_free(neg_values);
+	g_free (values);
 
 	return result;
 }
@@ -1240,7 +1229,7 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 	udata.pv   = value_get_as_float (argv[2]);
 	udata.fv   = argv[3] ? value_get_as_float (argv[3]) : 0.0;
 	udata.type = argv[4] ? value_get_as_int (argv[4]) : 0;
-	/* Ignore the guess in argv[5].  */
+	rate0 = argv[5] ?  value_get_as_int (argv[5]) : 0.1;
 
 	if (udata.nper <= 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
@@ -1256,15 +1245,6 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 			return value_new_float (pow (-udata.fv / udata.pv,
 						     -1.0 / udata.nper) - 1);
 		}
-	}
-
-	if (udata.pv == 0)
-		rate0 = 0.1;  /* Whatever.  */
-	else {
-		/* Root finding case.  The following was derived by setting
-		   type==0 and estimating (1+r)^n ~= 1+rn.  */
-		rate0 = -((udata.pmt * udata.nper + udata.fv) /
-			  udata.pv + 1) / udata.nper;
 	}
 
 #if 0
@@ -1326,7 +1306,31 @@ irr_npv (float_t rate, float_t *y, void *user_data)
 
 	sum = 0;
 	for (i = 0; i < n; i++)
-	        sum += values[i] / pow (1 + rate, i);
+	        sum += values[i] * pow (1 + rate, n - i);
+
+	/*
+	 * I changed the formula above by multiplying all terms by (1+r)^n.
+	 * Since we're looking for zeros, that should not matter.  It does
+	 * make the derivative below simpler, though.  -- MW.
+	 */
+
+	*y = sum;
+	return GOAL_SEEK_OK;
+}
+
+static GoalSeekStatus
+irr_npv_df (float_t rate, float_t *y, void *user_data)
+{
+	gnumeric_irr_t *p = user_data;
+	float_t        *values, sum;
+        int            i, n;
+
+	values = p->values;
+	n = p->n;
+
+	sum = 0;
+	for (i = 0; i < n - 1; i++)
+	        sum += values[i] * (n - i) * pow (1 + rate, n - i - 1);
 
 	*y = sum;
 	return GOAL_SEEK_OK;
@@ -1343,7 +1347,7 @@ gnumeric_irr (FunctionEvalInfo *ei, Value **argv)
 	int             n;
 
 	goal_seek_initialise (&data);
-	rate0 = 0.1; /* Ignore the guess value */
+	rate0 = argv[1] ? value_get_as_float (argv[1]) : 0.1;
 
 	p.values = collect_floats_value (argv[0], ei->pos,
 					 COLLECT_IGNORE_STRINGS,
@@ -1354,7 +1358,7 @@ gnumeric_irr (FunctionEvalInfo *ei, Value **argv)
 	}
 
 	p.n = n;
-	status = goal_seek_newton (&irr_npv, NULL, &data, &p, rate0);
+	status = goal_seek_newton (&irr_npv, &irr_npv_df, &data, &p, rate0);
 	g_free (p.values);
 
 	if (status == GOAL_SEEK_OK)
@@ -1587,7 +1591,7 @@ gnumeric_xirr (FunctionEvalInfo *ei, Value **argv)
 	int             n, d_n;
 
 	goal_seek_initialise (&data);
-	rate0 = 0.1; /* Ignore the guess value */
+	rate0 = argv[2] ? value_get_as_float (argv[2]) : 0.1;
 
 	p.values = collect_floats_value (argv[0], ei->pos,
 					 COLLECT_IGNORE_STRINGS,
@@ -1696,12 +1700,11 @@ static char *help_ipmt = {
 	   "\n"
 	   "Formula for IPMT is:\n"
 	   "\n"
-	   "IPMT(PER) = PMT - PRINCIPAL(PER-1) * INTEREST_RATE"
+	   "IPMT(PER) = -PRINCIPAL(PER-1) * INTEREST_RATE"
 	   "\n"
 	   "where:"
 	   "\n"
-	   "PMT = Payment received on annuity\n"
-	   "PRINCIPA(per-1) = amount of the remaining principal from last "
+	   "PRINCIPAL(PER-1) = amount of the remaining principal from last "
 	   "period"
 	   "\n"
 	   "@EXAMPLES=\n"
@@ -1717,8 +1720,8 @@ gnumeric_ipmt (FunctionEvalInfo *ei, Value **argv)
 	int type;
 
 	rate = value_get_as_float (argv[0]);
-	nper = value_get_as_float (argv[1]);
-	per  = value_get_as_float (argv[2]);
+	per  = value_get_as_float (argv[1]);
+	nper = value_get_as_float (argv[2]);
 	pv   = value_get_as_float (argv[3]);
 	fv   = argv[4] ? value_get_as_float (argv[4]) : 0;
 	type = argv[5] ? !!value_get_as_int (argv[5]) : 0;
@@ -1764,8 +1767,8 @@ gnumeric_ppmt (FunctionEvalInfo *ei, Value **argv)
 	int type;
 
 	rate = value_get_as_float (argv[0]);
-	nper = value_get_as_float (argv[1]);
-	per  = value_get_as_float (argv[2]);
+	per  = value_get_as_float (argv[1]);
+	nper = value_get_as_float (argv[2]);
 	pv   = value_get_as_float (argv[3]);
 	fv   = argv[4] ? value_get_as_float (argv[4]) : 0;
 	type = argv[5] ? !!value_get_as_int (argv[5]) : 0;

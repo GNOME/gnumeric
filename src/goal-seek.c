@@ -30,7 +30,7 @@
 #endif
 
 static gboolean
-updata_data (float_t x, float_t y, GoalSeekData *data)
+update_data (float_t x, float_t y, GoalSeekData *data)
 {
 	if (y > 0) {
 		if (data->havexpos) {
@@ -143,7 +143,7 @@ goal_seek_newton (GoalSeekFunction f, GoalSeekFunction df,
 		if (status != GOAL_SEEK_OK)
 			return status;
 
-		if (updata_data (x0, y0, data))
+		if (update_data (x0, y0, data))
 			return GOAL_SEEK_OK;
 
 		if (df)
@@ -229,7 +229,7 @@ goal_seek_bisection (GoalSeekFunction f, GoalSeekData *data, void *user_data)
 		if (status != GOAL_SEEK_OK)
 			return status;
 
-		if (updata_data (xmid, ymid, data))
+		if (update_data (xmid, ymid, data))
 			return GOAL_SEEK_OK;
 
 		stepsize = fabs (data->xpos - data->xneg)\
@@ -281,7 +281,7 @@ goal_seek_trawl_uniformly (GoalSeekFunction f,
 		printf ("                                        y = %.20g\n", y);
 #endif
 
-		if (updata_data (x, y, data))
+		if (update_data (x, y, data))
 			return GOAL_SEEK_OK;
 	}
 
@@ -319,7 +319,7 @@ goal_seek_trawl_normally (GoalSeekFunction f,
 		printf ("                                        y = %.20g\n", y);
 #endif
 
-		if (updata_data (x, y, data))
+		if (update_data (x, y, data))
 			return GOAL_SEEK_OK;
 	}
 

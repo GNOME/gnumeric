@@ -10,6 +10,13 @@ Jody:
 	* Rework canvas editor to behave nicely at boundaries and
 	  span correctly.
 
+Morten:
+	* Leak fixes.
+	* IPMT, PPMT argument order corrected.
+	* MIRR fixed (or at least changed) to match Excel.
+	* RATE uses supplied guess.
+	* Improve precision of IRR.
+
 --------------------------------------------------------------------------
 Gnumeric 0.49
 
