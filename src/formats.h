@@ -40,4 +40,7 @@ extern char const * const * const cell_formats [];
 
 extern CurrencySymbol const currency_symbols [];
 
+void currency_date_format_init (void);
+void currency_date_format_shutdown (void);
+
 #endif

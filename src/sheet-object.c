@@ -42,16 +42,24 @@ sheet_object_destroy (GtkObject *object)
 	SheetObject *so = SHEET_OBJECT (object);
 	Sheet *sheet;
 
-	sheet_object_stop_editing (so);
+	if (sheet->current_object == so)
+		sheet_mode_edit (sheet);
+	else
+		sheet_object_stop_editing (so);
+
+	gnome_canvas_points_free (so->bbox_points);
 	while (so->realized_list) {
 		GnomeCanvasItem *item = so->realized_list->data;
 		gtk_object_destroy (GTK_OBJECT (item));
 	}
 
 	sheet = so->sheet;
-	sheet->sheet_objects  = g_list_remove (sheet->sheet_objects, so);
-	sheet->modified = TRUE;
-	gnome_canvas_points_free (so->bbox_points);
+
+	/* If the object has already been inserted then mark sheet as dirty */
+	if (NULL != g_list_find	(sheet->sheet_objects, so)) {
+		sheet->sheet_objects  = g_list_remove (sheet->sheet_objects, so);
+		sheet->modified = TRUE;
+	}
 
 	(*sheet_object_parent_class->destroy)(object);
 }

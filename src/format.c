@@ -81,6 +81,24 @@ format_get_thousand (void)
 	return '.';
 }
 
+char const *
+format_get_currency (void)
+{
+	if (lc == NULL)
+		lc = localeconv ();
+
+	if (lc->currency_symbol == NULL || *lc->currency_symbol == '\0')
+		return "$";
+	return lc->currency_symbol;
+}
+
+gboolean
+format_month_before_day (void)
+{
+    /* FIXME */
+	return TRUE;
+}
+
 /* Use comma as the arg seperator unless the decimal point is a
  * comma, in which case use a semi-colon
  */
@@ -490,7 +508,7 @@ format_destroy (StyleFormat *format)
 	format->entries = NULL;
 }
 
-static struct {
+static struct FormatColor {
 	char       *name;
 	StyleColor *color;
 } format_colors [] = {
@@ -530,20 +548,32 @@ format_color_shutdown (void)
 		style_color_unref (format_colors [i].color);
 }
 
-static StyleColor *
-lookup_color (const char *str, const char *end)
+static struct FormatColor const *
+lookup_color_by_name (const char *str, const char *end,
+		      gboolean const translate)
 {
 	int i, len;
 
 	len = end - str;
-	for (i = 0; format_colors [i].name; i++){
-		char const *pre = format_colors [i].name;
-		char const *post = _(pre);
-		if ((g_strncasecmp (pre, str, len) == 0 && pre[len] == 0) ||
-		    (pre != post && g_strncasecmp (post, str, len) == 0 && post[len] == 0)) {
-			style_color_ref (format_colors [i].color);
-			return format_colors [i].color;
-		}
+	for (i = 0; format_colors [i].name; i++) {
+		char const *name = format_colors [i].name;
+		if (translate)
+			name = _(name);
+
+		if (0 == g_strncasecmp (name, str, len) && name [len] == '\0')
+			return format_colors + i;
+	}
+	return NULL;
+}
+
+static StyleColor *
+lookup_color (const char *str, const char *end)
+{
+	struct FormatColor const *color = lookup_color_by_name (str, end, FALSE);
+
+	if (color != NULL) {
+		style_color_ref (color->color);
+		return color->color;
 	}
 	return NULL;
 }
@@ -887,7 +917,8 @@ format_remove_decimal (StyleFormat const *fmt)
 	if (!tmp)
 		return NULL;
 
-	ret = p = g_strdup (tmp);
+	ret = g_strdup (format_string);
+	p = ret + (tmp - format_string);
 
 	/* If there is more than 1 thing after the decimal place
 	 * leave the decimal.
@@ -1399,7 +1430,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 	if (entry.format [0] == '['){
 		char *end = strchr (entry.format, ']');
 
-		if (end){
+		if (end) {
 			char first_after_bracket = entry.format [1];
 
 			/*
@@ -1458,7 +1489,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 				if (floor (value->v_float.val) == value->v_float.val)
 					entry.format = "0";
 				else
-					entry.format = _("0.0########");
+					entry.format = "0.0########";
 			}
 			v = format_number (value->v_float.val, &entry);
 		} else
@@ -1515,59 +1546,95 @@ number_format_shutdown (void)
 
 /****************************************************************************/
 
-/**
- * style_format_new_XL :
- */
+static char *
+translate_format_color (GString *res, char const *ptr, gboolean translate_to_en)
+{
+	char *end;
+	struct FormatColor const *color;
+
+	g_string_append_c (res, '[');
+
+	/*
+	 * Special [h*], [m*], [*s] is using for
+	 * and [$*] are for currencies.
+	 * measuring times, not for specifying colors.
+	 */
+	if (ptr[1] == 'h' || ptr[1] == 's' || ptr[1] == 'm' || ptr[1] == '$')
+		return NULL;
+
+	end = strchr (ptr, ']');
+	if (end == NULL)
+		return NULL;
+
+	color = lookup_color_by_name (ptr, end, translate_to_en);
+	if (color != NULL) {
+		g_string_append (res, translate_to_en
+				 ?  _(color->name)
+				 : color->name);
+		g_string_append_c (res, ']');
+		return end;
+	}
+	return NULL;
+}
+
+char *
+style_format_delocalize (const char *descriptor_string)
+{
+	g_return_val_if_fail (descriptor_string != NULL, NULL);
+
+	if (strcmp (descriptor_string, _("General"))) {
+		char const thousands_sep = format_get_thousand ();
+		char const decimal = format_get_decimal ();
+		char const *ptr = descriptor_string;
+		GString *res = g_string_sized_new (strlen (ptr));
+
+		for ( ; *ptr ; ++ptr)
+			if (*ptr == decimal)
+				g_string_append_c (res, '.');
+			else if (*ptr == thousands_sep)
+				g_string_append_c (res, ',');
+			else if (*ptr == '\\') {
+				switch (*ptr) {
+				case '.'  : g_string_append_c (res, decimal);
+					    break;
+				case ','  : g_string_append_c (res, thousands_sep);
+					    break;
+
+					    case '\"' : do {
+						    g_string_append_c (res, *ptr++);
+					    } while (*ptr && *ptr != '\"');
+					    if (*ptr)
+						    g_string_append_c (res, *ptr);
+					    break;
+
+				case '\\' : g_string_append_c (res, '\\');
+					    if (ptr [1] != '\0') {
+						    g_string_append_c (res, ptr[1]);
+						    ++ptr;
+					    }
+					    break;
+				default   : g_string_append_c (res, *ptr);
+				};
+			} else
+				g_string_append_c (res, *ptr);
+
+
+		{
+			char *tmp = g_strdup (res->str);
+			g_string_free (res, TRUE);
+			return tmp;
+		}
+	} else
+		return g_strdup ("General");
+}
+
 StyleFormat *
 style_format_new_XL (const char *descriptor_string, gboolean delocalize)
 {
 	StyleFormat *format;
-	char *internal_string = NULL;
 
-	g_return_val_if_fail (descriptor_string != NULL, NULL);
-
-	if (delocalize) {
-		if (!strcmp (descriptor_string, _("General")))
-			descriptor_string = "General";
-		else {
-			char const thousands_sep = format_get_thousand ();
-			char const decimal = format_get_decimal ();
-			char const *ptr = descriptor_string;
-			GString *res = g_string_sized_new (strlen (ptr));
-
-			for ( ; *ptr ; ++ptr)
-				if (*ptr == decimal)
-					g_string_append_c (res, '.');
-				else if (*ptr == thousands_sep)
-					g_string_append_c (res, ',');
-				else if (*ptr == '\\')
-					switch (*ptr) {
-					case '.'  : g_string_append_c (res, decimal);
-						    break;
-					case ','  : g_string_append_c (res, thousands_sep);
-						    break;
-
-					case '\"' : do {
-							    g_string_append_c (res, *ptr++);
-						    } while (*ptr && *ptr != '\"');
-						    if (*ptr)
-							    g_string_append_c (res, *ptr);
-						    break;
-
-					case '\\' : g_string_append_c (res, '\\');
-						    if (ptr [1] != '\0') {
-							    g_string_append_c (res, ptr[1]);
-							    ++ptr;
-						    }
-						    break;
-					default   : g_string_append_c (res, *ptr);
-					};
-
-			internal_string = g_strdup (res->str);
-			descriptor_string = internal_string;
-			g_string_free (res, TRUE);
-		}
-	}
+	if (delocalize)
+		descriptor_string = style_format_delocalize (descriptor_string);
 
 	format = (StyleFormat *) g_hash_table_lookup (style_format_hash, descriptor_string);
 
@@ -1580,24 +1647,25 @@ style_format_new_XL (const char *descriptor_string, gboolean delocalize)
 	}
 	format->ref_count++;
 
-	if (internal_string)
-		g_free (internal_string);
+	if (delocalize)
+		g_free ((char *)descriptor_string);
 	return format;
 }
 
 /**
- * style_format_as_XL :
+ * style_format_str_as_XL
  *
  * The caller is responsible for freeing the resulting string.
  */
 char *
-style_format_as_XL (StyleFormat const *fmt, gboolean localized)
+style_format_str_as_XL (char const *ptr, gboolean localized)
 {
-	char const *ptr;
+	if (localized) {
+		g_return_val_if_fail (ptr != NULL, g_strdup (_("General")));
+	} else {
+		g_return_val_if_fail (ptr != NULL, g_strdup ("General"));
+	}
 
-	g_return_val_if_fail (fmt != NULL, g_strdup (_("General")));
-
-	ptr = fmt->format;
 	if (!localized)
 		return g_strdup (ptr);
 
@@ -1643,6 +1711,12 @@ style_format_as_XL (StyleFormat const *fmt, gboolean localized)
 				    ++ptr;
 			    }
 			    break;
+
+		case '[' : tmp = translate_format_color (res, ptr, FALSE);
+			   if (tmp != NULL)
+				   ptr = tmp;
+			   break;
+
 		default   : if (*ptr == decimal || *ptr == thousands_sep)
 				    g_string_append_c (res, '\\');
 			    g_string_append_c (res, *ptr);
@@ -1652,6 +1726,18 @@ style_format_as_XL (StyleFormat const *fmt, gboolean localized)
 	g_string_free (res, TRUE);
 	return tmp;
 	}
+}
+
+char *
+style_format_as_XL (StyleFormat const *fmt, gboolean localized)
+{
+	if (localized) {
+		g_return_val_if_fail (fmt != NULL, g_strdup (_("General")));
+	} else {
+		g_return_val_if_fail (fmt != NULL, g_strdup ("General"));
+	}
+
+	return style_format_str_as_XL (fmt->format, localized);
 }
 
 void

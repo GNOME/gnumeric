@@ -462,9 +462,12 @@ draw_format_preview (FormatState *state)
 		break;
 	};
 
-	if (new_format->len > 0)
+	if (new_format->len > 0) {
+		char *tmp = style_format_str_as_XL (new_format->str, TRUE);
 		gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]),
-				    new_format->str);
+				    tmp);
+		g_free (tmp);
+	}
 
 	g_string_free (new_format, TRUE);
 
@@ -513,17 +516,17 @@ fillin_negative_samples (FormatState *state, int const page)
 	int const n = 30 - state->format.num_decimals;
 
 	char const *space = "", *currency;
-	char const *decimal = "";
-	char const *thousand_sep = "";
+	char decimal[2] = { '\0', '\0' } ;
+	char thousand_sep[2] = { '\0', '\0' } ;
 
 	GtkCList *cl;
 	char buf[50];
 	int i;
 
 	if (state->format.use_separator)
-		thousand_sep = ",";
+		thousand_sep[0] = format_get_thousand ();
 	if (state->format.num_decimals > 0)
-		decimal = ".";
+		decimal[0] = format_get_decimal ();
 
 	g_return_if_fail (page == 1 || page == 2);
 	g_return_if_fail (state->format.num_decimals <= 30);
@@ -585,11 +588,12 @@ fmt_dialog_init_fmt_list (GtkCList *cl, char const * const *formats,
 {
 	int j;
 
-	for (j = 0; formats [j]; ++j) {
-		gchar *t [1];
+	for (j = 0; formats[j]; ++j) {
+		gchar *t[1];
 
-		t [0] = _(formats [j]);
+		t [0] = style_format_str_as_XL (formats[j], TRUE);
 		gtk_clist_append (cl, t);
+		g_free (t[0]);
 
 		/* CHECK : Do we really want to be case insensitive ? */
 		if (!g_strcasecmp (formats[j], cur_format))
@@ -645,11 +649,13 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 	if (page == FMT_GENERAL || page == FMT_ACCOUNT || page == FMT_FRACTION || page == FMT_TEXT) {
 		FormatCharacteristics info;
 		int list_elem = 0;
+		char *tmp;
 		if (page == cell_format_classify (state->format.spec, &info))
 			list_elem = info.list_element;
 
-		gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]),
-				    cell_formats[page][list_elem]);
+		tmp = style_format_str_as_XL (cell_formats[page][list_elem], TRUE);
+		gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]), tmp);
+		g_free (tmp);
 	}
 
 	state->format.current_type = page;
@@ -694,10 +700,11 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 			 *      It should be easy.  All that is needed is a way to differentiate
 			 *      the std formats and the custom formats in the StyleFormat hash.
 			 */
-			if  (page == 11 && select == -1)
-				gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]),
-						    (gchar *)state->format.spec);
-			else if (select < 0)
+			if  (page == 11 && select == -1) {
+				char *tmp = style_format_str_as_XL ((gchar *)state->format.spec, TRUE);
+				gtk_entry_set_text (GTK_ENTRY (state->format.widget[F_ENTRY]), tmp);
+				g_free (tmp);
+			} else if (select < 0)
 				select = 0;
 
 			if (select >= 0)
@@ -726,18 +733,22 @@ static void
 cb_format_entry (GtkEditable *w, FormatState *state)
 {
 	gchar const *tmp = gtk_entry_get_text (GTK_ENTRY (w));
+	char *fmt = style_format_delocalize (tmp);
 
 	/* If the format didn't change don't react */
-	if (!g_strcasecmp (state->format.spec, tmp))
+	if (!g_strcasecmp (state->format.spec, fmt)) {
+		g_free (fmt);
 		return;
+	}
 
 	if (state->enable_edit) {
 		g_free ((char *)state->format.spec);
-		state->format.spec = g_strdup (tmp);
+		state->format.spec = fmt;
 		mstyle_set_format_text (state->result, state->format.spec);
 		fmt_dialog_changed (state);
 		draw_format_preview (state);
-	}
+	} else
+		g_free (fmt);
 }
 
 static void

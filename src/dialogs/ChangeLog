@@ -1,5 +1,8 @@
 2000-09-20  Jody Goldberg <jgoldberg@home.com>
 
+	* dialog-cell-format.c (fillin_negative_samples) : Use locale specific
+	  decimal and thousand seperator in the negative preview.
+
 	* dialog-graph-guru.c (get_selector_control) : Hande idl name changes.
 	(cb_create_series_from_range) : Be smart about col/row headers.
 

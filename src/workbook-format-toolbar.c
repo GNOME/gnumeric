@@ -19,6 +19,7 @@
 #include "application.h"
 #include "commands.h"
 #include "format.h"
+#include "formats.h"
 #include "color.h"
 #include "border.h"
 #include "ranges.h"
@@ -37,19 +38,6 @@
 #include "pixmaps/remove_decimals.xpm"
 #include "pixmaps/font.xpm"
 #include "pixmaps/bucket.xpm"
-
-/*
- * xgettext:
- * These string control the money and percent formats applied by the toolbar
- * Format currently uses the MS excel representation (check the docs for details)
- * Of particular note are
- * 	- The currency
- * 	- The placement of the currency (pre vs post)
- * No need to translate the decimal point or thousands seperator
- * that is handled automaticly.
- */
-static const char *money_format   = N_("_($* #,##0.00_);($* #,##0.00)");
-static const char *percent_format = N_("0.00%");
 
 static void
 workbook_format_halign_feedback_set (Workbook *wb,
@@ -243,7 +231,7 @@ workbook_cmd_format_as_money (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	
-	do_sheet_selection_apply_number_format (sheet, _(money_format));
+	do_sheet_selection_apply_number_format (sheet, cell_formats [FMT_ACCOUNT] [2]);
 }
 
 static void
@@ -251,7 +239,7 @@ workbook_cmd_format_as_percent (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	
-	do_sheet_selection_apply_number_format (sheet, _(percent_format));
+	do_sheet_selection_apply_number_format (sheet, "0.00%");
 }
 
 /*

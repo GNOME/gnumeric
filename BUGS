@@ -6,8 +6,6 @@ Release Critical
 ----------------
 
 - Fix relocation undo to handle Dependents rather than Cell.
-- Evaluate (i.e., eliminate) all instances of "foo == TRUE" in the code.
-  They're too error prone for comfort.
 
 
 Post 0.57 Changes
@@ -40,7 +38,6 @@ Long term breakage
   rather than inserting before the current sheet.
 
 - formats with AM/PM need to be internationalized.
-- We need to generate the date formats depending on locale.
 
 - Changing an expression name that is in use does not recalc, or regen depends
   correctly.
@@ -89,6 +86,7 @@ Long term breakage
 		  to handle shaped objects.
 
 - Parser : The single character '%' is parsed as an expression '0%'
+
 Dialogs
 -------
 - Use color combos in format dialog.

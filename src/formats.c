@@ -15,116 +15,120 @@
 /* The various formats */
 static char const * const
 cell_format_general [] = {
-	N_("General"),
+	"General",
 	NULL
 };
 
 static char const * const
 cell_format_numbers [] = {
-	N_("0"),
-	N_("0.00"),
-	N_("#,##0"),
-	N_("#,##0.00"),
-	N_("#,##0_);(#,##0)"),
-	N_("#,##0_);[Red](#,##0)"),
-	N_("#,##0.00_);(#,##0.00)"),
-	N_("#,##0.00_);[Red](#,##0.00)"),
-	N_("0.0"),
+	"0",
+	"0.00",
+	"#,##0",
+	"#,##0.00",
+	"#,##0_);(#,##0)",
+	"#,##0_);[Red](#,##0)",
+	"#,##0.00_);(#,##0.00)",
+	"#,##0.00_);[Red](#,##0.00)",
+	"0.0",
 	NULL
 };
 
-static char const * const
+/* Some are generated */
+static char const *
 cell_format_currency [] = {
-	N_("$#,##0"),
-	N_("$#,##0_);($#,##0)"),
-	N_("$#,##0_);[Red]($#,##0)"),
-	N_("$#,##0.00"),
-	N_("$#,##0.00_);($#,##0.00)"),
-	N_("$#,##0.00_);[Red]($#,##0.00)"),
+	NULL, /* "$#,##0", */
+	NULL, /* "$#,##0_);($#,##0)", */
+	NULL, /* "$#,##0_);[Red]($#,##0)", */
+	NULL, /* "$#,##0.00", */
+	NULL, /* "$#,##0.00_);($#,##0.00)", */
+	NULL, /* "$#,##0.00_);[Red]($#,##0.00)", */
 	NULL,
 
 };
 
-static char const * const
+/* Some are generated */
+static char const *
 cell_format_account [] = {
-	N_("_($* #,##0_);_($* (#,##0);_($* \"-\"_);_(@_)"),
-	N_("_(* #,##0_);_(* (#,##0);_(* \"-\"_);_(@_)"),
-	N_("_($* #,##0.00_);_($* (#,##0.00);_($* \"-\"??_);_(@_)"),
-	N_("_(* #,##0.00_);_(* (#,##0.00);_(* \"-\"??_);_(@_)"),
+	NULL, /* "_($* #,##0_);_($* (#,##0);_($* \"-\"_);_(@_)", */
+	"_(* #,##0_);_(* (#,##0);_(* \"-\"_);_(@_)",
+	NULL, /* "_($* #,##0.00_);_($* (#,##0.00);_($* \"-\"??_);_(@_)", */
+	"_(* #,##0.00_);_(* (#,##0.00);_(* \"-\"??_);_(@_)",
 	NULL
 };
 
-static char const * const
+/* Some are generated */
+static char const *
 cell_format_date [] = {
-	N_("m/d/yy"),
-	N_("m/d/yyyy"),
-	N_("d-mmm-yy"),
-	N_("d-mmm-yyyy"),
-	N_("d-mmm"),
-	N_("d-mm"),
-	N_("mmm/d"),
-	N_("mm/d"),
-	N_("mm/dd/yy"),
-	N_("mm/dd/yyyy"),
-	N_("mmm/dd/yy"),
-	N_("mmm/dd/yyyy"),
-	N_("mmm/ddd/yy"),
-	N_("mmm/ddd/yyyy"),
-	N_("mm/ddd/yy"),
-	N_("mm/ddd/yyyy"),
-	N_("mmm-yy"),
-	N_("mmm-yyyy"),
-	N_("mmmm-yy"),
-	N_("mmmm-yyyy"),
-	N_("m/d/yy h:mm"),
-	N_("m/d/yyyy h:mm"),
-	N_("yyyy/mm/d"),
-	N_("yyyy/mmm/d"),
-	N_("yyyy/mm/dd"),
-	N_("yyyy/mmm/dd"),
-	N_("yyyy-mm-d"),
-	N_("yyyy-mmm-d"),
-	N_("yyyy-mm-dd"),
-	N_("yyyy-mmm-dd"),
-	N_("yy"),
-	N_("yyyy"),
+	"m/d/yy",
+	"m/d/yyyy",
+	"d-mmm-yy",
+	"d-mmm-yyyy",
+	"d-mmm",
+	"d-mm",
+	"mmm/d",
+	"mm/d",
+	"mm/dd/yy",
+	"mm/dd/yyyy",
+	"mmm/dd/yy",
+	"mmm/dd/yyyy",
+	"mmm/ddd/yy",
+	"mmm/ddd/yyyy",
+	"mm/ddd/yy",
+	"mm/ddd/yyyy",
+	"mmm-yy",
+	"mmm-yyyy",
+	"mmmm-yy",
+	"mmmm-yyyy",
+	"m/d/yy h:mm",
+	"m/d/yyyy h:mm",
+	"yyyy/mm/d",
+	"yyyy/mmm/d",
+	"yyyy/mm/dd",
+	"yyyy/mmm/dd",
+	"yyyy-mm-d",
+	"yyyy-mmm-d",
+	"yyyy-mm-dd",
+	"yyyy-mmm-dd",
+	"yy",
+	"yyyy",
 	NULL
 };
 
-static char const * const
+/* Some are generated */
+static char const *
 cell_format_time [] = {
-	N_("h:mm AM/PM"),
-	N_("h:mm:ss AM/PM"),
-	N_("h:mm"),
-	N_("h:mm:ss"),
-	N_("m/d/yy h:mm"),
-	N_("mm:ss"),
-	N_("mm:ss.0"),
-	N_("[h]:mm:ss"),
-	N_("[h]:mm"),
-	N_("[mm]:ss"),
-	N_("[ss]"),
+	"h:mm AM/PM",
+	"h:mm:ss AM/PM",
+	"h:mm",
+	"h:mm:ss",
+	"m/d/yy h:mm",
+	"mm:ss",
+	"mm:ss.0",
+	"[h]:mm:ss",
+	"[h]:mm",
+	"[mm]:ss",
+	"[ss]",
 	NULL
 };
 
 static char const * const
 cell_format_percent [] = {
-	N_("0%"),
-	N_("0.00%"),
+	"0%",
+	"0.00%",
 	NULL,
 };
 
 static char const * const
 cell_format_fraction [] = {
-	N_("# ?/?"),
-	N_("# ??/??"),
+	"# ?/?",
+	"# ??/??",
 	NULL
 };
 
 static char const * const
 cell_format_science [] = {
-	N_("0.00E+00"),
-	N_("##0.0E+0"),
+	"0.00E+00",
+	"##0.0E+0",
 	NULL
 };
 
@@ -148,6 +152,58 @@ cell_formats [] = {
 	cell_format_text,
 	NULL
 };
+
+void
+currency_date_format_init (void)
+{
+	char const *curr = format_get_currency ();
+
+	cell_format_currency [0] =
+		g_strdup_printf ("%s#,##0", curr);
+	cell_format_currency [1] =
+		g_strdup_printf ("%s#,##0_);(%s#,##0)", curr, curr);
+	cell_format_currency [2] =
+		g_strdup_printf ("%s#,##0_);[Red](%s#,##0)", curr, curr);
+	cell_format_currency [3] =
+		g_strdup_printf ("%s#,##0.00", curr);
+	cell_format_currency [4] =
+		g_strdup_printf ("%s#,##0.00_);(%s#,##0.00)", curr, curr);
+	cell_format_currency [5] =
+		g_strdup_printf ("%s#,##0.00_);[Red](%s#,##0.00)", curr, curr);
+
+	cell_format_account [0] = 
+		g_strdup_printf ("_(%s* #,##0_);_(%s* (#,##0);_(%s* \"-\"_);_(@_)", curr, curr, curr);
+	cell_format_account [2] = 
+		g_strdup_printf ("_(%s* #,##0.00_);_(%s* (#,##0.00);_(%s* \"-\"??_);_(@_)", curr, curr, curr);
+
+	if (format_month_before_day ()) {
+		cell_format_date [0]  = "d/m/yy";
+		cell_format_date [1]  = "d/m/yyyy";
+		cell_format_date [2]  = "mmm-d-yy";
+		cell_format_date [3]  = "mmm-d-yyyy";
+		cell_format_date [4]  = "mmm-d";
+		cell_format_date [5]  = "mm-d";
+		cell_format_date [6]  = "d/mmm";
+		cell_format_date [7]  = "d/mm";
+		cell_format_date [8]  = "dd/mm/yy";
+		cell_format_date [9]  = "dd/mm/yyyy";
+		cell_format_date [10] = "dd/mmm/yy";
+		cell_format_date [11] = "dd/mmm/yyyy";
+		cell_format_date [12] = "ddd/mmm/yy";
+		cell_format_date [13] = "ddd/mmm/yyyy";
+		cell_format_date [14] = "ddd/mm/yy";
+		cell_format_date [15] = "ddd/mm/yyyy";
+		cell_format_date [20] = "d/m/yy h:mm";
+		cell_format_date [21] = "d/m/yyyy h:mm";
+
+		cell_format_time [4]  = "d/m/yy h:mm";
+	}
+}
+
+void
+currency_date_format_shutdown (void)
+{
+}
 
 CurrencySymbol const currency_symbols[] =
 {

@@ -2807,10 +2807,10 @@ workbook_new (void)
 		bonobo_ui_component_add_verb_list_with_data (
 			component, verbs, wb);
 		
+		data_dir = gnumeric_sys_data_dir (NULL);
 		fname = bonobo_ui_util_get_ui_fname (
 			GNOME_DATADIR, "gnumeric.xml");
-		g_warning ("Loading ui from '%s'", fname);
-		
+
 		ui = bonobo_ui_util_new_ui (component, fname, "gnumeric");
 		
 		bonobo_ui_component_set_tree (
@@ -3684,15 +3684,15 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 	dependents = g_list_copy (wb->dependents);
 
 	for (l = dependents; l; l = l->next)	{
-		Cell *cell = l->data;
+		Dependent *dep = l->data;
 		ExprRewriteInfo rwinfo;
 		ExprTree *newtree; 
 		
 		rwinfo.type = EXPR_REWRITE_RELOCATE;
 		memcpy (&rwinfo.u.relocate, info, sizeof (ExprRelocateInfo));
-		eval_pos_init_cell (&rwinfo.u.relocate.pos, cell);
+		eval_pos_init_dep (&rwinfo.u.relocate.pos, dep);
 
-		newtree = expr_rewrite (cell->base.expression, &rwinfo);
+		newtree = expr_rewrite (dep->expression, &rwinfo);
 
 		if (newtree) {
 			/* Don't store relocations if they were inside the region
@@ -3704,12 +3704,12 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 				struct expr_relocate_storage *tmp =
 				    g_new (struct expr_relocate_storage, 1);
 				tmp->pos = rwinfo.u.relocate.pos;
-				tmp->oldtree = cell->base.expression;
+				tmp->oldtree = dep->expression;
 				expr_tree_ref (tmp->oldtree);
 				undo_info = g_slist_prepend (undo_info, tmp);
 			}
 
-			sheet_cell_set_expr (cell, newtree);
+			dependent_set_expr (dep, newtree);
 			expr_tree_unref (newtree);
 		}
 	}

@@ -1,4 +1,31 @@
+2000-09-21  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-format-toolbar.c (workbook_cmd_format_as_money) :
+	  no need to translate the money format.  We generate it elsewhere.
+	(workbook_cmd_format_as_percent) : ditto.
+
+	* src/formats.c : Most format strings are NOT required to be
+	  translated anymore.  We store them internaly in the C locale.
+	(currency_date_format_init) : customize the currency symbol, and the
+	  day/month order.
+
+	* src/format.c (format_get_currency) : new function.
+	(format_month_before_day) : New stub.  How to do this portably.
+	(lookup_color_by_name) : new routine.
+	(lookup_color) : that was split from here.
+	(format_remove_decimal) : Fix a bit.  still broken for fmts with
+	  multiple cases.
+	(format_value) : no need to translate the format.
+	(translate_format_color) : new routine.
+	(style_format_delocalize) : new routine.  Add colour support.
+	(style_format_new_XL) : split from here.
+	(style_format_str_as_XL) : new routine.  Add colour support.
+	(style_format_as_XL) : split from here.
+
 2000-09-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object.c (sheet_object_destroy) : If the current object is
+	  destroyed switch back to edit mode.
 
 	* src/workbook-edit.c (workbook_start_editing_at_cursor) : We always
 	  create an in canvas edit item, but sometimes we jump the focus to
