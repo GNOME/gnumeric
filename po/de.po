@@ -47,8 +47,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
-"POT-Creation-Date: 2002-08-24 15:24+0200\n"
-"PO-Revision-Date: 2002-08-24 15:19+0100\n"
+"POT-Creation-Date: 2002-08-25 00:04+0200\n"
+"PO-Revision-Date: 2002-08-24 21:13+0100\n"
 "Last-Translator: Christian Neumair <christian-neumair@web.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -10279,10 +10279,10 @@ msgstr ""
 "\n"
 "@SEEALSO=IMAGINARY"
 
+# CHECK
 #: plugins/fn-string/functions.c:630
-#, fuzzy
 msgid "Arguments out of range"
-msgstr "Die Zahl liegt außerhalb des Gültigkeitbereichs"
+msgstr "Argumente außerhalb des Gültigkeitsbereichs"
 
 #: plugins/fn-string/functions.c:650
 #, fuzzy
@@ -11389,7 +11389,7 @@ msgstr "Fett"
 #: src/GNOME_Gnumeric.xml.h:14 src/workbook-format-toolbar.c:804
 #: src/workbook-format-toolbar.c:873
 msgid "Borders"
-msgstr "Rahmen"
+msgstr "Ränder"
 
 #: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:376
 #: src/workbook-object-toolbar.c:138
@@ -11425,7 +11425,7 @@ msgstr "Über den markierten Zellen zentrieren"
 
 #: src/GNOME_Gnumeric.xml.h:22
 msgid "Centers the text in each selection"
-msgstr "Den Text bei allen Markierungen zentrieren"
+msgstr "Den Inhalt in allen markierten Zellen zentrieren"
 
 #: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2910
 msgid "Change Gnumeric Preferences"
@@ -11512,7 +11512,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3340
 msgid "Comparing two population variances"
-msgstr ""
+msgstr "Zwei Populationsvarianzen werden verglichen"
 
 #: src/GNOME_Gnumeric.xml.h:43
 msgid "Configure toolbars"
@@ -11631,7 +11631,7 @@ msgstr "Genauigkeit vermindern"
 
 #: src/GNOME_Gnumeric.xml.h:70 src/workbook-format-toolbar.c:466
 msgid "Decreases the number of decimals displayed"
-msgstr "Anzahl der angezeigten Dezimalen vermindern"
+msgstr "Die Anzahl der angezeigten Dezimalen vermindern"
 
 #: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:3198
 msgid "Display _Formulas"
@@ -11802,7 +11802,7 @@ msgstr "Genauigkeit erhöhen"
 
 #: src/GNOME_Gnumeric.xml.h:110 src/workbook-format-toolbar.c:463
 msgid "Increases the number of decimals displayed"
-msgstr "Anzahl der angezeigten Dezimalen erhöhen"
+msgstr "Die Anzahl der angezeigten Dezimalen erhöhen"
 
 #: src/GNOME_Gnumeric.xml.h:111
 msgid "Insert Component"
@@ -11859,7 +11859,7 @@ msgstr "Aktuelle Zeit in die markierte(n) Zelle(n) einfügen"
 
 #: src/GNOME_Gnumeric.xml.h:124
 msgid "Inserts a Bonobo object"
-msgstr "Bonobo-Objekt einfügen"
+msgstr "Ein Bonobo-Objekt einfügen"
 
 # CHECK, meaning of shaped unclear --miq
 #: src/GNOME_Gnumeric.xml.h:125
@@ -11906,7 +11906,7 @@ msgstr "Links"
 
 #: src/GNOME_Gnumeric.xml.h:134
 msgid "Left justifies the contents of each cell"
-msgstr "Den Inhalt jeder Zelle links ausrichten"
+msgstr "Den Inhalt in allen markierten Zellen links ausrichten"
 
 #: src/GNOME_Gnumeric.xml.h:135 src/dialogs/cell-format.glade.h:53
 #: src/workbook-object-toolbar.c:160
@@ -12104,7 +12104,7 @@ msgstr "Die aktuelle Datei drucken"
 
 #: src/GNOME_Gnumeric.xml.h:180
 msgid "Print the workbook"
-msgstr "Arbeitsbuch drucken"
+msgstr "Das aktuelle Arbeitsbuch drucken"
 
 #: src/GNOME_Gnumeric.xml.h:181
 msgid "Radio Button"
@@ -12167,7 +12167,7 @@ msgstr "Rechts"
 
 #: src/GNOME_Gnumeric.xml.h:194
 msgid "Right justifies the contents of each cell"
-msgstr "Inhalt jeder Zelle rechts ausrichten"
+msgstr "Den Inhalt in allen markierten Zellen rechts ausrichten"
 
 #: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3033
 msgid "S_heet"
@@ -12313,11 +12313,11 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:227 src/workbook-format-toolbar.c:448
 msgid "Split"
-msgstr "Splitten"
+msgstr "Teilen"
 
 #: src/GNOME_Gnumeric.xml.h:228 src/workbook-format-toolbar.c:448
 msgid "Split merged ranges of cells"
-msgstr "Einen zusammengeführten Bereich von Zellen splitten"
+msgstr "Einen zusammengeführten Bereich von Zellen teilen"
 
 #: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3377
 msgid "Statistical Anal_ysis"
@@ -12444,7 +12444,7 @@ msgstr "_Auto-Speichern..."
 #: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3154
 #: src/workbook-control-gui.c:3173
 msgid "_Auto fit selection"
-msgstr "_Auswahl automatisch einpasssen"
+msgstr "_Auto-Anpassen"
 
 #: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:3248
 msgid "_Autoformat..."
@@ -13770,7 +13770,7 @@ msgstr "_Ausrichtung anwenden"
 
 #: src/dialogs/autoformat.glade.h:3
 msgid "Apply _Borders"
-msgstr "_Rahmen anwenden"
+msgstr "_Ränder anwenden"
 
 #: src/dialogs/autoformat.glade.h:4
 msgid "Apply _Fonts"
@@ -15180,9 +15180,11 @@ msgstr "Max:"
 msgid "Value :"
 msgstr "Wert:"
 
+# CHECK
 #: src/dialogs/dialog-cell-format.c:2404
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr ""
+"Die Validierungskriterien sind nicht verwendbar. Validierung deaktivieren?"
 
 #: src/dialogs/dialog-cell-format.c:2665 src/workbook-format-toolbar.c:810
 msgid "Clear Background"
@@ -15540,10 +15542,14 @@ msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
 msgstr ""
+"Die Objekte auf dieser Seite legen passen die vorgegebenen Einstellungen des "
+"Sortierdialogs und das Verhalten der Werkzeugleistenknöpfe zur Sortierung "
+"fest."
 
 #: src/dialogs/dialog-preferences.c:931
 msgid "The items on this page customize the new default workbook."
 msgstr ""
+"Die Objekte auf dieser Seite legen Aussehen des Vorgabe-Arbeitsbuchs fest"
 
 #: src/dialogs/dialog-preferences.c:1103
 msgid "The items on this page are related to the saving and opening of files."
@@ -16558,9 +16564,8 @@ msgid "Exponential Smoothing"
 msgstr "Exponentielles Glätten"
 
 #: src/dialogs/exp-smoothing.glade.h:12
-#, fuzzy
 msgid "_Damping factor:"
-msgstr "Stichprobenmethode:"
+msgstr "Dämpfungsfaktor:"
 
 #: src/dialogs/exp-smoothing.glade.h:18 src/dialogs/moving-averages.glade.h:18
 msgid "_Standard Errors"
@@ -16612,15 +16617,15 @@ msgstr "Ziel:"
 
 #: src/dialogs/goalseek.glade.h:5
 msgid "GoalSeek"
-msgstr "Zielsuche..."
+msgstr "Zielsuche"
 
 #: src/dialogs/goalseek.glade.h:6
 msgid "Last Result:"
-msgstr "Letzte Antwort"
+msgstr "Letztes Ergebnis:"
 
 #: src/dialogs/goalseek.glade.h:7
 msgid "Remaining Error:"
-msgstr "Verbleibende Fehler:"
+msgstr "Verbleibende(r) Fehler:"
 
 #: src/dialogs/goalseek.glade.h:8
 msgid "Solution:"
@@ -16630,9 +16635,6 @@ msgstr "Lösung"
 msgid "_By Changing Cell:"
 msgstr "D_urch Ändern der Zelle:"
 
-# Checkit
-# I guess shortcuts are missing here
-# 2001-02-13 07:41:33 CET -ke-
 #: src/dialogs/goalseek.glade.h:10
 msgid "_Set Cell:"
 msgstr "Zelle _festlegen:"
@@ -16857,7 +16859,7 @@ msgstr "Gleitender Durchschnitt"
 
 #: src/dialogs/names.glade.h:1
 msgid "Define names"
-msgstr "Namen definieren"
+msgstr "Namen festlegen"
 
 #: src/dialogs/names.glade.h:2
 msgid "Workbook"
@@ -16876,9 +16878,8 @@ msgid "_Name: "
 msgstr "_Name:"
 
 #: src/dialogs/names.glade.h:7
-#, fuzzy
 msgid "_Scope:"
-msgstr "Reichweite:"
+msgstr "_Bereich:"
 
 #: src/dialogs/names.glade.h:8
 msgid "_Update"
@@ -19759,7 +19760,7 @@ msgstr "Text-Import (konfigurierbar)"
 
 #: src/stf.c:379
 msgid "Text export (configurable)"
-msgstr "Text-Import (konfigurierbar)"
+msgstr "Text-Export (konfigurierbar)"
 
 #: src/tools/analysis-tools.c:214 src/tools/analysis-tools.c:3301
 #, c-format
@@ -20692,11 +20693,11 @@ msgstr "Kursiv"
 
 #: src/workbook-cmd-format.c:49
 msgid "Add Borders"
-msgstr "Rahmen hinzufügen"
+msgstr "Ränder hinzufügen"
 
 #: src/workbook-cmd-format.c:49
 msgid "Remove borders"
-msgstr "Rahmen entfernen"
+msgstr "Ränder entfernen"
 
 #: src/workbook-control-gui.c:344
 msgid " : Gnumeric"
@@ -21122,19 +21123,19 @@ msgstr "Hintergrundfarbe festlegen"
 
 #: src/workbook-format-toolbar.c:623
 msgid "Clear Borders"
-msgstr "Rahmen entfernen"
+msgstr "Ränder entfernen"
 
 #: src/workbook-format-toolbar.c:626
 msgid "All Borders"
-msgstr "Alle Rahmen"
+msgstr "Alle Ränder"
 
 #: src/workbook-format-toolbar.c:627
 msgid "Outside Borders"
-msgstr "Außenrahmen"
+msgstr "Außenränder"
 
 #: src/workbook-format-toolbar.c:628
 msgid "Thick Outside Borders"
-msgstr "Dicker Außenrahmen"
+msgstr "Dicke Außenränder"
 
 #: src/workbook-format-toolbar.c:631
 msgid "Double Bottom"
@@ -21158,7 +21159,7 @@ msgstr "Oben, dazu unten dick"
 
 #: src/workbook-format-toolbar.c:734
 msgid "Set Borders"
-msgstr "Rahmen festlegen"
+msgstr "Ränder festlegen"
 
 #: src/workbook-format-toolbar.c:784
 msgid "Size"
