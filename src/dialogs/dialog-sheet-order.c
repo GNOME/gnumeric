@@ -394,7 +394,7 @@ cb_add_clicked (GtkWidget *ignore, SheetManager *state)
 	}
 	gtk_list_store_set (state->model, &iter,
 			    SHEET_PIX, state->sheet_image,
-			    SHEET_NAME, _(""),
+			    SHEET_NAME, "",
 			    SHEET_NEW_NAME, name,
 			    SHEET_POINTER, NULL,
 			    IS_EDITABLE_COLUMN,	TRUE,   
