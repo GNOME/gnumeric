@@ -609,7 +609,7 @@ WriteData_ForeachCellCB (Sheet *sheet, int col, int row,
 {
 	gnum_float  x;
 	if (data->len == 0)
-		return (value_terminate ());
+		return VALUE_TERMINATE;
 	if (cell == NULL)
 		cell = sheet_cell_new (sheet, col, row);
 	x = g_array_index (data, gnum_float, 0);

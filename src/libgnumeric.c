@@ -36,6 +36,7 @@
 #include "sheet-autofill.h"
 #include "xml-io.h"
 #include "cell.h"
+#include "value.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -175,6 +176,8 @@ main (int argc, char *argv [])
 	WorkbookControl *wbc;
 	char const *gnumeric_binary = argv[0];
 
+	g_set_prgname (gnumeric_binary);
+
 	/* Make stdout line buffered - we only use it for debug info */
 	setvbuf (stdout, NULL, _IOLBF, 0);
 
@@ -199,6 +202,7 @@ main (int argc, char *argv [])
 #endif
 
 	application_init ();
+	value_init ();
 	cell_init ();
 	dependent_types_init ();
 	string_init ();
@@ -310,6 +314,7 @@ main (int argc, char *argv [])
 	style_shutdown ();
 	dependent_types_shutdown ();
 	cell_shutdown ();
+	value_shutdown ();
 
 	global_gnome_font_shutdown ();
 

@@ -1,3 +1,19 @@
+2002-03-25  Morten Welinder  <terra@diku.dk>
+
+	* src/main.c (main): Call g_set_prgname.
+	(main): Call value_init and value_shutdown appropriately.
+
+	* src/value.c (value_terminate_err): New value.
+	(value_terminate): Replace this function by the value
+	VALUE_TERMINATE.  All callers changed.
+	(value_hash): Be smarter about arrays.
+	(value_new_float): Use chunk allocator.
+	(value_release): Release floats properly.
+	(value_init, value_shutdown): New functions.
+
+	* src/gutils.c (gnm_mem_chunk_destroy): Add new argument for leak
+	tracking.
+
 2002-03-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* workbook-control-gui.c : change arguments in call of

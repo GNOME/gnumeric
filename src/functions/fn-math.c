@@ -58,7 +58,7 @@ callback_function_sumxy (Sheet *sheet, int col, int row,
 
         switch (cell->value->type) {
 	case VALUE_ERROR:
-		return value_terminate ();
+		return VALUE_TERMINATE;
 
 	case VALUE_BOOLEAN:
 	        x = cell->value->v_bool.val ? 1 : 0;
@@ -623,7 +623,7 @@ callback_function_sumif (Sheet *sheet, int col, int row,
 			break;
 
 		default:
-			return value_terminate ();
+			return VALUE_TERMINATE;
 		}
 	mm->sum += v;
 	mm->current = mm->current->next;
@@ -2898,7 +2898,7 @@ callback_function_seriessum (const EvalPos *ep, Value *value,
 	gnum_float coefficient;
 
 	if (!VALUE_IS_NUMBER (value))
-		return value_terminate ();
+		return VALUE_TERMINATE;
 
 	coefficient = value_get_as_float (value);
 
@@ -3012,7 +3012,7 @@ callback_function_mmult_validate (Sheet *sheet, int col, int row,
 
 	if (cell == NULL || cell->value == NULL ||
 	    !VALUE_IS_NUMBER (cell->value))
-	        return value_terminate ();
+	        return VALUE_TERMINATE;
 
 	++(*item_count);
 	return NULL;

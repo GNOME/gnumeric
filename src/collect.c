@@ -181,7 +181,7 @@ float_range_function (GnmExprList *exprlist, FunctionEvalInfo *ei,
 
 	vals = collect_floats (exprlist, ei->pos, flags, &n, &error);
 	if (!vals)
-		return (error != value_terminate ()) ? error : NULL;
+		return (error != VALUE_TERMINATE) ? error : NULL;
 
 	err = func (vals, n, &res);
 	g_free (vals);

@@ -731,7 +731,7 @@ struct _gnm_mem_chunk_block {
 };
 
 struct _gnm_mem_chunk {
-	const char *name;
+	char *name;
 	size_t atom_size, user_atom_size, chunk_size;
 	int atoms_per_block;
 	gnm_mem_chunk_freeblock *freelist;
@@ -759,7 +759,7 @@ gnm_mem_chunk_new (const char *name, size_t user_atom_size, size_t chunk_size)
 
 	res = g_new (gnm_mem_chunk, 1);
 	res->alignment = alignment;
-	res->name = name;
+	res->name = g_strdup (name);
 	res->user_atom_size = user_atom_size;
 	res->atom_size = atom_size;
 	res->chunk_size = chunk_size;
@@ -771,8 +771,25 @@ gnm_mem_chunk_new (const char *name, size_t user_atom_size, size_t chunk_size)
 }
 
 void
-gnm_mem_chunk_destroy (gnm_mem_chunk *chunk)
+gnm_mem_chunk_destroy (gnm_mem_chunk *chunk, gboolean expect_leaks)
 {
+	/*
+	 * Since this routine frees all memory allocated for the pool,
+	 * it is sometimes convenient not to free at all.  For such
+	 * cases, don't report leaks.
+	 */
+	if (!expect_leaks) {
+		gnm_mem_chunk_block *block;
+
+		for (block = chunk->blocklist; block; block = block->next) {
+			int leaked = chunk->atoms_per_block - (block->freecount + block->nonalloccount);
+			if (leaked) {
+				g_warning ("Leaked %d nodes from %s.",
+					   leaked, chunk->name);
+			}
+		}
+	}
+
 	while (chunk->blocklist) {
 		gnm_mem_chunk_block *block = chunk->blocklist;
 
@@ -780,6 +797,7 @@ gnm_mem_chunk_destroy (gnm_mem_chunk *chunk)
 		g_free (block->data);
 		g_free (block);
 	}
+	g_free (chunk->name);
 	g_free (chunk);
 }
 

@@ -85,7 +85,7 @@ void      gnumeric_set_le_double (void *p, double d);
 char *    gnumeric_strescape (const char *string);
 
 gnm_mem_chunk *gnm_mem_chunk_new (const char *, size_t, size_t);
-void gnm_mem_chunk_destroy (gnm_mem_chunk *);
+void gnm_mem_chunk_destroy (gnm_mem_chunk *, gboolean);
 gpointer gnm_mem_chunk_alloc (gnm_mem_chunk *);
 gpointer gnm_mem_chunk_alloc0 (gnm_mem_chunk *);
 void gnm_mem_chunk_free (gnm_mem_chunk *, gpointer);

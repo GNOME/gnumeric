@@ -619,7 +619,7 @@ workbook_unref (Workbook *wb)
  * callbacks are only invoked for existing cells.
  *
  * Return value:
- *    non-NULL on error, or value_terminate() if some invoked routine requested
+ *    non-NULL on error, or VALUE_TERMINATE if some invoked routine requested
  *    to stop (by returning non-NULL).
  */
 Value *
@@ -646,7 +646,7 @@ workbook_foreach_cell_in_range (EvalPos const *pos,
 		int stop = end_sheet->index_in_wb;
 		if (i < stop) { int tmp = i; i = stop ; stop = tmp; }
 
-		g_return_val_if_fail (start_sheet->workbook == wb, value_terminate ());
+		g_return_val_if_fail (start_sheet->workbook == wb, VALUE_TERMINATE);
 
 		while (i <= stop) {
 			res = sheet_foreach_cell_in_range (g_ptr_array_index (wb->sheets, i),

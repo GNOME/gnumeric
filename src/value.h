@@ -147,7 +147,9 @@ Value const *value_area_get_x_y	   (EvalPos const *ep, Value const *v,
 typedef Value *(*ValueAreaFunc) (EvalPos const *ep, Value const *v, void *user);
 Value *value_area_foreach  (EvalPos const *ep,  Value const *v,
 			    ValueAreaFunc func, void *user);
-Value *value_terminate	   (void);
+
+extern const ValueErr value_terminate_err;
+#define VALUE_TERMINATE ((Value *)&value_terminate_err)
 
 void value_array_set       (Value *array, int col, int row, Value *v);
 void value_array_resize    (Value *v, int width, int height);
@@ -161,5 +163,8 @@ extern char const *gnumeric_err_NAME;
 extern char const *gnumeric_err_NUM;
 extern char const *gnumeric_err_NA;
 extern char const *gnumeric_err_RECALC;
+
+void value_init (void);
+void value_shutdown (void);
 
 #endif /* GNUMERIC_VALUE_H */

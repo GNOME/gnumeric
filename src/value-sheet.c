@@ -250,7 +250,7 @@ cb_wrapper_foreach_cell_in_area (Sheet *sheet, int col, int row,
  * callbacks are only invoked for existing cells.
  *
  * Return value:
- *    non-NULL on error, or value_terminate() if some invoked routine requested
+ *    non-NULL on error, or VALUE_TERMINATE if some invoked routine requested
  *    to stop (by returning non-NULL).
  */
 Value *

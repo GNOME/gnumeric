@@ -18,6 +18,7 @@
 #include "str.h"
 #include "position.h"
 #include "mathfunc.h"
+#include "gutils.h"
 
 #include <stdlib.h>
 #include <errno.h>
@@ -29,7 +30,7 @@
 Value *
 value_new_empty (void)
 {
-	/* This is a constant.  no need to allocate  any memory */
+	/* This is a constant.  No need to allocate any memory.  */
 	static ValueAny v = { VALUE_EMPTY, NULL };
 	return (Value *)&v;
 }
@@ -54,11 +55,12 @@ value_new_int (int i)
 	return (Value *)v;
 }
 
+static gnm_mem_chunk *value_float_pool;
 Value *
 value_new_float (gnum_float f)
 {
 	if (finitegnum (f)) {
-		ValueFloat *v = g_new (ValueFloat, 1);
+		ValueFloat *v = gnm_mem_chunk_alloc (value_float_pool);
 		*((ValueType *)&(v->type)) = VALUE_FLOAT;
 		v->fmt = NULL;
 		v->val = f;
@@ -235,9 +237,9 @@ value_new_array (guint cols, guint rows)
 	ValueArray *v = (ValueArray *)value_new_array_non_init (cols, rows);
 
 	for (x = 0; x < cols; x++) {
-		v->vals [x] = g_new (Value *, rows);
+		v->vals[x] = g_new (Value *, rows);
 		for (y = 0; y < rows; y++)
-			v->vals [x] [y] = value_new_int (0);
+			v->vals[x][y] = value_new_int (0);
 	}
 	return (Value *)v;
 }
@@ -249,9 +251,9 @@ value_new_array_empty (guint cols, guint rows)
 	ValueArray *v = (ValueArray *)value_new_array_non_init (cols, rows);
 
 	for (x = 0; x < cols; x++) {
-		v->vals [x] = g_new (Value *, rows);
+		v->vals[x] = g_new (Value *, rows);
 		for (y = 0; y < rows; y++)
-			v->vals [x] [y] = NULL;
+			v->vals[x][y] = NULL;
 	}
 	return (Value *)v;
 }
@@ -307,7 +309,7 @@ value_new_from_string (ValueType t, char const *str, StyleFormat *sf)
 	case VALUE_ARRAY:
 	case VALUE_CELLRANGE:
 	default:
-		g_warning ("value_new_from_string problem\n");
+		g_warning ("value_new_from_string problem.");
 		return NULL;
 	}
 
@@ -320,9 +322,11 @@ value_release (Value *value)
 {
 	g_return_if_fail (value != NULL);
 
-	/* Do not release value_terminate it is a magic number */
-	if (value == value_terminate ())
+	/* Do not release VALUE_TERMINATE, it is a magic number */
+	if (value == VALUE_TERMINATE) {
+		g_warning ("Someone freed VALUE_TERMINATE -- shame on them.");
 		return;
+	}
 
 	if (VALUE_FMT (value) != NULL)
 		style_format_unref (VALUE_FMT (value));
@@ -339,7 +343,8 @@ value_release (Value *value)
 		break;
 
 	case VALUE_FLOAT:
-		break;
+		gnm_mem_chunk_free (value_float_pool, value);
+		return;
 
 	case VALUE_ERROR:
 		string_unref (value->v_err.mesg);
@@ -355,10 +360,10 @@ value_release (Value *value)
 
 		for (x = 0; x < v->x; x++) {
 			for (y = 0; y < v->y; y++) {
-				if (v->vals [x] [y])
-					value_release (v->vals [x] [y]);
+				if (v->vals[x][y])
+					value_release (v->vals[x][y]);
 			}
-			g_free (v->vals [x]);
+			g_free (v->vals[x]);
 		}
 
 		g_free (v->vals);
@@ -373,12 +378,13 @@ value_release (Value *value)
 		 * If we don't recognize the type this is probably garbage.
 		 * Do not free it to avoid heap corruption
 		 */
-		g_warning ("value_release problem\n");
+		g_warning ("value_release problem.");
 		return;
 	}
 
 	/* poison the type before freeing to help catch dangling pointers */
 	*((ValueType *)&(value->type)) = 9999;
+
 	g_free (value);
 }
 
@@ -394,11 +400,11 @@ value_duplicate (Value const *src)
 
 	switch (src->type){
 	case VALUE_EMPTY:
-		res = value_new_empty();
+		res = value_new_empty ();
 		break;
 
 	case VALUE_BOOLEAN:
-		res = value_new_bool(src->v_bool.val);
+		res = value_new_bool (src->v_bool.val);
 		break;
 
 	case VALUE_INTEGER:
@@ -430,17 +436,17 @@ value_duplicate (Value const *src)
 			src->v_array.x, src->v_array.y);
 
 		for (x = 0; x < array->x; x++) {
-			array->vals [x] = g_new (Value *, array->y);
+			array->vals[x] = g_new (Value *, array->y);
 			for (y = 0; y < array->y; y++)
-				array->vals [x] [y] = value_duplicate (src->v_array.vals [x][y]);
+				array->vals[x][y] = value_duplicate (src->v_array.vals[x][y]);
 		}
 		res = (Value *)array;
 		break;
 	}
 
 	default:
-		g_warning ("value_duplicate problem\n");
-		res = value_new_empty();
+		g_warning ("value_duplicate problem.");
+		res = value_new_empty ();
 	}
 	value_set_fmt (res, VALUE_FMT (src));
 	return res;
@@ -475,16 +481,21 @@ value_hash (Value const *v)
 		return 42;
 
 	case VALUE_CELLRANGE:
+		/* FIXME: take sheet into account?  */
 		return (cellref_hash (&v->v_range.cell.a) * 3) ^
 			cellref_hash (&v->v_range.cell.b);
 
 	case VALUE_ARRAY: {
-		static gboolean warned = FALSE;
-		if (!warned) {
-			g_warning ("FIXME: value_hash is not very smart.");
-			warned = TRUE;
+		int i;
+		guint h = (v->v_array.x * 257) ^ (v->v_array.y + 42);
+
+		/* For speed, just walk the diagonal.  */
+		for (i = 0; i < v->v_array.x && i < v->v_array.y; i++) {
+			h *= 5;
+			if (v->v_array.vals[i][i])
+				h ^= value_hash (v->v_array.vals[i][i]);
 		}
-		return (guint)(v->type);
+		return h;
 	}
 
 #ifndef DEBUG_SWITCH_ENUM
@@ -521,7 +532,7 @@ value_get_as_bool (Value const *v, gboolean *err)
 		return v->v_float.val != 0.0;
 
 	default:
-		g_warning ("Unhandled value in value_get_boolean");
+		g_warning ("Unhandled value in value_get_boolean.");
 
 	case VALUE_CELLRANGE:
 	case VALUE_ARRAY:
@@ -588,7 +599,7 @@ value_get_as_string (Value const *v)
 
 		for (y = 0; y < v->v_array.y; y++){
 			for (x = 0; x < v->v_array.x; x++){
-				Value const *val = v->v_array.vals [x][y];
+				Value const *val = v->v_array.vals[x][y];
 
 				g_return_val_if_fail (val->type == VALUE_STRING ||
 						      val->type == VALUE_FLOAT ||
@@ -623,11 +634,11 @@ value_get_as_string (Value const *v)
 	}
 
 	default:
-		g_warning ("value_get_as_string problem\n");
+		g_warning ("value_get_as_string problem.");
 		break;
 	}
 
-	return g_strdup ("Internal problem");
+	return g_strdup ("Internal problem.");
 }
 
 /*
@@ -690,7 +701,7 @@ value_get_as_int (Value const *v)
 		return 0;
 
 	default:
-		g_warning ("value_get_as_int unknown type\n");
+		g_warning ("value_get_as_int unknown type.");
 		return 0;
 	}
 	return 0;
@@ -732,26 +743,10 @@ value_get_as_float (Value const *v)
 		return 0.;
 
 	default:
-		g_warning ("value_get_as_float type error\n");
+		g_warning ("value_get_as_float type error.");
 		break;
 	}
 	return 0.0;
-}
-
-/*
- * A utility routine for create a special static instance of Value to be used
- * as a magic pointer to flag a request to terminate an iteration.
- * This object should not be copied, or returned to a user visible routine.
- */
-Value *
-value_terminate (void)
-{
-	static Value * term = NULL;
-
-	if (term == NULL)
-		term = value_new_error (NULL, _("Terminate"));
-
-	return term;
 }
 
 void
@@ -1038,3 +1033,24 @@ value_set_fmt (Value *v, StyleFormat const *fmt)
 		style_format_unref (VALUE_FMT (v));
 	VALUE_FMT (v) = (StyleFormat *)fmt;
 }
+
+/****************************************************************************/
+
+const ValueErr value_terminate_err = { VALUE_ERROR, NULL, NULL };
+
+void
+value_init (void)
+{
+	value_float_pool = gnm_mem_chunk_new ("value float pool",
+					      sizeof (ValueFloat),
+					      16 * 1024 - 128);
+}
+
+void
+value_shutdown (void)
+{
+	gnm_mem_chunk_destroy (value_float_pool, FALSE);
+	value_float_pool = NULL;
+}
+
+/****************************************************************************/

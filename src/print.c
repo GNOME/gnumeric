@@ -460,7 +460,7 @@ cb_range_empty (Sheet *sheet, int col, int row, Cell *cell, gpointer flags)
 	cri = sheet_row_get_info (sheet, row);
 	if (!cri->visible)
 		return NULL;
-	return value_terminate ();
+	return VALUE_TERMINATE;
 }
 
 /**

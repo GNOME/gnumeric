@@ -2154,7 +2154,7 @@ sheet_ranges_split_region (Sheet const * sheet, GSList const *ranges,
 static Value *
 cb_cell_is_array (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
-	return cell_is_array (cell) ? value_terminate () : NULL;
+	return cell_is_array (cell) ? VALUE_TERMINATE : NULL;
 
 }
 
@@ -2331,7 +2331,7 @@ sheet_colrow_get_info (Sheet const *sheet, int colrow, gboolean is_cols)
  * callbacks are only invoked for existing cells.
  *
  * Returns the value returned by the callback, which can be :
- *    non-NULL on error, or value_terminate () if some invoked routine requested
+ *    non-NULL on error, or VALUE_TERMINATE if some invoked routine requested
  *    to stop (by returning non-NULL).
  *
  * NOTE: between 0.56 and 0.57, the traversal order changed.  The order is now
@@ -2494,7 +2494,7 @@ static Value *
 fail_if_not_selected (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
 	if (!sheet_is_cell_selected (sheet, col, row))
-		return value_terminate ();
+		return VALUE_TERMINATE;
 	else
 		return NULL;
 }
@@ -2527,7 +2527,7 @@ sheet_is_region_empty_or_selected (Sheet *sheet, Range const *r)
 static Value *
 fail_if_exist (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
-	return cell_is_blank (cell) ? NULL : value_terminate ();
+	return cell_is_blank (cell) ? NULL : VALUE_TERMINATE;
 }
 
 /**

@@ -346,7 +346,7 @@ callback_function_rank (Sheet *sheet, int col, int row,
                 break;
 	case VALUE_EMPTY:
         default:
-                return value_terminate ();
+                return VALUE_TERMINATE;
         }
 
 	if (p->order) {
@@ -1352,7 +1352,7 @@ callback_function_chitest_actual (EvalPos const *ep, Value *value,
 	gnum_float     *p;
 
 	if (!VALUE_IS_NUMBER (value))
-		return value_terminate ();
+		return VALUE_TERMINATE;
 
 	p = g_new (gnum_float, 1);
 	*p = value_get_as_float (value);
@@ -1385,7 +1385,7 @@ callback_function_chitest_theoretical (EvalPos const *ep, Value *value,
 	gnum_float a, e, *p;
 
 	if (!VALUE_IS_NUMBER (value))
-		return value_terminate ();
+		return VALUE_TERMINATE;
 
 	e = value_get_as_float (value);
 
@@ -3087,7 +3087,7 @@ callback_function_percentrank (EvalPos const *ep, Value *value,
 	gnum_float y;
 
 	if (!VALUE_IS_NUMBER (value))
-		return value_terminate ();
+		return VALUE_TERMINATE;
 
 	y = value_get_as_float (value);
 
@@ -3367,7 +3367,7 @@ callback_function_ttest (EvalPos const *ep, Value *value, void *closure)
 		mm->entries = g_slist_append (mm->entries, p);
 	} else {
 	        if (mm->current == NULL)
-			return value_terminate ();
+			return VALUE_TERMINATE;
 
 	        *((gnum_float *) mm->current->data) -= x;
 		mm->current = mm->current->next;

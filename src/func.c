@@ -1092,7 +1092,7 @@ function_iterate_do_value (EvalPos const *ep,
  * Return value:
  *    NULL            : if no errors were reported.
  *    Value *         : if an error was found during strict evaluation
- *    value_terminate : if the callback requested termination of the iteration.
+ *    VALUE_TERMINATE : if the callback requested termination of the iteration.
  *
  * This routine provides a simple way for internal functions with variable
  * number of arguments to be written: this would iterate over a list of
@@ -1122,7 +1122,7 @@ function_iterate_argument_values (EvalPos const		*ep,
 			continue;
 
 		if (strict && val->type == VALUE_ERROR) {
-			/* Be careful not to make value_terminate into a real value */
+			/* Be careful not to make VALUE_TERMINATE into a real value */
 			/* FIXME : Make the new position of the error here */
 			return val;
 		}

@@ -680,7 +680,7 @@ void
 cell_shutdown (void)
 {
 #if USE_CELL_POOL
-	gnm_mem_chunk_destroy (cell_pool);
+	gnm_mem_chunk_destroy (cell_pool, FALSE);
 	cell_pool = NULL;
 #endif
 }

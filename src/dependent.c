@@ -1651,7 +1651,7 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 		deps->range_hash = NULL;
 	}
 	if (deps->range_pool) {
-		gnm_mem_chunk_destroy (deps->range_pool);
+		gnm_mem_chunk_destroy (deps->range_pool, TRUE);
 		deps->range_pool = NULL;
 	}
 
@@ -1662,7 +1662,7 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 		deps->single_hash = NULL;
 	}
 	if (deps->single_pool) {
-		gnm_mem_chunk_destroy (deps->single_pool);
+		gnm_mem_chunk_destroy (deps->single_pool, TRUE);
 		deps->single_pool = NULL;
 	}
 

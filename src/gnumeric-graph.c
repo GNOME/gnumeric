@@ -359,7 +359,7 @@ static Value *
 cb_check_range_for_pure_string (EvalPos const *ep, Value const *v, void *user)
 {
 	if (v == NULL || v->type != VALUE_STRING)
-		return value_terminate ();
+		return VALUE_TERMINATE;
 	return NULL;
 }
 

@@ -114,7 +114,7 @@ cb_af_suggest (Sheet *sheet, int col, int row, Cell *cell, void *_data)
 	*(data->explicit) = cell_get_format (cell);
 	if (*(data->explicit)) {
 		data->typ = AF_EXPLICIT;
-		return value_terminate ();
+		return VALUE_TERMINATE;
 	}
 	return NULL;
 }
