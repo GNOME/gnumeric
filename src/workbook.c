@@ -2164,6 +2164,7 @@ create_format_toolbar (Workbook *wb)
 	 * Create a font name selector
 	 */
 	wb->priv->option_menu = gtk_option_menu_new ();
+	gtk_container_set_border_width (GTK_CONTAINER (wb->priv->option_menu), 0);
 	menu = gtk_menu_new ();
 
 	/* An empty item for the case of no font that applies */

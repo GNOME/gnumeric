@@ -111,7 +111,7 @@ workbook_cmd_format_column_auto_fit (GtkWidget *widget, Workbook *wb)
 	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = l->data;
 
-		for (col = ss->user.start.col; col < ss->user.end.col; col++){
+		for (col = ss->user.start.col; col <= ss->user.end.col; col++){
 			int ideal_size;
 
 			ideal_size = sheet_col_size_fit (sheet, col);
@@ -137,7 +137,7 @@ workbook_cmd_format_column_width (GtkWidget *widget, Workbook *wb)
 	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = l->data;
 		
-		for (col = ss->user.start.col; col < ss->user.end.col; col++){
+		for (col = ss->user.start.col; col <= ss->user.end.col; col++){
 			ColRowInfo *ci;
 
 			ci = sheet_col_get_info (sheet, col);
@@ -189,7 +189,7 @@ workbook_cmd_format_row_auto_fit (GtkWidget *widget, Workbook *wb)
 	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = l->data;
 
-		for (row = ss->user.start.row; row < ss->user.end.row; row++){
+		for (row = ss->user.start.row; row <= ss->user.end.row; row++){
 			int ideal_size;
 
 			ideal_size = sheet_row_size_fit (sheet, row);
@@ -215,7 +215,7 @@ workbook_cmd_format_row_height (GtkWidget *widget, Workbook *wb)
 		SheetSelection *ss = l->data;
 		int row;
 	
-		for (row = ss->user.start.row; row < ss->user.end.row; row++){
+		for (row = ss->user.start.row; row <= ss->user.end.row; row++){
 			ColRowInfo *ri;
 
 			ri = sheet_row_get_info (sheet, row);

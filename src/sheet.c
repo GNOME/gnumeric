@@ -719,16 +719,17 @@ int
 sheet_row_size_fit (Sheet *sheet, int row)
 {
 	ColRowInfo *ri;
-	GList *l;
+	GList *clist;
 	int max = 0;
 	int margins;
+	int height;
 	
 	g_return_val_if_fail (sheet != NULL, 0);
 	g_return_val_if_fail (IS_SHEET (sheet), 0);
 	g_return_val_if_fail (row >= 0, 0);
 	g_return_val_if_fail (row < SHEET_MAX_ROWS, 0);
 
-	ri = sheet_col_get_info (sheet, row);
+	ri = sheet_row_get_info (sheet, row);
 
 	/*
 	 * If ri == sheet->default_row_style then it means
@@ -738,11 +739,19 @@ sheet_row_size_fit (Sheet *sheet, int row)
 		return ri->pixels;
 
 	margins = ri->margin_a + ri->margin_b;
-	
-	for (l = ri->data; l; l = l->next){
-		Cell *cell = l->data;
-		int height;
-			
+
+	/*
+	 * Now, we need to scan all columns, as the list of rows
+	 * does not contains pointers to the cells.
+	 */
+	for (clist = sheet->cols_info; clist; clist = clist->next){
+		ColRowInfo *ci = clist->data;
+		Cell *cell;
+		
+		cell = sheet_cell_get (sheet, ci->pos, row);
+		if (!cell)
+			continue;
+
 		height = cell->height + margins;
 		
 		if (height > max)
