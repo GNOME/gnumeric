@@ -1,3 +1,8 @@
+2002-10-10  Nick Lamb <njl98r@ecs.soton.ac.uk>
+
+	* ms-excel-read.c: Factor out some code into new functions, more
+	  support for non-OLE Excel files, especially formulae.
+
 2002-10-27  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.10

@@ -886,6 +886,14 @@ sst_read_string (char **output, BiffQuery *q, guint32 offset)
 }
 
 static void
+excel_read_1904 (BiffQuery *q, ExcelWorkbook *ewb)
+{
+	if (GSF_LE_GET_GUINT16 (q->data) == 1)
+		gnm_io_warning_unsupported_feature (ewb->context, 
+			_("Workbook uses unsupported 1904 Date System, Dates will be incorrect"));
+}
+
+static void
 excel_read_SST (BiffQuery *q, ExcelWorkbook *ewb)
 {
 	guint32 offset;
@@ -1101,6 +1109,28 @@ biff_boundsheet_data_destroy (BiffBoundsheetData *d)
 {
 	g_free (d->name);
 	g_free (d);
+}
+
+static void
+excel_read_FORMAT (BiffQuery *q, ExcelWorkbook *ewb)
+{
+	BiffFormatData *d = g_new (BiffFormatData, 1);
+	if (ewb->container.ver >= MS_BIFF_V8) {
+		d->idx = GSF_LE_GET_GUINT16 (q->data);
+		d->name = biff_get_text (q->data + 4, GSF_LE_GET_GUINT16 (q->data + 2), NULL);
+	} else if (ewb->container.ver >= MS_BIFF_V7) { /* Total gues */
+		d->idx = GSF_LE_GET_GUINT16 (q->data);
+		d->name = biff_get_text (q->data + 3, GSF_LE_GET_GUINT8 (q->data + 2), NULL);
+	} else if (ewb->container.ver >= MS_BIFF_V4) { /* Rev engineered */
+		d->idx = g_hash_table_size (ewb->format_data) + 0x32;
+		d->name = biff_get_text (q->data + 3, GSF_LE_GET_GUINT8 (q->data + 2), NULL);
+	} else {
+		d->idx = g_hash_table_size (ewb->format_data) + 0x32;
+		d->name = biff_get_text (q->data + 1, GSF_LE_GET_GUINT8 (q->data), NULL);
+	}
+
+	d (2, printf ("Format data: 0x%x == '%s'\n", d->idx, d->name););
+	g_hash_table_insert (ewb->format_data, &d->idx, d);
 }
 
 static void
@@ -1643,6 +1673,51 @@ excel_map_pattern_index_from_excel (int const i)
 }
 
 /**
+ * Default XF Data for early worksheets with little (no?) style info
+ **/
+static void
+excel_workbook_add_XF (ExcelWorkbook *ewb)
+{
+	BiffXFData *xf = g_new (BiffXFData, 1);
+
+	xf->font_idx = 0;
+	xf->format_idx = 0;
+	xf->style_format = NULL;
+
+	xf->locked = 0;
+	xf->hidden = 0;
+	xf->xftype = MS_BIFF_X_STYLE;
+	xf->format = MS_BIFF_F_MS;
+	xf->parentstyle = 0;
+
+	xf->halign = HALIGN_GENERAL;
+	xf->valign = VALIGN_TOP;
+	xf->rotation = 0;
+	xf->indent = 0;
+	xf->differences = 0;
+	xf->pat_foregnd_col = 0;
+	xf->pat_backgnd_col = 0;
+	xf->fill_pattern_idx = 0;
+	xf->border_type[STYLE_BOTTOM] = 0;
+	xf->border_color[STYLE_BOTTOM] = 0;
+	xf->border_type[STYLE_TOP] = 0;
+	xf->border_color[STYLE_TOP] = 0;
+	xf->border_type[STYLE_LEFT] = 0;
+	xf->border_color[STYLE_LEFT] = 0;
+	xf->border_type[STYLE_RIGHT] = 0;
+	xf->border_color[STYLE_RIGHT] = 0;
+	xf->border_type[STYLE_DIAGONAL] = 0;
+	xf->border_color[STYLE_DIAGONAL] = 0;
+	xf->border_type[STYLE_REV_DIAGONAL] = 0;
+	xf->border_color[STYLE_REV_DIAGONAL] = 0;
+
+	/* Init the cache */
+	xf->mstyle = NULL; 
+
+	g_ptr_array_add (ewb->XF_cell_records, xf);
+}
+
+/**
  * Parse the BIFF XF Data structure into a nice form, see S59E1E.HTM
  **/
 static void
@@ -1999,6 +2074,8 @@ excel_read_FORMULA (BiffQuery *q, ExcelSheet *esheet)
 	guint16 const col      = EX_GETCOL (q);
 	guint16 const row      = EX_GETROW (q);
 	guint16 const options  = GSF_LE_GET_GUINT16 (q->data + 14);
+	guint16 expr_length;
+	guint offset;
 	GnmExpr const *expr;
 	Cell	 *cell;
 	Value	 *val = NULL;
@@ -2015,17 +2092,28 @@ excel_read_FORMULA (BiffQuery *q, ExcelSheet *esheet)
 	 * We should make an array of minimum sizes for each BIFF type
 	 * and have this checking done there.
 	 */
-	if (q->length < 22) {
+	if (esheet->container.ver >= MS_BIFF_V5) {
+		expr_length = GSF_LE_GET_GUINT16 (q->data + 20);
+		offset = 22;
+	} else if (esheet->container.ver >= MS_BIFF_V3) {
+		expr_length = GSF_LE_GET_GUINT16 (q->data + 16);
+		offset = 18;
+	} else {
+		expr_length = GSF_LE_GET_GUINT8 (q->data + 16);
+		offset = 17;
+	}
+
+	if (q->length < offset) {
 		fprintf (stderr,"FIXME: serious formula error: "
-			"invalid FORMULA (0x%x) record with length %d (should >= 22)\n",
-			q->opcode, q->length);
+			"invalid FORMULA (0x%x) record with length %d (should >= %d)\n",
+			q->opcode, q->length, offset);
 		cell_set_value (cell, value_new_error (NULL, "Formula Error"));
 		return;
 	}
-	if (q->length < (unsigned)(22 + GSF_LE_GET_GUINT16 (q->data + 20))) {
+	if (q->length < (unsigned)(offset + expr_length)) {
 		fprintf (stderr,"FIXME: serious formula error: "
 			"supposed length 0x%x, real len 0x%x\n",
-			GSF_LE_GET_GUINT16 (q->data + 20), q->length);
+                        expr_length, q->length - offset);
 		cell_set_value (cell, value_new_error (NULL, "Formula Error"));
 		return;
 	}
@@ -2082,8 +2170,7 @@ excel_read_FORMULA (BiffQuery *q, ExcelSheet *esheet)
 	}
 
 	expr = excel_parse_formula (&esheet->container, esheet, col, row,
-		(q->data + 22), GSF_LE_GET_GUINT16 (q->data + 20),
-		FALSE, &array_elem);
+		(q->data + offset), expr_length, FALSE, &array_elem);
 
 	/* Error was flaged by parse_formula */
 	if (expr == NULL && !array_elem)
@@ -3089,9 +3176,17 @@ excel_read_SELECTION (BiffQuery *q, ExcelSheet *esheet)
 static void
 excel_read_DEF_ROW_HEIGHT (BiffQuery *q, ExcelSheet *esheet)
 {
-	guint16 const flags = GSF_LE_GET_GUINT16 (q->data);
-	guint16 const height = GSF_LE_GET_GUINT16 (q->data + 2);
+	guint16 flags = 0;
+	guint16 height = 0;
 	double height_units;
+
+	if (q->length >= 4) {
+		flags  = GSF_LE_GET_GUINT16 (q->data);
+		height = GSF_LE_GET_GUINT16 (q->data + 2);
+	} else if (q->length == 2) {
+		g_warning("TODO: Decipher earlier 2 byte DEFAULTROWHEIGHT");
+		return;
+	}
 
 	d (1, {
 		fprintf (stderr,"Default row height 0x%x;\n", height);
@@ -4391,6 +4486,8 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 			}
 			break;
 
+
+
 		case BIFF_HEADER: { /* FIXME: S59D94 */
 			if (q->length) {
 				char *str = biff_get_text (q->data + 1,
@@ -4562,6 +4659,12 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 			break;
 		}
 
+		/* Found in worksheet only in XLS <= BIFF 4 */
+		case BIFF_XF_OLD:	excel_workbook_add_XF (ewb);	break;
+		case BIFF_FONT:		excel_read_FONT (q, ewb);	break;
+		case BIFF_FORMAT:	excel_read_FORMAT (q, ewb);	break;
+		case BIFF_1904:		excel_read_1904 (q, ewb);	break;
+
 		default:
 			excel_unexpected_biff (q, "Sheet", ms_excel_read_debug);
 		}
@@ -4706,9 +4809,27 @@ excel_read_BOF (BiffQuery	 *q,
 		else if (ver->version >= MS_BIFF_V4)
 			fprintf (stderr,"Excel 4.x\n");
 		else if (ver->version >= MS_BIFF_V3)
-			fprintf (stderr,"Excel 3.x\n");
+			fprintf (stderr,"Excel 3.x - shouldn't happen\n");
 		else if (ver->version >= MS_BIFF_V2)
-			fprintf (stderr,"Excel 2.x\n");
+			fprintf (stderr,"Excel 2.x - shouldn't happen\n");
+	} else if (ver->type == MS_BIFF_TYPE_Worksheet && ewb == NULL) {
+		/* Top level worksheets existed up to & including 4.x */
+		ExcelSheet *esheet;
+		ewb = excel_workbook_new (ver->version, context, wb_view);
+		ewb->gnum_wb = wb_view_workbook (wb_view);
+		if (ver->version >= MS_BIFF_V5)
+			fprintf (stderr, "Excel 5+ - shouldn't happen\n");
+		else if (ver->version >= MS_BIFF_V4)
+			fprintf (stderr, "Excel 4.x single worksheet\n");
+		else if (ver->version >= MS_BIFF_V3)
+			fprintf (stderr, "Excel 3.x single worksheet\n");
+		else if (ver->version >= MS_BIFF_V2)
+			fprintf (stderr, "Excel 2.x single worksheet\n");
+
+		esheet= excel_sheet_new (ewb, "Worksheet");
+		excel_workbook_add_XF (ewb);
+		excel_read_sheet (q, ewb, wb_view, esheet);
+
 	} else if (ver->type == MS_BIFF_TYPE_Worksheet) {
 		BiffBoundsheetData *bsh =
 			g_hash_table_lookup (ewb->boundsheet_data_by_stream,
@@ -4851,26 +4972,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			break;
 		}
 
-		case BIFF_FORMAT: { /* S59D8E.HTM */
-			BiffFormatData *d = g_new (BiffFormatData, 1);
-			/*				fprintf (stderr,"Format data 0x%x %d\n", q->ms_op, ver->version);
-							gsf_mem_dump (q->data, q->length);*/
-			if (ver->version == MS_BIFF_V7) { /* Totaly guessed */
-				d->idx = GSF_LE_GET_GUINT16 (q->data);
-				d->name = biff_get_text (q->data + 3, GSF_LE_GET_GUINT8 (q->data + 2), NULL);
-			} else if (ver->version >= MS_BIFF_V8) {
-				d->idx = GSF_LE_GET_GUINT16 (q->data);
-				d->name = biff_get_text (q->data + 4, GSF_LE_GET_GUINT16 (q->data + 2), NULL);
-			} else { /* FIXME: mythical old papyrus spec. */
-				d->name = biff_get_text (q->data + 1, GSF_LE_GET_GUINT8 (q->data), NULL);
-				d->idx = g_hash_table_size (ewb->format_data) + 0x32;
-			}
-			d (2, fprintf (stderr,"Format data: 0x%x == '%s'\n",
-				      d->idx, d->name););
-
-			g_hash_table_insert (ewb->format_data, &d->idx, d);
-			break;
-		}
+		case BIFF_FORMAT:	excel_read_FORMAT (q, ewb);			break;
 
 		case BIFF_BACKUP: 	break;
 #define BIFF_PRECISION			0x0e	/* 0 */
@@ -4961,11 +5063,7 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 		case BIFF_TOOLBARHDR:	break;
 		case BIFF_TOOLBAREND:	break;
 
-		case BIFF_1904: /* 0, NOT 1 */
-			if (GSF_LE_GET_GUINT16 (q->data) == 1)
-				gnm_io_warning_unsupported_feature (context, 
-					_("Workbook uses unsupported 1904 Date System, Dates will be incorrect"));
-			break;
+		case BIFF_1904:		excel_read_1904 (q, ewb);	break;
 
 		case BIFF_SELECTION: /* 0, NOT 10 */
 			break;
