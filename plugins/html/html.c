@@ -122,7 +122,7 @@ html_get_text_color (Cell *cell, MStyle *mstyle, guint *r, guint *g, guint *b)
 {
 	StyleColor *textColor;
 
-	textColor= cell->rendered_value->render_color;
+	textColor= cell_get_render_color (cell);
 	if (textColor == NULL)
 		textColor = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
 

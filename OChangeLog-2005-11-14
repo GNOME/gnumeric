@@ -1,3 +1,8 @@
+2002-01-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/cell.h (cell_get_render_color) : new
+	* src/rendered-value.c (cell_get_render_color) : new
+
 2002-01-24  Jody Goldberg <jody@gnome.org>
 
 	* src/number-match.c (format_create_regexp) : We already escape the

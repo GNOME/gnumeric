@@ -629,60 +629,61 @@ latex2e_write_multicolumn_cell (FILE *fp, const Cell *cell, const int num_merged
 		}
 
 	/* Check the foreground (text) colour. */
-	textColor= cell->rendered_value->render_color;
-	if (textColor == NULL)
-		textColor = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
-	r = textColor->red;
-	g = textColor->green;
-	b = textColor->blue;
-	if (r != 0 || g != 0 || b != 0)
-		fprintf (fp, "{\\color[rgb]{%.2f,%.2f,%.2f} ",
-		(double)r/65535, (double)g/65535, (double)b/65535);       
-
-	/* Establish the font's style for the styles that can be addressed by LaTeX.
-	 * More complicated efforts (like changing fonts) are left to the user.
-	 */
-	if (font_is_monospaced (mstyle))
-		fprintf (fp, "\\texttt{");
-	else if (font_is_sansserif (mstyle))
-		fprintf (fp, "\\textsf{");
-	if (mstyle_get_font_bold (mstyle))
-		fprintf (fp, "\\textbf{");
-	if (mstyle_get_font_italic (mstyle))
-		fprintf (fp, "\\textit{");
-
-
-	cell_format_str = cell_get_format (cell);
-	cell_format_family = cell_format_classify (cell_format_str, &cell_format_characteristic);
-	g_free (cell_format_str);
-	if (cell_format_family == FMT_NUMBER || cell_format_family == FMT_CURRENCY ||
-	    cell_format_family == FMT_PERCENT || cell_format_family == FMT_FRACTION ||
-	    cell_format_family == FMT_SCIENCE) 
-		fprintf (fp, "$");
-
-	/* Print the cell contents. */
 	if (!cell_is_blank (cell)) {
+
+		textColor = cell_get_render_color (cell);
+		if (textColor == NULL)
+			textColor = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
+		r = textColor->red;
+		g = textColor->green;
+		b = textColor->blue;
+		if (r != 0 || g != 0 || b != 0)
+			fprintf (fp, "{\\color[rgb]{%.2f,%.2f,%.2f} ",
+				 (double)r/65535, (double)g/65535, (double)b/65535);       
+
+		/* Establish the font's style for the styles that can be addressed by LaTeX.
+		 * More complicated efforts (like changing fonts) are left to the user.
+		 */
+		if (font_is_monospaced (mstyle))
+			fprintf (fp, "\\texttt{");
+		else if (font_is_sansserif (mstyle))
+			fprintf (fp, "\\textsf{");
+		if (mstyle_get_font_bold (mstyle))
+			fprintf (fp, "\\textbf{");
+		if (mstyle_get_font_italic (mstyle))
+			fprintf (fp, "\\textit{");
+		
+		
+		cell_format_str = cell_get_format (cell);
+		cell_format_family = cell_format_classify (cell_format_str, &cell_format_characteristic);
+		g_free (cell_format_str);
+		if (cell_format_family == FMT_NUMBER || cell_format_family == FMT_CURRENCY ||
+		    cell_format_family == FMT_PERCENT || cell_format_family == FMT_FRACTION ||
+		    cell_format_family == FMT_SCIENCE) 
+			fprintf (fp, "$");
+		
+		/* Print the cell contents. */
 		rendered_string = cell_get_rendered_text (cell);
 		latex_fputs (rendered_string, fp);
 		g_free (rendered_string);
+
+		if (cell_format_family == FMT_NUMBER || cell_format_family == FMT_CURRENCY ||
+		    cell_format_family == FMT_PERCENT || cell_format_family == FMT_FRACTION ||
+		    cell_format_family == FMT_SCIENCE) 
+			fprintf (fp, "$");
+		
+		/* Close the styles for the cell. */
+		if (mstyle_get_font_italic (mstyle))
+			fprintf (fp, "}");
+		if (mstyle_get_font_bold (mstyle))
+			fprintf (fp, "}");
+		if (font_is_monospaced (mstyle))
+			fprintf (fp, "}");
+		else if (font_is_sansserif (mstyle))
+			fprintf (fp, "}");
+		if (r != 0 || g != 0 || b != 0)
+			fprintf (fp, "}");
 	}
-
-	if (cell_format_family == FMT_NUMBER || cell_format_family == FMT_CURRENCY ||
-	    cell_format_family == FMT_PERCENT || cell_format_family == FMT_FRACTION ||
-	    cell_format_family == FMT_SCIENCE) 
-		fprintf (fp, "$");
-
-	/* Close the styles for the cell. */
-	if (mstyle_get_font_italic (mstyle))
-		fprintf (fp, "}");
-	if (mstyle_get_font_bold (mstyle))
-		fprintf (fp, "}");
-	if (font_is_monospaced (mstyle))
-		fprintf (fp, "}");
-	else if (font_is_sansserif (mstyle))
-		fprintf (fp, "}");
-	if (r != 0 || g != 0 || b != 0)
-		fprintf (fp, "}");
 
 	/* if we don't wrap close the mbox */
 	if (!wrap)
