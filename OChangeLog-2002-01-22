@@ -1,5 +1,14 @@
 2000-09-22  Morten Welinder  <terra@diku.dk>
 
+	* src/format.c (append_hour): Increase buffer size, just in case.
+	(append_hour_elapsed): Ditto.
+	(append_minute): Ditto.
+	(append_second): Ditto.
+	(append_minute_elapsed): Sort-of ditto.
+	(append_second_elapsed): Ditto.
+	(append_hour): Fix hour display for am/pm mode for the midnight
+ 	and noon hours.
+
 	* src/print-cell.c (print_show_iso8859_1): Use bigger stack buffer
  	so we will almost never have to allocate dynamically.
 

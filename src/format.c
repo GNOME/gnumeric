@@ -29,6 +29,7 @@
 #include <langinfo.h>
 #include <limits.h>
 #include <ctype.h>
+#include <locale.h>
 #ifdef HAVE_IEEEFP_H
 #    include <ieeefp.h>
 #endif
@@ -136,7 +137,7 @@ format_get_arg_sep (void)
 }
 
 char
-format_get_col_sep  (void)
+format_get_col_sep (void)
 {
 	if (format_get_decimal () == ',')
 		return '\\';
@@ -273,11 +274,11 @@ static void
 append_hour (GString *string, int n, const struct tm *time_split,
 	     gboolean want_am_pm)
 {
-	char *temp = g_alloca (n + 4);
+	char *temp = g_alloca (n + 4 * sizeof (int));
 
 	sprintf (temp, "%0*d", n,
 		 want_am_pm
-		 ? (time_split->tm_hour % 12)
+		 ? (((time_split->tm_hour + 11) % 12) + 1)
 		 : time_split->tm_hour);
 	g_string_append (string, temp);
 
@@ -290,7 +291,7 @@ append_hour (GString *string, int n, const struct tm *time_split,
 static void
 append_hour_elapsed (GString *string, int n, const struct tm *time_split, int number)
 {
-	char *temp = g_alloca (n + 4);
+	char *temp = g_alloca (n + 4 * sizeof (int));
 	int hours;
 
 	hours = number * 24 + time_split->tm_hour;
@@ -306,7 +307,7 @@ append_hour_elapsed (GString *string, int n, const struct tm *time_split, int nu
 static void
 append_minute (GString *string, int n, const struct tm *time_split)
 {
-	char *temp = g_alloca (n + 4);
+	char *temp = g_alloca (n + 4 * sizeof (int));
 
 	sprintf (temp, "%0*d", n, time_split->tm_min);
 	g_string_append (string, temp);
@@ -320,7 +321,7 @@ append_minute (GString *string, int n, const struct tm *time_split)
 static void
 append_minute_elapsed (GString *string, int n, const struct tm *time_split, int number)
 {
-	char *temp = g_alloca (n + 50);
+	char *temp = g_alloca (n + 4 * sizeof (int));
 	int minutes;
 
 	minutes = ((number * 24) + time_split->tm_hour) * 60 + time_split->tm_min;
@@ -337,7 +338,7 @@ append_minute_elapsed (GString *string, int n, const struct tm *time_split, int 
 static void
 append_second (GString *string, int n, const struct tm *time_split)
 {
-	char *temp = g_alloca (n + 4);
+	char *temp = g_alloca (n + 4 * sizeof (int));
 
 	sprintf (temp, "%0*d", n, time_split->tm_sec);
 	g_string_append (string, temp);
@@ -351,7 +352,7 @@ append_second (GString *string, int n, const struct tm *time_split)
 static void
 append_second_elapsed (GString *string, int n, const struct tm *time_split, int number)
 {
-	char *temp = g_alloca (n + 50);
+	char *temp = g_alloca (n + 4 * sizeof (int));
 	int seconds;
 
 	seconds = (((number * 24 + time_split->tm_hour) * 60 + time_split->tm_min) * 60) + time_split->tm_sec;
