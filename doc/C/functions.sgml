@@ -3953,11 +3953,11 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>HLOOKUP(value,range,row[,approximate])</synopsis>
+      <synopsis>HLOOKUP(value,range,row[,approximate,as_index])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>HLOOKUP function finds the col in range that has a first row cell similar to value.  If @approximate is not true it finds the col with an exact equivilance.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the col with value less than @value it returns the value in the col found at a 1 based offset in @row rows into the @range.</para>
+        <para>HLOOKUP function finds the col in range that has a first row cell similar to value.  If @approximate is not true it finds the col with an exact equivilance.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the col with value less than @value it returns the value in the col found at a 1 based offset in @row rows into the @range.  @as_index returns the offset that matched rather than the value</para>
         <para>Returns #NUM! if @row &lt; 0. Returns #REF! if @row falls outside @range.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -7433,25 +7433,25 @@
 
 
 
-  <refentry id="gnumeric-RandBernoulli">
+  <refentry id="gnumeric-RANDBERNOULLI">
     <refmeta>
-      <refentrytitle>RandBernoulli</refentrytitle>
+      <refentrytitle>RANDBERNOULLI</refentrytitle>
     </refmeta>
     <refnamediv>
-      <refname>RandBernoulli</refname>
+      <refname>RANDBERNOULLI</refname>
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>RandBernoulli(p)</synopsis>
+      <synopsis>RANDBERNOULLI(p)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>RandBernoulli returns a Bernoulli distributed random number.</para>
-        <para>If @p &lt; 0 or @p &gt; 1 RandBernoulli returns #NUM! error.</para>
+        <para>RANDBERNOULLI returns a Bernoulli-distributed random number.</para>
+        <para>If @p &lt; 0 or @p &gt; 1 RANDBERNOULLI returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>RandBernoulli(0.5).</para>        <para></para>
+        <para>RANDBERNOULLI(0.5).</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-RAND">RAND</link>,
@@ -7490,25 +7490,25 @@
 
 
 
-  <refentry id="gnumeric-RandBinom">
+  <refentry id="gnumeric-RANDBINOM">
     <refmeta>
-      <refentrytitle>RandBinom</refentrytitle>
+      <refentrytitle>RANDBINOM</refentrytitle>
     </refmeta>
     <refnamediv>
-      <refname>RandBinom</refname>
+      <refname>RANDBINOM</refname>
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>RandBinom(p,trials)</synopsis>
+      <synopsis>RANDBINOM(p,trials)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>RandBinom returns a binomialy distributed random number.</para>
-        <para>If @p &lt; 0 or @p &gt; 1 RandBinom returns #NUM! error. If @trials &lt; 0 RandBinom returns #NUM! error.</para>
+        <para>RANDBINOM returns a binomially-distributed random number.</para>
+        <para>If @p &lt; 0 or @p &gt; 1 RANDBINOM returns #NUM! error. If @trials &lt; 0 RANDBINOM returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>RandBinom(0.5,2).</para>        <para></para>
+        <para>RANDBINOM(0.5,2).</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-RAND">RAND</link>,
@@ -7519,25 +7519,25 @@
 
 
 
-  <refentry id="gnumeric-RandExp">
+  <refentry id="gnumeric-RANDEXP">
     <refmeta>
-      <refentrytitle>RandExp</refentrytitle>
+      <refentrytitle>RANDEXP</refentrytitle>
     </refmeta>
     <refnamediv>
-      <refname>RandExp</refname>
+      <refname>RANDEXP</refname>
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>RandExp(b)</synopsis>
+      <synopsis>RANDEXP(b)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>RandExp returns a exponentially distributed random number.</para>
+        <para>RANDEXP returns a exponentially-distributed random number.</para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>RandExp(0.5).</para>        <para></para>
+        <para>RANDEXP(0.5).</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-RAND">RAND</link>,
@@ -7561,7 +7561,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>RANDNEGBINOM returns a negitive binomialy distributed random number.</para>
+        <para>RANDNEGBINOM returns a negative binomially-distributed random number.</para>
         <para>If @p &lt; 0 or @p &gt; 1, RANDNEGBINOM returns #NUM! error. If @failures RANDNEGBINOM returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -7577,25 +7577,25 @@
 
 
 
-  <refentry id="gnumeric-RandPoisson">
+  <refentry id="gnumeric-RANDPOISSON">
     <refmeta>
-      <refentrytitle>RandPoisson</refentrytitle>
+      <refentrytitle>RANDPOISSON</refentrytitle>
     </refmeta>
     <refnamediv>
-      <refname>RandPoisson</refname>
+      <refname>RANDPOISSON</refname>
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>RandPoisson(lambda)</synopsis>
+      <synopsis>RANDPOISSON(lambda)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>RandPoisson returns a poisson distributed random number.</para>
+        <para>RANDPOISSON returns a poisson-distributed random number.</para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>RandPoisson(3).</para>        <para></para>
+        <para>RANDPOISSON(3).</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-RAND">RAND</link>,
@@ -9736,11 +9736,11 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>VLOOKUP(value,range,column[,approximate])</synopsis>
+      <synopsis>VLOOKUP(value,range,column[,approximate,as_index])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>VLOOKUP function finds the row in range that has a first column similar to value.  If @approximate is not true it finds the row with an exact equivilance.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the row with value less than @value.  It returns the value in the row found at a 1 based offset in @column columns into the @range.</para>
+        <para>VLOOKUP function finds the row in range that has a first column similar to value.  If @approximate is not true it finds the row with an exact equivilance.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the row with value less than @value.  It returns the value in the row found at a 1 based offset in @column columns into the @range.  @as_index returns the offset that matched rather than the value</para>
         <para>Returns #NUM! if @column &lt; 0. Returns #REF! if @column falls outside @range.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>

@@ -1,5 +1,5 @@
-lang=sk
-locale=sk_SK
+lang=ru
+locale=ru_RU
 gnumeric_helpdir = $(datadir)/gnome/help/gnumeric/$(lang)
 gnumeric_help_DATA = topic.dat
 

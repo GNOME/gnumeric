@@ -1,114 +1,27 @@
-<!DOCTYPE book PUBLIC "-//Davenport//DTD DocBook V3.0//EN" [
-<!entity editing SYSTEM "editing.sgml">
-<!entity numberformat SYSTEM "number-format.sgml">
-<!entity formulas SYSTEM "formulas.sgml">
-<!entity cellrefer SYSTEM "cell_refer.sgml">
-<!entity selections SYSTEM "selections.sgml">
-<!entity autofill SYSTEM "autofill.sgml">
-<!entity worksheet SYSTEM "worksheet.sgml">
-<!entity files SYSTEM "files.sgml">
-<!entity functions SYSTEM "functions.sgml">
-<!entity printing SYSTEM "printing.sgml">
-<!entity analysis-tools SYSTEM "analysis-tools.sgml">
+<!DOCTYPE book PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.0//EN"[
+
+<!entity version "1.0">
+<!entity functions      SYSTEM "functions.sgml">
 ]>
-<book id="gnumeric">
+
+<book id="index">
+  <title>The Gnumeric Manual</title>
   <bookinfo>
-    <title>Руководство пользователя Gnumeric</title>
-    <authorgroup>
-      <author>
-	<firstname>Miguel</firstname> <surname>de Icaza
-	  Amozurrutia</surname>
-	<affiliation>
-	  <address>
-	    <email>miguel@gnu.org</email>
-	  </address>
-	</affiliation>
-      </author>
-      <author>
-	<firstname>Adrian</firstname> <surname>Likins</surname>
-	<affiliation>
-	  <address>
-	    <email>adrian@gimp.org</email>
-	  </address>
-	</affiliation>
-      </author>
-    </authorgroup>
+    <releaseinfo>This is release 1.0 of the Gnumeric Manual</releaseinfo>
+
     <copyright>
-      <year>1998, 1999</year> <holder>Miguel de Icaza (n.)</holder>
+      <year>1998-2001, 2002</year>
+      <holder>Miguel de Icaza, Jody Goldberg, Thomas Canty, 
+	  Jukka-Pekka Iivonen, Andreas J. Guelzow, Wayne Schuller, 
+	  Adrian Custer, Kevin Breit, Aaron Weber, 
+	  Alexander Kirillov.</holder> 
     </copyright>
-    <legalnotice>
-      <para>Эта документация - свободное программное обеспечение; вы можете
-	распространять ее и/или модифицировать в терминах GNU General Public
-	License как опубликовано Free Software Foundation; в лицензии версии 2
-	или (по вашему выбору) любой более поздней версии.</para>
-      
-      <para>Эта программа распространяется в надежде, что она будет полезна,
-	но БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ; в том числе подразумеваемой гарантии
-	MERCHANTABILITY или ПРИМЕНИМОСТИ ДЛЯ КАКИХ-ЛИБО ЦЕЛЕЙ.
-	Смотрите GNU General Public License, если вас интересуют детали.</para>
-      
-      <para>Вы должны были получить копию GNU General Public
-	License вместе с этой программой; если это не так, напишите в Free
-	Software Foundation, Inc., 59 Temple Place, Suite 330, Boston,
-	MA 02111-1307 USA</para>
-      
-      <para>Для дополнительных деталей смотрите файл COPYING в исходном
-	дистрибутиве GNOME.</para>
-    </legalnotice>
   </bookinfo>
-
-  <toc></toc>
-
-  <chapter id="editing">
-    <title>Ввод данных.</title>
-    &editing;
-  </chapter>
- 
-   <chapter id="style">
-      <title>Стиль.</title> <para> FOO </para>
-   </chapter>
-
-   <chapter id="formatting">
-     <title>Форматирование ячеек</title>
-      &numberformat;
-   </chapter>
-
-   <chapter id="worksheet">
-     <title>Обзор рабочей таблицы.</title> 
-      &worksheet;
-   </chapter>
-
-  <chapter id="files">
-    <title>Работа с файлами.</title>
-    &files;
-  </chapter>
-
-  <chapter id="printing">
-    <title>Печать</title>
-    &printing;
-  </chapter>
-
-  <chapter id="analysis-tools">
-    <title>Средства анализа</title>
-    &analysis-tools;
-  </chapter>
-
-  <chapter id="tutorials">
-    <title>Учебники</title>
-    <para>Их пока нет, и перевод будет сделан только _после_ того как они появятся.</para>
-  </chapter>
-
-  <chapter id="cell-elements">
-    <title>Рисование в таблице</title>
-    <para>Рамки, метки и все остальное когда-нибудь.</para>
-  </chapter>
-
   <chapter id="function-reference">
-    <title>Справочник функций Gnumeric</title>
+    <title>Gnumeric Function Reference</title>
     &functions;
   </chapter>
 </book>
-	
 
 <!-- Keep this comment at the end of the file
 Local variables:
@@ -124,4 +37,4 @@ sgml-exposed-tags:nil
 sgml-local-catalogs:nil
 sgml-local-ecat-files:nil
 End:
--->                         
+-->

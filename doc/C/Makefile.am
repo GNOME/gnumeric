@@ -286,10 +286,9 @@ figures/zoom-dialog.png	\
 figures/zoom-toolbar.png	\
 figures/zoom.png
 
-docname = gnumeric
 lang = C
 omffile = gnumeric-C.omf
-sgml_ents = 					\
+sgml_ents += 					\
 	analysis-tools.sgml			\
 	authors.sgml				\
 	autocorrect.sgml			\
@@ -301,7 +300,6 @@ sgml_ents = 					\
 	files.sgml				\
 	filter.sgml				\
 	formulas.sgml				\
-	functions.sgml				\
 	introduction.sgml			\
 	license.sgml				\
 	number-format.sgml			\
@@ -309,31 +307,9 @@ sgml_ents = 					\
 	selections.sgml				\
 	solver.sgml				\
 	worksheet.sgml
-
-include $(top_srcdir)/doc/sgmldocs.make
-dist-hook: app-dist-hook
-
-PERL_FILES =					\
-	make-func-list.pl
+#	functions.sgml	# added in gnumeric-doc.make
 
 # include generated files to simplify installation
-EXTRA_DIST +=					\
-	topic.dat				\
-	func.defs				\
-	func-header.sgml func-footer.sgml	\
-	func-list.sgml 				\
-	gnumeric.1				\
-	$(PERL_FILES)
+EXTRA_DIST += gnumeric.1
 
-functions.sgml: func-list.sgml func-header.sgml func-footer.sgml
-	cd $(srcdir) && cat func-header.sgml func-list.sgml func-footer.sgml > functions.sgml
-
-func-list.sgml: func.defs make-func-list.pl
-	cd $(srcdir) && perl make-func-list.pl func.defs > func-list.sgml
-
-#func-index.sgml: func.defs make-func-index.pl
-#	cd $(srcdir) && perl make-func-index.pl func.defs > func-index.sgml
-
-func.defs: 
-	gnumericdir=`cd $(top_builddir)/src && pwd`; \
-	cd $(srcdir) && $$gnumericdir/gnumeric --dump-func-defs=func.defs
+include $(srcdir)/../gnumeric-doc.make

@@ -1787,8 +1787,8 @@ HEX2OCT("2A") equals 52.
 @SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC
 
 @FUNCTION=HLOOKUP
-@SYNTAX=HLOOKUP(value,range,row[,approximate])
-@DESCRIPTION=HLOOKUP function finds the col in range that has a first row cell similar to value.  If @approximate is not true it finds the col with an exact equivilance.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the col with value less than @value it returns the value in the col found at a 1 based offset in @row rows into the @range.
+@SYNTAX=HLOOKUP(value,range,row[,approximate,as_index])
+@DESCRIPTION=HLOOKUP function finds the col in range that has a first row cell similar to value.  If @approximate is not true it finds the col with an exact equivilance.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the col with value less than @value it returns the value in the col found at a 1 based offset in @row rows into the @range.  @as_index returns the offset that matched rather than the value
 Returns #NUM! if @row < 0. Returns #REF! if @row falls outside @range.
 @EXAMPLES=
 
@@ -3009,12 +3009,12 @@ RAND() returns a random number greater than zero but less than one.
 
 @SEEALSO=RANDBETWEEN
 
-@FUNCTION=RandBernoulli
-@SYNTAX=RandBernoulli(p)
-@DESCRIPTION=RandBernoulli returns a Bernoulli distributed random number. 
-If @p < 0 or @p > 1 RandBernoulli returns #NUM! error. 
+@FUNCTION=RANDBERNOULLI
+@SYNTAX=RANDBERNOULLI(p)
+@DESCRIPTION=RANDBERNOULLI returns a Bernoulli-distributed random number. 
+If @p < 0 or @p > 1 RANDBERNOULLI returns #NUM! error. 
 @EXAMPLES=
-RandBernoulli(0.5).
+RANDBERNOULLI(0.5).
 
 @SEEALSO=RAND,RANDBETWEEN
 
@@ -3028,37 +3028,37 @@ RANDBETWEEN(3,7).
 
 @SEEALSO=RAND
 
-@FUNCTION=RandBinom
-@SYNTAX=RandBinom(p,trials)
-@DESCRIPTION=RandBinom returns a binomialy distributed random number. 
-If @p < 0 or @p > 1 RandBinom returns #NUM! error. If @trials < 0 RandBinom returns #NUM! error. 
+@FUNCTION=RANDBINOM
+@SYNTAX=RANDBINOM(p,trials)
+@DESCRIPTION=RANDBINOM returns a binomially-distributed random number. 
+If @p < 0 or @p > 1 RANDBINOM returns #NUM! error. If @trials < 0 RANDBINOM returns #NUM! error. 
 @EXAMPLES=
-RandBinom(0.5,2).
+RANDBINOM(0.5,2).
 
 @SEEALSO=RAND,RANDBETWEEN
 
-@FUNCTION=RandExp
-@SYNTAX=RandExp(b)
-@DESCRIPTION=RandExp returns a exponentially distributed random number. 
+@FUNCTION=RANDEXP
+@SYNTAX=RANDEXP(b)
+@DESCRIPTION=RANDEXP returns a exponentially-distributed random number. 
 @EXAMPLES=
-RandExp(0.5).
+RANDEXP(0.5).
 
 @SEEALSO=RAND,RANDBETWEEN
 
 @FUNCTION=RANDNEGBINOM
 @SYNTAX=RANDNEGBINOM(p,failures)
-@DESCRIPTION=RANDNEGBINOM returns a negitive binomialy distributed random number. 
+@DESCRIPTION=RANDNEGBINOM returns a negative binomially-distributed random number. 
 If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error. If @failures RANDNEGBINOM returns #NUM! error. 
 @EXAMPLES=
 RANDNEGBINOM(0.5,2).
 
 @SEEALSO=RAND,RANDBETWEEN
 
-@FUNCTION=RandPoisson
-@SYNTAX=RandPoisson(lambda)
-@DESCRIPTION=RandPoisson returns a poisson distributed random number. 
+@FUNCTION=RANDPOISSON
+@SYNTAX=RANDPOISSON(lambda)
+@DESCRIPTION=RANDPOISSON returns a poisson-distributed random number. 
 @EXAMPLES=
-RandPoisson(3).
+RANDPOISSON(3).
 
 @SEEALSO=RAND,RANDBETWEEN
 
@@ -3814,8 +3814,8 @@ VARPA(A1:A5) equals 182.8904.
 @SEEALSO=DB
 
 @FUNCTION=VLOOKUP
-@SYNTAX=VLOOKUP(value,range,column[,approximate])
-@DESCRIPTION=VLOOKUP function finds the row in range that has a first column similar to value.  If @approximate is not true it finds the row with an exact equivilance.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the row with value less than @value.  It returns the value in the row found at a 1 based offset in @column columns into the @range.
+@SYNTAX=VLOOKUP(value,range,column[,approximate,as_index])
+@DESCRIPTION=VLOOKUP function finds the row in range that has a first column similar to value.  If @approximate is not true it finds the row with an exact equivilance.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the row with value less than @value.  It returns the value in the row found at a 1 based offset in @column columns into the @range.  @as_index returns the offset that matched rather than the value
 Returns #NUM! if @column < 0. Returns #REF! if @column falls outside @range.
 @EXAMPLES=
 
