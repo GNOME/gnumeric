@@ -191,6 +191,32 @@ days_monthly_basis (Value *issue_date, Value *maturity_date, int basis)
 	}
 }
 
+/* Returns the number of days in the coupon period of the settlement date.
+ * Currently, returns negative numbers if the branch is not implemented.
+ */
+static float_t
+coupdays(GDate *settlement, GDate *maturity, int freq, int basis)
+{
+        switch (basis) {
+        case 0:
+        case 2:
+        case 4:
+                if (freq == 1)
+                        return 360.0;
+                else if (freq == 2)
+                        return 180.0;
+                else
+                        return 90.0;
+                break;
+        case 3:
+                return 365.0 / freq;
+        case 1:
+        default:
+                return -1.0;
+        }
+}
+
+
 /***************************************************************************/
 
 static char *help_accrint = {
@@ -2212,8 +2238,9 @@ gnumeric_coupdaybs (FunctionEvalInfo *ei, Value **argv)
 static char *help_coupdays = {
 	N_("@FUNCTION=COUPDAYS\n"
 	   "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis])\n"
-	   "@DESCRIPTION=Returns the number of days in the coupon period "
-	   "of the settlement date."
+	   "@DESCRIPTION="
+	   "Returns the number of days in the coupon period of the "
+	   "settlement date."
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "\n"
@@ -2223,7 +2250,29 @@ static char *help_coupdays = {
 static Value *
 gnumeric_coupdays (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+        GDate   *settlement;
+        GDate   *maturity;
+        int     freq, basis;
+        float_t days;
+
+        settlement = datetime_value_to_g(argv[0]);
+        maturity = datetime_value_to_g(argv[1]);
+        freq = value_get_as_int (argv[2]);
+        basis = value_get_as_int (argv[3]);
+
+        if (settlement == NULL || maturity == NULL)
+                return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+        if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
+	    || g_date_compare(settlement, maturity) > 0)
+                return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        days = coupdays(settlement, maturity, freq, basis);
+
+        if (days < 0)
+	        return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+
+        return value_new_float (days);
 }
 
 /***************************************************************************/
