@@ -1,3 +1,10 @@
+2000-06-22  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-object-container.c
+	(sheet_object_container_new_bonobo): Change
+	BonoboClientSite->bound_object to bound_embeddable. This was
+	just changed in Bonobo CVS.
+
 2000-06-21  Michael Meeks  <michael@helixcode.com>
 
 	* src/embeddable-grid.c (embeddable_grid_init_anon): fix.
