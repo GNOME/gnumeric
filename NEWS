@@ -5,6 +5,7 @@ Jody:
 
 Morten:
 	* Fix IMCONJUGATE and IMABS for reals.  [#148323]
+	* Fix crash on exit.
 
 --------------------------------------------------------------------------
 Gnumeric 1.2.13
