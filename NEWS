@@ -10,6 +10,7 @@ Jody:
 	* Have the stf dialog use the default font.
 	* Use GsfInput for importing.
 	* Improve the Applix importer.
+	* Fix lifecycle for 3d references.
 
 Jukka:
 	* More solver enhancements:

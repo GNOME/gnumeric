@@ -1,5 +1,10 @@
 2002-06-14  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook.c (workbook_sheet_detach) : add comment that we should
+	  not do the check if it is during destruction.
+	(workbook_finalize) : Its too late to destroy the 3d depends here.
+	* src/dependent.c (workbook_deps_destroy) : do it here.
+
 	* src/parser.y (parser_sheet_by_name) : new utility function to
 	  support applix style absolute sheet references.
 	(sheetref) : parser_sheet_by_name.

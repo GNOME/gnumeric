@@ -1723,6 +1723,11 @@ workbook_deps_destroy (Workbook *wb)
 	rwinfo.type = GNM_EXPR_REWRITE_WORKBOOK;
 	rwinfo.u.workbook = wb;
 
+	if (wb->sheet_order_dependents != NULL) {
+		g_hash_table_destroy (wb->sheet_order_dependents);
+		wb->sheet_order_dependents = NULL;
+	}
+
 	WORKBOOK_FOREACH_SHEET (wb, sheet, do_deps_destroy (sheet, &rwinfo););
 }
 

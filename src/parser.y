@@ -414,7 +414,7 @@ int yyparse (void);
 	Value		*value;
 	CellRef		*cell;
 	GnmExprList	*list;
-	Sheet	 	*sheet;
+	Sheet		*sheet;
 }
 %type  <list>	opt_exp arg_list array_row, array_cols
 %type  <expr>	exp array_exp string_opt_quote cellref

@@ -201,11 +201,6 @@ workbook_finalize (GObject *wb_object)
 	g_hash_table_destroy (wb->sheet_hash_private);
 	wb->sheet_hash_private = NULL;
 
-	if (wb->sheet_order_dependents != NULL) {
-		g_hash_table_destroy (wb->sheet_order_dependents);
-		wb->sheet_order_dependents = NULL;
-	}
-
 	g_ptr_array_free (wb->sheets, TRUE);
 	wb->sheets = NULL;
 
@@ -925,8 +920,14 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
 		wb_control_sheet_remove (control, sheet););
 
+	/* If we are not destroying things,
+	 * Check for 3d refs that start or end on this sheet
+	 */
+	if (wb->sheet_order_dependents != NULL) {
+#warning TODO
+	}
+
 	/* Remove our reference to this sheet */
-#warning TODO : check for 3d refs that start or end on this sheet
 	pre_sheet_index_change (wb);
 	g_ptr_array_remove_index (wb->sheets, sheet_index);
 	workbook_sheet_index_update (wb, sheet_index);
