@@ -751,33 +751,51 @@ change_menu_sensitivity (WorkbookControlGUI const *wbcg,
 #endif
 
 static void
-wbcg_menu_state_enable_insert (WorkbookControl *wbc, Sheet const *sheet,
-			       gboolean col, gboolean row, gboolean cell)
+wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	gboolean all = MS_ALL & flags;
 	
 	g_return_if_fail (wbcg != NULL);
 
 #ifndef ENABLE_BONOBO
-	if (col)
+	if (all || MS_INSERT_COLS & flags) 
 		change_menu_sensitivity (wbcg->menu_item_insert_cols,
 					 sheet->priv->enable_insert_cols);
-	if (row)
+	if (all || MS_INSERT_ROWS & flags)
 		change_menu_sensitivity (wbcg->menu_item_insert_rows,
 					 sheet->priv->enable_insert_rows);
-	if (cell)
+	if (all || MS_INSERT_CELLS & flags)
 		change_menu_sensitivity (wbcg->menu_item_insert_cells,
 					 sheet->priv->enable_insert_cells);
+	if (all || MS_SHOWHIDE_DETAIL & flags) {
+		change_menu_sensitivity (wbcg->menu_item_show_detail,
+					 sheet->priv->enable_showhide_detail);
+		change_menu_sensitivity (wbcg->menu_item_hide_detail,
+					 sheet->priv->enable_showhide_detail);
+	}
+	if (all || MS_PASTE_SPECIAL & flags)
+		change_menu_sensitivity (wbcg->menu_item_paste_special,
+					 sheet->priv->enable_paste_special);
 #else
-	if (col)
+	if (all || MS_INSERT_COLS & flags)
 		change_menu_sensitivity (wbcg, "/commands/InsertColumns",
 					 sheet->priv->enable_insert_cols);
-	if (row)
+	if (all || MS_INSERT_ROWS & flags)
 		change_menu_sensitivity (wbcg, "/commands/InsertRows",
 					 sheet->priv->enable_insert_rows);
-	if (cell)
+	if (all || MS_INSERT_CELLS & flags)
 		change_menu_sensitivity (wbcg, "/commands/InsertCells",
 					 sheet->priv->enable_insert_cells);
+	if (all || MS_SHOWHIDE_DETAIL & flags) {
+		change_menu_sensitivity (wbcg, "/commands/DataOutlineShowDetail",
+					 sheet->priv->enable_showhide_detail);
+		change_menu_sensitivity (wbcg, "/commands/DataOutlineHideDetail",
+					 sheet->priv->enable_showhide_detail);
+	}
+	if (all || MS_PASTE_SPECIAL & flags)
+		change_menu_sensitivity (wbcg, "/commands/EditPasteSpecial",
+					 sheet->priv->enable_paste_special);
 #endif
 }
 
@@ -842,18 +860,6 @@ wbcg_undo_redo_labels (WorkbookControl *wbc, char const *undo, char const *redo)
 			   _("_Undo"), undo);
 	change_menu_label (wbcg, "/commands/EditRedo", "/menu/Edit/Redo",
 			   _("_Redo"), redo);
-#endif
-}
-
-static void
-wbcg_menu_state_paste_special (WorkbookControl *wbc, Sheet const *sheet)
-{
- 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	
-#ifndef ENABLE_BONOBO
-	change_menu_sensitivity (wbcg->menu_item_paste_special, sheet->priv->enable_paste_special);
-#else
-	change_menu_sensitivity (wbcg, "/commands/EditPasteSpecial", sheet->priv->enable_paste_special);
 #endif
 }
 
@@ -3370,6 +3376,11 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 		workbook_menu_format_sheet [5].widget;
 	wbcg->menu_item_sheet_hide_row_header =
 		workbook_menu_format_sheet [6].widget;
+
+	wbcg->menu_item_hide_detail =
+		workbook_menu_data_outline [0].widget;
+	wbcg->menu_item_show_detail =
+		workbook_menu_data_outline [1].widget;
 	wbcg->menu_item_sheet_display_outlines =
 		workbook_menu_data_outline [5].widget;
 	wbcg->menu_item_sheet_outline_symbols_below =
@@ -3514,9 +3525,8 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->paste_from_selection  = wbcg_paste_from_selection;
 	wbc_class->claim_selection	 = wbcg_claim_selection;
 
-	wbc_class->menu_state.paste_special = wbcg_menu_state_paste_special;
-	wbc_class->menu_state.sheet_prefs   = wbcg_menu_state_sheet_prefs;
-	wbc_class->menu_state.enable_insert = wbcg_menu_state_enable_insert;
+	wbc_class->menu_state.update      = wbcg_menu_state_update;
+	wbc_class->menu_state.sheet_prefs = wbcg_menu_state_sheet_prefs;
 }
 
 GNUMERIC_MAKE_TYPE(workbook_control_gui,

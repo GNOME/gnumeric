@@ -19,6 +19,7 @@ struct _SheetPrivate {
 	gboolean         enable_insert_cols;
 	gboolean         enable_insert_cells;
 	gboolean         enable_paste_special;
+	gboolean         enable_showhide_detail;
 
 	gboolean	 selection_content_changed;
 	gboolean	 reposition_selection;

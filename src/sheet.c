@@ -240,6 +240,13 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->outline_symbols_below = TRUE;
 	sheet->outline_symbols_right = TRUE;
 	sheet->frozen_corner.col = sheet->frozen_corner.row = -1;
+	
+	/* Init menu states */
+	sheet->priv->enable_insert_rows = TRUE;
+	sheet->priv->enable_insert_cols = TRUE;
+	sheet->priv->enable_insert_cells = TRUE;
+	sheet->priv->enable_paste_special = TRUE;
+	sheet->priv->enable_showhide_detail = TRUE;
 
 	sheet->names = NULL;
 
@@ -3931,25 +3938,30 @@ sheet_adjust_preferences (Sheet const *sheet, gboolean redraw, gboolean resize)
 void
 sheet_menu_state_enable_insert (Sheet *sheet, gboolean col, gboolean row)
 {
-	gboolean col_change, row_change, cell_change;
+	int flags = 0;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
-	if ((col_change = (sheet->priv->enable_insert_cols != col)))
+	if (sheet->priv->enable_insert_cols != col) {
+		flags |= MS_INSERT_COLS;
 		sheet->priv->enable_insert_cols = col;
-	if ((row_change = (sheet->priv->enable_insert_rows != row)))
+	}
+	if (sheet->priv->enable_insert_rows != row) {
+		flags |= MS_INSERT_ROWS;
 		sheet->priv->enable_insert_rows = row;
-	if ((cell_change = (sheet->priv->enable_insert_cells != (col|row))))
+	}
+	if (sheet->priv->enable_insert_cells != (col|row)) {
+		flags |= MS_INSERT_CELLS;
 		sheet->priv->enable_insert_cells = (col|row);
+	}
 	    
-	if (!col_change && !row_change && !cell_change)
+	if (!flags)
 		return;
 
 	WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
 		if (sheet == wb_view_cur_sheet (view)) {
 			WORKBOOK_VIEW_FOREACH_CONTROL(view, wbc,
-				wb_control_menu_state_enable_insert (wbc, sheet,
-					col_change, row_change, cell_change););
+				wb_control_menu_state_update (wbc, sheet, flags););
 		}
 	});
 }

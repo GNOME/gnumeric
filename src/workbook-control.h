@@ -43,10 +43,20 @@ void wb_control_undo_redo_push	     (WorkbookControl *wbc,
 void wb_control_undo_redo_labels     (WorkbookControl *wbc,
 				      char const *undo, char const *redo);
 
-void wb_control_menu_state_paste_special (WorkbookControl *wbc, Sheet const *s);
-void wb_control_menu_state_sheet_prefs	 (WorkbookControl *wbc, Sheet const *s);
-void wb_control_menu_state_enable_insert (WorkbookControl *wbc, Sheet const *s,
-					  gboolean col, gboolean row, gboolean cell);
+/* Menu state update flags, use them to specify which menu items to update */
+enum {
+	MS_ALL              = 1 << 0,
+	
+	MS_INSERT_COLS      = 1 << 1,
+	MS_INSERT_ROWS      = 1 << 2,
+	MS_INSERT_CELLS     = 1 << 3,
+	MS_SHOWHIDE_DETAIL  = 1 << 4,
+	MS_PASTE_SPECIAL    = 1 << 5
+};
+
+void wb_control_menu_state_update      (WorkbookControl *wbc, Sheet const *s, int flags);
+void wb_control_menu_state_sheet_prefs (WorkbookControl *wbc, Sheet const *s);
+
 
 void wb_control_paste_from_selection (WorkbookControl *wbc,
 				      PasteTarget const *pt, guint32 time);

@@ -425,6 +425,22 @@ set_menu_flags:
 			do_rows = FALSE;
 	}
 	sheet_menu_state_enable_insert (sheet, do_cols, do_rows);
+
+	/*
+	 * FIXME: Enable/disable the show/hide detail menu items here.
+	 * We can only do this when the data structures have improved, currently
+	 * checking for this will be to slow.
+	 * Once it works, use this code :
+	 *
+	 * sheet->priv->enable_showhide_detail = ....
+	 *
+	 * WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
+	 *	if (sheet == wb_view_cur_sheet (view)) {
+	 *	        WORKBOOK_VIEW_FOREACH_CONTROL(view, wbc,
+	 *	                wb_control_menu_state_update (wbc, sheet, MS_SHOWHIDE_DETAIL););
+ 	 *      }
+	 * });
+	 */
 }
 
 void

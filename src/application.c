@@ -273,7 +273,7 @@ application_clipboard_clear (gboolean drop_selection)
 		
 		sheet->priv->enable_paste_special = FALSE;
 		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-			wb_control_menu_state_paste_special (control, sheet););
+			wb_control_menu_state_update (control, sheet, MS_PASTE_SPECIAL););
 			
 		app.clipboard_sheet = NULL;
 
@@ -336,7 +336,7 @@ application_clipboard_copy (WorkbookControl *wbc,
 
 		sheet->priv->enable_paste_special = TRUE;
 		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-			wb_control_menu_state_paste_special (control, sheet););
+			wb_control_menu_state_update (control, sheet, MS_PASTE_SPECIAL););
 
 		/*
 		 * The 'area' and the list itself will be copied
@@ -374,7 +374,7 @@ application_clipboard_cut (WorkbookControl *wbc,
 		/* No paste special for copies */
 		sheet->priv->enable_paste_special = FALSE;
 		WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
-			wb_control_menu_state_paste_special (control, sheet););
+			wb_control_menu_state_update (control, sheet, MS_PASTE_SPECIAL););
 
 		/*
 		 * The 'area' and the list itself will be copied

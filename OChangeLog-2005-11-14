@@ -1,3 +1,41 @@
+2001-05-08  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_menu_state_update): New, combine
+	all the enabling/disabling of menu items here including the newly
+	added show/hide menu items.
+	(wbcg_menu_state_enable_insert): Remove.
+	(wbcg_menu_state_paste_special): Remove.
+	(workbook_control_gui_ctor_class): Init menu_state_update callback
+	and remove paste_special and enable_insert initializations.
+	(workbook_control_gui_init): Initialize show/hide menu items.
+
+	* src/workbook-control-gui-priv.h: Add show/hide detail menu items
+	and tidy structure lay-out.
+	
+	* src/workbook-control-priv.h: Remove menu_state_enable_insert
+	and menu_state_paste_special callbacks and add menu_state_update
+	callback.
+	
+	* src/workbook-control.[ch]: Add wb_menu_state_update and
+	remove wb_menu_state_paste_special and wb_menu_state_enable_insert.
+	(wb_control_sheet_add): call wb_menu_state_update, Remove
+	call to menu_state_paste_special.
+
+	* src/sheet-private.h: Add enable_showhide_detail.
+	
+	* src/sheet.c (sheet_new): Initialize menu state booleans.
+	(sheet_menu_state_enable_insert): Use wb_control_menu_state_update.
+	
+	* src/workbook-view.c (wb_view_menus_update): Idem and
+	remove call to wb_control_menu_state_paste_special.
+	
+	* src/application.c (application_clipboard_clear): Idem.
+	(application_clipboard_copy): Idem.
+	(application_clipboard_cut): Idem.
+
+	* src/selection.c (sheet_selection_set_internal): Add comment for
+	show/hide detail enabling/disabling, something we can't do just yet.
+
 2001-05-08  Jody Goldberg <jgoldberg@home.com>
 
 	* src/clipboard.c (clipboard_paste_region) : Add PASTE_IGNORE_COMMENTS.
@@ -489,7 +527,7 @@ Mon May  7 14:07:45 2001  Morten Welinder  <welinder@rentec.com>
 
  	* src/sheet-object-widget.c (sheet_widget_checkbox_user_config):
 	Ditto.
-
+	
 2001-05-02  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/workbook-edit.c (cb_thaw_ui_toolbar): Callback timer

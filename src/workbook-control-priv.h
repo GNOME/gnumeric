@@ -44,10 +44,8 @@ typedef struct {
 				 char const *undo, char const *redo);
 	} undo_redo;
 	struct {
-		void (*paste_special) (WorkbookControl *wbc, Sheet const *sheet);
-		void (*sheet_prefs)   (WorkbookControl *wbc, Sheet const *sheet);
-		void (*enable_insert) (WorkbookControl *wbc, Sheet const *sheet,
-				       gboolean col, gboolean row, gboolean cell);
+		void (*update)      (WorkbookControl *wbc, Sheet const *sheet, int flags);
+		void (*sheet_prefs) (WorkbookControl *wbc, Sheet const *sheet);
 	} menu_state;
 
 	gboolean (*claim_selection)      (WorkbookControl *wbc);

@@ -23,14 +23,21 @@ struct _WorkbookControlGUI {
         /* The status bar */
         GnomeAppBar *appbar;
 
-	/* Menu items that get toggled */
+	/* Menu items that get enabled/disabled */
 	GtkWidget  *menu_item_undo;
 	GtkWidget  *menu_item_redo;
 	GtkWidget  *menu_item_paste_special;
 	GtkWidget  *menu_item_insert_rows;
 	GtkWidget  *menu_item_insert_cols;
 	GtkWidget  *menu_item_insert_cells;
-	
+	GtkWidget  *menu_item_show_detail;
+	GtkWidget  *menu_item_hide_detail;
+
+	GtkWidget  *menu_item_sheet_remove;
+	GtkWidget  *menu_item_sheets_edit_reorder;
+	GtkWidget  *menu_item_sheets_format_reorder;
+
+	/* Menu items that get toggled */
 	GtkWidget  *menu_item_sheet_display_formulas;
 	GtkWidget  *menu_item_sheet_hide_zero;
 	GtkWidget  *menu_item_sheet_hide_grid;
@@ -41,10 +48,6 @@ struct _WorkbookControlGUI {
 	GtkWidget  *menu_item_sheet_outline_symbols_below;
 	GtkWidget  *menu_item_sheet_outline_symbols_right;
 	
-	GtkWidget  *menu_item_sheet_remove;
-	GtkWidget  *menu_item_sheets_edit_reorder;
-	GtkWidget  *menu_item_sheets_format_reorder;
-
 	/* Toolbars */
 	GtkWidget *standard_toolbar;
 	GtkWidget *format_toolbar;
