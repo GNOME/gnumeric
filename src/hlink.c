@@ -163,8 +163,7 @@ gnm_hlink_cur_wb_activate (GnmHLink *lnk, WorkbookControl *wbc)
 			parse_pos_init (&pp, NULL, sheet, 0, 0), lnk->target);
 
 		if (nexpr != NULL) {
-			if (!nexpr->builtin)
-				target = gnm_expr_get_range (nexpr->t.expr_tree);
+			target = gnm_expr_get_range (nexpr->expr_tree);
 			if (target == NULL) {
 				gnumeric_error_invalid (COMMAND_CONTEXT (wbc), _("Link target"),
 							lnk->target);

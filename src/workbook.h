@@ -44,18 +44,17 @@ gboolean    workbook_sheet_reorganize    (Workbook *wb,
 					  CommandContext *cc);
 
 /* IO Routines */
-gboolean       workbook_set_filename   (Workbook *wb, const gchar *);
-char const    *workbook_get_filename   (Workbook *wb);
-gboolean       workbook_set_saveinfo   (Workbook *wb, const gchar *,
-                                        FileFormatLevel, GnumFileSaver *);
-GnumFileSaver *workbook_get_file_saver (Workbook *wb);
+gboolean       workbook_set_filename	(Workbook *wb, const gchar *);
+char const    *workbook_get_filename	(Workbook *wb);
+gboolean       workbook_set_saveinfo	(Workbook *wb, const gchar *,
+					 FileFormatLevel, GnumFileSaver *);
+GnumFileSaver *workbook_get_file_saver	(Workbook *wb);
 
-void        workbook_print               (Workbook *, gboolean);
-
-void        workbook_set_dirty           (Workbook *wb, gboolean is_dirty);
-gboolean    workbook_is_dirty            (Workbook const *wb);
-gboolean    workbook_is_pristine         (Workbook const *wb);
-char       *workbook_selection_to_string (Workbook *wb, Sheet *base_sheet);
+gboolean    workbook_is_pristine	(Workbook const *wb);
+void        workbook_set_dirty		(Workbook *wb, gboolean is_dirty);
+gboolean    workbook_is_dirty		(Workbook const *wb);
+void        workbook_set_placeholder	(Workbook *wb, gboolean is_placeholder);
+gboolean    workbook_is_placeholder	(Workbook const *wb);
 
 void         workbook_add_summary_info    (Workbook *wb, SummaryItem *sit);
 SummaryInfo *workbook_metadata    	  (Workbook *wb);
@@ -72,6 +71,7 @@ GPtrArray  *workbook_cells               (Workbook *wb, gboolean comments);
 void     workbook_recalc                 (Workbook *wb);	/* in eval.c */
 void     workbook_recalc_all             (Workbook *wb);	/* in eval.c */
 gboolean workbook_enable_recursive_dirty (Workbook *wb, gboolean enable);
+void     workbook_autorecalc_enable	 (Workbook *wb, gboolean enable);
 void     workbook_iteration_enabled	 (Workbook *wb, gboolean enable);
 void     workbook_iteration_max_number	 (Workbook *wb, int max_number);
 void     workbook_iteration_tolerance	 (Workbook *wb, double tolerance);
@@ -79,4 +79,4 @@ void     workbook_iteration_tolerance	 (Workbook *wb, double tolerance);
 void workbook_attach_view (Workbook *wb, WorkbookView *wbv);
 void workbook_detach_view (WorkbookView *wbv);
 
-#endif
+#endif /* GNUMERIC_WORKBOOK_H */

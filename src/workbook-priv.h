@@ -16,6 +16,7 @@ struct _Workbook {
 	GHashTable *sheet_order_dependents;
 
 	gboolean modified;
+	gboolean is_placeholder;
 
 	gchar          *filename;
 	FileFormatLevel file_format_level;
@@ -25,8 +26,7 @@ struct _Workbook {
 	GSList	   *undo_commands;
 	GSList	   *redo_commands;
 
-	/* User defined names */
-	GList      *names;
+	GnmNamedExprCollection *names;
 
 	SummaryInfo *summary_info;
 

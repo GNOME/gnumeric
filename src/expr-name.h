@@ -11,19 +11,14 @@ struct _GnmNamedExpr {
 	String     *name;
 	ParsePos    pos;
 	GHashTable *dependents;
-	unsigned char active;
-	unsigned char builtin;
-	union {
-		GnmExpr const *expr_tree;
-		GnmFuncArgs    expr_func;
-	} t;
+	GnmExpr const *expr_tree;
+	gboolean    active;
+	gboolean    is_placeholder;
 };
 
 GnmNamedExpr *expr_name_lookup (ParsePos const *pos, char const *name);
-
-GnmNamedExpr *expr_name_new    (char const *name, gboolean builtin);
 GnmNamedExpr *expr_name_add    (ParsePos const *pp, char const *name,
-				GnmExpr const *expr, char const **error_msg);
+				GnmExpr const *expr, char **error_msg);
 
 void	 expr_name_ref	      (GnmNamedExpr *exprn);
 void	 expr_name_unref      (GnmNamedExpr *exprn);
@@ -40,12 +35,19 @@ gboolean expr_name_is_placeholder (GnmNamedExpr const *ne);
 
 int      expr_name_by_name    (const GnmNamedExpr *a, const GnmNamedExpr *b);
 
-void expr_name_list_destroy (GList **names);
-
-void expr_name_init       (void);
-void expr_name_shutdown   (void);
-
 GList	   *sheet_names_get_available (Sheet const *sheet);
 char const *sheet_names_check	      (Sheet const *sheet, Range const *r);
+
+/******************************************************************************/
+
+struct _GnmNamedExprCollection {
+	/* all the defined names */
+	GHashTable *names;
+	
+	/* placeholders for references to undefined names */
+	GHashTable *placeholders;
+};
+
+void gnm_named_expr_collection_free (GnmNamedExprCollection **names);
 
 #endif /* GNUMERIC_EXPR_NAME_H */

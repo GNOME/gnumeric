@@ -658,12 +658,8 @@ oo_named_expr (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 					    name, expr_str, perr.err->message);
 				parse_error_free (&perr);
 			} else {
-				GnmNamedExpr *nexpr = expr_name_lookup (&pp, name);
 				pp.sheet = NULL;
-				if (nexpr == NULL)
-					expr_name_add (&pp, name, expr, NULL);
-				else
-					expr_name_set_expr (nexpr, expr, NULL);
+				expr_name_add (&pp, name, expr, NULL);
 			}
 		}
 	}

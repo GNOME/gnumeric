@@ -452,7 +452,9 @@ gnm_expr_equal (GnmExpr const *a, GnmExpr const *b)
 			gnm_expr_list_equal (a->func.arg_list, b->func.arg_list);
 
 	case GNM_EXPR_OP_NAME:
-		return a->name.name == b->name.name;
+		return	a->name.name == b->name.name &&
+			a->name.optional_scope == b->name.optional_scope &&
+			a->name.optional_wb_scope == b->name.optional_wb_scope;
 
 	case GNM_EXPR_OP_CELLREF:
 		return cellref_equal (&a->cellref.ref, &b->cellref.ref);
@@ -546,9 +548,9 @@ gnm_expr_extract_ref (CellRef *res, GnmExpr const *expr,
 	}
 
 	case GNM_EXPR_OP_NAME:
-		if (!expr->name.name->active || expr->name.name->builtin)
+		if (!expr->name.name->active)
 			return TRUE;
-		return gnm_expr_extract_ref (res, expr->name.name->t.expr_tree, pos, flags);
+		return gnm_expr_extract_ref (res, expr->name.name->expr_tree, pos, flags);
 	default :
 		break;
 	}
@@ -1573,9 +1575,6 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		GnmNamedExpr *nexpr = expr->name.name;
 		GnmExpr const *tmp;
 
-		if (nexpr->builtin)
-			return NULL;
-
 		/* we can not invalidate references to the name that are
 		 * sitting in the undo queue, or the clipboard.  So we just
 		 * flag the name as inactive and remove the reference here.
@@ -1613,7 +1612,7 @@ gnm_expr_rewrite (GnmExpr const *expr, GnmExprRewriteInfo const *rwinfo)
 		}
 
 		/* Do NOT rewrite the name.  Just invalidate the use of the name */
-		tmp = gnm_expr_rewrite (expr->name.name->t.expr_tree, rwinfo);
+		tmp = gnm_expr_rewrite (expr->name.name->expr_tree, rwinfo);
 		if (tmp != NULL) {
 			gnm_expr_unref (tmp);
 			return gnm_expr_new_constant (
@@ -1942,9 +1941,9 @@ gnm_expr_get_range (GnmExpr const *expr)
 		return NULL;
 
 	case GNM_EXPR_OP_NAME:
-		if (!expr->name.name->active || expr->name.name->builtin)
+		if (!expr->name.name->active)
 			return NULL;
-		return gnm_expr_get_range (expr->name.name->t.expr_tree);
+		return gnm_expr_get_range (expr->name.name->expr_tree);
 
 	default:
 		return NULL;
@@ -1999,8 +1998,8 @@ gnm_expr_is_rangeref (GnmExpr const *expr)
 		return FALSE;
 
 	case GNM_EXPR_OP_NAME:
-		if (expr->name.name->active && !expr->name.name->builtin)
-			return gnm_expr_is_rangeref (expr->name.name->t.expr_tree);
+		if (expr->name.name->active)
+			return gnm_expr_is_rangeref (expr->name.name->expr_tree);
 		return FALSE;
 
 	case GNM_EXPR_OP_ARRAY: /* I don't think this is possible */
@@ -2133,8 +2132,11 @@ ets_hash (gconstpointer key)
 	case GNM_EXPR_OP_CONSTANT:
 		return value_hash (expr->constant.value);
 
-	case GNM_EXPR_OP_CELLREF:
 	case GNM_EXPR_OP_NAME:
+		/* all we need is a somewhat unique hash, ignore int != ptr */
+		return (guint)(expr->name.name);
+
+	case GNM_EXPR_OP_CELLREF:
 	case GNM_EXPR_OP_ARRAY:
 		break;
 	}

@@ -395,7 +395,7 @@ row_calc_spans (ColRowInfo *rinfo, Sheet const *sheet)
 	int const last = sheet->cols.max_used;
 
 	row_destroy_span (rinfo);
-	for (col = 0 ; col < last ; ) {
+	for (col = 0 ; col <= last ; ) {
 		cell = sheet_cell_get (sheet, col, row);
 		if (cell == NULL) {
 			/* skip segments with no cells */

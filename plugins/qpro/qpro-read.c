@@ -498,7 +498,7 @@ qpro_file_open (GnumFileOpener const *fo, IOContext *context,
 {
 	QProReadState state;
 	GsfInput *stream = NULL;
-	GsfInfile *ole = gsf_infile_msole_new (input, NULL);
+	GsfInfile *ole;
 
 	state.io_context = context;
 	state.wbv = new_wb_view;
@@ -512,7 +512,9 @@ qpro_file_open (GnumFileOpener const *fo, IOContext *context,
 		if (stream != NULL) {
 			qpro_read_workbook (&state, stream);
 			g_object_unref (G_OBJECT (stream));
-		}
+		} else
+			gnm_io_warning (context,
+				_("Unable to find the PerfectOffice_MAIN stream.  Is this really a Quattro Pro file ?"));
 		g_object_unref (G_OBJECT (ole));
 	} else
 		qpro_read_workbook (&state, input);

@@ -140,67 +140,66 @@ cb_dialog_goto_update_sensitivity (GtkWidget *dummy, GotoState *state)
 	gtk_entry_set_activates_default (entry, (val != NULL));
 }
 
+typedef struct {
+	GtkTreeIter  iter;
+	GotoState   *state;
+} LoadNames;
+
 static void
-dialog_goto_load_this_name (GnmNamedExpr *name, GtkTreeIter* iter, GotoState *state)
+cb_load_names (gpointer key, GnmNamedExpr *nexpr, LoadNames *user)
 {
+	GtkTreeIter iter;
 	char *expr_name = NULL;
 
-	if (name->pos.sheet != NULL) {
-		expr_name= g_strdup_printf ("%s!%s",
-					    name->pos.sheet->name_unquoted,
-					    name->name->str);
-	}
-	gtk_tree_store_set (state->model, iter,
-			    ITEM_NAME, expr_name ? expr_name : name->name->str,
-			    SHEET_POINTER, name->pos.sheet,
-			    EXPRESSION, name,
-			    -1);
+	gtk_tree_store_append (user->state->model, &iter, &user->iter);
+
+	if (nexpr->pos.sheet != NULL)
+		expr_name = g_strdup_printf ("%s!%s",
+					     nexpr->pos.sheet->name_unquoted,
+					     nexpr->name->str);
+	gtk_tree_store_set (user->state->model, &iter,
+		ITEM_NAME,	expr_name ? expr_name : nexpr->name->str,
+		SHEET_POINTER,	nexpr->pos.sheet,
+		EXPRESSION,	nexpr,
+		-1);
 	g_free (expr_name);
-}
-
-static void
-dialog_goto_load_these_names (GList *list, GtkTreeIter *parent, 
-			      GotoState *state)
-{
-	GList *an_expr = list;
-	GtkTreeIter iter;
-
-	while (an_expr) {
-		gtk_tree_store_append (state->model, &iter, parent);
-		dialog_goto_load_this_name (an_expr->data, &iter, state);
-		an_expr = an_expr->next;
-	}
 }
 
 static void
 dialog_goto_load_names (GotoState *state)
 {
-	GtkTreeIter iter;
+	Sheet *sheet;
+	LoadNames closure;
 	int i, l;
 
 	gtk_tree_store_clear (state->model);
 
-	gtk_tree_store_append (state->model, &iter, NULL);
-	gtk_tree_store_set (state->model, &iter,
-			    SHEET_NAME, _("Workbook Level"),
-			    ITEM_NAME, NULL,
-			    SHEET_POINTER, NULL,
-			    EXPRESSION, NULL,
+	closure.state = state;
+	gtk_tree_store_append (state->model, &closure.iter, NULL);
+	gtk_tree_store_set (state->model, &closure.iter,
+			    SHEET_NAME,		_("Workbook Level"),
+			    ITEM_NAME,		NULL,
+			    SHEET_POINTER,	NULL,
+			    EXPRESSION,		NULL,
 			    -1);
-	dialog_goto_load_these_names (state->wb->names, &iter, state);
+	if (state->wb->names != NULL)
+		g_hash_table_foreach (state->wb->names->names,
+			(GHFunc) cb_load_names, &closure);
 
 	l = workbook_sheet_count (state->wb);
-	for (i = l; i-- > 0;) {
-		Sheet *sheet = workbook_sheet_by_index (state->wb, i);
-		gtk_tree_store_append (state->model, &iter, NULL);
-		gtk_tree_store_set (state->model, &iter,
-				    SHEET_NAME, sheet->name_unquoted,
-				    ITEM_NAME, NULL,
-				    SHEET_POINTER, sheet,
-				    EXPRESSION, NULL,
+	for (i = 0; i < l; i++) {
+		sheet = workbook_sheet_by_index (state->wb, i);
+		gtk_tree_store_append (state->model, &closure.iter, NULL);
+		gtk_tree_store_set (state->model, &closure.iter,
+				    SHEET_NAME,		sheet->name_unquoted,
+				    ITEM_NAME,		NULL,
+				    SHEET_POINTER,	sheet,
+				    EXPRESSION,		NULL,
 				    -1);
-		dialog_goto_load_these_names (sheet->names, &iter, 
-					      state);
+
+		if (sheet->names != NULL)
+			g_hash_table_foreach (sheet->names->names,
+				(GHFunc) cb_load_names, &closure);
 	} 
 	
 }

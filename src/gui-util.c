@@ -338,6 +338,17 @@ gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
 	gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog));
 }
 
+static void
+cb_parent_mapped (GtkWidget *parent, GtkWindow *window)
+{
+	if (GTK_WIDGET_MAPPED (window)) {
+		gtk_window_present (window);
+		gtk_signal_disconnect_by_func (GTK_OBJECT (parent),
+			GTK_SIGNAL_FUNC (cb_parent_mapped),
+			window);
+	}
+}
+
 /**
  * gnumeric_set_transient
  * @wbcg	: The calling window
@@ -366,6 +377,11 @@ gnumeric_set_transient (WorkbookControlGUI *wbcg, GtkWindow *window)
 	if (position == GTK_WIN_POS_NONE)
 		position = GTK_WIN_POS_CENTER_ON_PARENT;
 	gtk_window_set_position(window, position);
+
+	if (!GTK_WIDGET_MAPPED (toplevel))
+		g_signal_connect_after (G_OBJECT (toplevel),
+			"map",
+			G_CALLBACK (cb_parent_mapped), window);
 }
 
 typedef struct {
@@ -1077,27 +1093,7 @@ focus_on_entry (GtkEntry *entry)
 	gtk_entry_select_region (entry, 0, entry->text_length);
 }
 
-
-
-/**
- * entry_to_float:
- * @entry:
- * @the_float:
- * update:
- *
- * retrieve a float from an entry field parsing all reasonable formats
- *
- **/
-
-
-#warning FIXME: there is really no reason to have this wrapper
-int
-entry_to_float (GtkEntry *entry, gnum_float *the_float, gboolean update)
-{
-	return entry_to_float_with_format (entry, the_float, update, NULL);
-}
-
-int
+gboolean
 entry_to_float_with_format_default (GtkEntry *entry, gnum_float *the_float, gboolean update, 
 				    StyleFormat *format, gnum_float num)
 {
@@ -1112,7 +1108,7 @@ entry_to_float_with_format_default (GtkEntry *entry, gnum_float *the_float, gboo
 
 	if (need_default && !update) {
 		*the_float = num;
-		return 0;
+		return FALSE;
 	}
 
 	if (need_default)
@@ -1121,7 +1117,7 @@ entry_to_float_with_format_default (GtkEntry *entry, gnum_float *the_float, gboo
 	return entry_to_float_with_format (entry, the_float, update, format);
 }
 
-int
+gboolean
 entry_to_float_with_format (GtkEntry *entry, gnum_float *the_float, gboolean update, 
 			    StyleFormat *format)
 {
@@ -1129,7 +1125,7 @@ entry_to_float_with_format (GtkEntry *entry, gnum_float *the_float, gboolean upd
 
 	if ((value == NULL) || !VALUE_IS_NUMBER (value)) {
 		*the_float = 0.0;
-		return 1;
+		return TRUE;
 	}
 	*the_float = value_get_as_float (value);
 	if (update) {
@@ -1139,26 +1135,26 @@ entry_to_float_with_format (GtkEntry *entry, gnum_float *the_float, gboolean upd
 	}
 
 	value_release (value);
-	return 0;
+	return FALSE;
 }
 
 /**
  * entry_to_int:
  * @entry:
  * @the_int:
- * update:
+ * @update:
  *
  * retrieve an int from an entry field parsing all reasonable formats
  *
-  **/
-int
+ **/
+gboolean
 entry_to_int (GtkEntry *entry, gint *the_int, gboolean update)
 {
 	Value *value = format_match_number (gtk_entry_get_text (entry), NULL);
 
 	if ((value == NULL) || !(value->type == VALUE_INTEGER)) {
 		*the_int = 0;
-		return 1;
+		return TRUE;
 	}
 	*the_int = value_get_as_int (value);
 	if (update) {
@@ -1168,7 +1164,7 @@ entry_to_int (GtkEntry *entry, gint *the_int, gboolean update)
 	}
 
 	value_release (value);
-	return 0;
+	return FALSE;
 }
 
 /**
@@ -1176,15 +1172,14 @@ entry_to_int (GtkEntry *entry, gint *the_int, gboolean update)
  * @entry:
  * @the_float:
  *
- *
-  **/
+ **/
 void
 float_to_entry (GtkEntry *entry, gnum_float the_float)
 {
 	char        *text      = NULL;
 	Value       *val = NULL;
 
-	val = value_new_float(the_float);
+	val = value_new_float (the_float);
 	text = format_value (NULL, val, NULL, 16);
 	if (text) {
 		gtk_entry_set_text (entry, text);
@@ -1192,7 +1187,6 @@ float_to_entry (GtkEntry *entry, gnum_float the_float)
 	}
 	if (val)
 		value_release(val);
-	return;
 }
 
 /**
@@ -1208,7 +1202,7 @@ int_to_entry (GtkEntry *entry, gint the_int)
 	char        *text      = NULL;
 	Value       *val = NULL;
 
-	val = value_new_int(the_int);
+	val = value_new_int (the_int);
 	text = format_value (NULL, val, NULL, 16);
 	if (text) {
 		gtk_entry_set_text (entry, text);

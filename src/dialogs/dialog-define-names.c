@@ -356,18 +356,12 @@ name_guru_add (NameGuruState *state)
 
 	nexpr = expr_name_lookup (&state->pp, name);
 	if (nexpr) {
-		if (!nexpr->builtin) {
-			/* This means that the expresion was updated.
-			 * FIXME: if the scope has been changed too, call scope
-			 * changed first.
-			 */
-			cmd_define_name (WORKBOOK_CONTROL (state->wbcg), name,
-					 &state->pp, expr, nexpr);
-		} else {
-			gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
-					 _("You cannot redefine a builtin name."));
-			gnm_expr_unref (expr);
-		}
+		/* This means that the expresion was updated.
+		 * FIXME: if the scope has been changed too, call scope
+		 * changed first.
+		 */
+		cmd_define_name (WORKBOOK_CONTROL (state->wbcg), name,
+				 &state->pp, expr, nexpr);
 	} else {
 		ParsePos pp;
 		parse_pos_init (&pp, NULL, state->sheet,

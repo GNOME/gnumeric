@@ -213,6 +213,9 @@ wbcg_focus_cur_scg (WorkbookControlGUI *wbcg)
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), NULL);
 
+	if (wbcg->notebook == NULL)
+		return NULL;
+
 	table = gtk_notebook_get_nth_page (wbcg->notebook,
 		gtk_notebook_get_current_page (wbcg->notebook));
 	obj = gtk_object_get_data (GTK_OBJECT (table), SHEET_CONTROL_KEY);
@@ -4576,17 +4579,18 @@ show_gui (WorkbookControlGUI *wbcg)
 	if (x_geometry && wbv && wbcg->toplevel) {
 		/* FIXME?  Check return value.  */
 		gtk_window_parse_geometry (wbcg->toplevel, x_geometry);
-	} else {
-		/* Set grid size to preferred width */
-		if (wbv && (wbv->preferred_width > 0 || wbv->preferred_height > 0)) {
-			int pwidth = wbv->preferred_width;
-			int pheight = wbv->preferred_height;
 
-			pwidth = pwidth > 0 ? pwidth : -2;
-			pheight = pheight > 0 ? pheight : -2;
-			gtk_widget_set_usize (GTK_WIDGET (wbcg->notebook),
-					      pwidth, pheight);
-		}
+	/* Set grid size to preferred width */
+	} else if (wbcg->notebook != NULL &&
+		   wbv != NULL &&
+		   (wbv->preferred_width > 0 || wbv->preferred_height > 0)) {
+		int pwidth = wbv->preferred_width;
+		int pheight = wbv->preferred_height;
+
+		pwidth = pwidth > 0 ? pwidth : -2;
+		pheight = pheight > 0 ? pheight : -2;
+		gtk_widget_set_usize (GTK_WIDGET (wbcg->notebook),
+				      pwidth, pheight);
 	}
 
 #if 0

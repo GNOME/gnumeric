@@ -1278,10 +1278,12 @@ xml_sax_named_expr_end (GsfXmlSAXState *gsf_state)
 	expr = gnm_expr_parse_str (state->name.value, &pos,
 		GNM_EXPR_PARSE_DEFAULT, gnm_1_0_rangeref_parse, &perr);
 	if (expr != NULL) {
-		char const *err = NULL;
+		char *err = NULL;
 		expr_name_add (&pos, state->name.name, expr, &err);
-		if (err != NULL)
+		if (err != NULL) {
 			gnm_io_warning (state->context, err);
+			g_free (err);
+		}
 	} else
 		state->delayed_names = g_list_prepend (state->delayed_names,
 			expr_name_add (&pos, state->name.name, 

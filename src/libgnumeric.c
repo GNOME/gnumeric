@@ -122,7 +122,6 @@ gnm_common_init (void)
 	e_cursors_init ();
 	auto_format_init ();
 	functions_init ();
-	expr_name_init ();
 	print_init ();
 	autofill_init ();
 	sheet_object_register ();
@@ -161,7 +160,6 @@ gnm_shutdown (void)
 
 	plugins_shutdown ();
 	print_shutdown ();
-	expr_name_shutdown ();
 	functions_shutdown ();
 	auto_format_shutdown ();
 	e_cursors_shutdown ();

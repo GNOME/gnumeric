@@ -108,12 +108,9 @@ cb_page_select (GtkNotebook *notebook, GtkNotebookPage *page,
 static void
 get_entry_values (AttrState *state, int *max_iterations, double *iteration_tolerance)
 {
-	char const *tmp;
-	tmp = gtk_entry_get_text (state->view.max_iterations);
-	if (tmp == NULL || 1 != sscanf (tmp, "%d", max_iterations))
+	if (!entry_to_int (state->view.max_iterations, max_iterations, TRUE))
 		*max_iterations = state->old.max_iterations;
-	tmp = gtk_entry_get_text (state->view.iteration_tolerance);
-	if (tmp == NULL || 1 != sscanf (tmp, "%lg", iteration_tolerance))
+	if (!entry_to_float (state->view.iteration_tolerance, iteration_tolerance, TRUE))
 		*iteration_tolerance = state->old.iteration_tolerance;
 }
 
@@ -158,15 +155,17 @@ cb_attr_dialog_dialog_apply (GtkWidget *button, AttrState *state)
 	state->wbv->is_protected = state->old.is_protected =
 		gtk_toggle_button_get_active (state->view.is_protected);
 
-	state->wb->recalc_auto = state->old.recalc_auto =
+	state->old.recalc_auto =
 		gtk_toggle_button_get_active (state->view.recalc_auto);
-	state->wb->iteration.enabled = state->old.iteration_enabled =
+	state->old.iteration_enabled =
 		gtk_toggle_button_get_active (state->view.iteration_enabled);
 
 	get_entry_values (state, &state->old.max_iterations,
 			  &state->old.iteration_tolerance);
-	state->wb->iteration.max_number	= state->old.max_iterations;
-	state->wb->iteration.tolerance  = state->old.iteration_tolerance;
+	workbook_autorecalc_enable	(state->wb, state->old.recalc_auto);
+	workbook_iteration_enabled	(state->wb, state->old.iteration_enabled);
+	workbook_iteration_max_number	(state->wb, state->old.max_iterations);
+	workbook_iteration_tolerance	(state->wb, state->old.iteration_tolerance);
 
 	wb_view_prefs_update (state->wbv);
 	cb_widget_changed (NULL, state);

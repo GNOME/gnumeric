@@ -768,8 +768,8 @@ link_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
 
 	case GNM_EXPR_OP_NAME:
 		expr_name_add_dep (tree->name.name, dep);
-		if (!tree->name.name->builtin && tree->name.name->active)
-			return link_expr_dep (dep, pos, tree->name.name->t.expr_tree);
+		if (tree->name.name->active)
+			return link_expr_dep (dep, pos, tree->name.name->expr_tree);
 		return DEPENDENT_NO_FLAG;
 
 	case GNM_EXPR_OP_ARRAY:
@@ -851,8 +851,8 @@ unlink_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
 
 	case GNM_EXPR_OP_NAME:
 		expr_name_remove_dep (tree->name.name, dep);
-		if (!tree->name.name->builtin && tree->name.name->active)
-			unlink_expr_dep (dep, pos, tree->name.name->t.expr_tree);
+		if (tree->name.name->active)
+			unlink_expr_dep (dep, pos, tree->name.name->expr_tree);
 		return;
 
 	case GNM_EXPR_OP_ARRAY:
@@ -912,7 +912,9 @@ workbook_unlink_3d_dep (Dependent *dep)
 {
 	Workbook *wb = dep->sheet->workbook;
 
-	g_return_if_fail (wb->sheet_order_dependents != NULL);
+	/* during destruction */
+	if (wb->sheet_order_dependents == NULL)
+		return;
 
 	if (wb->being_reordered)
 		return;
@@ -1727,12 +1729,11 @@ cb_name_invalidate (GnmNamedExpr *nexpr, gpointer value,
 {
 	GnmExpr const *new_expr = NULL;
 
-	if (!nexpr->builtin &&
-	    ((rwinfo->type == GNM_EXPR_REWRITE_SHEET &&
+	if (((rwinfo->type == GNM_EXPR_REWRITE_SHEET &&
 	     rwinfo->u.sheet != nexpr->pos.sheet) ||
 	    (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK &&
 	     rwinfo->u.workbook != nexpr->pos.wb))) {
-		new_expr = gnm_expr_rewrite (nexpr->t.expr_tree, rwinfo);
+		new_expr = gnm_expr_rewrite (nexpr->expr_tree, rwinfo);
 		g_return_if_fail (new_expr != NULL);
 	}
 	expr_name_set_expr (nexpr, new_expr, rwinfo);
@@ -1750,6 +1751,15 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 	GnmDepContainer *deps;
 
 	g_return_if_fail (IS_SHEET (sheet));
+
+	/* The GnmDepContainer contains the names that reference this, not the
+	 * names it contains.  Remove them here. NOTE : they may continue to exist
+	 * inactively for a bit.  Be careful to remove them _before_ destroying
+	 * the deps.  This is a bit wasteful in that we unlink and relink a few
+	 * things that are going to be deleted.  However, it is necessary to
+	 * catch all the different life cycles
+	 */
+	gnm_named_expr_collection_free (&sheet->names);
 
 	deps = sheet->deps;
 	if (deps == NULL)
@@ -1836,14 +1846,6 @@ sheet_deps_destroy (Sheet *sheet)
 	rwinfo.type = GNM_EXPR_REWRITE_SHEET;
 	rwinfo.u.sheet = sheet;
 
-	/* The GnmDepContainer contains the names that reference this, not the
-	 * names it contains.  Remove them here. NOTE : they may continue to exist
-	 * inactively for a bit.  Be careful to remove them _before_ destroying
-	 * the deps.  This is a bit wasteful in that we unlink and relink a few
-	 * things that are going to be deleted.  However, it is necessary to
-	 * catch all the different life cycles
-	 */
-	expr_name_list_destroy (&sheet->names);
 	do_deps_destroy (sheet, &rwinfo);
 }
 
@@ -1863,12 +1865,8 @@ workbook_deps_destroy (Workbook *wb)
 		wb->sheet_order_dependents = NULL;
 	}
 
-	/* See above for explantion */
-	expr_name_list_destroy (&wb->names);
-	WORKBOOK_FOREACH_SHEET (wb, sheet, {
-		expr_name_list_destroy (&sheet->names);
-		do_deps_destroy (sheet, &rwinfo);
-	});
+	gnm_named_expr_collection_free (&wb->names);
+	WORKBOOK_FOREACH_SHEET (wb, sheet, do_deps_destroy (sheet, &rwinfo););
 }
 
 void

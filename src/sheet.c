@@ -3907,7 +3907,6 @@ static void
 sheet_clone_names (Sheet const *src, Sheet *dst)
 {
 	static gboolean warned = FALSE;
-	GList *names;
 
 	if (src->names == NULL)
 		return;
@@ -3916,13 +3915,6 @@ sheet_clone_names (Sheet const *src, Sheet *dst)
 		g_warning ("We are not duplicating names yet. Function not implemented.");
 		warned = TRUE;
 	}
-
-	names = g_list_copy (src->names);
-#if 0	/* Feature not implemented, not cloning it yet. */
-	for (; names; names = names->next) {
-	}
-#endif
-	g_list_free (names);
 }
 
 static void

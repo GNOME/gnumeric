@@ -28,8 +28,124 @@
 
 #include <gdk/gdkkeysyms.h>
 
-/* We don't expect that many global names ! */
-static GList *global_names = NULL;
+static void
+cb_nexpr_remove (GnmNamedExpr *nexpr)
+{
+	g_return_if_fail (nexpr->active);
+
+	nexpr->active = FALSE;
+	expr_name_set_expr (nexpr, NULL, NULL);
+	expr_name_unref (nexpr);
+}
+
+static GnmNamedExprCollection *
+gnm_named_expr_collection_new (void)
+{
+	GnmNamedExprCollection *res = g_new (GnmNamedExprCollection, 1);
+
+	res->names = g_hash_table_new_full (g_str_hash, g_str_equal,
+		NULL, (GDestroyNotify) cb_nexpr_remove);
+	res->placeholders = g_hash_table_new_full (g_str_hash, g_str_equal,
+		NULL, (GDestroyNotify) cb_nexpr_remove);
+
+	return res;
+}
+
+/**
+ * gnm_named_expr_collection_free :
+ * @names : a POINTER to the collection of names
+ *
+ * Frees names in the local scope.
+ * NOTE : THIS DOES NOT INVALIDATE NAMES THAT REFER
+ *        TO THIS SCOPE.
+ *        eg
+ *           in scope sheet2 we have a name that refers
+ *           to sheet1.  That will remain!
+ **/
+void
+gnm_named_expr_collection_free (GnmNamedExprCollection **names)
+{
+	if (*names != NULL) {
+		g_hash_table_destroy ((*names)->names);
+		g_hash_table_destroy ((*names)->placeholders);
+		g_free (*names);
+		*names = NULL;
+	}
+}
+
+static GnmNamedExpr *
+gnm_named_expr_collection_lookup (GnmNamedExprCollection const *scope,
+				  char const *name)
+{
+	GnmNamedExpr *nexpr = g_hash_table_lookup (scope->names, name);
+	if (nexpr == NULL)
+		nexpr = g_hash_table_lookup (scope->placeholders, name);
+	return nexpr;
+}
+
+static void
+gnm_named_expr_collection_insert (GnmNamedExprCollection const *scope,
+				  GnmNamedExpr *nexpr)
+{
+	g_return_if_fail (!nexpr->active);
+
+	nexpr->active = TRUE;
+	g_hash_table_replace (nexpr->is_placeholder
+	      ? scope->placeholders : scope->names, nexpr->name->str, nexpr);
+}
+
+typedef struct {
+	Sheet const *sheet;
+	Range const *r;
+	GnmNamedExpr *res;
+} CheckName;
+
+static void
+cb_check_name (gpointer key, GnmNamedExpr *nexpr, CheckName *user)
+{
+	Value *v;
+
+	if (!nexpr->active)
+		return;
+
+	v = gnm_expr_get_range (nexpr->expr_tree);
+	if (v != NULL) {
+		if (v->type == VALUE_CELLRANGE) {
+			RangeRef const *ref = &v->v_range.cell;
+			if (!ref->a.col_relative &&
+			    !ref->a.row_relative &&
+			    !ref->b.col_relative &&
+			    !ref->b.row_relative &&
+			    eval_sheet (ref->a.sheet, user->sheet) == user->sheet &&
+			    eval_sheet (ref->b.sheet, user->sheet) == user->sheet &&
+			    MIN (ref->a.col, ref->b.col) == user->r->start.col &&
+			    MAX (ref->a.col, ref->b.col) == user->r->end.col &&
+			    MIN (ref->a.row, ref->b.row) == user->r->start.row &&
+			    MAX (ref->a.row, ref->b.row) == user->r->end.row)
+				user->res = nexpr;
+		}
+		value_release (v);
+	}
+}
+static GnmNamedExpr *
+gnm_named_expr_collection_check (GnmNamedExprCollection *scope,
+				 Sheet const *sheet, Range const *r)
+{
+	CheckName user;
+
+	if (scope == NULL)
+		return NULL;
+
+	user.sheet = sheet;
+	user.r	   = r;
+	user.res   = NULL;
+
+	g_hash_table_foreach (scope->names,
+		(GHFunc) cb_check_name, &user);
+	return user.res;
+}
+
+/******************************************************************************/
 
 static void
 cb_collect_name_deps (gpointer key, gpointer value, gpointer user_data)
@@ -107,7 +223,7 @@ expr_name_handle_references (GnmNamedExpr *nexpr, gboolean add)
 {
 	GSList *sheets, *ptr;
 
-	sheets = gnm_expr_referenced_sheets (nexpr->t.expr_tree);
+	sheets = gnm_expr_referenced_sheets (nexpr->expr_tree);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
 		GnmNamedExpr *found;
@@ -135,22 +251,6 @@ expr_name_handle_references (GnmNamedExpr *nexpr, gboolean add)
 }
 
 
-static GnmNamedExpr *
-expr_name_lookup_list (GList *p, char const *name)
-{
-	for (; p ; p = p->next) {
-		GnmNamedExpr *nexpr = p->data;
-		g_return_val_if_fail (nexpr != NULL, 0);
-		/* This is inconsistent with XL, but not too bad since it will
-		 * not effect import.  It is required to support Applix names
-		 * which are case sensitive.
-		 */
-		if (strcmp (nexpr->name->str, name) == 0)
-			return nexpr;
-	}
-	return NULL;
-}
-
 /**
  * expr_name_lookup:
  * @pp :
@@ -158,7 +258,6 @@ expr_name_lookup_list (GList *p, char const *name)
  *
  * lookup but do not reference a named expression.
  */
-/* FIXME : Why not use hash tables ? */
 GnmNamedExpr *
 expr_name_lookup (ParsePos const *pp, char const *name)
 {
@@ -173,12 +272,10 @@ expr_name_lookup (ParsePos const *pp, char const *name)
 		wb = (sheet != NULL) ? sheet->workbook : pp->wb;
 	}
 
-	if (sheet != NULL)
-		res = expr_name_lookup_list (sheet->names, name);
-	if (res == NULL && wb != NULL)
-		res = expr_name_lookup_list (wb->names, name);
-	if (res == NULL)
-		res = expr_name_lookup_list (global_names, name);
+	if (sheet != NULL && sheet->names != NULL)
+		res = gnm_named_expr_collection_lookup (sheet->names, name);
+	if (res == NULL && wb != NULL && wb->names != NULL)
+		res = gnm_named_expr_collection_lookup (wb->names, name);
 	return res;
 }
 
@@ -187,8 +284,8 @@ expr_name_lookup (ParsePos const *pp, char const *name)
  * 
  * Creates a new name without linking it into any container.
  */
-GnmNamedExpr *
-expr_name_new (char const *name, gboolean builtin)
+static GnmNamedExpr *
+expr_name_new (char const *name, gboolean is_placeholder)
 {
 	GnmNamedExpr *nexpr;
 
@@ -196,12 +293,12 @@ expr_name_new (char const *name, gboolean builtin)
 
 	nexpr = g_new0 (GnmNamedExpr,1);
 
-	nexpr->ref_count = 1;
-	nexpr->builtin = builtin;
-	nexpr->active  = FALSE;
-	nexpr->name    = string_get (name);
-	nexpr->t.expr_tree = NULL;
-	nexpr->dependents  = NULL;
+	nexpr->ref_count	= 1;
+	nexpr->active		= FALSE;
+	nexpr->name		= string_get (name);
+	nexpr->expr_tree	= NULL;
+	nexpr->dependents	= NULL;
+	nexpr->is_placeholder	= is_placeholder;
 
 	g_return_val_if_fail (nexpr->name != NULL, NULL);
 
@@ -227,14 +324,11 @@ name_refer_circular (char const *name, GnmExpr const *expr)
 		return name_refer_circular (name, expr->unary.value);
 	case GNM_EXPR_OP_NAME: {
 		GnmNamedExpr const *nexpr = expr->name.name;
-		if (nexpr->builtin)
-			return FALSE;
-
 		if (!strcmp (nexpr->name->str, name))
 			return TRUE;
 
 		/* And look inside this name tree too */
-		return name_refer_circular (name, nexpr->t.expr_tree);
+		return name_refer_circular (name, nexpr->expr_tree);
 	}
 	case GNM_EXPR_OP_FUNCALL: {
 		GnmExprList *l = expr->func.arg_list;
@@ -266,55 +360,74 @@ name_refer_circular (char const *name, GnmExpr const *expr)
  * @error_msg:
  *
  * Absorbs the reference to @expr.
+ * If @error_msg is non NULL it may hold a pointer to a translated descriptive
+ * string.  NOTE : caller is responsible for freeing the error message.
  **/
 GnmNamedExpr *
 expr_name_add (ParsePos const *pp, char const *name,
-	       GnmExpr const *expr, char const **error_msg)
+	       GnmExpr const *expr, char **error_msg)
 {
 	GnmNamedExpr *nexpr;
-	GList **scope = NULL;
+	GnmNamedExprCollection *scope = NULL;
 
 	g_return_val_if_fail (pp != NULL, NULL);
+	g_return_val_if_fail (pp->sheet != NULL || pp->wb != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
 
-	/* create a placeholder */
-	if (expr == NULL)
-		expr = gnm_expr_new_constant (value_new_error (NULL,
-			gnumeric_err_NAME));
+	if (expr != NULL && name_refer_circular (name, expr)) {
+		gnm_expr_unref (expr);
+		if (error_msg)
+			*error_msg = g_strdup_printf (_("'%s' has a circular reference"), name);
+		return NULL;
+	}
 
-/*	printf ("Adding name '%s' to %p %p\n", name, wb, sheet);*/
 	if (pp->sheet != NULL) {
-		scope = &(pp->sheet->names);
-		if (error_msg)
-			*error_msg = _("already defined in sheet");
-	} else if (pp->wb != NULL) {
-		scope = &(pp->wb->names);
-		if (error_msg)
-			*error_msg = _("already defined in workbook");
+		if (pp->sheet->names == NULL)
+			pp->sheet->names = gnm_named_expr_collection_new ();
+		scope = pp->sheet->names;
 	} else {
-		scope = &global_names;
-		if (error_msg)
-			*error_msg = _("already globally defined ");
+		if (pp->wb->names == NULL)
+			pp->wb->names = gnm_named_expr_collection_new ();
+		scope = pp->wb->names;
 	}
 
-	if (expr_name_lookup_list (*scope, name) != NULL) {
-		gnm_expr_unref (expr);
-		return NULL;
-	} else if (name_refer_circular (name, expr)) {
-		gnm_expr_unref (expr);
-		*error_msg = _("'%s' has a circular reference");
-		return NULL;
+	/* see if there was a place holder */
+	nexpr = g_hash_table_lookup (scope->placeholders, name);
+	if (nexpr != NULL) {
+		if (expr == NULL) {
+			/* there was already a placeholder for this */
+			expr_name_ref (nexpr);
+			return nexpr;
+		}
+
+		/* convert the placeholder into a real name */
+		g_hash_table_remove (scope->placeholders, nexpr->name);
+		nexpr->is_placeholder = FALSE;
+	} else {
+		nexpr = g_hash_table_lookup (scope->names, name);
+		if (nexpr != NULL) {
+			if (error_msg != NULL) {
+				*error_msg = (pp->sheet != NULL)
+					? g_strdup_printf (_("'%s' is already defined in sheet"), name)
+					: g_strdup_printf (_("'%s' is already defined in workbook"), name);
+			}
+			gnm_expr_unref (expr);
+			return NULL;
+		}
 	}
+
 	if (error_msg)
 		*error_msg = NULL;
 
-	nexpr = expr_name_new (name, FALSE);
+	if (nexpr == NULL)
+		nexpr = expr_name_new (name, expr == NULL);
 	parse_pos_init (&nexpr->pos,
-			pp->wb, pp->sheet, pp->eval.col, pp->eval.row);
+		pp->wb, pp->sheet, pp->eval.col, pp->eval.row);
+	if (expr == NULL)
+		expr = gnm_expr_new_constant (value_new_error (NULL,
+			gnumeric_err_NAME));
 	expr_name_set_expr (nexpr, expr, NULL);
-
-	*scope = g_list_append (*scope, nexpr);
-	nexpr->active = TRUE;
+	gnm_named_expr_collection_insert (scope, nexpr);
 
 	return nexpr;
 }
@@ -342,7 +455,7 @@ expr_name_unref (GnmNamedExpr *nexpr)
 		nexpr->name = NULL;
 	}
 
-	if (!nexpr->builtin && nexpr->t.expr_tree != NULL)
+	if (nexpr->expr_tree != NULL)
 		expr_name_set_expr (nexpr, NULL, NULL);
 
 	if (nexpr->dependents != NULL) {
@@ -367,56 +480,23 @@ expr_name_unref (GnmNamedExpr *nexpr)
 void
 expr_name_remove (GnmNamedExpr *nexpr)
 {
+	GnmNamedExprCollection *scope;
+
 	g_return_if_fail (nexpr != NULL);
+	g_return_if_fail (nexpr->pos.sheet != NULL || nexpr->pos.wb != NULL);
 	g_return_if_fail (nexpr->active);
 
-	if (nexpr->pos.sheet) {
-		Sheet *sheet = nexpr->pos.sheet;
-		g_return_if_fail (g_list_find (sheet->names, nexpr) != NULL);
-		sheet->names = g_list_remove (sheet->names, nexpr);
-	} else if (nexpr->pos.wb) {
-		Workbook *wb = nexpr->pos.wb;
-		g_return_if_fail (g_list_find (wb->names, nexpr) != NULL);
-		wb->names = g_list_remove (wb->names, nexpr);
-	} else {
-		g_return_if_fail (g_list_find (global_names, nexpr) != NULL);
-		global_names = g_list_remove (global_names, nexpr);
-	}
+	scope = (nexpr->pos.sheet != NULL)
+		? nexpr->pos.sheet->names : nexpr->pos.wb->names;
+
+	g_return_if_fail (scope != NULL);
+
+	g_hash_table_remove (
+		nexpr->is_placeholder ? scope->placeholders : scope->names,
+		nexpr->name->str);
 	nexpr->active = FALSE;
 	expr_name_set_expr (nexpr, NULL, NULL);
 	expr_name_unref (nexpr);
-}
-
-/**
- * expr_name_list_destroy :
- * @names : a POINTER to the list of names
- *
- * Frees names in the local scope.
- * NOTE : THIS DOES NOT INVALIDATE NAMES THAT REFER
- *        TO THIS SCOPE.
- *        eg
- *           in scope sheet2 we have a name that refers
- *           to sheet1.  That will remain!
- **/
-void
-expr_name_list_destroy (GList **names)
-{
-	GList *ptr, *list = *names;
-
-	*names = NULL;
-	for (ptr = list ; ptr != NULL ; ) {
-		GnmNamedExpr *nexpr = ptr->data;
-		ptr = ptr->next;
-		if (nexpr->active) {
-			nexpr->active = FALSE;
-			if (!nexpr->builtin)
-				expr_name_set_expr (nexpr, NULL, NULL);
-			expr_name_unref (nexpr);
-		} else {
-			g_warning ("problem with named expressions");
-		}
-	}
-	g_list_free (list);
 }
 
 /**
@@ -429,12 +509,9 @@ expr_name_list_destroy (GList **names)
 char *
 expr_name_as_string (GnmNamedExpr const *nexpr, ParsePos const *pp)
 {
-	if (nexpr->builtin)
-		return g_strdup (_("Builtin"));
-
 	if (pp == NULL)
 		pp = &nexpr->pos;
-	return gnm_expr_as_string (nexpr->t.expr_tree, pp);
+	return gnm_expr_as_string (nexpr->expr_tree, pp);
 }
 
 Value *
@@ -446,15 +523,7 @@ expr_name_eval (GnmNamedExpr const *nexpr, EvalPos const *pos,
 	if (!nexpr)
 		return value_new_error (pos, gnumeric_err_NAME);
 
-	if (nexpr->builtin) {
-		FunctionEvalInfo ei;
-		ei.pos = pos;
-		ei.func_call = NULL; /* FIXME : This is ugly. why are there
-					no descriptors for builtins */
-		return (*nexpr->t.expr_func) (&ei, NULL);
-	}
-
-	return gnm_expr_eval (nexpr->t.expr_tree, pos, flags);
+	return gnm_expr_eval (nexpr->expr_tree, pos, flags);
 }
 
 /*******************************************************************
@@ -470,30 +539,25 @@ expr_name_eval (GnmNamedExpr const *nexpr, EvalPos const *pos,
 gboolean
 expr_name_set_scope (GnmNamedExpr *nexpr, Sheet *sheet)
 {
-	Workbook *wb;
+	GnmNamedExprCollection *scope;
 
 	g_return_val_if_fail (nexpr != NULL, FALSE);
+	g_return_val_if_fail (nexpr->pos.sheet != NULL || nexpr->pos.wb != NULL, FALSE);
+	g_return_val_if_fail (nexpr->active, FALSE);
 
-	if (sheet == NULL) {
-		g_return_val_if_fail (IS_SHEET (nexpr->pos.sheet), FALSE);
+	scope = (nexpr->pos.sheet != NULL)
+		? nexpr->pos.sheet->names : nexpr->pos.wb->names;
 
-		sheet->names = g_list_remove (nexpr->pos.sheet->names, nexpr);
+	g_return_val_if_fail (scope != NULL, FALSE);
 
-		wb = nexpr->pos.sheet->workbook;
-		wb->names    = g_list_prepend (wb->names, nexpr);
-		nexpr->pos.wb = wb;
-		nexpr->pos.sheet = NULL;
-	} else {
-		g_return_val_if_fail (nexpr->pos.sheet == NULL, FALSE);
-		g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+	g_hash_table_remove (
+		nexpr->is_placeholder ? scope->placeholders : scope->names,
+		nexpr->name->str);
 
-		wb = sheet->workbook;
-		nexpr->pos.wb = NULL;
-		nexpr->pos.sheet = sheet;
-		wb->names    = g_list_remove (wb->names, nexpr);
-		sheet->names = g_list_prepend (sheet->names, nexpr);
-	}
-	workbook_set_dirty (wb, TRUE);
+	nexpr->pos.sheet = sheet;
+
+	scope = (sheet != NULL) ? sheet->names : nexpr->pos.wb->names;
+	gnm_named_expr_collection_insert (scope, nexpr);
 
 	return TRUE;
 }
@@ -513,16 +577,15 @@ expr_name_set_expr (GnmNamedExpr *nexpr, GnmExpr const *new_expr,
 	GSList *deps = NULL;
 
 	g_return_if_fail (nexpr != NULL);
-	g_return_if_fail (!nexpr->builtin);
 
-	if (new_expr == nexpr->t.expr_tree)
+	if (new_expr == nexpr->expr_tree)
 		return;
-	if (nexpr->t.expr_tree != NULL) {
+	if (nexpr->expr_tree != NULL) {
 		deps = expr_name_unlink_deps (nexpr);
 		expr_name_handle_references (nexpr, FALSE);
-		gnm_expr_unref (nexpr->t.expr_tree);
+		gnm_expr_unref (nexpr->expr_tree);
 	}
-	nexpr->t.expr_tree = new_expr;
+	nexpr->expr_tree = new_expr;
 	expr_name_link_deps (deps, rwinfo);
 
 	if (new_expr != NULL)
@@ -557,15 +620,14 @@ gboolean
 expr_name_is_placeholder (GnmNamedExpr const *nexpr)
 {
 	g_return_val_if_fail (nexpr != NULL, FALSE);
-	return !nexpr->builtin &&
-		gnm_expr_is_err (nexpr->t.expr_tree, gnumeric_err_NAME);
+	return gnm_expr_is_err (nexpr->expr_tree, gnumeric_err_NAME);
 }
 
 int
-expr_name_by_name (const GnmNamedExpr *a, const GnmNamedExpr *b)
+expr_name_by_name (GnmNamedExpr const *a, GnmNamedExpr const *b)
 {
-	const Sheet *sheeta = a->pos.sheet;
-	const Sheet *sheetb = b->pos.sheet;
+	Sheet const *sheeta = a->pos.sheet;
+	Sheet const *sheetb = b->pos.sheet;
 	int res = 0;
 
 	if (sheeta != sheetb) {
@@ -586,72 +648,6 @@ expr_name_by_name (const GnmNamedExpr *a, const GnmNamedExpr *b)
 	return res;
 }
 
-/* ---------------------------------------------------------------------- */
-
-static Value *
-name_print_area (FunctionEvalInfo *ei, Value **args)
-{
-	if (!ei || !ei->pos->sheet)
-		return value_new_error (ei->pos, _("Error: no sheet"));
-	else {
-		Range r = sheet_get_extent (ei->pos->sheet, FALSE);
-		sheet_style_get_extent (ei->pos->sheet, &r);
-		return value_new_cellrange_r (ei->pos->sheet, &r);
-	}
-}
-
-static Value *
-name_sheet_title (FunctionEvalInfo *ei, Value **args)
-{
-	if (!ei || !ei->pos->sheet || !ei->pos->sheet->name_quoted)
-		return value_new_error (ei->pos, _("Error: no sheet"));
-	else
-		return value_new_string (ei->pos->sheet->name_quoted);
-}
-
-static struct {
-	gchar const *name;
-	GnmFuncArgs fn;
-} const builtins[] =
-{
-	/* Consolidate_Area
-	   Auto_Open
-	   Auto_Close
-	   Extract
-	   Database	just a standard name, no associated range
-	   Criteria*/
-	{ "Print_Area", name_print_area },
-/*	   Print_Titles
-	   Recorder
-	   Data_Form
-	   Auto_Activate
-	   Auto_Deactivate */
-	{ "Sheet_Title", name_sheet_title },
-	{ NULL, NULL }
-};
-
-/* See: S59DA9.HTM for compatibility */
-void
-expr_name_init (void)
-{
-	int lp = 0;
-
-	/* Not in global function table though ! */
-	for (; builtins[lp].name ; lp++) {
-		GnmNamedExpr *nexpr;
-		nexpr = expr_name_new (builtins[lp].name, TRUE);
-		nexpr->t.expr_func = builtins[lp].fn;
-		nexpr->active = TRUE;
-		global_names = g_list_append (global_names, nexpr);
-	}
-}
-
-void
-expr_name_shutdown (void)
-{
-	expr_name_list_destroy (&global_names);
-}
-
 /******************************************************************************/
 /**
  * sheet_names_get_available :
@@ -661,47 +657,26 @@ expr_name_shutdown (void)
  * The caller is responsible for freeing the list.
  * Names in the list do NOT have additional references added.
  */
+static void
+cb_get_names (gpointer key, GnmExprName *nexpr, GList **accum)
+{
+	*accum = g_list_prepend (*accum, nexpr);
+}
+
 GList *
 sheet_names_get_available (Sheet const *sheet)
 {
+	GList *res = NULL;
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 
-	return g_list_concat (g_list_copy (sheet->names),
-			      g_list_copy (sheet->workbook->names));
-}
+	if (sheet->names != NULL)
+		g_hash_table_foreach (sheet->names->names,
+			(GHFunc) cb_get_names, &res);
+	if (sheet->workbook->names != NULL)
+		g_hash_table_foreach (sheet->workbook->names->names,
+			(GHFunc) cb_get_names, &res);
 
-static char const *
-namelist_check (GList *ptr, Sheet const *sheet, Range const *r)
-{
-	Value *v;
-	GnmNamedExpr *nexpr;
-
-	for (; ptr != NULL ; ptr = ptr->next) {
-		nexpr = ptr->data;
-		if (!nexpr->active || nexpr->builtin)
-			continue;
-		v = gnm_expr_get_range (nexpr->t.expr_tree);
-		if (v != NULL) {
-			if (v->type == VALUE_CELLRANGE) {
-				RangeRef const *ref = &v->v_range.cell;
-				if (!ref->a.col_relative &&
-				    !ref->a.row_relative &&
-				    !ref->b.col_relative &&
-				    !ref->b.row_relative &&
-				    eval_sheet (ref->a.sheet, sheet) == sheet &&
-				    eval_sheet (ref->b.sheet, sheet) == sheet &&
-				    MIN (ref->a.col, ref->b.col) == r->start.col &&
-				    MAX (ref->a.col, ref->b.col) == r->end.col &&
-				    MIN (ref->a.row, ref->b.row) == r->start.row &&
-				    MAX (ref->a.row, ref->b.row) == r->end.row) {
-					value_release (v);
-					return nexpr->name->str;
-				}
-			}
-			value_release (v);
-		}
-	}
-	return NULL;
+	return res;
 }
 
 /**
@@ -715,7 +690,7 @@ namelist_check (GList *ptr, Sheet const *sheet, Range const *r)
 char const *
 sheet_names_check (Sheet const *sheet, Range const *r)
 {
-	char const *res;
+	GnmNamedExpr *nexpr;
 	Range tmp;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -723,8 +698,10 @@ sheet_names_check (Sheet const *sheet, Range const *r)
 
 	tmp = *r;
 	range_normalize (&tmp);
-	res = namelist_check (sheet->workbook->names, sheet, &tmp);
-	if (res != NULL)
-		return res;
-	return namelist_check (sheet->names, sheet, &tmp);
+	nexpr = gnm_named_expr_collection_check (sheet->names, sheet, &tmp);
+	if (nexpr == NULL)
+		nexpr = gnm_named_expr_collection_check (sheet->workbook->names, sheet, &tmp);
+
+	return (nexpr != NULL) ? nexpr->name->str : NULL;
 }
+

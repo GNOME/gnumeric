@@ -189,8 +189,8 @@ function_category_compare (gconstpointer a, gconstpointer b)
 	GnmFuncGroup const *cat_a = a;
 	GnmFuncGroup const *cat_b = b;
 
-	return g_utf8_collate (cat_a->display_name,
-			       cat_b->display_name);
+	return g_utf8_collate (cat_a->display_name->str,
+			       cat_b->display_name->str);
 }
 
 GnmFuncGroup *

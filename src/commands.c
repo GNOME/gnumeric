@@ -5264,7 +5264,7 @@ cmd_define_name_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	CmdDefineName *me = CMD_DEFINE_NAME (cmd);
 	GnmExpr const *expr;
 
-	expr = me->nexpr->t.expr_tree;
+	expr = me->nexpr->expr_tree;
 	gnm_expr_ref (expr);
 
 	if (me->create_name) {
@@ -5284,16 +5284,17 @@ cmd_define_name_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	CmdDefineName *me = CMD_DEFINE_NAME (cmd);
 
 	if (me->nexpr == NULL) { /* create a new name */
-		char const *err = NULL;
+		char *err = NULL;
 		me->nexpr = expr_name_add (&me->pp, me->name, me->expr, &err);
 		if (me->nexpr == NULL) {
 			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), _("Name"), err);
+			g_free (err);
 			return TRUE;
 		}
 		expr_name_ref (me->nexpr);
 		me->expr = NULL;
 	} else {/* assigning a value to a placeholder */
-		GnmExpr const *tmp = me->nexpr->t.expr_tree;
+		GnmExpr const *tmp = me->nexpr->expr_tree;
 
 		gnm_expr_ref (tmp);
 		expr_name_set_expr (me->nexpr, me->expr, NULL);

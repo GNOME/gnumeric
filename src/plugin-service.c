@@ -600,41 +600,37 @@ gnum_plugin_file_opener_open (GnumFileOpener const *fo, IOContext *io_context,
 {
 	GnumPluginFileOpener *pfo = GNUM_PLUGIN_FILE_OPENER (fo);
 	PluginServiceFileOpener *service_file_opener = GNM_PLUGIN_SERVICE_FILE_OPENER (pfo->service);
+	InputFileSaveInfo *save_info;
 	ErrorInfo *error = NULL;
 
 	g_return_if_fail (GSF_IS_INPUT (input));
 
 	plugin_service_load (pfo->service, &error);
-	if (error == NULL) {
-		g_return_if_fail (service_file_opener->cbs.plugin_func_file_open != NULL);
-		service_file_opener->cbs.plugin_func_file_open (fo, pfo->service, io_context, wbv, input);
-		if (!gnumeric_io_error_occurred (io_context)) {
-			if (service_file_opener->save_info != NULL) {
-				InputFileSaveInfo *save_info;
-
-				save_info = service_file_opener->save_info;
-				if (save_info->saver_id_str[0] == '\0') {
-					workbook_set_saveinfo (wb_view_workbook (wbv), gsf_input_name (input),
-					                       save_info->format_level, NULL);
-				} else {
-					GHashTable *file_savers_hash;
-					GnumFileSaver *saver;
-
-					file_savers_hash = get_plugin_file_savers_hash (pfo->service->plugin);
-					saver = (GnumFileSaver *) g_hash_table_lookup (file_savers_hash,
-					                                           save_info->saver_id_str);
-					if (saver != NULL) {
-						workbook_set_saveinfo (wb_view_workbook (wbv), gsf_input_name (input),
-						                       save_info->format_level, saver);
-					}
-				}
-			}
-		}
-	} else {
+	if (error != NULL) {
 		gnumeric_io_error_info_set (io_context, error);
 		gnumeric_io_error_push (io_context, error_info_new_str (
 		                        _("Error while reading file.")));
+		return;
 	}
+	g_return_if_fail (service_file_opener->cbs.plugin_func_file_open != NULL);
+
+	/* Set the saver info before we load so that the nascent
+	 * workbook has a reasonable file name
+	 */
+	save_info = service_file_opener->save_info;
+	if (save_info != NULL) {
+		GnumFileSaver	  *saver = NULL;
+
+		if (save_info->saver_id_str[0] != '\0') {
+			GHashTable *savers = get_plugin_file_savers_hash (pfo->service->plugin);
+			saver = g_hash_table_lookup (savers, save_info->saver_id_str);
+		}
+
+		workbook_set_saveinfo (wb_view_workbook (wbv),
+			gsf_input_name (input), save_info->format_level, saver);
+	}
+
+	service_file_opener->cbs.plugin_func_file_open (fo, pfo->service, io_context, wbv, input);
 }
 
 static void

@@ -25,8 +25,7 @@ struct _Sheet {
 
 	GHashTable  *cell_hash;	/* The cells in hashed format */
 
-	/* User defined names */
-	GList      *names;
+	GnmNamedExprCollection *names;
 
 	double      last_zoom_factor_used;
 

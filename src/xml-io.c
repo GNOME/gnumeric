@@ -760,10 +760,12 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 			GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS,
 			gnm_1_0_rangeref_parse, &perr);
 		if (exp != NULL) {
-			char const *err = NULL;
+			char *err = NULL;
 			expr_name_add (&pp, (char const *)name_str, expr, &err);
-			if (err != NULL)
+			if (err != NULL) {
 				gnm_io_warning (ctxt->io_context, err);
+				g_free (err);
+			}
 		} else
 			gnm_io_warning (ctxt->io_context, perr.err->message);
 		parse_error_free (&perr);

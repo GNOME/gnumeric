@@ -267,6 +267,32 @@ workbook_is_dirty (Workbook const *wb)
 	return dirty;
 }
 
+/**
+ * workbook_set_placeholder :
+ * @wb :
+ * @is_placeholder :
+ **/
+void
+workbook_set_placeholder (Workbook *wb, gboolean is_placeholder)
+{
+	g_return_if_fail (IS_WORKBOOK (wb));
+	wb->is_placeholder = is_placeholder;
+}
+
+/**
+ * workbook_is_placeholder :
+ * @wb :
+ *
+ * Returns TRUE if @wb has no views and was created as a placeholder for data
+ * in an external reference.
+ **/
+gboolean
+workbook_is_placeholder	(Workbook const *wb)
+{
+	g_return_val_if_fail (IS_WORKBOOK (wb), FALSE);
+	return wb->is_placeholder;
+}
+
 static void
 cb_sheet_check_pristine (gpointer key, gpointer value, gpointer user_data)
 {
@@ -311,6 +337,9 @@ static void
 workbook_init (GObject *object)
 {
 	Workbook *wb = WORKBOOK (object);
+
+	wb->is_placeholder = FALSE;
+	wb->modified	   = FALSE;
 
 	wb->wb_views = NULL;
 	wb->sheets = g_ptr_array_new ();
@@ -634,11 +663,11 @@ workbook_foreach_cell_in_range (EvalPos const *pos,
 		Workbook const *wb = start_sheet->workbook;
 		int i = start_sheet->index_in_wb;
 		int stop = end_sheet->index_in_wb;
-		if (i < stop) { int tmp = i; i = stop ; stop = tmp; }
+		if (i > stop) { int tmp = i; i = stop ; stop = tmp; }
 
 		g_return_val_if_fail (end_sheet->workbook == wb, VALUE_TERMINATE);
 
-		while (i <= stop) {
+		for (; i <= stop ; i++) {
 			res = sheet_foreach_cell_in_range (
 				g_ptr_array_index (wb->sheets, i), flags,
 				r.start.col, r.start.row, r.end.col, r.end.row,
@@ -702,6 +731,13 @@ workbook_enable_recursive_dirty (Workbook *wb, gboolean enable)
 	old = wb->recursive_dirty_enabled;
 	wb->recursive_dirty_enabled = enable;
 	return old;
+}
+
+void
+workbook_autorecalc_enable (Workbook *wb, gboolean enable)
+{
+	g_return_if_fail (IS_WORKBOOK (wb));
+	wb->recalc_auto = enable;
 }
 
 void

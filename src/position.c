@@ -309,5 +309,5 @@ rangeref_normalize (RangeRef const *ref, EvalPos const *ep,
 	range_normalize (dest);
 
 	*start_sheet = eval_sheet (ref->a.sheet, ep->sheet);
-	*end_sheet = eval_sheet (ref->b.sheet, ep->sheet);
+	*end_sheet = eval_sheet (ref->b.sheet, *start_sheet);
 }

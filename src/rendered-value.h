@@ -24,8 +24,9 @@ struct _RenderedValue {
 	 * Computed sizes of rendered text.
 	 * In pixels EXCLUSIVE of margins and grid lines
 	 */
-	short         width_pixel, height_pixel, offset_pixel;
-	gboolean      dynamic_width;
+	gboolean	dynamic_width;
+	int		width_pixel;
+	short		height_pixel, offset_pixel;
 };
 
 RenderedValue * rendered_value_new           (Cell *cell, MStyle const *mstyle,

@@ -248,7 +248,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 			Value    *val;
 			gboolean  dummy, valid;
 
-			eval_pos_init_cell (&ep, cell),
+			eval_pos_init_cell (&ep, cell);
 			val = gnm_expr_eval (expr, &ep, GNM_EXPR_EVAL_SCALAR_NON_EMPTY);
 			valid = value_get_as_bool (val, &dummy);
 			value_release (val);
@@ -263,6 +263,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 			    v->op == VALIDATION_OP_NOT_BETWEEN) {
 				g_return_val_if_fail (v->expr[1] != NULL, VALIDATION_STATUS_VALID);
 
+				gnm_expr_ref (val_expr);
 				gnm_expr_ref (v->expr[1]);
 				gnm_expr_unref (expr);
 				expr = gnm_expr_new_binary (val_expr,

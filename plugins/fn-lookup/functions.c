@@ -480,8 +480,8 @@ restart :
 	}
 
 	case GNM_EXPR_OP_NAME:
-		if (expr->name.name->active && !expr->name.name->builtin) {
-			expr = expr->name.name->t.expr_tree;
+		if (expr->name.name->active) {
+			expr = expr->name.name->expr_tree;
 			goto restart;
 		}
 		break;

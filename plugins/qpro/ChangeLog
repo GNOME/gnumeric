@@ -1,3 +1,8 @@
+2002-10-19  Jody Goldberg <jody@gnome.org>
+
+	* qpro-read.c (qpro_file_open) : fix leaked infile and improve error
+	  handling.
+
 2002-09-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.9

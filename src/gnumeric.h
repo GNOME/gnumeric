@@ -47,7 +47,7 @@ typedef struct _ValueArray		ValueArray;
 typedef struct _RenderedValue		RenderedValue;
 
 typedef GSList 				GnmExprList;
-typedef union _GnmExpr	 		GnmExpr;
+typedef union  _GnmExpr	 		GnmExpr;
 typedef struct _GnmExprConstant		GnmExprConstant;
 typedef struct _GnmExprFunction		GnmExprFunction;
 typedef struct _GnmExprUnary		GnmExprUnary;
@@ -56,9 +56,12 @@ typedef struct _GnmExprName		GnmExprName;
 typedef struct _GnmExprCellRef		GnmExprCellRef;
 typedef struct _GnmExprArray		GnmExprArray;
 typedef struct _GnmExprSet		GnmExprSet;
+
 typedef struct _GnmExprRelocateInfo	GnmExprRelocateInfo;
 typedef struct _GnmExprRewriteInfo 	GnmExprRewriteInfo;
+
 typedef struct _GnmNamedExpr		GnmNamedExpr;
+typedef struct _GnmNamedExprCollection	GnmNamedExprCollection;
 
 typedef struct _PasteTarget		PasteTarget;
 typedef struct _CellRegion		CellRegion;
