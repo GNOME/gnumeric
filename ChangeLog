@@ -1,5 +1,8 @@
 2004-10-26  Morten Welinder  <terra@gnome.org>
 
+	* src/mathfunc.c (pgamma): Fix various accuracy problems for
+	extreme cases.
+
 	* Makefile.am (gnumeric.desktop): Use %U or %F for Exec as
 	appropritate.
 

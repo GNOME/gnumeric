@@ -80,9 +80,6 @@ calculate_loggos (gnm_float traffic, gnm_float circuits)
 		circuits * (loggnum (traffic / (circuits + 1)));
 #endif
 
-	/* FIXME: our pgamma implementation goes bad at alpha==100000
-	 * (exact).  The log-result jumps 70000!
-	 */
 	return f - pgamma (traffic, circuits + 1, 1, FALSE, TRUE);
 }
 

@@ -1322,6 +1322,8 @@ gnm_float dgamma(gnm_float x, gnm_float shape, gnm_float scale, gboolean give_lo
  *  Copyright (C) 2003-2004     The R Foundation
  *  based on AS 239 (C) 1988 Royal Statistical Society
  *
+ *  Modified 2004 by Morten Welinder
+ *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
@@ -1363,12 +1365,145 @@ gnm_float dgamma(gnm_float x, gnm_float shape, gnm_float scale, gboolean give_lo
  *	Applied Statistics 37, 1988.
  */
 
+
+/*
+ * Abramowitz and Stegun 6.5.29
+ */
+static gnm_float
+pgamma_series_sum (gnm_float x, gnm_float alph)
+{
+     gnm_float sum = 0, c = 1, a = alph;
+
+     do {
+	  a += 1.;
+	  c *= x / a;
+	  sum += c;
+     } while (c > GNUM_EPSILON * sum);
+
+     return sum;
+}
+
+/*
+ * Abramowitz and Stegun 6.5.31
+ */
+static gnm_float
+pgamma_cont_frac (gnm_float x, gnm_float alph)
+{
+     gnm_float a, b, n, an, pn1, pn2, pn3, pn4, pn5, pn6, sum, osum;
+     gnm_float xlarge = powgnum (2, 128);
+
+     a = 1. - alph;
+     b = a + x + 1.;
+     pn1 = 1.;
+     pn2 = x;
+     pn3 = x + 1.;
+     pn4 = x * b;
+     sum = pn3 / pn4;
+     for (n = 1; ; n++) {
+	  a += 1.;/* =   n+1 -alph */
+	  b += 2.;/* = 2(n+1)-alph+x */
+	  an = a * n;
+	  pn5 = b * pn3 - an * pn1;
+	  pn6 = b * pn4 - an * pn2;
+	  if (gnumabs(pn6) > 0.) {
+	       osum = sum;
+	       sum = pn5 / pn6;
+	       if (gnumabs(osum - sum) <= GNUM_EPSILON * fmin2(1., sum))
+		    break;
+	  }
+	  pn1 = pn3;
+	  pn2 = pn4;
+	  pn3 = pn5;
+	  pn4 = pn6;
+	  if (gnumabs(pn5) >= xlarge) {
+	       /* re-scale the terms in continued fraction if they are large */
+#ifdef DEBUG_p
+	       REprintf(" [r] ");
+#endif
+	       pn1 /= xlarge;
+	       pn2 /= xlarge;
+	       pn3 /= xlarge;
+	       pn4 /= xlarge;
+	  }
+     }
+
+     return sum;
+}
+
+
+gnm_float pgamma(gnm_float x, gnm_float alph, gnm_float scale, gboolean lower_tail, gboolean log_p)
+{
+     gnm_float arg;
+
+#ifdef IEEE_754
+     if (isnangnum(x) || isnangnum(alph) || isnangnum(scale))
+	  return x + alph + scale;
+#endif
+     if(alph <= 0. || scale <= 0.)
+	  ML_ERR_return_NAN;
+     if (x <= 0.)
+	  return R_DT_0;
+     x /= scale;
+#ifdef IEEE_754
+     if (isnangnum(x)) /* eg. original x = scale = +Inf */
+	  return x;
+#endif
+
+     if (x < 0.99 * (alph + 1000) && x < 10 + alph && x < 10 * alph) {
+	  /*
+	   * The first condition makes sure that terms in the sum get at
+	   * least 1% smaller, no later than after 1000 terms.
+	   *
+	   * The second condition makes sure that the terms start getting
+	   * smaller (even if just a tiny bit) after no more than 10 terms.
+	   *
+	   * The third condition makes sure that the terms don't get huge
+	   * before they start getting smaller.
+	   */
+	  gnm_float C1mls2p = /* 1 - loggnum (sqrtgnum (2 * M_PIgnum)) */
+	       GNM_const(0.081061466795327258219670263594382360138602526362216587182846);
+	  gnm_float logsum = log1pgnum (pgamma_series_sum (x, alph));
+	  /*
+	   * The first two terms here would cause cancellation for extremely
+	   * large and near-equal x and alph.  The first condition above
+	   * prevents that.
+	   */
+	  arg = (alph - x) + alph * loggnum (x / (alph + 1)) + C1mls2p -
+	       log1pgnum (alph) / 2 - stirlerr (alph + 1) + logsum;
+     } else if (alph < x && alph - 100 < 0.99 * x) {
+	  /*
+	   * The first condition guarantees that we will start making
+	   * a tiny bit of progress right now.
+	   *
+	   * The second condition guarantees that we will make decent
+	   * progress after no more than 100 loops.
+	   */
+	  gnm_float lfrac = loggnum (pgamma_cont_frac (x, alph));
+	  arg = lfrac + alph * loggnum(x) - x - lgammagnum(alph);
+	  lower_tail = !lower_tail;
+     } else {
+	  /*
+	   * Approximation using pnorm.  We only get here for fairly large
+	   * x and alph that are within 1% of each other.
+	   */
+	  gnm_float r3m1 = expm1gnum (loggnum (x / alph) / 3);
+	  return pnorm (sqrtgnum (alph) * 3 * (r3m1 + 1 / (9 * alph)),
+			0, 1, lower_tail, log_p);
+     }
+
+     if (lower_tail)
+	  return log_p ? arg : expgnum(arg);
+     else
+	  return log_p ? swap_log_tail(arg) : -expm1gnum(arg);
+}
+
+
 /*----------- DEBUGGING -------------
  *	make CFLAGS='-DDEBUG_p -g -I/usr/local/include -I../include'
  */
 
-
-gnm_float pgamma(gnm_float x, gnm_float alph, gnm_float scale, gboolean lower_tail, gboolean log_p)
+#if 0
+gnm_float pgamma_old(gnm_float x, gnm_float alph, gnm_float scale, gboolean lower_tail, gboolean log_p)
 {
     const gnm_float
 	xbig = 1.0e+8,
@@ -1492,6 +1627,7 @@ gnm_float pgamma(gnm_float x, gnm_float alph, gnm_float scale, gboolean lower_ta
     /* sum = expgnum(arg); and return   if(lower_tail) sum  else 1-sum : */
     return (lower_tail) ? expgnum(arg) : (log_p ? swap_log_tail(arg) : -expm1gnum(arg));
 }
+#endif
 /* Cleaning up done by tools/import-R:  */
 #undef USE_PNORM
 

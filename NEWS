@@ -50,6 +50,7 @@ Morten:
 	* Limit the width of search window.  [#136421]
 	* Protect against crash in inter-process paste.
 	* Make URLs work from Nautilus.  [#156456]
+	* Fix pgamma accuracy for extreme arguments.
 
 Yukihiro Nakai:
 	* Improve perl plugin.
