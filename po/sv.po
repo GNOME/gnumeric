@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-06-04 10:59+0200\n"
-"PO-Revision-Date: 2003-06-04 11:01+0200\n"
+"POT-Creation-Date: 2003-06-04 12:00+0200\n"
+"PO-Revision-Date: 2003-06-04 12:04+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -24548,7 +24548,7 @@ msgstr "_Nedåt, sedan höger"
 
 #: src/dialogs/print.glade.h:28
 msgid "_Fit to:"
-msgstr "_Anpassa till:"
+msgstr "An_passa till:"
 
 #: src/dialogs/print.glade.h:29
 msgid "_Footer:"
@@ -24580,11 +24580,11 @@ msgstr "_Lodrätt"
 
 #: src/dialogs/print.glade.h:36
 msgid "_page(s) wide by"
-msgstr "_sidor på bredden och"
+msgstr "sidor på _bredden och"
 
 #: src/dialogs/print.glade.h:37
 msgid "_tall"
-msgstr "_hög"
+msgstr "på _höjden"
 
 #: src/dialogs/random-generation.glade.h:5
 msgid "Number of _Variables:"
