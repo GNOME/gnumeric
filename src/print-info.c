@@ -18,6 +18,7 @@
 #include "sheet.h"
 #include "value.h"
 #include "workbook.h"
+#include "gnumeric-gconf.h"
 
 #include <libgnome/gnome-config.h>
 #include <string.h>

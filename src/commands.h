@@ -3,8 +3,6 @@
 #define GNUMERIC_COMMANDS_H
 
 #include "gnumeric.h"
-#include "consolidate.h"
-#include "sort.h"
 #include "tools/tools.h"
 
 void command_undo (WorkbookControl *wbc);
@@ -120,5 +118,15 @@ typedef enum  {
 	cmd_object_raise_bottom
 } CmdObjectRaiseSelector;
 gboolean cmd_object_raise (WorkbookControl *wbc, SheetObject *so, CmdObjectRaiseSelector dir);
+
+/* FIXME: figure out how to resolve these better.  */
+struct _scenario_t;
+struct _scenario_cmd_t;
+gboolean cmd_scenario_add (WorkbookControl *wbc, struct _scenario_t *s, Sheet *sheet);
+gboolean cmd_scenario_mngr (WorkbookControl *wbc, struct _scenario_cmd_t *sc, Sheet *sheet);
+
+/* FIXME: figure out how to resolve this better.  */
+struct _data_shuffling_t;
+gboolean cmd_data_shuffle (WorkbookControl *wbc, struct _data_shuffling_t *sc, Sheet *sheet);
 
 #endif /* GNUMERIC_COMMANDS_H */

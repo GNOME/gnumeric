@@ -188,5 +188,7 @@ typedef struct _GnmPlugin            GnmPlugin;
 typedef struct _PluginService        PluginService;
 typedef struct _GnumericPluginLoader GnumericPluginLoader;
 
+typedef struct _Consolidate Consolidate;
+typedef struct _SortData SortData;
 
 #endif /* GNUMERIC_H */

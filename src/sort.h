@@ -10,14 +10,14 @@ typedef struct {
 	gboolean val;
 } SortClause;
 
-typedef struct {
+struct _SortData {
 	Sheet      *sheet;
 	Range      *range;
 	int         num_clause;
 	SortClause *clauses;
 	gboolean    top;
 	gboolean retain_formats;
-} SortData;
+};
 
 void        sort_clause_destroy (SortClause *clause);
 void        sort_data_destroy (SortData *data);

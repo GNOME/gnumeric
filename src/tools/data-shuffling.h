@@ -10,7 +10,7 @@
 #define SHUFFLE_AREA  2
 
 
-typedef struct {
+typedef struct _data_shuffling_t {
 	GSList  *changes;
 	int     a_col;
 	int     b_col;

@@ -26,14 +26,14 @@ typedef enum {
 	CONSOLIDATE_PUT_VALUES   = 1 << 3
 } ConsolidateMode;
 
-typedef struct _Consolidate {
+struct _Consolidate {
 	GnmFunc *fd;
 
 	GlobalRange *dst;
 	GSList      *src;
 
 	ConsolidateMode mode;
-} Consolidate;
+};
 
 Consolidate *consolidate_new  (void);
 void         consolidate_free (Consolidate *cs);

@@ -42,7 +42,6 @@
 
 typedef GenericToolState SimulationState;
 
-static GtkTextBuffer   *log_buffer;
 static GtkTextBuffer   *results_buffer;
 static int             results_sim_index;
 static simulation_t    *current_sim;

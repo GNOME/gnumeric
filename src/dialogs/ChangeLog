@@ -10,7 +10,7 @@
 	* dialog-solver.c (dialog_init): Killed a run time warning.
 	(cb_dialog_solve_clicked): Removed 'show iteration results'
 	button.
-	
+
 	* dialog-simulation.c (update_log): Use gtk list view instead of
 	text view.
 
@@ -37,7 +37,7 @@
 	* dialog-solver.c (solver_add_scenario): Fixed the
 	scenario_add_new call.  Fix a memory leak.
 	(cb_dialog_solve_clicked): Read the scenario name entry.
-	
+
 	* scenario-manager.glade: Added Result cells entry.
 
 2003-04-16  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
@@ -47,7 +47,7 @@
 	scenario buttons and entry.
 
 	* solver.glade: Added buttons and an entry for a scenario output.
-	
+
 	* tool-dialogs.h: Renamed scenario_buttons_t to scenario_state_t
 	and added/moved scenario fields there.
 
@@ -68,7 +68,7 @@
 	* dialog-scenarios.c (set_selection_state, dialog_scenarios): Fix
 	the summary button sensitivity.
 	(scenarios_summary_clicked_cb): New API for scenario_summary.
-	
+
 2003-04-14  Morten Welinder  <terra@gnome.org>
 
 	* dialog-scenarios.c (check_name): Make UTF-8 safe.
@@ -96,12 +96,12 @@
 
 	* dialog-scenarios.c: Introduced.
 	dialogs.h, tool-dialogs.h: Related changes.
-	
+
 2003-04-09  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* dialog-analysis-tools.c (tool_load_selection): Added != NULL
 	check for output range to make it a little bit more generic.
-	
+
 2003-04-08  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* scenario-manager.glade: Glade interface for a scenario manager.
@@ -180,7 +180,7 @@
 	workbook, put it in export clist right away.
 
 	* dialog-stf-export.c (stf_export_dialog): Skip sheet page when
-	only one sheet in workbook. Fixes 
+	only one sheet in workbook. Fixes
 
 2003-01-04  Jon K Hellan  <hellan@acm.org>
 
@@ -340,11 +340,11 @@
 
 2002-11-11  Morten Welinder  <terra@diku.dk>
 
-	* dialog-stf-export.glade: A colon is ":", not ";". 
+	* dialog-stf-export.glade: A colon is ":", not ";".
 
 2002-11-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* dialog-stf-export.glade : fix some glade-2 changes and the 
+	* dialog-stf-export.glade : fix some glade-2 changes and the
 	  option menus
 
 2002-11-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
@@ -730,7 +730,7 @@
 	(dialog_plugin_manager): Initialize them here
 	(cb_pm_selection_changed): Handle "marking plugin for deactivation"
 	feature: optionally display new frame with descriptive text and check
-	button, connect/disconnect "toggled" signal handler. 
+	button, connect/disconnect "toggled" signal handler.
 	(cb_checkbutton_mark_for_deactivation_toggled): New signal handler.
 
 	* plugin-manager.glade:
@@ -1016,13 +1016,13 @@
 	(spin_button_set_bound) : work in points only, don't modify values but
 	  range only
 	(get_paper_psheight) : default height should be 0 rather than 1.
-	(get_printable_height) : use gnome_print_convert_distance, return height 
+	(get_printable_height) : use gnome_print_convert_distance, return height
 	  in points
 	(set_vertical_bounds) : simplify
 	(draw_margin) : use gnome_print_convert_distance
 	(draw_margins) : header and footer should be on top
 	(canvas_update) : also update unit selector unit
-	(spin_button_adapt_to_unit) : disable, needs to be implemented in 
+	(spin_button_adapt_to_unit) : disable, needs to be implemented in
 	  libgnomeprintui
 	(do_convert) : remove
 	(convert_to_*) : remove
@@ -1030,7 +1030,7 @@
 	(add_unit) : remove
 	(unit_changed) : save unit, use accessor method to get value from
 	  spin button
-	(unit_editor_configure) : replace UnitName by GnomePrintUnit*, use 
+	(unit_editor_configure) : replace UnitName by GnomePrintUnit*, use
 	  gnome-print unit selector rather than our own
 	(cb_unit_selector_changed) : new
 	(do_setup_margin) : use gnome-print unit selector rather than our own
@@ -1057,7 +1057,7 @@
 	(canvas_update) : no horizontal bounds needed
 	(notebook_flipped) : adjusted for moved items
 	(unit_changed) : simplify
-	(do_setup_page) : use new libgnomeprinntui api to get margin 
+	(do_setup_page) : use new libgnomeprinntui api to get margin
 	  adjustments (this requires 0.114.0 or newer)
 	* print.glade : rearrange items and delete margin spin buttons
 
@@ -1069,7 +1069,7 @@
 2002-05-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* plugin-manager.glade : add rescan button
-	* dialog-plugin-manager.c (cb_pm_button_install_plugin_clicked) : 
+	* dialog-plugin-manager.c (cb_pm_button_install_plugin_clicked) :
 	  deleted
 	(cb_pm_button_rescan_directories_clicked) : new
 	(pm_dialog_init) : link button to cb_pm_button_rescan_directories_clicked

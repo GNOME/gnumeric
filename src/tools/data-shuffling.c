@@ -69,10 +69,10 @@ swap_values (data_shuffling_t *ds,
 static void
 shuffle_cols (data_shuffling_t *ds)
 {
-	int i, j, rnd_col;
+	int i;
 
 	for (i = ds->a_col; i <= ds->b_col; i++) {
-		rnd_col = (int) (ds->cols * random_01 () + ds->a_col);
+		int rnd_col = (int) (ds->cols * random_01 () + ds->a_col);
 
 		if (i != rnd_col)
 			swap_values (ds, i, 0, rnd_col, 0);
@@ -82,10 +82,10 @@ shuffle_cols (data_shuffling_t *ds)
 static void
 shuffle_rows (data_shuffling_t *ds)
 {
-	int i, j, rnd_row;
+	int i;
 
 	for (i = ds->a_row; i <= ds->b_row; i++) {
-		rnd_row = (int) (ds->rows * random_01 () + ds->a_row);
+		int rnd_row = (int) (ds->rows * random_01 () + ds->a_row);
 
 		if (i != rnd_row)
 			swap_values (ds, 0, i, 0, rnd_row);
@@ -114,9 +114,6 @@ static void
 init_shuffling_tool (data_shuffling_t *st, Sheet *sheet, Value *range,
 		     data_analysis_output_t *dao)
 {
-	Cell *cell;
-	int  i, j;
-
 	st->a_col   = range->v_range.cell.a.col;
 	st->a_row   = range->v_range.cell.a.row;
 	st->b_col   = range->v_range.cell.b.col;

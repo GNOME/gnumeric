@@ -5,7 +5,7 @@
 #include <dao.h>
 
 
-typedef struct {
+typedef struct _scenario_t {
         Sheet *sheet;
         gchar *name;
 
@@ -18,7 +18,7 @@ typedef struct {
         gboolean marked_deleted;
 } scenario_t;
 
-typedef struct {
+typedef struct _scenario_cmd_t {
         scenario_t *redo;
         scenario_t *undo;
 } scenario_cmd_t;
@@ -55,5 +55,6 @@ void        scenario_summary      (WorkbookControl        *wbc,
 				   Sheet                  *sheet,
 				   GSList                 *results,
 				   Sheet                  **new_sheet);
+void        scenario_recover_all  (GList *scenarios);
 
 #endif

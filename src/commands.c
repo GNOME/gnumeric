@@ -70,6 +70,7 @@
 #include "gnumeric-gconf.h"
 #include "scenarios.h"
 #include "data-shuffling.h"
+#include "consolidate.h"
 
 #include <gsf/gsf-impl-utils.h>
 

@@ -362,7 +362,7 @@ simulation_tool (WorkbookControl        *wbc,
 	gnm_float   **outputs;
 	simstats_t   **stats;
 	Sheet        *sheet;
-	gchar const  *err;
+	gchar const  *err = NULL;
 	WorkbookView *wbv;
 	GSList       *cur;
 

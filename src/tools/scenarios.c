@@ -100,7 +100,7 @@ scenario_new (Sheet *sheet, const gchar *name, const gchar *comment)
 
 	/* Check if a scenario having the same name already exists. */
 	if (scenario_by_name (scenarios, name, NULL)) {
-		GString *str;
+		GString *str = g_string_new (NULL);
 		gchar   *tmp;
 		int     i, j, len;
 
@@ -118,16 +118,16 @@ scenario_new (Sheet *sheet, const gchar *name, const gchar *comment)
 			tmp = g_strdup (name);
 
 		for (j = 1; j < 10000; j++) {
-			str = g_string_new (NULL);
-			g_string_append_printf (str, "%s [%d]",	tmp, j);
-			if (scenario_by_name (scenarios, str->str, NULL) ==
-			    NULL)
+			g_string_printf (str, "%s [%d]", tmp, j);
+			if (!scenario_by_name (scenarios, str->str, NULL)) {
+				s->name = g_string_free (str, FALSE);
+				str = NULL;
 				break;
-			g_string_free (str, FALSE);
+			}
 		}
-		s->name = g_strdup (str->str);
+		if (str)
+			g_string_free (str, TRUE);
 		g_free (tmp);
-		g_string_free (str, FALSE);
 	} else
 		s->name           = g_strdup (name);
 
@@ -162,10 +162,7 @@ collect_cb (int col, int row, Value *v, collect_cb_t *p)
 static gboolean
 collect_values (Sheet *sheet, scenario_t *s, ValueRange *range)
 {
-	int          i, j;
 	int          cols, rows;
-	Cell         *cell;
-	CellRef      *a, *b;
 	collect_cb_t cb;
 
 	range_init_value (&s->range, (Value *) range);
@@ -190,14 +187,8 @@ scenario_add_new (gchar *name,
 		  Sheet *sheet,
 		  scenario_t **new_scenario)
 {
-	scenario_t *scenario;
-	int        i, j;
-	int        cols, rows;
-	gboolean   res;
-
-	scenario = scenario_new (sheet, name, comment);
-
-	res = collect_values (sheet, scenario, (ValueRange *) changing_cells);
+	scenario_t *scenario = scenario_new (sheet, name, comment);
+	gboolean   res = collect_values (sheet, scenario, (ValueRange *) changing_cells);
 
 	scenario->cell_sel_str = g_strdup (cell_sel_str);
 	sheet_redraw_all (sheet, TRUE);
@@ -368,7 +359,7 @@ scenario_show (WorkbookControl        *wbc,
 	}
 
 	if (s == NULL)
-		return;
+		return NULL;
 
 	/* Store values for recovery. */
 	stored_values = scenario_new (dao->sheet, "", "");

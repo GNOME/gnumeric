@@ -75,6 +75,7 @@
 #include "io-context.h"
 #include "stf.h"
 #include "rendered-value.h"
+#include "sort.h"
 
 #ifdef WITH_BONOBO
 #include "sheet-object-container.h"

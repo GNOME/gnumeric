@@ -249,7 +249,7 @@ xml_node_set_double (xmlNodePtr node, char const *name, double val,
  * Reads a value which is stored using a format '%d:%s' where %d is the
  * ValueType and %s is the string containing the value.
  */
-Value *
+static Value *
 xml_node_get_value (xmlNodePtr node, char const *name)
 {
 	xmlChar   *str;
@@ -267,7 +267,7 @@ xml_node_get_value (xmlNodePtr node, char const *name)
 	return value;
 }
 
-void
+static void
 xml_node_set_value (xmlNodePtr node, char const *name, Value const *value)
 {
         GString *str;
@@ -2484,9 +2484,7 @@ static void
 xml_read_scenarios (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr child;
-	int        col, row;
 	Sheet      *sheet = ctxt->sheet;
-	ParsePos   pos;
 
 	tree = e_xml_get_child_by_name (tree, CC2XML ("Scenarios"));
 	if (tree == NULL)
