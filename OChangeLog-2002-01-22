@@ -1,3 +1,72 @@
+2000-03-22  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_reposition_comments) : Merged from
+	  sheet_reposition_comments_from_row and
+	  sheet_reposition_comments_from_col.
+
+	(sheet_update) : New function.  Use the new update flags from
+	  SheetPrivate that are set in the col/row resize functions
+	  to do delayed resizing and updates.  This allows the resizing to be
+	  batched for an entire logical operation.
+	(sheet_{col,row}_set_size_pixels) : Set the update flags.
+
+	* src/workbook-cmd-format.c (workbook_cmd_format_{row,column}_auto_fit) : No need to
+	  worry about redraws.  Use sheet_update.
+	(workbook_cmd_format_{row_height,column_width}) : Ditto.
+
+	* src/sheet-view.c (sheet_view_redraw_cell_region) : No need to
+	  recalculate the spans,  Use the pre-calculated versions.
+	(sheet_view_col_size_changed) : Use sheet_update.
+	(sheet_view_row_size_changed) : Ditto.
+
+	* src/sheet-style.c (re_dimension_cells_cb) : Use cell_calc_dimensions.
+	(sheet_cells_update) : No need to redraw per cell and guess the bound.
+	  It is simpler and more correct to calc dimension per cell, and
+	  redraw the region BEFORE and AFTER to handle spans.
+
+	* src/cell.[ch] (cell_style_changed) : Delete.
+
+	* src/cell-draw.c (cell_draw) : continue syncing with print code.
+	  Be even more careful in the possible presence of style bugs.
+	* src/item-grid.c (item_grid_draw) : Ditto.
+	* src/print-cell.c (print_cell) : Ditto.
+
+	* src/analysis-tools.c (correlation_tool) : Use sheet_update.
+	(covariance_tool) : Ditto.
+	(ttest_paired_tool) : Ditto.
+	(ttest_eq_var_tool) : Ditto.
+	(ttest_neq_var_tool) : Ditto.
+	(ftest_tool) : Ditto.
+
+2000-03-21  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-private.h : Add status flags to accumulate state changes
+	  for later redraw.
+
+	* src/commands.c (cmd_format_redo) : Use sheet_update
+	  in case the row/col sizes changed due to font size changes.
+	(cmd_format_undo) : Ditto.
+
+	* src/widgets/gtk-combo-box.c (cb_state_change) : Only pseudo-prelight
+	  the display when over the arrow, not vice versa.
+	(gtk_combo_box_init) : Ditto.
+	(gtk_combo_box_set_display) : Ditto.
+
+	* src/sheet.c (sheet_row_get_distance_pts) : Enable reversed indicies.
+	(sheet_col_get_distance_pts) : Ditto.
+
+	* src/plugin.c (plugin_load) : Add more version checking to ensure
+	  that very old plugins that do not check their versions can not be
+	  loaded.
+
+2000-03-20  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_make_cell_visible) : When
+	  forcing a scroll do a hard reset of the visible ranges.
+	(gnumeric_sheet_compute_visible_ranges) : Ditto.
+	(gnumeric_sheet_set_top_row) : Remove extraneous scroll.
+	(gnumeric_sheet_set_left_col) : Remove extraneous scroll.
+
 2000-03-21  Miguel de Icaza  <miguel@helixcode.com>
 
 	* src/utils.c (parse_cell_name_or_range): Allow for parsing to be

@@ -35,6 +35,7 @@ struct _PluginData
         gchar   *descr;
 
         gboolean initialized;
+        gboolean version_checked;
 	
 	/* filled in by plugin */
 	void    *user_data;
@@ -64,6 +65,9 @@ plugin_version_mismatch  (CommandContext *context, PluginData *pd,
 		gnumeric_error_plugin_problem (context, mesg);
 		g_free (mesg);
 	}
+
+	/* Ok, we've checked the version */
+        pd->version_checked = TRUE;
 
 	return mismatch;
 }
@@ -107,6 +111,7 @@ plugin_load (CommandContext *context, const gchar *modfile)
 	}
 	
 	data->initialized = FALSE;
+	data->version_checked = FALSE;
 	data->file_name = g_strdup (modfile);
 	data->handle = g_module_open (modfile, 0);
 	if (!data->handle) {
@@ -130,6 +135,20 @@ plugin_load (CommandContext *context, const gchar *modfile)
 		if (res == PLUGIN_ERROR)
 			gnumeric_error_plugin_problem (context, 
 						       _("init_plugin returned error"));
+		goto error;
+	}
+
+	/* Add some extra checking to ensure that we can not load old plugins that do
+	 * not check versioning
+	 */
+        if (!data->version_checked) {
+		gchar *mesg =
+		    g_strdup_printf (_("Unable to open plugin '%s'\n"
+				       "The plugin did not check it's version.\n"
+				       "It is probably for a different version of Gnumeric than '%s'."),
+				       GNUMERIC_VERSION);
+		gnumeric_error_plugin_problem (context, mesg);
+		g_free (mesg);
 		goto error;
 	}
 

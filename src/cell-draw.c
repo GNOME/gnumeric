@@ -134,19 +134,21 @@ void
 cell_draw (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 	   GdkGC *gc, GdkDrawable *drawable, int x1, int y1)
 {
-	Sheet        *sheet = cell->sheet;
 	StyleFont    *style_font;
 	GdkFont      *font;
 	GdkRectangle  rect;
-	int num_lines = 0, line_offset[3]; /* There are up to 3 lines, double underlined strikethroughs */
 	
+	Sheet        *sheet = cell->sheet;
 	int start_col, end_col;
 	int width, height;
 	int text_base;
 	int font_height;
 	int halign;
+	int num_lines = 0;
+	int line_offset[3]; /* There are up to 3 lines, double underlined strikethroughs */
 	gboolean is_single_line;
 	char const *text;
+	StyleColor   *fore;
 
 	/*
 	 * If it is being edited pretend it is empty to avoid problems with the
@@ -253,10 +255,11 @@ cell_draw (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
 
 	/* Set the font colour */
 	gdk_gc_set_fill (gc, GDK_SOLID);
-	if (cell->render_color)
-		gdk_gc_set_foreground (gc, &cell->render_color->color);
-	else
-		gdk_gc_set_foreground (gc, &mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color);
+	fore = cell->render_color;
+	if (fore == NULL)
+		fore = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
+	g_return_if_fail (fore != NULL); /* Be extra careful */
+	gdk_gc_set_foreground (gc, &fore->color);
 
 	/* Handle underlining and strikethrough */
 	switch (mstyle_get_font_uline (mstyle)) {

@@ -169,8 +169,6 @@ Cell       *sheet_cell_fetch              (Sheet *sheet, int col, int row);
 void        sheet_cell_comment_link       (Cell *cell);
 void        sheet_cell_comment_unlink     (Cell *cell);
 
-void        sheet_reposition_comments_from_row (Sheet *sheet, int row);
-void        sheet_reposition_comments_from_col (Sheet *sheet, int col);
 void        sheet_recompute_spans_for_col      (Sheet *sheet, int col);
 
 void        sheet_cell_formula_link       (Cell *cell);
@@ -296,6 +294,7 @@ gboolean       sheet_check_for_partial_array (Sheet *sheet,
 					      int end_row, int end_col);
 
 /* Redraw */
+void        sheet_update                  (Sheet const *sheet);
 void        sheet_compute_visible_ranges  (Sheet const *sheet);
 void        sheet_redraw_cell_region      (Sheet const *sheet,
 				           int start_col, int start_row,

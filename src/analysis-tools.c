@@ -265,8 +265,8 @@ autofit_column (data_analysis_output_t *dao, int col)
 	if (ideal_size == 0)
 	        return;
 
-	sheet_col_set_size_pixels (dao->sheet, actual_col, ideal_size+5,
-				   TRUE);
+	sheet_col_set_size_pixels (dao->sheet, actual_col, ideal_size, TRUE);
+	sheet_recompute_spans_for_col (dao->sheet, col);
 }
 
 static void
@@ -446,8 +446,7 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 	        autofit_column (dao, col);
 
 	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_compute_visible_ranges (dao->sheet);
-	sheet_redraw_all (dao->sheet);
+	sheet_update (sheet);
 
 	return 0;
 }
@@ -603,8 +602,7 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 	        autofit_column (dao, col);
 
 	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_compute_visible_ranges (dao->sheet);
-	sheet_redraw_all (dao->sheet);
+	sheet_update (sheet);
 
 	return 0;
 }
@@ -1335,8 +1333,7 @@ ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	autofit_column (dao, 2);
 
 	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_compute_visible_ranges (dao->sheet);
-	sheet_redraw_all (dao->sheet);
+	sheet_update (sheet);
 
 	return 0;
 }
@@ -1472,8 +1469,7 @@ ttest_eq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	autofit_column (dao, 2);
 
 	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_compute_visible_ranges (dao->sheet);
-	sheet_redraw_all (dao->sheet);
+	sheet_update (sheet);
 
 	return 0;
 }
@@ -1602,8 +1598,7 @@ ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	autofit_column (dao, 2);
 
 	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_compute_visible_ranges (dao->sheet);
-	sheet_redraw_all (dao->sheet);
+	sheet_update (sheet);
 
 	return 0;
 }
@@ -1727,8 +1722,7 @@ ftest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	autofit_column (dao, 2);
 
 	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_compute_visible_ranges (dao->sheet);
-	sheet_redraw_all (dao->sheet);
+	sheet_update (sheet);
 
 	return 0;
 }

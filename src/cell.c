@@ -1477,40 +1477,6 @@ cell_set_mstyle (const Cell *cell, MStyle *mstyle)
 	sheet_style_attach (cell->sheet, range, mstyle);
 }
 
-/**
- * cell_style_changed:
- * @cell:
- *
- * Re-draws as neccessary on a cells span, and re-calcs dimensions.
- * to test, enter a long string in a cell & alter
- * the horizontal alignment.
- **/
-void
-cell_style_changed (Cell *cell)
-{
-	int a, b;
-	int width;
-
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell->sheet != NULL);
-
-	cell_calc_dimensions (cell);
-	cell_calculate_span (cell, &a, &b);
-
-	/*
-	 * Paranoid; re-draw the max. old span possible.
-	 */
-
-	width = b - a;
-	if (width)
-		sheet_redraw_cell_region (cell->sheet,
-					  cell->col->pos - width,
-					  cell->row->pos,
-					  cell->col->pos + width,
-					  cell->row->pos);
-}
-
-
 gboolean
 cell_has_assigned_format (const Cell *cell)
 {

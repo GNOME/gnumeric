@@ -1,3 +1,12 @@
+2000-03-21  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-util.c (init_xl_font_widths) : Add Geneva.
+
+	* ms-excel-read.c (biff_xf_data_new) : Have the horizontal alignment
+	  type center_across_selection default to 'center' instead.
+	(ms_excel_read_workbook) : Be more explicit about NOT supporting 1904
+	  dates as yet.
+
 2000-03-14  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (biff_xf_data_new) : Remove warning about parent

@@ -413,6 +413,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet, MSObj * 
 		switch (record_type) {
 		case GR_END:
 			g_return_val_if_fail (len == 0, TRUE);
+			ms_obj_dump (data, len, "ObjEnd");
 			hit_end = TRUE;
 			break;
 
@@ -548,6 +549,10 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet, MSObj * 
 	}
 
 	/* The ftEnd record should have been the last */
+	if (data_len_left != 0) {
+	    printf("OBJ : unexpected extra data (%d) at the end of the object;\n", data_len_left);
+	    return TRUE;
+	}
 	g_return_val_if_fail (data_len_left == 0, TRUE);
 
 	if (next_biff_record_is_imdata) {

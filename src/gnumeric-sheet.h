@@ -56,7 +56,8 @@ gboolean   gnumeric_sheet_can_move_cursor        (GnumericSheet *gsheet);
 void       gnumeric_sheet_set_cursor_bounds      (GnumericSheet *gsheet,
 						  int start_col, int start_row,
 						  int end_col,   int end_row);
-void       gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet);
+void       gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet,
+						  gboolean const full_recompute);
 void       gnumeric_sheet_make_cell_visible      (GnumericSheet *gsheet,
 						  int col, int row,
 						  gboolean const force_scroll);

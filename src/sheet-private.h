@@ -7,6 +7,10 @@ struct _SheetPrivate {
 
 	GSList          *sheet_vectors;
 #endif
+	/* TODO Add span recomputation here too. */
+	gboolean	 recompute_visibility;
+	int		 reposition_row_comment;
+	int		 reposition_col_comment;
 };
 
 #endif /* GNUMERIC_SHEET_PRIVATE_H */

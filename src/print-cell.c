@@ -149,9 +149,8 @@ cell_split_text (GnomeFont *font, char const *text, int const width)
  *      \------/
  */
 static void
-print_cell (GnomePrintContext *context,
-	    Cell *cell, MStyle *mstyle,
-	    double x1, double y1)
+print_cell (Cell *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo,
+	    GnomePrintContext *context, double x1, double y1)
 {
 	StyleFont *style_font = mstyle_get_font (mstyle, 1.0);
 	GnomeFont *print_font = style_font->font;
@@ -159,24 +158,25 @@ print_cell (GnomePrintContext *context,
 	double const font_ascent = gnome_font_get_ascender (print_font);
 	double text_width;
 	double clip_x, clip_width, clip_y, clip_height;
-	StyleColor *fore;
-	int num_lines = 0;
-	double line_offset[3]; /* There are up to 3 lines, double underlined strikethroughs */
 
+	Sheet        *sheet = cell->sheet;
 	int start_col, end_col;
 	double width, height;
-	int text_base;
+	double text_base;
 	double font_height;
 	int halign;
+	int num_lines = 0;
+	double line_offset[3]; /* There are up to 3 lines, double underlined strikethroughs */
 	gboolean is_single_line;
 	char const *text;
-	CellSpanInfo const * spaninfo;
+	StyleColor *fore;
 
 	g_return_if_fail (cell);
 	g_return_if_fail (cell->text);
 
 	/* Don't print zeros if they should be ignored. */
-	if (!cell->sheet->display_zero && cell_is_zero (cell))
+	if (/* No need to check for the edit cell */
+	    !sheet->display_zero && cell_is_zero (cell))
 		return;
 
 	if (cell->text->str == NULL) {
@@ -187,7 +187,6 @@ print_cell (GnomePrintContext *context,
 	} else
 		text = cell->text->str;
 
-	spaninfo = row_span_get (cell->row, cell->col->pos);
 	if (spaninfo != NULL) {
 		start_col = spaninfo->left;
 		end_col = spaninfo->right;
@@ -252,15 +251,13 @@ print_cell (GnomePrintContext *context,
 	 */
 	if (start_col != cell->col->pos) {
 		int const offset =
-		    sheet_col_get_distance_pts (cell->sheet,
-						start_col, cell->col->pos);
+		    sheet_col_get_distance_pts (sheet, start_col, cell->col->pos);
 		clip_x     -= offset;
 		clip_width += offset;
 	}
 	if (end_col != cell->col->pos) {
 		int const offset =
-		    sheet_col_get_distance_pts (cell->sheet,
-						cell->col->pos+1, end_col+1);
+		    sheet_col_get_distance_pts (sheet, cell->col->pos+1, end_col+1);
 		clip_width += offset;
 	}
 
@@ -283,10 +280,10 @@ print_cell (GnomePrintContext *context,
 	gnome_print_clip (context);
 
 	/* Set the font colour */
-	if (cell->render_color)
-		fore = cell->render_color;
-	else
+	fore = cell->render_color;
+	if (fore == NULL)
 		fore = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
+	g_return_if_fail (fore != NULL); /* Be extra careful */
 	gnome_print_setrgbcolor (context,
 				 fore->red   / (double) 0xffff,
 				 fore->green / (double) 0xffff,
@@ -468,8 +465,7 @@ print_rectangle (GnomePrintContext *context,
 static void
 print_border (GnomePrintContext *context, MStyle *mstyle,
 	      double x, double y, double w, double h,
-	      gboolean const extended_left,
-	      gboolean const extended_right /* This should go away */)
+	      gboolean const extended_left)
 {
 	MStyleBorder const * const top =
 	    mstyle_get_border (mstyle, MSTYLE_BORDER_TOP);
@@ -500,8 +496,7 @@ print_cell_background (GnomePrintContext *context, Sheet *sheet,
 		       ColRowInfo const * const ci, ColRowInfo const * const ri,
 		       /* Pass the row, col because the ColRowInfos may be the default. */
 		       int col, int row, double x, double y,
-		       gboolean const extended_left,
-		       gboolean const extended_right /* This should go away */)
+		       gboolean const extended_left)
 {
 	MStyle *mstyle = sheet_style_compute (sheet, col, row);
 	float const w    = ci->size_pts;
@@ -516,8 +511,7 @@ print_cell_background (GnomePrintContext *context, Sheet *sheet,
 		print_rectangle (context, x, y-1, w, h-1);
 	}
 
-	print_border (context, mstyle, x, y, w, h,
-		      extended_left, extended_right);
+	print_border (context, mstyle, x, y, w, h, extended_left);
 
 	return mstyle;
 
@@ -583,15 +577,16 @@ print_cell_range (GnomePrintContext *context,
 			 *    there is a span descriptor.
 			 */
 			if (ri->pos == -1 ||
-			    NULL == (span = row_span_get (ri, col))) {
+			    NULL == (span = row_span_get (ri, col))
+			    /* No need to check for edit cell while printing */) {
 				Cell *cell = sheet_cell_get (sheet, col, row);
 				MStyle *mstyle = print_cell_background (
 					context, sheet, ci, ri,
-					col, row, x, y,
-					FALSE, FALSE);
+					col, row, x, y, FALSE);
 
 				if (!cell_is_blank(cell))
-					print_cell (context, cell, mstyle, x, y);
+					print_cell (cell, mstyle, NULL,
+						    context, x, y);
 				mstyle_unref (mstyle);
 
 				/* Increment the column
@@ -615,8 +610,7 @@ print_cell_range (GnomePrintContext *context,
 						MStyle *mstyle = print_cell_background (
 							context, sheet, ci, ri,
 							col, row, x, y,
-							col != start_span_col,
-							col != end_span_col);
+							col != start_span_col);
 						if (col == real_col) {
 							real_style = mstyle;
 							real_x = x;
@@ -636,7 +630,8 @@ print_cell_range (GnomePrintContext *context,
 										 col, cell->col->pos);
 				}
 
-				print_cell (context, cell, real_style, real_x, y);
+				print_cell (cell, real_style, span,
+					    context, real_x, y);
 				mstyle_unref (real_style);
 			}
 		}

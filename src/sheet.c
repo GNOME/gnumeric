@@ -430,6 +430,56 @@ sheet_row_get_info (Sheet const *sheet, int const row)
 	return (ColRowInfo *) &sheet->rows.default_style;
 }
 
+static void
+sheet_reposition_comments (Sheet const * const sheet,
+			   int const start_col, int const start_row)
+{
+	GList *l;
+
+	/* Move any cell comments */
+	for (l = sheet->comment_list; l; l = l->next){
+		Cell *cell = l->data;
+
+		if (cell->col->pos >= start_col ||
+		    cell->row->pos >= start_row)
+			cell_comment_reposition (cell);
+	}
+}
+
+/*
+ * sheet_update : Should be called after a logical command has finished processing
+ *    to request redraws for any pending events
+ */
+void
+sheet_update (Sheet const *sheet)
+{
+	SheetPrivate *p;
+
+	g_return_if_fail (sheet != NULL);
+
+	p = sheet->private;
+
+	if (p->reposition_row_comment < SHEET_MAX_ROWS ||
+	    p->reposition_col_comment < SHEET_MAX_COLS) {
+		sheet_reposition_comments (sheet,
+					   p->reposition_row_comment,
+					   p->reposition_col_comment);
+		p->reposition_row_comment = SHEET_MAX_COLS;
+		p->reposition_col_comment = SHEET_MAX_ROWS;
+	}
+
+	if (p->recompute_visibility) {
+		p->recompute_visibility = FALSE;
+		sheet_compute_visible_ranges (sheet);
+		sheet_redraw_all (sheet);
+	}
+}
+
+/*
+ * sheet_compute_visible_ranges : Keeps the top left col/row the same and
+ *     recalculates the visible boundaries.  Recalculates the pixel offsets
+ *     of the top left corner then recalculates the visible boundaries.
+ */
 void
 sheet_compute_visible_ranges (Sheet const *sheet)
 {
@@ -438,35 +488,7 @@ sheet_compute_visible_ranges (Sheet const *sheet)
 	for (l = sheet->sheet_views; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
 
-		gnumeric_sheet_compute_visible_ranges (gsheet);
-	}
-}
-
-void
-sheet_reposition_comments_from_row (Sheet *sheet, int row)
-{
-	GList *l;
-
-	/* Move any cell comments */
-	for (l = sheet->comment_list; l; l = l->next){
-		Cell *cell = l->data;
-
-		if (cell->row->pos >= row)
-			cell_comment_reposition (cell);
-	}
-}
-
-void
-sheet_reposition_comments_from_col (Sheet *sheet, int col)
-{
-	GList *l;
-
-	/* Move any cell comments */
-	for (l = sheet->comment_list; l; l = l->next){
-		Cell *cell = l->data;
-
-		if (cell->col->pos >= col)
-			cell_comment_reposition (cell);
+		gnumeric_sheet_compute_visible_ranges (gsheet, TRUE);
 	}
 }
 
@@ -3150,7 +3172,7 @@ sheet_col_get_distance_pixels (Sheet const *sheet, int from, int to)
 
 	if (from > to)
 	{
-		int tmp = to;
+		int const tmp = to;
 		to = from;
 		from = tmp;
 		sign = -1;
@@ -3177,9 +3199,18 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 {
 	double units = 0;
 	int i;
+	int sign = 1;
 
 	g_assert (sheet != NULL);
-	g_assert (from <= to);
+
+	if (from > to)
+	{
+		int const tmp = to;
+		to = from;
+		from = tmp;
+		sign = -1;
+	}
+
 
 	/* Do not use sheet_foreach_colrow, it ignores empties */
 	for (i = from ; i < to ; ++i) {
@@ -3188,7 +3219,7 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 			units += ci->size_pts;
 	}
 	
-	return units;
+	return units*sign;
 }
 
 /**
@@ -3240,10 +3271,9 @@ sheet_col_set_size_pixels (Sheet *sheet, int col, int width_pixels,
 	ci->size_pixels = width_pixels;
 	colrow_compute_pts_from_pixels (sheet, ci, TRUE);
 
-	sheet_recompute_spans_for_col (sheet, col);
-	sheet_reposition_comments_from_col (sheet, col);
-	sheet_compute_visible_ranges (sheet);
-	sheet_redraw_all (sheet);
+	sheet->private->recompute_visibility = TRUE;
+	if (sheet->private->reposition_col_comment > col)
+		sheet->private->reposition_col_comment = col;
 }
 
 /**
@@ -3289,7 +3319,7 @@ sheet_row_get_distance_pixels (Sheet const *sheet, int from, int to)
 
 	if (from > to)
 	{
-		int tmp = to;
+		int const tmp = to;
 		to = from;
 		from = tmp;
 		sign = -1;
@@ -3316,9 +3346,17 @@ sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
 {
 	double units = 0;
 	int i;
+	int sign = 1;
 
 	g_assert (sheet != NULL);
-	g_assert (from <= to);
+
+	if (from > to)
+	{
+		int const tmp = to;
+		to = from;
+		from = tmp;
+		sign = -1;
+	}
 
 	/* Do not use sheet_foreach_colrow, it ignores empties */
 	for (i = from ; i < to ; ++i) {
@@ -3327,7 +3365,7 @@ sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
 			units += ri->size_pts;
 	}
 	
-	return units;
+	return units*sign;
 }
 
 /**
@@ -3394,9 +3432,9 @@ sheet_row_set_size_pixels (Sheet *sheet, int row, int height_pixels,
 	ri->size_pixels = height_pixels;
 	colrow_compute_pts_from_pixels (sheet, ri, FALSE);
 
-	sheet_compute_visible_ranges (sheet);
-	sheet_reposition_comments_from_row (sheet, ri->pos);
-	sheet_redraw_all (sheet);
+	sheet->private->recompute_visibility = TRUE;
+	if (sheet->private->reposition_row_comment > row)
+		sheet->private->reposition_row_comment = row;
 }
 
 /**

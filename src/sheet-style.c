@@ -639,7 +639,7 @@ re_dimension_cells_cb (Sheet *sheet, int col, int row, Cell *cell,
 	if (GPOINTER_TO_INT (re_render))
 		cell_render_value (cell);
 
-	cell_style_changed (cell);
+	cell_calc_dimensions (cell);
 
 	return NULL;
 }
@@ -660,11 +660,22 @@ sheet_cells_update (Sheet *sheet, Range r,
 		    gboolean render_text)
 {
 	sheet->modified = TRUE;
+
+	/* Redraw the original region incase the span changes */
+	sheet_redraw_cell_region (sheet,
+				  r.start.col, r.start.row,
+				  r.end.col, r.end.row);
+
 	sheet_cell_foreach_range (sheet, TRUE,
 				  r.start.col, r.start.row,
 				  r.end.col, r.end.row,
 				  re_dimension_cells_cb,
 				  GINT_TO_POINTER (render_text));
+
+	/* Redraw the new region incase the span changes */
+	sheet_redraw_cell_region (sheet,
+				  r.start.col, r.start.row,
+				  r.end.col, r.end.row);
 }
 
 Range

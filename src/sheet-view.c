@@ -22,6 +22,7 @@
 #include "utils.h"
 #include "selection.h"
 #include "application.h"
+#include "cellspan.h"
 
 static GtkTableClass *sheet_view_parent_class;
 
@@ -79,17 +80,21 @@ sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_r
 	for (col = first_col; col <= last_col; col++)
 		for (row = first_row; row <= last_row; row++){
 			Cell *cell;
-			int  col1, col2;
 
 			cell = sheet_cell_get (sheet, col, row);
 
 			if (cell){
-				cell_calculate_span (cell, &col1, &col2);
+				int col1 = cell->col->pos, col2 = col1;
+				CellSpanInfo const * span =
+					row_span_get (cell->row, col1);
 
+				if (span != NULL) {
+					col1 = span->left;
+					col2 = span->right;
+				}
 				min_col = MIN (col1, min_col);
 				max_col = MAX (col2, max_col);
 			}
-
 		}
 
 	/* Only draw those regions that are visible */
@@ -353,13 +358,19 @@ sheet_view_col_size_changed (ItemBar *item_bar, int col, int width, SheetView *s
 			if (ci == NULL)
 				continue;
 
- 			if (sheet_col_selection_type (sheet, ci->pos) == ITEM_BAR_FULL_SELECTION)
- 				sheet_col_set_size_pixels (sheet, ci->pos, width, TRUE);
+ 			if (sheet_col_selection_type (sheet, ci->pos) == ITEM_BAR_FULL_SELECTION) {
+ 				sheet_col_set_size_pixels (sheet, i, width, TRUE);
+				/* FIXME should be done later */
+				sheet_recompute_spans_for_col (sheet, i);
+			}
  		}
-	} else
+	} else {
  		sheet_col_set_size_pixels (sheet, col, width, TRUE);
+		/* FIXME should be done later */
+		sheet_recompute_spans_for_col (sheet, col);
+	}
 
-	gnumeric_sheet_compute_visible_ranges (GNUMERIC_SHEET (sheet_view->sheet_view));
+	sheet_update (sheet);
 }
 
 static void
@@ -417,6 +428,8 @@ sheet_view_row_size_changed (ItemBar *item_bar, int row, int height, SheetView *
 		}
 	} else
 		sheet_row_set_size_pixels (sheet, row, height, TRUE);
+
+	sheet_update (sheet);
 }
 
 static void

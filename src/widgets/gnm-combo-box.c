@@ -233,10 +233,7 @@ static void
 cb_state_change (GtkWidget *widget, GtkStateType old_state, GtkComboBox *combo_box)
 {
 	GtkStateType const new_state = GTK_WIDGET_STATE(widget);
-	gtk_widget_set_state ((combo_box->priv->display_widget != widget)
-			      ? combo_box->priv->display_widget
-			      : combo_box->priv->arrow_button,
-			      new_state);
+	gtk_widget_set_state (combo_box->priv->display_widget, new_state);
 }
 
 static void
@@ -261,6 +258,9 @@ gtk_combo_box_init (GtkComboBox *combo_box)
 		GTK_SIGNAL_FUNC (gtk_combo_toggle_pressed), combo_box);
 	gtk_widget_show_all (combo_box->priv->arrow_button);
 
+	/*
+	 * prelight the display widget when mousing over the arrow.
+	 */
 	gtk_signal_connect (
 		GTK_OBJECT (combo_box->priv->arrow_button), "state-changed",
 		GTK_SIGNAL_FUNC (cb_state_change), combo_box);
@@ -335,10 +335,6 @@ gtk_combo_box_set_display (GtkComboBox *combo_box, GtkWidget *display_widget)
 				      combo_box->priv->display_widget);
 
 	combo_box->priv->display_widget = display_widget;
-
-	gtk_signal_connect (
-		GTK_OBJECT (display_widget), "state-changed",
-		GTK_SIGNAL_FUNC (cb_state_change), combo_box);
 
 	gtk_box_pack_start (GTK_BOX (combo_box), display_widget, TRUE, TRUE, 0);
 }

@@ -22,8 +22,7 @@ workbook_cmd_format_column_auto_fit (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	GList *l;
-	int min_col = SHEET_MAX_COLS;
-	
+
 	/*
 	 * Apply autofit to any columns where the selection is
 	 */
@@ -38,18 +37,13 @@ workbook_cmd_format_column_auto_fit (GtkWidget *widget, Workbook *wb)
 			if (ideal_size == 0)
 				continue;
 
-			/* would be better outside loop, but lets
-			 * be careful in case the fit fails
-			 */
-			if (col < min_col)
-				min_col = col;
 			sheet_col_set_size_pixels (sheet, col, ideal_size, TRUE);
+			sheet_recompute_spans_for_col (sheet, col);
 		}
 	}
+
 	sheet_set_dirty (sheet, TRUE);
-	sheet_compute_visible_ranges (sheet);
-	sheet_reposition_comments_from_col (sheet, min_col);
-	sheet_redraw_all (sheet);
+	sheet_update (sheet);
 }
 
 void
@@ -58,15 +52,14 @@ workbook_cmd_format_column_width (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet = wb->current_sheet;
 	GList *l;
 	double value = 0.0;
-	int min_col = SHEET_MAX_COLS;
-	
+
 	/*
 	 * Find out the initial value to display
 	 */
 	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = l->data;
 		int col;
-		
+
 		for (col = ss->user.start.col; col <= ss->user.end.col; ++col){
 			ColRowInfo *ci;
 
@@ -80,10 +73,10 @@ workbook_cmd_format_column_width (GtkWidget *widget, Workbook *wb)
 				value = 0.0;
 				break;
 			}
-					
+
 		}
 	}
-	
+
 	/* Scale and round to 2 decimal places */
 	value *= COLUMN_WIDTH_SCALE * 100.;
 	value = (int)(value + .5);
@@ -98,7 +91,7 @@ workbook_cmd_format_column_width (GtkWidget *widget, Workbook *wb)
 			N_("You entered an invalid column width value.  It must be bigger than 0"));
 		return;
 	}
-	
+
 	/*
 	 * Apply the new value to all data
 	 */
@@ -106,26 +99,21 @@ workbook_cmd_format_column_width (GtkWidget *widget, Workbook *wb)
 		SheetSelection *ss = l->data;
 		int col = ss->user.start.col;
 
-		if (col < min_col)
-			min_col = col;
 		for (; col <= ss->user.end.col; ++col) {
 			sheet_col_set_size_pts (sheet, col, value, TRUE);
 			sheet_recompute_spans_for_col (sheet, col);
 		}
 	}
 	sheet_set_dirty (sheet, TRUE);
-	sheet_compute_visible_ranges (sheet);
-	sheet_reposition_comments_from_col (sheet, min_col);
-	sheet_redraw_all (sheet);
+	sheet_update (sheet);
 }
 
 void
 workbook_cmd_format_row_auto_fit (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
-	int min_row = SHEET_MAX_ROWS;
 	GList *l = sheet->selections;
-	
+
 	g_return_if_fail (l != NULL);
 
 	/* Apply autofit to any columns contained in selection */
@@ -140,18 +128,11 @@ workbook_cmd_format_row_auto_fit (GtkWidget *widget, Workbook *wb)
 			if (ideal_size == 0)
 				continue;
 
-			/* would be better outside loop, but lets
-			 * be careful in case the fit fails
-			 */
-			if (row < min_row)
-				min_row = row;
 			sheet_row_set_size_pixels (sheet, row, ideal_size, FALSE);
 		}
 	}
 	sheet_set_dirty (sheet, TRUE);
-	sheet_compute_visible_ranges (sheet);
-	sheet_reposition_comments_from_row (sheet, min_row);
-	sheet_redraw_all (sheet);
+	sheet_update (sheet);
 }
 
 void
@@ -160,7 +141,6 @@ workbook_cmd_format_row_height (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet = wb->current_sheet;
 	GList *l;
 	double value = 0.0;
-	int min_row = SHEET_MAX_ROWS;
 
 	/*
 	 * Find out the initial value to display
@@ -168,7 +148,7 @@ workbook_cmd_format_row_height (GtkWidget *widget, Workbook *wb)
 	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = l->data;
 		int row;
-	
+
 		for (row = ss->user.start.row; row <= ss->user.end.row; row++){
 			ColRowInfo *ri;
 
@@ -184,7 +164,7 @@ workbook_cmd_format_row_height (GtkWidget *widget, Workbook *wb)
 			}
 		}
 	}
-	
+
 	/* Scale and round to 2 decimal places */
 	value *= ROW_HEIGHT_SCALE * 100.;
 	value = (int)(value + .5);
@@ -199,24 +179,20 @@ workbook_cmd_format_row_height (GtkWidget *widget, Workbook *wb)
 			N_("You entered an invalid row height value.  It must be bigger than 0"));
 		return;
 	}
-	
+
 	/*
 	 * Apply the new value to all data
 	 */
 	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = l->data;
 		int row = ss->user.start.row;
-		
-		if (row < min_row)
-			min_row = row;
+
 		for (;row <= ss->user.end.row; ++row)
 			sheet_row_set_size_pts (sheet, row, value, TRUE);
 	}
 
 	sheet_set_dirty (sheet, TRUE);
-	sheet_compute_visible_ranges (sheet);
-	sheet_reposition_comments_from_row (sheet, min_row);
-	sheet_redraw_all (sheet);
+	sheet_update (sheet);
 }
 
 void
@@ -224,7 +200,7 @@ workbook_cmd_format_sheet_change_name (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	char *new_name;
-	
+
 	new_name = dialog_get_sheet_name (wb, sheet->name);
 	if (!new_name)
 		return;

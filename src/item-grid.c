@@ -392,19 +392,19 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 			} else {
 				Cell *cell = span->cell;
 				int const real_col = cell->col->pos;
-				int const start_col = span->left;
-				int const end_col = span->right;
+				int const start_span_col = span->left;
+				int const end_span_col = span->right;
 				int real_x = -1;
 				MStyle *real_style = NULL;
 
 				/* Paint the backgrounds & borders */
-				for (; x_paint < end_x && col <= end_col ; ++col) {
+				for (; x_paint < end_x && col <= end_span_col ; ++col) {
 					ci = sheet_col_get_info (sheet, col);
 					if (ci->visible) {
 						MStyle *mstyle = item_grid_draw_background (
 							drawable, item_grid, ci, ri,
 							col, row, x_paint, y_paint,
-							col != start_col);
+							col != start_span_col);
 						if (col == real_col) {
 							real_style = mstyle;
 							real_x = x_paint;
@@ -424,8 +424,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 											  col, cell->col->pos);
 				}
 
-				cell_draw (cell, real_style, span, item_grid->gc, drawable, 
-					   real_x, y_paint);
+				cell_draw (cell, real_style, span,
+					   item_grid->gc, drawable, real_x, y_paint);
 				mstyle_unref (real_style);
 			}
 		}
@@ -962,7 +962,8 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		switch (event->button.button) {
 		case 1 :
 			if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
-				sheet_make_cell_visible (sheet, sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row);
+				sheet_make_cell_visible (sheet, sheet->cursor.edit_pos.col,
+							 sheet->cursor.edit_pos.row);
 
 			item_grid->selecting = ITEM_GRID_NO_SELECTION;
 			gnome_canvas_item_ungrab (item, event->button.time);

@@ -832,6 +832,8 @@ cmd_format_undo (GnumericCommand *cmd, CommandContext *context)
 		}
 	}
 	
+	sheet_update (me->sheet);
+
 	return FALSE;
 }
 
@@ -855,6 +857,7 @@ cmd_format_redo (GnumericCommand *cmd, CommandContext *context)
 	}
 
 	sheet_set_dirty (me->sheet, TRUE);
+	sheet_update (me->sheet);
 
 	return FALSE;
 }

@@ -207,6 +207,7 @@ init_xl_font_widths ()
 	    { 103, 110, "Courier New" },
 	    { 103, 110, "Fixedsys" },
 	    { 80, 86, "Garamond" },
+	    { 115, 122, "Geneva" },
 	    { 95, 102, "Haettenscheiler" },
 	    { 103, 110, "HE_TERMINAL" },
 	    { 95, 102, "Helvetica" },

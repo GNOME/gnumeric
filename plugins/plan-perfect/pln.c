@@ -771,7 +771,7 @@ pln_parse_sheet (CommandContext *context, FileSource_t *src)
 				cwidth = PLN_WORD(src->cur + ccol * 6 + 8);
 				if ((cwidth != 0) && (ccol <= lastcol))
 				{
-					sheet_col_set_size_pixels
+					sheet_col_set_size_pts
 						(src->sheet, ccol,
 						 (cwidth & 255) * FONT_WIDTH,
 						 FALSE);
