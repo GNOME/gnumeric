@@ -373,7 +373,7 @@ cs_build_menu (CharmapSelector *cs)
 					subitem = gtk_check_menu_item_new_with_label
 						(_(charset_trans->charset_title));
 					gtk_widget_show (subitem);
-					gtk_menu_append (submenu, subitem);
+					gtk_menu_shell_append (GTK_MENU_SHELL (submenu),  subitem);
 					if (charset_trans->imp == CI_MAJOR)
 						cs_emphasize_label (GTK_LABEL(gtk_bin_get_child (GTK_BIN(subitem))));
 					g_object_set_data (G_OBJECT(subitem), CHARMAP_NAME_KEY,
@@ -388,7 +388,7 @@ cs_build_menu (CharmapSelector *cs)
 		if (cnt > 0) {
 			gtk_menu_item_set_submenu (GTK_MENU_ITEM(item), GTK_WIDGET(submenu));
 			gtk_widget_show (item);
-			gtk_menu_append (menu, item);
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 			lg_cnt++;
 		} else {
 			gtk_widget_destroy (item);
@@ -397,7 +397,7 @@ cs_build_menu (CharmapSelector *cs)
         }
 	item = gtk_separator_menu_item_new ();
 	gtk_widget_show (item);
-	gtk_menu_append (menu, item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 	lg_cnt++;
 
 	{
@@ -407,7 +407,7 @@ cs_build_menu (CharmapSelector *cs)
 		item = gtk_check_menu_item_new_with_label (locale_encoding_menu_title);
 		g_free (locale_encoding_menu_title);
 		gtk_widget_show (item);
-		gtk_menu_append (menu, item);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 		lg_cnt++;
 		cs_emphasize_label (GTK_LABEL(gtk_bin_get_child (GTK_BIN(item))));
 	}

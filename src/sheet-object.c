@@ -131,31 +131,31 @@ sheet_object_populate_menu (SheetObject *so,
 		g_signal_connect (G_OBJECT (item),
 			"activate",
 			G_CALLBACK (cb_sheet_object_configure), obj_view);
-		gtk_menu_append (menu, item);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 	}
 
 	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_GOTO_TOP, NULL);
-	gtk_menu_append (menu, item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 	g_signal_connect (G_OBJECT (item),
 			  "activate",
 			  G_CALLBACK (cb_sheet_object_raise_to_top), obj_view);
 	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_GO_UP, NULL);
-	gtk_menu_append (menu, item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 	g_signal_connect (G_OBJECT (item),
 			  "activate",
 			  G_CALLBACK (cb_sheet_object_raise), obj_view);
 	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_GO_DOWN, NULL);
-	gtk_menu_append (menu, item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 	g_signal_connect (G_OBJECT (item),
 			  "activate",
 			  G_CALLBACK (cb_sheet_object_lower), obj_view);
 	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_GOTO_BOTTOM, NULL);
-	gtk_menu_append (menu, item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 	g_signal_connect (G_OBJECT (item),
 			  "activate",
 			  G_CALLBACK (cb_sheet_object_lower_to_bottom), obj_view);
 	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_DELETE, NULL);
-	gtk_menu_append (menu, item);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 	g_signal_connect (G_OBJECT (item),
 		"activate",
 		G_CALLBACK (cb_sheet_object_remove), obj_view);

@@ -118,7 +118,7 @@ cb_zoom_ok_clicked (G_GNUC_UNUSED GtkWidget *button, ZoomState *state)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
 	GSList *sheets = NULL;
 	GList  *l;
-	float const new_zoom =  gtk_spin_button_get_value_as_float (state->zoom) / 100;
+	float const new_zoom =  gtk_spin_button_get_value (state->zoom) / 100;
 
 	for (l = state->list->selection; l != NULL ; l = l->next) {
 		Sheet * s = gtk_clist_get_row_data (state->list, GPOINTER_TO_INT (l->data));

@@ -31,7 +31,7 @@ foreach my $filename (@ARGV) {
 
     # GtkEntry stuff
     $changed = 1 if $contents =~
-	s/gtk_entry_(set_editable|set_position|select_region)\s*\(([^,]+),/gtk_editable_$1 \(GTK_EDITABLE \($2\),/;
+	s/gtk_entry_(set_editable|set_position|select_region)\s*\(([^,]+),/gtk_editable_$1 \(GTK_EDITABLE \($2\),/g;
 
     # Things that have gone the GObject way.
     $changed = 1 if $contents =~

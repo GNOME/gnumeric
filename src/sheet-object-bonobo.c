@@ -244,7 +244,7 @@ sheet_object_bonobo_populate_menu (SheetObject *so,
 		g_signal_connect (G_OBJECT (item),
 			"activate",
 			G_CALLBACK (open_cb), so);
-		gtk_menu_append (menu, item);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 	}
 
 	if (sheet_object_bonobo_parent_class->populate_menu)

@@ -154,7 +154,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 
 				if (perr.begin_char != 0 || perr.end_char != 0) {
 					int offset = expr_txt - txt;
-					gtk_entry_select_region (wbcg_get_entry (wbcg),
+					gtk_editable_select_region (GTK_EDITABLE (wbcg_get_entry (wbcg)),
 						offset + perr.begin_char,
 						offset + perr.end_char);
 				} else
@@ -455,7 +455,7 @@ wbcg_edit_attach_guru_main (WorkbookControlGUI *wbcg, GtkWidget *guru)
 	application_clipboard_unant ();
 
 	wbcg->edit_line.guru = guru;
-	gtk_entry_set_editable (wbcg_get_entry (wbcg), FALSE);
+	gtk_editable_set_editable (GTK_EDITABLE (wbcg_get_entry (wbcg)), FALSE);
 	wb_control_edit_set_sensitive (wbc, FALSE, FALSE);
 	wb_control_menu_state_update (wbc, MS_GURU_MENU_ITEMS);
 
@@ -513,7 +513,7 @@ wbcg_edit_detach_guru (WorkbookControlGUI *wbcg)
 
 	wbcg_set_entry (wbcg, NULL);
 	wbcg->edit_line.guru = NULL;
-	gtk_entry_set_editable (wbcg_get_entry (wbcg), TRUE);
+	gtk_editable_set_editable (GTK_EDITABLE (wbcg_get_entry (wbcg)), TRUE);
 	wb_control_edit_set_sensitive (wbc, FALSE, TRUE);
 	wb_control_menu_state_update (wbc, MS_GURU_MENU_ITEMS);
 }

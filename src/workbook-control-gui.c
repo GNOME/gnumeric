@@ -625,7 +625,7 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 
 		item = gtk_menu_item_new_with_label (
 			_(sheet_label_context_actions [i].text));
-		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 		gtk_widget_show (item);
 
 		g_signal_connect (G_OBJECT (item),
@@ -4693,7 +4693,7 @@ cb_select_auto_expr (GtkWidget *widget, GdkEventButton *event, Workbook *wbcg)
 		g_signal_connect (G_OBJECT (item),
 			"activate",
 			G_CALLBACK (cb_auto_expr_changed), wbcg);
-		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 		gtk_widget_show (item);
 	}
 

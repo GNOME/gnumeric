@@ -581,7 +581,7 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	state->more_down         = FALSE;
 	state->selected_template = NULL;
 	state->tooltips          = gtk_tooltips_new ();
-	gtk_object_ref  (GTK_OBJECT (state->tooltips));
+	g_object_ref (state->tooltips);
 	gtk_object_sink (GTK_OBJECT (state->tooltips));
 
 	state->dialog     = GTK_DIALOG (glade_xml_get_widget (gui, "dialog"));

@@ -242,7 +242,7 @@ scg_setup_group_buttons (SheetControlGUI *scg, unsigned max_outline,
 		gtk_widget_set_style (label, style);
 	}
 
-	gtk_style_unref (style);
+	g_object_unref (style);
 	gtk_widget_show_all (box);
 }
 

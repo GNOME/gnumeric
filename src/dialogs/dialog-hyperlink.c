@@ -391,7 +391,7 @@ dhl_init (HyperlinkState *state)
 		g_signal_connect (G_OBJECT (elem), "activate",
 			G_CALLBACK (dhl_cb_menu_activate),
 			state);
-		gtk_menu_append (GTK_MENU (menu), elem);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), elem);
 		if (strcmp (G_OBJECT_TYPE_NAME (state->link),
 			    type [i].name) == 0)
 			select = i;

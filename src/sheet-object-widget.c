@@ -616,7 +616,7 @@ sheet_widget_scrollbar_init_full (SheetWidgetScrollbar *swb, CellRef const *ref)
 	g_return_if_fail (swb != NULL);
 
 	swb->adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (0., 0., 100., 1., 10., 1.));
-	gtk_object_ref (GTK_OBJECT (swb->adjustment));
+	g_object_ref (swb->adjustment);
 	gtk_object_sink (GTK_OBJECT (swb->adjustment));
 
 	swb->being_updated = FALSE;

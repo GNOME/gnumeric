@@ -1213,7 +1213,7 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 	GtkStyle  *style = gtk_style_copy (GTK_WIDGET (canvas)->style);
 	style->bg [GTK_STATE_NORMAL] = gs_white;
 	gtk_widget_set_style (GTK_WIDGET (canvas), style);
-	gtk_style_unref (style);
+	g_object_unref (style);
 
 	gnome_canvas_set_scroll_region (canvas, 0, 0, 100, 200);
 	gnome_canvas_scroll_to (canvas, 0, 0);

@@ -1,3 +1,7 @@
+2003-05-18  Morten Welinder  <terra@gnome.org>
+
+	* *.c: Eliminate obvious deprecated stuff.
+
 2003-05-15  Morten Welinder  <terra@gnome.org>
 
 	* widget-charmap-selector.c (cs_class_init): Sort here and build a
