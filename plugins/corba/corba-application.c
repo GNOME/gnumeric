@@ -37,12 +37,19 @@
 
 #include <bonobo.h>
 
+BONOBO_TYPE_FUNC_FULL (CorbaApplication, 
+		       GNOME_Gnumeric_Application,
+		       BONOBO_OBJECT_TYPE,
+		       capp);
+
 static GNOME_Gnumeric_Workbook
-capp_workbook_open (PortableServer_Servant ignore, CORBA_char const *file_name, CORBA_boolean shared_view,
-		    CORBA_Environment *ev)
+capp_workbook_open (PortableServer_Servant ignore,
+		    CORBA_char const      *file_name,
+		    CORBA_boolean          shared_view,
+		    CORBA_Environment     *ev)
 {
-	Workbook	*wb = application_workbook_get_by_name (file_name);
-	WorkbookView	*wbv;
+	Workbook     *wb = application_workbook_get_by_name (file_name);
+	WorkbookView *wbv;
 
 	if (wb != NULL) {
 		if (shared_view && wb->wb_views->len > 0)
@@ -62,7 +69,7 @@ capp_workbook_open (PortableServer_Servant ignore, CORBA_char const *file_name, 
 
 static GNOME_Gnumeric_Workbooks *
 capp_workbooks (PortableServer_Servant ignore,
-		CORBA_Environment *ev)
+		CORBA_Environment     *ev)
 {
 	GList *workbooks = application_workbook_list ();
 	int i, len = g_list_length (workbooks);
@@ -71,24 +78,31 @@ capp_workbooks (PortableServer_Servant ignore,
 	res->_buffer = GNOME_Gnumeric_Workbooks_allocbuf (len);
 	res->_release = CORBA_TRUE;
 
-	for (i = 0; i < len ; ++i) {
+	for (i = 0; i < len ; ++i)
 		res->_buffer [i] = CORBA_OBJECT_NIL;
-	}
 
 	return res;
 }
 
-static PortableServer_Servant app = CORBA_OBJECT_NIL;
+static void
+capp_instance_init (CorbaApplication *capp)
+{
+}
+
+static void
+capp_class_init (CorbaApplicationClass *capp)
+{
+	capp->epv.workbooks = capp_workbooks;
+	capp->epv.workbook_open	= capp_workbook_open;
+}
+
+static CorbaApplication *capp = NULL;
 
 void
 plugin_init_general (ErrorInfo **ret_error)
 {
-	static POA_GNOME_Gnumeric_Application__vepv	application_vepv;
-	static POA_GNOME_Gnumeric_Application__epv	application_epv;
-	static POA_GNOME_Gnumeric_Application		application;
-	PortableServer_ObjectId *oid;
-	PortableServer_POA	 poa;
-	CORBA_Environment	 ev;
+	if (capp)
+		return;
 
 	if (!bonobo_is_initialized ()) {
 		int argc = 1;
@@ -96,44 +110,24 @@ plugin_init_general (ErrorInfo **ret_error)
 		bonobo_init (&argc, argv);
 	}
 
-	application_vepv.GNOME_Gnumeric_Application_epv = &application_epv;
-	application_epv.workbook_open	= capp_workbook_open;
-	application_epv.workbooks	= capp_workbooks;
-	application.vepv = &application_vepv;
+	capp = g_object_new (CORBA_TYPE_APPLICATION, NULL);
 
-	app = &application;
-
-	CORBA_exception_init (&ev);
-	POA_GNOME_Gnumeric_Application__init (app, &ev);
-
-	g_return_if_fail (ev._major != CORBA_NO_EXCEPTION);
-
-	poa = bonobo_poa ();
-	oid = PortableServer_POA_activate_object (poa, app, &ev);
-	CORBA_free (oid);
-	bonobo_activation_active_server_register ("OAFIID:GNOME_Gnumeric_Application",
-		    PortableServer_POA_servant_to_reference (poa, app, &ev));
-
-	CORBA_exception_free (&ev);
+	bonobo_activation_active_server_register (
+		"OAFIID:GNOME_Gnumeric_Application",
+		BONOBO_OBJREF (capp));
+	/* FIXME: this badly needs to check return values */
 }
 
 void
 plugin_cleanup_general (ErrorInfo **ret_error)
 {
-	PortableServer_POA	 poa;
-	CORBA_Environment	 ev;
-
-	CORBA_exception_init (&ev);
-
-	poa = bonobo_poa ();
-	bonobo_activation_active_server_unregister ("OAFIID:GNOME_Gnumeric_Application",
-		    PortableServer_POA_servant_to_reference (poa, app, &ev));
-
-	PortableServer_POA_deactivate_object (poa, app, &ev);
-
-	POA_GNOME_Gnumeric_Application__fini (app, &ev);
-
-	CORBA_exception_free (&ev);
+	if (capp) {
+		bonobo_activation_active_server_unregister (
+			"OAFIID:GNOME_Gnumeric_Application",
+			BONOBO_OBJREF (capp));
+		bonobo_object_unref (capp);
+		capp = NULL;
+	}
 }
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;

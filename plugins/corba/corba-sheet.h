@@ -3,7 +3,6 @@
 
 #include "sheet-control.h"
 
-
 #define SHEET_TYPE_CONTROL        (sheet_control_get_type ())
 #define SHEET_CONTROL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), SHEET_TYPE_CONTROL, SheetControl))
 #define SHEET_CONTROL_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_TYPE_CONTROL, SheetControlClass))
