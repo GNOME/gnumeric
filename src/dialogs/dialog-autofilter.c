@@ -104,9 +104,9 @@ cb_top10_type_changed (GtkOptionMenu *menu,
 		       AutoFilterState *state)
 {
 	GtkWidget *spin = glade_xml_get_widget (state->gui, "item_count");
-	int max_val = (gtk_option_menu_get_history (menu) > 0) ? 100 : 500;
 
-	printf ("%d\n", max_val);
+	gtk_spin_button_set_range (GTK_SPIN_BUTTON (spin), 1.,
+		(gtk_option_menu_get_history (menu) > 0) ? 100. : 500.);
 }
 
 void

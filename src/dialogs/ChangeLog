@@ -1,5 +1,8 @@
 2002-12-05  Jody Goldberg <jody@gnome.org>
 
+	* dialog-autofilter.c (cb_top10_type_changed) : tweak the bounds as
+	  the type changes (top 150% makes no sense)
+
 	* dialog-goto-cell.c (cb_dialog_goto_selection_changed) : fix
 	  silliness.
 
