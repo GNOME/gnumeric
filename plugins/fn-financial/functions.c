@@ -115,6 +115,321 @@ calculate_npv (float_t rate, float_t *values, int n)
 	return sum;
 }
 
+static int
+annual_year_basis(Value *value_date, int basis)
+{
+        GDate    *date;
+        gboolean leap_year;
+
+	switch (basis) {
+	case 0:
+	        return 360;
+	case 1:
+	        date = get_date (value_date);
+		if (date != NULL) {
+		        leap_year = g_date_is_leap_year (g_date_year (date));
+			g_date_free (date);
+		} else
+		        return -1;
+	        return leap_year ? 366 : 365;
+	case 2:
+	        return 360;
+	case 3:
+	        return 365;
+	case 4:
+	        return 360;
+	default:
+	        return -1;
+	}
+}
+
+static int
+days_monthly_basis(Value *issue_date, Value *maturity_date, int basis)
+{
+        GDate *date_i, *date_m;
+        int   months, days, years;
+	int   maturity, issue;
+
+	date_i = get_date (issue_date);
+	date_m = get_date (maturity_date);
+	if (date_i != NULL && date_m != NULL) {
+	        years = g_date_year (date_m) - g_date_year (date_i);
+	        months = g_date_month (date_m) - g_date_month (date_i);
+	        days = g_date_day (date_m) - g_date_day (date_i);
+		months = years * 12 + months;
+		g_date_free (date_i);
+		g_date_free (date_m);
+	} else {
+	        g_date_free (date_i);
+	        g_date_free (date_m);
+	        return -1;
+	}
+
+	switch (basis) {
+	case 0:
+	        return months * 30 + days;
+	case 1:
+	case 2:
+	case 3:
+	        issue = get_serial_date(issue_date);
+	        maturity = get_serial_date(maturity_date);
+	        return maturity - issue;
+	case 4:
+	        return months * 30 + days;
+	default:
+	        return -1;
+	}
+}
+
+
+static char *help_accrintm = {
+	N_("@FUNCTION=ACCRINTM\n"
+	   "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
+	   "@DESCRIPTION="
+	   "ACCRINTM calculates and returns the accrued interest for a "
+	   "security from @issue to @maturity date.  @rate is the annual "
+	   "rate of the security and @par is the par value of the security. "
+	   "If you omit @par, ACCRINTM applies $1,000 instead.  @basis is "
+	   "the type of day counting system you want to use:\n"
+	   "\n"
+	   "0  US 30/360\n"
+	   "1  actual days/actual days\n"
+	   "2  actual days/360\n"
+	   "3  actual days/365\n"
+	   "4  European 30/360\n"
+	   "\n"
+	   "If @basis is omitted, US 30/360 is applied. "
+	   "If issue date or maturity date is not valid, ACCRINTM returns "
+	   "NUM! error."
+	   "If @rate or @par is zero or negative, ACCRINTM returns NUM! error."
+	   "If @basis < 0 or @basis > 4, ACCRINTM returns NUM! error. "
+	   "If issue date is after maturity date or they are the same, "
+	   "ACCRINTM returns NUM! error. "
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_accrintm (FunctionEvalInfo *ei, Value **argv)
+{
+	float_t rate, a, d, par;
+	int     basis;
+
+	rate = value_get_as_float (argv[2]);
+	if (argv[3] == NULL)
+	        par = 1000;
+	else
+	        par = value_get_as_float (argv[3]);
+	if (argv[4] == NULL)
+	        basis = 0;
+	else
+	        basis = value_get_as_int (argv[4]);
+
+	a = days_monthly_basis (argv[0], argv[1], basis);
+	d = annual_year_basis (argv[0], basis);
+
+	if (a < 0 || d < 0 || par <= 0 || rate <= 0 || basis < 0 || basis > 4)
+                return value_new_error (&ei->pos, gnumeric_err_NUM);
+
+	return value_new_float (par * rate * a/d);
+}
+
+static char *help_intrate = {
+	N_("@FUNCTION=INTRATE\n"
+	   "@SYNTAX=INTRATE(settlement,maturity,investment,redemption"
+	   "[,basis])\n"
+	   "@DESCRIPTION="
+	   "INTRATE calculates and returns the interest rate of a security. "
+	   "@investment is the prize of the security paid at @settlement "
+	   "date and @redemption is the amount to be received at @maturity "
+	   "date.  @basis is the type of day counting system you want to "
+	   "use:\n"
+	   "\n"
+	   "0  US 30/360\n"
+	   "1  actual days/actual days\n"
+	   "2  actual days/360\n"
+	   "3  actual days/365\n"
+	   "4  European 30/360\n"
+	   "\n"
+	   "If @basis is omitted, US 30/360 is applied. "
+	   "If settlement date or maturity date is not valid, INTRATE returns "
+	   "NUM! error."
+	   "If @basis < 0 or @basis > 4, INTRATE returns NUM! error. "
+	   "If settlement date is after maturity date or they are the same, "
+	   "INTRATE returns NUM! error. "
+	   "\n"
+	   "@SEEALSO=RECEIVED")
+};
+
+static Value *
+gnumeric_intrate (FunctionEvalInfo *ei, Value **argv)
+{
+	float_t investment, redemption, a, d;
+	int     basis;
+
+	investment = value_get_as_float (argv[2]);
+	redemption = value_get_as_float (argv[3]);
+	if (argv[4] == NULL)
+	        basis = 0;
+	else
+	        basis = value_get_as_int (argv[4]);
+
+	a = days_monthly_basis (argv[0], argv[1], basis);
+	d = annual_year_basis (argv[0], basis);
+
+	if (basis < 0 || basis > 4 || a <= 0 || d <= 0)
+                return value_new_error (&ei->pos, gnumeric_err_NUM);
+
+	return value_new_float ((redemption - investment) / investment *
+				(d / a));
+}
+
+static char *help_received = {
+	N_("@FUNCTION=RECEIVED\n"
+	   "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis]"
+	   "@DESCRIPTION="
+	   "RECEIVED calculates and returns the amount to be received at "
+	   "@maturity date for a security bond. "
+	   "@basis is the type of day counting system you want to "
+	   "use:\n"
+	   "\n"
+	   "0  US 30/360\n"
+	   "1  actual days/actual days\n"
+	   "2  actual days/360\n"
+	   "3  actual days/365\n"
+	   "4  European 30/360\n"
+	   "\n"
+	   "If @basis is omitted, US 30/360 is applied. "
+	   "If settlement date or maturity date is not valid, RECEIVED "
+	   "returns NUM! error."
+	   "If @basis < 0 or @basis > 4, RECEIVED returns NUM! error. "
+	   "If settlement date is after maturity date or they are the same, "
+	   "RECEIVED returns NUM! error. "
+	   "\n"
+	   "@SEEALSO=INTRATE")
+};
+
+static Value *
+gnumeric_received (FunctionEvalInfo *ei, Value **argv)
+{
+	float_t investment, discount, a, d;
+	int     basis;
+
+	investment = value_get_as_float (argv[2]);
+	discount = value_get_as_float (argv[3]);
+	if (argv[4] == NULL)
+	        basis = 0;
+	else
+	        basis = value_get_as_int (argv[4]);
+
+	a = days_monthly_basis (argv[0], argv[1], basis);
+	d = annual_year_basis (argv[0], basis);
+
+	if (a <= 0 || d <= 0 || basis < 0 || basis > 4)
+                return value_new_error (&ei->pos, gnumeric_err_NUM);
+
+	return value_new_float (investment / (1.0 - (discount * a/d)));
+}
+
+static char *help_pricedisc = {
+	N_("@FUNCTION=PRICEDISC\n"
+	   "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis]"
+	   "@DESCRIPTION="
+	   "PRICEDISC calculates and returns the price per $100 face value "
+	   "of a security bond.  The security does not pay interest at "
+	   "maturity.  @discount is the rate for which the security "
+	   "is discounted.  @redemption is the amount to be received on "
+	   "@maturity date.  @basis is the type of day counting system you "
+	   "want to use:\n"
+	   "\n"
+	   "0  US 30/360\n"
+	   "1  actual days/actual days\n"
+	   "2  actual days/360\n"
+	   "3  actual days/365\n"
+	   "4  European 30/360\n"
+	   "\n"
+	   "If @basis is omitted, US 30/360 is applied. "
+	   "If settlement date or maturity date is not valid, PRICEDISC "
+	   "returns NUM! error."
+	   "If @basis < 0 or @basis > 4, PRICEDISC returns NUM! error. "
+	   "If settlement date is after maturity date or they are the same, "
+	   "PRICEDISC returns NUM! error. "
+	   "\n"
+	   "@SEEALSO=PRICEMAT")
+};
+
+static Value *
+gnumeric_pricedisc (FunctionEvalInfo *ei, Value **argv)
+{
+	float_t discount, redemption, a, d;
+	int     basis;
+
+	discount = value_get_as_float (argv[2]);
+	redemption = value_get_as_float (argv[3]);
+	if (argv[4] == NULL)
+	        basis = 0;
+	else
+	        basis = value_get_as_int (argv[4]);
+
+	a = days_monthly_basis (argv[0], argv[1], basis);
+	d = annual_year_basis (argv[0], basis);
+
+	if (a <= 0 || d <= 0 || basis < 0 || basis > 4)
+                return value_new_error (&ei->pos, gnumeric_err_NUM);
+
+	return value_new_float (redemption - discount * redemption * a/d);
+}
+
+static char *help_pricemat = {
+	N_("@FUNCTION=PRICEMAT\n"
+	   "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis]"
+	   "@DESCRIPTION="
+	   "PRICEMAT calculates and returns the price per $100 face value "
+	   "of a security.  The security pays interest at maturity. "
+	   "@basis is the type of day counting system you want to use:\n"
+	   "\n"
+	   "0  US 30/360\n"
+	   "1  actual days/actual days\n"
+	   "2  actual days/360\n"
+	   "3  actual days/365\n"
+	   "4  European 30/360\n"
+	   "\n"
+	   "If @basis is omitted, US 30/360 is applied. "
+	   "If settlement date or maturity date is not valid, PRICEMAT "
+	   "returns NUM! error."
+	   "If @basis < 0 or @basis > 4, PRICEMAT returns NUM! error. "
+	   "If settlement date is after maturity date or they are the same, "
+	   "PRICEMAT returns NUM! error. "
+	   "\n"
+	   "@SEEALSO=PRICEDISC")
+};
+
+static Value *
+gnumeric_pricemat (FunctionEvalInfo *ei, Value **argv)
+{
+	float_t discount, yield, a, b, dsm, dim;
+	int     basis;
+
+	discount = value_get_as_float (argv[3]);
+	yield = value_get_as_float (argv[4]);
+	if (argv[5] == NULL)
+	        basis = 0;
+	else
+	        basis = value_get_as_int (argv[5]);
+
+	dsm = days_monthly_basis (argv[0], argv[1], basis);
+	dim = days_monthly_basis (argv[2], argv[1], basis);
+	a = days_monthly_basis (argv[2], argv[0], basis);
+	b = annual_year_basis (argv[0], basis);
+
+	if (a <= 0 || b <= 0 || dsm <= 0 || dim <= 0 || basis < 0 || 
+	    basis > 4)
+                return value_new_error (&ei->pos, gnumeric_err_NUM);
+
+	return value_new_float (((100 + (dim/b * discount * 100)) /
+				 (1 + (dsm/b * yield))) -
+				(a/b * discount * 100));
+}
 
 static char *help_effect = {
 	N_("@FUNCTION=EFFECT\n"
@@ -1125,6 +1440,9 @@ void finance_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Financial"));
 
+	function_add_args  (cat, "accrintm", "??f|ff",
+			    "issue,maturity,rate[,par,basis]",
+			    &help_accrintm, gnumeric_accrintm);
 	function_add_args  (cat, "db", "ffff|f",
 			    "cost,salvage,life,period[,month]",
 			    &help_db, gnumeric_db);
@@ -1145,6 +1463,9 @@ void finance_functions_init()
 			    &help_fv,       gnumeric_fv);
 	function_add_args  (cat, "fvschedule", "fA", "pv,schedule",
 			    &help_fvschedule, gnumeric_fvschedule);
+	function_add_args  (cat, "intrate", "??ff|f",
+			   "settlement,maturity,investment,redemption[,basis]",
+			    &help_intrate,  gnumeric_intrate);
 	function_add_args  (cat, "ipmt", "ffff|ff", "rate,per,nper,pv,fv,type",
 			    &help_ipmt,     gnumeric_ipmt);
 	function_add_args  (cat, "ispmt", "ffff",    "rate,per,nper,pv",
@@ -1163,11 +1484,20 @@ void finance_functions_init()
 	function_add_args  (cat, "ppmt", "ffff|ff",
 			    "rate,per,nper,pv[,fv,type]",
 			    &help_ppmt,     gnumeric_ppmt);
+	function_add_args  (cat, "pricedisc", "??ff|f",
+			    "settlement,maturity,discount,redemption[,basis]",
+			    &help_pricedisc,  gnumeric_pricedisc);
+	function_add_args  (cat, "pricemat", "???ff|f",
+			    "settlement,maturity,issue,rate,yield[,basis]",
+			    &help_pricemat,  gnumeric_pricemat);
 	function_add_args  (cat, "pv", "fffff", "rate,nper,pmt,fv,type",
 			    &help_pv,       gnumeric_pv);
 	function_add_args  (cat, "rate", "fff|fff",
 			    "rate,nper,pmt,fv,type,guess",
 			    &help_rate,     gnumeric_rate);
+	function_add_args  (cat, "received", "??ff|f",
+			    "settlement,maturity,investment,discount[,basis]",
+			    &help_received,  gnumeric_received);
 	function_add_args  (cat, "sln", "fff", "cost,salvagevalue,life",
 			    &help_sln,      gnumeric_sln);
 	function_add_args  (cat, "syd", "ffff",

@@ -33,7 +33,7 @@ get_serial_date (const Value *v)
 	return floor (serial);
 }
 
-static GDate *
+GDate *
 get_date (const Value *v)
 {
 	float_t serial = get_serial_date (v);

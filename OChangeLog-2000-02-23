@@ -1,3 +1,10 @@
+1999-08-29  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/functions/fn-financial.c: Implemented ACCRINTM(), INTRATE(),
+ 	RECEIVED(), PRICEDISC(), and PRICEMAT().
+
+	* src/func.h, src/functions/fn-date.c: Made get_date public.
+
 1999-08-29  Morten Welinder  <terra@diku.dk>
 
 	* src/functions/fn-lookup.c (gnumeric_indirect): Plug leak.
