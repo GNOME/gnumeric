@@ -1,3 +1,7 @@
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
 2003-02-03  Jody Goldberg <jody@gnome.org>
 
 	* pln.c (pln_file_open) : no need to probe.  Gnumeric has already

@@ -1,3 +1,7 @@
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
 2003-03-14  Jody Goldberg <jody@gnome.org>
 
 	* gnm-py-interpreter.c (gnm_py_interpreter_new) : Use G_N_ELEMENTS.

@@ -1,3 +1,7 @@
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
 2003-04-28  Morten Welinder  <terra@gnome.org>
 
 	* ms-excel-read.c (biff_string_get_flags): Fix 0/FALSE confusion.

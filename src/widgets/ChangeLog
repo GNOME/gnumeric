@@ -1,3 +1,7 @@
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
 2003-05-09  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* gnumeric-optionmenu.c (option_menu_init): initialize 

@@ -1,3 +1,7 @@
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
 2003-05-09  Jody Goldberg <jody@gnome.org>
 
 	* src/item-edit.c (item_edit_set_arg) : Use connect_object and

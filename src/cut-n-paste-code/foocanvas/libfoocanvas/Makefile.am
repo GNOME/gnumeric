@@ -35,8 +35,6 @@ libfoocanvas_a_SOURCES =			\
 	foo-canvas.c				\
 	libfoocanvastypes.c
 
-$(libfoocanvas_2_a_OBJECTS): $(marshal_sources)
-
 marshal_sources =				\
 	foo-canvas-marshal.c			\
 	foo-canvas-marshal.h
@@ -53,6 +51,7 @@ EXTRA_DIST = \
 	foo-canvas-marshal.list	\
 	libfoocanvas.pc.in
 
+$(srcdir)/foo-canvas.c :: $(marshal_sources)
 
 DONT_DIST_SOURCE = $(marshal_sources)
 

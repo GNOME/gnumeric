@@ -1,3 +1,7 @@
+2003-05-11  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.17
+
 2003-05-07  Jody Goldberg <jody@gnome.org>
 
 	* html_read.c (html_file_open) : patch compiler warning.  Not really
