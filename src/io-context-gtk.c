@@ -79,16 +79,47 @@ cb_hide_splash (G_GNUC_UNUSED GtkWidget *widget,
 }
 
 static void
+cb_realize (GtkWindow *window, void *dummy)
+{
+	int sx, sy;
+	GdkWindowHints hints;
+	GtkAllocation *allocation;
+	GdkGeometry geom;
+#ifdef HAVE_GDK_SCREEN_GET_MONITOR_GEOMETRY
+	GdkRectangle rect;
+
+	/* In a Xinerama setup, we want the geometry of the actual display
+	 * unit, if available. See bug 59902. This call was added for
+	 * gtk2.2 */
+	gdk_screen_get_monitor_geometry (window->screen, 0, &rect);
+	sx = rect.width;
+	sy = rect.height;
+#else
+	sx = gdk_screen_width  ();
+	sy = gdk_screen_height ();
+#endif
+	allocation = &GTK_WIDGET (window)->allocation;
+	
+	geom.base_width = allocation->width;
+	geom.base_height = allocation->height;
+	geom.min_width = geom.max_width = geom.base_width;
+	geom.min_height = geom.max_height = geom.base_height;
+
+	gtk_window_move (window,
+			 sx / 2 - geom.min_width / 2,
+			 sy / 2 - geom.min_height / 2);
+	hints = GDK_HINT_POS | GDK_HINT_USER_POS |
+		GDK_HINT_BASE_SIZE | GDK_HINT_MIN_SIZE | GDK_HINT_MAX_SIZE |
+		GDK_HINT_USER_SIZE;
+
+	gtk_window_set_geometry_hints (window, NULL, &geom, hints);
+}
+
+static void
 icg_show_gui (IOContextGtk *icg)
 {
 	GtkBox *box;
 	GtkWidget *frame;
-	int sx, sy;
-	GdkWindowHints hints;
-	GdkGeometry geom;
-#ifdef HAVE_GDK_SCREEN_GET_MONITOR_GEOMETRY
-	GdkRectangle rect;
-#endif
 
 	box = GTK_BOX (gtk_vbox_new (FALSE, 0));
 	gtk_box_pack_start (box,
@@ -128,30 +159,9 @@ icg_show_gui (IOContextGtk *icg)
 	gtk_container_add (GTK_CONTAINER (frame), GTK_WIDGET (box));
 	gtk_container_add (GTK_CONTAINER (icg->window), frame);
 
-#ifdef HAVE_GDK_SCREEN_GET_MONITOR_GEOMETRY
-	/* In a Xinerama setup, we want the geometry of the actual display
-	 * unit, if available. See bug 59902. This call was added for
-	 * gtk2.2 */
-	gdk_screen_get_monitor_geometry (icg->window->screen, 0, &rect);
-	sx = rect.width;
-	sy = rect.height;
-#else
-	sx = gdk_screen_width  ();
-	sy = gdk_screen_height ();
-#endif
-	geom.min_width = geom.max_width = geom.base_width = sx / 3;
-	geom.min_height = geom.max_height = geom.base_height = sy / 3;
+	g_signal_connect (G_OBJECT (icg->window), "realize", 
+			  G_CALLBACK (cb_realize), NULL);
 
-	gtk_window_move (icg->window,
-			 sx / 2 - geom.min_width / 2,
-			 sy / 2 - geom.min_height / 2);
-	hints = GDK_HINT_POS | GDK_HINT_USER_POS |
-		GDK_HINT_BASE_SIZE | GDK_HINT_MIN_SIZE | GDK_HINT_MAX_SIZE |
-		GDK_HINT_USER_SIZE;
-
-	gtk_window_set_geometry_hints (icg->window,
-				       NULL, &geom,
-				       hints);
 	if (icg->parent_window)
 		gtk_window_set_transient_for (icg->window, icg->parent_window);
 

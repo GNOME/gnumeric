@@ -1,3 +1,10 @@
+2003-06-20  Jon Kåre Hellan  <Jon.Kare.hellan@uninett.no>
+
+	* src/io-context-gtk.c (cb_realize): New. Called when splash is
+	realized. Move placement logic here, and use natural size.
+	(icg_show_gui): Register realize handler, move placement logic
+	out, and get rid of explicit sizing.
+
 2003-06-20  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/print.c (print_job_info_get): don't overwrite page layout
