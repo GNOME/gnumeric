@@ -25,4 +25,5 @@ GB_DIR =
 endif
 
 SUBDIRS = excel lotus-123 oleo sc sylk text ff-csv xbase html dif \
-	$(PYTHON) $(GUILE_DIR) $(GB_DIR) sample
+	$(PYTHON) $(GUILE_DIR) $(GB_DIR) sample \
+	numtheory
