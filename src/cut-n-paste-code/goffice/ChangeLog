@@ -1,5 +1,29 @@
 2004-09-20  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
+	* goffice.c: new GogGridLine type.
+	* graph/gog-axis.c (map_discrete_calc_ticks): allways calc major and
+	minor ticks.
+	(map_linear_calc_ticks): ditto.
+	(map_log_calc_ticks): ditto.
+	(gog_axis_get_ticks): return tick list and tick number now.
+	(gog_axis_view_render): since all ticks are in cache, only draw them
+	if they are visibles.
+	* graph/gog-grid-line.[ch]: new.
+	* graph/gog-grid.c (gog_grid_init_style): use only fill property.
+	(role_grid_line_can_add): new.
+	(role_grid_x_major_can_add): new.
+	(role_grid_x_minor_can_add): new.
+	(role_grid_y_major_can_add): new.
+	(role_grid_y_minor_can_add): new.
+	(role_grid_x_major_post_add): new.
+	(role_grid_x_minor_post_add): new.
+	(role_grid_y_major_post_add): new.
+	(role_grid_y_minor_post_add): new.
+	(gog_grid_class_init): register new grid line roles.
+	* graph/gog-theme.c: register theme for new grid line objects.
+	
+2004-09-20  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=153146
 	* graph/plugins/plot_radar/gog-radar.c (gog_radar_view_render): Check
 	if series is valid before trying to render it.

@@ -30,6 +30,8 @@ libgoffice_graph_la_SOURCES = \
 	gog-label.h			\
 	gog-grid.c			\
 	gog-grid.h			\
+	gog-grid-line.c			\
+	gog-grid-line.h			\
 	\
 	gog-style.c			\
 	gog-style.h			\

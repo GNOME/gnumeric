@@ -490,12 +490,28 @@ gog_themes_init	(void)
 
 	/* Grid */
 	style = gog_style_new ();
-	style->line.width = 0.; /* hairline */
-	style->line.color = RGBA_GREY (0x20);
 	style->fill.type  = GOG_FILL_STYLE_PATTERN;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_GREY (0xd0));
 	gog_theme_add_element (theme, style, NULL, "GogGrid", NULL);
 
+	/* GridLine */
+	style = gog_style_new ();
+	style->line.width = 0.; /* hairline */
+	style->line.color = RGBA_GREY (0x96);
+	gog_theme_add_element (theme, style, NULL, NULL, "X-MajorGrid");
+	style = gog_style_new ();
+	style->line.width = 0.; /* hairline */
+	style->line.color = RGBA_GREY (0x96);
+	gog_theme_add_element (theme, style, NULL, NULL, "Y-MajorGrid");
+	style = gog_style_new ();
+	style->line.width = 0.; /* hairline */
+	style->line.color = RGBA_GREY (0xC0);
+	gog_theme_add_element (theme, style, NULL, NULL, "X-MinorGrid");
+	style = gog_style_new ();
+	style->line.width = 0.; /* hairline */
+	style->line.color = RGBA_GREY (0xC0);
+	gog_theme_add_element (theme, style, NULL, NULL, "Y-MinorGrid");
+	
 	/* series */
 	style = gog_style_new ();
 	style->outline.width = 0; /* hairline */
@@ -547,12 +563,28 @@ gog_themes_init	(void)
 
 	/* Grid */
 	style = gog_style_new ();
-	style->line.width = 0.; /* hairline */
-	style->line.color = RGBA_GREY (0x20);
 	style->fill.type  = GOG_FILL_STYLE_PATTERN;
 	go_pattern_set_solid (&style->fill.pattern, RGBA_GREY (0xd0));
 	gog_theme_add_element (theme, style, NULL, "GogGrid", NULL);
 
+	/* GridLine */
+	style = gog_style_new ();
+	style->line.width = 0.; /* hairline */
+	style->line.color = RGBA_GREY (0x96);
+	gog_theme_add_element (theme, style, NULL, NULL, "X-MajorGrid");
+	style = gog_style_new ();
+	style->line.width = 0.; /* hairline */
+	style->line.color = RGBA_GREY (0x96);
+	gog_theme_add_element (theme, style, NULL, NULL, "Y-MajorGrid");
+	style = gog_style_new ();
+	style->line.width = 0.; /* hairline */
+	style->line.color = RGBA_GREY (0xC0);
+	gog_theme_add_element (theme, style, NULL, NULL, "X-MinorGrid");
+	style = gog_style_new ();
+	style->line.width = 0.; /* hairline */
+	style->line.color = RGBA_GREY (0xC0);
+	gog_theme_add_element (theme, style, NULL, NULL, "Y-MinorGrid");
+	
 	/* series */
 	style = gog_style_new ();
 	style->outline.color = RGBA_BLACK;

@@ -41,6 +41,18 @@ enum {
 	AXIS_ELEM_MAX_ENTRY
 };
 
+typedef enum {
+	TICK_NONE,
+	TICK_MAJOR,
+	TICK_MINOR
+} GogAxisTickTypes;
+
+typedef struct {
+	double		 position;
+	GogAxisTickTypes	 type;
+	char 		*label;
+} GogAxisTick;
+
 #define GOG_AXIS_TYPE	(gog_axis_get_type ())
 #define GOG_AXIS(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_AXIS_TYPE, GogAxis))
 #define IS_GOG_AXIS(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_AXIS_TYPE))
@@ -52,8 +64,7 @@ GogAxisPosition gog_axis_get_pos 	 (GogAxis const *axis);
 gboolean        gog_axis_is_discrete     (GogAxis const *axis);
 gboolean	gog_axis_get_bounds 	 (GogAxis const *axis,
 					  double *minima, double *maxima);
-void		gog_axis_get_ticks 	 (GogAxis const *axis,
-					  double *major, double *minor);
+unsigned  	gog_axis_get_ticks 	 (GogAxis *axis, GogAxisTick **ticks);
 GOData	       *gog_axis_get_labels	 (GogAxis const *axis,
 					  GogPlot **plot_that_labeled_axis);
 double		gog_axis_get_entry	 (GogAxis const *axis, unsigned i,
@@ -86,8 +97,6 @@ struct _GogAxisMapDesc {
 					  double minimum, double maximum,
 					  double *bound);
 	void		(*calc_ticks) 	 (GogAxis *axis,
-					  gboolean draw_major,
-					  gboolean draw_minor,
 					  gboolean draw_labels);
 	char const	*name;
 	char const	*description;
