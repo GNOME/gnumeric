@@ -354,6 +354,79 @@ gnumeric_hex2dec (FunctionEvalInfo *ei, Value **argv)
 	return val_to_base (ei, argv, 1, 16, 10);
 }
 
+static char *help_besseli = {
+	N_("@FUNCTION=BESSELI\n"
+	   "@SYNTAX=BESSELI(x,y)\n"
+
+	   "@DESCRIPTION="
+	   "The BESSELI function returns the Neumann, Weber or Bessel "
+	   "function. "
+	   "@x is where the function is evaluated. "
+	   "@y is the order of the bessel function, if non-integer it is "
+	   "truncated."
+	   "\n"
+
+	   "if x or n are not numeric a #VALUE! error is returned."
+	   "if n < 0 a #NUM! error is returned." 
+	   "\n"
+	   "@SEEALSO=BESSELJ,BESSELK,BESSELY")
+};
+
+
+static Value *
+gnumeric_besseli (FunctionEvalInfo *ei, Value **argv)
+{
+	double x;
+	double order;
+	double result;
+	
+	x = value_get_as_float (argv[0]);	/* value to evaluate I_n at. */
+	order = value_get_as_float (argv[1]);	/* the order */
+
+	if (order<0)
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
+
+	result = bessel_i(x, order, 1.0);
+	return value_new_float (result);
+}
+
+
+static char *help_besselk = {
+	N_("@FUNCTION=BESSELK\n"
+	   "@SYNTAX=BESSELK(x,y)\n"
+
+	   "@DESCRIPTION="
+	   "The BESSELK function returns the Neumann, Weber or Bessel "
+	   "function. "
+	   "@x is where the function is evaluated. "
+	   "@y is the order of the bessel function, if non-integer it is "
+	   "truncated."
+	   "\n"
+
+	   "if x or n are not numeric a #VALUE! error is returned."
+	   "if n < 0 a #NUM! error is returned." 
+	   "\n"
+	   "@SEEALSO=BESSELI,BESSELJ,BESSELY")
+};
+
+static Value *
+gnumeric_besselk (FunctionEvalInfo *ei, Value **argv)
+{
+	double x;
+	double order;
+	double result;
+	
+	x = value_get_as_float (argv[0]);	/* value to evaluate K_n at. */
+	order = value_get_as_float (argv[1]);	/* the order */
+
+	if (order<0)
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
+
+	result = bessel_k(x, order, 1.0);
+	return value_new_float (result);
+}
+
+
 static char *help_besselj = {
 	N_("@FUNCTION=BESSELJ\n"
 	   "@SYNTAX=BESSELJ(x,y)\n"
@@ -1567,14 +1640,12 @@ void eng_functions_init()
 {
 	FunctionCategory *cat = function_get_category (_("Engineering"));
 
-#if 0
 	function_add_args  (
 		cat, "besseli",    "ff",   "xnum,ynum",
 		&help_besseli, gnumeric_besseli);
 	function_add_args  (
 		cat, "besselk",     "ff",   "xnum,ynum",
 		&help_besselk, gnumeric_besselk);
-#endif
 	function_add_args  (
 		cat, "besselj",     "ff",   "xnum,ynum",
 		&help_besselj, gnumeric_besselj);

@@ -20,6 +20,10 @@ Jody:
 	* Support implict intersection 'feature' of XL for functions, not
 	  operators.
 
+Jay:
+
+	* Implemented BESSELI, BESSELK
+
 --------------------------------------------------------------------------
 
 Gnumeric 0.31

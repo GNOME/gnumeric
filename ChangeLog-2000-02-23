@@ -1,3 +1,9 @@
+1999-07-30  James Youngman  <jay@gnu.org>
+
+	* src/fn-eng.c (gnumeric_besseli): Implemented.
+	(gnumeric_besselk): Implemented.
+	(eng_functions_init): Add relevant inits.
+
 1999-07-30  Morten Welinder  <terra@diku.dk>
 
 	* src/cell.c (cell_cleanout): New function.
