@@ -90,9 +90,6 @@ void cell_foreach_dep		 (Cell const *cell, DepFunc func, gpointer user);
 void cell_eval		 	 (Cell *cell);
 
 void sheet_region_queue_recalc	 (Sheet const *sheet, Range const *range);
-/* Do we need this ?
-void sheet_foreach_dep		 (Sheet *sheet, DepFunc func, gpointer user);
- */
 void sheet_deps_destroy		 (Sheet *sheet);
 void workbook_deps_destroy	 (Workbook *wb);
 void workbook_queue_all_recalc	 (Workbook *wb);
