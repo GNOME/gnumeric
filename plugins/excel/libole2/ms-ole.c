@@ -530,11 +530,11 @@ dump_allocation (MsOle *f)
 	printf ("-------------------------------------------------------------\n");
 }
 
-/**
+/*
  * Dump some useful facts.
  * magic: 2       : dump tree
  *        default : dump header and allocation
- **/
+ */
 void
 ms_ole_debug (MsOle *f, int magic)
 {
@@ -1082,10 +1082,10 @@ pps_encode_tree_initial (MsOle *f, GList *list, PPS_IDX *p)
 		pps_encode_tree_initial (f, g_list_next(list), p);
 }
 
-/**
+/*
  * Chain the blocks together afterwards
  * FIXME: Leaks like a sieve
- **/
+ */
 static void
 pps_encode_tree_chain (MsOle *f, GList *list)
 {
@@ -1425,6 +1425,7 @@ ms_ole_unref (MsOle *f)
 
 /**
  * ms_ole_open_vfs:
+ * @f: FIXME
  * @name: name of OLE2 file to open.
  * @try_mmap: TRUE if try to mmap the OLE2 file.
  * @wrappers: system functions wrappers, NULL if standard functions are used.
@@ -1539,6 +1540,7 @@ ms_ole_open_vfs (MsOle **f, const char *name, gboolean try_mmap,
 
 /**
  * ms_ole_create_vfs:
+ * @f: FIXME
  * @name: filename of new OLE file.
  * @try_mmap: TRUE if try to mmap the OLE2 file.
  * @wrappers: system functions wrappers, NULL if standard functions are used.
@@ -1668,7 +1670,7 @@ destroy_pps (GList *l)
 
 /**
  * ms_ole_destroy:
- * @f: OLE2 file handle.
+ * @ptr: OLE2 file handle.
  * 
  * Closes @f and truncates any free blocks.
  **/
@@ -1977,11 +1979,11 @@ ms_ole_read_ptr_sb (MsOleStream *s, MsOlePos length)
 	return ans;
 }
 
-/**
+/*
  *  Returns:
  *  0 - on error
  *  1 - on success
- **/
+ */
 static MsOlePos
 ms_ole_read_copy_bb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 {
@@ -2713,6 +2715,7 @@ ms_ole_stream_duplicate (MsOleStream **s, const MsOleStream * const stream)
  * 
  * Closes stream @s and de-allocates resources.
  * 
+ * Return value: FIXME
  **/
 MsOleErr
 ms_ole_stream_close (MsOleStream **s)

@@ -1,7 +1,15 @@
 1999-11-12  Arturo Tena  <arturo@directmail.org>
 
 	* ms-ole-summary.h (MsOleSummaryType): Deleted extra comma in structure
-	definition.
+	  definition (it confused gtk-doc).
+
+	* ms-ole.c: Fixed some function comments to work with gtk-doc.
+	* ms-ole.h (MS_OLE_H_IMPLEMENTATION): Deleted, because Meeks say that is
+	  useless anyway.
+	  (ms_ole_create_vfs, ms_ole_open_vfs, ms_ole_ref, ms_ole_unref,
+	  ms_ole_destroy, ms_ole_stream_close, ms_ole_debug): Modified their
+	  signatures to be syncronizated with their implementations, in order
+	  to get gtk-doc working.
 
 1999-11-08  Arturo Tena  <arturo@directmail.org>
 

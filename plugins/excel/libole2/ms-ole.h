@@ -61,12 +61,6 @@ typedef enum { MsOleSeekSet, MsOleSeekCur, MsOleSeekEnd } MsOleSeek;
         typedef guint32 MsOlePos;
 #endif
 
-#ifndef MS_OLE_H_IMPLEMENTATION
-	struct _MsOle {
-		int dummy;
-	};
-#endif /* MS_OLE_H_IMPLEMENTATION */
-
 typedef enum  { MsOleStorageT = 1,
 		MsOleStreamT  = 2,
 		MsOleRootT    = 5} MsOleType ;
@@ -82,15 +76,16 @@ typedef struct {
 
 /* Create new OLE file */
 #define ms_ole_create(n,m) ms_ole_create_vfs ((n), (m), MsOleDoMmap, NULL)
-extern MsOleErr ms_ole_create_vfs  (MsOle **, const char *name, int try_mmap,
+extern MsOleErr ms_ole_create_vfs  (MsOle **f, const char *name, int try_mmap,
 				    MsOleSysWrappers *wrappers);
 /* Open existing OLE file */
 #define ms_ole_open(n,m) ms_ole_open_vfs ((n), (m), MsOleDoMmap, NULL)
-extern MsOleErr ms_ole_open_vfs    (MsOle **, const char *name,
-				    gboolean try_mmap, MsOleSysWrappers *);
-extern void     ms_ole_ref         (MsOle *);
-extern void     ms_ole_unref       (MsOle *);
-extern void     ms_ole_destroy     (MsOle **);
+extern MsOleErr ms_ole_open_vfs    (MsOle **f, const char *name,
+				    gboolean try_mmap,
+				    MsOleSysWrappers *wrappers);
+extern void     ms_ole_ref         (MsOle *f);
+extern void     ms_ole_unref       (MsOle *f);
+extern void     ms_ole_destroy     (MsOle **ptr);
 extern MsOleErr ms_ole_unlink      (MsOle *f, const char *path);
 extern MsOleErr ms_ole_directory   (char ***names,   MsOle *f, const char *path);
 extern MsOleErr ms_ole_stat        (MsOleStat *stat, MsOle *f, const char *path,
@@ -134,7 +129,7 @@ struct _MsOleStream
 /* Mode = 'r' or 'w' */
 extern MsOleErr ms_ole_stream_open       (MsOleStream ** const stream, MsOle *f,
 					  const char *path, const char *fname, char mode);
-extern MsOleErr ms_ole_stream_close      (MsOleStream ** const stream);
+extern MsOleErr ms_ole_stream_close      (MsOleStream ** const s);
 extern MsOleErr ms_ole_stream_duplicate  (MsOleStream ** const copy,
 					  const MsOleStream * const stream);
 
@@ -154,5 +149,5 @@ struct _MsOleSysWrappers {
 extern void dump (guint8 const *ptr, guint32 len) ;
 
 /* Do not use */
-extern void ms_ole_debug (MsOle *, int magic);
+extern void ms_ole_debug (MsOle *f, int magic);
 #endif
