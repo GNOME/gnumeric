@@ -277,7 +277,7 @@ gnumeric_expression (FunctionEvalInfo *ei, Value **args)
 		CellRef const * a = &v->v_range.cell.a;
 		CellRef const * b = &v->v_range.cell.b;
 
-		if (a->col != b->col || a->row == b->row || a->sheet !=b->sheet)
+		if (a->col != b->col || a->row != b->row || a->sheet !=b->sheet)
 			return value_new_error (ei->pos, gnumeric_err_REF);
 
 		cell = sheet_cell_get (eval_sheet (a->sheet, ei->pos->sheet),
@@ -287,7 +287,7 @@ gnumeric_expression (FunctionEvalInfo *ei, Value **args)
 			ParsePos pos;
 			char * expr_string =
 			    expr_tree_as_string (cell->base.expression,
-				parse_pos_init_evalpos (&pos, ei->pos));
+				parse_pos_init_cell (&pos, cell));
 			Value * res = value_new_string (expr_string);
 			g_free (expr_string);
 			return res;

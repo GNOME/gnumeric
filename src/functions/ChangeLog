@@ -1,3 +1,9 @@
+2001-08-26  Jody Goldberg <jgoldberg@home.com>
+
+	* fn-information.c (gnumeric_expression) : fix typo.
+	  and generate the expression using the source cell rather than then
+	  position with the call to expression.
+
 2001-08-20  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.70
