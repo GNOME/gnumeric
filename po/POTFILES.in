@@ -109,11 +109,13 @@ src/dialogs/function-select.glade
 src/dialogs/graph-guru.glade
 src/dialogs/hf-config.glade
 src/dialogs/insert-cells.glade
+src/dialogs/mean-tests.glade
 src/dialogs/names.glade
 src/dialogs/plugin-manager.glade
 src/dialogs/print.glade
 src/dialogs/rank.glade
 src/dialogs/row-height.glade
+src/dialogs/sampling.glade
 src/dialogs/search-replace.glade
 src/dialogs/sheet-order.glade
 src/dialogs/sheet-rename.glade
@@ -121,6 +123,7 @@ src/dialogs/solver-options.glade
 src/dialogs/solver.glade
 src/dialogs/summary.glade
 src/dialogs/validate.glade
+src/dialogs/variance-tests.glade
 src/dialogs/workbook-attr.glade
 src/embeddable-grid.c
 src/eval.c

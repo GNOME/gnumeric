@@ -382,12 +382,6 @@ failure:
 	return 0;
 }
 
-static char *sample_method_ops [] = {
-        N_("Periodic"),
-        N_("Random"),
-        NULL
-};
-
 static GtkWidget *
 new_dialog (const char *name)
 {
@@ -551,15 +545,21 @@ typedef enum {
 	TOOL_CORRELATION = 1,       /* use GenericToolState */
 	TOOL_COVARIANCE = 2,        /* use GenericToolState */
 	TOOL_RANK_PERCENTILE = 3,   /* use GenericToolState */
+	TOOL_FTEST = 4,   /* use GenericToolState */
 	TOOL_GENERIC = 10,          /* all smaller types are generic */
-	TOOL_DESC_STATS = 11
+	TOOL_DESC_STATS = 11,
+	TOOL_TTEST = 12,
+	TOOL_SAMPLING = 13
 } ToolType;
 
 
 #define CORRELATION_KEY       "analysistools-correlation-dialog"
-#define COVARIANCE_KEY       "analysistools-covariance-dialog"
+#define COVARIANCE_KEY        "analysistools-covariance-dialog"
 #define DESCRIPTIVE_STATS_KEY "analysistools-descriptive-stats-dialog"
-#define RANK_PERCENTILE_KEY "analysistools-rank-percentile-dialog"
+#define RANK_PERCENTILE_KEY   "analysistools-rank-percentile-dialog"
+#define TTEST_KEY             "analysistools-ttest-dialog"
+#define FTEST_KEY             "analysistools-ftest-dialog"
+#define SAMPLING_KEY          "analysistools-sampling-dialog"
 
 
 
@@ -568,9 +568,11 @@ typedef struct {
 	GladeXML  *gui;
 	GtkWidget *dialog;
 	GnumericExprEntry *input_entry;
+	GnumericExprEntry *input_entry_2;
 	GnumericExprEntry *output_entry;
 	GtkWidget *ok_button;
 	GtkWidget *cancel_button;
+	GtkWidget *apply_button;
 	GtkWidget *new_sheet;
 	GtkWidget *new_workbook;
 	GtkWidget *output_range;
@@ -584,9 +586,11 @@ typedef struct {
 	GladeXML  *gui;
 	GtkWidget *dialog;
 	GnumericExprEntry *input_entry;
+	GnumericExprEntry *input_entry_2;
 	GnumericExprEntry *output_entry;
 	GtkWidget *ok_button;
 	GtkWidget *cancel_button;
+	GtkWidget *apply_button;
 	GtkWidget *new_sheet;
 	GtkWidget *new_workbook;
 	GtkWidget *output_range;
@@ -600,10 +604,82 @@ typedef struct {
 	GtkWidget *kth_smallest_button;
 } DescriptiveStatState;
 
+typedef enum {
+	TTEST_PAIRED = 1,
+	TTEST_UNPAIRED_EQUALVARIANCES = 2,
+	TTEST_UNPAIRED_UNEQUALVARIANCES = 3,
+	TTEST_ZTEST = 4
+} ttest_type;
+
+typedef struct {
+	ToolType  const type;
+	GladeXML  *gui;
+	GtkWidget *dialog;
+	GnumericExprEntry *input_entry;
+	GnumericExprEntry *input_entry_2;
+	GnumericExprEntry *output_entry;
+	GtkWidget *ok_button;
+	GtkWidget *cancel_button;
+	GtkWidget *apply_button;
+	GtkWidget *new_sheet;
+	GtkWidget *new_workbook;
+	GtkWidget *output_range;
+	Sheet	  *sheet;
+	Workbook  *wb;
+	WorkbookControlGUI  *wbcg;
+
+	GtkWidget *paired_button;
+	GtkWidget *unpaired_button;
+	GtkWidget *known_button;
+	GtkWidget *unknown_button;
+	GtkWidget *equal_button;
+	GtkWidget *unequal_button;
+	GtkWidget *variablespaired_label;
+	GtkWidget *varianceknown_label;
+	GtkWidget *varianceequal_label;
+	GtkWidget *var1_variance_label;
+	GtkWidget *var2_variance_label;
+	GtkWidget *var1_variance;
+	GtkWidget *var2_variance;
+	GtkWidget *options_table;
+
+	ttest_type invocation;
+} TTestState;
+
+typedef struct {
+	ToolType  const type;
+	GladeXML  *gui;
+	GtkWidget *dialog;
+	GnumericExprEntry *input_entry;
+	GnumericExprEntry *input_entry_2;
+	GnumericExprEntry *output_entry;
+	GtkWidget *ok_button;
+	GtkWidget *cancel_button;
+	GtkWidget *apply_button;
+	GtkWidget *new_sheet;
+	GtkWidget *new_workbook;
+	GtkWidget *output_range;
+	Sheet	  *sheet;
+	Workbook  *wb;
+	WorkbookControlGUI  *wbcg;
+
+	GtkWidget *periodic_button;
+	GtkWidget *random_button;
+	GtkWidget *method_label;
+	GtkWidget *period_label;
+	GtkWidget *random_label;
+	GtkWidget *period_entry;
+	GtkWidget *random_entry;
+	GtkWidget *options_table;
+} SamplingState;
+
+
 typedef union {
 	ToolType  const type;
 	GenericToolState tt_generic;
 	DescriptiveStatState tt_desc_stat;
+	TTestState tt_ttest;
+	SamplingState tt_sampling;
 } ToolState;
 
 /**********************************************/
@@ -708,6 +784,7 @@ dialog_tool_init (GenericToolState *state, char *gui_name, char *dialog_name,
                        GtkSignalFunc ok_function, GtkSignalFunc sensitivity_cb)
 {
 	GtkTable *table;
+	GtkWidget *widget;
 
 	state->gui = gnumeric_glade_xml_new (state->wbcg, gui_name);
         if (state->gui == NULL)
@@ -727,6 +804,11 @@ dialog_tool_init (GenericToolState *state, char *gui_name, char *dialog_name,
 			    GTK_SIGNAL_FUNC (cb_tool_cancel_clicked),
 			    state);
 
+	state->apply_button     = glade_xml_get_widget(state->gui, "applybutton");
+	if (state->apply_button != NULL ) 
+		gtk_signal_connect (GTK_OBJECT (state->apply_button), "clicked",
+				    ok_function, state);
+
 	state->new_sheet  = glade_xml_get_widget(state->gui, "newsheet-button");
 	state->new_workbook  = glade_xml_get_widget(state->gui, "newworkbook-button");
 	state->output_range  = glade_xml_get_widget(state->gui, "outputrange-button");
@@ -742,6 +824,35 @@ dialog_tool_init (GenericToolState *state, char *gui_name, char *dialog_name,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
 	gtk_widget_show (GTK_WIDGET (state->input_entry));
+	gtk_signal_connect_after (GTK_OBJECT (state->input_entry), "changed",
+			    GTK_SIGNAL_FUNC (sensitivity_cb), state);
+ 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_EDITABLE (state->input_entry));
+
+/*                                                        */
+/* If there is a var2-label, we need a second input field */
+/*                                                        */
+	widget = glade_xml_get_widget (state->gui, "var2-label");
+	if (widget == NULL) {
+		state->input_entry_2 = NULL;
+	} else {
+		state->input_entry_2 = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
+		gnumeric_expr_entry_set_flags(state->input_entry_2,
+                                      GNUM_EE_SINGLE_RANGE | GNUM_EE_SHEET_OPTIONAL, 
+                                      GNUM_EE_MASK);
+		gnumeric_expr_entry_set_scg(state->input_entry_2, 
+					    wb_control_gui_cur_sheet (state->wbcg));
+		gtk_table_attach (table, GTK_WIDGET (state->input_entry_2),
+			  1, 2, 1, 2,
+			  GTK_EXPAND | GTK_FILL, 0,
+			  0, 0);
+		gtk_widget_show (GTK_WIDGET (state->input_entry_2));		
+		gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+					  GTK_EDITABLE (state->input_entry_2));
+		gtk_signal_connect_after (GTK_OBJECT (state->input_entry_2), "changed",
+					  GTK_SIGNAL_FUNC (sensitivity_cb), state);
+	}
+
 
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "output-table"));
 	state->output_entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
@@ -760,8 +871,6 @@ dialog_tool_init (GenericToolState *state, char *gui_name, char *dialog_name,
 			    GTK_SIGNAL_FUNC (tool_set_focus), state);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (tool_destroy), state);
-	gtk_signal_connect_after (GTK_OBJECT (state->input_entry), "changed",
-			    GTK_SIGNAL_FUNC (sensitivity_cb), state);
 	gtk_signal_connect (GTK_OBJECT (state->output_entry), "focus-in-event",
 			    GTK_SIGNAL_FUNC (tool_set_focus_output_range), state);
 	gtk_signal_connect_after (GTK_OBJECT (state->output_entry), "changed",
@@ -769,8 +878,6 @@ dialog_tool_init (GenericToolState *state, char *gui_name, char *dialog_name,
 	gtk_signal_connect_after (GTK_OBJECT (state->output_range), "toggled",
 			    GTK_SIGNAL_FUNC (sensitivity_cb), state);
  
- 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
-				  GTK_EDITABLE (state->input_entry));
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE (state->output_entry));
 
@@ -797,22 +904,35 @@ tool_update_sensitivity_cb (GtkWidget *dummy, GenericToolState *state)
 	gboolean ready  = FALSE;
 	char const *output_text;
 	char const *input_text;
+	char const *input_text_2;
 	int i;
         Value *output_range;
         Value *input_range;
+        Value *input_range_2;
 
 	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
 	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
         output_range = range_parse(state->sheet,output_text,TRUE);
         input_range = range_parse(state->sheet,input_text,TRUE);
+	if (state->input_entry_2 != NULL) {
+		input_text_2 = gtk_entry_get_text (GTK_ENTRY (state->input_entry_2));
+		input_range_2 = range_parse(state->sheet,input_text_2,TRUE);
+	} else {
+		input_range_2 = NULL;
+	}
+		
 	i = gnumeric_glade_group_value (state->gui, output_group);
 
 	ready = ((input_range != NULL) && 
+		 ((state->input_entry_2 == NULL) || (input_range_2 != NULL)) &&
                  ((i != 2) || (output_range != NULL)));
 
         if (input_range != NULL) value_release(input_range);
+        if (input_range_2 != NULL) value_release(input_range_2);
         if (output_range != NULL) value_release(output_range);
 
+	if(state->apply_button != NULL) 
+		gtk_widget_set_sensitive (state->apply_button, ready);
 	gtk_widget_set_sensitive (state->ok_button, ready);
 }
 
@@ -835,7 +955,7 @@ static void
 corr_tool_ok_clicked_cb(GtkWidget *button, GenericToolState *state)
 {
 	data_analysis_output_t  dao;
-	static Range range;
+	Range range;
         char   *text;
 	GtkWidget *w;
 
@@ -939,7 +1059,7 @@ static void
 cov_tool_ok_clicked_cb(GtkWidget *button, GenericToolState *state)
 {
 	data_analysis_output_t  dao;
-	static Range range;
+	Range range;
         char   *text;
 	GtkWidget *w;
 
@@ -1051,7 +1171,7 @@ cb_desc_stat_tool_ok_clicked(GtkWidget *button, DescriptiveStatState *state)
 {
 	data_analysis_output_t  dao;
 	descriptive_stat_tool_t dst;
-	static Range range;
+	Range range;
         char   *text;
 	GtkWidget *w;
 
@@ -1240,7 +1360,7 @@ static void
 rank_tool_ok_clicked_cb(GtkWidget *button, GenericToolState *state)
 {
 	data_analysis_output_t  dao;
-	static Range range;
+	Range range;
         char   *text;
 	GtkWidget *w;
 
@@ -1322,8 +1442,742 @@ dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 /*  End of rank and percentile tool code */
 /**********************************************/
 
+/**********************************************/
+/*  Begin of ttest tool code */
+/**********************************************/
+
+static TTestState *ttest_tool_state;
+
+/**
+ * ttest_tool_ok_clicked_cb:
+ * @button:
+ * @state:
+ *
+ * Retrieve the information from the dialog and call the appropriate tool.
+ * Note that we assume that the ok_button is only active if the entry fields 
+ * contain sensible data.
+ **/
+static void
+ttest_tool_ok_clicked_cb(GtkWidget *button, TTestState *state)
+{
+	data_analysis_output_t  dao;
+	Range range_1;
+	Range range_2;
+        char   *text;
+	GtkWidget *w;
+	GtkWidget *mean_diff_entry, *alpha_entry;
+	int    err;
+	gnum_float alpha, mean_diff, var1, var2;
+
+	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+	parse_range (text, &range_1.start.col,
+			             &range_1.start.row,
+			             &range_1.end.col,
+				     &range_1.end.row);
+	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry_2));
+	parse_range (text, &range_2.start.col,
+			             &range_2.start.row,
+			             &range_2.end.col,
+				     &range_2.end.row);
+
+        parse_output (state->wbcg, state->sheet, 
+                      gnumeric_glade_group_value (state->gui, output_group),
+	              GTK_WIDGET(state->output_entry), 
+                      &dao);
+
+	w = glade_xml_get_widget (state->gui, "labels_button");
+        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
+	if( gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->paired_button)) == 1) {
+		state->invocation = TTEST_PAIRED;
+	} else {
+		if( gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->known_button)) == 1) {
+			state->invocation = TTEST_ZTEST;
+		} else {
+			if( gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->equal_button)) == 1) {
+				state->invocation = TTEST_UNPAIRED_EQUALVARIANCES;
+			} else {
+				state->invocation = TTEST_UNPAIRED_UNEQUALVARIANCES;
+			}
+		}
+	}
+
+	mean_diff_entry = glade_xml_get_widget (state->gui, "meandiff");
+	text = gtk_entry_get_text (GTK_ENTRY (mean_diff_entry));
+	mean_diff = atof(text);
+
+	alpha_entry = glade_xml_get_widget (state->gui, "one_alpha");
+	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
+	alpha = atof(text);
+
+	switch (state->invocation) {
+	case TTEST_PAIRED: 
+		err = ttest_paired_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+			       &range_1, &range_2,
+					 mean_diff, alpha, &dao);
+		break;
+	case TTEST_UNPAIRED_EQUALVARIANCES:
+		err = ttest_eq_var_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+					 &range_1, &range_2,
+					 mean_diff, alpha, &dao);
+		break;
+	case TTEST_UNPAIRED_UNEQUALVARIANCES:
+		err = ttest_neq_var_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+					  &range_1, &range_2,
+					  mean_diff, alpha, &dao);
+		break;
+	case TTEST_ZTEST:
+		text = gtk_entry_get_text (GTK_ENTRY (state->var1_variance));
+		var1 = atof(text);
+		text = gtk_entry_get_text (GTK_ENTRY (state->var2_variance));
+		var2 = atof(text);
+		err = ztest_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+				  &range_1, &range_2, mean_diff,
+				  var1, var2, alpha, &dao);
+		break;
+	default: 
+		err = 99;
+		break;
+	}
+
+	switch (err) {
+	case 0: 
+		gtk_widget_destroy (state->dialog);
+		break;
+	default: 
+		text = g_strdup_printf(_("An unexpected error has occurred: %d."), err);
+		error_in_entry (state->wbcg, GTK_WIDGET(state->input_entry), text);
+		g_free(text);
+		break;
+	}
+	return;
+}
+
+/**
+ * ttest_known_toggled_cb:
+ * @button:
+ * @state:
+ *
+ * The paired/unpaired variables status has changed.
+ *
+ **/
+static void
+ttest_known_toggled_cb(GtkWidget *button, TTestState *state)
+{
+	if( gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)) == 1) {
+		gtk_widget_hide(state->equal_button);
+		gtk_widget_hide(state->unequal_button);
+		gtk_widget_hide(state->varianceequal_label);
+		gtk_widget_show(state->var2_variance_label);
+		gtk_widget_show(state->var2_variance);
+		gtk_widget_show(state->var1_variance_label);
+		gtk_widget_show(state->var1_variance);
+	} else {
+		gtk_widget_hide(state->var2_variance_label);
+		gtk_widget_hide(state->var2_variance);
+		gtk_widget_hide(state->var1_variance_label);
+		gtk_widget_hide(state->var1_variance);
+		gtk_widget_show(state->equal_button);
+		gtk_widget_show(state->unequal_button);
+		gtk_widget_show(state->varianceequal_label);
+	} 
+}
+/**
+ * ttest_paired_toggled_cb:
+ * @button:
+ * @state:
+ *
+ * The paired/unpaired variables status has changed.
+ *
+ **/
+static void
+ttest_paired_toggled_cb(GtkWidget *button, TTestState *state)
+{
+	if( gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)) == 1) {
+		gtk_widget_hide(state->var2_variance_label);
+		gtk_widget_hide(state->var2_variance);
+		gtk_widget_hide(state->var1_variance_label);
+		gtk_widget_hide(state->var1_variance);
+		gtk_widget_hide(state->equal_button);
+		gtk_widget_hide(state->unequal_button);
+		gtk_widget_hide(state->varianceequal_label);
+		gtk_widget_hide(state->known_button);
+		gtk_widget_hide(state->unknown_button);
+		gtk_widget_hide(state->varianceknown_label);
+	} else {
+		gtk_widget_show(state->known_button);
+		gtk_widget_show(state->unknown_button);
+		gtk_widget_show(state->varianceknown_label);
+		ttest_known_toggled_cb(GTK_WIDGET(state->known_button),state);
+	} 
+}
+
+/**
+ * dialog_ttest_adjust_to_invocation:
+ * @state:
+ *
+ * Set the options to match the invocation.
+ *
+ **/
+static void
+dialog_ttest_adjust_to_invocation (TTestState *state)
+{
+	switch (state->invocation) {
+	case TTEST_PAIRED: 
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(state->paired_button),TRUE);
+		break;
+	case TTEST_UNPAIRED_EQUALVARIANCES:
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(state->equal_button),TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(state->unknown_button),TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(state->unpaired_button),TRUE);
+		break;
+	case TTEST_UNPAIRED_UNEQUALVARIANCES:
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(state->unequal_button),TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(state->unknown_button),TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(state->unpaired_button),TRUE);
+		break;
+	case TTEST_ZTEST:
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(state->known_button),TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(state->unpaired_button),TRUE);
+		break;
+	default: 
+		break;
+	}
+}
 
 
+/**
+ * dialog_ttest_realized:
+ * @widget
+ * @state:
+ *
+ * Fix the size of the options table.
+ *
+ **/
+static void
+dialog_ttest_realized (GtkWidget *widget, TTestState *state)
+{
+	gtk_widget_set_usize (state->options_table, 
+			      state->options_table->allocation.width, 
+			      state->options_table->allocation.height);
+	gtk_widget_set_usize (state->paired_button, 
+			      state->paired_button->allocation.width, 
+			      state->paired_button->allocation.height);
+	gtk_widget_set_usize (state->unpaired_button, 
+			      state->unpaired_button->allocation.width, 
+			      state->unpaired_button->allocation.height);
+	gtk_widget_set_usize (state->variablespaired_label, 
+			      state->variablespaired_label->allocation.width, 
+			      state->variablespaired_label->allocation.height);
+	ttest_paired_toggled_cb (state->paired_button,state);
+	dialog_ttest_adjust_to_invocation (state);
+}
+
+/**
+ * dialog_ttest_tool_init:
+ * @state:
+ *
+ * Create the dialog (guru).
+ *
+ **/
+static gboolean
+dialog_ttest_tool_init (TTestState *state)
+{
+	if (dialog_tool_init ((GenericToolState *)state, "mean-tests.glade", "MeanTests", 
+                       GTK_SIGNAL_FUNC (ttest_tool_ok_clicked_cb), 
+                       GTK_SIGNAL_FUNC (tool_update_sensitivity_cb))) {
+		return TRUE;
+	}
+
+	state->paired_button  = glade_xml_get_widget(state->gui, "paired-button");
+	state->unpaired_button  = glade_xml_get_widget(state->gui, "unpaired-button");
+	state->variablespaired_label = glade_xml_get_widget(state->gui, "variablespaired-label");
+	state->known_button  = glade_xml_get_widget(state->gui, "known-button");
+	state->unknown_button  = glade_xml_get_widget(state->gui, "unknown-button");
+	state->varianceknown_label = glade_xml_get_widget(state->gui, "varianceknown-label");
+	state->equal_button  = glade_xml_get_widget(state->gui, "equal-button");
+	state->unequal_button  = glade_xml_get_widget(state->gui, "unequal-button");
+	state->varianceequal_label = glade_xml_get_widget(state->gui, "varianceequal-label");
+	state->options_table = glade_xml_get_widget(state->gui, "options-table");
+	state->var1_variance_label = glade_xml_get_widget(state->gui, "var1_variance-label");
+	state->var1_variance = glade_xml_get_widget(state->gui, "var1-variance");
+	state->var2_variance_label = glade_xml_get_widget(state->gui, "var2_variance-label");
+	state->var2_variance = glade_xml_get_widget(state->gui, "var2-variance");
+
+	gtk_signal_connect_after (GTK_OBJECT (state->paired_button), "toggled",
+			    GTK_SIGNAL_FUNC (tool_update_sensitivity_cb), state);
+	gtk_signal_connect (GTK_OBJECT (state->paired_button), "toggled",
+			    GTK_SIGNAL_FUNC (ttest_paired_toggled_cb), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->known_button), "toggled",
+			    GTK_SIGNAL_FUNC (tool_update_sensitivity_cb), state);
+	gtk_signal_connect (GTK_OBJECT (state->known_button), "toggled",
+			    GTK_SIGNAL_FUNC (ttest_known_toggled_cb), state);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "realize",
+			    GTK_SIGNAL_FUNC (dialog_ttest_realized), state);
+ 
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       TTEST_KEY);
+
+	tool_update_sensitivity_cb (NULL,(GenericToolState *)state);	
+
+	return FALSE;
+}
+
+
+/**
+ * dialog_ttest_tool:
+ * @wbcg:
+ * @sheet:
+ * @test:
+ *
+ * Show the dialog (guru).
+ *
+ **/
+static int
+dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
+{
+        TTestState *state;
+
+	if (wbcg == NULL) {
+		return 1;
+	}
+
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, TTEST_KEY)) {
+                ttest_tool_state->invocation = test;                
+		dialog_ttest_adjust_to_invocation(ttest_tool_state);
+		return 0;
+	}
+
+	state = g_new (TTestState, 1);
+	(*(ToolType *)state) = TOOL_TTEST;
+	ttest_tool_state = state;
+	state->wbcg  = wbcg;
+	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sheet;
+	state->invocation = test;
+
+	if (dialog_ttest_tool_init (state)) {
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+				 _("Could not create the Mean Tests Tool dialog."));
+		g_free (state);
+		return 0;
+	}
+	gtk_widget_show (state->dialog);
+
+        return 0;
+}
+
+/**
+ * dialog_ttest_paired_tool:
+ * @wbcg:
+ * @sheet:
+ *
+ * Call dialog_ttest_tool with appropriate selector.
+ *
+ **/
+static int
+dialog_ttest_paired_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+{
+	return dialog_ttest_tool(wbcg, sheet, TTEST_PAIRED);
+}
+
+/**
+ * dialog_ttest_eq_tool:
+ * @wbcg:
+ * @sheet:
+ *
+ * Call dialog_ttest_tool with appropriate selector.
+ *
+ **/
+static int
+dialog_ttest_eq_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+{
+	return dialog_ttest_tool(wbcg, sheet, TTEST_UNPAIRED_EQUALVARIANCES);
+}
+
+/**
+ * dialog_ttest_neq_tool:
+ * @wbcg:
+ * @sheet:
+ *
+ * Call dialog_ttest_tool with appropriate selector.
+ *
+ **/
+static int
+dialog_ttest_neq_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+{
+	return dialog_ttest_tool(wbcg, sheet, TTEST_UNPAIRED_UNEQUALVARIANCES);
+}
+
+/**
+ * dialog_ztest_tool:
+ * @wbcg:
+ * @sheet:
+ *
+ * Call dialog_ttest_tool with appropriate selector.
+ *
+ **/
+static int
+dialog_ztest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+{
+	return dialog_ttest_tool(wbcg, sheet, TTEST_ZTEST);
+}
+
+/**********************************************/
+/*  End of ttest tool code */
+/**********************************************/
+
+
+/**********************************************/
+/*  Begin of ftest tool code */
+/**********************************************/
+
+
+/**
+ * ftest_tool_ok_clicked_cb:
+ * @button:
+ * @state:
+ *
+ * Retrieve the information from the dialog and call the correlation_tool.
+ * Note that we assume that the ok_button is only active if the entry fields 
+ * contain sensible data.
+ **/
+static void
+ftest_tool_ok_clicked_cb(GtkWidget *button, GenericToolState *state)
+{
+	data_analysis_output_t  dao;
+	Range range_1;
+	Range range_2;
+        char   *text;
+	GtkWidget *w, *alpha_entry;
+	gnum_float alpha;
+
+	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+	parse_range (text, &range_1.start.col,
+			             &range_1.start.row,
+			             &range_1.end.col,
+				     &range_1.end.row);
+	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry_2));
+	parse_range (text, &range_2.start.col,
+			             &range_2.start.row,
+			             &range_2.end.col,
+				     &range_2.end.row);
+
+        parse_output (state->wbcg, state->sheet, 
+                      gnumeric_glade_group_value (state->gui, output_group),
+	              GTK_WIDGET(state->output_entry), 
+                      &dao);
+
+
+	w = glade_xml_get_widget (state->gui, "labels_button");
+        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+
+	alpha_entry = glade_xml_get_widget (state->gui, "one_alpha");
+	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
+	alpha = atof(text);
+
+	switch (ftest_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+			    &range_1, &range_2,  alpha, &dao)) {
+	case 0: gtk_widget_destroy (state->dialog);
+		break;
+	default: break;
+	}
+	return;
+}
+
+
+
+/**
+ * dialog_ftest_tool:
+ * @wbcg:
+ * @sheet:
+ *
+ * Show the dialog (guru).
+ *
+ **/
+static int
+dialog_ftest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+{
+        GenericToolState *state;
+
+	if (wbcg == NULL) {
+		return 1;
+	}
+
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, FTEST_KEY))
+		return 0;
+
+	state = g_new (GenericToolState, 1);
+	(*(ToolType *)state) = TOOL_FTEST;
+	state->wbcg  = wbcg;
+	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sheet;
+
+	if (dialog_tool_init (state, "variance-tests.glade", "VarianceTests", 
+                       GTK_SIGNAL_FUNC (ftest_tool_ok_clicked_cb), 
+                       GTK_SIGNAL_FUNC (tool_update_sensitivity_cb))) {
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+				 _("Could not create the FTest Tool dialog."));
+		g_free (state);
+		return 0;
+	}
+
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       FTEST_KEY);
+
+	tool_update_sensitivity_cb (NULL,state);	
+	gtk_widget_show (state->dialog);
+
+        return 0;
+}
+
+/**********************************************/
+/*  End of ftest tool code */
+/**********************************************/
+
+/**********************************************/
+/*  Begin of sampling tool code */
+/**********************************************/
+
+/**
+ * sampling_tool_update_sensitivity:
+ * @dummy:
+ * @state:
+ *
+ * Update the dialog widgets sensitivity if the only items of interest
+ * are the standard input (one range) and output items.
+ **/
+static void
+sampling_tool_update_sensitivity_cb (GtkWidget *dummy, SamplingState *state)
+{
+	gboolean ready  = FALSE;
+	char const *output_text;
+	char const *input_text;
+	int i, periodic, size;
+        Value *output_range;
+        Value *input_range;
+	char *text;
+
+	output_text = gtk_entry_get_text (GTK_ENTRY (state->output_entry));
+	input_text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+        output_range = range_parse(state->sheet,output_text,TRUE);
+        input_range = range_parse(state->sheet,input_text,TRUE);
+		
+	i = gnumeric_glade_group_value (state->gui, output_group);
+        periodic = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->periodic_button));
+        
+	if (periodic == 1) {
+		text = gtk_entry_get_text (GTK_ENTRY (state->period_entry));
+	} else {
+		text = gtk_entry_get_text (GTK_ENTRY (state->random_entry));
+	}
+	size = atoi(text);
+
+	ready = ((input_range != NULL) && 
+		 (size > 0) &&
+                 ((i != 2) || (output_range != NULL)));
+
+        if (input_range != NULL) value_release(input_range);
+        if (output_range != NULL) value_release(output_range);
+
+	gtk_widget_set_sensitive (state->apply_button, ready);
+	gtk_widget_set_sensitive (state->ok_button, ready);
+}
+
+/**
+ * sampling_tool_ok_clicked_cb:
+ * @button:
+ * @state:
+ *
+ * Retrieve the information from the dialog and call the appropriate tool.
+ * Note that we assume that the ok_button is only active if the entry fields 
+ * contain sensible data.
+ **/
+static void
+sampling_tool_ok_clicked_cb(GtkWidget *button, SamplingState *state)
+{
+	
+	data_analysis_output_t  dao;
+	Range range;
+        char   *text;
+	gint size;
+	gint periodic;
+
+	text = gtk_entry_get_text (GTK_ENTRY (state->input_entry));
+	parse_range (text, &range.start.col,
+			             &range.start.row,
+			             &range.end.col,
+				     &range.end.row);
+
+        parse_output (state->wbcg, state->sheet, 
+                      gnumeric_glade_group_value (state->gui, output_group),
+	              GTK_WIDGET(state->output_entry), 
+                      &dao);
+
+
+        periodic = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->periodic_button));
+        
+	if (periodic == 1) {
+		text = gtk_entry_get_text (GTK_ENTRY (state->period_entry));
+	} else {
+		text = gtk_entry_get_text (GTK_ENTRY (state->random_entry));
+	}
+	size = atoi(text);
+
+	switch (sampling_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet,
+			    &range, periodic,  size, &dao)) {
+	case 0: 
+		if (button == state->ok_button) 
+			gtk_widget_destroy (state->dialog);
+		break;
+	default: 
+		break;
+	}
+	return;
+}
+
+/**
+ * sampling_method_toggled_cb:
+ * @button:
+ * @state:
+ *
+ * The method status has changed.
+ *
+ **/
+static void
+sampling_method_toggled_cb(GtkWidget *button, SamplingState *state)
+{
+	if( gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)) == 1) {
+		gtk_widget_hide(state->random_label);
+		gtk_widget_hide(state->random_entry);
+		gtk_widget_show(state->period_label);
+		gtk_widget_show(state->period_entry);
+	} else {
+		gtk_widget_hide(state->period_label);
+		gtk_widget_hide(state->period_entry);
+		gtk_widget_show(state->random_label);
+		gtk_widget_show(state->random_entry);
+	} 
+}
+
+
+/**
+ * dialog_sampling_realized:
+ * @widget
+ * @state:
+ *
+ * Fix the size of the options table.
+ *
+ **/
+static void
+dialog_sampling_realized (GtkWidget *widget, SamplingState *state)
+{
+	gtk_widget_set_usize (state->options_table, 
+			      state->options_table->allocation.width, 
+			      state->options_table->allocation.height);
+	gtk_widget_set_usize (state->random_button, 
+			      state->random_button->allocation.width, 
+			      state->random_button->allocation.height);
+	gtk_widget_set_usize (state->periodic_button, 
+			      state->periodic_button->allocation.width, 
+			      state->periodic_button->allocation.height);
+	gtk_widget_set_usize (state->method_label, 
+			      state->method_label->allocation.width, 
+			      state->method_label->allocation.height);
+	sampling_method_toggled_cb (state->periodic_button,state);
+}
+
+/**
+ * dialog_sampling_tool_init:
+ * @state:
+ *
+ * Create the dialog (guru).
+ *
+ **/
+static gboolean
+dialog_sampling_tool_init (SamplingState *state)
+{
+	if (dialog_tool_init ((GenericToolState *)state, "sampling.glade", "Sampling", 
+                       GTK_SIGNAL_FUNC (sampling_tool_ok_clicked_cb), 
+                       GTK_SIGNAL_FUNC (sampling_tool_update_sensitivity_cb))) {
+		return TRUE;
+	}
+
+	state->periodic_button  = glade_xml_get_widget(state->gui, "periodic-button");
+	state->random_button  = glade_xml_get_widget(state->gui, "random-button");
+	state->method_label = glade_xml_get_widget(state->gui, "method-label");
+	state->options_table = glade_xml_get_widget(state->gui, "options-table");
+	state->period_label = glade_xml_get_widget(state->gui, "period-label");
+	state->random_label = glade_xml_get_widget(state->gui, "random-label");
+	state->period_entry = glade_xml_get_widget(state->gui, "period-entry");
+	state->random_entry = glade_xml_get_widget(state->gui, "random-entry");
+
+	gtk_signal_connect_after (GTK_OBJECT (state->periodic_button), "toggled",
+			    GTK_SIGNAL_FUNC (sampling_tool_update_sensitivity_cb), state);
+	gtk_signal_connect (GTK_OBJECT (state->periodic_button), "toggled",
+			    GTK_SIGNAL_FUNC (sampling_method_toggled_cb), state);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "realize",
+			    GTK_SIGNAL_FUNC (dialog_sampling_realized), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->period_entry), "changed",
+			    GTK_SIGNAL_FUNC (sampling_tool_update_sensitivity_cb), state);
+	gtk_signal_connect_after (GTK_OBJECT (state->random_entry), "changed",
+			    GTK_SIGNAL_FUNC (sampling_tool_update_sensitivity_cb), state);
+ 
+	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
+			       SAMPLING_KEY);
+
+	tool_update_sensitivity_cb (NULL,(GenericToolState *)state);	
+
+	return FALSE;
+}
+
+
+/**
+ * dialog_sampling_tool:
+ * @wbcg:
+ * @sheet:
+ *
+ * Show the dialog (guru).
+ *
+ **/
+static int
+dialog_sampling_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
+{
+        SamplingState *state;
+
+	if (wbcg == NULL) {
+		return 1;
+	}
+
+
+	/* Only pop up one copy per workbook */
+	if (gnumeric_dialog_raise_if_exists (wbcg, SAMPLING_KEY)) {
+		return 0;
+	}
+
+	state = g_new (SamplingState, 1);
+	(*(ToolType *)state) = TOOL_SAMPLING;
+	state->wbcg  = wbcg;
+	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	state->sheet = sheet;
+
+	if (dialog_sampling_tool_init (state)) {
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
+				 _("Could not create the Sampling Tool dialog."));
+		g_free (state);
+		return 0;
+	}
+	gtk_widget_show (state->dialog);
+
+        return 0;
+}
+/**********************************************/
+/*  End of sampling tool code */
+/**********************************************/
 
 /*************************************************************************
  *
@@ -1333,767 +2187,6 @@ dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  * widgets as above.
  */
 
-static int
-dialog_sampling_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
-{
-        static GtkWidget *dialog, *box, *sampling_box, *sampling_label;
-	static GtkWidget *range_entry, *output_range_entry, *sampling_entry[2];
-	static GSList    *sampling_ops, *output_ops;
-
-	data_analysis_output_t  dao;
-
-	char  *text;
-	int   selection, output;
-	static Range range;
-	int   i=0, size;
-
-	if (!dialog) {
-	        dialog = new_dialog(_("Sampling"));
-
-		box = gtk_vbox_new (FALSE, 0);
-
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), box);
-
-		box = new_frame(_("Input:"), box);
-
-		range_entry = hbox_pack_label_and_entry
-		  (dialog, box, _("Input Range:"), "", 20);
-
-		sampling_label = gtk_label_new (_("Sampling Method:"));
-
-		gtk_box_pack_start_defaults(GTK_BOX (box), sampling_label);
-
-		sampling_box = gtk_vbox_new (FALSE, 0);
-		sampling_ops = NULL;
-		for (i = 0; sample_method_ops [i]; i++) {
-		        GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
-			GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
-			GtkWidget *label, *r;
-
-			if (i==0)
-			        label = gtk_label_new (_("Period:"));
-			else
-			        label =
-				  gtk_label_new (_("Number of Samples:"));
-			sampling_entry[i] =  gnumeric_dialog_entry_new_with_max_length
-				(GNOME_DIALOG (dialog), 20);
-			r = gtk_radio_button_new_with_label
-			  (sampling_ops, _(sample_method_ops[i]));
-			sampling_ops = GTK_RADIO_BUTTON (r)->group;
-			gtk_box_pack_start_defaults (GTK_BOX (hbox),
-						     label);
-			gtk_box_pack_start_defaults(GTK_BOX (hbox),
-						    sampling_entry[i]);
-			gtk_box_pack_start_defaults (GTK_BOX (vbox),
-						     r);
-			gtk_box_pack_start_defaults (GTK_BOX (vbox),
-						     hbox);
-			gtk_box_pack_start_defaults(GTK_BOX (box), vbox);
-		}
-		gtk_box_pack_start_defaults(GTK_BOX (box), sampling_box);
-
-		box = gtk_vbox_new (FALSE, 0);
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), box);
-
-		output_range_entry = add_output_frame(box, &output_ops);
-
-		gtk_widget_show_all (GNOME_DIALOG (dialog)->vbox);
-	}
-        gtk_widget_grab_focus (range_entry);
-
-sampling_dialog_loop:
-
-	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-	if (selection == -1)
-		return 1;
-
-	if (selection != 0) {
-	        gnome_dialog_close (GNOME_DIALOG (dialog));
-		return 1;
-	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
-	if (!parse_range (text, &range.start.col,
-			  &range.start.row,
-			  &range.end.col,
-			  &range.end.row)) {
-	        error_in_entry (wbcg, range_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Range:'"));
-		goto sampling_dialog_loop;
-	}
-
-	i = gtk_radio_group_get_selected(sampling_ops);
-	output = gtk_radio_group_get_selected (output_ops);
-
-	if (parse_output (wbcg, sheet, output, output_range_entry, &dao))
-	        goto sampling_dialog_loop;
-
-	text = gtk_entry_get_text (GTK_ENTRY (sampling_entry[i]));
-	size = atoi(text);
-
-	if (sampling_tool (WORKBOOK_CONTROL (wbcg), sheet,
-			   &range, !i, size, &dao))
-	        goto sampling_dialog_loop;
-
-	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
- 	gnome_dialog_close (GNOME_DIALOG (dialog));
-
-	return 0;
-}
-
-static int
-dialog_ztest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
-{
-        static GtkWidget *dialog, *box;
-	static GtkWidget *range1_entry, *range2_entry, *output_range_entry;
-	static GtkWidget *known_var1_entry, *known_var2_entry;
-	static GtkWidget *mean_diff_entry, *alpha_entry;
-	static GSList    *output_ops;
-	static int       labels = 0;
-
-	data_analysis_output_t  dao;
-	gnum_float mean_diff, alpha, var1, var2;
-
-	char  *text;
-	int   selection, output;
-	static Range range_input1, range_input2;
-
-	label_row_flag = labels;
-
-	if (!dialog) {
-	        dialog = new_dialog(_("z-Test: Two Sample for Means"));
-
-		box = gtk_vbox_new (FALSE, 0);
-
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), box);
-
-		box = new_frame(_("Input:"), box);
-
-		range1_entry = hbox_pack_label_and_entry
-		  (dialog, box, _("Variable 1 Range:"), "", 20);
-
-		range2_entry = hbox_pack_label_and_entry
-		  (dialog, box, _("Variable 2 Range:"), "", 20);
-
-		mean_diff_entry = hbox_pack_label_and_entry
-		  (dialog, box, _("Hypothesized Mean Difference:"), "0", 20);
-
-		known_var1_entry = hbox_pack_label_and_entry
-		  (dialog, box, _("Variable 1 Variance (known):"), "", 20);
-
-		known_var2_entry = hbox_pack_label_and_entry
-		  (dialog, box, _("Variable 2 Variance (known):"), "", 20);
-
-		alpha_entry = hbox_pack_label_and_entry
-			(dialog, box, _("Alpha:"), "0.95", 20);
-		add_check_buttons(box, first_row_label_button);
-
-		box = gtk_vbox_new (FALSE, 0);
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), box);
-
-		output_range_entry = add_output_frame(box, &output_ops);
-
-		gtk_widget_show_all (GNOME_DIALOG (dialog)->vbox);
-	}
-        gtk_widget_grab_focus (range1_entry);
-
-ztest_dialog_loop:
-
-	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-	if (selection == -1)
-		return 1;
-
-	if (selection != 0) {
-	        gnome_dialog_close (GNOME_DIALOG (dialog));
-		return 1;
-	}
-
-	output = gtk_radio_group_get_selected (output_ops);
-
-	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
-	if (!parse_range (text, &range_input1.start.col,
-			  &range_input1.start.row,
-			  &range_input1.end.col,
-			  &range_input1.end.row)) {
-	        error_in_entry (wbcg, range1_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Variable 1:'"));
-		goto ztest_dialog_loop;
-	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
-	if (!parse_range (text, &range_input2.start.col,
-			  &range_input2.start.row,
-			  &range_input2.end.col,
-			  &range_input2.end.row)) {
-	        error_in_entry (wbcg, range2_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Variable 2:'"));
-		goto ztest_dialog_loop;
-	}
-	text = gtk_entry_get_text (GTK_ENTRY (mean_diff_entry));
-	mean_diff = atof(text);
-
-	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
-	alpha = atof(text);
-
-	text = gtk_entry_get_text (GTK_ENTRY (known_var1_entry));
-	var1 = atof(text);
-
-	text = gtk_entry_get_text (GTK_ENTRY (known_var2_entry));
-	var2 = atof(text);
-
-	if (parse_output (wbcg, sheet, output, output_range_entry, &dao))
-	        goto ztest_dialog_loop;
-
-	labels = label_row_flag;
-	dao.labels_flag = labels;
-
-	if (ztest_tool (WORKBOOK_CONTROL (wbcg), sheet,
-			&range_input1, &range_input2, mean_diff,
-			var1, var2, alpha, &dao))
-	        goto ztest_dialog_loop;
-
-	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
- 	gnome_dialog_close (GNOME_DIALOG (dialog));
-
-	return 0;
-}
-
-static int
-dialog_ttest_paired_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
-{
-        GladeXML  *gui;
-	GtkWidget *range1_entry, *range2_entry;
-	GtkWidget *mean_diff_entry;
-	GtkWidget *alpha_entry;
-	GtkWidget *dialog;
-	GtkWidget *checkbutton;
-	GtkWidget *output_range_entry;
-
-	data_analysis_output_t dao;
-
-	gboolean labels = FALSE;
-	gnum_float  alpha, mean_diff;
-	char     *text;
-	int      selection, x1, x2, y1, y2;
-	Range    range_input1, range_input2;
-
-	gui = gnumeric_glade_xml_new (wbcg,
-				      "analysis-tools.glade");
-        if (gui == NULL)
-                return 0;
-
-	dao.type = NewSheetOutput;
-
-	dialog = glade_xml_get_widget (gui, "TTest1");
-        range1_entry = glade_xml_get_widget (gui, "ttest1_entry1");
-        range2_entry = glade_xml_get_widget (gui, "ttest1_entry2");
-	mean_diff_entry = glade_xml_get_widget (gui, "ttest1_entry3");
-	alpha_entry = glade_xml_get_widget (gui, "ttest1_entry4");
-	checkbutton = glade_xml_get_widget (gui, "ttest1_checkbutton");
-	output_range_entry
-		= glade_xml_get_widget (gui, "ttest1_output_range_entry");
-
-        if (!dialog || !range1_entry || !range2_entry || !alpha_entry ||
-	    !mean_diff_entry || !output_range_entry || !checkbutton) {
-                printf ("Corrupt file analysis-tools.glade\n");
-                return 0;
-        }
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (range1_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (range2_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (mean_diff_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (alpha_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (output_range_entry));
-
-	if (set_output_option_signals (gui, &dao, "ttest1"))
-	        return 0;
-
-	gtk_entry_set_text (GTK_ENTRY (mean_diff_entry), "0");
-	gtk_entry_set_text (GTK_ENTRY (alpha_entry), "0.95");
-
-	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
-			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
-
-
-        gtk_widget_grab_focus (range1_entry);
-
-dialog_loop:
-
-	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-	if (selection == -1) {
-	        gtk_object_unref (GTK_OBJECT (gui));
-		return 1;
-	}
-
-	if (selection != 0) {
-		gtk_object_destroy (GTK_OBJECT (dialog));
-		return 1;
-	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
-	if (!parse_range (text, &range_input1.start.col,
-			  &range_input1.start.row,
-			  &range_input1.end.col,
-			  &range_input1.end.row)) {
-	        error_in_entry (wbcg, range1_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Variable 1:'"));
-		goto dialog_loop;
-	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
-	if (!parse_range (text, &range_input2.start.col,
-			  &range_input2.start.row,
-			  &range_input2.end.col,
-			  &range_input2.end.row)) {
-	        error_in_entry (wbcg, range2_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Variable 2:'"));
-		goto dialog_loop;
-	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
-	alpha = atof(text);
-
-	text = gtk_entry_get_text (GTK_ENTRY (mean_diff_entry));
-	mean_diff = atof(text);
-
-	if (dao.type == RangeOutput) {
-	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
-	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry,
-					_("You should introduce a valid cell "
-					  "range in 'Output Range:'"));
-			goto dialog_loop;
-		} else {
-		        dao.start_col = x1;
-		        dao.start_row = y1;
-			dao.cols = x2-x1+1;
-			dao.rows = y2-y1+1;
-			dao.sheet = sheet;
-		}
-	}
-
-	dao.labels_flag = labels;
-
-	if (ttest_paired_tool (WORKBOOK_CONTROL (wbcg), sheet,
-			       &range_input1, &range_input2,
-			       mean_diff, alpha, &dao))
-	        goto dialog_loop;
-
-	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
-
-	gtk_object_destroy (GTK_OBJECT (dialog));
-	gtk_object_unref (GTK_OBJECT (gui));
-
-	return 0;
-}
-
-static int
-dialog_ttest_eq_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
-{
-        GladeXML  *gui;
-	GtkWidget *range1_entry, *range2_entry;
-	GtkWidget *mean_diff_entry;
-	GtkWidget *alpha_entry;
-	GtkWidget *dialog;
-	GtkWidget *checkbutton;
-	GtkWidget *output_range_entry;
-
-	data_analysis_output_t dao;
-
-	gboolean labels = FALSE;
-	gnum_float  alpha, mean_diff;
-	char     *text;
-	int      selection, x1, x2, y1, y2;
-	Range    range_input1, range_input2;
-
-	gui = gnumeric_glade_xml_new (wbcg, "analysis-tools.glade");
-        if (gui == NULL)
-                return 0;
-
-	dao.type = NewSheetOutput;
-
-	dialog = glade_xml_get_widget (gui, "TTest2");
-        range1_entry = glade_xml_get_widget (gui, "ttest2_entry1");
-        range2_entry = glade_xml_get_widget (gui, "ttest2_entry2");
-	mean_diff_entry = glade_xml_get_widget (gui, "ttest2_entry3");
-	alpha_entry = glade_xml_get_widget (gui, "ttest2_entry4");
-	checkbutton = glade_xml_get_widget (gui, "ttest2_checkbutton");
-	output_range_entry
-		= glade_xml_get_widget (gui, "ttest2_output_range_entry");
-
-        if (!dialog || !range1_entry || !range2_entry || !alpha_entry ||
-	    !mean_diff_entry || !output_range_entry || !checkbutton) {
-                printf ("Corrupt file analysis-tools.glade\n");
-                return 0;
-        }
-
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (range1_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (range2_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (mean_diff_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (alpha_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (output_range_entry));
-	if (set_output_option_signals (gui, &dao, "ttest2"))
-	        return 0;
-
-	gtk_entry_set_text (GTK_ENTRY (mean_diff_entry), "0");
-	gtk_entry_set_text (GTK_ENTRY (alpha_entry), "0.95");
-
-	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
-			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
-
-
-        gtk_widget_grab_focus (range1_entry);
-
-dialog_loop:
-
-	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-	if (selection == -1) {
-	        gtk_object_unref (GTK_OBJECT (gui));
-		return 1;
-	}
-
-	if (selection != 0) {
-		gtk_object_destroy (GTK_OBJECT (dialog));
-		return 1;
-	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
-	if (!parse_range (text, &range_input1.start.col,
-			  &range_input1.start.row,
-			  &range_input1.end.col,
-			  &range_input1.end.row)) {
-	        error_in_entry (wbcg, range1_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Variable 1:'"));
-		goto dialog_loop;
-	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
-	if (!parse_range (text, &range_input2.start.col,
-			  &range_input2.start.row,
-			  &range_input2.end.col,
-			  &range_input2.end.row)) {
-	        error_in_entry (wbcg, range2_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Variable 2:'"));
-		goto dialog_loop;
-	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
-	alpha = atof(text);
-
-	text = gtk_entry_get_text (GTK_ENTRY (mean_diff_entry));
-	mean_diff = atof(text);
-
-	if (dao.type == RangeOutput) {
-	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
-	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry,
-					_("You should introduce a valid cell "
-					  "range in 'Output Range:'"));
-			goto dialog_loop;
-		} else {
-		        dao.start_col = x1;
-		        dao.start_row = y1;
-			dao.cols = x2-x1+1;
-			dao.rows = y2-y1+1;
-			dao.sheet = sheet;
-		}
-	}
-
-	dao.labels_flag = labels;
-
-	if (ttest_eq_var_tool (WORKBOOK_CONTROL (wbcg), sheet,
-			       &range_input1, &range_input2,
-			       mean_diff, alpha, &dao))
-	        goto dialog_loop;
-
-	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
-
-	gtk_object_destroy (GTK_OBJECT (dialog));
-	gtk_object_unref (GTK_OBJECT (gui));
-
-	return 0;
-}
-
-static int
-dialog_ttest_neq_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
-{
-        GladeXML  *gui;
-	GtkWidget *range1_entry, *range2_entry;
-	GtkWidget *mean_diff_entry;
-	GtkWidget *alpha_entry;
-	GtkWidget *dialog;
-	GtkWidget *checkbutton;
-	GtkWidget *output_range_entry;
-
-	data_analysis_output_t dao;
-
-	gboolean labels = FALSE;
-	gnum_float  alpha, mean_diff;
-	char     *text;
-	int      selection, x1, x2, y1, y2;
-	Range    range_input1, range_input2;
-
-	gui = gnumeric_glade_xml_new (wbcg, "analysis-tools.glade");
-        if (gui == NULL)
-                return 0;
-
-	dao.type = NewSheetOutput;
-
-	dialog = glade_xml_get_widget (gui, "TTest3");
-        range1_entry = glade_xml_get_widget (gui, "ttest3_entry1");
-        range2_entry = glade_xml_get_widget (gui, "ttest3_entry2");
-	mean_diff_entry = glade_xml_get_widget (gui, "ttest3_entry3");
-	alpha_entry = glade_xml_get_widget (gui, "ttest3_entry4");
-	checkbutton = glade_xml_get_widget (gui, "ttest3_checkbutton");
-	output_range_entry
-		= glade_xml_get_widget (gui, "ttest3_output_range_entry");
-
-        if (!dialog || !range1_entry || !range2_entry || !alpha_entry ||
-	    !mean_diff_entry || !output_range_entry || !checkbutton) {
-                printf ("Corrupt file analysis-tools.glade\n");
-                return 0;
-        }
-
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (range1_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (range2_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (mean_diff_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (alpha_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (output_range_entry));
-
-	if (set_output_option_signals (gui, &dao, "ttest3"))
-	        return 0;
-
-	gtk_entry_set_text (GTK_ENTRY (mean_diff_entry), "0");
-	gtk_entry_set_text (GTK_ENTRY (alpha_entry), "0.95");
-
-	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
-			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
-
-
-        gtk_widget_grab_focus (range1_entry);
-
-dialog_loop:
-
-	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-	if (selection == -1) {
-	        gtk_object_unref (GTK_OBJECT (gui));
-		return 1;
-	}
-
-	if (selection != 0) {
-		gtk_object_destroy (GTK_OBJECT (dialog));
-		return 1;
-	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
-	if (!parse_range (text, &range_input1.start.col,
-			  &range_input1.start.row,
-			  &range_input1.end.col,
-			  &range_input1.end.row)) {
-	        error_in_entry (wbcg, range1_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Variable 1:'"));
-		goto dialog_loop;
-	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
-	if (!parse_range (text, &range_input2.start.col,
-			  &range_input2.start.row,
-			  &range_input2.end.col,
-			  &range_input2.end.row)) {
-	        error_in_entry (wbcg, range2_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Variable 2:'"));
-		goto dialog_loop;
-	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
-	alpha = atof(text);
-
-	text = gtk_entry_get_text (GTK_ENTRY (mean_diff_entry));
-	mean_diff = atof(text);
-
-	if (dao.type == RangeOutput) {
-	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
-	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry,
-					_("You should introduce a valid cell "
-					  "range in 'Output Range:'"));
-			goto dialog_loop;
-		} else {
-		        dao.start_col = x1;
-		        dao.start_row = y1;
-			dao.cols = x2-x1+1;
-			dao.rows = y2-y1+1;
-			dao.sheet = sheet;
-		}
-	}
-
-	dao.labels_flag = labels;
-
-	if (ttest_neq_var_tool (WORKBOOK_CONTROL (wbcg), sheet,
-				&range_input1, &range_input2,
-				mean_diff, alpha, &dao))
-	        goto dialog_loop;
-
-	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
-
-	gtk_object_destroy (GTK_OBJECT (dialog));
-	gtk_object_unref (GTK_OBJECT (gui));
-
-	return 0;
-}
-
-static int
-dialog_ftest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
-{
-        GladeXML  *gui;
-	GtkWidget *range1_entry, *range2_entry;
-	GtkWidget *alpha_entry;
-	GtkWidget *dialog;
-	GtkWidget *checkbutton;
-	GtkWidget *output_range_entry;
-
-	data_analysis_output_t dao;
-
-	gboolean labels = FALSE;
-	gnum_float  alpha;
-	char     *text;
-	int      selection, x1, x2, y1, y2;
-	Range    range_input1, range_input2;
-
-	gui = gnumeric_glade_xml_new (wbcg, "analysis-tools.glade");
-        if (gui == NULL)
-                return 0;
-
-	dao.type = NewSheetOutput;
-
-	dialog = glade_xml_get_widget (gui, "FTest");
-        range1_entry = glade_xml_get_widget (gui, "ftest_entry1");
-        range2_entry = glade_xml_get_widget (gui, "ftest_entry2");
-	alpha_entry = glade_xml_get_widget (gui, "ftest_entry3");
-	checkbutton = glade_xml_get_widget (gui, "ftest_checkbutton");
-	output_range_entry
-		= glade_xml_get_widget (gui, "ftest_output_range_entry");
-
-        if (!dialog || !range1_entry || !range2_entry ||
-	    !output_range_entry || !checkbutton) {
-                printf ("Corrupt file analysis-tools.glade\n");
-                return 0;
-        }
-
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (range1_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (range2_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (alpha_entry));
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
-				      GTK_EDITABLE (output_range_entry));
-
-	if (set_output_option_signals (gui, &dao, "ftest"))
-	        return 0;
-
-	gtk_entry_set_text (GTK_ENTRY (alpha_entry), "0.95");
-
-	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
-			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
-
-
-        gtk_widget_grab_focus (range1_entry);
-
-ftest_dialog_loop:
-
-	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-	if (selection == -1) {
-	        gtk_object_unref (GTK_OBJECT (gui));
-		return 1;
-	}
-
-	if (selection != 0) {
-		gtk_object_destroy (GTK_OBJECT (dialog));
-		return 1;
-	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
-	if (!parse_range (text, &range_input1.start.col,
-			  &range_input1.start.row,
-			  &range_input1.end.col,
-			  &range_input1.end.row)) {
-	        error_in_entry (wbcg, range1_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Variable 1:'"));
-		goto ftest_dialog_loop;
-	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
-	if (!parse_range (text, &range_input2.start.col,
-			  &range_input2.start.row,
-			  &range_input2.end.col,
-			  &range_input2.end.row)) {
-	        error_in_entry (wbcg, range2_entry,
-				_("You should introduce a valid cell range "
-				  "in 'Variable 2:'"));
-		goto ftest_dialog_loop;
-	}
-
-	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
-	alpha = atof(text);
-
-	if (dao.type == RangeOutput) {
-	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
-	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
-		        error_in_entry (wbcg, output_range_entry,
-					_("You should introduce a valid cell "
-					  "range in 'Output Range:'"));
-			goto ftest_dialog_loop;
-		} else {
-		        dao.start_col = x1;
-		        dao.start_row = y1;
-			dao.cols = x2-x1+1;
-			dao.rows = y2-y1+1;
-			dao.sheet = sheet;
-		}
-	}
-
-	dao.labels_flag = labels;
-
-	if (ftest_tool (WORKBOOK_CONTROL (wbcg), sheet,
-			&range_input1, &range_input2, alpha, &dao))
-	        goto ftest_dialog_loop;
-
-	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
-
-	gtk_object_destroy (GTK_OBJECT (dialog));
-	gtk_object_unref (GTK_OBJECT (gui));
-
-	return 0;
-}
 
 /*
  * distribution_strs_find
@@ -3272,6 +3365,12 @@ dialog_loop:
 
 	return 0;
 }
+
+/*************************************************************************
+ *
+ * Modal dialog for tool selection
+ * 
+ */
 
 static void
 selection_made (GtkWidget *clist, gint row, gint column,

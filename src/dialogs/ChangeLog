@@ -1,14 +1,40 @@
+2001-10-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* Makefile.am : new files mean-tests.glade, variance-tests.glade and sampling.glade
+	* dialog-analysis-tools.c (dialog_tool_init) : permit 2 input ranges
+	(tool_update_sensitivity_cb ) : ditto
+	(dialog_ttest_tool) : new function as a common implementation of
+	  the 4 t- and z-tests using the gnumeric-expr-entry widget.
+	(ttest_tool_ok_clicked_cb) : ditto
+	(ttest_known_toggled_cb) : ditto
+	(ttest_paired_toggled_cb) : ditto
+	(dialog_ttest_adjust_to_invocation) : ditto
+	(dialog_ttest_realized) : ditto
+	(dialog_ttest_tool_init) : ditto
+	(dialog_ttest_paired_tool) : changed to stub calling dialog_ttest_tool
+	(dialog_ttest_eq_tool) : ditto
+	(dialog_ttest_neq_tool) : ditto
+	(dialog_ztest_tool) : ditto
+	(dialog_ftest_tool) : changed to guru with gnumeric-expr-entry widget
+	(ftest_tool_ok_clicked_cb) : new function
+	(dialog_sampling_tool) : changed to guru with gnumeric-expr-entry widget
+	(sampling_tool_update_sensitivity) : new function
+	(sampling_tool_ok_clicked_cb) : new function
+	(sampling_method_toggled_cb) : new function
+	(dialog_sampling_realized) : new function
+	(dialog_sampling_tool_init) : new function
+
 2001-10-04  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-graph-guru.c (graph_guru_select_series) : adjust to changes
 	  in the combo_text.
 	(graph_guru_select_plot) : ditto.  Use gnm_combo_text_clear.
 	  Store the xmlNode for the series with its combo item.
-	(graph_guru_init_data_page) : Stre the xmlNode for the plot
+	(graph_guru_init_data_page) : Store the xmlNode for the plot
 	  with its combo item.
 	(cb_series_selection_changed) : have this do something.
 	(cb_plot_entry_changed) : ditto.
-	(graph_guru_selector_init) : adjsut to changes in the combo_text.
+	(graph_guru_selector_init) : adjust to changes in the combo_text.
 
 2001-10-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
@@ -17,15 +43,15 @@
 	* dialog-analysis-tools.c : rewrite dialog_correlation_tool,
 	  dialog_covariance_tool and dialog_ranking_tool to expr-entry widget,
 	  affecting a whole bunch of functions, 
-	  (tool_destroy) : new, replaces desc_stat_tool_destroy
-	  (cb_tool_cancel_clicked) : new, replaces cb_desc_stat_tool_cancel_clicked
-	  (tool_set_focus) : new, replaces desc_stat_tool_set_focus
-	  (tool_set_focus_output_range) : new, replaces desc_stat_tool_set_focus_output_range
-	  (dialog_tool_init) : new, replaces dialog_desc_stat_tool_init
-	  (tool_update_sensitivity) : new
-	  (corr_tool_ok_clicked_cb) : new
-	  (cov_tool_ok_clicked_cb) : new
-	  (rank_tool_ok_clicked_cb) : new
+	(tool_destroy) : new, replaces desc_stat_tool_destroy
+	(cb_tool_cancel_clicked) : new, replaces cb_desc_stat_tool_cancel_clicked
+	(tool_set_focus) : new, replaces desc_stat_tool_set_focus
+	(tool_set_focus_output_range) : new, replaces desc_stat_tool_set_focus_output_range
+	(dialog_tool_init) : new, replaces dialog_desc_stat_tool_init
+	(tool_update_sensitivity) : new
+	(corr_tool_ok_clicked_cb) : new
+	(cov_tool_ok_clicked_cb) : new
+	(rank_tool_ok_clicked_cb) : new
 
 2001-10-01  Jody Goldberg <jgoldberg@home.com>
 

@@ -101,11 +101,13 @@ glade_DATA = 				\
 	graph-guru.glade		\
 	hf-config.glade			\
 	insert-cells.glade		\
+	mean-tests.glade		\
 	names.glade			\
 	plugin-manager.glade		\
 	print.glade 			\
 	rank.glade			\
 	row-height.glade		\
+	sampling.glade			\
 	search-replace.glade		\
 	sheet-order.glade		\
 	sheet-rename.glade		\
@@ -113,6 +115,7 @@ glade_DATA = 				\
 	solver.glade			\
 	summary.glade			\
 	validate.glade			\
+	variance-tests.glade		\
 	workbook-attr.glade
 
 EXTRA_DIST = $(glade_DATA)

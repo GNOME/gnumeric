@@ -1,3 +1,7 @@
+2001-10-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+        * POTFILES.in : Add mean-tests.glade, variance-tests.glade, sampling.glade
+
 2001-10-04  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* pl.po: Updated Polish translation.

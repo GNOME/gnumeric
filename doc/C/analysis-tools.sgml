@@ -1,21 +1,52 @@
-<sect1 id="analysis-tools-chapter">
-  <title>Analysis Tools</title>
-
+<sect1 id="overview">
+  <title>An Overview</title>
   <para>The data analysis tools package contains various tools for
   statistical data analysis, random number generation and data
   sampling.  To use these tools select the ``Data Analysis...'' entry
   in the ``Tools'' menu.  This gives you a list of tools to choose
   from.  Select one of the tools from the list and press the OK
   button.  The tools are described below.</para>
+  <figure id="analysistools">
+    <title>The Data Analysis Tools</title>
+    <screenshot>
+       <graphic fileref="images/analysistools-tools" format="png"></graphic>
+    </screenshot>
+  </figure>
 
-  <para>All the tools have the same output options.  The results can
+  <para>All the tools have the same output options (see <xref linkend="outputoptions">).
+  The results can
   be printed out into a new sheet, into a new workbook, or into the
   same sheet within a given output range.  To select the output method
-  just select one of the radio buttons bellow the ``Output options:''
-  label.  Note that if the output is pasted into a range that is too
-  small, some of the results will not fit in it.  Also not that the
-  old data in the output range is lost.</para>
+  just select one of the radio buttons inside the ``Output''
+  frame.</para>
+  <note><para>If the chosen output range is too
+  small, some of the results will be lost.</para></note>
+  <note><para>The
+  old data in the output range is deleted and cannot be recovered.</para></note>
 
+  <figure id="outputoptions">
+    <title>The common output options of the data analysis tools.</title>
+    <screenshot>
+       <graphic fileref="images/analysistools-outputoptions" format="png"></graphic>
+    </screenshot>
+  </figure>
+
+  <para>Whenever a dialog asks for a range, you can either type the 
+  range specification into the text field, or (preferably) click 
+  in the text field and then select the range in the active sheet (see 
+  <xref linkend="specifyingranges">).</para>
+  <figure id="specifyingranges">
+    <title>Specifying Ranges.</title>
+    <screenshot>
+       <graphic fileref="images/analysistools-ranges" format="png"></graphic>
+    </screenshot>
+  </figure>
+
+  <note><para>The latter method is currently implemented only for 
+  some of the dialogs.</para></note>
+</sect1>
+<sect1 id="anova">
+  <title>Analysis of Variance</title>
 
   <sect2 id="anova-single-factor-tool">
      <title>Anova: Single Factor Tool</title>
@@ -51,7 +82,7 @@
 
   </sect2>
 
-  <sect2 id="two-factor-with-tool">
+  <sect2 id="anova-two-factor-with-tool">
      <title>Anova: Two-Factor With Replication Tool</title>
 
      <para>For this tool, the given input range should contain at least
@@ -66,86 +97,134 @@
 
   </sect2>
 
-  <sect2 id="two-factor-without-tool">
+  <sect2 id="anova-two-factor-without-tool">
      <title>Anova: Two-Factor Without Replication Tool</title>
 
      <para>WriteMe</para>
   </sect2>
+</sect1>
 
-  <sect2 id="correlation-tool">
+  <sect1 id="correlation-tool">
      <title>Correlation Tool</title>
 
-     <para>The correlation tool calculates correlation coefficients of
+  <figure id="correlation-tool-dialog">
+    <title>The Correlation Tool Dialog.</title>
+    <screenshot>
+       <graphic fileref="images/analysistools-correlation" format="png"></graphic>
+    </screenshot>
+  </figure>
+
+     <para>The correlation tool calculates the pairwise correlation 
+     coefficients of the
      given variables.  Use this tool to calculate any number of
      correlation coefficients at the same time.  The variables for
      which the correlations are calulated are specified by the ``Input
-     Range:'' entry.  The given range can be groupped either by
+     Range:'' entry.  The given range can be grouped either by
      columns or by rows.</para>
-
-     <para>For example, you want to calculate the correlation between
-     two variables, one in a column A and the other in a column B.
-     Both variables have 10 values in rows between one and ten.  First
-     you should enter A1:B10 to the ``Input Range:'' entry.  Secondly,
-     select the ``Columns'' radio button next to the ``Groupped By:''
-     label.  Then specify the output options described above and press
-     the OK button.</para>
 
      <para>If you have labels, for example the names of the variables,
      in the first row of the given range, you should check the
-     ``Labels'' button on.  This leaves the first row (or the first
-     column if the data is groupped by rows) of the input range out of
+     ``Labels'' checkbox.  This leaves the first row (or the first
+     column if the data is grouped by rows) of the input range out of
      the analysis.  In addition, the names of the variables are
-     printed nicely into the output table.</para>
+     printed in the output table.</para>
 
+     <para>For example, you want to calculate the correlation between
+     three variables, one each in columns A, B, and C.
+     Both variables have 10 values in rows 2 to 11 with labels in row 1
+     (see <xref linkend="correlation-example-1">).</para>
+  <figure id="correlation-example-1">
+    <title>The Data</title>
+    <screenshot>
+       <graphic fileref="images/analysistools-correlation-ex1" format="png"></graphic>
+    </screenshot>
+  </figure>
+
+     <para>First
+     you should enter A1:B11 in the ``Input Range:'' entry by typing 
+     this directly into the entry or clicking in the entry field and 
+     then selecting that range on the sheet. 
+     Select the ``Columns'' radio button next to the ``Grouped By:''
+     label, since each variable is in its own column. Check the ``Labels''
+     checkbox since the first row contains labels. Specify the output 
+     options described above and press the OK button. (see 
+     <xref linkend="correlation-example-2">).</para>
+  <figure id="correlation-example-2">
+    <title>The Completed Dialog</title>
+    <screenshot>
+       <graphic fileref="images/analysistools-correlation-ex2" format="png"></graphic>
+    </screenshot>
+  </figure>
+     
      <para>The results are printed into a table where each column and
      row is labeled according to the names of the variables.  If the
-     names are not given in the input range, Gnumeric generates them
-     for you.  The calculated correlations are given in the table.
+     names are not given in the input range, Gnumeric generates them.
+     The calculated correlations are given in the table.
      For example, the correlation of the previous example, i.e,
      correlation between a variable in a column A and B, can be read
-     in the second column and third row of the results table (bellow
-     the column labeled ``Column 1'' and in the row labeled ``Column
-     2'').</para>
-  </sect2>
+     in the second column and third row of the results table (see 
+     <xref linkend="correlation-example-3">).</para>
+  <figure id="correlation-example-3">
+    <title>The Result</title>
+    <screenshot>
+       <graphic fileref="images/analysistools-correlation-ex3" format="png"></graphic>
+    </screenshot>
+  </figure>
+
+  </sect1>
 
 
-  <sect2 id="covariance-tool">
+  <sect1 id="covariance-tool">
      <title>Covariance Tool</title>
 
-     <para>The covariance tool calculates covariance of given
+  <figure id="covariance-tool-dialog">
+    <title>The Descriptive Statistics Tool Dialog.</title>
+    <screenshot>
+       <graphic fileref="images/analysistools-covariance" format="png"></graphic>
+    </screenshot>
+  </figure>
+
+     <para>The covariance tool calculates pairwise covariances of given
      variables.  Use this tool to calculate any number of covariances
      at the same time.  The variables for which the covariances are
      calulated are specified by the ``Input Range:'' entry.  The given
-     range can be groupped either by columns or by rows.</para>
+     range can be grouped either by columns or by rows.</para>
 
-     <para>For example, you want to calculate the covarance of two
+     <para>For example, you want to calculate the covariance of two
      variables, one in a column A and the other in a column B.  Both
      variables have 10 values in rows between one and ten.  First you
      should enter A1:B10 to the ``Input Range:'' entry.  Secondly,
-     select the ``Columns'' radio button next to the ``Groupped By:''
+     select the ``Columns'' radio button next to the ``Grouped By:''
      label.  Then specify the output options described above and press
      the OK button.</para>
 
      <para>If you have labels, for example the names of the variables,
      in the first row of the given range, you should check the
-     ``Labels'' button on.  This leaves the first row (or the first
-     column if the data is groupped by rows) of the input range out of
+     ``Labels'' checkbox.  This leaves the first row (or the first
+     column if the data is grouped by rows) of the input range out of
      the analysis.  In addition, the names of the variables are
-     printed nicely into the output table.</para>
+     printed in the output table.</para>
 
      <para>The results are printed into a table where each column and
      row is labeled according to the names of the variables.  If the
-     names are not given in the input range, Gnumeric generates them
-     for you.  The calculated covariances are given in the table.  For
+     names are not given in the input range, Gnumeric generates them.
+     The calculated covariances are given in the table.  For
      example, the covariance of the previous example, i.e, covariance
      between a variable in a column A and B, can be read in the second
-     column and third row of the results table (bellow the column
+     column and third row of the results table (below the column
      labeled ``Column 1'' and in the row labeled ``Column 2'').</para>
-  </sect2>
+  </sect1>
 
 
-  <sect2 id="descriptive-statistics-tool">
+  <sect1 id="descriptive-statistics-tool">
      <title>Descriptive Statistics Tool</title>
+
+  <figure id="descriptive-statistics-tool-dialog">
+    <title>The Descriptive Statistics Tool Dialog.</title>
+    <screenshot>
+       <graphic fileref="images/analysistools-descstats" format="png"></graphic>
+    </screenshot>
+  </figure>
 
      <para>The descriptive statistics tool calculates some statistical
      information of the given variables.  Use this tool to calculate
@@ -157,12 +236,12 @@
 
      <para>This tool can produce four different kinds of statistical
      data.  The summary statistics is produced if the button
-     ``Summary Statistics'' is checked on.  This tool calculates the
+     ``Summary Statistics'' is checked.  This tool calculates the
      mean, standard error, median, mode, standard deviation, sample
      variance, kurtosis, skewness, range, minimum, maximum, sum, and
      count for each given variable.</para>
 
-     <para>If ``Confidence Interval for the Mean'' button is checked on, the
+     <para>If ``Confidence Interval for the Mean'' button is checked, the
      tool calculates  confidence intervals for the mean of each variable.
      You should specify the confidence level in the entry
      box.  The default value is to calculate the confidence level of
@@ -174,11 +253,11 @@
      estimates the population standard deviation by the sample standard
      deviation.</para></note>
 
-     <para>If ``Kth Largest:'' button is checked on, the tool finds
+     <para>If ``Kth Largest:'' button is checked, the tool finds
      the kth largest value of each of the variables.  Specify the k in
      the entry box next to the check button.</para>
 
-     <para>If ``Kth Smallest:'' button is checked on, the tool finds
+     <para>If ``Kth Smallest:'' button is checked, the tool finds
      the kth smallest value of each of the variables.  Specify the k in
      the entry box next to the check button.</para>
 
@@ -187,13 +266,13 @@
      ``Labels'' button.  This leaves the first row (or column)  of
      the input range out of the analysis.  In addition, the names of
      the variables are printed in the output table.</para>
-  </sect2>
+  </sect1>
 
 
-  <sect2 id="ftest-two-sample-for-variances-tool">
+  <sect1 id="ftest-two-sample-for-variances-tool">
      <title>F-Test:Two-Sample for Variances Tool</title>
 
-     <para>Use the F-Test tool to analyze wheater the variances of two
+     <para>Use the F-Test tool to analyze whether the variances of two
      variables are significantly different or not.  The values of the
      first variable are specified in the ``Variable 1 Range:'' entry.
      Correspondingly, the values of the second variable are given in
@@ -210,15 +289,18 @@
      value for one-tailed test.  The one-tailed probability for the
      F-value (``P(F&lt;=f) one-tail'' row) describes the risk of making a
      Type I error of one-tailed test.</para>
-  </sect2>
 
-  <sect2 id="moving-average-tool">
+     <note><para>This tools currently does not work correctly with missing
+     observations.</para></note>
+  </sect1>
+
+  <sect1 id="moving-average-tool">
      <title>Moving Average Tool</title>
 
      <para>WriteMe</para>
-  </sect2>
+  </sect1>
 
-  <sect2 id="random-number-generation-tool">
+  <sect1 id="random-number-generation-tool">
      <title>Random Number Generation Tool</title>
 
      <para>Use the random number generation tool to generate random
@@ -235,7 +317,7 @@
      supported: Discrete, Normal, Bernoulli, and Uniform.  Then
      specify the parameters of the distribution.</para>
 
-     <sect3 id="random-distributions">
+     <sect2 id="random-distributions">
         <title>Random Distributions</title>
 
         <para>For Discrete random distribution, specify the value and
@@ -265,22 +347,44 @@
         the random variables by filling the ``Between:'' and ``And:''
         entries.  The default values for them are 0 and 1 that gives
         random numbers between zero and one.</para>
-     </sect3>
-  </sect2>
+     </sect2>
+  </sect1>
 
-  <sect2 id="rank-and-percentile-tool">
+  <sect1 id="rank-and-percentile-tool">
      <title>Rank and Percentile Tool</title>
 
-     <para>WriteMe</para>
-  </sect2>
+  <figure id="rank-and-percentile-tool-dialog">
+    <title>The Rank and Percentile Tool Dialog.</title>
+    <screenshot>
+       <graphic fileref="images/analysistools-rank" format="png"></graphic>
+    </screenshot>
+  </figure>
 
-  <sect2 id="regression-tool">
+     <para>Use this tool to rank given data and to calculate the
+     percentiles of each data point.   The variables for
+     are specified by the ``Input  Range:'' entry.  
+     The given range can be grouped either by columns or by rows.</para>
+
+     <para>For each variable, the tool creates three columns in the 
+     output table. The first column gives the indices of the 
+     ordered data from largest to smallest data value. The second column 
+     gives the corresponding data values while the third column indicates
+     the persentile of each data value.</para>
+
+     <para>If you have labels, for example the names of the variables,
+     in the first row (or column) of the given range, you should check the
+     ``Labels'' button.  This leaves the first row (or column)  of
+     the input range out of the analysis.  In addition, the names of
+     the variables are printed in the output table.</para>
+  </sect1>
+
+  <sect1 id="regression-tool">
      <title>Regression Tool</title>
 
      <para>WriteMe</para>
-  </sect2>
+  </sect1>
 
-  <sect2 id="sampling-tool">
+  <sect1 id="sampling-tool">
      <title>Sampling Tool</title>
 
      <para>Use the sampling tool to take a sample of a data set.  This
@@ -298,8 +402,11 @@
      the random sample in ``Number of Samples:'' entry.  The size
      cannot be larger than the original data set since each value of
      the original data set is taken at most once to the sample.</para>
-  </sect2>
+  </sect1>
 
+
+<sect1 id="t-test">
+     <title>Comparing Means of 2 Populations</title>
   <sect2 id="t-test-paired-two-samples-for-means-tool">
      <title>t-Test: Paired Two Sample for Means Tool</title>
 
@@ -317,11 +424,10 @@
 
      <para>WriteMe</para>
   </sect2>
-
   <sect2 id="ztest-two-samples-for-means-tool">
-     <title>z-Test:Two Samples for Means Tool</title>
+     <title>z-Test: Two Samples for Means Tool</title>
 
-     <para>Use the z-Test tool to analyze wheater the means of two
+     <para>Use the z-Test tool to analyze whether the means of two
      variables are significantly different or not.  The values of the
      first variable are specified in the ``Variable 1 Range:'' entry.
      Correspondingly, the values of the second variable are given in
@@ -345,7 +451,6 @@
      probability for the z-value (``P(Z&lt;=z) one-tail'' row) describes
      the risk of making a Type I error of one-tailed test.</para>
   </sect2>
-
 </sect1>
 
   <!-- Keep this comment at the end of the file
