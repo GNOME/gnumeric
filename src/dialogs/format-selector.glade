@@ -5,7 +5,7 @@
 <requires lib="gnome"/>
 
 <widget class="GtkWindow" id="number-format-selector">
-  <property name="title" translatable="yes">window1</property>
+  <property name="title" translatable="no"></property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -145,7 +145,7 @@
 			  <property name="left_margin">3</property>
 			  <property name="right_margin">3</property>
 			  <property name="indent">0</property>
-			  <property name="text" translatable="yes">ttrytertyetyeru</property>
+			  <property name="text" translatable="yes"></property>
 			</widget>
 		      </child>
 		    </widget>
@@ -769,9 +769,8 @@
 		      <property name="editable">True</property>
 		      <property name="visibility">True</property>
 		      <property name="max_length">0</property>
-		      <property name="text" translatable="yes">fdsfgdf</property>
+		      <property name="text" translatable="no"></property>
 		      <property name="has_frame">True</property>
-		      <property name="invisible_char" translatable="yes">*</property>
 		      <property name="activates_default">False</property>
 		    </widget>
 		    <packing>

@@ -1,3 +1,7 @@
+2003-07-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* format-selector.glade: remove some translatable nonsense text
+
 2003-07-01  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 	(committed by Andreas J. Guelzow <aguelzow@taliesin.ca>)
 
