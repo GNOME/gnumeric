@@ -23,7 +23,7 @@ Jody:
 Morten:
 	* Fix DATE.
 	* Fix a pile of leaks in financial functions.
-	* Fix COUPNCD.
+	* Fix COUPNCD, YIELD, PRICE.
 
 Wayne Schuller:
 	* Search and search-replace history persistence.

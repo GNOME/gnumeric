@@ -199,8 +199,8 @@ days_monthly_basis (Value *issue_date, Value *maturity_date, int basis)
 		g_date_free (date_i);
 		g_date_free (date_m);
 	} else {
-	        g_date_free (date_i);
-	        g_date_free (date_m);
+	        if (date_i) g_date_free (date_i);
+	        if (date_i) g_date_free (date_m);
 	        return -1;
 	}
 
@@ -310,7 +310,7 @@ coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
 				        return 366.0;
 				else
 				        return 365.0;
-			} else if (g_date_is_leap_year (sy-1)) {
+			} else if (g_date_is_leap_year (sy - 1)) {
 			        if (sm <= 2)
 				        if (mm <= 2)
 				                if (sm < mm ||
@@ -1034,17 +1034,22 @@ gnumeric_accrint (FunctionEvalInfo *ei, Value **argv)
 	int        basis;
 	Value      *result;
 
-        settlement     = datetime_value_to_g (argv[0]);
+        maturity       = datetime_value_to_g (argv[0]);
 	first_interest = datetime_value_to_g (argv[1]);
-        maturity       = datetime_value_to_g (argv[2]);
+        settlement     = datetime_value_to_g (argv[2]);
 	rate           = value_get_as_float (argv[3]);
 	par            = value_get_as_float (argv[4]);
 	freq           = value_get_as_float (argv[5]);
 	basis          = argv[6] ? value_get_as_int (argv[6]) : 0;
 
+	if (!maturity || !first_interest || !settlement) {
+		result = value_new_error (ei->pos, gnumeric_err_VALUE);
+		goto out;
+	}
+
         if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
 	    || g_date_compare (settlement, first_interest) > 0
-	    || g_date_compare (first_interest, maturity) > 0) {
+	    || g_date_compare (first_interest, maturity) < 0) {
 		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
@@ -2934,7 +2939,12 @@ gnumeric_price (FunctionEvalInfo *ei, Value **argv)
 	yield      = value_get_as_float (argv[3]);
 	redemption = value_get_as_float (argv[4]);
         freq       = value_get_as_int (argv[5]);
-        basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
+        basis      = argv[6] ? value_get_as_int (argv[6]) : 0;
+
+	if (!maturity || !settlement) {
+		result = value_new_error (ei->pos, gnumeric_err_VALUE);
+		goto out;
+	}
 
         if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
             || g_date_compare (settlement, maturity) > 0) {
@@ -2952,14 +2962,15 @@ gnumeric_price (FunctionEvalInfo *ei, Value **argv)
 	e = coupdays (settlement, maturity, freq, basis);
 	n = coupnum (settlement, maturity, freq, basis);
 
-	first_term = redemption / pow ( (1.0 + yield / freq), (n - 1.0 + d / e));
-	last_term = a / e * rate / freq * 100.0;
 	sum = 0.0;
 	den = 100.0 * rate / freq;
 	base = 1.0 + yield / freq;
 	exponent = d / e;
 	for (k = 0; k < n; k++)
 	        sum += den / pow (base, exponent + k);
+
+	first_term = redemption / pow (base, (n - 1.0 + d / e));
+	last_term = a / e * den;
 
 	result = value_new_float (first_term + sum - last_term);
 
@@ -3016,7 +3027,12 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 	par        = value_get_as_float (argv[3]);
 	redemption = value_get_as_float (argv[4]);
         freq       = value_get_as_int (argv[5]);
-        basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
+        basis      = argv[6] ? value_get_as_int (argv[6]) : 0;
+
+	if (!maturity || !settlement) {
+		result = value_new_error (ei->pos, gnumeric_err_VALUE);
+		goto out;
+	}
 
         if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
             || g_date_compare (settlement, maturity) > 0) {
@@ -3181,6 +3197,11 @@ gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
 	redemption   = value_get_as_float (argv[6]);
         freq         = value_get_as_int (argv[7]);
         basis        = argv[8] ? value_get_as_int (argv[8]) : 0;
+
+	if (!maturity || !first_coupon || !settlement || !issue) {
+		result = value_new_error (ei->pos, gnumeric_err_VALUE);
+		goto out;
+	}
 
         if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
             || g_date_compare (issue, settlement) > 0
@@ -3447,6 +3468,11 @@ gnumeric_coupdaybs (FunctionEvalInfo *ei, Value **argv)
         freq       = value_get_as_int (argv[2]);
 	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
 
+	if (!maturity || !settlement) {
+		result = value_new_error (ei->pos, gnumeric_err_VALUE);
+		goto out;
+	}
+
         if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
 	    || g_date_compare (settlement, maturity) > 0) {
 		result = value_new_error (ei->pos, gnumeric_err_NUM);
@@ -3510,6 +3536,11 @@ gnumeric_coupdays (FunctionEvalInfo *ei, Value **argv)
         maturity   = datetime_value_to_g (argv[1]);
         freq       = value_get_as_int (argv[2]);
 	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
+
+	if (!maturity || !settlement) {
+		result = value_new_error (ei->pos, gnumeric_err_VALUE);
+		goto out;
+	}
 
         if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
 	    || g_date_compare (settlement, maturity) > 0) {
@@ -3577,6 +3608,11 @@ gnumeric_coupdaysnc (FunctionEvalInfo *ei, Value **argv)
         freq       = value_get_as_int (argv[2]);
 	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
 
+	if (!maturity || !settlement) {
+		result = value_new_error (ei->pos, gnumeric_err_VALUE);
+		goto out;
+	}
+
         if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
 	    || g_date_compare (settlement, maturity) > 0) {
 		result = value_new_error (ei->pos, gnumeric_err_NUM);
@@ -3639,6 +3675,11 @@ gnumeric_coupncd (FunctionEvalInfo *ei, Value **argv)
         maturity   = datetime_value_to_g (argv[1]);
         freq       = value_get_as_int (argv[2]);
 	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
+
+	if (!maturity || !settlement) {
+		result = value_new_error (ei->pos, gnumeric_err_VALUE);
+		goto out;
+	}
 
         if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
 	    || g_date_compare (settlement, maturity) > 0) {
@@ -3735,6 +3776,11 @@ gnumeric_coupnum (FunctionEvalInfo *ei, Value **argv)
         maturity   = datetime_value_to_g (argv[1]);
         freq       = value_get_as_int (argv[2]);
 	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
+
+	if (!maturity || !settlement) {
+		result = value_new_error (ei->pos, gnumeric_err_VALUE);
+		goto out;
+	}
 
         if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
 	    || g_date_compare (settlement, maturity) > 0) {

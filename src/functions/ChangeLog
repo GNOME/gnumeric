@@ -1,5 +1,9 @@
 2001-12-20  Morten Welinder  <terra@diku.dk>
 
+	* fn-financial.c (gnumeric_price, gnumeric_yield): Fix...
+
+2001-12-20  Morten Welinder  <terra@diku.dk>
+
 	* fn-financial.c (gnumeric_oddfprice, gnumeric_coupdaybs,
 	gnumeric_coupdaysnc, gnumeric_accrint, gnumeric_coupnum,
 	gnumeric_yield, gnumeric_coupdays): Plug leaks.
