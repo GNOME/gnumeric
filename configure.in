@@ -529,22 +529,46 @@ AC_SUBST(IDL_FLAGS)
 dnl ****************************
 dnl Check for libgda
 dnl ****************************
-AC_PATH_PROG(GDA_CONFIG,gda-config,no)
-if test "$GDA_CONFIG" = no; then
-    AC_MSG_WARN(GDA plugin will not be built)
-    have_gda=false
-else
-    AC_MSG_CHECKING(for libgda							)
-    verstxt=`$GDA_CONFIG --version`
-    AC_MSG_RESULT($marker_ok found $verstxt)
-    GDA_CFLAGS=`$GDA_CONFIG --cflags client`
-    GDA_LIBS=`$GDA_CONFIG --libs client`
-    have_gda=true
+try_gda=true
+AC_ARG_WITH(gda,
+	[--{with,without}-gda   Compile the Gnome Database Access plugin],
+	if test x$withval = xno; then
+		try_gda=false
+	fi
+)
+
+have_gda=false
+if $try_gda; then
+    AC_PATH_PROG(GDA_CONFIG,gda-config,no)
+    if test "$GDA_CONFIG" = no; then
+        AC_MSG_WARN(GDA plugin will not be built)
+        have_gda=false
+    else
+        AC_MSG_CHECKING(for libgda 0.2.2 <= version <= 0.2.3				)
+        verstxt=`$GDA_CONFIG --version`
+        vers=`echo "$verstxt" | sed -e "s/libgda //" | \
+	    awk -F. '{ printf "%d", ($1 * 1000 + $2) * 1000 + $3;}'`
+        if test "$vers" -ge 2002; then
+	    if test "$vers" -lt 2004; then
+	        AC_MSG_RESULT($marker_ok found $verstxt)
+	        GDA_CFLAGS=`$GDA_CONFIG --cflags client`
+        	GDA_LIBS=`$GDA_CONFIG --libs client`
+	        have_gda=true
+	    else
+	        AC_MSG_RESULT($marker_fail found unsupported $verstxt)
+	        AC_MSG_RESULT(This version of Gnumeric does not support libgda >= 0.2.4 yet.)
+		have_gda=false
+	    fi
+        else
+            AC_MSG_RESULT($marker_fail found only $verstxt)
+	    have_gda=false
+        fi
+    fi
 fi
-AC_SUBST(GDA_CFLAGS)
-AC_SUBST(GDA_LIBS)
 
 AM_CONDITIONAL(WITH_GDA, $have_gda)
+AC_SUBST(GDA_CFLAGS)
+AC_SUBST(GDA_LIBS)
 
 EXTRA_GNOME_LIBS=`gnome-config --libs gnomeui print libglade $bonobo libole2 gal`
 EXTRA_GNOME_CFLAGS=`gnome-config --cflags gnomeui print libglade $bonobo libole2 gal`

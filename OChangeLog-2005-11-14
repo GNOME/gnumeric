@@ -1,3 +1,8 @@
+2001-04-20  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in : Make gda plugin optional. Check for suitable
+	versions - present CVS version doesn't compile.
+
 2001-04-19  Jody Goldberg <jgoldberg@home.com>
 
 	* src/embeddable-grid.c (embeddable_grid_init_anon) :  fix leak.
