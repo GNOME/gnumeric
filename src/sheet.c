@@ -214,13 +214,29 @@ sheet_duplicate_colrow (ColRowInfo *original)
 ColRowInfo *
 sheet_row_new (Sheet *sheet)
 {
-	return sheet_duplicate_colrow (&sheet->default_row_style);
+	ColRowInfo *ri;
+
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	
+	ri = sheet_duplicate_colrow (&sheet->default_row_style);
+	row_init_span (ri);
+
+	return ri;
 }
 
 ColRowInfo *
 sheet_col_new (Sheet *sheet)
 {
-	return sheet_duplicate_colrow (&sheet->default_col_style);
+	ColRowInfo *ci;
+	
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	
+	ci = sheet_duplicate_colrow (&sheet->default_col_style);
+	ci->data = NULL;
+	
+	return ci;
 }
 
 
@@ -393,6 +409,50 @@ sheet_row_set_internal_height (Sheet *sheet, ColRowInfo *ri, int height)
 	sheet_redraw_all (sheet);
 }
 
+/*
+ * sheet_recompute_spans_for_col
+ * @sheet: the sheet
+ * @col:   The column that changed
+ *
+ * This routine recomputes the column span for the cells that touches
+ * the column.
+ */
+static void
+sheet_recompute_spans_for_col (Sheet *sheet, int col)
+{
+	GList *l, *cells;
+	Cell *cell;
+
+	cells = NULL;
+	for (l = sheet->rows_info; l; l = l->next){
+		ColRowInfo *ri = l->data;
+
+		if (!(cell = sheet_cell_get (sheet, col, ri->pos)))
+			cell = row_cell_get_displayed_at (ri, col);
+		
+		if (cell)
+			cells = g_list_prepend (cells, cell);
+	}
+
+	/* No spans, just return */
+	if (!cells)
+		return;
+	
+	/* Unregister those cells that touched this column */
+	for (l = cells; l; l = l->next){
+		int left, right;
+		
+		cell = l->data;
+
+		cell_unregister_span (cell);
+		cell_get_span (cell, &left, &right);
+		if (left != right)
+			cell_register_span (cell, left, right);
+	}
+
+	g_list_free (cells);
+}
+
 void
 sheet_col_set_width (Sheet *sheet, int col, int width)
 {
@@ -411,6 +471,9 @@ sheet_col_set_width (Sheet *sheet, int col, int width)
 	if (add)
 		sheet_col_add (sheet, ci);
 
+	/* Compute the spans */
+	sheet_recompute_spans_for_col (sheet, col);
+	
 	sheet_compute_visible_ranges (sheet);
 	sheet_redraw_all (sheet);
 }
@@ -1564,19 +1627,36 @@ static void
 sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 {
 	CellPos *cellref;
-
+	Cell *cell_on_spot;
+	int left, right;
+		
+	/* See if another cell was displaying in our spot */
+	cell_on_spot = row_cell_get_displayed_at (cell->row, cell->col->pos);
+	if (cell_on_spot)
+		cell_unregister_span (cell_on_spot);
+	
 	cellref = g_new (CellPos, 1);
 	cellref->col = cell->col->pos;
 	cellref->row = cell->row->pos;
 
 	g_hash_table_insert (sheet->cell_hash, cellref, cell);
+
+	/*
+	 * Now register the sizes of our cells
+	 */
+	if (cell_on_spot){
+		cell_get_span (cell_on_spot, &left, &right);
+		if (left != right)
+			cell_register_span (cell_on_spot, left, right);
+	}
+	cell_get_span (cell, &left, &right);
+	if (left != right)
+		cell_register_span (cell, left, right);
 }
 
 void
 sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
 {
-	CellPos *cellref;
-	
 	cell->sheet = sheet;
 	cell->col   = sheet_col_get (sheet, col);
 	cell->row   = sheet_row_get (sheet, row);
@@ -1585,12 +1665,8 @@ sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
 		cell->style = sheet_style_compute (sheet, col, row);
 
 	cell_calc_dimensions (cell);
-	
-	cellref = g_new (CellPos, 1);
-	cellref->col = col;
-	cellref->row = row;
-	
-	g_hash_table_insert (sheet->cell_hash, cellref, cell);
+
+	sheet_cell_add_to_hash (sheet, cell);
 	cell->col->data = g_list_insert_sorted (cell->col->data, cell, CRowSort);
 }
 
@@ -1617,6 +1693,7 @@ sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 	cellref.col = cell->col->pos;
 	cellref.row = cell->row->pos;
 
+	cell_unregister_span (cell);
 	g_hash_table_lookup_extended (sheet->cell_hash, &cellref, &original_key, NULL);
 	g_hash_table_remove (sheet->cell_hash, &cellref);
 	g_free (original_key);
@@ -1723,6 +1800,8 @@ static void
 sheet_row_destroy (Sheet *sheet, ColRowInfo *ri)
 {
 	sheet->rows_info = g_list_remove (sheet->rows_info, ri);
+	row_destroy_span (ri);
+	
 	g_free (ri);
 }
 

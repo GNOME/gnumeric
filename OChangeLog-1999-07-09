@@ -1,3 +1,12 @@
+1998-09-04  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/item-grid.c (item_grid_draw): Redone the cell draw driver. 
+
+	* src/cell.c (cell_draw): Now it returns the number of cells it
+	draw on top of. 
+	(cell_calc_dimensions): Unregister the spans when entering,
+	register the span at exit.
+
 1998-09-03  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/utils.c (int_get_from_range): Bug fix, we were not doing the

@@ -72,7 +72,7 @@ cell_set_alignment (Cell *cell, int halign, int valign, int orient, int auto_ret
 	cell->style->fit_in_cell = auto_return;
 	
 	cell_calc_dimensions (cell);
-	
+
 	cell_queue_redraw (cell);
 }
 
@@ -176,7 +176,7 @@ cell_set_text (Cell *cell, char *text)
 	g_return_if_fail (text != NULL);
 
 	cell_queue_redraw (cell);
-	
+
 	/* The value entered */
 	if (cell->entered_text)
 		string_unref (cell->entered_text);
@@ -628,9 +628,12 @@ void
 cell_calc_dimensions (Cell *cell)
 {
 	char    *rendered_text;
+	int     left, right;
 
 	g_return_if_fail (cell != NULL);
 
+	cell_unregister_span (cell);
+	
 	if (cell->text){
 		Style *style = cell->style;
 		int h, w;
@@ -650,6 +653,11 @@ cell_calc_dimensions (Cell *cell)
 			sheet_row_set_internal_height (cell->sheet, cell->row, h);
 	} else
 		cell->width = cell->col->margin_a + cell->col->margin_b;
+
+	/* Register the span */
+	cell_get_span (cell, &left, &right);
+	if (left != right)
+		cell_register_span (cell, left, right);
 }
 
 static void
@@ -731,7 +739,10 @@ cell_split_text (GdkFont *font, char *text, int width)
 	return list;
 }
 
-void
+/*
+ * Returns the number of columns used for the draw
+ */
+int 
 cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y1)
 {
 	Style        *style = cell->style;
@@ -753,8 +764,6 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 	width  = COL_INTERNAL_WIDTH (cell->col);
 	height = ROW_INTERNAL_HEIGHT (cell->row);
 
-	gdk_gc_set_function (gc, GDK_COPY);
-
 	font_height = font->ascent + font->descent;
 	
 	halign = cell_get_horizontal_align (cell);
@@ -768,7 +777,7 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 	if (width < cell->width && cell_is_number (cell)){
 		draw_overflow (drawable, gc, font, x1 + cell->col->margin_a, y1, text_base,
 			       width, height);
-		return;
+		return 1;
 	}
 
 	if (halign == HALIGN_JUSTIFY || style->valign == VALIGN_JUSTIFY || style->fit_in_cell)
@@ -905,5 +914,7 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 			total += len;
 		} while (halign == HALIGN_FILL && total < rect.width);
 	}
+
+	return end_col - start_col + 1;
 }
 

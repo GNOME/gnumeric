@@ -153,79 +153,58 @@ item_grid_find_row (ItemGrid *item_grid, int y, int *row_origin)
 	} while (1);
 }
 
-typedef struct {
-	ItemGrid      *item_grid;
-	GdkDrawable   *drawable;
-	GnumericSheet *gsheet;
-	int   	      x_paint;		/* the offsets */
-	int   	      y_paint;
-} paint_data;
+/*
+ * Sets the gc appropiately for inverting the color of a region
+ * in the ItemGrid.
+ *
+ * We are mainly interested in getting accurrated black/white
+ * inversion.
+ *
+ * On palleted displays, we play the trick of XORing the value
+ * (this will render other colors sometimes randomly, depending on the
+ * pallette contents).  On non-palleted displays, we can use the
+ * GDK_INVERT operation to invert the pixel value. 
+ */
+static void
+item_grid_invert_gc (ItemGrid *item_grid)
+{
+	GdkGC *gc;
+
+	gc = item_grid->gc;
+	gdk_gc_set_clip_rectangle (gc, NULL);
+
+	if (item_grid->visual_is_paletted){
+		gdk_gc_set_function (gc, GDK_XOR);
+		gdk_gc_set_foreground (gc, &gs_white);
+	} else {
+		gdk_gc_set_function (gc, GDK_INVERT);
+		gdk_gc_set_foreground (gc, &gs_black);
+	}
+}
 
 /*
  * Draw a cell.  It gets pixel level coordinates
+ *
+ * Returns the number of columns used by the cell.
  */
-static void
-item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell,
-		     int x1, int y1, ColRowInfo *ci, ColRowInfo *ri, int col, int row)
+static int
+item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int x1, int y1)
 {
-	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_grid)->canvas;
 	GdkGC       *gc     = item_grid->gc;
-	Sheet       *sheet  = item_grid->sheet;
-	int         cell_is_selected;
-	int         width = ci->pixels;
-	int         height = ri->pixels;
+	int         count;
 	
-	cell_is_selected = sheet_selection_is_cell_selected (sheet, col, row);
-		
 #if 0
 	/* Debugging code for testing the stipples */
 	gdk_gc_set_stipple (gc, GNUMERIC_SHEET (canvas)->patterns [col % 8]);
 	gdk_gc_set_foreground (gc, &gs_black);
 	gdk_gc_set_background (gc, &gs_white);
 	gdk_gc_set_fill (gc, GDK_STIPPLED);
-	
-	gdk_draw_rectangle (drawable, gc, TRUE,
-			    x1+1, y1+1, width-2, height-2);
 #endif
-	/*
-	 * If the cell does not exist, there is little to do: only
-	 * check if we should paint it as a selected cell
-	 */
-	if (!cell){
-		if (cell_is_selected){
-			GdkGC *black_gc = GTK_WIDGET (canvas)->style->black_gc;
-			
-			if (!(sheet->cursor_col == col && sheet->cursor_row == row))
-				gdk_draw_rectangle (drawable, black_gc, TRUE,
-						    x1+1, y1+1, width - 2, height - 2);
-		}
-		
-		return;
-	}
-
+	
 	gdk_gc_set_foreground (gc, &item_grid->default_color);
-	cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
 
-	/*
-	 * If the cell is selected, turn the inverse video on
-	 */
-	if (cell_is_selected){
-		if (sheet->cursor_col == col && sheet->cursor_row == row)
-			return;
-
-		if (item_grid->visual_is_paletted){
-			gdk_gc_set_function (gc, GDK_XOR);
-			gdk_gc_set_foreground (gc, &gs_white);
-		} else {
-			gdk_gc_set_function (gc, GDK_INVERT);
-			gdk_gc_set_foreground (gc, &gs_black);
-		}
-		
-		gdk_draw_rectangle (drawable, gc, TRUE,
-				    x1 + 1,
-				    y1 + 1,
-				    width - 1, height - 1);
-	}
+	count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
+	return count;
 }
 
 static void
@@ -238,9 +217,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 	int end_x, end_y;
 	int paint_col, paint_row, max_paint_col, max_paint_row;
 	int col, row;
-	int x_paint, y_paint;
+	int x_paint, y_paint, real_x;
 	int diff_x, diff_y;
-	paint_data pd;
 
 	if (x < 0){
 		g_warning ("x < 0\n");
@@ -290,44 +268,115 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 		max_paint_row = row;
 	}
 
-	/* The cells */
-	pd.x_paint   = -diff_x;
-	pd.y_paint   = -diff_y;
-	pd.drawable  = drawable;
-	pd.item_grid = item_grid;
-	pd.gsheet    = GNUMERIC_SHEET (item->canvas);
+	gdk_gc_set_function (item_grid->gc, GDK_COPY);
 
-#if 0
-	printf ("Painting the (%d,%d)-(%d,%d) region\n",
-		paint_col, paint_row, max_paint_col, max_paint_row);
-#endif
-	
 	row = paint_row;
 	for (y_paint = -diff_y; y_paint < end_y; row++){
 		ColRowInfo *ri;
 		
 		ri = sheet_row_get_info (sheet, row);
 		col = paint_col;
+
 		for (x_paint = -diff_x; x_paint < end_x; col++){
 			ColRowInfo *ci;
 			
 			ci = sheet_col_get_info (sheet, col);
 			
 			cell = sheet_cell_get (sheet, col, row);
-			item_grid_draw_cell (drawable, item_grid, cell,
-					     x_paint, y_paint,
-					     ci,
-					     ri, 
-					     col, row);
+
+			if (cell){
+				item_grid_draw_cell (drawable, item_grid, cell,
+						     x_paint, y_paint);
+			} else if (ri->pos != -1){
+				/*
+				 * If there was no cell, and the row has any cell allocated
+				 * (indicated by ri->pos != -1)
+				 */
+
+				real_x = x_paint;
+				cell = row_cell_get_displayed_at (ri, col);
+
+				/*
+				 * We found the cell that paints over this
+				 * cell, adjust x to point to the beginning
+				 * of that cell.
+				 */
+				if (cell){
+					int i, count, end_col;
+
+					/*
+					 * Either adjust the left part
+					 */
+					for (i = cell->col->pos; i < col; i++){
+						ColRowInfo *tci;
+
+						tci = sheet_col_get_info (sheet, i);
+						real_x -= tci->pixels;
+					}
+
+					/*
+					 * Or adjust the right part
+					 */
+					for (i = col; i < cell->col->pos; i++){
+						ColRowInfo *tci;
+
+						tci = sheet_col_get_info (
+							sheet, i);
+						real_x += tci->pixels;
+					}
+
+					/*
+					 * Draw the cell
+					 */
+					count = item_grid_draw_cell (
+						drawable, item_grid, cell,
+						real_x, y_paint);
+					/*
+					 * Optimization: advance over every
+					 * cell we already painted on
+					 */
+					end_col = cell->col->pos + count;
+					
+					for (i = col+1; i < end_col; i++, col++){
+						ColRowInfo *tci;
+						
+						tci = sheet_col_get_info (
+							sheet, i);
+
+						x_paint += tci->pixels;
+					}
+				} /* if cell */
+			}
 			x_paint += ci->pixels;
 		}
 		y_paint += ri->pixels;
 	}
+
+	/* Now invert any selected cells */
+	item_grid_invert_gc (item_grid);
 	
-#undef DEBUG_EXPOSES
-#ifdef DEBUG_EXPOSES
-	item_debug_cross (drawable, item_grid->grid_gc, 0, 0, width, height);
-#endif
+	row = paint_row;
+	for (y_paint = -diff_y; y_paint < end_y; row++){
+		ColRowInfo *ri, *ci;
+		
+		ri = sheet_row_get_info (sheet, row);
+		col = paint_col;
+
+		for (x_paint = -diff_x; x_paint < end_x; col++, x_paint += ci->pixels){
+			ci = sheet_col_get_info (sheet, col);
+			
+			if (sheet->cursor_col == col && sheet->cursor_row == row)
+				continue;
+
+			if (!sheet_selection_is_cell_selected (sheet, col, row))
+				continue;
+
+			gdk_draw_rectangle (drawable, item_grid->gc, TRUE,
+					    x_paint+1, y_paint+1,
+					    ci->pixels-1, ri->pixels-1);
+		}
+		y_paint += ri->pixels;
+	}
 }
 
 static double

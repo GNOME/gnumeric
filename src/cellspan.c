@@ -87,12 +87,12 @@ cell_register_span (Cell *cell, int left, int right)
 
 	ri = cell->row;
 	col = cell->col->pos;
-	
+
 	for (i = left; i <= right; i++){
 		int *key;
 
 		/* Do not register our column, as we already keep this on the main hash */
-		if (i != col)
+		if (i == col)
 			continue;
 		
 		key = g_new (int, 1);
@@ -157,8 +157,8 @@ row_cell_get_displayed_at (ColRowInfo *ri, int col)
 	Cell *cell;
 	
 	g_return_val_if_fail (ri != NULL, NULL);
-	
-	/* Ok, cell was not found, check the registered span regions */
+
 	cell = g_hash_table_lookup (ri->data, &col);
+
 	return cell;
 }

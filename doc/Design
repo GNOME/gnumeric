@@ -137,6 +137,14 @@
     <para>Cells are stored in a hash table inside the Sheet data
     structure for quick retrieval and they are also linked properly in
     their respective columns. </para>
+
+    <para>A cell might display information in more than one column, so
+    Gnumeric needs to keep track of which cells (column, row pairs)
+    are being managed by which cell.  This information is kept in a
+    per-row fashion in the data pointer in the ColRowInfo structure
+    for the rows.  The registration and unregistration of the view
+    areas code is on the cellspan.c file.
+
   </sect1>
 
   <sect1>

@@ -82,7 +82,7 @@ void        cell_formula_changed      (Cell *cell);
 void        cell_queue_redraw         (Cell *cell);
 int         cell_get_horizontal_align (Cell *cell);
 
-void        cell_draw                 (Cell *cell, void *sheet_view,
+int         cell_draw                 (Cell *cell, void *sheet_view,
 				       GdkGC *gc, GdkDrawable *drawable,
 				       int x, int y);
 
