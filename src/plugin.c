@@ -351,6 +351,7 @@ plugin_info_free (PluginInfo *pinfo)
 	}
 	g_free (pinfo->id);
 	g_free (pinfo->name);
+	g_free (pinfo->dir_name);
 	g_free (pinfo->description);
 	if (pinfo->free_func != NULL) {
 		pinfo->free_func (pinfo);
@@ -421,6 +422,7 @@ plugin_info_list_read_for_dir (const gchar *dir_name, ErrorInfo **ret_error)
 		}
 	}
 	g_free (file_name);
+	xmlFreeDoc (doc);
 
 	return g_list_reverse (plugin_info_list);
 }
