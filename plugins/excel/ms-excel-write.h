@@ -61,8 +61,8 @@ struct _ExcelSheet {
 	GArray        *dbcells;
 	MsOlePos       streamPos;
 	guint32        boundsheetPos;
-	guint32        maxx;
-	guint32        maxy;
+	gint32         maxx;
+	gint32         maxy;
 	GHashTable    *formula_cache;
 	gpointer       cell_used_map;
 	ExcelCell    **cells;

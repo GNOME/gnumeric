@@ -130,7 +130,7 @@ biff_put_text (BiffPut *bp, const char *txt, MsBiffVersion ver,
 		char* mbbuf = g_new(char, outbufleft);
 		char *outbufptr = mbbuf;
 		char const * inbufptr = txt;
-		int retlen;
+		guint32 retlen;
 
 		excel_iconv (current_workbook_iconv, &inbufptr, &inbufleft, 
 			     &outbufptr, &outbufleft);
@@ -296,7 +296,7 @@ write_magic_interface (BiffPut *bp, MsBiffVersion ver)
 static void
 write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 {
-	guint32 num_sheets = wb->sheets->len;
+	int num_sheets = wb->sheets->len;
 	guint32 externcount;
 	guint8 *data;
 	int lp;
@@ -908,7 +908,7 @@ excel_font_to_string (const ExcelFont *f)
 {
 	const StyleFont *sf = f->style_font;
 	static char buf[96];
-	int nused;
+	guint nused;
 
 	nused = snprintf (buf, sizeof buf, "%s, %g", sf->font_name, sf->size);
 
@@ -1051,7 +1051,7 @@ static void
 fonts_free (ExcelWorkbook *wb)
 {
 	TwoWayTable *twt;
-	int i;
+	guint i;
 	ExcelFont *f;
 
 	if (wb && wb->fonts) {
@@ -1399,9 +1399,9 @@ static void
 write_formats (BiffPut *bp, ExcelWorkbook *wb)
 {
 	TwoWayTable *twt = wb->formats->two_way_table;
-	int nformats = twt->idx_to_key->len;
-	int i;
-	int   magic_num [] = { 5, 6, 7, 8, 0x2a, 0x29, 0x2c, 0x2b };
+	guint nformats = twt->idx_to_key->len;
+	int magic_num [] = { 5, 6, 7, 8, 0x2a, 0x29, 0x2c, 0x2b };
+	guint i;
 
 	/* The built-in fonts which get localized */
 	for (i = 0; i < sizeof magic_num / sizeof magic_num[0]; i++)
@@ -1508,7 +1508,7 @@ xf_free (ExcelWorkbook *wb)
 {
 	TwoWayTable *twt;
 	MStyle *st;
-	int i;
+	guint i;
 
 	if (wb && wb->xf) {
 		if (wb->xf->two_way_table) {
@@ -1575,7 +1575,6 @@ pre_cell (gconstpointer dummy, Cell *cell, ExcelSheet *sheet)
 	ExcelCell *c;
 	int col, row;
 	MStyle *cell_style;
-	StyleFormat *fmt;
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (sheet != NULL);
@@ -1672,7 +1671,7 @@ pre_blanks (ExcelSheet *sheet)
 static void
 gather_styles (ExcelWorkbook *wb)
 {
-	int i;
+	guint i;
 
 	for (i = 0; i < wb->sheets->len; i++) {
 		ExcelSheet *s = g_ptr_array_index (wb->sheets, i);
@@ -1707,7 +1706,7 @@ map_pattern_index_to_excel (int const i)
 
 	/* Default to Solid if out of range */
 	g_return_val_if_fail (i >= 0 &&
-			      i < (sizeof(map_to_excel)/sizeof(int)), 0);
+			      i < (int) (sizeof(map_to_excel)/sizeof(int)), 0);
 
 	return map_to_excel[i];
 }
@@ -3233,7 +3232,7 @@ write_index (MsOleStream *s, ExcelSheet *sheet, MsOlePos pos)
 {
 	guint8  data[4];
 	MsOlePos oldpos;
-	int lp;
+	guint lp;
 
 	g_return_if_fail (s);
 	g_return_if_fail (sheet);
@@ -3369,8 +3368,8 @@ write_block (BiffPut *bp, ExcelSheet *sheet, guint32 begin, int nrows)
 	MsOlePos  ri_start [2]; /* Row info start */
 	MsOlePos *rc_start;	/* Row cells start */
 
-	if (nrows > sheet->maxy - begin) /* Incomplete final block? */
-		nrows = sheet->maxy - begin;
+	if (nrows > sheet->maxy - (int) begin) /* Incomplete final block? */
+		nrows = sheet->maxy - (int) begin;
 	end = begin + nrows - 1;
 
 	ri_start [0] = write_rowinfo (bp, sheet, begin, maxx);
@@ -3423,7 +3422,8 @@ write_block (BiffPut *bp, ExcelSheet *sheet, guint32 begin, int nrows)
 static void
 write_sheet (IOContext *context, BiffPut *bp, ExcelSheet *sheet)
 {
-	guint32 y, block_end, maxrows;
+	guint32 block_end;
+	gint32 maxrows, y;
 	int rows_in_block = ROW_BLOCK_MAX_LEN;
 	MsOlePos index_off;
 	/* No. of blocks of rows. Only correct as long as all rows -
@@ -3560,7 +3560,7 @@ pre_pass (IOContext *context, ExcelWorkbook *wb)
 static void
 free_workbook (ExcelWorkbook *wb)
 {
-	int lp;
+	guint lp;
 
 	fonts_free   (wb);
 	formats_free (wb);
@@ -3578,7 +3578,7 @@ static void
 write_workbook (IOContext *context, BiffPut *bp, ExcelWorkbook *wb, MsBiffVersion ver)
 {
 	ExcelSheet *s  = 0;
-	int        lp;
+	guint        lp;
 
 	current_workbook_iconv = excel_iconv_open_for_export();
 	/* Workbook */
@@ -3636,7 +3636,7 @@ write_workbook (IOContext *context, BiffPut *bp, ExcelWorkbook *wb, MsBiffVersio
 static int
 check_sheet (IOContext *context, ExcelSheet *sheet)
 {
-	guint32 maxrows;
+	gint32 maxrows;
 	int ret = 0;
 
 	maxrows = (sheet->wb->ver >= MS_BIFF_V8)

@@ -698,7 +698,7 @@ write_node (PolishData *pd, ExprTree *tree, int paren_level)
 
 		for (idx = 0; idx < pd->sheet->wb->names->len; idx++)
 			if (!strcmp(tree->name.name->name->str,
-				    g_ptr_array_index (pd->sheet->wb->names, idx))) {
+				    (char *) g_ptr_array_index (pd->sheet->wb->names, idx))) {
 
 			    MS_OLE_SET_GUINT8  (data + 0, FORMULA_PTG_NAME);
 			    MS_OLE_SET_GUINT16 (data + 1, idx + 1);

@@ -1,3 +1,25 @@
+2001-05-11  Almer S. Tigelaar  <almer@gnome.org>
+
+	* ms-excel-write.c (write_sheet_bools): Write dimensions as
+	unsigned integers.
+	(biff_put_text): Signedness.
+	(write_externsheets): Signedness.
+	(excel_font_to_string): Signedness.
+	(fonts_free): Signedness.
+	(write_formats): Signedness.
+	(xf_free): Signedness.
+	(pre_cell): Signedness + Unused variabele.
+	(gather_styles): Signedness.
+	(map_pattern_index_to_excel): Signedness.
+	(write_index): Signedness.
+	(write_block): Signedness.
+	(write_sheet): Signedness.
+	(free_workbook): Signedness.
+	(write_workbook): Signedness.
+	(check_sheet): Signedness.
+
+	* ms-excel-formula-write (write_node): Cast untyped pointer.
+
 2001-05-07  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-escher.c (ms_escher_get_data) : suppress warnings.
