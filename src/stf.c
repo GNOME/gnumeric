@@ -59,12 +59,22 @@ static char *
 stf_open_and_read (GsfInput *input)
 {
 	gpointer result;
+	gulong    allocsize;
+	size_t    readsize;  
+	gsf_off_t size = gsf_input_size (input);
 
-	result = g_try_malloc (gsf_input_size (input) + 1);
+	readsize = (size_t) size;
+	if ((gsf_off_t) readsize != size) /* Check for overflow */
+		return NULL;
+	size++;
+	allocsize = (gulong) size;
+	if ((gsf_off_t) allocsize != size) /* Check for overflow */
+		return NULL;
+	result = g_try_malloc (allocsize);
 	if (result == NULL)
 		return NULL;
 
-	if (gsf_input_read (input, gsf_input_size (input), result) == NULL) {
+	if (gsf_input_read (input, readsize, result) == NULL) {
 		g_free (result);
 		result = NULL;
 	}
@@ -272,13 +282,13 @@ static gboolean
 stf_read_default_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
 	guint8 const *data;
+	gsf_off_t remain;
 	int len;
 
 	if (gsf_input_seek (input, 0, GSF_SEEK_SET))
 		return FALSE;
-	len = gsf_input_remaining (input);
-	if (len > STF_PROBE_SIZE)
-		len = STF_PROBE_SIZE;
+	remain = gsf_input_remaining (input);
+	len = MIN (remain, STF_PROBE_SIZE);
 	data = gsf_input_read (input, len, NULL);
 	return (data != NULL) && (stf_parse_is_valid_data (data, len) == NULL);
 }
