@@ -1,3 +1,8 @@
+2003-11-09  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=128915
+	* preferences.glade: make description field non-editable
+
 2003-11-26  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.2
