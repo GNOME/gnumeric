@@ -5,7 +5,6 @@
 /**
  * TODO:
  * Arrays   - Use Python arrays
- * Errors   - Define an exception class for Gnumeric VALUE_ERROR      
  * Booleans - Do we need a distinguished data type so that Gnumeric can
  *            recognize that Python is returning a boolean? If so, we can
  *            define a Python boolean class.
@@ -30,6 +29,9 @@
 #define CELL_REF_CLASS   "CellRef"
 #define CELL_RANGE_CLASS "CellRange"
 
+/* This is standard idiom for defining exceptions in extension modules. */
+static PyObject *GnumericError;
+
 /* Yuck!
  * See comment in plugins/guile/plugin.c
  */
@@ -47,7 +49,7 @@ convert_py_exception_to_string ()
 	char *header = _("Python exception");
 	char *retval = header;
 	char buf [256];
-	int pos;
+	int pos = 0;
 	
 	PyObject *ptype = NULL, *pvalue = NULL, *ptraceback = NULL;
 	PyObject *stype = NULL, *svalue = NULL;
@@ -55,19 +57,29 @@ convert_py_exception_to_string ()
 	PyErr_Fetch (&ptype, &pvalue, &ptraceback);
 	if (!ptype)
 		goto cleanup;
-	stype = PyObject_Str (ptype);
-	if (!stype)
-		goto cleanup;
-	pos = snprintf (buf, sizeof buf, "%s: %s",
-			header, PyString_AsString (stype));
-	retval = buf;
-	
-	if (pvalue && (pos + 3 < sizeof buf))
+
+	if (pvalue)
 		svalue = PyObject_Str (pvalue);
-	if (!svalue)
-		goto cleanup;
-	snprintf (buf + pos , sizeof buf - pos , ": %s",
-			PyString_AsString (svalue));
+
+	if (PyErr_GivenExceptionMatches (ptype, GnumericError)) {
+		/* This recovers a VALUE_ERROR which the Python code received
+		 * from C  */
+		retval = PyString_AsString (svalue);
+	} else {
+		/* Include exception class in the error message */
+		stype = PyObject_Str (ptype);
+		if (!stype)
+			goto cleanup;
+		pos = snprintf (buf, sizeof buf, "%s: %s",
+				header, PyString_AsString (stype));
+		retval = buf;
+	
+		if (!svalue)
+			goto cleanup;
+		if (pos + 3 < sizeof buf)
+			snprintf (buf + pos , sizeof buf - pos , ": %s",
+				  PyString_AsString (svalue));
+	}
 cleanup:
 	Py_XDECREF (stype);
 	Py_XDECREF (svalue);
@@ -159,6 +171,11 @@ convert_boolean_to_python (Value *v)
  * @v   value union
  *
  * Converts a Gnumeric value to Python. Returns python object.
+ *
+ * VALUE_ERROR is not handled here. It is not possible to receive VALUE_ERROR
+ * as a parameter to a function.  But a C function may return VALUE_ERROR. In
+ * this case, the caller an exception is raised before convert_value_to_python
+ * is called.
  */
 static PyObject *
 convert_value_to_python (Value *v)
@@ -188,8 +205,8 @@ convert_value_to_python (Value *v)
 		o = convert_boolean_to_python (v);
 		break;
 		/* The following aren't implemented yet */
-	case VALUE_ERROR:
 	case VALUE_ARRAY:
+	case VALUE_ERROR:
 	default:
 		o = NULL;
 		break;
@@ -202,7 +219,7 @@ convert_value_to_python (Value *v)
  * @o    Python object
  * @c    Cell reference
  *
- * Converts a Pythin cell reference to Gnumeric. Returns TRUE on success and
+ * Converts a Python cell reference to Gnumeric. Returns TRUE on success and
  * FALSE on failure.
  * Used as a converter function by PyArg_ParseTuple.
  */
@@ -362,7 +379,6 @@ fndef_compare(FuncData *fdata, FunctionDefinition *fndef)
 	return (fdata->fndef != fndef);
 }
 
-
 static Value *
 marshal_func (FunctionEvalInfo *ei, Value *argv [])
 {
@@ -454,8 +470,13 @@ gnumeric_apply (PyObject *m, PyObject *py_args)
 	Py_INCREF (item);	/* Otherwise, we would decrement twice. */
 
 	v = function_call_with_values (eval_pos, funcname, num_args, values);
-	retval = convert_value_to_python (v);
-
+	if (v->type == VALUE_ERROR) {
+		/* Raise an exception */
+		retval = NULL;	
+		PyErr_SetString (GnumericError, v->v.error.mesg->str);
+	} else 
+		retval = convert_value_to_python (v);
+	
 cleanup:
 	Py_XDECREF (item);
 	/* We do not own a reference to seq, so don't decrement it. */
@@ -529,8 +550,16 @@ static PyMethodDef gnumeric_funcs[] = {
 static void
 initgnumeric(void)
 {
+	PyObject *m, *d;
+	
 	PyImport_AddModule ("gnumeric");
-	Py_InitModule ("gnumeric", gnumeric_funcs);
+	m = Py_InitModule ("gnumeric", gnumeric_funcs);
+
+	/* Add our own exception class. */
+	d = PyModule_GetDict(m);
+	GnumericError = PyErr_NewException("gnumeric.error", NULL, NULL);
+	if (GnumericError != NULL)
+		PyDict_SetItemString(d, "error", GnumericError);
 }
 
 static int
