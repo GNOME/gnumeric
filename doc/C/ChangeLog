@@ -1,5 +1,9 @@
 2004-09-28  Adrian Custer <acuster@gnome.org>
 
+	* files-saving.xml: l674. another stupid breaker. bad me.
+
+2004-09-28  Adrian Custer <acuster@gnome.org>
+
 	* figures/dialog-filesave-compact-withTags.png: Added
 	* figures/dialog-filesave-expanded-withTags.png: Added
 	* figures/file-formats-import-list.png: Removed.
