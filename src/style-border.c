@@ -80,8 +80,7 @@ border_equal (gconstpointer v1, gconstpointer v2)
 	MStyleBorder const *k2 = (MStyleBorder const *) v2;
 
 	return	(k1->color == k2->color) && 
-		(k1->line_type == k2->line_type) &&
-		(k1->is_vertical == k1->is_vertical);
+		(k1->line_type == k2->line_type);
 }
 
 static guint
@@ -90,7 +89,7 @@ border_hash (gconstpointer v)
 	MStyleBorder const *b = (MStyleBorder const *) v;
 
 	/* Quick kludge */
- 	return (((unsigned)b->color) ^ (b->line_type | (b->is_vertical << 5)));
+ 	return (((unsigned)b->color) ^ b->line_type);
 }
 
 #if 0
@@ -106,22 +105,21 @@ border_fetch (StyleBorderType const	 line_type,
 	MStyleBorder *border;
 	MStyleBorder key;
 
+	if (line_type == BORDER_NONE)
+		return NULL;
+
 	key.line_type = line_type;
 	key.color = color;
-	/* TODO : Will need to expand this when we add diagonals */
-	key.is_vertical = (orientation == MSTYLE_BORDER_LEFT ||
-			   orientation == MSTYLE_BORDER_RIGHT);
 
-	if (style_border_hash == NULL) {
-		style_border_hash = g_hash_table_new (border_hash, border_equal);
-	} else {
+	if (style_border_hash != NULL) {
 		border = g_hash_table_lookup (style_border_hash, &key);
 
 		if (border != NULL) {
 			++border->ref_count;
 			return border;
 		}
-	}
+	} else
+		style_border_hash = g_hash_table_new (border_hash, border_equal);
 
 	border = g_new0 (MStyleBorder, 1);
 	*border = key;
@@ -141,8 +139,8 @@ border_get_gc (MStyleBorder * border, GdkWindow * window)
 		GdkLineStyle style = GDK_LINE_SOLID;
 		int i = border->line_type - 1;
 
-		g_return_val_if_fail (border->line_type <= BORDER_NONE, NULL);
-		g_return_val_if_fail (border->line_type >= BORDER_MAX, NULL);
+		g_return_val_if_fail (border->line_type > BORDER_NONE, NULL);
+		g_return_val_if_fail (border->line_type < BORDER_MAX, NULL);
 
 		border->gc = gdk_gc_new (window);
 
@@ -167,11 +165,12 @@ border_get_gc (MStyleBorder * border, GdkWindow * window)
 	return border->gc;
 }
 
-void
+MStyleBorder *
 border_ref (MStyleBorder *border)
 {
-	g_return_if_fail (border != NULL);
+	g_return_val_if_fail (border != NULL, NULL);
 	++border->ref_count;
+	return border;
 }
 
 void
@@ -190,3 +189,13 @@ border_unref (MStyleBorder *border)
 	g_hash_table_remove (style_border_hash, border);
 	g_free (border);
 }
+
+void
+border_draw (GdkDrawable * drawable, MStyleBorder * border,
+	     int x1, int y1, int x2, int y2)
+{
+	if (border != NULL)
+		gdk_draw_line (drawable, border_get_gc (border, drawable),
+			       x1, y1, x2, y2);
+}
+
