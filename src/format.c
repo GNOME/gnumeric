@@ -1509,7 +1509,7 @@ format_value (StyleFormat const *format, Value const *value, StyleColor **color,
 	if (color)
 		*color = NULL;
 
-	g_return_val_if_fail (value != NULL, "<ERROR>");
+	g_return_val_if_fail (value != NULL, g_strdup ("<ERROR>"));
 
 	if (format == NULL)
 		format = VALUE_FMT (value);

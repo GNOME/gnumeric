@@ -1,5 +1,8 @@
 2002-02-20  Morten Welinder  <terra@diku.dk>
 
+	* src/format.c (format_value): Missing g_strdup added for sanity
+ 	check, just in case.
+
 	* src/datetime.c (coup_cd): Cleanup using
  	g_date_get_days_in_month.
 
