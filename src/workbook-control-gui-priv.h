@@ -110,6 +110,8 @@ int	 wbcg_close_if_user_permits   (WorkbookControlGUI *wbcg,
 void	 scg_delete_sheet_if_possible (GtkWidget *ignored, SheetControlGUI *scg);
 void	 wbcg_insert_sheet	      (GtkWidget *ignored, WorkbookControlGUI *wbcg);
 void	 wbcg_append_sheet	      (GtkWidget *ignored, WorkbookControlGUI *wbcg);
+void	 wbcg_set_selection_halign    (WorkbookControlGUI *wbcg, StyleHAlignFlags halign);
+void	 wbcg_set_selection_valign    (WorkbookControlGUI *wbcg, StyleHAlignFlags halign);
 
 enum {
 	WBCG_MARKUP_CHANGED,

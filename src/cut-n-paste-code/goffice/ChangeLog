@@ -1,3 +1,11 @@
+2004-07-19  Jody Goldberg <jody@gnome.org>
+
+	* gui-utils/go-action-combo-pixmaps.c : switch from inline pixbufs to
+	  stock ids.
+
+	* gui-utils/go-action-combo-color.c
+	(go_action_combo_color_set_color):  implement
+
 2004-07-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* libpresent/load-ppt.c (handle_atom): Parse fonts.

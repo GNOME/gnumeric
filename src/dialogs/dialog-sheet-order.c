@@ -1022,15 +1022,15 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	state->image_padlock =  gtk_widget_render_icon (state->dialog,
                                              "Gnumeric_Protection_Yes",
                                              GTK_ICON_SIZE_LARGE_TOOLBAR,
-                                             "Gnumeric-Sheet-Manger");
+                                             "Gnumeric-Sheet-Manager");
 	state->image_padlock_no =  gtk_widget_render_icon (state->dialog,
                                              "Gnumeric_Protection_No",
                                              GTK_ICON_SIZE_LARGE_TOOLBAR,
-                                             "Gnumeric-Sheet-Manger");
+                                             "Gnumeric-Sheet-Manager");
 	state->image_visible = gtk_widget_render_icon (state->dialog,
                                              "Gnumeric_Visible",
                                              GTK_ICON_SIZE_LARGE_TOOLBAR,
-                                             "Gnumeric-Sheet-Manger");
+                                             "Gnumeric-Sheet-Manager");
 	/* Listen for changes in the sheet order. */
 	wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet_order_changed_listener = g_signal_connect (G_OBJECT (wb),

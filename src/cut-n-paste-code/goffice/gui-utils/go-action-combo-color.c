@@ -256,5 +256,10 @@ go_action_combo_color_get_color (GOActionComboColor *a, gboolean *is_default)
 void
 go_action_combo_color_set_color (GOActionComboColor *a, GOColor color)
 {
-#warning TODO
+	GSList *ptr = gtk_action_get_proxies (GTK_ACTION (a));
+
+	a->current_color = color;
+	for ( ; ptr != NULL ; ptr = ptr->next)
+		if (IS_GO_TOOL_COMBO_COLOR (ptr->data))
+			go_combo_color_set_color (GO_TOOL_COMBO_COLOR (ptr->data)->combo, color);
 }

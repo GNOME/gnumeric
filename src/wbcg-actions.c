@@ -952,8 +952,8 @@ static GNM_ACTION_DEF (cmd_create_rectangle)
 static GNM_ACTION_DEF (cmd_create_ellipse)
 	{ create_object (wbcg, sheet_object_box_new (TRUE)); }
 
-static void
-set_selection_halign (WorkbookControlGUI *wbcg, StyleHAlignFlags halign)
+void
+wbcg_set_selection_halign (WorkbookControlGUI *wbcg, StyleHAlignFlags halign)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	WorkbookView	*wb_view;
@@ -975,16 +975,16 @@ set_selection_halign (WorkbookControlGUI *wbcg, StyleHAlignFlags halign)
 }
 
 static GNM_ACTION_DEF (cb_align_left)
-	{ set_selection_halign (wbcg, HALIGN_LEFT); }
+	{ wbcg_set_selection_halign (wbcg, HALIGN_LEFT); }
 static GNM_ACTION_DEF (cb_align_right)
-	{ set_selection_halign (wbcg, HALIGN_RIGHT); }
+	{ wbcg_set_selection_halign (wbcg, HALIGN_RIGHT); }
 static GNM_ACTION_DEF (cb_align_center)
-	{ set_selection_halign (wbcg, HALIGN_CENTER); }
+	{ wbcg_set_selection_halign (wbcg, HALIGN_CENTER); }
 static GNM_ACTION_DEF (cb_center_across_selection)
-	{ set_selection_halign (wbcg, HALIGN_CENTER_ACROSS_SELECTION); }
+	{ wbcg_set_selection_halign (wbcg, HALIGN_CENTER_ACROSS_SELECTION); }
 
-static void
-set_selection_valign (WorkbookControlGUI *wbcg, StyleVAlignFlags valign)
+void
+wbcg_set_selection_valign (WorkbookControlGUI *wbcg, StyleVAlignFlags valign)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	WorkbookView	*wb_view;
@@ -1009,11 +1009,11 @@ set_selection_valign (WorkbookControlGUI *wbcg, StyleVAlignFlags valign)
 }
 
 static GNM_ACTION_DEF (cb_align_top)
-	{ set_selection_valign (wbcg, VALIGN_TOP); }
+	{ wbcg_set_selection_valign (wbcg, VALIGN_TOP); }
 static GNM_ACTION_DEF (cb_align_vcenter)
-	{ set_selection_valign (wbcg, VALIGN_CENTER); }
+	{ wbcg_set_selection_valign (wbcg, VALIGN_CENTER); }
 static GNM_ACTION_DEF (cb_align_bottom)
-	{ set_selection_valign (wbcg, VALIGN_BOTTOM); }
+	{ wbcg_set_selection_valign (wbcg, VALIGN_BOTTOM); }
 
 static GNM_ACTION_DEF (cb_view_standard_toolbar)
 {

@@ -671,7 +671,23 @@ gnumeric_application_setup_icons (void)
 		{ gnm_link_url_24,			gnm_link_url_16,		"Gnumeric_Link_URL" },
 
 		{ gnm_autofilter_24,			gnm_autofilter_16,		"Gnumeric_AutoFilter" },
-		{ gnm_autofilter_delete_24,		gnm_autofilter_delete_16,	"Gnumeric_AutoFilterDelete" }
+		{ gnm_autofilter_delete_24,		gnm_autofilter_delete_16,	"Gnumeric_AutoFilterDelete" },
+
+		{ gnm_border_left,			NULL,				"Gnumeric_BorderLeft" },
+		{ gnm_border_none,			NULL,				"Gnumeric_BorderNone" },
+		{ gnm_border_right,			NULL,				"Gnumeric_BorderRight" },
+
+		{ gnm_border_all,			NULL,				"Gnumeric_BorderAll" },
+		{ gnm_border_outside,			NULL,				"Gnumeric_BorderOutside" },
+		{ gnm_border_thick_outside,		NULL,				"Gnumeric_BorderThickOutside" },
+
+		{ gnm_border_bottom,			NULL,				"Gnumeric_BorderBottom" },
+		{ gnm_border_double_bottom,		NULL,				"Gnumeric_BorderDoubleBottom" },
+		{ gnm_border_thick_bottom,		NULL,				"Gnumeric_BorderThickBottom" },
+
+		{ gnm_border_top_n_bottom,		NULL,				"Gnumeric_BorderTop_n_Bottom" },
+		{ gnm_border_top_n_double_bottom,	NULL,				"Gnumeric_BorderTop_n_DoubleBottom" },
+		{ gnm_border_top_n_thick_bottom,	NULL,				"Gnumeric_BorderTop_n_ThickBottom" }
 	};
 	static gboolean done = FALSE;
 

@@ -84,10 +84,8 @@ go_action_combo_pixmaps_connect_proxy (GtkAction *a, GtkWidget *proxy)
 
 	if (GTK_IS_IMAGE_MENU_ITEM (proxy)) { /* set the icon */
 		GOActionComboPixmaps *paction = (GOActionComboPixmaps *)a;
-		GdkPixbuf *pixbuf = gdk_pixbuf_new_from_inline (-1,
-			paction->elements[0].inline_gdkpixbuf, TRUE, NULL);
-		GtkWidget *image = gtk_image_new_from_pixbuf (pixbuf);
-		g_object_unref (pixbuf);
+		GtkWidget *image = gtk_image_new_from_stock (
+			paction->elements[0].stock_id, GTK_ICON_SIZE_MENU);
 		gtk_widget_show (image);
 		gtk_image_menu_item_set_image (
 			GTK_IMAGE_MENU_ITEM (proxy), image);
@@ -121,9 +119,12 @@ go_action_combo_pixmaps_create_tool_item (GtkAction *a)
 	GOActionComboPixmapsElement const *el= paction->elements;
 
 	tool->combo = go_combo_pixmaps_new (paction->ncols);
-	for ( ; el->inline_gdkpixbuf != NULL ; el++)
+	for ( ; el->stock_id != NULL ; el++)
 		go_combo_pixmaps_add_element (tool->combo,
-			gdk_pixbuf_new_from_inline (-1, el->inline_gdkpixbuf, TRUE, NULL),
+			gtk_widget_render_icon (GTK_WIDGET (tool->combo),
+				el->stock_id,
+				GTK_ICON_SIZE_LARGE_TOOLBAR,
+				"GOActionComboPixmaps"),
 			el->id, _(el->untranslated_tooltip));
 	go_combo_pixmaps_select_id (tool->combo, paction->selected_id);
 
@@ -149,9 +150,12 @@ go_action_combo_pixmaps_create_menu_item (GtkAction *a)
 	GOActionComboPixmapsElement const *el= paction->elements;
 	GtkWidget *item;
 	
-	for ( ; el->inline_gdkpixbuf != NULL ; el++)
+	for ( ; el->stock_id != NULL ; el++)
 		go_menu_pixmaps_add_element (submenu,
-			gdk_pixbuf_new_from_inline (-1, el->inline_gdkpixbuf, TRUE, NULL),
+			gtk_widget_render_icon (GTK_WIDGET (item),
+				el->stock_id,
+				GTK_ICON_SIZE_MENU,
+				"GOActionComboPixmaps"),
 			el->id);
 
 	item = gtk_image_menu_item_new ();
@@ -210,9 +214,24 @@ go_action_combo_pixmaps_new (char const *name,
 }
 
 int
-go_action_combo_pixmaps_get_selection (GOActionComboPixmaps *paction)
+go_action_combo_pixmaps_get_selected (GOActionComboPixmaps *paction, int *indx)
 {
 	g_return_val_if_fail (IS_GO_ACTION_COMBO_PIXMAPS (paction), 0);
 
 	return paction->selected_id;
+}
+
+gboolean
+go_action_combo_pixmaps_select_id (GOActionComboPixmaps *paction, int id)
+{
+	gboolean res = TRUE;
+	GSList *ptr = gtk_action_get_proxies (GTK_ACTION (paction));
+
+	paction->selected_id = id;
+	for ( ; ptr != NULL ; ptr = ptr->next)
+		if (IS_GO_TOOL_COMBO_PIXMAPS (ptr->data))
+			res |= go_combo_pixmaps_select_id (
+				GO_TOOL_COMBO_PIXMAPS (ptr->data)->combo, id);
+
+	return res;
 }

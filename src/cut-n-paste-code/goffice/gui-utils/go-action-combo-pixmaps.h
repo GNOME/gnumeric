@@ -34,7 +34,7 @@ G_BEGIN_DECLS
 typedef struct _GOActionComboPixmaps	 GOActionComboPixmaps;
 typedef struct {
 	char const *untranslated_tooltip;
-	guint8 const *inline_gdkpixbuf;
+	char const *stock_id;
 	int id;
 } GOActionComboPixmapsElement;
 
@@ -43,7 +43,8 @@ GOActionComboPixmaps *
 	go_action_combo_pixmaps_new (char const *name,
 				     GOActionComboPixmapsElement const *elements,
 				     int ncols, int nrows);
-int	go_action_combo_pixmaps_get_selection (GOActionComboPixmaps *action);
+int	 go_action_combo_pixmaps_get_selected (GOActionComboPixmaps *action, int *indx);
+gboolean go_action_combo_pixmaps_select_id    (GOActionComboPixmaps *action, int id);
 
 G_END_DECLS
 

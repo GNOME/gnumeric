@@ -75,7 +75,7 @@ struct _WBCgtk {
 	GOActionComboStack	*undo_action, *redo_action;
 	GOActionComboColor	*fore_color, *back_color;
 	GOActionComboText	*font_name, *font_size, *zoom;
-	GOActionComboPixmaps	*borders;
+	GOActionComboPixmaps	*borders, *halignment, *valignment;
 	struct {
 		GtkToggleAction	 *bold, *italic, *underline, *strikethrough;
 	} font;
@@ -188,21 +188,21 @@ wbc_gtk_set_zoom_label (WorkbookControlGUI const *wbcg, char const *label)
 #include "style-border.h"
 
 static GOActionComboPixmapsElement const border_combo_info[] = {
-	{ N_("Left"),			gnm_border_left,		11 },
-	{ N_("Clear Borders"),		gnm_border_none,		12 },
-	{ N_("Right"),			gnm_border_right,		13 },
+	{ N_("Left"),			"Gnumeric_BorderLeft",			11 },
+	{ N_("Clear Borders"),		"Gnumeric_BorderNone",			12 },
+	{ N_("Right"),			"Gnumeric_BorderRight",			13 },
 
-	{ N_("All Borders"),		gnm_border_all,			21 },
-	{ N_("Outside Borders"),	gnm_border_outside,		22 },
-	{ N_("Thick Outside Borders"),	gnm_border_thick_outside,	23 },
+	{ N_("All Borders"),		"Gnumeric_BorderAll",			21 },
+	{ N_("Outside Borders"),	"Gnumeric_BorderOutside",		22 },
+	{ N_("Thick Outside Borders"),	"Gnumeric_BorderThickOutside",		23 },
 
-	{ N_("Bottom"),			gnm_border_bottom,		31 },
-	{ N_("Double Bottom"),		gnm_border_double_bottom,	32 },
-	{ N_("Thick Bottom"),		gnm_border_thick_bottom,	33 },
+	{ N_("Bottom"),			"Gnumeric_BorderBottom",		31 },
+	{ N_("Double Bottom"),		"Gnumeric_BorderDoubleBottom",		32 },
+	{ N_("Thick Bottom"),		"Gnumeric_BorderThickBottom",		33 },
 
-	{ N_("Top and Bottom"),		gnm_border_top_n_bottom,	41 },
-	{ N_("Top and Double Bottom"),	gnm_border_top_n_double_bottom,	42 },
-	{ N_("Top and Thick Bottom"),	gnm_border_top_n_thick_bottom,	43 },
+	{ N_("Top and Bottom"),		"Gnumeric_BorderTop_n_Bottom",		41 },
+	{ N_("Top and Double Bottom"),	"Gnumeric_BorderTop_n_DoubleBottom",	42 },
+	{ N_("Top and Thick Bottom"),	"Gnumeric_BorderTop_n_ThickBottom",	43 },
 
 	{ NULL, NULL}
 };
@@ -213,7 +213,7 @@ cb_border_activated (GOActionComboPixmaps *a, WorkbookControl *wbc)
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	GnmBorder *borders[STYLE_BORDER_EDGE_MAX];
 	int i;
-	int index = go_action_combo_pixmaps_get_selection (a);
+	int index = go_action_combo_pixmaps_get_selected (a, NULL);
 	
 	/* Init the list */
 	for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
@@ -306,6 +306,67 @@ wbc_gtk_init_borders (WBCgtk *gtk)
 		"activate",
 		G_CALLBACK (cb_border_activated), gtk);
 	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->borders));
+}
+
+/****************************************************************************/
+
+static GOActionComboPixmapsElement const halignment_combo_info[] = {
+	{ N_("Align Left"),		GTK_STOCK_JUSTIFY_LEFT,		HALIGN_LEFT },
+	{ N_("Center Horizontally"),	GTK_STOCK_JUSTIFY_CENTER,	HALIGN_CENTER },
+	{ N_("Align Right"),		GTK_STOCK_JUSTIFY_RIGHT,	HALIGN_RIGHT },
+	{ NULL, NULL }
+};
+static GOActionComboPixmapsElement const valignment_combo_info[] = {
+	{ N_("Align Top"),		"stock_alignment-top",			VALIGN_TOP },
+	{ N_("Center Vertically"),	"stock_alignment-centered-vertically",	VALIGN_CENTER },
+	{ N_("Align Bottom"),		"stock_alignment-bottom",		VALIGN_BOTTOM },
+	{ NULL, NULL}
+};
+
+static void
+cb_halignment_activated (GOActionComboPixmaps *a, WorkbookControlGUI *wbcg)
+{
+	wbcg_set_selection_halign (wbcg,
+		go_action_combo_pixmaps_get_selected (a, NULL));
+}
+static void
+cb_valignment_activated (GOActionComboPixmaps *a, WorkbookControlGUI *wbcg)
+{
+	wbcg_set_selection_valign (wbcg,
+		go_action_combo_pixmaps_get_selected (a, NULL));
+}
+static void
+wbc_gtk_init_alignments (WBCgtk *gtk)
+{
+	gtk->halignment = go_action_combo_pixmaps_new ("HAlignmentSelector",
+						       halignment_combo_info, 1, 3);
+	g_object_set (G_OBJECT (gtk->halignment),
+		      "label", _("Horzontal Alignment"),
+		      "tooltip", _("Horzontal Alignment"),
+		      NULL);
+#if 0
+	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Horzontal Alignment"));
+	go_combo_pixmaps_select (gtk->halignment, 1); /* default to none */
+#endif
+	g_signal_connect (G_OBJECT (gtk->halignment),
+		"activate",
+		G_CALLBACK (cb_halignment_activated), gtk);
+	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->halignment));
+
+	gtk->valignment = go_action_combo_pixmaps_new ("VAlignmentSelector",
+						       valignment_combo_info, 1, 3);
+	g_object_set (G_OBJECT (gtk->valignment),
+		      "label", _("Vertical Alignment"),
+		      "tooltip", _("Vertical Alignment"),
+		      NULL);
+#if 0
+	gnm_combo_box_set_title (GO_COMBO_BOX (fore_combo), _("Horzontal Alignment"));
+	go_combo_pixmaps_select (gtk->valignment, 1); /* default to none */
+#endif
+	g_signal_connect (G_OBJECT (gtk->valignment),
+		"activate",
+		G_CALLBACK (cb_valignment_activated), gtk);
+	gtk_action_group_add_action (gtk->actions, GTK_ACTION (gtk->valignment));
 }
 
 /****************************************************************************/
@@ -797,6 +858,7 @@ wbc_gtk_style_feedback (WorkbookControl *wbc, GnmStyle const *changes)
 			align == HALIGN_RIGHT);
 		gtk_toggle_action_set_active (wbcg->h_align.center_across_selection,
 			align == HALIGN_CENTER_ACROSS_SELECTION);
+		go_action_combo_pixmaps_select_id (wbcg->halignment, align);
 	}
 	if (mstyle_is_element_set (changes, MSTYLE_ALIGN_V)) {
 		StyleVAlignFlags align = mstyle_get_align_v (changes);
@@ -806,6 +868,7 @@ wbc_gtk_style_feedback (WorkbookControl *wbc, GnmStyle const *changes)
 			align == VALIGN_BOTTOM);
 		gtk_toggle_action_set_active (wbcg->v_align.center,
 			align == VALIGN_CENTER);
+		go_action_combo_pixmaps_select_id (wbcg->valignment, align);
 	}
 
 	if (mstyle_is_element_set (changes, MSTYLE_FONT_SIZE)) {
@@ -1067,6 +1130,7 @@ wbc_gtk_init (GObject *obj)
 	wbc_gtk_init_font_size (gtk);
 	wbc_gtk_init_zoom (gtk);
 	wbc_gtk_init_borders (gtk);
+	wbc_gtk_init_alignments (gtk);
 
 	gtk->ui = gtk_ui_manager_new ();
 	g_object_connect (gtk->ui,
