@@ -1,5 +1,11 @@
 1999-05-08  Michael Meeks  <michael@imaginator.com>
 
+	* web/index.html: Fix sillyness in references.
+
+	* web/gnumeric-0.25: Remove HTML tags...
+
+1999-05-08  Michael Meeks  <michael@imaginator.com>
+
 	* src/Makefile.am (gnumeric_LDADD): Added libole2 library.
 
 	* configure.in (XML_CFLAGS): Updated to add excel/libole2
