@@ -98,6 +98,10 @@ UTF-8:
     - Window titles.
     - format precompile
 
+Bonobo component
+    Install it in libexec
+    Investigate warnings
+
 Possibly Post 1.2 Targets
 -------------------------
 - pivot tables
