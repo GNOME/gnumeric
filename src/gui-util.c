@@ -18,6 +18,7 @@
 #include "value.h"
 #include "number-match.h"
 #include "format.h"
+#include "application.h"
 
 #include <string.h>
 #include <gal/widgets/e-colors.h>
@@ -991,6 +992,7 @@ gnumeric_toolbar_new (WorkbookControlGUI *wbcg,
 {
 	GnomeApp *app = GNOME_APP (wbcg->toplevel);
 	GtkWidget *tbar;
+	BonoboDockItemBehavior	behavior = BONOBO_DOCK_ITEM_BEH_NORMAL;
 
 	g_return_val_if_fail (info != NULL, NULL);
 
@@ -999,10 +1001,14 @@ gnumeric_toolbar_new (WorkbookControlGUI *wbcg,
 	gnome_app_fill_toolbar_with_data (GTK_TOOLBAR (tbar), info,
 		app->accel_group, wbcg);
 
+	behavior = gconf_client_get_bool (application_get_gconf_client (),
+		"/desktop/gnome/interface/toolbar_detachable", NULL)
+		? BONOBO_DOCK_ITEM_BEH_NORMAL
+		: BONOBO_DOCK_ITEM_BEH_LOCKED;
+
 	gnome_app_add_toolbar (GNOME_APP (wbcg->toplevel), GTK_TOOLBAR (tbar),
-		name, BONOBO_DOCK_ITEM_BEH_NORMAL, BONOBO_DOCK_TOP,
+		name, behavior, BONOBO_DOCK_TOP,
 		band_num, band_position, offset);
-	gtk_toolbar_set_style (GTK_TOOLBAR (tbar), GTK_TOOLBAR_ICONS);
 
 	return tbar;
 }

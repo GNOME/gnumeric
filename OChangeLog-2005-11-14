@@ -1,3 +1,7 @@
+2002-03-31  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-util.c (gnumeric_toolbar_new) : respect ui preferences.
+
 2002-03-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/commands.c (cmd_analysis_tool_redo) : TOOL_ENGINE_PERFORM_CALC
