@@ -1,5 +1,9 @@
 2000-03-23  Jody Goldberg <jgoldberg@home.com>
 
+	* src/main.h : include popt-gnome.h rather than popt.h.  We may
+	  eventually need gnome-popt.h, but lets keep this simple for now.
+	  Does anyone know the right way to do this ?
+
 	* src/cell.c (cell_calculate_span) : Add CENTER_ACROSS_SELECTION.
 	(cell_set_text_simple) : Begin transition to checking
 	  format of current cell for match.  No real change yet.

@@ -27,7 +27,7 @@ Jukka:
 
 Jody:
 	* Redraw improvements (cursor, selection, spanning, speed, underlining)
-	* Border improvements (combo, ugly printing, partial double line).
+	* Border improvements (combo, printing, partial double line).
 	* More work on undo.
 	* Parse interbook references.
 	* Mostly correct sizing of MS Excel cols/rows and objects.
