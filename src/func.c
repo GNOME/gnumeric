@@ -674,6 +674,9 @@ function_def_get_arg_name (FunctionDefinition const *fn_def,
 	if (fn_def->fn_type == FUNCTION_NAMEONLY)
 		func_def_load ((FunctionDefinition *) fn_def);
 
+	if (!fn_def->named_arguments)
+		return NULL;
+
 	names = g_strsplit (fn_def->named_arguments, ",", G_MAXINT);
 	o_names = names;
 

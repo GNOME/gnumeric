@@ -1,3 +1,8 @@
+2002-04-02  Jon K Hellan  <hellan@acm.org>
+
+	* src/func.c (function_def_get_arg_name): Don't crash if arguments
+	aren't named.
+
 2002-04-01  Morten Welinder  <terra@diku.dk>
 
 	* src/value.c (USE_VALUE_POOLS): Make pools conditional.
