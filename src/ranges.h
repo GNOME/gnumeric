@@ -27,14 +27,17 @@ void        range_list_foreach_area (Sheet *sheet, GSList *ranges,
 void        range_set_style         (Sheet *sheet, GSList *ranges,
 				     MStyle *style);
 
-gboolean    range_is_singleton (Range const *r);
-gboolean    range_equal        (Range const *a, Range const *b);
-gboolean    range_overlap      (Range const *a, Range const *b);
-gboolean    range_contains     (Range const *range, int col, int row);
-gboolean    range_adjacent     (Range const *a, Range const *b);
-Range       range_merge        (Range const *a, Range const *b);
-void        range_dump         (Range const *src);
-Range      *range_duplicate    (Range const *src);
-GList      *range_fragment     (GList *ranges);
+gboolean    range_is_singleton  (Range const *r);
+gboolean    range_equal         (Range const *a, Range const *b);
+gboolean    range_overlap       (Range const *a, Range const *b);
+gboolean    range_contains      (Range const *range, int col, int row);
+gboolean    range_adjacent      (Range const *a, Range const *b);
+Range       range_merge         (Range const *a, Range const *b);
+void        range_clip          (Range *clipped, Range const *master,
+				 Range const *slave);
+void        range_dump          (Range const *src);
+Range      *range_duplicate     (Range const *src);
+GList      *range_fragment      (GList *ranges);
+void        range_fragment_free (GList *fragments);
 
 #endif /* GNUMERIC_RANGES_H */

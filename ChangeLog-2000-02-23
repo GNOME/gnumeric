@@ -1,5 +1,15 @@
 1999-10-11  Michael Meeks  <mmeeks@gnu.org>
 
+	* src/style.c (style_mstyle_new): Re-initialize background color
+	so it doesn't crash !!!
+
+	* src/item-grid.c (item_grid_draw_cell): add check on back_color.
+
+	* src/sheet-style.c (sheet_uniq_cb): update.
+
+	* src/ranges.c (range_fragment_free): implement.
+	(range_clip, range_fragment): Implement - grief.
+
 	* src/cell.c (cell_get_span): print the unknown type.
 	(cell_get_horizontal_align): fixup.
 

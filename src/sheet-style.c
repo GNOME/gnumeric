@@ -309,7 +309,7 @@ sheet_selection_apply_style (Sheet *sheet, MStyle *style)
 }
 
 typedef struct {
-	GList *style_list;
+	MStyleElement *style;
 } UniqClosure;
 
 static void
@@ -317,7 +317,8 @@ sheet_uniq_cb (Sheet *sheet, Range const *range,
 	       gpointer user_data)
 {
 	UniqClosure *cl = (UniqClosure *)user_data;
-	GList *l;
+	GList *l, *simple;
+	GList *overlap_list = NULL;
 
  	/* Look in the styles applied to the sheet */
 	for (l = sheet->style_list; l; l = l->next) {
@@ -327,10 +328,25 @@ sheet_uniq_cb (Sheet *sheet, Range const *range,
 				range_dump (&sr->range);
 				mstyle_dump (sr->style);
 			}
-			cl->style_list = g_list_prepend (cl->style_list,
-							 sr->style);
+			overlap_list = g_list_prepend (overlap_list, sr);
 		}
 	}
+
+	/* Fragment ranges into fully overlapping ones */
+	simple = range_fragment (overlap_list);
+	for (l = simple; l; l = g_list_next (l)) {
+		GList *b;
+
+		for (b = overlap_list; b; b = g_list_next (b)) {
+			g_warning ("need to merge styles here with"
+				   " conflicts into cb->mash");
+/*			mstyle_do_merge (cl.style_list, MSTYLE_ELEMENT_MAX,
+mash, TRUE);*/
+		}
+	}
+
+	range_fragment_free (simple);
+	g_list_free (overlap_list);
 }
 
 /**
@@ -347,6 +363,7 @@ sheet_selection_get_uniq_style (Sheet *sheet)
 {
 	UniqClosure cl;
 	MStyleElement *mash;
+	int i;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
@@ -359,16 +376,11 @@ sheet_selection_get_uniq_style (Sheet *sheet)
 	 */
 
 	mash = g_new (MStyleElement, MSTYLE_ELEMENT_MAX);
+	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
+		mash[i].type = MSTYLE_ELEMENT_UNSET;
+	cl.style = mash;
 
-	cl.style_list = NULL;
 	selection_foreach_range (sheet, sheet_uniq_cb, &cl);
-
-	cl.style_list = g_list_reverse (cl.style_list);
-	
-	mstyle_do_merge (cl.style_list, MSTYLE_ELEMENT_MAX,
-			 mash, TRUE);
-
-	g_list_free (cl.style_list);
 
 	return mash;
 }

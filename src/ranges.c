@@ -414,6 +414,146 @@ range_overlap (Range const *a, Range const *b)
 }
 
 /**
+ * range_split_ranges:
+ * @hard: 
+ * @soft: 
+ * 
+ * Splits soft into several chunks, and returns the still
+ * overlapping remainder of soft as the first list item
+ * ( the central region in the pathalogical case ).
+ * 
+ * Return value: 
+ **/
+static GList *
+range_split_ranges (const Range *hard, const Range *soft)
+{
+	/*
+	 * There are lots of cases so think carefully.
+	 *
+	 * Methodology ( approximately )
+	 *	a) Get a vertex: is it contained ?
+	 *	b) Yes: split so it isn't
+	 *	c) Continue for all verticees.
+	 *
+	 * NB. We prefer to have long columns at the expense
+	 *     of long rows.
+	 */
+	GList *split  = NULL;
+	Range *middle = g_new (Range, 1), *sp;
+	gboolean a,b;
+
+	*middle = *soft;
+
+	/* Left */
+	a = range_contains (soft, hard->start.col, hard->start.row);
+	b = range_contains (soft, hard->end.col,   hard->start.row);
+	if (a || b) {
+		/* Split off left entirely */
+		if (hard->start.col > soft->start.col) {
+			sp = g_new (Range, 1);
+			sp->start.col = soft->start.col;
+			sp->start.row = soft->start.row;
+			sp->end.col   = hard->start.col - 1;
+			sp->end.row   = soft->end.row;
+			split = g_list_prepend (split, sp);
+		} /* else shared edge */
+		middle->start.col = hard->start.col;
+	} 
+
+	/* Right */
+	a = range_contains (soft, hard->end.col, hard->start.row);
+	b = range_contains (soft, hard->end.col, hard->end.row);
+	if (a || b) {
+		/* Split off right entirely */
+		if (hard->end.col < soft->end.col) {
+			sp = g_new (Range, 1);
+			sp->start.col = hard->end.col + 1;
+			sp->start.row = soft->start.row;
+			sp->end.col   = soft->end.col;
+			sp->end.row   = soft->end.row;
+			split = g_list_prepend (split, sp);
+		} /* else shared edge */
+		middle->end.col = hard->end.col;
+	} 
+
+	/* Top */
+	a = range_contains (soft, hard->start.col, hard->start.row);
+	b = range_contains (soft, hard->end.col,   hard->start.row);
+	if (a || b)
+		middle->start.row = hard->start.row;
+	if (a && b) {
+		if (hard->start.row > soft->start.row) {
+			/* The top middle bit */
+			sp = g_new (Range, 1);
+			sp->start.col = hard->start.col;
+			sp->start.row = soft->start.row;
+			sp->end.col   = hard->end.col;
+			sp->end.row   = hard->start.row - 1;
+			split = g_list_prepend (split, sp);
+		} /* else shared edge */
+	} else if (a) {
+		if (hard->start.row > soft->start.row) {
+			/* The top middle + right bits */
+			sp = g_new (Range, 1);
+			sp->start.col = hard->start.col;
+			sp->start.row = soft->start.row;
+			sp->end.col   = soft->end.col;
+			sp->end.row   = hard->start.row - 1;
+			split = g_list_prepend (split, sp);
+		} /* else shared edge */
+	} else if (b) {
+		if (hard->start.row > soft->start.row) {
+			/* The top middle + left bits */
+			sp = g_new (Range, 1);
+			sp->start.col = soft->start.col;
+			sp->start.row = soft->start.row;
+			sp->end.col   = hard->end.col;
+			sp->end.row   = hard->start.row - 1;
+			split = g_list_prepend (split, sp);
+		} /* else shared edge */
+	}
+
+	/* Bottom */
+	a = range_contains (soft, hard->start.col, hard->end.row);
+	b = range_contains (soft, hard->end.col,   hard->end.row);
+	if (a || b)
+		middle->end.row = hard->end.row;
+	if (a && b) {
+		if (hard->end.row < soft->end.row) {
+			/* The bottom middle bit */
+			sp = g_new (Range, 1);
+			sp->start.col = hard->start.col;
+			sp->start.row = hard->end.row + 1;
+			sp->end.col   = hard->end.col;
+			sp->end.row   = soft->end.row;
+			split = g_list_prepend (split, sp);
+		} /* else shared edge */
+	} else if (a) {
+		if (hard->start.row > soft->start.row) {
+			/* The bottom middle + right bits */
+			sp = g_new (Range, 1);
+			sp->start.col = hard->start.col;
+			sp->start.row = hard->end.row + 1;
+			sp->end.col   = soft->end.col;
+			sp->end.row   = soft->end.row;
+			split = g_list_prepend (split, sp);
+		} /* else shared edge */
+	} else if (b) {
+		if (hard->start.row > soft->start.row) {
+			/* The bottom middle + left bits */
+			sp = g_new (Range, 1);
+			sp->start.col = soft->start.col;
+			sp->start.row = hard->end.row + 1;
+			sp->end.col   = hard->end.col;
+			sp->end.row   = soft->end.row;
+			split = g_list_prepend (split, sp);
+		} /* else shared edge */
+	}
+
+	return g_list_prepend (split, middle);
+}
+
+/**
  * range_fragment:
  * @ranges: A list of possibly overlapping ranges.
  * 
@@ -428,16 +568,50 @@ range_fragment (GList *ranges)
 
 	for (a = ranges; a; a = g_list_next (a)) {
 		GList *b;
-		for (b = g_list_next (a); b; b = g_list_next (b)) {
-			if (range_equal   (a->data, b->data)) {
-				g_warning ("equal ranges should be merged");
-			} else if (range_overlap (a->data, b->data)) {
-				g_warning ("Overlapping ranges");
+		b = g_list_next (a);
+		while (b) {
+			GList *next = g_list_next (b);
+
+			if (range_equal   (a->data, b->data))
+				ranges = g_list_remove (ranges, b->data);
+			else if (range_overlap (a->data, b->data)) {
+				GList *split;
+
+				split  = range_split_ranges (a->data, b->data);
+				ranges = g_list_concat (ranges, split);
+
+				split  = range_split_ranges (b->data, a->data);
+				split  = g_list_remove (split, split->data);
+				ranges = g_list_concat (ranges, split);
 			}
+			b = next;
 		}
 	}
 
-	return NULL;
+	return ranges;
+}
+
+void
+range_fragment_free (GList *fragments)
+{
+	GList *l = fragments;
+
+	for (l = fragments; l; l = g_list_next (l))
+		g_free (l->data);
+
+	g_list_free (fragments);
+}
+
+void
+range_clip (Range *clipped, Range const *master,
+	    Range const *slave)
+{
+	g_return_if_fail (slave != NULL);
+	g_return_if_fail (master != NULL);
+	g_return_if_fail (clipped != NULL);
+
+	*clipped = *slave;
+	g_warning ("Unimplemented");
 }
 
 gboolean

@@ -262,10 +262,9 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 			gdk_gc_set_foreground (gc, &style->fore_color->color);
 	}
 
-	if (style->valid_flags & STYLE_BACK_COLOR){
+	if (style->valid_flags & STYLE_BACK_COLOR && style->back_color){
 		gdk_gc_set_background (gc, &style->back_color->color);
 	}
-
 
 	w = cell->col->pixels;
 	h = cell->row->pixels;
