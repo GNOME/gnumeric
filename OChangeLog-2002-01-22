@@ -1,5 +1,10 @@
 2000-11-02  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-autofill.c (string_has_number) : thou shalt not use atoi
+	  for it does not check for oeverflow.
+
+2000-11-02  Jody Goldberg <jgoldberg@home.com>
+
 	* src/print-cell.c (print_cell_range) : Set the printed flag whenever
 	  there is a valid cell.
 

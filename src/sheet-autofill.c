@@ -27,6 +27,7 @@
 #include "formats.h"
 #include "datetime.h"
 #include "mstyle.h"
+#include "errno.h"
 
 #include <math.h>
 
@@ -172,14 +173,18 @@ matches_list (const String *str, int *n, int *is_i18n)
 static int
 string_has_number (String *str, int *num, int *pos)
 {
-	char *s = str->str, *p;
+	char *s = str->str, *p, *end;
 	int l = strlen (s);
 	gboolean found_number = FALSE;
 
-	if (isdigit ((unsigned char)*s)){
-		*num = atoi (s);
-		*pos = 0;
-		return TRUE;
+	long val = strtol (s, &end, 10);
+	if (s != end) {
+		if (errno != ERANGE) {
+			*num = val;
+			*pos = 0;
+			return TRUE;
+		} else
+			errno = 0;
 	}
 	if (l <= 1)
 		return FALSE;
@@ -191,10 +196,17 @@ string_has_number (String *str, int *num, int *pos)
 		return FALSE;
 
 	p++;
-	*num = atoi (p);
-	*pos = p - str->str;
+	val = strtol (p, &end, 10);
+	if (p != end) {
+		if (errno != ERANGE) {
+			*num = val;
+			*pos = p - str->str;
+			return TRUE;
+		} else
+			errno = 0;
+	}
 
-	return TRUE;
+	return FALSE;
 }
 
 static void
