@@ -22,7 +22,7 @@ plugins/python-loader/py-gnumeric.c
 plugins/sc/sc.c
 plugins/sylk/sylk.c
 plugins/xbase/boot.c
-plugins/xml2/xml2.c
+plugins/xml_sax/xml-sax-read.c
 src/about.c
 src/analysis-tools.c
 src/bonobo-io.c
