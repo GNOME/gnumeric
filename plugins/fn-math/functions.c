@@ -1471,6 +1471,51 @@ gnumeric_quotient (struct FunctionDefinition *i, Value *argv [], char **error_st
 	return value_int ((int) (num / den));
 }
 
+static char *help_sign = {
+	N_("@FUNCTION=SIGN\n"
+	   "@SYNTAX=SIGN(num)\n"
+
+	   "@DESCRIPTION=SIGN function returns 1 if the number is positive, "
+	   "zero if the number is 0, and -1 if the number is negative. "
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_sign (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+        float_t n;
+
+	n = value_get_as_double (argv[0]);
+
+	if (n > 0)
+	      return value_int (1);
+	else if (n == 0)
+	      return value_int (0);
+	else
+	      return value_int (-1);
+}
+
+static char *help_sqrtpi = {
+	N_("@FUNCTION=SQRTPI\n"
+	   "@SYNTAX=SQRTPI(number)\n"
+
+	   "@DESCRIPTION=SQRTPI function returns the square root of a number "
+	   "multiplied by pi. "
+	   "\n"
+	   "@SEEALSO=PI")
+};
+
+static Value *
+gnumeric_sqrtpi (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+        float_t n;
+
+	n = value_get_as_double (argv[0]);
+
+	return value_float (sqrt (M_PI * n));
+}
+
 
 static char *help_randbetween = {
 	N_("@FUNCTION=RANDBETWEEN\n"
@@ -1484,6 +1529,7 @@ static char *help_randbetween = {
 	   "\n"
 	   "@SEEALSO=RAND")
 };
+
 
 static Value *
 gnumeric_randbetween (struct FunctionDefinition *i, Value *argv [], char **error_string)
@@ -1544,9 +1590,11 @@ FunctionDefinition math_functions [] = {
 	{ "radians", "f",    "number",    &help_radians, NULL, gnumeric_radians },
 	{ "rand",    "",     "",          &help_rand,    NULL, gnumeric_rand },
 	{ "randbetween", "ff", "bottom,top", &help_randbetween, NULL, gnumeric_randbetween },
+	{ "sign",    "f",    "number",    &help_sign,    NULL, gnumeric_sign },
 	{ "sin",     "f",    "number",    &help_sin,     NULL, gnumeric_sin },
 	{ "sinh",    "f",    "number",    &help_sinh,    NULL, gnumeric_sinh },
 	{ "sqrt",    "f",    "number",    &help_sqrt,    NULL, gnumeric_sqrt },
+	{ "sqrtpi",  "f",    "number",    &help_sqrtpi,  NULL, gnumeric_sqrtpi},
 	{ "sum",     0,      "number",    &help_sum,     gnumeric_sum, NULL },
 	{ "tan",     "f",    "number",    &help_tan,     NULL, gnumeric_tan },
 	{ "tanh",    "f",    "number",    &help_tanh,    NULL, gnumeric_tanh },
