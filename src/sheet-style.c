@@ -192,6 +192,15 @@ sheet_style_attach_single (Sheet *sheet, int col, int row,
 	sheet_style_optimize (sheet, r);
 }
 
+static void
+sheet_style_region_unlink (Sheet *sheet, StyleRegion *region)
+{
+	STYLE_LIST (sheet) = g_list_remove (STYLE_LIST (sheet), region);
+	mstyle_unref (region->style);
+	region->style = NULL;
+	g_free (region);
+}
+
 /**
  * sheet_style_optimize:
  * @sheet: The sheet
@@ -267,7 +276,6 @@ sheet_style_optimize (Sheet *sheet, Range range)
 			 * This inner loop gets called a lot !
 			 */
 			if (range_equal (&sra->range, &srb->range)) {
-				MStyle *tmp;
 				StyleRegion *master, *slave;
 
 				if (STYLE_DEBUG)
@@ -283,12 +291,8 @@ sheet_style_optimize (Sheet *sheet, Range range)
 					a->data = NULL;
 				}
 				mstyle_merge (master->style, slave->style);
-				if (mstyle_empty (slave->style)) {
-					STYLE_LIST (sheet) = g_list_remove (STYLE_LIST (sheet), slave);
-					mstyle_unref (slave->style);
-					slave->style = NULL;
-					g_free (slave);
-				}
+				if (mstyle_empty (slave->style))
+					sheet_style_region_unlink (sheet, slave);
 			}
 		}
 	}
@@ -338,9 +342,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
 							printf ("testme: Merging two ranges\n");
 
 						master->range = range_merge (&master->range, &slave->range);
-						STYLE_LIST (sheet) = g_list_remove (STYLE_LIST (sheet), slave);
-						mstyle_unref (slave->style);
-						g_free (slave);
+						sheet_style_region_unlink (sheet, slave);
 					} else if (STYLE_DEBUG)
 						printf ("Regions adjacent but not equal\n");
 				}
@@ -707,4 +709,67 @@ sheet_get_full_range (void)
 	r.end.row = SHEET_MAX_ROWS - 1;
 
 	return r;
+}
+
+void
+sheet_style_delete_colrow (Sheet *sheet, int pos, int count,
+			   gboolean is_col)
+{
+	Range  del_range;
+	GList *l, *next;
+
+	g_return_if_fail (pos >= 0);
+	g_return_if_fail (count > 0);
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+
+	del_range = sheet_get_full_range ();
+	if (is_col) {
+		del_range.start.col = pos;
+		del_range.end.col   = pos + count - 1;
+	} else {
+		del_range.start.row = pos;
+		del_range.end.row   = pos + count - 1;
+	}
+
+	/* Don't touch the last 'global' range */
+	for (l = STYLE_LIST (sheet); l && l->next; l = next) {
+		StyleRegion *sr = (StyleRegion *)l->data;
+
+		next = g_list_next (l);
+
+		if (is_col) {
+			if (sr->range.start.col      >  del_range.end.col)
+				sr->range.start.col  -= count;
+			else if (sr->range.start.col >= del_range.start.col)
+				sr->range.start.col  =  pos + 1;
+
+			if (sr->range.end.col        >  del_range.end.col)
+				sr->range.end.col    -= count;
+			else if (sr->range.end.col   >= del_range.start.col)
+				sr->range.end.col    =  pos - 1;
+
+			if (sr->range.start.col > sr->range.end.col ||
+			    sr->range.start.col < 0 ||
+			    sr->range.end.col < 0)
+				sheet_style_region_unlink (sheet, sr);
+		} else { /* s/col/row/ */
+			if (sr->range.start.row      >  del_range.end.row)
+				sr->range.start.row  -= count;
+			else if (sr->range.start.row >= del_range.start.row)
+				sr->range.start.row  =  pos + 1;
+
+			if (sr->range.end.row        >  del_range.end.row)
+				sr->range.end.row    -= count;
+			else if (sr->range.end.row   >= del_range.start.row)
+				sr->range.end.row    =  pos - 1;
+
+			if (sr->range.start.row > sr->range.end.row ||
+			    sr->range.start.row < 0 ||
+			    sr->range.end.row < 0)
+				sheet_style_region_unlink (sheet, sr);
+		}
+	}
+
+	sheet_style_cache_flush (sheet);
 }

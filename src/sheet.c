@@ -3213,14 +3213,17 @@ sheet_delete_col (Sheet *sheet, int col, int count)
 		colrow_move (sheet, i, 0, i, SHEET_MAX_ROWS-1,
 			     &sheet->cols, i, i-count);
 
-	/* 5. Recompute dependencies */
+	/* 5. Slide all the StyleRegion's up */
+	sheet_style_delete_colrow (sheet, col, count, TRUE);
+
+	/* 6. Recompute dependencies */
 	deps = region_get_dependencies (sheet,
 					col, 0,
 					SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 	cell_queue_recalc_list (deps, TRUE);
 	workbook_recalc (sheet->workbook);
 
-	/* 6. Redraw */
+	/* 7. Redraw */
 	sheet_redraw_all (sheet);
 }
 
@@ -3345,14 +3348,17 @@ sheet_delete_row (Sheet *sheet, int row, int count)
 		colrow_move (sheet, 0, i, SHEET_MAX_COLS-1, i,
 			     &sheet->rows, i, i-count);
 
-	/* 5. Recompute dependencies */
+	/* 5. Slide all the StyleRegion's up */
+	sheet_style_delete_colrow (sheet, row, count, FALSE);
+
+	/* 6. Recompute dependencies */
 	deps = region_get_dependencies (sheet,
 					0, row,
 					SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 	cell_queue_recalc_list (deps, TRUE);
 	workbook_recalc (sheet->workbook);
 
-	/* 6. Redraw */
+	/* 7. Redraw */
 	sheet_redraw_all (sheet);
 }
 

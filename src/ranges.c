@@ -379,6 +379,33 @@ range_overlap (Range const *a, Range const *b)
 }
 
 /**
+ * range_contained:
+ * @a: 
+ * @b: 
+ * 
+ * Is b totaly contained by a
+ * 
+ * Return value: 
+ **/
+gboolean
+range_contained (Range const *a, Range const *b)
+{
+	if (b->start.row < a->start.row)
+		return FALSE;
+
+	if (b->end.row > a->end.row)
+		return FALSE;
+
+	if (b->start.col < a->start.col)
+		return FALSE;
+       
+	if (b->end.col > a->end.col)
+		return FALSE;
+
+	return TRUE;
+}
+
+/**
  * range_split_ranges:
  * @hard: 
  * @soft: 

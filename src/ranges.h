@@ -48,6 +48,7 @@ void        ranges_set_style        (Sheet  *sheet, GSList *ranges,
 
 gboolean    range_is_singleton  (Range const *r);
 gboolean    range_overlap       (Range const *a, Range const *b);
+gboolean    range_contained     (Range const *a, Range const *b);
 gboolean    range_adjacent      (Range const *a, Range const *b);
 Range       range_merge         (Range const *a, Range const *b);
 void        range_clip          (Range *clipped, Range const *master,

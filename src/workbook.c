@@ -2634,8 +2634,8 @@ workbook_set_title (Workbook *wb, const char *title)
 gboolean
 workbook_set_filename (Workbook *wb, const char *name)
 {
-	g_return_if_fail (wb != NULL);
-	g_return_if_fail (name != NULL);
+	g_return_val_if_fail (wb != NULL, FALSE);
+	g_return_val_if_fail (name != NULL, FALSE);
 
 	if (wb->filename)
 		g_free (wb->filename);
