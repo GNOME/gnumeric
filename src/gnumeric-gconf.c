@@ -764,10 +764,21 @@ gnm_gconf_set_file_history_files (GSList *list)
 }
 
 void
+gnm_gconf_set_file_history_number (gint val)
+{
+	if (val < 0)
+		val = 0;
+	prefs.file_history_max = val; 
+	go_conf_set_int (GNM_CONF_FILE_HISTORY_N, val);
+}
+
+
+void
 gnm_gconf_set_undo_size (gint val)
 {
 	if (val < 1)
 		val = 1;
+	prefs.undo_size = val; 
 	go_conf_set_int (GNM_CONF_UNDO_SIZE, val);
 }
 
@@ -777,6 +788,7 @@ gnm_gconf_set_undo_max_number (gint val)
 {
 	if (val < 1)
 		val = 1;
+	prefs.undo_max_number = val;
 	go_conf_set_int (GNM_CONF_UNDO_MAXNUM, val);
 }
 
@@ -984,4 +996,41 @@ gnm_gconf_set_hf_font (GnmStyle const *mstyle)
 	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_ITALIC))
 		go_conf_set_bool (PRINTSETUP_GCONF_HF_FONT_ITALIC,
 			mstyle_get_font_italic (mstyle));
+}
+
+
+void
+gnm_gconf_set_max_descriptor_width (gint val)
+{
+	if (val < 1)
+		val = 1;
+	prefs.max_descriptor_width = val;
+	go_conf_set_int (GNM_CONF_UNDO_MAX_DESCRIPTOR_WIDTH, val);
+}
+
+void
+gnm_gconf_set_sort_dialog_max_initial (gint val)
+{
+	if (val < 1)
+		val = 1;
+	prefs.sort_max_initial_clauses = val;
+	go_conf_set_int (GNM_CONF_SORT_DIALOG_MAX_INITIAL, val);
+}
+
+void
+gnm_gconf_set_workbook_nsheets (gint val)
+{
+	if (val < 1)
+		val = 1;
+	prefs.initial_sheet_number = val;
+	go_conf_set_int (GNM_CONF_WORKBOOK_NSHEETS, val);
+}
+
+void
+gnm_gconf_set_xml_compression (gint val)
+{
+	if (val < 0)
+		val = 0;
+	prefs.xml_compression_level = val;
+	go_conf_set_int (GNM_CONF_XML_COMPRESSION, val);
 }

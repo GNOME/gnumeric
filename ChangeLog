@@ -1,5 +1,20 @@
 2004-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/gnumeric-gconf.h (gnm_gconf_set_file_history_number): new
+	(gnm_gconf_set_max_descriptor_width): change argument to gint
+	(gnm_gconf_set_xml_compression): new
+	(gnm_gconf_set_sort_dialog_max_initial): new
+	(gnm_gconf_set_workbook_nsheets): new
+	* src/gnumeric-gconf.c (gnm_gconf_set_file_history_number): new
+	(gnm_gconf_set_max_descriptor_width): change argument to gint
+	(gnm_gconf_set_xml_compression): new
+	(gnm_gconf_set_sort_dialog_max_initial): new
+	(gnm_gconf_set_workbook_nsheets): new
+	(gnm_gconf_set_undo_size): set current prefs structure
+	(gnm_gconf_set_undo_max_number): set current prefs structure
+
+2004-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/gnumeric-gconf.c (gnm_gconf_set_hf_font): new
 	* src/gnumeric-gconf.h (gnm_gconf_set_hf_font): new
 

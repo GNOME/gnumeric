@@ -77,6 +77,8 @@ typedef struct {
 } PrefState;
 
 typedef void (* double_conf_setter_t) (gnm_float value);
+typedef void (* int_conf_setter_t) (gint value);
+typedef void (* gboolean_conf_setter_t) (gboolean value);
 
 static void
 dialog_pref_add_item (PrefState *state, char const *page_name, char const *icon_name, 
@@ -197,10 +199,13 @@ bool_pref_create_widget (char const *key, GtkWidget *table, gint row)
 /*************************************************************************/
 
 static void
-int_pref_widget_to_conf (GtkSpinButton *button, char const *key)
+int_pref_widget_to_conf (GtkSpinButton *button, int_conf_setter_t setter)
 {
-	go_conf_set_int (key, gtk_spin_button_get_value_as_int (button));
+	g_return_if_fail (setter != NULL);
+
+	setter (gtk_spin_button_get_value_as_int (button));
 }
+
 static void
 int_pref_conf_to_widget (char const *key, GtkSpinButton *button)
 {
@@ -211,7 +216,7 @@ int_pref_conf_to_widget (char const *key, GtkSpinButton *button)
 }
 static void
 int_pref_create_widget (char const *key, GtkWidget *table, gint row,
-			gint val, gint from, gint to, gint step)
+			gint val, gint from, gint to, gint step, int_conf_setter_t setter)
 {
 	char *desc = go_conf_get_short_desc (key);
 	GtkWidget *item = gtk_label_new (desc ? desc : "schema missing");
@@ -225,8 +230,8 @@ int_pref_create_widget (char const *key, GtkWidget *table, gint row,
 				    1, 0);
 	int_pref_conf_to_widget (key, GTK_SPIN_BUTTON (item));
 	g_signal_connect (G_OBJECT (item),
-		"value-changed",
-		G_CALLBACK (int_pref_widget_to_conf), (gpointer) key);
+			  "value-changed",
+			  G_CALLBACK (int_pref_widget_to_conf), (gpointer) setter);
 	gtk_table_attach (GTK_TABLE (table), item,
 		1, 2, row, row + 1,
 		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 5);
@@ -662,11 +667,11 @@ pref_undo_page_initializer (PrefState *state,
 	bool_pref_create_widget (GNM_CONF_UNDO_SHOW_SHEET_NAME,
 		page, row++);
 	int_pref_create_widget (GNM_CONF_UNDO_MAX_DESCRIPTOR_WIDTH,
-		page, row++, 5, 5, 200, 1);
+		page, row++, 5, 5, 200, 1, gnm_gconf_set_max_descriptor_width);
 	int_pref_create_widget (GNM_CONF_UNDO_SIZE,
-		page, row++, 1000, 0, 30000, 100);
+		page, row++, 1000, 0, 30000, 100, gnm_gconf_set_undo_size);
 	int_pref_create_widget (GNM_CONF_UNDO_MAXNUM,
-		page, row++, 20, 1, 200, 1);
+		page, row++, 20, 1, 200, 1, gnm_gconf_set_undo_max_number);
 
 	gtk_widget_show_all (page);
 	return page;
@@ -703,7 +708,7 @@ pref_sort_page_initializer (PrefState *state,
 	bool_pref_create_widget (GNM_CONF_SORT_DEFAULT_ASCENDING,
 		page, row++);
 	int_pref_create_widget (GNM_CONF_SORT_DIALOG_MAX_INITIAL,
-		page, row++, 10, 0, 50, 1);
+		page, row++, 10, 0, 50, 1, gnm_gconf_set_sort_dialog_max_initial);
 
 	gtk_widget_show_all (page);
 	return page;
@@ -742,7 +747,7 @@ pref_window_page_initializer (PrefState *state,
 	double_pref_create_widget (GNM_CONF_GUI_ZOOM,
 		page, row++, 1.00, 0.10, 5.00, 0.05, 2, gnm_gconf_set_gui_zoom);
 	int_pref_create_widget (GNM_CONF_WORKBOOK_NSHEETS,
-		page, row++, 1, 1, 64, 1);
+		page, row++, 1, 1, 64, 1, gnm_gconf_set_workbook_nsheets);
 	bool_pref_create_widget (GNM_CONF_GUI_ED_LIVESCROLLING,
 		page, row++);
 
@@ -774,9 +779,9 @@ pref_file_page_initializer (PrefState *state,
 	gint row = 0;
 
 	int_pref_create_widget (GNM_CONF_FILE_HISTORY_N,
-		page, row++, 4, 0, 40, 1);
+		page, row++, 4, 0, 40, 1, gnm_gconf_set_file_history_number);
 	int_pref_create_widget (GNM_CONF_XML_COMPRESSION,
-		page, row++, 9, 0, 9, 1);
+		page, row++, 9, 0, 9, 1, gnm_gconf_set_xml_compression);
 	bool_pref_create_widget (GNM_CONF_FILE_OVERWRITE_DEFAULT,
 		page, row++);
 	bool_pref_create_widget (GNM_CONF_FILE_SINGLE_SHEET_SAVE,

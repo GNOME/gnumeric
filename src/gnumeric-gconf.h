@@ -98,6 +98,7 @@ void     gnm_gconf_set_autoformat_usr_dirs (char const * string);
 
 /* file history */
 void     gnm_gconf_set_file_history_files (GSList *list);
+void     gnm_gconf_set_file_history_number (gint value);
 
 /* plugins */
 void     gnm_gconf_set_plugin_file_states (GSList *list);
@@ -107,12 +108,13 @@ void     gnm_gconf_set_activate_new_plugins (gboolean val);
 
 /* undo */
 void     gnm_gconf_set_show_sheet_name (gboolean val);
-void     gnm_gconf_set_max_descriptor_width (guint val);
+void     gnm_gconf_set_max_descriptor_width (gint val);
 void     gnm_gconf_set_undo_size (gint val);
 void     gnm_gconf_set_undo_max_number (gint val);
 
 /* xml/files */
 void     gnm_gconf_set_recent_funcs (GSList *list);
+void     gnm_gconf_set_xml_compression (gint value);
 
 /* print-setup & printing */
 void     gnm_gconf_set_all_sheets (gboolean val);
@@ -147,6 +149,12 @@ void     gnm_gconf_set_default_font_italic (gboolean val);
 
 /* hf font */
 void     gnm_gconf_set_hf_font (GnmStyle const *mstyle);
+
+/* sorting */
+void     gnm_gconf_set_sort_dialog_max_initial (gint value);
+
+/* workbook */
+void     gnm_gconf_set_workbook_nsheets (gint value);
 
 /**************************************************************/
 
