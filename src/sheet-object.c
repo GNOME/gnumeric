@@ -519,6 +519,8 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 		so = sheet_object_line_new (TRUE);
 	} else if (!strcmp (tree->name, "Line")){
 		so = sheet_object_line_new (FALSE);
+	} else if (!strcmp (tree->name, "CellComment")){
+		so = g_object_new (cell_comment_get_type (), NULL);
 
 	/* Graphs changed names */
 	} else if (!strcmp (tree->name, "GnmGraph")){
