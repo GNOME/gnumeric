@@ -1,3 +1,13 @@
+2000-11-04  Michael Meeks  <michael@helixcode.com>
+
+	* Makefile.am (gnum_gb_la_SOURCES): add worksheets collection.
+
+	* excel-gb-application.c (excel_gb_application_deref): kill
+	vile hack. (excel_gb_application_class_init): upd.
+	(excel_gb_application_get_arg): impl.
+
+	* excel-gb-worksheets.[ch]: Impl worksheets collection.
+
 2000-11-02  Michael Meeks  <michael@helixcode.com>
 
 	* excel-gb-range.c (excel_gb_range_interior): add.

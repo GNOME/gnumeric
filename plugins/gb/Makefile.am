@@ -22,6 +22,8 @@ gnum_gb_la_SOURCES =			\
 	excel-gb-selection.h		\
 	excel-gb-worksheet.c		\
 	excel-gb-worksheet.h		\
+	excel-gb-worksheets.c		\
+	excel-gb-worksheets.h		\
 	excel-gb-worksheet-function.c	\
 	excel-gb-worksheet-function.h	\
 	plugin.c			\

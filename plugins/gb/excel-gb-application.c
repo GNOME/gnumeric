@@ -13,80 +13,44 @@
 
 #include "excel-gb-application.h"
 #include "excel-gb-worksheet-function.h"
+#include "excel-gb-worksheets.h"
 #include "excel-gb-worksheet.h"
 #include "excel-gb-range.h"
 
 #define ITEM_NAME "gb-application"
 
-static GBObjectClass *parent_class = NULL;
+enum {
+	FIRST_ARG = 0,
+	WORKSHEETS
+};
 
 static GBValue *
-worksheets_lookup (GBEvalContext *ec, Workbook *wb,
-		   GBExpr *expr, gboolean try_deref)
-{
-	GList *sheets, *l;
-	GBValue *val;
-	GBValue *ret = NULL;
-
-	if (!wb)
-		return NULL;
-
-	if (!(val = gbrun_eval_as (GBRUN_EVAL_CONTEXT (ec), expr, GB_VALUE_STRING)))
-		return NULL;
-
-	sheets = workbook_sheets (wb);
-	
-	for (l = sheets; l && !ret; l = l->next) {
-		Sheet *sheet = l->data;
-
-		if (!strcmp (sheet->name_unquoted, val->v.s->str))
-			ret = gb_value_new_object (
-				GB_OBJECT (excel_gb_worksheet_new (sheet)));
-	}
-
-	if (!ret)
-		gbrun_exception_firev (GBRUN_EVAL_CONTEXT (ec),
-				       "Can't address sheet '%s'", val->v.s->str);
-
-	g_list_free (sheets);
-	
-	gb_value_destroy (val);
-
-	return ret;
-}
-
-static GBValue *
-excel_gb_application_deref (GBEvalContext  *ec,
-			    GBObject       *object,
-			    const GBObjRef *ref,
-			    gboolean        try_deref)
+excel_gb_application_get_arg (GBRunEvalContext *ec,
+			      GBRunObject      *object,
+			      int               property)
 {
 	ExcelGBApplication *app = EXCEL_GB_APPLICATION (object);
 
-	if (ref->name && !g_strcasecmp (ref->name, "Worksheets")) {
-		if (ref->parms)
-			return worksheets_lookup (
-				ec, app->wb, ref->parms->data, try_deref);
-		
-		else {
-			if (!try_deref)
-				gbrun_exception_firev (GBRUN_EVAL_CONTEXT (ec),
-						       "No index to worksheet collection");
-			return NULL;
-		}
-	} else
-		return parent_class->deref (ec, object, ref, try_deref);
+	switch (property) {
+	case WORKSHEETS:
+		return gb_value_new_object (
+			GB_OBJECT (excel_gb_worksheets_new (app->wb)));
+
+	default:
+		g_warning ("Unhandled property '%d'", property);
+		return NULL;
+	}
 }
 
 static void
 excel_gb_application_class_init (GBRunObjectClass *klass)
 {
-	GBObjectClass *gb_class = (GBObjectClass *) klass;
-/*	GBRunObjectClass *gbrun_class = (GBRunObjectClass *) klass;*/
-
-	parent_class = gtk_type_class (gbrun_object_get_type ());
-
-	gb_class->deref = excel_gb_application_deref;
+	klass->get_arg = excel_gb_application_get_arg;
+	
+	gbrun_object_add_property_full (
+		klass, "worksheets", 
+		excel_gb_worksheets_get_type (),
+		WORKSHEETS, GBRUN_PROPERTY_READABLE);
 }
 
 GtkType
@@ -132,5 +96,6 @@ excel_gb_application_register_types ()
 	excel_gb_worksheet_function_get_type ();
 	excel_gb_range_get_type ();
 	excel_gb_worksheet_get_type ();
+	excel_gb_worksheets_get_type ();
 	excel_gb_application_get_type ();
 }
