@@ -17,6 +17,7 @@ EXTRA_DIST = \
      analysistools-covariance-ex2.png \
      analysistools-covariance.png \
      analysistools-descstats-ex1.png \
+     analysistools-descstats-ex1-options.png \
      analysistools-descstats-ex2.png \
      analysistools-descstats.png \
      analysistools-fourier-formula.png \

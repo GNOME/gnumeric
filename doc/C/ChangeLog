@@ -1,3 +1,70 @@
+2003-11-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysistools-statistical.xml: incorporate new screen shot
+	* figures/Makefile.am: add new file
+
+	for Sebastian Klost:
+	* figures/analysistools-ANOVA1-ex1.png: updated
+	* figures/analysistools-ANOVA1-ex2.png: updated
+	* figures/analysistools-ANOVA2w-ex1.png: updated
+	* figures/analysistools-ANOVA2w-ex2.png: updated
+	* figures/analysistools-ANOVA2wo-ex1.png: updated
+	* figures/analysistools-ANOVA2wo-ex2.png: updated
+	* figures/analysistools-correlation-ex1.png: updated
+	* figures/analysistools-correlation-ex2.png: updated
+	* figures/analysistools-correlation-ex3.png: updated
+	* figures/analysistools-correlation.png: updated
+	* figures/analysistools-covariance-ex1.png: updated
+	* figures/analysistools-covariance-ex2.png: updated
+	* figures/analysistools-covariance.png: updated
+	* figures/analysistools-descstats-ex1.png: updated
+	* figures/analysistools-descstats-ex2.png: updated
+	* figures/analysistools-descstats.png: updated
+	* figures/analysistools-fourier.png: updated
+	* figures/analysistools-ftest-ex1.png: updated
+	* figures/analysistools-ftest-ex2.png: updated
+	* figures/analysistools-ftest.png: updated
+	* figures/analysistools-histogram-bins.png: updated
+	* figures/analysistools-histogram-ex1.png: updated
+	* figures/analysistools-histogram-ex2.png: updated
+	* figures/analysistools-histogram-ex3.png: updated
+	* figures/analysistools-histogram.png: updated
+	* figures/analysistools-moving-average-ex1.png: updated
+	* figures/analysistools-moving-average-ex2.png: updated
+	* figures/analysistools-moving-average.png: updated
+	* figures/analysistools-outputoptions.png: updated
+	* figures/analysistools-ranges.png: updated
+	* figures/analysistools-rank-ex1.png: updated
+	* figures/analysistools-rank-ex2.png: updated
+	* figures/analysistools-rank.png: updated
+	* figures/analysistools-regression-ex1.png: updated
+	* figures/analysistools-regression-ex2.png: updated
+	* figures/analysistools-regression-ex3.png: updated
+	* figures/analysistools-regression.png: updated
+	* figures/analysistools-sampling-ex1.png: updated
+	* figures/analysistools-sampling-ex2.png: updated
+	* figures/analysistools-sampling.png: updated
+	* figures/analysistools-smoothing-ex1.png: updated
+	* figures/analysistools-smoothing-ex2.png: updated
+	* figures/analysistools-smoothing.png: updated
+	* figures/analysistools-tools.png: updated
+	* figures/analysistools-ttest-equal-ex1.png: updated
+	* figures/analysistools-ttest-equal-ex2.png: updated
+	* figures/analysistools-ttest-equal.png: updated
+	* figures/analysistools-ttest-paired-ex1.png: updated
+	* figures/analysistools-ttest-paired-ex2.png: updated
+	* figures/analysistools-ttest-paired.png: updated
+	* figures/analysistools-ttest-unequal-ex1.png: updated
+	* figures/analysistools-ttest-unequal-ex2.png: updated
+	* figures/analysistools-ttest-unequal.png: updated
+	* figures/analysistools-ttest.png: updated
+	* figures/analysistools-ztest-ex1.png: updated
+	* figures/analysistools-ztest-ex2.png: updated
+	* figures/analysistools-ztest.png: updated
+	* figures/analysistools-descstats-ex1-options.png: new
+	* gnumeric_doc_analysistools.gnumeric: data for analysis tools 
+	  screen shots
+
 2003-11-11  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* C/Makefile.am: Removed datasource.xml from entities as it doesn't

@@ -583,10 +583,26 @@
     </screenshot>
   </figure>
  <example id="usingdescstatstool"><title>Using the Descriptive Statistics Tool</title>
-     <para><xref linkend="descstats-example-1" /> shows some example data and 
+     <para><xref linkend="descstats-example-1" /> shows some example data, 
+     <xref linkend="descstats-example-1-options" /> the selected options, and 
      <xref linkend="descstats-example-2" /> the corresponding output.
      </para>
 </example>
+  <figure id="descstats-example-1-options">
+    <title>The Options Page For Descriptive Statistics</title>
+    <screenshot>
+	<mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/analysistools-descstats-ex1-options.png" 
+                  format="PNG" />
+            </imageobject>
+            <textobject>
+              <phrase>An image of some example data for descriptive
+              statistics.</phrase>
+            </textobject>
+           </mediaobject>
+    </screenshot>
+  </figure>
   <figure id="descstats-example-2">
     <title>Descriptive Statistics Tool Output</title>
     <screenshot>
