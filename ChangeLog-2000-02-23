@@ -1,3 +1,15 @@
+1999-11-15  Jody Goldberg <jgoldberg@home.com>
+
+
+	* src/sheet.c (sheet_move_range) : Clear the target region content
+	  and comments before pasting.
+	(sheet_clear_region) : Convert the closure parameters into a flag
+	  designating whether or not to clear the styles in the region.
+
+	* src/dialogs/dialog-delete-cells.c (dialog_delete_cells_impl) :
+	  Delete the selection, not the cells before it.  As suggested
+	  by Joseph Maher <maher@math.ucsb.edu> bug 3569.
+
 1999-11-15  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/functions/fn-financial.c: Implemented IRR and XIRR

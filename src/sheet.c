@@ -2361,12 +2361,14 @@ assemble_clear_cell_list (Sheet *sheet, int col, int row, Cell *cell,
  *
  * Clears are region of cells
  *
+ * @keepStyles : If this is non-null then styles are not erased.
+ *
  * We assemble a list of cells to destroy, since we will be making changes
  * to the structure being manipulated by the sheet_cell_foreach_range routine
  */
 void
 sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int end_row,
-		    void *closure)
+		    void *keepStyles)
 {
 	struct sheet_clear_region_callback_data cb;
 	GList *l;
@@ -2385,8 +2387,9 @@ sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int
 	cb.r.end.row = end_row;
 	cb.l = NULL;
 
-	/* Clear the style in the region (new_default will ref the style for us) */
-	sheet_style_attach (sheet, cb.r, mstyle_new_default ());
+	/* Clear the style in the region (new_default will ref the style for us). */
+	if (!keepStyles)
+		sheet_style_attach (sheet, cb.r, mstyle_new_default ());
 
 	if (sheet_cell_foreach_range (sheet, TRUE,
 				       start_col, start_row, end_col, end_row,
@@ -3388,6 +3391,7 @@ sheet_move_range (struct expr_relocate_info const * rinfo)
 	GList *deps, *cells = NULL;
 	Cell  *cell;
 	gboolean inter_sheet_formula;
+	int	dummy;
 
 	g_return_if_fail (rinfo->origin_sheet != NULL);
 	g_return_if_fail (IS_SHEET (rinfo->origin_sheet));
@@ -3412,6 +3416,16 @@ sheet_move_range (struct expr_relocate_info const * rinfo)
 	 * things easier for arrays.
 	 */
 	cells = g_list_reverse (cells);
+
+	/* 4. Clear the target area */
+	/* Pass a pointer, any pointer, rather than NULL. That flags
+	 * not to clear styles */
+	sheet_clear_region (rinfo->target_sheet, 
+			    rinfo->origin.start.col + rinfo->col_offset,
+			    rinfo->origin.start.row + rinfo->row_offset,
+			    rinfo->origin.end.col + rinfo->col_offset,
+			    rinfo->origin.end.row + rinfo->row_offset,
+			    &dummy);
 
 	/* Insert the cells back */
 	for (; cells != NULL ; cells = g_list_remove (cells, cell)) {
@@ -3445,10 +3459,10 @@ sheet_move_range (struct expr_relocate_info const * rinfo)
 		cell_relocate (cell);
 	}
 
-	/* 4. Slide styles */
+	/* 5. Slide styles */
 	sheet_style_relocate (rinfo);
 
-	/* 5. Recompute dependencies */
+	/* 6. Recompute dependencies */
 	/* TODO : What region needs this ? the source or the target ? */
 	deps = region_get_dependencies (rinfo->target_sheet,
 					0, 0,
@@ -3456,7 +3470,7 @@ sheet_move_range (struct expr_relocate_info const * rinfo)
 	cell_queue_recalc_list (deps, TRUE);
 	workbook_recalc (rinfo->target_sheet->workbook);
 
-	/* 6. Redraw */
+	/* 7. Redraw */
 	sheet_redraw_all (rinfo->target_sheet);
 }
 
@@ -3470,7 +3484,7 @@ sheet_move_range (struct expr_relocate_info const * rinfo)
  *		delete count columns, positive number will insert
  *		count columns.
  *
- * Takes the cells to the in the region (col,start_row):(MAX_COL,end_row)
+ * Takes the cells in the region (col,start_row):(MAX_COL,end_row)
  * and copies them @count units (possibly negative) to the right.
  */
 
@@ -3499,7 +3513,7 @@ sheet_shift_rows (Sheet *sheet, int col, int start_row, int end_row, int count)
  *		delete count rows, positive number will insert
  *		count rows.
  *
- * Takes the cells to the in the region (start_col,row):(end_col,MAX_ROW)
+ * Takes the cells in the region (start_col,row):(end_col,MAX_ROW)
  * and copies them @count units (possibly negative) downwards.
  */
 void

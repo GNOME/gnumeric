@@ -47,13 +47,13 @@ dialog_delete_cells_impl (Workbook *wb, Sheet *sheet, GladeXML  *gui)
 		rows = ss->user.end.row - ss->user.start.row + 1;
 
 		if (i == 0)
-			sheet_shift_rows (sheet, ss->user.start.col, 
+			sheet_shift_rows (sheet, ss->user.start.col + cols, 
 					  ss->user.start.row, 
 					  ss->user.end.row, -cols);
 		else if (i == 1)
 			sheet_shift_cols (sheet, ss->user.start.col,
 					  ss->user.end.col, 
-					  ss->user.start.row, -rows);
+					  ss->user.start.row + rows, -rows);
 		else if (i == 2)
 			sheet_delete_row (sheet, ss->user.start.row, rows);
 		else if (i == 3)
