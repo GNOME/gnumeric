@@ -1,3 +1,9 @@
+2005-01-09  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=163040
+	* functions.c (gnumeric_match) : If type is not specified, default to
+	  one not zero.
+
 2004-12-09  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.4.1

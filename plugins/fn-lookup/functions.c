@@ -769,20 +769,17 @@ gnumeric_match (FunctionEvalInfo *ei, GnmValue **args)
 	if (width > 1 && height > 1)
 		return value_new_error_NA (ei->pos);
 
-	type = value_get_as_int (args[2]);
+	type = VALUE_IS_EMPTY (args[2]) ? 1 : value_get_as_int (args[2]);
 
-	if (type == 0) {
+	if (type == 0)
 		index = find_index_linear (ei, args[0], args[1], type,
 					   width > 1 ? FALSE : TRUE);
-	} else {
+	else
 		index = find_index_bisection (ei, args[0], args[1], type,
 					      width > 1 ? FALSE : TRUE);
-	}
 
-	if (index >= 0) {
+	if (index >= 0)
 	        return value_new_int (index+1);
-	}
-
 	return value_new_error_NA (ei->pos);
 }
 
