@@ -8,9 +8,11 @@
  *  Jody Goldberg   (jgoldberg@home.org)
  */
 #include <config.h>
+#include <string.h>
 #include <gnome.h>
 #include <math.h>
 #include "func.h"
+#include "portability.h"
 #include "parse-util.h"
 #include "eval.h"
 #include "cell.h"
@@ -125,56 +127,66 @@ function_category_compare (gconstpointer a, gconstpointer b)
 {
 	FunctionCategory const *cat_a = a;
 	FunctionCategory const *cat_b = b;
+	gchar *str_a, *str_b;
 
 	g_return_val_if_fail (cat_a->display_name != NULL, 0);
 	g_return_val_if_fail (cat_b->display_name != NULL, 0);
 
-	return g_strcasecmp (cat_a->display_name->str, cat_b->display_name->str);
+	str_a = g_alloca (strlen (cat_a->display_name->str) + 1);
+	str_b = g_alloca (strlen (cat_b->display_name->str) + 1);
+	g_strdown (strcpy (str_a, cat_a->display_name->str));
+	g_strdown (strcpy (str_b, cat_b->display_name->str));
+
+	return strcoll (str_a, str_b);
 }
 
 FunctionCategory *
-function_get_category (gchar const *description)
+function_get_category (gchar const *name)
 {
-	FunctionCategory *cat;
-	GList            *l;
+	return function_get_category_with_translation (name, NULL);
+}
 
-	g_return_val_if_fail (description != NULL, NULL);
+FunctionCategory *
+function_get_category_with_translation (gchar const *name,
+                                        gchar const *translation)
+{
+	FunctionCategory *cat = NULL;
+	gchar *int_name;
+	GList *l;
 
+	g_return_val_if_fail (name != NULL, NULL);
+
+	int_name = g_alloca (strlen (name) + 1);
+	g_strdown (strcpy (int_name, name));
 	for (l = categories; l != NULL; l = l->next) {
-		FunctionCategory *cat;
-
-		cat = (FunctionCategory *) l->data;
-		if (g_strcasecmp (cat->internal_name->str, description) == 0) {
-			return cat;
+		cat = l->data;
+		if (strcmp (cat->internal_name->str, int_name) == 0) {
+			break;
 		}
 	}
 
-	cat = g_new (FunctionCategory, 1);
-	cat->internal_name = string_get (description);
-	cat->display_name = cat->internal_name;
-	string_ref (cat->display_name);
-	cat->has_translation = FALSE;
-	cat->functions = NULL;
-	categories = g_list_insert_sorted (
-	             categories, cat, &function_category_compare);
-
-	return cat;
-}
-
-FunctionCategory *
-function_get_category_with_translation (gchar const *description,
-                                        gchar const *translation)
-{
-	FunctionCategory *cat;
-
-	g_return_val_if_fail (description != NULL, NULL);
-
-	cat = function_get_category (description);
-	if (cat != NULL && !cat->has_translation &&
-	    translation != NULL && translation != description) {
+	if (l == NULL) {
+		cat = g_new (FunctionCategory, 1);
+		cat->internal_name = string_get (int_name);
+		if (translation != NULL) {
+			cat->display_name = string_get (translation);
+			cat->has_translation = TRUE;
+		} else {
+			cat->display_name = string_get (name);
+			cat->has_translation = FALSE;
+		}
+		cat->functions = NULL;
+		categories = g_list_insert_sorted (
+		             categories, cat, &function_category_compare);
+	} else if (translation != NULL && translation != name &&
+	           !cat->has_translation) {
 		string_unref (cat->display_name);
 		cat->display_name = string_get (translation);
 		cat->has_translation = TRUE;
+		g_list_remove_link (categories, l);
+		g_list_free_1 (l);
+		categories = g_list_insert_sorted (
+		             categories, cat, &function_category_compare);
 	}
 
 	return cat;

@@ -478,6 +478,7 @@ formula_guru_init_args (FormulaGuruState *state)
 	gchar *ptr, *start = NULL;
 	int i;
 	int arg_max, arg_min;
+	gchar arg_separator;
 
 	g_return_if_fail (state != NULL);
 	g_return_if_fail (state->fd != NULL);
@@ -505,6 +506,7 @@ formula_guru_init_args (FormulaGuruState *state)
 	}
 	ptr = copy_args = g_strdup (syntax);
 	i   = 0;
+	arg_separator = format_get_arg_sep ();
 	while (*ptr) {
 		if (*ptr == '(' && !start)
 			start = ptr + 1;
@@ -515,7 +517,7 @@ formula_guru_init_args (FormulaGuruState *state)
 			ptr++;
 			continue;
 		}
-		if (*ptr == ',' || *ptr == ')') {
+		if (*ptr == arg_separator || *ptr == ')') {
 			if (ptr > start) {
 				formula_guru_arg_new (g_strndup (start, (int)(ptr - start)),
 						      function_def_get_arg_type (state->fd, i),

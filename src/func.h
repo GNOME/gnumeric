@@ -23,8 +23,8 @@ struct _FunctionCategory {
 	GList *functions;
 };
 
-FunctionCategory *function_get_category     (gchar const *description);
-FunctionCategory *function_get_category_with_translation (gchar const *description,
+FunctionCategory *function_get_category     (gchar const *name);
+FunctionCategory *function_get_category_with_translation (gchar const *name,
                                                           gchar const *translation);
 FunctionCategory *function_category_get_nth (gint const n);
 void function_category_add_func (FunctionCategory *, FunctionDefinition *);

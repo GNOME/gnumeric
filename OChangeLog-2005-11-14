@@ -1,3 +1,18 @@
+2001-07-18  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/dialogs/dialog-function-wizard.c (formula_guru_init_args): Use
+	locale dependent argument separator.
+
+	* src/func.h (function_get_category,
+	function_get_category_with_translation): Renamed args.
+
+	* src/func.c
+	(function_category_compare): Don't use g_strcasecmp, it's broken.
+	(function_get_category): Use function_get_category_with_translation.
+	(function_get_category_with_translation): Some code moved from
+	function_get_category, keep categories sorted by display_name, store
+	internal_name in "normalized" form (converted to lowercase).
+
 2001-07-18  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : post release version bump.
