@@ -28,6 +28,7 @@ Jody:
 	* Add dependency support for 3d references.  needs work on delete.
 	* More polish to dependency engine.
 	* Big ExprTree -> GnmExpr rename in prep for libgnumeric.
+	* Support importing encrypted XLS workbooks.
 
 Jukka:
 	* More solver improvements.
