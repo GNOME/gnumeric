@@ -312,4 +312,4 @@ sgml_ents += 					\
 # include generated files to simplify installation
 EXTRA_DIST += gnumeric.1
 
-include $(srcdir)/../gnumeric-doc.make
+include $(srcdir)/../xmldocs.make

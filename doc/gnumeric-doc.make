@@ -7,7 +7,7 @@
 
 docname = gnumeric
 gnumeric_docdir  = $(top_srcdir)/doc
-sgml_ents = functions.sgml
+sgml_ents = functions.xml
 
 # include generated files to simplify installation
 EXTRA_DIST +=					\
