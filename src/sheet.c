@@ -3756,7 +3756,7 @@ sheet_clone_styles (Sheet const *source_sheet, Sheet *new_sheet)
 		sheet_clone_style_region (new_sheet, region);
 	}
 
-	g_free (style_regions);
+	g_list_free (style_regions);
 }
 
 static void
@@ -3779,7 +3779,7 @@ sheet_clone_selection (Sheet const *source_sheet, Sheet *new_sheet)
 					   range->start.col, range->start.row,
 					   range->end.col,   range->end.row);
 	}
-	g_free (selection);
+	g_list_free (selection);
 
 	/* Set the cursor position */
 	sheet_cursor_set (new_sheet,

@@ -1,5 +1,8 @@
 2000-08-22  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet.c (sheet_clone_styles) : Patch leak.
+	(sheet_clone_selection) : Patch leak.
+
 	* src/print-info.c (print_info_copy) : Cut-n-Paste-o
 
 2000-08-21  Jody Goldberg <jgoldberg@home.com>
