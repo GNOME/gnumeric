@@ -1,5 +1,8 @@
 Gnumeric 1.3.92
 
+Andreas:
+	* Fix text export dialog [#155437, #154231]
+
 Hal Ashburner:
 	* Some function documentation cleanups.
 

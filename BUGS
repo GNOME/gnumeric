@@ -199,6 +199,7 @@ Short Term Goals
    	 content (for cases where it needs to scroll)
     0.17) Fix format selector widget to not emit		(DONE)
 	fmt-changed "", fmt-changed "new-format"
+    0.18) Use /foo/bar for names that have a UTF-8 representation and file://whatever/%ff/... for the rare exception in the warnings dialog when saving onto existing files.
 
 1) graphs
     1.1) Split plot xml file engine, type, and family plugins	(DONE)

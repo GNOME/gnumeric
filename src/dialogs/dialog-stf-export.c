@@ -261,14 +261,14 @@ cb_sheet_select_all (TextExportState *state)
 {
 	gtk_tree_model_foreach (GTK_TREE_MODEL (state->sheets.model),
 		cb_set_sheet, GINT_TO_POINTER (TRUE));
-	set_sheet_selection_count (state, 0);
+	set_sheet_selection_count (state, state->sheets.num);
 }
 static void
 cb_sheet_select_none (TextExportState *state)
 {
 	gtk_tree_model_foreach (GTK_TREE_MODEL (state->sheets.model),
 		cb_set_sheet, GINT_TO_POINTER (FALSE));
-	set_sheet_selection_count (state, state->sheets.num);
+	set_sheet_selection_count (state, 0);
 }
 
 static void
