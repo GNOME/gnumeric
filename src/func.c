@@ -111,8 +111,62 @@ function_dump_defs (char const *filename, gboolean as_def)
 		       ordered->len, sizeof (gpointer),
 		       func_def_cmp);
 
-	if (!as_def)
-		fprintf (output_file, "<table border=1>\n");
+	if (!as_def) {
+		int unique = 0;
+		for (i = 0; i < ordered->len; i++) {
+			GnmFunc const *fd = g_ptr_array_index (ordered, i);
+			switch (fd->impl_status) {
+			case GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC:
+				unique++;
+				break;
+			default: ;
+			}
+		}
+
+		fprintf (output_file,
+			 "<!--#set var=\"title\" value=\"Functions\" -->"
+			 "<!--#set var=\"rootdir\" value=\".\" -->"
+			 "<!--#include virtual=\"header-begin.shtml\" -->\n"
+			 "<style type=\"text/css\"><!--\n"
+			 "  div.functiongroup {\n"
+			 "    margin-top: 1em;\n"
+			 "    margin-bottom: 1em;\n"
+			 "  }\n"
+			 "  table.functiongroup {\n"
+			 "    border-style: solid;\n"
+			 "    border-width: 1px;\n"
+			 "    border-spacing: 0px;\n"
+			 "  }\n"
+			 "  tr.header td {\n"
+			 "    font-weight: bold;\n"
+			 "    font-size: 14pt;\n"
+			 "    border-style: solid;\n"
+			 "    border-width: 1px;\n"
+			 "    text-align: center;\n"
+			 "  }\n"
+			 "  tr.function td {\n"
+			 "    border: solid 1px;\n"
+			 "  }\n"
+			 "  td.testing-unknown    { background: #ffffff; }\n"
+			 "  td.testing-nosuite    { background: #ff7662; }\n"
+			 "  td.testing-basic      { background: #fff79d; }\n"
+			 "  td.testing-exhaustive { background: #aef8b5; }\n"
+			 "  td.testing-devel      { background: #ff6c00; }\n"
+			 "  td.imp-exists         { background: #ffffff; }\n"
+			 "  td.imp-no             { background: #ff7662; }\n"
+			 "  td.imp-subset         { background: #fff79d; }\n"
+			 "  td.imp-complete       { background: #aef8b5; }\n"
+			 "  td.imp-superset       { background: #16e49e; }\n"
+			 "  td.imp-subsetext      { background: #59fff2; }\n"
+			 "  td.imp-devel          { background: #ff6c00; }\n"
+			 "  td.imp-gnumeric       { background: #44be18; }\n"
+			 "--></style>\n"
+			 "<!--#include virtual=\"header-end.shtml\" -->"
+			 "<h1>Gnumeric Sheet Functions</h1>\n"
+			 "<p>Gnumeric currently has %d functions for use in spreadsheets.\n"
+			 "%d of these are unique to Gnumeric.</p>\n",
+			 ordered->len, unique);
+	}
 
 	for (i = 0; i < ordered->len; i++) {
 		GnmFunc const *fd = g_ptr_array_index (ordered, i);
@@ -122,47 +176,63 @@ function_dump_defs (char const *filename, gboolean as_def)
 		} else {
 			static struct {
 				char const *name;
-				char const *colour_str;
+				char const *klass;
 			} const testing [] = {
-				{ "Unknown",		"FFFFFF" },
-				{ "No Testsuite",	"FF7662" },
-				{ "Basic",		"FFF79D" },
-				{ "Exhaustive",		"AEF8B5" },
-				{ "Under Development",	"FF6C00" }
+				{ "Unknown",		"testing-unknown" },
+				{ "No Testsuite",	"testing-nosuite" },
+				{ "Basic",		"testing-basic" },
+				{ "Exhaustive",		"testing-exhaustive" },
+				{ "Under Development",	"testing-devel" }
 			};
 			static struct {
 				char const *name;
-				char const *colour_str;
+				char const *klass;
 			} const implementation [] = {
-				{ "Exists",			"FFFFFF" },
-				{ "Unimplemented",		"FF7662" },
-				{ "Subset",			"FFF79D" },
-				{ "Complete",			"AEF8B5" },
-				{ "Superset",			"16E49E" },
-				{ "Subset with_extensions",	"59FFF2" },
-				{ "Under development",		"FF6C00" },
-				{ "Unique to Gnumeric",		"44BE18" },
+				{ "Exists",			"imp-exists" },
+				{ "Unimplemented",		"imp-no" },
+				{ "Subset",			"imp-subset" },
+				{ "Complete",			"imp-complete" },
+				{ "Superset",			"imp-superset" },
+				{ "Subset with_extensions",	"imp-subsetext" },
+				{ "Under development",		"imp-devel" },
+				{ "Unique to Gnumeric",		"imp-gnumeric" },
 			};
 			if (group != fd->fn_group) {
+				if (group) fprintf (output_file, "</table></div>\n");
 				group = fd->fn_group;
-				fprintf (output_file, "<tr><td><h1>%s</h1></td><td><b>Function</b></td><td><b>Implementation</b></td><td><b>Testing</b></td></tr>\n", group->display_name->str);
+				fprintf (output_file,
+					 "<h2>%s</h2>\n"
+					 "<div class=\"functiongroup\"><table class=\"functiongroup\">\n"
+					 "<tr class=\"header\">"
+					 "<td>Function</td>"
+					 "<td>Implementation</td>"
+					 "<td>Testing</td>"
+					 "</tr>\n",
+					 group->display_name->str);
 			}
 			up = g_ascii_strup (fd->name, -1);
-			fprintf (output_file, "<tr><td></td>\n");
+			fprintf (output_file, "<tr class=\"function\">\n");
 			fprintf (output_file,
-"    <td><a href =\"doc/gnumeric-%s.shtml\">%s</a></td>\n", up, fd->name);
+				 "<td><a href =\"doc/gnumeric-%s.shtml\">%s</a></td>\n",
+				 up, fd->name);
 			g_free (up);
 			fprintf (output_file,
-"    <td bgcolor=#%s><a href=\"mailto:gnumeric-list@gnome.org?subject=Re: %s implementation\">%s</a></td>\n",
-implementation[fd->impl_status].colour_str, fd->name, implementation[fd->impl_status].name);
+				 "<td class=\"%s\"><a href=\"mailto:gnumeric-list@gnome.org?subject=Re: %s implementation\">%s</a></td>\n",
+				 implementation[fd->impl_status].klass,
+				 fd->name,
+				 implementation[fd->impl_status].name);
 			fprintf (output_file,
-"    <td bgcolor=#%s><a href=\"mailto:gnumeric-list@gnome.org?subject=Re: %s testing\">%s</a></td>\n",
-testing[fd->test_status].colour_str, fd->name, testing[fd->test_status].name);
+				 "<td class=\"%s\"><a href=\"mailto:gnumeric-list@gnome.org?subject=Re: %s testing\">%s</a></td>\n",
+				 testing[fd->test_status].klass,
+				 fd->name,
+				 testing[fd->test_status].name);
 			fprintf (output_file,"</tr>\n");
 		}
 	}
-	if (!as_def)
-		fprintf (output_file, "</table>\n");
+	if (!as_def) {
+		if (group) fprintf (output_file, "</table></div>\n");
+		fprintf (output_file, "<!--#include virtual=\"footer.shtml\"-->\n");
+	}
 
 	g_ptr_array_free (ordered, TRUE);
 	fclose (output_file);

@@ -1,3 +1,7 @@
+2004-12-06  Morten Welinder  <terra@gnome.org>
+
+	* src/func.c (function_dump_defs): Use CSS for styling.
+
 2004-12-03  Jody Goldberg <jody@gnome.org>
 
 	* src/file-autoft.c (category_get_templates_list) : Use GDir in place
