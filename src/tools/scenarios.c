@@ -107,13 +107,18 @@ scenario_new (gchar *name, gchar *comment)
 	return s;
 }
 
-static void
+/*
+ * Collects cell values of a scenario. If any of the cells contain an
+ * expression return TRUE so that the user can be warned about it.
+ */
+static gboolean
 collect_values (Sheet *sheet, scenario_t *s, ValueRange *range)
 {
-	int     i, j;
-	int     cols, rows;
-	Cell    *cell;
-	CellRef *a, *b;
+	int      i, j;
+	int      cols, rows;
+	Cell     *cell;
+	CellRef  *a, *b;
+	gboolean flag = FALSE;
 
 	range_init_value (&s->range, (Value *) range);
 
@@ -124,13 +129,16 @@ collect_values (Sheet *sheet, scenario_t *s, ValueRange *range)
 	for (i = s->range.start.row; i <= s->range.end.row; i++)
 		for (j = s->range.start.col; j <= s->range.end.col; j++) {
 			cell = sheet_cell_fetch (sheet, j, i);
+			flag |= cell_has_expr (cell);
 			s->changing_cells [j-s->range.start.col + 
 					   (i-s->range.start.row) * cols] = 
 				value_duplicate (cell->value);
 		}
+
+	return flag;
 }
 
-void
+gboolean
 scenario_add_new (WorkbookControl        *wbc,
 		  gchar                  *name,
 		  Value                  *changing_cells,
@@ -141,16 +149,20 @@ scenario_add_new (WorkbookControl        *wbc,
 	scenario_t *scenario;
 	int        i, j;
 	int        cols, rows;
+	gboolean   res;
 
 	scenario = scenario_new (name, comment);
 
-	collect_values (dao->sheet, scenario, (ValueRange *) changing_cells);
+	res = collect_values (dao->sheet, scenario,
+			      (ValueRange *) changing_cells);
 
 	scenario->cell_sel_str = g_strdup (cell_sel_str);
 	dao->sheet->scenarios = g_list_append (dao->sheet->scenarios, 
 					       (gpointer) scenario);
 
 	sheet_redraw_all (dao->sheet, TRUE);
+
+	return res;
 }
 
 /* Scenario: Duplicate sheet ***********************************************/
