@@ -4640,8 +4640,9 @@ wbcg_scroll_wheel_support_cb (GtkWidget *ignored, GdkEventScroll *event,
 				zoom -= 15;
 		}
 
-		cmd_zoom (WORKBOOK_CONTROL (wbcg), g_slist_append (NULL, sheet),
-			  (double) (zoom + 10) / 100);
+		if (0 <= zoom && zoom <= 390)
+			cmd_zoom (WORKBOOK_CONTROL (wbcg), g_slist_append (NULL, sheet),
+				  (double) (zoom + 10) / 100);
 	} else if ((event->state & GDK_SHIFT_MASK)) {
 		/* XL sort of shows/hides groups */
 	} else if (go_horiz) {

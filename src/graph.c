@@ -224,6 +224,15 @@ gnm_go_data_scalar_get_str (GODataScalar *dat)
 	return scalar->val_str;
 }
 
+static GOFormat *
+gnm_go_data_scalar_preferred_fmt (GOData const *dat)
+{
+	GnmGODataScalar *scalar = (GnmGODataScalar *)dat;
+	GnmValue *val = scalar_get_val (scalar);
+
+	return (val != NULL) ? VALUE_FMT (val) : NULL;
+}
+
 static void
 gnm_go_data_scalar_class_init (GObjectClass *gobject_klass)
 {
@@ -234,6 +243,7 @@ gnm_go_data_scalar_class_init (GObjectClass *gobject_klass)
 	gobject_klass->finalize		= gnm_go_data_scalar_finalize;
 	godata_klass->dup		= gnm_go_data_dup;
 	godata_klass->eq		= gnm_go_data_eq;
+	godata_klass->preferred_fmt	= gnm_go_data_scalar_preferred_fmt;
 	godata_klass->as_str		= gnm_go_data_as_str;
 	godata_klass->from_str		= gnm_go_data_from_str;
 	scalar_klass->get_value		= gnm_go_data_scalar_get_value;
@@ -608,6 +618,15 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 	}
 }
 
+static GOFormat *
+gnm_go_data_vector_preferred_fmt (GOData const *dat)
+{
+	GnmGODataScalar *scalar = (GnmGODataScalar *)dat;
+	GnmValue *val = scalar_get_val (scalar);
+
+	return (val != NULL) ? VALUE_FMT (val) : NULL;
+}
+
 static void
 gnm_go_data_vector_class_init (GObjectClass *gobject_klass)
 {
@@ -618,6 +637,7 @@ gnm_go_data_vector_class_init (GObjectClass *gobject_klass)
 	gobject_klass->finalize		= gnm_go_data_vector_finalize;
 	godata_klass->dup		= gnm_go_data_dup;
 	godata_klass->eq		= gnm_go_data_eq;
+	godata_klass->preferred_fmt	= gnm_go_data_vector_preferred_fmt;
 	godata_klass->as_str		= gnm_go_data_as_str;
 	godata_klass->from_str		= gnm_go_data_from_str;
 	vector_klass->load_len		= gnm_go_data_vector_load_len;

@@ -1031,6 +1031,7 @@ style_format_account (FormatCharacteristics const *fmt)
 	GString *str, *sym, *num;
 	GnmFormat *sf;
 	int symbol = fmt->currency_symbol_index;
+	gboolean quote_currency;
 
 	g_return_val_if_fail (fmt->num_decimals >= 0, NULL);
 	g_return_val_if_fail (fmt->num_decimals <= NUM_ZEROS, NULL);
@@ -1045,8 +1046,13 @@ style_format_account (FormatCharacteristics const *fmt)
 
 	/* The currency symbols with space after or before */
 	sym = g_string_new (NULL);
+	quote_currency = (currency_symbols[symbol].symbol[0] != '[');
 	if (currency_symbols[symbol].precedes) {
+		if (quote_currency)
+			g_string_append_c (sym, '\"');
 		g_string_append (sym, currency_symbols[symbol].symbol);
+		if (quote_currency)
+			g_string_append_c (sym, '\"');
 		g_string_append (sym, "* ");
 		if (currency_symbols[symbol].has_space)
 			g_string_append_c (sym, ' ');
@@ -1054,7 +1060,11 @@ style_format_account (FormatCharacteristics const *fmt)
 		g_string_append (sym, "* ");
 		if (currency_symbols[symbol].has_space)
 			g_string_append_c (sym, ' ');
+		if (quote_currency)
+			g_string_append_c (sym, '\"');
 		g_string_append (sym, currency_symbols[symbol].symbol);
+		if (quote_currency)
+			g_string_append_c (sym, '\"');
 	}
 
 	/* Finally build the correct string */
@@ -1494,19 +1504,24 @@ format_number (GString *result,
 			break;
 
 		/* FIXME: this is a gross hack */
+		/* FIXME: Missing support for scientific notation.
+		 * #00.00e###  that keeps axponent to a multiple of 3
+		 * XL seems to just special case that.
+		 **/
 		case 'E': case 'e': {
-			gboolean const is_lower = (*format == 'e');
+			gboolean const is_lower = (*format++ == 'e');
 			gboolean shows_plus = FALSE;
 			int prec = info.right_optional + info.right_req;
 
 			can_render_number = TRUE;
-			while (*(++format))
-				if (*format == '+')
-					shows_plus = TRUE;
-				else if (*format == '-' || *format == '0')
-					;
-				else
-					break;
+			if (*format == '+') {
+				shows_plus = TRUE;
+				format++;
+			} else if (*format == '-')
+				format++;
+
+			while (*format == '0' || *format == '#')
+				format++;
 
 			g_string_append_printf (result,
 						is_lower ? "%s%.*" GNUM_FORMAT_e : "%s%.*" GNUM_FORMAT_E,
@@ -1874,7 +1889,7 @@ fmt_general_float (GString *result, gnm_float val, double col_width)
 
 	/* leave space for the decimal */
 	/* FIXME : idealy we would use the width of a decimal point */
-	prec = (int) floor (col_width - 1.);
+	prec = (int) floor (col_width - .4);
 	if (prec < 0)
 		prec = 0;
 

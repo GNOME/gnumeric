@@ -23,12 +23,14 @@ Jody:
 	* Fix a potential crash when changing labels on axis
 	http://bugzilla.gnome.org/show_bug.cgi?id=127734
 	* Modernize the sylk importer
-	http://bugzilla.gnome.org/show_bug.cgi?id=129444
+	http://bugzilla.gnome.org/show_bug.cgi?id=129445
 	* Fix xls import of plot styles that override defaults
 	* Fix xml import of ManualRecalc flag
 	http://bugzilla.gnome.org/show_bug.cgi?id=128837
-	* Scroll wheel zoom
-	* Horizontal scroll wheels
+	* Horizontal, and Zoom scroll wheel support
+	* User selectable format for axis labels
+	* Tune 'General' format width calculation
+	* Improve quoting of accounting formats
 
 John Gill:
 	* Add a field menu and keyboard shortcuts to the sort dialog

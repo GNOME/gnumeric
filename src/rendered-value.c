@@ -125,6 +125,7 @@ rendered_value_render (GString *str,
 						cell_width = cell->col_info->size_pts;
 					cell_width -= cell->col_info->margin_a + cell->col_info->margin_b;
 
+#if 0 /* too restrictive for now, do something more accurate later */
 					/*
 					 * FIXME: we should really pass these to the format function,
 					 * so we can measure actual characters, not just what might be
@@ -133,6 +134,7 @@ rendered_value_render (GString *str,
 					cell_width -= MAX (0.0, style_font->approx_width.pts.e - wdigit);
 					cell_width -= MAX (0.0, style_font->approx_width.pts.decimal - wdigit);
 					cell_width -= 2 * MAX (0.0, style_font->approx_width.pts.sign - wdigit);
+#endif
 					col_width = cell_width / wdigit;
 				}
 				style_font_unref (style_font);

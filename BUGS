@@ -9,17 +9,13 @@ Release Critical
 ----------------
 
     http://bugzilla.gnome.org/show_bug.cgi?id=129444	[embedded newline printing]
-    : Check the manual recalc flag on xls export
     http://bugzilla.gnome.org/show_bug.cgi?id=128524	[invalid xl export]
     http://bugzilla.gnome.org/show_bug.cgi?id=127203	[x axis child pos]
     : X axis label seperation
-    : axis label formatting
     : text in boxes for text-xls/pivot.xls is white 	[xl95 pallette id=9]
     : box colors and warnings in christ95.xls
 
 Worries
-    http://bugzilla.gnome.org/show_bug.cgi?id=123781
-    : non reproducible, possibly hp specific
     http://bugzilla.gnome.org/show_bug.cgi?id=123403
     : loading in XL corrupts.  xbat is being lost when xl modifies it ??
       Likely some libgsf issue
@@ -117,6 +113,8 @@ Short Term Goals
           one quote.
     0.16) Add a tooltip to the edit line showing all of the
    	 content (for cases where it needs to scroll)
+    0.17) Fix format selector widget to not emit		(DONE)
+	fmt-changed "", fmt-changed "new-format"
 
 1) graphs
     1.1) Split plot xml file engine, type, and family plugins	(DONE)
@@ -167,6 +165,7 @@ Short Term Goals
 	1.7.9) log scale					(DONE)
 	1.7.10) Titles						(DONE)
 	1.7.11) check marker none
+	1.7.12) Axis value format
     1.8) data sources						(DONE)
 	1.8.1) vector and scalar data sources from gnumeric	(DONE)
 	1.8.2) Add min/max elements to vector			(DONE)
@@ -228,6 +227,10 @@ Short Term Goals
 	1.14.19) Draw minor ticks in				(DONE)
 	1.14.20) Draw minor ticks out				(DONE)
 	1.14.21) Why don't we honour selected font ?		(DONE)
+	1.14.22) Selectable label format for non-discrete data	(DONE)
+	1.14.23) Editor for label format			(DONE)
+	1.14.24) Persist label format				(DONE)
+	1.14.25) Auto selection of label format
     1.15) per series plot type specific data			(DONE)
     1.16) libart based render akin to guppicanvas.		(DONE)
 	1.16.1) Solid background fills				(DONE)

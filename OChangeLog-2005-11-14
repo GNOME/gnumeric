@@ -1,3 +1,8 @@
+2003-12-20  Jody Goldberg <jody@gnome.org>
+
+	* src/format.c (style_format_account) : quote currencies as necessary.
+	(fmt_general_float) : decimal points are generally narrower.
+
 2003-12-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/stf-export.c (stf_export_options_set_format_mode): new
@@ -19,6 +24,15 @@
 	(summary_item_new_string): Validate string as utf-8.
 
 	* src/gutils.[ch] (gnm_get_real_name): New function.
+
+2003-12-18  Jody Goldberg <jody@gnome.org>
+
+	* src/graph.c (gnm_go_data_scalar_preferred_fmt) : new.
+
+2003-12-18  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_scroll_wheel_support_cb) : add some
+	  bounds checks to avoid listing things like 'zoom -10' in the ui.
 
 2003-12-18  Jody Goldberg <jody@gnome.org>
 
