@@ -71,6 +71,7 @@ Morten:
 	* Fix space trimming for stf import.
 	* Clean up FREQUENCY.
 	* Clean up DOLLAR.
+	* Plug html import leaks.
 
 Thomas Miesbauer:
 	* Redo screenshots

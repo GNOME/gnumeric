@@ -149,7 +149,7 @@ html_write_cell_content (GsfOutput *output, Cell *cell, MStyle *mstyle, html_ver
 	char *rendered_string;
 	gboolean hidden = mstyle_get_content_hidden (mstyle);
 
-	if (version ==HTML32 && hidden)
+	if (version == HTML32 && hidden)
 		gsf_output_puts (output, "<!-- 'HIDDEN DATA' -->");
 	else {
 		if (mstyle != NULL) {

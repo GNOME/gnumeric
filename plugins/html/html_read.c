@@ -183,12 +183,13 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 			html_read_content (ptr, buf, mstyle, a_buf, TRUE, doc);
 
 			if (buf->len > 0) {
-				Cell *cell;
-
-				cell = sheet_cell_fetch	(tc->sheet, col + 1, tc->row);
+				Cell *cell = sheet_cell_fetch (tc->sheet, col + 1, tc->row);
 				sheet_style_set_pos (tc->sheet, col + 1, tc->row, mstyle);
 				cell_set_text (cell, buf->str);
+			} else {
+				mstyle_unref (mstyle);
 			}
+
 			if (a_buf->use > 0) {
 				char *name;
 				
@@ -196,7 +197,7 @@ html_read_row (htmlNodePtr cur, htmlDocPtr doc, GnmHtmlTableCtxt *tc)
 				cell_set_comment (tc->sheet, &pos, NULL, name);
 				g_free (name);
 			}
-			g_string_free (buf, buf->len == 0);
+			g_string_free (buf, TRUE);
 			xmlBufferFree (a_buf);
 
 			/* If necessary create the merge */
