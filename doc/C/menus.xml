@@ -266,9 +266,9 @@
 	 	<itemizedlist>
  	       <listitem>
 	         <para>
- 	         <guimenuitem>Print Setup...</guimenuitem> --- The
-			 	<guimenuitem>Print Setup...</guimenuitem> menu item call the 
-				<guilabel>Print Setup</guilabel> dialog. This dialog allows the
+ 	         <guimenuitem>Page Setup...</guimenuitem> --- The
+			 	<guimenuitem>Page Setup...</guimenuitem> menu item call the 
+				<guilabel>Page Setup</guilabel> dialog. This dialog allows the
 				user to set various printing options such as paper type, margin
 				sizes and running header and footer formats. This dialog is 
 				explained in detail in <xref
@@ -291,7 +291,7 @@
           <guimenuitem>Print Preview...</guimenuitem> --- The
 		  	<guimenuitem>Print Preview...</guimenuitem> menu item calls a dialog
 			which presents the current workbook as it would be printed with the
-			current <guilabel>Print Setup</guilabel> settings. The dialog also
+			current <guilabel>Page Setup</guilabel> settings. The dialog also
 			permits the user to print. This dialog is explained in 
           	<xref linkend="print-preview" />.
          </para>

@@ -23,7 +23,7 @@
 	    _tip="Save the current file with a different name"
 	    pixtype="stock" pixname="gtk-save-as"/>
 
-	<cmd name="FilePrintSetup"
+	<cmd name="FilePageSetup"
 	    _label="Page S_etup..."
 	    _tip="Setup the page settings for your current printer"
 	    pixtype="stock" pixname="gtk-print"/>
@@ -166,7 +166,7 @@
 	    <!-- Same as FileOperations. If a component provides menu entries
 	         related to printing, it should use this placeholder. -->
 	    <placeholder name="PrintOperations">
-	        <menuitem name="FilePrintSetup" verb=""/>
+	        <menuitem name="FilePageSetup" verb=""/>
 	        <menuitem name="FilePrint" verb=""/>
 	        <menuitem name="FilePrintPreview" verb=""/>
 	    </placeholder>

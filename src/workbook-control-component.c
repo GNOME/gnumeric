@@ -271,7 +271,7 @@ cb_help_about (GtkWidget *widget, BonoboControl *control)
 }
 
 static BonoboUIVerb verbs [] = {
-	BONOBO_UI_UNSAFE_VERB ("FilePrintSetup", cb_file_print_setup),
+	BONOBO_UI_UNSAFE_VERB ("FilePageSetup", cb_file_print_setup),
 	BONOBO_UI_UNSAFE_VERB ("FilePrint", cb_file_print),
 	BONOBO_UI_UNSAFE_VERB ("FilePrintPreview", cb_file_print_preview),
 	BONOBO_UI_UNSAFE_VERB ("FileSummary", cb_file_summary),

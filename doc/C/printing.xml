@@ -3,7 +3,7 @@
   <para>
   The <interface>Print dialog</interface> includes some options 
    related to printing. More detailed options related to printing are in the <interface>
-  Print Setup dialog</interface>, detailed in <xref
+  Page Setup dialog</interface>, detailed in <xref
    linkend="print-setup" /> 
   Press the <guibutton>Print</guibutton>
   to print out the workbook. Press the <guibutton>Preview</guibutton> 
@@ -40,10 +40,10 @@
 </sect1>
 
 <sect1 id="print-setup">
-  <title>Print Setup.</title>
+  <title>Page Setup.</title>
     <para>
-    The <interface>Print Setup Dialog</interface> can be used to configure
-    various options related to printing out a workbook. Click on <menuchoice> <guimenu>File Menu</guimenu> <guimenuitem>Print Setup</guimenuitem> </menuchoice> to activate the <interface>Print Setup</interface>.
+    The <interface>Page Setup Dialog</interface> can be used to configure
+    various options related to printing out a workbook. Click on <menuchoice> <guimenu>File Menu</guimenu> <guimenuitem>Page Setup</guimenuitem> </menuchoice> to activate the <interface>Page Setup</interface>.
     </para>
     <tip>
     <title>TIP</title>
@@ -54,9 +54,9 @@
      </para>
      </tip> 
     <sect2 id="print-setup-page">
-    <title>Print Setup Dialog - Page</title>
+    <title>Page Setup Dialog - Page</title>
     <figure id="print-setup-page-fig">
-     <title><interface>Print Setup Dialog - Page</interface></title>
+     <title><interface>Page Setup Dialog - Page</interface></title>
       <mediaobject>
 	<imageobject>
 	  <imagedata fileref="figures/printing-setup-page"
@@ -78,9 +78,9 @@
     </para>
   </sect2>
   <sect2 id="print-setup-margins">
-    <title>Print Setup Dialog - Margins</title>
+    <title>Page Setup Dialog - Margins</title>
     <figure id="print-setup-margins-fig">
-      <title><interface>Print Setup Dialog - Margins</interface></title>
+      <title><interface>Page Setup Dialog - Margins</interface></title>
       <mediaobject>
 	<imageobject>
 	  <imagedata fileref="figures/printing-setup-margins"
@@ -99,7 +99,7 @@
     </para>
   </sect2>
   <sect2 id="print-setup-header">
-    <title>Print Setup Dialog - Headers and Footers</title>
+    <title>Page Setup Dialog - Headers and Footers</title>
     <figure id="print-setup-header-fig">
       <title><interface>Print Dialog - Headers and Footers</interface></title>
       <mediaobject>
@@ -186,9 +186,9 @@
   </sect2>
   
   <sect2 id="print-setup-sheet">
-    <title>Print Setup Dialog - Sheet</title>
+    <title>Page Setup Dialog - Sheet</title>
       <figure id="print-setup-sheet-fig">
-	<title><interface>Print Setup Dialog - Sheet</interface></title>
+	<title><interface>Page Setup Dialog - Sheet</interface></title>
 	<mediaobject>
 	  <imageobject>
 	    <imagedata fileref="figures/printing-setup-sheet"

@@ -1,5 +1,17 @@
 2002-08-14  Christian Meyer  <chrisime@gnome.org>
 
+	* src/workgroup-control-component.c: Renamed to Page Setup accordingly.
+	* src/workgroup-control-gui.c: ditto.
+	* src/commands.c: ditto.
+	* src/GNOME_Gnumeric.xml: Set mnemonic to Page Set_up (as proposed by
+	HIG)
+	* src/GNOME_Gnumeric.xml: ditto.
+	* doc/C/menus.xml: Renamed Print Setup to Page Setup in the whole file.
+	* doc/C/printing.xml: ditto.
+	* doc/C/toolbars.xml: ditto.
+
+2002-08-14  Christian Meyer  <chrisime@gnome.org>
+
 	* src/GNOME_Gnumeric.xml: Renamed Print Setup to Page Setup.
 	* src/GNOME_Gnumeric_Componente.xml: ditto.
 

@@ -1078,7 +1078,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 			!application_clipboard_is_empty () &&
 			!application_clipboard_is_cut ());
 	if (MS_PRINT_SETUP & flags)
-		change_menu_sensitivity (wbcg, "/commands/FilePrintSetup",
+		change_menu_sensitivity (wbcg, "/commands/FilePageSetup",
 					 !wbcg_edit_has_guru (wbcg));
 	if (MS_SEARCH_REPLACE & flags)
 		change_menu_sensitivity (wbcg, "/commands/EditSearchReplace",
@@ -3542,7 +3542,7 @@ static BonoboUIVerb verbs [] = {
 #ifdef ENABLE_EVOLUTION
 	BONOBO_UI_UNSAFE_VERB ("FileSend", cb_file_send),
 #endif
-	BONOBO_UI_UNSAFE_VERB ("FilePrintSetup", cb_file_print_setup),
+	BONOBO_UI_UNSAFE_VERB ("FilePageSetup", cb_file_print_setup),
 	BONOBO_UI_UNSAFE_VERB ("FilePrint", cb_file_print),
 	BONOBO_UI_UNSAFE_VERB ("FilePrintPreview", cb_file_print_preview),
 	BONOBO_UI_UNSAFE_VERB ("FileSummary", cb_file_summary),

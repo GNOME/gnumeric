@@ -5235,9 +5235,9 @@ cmd_print_set_up (WorkbookControlGUI *wbcg, Sheet *sheet, PrintInformation const
 	me->cmd.size = 10;
 	if (sheet)
 		me->cmd.cmd_descriptor =
-			g_strdup_printf (_("Print Setup For %s"), sheet->name_unquoted);
+			g_strdup_printf (_("Page Setup For %s"), sheet->name_unquoted);
 	else
-		me->cmd.cmd_descriptor = g_strdup (_("Print Setup For All Sheets"));
+		me->cmd.cmd_descriptor = g_strdup (_("Page Setup For All Sheets"));
 	me->old_pi = NULL;
 	me->new_pi = print_info_dup (pi);
 	me->wbcg = wbcg;
