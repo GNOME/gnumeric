@@ -1,5 +1,15 @@
 2000-03-24  Jody Goldberg <jgoldberg@home.com>
 
+	* src/main.c : Add debug_excel_objects.
+
+2000-03-24  Jody Goldberg <jgoldberg@home.com>
+
+	From: Sebastian Wilhelmi <wilhelmi@ira.uka.de>
+	* src/functions/fn-lookup.c (gnumeric_lookup) : Use the bound and the
+	  index for the destination rather than the source.
+
+2000-03-24  Jody Goldberg <jgoldberg@home.com>
+
 	* src/gnumeric-sheet.c (gnumeric_sheet_set_left_col) : 
 	Fix cut-n-paste-o.
 

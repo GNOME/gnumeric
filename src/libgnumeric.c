@@ -46,6 +46,7 @@ extern int ms_excel_formula_debug;
 extern int ms_excel_color_debug;
 extern int ms_excel_chart_debug;
 extern int ms_excel_write_debug;
+extern int ms_excel_object_debug;
 extern gboolean libole2_debug;
 
 static char *dump_file_name = NULL;
@@ -80,6 +81,10 @@ const struct poptOption gnumeric_popt_options [] = {
 	{ "debug_excel_color", '\0', POPT_ARG_INT,
 	    &ms_excel_color_debug, 0,
 	  N_("Enables debugging mesgs while reading excel colours & patterns"),
+	  N_("LEVEL") },
+	{ "debug_excel_objects", '\0', POPT_ARG_INT,
+	    &ms_excel_object_debug, 0,
+	  N_("Enables debugging mesgs while reading excel objects"),
 	  N_("LEVEL") },
 	{ "debug_excel_chart", '\0', POPT_ARG_INT,
 	    &ms_excel_chart_debug, 0,
