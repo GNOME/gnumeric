@@ -417,6 +417,49 @@ write_window2 (BiffPut *bp, MsBiffVersion ver, ExcelSheet *sheet)
 	ms_biff_put_commit (bp);
 }
 
+/*
+ * No documentation exists for this record, but this makes
+ * sense given the other record formats.
+ */
+static void
+write_mergecells (BiffPut *bp, MsBiffVersion ver, ExcelSheet *sheet)
+{
+	guint8 *record, *ptr;
+	GSList *merged;
+	guint16 len = 0;
+
+	/* Find the set of regions that we can safely export */
+	for (merged = sheet->gnum_sheet->list_merged; merged != NULL ; merged = merged->next) {
+		/* TODO : Add a warning entry in the log about ignoring the missing elements */
+		Range const *r = merged->data;
+		if (r->start.row <= USHRT_MAX && r->end.row <= USHRT_MAX &&
+		    r->start.col <= UCHAR_MAX && r->end.col <= UCHAR_MAX)
+			len++;
+	}
+
+	/* Do not even write the record if there are no merged regions */
+	if (len <= 0)
+		return;
+
+	record = ms_biff_put_len_next (bp, BIFF_MERGECELLS, 2+8*len);
+	MS_OLE_SET_GUINT16 (record, len);
+
+	ptr = record + 2;
+	for (merged = sheet->gnum_sheet->list_merged; merged != NULL ; merged = merged->next) {
+		Range const *r = merged->data;
+		if (r->start.row <= USHRT_MAX && r->end.row <= USHRT_MAX &&
+		    r->start.col <= UCHAR_MAX && r->end.col <= UCHAR_MAX) {
+			MS_OLE_SET_GUINT16 (ptr+0, r->start.row);
+			MS_OLE_SET_GUINT16 (ptr+2, r->end.row);
+			MS_OLE_SET_GUINT16 (ptr+4, r->start.col);
+			MS_OLE_SET_GUINT16 (ptr+6, r->end.col);
+			ptr += 8;
+		}
+	}
+
+	ms_biff_put_commit (bp);
+}
+
 static void
 write_bits (BiffPut *bp, ExcelWorkbook *wb, MsBiffVersion ver)
 {
@@ -3129,6 +3172,8 @@ write_sheet_tail (IOContext *context, BiffPut *bp, ExcelSheet *sheet)
 	MS_OLE_SET_GUINT16 (data + 12, 0x0);
 	MS_OLE_SET_GUINT8  (data + 14, 0x0);
 	ms_biff_put_commit (bp);
+
+	write_mergecells (bp, ver, sheet);
 
 /* See: S59D90.HTM: Global Column Widths...  not cricual.
 	data = ms_biff_put_len_next (bp, BIFF_GCW, 34);

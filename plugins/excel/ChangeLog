@@ -1,3 +1,9 @@
+2001-04-26  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-write.c (write_mergecells) : new routine to save merged
+	  regions.
+	(write_sheet_tail) : called from here.
+
 2001-04-23  Jon K Hellan  <hellan@acm.org>
 
 	* ms-biff.c (ms_biff_query_next, ms_biff_query_next,
