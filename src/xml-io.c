@@ -3812,20 +3812,29 @@ maybe_convert (GsfInput *input, gboolean quiet)
 			g_warning ("Converted xml document with no encoding from pseudo-UTF-8 to UTF-8.");
 	} else {
 		gsize bytes_written;
+		const char *from = "locale";
 		char *converted =
 			g_locale_to_utf8 (buffer->str, buffer->len,
 					  NULL, &bytes_written, NULL);
+		if (!converted) {
+			from = "ISO-8859-1";
+			converted =
+				g_convert (buffer->str, buffer->len,
+					   "UTF-8", from,
+					   NULL, &bytes_written, NULL);
+		}
 		g_string_free (buffer, TRUE);
 		if (!converted) {
 			gsf_input_seek (input, 0, G_SEEK_SET);
 			if (!quiet)
-				g_warning ("Failed to convert xml document with no encoding from locale to UTF-8.");
+				g_warning ("Failed to convert xml document with no encoding to UTF-8.");
 			return input;
 		}
 
 		input = gsf_input_memory_new (converted, bytes_written, TRUE);
 		if (!quiet)
-			g_warning ("Converted xml document with no encoding from locale to UTF-8.");
+			g_warning ("Converted xml document with no encoding from %s to UTF-8.",
+				   from);
 	}
 
 	g_object_unref (old_input);

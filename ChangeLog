@@ -1,5 +1,8 @@
 2005-03-16  Morten Welinder  <terra@gnome.org>
 
+	* src/xml-io.c (maybe_convert): Explicitly try ISO-8859-1 if
+	locale fails.
+
 	* src/workbook-control.c (wb_control_update_title): Handle NULL
 	basename.
 
