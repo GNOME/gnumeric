@@ -1,0 +1,3 @@
+2002-05-14  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (database_find_values): Fix zero match case.

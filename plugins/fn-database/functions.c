@@ -115,10 +115,11 @@ database_find_values (Sheet *sheet, Value *database,
 	cells = find_cells_that_match (sheet, database, col, criterias);
 
 	cellcount = g_slist_length (cells);
+	/* Allocate memory -- one extra to make sure we don't get NULL.  */
 	if (floats)
-		res = res1 = g_new (gnum_float, cellcount);
+		res = res1 = g_new (gnum_float, cellcount + 1);
 	else
-		res = res2 = g_new (Value *, cellcount);
+		res = res2 = g_new (Value *, cellcount + 1);
 	for (count = 0, current = cells; current; current = current->next) {
 		Cell *cell = current->data;
 		Value *value = cell->value;
