@@ -12,6 +12,8 @@ Release Critical
 - new wb_controls do not display 
     : selection string
 
+- calculated cells do not respan.
+
 Long term breakage
 ------------------
 

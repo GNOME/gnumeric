@@ -1725,18 +1725,16 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
 		/* FIXME : This code seems irrelevant for merging.
 		 * The undocumented record MERGECELLS appears to be the correct source.
 		 * Nothing seems to set the merge flags.
-		 * I've not seen examples of indent or shrink.
 		 */
 		static gboolean indent_warn = TRUE;
 		static gboolean shrink_warn = TRUE;
-		static gboolean merge_warn = TRUE;
 
 		/* FIXME : What are the lower 8 bits Always 0 ?? */
 		/* We need this to be able to support travel.xls */
 		const guint16 data = MS_OLE_GET_GUINT16 (q->data + 8);
 		int const indent = data & 0x0f;
 		gboolean const shrink = (data & 0x10) ? TRUE : FALSE;
-		gboolean const merge = (data & 0x20) ? TRUE : FALSE;
+		/* gboolean const merge = (data & 0x20) ? TRUE : FALSE; */
 
 		if (indent != 0 && indent_warn) {
 			indent_warn = FALSE;
@@ -1746,10 +1744,6 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, MsBiffVersion ver)
 		if (shrink && shrink_warn) {
 			shrink_warn = FALSE;
 			g_warning ("EXCEL : Shrink to fit is not supported yet.");
-		}
-		if (merge && merge_warn) {
-			merge_warn = FALSE;
-			g_warning ("EXCEL : Merge cells is not supported yet.");
 		}
 
 		subdata = (data & 0x00C0) >> 10;
@@ -3454,8 +3448,6 @@ ms_excel_read_guts (BiffQuery *q, ExcelSheet *sheet)
 static void
 ms_excel_read_mergecells (BiffQuery *q, ExcelSheet *sheet)
 {
-	static gboolean need_warning = TRUE;
-
 	const guint16 num_merged = MS_OLE_GET_GUINT16(q->data);
 	const guint8 *ptr = q->data + 2;
 	int i;
@@ -3465,20 +3457,23 @@ ms_excel_read_mergecells (BiffQuery *q, ExcelSheet *sheet)
 	 */
 	g_return_if_fail (q->length == 2+8*num_merged);
 
-	if (need_warning) {
-		need_warning = FALSE;
-		g_warning ("EXCEL : Merged Cells are not supported yet.");
-	}
-
 	for (i = 0 ; i < num_merged ; ++i, ptr += 8) {
 		Range r;
 		r.start.row = MS_OLE_GET_GUINT16(ptr);
-		r.start.col = MS_OLE_GET_GUINT16(ptr+2);
-		r.end.row = MS_OLE_GET_GUINT16(ptr+4);
+		r.end.row = MS_OLE_GET_GUINT16(ptr+2);
+		r.start.col = MS_OLE_GET_GUINT16(ptr+4);
 		r.end.col = MS_OLE_GET_GUINT16(ptr+6);
+#if 0
+		/* FIXME : enable when the core support is better
+		 * - draws borders
+		 * - handles attempts to span from neighbouring cells.
+		 */
+		sheet_region_merge (NULL, sheet->gnum_sheet, &r);
+#endif
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 0) {
+		if (ms_excel_read_debug > 1) {
 			range_dump (&r);
+			fprintf(stderr, "\n");
 		}
 	}
 #endif
@@ -3521,6 +3516,25 @@ sheet_container (ExcelSheet *sheet)
 {
 	ms_container_set_blips (&sheet->container, sheet->wb->container.blips);
 	return &sheet->container;
+}
+
+static gboolean
+ms_excel_read_PROTECT (BiffQuery *q, char const *obj_type)
+{
+	/* TODO : Use this information when gnumeric supports protection */
+	gboolean is_protected = TRUE;
+
+	/* MS Docs fail to mention that in some stream this
+	 * record can have size zero.  I assume the in that
+	 * case its existence is the flag.
+	 */
+#ifndef NO_DEBUG_EXCEL
+	if (q->length > 0)
+		is_protected = (1 == MS_OLE_GET_GUINT16(q->data));
+	if (ms_excel_read_debug > 1 && is_protected)
+		printf ("%s is protected\n", obj_type);
+#endif
+	return is_protected;
 }
 
 static gboolean
@@ -3668,16 +3682,8 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, WorkbookView *wb_view,
 
 		case BIFF_OBJPROTECT:
 		case BIFF_PROTECT:
-		{
-			/* TODO : Use this information when gnumeric supports protection */
-			gboolean const is_protected = MS_OLE_GET_GUINT16(q->data) == 1;
-#ifndef NO_DEBUG_EXCEL
-			if (ms_excel_read_debug > 1 && is_protected) {
-				printf ("Sheet is protected\n");
-			}
-#endif
+			ms_excel_read_PROTECT (q, "Sheet");
 			break;
-		}
 
 		case BIFF_HCENTER:
 			pi->center_horizontally = MS_OLE_GET_GUINT16 (q->data) == 0x1;
@@ -4233,16 +4239,8 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 
 		case BIFF_OBJPROTECT :
 		case BIFF_PROTECT :
-		{
-			/* TODO : Use this information when gnumeric supports protection */
-			gboolean const is_protected = MS_OLE_GET_GUINT16(q->data) == 1;
-#ifndef NO_DEBUG_EXCEL
-			if (ms_excel_read_debug > 1 && is_protected) {
-				printf ("Sheet is protected\n");
-			}
-#endif
+			ms_excel_read_PROTECT (q, "Workbook");
 			break;
-		}
 
 		case BIFF_PASSWORD :
 			break;

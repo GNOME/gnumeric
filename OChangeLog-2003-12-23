@@ -1,5 +1,12 @@
 2000-12-02  Jody Goldberg <jgoldberg@home.com>
 
+	* src/expr.c (cellrange_relocate) : fix the logic that was broken when
+	  supporting the partial ranges.
+	(cellref_relocate) : move some of the code here, to decrease
+	  replication.
+
+2000-12-02  Jody Goldberg <jgoldberg@home.com>
+
 	* src/item-bar.c : Add some debug macros to catch the magic helix
 	  cursor grab.
 	* src/item-cursor.c : Ditto.

@@ -1,3 +1,15 @@
+2000-12-02  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-escher.c (ms_escher_read_Blip) : Change image viewers.  The
+	  eog/bonobo viewer is no longer built or installed.
+
+	* ms-excel-read.c (ms_excel_read_sheet) : XL docs do not mention that
+	  the PROTECT record can sometimes be of size 0.
+	(ms_excel_read_workbook) : Ditto.
+	(ms_excel_read_PROTECT) : new function.
+	(ms_excel_read_mergecells) : Correct.
+	(biff_xf_data_new) : remove the warnings about merged cells.
+
 2000-12-01  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-obj.c (ms_read_OBJ) : simplify.

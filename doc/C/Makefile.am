@@ -16,6 +16,7 @@ SGML_FILES =			\
 	autofill.sgml		\
 	autosave.sgml		\
 	cell_refer.sgml		\
+	copying-moving.sgml     \
 	dndselection.sgml	\
 	editing.sgml		\
 	files.sgml		\

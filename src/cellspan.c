@@ -198,10 +198,11 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 
         /*
 	 * Report only one column is used if
-	 * 	- cell is a number
+	 *	- Cell is going to re recalculated
+	 * 	- Cell is a number
 	 * 	- Cell is the top left of a merged cell
-	 * 	- the text fits inside column (for non center across selection)
-	 * 	- the alignment mode are set to "justify"
+	 * 	- The text fits inside column (for non center across selection)
+	 * 	- The alignment mode are set to "justify"
 	 */
 	if (sheet != NULL) {
 		if (sheet_region_is_merge_cell (sheet, &cell->pos) ||
@@ -215,7 +216,8 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	align = cell_default_halign (cell, mstyle);
 	row   = cell->pos.row;
 
-	if ((cell_contents_fit_inside_column (cell) &&
+	if (cell_needs_recalc (cell) ||
+	    (cell_contents_fit_inside_column (cell) &&
 	     align != HALIGN_CENTER_ACROSS_SELECTION) ||
 	    align == HALIGN_JUSTIFY ||
 	    align == HALIGN_FILL ||

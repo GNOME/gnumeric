@@ -1322,9 +1322,8 @@ expr_tree_as_string (ExprTree const *tree, ParsePos const *pp)
 enum CellRefRelocate {
 	CELLREF_NO_RELOCATE,
 	CELLREF_RELOCATE_ERR,
-	CELLREF_RELOCATE_COL,
-	CELLREF_RELOCATE_ROW,
-	CELLREF_RELOCATE_BOTH,
+	CELLREF_RELOCATE,
+	CELLREF_RELOCATE_FORCE,	/* relocate both ends even if only one changed */
 };
 
 static enum CellRefRelocate
@@ -1414,17 +1413,36 @@ cellref_relocate (CellRef *ref,
 		ref->sheet = ref_sheet;
 		ref->col = col;
 		ref->row = row;
-		return CELLREF_RELOCATE_BOTH;
+		return CELLREF_RELOCATE;
 	} else if (ref->col != col) {
 		ref->col = col;
 		if (ref->row != row) {
 			ref->row = row;
-			return CELLREF_RELOCATE_BOTH;
+			return CELLREF_RELOCATE;
 		}
-		return CELLREF_RELOCATE_COL;
+		/* FIXME : We should only do this if the start ? end ?
+		 * col is included in the translation region (figure this out
+		 * in relation to abs/rel references)
+		 * Using offset == 0 would relocates too much.  If you cut B2
+		 * and paste it into B3 the source region A1:B2 will resize to
+		 * A1:B3 even though it should not.  This is correct for
+		 * insert/delete row/col but not when dealing with cut & paste.
+		 * To work around the problem I added a kludge to only do it if
+		 * the target range is an entire row/col.  This gives the
+		 * desired behavior most of the time.  However, it is probably
+		 * not absolutely correct.
+		 */
+		if (rinfo->row_offset == 0 &&
+		    rinfo->origin.start.col == 0 && rinfo->origin.end.col >= SHEET_MAX_COLS-1)
+			return CELLREF_RELOCATE_FORCE;
+		return CELLREF_RELOCATE;
 	} else if (ref->row != row) {
 		ref->row = row;
-		return CELLREF_RELOCATE_ROW;
+		/* FIXME : AS ABOVE */
+		if (rinfo->col_offset == 0 &&
+		    rinfo->origin.start.row == 0 && rinfo->origin.end.row >= SHEET_MAX_ROWS-1)
+			return CELLREF_RELOCATE_FORCE;
+		return CELLREF_RELOCATE;
 	}
 
 	return CELLREF_NO_RELOCATE;
@@ -1448,48 +1466,22 @@ cellrange_relocate (const Value *v,
 		break;
 	case CELLREF_RELOCATE_ERR :
 		return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
-	case CELLREF_RELOCATE_COL :
-		/* FIXME : We should only do this if the start ? end ?
-		 * col is included in the translation region (figure this out
-		 * in relation to abs/rel references)
-		 * The current code relocates too much.  If you cut B2 and
-		 * paste it into B3 the source region A1:B2 will resize to
-		 * A1:B3 even though it should not.
-		 * This is correct for insert/delete row/col but not when dealing
-		 * with cut & paste.
-		 */
-		if (rinfo->row_offset == 0 &&
-		    rinfo->origin.start.col == 0 && rinfo->origin.end.col >= SHEET_MAX_COLS-1)
-			needs_reloc = 2;
-		break;
-	case CELLREF_RELOCATE_ROW :
-		/* FIXME : */
-		if (rinfo->col_offset == 0 &&
-		    rinfo->origin.start.row == 0 && rinfo->origin.end.row >= SHEET_MAX_ROWS-1)
-			needs_reloc = 2;
-		break;
-	case CELLREF_RELOCATE_BOTH :
+	case CELLREF_RELOCATE :
 		needs_reloc++;
+		break;
+	case CELLREF_RELOCATE_FORCE :
+		needs_reloc = 2;
 	}
 	switch (cellref_relocate (&ref_b, rinfo)) {
 	case CELLREF_NO_RELOCATE :
 		break;
 	case CELLREF_RELOCATE_ERR :
 		return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
-	case CELLREF_RELOCATE_COL :
-		/* FIXME : */
-		if (rinfo->row_offset == 0 &&
-		    rinfo->origin.start.col == 0 && rinfo->origin.end.col >= SHEET_MAX_COLS-1)
-			needs_reloc = 2;
-		break;
-	case CELLREF_RELOCATE_ROW :
-		/* FIXME : */
-		if (rinfo->col_offset == 0 &&
-		    rinfo->origin.start.row == 0 && rinfo->origin.end.row >= SHEET_MAX_ROWS-1)
-			needs_reloc = 2;
-		break;
-	case CELLREF_RELOCATE_BOTH :
+	case CELLREF_RELOCATE :
 		needs_reloc++;
+		break;
+	case CELLREF_RELOCATE_FORCE :
+		needs_reloc = 2;
 	}
 
 	/* Only relocate if both ends of the range need relocation */
@@ -1636,9 +1628,8 @@ expr_rewrite (ExprTree        const *expr,
 				return NULL;
 			case CELLREF_RELOCATE_ERR :
 				return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
-			case CELLREF_RELOCATE_COL :
-			case CELLREF_RELOCATE_ROW :
-			case CELLREF_RELOCATE_BOTH :
+			case CELLREF_RELOCATE :
+			case CELLREF_RELOCATE_FORCE :
 				return expr_tree_new_var (&res);
 			}
 		}
