@@ -1,3 +1,7 @@
+2003-07-10  Jody Goldberg <jody@gnome.org>
+
+	* make-func-list.pl : tweak spacing a bit
+
 2003-06-26  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=115630

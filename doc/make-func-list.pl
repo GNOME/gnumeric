@@ -4,6 +4,9 @@ my $state = 0;
 
 while (<>) {
     s/\s+$//;
+    if (/^\@CATEGORY=(.*)/) {
+	$state = 0;
+    }
     if (/^\@FUNCTION=(.*)/) {
 	if ($state) {
 	    printf "\n";
@@ -33,9 +36,9 @@ while (<>) {
     }
 
     if (/^\@DESCRIPTION=(.*)/) {
-	print "      <refsect1>\n";
-	print "        <title>Description</title>\n";
-	print "        <para>", &quote_stuff ($1), "</para>\n";
+	print "    <refsect1>\n";
+	print "      <title>Description</title>\n";
+	print "      <para>", &quote_stuff ($1), "</para>\n";
 	$state = 1;
 	next;
     }
@@ -44,9 +47,9 @@ while (<>) {
 	if ($state) {
 	    print "\n    </refsect1>";
 	}
-	print "      <refsect1>\n";
-	print "        <title>Examples</title>\n";
-	print "        <para>", &quote_stuff ($1), "</para>\n";
+	print "\n    <refsect1>\n";
+	print "      <title>Examples</title>\n";
+	print "      <para>", &quote_stuff ($1), "</para>";
 	$state = 2;
 	next;
     }
@@ -60,9 +63,10 @@ while (<>) {
 	if ($state) {
 	    print "\n    </refsect1>";
 	}
-	print "\n    <refsect1><title>See also</title>\n";
+	print "\n    <refsect1>\n";
+	print "      <title>See also</title>\n";
 	my @a = ();
-	print   "      <para>";
+	print   "      <para>\n";
 	foreach my $link (@links) {
 	    my $fixed_name = &fixup_function_name ($link);
 	    push @a, "        <link linkend=\"gnumeric-$fixed_name\">$link</link>";
@@ -79,7 +83,6 @@ while (<>) {
 
     if ($state) {
 	print "        <para>", &quote_stuff ($_), "</para>";
-    } else {
     }
 }
 
@@ -95,9 +98,9 @@ sub quote_stuff {
     return $str;
 }
 
-#Subroutine MUST agree with the subroutine in make-index.pl
 sub fixup_function_name {
     my ($name) = @_;
-    $name =~ s/_/x/;
+#    why did we need this ?  leave the routine here just in case
+#    $name =~ s/_/x/g;
     return $name;
 }
