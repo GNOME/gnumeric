@@ -1,3 +1,8 @@
+2000-02-23  Peter Wainwright <prw@wainpr.demon.co.uk>
+
+	* src/sheet-object-container.c (sheet_object_container_realize): Fix
+	until Nat mends the bonobo brokenness.
+
 2000-02-23  Michael Meeks  <michael@helixcode.com>
 
 	* src/sheet-style.c (sheet_style_optimize): don't optimize with

@@ -5,7 +5,7 @@
  *   See sheet-object-container.c for Gnome::View based embeddings
  *   See sheet-object-item.c for Gnome::Canvas based embeddings
  *
- * Author:
+ * Authors:
  *   Miguel de Icaza (miguel@kernel.org)
  *   Michael Meeks (mmeeks@gnu.org)
  *
@@ -144,6 +144,7 @@ sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob, const char *fname)
 	}
 	CORBA_exception_free (&ev);
 	return FALSE;
+
  finish:
 	sheet_object_realize (SHEET_OBJECT (sob));
 	CORBA_exception_free (&ev);
