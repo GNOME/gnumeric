@@ -477,7 +477,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 
 		/* In case the sheet is empty */
 		if (r.start.col <= r.end.col && r.start.row <= r.end.row) {
-			closure.maximum = G_MINDOUBLE;
+			closure.maximum = - G_MAXDOUBLE;
 			closure.minimum = G_MAXDOUBLE;
 			closure.vals = dat->values;
 			closure.last = -1;
@@ -493,7 +493,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 		break;
 
 	case VALUE_ARRAY :
-		maximum = G_MINDOUBLE;
+		maximum = - G_MAXDOUBLE;
 		minimum = G_MAXDOUBLE;
 		while (len-- > 0) {
 			v = vec->as_col
