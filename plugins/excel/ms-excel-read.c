@@ -1034,6 +1034,10 @@ ms_excel_get_style_from_xf (ExcelSheet *sheet, guint16 xfidx)
 		back_index = 0;
 	back = ms_excel_palette_get (sheet->wb->palette, back_index, fore);
 
+	/* Set the pattern if it is not solid */
+	if (xf->fill_pattern_idx != 0)
+		mstyle_set_pattern (mstyle, xf->fill_pattern_idx);
+
 	g_return_val_if_fail (back && fore, NULL);
 
 	/*
@@ -1124,11 +1128,11 @@ excel_map_pattern_index_from_excel (int const i)
 	static int const map_from_excel[] = {
 		 0,
 		 1,  3,  2,  4,  7,  8,
-		 9, 10, 11, 12, 13, 14,
+		 10, 9, 11, 12, 13, 14,
 		15, 16, 17, 18,  5,  6
 	};
 
-	/* Default to Auto if out of range */
+	/* Default to Solid if out of range */
 	g_return_val_if_fail (i >= 0 &&
 			      i < (sizeof(map_from_excel)/sizeof(int)), 0);
 

@@ -1,3 +1,12 @@
+1999-11-03  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (excel_map_pattern_index_from_excel) : Adjust map
+	  from XL pattern index to gnumeric pattern index to swap diag and
+	  rev-diag.
+
+	* ms-excel-read.c (ms_excel_get_style_from_xf) : Set the pattern on
+	  import.
+
 1999-10-31  Michael Meeks  <mmeeks@gnu.org>
 
 	* ms-excel-write.c (new_sheet): Fix silly bug, rows not cols
