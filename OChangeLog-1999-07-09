@@ -1,3 +1,9 @@
+1999-02-18  Michael Meeks <michael@imaginator.com>
+
+	* plugins/excel/ms-formula.c (ms_excel_parse_formula):
+	case FORMULA_PTG_ATTR: Added 'Optimised SUM' functionality,
+	Generaly made output less verbose.
+
 1999-02-17  Michael Meeks <michael@imaginator.com>
 
 	* plugins/excel/ms-excel.c (biff_get_rk): moved RK number

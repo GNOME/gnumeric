@@ -1156,8 +1156,8 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			double num = BIFF_GETDOUBLE (q->data + 6);	/*
 									 * FIXME GETDOUBLE is not endian independant 
 									 */
-			dump (q->data, q->length);
-/*			snprintf (buf, 64, "NUM %f", num); */
+/*			dump (q->data, q->length);
+			snprintf (buf, 64, "NUM %f", num); */
 			snprintf (buf, 64, "%f", num);
 			ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), buf);
 			break;
@@ -1168,8 +1168,8 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 	{
 		char buf[65];
 		
-		printf ("RK number : 0x%x, length 0x%x\n", q->opcode, q->length);
-		dump (q->data, q->length);
+/*		printf ("RK number : 0x%x, length 0x%x\n", q->opcode, q->length);
+		dump (q->data, q->length);*/
 		sprintf (buf, "%f", biff_get_rk(q->data+6));
 		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), buf);
 		break;

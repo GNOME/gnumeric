@@ -590,7 +590,13 @@ void ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q,
 				else
 					printf ("Redundant whitespace in formula 0x%x count %d\n", attrs, num_space) ;
 			}
-			else
+			if (grbit & 0x10) { /* AttrSum: Optimised SUM function */
+				if (!make_function (stack, 0x04, 1))
+				{
+					error = 1 ;
+					printf ("Error in optimised SUM\n") ;
+				}
+			} else
 				printf ("Unknown PTG Attr 0x%x 0x%x\n", grbit, w) ;
 		break ;
 		}
